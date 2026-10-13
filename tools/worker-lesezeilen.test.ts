@@ -83,7 +83,7 @@ console.log('Rohfolgen: Serienname einmal je Adresse nachgeschlagen')
   pruefe(JSON.stringify(titel('/A')) === '["Neu","Neu","Neu"]', 'Adresse A: Titel der jüngsten Meldung mit Titel (die neueste ohne Titel zählt nicht)')
   pruefe(JSON.stringify(titel('/B')) === '[null,null]', 'Adresse B ohne Titel: serientitel ist null')
   pruefe(seite.gesamt === undefined && !abfragen.some((s) => /COUNT\(\*\)/.test(s)), 'keine Gesamtzahl, kein COUNT(*)')
-  const lookups = abfragen.filter((s) => /FROM pruefung/.test(s))
+  const lookups = abfragen.filter((s) => /FROM pruefung/.test(s) && /json_each/.test(s))
   pruefe(lookups.length === 1 && /json_each/.test(lookups[0]!), `eine Abfrage auf pruefung für alle Adressen der Seite (${lookups.length})`)
   const seitenAbfrage = abfragen.find((s) => /FROM prime_folge f/.test(s)) ?? ''
   pruefe(!/SELECT p\.titel/.test(seitenAbfrage), 'die Seitenabfrage trägt keine Unterabfrage je Zeile')

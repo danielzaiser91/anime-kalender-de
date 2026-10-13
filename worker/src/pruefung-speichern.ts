@@ -19,13 +19,15 @@
  * Seit 12.10.2026 stehen diese Bedingungen als SELECT (mit Hash) in `rohfolgen-abgleich.ts`.
  */
 import { ereignisSenden } from './ereignisse.ts'
-import { zahlOderNull, jetztIso } from './werte.ts'
 import { type Env } from './env.ts'
 import { verarbeiteStapel } from './pruefung-stapel.ts'
 import { speichereRohfolgen } from './pruefung-rohfolgen-speichern.ts'
 import { istMeldung, mitTagesdeckel, type Zeilen } from './tagesdeckel.ts'
 import { exporteVerwerfen } from './export-speicher.ts'
 import { loescheOffene } from './pruefung-ersetzen.ts'
+import { fuegePruefungEin } from './pruefung-einfuegen.ts'
+import { rohfolgeFuerMeldung, rohfolgeFuerZeile } from './pruefung-rohfolge-spalte.ts'
+import { hakeRohfolgenAb } from './rohfolgen-abhaken.ts'
 import { adressenDerMeldung, verwirfGemeldet } from './pruefung-gemeldet-cache.ts'
 import { pruefeUnveraendert, ladeOffeneHashes, folgeVon, type OffeneHashes } from './pruefung-unveraendert.ts'
 
@@ -142,16 +144,7 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
       .map(Number)
       .filter((n) => Number.isInteger(n) && n > 0)
     if (!ids.length) return antwort({ ok: true, markiert: 0 })
-    /* Dieselbe Stapelgrenze wie unten: D1 bindet höchstens 100 Werte je Anfrage. */
-    const STAPEL = 50
-    for (let i = 0; i < ids.length; i += STAPEL) {
-      const teil = ids.slice(i, i + STAPEL)
-      await env.DB.prepare(
-        `UPDATE prime_folge SET uebernommen = 1 WHERE id IN (${teil.map(() => '?').join(',')})`,
-      )
-        .bind(...teil)
-        .run()
-    }
+    await hakeRohfolgenAb(env, ids)
     return antwort({ ok: true, markiert: ids.length })
   }
 
@@ -267,84 +260,12 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
   }
   await loescheOffene(env, offene, { url, folgeNr, staffelNr, seitenKennung })
 
-  await env.DB.prepare(
-    /*
-      **`titel_id` sagt, für welchen Auftrag gemeldet wurde — die Adresse sagt es nicht.**
+  /* Netflix und Disney+: die eine Rohfolge steht in der Zeile der Meldung (Migration 054), `prime_folge` bleibt leer. */
+  const rohfolge = await rohfolgeFuerMeldung(daten, url, seitenKennung)
+  const roh = rohfolgeFuerZeile(offene, { url, folgeNr, staffelNr, seitenKennung }, rohfolge)
+  await fuegePruefungEin(env, daten, url, { befund, vorhanden, tonDe, art, staffelNr, seitenKennung, hash, ...roh })
 
-      Anbieter führen denselben Anime unter mehreren Kennungen; wer aus der
-      Prüfliste heraus öffnet, weiß trotzdem, welcher Titel gemeint war. Ohne
-      dieses Feld musste der Bau die Adresse im Datensatz suchen und fiel sonst
-      auf einen Namensvergleich zurück, der ausdrücklich kein Beleg ist — am
-      02.09.2026 warteten so 36 Meldungen auf Daniels Bestätigung.
-    */
-    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url, folge, vorhanden, ton_de, art, hash)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24)`,
-  )
-    .bind(
-      String(daten.plattform ?? 'unbekannt'),
-      url,
-      daten.sprachen ? JSON.stringify(daten.sprachen) : null,
-      befund,
-      daten.titel ? String(daten.titel).slice(0, 200) : null,
-      zahlOderNull(daten.folgen),
-      // Die Nummer der Folge, auf die sich die Meldung bezieht — daraus bildet
-      // die Auswertung Bereiche, statt eine ganze Reihe über einen Kamm zu
-      // scheren.
-      zahlOderNull(daten.folge_nr),
-      staffelNr,
-      // Die Aufteilung des Anbieters, als JSON — sie ist der Schlüssel, um die
-      // Meldung später einer unserer Staffeln zuzuordnen.
-      daten.staffeln ? JSON.stringify(daten.staffeln).slice(0, 4000) : null,
-      daten.serientitel ? String(daten.serientitel).slice(0, 200) : null,
-      daten.notiz ? String(daten.notiz).slice(0, 500) : null,
-      jetztIso(),
-      /**
-       * Zugangsart und Abos, wie die Seite sie beim Melden auswies.
-       *
-       * Beides liest die Erweiterung längst aus und zeigt es auf dem Knopf an;
-       * abgeschickt wurde es bisher nicht. Bei Prime nennt keine öffentliche
-       * Quelle die Zugangsart — deshalb standen dort am 24.08.2026 alle 203
-       * Suchadressen auf „Mit Abo", ohne dass es jemand geprüft hatte.
-       *
-       * Kein Wertebereich erzwungen: Eine Meldung, die an einer Schema-Prüfung
-       * scheitert, ist schlechter als eine mit unbekanntem Wert. Die Pipeline
-       * entscheidet, was sie damit anfängt.
-       */
-      daten.zugang ? String(daten.zugang).slice(0, 40) : null,
-      daten.abos ? JSON.stringify(daten.abos).slice(0, 1000) : null,
-      /*
-        Welchen Teil der Anbieter-Liste diese Meldung meint — bei einer Reihe,
-        die dort gebündelt liegt. Fehlt im Normalfall.
-      */
-      zahlOderNull(daten.teil_von),
-      zahlOderNull(daten.teil_bis),
-      /* Die Seite, auf der wirklich gelesen wurde — trennt zwei Ausgaben desselben Titels. */
-      seitenKennung,
-      zahlOderNull(daten.titelId ?? daten.titel_id),
-      /* Die Suchadresse, unter der der Auftrag stand — siehe Migration 025. */
-      daten.suchUrl ? String(daten.suchUrl).slice(0, 500) : null,
-      /**
-       * **Der Folgentitel — seit Migration 028, und er war die ganze Zeit da.**
-       *
-       * `melder.js` setzt `folge: stand.folge` in jede Meldung; bei Haikyu!!
-       * Staffel 1 Folge 26 steht dort „Haikyu! OVA". Gespeichert wurde er nie —
-       * erhoben, übertragen, beim Empfang verworfen.
-       *
-       * Er ist der Anker, den Nummern nicht ersetzen können: Ein Anbieter mischt
-       * Nebenausgaben in seine Staffeln, und über Folgenzahlen allein sind zwei
-       * Zerlegungen mit derselben Summe nicht zu unterscheiden (am 10.09.2026
-       * real passiert, vier falsche Belege). Ein Wort im Titel entscheidet es.
-       */
-      daten.folge ? String(daten.folge).slice(0, 200) : null,
-      /* Stufe 1 (22.09.2026): Verfügbarkeit, Sprache, gemessen oder angenommen — getrennt. */
-      vorhanden,
-      tonDe,
-      art,
-      hash,
-    )
-    .run()
-
-  await speichereRohfolgen(env, daten, url, seitenKennung)
+  if (rohfolge === null) await speichereRohfolgen(env, daten, url, seitenKennung)
 
   /*
     Bis zum 24.09.2026 zählte hier jede Meldung alle offenen Meldungen nach (`COUNT(*) … WHERE

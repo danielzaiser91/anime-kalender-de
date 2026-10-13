@@ -1,6 +1,8 @@
 import { type Env } from './env.ts'
 import { ausSpeicher, FRIST_NAMEN_MS } from './export-speicher.ts'
 import { serientitelJeAdresse } from './pruefung-serientitel.ts'
+import { probeRohfolgen } from './rohfolgen-probe.ts'
+import { alleRohfolgen, offeneRohfolgen, type Seite } from './rohfolgen-seiten.ts'
 
 export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
   request: Request<unknown, CfProperties<unknown>>
@@ -46,18 +48,7 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
           reichen dafür nicht, sobald danach weitere Folgen kamen.
         */
         const id = Number(new URL(request.url).searchParams.get('id') ?? 0)
-        const { results } = await (
-          Number.isInteger(id) && id > 0
-            ? env.DB.prepare(
-                `SELECT id, url, nummer, titel, erschienen, dauer_sek, plattform, uebernommen, gemeldet_am, roh
-                   FROM prime_folge WHERE id = ?1 AND plattform = ?2`,
-              ).bind(id, probe.slice(0, 20))
-            : env.DB.prepare(
-                `SELECT id, url, nummer, titel, erschienen, dauer_sek, plattform, uebernommen, gemeldet_am, roh
-                   FROM prime_folge WHERE plattform = ?1 AND roh IS NOT NULL ORDER BY id DESC LIMIT 5`,
-              ).bind(probe.slice(0, 20))
-        ).all()
-        return antwort({ probe: results ?? [] })
+        return antwort({ probe: await probeRohfolgen(env, probe, id) })
       }
       const nach = Number(new URL(request.url).searchParams.get('nach') ?? 0)
       /*
@@ -79,60 +70,24 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
         ).all()
         return { namen: results ?? [] }
       }, FRIST_NAMEN_MS)
-      if (new URL(request.url).searchParams.get('alle') === '1') return ausSpeicher(env, `alle-${Number.isFinite(nach) ? nach : 0}`, () => alleRohfolgen(env, nach))
+      const seite = (s: Seite) => ({ folgen: s.zeilen, weiter: s.weiter })
+      if (new URL(request.url).searchParams.get('alle') === '1') return ausSpeicher(env, `alle-${Number.isFinite(nach) ? nach : 0}`, async () => seite(await alleRohfolgen(env, nach)))
       return ausSpeicher(env, `offen-${Number.isFinite(nach) ? nach : 0}`, async () => {
-      const { results } = await env.DB.prepare(
-        /*
-          **Der Serienname kommt aus der Meldung derselben Adresse.**
+      const { zeilen, weiter } = await offeneRohfolgen(env, nach)
+      /*
+        **Der Serienname kommt aus der Meldung derselben Adresse.**
 
-          `meldung_id` steht in der Tabelle, wurde aber nie gefüllt — bei allen
-          795 offenen Zeilen ist sie leer (gemessen 01.09.2026). Der Weg über
-          die Adresse trägt trotzdem: Zu jeder Rohfolge gibt es eine Meldung
-          unter derselben URL, und die kennt den Namen.
-
-          Gebraucht wird er, wo unser Bestand die Adresse nicht führt — Prime
-          legt je Staffel eine eigene an, wir kennen eine. „Card Captor Sakura"
-          lag deshalb mit 105 Folgen auf zwei Adressen unzugeordnet, obwohl der
-          Titel im Bestand steht.
-        */
-        `SELECT f.id, f.url, f.asin, f.gti, f.nummer, f.titel, f.erschienen, f.dauer_sek,
-                f.sprachen, f.untertitel, f.staffel_text, f.staffel_nr, f.gemeldet_am,
-                f.titel_id, f.plattform, f.seiten_kennung
-           FROM prime_folge f
-          WHERE f.uebernommen = 0 AND f.id > ?1
-            AND (f.vorhanden IS NULL OR f.vorhanden <> 'nein')
-          ORDER BY f.id
-          LIMIT 5000`,
-      )
-        .bind(Number.isFinite(nach) ? nach : 0)
-        .all()
-      /* Gesperrte Folgen (`vorhanden = 'nein'`, Migration 035) liest erst Stufe 2 — bis dahin
-         sähe der Zuordner ihre leeren Tonspuren als „kein Deutsch". Entfällt mit Stufe 2. */
-      const zeilen = (results ?? []) as { id: number; url: string }[]
+        `meldung_id` steht in `prime_folge`, wurde aber nie gefüllt (bei allen 795 offenen Zeilen leer,
+        gemessen 01.09.2026). Der Weg über die Adresse trägt trotzdem: Zu jeder Rohfolge gibt es eine
+        Meldung unter derselben URL, und die kennt den Namen. Gebraucht wird er, wo unser Bestand die
+        Adresse nicht führt — Prime legt je Staffel eine eigene an, wir kennen eine.
+      */
       const titel = await serientitelJeAdresse(env, zeilen.map((z) => z.url))
       return {
         folgen: zeilen.map((z) => ({ ...z, serientitel: titel.get(z.url) ?? null })),
         /* Ist die Seite voll, steht die Fortsetzung dabei — sonst ausdrücklich null. Eine Gesamtzahl
            gibt es nicht mehr: das `COUNT(*)` las je Seite alle offenen Zeilen (1,39 Mio. am Tag, 12.10.2026). */
-        weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null,
+        weiter,
       }
       })
-}
-
-/**
- * `&alle=1`: eine Seite jeder Beobachtung ohne `roh` (Menge), fortsetzbar über `nach` (Begründung am Aufruf).
- * Nur `angenommen` wird aus `roh` gelöst (Netflix-Randprobe, 12.10.2026): Eine angenommene Folge darf in
- * `fetch-urteile.ts` nicht als gemessen zählen.
- */
-async function alleRohfolgen(env: Env, nach: number) {
-  const { results } = await env.DB.prepare(
-    `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
-            seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen,
-            CASE WHEN plattform = 'netflix' AND json_valid(roh) THEN json_extract(roh, '$.angenommen') END AS angenommen
-       FROM prime_folge WHERE id > ?1 ORDER BY id LIMIT 5000`,
-  )
-    .bind(Number.isFinite(nach) ? nach : 0)
-    .all()
-  const zeilen = (results ?? []) as { id: number }[]
-  return { folgen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null }
 }

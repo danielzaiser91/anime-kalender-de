@@ -9,7 +9,10 @@ import { meldungsHash, normalisiert } from './pruefung-unveraendert.ts'
 import { ladeRohfolgen, loescheRohfolgen, rohfolgenAbgleich } from './rohfolgen-abgleich.ts'
 
 type Meldung = Record<string, unknown>
-type RohZeile = { werte: unknown[]; hash: string }
+export type RohZeile = { werte: unknown[]; hash: string }
+
+/** Die Namen der Werte in `RohZeile.werte`, in dieser Reihenfolge: die Spalten von `prime_folge` (ohne `gemeldet_am`, `hash`). */
+export const ROH_FELDER = ['url', 'asin', 'gti', 'nummer', 'titel', 'erschienen', 'dauer_sek', 'sprachen', 'untertitel', 'staffel_text', 'staffel_nr', 'titel_id', 'plattform', 'roh', 'seiten_kennung', 'vorhanden', 'ton_de'] as const
 
 export async function speichereRohfolgen(env: Env, daten: Meldung, url: string, seitenKennung: string | null): Promise<void> {
   /*
@@ -65,7 +68,7 @@ function einfuegeAnweisung(env: Env, zeile: RohZeile, jetzt: string): D1Prepared
 }
 
 /** Die 17 Spaltenwerte einer Rohfolge und der Hash über sie (Schlüssel sortiert, ohne `gemeldet_am`). */
-async function rohZeile(daten: Meldung, url: string, seitenKennung: string | null, f: Record<string, unknown>): Promise<RohZeile> {
+export async function rohZeile(daten: Meldung, url: string, seitenKennung: string | null, f: Record<string, unknown>): Promise<RohZeile> {
   const werte = [
     url,
     f.asin ? String(f.asin).slice(0, 40) : null,

@@ -15,6 +15,7 @@ import { handleLauf } from '../worker/src/lauf.ts'
 import { schreibeVerlauf } from '../worker/src/monitor-speicher.ts'
 import { berechnePruefstand } from '../worker/src/pruefung-stand.ts'
 import { DECKEL_ZEILEN, utcTag, sekundenBisMitternachtUtc } from '../worker/src/tagesdeckel.ts'
+import { PRUEFUNG_ID_AB } from '../worker/src/rohfolgen-seiten.ts'
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -113,7 +114,7 @@ console.log('Tagesdeckel')
   pruefe(r.status === 200, 'unter dem Deckel: Meldung wird gespeichert')
   const heute = (db.prepare('SELECT zeilen FROM schreib_tag').get() as { zeilen: number } | undefined)?.zeilen
   pruefe(heute !== undefined && heute > 0, `die geschriebenen Zeilen werden gezählt (${heute})`)
-  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 1 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 1, 'je eine Zeile in pruefung und prime_folge')
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 1 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 0, 'Disney+: eine Zeile in pruefung (mit der Rohfolge), keine in prime_folge')
 }
 {
   const db = neueDatenbank()
@@ -156,7 +157,7 @@ console.log('Unveränderte Meldung')
   const inhalt = (await r.json()) as { unveraendert?: boolean }
   pruefe(erst > 0 && z.geschrieben === erst, `Wiederholung schreibt keine Zeile mehr (${erst} Zeilen beim Erstmal)`)
   pruefe(inhalt.unveraendert === true, 'die Antwort sagt unveraendert, der Befund bleibt ok')
-  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 1 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 1, 'keine Dublette')
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 1 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 0, 'keine Dublette')
   await handlePruefung(post(folge(1, 'nein')), env)
   pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 1 && zahl(db, "SELECT COUNT(*) AS n FROM pruefung WHERE ton_de = 'nein'") === 1, 'geänderte Meldung ersetzt die alte')
   const stapel = await handlePruefung(post({ stapel: [folge(1, 'nein'), folge(2)] }), env)
@@ -190,7 +191,7 @@ console.log('Unveränderte Meldung und Listenbau (Bleach-Fall, pruefung-stand.ts
   const nachErneuerung = z.geschrieben
   await handlePruefung(post(folge(1)), env)
   pruefe(z.geschrieben === nachErneuerung, 'die zweite gleiche Meldung schreibt 0 Zeilen')
-  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 1 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 1, 'weiter keine Dublette')
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 1 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 0, 'weiter keine Dublette')
 }
 
 console.log('Übernommene Rohfolgen werden nicht neu geschrieben (12.10.2026)')
@@ -211,7 +212,7 @@ console.log('Übernommene Rohfolgen werden nicht neu geschrieben (12.10.2026)')
   const db = neueDatenbank()
   const env = umgebung(db)
   const n = (bedingung = '1') => zahl(db, `SELECT COUNT(*) AS n FROM prime_folge WHERE ${bedingung}`)
-  const abhaken = () => db.exec('UPDATE prime_folge SET uebernommen = 1; UPDATE pruefung SET uebernommen = 1')
+  const abhaken = () => db.exec('UPDATE prime_folge SET uebernommen = 1; UPDATE pruefung SET uebernommen = 1, roh_uebernommen = 1 WHERE rohfolge IS NOT NULL; UPDATE pruefung SET uebernommen = 1')
 
   await handlePruefung(post(prime([DE, DE, DE])), env)
   pruefe(n() === 3 && n('uebernommen = 0') === 3, 'Ausgang: drei offene Rohfolgen')
@@ -237,11 +238,20 @@ console.log('Übernommene Rohfolgen werden nicht neu geschrieben (12.10.2026)')
   const netflix = (ton: string, notiz: string) => ({ ...folge(1, ton), plattform: 'netflix', url: 'https://www.netflix.com/title/80000001', notiz })
   await handlePruefung(post(netflix('ja', 'a')), env)
   abhaken()
-  const vorher = n("plattform = 'netflix'")
+  const netflixZeilen = (bedingung = '1') => zahl(db, `SELECT COUNT(*) AS n FROM pruefung WHERE plattform = 'netflix' AND ${bedingung}`)
+  const vorher = netflixZeilen()
+  await handlePruefung(post(netflix('ja', 'a')), env)
+  pruefe(netflixZeilen() === vorher, 'Netflix/Disney+ (Rohfolge in der Meldungszeile): übernommen + gleicher Hash schreibt nichts')
+  /* Nur die Notiz wechselt: die Meldung ist neu, die Rohfolge nicht — der Zuordner holt sie nicht noch einmal (vorher hielt das der Hash in prime_folge). */
   await handlePruefung(post(netflix('ja', 'b')), env)
-  pruefe(n("plattform = 'netflix'") === vorher, 'Netflix/Disney+ (je gti): übernommen + gleicher Hash schreibt nichts')
+  pruefe(netflixZeilen('rohfolge IS NOT NULL') === 1 && netflixZeilen('roh_uebernommen = 0') === 0, 'Netflix/Disney+ übernommen + andere Notiz, gleiche Rohfolge: keine zweite Rohfolge, nichts offen für den Zuordner')
+  abhaken()
   await handlePruefung(post(netflix('nein', 'c')), env)
-  pruefe(n("plattform = 'netflix'") === vorher + 1, '... geänderter Ton kommt als neue Zeile')
+  pruefe(netflixZeilen() === vorher + 2 && netflixZeilen('roh_uebernommen = 0') === 1, '... geänderter Ton kommt als neue Zeile mit offener Rohfolge')
+  abhaken()
+  await handlePruefung(post(netflix('ja', 'a')), env)
+  pruefe(netflixZeilen('roh_uebernommen = 0') === 1, 'zurück zum alten Stand (A, B, A): A kommt als offene Rohfolge wieder an')
+  pruefe(n("plattform = 'netflix'") === 0, '... und prime_folge bleibt für Netflix leer')
 
 }
 
@@ -283,7 +293,7 @@ console.log('Wiederholte Meldung nach dem Abhaken schreibt keine neue pruefung-Z
   pruefe(anzahl('uebernommen = 1') === 1, '... ohne die Zeile wieder zu öffnen (derselbe Berlin-Tag)')
   stand.erzeugtAm = '2020-01-02T00:00:00.000Z'
 
-  pruefe((await gesendet(folge(1, 'nein'))) > 2 && anzahl() === 2 && anzahl('uebernommen = 0') === 1, 'anderer Inhalt: neue offene Zeile')
+  pruefe((await gesendet(folge(1, 'nein'))) === 2 && anzahl() === 2 && anzahl('uebernommen = 0') === 1, 'anderer Inhalt: neue offene Zeile')
   abhaken()
   await handlePruefung(post(folge(1)), env)
   pruefe(anzahl() === 3 && anzahl('uebernommen = 0') === 1, 'zurück zum alten Stand (A, B, A): A kommt als jüngste Zeile wieder')
@@ -455,7 +465,7 @@ console.log('Lesezeilen: keine Gesamtzahl der Rohfolgen mehr (12.10.2026)')
   const db = neueDatenbank()
   const env = umgebung(db)
   await handlePruefung(post({ stapel: [folge(1), folge(2), folge(3)] }), env)
-  db.exec("UPDATE prime_folge SET vorhanden = 'nein' WHERE nummer = 3")
+  db.exec("UPDATE pruefung SET rohfolge = json_set(rohfolge, '$.vorhanden', 'nein') WHERE folge_nr = 3")
   const hole = async (nach: number) => {
     abfragen.length = 0
     const r = await handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&token=t&nach=${nach}`), env)
@@ -465,7 +475,7 @@ console.log('Lesezeilen: keine Gesamtzahl der Rohfolgen mehr (12.10.2026)')
   const erste = await hole(0)
   pruefe(erste.inhalt.folgen.length === 2 && erste.inhalt.weiter === null, 'erste Seite unter dem Limit: gesperrte Folge zählt nicht')
   pruefe(!erste.gezaehlt && erste.inhalt.gesamt === undefined, '... und ohne COUNT(*), ohne Gesamtzahl')
-  const spaeter = await hole(1)
+  const spaeter = await hole(PRUEFUNG_ID_AB + 1)
   pruefe(spaeter.inhalt.folgen.length === 1 && !spaeter.gezaehlt, 'Fortsetzungsseite (nach > 0): auch ohne COUNT(*) (der Bau setzt über `weiter` fort)')
 }
 
@@ -641,7 +651,11 @@ console.log('Rohfolgen: nur Geändertes wird geschrieben (12.10.2026, Migration 
     titel: 'NF',
     folge_nr: nr,
     staffel: 1,
-    rohfolgen: [{ gti: `n${nr}`, nummer: nr, vorhanden: 'ja', ton_de: ton }],
+    /* Zwei Rohfolgen: mehr als eine bleibt in `prime_folge` (die eine Rohfolge steht sonst in der Meldungszeile). */
+    rohfolgen: [
+      { gti: `n${nr}`, nummer: nr, vorhanden: 'ja', ton_de: ton },
+      { gti: `m${nr}`, nummer: nr, vorhanden: 'ja', ton_de: ton },
+    ],
   })
   await handlePruefung(post({ stapel: [netflix(1), netflix(2)] }), env)
   const vorher = (db.prepare("SELECT id FROM prime_folge WHERE gti = 'n2'").get() as { id: number }).id
