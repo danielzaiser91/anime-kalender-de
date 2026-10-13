@@ -145,7 +145,8 @@
   sources: [https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
 
 # Anime2You 1046360 (03.09.2026) und 1058300 (12.10.2026): Volume 1 am 27.11.2026 als Limited Edition mit Sammelschuber (Blu-ray, polyband anime).
-# Der Slug des automatischen Eintrags bleibt, die Meldung zeigt darauf: Mit dem Handeintrag zu Volume 2 fiele der automatische Eintrag sonst weg.
+# Der Slug des früheren automatischen Eintrags bleibt, die Teilen-Adresse und die Meldung zeigen darauf. Der Handeintrag trägt Hersteller, Ausgabe und zweite Quelle,
+# die der automatische nicht hat; wegen Volume 2 wäre er nicht mehr nötig (ein Handeintrag ersetzt nur den Termin desselben Tags).
 - slug: auto-173693-disc
   anilistId: 173693
   titleDe: "Loner Life in Another World – Vol. 1"

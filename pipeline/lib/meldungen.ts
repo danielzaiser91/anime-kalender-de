@@ -388,15 +388,50 @@ export function nurOriginaltonMeldungen(vorschlaege: Vorschlag[]): Vorschlag[] {
   return vorschlaege.filter((v) => !v.alreadyCurated && terminDerMeldung(v) && spracheDerMeldung(v) === 'nein')
 }
 
+/**
+ * Titel + Anbieter identifizieren ein Release eindeutig genug: Ein zweiter Kinostart desselben Films ist kein
+ * eigener Termin, sondern ein Widerspruch. **Bei Discs zählt zusätzlich der Tag** — Volume 1 und Volume 2 sind
+ * zwei Termine; ein Handeintrag zu einem Volume ersetzt nur den Termin am selben Tag (oder aus seinen eigenen Quellen), nicht die übrigen.
+ */
+const terminSchluessel = (titleId: number, platform: string, tag: string) =>
+  platform === 'disc' ? `${titleId}|disc|${tag}` : `${titleId}|${platform}`
+
+/** Je Titel und Anbieter höchstens ein automatischer Termin je Lauf; die erste Meldung (mit Sprachzusage) gewinnt. */
+const eigenerSchluessel = (titleId: number, platform: string) => `${titleId}|${platform}|eigen`
+
+/** Ein Handeintrag, der den Artikel als Quelle führt, hat dessen Tag schon bewertet (auch einen abweichenden): Der Artikel erzeugt dort keinen zweiten Disc-Termin. */
+const gelesenSchluessel = (titleId: number, platform: string, url: string) => `${titleId}|${platform}|gelesen|${url}`
+
+const istBelegt = (belegt: Set<string>, titleId: number, platform: string, tag: string, url: string) =>
+  belegt.has(terminSchluessel(titleId, platform, tag)) ||
+  belegt.has(eigenerSchluessel(titleId, platform)) ||
+  belegt.has(gelesenSchluessel(titleId, platform, url))
+
+function belegteTermine(vorhanden: Release[]): Set<string> {
+  const tagDerDisc = (r: Release) => (r.platform === 'disc' ? r.schedule.firstEpisodeDate : '')
+  const belegt = new Set(vorhanden.map((r) => terminSchluessel(r.titleId, r.platform, tagDerDisc(r))))
+  for (const r of vorhanden.filter((x) => x.platform === 'disc'))
+    for (const url of r.sources) belegt.add(gelesenSchluessel(r.titleId, r.platform, url))
+  return belegt
+}
+
+function belegeTermin(belegt: Set<string>, titleId: number, platform: string, tag: string) {
+  belegt.add(terminSchluessel(titleId, platform, tag))
+  belegt.add(eigenerSchluessel(titleId, platform))
+}
+
+/** Die Teilen-Adresse ist der Slug: Liegt er schon bei einem Handeintrag (anderer Tag), hängt der Tag dran. */
+function freierSlug(slug: string, vorhanden: Release[], tag: string): string {
+  return vorhanden.some((r) => r.slug === slug) ? `${slug}-${tag}` : slug
+}
+
 export function releasesAus(
   vorschlaege: Vorschlag[],
   titel: Title[],
   vorhanden: Release[],
   heute: string,
 ): Release[] {
-  // Titel + Anbieter identifizieren ein Release eindeutig genug: Ein zweiter
-  // Kinostart desselben Films ist kein eigener Termin, sondern ein Widerspruch.
-  const belegt = new Set(vorhanden.map((r) => `${r.titleId}|${r.platform}`))
+  const belegt = belegteTermine(vorhanden)
   const out: Release[] = []
 
   for (const v of nachSprachzusage(vorschlaege)) {
@@ -429,9 +464,8 @@ export function releasesAus(
 
     const platform = anbieterDerMeldung(v)
     if (!platform) continue
-    const schluessel = `${treffer.id}|${platform}`
-    if (belegt.has(schluessel)) continue
-    belegt.add(schluessel)
+    if (istBelegt(belegt, treffer.id, platform, tag, v.articleUrl)) continue
+    belegeTermin(belegt, treffer.id, platform, tag)
 
     const art = artDerMeldung(v, platform, treffer)
 
@@ -457,7 +491,7 @@ export function releasesAus(
        * Titel und Anbieter identifizieren das Release ohnehin eindeutig; mehr
        * als eines je Kombination lässt `releasesAus` nicht zu.
        */
-      slug: `auto-${ALTE_AUTO_KENNUNG[treffer.id] ?? treffer.id}-${platform}`,
+      slug: freierSlug(`auto-${ALTE_AUTO_KENNUNG[treffer.id] ?? treffer.id}-${platform}`, vorhanden, tag),
       titleId: treffer.id,
       name,
       platform: platform as Release['platform'],
