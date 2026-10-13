@@ -51,8 +51,19 @@ function sitemapMaengel(): string[] {
   return mangel
 }
 
+/** Die gebaute Startseite trägt den Suchbegriff in Titel, Überschrift und Text. */
+function startseitenMaengel(): string[] {
+  const html = readFileSync(resolve(DIST, 'index.html'), 'utf8')
+  const titel = /<title>([^<]*)<\/title>/.exec(html)?.[1] ?? ''
+  const mangel: string[] = []
+  if (!titel.includes('Deutscher Anime-Kalender')) mangel.push(`Startseite: <title> ohne „Deutscher Anime-Kalender“: ${titel}`)
+  if (!/<h1[^>]*>Deutscher Anime-Kalender<\/h1>/.test(html)) mangel.push('Startseite: Überschrift „Deutscher Anime-Kalender“ fehlt im ausgelieferten HTML')
+  if (!html.includes('deutsche Anime-Kalender zeigt')) mangel.push('Startseite: Einleitungstext fehlt im ausgelieferten HTML')
+  return mangel
+}
+
 function main(): void {
-  const fehler: string[] = []
+  const fehler: string[] = [...startseitenMaengel()]
   for (const [art, titel] of quellen()) {
     const teilbar = new Map(titel.map((t) => [t.id, teilbarerSlug(t)]))
     const mitSlug = [...teilbar.values()].filter((s): s is string => s !== undefined)

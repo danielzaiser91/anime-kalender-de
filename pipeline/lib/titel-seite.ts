@@ -13,6 +13,11 @@ export const SITE = (process.env.SITE_URL ?? 'https://anime-kalender.de/').repla
   '/',
 )
 
+/** Gemeinsamer Rahmen der vorgerenderten Seiten. */
+export const ARTIKEL_STIL =
+  'max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;' +
+  'font-family:system-ui,sans-serif;line-height:1.6;'
+
 export function esc(value: string): string {
   return value
     .replace(/&/g, '&amp;')

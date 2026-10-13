@@ -25,7 +25,8 @@ import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
 import { andereNamen } from './lib/titel-namen.ts'
-import { SITE, esc, namenZeile, synopsenAbsatz, titelInhalt, titelKopf, type SynopsenText } from './lib/titel-seite.ts'
+import { ARTIKEL_STIL as STIL, SITE, esc, namenZeile, synopsenAbsatz, titelInhalt, titelKopf, type SynopsenText } from './lib/titel-seite.ts'
+import { START_AUSSAGE, startseiteInhalt } from './lib/startseite.ts'
 import { cartoonMitSynchroBeleg, teilenPfad } from '../shared/teilen.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
 import { seitenQuelle, type SynopsenFuerSeiten } from './lib/handlung-eigen.ts'
@@ -498,11 +499,6 @@ function naechsterTermin(rs: Release[], today: string): Release | undefined {
   return nachDatum.find((r) => r.schedule.firstEpisodeDate >= today) ?? nachDatum[nachDatum.length - 1]
 }
 
-/** Gemeinsamer Rahmen für die beiden vorgerenderten Seiten. */
-const STIL =
-  'max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;' +
-  'font-family:system-ui,sans-serif;line-height:1.6;'
-
 function terminZeile(release: Release, titel: Title | undefined, adresse: string): string {
   const name = esc(release.name || titel?.titleDe || titel?.titleEn || release.slug)
   const datum = release.schedule.firstEpisodeDate.split('-').reverse().join('.')
@@ -617,18 +613,8 @@ function schreibeStartseite(
     .sort((a, b) => a.schedule.firstEpisodeDate.localeCompare(b.schedule.firstEpisodeDate))
     .slice(0, 20)
 
-  const inhalt =
-    `<article style="${STIL}">\n` +
-    `      <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">Anime-Kalender DE</h1>\n` +
-    `      <p style="margin:0 0 1.5rem;">Alle Anime, für die es eine deutsche Synchronfassung gibt oder geben wird — mit Termin, Anbieter und Kalender-Export.</p>\n` +
-    (naechste.length
-      ? `      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Als nächstes</h2>\n` +
-        `      <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">\n` +
-        naechste.map((r) => terminZeile(r, titleById.get(r.titleId), adresseVon(r.titleId))).join('') +
-        `      </ul>\n`
-      : '') +
-    `      <p><a href="${SITE}termine/" style="color:#7dd3fc;">Alle ${releases.length} Termine ansehen</a></p>\n` +
-    `    </article>`
+  const termine = naechste.map((r) => terminZeile(r, titleById.get(r.titleId), adresseVon(r.titleId))).join('')
+  const inhalt = startseiteInhalt(termine, releases.length)
 
   /**
    * **Die Startseite sagt, was diese Seite ist.**
@@ -647,9 +633,9 @@ function schreibeStartseite(
     '@type': 'WebSite',
     url: SITE,
     name: 'Anime-Kalender DE',
+    alternateName: 'Deutscher Anime-Kalender',
     inLanguage: 'de-DE',
-    description:
-      'Alle Anime, für die es eine deutsche Synchronfassung gibt oder geben wird — mit Termin, Anbieter und Kalender-Export.',
+    description: START_AUSSAGE,
     potentialAction: {
       '@type': 'SearchAction',
       target: { '@type': 'EntryPoint', urlTemplate: `${SITE}#/datenbank?q={search_term_string}` },
