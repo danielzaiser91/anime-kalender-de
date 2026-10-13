@@ -408,7 +408,8 @@ const istBelegt = (belegt: Set<string>, titleId: number, platform: string, tag: 
   belegt.has(gelesenSchluessel(titleId, platform, url))
 
 function belegteTermine(vorhanden: Release[]): Set<string> {
-  const belegt = new Set(vorhanden.map((r) => terminSchluessel(r.titleId, r.platform, r.schedule.firstEpisodeDate)))
+  const tagDerDisc = (r: Release) => (r.platform === 'disc' ? r.schedule.firstEpisodeDate : '')
+  const belegt = new Set(vorhanden.map((r) => terminSchluessel(r.titleId, r.platform, tagDerDisc(r))))
   for (const r of vorhanden.filter((x) => x.platform === 'disc'))
     for (const url of r.sources) belegt.add(gelesenSchluessel(r.titleId, r.platform, url))
   return belegt
