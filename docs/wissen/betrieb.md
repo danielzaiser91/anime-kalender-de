@@ -610,7 +610,7 @@ Eine Meldung an mich, wenn ein Lauf **erfolgreich** durch ist, gibt es nicht —
 Fehler; rote Läufe findet `tools/laeufe-aufraeumen.mjs`. **Discord bekommt keine Laufmeldungen**
 (Daniel, 13.10.2026: der News-Kanal lief mit „Bestand … fehlgeschlagen“ voll). In `#news` steht nur
 eine Ankündigung, wenn ein großes neues Feature live ist — keine Kleinigkeiten, keine Bugfixes;
-gepostet von Hand über `tools/discord-news.sh`.
+gepostet von Hand über `tools/discord-news.sh` (Kanal-ID 1559515427330068592, am 13.10.2026 neu geklont; Webhook-URL in `my_secrets.md`).
 
 ### Der stündliche Lauf läuft fünfmal am Tag, nicht vierundzwanzigmal
 
