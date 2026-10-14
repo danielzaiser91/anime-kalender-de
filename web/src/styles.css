@@ -44,6 +44,7 @@
   --color-ak-finale-text: var(--ak-finale-text);
   --color-ak-katalog: var(--ak-katalog);
   --color-ak-katalog-text: var(--ak-katalog-text);
+  --color-ak-marke: var(--ak-marke);
   --color-ak-heute: var(--ak-heute);
   /* Rollen der Design-Regeln (13.10.2026, docs/wissen/design-regeln.md); Kontrast: tools/design-kontrast.mjs */
   --color-ak-flaeche-3: var(--ak-flaeche-3);
@@ -87,6 +88,7 @@ html.dark {
   --ak-finale-text: #f5c542;
   --ak-katalog: #a78bfa;
   --ak-katalog-text: #a78bfa;
+  --ak-marke: #cbd5e1;
   --ak-heute: #1a1512;
   --ak-flaeche-3: #222733;
   --ak-akzent-hover: #ff7a5c;
@@ -136,6 +138,7 @@ html:not(.dark) {
   --ak-finale-text: #8a6300;
   --ak-katalog: #8b6cf0;
   --ak-katalog-text: #5b3fc4;
+  --ak-marke: #cbd5e1;
   --ak-heute: #fff0ea;
   --ak-flaeche-3: #e4e1da;
   --ak-akzent-hover: #e8491f;

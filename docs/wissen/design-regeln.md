@@ -41,6 +41,7 @@ Vorher/Nachher der ganzen App und des Filterfensters: Mockups `design-app` und `
 | TV | `ak-tv`, `ak-tv-grund`, `ak-tv-rand` | nur lineares Fernsehen |
 | Katalog | `ak-katalog`, `ak-katalog-text` | nur Katalog-Release |
 | Finale | `ak-finale`, `ak-finale-text` | Staffelfinale, Favoriten-Stern **und** Disc-Punkt der Neuigkeiten (Gold; die Liste „Was sich getan hat“ färbt Disc ebenfalls gelb; als Punkt `ak-finale-text`, weil `ak-finale` hell nur 1,6:1 hat). Die übrigen Punkte der Neuigkeiten: neu `ak-gut`, Kino `ak-akzent`; „Angekündigt“ bleibt Violett, damit Disc sich im Band davon abhebt |
+| Neutrale Marke | `ak-marke` | Fahne „Neu bei <Anbieter>“ (ohne Kennfarbe, in beiden Themen gleich hell); Text darauf `#0d0f14` |
 | Heute | `ak-heute` | Grund der Heute-Spalte |
 
 `-text` ist die Variante für Schrift (hell dunkler, dunkel heller), `-grund` die 10–12 % Tönung über `ak-flaeche` für Kästen und Pillen.

@@ -83,7 +83,7 @@ function summaryOhneMarke(ev: ReleaseEvent, bis?: number): string {
     return `${vorn}${ev.name} – Folge ${ev.episode}${bis ? `–${bis}` : ''}${ev.episodeCount ? `/${ev.episodeCountAssumed ? '≈' : ''}${ev.episodeCount}` : ''}`
   }
   if (ev.releaseType === 'disc') return `${ev.name} (${type.short})`
-  if (ev.imAngebot) return `${ev.name} (im Angebot)`
+  if (ev.imAngebot) return `${ev.name} (neu bei ${anbieterName(ev.platform, ev.sender)})`
   return ev.name
 }
 

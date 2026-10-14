@@ -67,7 +67,7 @@ export const TEXTE_KALENDER = {
   'kal.start': 'Staffelstart',
   'kal.finale': 'Staffelfinale',
   'kal.katalog': 'Katalog-Release',
-  'kal.imAngebot': 'Im Angebot',
+  'kal.imAngebot': 'Neu bei {anbieter}',
   'kal.imAngebotHinweis': 'Im Angebot seit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.',
   'kal.favorit': 'Favorit',
   'detail.neuigkeiten': 'Neuigkeiten',

@@ -175,11 +175,11 @@ function eventRow(ctx: RowContext, ev: ReleaseEvent, highlight: boolean): string
 
   // Der Anbietername ist der Knopf zum Ansehen. Fehlt der Deeplink, bleibt er
   // schlichter Text — ein Link ins Leere wäre schlimmer als keiner.
+  // Bei „Neu bei <Anbieter>“ ist die Marke selbst der Link (kein zweites „ADN ansehen“ daneben).
+  const linkText = ev.imAngebot ? `Neu bei ${plattformName}` : `${plattformName} ${ev.releaseType === 'disc' ? 'kaufen' : 'ansehen'}`
   const platformPart = watch
-    ? `<a href="${escapeHtml(watch)}" style="color:${platform.color};text-decoration:none;font-weight:600;">${escapeHtml(
-        plattformName,
-      )} ${ev.releaseType === 'disc' ? 'kaufen' : 'ansehen'} &rsaquo;</a>`
-    : escapeHtml(plattformName)
+    ? `<a href="${escapeHtml(watch)}" style="color:${platform.color};text-decoration:none;font-weight:600;">${escapeHtml(linkText)} &rsaquo;</a>`
+    : escapeHtml(ev.imAngebot ? linkText : plattformName)
 
   return `<tr>
     <td style="padding:7px 0;border-top:1px solid #232c40;">
@@ -187,7 +187,7 @@ function eventRow(ctx: RowContext, ev: ReleaseEvent, highlight: boolean): string
       ${highlight ? '<span style="color:#fbbf24;">★</span> ' : ''}<a href="${escapeHtml(
         calendarUrl(ctx, ev),
       )}" style="color:#fff;text-decoration:none;"><strong>${escapeHtml(ev.name)}</strong></a>${badge(ev)}<br>
-      <span style="color:#9aa5bd;font-size:13px;">${[escapeHtml(time), escapeHtml(episode), ev.imAngebot ? 'im Angebot' : '', platformPart, ev.estimated ? 'geschätzt' : '', kalenderLink(calendarUrl(ctx, ev))]
+      <span style="color:#9aa5bd;font-size:13px;">${[escapeHtml(time), escapeHtml(episode), platformPart, ev.estimated ? 'geschätzt' : '', kalenderLink(calendarUrl(ctx, ev))]
         .filter(Boolean)
         .join(' · ')}</span>
     </td>
