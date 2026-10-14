@@ -57,6 +57,8 @@ const ORANGE = 'bg-orange-500/15 text-orange-800 dark:text-orange-300'
 const GELB = 'bg-yellow-500/20 text-yellow-800 dark:text-yellow-300'
 const GRAU = 'bg-slate-500/15 text-slate-700 dark:text-slate-300'
 const BLAU = 'bg-sky-500/15 text-sky-800 dark:text-sky-300'
+/** Gewählter Filter (eins von n), einheitlich mit Reitern und Segmenten (design-regeln.md). */
+const GEWAEHLT = 'bg-ak-gewaehlt font-bold text-ak-auf-gewaehlt'
 export const NEWS_FARBE: Record<NewsArt, string> = {
   neu: GRUEN,
   folgen: GRUEN,
@@ -313,8 +315,8 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
             aria-pressed={filter === null}
             className={`ak-tz shrink-0 rounded-full px-2.5 py-1 text-xs whitespace-nowrap transition ${
               filter === null
-                ? 'bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+                ? GEWAEHLT
+                : 'bg-ak-flaeche-2 text-ak-leise hover:text-ak-text'
             }`}
           >
             {t('news.alle')}
@@ -326,8 +328,8 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
               onClick={() => setFilter(filter === a ? null : a)}
               aria-pressed={filter === a}
               className={`ak-tz shrink-0 rounded-full px-2.5 py-1 text-xs whitespace-nowrap transition ${
-                filter === a ? 'ring-2 ring-slate-400 dark:ring-slate-500' : 'hover:brightness-95'
-              } ${NEWS_FARBE[a]}`}
+                filter === a ? GEWAEHLT : `hover:brightness-95 ${NEWS_FARBE[a]}`
+              }`}
             >
               {t(`news.art.${a}`)} <span className="tabular-nums">{jeArt.get(a)}</span>
             </button>
