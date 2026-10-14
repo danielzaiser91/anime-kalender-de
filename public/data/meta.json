@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-14T09:36:06.177Z",
+  "generatedAt": "2026-10-14T09:45:54.990Z",
   "titleCount": 2921,
-  "belegtCount": 2548,
+  "belegtCount": 2583,
   "releaseCount": 785,
   "eventCount": 3859,
   "genres": [
@@ -215,7 +215,6 @@
     "Amazon (DVD)",
     "Amazon (Trilogie, 3 DVDs)",
     "Animation Digital Network",
-    "Netflix",
     "Netzkino",
     "Verleihshop (Leih-DVD)",
     "Videobuster (Leih-Disc)",
@@ -242,6 +241,7 @@
     "Ard Plus Apple Tv Channel",
     "Hugendubel",
     "KSM Anime — Complete Edition (AKIBA PASS Shop)",
+    "Netflix",
     "Netflix Standard With Ads",
     "Pokémon TV",
     "Thalia",

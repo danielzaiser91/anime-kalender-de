@@ -55,6 +55,8 @@ import { nimmJa } from './lib/dub-bereiche.ts'
 import { findeKonflikte, findeVereinte } from './lib/dub-konflikt.ts'
 import { findeSchrumpf } from './lib/dub-schrumpf.ts'
 import { findeVoraussichtlichImBestand } from './lib/voraussichtlich-pruefung.ts'
+import { pruefeVerwaiste } from './lib/handbeleg-verwaist.ts'
+import { bezugswegeTrotzNein } from './lib/handbeleg-bezugswege.ts'
 import type { Title } from '../shared/types.ts'
 
 /*
@@ -160,7 +162,11 @@ for (const [k, gruppe] of jeVerweis) {
     const pruefAdressen = neinAdressen.length ? neinAdressen : belegAdressen
     const nochDa =
       stream && (!pruefAdressen.length || pruefAdressen.some((u) => adressKern(u) === adressKern(stream.url)))
-    if (nochDa) fehler.push(`${name}: als „${sagtWeg ? 'nicht verfügbar' : 'ohne deutsche Tonspur'}" geprüft, steht aber noch im Datensatz`)
+    const urteil = sagtWeg ? 'nicht verfügbar' : 'ohne deutsche Tonspur'
+    /* Auch ein Bezugsweg (`watchLinks`) behauptet den Anbieter; der Bau hält ihn bei einem Nein zurück. */
+    const wege = bezugswegeTrotzNein(t, platform!, pruefAdressen, sagtWeg)
+    if (nochDa) fehler.push(`${name}: als „${urteil}" geprüft, steht aber noch im Datensatz`)
+    else if (wege.length) fehler.push(`${name}: als „${urteil}" geprüft, steht aber noch als Bezugsweg im Datensatz (${wege.map((w) => w.name).join(', ')})`)
     else entferntWieVorgesehen++
     continue
   }
@@ -228,53 +234,12 @@ if (fehler.length) {
  * Trifft eine Kennung keinen Titel, ist entweder sie falsch oder der Titel
  * fehlt im Bestand -- beides muss auffallen.
  */
-let verwaisteBelege = 0
-{
-  /* Hinter dem Toggle liegt verschoben, nicht gelöscht: ein Titel in `ohne-synchro.json` ist bekannt. */
-  const hinterToggle = readJson<{ id: number }[]>(resolve(ROOT, 'public/data/ohne-synchro.json'), [])
-  const bekannt = new Set([...titel, ...hinterToggle].map((t) => t.id))
-  const verwaist = [
-    ...new Map(
-      loadDubChecks()
-        /*
-          `nichtImBestand` ist die bewusste Ausnahme: ein geprüfter Titel ohne
-          deutsche Fassung, der deshalb nicht in den Kalender gehört. Der Beleg
-          bleibt, die Warnung entfällt — siehe `DubCheck.nichtImBestand`.
-        */
-        .filter((c) => !bekannt.has(c.anilistId) && !c.nichtImBestand)
-        .map((c) => [c.anilistId, c]),
-    ).values(),
-  ]
-  if (verwaist.length) {
-    warn(
-      `${verwaist.length} Handpruefung(en) zeigen auf keinen Titel im Bestand:`,
-    )
-    for (const c of verwaist.slice(0, 8)) {
-      warn(`   ${c.anilistId} — ${c.title ?? "(ohne Titel)"} (${c.platform})`)
-    }
-    verwaisteBelege = verwaist.length
-  } else {
-    log('✓ Jede Handpruefung zeigt auf einen Titel im Bestand.')
-  }
-}
+/* Hinter dem Toggle liegt verschoben, nicht gelöscht: ein Titel in `ohne-synchro.json` ist bekannt. */
+const hinterToggle = readJson<{ id: number }[]>(resolve(ROOT, 'public/data/ohne-synchro.json'), [])
+/* Eine Kennung ins Leere macht den Lauf rot (Eyeshield 2049, 24.08.2026); im Vergleichsbau nur Warnung. */
+pruefeVerwaiste(loadDubChecks(), new Set([...titel, ...hinterToggle].map((t) => t.id)))
 
 log('✓ Jede eindeutige Handprüfung steht so im Datensatz, wie sie geprüft wurde.')
-
-/**
- * Eine Kennung ins Leere macht den Lauf rot.
- *
- * Der Abbruch weiter oben greift nur bei Widerspruechen -- eine Pruefung, zu
- * der es gar keinen Titel gibt, faellt dort durch. Genau so blieb der
- * Eyeshield-Eintrag mit der falschen Kennung 2049 vier Tage unbemerkt
- * (24.08.2026).
- */
-if (verwaisteBelege) {
-  warn(
-    `Abbruch: ${verwaisteBelege} Handpruefung(en) zeigen ins Leere. Entweder ist die ` +
-      `Kennung falsch, oder der Titel fehlt im Bestand.`,
-  )
-  process.exit(1)
-}
 
 /**
  * Bei mehreren Zeilen zu einem Verweis muss der **jüngste** Befund gewinnen.

@@ -29,6 +29,7 @@ pipeline/check-anisearch-reihen-rein.ts
 pipeline/check-anisearch-reihen.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
+pipeline/check-antwort-jetzt.ts
 pipeline/check-auto-disc-handeintrag.ts
 pipeline/check-beleg-anbieter.ts
 pipeline/check-beleg-bis-anker.ts
@@ -84,6 +85,8 @@ pipeline/check-kino-zuletzt.ts
 pipeline/check-logic.ts
 pipeline/check-mal-teilung.ts
 pipeline/check-motn-reihe.ts
+pipeline/check-nein-handbeleg-aufrufer.ts
+pipeline/check-nein-handbeleg-cr.ts
 pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts
 pipeline/check-neuigkeiten-panel.ts
@@ -92,6 +95,7 @@ pipeline/check-news-rhythmus.ts
 pipeline/check-notiz-fassung.ts
 pipeline/check-offizielle-lauf.ts
 pipeline/check-offizielle-news.ts
+pipeline/check-og-termin.ts
 pipeline/check-paramount.ts
 pipeline/check-patchnotes.ts
 pipeline/check-pille-nur-untertitel.ts
@@ -115,6 +119,7 @@ pipeline/check-sprecher-filter.ts
 pipeline/check-staffel-jahr0.ts
 pipeline/check-staffel-teil.ts
 pipeline/check-stand-halten.ts
+pipeline/check-studio-archiv.ts
 pipeline/check-such-chip.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
@@ -142,6 +147,7 @@ tools/design-fokus.test.mjs
 tools/design-klassen.mjs
 tools/design-klassen.test.mjs
 tools/design-kontrast.mjs
+tools/handbeleg-verwaist.test.mjs
 tools/pruef-bestand.test.mjs
 tools/tmdb-bilddatum.test.mjs
 tools/untersucher-schluessel.test.mjs

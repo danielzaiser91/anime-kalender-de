@@ -86,7 +86,7 @@ jobs:
       - name: Neue deutsche Folgen bei Crunchyroll finden
         run: bash tools/schritt.sh --zeit 8m "Neue Folgen bei Crunchyroll" -- npm run data:cr-neu
 
-      # Je Artikel, der einen Termin belegt: Text-Hash, Veröffentlicht/Aktualisiert und ein Bild in der privaten R2-Ablage des Workers (/beleg). Höchstens 25 je
+      # Je Artikel, der einen Termin belegt: Text-Hash, Veröffentlicht/Aktualisiert und ein Bild in der privaten R2-Ablage des Workers (/beleg). Höchstens 60 je
       # Lauf, jeder Artikel alle 7 Tage; nach drei Störungen in Folge endet der Schritt.
       - name: Belege lesen (Hash, Datum, privates Bild)
         run: bash tools/schritt.sh --zeit 25m "Belege lesen" -- npx tsx pipeline/belege-lesen.ts

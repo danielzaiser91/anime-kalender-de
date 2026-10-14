@@ -8,11 +8,10 @@ import { filmTermine } from './film-termine.ts'
 import { restUndBlock } from './antwort-block.ts'
 import { jpErschienen, KINO_LAND } from './kino.tsx'
 
-export function berechneAntwort({ title, releases, today }: {
-  title: Title | undefined
-  releases: Release[]
-  today: string
-}) {
+/** `jetzt` ist die Uhr für „erschienen“ (`istErschienen`); Tests setzen sie fest, sonst gilt der Augenblick des Aufrufs. */
+type AntwortEingabe = { title: Title | undefined; releases: Release[]; today: string; jetzt?: Date }
+
+export function berechneAntwort({ title, releases, today, jetzt = new Date() }: AntwortEingabe) {
   if (!title) return undefined
 
   /*
@@ -91,7 +90,7 @@ export function berechneAntwort({ title, releases, today }: {
   */
   const fuerKopf = ohneDisc.length ? ohneDisc : hatSynchro ? [] : releases.filter((r) => !imKinoBanner(r))
   const alleEvents = fuerKopf.flatMap((r) => expandEvents(r))
-  const offen = alleEvents.filter((e) => !istErschienen(e))
+  const offen = alleEvents.filter((e) => !istErschienen(e, jetzt))
   /*
     **Eine ausgebliebene Folge mit Ersatztermin steht zweimal da — gezählt wird sie einmal.**
 
@@ -99,10 +98,10 @@ export function berechneAntwort({ title, releases, today }: {
     Kalender) und legt die Folge zusätzlich auf ihren recherchierten neuen
     Termin. Für „noch X bis zum Finale" ist das eine Folge, nicht zwei.
   */
-  const kuenftig = ohneSchonErschienene(offen, alleEvents)
+  const kuenftig = ohneSchonErschienene(offen, alleEvents, jetzt)
     .filter((e) => !istAusgeblieben(e) || !offen.some((o) => o.episode === e.episode && !istAusgeblieben(o)))
     .sort((a, b) => a.date.localeCompare(b.date) || (a.episode ?? 0) - (b.episode ?? 0))
-  const raus = zaehleErschienenJeAnbieter(alleEvents)
+  const raus = zaehleErschienenJeAnbieter(alleEvents, jetzt)
   /* Ein widerlegter deutscher Termin erzeugt kein Ereignis — er bekommt seine eigene Antwort (02.10.2026). */
   const widerlegt = releases.find((r) => r.widerlegt)?.widerlegt
   if (widerlegt && !alleEvents.length) {
@@ -238,7 +237,7 @@ export function berechneAntwort({ title, releases, today }: {
   if (kuenftig.length > 0) {
     const n = kuenftig[0]!
     /* Ein abgeschlossenes, vollständig deutsches Werk bleibt „fertig" (`antwort-regeln.ts`). */
-    if (istBelegtAbgeschlossen(hatSynchro, vollstaendig, abgeschlossenFuerKasten, alleEvents)) {
+    if (istBelegtAbgeschlossen(hatSynchro, vollstaendig, abgeschlossenFuerKasten, alleEvents, jetzt)) {
       return fertigAntwort(raus || gesamt, gesamt, vereint.size, alleEvents)
     }
     /*
@@ -268,7 +267,7 @@ export function berechneAntwort({ title, releases, today }: {
                 ? r.name.replace(eigenerName, '').replace(/^[\s:–—-]+/, '').trim() || undefined
                 : undefined,
             datum: e.date,
-            raus: istErschienen(e),
+            raus: istErschienen(e, jetzt),
           })),
         )
         .sort((a, b) => a.datum.localeCompare(b.datum))
