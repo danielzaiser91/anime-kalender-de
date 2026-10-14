@@ -11,6 +11,7 @@ import { schreibeWochenDatei } from './13-8-wochen-datei.ts'
 import { schreibePatchnotes } from './13-9-patchnotes.ts'
 import { ergaenzeErstausgabeAngebot } from './13-7-erstausgabe-angebot.ts'
 import { ergaenzeAngebotTermine } from './13-7-angebot-termine.ts'
+import { markiereErstausgabe } from './erstausgabe-markieren.ts'
 import { schreibeZusatzdateien } from './13-4-zusatzdateien.ts'
 import { bereinigePruefliste, ausgelieferteKennungen } from './pruefliste-bereinigen.ts'
 import { schreibeLueckenTitel } from './luecken-titel.ts'
@@ -81,7 +82,9 @@ export function schreibeDatensatz({
   const releasesVorAngebot = releases.length
   ergaenzeErstausgabeAngebot({ titles: titles.values(), releases })
   schreibeListen({ slim, tmdbTitles, releases, titles })
-  ergaenzeAngebotTermine({ events, neue: releases.slice(releasesVorAngebot), slim })
+  const neueAngebote = releases.slice(releasesVorAngebot)
+  markiereErstausgabe({ alle: releases, pruefen: neueAngebote, titles })
+  ergaenzeAngebotTermine({ events, neue: neueAngebote, slim })
   schreibeKinoZuletzt(titles, tmdbTitles)
 
   schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige })
