@@ -15,11 +15,11 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 
 const HEUTE = '2026-10-14'
 const SERIE = 'https://animationdigitalnetwork.com/de/video/1423-eighty-six'
-const show = (showId: number, daten: string[]): AdnShow =>
-  ({ showId, title: 'x', url: `https://animationdigitalnetwork.com/de/video/${showId}`, episodes: daten.map((date) => ({ date })), batch: true }) as unknown as AdnShow
+const show = (showId: number, daten: string[], season: string | null = '1'): AdnShow =>
+  ({ showId, title: 'x', url: `https://animationdigitalnetwork.com/de/video/${showId}`, episodes: daten.map((date) => ({ date, season: season ?? undefined })), batch: true }) as unknown as AdnShow
 const titel = (id: number, streams: Title['streams'] = []): Title => ({ id, streams }) as unknown as Title
 const termin = (extra: Partial<Release> = {}): Release =>
-  ({ slug: 'k', titleId: 1, platform: 'adn', platformUrl: SERIE, schedule: { firstEpisodeDate: '2026-10-08' }, ...extra }) as unknown as Release
+  ({ slug: 'adn-1423-s1-20261008-k', titleId: 1, platform: 'adn', platformUrl: SERIE, schedule: { firstEpisodeDate: '2026-10-08' }, ...extra }) as unknown as Release
 const lauf = (release: Release, titles: Title[], shows: AdnShow[]) => {
   const karte = new Map(titles.map((t) => [t.id, t]))
   return { n: belegeTonKuratierterAdnTermine([release], karte, shows, HEUTE), karte }
@@ -44,6 +44,17 @@ console.log('\nKein Beleg:')
   pruefe('Suchadresse ohne Kennung: nichts', lauf(termin({ platformUrl: 'https://animationdigitalnetwork.com/de/search?q=x' }), [titel(1)], [show(1423, ['2026-10-08'])]).n === 0)
   pruefe('Anderer Anbieter: nichts', lauf(termin({ platform: 'netflix' as never }), [titel(1)], [show(1423, ['2026-10-08'])]).n === 0)
   pruefe('Titel unbekannt: nichts', lauf(termin({ titleId: 99 }), [titel(1)], [show(1423, ['2026-10-08'])]).n === 0)
+}
+
+console.log('\nStaffel (die Kennung ist ein Franchise, 14.10.2026):')
+{
+  const andereStaffel = show(1423, ['2026-10-08'], '2')
+  pruefe('vde einer anderen Staffel am Starttag belegt nichts (kuratierter OmU-Start)', lauf(termin(), [titel(1)], [andereStaffel]).n === 0)
+  const gemischt = lauf(termin(), [titel(1)], [{ ...show(1423, ['2026-10-08'], '2'), episodes: [...andereStaffel.episodes, ...show(1423, ['2026-10-08'], '1').episodes] } as AdnShow])
+  pruefe('vde der eigenen Staffel am selben Tag genügt, auch neben einer anderen', gemischt.n === 1)
+  pruefe('Staffel aus ?s= der Adresse', lauf(termin({ slug: 'k', platformUrl: `${SERIE}?s=2` }), [titel(1)], [andereStaffel]).n === 1)
+  pruefe('Weder Slug noch Adresse nennen die Staffel: kein Schluss', lauf(termin({ slug: 'k' }), [titel(1)], [show(1423, ['2026-10-08'])]).n === 0)
+  pruefe('Folge ohne Staffel: kein Schluss', lauf(termin(), [titel(1)], [show(1423, ['2026-10-08'], null)]).n === 0)
 }
 
 console.log('\nVorhandener ADN-Weg bleibt:')
