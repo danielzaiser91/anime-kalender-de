@@ -63,7 +63,7 @@ const mail = digestMail(termine, 'daily', 'https://anime-kalender.de/', 'https:/
 
 mkdirSync('docs', { recursive: true })
 const browser = await chromium.launch()
-const seite = await browser.newPage({ viewportSize: { width: 660, height: 900 }, deviceScaleFactor: 2 })
+const seite = await browser.newPage({ viewport: { width: 660, height: 900 }, deviceScaleFactor: 2 })
 await seite.setContent(mail.html)
 await seite.screenshot({ path: 'docs/newsletter-probe.png', fullPage: true })
 await browser.close()
