@@ -23,13 +23,24 @@ function pruefeDatumNachtrag(dateien: { name: string; eintrag: Record<string, un
   return { fehler, geprueft: geprueft.length }
 }
 
+type Anlagetage = (namen: string[]) => Map<string, string>
+
+/**
+ * Holt die Anlagetage der Dateien und prüft ihr `datum`. Lokal und in der PR-Kette (fetch-depth 0) ist die Historie vollständig;
+ * im flachen Deploy-/Bestandsbau-Checkout vertieft `tageAusGit` sie erst, und scheitert das, bekommt jede Datei den heutigen Tag:
+ * dann meldet die Prüfung nichts (nur eine Warnzeile). Die verlässliche Stelle ist also die PR-Kette.
+ */
+function datumNachtragImOrdner(dateien: { name: string; eintrag: Record<string, unknown> }[], anlagetage: Anlagetage): { fehler: string[]; geprueft: number } {
+  return pruefeDatumNachtrag(dateien, anlagetage(dateien.map((d) => d.name)))
+}
+
 const dateien = lesePatchnotesDateien()
 const roh = dateien.map((d) => d.eintrag)
 const f = pruefePatchnotes(roh, dateien.map((d) => d.name))
 pruefe('Patch-Notes: Datum parsebar, Kategorie gültig, Text ≤ 8 Wörter, keine Duplikate, höchstens 2 Highlights je Tag', f.length === 0, f)
-const anlage = tageAusGit(PATCHNOTES_ORDNER, dateien.map((d) => d.name), todayIso())
-const nachtrag = pruefeDatumNachtrag(dateien, anlage)
-pruefe('Patch-Notes: datum liegt nicht nach dem Anlagetag der Datei', nachtrag.fehler.length === 0, nachtrag.fehler)
+const nachtrag = datumNachtragImOrdner(dateien, (namen) => tageAusGit(PATCHNOTES_ORDNER, namen, todayIso()))
+const mitDatumAnzahl = dateien.filter((d) => d.eintrag.datum !== undefined).length
+pruefe('Patch-Notes: datum liegt nicht nach dem Anlagetag der Datei (alle Einträge mit datum geprüft)', nachtrag.fehler.length === 0 && nachtrag.geprueft === mitDatumAnzahl, { fehler: nachtrag.fehler, geprueft: nachtrag.geprueft, mitDatum: mitDatumAnzahl })
 
 const ok = { datum: '2026-10-09', kategorie: 'feature', text: 'Neuer Knopf' }
 const gegen = (name: string, eintraege: unknown[]) => pruefe(`Patch-Notes (Gegenprobe): ${name} wird gemeldet`, pruefePatchnotes(eintraege).length > 0)
@@ -47,8 +58,16 @@ pruefe('Patch-Notes (Gegenprobe): datum am Anlagetag ist erlaubt', nachAnlage('2
 pruefe('Patch-Notes (Gegenprobe): älteres datum (Bündeln) ist erlaubt', nachAnlage('2026-10-13', '2026-10-14').fehler.length === 0)
 pruefe('Patch-Notes (Gegenprobe): ohne Anlagetag (nicht eingecheckt) wird nichts geprüft', pruefeDatumNachtrag([{ name: 'neu', eintrag: ok }], new Map()).geprueft === 0)
 pruefe('Patch-Notes (Gegenprobe): Eintrag ohne datum wird nicht geprüft', pruefeDatumNachtrag([{ name: 'neu', eintrag: { kategorie: 'bugfix', text: 'Neu' } }], new Map([['neu', '2026-10-13']])).geprueft === 0)
-const aufrufer = dateien.filter((d) => d.eintrag.datum !== undefined).length
-pruefe('Patch-Notes (Aufrufer): die echte Prüfung bekommt die Einträge mit datum', nachtrag.geprueft > 0 && nachtrag.geprueft === aufrufer, { geprueft: nachtrag.geprueft, aufrufer })
+// Aufrufer: reicht die Dateinamen an die Anlagetage und deren Ergebnis an die Prüfung weiter; unabhängig davon, ob der Ordner gerade Einträge mit datum hat.
+const angefragt: string[][] = []
+const spaeterDatum = datumNachtragImOrdner(
+  [{ name: 'neu', eintrag: { datum: '2026-10-14', kategorie: 'bugfix', text: 'Neu' } }, { name: 'zweit', eintrag: { kategorie: 'bugfix', text: 'Zweit' } }],
+  (namen) => {
+    angefragt.push(namen)
+    return new Map([['neu', '2026-10-13'], ['zweit', '2026-10-13']])
+  },
+)
+pruefe('Patch-Notes (Aufrufer): alle Dateinamen gehen an die Anlagetage, ein zu spätes datum wird gemeldet', angefragt.length === 1 && angefragt[0]!.join() === 'neu,zweit' && spaeterDatum.fehler.length === 1 && spaeterDatum.geprueft === 1, { angefragt, spaeterDatum })
 gegen('drei Highlights am Tag', [1, 2, 3].map((n) => ({ ...ok, text: `Neu ${n}`, highlight: true })))
 gegen('verbotenes Wort (Debug)', [{ ...ok, text: 'Einstellungen ohne Debug-Bereich' }])
 gegen('verbotenes Wort (Erweiterung) im Untertitel', [{ ...ok, untertitel: 'Erweiterung 4.24.16' }])
