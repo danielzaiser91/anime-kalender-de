@@ -5,7 +5,7 @@
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-nein-handbeleg-cr.ts`
  */
-import type { StreamLink, Title } from '../shared/types.ts'
+import type { PlatformId, StreamLink, Title } from '../shared/types.ts'
 import type { CrDubData } from './lib/crunchyroll-dub.ts'
 import type { AnisearchEintrag } from './bau/01-quellen.ts'
 import { ordneCrBloeckeZu } from './bau/09-4-2-bloecke.ts'
@@ -32,7 +32,7 @@ const neinId = Number(echtesNein?.[0])
 pruefe('Vorbedingung: die Handbelege führen mindestens ein Crunchyroll-Nein', Number.isFinite(neinId), echtesNein)
 
 /** Nein an `url`, Ja an einer zweiten Adresse derselben Plattform: Das Nein gilt dann nur `url` (`neinHandbelege`). */
-const neinNurDort = (id: number, platform: string, url: string) =>
+const neinNurDort = (id: number, platform: PlatformId, url: string) =>
   neinHandbelege([{ anilistId: id, platform, url, dub: false }, { anilistId: id, platform, url: 'https://example.org/ja', dub: true }])
 
 /* Eltern (Staffel mit 12 Folgen) und ein Special mit 3 Folgen, das die Serie als deutschen Block führt. */

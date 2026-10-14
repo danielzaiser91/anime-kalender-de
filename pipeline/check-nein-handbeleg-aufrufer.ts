@@ -9,7 +9,7 @@
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import type { StreamLink, Title } from '../shared/types.ts'
+import type { PlatformId, StreamLink, Title } from '../shared/types.ts'
 import { ergaenzeAboWege } from './bau/11-2-3-abo-wege.ts'
 import { ergaenzeWegeOhneWeg, type JwEintrag } from './bau/11-2-2-wege-ohne-weg.ts'
 import { ergaenzeWegeAusJustwatch } from './bau/11-2-justwatch.ts'
@@ -29,7 +29,7 @@ const nein = neinHandbelege(loadDubChecks())
 const jw = readJson<Record<string, JwEintrag & { angebote?: { audio?: string[] }[] }>>('data/justwatch-audio.json', {})
 const neinIds = [...new Set([...nein].map((k) => Number(k.split('|')[0])))]
 /** Nein an `url`, Ja an einer zweiten Adresse derselben Plattform: Das Nein gilt dann nur `url` (`neinHandbelege`). */
-const neinNurDort = (id: number, platform: string, url: string) =>
+const neinNurDort = (id: number, platform: PlatformId, url: string) =>
   neinHandbelege([{ anilistId: id, platform, url, dub: false }, { anilistId: id, platform, url: 'https://example.org/ja', dub: true }])
 const ohneParameter = { tmdbMehrdeutig: new Set<string>(), toteAdressen: new Set<string>() }
 
