@@ -1,6 +1,6 @@
 -- Nach dem Einspielen je Anbieter: Folgen aus `pruefung`/`prime_folge`, die in keiner Titelzeile stehen (14.10.2026).
 -- Erwartet: keine Zeile. Eine Zeile heißt: diese Folgen fehlen in `pruefung_titel` — Einspielen nicht fertig (noch
--- Blöcke offen) oder verloren; dann nicht weiter ausrollen. Platzhalter und Aufruf wie `titel-zeile-einspielen.sql`:
+-- Nachzügler offen) oder verloren; dann nicht weiter ausrollen. Aufruf aus `worker/`:
 --
 --   sed -e 's/__PLATTFORM__/netflix/' einmalig/titel-zeile-verlust.sql > verlust-netflix.sql
 --   npx wrangler d1 execute anime-kalender --remote --config wrangler.toml --file=verlust-netflix.sql

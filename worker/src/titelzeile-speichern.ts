@@ -17,7 +17,7 @@
  *
  * Nur Anbieter aus `TITELZEILE_PLATTFORMEN` (leer = aus), die auch in `TITELZEILE_TAUGLICH` stehen, und nur Adressen, die schon eine Titelzeile haben oder
  * noch gar keine Meldung: Eine Adresse mit Altzeilen bleibt bei `pruefung`/`prime_folge`, bis
- * `worker/einmalig/titel-zeile-einspielen.sql` sie umgezogen hat — sonst verdrängte die erste Titelzeile ihre Altzeilen aus den
+ * `tools/titelzeile-einspielen.ts` sie umgezogen hat — sonst verdrängte die erste Titelzeile ihre Altzeilen aus den
  * Lesern und die übrigen Folgen fehlten.
  */
 import { type Env } from './env.ts'

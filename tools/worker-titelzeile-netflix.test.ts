@@ -6,7 +6,7 @@
  * - `folgen` und der Rohfolgen-Titel stehen in der Titelzeile und zählen als Inhalt (Änderung = neue Fassung);
  * - Randprobe: ein Stapel schreibt die Titelzeile einmal; Gruppe mit Altzeilen oder mit unpassender Meldung bleibt beim
  *   bisherigen Weg;
- * - Leser-Vergleich: Altzeilen, Titelzeile direkt und eingespielte Altzeilen (`einspielSql('netflix')`) liefern dasselbe
+ * - Leser-Vergleich: Altzeilen, Titelzeile direkt und eingespielte Altzeilen (`spieleEin(db, 'netflix')`) liefern dasselbe
  *   — bis auf `angenommen` 0 statt leer und Felder, die die Titelzeile nicht trägt (betrieb.md, Abschnitt „Titelzeile“);
  * - Abhaken der Netflix-Ids.
  *
@@ -14,7 +14,7 @@
  */
 import { handlePruefung } from '../worker/src/pruefung.ts'
 import { TITEL_ID_AB } from '../worker/src/titelzeile-format.ts'
-import { einspielSql, lies, neueDatenbank, post, umgebung, verlustSql, zaehlerStimmen, zahl, type Hilfe } from './worker-titelzeile-hilfe.ts'
+import { lies, neueDatenbank, post, spieleEin, umgebung, verlustSql, zaehlerStimmen, zahl, type Hilfe } from './worker-titelzeile-hilfe.ts'
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -176,7 +176,7 @@ console.log('Leser-Vergleich: Altzeilen, Titelzeile direkt und eingespielte Altz
   await spiele(envAlt)
   const vorher = await leserAuszug(envAlt)
   pruefe(vorher.alle.length === 14 && vorher.rohfolgenAlle.length === 12, `Ausgang: Altzeilen in pruefung (${vorher.alle.length}) und Rohfolgen (${vorher.rohfolgenAlle.length})`)
-  alt.exec(einspielSql('netflix'))
+  spieleEin(alt, 'netflix')
   pruefe(zahl(alt, 'SELECT COUNT(*) AS n FROM titel_zeile') === 3 && zaehlerStimmen(alt), 'Einspielen: eine Titelzeile je Adresse (drei), Zähler stimmen')
   pruefe(JSON.stringify(alt.prepare(verlustSql('netflix')).all()) === '[]', 'Verlustabfrage nach dem Einspielen leer')
   const nachher = await leserAuszug(envAlt)
@@ -229,24 +229,13 @@ function altBestand(db: ReturnType<typeof neueDatenbank>) {
 }
 const ALT_A = 'https://www.netflix.com/title/81000010'
 const ALT_B = 'https://www.netflix.com/title/81000011'
-const titelZeilen = (db: ReturnType<typeof neueDatenbank>) =>
-  JSON.stringify(db.prepare('SELECT url, plattform, nr, version, daten, gemeldet_am, offen_meldung, offen_rohfolge FROM titel_zeile ORDER BY url').all())
 
-console.log('Einspielen in Blöcken zu je einer Adresse: alte Meldungsformen')
+console.log('Einspielen: alte Meldungsformen')
 {
   const block = neueDatenbank()
   altBestand(block)
-  const laeufe: number[] = []
-  for (let i = 0; i < 5 && laeufe.at(-1) !== 0; i++) {
-    const vorher = zahl(block, 'SELECT COUNT(*) AS n FROM titel_zeile')
-    block.exec(einspielSql('netflix', 1))
-    laeufe.push(zahl(block, 'SELECT COUNT(*) AS n FROM titel_zeile') - vorher)
-  }
-  pruefe(JSON.stringify(laeufe) === '[1,1,0]', `je Block eine neue Adresse, der dritte schreibt nichts (${JSON.stringify(laeufe)})`)
-  const einer = neueDatenbank()
-  altBestand(einer)
-  einer.exec(einspielSql('netflix'))
-  pruefe(titelZeilen(block) === titelZeilen(einer), 'Blöcke zu je einer Adresse ergeben dieselben Titelzeilen wie ein einziger Block')
+  const laeufe = [spieleEin(block, 'netflix'), spieleEin(block, 'netflix')]
+  pruefe(zahl(block, 'SELECT COUNT(*) AS n FROM titel_zeile') === 2 && laeufe[1] === 0, `eine Titelzeile je Adresse, der zweite Lauf hat nichts zu tun (${JSON.stringify(laeufe)})`)
   const folgen = block.prepare('SELECT url, folge_nr AS nr, folge, roh_titel, art FROM pruefung_titel ORDER BY url, folge_nr').all() as Record<string, unknown>[]
   const folge = (url: string, nr: number) => folgen.find((f) => f.url === url && f.nr === nr) ?? {}
   pruefe(folge(ALT_A, 1).art === 'angenommen' && folge(ALT_A, 2).art === 'gemessen', `art leer: ANGENOMMEN in der Notiz entscheidet (${folge(ALT_A, 1).art}/${folge(ALT_A, 2).art})`)

@@ -27,7 +27,7 @@
 --
 -- **Altzeilen:** Die Zeilen in `pruefung`/`prime_folge` bleiben unberührt. Eine Adresse mit Titelzeile
 -- verdrängt ihre Altzeilen aus allen Lesern (`url NOT IN (SELECT url FROM titel_zeile)`); die Titelzeilen der
--- vorhandenen Adressen legt `worker/einmalig/titel-zeile-einspielen.sql` an. **Befristung:** Sobald alle
+-- vorhandenen Adressen legt `tools/titelzeile-einspielen.ts` an. **Befristung:** Sobald alle
 -- Disney+-Adressen eine Titelzeile haben und der Bau einmal ohne Fehler durchgelaufen ist (frühestens am
 -- 20.10.2026), können die Disney+-Altzeilen entfallen (`DELETE`, in Blöcken unter dem Tagesdeckel).
 CREATE TABLE IF NOT EXISTS titel_zeile (

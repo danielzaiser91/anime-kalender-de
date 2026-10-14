@@ -7,6 +7,7 @@ import { DatabaseSync } from 'node:sqlite'
 import { readdirSync, readFileSync } from 'node:fs'
 import { handlePruefung } from '../worker/src/pruefung.ts'
 import { lies as liesDaten, zaehleOffene } from '../worker/src/titelzeile-format.ts'
+import { einspielAnweisungen, exportSql, SEITE, type PruefZeile, type RohZeile, type Vorhanden } from './titelzeile-einspielen-bau.ts'
 
 const NUR = /pruefung|prime_folge|such_erwartung|schreib_tag|lauf_status|titel_zeile/
 
@@ -54,11 +55,28 @@ export const umgebung = (db: DatabaseSync, h: Hilfe, an: boolean | string = true
 
 const schalter = (an: boolean | string) => (an === true ? 'disneyplus' : an === false ? '' : an)
 
-/** Die SQL-Dateien unter `worker/einmalig/` mit eingesetzten Platzhaltern, wie ihr Kopfkommentar es per sed vorgibt. */
-const einmalig = (datei: string, plattform: string, adressen: number) =>
-  readFileSync(`worker/einmalig/${datei}`, 'utf8').replaceAll('__PLATTFORM__', plattform).replaceAll('__ADRESSEN__', String(adressen))
-export const einspielSql = (plattform = 'disneyplus', adressen = 1000) => einmalig('titel-zeile-einspielen.sql', plattform, adressen)
-export const verlustSql = (plattform: string) => einmalig('titel-zeile-verlust.sql', plattform, 0)
+/** Die Verlustabfrage mit eingesetztem Anbieter, wie ihr Kopfkommentar es per sed vorgibt. */
+export const verlustSql = (plattform: string) => readFileSync('worker/einmalig/titel-zeile-verlust.sql', 'utf8').replaceAll('__PLATTFORM__', plattform)
+
+/**
+ * Das Einspielen wie `tools/titelzeile-einspielen.ts`, gegen die Testdatenbank: dieselben Export-Abfragen Seite für Seite,
+ * derselbe Bau, dieselben Anweisungen. Gibt die Zahl der Anweisungen zurück (0 = nichts mehr zu tun).
+ */
+export function spieleEin(db: DatabaseSync, plattform = 'disneyplus'): number {
+  const seiten = <Z extends { id: number }>(tabelle: 'pruefung' | 'prime_folge') => {
+    const zeilen: Z[] = []
+    for (let ab = 0; ; ) {
+      const seite = db.prepare(exportSql(tabelle, plattform, ab)).all() as Z[]
+      zeilen.push(...seite)
+      if (seite.length < SEITE) return zeilen
+      ab = seite.at(-1)!.id
+    }
+  }
+  const vorhanden = db.prepare(exportSql('titel_zeile', plattform)).all() as Vorhanden[]
+  const sql = einspielAnweisungen(plattform, seiten<PruefZeile>('pruefung'), seiten<RohZeile>('prime_folge'), vorhanden)
+  for (const a of sql) db.exec(a)
+  return sql.length
+}
 
 /** Antwort von `data/pruefstand.json` für den Worker; die Tests setzen `anbieter` je Fall. */
 export const stand = { erzeugtAm: '2020-01-02T00:00:00.000Z', anbieter: [] as unknown[] }
