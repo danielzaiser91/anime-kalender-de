@@ -8,7 +8,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import type { Release, StreamLink, Title } from '../shared/types.ts'
 import { formatDate } from '../shared/time.ts'
 import { streamZeilen, terminPillen } from '../web/src/components/detail/wege-zeilen.tsx'
-import { adresseOhneSprache, ausgabenOhneDeSichtbar, kanalTerminQuelle, seitDatumVon } from '../web/src/components/detail/chips-regeln.ts'
+import { ausgabenOhneDeSichtbar, kanalTerminQuelle, kastenNenntSeit, seitDatumFuerPille, seitDatumVon, seitenKern } from '../web/src/components/detail/chips-regeln.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -49,12 +49,15 @@ function streamHtml(title: Title, releases: Release[], today = HEUTE): string {
   )
 }
 
-console.log('\nAdresse ohne Sprachsegment:')
-pruefe('Crunchyroll: /de/series/X gleich /series/X', adresseOhneSprache('https://www.crunchyroll.com/de/series/GT1/x') === adresseOhneSprache('https://crunchyroll.com/series/GT1/x?a=1'))
-pruefe('Disney+: /de-de/browse/… gleich /browse/…', adresseOhneSprache('https://www.disneyplus.com/de-de/browse/entity-1') === adresseOhneSprache('https://www.disneyplus.com/browse/entity-1'))
-pruefe('Amazon: „/dp/“ ist keine Sprache', adresseOhneSprache('https://www.amazon.de/dp/B0AAAAAAAA') !== adresseOhneSprache('https://www.amazon.de/B0AAAAAAAA'), adresseOhneSprache('https://www.amazon.de/dp/B0AAAAAAAA'))
-pruefe('Amazon: „/gp/video/detail/“ bleibt, wie es ist', adresseOhneSprache('https://www.amazon.de/gp/video/detail/B0AAAAAAAA') === 'amazon.de/gp/video/detail/b0aaaaaaaa', adresseOhneSprache('https://www.amazon.de/gp/video/detail/B0AAAAAAAA'))
-pruefe('Andere Serie bleibt verschieden', adresseOhneSprache('https://www.crunchyroll.com/de/series/GT1/x') !== adresseOhneSprache('https://www.crunchyroll.com/series/GT2/x'))
+console.log('\nSeite hinter der Adresse (adressKern ohne Sprachsegment):')
+const gtiA = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+const gtiB = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'
+pruefe('Crunchyroll: /de/series/X gleich /series/X', seitenKern('https://www.crunchyroll.com/de/series/GT1/x') === seitenKern('https://crunchyroll.com/series/GT1/x?a=1'))
+pruefe('Disney+: /de-de/browse/… gleich /browse/…', seitenKern('https://www.disneyplus.com/de-de/browse/entity-1') === seitenKern('https://www.disneyplus.com/browse/entity-1'))
+pruefe('Amazon: „/dp/“ und „/gp/video/detail/“ derselben Kennung sind gleich, keine Sprache', seitenKern('https://www.amazon.de/dp/B0AAAAAAAA') === seitenKern('https://www.amazon.de/gp/video/detail/B0AAAAAAAA'), seitenKern('https://www.amazon.de/dp/B0AAAAAAAA'))
+pruefe('Amazon: zwei gti-Adressen bleiben verschieden (Parameter zählt)', seitenKern(gtiA) !== seitenKern(gtiB), [seitenKern(gtiA), seitenKern(gtiB)])
+pruefe('YouTube: zwei Videos bleiben verschieden', seitenKern('https://www.youtube.com/watch?v=aaaaaaaaaaa') !== seitenKern('https://www.youtube.com/watch?v=bbbbbbbbbbb'))
+pruefe('Andere Serie bleibt verschieden', seitenKern('https://www.crunchyroll.com/de/series/GT1/x') !== seitenKern('https://www.crunchyroll.com/series/GT2/x'))
 
 console.log('\nAusgabe ohne Deutsch neben demselben Chip:')
 const gleiche = { platform: 'crunchyroll', url: 'https://www.crunchyroll.com/series/GT1/x' }
@@ -62,6 +65,11 @@ const andere = { platform: 'primevideo', url: 'https://www.amazon.de/dp/B0AAAAAA
 pruefe('gleiche Seite wie ein Verweis (nur Sprachsegment verschieden): ausgeblendet', ausgabenOhneDeSichtbar(titel({ ausgabenOhneDe: [gleiche] as never })).length === 0)
 pruefe('gleiche Seite wie ein Bezugsweg: ausgeblendet', ausgabenOhneDeSichtbar(titel({ streams: [], watchLinks: [{ name: 'X', url: 'https://www.crunchyroll.com/de/series/GT1/x', kind: 'stream' }] as never, ausgabenOhneDe: [gleiche] as never })).length === 0)
 pruefe('andere Adresse (andere Prime-Kennung): bleibt', ausgabenOhneDeSichtbar(titel({ ausgabenOhneDe: [andere, gleiche] as never })).map((a) => a.url).join() === andere.url)
+const gtiPrime = (gti: string) => `https://watch.amazon.de/detail?gti=amzn1.dv.gti.${gti}`
+const gtiEins = gtiPrime('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')
+const gtiZwei = gtiPrime('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb')
+pruefe('zwei Amazon-Adressen mit verschiedener gti: die Ausgabe ohne Deutsch bleibt', ausgabenOhneDeSichtbar(titel({ streams: [{ platform: 'primevideo', url: gtiEins, dub: true }, cr()] as never, ausgabenOhneDe: [{ platform: 'primevideo', url: gtiZwei }] as never })).length === 1)
+pruefe('dieselbe gti (Gegenprobe): ausgeblendet', ausgabenOhneDeSichtbar(titel({ streams: [{ platform: 'primevideo', url: gtiEins, dub: true }] as never, ausgabenOhneDe: [{ platform: 'primevideo', url: gtiEins }] as never })).length === 0)
 const gezeigt = streamHtml(titel({ ausgabenOhneDe: [gleiche, andere] as never }), [])
 pruefe('Panel: eine durchgestrichene Pille für die andere Adresse, keine für die gleiche', (gezeigt.match(/line-through/g) ?? []).length === 1, gezeigt.match(/line-through/g)?.length)
 
@@ -82,6 +90,10 @@ const mitDe = terminHtml(titel(), primeKanal())
 pruefe('Termin-Pille trägt die Blase „Deutsch“', mitDe.includes('Deutsch'), mitDe.slice(0, 200))
 pruefe('Termin-Pille trägt die Folgen des Anbieters', mitDe.includes(FOLGEN))
 pruefe('Termin-Pille trägt weiter „seit“ (TerminZeile übersetzt selbst)', mitDe.includes(`seit ${formatDate('2026-10-13')}`), mitDe.slice(0, 400))
+pruefe('Termin, dessen Quelle nur OmU nennt: keine Quelle, kein Deutsch', kanalTerminQuelle(primeKanal({ sprache: 'omu' }), titel()) === undefined)
+pruefe('Termin mit offener Sprache erbt weiter (nur OmU sperrt)', kanalTerminQuelle(primeKanal({ sprache: 'offen' }), titel())?.platform === 'crunchyroll')
+const omuHtml = terminHtml(titel(), primeKanal({ sprache: 'omu' }))
+pruefe('Termin-Pille eines OmU-Termins: keine Blase, keine Folgen', !omuHtml.includes('Deutsch') && !omuHtml.includes(FOLGEN), omuHtml.slice(0, 200))
 const imStream = html(
   streamZeilen({
     sortiertNachZugang: [{ plattformen: titel().streams, streamWege: [] }] as never,
@@ -110,6 +122,21 @@ pruefe('mehrere Termine: der früheste zählt', seitDatumVon('crunchyroll', [ter
 pruefe('abgeleitete Termine (estimated) zählen nicht, auch wenn sie früher liegen', seitDatumVon('crunchyroll', [termin({ schedule: { firstEpisodeDate: '2026-01-01', estimated: true } as never }), termin({ schedule: { firstEpisodeDate: '2026-09-20' } as never })]) === '2026-09-20')
 pruefe('nur abgeleitete Termine: kein Datum', seitDatumVon('crunchyroll', [termin({ schedule: { firstEpisodeDate: '2026-07-20', estimated: true } as never })]) === undefined)
 pruefe('Disc-Termine zählen nicht', seitDatumVon('crunchyroll', [termin({ releaseType: 'disc', schedule: { firstEpisodeDate: '2020-01-01' } as never }), termin()]) === '2026-07-20')
+pruefe('OmU-Termine zählen nicht, auch wenn sie früher liegen', seitDatumVon('crunchyroll', [termin({ sprache: 'omu', schedule: { firstEpisodeDate: '2026-01-01' } as never }), termin()]) === '2026-07-20')
+pruefe('nur ein OmU-Termin: kein Datum', seitDatumVon('crunchyroll', [termin({ sprache: 'omu' })]) === undefined)
+pruefe('Panel: Chip mit nur einem OmU-Termin trägt kein „seit“', !streamHtml(titel(), [termin({ sprache: 'omu' })]).includes('Datum'))
+
+console.log('\nKein „seit“, das der Kasten schon nennt:')
+const angebot = (platform: string, date: string) => ({ angebotSeit: { platform, date } }) as Partial<Title>
+const erstausgabe = (von: string, publisher: string) => ({ deErstausgabe: { von, publisher, synchro: true } }) as unknown as Partial<Title>
+pruefe('Kasten nennt „im Angebot seit“ mit gleichem Datum und Anbieter: kein „seit“ in der Pille', !streamHtml(titel(angebot('crunchyroll', '2026-07-20')), [termin()]).includes('Datum'))
+pruefe('anderes Datum: „seit“ bleibt (Gegenprobe)', streamHtml(titel(angebot('crunchyroll', '2026-07-21')), [termin()]).includes('detail.seitDatum'))
+pruefe('gleiches Datum bei anderem Anbieter: „seit“ bleibt', streamHtml(titel(angebot('netflix', '2026-07-20')), [termin()]).includes('detail.seitDatum'))
+pruefe('Kasten nennt „Auf Deutsch seit“ mit gleichem Datum und Verlag = Anbieter: kein „seit“', !streamHtml(titel(erstausgabe('2026-07-20', 'Crunchyroll')), [termin()]).includes('Datum'))
+pruefe('Erstausgabe gleichen Datums eines anderen Verlags: „seit“ bleibt', streamHtml(titel(erstausgabe('2026-07-20', 'Netflix, Inc.')), [termin()]).includes('detail.seitDatum'))
+pruefe('Erstausgabe mit anderem Datum: „seit“ bleibt', streamHtml(titel(erstausgabe('2026-07-19', 'Crunchyroll')), [termin()]).includes('detail.seitDatum'))
+pruefe('kastenNenntSeit: Angebot', kastenNenntSeit(angebot('crunchyroll', '2026-07-20') as never, 'crunchyroll', '2026-07-20') && !kastenNenntSeit(angebot('crunchyroll', '2026-07-20') as never, 'crunchyroll', '2026-07-21'))
+pruefe('seitDatumFuerPille: Datum, wenn der Kasten schweigt; sonst nichts', seitDatumFuerPille(titel(), 'crunchyroll', [termin()]) === '2026-07-20' && seitDatumFuerPille(titel(angebot('crunchyroll', '2026-07-20')), 'crunchyroll', [termin()]) === undefined)
 
 if (verletzt) {
   console.error(`\n${verletzt} Prüfung(en) verletzt`)

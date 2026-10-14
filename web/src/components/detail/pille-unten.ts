@@ -1,7 +1,7 @@
 import type { Release, StreamLink, Title } from '@shared/types.ts'
 import { formatDate } from '@shared/time.ts'
 import type { Translate } from '../../lib/i18n.tsx'
-import { seitDatumVon } from './chips-regeln.ts'
+import { seitDatumFuerPille } from './chips-regeln.ts'
 import { streamStatus } from './legende-zeilen.ts'
 import { seitAbText } from './seit-datum.ts'
 import { teilAngaben } from './wege-falten.ts'
@@ -20,7 +20,7 @@ export function pilleUnten({ title, s, releases, folgenAngabe, today, t }: {
       folgenAngabe,
       streamStatus(title, s, releases) === 'justwatch' ? t('detail.stand', { datum: formatDate(s.dubStand!) }) : '',
       s.teilBereich ? teilAngaben(title, s.teilBereich, t, folgenAngabe).unten : '',
-      seitAbText(seitDatumVon(s.platform, releases), today, t),
+      seitAbText(seitDatumFuerPille(title, s.platform, releases), today, t),
     ]
       .filter(Boolean)
       .join(' · ') || undefined
