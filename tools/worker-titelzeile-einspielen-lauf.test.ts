@@ -1,5 +1,5 @@
 /**
- * **Ein Lauf des Einspielens** (`tools/titelzeile-einspielen-lauf.ts`, 14.10.2026) gegen eine SQLite-Datenbank mit mehr als
+ * **Ein Lauf des Einspielens** (`tools/worker-titelzeile-einspielen-lauf.ts`, 14.10.2026) gegen eine SQLite-Datenbank mit mehr als
  * einer Exportseite und Zeilen anderer Anbieter dazwischen und dahinter:
  * - Export Seite für Seite, Marke `<tabelle>-bis.json` = höchste `id` der Tabelle; der nächste Lauf liest nur dahinter,
  *   der dritte hat nichts mehr zu tun;
@@ -7,12 +7,12 @@
  *   nach den Probeseiten, die liegen bleiben und hinter denen der nächste Lauf fortsetzt;
  * - ohne `rows_read` bricht der Lauf mit Tor ab, ohne Tor (lokal) läuft er.
  *
- * Aufruf: `npx tsx tools/titelzeile-einspielen-lauf.test.ts`
+ * Aufruf: `npx tsx tools/worker-titelzeile-einspielen-lauf.test.ts`
  */
 import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { einspielLauf, PROBE_BEREICH, SCHWELLE, type Abfrage } from './titelzeile-einspielen-lauf.ts'
+import { einspielLauf, PROBE_BEREICH, SCHWELLE, type Abfrage } from './worker-titelzeile-einspielen-lauf.ts'
 import { abfrageAus, neueDatenbank, zahl } from './worker-titelzeile-hilfe.ts'
 
 let fehler = 0

@@ -25,5 +25,5 @@
   "include": ["web/src", "web/buehne", "pipeline", "shared", "tools", "vite.config.ts", "vite.buehne.config.ts"],
   // Ausschlüsse dürfen nur sinken. claude-global: Modul `claude-code` liegt nicht im Repo (eigene Typen im Plugin).
   // Worker-Messwerkzeuge und -Tests: brauchen Workers-Typen, geprüft in tools/tsconfig.worker.json (check:worker).
-  "exclude": ["tools/claude-global", "tools/worker-*.ts", "tools/titelzeile-einspielen*.ts", "tools/newsletter-probe.ts"]
+  "exclude": ["tools/claude-global", "tools/worker-*.ts", "tools/newsletter-probe.ts"]
 }

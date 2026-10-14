@@ -6,7 +6,7 @@
  *   Gebietssperre, Adresse mit Altzeilen bleibt beim alten Weg;
  * - gleichzeitige Meldungen (Version): Zusammenstoß wird wiederholt, keine Folge geht verloren, bei Dauerzusammenstoß 503;
  * - Leser-Vergleich: dieselben Meldungen einmal in `pruefung`/`prime_folge`, einmal in der Titelzeile, einmal nach dem
- *   Einspielen der Altzeilen (`tools/titelzeile-einspielen.ts`) — jeder Leser liefert dieselben Zeilen;
+ *   Einspielen der Altzeilen (`tools/worker-titelzeile-einspielen.ts`) — jeder Leser liefert dieselben Zeilen;
  * - Abhaken, Wiederöffnen, Löschen für Folgen in Titelzeilen.
  * Die geschriebenen Zeilen mit Indexen und die gelesenen misst `tools/worker-schreibzeilen-messen.ts` lokal in workerd.
  *

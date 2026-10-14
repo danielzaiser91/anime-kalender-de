@@ -9,7 +9,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { handlePruefung } from '../worker/src/pruefung.ts'
 import { lies as liesDaten, zaehleOffene } from '../worker/src/titelzeile-format.ts'
-import { einspielLauf, type Abfrage } from './titelzeile-einspielen-lauf.ts'
+import { einspielLauf, type Abfrage } from './worker-titelzeile-einspielen-lauf.ts'
 
 const NUR = /pruefung|prime_folge|such_erwartung|schreib_tag|lauf_status|titel_zeile/
 
@@ -83,7 +83,7 @@ function gelesenIm(db: DatabaseSync, sql: string, results: Record<string, unknow
 }
 
 /**
- * Ein Lauf von `tools/titelzeile-einspielen.ts` gegen die Testdatenbank (`einspielLauf` mit Tor, frischer Ordner = erster
+ * Ein Lauf von `tools/worker-titelzeile-einspielen.ts` gegen die Testdatenbank (`einspielLauf` mit Tor, frischer Ordner = erster
  * Lauf), danach die Anweisungen ausgeführt. Gibt ihre Zahl zurück (0 = nichts mehr zu tun).
  */
 export function spieleEin(db: DatabaseSync, plattform = 'disneyplus'): number {

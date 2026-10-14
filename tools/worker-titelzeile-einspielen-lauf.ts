@@ -1,11 +1,11 @@
 /**
- * **Ein Lauf des Einspielens** (aus `tools/titelzeile-einspielen.ts` herausgelöst, 14.10.2026): exportieren, die Titelzeilen
+ * **Ein Lauf des Einspielens** (aus `tools/worker-titelzeile-einspielen.ts` herausgelöst, 14.10.2026): exportieren, die Titelzeilen
  * lesen, bauen. Die Abfrage kommt als Parameter: das Werkzeug fragt über wrangler, die Tests (`spieleEin`) eine
  * SQLite-Datenbank — beide gehen so denselben Ablauf. Ablauf und Messung: docs/wissen/betrieb.md, Abschnitt
  * „Titelzeile einspielen: Export, lokal bauen, einfügen“.
  */
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { einspielAnweisungen, exportSql, SEITE, type PruefZeile, type RohZeile, type Tabelle, type Vorhanden } from './titelzeile-einspielen-bau.ts'
+import { einspielAnweisungen, exportSql, SEITE, type PruefZeile, type RohZeile, type Tabelle, type Vorhanden } from './worker-titelzeile-einspielen-bau.ts'
 
 export type Antwort = { results: Record<string, unknown>[]; meta?: { rows_read?: number } }
 export type Abfrage = (sql: string) => Antwort

@@ -1,5 +1,5 @@
 /**
- * **Einspielen der Titelzeilen über Export und lokalen Bau** (14.10.2026, `tools/titelzeile-einspielen-bau.ts`): die Regeln,
+ * **Einspielen der Titelzeilen über Export und lokalen Bau** (14.10.2026, `tools/worker-titelzeile-einspielen-bau.ts`): die Regeln,
  * die es nur beim Umzug gibt, gegen eine echte SQLite-Datenbank mit den Migrationen des Workers.
  * - Nachzügler (Altzeilen nach dem Export): eine neuere Meldung derselben Folge ersetzt sie mit neuer Fassung, eine neue
  *   Folge kommt dazu; der Lauf danach hat nichts mehr zu tun.
@@ -8,11 +8,11 @@
  * - Legt der Worker die Titelzeile zwischen Lesen und Einfügen an, fügt das INSERT nichts ein und der nächste Lauf führt
  *   zusammen.
  *
- * Aufruf: `npx tsx tools/titelzeile-einspielen.test.ts`
+ * Aufruf: `npx tsx tools/worker-titelzeile-einspielen.test.ts`
  */
 import { handlePruefung } from '../worker/src/pruefung.ts'
 import { AM, FASSUNG, lies, MELDUNG_UEBERNOMMEN, NUMMER, ROHFOLGE_UEBERNOMMEN, type Eintrag, type TitelDaten } from '../worker/src/titelzeile-format.ts'
-import { baueTitelzeilen, einspielAnweisungen, eintragAusAltzeilen, exportSql, GRENZE, type PruefZeile, type RohZeile, type Vorhanden } from './titelzeile-einspielen-bau.ts'
+import { baueTitelzeilen, einspielAnweisungen, eintragAusAltzeilen, exportSql, GRENZE, type PruefZeile, type RohZeile, type Vorhanden } from './worker-titelzeile-einspielen-bau.ts'
 import { neueDatenbank, post, umgebung } from './worker-titelzeile-hilfe.ts'
 
 let fehler = 0
@@ -50,7 +50,7 @@ const meldung = (id: number, folge: number, am: string, mehr: Partial<PruefZeile
   ...mehr,
 })
 
-/** Ein Lauf wie `tools/titelzeile-einspielen.ts`: Titelzeilen lesen, bauen, Anweisungen ausführen. */
+/** Ein Lauf wie `tools/worker-titelzeile-einspielen.ts`: Titelzeilen lesen, bauen, Anweisungen ausführen. */
 function lauf(db: ReturnType<typeof neueDatenbank>, pruefung: PruefZeile[]) {
   const vorhanden = db.prepare(exportSql('titel_zeile', 'netflix')).all() as Vorhanden[]
   const sql = einspielAnweisungen('netflix', pruefung, [], vorhanden)

@@ -4,8 +4,8 @@
  * docs/wissen/betrieb.md, Abschnitt „Titelzeile einspielen: Export, lokal bauen, einfügen“.
  *
  * Aufruf aus dem Repo-Wurzelordner; `<ordner>` hält die Exportseiten zwischen den Läufen (je Anbieter ein eigener):
- *   npx tsx tools/titelzeile-einspielen.ts <plattform> <ordner> --remote
- *   npx tsx tools/titelzeile-einspielen.ts <plattform> <ordner> --local [--persist-to <absoluter-pfad>]
+ *   npx tsx tools/worker-titelzeile-einspielen.ts <plattform> <ordner> --remote
+ *   npx tsx tools/worker-titelzeile-einspielen.ts <plattform> <ordner> --local [--persist-to <absoluter-pfad>]
  * Jeder Lauf exportiert, was seit dem letzten Lauf in `pruefung`/`prime_folge` dazukam (`id` über der letzten
  * exportierten Nummer; beim ersten Lauf alles). Mit `--remote` holt er zuerst je Tabelle eine Probeseite und rechnet aus
  * ihrem `rows_read` den Export hoch; ab `SCHWELLE` (0,25 Mio.) bricht er ab. Dann liest er die Titelzeilen des
@@ -18,7 +18,7 @@
 import { spawnSync } from 'node:child_process'
 import { writeFileSync } from 'node:fs'
 import { TITELZEILE_TAUGLICH } from '../worker/src/titelzeile-speichern.ts'
-import { einspielLauf, type Antwort } from './titelzeile-einspielen-lauf.ts'
+import { einspielLauf, type Antwort } from './worker-titelzeile-einspielen-lauf.ts'
 
 /** Relativ zu `worker/`, dem Arbeitsordner der Abfragen (dort liegt `wrangler.toml`). */
 const WRANGLER = 'node_modules/wrangler/bin/wrangler.js'
@@ -34,7 +34,7 @@ function abfrage(sql: string, ziel: string[]): Antwort {
 function main() {
   const [plattform, ordner, ...ziel] = process.argv.slice(2)
   if (!plattform || !ordner || !['--remote', '--local'].includes(ziel[0] ?? '')) {
-    throw new Error('Aufruf: npx tsx tools/titelzeile-einspielen.ts <plattform> <ordner> --remote | --local [--persist-to <pfad>]')
+    throw new Error('Aufruf: npx tsx tools/worker-titelzeile-einspielen.ts <plattform> <ordner> --remote | --local [--persist-to <pfad>]')
   }
   if (!TITELZEILE_TAUGLICH.includes(plattform)) throw new Error(`${plattform} passt nicht ins Format der Titelzeile (TITELZEILE_TAUGLICH)`)
   /* Lokal meldet wrangler kein `rows_read` (4.120.0); gezählt und hochgerechnet wird nur an der echten D1. */
