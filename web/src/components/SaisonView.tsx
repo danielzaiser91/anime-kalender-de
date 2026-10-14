@@ -61,10 +61,10 @@ export function SaisonView({ data, favorites, oeffne, reiter, setReiter }: {
             role="tab"
             aria-selected={r === reiter}
             onClick={() => setReiter(r)}
-            className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm ${r === reiter ? 'border-ak-akzent text-ak-text' : 'border-ak-rand text-ak-text hover:border-ak-leise'}`}
+            className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm ${r === reiter ? 'border-ak-gewaehlt bg-ak-gewaehlt font-bold text-ak-auf-gewaehlt' : 'border-ak-rand text-ak-leise hover:border-ak-leise hover:text-ak-text'}`}
           >
             <span className="font-extrabold">{t(REITER[r])}</span>
-            {r !== 'ausblick' && <span className="ml-1.5 font-normal text-ak-leise">{saisonText(saisons[r])}</span>}
+            {r !== 'ausblick' && <span className="ml-1.5 font-normal">{saisonText(saisons[r])}</span>}
           </button>
         ))}
       </div>
