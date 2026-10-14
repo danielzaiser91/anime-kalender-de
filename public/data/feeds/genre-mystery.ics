@@ -6,26 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Mystery
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T155500Z
-DTEND:20261007T162500Z
-SUMMARY:Detektiv Conan – Folge 149/159
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-152677-primevideo@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261007
-DTEND;VALUE=DATE:20261008
-SUMMARY:The Detective Is Already Dead: Staffel 2
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
-  nicht bestätigt.\nDetails: https://anime-kalender.de/t/14415/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T160000Z

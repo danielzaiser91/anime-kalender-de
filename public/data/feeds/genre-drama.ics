@@ -6,57 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Drama
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T160000Z
-DTEND:20261007T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17561/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-07#19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T162500Z
-DTEND:20261007T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-07#20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T165000Z
-DTEND:20261007T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:naruto-shippuden-s3-disneyplus@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261007
-DTEND;VALUE=DATE:20261008
-SUMMARY:Naruto Shippuden – Staffel 3 (neu bei Disney+)
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nIm Angebot seit 
- diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1491/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-152677-primevideo@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261007
-DTEND;VALUE=DATE:20261008
-SUMMARY:The Detective Is Already Dead: Staffel 2
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
-  nicht bestätigt.\nDetails: https://anime-kalender.de/t/14415/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-183423-tv-prosieben-maxx@2026-10-08#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T162500Z
