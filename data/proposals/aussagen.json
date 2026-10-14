@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-10-13",
+  "stand": "2026-10-14",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -10333,6 +10333,347 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 397
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/|Snowball Earth||start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-14",
+      "fingerabdruck": "0762254e6b70",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/",
+          "veroeffentlicht": "2026-10-13",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Snowball Earth",
+        "art": "start",
+        "plattformen": [
+          "primevideo",
+          "crunchyroll"
+        ],
+        "datum": "2026-10-13",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 13,
+        "konfidenz": 0.8,
+        "gruende": [
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Snowball Earth« (Synchro)\n»Snowball Earth« (Synchro)\nEpisoden: 13 (komplett)\nSprache: Deutsch, Japanisch (UT)\nHinweis: Der Originalton war zuvor bereits verfügbar\nStream: Prime Video, Crunchyroll",
+        "zuordnung": {
+          "anilistId": 196144,
+          "name": "Snowball Earth",
+          "wie": "name-genau",
+          "abstandTage": 193
+        },
+        "bestand": {
+          "status": "abweichend",
+          "release": {
+            "slug": "cr-GT00371869",
+            "firstEpisodeDate": "2026-10-12"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 355
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/|Ace of the Diamond act II -Second Season-||start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-14",
+      "fingerabdruck": "fc1fe88e613c",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/",
+          "veroeffentlicht": "2026-10-13",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Ace of the Diamond act II -Second Season-",
+        "art": "start",
+        "plattformen": [
+          "primevideo",
+          "crunchyroll"
+        ],
+        "datum": "2026-10-13",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "nein",
+        "woechentlich": true,
+        "zeit": "11:00",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Ace of the Diamond act II -Second Season-«\nEpisoden: 1 verfügbar\nSprache: Japanisch (UT)\nSimulcast: Jeden Sonntag um 11:00 Uhr\nStream: Prime Video, Crunchyroll",
+        "zuordnung": {
+          "anilistId": 213658,
+          "name": "Ace of the Diamond act II -Second Season-",
+          "wie": "name+start",
+          "abstandTage": 2
+        },
+        "bestand": {
+          "status": "neu",
+          "ankuendigung": {
+            "omuAb": "2026-10-11",
+            "synchro": "offen"
+          },
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 251
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/|Chitose Is in the Ramune Bottle|Part 2|start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-14",
+      "fingerabdruck": "b229d1f2a4a9",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/",
+          "veroeffentlicht": "2026-10-13",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Chitose Is in the Ramune Bottle",
+        "zusatz": "Part 2",
+        "art": "start",
+        "plattformen": [
+          "primevideo",
+          "crunchyroll"
+        ],
+        "datum": "2026-10-13",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "nein",
+        "woechentlich": true,
+        "zeit": "18:30",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Chitose Is in the Ramune Bottle« – Part 2\nEpisoden: 1 verfügbar\nSprache: Japanisch (UT)\nSimulcast: Jeden Dienstag um 18:30 Uhr\nStream: Prime Video, Crunchyroll",
+        "offen": {
+          "grund": "kein Titel mit diesem Namen",
+          "kandidaten": []
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 253
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/|Dark Machine the Animation||start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-14",
+      "fingerabdruck": "905f028f5bfb",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/",
+          "veroeffentlicht": "2026-10-13",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Dark Machine the Animation",
+        "art": "start",
+        "plattformen": [
+          "primevideo",
+          "crunchyroll"
+        ],
+        "datum": "2026-10-13",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "nein",
+        "woechentlich": true,
+        "zeit": "20:15",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Dark Machine the Animation«\nEpisoden: 1 verfügbar\nSprache: Japanisch (UT)\nSimulcast: Jeden Dienstag um 20:15 Uhr\nStream: Prime Video, Crunchyroll",
+        "zuordnung": {
+          "anilistId": 179876,
+          "name": "Dark Machine the Animation",
+          "wie": "name+start",
+          "abstandTage": 1
+        },
+        "bestand": {
+          "status": "neu",
+          "ankuendigung": {
+            "omuAb": "2026-10-13",
+            "synchro": "offen"
+          },
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 276
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/|Dragon Ball Super: Beerus||start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-14",
+      "fingerabdruck": "6a25b353d5b0",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/",
+          "veroeffentlicht": "2026-10-13",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Dragon Ball Super: Beerus",
+        "art": "start",
+        "plattformen": [
+          "primevideo",
+          "crunchyroll"
+        ],
+        "datum": "2026-10-13",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "nein",
+        "woechentlich": true,
+        "zeit": "18:00",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Dragon Ball Super: Beerus«\nEpisoden: 1 verfügbar\nSprache: Japanisch (UT)\nSimulcast: Jeden Sonntag um 18:00 Uhr\nStream: Prime Video, Crunchyroll",
+        "zuordnung": {
+          "anilistId": 206814,
+          "name": "Dragon Ball Super: Beerus",
+          "wie": "name+start",
+          "abstandTage": 2
+        },
+        "bestand": {
+          "status": "neu",
+          "ankuendigung": {
+            "omuAb": "2026-10-11",
+            "synchro": "offen"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 281
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/|Full Clearing Another World under a Goddess with Zero Believers||start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-14",
+      "fingerabdruck": "06e664d87081",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/",
+          "veroeffentlicht": "2026-10-13",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Full Clearing Another World under a Goddess with Zero Believers",
+        "art": "start",
+        "plattformen": [
+          "primevideo",
+          "crunchyroll"
+        ],
+        "datum": "2026-10-13",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "nein",
+        "woechentlich": true,
+        "zeit": "16:30",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Full Clearing Another World under a Goddess with Zero Believers«\nEpisoden: 1 verfügbar\nSprache: Japanisch (UT)\nSimulcast: Jeden Sonntag um 16:30 Uhr\nStream: Prime Video, Crunchyroll",
+        "zuordnung": {
+          "anilistId": 205896,
+          "name": "Full Clearing Another World under a Goddess with Zero Believers",
+          "wie": "name+start",
+          "abstandTage": 2
+        },
+        "bestand": {
+          "status": "neu",
+          "ankuendigung": {
+            "omuAb": "2026-10-11",
+            "synchro": "offen"
+          },
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 278
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1060669/aniverse-magical-girl-raising-project-restart-und-mehr/|Girls und Panzer: Manöver – Mehr Love-Love!||start|primevideo",
+      "erstGesehen": "2026-10-14",
+      "fingerabdruck": "aeedf7b3c7be",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1060669/aniverse-magical-girl-raising-project-restart-und-mehr/",
+          "veroeffentlicht": "2026-10-13",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Girls und Panzer: Manöver – Mehr Love-Love!",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-10-13",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "nein",
+        "woechentlich": true,
+        "zeit": "18:00",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Girls und Panzer: Manöver – Mehr Love-Love!«\nEpisoden: 1 verfügbar\nSprache: Japanisch (UT)\nSimulcast: Jeden Donnerstag um 18:00 Uhr\nStream: aniverse",
+        "offen": {
+          "grund": "kein Titel mit diesem Namen",
+          "kandidaten": []
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 268
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1060669/aniverse-magical-girl-raising-project-restart-und-mehr/|Magical Girl Raising Project Restart||start|primevideo",
+      "erstGesehen": "2026-10-14",
+      "fingerabdruck": "0580ea02429b",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1060669/aniverse-magical-girl-raising-project-restart-und-mehr/",
+          "veroeffentlicht": "2026-10-13",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Magical Girl Raising Project Restart",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-10-13",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "nein",
+        "woechentlich": true,
+        "zeit": "19:30",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Magical Girl Raising Project Restart«\nEpisoden: 2 verfügbar\nSprache: Japanisch (UT)\nSimulcast: Jeden Montag um 19:30 Uhr\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 160803,
+          "name": "Magical Girl Raising Project Restart",
+          "wie": "name+start",
+          "abstandTage": 7
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 321
       }
     }
   ]

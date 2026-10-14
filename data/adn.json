@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-10-13T04:13:05.695Z",
+  "scrapedAt": "2026-10-14T04:11:38.127Z",
   "window": {
-    "from": "2026-08-29",
-    "to": "2026-12-27"
+    "from": "2026-08-30",
+    "to": "2026-12-28"
   },
   "shows": [
     {
@@ -785,6 +785,93 @@
         }
       ],
       "batch": true
+    },
+    {
+      "showId": 197,
+      "title": "Bleach: Memories of Nobody - Movie 1",
+      "originalTitle": "Gekijōban Bleach: Memories of Nobody",
+      "age": "12+",
+      "url": "https://animationdigitalnetwork.com/de/video/197",
+      "episodes": [
+        {
+          "date": "2026-10-12",
+          "time": "09:00",
+          "url": "https://animationdigitalnetwork.com/de/video/197-bleach-memories-of-nobody-movie-1/2515-film",
+          "seasonReference": "bleach_film",
+          "order": 1,
+          "type": "MOV",
+          "duration": 5573,
+          "title": "Memories of Nobody",
+          "image": "https://image.animationdigitalnetwork.com/license/bleach/film/web/mov1_320x180.jpg"
+        }
+      ],
+      "batch": false
+    },
+    {
+      "showId": 198,
+      "title": "Bleach: The Diamond Dust Rebellion - Movie 2",
+      "originalTitle": "Bleach - The DiamondDust Rebellion - Mou Hitotsu no Hyourinmaru",
+      "age": "12+",
+      "url": "https://animationdigitalnetwork.com/de/video/198",
+      "episodes": [
+        {
+          "date": "2026-10-12",
+          "time": "09:00",
+          "episode": 1,
+          "url": "https://animationdigitalnetwork.com/de/video/198-bleach-the-diamond-dust-rebellion-movie-2/2516-film-1",
+          "seasonReference": "bleach_film",
+          "order": 1,
+          "type": "MOV",
+          "duration": 5565,
+          "title": "The Diamond Dust Rebellion",
+          "image": "https://image.animationdigitalnetwork.com/license/bleach/film/web/mov2_320x180.jpg"
+        }
+      ],
+      "batch": false
+    },
+    {
+      "showId": 352,
+      "title": "Bleach: Fade to Black - Movie 3",
+      "originalTitle": "Bleach : Fade to Black - Kimi no Na wo Yobu",
+      "age": "12+",
+      "url": "https://animationdigitalnetwork.com/de/video/352",
+      "episodes": [
+        {
+          "date": "2026-10-12",
+          "time": "09:00",
+          "episode": 1,
+          "url": "https://animationdigitalnetwork.com/de/video/352-bleach-fade-to-black-movie-3/6248-film-1",
+          "seasonReference": "bleach_film",
+          "order": 1,
+          "type": "MOV",
+          "duration": 5755,
+          "title": "Fade to Black",
+          "image": "https://image.animationdigitalnetwork.com/license/bleach/film/web/mov3_320x180.jpg"
+        }
+      ],
+      "batch": false
+    },
+    {
+      "showId": 361,
+      "title": "Bleach: Hell Verse - Movie 4",
+      "originalTitle": "Bleach - Jigoku-Hen",
+      "age": "12+",
+      "url": "https://animationdigitalnetwork.com/de/video/361",
+      "episodes": [
+        {
+          "date": "2026-10-12",
+          "time": "09:00",
+          "episode": 1,
+          "url": "https://animationdigitalnetwork.com/de/video/361-bleach-hell-verse-movie-4/6505-film-1",
+          "seasonReference": "bleach_film",
+          "order": 1,
+          "type": "MOV",
+          "duration": 5636,
+          "title": "Hell Verse",
+          "image": "https://image.animationdigitalnetwork.com/license/bleach/film/web/mov4_320x180.jpg"
+        }
+      ],
+      "batch": false
     }
   ]
 }

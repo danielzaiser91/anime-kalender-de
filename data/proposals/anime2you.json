@@ -1,15 +1,205 @@
 {
-  "scrapedAt": "2026-10-13T04:16:22.985Z",
+  "scrapedAt": "2026-10-14T04:14:43.025Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 37,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 38,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 44,
-    "schon in einem Rubrik-Feed gelesen": 36,
+    "schon in einem Rubrik-Feed gelesen": 40,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 41,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Sprachhinweis älter als 45 Tage": 4
+    "Sprachhinweis älter als 45 Tage": 5
   },
   "proposals": [
+    {
+      "articleTitle": "Crunchyroll nimmt sechs Anime-Neuzugänge ins Programm + Synchro",
+      "articleUrl": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/",
+      "publishedAt": "2026-10-13",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "zeiten": [
+        {
+          "tag": "Sonntag",
+          "zeit": "11:00",
+          "satz": "er World under a Goddess with Zero Believers« »Snowball Earth« (Synchro) »Ace of the Diamond act II -Second Season-« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Sonntag um 11:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Dienstag",
+          "zeit": "18:30",
+          "satz": "itt er gegen starke Gegner an und versucht, sich als Pitcher zu beweisen. »Chitose Is in the Ramune Bottle« – Part 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 18:30 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Dienstag",
+          "zeit": "20:15",
+          "satz": "fen soll, wieder am Schulalltag teilzunehmen, gerät sein gewohntes Leben durcheinander. »Dark Machine the Animation« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 20:15 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Sonntag",
+          "zeit": "18:00",
+          "satz": "ine führt. In gefährlichen Kämpfen entdeckt Kairi nach und nach sein verborgenes Talent. »Dragon Ball Super: Beerus« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Sonntag um 18:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Sonntag",
+          "zeit": "16:30",
+          "satz": "egner stellen, der ganze Planeten vernichten kann. »Full Clearing Another World under a Goddess with Zero Believers« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Sonntag um 16:30 Uhr Stream: Prime Video , Crunchyroll Handl"
+        }
+      ],
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Ace of the Diamond act II -Second Season-",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-10-11",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Chitose Is in the Ramune Bottle",
+          "zusatz": "Part 2",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-10-13",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Dark Machine the Animation",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-10-13",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Dragon Ball Super: Beerus",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-10-11",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Full Clearing Another World under a Goddess with Zero Believers",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-10-11",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Snowball Earth",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "folgen": 13,
+          "datum": "2026-10-13",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-14"
+    },
+    {
+      "articleTitle": "»Black Clover« stellt neuen Crunchyroll-Bestwert für 2026 auf",
+      "articleUrl": "https://www.anime2you.de/news/1060168/black-clover-neuer-crunchyroll-bestwert-fuer-2026/",
+      "publishedAt": "2026-10-13",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "nein",
+      "pause": "pause",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zwei Simulcast-Neustarts ab sofort bei aniverse verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1060669/aniverse-magical-girl-raising-project-restart-und-mehr/",
+      "publishedAt": "2026-10-13",
+      "category": "streaming",
+      "platforms": [
+        "aniverse"
+      ],
+      "dates": [],
+      "dub": "nein",
+      "zeiten": [
+        {
+          "tag": "Donnerstag",
+          "zeit": "18:00",
+          "satz": "zer: Manöver – Mehr Love-Love!« »Magical Girl Raising Project Restart« »Girls und Panzer: Manöver – Mehr Love-Love!« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Donnerstag um 18:00 Uhr Stream: aniverse Handlung: Abseits der"
+        },
+        {
+          "tag": "Montag",
+          "zeit": "19:30",
+          "satz": "is Bewunderung für Miho sorgen zahlreiche Missgeschicke für jede Menge Chaos. »Magical Girl Raising Project Restart« Episoden: 2 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Montag um 19:30 Uhr Stream: Prime Video Handlung: Das unsch"
+        }
+      ],
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Termin der zweiten Blu-ray-Filmbox zu »Dragon Ball Z« + Design",
+      "articleUrl": "https://www.anime2you.de/news/1060037/dragon-ball-z-filmbox-2-blu-ray-termin/",
+      "publishedAt": "2026-10-13",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-15",
+          "context": "on der »Dragon Ball Z«-Filmkollektion kommt nach aktueller Planung am 15. Januar 2027 als Blu-ray und DVD in den Handel. Beide Varianten kön"
+        },
+        {
+          "month": "2027-01",
+          "context": "zweiten »Dragon Ball Z«-Filmbox bekannt. Wir fassen zusammen. Release im Januar 2027 Das zweite Volume der neuen Version der »Dragon Ball Z«"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Blu-ray-Termin des zweiten Parts von »Dr. STONE: Science Future«",
+      "articleUrl": "https://www.anime2you.de/news/1058419/dr-stone-science-future-part-2-disc-termin/",
+      "publishedAt": "2026-10-13",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-15",
+          "context": "n »Dr. STONE: Science Future« erscheint demzufolge voraussichtlich am 15. Januar 2027 in einer Blu-ray-Komplettbox, die […] Der Beitrag Bl"
+        },
+        {
+          "month": "2027-01",
+          "context": "lu-ray veröffentlichen wird. Wir fassen die Details zusammen. Release im Januar 2027 Der zweite Part von »Dr. STONE: Science Future« erschei"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 42/2026",
       "articleUrl": "https://www.anime2you.de/news/1060030/anime-tv-programm-42-2026/",
@@ -41,7 +231,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
@@ -465,7 +655,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-11"
+      "sammelGelesen": "2026-10-14"
     },
     {
       "articleTitle": "AniMoon startet Online-Rabattaktion zur Frankfurter Buchmesse 2026",
@@ -745,7 +935,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-11"
+      "sammelGelesen": "2026-10-14"
     },
     {
       "articleTitle": "Drei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -793,7 +983,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-11"
+      "sammelGelesen": "2026-10-14"
     },
     {
       "articleTitle": "Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027",
@@ -926,7 +1116,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-11"
+      "sammelGelesen": "2026-10-14"
     },
     {
       "articleTitle": "Anime-Drama »A New Dawn« erscheint auf Blu-ray + Design",
@@ -947,7 +1137,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Start von »The Case Files of Biblia Bookstore« + Teaser",
@@ -1238,7 +1428,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Neue Anime-Katalogtitel im Oktober 2026 bei aniverse",
@@ -2075,19 +2265,6 @@
       "sammelGelesen": "2026-10-12"
     },
     {
-      "articleTitle": "Zwei neue Anime-Filme ab sofort auf RTL+ verfügbar",
-      "articleUrl": "https://www.anime2you.de/news/1054460/rtl-plus-zwei-pokemon-filme/",
-      "publishedAt": "2026-09-27",
-      "category": "streaming",
-      "platforms": [
-        "rtlplus"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
-      "alreadyCurated": false
-    },
-    {
       "articleTitle": "AniMoon-Angebot: »Higurashi GOU«-Komplettset zum Sonderpreis",
       "articleUrl": "https://www.anime2you.de/news/1054098/animoon-higurashi-gou-sonderangebot/",
       "publishedAt": "2026-09-26",
@@ -2462,45 +2639,6 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf RTL+ verfügbar",
-      "articleUrl": "https://www.anime2you.de/news/1053923/rtl-plus-dragon-ball-daima-und-mehr/",
-      "publishedAt": "2026-09-25",
-      "category": "streaming",
-      "platforms": [
-        "rtlplus"
-      ],
-      "dates": [],
-      "dub": "unklar",
-      "alreadyCurated": false,
-      "sammel": [
-        {
-          "titel": "Beyblade X",
-          "zusatz": "Staffel 3",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Prime Video",
-            "RTL+"
-          ],
-          "datum": "2026-09-25",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Dragon Ball DAIMA",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Prime Video",
-            "RTL+"
-          ],
-          "folgen": 20,
-          "datum": "2026-09-25",
-          "datumGeschaetzt": true
-        }
-      ],
-      "sammelGelesen": "2026-10-12"
-    },
-    {
       "articleTitle": "In diesen Kinos läuft der »Rascal Does Not Dream«-Finalfilm",
       "articleUrl": "https://www.anime2you.de/news/1053560/rascal-does-not-dream-of-a-dear-friend-kinoliste/",
       "publishedAt": "2026-09-24",
@@ -2560,47 +2698,6 @@
       ],
       "dub": "nein",
       "alreadyCurated": true
-    },
-    {
-      "articleTitle": "Drei Anime-Neuzugänge ab sofort auf Prime Video verfügbar",
-      "articleUrl": "https://www.anime2you.de/news/1053585/prime-video-ghost-cat-anzu-und-mehr/",
-      "publishedAt": "2026-09-24",
-      "category": "streaming",
-      "platforms": [
-        "primevideo"
-      ],
-      "dates": [],
-      "dub": "unklar",
-      "alreadyCurated": false,
-      "sammel": [
-        {
-          "titel": "Ghost Cat Anzu",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Prime Video"
-          ]
-        },
-        {
-          "titel": "Miss Hokusai",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Prime Video"
-          ]
-        },
-        {
-          "titel": "Yu-Gi-Oh!",
-          "zusatz": "Staffel 1",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Prime Video"
-          ],
-          "folgen": 49
-        }
-      ],
-      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "Netflix: Alle Anime-Neuzugänge im Oktober 2026",
@@ -2918,7 +3015,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "ADN nimmt »86 EIGHTY-SIX« in sein Programm auf",
@@ -2991,7 +3088,7 @@
       "dub": "unklar",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-13"
+      "sammelGelesen": "2026-10-14"
     },
     {
       "articleTitle": "Netflix kündigt fünf Anime-Simulcasts für Herbst 2026 an",
@@ -3073,20 +3170,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
-    },
-    {
-      "articleTitle": "Disney+ stockt Anime-Programm erneut mit zwei Serien auf",
-      "articleUrl": "https://www.anime2you.de/news/1052288/disney-plus-a-sign-of-affection-und-mehr/",
-      "publishedAt": "2026-09-20",
-      "category": "streaming",
-      "platforms": [
-        "disneyplus"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Crunchyroll kündigt zwei neue Simulcast-Lizenzen an",
@@ -3143,44 +3227,6 @@
       ],
       "dub": "ja",
       "alreadyCurated": false
-    },
-    {
-      "articleTitle": "Disney+ ergänzt zwei weitere Anime-Neuzugänge in seinem Programm",
-      "articleUrl": "https://www.anime2you.de/news/1051128/disney-plus-campfire-cooking-und-mehr/",
-      "publishedAt": "2026-09-17",
-      "category": "streaming",
-      "platforms": [
-        "disneyplus"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "alreadyCurated": false,
-      "sammel": [
-        {
-          "titel": "Campfire Cooking in Another World",
-          "zusatz": "Staffel 1",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Disney+"
-          ],
-          "folgen": 12,
-          "datum": "2026-09-17",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "One Piece",
-          "zusatz": "Staffel 4 bis 8",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Disney+"
-          ],
-          "datum": "2026-09-17",
-          "datumGeschaetzt": true
-        }
-      ],
-      "sammelGelesen": "2026-10-13"
     },
     {
       "articleTitle": "Crunchyroll kündigt 19 neue Simulcasts für Herbst 2026 an",
@@ -3422,20 +3468,6 @@
       "sammelGelesen": "2026-10-09"
     },
     {
-      "articleTitle": "Prime Video nimmt drei Anime-Neuzugänge ins Programm",
-      "articleUrl": "https://www.anime2you.de/news/1049795/prime-video-trinity-seven-und-mehr/",
-      "publishedAt": "2026-09-13",
-      "category": "streaming",
-      "platforms": [
-        "primevideo"
-      ],
-      "dates": [],
-      "dub": "unklar",
-      "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-09"
-    },
-    {
       "articleTitle": "Deutscher Kinostart von »Rascal Does Not Dream of a Dear Friend«",
       "articleUrl": "https://www.anime2you.de/news/1049457/rascal-does-not-dream-of-a-dear-friend-deutscher-kinostart/",
       "publishedAt": "2026-09-12",
@@ -3668,20 +3700,6 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "Prime Video ergänzt drei weitere Anime-Neuzugänge",
-      "articleUrl": "https://www.anime2you.de/news/1048315/prime-video-date-a-live-staffel-2-und-mehr/",
-      "publishedAt": "2026-09-09",
-      "category": "streaming",
-      "platforms": [
-        "primevideo"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-09"
-    },
-    {
       "articleTitle": "KI-Streit: Synchronsprecher legen Beschwerde gegen Netflix beim Bundeskartellamt ein",
       "articleUrl": "https://www.anime2you.de/news/1046663/synchronsprecher-bundeskartellamt-beschwerde-netflix/",
       "publishedAt": "2026-09-08",
@@ -3742,7 +3760,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Blu-ray-Termin der zweiten Staffel von »As a Reincarnated Aristocrat«",
@@ -3760,7 +3778,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
@@ -3864,7 +3882,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "volltextGelesen": "2026-10-11"
     },
     {
@@ -4496,20 +4514,6 @@
       "sammelGelesen": "2026-10-09"
     },
     {
-      "articleTitle": "Netflix nimmt drei Anime-Neuzugänge in seinen Katalog auf",
-      "articleUrl": "https://www.anime2you.de/news/1045191/netflix-gintama-film-und-mehr/",
-      "publishedAt": "2026-08-30",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-09"
-    },
-    {
       "articleTitle": "Erste »Clevatess«-Staffel erscheint als Limited Edition auf Blu-ray",
       "articleUrl": "https://www.anime2you.de/news/1044108/clevatess-staffel-1-blu-ray-release/",
       "publishedAt": "2026-08-29",
@@ -4929,19 +4933,6 @@
       "alreadyCurated": true
     },
     {
-      "articleTitle": "Neue »Pokémon«-Serie erscheint weltweit auf Disney+",
-      "articleUrl": "https://www.anime2you.de/news/1045090/pokemon-tales-erscheint-auf-disney-plus/",
-      "publishedAt": "2026-08-29",
-      "category": "streaming",
-      "platforms": [
-        "disneyplus"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
-      "alreadyCurated": false
-    },
-    {
       "articleTitle": "Termin der Fantasy-Serie »Dreamland« auf ADN und Crunchyroll + Trailer",
       "articleUrl": "https://www.anime2you.de/news/1044897/termin-von-dreamland-trailer/",
       "publishedAt": "2026-08-28",
@@ -5156,20 +5147,6 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-09"
-    },
-    {
-      "articleTitle": "Prime Video fügt zwei Anime-Neuzugänge auf Deutsch hinzu",
-      "articleUrl": "https://www.anime2you.de/news/1044599/prime-video-yu-gi-oh-5ds-und-mehr/",
-      "publishedAt": "2026-08-27",
-      "category": "streaming",
-      "platforms": [
-        "primevideo"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "alreadyCurated": false,
-      "sammel": [],
       "sammelGelesen": "2026-10-09"
     },
     {
@@ -5798,23 +5775,6 @@
       ],
       "dub": "ja",
       "alreadyCurated": true
-    },
-    {
-      "articleTitle": "Netflix nimmt zweiten »Mobile Suit Gundam: Hathaway«-Film ins Programm",
-      "articleUrl": "https://www.anime2you.de/news/1037860/zweiter-mobile-suit-gundam-hathaway-film-auf-netflix/",
-      "publishedAt": "2026-08-04",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [
-        {
-          "iso": "2026-08-31",
-          "context": "n wenigen Wochen ins Programm aufnehmen wird. Wir fassen zusammen. Ab 31. August 2026 »Mobile Suit Gundam: Hathaway – The Sorcery of Nymph C"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": false
     },
     {
       "articleTitle": "Disney+ zeigt neuen Trailer zu »Star Wars: Visionen – Die neunte Jedi«",
