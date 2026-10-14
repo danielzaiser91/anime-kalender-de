@@ -138,6 +138,7 @@ tools/cartoon-jw-stichprobe.test.mjs
 tools/check-patchnotes-pflicht.mjs
 tools/design-fokus.test.mjs
 tools/design-kontrast.mjs
+tools/handbeleg-verwaist.test.mjs
 tools/pruef-bestand.test.mjs
 tools/tmdb-bilddatum.test.mjs
 tools/untersucher-schluessel.test.mjs
