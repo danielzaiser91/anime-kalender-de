@@ -3,6 +3,7 @@ import { todayIso } from '../../shared/time.ts'
 import { beurteile, type CrDubData, type CrSerie } from '../lib/crunchyroll-dub.ts'
 import { kennungAusZiel } from '../lib/crunchyroll-api.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
+import { istHandbelegterJaWeg } from '../lib/handbeleg-weg.ts'
 
 /**
  * **Alle Titel, an denen diese Crunchyroll-Serie hängt — über die Adresse *und* die Kennung**
@@ -28,8 +29,15 @@ function betroffeneTitel(nachUrl: Map<string, Title[]>, serie: CrSerie): Title[]
   return [...betroffen.values()]
 }
 
-/** Gehört dieser Verweis zu dieser (toten) Serie? Adresse **oder** Kennung genügt. */
-function gehoertZurSerie(stream: Title['streams'][number], serie: CrSerie): boolean {
+/**
+ * Gehört dieser Verweis zu dieser (toten) Serie? Adresse **oder** Kennung genügt.
+ *
+ * Ausnahme (14.10.2026): Ein Handbeleg „deutsch“ mit genau dieser Adresse schlägt ein „nicht mehr verfügbar“ aus dem US-Katalog. Durarara!! Tenka Taihei
+ * (Daniel sah die OVA bei Crunchyroll) fiel sonst über die Kennung der Serie heraus, die der US-Lauf vom 21.08. für tot hielt. Der deutsche Katalog entscheidet weiter.
+ */
+function gehoertZurSerie(stream: Title['streams'][number], serie: CrSerie, titleId: number): boolean {
+  const usNein = Boolean(serie.nichtVerfuegbar) && serie.katalog !== 'de'
+  if (usNein && istHandbelegterJaWeg(titleId, stream.platform, stream.url)) return false
   return (
     stream.platform === 'crunchyroll' &&
     (stream.url === serie.url ||
@@ -127,7 +135,7 @@ export function ordneCrSerienZu({ titles, crDub, usNeinWiderlegt, verweiseEntfer
       if (serie.nichtVerfuegbar || ohneBlock) {
         for (const title of betroffeneTitel(nachUrl, serie)) {
           const vorher = title.streams.length
-          title.streams = title.streams.filter((s) => !gehoertZurSerie(s, serie))
+          title.streams = title.streams.filter((s) => !gehoertZurSerie(s, serie, title.id))
           const weg = vorher - title.streams.length
           verschwunden += weg
           if (weg) {
