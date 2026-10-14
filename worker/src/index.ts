@@ -11,6 +11,7 @@
  * Die Termine kommen aus denselben JSON-Dateien, die auch die Website lädt.
  */
 import type { NewsEintrag, PlatformId, Release, ReleaseEvent } from '../../shared/types.ts'
+import { OFFENE_PFADE } from './auffangnetz.ts'
 import { sichereSchnellmessung } from './schnellmesser.ts'
 import { handleVerlauf } from './verlauf.ts'
 import { ladeKennungen, leseFavoriten, schreibeFavoriten, zaehleFavoriten } from './favoriten-kennung.ts'
@@ -1392,18 +1393,12 @@ async function handleVorfall(request: Request, env: Env): Promise<Response> {
   return antwort({ ok: true, vorfaelle: anzahl?.n ?? 0 })
 }
 
-export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+async function verteile(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url)
 
     if (request.method === 'OPTIONS') {
       // Der Laufstatus wird auch aus einer Datei gelesen (Ursprung `null`) — daher `*` für diese Pfade.
-      if (
-        url.pathname === '/lauf' ||
-        url.pathname === '/pruefung' ||
-        url.pathname === '/netzfund' ||
-        url.pathname === '/vorfall'
-      ) {
+      if (OFFENE_PFADE.includes(url.pathname)) {
         return new Response(null, {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -1591,7 +1586,10 @@ export default {
       default:
         return json(env, { error: 'Unbekannter Pfad' }, 404)
     }
-  },
+}
+
+export default {
+  fetch: verteile,
 
   async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     const now = new Date()
