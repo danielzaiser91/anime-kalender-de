@@ -23,6 +23,7 @@
 import { type Env } from './env.ts'
 import { ereignisSenden } from './ereignisse.ts'
 import { jetztIso } from './werte.ts'
+import { holeListenbauAm } from './pruefung-unveraendert.ts'
 import { leiteAb, type Abgeleitet } from './pruefung-ableiten.ts'
 import { auffrischen } from './titelzeile-auffrischen.ts'
 import { hakeTitelzeilenAb, oeffneTitelzeilenWieder } from './titelzeile-aufgaben.ts'
@@ -34,10 +35,10 @@ type Kontext = { env: Env; ctx: ExecutionContext<unknown> | undefined; antwort: 
 const anbieterListe = (env: Env) => (env.TITELZEILE_PLATTFORMEN ?? '').split(',').map((s) => s.trim()).filter(Boolean)
 
 /** Eine Meldung eines Anbieters aus der Liste. Mehrere Rohfolgen in einer Meldung (Prime) beantwortet `versucheTitelzeile`. */
-const gehoertHierher = (env: Env, daten: Record<string, unknown>) => anbieterListe(env).includes(String(daten.plattform))
+export const gehoertHierher = (env: Env, daten: Record<string, unknown>) => anbieterListe(env).includes(String(daten.plattform))
 
 /** Altzeilen in `pruefung` oder `prime_folge`: bis das Einspielen sie umgezogen hat, würde eine Titelzeile sie verdrängen. */
-async function hatAltzeilen(env: Env, url: string, plattform: string): Promise<boolean> {
+export async function hatAltzeilen(env: Env, url: string, plattform: string): Promise<boolean> {
   const { results } = await env.DB.prepare(
     `SELECT 1 AS da FROM pruefung WHERE url = ?1
      UNION ALL SELECT 1 FROM prime_folge WHERE url = ?1 AND plattform = ?2 LIMIT 1`,
@@ -48,12 +49,19 @@ async function hatAltzeilen(env: Env, url: string, plattform: string): Promise<b
 }
 
 /** Der Eintrag zur Meldung; bei gleichem Inhalt wird nur der Zeitpunkt nachgezogen, wo ein Leser ihn sieht. */
-async function setze(env: Env, alt: TitelDaten, eintrag: Eintrag, kopf: ReturnType<typeof kopfAusMeldung>) {
+export async function setze(listenbauAm: () => Promise<string | null>, alt: TitelDaten, eintrag: Eintrag, kopf: ReturnType<typeof kopfAusMeldung>) {
   const r = setzeEin(alt, eintrag, kopf)
   if (r.art !== 'gleich') return { daten: r.daten, art: r.art }
-  const frisch = r.vorher && (await auffrischen(env, r.vorher))
+  const frisch = r.vorher && (await auffrischen(r.vorher, listenbauAm))
   if (frisch) return { daten: { ...r.daten, f: r.daten.f.map((e) => (e[0] === frisch[0] && e[1] === frisch[1] ? frisch : e)) }, art: r.art }
   return { daten: r.kopfNeu ? r.daten : null, art: r.art }
+}
+
+/** Der Eintrag zur Meldung, oder der Grund, warum sie nicht in die Titelzeile passt (mit Titelzeile: 400, ohne: bisheriger Weg). */
+export function eintragOderFehler(daten: Record<string, unknown>, ab: Abgeleitet): Eintrag | string {
+  if (Array.isArray(daten.rohfolgen) && daten.rohfolgen.length > 1) return 'Titelzeile: eine Meldung trägt höchstens eine Rohfolge'
+  const eintrag = eintragAusMeldung(daten, ab, jetztIso())
+  return eintragsId(0, eintrag) === null ? 'staffel oder folge_nr liegt außerhalb des Bereichs der Titelzeile' : eintrag
 }
 
 /**
@@ -66,17 +74,12 @@ async function versucheTitelzeile(k: Kontext, daten: Record<string, unknown>, ab
   const plattform = String(daten.plattform)
   const zeile = await ladeZeile(k.env, url, plattform)
   if (!zeile && (await hatAltzeilen(k.env, url, plattform))) return null
-  if (Array.isArray(daten.rohfolgen) && daten.rohfolgen.length > 1) {
-    return zeile ? k.antwort({ error: 'Titelzeile: eine Meldung trägt höchstens eine Rohfolge' }, 400) : null
-  }
-  const eintrag = eintragAusMeldung(daten, ab, jetztIso())
-  if (eintragsId(0, eintrag) === null) {
-    return zeile ? k.antwort({ error: 'staffel oder folge_nr liegt außerhalb des Bereichs der Titelzeile' }, 400) : null
-  }
+  const eintrag = eintragOderFehler(daten, ab)
+  if (typeof eintrag === 'string') return zeile ? k.antwort({ error: eintrag }, 400) : null
   const kopf = kopfAusMeldung(daten)
   let art = 'gleich'
   const ergebnis = await aendereTitelzeile(k.env, { url, plattform, zeile }, async (alt) => {
-    const neu = await setze(k.env, alt ?? leereDaten(), eintrag, kopf)
+    const neu = await setze(() => holeListenbauAm(k.env), alt ?? leereDaten(), eintrag, kopf)
     art = neu.art
     return neu.daten
   })
