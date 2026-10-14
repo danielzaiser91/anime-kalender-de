@@ -1,3 +1,4 @@
+import { DIENST_PAUSE } from '../../shared/dienst-pause.ts'
 import { istD1Tageslimit, sekundenBisMitternachtUtc } from './d1-limit.ts'
 
 /** Pfade, die auch aus einer Datei (Ursprung `null`) gelesen werden und daher CORS `*` bekommen. */
@@ -24,7 +25,7 @@ export async function mitAuffangnetz(
       ...(OFFENE_PFADE.includes(pfad) ? { 'Access-Control-Allow-Origin': '*' } : cors),
     }
     if (limit) kopf['Retry-After'] = String(sekundenBisMitternachtUtc(jetzt))
-    const text = limit ? 'Der Dienst macht gerade Pause. Versuch es später noch einmal.' : 'Das hat gerade nicht geklappt. Versuch es später noch einmal.'
+    const text = limit ? DIENST_PAUSE :'Das hat gerade nicht geklappt. Versuch es später noch einmal.'
     return new Response(JSON.stringify({ error: text }), { status: limit ? 503 : 500, headers: kopf })
   }
 }

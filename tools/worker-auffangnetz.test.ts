@@ -6,6 +6,7 @@
  */
 import worker from '../worker/src/index.ts'
 import { mitAuffangnetz } from '../worker/src/auffangnetz.ts'
+import { DIENST_PAUSE } from '../shared/dienst-pause.ts'
 import type { Env } from '../worker/src/env.ts'
 
 let fehler = 0
@@ -15,7 +16,9 @@ const pruefe = (bedingung: boolean, text: string) => {
 }
 console.error = () => {}
 
-const D1_LIMIT = new Error("D1_ERROR: Your account has exceeded D1's free tier daily row read limit.")
+/** Die Pfade, die auch aus einer Datei (Ursprung `null`) gelesen werden — absichtlich als Literal, nicht aus `OFFENE_PFADE`. */
+const OFFENE_PFADE_ERWARTET = ['/lauf', '/pruefung', '/netzfund', '/vorfall']
+const D1_LIMIT =new Error("D1_ERROR: Your account has exceeded D1's free tier daily row read limit.")
 const CORS = { 'Access-Control-Allow-Origin': 'https://anime.example' }
 const werfe = (e: unknown) => async (): Promise<Response> => {
   throw e
@@ -28,6 +31,7 @@ async function netz() {
   pruefe(limit.headers.get('Retry-After') === '30', 'Tageslimit: Retry-After = Sekunden bis 00:00 UTC')
   pruefe(limit.headers.get('Access-Control-Allow-Origin') === CORS['Access-Control-Allow-Origin'], 'Tageslimit: CORS-Kopf gesetzt')
   const text = ((await limit.json()) as { error: string }).error
+  pruefe(text === DIENST_PAUSE, 'Tageslimit: derselbe Satz wie in der Oberfläche (shared/dienst-pause.ts)')
   pruefe(/Pause/.test(text) && !/1101|D1|fetch/i.test(text), 'Tageslimit: kurzer deutscher Text ohne Technik')
 
   const frueh = await mitAuffangnetz('/prefs', CORS, werfe(D1_LIMIT), mitternacht(0, 0, 0))
@@ -39,8 +43,12 @@ async function netz() {
   pruefe(normal.headers.get('Access-Control-Allow-Origin') === CORS['Access-Control-Allow-Origin'], 'anderer Fehler: trotzdem CORS')
   pruefe(Boolean(((await normal.json()) as { error: string }).error), 'anderer Fehler: JSON mit error')
 
-  const offen = await mitAuffangnetz('/lauf', CORS, werfe(new Error('kaputt')))
-  pruefe(offen.status === 500 && offen.headers.get('Access-Control-Allow-Origin') === '*', 'offener Pfad (/lauf): 500 mit CORS *')
+  for (const pfad of OFFENE_PFADE_ERWARTET) {
+    const offen = await mitAuffangnetz(pfad, CORS, werfe(new Error('kaputt')))
+    pruefe(offen.status === 500 && offen.headers.get('Access-Control-Allow-Origin') === '*', `offener Pfad (${pfad}): 500 mit CORS *`)
+    const offenLimit = await mitAuffangnetz(pfad, CORS, werfe(D1_LIMIT), mitternacht(23, 59, 30))
+    pruefe(offenLimit.status === 503 && offenLimit.headers.get('Access-Control-Allow-Origin') === '*', `offener Pfad (${pfad}): Tageslimit 503 mit CORS *`)
+  }
 
   const ok = await mitAuffangnetz('/prefs', CORS, async () => new Response('x', { status: 201 }))
   pruefe(ok.status === 201 && (await ok.text()) === 'x', 'Erfolg wird unverändert durchgereicht')
@@ -63,8 +71,23 @@ async function verdrahtung() {
   pruefe(normal.headers.get('Access-Control-Allow-Origin') === 'https://anime.example', 'Worker.fetch: 500 trägt CORS')
 }
 
+/** Der OPTIONS-Vorabruf: offene Pfade bekommen `*`, alle anderen nur den eigenen Ursprung. */
+async function vorabruf() {
+  const env = { ALLOWED_ORIGIN: 'https://anime.example' } as unknown as Env
+  const ctx = {} as ExecutionContext
+  const options = (pfad: string) => worker.fetch(new Request(`https://worker.example${pfad}`, { method: 'OPTIONS' }), env, ctx)
+  for (const pfad of OFFENE_PFADE_ERWARTET) {
+    const r = await options(pfad)
+    pruefe(r.headers.get('Access-Control-Allow-Origin') === '*', `OPTIONS ${pfad}: CORS *`)
+    pruefe(/X-Lauf-Token/.test(r.headers.get('Access-Control-Allow-Headers') ?? ''), `OPTIONS ${pfad}: erlaubt X-Lauf-Token`)
+  }
+  const geschlossen = await options('/prefs')
+  pruefe(geschlossen.headers.get('Access-Control-Allow-Origin') === 'https://anime.example', 'OPTIONS /prefs: nur der eigene Ursprung')
+}
+
 await netz()
 await verdrahtung()
+await vorabruf()
 if (fehler) {
   console.log(`\n${fehler} Prüfung(en) rot`)
   process.exit(1)
