@@ -419,8 +419,8 @@ export function AntwortKasten({
       Dybex". Sie füllt die Nebenzeile, die seit dem Zusammenlegen der drei
       Dopplungen leer war, und sagt etwas Neues statt desselben noch einmal.
 
-      Wo wir selbst gemessen haben, steht das Feld gar nicht erst da — die
-      Übernahme in `build.ts` überspringt jeden Titel mit Termin.
+      Das Feld steht auch bei Titeln mit eigenem Termin (14.10.2026: 366 von 2.559
+      Titeln mit Erstausgabe); die Pillen nennen ihr „seit“ dann nicht doppelt.
     */
     neben = erstausgabeAlsNeuigkeit(title) ? '' : deSeitZeile(title, T)
     nebenTitel = title.deErstausgabe

@@ -5,8 +5,9 @@
  */
 import { createElement, Fragment } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
-import type { Release, StreamLink, Title } from '../shared/types.ts'
+import type { PlatformId, Release, StreamLink, Title } from '../shared/types.ts'
 import { formatDate } from '../shared/time.ts'
+import { verlagIstAnbieter } from '../shared/verlag-anbieter.ts'
 import { streamZeilen, terminPillen } from '../web/src/components/detail/wege-zeilen.tsx'
 import { ausgabenOhneDeSichtbar, kanalTerminQuelle, kastenNenntSeit, seitDatumFuerPille, seitDatumVon, seitenKern } from '../web/src/components/detail/chips-regeln.ts'
 
@@ -135,6 +136,16 @@ pruefe('gleiches Datum bei anderem Anbieter: „seit“ bleibt', streamHtml(tite
 pruefe('Kasten nennt „Auf Deutsch seit“ mit gleichem Datum und Verlag = Anbieter: kein „seit“', !streamHtml(titel(erstausgabe('2026-07-20', 'Crunchyroll')), [termin()]).includes('Datum'))
 pruefe('Erstausgabe gleichen Datums eines anderen Verlags: „seit“ bleibt', streamHtml(titel(erstausgabe('2026-07-20', 'Netflix, Inc.')), [termin()]).includes('detail.seitDatum'))
 pruefe('Erstausgabe mit anderem Datum: „seit“ bleibt', streamHtml(titel(erstausgabe('2026-07-19', 'Crunchyroll')), [termin()]).includes('detail.seitDatum'))
+const streamVon = (platform: string, url: string) => [{ platform, url, dub: true, zugang: 'abo' }] as never
+const ohneSeit = (platform: PlatformId, url: string, verlag: string) =>
+  !streamHtml(titel({ streams: streamVon(platform, url), ...erstausgabe('2026-07-20', verlag) }), [termin({ platform })]).includes('Datum')
+pruefe('Verlag „Amazon.com, Inc.“ ist Prime Video: kein „seit“ an der Prime-Pille', ohneSeit('primevideo', 'https://www.amazon.de/dp/B0AAAAAAAA', 'Amazon.com, Inc.'))
+pruefe('Verlag „The Walt Disney Company“ ist Disney+: kein „seit“ an der Disney+-Pille', ohneSeit('disneyplus', 'https://www.disneyplus.com/de-de/browse/entity-1', 'The Walt Disney Company'))
+pruefe('Verlag „Netflix, Inc.“ ist Netflix: kein „seit“ an der Netflix-Pille', ohneSeit('netflix', 'https://www.netflix.com/title/1', 'Netflix, Inc.'))
+pruefe('Hensuki: Verlag Kazé, Pille Crunchyroll — „seit“ bleibt', streamHtml(titel(erstausgabe('2026-07-20', 'Kazé')), [termin()]).includes('detail.seitDatum'))
+pruefe('Verlag Amazon, Pille Netflix: „seit“ bleibt', !ohneSeit('netflix', 'https://www.netflix.com/title/1', 'Amazon.com, Inc.'))
+pruefe('verlagIstAnbieter: Tabelle und Name', verlagIstAnbieter('Amazon.com, Inc.', 'primevideo') && verlagIstAnbieter('The Walt Disney Company', 'disneyplus') && verlagIstAnbieter('Netflix, Inc.', 'netflix') && verlagIstAnbieter('Crunchyroll', 'crunchyroll') && verlagIstAnbieter('Disney+', 'disneyplus'))
+pruefe('verlagIstAnbieter: andere Verlage nicht', !verlagIstAnbieter('Amazon.com, Inc.', 'netflix') && !verlagIstAnbieter('Kazé', 'crunchyroll') && !verlagIstAnbieter('Walt Disney Studios Motion Pictures', 'disneyplus') && !verlagIstAnbieter(undefined, 'netflix'))
 pruefe('kastenNenntSeit: Angebot', kastenNenntSeit(angebot('crunchyroll', '2026-07-20') as never, 'crunchyroll', '2026-07-20') && !kastenNenntSeit(angebot('crunchyroll', '2026-07-20') as never, 'crunchyroll', '2026-07-21'))
 pruefe('seitDatumFuerPille: Datum, wenn der Kasten schweigt; sonst nichts', seitDatumFuerPille(titel(), 'crunchyroll', [termin()]) === '2026-07-20' && seitDatumFuerPille(titel(angebot('crunchyroll', '2026-07-20')), 'crunchyroll', [termin()]) === undefined)
 

@@ -1,5 +1,6 @@
-import { PLATFORMS, type Release, type StreamLink, type Title } from '@shared/types.ts'
+import type { PlatformId, Release, StreamLink, Title } from '@shared/types.ts'
 import { adressKern } from '@shared/adresse-kern.ts'
+import { verlagIstAnbieter } from '@shared/verlag-anbieter.ts'
 import { anbieterWegMitJa } from '@shared/kanal-anbieter.ts'
 
 type OhneDe = NonNullable<Title['ausgabenOhneDe']>[number]
@@ -50,12 +51,11 @@ export function seitDatumVon(platform: string, releases: Release[]): string | un
 
 /**
  * Nennt der Kasten über den Pillen dasselbe Datum für denselben Anbieter schon? „Bei Prime Video im Angebot seit X“ (`angebotSeit`)
- * oder „Auf Deutsch seit X · <Verlag>“ (`deErstausgabe`, der Verlag trägt den Namen des Anbieters). Keine Information zweimal.
+ * oder „Auf Deutsch seit X · <Verlag>“ (`deErstausgabe`, der Verlag ist der Anbieter: `verlagIstAnbieter`). Keine Information zweimal.
  */
 export function kastenNenntSeit(title: Pick<Title, 'angebotSeit' | 'deErstausgabe'>, platform: string, datum: string): boolean {
   if (title.angebotSeit?.platform === platform && title.angebotSeit.date === datum) return true
-  const name = PLATFORMS[platform as keyof typeof PLATFORMS]?.name.toLowerCase()
-  return Boolean(name) && title.deErstausgabe?.von === datum && (title.deErstausgabe.publisher ?? '').toLowerCase().includes(name!)
+  return title.deErstausgabe?.von === datum && verlagIstAnbieter(title.deErstausgabe.publisher, platform as PlatformId)
 }
 
 /** Das „seit“ einer Stream-Pille: der belegte Beginn des Anbieters, sofern der Kasten ihn nicht schon nennt. */
