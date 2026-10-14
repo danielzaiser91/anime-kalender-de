@@ -1,5 +1,5 @@
 /**
- * Zusicherung: Ergeben die aniSearch-Seiten einer MAL-Kennung zusammen genau die Folgen des einen AniList-Titels und führt eine Seite Deutsch, entfällt der Sammeltitel
+ * Zusicherung: Ergeben die aniSearch-Seiten einer MAL-Kennung zusammen genau die Folgen des einen AniList-Titels entfällt der Sammeltitel, mit oder ohne Deutsch
  * (Durarara!! Specials, Angel Beats! Tokubetsu-hen, Pokémon XY&Z-Special; 13.10.2026). Regel: `bau/mal-teilung.ts`, Bedingung: `lib/mal-teilung.ts`,
  * Messung: `tools/anisearch-mal-mehrfach.mjs`.
  *
@@ -57,14 +57,16 @@ console.log('\nWelche Titel teilt aniSearch:')
   pruefe('Gegenprobe: ein Titel mit 3 Folgen wird nicht geteilt', !findeTeilungen([{ id: 5, malId: 5, episodes: 3 }], eintraege, alleZeilen).has(5))
   pruefe('Gegenprobe: eine Seite ohne Zeile (ein AniList-Titel trägt sie) verhindert die Teilung', !findeTeilungen(anilist, eintraege, (id) => id !== BASIS + 6984).has(8408))
   pruefe('Gegenprobe: ein zweiter AniList-Titel im Katalog mit derselben MAL verhindert die Teilung', !findeTeilungen([...anilist, { id: 999, malId: 8408, episodes: 2 }], eintraege, alleZeilen).has(8408))
-  pruefe('Teilung nur ohne Deutsch (Katalog hinter dem Schalter): bleibt, wie sie ist', !findeTeilungen(anilist.slice(3), { 40: seite(7, 1, '-'), 41: seite(7, 2, '-') }, alleZeilen).has(7))
-  pruefe('Gegenprobe: eine Seite mit geplantem Deutsch (p) genügt', findeTeilungen(anilist.slice(3), { 40: seite(7, 1, '-'), 42: seite(7, 2, 'p') }, alleZeilen).has(7))
+  pruefe('Teilung ganz ohne Deutsch (Katalog hinter dem Schalter): wird ebenfalls geteilt', findeTeilungen(anilist.slice(3), { 40: seite(7, 1, '-'), 41: seite(7, 2, '-') }, alleZeilen).get(7)?.join() === '40,41')
+  pruefe('Deutsch ändert nichts: eine Seite mit geplantem Deutsch (p) teilt genauso', findeTeilungen(anilist.slice(3), { 40: seite(7, 1, '-'), 42: seite(7, 2, 'p') }, alleZeilen).get(7)?.join() === '40,42')
+  pruefe('Gegenprobe ohne Deutsch: passt die Summe nicht (1 + 1 gegen 3 Folgen), bleibt der Sammeltitel', !findeTeilungen(anilist.slice(3), { 40: seite(7, 1, '-'), 41: seite(7, 1, '-') }, alleZeilen).has(7))
+  pruefe('Gegenprobe ohne Deutsch: fehlt einer Seite die Zeile, bleibt der Sammeltitel', !findeTeilungen(anilist.slice(3), { 40: seite(7, 1, '-'), 41: seite(7, 2, '-') }, (id) => id !== BASIS + 41).has(7))
 }
 
 console.log('\nBau: der Sammeltitel entfällt, mit Handbeleg bleibt er:')
 {
   const titel = (id: number, malId: number | undefined, episodes: number) => ({ id, malId, episodes }) as Title
-  const bauen = (hand: number[], katalog: TeilungsQuellen['katalog'] = []) => {
+  const bauen = (hand: number[], katalog: TeilungsQuellen['katalog'] = [], eintraege: TeilungsQuellen['eintraege'] = durarara()) => {
     const titles = new Map<number, Title>([
       [8408, titel(8408, 8408, 2)],
       [BASIS + 6984, titel(BASIS + 6984, undefined, 1)],
@@ -72,7 +74,7 @@ console.log('\nBau: der Sammeltitel entfällt, mit Handbeleg bleibt er:')
       [6746, titel(6746, 6746, 2)],
     ])
     const jpStart = new Map([[8408, '2010-08-25']])
-    const entfallen = entferneSammeltitel(titles, jpStart, new Map(jpStart), { hand: new Set(hand), eintraege: durarara(), katalog })
+    const entfallen = entferneSammeltitel(titles, jpStart, new Map(jpStart), { hand: new Set(hand), eintraege, katalog })
     return { titles, jpStart, entfallen }
   }
   const ohneBeleg = bauen([])
@@ -82,15 +84,18 @@ console.log('\nBau: der Sammeltitel entfällt, mit Handbeleg bleibt er:')
   pruefe('Gegenprobe: nennt eine Handdatei 8408, bleibt er stehen', mitBeleg.entfallen === 0 && mitBeleg.titles.has(8408))
   const mitKatalog = bauen([], [{ id: 77, malId: 8408, episodes: 2 }])
   pruefe('Gegenprobe: ein zweiter Titel mit der MAL im Katalog (nicht im Hauptbestand): nichts entfällt', mitKatalog.entfallen === 0)
+  const ohneDeutsch = bauen([], [], { 6984: seite(8408, 1, '-'), 6986: seite(8408, 1, '-') })
+  pruefe('auch ohne jedes Deutsch entfällt 8408 im Hauptbestand', ohneDeutsch.entfallen === 1 && !ohneDeutsch.titles.has(8408) && ohneDeutsch.titles.has(BASIS + 6984))
   const imKatalog = bauen([], [{ id: 8408, malId: 8408, episodes: 2 }])
   pruefe('derselbe Titel im Katalog und im Hauptbestand zählt einmal', imKatalog.entfallen === 1)
 }
 
 console.log('\nKatalog hinter dem Schalter: der entfernte Sammeltitel kommt dort nicht wieder an:')
 {
-  const quellen = (hand: number[] = []): TeilungsQuellen => ({ hand: new Set(hand), eintraege: durarara(), katalog: [{ id: 8408, malId: 8408, episodes: 2 }] })
+  const quellen = (hand: number[] = [], eintraege: TeilungsQuellen['eintraege'] = durarara()): TeilungsQuellen => ({ hand: new Set(hand), eintraege, katalog: [{ id: 8408, malId: 8408, episodes: 2 }] })
   const seiten = new Set([BASIS + 6984, BASIS + 6986])
   pruefe('8408 entfällt im Katalog, solange beide Seiten Zeilen haben', katalogSammeltitel((id) => seiten.has(id), quellen()).get(8408) === BASIS + 6984)
+  pruefe('auch ohne jedes Deutsch entfällt er im Katalog', katalogSammeltitel((id) => seiten.has(id), quellen([], { 6984: seite(8408, 1, '-'), 6986: seite(8408, 1, '-') })).get(8408) === BASIS + 6984)
   pruefe('Gegenprobe: ohne Seitenzeilen bleibt er', katalogSammeltitel(() => false, quellen()).size === 0)
   pruefe('Gegenprobe: eine Handdatei hält ihn', katalogSammeltitel((id) => seiten.has(id), quellen([8408])).size === 0)
 }
