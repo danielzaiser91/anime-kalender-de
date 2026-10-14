@@ -2,7 +2,7 @@ import { log, slugify } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { type CrDubData } from '../lib/crunchyroll-dub.ts'
-import { dubKey } from '../lib/dub-confirmed.ts'
+import { wegVerneint } from '../lib/dub-confirmed.ts'
 
 type SerieMitTiteln = { serie: CrDubData['serien'][number]; titel: Map<number, Title> }
 
@@ -63,7 +63,7 @@ export function ordneGeschwisterBloeckeZu({ nachSerienId, titles, katalogEintrae
       const treffer = [...ausBestand.map((t) => t.id), ...ausKatalog.map((e) => e.id)]
       if (treffer.length !== 1) continue
       const id = treffer[0]!
-      if (handNein.has(dubKey(id, 'crunchyroll'))) continue
+      if (wegVerneint(handNein, id, 'crunchyroll', serie.url)) continue
       let ziel = titles.get(id)
       if (!ziel) {
         const e = katalogEintraege.find((x) => x.id === id)!

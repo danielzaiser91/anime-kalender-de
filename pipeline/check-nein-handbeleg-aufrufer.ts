@@ -28,6 +28,9 @@ const titel = (id: number): Title => ({ id, streams: [], keywords: [], genres: [
 const nein = neinHandbelege(loadDubChecks())
 const jw = readJson<Record<string, JwEintrag & { angebote?: { audio?: string[] }[] }>>('data/justwatch-audio.json', {})
 const neinIds = [...new Set([...nein].map((k) => Number(k.split('|')[0])))]
+/** Nein an `url`, Ja an einer zweiten Adresse derselben Plattform: Das Nein gilt dann nur `url` (`neinHandbelege`). */
+const neinNurDort = (id: number, platform: string, url: string) =>
+  neinHandbelege([{ anilistId: id, platform, url, dub: false }, { anilistId: id, platform, url: 'https://example.org/ja', dub: true }])
 const ohneParameter = { tmdbMehrdeutig: new Set<string>(), toteAdressen: new Set<string>() }
 
 console.log('\nAbo-Weg-Runde mit Nein-Handbeleg (Fixture):')
@@ -41,6 +44,8 @@ console.log('\nAbo-Weg-Runde mit Nein-Handbeleg (Fixture):')
   pruefe('ohne Nein-Handbeleg kommt der Crunchyroll-Weg', lauf(new Set(), 9000010) === 'crunchyroll')
   pruefe('mit Nein-Handbeleg für Crunchyroll kommt er nicht', lauf(new Set([dubKey(9000010, 'crunchyroll')]), 9000010) === '')
   pruefe('das Nein gilt nur dem Titel, dem es gehört', lauf(new Set([dubKey(9000011, 'crunchyroll')]), 9000010) === 'crunchyroll')
+  pruefe('Nein nur an seiner Adresse: der Weg dorthin kommt nicht', lauf(neinNurDort(9000010, 'crunchyroll', angebot.url), 9000010) === '')
+  pruefe('… ein Nein an einer anderen Adresse hält ihn nicht auf', lauf(neinNurDort(9000010, 'crunchyroll', 'https://www.crunchyroll.com/de/watch/ANDERS'), 9000010) === 'crunchyroll')
 }
 
 console.log('\nJustWatch-Runden über den Aufrufer (echte Handbelege, echte JustWatch-Datei):')
@@ -71,7 +76,7 @@ console.log('\nJustWatch-Runden über den Aufrufer (echte Handbelege, echte Just
 
 console.log('\nCartoon-Zwilling über den Aufrufer (echte Handbelege):')
 {
-  const [neinKey] = [...nein].map((k) => k.split('|') as [string, string])
+  const [neinKey] = [...nein].map((k) => k.split('|') as [string, string]).filter((k) => k.length === 2)
   const animeId = Number(neinKey?.[0])
   const kontrollId = 9000012
   const weg = (platform: string): StreamLink => ({ platform, url: `https://example.org/${platform}` }) as StreamLink

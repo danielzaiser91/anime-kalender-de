@@ -319,11 +319,36 @@ export function dubKey(anilistId: number, platform: string): string {
 }
 
 /**
- * Schlüssel (`dubKey`) aller Handbelege, die einen Weg verneinen: `available: false` (nicht im Katalog) oder `dub: false` (kein Deutsch).
- * Ein Ja derselben Plattform daneben hebt das Nein nicht auf: Der Schlüssel kennt keine Adresse, das Nein kann einer anderen Ausgabe gelten.
+ * Schlüssel aller Handbelege, die einen Weg verneinen (`available: false` oder `dub: false`), ausgewertet je Adresse (`adressKern`):
+ * Ein Ja derselben Adresse (`dub: true` oder ein deutscher Bereich) hebt das Nein auf, ein Ja einer anderen Adresse nicht; ohne Adresse ist
+ * „dieselbe" nicht belegt, Ja und Nein bleiben dann uneindeutig und das Nein gilt (Kuroko's Basketball 3, 20725, bei Netflix: altes Ja, jüngeres „nicht verfügbar").
+ * Das Nein gilt der ganzen Plattform (`dubKey`), wenn es keine Adresse trägt oder die Plattform keine Ausgabe mit Ja führt: Eine neue Adresse
+ * kann dieselbe Ausgabe in anderer Schreibweise sein (JustWatch-gti statt ASIN). Erst eine belegte zweite Ausgabe beschränkt es auf seine Adresse
+ * (`dubKey|adressKern`; Digimon 552 bei Prime: B0CGRJGJX1 ja, Crunchyroll-Kanal B0CHHNJJW3 nein). Abgefragt wird mit `wegVerneint`.
  */
-export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' | 'dub' | 'available'>[]): Set<string> {
-  return new Set(checks.filter((c) => c.dub === false || c.available === false).map((c) => dubKey(c.anilistId, c.platform)))
+export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges'>[]): Set<string> {
+  const adressen = new Map<string, { titel: string; kern: string; nein: boolean; ja: boolean }>()
+  for (const c of checks) {
+    const titel = dubKey(c.anilistId, c.platform)
+    const kern = adressKern(c.url)
+    const a = adressen.get(`${titel}|${kern}`) ?? { titel, kern, nein: false, ja: false }
+    a.nein ||= c.dub === false || c.available === false
+    a.ja ||= c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub))
+    adressen.set(`${titel}|${kern}`, a)
+  }
+  const mitJa = new Set([...adressen.values()].filter((a) => a.ja).map((a) => a.titel))
+  const nein = new Set<string>()
+  for (const a of adressen.values()) {
+    if (!a.nein || (a.ja && a.kern)) continue
+    nein.add(a.kern && mitJa.has(a.titel) ? `${a.titel}|${a.kern}` : a.titel)
+  }
+  return nein
+}
+
+/** Verneint ein Handbeleg aus `neinHandbelege` den Weg zu `url`? */
+export function wegVerneint(nein: ReadonlySet<string>, anilistId: number, platform: string, url: string): boolean {
+  const titel = dubKey(anilistId, platform)
+  return nein.has(titel) || nein.has(`${titel}|${adressKern(url)}`)
 }
 
 /** Meinen zwei Adressen dieselbe Ausgabe? */

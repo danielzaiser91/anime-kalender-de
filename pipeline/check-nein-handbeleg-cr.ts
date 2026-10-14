@@ -27,9 +27,13 @@ const hatCr = (t: Title | undefined) => (t?.streams ?? []).some((s: StreamLink) 
 const SERIE_URL = 'https://www.crunchyroll.com/series/GTESTSERIE'
 
 /** Ein echtes Nein für Crunchyroll aus den Handbelegen: Der Aufrufer muss genau diese Menge laden. */
-const echtesNein = [...neinHandbelege(loadDubChecks())].map((k) => k.split('|')).find(([, p]) => p === 'crunchyroll')
+const echtesNein = [...neinHandbelege(loadDubChecks())].map((k) => k.split('|')).find((k) => k.length === 2 && k[1] === 'crunchyroll')
 const neinId = Number(echtesNein?.[0])
 pruefe('Vorbedingung: die Handbelege führen mindestens ein Crunchyroll-Nein', Number.isFinite(neinId), echtesNein)
+
+/** Nein an `url`, Ja an einer zweiten Adresse derselben Plattform: Das Nein gilt dann nur `url` (`neinHandbelege`). */
+const neinNurDort = (id: number, platform: string, url: string) =>
+  neinHandbelege([{ anilistId: id, platform, url, dub: false }, { anilistId: id, platform, url: 'https://example.org/ja', dub: true }])
 
 /* Eltern (Staffel mit 12 Folgen) und ein Special mit 3 Folgen, das die Serie als deutschen Block führt. */
 function geschwisterLage(specialId: number) {
@@ -57,6 +61,8 @@ console.log('\nGeschwister-Block (09-4-2):')
   pruefe('ohne Nein-Handbeleg bekommt das Special den Crunchyroll-Weg', lauf(new Set()))
   pruefe('mit Nein-Handbeleg für Crunchyroll bleibt es ohne', !lauf(new Set([dubKey(9000002, 'crunchyroll')])))
   pruefe('das Nein gilt nur dem Titel, dem es gehört', lauf(new Set([dubKey(9000003, 'crunchyroll')])))
+  pruefe('Nein nur an der Serienadresse: kein Weg', !lauf(neinNurDort(9000002, 'crunchyroll', SERIE_URL)))
+  pruefe('… ein Nein an einer anderen Adresse hält ihn nicht auf', lauf(neinNurDort(9000002, 'crunchyroll', 'https://www.crunchyroll.com/series/ANDERS')))
 }
 
 console.log('\nGeschwister-Block über den Aufrufer (echte Handbelege):')
@@ -85,6 +91,8 @@ console.log('\nDeutscher Katalog (09-4-4):')
   pruefe('ohne Nein-Handbeleg legt der Katalog den Weg an', lauf(9000004, new Set()))
   pruefe('mit Nein-Handbeleg für Crunchyroll legt er ihn nicht an', !lauf(9000004, new Set([dubKey(9000004, 'crunchyroll')])))
   pruefe('das Nein gilt nur dem Titel, dem es gehört', lauf(9000004, new Set([dubKey(9000005, 'crunchyroll')])))
+  pruefe('Nein nur an der Katalogadresse: kein Weg', !lauf(9000004, neinNurDort(9000004, 'crunchyroll', `https://www.crunchyroll.com/series/${eintrag?.id}`)))
+  pruefe('… ein Nein an einer anderen Adresse hält ihn nicht auf', lauf(9000004, neinNurDort(9000004, 'crunchyroll', 'https://www.crunchyroll.com/series/ANDERS')))
 
   /* Ohne Serien läuft nur die Katalog-Runde; nichts wird geschrieben. */
   const katalogRunde = (t: Title) => {
