@@ -174,17 +174,6 @@
     - name: aniSearch
       url: https://www.anisearch.de/anime/16165
 
-- id: 143103 # Witch on the Holy Night (2026, Film)
-  umfang: titel
-  lizenz: CC BY-SA 4.0
-  text: >-
-    Film von ufotable nach dem gleichnamigen Visual Novel von Kinoko Nasu (Type-Moon). Die Vorlage spielt gegen Ende der Shōwa-Zeit in der Stadt Misaki, wo ein altes Anwesen als Haus einer Hexe gilt. Aoko Aozaki, als Erbin ihrer Familie für den Schutz des Landes zuständig, lernt dort Zauberei von der Magierin Alice Kuonji. Als Eindringlinge den Schutzbann stören, gehen die beiden der Sache nach; später zieht auch der Junge Sōjūrō Shizuki ins Haus.
-  quellen:
-    - name: Wikipedia (EN)
-      url: https://en.wikipedia.org/wiki/Witch_on_the_Holy_Night
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/16972
-
 - id: 182578 # Mission: Yozakura Family, Staffel 2 (2026, TV; Folgenzahl: Bestand 12, Wikipedia 40/65 — im Text nicht genannt)
   umfang: reihe
   lizenz: CC BY-SA 4.0
