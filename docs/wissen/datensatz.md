@@ -948,6 +948,12 @@ Daniel: Kachel `t=26256` zeige kein Cover, den japanischen Namen und „7 Staffe
 - **Zahlen:** vorher 2.856 Einträge, 191 `keiner` ohne Eintrag (190 `vergebenAn` + Ookami); nachher 3.047 Einträge, 0 fehlen. 188 kamen aus dem Cache (Stand 03.09.2026), 3 per Abruf.
 - **Warnung:** `check:bestand` (`check-katalog-eingefroren-bestand.ts`) warnt (ohne Fehlschlag), wenn eine `keiner`-Kennung nicht eingefroren ist, und nennt den Befehl. Neue `keiner`-Kennungen entstehen mit jedem Abgleichlauf, der Nachtrag wiederholt sich also bis zum Abschalten des Abrufs.
 
+## Fremde Originalschrift bei einem aniSearch-Titel: 1 Fall, Feld geleert (14.10.2026)
+
+- **Befund:** Titel 10013612 (aniSearch 13612, „SAO Alternative: GGO – Refrain“) trug als `titleNative` den Namen der Toji-no-Miko-Zusammenfassung (aniSearch 13554) plus „ルフラン“. Ursache ist aniSearch selbst: Die API (`title_native`, Archiv `data/anisearch-eintraege.json`, Feld `n`) und die Titelliste (`ja-kanji`) liefern denselben falschen Wert. Ein richtiger Wert steht nirgends im Repo (AniList führt den Titel nicht), also wurde `n` entfernt statt geraten.
+- **Haltbarkeit:** `fetch-anisearch-eintraege.ts` fasst vorhandene Einträge nur für `syn`/`rel` an; die Korrektur bleibt beim Nachabruf stehen.
+- **Systematik (14.10.2026, 8.275 Einträge, 7.854 mit `n`):** 9 Gruppen mit gleichem `n` (je gemeinsames Romaji-Wort, also Fortsetzungen/Teile); 740 Einträge, deren `n` mit dem `n` eines anderen beginnt, davon 4 ohne gemeinsames Romaji-Wort, 3 davon stimmig (Short Peace Opening, 十万个冷笑话2, IDOLiSH7 4期). Bleibt 1 Fall: dieser.
+
 ## Dieselbe aniSearch-Kennung bei mehreren Titeln: 42 Kennungen, alle gewollt (12.10.2026)
 
 - **Messung** an `public/data/titles.json` (12.10.2026): 42 Kennungen tragen 117 Titel, `ohne-synchro.json` keine. Die Live-Messung vom 11.10. nannte nur zwei (585, 9744), weil sie nur die im Panel geöffneten Titel sah.
