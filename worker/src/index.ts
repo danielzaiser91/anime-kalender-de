@@ -11,7 +11,7 @@
  * Die Termine kommen aus denselben JSON-Dateien, die auch die Website lädt.
  */
 import type { NewsEintrag, PlatformId, Release, ReleaseEvent } from '../../shared/types.ts'
-import { OFFENE_PFADE } from './auffangnetz.ts'
+import { OFFENE_PFADE, mitAuffangnetz } from './auffangnetz.ts'
 import { sichereSchnellmessung } from './schnellmesser.ts'
 import { handleVerlauf } from './verlauf.ts'
 import { ladeKennungen, leseFavoriten, schreibeFavoriten, zaehleFavoriten } from './favoriten-kennung.ts'
@@ -1590,7 +1590,8 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
 }
 
 export default {
-  fetch: verteile,
+  fetch: (request: Request, env: Env, ctx: ExecutionContext): Promise<Response> =>
+    mitAuffangnetz(new URL(request.url).pathname, cors(env), () => verteile(request, env, ctx)),
 
   async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     const now = new Date()

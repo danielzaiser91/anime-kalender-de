@@ -141,7 +141,7 @@ console.log('Tagesdeckel')
 }
 {
   const quellen = readdirSync('worker/src')
-    .filter((f) => f.endsWith('.ts'))
+    .filter((f) => f.endsWith('.ts') && f !== 'auffangnetz.ts') // auffangnetz.ts antwortet nur auf das D1-Limit (istD1Tageslimit), zählt und deckelt nichts
     .filter((f) => readFileSync(`worker/src/${f}`, 'utf8').includes("from './tagesdeckel.ts'"))
   pruefe(quellen.join() === 'pruefung-speichern.ts', `nur die Meldungs-Route nutzt den Deckel (${quellen.join(', ')}) — Anmeldung, Push, Cron bleiben frei`)
 }
