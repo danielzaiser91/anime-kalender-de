@@ -42,15 +42,23 @@ function karteiTitel(): Set<number> {
 }
 
 /**
- * Treffer der Synchron-Forum-Liste (`data/synchron-forum-treffer.yaml`), ohne die Titel, die eine Handprüfung nur mit `dub: false`
- * führt: die Liste ersetzt nie eine Handprüfung.
+ * Ein Nein, das die Synchro selbst verneint: Daniel hat festgestellt, dass es keine deutsche Fassung gibt (`nichtImBestand`).
+ * Jedes andere `dub: false` sagt nur „auf dieser Plattform nicht“ (Crunchyroll ohne Deutsch ≠ keine DVD-Synchro; 1292, 13.10.2026).
+ */
+export function verneintSynchro(c: Pick<DubCheck, 'dub' | 'nichtImBestand'>): boolean {
+  return c.dub === false && Boolean(c.nichtImBestand)
+}
+
+/**
+ * Treffer der Synchron-Forum-Liste (`data/synchron-forum-treffer.yaml`), ohne die Titel, deren Handprüfung die Synchro selbst verneint
+ * (`verneintSynchro`) und keine andere ein Ja führt: die Liste ersetzt nie eine Handprüfung.
  */
 export function forumTitel(checks: DubCheck[]): Set<number> {
   const treffer = (yaml.load(readFileSync(resolve(ROOT, 'data/synchron-forum-treffer.yaml'), 'utf8')) as { anilistId: number }[] | null) ?? []
   const mitJa = new Set(checks.filter((c) => c.dub === true).map((c) => c.anilistId))
-  const mitNein = new Set(checks.filter((c) => c.dub === false).map((c) => c.anilistId))
+  const mitNein = new Set(checks.filter(verneintSynchro).map((c) => c.anilistId))
   const zugelassen = treffer.map((t) => t.anilistId).filter((id) => !mitNein.has(id) || mitJa.has(id))
-  log(`Synchron-Forum-Liste: ${zugelassen.length} von ${treffer.length} Treffern zählen, ${treffer.length - zugelassen.length} durch Handprüfung dub:false ausgeschlossen`)
+  log(`Synchron-Forum-Liste: ${zugelassen.length} von ${treffer.length} Treffern zählen, ${treffer.length - zugelassen.length} durch ein Nein zur Synchro selbst ausgeschlossen`)
   return new Set(zugelassen)
 }
 
