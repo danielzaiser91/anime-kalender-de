@@ -8,7 +8,7 @@
  *
  * Diese Prüfung liest dieselbe Quelle, mit der die Ursachen gefunden wurden
  * (`wrangler d1 insights` → `d1QueriesAdaptiveGroups` der GraphQL Analytics API), und wird laut,
- * **bevor** es eng wird:
+ * **bevor** es eng wird (Schwellen und Bewertung: `d1-verbrauch-bewertung.mjs`):
  *
  *   - Gesamtverbrauch über `GRENZE_GESAMT` (2,5 Mio. = die Hälfte des Kontingents), oder
  *   - eine einzelne Abfrage über `GRENZE_EINZELN` (1 Mio. = ein Fünftel), oder
@@ -17,25 +17,39 @@
  * Dann endet der Lauf mit Exit 1 — in der Statusanzeige steht er rot mit dem Befund, und im
  * Protokoll stehen die fünf größten Leser mit ihren Zahlen.
  *
+ * **Messfenster (14.10.2026): der UTC-Tag bis jetzt**, denn das Kontingent und unser Deckel zählen je
+ * UTC-Tag; `--zeitraum 1d` (oder `12h` …) bleibt als gleitendes Fenster. **Summiert werden alle
+ * Abfragegruppen** (bis `ABFRAGEN_LIMIT`), nicht nur die größten.
+ *
+ * **Nicht in den Insights:** Migrations-DDL (`CREATE INDEX` …) und `d1 execute --file`. Der Lauf nennt
+ * dazu die gleitenden 24 h aus `d1 info` (enthält beides) und rechnet mit `--ddl <Zeilen>` die
+ * Schreibzeilen der heute eingespielten Migrationen dazu.
+ *
  * **Ohne `CLOUDFLARE_API_TOKEN` passiert nichts** (Exit 0 mit Hinweis): Ein fehlendes Secret darf
  * keinen roten Lauf erzeugen — dieselbe Regel wie beim Melder.
  *
- * Aufruf: `node tools/d1-verbrauch.mjs [--zeitraum 1d]`
+ * Aufruf: `node tools/d1-verbrauch.mjs [--zeitraum 1d] [--ddl 38747] [--lokal]`
  */
 import { execSync } from 'node:child_process'
-
-const GRENZE_GESAMT = 2_500_000
-const GRENZE_EINZELN = 1_000_000
-/*
-  Schreib-Tageskontingent der freien Stufe: 100.000 Zeilen; jede Meldung kostet rund 14. Seit 11.10.2026:
-  ab 50.000 nur eine Warnzeile (Exit 0), rot erst ab 80.000 — der Plan ist unbestätigt, und am
-  11.10.2026 lief der Worker trotz 154.738 Zeilen am Tag weiter.
-*/
-const WARNUNG_GESCHRIEBEN = 50_000
-const GRENZE_GESCHRIEBEN = 80_000
+import {
+  ABFRAGEN_LIMIT,
+  DDL_LUECKE_GEMESSEN,
+  KONTINGENT_GELESEN,
+  KONTINGENT_GESCHRIEBEN,
+  PUFFER_MINUTEN,
+  bewerte,
+  utcTagMinuten,
+} from './d1-verbrauch-bewertung.mjs'
 
 const args = process.argv.slice(2)
-const zeitraum = args.includes('--zeitraum') ? (args[args.indexOf('--zeitraum') + 1] ?? '1d') : '1d'
+const wert = (name) => (args.includes(name) ? args[args.indexOf(name) + 1] : undefined)
+const jetzt = new Date()
+const zeitraum = wert('--zeitraum') ?? `${utcTagMinuten(jetzt)}m`
+/* Die erste Zeile bleibt „D1-Verbrauch der letzten …“: `d1-verbrauch.yml` sucht sie für die Statusmeldung. */
+const fensterText = wert('--zeitraum')
+  ? `letzten ${zeitraum}`
+  : `letzten ${Math.floor((utcTagMinuten(jetzt) - PUFFER_MINUTEN) / 60)} h (UTC-Tag ${jetzt.toISOString().slice(0, 10)} seit 00:00 UTC)`
+const ddl = Number(wert('--ddl') ?? 0) || 0
 /*
   **`--lokal` nutzt die angemeldete `wrangler`-Sitzung** statt eines Tokens. Für die Probe am
   eigenen Rechner: In Actions gibt es die Sitzung nicht, dort trägt der Secret-Token die Anmeldung.
@@ -48,13 +62,18 @@ if (!lokal && !process.env.CLOUDFLARE_API_TOKEN) {
   process.exit(0)
 }
 
-function leseInsights(sortierung, limit = 5) {
+const wrangler = (befehl) =>
+  execSync(`npx wrangler d1 ${befehl} anime-kalender --config wrangler.toml`, {
+    cwd: 'worker',
+    encoding: 'utf8',
+    maxBuffer: 32 * 1024 * 1024,
+    stdio: ['ignore', 'pipe', 'pipe'],
+  })
+
+function leseInsights(sortierung) {
   let roh
   try {
-    roh = execSync(
-      `npx wrangler d1 insights anime-kalender --config wrangler.toml --sort-by ${sortierung} --limit ${limit} --time-period ${zeitraum}`,
-      { cwd: 'worker', encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] },
-    )
+    roh = wrangler(`insights --sort-by ${sortierung} --limit ${ABFRAGEN_LIMIT} --time-period ${zeitraum}`)
   } catch (err) {
     console.error('`wrangler d1 insights` ist fehlgeschlagen:', String(err.stdout ?? err.message).slice(0, 400))
     process.exit(1)
@@ -67,14 +86,26 @@ function leseInsights(sortierung, limit = 5) {
   }
 }
 
+/** Gleitende 24 h samt DDL; ein Token ohne D1-Recht (nur Analytics) kann das nicht lesen — dann `null`. */
+function leseInfo() {
+  try {
+    const roh = wrangler('info --json')
+    const info = JSON.parse(roh.slice(roh.indexOf('{')))
+    return { gelesen24h: info.rows_read_24h, geschrieben24h: info.rows_written_24h }
+  } catch {
+    return null
+  }
+}
+
 const zeilen = leseInsights('reads')
 
 const summe = zeilen.reduce((a, q) => a + (q.totalRowsRead ?? 0), 0)
 const groesste = [...zeilen].sort((a, b) => (b.totalRowsRead ?? 0) - (a.totalRowsRead ?? 0))
 const kurz = (q) => String(q.query ?? '').replace(/\s+/g, ' ').slice(0, 96)
+const de = (n) => n.toLocaleString('de-DE')
 
-console.log(`D1-Verbrauch der letzten ${zeitraum}: ${summe.toLocaleString('de-DE')} gelesene Zeilen`)
-console.log(`Kontingent der freien Stufe: 5.000.000 am Tag — das sind ${((summe / 5_000_000) * 100).toFixed(1)} %`)
+console.log(`D1-Verbrauch der ${fensterText}: ${de(summe)} gelesene Zeilen`)
+console.log(`Kontingent der freien Stufe: ${de(KONTINGENT_GELESEN)} am Tag — das sind ${((summe / KONTINGENT_GELESEN) * 100).toFixed(1)} %`)
 console.log('')
 console.log('Die fünf größten Leser:')
 for (const q of groesste.slice(0, 5)) {
@@ -86,14 +117,14 @@ for (const q of groesste.slice(0, 5)) {
 
 /*
   **Geschriebene Zeilen (11.10.2026):** Ein Massenlauf schrieb am 11.10.2026 in 35 Minuten
-  140.000 Zeilen (Folgenmeldungen), und die Wache sah nur Gelesenes. Summiert werden die 30
-  größten Schreiber; die Summe ist eine untere Schranke, reicht aber, weil zwei Abfragen den Großteil tragen.
+  140.000 Zeilen (Folgenmeldungen), und die Wache sah nur Gelesenes. Je Anfrage der Meldungs-Route
+  gemessen (13.10.2026): 48 geschriebene Zeilen, 11 je Netflix-/Disney+-Folge, 5 je Prime-Rohfolge.
 */
-const schreiber = leseInsights('writes', 30)
+const schreiber = leseInsights('writes')
 const geschrieben = schreiber.reduce((a, q) => a + (q.totalRowsWritten ?? 0), 0)
 console.log('')
-console.log(`Geschriebene Zeilen der letzten ${zeitraum}: ${geschrieben.toLocaleString('de-DE')}`)
-console.log(`Schreib-Kontingent der freien Stufe: 100.000 am Tag — das sind ${((geschrieben / 100_000) * 100).toFixed(1)} %`)
+console.log(`Geschriebene Zeilen der ${fensterText}: ${de(geschrieben)}`)
+console.log(`Schreib-Kontingent der freien Stufe: ${de(KONTINGENT_GESCHRIEBEN)} am Tag — das sind ${((geschrieben / KONTINGENT_GESCHRIEBEN) * 100).toFixed(1)} %`)
 console.log('Die drei größten Schreiber:')
 for (const q of schreiber.slice(0, 3)) {
   console.log(
@@ -101,30 +132,24 @@ for (const q of schreiber.slice(0, 3)) {
       `Ø ${String(q.avgRowsWritten ?? 0).padStart(6)}  ${kurz(q)}`,
   )
 }
+if (Math.max(zeilen.length, schreiber.length) >= ABFRAGEN_LIMIT) {
+  console.log(`::warning::D1-Verbrauch: ${ABFRAGEN_LIMIT} Abfragegruppen geholt, die Summen sind eine untere Schranke.`)
+}
 
-const befunde = []
-if (geschrieben > GRENZE_GESCHRIEBEN) {
-  befunde.push(
-    `${geschrieben.toLocaleString('de-DE')} geschriebene Zeilen über der Grenze ` +
-      `${GRENZE_GESCHRIEBEN.toLocaleString('de-DE')} (Schreib-Kontingent der freien Stufe: 100.000)`,
-  )
-} else if (geschrieben > WARNUNG_GESCHRIEBEN) {
-  console.log(
-    `::warning::D1-Verbrauch: ${geschrieben.toLocaleString('de-DE')} geschriebene Zeilen, ` +
-      `Warnschwelle ${WARNUNG_GESCHRIEBEN.toLocaleString('de-DE')} (rot ab ${GRENZE_GESCHRIEBEN.toLocaleString('de-DE')})`,
-  )
+const info = leseInfo()
+console.log('')
+console.log(
+  `Nicht in den Insights: Migrations-DDL und \`d1 execute --file\` (13.10.2026: ${de(DDL_LUECKE_GEMESSEN)} Schreibzeilen an einem Tag mit drei Migrationen).` +
+    (ddl ? ` Eingerechnet: ${de(ddl)} (--ddl).` : ' Heute eingespielte Migrationen mit `--ddl <Zeilen>` angeben.'),
+)
+if (info) {
+  console.log(`d1 info, gleitende 24 h (mit DDL, reicht in den Vortag): ${de(info.gelesen24h)} gelesen, ${de(info.geschrieben24h)} geschrieben.`)
+} else {
+  console.log('d1 info nicht lesbar (Token ohne D1-Recht?) — die Lücke bleibt ungemessen.')
 }
-if (summe > GRENZE_GESAMT) {
-  befunde.push(
-    `Gesamtverbrauch ${summe.toLocaleString('de-DE')} über der Grenze ${GRENZE_GESAMT.toLocaleString('de-DE')} ` +
-      `(halbes Tageskontingent)`,
-  )
-}
-for (const q of groesste) {
-  if ((q.totalRowsRead ?? 0) > GRENZE_EINZELN) {
-    befunde.push(`eine Abfrage liest ${q.totalRowsRead.toLocaleString('de-DE')} Zeilen: ${kurz(q)}`)
-  }
-}
+
+const { befunde, warnungen } = bewerte({ gelesen: summe, geschrieben, ddl, groesste, info })
+for (const w of warnungen) console.log(`::warning::D1-Verbrauch: ${w}`)
 
 if (befunde.length) {
   console.log('')
