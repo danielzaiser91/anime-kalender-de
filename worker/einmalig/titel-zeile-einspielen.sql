@@ -15,8 +15,10 @@
 -- 22.09.2026), werden sie aus `befund` abgeleitet wie im Worker. Die Kopfdaten (Staffelstruktur, Titel,
 -- Serientitel) sind jeweils der jüngste Wert, der nicht leer ist. `offen_meldung`/`offen_rohfolge` zählen die Folgen,
 -- die Bau und Zuordner noch holen (wie `zaehleOffene` in `worker/src/titelzeile-format.ts`).
--- Der Aufruf liest `prime_folge` einmal ganz (kein Index auf `plattform`: rund 50.000 gelesene Zeilen) und
--- `pruefung` zu Disney+ (rund 7.000), schreibt eine Zeile je Adresse plus Indexzeile (rund 350). Wiederholbar: Adressen mit
+-- **Gelesene Zeilen, an der echten D1 am 14.10.2026 11:30 gemessen: 9.132.488** (geschätzt waren rund 50.000), geschrieben 430
+-- für 215 Adressen. Grund: `je_titel` fragt die CTE `folgen` je Adresse dreimal ab (korrelierte Unterabfragen), und SQLite
+-- rechnet sie samt `prime_folge`-Durchlauf jedes Mal neu — das ist mehr als das Tageskontingent (5 Mio.). Nicht noch einmal
+-- so laufen lassen: vorher `folgen` in eine Tabelle schreiben oder je Adresse einmal gruppieren. Wiederholbar: Adressen mit
 -- Titelzeile werden übersprungen. Die Altzeilen bleiben stehen und werden nicht mehr gelesen
 -- (Befristung: Kopf von Migration 055).
 WITH
