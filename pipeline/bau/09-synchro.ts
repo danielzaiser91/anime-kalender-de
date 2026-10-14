@@ -14,6 +14,7 @@ import { werteCrunchyrollDubAus } from './09-4-crunchyroll-dub.ts'
 import { werteWeitereQuellenAus } from './09-5-weitere-quellen.ts'
 import { ergaenzeAnisearchWege } from './09-6-anisearch-wege.ts'
 import { schliesseSynchroAb } from './09-7-abschluss.ts'
+import { kennzeichneAdnNeuzugaengeOhneSprache } from './adn-sprache-offen.ts'
 
 /**
  * Synchro-Verfügbarkeit je Plattform: Ein Stream-Link allein sagt nichts über die Sprache —
@@ -80,9 +81,18 @@ export function pruefeSynchroJePlattform({
     adnStreamSchaerfen,
   })
   schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, belegFuer: belege.belegFuer })
+  kennzeichneAdnNeuzugaengeOhneSprache(releases, titles, belege.belegFuer)
   /* Erst hier sind alle Crunchyroll-Termine da; vor Phase 10 übernehmen die Ereignisse das Flag. */
   hebeFolgenzahlAnnahmeAuf(releases)
+  return synchroErgebnis(belege, pruefung, motnBelege)
+}
 
+/** Was die Phasen nach der Synchro-Prüfung brauchen (`build.ts` reicht es als `synchro` weiter). */
+function synchroErgebnis(
+  belege: ReturnType<typeof sammleBelege>,
+  pruefung: ReturnType<typeof werteLinkpruefungAus>,
+  motnBelege: ReturnType<typeof werteWeitereQuellenAus>['motnBelege'],
+) {
   const { zugangJeAdresse, crAdresseZu, beantworteteSuchen, suchOffen, alleChecks, checksJePlattform, kanalJeAdresse } =
     belege
   const { linkBefunde, lautPruefungTot } = pruefung

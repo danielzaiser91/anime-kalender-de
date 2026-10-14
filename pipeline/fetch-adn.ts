@@ -23,7 +23,7 @@ import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { episodeAus, katalogShowAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
-import { katalogMitNeuen, sammleNeuzugaenge, unbekannteSerien } from './lib/adn-neuzugaenge.ts'
+import { fragNeuzugaenge, katalogMitNeuen } from './lib/adn-neuzugaenge.ts'
 import { ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
 import {
   bestimmeRhythmus,
@@ -499,14 +499,13 @@ function archivKennungen(): number[] {
 async function holeNeueSerien(): Promise<void> {
   const katalog = readJson<AdnData>(KATALOG_DATEI, { scrapedAt: '', window: { from: '', to: '' }, shows: [] })
   const bekannt = new Set([...katalog.shows.map((s) => s.showId), ...archivKennungen()])
-  const neu = unbekannteSerien(await sammleSerienliste(), bekannt)
-  log(`ADN: ${neu.length} Serien der Liste weder im Katalog noch im Archiv`)
-  if (!neu.length) return
-  const { shows, archiv, offen } = await sammleNeuzugaenge(neu, ladeSerie, () => sleep(700))
-  for (const [id, videos] of archiv) archiviereSerie(id, videos)
   const stand = readJson<Record<string, string>>(KATALOG_STAND, {})
-  for (const id of archiv.keys()) stand[String(id)] = new Date().toISOString()
-  writeJson(KATALOG_STAND, stand)
+  const lauf = await fragNeuzugaenge(await sammleSerienliste(), bekannt, stand, ladeSerie, () => sleep(700))
+  log(`ADN: ${lauf.anzahl} Serien der Liste weder im Katalog noch im Archiv (ohne die, die vor weniger als 24 Stunden ohne Videos antworteten)`)
+  if (!lauf.anzahl) return
+  const { shows, archiv, offen } = lauf
+  for (const [id, videos] of archiv) archiviereSerie(id, videos)
+  writeJson(KATALOG_STAND, lauf.stand)
   if (offen.length) warn(`ADN: ${offen.length} neue Serien nicht abrufbar (${offen.join(', ')}) — nächster Lauf versucht es wieder.`)
   if (!shows.length) return
   writeJson(KATALOG_DATEI, { ...katalog, shows: katalogMitNeuen(katalog.shows, shows) } satisfies AdnData, true)

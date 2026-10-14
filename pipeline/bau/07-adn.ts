@@ -13,6 +13,7 @@ import { todayIso } from '../../shared/time.ts'
 import { artikelJeShow, type AdnNews } from '../lib/adn-news.ts'
 import { ergaenzeTeilnamen } from './adn-teilnamen.ts'
 import { verschmelzeAdnMitKuratiertem } from './adn-kuratiert.ts'
+import { adnShowsAusKalenderUndKatalog, belegeTonKuratierterAdnTermine } from './adn-kuratiert-ton.ts'
 import { loeseAdnTitelIds, titelZurShow } from './adn-show-titel.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 
@@ -23,9 +24,18 @@ type AdnEingabe = {
   seenSlugs: Set<string>
 }
 
+const LEER_ADN: AdnData = {
+  scrapedAt: '',
+  window: { from: '', to: '' },
+  shows: [],
+}
+
 /** ADN-Termine aus Kalender und Katalog; ein kuratierter Termin desselben Titels am selben Tag geht darin auf (`adn-kuratiert.ts`). */
 export function ergaenzeAdnTitel(eingabe: AdnEingabe) {
   const ergebnis = ergaenzeAdnTitelAusDaten(eingabe)
+  const shows = adnShowsAusKalenderUndKatalog(readJson<AdnData>('data/adn.json', LEER_ADN), ergebnis.adnKatalog)
+  const belegt = belegeTonKuratierterAdnTermine(eingabe.releases, eingabe.titles, shows, todayIso())
+  if (belegt) log(`${belegt} ADN-Wege kuratierter Termine mit deutscher Synchro belegt (vde am Starttag laut ADN)`)
   const aufgegangen = verschmelzeAdnMitKuratiertem(eingabe.releases)
   if (aufgegangen) log(`${aufgegangen} ADN-Termine mit dem kuratierten Termin desselben Titels am selben Tag zusammengelegt`)
   return ergebnis
