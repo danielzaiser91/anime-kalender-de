@@ -11,6 +11,7 @@
  * Die Termine kommen aus denselben JSON-Dateien, die auch die Website lädt.
  */
 import type { NewsEintrag, PlatformId, Release, ReleaseEvent } from '../../shared/types.ts'
+import { OFFENE_PFADE, mitAuffangnetz } from './auffangnetz.ts'
 import { sichereSchnellmessung } from './schnellmesser.ts'
 import { handleVerlauf } from './verlauf.ts'
 import { ladeKennungen, leseFavoriten, schreibeFavoriten, zaehleFavoriten } from './favoriten-kennung.ts'
@@ -881,6 +882,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
   const news = await loadNews(env)
   const weitereAnbieter = weitereAusNews(news)
   const reihen = await loadReihen(env)
+  const kennungen = await ladeKennungen(env)
   const log: string[] = []
 
   for (const frequency of due) {
@@ -912,7 +914,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
 
       // Gemerkte Titel nach vorn: Eine neue Folge einer Serie, der jemand
       // folgt, ist ihm wichtiger als irgendein Disc-Release.
-      const favorites = leseFavoriten(sub.favorites, await ladeKennungen(env))
+      const favorites = leseFavoriten(sub.favorites, kennungen)
 
       /**
        * Gemerkte Titel, die **seit der letzten Mail an diesen Abonnenten** eine
@@ -1392,18 +1394,12 @@ async function handleVorfall(request: Request, env: Env): Promise<Response> {
   return antwort({ ok: true, vorfaelle: anzahl?.n ?? 0 })
 }
 
-export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+async function verteile(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url)
 
     if (request.method === 'OPTIONS') {
       // Der Laufstatus wird auch aus einer Datei gelesen (Ursprung `null`) — daher `*` für diese Pfade.
-      if (
-        url.pathname === '/lauf' ||
-        url.pathname === '/pruefung' ||
-        url.pathname === '/netzfund' ||
-        url.pathname === '/vorfall'
-      ) {
+      if (OFFENE_PFADE.includes(url.pathname)) {
         return new Response(null, {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -1591,7 +1587,11 @@ export default {
       default:
         return json(env, { error: 'Unbekannter Pfad' }, 404)
     }
-  },
+}
+
+export default {
+  fetch: (request: Request, env: Env, ctx: ExecutionContext): Promise<Response> =>
+    mitAuffangnetz(new URL(request.url).pathname, cors(env), () => verteile(request, env, ctx)),
 
   async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     const now = new Date()

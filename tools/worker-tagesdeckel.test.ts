@@ -14,7 +14,8 @@ import { handlePruefung } from '../worker/src/pruefung.ts'
 import { handleLauf } from '../worker/src/lauf.ts'
 import { schreibeVerlauf } from '../worker/src/monitor-speicher.ts'
 import { berechnePruefstand } from '../worker/src/pruefung-stand.ts'
-import { DECKEL_ZEILEN, utcTag, sekundenBisMitternachtUtc } from '../worker/src/tagesdeckel.ts'
+import { DECKEL_ZEILEN, utcTag } from '../worker/src/tagesdeckel.ts'
+import { sekundenBisMitternachtUtc } from '../worker/src/d1-limit.ts'
 import { PRUEFUNG_ID_AB } from '../worker/src/rohfolgen-seiten.ts'
 
 let fehler = 0

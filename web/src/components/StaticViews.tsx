@@ -14,6 +14,7 @@ import {
   pushFavorites,
   requestRestore,
   setSyncToken,
+  subscribe,
   type Einstellungen,
 } from '../lib/newsletterSync.ts'
 import { AdminPanel, readAdminToken } from './AdminPanel.tsx'
@@ -523,13 +524,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
     }
     setState('sending')
     try {
-      const res = await fetch(`${WORKER_URL}/subscribe`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, frequency, platforms, favorites: [...favorites], ak: 1 }),
-      })
-      const body = (await res.json()) as { ok?: boolean; error?: string }
-      if (!res.ok || !body.ok) throw new Error(body.error ?? 'Unbekannter Fehler')
+      await subscribe({ email, frequency, platforms, favorites: [...favorites] })
       setState('ok')
       setMessage(t('news.ok'))
     } catch (err) {

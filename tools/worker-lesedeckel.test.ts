@@ -10,7 +10,8 @@
 import { DatabaseSync } from 'node:sqlite'
 import { readdirSync, readFileSync } from 'node:fs'
 import { handlePruefung } from '../worker/src/pruefung.ts'
-import { DECKEL_LESEN, DECKEL_ZEILEN, istD1Tageslimit, utcTag } from '../worker/src/tagesdeckel.ts'
+import { DECKEL_LESEN, DECKEL_ZEILEN, utcTag } from '../worker/src/tagesdeckel.ts'
+import { istD1Tageslimit } from '../worker/src/d1-limit.ts'
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
