@@ -37,10 +37,10 @@ Vorher/Nachher der ganzen App und des Filterfensters: Mockups `design-app` und `
 | Gut | `ak-gut`, `ak-gut-text`, `ak-gut-grund`, `ak-auf-gut` | belegt, bestätigt, ✓ Deutsch, Erfolg, gewählte Filter-Pille (Rand); `ak-auf-gut` = Text auf der Füllung (hell weiß, dunkel dunkel; 4,5:1) |
 | Fehler | `ak-fehler`, `ak-fehler-text`, `ak-fehler-grund`, `ak-auf-fehler` | Fehler, Abbrechen/Beenden, ausgeschlossene Filter-Pille (Rand); `ak-auf-fehler` = Text auf der Füllung; `.ak-immer-dunkel` gibt Flächen, die in beiden Themen dunkel sind (Beleg-Dialog), die Dunkelfassung |
 | Warnung | `ak-warnung`, `ak-warnung-text`, `ak-warnung-grund` | Warnung, Hinweis mit Handlungsbedarf, Bugfix in den Patch Notes |
-| Info | `ak-info`, `ak-info-text`, `ak-info-grund` | erklärende Marke ohne Handlungsbedarf: Nachtrag, Schnellfilter-Band, Neuigkeiten-Marken |
+| Info | `ak-info`, `ak-info-text`, `ak-info-grund` | erklärende Marke ohne Handlungsbedarf: Nachtrag, Schnellfilter-Band, Neuigkeiten-Marken, „ab 11.10.“-Pille unter „Demnächst“ (nur eine Auskunft über den Start, kein Handlungsbedarf, deshalb Info statt Warnung) |
 | TV | `ak-tv`, `ak-tv-grund`, `ak-tv-rand` | nur lineares Fernsehen |
 | Katalog | `ak-katalog`, `ak-katalog-text` | nur Katalog-Release |
-| Finale | `ak-finale`, `ak-finale-text` | Staffelfinale **und** Favoriten-Stern (Gold = Höhepunkt) |
+| Finale | `ak-finale`, `ak-finale-text` | Staffelfinale, Favoriten-Stern **und** Disc-Punkt der Neuigkeiten (Gold; die Liste „Was sich getan hat“ färbt Disc ebenfalls gelb; als Punkt `ak-finale-text`, weil `ak-finale` hell nur 1,6:1 hat). Die übrigen Punkte der Neuigkeiten: neu `ak-gut`, Kino `ak-akzent`; „Angekündigt“ bleibt Violett, damit Disc sich im Band davon abhebt |
 | Heute | `ak-heute` | Grund der Heute-Spalte |
 
 `-text` ist die Variante für Schrift (hell dunkler, dunkel heller), `-grund` die 10–12 % Tönung über `ak-flaeche` für Kästen und Pillen.

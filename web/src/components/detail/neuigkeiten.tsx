@@ -20,7 +20,7 @@ const PUNKT: Record<NewsMeldung['art'], string> = {
   neu: 'bg-ak-gut',
   folgen: 'bg-blue-400',
   angekuendigt: 'bg-violet-500',
-  disc: 'bg-ak-katalog',
+  disc: 'bg-ak-finale-text',
   kino: 'bg-ak-akzent',
   verspaetet: 'bg-slate-400',
   nachgereicht: 'bg-teal-500',
