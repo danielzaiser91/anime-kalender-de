@@ -1,3 +1,4 @@
 kategorie: feature
-text: Heute sehen, was läuft und was gleich kommt
-untertitel: Im Fernsehen und auf den Kacheln der Woche
+text: Wochenansicht zeigt, was gerade läuft
+highlight: true
+untertitel: "Fernseh-Kasten mit „● Läuft“, Kacheln mit „in 40 Min“"
