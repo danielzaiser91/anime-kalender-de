@@ -2,7 +2,7 @@
  * Patch-Notes „Neu auf der Webseite": Form, Prüfung und Auslieferung. Die Quelle ist der Ordner `data/patchnotes/` (jeder PR mit
  * sichtbarer Wirkung legt seine Datei an), ausgeliefert wird `patchnotes.json` — nur beim Klick auf den Knopf geladen.
  * Der Tag eines Eintrags ist der Tag des Commits, der seine Datei angelegt hat (`pipeline/lib/patchnotes-datum.ts`); `datum` in der
- * Datei ist nur ein Nachtrag für Einträge, die älter sind als dieses Verfahren.
+ * Datei ist nur ein Nachtrag (Altbestand, Bündeln, Umbenennen) und darf nicht nach dem Anlagetag der Datei liegen (`pipeline/check-patchnotes.ts`).
  */
 export const PATCH_KATEGORIEN = ['feature', 'bugfix'] as const
 export type PatchKategorie = (typeof PATCH_KATEGORIEN)[number]
