@@ -29,7 +29,7 @@ function ball(ui: any, key: string, an: boolean, themenfarbe: string) {
   )
 }
 
-// Sanduhr neben dem Ruhe-Ball (Daniel, 11.10.2026): Ruhemodus sanft wartet, bis die laufenden Agenten fertig sind.
+// Sanduhr neben dem Ruhe-Ball (Daniel, 11.10.2026): Ruhemodus sanft wartet, bis höchstens 1 Agent läuft; Prüfer zählen nicht (14.10.2026).
 function sanduhr(ui: any) {
   const { Text } = ui
   return (
@@ -56,7 +56,7 @@ export function baueLeiste(ui: any, s: LeisteStand) {
       <Button key="oeffnen" plain label={`Arbeitsliste ${s.jetzt}`} onPress={s.oeffneListe} />
       {ball(ui, 'ball-autonom', !!s.autonomBis, 'success')}
       {ball(ui, 'ball-ruhe', !!s.ruhe, 'warning')}
-      {s.ruhe === 'sanft' && s.agenten + s.pruefer > 1 ? sanduhr(ui) : null}
+      {s.ruhe === 'sanft' && s.agenten > 1 ? sanduhr(ui) : null}
       {s.lecks ? lecksAnzeige(ui, s.lecks) : null}
     </Box>
   )
