@@ -27,7 +27,7 @@ Gesamtüberblick aller **Animation mit deutscher Synchronfassung** (nicht nur ja
 
 ## Codegestalt und Oberfläche
 
-Neues = eigene Funktion/Modul (nicht in Funktion > 80 oder Datei > 800 Zeilen anbauen; `check:umfang` darf nur sinken). Daten als Parameter/Rückgabe. Vorher in `pipeline/lib/`, `shared/`, `web/src/lib/` suchen. Kommentare: Warum in 1–3 Zeilen. Umbau und Verhaltensänderung nie im selben Commit (`tools/bau-vergleich.mjs`, `panel-vergleich.mjs`, Skill `zerlegen`). Keine Information zweimal auf demselben Bildschirm.
+Neues = eigene Funktion/Modul (nicht in Funktion > 80 oder Datei > 800 Zeilen anbauen; `check:umfang` darf nur sinken). Daten als Parameter/Rückgabe. Vorher in `pipeline/lib/`, `shared/`, `web/src/lib/` suchen. Kommentare: Warum in 1–3 Zeilen. Umbau und Verhaltensänderung nie im selben Commit (`tools/bau-vergleich.mjs`, `panel-vergleich.mjs`, Skill `zerlegen`). Keine Information zweimal auf demselben Bildschirm. Alte Farbklassen (`slate-`, `sky-`, `dark:`, Hex …) in `web/src` dürfen nur sinken (`tools/design-klassen.mjs`, in `check:logic`; seit 14.10.2026), neuer Code nimmt `ak-*`-Tokens.
 
 ## Vor dem Commit
 
