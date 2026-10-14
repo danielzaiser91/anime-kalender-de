@@ -5,6 +5,7 @@
 import assert from 'node:assert/strict'
 import { werteFeldAus, feldMarkdown, uebersichtMarkdown, istListeA, A_MIN_STIMMEN } from '../pipeline/lib/luecken-rahmen.ts'
 import { sammleTage } from '../pipeline/lib/luecken-kontext.ts'
+import { grundOhneBanner } from '../pipeline/lib/banner-luecken.ts'
 
 const titel = (id, extra = {}) => ({ id, titleRomaji: `T${id}`, ...extra })
 const alle = [titel(1), titel(2), titel(3), titel(4, { coverImage: 'x' }), titel(5), titel(6)]
@@ -17,6 +18,7 @@ const kontext = {
   hqGrund: new Map(),
   banner: {},
   zuordnung: {},
+  staffel0: {},
   ak: new Map([[3, 77]]),
   alle,
 }
@@ -46,4 +48,7 @@ const tage = sammleTage(
 )
 assert.deepEqual(tage.get(9), [1, -10])
 assert.equal(tage.has(8), false)
+assert.equal(grundOhneBanner(1, {}, {}, {}), 'keine TMDB-Zuordnung')
+assert.equal(grundOhneBanner(1, {}, {}, { 1: {} }), 'Staffel 0 führt kein Standbild ab 1280 px', 'Titel mit Staffel-0-Zuordnung hat eine Zuordnung')
+assert.equal(grundOhneBanner(1, {}, { 1: { tmdbId: 5 } }, {}), 'noch nicht abgefragt')
 console.log('lueckenlisten.test: ok')

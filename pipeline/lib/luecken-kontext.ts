@@ -58,6 +58,7 @@ export function ladeKontext(heute: string): Kontext {
     hqGrund: new Map(klein.map((z) => [z.id, z.grund])),
     banner: readJson(BANNER_DATEI, {}),
     zuordnung: readJson('data/tmdb-titles.json', {}),
+    staffel0: readJson('data/tmdb-staffel0.json', {}),
     ak: new Map(kennungen.map((z) => [z[1], z[0]])),
     alle,
   }
