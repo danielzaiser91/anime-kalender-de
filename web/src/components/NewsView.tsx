@@ -506,7 +506,7 @@ function MeldungZeile({
         <button
           type="button"
           onClick={oeffne}
-          className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-0.5 rounded py-1 pr-1 text-left hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-sky-500 dark:hover:bg-slate-900/60"
+          className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-0.5 rounded py-1 pr-1 text-left hover:bg-slate-50 dark:hover:bg-slate-900/60"
         >
           <span className={`shrink-0 rounded px-1.5 py-0.5 text-[11px] ${NEWS_FARBE[m.art]}`}>
             {artLabel(m)}

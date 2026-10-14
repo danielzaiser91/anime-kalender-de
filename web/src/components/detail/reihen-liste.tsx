@@ -210,7 +210,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                         je Zeile, fünf statt drei sichtbar.
                       */
                       'flex w-full items-center gap-2 rounded-lg border p-1 text-left transition',
-                      'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:opacity-60',
+                      'focus-visible:-outline-offset-2 disabled:opacity-60',
                       gewaehlt
                         ? 'relative border-sky-400 bg-sky-50 ring-1 ring-sky-400/50 before:absolute before:inset-y-1.5 before:left-px before:w-[3px] before:rounded-sm before:bg-sky-400 dark:bg-sky-400/10'
                         : offen

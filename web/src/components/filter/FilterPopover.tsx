@@ -65,7 +65,7 @@ export function FilterPopover({ offen, schliessen, ausloeser, label, children }:
           aria-label={label}
           tabIndex={-1}
           style={{ maxHeight: Math.max(160, hoehe - leiste.offsetHeight - OBEN) }}
-          className="absolute inset-x-0 bottom-full flex flex-col animate-fade-in overflow-hidden rounded-t-3xl border-t border-ak-rand bg-ak-flaeche shadow-[0_-24px_60px_rgba(0,0,0,.45)] focus:outline-none"
+          className="absolute inset-x-0 bottom-full flex flex-col animate-fade-in overflow-hidden rounded-t-3xl border-t border-ak-rand bg-ak-flaeche shadow-[0_-24px_60px_rgba(0,0,0,.45)]"
         >
           {children}
         </div>,

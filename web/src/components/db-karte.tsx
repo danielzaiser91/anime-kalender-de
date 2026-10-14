@@ -80,7 +80,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
             ? 'border-slate-400/60 hover:border-slate-500 dark:border-white/25 dark:hover:border-white/40'
             : 'border-slate-200 hover:border-slate-300 dark:border-white/10 dark:hover:border-white/25',
         keinDub ? 'bg-slate-100/70 hover:shadow-md dark:bg-white/[0.015]' : 'bg-white hover:shadow-lg dark:bg-white/[0.03]',
-        'has-[.ak-oeffnen:focus-visible]:ring-2 has-[.ak-oeffnen:focus-visible]:ring-sky-400',
+        'has-[.ak-oeffnen:focus-visible]:outline-2 has-[.ak-oeffnen:focus-visible]:outline-offset-2 has-[.ak-oeffnen:focus-visible]:outline-ak-fokus',
       ].join(' ')}
     >
       <button

@@ -166,6 +166,21 @@ body {
 }
 
 /*
+  Ein Fokusring für alles (docs/wissen/design-regeln.md, Abschnitt 4). Im Layer `base`, damit Hilfsklassen
+  (`focus-visible:-outline-offset-2` für Einträge in Scrollflächen, die den Ring sonst abschnitten) ihn überstimmen.
+  Ausnahme: Container mit `tabindex=-1` bekommen den Fokus nur per Skript und sind keine Bedienelemente.
+*/
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--ak-fokus);
+    outline-offset: 2px;
+  }
+  [tabindex='-1']:focus-visible {
+    outline: none;
+  }
+}
+
+/*
   Die Farben der Panel-Bühne — je Thema, statt fest verdrahtet.
 
   Über dem Bühnenbild im Detail-Panel liegt ein Verlauf, damit der Titel

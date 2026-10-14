@@ -9,7 +9,7 @@ import { PILLE_JA, PILLE_NEIN } from './filter/pille-zustand.ts'
 import { fokusZeigtBlase, useEinzigeBlase } from './tooltip-einzeln.ts'
 
 /** Gemeinsamer Fokus- und Zeigerstil aller anklickbaren Elemente. */
-const CLICKABLE = 'cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400'
+const CLICKABLE = 'cursor-pointer'
 
 /**
  * Hüllt einen Baustein in einen Hinweis — aber nur, wenn es einen gibt.
@@ -680,7 +680,7 @@ export function Tooltip({
         /* `inline-flex`: Die Hülle nimmt die Höhe ihres Kinds, nicht die der Zeile — sonst stehen Plaketten versetzt. */
         className={[
           /* Mit `kindFokus` ist das Kind der Auslöser (z. B. ein Knopf) und bringt seine eigene Trefferfläche mit; ein `::after` der Hülle läge sonst über ihm und finge den Klick ab (Heute-Knopf, 08.10.2026). */
-          `inline-flex items-center rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${kindFokus ? '' : TREFFER_24_MIN}`,
+          `inline-flex items-center rounded-sm ${kindFokus ? '' : TREFFER_24_MIN}`,
           unterstrichen ? 'cursor-help underline decoration-dotted underline-offset-2' : '',
         ].join(' ')}
       >

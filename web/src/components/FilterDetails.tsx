@@ -340,7 +340,7 @@ export function FilterDetails({
   return (
     <>
       <KlickModusLeiste t={t} mode={mode} setMode={setMode} />
-      <div data-filter-scroll tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto overscroll-contain focus:outline-none">
+      <div data-filter-scroll tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
       <FilterSuche t={t} filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
       <SchnellSchalter
         t={t}

@@ -110,8 +110,6 @@ html:not(.dark) {
 .pn-link { color: var(--ak-akzent-text); font-weight: 700; white-space: nowrap; text-decoration: underline; text-underline-offset: 2px; }
 .pn-leer { padding: 32px 0; color: var(--ak-leise); }
 
-.pn-x:focus-visible, .pn-pille:focus-visible, .pn-link:focus-visible { outline: 2px solid var(--ak-akzent-text); outline-offset: 2px; }
-
 /* Tagesblöcke blenden gestaffelt ein (höchstens 4) */
 .pn-tag.anim { animation: pn-tag 180ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
 @keyframes pn-tag { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }

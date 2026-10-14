@@ -123,7 +123,7 @@ export function InstallButton() {
             type="button"
             onClick={() => void install()}
             aria-label={t('pwa.install')}
-            className={`flex size-11 shrink-0 cursor-pointer items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise`}
+            className={`flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise`}
           >
             <HerunterladenZeichen groesse={20} />
           </button>
