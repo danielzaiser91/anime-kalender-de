@@ -1024,6 +1024,16 @@ nennt eine Folgen-Id aus ADNs alter Ablage; an eine neue Serienkennung gehängt
 entstünde eine Adresse, die niemand geprüft hat, und der Verweis verlöre seine
 Aussage über genau diese Folge.
 
+### ADN im Browser: die Sprache steht je Video in der Schnittstelle, nicht in den Abzeichen der Seite (14.10.2026)
+
+Anlass: ADN in der Erweiterung (4.31.0, `erweiterung.md` „ADN: Sprache je Video"). Gemessen an Daniels gespeicherten Seiten (13.10.2026, 7 Seiten) und am Archiv `data/adn-raw/` (262 Serien, 7.332 Videos, Stand 14.10.2026).
+
+- **Sprache je Video:** `GET gw.api.animationdigitalnetwork.com/video/show/<id>?limit=100&offset=…` (Kopf `x-target-distribution: de`) gibt je Video `languages`: `["vostde"]` 3.156, `["vostde","vde"]` 2.660, `["vde"]` 1.482, `[]` 34. Auch `season`, `number`/`shortNumber`, `type` (`EPS` 7.269, `MOV` 28, `OAV` 27, `PV` 8), `reference`, `available` (alle 7.332 `true`). Die Folgenliste der Seite (`/video/show/<id>/seasons`) hat keine Sprache.
+- **Das Abzeichen „SYNCHRO"/„UNTERTITEL" gilt für die Serie.** Dorohedoro (`1375`): beide Staffelseiten zeigen beide Abzeichen, im Archiv hat Staffel 1 (12 Folgen und eine OVA) kein `vde`, Staffel 2 (11 Folgen) alle. Wer das Abzeichen als Staffelaussage liest, bucht Synchro für Staffel 1.
+- **Die Seite im Browser:** Kopf mit Abzeichen (`data-testid="text-SYNCHRO"`/`text-UNTERTITEL`/`text-HD`, `text-count` = „2 Staffeln", „18 Videos", „1 Video", „0 Videos"), dann der erste Reiter (`show-tab`), dahinter Folgenliste (`show-video-item`) und Empfehlungen, die ihre eigenen Abzeichen tragen. Staffeln sind Reiter `season-<n>`/`season-<n>-selected` mit Adresse `?s=<n>`. Ohne Video: „Kein Video verfügbar.", „0 Videos", kein Abzeichen im Kopf (The Legend of Hei II, Madoka Magica Film 3).
+- **ADN zählt Folgen über Staffeln durch.** Dorohedoro Staffel 2 hat `number` „Folge 13" bis „Folge 23", `reference` zählt je Staffel (`dorohedoro_tv2_0001`). Filme tragen `number` „Film" oder „Film 1"; es gibt „OVA 1", „Épisode spécial 1" und „Folge 3 (NC)" (Fassung ohne Vor- und Abspann, 13 Videos).
+- **Persönliche Daten stehen im Kopf der Seite** (Name, Abo, „Mitglied seit") und in `__NEXT_DATA__` (gehört zur zuerst geladenen Seite, nicht zur angezeigten). Testdaten im Repo kommen deshalb aus dem Archiv und aus einer Positivliste von `data-testid` im `<main>` (`tools/adn-ausschnitte-erzeugen.mjs`).
+
 ### Eine Nebenausgabe hat bei Crunchyroll oft zwei Blöcke — und nur einer ist der richtige
 
 Gemessen am 13.09.2026 von Daniel an zwei Titeln, beide mit Bild:

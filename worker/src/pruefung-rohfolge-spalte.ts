@@ -1,5 +1,5 @@
 /**
- * **Die Rohfolge von Netflix und Disney+ steht in der Zeile der Meldung** (13.10.2026, Migration 054).
+ * **Die Rohfolge von Netflix, Disney+ und ADN steht in der Zeile der Meldung** (13.10.2026, Migration 054; ADN seit 14.10.2026).
  *
  * Diese Anbieter melden eine Folge je Anfrage und schicken genau eine Rohfolge mit, die dieselben
  * Angaben trägt wie die Meldung (Folge, Staffel, Sprachen, Befund). Beides getrennt abzulegen kostete
@@ -12,7 +12,7 @@
 import { ROH_FELDER, rohZeile } from './pruefung-rohfolgen-speichern.ts'
 import { schluessel, type Folge, type OffeneHashes } from './pruefung-unveraendert.ts'
 
-const MIT_ROHFOLGE_IN_MELDUNG = new Set(['netflix', 'disneyplus'])
+const MIT_ROHFOLGE_IN_MELDUNG = new Set(['netflix', 'disneyplus', 'adn'])
 
 /** Die Rohfolge als JSON-Text für `pruefung.rohfolge`, oder `null`, wenn sie in `prime_folge` gehört. */
 export async function rohfolgeFuerMeldung(

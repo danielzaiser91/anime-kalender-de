@@ -145,6 +145,35 @@ console.log('Wohin die Rohfolge geschrieben wird')
   pruefe(zahl(db, "SELECT COUNT(*) AS n FROM pruefung WHERE folge_nr = 6 AND rohfolge IS NULL AND roh_uebernommen IS NULL") === 1, 'Meldung ohne Rohfolge: Spalten leer')
 }
 
+const adn = (nr: number) => ({
+  plattform: 'adn',
+  url: 'https://animationdigitalnetwork.com/de/video/1375-dorohedoro',
+  vorhanden: 'ja',
+  ton_de: nr > 12 ? 'ja' : 'nein',
+  art: 'gemessen',
+  titel: 'Dorohedoro',
+  folge: `Dorohedoro - Folge ${nr}`,
+  folge_nr: nr,
+  staffel: nr > 12 ? 2 : 1,
+  rohfolgen: [{ gti: `${31262 + nr}`, nummer: nr, titel: `Folge ${nr}`, sprachen: ['ja'], staffelNr: nr > 12 ? 2 : 1, vorhanden: 'ja', ton_de: nr > 12 ? 'ja' : 'nein', roh: { referenz: `dorohedoro_tv_${nr}` } }],
+})
+
+console.log('ADN: ein Stapel zu zehn Meldungen, die Rohfolge bleibt in der Meldungszeile')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  const antwort = (await handlePruefung(post({ stapel: Array.from({ length: 10 }, (_, i) => adn(i + 8)) }), env).then((r) => r.json())) as { ergebnisse: { ok: boolean }[] }
+  pruefe(antwort.ergebnisse.length === 10 && antwort.ergebnisse.every((e) => e.ok), 'zehn Meldungen in einem Stapel, alle gespeichert')
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 0, 'nichts in prime_folge (keine 6 + 5 Zeilen je Folge)')
+  pruefe(zahl(db, "SELECT COUNT(*) AS n FROM pruefung WHERE plattform = 'adn' AND rohfolge IS NOT NULL AND roh_uebernommen = 0") === 10, 'jede Zeile trägt ihre Rohfolge, offen für den Zuordner')
+  const r = JSON.parse((db.prepare("SELECT rohfolge FROM pruefung WHERE folge_nr = 13").get() as { rohfolge: string }).rohfolge)
+  pruefe(r.gti === '31275' && r.nummer === 13 && r.staffel_nr === 2 && r.ton_de === 'ja', 'die Rohfolge trägt Videokennung, Nummer, Staffel und Sprache')
+  const zweiter = (await handlePruefung(post(adn(13)), env).then((r) => r.json())) as { unveraendert?: boolean }
+  pruefe(zweiter.unveraendert === true && zahl(db, "SELECT COUNT(*) AS n FROM pruefung WHERE folge_nr = 13") === 1, 'dieselbe Meldung noch einmal: nichts geschrieben (keine zweite Zeile)')
+  const hole2 = await hole(env, 'nach=0')
+  pruefe(hole2.folgen.length === 10 && hole2.folgen.every((f) => f.plattform === 'adn'), 'die Rohfolgen-Route liefert die zehn ADN-Zeilen')
+}
+
 console.log('Leser-Vergleich: Spalte gegen prime_folge liefert dieselben Zeilen')
 {
   const meldungen = [netflix(1), netflix(2, 'nein'), netflix(3), disney(1), disney(2)]
