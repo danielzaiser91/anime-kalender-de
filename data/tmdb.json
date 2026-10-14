@@ -3154,5 +3154,694 @@
       "crunchyroll"
     ],
     "inhaltAm": "2026-10-13"
+  },
+  "auto-177132-disc": {
+    "tmdbId": 1279865
+  },
+  "as-a-reincarnated-aristocrat-s2-vol1": {
+    "tmdbId": 237150,
+    "justwatchUrl": "https://www.themoviedb.org/tv/237150/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "air-gear-komplett-bundle": {
+    "tmdbId": 31670,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/31670/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "primevideo",
+      "adn"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "d-gray-man-komplett-bundle": {
+    "tmdbId": 34141,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/34141-d-gray-man/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll",
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "love-hina-komplett-bundle": {
+    "tmdbId": 30992,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/30992/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "primevideo",
+      "adn"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "ouran-high-school-host-club-komplett-bundle": {
+    "tmdbId": 1043,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/1043/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "shakugan-no-shana-komplett-bundle": {
+    "tmdbId": 22634,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/22634/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "pokemon-schwarz-und-weiss-staffel-14-16-dvd": {},
+  "shin-chan-vol9-12": {
+    "tmdbId": 333589
+  },
+  "apothecary-diaries-s2-vol1": {},
+  "koenigin-der-tausend-jahre-komplettbox": {
+    "tmdbId": 34839,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/34839-1000/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "as-a-reincarnated-aristocrat-s2-vol2": {
+    "tmdbId": 237150,
+    "justwatchUrl": "https://www.themoviedb.org/tv/237150/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "re-zero-s3-vol3": {},
+  "auto-173693-disc": {
+    "tmdbId": 259558,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/259558/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "adn",
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "loner-life-vol2": {
+    "tmdbId": 259558,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/259558/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "adn",
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "concrete-revolutio-primevideo": {
+    "tmdbId": 65932,
+    "justwatchUrl": "https://www.themoviedb.org/tv/65932/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "yu-gi-oh-5ds-primevideo": {
+    "tmdbId": 20695,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/20695-5d-s/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "primevideo",
+      "crunchyroll",
+      "rtlplus"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "special-7-primevideo": {
+    "tmdbId": 93647,
+    "justwatchUrl": "https://www.themoviedb.org/tv/93647/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "kuroko-winter-cup-movie-2-primevideo": {
+    "tmdbId": 448967,
+    "justwatchUrl": "https://www.themoviedb.org/movie/448967/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "kuroko-winter-cup-movie-3-primevideo": {},
+  "ghost-cat-anzu-primevideo": {
+    "tmdbId": 1030588,
+    "justwatchUrl": "https://www.themoviedb.org/movie/1030588/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "miss-hokusai-primevideo": {
+    "tmdbId": 267970,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/movie/267970-miss-hokusai/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "Google Play Movies",
+        "kind": "rent"
+      },
+      {
+        "name": "YouTube",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      },
+      {
+        "name": "Akibapass",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "yu-gi-oh-s1-primevideo": {
+    "tmdbId": 902,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/tv/902/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "disneyplus",
+      "rtlplus",
+      "primevideo",
+      "crunchyroll"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "the-sky-crawlers-primevideo": {
+    "tmdbId": 15877,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/movie/15877/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "mobile-suit-gundam-hathaway-2-netflix": {
+    "tmdbId": 910850,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/movie/910850/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "campfire-cooking-s1-disneyplus": {
+    "tmdbId": 213402,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/213402/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "disneyplus",
+      "crunchyroll"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "one-piece-s4-s8-disneyplus": {
+    "tmdbId": 37854,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/37854/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "disneyplus",
+      "crunchyroll",
+      "adn",
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "a-sign-of-affection-disneyplus": {
+    "tmdbId": 230059,
+    "justwatchUrl": "https://www.themoviedb.org/tv/230059/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "disneyplus",
+      "crunchyroll"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "pokemon-die-macht-in-uns-rtlplus": {
+    "tmdbId": 494407,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/movie/494407/watch?locale=DE",
+    "offers": [
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "Google Play Movies",
+        "kind": "rent"
+      },
+      {
+        "name": "YouTube",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "rtlplus",
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
+  },
+  "pokemon-du-bist-dran-rtlplus": {
+    "tmdbId": 436931,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/movie/436931/watch?locale=DE",
+    "offers": [
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "Google Play Movies",
+        "kind": "rent"
+      },
+      {
+        "name": "YouTube",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "rtlplus",
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-14"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-12T05:13:41.054Z",
+  "scrapedAt": "2026-10-14T04:10:42.003Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -181930,6 +181930,204 @@
               "guid": "GMEE00119156DEDE",
               "laufend": 1,
               "verfuegbarAb": "2026-08-01T16:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00371869/snowball-earth",
+      "seriesId": "GT00371869",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-10-14",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "staffelId": "GS00371870JAJP",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GE00375391DEDE",
+              "laufend": 1,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GE00375392DEDE",
+              "laufend": 2,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GE00375393DEDE",
+              "laufend": 3,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GE00375394DEDE",
+              "laufend": 4,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GE00375395DEDE",
+              "laufend": 5,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GE00375396DEDE",
+              "laufend": 6,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GE00375397DEDE",
+              "laufend": 7,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GE00375398DEDE",
+              "laufend": 8,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GE00375399DEDE",
+              "laufend": 9,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GE00375400DEDE",
+              "laufend": 10,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GE00375401DEDE",
+              "laufend": 11,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GE00375402DEDE",
+              "laufend": 12,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "GE00375633DEDE",
+              "laufend": 13,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GT00371869/snowball-earth",
+      "seriesId": "GT00371869",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-10-14",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "staffelId": "GS00371870JAJP",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GE00375391DEDE",
+              "laufend": 1,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GE00375392DEDE",
+              "laufend": 2,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GE00375393DEDE",
+              "laufend": 3,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GE00375394DEDE",
+              "laufend": 4,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GE00375395DEDE",
+              "laufend": 5,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GE00375396DEDE",
+              "laufend": 6,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GE00375397DEDE",
+              "laufend": 7,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GE00375398DEDE",
+              "laufend": 8,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GE00375399DEDE",
+              "laufend": 9,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GE00375400DEDE",
+              "laufend": 10,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GE00375401DEDE",
+              "laufend": 11,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GE00375402DEDE",
+              "laufend": 12,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "GE00375633DEDE",
+              "laufend": 13,
+              "verfuegbarAb": "2026-10-12T15:30:00Z"
             }
           ]
         }
