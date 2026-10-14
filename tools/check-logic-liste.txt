@@ -85,6 +85,7 @@ pipeline/check-kino-zuletzt.ts
 pipeline/check-logic.ts
 pipeline/check-mal-teilung.ts
 pipeline/check-motn-reihe.ts
+pipeline/check-nein-handbeleg-abschluss.ts
 pipeline/check-nein-handbeleg-aufrufer.ts
 pipeline/check-nein-handbeleg-cr.ts
 pipeline/check-nein-handbeleg.ts
