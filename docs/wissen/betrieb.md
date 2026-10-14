@@ -1107,6 +1107,10 @@ wechselnden und treffen ihn kaum. **Behebung:** `worker/src/export-speicher.ts` 
 beim nächsten Abruf, also höchstens einmal je Bau. Eine Stunde danach lasen alle Abfragen zusammen 1.600 Zeilen. **Wache:** `wrangler d1 insights DB --config wrangler.toml --sort-type sum
 --sort-by reads --timePeriod 1d --limit 10 --json` (kostet kein Kontingent); Ziel unter 25 % (1,25 Mio.) am Tag, Warnung des Wachlaufs bei 50 %.
 
+## Leeres D1-Tageskontingent: Auffangnetz im Worker und Anzeige (14.10.2026)
+
+Daniel sah auf der Newsletter-Seite „Failed to fetch": D1 warf bei leerem Kontingent, Cloudflare antwortete „error code: 1101" ohne CORS-Kopf, der Browser meldete einen `TypeError`. **Seit jetzt:** `worker/src/auffangnetz.ts` fängt, was die Routen werfen. `istD1Tageslimit` führt zu 503 mit CORS-Kopf, JSON `{ error }` und `Retry-After` bis 00:00 UTC, jeder andere Fehler bleibt 500 (ebenfalls mit CORS; die offenen Pfade `/lauf` u. a. mit `*`). In der Oberfläche übersetzt `web/src/lib/dienstFetch.ts` einen scheiternden `fetch` und 502/503/504 in einen Satz; nur 404 löscht den Schlüssel. Dazu `idx_subscribers_pref` (057): Abfragen über `pref_token` lesen 1 statt N Zeilen. Prüfungen: `tools/worker-auffangnetz.test.ts`, `tools/dienst-fetch.test.ts`.
+
 ## Belege: Quellen-Knopf, Abdeckung und Wand-Prüfung (05.10.2026)
 
 **Oberfläche:** Eine Meldung zeigt statt Hostnamen-Links einen Knopf „Quelle"/„Quellen" (mit ▣ „Beleg"/„Belege", wenn mindestens eine Quelle ein gesichertes Bild hat). Er öffnet das Beleg-Fenster
