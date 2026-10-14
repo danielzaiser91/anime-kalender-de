@@ -13,12 +13,13 @@
  * Aufruf: `npx tsx tools/worker-titelzeile.test.ts`
  */
 import { DatabaseSync } from 'node:sqlite'
-import { readdirSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { handlePruefung } from '../worker/src/pruefung.ts'
 import { gemeldetSchluessel } from '../worker/src/pruefung-gemeldet-cache.ts'
 import { berechnePruefstand } from '../worker/src/pruefung-stand.ts'
-import { eintragAusMeldung, kopfAusMeldung, leereDaten, lies as liesDaten, setzeEin, TITEL_ID_AB, zaehleOffene } from '../worker/src/titelzeile-format.ts'
+import { eintragAusMeldung, kopfAusMeldung, leereDaten, lies as liesDaten, setzeEin, TITEL_ID_AB } from '../worker/src/titelzeile-format.ts'
 import { VERSUCHE } from '../worker/src/titelzeile-zeile.ts'
+import { d1, lies, loesche, neueDatenbank, post, stand, umgebung, zaehlerStimmen, zahl, type Hilfe } from './worker-titelzeile-hilfe.ts'
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -27,70 +28,6 @@ const pruefe = (bedingung: boolean, text: string) => {
 }
 console.error = () => {}
 console.warn = () => {}
-
-const NUR = /pruefung|prime_folge|such_erwartung|schreib_tag|lauf_status|titel_zeile/
-
-function neueDatenbank() {
-  const db = new DatabaseSync(':memory:')
-  for (const f of readdirSync('worker/migrations').sort()) {
-    const sql = readFileSync(`worker/migrations/${f}`, 'utf8')
-    if (NUR.test(sql) && !f.startsWith('023')) db.exec(sql)
-  }
-  return db
-}
-
-type Anweisung = { run: () => Promise<unknown>; all: () => Promise<unknown>; first: () => Promise<unknown>; bind: (...w: unknown[]) => Anweisung }
-type Hilfe = { geschrieben: number; vorUpdate?: () => void }
-
-function d1(db: DatabaseSync, h: Hilfe) {
-  const anweisung = (sql: string, werte: unknown[] = []): Anweisung => ({
-    bind: (...w) => anweisung(sql, w),
-    run: async () => {
-      if (h.vorUpdate && sql.startsWith('UPDATE titel_zeile')) h.vorUpdate()
-      const r = db.prepare(sql).run(...(werte as never[]))
-      h.geschrieben += Number(r.changes)
-      return { meta: { changes: Number(r.changes), rows_written: Number(r.changes), rows_read: 0 } }
-    },
-    all: async () => ({ results: db.prepare(sql).all(...(werte as never[])), meta: { rows_written: 0, rows_read: 0 } }),
-    first: async () => db.prepare(sql).get(...(werte as never[])) ?? null,
-  })
-  return {
-    prepare: (sql: string) => anweisung(sql),
-    batch: async (liste: Anweisung[]) => {
-      const antworten = []
-      for (const a of liste) antworten.push(await a.run())
-      return antworten
-    },
-  }
-}
-
-const umgebung = (db: DatabaseSync, h: Hilfe, an = true) =>
-  ({ LAUF_TOKEN: 't', SITE_URL: 'https://attrappe.test/', TITELZEILE_PLATTFORMEN: an ? 'disneyplus' : '', DB: d1(db, h) }) as never
-
-const stand = { erzeugtAm: '2020-01-02T00:00:00.000Z', anbieter: [] as unknown[] }
-globalThis.fetch = (async () => new Response(JSON.stringify(stand))) as typeof fetch
-/* Kein Edge-Cache in diesem Test: jede Anfrage rechnet neu. */
-Object.assign(globalThis, { caches: { default: { match: async () => undefined, put: async () => undefined, delete: async () => false } } })
-
-const post = (body: unknown) =>
-  new Request('https://worker.test/pruefung', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': 't' },
-    body: JSON.stringify(body),
-  })
-const loesche = (body: unknown) =>
-  new Request('https://worker.test/pruefung', { method: 'DELETE', headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': 't' }, body: JSON.stringify(body) })
-const lies = async (env: never, suche: string) => (await handlePruefung(new Request(`https://worker.test/pruefung?token=t&${suche}`), env).then((r) => r.json())) as Record<string, unknown>
-const zahl = (db: DatabaseSync, sql: string) => Number((db.prepare(sql).get() as { n: number }).n)
-
-/** Die Zähler `offen_meldung`/`offen_rohfolge` jeder Titelzeile stimmen mit ihren Folgen überein (so überspringen die Leser Titel ohne offene Folgen). */
-function zaehlerStimmen(db: DatabaseSync): boolean {
-  const zeilen = db.prepare('SELECT daten, offen_meldung, offen_rohfolge FROM titel_zeile').all() as { daten: string; offen_meldung: number; offen_rohfolge: number }[]
-  return zeilen.every((z) => {
-    const o = zaehleOffene(liesDaten(z.daten))
-    return o.meldung === z.offen_meldung && o.rohfolge === z.offen_rohfolge
-  })
-}
 
 const URL_A = 'https://www.disneyplus.com/browse/entity-a'
 const URL_B = 'https://www.disneyplus.com/browse/entity-b'
