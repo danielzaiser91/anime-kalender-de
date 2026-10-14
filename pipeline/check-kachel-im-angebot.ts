@@ -7,6 +7,7 @@ import { readFileSync } from 'node:fs'
 import { anbieterName, type ReleaseEvent } from '../shared/types.ts'
 import { ART_STIL, anbieterNamenDerKachel, artName, istBreit, kartenArt, termineDerKachel } from '../web/src/lib/kachel-folgen.ts'
 import { anbieterZeile } from '../web/src/components/kalender/Marken.tsx'
+import { punkteLabel, type MonatProps } from '../web/src/components/MonthView.tsx'
 import { TEXTE_KALENDER } from '../web/src/lib/i18n-kalender.ts'
 import { translate } from '../web/src/lib/i18n.tsx'
 
@@ -71,6 +72,25 @@ pruefe('Kachel mit Bündel: alle Termine des Bündels zählen', artName('imAngeb
 pruefe('Kachel ohne Bündel: der Termin selbst', termineDerKachel(adnMarke, mehrere, buendel).length === 1 && termineDerKachel(adnMarke, mehrere, buendel)[0] === adnMarke)
 pruefe('Monat: Beschriftung und Zeile rufen die Helfer mit den Daten der Kachel', /anbieterNamenDerKachel\(koepfe, a, termine\)/.test(monatsansicht) && (monatsansicht.match(/termineDerKachel\(ev, p\.mehrere, p\.buendel\)/g) ?? []).length === 2 &&/anbieterZeile\(ev, t, p\.buendel\?\.get\(ev\.id\), a\)/.test(monatsansicht))
 pruefe('Woche: die Zeile unter dem Titel kennt die Fahne', /anbieterZeile\(p\.event, t, p\.buendel, p\.art\)/.test(posterKarte))
+
+console.log('\nBeschriftung des Tagesknopfs (punkteLabel) an der Ausgabe:')
+const tag = '2026-03-31'
+const karte = (p: Pick<MonatProps, 'arten' | 'mehrere' | 'buendel'>, stream: ReleaseEvent[], tvZahl = 0) => punkteLabel(stream, tvZahl, tag, p as MonatProps, translate)
+{
+  const nurAdn = karte({ arten: new Map([[adn.id, 'imAngebot']]) }, [adn])
+  pruefe('ein Anbieter, den die Fahne nennt: „Neu bei ADN“ steht einmal, ohne Komma-Rest', nurAdn === `${tag}: X (Neu bei ADN)`, nurAdn)
+  const ohneArt = karte({}, [netflix])
+  pruefe('ohne Fahne: nur der Anbieter, kein hängendes Komma', ohneArt === `${tag}: X (${anbieterName('netflix')})`, ohneArt)
+  const gemischt = karte({ arten: new Map([[netflix.id, 'imAngebot']]), mehrere: mehrere }, [netflix])
+  pruefe('mehrere Anbieter: alle genannt, die Fahne nennt den mit Marke (nicht den Kopf)', gemischt === `${tag}: X (${anbieterName('netflix')} + ${anbieterName('adn')}, Neu bei ADN)`, gemischt)
+  const imBuendel = karte({ arten: new Map([[netflix.id, 'imAngebot']]), buendel: buendel }, [netflix])
+  pruefe('Bündel: die Fahne nennt den Anbieter des Bündeltermins mit Marke', imBuendel === `${tag}: X (${anbieterName('netflix')}, Neu bei ADN)`, imBuendel)
+  const start = karte({ arten: new Map([[adn.id, 'start']]) }, [adn])
+  pruefe('andere Fahne: Anbieter und Fahne beide genannt', start === `${tag}: X (ADN, ${TEXTE_KALENDER['kal.start']})`, start)
+  const viele = Array.from({ length: 6 }, (_, i) => ev({ id: `v${i}@${tag}`, platform: 'netflix' }))
+  const lang = karte({}, viele, 2)
+  pruefe('mehr als fünf Titel: „und 1 weitere“ und die TV-Zahl', lang.endsWith(`, ${translate('kal.undWeitere', { n: 1 })}, ${translate('kal.imTvZahl', { n: 2 })}`), lang)
+}
 pruefe('der Hinweis sagt, dass es nicht der Erscheinungstag ist', TEXTE_KALENDER['kal.imAngebotHinweis'].includes('nicht der Erscheinungstag'))
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

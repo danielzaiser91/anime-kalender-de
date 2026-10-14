@@ -203,7 +203,7 @@ function PunkteReihe({ stream, p }: { stream: ReleaseEvent[]; p: MonatProps }) {
 }
 
 /** Farbe und Ring tragen nie allein: Der Knopf nennt Titel, Anbieter und Staffelstart/-finale der ersten Termine. */
-function punkteLabel(stream: ReleaseEvent[], tvZahl: number, datum: string, p: MonatProps, t: ReturnType<typeof useLang>['t']): string {
+export function punkteLabel(stream: ReleaseEvent[], tvZahl: number, datum: string, p: MonatProps, t: ReturnType<typeof useLang>['t']): string {
   const titel = stream.slice(0, LABEL_TITEL).map((ev) => {
     const a = p.arten?.get(ev.id)
     const koepfe = (p.mehrere?.get(ev.id) ?? [[ev]]).map((b) => b[0]!)

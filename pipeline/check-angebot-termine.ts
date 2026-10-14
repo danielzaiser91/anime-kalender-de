@@ -78,6 +78,8 @@ console.log('\nNeu bei <Anbieter> (Newsletter: Marke und Link sind eins, kein zw
   pruefe('Crunchyroll: die Marke folgt dem Anbieter', mailHtml(expandEvents(katalog())[0]!).includes('Neu bei Crunchyroll'))
   const tvHtml = mailHtml(tv!, 'https://tv.example/x')
   pruefe('TV: die Marke trägt den Sender', tvHtml.includes('>Neu bei RTL Zwei &rsaquo;</a>'), tvHtml.match(/.{40}Neu bei.{30}/)?.[0])
+  const normalOhneLink = mailHtml(ohne!)
+  pruefe('normale Zeile ohne Direktlink: nur der Anbietername, weder „ADN ansehen“ noch „Neu bei ADN“', normalOhneLink.includes('ADN') && !normalOhneLink.includes('ADN ansehen') && !normalOhneLink.includes('Neu bei ADN'), normalOhneLink.match(/.{50}(ADN ansehen|Neu bei ADN).{30}/)?.[0])
   pruefe('ohne Katalogdatum bleibt es bei „ADN ansehen ›“', mailHtml(ohne!, 'https://adn.example/x').includes('>ADN ansehen &rsaquo;</a>') && !mailHtml(ohne!).includes('Neu bei ADN'))
 }
 
