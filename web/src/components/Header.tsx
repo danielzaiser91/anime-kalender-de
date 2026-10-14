@@ -137,7 +137,7 @@ function KopfNavigation({ view, aktiv, onView, hrefFuer }: {
             aria-current={aktiv === b.id ? 'page' : undefined}
             className={[
               'cursor-pointer border-b-2 py-2 transition',
-              aktiv === b.id ? 'border-ak-akzent text-ak-text' : 'border-transparent text-ak-leise hover:text-ak-text',
+              aktiv === b.id ? 'border-ak-gewaehlt text-ak-text' : 'border-transparent text-ak-leise hover:text-ak-text',
             ].join(' ')}
           >
             {t(b.id === 'kalender' ? 'nav.kalender' : (`view.${b.id}` as TranslationKey))}

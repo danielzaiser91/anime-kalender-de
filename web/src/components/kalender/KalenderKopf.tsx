@@ -201,7 +201,7 @@ function Segment({ an, onClick, children }: { an: boolean; onClick: () => void; 
       onClick={onClick}
       className={[
         'h-10 max-md:h-11 cursor-pointer rounded-full px-3 max-[419px]:px-2 max-[369px]:px-1.5 text-sm font-bold transition sm:px-4',
-        an ? 'bg-ak-akzent text-ak-auf-akzent' : 'text-ak-leise hover:text-ak-text',
+        an ? 'bg-ak-gewaehlt text-ak-auf-gewaehlt' : 'text-ak-leise hover:text-ak-text',
       ].join(' ')}
     >
       {children}

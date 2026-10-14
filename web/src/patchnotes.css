@@ -74,11 +74,12 @@ html:not(.dark) {
 /* Filter */
 .pn-filter { display: flex; align-items: center; flex: none; gap: 8px; height: 48px; padding: 0 24px; border-bottom: 1px solid var(--ak-linie); overflow-x: auto; scrollbar-width: none; }
 .pn-filter::-webkit-scrollbar { display: none; }
-.pn-pille { display: inline-flex; flex: none; align-items: center; gap: 6px; height: 32px; padding: 0 14px; border: 1px solid var(--ak-rand); border-radius: 999px; background: transparent; color: var(--ak-text); font: 800 13px/16px var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; }
+.pn-pille { display: inline-flex; flex: none; align-items: center; gap: 6px; height: 32px; padding: 0 14px; border: 1px solid var(--ak-rand); border-radius: 999px; background: transparent; color: var(--ak-leise); font: 800 13px/16px var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; }
+.pn-pille:hover { color: var(--ak-text); }
 .pn-pille svg { width: 14px; height: 14px; }
 .pn-pille .z { font-weight: 800; font-variant-numeric: tabular-nums; color: var(--ak-leise); }
-.pn-pille[aria-pressed='true'] { border-color: var(--ak-text); background: var(--ak-text); color: var(--ak-grund); }
-.pn-pille[aria-pressed='true'] .z { color: var(--ak-grund); }
+.pn-pille[aria-pressed='true'] { border-color: var(--ak-gewaehlt); background: var(--ak-gewaehlt); color: var(--ak-auf-gewaehlt); }
+.pn-pille[aria-pressed='true'] .z { color: var(--ak-auf-gewaehlt); }
 
 /* Liste */
 .pn-liste { flex: 1; min-height: 0; padding: 0 24px 12px; overflow-y: auto; overscroll-behavior: contain; }

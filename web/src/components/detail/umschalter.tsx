@@ -38,8 +38,8 @@ export function Umschalter({ aktivDisc, streamLeer, discLeer, onWahl, T }: {
             className={[
               'min-h-11 rounded-full px-4 transition',
               aktivDisc === o.an
-                ? 'bg-slate-900 font-semibold text-white dark:bg-white/90 dark:text-slate-900'
-                : 'text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-slate-100',
+                ? 'bg-ak-gewaehlt font-bold text-ak-auf-gewaehlt'
+                : 'text-ak-leise hover:text-ak-text',
             ].join(' ')}
           >
             {o.text}

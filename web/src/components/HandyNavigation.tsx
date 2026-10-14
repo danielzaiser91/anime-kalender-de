@@ -31,7 +31,7 @@ export function HandyNavigation({
       aria-label={voll}
       className={[
         'flex h-12 min-w-0 cursor-pointer flex-col items-center justify-center gap-0.5 rounded-2xl text-xs transition',
-        an ? 'bg-ak-akzent font-extrabold text-ak-auf-akzent' : 'font-semibold text-ak-leise hover:text-ak-text',
+        an ? 'bg-ak-gewaehlt font-bold text-ak-auf-gewaehlt' : 'font-semibold text-ak-leise hover:text-ak-text',
       ].join(' ')}
     >
       {zeichen}
