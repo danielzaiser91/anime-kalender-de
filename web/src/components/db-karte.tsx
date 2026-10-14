@@ -75,7 +75,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
         'group flex cursor-pointer flex-col overflow-hidden rounded-xl text-left transition',
         keinDub ? 'border border-dashed' : 'border',
         favorite
-          ? 'border-amber-400/70 shadow-[0_0_0_1px_rgba(251,191,36,.3)]'
+          ? 'border-ak-finale/70 shadow-[0_0_0_1px_color-mix(in_srgb,var(--ak-finale)_30%,transparent)]'
           : keinDub
             ? 'border-slate-400/60 hover:border-slate-500 dark:border-white/25 dark:hover:border-white/40'
             : 'border-slate-200 hover:border-slate-300 dark:border-white/10 dark:hover:border-white/25',
@@ -171,7 +171,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
             <span
               className={[
                 'text-[10px] leading-snug',
-                favorite ? 'font-medium text-amber-600 dark:text-amber-400' : 'text-slate-500 dark:text-slate-400',
+                favorite ? 'font-medium text-ak-finale-text' : 'text-slate-500 dark:text-slate-400',
               ].join(' ')}
             >
               {favorite ? t('db.noDubWatched') : t('db.noDubWatch')}
@@ -193,7 +193,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
 function AbPille({ ab }: { ab: string }) {
   const { t } = useLang()
   return (
-    <span className="inline-flex h-4 items-center rounded bg-amber-500/15 px-1.5 text-[10px] font-semibold leading-none text-amber-800 ring-1 ring-amber-500/40 dark:text-amber-400">
+    <span className="inline-flex h-4 items-center rounded bg-ak-info-grund px-1.5 text-[10px] font-semibold leading-none text-ak-info-text ring-1 ring-ak-info/40">
       {t('db.ab', { datum: `${ab.slice(8, 10)}.${ab.slice(5, 7)}.` })}
     </span>
   )

@@ -785,7 +785,7 @@ export function AntwortKasten({
         </p>
       )}
       {schnitt && (
-        <details className="mt-1 text-t5 text-amber-700 dark:text-amber-300/90">
+        <details className="mt-1 text-t5 text-ak-warnung-text">
           <summary className="cursor-pointer select-none font-semibold hover:underline">Was geschnitten ist</summary>
           <ul className="mt-1 list-disc space-y-0.5 pl-4">
             {schnitt.was.map((w) => (
@@ -813,7 +813,7 @@ export function AntwortKasten({
             className={[
               'flex min-h-[2.1rem] items-center text-t4',
               antwort.art === 'kino'
-                ? 'text-amber-600 dark:text-amber-400'
+                ? 'text-ak-finale-text'
                 : 'text-slate-500 dark:text-slate-400',
             ].join(' ')}
           >

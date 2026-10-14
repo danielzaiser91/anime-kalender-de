@@ -57,7 +57,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
   return (
     <>
       {plot && (
-        <PanelKarte symbol={<BuchZeichen />} titel={t('detail.plot')} akzent="amber">
+        <PanelKarte symbol={<BuchZeichen />} titel={t('detail.plot')} akzent="akzent">
           {/*
             **Der Hinweis steht über dem Text, nicht darunter.**
 
@@ -65,7 +65,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
             findet, hat die Handlung schon dem falschen Titel zugeschrieben.
           */}
           {plot.vonTeil && (
-            <p className="mb-1 text-t4 text-amber-800 dark:text-amber-300">
+            <p className="mb-1 text-t4 text-ak-warnung-text">
               {t(plot.erschienen ? 'detail.plotVonTeilFrueher' : 'detail.plotVonTeil', { teil: plot.vonTeil.name })}
             </p>
           )}

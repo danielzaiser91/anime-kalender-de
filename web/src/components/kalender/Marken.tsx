@@ -106,7 +106,7 @@ export function SpracheMarke({ event, t }: { event: ReleaseEvent; t: Translate }
   if (!event.sprache) return null
   return (
     <Tooltip text={t(event.sprache === 'omu' ? 'fachwort.omu' : 'kal.synchroOffenHinweis')} seite="oben">
-      <span className="rounded bg-amber-500/15 px-1 text-[11px] font-semibold text-amber-700 dark:text-amber-300">
+      <span className="rounded bg-ak-flaeche-2 px-1 text-[11px] font-semibold text-ak-leise">
         {t(event.sprache === 'omu' ? 'kal.omu' : 'kal.synchroOffen')}
       </span>
     </Tooltip>

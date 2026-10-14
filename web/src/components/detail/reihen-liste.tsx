@@ -216,7 +216,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                         : offen
                           ? 'cursor-pointer border-dashed border-slate-300 opacity-80 hover:opacity-100 dark:border-white/20'
                           : gemerkt
-                            ? 'cursor-pointer border-amber-400/70 hover:border-amber-400 dark:border-amber-400/60'
+                            ? 'cursor-pointer border-ak-finale/70 hover:border-ak-finale'
                             : 'cursor-pointer border-transparent hover:border-slate-200 dark:hover:border-white/10',
                     ].join(' ')}
                   >
@@ -327,7 +327,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                       </span>
                     </span>
                     {gemerkt && (
-                      <span className="shrink-0 text-t3 text-amber-400" aria-label={t('card.unfavourite')}>
+                      <span className="shrink-0 text-t3 text-ak-finale-text" aria-label={t('card.unfavourite')}>
                         ★
                       </span>
                     )}

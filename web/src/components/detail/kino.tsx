@@ -308,33 +308,33 @@ export function KinoBanner({
   */
   const kinoheld = !bis || bis >= today ? release.sources?.find((q) => /^https:\/\/www\.kinoheld\.de\/film\//.test(q)) : undefined
   return (
-    <div className="relative overflow-hidden rounded-xl border border-amber-300/60 bg-gradient-to-r from-amber-50 via-amber-50/60 px-4 py-3 dark:border-amber-400/25 dark:from-amber-500/10 dark:via-amber-500/5">
+    <div className="relative overflow-hidden rounded-xl border border-ak-warnung/60 bg-ak-warnung-grund px-4 py-3">
       {/* Der Filmstreifen am Rand — schmückt, ohne Platz zu kosten. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-0 w-2 bg-[repeating-linear-gradient(180deg,theme(colors.amber.400)_0_6px,transparent_6px_12px)] opacity-70"
+        className="pointer-events-none absolute inset-y-0 left-0 w-2 bg-[repeating-linear-gradient(180deg,var(--ak-warnung)_0_6px,transparent_6px_12px)] opacity-70"
       />
       <div className="flex items-center gap-3 pl-3">
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-amber-400/20 text-t2" aria-hidden>
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-ak-warnung/20 text-t2" aria-hidden>
           🎬
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-t3 font-semibold text-amber-900 dark:text-amber-200">{kopf}</span>
+            <span className="text-t3 font-semibold text-ak-warnung-text">{kopf}</span>
             {wieder && (
-              <span className="rounded-full bg-amber-400/25 px-2 py-px text-t5 font-semibold uppercase tracking-[.08em] text-amber-900 dark:text-amber-200">
+              <span className="rounded-full bg-ak-warnung/25 px-2 py-px text-t5 font-semibold uppercase tracking-[.08em] text-ak-warnung-text">
                 {t('kino.wieder')}
               </span>
             )}
           </div>
-          {unten && <span className="block truncate text-t4 text-amber-800/80 dark:text-amber-200/70">{unten}</span>}
+          {unten && <span className="block truncate text-t4 text-ak-warnung-text">{unten}</span>}
         </div>
         {kinoheld && (
           <a
             href={kinoheld}
             target="_blank"
             rel="noreferrer noopener"
-            className="inline-flex min-h-11 shrink-0 items-center rounded-full border border-amber-400/50 px-3 text-t4 font-semibold text-amber-900 transition hover:bg-amber-400/15 dark:text-amber-200"
+            className="inline-flex min-h-11 shrink-0 items-center rounded-full border border-ak-warnung/50 px-3 text-t4 font-semibold text-ak-warnung-text transition hover:bg-ak-warnung/15"
           >
             {t('kino.tickets')} ↗
           </a>
@@ -343,7 +343,7 @@ export function KinoBanner({
       </div>
       {/* Die Notiz des Kinostarts gehört hierher, nicht in den Kasten darunter — sonst steht sie neben einer Auskunft, die von etwas anderem handelt. */}
       {release.note && (
-        <p className="mt-2 pl-3 text-t4 text-amber-900/80 dark:text-amber-100/70">{release.note}</p>
+        <p className="mt-2 pl-3 text-t4 text-ak-warnung-text">{release.note}</p>
       )}
     </div>
   )

@@ -588,7 +588,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
                     type="checkbox"
                     checked={favorites.has(id)}
                     onChange={() => toggleFavorit(id)}
-                    className="size-4 cursor-pointer accent-amber-400"
+                    className="size-4 cursor-pointer accent-ak-akzent"
                   />
                   <span className={favorites.has(id) ? '' : 'text-slate-400 line-through dark:text-slate-500'}>
                     {namen.get(id) ?? `#${id}`}
@@ -683,7 +683,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
             {autoSync ? (
               <p className="mt-1 text-xs text-ak-gut-text">✓ {t('news.autoSync')}</p>
             ) : favorites.size > 0 ? (
-              <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">{t('news.noSyncYet')}</p>
+              <p className="mt-1 text-xs text-ak-warnung-text">{t('news.noSyncYet')}</p>
             ) : null}
           </div>
 
