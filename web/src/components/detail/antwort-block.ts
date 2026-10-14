@@ -2,7 +2,7 @@
  * **Mehrere Folgen am selben Tag stehen in einer Überschrift** (Daniel, 13.10.2026): Avatar: Die sieben Häfen
  * bringt freitags drei Folgen, der Kasten nannte nur die erste („Nächste Folge (Folge 4)“).
  */
-import { istAusgeblieben } from '@shared/logic.ts'
+import { folgenblockBis } from '@shared/folgenblock.ts'
 import type { ReleaseEvent } from '@shared/types.ts'
 import { formatDate } from '@shared/time.ts'
 import type { Antwort } from './antwort-typ.ts'
@@ -11,19 +11,6 @@ import { ungefaehr } from './antwort-regeln.ts'
 
 type Laeuft = Extract<Antwort, { art: 'laeuft' }>
 type Uebersetze = (k: string, v?: Record<string, string | number>) => string
-
-/**
- * Die letzte Folge des Blocks, der mit `n` am selben Tag erscheint — nur mit belegten Terminen (`estimated`
- * fehlt) und lückenlos ab `n`. Fortgeschriebene Folgen legt `expandEvents` nie auf denselben Tag, ein Block ist
- * also immer belegt; die Prüfung hält es trotzdem fest. Tag = Berlin-Tag des Termins.
- */
-export function folgenblockBis(derselben: ReleaseEvent[], n: ReleaseEvent): number | undefined {
-  if (n.episode == null || n.estimated || n.sichtung || n.releaseType !== 'weekly' || istAusgeblieben(n)) return undefined
-  const amTag = derselben.filter((e) => e.date === n.date && !e.estimated && !e.sichtung && !istAusgeblieben(e))
-  let bis = n.episode
-  while (amTag.some((e) => e.episode === bis + 1)) bis++
-  return bis > n.episode ? bis : undefined
-}
 
 /** Was nach der nächsten Folge noch aussteht, wann die letzte kommt, und wie weit ihr Block reicht. */
 export function restUndBlock(kuenftig: ReleaseEvent[], n: ReleaseEvent): Pick<Laeuft, 'rest' | 'letzter' | 'blockBis'> {

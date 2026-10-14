@@ -15,11 +15,11 @@ import type { Antwort } from './antwort-typ.ts'
  * „1 von 12 erschienen" da. Wöchentliche Termine tragen je eine Folge, dort
  * ändert die Summe nichts.
  */
-export function zaehleErschienen(events: ReleaseEvent[]): number {
+export function zaehleErschienen(events: ReleaseEvent[], jetzt: Date = new Date()): number {
   const nummern = new Set<number>()
   let ohneNummer = 0
   for (const e of events) {
-    if (!istErschienen(e)) continue
+    if (!istErschienen(e, jetzt)) continue
     if (e.episode != null) nummern.add(e.episode)
     else ohneNummer += e.episodeCount ?? 1
   }
@@ -32,10 +32,10 @@ export function zaehleErschienen(events: ReleaseEvent[]): number {
  * Unterwelt, 10.10.2026). Mehrere Releases eines Anbieters (Folge 1 als Abwurf, 2–12 im Wochentakt)
  * addieren sich weiter.
  */
-export function zaehleErschienenJeAnbieter(events: ReleaseEvent[]): number {
+export function zaehleErschienenJeAnbieter(events: ReleaseEvent[], jetzt: Date = new Date()): number {
   const jeAnbieter = new Map<string, ReleaseEvent[]>()
   for (const e of events) jeAnbieter.set(e.platform, [...(jeAnbieter.get(e.platform) ?? []), e])
-  return Math.max(0, ...[...jeAnbieter.values()].map(zaehleErschienen))
+  return Math.max(0, ...[...jeAnbieter.values()].map((l) => zaehleErschienen(l, jetzt)))
 }
 
 /**
@@ -43,8 +43,8 @@ export function zaehleErschienenJeAnbieter(events: ReleaseEvent[]): number {
  * gebracht, ist Netflix' Termin für Folge 15 keine neue Folge (Das Band der Unterwelt: „Folge 15
  * erscheint heute"). TV-Sichtungen tragen unsere Zählung, keine belegte Nummer — sie entscheiden nichts.
  */
-export function ohneSchonErschienene(offen: ReleaseEvent[], alle: ReleaseEvent[]): ReleaseEvent[] {
-  const da = new Set(alle.filter((e) => anzeigeFolge(e) && istErschienen(e)).map((e) => e.episode))
+export function ohneSchonErschienene(offen: ReleaseEvent[], alle: ReleaseEvent[], jetzt: Date = new Date()): ReleaseEvent[] {
+  const da = new Set(alle.filter((e) => anzeigeFolge(e) && istErschienen(e, jetzt)).map((e) => e.episode))
   return offen.filter((e) => !anzeigeFolge(e) || !da.has(e.episode))
 }
 
@@ -65,8 +65,9 @@ export function istBelegtAbgeschlossen(
   vollstaendig: boolean,
   abgeschlossen: boolean,
   events: ReleaseEvent[],
+  jetzt: Date = new Date(),
 ): boolean {
-  return hatSynchro && vollstaendig && abgeschlossen && !deutscherWochentaktLaeuft(events)
+  return hatSynchro && vollstaendig && abgeschlossen && !deutscherWochentaktLaeuft(events, jetzt)
 }
 
 /**
@@ -76,13 +77,13 @@ export function istBelegtAbgeschlossen(
  * ist (Overgeared). Ein Komplettabwurf (86) oder eine TV-Wiederholung läuft
  * nicht im Wochentakt eines Streams und bleibt davon unberührt.
  */
-export function deutscherWochentaktLaeuft(events: ReleaseEvent[]): boolean {
+export function deutscherWochentaktLaeuft(events: ReleaseEvent[], jetzt: Date = new Date()): boolean {
   const jeRelease = new Map<string, ReleaseEvent[]>()
   for (const e of events) {
     if (e.releaseType !== 'weekly' || e.platform === 'tv' || e.platform === 'disc') continue
     jeRelease.set(e.releaseSlug, [...(jeRelease.get(e.releaseSlug) ?? []), e])
   }
-  return [...jeRelease.values()].some((l) => l.some((e) => istErschienen(e)) && l.some((e) => !istErschienen(e)))
+  return [...jeRelease.values()].some((l) => l.some((e) => istErschienen(e, jetzt)) && l.some((e) => !istErschienen(e, jetzt)))
 }
 
 /**

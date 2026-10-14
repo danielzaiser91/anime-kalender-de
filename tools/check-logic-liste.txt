@@ -29,6 +29,7 @@ pipeline/check-anisearch-reihen-rein.ts
 pipeline/check-anisearch-reihen.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
+pipeline/check-antwort-jetzt.ts
 pipeline/check-auto-disc-handeintrag.ts
 pipeline/check-beleg-anbieter.ts
 pipeline/check-beleg-bis-anker.ts
@@ -94,6 +95,7 @@ pipeline/check-news-rhythmus.ts
 pipeline/check-notiz-fassung.ts
 pipeline/check-offizielle-lauf.ts
 pipeline/check-offizielle-news.ts
+pipeline/check-og-termin.ts
 pipeline/check-paramount.ts
 pipeline/check-patchnotes.ts
 pipeline/check-pille-nur-untertitel.ts

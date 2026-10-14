@@ -7,7 +7,8 @@
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import { translate } from '../web/src/lib/i18n.tsx'
-import { folgenKopf, folgenblockBis, laeuftNeben } from '../web/src/components/detail/antwort-block.ts'
+import { folgenblockBis } from '../shared/folgenblock.ts'
+import { folgenKopf, laeuftNeben } from '../web/src/components/detail/antwort-block.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
 import { terminSatz } from '../web/src/components/detail/antwort-regeln.ts'
 
