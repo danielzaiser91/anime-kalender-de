@@ -154,10 +154,11 @@ Bilder: Scratchpad `design-regeln/bilder/vorher-*` (Woche, Panel, Filter, Suche,
 - `tools/design-kontrast.mjs` — Tabelle oben erzeugen und prüfen (in `check:logic`).
 - `tools/design-klassen.mjs` — Wächter (14.10.2026): zählt in `web/src` (tsx, ts, css) die alten Muster `slate-`, `sky-`, `amber-`, `emerald-`, `rose-`,
   `red-`, `blue-`, `indigo-`, `violet-`, `teal-`, `orange-`, `yellow-`, `white/`, `black/`, `dark:`, `focus-visible:ring`, `ring-sky`,
-  `opacity-30/40/50/60` und Hex-Werte in `.tsx` (außer `detail/pillen.tsx`, `filter/Flagge.tsx`, `de-flagge.tsx`; `styles.css` zählt dort nicht;
-  nur gültige Längen 3, 4, 6, 8) und vergleicht mit `tools/design-klassen-grenzen.json`. Zahl über der Grenze = Exit 1 (in `check:logic`,
+  `opacity-30/40/50/60` (Klassenstrings in `.ts` und Regeln in `.css` zählen mit) und Hex-Werte je Dateiart (Schlüssel `Hex in .tsx`, `Hex in .ts`,
+  `Hex in .css`; außer `detail/pillen.tsx`, `filter/Flagge.tsx`, `de-flagge.tsx`; `styles.css` zählt nicht; nur gültige Längen 3, 4, 6, 8). Die
+  Prüfung vergleicht mit `tools/design-klassen-grenzen.json`; Zahl über der Grenze = Exit 1 (in `check:logic`,
   Gegenprobe `tools/design-klassen.test.mjs`); `--liste` zeigt Datei:Zeile je Muster; `--festschreiben` senkt die Grenzen und läuft nur im
-  Bestandsbau (`tools/commit-data.sh`), nie in einem PR. Startwerte 14.10.2026: `slate-` 564, `dark:` 419, `sky-` 91, `white/` 106, Hex 51 u. a.
+  Bestandsbau (`tools/commit-data.sh`), nie in einem PR; ist die Grenzdatei unlesbar, bricht es mit Exit 1 ab. Startwerte 14.10.2026: `slate-` 564, `dark:` 419, `sky-` 91, `white/` 106, Hex 51 (`.tsx`) / 4 (`.ts`) / 4 (`.css`) u. a.
   Wer eine Fläche auf Tokens umstellt, sieht die Zahl sinken; der Bestandsbau schreibt sie fest. Eine Grenze kommt in keinem PR hoch.
 - Bühne: `web/buehne/ausschnitte/design.tsx` (Rollen und Zustände), Mockups `web/buehne/mockups/design-regeln.tsx`; `Variante.stil` legt
   ein Nachher-Stylesheet über die echte App (`zelle.tsx`).

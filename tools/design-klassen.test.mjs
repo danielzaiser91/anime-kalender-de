@@ -62,6 +62,31 @@ try {
   const hexMit = baum('hex-mit', { ...grundlage, 'components/Neu.tsx': 'const c = "#0d0f14"\n' })
   assert.equal(lauf(hexMit, grenzen).status, 1, 'neuer Hex in .tsx rot')
 
+  // Hex je Dateiart: jede Art schlägt über ihren eigenen Schlüssel an, nicht über .tsx.
+  for (const [datei, schluessel] of [
+    ['lib/farbe.ts', 'Hex in .ts'],
+    ['patchnotes.css', 'Hex in .css'],
+  ]) {
+    const r = lauf(baum(`hex-${schluessel.slice(-3)}`, { ...grundlage, [datei]: 'a { color: #10b981 }\n' }), grenzen)
+    assert.equal(r.status, 1, `${datei} mit Hex rot`)
+    assert.match(r.stderr, new RegExp(`${schluessel}: 1 statt`), `${datei} zählt unter ${schluessel}`)
+    assert.doesNotMatch(r.stderr, /Hex in \.tsx/, `${datei} zählt nicht als .tsx`)
+  }
+
+  // Unlesbare Grenzdatei: Festschreiben bricht ab und lässt sie unverändert (kein Neuschreiben ohne Sperre); fehlende Datei legt neu an.
+  for (const [name, inhalt] of [
+    ['kaputt', '{ "vorkommen": { "slate-": 3,\n'],
+    ['ohne-feld', '{ "_hinweis": "x" }\n'],
+  ]) {
+    const datei = join(ordner, `${name}.json`)
+    writeFileSync(datei, inhalt)
+    const r = lauf(quelle, datei, '--festschreiben')
+    assert.equal(r.status, 1, `${name}: Festschreiben bricht ab`)
+    assert.match(r.stderr, /unlesbar/, `${name}: Meldung nennt den Grund`)
+    assert.equal(readFileSync(datei, 'utf8'), inhalt, `${name}: Datei unverändert`)
+    assert.equal(lauf(quelle, datei).status, 1, `${name}: auch die Prüfung ist rot`)
+  }
+
   // --festschreiben übernimmt gesunkene Werte, erhöht nie.
   const alt = baum('alt', { 'A.tsx': '<i className="text-slate-500 dark:text-white">a</i>\n' })
   const altGrenzen = join(ordner, 'alt.json')
