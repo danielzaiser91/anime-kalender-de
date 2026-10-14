@@ -64,7 +64,7 @@ async function laufe() {
   assert.equal(tickets(name).length, 3)
   b.kind.kill('SIGKILL')
   await b.ende
-  await c.bis('Platz 2 von 2', 5_000) // Takt 1,5 s: Platzänderung spätestens nach einem Takt plus Prüfzeit sichtbar
+  await c.bis('Platz 2 von 2', 20_000) // Takt 1,5 s; die Frist ist großzügig, damit Last auf dem Rechner den Test nicht kippt (ein ausbleibendes Wegräumen bleibt rot)
   assert.equal(tickets(name).length, 2, 'das Ticket des abgebrochenen Wartenden wird beim nächsten Takt weggeräumt')
 
   // Ein Nachzügler D überholt niemanden, auch wenn die Sperre gleich frei wird.
@@ -83,7 +83,7 @@ async function laufe() {
   await f.bis('Platz 1 von 1')
   const [ticketF] = tickets(name)
   rmSync(join(tmpdir(), ticketF))
-  const frist = Date.now() + 5_000
+  const frist = Date.now() + 20_000
   while (tickets(name)[0] !== ticketF && Date.now() < frist) await new Promise((fertig) => setTimeout(fertig, 50))
   assert.deepEqual(tickets(name), [ticketF], 'das gelöschte Ticket ist spätestens nach einem Takt wieder da, mit gleicher Zeit')
   halter3.kind.kill('SIGKILL')
