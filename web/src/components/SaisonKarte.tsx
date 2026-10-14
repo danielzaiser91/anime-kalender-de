@@ -10,8 +10,8 @@ import { terminText } from '../lib/saison-termin.ts'
 
 /** Die Farbe der Stufe: voll grün = auf Deutsch zu sehen, grüner Rand = bestätigt, violett = angekündigt, grau gestrichelt = unklar. */
 const STUFE_FARBE: Record<Stufe, string> = {
-  'auf-deutsch': 'border-emerald-600 bg-emerald-600 text-white dark:border-emerald-400 dark:bg-emerald-400 dark:text-slate-900',
-  bestaetigt: 'border-emerald-600 text-emerald-700 dark:border-emerald-400 dark:text-emerald-300',
+  'auf-deutsch': 'border-ak-gut bg-ak-gut text-ak-auf-gut',
+  bestaetigt: 'border-ak-gut text-ak-gut-text',
   angekuendigt: 'border-violet-500 text-violet-700 dark:border-violet-400 dark:text-violet-300',
   termin: 'border-dashed border-ak-leise text-ak-leise',
   ungeklaert: 'border-dashed border-amber-500 text-amber-700 dark:border-amber-400 dark:text-amber-300',

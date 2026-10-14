@@ -55,6 +55,7 @@
   --color-ak-gut: var(--ak-gut);
   --color-ak-gut-text: var(--ak-gut-text);
   --color-ak-gut-grund: var(--ak-gut-grund);
+  --color-ak-auf-gut: var(--ak-auf-gut);
   --color-ak-fehler: var(--ak-fehler);
   --color-ak-fehler-text: var(--ak-fehler-text);
   --color-ak-fehler-grund: var(--ak-fehler-grund);
@@ -95,6 +96,7 @@ html.dark {
   --ak-gut: #34d399;
   --ak-gut-text: #4ade9f;
   --ak-gut-grund: color-mix(in srgb, var(--ak-gut) 12%, var(--ak-flaeche));
+  --ak-auf-gut: #0d0f14;
   --ak-fehler: #fb7185;
   --ak-fehler-text: #fda4af;
   --ak-fehler-grund: color-mix(in srgb, var(--ak-fehler) 12%, var(--ak-flaeche));
@@ -136,6 +138,7 @@ html:not(.dark) {
   --ak-gut: #047857;
   --ak-gut-text: #04664a;
   --ak-gut-grund: color-mix(in srgb, var(--ak-gut) 10%, var(--ak-flaeche));
+  --ak-auf-gut: #ffffff;
   --ak-fehler: #e11d48;
   --ak-fehler-text: #a8002c;
   --ak-fehler-grund: color-mix(in srgb, var(--ak-fehler) 10%, var(--ak-flaeche));
@@ -490,8 +493,6 @@ html:not(.dark) .ak-saal-licht {
 html:not(.dark) {
   --color-slate-400: #6a6f79;
   --color-slate-500: #555b66;
-  --color-emerald-600: #047857;
-  --color-emerald-700: #00664a;
   --color-rose-700: #a8002c;
 }
 html.dark {

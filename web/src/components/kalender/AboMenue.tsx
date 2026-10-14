@@ -29,7 +29,7 @@ export function AboMenue({ onView, favorites }: { onView: (v: ViewId) => void; f
         {/* Auf dem Handy nur die Glocke: Der Markenname hat Vorrang vor der Breite der Pille. */}
         <span className="hidden sm:block"><KalenderZeichen groesse={18} /></span>
         <GlockenZeichen groesse={18} />
-        {verbindung.verbunden && <span className="absolute top-1 right-1.5 size-2 rounded-full bg-emerald-500" aria-hidden="true" />}
+        {verbindung.verbunden && <span className="absolute top-1 right-1.5 size-2 rounded-full bg-ak-gut" aria-hidden="true" />}
       </button>
     </Schwebe>
   )

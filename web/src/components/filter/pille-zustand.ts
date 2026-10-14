@@ -6,7 +6,7 @@
  * Der Text bleibt in Textfarbe (gewählt) bzw. `rose-700`/`rose-300` (ausgeschlossen), beide ≥ 4,5 : 1 auf der Füllung.
  */
 export const PILLE_JA =
-  'border-emerald-600 bg-emerald-500/10 inset-ring-1 inset-ring-emerald-600 font-bold text-ak-text dark:border-emerald-400 dark:inset-ring-emerald-400'
+  'border-ak-gut bg-ak-gut-grund inset-ring-1 inset-ring-ak-gut font-bold text-ak-text'
 
 export const PILLE_NEIN =
   'border-rose-500 bg-rose-500/10 inset-ring-1 inset-ring-rose-500 text-rose-700 line-through decoration-rose-500/70 dark:border-rose-400 dark:inset-ring-rose-400 dark:text-rose-300'

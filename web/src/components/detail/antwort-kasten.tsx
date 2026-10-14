@@ -354,7 +354,7 @@ export function AntwortKasten({
           {rel && rel === T('antwort.relHeute') && mitZeit.includes(rel) ? (
             <>
               {mitZeit.slice(0, mitZeit.indexOf(rel))}
-              <span className="font-semibold text-emerald-700 dark:text-emerald-400">{rel}</span>
+              <span className="font-semibold text-ak-gut-text">{rel}</span>
               {mitZeit.slice(mitZeit.indexOf(rel) + rel.length)}
             </>
           ) : (
@@ -375,7 +375,7 @@ export function AntwortKasten({
     zaehl = antwort.gesamt
       ? (
           <>
-            <span className="font-semibold text-emerald-700 dark:text-emerald-400">{antwort.raus}</span>
+            <span className="font-semibold text-ak-gut-text">{antwort.raus}</span>
             {' '}
             {T('antwort.erschienenRest', { gesamt: ungefaehr(antwort.gesamt, antwort.gesamtGeschaetzt) })}
           </>
@@ -754,11 +754,11 @@ export function AntwortKasten({
           aria-hidden="true"
         >
           <span
-            className={anteil === 0 ? 'bg-slate-300 dark:bg-white/15' : 'bg-emerald-500'}
+            className={anteil === 0 ? 'bg-slate-300 dark:bg-white/15' : 'bg-ak-gut'}
             style={{ width: `${anteil === 0 ? 100 : (anteil ?? 100)}%` }}
           />
           {anteil !== undefined && anteil > 0 && anteil < 100 && (
-            <span className="bg-emerald-500/25" style={{ width: `${100 - anteil}%` }} />
+            <span className="bg-ak-gut/25" style={{ width: `${100 - anteil}%` }} />
           )}
         </div>
       )}
@@ -833,8 +833,8 @@ export function AntwortKasten({
               <div className="flex w-full flex-col gap-3">
 {/* Der grüne Block nur, wo es wirklich etwas umsonst gibt — sonst wäre er eine leere Behauptung. */}
                 {pillen.some((p) => gruppeVon(p) === 'frei') && (
-                  <div className="flex flex-col gap-2 rounded-lg bg-emerald-500/[0.07] p-2 ring-1 ring-inset ring-emerald-600/25 dark:ring-emerald-400/30">
-                    <span className="text-t4 font-semibold text-emerald-800 dark:text-emerald-300">{kostenlosKopf}</span>
+                  <div className="flex flex-col gap-2 rounded-lg bg-ak-gut-grund p-2 ring-1 ring-inset ring-ak-gut/30">
+                    <span className="text-t4 font-semibold text-ak-gut-text">{kostenlosKopf}</span>
                     <div className={PILLEN_REIHE}>{pillen.filter((p) => gruppeVon(p) === 'frei')}</div>
                   </div>
                 )}

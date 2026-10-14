@@ -342,7 +342,7 @@ function AboEinstellungen({ meta, onWechseln, abmeldeState, setAbmeldeState }: {
           </div>
           </div>
 
-          {speichert === 'ok' && <p className="text-sm text-emerald-500">{t('news.prefsSaved')}</p>}
+          {speichert === 'ok' && <p className="text-sm text-ak-gut-text">{t('news.prefsSaved')}</p>}
 
           <div className="flex flex-wrap items-center gap-3 border-t border-slate-200 pt-3 dark:border-white/10">
             <button
@@ -548,7 +548,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
       {adminToken && <AdminPanel token={adminToken} />}
 
       {welcome && (
-        <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-500">
+        <div className="rounded-xl border border-ak-gut/40 bg-ak-gut-grund px-4 py-3 text-sm text-ak-gut-text">
           <strong className="block">{t('news.welcomeTitle')}</strong>
           {t('news.welcomeBody')}
         </div>
@@ -559,7 +559,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
           className={[
             'rounded-xl border px-4 py-3 text-sm',
             syncState === 'ok'
-              ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-500'
+              ? 'border-ak-gut/40 bg-ak-gut-grund text-ak-gut-text'
               : syncState === 'error'
                 ? 'border-red-500/40 bg-red-500/10 text-red-400'
                 : 'border-slate-300 text-slate-500 dark:border-white/15',
@@ -681,7 +681,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
               — für den wäre der Hinweis eine Warnung vor nichts.
             */}
             {autoSync ? (
-              <p className="mt-1 text-xs text-emerald-500">✓ {t('news.autoSync')}</p>
+              <p className="mt-1 text-xs text-ak-gut-text">✓ {t('news.autoSync')}</p>
             ) : favorites.size > 0 ? (
               <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">{t('news.noSyncYet')}</p>
             ) : null}
@@ -724,7 +724,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
               <span
                 className={[
                   'text-sm',
-                  state === 'ok' ? 'text-emerald-500' : state === 'error' ? 'text-red-400' : 'text-slate-400',
+                  state === 'ok' ? 'text-ak-gut-text' : state === 'error' ? 'text-red-400' : 'text-slate-400',
                 ].join(' ')}
               >
                 {message}
@@ -774,7 +774,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
         {zeigeGeraet ? (
           <>
             {abmeldeState !== 'weg' && (
-              <p className="rounded-lg bg-emerald-500/10 px-3 py-2 text-sm text-emerald-600 dark:text-emerald-400">
+              <p className="rounded-lg bg-ak-gut-grund px-3 py-2 text-sm text-ak-gut-text">
                 ✓ {t('news.restoreConnected')}
               </p>
             )}
@@ -802,7 +802,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
           <>
         <p className="text-sm text-slate-600 dark:text-slate-300">{t('news.restoreBody')}</p>
         {restoreState === 'done' ? (
-          <p className="mt-3 rounded-lg bg-emerald-500/10 px-3 py-2 text-sm text-emerald-600 dark:text-emerald-400">
+          <p className="mt-3 rounded-lg bg-ak-gut-grund px-3 py-2 text-sm text-ak-gut-text">
             {t('news.restoreSent')}
           </p>
         ) : (

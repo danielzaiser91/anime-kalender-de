@@ -9,7 +9,7 @@ import type { ReactNode } from 'react'
 const AKZENT = {
   violet: { leiste: 'bg-violet-500', chip: 'bg-violet-500/15 text-violet-600 dark:text-violet-300', glanz: 'from-violet-500/[0.10]' },
   amber: { leiste: 'bg-amber-500', chip: 'bg-amber-500/15 text-amber-700 dark:text-amber-300', glanz: 'from-amber-500/[0.09]' },
-  emerald: { leiste: 'bg-emerald-500', chip: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300', glanz: 'from-emerald-500/[0.09]' },
+  gut: { leiste: 'bg-ak-gut', chip: 'bg-ak-gut-grund text-ak-gut-text', glanz: 'from-ak-gut/[0.09]' },
   blue: { leiste: 'bg-blue-500', chip: 'bg-blue-500/15 text-blue-700 dark:text-blue-300', glanz: 'from-blue-500/[0.09]' },
 } as const
 

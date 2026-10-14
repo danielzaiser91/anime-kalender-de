@@ -17,7 +17,7 @@ import { erstausgabeAlsNeuigkeit } from './antwort-regeln.ts'
 
 /** Der Punkt an der Zeitleiste, je Art in ihrer Farbe. */
 const PUNKT: Record<NewsMeldung['art'], string> = {
-  neu: 'bg-emerald-500',
+  neu: 'bg-ak-gut',
   folgen: 'bg-blue-400',
   angekuendigt: 'bg-violet-500',
   disc: 'bg-amber-500',

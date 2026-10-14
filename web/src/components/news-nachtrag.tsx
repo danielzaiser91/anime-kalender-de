@@ -10,7 +10,7 @@ import { useLang } from '../lib/i18n.tsx'
 const STIL: Record<string, string> = {
   quelle: 'border-blue-500/50 bg-blue-500/10 text-blue-800 dark:text-blue-200',
   grund: 'border-amber-500/50 bg-amber-500/10 text-amber-800 dark:text-amber-200',
-  abhilfe: 'border-emerald-500/50 bg-emerald-500/10 text-emerald-800 dark:text-emerald-200',
+  abhilfe: 'border-ak-gut/50 bg-ak-gut-grund text-ak-gut-text',
   zusage: 'border-violet-500/50 bg-violet-500/10 text-violet-800 dark:text-violet-200',
 }
 
