@@ -7,7 +7,7 @@ import { readFileSync } from 'node:fs'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import type { Title } from '../shared/types.ts'
-import { AntwortBereichOderNichts, kastenOhneInhalt } from '../web/src/components/detail/kasten-leer.tsx'
+import { BEWERTET, KastenRahmen, OHNE_WIRKUNG, kastenOhneInhalt } from '../web/src/components/detail/kasten-leer.tsx'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -30,6 +30,7 @@ const leer = {
   kastenNotiz: undefined,
   kaufausgabeZeile: undefined,
   folgenLuecke: null,
+  folgenListe: false,
 }
 type Eingabe = Parameters<typeof kastenOhneInhalt>[0]
 const mit = (extra: object): Eingabe => ({ ...leer, ...extra }) as unknown as Eingabe
@@ -52,6 +53,7 @@ const quellen: [string, Eingabe][] = [
   ['Notiz', mit({ kastenNotiz: {} })],
   ['Kaufausgabe', mit({ kaufausgabeZeile: 'Blu-ray' })],
   ['Folgenlücke', mit({ folgenLuecke: '3' })],
+  ['Folgenliste (folgen/<id>.json)', mit({ folgenListe: true })],
   ['Merken-Hinweis (ohneSynchro)', mitTitel({ ohneSynchro: true })],
   ['Nebenzeile (deErstausgabe)', mitTitel({ deErstausgabe: { von: '2003-01-08' } })],
   ['Im Angebot seit', mitTitel({ angebotSeit: { date: '2024-01-01', platform: 'netflix' } })],
@@ -76,12 +78,25 @@ const uebrige = {
   discOffen: false,
   setDiscOffen: () => undefined,
 }
-const rahmen = (e: Eingabe): string => renderToStaticMarkup(createElement(AntwortBereichOderNichts, { ...uebrige, ...e } as never))
+const rahmen = (e: Eingabe): string => renderToStaticMarkup(createElement(KastenRahmen, { ...uebrige, ...e } as never))
 pruefe('leer: nichts gerendert', rahmen(mit({})) === '')
+pruefe('nur Folgenliste: Rahmen bleibt', rahmen(mit({ folgenListe: true })).includes('data-kasten'))
 const markup = rahmen(mit({ wegeHinweis: 'Satz', antwort: { art: 'ohne' } }))
 pruefe('mit Zeile: Rahmen mit Marke `data-kasten` und Kasten', markup.includes('data-kasten') && markup.includes('<section'), markup.slice(0, 120))
 const panel = readFileSync(new URL('../web/src/components/DetailPanel.tsx', import.meta.url), 'utf8')
 pruefe('DetailPanel benutzt den Rahmen', /<AntwortBereichOderNichts\b/.test(panel) && !/<AntwortBereich\b(?!OderNichts)/.test(panel))
+const leerQuelle = readFileSync(new URL('../web/src/components/detail/kasten-leer.tsx', import.meta.url), 'utf8')
+pruefe('AntwortBereichOderNichts fragt das Verzeichnis der Folgenlisten', /folgenListe = useHatFolgenListe\(p\.title\.id\)/.test(leerQuelle) && /<KastenRahmen \{\.\.\.p\} folgenListe=\{folgenListe\} \/>/.test(leerQuelle))
+
+console.log('\nJede Eingabe von AntwortBereich ist bewertet:')
+const bereich = readFileSync(new URL('../web/src/components/detail/antwort-bereich.tsx', import.meta.url), 'utf8')
+const kopf = /export function AntwortBereich\(\{([^}]*)\}/.exec(bereich)?.[1] ?? ''
+const props = kopf.split(',').map((s) => s.trim()).filter(Boolean)
+const bekannt: string[] = [...BEWERTET, ...OHNE_WIRKUNG]
+pruefe('Props von AntwortBereich gelesen', props.length > 10, props.length)
+pruefe('keine Eingabe ohne Urteil (in BEWERTET oder OHNE_WIRKUNG)', props.every((n) => bekannt.includes(n)), props.filter((n) => !bekannt.includes(n)))
+pruefe('keine Eingabe in beiden Listen', BEWERTET.every((n) => !(OHNE_WIRKUNG as readonly string[]).includes(n)))
+pruefe('keine Eingabe in den Listen, die es nicht gibt', bekannt.every((n) => props.includes(n)), bekannt.filter((n) => !props.includes(n)))
 
 if (verletzt) {
   console.error(`\n${verletzt} Prüfung(en) verletzt`)
