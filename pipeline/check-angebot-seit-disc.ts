@@ -1,5 +1,5 @@
 /**
- * Eine Disc nimmt dem Titel das „Im Angebot seit“ nicht (13.10.2026, Fall Pokémon „Die Anfänge“): `13-3-listen.ts` und
+ * Eine Disc nimmt dem Titel das „Im Angebot seit“ nicht (13.10.2026, Fall Pokémon „Die Anfänge“): `13-3-angebot-seit.ts` und
  * `13-7-erstausgabe-angebot.ts` füllen nur Titel ohne Termin. Eine DVD-Box am 27.11.2026 sagt nichts darüber, seit wann Netflix
  * die Staffeln führt; jeder andere Termin (Streaming, TV, Kino) ersetzt das „Im Angebot seit“ weiterhin.
  */
