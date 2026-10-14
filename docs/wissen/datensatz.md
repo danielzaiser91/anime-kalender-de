@@ -900,6 +900,13 @@ Ein Titel mit sicherem Termin (nicht `estimated`, mit `sources`) bei einem Strea
 - **Panel:** `wege-sortieren.ts` fasst zwei Pillen nur noch zusammen, wenn auch der Ausschnitt gleich ist, und die Pille trägt ihn im Schlüssel; vorher blieb von vier Prime-Pillen eine mit „Flg. 1–26“ stehen. Ein verteilter Weg zeigt eine Pille je Staffel; die gefaltete Darstellung ist Teil 3.
 - **Prüfung:** `check-cartoon-wege.ts` (Teilbereiche lückenlos = Staffelsumme, kein verteilter Weg ohne Haken oder Hinweis in einer Staffel, kein Cartoon-Häkchen ohne Handbeleg, JustWatch-Hinweis nie mit Urteil).
 
+## Cartoons: Wege im Panel falten (14.10.2026, Teil 3 von 3)
+
+- **Befund** (`public/data/cartoons.json`, 14.10.2026): 106 Cartoons haben Wege je Staffel, bis zu 56 Pillen (Om Nom Stories 28 Staffeln, Ninjago 32, Little Angel 17). Staffeln stehen bei 895 von 903 Cartoons (763 JustWatch, 131 TMDB, 1 Handbeleg), 305 auf der Prüfliste; deren Wege bleiben ganz, das Panel behauptet dort keine Staffel.
+- **Regel** (`web/src/components/detail/wege-falten.ts`, aufgerufen in `wege-sortieren.ts`): anschließende Teilwege (`bis + 1 = von`) mit gleicher Adresse und gleicher Aussage (Zugang, Urteil, Hinweis, Haken-Bereiche) sind eine Pille; Om Nom Prime: 28 → 3. Jack bleibt dreigeteilt, weil jedes Buch seinen eigenen Haken trägt. Der Daten-Bau ist unverändert.
+- **Anzeige:** „Staffel 1–2 · Flg. 1–98" nur, wo der Ausschnitt genau Staffelgrenzen der Titel-`staffeln` trifft (sonst nur „Flg."); `staffelnQuelle: tmdb` heißt „Staffel 1 (laut TMDB)".
+- **Prüfung:** `check-cartoon-wege-falten.ts` (Regel, Mutationen: Hinweis, Haken-Bereiche, Anschluss, Zugang, Stand, Staffelgrenzen, TMDB) und `check-cartoon-wege-falten-bestand.ts` (Om Nom höchstens 12 Pillen, Jack 3 Netflix-Pillen mit Haken).
+
 ## Geteilte Crunchyroll-Seiten: Folgenbereich je Titel (11.10.2026)
 
 - **Problem:** Mehrere unserer Titel zeigen auf dieselbe Crunchyroll-Serienseite (Re:ZERO Staffel 2 = 25 Folgen, bei uns 13 + 12). `bau/09-7-cr-bereiche.ts` überspringt solche Seiten (`sharedWith`); 284 Wege mit Haken standen ohne Bereich (Messung `tools/datenqualitaet-messen.mjs`, Spalte „teilt, de ohne Bereich“, vorher 412 über alle Anbieter im Hauptbestand).

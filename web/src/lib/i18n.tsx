@@ -307,6 +307,9 @@ const TEXTE = {
   // jemand 39 Folgen auf einer Seite, die 91 zeigt.
   'detail.teilBereich': 'Flg. {von}–{bis}',
   'detail.teilBereichTitel': 'Dieser Eintrag umfasst dort die Folgen {von} bis {bis}',
+  'detail.teilStaffel': 'Staffel {von}–{bis}',
+  'detail.teilStaffelEine': 'Staffel {nr}',
+  'detail.teilLautTmdb': 'laut TMDB',
   // Steht als „!" neben dem Anbieter, wenn der deutsche Ton Lücken hat. Der
   // Anbieter gilt trotzdem als deutsch — eine Folge genügt (Daniel,
   // 27.08.2026: „de anzeigen ab min 1 folge ist die richtige weise").

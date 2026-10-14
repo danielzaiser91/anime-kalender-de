@@ -16,6 +16,7 @@ import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 import { pillenSchluessel, type sortiereNachZugang } from './wege-sortieren.ts'
 import { tvAngabe } from '../../lib/tv-angabe.ts'
+import { teilAngaben } from './wege-falten.ts'
 
 /** Eine Zeile je Termin: Sender oder Anbieter, Datum, Folge. */
 export function terminPillen(rs: Release[], title: Title, releases: Release[], today: string) {
@@ -86,9 +87,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
                       [
                         folgenAngabe,
                         streamStatus(title, s, releases) === 'justwatch' ? t('detail.stand', { datum: formatDate(s.dubStand!) }) : '',
-                        s.teilBereich
-                          ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
-                          : '',
+                        s.teilBereich ? teilAngaben(title, s.teilBereich, t).unten : '',
                       ]
                         .filter(Boolean)
                         .join(' · ') || undefined
@@ -106,12 +105,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
                       [
                         ...dubZeilen(s),
                         streamNurOmu(title, s, releases) ? t(synchroAngekuendigt(title, s) ? 'detail.pilleNurOmu' : 'detail.pilleNurOmuOffen') : '',
-                        s.teilBereich
-                          ? t('detail.teilBereichTitel', {
-                              von: s.teilBereich.von,
-                              bis: s.teilBereich.bis,
-                            })
-                          : '',
+                        s.teilBereich ? teilAngaben(title, s.teilBereich, t).titel : '',
                         (s.sharedWith ?? 0) > 1
                           ? t('detail.sharedUrlNote', { count: s.sharedWith! })
                           : '',
