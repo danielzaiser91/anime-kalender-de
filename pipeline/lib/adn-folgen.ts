@@ -93,6 +93,8 @@ export interface AdnListenEintrag {
   title: string
   originalTitle?: string | null
   age?: string | null
+  /** Sprachen der Serie in der Liste: `vde` genau dann, wenn irgendeine ihrer Folgen eine deutsche Fassung trägt (257 von 257 Serien am 14.10.2026). */
+  languages?: string[]
 }
 
 /** Die Serie als Katalogeintrag mit ihren deutschen Folgen (`vde`); ohne eine solche Folge gibt es keinen Eintrag. */

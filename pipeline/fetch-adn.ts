@@ -499,13 +499,13 @@ function archivKennungen(): number[] {
 async function holeNeueSerien(): Promise<void> {
   const katalog = readJson<AdnData>(KATALOG_DATEI, { scrapedAt: '', window: { from: '', to: '' }, shows: [] })
   const bekannt = new Set([...katalog.shows.map((s) => s.showId), ...archivKennungen()])
-  const neu = unbekannteSerien(await sammleSerienliste(), bekannt)
-  log(`ADN: ${neu.length} Serien der Liste weder im Katalog noch im Archiv`)
-  if (!neu.length) return
-  const { shows, archiv, offen } = await sammleNeuzugaenge(neu, ladeSerie, () => sleep(700))
-  for (const [id, videos] of archiv) archiviereSerie(id, videos)
   const stand = readJson<Record<string, string>>(KATALOG_STAND, {})
-  for (const id of archiv.keys()) stand[String(id)] = new Date().toISOString()
+  const neu = unbekannteSerien(await sammleSerienliste(), bekannt, stand)
+  log(`ADN: ${neu.length} Serien der Liste weder im Katalog noch im Archiv (ohne die, die vor weniger als 24 Stunden ohne Videos antworteten)`)
+  if (!neu.length) return
+  const { shows, archiv, offen, gefragt } = await sammleNeuzugaenge(neu, ladeSerie, () => sleep(700))
+  for (const [id, videos] of archiv) archiviereSerie(id, videos)
+  for (const id of gefragt) stand[String(id)] = new Date().toISOString()
   writeJson(KATALOG_STAND, stand)
   if (offen.length) warn(`ADN: ${offen.length} neue Serien nicht abrufbar (${offen.join(', ')}) — nächster Lauf versucht es wieder.`)
   if (!shows.length) return

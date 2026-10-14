@@ -53,6 +53,39 @@ pruefe('Derselbe Eintrag kommt nicht doppelt in den Katalog', zweimal.length ===
 const fremd = katalogMitNeuen([{ ...ergebnis.shows[0]!, title: 'Alter Stand' }], ergebnis.shows)
 pruefe('Ein vorhandener Eintrag bleibt unverändert', fremd.length === 1 && fremd[0]!.title === 'Alter Stand')
 
+console.log('\nSerie ohne Videos (Drossel: nach einer leeren Antwort 24 Stunden Ruhe, mit `vde` in der Liste sofort wieder):')
+{
+  const STUNDE = 3600_000
+  const T0 = Date.parse('2026-10-14T06:00:00Z')
+  const leere = (languages: string[]): ReadonlyMap<number, AdnListenEintrag> => new Map([[600, { ...film(600, 'Noch ohne deutsche Fassung'), languages }]])
+  const stand = { '600': new Date(T0).toISOString() }
+  const nach = (stunden: number, liste = leere([])) => unbekannteSerien(liste, new Set(), stand, T0 + stunden * STUNDE).length
+  pruefe('Sechs Stunden nach der leeren Antwort wird nicht noch einmal gefragt', nach(6) === 0, nach(6))
+  pruefe('Auch nach 23 Stunden nicht', nach(23) === 0)
+  pruefe('Nach 24 Stunden wieder', nach(24) === 1)
+  pruefe('Ohne Stand wird gefragt (nie beantwortet)', unbekannteSerien(leere([]), new Set(), {}, T0).length === 1)
+  pruefe('Nennt die Liste jetzt `vde`, wird sofort gefragt', nach(6, leere(['vostde', 'vde'])) === 1)
+  pruefe('Nennt die Liste nur Untertitel, bleibt die Ruhe', nach(6, leere(['vostde'])) === 0)
+
+  // Ablauf über mehrere Läufe im Sechs-Stunden-Takt: ADN schaltet die Serie 30 Stunden nach der leeren Antwort frei, die Liste hinkt (nennt `vde` nicht).
+  const freigabe = T0 + 30 * STUNDE
+  let abrufe = 0
+  let sichtbarNach: number | undefined
+  const stand2: Record<string, string> = { '600': new Date(T0).toISOString() }
+  for (let h = 6; h <= 72 && sichtbarNach === undefined; h += 6) {
+    const jetzt = T0 + h * STUNDE
+    const dran = unbekannteSerien(leere([]), new Set(), stand2, jetzt)
+    const lauf = await sammleNeuzugaenge(dran, async (id) => (abrufe++, { videos: jetzt >= freigabe ? [video(id, ['vde'])] : [] }), keinePause)
+    for (const id of lauf.gefragt) stand2[String(id)] = new Date(jetzt).toISOString()
+    if (lauf.shows.length) sichtbarNach = h - 30
+  }
+  pruefe('Die Freigabe (hier nach 30 Stunden) wird spätestens 24 Stunden plus einen Lauf später sichtbar', sichtbarNach !== undefined && sichtbarNach <= 24 + 6, sichtbarNach)
+  pruefe('Bis dahin gab es höchstens 3 Abrufe statt 8 (alle sechs Stunden)', abrufe <= 3, abrufe)
+  const fehlerStand: Record<string, string> = {}
+  const nachFehler = await sammleNeuzugaenge(unbekannteSerien(leere([]), new Set(), fehlerStand, T0), async () => ({ videos: [], abbruch: '503' }), keinePause)
+  pruefe('Ein Abruffehler gilt nicht als Antwort: kein Stand, im nächsten Lauf wieder dran', nachFehler.gefragt.length === 0 && nachFehler.offen.join() === '600')
+}
+
 console.log('\nTakt:')
 const lauf = readFileSync('.github/workflows/adn-laufende.yml', 'utf8')
 pruefe('Der Lauf alle sechs Stunden ruft data:adn:laufend auf (dort hängt die Neuzugangs-Abfrage)', lauf.includes('npm run data:adn:laufend'))
