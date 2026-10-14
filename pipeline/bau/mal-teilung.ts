@@ -3,7 +3,7 @@ import { handKennungen } from '../lib/hand-kennungen.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
 import { findeTeilungen } from '../lib/mal-teilung.ts'
 import { log, readJson } from '../lib/util.ts'
-import { alle, ANISEARCH_ID_BASIS, anisearchUmgezogenInBestand } from './anisearch-titel.ts'
+import { alle, ANISEARCH_ID_BASIS, anisearchUmgezogenInBestand, traegerJeSeite, vergebeneSeiten } from './anisearch-titel.ts'
 
 /**
  * **Teilt aniSearch ein AniList-Werk Folge für Folge auf Seiten auf, sind die Seiten das Werk und der Sammeltitel entfällt** (Daniel, 13.10.2026: Durarara!! Specials,
@@ -30,6 +30,27 @@ const ausDateien = (): TeilungsQuellen => ({
   eintraege: alle(),
   katalog: ladeKatalogEintraege().map((e) => ({ id: e.id, malId: e.mal, episodes: e.folgen })),
 })
+
+/**
+ * **Trägt der Sammeltitel selbst eine seiner Seiten (`anisearchId`), bekommt diese Seite eine eigene Zeile**, sonst bliebe der Titel zusammen (Aware! Meisaku-kun:
+ * sechs Seiten, der Titel trägt 11255; 14 Katalogtitel, Daniel 14.10.2026, F7). Nur wenn die Teilung sonst greift: jede andere Seite hat eine Zeile, keine Handdatei
+ * nennt den Titel, und nur der Sammeltitel trägt die Seite — trägt sie ein anderer Titel, bleibt sie dessen Eintrag.
+ *
+ * @param titles  die AniList-Titel vor dem Anlegen der Seitenzeilen
+ * @returns       aniSearch-Kennungen der Seiten, die `ergaenzeAnisearchTitel` trotz Träger anlegen soll
+ */
+export function freizugebendeSeiten(titles: Map<number, Title>, quellen: TeilungsQuellen = ausDateien(), vergeben: Set<number> = vergebeneSeiten(titles), traeger: Map<number, number[]> = traegerJeSeite()): Set<number> {
+  const hatZeile = (zeilenId: number, sammelId: number) => {
+    const asId = zeilenId - ANISEARCH_ID_BASIS
+    return !vergeben.has(asId) || traeger.get(asId)?.join() === String(sammelId)
+  }
+  const frei = new Set<number>()
+  for (const [sammelId, seiten] of findeTeilungen([...quellen.katalog, ...titles.values()], quellen.eintraege, hatZeile)) {
+    if (quellen.hand.has(sammelId)) continue
+    for (const asId of seiten) if (vergeben.has(asId)) frei.add(asId)
+  }
+  return frei
+}
 
 export function entferneSammeltitel(
   titles: Map<number, Title>,

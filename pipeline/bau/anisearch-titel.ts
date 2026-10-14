@@ -132,10 +132,8 @@ function erstausgabeUebernehmen(titles: Map<number, Title>): void {
   }
 }
 
-/** Legt die Titel an, die bei uns noch keine eigene aniSearch-Kennung tragen. Gibt zurück, wie viele es sind. */
-export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<number, string>, jpStartAnzeige: Map<number, string>): number {
-  /* Cover: die aniSearch-Bilder dürfen wir nicht weitergeben; wo TMDB ein Plakat zu Name und Jahr kennt (`fetch-tmdb-poster.ts`), steht es als Cover. */
-  const poster = readJson<Record<string, { p: string } | null>>('data/tmdb-poster.json', {})
+/** Die aniSearch-Seiten, die keine eigene Zeile bekommen, weil ein AniList-Titel ihre Kennung trägt. */
+export function vergebeneSeiten(titles: Map<number, Title>): Set<number> {
   const vergeben = new Set<number>()
   /*
     Eine Zuordnung zu einem AniList-Titel sperrt den Eintrag nur, wenn dieser Titel im Hauptbestand steht oder der Eintrag kein Deutsch führt: Liegt der
@@ -148,6 +146,25 @@ export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<
     const ohneDeutsch = alle()[String(e.anisearchId)]?.dub === '-' && !(Number(anilistId) in anisearchHand)
     if (titles.has(Number(anilistId)) || ohneDeutsch) vergeben.add(e.anisearchId)
   }
+  return vergeben
+}
+
+/** Welche AniList-Titel eine Seite tragen: Seitenkennung → Kennungen der Titel (Handdatei, Katalogabgleich, Abruf). */
+export function traegerJeSeite(): Map<number, number[]> {
+  const traeger = new Map<number, number[]>()
+  for (const [anilistId, z] of Object.entries(zuordnungen())) if (z.anisearchId) traeger.set(z.anisearchId, [...(traeger.get(z.anisearchId) ?? []), Number(anilistId)])
+  return traeger
+}
+
+/**
+ * Legt die Titel an, die bei uns noch keine eigene aniSearch-Kennung tragen. Gibt zurück, wie viele es sind.
+ * @param frei Seiten, die trotz Träger eine Zeile bekommen: die ein Sammeltitel trägt, der in seine Seiten zerfällt (`freizugebendeSeiten`).
+ */
+export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<number, string>, jpStartAnzeige: Map<number, string>, frei: Set<number> = new Set()): number {
+  /* Cover: die aniSearch-Bilder dürfen wir nicht weitergeben; wo TMDB ein Plakat zu Name und Jahr kennt (`fetch-tmdb-poster.ts`), steht es als Cover. */
+  const poster = readJson<Record<string, { p: string } | null>>('data/tmdb-poster.json', {})
+  const vergeben = vergebeneSeiten(titles)
+  for (const asId of frei) vergeben.delete(asId)
   let neu = 0
   for (const [schluessel, e] of Object.entries(alle())) {
     const asId = Number(schluessel)
