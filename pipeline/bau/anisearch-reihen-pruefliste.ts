@@ -7,7 +7,7 @@ import { ARCHIV_SEITEN, leseSeite } from '../lib/anisearch-relationen.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import type { Kante, Namen } from './anisearch-reihen.ts'
 import { type Pruefzeile, type Trennung, WANDERREGEL, uebernimmReihen } from './anisearch-reihen-uebernahme.ts'
-import { type Anker, uebernimmKatalogReihen } from './anisearch-reihen-katalog.ts'
+import { type Anker, erbeReihe, uebernimmKatalogReihen } from './anisearch-reihen-katalog.ts'
 import type { KatalogEintrag } from '../lib/anilist.ts'
 import { bestandReihenAusAnisearch } from './anisearch-reihen-rein.ts'
 
@@ -90,7 +90,7 @@ export function anisearchRelationenKanten(titles: Map<number, Title>, wurzel: (i
   }
 }
 
-export type Ausgeschieden = { katalogWeg: { has(id: number): boolean }; zeilenWeg: { has(id: number): boolean } }
+export type Ausgeschieden = { katalogWeg: ReadonlyMap<number, number>; zeilenWeg: { has(id: number): boolean } }
 
 /** Die Titel, die beim Katalog nie umziehen und als Ziel dienen: der ausgelieferte Hauptbestand (aus `titles.json`) und die aus ihm verschobenen Titel, die der Katalog nicht führt. */
 export function katalogAnker(eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden): Anker[] {
@@ -109,7 +109,7 @@ export function anisearchKatalogReihen(reihe: Map<number, number>, eintraege: Ka
   try {
     const anker = katalogAnker(eintraege, bekannt, verschoben, kennung, weg)
     const { kanten, namen } = ladeBeziehungen()
-    const u = uebernimmKatalogReihen(eintraege.filter((e) => !weg.katalogWeg.has(e.id)), reihe, anker, kennung, kanten, namen, ladeTrennungen())
+    const u = uebernimmKatalogReihen(eintraege.filter((e) => !weg.katalogWeg.has(e.id)), erbeReihe(reihe, weg.katalogWeg, anker), anker, kennung, kanten, namen, ladeTrennungen())
     schreibe('katalog', u.ergebnis.pruefliste, { angehaengt: u.ergebnis.angehaengt, neueReihen: u.ergebnis.neueReihen }, u.bestandEinzeln)
     log(`aniSearch-Reihen im Katalog: ${u.ergebnis.angehaengt} Alleinstehende an Reihen gehängt, ${u.ergebnis.neueReihen} neue Reihen, ${u.ergebnis.pruefliste.length} Fälle auf der Prüfliste, ${u.bestandEinzeln} Paare mit einem allein stehenden Hauptbestandstitel`)
     return u.reihe

@@ -69,26 +69,30 @@ export function fuehreReihenZusammenQuelle(args: ReihenArgs): ReturnType<typeof 
  * AniList-Kanten, die aniSearch nicht ersetzen kann: jede Kante, an der ein Titel ohne aniSearch-Kennung hängt. Ein Crossover (zwei Eltern) verbindet auch hier nichts, weder von sich aus noch als Ziel.
  * Gemessen 13.10.2026: 3.044 Katalogtitel ohne Kennung, davon 1.286 in einer Reihe mit mehreren Titeln; ohne diese Kanten stünden 1.273 allein.
  */
-export function anilistKantenOhneKennung(eintraege: KatalogEintrag[], mitKennung: Set<number>): [number, number][] {
+export function anilistKantenOhneKennung(eintraege: KatalogEintrag[], mitKennung: Set<number>, umhaengen: ReadonlyMap<number, number> = new Map()): [number, number][] {
   const crossover = new Set(eintraege.filter((e) => (e.eltern?.length ?? 0) >= 2).map((e) => e.id))
   const ohne = (id: number): boolean => !mitKennung.has(id)
-  return eintraege.flatMap((e) => (crossover.has(e.id) ? [] : (e.rel ?? []).filter((o) => !crossover.has(o) && (ohne(e.id) || ohne(o))).map((o): [number, number] => [e.id, o])))
+  const dahin = (id: number): number => umhaengen.get(id) ?? id
+  return eintraege.flatMap((e) => (crossover.has(e.id) ? [] : (e.rel ?? []).filter((o) => !crossover.has(o) && (ohne(dahin(e.id)) || ohne(dahin(o)))).map((o): [number, number] => [dahin(e.id), dahin(o)])))
 }
 
-/** Katalog: Reihe je Eintrag aus aniSearch; der ausgelieferte Hauptbestand (Anker) behält seine Reihe, zwei feste Reihen verschmelzen nie. Reine Funktion: Beziehungen und Handdatei kommen als Parameter. */
-export function reineKatalogReihen(eintraege: KatalogEintrag[], kennung: Map<number, number>, anker: ReturnType<typeof katalogAnker>, kanten: Kante[], namen: Namen, hand: ReinHand): ReinErgebnis {
+/**
+ * Katalog: Reihe je Eintrag aus aniSearch; der ausgelieferte Hauptbestand (Anker) behält seine Reihe, zwei feste Reihen verschmelzen nie.
+ * `katalogWeg`: die ausgeschiedenen Sammeltitel (Katalogkennung → ihre Zeile, `anisearch-dubletten.ts`); sie sind kein Titel mehr, ihre AniList-Kanten gelten für die Zeile.
+ */
+export function reineKatalogReihen(eintraege: KatalogEintrag[], kennung: Map<number, number>, anker: ReturnType<typeof katalogAnker>, katalogWeg: ReadonlyMap<number, number>, kanten: Kante[], namen: Namen, hand: ReinHand): ReinErgebnis {
   const fest = new Map(anker.map((a) => [a.id, a.reihe]))
   const titel: ReinTitel[] = [
     ...anker.map((a) => ({ id: a.id, name: a.name, anisearchId: a.anisearchId, ...malVon(a.mal, a.anisearchId) })),
-    ...eintraege.filter((e) => !fest.has(e.id)).map((e) => ({ id: e.id, name: e.t[0] ?? e.t[1] ?? `#${e.id}`, anisearchId: kennung.get(e.id), ...malVon(e.mal, kennung.get(e.id)) })),
+    ...eintraege.filter((e) => !katalogWeg.has(e.id) && !fest.has(e.id)).map((e) => ({ id: e.id, name: e.t[0] ?? e.t[1] ?? `#${e.id}`, anisearchId: kennung.get(e.id), ...malVon(e.mal, kennung.get(e.id)) })),
   ]
-  const kantenOhne = anilistKantenOhneKennung(eintraege, new Set(titel.filter((t) => t.anisearchId).map((t) => t.id)))
+  const kantenOhne = anilistKantenOhneKennung(eintraege, new Set(titel.filter((t) => t.anisearchId).map((t) => t.id)), katalogWeg)
   return reineReihen(titel, kanten, namen, hand, fest, kantenOhne)
 }
 
-function reinKatalogReihen(eintraege: KatalogEintrag[], kennung: Map<number, number>, anker: ReturnType<typeof katalogAnker>, schreibe: (e: ReinErgebnis) => void): Map<number, number> {
+function reinKatalogReihen(eintraege: KatalogEintrag[], kennung: Map<number, number>, anker: ReturnType<typeof katalogAnker>, katalogWeg: ReadonlyMap<number, number>, schreibe: (e: ReinErgebnis) => void): Map<number, number> {
   const { kanten, namen } = ladeBeziehungen()
-  const e = reineKatalogReihen(eintraege, kennung, anker, kanten, namen, ladeHand())
+  const e = reineKatalogReihen(eintraege, kennung, anker, katalogWeg, kanten, namen, ladeHand())
   schreibe(e)
   log(`aniSearch-Reihen im Katalog (rein): ${e.reihen} Reihen mit ${e.inReihen} Titeln (mit Hauptbestand), ${e.pruefliste.length} Fälle auf der Prüfliste`)
   return e.reihe
@@ -99,7 +103,7 @@ export function anisearchKatalogReihenQuelle(reihe: Map<number, number>, eintrae
   if (!katalogReihenAusAnisearch()) return anisearchKatalogReihen(reihe, eintraege, bekannt, verschoben, kennung, weg)
   try {
     const anker = katalogAnker(eintraege, bekannt, verschoben, kennung, weg)
-    return reinKatalogReihen(eintraege.filter((e) => !weg.katalogWeg.has(e.id)), kennung, anker, schreibe)
+    return reinKatalogReihen(eintraege, kennung, anker, weg.katalogWeg, schreibe)
   } catch (e) {
     warn(`aniSearch-Reihen im Katalog (rein) übersprungen (Fehler): ${(e as Error).message}`)
     return reihe
