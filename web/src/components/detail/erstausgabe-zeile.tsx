@@ -1,7 +1,7 @@
 import type { Title } from '@shared/types.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { datumKurz } from '../../lib/news-text.ts'
-import { NEWS_FARBE } from '../NewsView.tsx'
+import { NEWS_FARBE } from '../news-farben.ts'
 import { QuellenKnopf } from '../beleg-dialog.tsx'
 
 /**

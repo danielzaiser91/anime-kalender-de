@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
-import { PLATFORMS, type NewsEintrag, type NewsMeldung, type Release } from '@shared/types.ts'
+import { PLATFORMS, type NewsEintrag, type Release } from '@shared/types.ts'
 import { loadNews, type Dataset } from '../../lib/data.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { artLabel, datumKurz, newsSatz } from '../../lib/news-text.ts'
-import { NEWS_FARBE } from '../NewsView.tsx'
+import { NEWS_FARBE, NEWS_PUNKT } from '../news-farben.ts'
 import { AbgeloestHinweis } from '../news-abgeloest.tsx'
 import { QuellenKnopf } from '../beleg-dialog.tsx'
 import { Klapptext } from '../klapptext.tsx'
@@ -14,20 +14,6 @@ import { hostVon, istLink } from '@shared/quelle.ts'
 import { GlockeZeichen, PanelKarte } from './panel-karte.tsx'
 import { ErstausgabeZeile } from './erstausgabe-zeile.tsx'
 import { erstausgabeAlsNeuigkeit } from './antwort-regeln.ts'
-
-/** Der Punkt an der Zeitleiste, je Art in ihrer Farbe. */
-const PUNKT: Record<NewsMeldung['art'], string> = {
-  neu: 'bg-ak-gut',
-  folgen: 'bg-blue-400',
-  angekuendigt: 'bg-violet-500',
-  disc: 'bg-ak-finale-text',
-  kino: 'bg-ak-akzent',
-  verspaetet: 'bg-slate-400',
-  nachgereicht: 'bg-teal-500',
-  nachgetragen: 'bg-indigo-500',
-  rhythmus: 'bg-violet-400',
-  offiziell: 'bg-sky-500',
-}
 
 /** Wie viele Meldungen ohne Aufklappen zu sehen sind. */
 const SICHTBAR = 3
@@ -82,7 +68,7 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
   const belege = z.m.belege?.length ? z.m.belege : quelle ? [quelle] : []
   return (
     <li className="relative flex flex-col gap-1">
-      <span aria-hidden className={`absolute -left-[17px] top-1.5 size-[9px] rounded-full ring-2 ring-ak-flaeche ${PUNKT[z.m.art]}`} />
+      <span aria-hidden className={`absolute -left-[17px] top-1.5 size-[9px] rounded-full ring-2 ring-ak-flaeche ${NEWS_PUNKT[z.m.art]}`} />
       {/* Kopfzeile: Datum, Art und Quellen — der Text darunter hat die volle Breite. */}
       <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
         <span className="shrink-0 rounded-md bg-ak-flaeche-2 px-1.5 py-0.5 text-t5 font-semibold tabular-nums text-ak-text">{datum}</span>

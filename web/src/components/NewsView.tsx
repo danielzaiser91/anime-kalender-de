@@ -10,6 +10,7 @@ import { todayIso, addDays } from '@shared/time.ts'
 import { AbgeloestHinweis } from './news-abgeloest.tsx'
 import { Klapptext } from './klapptext.tsx'
 import { NachtragText } from './news-nachtrag.tsx'
+import { NEWS_FARBE } from './news-farben.ts'
 import { VerlaufZeilen } from './news-verlauf.tsx'
 import { QuellenKnopf } from './beleg-dialog.tsx'
 import { KinoPlakette, NewsCover } from './news-kachel.tsx'
@@ -52,25 +53,8 @@ import { AELTERE_SCHRITT_TAGE, teileGleichmelder } from '../lib/news-gruppen.ts'
  * Aufklappen: Die Übersicht beantwortet „ist etwas passiert", das Detail
  * „was genau".
  */
-const GRUEN = 'bg-ak-gut-grund text-ak-gut-text'
-const ORANGE = 'bg-orange-500/15 text-orange-800 dark:text-orange-300'
-const GELB = 'bg-yellow-500/20 text-yellow-800 dark:text-yellow-300'
-const GRAU = 'bg-slate-500/15 text-slate-700 dark:text-slate-300'
-const BLAU = 'bg-sky-500/15 text-sky-800 dark:text-sky-300'
 /** Gewählter Filter (eins von n), einheitlich mit Reitern und Segmenten (design-regeln.md). */
 const GEWAEHLT = 'bg-ak-gewaehlt font-bold text-ak-auf-gewaehlt'
-export const NEWS_FARBE: Record<NewsArt, string> = {
-  neu: GRUEN,
-  folgen: GRUEN,
-  nachgereicht: GRUEN,
-  angekuendigt: ORANGE,
-  kino: ORANGE,
-  disc: GELB,
-  verspaetet: GRAU,
-  nachgetragen: GRAU,
-  rhythmus: ORANGE,
-  offiziell: BLAU,
-}
 
 /**
  * Die Reihenfolge ist **fest**, nicht nach Häufigkeit — sonst springen die
