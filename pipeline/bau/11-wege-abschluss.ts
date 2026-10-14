@@ -17,6 +17,7 @@ import { setzeCoverNachRegel } from './cover-regel.ts'
 import { setzeProduktFelder } from './produkt-regel.ts'
 import { log } from '../lib/util.ts'
 import { entferneBezugswegeTrotzNein } from '../lib/handbeleg-bezugswege.ts'
+import { behalteNurHandbelegteWege } from '../lib/handbeleg-weg.ts'
 
 export function schliesseWegeAb({
   titles,
@@ -73,7 +74,7 @@ export function schliesseWegeAb({
     **Titel nur bei aniSearch tragen keine Wege, die der Name erraten hat** (07.10.2026: „Sword Art Online II: Debriefing" und acht weitere bekamen über den Namen die Crunchyroll-Serie
     ihrer Hauptfassung — samt „Neu auf Deutsch bei Crunchyroll" in den News). Eine Kennung bei aniSearch belegt, dass es den Titel gibt, nicht, wo er läuft.
   */
-  for (const t of titles.values()) if (t.id >= ANISEARCH_ID_BASIS) t.streams = []
+  for (const t of titles.values()) if (t.id >= ANISEARCH_ID_BASIS) behalteNurHandbelegteWege(t, alleChecks)
 
   /* Die Wege aus JustWatch und aniSearch kommen nach der Katalog-Runde noch einmal dazu: Was keiner Staffel der Serie entspricht, fliegt hier endgültig (07.10.2026). */
   const fremd = entferneFremdeNachStaffeln(titles, kennungAusAdresse())
