@@ -13,10 +13,19 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
   console.error(`  ✖ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
+/** `datum` ist nur ein Nachtrag für den Altbestand, der eine Nummer trägt (`01-…`); neue Einträge bekommen ihren Tag aus dem Git-Abgleich. */
+function pruefeDatumNachtrag(dateien: { name: string; eintrag: Record<string, unknown> }[]): string[] {
+  return dateien
+    .filter((d) => d.eintrag.datum !== undefined && !/^\d\d-/.test(d.name))
+    .map((d) => `${d.name}: datum nur im nummerierten Altbestand, neue Einträge ohne datum`)
+}
+
 const dateien = lesePatchnotesDateien()
 const roh = dateien.map((d) => d.eintrag)
 const f = pruefePatchnotes(roh, dateien.map((d) => d.name))
 pruefe('Patch-Notes: Datum parsebar, Kategorie gültig, Text ≤ 8 Wörter, keine Duplikate, höchstens 2 Highlights je Tag', f.length === 0, f)
+const nachtrag = pruefeDatumNachtrag(dateien)
+pruefe('Patch-Notes: datum nur im nummerierten Altbestand, neue Einträge ohne datum', nachtrag.length === 0, nachtrag)
 
 const ok = { datum: '2026-10-09', kategorie: 'feature', text: 'Neuer Knopf' }
 const gegen = (name: string, eintraege: unknown[]) => pruefe(`Patch-Notes (Gegenprobe): ${name} wird gemeldet`, pruefePatchnotes(eintraege).length > 0)
@@ -28,6 +37,9 @@ gegen('Duplikat', [ok, ok])
 gegen('derselbe Text an zwei Tagen (der Text ist der Schlüssel für den Tag)', [ok, { ...ok, datum: '2026-10-10' }])
 gegen('altes live-Feld', [{ ...ok, live: true }])
 pruefe('Patch-Notes (Gegenprobe): Eintrag ohne datum ist in Ordnung', pruefePatchnotes([{ kategorie: 'bugfix', text: 'Neuer Knopf' }]).length === 0)
+pruefe('Patch-Notes (Gegenprobe): datum in neuer Datei ohne Nummer wird gemeldet', pruefeDatumNachtrag([{ name: 'neuer-eintrag', eintrag: ok }]).length > 0)
+pruefe('Patch-Notes (Gegenprobe): datum im nummerierten Altbestand ist erlaubt', pruefeDatumNachtrag([{ name: '01-alt', eintrag: ok }]).length === 0)
+pruefe('Patch-Notes (Gegenprobe): neue Datei ohne datum ist in Ordnung', pruefeDatumNachtrag([{ name: 'neuer-eintrag', eintrag: { kategorie: 'bugfix', text: 'Neuer Knopf' } }]).length === 0)
 gegen('drei Highlights am Tag', [1, 2, 3].map((n) => ({ ...ok, text: `Neu ${n}`, highlight: true })))
 gegen('verbotenes Wort (Debug)', [{ ...ok, text: 'Einstellungen ohne Debug-Bereich' }])
 gegen('verbotenes Wort (Erweiterung) im Untertitel', [{ ...ok, untertitel: 'Erweiterung 4.24.16' }])
