@@ -227,15 +227,16 @@ function setzeTonHinweise(
  * Dasselbe Werk als aniSearch-Zeile und als AniList-Katalogtitel steht nur einmal im Katalog (`anisearch-dubletten.ts`): Eine Zeile hinter dem Schalter
  * weicht dem Katalogtitel; steht die Zeile im Hauptbestand oder trägt sie einen Termin (`geschuetzt`), weicht der Katalogtitel ihr.
  */
-function anisearchDublettenAbziehen(bekannt: Map<number, number>, verschoben: Title[], geschuetzt: Set<number>, eintraege: KatalogEintrag[], kennungen: Map<number, number>): DublettenUrteil {
+export function anisearchDublettenAbziehen(bekannt: Map<number, number>, verschoben: Title[], geschuetzt: Set<number>, eintraege: KatalogEintrag[], kennungen: Map<number, number>, sammeltitel: typeof katalogSammeltitel = katalogSammeltitel): DublettenUrteil {
   const zeile = (id: number) => id >= ANISEARCH_ID_BASIS
   const katalog = eintraege.filter((e) => !bekannt.has(e.id)).map((e) => ({ id: e.id, mal: e.mal, format: e.format, jahr: e.jahr, folgen: e.folgen }))
   const hinter = verschoben.map((t) => t.id).filter((id) => zeile(id) && !geschuetzt.has(id))
   const haupt = [...bekannt.keys(), ...verschoben.map((t) => t.id).filter((id) => geschuetzt.has(id))].filter(zeile)
   const urteil = findeAnisearchDubletten(hinter, haupt, katalog, anisearchEintraege())
-  zeilenMitKennungWeg(hinter, kennungen, anisearchEintraege(), urteil, haupt, new Set(katalog.map((k) => k.id)))
+  /* Die Sammeltitel zuerst: Ihre getragene Seite bekommt eine Zeile (`freizugebendeSeiten`), und `zeilenMitKennungWeg` lässt sie nur stehen, wenn der Titel schon weicht. */
   const zeilenDa = new Set([...bekannt.keys(), ...verschoben.map((t) => t.id)])
-  for (const [titel, seite] of katalogSammeltitel((id) => zeilenDa.has(id))) urteil.katalogWeg.set(titel, seite)
+  for (const [titel, seite] of sammeltitel((id) => zeilenDa.has(id))) urteil.katalogWeg.set(titel, seite)
+  zeilenMitKennungWeg(hinter, kennungen, anisearchEintraege(), urteil, haupt, new Set(katalog.map((k) => k.id)))
   if (urteil.zeilenWeg.size || urteil.katalogWeg.size) {
     log(`aniSearch-Dubletten: ${urteil.zeilenWeg.size} Zeilen hinter dem Schalter entfallen (der AniList-Katalogtitel gilt), ${urteil.katalogWeg.size} Katalogtitel entfallen (die Zeile steht im Hauptbestand)`)
   }

@@ -3,7 +3,7 @@ import { titleFromMedia, isoDate, isoDatumGenau } from './titel-hilfen.ts'
 import { type AniListMedia } from '../lib/anilist.ts'
 import { ANISEARCH_ID_BASIS, ergaenzeAnisearchTitel } from './anisearch-titel.ts'
 import { anisearchCoverAusCache } from '../lib/anisearch-cover.ts'
-import { entferneSammeltitel } from './mal-teilung.ts'
+import { entferneSammeltitel, freizugebendeSeiten } from './mal-teilung.ts'
 
 export function baueTitel({ byMal, confidenceRaw, byAniId }: {
   byMal: Record<string, AniListMedia>
@@ -44,7 +44,7 @@ export function baueTitel({ byMal, confidenceRaw, byAniId }: {
     const genau = isoDatumGenau(media.startDate)
     if (genau) jpStartAnzeige.set(media.id, genau)
   }
-  ergaenzeAnisearchTitel(titles, jpStart, jpStartAnzeige)
+  ergaenzeAnisearchTitel(titles, jpStart, jpStartAnzeige, freizugebendeSeiten(titles))
   entferneSammeltitel(titles, jpStart, jpStartAnzeige)
   /* Ein aniSearch-Titel ohne Plakat bekommt das AniList-Cover seiner MAL-Kennung (Kennung des Titels bleibt). */
   for (const [id, cover] of anisearchCoverAusCache(ANISEARCH_ID_BASIS)) {
