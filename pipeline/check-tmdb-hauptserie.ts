@@ -53,9 +53,11 @@ for (const id of [10010005, 10013612, 10014281]) pruefe(`aniSearch-Special ${id}
 console.log('\nTMDB-Hauptserie: Banner und Folgen hängen an der Kennung (12.10.2026: 45 gestrichene Kennungen führten sie weiter)')
 const banner = readJson<Record<string, unknown>>('data/tmdb-banner.json', {})
 const folgen = readJson<Record<string, { tmdbId?: number }>>('data/tmdb-folgen.json', {})
-const bannerOhneKennung = Object.keys(banner).filter((id) => !bestand[id]?.tmdbId)
+/* Ein Titel mit Staffel-0-Zuordnung (`tmdb-staffel0.json`) trägt keine Serienkennung, aber das Standbild seiner Folge. */
+const staffel0 = readJson<Record<string, unknown>>('data/tmdb-staffel0.json', {})
+const bannerOhneKennung = Object.keys(banner).filter((id) => !bestand[id]?.tmdbId && !(id in staffel0))
 const folgenAndere = Object.keys(folgen).filter((id) => folgen[id]!.tmdbId !== bestand[id]?.tmdbId)
-pruefe('kein Hintergrundbild (tmdb-banner.json) ohne Kennung in tmdb-titles.json', bannerOhneKennung.length === 0, bannerOhneKennung)
+pruefe('kein Hintergrundbild (tmdb-banner.json) ohne Kennung in tmdb-titles.json oder Zuordnung in tmdb-staffel0.json', bannerOhneKennung.length === 0, bannerOhneKennung)
 pruefe('keine Folgenliste (tmdb-folgen.json) einer anderen Kennung als in tmdb-titles.json', folgenAndere.length === 0, folgenAndere)
 
 if (verletzt) {

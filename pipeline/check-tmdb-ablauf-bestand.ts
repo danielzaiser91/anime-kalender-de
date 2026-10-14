@@ -27,6 +27,8 @@ for (const [datei, traegt] of bildDateien) {
   const bestand = readJson<Record<string, MitInhaltsstand | null>>(datei, {})
   pruefeDatei(datei, Object.entries(bestand).filter((e): e is [string, MitInhaltsstand] => e[1] !== null && traegt(e[1])).map(([id, e]) => [id, e.inhaltAm]))
 }
+const staffel0 = readJson<Record<string, MitInhaltsstand>>('data/tmdb-staffel0.json', {})
+pruefeDatei('data/tmdb-staffel0.json', Object.entries(staffel0).map(([id, e]) => [id, e.inhaltAm]))
 const cartoons = readJson<Record<string, { geholtAm?: string }>>('data/cartoons.json', {})
 pruefeDatei('data/cartoons.json', Object.entries(cartoons).map(([id, e]) => [id, e.geholtAm]))
 

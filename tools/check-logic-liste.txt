@@ -122,6 +122,7 @@ pipeline/check-termine-uebersicht.ts
 pipeline/check-tmdb-ablauf.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
+pipeline/check-tmdb-staffel0.ts
 pipeline/check-tmdb-suche.ts
 pipeline/check-tv-schaetzung.ts
 pipeline/check-tv-sichtungen-vor-start.ts

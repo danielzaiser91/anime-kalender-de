@@ -4,8 +4,8 @@
  * des Titels — aber nur, wenn die Staffel sicher dieselbe ist.
  *
  * **Sicher heißt beides:** der Beginn liegt höchstens 100 Tage neben unserem japanischen Start **und** die Folgenzahl weicht um höchstens eine ab.
- * Specials (Staffel 0), Filme und OVAs ohne eigene Staffel bleiben ohne Treffer und damit beim AniList-Cover — ein Serienplakat für ein
- * OVA wäre eine Behauptung, die TMDB nicht stützt.
+ * Specials (Staffel 0), Filme und OVAs ohne eigene Staffel bleiben hier ohne Treffer — ein Serienplakat für ein OVA wäre eine Behauptung, die
+ * TMDB nicht stützt. Sie ordnet `tmdb-staffel0.ts` einer Folge der Staffel 0 zu, wenn Datum, Name und Länge der Folge passen.
  */
 export interface TmdbStaffel {
   season_number: number
