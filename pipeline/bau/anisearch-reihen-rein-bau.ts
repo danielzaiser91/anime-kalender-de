@@ -7,6 +7,7 @@ import type { KatalogEintrag } from '../lib/anilist.ts'
 import { fuehreReihenZusammen } from './03-reihen.ts'
 import { alle } from './anisearch-titel.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
+import type { Kante, Namen } from './anisearch-reihen.ts'
 import { type Ausgeschieden, anisearchKatalogReihen, katalogAnker, ladeBeziehungen } from './anisearch-reihen-pruefliste.ts'
 import { type ReinErgebnis, type ReinHand, type ReinTitel, bestandReihenAusAnisearch, katalogReihenAusAnisearch, reineReihen } from './anisearch-reihen-rein.ts'
 
@@ -74,27 +75,31 @@ export function anilistKantenOhneKennung(eintraege: KatalogEintrag[], mitKennung
   return eintraege.flatMap((e) => (crossover.has(e.id) ? [] : (e.rel ?? []).filter((o) => !crossover.has(o) && (ohne(e.id) || ohne(o))).map((o): [number, number] => [e.id, o])))
 }
 
-/** Katalog: Reihe je Eintrag aus aniSearch; der ausgelieferte Hauptbestand (Anker) behält seine Reihe, zwei feste Reihen verschmelzen nie. */
-function reinKatalogReihen(eintraege: KatalogEintrag[], kennung: Map<number, number>, anker: ReturnType<typeof katalogAnker>): Map<number, number> {
+/** Katalog: Reihe je Eintrag aus aniSearch; der ausgelieferte Hauptbestand (Anker) behält seine Reihe, zwei feste Reihen verschmelzen nie. Reine Funktion: Beziehungen und Handdatei kommen als Parameter. */
+export function reineKatalogReihen(eintraege: KatalogEintrag[], kennung: Map<number, number>, anker: ReturnType<typeof katalogAnker>, kanten: Kante[], namen: Namen, hand: ReinHand): ReinErgebnis {
   const fest = new Map(anker.map((a) => [a.id, a.reihe]))
   const titel: ReinTitel[] = [
     ...anker.map((a) => ({ id: a.id, name: a.name, anisearchId: a.anisearchId, ...malVon(a.mal, a.anisearchId) })),
     ...eintraege.filter((e) => !fest.has(e.id)).map((e) => ({ id: e.id, name: e.t[0] ?? e.t[1] ?? `#${e.id}`, anisearchId: kennung.get(e.id), ...malVon(e.mal, kennung.get(e.id)) })),
   ]
-  const { kanten, namen } = ladeBeziehungen()
   const kantenOhne = anilistKantenOhneKennung(eintraege, new Set(titel.filter((t) => t.anisearchId).map((t) => t.id)))
-  const e = reineReihen(titel, kanten, namen, ladeHand(), fest, kantenOhne)
-  schreibePruefliste('katalog', e)
+  return reineReihen(titel, kanten, namen, hand, fest, kantenOhne)
+}
+
+function reinKatalogReihen(eintraege: KatalogEintrag[], kennung: Map<number, number>, anker: ReturnType<typeof katalogAnker>, schreibe: (e: ReinErgebnis) => void): Map<number, number> {
+  const { kanten, namen } = ladeBeziehungen()
+  const e = reineKatalogReihen(eintraege, kennung, anker, kanten, namen, ladeHand())
+  schreibe(e)
   log(`aniSearch-Reihen im Katalog (rein): ${e.reihen} Reihen mit ${e.inReihen} Titeln (mit Hauptbestand), ${e.pruefliste.length} Fälle auf der Prüfliste`)
   return e.reihe
 }
 
-/** `anisearchKatalogReihen` mit dem Schalter; gleiche Parameter, damit `nebendateien.ts` nur den Namen wechselt. */
-export function anisearchKatalogReihenQuelle(reihe: Map<number, number>, eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden): Map<number, number> {
+/** `anisearchKatalogReihen` mit dem Schalter; gleiche Parameter, damit `nebendateien.ts` nur den Namen wechselt. `schreibe`: die Prüfliste des reinen Wegs (nur Tests tauschen es). */
+export function anisearchKatalogReihenQuelle(reihe: Map<number, number>, eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden, schreibe: (e: ReinErgebnis) => void = (e) => schreibePruefliste('katalog', e)): Map<number, number> {
   if (!katalogReihenAusAnisearch()) return anisearchKatalogReihen(reihe, eintraege, bekannt, verschoben, kennung, weg)
   try {
     const anker = katalogAnker(eintraege, bekannt, verschoben, kennung, weg)
-    return reinKatalogReihen(eintraege.filter((e) => !weg.katalogWeg.has(e.id)), kennung, anker)
+    return reinKatalogReihen(eintraege.filter((e) => !weg.katalogWeg.has(e.id)), kennung, anker, schreibe)
   } catch (e) {
     warn(`aniSearch-Reihen im Katalog (rein) übersprungen (Fehler): ${(e as Error).message}`)
     return reihe

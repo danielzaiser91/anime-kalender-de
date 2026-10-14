@@ -105,12 +105,12 @@ export function katalogAnker(eintraege: KatalogEintrag[], bekannt: Map<number, n
  * `verschoben`: aus dem Hauptbestand verschobene Titel (die, die der Katalog nicht führt, gelten als fest); `kennung`: aniSearch-Kennung je Katalogtitel. Der Hauptbestand kommt aus der schon
  * geschriebenen `titles.json` (wie bei `ohneWerkDubletten`). Ein Fehler stoppt den Bau nie: dann bleiben die Reihen aus AniList.
  */
-export function anisearchKatalogReihen(reihe: Map<number, number>, eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden): Map<number, number> {
+export function anisearchKatalogReihen(reihe: Map<number, number>, eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden, schreibe: typeof schreibePruefliste = schreibePruefliste): Map<number, number> {
   try {
     const anker = katalogAnker(eintraege, bekannt, verschoben, kennung, weg)
     const { kanten, namen } = ladeBeziehungen()
     const u = uebernimmKatalogReihen(eintraege.filter((e) => !weg.katalogWeg.has(e.id)), reihe, anker, kennung, kanten, namen, ladeTrennungen())
-    schreibePruefliste('katalog', u.ergebnis.pruefliste, { angehaengt: u.ergebnis.angehaengt, neueReihen: u.ergebnis.neueReihen }, u.bestandEinzeln)
+    schreibe('katalog', u.ergebnis.pruefliste, { angehaengt: u.ergebnis.angehaengt, neueReihen: u.ergebnis.neueReihen }, u.bestandEinzeln)
     log(`aniSearch-Reihen im Katalog: ${u.ergebnis.angehaengt} Alleinstehende an Reihen gehängt, ${u.ergebnis.neueReihen} neue Reihen, ${u.ergebnis.pruefliste.length} Fälle auf der Prüfliste, ${u.bestandEinzeln} Paare mit einem allein stehenden Hauptbestandstitel`)
     return u.reihe
   } catch (e) {
