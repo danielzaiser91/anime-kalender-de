@@ -56,6 +56,7 @@ import { findeKonflikte, findeVereinte } from './lib/dub-konflikt.ts'
 import { findeSchrumpf } from './lib/dub-schrumpf.ts'
 import { findeVoraussichtlichImBestand } from './lib/voraussichtlich-pruefung.ts'
 import { pruefeVerwaiste } from './lib/handbeleg-verwaist.ts'
+import { bezugswegeTrotzNein } from './lib/handbeleg-bezugswege.ts'
 import type { Title } from '../shared/types.ts'
 
 /*
@@ -161,7 +162,11 @@ for (const [k, gruppe] of jeVerweis) {
     const pruefAdressen = neinAdressen.length ? neinAdressen : belegAdressen
     const nochDa =
       stream && (!pruefAdressen.length || pruefAdressen.some((u) => adressKern(u) === adressKern(stream.url)))
-    if (nochDa) fehler.push(`${name}: als „${sagtWeg ? 'nicht verfügbar' : 'ohne deutsche Tonspur'}" geprüft, steht aber noch im Datensatz`)
+    const urteil = sagtWeg ? 'nicht verfügbar' : 'ohne deutsche Tonspur'
+    /* Auch ein Bezugsweg (`watchLinks`) behauptet den Anbieter; der Bau hält ihn bei einem Nein zurück. */
+    const wege = bezugswegeTrotzNein(t, platform!, pruefAdressen, sagtWeg)
+    if (nochDa) fehler.push(`${name}: als „${urteil}" geprüft, steht aber noch im Datensatz`)
+    else if (wege.length) fehler.push(`${name}: als „${urteil}" geprüft, steht aber noch als Bezugsweg im Datensatz (${wege.map((w) => w.name).join(', ')})`)
     else entferntWieVorgesehen++
     continue
   }

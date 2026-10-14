@@ -5,10 +5,11 @@
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-nein-handbeleg.ts`
  */
-import type { StreamLink, Title } from '../shared/types.ts'
+import type { StreamLink, Title, WatchLink } from '../shared/types.ts'
 import { fehlendeAnbieter } from './bau/cartoon-zu-anime.ts'
 import { ergaenzeWegeOhneWeg } from './bau/11-2-2-wege-ohne-weg.ts'
-import { dubKey, neinHandbelege } from './lib/dub-confirmed.ts'
+import { dubKey, neinHandbelege, type DubCheck } from './lib/dub-confirmed.ts'
+import { bezugswegeTrotzNein, entferneBezugswegeTrotzNein } from './lib/handbeleg-bezugswege.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -48,6 +49,36 @@ console.log('\nJustWatch-Runde „Titel ohne jeden Weg":')
   pruefe('ohne Nein-Handbeleg legt die Runde Crunchyroll und Netflix an', lauf(new Set()).join() === 'Crunchyroll,Netflix', lauf(new Set()))
   const ohne = lauf(neinHandbelege([hand(185515, 'crunchyroll', { dub: false })]))
   pruefe('mit Nein-Handbeleg für Crunchyroll bleibt nur Netflix', ohne.join() === 'Netflix', ohne)
+}
+
+console.log('\ncheck:handbelege liest auch Bezugswege (`bezugswegeTrotzNein`):')
+{
+  const wege = [
+    { name: 'Netflix', url: 'https://www.netflix.com/title/81567663', kind: 'stream' },
+    { name: 'YouTube', url: 'https://www.themoviedb.org/movie/573699/watch?locale=DE', kind: 'stream', zugang: 'kauf' },
+    { name: 'Rakuten TV', url: 'https://rakuten.tv/x', kind: 'stream', zugang: 'kauf' },
+  ] as WatchLink[]
+  const titel = { watchLinks: wege }
+  const namen = (platform: string, adressen: string[], nichtVerfuegbar: boolean) => bezugswegeTrotzNein(titel, platform, adressen, nichtVerfuegbar).map((w) => w.name).join()
+  pruefe('nicht verfügbar: der Bezugsweg dieser Plattform steht noch', namen('netflix', [], true) === 'Netflix')
+  pruefe('nicht verfügbar gilt auch für einen Kaufweg', namen('youtube', [], true) === 'YouTube')
+  pruefe('ohne deutschen Ton: ein Weg ohne Kauf steht noch', namen('netflix', [], false) === 'Netflix')
+  pruefe('ohne deutschen Ton: ein Kaufweg sagt nichts über den Ton und bleibt', namen('youtube', [], false) === '')
+  pruefe('eine andere Plattform bleibt unberührt', namen('primevideo', [], true) === '')
+  pruefe('nennt das Nein eine Adresse, zählt nur diese', namen('netflix', ['https://www.netflix.com/title/1'], true) === '')
+  pruefe('dieselbe Adresse zählt (Schreibweise egal)', namen('netflix', ['http://netflix.com/title/81567663'], true) === 'Netflix')
+
+  /* Der Bau nimmt dieselben Wege heraus (`entferneBezugswegeTrotzNein`), sonst bliebe check:handbelege rot (Beyblade Burst, 14.10.2026). */
+  const titelMit = (id: number) => ({ id, watchLinks: wege.map((w) => ({ ...w })) }) as unknown as Title
+  const pruefeBau = (checks: unknown[]) => {
+    const titles = new Map([1, 2].map((id) => [id, titelMit(id)] as [number, Title]))
+    const n = entferneBezugswegeTrotzNein(titles, checks as DubCheck[])
+    return { n, eins: (titles.get(1)!.watchLinks ?? []).map((w) => w.name).join(), zwei: (titles.get(2)!.watchLinks ?? []).length }
+  }
+  const weg = pruefeBau([{ anilistId: 1, platform: 'netflix', available: false }])
+  pruefe('Bau: ein „nicht verfügbar“ nimmt den Netflix-Weg heraus, nur bei diesem Titel', weg.n === 1 && weg.eins === 'YouTube,Rakuten TV' && weg.zwei === 3, weg)
+  pruefe('Bau: ein Ja derselben Plattform daneben lässt alle Wege stehen', pruefeBau([{ anilistId: 1, platform: 'netflix', available: false }, { anilistId: 1, platform: 'netflix', dub: true }]).n === 0)
+  pruefe('Bau: dub:false nimmt keinen Kaufweg heraus', pruefeBau([{ anilistId: 1, platform: 'youtube', dub: false }]).n === 0)
 }
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

@@ -16,6 +16,7 @@ import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
 import { setzeCoverNachRegel } from './cover-regel.ts'
 import { setzeProduktFelder } from './produkt-regel.ts'
 import { log } from '../lib/util.ts'
+import { entferneBezugswegeTrotzNein } from '../lib/handbeleg-bezugswege.ts'
 
 export function schliesseWegeAb({
   titles,
@@ -85,6 +86,8 @@ export function schliesseWegeAb({
   ergaenzeWegeAusTerminen({ titles, releases, toteAdressen, verweiseEntfernt, belegFuer })
 
   kennzeichneFreenetLautSchwester(titles)
+
+  entferneBezugswegeTrotzNein(titles, alleChecks)
 
   // Das Cover steht nach allen Wege-Änderungen fest und vor `baueMeta`, damit Hauptbestand, Verschobene, Reihen und Meldungen dasselbe Bild sehen.
   setzeCoverNachRegel(titles)
