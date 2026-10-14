@@ -6300,7 +6300,7 @@ pruefe(
   )
   pruefe(
     'das Thema-Zeichen ist farblich vom Zahnrad zu unterscheiden',
-    headerQuelle.includes('text-amber-400') && headerQuelle.includes('text-indigo-500'),
+    headerQuelle.includes('text-ak-finale') && headerQuelle.includes('text-ak-info'),
     'Sonne und Einstellungen sahen gleich aus (Daniel, 29.09.2026)',
   )
   /*
