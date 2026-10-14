@@ -42,7 +42,7 @@ export function Neuigkeiten({ data, titelId }: { data: Dataset; titelId: number 
   if (!zeilen.length && !erst) return null
   const gezeigt = alle ? zeilen : zeilen.slice(0, SICHTBAR)
   return (
-    <PanelKarte symbol={<GlockeZeichen />} titel={t('detail.neuigkeiten')} zaehler={zeilen.length + (erst ? 1 : 0)} akzent="violet">
+    <PanelKarte symbol={<GlockeZeichen />} titel={t('detail.neuigkeiten')} zaehler={zeilen.length + (erst ? 1 : 0)} akzent="info">
       {/* Zeitleiste: ein senkrechter Strich, je Meldung ein farbiger Punkt in der Farbe ihrer Art. */}
       <ul className="relative flex flex-col gap-3.5 pl-4 before:absolute before:bottom-1 before:left-[3px] before:top-1.5 before:w-px before:bg-ak-rand">
         {gezeigt.map((z, i) => (

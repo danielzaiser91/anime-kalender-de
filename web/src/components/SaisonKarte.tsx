@@ -12,7 +12,7 @@ import { terminText } from '../lib/saison-termin.ts'
 const STUFE_FARBE: Record<Stufe, string> = {
   'auf-deutsch': 'border-ak-gut bg-ak-gut text-ak-auf-gut',
   bestaetigt: 'border-ak-gut text-ak-gut-text',
-  angekuendigt: 'border-violet-500 text-violet-700 dark:border-violet-400 dark:text-violet-300',
+  angekuendigt: 'border-ak-info text-ak-info-text',
   termin: 'border-dashed border-ak-leise text-ak-leise',
   ungeklaert: 'border-dashed border-ak-leise text-ak-leise',
   offen: 'border-dashed border-ak-leise text-ak-leise',

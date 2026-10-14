@@ -17,7 +17,7 @@ export function OhneSynchroMarke({ t }: { t: Translate }) {
 /** Zeichen für einen Teil, dessen Original noch nicht erschienen ist — dort ist fehlende Synchro kein Befund. */
 export function GeplantMarke({ t }: { t: Translate }) {
   return (
-    <span className="shrink-0 rounded border border-violet-400/50 bg-violet-500/15 px-1.5 py-px text-t5 font-bold uppercase tracking-[.08em] text-violet-700 dark:text-violet-300">
+    <span className="shrink-0 rounded border border-ak-info/50 bg-ak-info-grund px-1.5 py-px text-t5 font-bold uppercase tracking-[.08em] text-ak-info-text">
       <Tooltip text={t('geplant.hinweis')} eigenerFokus>
         {t('geplant.marke')}
       </Tooltip>
