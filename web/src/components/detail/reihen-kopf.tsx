@@ -43,7 +43,7 @@ export function ReihenKopf({ t, suche, onSuche, schalter, reiterZeile, reiter, a
           onChange={(e) => onSuche(e.target.value)}
           placeholder={t('detail.reiheSuche')}
           aria-label={t('detail.reiheSuche')}
-          className="h-11 min-w-0 flex-1 rounded-lg border border-slate-300 bg-transparent px-3 text-t3 focus:border-sky-400 dark:border-white/10"
+          className="h-11 min-w-0 flex-1 rounded-lg border border-slate-300 bg-transparent px-3 text-t3 dark:border-white/10"
         />
         {schalter}
       </div>
