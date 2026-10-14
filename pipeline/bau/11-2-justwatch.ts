@@ -14,27 +14,6 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
 }) {
   /* Ein Nein-Handbeleg gilt für beide Runden, die Wege anlegen (Titel ohne Weg, Abo-Weg mit deutschem Ton). */
   const handNein = neinHandbelege(loadDubChecks())
-  /**
-   * **Bei YouTube gilt eine Pille erst ab einer belegten Synchro.**
-   *
-   * Daniel am 07.09.2026 an „Kill Blue": „youtube hat nur untertitel, also weg
-   * damit, wir führen nur >1 folge synchro pillen dort."
-   *
-   * YouTube ist der einzige Anbieter im Bestand, bei dem ein Verweis meist auf
-   * eine **Playlist** zeigt, und was darin liegt, ist überwiegend untertitelt —
-   * Trailer, Werbefolgen, ganze Staffeln mit Untertiteln. Ein „🇩🇪 ?" behauptet
-   * dort nichts Falsches und ist trotzdem irreführend: Es sieht aus wie ein
-   * Weg zur deutschen Fassung, und in aller Regel ist es keiner.
-   *
-   * Bei jedem anderen Anbieter bleibt das Fragezeichen richtig, und diese
-   * Regel gilt ausdrücklich nur für YouTube. Der Unterschied ist die
-   * Trefferquote: Bei Netflix oder Prime führt ein unbeantworteter Verweis in
-   * aller Regel zu einer Seite, auf der es die Serie wirklich gibt.
-   *
-   * **Ins Gedächtnis der entfernten Verweise kommt das nicht.** Es ist kein
-   * belegtes Nein, sondern eine fehlende Auskunft — sobald eine Prüfung sie
-   * liefert, gehört der Weg zurück.
-   */
   ergaenzeWegeOhneWeg({
     titles,
     jw: readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}),
