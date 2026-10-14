@@ -62,6 +62,7 @@ const SKRIPTE = [
   'extension/melder.js',
   'extension/amazon.js',
   'extension/disney.js',
+  'extension/adn.js',
   'extension/leser.js',
   'extension/amazon-leser.js',
   'extension/disney-leser.js',
@@ -266,8 +267,14 @@ for (const datei of SKRIPTE) {
     ? 'www.amazon.de'
     : datei.includes('disney')
       ? 'www.disneyplus.com'
-      : 'www.netflix.com'
-  const pfad = host === 'www.amazon.de' ? '/gp/video/detail/B0DJYJBNWF' : '/title/82757009'
+      : datei.includes('adn')
+        ? 'animationdigitalnetwork.com'
+        : 'www.netflix.com'
+  const pfade = {
+    'www.amazon.de': '/gp/video/detail/B0DJYJBNWF',
+    'animationdigitalnetwork.com': '/de/video/1375-dorohedoro',
+  }
+  const pfad = pfade[host] ?? '/title/82757009'
   try {
     vm.runInContext(quelle, vm.createContext(baueSandkasten(host, pfad)), { filename: datei, timeout: 10_000 })
     console.log(`  ✓ ${datei}`)
