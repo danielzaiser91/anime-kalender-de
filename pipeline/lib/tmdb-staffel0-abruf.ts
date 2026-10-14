@@ -3,6 +3,7 @@ import type { Title } from '../../shared/types.ts'
 import { abrufTag, istAbgelaufen } from './tmdb-ablauf.ts'
 import { waehlePlakat, type TmdbBild } from './tmdb-plakat.ts'
 import { plakatEintrag, type PlakatBestand } from './tmdb-plakat-suche.ts'
+import { eigeneKopie, ladeEigeneCover, type EigeneCover } from './cover-quelle.ts'
 import { BANNER_DATEI, waehleBanner, type TmdbBanner } from './tmdb-banner.ts'
 import { eintragAus, mehrfachBelegt, urteilStaffel0, type Staffel0Eintrag, type Staffel0Folge, type Staffel0Serie, type Staffel0Urteil } from './tmdb-staffel0.ts'
 import { staffel0Kandidaten, type ReiheMitglied, type Staffel0Kandidat } from './tmdb-staffel0-kandidaten.ts'
@@ -19,7 +20,7 @@ const MAX_FEHLER = 20
 
 type SeasonAntwort = { episodes?: { episode_number: number; name?: string; air_date?: string | null; runtime?: number | null }[] }
 /** Die drei Bestände, die ein Lauf verändert. */
-export type Bestaende = { eintraege: Staffel0Bestand; poster: PlakatBestand; banner: TmdbBanner }
+export type Bestaende = { eintraege: Staffel0Bestand; poster: PlakatBestand; banner: TmdbBanner; eigeneCover: EigeneCover }
 
 /** Ob der Eintrag gegen TMDB neu zu prüfen ist (Urteil und Bilder): fehlt oder ist älter als 150 Tage (`tmdb-ablauf.ts`). */
 export const staffel0Faellig = (e: Pick<Staffel0Eintrag, 'inhaltAm'> | undefined, jetzt: Date): boolean => e === undefined || istAbgelaufen(e.inhaltAm, jetzt)
@@ -100,11 +101,13 @@ const frei = (bild: { p?: string } | null | undefined, eigener: string | undefin
 export function setzeBilder(id: string, e: Staffel0Eintrag, alt: Staffel0Eintrag | undefined, b: Bilder, bestaende: Bestaende): boolean {
   const { poster, banner } = bestaende
   let plakatGesetzt = false
-  if (b.plakat && frei(poster[id], alt?.pp)) {
-    poster[id] = plakatEintrag(b.plakat)
-    e.pp = b.plakat.file_path
+  /* Eine eigene Kopie des aniSearch-Covers zeigt das Bild des Titels selbst, das Plakat der Staffel 0 meist das Serienbild (Dirigent, 14.10.2026). */
+  const plakat = eigeneKopie(Number(id), bestaende.eigeneCover) ? undefined : b.plakat
+  if (plakat && frei(poster[id], alt?.pp)) {
+    poster[id] = plakatEintrag(plakat)
+    e.pp = plakat.file_path
     plakatGesetzt = true
-  } else if (!b.plakat && alt?.pp && poster[id]?.p === alt.pp) delete poster[id]
+  } else if (!plakat && alt?.pp && poster[id]?.p === alt.pp) delete poster[id]
   if (b.stand && frei(banner[id], alt?.sp)) {
     banner[id] = { p: b.stand.file_path, w: b.stand.width, h: b.stand.height, inhaltAm: abrufTag() }
     e.sp = b.stand.file_path
@@ -147,7 +150,7 @@ export function wende(zuPruefen: Staffel0Kandidat[], p: Pruefung, tag: string, b
  * ist; ein Urteil, das nicht mehr trägt, streicht Eintrag und Bilder. Gibt die Zahl neu gesetzter Plakate zurück.
  */
 export async function holeStaffel0(apiKey: string, poster: PlakatBestand): Promise<number> {
-  const bestaende: Bestaende = { eintraege: readJson<Staffel0Bestand>(STAFFEL0_DATEI, {}), poster, banner: readJson<TmdbBanner>(BANNER_DATEI, {}) }
+  const bestaende: Bestaende = { eintraege: readJson<Staffel0Bestand>(STAFFEL0_DATEI, {}), poster, banner: readJson<TmdbBanner>(BANNER_DATEI, {}), eigeneCover: ladeEigeneCover() }
   const kandidaten = staffel0Kandidaten(
     readJson<Title[]>('public/data/titles.json', []),
     readJson<Record<string, ReiheMitglied[]>>('public/data/franchises.json', {}),
