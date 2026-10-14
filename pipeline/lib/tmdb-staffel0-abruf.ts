@@ -19,7 +19,7 @@ const MAX_FEHLER = 20
 
 type SeasonAntwort = { episodes?: { episode_number: number; name?: string; air_date?: string | null; runtime?: number | null }[] }
 /** Die drei Bestände, die ein Lauf verändert. */
-type Bestaende = { eintraege: Staffel0Bestand; poster: PlakatBestand; banner: TmdbBanner }
+export type Bestaende = { eintraege: Staffel0Bestand; poster: PlakatBestand; banner: TmdbBanner }
 
 /** Ob der Eintrag gegen TMDB neu zu prüfen ist (Urteil und Bilder): fehlt oder ist älter als 150 Tage (`tmdb-ablauf.ts`). */
 export const staffel0Faellig = (e: Pick<Staffel0Eintrag, 'inhaltAm'> | undefined, jetzt: Date): boolean => e === undefined || istAbgelaufen(e.inhaltAm, jetzt)
@@ -51,7 +51,7 @@ async function holeStaffel0Serie(apiKey: string, tmdbId: number): Promise<Staffe
   return { tmdbId, folgen }
 }
 
-type Pruefung = { urteile: Map<number, Staffel0Urteil>; ausgefallen: Set<number> }
+export type Pruefung = { urteile: Map<number, Staffel0Urteil>; ausgefallen: Set<number> }
 
 /** Urteilt über jeden Kandidaten; eine Serie, die TMDB nicht lieferte, lässt ihre Titel ungeurteilt (der alte Eintrag bleibt). */
 async function pruefeKandidaten(apiKey: string, kandidaten: Staffel0Kandidat[]): Promise<Pruefung> {
@@ -76,7 +76,7 @@ async function pruefeKandidaten(apiKey: string, kandidaten: Staffel0Kandidat[]):
   return { urteile, ausgefallen }
 }
 
-type Bilder = { plakat?: TmdbBild; stand?: TmdbBild }
+export type Bilder = { plakat?: TmdbBild; stand?: TmdbBild }
 
 /** Plakat der Staffel 0 (Hochformat) und Standbild der Folge (Querformat ab 1.280 px); das Plakat je Serie nur einmal geholt. */
 async function holeBilder(apiKey: string, e: Staffel0Eintrag, plakate: Map<number, TmdbBild | undefined>): Promise<Bilder> {
@@ -97,7 +97,7 @@ const frei = (bild: { p?: string } | null | undefined, eigener: string | undefin
  * Setzt Plakat und Hintergrund eines frisch geprüften Eintrags und merkt die Pfade im Eintrag (`pp`, `sp`). Ein fremdes Bild bleibt; ein eigenes, das
  * TMDB nicht mehr führt, fällt weg. Gibt zurück, ob ein Plakat gesetzt wurde.
  */
-function setzeBilder(id: string, e: Staffel0Eintrag, alt: Staffel0Eintrag | undefined, b: Bilder, bestaende: Bestaende): boolean {
+export function setzeBilder(id: string, e: Staffel0Eintrag, alt: Staffel0Eintrag | undefined, b: Bilder, bestaende: Bestaende): boolean {
   const { poster, banner } = bestaende
   let plakatGesetzt = false
   if (b.plakat && frei(poster[id], alt?.pp)) {
@@ -113,7 +113,7 @@ function setzeBilder(id: string, e: Staffel0Eintrag, alt: Staffel0Eintrag | unde
 }
 
 /** Streicht Eintrag und die Bilder, die er gesetzt hat. */
-function streiche(id: string, bestaende: Bestaende): void {
+export function streiche(id: string, bestaende: Bestaende): void {
   const e = bestaende.eintraege[id]
   if (!e) return
   if (e.pp && bestaende.poster[id]?.p === e.pp) delete bestaende.poster[id]
@@ -121,10 +121,10 @@ function streiche(id: string, bestaende: Bestaende): void {
   delete bestaende.eintraege[id]
 }
 
-type Urteile = { neu: Staffel0Bestand; offen: Map<number, Staffel0Urteil>; doppelt: Set<string> }
+export type Urteile = { neu: Staffel0Bestand; offen: Map<number, Staffel0Urteil>; doppelt: Set<string> }
 
 /** Aus den Urteilen die neuen Einträge; eine Folge, die zwei Titel tragen würden, bekommt keiner (`mehrfachBelegt`), ein nicht mehr tragender Eintrag fällt weg. */
-function wende(zuPruefen: Staffel0Kandidat[], p: Pruefung, tag: string, bestaende: Bestaende): Urteile {
+export function wende(zuPruefen: Staffel0Kandidat[], p: Pruefung, tag: string, bestaende: Bestaende): Urteile {
   const neu: Staffel0Bestand = {}
   const offen = new Map<number, Staffel0Urteil>()
   for (const k of zuPruefen) {

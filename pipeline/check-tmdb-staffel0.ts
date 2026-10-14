@@ -3,9 +3,10 @@
  * (Beispiel Durarara!! World at Peace = tv/42410 Staffel 0 Folge 2, 14.10.2026), und der Bestand `data/tmdb-staffel0.json` trägt sein Urteil noch aus den
  * eigenen Merkmalen. Aufruf: `npm run check:logic`.
  */
-import { eintragHaelt, mehrfachBelegt, urteilStaffel0, type Staffel0Folge, type Staffel0Titel } from './lib/tmdb-staffel0.ts'
-import { staffel0Kandidaten } from './lib/tmdb-staffel0-kandidaten.ts'
-import { staffel0Faellig, type Staffel0Bestand } from './lib/tmdb-staffel0-abruf.ts'
+import { eintragHaelt, mehrfachBelegt, urteilStaffel0, type Staffel0Eintrag, type Staffel0Folge, type Staffel0Titel, type Staffel0Urteil } from './lib/tmdb-staffel0.ts'
+import { staffel0Kandidaten, type Staffel0Kandidat } from './lib/tmdb-staffel0-kandidaten.ts'
+import { setzeBilder, staffel0Faellig, streiche, wende, type Bestaende, type Staffel0Bestand } from './lib/tmdb-staffel0-abruf.ts'
+import type { TmdbBild } from './lib/tmdb-plakat.ts'
 import { readJson } from './lib/util.ts'
 
 let verletzt = 0
@@ -64,6 +65,46 @@ pruefe('Eintrag von heute: nicht fällig', !staffel0Faellig({ inhaltAm: vorTagen
 pruefe('Eintrag vor 150 Tagen: nicht fällig', !staffel0Faellig({ inhaltAm: vorTagen(150) }, jetzt))
 pruefe('Eintrag vor 151 Tagen: fällig (Urteil und Bilder werden neu geholt)', staffel0Faellig({ inhaltAm: vorTagen(151) }, jetzt))
 pruefe('Eintrag ohne Datum: fällig', staffel0Faellig({ inhaltAm: '' }, jetzt))
+
+console.log('\nTMDB-Staffel 0: Bilder und Besitz (ein fremdes Bild bleibt, ein eigenes wird erneuert oder gestrichen)')
+const bild = (path: string): TmdbBild => ({ file_path: path, width: 2000, height: 3000, iso_639_1: 'ja' })
+const leer = (): Bestaende => ({ eintraege: {}, poster: {}, banner: {} })
+const eintrag = (extra: Partial<Staffel0Eintrag> = {}): Staffel0Eintrag => ({ tmdbId: 5, e: 1, tage: 0, laenge: 0, name: true, inhaltAm: '2026-10-14', ...extra })
+const ohneBesitz = leer()
+const neuerEintrag = eintrag()
+const gesetzt = setzeBilder('1', neuerEintrag, undefined, { plakat: bild('/p.jpg'), stand: bild('/s.jpg') }, ohneBesitz)
+pruefe('Titel ohne TMDB-Bild: Plakat und Hintergrund werden gesetzt und im Eintrag vermerkt', gesetzt && ohneBesitz.poster['1']?.p === '/p.jpg' && ohneBesitz.banner['1']?.p === '/s.jpg' && neuerEintrag.pp === '/p.jpg' && neuerEintrag.sp === '/s.jpg')
+const fremd = leer()
+fremd.poster['1'] = { p: '/fremd.jpg', w: 800, h: 1200, l: null }
+fremd.banner['1'] = { p: '/fremd-b.jpg', w: 1920, h: 1080 }
+const fremdEintrag = eintrag()
+setzeBilder('1', fremdEintrag, undefined, { plakat: bild('/p.jpg'), stand: bild('/s.jpg') }, fremd)
+pruefe('ein Bild aus anderer Quelle bleibt', fremd.poster['1']?.p === '/fremd.jpg' && fremd.banner['1']?.p === '/fremd-b.jpg' && fremdEintrag.pp === undefined && fremdEintrag.sp === undefined)
+const eigenes = leer()
+eigenes.poster['1'] = { p: '/alt.jpg', w: 800, h: 1200, l: null }
+const alterEintrag = eintrag({ pp: '/alt.jpg' })
+setzeBilder('1', eintrag(), alterEintrag, { plakat: bild('/neu.jpg') }, eigenes)
+pruefe('das eigene Plakat der früheren Prüfung wird erneuert', eigenes.poster['1']?.p === '/neu.jpg')
+setzeBilder('1', eintrag(), { ...alterEintrag, pp: '/neu.jpg' }, {}, eigenes)
+pruefe('führt TMDB das eigene Plakat nicht mehr, fällt es weg', !('1' in eigenes.poster))
+const gestrichen = leer()
+gestrichen.eintraege['1'] = eintrag({ pp: '/a.jpg', sp: '/b.jpg' })
+gestrichen.poster['1'] = { p: '/a.jpg', w: 800, h: 1200, l: null }
+gestrichen.banner['1'] = { p: '/fremd-b.jpg', w: 1920, h: 1080 }
+streiche('1', gestrichen)
+pruefe('Streichen nimmt Eintrag und eigene Bilder, nicht das fremde Bild', !('1' in gestrichen.eintraege) && !('1' in gestrichen.poster) && gestrichen.banner['1']?.p === '/fremd-b.jpg')
+const kand = (id: number): Staffel0Kandidat => ({ id, serien: [5], titel: { start: '2011-02-23', namen: ['World at Peace'], minuten: 24 } })
+const urteil = (): Staffel0Urteil => ({ stufe: 'sicher', grund: '', treffer: { serie: 5, e: 2, merkmale: { tage: 0, laenge: 0, name: true } } })
+const doppelt = wende([kand(1), kand(2)], { urteile: new Map([[1, urteil()], [2, urteil()]]), ausgefallen: new Set() }, '2026-10-14', leer())
+pruefe('zwei Titel, dieselbe Folge: keiner wird zugeordnet', Object.keys(doppelt.neu).length === 0 && doppelt.doppelt.size === 2)
+const ausfall = leer()
+ausfall.eintraege['1'] = eintrag()
+const nichtGeurteilt = wende([kand(1)], { urteile: new Map(), ausgefallen: new Set([1]) }, '2026-10-14', ausfall)
+pruefe('Serie nicht erreichbar: der alte Eintrag bleibt', '1' in ausfall.eintraege && Object.keys(nichtGeurteilt.neu).length === 0)
+const faellt = leer()
+faellt.eintraege['1'] = eintrag()
+wende([kand(1)], { urteile: new Map([[1, { stufe: 'unsicher', grund: '' }]]), ausgefallen: new Set() }, '2026-10-14', faellt)
+pruefe('Urteil trägt nicht mehr: der Eintrag fällt weg', !('1' in faellt.eintraege))
 
 console.log('\nTMDB-Staffel 0: der Bestand (data/tmdb-staffel0.json)')
 const bestand = readJson<Staffel0Bestand>('data/tmdb-staffel0.json', {})
