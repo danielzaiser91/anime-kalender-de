@@ -429,6 +429,21 @@ console.log('Rechenzeit im Worker (Free-Plan: 10 ms CPU je Anfrage)')
   pruefe(mittel < 5 && text.length < 200_000, 'lesen + einsetzen + schreiben des größten Titels: Mittel unter 5 ms (halbe Grenze), Zeile unter 200 KB (Grenze 2 MB)')
 }
 
+console.log('Meldung mit mehreren Rohfolgen')
+{
+  const mehrere = (url: string) => folge(url, 1, 1, 'ja', { rohfolgen: [...folge(url, 1, 1).rohfolgen, ...folge(url, 1, 2).rohfolgen] })
+  const db = neueDatenbank()
+  const env = umgebung(db, { geschrieben: 0 })
+  await handlePruefung(post(folge(URL_A, 1, 1)), env)
+  const vorher = zahl(db, 'SELECT COUNT(*) AS n FROM pruefung')
+  const r = await handlePruefung(post(mehrere(URL_A)), env)
+  const j = (await r.json()) as { error?: string }
+  pruefe(r.status === 400 && /höchstens eine Rohfolge/.test(j.error ?? ''), `Adresse mit Titelzeile: Meldung mit zwei Rohfolgen wird mit 400 und klarer Meldung abgewiesen (${r.status})`)
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === vorher && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 0, 'nichts landet unsichtbar in pruefung oder prime_folge')
+  const neu = await handlePruefung(post(mehrere('https://www.disneyplus.com/browse/entity-z')), env)
+  pruefe(neu.status === 200 && zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === vorher + 1, 'Adresse ohne Titelzeile: der bisherige Weg nimmt die Meldung an')
+}
+
 console.log('Einspielen: Folgen, die nur in prime_folge stehen, gehen nicht verloren (echte D1 am 14.10.2026: 27 Folgen in 1 Adresse)')
 {
   /* Dieselbe Abfrage hat die Verluste an der echten D1 gezählt; ohne titel_zeile-Klausel, solange die Tabelle fehlte. */

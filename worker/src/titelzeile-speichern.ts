@@ -34,11 +34,8 @@ type Kontext = { env: Env; ctx: ExecutionContext<unknown> | undefined; antwort: 
 
 const anbieterListe = (env: Env) => (env.TITELZEILE_PLATTFORMEN ?? '').split(',').map((s) => s.trim()).filter(Boolean)
 
-/** Eine Meldung mit höchstens einer Rohfolge eines Anbieters aus der Liste. */
-function gehoertHierher(env: Env, daten: Record<string, unknown>): boolean {
-  if (!anbieterListe(env).includes(String(daten.plattform))) return false
-  return !Array.isArray(daten.rohfolgen) || daten.rohfolgen.length <= 1
-}
+/** Eine Meldung eines Anbieters aus der Liste. Mehrere Rohfolgen in einer Meldung (Prime) beantwortet `versucheTitelzeile`. */
+const gehoertHierher = (env: Env, daten: Record<string, unknown>) => anbieterListe(env).includes(String(daten.plattform))
 
 async function hatAltzeilen(env: Env, url: string): Promise<boolean> {
   const { results } = await env.DB.prepare('SELECT 1 AS da FROM pruefung WHERE url = ?1 LIMIT 1').bind(url).all()
@@ -64,6 +61,9 @@ async function versucheTitelzeile(k: Kontext, daten: Record<string, unknown>, ab
   const plattform = String(daten.plattform)
   const zeile = await ladeZeile(k.env, url, plattform)
   if (!zeile && (await hatAltzeilen(k.env, url))) return null
+  if (Array.isArray(daten.rohfolgen) && daten.rohfolgen.length > 1) {
+    return zeile ? k.antwort({ error: 'Titelzeile: eine Meldung trägt höchstens eine Rohfolge' }, 400) : null
+  }
   const eintrag = eintragAusMeldung(daten, ab, jetztIso())
   if (eintragsId(0, eintrag) === null) {
     return zeile ? k.antwort({ error: 'staffel oder folge_nr liegt außerhalb des Bereichs der Titelzeile' }, 400) : null
