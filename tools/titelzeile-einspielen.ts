@@ -7,7 +7,9 @@
  *   npx tsx tools/titelzeile-einspielen.ts <plattform> <ordner> --remote
  *   npx tsx tools/titelzeile-einspielen.ts <plattform> <ordner> --local [--persist-to <absoluter-pfad>]
  * Jeder Lauf exportiert, was seit dem letzten Lauf in `pruefung`/`prime_folge` dazukam (`id` über der letzten
- * exportierten Nummer; beim ersten Lauf alles), liest die Titelzeilen des Anbieters neu, baut daraus und schreibt
+ * exportierten Nummer; beim ersten Lauf alles). Mit `--remote` holt er zuerst je Tabelle eine Probeseite und rechnet aus
+ * ihrem `rows_read` den Export hoch; ab `SCHWELLE` (0,25 Mio.) bricht er ab. Dann liest er die Titelzeilen des
+ * Anbieters neu, baut daraus und schreibt
  * `<ordner>/einspielen-<lauf>.sql`. Die Datei spielt man aus `worker/` ein:
  *   npx wrangler d1 execute anime-kalender --remote --config wrangler.toml --file=<datei>
  * Danach erneut aufrufen (holt Nachzügler), bis er „nichts mehr zu tun“ meldet: dann steht jede exportierte Folge in
@@ -35,9 +37,10 @@ function main() {
     throw new Error('Aufruf: npx tsx tools/titelzeile-einspielen.ts <plattform> <ordner> --remote | --local [--persist-to <pfad>]')
   }
   if (!TITELZEILE_TAUGLICH.includes(plattform)) throw new Error(`${plattform} passt nicht ins Format der Titelzeile (TITELZEILE_TAUGLICH)`)
-  const { lauf, sql, neu, titelzeilen, gelesen: summe } = einspielLauf(plattform, ordner, (s) => abfrage(s, ziel))
-  /* Lokal meldet wrangler kein `rows_read` (4.120.0); gezählt wird nur an der echten D1. */
-  const gelesen = ziel[0] === '--remote' ? `gelesen ${summe} Zeilen` : 'gelesene Zeilen nur mit --remote'
+  /* Lokal meldet wrangler kein `rows_read` (4.120.0); gezählt und hochgerechnet wird nur an der echten D1. */
+  const remote = ziel[0] === '--remote'
+  const { lauf, sql, neu, titelzeilen, gelesen: summe, probelauf } = einspielLauf(plattform, ordner, (s) => abfrage(s, ziel), remote)
+  const gelesen = remote ? `gelesen ${summe} Zeilen (Probeseiten: Faktor ${probelauf.faktor}, Hochrechnung ${probelauf.hochrechnung})` : 'gelesene Zeilen nur mit --remote'
   console.log(`Lauf ${lauf}: neu exportiert pruefung ${neu.pruefung}, prime_folge ${neu.prime_folge}; Titelzeilen da ${titelzeilen}; ${gelesen}`)
   if (!sql.length) return console.log('nichts mehr zu tun: jede exportierte Folge steht in einer Titelzeile (gleich oder jünger)')
   const datei = `${ordner}/einspielen-${lauf}.sql`

@@ -60,16 +60,33 @@ const schalter = (an: boolean | string) => (an === true ? 'disneyplus' : an === 
 /** Die Verlustabfrage mit eingesetztem Anbieter, wie ihr Kopfkommentar es per sed vorgibt. */
 export const verlustSql = (plattform: string) => readFileSync('worker/einmalig/titel-zeile-verlust.sql', 'utf8').replaceAll('__PLATTFORM__', plattform)
 
-/** Die Abfrage des Einspielens gegen die Testdatenbank (statt wrangler). */
-export const abfrageAus = (db: DatabaseSync): Abfrage => (sql) => ({ results: db.prepare(sql).all() as Record<string, unknown>[] })
+/**
+ * Die Abfrage des Einspielens gegen die Testdatenbank (statt wrangler), mit `rows_read` wie an der D1 mal `faktor`: eine
+ * Exportseite liest alle Zeilen ihres Id-Bereichs (jeder Anbieter, `SEARCH … rowid>?`), jede andere Abfrage ihre
+ * Ergebniszeilen. `protokoll` sammelt die Abfragen.
+ */
+export const abfrageAus =
+  (db: DatabaseSync, faktor = 1, protokoll: string[] = []): Abfrage =>
+  (sql) => {
+    protokoll.push(sql)
+    const results = db.prepare(sql).all() as Record<string, unknown>[]
+    return { results, meta: { rows_read: Math.round(faktor * gelesenIm(db, sql, results)) } }
+  }
+
+function gelesenIm(db: DatabaseSync, sql: string, results: Record<string, unknown>[]): number {
+  const seite = /FROM (pruefung|prime_folge) WHERE .* AND id > (\d+) ORDER BY id LIMIT (\d+)$/s.exec(sql)
+  if (!seite) return results.length
+  const bis = results.length < Number(seite[3]) ? '' : ` AND id <= ${Number(results.at(-1)!.id)}`
+  return zahl(db, `SELECT COUNT(*) AS n FROM ${seite[1]} WHERE id > ${seite[2]}${bis}`)
+}
 
 /**
- * Ein Lauf von `tools/titelzeile-einspielen.ts` gegen die Testdatenbank (`einspielLauf`, frischer Ordner = erster Lauf),
- * danach die Anweisungen ausgeführt. Gibt ihre Zahl zurück (0 = nichts mehr zu tun).
+ * Ein Lauf von `tools/titelzeile-einspielen.ts` gegen die Testdatenbank (`einspielLauf` mit Tor, frischer Ordner = erster
+ * Lauf), danach die Anweisungen ausgeführt. Gibt ihre Zahl zurück (0 = nichts mehr zu tun).
  */
 export function spieleEin(db: DatabaseSync, plattform = 'disneyplus'): number {
   const ordner = mkdtempSync(join(tmpdir(), 'titelzeile-'))
-  const { sql } = einspielLauf(plattform, ordner, abfrageAus(db))
+  const { sql } = einspielLauf(plattform, ordner, abfrageAus(db), true)
   rmSync(ordner, { recursive: true })
   for (const a of sql) db.exec(a)
   return sql.length
