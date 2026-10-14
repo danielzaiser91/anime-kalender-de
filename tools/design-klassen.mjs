@@ -35,13 +35,18 @@ export const MUSTER = [
   { name: 'focus-visible:ring', regex: /focus-visible:ring/g },
   { name: 'ring-sky', regex: /ring-sky/g },
   { name: 'opacity-30/40/50/60', regex: /\bopacity-(30|40|50|60)\b/g },
-  {
-    name: 'Hex in .tsx',
+  ...['tsx', 'ts', 'css'].map(hexMuster),
+]
+
+/** Hex-Farben je Dateiart mit eigener Grenze, damit eine .ts oder .css nicht unter dem .tsx-Bestand durchrutscht. */
+function hexMuster(endung) {
+  return {
+    name: `Hex in .${endung}`,
     // Nur gültige CSS-Längen (3, 4, 6, 8 Stellen): „#12369“ in einer Anschrift ist keine Farbe.
     regex: /(?<![\w&])#(?:[0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})\b/gi,
-    gilt: (pfad) => pfad.endsWith('.tsx') && !HEX_AUSNAHMEN.test(pfad),
-  },
-]
+    gilt: (pfad) => pfad.endsWith(`.${endung}`) && !HEX_AUSNAHMEN.test(pfad),
+  }
+}
 
 function dateien(ordner) {
   return readdirSync(ordner, { withFileTypes: true }).flatMap((e) => {
@@ -88,10 +93,25 @@ function argument(name, vorgabe) {
   return i >= 0 ? resolve(process.argv[i + 1]) : vorgabe
 }
 
+/** Grenzdatei lesen: `null`, wenn es sie nicht gibt; Fehler, wenn sie da, aber unlesbar ist (kein stilles Neuschreiben ohne Sperre). */
 function lesen(datei) {
+  let text
   try {
-    return JSON.parse(readFileSync(datei, 'utf8'))
-  } catch {
+    text = readFileSync(datei, 'utf8')
+  } catch (e) {
+    if (e.code === 'ENOENT') return null
+    throw e
+  }
+  const inhalt = JSON.parse(text)
+  if (typeof inhalt?.vorkommen !== 'object' || inhalt.vorkommen === null) throw new Error('Feld „vorkommen“ fehlt')
+  return inhalt
+}
+
+function grenzen(grenzDatei) {
+  try {
+    return { datei: lesen(grenzDatei) }
+  } catch (e) {
+    console.error(`✖ Grenzdatei ${grenzDatei} ist unlesbar (${e.message}). Nichts geschrieben; aus git wiederherstellen.`)
     return null
   }
 }
@@ -107,7 +127,9 @@ function main() {
     return 0
   }
 
-  const datei = lesen(grenzDatei)
+  const gelesen = grenzen(grenzDatei)
+  if (!gelesen) return 1
+  const datei = gelesen.datei
   const erlaubt = datei?.vorkommen ?? {}
   if (process.argv.includes('--festschreiben')) {
     const zuhoch = zuViel(zahlen, erlaubt)
