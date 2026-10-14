@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-13T22:04:18.067Z",
+  "stand": "2026-10-14T07:06:13.885Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -163,17 +163,6 @@
       "seriesId": "GY19X1M9R",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-10-14",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 8408,
-      "titel": "Durarara!! Specials",
-      "plattform": "crunchyroll",
-      "url": "http://www.crunchyroll.com/de/durarara",
-      "seriesId": "G619XVNEY",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
       "entferntAm": "2026-10-14",
       "letzterWeg": true
     },
@@ -8138,6 +8127,17 @@
       "seriesId": null,
       "grund": "der Anbieter führt 12 + 13 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
       "geprueftAm": null,
+      "entferntAm": "2026-10-14",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 8408,
+      "titel": "Durarara!! Specials",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/durarara",
+      "seriesId": "G619XVNEY",
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-08-21",
       "entferntAm": "2026-10-14",
       "letzterWeg": true
     },

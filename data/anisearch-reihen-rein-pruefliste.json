@@ -1,7 +1,7 @@
 {
-  "stand": "2026-10-13",
+  "stand": "2026-10-14",
   "bestand": {
-    "inReihen": 3014,
+    "inReihen": 3012,
     "reihen": 811,
     "pruefliste": [
       {
@@ -1552,7 +1552,7 @@
     ]
   },
   "katalog": {
-    "inReihen": 11956,
+    "inReihen": 11954,
     "reihen": 3057,
     "pruefliste": [
       {
@@ -5860,7 +5860,7 @@
           {
             "id": 527,
             "name": "Pocket Monsters",
-            "titel": 134
+            "titel": 133
           },
           {
             "id": 145059,
@@ -6766,7 +6766,7 @@
           {
             "id": 6746,
             "name": "Durarara!!",
-            "titel": 10
+            "titel": 9
           }
         ],
         "alleinstehende": [],

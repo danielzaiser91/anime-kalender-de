@@ -29,14 +29,25 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GT00371869@2026-10-12@anime-kalender-de
+UID:cr-GT00371869@2026-10-12#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T153000Z
 DTEND:20261012T160000Z
-SUMMARY:SNOWBALL EARTH Staffel 1
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
- ps://anime-kalender.de/t/16948/
+SUMMARY:SNOWBALL EARTH Staffel 1 – Folge 1–13/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16948/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-196144-primevideo@2026-10-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261013
+DTEND;VALUE=DATE:20261014
+SUMMARY:Snowball Earth
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhythmu
+ s fortgeschrieben.\nDetails: https://anime-kalender.de/t/16948/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-10-18@anime-kalender-de
