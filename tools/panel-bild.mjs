@@ -12,7 +12,9 @@
  * `dist/`. Das ist kein Umweg, sondern näher am Ernstfall als ein Dev-Server:
  * gerendert wird genau das, was ausgeliefert wird.
  *
- * Aufruf: node tools/panel-bild.mjs [--docs] [<AniList-Id> …]
+ * Aufruf: node tools/panel-bild.mjs [--docs] [--woche] [<AniList-Id> …]
+ *         `--woche` öffnet über `#/woche?t=` statt über die Datenbank: nötig für Titel, die nur der Kalender kennt (Cartoons wie Avatar);
+ *         die Prüfung der Seitensperre entfällt dann.
  *         npm run check:panel
  *
  * Ergebnis: panel-<id>-<hell|dunkel>.png im Temp-Ordner, mit `--docs` (`npm run panel:bilder`) in docs/, dazu die gemessenen Höhen des
@@ -31,6 +33,7 @@ import { pruefeSperreUndSchliesse } from './panel-sperre.mjs'
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
 const BILDER = bilderOrdner(WURZEL, 'ak-panel')
+const WOCHE = process.argv.includes('--woche')
 /*
   Drei Zustände desselben Kastens, an denen sich das Springen zeigt: Staffel 1
   der Apothekerin hat Stream **und** Disc (also den Umschalter), Staffel 2 nur
@@ -67,6 +70,8 @@ const TYPEN = {
 
 /** Das Panel öffnet oben, nichts ist vorgescrollt (`scrollIntoView` der Reihenliste scrollte es bis 09.10.2026 um 228–393 px). */
 async function pruefeNichtVorgescrollt(panel, id) {
+  /* In der Wochenansicht scrollt die Seite zur Karte des Titels; das Vorscrollen des Panels lässt sich dort nicht trennen. */
+  if (WOCHE) return
   const px = await panel.evaluate((el) => {
     for (let e = el; e; e = e.parentElement) if (e.scrollTop > 0) return Math.round(e.scrollTop)
     return 0
@@ -75,6 +80,12 @@ async function pruefeNichtVorgescrollt(panel, id) {
     console.log(`  ✕ ${id}: Panel öffnet um ${px} px vorgescrollt`)
     process.exitCode = 1
   }
+}
+
+/** Schließt den Browser; die Seitensperre wird nur über die Datenbank-Ansicht geprüft (Cartoons gibt es dort nicht). */
+async function schliesse(browser, seite, ids) {
+  if (WOCHE) await browser.close()
+  else await pruefeSperreUndSchliesse(browser, seite, ids, akVon)
 }
 
 /** Die auf der Kommandozeile genannten Titel (Schalter mit `--` zählen nicht), sonst die Vorgabe. */
@@ -140,7 +151,7 @@ async function main() {
         stehen nicht in `titles-core.json`, und dort würde das Panel nie
         erscheinen. Die Datenbank lädt `titles.json` nach — also alle.
       */
-      await seite.goto(`http://ak.test/#/datenbank?t=${akVon(id)}`, { waitUntil: 'networkidle' })
+      await seite.goto(`http://ak.test/#/${WOCHE ? 'woche' : 'datenbank'}?t=${akVon(id)}`, { waitUntil: 'networkidle' })
       const panel = seite.locator('[data-panel="titel"]')
       try {
         await panel.waitFor({ state: 'visible', timeout: 15_000 })
@@ -211,7 +222,7 @@ async function main() {
     }
   }
 
-  await pruefeSperreUndSchliesse(browser, seite, ids, akVon)
+  await schliesse(browser, seite, ids)
 
   /* Die Mindesthöhe aus `antwort-kasten.tsx` — 11rem (176 px); „fertig" ohne Nebenzeile darf kleiner sein (Daniel, 07.10.2026), gemessen 172 px. */
   const MINDEST = 160
