@@ -653,7 +653,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Komplettbox, Blu-ray"
-  note: "Anime2You nennt „Staffel 4 – Part 2“; Zuordnung zu AniList „Part 2“ wie bei Part 1. Sprache der Disc im Artikel nicht genannt."
+  note: "Anime2You nennt „Staffel 4 – Part 2“; Zuordnung zu AniList „Part 2“ wie bei Part 1."
   schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
   sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
 
@@ -664,7 +664,6 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Blu-ray"
-  note: "Sprache der Disc im Artikel nicht genannt."
   schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
   sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
 
@@ -675,7 +674,6 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "DVD & Blu-ray"
-  note: "Sprache der Disc im Artikel nicht genannt."
   schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
   sources: [https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/]
 
@@ -690,7 +688,7 @@
   publisher: "Crunchyroll"
   edition: "Steelbook-Komplettbox, Blu-ray"
   buyUrl: https://www.amazon.de/dp/B0HMCHK26Q
-  note: "Voraussichtlicher Termin; Sprache der Disc im Artikel nicht genannt."
+  note: "Voraussichtlicher Termin."
   schedule: { firstEpisodeDate: "2026-12-04", estimated: true }
   sources: [https://www.anime2you.de/news/1058332/kaiju-no-8-staffel-1-steelbook-edition/]
 

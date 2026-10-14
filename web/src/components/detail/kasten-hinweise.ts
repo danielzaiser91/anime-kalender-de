@@ -50,10 +50,10 @@ export function angebotSeitZeileVon(title: Title, t: Translate): string | undefi
 }
 
 /*
-  **Kein Weg bekannt — der Satz steht im Kasten.** Kein Satz, wenn es Wege gibt oder während eines Kinolaufs
+  **Kein Weg bekannt — der Kasten schweigt.** Kein Satz, wenn es Wege gibt oder während eines Kinolaufs
   (entschieden am belegten letzten Spieltag). Ein angekündigter Kinofilm bekommt statt dessen, was der Stern
-  bringt. Mit belegten Sprechern ist es `''`: kein Text (fehlende Wege sagen das schon, die Überschrift
-  „Auf Deutsch verfügbar“ nennt die Fassung), aber der TV-Rückblick darf trotzdem erscheinen.
+  bringt. Sonst ist es `''` (13.10.2026, Daniel: Zeigen wir keine Bezugswege, ist uns keiner bekannt): kein Text,
+  aber der TV-Rückblick darf trotzdem erscheinen.
 */
 export function wegeHinweisVon({ title, antwort, favorites, verbindung, releases, today, t }: {
   title: Title | undefined
@@ -94,11 +94,7 @@ export function wegeHinweisVon({ title, antwort, favorites, verbindung, releases
             ? r.cinemaUntil >= today
             : (r.schedule?.firstEpisodeDate ?? '') >= today),
       )
-        ? antwort?.art === 'film' && antwort.hatSynchro && antwort.ohneWeg
-          ? t('detail.whereFilmOhneWeg')
-          : title.hasVoices
-            ? ''
-            : t('detail.whereUnknown')
+        ? ''
         : undefined
   )
 }

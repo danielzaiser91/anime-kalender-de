@@ -13,7 +13,6 @@ export const TEXTE_ZEILEN = {
   'detail.legendeOmu': '„nur Untertitel“: bisher Originalton mit deutschen Untertiteln.',
   'detail.legendeOffen': '„Sprache offen“: Deutsch ist bei diesem Anbieter nicht belegt.',
   'detail.legendeGeschaetzt': '„≈“: Zahl des Werks, beim Anbieter nicht einzeln belegt.',
-  'detail.whereFilmOhneWeg': 'Kein Streaming- oder Disc-Anbieter bekannt.',
   'antwort.filmSynchronisiert': 'Deutsch synchronisiert',
   'bereich.offen': 'Weitere Anbieter',
   'antwort.sprachOffen': 'Anbieter, Sprache offen',

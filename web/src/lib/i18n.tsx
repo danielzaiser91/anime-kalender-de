@@ -299,7 +299,6 @@ const TEXTE = {
   // Steht unter einer Pille, deren Adresse auf genau eine Folge zeigt — etwa
   // eine Dub-Vorschau. Ohne die Angabe sieht sie aus wie ein Weg zur Serie.
   'detail.nurFolge': 'nur Folge {n}',
-  'detail.whereUnknown': 'Kein Anbieter bekannt.',
   'detail.tvNurVorbei': 'Lief zuletzt im Fernsehen — kein Termin in der Zukunft bekannt.',
   'detail.sharedUrl': '{count} Einträge',
   // Steht, wo der Anbieter mehrere unserer Einträge in **einer** durchlaufenden
@@ -614,7 +613,6 @@ const TEXTE = {
   'antwort.synchroOffen': 'Synchro offen',
   'antwort.ankuendigungQuelle': 'Laut {anbieter}, Stand {datum}',
   'antwort.westlichVerfuegbar': 'In Deutschland verfügbar',
-  'antwort.westlichUngeprueft': 'Deutsche Fassung nicht geprüft',
   // JustWatch gilt der Serie, nicht der Folge (Entscheidung 07.09.2026).
   'antwort.westlichJw': 'Deutsche Fassung laut JustWatch',
   'antwort.westlichJwNeben': 'Für die Serie, nicht je Folge: {anbieter}',
