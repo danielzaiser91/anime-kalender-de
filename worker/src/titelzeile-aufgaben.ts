@@ -86,27 +86,31 @@ export async function oeffneTitelzeilenWieder(env: Env, plattform: string, seit:
   return offen
 }
 
-/** Entfernt Folgen aus ihren Titelzeilen: Ids (`DELETE /pruefung` mit `ids`) oder Nummern einer Adresse. Gibt die Zahl der entfernten Folgen zurück. */
-export async function loescheTitelFolgen(env: Env, wahl: { ids: number[] } | { url: string; nummern: number[] }): Promise<number> {
+/** Entfernt Folgen aus ihren Titelzeilen: Ids (`DELETE /pruefung` mit `ids`) oder Nummern einer Adresse. Gibt die Zahl der entfernten Folgen und die Adressen der geänderten Titelzeilen zurück (für den `?gemeldet=`-Cache). */
+export async function loescheTitelFolgen(env: Env, wahl: { ids: number[] } | { url: string; nummern: number[] }): Promise<{ entfernt: number; urls: string[] }> {
   let entfernt = 0
+  const urls: string[] = []
   const ohne = (alt: TitelDaten, behalte: (e: Eintrag) => boolean) => {
     const f = alt.f.filter(behalte)
     entfernt += alt.f.length - f.length
     return f.length === alt.f.length ? null : { ...alt, f }
   }
+  const aendere = async (t: { url: string; plattform: string }, behalte: (e: Eintrag) => boolean) => {
+    const vorher = entfernt
+    await aendereTitelzeile(env, t, async (alt) => (alt ? ohne(alt, behalte) : null))
+    if (entfernt > vorher) urls.push(t.url)
+  }
   if ('url' in wahl) {
     const { results } = await env.DB.prepare('SELECT url, plattform FROM titel_zeile WHERE url = ?1').bind(wahl.url).all<{ url: string; plattform: string }>()
-    for (const t of results ?? []) {
-      await aendereTitelzeile(env, t, async (alt) => (alt ? ohne(alt, (e) => !wahl.nummern.includes(e[NUMMER] ?? -1)) : null))
-    }
-    return entfernt
+    for (const t of results ?? []) await aendere(t, (e) => !wahl.nummern.includes(e[NUMMER] ?? -1))
+    return { entfernt, urls }
   }
   const je = jeTitel(sindTitelIds(wahl.ids))
   for (const t of await adressen(env, [...je.keys()])) {
     const folgen = je.get(t.nr)!
-    await aendereTitelzeile(env, t, async (alt) => (alt ? ohne(alt, (e) => !folgen.some((x) => trifft(e, x))) : null))
+    await aendere(t, (e) => !folgen.some((x) => trifft(e, x)))
   }
-  return entfernt
+  return { entfernt, urls }
 }
 
 /** Die Titelzeile einer Adresse ganz entfernen (`DELETE /pruefung` mit `url`). */

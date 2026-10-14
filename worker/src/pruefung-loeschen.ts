@@ -27,9 +27,12 @@ export async function loeschePruefungen({ request, env, antwort }: {
     }
     if (Array.isArray(daten.ids) && daten.ids.length) {
       /* Ids ab 2.000.000.000 sind Folgen in Titelzeilen (Migration 055). */
-      const titelFolgen = await loescheTitelFolgen(env, { ids: daten.ids })
+      const { entfernt: titelFolgen, urls } = await loescheTitelFolgen(env, { ids: daten.ids })
       daten.ids = daten.ids.filter((id) => id < TITEL_ID_AB)
-      if (!daten.ids.length) return antwort({ ok: true, geloescht: titelFolgen })
+      if (!daten.ids.length) {
+        await verwirfGemeldet(request.url, urls)
+        return antwort({ ok: true, geloescht: titelFolgen })
+      }
       const platzhalter = daten.ids.map(() => '?').join(',')
       const { results: betroffen } = await env.DB.prepare(`SELECT DISTINCT url FROM pruefung WHERE id IN (${platzhalter})`)
         .bind(...daten.ids)
@@ -37,7 +40,7 @@ export async function loeschePruefungen({ request, env, antwort }: {
       const ergebnis = await env.DB.prepare(`DELETE FROM pruefung WHERE id IN (${platzhalter})`)
         .bind(...daten.ids)
         .run()
-      await verwirfGemeldet(request.url, (betroffen ?? []).map((r) => r.url))
+      await verwirfGemeldet(request.url, [...urls, ...(betroffen ?? []).map((r) => r.url)])
       return antwort({ ok: true, geloescht: (ergebnis.meta?.changes ?? 0) + titelFolgen })
     }
     /*
@@ -53,13 +56,15 @@ export async function loeschePruefungen({ request, env, antwort }: {
       )
         .bind(daten.url, ...daten.nummern)
         .run()
+      const { entfernt } = await loescheTitelFolgen(env, { url: daten.url, nummern: daten.nummern })
       await verwirfGemeldet(request.url, [daten.url])
-      return antwort({ ok: true, geloescht: (ergebnis.meta?.changes ?? 0) + (await loescheTitelFolgen(env, { url: daten.url, nummern: daten.nummern })) })
+      return antwort({ ok: true, geloescht: (ergebnis.meta?.changes ?? 0) + entfernt })
     }
     if (daten.url) {
       const ergebnis = await env.DB.prepare('DELETE FROM pruefung WHERE url = ?').bind(daten.url).run()
+      const titelzeile = await loescheTitelzeile(env, daten.url)
       await verwirfGemeldet(request.url, [daten.url])
-      return antwort({ ok: true, geloescht: (ergebnis.meta?.changes ?? 0) + (await loescheTitelzeile(env, daten.url)) })
+      return antwort({ ok: true, geloescht: (ergebnis.meta?.changes ?? 0) + titelzeile })
     }
     return antwort({ error: 'ids oder url erwartet' }, 400)
 }

@@ -31,7 +31,6 @@ import { eintragAusMeldung, eintragsId, kopfAusMeldung, leereDaten, setzeEin, ty
 
 type Kontext = { env: Env; ctx: ExecutionContext<unknown> | undefined; antwort: (body: unknown, status?: number) => Response }
 
-
 const anbieterListe = (env: Env) => (env.TITELZEILE_PLATTFORMEN ?? '').split(',').map((s) => s.trim()).filter(Boolean)
 
 /** Eine Meldung eines Anbieters aus der Liste. Mehrere Rohfolgen in einer Meldung (Prime) beantwortet `versucheTitelzeile`. */

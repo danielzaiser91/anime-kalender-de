@@ -15,6 +15,7 @@
 import { DatabaseSync } from 'node:sqlite'
 import { readdirSync, readFileSync } from 'node:fs'
 import { handlePruefung } from '../worker/src/pruefung.ts'
+import { gemeldetSchluessel } from '../worker/src/pruefung-gemeldet-cache.ts'
 import { berechnePruefstand } from '../worker/src/pruefung-stand.ts'
 import { eintragAusMeldung, kopfAusMeldung, leereDaten, lies as liesDaten, setzeEin, TITEL_ID_AB, zaehleOffene } from '../worker/src/titelzeile-format.ts'
 import { VERSUCHE } from '../worker/src/titelzeile-zeile.ts'
@@ -384,11 +385,22 @@ console.log('Abhaken, Wiederöffnen, Löschen')
   const jr = (await stufe.json()) as { reoeffnet: number }
   pruefe(jr.reoeffnet >= 4, `reoeffnen öffnet übernommene Folgen in Titelzeilen wieder (${jr.reoeffnet})`)
 
+  /* Der Cache-Stub merkt sich, welche Adresse verworfen wird und wie viele Folgen die Titelzeile dann noch hat (erst löschen, dann verwerfen). */
+  const verworfen: { schluessel: string; folgenDann: number }[] = []
+  const folgenJetzt = () => zahl(db, `SELECT COUNT(*) AS n FROM titel_zeile, json_each(daten, '$.f') WHERE url = '${URL_A}'`)
+  Object.assign(globalThis, { caches: { default: { match: async () => undefined, put: async () => undefined, delete: async (r: Request) => void verworfen.push({ schluessel: r.url, folgenDann: folgenJetzt() }) } } })
+  const vorherFolgen = folgenJetzt()
   const einzeln = await handlePruefung(loesche({ ids: [neueFassung.id] }), env)
   pruefe(((await einzeln.json()) as { geloescht: number }).geloescht === 1, 'DELETE mit Id: die Folge verschwindet aus der Titelzeile')
+  pruefe(verworfen.length > 0 && verworfen.every((v) => v.schluessel === gemeldetSchluessel('https://worker.test/pruefung', URL_A) && v.folgenDann === vorherFolgen - 1), 'DELETE nur mit Titelzeilen-Id: die Adresse wird verworfen, nachdem gelöscht ist')
+  verworfen.length = 0
   const nummern = await handlePruefung(loesche({ url: URL_A, nummern: [2] }), env)
   pruefe(((await nummern.json()) as { geloescht: number }).geloescht === 2, 'DELETE mit Adresse und Nummern: Folge 2 beider Staffeln')
+  pruefe(verworfen.length > 0 && verworfen.every((v) => v.folgenDann === vorherFolgen - 3), 'DELETE mit Adresse und Nummern: verworfen wird erst nach dem Löschen')
+  verworfen.length = 0
   const ganz = await handlePruefung(loesche({ url: URL_A }), env)
+  pruefe(verworfen.length > 0 && zahl(db, `SELECT COUNT(*) AS n FROM titel_zeile WHERE url = '${URL_A}'`) === 0, 'DELETE mit Adresse: verworfen wird erst nach dem Löschen der Titelzeile')
+  Object.assign(globalThis, { caches: { default: { match: async () => undefined, put: async () => undefined, delete: async () => false } } })
   pruefe(((await ganz.json()) as { geloescht: number }).geloescht >= 1 && zahl(db, 'SELECT COUNT(*) AS n FROM titel_zeile WHERE url = \'' + URL_A + '\'') === 0, 'DELETE mit Adresse: die Titelzeile ist weg')
 }
 
