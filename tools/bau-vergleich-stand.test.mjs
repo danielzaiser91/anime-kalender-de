@@ -60,6 +60,8 @@ try {
     const kontext2 = { ...kontext, basis: git('rev-parse', 'HEAD') }
     assert.equal(liesSeite(kontext2, leer, 'data/eigen.json', true), '')
     assert.equal(liesSeite(kontext2, leer, 'data/eigen.json', false), '{"a":1}', 'die Basisseite bekommt ihren Stand')
+    // Dasselbe über `beschreibeDatei`: Der Kandidat bekommt dort `istKandidat = true`; sonst stünde sein Stand als „gleich der Basis“ da und der Unterschied fehlte.
+    assert.deepEqual(beschreibeDatei(kontext2, leer, leer, 'data/eigen.json'), ['    - {"a":1}'], 'eigene Handdatei des Kandidaten ist nicht der Basisstand')
   } finally {
     rmSync(leer, { recursive: true, force: true })
     rmSync(mit, { recursive: true, force: true })

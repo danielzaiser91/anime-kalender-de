@@ -283,7 +283,7 @@ brechen ihn nicht ab, sondern stehen als „Widerspruch (Vergleichsmodus)" im mi
 der echte, und eine Invariante, die dort reißt, verhinderte sonst jede Basis (12.10.2026: Bookworm-Dublette, Prime-Häkchen ohne Beleg).
 Neue Abbruchstelle für ein Ergebnis-Urteil: über diese Funktion, nicht mit eigenem `process.exit`. Bei verschiedenen JSON-Dateien nennt
 die Ausgabe die Felder mit Anzahl und Beispiel (`tools/vergleich-unterschied.mjs`, etwa `streams[].dubQuelle` = Herkunft „Deutsch laut
-JustWatch" am Weg). Nicht abgedeckt: Verlust-Riegel (`13-2`), Eingabe-Prüfungen (`01-quellen`, `nebendateien`, Patchnotes). Für `web/src` tut dasselbe
+JustWatch" am Weg). Schreibt nur eine Seite die Datei (der Bau ändert sie nur einseitig), gilt für die andere der Stand der Basis per `git show` (`tools/bau-vergleich-stand.mjs`), damit der Feldvergleich greift statt Textzeilen; ausgenommen sind Handdateien, die der Kandidat selbst ändert. Wird eine Liste nur umsortiert, steht „[] (nur Reihenfolge)“ da, die Datei ist ja verschieden (14.10.2026, Befunde zu PR 1145). Nicht abgedeckt: Verlust-Riegel (`13-2`), Eingabe-Prüfungen (`01-quellen`, `nebendateien`, Patchnotes). Für `web/src` tut dasselbe
 `tools/panel-vergleich.mjs`: beide Stände bauen, das Detail-Panel für 80 feste Titel bei stehender
 Uhr rendern, HTML vergleichen. Für Reihen-Änderungen (`franchises.json`) vergleicht
 `tools/reihen-vergleich.mjs [basis] [kandidat] [--json]` alle Reihen in Sekunden, ohne Bau: Reihenname, Anzahl, Reihenfolge der

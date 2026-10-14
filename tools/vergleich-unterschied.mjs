@@ -19,6 +19,11 @@ function merke(aus, muster, beispiel, weg = false) {
   else aus.set(muster, { n: 1, beispiel, weg })
 }
 
+/** Gleiche Elemente, andere Reihenfolge: die Datei ist verschieden, also muss eine Zeile das sagen. */
+function merkeReihenfolge(aus, pfad) {
+  merke(aus, `${pfad}[] (nur Reihenfolge)`, 'gleiche Elemente, andere Reihenfolge')
+}
+
 function vergleicheListen(a, b, pfad, kennung, aus) {
   if (mitKennung(a) && mitKennung(b)) {
     const jeId = new Map(b.map((e) => [e.id, e]))
@@ -28,9 +33,12 @@ function vergleicheListen(a, b, pfad, kennung, aus) {
     }
     const alt = new Set(a.map((e) => e.id))
     for (const e of b) if (!alt.has(e.id)) merke(aus, `${pfad}[] (hinzugekommen)`, `Kennung ${e.id}`)
+    const inBeiden = (liste) => liste.filter((e) => alt.has(e.id) && jeId.has(e.id)).map((e) => e.id)
+    if (inBeiden(a).join() !== inBeiden(b).join()) merkeReihenfolge(aus, pfad)
     return
   }
   const [restA, restB] = ohneGleiche(a, b)
+  if (restA.length === 0 && restB.length === 0 && JSON.stringify(a) !== JSON.stringify(b)) merkeReihenfolge(aus, pfad)
   for (let i = 0; i < Math.max(restA.length, restB.length); i++) vergleiche(restA[i], restB[i], `${pfad}[]`, kennung ?? i, aus)
 }
 
