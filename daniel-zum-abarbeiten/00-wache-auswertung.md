@@ -5,6 +5,17 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 14.10.2026, 11:04 — Claude-Lauf, Befund
+
+**Was läuft korrekt.** Der Bestand ist frisch (`meta.generatedAt` vor 0,1 h, `bestand-bauen.yml` letzter Erfolg vor 0,2 h, 04/05). Der am 13.10. als „komplett falsch" gemeldete Urteilsverlust (10, -223 Urteile/+251 offen) hat sich umgekehrt: aktuell netto Urteile +97, offen -92 über 24 h (02), Stand 2002 Urteile bei nur noch 220 offen. Die am 13.10. als neuer Codefehler gemeldete Quelle `rohfolgen` (HTTP 500, 10) zeigt jetzt wieder „letzter Erfolg" ohne Fehlertext (06). Zugänge und Kontingente sind unauffällig, keine Frist überschritten (04).
+
+**Wo ist Verbesserungspotenzial?** `cr-einzelwerke` und `cr-filmbloecke` bleiben seit 20,9 Tagen bei 0 Treffern (06) — bereits in den Urteilen vom 11.10./12.10./13.10. (10) gemeldet, weiterhin ohne Ursache oder Korrektur. Issue #898 steht seit dem 12.10. unverändert offen (08), PR #991 wartet laut eigenem Titel weiter auf Daniel (08). „Bestand — zusammenführen und bauen" schlägt in diesem Fenster 7-mal fehl (01) — weniger als die zuvor gemeldeten 12 (10), die drei aufgeführten Beispiele betreffen aber weiterhin main.
+
+**Wo sind echte Risiken und Lücken?** Der Briefkasten-Rückstau wächst weiter: 624 Adressen noch nicht gelistet (03), gegenüber 340 im Vorurteil vom 13.10. (10) und 168 am 12.10. — fast eine Verdoppelung binnen eines Tages, zum dritten Mal in Folge beschleunigt statt gebremst. Die Meldung „Belege ohne Fundstelle" steigt ebenfalls weiter: 61 am 14.10. gegenüber 36 am 13.10. und 3 am 08.10. (09) — ein anhaltender Trend ohne erkennbare Gegenmaßnahme in den offenen PRs (08). Ein Bestandsbau um 07:13 verlor netto 3 Titel, vom Lauf selbst mit einer Warnung markiert (Exit-Code 1, 02); bis zum Ende des Fensters (08:54) ist kein „Titel +3" sichtbar, der Verlust bleibt also bestehen, ohne dass eine Begründung dafür im Dossier auftaucht. Daniel: den Briefkasten-Rückstau und die wachsende Zahl „Belege ohne Fundstelle" priorisieren. Bauer: `cr-einzelwerke`/`cr-filmbloecke` und die 3 verlorenen Titel vom 14.10. 07:13 untersuchen.
+
+**Was läuft komplett falsch?** Die Wache-Datei (11) steht weiterhin unverändert auf dem Stand vom 25.09.2026, obwohl „Wache — Delta und Briefkasten" laut 01 in diesem Fenster erneut einmal erfolgreich lief — dieselbe seit mindestens drei Urteilen (10, 11.10./12.10./13.10.) gemeldete stille Lücke, weiterhin ungelöst. Bauer: `delta-wache.yml` als Ursache der veralteten Wache-Datei vorrangig klären.
+
+
 ## 13.10.2026, 11:05 — Claude-Lauf, Befund
 
 **Was läuft korrekt.** Bestand und Infrastruktur sind frisch: `meta.generatedAt` vor 0,2 h, `bestand-bauen.yml` letzter Erfolg vor 0,1 h, alle Zugänge und Kontingente innerhalb ihrer Frist (04, 05). „Aussehen prüfen" lief 13-mal erfolgreich ohne einen einzigen Fehlschlag (01) — die zuvor beurteilten Fehlschläge (10) sind verschwunden. „Deploy auf GitHub Pages" zeigt in 01 ebenfalls keinen Fehlschlag mehr, nur noch skipped/cancelled, gegenüber den im Vorurteil (10) gemeldeten Fehlläufen. `tonspuren-monatlich.yml` liegt mit 117 h wieder deutlich unter seiner 840-h-Frist (04), zuvor als überschritten gemeldet (09, 08.10.). Die zuvor gemeldete `messbelege`-Fehlermeldung „ReferenceError: __name is not defined" (10, Urteil 11.10.) taucht in der aktuellen Quellenliste nicht mehr auf, nur noch 0 Treffer ohne Fehlertext (06).
