@@ -8,6 +8,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { Title } from '../shared/types.ts'
 import { ANISEARCH_ID_BASIS } from './bau/anisearch-titel.ts'
+import { baueMeta } from './bau/12-meta.ts'
 import { anilistSchreibweisen, archivStudios, ergaenzeStudiosAusArchiv, studiosInBestandsschreibweise } from './bau/studio-aus-archiv.ts'
 
 let fehler = 0
@@ -87,6 +88,11 @@ try {
   const alleLeer = geteilt(8, [[], []])
   ergaenzeStudiosAusArchiv(alleLeer.titles, dir, alleLeer.kennungen)
   pruefe('Geteilte Seite: kein Geschwister nennt eines, beide bekommen das der Seite', alleLeer.ids.every((id) => alleLeer.titles.get(id)!.studios?.[0] === 'Foo'))
+
+  /* Der Bau ruft es auf: `baueMeta` ergänzt vor der Auslieferung, auf der echten Archivseite 2362 (Final Fantasy VII: Advent Children, Visual Works). */
+  const ffvii = { ...titel(ANISEARCH_ID_BASIS + 2362, []), genres: [], keywords: [] } as Title
+  baueMeta({ titles: new Map([[ffvii.id, ffvii]]), releases: [], events: [], motnBelege: 0 })
+  pruefe('Bau: baueMeta ergänzt das Studio aus dem Archiv', JSON.stringify(ffvii.studios) === JSON.stringify(['Visual Works']), JSON.stringify(ffvii.studios))
 } finally {
   rmSync(dir, { recursive: true, force: true })
 }
