@@ -42,12 +42,23 @@ try {
   pruefe('Schreibweise: AniList-Form gewinnt, Katalogtitel zählen nicht', schreibweisen.get('tmsentertainment') === 'TMS Entertainment' && schreibweisen.get('pierrot') === 'Studio Pierrot', JSON.stringify([...schreibweisen]))
   const gemischt = studiosInBestandsschreibweise(['TMS Entertainment Co., Ltd.', 'ネスト', 'TMS Entertainment Inc.'], schreibweisen)
   pruefe('Schreibweise: Rechtsform fällt weg, Unbekanntes bleibt, Doppelte fallen weg', JSON.stringify(gemischt) === JSON.stringify(['TMS Entertainment', 'ネスト']), JSON.stringify(gemischt))
+  const ohneForm = (n: string): string => studiosInBestandsschreibweise([n], new Map())[0]!
+  const erwartet: [string, string][] = [
+    ['Zuiyo Co., Ltd.', 'Zuiyo'],
+    ['Trinet Entertainment, Inc.', 'Trinet Entertainment'],
+    ['Red Dog Culture House Co., Ltd', 'Red Dog Culture House'],
+    ['SynergySP Co. ,Ltd.', 'SynergySP'],
+    ['KSS Inc.', 'KSS'],
+    ['ICHI Corporation', 'ICHI Corporation'],
+  ]
+  const falsch = erwartet.filter(([roh, soll]) => ohneForm(roh) !== soll).map(([roh]) => roh)
+  pruefe('Schreibweise: unbekanntes Studio verliert die Rechtsform; Corporation bleibt', falsch.length === 0, falsch.join(' | '))
   pruefe('Schreibweise: höchstens drei Studios', studiosInBestandsschreibweise(['A', 'B', 'C', 'D'], new Map()).length === 3)
 
   const ids = [1, 2, 3, 4, 5].map((n) => ANISEARCH_ID_BASIS + n)
   const titles = new Map(ids.map((id) => [id, titel(id, id === ids[1] ? ['Eigenes Studio'] : [])]))
   const n = ergaenzeStudiosAusArchiv(titles, dir)
-  pruefe('Ergänzen: Titel mit Seite und Studio bekommen es', JSON.stringify(titles.get(ids[0]!)!.studios) === JSON.stringify(['TMS Entertainment Co., Ltd.', 'ネスト']), JSON.stringify(titles.get(ids[0]!)))
+  pruefe('Ergänzen: Titel mit Seite und Studio bekommen es', JSON.stringify(titles.get(ids[0]!)!.studios) === JSON.stringify(['TMS Entertainment', 'ネスト']), JSON.stringify(titles.get(ids[0]!)))
   pruefe('Ergänzen: ein vorhandenes Studio wird nie ersetzt', JSON.stringify(titles.get(ids[1]!)!.studios) === JSON.stringify(['Eigenes Studio']))
   pruefe('Ergänzen: Seite ohne Studio und fehlende Seite lassen es leer', !titles.get(ids[2]!)!.studios?.length && !titles.get(ids[4]!)!.studios?.length)
   pruefe('Ergänzen: Zähler nennt die ergänzten Titel (Seite 1 und 4)', n === 2, `${n}`)

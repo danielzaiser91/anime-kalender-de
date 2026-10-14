@@ -39,9 +39,13 @@ export function anilistSchreibweisen(titles: Iterable<Title>): Map<string, strin
   return new Map([...zaehler].map(([schluessel, jeName]) => [schluessel, [...jeName].sort((a, b) => b[1] - a[1])[0]![0]]))
 }
 
-/** Die Studios einer Seite in der Schreibweise des Bestands, ohne Doppelte, höchstens drei. */
+/** Rechtsform am Ende („, Inc.", „Co., Ltd."), wie AniList sie nicht führt. „Corporation" bleibt: Es gehört bei „ICHI Corporation" zum Namen. */
+const RECHTSFORM = /(?:,\s*|\s+)(?:Co\.?\s*,?\s*Ltd\.?|Inc\.?|Ltd\.?|Corp\.?|K\.K\.?|LLC|Co\.)\s*$/i
+
+/** Die Studios einer Seite in der Schreibweise des Bestands (sonst ohne Rechtsform), ohne Doppelte, höchstens drei. */
 export function studiosInBestandsschreibweise(namen: string[], schreibweisen: Map<string, string>): string[] {
-  return [...new Set(namen.map((n) => schreibweisen.get(studioName(n)) ?? n))].slice(0, MAX_STUDIOS)
+  const ohneRechtsform = (n: string): string => n.replace(RECHTSFORM, '').trim() || n
+  return [...new Set(namen.map((n) => schreibweisen.get(studioName(n)) ?? ohneRechtsform(n)))].slice(0, MAX_STUDIOS)
 }
 
 /**
