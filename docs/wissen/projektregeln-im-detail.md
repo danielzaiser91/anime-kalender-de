@@ -166,6 +166,11 @@ nur steht an einzelnen Stellen die Vermutung einer Quelle, wo eine Messung stand
 war Daniels Frage vom 23.08.2026, ob seine Netflix-Meldungen vom Vortag beim nächsten Lauf
 überschrieben werden könnten.
 
+Seit dem 14.10.2026 (Reste aus PR 1151): Die Nein-Seite liest auch `watchLinks` (ein Nein zu einer
+Plattform verträgt keinen Bezugsweg dorthin; bei `dub: false` bleibt ein Kaufweg stehen,
+`lib/handbeleg-bezugswege.ts`). „Handprüfung zeigt auf keinen Titel im Bestand" bricht ab, im
+Vergleichsbau (`BAU_VERGLEICH=1`, Ersatz-Cache) warnt sie nur (`lib/handbeleg-verwaist.ts`).
+
 ## Ein laufender Datenlauf committet den Stand von seinem Start
 
 **Überholt seit 05.10.2026:** `commit-data.sh` rettet nur noch die **eigenen** Änderungen (`tools/quellen-aufsetzen.sh`), die Sammler liefern per Pull Request, und die Wache hält nur noch Commits an, solange ein direkt schreibender Lauf (Bestandsbau) läuft. Die Chronik unten bleibt als Anlass stehen; die geltende Regel steht in `CLAUDE.md` und in `docs/wissen/betrieb.md` („Datenläufe neu geschnitten").
