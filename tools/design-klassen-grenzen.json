@@ -1,7 +1,7 @@
 {
   "_hinweis": "Wird nur von tools/design-klassen.mjs --festschreiben gesenkt (Bestandsbau, tools/commit-data.sh), nie von Hand erhöht. Ausgangswerte 14.10.2026.",
   "vorkommen": {
-    "slate-": 543,
+    "slate-": 542,
     "sky-": 90,
     "amber-": 0,
     "emerald-": 0,
