@@ -9,7 +9,7 @@ import { useAbSm } from '../../lib/use-breit.ts'
 import { teilbarerSlug } from '@shared/teilen.ts'
 import { coverBild, KACHEL_DICHTE } from '../../lib/cover.ts'
 import { FavoriteStar, HideEye, ShareIcon, Tooltip } from '../ui.tsx'
-import { anbieterUndFolge, SpracheMarke, VerpasstMarke, weitereFolgen, ZeitMarke } from './Marken.tsx'
+import { anbieterZeile, SpracheMarke, VerpasstMarke, weitereFolgen, ZeitMarke } from './Marken.tsx'
 import { AnbieterAngaben } from './AnbieterAngaben.tsx'
 import { anbieterVerlauf, zeitGemeinsam, type AnbieterKachel } from '../../lib/anbieter-kachel.ts'
 import { PremiereMarke } from './PremiereMarke.tsx'
@@ -109,7 +109,7 @@ export function Unterzeile(p: PosterKarteProps & { saal: boolean }) {
           <AnbieterAngaben kachel={p.anbieter} t={t} />
         ) : (
           <>
-            <span>{anbieterUndFolge(p.event, t, p.buendel)}</span>
+            <span>{anbieterZeile(p.event, t, p.buendel, p.art)}</span>
             {!!weitereFolgen(p.buendel, t) && <span className="font-semibold text-ak-text">{weitereFolgen(p.buendel, t)}</span>}
           </>
         ))}

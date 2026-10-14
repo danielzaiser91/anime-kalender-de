@@ -19,10 +19,30 @@ export function istBreit(art: KartenArt | undefined): boolean {
   return !!art && art !== 'imAngebot'
 }
 
+/** Der Anbieter, den die Fahne „Neu bei …“ nennt: der erste Termin der Kachel mit der Marke. */
+export function markenAnbieter(art: KartenArt | undefined, termine: ReleaseEvent[]): string | undefined {
+  const ev = art === 'imAngebot' ? termine.find((e) => e.imAngebot) : undefined
+  return ev && anbieterName(ev.platform, ev.sender)
+}
+
 /** Text der Fahne; „Neu bei {anbieter}“ nennt den Anbieter des Termins, der die Marke trägt. */
 export function artName(art: KartenArt, termine: ReleaseEvent[], t: Translate): string {
-  const ev = art === 'imAngebot' ? termine.find((e) => e.imAngebot) : undefined
-  return t(ART_STIL[art].name, ev ? { anbieter: anbieterName(ev.platform, ev.sender) } : undefined)
+  const anbieter = markenAnbieter(art, termine)
+  return t(ART_STIL[art].name, anbieter ? { anbieter } : undefined)
+}
+
+/**
+ * Anbieternamen einer Kachel für die Beschriftung. Nennt die Fahne den einzigen Anbieter schon, entfällt er (keine Dopplung);
+ * bei mehreren Anbietern bleibt die Liste vollständig, sie sagt, wo es sonst läuft.
+ */
+export function anbieterNamenDerKachel(koepfe: ReleaseEvent[], art: KartenArt | undefined, termine: ReleaseEvent[]): string[] {
+  const namen = koepfe.map((k) => anbieterName(k.platform, k.sender))
+  return koepfe.length === 1 && namen[0] === markenAnbieter(art, termine) ? [] : namen
+}
+
+/** Alle Termine der Kachel eines Termins (alle Anbieter, ganze Bündel) — daraus liest `artName` den Anbieter der Marke. */
+export function termineDerKachel(ev: ReleaseEvent, mehrere?: Map<string, ReleaseEvent[][]>, buendel?: Map<string, ReleaseEvent[]>): ReleaseEvent[] {
+  return (mehrere?.get(ev.id) ?? [buendel?.get(ev.id) ?? [ev]]).flat()
 }
 
 export interface FolgenSpanne {

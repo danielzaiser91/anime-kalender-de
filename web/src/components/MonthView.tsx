@@ -7,7 +7,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { useAbSm } from '../lib/use-breit.ts'
 import { coverBild } from '../lib/cover.ts'
 import { istStaffelstart } from '../lib/staffelstart.ts'
-import { ART_STIL, artName, kartenArt, type KartenArt } from '../lib/kachel-folgen.ts'
+import { ART_STIL, anbieterNamenDerKachel, artName, kartenArt, termineDerKachel, type KartenArt } from '../lib/kachel-folgen.ts'
 import { tageDerWoche, type Tag } from './WeekView.tsx'
 import { buendeleKacheln } from '../lib/buendel.ts'
 import { anbieterVerlauf, eigenstaendigBeiAnbietern, kanalAnbieterVon, vereineAnbieter, zeitGemeinsam, type AnbieterKachel } from '../lib/anbieter-kachel.ts'
@@ -16,7 +16,7 @@ import { Schwebe } from './kalender/Schwebe.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
 import { FernsehZeichen } from './kalender/Zeichen.tsx'
 import { TREFFER_24_HOCH } from './detail/tippziel.ts'
-import { anbieterUndFolge, SpracheMarke, ZeitMarke } from './kalender/Marken.tsx'
+import { anbieterUndFolge, anbieterZeile, SpracheMarke, ZeitMarke } from './kalender/Marken.tsx'
 import { PremiereMarke } from './kalender/PremiereMarke.tsx'
 
 export interface MonatProps {
@@ -207,8 +207,9 @@ function punkteLabel(stream: ReleaseEvent[], tvZahl: number, datum: string, p: M
   const titel = stream.slice(0, LABEL_TITEL).map((ev) => {
     const a = p.arten?.get(ev.id)
     const koepfe = (p.mehrere?.get(ev.id) ?? [[ev]]).map((b) => b[0]!)
-    const anbieter = koepfe.map((k) => (k.platform === 'tv' ? (k.sender ?? PLATFORMS.tv.name) : PLATFORMS[k.platform].name)).join(' + ')
-    return `${ev.name} (${a ? `${anbieter}, ${artName(a, termineDerKachel(ev, p), t)}` : anbieter})`
+    const termine = termineDerKachel(ev, p.mehrere, p.buendel)
+    const anbieter = anbieterNamenDerKachel(koepfe, a, termine).join(' + ')
+    return `${ev.name} (${[anbieter, a ? artName(a, termine, t) : ''].filter(Boolean).join(', ')})`
   })
   const rest = stream.length - titel.length
   const teile = [...titel, ...(rest > 0 ? [t('kal.undWeitere', { n: rest })] : []), ...(tvZahl ? [t('kal.imTvZahl', { n: tvZahl })] : [])]
@@ -221,11 +222,6 @@ function TagesZahl({ tag, heute }: { tag: Tag; heute: boolean }) {
       {Number(tag.date.slice(8))}
     </span>
   )
-}
-
-/** Alle Termine der Kachel eines Termins (alle Anbieter, ganze Bündel) — daraus liest `artName` den Anbieter der Marke. */
-function termineDerKachel(ev: ReleaseEvent, p: MonatProps): ReleaseEvent[] {
-  return (p.mehrere?.get(ev.id) ?? [p.buendel?.get(ev.id) ?? [ev]]).flat()
 }
 
 /** Die Art jeder Kachel: die erste, die einer ihrer Anbieter-Bündel trägt (wie in der Woche). */
@@ -345,14 +341,14 @@ function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?
           <SpracheMarke event={ev} t={t} />
           {a && (
             <span className={`rounded-full px-1.5 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#0d0f14] ${ART_STIL[a].fahne}`}>
-              {artName(a, termineDerKachel(ev, p), t)}
+              {artName(a, termineDerKachel(ev, p.mehrere, p.buendel), t)}
             </span>
           )}
           {ev.premiere && <PremiereMarke platform={ev.platform} vorher={ev.premiereVorher} className="px-1.5" />}
         </span>
         <span className="line-clamp-2 text-[13px] font-bold leading-snug text-ak-text">{ev.name}</span>
         <span className="text-xs text-ak-leise">
-          {kachel ? <AnbieterAngaben kachel={kachel} t={t} /> : anbieterUndFolge(ev, t, p.buendel?.get(ev.id))}
+          {kachel ? <AnbieterAngaben kachel={kachel} t={t} /> : anbieterZeile(ev, t, p.buendel?.get(ev.id), a)}
         </span>
       </span>
     </button>

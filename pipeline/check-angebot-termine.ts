@@ -56,12 +56,29 @@ console.log('\nNeu bei <Anbieter> (Kalenderdatei und Newsletter folgen dem Anbie
   pruefe('Kalenderdatei: ADN-Termin heißt „neu bei ADN“', eventSummary(adn!) === 'Fairy Tail (neu bei ADN)', eventSummary(adn!))
   const [tv] = expandEvents(katalog({ platform: 'tv', sender: 'RTL Zwei' } as Partial<Release>))
   pruefe('Kalenderdatei: bei TV der Sender', eventSummary(tv!) === 'Fairy Tail (neu bei RTL Zwei)', eventSummary(tv!))
-  const mail = digestMail([adn!], 'daily', 'https://anime-kalender.de/', 'https://x/u', {})
-  pruefe('Newsletter-Zeile sagt „neu bei ADN“', mail.html.includes('neu bei ADN') && !mail.html.includes('im Angebot'), mail.html.match(/.{40}neu bei.{20}/)?.[0])
-  const [cr] = expandEvents(katalog())
-  pruefe('Newsletter-Zeile folgt dem Anbieter (Crunchyroll)', digestMail([cr!], 'daily', 'https://anime-kalender.de/', 'https://x/u', {}).html.includes('neu bei Crunchyroll'))
+}
+
+/** HTML der Mail für einen Termin; `link` setzt den Direktlink zum Anbieter (sonst steht der Name als Text). */
+function mailHtml(ev: ReleaseEvent, link?: string): string {
+  const links = link ? new Map([[ev.releaseSlug, { platformUrl: link }]]) : undefined
+  return digestMail([ev], 'daily', 'https://anime-kalender.de/', 'https://x/u', { links }).html
+}
+
+console.log('\nNeu bei <Anbieter> (Newsletter: Marke und Link sind eins, kein zweites „ansehen“):')
+{
+  const [adn] = expandEvents(katalog({ platform: 'adn' }))
+  // Nur die TV-Premiere läuft durch dieselbe Zeile wie Streaming-Termine (TV-Wiederholungen stehen in einer eigenen Liste).
+  const [tv] = expandEvents(katalog({ platform: 'tv', sender: 'RTL Zwei' } as Partial<Release>)).map((e) => ({ ...e, tvPremiere: true }))
   const [ohne] = expandEvents(katalog({ platform: 'adn', dateMeaning: undefined }))
-  pruefe('Newsletter ohne Katalogdatum: kein „neu bei“', !digestMail([ohne!], 'daily', 'https://anime-kalender.de/', 'https://x/u', {}).html.includes('neu bei'))
+  const ohneLink = mailHtml(adn!)
+  pruefe('ohne Link: „Neu bei ADN“ als Text, einmal', ohneLink.split('Neu bei ADN').length === 2 && !/im Angebot|neu bei/.test(ohneLink), ohneLink.match(/.{40}Neu bei.{20}/)?.[0])
+  const mitLink = mailHtml(adn!, 'https://adn.example/x')
+  pruefe('mit Link: die Marke ist der Link „Neu bei ADN ›“', mitLink.includes('>Neu bei ADN &rsaquo;</a>'), mitLink.match(/.{60}Neu bei.{30}/)?.[0])
+  pruefe('mit Link: kein zweites „ADN ansehen“ daneben', !mitLink.includes('ansehen'), mitLink.match(/.{40}ansehen.{20}/)?.[0])
+  pruefe('Crunchyroll: die Marke folgt dem Anbieter', mailHtml(expandEvents(katalog())[0]!).includes('Neu bei Crunchyroll'))
+  const tvHtml = mailHtml(tv!, 'https://tv.example/x')
+  pruefe('TV: die Marke trägt den Sender', tvHtml.includes('>Neu bei RTL Zwei &rsaquo;</a>'), tvHtml.match(/.{40}Neu bei.{30}/)?.[0])
+  pruefe('ohne Katalogdatum bleibt es bei „ADN ansehen ›“', mailHtml(ohne!, 'https://adn.example/x').includes('>ADN ansehen &rsaquo;</a>') && !mailHtml(ohne!).includes('Neu bei ADN'))
 }
 
 console.log('\nIm Angebot seit (Bau: Termine nachtragen):')
