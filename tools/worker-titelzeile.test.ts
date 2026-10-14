@@ -429,6 +429,20 @@ console.log('Rechenzeit im Worker (Free-Plan: 10 ms CPU je Anfrage)')
   pruefe(mittel < 5 && text.length < 200_000, 'lesen + einsetzen + schreiben des größten Titels: Mittel unter 5 ms (halbe Grenze), Zeile unter 200 KB (Grenze 2 MB)')
 }
 
+console.log('Adresse mit Altzeilen nur in prime_folge bleibt beim alten Weg, bis das Einspielen sie umzieht')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db, { geschrieben: 0 })
+  db.exec(`INSERT INTO prime_folge (plattform, url, gti, staffel_nr, nummer, titel, gemeldet_am, uebernommen)
+           VALUES ('disneyplus', '${URL_A}', 'alt-1', 1, 7, 'nur Rohfolge', '2026-10-01T09:00:00Z', 0)`)
+  const r = await handlePruefung(post(folge(URL_A, 1, 1)), env)
+  pruefe(r.status === 200 && zahl(db, 'SELECT COUNT(*) AS n FROM titel_zeile') === 0, 'keine Titelzeile für eine Adresse, die nur in prime_folge Altzeilen hat')
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 1, 'die Meldung geht den alten Weg in pruefung')
+  db.exec(readFileSync('worker/einmalig/titel-zeile-einspielen.sql', 'utf8'))
+  const ids = zahl(db, "SELECT COUNT(*) AS n FROM titel_zeile, json_each(daten, '$.f') WHERE json_extract(value, '$[1]') = 7")
+  pruefe(ids === 1, 'das Einspielen nimmt die Rohfolge der Adresse mit (Folge 7 in der Titelzeile)')
+}
+
 console.log('Meldung mit mehreren Rohfolgen')
 {
   const mehrere = (url: string) => folge(url, 1, 1, 'ja', { rohfolgen: [...folge(url, 1, 1).rohfolgen, ...folge(url, 1, 2).rohfolgen] })

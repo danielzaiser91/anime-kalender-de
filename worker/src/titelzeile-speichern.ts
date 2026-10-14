@@ -37,8 +37,14 @@ const anbieterListe = (env: Env) => (env.TITELZEILE_PLATTFORMEN ?? '').split(','
 /** Eine Meldung eines Anbieters aus der Liste. Mehrere Rohfolgen in einer Meldung (Prime) beantwortet `versucheTitelzeile`. */
 const gehoertHierher = (env: Env, daten: Record<string, unknown>) => anbieterListe(env).includes(String(daten.plattform))
 
-async function hatAltzeilen(env: Env, url: string): Promise<boolean> {
-  const { results } = await env.DB.prepare('SELECT 1 AS da FROM pruefung WHERE url = ?1 LIMIT 1').bind(url).all()
+/** Altzeilen in `pruefung` oder `prime_folge`: bis das Einspielen sie umgezogen hat, würde eine Titelzeile sie verdrängen. */
+async function hatAltzeilen(env: Env, url: string, plattform: string): Promise<boolean> {
+  const { results } = await env.DB.prepare(
+    `SELECT 1 AS da FROM pruefung WHERE url = ?1
+     UNION ALL SELECT 1 FROM prime_folge WHERE url = ?1 AND plattform = ?2 LIMIT 1`,
+  )
+    .bind(url, plattform)
+    .all()
   return (results?.length ?? 0) > 0
 }
 
@@ -60,7 +66,7 @@ async function versucheTitelzeile(k: Kontext, daten: Record<string, unknown>, ab
   const url = String(daten.url ?? '').trim()
   const plattform = String(daten.plattform)
   const zeile = await ladeZeile(k.env, url, plattform)
-  if (!zeile && (await hatAltzeilen(k.env, url))) return null
+  if (!zeile && (await hatAltzeilen(k.env, url, plattform))) return null
   if (Array.isArray(daten.rohfolgen) && daten.rohfolgen.length > 1) {
     return zeile ? k.antwort({ error: 'Titelzeile: eine Meldung trägt höchstens eine Rohfolge' }, 400) : null
   }
