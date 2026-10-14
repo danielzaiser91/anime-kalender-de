@@ -1,0 +1,50 @@
+name: Meldungskopie — SQLite-Kopie der Meldungsdaten
+
+# **Täglich eine SQLite-Kopie der Meldungsdaten (`pruefung`, `prime_folge`, `titel_zeile`)**, damit Auswertungen und Einmal-SQL nie an der echten D1
+# laufen (Abschnitt „Auswertungen an der Kopie“ in `docs/wissen/betrieb.md`). Am 14.10.2026 kamen 11,7 von 12,5 Mio. gelesenen Zeilen von Einmal-SQL und
+# zwei Auswertungen; dieselbe Einspiel-SQL läuft an einer Datei in 324 ms. Dieser Lauf liest die drei Tabellen einmal (rund 73.000 Zeilen, 1,5 % des
+# Tageskontingents) und legt die Datei als Artefakt ab; Agenten holen sie mit `npm run meldungskopie -- holen`.
+#
+# Zeitplan: Cloudflare-Wecker (`shared/weckplan.ts`) täglich um 03 UTC per workflow_dispatch, `wecker-wache.yml` holt Überfälliges nach. Ein laufender
+# Export blockiert andere Abfragen an der D1 (Cloudflare-Doku „Import and export data“, abgerufen 14.10.2026) — um 03 UTC ist die Last am kleinsten.
+#
+# Das Token (derselbe Wert wie bei `d1-verbrauch.yml`) fehlt nicht still: ohne Token wird der Lauf rot, sonst fände `holen` einen grünen Lauf ohne Datei.
+# Die Kopie enthält nur die drei Meldungstabellen; `tools/meldungskopie-bauen.mjs` verweigert jede andere Tabelle (Newsletter-Adressen, Zugänge).
+# Das Repo ist öffentlich, ein angemeldetes GitHub-Konto kann das Artefakt laden (3 Tage); darin steht, was die Erweiterung ohnehin meldet.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: meldungskopie
+  cancel-in-progress: false
+
+jobs:
+  kopie:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Abhängigkeiten
+        run: npm ci
+
+      - name: Kopie ziehen und bauen
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_ANALYTICS_TOKEN || secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 567f5e28368c5bbcfeffad3e674b02ab
+        run: node tools/meldungskopie.mjs ziehen --ziel meldungen.sqlite
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: meldungskopie
+          path: meldungen.sqlite
+          retention-days: 3
+          overwrite: true

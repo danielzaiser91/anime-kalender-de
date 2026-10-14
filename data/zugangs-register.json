@@ -387,7 +387,8 @@
       "ort": "github-secret",
       "wofuer": "Cloudflare-API-Token „anime-kalender-deploy“ (D1, Workers Scripts, Account Settings) für die Verbrauchswache.",
       "workflows": [
-        "d1-verbrauch.yml"
+        "d1-verbrauch.yml",
+        "meldungskopie.yml"
       ],
       "gueltig": {
         "text": "Kein Ablaufdatum: Das Token „anime-kalender-deploy“ hat im Cloudflare-Dashboard keine Ablaufspalte gefüllt, Status aktiv (abgelesen von Daniel am 09.10.2026)",
@@ -405,7 +406,8 @@
       "ort": "github-secret",
       "wofuer": "Lese-Token für die D1-Analytics (wrangler d1 insights).",
       "workflows": [
-        "d1-verbrauch.yml"
+        "d1-verbrauch.yml",
+        "meldungskopie.yml"
       ],
       "gueltig": {
         "text": "Kein Ablaufdatum (derselbe Wert wie das Deploy-Token, abgelesen am 09.10.2026)",
