@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="de" class="dunkel">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mockup: Logo-Mischung aus A und B</title>
+<style>
+/* Schriften und Bilder liegen im alten Mockup ../logo-og/ (Kopien aus node_modules/@fontsource, kein Netz). */
+@font-face{font-family:Unbounded;font-weight:700;src:url(../logo-og/schriften/unbounded-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:Unbounded;font-weight:500;src:url(../logo-og/schriften/unbounded-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:Manrope;font-weight:400;src:url(../logo-og/schriften/manrope-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:Manrope;font-weight:600;src:url(../logo-og/schriften/manrope-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:Manrope;font-weight:800;src:url(../logo-og/schriften/manrope-latin-800-normal.woff2) format("woff2")}
+
+/* Farbrollen 1:1 aus web/src/styles.css (Stand 13.10.2026). */
+html.dunkel{--grund:#0d0f14;--flaeche:#151922;--flaeche-2:#1b202a;--rand:#2c3240;--text:#f2f1ee;--leise:#9aa0ab;--akzent:#ff5a36;--akzent-text:#ff7a5c;--auf-akzent:#0d0f14;color-scheme:dark}
+html.hell{--grund:#f5f4f0;--flaeche:#fff;--flaeche-2:#ebe9e3;--rand:#d6d3cb;--text:#15171c;--leise:#555b66;--akzent:#f54b27;--akzent-text:#b8321a;--auf-akzent:#15171c;color-scheme:light}
+/* Die Marke selbst: Kachel immer dunkel, Akzent immer das Orange des dunklen Themas — ein App-Symbol trägt sein Thema mit sich. */
+:root{--lk:#0d0f14;--la:#ff5a36;--lp:#f2f1ee}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--grund);color:var(--text);font:15px/1.5 Manrope,system-ui,sans-serif}
+main{max-width:1320px;margin:0 auto;padding:20px 20px 80px}
+h1{font:700 24px/1.2 Unbounded,sans-serif;margin:0 0 6px}
+h2{font:700 19px/1.2 Unbounded,sans-serif;margin:48px 0 8px;padding-top:24px;border-top:1px solid var(--rand)}
+h3{font:800 15px/1.3 Manrope,sans-serif;margin:16px 0 6px}
+p{color:var(--leise);max-width:90ch;margin:4px 0 10px}
+p b,li b{color:var(--text)}
+ul{color:var(--leise);max-width:90ch;padding-left:20px}
+li{margin:3px 0}
+code{background:var(--flaeche-2);padding:0 5px;border-radius:4px;font-size:13px}
+a{color:var(--akzent-text)}
+.kopfzeile{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.kopfzeile p{margin:0}
+#thema{margin-left:auto;border:1px solid var(--rand);background:var(--flaeche);color:var(--text);border-radius:999px;padding:8px 14px;font:600 14px Manrope,sans-serif;cursor:pointer}
+#thema:hover{border-color:var(--leise)}
+.leise{color:var(--leise)}
+.empf{display:inline-block;margin-left:8px;padding:1px 9px;border-radius:999px;background:var(--akzent);color:var(--auf-akzent);font:800 11px/18px Manrope,sans-serif;vertical-align:middle}
+.empfehlung{border:1px solid var(--akzent);background:var(--flaeche);border-radius:14px;padding:14px 18px;margin:16px 0 0;display:flex;gap:18px;align-items:center}
+.empfehlung p{margin:0;max-width:none;color:var(--text)}
+
+/* --- Logo-Karten --------------------------------------------------------- */
+.karten{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.karte{border:1px solid var(--rand);background:var(--flaeche);border-radius:14px;padding:16px}
+.karte.alt{border-style:dashed;opacity:.85}
+.karte h3{margin:0 0 2px;font-size:16px}
+.karte .idee{margin:0 0 12px;min-height:3.2em}
+.gross{display:flex;align-items:flex-end;gap:18px}
+.klein{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.klein span{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--leise)}
+.logo{display:block;flex:none}
+.plusminus{margin:12px 0 0;font-size:13px}
+.plusminus b{font-weight:800}
+
+/* --- Größenleiter, Tab-Leiste, App-Symbole -------------------------------- */
+.leiter{display:flex;gap:28px;align-items:flex-end;flex-wrap:wrap;padding:14px 16px;border:1px solid var(--rand);background:var(--flaeche);border-radius:14px}
+.leiter+.leiter{margin-top:10px}
+.leiter .stufe{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--leise)}
+.leiter .name{align-self:center;width:170px;font:800 14px Manrope,sans-serif;color:var(--text)}
+.tabs{display:flex;gap:4px;padding:8px 8px 0;background:var(--flaeche-2);border:1px solid var(--rand);border-bottom:0;border-radius:12px 12px 0 0;margin-top:14px}
+.tab{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px 8px 0 0;background:var(--flaeche);font:600 13px Manrope,sans-serif;color:var(--text);max-width:220px;white-space:nowrap;overflow:hidden}
+.tab.inaktiv{background:transparent;color:var(--leise)}
+.tab .logo{width:16px;height:16px}
+.adresse{padding:8px 12px;border:1px solid var(--rand);border-top:0;border-radius:0 0 12px 12px;background:var(--flaeche);font-size:13px;color:var(--leise)}
+.kopfprobe{display:flex;align-items:center;gap:10px;margin-top:12px;padding:12px 16px;border:1px solid var(--rand);border-radius:12px;background:var(--grund);font:700 17px Unbounded,sans-serif;letter-spacing:-.01em}
+.kopfprobe i{color:var(--akzent);font-style:normal}
+.app{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end;padding:14px 16px;border:1px solid var(--rand);background:var(--flaeche);border-radius:14px}
+.app+.app{margin-top:10px}
+.app .name{align-self:center;width:170px;font:800 14px Manrope,sans-serif;color:var(--text)}
+.app .stufe{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--leise)}
+/* maskable: Zeichnung mit 22 % Rand wie in pipeline/build-icons.ts, Android schneidet beliebig — hier als Kreis gezeigt. */
+.maskable{width:192px;height:192px;border-radius:50%;background:var(--lk);display:flex;align-items:center;justify-content:center}
+.maskable.orange{background:var(--la)}
+.maskable .logo{width:108px;height:108px}
+
+/* --- Vorschaubilder, Layout B „Kino" (1:1 aus logo-og/index.html) ---------- */
+.og-w{--s:.5;width:calc(1200px*var(--s));height:calc(630px*var(--s));overflow:hidden;border-radius:calc(12px*var(--s));flex:none;box-shadow:0 1px 0 var(--rand)}
+.og-w .og{transform:scale(var(--s));transform-origin:0 0}
+.og{position:relative;width:1200px;height:630px;background:#0d0f14;color:#f2f1ee;overflow:hidden;font-family:Manrope,sans-serif}
+.og *{position:absolute;margin:0}
+.og img{object-fit:cover}
+.og .lockup{display:flex;align-items:center;gap:14px;font:500 30px/1 Unbounded,sans-serif;letter-spacing:-.01em;color:#f2f1ee}
+.og .lockup .logo{position:static;width:46px;height:46px}
+.og .lockup span{position:static}
+.og .lockup i,.og .fakt i{position:static;color:#ff5a36;font-style:normal}
+.og .chips{display:flex;gap:12px}
+.og .chip{position:static;display:flex;align-items:center;gap:10px;height:48px;padding:0 20px 0 16px;border-radius:999px;background:#1b202a;border:2px solid #2c3240;font:800 24px Manrope,sans-serif;color:#f2f1ee}
+.og .chip::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--p,#9aa0ab)}
+.og .chip.laeuft{color:#ff7a5c;border-color:#ff5a36}
+.og .chip.laeuft::before{background:#ff5a36}
+.og .fakt{font:600 30px/1.3 Manrope,sans-serif;color:#9aa0ab}
+.paar{display:flex;gap:16px;flex-wrap:wrap;margin:10px 0 6px}
+.paar figure{margin:0}
+.paar figcaption{font-size:12px;color:var(--leise);margin-top:6px}
+
+.og.b .hintergrund{left:-60px;top:-60px;width:1320px;height:750px;filter:blur(44px) saturate(1.2);opacity:.55}
+.og.b .dunkel{left:0;top:0;width:1200px;height:630px;background:linear-gradient(90deg,#0d0f14 0%,rgba(13,15,20,.86) 55%,rgba(13,15,20,.35) 100%)}
+.og.b .poster{left:800px;top:60px;width:340px;height:510px;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.6);border:3px solid rgba(255,255,255,.14)}
+.og.b .lockup{left:70px;top:56px}
+.og.b .titel{left:70px;top:160px;width:680px;font:700 62px/1.12 Unbounded,sans-serif;letter-spacing:-.02em}
+.og.b .datum{left:70px;top:362px;display:flex;align-items:center;gap:20px}
+.og.b .datum b{position:static;background:#ff5a36;color:#0d0f14;font:800 40px/1 Manrope,sans-serif;padding:16px 24px;border-radius:14px}
+.og.b .datum span{position:static;font:600 36px Manrope,sans-serif;color:#f2f1ee}
+.og.b .fakt{left:70px;top:454px;width:680px}
+.og.b .chips{left:70px;top:532px}
+.og.b.std .glut{left:-200px;top:200px;width:900px;height:700px;background:radial-gradient(closest-side,rgba(255,90,54,.42),rgba(255,90,54,0))}
+.og.b.std .wasser{left:720px;top:-40px;width:620px;height:620px;opacity:.1}
+.og.b.std .lockup{left:80px;top:150px;font-size:76px;gap:26px}
+.og.b.std .lockup .logo{width:112px;height:112px}
+.og.b.std .claim{left:80px;top:300px;font:700 42px/1.2 Unbounded,sans-serif;letter-spacing:-.02em}
+.og.b.std .liste{left:80px;top:400px;display:flex;flex-direction:column;gap:14px;font:600 34px/1.2 Manrope,sans-serif;color:#f2f1ee}
+.og.b.std .liste span{position:static;display:flex;align-items:center;gap:16px}
+.og.b.std .liste span::before{content:"";width:14px;height:14px;border-radius:50%;background:#ff5a36}
+
+/* Vorschaukästen der Messenger (Breiten gemessen an Desktop-Clients, ungefähr) */
+.kaesten{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;margin-top:10px}
+.kasten{border-radius:10px;overflow:hidden;font-size:13px}
+.kasten .u{padding:8px 10px}
+.kasten .d{color:#9aa0ab;font-size:11px}
+.kasten.discord{background:#2b2d31;color:#dbdee1;border-left:4px solid #ff5a36;border-radius:4px}
+.kasten.discord .t{color:#00a8fc;font-weight:600}
+.kasten.whatsapp{background:#005c4b;color:#e9edef}
+.kasten.whatsapp .t{font-weight:600}
+.kasten.x{border:1px solid #3a3f44;background:#000;color:#e7e9ea;border-radius:16px}
+.kasten.x .t{font-weight:600}
+.kasten .og-w{border-radius:0;box-shadow:none}
+.kasten.x .og-w{border-radius:16px 16px 0 0}
+.unterschrift{font-size:12px;color:var(--leise);margin:6px 0 0}
+html.voll .og-w{--s:1}
+</style>
+</head>
+<body>
+<!-- Marken im 64er-Raster (Kanten bei 16 px auf ganzen Bildpunkten). A und B sind 1:1 aus logo-og/index.html übernommen,
+     weil <use> keine Symbole aus einer anderen Datei laden kann. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <!-- A · Blatt und Stimme (Vergleich) -->
+  <symbol id="m-a" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="14" style="fill:var(--lk)"/>
+    <path d="M16 14h32a8 8 0 0 1 8 8v20a8 8 0 0 1-8 8H28L14 60V50a6 6 0 0 1-6-6V22a8 8 0 0 1 8-8z" style="fill:var(--la)"/>
+    <rect x="8" y="24" width="48" height="4" style="fill:var(--lk)"/>
+    <rect x="18" y="8" width="4" height="12" rx="2" style="fill:var(--lk)"/>
+    <rect x="42" y="8" width="4" height="12" rx="2" style="fill:var(--lk)"/>
+  </symbol>
+  <!-- B · Monogramm ak (Vergleich) -->
+  <symbol id="m-b" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="14" style="fill:var(--la)"/>
+    <circle cx="22" cy="38" r="10" style="fill:none;stroke:var(--lk);stroke-width:8"/>
+    <rect x="28" y="28" width="8" height="22" style="fill:var(--lk)"/>
+    <rect x="40" y="14" width="8" height="36" style="fill:var(--lk)"/>
+    <path d="M44 38 L58 24 M44 36 L58 50" style="fill:none;stroke:var(--lk);stroke-width:8;stroke-linecap:butt"/>
+  </symbol>
+  <!-- Die Buchstaben aus B, einmal definiert; die Mischungen setzen sie skaliert ein (Farbe über currentColor). -->
+  <symbol id="ak" viewBox="0 0 64 64" overflow="visible">
+    <circle cx="22" cy="38" r="10" style="fill:none;stroke:currentColor;stroke-width:8"/>
+    <rect x="28" y="28" width="8" height="22" style="fill:currentColor"/>
+    <rect x="40" y="14" width="8" height="36" style="fill:currentColor"/>
+    <path d="M44 38 L58 24 M44 36 L58 50" style="fill:none;stroke:currentColor;stroke-width:8;stroke-linecap:butt"/>
+  </symbol>
+
+  <!-- AB1 · Initialen auf dem Blatt: Kalenderblatt aus A (Ringe, Kopfzeile), darauf die Buchstaben aus B -->
+  <symbol id="m-ab1" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="14" style="fill:var(--lk)"/>
+    <rect x="8" y="14" width="48" height="42" rx="8" style="fill:var(--la)"/>
+    <rect x="8" y="24" width="48" height="4" style="fill:var(--lk)"/>
+    <rect x="18" y="8" width="4" height="12" rx="2" style="fill:var(--lk)"/>
+    <rect x="42" y="8" width="4" height="12" rx="2" style="fill:var(--lk)"/>
+    <use href="#ak" x="12.2" y="22.8" width="38.4" height="38.4" style="color:var(--lk)"/>
+  </symbol>
+  <!-- AB2 · Blase ak: die Sprechblase aus A ohne Kalenderteile, darin die Buchstaben aus B -->
+  <symbol id="m-ab2" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="14" style="fill:var(--lk)"/>
+    <path d="M16 8h32a8 8 0 0 1 8 8v26a8 8 0 0 1-8 8H28L14 60V50a6 6 0 0 1-6-6V16a8 8 0 0 1 8-8z" style="fill:var(--la)"/>
+    <use href="#ak" x="8.9" y="6.6" width="44.8" height="44.8" style="color:var(--lk)"/>
+  </symbol>
+  <!-- AB3 · Blatt auf Orange: die Form aus A in den Farben von B (orange Kachel, dunkles Blatt) -->
+  <symbol id="m-ab3" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="14" style="fill:var(--la)"/>
+    <path d="M16 14h32a8 8 0 0 1 8 8v20a8 8 0 0 1-8 8H28L14 60V50a6 6 0 0 1-6-6V22a8 8 0 0 1 8-8z" style="fill:var(--lk)"/>
+    <rect x="8" y="24" width="48" height="4" style="fill:var(--la)"/>
+    <rect x="18" y="8" width="4" height="12" rx="2" style="fill:var(--la)"/>
+    <rect x="42" y="8" width="4" height="12" rx="2" style="fill:var(--la)"/>
+  </symbol>
+  <!-- AB4 · Sprechendes a: die Buchstaben aus B in Orange auf Dunkel; der Bauch des a trägt den Zipfel aus A -->
+  <symbol id="m-ab4" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="14" style="fill:var(--lk)"/>
+    <path d="M10 44 L8 60 L20 51 Z" style="fill:var(--la)"/>
+    <use href="#ak" x="0" y="0" width="64" height="64" style="color:var(--la)"/>
+  </symbol>
+
+  <!-- Nachtrag (Daniel, 14.10.2026 16:11): AB1 mit Großbuchstaben, zwei ohne und zwei mit deutscher Flagge. -->
+  <!-- Großbuchstaben G1 · Block: A mit flacher Spitze und Loch, K mit eigenem Stamm (Bänder 5 breit, Höhe 31–52) -->
+  <symbol id="ak-g1" viewBox="0 0 64 64" overflow="visible">
+    <path d="M10 52 L18.5 31 H23.5 L32 52 H27 L25 47 H17 L15 52 Z M21 37 L23.4 43 H18.6 Z" fill-rule="evenodd" style="fill:currentColor"/>
+    <rect x="35" y="31" width="5" height="21" style="fill:currentColor"/>
+    <path d="M40 43 L50 31 M40 41 L50 52" style="fill:none;stroke:currentColor;stroke-width:5;stroke-linecap:butt"/>
+  </symbol>
+  <!-- Großbuchstaben G2 · Ligatur: A und K teilen sich den Stamm (Band 6 breit) -->
+  <symbol id="ak-g2" viewBox="0 0 64 64" overflow="visible">
+    <path d="M13 52 L29 31 H35 L19 52 Z" style="fill:currentColor"/>
+    <rect x="29" y="31" width="6" height="21" style="fill:currentColor"/>
+    <rect x="23" y="43" width="7" height="4" style="fill:currentColor"/>
+    <path d="M35 43 L47 31 M35 41 L47 52" style="fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:butt"/>
+  </symbol>
+  <!-- Flagge Schwarz-Rot-Gold (Bundesflagge: #000, #d00, #ffce00), drei gleich hohe Streifen in einem 48×9-Kasten -->
+  <symbol id="flagge" viewBox="0 0 48 9" preserveAspectRatio="none">
+    <rect width="48" height="3" fill="#000"/><rect y="3" width="48" height="3" fill="#d00"/><rect y="6" width="48" height="3" fill="#ffce00"/>
+  </symbol>
+  <clipPath id="blatt"><rect x="8" y="14" width="48" height="42" rx="8"/></clipPath>
+
+  <!-- AB1-G1 · Block AK -->
+  <symbol id="m-ab1g1" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="14" style="fill:var(--lk)"/>
+    <rect x="8" y="14" width="48" height="42" rx="8" style="fill:var(--la)"/>
+    <rect x="8" y="24" width="48" height="4" style="fill:var(--lk)"/>
+    <rect x="18" y="8" width="4" height="12" rx="2" style="fill:var(--lk)"/>
+    <rect x="42" y="8" width="4" height="12" rx="2" style="fill:var(--lk)"/>
+    <use href="#ak-g1" x="0" y="0" width="64" height="64" style="color:var(--lk)"/>
+  </symbol>
+  <!-- AB1-G2 · Ligatur AK -->
+  <symbol id="m-ab1g2" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="14" style="fill:var(--lk)"/>
+    <rect x="8" y="14" width="48" height="42" rx="8" style="fill:var(--la)"/>
+    <rect x="8" y="24" width="48" height="4" style="fill:var(--lk)"/>
+    <rect x="18" y="8" width="4" height="12" rx="2" style="fill:var(--lk)"/>
+    <rect x="42" y="8" width="4" height="12" rx="2" style="fill:var(--lk)"/>
+    <use href="#ak-g2" x="0" y="0" width="64" height="64" style="color:var(--lk)"/>
+  </symbol>
+  <!-- AB1-F1 · Flagge als Fuß: die drei Streifen bilden den unteren Rand des Blatts (Gold grenzt an die Kachel, Schwarz an Orange) -->
+  <symbol id="m-ab1f1" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="14" style="fill:var(--lk)"/>
+    <rect x="8" y="14" width="48" height="42" rx="8" style="fill:var(--la)"/>
+    <rect x="8" y="24" width="48" height="4" style="fill:var(--lk)"/>
+    <rect x="18" y="8" width="4" height="12" rx="2" style="fill:var(--lk)"/>
+    <rect x="42" y="8" width="4" height="12" rx="2" style="fill:var(--lk)"/>
+    <g clip-path="url(#blatt)"><use href="#flagge" x="8" y="47" width="48" height="9"/></g>
+    <use href="#ak-g1" x="9.5" y="8.2" width="46" height="46" style="color:var(--lk)"/>
+  </symbol>
+  <!-- AB1-F2 · Fähnchen: kleine Flagge mit dunkler Kontur unten rechts auf dem Blatt, Buchstaben nach links gerückt -->
+  <symbol id="m-ab1f2" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="14" style="fill:var(--lk)"/>
+    <rect x="8" y="14" width="48" height="42" rx="8" style="fill:var(--la)"/>
+    <rect x="8" y="24" width="48" height="4" style="fill:var(--lk)"/>
+    <rect x="18" y="8" width="4" height="12" rx="2" style="fill:var(--lk)"/>
+    <rect x="42" y="8" width="4" height="12" rx="2" style="fill:var(--lk)"/>
+    <use href="#ak-g1" x="2.5" y="12.1" width="46" height="46" style="color:var(--lk)"/>
+    <rect x="41" y="43" width="20" height="14" rx="3" style="fill:var(--lk)"/>
+    <use href="#flagge" x="43" y="45" width="16" height="10"/>
+  </symbol>
+</svg>
+
+<main>
+<div class="kopfzeile">
+  <div>
+    <h1>Logo: Mischung aus A und B</h1>
+    <p>Vier neue Marken aus „Blatt und Stimme" (A) und „Monogramm ak" (B), dazu das Vorschaubild in Layout B „Kino". Stand 14.10.2026 (Fable). Nichts davon ist gebaut; A und B stehen zum Vergleich daneben.</p>
+  </div>
+  <button id="thema" type="button" aria-pressed="false">Thema: dunkel</button>
+</div>
+
+<div class="empfehlung">
+  <svg class="logo" width="64" height="64"><use href="#m-ab1g1"/></svg>
+  <p><b>Empfehlung: AB1-G1 „Block AK" — das Kalenderblatt aus A mit den Initialen aus B in Großbuchstaben, ohne Flagge.</b> Es ist die Mischung, die bei 16 px noch als Kalender gelesen wird (Ringe und Kopfzeile tragen die Form) und ab 24 px „AK" zeigt; die Großbuchstaben sind im Tab klarer als das kleine „ak" von AB1. Die Flagge rate ich ab: Rot auf Orange hat 1,66:1 Kontrast, bei 16 px bleibt von F1 ein dünner rot-goldener Strich und von F2 gar nichts (Messung in Abschnitt 2) — wer sie trotzdem will, nimmt F1 „Flagge als Fuß".</p>
+</div>
+
+<h2>1 · Vier Mischungen</h2>
+<p>Die Kachel ist in beiden Themen dunkel (AB3: orange) — ein App-Symbol trägt sein Thema mit sich; der Umschalter oben zeigt, wie es auf der jeweiligen Seite liegt. Zahlen sind echte Bildpunkte, nicht vergrößert.</p>
+<div class="karten">
+  <div class="karte">
+    <h3>AB1 · Initialen auf dem Blatt</h3>
+    <p class="idee">Das Kalenderblatt aus A mit Ringen und Kopfzeile; wo in A die Blase spricht, stehen die Buchstaben aus B.</p>
+    <div class="gross"><svg class="logo" width="160" height="160"><use href="#m-ab1"/></svg>
+      <div class="klein"><span><svg class="logo" width="32" height="32"><use href="#m-ab1"/></svg>32 px</span><span><svg class="logo" width="16" height="16"><use href="#m-ab1"/></svg>16 px</span></div></div>
+    <p class="plusminus"><b>+</b> Kalender bleibt bei jeder Größe die Form; die Initialen sind ab 32 px lesbar und machen das Blatt zu unserem.<br><b>−</b> Der Zipfel (Synchro) fehlt; bei 16 px sind die Buchstaben zwei dunkle Punkte.</p>
+  </div>
+  <div class="karte">
+    <h3>AB2 · Blase ak</h3>
+    <p class="idee">Die Sprechblase aus A ohne Ringe und Kopfzeile, darin groß die Buchstaben aus B: die Initialen sprechen.</p>
+    <div class="gross"><svg class="logo" width="160" height="160"><use href="#m-ab2"/></svg>
+      <div class="klein"><span><svg class="logo" width="32" height="32"><use href="#m-ab2"/></svg>32 px</span><span><svg class="logo" width="16" height="16"><use href="#m-ab2"/></svg>16 px</span></div></div>
+    <p class="plusminus"><b>+</b> Größte Buchstaben der vier, Zipfel bleibt; ruhige Form.<br><b>−</b> Kein Kalender mehr; bei 16 px eine orange Blase mit Kleckse, wie eine Chat-App.</p>
+  </div>
+  <div class="karte">
+    <h3>AB3 · Blatt auf Orange</h3>
+    <p class="idee">Die Form aus A in den Farben von B: orange Kachel, dunkles Blatt mit Zipfel, Ringe und Kopfzeile orange.</p>
+    <div class="gross"><svg class="logo" width="160" height="160"><use href="#m-ab3"/></svg>
+      <div class="klein"><span><svg class="logo" width="32" height="32"><use href="#m-ab3"/></svg>32 px</span><span><svg class="logo" width="16" height="16"><use href="#m-ab3"/></svg>16 px</span></div></div>
+    <p class="plusminus"><b>+</b> Fällt in der Tab-Leiste zuerst auf (orange Kachel) und behält Kalender und Zipfel.<br><b>−</b> Keine Initialen; bei 16 px wird das dunkle Blatt zum Loch in der Kachel.</p>
+  </div>
+  <div class="karte">
+    <h3>AB4 · Sprechendes a</h3>
+    <p class="idee">Die Buchstaben aus B in Orange auf dunkler Kachel; der Bauch des a bekommt den Zipfel aus A und wird zur Sprechblase.</p>
+    <div class="gross"><svg class="logo" width="160" height="160"><use href="#m-ab4"/></svg>
+      <div class="klein"><span><svg class="logo" width="32" height="32"><use href="#m-ab4"/></svg>32 px</span><span><svg class="logo" width="16" height="16"><use href="#m-ab4"/></svg>16 px</span></div></div>
+    <p class="plusminus"><b>+</b> Eigenständigste Idee: der Buchstabe selbst spricht; ohne Kachelgrenze auch als Wortmarken-Zeichen nutzbar.<br><b>−</b> Kein Kalender; bei 16 px verschwindet der Zipfel, es bleibt ein oranges „ak" (besser lesbar als B, weil Orange auf Dunkel); im Vorschaubild schwimmt die Marke ohne sichtbare Kachel.</p>
+  </div>
+  <div class="karte alt">
+    <h3>A · Blatt und Stimme <span class="leise" style="font-weight:400">(Vergleich)</span></h3>
+    <p class="idee">Ein Kalenderblatt mit Ringen und Kopfzeile — und einem Sprechblasen-Zipfel.</p>
+    <div class="gross"><svg class="logo" width="160" height="160"><use href="#m-a"/></svg>
+      <div class="klein"><span><svg class="logo" width="32" height="32"><use href="#m-a"/></svg>32 px</span><span><svg class="logo" width="16" height="16"><use href="#m-a"/></svg>16 px</span></div></div>
+  </div>
+  <div class="karte alt">
+    <h3>B · Monogramm ak <span class="leise" style="font-weight:400">(Vergleich)</span></h3>
+    <p class="idee">Zwei geometrische Buchstaben, dunkel auf oranger Kachel.</p>
+    <div class="gross"><svg class="logo" width="160" height="160"><use href="#m-b"/></svg>
+      <div class="klein"><span><svg class="logo" width="32" height="32"><use href="#m-b"/></svg>32 px</span><span><svg class="logo" width="16" height="16"><use href="#m-b"/></svg>16 px</span></div></div>
+  </div>
+</div>
+
+<h2>2 · AB1 in Großbuchstaben</h2>
+<p>Nachtrag (Daniel, 14.10.2026 16:11): AB1 noch einmal mit „AK" in Großbuchstaben, zwei ohne und zwei mit deutscher Flagge als Zeichen für die Synchro. Die Flagge ist die Bundesflagge Schwarz-Rot-Gold (<code>#000</code>, <code>#d00</code>, <code>#ffce00</code>); sie liegt immer auf dem orangen Blatt oder auf der dunklen Kachel, nie auf dem Seitenhintergrund — das helle Thema ändert an ihr nichts.</p>
+<div class="karten">
+  <div class="karte">
+    <h3>AB1-G1 · Block AK <span class="empf">Empfehlung</span></h3>
+    <p class="idee">Ein A mit flacher Spitze und ein K mit eigenem Stamm, beide aus 5 px breiten Bändern — die schwere Lesart.</p>
+    <div class="gross"><svg class="logo" width="160" height="160"><use href="#m-ab1g1"/></svg>
+      <div class="klein"><span><svg class="logo" width="32" height="32"><use href="#m-ab1g1"/></svg>32 px</span><span><svg class="logo" width="16" height="16"><use href="#m-ab1g1"/></svg>16 px</span></div></div>
+    <p class="plusminus"><b>+</b> Beide Buchstaben stehen frei und sind ab 24 px als „AK" lesbar; wirkt wie ein Sender-Logo.<br><b>−</b> Das Loch im A schließt sich unter 48 px; dann ist das A ein Dreieck.</p>
+  </div>
+  <div class="karte">
+    <h3>AB1-G2 · Ligatur AK</h3>
+    <p class="idee">A und K teilen sich den Stamm: ein Zeichen statt zwei Buchstaben, Bänder 6 px breit.</p>
+    <div class="gross"><svg class="logo" width="160" height="160"><use href="#m-ab1g2"/></svg>
+      <div class="klein"><span><svg class="logo" width="32" height="32"><use href="#m-ab1g2"/></svg>32 px</span><span><svg class="logo" width="16" height="16"><use href="#m-ab1g2"/></svg>16 px</span></div></div>
+    <p class="plusminus"><b>+</b> Eigenständigstes Zeichen der Großbuchstaben, breitere Bänder bleiben bei 16 px eine klare Form.<br><b>−</b> Liest sich erst auf den zweiten Blick als „AK"; das A hat fast kein Loch.</p>
+  </div>
+  <div class="karte">
+    <h3>AB1-F1 · Flagge als Fuß</h3>
+    <p class="idee">Block AK, darunter die drei Streifen als unterer Rand des Blatts: Gold grenzt an die Kachel, Schwarz an Orange.</p>
+    <div class="gross"><svg class="logo" width="160" height="160"><use href="#m-ab1f1"/></svg>
+      <div class="klein"><span><svg class="logo" width="32" height="32"><use href="#m-ab1f1"/></svg>32 px</span><span><svg class="logo" width="16" height="16"><use href="#m-ab1f1"/></svg>16 px</span></div></div>
+    <p class="plusminus" id="pm-f1"><b>+</b> Flagge über die volle Breite, jeder Streifen hat einen kontrastreichen Nachbarn; bei 16 px bleibt ein rot-goldener Strich am Fuß (10 goldene Bildpunkte).<br><b>−</b> Rot neben Orange (Kontrast 1,66:1) verschwimmt; die Buchstaben werden kleiner (Höhe 15 statt 21 im 64er-Raster).</p>
+  </div>
+  <div class="karte">
+    <h3>AB1-F2 · Fähnchen</h3>
+    <p class="idee">Block AK nach links gerückt, unten rechts ein kleines Fähnchen mit dunkler Kontur, wie ein Abzeichen.</p>
+    <div class="gross"><svg class="logo" width="160" height="160"><use href="#m-ab1f2"/></svg>
+      <div class="klein"><span><svg class="logo" width="32" height="32"><use href="#m-ab1f2"/></svg>32 px</span><span><svg class="logo" width="16" height="16"><use href="#m-ab1f2"/></svg>16 px</span></div></div>
+    <p class="plusminus" id="pm-f2"><b>+</b> Die dunkle Kontur trennt die Flagge vom Orange; ab 48 px ist es eindeutig eine Flagge, die Buchstaben bleiben unverdeckt.<br><b>−</b> Bei 16 px fällt das Fähnchen weg (0 goldene Bildpunkte, kein Rot mehr als ohne Flagge) und hinterlässt einen dunklen Fleck; bei 32 px sind es 7 goldene Bildpunkte, eine Andeutung.</p>
+  </div>
+</div>
+<h3>Messung: Flagge bei 16 px und Kontraste</h3>
+<p id="messung">Gemessen mit headless Chromium an den 16- und 32-px-Fassungen dieser Seite (Pixelzählung, Rohwerte in <code>bilder/aufnahmen/flagge-16px.json</code>; „rot" zählt auch dunkel geglättetes Orange, deshalb als Differenz zu G1 ohne Flagge). Aufnahmen: <code>tabs-gross-4x.png</code> (dunkel), <code>tabs-gross-hell-4x.png</code> (hell).</p>
+<table class="tabelle"><tr><th>Marke</th><th>16 px: goldene Bildpunkte</th><th>16 px: rote mehr als G1</th><th>32 px: goldene</th><th>32 px: rote mehr als G1</th><th>Urteil</th></tr>
+<tr><td>AB1-F1 Flagge als Fuß</td><td>10</td><td>11</td><td>20</td><td>33</td><td>Als rot-goldener Strich erkennbar, Schwarz geht in der Blattkante auf</td></tr>
+<tr><td>AB1-F2 Fähnchen</td><td>0</td><td>0</td><td>7</td><td>7</td><td>Bei 16 px keine Flagge, nur ein dunkler Fleck; ab 32 px Andeutung, ab 48 px klar</td></tr></table>
+<p>Kontraste (WCAG) der Flaggenfarben: Schwarz/Kachel <b>1,10:1</b> — Schwarz darf nie an die Kachel grenzen (F1: an Orange 6,77:1; F2: die dunkle Kontur ist selbst Kachelfarbe, deshalb liegt Schwarz dort nur neben Rot und Orange). Rot/Orange <b>1,66:1</b> ist die schwächste Stelle beider Entwürfe; Gold/Kachel 12,85:1, Gold/Orange 2,08:1. Im hellen Thema ändert sich nichts, weil die Flagge nie auf dem Seitenhintergrund liegt (Gold/Hell wäre 1,36:1).</p>
+
+<h2>3 · Größenleiter für das Favicon</h2>
+<p>Jede Stufe in echten Bildpunkten, darunter dieselben Marken in einer Tab-Leiste und im Seitenkopf neben der Wortmarke.</p>
+<div id="leitern"></div>
+<h3>AB1 in Großbuchstaben</h3>
+<div id="leitern-g"></div>
+
+<h2>4 · App-Symbole 192, 512 und maskable</h2>
+<p>Die Größen aus <code>pipeline/build-icons.ts</code>: 192 und 512 px als Kachel; die maskable-Fassung zeichnet die Marke mit 22 % Rand auf volle Fläche, Android schneidet daraus einen Kreis oder ein abgerundetes Quadrat.</p>
+<div id="app"></div>
+<h3>AB1 in Großbuchstaben</h3>
+<div id="app-g"></div>
+
+<h2>5 · Vorschaubild in Layout B „Kino"</h2>
+<p>1200 × 630, hier halb so groß. Je Marke das Standardbild der Startseite und das Terminbild „Avatar: Die sieben Häfen" (Paramount+, Folgen 4–6 am Fr, 16.10.2026, Uhrzeit offen). Cover von TMDB. Vorschaubilder haben kein Thema — Messenger zeigen sie, wie sie sind.</p>
+<div id="og"></div>
+<h3>AB1 in Großbuchstaben</h3>
+<div id="og-g"></div>
+
+<h2>6 · Empfehlung im Einzelnen</h2>
+<p><b>AB1-G1 „Block AK".</b> Im Tab (16 px) trägt die Form: ein oranges Blatt mit Ringen und Kopfzeile, wie A. Ab 24 px (Seitenkopf, Lesezeichen) kommen die Initialen dazu, die B ausgemacht haben, in Großbuchstaben klarer als das kleine „ak" von AB1; im Vorschaubild steht das Wasserzeichen als Kalender mit „AK". Was gegenüber A fehlt, ist der Zipfel — die Synchro ist dann nur noch in der Wortmarke und im Claim.</p>
+<ul>
+  <li><b>Flagge:</b> abgeraten. Rot auf Orange (1,66:1) ist auf keiner Größe sauber, und bei 16 px bleibt von F1 ein Strich, von F2 nichts. Wenn die Flagge als Zeichen gewollt ist, dann F1 — sie fällt dort wenigstens gleichmäßig weg statt einen Fleck zu hinterlassen.</li>
+  <li><b>AB1-G2</b> (Ligatur) ist das eigenständigste Zeichen, liest sich aber erst auf den zweiten Blick als „AK".</li>
+  <li><b>AB3</b> ist die auffälligste Kachel und bleibt bei 16 px ein Kalender; wer die orange Kachel von B wollte, nimmt AB3. Neu ist daran nur die Farbe.</li>
+  <li><b>AB2</b> und <b>AB4</b> sind die eigenständigeren Ideen, tragen aber keinen Kalender mehr; AB4 braucht mindestens 32 px, damit der Zipfel am a zu sehen ist, bleibt aber bei 16 px als „ak" lesbar.</li>
+  <li>Alle vier nutzen dieselben Tokens (Kachel <code>#0d0f14</code>, Akzent <code>#ff5a36</code>) und liegen im 64er-Raster; der Umsetzungsauftrag <code>vorrat/z-9-1-logo-og-umsetzen.md</code> gilt unverändert, nur mit Layout B.</li>
+</ul>
+</main>
+
+<script>
+(function(){
+  var html=document.documentElement, knopf=document.getElementById('thema');
+  if(location.search.indexOf('hell')>=0){html.classList.replace('dunkel','hell')}
+  if(location.search.indexOf('voll')>=0){html.classList.add('voll')}
+  function zeig(){var hell=html.classList.contains('hell');knopf.textContent='Thema: '+(hell?'hell':'dunkel');knopf.setAttribute('aria-pressed',String(hell))}
+  knopf.addEventListener('click',function(){html.classList.toggle('hell');html.classList.toggle('dunkel');zeig()});
+  zeig();
+
+  var marken=[['AB1 · Initialen auf dem Blatt','m-ab1','ab1'],['AB2 · Blase ak','m-ab2','ab2'],['AB3 · Blatt auf Orange','m-ab3','ab3'],['AB4 · Sprechendes a','m-ab4','ab4'],['A · Blatt und Stimme','m-a','a'],['B · Monogramm ak','m-b','b']];
+  var gross=[['AB1-G1 · Block AK','m-ab1g1','ab1g1'],['AB1-G2 · Ligatur AK','m-ab1g2','ab1g2'],['AB1-F1 · Flagge als Fuß','m-ab1f1','ab1f1'],['AB1-F2 · Fähnchen','m-ab1f2','ab1f2']];
+  function svg(id,s){return '<svg class="logo" width="'+s+'" height="'+s+'"><use href="#'+id+'"/></svg>'}
+
+  // Größenleiter: je Marke 16 … 128 px, dann eine Tab-Leiste und der Seitenkopf
+  var stufen=[16,20,24,32,48,64,96,128];
+  function leitern(liste){
+    var h='';
+    liste.forEach(function(m){
+      h+='<div class="leiter"><span class="name">'+m[0]+'</span>';
+      stufen.forEach(function(s){h+='<span class="stufe">'+svg(m[1],s)+s+' px</span>'});
+      h+='</div>';
+    });
+    h+='<div class="tabs">';
+    liste.forEach(function(m,i){h+='<span class="tab'+(i?' inaktiv':'')+'"><svg class="logo"><use href="#'+m[1]+'"/></svg>Anime-Kalender – Woche</span>'});
+    h+='<span class="tab inaktiv"><svg class="logo" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#e53935"/><path d="M5 6l3 5 3-5z" fill="#fff"/></svg>YouTube</span></div><div class="adresse">anime-kalender.de — Tab-Leiste, Favicon 16 px</div>';
+    liste.forEach(function(m){h+='<div class="kopfprobe">'+svg(m[1],32)+'<span>anime<i>·</i>kalender</span> <span class="leise" style="font:13px Manrope;margin-left:auto">Seitenkopf, 32 px · '+m[0]+'</span></div>'});
+    return h;
+  }
+  document.getElementById('leitern').innerHTML=leitern(marken);
+  document.getElementById('leitern-g').innerHTML=leitern(gross);
+
+  // App-Symbole: 192, 512, maskable
+  function app(liste){
+    var h='';
+    liste.forEach(function(m){
+      h+='<div class="app"><span class="name">'+m[0]+'</span>';
+      h+='<span class="stufe">'+svg(m[1],192)+'192 px</span>';
+      h+='<span class="stufe"><span class="maskable'+(m[2]==='ab3'?' orange':'')+'">'+svg(m[1],108)+'</span>maskable 192 (Kreis)</span>';
+      h+='<span class="stufe">'+svg(m[1],512)+'512 px</span>';
+      h+='</div>';
+    });
+    return h;
+  }
+  document.getElementById('app').innerHTML=app(marken.slice(0,4));
+  document.getElementById('app-g').innerHTML=app(gross);
+
+  // Vorschaubilder: Layout B je Mischung, Standardbild und Terminbild; Vorschaukästen für die Empfehlung
+  function std(m){return '<figure><div class="og-w"><div class="og b std" id="og-'+m[2]+'-std"><div class="glut"></div><svg class="wasser"><use href="#'+m[1]+'"/></svg>'
+    +'<div class="lockup"><svg class="logo"><use href="#'+m[1]+'"/></svg><span>anime<i>·</i>kalender</span></div><div class="claim">Alles mit deutscher Synchro</div>'
+    +'<div class="liste"><span>über 2.500 Anime, Woche für Woche</span><span>Streaming, Disc, Kino und TV</span><span>Kalender-Abo und Newsletter</span></div></div></div><figcaption>Standardbild</figcaption></figure>'}
+  function avatar(m){return '<figure><div class="og-w"><div class="og b" id="og-'+m[2]+'-avatar" style="--p:#0064ff"><img class="hintergrund" src="../logo-og/bilder/avatar-tmdb.jpg" alt=""><div class="dunkel"></div><img class="poster" src="../logo-og/bilder/avatar-tmdb.jpg" alt="">'
+    +'<div class="lockup"><svg class="logo"><use href="#'+m[1]+'"/></svg><span>anime<i>·</i>kalender</span></div><div class="titel">Avatar: Die sieben Häfen</div>'
+    +'<div class="datum"><b>Fr, 16.10.</b><span>Folgen 4–6 von 13</span></div><div class="fakt">Uhrzeit noch offen · deutsche Synchro</div>'
+    +'<div class="chips"><span class="chip">Paramount+</span><span class="chip" style="--p:#3b82f6">Wöchentlich</span><span class="chip" style="--p:#9aa0ab">FSK 12</span><span class="chip laeuft">Läuft</span></div></div></div><figcaption>Terminbild</figcaption></figure>'}
+  function og(liste,empf){
+    var h='';
+    liste.forEach(function(m){
+      var ist=m[2]===empf;
+      h+='<h3>'+m[0]+(ist?' <span class="empf">Empfehlung</span>':'')+'</h3><div class="paar">'+std(m)+avatar(m)+'</div>';
+      if(ist){h+='<div class="kaesten" data-kaesten="og-'+m[2]+'-avatar"></div>'}
+    });
+    return h;
+  }
+  document.getElementById('og').innerHTML=og(marken.slice(0,4),'');
+  document.getElementById('og-g').innerHTML=og(gross,'ab1g1');
+
+  var dienste=[['x','≈ X · 500 px',500,'Avatar: Die sieben Häfen – Fr, 16.10. · Anime-Kalender','anime-kalender.de'],['discord','≈ Discord · 400 px',400,'Avatar: Die sieben Häfen – Fr, 16.10.','Anime-Kalender DE'],['whatsapp','≈ WhatsApp · 330 px',330,'Avatar: Die sieben Häfen – Fr, 16.10.','anime-kalender.de']];
+  document.querySelectorAll('[data-kaesten]').forEach(function(z){
+    var quelle=document.getElementById(z.getAttribute('data-kaesten'));
+    dienste.forEach(function(d){
+      var k=document.createElement('div');k.className='kasten '+d[0];k.style.width=d[2]+'px';
+      var w=document.createElement('div');w.className='og-w';w.style.setProperty('--s',d[2]/1200);
+      var kopie=quelle.cloneNode(true);kopie.removeAttribute('id');w.appendChild(kopie);
+      k.appendChild(w);
+      var u=document.createElement('div');u.className='u';u.innerHTML='<div class="t">'+d[3]+'</div><div class="d">'+d[4]+'</div>';
+      k.appendChild(u);
+      z.appendChild(k);
+    });
+    var p=document.createElement('p');p.className='unterschrift';p.textContent='Breiten der Vorschaukästen auf dem Desktop, ungefähr; Titelzeile und Domain stammen vom Dienst, nicht vom Bild.';z.appendChild(p);
+  });
+})();
+</script>
+</body>
+</html>

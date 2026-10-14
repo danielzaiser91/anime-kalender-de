@@ -1,0 +1,71 @@
+{
+  "kontraste": {
+    "schwarz/kachel": "1.10",
+    "schwarz/orange": "6.77",
+    "schwarz/hell": "19.08",
+    "rot/kachel": "3.72",
+    "rot/orange": "1.66",
+    "rot/hell": "4.68",
+    "gold/kachel": "12.85",
+    "gold/orange": "2.08",
+    "gold/hell": "1.36"
+  },
+  "px16": {
+    "AB1-F1": {
+      "breite": 17,
+      "hoehe": 17,
+      "rot": 42,
+      "gold": 10,
+      "schwarz": 173,
+      "orange": 36,
+      "gesamt": 289
+    },
+    "AB1-F2": {
+      "breite": 17,
+      "hoehe": 17,
+      "rot": 31,
+      "gold": 0,
+      "schwarz": 174,
+      "orange": 48,
+      "gesamt": 289
+    },
+    "AB1-G1": {
+      "breite": 17,
+      "hoehe": 17,
+      "rot": 31,
+      "gold": 0,
+      "schwarz": 184,
+      "orange": 41,
+      "gesamt": 289
+    }
+  },
+  "px32": {
+    "AB1-F1": {
+      "breite": 33,
+      "hoehe": 33,
+      "rot": 85,
+      "gold": 20,
+      "schwarz": 701,
+      "orange": 237,
+      "gesamt": 1089
+    },
+    "AB1-F2": {
+      "breite": 33,
+      "hoehe": 33,
+      "rot": 59,
+      "gold": 7,
+      "schwarz": 685,
+      "orange": 276,
+      "gesamt": 1089
+    },
+    "AB1-G1": {
+      "breite": 33,
+      "hoehe": 33,
+      "rot": 52,
+      "gold": 0,
+      "schwarz": 724,
+      "orange": 258,
+      "gesamt": 1089
+    }
+  }
+}
