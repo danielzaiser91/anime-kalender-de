@@ -94,6 +94,38 @@ function gewaehlteIds() {
   return gewaehlt.length ? gewaehlt : STANDARD
 }
 
+/** Wie weit Inhalt über den Kasten hinausragt: Innenhöhe, Kinder, rollende Pillenbereiche. */
+async function messeUeberlauf(kasten) {
+  /*
+    **Gemessen wird, ob etwas hinausragt — nicht, ob alle gleich hoch sind.**
+
+    „Alle gleich hoch" ließ zweimal eine Pillenreihe durch, die aus dem
+    Kasten ragte — gleich hoch. Eine gleiche Höhe ist eine Momentaufnahme. Die Frage, um die es geht,
+    lautet: Steht der Inhalt im Kasten? Das misst `scrollHeight` gegen
+    `clientHeight`, und es bleibt richtig, wenn ein neuer Zustand dazukommt.
+  */
+  return kasten.evaluate((el) => ({
+    innen: el.scrollHeight,
+    sichtbar: el.clientHeight,
+    /* Und keins der Kinder darf unten aus dem Rahmen ragen. */
+    raus: [...el.children].reduce(
+      (m, k) => Math.max(m, Math.round(k.getBoundingClientRect().bottom - el.getBoundingClientRect().bottom)),
+      0,
+    ),
+    /*
+      **Und der Pillenbereich darf nicht selbst rollen.** Er hat eine eigene
+      Höchsthöhe mit `overflow-y-auto`; ragt eine Pillenreihe hinein, ist
+      der Kasten außen korrekt und die Pille trotzdem abgeschnitten. Am
+      14.09.2026 bei „Kill Blue" so gemeldet „alles im Kasten", während die
+      ADN-Pille halb verdeckt war.
+    */
+    pillen: [...el.querySelectorAll('.overflow-y-auto')].reduce(
+      (m, p) => Math.max(m, p.scrollHeight - p.clientHeight),
+      0,
+    ),
+  }))
+}
+
 async function main() {
   if (!distPruefen(WURZEL)) return
   const ids = gewaehlteIds()
@@ -183,34 +215,7 @@ async function main() {
       const kasten = panel.locator('section').first()
       await kasten.waitFor({ state: 'visible', timeout: 15_000 }).then(() => pruefeNichtVorgescrollt(panel, id))
       const box = await kasten.boundingBox()
-      /*
-        **Gemessen wird, ob etwas hinausragt — nicht, ob alle gleich hoch sind.**
-
-        „Alle gleich hoch" ließ zweimal eine Pillenreihe durch, die aus dem
-        Kasten ragte — gleich hoch. Eine gleiche Höhe ist eine Momentaufnahme. Die Frage, um die es geht,
-        lautet: Steht der Inhalt im Kasten? Das misst `scrollHeight` gegen
-        `clientHeight`, und es bleibt richtig, wenn ein neuer Zustand dazukommt.
-      */
-      const ueberlauf = await kasten.evaluate((el) => ({
-        innen: el.scrollHeight,
-        sichtbar: el.clientHeight,
-        /* Und keins der Kinder darf unten aus dem Rahmen ragen. */
-        raus: [...el.children].reduce(
-          (m, k) => Math.max(m, Math.round(k.getBoundingClientRect().bottom - el.getBoundingClientRect().bottom)),
-          0,
-        ),
-        /*
-          **Und der Pillenbereich darf nicht selbst rollen.** Er hat eine eigene
-          Höchsthöhe mit `overflow-y-auto`; ragt eine Pillenreihe hinein, ist
-          der Kasten außen korrekt und die Pille trotzdem abgeschnitten. Am
-          14.09.2026 bei „Kill Blue" so gemeldet „alles im Kasten", während die
-          ADN-Pille halb verdeckt war.
-        */
-        pillen: [...el.querySelectorAll('.overflow-y-auto')].reduce(
-          (m, p) => Math.max(m, p.scrollHeight - p.clientHeight),
-          0,
-        ),
-      }))
+      const ueberlauf = await messeUeberlauf(kasten)
       if (thema === 'dunkel') {
         hoehen.push({
           id,
