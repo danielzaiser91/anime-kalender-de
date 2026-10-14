@@ -14,7 +14,8 @@ import { kopierText } from './kopieren'
 import { agentenText, istPruefer } from './pruefer'
 
 const DATEI = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/stand.md'
-const MARKER = 'C:/Users/ih/.claude/autonomer-modus-bis.txt'
+// Je Sitzung eine Datei `<Sitzungs-ID>.txt` (Stop-Hook agenten-vorrat.js); fremde Sitzungen zählen hier nicht.
+const MARKER_ORDNER = 'C:/Users/ih/.claude/autonomer-modus'
 const PANE = 'arbeitsliste'
 // Chip „in 37 min“: feste Breite, rechtsbündig.
 const CHIP = 9
@@ -72,10 +73,10 @@ let agentenListe: Agent[] = []
 // Jedes Schreiben zeichnet alle Leser neu (Hover geht verloren, Last): geschrieben wird nur bei geändertem Inhalt.
 const gleich = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b)
 
-// Endzeit aus der Markerdatei, solange sie in der Zukunft liegt.
+// Endzeit aus der eigenen Markerdatei, solange sie in der Zukunft liegt.
 async function lieseAutonomBis($: EngineInterface): Promise<string | null> {
   try {
-    const roh = ((await $.fs.read(MARKER)) as string).trim()
+    const roh = ((await $.fs.read(`${MARKER_ORDNER}/${await $.session.id()}.txt`)) as string).trim()
     return Date.parse(roh) > Date.now() ? roh : null
   } catch {
     return null
