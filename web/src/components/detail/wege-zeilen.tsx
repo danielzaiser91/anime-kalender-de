@@ -1,5 +1,4 @@
 import { PLATFORMS, type Release, type Title, type DiscAusgabe, type StreamLink } from '@shared/types.ts'
-import { formatDate } from '@shared/time.ts'
 import { streamNurOmu, synchroAngekuendigt } from '@shared/ankuendigung.ts'
 import { anzeigeName } from '@shared/titles.ts'
 import { farbeZuAnbieter, istToggo, discPillen } from './pillen.tsx'
@@ -17,6 +16,7 @@ import type { Dispatch, SetStateAction } from 'react'
 import { pillenSchluessel, type sortiereNachZugang } from './wege-sortieren.ts'
 import { tvAngabe } from '../../lib/tv-angabe.ts'
 import { teilAngaben } from './wege-falten.ts'
+import { pilleUnten } from './pille-unten.ts'
 
 /** Eine Zeile je Termin: Sender oder Anbieter, Datum, Folge. */
 export function terminPillen(rs: Release[], title: Title, releases: Release[], today: string) {
@@ -83,15 +83,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
                     farbe={PLATFORMS[s.platform].color}
                     icon={<AnbieterIcon was={s.platform} />}
                     url={s.url}
-                    unten={
-                      [
-                        folgenAngabe,
-                        streamStatus(title, s, releases) === 'justwatch' ? t('detail.stand', { datum: formatDate(s.dubStand!) }) : '',
-                        s.teilBereich ? teilAngaben(title, s.teilBereich, t, folgenAngabe).unten : '',
-                      ]
-                        .filter(Boolean)
-                        .join(' · ') || undefined
-                    }
+                    unten={pilleUnten({ title, s, releases, folgenAngabe, t })}
                     /*
                       **Was in der Pille kürzt, steht hier ausgeschrieben.**
 

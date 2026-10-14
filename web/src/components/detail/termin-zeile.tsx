@@ -12,6 +12,7 @@ import { Pille } from './pille.tsx'
 import { erschieneneSpanne } from './folgen-spanne.ts'
 import { PROSIEBEN_MAXX_ROT, TOGGO_ORANGE } from './pillen.tsx'
 import { pillenZiel } from './pillen-ziel.ts'
+import { seitAbText } from './seit-datum.ts'
 
 type TvText = ReturnType<typeof tvAngabe>
 
@@ -167,8 +168,7 @@ function terminTeil(release: Release, tvText: TvText | undefined, today: string,
     const naechste = Object.values(release.schedule?.observed ?? {}).filter((d) => d >= today).sort()[0] ?? release.tvLetzteSichtung
     return t('detail.tvGesehen', { d: formatDate(naechste) })
   }
-  const datum = release.schedule?.firstEpisodeDate
-  return datum ? t(datum > today ? 'detail.abDatum' : 'detail.seitDatum', { d: formatDate(datum) }) : undefined
+  return seitAbText(release.schedule?.firstEpisodeDate, today, t)
 }
 
 /** Tag und Uhrzeit farbig, der Rest bleibt grau; ohne Zeit trennt der Platzhalter nichts. */
