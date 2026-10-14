@@ -81,7 +81,8 @@ for (const thema of ['dunkel', 'hell']) {
     pruefe('der Kasten nennt den Kinostart', /im Kino|japanischen Kinos|als Kinofilm angekündigt/.test(text))
     pruefe('„Noch keine deutsche Fassung" steht nicht mehr da', !text.includes('Noch keine deutsche Fassung'))
     pruefe('der Abschnitt „Keine deutsche Synchro bekannt" ist weg', !text.includes('Keine deutsche Synchro bekannt'))
-    pruefe('„Kein Anbieter bekannt" ist ersetzt', !text.includes('Kein Anbieter bekannt'))
+    const kasten = await seite.evaluate(() => document.querySelector('[role="dialog"] [data-kasten] > section')?.innerText ?? '')
+    pruefe('der Kasten steht und trägt mehr als seine Überschrift', kasten.split('\n').filter(Boolean).length > 1)
   }
   const panel = seite.locator('[role="dialog"]').first()
   await panel.screenshot({ path: path.join(WURZEL, 'docs', `kino-kasten-${thema}.png`) })

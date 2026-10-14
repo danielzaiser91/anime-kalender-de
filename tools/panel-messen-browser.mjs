@@ -126,6 +126,6 @@ export function kopfMasse() {
     flaggenBox: box(flaggen),
     flaggen: [...(flaggen?.querySelectorAll('a, span.inline-flex') ?? [])].map((f) => ({ text: f.textContent.trim().replace(/\s+/g, ' '), href: f.getAttribute('href') })),
     filterElemente: filter.length,
-    kastenTop: box(wurzel.querySelector('section'))?.t,
+    kastenTop: box(wurzel.querySelector('[data-kasten] > section'))?.t,
   }
 }

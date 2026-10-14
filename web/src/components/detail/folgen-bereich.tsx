@@ -25,6 +25,20 @@ const PAKET = 50
 let verzeichnis: Promise<Set<number>> | undefined
 const holeVerzeichnis = (): Promise<Set<number>> => (verzeichnis ??= loadJson<number[]>('folgen/index.json').then((l) => new Set(l)).catch(() => new Set<number>()))
 
+/** Gibt es zu diesem Titel eine Folgenliste? Erst nach dem Laden des Verzeichnisses `true`; wer die Liste als Inhalt braucht (leerer Kasten), fragt hier. */
+export function useHatFolgenListe(titleId: number): boolean {
+  const [gibtEs, setGibtEs] = useState(false)
+  useEffect(() => {
+    let aktiv = true
+    setGibtEs(false)
+    void holeVerzeichnis().then((s) => aktiv && setGibtEs(s.has(titleId)))
+    return () => {
+      aktiv = false
+    }
+  }, [titleId])
+  return gibtEs
+}
+
 let zaehlungen: Promise<Record<string, [number, number]>> | undefined
 /** `[alle Folgen, Folgen mit deutscher Synchro]` aus `folgen/zaehlung.json` — für die Überschrift, wo AniList keine Folgenzahl führt. */
 export function useFolgenZaehlung(titleId: number): [number, number] | undefined {

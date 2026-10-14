@@ -47,8 +47,9 @@ for (const t of auswahl) {
     const panel = p.locator('[data-panel="titel"]').last()
     await panel.waitFor({ timeout: 20000 })
     await p.waitForTimeout(1200)
-    const kasten = panel.locator('section').first()
-    const text = (await kasten.innerText()).replace(/\s+/g, ' ')
+    /* Ein leerer Kasten entfällt (kasten-leer.tsx) — dann gibt es ihn hier nicht, und der Text bleibt leer. */
+    const kasten = panel.locator('[data-kasten] > section')
+    const text = (await kasten.count() ? await kasten.innerText() : '').replace(/\s+/g, ' ')
     const pillen = await kasten.locator('a, button').allInnerTexts()
     const name = t.titleDe ?? t.titleEn ?? t.titleRomaji
     const probleme = []
@@ -65,7 +66,7 @@ for (const t of auswahl) {
     const seit = /Auf Deutsch seit (\d{2})\.(\d{2})\.(\d{4})/.exec(text)
     if (seit && t.jpYear && Number(seit[3]) < t.jpYear) probleme.push(`„seit ${seit[3]}" vor JP ${t.jpYear}`)
     if (seit && `${seit[3]}-${seit[2]}-${seit[1]}` > heute) probleme.push('„seit" in der Zukunft')
-    if (/Kein Anbieter bekannt/.test(text) && ((t.streams ?? []).length || (t.watchLinks ?? []).length)) probleme.push('„Kein Anbieter" trotz Weg')
+    if (/^\s*Synchro offen\s*$/.test(text)) probleme.push('leerer Kasten (nur „Synchro offen“)')
     const teil = /(\d+) von (\d+) Folgen auf Deutsch/.exec(text)
     if (teil && new RegExp(`\\b${teil[2]} Fg\\. 🇩🇪 ✓`).test(text)) probleme.push(`„${teil[1]} von ${teil[2]}" neben einer Pille mit allen ${teil[2]}`)
     if (/\b1 Ausgaben\b/.test(text)) probleme.push('„1 Ausgaben"')
@@ -77,7 +78,6 @@ for (const t of auswahl) {
     if (t.episodes === 1 && /DE nur Fg\. 1/.test(text)) probleme.push('„nur Fg. 1" bei einer einzigen Folge')
     if (t.episodes === 1 && /(^|\s)1 Fg\./.test(text)) probleme.push('„1 Fg." bei einem Werk mit einer Folge')
     if (/ - \?/.test(text)) probleme.push('offenes Zeitraumende „- ?"')
-    if (/führt ihn bisher/.test(text) && /Kein Anbieter bekannt/.test(text)) probleme.push('„kein Anbieter" doppelt')
     if (/führt ihn bisher/.test(text) && /🇩🇪/.test(text)) probleme.push('„kein Anbieter" neben Anbieter-Pillen')
     if (/Finale Folge/.test(text) && /im TV am/.test(text)) probleme.push('„Finale Folge" aus einer TV-Sichtung')
     if (/Für Folgen \d+ kennen/.test(text)) probleme.push('„Für Folgen N" mit einer einzigen Folge')

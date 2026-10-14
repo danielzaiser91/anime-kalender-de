@@ -94,6 +94,38 @@ function gewaehlteIds() {
   return gewaehlt.length ? gewaehlt : STANDARD
 }
 
+/** Wie weit Inhalt über den Kasten hinausragt: Innenhöhe, Kinder, rollende Pillenbereiche. */
+async function messeUeberlauf(kasten) {
+  /*
+    **Gemessen wird, ob etwas hinausragt — nicht, ob alle gleich hoch sind.**
+
+    „Alle gleich hoch" ließ zweimal eine Pillenreihe durch, die aus dem
+    Kasten ragte — gleich hoch. Eine gleiche Höhe ist eine Momentaufnahme. Die Frage, um die es geht,
+    lautet: Steht der Inhalt im Kasten? Das misst `scrollHeight` gegen
+    `clientHeight`, und es bleibt richtig, wenn ein neuer Zustand dazukommt.
+  */
+  return kasten.evaluate((el) => ({
+    innen: el.scrollHeight,
+    sichtbar: el.clientHeight,
+    /* Und keins der Kinder darf unten aus dem Rahmen ragen. */
+    raus: [...el.children].reduce(
+      (m, k) => Math.max(m, Math.round(k.getBoundingClientRect().bottom - el.getBoundingClientRect().bottom)),
+      0,
+    ),
+    /*
+      **Und der Pillenbereich darf nicht selbst rollen.** Er hat eine eigene
+      Höchsthöhe mit `overflow-y-auto`; ragt eine Pillenreihe hinein, ist
+      der Kasten außen korrekt und die Pille trotzdem abgeschnitten. Am
+      14.09.2026 bei „Kill Blue" so gemeldet „alles im Kasten", während die
+      ADN-Pille halb verdeckt war.
+    */
+    pillen: [...el.querySelectorAll('.overflow-y-auto')].reduce(
+      (m, p) => Math.max(m, p.scrollHeight - p.clientHeight),
+      0,
+    ),
+  }))
+}
+
 async function main() {
   if (!distPruefen(WURZEL)) return
   const ids = gewaehlteIds()
@@ -137,6 +169,7 @@ async function main() {
   })
 
   const hoehen = []
+  const ohneKasten = []
   for (const id of ids) {
     for (const thema of ['dunkel', 'hell']) {
       await seite.emulateMedia({ colorScheme: thema === 'dunkel' ? 'dark' : 'light' })
@@ -179,38 +212,16 @@ async function main() {
           break
         }
       }
-      /* Der Kasten ist die erste `section` im Panel — die Antwort auf „wann, wie weit, wo". */
-      const kasten = panel.locator('section').first()
+      /* Der Kasten — die Antwort auf „wann, wie weit, wo" — trägt die Marke `data-kasten`; ohne Inhalt entfällt er (kasten-leer.tsx). */
+      const kasten = panel.locator('[data-kasten] > section')
+      if (!(await kasten.count())) {
+        if (thema === 'dunkel') ohneKasten.push(id)
+        await panel.screenshot({ path: path.join(BILDER, `panel-${id}-${thema}.png`) })
+        continue
+      }
       await kasten.waitFor({ state: 'visible', timeout: 15_000 }).then(() => pruefeNichtVorgescrollt(panel, id))
       const box = await kasten.boundingBox()
-      /*
-        **Gemessen wird, ob etwas hinausragt — nicht, ob alle gleich hoch sind.**
-
-        „Alle gleich hoch" ließ zweimal eine Pillenreihe durch, die aus dem
-        Kasten ragte — gleich hoch. Eine gleiche Höhe ist eine Momentaufnahme. Die Frage, um die es geht,
-        lautet: Steht der Inhalt im Kasten? Das misst `scrollHeight` gegen
-        `clientHeight`, und es bleibt richtig, wenn ein neuer Zustand dazukommt.
-      */
-      const ueberlauf = await kasten.evaluate((el) => ({
-        innen: el.scrollHeight,
-        sichtbar: el.clientHeight,
-        /* Und keins der Kinder darf unten aus dem Rahmen ragen. */
-        raus: [...el.children].reduce(
-          (m, k) => Math.max(m, Math.round(k.getBoundingClientRect().bottom - el.getBoundingClientRect().bottom)),
-          0,
-        ),
-        /*
-          **Und der Pillenbereich darf nicht selbst rollen.** Er hat eine eigene
-          Höchsthöhe mit `overflow-y-auto`; ragt eine Pillenreihe hinein, ist
-          der Kasten außen korrekt und die Pille trotzdem abgeschnitten. Am
-          14.09.2026 bei „Kill Blue" so gemeldet „alles im Kasten", während die
-          ADN-Pille halb verdeckt war.
-        */
-        pillen: [...el.querySelectorAll('.overflow-y-auto')].reduce(
-          (m, p) => Math.max(m, p.scrollHeight - p.clientHeight),
-          0,
-        ),
-      }))
+      const ueberlauf = await messeUeberlauf(kasten)
       if (thema === 'dunkel') {
         hoehen.push({
           id,
@@ -224,7 +235,11 @@ async function main() {
 
   await schliesse(browser, seite, ids)
 
-  /* Die Mindesthöhe aus `antwort-kasten.tsx` — 11rem (176 px); „fertig" ohne Nebenzeile darf kleiner sein (Daniel, 07.10.2026), gemessen 172 px. */
+  /*
+    Die Mindesthöhe aus `antwort-kasten.tsx` — 11rem (176 px) für Kästen mit Nebenzeile oder Pillen; „fertig"/„film" ohne Nebenzeile darf kleiner sein
+    (Daniel, 07.10.2026). Gemessen 14.10.2026: ein Film ohne Weg (nur Überschrift) ist 70 px hoch (z. B. 760, 997) — die Prüfung gilt für die
+    Standardtitel mit Pillen, nicht für solche Filme.
+  */
   const MINDEST = 160
 
   console.log('\nAntwort-Kasten je Titel:')
@@ -237,8 +252,10 @@ async function main() {
     Titel „kein Panel" und am Ende trotzdem „alles im Kasten". Gesucht wird seitdem über
     `data-panel="titel"`, nicht über den Tag-Namen.
   */
-  if (!hoehen.length) {
-    console.log('\n  ✕ kein einziges Panel gemessen — Selektor oder Seite kaputt')
+  for (const id of ohneKasten) console.log(`  – ${id}: kein Kasten (leer, ausgeblendet)`)
+  /* Die Standardtitel haben alle einen Kasten; fehlt er dort, ist die Marke `data-kasten` weg oder der Kasten zu Unrecht verschwunden. */
+  if ((!hoehen.length && !ohneKasten.length) || (ohneKasten.length && ids === STANDARD)) {
+    console.log('\n  ✕ kein einziges Panel gemessen oder ein Standardtitel ohne Kasten — Selektor oder Seite kaputt')
     process.exitCode = 1
     return
   }

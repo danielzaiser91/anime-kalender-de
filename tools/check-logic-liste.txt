@@ -82,6 +82,7 @@ pipeline/check-kanal-verlust.ts
 pipeline/check-katalog-eingefroren.ts
 pipeline/check-katalog-release.ts
 pipeline/check-kino-zuletzt.ts
+pipeline/check-leerer-kasten.ts
 pipeline/check-logic.ts
 pipeline/check-mal-teilung.ts
 pipeline/check-motn-reihe.ts
