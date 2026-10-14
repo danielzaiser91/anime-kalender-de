@@ -210,6 +210,52 @@ console.log('Abhaken')
   pruefe(roh.length === 12 && ((await lies(env, 'rohfolgen=1&nach=0')) as { folgen: unknown[] }).folgen.length === 0, `Rohfolgen abgehakt (${roh.length})`)
 }
 
+/**
+ * Altzeilen, die der Leser-Vergleich oben nicht erzeugt: Meldungen vor Stufe 1 (nur `befund`, `art` leer, ANGENOMMEN in
+ * der `notiz`) und vor Migration 054 (ohne `rohfolge`, Folgentitel nur in `prime_folge`), dazu Folgen nur in `prime_folge`.
+ */
+function altBestand(db: ReturnType<typeof neueDatenbank>) {
+  const meldung = db.prepare(
+    "INSERT INTO pruefung (plattform, url, befund, notiz, gemeldet_am, folge_nr, staffel, folge) VALUES ('netflix', ?, 'dub', ?, ?, ?, 1, ?)",
+  )
+  const roh = db.prepare(
+    "INSERT INTO prime_folge (plattform, url, gti, nummer, staffel_nr, titel, roh, vorhanden, ton_de, gemeldet_am) VALUES ('netflix', ?, ?, ?, 1, ?, ?, 'ja', 'ja', ?)",
+  )
+  meldung.run(ALT_A, 'Randprobe: ANGENOMMEN dazwischen', '2026-09-01T10:00:00Z', 1, '84000001')
+  meldung.run(ALT_A, 'Randprobe: gemessen', '2026-09-01T10:00:00Z', 2, '84000002')
+  roh.run(ALT_A, '84000001', 1, 'Erste Folge', '{}', '2026-09-01T10:00:00Z')
+  roh.run(ALT_B, '85000001', 1, 'Nur Rohfolge 1', '{"angenommen":true}', '2026-09-02T10:00:00Z')
+  roh.run(ALT_B, '85000002', 2, 'Nur Rohfolge 2', '{"angenommen":false}', '2026-09-02T10:00:00Z')
+}
+const ALT_A = 'https://www.netflix.com/title/81000010'
+const ALT_B = 'https://www.netflix.com/title/81000011'
+const titelZeilen = (db: ReturnType<typeof neueDatenbank>) =>
+  JSON.stringify(db.prepare('SELECT url, plattform, nr, version, daten, gemeldet_am, offen_meldung, offen_rohfolge FROM titel_zeile ORDER BY url').all())
+
+console.log('Einspielen in Blöcken zu je einer Adresse: alte Meldungsformen')
+{
+  const block = neueDatenbank()
+  altBestand(block)
+  const laeufe: number[] = []
+  for (let i = 0; i < 5 && laeufe.at(-1) !== 0; i++) {
+    const vorher = zahl(block, 'SELECT COUNT(*) AS n FROM titel_zeile')
+    block.exec(einspielSql('netflix', 1))
+    laeufe.push(zahl(block, 'SELECT COUNT(*) AS n FROM titel_zeile') - vorher)
+  }
+  pruefe(JSON.stringify(laeufe) === '[1,1,0]', `je Block eine neue Adresse, der dritte schreibt nichts (${JSON.stringify(laeufe)})`)
+  const einer = neueDatenbank()
+  altBestand(einer)
+  einer.exec(einspielSql('netflix'))
+  pruefe(titelZeilen(block) === titelZeilen(einer), 'Blöcke zu je einer Adresse ergeben dieselben Titelzeilen wie ein einziger Block')
+  const folgen = block.prepare('SELECT url, folge_nr AS nr, folge, roh_titel, art FROM pruefung_titel ORDER BY url, folge_nr').all() as Record<string, unknown>[]
+  const folge = (url: string, nr: number) => folgen.find((f) => f.url === url && f.nr === nr) ?? {}
+  pruefe(folge(ALT_A, 1).art === 'angenommen' && folge(ALT_A, 2).art === 'gemessen', `art leer: ANGENOMMEN in der Notiz entscheidet (${folge(ALT_A, 1).art}/${folge(ALT_A, 2).art})`)
+  pruefe(folge(ALT_A, 1).roh_titel === 'Erste Folge', `Meldung ohne rohfolge: Folgentitel aus prime_folge (${folge(ALT_A, 1).roh_titel})`)
+  pruefe(folge(ALT_B, 1).art === 'angenommen' && folge(ALT_B, 2).art === 'gemessen', `nur in prime_folge: angenommen aus roh (${folge(ALT_B, 1).art}/${folge(ALT_B, 2).art})`)
+  pruefe(folge(ALT_B, 1).folge === 'Nur Rohfolge 1', `nur in prime_folge: Folge = Folgentitel (${folge(ALT_B, 1).folge})`)
+  pruefe(zaehlerStimmen(block), 'Zähler stimmen')
+}
+
 if (fehler) {
   console.log(`${fehler} Prüfung(en) fehlgeschlagen.`)
   process.exit(1)
