@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-13",
+  "stand": "2026-10-14",
   "eintraege": [
     {
       "titel": "Demon Slayer: Kimetsu no Yaiba – Infinity Castle I",
@@ -14,6 +14,15 @@
       "titel": "86 EIGHTY-SIX",
       "artikel": "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/",
       "tag": "2026-10-08",
+      "anbieter": [
+        "adn"
+      ],
+      "quelle": "Sammelartikel"
+    },
+    {
+      "titel": "BLEACH: Memories of Nobody",
+      "artikel": "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/",
+      "tag": "2026-10-12",
       "anbieter": [
         "adn"
       ],
@@ -66,16 +75,6 @@
       "quelle": "Sammelartikel"
     },
     {
-      "titel": "Beyblade X",
-      "artikel": "https://www.anime2you.de/news/1053923/rtl-plus-dragon-ball-daima-und-mehr/",
-      "tag": "2026-09-25",
-      "anbieter": [
-        "primevideo",
-        "rtlplus"
-      ],
-      "quelle": "Sammelartikel"
-    },
-    {
       "titel": "Cyberpunk: Edgerunners II",
       "artikel": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
       "tag": "2026-10-20",
@@ -90,24 +89,6 @@
       "tag": "2026-09-25",
       "anbieter": [
         "netflix"
-      ],
-      "quelle": "Sammelartikel"
-    },
-    {
-      "titel": "Campfire Cooking in Another World",
-      "artikel": "https://www.anime2you.de/news/1051128/disney-plus-campfire-cooking-und-mehr/",
-      "tag": "2026-09-17",
-      "anbieter": [
-        "disneyplus"
-      ],
-      "quelle": "Sammelartikel"
-    },
-    {
-      "titel": "One Piece",
-      "artikel": "https://www.anime2you.de/news/1051128/disney-plus-campfire-cooking-und-mehr/",
-      "tag": "2026-09-17",
-      "anbieter": [
-        "disneyplus"
       ],
       "quelle": "Sammelartikel"
     },

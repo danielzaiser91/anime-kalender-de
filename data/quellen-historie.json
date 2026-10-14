@@ -6206,10 +6206,16 @@
   ],
   "adn-197": [
     {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/10/12/bleach-alle-vier-filme-jetzt-im-stream-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-14",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-08",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
@@ -6220,10 +6226,16 @@
   ],
   "adn-198": [
     {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/10/12/bleach-alle-vier-filme-jetzt-im-stream-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-14",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-08",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
@@ -6234,10 +6246,16 @@
   ],
   "adn-352": [
     {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/10/12/bleach-alle-vier-filme-jetzt-im-stream-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-14",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-08",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
@@ -6248,10 +6266,16 @@
   ],
   "adn-361": [
     {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/10/12/bleach-alle-vier-filme-jetzt-im-stream-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-14",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-08",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
@@ -6945,6 +6969,33 @@
       "url": "https://www.anime2you.de/news/1054460/rtl-plus-zwei-pokemon-filme/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-13",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-196144-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-14",
+      "sagt": "2026-10-13",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-891-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1060037/dragon-ball-z-filmbox-2-blu-ray-termin/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-14",
+      "sagt": "2027-01-15",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-172019-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1058419/dr-stone-science-future-part-2-disc-termin/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-14",
+      "sagt": "2027-01-15",
       "stand": "aktuell"
     }
   ]
