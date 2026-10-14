@@ -4,10 +4,12 @@
  * `UPDATE titel_zeile` einen Zusammenstoß einmischen kann. Wird von den Titelzeilen-Tests je Anbieter geteilt.
  */
 import { DatabaseSync } from 'node:sqlite'
-import { readdirSync, readFileSync } from 'node:fs'
+import { mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { handlePruefung } from '../worker/src/pruefung.ts'
 import { lies as liesDaten, zaehleOffene } from '../worker/src/titelzeile-format.ts'
-import { einspielAnweisungen, exportSql, SEITE, type PruefZeile, type RohZeile, type Vorhanden } from './titelzeile-einspielen-bau.ts'
+import { einspielLauf, type Abfrage } from './titelzeile-einspielen-lauf.ts'
 
 const NUR = /pruefung|prime_folge|such_erwartung|schreib_tag|lauf_status|titel_zeile/
 
@@ -58,22 +60,17 @@ const schalter = (an: boolean | string) => (an === true ? 'disneyplus' : an === 
 /** Die Verlustabfrage mit eingesetztem Anbieter, wie ihr Kopfkommentar es per sed vorgibt. */
 export const verlustSql = (plattform: string) => readFileSync('worker/einmalig/titel-zeile-verlust.sql', 'utf8').replaceAll('__PLATTFORM__', plattform)
 
+/** Die Abfrage des Einspielens gegen die Testdatenbank (statt wrangler). */
+export const abfrageAus = (db: DatabaseSync): Abfrage => (sql) => ({ results: db.prepare(sql).all() as Record<string, unknown>[] })
+
 /**
- * Das Einspielen wie `tools/titelzeile-einspielen.ts`, gegen die Testdatenbank: dieselben Export-Abfragen Seite für Seite,
- * derselbe Bau, dieselben Anweisungen. Gibt die Zahl der Anweisungen zurück (0 = nichts mehr zu tun).
+ * Ein Lauf von `tools/titelzeile-einspielen.ts` gegen die Testdatenbank (`einspielLauf`, frischer Ordner = erster Lauf),
+ * danach die Anweisungen ausgeführt. Gibt ihre Zahl zurück (0 = nichts mehr zu tun).
  */
 export function spieleEin(db: DatabaseSync, plattform = 'disneyplus'): number {
-  const seiten = <Z extends { id: number }>(tabelle: 'pruefung' | 'prime_folge') => {
-    const zeilen: Z[] = []
-    for (let ab = 0; ; ) {
-      const seite = db.prepare(exportSql(tabelle, plattform, ab)).all() as Z[]
-      zeilen.push(...seite)
-      if (seite.length < SEITE) return zeilen
-      ab = seite.at(-1)!.id
-    }
-  }
-  const vorhanden = db.prepare(exportSql('titel_zeile', plattform)).all() as Vorhanden[]
-  const sql = einspielAnweisungen(plattform, seiten<PruefZeile>('pruefung'), seiten<RohZeile>('prime_folge'), vorhanden)
+  const ordner = mkdtempSync(join(tmpdir(), 'titelzeile-'))
+  const { sql } = einspielLauf(plattform, ordner, abfrageAus(db))
+  rmSync(ordner, { recursive: true })
   for (const a of sql) db.exec(a)
   return sql.length
 }
