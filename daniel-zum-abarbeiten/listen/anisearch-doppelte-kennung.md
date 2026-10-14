@@ -2,13 +2,12 @@
 
 Stand 2026-10-12. Gemessen an `public/data/titles.json`: **42 Kennungen, 117 Titel**; alle 42 sind gewollt (Handdatei bindet sie, aniSearch führt Filmreihen und Serie samt Special auf einer Seite).
 Nichts davon ist geändert. Hier stehen die Fälle, die nicht eindeutig belegt sind. Quelle: lokale Archivseiten `data/anisearch-raw/<Kennung>.html.gz`, kein Abruf.
-**Stand 13.10.2026 (die drei Fraglichen, Beleg in `docs/wissen/datensatz.md` und `berichte/live-messung-rest-2026-10-13.md`):** Durarara!! Specials bleibt bei 5473 (Bindung an 6984 kostete der Zeile 10006984 den deutschen Titel); Tachikoma 2005 und Afro Samurai Movie bleiben bei Dominiks Bindung — keine aniSearch-Seite trägt ihre MAL, nichts widerlegt. Die fünf „vorübergehend doppelten“ Paare unten sind geheilt.
+**Stand 13.10.2026 (die drei Fraglichen, Beleg in `docs/wissen/datensatz.md` und `berichte/live-messung-rest-2026-10-13.md`):** Durarara!! Specials (8408) entfällt als Sammeleintrag (Regel „Teilung“, Daniel 13.10.: Crunchyroll-Beleg an Tenka Taihei 6986); Tachikoma 2005 und Afro Samurai Movie bleiben bei Dominiks Bindung — keine aniSearch-Seite trägt ihre MAL, nichts widerlegt. Die fünf „vorübergehend doppelten“ Paare unten sind geheilt.
 
 ## Titel, deren Seite nicht sicher zu ihnen passt
 
 | Titel (AniList-Kennung) | Jahr | Umfang | aniSearch-Seite | Grund |
 |---|---|---|---|---|
-| Durarara!! Specials (8408) | 2010 | 2 Folgen | 5473 (Serie, 24 Folgen) | aniSearch führt die zwei Specials als eigene Bonus-Seiten 6984 und 6986 (je 1 Folge, MAL 8408); Handbindung stammt von Dominik (06.10.), „Folgen 12.5 und 25". Die Zeilen 10006984/10006986 stehen zusätzlich in `ohne-synchro.json`. |
 | Ghost in the Shell SAC: The Laughing Man – Tachikoma no Hibi (10947) | 2005 | 1 Folge | 4405 („Bonus, 26", 2002–2003) | Jahr und Folgenzahl der Seite passen nicht zum Titel; ein eigener Eintrag für das Special aus 2005 ist lokal nicht zu sehen (Seite nicht abgerufen). |
 | AFRO SAMURAI Movie (13709) | 2007 | 1 Film | 1119 (Serie, 5 Folgen) | Zusammenschnitt der Serie; aniSearch führt dazu keine eigene Film-Seite (nur „Resurrection" und „Pilot Film" in den Beziehungen). Vermutlich richtig, nur nicht belegt. |
 
@@ -24,22 +23,9 @@ Dieselbe Kennung steht in `titles.json` (aniSearch-Zeile mit Deutsch) und in `oh
 | Rick and Morty: The Anime | 2024 | TV, 10 | 10019445 / 150103 | 19445 |
 | Der Herr der Ringe: Die Schlacht der Rohirrim | 2024 | Film | 10019566 / 185613 | 19566 |
 
-## Eine MAL-Kennung, mehrere aniSearch-Seiten — Regelvorschlag (13.10.2026)
+## Eine MAL-Kennung, mehrere aniSearch-Seiten (13.10.2026)
 
-Anlass: Durarara!! Specials (MAL 8408) stehen dreifach da (AniList-Titel 8408 und die Zeilen 10006984, 10006986). Die Tabelle weiter unten ist die Messung für den ganzen Datensatz.
-
-**Befund.** 79 MAL-Kennungen tragen zwei oder mehr aniSearch-Seiten. Nur **19** davon sind eine *vollständige Teilung* (AniList-Titel mit N Folgen, die Seiten zusammen genau N: AniList fasst zusammen, aniSearch teilt), im **Hauptbestand** nur **3**:
-Durarara!! Specials (8408), Angel Beats! Stairway to Heaven (9062), Pokémon XY&Z-Special (106499). Die übrigen sind eine unvollständige Teilung (16: Special/Bonus unter der MAL einer größeren Einheit, Summe passt nicht), kein AniList-Titel mit der MAL (29, jede Seite eine eigene Zeile, kein Doppel) oder schon sauber getrennt (15, jede Seite hat ihren eigenen AniList-Titel).
-
-**Regelvorschlag „Teilung“** (nur für *vollständige* Teilung; Bedingung zählt der Test in `tools/anisearch-mal-mehrfach.test.mjs` nach):
-1. Gilt, wenn genau ein AniList-Titel A die MAL m trägt, mindestens zwei aniSearch-Seiten m tragen, jede Seite eine Folgenzahl hat und deren Summe gleich `A.episodes` ist.
-2. Dann sind die **Seiten** das Werk (Titel, Termin, Deutsch, Beleg gehören zur Seite, Daniels Grundsatz „jede aniSearch-Seite ist ein Titel“); A ist nur der Sammelname und steht nicht zusätzlich da.
-3. **Vorrang:** Trägt A einen Handbeleg (`data/dub-confirmed.yaml`) oder trägt eine Seite einen (Forum-Treffer, Handdatei), bleibt dieser Beleg an seiner Kennung; die Regel löscht nichts, was ein Handbeleg nennt. Nur A ohne Handbeleg darf weichen.
-4. Die Handbindung `A → Seite` (`8408: 6984`) ist keine Lösung: sie lässt die Zeile weichen, nicht A (Bau-Vergleich 13.10.2026: 10006984 verlor den deutschen Titel, `dubConfidence` high → normal).
-
-**Warum nicht umgesetzt.** Die Regel ist nur für zwei der drei Hauptbestandsfälle eindeutig: Angel Beats! (9062) und Pokémon (106499) tragen keinen Handbeleg, A könnte weichen. Bei **Durarara!! (8408)** führt `dub-confirmed.yaml` einen Handbeleg (Crunchyroll, 25 Folgen deutsch, „eines der beiden Specials, welches ist nicht belegt“): Er ließe sich weder auf 6984 noch auf 6986 übertragen, ohne mehr zu behaupten, als er sagt; löscht man A, steht er ohne Titel, behält man A, bleibt das Dreifach. Dazu bleibt die Richtung für die 16 Katalogfälle zu entscheiden (Seiten gewinnen oder AniList-Titel bleibt; Beispiel Aware! Meisaku-kun: AniList 230 Folgen, aniSearch sechs Staffelseiten). Der Bau ist deshalb unverändert.
-
-**Offen für Daniel.** (a) Gilt „Seiten gewinnen“ auch im Katalog hinter dem Schalter? (b) Durarara!!: Handbeleg 8408 stehen lassen und das Dreifach akzeptieren, oder A weichen lassen und den Beleg als „Crunchyroll führt eines der beiden Specials“ an beide Seiten hängen?
+Befund und Regel „Teilung“ stehen an einer Stelle: `docs/wissen/datensatz.md`, Abschnitt „Eine MAL-Kennung, mehrere aniSearch-Seiten“. Hier die Messung für den ganzen Datensatz.
 
 <!-- mal-mehrfach:anfang -->
 Stand 2026-10-13, gemessen an `data/anisearch-eintraege.json`, `public/data/titles.json`, `public/data/ohne-synchro.json` (kein Abruf). Erzeugt mit `node tools/anisearch-mal-mehrfach.mjs --schreiben`.
@@ -49,7 +35,7 @@ Stand 2026-10-13, gemessen an `data/anisearch-eintraege.json`, `public/data/titl
 | Art | Gruppen | davon im Hauptbestand |
 |---|---|---|
 | teilung-voll: AniList fasst zusammen, aniSearch teilt (Summe der Seiten = Folgen des Titels) | 19 | 3 |
-| teilung-teil: Special/Bonus unter der MAL einer größeren Einheit (Summe passt nicht) | 16 | 5 |
+| teilung-teil: Special/Bonus unter der MAL einer größeren Einheit (Summe passt nicht oder mehrere Titel) | 16 | 5 |
 | ohne-anilist: kein AniList-Titel mit dieser MAL im Bestand; jede Seite eine eigene Zeile | 29 | 2 |
 | getrennt: jede Seite hat ihren eigenen AniList-Titel | 15 | 0 |
 
@@ -57,7 +43,7 @@ Stand 2026-10-13, gemessen an `data/anisearch-eintraege.json`, `public/data/titl
 
 | MAL | Seite (erste) | AniList-Titel (Folgen, Ort) | aniSearch-Seiten (Folgen, dt. = Deutsch, [Zeile im Ort], ← getragen von) | Σ Folgen |
 |---|---|---|---|---|
-| 8408 | Durarara!!: Tenmou Kaikai | 8408 (2 F., Hauptbestand, Beleg) | 6984: 1 dt. [Hauptbestand] Beleg; 6986: 1 dt. [Hauptbestand] Beleg | 2 |
+| 8408 | Durarara!!: Tenmou Kaikai | 8408 (2 F., Hauptbestand) | 6984: 1 dt. [Hauptbestand] Beleg; 6986: 1 dt. [Hauptbestand] Beleg | 2 |
 | 9062 | Angel Beats! Stairway to Heaven | 9062 (2 F., Hauptbestand) | 6864: 1 dt. [Hauptbestand] Beleg; 10510: 1 [Katalog] | 2 |
 | 34325 | Pocket Monsters XY & Z: XYZ no Denset… | 106499 (2 F., Hauptbestand) | 11938: 1 dt. [Hauptbestand] Beleg; 11939: 1 [Katalog] | 2 |
 | 1236 | SF Saiyuuki Starzinger | 1236 (73 F., Katalog) | 84: 64 ← 1236; 1032: 9 [Katalog] | 73 |

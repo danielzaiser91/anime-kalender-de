@@ -77,6 +77,7 @@ pipeline/check-katalog-eingefroren.ts
 pipeline/check-katalog-release.ts
 pipeline/check-kino-zuletzt.ts
 pipeline/check-logic.ts
+pipeline/check-mal-teilung.ts
 pipeline/check-motn-reihe.ts
 pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts

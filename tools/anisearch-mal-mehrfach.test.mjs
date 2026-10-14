@@ -34,6 +34,11 @@ assert.equal(art(allein, 7), 'ohne-anilist')
 const luecke = findeMalMehrfach({ 1: seite(8, 1), 2: { ...seite(8, 1), f: undefined } }, [anilist(1, 8, 1)], [])
 assert.equal(art(luecke, 8), 'teilung-teil')
 
+// Regel „genau ein AniList-Titel": tragen zwei Titel die MAL, passt die Summe beider nicht als Teilung (Gegenprobe: mit einem Titel wäre sie voll).
+const zwei = findeMalMehrfach({ 1: seite(9, 1), 2: seite(9, 1) }, [anilist(1, 9, 1), anilist(2, 9, 1)], [])
+assert.equal(art(zwei, 9), 'teilung-teil')
+assert.equal(art(findeMalMehrfach({ 1: seite(9, 1), 2: seite(9, 1) }, [anilist(1, 9, 2)], []), 9), 'teilung-voll')
+
 // Die Liste nennt die Summe, die der Test nachrechnet.
 const md = listeAlsMarkdown(gruppen, '2026-10-13')
 assert.match(md, /\| 1 \| Seite 1\/1 \| 100 \(2 F\., Hauptbestand, Beleg\) \| 10: 1 dt\. \[Hauptbestand\]; 11: 1 dt\. \[Hauptbestand\] \| 2 \|/)

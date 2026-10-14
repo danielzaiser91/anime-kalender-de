@@ -14,18 +14,30 @@ function grund(ids: number[], text: string): [number, string][] {
   return ids.map((id) => [id, text])
 }
 
-/** aniSearch-Kennung → Grund, warum ihre MAL-Kennung auch ein AniList-Titel trägt (Stand 08.10.2026, Befund am Datensatz). */
+/**
+ * aniSearch-Kennung → Grund, warum ihre MAL-Kennung auch ein AniList-Titel trägt (Stand 08.10.2026, Befund am Datensatz).
+ * Eine vollständige Teilung braucht keinen Eintrag: der Bau lässt dort den AniList-Titel weichen (`bau/mal-teilung.ts`, 13.10.2026).
+ */
 export const MAL_AUSNAHMEN: Record<number, string> = Object.fromEntries([
-  ...grund([3873, 5194, 5879, 6864, 6984, 6986, 6990, 6994, 10586, 11635, 11938, 13343, 13418, 13419, 14752, 18616], TEIL),
+  ...grund([3873, 5194, 5879, 6990, 6994, 10586, 11635, 13343, 13418, 13419, 14752, 18616], TEIL),
   ...grund([6828, 7051, 7052, 7069, 9303, 13220], ZWEI_WERKE),
   ...grund([19697], 'Kitarou Tanjou „Shinsei-ban": zweite Fassung desselben Films, unsicher, bisher nicht angefasst'),
 ])
 
 /**
- * Dubletten, die die Handdatei auflöst, sobald der Bau mit ihr gelaufen ist: aniSearch-Kennung → letzter Tag, an dem die Zeile noch stehen darf
- * (Ablauf 15.10.2026). Danach wird sie rot, bis der Datensatz neu gebaut ist.
+ * Dubletten, die die Handdatei oder die Teilungsregel auflöst, sobald der Bau mit ihr gelaufen ist: aniSearch-Kennung → letzter Tag, an dem die Zeile noch stehen darf
+ * (Ablauf 15.10.2026, die Teilung 16.10.2026). Danach wird sie rot, bis der Datensatz neu gebaut ist.
  */
-export const MAL_UEBERGANG: Record<number, string> = { 21084: '2026-10-15', 21566: '2026-10-15', 21575: '2026-10-15', 21751: '2026-10-15' }
+export const MAL_UEBERGANG: Record<number, string> = {
+  21084: '2026-10-15',
+  21566: '2026-10-15',
+  21575: '2026-10-15',
+  21751: '2026-10-15',
+  6864: '2026-10-16',
+  6984: '2026-10-16',
+  6986: '2026-10-16',
+  11938: '2026-10-16',
+}
 
 type Titel = { id: number; malId?: number }
 

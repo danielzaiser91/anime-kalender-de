@@ -1,4 +1,4 @@
-import { anisearchUmgezogenInBestand } from './anisearch-titel.ts'
+import { umgezogeneKennungen } from './mal-teilung.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import { schreibeKern } from './cartoon-kern.ts'
 import { kinoFeld, mitAnkuendigung, NEIN_GILT_TAGE, type EntfernterVerweis } from './grundlagen.ts'
@@ -122,7 +122,7 @@ export function baueAuslieferung({
        * 23.09. nicht mehr sauber zusammenführen; die Zeile steht deshalb direkt hier.
        */
       const hinterToggle = new Set(verschoben.map((t) => t.id))
-      for (const id of anisearchUmgezogenInBestand(jetzt, hinterToggle, new Set(verschoben.filter((t) => t.jpStatus === 'NOT_YET_RELEASED' || mitAnkuendigung(t).ankuendigung).map((t) => t.id)))) hinterToggle.add(id)
+      for (const id of umgezogeneKennungen(jetzt, hinterToggle, new Set(verschoben.filter((t) => t.jpStatus === 'NOT_YET_RELEASED' || mitAnkuendigung(t).ankuendigung).map((t) => t.id)))) hinterToggle.add(id)
       const verloren = vorher.filter((id) => !jetzt.has(id) && !hinterToggle.has(id))
       if (verloren.length > ERLAUBTER_VERLUST) {
         warn(

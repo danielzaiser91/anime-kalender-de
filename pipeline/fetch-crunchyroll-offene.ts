@@ -149,8 +149,8 @@ export async function main(): Promise<void> {
    * Crunchyroll hängt Nebenausgaben gern an die Staffel, zu der sie gehören:
    * „Love, Chunibyo & Other Delusions - Heart Throb - (German Dub)" hat 13
    * Folgen — die Staffel mit 12 plus die OVA als S2 E13; bei Durarara führt die
-   * Serie 25 Folgen, 24 plus eines der Specials (Daniel, 13.09.2026, beide mit
-   * Bild). Wer nur nach genau gleicher Folgenzahl sucht, findet in beiden Fällen
+   * Serie 25 Folgen, 24 plus das Special Tenka Taihei (aniSearch 6986; Daniel,
+   * 13.09.2026, beide mit Bild). Wer nur nach genau gleicher Folgenzahl sucht, findet in beiden Fällen
    * keinen Block. Diese Liste liefert die Zahlen, mit denen sich die Summe
    * rechnen lässt.
    */
@@ -573,7 +573,7 @@ export async function main(): Promise<void> {
           Untertiteln, und daraus wurde am 10.09.2026 ein Nein. Im Block
           „(German Dub)" steht dieselbe Folge als S2 E13 mit Synchro — 13 Folgen
           = Staffel 12 + OVA 1. Bei Durarara führt die Serie 25 deutsche Folgen,
-          24 plus eines der beiden Specials.
+          24 plus das Special Tenka Taihei (aniSearch 6986).
 
           Gerechnet wird mit den Folgenzahlen aus unserem Bestand: Ein deutscher
           Block, dessen Folgenzahl eine Hauptserie der Reihe um **mindestens
