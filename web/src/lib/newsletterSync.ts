@@ -1,4 +1,5 @@
 import { useEffect, useRef, useSyncExternalStore } from 'react'
+import { dienstFetch } from './dienstFetch.ts'
 
 /**
  * Hält die im Newsletter gespeicherten Favoriten aktuell.
@@ -112,7 +113,7 @@ export function setSyncMail(mail: string): void {
 
 /** Sendet die Liste und meldet, ob der Schlüssel noch gilt. */
 export async function pushFavorites(token: string, favorites: number[]): Promise<number> {
-  const res = await fetch(`${WORKER_URL}/favorites`, {
+  const res = await dienstFetch(`${WORKER_URL}/favorites`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ token, favorites, ak: 1 }),
@@ -136,7 +137,7 @@ export async function pushFavorites(token: string, favorites: number[]): Promise
  * löschte oder das Gerät wechselte, verlor sie deshalb, obwohl sie da waren.
  */
 export async function pullFavorites(token: string): Promise<number[]> {
-  const res = await fetch(`${WORKER_URL}/favorites?token=${encodeURIComponent(token)}`)
+  const res = await dienstFetch(`${WORKER_URL}/favorites?token=${encodeURIComponent(token)}`)
   const body = (await res.json()) as {
     ok?: boolean
     favorites?: number[]
@@ -162,7 +163,7 @@ export async function pullFavorites(token: string): Promise<number[]> {
  * deshalb nichts zurück, was er auswerten könnte.
  */
 export async function requestRestore(email: string): Promise<void> {
-  const res = await fetch(`${WORKER_URL}/restore`, {
+  const res = await dienstFetch(`${WORKER_URL}/restore`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),
@@ -172,6 +173,17 @@ export async function requestRestore(email: string): Promise<void> {
   if (!res.ok || !body.ok) throw new Error(body.error ?? 'Anfrage fehlgeschlagen')
 }
 
+/** Meldet eine Adresse an; der Dienst schickt die Bestätigungsmail (Double-Opt-in). */
+export async function subscribe(daten: { email: string; frequency: string; platforms: string[]; favorites: number[] }): Promise<void> {
+  const res = await dienstFetch(`${WORKER_URL}/subscribe`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...daten, ak: 1 }),
+  })
+  const body = (await res.json()) as { ok?: boolean; error?: string }
+  if (!res.ok || !body.ok) throw new Error(body.error ?? 'Unbekannter Fehler')
+}
+
 /**
  * Beendet das Abo, zu dem dieser Browser den Schlüssel hat.
  *
@@ -179,7 +191,7 @@ export async function requestRestore(email: string): Promise<void> {
  * Verbindung zu einem Abo, das es nicht mehr gibt.
  */
 export async function unsubscribeByToken(token: string): Promise<void> {
-  const res = await fetch(`${WORKER_URL}/unsubscribe`, {
+  const res = await dienstFetch(`${WORKER_URL}/unsubscribe`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ token }),
@@ -261,7 +273,7 @@ export interface Einstellungen {
  */
 export async function ladeEinstellungen(token: string): Promise<Einstellungen> {
   if (!WORKER_URL) throw new Error('Der Newsletter-Dienst ist in dieser Installation nicht verbunden.')
-  const res = await fetch(`${WORKER_URL}/prefs?token=${encodeURIComponent(token)}`)
+  const res = await dienstFetch(`${WORKER_URL}/prefs?token=${encodeURIComponent(token)}`)
   const body = await alsJson<Partial<Einstellungen> & { ok?: boolean; error?: string }>(res)
   /**
    * Ein 404 von hier wird **nachgeprüft**, nicht geglaubt und nicht ignoriert.
@@ -309,7 +321,7 @@ export async function speichereEinstellungen(
   werte: { frequency: 'daily' | 'weekly'; platforms: string[]; franchiseHinweis?: boolean },
 ): Promise<void> {
   if (!WORKER_URL) throw new Error('Der Newsletter-Dienst ist in dieser Installation nicht verbunden.')
-  const res = await fetch(`${WORKER_URL}/prefs`, {
+  const res = await dienstFetch(`${WORKER_URL}/prefs`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ token, ...werte }),
@@ -342,7 +354,7 @@ async function alsJson<T>(res: Response): Promise<T> {
  * Web-Client immer hinterher").
  */
 export async function favoritenFeedAdresse(token: string, neu = false): Promise<string> {
-  const res = await fetch(`${WORKER_URL}/feed-token`, {
+  const res = await dienstFetch(`${WORKER_URL}/feed-token`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ token, neu }),
