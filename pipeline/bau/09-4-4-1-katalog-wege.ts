@@ -1,5 +1,6 @@
 import { readJson, log } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
+import { dubKey } from '../lib/dub-confirmed.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 
 /**
@@ -37,9 +38,10 @@ import { type AnisearchEintrag } from './01-quellen.ts'
  * **Und nur bei genau einer Staffel** — aus demselben Grund wie eine Runde
  * darüber: Eine Serienkennung ist ein Franchise.
  */
-export function legeCrWegeAusKatalogAn({ titles, anisearch }: {
+export function legeCrWegeAusKatalogAn({ titles, anisearch, handNein }: {
   titles: Map<number, Title>
   anisearch: Record<string, AnisearchEintrag>
+  handNein: ReadonlySet<string>
 }) {
   let ausKatalogNeu = 0
   const katalog = readJson<{
@@ -49,6 +51,7 @@ export function legeCrWegeAusKatalogAn({ titles, anisearch }: {
   if (nachKennung.size) {
     for (const title of titles.values()) {
       if (title.streams.some((s) => s.platform === 'crunchyroll')) continue
+      if (handNein.has(dubKey(title.id, 'crunchyroll'))) continue
       const asCr = (anisearch[title.id]?.streams ?? []).find((q) => q.provider === 'crunchyroll')
       const kennung = /\/series\/([A-Z0-9]+)/.exec(asCr?.url ?? '')?.[1]
       if (!kennung) continue

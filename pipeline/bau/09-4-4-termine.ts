@@ -6,6 +6,7 @@ import { meldeAnClaude } from '../lib/meldung.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import { type CrDubData } from '../lib/crunchyroll-dub.ts'
+import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
 import { legeCrWegeAusKatalogAn } from './09-4-4-1-katalog-wege.ts'
 
 export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, verschwunden, usNeinOffen, nachUrl, releases }: {
@@ -18,7 +19,11 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
   nachUrl: Map<string, Title[]>
   releases: Release[]
 }) {
-    legeCrWegeAusKatalogAn({ titles, anisearch })
+    legeCrWegeAusKatalogAn({
+      titles,
+      anisearch,
+      handNein: neinHandbelege(loadDubChecks()),
+    })
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
     if (verschwunden) log(`${verschwunden} Crunchyroll-Verweise entfernt — die Serie ist dort nicht mehr verfügbar`)
     if (usNeinOffen) log(`${usNeinOffen} Crunchyroll-Serien mit US-„nicht verfügbar" bleiben offen — der deutsche Katalog führt sie`)

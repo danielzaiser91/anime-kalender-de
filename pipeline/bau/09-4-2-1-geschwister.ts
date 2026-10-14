@@ -2,6 +2,7 @@ import { log, slugify } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { type CrDubData } from '../lib/crunchyroll-dub.ts'
+import { dubKey } from '../lib/dub-confirmed.ts'
 
 type SerieMitTiteln = { serie: CrDubData['serien'][number]; titel: Map<number, Title> }
 
@@ -32,10 +33,11 @@ type SerieMitTiteln = { serie: CrDubData['serien'][number]; titel: Map<number, T
  * eine Sprachfassung über den falschen Titel, und das ist schlimmer als
  * eine Lücke, die eine Zeile im Log nennt.
  */
-export function ordneGeschwisterBloeckeZu({ nachSerienId, titles, katalogEintraege }: {
+export function ordneGeschwisterBloeckeZu({ nachSerienId, titles, katalogEintraege, handNein }: {
   nachSerienId: Map<string, SerieMitTiteln>
   titles: Map<number, Title>
   katalogEintraege: KatalogEintrag[]
+  handNein: ReadonlySet<string>
 }) {
   let geschwisterBloecke = 0
   for (const { serie, titel: gruppe } of nachSerienId.values()) {
@@ -61,6 +63,7 @@ export function ordneGeschwisterBloeckeZu({ nachSerienId, titles, katalogEintrae
       const treffer = [...ausBestand.map((t) => t.id), ...ausKatalog.map((e) => e.id)]
       if (treffer.length !== 1) continue
       const id = treffer[0]!
+      if (handNein.has(dubKey(id, 'crunchyroll'))) continue
       let ziel = titles.get(id)
       if (!ziel) {
         const e = katalogEintraege.find((x) => x.id === id)!

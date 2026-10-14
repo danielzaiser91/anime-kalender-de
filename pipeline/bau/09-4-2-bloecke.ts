@@ -10,6 +10,7 @@ import { log } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { vorDemStart } from '../lib/crunchyroll-vollstaendig.ts'
+import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
 import { ordneGeschwisterBloeckeZu } from './09-4-2-1-geschwister.ts'
 
 export function ordneCrBloeckeZu({ crDub, nachUrl, titles, katalogEintraege }: {
@@ -206,5 +207,10 @@ export function ordneCrBloeckeZu({ crDub, nachUrl, titles, katalogEintraege }: {
     }
     if (teilbloecke) log(`${teilbloecke} weitere über Teilblöcke belegt (Titel plus zweiter Teil füllen einen Block)`)
 
-    ordneGeschwisterBloeckeZu({ nachSerienId, titles, katalogEintraege })
+    ordneGeschwisterBloeckeZu({
+      nachSerienId,
+      titles,
+      katalogEintraege,
+      handNein: neinHandbelege(loadDubChecks()),
+    })
 }
