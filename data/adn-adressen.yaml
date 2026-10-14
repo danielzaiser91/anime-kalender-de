@@ -75,3 +75,14 @@
 459: 882 # One Piece • Le Film — 882-one-piece-le-film (vde, vostde)
 460: 904 # One Piece Film 2 — 904-one-piece-film-aventure-de-lile-de-lhorloge (vde, vostde)
 2107: 924 # One Piece Film 8 — 924-one-piece-film-episode-alabasta-les-pirates-et-la-princesse-du-desert (vde, vostde)
+# --- Gemessen am 14.10.2026: vier Wege auf der alten Domain animationdigitalnetwork.de ---
+#
+# Die Wege (`…de/video/<slug>`) trugen keine Kennung, und die Serien stehen nicht mehr in der Liste `/show`
+# (264 Serien am 14.10.2026), wohl aber im eigenen Archiv `data/adn-raw/`. Zugeordnet über den Namensteil: Die
+# Adresse, die ADN dort selbst ausgibt (`show.url` im Archiv), trägt wörtlich denselben.
+#   uq-holder → 1131-uq-holder (12 Folgen, alle vde) · free-take-your-marks → 1177-free-take-your-marks (1 Film, vde)
+#   fire-force, fire-force-saison-2 → 562-fire-force (zwei ADN-Staffeln zu je 24 Folgen, alle vde; beide Titel zeigen auf die Serie, ohne ?s=)
+21855: 1131 # UQ Holder! (vde)
+98497: 1177 # Free! Take Your Marks (vde)
+105310: 562 # Fire Force, Staffel 1 (vde)
+114236: 562 # Fire Force, Staffel 2 (vde)
