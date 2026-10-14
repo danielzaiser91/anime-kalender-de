@@ -34,6 +34,7 @@ try {
     6: seite(link('Actas Inc.')),
     7: seite(link('A-1 Pictures')),
     8: seite(link('Foo Co., Ltd.')),
+    9: seite(`${link('Madhouse')}, ${link('Bones')}`),
   }
   for (const [id, html] of Object.entries(seiten)) writeFileSync(join(dir, `${id}.html.gz`), gzipSync(html))
 
@@ -44,6 +45,10 @@ try {
   const bestand = [titel(1, ['TMS Entertainment', 'Studio Pierrot']), titel(2, ['TMS Entertainment', 'Xebec']), titel(4, ['Group TAC']), titel(ANISEARCH_ID_BASIS + 9, ['TMS Entertainment Co., Ltd.'])]
   const schreibweisen = anilistSchreibweisen(bestand)
   pruefe('Schreibweise: AniList-Form gewinnt, Katalogtitel zählen nicht', schreibweisen.get('tmsentertainment') === 'TMS Entertainment' && schreibweisen.get('pierrot') === 'Studio Pierrot', JSON.stringify([...schreibweisen]))
+  const katalog = anilistSchreibweisen([titel(1, ['Madhouse']), titel(2, ['Madhouse']), titel(3, ['Madhouse Inc.']), titel(ANISEARCH_ID_BASIS + 1, ['Madhouse Inc.']), titel(ANISEARCH_ID_BASIS + 2, ['Madhouse Inc.'])])
+  pruefe('Schreibweise: Katalogtitel zählen nicht, auch wenn ihre Form häufiger ist', katalog.get('madhouse') === 'Madhouse', JSON.stringify([...katalog]))
+  const haeufig = anilistSchreibweisen([titel(1, ['Madhouse']), titel(2, ['Madhouse']), titel(3, ['Madhouse Inc.'])])
+  pruefe('Schreibweise: die häufigste AniList-Form gewinnt, nicht die seltenere', haeufig.get('madhouse') === 'Madhouse', JSON.stringify([...haeufig]))
   const gemischt = studiosInBestandsschreibweise(['TMS Entertainment Co., Ltd.', 'ネスト', 'TMS Entertainment Inc.'], schreibweisen)
   pruefe('Schreibweise: Rechtsform fällt weg, Unbekanntes bleibt, Doppelte fallen weg', JSON.stringify(gemischt) === JSON.stringify(['TMS Entertainment', 'ネスト']), JSON.stringify(gemischt))
   const gleicheSchluessel = studiosInBestandsschreibweise(['XEBEC, Inc.', 'Group Tac Co., Ltd.'], schreibweisen)
@@ -85,6 +90,9 @@ try {
   const anders = geteilt(6, [[], ['Studio Pierrot']])
   ergaenzeStudiosAusArchiv(anders.titles, dir, anders.kennungen)
   pruefe('Geteilte Seite: Studio der Geschwister widerspricht der Seite, das Leere bleibt leer', !anders.titles.get(anders.ids[0]!)!.studios?.length)
+  const widerspricht = geteilt(9, [[], ['Madhouse'], ['Bones']])
+  ergaenzeStudiosAusArchiv(widerspricht.titles, dir, widerspricht.kennungen)
+  pruefe('Geteilte Seite: Geschwister widersprechen sich, jedes passt zur Seite, das Leere bleibt leer', !widerspricht.titles.get(widerspricht.ids[0]!)!.studios?.length, JSON.stringify(widerspricht.titles.get(widerspricht.ids[0]!)))
   const alleLeer = geteilt(8, [[], []])
   ergaenzeStudiosAusArchiv(alleLeer.titles, dir, alleLeer.kennungen)
   pruefe('Geteilte Seite: kein Geschwister nennt eines, beide bekommen das der Seite', alleLeer.ids.every((id) => alleLeer.titles.get(id)!.studios?.[0] === 'Foo'))
