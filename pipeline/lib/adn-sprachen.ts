@@ -47,10 +47,16 @@
  *   sind deutsch und eine nicht; welche unser Eintrag meint, sagt der Verweis
  *   nicht. Raten wäre hier billig zu haben und genau deshalb falsch.
  *
- * `show.languages` aus derselben Antwort wird **nicht** ausgewertet: Das Feld
- * ist nicht serienweit gleich, sondern wechselt innerhalb einer Datei mit der
- * Folge (bei Serie 444 kommen `["vostde"]` und `["vde","vostde"]` nebeneinander
- * vor). Was je Folge steht, steht ohnehin schon je Folge.
+ * `show.languages` in den Antworten je Video (`/video/show/<id>`) wird **nicht**
+ * ausgewertet: Dort ist das Feld nicht serienweit gleich, sondern wechselt
+ * innerhalb einer Datei mit der Folge (bei Serie 444 kommen `["vostde"]` und
+ * `["vde","vostde"]` nebeneinander vor, 39- und 113-mal, am 14.10.2026). Was je
+ * Folge steht, steht ohnehin schon je Folge.
+ *
+ * Das gilt nur dort. Die **Serienliste** (`/show`) führt `languages` je Serie, und
+ * das deckte sich am 14.10.2026 bei allen 257 Serien mit Archiv damit, ob
+ * irgendeine ihrer Folgen `vde` trägt; `adn-neuzugaenge.ts` liest es, um eine
+ * Serie ohne deutsche Fassung nicht bei jedem Lauf neu zu fragen.
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { gunzipSync } from 'node:zlib'
