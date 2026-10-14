@@ -12,12 +12,12 @@
       "ketten": 37
     },
     "web/src": {
-      "funktionen": 4062,
-      "dateien": 385,
+      "funktionen": 4056,
+      "dateien": 380,
       "ketten": 41
     },
     "worker/src": {
-      "funktionen": 644,
+      "funktionen": 640,
       "dateien": 830,
       "ketten": 3
     },
