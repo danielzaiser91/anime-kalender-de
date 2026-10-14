@@ -7,7 +7,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { useAbSm } from '../lib/use-breit.ts'
 import { coverBild } from '../lib/cover.ts'
 import { istStaffelstart } from '../lib/staffelstart.ts'
-import { ART_STIL, kartenArt, type KartenArt } from '../lib/kachel-folgen.ts'
+import { ART_STIL, artName, kartenArt, type KartenArt } from '../lib/kachel-folgen.ts'
 import { tageDerWoche, type Tag } from './WeekView.tsx'
 import { buendeleKacheln } from '../lib/buendel.ts'
 import { anbieterVerlauf, eigenstaendigBeiAnbietern, kanalAnbieterVon, vereineAnbieter, zeitGemeinsam, type AnbieterKachel } from '../lib/anbieter-kachel.ts'
@@ -208,7 +208,7 @@ function punkteLabel(stream: ReleaseEvent[], tvZahl: number, datum: string, p: M
     const a = p.arten?.get(ev.id)
     const koepfe = (p.mehrere?.get(ev.id) ?? [[ev]]).map((b) => b[0]!)
     const anbieter = koepfe.map((k) => (k.platform === 'tv' ? (k.sender ?? PLATFORMS.tv.name) : PLATFORMS[k.platform].name)).join(' + ')
-    return `${ev.name} (${a ? `${anbieter}, ${t(ART_STIL[a].name)}` : anbieter})`
+    return `${ev.name} (${a ? `${anbieter}, ${artName(a, termineDerKachel(ev, p), t)}` : anbieter})`
   })
   const rest = stream.length - titel.length
   const teile = [...titel, ...(rest > 0 ? [t('kal.undWeitere', { n: rest })] : []), ...(tvZahl ? [t('kal.imTvZahl', { n: tvZahl })] : [])]
@@ -221,6 +221,11 @@ function TagesZahl({ tag, heute }: { tag: Tag; heute: boolean }) {
       {Number(tag.date.slice(8))}
     </span>
   )
+}
+
+/** Alle Termine der Kachel eines Termins (alle Anbieter, ganze Bündel) — daraus liest `artName` den Anbieter der Marke. */
+function termineDerKachel(ev: ReleaseEvent, p: MonatProps): ReleaseEvent[] {
+  return (p.mehrere?.get(ev.id) ?? [p.buendel?.get(ev.id) ?? [ev]]).flat()
 }
 
 /** Die Art jeder Kachel: die erste, die einer ihrer Anbieter-Bündel trägt (wie in der Woche). */
@@ -340,7 +345,7 @@ function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?
           <SpracheMarke event={ev} t={t} />
           {a && (
             <span className={`rounded-full px-1.5 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#0d0f14] ${ART_STIL[a].fahne}`}>
-              {t(ART_STIL[a].name)}
+              {artName(a, termineDerKachel(ev, p), t)}
             </span>
           )}
           {ev.premiere && <PremiereMarke platform={ev.platform} vorher={ev.premiereVorher} className="px-1.5" />}

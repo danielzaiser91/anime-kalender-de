@@ -7,6 +7,7 @@
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { expandEvents } from '../shared/logic.ts'
 import { fuegeTermineEin, kernMitTerminTiteln } from './bau/13-7-angebot-termine.ts'
+import { digestMail } from '../worker/src/templates.ts'
 import { IM_ANGEBOT_HINWEIS, buildIcs, eventDescription, eventSummary } from '../shared/ics.ts'
 
 let verletzt = 0
@@ -40,13 +41,27 @@ console.log('\nIm Angebot seit (Termin):')
   const [ev] = expandEvents(katalog())
   const titel = eventSummary(ev!)
   const text = eventDescription(ev!, {})
-  pruefe('Titel der Kalenderdatei sagt „im Angebot“', titel === 'Fairy Tail (im Angebot)', titel)
+  pruefe('Titel der Kalenderdatei sagt „neu bei <Anbieter>“', titel === 'Fairy Tail (neu bei Crunchyroll)', titel)
   pruefe('Beschreibung nennt den Unterschied zum Erscheinungstag', text.includes(IM_ANGEBOT_HINWEIS), text)
   pruefe('weder Titel noch Beschreibung behaupten „erschienen am“', !/erschienen am|Start:/i.test(`${titel}\n${text.replace(IM_ANGEBOT_HINWEIS, '')}`), text)
   const [premiere] = expandEvents(katalog({ dateMeaning: undefined }))
   pruefe('ein Termin ohne Katalogdatum bleibt unverändert', eventSummary(premiere!) === 'Fairy Tail' && !eventDescription(premiere!, {}).includes(IM_ANGEBOT_HINWEIS))
   const ics = buildIcs([ev!]).split('\r\n ').join('')
-  pruefe('die .ics-Datei trägt Titel und Hinweis', ics.includes('SUMMARY:Fairy Tail (im Angebot)') && ics.includes('Im Angebot seit diesem Tag'), ics)
+  pruefe('die .ics-Datei trägt Titel und Hinweis', ics.includes('SUMMARY:Fairy Tail (neu bei Crunchyroll)') && ics.includes('Im Angebot seit diesem Tag'), ics)
+}
+
+console.log('\nNeu bei <Anbieter> (Kalenderdatei und Newsletter folgen dem Anbieter des Termins):')
+{
+  const [adn] = expandEvents(katalog({ platform: 'adn' }))
+  pruefe('Kalenderdatei: ADN-Termin heißt „neu bei ADN“', eventSummary(adn!) === 'Fairy Tail (neu bei ADN)', eventSummary(adn!))
+  const [tv] = expandEvents(katalog({ platform: 'tv', sender: 'RTL Zwei' } as Partial<Release>))
+  pruefe('Kalenderdatei: bei TV der Sender', eventSummary(tv!) === 'Fairy Tail (neu bei RTL Zwei)', eventSummary(tv!))
+  const mail = digestMail([adn!], 'daily', 'https://anime-kalender.de/', 'https://x/u', {})
+  pruefe('Newsletter-Zeile sagt „neu bei ADN“', mail.html.includes('neu bei ADN') && !mail.html.includes('im Angebot'), mail.html.match(/.{40}neu bei.{20}/)?.[0])
+  const [cr] = expandEvents(katalog())
+  pruefe('Newsletter-Zeile folgt dem Anbieter (Crunchyroll)', digestMail([cr!], 'daily', 'https://anime-kalender.de/', 'https://x/u', {}).html.includes('neu bei Crunchyroll'))
+  const [ohne] = expandEvents(katalog({ platform: 'adn', dateMeaning: undefined }))
+  pruefe('Newsletter ohne Katalogdatum: kein „neu bei“', !digestMail([ohne!], 'daily', 'https://anime-kalender.de/', 'https://x/u', {}).html.includes('neu bei'))
 }
 
 console.log('\nIm Angebot seit (Bau: Termine nachtragen):')
