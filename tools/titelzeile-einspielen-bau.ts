@@ -85,13 +85,15 @@ const SPALTEN: Record<Tabelle, string> = {
 
 /**
  * Eine Seite des Exports. `pruefung`/`prime_folge` nach `id` ab `ab` (ohne Index auf `plattform` liest jede Seite die
- * Zeilen aller Anbieter in ihrem Id-Bereich, alle Seiten zusammen jede Tabelle also einmal); `titel_zeile` ganz.
+ * Zeilen aller Anbieter in ihrem Id-Bereich, alle Seiten zusammen jede Tabelle also einmal); `titel_zeile` ganz. `bis`
+ * (nur die Probeseite) deckelt den Id-Bereich, damit die Seite höchstens so viele Zeilen liest.
  */
-export function exportSql(tabelle: Tabelle, plattform: string, ab = 0): string {
+export function exportSql(tabelle: Tabelle, plattform: string, ab = 0, bis?: number): string {
   const anbieter = `plattform = ${text(plattform)}`
   if (tabelle === 'titel_zeile') return `SELECT ${SPALTEN[tabelle]} FROM titel_zeile WHERE ${anbieter}`
   const gti = tabelle === 'prime_folge' ? ' AND gti IS NOT NULL' : ''
-  return `SELECT ${SPALTEN[tabelle]} FROM ${tabelle} WHERE ${anbieter}${gti} AND id > ${Math.trunc(ab)} ORDER BY id LIMIT ${SEITE}`
+  const grenze = bis === undefined ? '' : ` AND id <= ${Math.trunc(bis)}`
+  return `SELECT ${SPALTEN[tabelle]} FROM ${tabelle} WHERE ${anbieter}${gti} AND id > ${Math.trunc(ab)}${grenze} ORDER BY id LIMIT ${SEITE}`
 }
 
 /** Eine fertige Titelzeile: Daten und je Kopffeld der Zeitpunkt der Meldung, aus der es stammt. */

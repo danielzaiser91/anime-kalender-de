@@ -74,9 +74,11 @@ export const abfrageAus =
   }
 
 function gelesenIm(db: DatabaseSync, sql: string, results: Record<string, unknown>[]): number {
-  const seite = /FROM (pruefung|prime_folge) WHERE .* AND id > (\d+) ORDER BY id LIMIT (\d+)$/s.exec(sql)
+  const seite = /FROM (pruefung|prime_folge) WHERE .* AND id > (\d+)(?: AND id <= (\d+))? ORDER BY id LIMIT (\d+)$/s.exec(sql)
   if (!seite) return results.length
-  const bis = results.length < Number(seite[3]) ? '' : ` AND id <= ${Number(results.at(-1)!.id)}`
+  const voll = results.length === Number(seite[4])
+  const obergrenze = voll ? results.at(-1)!.id : seite[3]
+  const bis = obergrenze === undefined ? '' : ` AND id <= ${Number(obergrenze)}`
   return zahl(db, `SELECT COUNT(*) AS n FROM ${seite[1]} WHERE id > ${seite[2]}${bis}`)
 }
 

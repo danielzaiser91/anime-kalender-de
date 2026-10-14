@@ -9,10 +9,10 @@
  *
  * Aufruf: `npx tsx tools/titelzeile-einspielen-lauf.test.ts`
  */
-import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs'
+import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { einspielLauf, SCHWELLE, type Abfrage } from './titelzeile-einspielen-lauf.ts'
+import { einspielLauf, PROBE_BEREICH, SCHWELLE, type Abfrage } from './titelzeile-einspielen-lauf.ts'
 import { abfrageAus, neueDatenbank, zahl } from './worker-titelzeile-hilfe.ts'
 
 let fehler = 0
@@ -101,6 +101,140 @@ console.log('Probelauf: Schwelle')
   const weiter = einspielLauf('netflix', zweiter, abfrageAus(db), true)
   pruefe(weiter.neu.pruefung === 1500 && weiter.sql.length === 25, `nächster Lauf setzt hinter der Probeseite fort (${weiter.neu.pruefung} neu, ${weiter.sql.length} Anweisungen)`)
   rmSync(zweiter, { recursive: true })
+}
+
+/** Der Lauf bricht ab (Meldung) oder läuft durch (leer); `protokoll` sammelt die Abfragen. */
+function versuche(db: ReturnType<typeof neueDatenbank>, ordner: string, faktor: number, protokoll: string[] = []): string {
+  try {
+    einspielLauf('netflix', ordner, abfrageAus(db, faktor, protokoll), true)
+    return ''
+  } catch (e) {
+    return (e as Error).message
+  }
+}
+
+console.log('Probelauf: Hochrechnung hinter einer Marke (Start > 0, volle Probeseite)')
+{
+  /* Marke 2000: die Probeseite von pruefung ist voll (1000 Netflix-Zeilen ab id 2001) und endet bei id 3500, die Tabelle bei 4250.
+     Bis zum Ende sind es 2250 Ids, 750 davon noch hinter der Seite: bei Faktor 90 rechnet pruefung 90 × 2250 = 202.500,
+     prime_folge 90 × 748 = 67.320, plus 2 × 90 für die MAX-Abfragen 270.000 >= 250.000. Ohne `- start` im Bereich (3500 statt 1500) wäre der Faktor
+     36 und die Hochrechnung 1.500 × 90 + 36 × 750 + 67.320 = 229.320: kein Abbruch. */
+  const db = bestand()
+  const ordner = neuerOrdner()
+  writeFileSync(`${ordner}/pruefung-bis.json`, '2000')
+  const meldung = versuche(db, ordner, 90)
+  pruefe(meldung.includes('Hochrechnung 270000 '), `Faktor 90 hinter Marke 2000: Abbruch (${meldung.slice(0, 40)})`)
+  rmSync(ordner, { recursive: true })
+}
+
+console.log('Probelauf: Abbruch schon nach der ersten Probe')
+{
+  const db = bestand()
+  const ordner = neuerOrdner()
+  const protokoll: string[] = []
+  const meldung = versuche(db, ordner, 300, protokoll)
+  pruefe(meldung.includes('erreicht die Schwelle'), `Faktor 300: allein pruefung reißt die Schwelle (${meldung.slice(0, 40)})`)
+  pruefe(protokoll.length === 2 && !protokoll.some((s) => s.includes('prime_folge')), `prime_folge nicht mehr gefragt (${protokoll.length} Abfragen)`)
+  rmSync(ordner, { recursive: true })
+}
+
+console.log('Probelauf: Id-Bereich der Probeseite begrenzt')
+{
+  /* prime_folge: 60.000 Zeilen von Prime, erst dahinter 10 Netflix-Rohfolgen; pruefung: 100 Netflix-Zeilen. Die Probeseite
+     liest höchstens PROBE_BEREICH Zeilen (ohne Deckel alle 60.010), findet nichts, ist aber nicht die letzte Seite: der
+     Export geht dahinter weiter und findet die 10. */
+  const db = neueDatenbank()
+  const meldung = db.prepare("INSERT INTO pruefung (plattform, url, befund, gemeldet_am, staffel, folge_nr, vorhanden, ton_de, art) VALUES ('netflix', ?, 'dub', ?, 1, ?, 'ja', 'ja', 'gemessen')")
+  for (let i = 0; i < 100; i++) meldung.run(url(i % 5), AM, i + 1)
+  const roh = db.prepare("INSERT INTO prime_folge (plattform, url, gti, nummer, staffel_nr, titel, vorhanden, ton_de, gemeldet_am) VALUES (?, ?, ?, ?, 1, 'Folge', 'ja', 'ja', ?)")
+  db.exec('BEGIN')
+  for (let i = 0; i < 60_000; i++) roh.run('primevideo', 'https://www.amazon.de/dp/B0X', `amzn1.${i}`, i, AM)
+  for (let i = 0; i < 10; i++) roh.run('netflix', url(0), `8300${i}`, 101 + i, AM)
+  db.exec('COMMIT')
+  const ordner = neuerOrdner()
+  const protokoll: string[] = []
+  const lauf = einspielLauf('netflix', ordner, abfrageAus(db, 1, protokoll), true)
+  const erste = protokoll.find((s) => s.includes('FROM prime_folge WHERE'))
+  pruefe(/ AND id <= 25000 /.test(erste ?? ''), `Probeseite hat den Deckel (${erste?.slice(-70)})`)
+  const gelesen = abfrageAus(db)(erste!).meta?.rows_read
+  pruefe(gelesen === PROBE_BEREICH, `Probeseite liest ${gelesen} Zeilen, höchstens ${PROBE_BEREICH}`)
+  pruefe(lauf.neu.prime_folge === 10 && lauf.neu.pruefung === 100, `Export geht hinter dem Deckel weiter (${JSON.stringify(lauf.neu)})`)
+  pruefe(lauf.probelauf.hochrechnung === 60_112 && lauf.gelesen === 60_112, `Hochrechnung ${lauf.probelauf.hochrechnung} = gelesen ${lauf.gelesen}`)
+  rmSync(ordner, { recursive: true })
+
+  const hinter = neuerOrdner()
+  writeFileSync(`${hinter}/prime_folge-bis.json`, '30000')
+  const protokollHinter: string[] = []
+  const zwei = einspielLauf('netflix', hinter, abfrageAus(db, 1, protokollHinter), true)
+  const probeHinter = protokollHinter.find((s) => s.includes('FROM prime_folge WHERE'))
+  pruefe(/ AND id > 30000 AND id <= 55000 /.test(probeHinter ?? ''), `hinter einer Marke liegt der Deckel hinter der Marke (${probeHinter?.slice(-70)})`)
+  pruefe(zwei.neu.prime_folge === 10, `Marke 30000: die 10 Netflix-Rohfolgen hinter dem Deckel kommen an (${zwei.neu.prime_folge})`)
+  rmSync(hinter, { recursive: true })
+
+  for (const [faktor, abbruch] of [[4, false], [5, true]] as const) {
+    const eigener = neuerOrdner()
+    const text = versuche(db, eigener, faktor)
+    pruefe(text.includes('erreicht die Schwelle') === abbruch, `Deckel: Faktor ${faktor} ${abbruch ? 'bricht ab' : 'läuft'} (${text.slice(0, 30)})`)
+    rmSync(eigener, { recursive: true })
+  }
+}
+
+console.log('Probeseite endet genau an der höchsten id')
+{
+  /* 24.990 Prime-Zeilen und 10 Netflix-Rohfolgen: die höchste id (25.000) ist der Deckel. Die Probeseite ist damit die
+     letzte, eine weitere Seite wäre eine Abfrage umsonst. */
+  const db = neueDatenbank()
+  const roh = db.prepare("INSERT INTO prime_folge (plattform, url, gti, nummer, staffel_nr, titel, vorhanden, ton_de, gemeldet_am) VALUES (?, ?, ?, ?, 1, 'Folge', 'ja', 'ja', ?)")
+  db.exec('BEGIN')
+  for (let i = 0; i < PROBE_BEREICH - 10; i++) roh.run('primevideo', 'https://www.amazon.de/dp/B0X', `amzn1.${i}`, i, AM)
+  for (let i = 0; i < 10; i++) roh.run('netflix', url(0), `8300${i}`, 101 + i, AM)
+  db.exec('COMMIT')
+  const ordner = neuerOrdner()
+  const protokoll: string[] = []
+  const lauf = einspielLauf('netflix', ordner, abfrageAus(db, 1, protokoll), true)
+  const seiten = protokoll.filter((s) => s.includes('FROM prime_folge WHERE')).length
+  pruefe(seiten === 1 && lauf.neu.prime_folge === 10, `eine Seite für prime_folge, 10 Rohfolgen (${seiten} Seiten, ${lauf.neu.prime_folge})`)
+  rmSync(ordner, { recursive: true })
+}
+
+console.log('Probelauf: leere Seite meldet Lesezeilen')
+{
+  /* Der dritte Lauf hat nichts zu lesen (Marke = höchste id), D1 meldet für die leere Seite trotzdem eine gelesene Zeile:
+     Bereich 0, also Faktor 0 – keine Division durch 0, kein Faktor 1. */
+  const db = bestand()
+  const ordner = neuerOrdner()
+  einspielLauf('netflix', ordner, abfrageAus(db), true)
+  const leer: Abfrage = (sql) => {
+    const a = abfrageAus(db)(sql)
+    return { results: a.results, meta: { rows_read: (a.meta?.rows_read ?? 0) + 1 } }
+  }
+  const nochmal = einspielLauf('netflix', ordner, leer, true)
+  pruefe(nochmal.probelauf.faktor === 'pruefung 0.00, prime_folge 0.00', `leere Probeseite: Faktor 0 (${nochmal.probelauf.faktor})`)
+  pruefe(nochmal.probelauf.hochrechnung === 6, `Hochrechnung = gelesene Zeilen (${nochmal.probelauf.hochrechnung})`)
+  rmSync(ordner, { recursive: true })
+}
+
+console.log('Probelauf: Zeilen kommen zwischen MAX und Probeseite dazu')
+{
+  /* Marke 3500, danach 167 Netflix-Zeilen; nach `MAX(id)` kommen 1.500 dazu: die volle Seite endet hinter der höchsten id.
+     Der Rest bis zur höchsten id ist dann negativ und darf die Hochrechnung nicht unter die gelesenen Zeilen drücken. */
+  const db = bestand()
+  const ordner = neuerOrdner()
+  writeFileSync(`${ordner}/pruefung-bis.json`, '3500')
+  const einmal = abfrageAus(db)
+  let eingefuegt = false
+  const racig: Abfrage = (sql) => {
+    const a = einmal(sql)
+    if (!eingefuegt && sql.includes('AS id FROM pruefung')) {
+      eingefuegt = true
+      const meldung = db.prepare("INSERT INTO pruefung (plattform, url, befund, gemeldet_am, staffel, folge_nr, vorhanden, ton_de, art) VALUES ('netflix', ?, 'dub', ?, 1, ?, 'ja', 'ja', 'gemessen')")
+      for (let i = 0; i < 1500; i++) meldung.run(url(0), AM, 500 + i)
+    }
+    return a
+  }
+  const lauf = einspielLauf('netflix', ordner, racig, true)
+  pruefe(lauf.probelauf.hochrechnung === 2334, `Hochrechnung ${lauf.probelauf.hochrechnung} = gelesene Zeilen der Proben (1 + 1.583 + 1 + 749), nicht darunter`)
+  rmSync(ordner, { recursive: true })
 }
 
 console.log('Ohne rows_read')
