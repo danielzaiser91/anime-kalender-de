@@ -9,7 +9,7 @@ import { alle, ANISEARCH_ID_BASIS, anisearchUmgezogenInBestand } from './anisear
  * **Teilt aniSearch ein AniList-Werk Folge für Folge auf Seiten auf, sind die Seiten das Werk und der Sammeltitel entfällt** (Daniel, 13.10.2026: Durarara!! Specials,
  * Angel Beats! Tokubetsu-hen, Pokémon XY&Z-Special; Regel und Messung in `docs/wissen/datensatz.md`). Bedingung: `findeTeilungen` (`lib/mal-teilung.ts`).
  *
- * Gilt nur, wenn eine Seite Deutsch führt; eine Teilung nur im Katalog hinter dem Schalter bleibt, bis entschieden ist, ob die Regel dort gilt.
+ * Gilt überall, auch ohne deutsche Fassung und im Katalog hinter dem Schalter (Daniel, 14.10.2026: einzelne Auflistung wie aniSearch).
  * Nennt eine Handdatei den Sammeltitel (Beleg, Termin, Verweis), bleibt er stehen und wird im Protokoll genannt: erst die Datei umhängen, dann fällt er weg.
  */
 export type TeilungsQuellen = {
