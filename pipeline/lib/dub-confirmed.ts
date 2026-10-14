@@ -346,7 +346,7 @@ export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' |
 }
 
 /** Verneint ein Handbeleg aus `neinHandbelege` den Weg zu `url`? */
-export function wegVerneint(nein: ReadonlySet<string>, anilistId: number, platform: string, url: string): boolean {
+export function wegVerneint(nein: ReadonlySet<string>, anilistId: number, platform: string, url: string | undefined): boolean {
   const titel = dubKey(anilistId, platform)
   return nein.has(titel) || nein.has(`${titel}|${adressKern(url)}`)
 }
