@@ -1,5 +1,6 @@
 import { PLATFORMS, type Release, type Title } from '@shared/types.ts'
 import { addDays, formatDate } from '@shared/time.ts'
+import { verlagIstAnbieter } from '@shared/verlag-anbieter.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { NewsletterVerbindung } from '../../lib/newsletterSync.ts'
 import type { berechneAntwort } from './antwort-berechnen.ts'
@@ -40,7 +41,7 @@ export function angebotSeitZeileVon(title: Title, t: Translate): string | undefi
     !(
       title.deErstausgabe?.von &&
       title.deErstausgabe.von <= title.angebotSeit.date &&
-      (title.deErstausgabe.publisher ?? '').toLowerCase().includes((PLATFORMS[title.angebotSeit.platform]?.name ?? '§').toLowerCase())
+      verlagIstAnbieter(title.deErstausgabe.publisher, title.angebotSeit.platform)
     )
     ? t('antwort.imAngebotSeit', {
         datum: formatDate(title.angebotSeit.date),

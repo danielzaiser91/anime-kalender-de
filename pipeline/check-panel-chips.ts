@@ -8,6 +8,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import type { PlatformId, Release, StreamLink, Title } from '../shared/types.ts'
 import { formatDate } from '../shared/time.ts'
 import { verlagIstAnbieter } from '../shared/verlag-anbieter.ts'
+import { angebotSeitZeileVon } from '../web/src/components/detail/kasten-hinweise.ts'
 import { streamZeilen, terminPillen } from '../web/src/components/detail/wege-zeilen.tsx'
 import { ausgabenOhneDeSichtbar, kanalTerminQuelle, kastenNenntSeit, seitDatumFuerPille, seitDatumVon, seitenKern } from '../web/src/components/detail/chips-regeln.ts'
 
@@ -146,6 +147,12 @@ pruefe('Hensuki: Verlag Kazé, Pille Crunchyroll — „seit“ bleibt', streamH
 pruefe('Verlag Amazon, Pille Netflix: „seit“ bleibt', !ohneSeit('netflix', 'https://www.netflix.com/title/1', 'Amazon.com, Inc.'))
 pruefe('verlagIstAnbieter: Tabelle und Name', verlagIstAnbieter('Amazon.com, Inc.', 'primevideo') && verlagIstAnbieter('The Walt Disney Company', 'disneyplus') && verlagIstAnbieter('Netflix, Inc.', 'netflix') && verlagIstAnbieter('Crunchyroll', 'crunchyroll') && verlagIstAnbieter('Disney+', 'disneyplus'))
 pruefe('verlagIstAnbieter: andere Verlage nicht', !verlagIstAnbieter('Amazon.com, Inc.', 'netflix') && !verlagIstAnbieter('Kazé', 'crunchyroll') && !verlagIstAnbieter('Walt Disney Studios Motion Pictures', 'disneyplus') && !verlagIstAnbieter(undefined, 'netflix'))
+const angebotZeile = (platform: PlatformId, date: string, verlag: string) =>
+  angebotSeitZeileVon({ angebotSeit: { platform, date }, ...erstausgabe('2026-07-04', verlag) } as unknown as Title, t)
+pruefe('Kasten: „Amazon.com, Inc.“ nennt die Erstausgabe schon (früher oder gleich) — keine Zeile „im Angebot seit“ bei Prime Video', angebotZeile('primevideo', '2026-07-04', 'Amazon.com, Inc.') === undefined)
+pruefe('Kasten: „The Walt Disney Company“ bei Disney+ — keine Zeile', angebotZeile('disneyplus', '2026-07-05', 'The Walt Disney Company') === undefined)
+pruefe('Kasten: Verlag Kazé bei Crunchyroll — die Zeile bleibt', angebotZeile('crunchyroll', '2026-07-04', 'Kazé') !== undefined)
+pruefe('Kasten: Verlag Amazon, Angebot bei Netflix — die Zeile bleibt', angebotZeile('netflix', '2026-07-04', 'Amazon.com, Inc.') !== undefined)
 pruefe('kastenNenntSeit: Angebot', kastenNenntSeit(angebot('crunchyroll', '2026-07-20') as never, 'crunchyroll', '2026-07-20') && !kastenNenntSeit(angebot('crunchyroll', '2026-07-20') as never, 'crunchyroll', '2026-07-21'))
 pruefe('seitDatumFuerPille: Datum, wenn der Kasten schweigt; sonst nichts', seitDatumFuerPille(titel(), 'crunchyroll', [termin()]) === '2026-07-20' && seitDatumFuerPille(titel(angebot('crunchyroll', '2026-07-20')), 'crunchyroll', [termin()]) === undefined)
 
