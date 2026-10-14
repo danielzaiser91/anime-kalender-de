@@ -110,7 +110,7 @@ oder Rand von `rand` auf `leise`), nie Fläche und Rand und Text zugleich; der �
 | Eingabefeld | `border-ak-rand bg-ak-flaeche placeholder:text-ak-sehr-leise` | `border-ak-leise` | `border-ak-akzent` + Ring | — | `opacity-45` |
 
 Fokus (umgesetzt 14.10.2026): **eine** Regel `:focus-visible { outline: 2px solid var(--ak-fokus); outline-offset: 2px }` in `web/src/styles.css` (Layer `base`),
-Bauteile setzen nichts und schalten den Umriss nie ab (`tools/design-fokus.test.mjs` in `check:logic`); Einträge in Scrollflächen: `focus-visible:-outline-offset-2`,
+Bauteile setzen nichts und schalten den Umriss nie ab (`tools/design-fokus.test.mjs` in `check:logic`; verboten `outline-none`, `outline-hidden`, `outline-0`, `outline-transparent`, auch mit Präfix); Einträge in Scrollflächen: `focus-visible:-outline-offset-2`,
 Karten mit sr-only-Knopf: `has-[.ak-oeffnen:focus-visible]:outline-*`; Ausnahme `tabindex=-1` (nur Skript-Fokus). `ring-*` nicht für Fokus (box-shadow kollidiert mit Rändern und `ak-katalog-glanz`). Deaktiviert: `disabled:opacity-45 disabled:cursor-default`,
 immer dieselbe Stufe. Klick-Modus im Filterfenster (Auswählen grün / Ausschließen rot gefüllt) bleibt: die Farbe des Modus ist die Farbe der
 Pille, die er erzeugt, und ⊘ ist das zweite Merkmal.

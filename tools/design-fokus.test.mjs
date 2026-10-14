@@ -15,7 +15,7 @@ const quelle = join(wurzel, 'web', 'src')
 export const VERBOTEN = [
   { name: 'Fokus als Ring (box-shadow kollidiert mit Rändern)', muster: /focus(-visible|-within)?\]?:ring/ },
   { name: 'Ring-Abstand für Fokus', muster: /ring-offset/ },
-  { name: 'Umriss abgeschaltet (Fokus unsichtbar)', muster: /(^|[\s'"`:])outline-none\b/ },
+  { name: 'Umriss abgeschaltet (Fokus unsichtbar)', muster: /(^|[\s'"`:!])(outline-none|outline-hidden|outline-0|outline-transparent)\b/ },
   { name: 'Fokus-Umriss je Bauteil statt der einen Regel', muster: /:focus-visible\s*\{[^}]*outline/ },
 ]
 
@@ -48,10 +48,21 @@ const beispiele = [
   'ring-offset-4',
   "'focus:outline-none'",
   'className="rounded outline-none"',
+  "'focus-visible:outline-hidden'",
+  "'focus:outline-0'",
+  "'outline-transparent'",
+  "'!outline-0'",
   '.pn-x:focus-visible { outline: 2px solid red; }',
 ]
 for (const b of beispiele) assert.ok(findeVerstoesse('beispiel', b).length > 0, `Muster erkennt nicht: ${b}`)
-const erlaubt = ["'focus-visible:-outline-offset-2'", 'has-[.ak-oeffnen:focus-visible]:outline-2', 'ring-1 ring-ak-akzent', 'group-focus-within:opacity-100']
+const erlaubt = [
+  "'focus-visible:-outline-offset-2'",
+  'has-[.ak-oeffnen:focus-visible]:outline-2',
+  'ring-1 ring-ak-akzent',
+  'group-focus-within:opacity-100',
+  'outline-offset-0',
+  'focus-visible:outline-2',
+]
 for (const e of erlaubt) assert.deepEqual(findeVerstoesse('beispiel', e), [], `Muster schlägt zu Unrecht an: ${e}`)
 
 // Die eine Regel steht in styles.css; dort ist der Fokus-Umriss gewollt.
