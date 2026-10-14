@@ -307,6 +307,8 @@ const TEXTE = {
   // jemand 39 Folgen auf einer Seite, die 91 zeigt.
   'detail.teilBereich': 'Flg. {von}–{bis}',
   'detail.teilBereichTitel': 'Dieser Eintrag umfasst dort die Folgen {von} bis {bis}',
+  'detail.teilFolge': 'Flg. {nr}',
+  'detail.teilFolgeTitel': 'Dieser Eintrag umfasst dort die Folge {nr}',
   'detail.teilStaffel': 'Staffel {von}–{bis}',
   'detail.teilStaffelEine': 'Staffel {nr}',
   'detail.teilLautTmdb': 'laut TMDB',

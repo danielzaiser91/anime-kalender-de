@@ -36,6 +36,13 @@ pruefe('Lücke im Ausschnitt trennt', falteTeilwege([weg(1, 5), weg(7, 9)]).leng
 pruefe('andere Adresse trennt', falteTeilwege([weg(1, 5), { ...weg(6, 9), url: `${url}2` }]).length === 2)
 pruefe('anderer Anbieter trennt', falteTeilwege([weg(1, 5), { ...weg(6, 9), platform: 'disneyplus' }]).length === 2)
 pruefe('Zugangsart trennt', falteTeilwege([weg(1, 5, { zugang: 'abo' }), weg(6, 9, { zugang: 'kauf' })]).length === 2)
+// Jedes Feld der Aussage einzeln: Ohne es in `aussage()` würden diese Wege falsch zu einem.
+pruefe('Kanal trennt', falteTeilwege([weg(1, 5, { kanal: 'Crunchyroll' }), weg(6, 9)]).length === 2)
+pruefe('Entfernt-am trennt', falteTeilwege([weg(1, 5, { entferntAm: '2026-09-01' }), weg(6, 9)]).length === 2)
+pruefe('Geteilte Adresse trennt', falteTeilwege([weg(1, 5, { sharedWith: 2 }), weg(6, 9)]).length === 2)
+pruefe('Deutsch-Haken allein trennt', falteTeilwege([weg(1, 5, { dub: true }), weg(6, 9)]).length === 2)
+const alleFelder = { kanal: 'K', entferntAm: '2026-09-01', sharedWith: 2, dub: true }
+pruefe('Gleiche Felder: eine Pille', falteTeilwege([weg(1, 5, alleFelder), weg(6, 9, alleFelder)]).length === 1)
 const ganz: StreamLink = { platform: 'primevideo', url }
 pruefe('Weg ohne Ausschnitt bleibt unberührt', falteTeilwege([ganz, ganz]).length === 2 && falteTeilwege([ganz])[0] === ganz)
 
@@ -57,13 +64,22 @@ pruefe('JustWatch- und Handbeleg-Staffeln tragen kein „laut"', !staffelSpanne(
 
 // Texte: ein Stub, der Schlüssel und Werte zeigt.
 const t = ((k: string, p?: Record<string, string | number>) => `${k}${p ? JSON.stringify(Object.values(p)) : ''}`) as unknown as Translate
-const text = (titel: Parameters<typeof teilAngaben>[0], von: number, bis: number) => teilAngaben(titel, { von, bis }, t).unten
+const text = (titel: Parameters<typeof teilAngaben>[0], von: number, bis: number, fg = '') => teilAngaben(titel, { von, bis }, t, fg).unten
 pruefe('Text: Staffeln und Folgen', text(rubble, 1, 98) === 'detail.teilStaffel[1,2] · detail.teilBereich[1,98]', text(rubble, 1, 98))
 pruefe('Text: eine Staffel', text(rubble, 99, 117).startsWith('detail.teilStaffelEine[3]'))
 pruefe('Text: TMDB heißt laut TMDB', text({ ...rubble, staffelnQuelle: 'tmdb' }, 1, 49).includes('(detail.teilLautTmdb)'))
 pruefe('Text: JustWatch-Staffeln ohne „laut TMDB"', !text(rubble, 1, 49).includes('detail.teilLautTmdb'))
 pruefe('Text: ohne Staffelgrenze nur die Folgen', text(rubble, 1, 50) === 'detail.teilBereich[1,50]', text(rubble, 1, 50))
-pruefe('Text: Tooltip nennt die Folgen', teilAngaben(rubble, { von: 1, bis: 98 }, t).titel === 'detail.teilBereichTitel[1,98]')
+pruefe('Text: Tooltip nennt die Folgen', teilAngaben(rubble, { von: 1, bis: 98 }, t, '').titel === 'detail.teilBereichTitel[1,98]')
+
+// Jede Angabe steht einmal: nennt die Folgenangabe der Zeile („Fg. 2–11") denselben Bereich, entfällt „Flg.".
+const fgSoll = (bereich: string) => `detail.folgenBereich${JSON.stringify([bereich])}`
+pruefe('Text: gleiche Folgenangabe entfällt, Staffel bleibt', text(rubble, 1, 49, fgSoll('1–49')) === 'detail.teilStaffelEine[1]', text(rubble, 1, 49, fgSoll('1–49')))
+pruefe('Text: gleiche Folgenangabe ohne Staffel: leer', text(rubble, 1, 50, fgSoll('1–50')) === '')
+pruefe('Text: andere Folgenangabe bleibt daneben', text(rubble, 1, 49, fgSoll('1–10')).endsWith('detail.teilBereich[1,49]'))
+pruefe('Text: eine einzelne Folge heißt „Flg. 1", nicht „1–1"', text(rubble, 1, 1) === 'detail.teilFolge[1]', text(rubble, 1, 1))
+pruefe('Text: einzelne Folge mit gleicher Folgenangabe entfällt', text(rubble, 1, 1, fgSoll('1')) === '')
+pruefe('Text: Tooltip einer einzelnen Folge', teilAngaben(rubble, { von: 1, bis: 1 }, t, '').titel === 'detail.teilFolgeTitel[1]')
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zum Falten der Cartoon-Wege verletzt`)

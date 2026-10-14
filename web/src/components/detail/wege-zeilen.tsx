@@ -87,7 +87,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
                       [
                         folgenAngabe,
                         streamStatus(title, s, releases) === 'justwatch' ? t('detail.stand', { datum: formatDate(s.dubStand!) }) : '',
-                        s.teilBereich ? teilAngaben(title, s.teilBereich, t).unten : '',
+                        s.teilBereich ? teilAngaben(title, s.teilBereich, t, folgenAngabe).unten : '',
                       ]
                         .filter(Boolean)
                         .join(' · ') || undefined
@@ -105,7 +105,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
                       [
                         ...dubZeilen(s),
                         streamNurOmu(title, s, releases) ? t(synchroAngekuendigt(title, s) ? 'detail.pilleNurOmu' : 'detail.pilleNurOmuOffen') : '',
-                        s.teilBereich ? teilAngaben(title, s.teilBereich, t).titel : '',
+                        s.teilBereich ? teilAngaben(title, s.teilBereich, t, folgenAngabe).titel : '',
                         (s.sharedWith ?? 0) > 1
                           ? t('detail.sharedUrlNote', { count: s.sharedWith! })
                           : '',

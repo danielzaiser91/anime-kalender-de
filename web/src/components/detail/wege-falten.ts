@@ -37,13 +37,19 @@ export function staffelSpanne(title: Pick<Title, 'staffeln' | 'staffelnQuelle'>,
   return { von: erste.nr, bis: letzte.nr, laut: title.staffelnQuelle === 'tmdb' ? 'tmdb' : undefined }
 }
 
-/** Unterzeile und Tooltip eines Teilwegs: Staffel (wo der Ausschnitt genau Staffeln trifft) und Folgenbereich; Staffeln aus TMDB als „laut TMDB". */
-export function teilAngaben(title: Pick<Title, 'staffeln' | 'staffelnQuelle'>, teil: { von: number; bis: number }, t: Translate): { unten: string; titel: string } {
-  const flg = t('detail.teilBereich', { von: teil.von, bis: teil.bis })
-  const titel = t('detail.teilBereichTitel', { von: teil.von, bis: teil.bis })
+/**
+ * Unterzeile und Tooltip eines Teilwegs: Staffel (wo der Ausschnitt genau Staffeln trifft) und Folgenbereich; Staffeln aus TMDB als „laut TMDB".
+ * Nennt die Folgenangabe der Zeile („Fg. 2–11") schon denselben Bereich, steht er nicht noch einmal als „Flg." da (Jack, 14.10.2026).
+ */
+export function teilAngaben(title: Pick<Title, 'staffeln' | 'staffelnQuelle'>, teil: { von: number; bis: number }, t: Translate, folgenAngabe: string): { unten: string; titel: string } {
+  const einzeln = teil.von === teil.bis
+  const flg = einzeln ? t('detail.teilFolge', { nr: teil.von }) : t('detail.teilBereich', { von: teil.von, bis: teil.bis })
+  const titel = einzeln ? t('detail.teilFolgeTitel', { nr: teil.von }) : t('detail.teilBereichTitel', { von: teil.von, bis: teil.bis })
+  const bereich = einzeln ? `${teil.von}` : `${teil.von}–${teil.bis}`
+  const folgen = folgenAngabe === t('detail.folgenBereich', { bereich }) ? '' : flg
   const s = staffelSpanne(title, teil)
-  if (!s) return { unten: flg, titel }
+  if (!s) return { unten: folgen, titel }
   const name = s.von === s.bis ? t('detail.teilStaffelEine', { nr: s.von }) : t('detail.teilStaffel', { von: s.von, bis: s.bis })
   const laut = s.laut ? ` (${t('detail.teilLautTmdb')})` : ''
-  return { unten: `${name}${laut} · ${flg}`, titel }
+  return { unten: [`${name}${laut}`, folgen].filter(Boolean).join(' · '), titel }
 }
