@@ -23,16 +23,7 @@
  * Aufruf: `node tools/d1-verbrauch.mjs [--zeitraum 1d]`
  */
 import { execSync } from 'node:child_process'
-
-const GRENZE_GESAMT = 2_500_000
-const GRENZE_EINZELN = 1_000_000
-/*
-  Schreib-Tageskontingent der freien Stufe: 100.000 Zeilen; jede Meldung kostet rund 14. Seit 11.10.2026:
-  ab 50.000 nur eine Warnzeile (Exit 0), rot erst ab 80.000 — der Plan ist unbestätigt, und am
-  11.10.2026 lief der Worker trotz 154.738 Zeilen am Tag weiter.
-*/
-const WARNUNG_GESCHRIEBEN = 50_000
-const GRENZE_GESCHRIEBEN = 80_000
+import { bewerte } from './d1-verbrauch-bewertung.mjs'
 
 const args = process.argv.slice(2)
 const zeitraum = args.includes('--zeitraum') ? (args[args.indexOf('--zeitraum') + 1] ?? '1d') : '1d'
@@ -102,29 +93,8 @@ for (const q of schreiber.slice(0, 3)) {
   )
 }
 
-const befunde = []
-if (geschrieben > GRENZE_GESCHRIEBEN) {
-  befunde.push(
-    `${geschrieben.toLocaleString('de-DE')} geschriebene Zeilen über der Grenze ` +
-      `${GRENZE_GESCHRIEBEN.toLocaleString('de-DE')} (Schreib-Kontingent der freien Stufe: 100.000)`,
-  )
-} else if (geschrieben > WARNUNG_GESCHRIEBEN) {
-  console.log(
-    `::warning::D1-Verbrauch: ${geschrieben.toLocaleString('de-DE')} geschriebene Zeilen, ` +
-      `Warnschwelle ${WARNUNG_GESCHRIEBEN.toLocaleString('de-DE')} (rot ab ${GRENZE_GESCHRIEBEN.toLocaleString('de-DE')})`,
-  )
-}
-if (summe > GRENZE_GESAMT) {
-  befunde.push(
-    `Gesamtverbrauch ${summe.toLocaleString('de-DE')} über der Grenze ${GRENZE_GESAMT.toLocaleString('de-DE')} ` +
-      `(halbes Tageskontingent)`,
-  )
-}
-for (const q of groesste) {
-  if ((q.totalRowsRead ?? 0) > GRENZE_EINZELN) {
-    befunde.push(`eine Abfrage liest ${q.totalRowsRead.toLocaleString('de-DE')} Zeilen: ${kurz(q)}`)
-  }
-}
+const { befunde, warnungen } = bewerte({ gelesen: summe, geschrieben, groesste })
+for (const w of warnungen) console.log(`::warning::D1-Verbrauch: ${w}`)
 
 if (befunde.length) {
   console.log('')
