@@ -19,7 +19,7 @@ export const ladeTmdbPlakate = (): TmdbPlakate => readJson<TmdbPlakate>('data/tm
 export const ladeEigeneCover = (): EigeneCover => readJson<EigeneCover>('data/cover-eigen.json', {})
 
 /** Hat der aniSearch-only-Titel eine eigene Kopie seines Covers (`data/cover-eigen.json`)? */
-export const eigeneKopie = (titelId: number, eigene: EigeneCover): boolean => titelId >= ANISEARCH_AB && Boolean(eigene[String(titelId - ANISEARCH_AB)]?.datei)
+export const eigeneKopie = (titelId: number, eigene: EigeneCover): boolean => Boolean(eigene[String(titelId - ANISEARCH_AB)]?.datei)
 
 /** Die Adresse für einen Titel nach der Regel; `bisher` ist sein AniList-Cover (gekürzt oder voll). */
 export function coverNachRegel(titelId: number, bisher: string | undefined, plakate: TmdbPlakate, eigene: EigeneCover): string | undefined {

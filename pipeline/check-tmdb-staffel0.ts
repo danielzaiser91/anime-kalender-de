@@ -7,6 +7,7 @@ import { eintragHaelt, mehrfachBelegt, urteilStaffel0, type Staffel0Eintrag, typ
 import { staffel0Kandidaten, type Staffel0Kandidat } from './lib/tmdb-staffel0-kandidaten.ts'
 import { setzeBilder, staffel0Faellig, streiche, wende, type Bestaende, type Staffel0Bestand } from './lib/tmdb-staffel0-abruf.ts'
 import type { TmdbBild } from './lib/tmdb-plakat.ts'
+import { eigeneKopie } from './lib/cover-quelle.ts'
 import { readJson } from './lib/util.ts'
 
 let verletzt = 0
@@ -98,6 +99,7 @@ pruefe('AniList-Titel (Kennung unter 10 Mio.): das Plakat ersetzt das AniList-Co
 const ohneDatei = leer()
 setzeBilder('10000099', eintrag(), undefined, { plakat: bild('/p.jpg') }, ohneDatei)
 pruefe('aniSearch-Titel ohne Kopie (Eintrag ohne Datei): das Plakat füllt die Lücke', ohneDatei.poster['10000099']?.p === '/p.jpg')
+pruefe('eigeneKopie: nur aniSearch-Kennungen (ab 10 Mio.) mit Datei; AniList-Kennung 4059 trifft den Eintrag „4059“ nicht', eigeneKopie(10014281, { 14281: { datei: 'x.jpg' } }) && !eigeneKopie(4059, { 4059: { datei: 'x.jpg' } }) && !eigeneKopie(10014281, { 14281: {} }))
 const altePlakat = leer()
 altePlakat.poster['10014281'] = { p: '/alt.jpg', w: 800, h: 1200, l: null }
 setzeBilder('10014281', eintrag(), eintrag({ pp: '/alt.jpg' }), { plakat: bild('/neu.jpg') }, altePlakat)
