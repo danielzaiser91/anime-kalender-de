@@ -43,5 +43,13 @@ pruefe('Gegenprobe: eine Folge je Woche = „Nächste Folge"', datumsZeile(einze
 const fertig = plan({ 1: '2026-03-02', 2: '2026-03-02', 3: '2026-03-02' })
 pruefe('Gegenprobe: ohne künftigen Termin bleibt es „Erste Folge" (kein Plural)', datumsZeile(fertig) === 'Erste Folge', datumsZeile(fertig))
 
+/* TV-Sichtung (auto-21-tv-prosieben-maxx u. a.): Das Panel schließt `sichtung` aus dem Block aus (`folgenblockBis`), das Vorschaubild muss gleich entscheiden. */
+const sichtung = { ...plan({ 1: '2026-03-13', 2: '2026-03-13', 3: '2026-03-13' }), platform: 'tv', tvLetzteSichtung: '2026-03-01' } as unknown as Release
+pruefe('Sichtung: drei Folgen am Tag sind kein Block (wie im Panel)', datumsZeile(sichtung) === 'Nächste Folge', datumsZeile(sichtung))
+
+/* Nummern mit Lücke am selben Tag (Folge 1 und 3): kein lückenloser Block, also Einzahl wie im Panel. */
+const luecke = plan({ 1: '2026-03-13', 3: '2026-03-13', 4: '2026-03-20' })
+pruefe('Lücke: Folge 1 und 3 am selben Tag sind kein Block', datumsZeile(luecke) === 'Nächste Folge', datumsZeile(luecke))
+
 if (fehler) process.exit(1)
 console.log('check-og-termin: ok')
