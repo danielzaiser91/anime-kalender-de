@@ -243,12 +243,6 @@ const TEXTE = {
   'where.discAnzahl': '{n} Ausgaben',
   'where.discAnzahlEine': '1 Ausgabe',
 
-  // Titel ohne belegte deutsche Synchro im Detail-Panel. „Termin unbekannt"
-  // wäre hier falsch: Unbekannt ist nicht der Termin, sondern ob es je eine
-  // deutsche Fassung gibt.
-
-  'detail.noDubTitle': 'Keine deutsche Synchro bekannt',
-  'detail.noDubBody': 'Zu diesem Anime ist bisher keine deutsche Fassung bekannt.',
   // Zwei Fassungen, je nachdem ob ein Newsletter hinterlegt ist. Daniels
   // Vorgabe (15.08.2026): Der Text soll sagen, was der Stern bewirkt, und
   // nichts versprechen, was ohne Abo gar nicht passieren kann.
@@ -287,12 +281,6 @@ const TEXTE = {
   // Ohne Label endete die Zeile auf einem nackten Gedankenstrich („am 19.11.2026 — "),
   // gemessen an „Mila Superstar" am 16.09.2026.
   'antwort.kaufausgabeAmOhne': 'Neue Kaufausgabe am {datum}',
-  // Beide Texte stehen seit dem 12.08.2026 als Hovertext hinter dem Wort
-  // „unbekannt" statt als eigener Kasten — sie erklären, warum dort kein Datum
-  // steht, und das ist eine Fußnote, keine Schlagzeile.
-  'detail.noRelease': 'Eine deutsche Synchro ist belegt, ein deutscher Termin bisher nicht.',
-  'detail.releasedNoDate':
-    'Die deutsche Fassung ist erschienen, das genaue Datum führen wir nicht.',
   'detail.linkStream': 'ansehen',
   'detail.linkBuy': 'kaufen oder leihen',
 
@@ -301,7 +289,6 @@ const TEXTE = {
   'detail.ausgabeOhneDe': 'ohne DE',
   'detail.ausgabeNurUt': 'nur dt. Untertitel',
   'detail.ausgabeTitel': '{anbieter} führt zwei Ausgaben. Diese hat keinen deutschen Ton, die andere schon.',
-  'detail.whereToWatch': 'Wo läuft es',
   'where.umschalter': 'Stream oder Disc',
   'where.umschalterStream': 'Stream',
   'where.umschalterDisc': 'Disc',
@@ -312,10 +299,7 @@ const TEXTE = {
   // Steht unter einer Pille, deren Adresse auf genau eine Folge zeigt — etwa
   // eine Dub-Vorschau. Ohne die Angabe sieht sie aus wie ein Weg zur Serie.
   'detail.nurFolge': 'nur Folge {n}',
-  'detail.whereUnknown': 'Kein Anbieter bekannt.',
   'detail.tvNurVorbei': 'Lief zuletzt im Fernsehen — kein Termin in der Zukunft bekannt.',
-  // Der Aufklapper für eine lange Notiz — siehe DetailPanel, `release.note`.
-  'detail.noteToggle': 'Zur Sprachfassung',
   'detail.sharedUrl': '{count} Einträge',
   // Steht, wo der Anbieter mehrere unserer Einträge in **einer** durchlaufenden
   // Folgenliste führt: Prime zeigt „Captain Tsubasa (2018)" mit 91 Folgen, und
@@ -448,11 +432,6 @@ const TEXTE = {
   // „Sword Art Online" am 11.06.2025 ins Angebot, die deutsche Fassung gibt es
   // seit 2013. Was wir wissen, ist das Datum der Verfügbarkeit — mehr nicht.
   'detail.availableFrom': 'Erscheinungstermin',
-  // Für Titel, deren deutsche Fassung längst draußen ist: Die Zeile nennt
-  // zuerst, dass es sie gibt. „Erscheinungstermin: unbekannt" allein las sich
-  // wie „kommt vielleicht noch".
-  'detail.releasedLabel': 'Deutsche Synchro',
-  'detail.releasedValue': 'vorhanden, Termin nicht erfasst',
   /*
     Eigene Beschriftung, weil „Erscheinungstermin" hier die falsche Auskunft
     waere: Der Tag sagt, seit wann der Anbieter den Titel listet — die deutsche
@@ -634,7 +613,6 @@ const TEXTE = {
   'antwort.synchroOffen': 'Synchro offen',
   'antwort.ankuendigungQuelle': 'Laut {anbieter}, Stand {datum}',
   'antwort.westlichVerfuegbar': 'In Deutschland verfügbar',
-  'antwort.westlichUngeprueft': 'Deutsche Fassung nicht geprüft',
   // JustWatch gilt der Serie, nicht der Folge (Entscheidung 07.09.2026).
   'antwort.westlichJw': 'Deutsche Fassung laut JustWatch',
   'antwort.westlichJwNeben': 'Für die Serie, nicht je Folge: {anbieter}',

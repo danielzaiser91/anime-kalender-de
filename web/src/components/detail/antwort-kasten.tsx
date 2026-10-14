@@ -599,7 +599,7 @@ export function AntwortKasten({
     */
     const ankuendigung = title.westlich ? undefined : title.ankuendigung
     haupt = title.westlich
-      ? T(title.dubHinweis ? 'antwort.westlichJw' : title.streams.length ? 'antwort.westlichVerfuegbar' : 'antwort.westlichUngeprueft')
+      ? T(title.dubHinweis ? 'antwort.westlichJw' : title.streams.length ? 'antwort.westlichVerfuegbar' : 'antwort.synchroOffen')
       : ankuendigung?.synchro === 'angekuendigt'
         ? T('antwort.synchroAngekuendigt')
         : T('antwort.ohneTitel')
