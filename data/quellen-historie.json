@@ -3205,10 +3205,16 @@
   ],
   "adn-561": [
     {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/10/04/warum-gibt-es-diese-woche-keine-neue-folge-one-piece/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-14",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/04/09/one-piece-streame-den-neuen-elbaph-arc-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-12",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
