@@ -30,6 +30,9 @@ try {
     2: seite(link('studio VOLN Co., Ltd.')),
     3: '<section id="information"><div class="adapted"><span class="header">Adaptiert von:</span> Manga</div></section>',
     4: seite(`${link('A')}, ${link('B')}, ${link('C')}, ${link('D')}`),
+    6: seite(link('Actas Inc.')),
+    7: seite(link('A-1 Pictures')),
+    8: seite(link('Foo Co., Ltd.')),
   }
   for (const [id, html] of Object.entries(seiten)) writeFileSync(join(dir, `${id}.html.gz`), gzipSync(html))
 
@@ -66,6 +69,24 @@ try {
   pruefe('Ergänzen: ein vorhandenes Studio wird nie ersetzt', JSON.stringify(titles.get(ids[1]!)!.studios) === JSON.stringify(['Eigenes Studio']))
   pruefe('Ergänzen: Seite ohne Studio und fehlende Seite lassen es leer', !titles.get(ids[2]!)!.studios?.length && !titles.get(ids[4]!)!.studios?.length)
   pruefe('Ergänzen: Zähler nennt die ergänzten Titel (Seite 1 und 4)', n === 2, `${n}`)
+
+  /* Geteilte Seiten (Kennungen von Hand, wie sie Handdatei oder MAL-Brücke liefern würden). */
+  const geteilt = (seite: number, studiosJeTitel: string[][]): { titles: Map<number, Title>; kennungen: Map<number, number>; ids: number[] } => {
+    const ids = studiosJeTitel.map((_, i) => 1000 * seite + i)
+    return { ids, titles: new Map(ids.map((id, i) => [id, titel(id, studiosJeTitel[i])])), kennungen: new Map(ids.map((id) => [id, seite])) }
+  }
+  const einig = geteilt(6, [[], [], ['Actas']])
+  ergaenzeStudiosAusArchiv(einig.titles, dir, einig.kennungen)
+  pruefe('Geteilte Seite: Geschwister mit gleichem Studio, das Leere bekommt es', JSON.stringify(einig.titles.get(einig.ids[0]!)!.studios) === JSON.stringify(['Actas']), JSON.stringify(einig.titles.get(einig.ids[0]!)))
+  const streit = geteilt(7, [[], ['AIC A.S.T.A.'], ['A-1 Pictures']])
+  ergaenzeStudiosAusArchiv(streit.titles, dir, streit.kennungen)
+  pruefe('Geteilte Seite: Geschwister mit verschiedenen Studios, das Leere bleibt leer', !streit.titles.get(streit.ids[0]!)!.studios?.length)
+  const anders = geteilt(6, [[], ['Studio Pierrot']])
+  ergaenzeStudiosAusArchiv(anders.titles, dir, anders.kennungen)
+  pruefe('Geteilte Seite: Studio der Geschwister widerspricht der Seite, das Leere bleibt leer', !anders.titles.get(anders.ids[0]!)!.studios?.length)
+  const alleLeer = geteilt(8, [[], []])
+  ergaenzeStudiosAusArchiv(alleLeer.titles, dir, alleLeer.kennungen)
+  pruefe('Geteilte Seite: kein Geschwister nennt eines, beide bekommen das der Seite', alleLeer.ids.every((id) => alleLeer.titles.get(id)!.studios?.[0] === 'Foo'))
 } finally {
   rmSync(dir, { recursive: true, force: true })
 }

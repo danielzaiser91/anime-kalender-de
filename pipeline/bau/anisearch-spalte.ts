@@ -122,7 +122,7 @@ const datumGleich = (a: string, b: string): boolean => {
 }
 
 /** AniList nennt bis zu drei Studios, aniSearch oft nur das federführende: gleich, wenn die eine Menge die andere enthält. */
-function studiosGleich(a: string[], s: string[]): boolean {
+export function studiosGleich(a: string[], s: string[]): boolean {
   const [x, y] = [new Set(a.map(studioName)), new Set(s.map(studioName))]
   return [...x].every((n) => y.has(n)) || [...y].every((n) => x.has(n))
 }
