@@ -318,7 +318,10 @@ export function dubKey(anilistId: number, platform: string): string {
   return `${anilistId}|${platform}`
 }
 
-/** Schlüssel (`dubKey`) aller Handbelege, die einen Weg verneinen: `available: false` (nicht im Katalog) oder `dub: false` (kein Deutsch). */
+/**
+ * Schlüssel (`dubKey`) aller Handbelege, die einen Weg verneinen: `available: false` (nicht im Katalog) oder `dub: false` (kein Deutsch).
+ * Ein Ja derselben Plattform daneben hebt das Nein nicht auf: Der Schlüssel kennt keine Adresse, das Nein kann einer anderen Ausgabe gelten.
+ */
 export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' | 'dub' | 'available'>[]): Set<string> {
   return new Set(checks.filter((c) => c.dub === false || c.available === false).map((c) => dubKey(c.anilistId, c.platform)))
 }

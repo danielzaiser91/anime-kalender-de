@@ -19,12 +19,26 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 }
 
 const weg = (platform: string): StreamLink => ({ platform, url: `https://example.org/${platform}` }) as StreamLink
-const hand = (anilistId: number, platform: string, rest: { dub?: boolean; available?: boolean }) => ({ anilistId, platform, ...rest }) as Parameters<typeof neinHandbelege>[0][number]
+const hand = (anilistId: number, platform: string, rest: Partial<Pick<DubCheck, 'dub' | 'available' | 'dubRanges'>>) => ({ anilistId, platform, ...rest }) as Parameters<typeof neinHandbelege>[0][number]
 
 console.log('\nNein-Handbelege als Schlüsselmenge:')
 {
   const nein = neinHandbelege([hand(1, 'crunchyroll', { dub: false }), hand(2, 'netflix', { available: false }), hand(3, 'adn', { dub: true }), hand(4, 'joyn', {})])
   pruefe('dub: false und available: false zählen, dub: true und Beleg ohne Urteil nicht', nein.size === 2 && nein.has(dubKey(1, 'crunchyroll')) && nein.has(dubKey(2, 'netflix')), [...nein])
+
+  /*
+    Neuanlegen ist strenger als Entfernen: Ein Ja derselben Plattform hebt das Nein hier nicht auf, denn beide können verschiedenen Ausgaben gelten
+    (Digimon 552: Prime-Ausgabe B0CGRJGJX1 ja, Crunchyroll-Kanal B0CHHNJJW3 nein). Ohne Adresse im Schlüssel würde eine JustWatch-Runde die verneinte Ausgabe
+    neu anlegen (Bau-Vergleich 14.10.2026: Digimon und 10719 bekamen einen Prime-Weg). `entferneBezugswegeTrotzNein` dagegen löscht bei Ja daneben nichts.
+  */
+  const gemischt = neinHandbelege([
+    hand(10, 'primevideo', { dub: false }),
+    hand(10, 'primevideo', { dub: true }),
+    hand(11, 'netflix', { available: false }),
+    hand(11, 'netflix', { dubRanges: [{ from: 1, to: 3, dub: true }] }),
+  ])
+  pruefe('ein Ja derselben Plattform (dub: true) hebt das Nein nicht auf', gemischt.has(dubKey(10, 'primevideo')), [...gemischt])
+  pruefe('ein deutscher Bereich (dubRanges) daneben hebt es auch nicht auf', gemischt.has(dubKey(11, 'netflix')), [...gemischt])
 }
 
 console.log('\nCartoon-Zwilling übernimmt Anbieter:')
