@@ -323,7 +323,7 @@ export function dubKey(anilistId: number, platform: string): string {
  * Ein Ja derselben Adresse (`dub: true` oder ein deutscher Bereich) hebt das Nein auf, ein Ja einer anderen Adresse nicht; ohne Adresse ist
  * „dieselbe" nicht belegt, Ja und Nein bleiben dann uneindeutig und das Nein gilt (Kuroko's Basketball 3, 20725, bei Netflix: altes Ja, jüngeres „nicht verfügbar").
  * Das Nein gilt der ganzen Plattform (`dubKey`), wenn es keine Adresse trägt oder die Plattform keine Ausgabe mit Ja führt: Eine neue Adresse
- * kann dieselbe Ausgabe in anderer Schreibweise sein (JustWatch-gti statt ASIN). Erst eine belegte zweite Ausgabe beschränkt es auf seine Adresse
+ * kann dieselbe Ausgabe in anderer Schreibweise sein (JustWatch-gti statt ASIN). Erst eine belegte zweite Ausgabe (ein Ja mit eigener Adresse) beschränkt es auf seine Adresse
  * (`dubKey|adressKern`; Digimon 552 bei Prime: B0CGRJGJX1 ja, Crunchyroll-Kanal B0CHHNJJW3 nein). Abgefragt wird mit `wegVerneint`.
  */
 export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges'>[]): Set<string> {
@@ -336,7 +336,7 @@ export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' |
     a.ja ||= c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub))
     adressen.set(`${titel}|${kern}`, a)
   }
-  const mitJa = new Set([...adressen.values()].filter((a) => a.ja).map((a) => a.titel))
+  const mitJa = new Set([...adressen.values()].filter((a) => a.ja && a.kern).map((a) => a.titel))
   const nein = new Set<string>()
   for (const a of adressen.values()) {
     if (!a.nein || (a.ja && a.kern)) continue
