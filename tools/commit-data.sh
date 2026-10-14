@@ -221,6 +221,11 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     hinzu tools/umfang-grenzen.json
   fi
 
+  # Dasselbe für die alten Farbklassen in web/src (docs/wissen/design-regeln.md, Abschnitt 7).
+  if node tools/design-klassen.mjs --festschreiben > /dev/null 2>&1; then
+    hinzu tools/design-klassen-grenzen.json
+  fi
+
   # Rot endet der Lauf, sobald Aufbau oder Bestand scheitern — nach dem Sichern der Quellen.
   LAUF_ROT=0
   if [ "${AUFBAU_GESCHEITERT:-0}" = 1 ] || [ "${BESTAND_KAPUTT:-0}" = 1 ]; then

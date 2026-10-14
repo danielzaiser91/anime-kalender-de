@@ -1,0 +1,24 @@
+{
+  "_hinweis": "Wird nur von tools/design-klassen.mjs --festschreiben gesenkt (Bestandsbau, tools/commit-data.sh), nie von Hand erhöht. Ausgangswerte 14.10.2026.",
+  "vorkommen": {
+    "slate-": 564,
+    "sky-": 91,
+    "amber-": 83,
+    "emerald-": 71,
+    "rose-": 57,
+    "red-": 9,
+    "blue-": 14,
+    "indigo-": 2,
+    "violet-": 19,
+    "teal-": 1,
+    "orange-": 5,
+    "yellow-": 3,
+    "white/": 106,
+    "black/": 17,
+    "dark:": 419,
+    "focus-visible:ring": 0,
+    "ring-sky": 1,
+    "opacity-30/40/50/60": 15,
+    "Hex in .tsx": 51
+  }
+}
