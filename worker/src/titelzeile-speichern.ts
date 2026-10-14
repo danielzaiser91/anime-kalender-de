@@ -15,14 +15,15 @@
  *
  * ## Welche Meldungen hierher gehören
  *
- * Nur Anbieter aus `TITELZEILE_PLATTFORMEN` (leer = aus) und nur Adressen, die schon eine Titelzeile haben oder
+ * Nur Anbieter aus `TITELZEILE_PLATTFORMEN` (leer = aus), die auch in `TITELZEILE_TAUGLICH` stehen, und nur Adressen, die schon eine Titelzeile haben oder
  * noch gar keine Meldung: Eine Adresse mit Altzeilen bleibt bei `pruefung`/`prime_folge`, bis
- * `worker/einmalig/titel-zeile-einspielen.sql` sie umgezogen hat — sonst verdrängte die erste Titelzeile ihre Altzeilen aus den
+ * `tools/worker-titelzeile-einspielen.ts` sie umgezogen hat — sonst verdrängte die erste Titelzeile ihre Altzeilen aus den
  * Lesern und die übrigen Folgen fehlten.
  */
 import { type Env } from './env.ts'
 import { ereignisSenden } from './ereignisse.ts'
 import { jetztIso } from './werte.ts'
+import { holeListenbauAm } from './pruefung-unveraendert.ts'
 import { leiteAb, type Abgeleitet } from './pruefung-ableiten.ts'
 import { auffrischen } from './titelzeile-auffrischen.ts'
 import { hakeTitelzeilenAb, oeffneTitelzeilenWieder } from './titelzeile-aufgaben.ts'
@@ -31,13 +32,21 @@ import { eintragAusMeldung, eintragsId, kopfAusMeldung, leereDaten, setzeEin, ty
 
 type Kontext = { env: Env; ctx: ExecutionContext<unknown> | undefined; antwort: (body: unknown, status?: number) => Response }
 
-const anbieterListe = (env: Env) => (env.TITELZEILE_PLATTFORMEN ?? '').split(',').map((s) => s.trim()).filter(Boolean)
+/**
+ * Anbieter, deren Meldungen in das Format passen (14.10.2026): eine Meldung = eine Folge mit höchstens einer Rohfolge.
+ * Prime meldet je Seite viele Rohfolgen mit Feldern, die die Titelzeile nicht hält (asin, erschienen, Seite, Abos, Teile);
+ * ADN ist nicht geprüft. Der Schalter allein schaltet sie deshalb nicht frei.
+ */
+export const TITELZEILE_TAUGLICH = ['disneyplus', 'netflix']
+
+const anbieterListe = (env: Env) =>
+  (env.TITELZEILE_PLATTFORMEN ?? '').split(',').map((s) => s.trim()).filter((s) => TITELZEILE_TAUGLICH.includes(s))
 
 /** Eine Meldung eines Anbieters aus der Liste. Mehrere Rohfolgen in einer Meldung (Prime) beantwortet `versucheTitelzeile`. */
-const gehoertHierher = (env: Env, daten: Record<string, unknown>) => anbieterListe(env).includes(String(daten.plattform))
+export const gehoertHierher = (env: Env, daten: Record<string, unknown>) => anbieterListe(env).includes(String(daten.plattform))
 
 /** Altzeilen in `pruefung` oder `prime_folge`: bis das Einspielen sie umgezogen hat, würde eine Titelzeile sie verdrängen. */
-async function hatAltzeilen(env: Env, url: string, plattform: string): Promise<boolean> {
+export async function hatAltzeilen(env: Env, url: string, plattform: string): Promise<boolean> {
   const { results } = await env.DB.prepare(
     `SELECT 1 AS da FROM pruefung WHERE url = ?1
      UNION ALL SELECT 1 FROM prime_folge WHERE url = ?1 AND plattform = ?2 LIMIT 1`,
@@ -48,12 +57,19 @@ async function hatAltzeilen(env: Env, url: string, plattform: string): Promise<b
 }
 
 /** Der Eintrag zur Meldung; bei gleichem Inhalt wird nur der Zeitpunkt nachgezogen, wo ein Leser ihn sieht. */
-async function setze(env: Env, alt: TitelDaten, eintrag: Eintrag, kopf: ReturnType<typeof kopfAusMeldung>) {
+export async function setze(listenbauAm: () => Promise<string | null>, alt: TitelDaten, eintrag: Eintrag, kopf: ReturnType<typeof kopfAusMeldung>) {
   const r = setzeEin(alt, eintrag, kopf)
   if (r.art !== 'gleich') return { daten: r.daten, art: r.art }
-  const frisch = r.vorher && (await auffrischen(env, r.vorher))
+  const frisch = r.vorher && (await auffrischen(r.vorher, listenbauAm))
   if (frisch) return { daten: { ...r.daten, f: r.daten.f.map((e) => (e[0] === frisch[0] && e[1] === frisch[1] ? frisch : e)) }, art: r.art }
   return { daten: r.kopfNeu ? r.daten : null, art: r.art }
+}
+
+/** Der Eintrag zur Meldung, oder der Grund, warum sie nicht in die Titelzeile passt (mit Titelzeile: 400, ohne: bisheriger Weg). */
+export function eintragOderFehler(daten: Record<string, unknown>, ab: Abgeleitet): Eintrag | string {
+  if (Array.isArray(daten.rohfolgen) && daten.rohfolgen.length > 1) return 'Titelzeile: eine Meldung trägt höchstens eine Rohfolge'
+  const eintrag = eintragAusMeldung(daten, ab, jetztIso())
+  return eintragsId(0, eintrag) === null ? 'staffel oder folge_nr liegt außerhalb des Bereichs der Titelzeile' : eintrag
 }
 
 /**
@@ -66,17 +82,12 @@ async function versucheTitelzeile(k: Kontext, daten: Record<string, unknown>, ab
   const plattform = String(daten.plattform)
   const zeile = await ladeZeile(k.env, url, plattform)
   if (!zeile && (await hatAltzeilen(k.env, url, plattform))) return null
-  if (Array.isArray(daten.rohfolgen) && daten.rohfolgen.length > 1) {
-    return zeile ? k.antwort({ error: 'Titelzeile: eine Meldung trägt höchstens eine Rohfolge' }, 400) : null
-  }
-  const eintrag = eintragAusMeldung(daten, ab, jetztIso())
-  if (eintragsId(0, eintrag) === null) {
-    return zeile ? k.antwort({ error: 'staffel oder folge_nr liegt außerhalb des Bereichs der Titelzeile' }, 400) : null
-  }
+  const eintrag = eintragOderFehler(daten, ab)
+  if (typeof eintrag === 'string') return zeile ? k.antwort({ error: eintrag }, 400) : null
   const kopf = kopfAusMeldung(daten)
   let art = 'gleich'
   const ergebnis = await aendereTitelzeile(k.env, { url, plattform, zeile }, async (alt) => {
-    const neu = await setze(k.env, alt ?? leereDaten(), eintrag, kopf)
+    const neu = await setze(() => holeListenbauAm(k.env), alt ?? leereDaten(), eintrag, kopf)
     art = neu.art
     return neu.daten
   })
