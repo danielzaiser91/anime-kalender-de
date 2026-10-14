@@ -67,6 +67,25 @@ export async function sammleNeuzugaenge(
   return ergebnis
 }
 
+/**
+ * Ein Durchgang `--laufend` über die neuen Serien: zurückgestellte aussortieren, die übrigen fragen, die Zeit jeder Antwort in den Stand schreiben.
+ * `stand` wird nicht verändert; der neue steht im Ergebnis und gehört in `data/adn-katalog-stand.json` (der Aufrufer in `fetch-adn.ts` schreibt ihn).
+ */
+export async function fragNeuzugaenge(
+  liste: ReadonlyMap<number, AdnListenEintrag>,
+  bekannt: ReadonlySet<number>,
+  stand: Readonly<Record<string, string>>,
+  lade: (id: number) => Promise<{ videos: AdnVideo[]; abbruch?: string }>,
+  pause: () => Promise<void>,
+  jetzt = Date.now(),
+): Promise<NeuzugangErgebnis & { anzahl: number; stand: Record<string, string> }> {
+  const neu = unbekannteSerien(liste, bekannt, stand, jetzt)
+  const ergebnis = await sammleNeuzugaenge(neu, lade, pause)
+  const neuerStand = { ...stand }
+  for (const id of ergebnis.gefragt) neuerStand[String(id)] = new Date(jetzt).toISOString()
+  return { ...ergebnis, anzahl: neu.length, stand: neuerStand }
+}
+
 /** Der Katalog mit den neuen Serien dahinter; was schon drin steht, bleibt unverändert. */
 export function katalogMitNeuen(katalog: AdnShow[], neu: AdnShow[]): AdnShow[] {
   const vorhanden = new Set(katalog.map((s) => s.showId))

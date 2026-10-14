@@ -4,7 +4,7 @@
  * ist „Änderung wird spätestens nach sechs Stunden sichtbar“ falsch: Der Film bliebe bis zum nächsten Montag unbekannt.
  */
 import { readFileSync } from 'node:fs'
-import { katalogMitNeuen, sammleNeuzugaenge, unbekannteSerien } from './lib/adn-neuzugaenge.ts'
+import { fragNeuzugaenge, katalogMitNeuen, sammleNeuzugaenge, unbekannteSerien } from './lib/adn-neuzugaenge.ts'
 import type { AdnListenEintrag, AdnVideo } from './lib/adn-folgen.ts'
 import type { AdnShow } from './lib/adn.ts'
 
@@ -67,23 +67,27 @@ console.log('\nSerie ohne Videos (Drossel: nach einer leeren Antwort 24 Stunden 
   pruefe('Nennt die Liste jetzt `vde`, wird sofort gefragt', nach(6, leere(['vostde', 'vde'])) === 1)
   pruefe('Nennt die Liste nur Untertitel, bleibt die Ruhe', nach(6, leere(['vostde'])) === 0)
 
-  // Ablauf über mehrere Läufe im Sechs-Stunden-Takt: ADN schaltet die Serie 30 Stunden nach der leeren Antwort frei, die Liste hinkt (nennt `vde` nicht).
+  // Ablauf über mehrere Läufe im Sechs-Stunden-Takt, der Stand läuft nur durch `fragNeuzugaenge` (wie in `fetch-adn.ts`): Der erste Lauf bei T0 bekommt eine leere
+  // Antwort, ADN schaltet die Serie 30 Stunden später frei, die Liste hinkt (nennt `vde` nicht).
   const freigabe = T0 + 30 * STUNDE
   let abrufe = 0
   let sichtbarNach: number | undefined
-  const stand2: Record<string, string> = { '600': new Date(T0).toISOString() }
+  const abruf = (jetzt: number) => async (id: number) => (abrufe++, { videos: jetzt >= freigabe ? [video(id, ['vde'])] : [] })
+  let laufStand = (await fragNeuzugaenge(leere([]), new Set(), {}, abruf(T0), keinePause, T0)).stand
+  pruefe('Die leere Antwort steht im Stand, mit der Zeit des Laufs', laufStand['600'] === new Date(T0).toISOString(), laufStand)
+  abrufe = 0
   for (let h = 6; h <= 72 && sichtbarNach === undefined; h += 6) {
-    const jetzt = T0 + h * STUNDE
-    const dran = unbekannteSerien(leere([]), new Set(), stand2, jetzt)
-    const lauf = await sammleNeuzugaenge(dran, async (id) => (abrufe++, { videos: jetzt >= freigabe ? [video(id, ['vde'])] : [] }), keinePause)
-    for (const id of lauf.gefragt) stand2[String(id)] = new Date(jetzt).toISOString()
+    const lauf = await fragNeuzugaenge(leere([]), new Set(), laufStand, abruf(T0 + h * STUNDE), keinePause, T0 + h * STUNDE)
+    laufStand = lauf.stand
     if (lauf.shows.length) sichtbarNach = h - 30
   }
   pruefe('Die Freigabe (hier nach 30 Stunden) wird spätestens 24 Stunden plus einen Lauf später sichtbar', sichtbarNach !== undefined && sichtbarNach <= 24 + 6, sichtbarNach)
-  pruefe('Bis dahin gab es höchstens 3 Abrufe statt 8 (alle sechs Stunden)', abrufe <= 3, abrufe)
-  const fehlerStand: Record<string, string> = {}
-  const nachFehler = await sammleNeuzugaenge(unbekannteSerien(leere([]), new Set(), fehlerStand, T0), async () => ({ videos: [], abbruch: '503' }), keinePause)
-  pruefe('Ein Abruffehler gilt nicht als Antwort: kein Stand, im nächsten Lauf wieder dran', nachFehler.gefragt.length === 0 && nachFehler.offen.join() === '600')
+  pruefe('Bis dahin gab es höchstens 2 Abrufe statt 8 (alle sechs Stunden)', abrufe <= 2, abrufe)
+  const nachFehler = await fragNeuzugaenge(leere([]), new Set(), {}, async () => ({ videos: [], abbruch: '503' }), keinePause, T0)
+  pruefe('Ein Abruffehler gilt nicht als Antwort: kein Stand, im nächsten Lauf wieder dran', Object.keys(nachFehler.stand).length === 0 && nachFehler.offen.join() === '600', nachFehler.stand)
+  const vorher = { '600': new Date(T0).toISOString() }
+  await fragNeuzugaenge(leere([]), new Set(), vorher, abruf(T0 + 24 * STUNDE), keinePause, T0 + 24 * STUNDE)
+  pruefe('Der übergebene Stand bleibt unverändert (der Aufrufer schreibt den neuen)', vorher['600'] === new Date(T0).toISOString())
 }
 
 console.log('\nTakt:')
@@ -93,6 +97,8 @@ const paket = JSON.parse(readFileSync('package.json', 'utf8')) as { scripts: Rec
 pruefe('data:adn:laufend ist fetch-adn.ts --laufend', paket.scripts['data:adn:laufend']?.includes('fetch-adn.ts --laufend') === true, paket.scripts['data:adn:laufend'])
 const quelle = readFileSync('pipeline/fetch-adn.ts', 'utf8')
 pruefe('--laufend ruft holeNeueSerien auf', /--laufend[\s\S]*?await holeNeueSerien\(\)/.test(quelle))
+pruefe('holeNeueSerien liest den Stand aus data/adn-katalog-stand.json und übergibt ihn an fragNeuzugaenge', /readJson<.*>\(KATALOG_STAND, \{\}\)\s+const lauf = await fragNeuzugaenge\(.*bekannt, stand,/.test(quelle))
+pruefe('holeNeueSerien schreibt den neuen Stand zurück (sonst fragt jeder Lauf dieselben Serien wieder)', /writeJson\(KATALOG_STAND, lauf\.stand\)/.test(quelle))
 pruefe('Der Katalogeintrag und die Katalogdatei stehen in tools/quellen-liste.sh', /data\/adn-catalog\.json/.test(readFileSync('tools/quellen-liste.sh', 'utf8')))
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
