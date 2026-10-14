@@ -113,7 +113,7 @@ export function anilistSpalte(t: Title, media: AniListMedia | undefined): Spalte
 }
 
 const klein = (s: string): string => s.toLowerCase().replace(/\s+/g, ' ').trim()
-const studioName = (s: string): string => s.toLowerCase().replace(/\./g, '').replace(/\b(inc|co|ltd|kk|corp|llc|studios?|productions?)\b/g, '').replace(/[^\p{L}\p{N}]/gu, '')
+export const studioName = (s: string): string => s.toLowerCase().replace(/\./g, '').replace(/\b(inc|co|ltd|kk|corp|llc|studios?|productions?)\b/g, '').replace(/[^\p{L}\p{N}]/gu, '')
 
 /** Daten gelten als gleich, wenn sie bis zur gröberen Genauigkeit übereinstimmen („2003-10" gegen „2003-10-04"). */
 const datumGleich = (a: string, b: string): boolean => {

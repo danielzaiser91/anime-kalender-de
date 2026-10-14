@@ -115,6 +115,7 @@ pipeline/check-sprecher-filter.ts
 pipeline/check-staffel-jahr0.ts
 pipeline/check-staffel-teil.ts
 pipeline/check-stand-halten.ts
+pipeline/check-studio-archiv.ts
 pipeline/check-such-chip.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
