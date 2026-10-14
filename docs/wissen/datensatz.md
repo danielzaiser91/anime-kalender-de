@@ -87,7 +87,7 @@ alle."
 - **Das Standardposter von TMDB ist sprachabhängig** und bei `language=de-DE` oft ein
   Platzhalter. `bestesBild()` (lib/cartoons.ts) nimmt das bestbewertete unter de/en/ohne.
 - **Ohne Sprachbeleg sagt der Kasten nichts über die Fassung** („In Deutschland verfügbar"
-  bzw. „Deutsche Fassung nicht geprüft") — TMDB nennt Anbieter, keine Tonspuren.
+  bzw. „Synchro offen") — TMDB nennt Anbieter, keine Tonspuren.
 - **Handbelege mit negativer Kennung** wirken in `schreibeCartoons()` und werden in
   `check:handbelege` mitgeprüft.
 
