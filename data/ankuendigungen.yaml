@@ -104,3 +104,10 @@ eintraege:
 # --- 13.10.2026 (Anime2You-Vorschläge, zweite Runde): Netflix-Simulcast Januar 2027. Nur Untertitel genannt, keine Synchro. ---
 # Bride of the Barrier Master: „startet im Januar 2027 im japanischen Fernsehen und exklusiv bei Netflix im Simulcast – unter anderem im Originalton mit deutschen Untertiteln. Ein konkreter Termin steht bislang noch aus.“ (1052617, 21.09.2026)
   - { anilistId: 197619, titel: "Bride of the Barrier Master", platform: netflix, omuAb: "2027-01", synchro: offen, stand: "2026-09-21", quellen: ["https://www.anime2you.de/news/1052617/netflix-bride-of-the-barrier-master-simulcast/"] }
+
+# --- 13.10.2026 (Anime2You-Vorschläge, dritte Runde): Crunchyroll-Simulcast Januar 2027. Nur Untertitel genannt, keine Synchro. ---
+# Magical Buffs: „ab dem 4. Januar 2027 in Japan ausgestrahlt“, Crunchyroll zeigt die Serie „im Originalton mit deutschen Untertiteln im Simulcast“ (1058501, 09.10.2026); der Starttag bei Crunchyroll steht nicht im Artikel, darum nur der Monat.
+# Red Riding Hood: „ab Januar 2027 im japanischen Fernsehen“, hierzulande „im Originalton mit Untertiteln bei Crunchyroll im Simulcast“, „ein konkreter Termin steht derzeit noch aus“ (1057673, 05.10.2026).
+# Ausgelassen: Go with the Clouds, North-by-Northwest (211538, Netflix): „im Laufe des nächsten Jahres“ — ohne Monat kein Eintrag (`omuAb` verlangt JJJJ-MM).
+  - { anilistId: 209661, titel: "Magical Buffs", platform: crunchyroll, omuAb: "2027-01", synchro: offen, stand: "2026-10-09", quellen: ["https://www.anime2you.de/news/1058501/starttermin-von-magical-buffs/"] }
+  - { anilistId: 214969, titel: "Red Riding Hood: A Detective Story", platform: crunchyroll, omuAb: "2027-01", synchro: offen, stand: "2026-10-05", quellen: ["https://www.anime2you.de/news/1057673/crunchyroll-zeigt-red-riding-hood/"] }
