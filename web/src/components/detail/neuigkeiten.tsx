@@ -51,7 +51,7 @@ export function Neuigkeiten({ data, titelId }: { data: Dataset; titelId: number 
         {erst && (alle || zeilen.length < SICHTBAR) && <ErstausgabeZeile title={erst} />}
       </ul>
       {zeilen.length > SICHTBAR && (
-        <button type="button" onClick={() => setAlle(!alle)} aria-expanded={alle} className="mt-2 min-h-11 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-4 text-t3 font-bold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text">
+        <button type="button" onClick={() => setAlle(!alle)} aria-expanded={alle} className="mt-2 min-h-11 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-4 text-t3 font-bold text-ak-text transition hover:border-ak-leise">
           {alle ? t('filter.showLess') : t('detail.neuigkeitenAlle', { n: zeilen.length })}
         </button>
       )}

@@ -77,8 +77,8 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
         favorite
           ? 'border-ak-finale/70 shadow-[0_0_0_1px_color-mix(in_srgb,var(--ak-finale)_30%,transparent)]'
           : keinDub
-            ? 'border-slate-400/60 hover:border-slate-500 dark:border-white/25 dark:hover:border-white/40'
-            : 'border-slate-200 hover:border-slate-300 dark:border-white/10 dark:hover:border-white/25',
+            ? 'border-slate-400/60 hover:border-ak-leise dark:border-white/25'
+            : 'border-slate-200 hover:border-ak-leise dark:border-white/10',
         keinDub ? 'bg-slate-100/70 hover:shadow-md dark:bg-white/[0.015]' : 'bg-white hover:shadow-lg dark:bg-white/[0.03]',
         'has-[.ak-oeffnen:focus-visible]:outline-2 has-[.ak-oeffnen:focus-visible]:outline-offset-2 has-[.ak-oeffnen:focus-visible]:outline-ak-fokus',
       ].join(' ')}

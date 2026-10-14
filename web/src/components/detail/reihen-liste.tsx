@@ -214,10 +214,10 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                       gewaehlt
                         ? 'relative border-sky-400 bg-sky-50 ring-1 ring-sky-400/50 before:absolute before:inset-y-1.5 before:left-px before:w-[3px] before:rounded-sm before:bg-sky-400 dark:bg-sky-400/10'
                         : offen
-                          ? 'cursor-pointer border-dashed border-slate-300 opacity-80 hover:opacity-100 dark:border-white/20'
+                          ? 'cursor-pointer border-dashed border-slate-300 opacity-80 hover:bg-ak-flaeche-2 dark:border-white/20'
                           : gemerkt
                             ? 'cursor-pointer border-ak-finale/70 hover:border-ak-finale'
-                            : 'cursor-pointer border-transparent hover:border-slate-200 dark:hover:border-white/10',
+                            : 'cursor-pointer border-transparent hover:bg-ak-flaeche-2',
                     ].join(' ')}
                   >
                     <span

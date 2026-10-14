@@ -116,6 +116,9 @@ html.dark {
 .ak-immer-dunkel {
   --ak-fehler: #fb7185;
   --ak-fehler-text: #fda4af;
+  --ak-flaeche-2: #1b202a;
+  --ak-text: #f2f1ee;
+  --ak-leise: #9aa0ab;
 }
 
 html:not(.dark) {

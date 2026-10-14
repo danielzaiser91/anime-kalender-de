@@ -36,7 +36,7 @@ export function AboBeenden({ state, setState }: { state: AbmeldeState; setState:
           <button
             type="button"
             onClick={() => setAbmeldeState('idle')}
-            className="cursor-pointer text-slate-500 underline underline-offset-2 hover:text-slate-700 dark:hover:text-slate-200"
+            className="cursor-pointer text-slate-500 underline underline-offset-2 hover:text-ak-text"
           >
             {t('news.unsubNo')}
           </button>

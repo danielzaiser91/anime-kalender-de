@@ -148,7 +148,7 @@ export const GETOENT = 'border-ak-akzent-text bg-ak-heute text-ak-akzent-text'
 
 /** Farben des Filter-Knopfs: offen = orange, Filter gesetzt = getönt, sonst neutral. */
 export function filterFarbe(offen: boolean, anzahl: number, neutralHover = ''): string {
-  if (offen) return 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent'
+  if (offen) return 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent hover:bg-ak-akzent-hover'
   return anzahl ? GETOENT : `border-ak-rand bg-ak-flaeche text-ak-text ${neutralHover}`.trim()
 }
 

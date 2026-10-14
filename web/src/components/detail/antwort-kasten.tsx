@@ -797,7 +797,7 @@ export function AntwortKasten({
             {schnitt.quellen.map((q, i) => (
               <span key={q}>
                 {i > 0 && ' · '}
-                <a href={q} target="_blank" rel="noopener noreferrer" className="underline hover:text-sky-700 dark:hover:text-sky-300">
+                <a href={q} target="_blank" rel="noopener noreferrer" className="underline hover:text-ak-text">
                   {new URL(q).hostname.replace(/^www\./, '')}
                 </a>
               </span>

@@ -27,7 +27,7 @@ export function QuellenKnopf({ belege, betreff }: { belege: NewsBeleg[]; betreff
         type="button"
         onClick={() => setOffen(true)}
         title={belege.map(quellenLabel).join(' · ')}
-        className="-my-2.5 ml-auto inline-flex min-h-11 min-w-11 shrink-0 cursor-pointer items-center justify-center px-1 text-t4 text-slate-600 underline underline-offset-2 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+        className="-my-2.5 ml-auto inline-flex min-h-11 min-w-11 shrink-0 cursor-pointer items-center justify-center px-1 text-t4 text-slate-600 underline underline-offset-2 hover:text-ak-text dark:text-slate-300"
       >
         {archiv ? '▣ ' : ''}
         {text}
@@ -78,7 +78,7 @@ function tabName(b: NewsBeleg, alle: NewsBeleg[]): string {
   return `${name} · ${BELEG_TYP_LABEL[belegTyp(b.url)]}${wann ? ` ${kurzTag(wann)}` : ''}`
 }
 
-const BTN = 'cursor-pointer rounded border border-slate-600 px-2.5 py-1 text-xs hover:bg-white/10'
+const BTN = 'cursor-pointer rounded border border-slate-600 px-2.5 py-1 text-xs hover:bg-ak-flaeche-2'
 
 /**
  * **Das Fenster füllt den ganzen Bildschirm** und hängt am `<body>`: Im Detail-Panel (transformiert) bezog sich `fixed` auf das Panel,
@@ -109,7 +109,7 @@ function BelegDialog({ belege, betreff, zu }: { belege: NewsBeleg[]; betreff?: s
                 role="tab"
                 aria-selected={i === aktiv}
                 onClick={() => setAktiv(i)}
-                className={`shrink-0 cursor-pointer rounded-t border border-b-0 px-3 py-1 text-xs ${i === aktiv ? 'border-slate-500 bg-slate-800 font-bold text-white' : 'border-transparent text-slate-400 hover:text-white'}`}
+                className={`shrink-0 cursor-pointer rounded-t border border-b-0 px-3 py-1 text-xs ${i === aktiv ? 'border-slate-500 bg-slate-800 font-bold text-white' : 'border-transparent text-slate-400 hover:text-ak-text'}`}
               >
                 {b.bild && WORKER ? '▣ ' : ''}
                 {tabName(b, belege)}

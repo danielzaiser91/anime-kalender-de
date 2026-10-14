@@ -2,7 +2,7 @@ import type { Translate } from '../../lib/i18n.tsx'
 import { type Synopsis } from '../../lib/data.ts'
 import { LIZENZ_SEITEN } from '@shared/lizenzen.ts'
 
-const linkKlasse = '-my-3 inline-flex min-h-11 items-center underline decoration-slate-400/50 underline-offset-2 hover:text-ak-akzent-text'
+const linkKlasse = '-my-3 inline-flex min-h-11 items-center underline decoration-slate-400/50 underline-offset-2 hover:text-ak-text'
 
 /** Quellenzeile eines eigenen Textes: alle Quellen, die Lizenz des Textes — Wikipedia verlangt beides (CC BY-SA). */
 export function EigeneQuellenZeile({ eigen, t }: { eigen: NonNullable<Synopsis['eigen']>; t: Translate }) {

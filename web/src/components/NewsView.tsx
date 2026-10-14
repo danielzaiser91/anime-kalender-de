@@ -137,7 +137,7 @@ function KinoKarussell({
             type="button"
             onClick={() => blaettern(-1)}
             aria-label={t('news.kino.zurueck')}
-            className="rounded border border-slate-300 px-2 text-sm text-slate-600 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
+            className="rounded border border-slate-300 px-2 text-sm text-slate-600 hover:bg-ak-flaeche-2 dark:border-slate-600 dark:text-slate-300"
           >
             ‹
           </button>
@@ -145,7 +145,7 @@ function KinoKarussell({
             type="button"
             onClick={() => blaettern(1)}
             aria-label={t('news.kino.weiter')}
-            className="rounded border border-slate-300 px-2 text-sm text-slate-600 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
+            className="rounded border border-slate-300 px-2 text-sm text-slate-600 hover:bg-ak-flaeche-2 dark:border-slate-600 dark:text-slate-300"
           >
             ›
           </button>
@@ -312,7 +312,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
               onClick={() => setFilter(filter === a ? null : a)}
               aria-pressed={filter === a}
               className={`ak-tz shrink-0 rounded-full px-2.5 py-1 text-xs whitespace-nowrap transition ${
-                filter === a ? GEWAEHLT : `hover:brightness-95 ${NEWS_FARBE[a]}`
+                filter === a ? GEWAEHLT : `hover:ring-1 hover:ring-inset hover:ring-ak-leise ${NEWS_FARBE[a]}`
               }`}
             >
               {t(`news.art.${a}`)} <span className="tabular-nums">{jeArt.get(a)}</span>
@@ -355,7 +355,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                     type="button"
                     onClick={() => umschalten(e)}
                     aria-expanded={e.meldungen.length > 1 ? auf : undefined}
-                    className="flex w-full items-center gap-2.5 py-1.5 text-left hover:bg-slate-50 dark:hover:bg-slate-900/60"
+                    className="flex w-full items-center gap-2.5 py-1.5 text-left hover:bg-ak-flaeche-2"
                   >
                     <NewsCover e={e} />
                     <span className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -443,7 +443,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
               type="button"
               aria-expanded={gleichOffen.has(tag)}
               onClick={() => setGleichOffen((alt) => { const neu = new Set(alt); if (!neu.delete(tag)) neu.add(tag); return neu })}
-              className="mt-1 w-full rounded-lg border border-dashed border-slate-300 py-1.5 text-xs text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-900/60"
+              className="mt-1 w-full rounded-lg border border-dashed border-slate-300 py-1.5 text-xs text-slate-600 transition hover:bg-ak-flaeche-2 dark:border-slate-700 dark:text-slate-300"
             >
               {gleichOffen.has(tag) ? t('news.gleichZu') : t('news.gleich', { n: gleich.length })}
             </button>
@@ -456,7 +456,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
         <button
           type="button"
           onClick={() => setAeltereTage((n) => n + AELTERE_SCHRITT_TAGE)}
-          className="mt-1 w-full rounded-lg border border-slate-200 py-2 text-sm text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-900/60"
+          className="mt-1 w-full rounded-lg border border-slate-200 py-2 text-sm text-slate-600 transition hover:bg-ak-flaeche-2 dark:border-slate-700 dark:text-slate-300"
         >
           {t('news.aeltere', { datum: datumKurz(addDays(grenze, -AELTERE_SCHRITT_TAGE)) })}
         </button>
@@ -492,7 +492,7 @@ function MeldungZeile({
         <button
           type="button"
           onClick={oeffne}
-          className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-0.5 rounded py-1 pr-1 text-left hover:bg-slate-50 dark:hover:bg-slate-900/60"
+          className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-0.5 rounded py-1 pr-1 text-left hover:bg-ak-flaeche-2"
         >
           <span className={`shrink-0 rounded px-1.5 py-0.5 text-[11px] ${NEWS_FARBE[m.art]}`}>
             {artLabel(m)}
