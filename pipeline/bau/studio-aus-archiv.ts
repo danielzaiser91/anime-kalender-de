@@ -44,7 +44,7 @@ const RECHTSFORM = /(?:,\s*|\s+)(?:Co\.?\s*,?\s*Ltd\.?|Inc\.?|Ltd\.?|Corp\.?|K\.
 
 /** Die Studios einer Seite in der Schreibweise des Bestands (sonst ohne Rechtsform), ohne Doppelte, höchstens drei. */
 export function studiosInBestandsschreibweise(namen: string[], schreibweisen: Map<string, string>): string[] {
-  const ohneRechtsform = (n: string): string => n.replace(RECHTSFORM, '').trim() || n
+  const ohneRechtsform = (n: string): string => n.replace(RECHTSFORM, '').trim()
   return [...new Set(namen.map((n) => schreibweisen.get(studioName(n)) ?? ohneRechtsform(n)))].slice(0, MAX_STUDIOS)
 }
 

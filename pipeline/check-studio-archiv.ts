@@ -37,11 +37,13 @@ try {
   pruefe('Parser: mehrere Studios in Seitenreihenfolge, Komma im Namen bleibt', namen.length === 2 && namen[0] === 'TMS Entertainment Co., Ltd.' && namen[1] === 'ネスト', JSON.stringify(namen))
   pruefe('Parser: Seite ohne Studio-Feld und fehlende Seite liefern nichts', archivStudios(3, dir).length === 0 && archivStudios(99, dir).length === 0)
 
-  const bestand = [titel(1, ['TMS Entertainment', 'Studio Pierrot']), titel(2, ['TMS Entertainment']), titel(ANISEARCH_ID_BASIS + 9, ['TMS Entertainment Co., Ltd.'])]
+  const bestand = [titel(1, ['TMS Entertainment', 'Studio Pierrot']), titel(2, ['TMS Entertainment', 'Xebec']), titel(4, ['Group TAC']), titel(ANISEARCH_ID_BASIS + 9, ['TMS Entertainment Co., Ltd.'])]
   const schreibweisen = anilistSchreibweisen(bestand)
   pruefe('Schreibweise: AniList-Form gewinnt, Katalogtitel zählen nicht', schreibweisen.get('tmsentertainment') === 'TMS Entertainment' && schreibweisen.get('pierrot') === 'Studio Pierrot', JSON.stringify([...schreibweisen]))
   const gemischt = studiosInBestandsschreibweise(['TMS Entertainment Co., Ltd.', 'ネスト', 'TMS Entertainment Inc.'], schreibweisen)
   pruefe('Schreibweise: Rechtsform fällt weg, Unbekanntes bleibt, Doppelte fallen weg', JSON.stringify(gemischt) === JSON.stringify(['TMS Entertainment', 'ネスト']), JSON.stringify(gemischt))
+  const gleicheSchluessel = studiosInBestandsschreibweise(['XEBEC, Inc.', 'Group Tac Co., Ltd.'], schreibweisen)
+  pruefe('Schreibweise: bekannter Schlüssel gibt die Form des Bestands, auch wo Abschneiden eine andere ergäbe', JSON.stringify(gleicheSchluessel) === JSON.stringify(['Xebec', 'Group TAC']), JSON.stringify(gleicheSchluessel))
   const ohneForm = (n: string): string => studiosInBestandsschreibweise([n], new Map())[0]!
   const erwartet: [string, string][] = [
     ['Zuiyo Co., Ltd.', 'Zuiyo'],
@@ -49,6 +51,8 @@ try {
     ['Red Dog Culture House Co., Ltd', 'Red Dog Culture House'],
     ['SynergySP Co. ,Ltd.', 'SynergySP'],
     ['KSS Inc.', 'KSS'],
+    ['saetta inc.', 'saetta'],
+    ['PLUS heads inc.', 'PLUS heads'],
     ['ICHI Corporation', 'ICHI Corporation'],
   ]
   const falsch = erwartet.filter(([roh, soll]) => ohneForm(roh) !== soll).map(([roh]) => roh)
