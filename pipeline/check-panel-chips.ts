@@ -53,6 +53,7 @@ console.log('\nAdresse ohne Sprachsegment:')
 pruefe('Crunchyroll: /de/series/X gleich /series/X', adresseOhneSprache('https://www.crunchyroll.com/de/series/GT1/x') === adresseOhneSprache('https://crunchyroll.com/series/GT1/x?a=1'))
 pruefe('Disney+: /de-de/browse/… gleich /browse/…', adresseOhneSprache('https://www.disneyplus.com/de-de/browse/entity-1') === adresseOhneSprache('https://www.disneyplus.com/browse/entity-1'))
 pruefe('Amazon: „/dp/“ ist keine Sprache', adresseOhneSprache('https://www.amazon.de/dp/B0AAAAAAAA') !== adresseOhneSprache('https://www.amazon.de/B0AAAAAAAA'), adresseOhneSprache('https://www.amazon.de/dp/B0AAAAAAAA'))
+pruefe('Amazon: „/gp/video/detail/“ bleibt, wie es ist', adresseOhneSprache('https://www.amazon.de/gp/video/detail/B0AAAAAAAA') === 'amazon.de/gp/video/detail/b0aaaaaaaa', adresseOhneSprache('https://www.amazon.de/gp/video/detail/B0AAAAAAAA'))
 pruefe('Andere Serie bleibt verschieden', adresseOhneSprache('https://www.crunchyroll.com/de/series/GT1/x') !== adresseOhneSprache('https://www.crunchyroll.com/series/GT2/x'))
 
 console.log('\nAusgabe ohne Deutsch neben demselben Chip:')

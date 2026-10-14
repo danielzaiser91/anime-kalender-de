@@ -5,7 +5,8 @@ type OhneDe = NonNullable<Title['ausgabenOhneDe']>[number]
 
 /**
  * Die Adresse ohne Sprachsegment vor dem Pfad: Crunchyroll führt `/de/series/X` und `/series/X`, Disney+ `/de-de/browse/…`
- * auf dieselbe Seite. Das Segment fällt nur vor einem bekannten Pfadanfang weg — „/dp/B0…“ bei Amazon ist keine Sprache.
+ * auf dieselbe Seite. Das Segment fällt nur weg, wenn es eine Sprache ist und ein bekannter Pfadanfang folgt — „/gp/video/…“
+ * und „/dp/B0…“ bei Amazon sind keine Sprache.
  */
 export function adresseOhneSprache(url: string): string {
   return url
@@ -14,7 +15,7 @@ export function adresseOhneSprache(url: string): string {
     .split('?')[0]!
     .replace(/\/$/, '')
     .toLowerCase()
-    .replace(/^([^/]+)\/[a-z]{2}(?:-[a-z0-9]{2,3})?(?=\/(?:series|watch|browse|title|video|movies?)\/)/, '$1')
+    .replace(/^([^/]+)\/(?:de|en|fr|es|it|pt|ru|ar|pl|tr|ja|ko|hi|nl)(?:-[a-z0-9]{2,3})?(?=\/(?:series|watch|browse|title|video|movies?)\/)/, '$1')
 }
 
 /**
