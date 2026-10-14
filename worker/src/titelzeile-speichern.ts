@@ -15,7 +15,7 @@
  *
  * ## Welche Meldungen hierher gehören
  *
- * Nur Anbieter aus `TITELZEILE_PLATTFORMEN` (leer = aus) und nur Adressen, die schon eine Titelzeile haben oder
+ * Nur Anbieter aus `TITELZEILE_PLATTFORMEN` (leer = aus), die auch in `TITELZEILE_TAUGLICH` stehen, und nur Adressen, die schon eine Titelzeile haben oder
  * noch gar keine Meldung: Eine Adresse mit Altzeilen bleibt bei `pruefung`/`prime_folge`, bis
  * `worker/einmalig/titel-zeile-einspielen.sql` sie umgezogen hat — sonst verdrängte die erste Titelzeile ihre Altzeilen aus den
  * Lesern und die übrigen Folgen fehlten.
@@ -32,7 +32,15 @@ import { eintragAusMeldung, eintragsId, kopfAusMeldung, leereDaten, setzeEin, ty
 
 type Kontext = { env: Env; ctx: ExecutionContext<unknown> | undefined; antwort: (body: unknown, status?: number) => Response }
 
-const anbieterListe = (env: Env) => (env.TITELZEILE_PLATTFORMEN ?? '').split(',').map((s) => s.trim()).filter(Boolean)
+/**
+ * Anbieter, deren Meldungen in das Format passen (14.10.2026): eine Meldung = eine Folge mit höchstens einer Rohfolge.
+ * Prime meldet je Seite viele Rohfolgen mit Feldern, die die Titelzeile nicht hält (asin, erschienen, Seite, Abos, Teile);
+ * ADN ist nicht geprüft. Der Schalter allein schaltet sie deshalb nicht frei.
+ */
+export const TITELZEILE_TAUGLICH = ['disneyplus', 'netflix']
+
+const anbieterListe = (env: Env) =>
+  (env.TITELZEILE_PLATTFORMEN ?? '').split(',').map((s) => s.trim()).filter((s) => TITELZEILE_TAUGLICH.includes(s))
 
 /** Eine Meldung eines Anbieters aus der Liste. Mehrere Rohfolgen in einer Meldung (Prime) beantwortet `versucheTitelzeile`. */
 export const gehoertHierher = (env: Env, daten: Record<string, unknown>) => anbieterListe(env).includes(String(daten.plattform))

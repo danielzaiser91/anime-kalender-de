@@ -13,13 +13,12 @@
  * Aufruf: `npx tsx tools/worker-titelzeile.test.ts`
  */
 import { DatabaseSync } from 'node:sqlite'
-import { readFileSync } from 'node:fs'
 import { handlePruefung } from '../worker/src/pruefung.ts'
 import { gemeldetSchluessel } from '../worker/src/pruefung-gemeldet-cache.ts'
 import { berechnePruefstand } from '../worker/src/pruefung-stand.ts'
 import { eintragAusMeldung, kopfAusMeldung, leereDaten, lies as liesDaten, setzeEin, TITEL_ID_AB } from '../worker/src/titelzeile-format.ts'
 import { VERSUCHE } from '../worker/src/titelzeile-zeile.ts'
-import { d1, lies, loesche, neueDatenbank, post, stand, umgebung, zaehlerStimmen, zahl, type Hilfe } from './worker-titelzeile-hilfe.ts'
+import { d1, einspielSql, lies, loesche, neueDatenbank, post, stand, umgebung, verlustSql, zaehlerStimmen, zahl, type Hilfe } from './worker-titelzeile-hilfe.ts'
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -239,7 +238,7 @@ console.log('Leser-Vergleich: Altzeilen, Titelzeile direkt und eingespielte Altz
   const vorher = await leserAuszug(envAlt, alt)
   pruefe(vorher.alle.length === 6 && vorher.rohfolgenAlle.length >= 5, `Ausgang: Altzeilen in pruefung (${vorher.alle.length}) und prime_folge (${vorher.rohfolgenAlle.length})`)
 
-  alt.exec(readFileSync('worker/einmalig/titel-zeile-einspielen.sql', 'utf8'))
+  alt.exec(einspielSql())
   pruefe(zahl(alt, 'SELECT COUNT(*) AS n FROM titel_zeile') === 2 && zaehlerStimmen(alt), 'Einspielen: eine Titelzeile je Adresse (zwei), die Zähler der offenen Folgen stimmen')
   const nachher = await leserAuszug(envAlt, alt)
   for (const feld of Object.keys(vorher) as (keyof typeof vorher)[]) {
@@ -249,7 +248,7 @@ console.log('Leser-Vergleich: Altzeilen, Titelzeile direkt und eingespielte Altz
   const wieder = await handlePruefung(post(folge(URL_A, 1, 1)), umgebung(alt, hAlt))
   pruefe(((await wieder.json()) as { unveraendert?: boolean }).unveraendert === true, 'danach schreibt eine unveränderte Meldung der eingespielten Adresse nichts')
   const nochmal = zahl(alt, 'SELECT COUNT(*) AS n FROM titel_zeile')
-  alt.exec(readFileSync('worker/einmalig/titel-zeile-einspielen.sql', 'utf8'))
+  alt.exec(einspielSql())
   pruefe(zahl(alt, 'SELECT COUNT(*) AS n FROM titel_zeile') === nochmal, 'Einspielen ist wiederholbar (Adressen mit Titelzeile werden übersprungen)')
 
   const neu = neueDatenbank()
@@ -280,7 +279,7 @@ console.log('Leser-Vergleich: Rohfolgen der Altzeilen in prime_folge (vor Migrat
                   gemeldet_am, roh_uebernommen FROM pruefung WHERE rohfolge IS NOT NULL;
            UPDATE pruefung SET rohfolge = NULL, roh_uebernommen = NULL`)
   const alt = await leserAuszug(env, db)
-  db.exec(readFileSync('worker/einmalig/titel-zeile-einspielen.sql', 'utf8'))
+  db.exec(einspielSql())
   const eingespielt = await leserAuszug(env, db)
   for (const feld of Object.keys(erwartet) as (keyof typeof erwartet)[]) {
     pruefe(JSON.stringify(erwartet[feld]) === JSON.stringify(alt[feld]) && JSON.stringify(erwartet[feld]) === JSON.stringify(eingespielt[feld]), `prime_folge-Altzeilen und eingespielte Titelzeile liefern dasselbe: ${feld}`)
@@ -387,7 +386,7 @@ console.log('Adresse mit Altzeilen nur in prime_folge bleibt beim alten Weg, bis
   const r = await handlePruefung(post(folge(URL_A, 1, 1)), env)
   pruefe(r.status === 200 && zahl(db, 'SELECT COUNT(*) AS n FROM titel_zeile') === 0, 'keine Titelzeile für eine Adresse, die nur in prime_folge Altzeilen hat')
   pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 1, 'die Meldung geht den alten Weg in pruefung')
-  db.exec(readFileSync('worker/einmalig/titel-zeile-einspielen.sql', 'utf8'))
+  db.exec(einspielSql())
   const ids = zahl(db, "SELECT COUNT(*) AS n FROM titel_zeile, json_each(daten, '$.f') WHERE json_extract(value, '$[1]') = 7")
   pruefe(ids === 1, 'das Einspielen nimmt die Rohfolge der Adresse mit (Folge 7 in der Titelzeile)')
 }
@@ -423,7 +422,10 @@ console.log('Einspielen: Folgen, die nur in prime_folge stehen, gehen nicht verl
              ('disneyplus', 'u1', 'g3', 1, 3, 'nur Rohfolge', '2026-10-01T09:00:00Z', 0),
              ('disneyplus', 'u2', 'g4', 1, 1, 'Adresse nur Rohfolge', '2026-10-01T09:00:00Z', 1)`)
   pruefe(zahl(db, verlust) === 2, 'Ausgang: zwei Rohfolgen ohne pruefung-Zeile (eine in u1, eine in der Adresse u2)')
-  db.exec(readFileSync('worker/einmalig/titel-zeile-einspielen.sql', 'utf8'))
+  const fehlen = () => JSON.stringify(db.prepare(verlustSql('disneyplus')).all())
+  const alleFehlen = '[{"herkunft":"prime_folge","folgen":3,"adressen":2},{"herkunft":"pruefung","folgen":2,"adressen":1}]'
+  pruefe(fehlen() === alleFehlen, `Verlustabfrage vor dem Einspielen: alle Folgen fehlen (${fehlen()})`)
+  db.exec(einspielSql())
   const zeilen = db.prepare("SELECT url, daten, offen_meldung, offen_rohfolge FROM titel_zeile ORDER BY url").all() as { url: string; daten: string; offen_meldung: number; offen_rohfolge: number }[]
   pruefe(zeilen.length === 2, `Einspielen: eine Titelzeile je Adresse (${zeilen.length})`)
   const nummern = (z: { daten: string }) => liesDaten(z.daten).f.map((e) => `${e[0]}/${e[1]}`).sort().join(' ')
@@ -434,6 +436,7 @@ console.log('Einspielen: Folgen, die nur in prime_folge stehen, gehen nicht verl
       WHERE NOT EXISTS (SELECT 1 FROM titel_zeile t, json_each(t.daten, '$.f') j WHERE t.url = r.url
         AND IFNULL(json_extract(j.value, '$[0]'), -1) = IFNULL(r.staffel_nr, -1) AND IFNULL(json_extract(j.value, '$[1]'), -1) = IFNULL(r.nummer, -1))`
   pruefe(zahl(db, ohneEintrag) === 0, 'danach hat jede Rohfolge ihren Eintrag in einer Titelzeile (Verlust 0)')
+  pruefe(fehlen() === '[]', `Verlustabfrage danach leer (${fehlen()})`)
 }
 
 if (fehler) {

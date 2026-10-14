@@ -11,7 +11,11 @@ import { lies as liesDaten, zaehleOffene } from '../worker/src/titelzeile-format
 const NUR = /pruefung|prime_folge|such_erwartung|schreib_tag|lauf_status|titel_zeile/
 
 export function neueDatenbank() {
-  const db = new DatabaseSync(':memory:')
+  return migriere(new DatabaseSync(':memory:'))
+}
+
+/** Die Migrationen der Prüf-Tabellen (die übrigen setzen Tabellen voraus, die hier nicht gebraucht werden). */
+export function migriere(db: DatabaseSync) {
   for (const f of readdirSync('worker/migrations').sort()) {
     const sql = readFileSync(`worker/migrations/${f}`, 'utf8')
     if (NUR.test(sql) && !f.startsWith('023')) db.exec(sql)
@@ -44,8 +48,17 @@ export function d1(db: DatabaseSync, h: Hilfe) {
   }
 }
 
-export const umgebung = (db: DatabaseSync, h: Hilfe, an = true) =>
-  ({ LAUF_TOKEN: 't', SITE_URL: 'https://attrappe.test/', TITELZEILE_PLATTFORMEN: an ? 'disneyplus' : '', DB: d1(db, h) }) as never
+/** `an`: true = nur Disney+ (Pilot), false = Schalter leer, Text = Schalter wie in wrangler.toml. */
+export const umgebung = (db: DatabaseSync, h: Hilfe, an: boolean | string = true) =>
+  ({ LAUF_TOKEN: 't', SITE_URL: 'https://attrappe.test/', TITELZEILE_PLATTFORMEN: schalter(an), DB: d1(db, h) }) as never
+
+const schalter = (an: boolean | string) => (an === true ? 'disneyplus' : an === false ? '' : an)
+
+/** Die SQL-Dateien unter `worker/einmalig/` mit eingesetzten Platzhaltern, wie ihr Kopfkommentar es per sed vorgibt. */
+const einmalig = (datei: string, plattform: string, adressen: number) =>
+  readFileSync(`worker/einmalig/${datei}`, 'utf8').replaceAll('__PLATTFORM__', plattform).replaceAll('__ADRESSEN__', String(adressen))
+export const einspielSql = (plattform = 'disneyplus', adressen = 1000) => einmalig('titel-zeile-einspielen.sql', plattform, adressen)
+export const verlustSql = (plattform: string) => einmalig('titel-zeile-verlust.sql', plattform, 0)
 
 /** Antwort von `data/pruefstand.json` für den Worker; die Tests setzen `anbieter` je Fall. */
 export const stand = { erzeugtAm: '2020-01-02T00:00:00.000Z', anbieter: [] as unknown[] }
