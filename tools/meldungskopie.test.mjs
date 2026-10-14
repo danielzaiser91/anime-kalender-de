@@ -12,7 +12,8 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { TABELLEN, SCHEMA_ABFRAGE, baueKopie, exportArgumente, schemaArgumente, schemaAusJson } from './meldungskopie-bauen.mjs'
 import { STAND_MAX_STUNDEN, alterStunden, fuehreAus, fusszeile, istEinzeln } from './meldungskopie-abfrage.mjs'
-import { ARTEFAKT, DATEINAME, WORKFLOW, holen, lokalerStand } from './meldungskopie-holen.mjs'
+import { ARTEFAKT, ARTEFAKT_DATEI, DATEINAME, WORKFLOW, holen, lokalerStand } from './meldungskopie-holen.mjs'
+import { entschluessle, verschluessle } from './meldungskopie-schluessel.mjs'
 import { ziehen } from './meldungskopie-ziehen.mjs'
 
 const WURZEL = join(fileURLToPath(import.meta.url), '..', '..')
@@ -158,9 +159,14 @@ const sqlDatei = join(ordner, 'x.sql')
 writeFileSync(sqlDatei, 'SELECT COUNT(*) AS n FROM pruefung;\n')
 assert.equal(cli('abfrage', '--datei', sqlDatei, '--kopie', basis).stdout.trim(), '{"n":2}')
 assert.equal(cli('ziehen', '--ziel', join(ordner, 'nie.sqlite')).status, 1, 'ziehen ohne GITHUB_ACTIONS liest die echte D1 nicht')
+const viele = cli('abfrage', 'WITH RECURSIVE n(i) AS (SELECT 1 UNION ALL SELECT i + 1 FROM n WHERE i < 250) SELECT i FROM n', '--kopie', basis)
+assert.equal(viele.stdout.trim().split('\n').length, 200, 'ohne --max höchstens 200 Zeilen')
+assert.match(viele.stderr, /… 50 weitere Zeilen \(--max 200\)/)
 assert.equal(cli().status, 2)
 
-/* ---- Holen: nur wenn der jüngste erfolgreiche Lauf neuer ist als die vorhandene Kopie ---- */
+/* ---- Holen: nur wenn der jüngste erfolgreiche Lauf neuer ist als die vorhandene Kopie; das Artefakt ist verschlüsselt ---- */
+const TOKEN = 'lauf-token-fuer-den-test'
+const MIT_TOKEN = { LAUF_TOKEN: TOKEN }
 function gh(laeufe, aufrufe, quelle) {
   return (args) => {
     aufrufe.push(args)
@@ -169,7 +175,7 @@ function gh(laeufe, aufrufe, quelle) {
       return JSON.stringify(laeufe)
     }
     assert.deepEqual([args[0], args[1], args[2], args[3], args[4], args[5]], ['run', 'download', '777', '--name', ARTEFAKT, '--dir'])
-    copyFileSync(quelle, join(args[6], DATEINAME))
+    writeFileSync(join(args[6], ARTEFAKT_DATEI), verschluessle(readFileSync(quelle), TOKEN))
     return ''
   }
 }
@@ -177,19 +183,26 @@ const neu = kopie('neu.sqlite', '2026-10-15T03:00:00.000Z')
 const ziel = join(ordner, 'cache', DATEINAME)
 let aufrufe = []
 const lauf1 = { databaseId: 777, createdAt: '2026-10-15T02:59:40Z' }
-assert.deepEqual(holen({ gh: gh([lauf1], aufrufe, neu), ziel }), { art: 'geholt', stand: '2026-10-15T03:00:00.000Z', lauf: 777 })
+assert.deepEqual(holen({ gh: gh([lauf1], aufrufe, neu), ziel, umgebung: MIT_TOKEN }), { art: 'geholt', stand: '2026-10-15T03:00:00.000Z', lauf: 777 })
 assert.equal(lokalerStand(ziel), '2026-10-15T03:00:00.000Z')
 assert.equal(aufrufe.length, 2)
 // Gleicher Lauf nochmal: nichts laden (der Stand wird nach dem Start des Laufs genommen, ist also nie älter als dessen createdAt).
 aufrufe = []
-assert.equal(holen({ gh: gh([lauf1], aufrufe, neu), ziel }).art, 'aktuell')
+assert.equal(holen({ gh: gh([lauf1], aufrufe, neu), ziel, umgebung: MIT_TOKEN }).art, 'aktuell')
 assert.equal(aufrufe.length, 1)
 // Die vorhandene Kopie ist älter als der Lauf: laden.
 copyFileSync(basis, ziel)
 aufrufe = []
-assert.equal(holen({ gh: gh([lauf1], aufrufe, neu), ziel }).art, 'geholt')
+assert.equal(holen({ gh: gh([lauf1], aufrufe, neu), ziel, umgebung: MIT_TOKEN }).art, 'geholt')
 assert.equal(aufrufe.length, 2)
-assert.throws(() => holen({ gh: gh([], [], neu), ziel }), /Noch kein erfolgreicher Lauf von meldungskopie\.yml/)
+// Ohne Token oder mit falschem Token: Abbruch, kein gh-Aufruf bzw. die vorhandene Kopie bleibt.
+aufrufe = []
+assert.throws(() => holen({ gh: gh([lauf1], aufrufe, neu), ziel, umgebung: {} }), /LAUF_TOKEN fehlt/)
+assert.equal(aufrufe.length, 0)
+copyFileSync(basis, ziel)
+assert.throws(() => holen({ gh: gh([lauf1], [], neu), ziel, umgebung: { LAUF_TOKEN: 'falsch' } }), /nicht entschlüsseln/)
+assert.equal(lokalerStand(ziel), stand, 'ein misslungenes Entschlüsseln lässt die vorhandene Kopie stehen')
+assert.throws(() => holen({ gh: gh([], [], neu), ziel, umgebung: MIT_TOKEN }), /Noch kein erfolgreicher Lauf von meldungskopie\.yml/)
 
 /* ---- Ziehen: nur im Lauf, nur lesend, Stand ist der Beginn des Zugriffs ---- */
 function wrangler(aufrufe) {
@@ -205,15 +218,32 @@ function wrangler(aufrufe) {
   }
 }
 const ohneLauf = []
-assert.throws(() => ziehen({ wrangler: wrangler(ohneLauf), ziel: join(ordner, 'a.sqlite'), umgebung: {} }), /läuft nur im Lauf meldungskopie\.yml/)
+for (const umgebung of [{ LAUF_TOKEN: TOKEN }, { LAUF_TOKEN: TOKEN, GITHUB_ACTIONS: 'false' }]) {
+  assert.throws(() => ziehen({ wrangler: wrangler(ohneLauf), ziel: join(ordner, 'a.enc'), umgebung }), /läuft nur im Lauf meldungskopie\.yml/)
+}
 assert.equal(ohneLauf.length, 0)
-assert.equal(existsSync(join(ordner, 'a.sqlite')), false)
+// Im Lauf, aber ohne Schlüssel: kein D1-Zugriff und keine Datei zum Hochladen.
+assert.throws(() => ziehen({ wrangler: wrangler(ohneLauf), ziel: join(ordner, 'a.enc'), umgebung: { GITHUB_ACTIONS: 'true' } }), /LAUF_TOKEN fehlt/)
+assert.equal(ohneLauf.length, 0)
+assert.equal(existsSync(join(ordner, 'a.enc')), false)
 const gezogen = []
 const zeitpunkt = new Date('2026-10-16T03:00:07.000Z')
-const gebaut = ziehen({ wrangler: wrangler(gezogen), ziel: join(ordner, 'b.sqlite'), umgebung: { GITHUB_ACTIONS: 'true' }, jetzt: zeitpunkt })
+const gebaut = ziehen({ wrangler: wrangler(gezogen), ziel: join(ordner, 'b.enc'), umgebung: { GITHUB_ACTIONS: 'true', ...MIT_TOKEN }, jetzt: zeitpunkt })
 assert.deepEqual(gebaut, { pruefung: 2, prime_folge: 3, titel_zeile: 1 })
 assert.deepEqual(gezogen.map((a) => a[1]), ['export', 'execute'])
-assert.equal(lokalerStand(join(ordner, 'b.sqlite')), '2026-10-16T03:00:07.000Z')
+// Die Datei zum Hochladen ist Geheimtext (weder SQLite-Kopf noch Klartext aus dem Export); entschlüsselt hat sie Indexe und Sicht.
+const hochzuladen = readFileSync(join(ordner, 'b.enc'))
+assert.equal(hochzuladen.includes('SQLite format 3'), false)
+assert.equal(hochzuladen.includes('zweite Zeile'), false)
+const entpackt = join(ordner, 'b.sqlite')
+writeFileSync(entpackt, entschluessle(hochzuladen, TOKEN))
+assert.equal(lokalerStand(entpackt), '2026-10-16T03:00:07.000Z')
+{
+  const db = new DatabaseSync(entpackt, { readOnly: true })
+  assert.equal(db.prepare("SELECT COUNT(*) AS n FROM sqlite_master WHERE type = 'index' AND name NOT LIKE 'sqlite_%'").get().n, 2)
+  assert.equal(db.prepare('SELECT COUNT(*) AS n FROM pruefung_titel').get().n, 2)
+  db.close()
+}
 
 /* ---- Zeitplan: eine Änderung ist spätestens nach 33 Stunden in der Kopie, die Grenze der Fußzeile ist 36 ---- */
 const plan = lies('shared/weckplan.ts').match(/\{ workflow: 'meldungskopie\.yml', stunden: \[(\d+)\], abstandMin: (\d+) \}/)
@@ -228,9 +258,12 @@ assert.equal(Number(lies('tools/wache-woechentlich.mjs').match(/'meldungskopie\.
 
 /* ---- Lauf: Name und Datei des Artefakts sind die, die „holen“ erwartet; das Token fehlt nicht still ---- */
 const yml = lies('.github/workflows/meldungskopie.yml')
-assert.match(yml, new RegExp(`name: ${ARTEFAKT}\\n\\s+path: ${DATEINAME.replace('.', '\\.')}`))
-assert.match(yml, /node tools\/meldungskopie\.mjs ziehen --ziel meldungen\.sqlite/)
-assert.match(yml, /secrets\.CLOUDFLARE_ANALYTICS_TOKEN \|\| secrets\.CLOUDFLARE_API_TOKEN/)
+assert.equal(ARTEFAKT_DATEI, 'meldungen.sqlite.enc')
+assert.match(yml, new RegExp(`name: ${ARTEFAKT}\\n\\s+path: ${ARTEFAKT_DATEI.replaceAll('.', '\\.')}\\n`))
+assert.match(yml, /node tools\/meldungskopie\.mjs ziehen --ziel meldungen\.sqlite\.enc/)
+assert.match(yml, /CLOUDFLARE_API_TOKEN: \$\{\{ secrets\.CLOUDFLARE_API_TOKEN \}\}/, 'der Export braucht Schreibrecht: nicht das Lese-Token')
+assert.doesNotMatch(yml.replace(/^#.*$/gm, ''), /ANALYTICS/)
+assert.match(yml, /LAUF_TOKEN: \$\{\{ secrets\.LAUF_TOKEN \}\}/)
 assert.doesNotMatch(yml, /exit 0/, 'ohne Token wird der Lauf rot, nicht still grün (sonst findet "holen" einen Lauf ohne Artefakt)')
 
 rmSync(ordner, { recursive: true, force: true })

@@ -8,9 +8,10 @@ name: Meldungskopie — SQLite-Kopie der Meldungsdaten
 # Zeitplan: Cloudflare-Wecker (`shared/weckplan.ts`) täglich um 03 UTC per workflow_dispatch, `wecker-wache.yml` holt Überfälliges nach. Ein laufender
 # Export blockiert andere Abfragen an der D1 (Cloudflare-Doku „Import and export data“, abgerufen 14.10.2026) — um 03 UTC ist die Last am kleinsten.
 #
-# Das Token (derselbe Wert wie bei `d1-verbrauch.yml`) fehlt nicht still: ohne Token wird der Lauf rot, sonst fände `holen` einen grünen Lauf ohne Datei.
+# Das Cloudflare-Token (`CLOUDFLARE_API_TOKEN`, der Export braucht D1-Schreibrecht; `CLOUDFLARE_ANALYTICS_TOKEN` ist nur zum Lesen) fehlt nicht still: ohne Token wird der Lauf rot, sonst fände `holen` einen grünen Lauf ohne Datei.
 # Die Kopie enthält nur die drei Meldungstabellen; `tools/meldungskopie-bauen.mjs` verweigert jede andere Tabelle (Newsletter-Adressen, Zugänge).
-# Das Repo ist öffentlich, ein angemeldetes GitHub-Konto kann das Artefakt laden (3 Tage); darin steht, was die Erweiterung ohnehin meldet.
+# **Das Artefakt ist verschlüsselt:** Das Repo ist öffentlich, ein angemeldetes GitHub-Konto kann Artefakte laden, und der Worker gibt diese Daten nur mit `LAUF_TOKEN` heraus
+# (`prime_folge.roh` enthält ungefilterte Player-Felder). Der Schlüssel wird aus `LAUF_TOKEN` abgeleitet (AES-256-GCM, `tools/meldungskopie-schluessel.mjs`); fehlt er, bricht `ziehen` vor dem ersten D1-Zugriff ab.
 
 on:
   workflow_dispatch:
@@ -38,13 +39,14 @@ jobs:
 
       - name: Kopie ziehen und bauen
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_ANALYTICS_TOKEN || secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: 567f5e28368c5bbcfeffad3e674b02ab
-        run: node tools/meldungskopie.mjs ziehen --ziel meldungen.sqlite
+        run: node tools/meldungskopie.mjs ziehen --ziel meldungen.sqlite.enc
 
       - uses: actions/upload-artifact@v4
         with:
           name: meldungskopie
-          path: meldungen.sqlite
+          path: meldungen.sqlite.enc
           retention-days: 3
           overwrite: true

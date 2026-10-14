@@ -14,7 +14,7 @@ import { mkdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { fuehreAus, fusszeile } from './meldungskopie-abfrage.mjs'
-import { DATEINAME, holen } from './meldungskopie-holen.mjs'
+import { ARTEFAKT_DATEI, DATEINAME, holen } from './meldungskopie-holen.mjs'
 import { ziehen } from './meldungskopie-ziehen.mjs'
 
 const WURZEL = resolve(dirname(fileURLToPath(import.meta.url)), '..')
@@ -48,7 +48,7 @@ function main(a) {
   } else if (a[0] === 'abfrage') {
     abfrage(a)
   } else if (a[0] === 'ziehen') {
-    console.log(`Kopie gebaut: ${JSON.stringify(ziehen({ wrangler, ziel: resolve(wert(a, '--ziel') ?? DATEINAME) }))}`)
+    console.log(`Kopie gebaut: ${JSON.stringify(ziehen({ wrangler, ziel: resolve(wert(a, '--ziel') ?? ARTEFAKT_DATEI) }))}`)
   } else {
     console.error('Aufruf: meldungskopie.mjs holen | abfrage "<sql>" | abfrage --datei <x.sql> | ziehen --ziel <datei>')
     process.exit(2)
