@@ -41,7 +41,7 @@ function breiteFaelle() {
   return [...hauptbestand, ...cartoons].map((t) => ({ name: `breit-${t.id}`, ak: t.id }))
 }
 
-/** Fünf weitere Fälle: Flaggen ohne MAL-Kennung, ohne Wertung, Cartoon mit und ohne Wertung (TMDB), dazu ein eigener Handlungstext mit Quellen und Lizenz. */
+/** Sieben weitere Fälle: Flaggen ohne MAL-Kennung, ohne Wertung, Cartoon mit und ohne Wertung (TMDB), dazu ein eigener Handlungstext mit Quellen und Lizenz und zwei Cartoons mit gefalteten Wegen (Jack mit Staffelzeilen, Om Nom mit Staffelspannen). */
 function flaggenFaelle() {
   const alle = [...daten.values()]
   const waehle = (name, test) => ({ name, ak: alle.find(test)?.id })
@@ -51,6 +51,8 @@ function flaggenFaelle() {
     waehle('cartoon-tmdb', (t) => t.westlich && t.tmdbId && t.score !== undefined),
     waehle('cartoon-ohne-wertung', (t) => t.westlich && t.tmdbId && t.score === undefined),
     { name: 'eigene-handlung', ak: akVon('198369') },
+    { name: 'cartoon-jack', ak: -92684 },
+    { name: 'cartoon-omnom', ak: -57480 },
   ]
 }
 
