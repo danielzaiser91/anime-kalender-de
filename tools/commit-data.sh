@@ -27,6 +27,10 @@
 
 set -euo pipefail
 
+# Eigener Ordner je Lauf: feste Pfade unter /tmp überschrieben sich bei gleichzeitigen Läufen (Test: 5 von 20 rot).
+TEMP_LAUF="$(mktemp -d)"
+trap 'rm -rf "$TEMP_LAUF"' EXIT
+
 NACHRICHT="${1:?Commit-Nachricht fehlt}"
 VERSUCHE="${2:-6}" # 3 genügten nicht, wenn Stündlich, Daten-PR und ein Mensch zugleich pushen (Bestandsbau 04.10.2026 16:17 rot)
 
@@ -153,8 +157,8 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     # Zusicherung verletzen, als Quelle ins Repo und machten danach jeden
     # Deploy rot. Der Lauf endet rot, auch im Bau-Lauf (seit 11.10.2026:
     # von 15:14 bis 21:08 UTC lieferte er grün keine Erzeugnisse aus, sechs Stunden unbemerkt).
-    if ! npm run check:bestand > /tmp/bestand-pruefung.txt 2>&1 || ! npm run check:logic >> /tmp/bestand-pruefung.txt 2>&1; then
-      cat /tmp/bestand-pruefung.txt
+    if ! npm run check:bestand > "$TEMP_LAUF/bestand-pruefung.txt" 2>&1 || ! npm run check:logic >> "$TEMP_LAUF/bestand-pruefung.txt" 2>&1; then
+      cat "$TEMP_LAUF/bestand-pruefung.txt"
       # Die sechs Prüfungen in `check:bestand` melden über `warn()` (Zeichen
       # `⚠`) oder mit `✗` (U+2717); nur `check-logic.ts` und `build.ts`
       # selbst nutzen `✖` (U+2716). Ein Muster, das nur `✖` sucht, findet bei
@@ -166,7 +170,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       # 35566086288, ausgelöst von `check:handbelege`). `|| true` fängt außerdem
       # den Fall ab, in dem keines der drei Zeichen vorkommt.
       # FEHLER:-Zeilen zuerst: Sonst füllen drei ⚠-Hinweise die drei Plätze, und der echte Fehler fehlt in der Meldung.
-      grund="$({ grep -E 'FEHLER:' /tmp/bestand-pruefung.txt; grep -E '✖|✗|⚠' /tmp/bestand-pruefung.txt | grep -v 'FEHLER:'; } | head -n 3 | tr -d '\"' | tr -s '[:space:]' ' ')" || true
+      grund="$({ grep -E 'FEHLER:' "$TEMP_LAUF/bestand-pruefung.txt"; grep -E '✖|✗|⚠' "$TEMP_LAUF/bestand-pruefung.txt" | grep -v 'FEHLER:'; } | head -n 3 | tr -d '\"' | tr -s '[:space:]' ' ')" || true
       echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon."
       if [ "${BAU_LAUF:-0}" = 1 ]; then
         git checkout -- data/dub-confirmed.yaml 2>/dev/null || true
@@ -175,7 +179,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       fi
       BESTAND_KAPUTT=1
     else
-      cat /tmp/bestand-pruefung.txt | tail -3
+      cat "$TEMP_LAUF/bestand-pruefung.txt" | tail -3
     fi
   fi
 
@@ -238,14 +242,14 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   git -c user.name="$BOT_NAME" -c user.email="$BOT_MAIL" commit -m "$NACHRICHT" --quiet
 
   # Die Meldung bleibt sichtbar: Am 11.10.2026 scheiterten sechs Pushes bei unbewegtem Fernstand, und ohne Text war nicht zu sagen, ob es ein Wettlauf oder eine Ablehnung (Rechte, Schutzregel) war.
-  if git push --quiet 2>/tmp/push-fehler.txt; then
+  if git push --quiet 2>"$TEMP_LAUF/push-fehler.txt"; then
     echo "Gepusht (Versuch $versuch)."
     # Die Quellen sind gesichert — jetzt darf der Lauf scheitern.
     [ "$LAUF_ROT" = 1 ] && exit 1
     exit 0
   fi
 
-  echo "Push abgelehnt (Versuch $versuch): $(tr '\n' ' ' < /tmp/push-fehler.txt | cut -c1-400)"
+  echo "Push abgelehnt (Versuch $versuch): $(tr '\n' ' ' < "$TEMP_LAUF/push-fehler.txt" | cut -c1-400)"
   # Den eigenen Commit zurücknehmen, die Dateien behalten — die nächste Runde
   # setzt ohnehin auf dem neuen Fernstand neu auf.
   git reset --soft HEAD~1

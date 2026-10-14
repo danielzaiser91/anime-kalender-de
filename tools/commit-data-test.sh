@@ -119,6 +119,9 @@ echo "data:build scheitert und es gibt nichts zu committen: trotzdem rot"
 LAUF_AENDERT=nein szenario leer FAKE_BAU=fail
 pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
 
+echo "Gleichzeitige Läufe teilen sich keine festen Pfade (Wackeln unter Last, 14.10.2026)"
+pruefe "kein fester /tmp-Pfad in commit-data.sh" 0 "$(grep -c "/tmp/" "$WURZEL/tools/commit-data.sh" || true)"
+
 if [ "$FEHLER" -gt 0 ]; then
   echo "commit-data-test: $FEHLER Prüfung(en) rot."
   exit 1
