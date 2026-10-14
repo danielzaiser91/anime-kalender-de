@@ -26,6 +26,7 @@ import { bilderOrdner } from './bilder-ordner.mjs'
 import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
 import { pruefeFilterfensterRechner } from './ansicht-filterfenster-rechner.mjs'
 import { pruefeAdressen } from './ansicht-adressen.mjs'
+import { pruefeStatusfarben } from './ansicht-statusfarben.mjs'
 import { distPruefen } from './dist-frisch.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
@@ -220,6 +221,7 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
   /* Der Cartoon-Filter wird am Rechner geprüft; am Handy liegt der Schalter im geschlossenen Filterfenster. */
   let rot = ansichten.includes('datenbank') && !handy ? await meldeCartoonFilter(seite) : false
   if (ansichten.includes('datenbank') && !handy && (await pruefeAdressen(seite, DIST))) rot = true
+  if (['datenbank', 'news'].every((a) => ansichten.includes(a)) && !handy && (await pruefeStatusfarben(seite))) rot = true
   if (!handy && ['woche', 'datenbank'].every((a) => ansichten.includes(a))) {
     const rechner = await pruefeFilterfensterRechner(chromium, antworteAusDist)
     console.log(`\nFilterfenster am Rechner (1280 px, Woche und Datenbank): ${rechner.abweichungen.length ? '' : 'ok'}`)

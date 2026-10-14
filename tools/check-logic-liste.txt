@@ -149,6 +149,7 @@ tools/design-fokus.test.mjs
 tools/design-klassen.mjs
 tools/design-klassen.test.mjs
 tools/design-kontrast.mjs
+tools/design-status.test.mjs
 tools/handbeleg-verwaist.test.mjs
 tools/pruef-bestand.test.mjs
 tools/tmdb-bilddatum.test.mjs
