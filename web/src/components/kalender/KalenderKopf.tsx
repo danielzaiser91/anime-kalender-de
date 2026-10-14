@@ -179,7 +179,7 @@ function HeuteKnopf({ lage, monat, onClick }: { lage: HeuteLage; monat: boolean;
         aria-label={`${t('nav.today')}: ${text}`}
         aria-current={hier ? 'date' : undefined}
         className={[
-          'flex h-11 shrink-0 cursor-pointer items-center rounded-full border px-2.5 max-[419px]:px-1.5 max-[339px]:size-11 max-[339px]:justify-center max-[339px]:px-0 text-sm font-bold transition disabled:cursor-default disabled:opacity-40 sm:px-3.5',
+          'flex h-11 shrink-0 cursor-pointer items-center rounded-full border px-2.5 max-[419px]:px-1.5 max-[339px]:size-11 max-[339px]:justify-center max-[339px]:px-0 text-sm font-bold transition disabled:cursor-default disabled:opacity-45 sm:px-3.5',
           hier ? 'border-ak-rand bg-transparent text-ak-leise hover:border-ak-leise hover:text-ak-text' : GETOENT,
         ].join(' ')}
       >

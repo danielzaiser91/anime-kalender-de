@@ -412,7 +412,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                     </span>
                     <span
                       className={`shrink-0 pr-1 text-slate-400 transition-transform ${auf ? 'rotate-90' : ''} ${
-                        e.meldungen.length > 1 ? '' : 'opacity-40'
+                        e.meldungen.length > 1 ? '' : 'opacity-45'
                       }`}
                       aria-hidden="true"
                     >

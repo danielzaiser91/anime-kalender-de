@@ -823,7 +823,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
             <button
               type="submit"
               disabled={restoreState === 'sending' || !WORKER_URL}
-              className="cursor-pointer rounded-lg bg-ak-flaeche-2 px-4 py-2 text-sm font-medium text-ak-text transition hover:bg-ak-flaeche-3 disabled:opacity-60"
+              className="cursor-pointer rounded-lg bg-ak-flaeche-2 px-4 py-2 text-sm font-medium text-ak-text transition hover:bg-ak-flaeche-3 disabled:cursor-default disabled:opacity-45"
             >
               {restoreState === 'sending' ? t('news.sending') : t('news.restoreSubmit')}
             </button>

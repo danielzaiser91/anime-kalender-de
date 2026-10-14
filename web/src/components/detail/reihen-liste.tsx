@@ -210,7 +210,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                         je Zeile, fünf statt drei sichtbar.
                       */
                       'flex w-full items-center gap-2 rounded-lg border p-1 text-left transition',
-                      'focus-visible:-outline-offset-2 disabled:opacity-60',
+                      'focus-visible:-outline-offset-2 disabled:cursor-default disabled:opacity-45',
                       gewaehlt
                         ? 'relative border-sky-400 bg-sky-50 ring-1 ring-sky-400/50 before:absolute before:inset-y-1.5 before:left-px before:w-[3px] before:rounded-sm before:bg-sky-400 dark:bg-sky-400/10'
                         : offen
@@ -223,7 +223,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                     <span
                       className={[
                         'block h-9 w-6 shrink-0 overflow-hidden rounded bg-slate-200 dark:bg-white/5',
-                        offen ? 'opacity-60' : '',
+                        offen ? 'opacity-45' : '',
                       ].join(' ')}
                     >
                       {m.cover && (

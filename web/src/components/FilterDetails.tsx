@@ -331,7 +331,7 @@ export function FilterDetails({
   const [mehr, setMehr] = useState(false)
   const plattformen: PlatformId[] = (platformZaehlung ? [...platformZaehlung.entries()].sort((a, b) => b[1] - a[1]).map(([p]) => p) : meta.platforms).filter((p) => p !== 'disc')
   const genres = genreListe ?? visibleGenres
-  const mitZahl = (n: number | undefined) => (n ? <span className="opacity-60">{n}</span> : null)
+  const mitZahl = (n: number | undefined) => (n ? <span className="opacity-70">{n}</span> : null)
   const suche = bereichsSuche(filterQuery)
   const plattformLabel = t('filter.platform')
   const genreLabel = t('filter.genre')

@@ -83,7 +83,7 @@ export function DatumSprung({
   const monatErlaubt = (m: number) => monatKey(m) >= von.slice(0, 7) && monatKey(m) <= bis.slice(0, 7)
 
   const zelle =
-    'flex cursor-pointer flex-col items-center justify-center rounded-lg py-1.5 text-xs transition disabled:cursor-default disabled:opacity-30'
+    'flex cursor-pointer flex-col items-center justify-center rounded-lg py-1.5 text-xs transition disabled:cursor-default disabled:opacity-45'
 
   let inhalt: ReactNode
   if (monat === null) {
@@ -137,7 +137,7 @@ export function DatumSprung({
               onClick={() => springe(d)}
               aria-label={n ? `${i + 1}. · ${t('sprung.termine', { n })}` : undefined}
               className={[
-                'relative cursor-pointer rounded-md py-1.5 text-xs tabular-nums transition disabled:cursor-default disabled:opacity-30',
+                'relative cursor-pointer rounded-md py-1.5 text-xs tabular-nums transition disabled:cursor-default disabled:opacity-45',
                 d === date ? 'bg-ak-gewaehlt font-bold text-ak-auf-gewaehlt' : 'hover:bg-ak-flaeche-2',
                 d === heute ? 'ring-1 ring-ak-akzent' : '',
               ].join(' ')}
@@ -152,7 +152,7 @@ export function DatumSprung({
   }
 
   const kopfKnopf =
-    'cursor-pointer rounded-md px-2 py-1 text-sm transition hover:bg-ak-flaeche-2 disabled:cursor-default disabled:opacity-30'
+    'cursor-pointer rounded-md px-2 py-1 text-sm transition hover:bg-ak-flaeche-2 disabled:cursor-default disabled:opacity-45'
 
   return (
     <>

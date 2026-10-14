@@ -36,7 +36,7 @@ export function SaisonKarte({ z, data, favorit, oeffne, ausblick }: { z: SaisonZ
     <li className="flex">
       <button type="button" onClick={() => void klick()} className={`flex w-full cursor-pointer gap-2.5 rounded-xl border bg-ak-flaeche p-2 text-left transition ${rand}`}>
         {cover ? (
-          <img {...coverBild(cover, 60)} alt="" width={60} height={85} loading="lazy" decoding="async" className={`h-[85px] w-[60px] shrink-0 rounded-md object-cover ${z.erschienen ? '' : 'opacity-60 grayscale-[40%]'}`} />
+          <img {...coverBild(cover, 60)} alt="" width={60} height={85} loading="lazy" decoding="async" className={`h-[85px] w-[60px] shrink-0 rounded-md object-cover ${z.erschienen ? '' : 'opacity-45 grayscale-[40%]'}`} />
         ) : (
           <span className="h-[85px] w-[60px] shrink-0 rounded-md bg-ak-flaeche-2" />
         )}

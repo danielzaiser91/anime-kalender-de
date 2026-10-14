@@ -296,7 +296,7 @@ export function Button({
     'oben',
     <button
       type={type}
-      className={`${cls}${disabled ? ' cursor-not-allowed opacity-50' : ''}`}
+      className={`${cls} disabled:cursor-default disabled:opacity-45`}
       onClick={onClick}
       disabled={disabled}
     >
