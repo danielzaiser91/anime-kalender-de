@@ -82,7 +82,15 @@ export function pruefeSynchroJePlattform({
   schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, belegFuer: belege.belegFuer })
   /* Erst hier sind alle Crunchyroll-Termine da; vor Phase 10 übernehmen die Ereignisse das Flag. */
   hebeFolgenzahlAnnahmeAuf(releases)
+  return synchroErgebnis(belege, pruefung, motnBelege)
+}
 
+/** Was die Phasen nach der Synchro-Prüfung brauchen (`build.ts` reicht es als `synchro` weiter). */
+function synchroErgebnis(
+  belege: ReturnType<typeof sammleBelege>,
+  pruefung: ReturnType<typeof werteLinkpruefungAus>,
+  motnBelege: ReturnType<typeof werteWeitereQuellenAus>['motnBelege'],
+) {
   const { zugangJeAdresse, crAdresseZu, beantworteteSuchen, suchOffen, alleChecks, checksJePlattform, kanalJeAdresse } =
     belege
   const { linkBefunde, lautPruefungTot } = pruefung
