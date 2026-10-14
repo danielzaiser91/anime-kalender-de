@@ -8,7 +8,7 @@ import { PILLE_JA, PILLE_NEIN } from './filter/pille-zustand.ts'
 /** Ab so vielen Zeichen wird vorgeschlagen — bei einem Buchstaben wären es Hunderte beliebiger Namen. */
 const MIN_ZEICHEN = 2
 const MAX_VORSCHLAEGE = 8
-const FOKUS = 'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400'
+const FOKUS = 'focus-visible:-outline-offset-2'
 const LINK = 'cursor-pointer font-semibold text-ak-akzent-text underline'
 
 function useEntprellt<T>(wert: T, ms: number): T {

@@ -61,8 +61,8 @@ export function PosterKarte(p: PosterKarteProps) {
       ref={p.anker}
       onClick={p.onOpen}
       className={[
-        'group relative flex min-w-0 cursor-pointer flex-col gap-1.5 rounded-xl outline-none',
-        'has-[.ak-oeffnen:focus-visible]:ring-2 has-[.ak-oeffnen:focus-visible]:ring-ak-akzent has-[.ak-oeffnen:focus-visible]:ring-offset-4 has-[.ak-oeffnen:focus-visible]:ring-offset-ak-grund',
+        'group relative flex min-w-0 cursor-pointer flex-col gap-1.5 rounded-xl',
+        'has-[.ak-oeffnen:focus-visible]:outline-2 has-[.ak-oeffnen:focus-visible]:outline-offset-2 has-[.ak-oeffnen:focus-visible]:outline-ak-fokus',
         breit || saal ? 'col-span-2' : '',
         p.vorbei && !p.favorite ? 'ak-vorbei' : '',
       ].join(' ')}

@@ -109,8 +109,9 @@ oder Rand von `rand` auf `leise`), nie Fläche und Rand und Text zugleich; der �
 | Schalter (Toggle) | Bahn `ak-rand`, Knauf `ak-flaeche` | Bahn `ak-leise` | Ring | Bahn `ak-akzent`, Knauf `ak-auf-akzent`, `aria-checked` | `opacity-45` |
 | Eingabefeld | `border-ak-rand bg-ak-flaeche placeholder:text-ak-sehr-leise` | `border-ak-leise` | `border-ak-akzent` + Ring | — | `opacity-45` |
 
-Fokus: überall `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-fokus` und `focus:outline-none` **nur zusammen damit**;
-`ring-*` nicht für Fokus (box-shadow kollidiert mit Rändern und `ak-katalog-glanz`). Deaktiviert: `disabled:opacity-45 disabled:cursor-default`,
+Fokus (umgesetzt 14.10.2026): **eine** Regel `:focus-visible { outline: 2px solid var(--ak-fokus); outline-offset: 2px }` in `web/src/styles.css` (Layer `base`),
+Bauteile setzen nichts und schalten den Umriss nie ab (`tools/design-fokus.test.mjs` in `check:logic`); Einträge in Scrollflächen: `focus-visible:-outline-offset-2`,
+Karten mit sr-only-Knopf: `has-[.ak-oeffnen:focus-visible]:outline-*`; Ausnahme `tabindex=-1` (nur Skript-Fokus). `ring-*` nicht für Fokus (box-shadow kollidiert mit Rändern und `ak-katalog-glanz`). Deaktiviert: `disabled:opacity-45 disabled:cursor-default`,
 immer dieselbe Stufe. Klick-Modus im Filterfenster (Auswählen grün / Ausschließen rot gefüllt) bleibt: die Farbe des Modus ist die Farbe der
 Pille, die er erzeugt, und ⊘ ist das zweite Merkmal.
 
