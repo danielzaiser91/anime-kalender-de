@@ -14,7 +14,8 @@ import { handlePruefung } from '../worker/src/pruefung.ts'
 import { handleLauf } from '../worker/src/lauf.ts'
 import { schreibeVerlauf } from '../worker/src/monitor-speicher.ts'
 import { berechnePruefstand } from '../worker/src/pruefung-stand.ts'
-import { DECKEL_ZEILEN, utcTag, sekundenBisMitternachtUtc } from '../worker/src/tagesdeckel.ts'
+import { DECKEL_ZEILEN, utcTag } from '../worker/src/tagesdeckel.ts'
+import { sekundenBisMitternachtUtc } from '../worker/src/d1-limit.ts'
 import { PRUEFUNG_ID_AB } from '../worker/src/rohfolgen-seiten.ts'
 
 let fehler = 0
@@ -141,7 +142,7 @@ console.log('Tagesdeckel')
 }
 {
   const quellen = readdirSync('worker/src')
-    .filter((f) => f.endsWith('.ts') && f !== 'auffangnetz.ts') // auffangnetz.ts antwortet nur auf das D1-Limit (istD1Tageslimit), zählt und deckelt nichts
+    .filter((f) => f.endsWith('.ts'))
     .filter((f) => readFileSync(`worker/src/${f}`, 'utf8').includes("from './tagesdeckel.ts'"))
   pruefe(quellen.join() === 'pruefung-speichern.ts', `nur die Meldungs-Route nutzt den Deckel (${quellen.join(', ')}) — Anmeldung, Push, Cron bleiben frei`)
 }

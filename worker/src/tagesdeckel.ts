@@ -31,6 +31,7 @@
  */
 import { type Env } from './env.ts'
 import { fehlerLog } from './werte.ts'
+import { istD1Tageslimit, sekundenBisMitternachtUtc } from './d1-limit.ts'
 
 export const DECKEL_ZEILEN = 50_000
 export const DECKEL_LESEN = 1_500_000
@@ -45,11 +46,6 @@ export function utcTag(jetzt: Date): string {
   return jetzt.toISOString().slice(0, 10)
 }
 
-export function sekundenBisMitternachtUtc(jetzt: Date): number {
-  const morgen = Date.UTC(jetzt.getUTCFullYear(), jetzt.getUTCMonth(), jetzt.getUTCDate() + 1)
-  return Math.max(1, Math.ceil((morgen - jetzt.getTime()) / 1000))
-}
-
 /** Eine Meldung, kein Auftrag der Pipeline (abhaken, wieder öffnen) und keine Erwartung. */
 export function istMeldung(daten: Record<string, unknown>): boolean {
   if (Array.isArray(daten.stapel)) return true
@@ -58,14 +54,6 @@ export function istMeldung(daten: Record<string, unknown>): boolean {
   return typeof daten.url === 'string'
 }
 
-/**
- * Der Fehler, mit dem D1 nach dem echten Tageskontingent antwortet, z. B.
- * `D1_ERROR: Your account has exceeded D1's free tier daily row read limit.` (Wortlaut vom 01.09.2026,
- * docs/wissen/betrieb.md; der Schreib-Fall ist nach demselben Muster angenommen, nicht belegt).
- */
-export function istD1Tageslimit(e: unknown): boolean {
-  return /free tier daily row (read|write)|daily row (read|write)s? limit/i.test(String((e as Error)?.message ?? e))
-}
 
 /**
  * Die Datenbank so verpackt, dass jede Antwort auf `run`, `all` und `batch` ihre geschriebenen und

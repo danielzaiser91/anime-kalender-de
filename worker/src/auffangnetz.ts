@@ -1,4 +1,4 @@
-import { istD1Tageslimit, sekundenBisMitternachtUtc } from './tagesdeckel.ts'
+import { istD1Tageslimit, sekundenBisMitternachtUtc } from './d1-limit.ts'
 
 /** Pfade, die auch aus einer Datei (Ursprung `null`) gelesen werden und daher CORS `*` bekommen. */
 export const OFFENE_PFADE = ['/lauf', '/pruefung', '/netzfund', '/vorfall']
