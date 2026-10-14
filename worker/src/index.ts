@@ -882,6 +882,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
   const news = await loadNews(env)
   const weitereAnbieter = weitereAusNews(news)
   const reihen = await loadReihen(env)
+  const kennungen = await ladeKennungen(env)
   const log: string[] = []
 
   for (const frequency of due) {
@@ -913,7 +914,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
 
       // Gemerkte Titel nach vorn: Eine neue Folge einer Serie, der jemand
       // folgt, ist ihm wichtiger als irgendein Disc-Release.
-      const favorites = leseFavoriten(sub.favorites, await ladeKennungen(env))
+      const favorites = leseFavoriten(sub.favorites, kennungen)
 
       /**
        * Gemerkte Titel, die **seit der letzten Mail an diesen Abonnenten** eine
