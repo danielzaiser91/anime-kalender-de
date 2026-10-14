@@ -11,8 +11,10 @@ import type { CrDubData } from './lib/crunchyroll-dub.ts'
 import { ordneCrSerienZu } from './bau/09-4-1-serien.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { behalteNurHandbelegteWege } from './lib/handbeleg-weg.ts'
-import { loadDubChecks, type DubCheck } from './lib/dub-confirmed.ts'
+import { loadDubChecks, verschmelze, type DubCheck } from './lib/dub-confirmed.ts'
 import { readJson, ROOT } from './lib/util.ts'
+import { baueNews, type NewsHistorie } from './lib/news.ts'
+import { addDays, todayIso } from '../shared/time.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -69,6 +71,10 @@ pruefe('der belegte Weg bleibt, mit Herkunft „handbeleg“, der erratene fäll
 pruefe('Gegenprobe: ohne Beleg fällt alles', behalten([], [weg(URL_BELEG)]).length === 0)
 pruefe('Gegenprobe: ein Nein trägt keinen Weg', behalten([ja({ dub: false })], [weg(URL_BELEG)]).length === 0)
 pruefe('Gegenprobe: ein Beleg ohne Adresse trägt keinen Weg', behalten([ja({ url: undefined })], [weg(URL_BELEG)]).length === 0)
+/* Ohne die Adress-Bedingung träfe der leere Kern des Belegs den leeren Kern eines Wegs ohne Adresse. */
+pruefe('Gegenprobe: ein Beleg ohne Adresse trägt auch keinen Weg ohne Adresse', behalten([ja({ url: undefined })], [weg('')]).length === 0)
+const spaeterWeg = verschmelze(ja(), { anilistId: OVA, platform: 'crunchyroll', url: URL_BELEG, available: false, checkedAt: '2026-10-14' })
+pruefe('Gegenprobe: ein jüngeres „nicht verfügbar“ zur selben Adresse nimmt dem Ja den Weg', spaeterWeg.dub === true && behalten([spaeterWeg], [weg(URL_BELEG)]).length === 0, spaeterWeg)
 pruefe('Gegenprobe: eine andere Adresse fällt', behalten([ja()], [weg('https://www.crunchyroll.com/series/GANDERE/x')]).length === 0)
 pruefe('Gegenprobe: der Beleg eines anderen Titels trägt nichts', behalten([ja({ anilistId: 1 })], [weg(URL_BELEG)]).length === 0)
 pruefe('Gegenprobe: eine andere Plattform fällt', behalten([ja({ platform: 'netflix' })], [weg(URL_BELEG)]).length === 0)
@@ -107,6 +113,27 @@ function abschliessenOhneSicherung(checks: DubCheck[]): StreamLink[] {
 }
 pruefe('ein Titel nur bei aniSearch behält den Weg seines Handbelegs', abschliessen([ja({ anilistId: 10_000_000 + OVA })]).length === 1)
 pruefe('Gegenprobe: ohne Handbeleg bleibt er ohne Weg', abschliessen([]).length === 0)
+
+console.log('\nNews: ein Handbeleg-Weg belegt das Angebot, nicht seinen Beginn (keine rückdatierte Meldung „neu“):')
+const nachrichtTitel = (streams: StreamLink[]): Title[] =>
+  [{ id: OVA, franchiseId: OVA, slug: 'ova', titleEn: 'OVA', keywords: [], genres: [], streams }] as unknown as Title[]
+const neuMeldungen = (streams: StreamLink[]): string[] =>
+  baueNews(nachrichtTitel(streams), [], [{ id: OVA, seit: addDays(todayIso(), -7) }], [], { zuerst: {} })
+    .flatMap((e) => e.meldungen)
+    .filter((m) => m.art === 'neu')
+    .map((m) => `${m.platform}`)
+pruefe('ein Titel mit nur einem Handbeleg-Weg bekommt kein „neu auf Deutsch“', neuMeldungen([weg(URL_BELEG, { dub: true, herkunft: 'handbeleg' })]).length === 0)
+pruefe('Gegenprobe: derselbe Weg ohne Herkunft „handbeleg“ meldet', neuMeldungen([weg(URL_BELEG, { dub: true })]).join() === 'crunchyroll')
+/** Meldungen „jetzt auch bei“ nach einem ersten Bau, der den Crunchyroll-Weg schon kannte. */
+function weitereAnbieter(herkunft: StreamLink['herkunft']): string[] {
+  const historie: NewsHistorie = { zuerst: {} }
+  const cr = weg(URL_BELEG, { dub: true, herkunft })
+  baueNews(nachrichtTitel([cr]), [], [], [], historie)
+  const netflix = weg('https://www.netflix.com/title/1', { platform: 'netflix', dub: true, herkunft })
+  return baueNews(nachrichtTitel([cr, netflix]), [], [], [], historie).flatMap((e) => e.meldungen.filter((m) => m.weiterer).map((m) => `${m.platform}`))
+}
+pruefe('ein weiterer Handbeleg-Weg bekommt kein „jetzt auch bei“', weitereAnbieter('handbeleg').length === 0, weitereAnbieter('handbeleg'))
+pruefe('Gegenprobe: derselbe Weg ohne Herkunft „handbeleg“ meldet', weitereAnbieter(undefined).join() === 'netflix', weitereAnbieter(undefined))
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(verletzt ? 1 : 0)

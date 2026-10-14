@@ -3,9 +3,12 @@ import { adressKern, loadDubChecks, type DubCheck } from './dub-confirmed.ts'
 
 const schluessel = (titleId: number, platform: string, url: string | undefined) => `${titleId}|${platform}|${adressKern(url)}`
 
-/** Die Wege, die ein Handbeleg „deutsch" mit Adresse trägt: Titel, Plattform und Adresse (`09-2` legt sie an, wo der Titel dort keinen hat). */
+/**
+ * Die Wege, die ein Handbeleg „deutsch" mit Adresse trägt: Titel, Plattform und Adresse (`09-2` legt sie an, wo der Titel dort keinen hat).
+ * Ein jüngeres „nicht verfügbar“ zur selben Adresse verschmilzt mit dem Ja (`verschmelze`) und nimmt ihm den Weg.
+ */
 export function handbelegteJaWege(checks: DubCheck[]): Set<string> {
-  return new Set(checks.filter((c) => c.dub === true && c.url).map((c) => schluessel(c.anilistId, c.platform, c.url)))
+  return new Set(checks.filter((c) => c.dub === true && c.available !== false && c.url).map((c) => schluessel(c.anilistId, c.platform, c.url)))
 }
 
 let ausDerDatei: Set<string> | undefined
