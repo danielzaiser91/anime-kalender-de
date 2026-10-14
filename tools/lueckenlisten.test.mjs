@@ -4,7 +4,10 @@
  */
 import assert from 'node:assert/strict'
 import { werteFeldAus, feldMarkdown, uebersichtMarkdown, istListeA, A_MIN_STIMMEN } from '../pipeline/lib/luecken-rahmen.ts'
-import { sammleTage } from '../pipeline/lib/luecken-kontext.ts'
+import { readFileSync } from 'node:fs'
+import { sammleTage, ladeKontext } from '../pipeline/lib/luecken-kontext.ts'
+import { FELDER } from '../pipeline/lib/luecken-felder.ts'
+import { grundOhneBanner } from '../pipeline/lib/banner-luecken.ts'
 
 const titel = (id, extra = {}) => ({ id, titleRomaji: `T${id}`, ...extra })
 const alle = [titel(1), titel(2), titel(3), titel(4, { coverImage: 'x' }), titel(5), titel(6)]
@@ -17,6 +20,7 @@ const kontext = {
   hqGrund: new Map(),
   banner: {},
   zuordnung: {},
+  staffel0: {},
   ak: new Map([[3, 77]]),
   alle,
 }
@@ -46,4 +50,16 @@ const tage = sammleTage(
 )
 assert.deepEqual(tage.get(9), [1, -10])
 assert.equal(tage.has(8), false)
+assert.equal(grundOhneBanner(1, {}, {}, {}), 'keine TMDB-Zuordnung')
+assert.equal(grundOhneBanner(1, {}, {}, { 1: {} }), 'Staffel 0 führt kein Standbild ab 1280 px', 'Titel mit Staffel-0-Zuordnung hat eine Zuordnung')
+assert.equal(grundOhneBanner(1, {}, { 1: { tmdbId: 5 } }, {}), 'noch nicht abgefragt')
+/* Der Staffel-0-Kontext muss bis zum Banner-Feld durchgereicht werden: Feld und Lader, je mit eigenem Fall. */
+const bannerFeld = FELDER.find((f) => f.datei === 'banner.md')
+const mitStaffel0 = { ...kontext, staffel0: { 1: { tmdbId: 5 } } }
+assert.equal(bannerFeld.fehlt(titel(1), mitStaffel0), 'Staffel 0 führt kein Standbild ab 1280 px', 'Banner-Feld reicht k.staffel0 an grundOhneBanner weiter')
+assert.equal(bannerFeld.fehlt(titel(1), kontext), 'keine TMDB-Zuordnung')
+const geladen = ladeKontext('2026-10-14')
+const dateiStaffel0 = JSON.parse(readFileSync('data/tmdb-staffel0.json', 'utf8'))
+assert.ok(Object.keys(dateiStaffel0).length > 0, 'data/tmdb-staffel0.json ist nicht leer')
+assert.deepEqual(Object.keys(geladen.staffel0), Object.keys(dateiStaffel0), 'ladeKontext liest data/tmdb-staffel0.json')
 console.log('lueckenlisten.test: ok')

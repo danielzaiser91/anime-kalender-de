@@ -24,6 +24,8 @@ export type Kontext = {
   hqGrund: Map<number, string>
   banner: TmdbBanner
   zuordnung: Record<string, { tmdbId?: number; kind?: string }>
+  /** Titel mit Zuordnung zu einer Folge der Staffel 0 (`data/tmdb-staffel0.json`): sie tragen keine Serienkennung. */
+  staffel0: Record<string, unknown>
   ak: Map<number, number>
   alle: Title[]
 }

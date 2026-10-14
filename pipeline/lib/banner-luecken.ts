@@ -4,7 +4,8 @@ import { bannerAdresse, type TmdbBanner } from './tmdb-banner.ts'
 type Zuordnung = Record<string, { tmdbId?: number; kind?: string }>
 
 /** Helfer der Lückenliste `listen/luecken/banner.md` (`luecken-felder.ts`). Warum ein Titel kein TMDB-Hintergrundbild hat. */
-export function grundOhneBanner(id: number, bestand: TmdbBanner, zuordnung: Zuordnung): string {
+export function grundOhneBanner(id: number, bestand: TmdbBanner, zuordnung: Zuordnung, staffel0: Record<string, unknown>): string {
+  if (staffel0[String(id)]) return 'Staffel 0 führt kein Standbild ab 1280 px'
   if (!zuordnung[String(id)]?.tmdbId) return 'keine TMDB-Zuordnung'
   if (!(String(id) in bestand)) return 'noch nicht abgefragt'
   return 'TMDB führt kein Querformat ab 1280 px'

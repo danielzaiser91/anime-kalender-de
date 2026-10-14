@@ -59,6 +59,8 @@ QUELLEN=(
   data/tmdb-katalog-zuordnung.json
   daniel-zum-abarbeiten/listen/tmdb-katalog-unsicher.md
   data/tmdb-banner.json
+  data/tmdb-staffel0.json
+  daniel-zum-abarbeiten/listen/tmdb-staffel0-unsicher.md
   daniel-zum-abarbeiten/listen/cover-ohne-tmdb.md
   data/kitsu-folgen.json
   data/cover-klein.json

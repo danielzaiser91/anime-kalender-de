@@ -39,7 +39,7 @@ export const FELDER: Feld[] = [
     datei: 'banner.md',
     name: 'Banner (TMDB)',
     pflicht: true,
-    fehlt: (t, k) => (hatBanner(t, k) ? undefined : grundOhneBanner(t.id, k.banner, k.zuordnung)),
+    fehlt: (t, k) => (hatBanner(t, k) ? undefined : grundOhneBanner(t.id, k.banner, k.zuordnung, k.staffel0)),
     hinweis: bannerHinweis,
   },
   { datei: 'titel-de.md', name: 'Deutscher Titel', pflicht: true, fehlt: (t) => (t.titleDe ? undefined : 'kein deutscher Titel') },

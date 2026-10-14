@@ -25,6 +25,7 @@ import { schreibeCoverListe } from './lib/cover-liste.ts'
 import { waehleStaffel, type TmdbStaffel } from './lib/tmdb-staffel.ts'
 import { bilderAbzufragen, FRIST_TAGE, streicheBilderUeberFrist } from './lib/tmdb-ablauf.ts'
 import { holeBanner } from './lib/tmdb-banner-abruf.ts'
+import { holeStaffel0 } from './lib/tmdb-staffel0-abruf.ts'
 
 const LIMIT = Number(process.argv[process.argv.indexOf('--limit') + 1]) || Infinity
 const ALLE = process.argv.includes('--alle')
@@ -178,6 +179,7 @@ async function main(): Promise<void> {
   }
   gefunden += await filmeSuchen(apiKey, zuordnung, bestand)
   gefunden += await staffelPlakate(apiKey, zuordnung, bestand, LIMIT)
+  gefunden += await holeStaffel0(apiKey, bestand)
   gefunden += await serienOhneCover(apiKey, bestand)
   gefunden += await plakatSuche(apiKey, bestand, KATALOG, 12 * 60_000)
   const zuAlt = streicheBilderUeberFrist(bestand, new Date())
