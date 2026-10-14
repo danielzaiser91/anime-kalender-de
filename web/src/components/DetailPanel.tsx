@@ -29,7 +29,7 @@ import { EckdatenAbschnitt } from './detail/abschnitte.tsx'
 import { HandlungAbschnitt } from './detail/abschnitte.tsx'
 import { TermineAbschnitt } from './detail/abschnitte.tsx'
 import { ReihenListe } from './detail/reihen-liste.tsx'
-import { AntwortBereich } from './detail/antwort-bereich.tsx'
+import { AntwortBereichOderNichts } from './detail/kasten-leer.tsx'
 import { UnterDerAntwort } from './detail/unter-der-antwort.tsx'
 import { PanelBuehne } from './detail/buehne.tsx'
 import { sortiereNachZugang } from './detail/wege-sortieren.ts'
@@ -505,7 +505,7 @@ export function DetailPanel({
             Anbieter führt ihn bisher": zwei Sätze, die einander widersprechen. Wo es außer
             dem Kinostart nichts zu sagen gibt, bleibt es beim Banner.
           */}
-          <AntwortBereich
+          <AntwortBereichOderNichts
             antwort={antwort}
             sortiertNachZugang={sortiertNachZugang}
             streamReleases={streamReleases}

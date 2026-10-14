@@ -144,7 +144,7 @@ export function ergaenzeDiscUndZugang({ titles, anisearch, releases, zugangJeAdr
 /**
  * **Deutsche Disc-Ausgaben aus dem aniSearch-Archiv.**
  *
- * Für einen Anime von 2002 ist „Kein Anbieter bekannt" richtig und trotzdem
+ * Für einen Anime von 2002 ist „kein Streamingdienst" richtig und trotzdem
  * eine Sackgasse: Er lief nie bei einem Streamingdienst, es gab ihn auf DVD.
  * Am 29.08.2026 stand das bei **1.041 Titeln**, 693 davon mit belegter
  * deutscher Synchro.

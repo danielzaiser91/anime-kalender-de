@@ -291,9 +291,8 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
    * Ende, und mehr als belegt wird hier nicht behauptet.
    *
    * Gebraucht wird es für eine einzige Unterscheidung, die dem Besucher sonst
-   * verborgen bliebe: Solange der Film läuft, ist „Kein Anbieter bekannt" eine
-   * Irreführung — der Anbieter ist das Kino. Danach ist derselbe Satz die
-   * richtige Auskunft.
+   * verborgen bliebe: Solange der Film läuft, wäre ein Panel ohne Anbieter eine
+   * Irreführung — der Anbieter ist das Kino. Danach fehlt er zu Recht.
    */
   const cinestar = readJson<{
     filme?: Record<string, { anilistId?: number; detailLink?: string; tage?: Record<string, unknown> }>

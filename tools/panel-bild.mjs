@@ -169,6 +169,7 @@ async function main() {
   })
 
   const hoehen = []
+  const ohneKasten = []
   for (const id of ids) {
     for (const thema of ['dunkel', 'hell']) {
       await seite.emulateMedia({ colorScheme: thema === 'dunkel' ? 'dark' : 'light' })
@@ -211,8 +212,13 @@ async function main() {
           break
         }
       }
-      /* Der Kasten ist die erste `section` im Panel — die Antwort auf „wann, wie weit, wo". */
-      const kasten = panel.locator('section').first()
+      /* Der Kasten — die Antwort auf „wann, wie weit, wo" — trägt die Marke `data-kasten`; ohne Inhalt entfällt er (kasten-leer.tsx). */
+      const kasten = panel.locator('[data-kasten] > section')
+      if (!(await kasten.count())) {
+        if (thema === 'dunkel') ohneKasten.push(id)
+        await panel.screenshot({ path: path.join(BILDER, `panel-${id}-${thema}.png`) })
+        continue
+      }
       await kasten.waitFor({ state: 'visible', timeout: 15_000 }).then(() => pruefeNichtVorgescrollt(panel, id))
       const box = await kasten.boundingBox()
       const ueberlauf = await messeUeberlauf(kasten)
@@ -229,7 +235,11 @@ async function main() {
 
   await schliesse(browser, seite, ids)
 
-  /* Die Mindesthöhe aus `antwort-kasten.tsx` — 11rem (176 px); „fertig" ohne Nebenzeile darf kleiner sein (Daniel, 07.10.2026), gemessen 172 px. */
+  /*
+    Die Mindesthöhe aus `antwort-kasten.tsx` — 11rem (176 px) für Kästen mit Nebenzeile oder Pillen; „fertig"/„film" ohne Nebenzeile darf kleiner sein
+    (Daniel, 07.10.2026). Gemessen 14.10.2026: ein Film ohne Weg (nur Überschrift) ist 70 px hoch (z. B. 760, 997) — die Prüfung gilt für die
+    Standardtitel mit Pillen, nicht für solche Filme.
+  */
   const MINDEST = 160
 
   console.log('\nAntwort-Kasten je Titel:')
@@ -242,8 +252,10 @@ async function main() {
     Titel „kein Panel" und am Ende trotzdem „alles im Kasten". Gesucht wird seitdem über
     `data-panel="titel"`, nicht über den Tag-Namen.
   */
-  if (!hoehen.length) {
-    console.log('\n  ✕ kein einziges Panel gemessen — Selektor oder Seite kaputt')
+  for (const id of ohneKasten) console.log(`  – ${id}: kein Kasten (leer, ausgeblendet)`)
+  /* Die Standardtitel haben alle einen Kasten; fehlt er dort, ist die Marke `data-kasten` weg oder der Kasten zu Unrecht verschwunden. */
+  if ((!hoehen.length && !ohneKasten.length) || (ohneKasten.length && ids === STANDARD)) {
+    console.log('\n  ✕ kein einziges Panel gemessen oder ein Standardtitel ohne Kasten — Selektor oder Seite kaputt')
     process.exitCode = 1
     return
   }

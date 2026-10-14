@@ -6,7 +6,7 @@ import { tvZuletzt, type TvZuletzt } from '../../lib/tv-zuletzt.ts'
 
 /**
  * Lief ein Titel nur noch früher im Fernsehen, steht der letzte Termin je Sender dort, wo sonst
- * „Kein Anbieter bekannt" stünde — nur wenn es keine andere Pille gibt (Daniel, 09.10.2026).
+ * keine Pille stünde — nur wenn es keine andere Pille gibt (Daniel, 09.10.2026).
  */
 export function useTvVorbei(wegeHinweis: string | undefined, streamReleases: Release[], releases: Release[], today: string): TvZuletzt[] {
   return useMemo(

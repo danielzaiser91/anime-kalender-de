@@ -81,7 +81,7 @@ beantworten.
 
 **Für die 277 mit Synchro und ohne Weg bleibt danach:** Titel, die weder ein
 Streamingdienst führt noch je eine deutsche Disc hatten. Dort ist die ehrliche
-Antwort „Kein Anbieter bekannt".
+Antwort „kein Anbieter" — das Panel zeigt dann keine Zeile (seit 14.10.2026).
 
 ### 3. Termine — 1.161 Titel mit Synchro ohne einen einzigen
 
