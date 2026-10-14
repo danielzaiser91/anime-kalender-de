@@ -6,11 +6,13 @@ import { istKeineTitelseite } from './11-7-wege-aus-terminen.ts'
 /**
  * **Hat ein Termin keine eigene Adresse, nimmt seine Pille die des Weges desselben Titels** (11.10.2026, Reborn as a Space Mercenary:
  * Prime-Weg von Hand belegt, die Termin-Pille blieb ohne Ziel). Derselbe Anbieter, bei gesetztem Kanal derselbe Kanal, eine
- * Titelseite statt einer Suche. Mehrdeutig (mehrere solche Wege, etwa zwei Staffeln auf zwei Prime-Seiten) → keine Übernahme,
+ * Titelseite statt einer Suche. Eine Suchadresse am Termin gilt als fehlende Adresse (13.10.2026, Bleach-Filme bei ADN: die Kuratierung setzte
+ * `animationdigitalnetwork.com/de/search?q=…` als Ersatz, die Pille führte nicht zum Anbieter, obwohl der Weg die Titelseite kannte). Mehrdeutig (mehrere solche Wege, etwa zwei Staffeln auf zwei Prime-Seiten) → keine Übernahme,
  * das Panel führt dann zur Suche. Disc, Kino und Fernsehen haben eigene Ziele.
  */
 export function adresseDesWegs(r: Release, titel: Title | undefined): string | undefined {
-  if (!titel || r.platformUrl || r.buyUrl || r.releaseType === 'disc' || ['disc', 'tv', 'kino'].includes(r.platform)) return undefined
+  if (!titel || r.buyUrl || r.releaseType === 'disc' || ['disc', 'tv', 'kino'].includes(r.platform)) return undefined
+  if (r.platformUrl && !istKeineTitelseite(r.platformUrl)) return undefined
   const wege = (titel.streams ?? []).filter(
     (s) => s.platform === r.platform && s.url && !istKeineTitelseite(s.url) && (!r.kanal || s.kanal?.toLowerCase() === r.kanal.toLowerCase()),
   )

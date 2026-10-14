@@ -21,7 +21,9 @@ import { gunzipSync, gzipSync } from 'node:zlib'
 import { addDays, diffDays, todayIso } from '../shared/time.ts'
 import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { episodeAus, katalogShowAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
+import { katalogMitNeuen, sammleNeuzugaenge, unbekannteSerien } from './lib/adn-neuzugaenge.ts'
 import { ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
 import {
   bestimmeRhythmus,
@@ -79,77 +81,6 @@ const numberArg = (name: string, fallback: number) => {
 const FROM = numberArg('--from', -45)
 const TO = numberArg('--to', 75)
 
-interface AdnVideo {
-  id: number
-  title?: string | null
-  /** Folgentitel, oft französisch oder leer. */
-  name?: string | null
-  number: string | null
-  shortNumber: string | null
-  /** Staffel, wie ADN sie zählt: "1", "2", "3". */
-  season?: string | null
-  /** Kennung samt Staffel und Folge: "swordartonline_tv3_0047". */
-  reference?: string | null
-  /** Laufende Nummer über die gesamte Serie hinweg. */
-  order?: number | null
-  /** "EPS" (Folge), "OAV", "FLM" … */
-  type?: string | null
-  /** Laufzeit in Sekunden. */
-  duration?: number | null
-  image?: string | null
-  releaseDate: string
-  languages: string[]
-  url: string
-  show: { id: number; title: string; originalTitle: string | null; age: string | null; url?: string }
-}
-
-/**
- * Baut aus einem ADN-Video unseren Folgeneintrag — an einer Stelle, damit
- * Kalender- und Katalogweg nicht auseinanderlaufen.
- *
- * Genau das war vorher der Fall: Beide Wege bauten das Objekt von Hand, und
- * beide vergaßen dieselben Felder.
- */
-function episodeAus(video: AdnVideo, when: { date: string; time: string }): AdnEpisode {
-  const nummer = Number(video.shortNumber ?? video.number?.replace(/\D+/g, ''))
-  return {
-    date: when.date,
-    time: when.time,
-    episode: Number.isFinite(nummer) && nummer > 0 ? nummer : undefined,
-    url: video.url,
-    season: video.season ?? undefined,
-    // Die Folgennummer am Ende abschneiden: "swordartonline_tv3_0047" →
-    // "swordartonline_tv3".
-    seasonReference: video.reference?.replace(/_\d+$/, '') || undefined,
-    order: typeof video.order === 'number' ? video.order : undefined,
-    type: video.type ?? undefined,
-    duration: typeof video.duration === 'number' ? video.duration : undefined,
-    title: video.name || video.title || undefined,
-    image: video.image ?? undefined,
-  }
-}
-
-const berlin = new Intl.DateTimeFormat('en-CA', {
-  timeZone: 'Europe/Berlin',
-  hour12: false,
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit',
-  hour: '2-digit',
-  minute: '2-digit',
-})
-
-function toBerlin(iso: string): { date: string; time: string } | undefined {
-  const dt = new Date(iso)
-  if (Number.isNaN(dt.getTime())) return undefined
-  const parts = berlin.formatToParts(dt)
-  const get = (type: string) => parts.find((p) => p.type === type)!.value
-  return {
-    date: `${get('year')}-${get('month')}-${get('day')}`,
-    time: `${get('hour') === '24' ? '00' : get('hour')}:${get('minute')}`,
-  }
-}
-
 async function fetchDay(date: string): Promise<AdnVideo[]> {
   const res = await fetch(`${API}?date=${date}`, {
     headers: HEADERS,
@@ -181,21 +112,10 @@ async function fetchDay(date: string): Promise<AdnVideo[]> {
  * verfügbar (die Folgenliste kommt dann leer zurück).
  */
 
-/** Ordnet Folgen nach Staffel, dann Nummer, dann Termin. */
-function sortiereFolgen(episodes: AdnEpisode[]): void {
-  episodes.sort(
-    (a, b) =>
-      (a.season ?? '').localeCompare(b.season ?? '') ||
-      (a.order ?? 0) - (b.order ?? 0) ||
-      a.date.localeCompare(b.date) ||
-      (a.episode ?? 0) - (b.episode ?? 0),
-  )
-}
-
-/** Wohin die Rohantworten je Serie wandern. */
 const ARCHIV_DIR = resolve(ROOT, 'data/adn-raw')
 /** Wann welche Serie zuletzt im Katalog-Durchgang gefragt wurde (Warteschlange nach Alter, im Repo statt im Dateisystem). */
 const KATALOG_STAND = 'data/adn-katalog-stand.json'
+const KATALOG_DATEI = 'data/adn-catalog.json'
 
 /**
  * Legt die vollständige Antwort einer Serie gzip-komprimiert ab.
@@ -281,21 +201,21 @@ async function ladeSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch?
   return { videos }
 }
 
-async function fetchCatalog(): Promise<AdnShow[]> {
-  /**
-   * Die Serienliste einsammeln — nach eindeutigen Kennungen, nicht nach `total`.
-   *
-   * Der Endpunkt paginiert unzuverlässig: Die Reihenfolge ist nicht sortiert,
-   * `offset=200` bricht nach 46 Einträgen ab, und `total` meldet trotzdem
-   * weiter 580 — das ist die Größe des **französischen** Katalogs, während mit
-   * deutschem Regionskopf nur ein Teil davon ausgeliefert wird. Wer `total` als
-   * Abbruchbedingung nimmt, sammelt Wiederholungen ein und hält am Ende
-   * dieselbe Serie mehrfach in der Hand (real: 12 Doubletten unter 47 Treffern).
-   *
-   * Deshalb: nach Kennung entdoppeln und abbrechen, wenn zwei Seiten in Folge
-   * nichts Neues mehr bringen.
-   */
-  const nachId = new Map<number, { id: number; title: string; originalTitle?: string; age?: string }>()
+/**
+ * Die Serienliste einsammeln — nach eindeutigen Kennungen, nicht nach `total`.
+ *
+ * Der Endpunkt paginiert unzuverlässig: Die Reihenfolge ist nicht sortiert,
+ * `offset=200` bricht nach 46 Einträgen ab, und `total` meldet trotzdem
+ * weiter 580 — das ist die Größe des **französischen** Katalogs, während mit
+ * deutschem Regionskopf nur ein Teil davon ausgeliefert wird. Wer `total` als
+ * Abbruchbedingung nimmt, sammelt Wiederholungen ein und hält am Ende
+ * dieselbe Serie mehrfach in der Hand (real: 12 Doubletten unter 47 Treffern).
+ *
+ * Deshalb: nach Kennung entdoppeln und abbrechen, wenn zwei Seiten in Folge
+ * nichts Neues mehr bringen.
+ */
+async function sammleSerienliste(): Promise<Map<number, AdnListenEintrag>> {
+  const nachId = new Map<number, AdnListenEintrag>()
   let leerlauf = 0
   for (let offset = 0; offset < 2000 && leerlauf < 2; offset += 100) {
     const res = await fetch(`${SHOWS_API}?limit=100&offset=${offset}`, { headers: HEADERS })
@@ -311,6 +231,11 @@ async function fetchCatalog(): Promise<AdnShow[]> {
     leerlauf = nachId.size === vorher ? leerlauf + 1 : 0
     await sleep(400)
   }
+  return nachId
+}
+
+async function fetchCatalog(): Promise<AdnShow[]> {
+  const nachId = await sammleSerienliste()
   /**
    * Was wir schon einmal gesehen haben, wird wieder gefragt.
    *
@@ -405,28 +330,8 @@ async function fetchCatalog(): Promise<AdnShow[]> {
       stand[String(eintrag.id)] = new Date().toISOString()
       const videos = antwort.videos
       if (videos.length) archiviereSerie(eintrag.id, videos)
-      const deutsch = videos.filter((v) => v.languages?.includes('vde'))
-      if (deutsch.length) {
-        const episodes: AdnEpisode[] = []
-        for (const v of deutsch) {
-          const when = toBerlin(v.releaseDate)
-          if (!when) continue
-          episodes.push(episodeAus(v, when))
-        }
-        if (episodes.length) {
-          sortiereFolgen(episodes)
-          out.push({
-            showId: eintrag.id,
-            title: eintrag.title,
-            originalTitle: eintrag.originalTitle ?? undefined,
-            age: eintrag.age ?? undefined,
-            url: `https://animationdigitalnetwork.com/de/video/${eintrag.id}`,
-            episodes,
-            batch: bestimmeRhythmus(episodes) !== 'weekly' && episodes.length > 1,
-            fromCatalog: true,
-          })
-        }
-      }
+      const show = katalogShowAus(eintrag, videos)
+      if (show) out.push(show)
     } catch (err) {
       warn(`ADN-Katalog ${eintrag.id}: ${(err as Error).message}`)
     }
@@ -578,14 +483,41 @@ function laufendeSerien(): number[] {
   return ids
 }
 
+/** Kennungen aller Serien im Archiv (`data/adn-raw`) — auch die ohne deutsche Folge. */
+function archivKennungen(): number[] {
+  if (!existsSync(ARCHIV_DIR)) return []
+  return readdirSync(ARCHIV_DIR)
+    .filter((d) => d.endsWith('.json.gz'))
+    .map((d) => Number(d.replace('.json.gz', '')))
+    .filter(Number.isInteger)
+}
+
+/**
+ * Serien, die seit dem letzten Katalog-Lauf neu in der ADN-Liste stehen, sofort ins Archiv und in den Katalog (Begründung in
+ * `lib/adn-neuzugaenge.ts`). Die Zuordnung zu aniSearch bleibt dem Wochenlauf; Filme finden ihren Titel über den Namen (`filmZurShow`).
+ */
+async function holeNeueSerien(): Promise<void> {
+  const katalog = readJson<AdnData>(KATALOG_DATEI, { scrapedAt: '', window: { from: '', to: '' }, shows: [] })
+  const bekannt = new Set([...katalog.shows.map((s) => s.showId), ...archivKennungen()])
+  const neu = unbekannteSerien(await sammleSerienliste(), bekannt)
+  log(`ADN: ${neu.length} Serien der Liste weder im Katalog noch im Archiv`)
+  if (!neu.length) return
+  const { shows, archiv, offen } = await sammleNeuzugaenge(neu, ladeSerie, () => sleep(700))
+  for (const [id, videos] of archiv) archiviereSerie(id, videos)
+  const stand = readJson<Record<string, string>>(KATALOG_STAND, {})
+  for (const id of archiv.keys()) stand[String(id)] = new Date().toISOString()
+  writeJson(KATALOG_STAND, stand)
+  if (offen.length) warn(`ADN: ${offen.length} neue Serien nicht abrufbar (${offen.join(', ')}) — nächster Lauf versucht es wieder.`)
+  if (!shows.length) return
+  writeJson(KATALOG_DATEI, { ...katalog, shows: katalogMitNeuen(katalog.shows, shows) } satisfies AdnData, true)
+  log(`ADN: ${shows.length} neue Serien mit deutscher Fassung im Katalog: ${shows.map((s) => s.title).join('; ')}`)
+}
+
 async function main(): Promise<void> {
   await holeAdnNews()
   if (args.includes('--laufend')) {
     const ids = laufendeSerien()
-    if (!ids.length) {
-      warn('Keine laufende Serie gefunden — bitte zuerst mit --catalog laufen lassen.')
-      return
-    }
+    if (!ids.length) warn('Keine laufende Serie gefunden — bitte zuerst mit --catalog laufen lassen.')
     log(`ADN: ${ids.length} laufende Serien werden aufgefrischt…`)
     let geaendert = 0
     for (const showId of ids) {
@@ -599,6 +531,7 @@ async function main(): Promise<void> {
       await sleep(700)
     }
     log(`ADN: ${geaendert} von ${ids.length} laufenden Serien aufgefrischt`)
+    await holeNeueSerien()
     return
   }
   if (args.includes('--refresh')) {

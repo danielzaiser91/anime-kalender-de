@@ -135,7 +135,12 @@ pruefe('Eine Suche ist keine Titelseite', adresseDesWegs(termin(), mitWegen(wegV
 pruefe('Weg ohne Adresse zählt nicht', adresseDesWegs(termin(), mitWegen(wegVon({ url: '' }))) === undefined)
 pruefe('Kanal gesetzt: nur der Weg mit gleichem Kanal', adresseDesWegs(termin({ kanal: 'Crunchyroll' }), mitWegen(wegVon({ kanal: 'crunchyroll' }))) === B0 && adresseDesWegs(termin({ kanal: 'Crunchyroll' }), mitWegen(wegVon({ kanal: 'Aniverse' }))) === undefined)
 pruefe('Kanal gesetzt, zwei Wege, einer passt: der passende', adresseDesWegs(termin({ kanal: 'Crunchyroll' }), mitWegen(wegVon({ kanal: 'Aniverse', url: andere }), wegVon({ kanal: 'Crunchyroll' }))) === B0)
-pruefe('Eigene Adresse bleibt', adresseDesWegs(termin({ platformUrl: 'https://x/' }), mitWegen(wegVon())) === undefined)
+pruefe('Eigene Titelseite bleibt', adresseDesWegs(termin({ platformUrl: 'https://www.amazon.de/gp/video/detail/B0EIGENE123' }), mitWegen(wegVon())) === undefined)
+pruefe('Eine Suchadresse am Termin gilt als fehlende Adresse: der Weg gewinnt', adresseDesWegs(termin({ platformUrl: 'https://www.amazon.de/s?k=x&i=instant-video' }), mitWegen(wegVon())) === B0)
+const adnWeg = 'https://animationdigitalnetwork.com/de/video/352'
+const adnSuche = 'https://animationdigitalnetwork.com/de/search?q=Bleach'
+pruefe('ADN: die Suche des Kurators weicht der Serienseite', adresseDesWegs(termin({ platform: 'adn' as never, platformUrl: adnSuche }), mitWegen({ platform: 'adn', url: adnWeg })) === adnWeg)
+pruefe('Suchadresse am Termin, aber kein Weg mit Titelseite: die Suche bleibt', adresseDesWegs(termin({ platformUrl: 'https://www.amazon.de/s?k=x&i=instant-video' }), mitWegen(wegVon({ url: '' }))) === undefined)
 pruefe('Disc und Fernsehen übernehmen nichts', adresseDesWegs(termin({ releaseType: 'disc' }), mitWegen(wegVon())) === undefined && adresseDesWegs(termin({ platform: 'tv' as never }), mitWegen({ platform: 'tv', url: 'https://x/' })) === undefined)
 pruefe('Titel unbekannt: nichts', adresseDesWegs(termin(), undefined) === undefined)
 const ausgang = [termin(), termin({ slug: 'b', titleId: 2, platformUrl: 'https://www.amazon.de/dp/B0ABCDEFGH?ref_=x' })]
