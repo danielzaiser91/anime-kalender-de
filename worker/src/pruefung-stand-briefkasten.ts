@@ -17,6 +17,7 @@
  */
 import { type Env } from './env.ts'
 import { type AusCache } from './cache-kurz.ts'
+import { offeneZeilen } from './titelzeile-lesen.ts'
 
 export const WARTEND_SEKUNDEN = 7200
 
@@ -31,9 +32,7 @@ type Wartende = { adressen: Map<string, Set<string>>; staffeln: Map<string, Set<
 
 /** Meldungen mit `uebernommen = 0`: Adressen je Plattform und Staffeln je Adresse. */
 async function leseWartende(env: Env): Promise<Wartende> {
-  const { results } = await env.DB.prepare(
-    `SELECT plattform, url, staffel FROM pruefung WHERE uebernommen = 0`,
-  ).all<{ plattform: string; url: string; staffel: number | null }>()
+  const results = await offeneZeilen(env)
   const adressen = new Map<string, Set<string>>()
   const staffeln = new Map<string, Set<number>>()
   for (const r of results ?? []) {

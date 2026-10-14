@@ -4,6 +4,7 @@
  * Aus `pruefung-lesen.ts` ausgelagert (12.10.2026), unverändert.
  */
 import { type Env } from './env.ts'
+import { gemeldetAusTitelzeile } from './titelzeile-lesen.ts'
 
 export async function leseGemeldet(env: Env, fuer: string) {
   /*
@@ -30,6 +31,9 @@ export async function leseGemeldet(env: Env, fuer: string) {
     auf der Titelseite geladen ist. `staffelBekannt` trennt eine gemeldete
     Staffel vom Ersatzwert 1, den `staffel` seit jeher trägt.
   */
+  /* Eine Adresse mit Titelzeile (Migration 055) antwortet aus dieser einen Zeile; ihre Altzeilen in `pruefung` zählen nicht mehr. */
+  const ausTitelzeile = await gemeldetAusTitelzeile(env, fuer)
+  if (ausTitelzeile) return ausTitelzeile
   const { results } = await env.DB.prepare(
     `SELECT folge_nr, staffel, folge, MAX(gemeldet_am) AS am FROM pruefung
      WHERE url = ? AND folge_nr IS NOT NULL GROUP BY folge_nr, staffel, folge`,

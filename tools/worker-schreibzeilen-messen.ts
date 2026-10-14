@@ -7,6 +7,8 @@
  * Die Datenbank (db-ordner = `<persist-to>/v3`) legt vorher `wrangler d1 execute anime-kalender --local --config wrangler.toml
  * --persist-to <db-ordner> --file=<alle Migrationen>` an (frischer Ordner). Mit `LAUT=1` bleiben
  * Fehlermeldungen des Workers sichtbar, mit `DETAIL=1` steht je Anweisung die Zeilenzahl dabei.
+ * `SZENARIO=disney` misst stattdessen einen Disney+-Titel mit 41 Folgen (13.10.2026); `TITELZEILE=disneyplus` schaltet
+ * die Titelzeile ein (Migration 055 muss in der Datenbank sein).
  */
 import { createRequire } from 'node:module'
 import { pathToFileURL } from 'node:url'
@@ -21,6 +23,8 @@ console.warn = () => {}
 /** Der Listenbau (`pruefstand.json`), den der Worker über `fetch` holt; die Messung stellt ihn um. */
 const stand = { erzeugtAm: '2020-01-02T00:00:00.000Z', anbieter: [] as unknown[] }
 globalThis.fetch = (async () => new Response(JSON.stringify(stand))) as typeof fetch
+/* Kein Edge-Cache in der Messung: jede Leseabfrage rechnet neu. */
+Object.assign(globalThis, { caches: { default: { match: async () => undefined, put: async () => undefined, delete: async () => false } } })
 
 const proxy = await getPlatformProxy({ configPath: `${workerOrdner}/wrangler.toml`, persist: { path: dbOrdner } })
 const roh = proxy.env.DB as D1Database
@@ -56,7 +60,7 @@ const db = {
     return antworten
   },
 }
-const env = { LAUF_TOKEN: 't', SITE_URL: 'https://attrappe.test/', DB: db } as never
+const env = { LAUF_TOKEN: 't', SITE_URL: 'https://attrappe.test/', TITELZEILE_PLATTFORMEN: process.env.TITELZEILE ?? '', DB: db } as never
 
 const post = (body: unknown) =>
   new Request('https://worker.test/pruefung', {
@@ -98,6 +102,63 @@ const gestern = () => new Date(Date.now() - 86_400_000).toISOString().slice(0, 1
 const altern = () => roh.prepare('UPDATE pruefung SET gemeldet_am = ?1').bind(gestern()).run()
 const alleStaende = async () => (await roh.prepare('SELECT id, uebernommen, gemeldet_am, notiz FROM pruefung ORDER BY id').all()).results
 
+/** Eine Disney+-Meldung wie die Erweiterung sie schickt: eine Folge je Anfrage, mit der einen Rohfolge. */
+const disney = (staffel: number, nr: number, ton = 'ja') => ({
+  plattform: 'disneyplus',
+  url: 'https://www.disneyplus.com/browse/entity-messung',
+  titelId: 100 + staffel,
+  sprachen: ton === 'ja' ? ['de', 'ja'] : ['ja'],
+  vorhanden: 'ja',
+  ton_de: ton,
+  art: 'gemessen',
+  titel: 'Messserie',
+  folge: `Folge ${staffel}-${nr}`,
+  folge_nr: nr,
+  staffel,
+  staffeln: { anbieter: 'disney', staffeln: [{ nr: 1, folgen: 24 }, { nr: 2, folgen: 17 }] },
+  serientitel: 'Messserie',
+  rohfolgen: [{ gti: `pb-${staffel}-${nr}`, nummer: nr, titel: `Folge ${staffel}-${nr}`, sprachen: ['de', 'ja'], staffelNr: staffel, vorhanden: 'ja', ton_de: ton }],
+})
+const folgen41 = [...Array.from({ length: 24 }, (_, i) => [1, i + 1] as const), ...Array.from({ length: 17 }, (_, i) => [2, i + 1] as const)]
+
+/** Mehrere Anfragen hintereinander (ein Durchgang), Summe und Mittel je Anfrage. */
+async function messeDurchgang(name: string, bodies: unknown[]) {
+  summe = { gelesen: 0, geschrieben: 0, abfragen: [] }
+  for (const b of bodies) await handlePruefung(post(b), env)
+  console.log(JSON.stringify({ name, anfragen: bodies.length, geschrieben: summe.geschrieben, gelesen: summe.gelesen, geschriebenJe: +(summe.geschrieben / bodies.length).toFixed(2), gelesenJe: +(summe.gelesen / bodies.length).toFixed(2) }))
+}
+
+/** Eine Leseabfrage des Workers (Bau, Erweiterung). */
+async function messeLesen(name: string, suche: string, lies = false) {
+  summe = { gelesen: 0, geschrieben: 0, abfragen: [] }
+  const r = await handlePruefung(new Request(`https://worker.test/pruefung?token=t&${suche}`), env)
+  const j = (await r.json()) as { pruefungen?: { id: number }[]; folgen?: unknown[]; paare?: unknown[] }
+  console.log(JSON.stringify({ name, status: r.status, zeilen: (j.pruefungen ?? j.folgen ?? j.paare ?? []).length, gelesen: summe.gelesen, geschrieben: summe.geschrieben }))
+  return lies ? j : null
+}
+
+if (process.env.SZENARIO === 'disney') {
+  await messeDurchgang('D1 erster Durchgang, 41 Folgen in 2 Staffeln', folgen41.map(([s, n]) => disney(s, n)))
+  await messeDurchgang('D2 zweiter Durchgang, unverändert', folgen41.map(([s, n]) => disney(s, n)))
+  await messeDurchgang('D3 Durchgang mit einer geänderten Folge', folgen41.map(([s, n]) => disney(s, n, s === 1 && n === 5 ? 'nein' : 'ja')))
+  await messeLesen('L1 gemeldet (Erweiterung)', 'gemeldet=' + encodeURIComponent('https://www.disneyplus.com/browse/entity-messung'))
+  const offen = (await messeLesen('L2 offene Meldungen (Bau)', '', true)) as { pruefungen: { id: number }[] }
+  await messeLesen('L3 alle Meldungen (Urteile)', 'alle=1&nach=0')
+  const offeneRoh = (await messeLesen('L4 offene Rohfolgen (Zuordner)', 'rohfolgen=1&nach=0', true)) as { folgen: { id: number }[] }
+  await messeLesen('L5 alle Rohfolgen (Zuordnung, Urteile)', 'rohfolgen=1&alle=1&nach=0')
+  summe = { gelesen: 0, geschrieben: 0, abfragen: [] }
+  const ids = offen.pruefungen.map((x) => x.id)
+  await handlePruefung(post({ uebernommen: ids }), env)
+  console.log(JSON.stringify({ name: `A1 ${ids.length} Meldungen abhaken`, geschrieben: summe.geschrieben, gelesen: summe.gelesen }))
+  summe = { gelesen: 0, geschrieben: 0, abfragen: [] }
+  await handlePruefung(post({ rohfolgenUebernommen: offeneRoh.folgen.map((x) => x.id) }), env)
+  console.log(JSON.stringify({ name: `A2 ${offeneRoh.folgen.length} Rohfolgen abhaken`, geschrieben: summe.geschrieben, gelesen: summe.gelesen }))
+  await messeLesen('L2b offene Meldungen nach dem Abhaken (Bau, Dauerzustand)', '')
+  await messeLesen('L4b offene Rohfolgen nach dem Abhaken (Zuordner, Dauerzustand)', 'rohfolgen=1&nach=0')
+  await messeLesen('L6 Stand der Zählung (Erweiterung)', 'zaehlen=1&nummern=1')
+  await proxy.dispose()
+  process.exit(0)
+}
 await messe('M1 erste Meldung', netflix(1))
 await messe('M2 gleiche Meldung, offen, selber Tag', netflix(1))
 await abhaken()

@@ -1,4 +1,5 @@
 import { type Env } from './env.ts'
+import { namenAusTitelzeilen } from './titelzeile-lesen.ts'
 
 /**
  * **Der Serienname je Adresse — einmal je Adresse nachgeschlagen, nicht je Rohfolge** (12.10.2026).
@@ -23,5 +24,7 @@ export async function serientitelJeAdresse(env: Env, adressen: string[]): Promis
     .bind(JSON.stringify(einzigartig))
     .all<{ url: string; titel: string | null }>()
   for (const r of results ?? []) if (r.titel !== null) titel.set(r.url, r.titel)
+  /* Adressen mit Titelzeile (Migration 055): der Titel steht im Kopf der Zeile, ihre Altzeilen zählen nicht mehr. */
+  for (const r of await namenAusTitelzeilen(env, einzigartig)) titel.set(r.url, r.titel)
   return titel
 }

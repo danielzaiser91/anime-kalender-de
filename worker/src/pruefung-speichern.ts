@@ -27,6 +27,8 @@ import { exporteVerwerfen } from './export-speicher.ts'
 import { loescheOffene } from './pruefung-ersetzen.ts'
 import { fuegePruefungEin } from './pruefung-einfuegen.ts'
 import { rohfolgeFuerMeldung, rohfolgeFuerZeile } from './pruefung-rohfolge-spalte.ts'
+import { leiteAb } from './pruefung-ableiten.ts'
+import { mitTitelzeilenAuftrag, titelzeileOderNull } from './titelzeile-speichern.ts'
 import { hakeRohfolgenAb } from './rohfolgen-abhaken.ts'
 import { adressenDerMeldung, verwirfGemeldet } from './pruefung-gemeldet-cache.ts'
 import { pruefeUnveraendert, ladeOffeneHashes, folgeVon, type OffeneHashes } from './pruefung-unveraendert.ts'
@@ -57,7 +59,7 @@ export async function speicherePruefung(kontext: Kontext) {
 
 /** Abhaken und Wiederöffnen ändern nur `uebernommen`, das allein der Auszug `offen-*` enthält. */
 async function speichereAuftrag(kontext: Kontext, daten: Record<string, unknown>) {
-  const antwort = await speichereDaten(kontext, daten)
+  const antwort = await mitTitelzeilenAuftrag(kontext.env, daten, () => speichereDaten(kontext, daten))
   const liste = (v: unknown) => Array.isArray(v) && v.length > 0
   if (antwort.ok && (liste(daten.uebernommen) || liste(daten.rohfolgenUebernommen) || daten.reoeffnen)) {
     await exporteVerwerfen(kontext.env, 'offen')
@@ -67,7 +69,8 @@ async function speichereAuftrag(kontext: Kontext, daten: Record<string, unknown>
 
 /** Eine geparste Meldung — oder ein Auftrag der Pipeline (abhaken, wieder öffnen) — speichern. */
 export async function speichereDaten({ request, antwort, token, env, ctx, offene }: Kontext, daten: Record<string, unknown>) {
-
+  const titelzeile = await titelzeileOderNull({ env, ctx, antwort }, daten)
+  if (titelzeile) return titelzeile
   /*
     **Ein Stapel: mehrere Meldungen in einer Anfrage**.
     Die Randprobe einer Netflix-Staffel schickte je Folge eine Anfrage — 25 Folgen, 25 Rundreisen.
@@ -221,36 +224,9 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
 
   const url = String(daten.url ?? '').trim()
   if (!url) return antwort({ error: 'url fehlt' }, 400)
-  /*
-    **Stufe 1 des neuen Modells: Verfügbarkeit und Sprache getrennt** (22.09.2026,
-    docs/konzept-meldungen-architektur.md). Die Erweiterung schickt `vorhanden`, `ton_de`, `art`;
-    ältere Fassungen schicken nur `befund`. Beides wird angenommen, und das jeweils andere abgeleitet:
-    `befund` braucht der heutige Einleser.
-    **Befristet:** Die Ableitung von `befund` entfällt, sobald Stufe 2 den Einleser ersetzt; die
-    Annahme des alten `befund` entfällt, sobald alle Erweiterungen ≥ 4.21.0 melden.
-  */
-  let vorhanden = daten.vorhanden != null ? String(daten.vorhanden).trim() : ''
-  let tonDe = daten.ton_de != null ? String(daten.ton_de).trim() : ''
-  let art = daten.art != null ? String(daten.art).trim() : ''
-  let befund = String(daten.befund ?? '').trim()
-  if (vorhanden) {
-    if (!['ja', 'nein'].includes(vorhanden)) return antwort({ error: 'vorhanden muss ja oder nein sein' }, 400)
-    if (vorhanden === 'nein') tonDe = 'unbekannt'
-    if (!['ja', 'nein', 'unbekannt'].includes(tonDe)) return antwort({ error: 'ton_de muss ja, nein oder unbekannt sein' }, 400)
-    /* Eine vorhandene Folge ohne Sprachauskunft ist eine Störung, keine Beobachtung (Szenario 10). */
-    if (vorhanden === 'ja' && tonDe === 'unbekannt') return antwort({ error: 'vorhanden ja braucht ton_de ja oder nein' }, 400)
-    if (!art) art = 'gemessen'
-    if (!['gemessen', 'angenommen'].includes(art)) return antwort({ error: 'art muss gemessen oder angenommen sein' }, 400)
-    befund = vorhanden === 'nein' ? 'weg' : tonDe === 'ja' ? 'dub' : 'kein_dub'
-  } else {
-    if (!['dub', 'kein_dub', 'weg'].includes(befund)) {
-      return antwort({ error: 'befund muss dub, kein_dub oder weg sein' }, 400)
-    }
-    vorhanden = befund === 'weg' ? 'nein' : 'ja'
-    tonDe = befund === 'weg' ? 'unbekannt' : befund === 'dub' ? 'ja' : 'nein'
-    art = /ANGENOMMEN/.test(String(daten.notiz ?? '')) ? 'angenommen' : 'gemessen'
-  }
-
+  const abgeleitet = leiteAb(daten)
+  if ('fehler' in abgeleitet) return antwort({ error: abgeleitet.fehler }, 400)
+  const { befund, vorhanden, tonDe, art } = abgeleitet
   /* Dieselbe Folge zweimal geschickt: der jüngere Blick gilt (Schlüssel und Begründung: `folgeVon`). */
   const { folgeNr, staffelNr, seitenKennung } = folgeVon(daten)
   /* Dieselbe Meldung wie die offene Zeile: nichts zu schreiben (pruefung-unveraendert.ts). */

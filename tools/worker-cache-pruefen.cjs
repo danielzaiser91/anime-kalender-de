@@ -87,8 +87,8 @@ pruefe(
 )
 pruefe(quelle.includes('export const GEMELDET_SEKUNDEN = 1800'), '... und das sind 1800 Sekunden')
 pruefe(
-  (quelle.match(/await verwirfGemeldet\(/g) ?? []).length === 4,
-  'Meldung und Löschen (drei Wege) verwerfen die Adresse, zu der sie schreiben',
+  (quelle.match(/await verwirfGemeldet\(/g) ?? []).length === 5,
+  'Meldung (1) und Löschen (ids, ids nur mit Titelzeilen-Id, Adresse mit Nummern, Adresse) verwerfen die Adresse, zu der sie schreiben',
 )
 
 /*
@@ -127,7 +127,7 @@ pruefe(
   lieber ein Ziel zu wenig zeigen als eins, das längst erledigt ist.
 */
 pruefe(
-  quelle.includes("SELECT DISTINCT plattform, url, staffel FROM pruefung WHERE url IS NOT NULL AND url != ''`,"),
+  quelle.includes("const bedingung = seit ? ' AND gemeldet_am > ?1' : ''") && quelle.includes("SELECT DISTINCT plattform, url, staffel FROM ${tabelle} WHERE url IS NOT NULL AND url != ''${bedingung}"),
   'ohne Zeitstempel gilt weiterhin die alte, strengere Rechnung',
 )
 /*
@@ -138,7 +138,7 @@ pruefe(
   als erledigt, wie in der Erweiterung (`wartetAufUebernahme`).
 */
 pruefe(
-  quelle.includes('for (const r of jemals ?? [])'),
+  quelle.includes('for (const r of jemals) {'),
   'abgezogen wird nur, was nach dem Prüfstand gemeldet wurde',
 )
 pruefe(

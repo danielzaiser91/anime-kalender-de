@@ -533,7 +533,8 @@ console.log('Lesezeilen: ?gemeldet= je Adresse und die wartenden Meldungen aus d
     return {
       status: r.status,
       inhalt: (await r.json()) as { paare?: { nummer: number }[]; anbieter?: unknown[] },
-      lesen: abfragen.filter((a) => /MAX\(gemeldet_am\)|WHERE uebernommen = 0$/.test(a.sql)).length,
+      /* Die Abfragen auf `pruefung`: `?gemeldet=` (MAX) und die wartenden Meldungen (ohne Adressen, die eine Titelzeile haben). */
+      lesen: abfragen.filter((a) => /MAX\(gemeldet_am\)|WHERE uebernommen = 0( AND url NOT IN \(SELECT url FROM titel_zeile\))?$/.test(a.sql)).length,
     }
   }
   const nummern = (r: { inhalt: { paare?: { nummer: number }[] } }) => (r.inhalt.paare ?? []).map((p) => p.nummer).join(',')

@@ -13,6 +13,7 @@
 import { type Env } from './env.ts'
 import { rechneAnbieter, type Gemeldet } from './pruefung-stand-anbieter.ts'
 import { holeWartende } from './pruefung-stand-briefkasten.ts'
+import { staffelnSeit } from './titelzeile-lesen.ts'
 
 /** `bekannt` (höchste Folge laut Datensatz je Kennung, 4.24.21) kommt unverändert aus `pruefstand.json`. */
 function bekanntDazu<T extends { plattform: string }>(anbieter: T[], roh: unknown[] = []) {
@@ -68,16 +69,7 @@ export async function berechnePruefstand({ env, antwort, zwischen }: StandKontex
        * Prüfstand) gilt das alte, strengere Verhalten — lieber ein Ziel zu wenig als eins zu viel.
        */
       const seit = stand.erzeugtAm ?? null
-      const { results: jemals } = seit
-        ? await env.DB.prepare(
-            `SELECT DISTINCT plattform, url, staffel FROM pruefung
-             WHERE url IS NOT NULL AND url != '' AND gemeldet_am > ?1`,
-          )
-            .bind(seit)
-            .all<{ plattform: string; url: string; staffel: number | null }>()
-        : await env.DB.prepare(
-            `SELECT DISTINCT plattform, url, staffel FROM pruefung WHERE url IS NOT NULL AND url != ''`,
-          ).all<{ plattform: string; url: string; staffel: number | null }>()
+      const jemals = await staffelnSeit(env, seit)
       const jeGemeldet = new Map<string, Set<string>>()
       /** Je Adresse die Staffeln, zu denen seit dem Prüfstand gemeldet wurde (22.09.2026). */
       const staffelnGemeldet = new Map<string, Set<number>>()
@@ -88,7 +80,7 @@ export async function berechnePruefstand({ env, antwort, zwischen }: StandKontex
         nicht für Wiedervorlagen (11.10.2026, `pruefung-stand-anbieter.ts`) — sie zogen Wiedervorlagen
         über ihren alten Beleg ab („7 statt 9", Daniel).
       */
-      for (const r of jemals ?? []) {
+      for (const r of jemals) {
         const dazu = jeGemeldet.get(r.plattform) ?? new Set<string>()
         dazu.add(r.url)
         jeGemeldet.set(r.plattform, dazu)

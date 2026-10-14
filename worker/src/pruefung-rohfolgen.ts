@@ -3,6 +3,7 @@ import { ausSpeicher, FRIST_NAMEN_MS } from './export-speicher.ts'
 import { serientitelJeAdresse } from './pruefung-serientitel.ts'
 import { probeRohfolgen } from './rohfolgen-probe.ts'
 import { alleRohfolgen, offeneRohfolgen, type Seite } from './rohfolgen-seiten.ts'
+import { namenAusTitelzeilen, NICHT_VERDRAENGT } from './titelzeile-lesen.ts'
 
 export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
   request: Request<unknown, CfProperties<unknown>>
@@ -66,9 +67,9 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
       /* Die Vollexporte liegen in R2 (`export-speicher.ts`) und werden bei jedem Schreibzugriff verworfen. */
       if (new URL(request.url).searchParams.get('namen') === '1') return ausSpeicher(env, 'namen', async () => {
         const { results } = await env.DB.prepare(
-          `SELECT url, MAX(titel) AS titel FROM pruefung WHERE titel IS NOT NULL AND url IS NOT NULL GROUP BY url`,
+          `SELECT url, MAX(titel) AS titel FROM pruefung WHERE titel IS NOT NULL AND url IS NOT NULL AND ${NICHT_VERDRAENGT} GROUP BY url`,
         ).all()
-        return { namen: results ?? [] }
+        return { namen: [...(results ?? []), ...(await namenAusTitelzeilen(env))] }
       }, FRIST_NAMEN_MS)
       const seite = (s: Seite) => ({ folgen: s.zeilen, weiter: s.weiter })
       if (new URL(request.url).searchParams.get('alle') === '1') return ausSpeicher(env, `alle-${Number.isFinite(nach) ? nach : 0}`, async () => seite(await alleRohfolgen(env, nach)))
