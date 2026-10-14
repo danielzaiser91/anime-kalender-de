@@ -128,6 +128,8 @@ console.log('\nAnlegen und Bau mit echten Daten: die getragene Seite steht als Z
   const eintraege = alle()
   const vergeben = vergebeneSeiten(new Map())
   const traeger = traegerJeSeite()
+  /* Echte Daten: rund 40 Seiten haben mehrere Träger (14.10.2026); zählte nur der letzte, gäbe die Teilung Seiten frei, die ein anderer Titel noch trägt. */
+  pruefe('traegerJeSeite: eine Seite mit mehreren Trägern führt alle', [...traeger.values()].some((t) => t.length >= 2))
   const hand = handKennungen()
   const seitenJeMal = new Map<number, number[]>()
   for (const [asId, e] of Object.entries(eintraege)) if (e.mal) seitenJeMal.set(e.mal, [...(seitenJeMal.get(e.mal) ?? []), Number(asId)])
