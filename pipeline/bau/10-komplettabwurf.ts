@@ -3,6 +3,7 @@ import type { Release } from '../../shared/types.ts'
 import { KATALOG_MIN_FOLGEN } from '../../shared/katalog-release.ts'
 import { rolleTermineAus } from './10-termine.ts'
 import { markiereErstausgabe } from './erstausgabe-markieren.ts'
+import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
 
 /**
  * Hat Crunchyroll die ganze Staffel auf einmal gebracht? Belegt ist nur die letzte Folge als einzige Kachel: Ihre Nummer
@@ -41,9 +42,13 @@ export function wandleKomplettabwuerfeUm(releases: Release[]): string[] {
  * Phase 10 mit Komplettabwürfen: erst jetzt, nachdem die Phasen davor die Folgentage des Crunchyroll-Katalogs nachgetragen haben.
  * Vorher hätte „eine Kachel“ auch Serien getroffen, deren frühere Folgen der Katalog noch belegt (zwölf Folgen am 15.07., 04.-05.2026).
  */
-export function rolleTermineAusMitKomplettabwurf(args: Parameters<typeof rolleTermineAus>[0]): ReturnType<typeof rolleTermineAus> {
+export function rolleTermineAusMitKomplettabwurf(
+  args: Parameters<typeof rolleTermineAus>[0],
+  /* Austauschbar nur für die Prüfung: `rolleTermineAus` schreibt Dateien nach `data/`. */
+  quelle: { rolle: typeof rolleTermineAus; handNein: () => ReadonlySet<string> } = { rolle: rolleTermineAus, handNein: () => neinHandbelege(loadDubChecks()) },
+): ReturnType<typeof rolleTermineAus> {
   const slugs = wandleKomplettabwuerfeUm(args.releases)
   if (slugs.length) log(`${slugs.length} Crunchyroll-Komplettabwürfe statt Wochentakt: ${slugs.join(', ')}`)
-  markiereErstausgabe({ alle: args.releases, pruefen: args.releases, titles: args.titles })
-  return rolleTermineAus(args)
+  markiereErstausgabe({ alle: args.releases, pruefen: args.releases, titles: args.titles, handNein: quelle.handNein() })
+  return quelle.rolle(args)
 }
