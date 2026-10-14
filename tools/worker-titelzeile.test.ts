@@ -429,6 +429,35 @@ console.log('Rechenzeit im Worker (Free-Plan: 10 ms CPU je Anfrage)')
   pruefe(mittel < 5 && text.length < 200_000, 'lesen + einsetzen + schreiben des größten Titels: Mittel unter 5 ms (halbe Grenze), Zeile unter 200 KB (Grenze 2 MB)')
 }
 
+console.log('Einspielen: Folgen, die nur in prime_folge stehen, gehen nicht verloren (echte D1 am 14.10.2026: 27 Folgen in 1 Adresse)')
+{
+  /* Dieselbe Abfrage hat die Verluste an der echten D1 gezählt; ohne titel_zeile-Klausel, solange die Tabelle fehlte. */
+  const verlust = `SELECT COUNT(*) AS n FROM (SELECT url, staffel_nr, nummer FROM prime_folge
+      WHERE plattform = 'disneyplus' AND gti IS NOT NULL AND url NOT IN (SELECT url FROM titel_zeile)
+      GROUP BY url, IFNULL(staffel_nr, -1), IFNULL(nummer, -1)) r
+    WHERE NOT EXISTS (SELECT 1 FROM pruefung p WHERE p.plattform = 'disneyplus' AND p.url = r.url
+      AND IFNULL(p.staffel, -1) = IFNULL(r.staffel_nr, -1) AND IFNULL(p.folge_nr, -1) = IFNULL(r.nummer, -1))`
+  const db = neueDatenbank()
+  db.exec(`INSERT INTO pruefung (plattform, url, befund, staffel, folge_nr, gemeldet_am, uebernommen) VALUES
+             ('disneyplus', 'u1', 'dub', 1, 1, '2026-10-01T10:00:00Z', 0), ('disneyplus', 'u1', 'dub', 1, 2, '2026-10-01T10:00:00Z', 0);
+           INSERT INTO prime_folge (plattform, url, gti, staffel_nr, nummer, titel, gemeldet_am, uebernommen) VALUES
+             ('disneyplus', 'u1', 'g2', 1, 2, 'in beiden', '2026-10-01T09:00:00Z', 0),
+             ('disneyplus', 'u1', 'g3', 1, 3, 'nur Rohfolge', '2026-10-01T09:00:00Z', 0),
+             ('disneyplus', 'u2', 'g4', 1, 1, 'Adresse nur Rohfolge', '2026-10-01T09:00:00Z', 1)`)
+  pruefe(zahl(db, verlust) === 2, 'Ausgang: zwei Rohfolgen ohne pruefung-Zeile (eine in u1, eine in der Adresse u2)')
+  db.exec(readFileSync('worker/einmalig/titel-zeile-einspielen.sql', 'utf8'))
+  const zeilen = db.prepare("SELECT url, daten, offen_meldung, offen_rohfolge FROM titel_zeile ORDER BY url").all() as { url: string; daten: string; offen_meldung: number; offen_rohfolge: number }[]
+  pruefe(zeilen.length === 2, `Einspielen: eine Titelzeile je Adresse (${zeilen.length})`)
+  const nummern = (z: { daten: string }) => liesDaten(z.daten).f.map((e) => `${e[0]}/${e[1]}`).sort().join(' ')
+  pruefe(nummern(zeilen[0]!) === '1/1 1/2 1/3', `u1: Folge nur in pruefung, in beiden und nur in prime_folge (${nummern(zeilen[0]!)})`)
+  pruefe(nummern(zeilen[1]!) === '1/1', 'u2: Adresse ohne jede pruefung-Zeile hat ihre Titelzeile')
+  pruefe(zeilen[0]!.offen_meldung === 2 && zeilen[0]!.offen_rohfolge === 2 && zeilen[1]!.offen_meldung === 0 && zeilen[1]!.offen_rohfolge === 0, 'Zähler: Rohfolge-Folge bringt keine offene Meldung, nur ihre offene Rohfolge')
+  const ohneEintrag = `SELECT COUNT(*) AS n FROM (SELECT DISTINCT url, staffel_nr, nummer FROM prime_folge WHERE plattform = 'disneyplus' AND gti IS NOT NULL) r
+      WHERE NOT EXISTS (SELECT 1 FROM titel_zeile t, json_each(t.daten, '$.f') j WHERE t.url = r.url
+        AND IFNULL(json_extract(j.value, '$[0]'), -1) = IFNULL(r.staffel_nr, -1) AND IFNULL(json_extract(j.value, '$[1]'), -1) = IFNULL(r.nummer, -1))`
+  pruefe(zahl(db, ohneEintrag) === 0, 'danach hat jede Rohfolge ihren Eintrag in einer Titelzeile (Verlust 0)')
+}
+
 if (fehler) {
   console.log(`${fehler} Prüfung(en) fehlgeschlagen.`)
   process.exit(1)
