@@ -54,7 +54,7 @@ function VorschlagZeile(p: {
         aria-selected={p.aktiv}
         onMouseDown={(e) => e.preventDefault()}
         onClick={p.waehlen}
-        className={['min-h-11 min-w-0 flex-1 cursor-pointer px-3 py-2 hover:bg-emerald-500/10', p.aktiv ? 'bg-emerald-500/10' : ''].join(' ')}
+        className={['min-h-11 min-w-0 flex-1 cursor-pointer px-3 py-2 hover:bg-ak-gut-grund', p.aktiv ? 'bg-ak-gut-grund' : ''].join(' ')}
       >
         <div className="flex items-baseline justify-between gap-2 text-sm font-medium text-ak-text">
           <span>{name}</span>
@@ -120,7 +120,7 @@ function SprecherStand({ t, filters }: { t: Translate; filters: FilterState }) {
   return (
     <>
       {auswahl.fehler && (
-        <p className="mt-2 text-xs text-rose-600 dark:text-rose-300">
+        <p className="mt-2 text-xs text-ak-fehler-text">
           {t('filter.sprecher.datenFehler')}{' '}
           <button type="button" className={LINK} onClick={auswahl.nochmal}>
             {t('filter.sprecher.nochmal')}

@@ -44,13 +44,7 @@ nav a[aria-current='page'] { border-color: var(--ak-gewaehlt); color: var(--ak-t
 button:disabled, [aria-disabled='true'] { opacity: .45 !important; cursor: default; }
 .border-blue-600, .dark .border-blue-400 { border-color: var(--ak-info); }
 .bg-blue-600\\/\\[\\.08\\], .dark .bg-blue-400\\/10 { background: var(--ak-info-grund); }
-.border-emerald-600, .dark .border-emerald-400 { border-color: var(--ak-gut); }
-.bg-emerald-500\\/10 { background: var(--ak-gut-grund); }
-.border-rose-500, .dark .border-rose-400 { border-color: var(--ak-fehler); }
-.bg-rose-500\\/10 { background: var(--ak-fehler-grund); }
-.text-rose-700, .dark .text-rose-300 { color: var(--ak-fehler-text); }
 .text-sky-700, .dark .text-sky-300 { color: var(--ak-link); text-decoration: underline; text-underline-offset: 2px; }
-.text-amber-400 { color: var(--ak-finale-text); }
 `
 
 mockup({
@@ -74,5 +68,5 @@ mockup({
   titel: 'Design-Regeln – Filterfenster',
   ausschnitt: 'filter',
   faelle: [ALLE],
-  varianten: { A: { ersatz: {}, stil: APP, notiz: 'Nachher: Schnellfilter-Band in Info-Blau, Pillen in gut/fehler, Fokusring.' } },
+  varianten: { A: { ersatz: {}, stil: APP, notiz: 'Nachher: Schnellfilter-Band in Info-Blau, Pillen in gut/fehler (die Klassen stehen schon auf Tokens), Fokusring.' } },
 })

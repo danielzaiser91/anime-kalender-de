@@ -70,14 +70,14 @@ export function statusArt(dub: boolean | undefined, stand?: string): DubStatusAr
   return stand ? 'justwatch' : 'offen'
 }
 
-/* Weiß auf diesen Gründen: 4,9 : 1, 7,0 : 1, 4,6 : 1 (Panel-Spezifikation 12.10.2026). */
+/* Kontrast (14.10.2026, dunkel / hell): belegt 10,0 / 5,5 und offen 6,2 / 5,6 aus `tools/design-kontrast.mjs`; Weiß auf #475569 7,6 und auf #1d4ed8 6,7 von Hand gerechnet. */
 const STATUS_KLASSE: Record<DubStatusArt, string> = {
-  belegt: 'bg-[#047857]',
-  justwatch: 'bg-[#475569]',
-  schwester: 'bg-[#475569]',
-  annahme: 'bg-[#475569]',
-  omu: 'bg-[#1d4ed8]',
-  offen: 'bg-[#b45309]',
+  belegt: 'bg-ak-gut text-ak-auf-gut',
+  justwatch: 'bg-[#475569] text-white',
+  schwester: 'bg-[#475569] text-white',
+  annahme: 'bg-[#475569] text-white',
+  omu: 'bg-[#1d4ed8] text-white',
+  offen: 'bg-ak-flaeche-2 text-ak-leise',
 }
 const STATUS_TEXT = { belegt: 'detail.statusDeutsch', justwatch: 'detail.statusJustwatch', schwester: 'detail.statusSchwester', annahme: 'detail.statusAnnahme', omu: 'detail.statusOmu', offen: 'detail.statusOffen' } as const
 
@@ -86,7 +86,7 @@ export function DubStatus({ art }: { art: DubStatusArt }) {
   const { t } = useLang()
   return (
     <span
-      className={`absolute -right-0.5 -top-3.5 inline-flex h-5 items-center whitespace-nowrap rounded-full px-2 text-t5 font-bold text-white ring-2 ring-[color:var(--kasten,transparent)] ${STATUS_KLASSE[art]}`}
+      className={`absolute -right-0.5 -top-3.5 inline-flex h-5 items-center whitespace-nowrap rounded-full px-2 text-t5 font-bold ring-2 ring-[color:var(--kasten,transparent)] ${STATUS_KLASSE[art]}`}
     >
       {t(STATUS_TEXT[art])}
     </span>

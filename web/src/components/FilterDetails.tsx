@@ -50,8 +50,8 @@ function ModusSchalter({ wert, setzen }: { wert: 'und' | 'oder'; setzen: (w: 'un
         onClick={() => setzen(w)}
         aria-pressed={wert === w}
         className={
-          'rounded px-1.5 py-px text-[9px] font-semibold uppercase tracking-wider transition ' +
-          (wert === w ? 'bg-slate-600 text-slate-100' : 'text-slate-500 hover:text-slate-300')
+          'rounded px-1.5 py-px text-[9px] uppercase tracking-wider transition ' +
+          (wert === w ? 'bg-ak-gewaehlt font-bold text-ak-auf-gewaehlt' : 'font-semibold text-ak-leise hover:text-ak-text')
         }
       >
         {text}

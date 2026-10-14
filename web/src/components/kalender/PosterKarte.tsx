@@ -82,7 +82,7 @@ export function PosterKarte(p: PosterKarteProps) {
         className={[
           'ak-titel flex items-start gap-0.5',
           saal ? 'text-lg font-extrabold leading-tight' : 'text-sm font-bold leading-snug',
-          ueberholt ? 'text-ak-sehr-leise line-through decoration-rose-500/60' : 'text-ak-text',
+          ueberholt ? 'text-ak-sehr-leise line-through decoration-ak-fehler/60' : 'text-ak-text',
         ].join(' ')}
       >
         <span className="line-clamp-2">
@@ -186,7 +186,7 @@ function CoverAktionen(p: PosterKarteProps & { saal: boolean }) {
         steht nur der gesetzte Stern als Zeichen, bedient wird im Panel.
       */}
       {p.favorite && (
-        <span className={`absolute ${p.saal ? SAAL_STERN : 'right-2 bottom-3'} text-base text-amber-400 drop-shadow-[0_1px_2px_rgba(0,0,0,.8)] sm:hidden`} role="img" aria-label={t('kal.favorit')}>
+        <span className={`absolute ${p.saal ? SAAL_STERN : 'right-2 bottom-3'} text-base text-ak-finale drop-shadow-[0_1px_2px_rgba(0,0,0,.8)] sm:hidden`} role="img" aria-label={t('kal.favorit')}>
           ★
         </span>
       )}

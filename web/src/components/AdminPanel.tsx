@@ -82,7 +82,7 @@ export function AdminPanel({ token }: { token: string }) {
   }
 
   return (
-    <div className="rounded-xl border border-amber-500/40 bg-amber-500/[0.06] p-5">
+    <div className="rounded-xl border border-ak-warnung/40 bg-ak-warnung-grund p-5">
       <SectionTitle>Nur für den Betreiber</SectionTitle>
       <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">
         Sichtbar, weil die Adresse einen gültigen Schlüssel enthält. Der Schlüssel gilt für diese

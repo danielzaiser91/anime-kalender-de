@@ -32,5 +32,5 @@ export function EigeneQuellenZeile({ eigen, t }: { eigen: NonNullable<Synopsis['
 
 /** Hinweis über dem Text, wenn er nur die Reihe beschreibt — sonst läse man ihn als Handlung dieser Staffel. */
 export function ReiheHinweis({ t }: { t: Translate }) {
-  return <p className="mb-1 text-t4 text-amber-800 dark:text-amber-300">{t('detail.plotReihe')}</p>
+  return <p className="mb-1 text-t4 text-ak-warnung-text">{t('detail.plotReihe')}</p>
 }

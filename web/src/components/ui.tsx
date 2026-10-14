@@ -40,7 +40,7 @@ export function DubMark({ dub }: { dub?: boolean }) {
   if (dub === true) {
     return (
       <Tooltip text={t('detail.dubYes')} seite="oben">
-        <span className="text-[11px] font-bold text-emerald-400">🇩🇪 ✓</span>
+        <span className="text-[11px] font-bold text-ak-gut-text">🇩🇪 ✓</span>
       </Tooltip>
     )
   }
@@ -209,9 +209,9 @@ export function ReleaseTypeBadge({ type, small }: { type: ReleaseType; small?: b
 /* Hell 700er-, dunkel 400er-Töne: die 400er allein lagen im hellen Thema bei 1,9–2,8:1,
    „unbekannt" dunkel bei 3,5:1 (axe, 18.09.2026). „Erschienen" neutral wie „abgeschlossen": der Regelfall, stand im Akzent auf fast jeder Kachel (08.10.2026). */
 const STATUS_STYLE: Record<ReleaseStatus, string> = {
-  airing: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 ring-emerald-500/40',
+  airing: 'bg-ak-gut-grund text-ak-gut-text ring-ak-gut/40',
   abgeschlossen: 'bg-slate-500/15 text-slate-600 dark:text-slate-400 ring-slate-500/40',
-  tba: 'bg-amber-500/15 text-amber-800 dark:text-amber-400 ring-amber-500/40',
+  tba: 'bg-slate-500/10 text-ak-leise ring-ak-leise/40',
   erschienen: 'bg-slate-500/15 text-slate-600 dark:text-slate-400 ring-slate-500/40',
   unbekannt: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 ring-slate-500/30',
 }
@@ -344,8 +344,8 @@ export function FavoriteStar({
         CLICKABLE,
         size === 'sm' ? `size-5 text-[13px] ${TREFFER_24}` : `size-7 text-base${grosseFlaeche ? ` ${TIPPFLAECHE}` : ''}`,
         active
-          ? 'text-amber-400 drop-shadow-[0_0_4px_rgba(251,191,36,.55)]'
-          : 'text-slate-400/70 hover:text-amber-300 dark:text-slate-500 dark:hover:text-amber-300',
+          ? 'text-ak-finale-text drop-shadow-[0_0_4px_color-mix(in_srgb,var(--ak-finale)_55%,transparent)]'
+          : 'text-slate-400/70 hover:text-ak-finale-text dark:text-slate-500',
       ].join(' ')}
     >
       {active ? '★' : '☆'}
@@ -466,7 +466,7 @@ export function ShareIcon({
         CLICKABLE,
         size === 'sm' ? `size-5 text-[12px] ${TREFFER_24}` : 'size-7 text-sm',
         copied
-          ? 'text-emerald-400'
+          ? 'text-ak-gut-text'
           : 'text-slate-400/70 hover:text-sky-400 dark:text-slate-500 dark:hover:text-sky-300',
       ].join(' ')}
     >

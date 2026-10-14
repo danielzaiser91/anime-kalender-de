@@ -157,7 +157,7 @@ function FolgeOhneFlagge({ hinweis, gibtDeutsche }: { hinweis?: string; gibtDeut
       <span
         role="img"
         aria-label={hinweis ?? 'Keine deutsche Synchro belegt'}
-        className={`${marke} ${hinweis ? 'border-rose-500 text-rose-600 dark:border-rose-400 dark:text-rose-300' : 'border-slate-400 text-slate-500 dark:border-slate-500 dark:text-slate-400'}`}
+        className={`${marke} ${hinweis ? 'border-ak-fehler text-ak-fehler-text' : 'border-slate-400 text-slate-500 dark:border-slate-500 dark:text-slate-400'}`}
       >
         {hinweis ? '✕' : '?'}
       </span>

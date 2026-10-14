@@ -193,12 +193,12 @@ function LaeuftZeile({ laeuft, t }: { laeuft: NonNullable<NonNullable<TvText>['l
     <>
       <LangMitTooltip text={[t('tv.laeuft'), laeuft.text].filter(Boolean).join(' · ')}>
         <span className="line-clamp-2 block text-t4 text-slate-600 dark:text-slate-400">
-          <span className="font-semibold text-emerald-700 dark:text-emerald-400">{t('tv.laeuft')}</span>
+          <span className="font-semibold text-ak-gut-text">{t('tv.laeuft')}</span>
           {laeuft.text ? ` · ${laeuft.text}` : ''}
         </span>
       </LangMitTooltip>
       <span aria-hidden className="my-0.5 block h-[3px] w-full max-w-72 overflow-hidden rounded bg-slate-200 dark:bg-white/10">
-        <span className="block h-full rounded bg-emerald-500" style={{ width: `${Math.round(laeuft.anteil * 100)}%` }} />
+        <span className="block h-full rounded bg-ak-gut" style={{ width: `${Math.round(laeuft.anteil * 100)}%` }} />
       </span>
     </>
   )

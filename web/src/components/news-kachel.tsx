@@ -14,7 +14,7 @@ export function NewsCover({ e }: { e: NewsEintrag }): React.JSX.Element {
 /** Die Datum-Plakette auf dem Kino-Cover. */
 export function KinoPlakette({ kommt, text }: { kommt: boolean; text: string }): React.JSX.Element {
   return (
-    <span className={`absolute left-1 top-1 rounded px-1 py-px text-[10px] font-semibold text-white ${kommt ? 'bg-slate-900/80' : 'bg-rose-600'}`}>
+    <span className={`absolute left-1 top-1 rounded px-1 py-px text-[10px] font-semibold ${kommt ? 'bg-slate-900/80 text-white' : 'bg-ak-akzent text-ak-auf-akzent'}`}>
       {text}
     </span>
   )

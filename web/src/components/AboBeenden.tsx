@@ -29,7 +29,7 @@ export function AboBeenden({ state, setState }: { state: AbmeldeState; setState:
                 .then(() => setAbmeldeState('weg'))
                 .catch(() => setAbmeldeState('idle'))
             }}
-            className="cursor-pointer font-medium text-red-500 underline underline-offset-2 hover:text-red-400"
+            className="cursor-pointer font-medium text-ak-fehler-text underline underline-offset-2 hover:text-ak-fehler"
           >
             {t('news.unsubYes')}
           </button>
@@ -46,7 +46,7 @@ export function AboBeenden({ state, setState }: { state: AbmeldeState; setState:
           type="button"
           disabled={abmeldeState === 'laeuft'}
           onClick={() => setAbmeldeState('fragt')}
-          className="cursor-pointer text-[13px] text-slate-500 underline decoration-dotted underline-offset-2 transition hover:text-red-500 disabled:opacity-60 dark:text-slate-400"
+          className="cursor-pointer text-[13px] text-slate-500 underline decoration-dotted underline-offset-2 transition hover:text-ak-fehler-text disabled:opacity-60 dark:text-slate-400"
         >
           {t('news.unsub')}
         </button>

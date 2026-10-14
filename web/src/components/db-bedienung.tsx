@@ -23,8 +23,8 @@ export function DbZaehlzeile({ ergebnisse, mitSynchro, suche, sort, onSortChange
 }
 
 const GRUPPEN_TEXT: Record<RelevanzArt, { schluessel: TranslationKey; farbe: string }> = {
-  laeuft: { schluessel: 'db.gruppeLaeuft', farbe: 'text-emerald-700 dark:text-emerald-400' },
-  bald: { schluessel: 'db.gruppeBald', farbe: 'text-amber-700 dark:text-amber-400' },
+  laeuft: { schluessel: 'db.gruppeLaeuft', farbe: 'text-ak-gut-text' },
+  bald: { schluessel: 'db.gruppeBald', farbe: 'text-ak-info-text' },
   erschienen: { schluessel: 'db.gruppeErschienen', farbe: 'text-slate-600 dark:text-slate-300' },
   unbekannt: { schluessel: 'db.gruppeUnbekannt', farbe: 'text-slate-500 dark:text-slate-400' },
 }
