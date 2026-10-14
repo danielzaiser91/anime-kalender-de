@@ -120,7 +120,7 @@ function SprecherStand({ t, filters }: { t: Translate; filters: FilterState }) {
   return (
     <>
       {auswahl.fehler && (
-        <p className="mt-2 text-xs text-rose-600 dark:text-rose-300">
+        <p className="mt-2 text-xs text-ak-fehler-text">
           {t('filter.sprecher.datenFehler')}{' '}
           <button type="button" className={LINK} onClick={auswahl.nochmal}>
             {t('filter.sprecher.nochmal')}

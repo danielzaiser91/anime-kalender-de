@@ -329,7 +329,7 @@ export function AntwortKasten({
     const ausgeblieben = istAusgeblieben(e)
     haupt = ausgeblieben ? (
       <>
-        <span className="text-rose-600 dark:text-rose-400">
+        <span className="text-ak-fehler-text">
           ⚠{' '}
           {antwort.ausgebliebenBis
             ? T('antwort.ausgebliebenMehrere', { von: e.episode ?? '', bis: antwort.ausgebliebenBis })

@@ -86,6 +86,7 @@ Zwei Bestandswerte verfehlten die Schwelle und wurden am 13.10.2026 korrigiert: 
 | fokus | flaeche-2 | 3 | 8.1 (#ff9e85 auf #1b202a) | 4.9 (#b8321a auf #ebe9e3) |
 | auf-gut | gut | 4.5 | 10.0 (#0d0f14 auf #34d399) | 5.5 (#ffffff auf #047857) |
 | gut | flaeche | 3 | 9.1 (#34d399 auf #151922) | 5.5 (#047857 auf #ffffff) |
+| auf-fehler | fehler | 4.5 | 7.1 (#0d0f14 auf #fb7185) | 4.7 (#ffffff auf #e11d48) |
 | fehler | flaeche | 3 | 6.5 (#fb7185 auf #151922) | 4.7 (#e11d48 auf #ffffff) |
 | warnung | flaeche | 3 | 10.5 (#fbbf24 auf #151922) | 3.2 (#d97706 auf #ffffff) |
 | info | flaeche | 3 | 6.9 (#60a5fa auf #151922) | 5.2 (#2563eb auf #ffffff) |

@@ -82,7 +82,7 @@ export function PosterKarte(p: PosterKarteProps) {
         className={[
           'ak-titel flex items-start gap-0.5',
           saal ? 'text-lg font-extrabold leading-tight' : 'text-sm font-bold leading-snug',
-          ueberholt ? 'text-ak-sehr-leise line-through decoration-rose-500/60' : 'text-ak-text',
+          ueberholt ? 'text-ak-sehr-leise line-through decoration-ak-fehler/60' : 'text-ak-text',
         ].join(' ')}
       >
         <span className="line-clamp-2">

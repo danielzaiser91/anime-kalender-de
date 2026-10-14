@@ -52,6 +52,7 @@ export const PAARE = [
   ['fokus', 'flaeche-2', 3],
   ['auf-gut', 'gut', 4.5],
   ['gut', 'flaeche', 3],
+  ['auf-fehler', 'fehler', 4.5],
   ['fehler', 'flaeche', 3],
   ['warnung', 'flaeche', 3],
   ['info', 'flaeche', 3],

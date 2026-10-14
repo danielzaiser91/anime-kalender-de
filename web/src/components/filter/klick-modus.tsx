@@ -4,7 +4,7 @@ import type { Translate } from '../../lib/i18n.tsx'
 /**
  * **Der Klick-Modus steht oben, fest über dem Scrollbereich,** und gilt für alles darunter, auch für die Schnell-Chips.
  * Zeile 63 px, Knöpfe 44 px, 8 px Luft über und unter dem Segment. Er ist ein festes Flex-Kind des Fensters, nicht `sticky`: so liegt die Scrollbar zwischen Kopf und Fuß, innerhalb des Rands.
- * Aktiv: „Auswählen" `ak-gut` wie ein gewählter Chip, „Ausschließen" `rose-600` mit Weiß (4,53 : 1; `rose-500` hatte 3,75 : 1).
+ * Aktiv: „Auswählen" `ak-gut` wie ein gewählter Chip, „Ausschließen" `ak-fehler` (Text darauf `ak-auf-fehler`, 4,5 : 1 in beiden Themen).
  */
 export function KlickModusLeiste({
   t,
@@ -27,7 +27,7 @@ export function KlickModusLeiste({
             aria-pressed={mode === m}
             className={[
               'h-11 flex-1 cursor-pointer px-2 text-xs font-bold transition',
-              mode !== m ? 'text-ak-leise hover:bg-ak-flaeche-2' : m === 'exclude' ? 'bg-rose-600 text-white' : 'bg-ak-gut text-ak-auf-gut',
+              mode !== m ? 'text-ak-leise hover:bg-ak-flaeche-2' : m === 'exclude' ? 'bg-ak-fehler text-ak-auf-fehler' : 'bg-ak-gut text-ak-auf-gut',
             ].join(' ')}
           >
             {m === 'exclude' ? `⊘ ${t('filter.modeExclude')}` : t('filter.modeInclude')}

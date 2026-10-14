@@ -103,15 +103,15 @@ export function TrailerKino({
           className={[
             'group inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border py-1 pl-2 pr-4 text-t3 font-semibold transition',
             deutsch
-              ? 'border-rose-400/40 bg-rose-500/10 text-rose-700 hover:border-rose-400/70 hover:bg-rose-500/20 dark:text-rose-300'
+              ? 'border-ak-rand bg-ak-flaeche text-ak-text hover:border-ak-leise hover:bg-ak-flaeche-2'
               : 'border-slate-300 bg-slate-500/5 text-slate-600 hover:border-slate-400 hover:bg-slate-500/10 dark:border-white/15 dark:text-slate-300',
           ].join(' ')}
         >
           <span
             aria-hidden="true"
             className={[
-              'grid h-5 w-5 place-items-center rounded-full text-t5 text-white transition group-hover:scale-110',
-              deutsch ? 'bg-rose-600' : 'bg-slate-500',
+              'grid h-5 w-5 place-items-center rounded-full text-t5 transition group-hover:scale-110',
+              deutsch ? 'bg-ak-akzent text-ak-auf-akzent' : 'bg-slate-500 text-white',
             ].join(' ')}
           >
             ▶
@@ -198,7 +198,7 @@ export function TrailerKino({
                     href={suche}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="rounded-full bg-rose-600 px-4 py-2 text-t3 font-semibold text-white transition hover:bg-rose-500"
+                    className="rounded-full border border-ak-rand bg-ak-flaeche px-4 py-2 text-t3 font-semibold text-ak-text transition hover:border-ak-leise hover:bg-ak-flaeche-2"
                   >
                     {t('trailer.suchen')} ↗
                   </a>
@@ -308,7 +308,7 @@ export function KinoBanner({
   */
   const kinoheld = !bis || bis >= today ? release.sources?.find((q) => /^https:\/\/www\.kinoheld\.de\/film\//.test(q)) : undefined
   return (
-    <div className="relative overflow-hidden rounded-xl border border-amber-300/60 bg-gradient-to-r from-amber-50 via-amber-50/60 to-rose-50 px-4 py-3 dark:border-amber-400/25 dark:from-amber-500/10 dark:via-amber-500/5 dark:to-rose-500/10">
+    <div className="relative overflow-hidden rounded-xl border border-amber-300/60 bg-gradient-to-r from-amber-50 via-amber-50/60 px-4 py-3 dark:border-amber-400/25 dark:from-amber-500/10 dark:via-amber-500/5">
       {/* Der Filmstreifen am Rand — schmückt, ohne Platz zu kosten. */}
       <span
         aria-hidden

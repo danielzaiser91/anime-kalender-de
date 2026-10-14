@@ -33,7 +33,7 @@ export function AbgeloestHinweis({ m }: { m: NewsMeldung }) {
   }
   if (m.zurueckgezogen) {
     return (
-      <span title={m.zurueckgezogen.grund === GRUND_NUR_ORIGINALTON ? GRUND_NUR_ORIGINALTON : t('news.zurueckgezogenTitel')} className="shrink-0 text-[10px] text-rose-600 dark:text-rose-400">
+      <span title={m.zurueckgezogen.grund === GRUND_NUR_ORIGINALTON ? GRUND_NUR_ORIGINALTON : t('news.zurueckgezogenTitel')} className="shrink-0 text-[10px] text-ak-fehler-text">
         {t(m.zurueckgezogen.grund === GRUND_NUR_ORIGINALTON ? 'news.zurueckgezogenOmu' : 'news.zurueckgezogen')}
       </span>
     )

@@ -89,7 +89,7 @@ export function VerpasstMarke({ event, t }: { event: ReleaseEvent; t: Translate 
     .join(' · ')
   return (
     <Tooltip text={hinweis} seite="oben">
-      <span className="rounded bg-rose-500/15 px-1 text-[11px] font-semibold text-rose-600 dark:text-rose-400">
+      <span className="rounded bg-ak-fehler-grund px-1 text-[11px] font-semibold text-ak-fehler-text">
         {v.erschienenAm && v.verzugStunden != null
           ? `↻ ${t('card.missedLateBadge', { d: v.erschienenAm.slice(0, 10) })}`
           : `⚠ ${t('card.missedBadge')}`}

@@ -163,7 +163,7 @@ export default function App() {
   if (error) {
     return (
       <div className="mx-auto max-w-lg p-8 text-center">
-        <h1 className="text-lg font-semibold text-red-400">{t('app.loadError')}</h1>
+        <h1 className="text-lg font-semibold text-ak-fehler-text">{t('app.loadError')}</h1>
         <p className="mt-2 text-sm text-ak-leise">{error}</p>
         <p className="mt-4 text-xs text-ak-leise">
           {t('app.loadHint')} <code>npm run data:all</code>

@@ -154,7 +154,7 @@ function FavoritenFeed() {
           {t('sub.favAnlegen')}
         </Button>
       )}
-      {fehler && <p className="mt-2 text-xs text-rose-600 dark:text-rose-400">{fehler}</p>}
+      {fehler && <p className="mt-2 text-xs text-ak-fehler-text">{fehler}</p>}
     </Card>
   )
 }
@@ -259,7 +259,7 @@ function AboEinstellungen({ meta, onWechseln, abmeldeState, setAbmeldeState }: {
   return (
     <Card>
       <SectionTitle>{t('news.yourSubscription')}</SectionTitle>
-      {fehler && <p className="mb-2 text-sm text-red-400">{fehler}</p>}
+      {fehler && <p className="mb-2 text-sm text-ak-fehler-text">{fehler}</p>}
       {laedt ? (
         <p className="text-sm text-slate-400">{t('news.loadingPrefs')}</p>
       ) : !stand ? null : (
@@ -561,7 +561,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
             syncState === 'ok'
               ? 'border-ak-gut/40 bg-ak-gut-grund text-ak-gut-text'
               : syncState === 'error'
-                ? 'border-red-500/40 bg-red-500/10 text-red-400'
+                ? 'border-ak-fehler/40 bg-ak-fehler-grund text-ak-fehler-text'
                 : 'border-slate-300 text-slate-500 dark:border-white/15',
           ].join(' ')}
         >
@@ -724,7 +724,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
               <span
                 className={[
                   'text-sm',
-                  state === 'ok' ? 'text-ak-gut-text' : state === 'error' ? 'text-red-400' : 'text-slate-400',
+                  state === 'ok' ? 'text-ak-gut-text' : state === 'error' ? 'text-ak-fehler-text' : 'text-slate-400',
                 ].join(' ')}
               >
                 {message}
