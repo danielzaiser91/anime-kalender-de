@@ -56,6 +56,15 @@ const synchro = { ...titel, hasVoices: true, jpEnd: '2025-12-31' } as Title
 const mitSynchro = berechneAntwort({ title: synchro, releases: [wochenplan()], today: HEUTE, jetzt: JETZT })
 pruefe('Uhr: „fertig"-Urteil nutzt `jetzt` (Wochentakt mittendrin = läuft)', mitSynchro?.art === 'laeuft', mitSynchro?.art)
 
+/*
+  Uhr VOR dem ersten Termin: Das „erschienen"-Urteil des ersten `some` in `deutscherWochentaktLaeuft` hängt allein an `jetzt`. Mit der Systemuhr
+  (nach allen Terminen) wäre dort alles erschienen und der Wochentakt „läuft" — das zweite `some` (nichts offen) bleibt beim Weglassen unbemerkt,
+  solange beide dieselbe Uhr nutzen; erst die gemischte Uhr (erstes `some` System, zweites fest) kippt das Urteil. Hier: noch nichts erschienen = kein Takt.
+*/
+const VOR_ALLEM = new Date('2026-03-01T12:00:00Z')
+const vorStart = berechneAntwort({ title: synchro, releases: [wochenplan()], today: HEUTE, jetzt: VOR_ALLEM })
+pruefe('Uhr: vor dem ersten Termin läuft noch kein Wochentakt (belegt abgeschlossen = fertig)', vorStart?.art === 'fertig', vorStart?.art)
+
 const baende = berechneAntwort({ title: titel, releases: [band('vol-1', '2026-03-06'), band('vol-2', '2026-03-27')], today: HEUTE, jetzt: JETZT })
 pruefe('Uhr: Disc-Bänder zählen mit `jetzt` (Band 1 raus, Band 2 nicht)', baende?.art === 'disc' && baende.baende?.[0]?.raus === true && baende.baende?.[1]?.raus === false, JSON.stringify(baende))
 
