@@ -1,2 +1,2 @@
-globalThis.AK_OFFENE_AMAZON_STAND = "eb049919decc1ea1"
+globalThis.AK_OFFENE_AMAZON_STAND = "abb614efdfb67011"
 globalThis.AK_OFFENE_AMAZON_ERZEUGT = "2026-10-14"
