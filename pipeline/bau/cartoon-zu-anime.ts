@@ -21,11 +21,12 @@ export function fehlendeAnbieter(cartoon: Pick<Title, 'streams'>, anime: Partial
   return cartoon.streams.filter((s) => !hat.has(s.platform) && !handNein.has(dubKey(anime.id, s.platform))).map((s) => ({ platform: s.platform, url: s.url, herkunft: 'tmdb' as const, zugang: 'unbekannt' as const }))
 }
 
-function uebernehmeAnbieter(umzug: [number, number][], cartoons: Map<number, Title>): number {
+/** Schreibt die Anbieter in die Titel-Dateien von `ausgabe` (nur die Prüfung nimmt einen anderen Ordner als `OUT`). */
+export function uebernehmeAnbieter(umzug: [number, number][], cartoons: Map<number, Title>, ausgabe = OUT): number {
   const handNein = neinHandbelege(loadDubChecks())
   const ergaenzt = new Set<number>()
   for (const datei of ANIME_DATEIEN) {
-    const titel = readJson<Title[]>(`${OUT}/${datei}`, [])
+    const titel = readJson<Title[]>(`${ausgabe}/${datei}`, [])
     let geaendert = false
     for (const [cartoonId, animeId] of umzug) {
       const cartoon = cartoons.get(cartoonId)
@@ -37,7 +38,7 @@ function uebernehmeAnbieter(umzug: [number, number][], cartoons: Map<number, Tit
       ergaenzt.add(animeId)
       geaendert = true
     }
-    if (geaendert) writeJson(`${OUT}/${datei}`, titel)
+    if (geaendert) writeJson(`${ausgabe}/${datei}`, titel)
   }
   return ergaenzt.size
 }
