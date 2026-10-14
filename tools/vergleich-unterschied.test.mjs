@@ -49,7 +49,14 @@ const mitNeuem = [{ datum: '2026-10-13', text: 'Neu' }, ...notizen]
 const einfuegung = jsonUnterschiede(notizen, mitNeuem)
 assert.equal(einfuegung.size, 1, 'nur der neue Eintrag, nicht jedes verschobene Feld')
 assert.match([...einfuegung.values()][0].beispiel, /"datum":"2026-10-13"/)
-assert.equal(jsonUnterschiede(notizen, [...notizen].reverse()).size, 0, 'Reihenfolge allein ist kein Unterschied')
+// Nur umsortiert: Die Datei ist verschieden, also steht eine Zeile da (Befund zu PR 1145), ohne Kennung wie mit Kennung.
+const umsortiert = jsonUnterschiede(notizen, [...notizen].reverse())
+assert.deepEqual([...umsortiert.keys()], ['[] (nur Reihenfolge)'])
+assert.deepEqual(beschreibeUnterschied('patchnotes.json', JSON.stringify(notizen), JSON.stringify([...notizen].reverse())), [
+  '    1× [] (nur Reihenfolge)  (z. B. gleiche Elemente, andere Reihenfolge)',
+])
+assert.deepEqual([...jsonUnterschiede([{ id: 1 }, { id: 2 }], [{ id: 2 }, { id: 1 }]).keys()], ['[] (nur Reihenfolge)'], 'auch mit Kennung')
+assert.equal(jsonUnterschiede(notizen, structuredClone(notizen)).size, 0, 'gleiche Reihenfolge: keine Zeile')
 // Gegenprobe: ein wirklich geänderter Eintrag bleibt sichtbar, gleiche Dubletten zählen einzeln.
 const geaendertEintrag = notizen.map((e, i) => (i === 5 ? { ...e, text: 'anders' } : e))
 assert.equal(jsonUnterschiede(notizen, geaendertEintrag).get('[].text').n, 1)
