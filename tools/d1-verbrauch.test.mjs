@@ -102,9 +102,26 @@ try {
     `import { appendFileSync } from 'node:fs'
 const a = process.argv.slice(2)
 appendFileSync(${JSON.stringify(aufrufe)}, a.join(' ') + '\\n')
-const q = (query, gelesen, geschrieben) => ({ query, avgRowsRead: gelesen, totalRowsRead: gelesen, avgRowsWritten: geschrieben, totalRowsWritten: geschrieben, numberOfTimesRun: 1 })
-if (a.includes('info')) console.log(JSON.stringify({ rows_read_24h: Number(process.env.INFO_GELESEN ?? 1000), rows_written_24h: 2000 }))
-else console.log(JSON.stringify([q('SELECT 1', 1000, 5000)]))
+const arg = (name) => a[a.indexOf(name) + 1]
+const liste = (name, vorgabe) => String(process.env[name] ?? vorgabe).split(',').filter(Boolean).map(Number)
+const fueller = (name) => Array.from({ length: Number(process.env[name] ?? 0) }, () => 1)
+if (a.includes('info')) {
+  if (!a.includes('--json')) console.log('Tabelle statt JSON')
+  else console.log(JSON.stringify({ rows_read_24h: Number(process.env.INFO_GELESEN ?? 1000), rows_written_24h: 2000 }))
+} else {
+  const lesen = arg('--sort-by') === 'reads'
+  if (!lesen && arg('--sort-by') !== 'writes') process.exit(2)
+  if (!arg('--limit') || !arg('--time-period')) process.exit(2)
+  const zahlen = lesen
+    ? [...liste('STUB_LESEN', 1000), ...fueller('STUB_FUELLER_LESEN')]
+    : [...liste('STUB_SCHREIBEN', 5000), ...fueller('STUB_FUELLER_SCHREIBEN')]
+  const zeilen = zahlen.map((n, i) => lesen
+    ? { query: 'SELECT lesen ' + i, avgRowsRead: n, totalRowsRead: n, avgRowsWritten: 0, totalRowsWritten: 0, numberOfTimesRun: 1 }
+    : { query: 'INSERT schreiben ' + i, avgRowsRead: 0, totalRowsRead: 0, avgRowsWritten: n, totalRowsWritten: n, numberOfTimesRun: 1 })
+  const feld = lesen ? 'totalRowsRead' : 'totalRowsWritten'
+  zeilen.sort((x, y) => y[feld] - x[feld])
+  console.log(JSON.stringify(zeilen.slice(0, Number(arg('--limit')))))
+}
 `,
   )
   const knoten = process.execPath
@@ -151,6 +168,39 @@ else console.log(JSON.stringify([q('SELECT 1', 1000, 5000)]))
   const rotLauf = lauf('--ddl', '80000')
   assert.equal(rotLauf.status, 1, '5.000 + --ddl 80.000 über der Grenze')
   assert.match(rotLauf.stdout, /::error::D1-Verbrauch: 85\.000 geschriebene Zeilen/)
+
+  /* Lesen und Schreiben kommen aus getrennten Insights-Anfragen (Attrappe wertet `--sort-by` aus). */
+  assert.match(tag.stdout, /größten Leser:\s+1000\s+1×\s+Ø\s+1000\s+SELECT lesen 0/, 'Leser aus --sort-by reads')
+  assert.match(tag.stdout, /größten Schreiber:\s+5000\s+1×\s+Ø\s+5000\s+INSERT schreiben 0/, 'Schreiber aus --sort-by writes')
+
+  /* Die Summe geht an die Bewertung: keine Einzelabfrage über der Grenze, nur die Summe (4 × 700.000). */
+  const summeRot = laufMit({ STUB_LESEN: '700000,700000,700000,700000' })
+  assert.equal(summeRot.status, 1, 'Summe über GRENZE_GESAMT: rot')
+  assert.match(summeRot.stdout, /::error::D1-Verbrauch: Gesamtverbrauch 2\.800\.000/)
+  assert.doesNotMatch(summeRot.stdout, /eine Abfrage liest/, 'nur die Summe ist schuld')
+
+  /* Die größten Abfragen gehen an die Bewertung: eine Abfrage über der Einzelgrenze, die Summe bleibt darunter. */
+  const einzelRot = laufMit({ STUB_LESEN: `${GRENZE_EINZELN + 200_000},500` })
+  assert.equal(einzelRot.status, 1, 'eine Abfrage über GRENZE_EINZELN: rot')
+  assert.match(einzelRot.stdout, /::error::D1-Verbrauch: eine Abfrage liest 1\.200\.000 Zeilen: SELECT lesen 0/)
+  assert.doesNotMatch(einzelRot.stdout, /Gesamtverbrauch/, 'nur die Einzelabfrage ist schuld')
+
+  /* Warnzeile ab ABFRAGEN_LIMIT Gruppen: genau am Limit, nur Lesen, nur Schreiben; knapp darunter still. */
+  const warnZeile = new RegExp(`::warning::D1-Verbrauch: ${ABFRAGEN_LIMIT} Abfragegruppen geholt`)
+  assert.doesNotMatch(tag.stdout, /Abfragegruppen geholt/, 'wenige Gruppen: keine Warnzeile')
+  const nurLesenVoll = laufMit({ STUB_FUELLER_LESEN: String(ABFRAGEN_LIMIT - 1) })
+  assert.equal(nurLesenVoll.status, 0, 'Warnzeile allein ist nicht rot')
+  assert.match(nurLesenVoll.stdout, warnZeile, 'genau ABFRAGEN_LIMIT Lese-Gruppen')
+  const nurSchreibenVoll = laufMit({ STUB_FUELLER_SCHREIBEN: String(ABFRAGEN_LIMIT - 1) })
+  assert.match(nurSchreibenVoll.stdout, warnZeile, 'genau ABFRAGEN_LIMIT Schreib-Gruppen')
+  const darueber = laufMit({ STUB_FUELLER_LESEN: String(ABFRAGEN_LIMIT + 500) })
+  assert.match(darueber.stdout, warnZeile, 'mehr Gruppen als das Limit (Attrappe schneidet bei --limit ab)')
+  const knapp = laufMit({ STUB_FUELLER_LESEN: String(ABFRAGEN_LIMIT - 2), STUB_FUELLER_SCHREIBEN: String(ABFRAGEN_LIMIT - 2) })
+  assert.doesNotMatch(knapp.stdout, /Abfragegruppen geholt/, 'eine Gruppe unter dem Limit: still')
+
+  /* `d1 info` wird nur mit --json gelesen (ohne gibt die Attrappe eine Tabelle aus). */
+  assert.doesNotMatch(tag.stdout, /d1 info nicht lesbar/)
+  assert.ok(tag.aufrufe.some((z) => /\binfo --json\b/.test(z)), 'd1 info --json aufgerufen')
 } finally {
   rmSync(werkstatt, { recursive: true, force: true })
 }
