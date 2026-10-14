@@ -92,7 +92,8 @@ console.log('\nKachel:')
   pruefe('ein Katalog-Release schlägt die Marke', kartenArt([{ ...mit!, katalog: 'belegt' }], data) === 'katalog')
   pruefe('die Marke ist einspaltig', !istBreit('erstausgabe'))
   const text = (schluessel: keyof typeof TEXTE_KALENDER) => TEXTE_KALENDER[schluessel]
-  pruefe('Name der Marke: „Erstveröffentlichung“', text(ART_STIL.erstausgabe.name) === 'Erstveröffentlichung', text(ART_STIL.erstausgabe.name))
+  const name = text(ART_STIL.erstausgabe.name)
+  pruefe('Name der Marke: „Erstveröffentlichung“, mit einer Trennstelle für die schmale Kachel', name.replace('­', '') === 'Erstveröffentlichung' && name.includes('­'), name)
   pruefe('Hinweis der Marke: erster Tag der deutschen Fassung, nicht „Im Angebot seit“', text(ART_STIL.erstausgabe.hinweis).startsWith('Erster Tag der deutschen Fassung') && !text(ART_STIL.erstausgabe.hinweis).includes('Im Angebot'), text(ART_STIL.erstausgabe.hinweis))
 }
 

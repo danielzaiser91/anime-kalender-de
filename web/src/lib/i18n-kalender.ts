@@ -69,7 +69,8 @@ export const TEXTE_KALENDER = {
   'kal.katalog': 'Katalog-Release',
   'kal.imAngebot': 'Neu bei {anbieter}',
   'kal.imAngebotHinweis': 'Im Angebot seit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.',
-  'kal.erstausgabe': 'Erstveröffentlichung',
+  /* Mit Trennstelle (U+00AD): das lange Wort passt sonst nicht in die schmale Kachel und würde abgeschnitten. */
+  'kal.erstausgabe': 'Erstver­öffentlichung',
   'kal.erstausgabeHinweis': 'Erster Tag der deutschen Fassung, laut aniSearch.',
   'kal.favorit': 'Favorit',
   'detail.neuigkeiten': 'Neuigkeiten',
