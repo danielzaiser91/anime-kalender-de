@@ -25,7 +25,7 @@ const arg = (name) => (process.argv.includes(name) ? process.argv[process.argv.i
 const DIST = path.resolve(arg('--dist') ?? path.join(WURZEL, 'dist'))
 const MIT = (name) => process.argv.includes(name)
 const FUENF = ['11', '13', '15', '18', '24']
-/** Jujutsu Kaisen (mit Banner) und Rozen Maiden: Dreaming (ohne Banner, `listen/banner-luecken.md`). */
+/** Jujutsu Kaisen (mit Banner) und Rozen Maiden: Dreaming (ohne Banner, `listen/luecken/banner.md`). */
 const TITEL = [{ name: '113415', ak: akVon('113415') }, { name: '65', ak: akVon('65') }]
 const GERAETE = { handy: { width: 393, height: 1700 }, rechner: { width: 1280, height: 1100 } }
 const EIN_PUNKT = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64')

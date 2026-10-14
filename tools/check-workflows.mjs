@@ -322,6 +322,7 @@ const NUR_VON_HAND = {
   'data:cr-katalog': 'wie data:cr-einzelwerke',
   'data:tmdb-katalog': 'einmalige Zuordnung der Nur-AniList-Titel (11.10.2026), ein Lauf dauert rund 40 Minuten; ein Workflow kommt mit dem Bauschritt, der sie liest',
   'data:anisearch-katalog-abgleich': 'einmaliger Abgleich (11.10.2026); die Titelliste ist auf 1 Abruf je Stunde begrenzt, ein Lauf kommt mit dem Bau, der die Zuordnung liest',
+  'data:lueckenlisten': 'schreibt Arbeitslisten nach daniel-zum-abarbeiten/listen/luecken/ (nicht im Repo); ein CI-Lauf würde sie wegwerfen, Aufruf nach dem Bestandsbau auf Daniels Rechner'
 }
 
 {

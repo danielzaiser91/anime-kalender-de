@@ -526,6 +526,15 @@ Eine Quelle für Folgentage gibt es nicht (aniSearch-Folgen nennen nur Nummern; 
 
 `13-3-angebot-seit.ts` (Movie of the Night) und `13-7-erstausgabe-angebot.ts` (aniSearch-Erstausgabe) füllen nur Titel ohne Termin. Ein Disc-Termin zählte dabei als Termin und nahm Titeln mit Streaming-Katalogdatum das „Im Angebot seit“ (Pokémon „Die Anfänge“, Titel 527, Netflix seit 02.2025, Box am 27.11.2026: deshalb damals nicht eingetragen). Ein Erscheinungstag einer DVD- oder Blu-ray-Box sagt nichts darüber, seit wann ein Anbieter den Titel führt; es sind verschiedene Wege. Jetzt zählt `titelMitTermin` (`bau/titel-mit-termin.ts`) alle Termine außer `disc`; Streaming, TV und Kino ersetzen das „Im Angebot seit“ wie bisher. **Gemessen** (Bauvergleich 13.10.2026, 30b8bfdd1 gegen e70713317): 9 Titel mit nur einer Disc als Termin bekommen ihr „Im Angebot seit“ am Titel (Detektei Layton, The Quintessential Quintuplets, Jujutsu Kaisen, Die Tagebücher der Apothekerin, Sakamoto Days und vier mit Datum ab 2026), davon 4 auch als Kalendereintrag (`motn-…`: My Next Life as a Villainess X, My Dress-Up Darling, The Café Terrace and Its Goddesses ×2). Offen: Ob TV- oder Kino-Termine das „Im Angebot seit“ verdrängen sollen, ist nicht untersucht; ihre Wege (Fernsehsender, Kinosaal) sind auch keine Streaming-Kataloge.
 
+## Lückenlisten je Feld des Detail-Panels (14.10.2026)
+
+`npm run data:lueckenlisten` (`pipeline/lueckenlisten.ts`, nach dem Bestandsbau) schreibt nach `daniel-zum-abarbeiten/listen/luecken/` (nicht im Repo, wie die anderen Arbeitslisten; der Bau in CI schreibt sie nicht) je Feld eine Datei und `00-uebersicht.md` mit Zahlen und Datum. Gemeinsamer Rahmen `lib/luecken-rahmen.ts`, eine kleine Prüfung je Feld in `lib/luecken-felder.ts` (Cover SD/HQ, Banner, deutscher Titel, Handlung, Studio, Jahr, Folgenzahl, Bezugsweg, Quellenbeleg mit Bild; bedingt: Sprecher, Trailer, FSK, Bewertung, Schlagworte), Laden in `lib/luecken-kontext.ts`. Ein neues Feld ist ein Eintrag in `FELDER`.
+
+- **Liste A** (zuerst): Termin von −90 bis +180 Tage oder mindestens 1.500 aniSearch-Stimmen (`A_MIN_STIMMEN`; gemessen 13.10.2026: A 675, B 2.249; Bericht `berichte/lueckenlisten-inventur-2026-10-13.md`). **Liste B**: der Rest. Innerhalb nach Stimmen absteigend; Zeile = Titel mit Link ins Panel (`#/woche?t=<id>`), Jahr, Stimmen, Grund, Hinweis.
+- Die Bekanntheit ist die Stimmenzahl der archivierten aniSearch-Seite (`parseStimmen`), nicht die Wertung. Katalog und Cartoons haben vorerst keine Liste.
+- Gegenprobe im Lauf: Titel, Jahr und Cover müssen mit `data/luecken-titel.json` übereinstimmen (sonst eine Logzeile); `tools/lueckenlisten.test.mjs` rechnet A/B-Regel, Sortierung und A + B = Hauptbestand nach.
+- Ersetzt `listen/banner-luecken.md` (Stand 11.10.2026, wurde im Plakat-Lauf geschrieben): Der Plakat-Lauf schreibt sie nicht mehr, die Banner-Liste ist `listen/luecken/banner.md`.
+
 ## Große Cover, Titelrang und Suche in Zeitscheiben (07.10.2026)
 
 **Anlass:** Daniel, 07.10.2026: Das vergrößerte Cover („Rascal Does Not Dream of a Dear Friend") war unscharf; die Suche in der Datenbank mit dem Schalter „ohne deutsche Synchro" fror die Seite ein.
