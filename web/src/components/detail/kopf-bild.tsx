@@ -1,5 +1,5 @@
 /**
- * Das Bild im Panel-Kopf (Variante B, 12.10.2026). Ohne Banner (962 Titel, `listen/banner-luecken.md`) trägt das Cover selbst den Grund:
+ * Das Bild im Panel-Kopf (Variante B, 12.10.2026). Ohne Banner (962 Titel, `listen/luecken/banner.md`) trägt das Cover selbst den Grund:
  * unscharf, einmalig auf diesem einen Element — sonst nirgends im Panel ein `filter` oder `backdrop-filter`.
  */
 const PANEL_GRUND = 'to-white dark:to-[#0d1220]'

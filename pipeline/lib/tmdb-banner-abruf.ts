@@ -3,7 +3,6 @@ import { recordSource } from './health.ts'
 import { abrufTag, bilderAbzufragen, FRIST_TAGE, streicheBilderUeberFrist } from './tmdb-ablauf.ts'
 import type { TmdbBild } from './tmdb-plakat.ts'
 import { BANNER_DATEI, waehleBanner, type TmdbBanner } from './tmdb-banner.ts'
-import { schreibeBannerLuecken } from './banner-luecken.ts'
 
 type Zuordnung = Record<string, { tmdbId?: number; kind?: string }>
 
@@ -11,7 +10,7 @@ type Zuordnung = Record<string, { tmdbId?: number; kind?: string }>
  * **Das Hintergrundbild je Titel — von TMDB** (Daniel, 11.10.2026: Banner von TMDB statt AniList). Läuft im Plakat-Lauf (`fetch-tmdb-poster.ts`).
  *
  * Die Zuordnung Titel → TMDB-Kennung kommt aus `data/tmdb-titles.json`. Aus `/images` zählt nur ein Querformat ab 1.280 px (`tmdb-banner.ts`).
- * Wo es keins gibt, steht `null`; der Titel kommt auf die Lückenliste (`banner-luecken.ts`). Abgefragt werden Titel ohne Eintrag (mit `alle` alle) und Einträge über 150 Tage (`inhaltAm`, `tmdb-ablauf.ts`).
+ * Wo es keins gibt, steht `null`; der Titel kommt auf die Lückenliste (`npm run data:lueckenlisten`). Abgefragt werden Titel ohne Eintrag (mit `alle` alle) und Einträge über 150 Tage (`inhaltAm`, `tmdb-ablauf.ts`).
  */
 export async function holeBanner(apiKey: string, limit: number, alle: boolean): Promise<void> {
   const zuordnung = readJson<Zuordnung>('data/tmdb-titles.json', {})
@@ -43,7 +42,6 @@ export async function holeBanner(apiKey: string, limit: number, alle: boolean): 
   const zuAlt = streicheBilderUeberFrist(bestand, new Date())
   if (zuAlt.length) warn(`${zuAlt.length} Hintergrundbilder über ${FRIST_TAGE} Tage, Erneuerung gescheitert: aus dem Bestand genommen`)
   writeJson(BANNER_DATEI, bestand)
-  schreibeBannerLuecken(bestand, zuordnung)
   log(`${gefunden} von ${offen.length} Titeln mit Hintergrundbild, ${fehler} Fehler`)
   /* Nichts abzufragen (alle Titel haben einen Eintrag) ist kein Ausfall. */
   recordSource('tmdb-banner', gefunden, fehler ? `${fehler} Fehler` : undefined, undefined, fehler === 0)

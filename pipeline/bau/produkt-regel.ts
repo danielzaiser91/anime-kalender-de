@@ -29,7 +29,7 @@ export function schlagworteNachRegel(anisearchId: number | undefined): string[] 
 }
 
 /**
- * Bannerbild eines Titels: das TMDB-Hintergrundbild. ÜBERGANG: Wo TMDB keins hat (Lückenliste `daniel-zum-abarbeiten/listen/banner-luecken.md`),
+ * Bannerbild eines Titels: das TMDB-Hintergrundbild. ÜBERGANG: Wo TMDB keins hat (Lückenliste `daniel-zum-abarbeiten/listen/luecken/banner.md`),
  * bleibt vorerst das AniList-Banner — diese Zeile entfällt, sobald für die Lücken ein Ersatz gefunden ist.
  */
 export function bannerNachRegel(id: number, anilistBanner: string | undefined): string | undefined {
