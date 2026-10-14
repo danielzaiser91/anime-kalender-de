@@ -10,7 +10,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T155500Z
 DTEND:20261007T162500Z
-SUMMARY:Detektiv Conan – Folge 149/158
+SUMMARY:Detektiv Conan – Folge 149/159
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -30,7 +30,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T160000Z
 DTEND:20261008T163000Z
-SUMMARY:Detektiv Conan – Folge 150/158
+SUMMARY:Detektiv Conan – Folge 150/159
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -52,7 +52,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T160000Z
 DTEND:20261009T163000Z
-SUMMARY:Detektiv Conan – Folge 151/158
+SUMMARY:Detektiv Conan – Folge 151/159
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -95,7 +95,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T160000Z
 DTEND:20261012T163000Z
-SUMMARY:Detektiv Conan – Folge 152/158
+SUMMARY:Detektiv Conan – Folge 152/159
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -125,7 +125,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T160000Z
 DTEND:20261013T163000Z
-SUMMARY:Detektiv Conan – Folge 153/158
+SUMMARY:Detektiv Conan – Folge 153/159
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -135,7 +135,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T160000Z
 DTEND:20261014T163000Z
-SUMMARY:Detektiv Conan – Folge 154/158
+SUMMARY:Detektiv Conan – Folge 154/159
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -145,7 +145,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T160000Z
 DTEND:20261015T163000Z
-SUMMARY:Detektiv Conan – Folge 155/158
+SUMMARY:Detektiv Conan – Folge 155/159
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -167,7 +167,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T155500Z
 DTEND:20261016T162500Z
-SUMMARY:Detektiv Conan – Folge 156/158
+SUMMARY:Detektiv Conan – Folge 156/159
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -177,7 +177,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T160000Z
 DTEND:20261019T163000Z
-SUMMARY:Detektiv Conan – Folge 157/158
+SUMMARY:Detektiv Conan – Folge 157/159
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -207,7 +207,17 @@ UID:auto-235-tv-prosieben-maxx@2026-10-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261020T160000Z
 DTEND:20261020T163000Z
-SUMMARY:Detektiv Conan – Folge 158/158
+SUMMARY:Detektiv Conan – Folge 158/159
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-10-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261021T160000Z
+DTEND:20261021T163000Z
+SUMMARY:Detektiv Conan – Folge 159/159
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
