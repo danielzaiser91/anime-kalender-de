@@ -3,5 +3,5 @@
   // Läuft über `npm run check:worker`; die Wurzel-tsconfig schließt diese Dateien aus.
   "extends": "../worker/tsconfig.json",
   "compilerOptions": { "types": ["@cloudflare/workers-types", "node"] },
-  "include": ["worker-*.ts", "newsletter-probe.ts", "../shared"]
+  "include": ["worker-*.ts", "titelzeile-einspielen*.ts", "newsletter-probe.ts", "../shared"]
 }

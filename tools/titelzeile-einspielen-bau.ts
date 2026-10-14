@@ -178,7 +178,13 @@ const nachFolge = (a: Eintrag, b: Eintrag) => (a[STAFFEL] ?? -Infinity) - (b[STA
 export function baueTitelzeilen(pruefung: PruefZeile[], prime: RohZeile[]): Map<string, Gebaut> {
   const meldungen = juengsteJeFolge(pruefung, (z) => folgenSchluessel(z.staffel, z.folge_nr))
   const rohfolgen = juengsteJeFolge(prime, (z) => folgenSchluessel(z.staffel_nr, z.nummer))
-  const jeAdresse = Map.groupBy(pruefung, (z) => z.url)
+  // Map.groupBy fehlt in der Worker-Lib (ES2022).
+  const jeAdresse = new Map<string, PruefZeile[]>()
+  for (const z of pruefung) {
+    const liste = jeAdresse.get(z.url)
+    if (liste) liste.push(z)
+    else jeAdresse.set(z.url, [z])
+  }
   const ergebnis = new Map<string, Gebaut>()
   for (const url of [...new Set([...meldungen.keys(), ...rohfolgen.keys()])].sort()) {
     const j = meldungen.get(url) ?? new Map<string, PruefZeile>()
