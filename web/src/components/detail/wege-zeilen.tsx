@@ -17,18 +17,23 @@ import { pillenSchluessel, type sortiereNachZugang } from './wege-sortieren.ts'
 import { tvAngabe } from '../../lib/tv-angabe.ts'
 import { teilAngaben } from './wege-falten.ts'
 import { pilleUnten } from './pille-unten.ts'
+import { ausgabenOhneDeSichtbar, kanalTerminQuelle } from './chips-regeln.ts'
 
-/** Eine Zeile je Termin: Sender oder Anbieter, Datum, Folge. */
-export function terminPillen(rs: Release[], title: Title, releases: Release[], today: string) {
-  return rs.map((r) => (
-    <TerminZeile
-      key={r.slug}
-      release={r}
-      titel={anzeigeName(title)}
-      today={today}
-      tvText={tvAngabe(r, title, releases, today, jetztBerlin().slice(11, 16))}
-    />
-  ))
+/** Eine Zeile je Termin: Sender oder Anbieter, Datum, Folge; ein Prime-Kanal-Termin mit deutschem Anbieter-Weg trägt dessen Folgen und „Deutsch“. */
+export function terminPillen(rs: Release[], title: Title, releases: Release[], today: string, folgenAngabeFuer: FolgenAngabeFuer) {
+  return rs.map((r) => {
+    const quelle = kanalTerminQuelle(r, title)
+    return (
+      <TerminZeile
+        key={r.slug}
+        release={r}
+        titel={anzeigeName(title)}
+        today={today}
+        tvText={tvAngabe(r, title, releases, today, jetztBerlin().slice(11, 16))}
+        deutsch={quelle ? { folgen: folgenAngabeFuer(quelle) } : undefined}
+      />
+    )
+  })
 }
 
 type Sortiert = ReturnType<typeof sortiereNachZugang>
@@ -83,7 +88,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
                     farbe={PLATFORMS[s.platform].color}
                     icon={<AnbieterIcon was={s.platform} />}
                     url={s.url}
-                    unten={pilleUnten({ title, s, releases, folgenAngabe, t })}
+                    unten={pilleUnten({ title, s, releases, folgenAngabe, today, t })}
                     /*
                       **Was in der Pille kürzt, steht hier ausgeschrieben.**
 
@@ -140,7 +145,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
                 (`ausgabenOhneDe`).
               */
               .concat(
-                (title.ausgabenOhneDe ?? []).map((a) => (
+                ausgabenOhneDeSichtbar(title).map((a) => (
                   <Pille
                     key={`ausgabe-${a.url}`}
                     name={PLATFORMS[a.platform]?.name ?? a.platform}
@@ -238,7 +243,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
                 ),
               )
               .concat(
-                terminPillen(streamReleases, title, releases, today),
+                terminPillen(streamReleases, title, releases, today, folgenAngabeFuer),
               ).concat(tvVorbeiPillen(tvVorbei, anzeigeName(title), today, t('detail.tvNurVorbei')))
 }
 

@@ -54,7 +54,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
           antwort={antwort}
           ohneSprachbeleg={alleOhneSprachbeleg(sortiertNachZugang, title, releases)}
           legende={legendeDerZeilen({ sortiert: sortiertNachZugang, title, releases, folgenAngabeFuer, t })}
-          terminPillen={terminPillen(terminReleases, title, releases, today)}
+          terminPillen={terminPillen(terminReleases, title, releases, today, folgenAngabeFuer)}
           title={title}
           t={t}
           today={today}
