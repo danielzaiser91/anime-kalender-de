@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-14T07:06:13.885Z",
+  "stand": "2026-10-14T13:31:50.260Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -169,17 +169,6 @@
     {
       "titleId": 6746,
       "titel": "Durarara!!",
-      "plattform": "crunchyroll",
-      "url": "http://www.crunchyroll.com/de/durarara",
-      "seriesId": "G619XVNEY",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
-      "entferntAm": "2026-10-14",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 10006986,
-      "titel": "Durarara!! Frieden im ganzen Land",
       "plattform": "crunchyroll",
       "url": "http://www.crunchyroll.com/de/durarara",
       "seriesId": "G619XVNEY",
@@ -429,28 +418,6 @@
       "geprueftAm": "2026-08-26",
       "entferntAm": "2026-10-14",
       "letzterWeg": false
-    },
-    {
-      "titleId": 18671,
-      "titel": "Love, Chunibyo & Other Delusions! Heart Throb",
-      "plattform": "crunchyroll",
-      "url": "http://www.crunchyroll.com/de/love-chunibyo-other-delusions-heart-throb-",
-      "seriesId": "GYJQV73V6",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
-      "entferntAm": "2026-10-14",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 20889,
-      "titel": "Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung",
-      "plattform": "crunchyroll",
-      "url": "http://www.crunchyroll.com/de/love-chunibyo-other-delusions-heart-throb-",
-      "seriesId": "GYJQV73V6",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
-      "entferntAm": "2026-10-14",
-      "letzterWeg": true
     },
     {
       "titleId": 14513,
@@ -8127,6 +8094,39 @@
       "seriesId": null,
       "grund": "der Anbieter führt 12 + 13 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
       "geprueftAm": null,
+      "entferntAm": "2026-10-14",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 10006986,
+      "titel": "Durarara!! Frieden im ganzen Land",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/durarara",
+      "seriesId": "G619XVNEY",
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-08-21",
+      "entferntAm": "2026-10-14",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 18671,
+      "titel": "Love, Chunibyo & Other Delusions! Heart Throb",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/love-chunibyo-other-delusions-heart-throb-",
+      "seriesId": "GYJQV73V6",
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-08-21",
+      "entferntAm": "2026-10-14",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20889,
+      "titel": "Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/love-chunibyo-other-delusions-heart-throb-",
+      "seriesId": "GYJQV73V6",
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-08-21",
       "entferntAm": "2026-10-14",
       "letzterWeg": true
     },
