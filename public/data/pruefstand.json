@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-15T00:05:52.766Z",
+ "erzeugtAm": "2026-10-15T22:05:21.597Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
    "gemeldet": 304,
-   "gesamt": 849,
-   "offen": 545,
+   "gesamt": 850,
+   "offen": 546,
    "ohneSeite": 28,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
@@ -1143,6 +1143,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0FGHMWPZF",
      "titel": "Ame & Yuki: Die Wolfskinder (Wolf Children)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0DNCF1M3N",
+     "titel": "Jormungand"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B07NLB57CX",

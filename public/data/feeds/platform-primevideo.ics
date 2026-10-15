@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – primevideo
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-14713-primevideo@2026-10-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261008
-DTEND;VALUE=DATE:20261009
-SUMMARY:Kamisama Kiss (neu bei Prime Video)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
- eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/6040/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-10@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z

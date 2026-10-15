@@ -6,26 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Pirates
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-183423-tv-prosieben-maxx@2026-10-08#5@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261008T162500Z
-DTEND:20261008T165500Z
-SUMMARY:One Piece Log: Fish-Man Island Saga
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/16301/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-183423-tv-prosieben-maxx@2026-10-08#6@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261008T165000Z
-DTEND:20261008T172000Z
-SUMMARY:One Piece Log: Fish-Man Island Saga
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/16301/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-09#21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T162500Z

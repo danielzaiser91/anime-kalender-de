@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Mystery
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261008T160000Z
-DTEND:20261008T163000Z
-SUMMARY:Detektiv Conan – Folge 150/160
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T080000Z

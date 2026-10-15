@@ -6,28 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Survival
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-1423-s1-20261008-116589@2026-10-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261008
-DTEND;VALUE=DATE:20261009
-SUMMARY:86: Eighty Six (neu bei ADN)
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
- em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
- nicht bestätigt.\nDetails: https://anime-kalender.de/t/11361/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1423-s1-20261008-131586@2026-10-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261008
-DTEND;VALUE=DATE:20261009
-SUMMARY:86: Eighty Six – Teil 2 (neu bei ADN)
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
- em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
- nicht bestätigt.\nDetails: https://anime-kalender.de/t/12794/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-178025-tv-prosieben-maxx@2026-10-09#22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T201000Z
