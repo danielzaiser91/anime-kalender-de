@@ -40,7 +40,9 @@ try {
   const zeile = (seriesId: string, datum: string) => ({ seriesId, titel: seriesId, von: 12, bis: 12, datum, zeit: '19:25', artikel: 'https://x/', erstmalsAm: '2026-10-10T10:00:00.000Z', bild: `${seriesId}.webp`, bildAm: '2026-10-10T10:05:00.000Z' })
   schreibe('data/crunchyroll-woche-belege.json', { a: zeile('GSOMMER', '2026-10-14'), b: zeile('GWINTER', '2026-11-03') })
 
-  const lauf = spawnSync(process.execPath, [join(arbeit, 'node_modules', 'tsx', 'dist', 'cli.mjs'), 'pipeline/termine-pruefen.ts', '--jetzt', '2026-11-04T12:00:00Z'], { cwd: arbeit, encoding: 'utf8' })
+  /* Die Sperre von check:logic (`bestand-sperre.cjs`) gilt dem echten Bestand in `public/data`; hier liegen nur Fixture-Daten in der Kopie, der Prozess läuft ohne sie. */
+  const umgebung = { ...process.env, NODE_OPTIONS: '', BESTAND_ERLAUBT: '', BESTAND_SPUR: '' }
+  const lauf = spawnSync(process.execPath, [join(arbeit, 'node_modules', 'tsx', 'dist', 'cli.mjs'), 'pipeline/termine-pruefen.ts', '--jetzt', '2026-11-04T12:00:00Z'], { cwd: arbeit, encoding: 'utf8', env: umgebung })
   const dateiPfad = join(arbeit, 'data', 'termine-verpasst.json')
   const vermerke = existsSync(dateiPfad) ? (JSON.parse(readFileSync(dateiPfad, 'utf8')) as { id: string; erwartetAm: string; wocheBeleg?: { bild: string } }[]) : []
   const je = (id: string) => vermerke.find((v) => v.id === id)
