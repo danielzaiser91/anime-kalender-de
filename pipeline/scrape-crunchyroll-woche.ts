@@ -24,7 +24,7 @@
  *
  * Aufruf: npx tsx pipeline/scrape-crunchyroll-woche.ts [--adresse <Artikel>] [--head]
  */
-import { chromium } from 'playwright'
+import { chromium, type Page } from 'playwright'
 import { normalizeTitle, type CrunchyrollData } from './lib/crunchyroll.ts'
 import { todayIso } from '../shared/time.ts'
 import { MONATE, neuesterWochenartikel, wocheAus } from '../shared/wochenprogramm.ts'
@@ -189,6 +189,62 @@ export function zeileLesen(text: string): { von: number; bis: number; zeit: stri
   return { von: Number(f[1]), bis: Number(f[2] ?? f[1]), zeit: z ? `${z[1].padStart(2, '0')}:${z[2]}` : null }
 }
 
+/** Der Artikel, wie der Browser ihn liefert: je Überschrift ein Eintrag mit seinen Sprachzeilen. */
+export interface WocheRoh {
+  ueberschrift: string
+  jahr: string | null
+  eintraege: { tag: string | null; seriesUrl: string | null; titel: string; zeilen: { flagge: string; text: string }[] }[]
+}
+
+async function rohLesen(seite: Page): Promise<WocheRoh> {
+  return seite.evaluate((tage) => {
+    const text = (e: Element | null) => (e?.textContent ?? '').replace(/Opens in a new tab/g, '').trim()
+    const h1 = document.querySelector('h1')
+    const aktualisiert = /Aktualisiert:\s*\d{1,2}\.\s*\S+\s*(\d{4})/.exec(document.body.innerText)?.[1] ?? null
+    const eintraege: WocheRoh['eintraege'] = []
+    let tag: string | null = null
+    const alle = document.querySelectorAll('body *')
+    for (const el of alle) {
+      const t = el.childElementCount === 0 ? text(el) : ''
+      if (t && (tage.includes(t) || t === 'Katalogtitel')) {
+        tag = t
+        continue
+      }
+      if (el.tagName !== 'H3' || !tag) continue
+      const link = el.querySelector('a[href*="/series/"]') as HTMLAnchorElement | null
+      const zeilen = [...(el.parentElement?.querySelectorAll('p') ?? [])]
+        .map((p) => ({ img: p.querySelector('img') as HTMLImageElement | null, p }))
+        .filter(({ img }) => img && /flag|flagge|drapeau/i.test(img.src + img.alt))
+        .map(({ img, p }) => ({ flagge: (img as HTMLImageElement).src, text: (p as HTMLElement).innerText }))
+      eintraege.push({ tag, seriesUrl: link?.href ?? null, titel: text(el), zeilen })
+    }
+    return { ueberschrift: text(h1), jahr: aktualisiert, eintraege }
+  }, TAGE)
+}
+
+/** Die Zeilen des Artikels als Einträge mit Tag, Folge und Zeit; Katalogtitel und Zeilen ohne Folge entfallen. */
+export function eintraegeAus(roh: WocheRoh, wocheAb: string): WochenEintrag[] {
+  const eintraege: WochenEintrag[] = []
+  for (const e of roh.eintraege) {
+    if (!e.tag || e.tag === 'Katalogtitel') continue
+    const tagDatum = plusTage(wocheAb, TAGE.indexOf(e.tag))
+    for (const z of e.zeilen) {
+      const gelesen = zeileLesen(z.text)
+      if (!gelesen) continue
+      const anders = abweichendesDatum(z.text, wocheAb)
+      eintraege.push({
+        seriesId: /\/series\/([A-Z0-9]+)/.exec(e.seriesUrl ?? '')?.[1] ?? null,
+        titel: e.titel,
+        sprache: /deutschland/i.test(z.flagge) ? 'de' : /japan/i.test(z.flagge) ? 'ja' : (z.flagge.split('/').at(-3) ?? '?'),
+        ...gelesen,
+        datum: anders ?? tagDatum,
+        abweichend: Boolean(anders),
+      })
+    }
+  }
+  return eintraege
+}
+
 /*
   **Der Wachhund muss diese Quelle kennen.** Bis zum 30.09.2026 meldete sie sich nirgends — ein stiller
   Ausfall wie der vom 28.09. konnte deshalb drei Tage unbemerkt bleiben. `check-sources` liest
@@ -215,51 +271,11 @@ async function main(): Promise<void> {
     await seite.goto(artikel, { waitUntil: 'domcontentloaded', timeout: 60_000 })
     await seite.waitForSelector('h3 a[href*="/series/"]', { timeout: 30_000 })
 
-    const roh = await seite.evaluate((tage) => {
-      const text = (e: Element | null) => (e?.textContent ?? '').replace(/Opens in a new tab/g, '').trim()
-      const h1 = document.querySelector('h1')
-      const aktualisiert = /Aktualisiert:\s*\d{1,2}\.\s*\S+\s*(\d{4})/.exec(document.body.innerText)?.[1] ?? null
-      const eintraege: { tag: string | null; seriesUrl: string | null; titel: string; zeilen: { flagge: string; text: string }[] }[] = []
-      let tag: string | null = null
-      const alle = document.querySelectorAll('body *')
-      for (const el of alle) {
-        const t = el.childElementCount === 0 ? text(el) : ''
-        if (t && (tage.includes(t) || t === 'Katalogtitel')) {
-          tag = t
-          continue
-        }
-        if (el.tagName !== 'H3' || !tag) continue
-        const link = el.querySelector('a[href*="/series/"]') as HTMLAnchorElement | null
-        const zeilen = [...(el.parentElement?.querySelectorAll('p') ?? [])]
-          .map((p) => ({ img: p.querySelector('img') as HTMLImageElement | null, p }))
-          .filter(({ img }) => img && /flag|flagge|drapeau/i.test(img.src + img.alt))
-          .map(({ img, p }) => ({ flagge: (img as HTMLImageElement).src, text: (p as HTMLElement).innerText }))
-        eintraege.push({ tag, seriesUrl: link?.href ?? null, titel: text(el), zeilen })
-      }
-      return { ueberschrift: text(h1), jahr: aktualisiert, eintraege }
-    }, TAGE)
-
+    const roh = await rohLesen(seite)
     const jahr = Number(roh.jahr) || new Date().getUTCFullYear()
     const wocheAb = wocheAus(roh.ueberschrift, jahr)
     if (!wocheAb) throw new Error(`Woche nicht lesbar aus „${roh.ueberschrift}"`)
-    const eintraege: WochenEintrag[] = []
-    for (const e of roh.eintraege) {
-      if (!e.tag || e.tag === 'Katalogtitel') continue
-      const tagDatum = plusTage(wocheAb, TAGE.indexOf(e.tag))
-      for (const z of e.zeilen) {
-        const gelesen = zeileLesen(z.text)
-        if (!gelesen) continue
-        const anders = abweichendesDatum(z.text, wocheAb)
-        eintraege.push({
-          seriesId: /\/series\/([A-Z0-9]+)/.exec(e.seriesUrl ?? '')?.[1] ?? null,
-          titel: e.titel,
-          sprache: /deutschland/i.test(z.flagge) ? 'de' : /japan/i.test(z.flagge) ? 'ja' : (z.flagge.split('/').at(-3) ?? '?'),
-          ...gelesen,
-          datum: anders ?? tagDatum,
-          abweichend: Boolean(anders),
-        })
-      }
-    }
+    const eintraege = eintraegeAus(roh, wocheAb)
     const kalender = readJson<CrunchyrollData>('data/crunchyroll.json', { scrapedAt: '', german: {}, slots: [] }).german
     const entschieden = entscheiden(eintraege, kalender, todayIso())
     const programm: WochenProgramm = { geholtAm: new Date().toISOString(), artikel, ueberschrift: roh.ueberschrift, wocheAb, eintraege, ...entschieden }
