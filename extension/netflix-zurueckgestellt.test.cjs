@@ -86,6 +86,20 @@ async function ablaufJeGrund() {
 
 }
 
+async function tagesgrenze() {
+  /* Ohne Jahr gilt ein Datum von heute an: heute lesbar, gestern unlesbar (7 Tage), morgen lesbar. */
+  const bis = kontext.akZurueckBis
+  const heute = bis('Erinnern', '15. Oktober', JETZT)
+  pruefe('Datum = heute (15. Oktober): lesbar, Beginn dieses Tages (14.10. 22:00 UTC)', heute === berlin(2026, 10, 14, 22), heute)
+  const gestern = bis('Erinnern', '14. Oktober', JETZT)
+  pruefe('Datum = gestern (14. Oktober): unlesbar, 7 Tage', gestern === JETZT + 7 * TAG, gestern)
+  const morgen = bis('Erinnern', '16. Oktober', JETZT)
+  pruefe('Datum = morgen (16. Oktober): lesbar, 15.10. 22:00 UTC', morgen === berlin(2026, 10, 15, 22), morgen)
+  const spaetAbends = berlin(2026, 10, 15, 21) + 59 * 60 * 1000
+  const heuteSpaet = bis('Erinnern', '15. Oktober', spaetAbends)
+  pruefe('23:59 Berlin am 15.10.: „15. Oktober“ ist weiter heute', heuteSpaet === berlin(2026, 10, 14, 22), heuteSpaet)
+}
+
 async function neustart() {
   /* Zurückgestellte werden übersprungen, auch nach Neustart und clear() */
   const c = speicherNeu()
@@ -172,6 +186,7 @@ async function verdrahtung() {
 
 async function haupt() {
   await ablaufJeGrund()
+  await tagesgrenze()
   await neustart()
   await abgelaufen()
   await gemeldet()
