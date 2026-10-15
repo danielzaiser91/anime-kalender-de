@@ -37,6 +37,7 @@ import { leererPush, pushVersand } from './push.ts'
 import { istErschienen } from '../../shared/logic.ts'
 import { type Env } from './env.ts'
 import { digestFuer, type DigestKontext, type Reihen, type SubscriberRow } from './digest-inhalt.ts'
+import { DIGEST_CRON, versendeDigest } from './digest-versand.ts'
 import { ISO_JETZT, berlinParts, fehlerLog, jetztIso, zahlOderNull } from './werte.ts'
 import { handlePruefung } from './pruefung.ts'
 import { loadNews, weitereAusNews } from './news-quelle.ts'
@@ -888,7 +889,6 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
       .bind(frequency)
       .all<SubscriberRow>()
 
-    let sent = 0
     const kontext: DigestKontext = {
       frequency,
       iso,
@@ -903,23 +903,8 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
       workerUrl: env.WORKER_URL || '',
       siteUrl: env.SITE_URL,
     }
-    for (const sub of results ?? []) {
-      const post = digestFuer(sub, kontext)
-      if (!post) continue
-      const { mail, unsubUrl, syncToken } = post
-      await env.DB.prepare('UPDATE subscribers SET sync_token = ?1, sync_expires = ?2 WHERE id = ?3')
-        .bind(syncToken, new Date(now.getTime() + 30 * 24 * 60 * 60_000).toISOString(), sub.id)
-        .run()
-      try {
-        await sendMail(env, { to: sub.email, ...mail, unsubscribeUrl: unsubUrl })
-        sent++
-        await env.DB.prepare('UPDATE subscribers SET last_sent_at = ?1 WHERE id = ?2')
-          .bind(now.toISOString(), sub.id)
-          .run()
-      } catch (err) {
-        fehlerLog('Versand an einen Abonnenten fehlgeschlagen', err)
-      }
-    }
+    const posten = (results ?? []).map((sub) => digestFuer(sub, kontext)).filter((p) => p !== null)
+    const sent = await versendeDigest(env, posten, now)
 
     if (!force) {
       await env.DB.prepare('INSERT OR REPLACE INTO send_log (run_key, sent_at, recipients) VALUES (?1, ?2, ?3)')
@@ -1495,15 +1480,19 @@ export default {
   fetch: (request: Request, env: Env, ctx: ExecutionContext): Promise<Response> =>
     mitAuffangnetz(new URL(request.url).pathname, cors(env), () => verteile(request, env, ctx)),
 
-  async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+  async scheduled(event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     const now = new Date()
+    // Der Digest hat einen eigenen Trigger und damit eigene 50 Unteraufrufe; alles Übrige teilt sich den stündlichen.
+    if (event.cron === DIGEST_CRON) {
+      ctx.waitUntil(
+        runDigest(env, now)
+          .then((msg) => console.log(`[digest] ${msg}`))
+          .catch((err) => fehlerLog('[digest] fehlgeschlagen', err)),
+      )
+      return
+    }
     ctx.waitUntil(sichereSchnellmessung(env.SCHNELLMESSER).catch((e) => fehlerLog('[schnell]', e))); ctx.waitUntil(loescheAbgelaufenes(env, now)) // Löschfristen der Datenschutzerklärung
     ctx.waitUntil(starteFaelligeLaeufe(env).catch((e) => fehlerLog('[wecker]', e))) // Newsletter und Überwachung laufen getrennt, fällt eines aus, laufen die anderen weiter
-    ctx.waitUntil(
-      runDigest(env, now)
-        .then((msg) => console.log(`[digest] ${msg}`))
-        .catch((err) => fehlerLog('[digest] fehlgeschlagen', err)),
-    )
     // Welches Land bekommt ein Cron-Lauf? Entscheidet, ob sich die Erneuerung des Crunchyroll-Zugangs ohne Daniels Rechner automatisieren lässt.
     ctx.waitUntil(
       crunchyrollLand('cron')
