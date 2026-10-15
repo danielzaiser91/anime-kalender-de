@@ -113,7 +113,7 @@ pruefe(DECKEL_LESEN > 0 && DECKEL_LESEN < 5_000_000, `DECKEL_LESEN liegt unter d
   await handlePruefung(post(folge(1)), env)
   const stand = tag(db)
   pruefe(z.gelesen > 0, `die Meldungen lesen Zeilen (${z.gelesen})`)
-  pruefe(stand?.gelesen === z.gelesen, `der Tageszähler bucht genau die gelesenen Zeilen der Meldungen (${stand?.gelesen} von ${z.gelesen})`)
+  pruefe(stand?.gelesen === 0, `die Meldung bucht ihre gelesenen Zeilen nicht selbst, das tut mitLesedeckel für jede Anfrage (${stand?.gelesen} von ${z.gelesen})`)
   pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM schreib_tag') === 1, 'eine Zeile für den Tag (ein Upsert je Anfrage, kein zweiter Zähler)')
 }
 {
@@ -240,7 +240,7 @@ pruefe(RIEGEL_LESEN_JE_ANFRAGE > 1_200 && RIEGEL_LESEN_JE_ANFRAGE < 50_000, `Rie
   const z: Zaehler = { gelesen: 0, extra: (sql) => (LESEN_PRUEFUNG.test(sql) ? RIEGEL_LESEN_JE_ANFRAGE - probe.gelesen : 0) }
   const [r, protokoll] = await mitProtokoll(() => handlePruefung(post(folge(1)), umgebung(db, z)))
   pruefe(z.gelesen === RIEGEL_LESEN_JE_ANFRAGE && r.status === 200, `genau an der Grenze (${z.gelesen}): gespeichert`)
-  pruefe((tag(db)?.gelesen ?? 0) === RIEGEL_LESEN_JE_ANFRAGE, `gebucht werden nur die gelesenen Zeilen (${tag(db)?.gelesen})`)
+  pruefe((tag(db)?.gelesen ?? 0) === 0, `unter dem Riegel bucht die Meldung keine gelesenen Zeilen (${tag(db)?.gelesen})`)
   pruefe(!protokoll.some((p) => p.includes('RIEGEL JE ANFRAGE')), 'keine Riegel-Zeile im Protokoll')
   pruefe((await handlePruefung(post(folge(2)), umgebung(db))).status === 200, 'die nächste Meldung geht durch')
 }
