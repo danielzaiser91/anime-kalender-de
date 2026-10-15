@@ -3,6 +3,7 @@
  * - Maus: kein Bild vor dem Zeigen; die Vorschau steht nach der Frist (`VORSCHAU_FRIST_MS` = 150), spätestens nach 600 ms,
  *   und nicht schon nach 100 ms; ihr Bild wird erst dann angefordert; Zeile und Liste bewegen sich nicht (kein Layout-Sprung);
  *   beim Verlassen verschwindet sie.
+ * - Rollen (scroll) oder Fensterwechsel (blur) nach dem Zeigen, vor Ablauf der Frist: keine Vorschau, kein Bildabruf.
  * - Touch: eine Zeigerberührung der Art `touch` lässt keine Vorschau entstehen und fordert kein Bild an.
  * Zeilen mit Cover tragen `data-hover-zeile`; die Prüfung probiert die ersten acht und meldet, wenn keine eine Vorschau bekommt.
  */
@@ -85,8 +86,32 @@ async function messeTouch(seite, urls) {
   return { vorschauen, neueBilder: urls.length - vorher }
 }
 
+/** Rollen oder Fensterwechsel während der Frist: weder Karte noch Bildabruf. Zählt Karten und neue Bilder je Auslöser. */
+async function messeAbbruch(seite, urls) {
+  const zeile = seite.locator(ZEILEN).first()
+  await zeile.scrollIntoViewIfNeeded()
+  const ergebnis = {}
+  const ausloeser = {
+    Rollen: () => document.dispatchEvent(new Event('scroll')),
+    Fensterwechsel: () => window.dispatchEvent(new Event('blur')),
+  }
+  for (const [name, aktion] of Object.entries(ausloeser)) {
+    await seite.mouse.move(2, 2)
+    await seite.waitForTimeout(200)
+    const vorher = urls.length
+    const box = await zeile.boundingBox()
+    await seite.mouse.move(box.x + Math.min(box.width / 2, 60), box.y + box.height / 2)
+    await seite.waitForTimeout(40)
+    await seite.evaluate(aktion)
+    await seite.waitForTimeout(500)
+    ergebnis[name] = { karten: await seite.locator('[data-hover-cover]').count(), bilder: urls.length - vorher }
+  }
+  await seite.mouse.move(2, 2)
+  return ergebnis
+}
+
 /** Wertet die Messungen aus; leer, wenn alles stimmt. */
-export function hoverCoverAbweichungen(maus, touch) {
+export function hoverCoverAbweichungen(maus, touch, abbruch) {
   if (!maus) return ['keine der ersten 8 Zeilen (Im Handel, Im Fernsehen) bekam mit der Maus eine Cover-Vorschau']
   const a = []
   if (maus.nach < FRIST_MIN_MS) a.push(`Vorschau schon nach ${Math.round(maus.nach)} ms (mindestens ${FRIST_MIN_MS} ms Ruhe des Zeigers)`)
@@ -96,6 +121,10 @@ export function hoverCoverAbweichungen(maus, touch) {
   if (maus.bleibt) a.push('Vorschau bleibt nach dem Verlassen der Zeile stehen')
   if (touch.vorschauen) a.push(`Berührung (touch) erzeugte ${touch.vorschauen} Vorschau(en)`)
   if (touch.neueBilder) a.push(`Berührung (touch) forderte ${touch.neueBilder} Bild(er) an`)
+  for (const [name, m] of Object.entries(abbruch)) {
+    if (m.karten) a.push(`${name} während der Frist: Vorschau erschien trotzdem`)
+    if (m.bilder) a.push(`${name} während der Frist: ${m.bilder} Bild(er) trotzdem angefordert`)
+  }
   return a
 }
 
@@ -109,6 +138,7 @@ export async function pruefeHoverCover(chromium, antworte) {
   await seite.waitForTimeout(2500)
   const maus = await messeMaus(seite, urls)
   const touch = await messeTouch(seite, urls)
+  const abbruch = await messeAbbruch(seite, urls)
   await browser.close()
-  return { maus, touch, abweichungen: hoverCoverAbweichungen(maus, touch) }
+  return { maus, touch, abweichungen: hoverCoverAbweichungen(maus, touch, abbruch) }
 }

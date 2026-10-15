@@ -19,17 +19,28 @@ export function useHoverCover(cover: string | undefined): {
   vorschau: ReactNode
 } {
   const [lage, setLage] = useState<VorschauLage>()
+  const [wartet, setWartet] = useState(false)
   const frist = useRef<number>(undefined)
   const weg = () => {
     window.clearTimeout(frist.current)
+    setWartet(false)
     setLage(undefined)
   }
   useEffect(() => {
-    if (!lage) return
-    /* Die Karte steht `fixed` — rollt die Seite, gehört sie nicht mehr zu ihrer Zeile. */
-    window.addEventListener('scroll', weg, true)
-    return () => window.removeEventListener('scroll', weg, true)
-  }, [lage])
+    if (!wartet) return
+    /* Ab Fristbeginn: Rollen schiebt Zeilen unter den ruhenden Zeiger (Chrome schickt dann `pointerenter` an andere Zeilen),
+       und die Karte steht `fixed`. Fensterwechsel schließt sie ebenso. */
+    const schliesse = () => weg()
+    const schliesseVerdeckt = () => document.hidden && weg()
+    window.addEventListener('scroll', schliesse, { capture: true, passive: true })
+    window.addEventListener('blur', schliesse)
+    document.addEventListener('visibilitychange', schliesseVerdeckt)
+    return () => {
+      window.removeEventListener('scroll', schliesse, true)
+      window.removeEventListener('blur', schliesse)
+      document.removeEventListener('visibilitychange', schliesseVerdeckt)
+    }
+  }, [wartet])
   useEffect(() => () => window.clearTimeout(frist.current), [])
   if (!cover) return { zeiger: {}, vorschau: null }
   return {
@@ -40,7 +51,8 @@ export function useHoverCover(cover: string | undefined): {
         const zeile = e.currentTarget.getBoundingClientRect()
         const x = e.clientX
         window.clearTimeout(frist.current)
-        frist.current = window.setTimeout(() => setLage(vorschauLage(zeile, x, { breite: window.innerWidth, hoehe: window.innerHeight })), VORSCHAU_FRIST_MS)
+        setWartet(true)
+        frist.current =window.setTimeout(() => setLage(vorschauLage(zeile, x, { breite: window.innerWidth, hoehe: window.innerHeight })), VORSCHAU_FRIST_MS)
       },
       onPointerLeave: weg,
       /* Ein Klick öffnet das Panel — die Vorschau hat ihren Zweck erfüllt. */
