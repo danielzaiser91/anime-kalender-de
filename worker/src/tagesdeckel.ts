@@ -41,6 +41,9 @@ type D1Antwort = { meta?: { rows_written?: number; rows_read?: number; changes?:
 /** Was eine Anfrage (oder der Tag) an D1-Zeilen geschrieben und gelesen hat. */
 export type Zeilen = { geschrieben: number; gelesen: number }
 
+/** Eine Anweisung (SQL-Text, über alle ihre Aufrufe der Anfrage summiert) und ihre gelesenen Zeilen. */
+type Anweisung = { sql: string; gelesen: number }
+
 /** Der UTC-Tag, auf den auch das Kontingent zurückgesetzt wird. */
 export function utcTag(jetzt: Date): string {
   return jetzt.toISOString().slice(0, 10)
@@ -59,10 +62,11 @@ export function istMeldung(daten: Record<string, unknown>): boolean {
  * Die Datenbank so verpackt, dass jede Antwort auf `run`, `all` und `batch` ihre geschriebenen und
  * gelesenen Zeilen in die Summe gibt. Anweisungen für `batch` werden vorher ausgepackt (D1 prüft die
  * Herkunft). `limit()` meldet, ob D1 selbst das Tageskontingent verweigert hat — auch wenn die
- * Meldung den Fehler fängt (Stapel, Rohfolgen).
+ * Meldung den Fehler fängt (Stapel, Rohfolgen). `teuerste()` nennt die Anweisung mit den meisten gelesenen Zeilen.
  */
-export function zaehlendeDb(db: D1Database): { db: D1Database; zeilen: () => Zeilen; limit: () => boolean } {
+export function zaehlendeDb(db: D1Database): { db: D1Database; zeilen: () => Zeilen; limit: () => boolean; teuerste: () => Anweisung | null } {
   const summe: Zeilen = { geschrieben: 0, gelesen: 0 }
+  const jeSql = new Map<string, number>()
   let limit = false
   const beobachte = async <T extends D1Antwort | D1Antwort[]>(frage: Promise<T>): Promise<T> => {
     try {
@@ -72,33 +76,48 @@ export function zaehlendeDb(db: D1Database): { db: D1Database; zeilen: () => Zei
       throw e
     }
   }
-  const echte = new WeakMap<object, D1PreparedStatement>()
-  const zaehle = (r: D1Antwort) => {
+  const echte = new WeakMap<object, { stmt: D1PreparedStatement; sql: string }>()
+  const zaehle = (r: D1Antwort, sql: string) => {
+    const gelesen = Number(r?.meta?.rows_read ?? 0)
     summe.geschrieben += Number(r?.meta?.rows_written ?? r?.meta?.changes ?? 0)
-    summe.gelesen += Number(r?.meta?.rows_read ?? 0)
+    summe.gelesen += gelesen
+    jeSql.set(sql, (jeSql.get(sql) ?? 0) + gelesen)
     return r
   }
-  const huelle = (stmt: D1PreparedStatement): D1PreparedStatement => {
+  const huelle = (stmt: D1PreparedStatement, sql: string): D1PreparedStatement => {
     const h = new Proxy(stmt, {
       get(ziel, name) {
-        if (name === 'bind') return (...a: unknown[]) => huelle(ziel.bind(...a))
-        if (name === 'run' || name === 'all') return async () => zaehle(await beobachte(ziel[name]()))
+        if (name === 'bind') return (...a: unknown[]) => huelle(ziel.bind(...a), sql)
+        if (name === 'run' || name === 'all') return async () => zaehle(await beobachte(ziel[name]()), sql)
         const wert = Reflect.get(ziel, name)
         return typeof wert === 'function' ? wert.bind(ziel) : wert
       },
     })
-    echte.set(h, stmt)
+    echte.set(h, { stmt, sql })
     return h
   }
   const verpackt = {
-    prepare: (sql: string) => huelle(db.prepare(sql)),
+    prepare: (sql: string) => huelle(db.prepare(sql), sql),
     batch: async (liste: D1PreparedStatement[]) => {
-      const antworten = await beobachte(db.batch(liste.map((s) => echte.get(s) ?? s)))
-      antworten.forEach(zaehle)
+      const antworten = await beobachte(db.batch(liste.map((s) => echte.get(s)?.stmt ?? s)))
+      antworten.forEach((r, i) => zaehle(r, echte.get(liste[i]!)?.sql ?? '(unbekannt)'))
       return antworten
     },
   }
-  return { db: verpackt as unknown as D1Database, zeilen: () => ({ ...summe }), limit: () => limit }
+  return {
+    db: verpackt as unknown as D1Database,
+    zeilen: () => ({ ...summe }),
+    limit: () => limit,
+    teuerste: () => teuersteAnweisung(jeSql),
+  }
+}
+
+function teuersteAnweisung(jeSql: Map<string, number>): Anweisung | null {
+  let teuerste: Anweisung | null = null
+  for (const [sql, gelesen] of jeSql) {
+    if (!teuerste || gelesen > teuerste.gelesen) teuerste = { sql, gelesen }
+  }
+  return teuerste
 }
 
 let zaehlerAusGemeldet = false
