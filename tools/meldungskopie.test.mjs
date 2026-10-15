@@ -8,7 +8,8 @@ import { spawnSync } from 'node:child_process'
 import { mkdtempSync, readFileSync, rmSync, writeFileSync, copyFileSync, existsSync } from 'node:fs'
 import { DatabaseSync } from 'node:sqlite'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
+import { parse } from 'yaml'
 import { fileURLToPath } from 'node:url'
 import { TABELLEN, SCHEMA_ABFRAGE, baueKopie, exportArgumente, schemaArgumente, schemaAusJson } from './meldungskopie-bauen.mjs'
 import { STAND_MAX_STUNDEN, alterStunden, fuehreAus, fusszeile, istEinzeln } from './meldungskopie-abfrage.mjs'
@@ -150,7 +151,9 @@ assert.match(fusszeile(alt(2)), /1 Zeilen in \d+ ms · Kopie vom 2026-10-14T03:0
 assert.match(fusszeile(skript), /3 Zeilen geändert, Differenz \{"pruefung":0,"prime_folge":-2,"titel_zeile":1\}/)
 
 /* ---- Aufruf auf der Kommandozeile ---- */
-const cli = (...args) => spawnSync(process.execPath, [join(WURZEL, 'tools/meldungskopie.mjs'), ...args], { encoding: 'utf8', cwd: WURZEL })
+// Nie die geerbte Umgebung: in CI (deploy.yml, check:workflows) stehen GITHUB_ACTIONS und LAUF_TOKEN darin, auf Daniels Rechner eine wrangler-Anmeldung.
+const UMGEBUNG = { PATH: process.env.PATH, SystemRoot: process.env.SystemRoot, GITHUB_ACTIONS: '', LAUF_TOKEN: '', CLOUDFLARE_API_TOKEN: '' }
+const cli = (...args) => spawnSync(process.execPath, [join(WURZEL, 'tools/meldungskopie.mjs'), ...args], { encoding: 'utf8', cwd: WURZEL, env: UMGEBUNG })
 const lauf = cli('abfrage', 'SELECT id FROM prime_folge ORDER BY id', '--kopie', basis, '--max', '2')
 assert.equal(lauf.status, 0, lauf.stderr)
 assert.deepEqual(lauf.stdout.trim().split('\n'), ['{"id":1}', '{"id":2}'])
@@ -158,7 +161,14 @@ assert.match(lauf.stderr, /… 1 weitere Zeilen \(--max 2\)/)
 const sqlDatei = join(ordner, 'x.sql')
 writeFileSync(sqlDatei, 'SELECT COUNT(*) AS n FROM pruefung;\n')
 assert.equal(cli('abfrage', '--datei', sqlDatei, '--kopie', basis).stdout.trim(), '{"n":2}')
-assert.equal(cli('ziehen', '--ziel', join(ordner, 'nie.sqlite')).status, 1, 'ziehen ohne GITHUB_ACTIONS liest die echte D1 nicht')
+{
+  // Bricht an der ersten Sperre ab, bevor wrangler startet; im CI-Lauf mit geerbter Umgebung stünde hier eine andere Meldung.
+  const nie = join(ordner, 'nie.enc')
+  const gesperrt = cli('ziehen', '--ziel', nie)
+  assert.equal(gesperrt.status, 1, 'ziehen ohne GITHUB_ACTIONS liest die echte D1 nicht')
+  assert.match(gesperrt.stderr, /^ziehen liest die echte D1 und läuft nur im Lauf meldungskopie\.yml/)
+  assert.equal(existsSync(nie), false)
+}
 const viele = cli('abfrage', 'WITH RECURSIVE n(i) AS (SELECT 1 UNION ALL SELECT i + 1 FROM n WHERE i < 250) SELECT i FROM n', '--kopie', basis)
 assert.equal(viele.stdout.trim().split('\n').length, 200, 'ohne --max höchstens 200 Zeilen')
 assert.match(viele.stderr, /… 50 weitere Zeilen \(--max 200\)/)
@@ -186,6 +196,7 @@ const lauf1 = { databaseId: 777, createdAt: '2026-10-15T02:59:40Z' }
 assert.deepEqual(holen({ gh: gh([lauf1], aufrufe, neu), ziel, umgebung: MIT_TOKEN }), { art: 'geholt', stand: '2026-10-15T03:00:00.000Z', lauf: 777 })
 assert.equal(lokalerStand(ziel), '2026-10-15T03:00:00.000Z')
 assert.equal(aufrufe.length, 2)
+assert.equal(existsSync(aufrufe[1][6]), false, 'der Download-Ordner ist danach weg')
 // Gleicher Lauf nochmal: nichts laden (der Stand wird nach dem Start des Laufs genommen, ist also nie älter als dessen createdAt).
 aufrufe = []
 assert.equal(holen({ gh: gh([lauf1], aufrufe, neu), ziel, umgebung: MIT_TOKEN }).art, 'aktuell')
@@ -200,8 +211,10 @@ aufrufe = []
 assert.throws(() => holen({ gh: gh([lauf1], aufrufe, neu), ziel, umgebung: {} }), /LAUF_TOKEN fehlt/)
 assert.equal(aufrufe.length, 0)
 copyFileSync(basis, ziel)
-assert.throws(() => holen({ gh: gh([lauf1], [], neu), ziel, umgebung: { LAUF_TOKEN: 'falsch' } }), /nicht entschlüsseln/)
+const falsch = []
+assert.throws(() => holen({ gh: gh([lauf1], falsch, neu), ziel, umgebung: { LAUF_TOKEN: 'falsch' } }), /nicht entschlüsseln/)
 assert.equal(lokalerStand(ziel), stand, 'ein misslungenes Entschlüsseln lässt die vorhandene Kopie stehen')
+assert.equal(existsSync(falsch[1][6]), false, 'auch nach dem Abbruch ist der Download-Ordner weg')
 assert.throws(() => holen({ gh: gh([], [], neu), ziel, umgebung: MIT_TOKEN }), /Noch kein erfolgreicher Lauf von meldungskopie\.yml/)
 
 /* ---- Ziehen: nur im Lauf, nur lesend, Stand ist der Beginn des Zugriffs ---- */
@@ -223,14 +236,27 @@ for (const umgebung of [{ LAUF_TOKEN: TOKEN }, { LAUF_TOKEN: TOKEN, GITHUB_ACTIO
 }
 assert.equal(ohneLauf.length, 0)
 // Im Lauf, aber ohne Schlüssel: kein D1-Zugriff und keine Datei zum Hochladen.
-assert.throws(() => ziehen({ wrangler: wrangler(ohneLauf), ziel: join(ordner, 'a.enc'), umgebung: { GITHUB_ACTIONS: 'true' } }), /LAUF_TOKEN fehlt/)
+const CF = { CLOUDFLARE_API_TOKEN: 'cf-token-fuer-den-test' }
+assert.throws(() => ziehen({ wrangler: wrangler(ohneLauf), ziel: join(ordner, 'a.enc'), umgebung: { GITHUB_ACTIONS: 'true', ...CF } }), /LAUF_TOKEN fehlt/)
+assert.equal(ohneLauf.length, 0)
+// Im Lauf, aber ohne Cloudflare-Token: wrangler startet nicht (es nähme sonst die Anmeldung des Rechners).
+assert.throws(() => ziehen({ wrangler: wrangler(ohneLauf), ziel: join(ordner, 'a.enc'), umgebung: { GITHUB_ACTIONS: 'true', ...MIT_TOKEN } }), /CLOUDFLARE_API_TOKEN fehlt/)
 assert.equal(ohneLauf.length, 0)
 assert.equal(existsSync(join(ordner, 'a.enc')), false)
+const IM_LAUF = { GITHUB_ACTIONS: 'true', ...MIT_TOKEN, ...CF }
+const exportOrdner = (aufrufe) => dirname(aufrufe[0][aufrufe[0].indexOf('--output') + 1])
+// Bricht der Zugriff mittendrin ab, bleibt kein Klartext liegen und keine Datei zum Hochladen.
+const abgebrochen = []
+const scheitert = (args) => (args[1] === 'execute' ? assert.fail('Schemaabfrage gescheitert') : wrangler(abgebrochen)(args))
+assert.throws(() => ziehen({ wrangler: scheitert, ziel: join(ordner, 'c.enc'), umgebung: IM_LAUF }), /Schemaabfrage gescheitert/)
+assert.equal(existsSync(exportOrdner(abgebrochen)), false, 'der Klartext-Export ist nach dem Abbruch weg')
+assert.equal(existsSync(join(ordner, 'c.enc')), false)
 const gezogen = []
 const zeitpunkt = new Date('2026-10-16T03:00:07.000Z')
-const gebaut = ziehen({ wrangler: wrangler(gezogen), ziel: join(ordner, 'b.enc'), umgebung: { GITHUB_ACTIONS: 'true', ...MIT_TOKEN }, jetzt: zeitpunkt })
+const gebaut = ziehen({ wrangler: wrangler(gezogen), ziel: join(ordner, 'b.enc'), umgebung: IM_LAUF, jetzt: zeitpunkt })
 assert.deepEqual(gebaut, { pruefung: 2, prime_folge: 3, titel_zeile: 1 })
 assert.deepEqual(gezogen.map((a) => a[1]), ['export', 'execute'])
+assert.equal(existsSync(exportOrdner(gezogen)), false, 'Klartext-Export und -Kopie liegen nach dem Lauf nicht mehr auf der Platte')
 // Die Datei zum Hochladen ist Geheimtext (weder SQLite-Kopf noch Klartext aus dem Export); entschlüsselt hat sie Indexe und Sicht.
 const hochzuladen = readFileSync(join(ordner, 'b.enc'))
 assert.equal(hochzuladen.includes('SQLite format 3'), false)
@@ -265,6 +291,12 @@ assert.match(yml, /CLOUDFLARE_API_TOKEN: \$\{\{ secrets\.CLOUDFLARE_API_TOKEN \}
 assert.doesNotMatch(yml.replace(/^#.*$/gm, ''), /ANALYTICS/)
 assert.match(yml, /LAUF_TOKEN: \$\{\{ secrets\.LAUF_TOKEN \}\}/)
 assert.doesNotMatch(yml, /exit 0/, 'ohne Token wird der Lauf rot, nicht still grün (sonst findet "holen" einen Lauf ohne Artefakt)')
+// Zugriffsstufe: der Lauf darf am Repo nur lesen, und das Artefakt liegt höchstens 3 Tage (betrieb.md, Abschnitt Meldungskopie).
+const workflow = parse(yml)
+assert.deepEqual(workflow.permissions, { contents: 'read' })
+assert.deepEqual(Object.values(workflow.jobs).map((j) => j.permissions), [undefined], 'kein Job weitet die Rechte aus')
+const hochladen = workflow.jobs.kopie.steps.filter((s) => s.uses?.startsWith('actions/upload-artifact'))
+assert.deepEqual(hochladen.map((s) => s.with['retention-days']), [3])
 
 rmSync(ordner, { recursive: true, force: true })
 console.log('meldungskopie.test: ok')

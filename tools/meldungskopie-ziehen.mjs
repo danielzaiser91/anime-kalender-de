@@ -20,6 +20,10 @@ export function ziehen({ wrangler, ziel, umgebung = process.env, jetzt = new Dat
   }
   // Vor dem ersten D1-Zugriff: ohne Schlüssel wird nichts gelesen und nichts hochgeladen.
   const token = tokenOderAbbruch(umgebung)
+  // Ohne eigenes Token griffe wrangler auf eine Anmeldung des Rechners zurück (wrangler-OAuth); das Token des Laufs ist der einzige Zugang.
+  if (!umgebung.CLOUDFLARE_API_TOKEN) {
+    throw new Error('CLOUDFLARE_API_TOKEN fehlt: ziehen nutzt nur das Token des Laufs, nie eine wrangler-Anmeldung des Rechners')
+  }
   const ordner = mkdtempSync(join(tmpdir(), 'meldungskopie-ziehen-'))
   try {
     const ausgabe = join(ordner, 'export.sql')
