@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { nowHhMm } from '@shared/time.ts'
 import { type ReleaseEvent } from '@shared/types.ts'
+import { minutenTakt } from './minuten-takt.ts'
 
 /**
  * Unterhalb dieser Breite steht ein Tag als einzelne senkrechte Spalte —
@@ -27,12 +28,9 @@ export function useSprungZuHeute({ days, today, monday }: {
   monday: string
 }) {
   // Die aktuelle Uhrzeit trennt im heutigen Tag Vergangenes von Kommendem.
-  // Einmal je Minute nachziehen, damit die Grenze nicht stehen bleibt.
+  // Zu jeder vollen Minute nachziehen, damit die Grenze nicht stehen bleibt.
   const [now, setNow] = useState(nowHhMm)
-  useEffect(() => {
-    const id = window.setInterval(() => setNow(nowHhMm()), 60_000)
-    return () => window.clearInterval(id)
-  }, [])
+  useEffect(() => minutenTakt(() => setNow(nowHhMm())), [])
 
   /**
    * Der Termin von heute, bei dem der Blick landen soll: der nächste, der noch
