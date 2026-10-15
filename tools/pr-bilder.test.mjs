@@ -36,13 +36,14 @@ assert.match(eingabeFehler('gut', ['a/x.png', 'b/x.png']).join(), /mehrfach/)
 // Abzulehnende Eingaben; die Bilddateien existieren, damit nur die Regel für Name bzw. Endung greift.
 const ablehnen = mkdtempSync(path.join(tmpdir(), 'pr-bilder-ablehnen-'))
 try {
-  for (const n of ['x.png.txt', '-x.png', 'ok.png']) writeFileSync(path.join(ablehnen, n), 'x')
+  for (const n of ['x.png.txt', 'xpng', '-x.png', 'ok.png']) writeFileSync(path.join(ablehnen, n), 'x')
   const ok = path.join(ablehnen, 'ok.png')
-  for (const name of ['a/../main', 'a:b', 'a b', 'a.b', 'main/x']) {
+  for (const name of ['a/../main', 'a:b', 'a b', 'a.b', 'main/x', '-x']) {
     assert.match(eingabeFehler(name, [ok]).join(), /ungültig/, `Name ${name} muss abgelehnt werden`)
   }
   assert.deepEqual(eingabeFehler('gut-1', [ok]), [])
   assert.match(eingabeFehler('gut', [path.join(ablehnen, 'x.png.txt')]).join(), /kein Bild/)
+  assert.match(eingabeFehler('gut', [path.join(ablehnen, 'xpng')]).join(), /kein Bild/)
   assert.match(eingabeFehler('gut', [path.join(ablehnen, '-x.png')]).join(), /beginnen/)
   const gross = path.join(ablehnen, 'gross.png')
   writeFileSync(gross, '')
