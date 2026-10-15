@@ -134,6 +134,7 @@ pipeline/check-such-chip.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
 pipeline/check-termine-uebersicht.ts
+pipeline/check-termine-woche-lauf.ts
 pipeline/check-tmdb-ablauf.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
