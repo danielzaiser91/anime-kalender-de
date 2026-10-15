@@ -6,7 +6,7 @@ export interface WocheBelegVermerk {
   url: string
   /** Wann ein Lauf die Zeile zuerst sah (ISO-Zeitpunkt). */
   gesehenAm: string
-  /** Schlüssel des privaten Bilds (Worker `/beleg`). */
+  /** Schlüssel des Bilds in der Beleg-Ablage (Worker `/beleg`: Schreiben nur mit Token, Lesen mit bekanntem Schlüssel öffentlich). */
   bild: string
   bildAm: string
   /** Die Zeile im Bild als Anteile `[links, oben, Breite, Höhe]`. */

@@ -64,7 +64,7 @@ export async function zeileFotografieren(seite: Page, marke: string): Promise<{ 
 }
 
 /**
- * Fotografiert die offenen Zeilen und legt die Bilder in der privaten Ablage ab; trägt Schlüssel, Zeit und Markierung in `belege` ein.
+ * Fotografiert die offenen Zeilen und legt die Bilder in der Beleg-Ablage ab (Schreiben nur mit Token, Lesen öffentlich über `/beleg`); trägt Schlüssel, Zeit und Markierung in `belege` ein.
  * Ohne Ablage (kein Token, Worker nicht erreichbar) bleibt die Zeile offen. Gibt die Zahl der neuen Bilder zurück.
  */
 export async function bilderAnlegen(seite: Page, belege: WocheBelege, offen: { schluessel: string; marke: string }[], jetzt: string): Promise<number> {
