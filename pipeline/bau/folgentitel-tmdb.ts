@@ -17,6 +17,7 @@ export interface TmdbEintrag {
   /** Name der Serie bei TMDB, vom Folgen-Abruf mitgeschrieben; sonst gilt `nameDe` aus `tmdb-titles.json`. */
   nameDe?: string
   folgen?: TmdbFolge[]
+  tmdbId?: number
 }
 
 const PLATZHALTER = /^(episode|folge|episod|special|ova)\s*\d*$/i

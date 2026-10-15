@@ -17,7 +17,8 @@ export const BILD_FASSUNG = 2
 
 /** Artikel, keine Kalender, APIs oder Katalogseiten — nur sie haben einen Text, der sich ändern kann. */
 const ARTIKEL = [
-  /^https:\/\/www\.crunchyroll\.com\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?news\/[a-z-]+\/\d{4}\//,
+  /* Das Wochenprogramm ist ein Wanderartikel (gleiche Adresse, jede Woche anderer Inhalt): sein Bild entsteht beim Einlesen der Zeile (`woche-bild.ts`), eine tägliche Lesung überschriebe Daten und Datum des Belegs. */
+  /^https:\/\/www\.crunchyroll\.com\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?news\/[a-z-]+\/\d{4}\/(?!.*wochenprogramm)/,
   /^https:\/\/www\.anime2you\.de\/news\/\d+\//,
   /^https:\/\/www\.anisearch\.de\/(?:article\/\d+|news\/)/,
   /^https:\/\/news\.animationdigitalnetwork\.com\/de\/\d{4}\//,

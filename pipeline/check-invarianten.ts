@@ -40,6 +40,11 @@ console.log('\nInvarianten am Ergebnis:')
   pruefe('Folgennummer doppelt wird gemeldet', f.length === 1 && f[0].includes('8×3'), f)
   pruefe('Folgen ohne Nummer und Discs zählen nicht', folgennummernEindeutig([release('d', 1, 'disc', 'disc'), release('b')], [termin('d', 1, '2026-09-01'), termin('d', 1, '2026-09-02'), termin('b', undefined, '2026-09-01'), termin('b', undefined, '2026-09-08')]).length === 0)
   pruefe('aufsteigende Folgen gehen durch', folgennummernEindeutig([release('polar')], [termin('polar', 8, '2026-09-13'), termin('polar', 9, '2026-09-20')]).length === 0)
+  const ausgeblieben = { ...termin('trk', 12, '2026-10-14'), verpasst: { erwartetAm: '2026-10-14T17:25:00.000Z' } }
+  pruefe('ausgebliebener Tag und Ersatztermin derselben Folge gehen durch', folgennummernEindeutig([release('trk')], [ausgeblieben, termin('trk', 12, '2026-10-21')]).length === 0)
+  const nachgeholt = { ...ausgeblieben, verpasst: { erwartetAm: '2026-10-14T17:25:00.000Z', erschienenAm: '2026-10-15' } }
+  pruefe('nachgeholter Tag zählt mit', folgennummernEindeutig([release('trk')], [nachgeholt, termin('trk', 12, '2026-10-21')]).length === 1)
+  pruefe('zwei echte Termine neben einem ausgebliebenen werden gemeldet', folgennummernEindeutig([release('trk')], [ausgeblieben, termin('trk', 12, '2026-10-21'), termin('trk', 12, '2026-10-28')]).length === 1)
 
   // B-06: Release ohne vorhandenen Titel, Termin ohne Release
   const v = verweiseAufgeloest([release('x', 999)], [termin('geist', 1, '2026-09-01')], titel)

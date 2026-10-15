@@ -36,8 +36,10 @@
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { log, readJson, ROOT, writeJson } from './lib/util.ts'
-import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig } from './lib/ausgeblieben.ts'
+import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminFrist, terminPruefen, terminZeitpunkt } from './lib/ausgeblieben.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
+import { BELEGE_DATEI, belegeAnhaengen, type WocheBelege } from './lib/woche-beleg.ts'
+import type { WocheBelegVermerk } from '../shared/woche-beleg-typ.ts'
 
 /*
   **Dieser Lauf ist im Stundeltakt als geduldeter Schritt eingehängt** (`continue-on-error`, weil er
@@ -52,9 +54,6 @@ for (const ereignis of ['uncaughtException', 'unhandledRejection'] as const) {
     process.exit(1)
   })
 }
-
-/** Fünfzehn Minuten Nachsicht — ein Anbieter stellt selten auf die Sekunde ein. */
-const KARENZ_MS = 15 * 60 * 1000
 
 const JETZT = new Date(
   /--jetzt[= ](\S+)/.exec(process.argv.join(' '))?.[1] ?? new Date().toISOString(),
@@ -127,6 +126,8 @@ export interface VerpassterTermin {
   /** Bild und HTML des Kalendertags beim Bemerken bzw. beim Nachreichen (`messbelege.ts`). */
   messbeleg?: Messbeleg
   nachgereichtBeleg?: Messbeleg
+  /** Foto der Wochenprogramm-Zeile, die den Termin ankündigte (`lib/woche-beleg.ts`). */
+  wocheBeleg?: WocheBelegVermerk
 }
 
 /** Was wir beim Messen gesehen haben — privat abgelegt, der Schlüssel steht hier. */
@@ -140,6 +141,7 @@ export interface Messbeleg {
 const ereignisse = readJson<Ereignis[]>('public/data/events.json', [])
 const kalender = readJson<Kalender>('data/crunchyroll.json', {})
 const verpasst = readJson<VerpassterTermin[]>('data/termine-verpasst.json', [])
+const wocheFolgen = readJson<{ uebernommen?: { seriesId: string | null; episode: number; date: string }[] }>('data/crunchyroll-woche.json', {}).uebernommen ?? []
 
 /**
  * **Der Schlüssel ist die Serienkennung, nicht die volle Adresse.**
@@ -191,7 +193,7 @@ function beobachtungen(slug: string): Beobachtung[] {
 }
 
 function zeitpunkt(e: Ereignis): Date {
-  return new Date(`${e.date}T${e.time ?? '00:00'}:00+02:00`)
+  return terminZeitpunkt(e.date, e.time)
 }
 
 /**
@@ -208,9 +210,7 @@ function zeitpunkt(e: Ereignis): Date {
  * nachzutragen ist offen; bis dahin bleibt es bei der Karenz allein.
  */
 function frist(e: Ereignis): Date {
-  return e.time
-    ? new Date(new Date(`${e.date}T${e.time}:00+02:00`).getTime() + KARENZ_MS)
-    : new Date(`${e.date}T23:59:59+02:00`)
+  return terminFrist(e.date, e.time)
 }
 
 /**
@@ -246,7 +246,8 @@ const bekannt = new Set(verpasst.map((v) => v.id))
 
 let neu = 0
 for (const e of ereignisse) {
-  if (!e.estimated || bekannt.has(e.id)) continue
+  const kennung = adressKern(adresseJeSlug.get(e.releaseSlug) ?? '')
+  if (bekannt.has(e.id) || !terminPruefen(e, kennung, wocheFolgen)) continue
   /*
     **Nur Crunchyroll — dort gibt es einen Kalender, den wir lesen.**
 
@@ -291,6 +292,11 @@ for (const e of ereignisse) {
   })
   neu++
 }
+
+/* Das Bild der Ankündigung im Wochenprogramm kommt an jeden Vermerk, zu dem eine Zeile vorliegt — auch an bestehende (Tomb Raider King F12). */
+const wocheBelege = readJson<WocheBelege>(BELEGE_DATEI, {})
+const wocheBelegNeu = belegeAnhaengen(verpasst, wocheBelege, (slug) => adressKern(adresseJeSlug.get(slug) ?? ''))
+if (wocheBelegNeu) log(`${wocheBelegNeu} Vermerk(e) mit dem Bild der Wochenprogramm-Ankündigung versehen`)
 
 /*
   **Nachgeholt: Steht die Folge inzwischen im Kalender, bekommt der Eintrag ihr Datum.**

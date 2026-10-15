@@ -19,12 +19,17 @@ export function slugsEindeutig(releases: Release[]): string[] {
   return [...doppelt].map((s) => `"${s}": der Slug kommt mehrfach vor`)
 }
 
-/** Eine Folgennummer steht je Release einmal im Kalender (B-03: „Folge 8" dreimal). Discs führen Ausgaben, keine Folgen. */
+/**
+ * Eine Folgennummer steht je Release einmal im Kalender (B-03: „Folge 8" dreimal). Discs führen Ausgaben, keine Folgen.
+ * Ein ausgebliebener Termin zählt nicht mit: Die Folge steht an ihrem Ersatztermin erneut, der Vermerk ist keine zweite Folge
+ * (wie `doppelteFolgennummern` in `kalender-konsistenz.ts`; Tomb Raider King, 15.10.2026).
+ */
 export function folgennummernEindeutig(releases: Release[], events: ReleaseEvent[]): string[] {
   const ohneFolgen = new Set(releases.filter((r) => r.releaseType === 'disc').map((r) => r.slug))
   const jeRelease = new Map<string, Map<number, number>>()
   for (const e of events) {
     if (e.episode == null || ohneFolgen.has(e.releaseSlug)) continue
+    if (e.verpasst && !e.verpasst.erschienenAm) continue
     const nummern = jeRelease.get(e.releaseSlug) ?? new Map<number, number>()
     nummern.set(e.episode, (nummern.get(e.episode) ?? 0) + 1)
     jeRelease.set(e.releaseSlug, nummern)
