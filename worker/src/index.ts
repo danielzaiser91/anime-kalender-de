@@ -1476,19 +1476,20 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
     }
 }
 
+const digestMitLog = (env: Env, now: Date) =>
+  runDigest(env, now)
+    .then((msg) => console.log(`[digest] ${msg}`))
+    .catch((err) => fehlerLog('[digest] fehlgeschlagen', err))
+
 export default {
   fetch: (request: Request, env: Env, ctx: ExecutionContext): Promise<Response> =>
     mitAuffangnetz(new URL(request.url).pathname, cors(env), () => verteile(request, env, ctx)),
 
+  /** Der Digest hat einen eigenen Trigger und damit eigene 50 Unteraufrufe; alles Übrige teilt sich den stündlichen. */
   async scheduled(event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     const now = new Date()
-    // Der Digest hat einen eigenen Trigger und damit eigene 50 Unteraufrufe; alles Übrige teilt sich den stündlichen.
     if (event.cron === DIGEST_CRON) {
-      ctx.waitUntil(
-        runDigest(env, now)
-          .then((msg) => console.log(`[digest] ${msg}`))
-          .catch((err) => fehlerLog('[digest] fehlgeschlagen', err)),
-      )
+      ctx.waitUntil(digestMitLog(env, now))
       return
     }
     ctx.waitUntil(sichereSchnellmessung(env.SCHNELLMESSER).catch((e) => fehlerLog('[schnell]', e))); ctx.waitUntil(loescheAbgelaufenes(env, now)) // Löschfristen der Datenschutzerklärung
