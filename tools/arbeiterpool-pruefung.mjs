@@ -111,6 +111,19 @@ function repo() {
   nochmal.cwd = ordner
   const [e3] = await fange([nochmal], { alle: true, wurzel: ordner })
   assert.deepEqual(e3.veraendert, ['x.txt'], 'auch eine schon geänderte Datei wird gemeldet, wenn der Lauf ihren Inhalt ändert')
+  const neuAnlegen = knoten(`require('node:fs').writeFileSync('neu.txt', 'neu\\n')`)
+  neuAnlegen.cwd = ordner
+  const [e4] = await fange([neuAnlegen], { alle: true, wurzel: ordner })
+  assert.deepEqual(e4.veraendert, ['neu.txt'], 'eine neu angelegte, ungetrackte Datei wird gemeldet')
+  await new Promise((r) => setTimeout(r, 50))
+  const neuAendern = knoten(`require('node:fs').writeFileSync('neu.txt', 'abc\\n')`)
+  neuAendern.cwd = ordner
+  const [e5] = await fange([neuAendern], { alle: true, wurzel: ordner })
+  assert.deepEqual(e5.veraendert, ['neu.txt'], 'eine geänderte ungetrackte Datei wird gemeldet')
+  const neuLoeschen = knoten(`require('node:fs').rmSync('neu.txt')`)
+  neuLoeschen.cwd = ordner
+  const [e6] = await fange([neuLoeschen], { alle: true, wurzel: ordner })
+  assert.deepEqual(e6.veraendert, ['neu.txt'], 'eine gelöschte ungetrackte Datei wird gemeldet')
   const still = knoten(schreibe('still'))
   still.cwd = ordner
   const [e2] = await fange([still], { alle: true, wurzel: ordner })

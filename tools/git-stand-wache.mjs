@@ -1,19 +1,36 @@
 /**
- * Wächter für die Läufer `check-logic-alle.mjs` und `tests-alle.mjs`: eine Prüfung darf keine getrackte Datei verändern
- * (Anlass 15.10.2026: zwei Prüfungen überschrieben parallel `data/suchadressen-offen.json`, der Lauf blieb grün).
- * `gitStand` hält den Inhalt aller getrackten Änderungen fest (`git diff HEAD`), `veraenderte` nennt, was dazugekommen ist.
+ * Wächter für die Läufer `check-logic-alle.mjs` und `tests-alle.mjs`: eine Prüfung darf weder getrackte Dateien verändern
+ * noch Dateien im Arbeitsbaum anlegen (Anlass 15.10.2026: zwei Prüfungen überschrieben parallel `data/suchadressen-offen.json`, der Lauf blieb grün).
+ * `gitStand` hält den Inhalt aller getrackten Änderungen (`git diff HEAD`) und die ungetrackten Dateien (nicht ignoriert) fest,
+ * `veraenderte` nennt, was dazugekommen ist, sich geändert hat oder verschwunden ist.
  */
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
+import { statSync } from 'node:fs'
+import { join } from 'node:path'
 
 const git = (wurzel, args) => execFileSync('git', args, { cwd: wurzel, encoding: 'utf8', maxBuffer: 1 << 28, stdio: ['ignore', 'pipe', 'ignore'] })
+const zeilen = (text) => text.split('\n').filter(Boolean)
 
-/** Stand der getrackten Änderungen: je Datei ein Hash des Diffs. `null`, wenn `wurzel` kein Git-Arbeitsbaum ist (Test-Attrappen). */
+/** Ungetrackte Datei: Größe und Änderungszeit; verschwindet sie zwischen Auflisten und Lesen, zählt sie als weg. */
+function ungetrackt(wurzel, datei) {
+  try {
+    const s = statSync(join(wurzel, datei))
+    return `neu:${s.size}:${s.mtimeMs}`
+  } catch {
+    return 'weg'
+  }
+}
+
+/** Stand des Arbeitsbaums: je Datei ein Hash des Diffs bzw. der Stand der ungetrackten Datei. `null`, wenn `wurzel` kein Git-Arbeitsbaum ist. */
 export function gitStand(wurzel) {
   try {
     const stand = new Map()
-    for (const datei of git(wurzel, ['diff', 'HEAD', '--name-only']).split('\n').filter(Boolean)) {
+    for (const datei of zeilen(git(wurzel, ['diff', 'HEAD', '--name-only']))) {
       stand.set(datei, createHash('sha1').update(git(wurzel, ['diff', 'HEAD', '--', datei])).digest('hex'))
+    }
+    for (const datei of zeilen(git(wurzel, ['ls-files', '--others', '--exclude-standard']))) {
+      stand.set(datei, ungetrackt(wurzel, datei))
     }
     return stand
   } catch {
@@ -21,7 +38,7 @@ export function gitStand(wurzel) {
   }
 }
 
-/** Dateien, deren Diff gegenüber `vorher` neu ist oder sich geändert hat (auch: wieder auf Stand von HEAD gebracht). */
+/** Dateien, die gegenüber `vorher` neu sind, sich geändert haben oder verschwunden sind (auch: wieder auf Stand von HEAD gebracht). */
 export function veraenderte(vorher, nachher) {
   if (!vorher || !nachher) return []
   const namen = new Set([...vorher.keys(), ...nachher.keys()])
