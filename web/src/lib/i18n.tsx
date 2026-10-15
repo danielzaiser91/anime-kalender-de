@@ -508,6 +508,9 @@ const TEXTE = {
   'antwort.ausgeblieben': 'Folge {n} ist nicht erschienen',
   'antwort.angekuendigtFuer': 'angekündigt für {tag} den {datum}.',
   'antwort.angekuendigtFuerZeit': 'angekündigt für {tag} den {datum}, {zeit} Uhr.',
+  // Fortgeschriebener Tag (`estimated`): kein vom Anbieter genannter Tag (Wochentakt, Starttag laut Quelle, Meldetag), also „geschätzt“.
+  'antwort.erwartetFuer': 'erwartet für {tag} den {datum} (geschätzt).',
+  'antwort.erwartetFuerZeit': 'erwartet für {tag} den {datum}, {zeit} Uhr (geschätzt).',
   'antwort.verschobenVon': 'verschoben vom {datum}',
   // Steht der neue Tag nur errechnet da, klänge „verschoben“ nach einer Ansage des Anbieters.
   'antwort.verschobenErrechnet': 'erwartet statt {datum} (errechnet)',

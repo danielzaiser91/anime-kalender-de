@@ -42,8 +42,17 @@ export async function ausSpeicher(
     if (marke + MARKE_ABSTAND_MS <= alt || Date.now() - alt < fristMs) return new Response(await treffer.text(), { headers: kopf })
   }
   const text = JSON.stringify(await bauen())
-  await env.BELEGE?.put(VORSATZ + schluessel, text)
+  await auszugAblegen(env, schluessel, text)
   return new Response(text, { headers: kopf })
+}
+
+/** Der Auszug ist schon gerechnet: scheitert das Ablegen (R2: ein Schreibzugriff je Sekunde und Schlüssel), wird er trotzdem ausgeliefert. */
+async function auszugAblegen(env: Env, schluessel: string, text: string): Promise<void> {
+  try {
+    await env.BELEGE?.put(VORSATZ + schluessel, text)
+  } catch (e) {
+    console.warn(`export ablegen: ${(e as Error)?.name ?? 'Fehler'}`)
+  }
 }
 
 /** Der Zeitpunkt der jüngsten Marke, die diesen Auszug betrifft (0: keine); `offen-*` hängt an beiden Marken. */

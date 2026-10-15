@@ -1,4 +1,5 @@
-import type { Title } from '@shared/types.ts'
+import type { ReleaseEvent, Title } from '@shared/types.ts'
+import { formatDate, weekdayName } from '@shared/time.ts'
 import { kostenloseFolgen, kostenlosEtikett } from '@shared/kostenlos.ts'
 import type { Antwort } from './antwort-typ.ts'
 
@@ -27,4 +28,18 @@ export function kostenlosKopfVon({ title, antwort, T }: {
   return kostenlosEtikett(k, von) === 'teil'
     ? `${T('kostenlos.teil')} · ${T('kostenlos.zahl', { frei: k!.frei!, von: von! })}`
     : T('kostenlos.ganz')
+}
+
+/**
+ * Der Tag, an dem die ausgebliebene Folge kommen sollte, mit Uhrzeit, wenn bekannt.
+ * Ein fortgeschriebener Tag (`estimated`) ist keine Ankündigung des Anbieters und heißt „erwartet“.
+ */
+export function ausgebliebenTerminText(
+  e: ReleaseEvent,
+  T: (k: string, v?: Record<string, string | number>) => string,
+): string {
+  const schluessel = e.estimated ? 'antwort.erwartetFuer' : 'antwort.angekuendigtFuer'
+  const werte = { tag: weekdayName(e.date), datum: formatDate(e.date) }
+  if (!e.time) return T(schluessel, werte)
+  return T(`${schluessel}Zeit`, { ...werte, zeit: e.timeEstimated ? `≈ ${e.time}` : e.time })
 }

@@ -47,7 +47,7 @@ pruefe('mit Auftrag kommt true zurück', /\n  return true\n/.test(start))
 /* Der Knopf wertet den Rückgabewert aus und sagt es dem Benutzer. */
 const knopf = quelle.slice(quelle.indexOf("selbst.addEventListener('click'"), quelle.indexOf("kopf.appendChild(selbst)"))
 pruefe('der Knopf prüft den Rückgabewert', /if \(laufStarten\(\)\) return/.test(knopf))
-pruefe('und meldet „nichts offen"', /nichts offen/.test(knopf))
+pruefe('und meldet „nichts offen" (Text aus keinAuftrag())', /keinAuftrag\(\)/.test(knopf) && /nichts offen/.test(readFileSync(resolve(__dirname, 'netflix-zurueckgestellt.js'), 'utf8')))
 /* Nur der Zweig nach dem Riegel zählt — davor steht das Schließen für „Durchgang beenden". */
 const nachDemRiegel = knopf.slice(knopf.indexOf('if (laufStarten()) return'))
 pruefe('der Dialog bleibt dabei offen', !/dialogSchliessen/.test(nachDemRiegel))

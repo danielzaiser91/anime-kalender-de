@@ -5394,7 +5394,7 @@ async function speicherSchreiben(werte) {
   async function briefkastenHolen(erzwingen = false) {
     if (!erzwingen && briefkastenAdressen && Date.now() - briefkastenGeholtAm < BRIEFKASTEN_FRIST_MS) return
     try {
-      const antwort = await fetch(`${WORKER}?zaehlen=1`, { cache: 'no-store' })
+      const antwort = await fetch(`${WORKER}?zaehlen=1&nummern=1`)
       if (!antwort.ok) return
       const daten = await antwort.json()
       if (!Array.isArray(daten.adressen)) return
@@ -5467,9 +5467,9 @@ async function speicherSchreiben(werte) {
         **Im selben Takt der Stand, den die Statusanzeige zeigt.**
 
         `?stand=1` ist die Prüfliste minus der Meldungen seit ihrer Erzeugung,
-        gerechnet vom Worker. Er verwirft seinen Zwischenspeicher bei jeder
-        Meldung, also bildet der nächste Abruf die eigene Meldung ab — dann ist
-        die Überbrückung in `frischGemeldet` für diese Adresse erledigt.
+        gerechnet vom Worker. Er hält seine Antwort 300 s (seit 11.10.2026) und
+        bildet die eigene Meldung erst nach dieser Frist ab — bis dahin trägt
+        die Überbrückung in `frischGemeldet` die Adresse.
       */
       try {
         const stand = await fetch(`${WORKER}?stand=1`, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null))
@@ -6638,82 +6638,30 @@ async function speicherSchreiben(werte) {
    * vergisst, wäre schlechter als einer, der manchmal hinterherhinkt.
    *
    * Die Meldungen tragen die **Listen-Adresse** (`url`) und, wo sie bekannt
-   * war, die Staffelnummer. Von 192 Meldungen am 24.08.2026 trugen 65 eine
-   * Nummer; die übrigen sind Filme oder Einzelstaffeln, bei denen es keine
-   * gibt. Wo sie fehlt, zählt die Meldung als „dieser Titel wurde gemeldet" —
-   * gröber, aber nie falsch.
+   * war, die Staffelnummer. Wo sie fehlt, zählt die Meldung als „dieser Titel
+   * wurde gemeldet" — gröber, aber nie falsch.
+   *
+   * Quelle ist `?zaehlen=1&nummern=1` (Edge-Cache, dieselbe Adresse wie in
+   * `disney.js`), nicht mehr die Token-Liste: die las je Seitenaufruf rund
+   * 36.000 D1-Zeilen (15.10.2026). Umrechnung in `prime-stand.js`.
    */
   async function standVomWorker() {
     try {
-      const { token } = await chrome.storage.sync.get('token')
-      if (!token) return null
-      const antwort = await fetch(`${WORKER}?token=${encodeURIComponent(token)}`)
+      const antwort = await fetch(`${WORKER}?zaehlen=1&nummern=1`)
       if (!antwort.ok) return null
-      const { pruefungen } = await antwort.json()
-      if (!Array.isArray(pruefungen)) return null
-
-      const jeAdresse = {}
-      for (const p of pruefungen) {
-        if (p?.plattform !== 'primevideo' || typeof p.url !== 'string') continue
-        // Die Kennung aus der Adresse ist der Listenschlüssel.
-        const asin = /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,32})/.exec(p.url)?.[1]
-        if (!asin) continue
-        const nr = p.staffel != null ? String(p.staffel) : 'ohne Nummer'
-        // Dieselbe Schreibweise wie auf dem Knopf: „201" liest sich als
-        // „2, Vol. 1" — siehe staffelText() in der Knopf-Logik.
-        const bandNr = /^([1-9]\d?)(\d{2})$/.exec(nr)
-        const angezeigt =
-          bandNr && Number(bandNr[2]) > 0 ? `${bandNr[1]}, Vol. ${Number(bandNr[2])}` : nr
-        const zeichen = p.befund === 'dub' ? '🇩🇪' : p.befund === 'weg' ? '✕✕' : '✕'
-        jeAdresse[asin] = jeAdresse[asin] ?? { staffeln: {}, folgen: {}, gesamt: 1, serie: null }
-        jeAdresse[asin].staffeln[angezeigt] = zeichen
-        /* Wie viele Folgen die Meldung trug — für „S1 E1–54 gemeldet". */
-        if (Number.isFinite(p.folgen) && p.folgen > 0) jeAdresse[asin].folgen[angezeigt] = p.folgen
-        if (p.titel) jeAdresse[asin].serie = p.titel
-        jeAdresse[asin].gesamt = Math.max(
-          jeAdresse[asin].gesamt,
-          Object.keys(jeAdresse[asin].staffeln).length,
-        )
-      }
-      return jeAdresse
+      const { eintraege } = await antwort.json()
+      if (!Array.isArray(eintraege)) return null
+      return globalThis.akPrimeStandAusBriefkasten(eintraege)
     } catch {
       return null
     }
-  }
-
-  /**
-   * Den Worker-Stand mit dem lokalen vereinigen.
-   *
-   * **In beide Richtungen**, und das ist der Punkt: Der Worker kennt, was
-   * andere Browser und frühere Sitzungen gemeldet haben; der lokale Stand
-   * kennt den Klick von vor zwei Sekunden. Beide sind wahr, keine Meldung wird
-   * je zurückgenommen.
-   *
-   * `gesamt` bleibt beim lokalen Wert, wo es einen gibt: Der stammt aus
-   * „N Staffeln" auf der Seite und ist genauer als die Zahl der Meldungen.
-   */
-  function vereinige(lokal, ausWorker) {
-    if (!ausWorker) return lokal
-    const zusammen = { ...lokal }
-    for (const [asin, wert] of Object.entries(ausWorker)) {
-      const da = zusammen[asin]
-      zusammen[asin] = {
-        ...wert,
-        ...(da ?? {}),
-        staffeln: { ...(wert.staffeln ?? {}), ...(da?.staffeln ?? {}) },
-        folgen: { ...(da?.folgen ?? {}), ...(wert.folgen ?? {}) },
-        gesamt: Math.max(da?.gesamt ?? 1, wert.gesamt ?? 1),
-        serie: da?.serie ?? wert.serie ?? null,
-      }
-    }
-    return zusammen
   }
 
   // Im Hintergrund abgleichen — der Knopf wartet nicht darauf.
   void (async () => {
     const ausWorker = await standVomWorker()
     if (!ausWorker) return
-    erledigt = vereinige(erledigt, ausWorker)
+    erledigt = globalThis.akPrimeStandVereinigen(erledigt, ausWorker)
     letzteSignatur = null
     letzterStand = ''
     uebersichtZeichnen()
@@ -10670,7 +10618,7 @@ async function speicherSchreiben(werte) {
           }
         }
         const bisher = zusammen[listenId] ?? { staffeln: {}, gesamt: staffelZahl() }
-        bisher.staffeln = { ...(bisher.staffeln ?? {}), [nr]: deutsch ? '🇩🇪' : '✕' }
+        globalThis.akPrimeMeldungEintragen(bisher, nr, deutsch ? '🇩🇪' : '✕', geladen)
         /**
          * Die Gesamtzahl wächst, sie schrumpft nicht.
          *
