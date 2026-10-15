@@ -18,7 +18,7 @@ SITE_URL = "https://anime-kalender.de/"
 ALLOWED_ORIGIN = "https://anime-kalender.de"
 # Anbieter, deren Folgen in `titel_zeile` stehen (Migration 055, Pilot). Leer = aus. Erst auf "disneyplus" setzen, wenn 055
 # eingespielt ist; Reihenfolge und Einspielen der Altdaten: tools/worker-titelzeile-einspielen.ts.
-TITELZEILE_PLATTFORMEN = "disneyplus"
+TITELZEILE_PLATTFORMEN = "disneyplus,netflix"
 MAIL_PROVIDER = "resend"       # resend | brevo | console
 FROM_EMAIL = "kalender@send.anime-kalender.de"
 FROM_NAME = "Anime-Kalender DE"
