@@ -9,7 +9,11 @@
  *   Ansicht wechseln während der Frist lässt keinen Timer zurück.
  * - Touch: eine Zeigerberührung der Art `touch` lässt keine Vorschau entstehen und fordert kein Bild an.
  * Zeilen mit Cover tragen `data-hover-zeile`; die Prüfung probiert die ersten acht und meldet, wenn keine eine Vorschau bekommt.
+ * - Je Ansicht (Im Handel, Im Fernsehen; `ansicht-hover-cover-zeilen.mjs`): die Vorschau zeigt das Cover des Titels der Zeile
+ *   und liegt neben Zeiger und Zeile im sichtbaren Bereich, auch am rechten und unteren Fensterrand.
  */
+import { messeAnsichten } from './ansicht-hover-cover-zeilen.mjs'
+
 const FRIST_MIN_MS = 100
 const FRIST_MAX_MS = 600
 const FRIST_MS = 150 // = VORSCHAU_FRIST_MS; erkennt den Timer der Vorschau unter den übrigen
@@ -197,7 +201,7 @@ async function messeAbbruch(seite, urls) {
 }
 
 /** Wertet die Messungen aus; leer, wenn alles stimmt. */
-export function hoverCoverAbweichungen(maus, touch, abbruch, aufraeumen, wechsel) {
+export function hoverCoverAbweichungen(maus, touch, abbruch, aufraeumen, wechsel, ansichten) {
   if (!maus) return ['keine der ersten 8 Zeilen (Im Handel, Im Fernsehen) bekam mit der Maus eine Cover-Vorschau']
   const a = []
   if (maus.nach < FRIST_MIN_MS) a.push(`Vorschau schon nach ${Math.round(maus.nach)} ms (mindestens ${FRIST_MIN_MS} ms Ruhe des Zeigers)`)
@@ -214,6 +218,7 @@ export function hoverCoverAbweichungen(maus, touch, abbruch, aufraeumen, wechsel
   for (const l of aufraeumen) a.push('Nach dem Verlassen der Zeile hängen Listener am Fenster (' + l + ')')
   if (wechsel.offen !== 1) a.push('Ansichtswechsel: die Frist lief beim Wechsel nicht (' + wechsel.offen + ' offene Timer, erwartet 1)')
   else if (wechsel.nachWechsel) a.push('Ansichtswechsel während der Frist: der Timer lebt nach dem Verschwinden der Zeile weiter')
+  for (const ansicht of ansichten) for (const b of ansicht.befunde) a.push(`${ansicht.name}: ${b}`)
   return a
 }
 
@@ -231,6 +236,7 @@ export async function pruefeHoverCover(chromium, antworte) {
   const abbruch = await messeAbbruch(seite, urls)
   const aufraeumen = await messeAufraeumen(seite)
   const wechsel = await messeAnsichtWechsel(seite)
+  const ansichten = await messeAnsichten(seite)
   await browser.close()
-  return { maus, touch, abweichungen: hoverCoverAbweichungen(maus, touch, abbruch, aufraeumen, wechsel) }
+  return { maus, touch, ansichten, abweichungen: hoverCoverAbweichungen(maus, touch, abbruch, aufraeumen, wechsel, ansichten) }
 }
