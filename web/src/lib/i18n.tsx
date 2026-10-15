@@ -508,6 +508,9 @@ const TEXTE = {
   'antwort.ausgeblieben': 'Folge {n} ist nicht erschienen',
   'antwort.angekuendigtFuer': 'angekündigt für {tag} den {datum}.',
   'antwort.angekuendigtFuerZeit': 'angekündigt für {tag} den {datum}, {zeit} Uhr.',
+  // Fortgeschriebener Tag (`estimated`): der Anbieter hat ihn nicht genannt; die Herkunft ist offen, also nur „errechnet“.
+  'antwort.erwartetFuer': 'erwartet für {tag} den {datum} (errechnet).',
+  'antwort.erwartetFuerZeit': 'erwartet für {tag} den {datum}, {zeit} Uhr (errechnet).',
   'antwort.verschobenVon': 'verschoben vom {datum}',
   'antwort.ausgebliebenMehrere': 'Folgen {von} bis {bis} sind nicht erschienen',
   'antwort.naechsteVoraussichtlich': 'voraussichtlich {tag} ab {zeit} Uhr',

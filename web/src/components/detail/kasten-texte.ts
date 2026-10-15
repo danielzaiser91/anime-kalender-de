@@ -30,12 +30,16 @@ export function kostenlosKopfVon({ title, antwort, T }: {
     : T('kostenlos.ganz')
 }
 
-/** Der Tag, an dem die ausgebliebene Folge kommen sollte, mit Uhrzeit, wenn bekannt. */
+/**
+ * Der Tag, an dem die ausgebliebene Folge kommen sollte, mit Uhrzeit, wenn bekannt.
+ * Ein fortgeschriebener Tag (`estimated`) ist keine Ankündigung des Anbieters und heißt „erwartet“.
+ */
 export function ausgebliebenTerminText(
   e: ReleaseEvent,
   T: (k: string, v?: Record<string, string | number>) => string,
 ): string {
+  const schluessel = e.estimated ? 'antwort.erwartetFuer' : 'antwort.angekuendigtFuer'
   const werte = { tag: weekdayName(e.date), datum: formatDate(e.date) }
-  if (!e.time) return T('antwort.angekuendigtFuer', werte)
-  return T('antwort.angekuendigtFuerZeit', { ...werte, zeit: e.timeEstimated ? `≈ ${e.time}` : e.time })
+  if (!e.time) return T(schluessel, werte)
+  return T(`${schluessel}Zeit`, { ...werte, zeit: e.timeEstimated ? `≈ ${e.time}` : e.time })
 }
