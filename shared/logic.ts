@@ -1,7 +1,7 @@
 import type { Release, ReleaseEvent, ReleaseStatus, Title } from './types.ts'
 import { addDays, todayIso, berlinToUtc, utcZeitInBerlin } from './time.ts'
 import { markiereNachLuecke, verpasstAnVorhandenes } from './luecken.ts'
-import { folgeNachOriginal } from './synchro-original.ts'
+import { erstesFreiesDatum, folgeNachOriginal } from './synchro-original.ts'
 
 /**
  * Beobachtete Folgen als Stützpunkte, aufsteigend nach Folgennummer.
@@ -85,7 +85,7 @@ export function lastEpisodeDate(release: Release): string | undefined {
   const letzte = first + s.episodeCount - 1
   const anker = stuetzpunkte(s).filter((a) => a.episode >= first && a.episode <= letzte).at(-1)
   const nachOriginal = folgeNachOriginal(s.nachOriginal, letzte, anker)
-  if (nachOriginal) return nachOriginal
+  if (nachOriginal) return erstesFreiesDatum(nachOriginal, skips)
   let date = anker?.date ?? s.firstEpisodeDate
   let produced = anker?.episode ?? first
   let guard = 0

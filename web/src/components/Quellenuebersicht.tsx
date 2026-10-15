@@ -40,7 +40,7 @@ export function Quellenuebersicht({ title, releases, asZiel }: { title: Title; r
   const terminQuellen = useMemo(() => {
     const je = new Map<string, { url: string; anzahl: number }>()
     for (const r of releases) {
-      const liste = r.quellen ?? r.sources.map((url) => ({ url, name: hostVon(url) }))
+      const liste = [...(r.quellen ?? r.sources.map((url) => ({ url, name: hostVon(url) }))), ...originalQuelle(r)]
       for (const q of liste) {
         const host = q.name || hostVon(q.url)
         const da = je.get(host)
@@ -56,7 +56,7 @@ export function Quellenuebersicht({ title, releases, asZiel }: { title: Title; r
       ...terminQuellen.map((q) => ({
         name: ANZEIGENAME[q.host] ?? q.host,
         url: q.url,
-        speist: t('quellen.feedTermine'),
+        speist: t(q.host === NAME_ORIGINAL ? 'quellen.feedOriginal' : 'quellen.feedTermine'),
         anzahl: q.anzahl,
       })),
       ...(title.al ? [{ name: 'AniList', url: `https://anilist.co/anime/${title.al}`, speist: t('quellen.feedWerk') }] : []),
@@ -180,6 +180,14 @@ const ANZEIGENAME: Record<string, string> = {
   'anisearch.com': 'aniSearch',
   'anilist.co': 'AniList',
   'animenewsnetwork.com': 'Anime News Network',
+}
+
+const NAME_ORIGINAL = 'TMDB'
+
+/** Die Seite der Originaltermine, auf denen errechnete Folgen beruhen: Grundlage, kein Beleg (`schedule.nachOriginalQuelle`). */
+function originalQuelle(r: Release): { url: string; name: string }[] {
+  const url = r.schedule.nachOriginalQuelle
+  return url ? [{ url, name: NAME_ORIGINAL }] : []
 }
 
 /** Der Hostname ohne `www.` — für die Anzeige, nicht für einen Vergleich. */

@@ -21,9 +21,11 @@ export function schreibeNachOriginal(releases: Release[], tmdb: Record<string, T
     const s = r.schedule
     if (r.releaseType !== 'weekly' || !s?.observed || s.wochentage?.length) continue
     const bis = Math.max(1, s.firstEpisodeNumber ?? 1) + (s.episodeCount ?? 1) - 1
-    const nachOriginal = termineNachOriginal(s.observed, originalTage(tmdb[String(r.titleId)]), bis)
+    const eintrag = tmdb[String(r.titleId)]
+    const nachOriginal = termineNachOriginal(s.observed, originalTage(eintrag), bis)
     if (!Object.keys(nachOriginal).length) continue
     s.nachOriginal = nachOriginal
+    if (eintrag?.tmdbId) s.nachOriginalQuelle = `https://www.themoviedb.org/tv/${eintrag.tmdbId}`
     n++
   }
   log(`Synchro nach Originalterminen fortgeschrieben: ${n} Releases`)

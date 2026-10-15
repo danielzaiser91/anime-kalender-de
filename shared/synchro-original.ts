@@ -13,6 +13,12 @@ import { addDays } from './time.ts'
 export const MIN_BEOBACHTUNGEN = 4
 /** Größte Streuung der Abstände in Tagen; die Originaldaten (TMDB) sind selbst ±1 Tag genau. */
 export const MAX_STREUUNG_TAGE = 1
+/**
+ * Erst ab so vielen Tagen Abstand zum Wochentakt zählt ein Originaltermin als Pause: Ein Tag ist die Streuung der
+ * TMDB-Daten. Rückgerechnet (15.10.2026, `tools/synchro-original-rueckrechnung.ts`) stimmte bei 26 von 26
+ * Ein-Tages-Abweichungen der Wochentakt, nie die Tabelle.
+ */
+export const MIN_ABWEICHUNG_TAGE = 2
 
 function tage(datum: string): number {
   return Date.parse(`${datum}T12:00:00Z`) / 86_400_000
@@ -32,8 +38,8 @@ export function synchroVersatz(beobachtet: Record<number, string>, original: Rec
 /**
  * Die Synchro-Tage der Folgen hinter der letzten Beobachtung bis `bisFolge`: Originaltag plus Abstand.
  * Leer, wenn der Abstand nicht belastbar ist oder ein Tag nicht hinter der letzten Beobachtung liegt
- * (dann stimmt die Zuordnung der Folgennummern nicht), und leer, wenn der Wochentakt dieselben Tage ergibt:
- * nur eine Pause im Original ändert etwas.
+ * (dann stimmt die Zuordnung der Folgennummern nicht). Die Tabelle beginnt erst bei der ersten Folge, die mindestens
+ * `MIN_ABWEICHUNG_TAGE` vom Wochentakt abweicht; ohne eine solche Pause im Original ist sie leer.
  */
 export function termineNachOriginal(beobachtet: Record<number, string>, original: Record<number, string>, bisFolge: number): Record<number, string> {
   const versatz = synchroVersatz(beobachtet, original)
@@ -47,8 +53,9 @@ export function termineNachOriginal(beobachtet: Record<number, string>, original
     ergebnis[folge] = tag
     davor = tag
   }
-  const wochentakt = Object.entries(ergebnis).every(([folge, tag]) => tag === addDays(beobachtet[letzte], 7 * (Number(folge) - letzte)))
-  return wochentakt ? {} : ergebnis
+  const takt = (folge: number) => addDays(beobachtet[letzte], 7 * (folge - letzte))
+  const pause = Object.entries(ergebnis).findIndex(([folge, tag]) => Math.abs(tage(tag) - tage(takt(Number(folge)))) >= MIN_ABWEICHUNG_TAGE)
+  return pause < 0 ? {} : Object.fromEntries(Object.entries(ergebnis).slice(pause))
 }
 
 /**
@@ -66,4 +73,11 @@ export function folgeNachOriginal(
   const bis = bekannt.filter((n) => n <= folge).at(-1)!
   const tag = addDays(nachOriginal[bis], 7 * (folge - bis))
   return tag > stuetzpunkt.date ? tag : undefined
+}
+
+/** Fällt der Tag auf eine Sendepause (`skipDates`), kommt die Folge erst eine Woche später — wie in der Wochenfortschreibung von `lastEpisodeDate`. */
+export function erstesFreiesDatum(tag: string, skips: ReadonlySet<string>): string {
+  let datum = tag
+  for (let i = 0; skips.has(datum) && i < 400; i++) datum = addDays(datum, 7)
+  return datum
 }

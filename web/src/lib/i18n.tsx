@@ -509,6 +509,8 @@ const TEXTE = {
   'antwort.angekuendigtFuer': 'angekündigt für {tag} den {datum}.',
   'antwort.angekuendigtFuerZeit': 'angekündigt für {tag} den {datum}, {zeit} Uhr.',
   'antwort.verschobenVon': 'verschoben vom {datum}',
+  // Steht der neue Tag nur errechnet da, klänge „verschoben“ nach einer Ansage des Anbieters.
+  'antwort.verschobenErrechnet': 'erwartet statt {datum} (errechnet)',
   'antwort.ausgebliebenMehrere': 'Folgen {von} bis {bis} sind nicht erschienen',
   'antwort.naechsteVoraussichtlich': 'voraussichtlich {tag} ab {zeit} Uhr',
   'antwort.amDatum': 'am {datum}',
@@ -711,6 +713,7 @@ const TEXTE = {
   'quellen.colSource': 'Quelle',
   'quellen.colFeeds': 'liefert',
   'quellen.feedTermine': 'Termine',
+  'quellen.feedOriginal': 'Originaltermine als Grundlage errechneter Folgen',
   'quellen.feedWerk': 'Titel, Cover, Genres, Jahr, Studio, Folgenzahl',
   // aniSearch liefert den **Haupttitel** seiner Seite, nicht zwingend einen
   // deutschen — bei „Maomao no Hitorigoto Dai 2 Ki" ist es eine zweite

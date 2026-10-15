@@ -109,6 +109,8 @@ export interface Schedule {
    * (`shared/synchro-original.ts`, 15.10.2026). Nur gesetzt, wenn der Abstand stabil ist; bleibt Fortschreibung (`estimated`).
    */
   nachOriginal?: Record<number, string>
+  /** Die Seite mit den Originalterminen, auf denen `nachOriginal` beruht: Grundlage der Schätzung, kein Beleg des Termins — darum nicht in `sources` (die lesen Belegprüfung und News). */
+  nachOriginalQuelle?: string
   /** Uhrzeit je Folge, wenn eine TV-Sichtung zu verschiedenen Zeiten lief (19.09.2026). */
   zeiten?: Record<number, string>
   /**
