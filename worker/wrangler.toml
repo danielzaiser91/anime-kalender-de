@@ -2,11 +2,14 @@ name = "newsletter"
 main = "src/index.ts"
 compatibility_date = "2025-05-01"
 
-# Stündlich wecken; ob wirklich versendet wird, entscheidet der Worker anhand
-# der Berliner Ortszeit — so stimmt der Versandzeitpunkt auch über die
-# Sommerzeitumstellung hinweg, ohne zwei Cron-Einträge zu verbrauchen.
+# Stündlich: Monitor, Wecker, Push, Löschfristen. Der Digest hat einen eigenen
+# Trigger (DIGEST_CRON in src/digest-versand.ts), weil jeder Aufruf auf der
+# Free-Stufe nur 50 Unteraufrufe hat und D1 mitzählt (15.10.2026). 05 und 06 UTC
+# sind 07:00 Berlin in Sommer- und Winterzeit; welche Stunde versendet,
+# entscheidet der Worker über SEND_HOUR_BERLIN (tools/worker-digest-versand.test.ts
+# prüft, dass beide Stunden abgedeckt sind).
 [triggers]
-crons = ["0 * * * *"]
+crons = ["0 * * * *", "0 5,6 * * *"]
 
 [[d1_databases]]
 binding = "DB"
