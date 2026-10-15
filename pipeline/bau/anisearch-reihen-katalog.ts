@@ -19,6 +19,22 @@ export type KatalogUebernahme = {
   bestandEinzeln: number
 }
 
+/**
+ * Ein ausgeschiedener Sammeltitel (`katalogWeg`: Katalogkennung → Kennung seiner Zeile) gibt die Reihe seiner Gruppe an die Zeile ab: Alle, die in `reihe` unter derselben Kennung hingen
+ * wie er, hängen danach an der Reihe der Zeile (Anker). Ist die Zeile kein Anker oder gehört die Gruppe schon zu einer ausgelieferten Reihe, bleibt sie, wie sie ist.
+ */
+export function erbeReihe(reihe: Map<number, number>, katalogWeg: ReadonlyMap<number, number>, anker: Anker[]): Map<number, number> {
+  const ankerReihe = new Map(anker.map((a) => [a.id, a.reihe]))
+  const ausgeliefert = new Set(ankerReihe.values())
+  const ziel = new Map<number, number>()
+  for (const [sammel, zeile] of katalogWeg) {
+    const gruppe = reihe.get(sammel)
+    const erbe = ankerReihe.get(zeile)
+    if (gruppe !== undefined && erbe !== undefined && !ausgeliefert.has(gruppe)) ziel.set(gruppe, erbe)
+  }
+  return new Map([...reihe].map(([id, r]) => [id, ziel.get(r) ?? r]))
+}
+
 /** `reihe`: Reihe je Katalogtitel aus `reihenFuerKatalog`; `katalog`: nur Titel, die wirklich ausgeliefert werden; `kennung`: aniSearch-Kennung je Katalogtitel; `getrennt`: die Handtrennungen (`reihen-von-hand.yaml`). */
 export function uebernimmKatalogReihen(katalog: KatalogEintrag[], reihe: Map<number, number>, anker: Anker[], kennung: Map<number, number>, kanten: Kante[], namen: Namen, getrennt: Trennung[] = []): KatalogUebernahme {
   const ankerReihe = new Map(anker.map((a) => [a.id, a.reihe]))
