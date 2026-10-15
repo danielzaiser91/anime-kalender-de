@@ -5394,7 +5394,7 @@ async function speicherSchreiben(werte) {
   async function briefkastenHolen(erzwingen = false) {
     if (!erzwingen && briefkastenAdressen && Date.now() - briefkastenGeholtAm < BRIEFKASTEN_FRIST_MS) return
     try {
-      const antwort = await fetch(`${WORKER}?zaehlen=1`, { cache: 'no-store' })
+      const antwort = await fetch(`${WORKER}?zaehlen=1&nummern=1`, { cache: 'no-store' })
       if (!antwort.ok) return
       const daten = await antwort.json()
       if (!Array.isArray(daten.adressen)) return
@@ -10646,7 +10646,7 @@ async function speicherSchreiben(werte) {
           }
         }
         const bisher = zusammen[listenId] ?? { staffeln: {}, gesamt: staffelZahl() }
-        bisher.staffeln = { ...(bisher.staffeln ?? {}), [nr]: deutsch ? '🇩🇪' : '✕' }
+        globalThis.akPrimeMeldungEintragen(bisher, nr, deutsch ? '🇩🇪' : '✕', geladen)
         /**
          * Die Gesamtzahl wächst, sie schrumpft nicht.
          *

@@ -32,3 +32,12 @@ globalThis.akPrimeStandAusBriefkasten = (eintraege) => {
   }
   return jeAdresse
 }
+
+/*
+  Die eigene Meldung trägt ihren Befund und ihre geladene Folgenzahl lokal ein: Der Briefkasten
+  kennt die Folgenzahl bei einheitlicher Staffel nicht (ohne `folge_nr`), sonst fiele „E1–N" weg.
+*/
+globalThis.akPrimeMeldungEintragen = (bisher, nr, befund, folgen) => {
+  bisher.staffeln = { ...(bisher.staffeln ?? {}), [nr]: befund }
+  bisher.folgen = { ...(bisher.folgen ?? {}), [nr]: folgen }
+}

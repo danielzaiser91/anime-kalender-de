@@ -39,10 +39,17 @@ pruefe('gesamt = Zahl der gemeldeten Staffeln', serie?.gesamt === 2, serie?.gesa
 pruefe('Film ohne Staffel: „ohne Nummer"', ergebnis.B0FILM00001?.staffeln?.['ohne Nummer'] === '✓', ergebnis.B0FILM00001)
 pruefe('Disney+, Netflix und leere Adressen fallen heraus', Object.keys(ergebnis).length === 2, Object.keys(ergebnis))
 pruefe('Ohne Meldungen leer', JSON.stringify(stand(undefined)) === '{}', stand(undefined))
+const bisher = { staffeln: { 1: '✓' }, folgen: { 1: 3 } }
+sandkasten.akPrimeMeldungEintragen(bisher, 2, '🇩🇪', 12)
+const erwartet = { staffeln: { 1: '✓', 2: '🇩🇪' }, folgen: { 1: 3, 2: 12 } }
+pruefe('Eigene Meldung: Befund und Folgenzahl lokal, Vorhandenes bleibt', JSON.stringify(bisher) === JSON.stringify(erwartet), bisher)
 
 const amazon = readFileSync(__dirname + '/amazon.js', 'utf8')
 const disney = readFileSync(__dirname + '/disney.js', 'utf8')
 pruefe('amazon.js ruft dieselbe Cache-Adresse wie disney.js', amazon.includes('${WORKER}?zaehlen=1&nummern=1`') && disney.includes('${WORKER}?zaehlen=1&nummern=1`'))
+/* Ohne `no-store` hält der Browser die Antwort (Edge setzt max-age=7200): kein erneuter Abruf von Megabytes je Seitenaufruf. */
+pruefe('standVomWorker ruft ohne no-store ab (Browser-Cache wirkt)', amazon.includes('fetch(`${WORKER}?zaehlen=1&nummern=1`)\n'))
+pruefe('briefkastenHolen nutzt dieselbe Adresse, keine zweite ?zaehlen=1-Variante', amazon.includes('fetch(`${WORKER}?zaehlen=1&nummern=1`, {') && !amazon.includes('${WORKER}?zaehlen=1`'))
 pruefe('amazon.js rechnet die Meldungen über prime-stand.js um', amazon.includes('return globalThis.akPrimeStandAusBriefkasten(eintraege)'))
 pruefe('amazon.js liest keine Token-Liste mehr', !/\?token=\$\{/.test(amazon))
 const js = JSON.parse(readFileSync(__dirname + '/manifest.json', 'utf8')).content_scripts.find((g) => g.js.includes('amazon.js')).js
