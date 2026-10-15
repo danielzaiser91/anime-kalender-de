@@ -14,6 +14,7 @@ import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { vereinigeBereiche, vereinigeGleichzeitige } from './dub-bereiche.ts'
 import { ROOT } from './util.ts'
+import { adressKern, adressGleich } from '../../shared/adresse-kern.ts'
 import { PLATFORMS, type PlatformId } from '../../shared/types.ts'
 import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
 import { warn } from './util.ts'
@@ -133,42 +134,10 @@ export interface DubCheck {
   kanalMessung?: 'ja' | 'nein'
 }
 
-const DATEI = resolve(ROOT, 'data', 'dub-confirmed.yaml')
+/** Zuhause ist `shared/adresse-kern.ts` (das Panel vergleicht Adressen ebenso); hier bleibt der Name für die Bau-Importe. */
+export { adressKern, adressGleich }
 
-/**
- * Adressen vergleichen sich nur ohne Protokoll, Parameter und Schrägstrich —
- * und bei Amazon zusätzlich ohne den Pfadteil vor der Kennung: Dieselbe Ausgabe
- * steht dort als `/dp/<ASIN>` und als `/gp/video/detail/<ASIN>`.
- */
-export function adressKern(u: string | undefined): string {
-  if (!u) return ''
-  const ohne = u
-    .replace(/^https?:\/\//, '')
-    .replace(/^www\./, '')
-    .split('?')[0]!
-    .replace(/\/$/, '')
-    .toLowerCase()
-  const asin = /\/(?:dp|gp\/video\/detail)\/([a-z0-9]{10,26})/.exec(ohne)?.[1]
-  if (asin) return `amazon:${asin}`
-  /* JustWatchs Amazon-Adresse trägt die Kennung im Parameter (gti-Brücke, 17.09.2026). */
-  const gti = /[?&]gti=(amzn1\.dv\.gti\.[0-9a-f-]{36})/.exec(u)?.[1]
-  if (gti) return `amazon-gti:${gti}`
-  /*
-    Bei YouTube steckt die Kennung im Parameter. Ohne ihn war jede Adresse
-    `youtube.com/watch`, und ein belegtes Nein zu einem Video sperrte im
-    Gedächtnis der entfernten Verweise alle YouTube-Videos aller Titel —
-    gemessen am 17.09.2026: 30 Titel, deren aniSearch-Video nie ergänzt wurde.
-    Groß- und Kleinschreibung zählt in der Kennung.
-  */
-  const yt = /(?:^|\.)youtube\.com\/(?:watch|playlist)$/.test(ohne) ? /[?&](v|list)=([\w-]+)/.exec(u) : null
-  if (yt) return `${ohne}?${yt[1]}=${yt[2]}`
-  /*
-    Dasselbe bei Partnerlinks: bücher.de läuft über `awin1.com/pclick.php?p=<Produkt>`. Ohne den
-    Parameter teilten sich acht Titel einen Kern (gemessen am 22.09.2026).
-  */
-  const awin = /(?:^|\.)awin1\.com\/pclick\.php$/.test(ohne) ? /[?&]p=(\d+)/.exec(u) : null
-  return awin ? `${ohne}?p=${awin[1]}` : ohne
-}
+const DATEI = resolve(ROOT, 'data', 'dub-confirmed.yaml')
 
 /** Alle Synchro-Belege: die Handbelege und, wo keiner steht, die am kuratierten Termin (`dub-aus-terminen.ts`). */
 export function loadDubChecks(): DubCheck[] {
@@ -349,12 +318,6 @@ export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' |
 export function wegVerneint(nein: ReadonlySet<string>, anilistId: number, platform: string, url: string | undefined): boolean {
   const titel = dubKey(anilistId, platform)
   return nein.has(titel) || nein.has(`${titel}|${adressKern(url)}`)
-}
-
-/** Meinen zwei Adressen dieselbe Ausgabe? */
-export function adressGleich(a: string | undefined, b: string | undefined): boolean {
-  const ka = adressKern(a)
-  return Boolean(ka) && ka === adressKern(b)
 }
 
 /**

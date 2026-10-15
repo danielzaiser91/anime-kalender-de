@@ -114,6 +114,7 @@
         "daten-auf-abruf.yml",
         "delta-wache.yml",
         "deploy.yml",
+        "meldungskopie.yml",
         "refresh-data.yml",
         "refresh-hourly.yml",
         "refresh-weekly.yml",
@@ -385,9 +386,10 @@
     {
       "id": "CLOUDFLARE_API_TOKEN",
       "ort": "github-secret",
-      "wofuer": "Cloudflare-API-Token „anime-kalender-deploy“ (D1, Workers Scripts, Account Settings) für die Verbrauchswache.",
+      "wofuer": "Cloudflare-API-Token „anime-kalender-deploy“ (D1, Workers Scripts, Account Settings) für die Verbrauchswache und den D1-Export der Meldungskopie (der Export braucht D1-Schreibrecht).",
       "workflows": [
-        "d1-verbrauch.yml"
+        "d1-verbrauch.yml",
+        "meldungskopie.yml"
       ],
       "gueltig": {
         "text": "Kein Ablaufdatum: Das Token „anime-kalender-deploy“ hat im Cloudflare-Dashboard keine Ablaufspalte gefüllt, Status aktiv (abgelesen von Daniel am 09.10.2026)",

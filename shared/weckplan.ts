@@ -31,6 +31,8 @@ export const WECKPLAN: Weckplan[] = [
   { workflow: 'ladezeiten.yml', stunden: [16], abstandMin: 600 },
   // Meldungen offizieller Anime-Websites (ab 13.10.2026): 13 Uhr, nach Tageslauf (04), aniSearch-Katalog (06) und Anime2You-Auswertung (12), vor den Ladezeiten (16).
   { workflow: 'offizielle-news.yml', stunden: [13], abstandMin: 600 },
+  // Meldungskopie (ab 14.10.2026): D1-Export der drei Meldungstabellen, 03 Uhr (kein anderer Tageslauf; ein Export blockiert die D1 kurz). Spätestens nach 33 h nachgeholt (wecker-wache), Grenze 36 h.
+  { workflow: 'meldungskopie.yml', stunden: [3], abstandMin: 1200 },
   // Monatskontingent der Streaming Availability API (Reset am Ersten). Vorher nur GitHubs Cron: ein abgebrochener Lauf blieb ohne Nachhol-Start (`motn` am 08.10.2026 36 Tage still).
   { workflow: 'tonspuren-monatlich.yml', stunden: [4], tagImMonat: 2, nachholen: true, abstandMin: 20160 },
 ]

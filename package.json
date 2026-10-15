@@ -55,6 +55,7 @@
     "check:cache-abhaengigkeit": "node tools/check-cache-abhaengigkeit.mjs",
     "check:workflows": "node tools/check-workflows.mjs && node tools/check-cache-abhaengigkeit.mjs && node tools/zugangs-waechter.mjs --register-pruefen && node tools/tests-alle.mjs",
     "check:wiedervorlage": "node tools/erneut-melden.mjs --pruefen",
+    "meldungskopie": "node tools/meldungskopie.mjs",
     "check:vor-commit": "npm run data:validate && npm run check:logic && npm run check:workflows && npm run typecheck && npm run check:worker && npm run check:hooks && npm run check:vorlieben && npm run check:extension && npm run check:wiedervorlage && npm run check:zugangsart && npm run check:beleg-wand && npm run check:beleg-reihenfolge && npm run build && npm run check:install",
     "check:belege": "node tools/belege-pruefen.mjs",
     "check:cr-folgen": "tsx pipeline/check-cr-folgen.ts",
