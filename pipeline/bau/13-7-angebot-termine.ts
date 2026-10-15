@@ -42,17 +42,23 @@ export function kernMitTerminTiteln(kern: Title[], slim: Title[], termine: Relea
  * Mit dem Termin braucht der Kalender den Titel: `titles-core.json` entstand ebenfalls vorher und kennt diese Titel nicht, die Karte hätte weder
  * Cover noch Namen. Sie werden dort angehängt (nur sie; der Rest der Datei bleibt, wie er war).
  */
-export function ergaenzeAngebotTermine({ events, neue, slim, alle, titles }: {
+export function ergaenzeAngebotTermine({ events, releases, ab, slim, titles }: {
   events: ReleaseEvent[]
-  neue: Release[]
+  /** Alle Releases; die ab Index `ab` sind die eben angehängten, die früheren gehören in die Prüfung „kein Anbieter vorher“. */
+  releases: Release[]
+  ab: number
   slim: Title[]
-  alle: Release[]
   titles: Map<number, Title>
-}): number {
-  const termine = terminiereNeueReleases({ events, neue, alle, titles, handNein: neinHandbelege(loadDubChecks()) })
+},
+/* Austauschbar nur für die Prüfung (Kern-Datei, Nein-Handbelege); was fehlt, ist der echte Standard, den die Prüfung festhält. */
+quelle: { handNein?: () => ReadonlySet<string>; kern?: { lies: () => Title[]; schreibe: (kern: Title[]) => void } } = {},
+): number {
+  const handNein = (quelle.handNein ?? (() => neinHandbelege(loadDubChecks())))()
+  const termine = terminiereNeueReleases({ events, neue: releases.slice(ab), alle: releases, titles, handNein })
   if (!termine.length) return 0
-  const kern = kernMitTerminTiteln(readJson<Title[]>(`${OUT}/titles-core.json`, []), slim, termine)
-  writeJson(`${OUT}/titles-core.json`, kern)
+  const datei = quelle.kern ?? { lies: () => readJson<Title[]>(`${OUT}/titles-core.json`, []), schreibe: (k: Title[]) => writeJson(`${OUT}/titles-core.json`, k) }
+  const kern = kernMitTerminTiteln(datei.lies(), slim, termine)
+  datei.schreibe(kern)
   log(`${termine.length} Termine für „Im Angebot seit“ nachgetragen, Kern jetzt ${kern.length} Titel`)
   return termine.length
 }

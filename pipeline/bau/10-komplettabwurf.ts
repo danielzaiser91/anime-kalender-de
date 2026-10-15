@@ -44,11 +44,11 @@ export function wandleKomplettabwuerfeUm(releases: Release[]): string[] {
  */
 export function rolleTermineAusMitKomplettabwurf(
   args: Parameters<typeof rolleTermineAus>[0],
-  /* Austauschbar nur für die Prüfung: `rolleTermineAus` schreibt Dateien nach `data/`. */
-  quelle: { rolle: typeof rolleTermineAus; handNein: () => ReadonlySet<string> } = { rolle: rolleTermineAus, handNein: () => neinHandbelege(loadDubChecks()) },
+  /* Austauschbar nur für die Prüfung: `rolleTermineAus` schreibt Dateien nach `data/`. Was fehlt, ist der echte Standard (die Prüfung hält ihn fest). */
+  quelle: { rolle?: typeof rolleTermineAus; handNein?: () => ReadonlySet<string> } = {},
 ): ReturnType<typeof rolleTermineAus> {
   const slugs = wandleKomplettabwuerfeUm(args.releases)
   if (slugs.length) log(`${slugs.length} Crunchyroll-Komplettabwürfe statt Wochentakt: ${slugs.join(', ')}`)
-  markiereErstausgabe({ alle: args.releases, pruefen: args.releases, titles: args.titles, handNein: quelle.handNein() })
-  return quelle.rolle(args)
+  markiereErstausgabe({ alle: args.releases, pruefen: args.releases, titles: args.titles, handNein: (quelle.handNein ?? (() => neinHandbelege(loadDubChecks())))() })
+  return (quelle.rolle ?? rolleTermineAus)(args)
 }

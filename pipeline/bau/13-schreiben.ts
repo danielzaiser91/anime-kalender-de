@@ -81,7 +81,7 @@ export function schreibeDatensatz({
   const releasesVorAngebot = releases.length
   ergaenzeErstausgabeAngebot({ titles: titles.values(), releases })
   schreibeListen({ slim, tmdbTitles, releases, titles })
-  ergaenzeAngebotTermine({ events, neue: releases.slice(releasesVorAngebot), slim, alle: releases, titles })
+  ergaenzeAngebotTermine({ events, releases, ab: releasesVorAngebot, slim, titles })
   schreibeKinoZuletzt(titles, tmdbTitles)
 
   schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige })
