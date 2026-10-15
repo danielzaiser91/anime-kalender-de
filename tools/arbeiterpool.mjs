@@ -5,6 +5,7 @@
  */
 import { spawn } from 'node:child_process'
 import { availableParallelism } from 'node:os'
+import { gitStand, veraenderte } from './git-stand-wache.mjs'
 
 export const POOLGROESSE = Math.min(6, availableParallelism())
 
@@ -22,9 +23,10 @@ function starte(auftrag) {
 /**
  * Führt die Aufträge aus. `anfang` = Indizes, die zuerst starten (langsame); Ausgabe immer in Auftragsreihenfolge.
  * Ohne `alle` startet nach dem ersten roten Auftrag keiner mehr. `meldung(i)` kommt vor der Ausgabe von Auftrag i.
- * Liefert `rote` (Indizes in Reihenfolge, mit Exit-Code in `status`) und die Zahl der gelaufenen Aufträge.
+ * Mit `wurzel` (Git-Arbeitsbaum) wird nach dem Lauf geprüft, ob getrackte Dateien verändert wurden (`veraendert`).
+ * Liefert `rote` (Indizes in Reihenfolge, mit Exit-Code in `status`), die Zahl der gelaufenen Aufträge und `veraendert`.
  */
-export async function laufePool(auftraege, { alle, anfang = [], n = POOLGROESSE, meldung }) {
+export async function laufePool(auftraege, { alle, anfang = [], n = POOLGROESSE, meldung, wurzel }) {
   const reihe = [...anfang, ...auftraege.keys()].filter((v, i, a) => a.indexOf(v) === i)
   const ergebnisse = new Array(auftraege.length)
   let naechster = 0
@@ -52,9 +54,12 @@ export async function laufePool(auftraege, { alle, anfang = [], n = POOLGROESSE,
       ausgeben()
     }
   }
+  const standVorher = wurzel ? gitStand(wurzel) : null
   await Promise.all(Array.from({ length: Math.min(n, auftraege.length) }, arbeiter))
   ausgeben()
   for (const i of auftraege.keys()) if (ergebnisse[i] && i >= ausgegeben) gib(i)
   const rote = [...auftraege.keys()].filter((i) => ergebnisse[i]?.rot).map((i) => ({ index: i, status: ergebnisse[i].status }))
-  return { rote, gelaufen: ergebnisse.filter(Boolean).length }
+  const veraendert = wurzel ? veraenderte(standVorher, gitStand(wurzel)) : []
+  if (veraendert.length) console.error(`Der Lauf hat getrackte Dateien verändert (eine Prüfung schreibt ins Repo): ${veraendert.join(', ')}`)
+  return { rote, gelaufen: ergebnisse.filter(Boolean).length, veraendert }
 }

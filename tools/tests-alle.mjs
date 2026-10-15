@@ -17,7 +17,8 @@ const alle = process.argv.includes('--alle')
 const LANGSAM = ['quellen-pr.test.mjs', 'bash-an-angehaengtes-log.test.mjs', 'commit-data.test.mjs']
 
 const auftraege = tests.map((test) => ({ befehl: process.execPath, args: [join(tools, test)], cwd: wurzel, env: process.env }))
-const { rote, gelaufen } = await laufePool(auftraege, {
+const { rote, gelaufen, veraendert } = await laufePool(auftraege, {
+  wurzel,
   alle,
   anfang: LANGSAM.map((t) => tests.indexOf(t)).filter((i) => i >= 0),
   meldung: (i) => console.log(`[tests-alle] tools/${tests[i]}`),
@@ -32,4 +33,5 @@ if (rote.length > 0) {
   for (const r of rote) console.error(`  - tools/${tests[r.index]}`)
   process.exit(1)
 }
+if (veraendert.length > 0) process.exit(1)
 console.log(`tests-alle: ${gelaufen} von ${tests.length} Tests grün.`)

@@ -1,7 +1,7 @@
 /**
- * `npm run check:logic`: führt die Prüfungen aus tools/check-logic-liste.txt nacheinander mit tsx aus.
- * Eine Datei je Zeile (Pfad ab Repo-Wurzel), `#` beginnt einen Kommentar. Der erste Fehler bricht ab
- * und gibt dessen Exit-Code zurück. Mit `--alle` laufen alle durch, am Ende steht die Liste der roten
+ * `npm run check:logic`: führt die Prüfungen aus tools/check-logic-liste.txt mit tsx aus, bis zu 6 gleichzeitig (tools/arbeiterpool.mjs; Ausgabe je Prüfung gepuffert, in Listenreihenfolge).
+ * Eine Datei je Zeile (Pfad ab Repo-Wurzel), `#` beginnt einen Kommentar. Nach dem ersten Fehler startet keine weitere Prüfung;
+ * dessen Exit-Code ist der des Laufs. Mit `--alle` laufen alle durch, am Ende steht die Liste der roten
  * (Exit 1). Eigene Datei statt einer Kette in package.json, damit zwei PRs,
  * die je einen Check ergänzen, nicht in derselben Zeile kollidieren; die Liste ist sortiert, damit sie auch
  * nicht an derselben Stelle (Listenende) einfügen.
@@ -110,7 +110,8 @@ const auftraege = dateien.map((datei, i) => {
   }
 })
 
-const { rote, gelaufen } = await laufePool(auftraege, {
+const { rote, gelaufen, veraendert } = await laufePool(auftraege, {
+  wurzel,
   alle,
   meldung: (i) => console.log(`[${name} ${i + 1}/${dateien.length}] ${dateien[i]}`),
 })
@@ -125,4 +126,5 @@ if (rote.length > 0) {
   for (const r of rote) console.error(`  - ${dateien[r.index]}`)
   process.exit(1)
 }
+if (veraendert.length > 0) process.exit(1)
 console.log(`${name}: ${dateien.length} von ${dateien.length} Prüfungen grün.`)
