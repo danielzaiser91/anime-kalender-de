@@ -60,7 +60,7 @@ function gruppen(env: Env, stapel: unknown[]): Gruppe[] {
 /** Alle Folgen einer Gruppe in einem Schreibvorgang; leer, wenn die Gruppe den bisherigen Weg geht. */
 async function gruppeSpeichern(env: Env, g: Gruppe, listenbauAm: () => Promise<string | null>): Promise<[number, StapelErgebnis][]> {
   const zeile = await ladeZeile(env, g.url, g.plattform)
-  if (!zeile && (await hatAltzeilen(env, g.url, g.plattform))) return []
+  if (!zeile && (await hatAltzeilen(env, g.url))) return []
   const glieder = g.glieder.map((m) => ({ ...m, eintrag: eintragOderFehler(m.daten, m.ab) }))
   if (!zeile && glieder.some((m) => typeof m.eintrag === 'string')) return []
   const passend = glieder.filter((m): m is Glied & { eintrag: Eintrag } => typeof m.eintrag !== 'string')

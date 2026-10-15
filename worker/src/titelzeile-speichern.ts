@@ -45,14 +45,14 @@ const anbieterListe = (env: Env) =>
 /** Eine Meldung eines Anbieters aus der Liste. Mehrere Rohfolgen in einer Meldung (Prime) beantwortet `versucheTitelzeile`. */
 export const gehoertHierher = (env: Env, daten: Record<string, unknown>) => anbieterListe(env).includes(String(daten.plattform))
 
-/** Altzeilen in `pruefung` oder `prime_folge`: bis das Einspielen sie umgezogen hat, würde eine Titelzeile sie verdrängen. */
-export async function hatAltzeilen(env: Env, url: string, plattform: string): Promise<boolean> {
-  const { results } = await env.DB.prepare(
-    `SELECT 1 AS da FROM pruefung WHERE url = ?1
-     UNION ALL SELECT 1 FROM prime_folge WHERE url = ?1 AND plattform = ?2 LIMIT 1`,
-  )
-    .bind(url, plattform)
-    .all()
+/**
+ * Altzeilen in `pruefung`: bis das Einspielen sie umgezogen hat, würde eine Titelzeile sie verdrängen.
+ * Nur `pruefung` (Index auf `url`): `prime_folge` hat seit Migration 047 keinen `url`-Index mehr, die Abfrage
+ * las dort je Aufruf die ganze Tabelle (15.10.2026: 47 Aufrufe, 2,34 Mio. Zeilen). Eine Adresse nur mit Rohfolgen
+ * bekommt dadurch eine Titelzeile; das Einspielen nimmt ihre Rohfolgen trotzdem mit (worker-titelzeile.test.ts).
+ */
+export async function hatAltzeilen(env: Env, url: string): Promise<boolean> {
+  const { results } = await env.DB.prepare('SELECT 1 AS da FROM pruefung WHERE url = ?1 LIMIT 1').bind(url).all()
   return (results?.length ?? 0) > 0
 }
 
@@ -81,7 +81,7 @@ async function versucheTitelzeile(k: Kontext, daten: Record<string, unknown>, ab
   const url = String(daten.url ?? '').trim()
   const plattform = String(daten.plattform)
   const zeile = await ladeZeile(k.env, url, plattform)
-  if (!zeile && (await hatAltzeilen(k.env, url, plattform))) return null
+  if (!zeile && (await hatAltzeilen(k.env, url))) return null
   const eintrag = eintragOderFehler(daten, ab)
   if (typeof eintrag === 'string') return zeile ? k.antwort({ error: eintrag }, 400) : null
   const kopf = kopfAusMeldung(daten)
