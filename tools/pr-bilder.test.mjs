@@ -109,8 +109,8 @@ try {
   assert.equal(git(fern, 'ls-tree', '--name-only', '-r', neuerKopf), 'vorher.png')
 
   // Falsche Eingabe: Exit 1, nichts gepusht.
-  assert.equal(werkzeug(arbeit, 'Falsch Name', vorher).status, 1)
-  assert.equal(git(fern, 'branch', '--list', 'bilder/*').split('\n').length, 2) // panel-test und bindestrich, kein "Falsch Name"
+  assert.equal(werkzeug(arbeit, 'a.b', vorher).status, 1) // gültiger Ref, nur die Namensregel lehnt ab
+  assert.equal(git(fern, 'for-each-ref', '--format=%(refname:short)', 'refs/heads/bilder/'), 'bilder/bindestrich\nbilder/panel-test')
   console.log('pr-bilder.test: ok')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
