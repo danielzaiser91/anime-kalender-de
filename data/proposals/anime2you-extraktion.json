@@ -5,6 +5,10 @@
       "vorschlaege": 0,
       "uebersprungen": "von Hand gelesen, keine Lücke gefüllt"
     },
+    "1048587": {
+      "am": "2026-10-15",
+      "vorschlaege": 1
+    },
     "1052708": {
       "am": "2026-10-13",
       "vorschlaege": 0,
@@ -16,6 +20,10 @@
     },
     "1056555": {
       "am": "2026-10-13",
+      "vorschlaege": 1
+    },
+    "1056585": {
+      "am": "2026-10-15",
       "vorschlaege": 1
     },
     "1056609": {
@@ -31,6 +39,10 @@
       "am": "2026-10-13",
       "vorschlaege": 0,
       "uebersprungen": "von Hand gelesen, keine Lücke gefüllt"
+    },
+    "1057758": {
+      "am": "2026-10-15",
+      "vorschlaege": 1
     },
     "1057956": {
       "am": "2026-10-11",
@@ -103,6 +115,10 @@
     "1058606": {
       "am": "2026-10-12",
       "vorschlaege": 7
+    },
+    "1058631": {
+      "am": "2026-10-15",
+      "vorschlaege": 0
     },
     "1058692": {
       "am": "2026-10-11",
@@ -203,9 +219,18 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1059786": {
+      "am": "2026-10-15",
+      "vorschlaege": 2
+    },
     "1059819": {
       "am": "2026-10-14",
       "vorschlaege": 0
+    },
+    "1059879": {
+      "am": "2026-10-15",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
     },
     "1059935": {
       "am": "2026-10-12",
@@ -272,6 +297,18 @@
       "am": "2026-10-14",
       "vorschlaege": 0
     },
+    "1060605": {
+      "am": "2026-10-15",
+      "vorschlaege": 3
+    },
+    "1060648": {
+      "am": "2026-10-15",
+      "vorschlaege": 3
+    },
+    "1060661": {
+      "am": "2026-10-15",
+      "vorschlaege": 2
+    },
     "1060669": {
       "am": "2026-10-14",
       "vorschlaege": 2
@@ -279,6 +316,23 @@
     "1060717": {
       "am": "2026-10-14",
       "vorschlaege": 6
+    },
+    "1060805": {
+      "am": "2026-10-15",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1060813": {
+      "am": "2026-10-15",
+      "vorschlaege": 3
+    },
+    "1060828": {
+      "am": "2026-10-15",
+      "vorschlaege": 2
+    },
+    "1060835": {
+      "am": "2026-10-15",
+      "vorschlaege": 1
     }
   },
   "vorschlaege": [
@@ -3179,6 +3233,331 @@
       "quelle": "https://www.anime2you.de/news/1058419/dr-stone-science-future-part-2-disc-termin/",
       "veroeffentlicht": "2026-10-13",
       "gelesenAm": "2026-10-14"
+    },
+    {
+      "titel": "Firefly Wedding",
+      "zitat": "»Firefly Wedding« umfasst insgesamt zwölf Episoden, die jeden Freitag um 18:00 Uhr im Originalton mit Untertiteln bei Crunchyroll im Simulcast zu sehen sind.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": "18:00",
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": "jeden Freitag",
+      "folgen": "zwölf",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1060661",
+      "artikel": "Episodenanzahl von »Firefly Wedding« steht fest",
+      "quelle": "https://www.anime2you.de/news/1060661/firefly-wedding-episodenanzahl/",
+      "veroeffentlicht": "2026-10-15",
+      "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "Firefly Wedding",
+      "zitat": "Eine deutsche Synchronisation folgt zu einem späteren Zeitpunkt.",
+      "art": "sprachfassung",
+      "sprache": "deutsch",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1060661",
+      "artikel": "Episodenanzahl von »Firefly Wedding« steht fest",
+      "quelle": "https://www.anime2you.de/news/1060661/firefly-wedding-episodenanzahl/",
+      "veroeffentlicht": "2026-10-15",
+      "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "Dragon Ball Super: Beerus",
+      "zitat": "»Dragon Ball Super: Beerus« (Simulcast) Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "disneyplus",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Disney+",
+      "sender": null,
+      "wochentage": "Jeden Mittwoch",
+      "folgen": "1",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Disney+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „disney+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1060828",
+      "artikel": "Disney+ ergänzt einen neuen Simulcast und eine neue Synchro",
+      "quelle": "https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/",
+      "veroeffentlicht": "2026-10-14",
+      "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "Snowball Earth",
+      "zitat": "»Snowball Earth« (Synchro) Episoden: 7 bis 13 (komplett) Sprache: Deutsch, Japanisch (UT)",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "disneyplus",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Disney+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "7 bis 13",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Disney+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „disney+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1060828",
+      "artikel": "Disney+ ergänzt einen neuen Simulcast und eine neue Synchro",
+      "quelle": "https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/",
+      "veroeffentlicht": "2026-10-14",
+      "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "Black Clover Second Season",
+      "zitat": "»Black Clover Second Season« läuft seit dem 3. Oktober 2026 im japanischen Fernsehen und hierzulande bei Crunchyroll im Simulcast.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-03",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Samstag",
+      "warnungen": [],
+      "artikelId": "1059786",
+      "artikel": "»Black Clover«-Fortsetzung profitiert von einer wichtigen Veränderung",
+      "quelle": "https://www.anime2you.de/news/1059786/black-clover-fortsetzung-profitiert-von-veraenderung/",
+      "veroeffentlicht": "2026-10-14",
+      "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "Cyberpunk: Edgerunners II",
+      "zitat": "»Cyberpunk: Edgerunners II« erscheint am 20. Oktober 2026 weltweit auf Netflix.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "netflix",
+      "datum": "2026-10-20",
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Dienstag",
+      "warnungen": [],
+      "artikelId": "1057758",
+      "artikel": "»Cyberpunk: Edgerunners II« soll sich deutlich vom Vorgänger unterscheiden",
+      "quelle": "https://www.anime2you.de/news/1057758/cyberpunk-edgerunners-ii-grosse-veraenderungen/",
+      "veroeffentlicht": "2026-10-14",
+      "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "The Apothecary Diaries: The Late Consort's Hidden Treasure",
+      "zitat": "Der Film trägt den Titel »The Apothecary Diaries: The Late Consort's Hidden Treasure« und feiert am 11. Dezember 2026 seine Kinopremiere in Japan, bevor dieser durch Crunchyroll in die deutschen Lichtspielhäuser gebracht wird. Ein Starttermin steht zum aktuellen Zeitpunkt allerdings noch aus.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "kino",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1060813",
+      "artikel": "Drei neue Teaser-Videos zum »The Apothecary Diaries«-Kinofilm",
+      "quelle": "https://www.anime2you.de/news/1060813/drei-neue-the-apothecary-diaries-kinofilm-teaser/",
+      "veroeffentlicht": "2026-10-14",
+      "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "The Apothecary Diaries",
+      "zitat": "Der Disc-Release der zweiten Staffel beginnt im Dezember 2026.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1060813",
+      "artikel": "Drei neue Teaser-Videos zum »The Apothecary Diaries«-Kinofilm",
+      "quelle": "https://www.anime2you.de/news/1060813/drei-neue-the-apothecary-diaries-kinofilm-teaser/",
+      "veroeffentlicht": "2026-10-14",
+      "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "The Apothecary Diaries",
+      "zitat": "Die zwölfteilige dritte Staffel von »The Apothecary Diaries« wird seit dem 2. Oktober 2026 jeden Freitag um 17:00 Uhr bei Crunchyroll im Simulcast gezeigt.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-02",
+      "uhrzeit": "17:00",
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": "jeden Freitag",
+      "folgen": "zwölf",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1060813",
+      "artikel": "Drei neue Teaser-Videos zum »The Apothecary Diaries«-Kinofilm",
+      "quelle": "https://www.anime2you.de/news/1060813/drei-neue-the-apothecary-diaries-kinofilm-teaser/",
+      "veroeffentlicht": "2026-10-14",
+      "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "The Cold Sato-san is Only Sweet to Me",
+      "zitat": "»The Cold Sato-san is Only Sweet to Me« umfasst demnach insgesamt zwölf Episoden, die seit dem 6. Oktober 2026 im japanischen Fernsehen ausgestrahlt werden und im Originalton mit Untertiteln bei Crunchyroll im Simulcast zu sehen sind.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-06",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "zwölf",
+      "unsicher": null,
+      "wochentag": "Dienstag",
+      "warnungen": [],
+      "artikelId": "1060835",
+      "artikel": "Episodenanzahl von »The Cold Sato-san is Only Sweet to Me«",
+      "quelle": "https://www.anime2you.de/news/1060835/the-cold-sato-san-is-only-sweet-to-me-episodenanzahl/",
+      "veroeffentlicht": "2026-10-14",
+      "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "Blue Box",
+      "zitat": "Die Anime-Adaption der gleichnamigen Manga-Reihe von Kouji Miura ist hierzulande mit deutscher und japanischer Sprachausgabe bei Netflix auf Abruf verfügbar.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1056585",
+      "artikel": "Neue Figur von Chinatsu Kano aus »Blue Box« angekündigt",
+      "quelle": "https://www.anime2you.de/news/1056585/neue-blue-box-chinatsu-kano-figur/",
+      "veroeffentlicht": "2026-10-14",
+      "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "Detektiv Conan",
+      "zitat": "Das erste Volume der »30th Anniversary Edition«, das die ersten 34 Episoden mit deutscher und japanischer Sprachausgabe beinhaltet, kommt voraussichtlich am 18. Dezember 2026 als DVD und Blu-ray in den Handel.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "34",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1060605",
+      "artikel": "Design der 30th Anniversary Edition von »Detektiv Conan«",
+      "quelle": "https://www.anime2you.de/news/1060605/detektiv-conan-30th-anniversary-edition-design/",
+      "veroeffentlicht": "2026-10-14",
+      "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "Der Flashback des Einäugigen",
+      "zitat": "Der 28. Kinofilm »Der Flashback des Einäugigen« kommt am 20. November 2026 auf DVD und Blu-ray in den Handel.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-20",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1060605",
+      "artikel": "Design der 30th Anniversary Edition von »Detektiv Conan«",
+      "quelle": "https://www.anime2you.de/news/1060605/detektiv-conan-30th-anniversary-edition-design/",
+      "veroeffentlicht": "2026-10-14",
+      "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "Der gefallene Engel des Highways",
+      "zitat": "Der 29. Film, »Der gefallene Engel des Highways«, feierte am 25. August 2026 seine Premiere in den hiesigen Kinos.",
+      "art": "kino",
+      "sprache": "unklar",
+      "plattform": "kino",
+      "datum": "2026-08-25",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Dienstag",
+      "warnungen": [],
+      "artikelId": "1060605",
+      "artikel": "Design der 30th Anniversary Edition von »Detektiv Conan«",
+      "quelle": "https://www.anime2you.de/news/1060605/detektiv-conan-30th-anniversary-edition-design/",
+      "veroeffentlicht": "2026-10-14",
+      "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "DAN DA DAN",
+      "zitat": "Die dritte Staffel startet nach aktueller Planung im Laufe des Jahres 2027.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1048587",
+      "artikel": "Neue Figuren von Momo und Jin aus »DAN DA DAN« angekündigt",
+      "quelle": "https://www.anime2you.de/news/1048587/neue-sega-momo-jin-figuren-dan-da-dan/",
+      "veroeffentlicht": "2026-10-14",
+      "gelesenAm": "2026-10-15"
     }
   ]
 }

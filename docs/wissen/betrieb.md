@@ -1752,6 +1752,14 @@ Erst löschen, dann Schalter: geht auch, solange die Durchgänge ruhen. Nur den 
   - **Aus den R2-Auszügen des Baus** (`?alle=1`, `…&alle=1`): liefert abgeleitete Antworten, nicht die Tabellen. Das Einspiel-SQL läuft dort nicht; nicht gebaut, Zeilen nicht gemessen.
 - **Nach dem Merge zu messen (Dirigent, nach 02:00 MESZ):** (1) Worker deployen, damit der Wecker den Lauf kennt. (2) Einmal `gh workflow run meldungskopie.yml`, danach `wrangler d1 insights` für den Lauf-Zeitraum: erwartet rund 73.000 gelesene Zeilen; liegt es über dem Dreifachen (220.000), den `--table`-Weg gegen `SELECT`-Seiten tauschen. (3) `npm run meldungskopie -- holen`, danach die Einspiel-SQL-Probe an der Kopie.
 
+## Worker-Cron: 50 Unteraufrufe je Aufruf, Digest mit eigenem Trigger (15.10.2026)
+
+Die Free-Stufe erlaubt **50 Unteraufrufe je Worker-Aufruf**, D1-Abfragen zählen mit. Der stündliche Cron teilte sie sich mit Monitor, Wecker, Push und Digest: zur Sendestunde 79 ohne Abonnenten, 227 bei 50 (Miniflare-Simulation, Bericht `daniel-zum-abarbeiten/berichte/digest-subrequest-grenze.md`); der Digest kostete je Abonnent drei (Mail, zwei UPDATE) und brach ab etwa 15 ohne `send_log` ab.
+
+Seitdem: Der Digest hat einen eigenen Trigger `0 5,6 * * *` (`DIGEST_CRON` in `worker/src/digest-versand.ts`, Zeichen für Zeichen in `wrangler.toml`; 05/06 UTC = 07:00 Berlin in Sommer-/Winterzeit, `SEND_HOUR_BERLIN` entscheidet). Er verschickt per Resend-Stapel (`/emails/batch`, höchstens 100 je Aufruf, alles oder nichts je Stapel) und schreibt Sync-Schlüssel und `last_sent_at` je in **einer** Abfrage über `json_each`. Der Monitor schreibt Stände und Verlauf ebenfalls in je einer Abfrage. Gemessen (D1-Stapel je Anweisung gezählt): Digest-Aufruf 11–13 bei 1/10/50/150 Abonnenten, Montag mit Wochendigest 16–17; stündlicher Aufruf 35 unabhängig von der Abonnentenzahl. Prüfung: `tools/worker-digest-versand.test.ts` (in `check:worker`).
+
+Offen: Push-Abos kosten im stündlichen Aufruf weiter je etwa zwei; rote Seiten kosten Nachprüfung und Störungsmail. Resend Free schickt 100 Mails am Tag. Cron-Trigger je Konto: 5 (Free).
+
 ## Lese-Deckel für jede Anfrage (`lesedeckel.ts`, 15.10.2026)
 
 **Anlass:** Am 15.10.2026 um 12:48 MESZ waren 6,72 Mio. Zeilen gelesen (Kontingent 5 Mio.), D1 stand bis 02:00 MESZ. Der Tagesdeckel zählte nur Meldungen; `GET /pruefung?token=` (`offenePruefungen`, rund 36.000 Zeilen je Aufruf laut Insights) lief bei jedem Prime-Seitenaufruf der Erweiterung am Zähler vorbei.
