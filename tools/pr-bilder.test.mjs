@@ -1,0 +1,119 @@
+/**
+ * Test für `tools/pr-bilder.mjs`: an einem temporären Repo mit einem Pre-Commit-Hook, der immer scheitert.
+ * Der Bilderzweig muss trotzdem entstehen (kein Hook beteiligt), ohne Vorgänger, flach, mit Byte-gleichem Inhalt.
+ * Aufruf: node tools/pr-bilder.test.mjs
+ */
+import assert from 'node:assert/strict'
+import { execFileSync, spawnSync } from 'node:child_process'
+import { mkdirSync, mkdtempSync, rmSync, truncateSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { baumZeilen, bildLinks, eingabeFehler, repoAus } from './pr-bilder.mjs'
+
+const WERKZEUG = fileURLToPath(new URL('./pr-bilder.mjs', import.meta.url))
+const GIT = process.env.GIT || 'git'
+const LEERE_CONFIG = path.join(tmpdir(), 'pr-bilder-leer.gitconfig')
+writeFileSync(LEERE_CONFIG, '')
+// Leere globale Konfiguration: ein globales core.hooksPath beträfe den Test sonst.
+const KENNUNG = { GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: LEERE_CONFIG, GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t' }
+
+const UMGEBUNG = { ...process.env, ...KENNUNG }
+const git = (cwd, ...args) => execFileSync(GIT, args, { cwd, encoding: 'utf8', env: UMGEBUNG }).trim()
+const werkzeug = (cwd, ...args) => spawnSync(process.execPath, [WERKZEUG, ...args], { cwd, encoding: 'utf8', env: UMGEBUNG })
+
+// Reine Funktionen.
+assert.equal(repoAus('https://github.com/danielzaiser91/anime-kalender-de.git'), 'danielzaiser91/anime-kalender-de')
+assert.equal(repoAus('git@github.com:a/b'), 'a/b')
+assert.equal(repoAus('C:/irgendwo/remote.git'), null)
+assert.equal(baumZeilen({ 'a.png': 'h1', 'b.png': 'h2' }), '100644 blob h1\ta.png\n100644 blob h2\tb.png\n')
+assert.deepEqual(bildLinks('o/r', 'x', ['p/a b.png']), ['![a b.png](https://raw.githubusercontent.com/o/r/bilder/x/a%20b.png)'])
+assert.deepEqual(eingabeFehler('gut-1', []), ['Keine Bilddatei angegeben.'])
+assert.equal(eingabeFehler('Schlecht', ['x.png']).length, 2) // Name ungültig, Datei fehlt
+assert.match(eingabeFehler('gut', ['x.txt']).join(), /kein Bild/)
+assert.match(eingabeFehler('gut', ['a/x.png', 'b/x.png']).join(), /mehrfach/)
+
+// Abzulehnende Eingaben; die Bilddateien existieren, damit nur die Regel für Name bzw. Endung greift.
+const ablehnen = mkdtempSync(path.join(tmpdir(), 'pr-bilder-ablehnen-'))
+try {
+  for (const n of ['x.png.txt', 'xpng', '-x.png', 'ok.png']) writeFileSync(path.join(ablehnen, n), 'x')
+  const ok = path.join(ablehnen, 'ok.png')
+  for (const name of ['a/../main', 'a:b', 'a b', 'a.b', 'main/x', '-x']) {
+    assert.match(eingabeFehler(name, [ok]).join(), /ungültig/, `Name ${name} muss abgelehnt werden`)
+  }
+  assert.deepEqual(eingabeFehler('gut-1', [ok]), [])
+  assert.match(eingabeFehler('gut', [path.join(ablehnen, 'x.png.txt')]).join(), /kein Bild/)
+  assert.match(eingabeFehler('gut', [path.join(ablehnen, 'xpng')]).join(), /kein Bild/)
+  assert.match(eingabeFehler('gut', [path.join(ablehnen, '-x.png')]).join(), /beginnen/)
+  const gross = path.join(ablehnen, 'gross.png')
+  writeFileSync(gross, '')
+  truncateSync(gross, 10 * 1024 * 1024)
+  assert.deepEqual(eingabeFehler('gut', [gross]), [], '10 MB sind erlaubt')
+  truncateSync(gross, 10 * 1024 * 1024 + 1)
+  assert.match(eingabeFehler('gut', [gross]).join(), /größer als 10 MB/)
+} finally {
+  rmSync(ablehnen, { recursive: true, force: true })
+}
+
+// Ablauf an einem echten Repo.
+const wurzel = mkdtempSync(path.join(tmpdir(), 'pr-bilder-test-'))
+try {
+  const fern = path.join(wurzel, 'fern.git')
+  const arbeit = path.join(wurzel, 'arbeit')
+  mkdirSync(arbeit)
+  git(wurzel, 'init', '--bare', 'fern.git')
+  git(arbeit, 'init')
+  git(arbeit, 'remote', 'add', 'origin', fern)
+  writeFileSync(path.join(arbeit, '.git', 'hooks', 'pre-commit'), '#!/bin/sh\necho "Hook lief" >&2\nexit 1\n', { mode: 0o755 })
+
+  // Eine Textregel darf die Bildbytes nicht umschreiben (--no-filters).
+  writeFileSync(path.join(arbeit, '.gitattributes'), '*.png text eol=lf\n')
+
+  // Bytes mit NUL, CRLF und hohen Werten: dürfen nicht verändert werden.
+  const bytes = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0xff, 0x0d, 0x0a])
+  const vorher = path.join(arbeit, 'vorher.png')
+  const nachher = path.join(arbeit, 'nachher.png')
+  writeFileSync(vorher, bytes)
+  writeFileSync(nachher, Buffer.concat([bytes, Buffer.from([1])]))
+
+  const lauf = werkzeug(arbeit, 'panel-test', vorher, nachher)
+  assert.equal(lauf.status, 0, lauf.stderr)
+  assert.doesNotMatch(lauf.stderr, /Hook lief/)
+  const kopf = /= ([0-9a-f]{40})/.exec(lauf.stdout)[1]
+  assert.equal(git(fern, 'rev-parse', 'refs/heads/bilder/panel-test'), kopf)
+  assert.equal(git(fern, 'rev-list', '--parents', '-n', '1', kopf), kopf, 'Zweig hat einen Vorgänger')
+  assert.equal(git(fern, 'ls-tree', '--name-only', '-r', kopf), 'nachher.png\nvorher.png')
+  assert.deepEqual(execFileSync(GIT, ['cat-file', 'blob', `${kopf}:vorher.png`], { cwd: fern, env: UMGEBUNG }), bytes)
+
+  // Der Hook wurde nicht umgangen: keine Hook-Einstellung im Repo, und ein echter Commit scheitert weiter am Hook.
+  assert.equal(spawnSync(GIT, ['config', '--local', '--get', 'core.hooksPath'], { cwd: arbeit, env: UMGEBUNG }).status, 1)
+  git(arbeit, 'add', 'vorher.png')
+  const commit = spawnSync(GIT, ['commit', '-m', 'x'], { cwd: arbeit, encoding: 'utf8', env: UMGEBUNG })
+  assert.notEqual(commit.status, 0)
+  assert.match(commit.stderr, /Hook lief/)
+
+  // Verzeichnis mit führendem Bindestrich: ohne `--` läse git den Pfad als Option.
+  mkdirSync(path.join(arbeit, '-ordner'))
+  writeFileSync(path.join(arbeit, '-ordner', 'x.png'), bytes)
+  const mitBindestrich = werkzeug(arbeit, 'bindestrich', '-ordner/x.png')
+  assert.equal(mitBindestrich.status, 0, mitBindestrich.stderr)
+
+  // Ein vorhandener Zweig wird nur mit --ersetzen überschrieben.
+  writeFileSync(vorher, Buffer.from([7, 7, 7]))
+  const zweiter = werkzeug(arbeit, 'panel-test', vorher)
+  assert.notEqual(zweiter.status, 0)
+  assert.equal(git(fern, 'rev-parse', 'refs/heads/bilder/panel-test'), kopf)
+  const ersetzt = werkzeug(arbeit, 'panel-test', vorher, '--ersetzen')
+  assert.equal(ersetzt.status, 0, ersetzt.stderr)
+  const neuerKopf = /= ([0-9a-f]{40})/.exec(ersetzt.stdout)[1]
+  assert.equal(git(fern, 'rev-parse', 'refs/heads/bilder/panel-test'), neuerKopf)
+  assert.equal(git(fern, 'ls-tree', '--name-only', '-r', neuerKopf), 'vorher.png')
+
+  // Falsche Eingabe: Exit 1, nichts gepusht.
+  assert.equal(werkzeug(arbeit, 'a.b', vorher).status, 1) // gültiger Ref, nur die Namensregel lehnt ab
+  assert.equal(git(fern, 'for-each-ref', '--format=%(refname:short)', 'refs/heads/bilder/'), 'bilder/bindestrich\nbilder/panel-test')
+  console.log('pr-bilder.test: ok')
+} finally {
+  rmSync(wurzel, { recursive: true, force: true })
+  rmSync(LEERE_CONFIG, { force: true })
+}
