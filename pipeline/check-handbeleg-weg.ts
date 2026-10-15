@@ -5,12 +5,11 @@
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-handbeleg-weg.ts`
  */
-import { mkdtempSync } from 'node:fs'
-import { tmpdir } from 'node:os'
 import type { StreamLink, Title } from '../shared/types.ts'
 import type { CrDubData } from './lib/crunchyroll-dub.ts'
 import { ordneCrSerienZu } from './bau/09-4-1-serien.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
+import { suchadressenInTemp } from './lib/suchadressen-temp.ts'
 import { behalteNurHandbelegteWege } from './lib/handbeleg-weg.ts'
 import { loadDubChecks, verschmelze, type DubCheck } from './lib/dub-confirmed.ts'
 import { readJson } from './lib/util.ts'
@@ -82,7 +81,7 @@ pruefe('Gegenprobe: eine andere Plattform fällt', behalten([ja({ platform: 'net
 
 console.log('\nAufrufer (schliesseWegeAb) reicht die Belege durch:')
 /** Der Abschluss schreibt nebenbei die Listen der offenen Suchadressen; die Prüfung lenkt sie in einen Temp-Ordner um. */
-process.env.SUCHADRESSEN_ORDNER = mkdtempSync(`${tmpdir()}/suchadressen-`)
+suchadressenInTemp()
 function abschliessen(checks: DubCheck[]): StreamLink[] {
   const nurAnisearch = titel(10_000_000 + OVA, [weg(URL_BELEG, { dub: true })])
   schliesseWegeAb({

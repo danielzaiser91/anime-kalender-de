@@ -5,10 +5,9 @@
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-nein-handbeleg-abschluss.ts`
  */
-import { mkdtempSync } from 'node:fs'
-import { tmpdir } from 'node:os'
 import type { Title, WatchLink } from '../shared/types.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
+import { suchadressenInTemp } from './lib/suchadressen-temp.ts'
 import type { DubCheck } from './lib/dub-confirmed.ts'
 
 let verletzt = 0
@@ -23,7 +22,7 @@ const weg = (name: string, url: string): WatchLink => ({ name, url, kind: 'strea
 const beleg = (platform: string, rest: { dub?: boolean; available?: boolean }) => ({ anilistId: ID, platform, ...rest }) as DubCheck
 
 /* `bereinigeWege` schreibt bei jedem Lauf die Suchadressen-Liste; der Test lenkt sie in einen Temp-Ordner um. */
-process.env.SUCHADRESSEN_ORDNER = mkdtempSync(`${tmpdir()}/suchadressen-`)
+suchadressenInTemp()
 
 /** Lässt den Abschluss mit einem Titel (Netflix- und Prime-Bezugsweg) und den Handbelegen laufen; liefert die Namen der verbleibenden Bezugswege. */
 function lauf(alleChecks: DubCheck[]): string {
