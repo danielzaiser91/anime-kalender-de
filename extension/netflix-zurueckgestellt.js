@@ -1,5 +1,5 @@
 /*
-  **Netflix-Durchgang: übersprungene Titel bleiben zurückgestellt** (4.31.2, 15.10.2026)
+  **Netflix-Durchgang: übersprungene Titel bleiben zurückgestellt** (4.31.3, 15.10.2026)
 
   Daniel am 15.10.2026: Yu-Gi-Oh! und Pokémon Sonne & Mond kamen bei jedem „▶ alle durchgehen“ wieder,
   weil `selbstUebersprungen` in `melder.js` nur im Arbeitsspeicher lag und jeder Start es leerte.
@@ -8,13 +8,15 @@
   Einträge, darum überspringt `naechsterAuftrag()` sie ohne eigene Zeile. `clear()` (Start eines Durchgangs)
   leert nur den Arbeitsspeicher, nie den Speicher. Lädt laut Manifest vor `melder.js`.
 
-  Ablauf: „Erinnern" mit erkanntem Datum → bis zu diesem Tag (Europe/Berlin, Netflix nennt kein Jahr: nächstes
-  Vorkommen); „Erinnern" ohne Datum → 7 Tage; alles andere (keine Folgenliste, nach N Versuchen offen) → 1 Tag.
-  Ein Titel, der nach dem Worker-Stand fertig ist, fliegt raus (`istFertig`), ebenso ein Eintrag mit dem Grund
-  „fertig" und jeder abgelaufene. Kein Worker, keine D1.
+  Ablauf: „Erinnern" mit erkanntem Datum → bis zu diesem Tag (Europe/Berlin; Netflix nennt kein Jahr, ein
+  vergangenes Datum ohne Jahr gilt als unlesbar); „Erinnern" ohne (lesbares) Datum → 7 Tage; alles andere (keine
+  Folgenliste, nach N Versuchen offen) → 1 Tag; nie mehr als 30 Tage (ein falsch gelesenes Datum sperrt keinen
+  Titel für ein Jahr). Ein Titel, der nach dem Worker-Stand fertig ist, fliegt raus, ebenso ein Eintrag mit dem
+  Grund „fertig" und jeder abgelaufene. Kein Worker, keine D1.
 */
 const ZURUECK_SCHLUESSEL = 'netflixZurueckgestellt'
 const ZURUECK_TAG_MS = 24 * 3600 * 1000
+const ZURUECK_HOECHSTENS_TAGE = 30
 const ZURUECK_MONATE = ['jan', 'feb', 'mär', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dez']
 
 /** Kalendertag in Berlin zu einem Zeitpunkt: `{ j, m, t }`. */
@@ -38,7 +40,7 @@ function zurueckTagAnfang(j, m, t) {
   return utc
 }
 
-/** „29. September" / „3. Okt. 2026" → Beginn dieses Tages in Berlin (ohne Jahr: das nächste Vorkommen); sonst `null`. */
+/** „29. September" / „3. Okt. 2026" → Beginn dieses Tages in Berlin (ohne Jahr: nur ein Datum von heute an); sonst `null`. */
 function zurueckDatumBis(text, jetzt) {
   const treffer = /(\d{1,2})\.\s*([A-Za-zÄÖÜäöü]+)\.?(?:\s+(\d{4}))?/.exec(String(text ?? ''))
   if (!treffer) return null
@@ -47,22 +49,24 @@ function zurueckDatumBis(text, jetzt) {
   if (!m || t < 1 || t > 31) return null
   const heute = zurueckBerlinTag(jetzt)
   const vorbei = m < heute.m || (m === heute.m && t < heute.t)
-  const j = treffer[3] ? Number(treffer[3]) : heute.j + (vorbei ? 1 : 0)
+  if (vorbei && !treffer[3]) return null /* ohne Jahr ist ein vergangenes Datum unlesbar, kein nächstes Jahr */
+  const j = treffer[3] ? Number(treffer[3]) : heute.j
   return zurueckTagAnfang(j, m, t)
 }
 
-/** Bis wann ein Titel zurückgestellt bleibt (ms), je nach Grund. */
+/** Bis wann ein Titel zurückgestellt bleibt (ms), je nach Grund; nie länger als `ZURUECK_HOECHSTENS_TAGE`. */
 function zurueckBis(grund, datum, jetzt) {
   if (!/^Erinnern/.test(grund)) return jetzt + ZURUECK_TAG_MS
-  return zurueckDatumBis(datum, jetzt) ?? jetzt + 7 * ZURUECK_TAG_MS
+  const bis = zurueckDatumBis(datum, jetzt) ?? jetzt + 7 * ZURUECK_TAG_MS
+  return Math.min(bis, jetzt + ZURUECK_HOECHSTENS_TAGE * ZURUECK_TAG_MS)
 }
 
 /**
  * Die Merkliste des Durchgangs (`Map` Kennung → Grund) samt dauerhafter Zurückstellung.
- * `istFertig(kennung)`: `true`, wenn der Titel nach dem Worker-Stand nicht mehr offen ist.
+ * `titel`: die Prüfliste (Kennung → Eintrag); `fertig(kennung, eintrag)`: Worker-Stand, `true` = nicht mehr offen.
  * `umgebung` (nur Tests): `{ speicher, jetzt, datum }`.
  */
-globalThis.akNetflixZurueckNeu = (istFertig, umgebung = {}) => {
+globalThis.akNetflixZurueckNeu = (titel, fertig, umgebung = {}) => {
   const speicher = umgebung.speicher ?? chrome.storage.local
   const jetzt = umgebung.jetzt ?? Date.now
   const datum = umgebung.datum ?? (() => globalThis.erscheinungsdatum?.())
@@ -79,6 +83,9 @@ globalThis.akNetflixZurueckNeu = (istFertig, umgebung = {}) => {
       .catch(() => {})
   }
   const entfernen = (kennung) => aendern((s) => delete s[kennung])
+
+  const gelistet = (kennung) => titel[kennung] !== undefined
+  const istFertig = (kennung) => gelistet(kennung) && fertig(kennung, titel[kennung])
 
   const aktiv = (kennung) => {
     const e = stand[kennung]
@@ -112,10 +119,23 @@ globalThis.akNetflixZurueckNeu = (istFertig, umgebung = {}) => {
       return super.set(kennung, grund)
     }
 
-    /** Wie viele Titel noch zurückgestellt sind, als Anhang der Endanzeige (leer bei 0). */
+    /** Zurückgestellte, noch offene Titel der Prüfliste; `neue`: nur die, die dieser Lauf nicht schon selbst nennt. */
+    zurueckOffen(neue) {
+      return Object.keys(stand).filter((k) => aktiv(k) && gelistet(k) && !(neue && super.has(k)))
+    }
+
+    /** Anhang der Endanzeige: wie viele offene Titel zurückgestellt sind (leer bei 0). */
     zurueckText() {
-      const n = Object.keys(stand).filter(aktiv).length
+      const n = this.zurueckOffen(true).length
       return n ? ` · ${n} zurückgestellt` : ''
+    }
+
+    /** Beschriftung des Knopfes, wenn der Durchgang keinen Auftrag findet: Zurückstellung oder wirklich nichts offen. */
+    keinAuftrag() {
+      if (this.zurueckOffen(false).length) {
+        return { text: 'alle offenen zurückgestellt', title: 'Die offenen Titel sind zurückgestellt und kommen nach Ablauf (ein Tag bis ein Monat) wieder dran.' }
+      }
+      return { text: 'nichts offen — Seite neu laden', title: 'Die Liste hält gerade keinen offenen Auftrag. Nach einem Neuladen der Seite ist der Prüfstand frisch.' }
     }
   }
   return new Zurueckgestellt()

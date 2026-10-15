@@ -1,5 +1,5 @@
 /**
- * Netflix-Durchgang: übersprungene Titel bleiben zurückgestellt (4.31.2, 15.10.2026).
+ * Netflix-Durchgang: übersprungene Titel bleiben zurückgestellt (4.31.3, 15.10.2026).
  *
  * Anlass: Yu-Gi-Oh! und Pokémon Sonne & Mond kamen bei jedem „▶ alle durchgehen“ wieder, weil die Merkliste nur im
  * Arbeitsspeicher lag. Geprüft wird die echte Datei mit einem Speicher-Double und einer festen Uhr:
@@ -48,7 +48,8 @@ const stand = (speicher) => speicher.daten[SCHLUESSEL] ?? {}
 /* Ein Seitenaufruf: neue Merkliste über demselben Speicher. */
 const seite = async (speicher, o = {}) => {
   const uhr = { t: o.jetzt ?? JETZT }
-  const karte = neu(o.fertig ?? (() => false), { speicher, jetzt: () => uhr.t, datum: () => o.datum ?? null })
+  const titel = new Proxy({}, { get: (_, k) => (o.nichtGelistet?.includes(k) ? undefined : {}) })
+  const karte = neu(titel, o.fertig ?? (() => false), { speicher, jetzt: () => uhr.t, datum: () => o.datum ?? null })
   await ruhe()
   return { karte, uhr }
 }
@@ -76,9 +77,11 @@ async function ablaufJeGrund() {
 
   const bis = kontext.akZurueckBis
   pruefe('Datum im Winter: 3. November 2026 = 2.11. 23:00 UTC', bis('Erinnern', '3. November 2026', JETZT) === berlin(2026, 11, 2, 23), bis('Erinnern', '3. November 2026', JETZT))
-  pruefe('Datum ohne Jahr, schon vorbei: nächstes Jahr (29. September → 2027)', bis('Erinnern', 'Ab 29. September', JETZT) === berlin(2027, 9, 28, 22))
-  pruefe('Datum ohne Jahr, noch voraus: dieses Jahr (12. Dezember → 11.12. 23:00 UTC)', bis('Erinnern', '12. Dezember', JETZT) === berlin(2026, 12, 11, 23))
-  pruefe('Kurzform „3. Okt." und „Mär" werden gelesen', bis('Erinnern', '3. Okt. 2026', JETZT) === berlin(2026, 10, 2, 22) && bis('Erinnern', '1. März 2027', JETZT) === berlin(2027, 2, 28, 23))
+  pruefe('Datum ohne Jahr, schon vorbei: wie „kein Datum“, 7 Tage (29. September, kein Sperren bis 2027)', bis('Erinnern', 'Ab 29. September', JETZT) === JETZT + 7 * TAG)
+  pruefe('Datum ohne Jahr, noch voraus: dieses Jahr (30. Oktober → 29.10. 23:00 UTC)', bis('Erinnern', '30. Oktober', JETZT) === berlin(2026, 10, 29, 23))
+  pruefe('Ablauf höchstens 30 Tage (12. Dezember → JETZT + 30 Tage)', bis('Erinnern', '12. Dezember', JETZT) === JETZT + 30 * TAG)
+  pruefe('… auch bei ausdrücklich fernem Jahr (3. Mai 2030)', bis('Erinnern', '3. Mai 2030', JETZT) === JETZT + 30 * TAG)
+  pruefe('Kurzform „28. Okt." und „März" werden gelesen', bis('Erinnern', '28. Okt. 2026', JETZT) === berlin(2026, 10, 27, 23) && bis('Erinnern', '1. März 2027', Date.UTC(2027, 1, 20)) === berlin(2027, 2, 28, 23))
   pruefe('unlesbares Datum: 7 Tage', bis('Erinnern', '5. Blubber', JETZT) === JETZT + 7 * TAG)
 
 }
@@ -134,16 +137,32 @@ async function gemeldet() {
 async function mitWartefunktion() {
   /* Zusammenspiel mit der Wartefunktion: derselbe Grund, dasselbe Datum */
   const f = speicherNeu()
-  const lauf = await seite(f, { datum: '12. Dezember' })
+  const lauf = await seite(f, { datum: '30. Oktober' })
   kontext.akNetflixListeWarten({ seite: 'x', seit: JETZT - 5000 }, { seite: 'x', reihe: '80186475', erinnern: true, frist: 20000, jetzt: JETZT, durchlauf: { folgen: [] } }, { spur() {}, uebersprungen: lauf.karte, weiter() {} })
   await ruhe()
-  pruefe('netflix-erinnern.js + Merkliste: Erinnern-Titel wird mit Datum gespeichert', stand(f)['80186475']?.bis === berlin(2026, 12, 11, 23), stand(f))
+  pruefe('netflix-erinnern.js + Merkliste: Erinnern-Titel wird mit Datum gespeichert', stand(f)['80186475']?.bis === berlin(2026, 10, 29, 23), stand(f))
+}
+
+async function anzeige() {
+  const a = speicherNeu({ [SCHLUESSEL]: { 1: { grund: 'x', bis: JETZT + TAG }, 2: { grund: 'x', bis: JETZT + TAG }, 3: { grund: 'x', bis: JETZT + TAG } } })
+  const lauf = await seite(a, { nichtGelistet: ['3'] })
+  pruefe('Endanzeige zählt nur Titel der Prüfliste (3 gespeichert, einer nicht gelistet → 2)', lauf.karte.zurueckText() === ' · 2 zurückgestellt', lauf.karte.zurueckText())
+  lauf.karte.set('1', 'keine Folgenliste in 20 s')
+  pruefe('… und nicht doppelt, was dieser Lauf schon namentlich nennt (1 übersprungen → 1)', lauf.karte.zurueckText() === ' · 1 zurückgestellt', lauf.karte.zurueckText())
+  pruefe('Knopf ohne Auftrag: sind offene Titel zurückgestellt, sagt er das', lauf.karte.keinAuftrag().text === 'alle offenen zurückgestellt', lauf.karte.keinAuftrag())
+  const leer = await seite(speicherNeu(), {})
+  pruefe('… ohne zurückgestellte Titel bleibt der alte Text', leer.karte.keinAuftrag().text === 'nichts offen — Seite neu laden', leer.karte.keinAuftrag())
+  const fertigeEintraege = await seite(a, { fertig: () => true, nichtGelistet: ['3'] })
+  await ruhe()
+  pruefe('Eintrag, der nicht (mehr) auf der Prüfliste steht, wird nicht als gemeldet gelöscht', Boolean(stand(a)['3']) && !stand(a)['1'], stand(a))
+  pruefe('… sind die zurückgestellten schon gemeldet, auch nicht „zurückgestellt“', fertigeEintraege.karte.keinAuftrag().text === 'nichts offen — Seite neu laden')
 }
 
 async function verdrahtung() {
   /* Verdrahtung */
   const melder = lies('melder.js')
   pruefe('melder.js legt die Merkliste mit der Fabrik an', /const selbstUebersprungen = akNetflixZurueckNeu\(/.test(melder))
+  pruefe('… der Knopf nutzt keinAuftrag() statt festem Text', /selbstUebersprungen\.keinAuftrag\(\)\.text/.test(melder))
   pruefe('… und hängt die Zahl an die Endanzeige', /selbstUebersprungen\.zurueckText\(\)/.test(melder))
   const manifest = JSON.parse(lies('manifest.json'))
   const js = manifest.content_scripts.find((c) => c.js.includes('melder.js')).js
@@ -157,6 +176,7 @@ async function haupt() {
   await abgelaufen()
   await gemeldet()
   await mitWartefunktion()
+  await anzeige()
   await verdrahtung()
   console.log('')
   if (fehler.length) {
