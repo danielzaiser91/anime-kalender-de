@@ -26,6 +26,15 @@
  * **Das echte D1-Limit wird genauso beantwortet:** Verweigert D1 selbst (`istD1Tageslimit`), auch wenn die
  * Meldung den Fehler fängt, kommt dieselbe 429 statt 500 — nur diese erkennt die Erweiterung als Pause.
  *
+ * **Riegel je Anfrage (15.10.2026):** Ein Netflix-Probelauf las in 10 Minuten 2,5 Mio. Zeilen, eine Abfrage
+ * des Titelzeilen-Wegs je Anfrage rund 50.000; der Tagesdeckel griff erst danach. Liest eine einzelne Anfrage
+ * mehr als `RIEGEL_LESEN_JE_ANFRAGE`, bucht sie zusätzlich `DECKEL_LESEN` (der Tag ist ab der nächsten Anfrage
+ * gesperrt) und schreibt `RIEGEL JE ANFRAGE` mit der teuersten Anweisung ins Protokoll. Ihre eigene Antwort
+ * bleibt: Die Meldung ist gespeichert, eine 429 ließe die Erweiterung sie morgen über denselben teuren Weg
+ * erneut schicken. Grenze 5.000: Die größten gemessenen Anfragen (betrieb.md) sind Prime mit 90 Rohfolgen
+ * (183), Netflix-Stapel n + 2 (72 bei 70 Folgen) und Disney+ 4 je Folge; mit höchstens 500 Rohfolgen je
+ * Meldung und rund 1.100 Folgen der längsten Serien bleibt das unter rund 1.200, der Fehler lag bei 50.000.
+ *
  * Ein Fehler beim Zählen sperrt nichts: Der Deckel ist ein Schutz, keine Voraussetzung. Mehrere
  * gleichzeitige Anfragen können ihn um die Zeilen der laufenden Anfragen überschreiten.
  */
@@ -35,6 +44,7 @@ import { istD1Tageslimit, sekundenBisMitternachtUtc } from './d1-limit.ts'
 
 export const DECKEL_ZEILEN = 50_000
 export const DECKEL_LESEN = 1_500_000
+export const RIEGEL_LESEN_JE_ANFRAGE = 5_000
 
 type D1Antwort = { meta?: { rows_written?: number; rows_read?: number; changes?: number } }
 
@@ -120,6 +130,19 @@ function teuersteAnweisung(jeSql: Map<string, number>): Anweisung | null {
   return teuerste
 }
 
+/**
+ * Was die Anfrage in den Tageszähler bucht. Über dem Riegel zusätzlich `DECKEL_LESEN`, damit jede weitere
+ * Meldung des Tages die 429 bekommt, und eine Zeile ins Protokoll (`wrangler tail`, Workers Logs).
+ */
+function buchungMitRiegel(zeilen: Zeilen, teuerste: Anweisung | null): { zeilen: Zeilen; gerissen: boolean } {
+  if (zeilen.gelesen <= RIEGEL_LESEN_JE_ANFRAGE) return { zeilen, gerissen: false }
+  const wo = teuerste ? `${teuerste.gelesen} in: ${teuerste.sql.replace(/\s+/g, ' ').trim().slice(0, 120)}` : 'unbekannt'
+  console.error(
+    `RIEGEL JE ANFRAGE: ${zeilen.gelesen} gelesene Zeilen (Grenze ${RIEGEL_LESEN_JE_ANFRAGE}), Meldungen bis 00:00 UTC gesperrt; teuerste Anweisung ${wo}`,
+  )
+  return { zeilen: { ...zeilen, gelesen: zeilen.gelesen + DECKEL_LESEN }, gerissen: true }
+}
+
 let zaehlerAusGemeldet = false
 
 /**
@@ -200,12 +223,15 @@ export async function mitTagesdeckel<K extends MitDb>(kontext: K, lauf: (k: K) =
     antwort = await lauf({ ...kontext, env: { ...kontext.env, DB: zaehler.db } })
   } catch (e) {
     if (zaehler.limit()) return deckelAntwort(kontext.antwort, jetzt)
+    /* Auch eine gescheiterte Anfrage hat gelesen: über dem Riegel sperrt sie den Tag trotzdem. */
+    const buchung = buchungMitRiegel(zaehler.zeilen(), zaehler.teuerste())
+    if (buchung.gerissen) await verbuchen(kontext.env, tag, buchung.zeilen)
     throw e
   } finally {
     kontext.beiZeilen?.(zaehler.zeilen())
   }
   /* D1 hat verweigert, die Meldung den Fehler gefangen (Stapel: je Meldung `ok: false`): auch das ist das Tageslimit. */
   if (zaehler.limit()) return deckelAntwort(kontext.antwort, jetzt)
-  await verbuchen(kontext.env, tag, zaehler.zeilen())
+  await verbuchen(kontext.env, tag, buchungMitRiegel(zaehler.zeilen(), zaehler.teuerste()).zeilen)
   return antwort
 }
