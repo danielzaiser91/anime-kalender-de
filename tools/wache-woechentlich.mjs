@@ -31,6 +31,7 @@ const FRISTEN_STUNDEN = {
   'anisearch-katalog.yml': 48,
   'ladezeiten.yml': 36,
   'offizielle-news.yml': 36,
+  'meldungskopie.yml': 36,
   'refresh-weekly.yml': 216,
   // Wie `motn` in check-sources.ts: ein Kontingentzyklus plus zwei Tage.
   'tonspuren-monatlich.yml': 792,
