@@ -9,6 +9,8 @@
  */
 const fs = require('node:fs')
 const { fileURLToPath } = require('node:url')
+const os = require('node:os')
+const path = require('node:path')
 
 const erlaubt = (process.env.BESTAND_ERLAUBT ?? '').split(',').filter(Boolean)
 const spur = process.env.BESTAND_SPUR
@@ -18,9 +20,18 @@ function pfadVon(p) {
   return typeof p === 'string' ? p.replace(/\\/g, '/') : ''
 }
 
+const TEMP_ORDNER = [os.tmpdir(), fs.realpathSync(os.tmpdir())].map((t) => t.replace(/\\/g, '/').toLowerCase())
+
+/** Unter dem Temp-Ordner liegen Attrappen der Tests (`…/public/data` einer Kopie), nie der echte Bestand. */
+function imTemp(pfad) {
+  const abs = path.resolve(pfad).replace(/\\/g, '/').toLowerCase()
+  return TEMP_ORDNER.some((t) => abs.startsWith(`${t}/`))
+}
+
 function bestandPfad(p) {
-  const m = /(?:^|\/)(public\/data(?:\/[^?#]*)?)$/.exec(pfadVon(p))
-  return m ? m[1] : null
+  const voll = pfadVon(p)
+  const m = /(?:^|\/)(public\/data(?:\/[^?#]*)?)$/.exec(voll)
+  return m && !imTemp(voll) ? m[1] : null
 }
 
 function pruefe(funktion, p) {

@@ -24,6 +24,7 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { laufePool } from './arbeiterpool.mjs'
 import { pruefeVollstaendig } from './check-logic-vollstaendig.mjs'
+import { sperreUmgebung } from './sperre-umgebung.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wurzel = join(tools, '..')
@@ -53,9 +54,7 @@ function ladeAusnahmen(dateien) {
 /** Umgebung einer Prüfung: mit Sperre, bei einer Ausnahme mit den erlaubten Pfaden und einer Spur-Datei. */
 function umgebung(ausnahme, spurDatei) {
   if (!mitSperre) return process.env
-  const sperre = join(tools, 'bestand-sperre.cjs').replace(/\\/g, '/')
-  const optionen = `${process.env.NODE_OPTIONS ?? ''} --require ${sperre}`.trim()
-  return { ...process.env, NODE_OPTIONS: optionen, BESTAND_ERLAUBT: ausnahme?.erlaubt.join(',') ?? '', BESTAND_SPUR: spurDatei }
+  return sperreUmgebung(ausnahme?.erlaubt.join(','), spurDatei)
 }
 
 /** Eine Ausnahme, deren Pfade nicht mehr gelesen werden, ist überflüssig: Der Wächter verlangt, sie zu streichen (Fehltext oder null). */
