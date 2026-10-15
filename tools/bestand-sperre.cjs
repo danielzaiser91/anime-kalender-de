@@ -20,11 +20,14 @@ function pfadVon(p) {
   return typeof p === 'string' ? p.replace(/\\/g, '/') : ''
 }
 
-const TEMP_ORDNER = [os.tmpdir(), fs.realpathSync(os.tmpdir())].map((t) => t.replace(/\\/g, '/').toLowerCase())
+const normal = (p) => p.replace(/\\/g, '/').toLowerCase()
+const WURZEL = normal(path.resolve(__dirname, '..'))
+const TEMP_ORDNER = [os.tmpdir(), fs.existsSync(os.tmpdir()) ? fs.realpathSync(os.tmpdir()) : ''].filter(Boolean).map(normal)
 
-/** Unter dem Temp-Ordner liegen Attrappen der Tests (`…/public/data` einer Kopie), nie der echte Bestand. */
+/** Unter dem Temp-Ordner liegen Attrappen der Tests (`…/public/data` einer Kopie), nie der echte Bestand; was unter der Repo-Wurzel liegt, zählt nie als Temp. */
 function imTemp(pfad) {
-  const abs = path.resolve(pfad).replace(/\\/g, '/').toLowerCase()
+  const abs = normal(path.resolve(pfad))
+  if (abs.startsWith(`${WURZEL}/`)) return false
   return TEMP_ORDNER.some((t) => abs.startsWith(`${t}/`))
 }
 
