@@ -55,6 +55,7 @@
         "netflix-uebernahme.js",
         "netflix-randvoll.js",
         "netflix-erinnern.js",
+        "netflix-zurueckgestellt.js",
         "melder.js",
         "netflix-bericht.js",
         "netflix-protokoll.js"
