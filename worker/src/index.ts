@@ -11,7 +11,7 @@
  * Die Termine kommen aus denselben JSON-Dateien, die auch die Website lädt.
  */
 import type { NewsEintrag, PlatformId, Release, ReleaseEvent } from '../../shared/types.ts'
-import { OFFENE_PFADE, mitAuffangnetz } from './auffangnetz.ts'
+import { OFFENE_PFADE, mitEingang } from './auffangnetz.ts'
 import { sichereSchnellmessung } from './schnellmesser.ts'
 import { handleVerlauf } from './verlauf.ts'
 import { ladeKennungen, leseFavoriten, schreibeFavoriten, zaehleFavoriten } from './favoriten-kennung.ts'
@@ -1483,7 +1483,7 @@ const digestMitLog = (env: Env, now: Date) =>
 
 export default {
   fetch: (request: Request, env: Env, ctx: ExecutionContext): Promise<Response> =>
-    mitAuffangnetz(new URL(request.url).pathname, cors(env), () => verteile(request, env, ctx)),
+    mitEingang(request, env, cors(env), (e) => verteile(request, e, ctx)),
 
   /** Der Digest hat einen eigenen Trigger und damit eigene 50 Unteraufrufe; alles Übrige teilt sich den stündlichen. */
   async scheduled(event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {

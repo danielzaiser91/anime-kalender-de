@@ -1554,6 +1554,8 @@ startete einen Untersucher, der vom Vorgänger nichts wusste.
 
 **Was jetzt gilt (`tagesdeckel.ts`, Migration 052):** Die Meldungs-Route addiert `meta.rows_read` ihrer D1-Antworten (`run`, `all`, `batch`) in `schreib_tag.gelesen`, im selben Upsert wie die geschriebenen Zeilen (eine Zeile je Anfrage, auch bei unveränderten Meldungen; vorher 0). **Diese eigene Zeile zählt in den Schreib-Deckel mit** (`geschrieben + 1`): Der Upsert läuft auf der unverpackten Datenbank, sonst hätte eine Schleife unveränderter Meldungen bis zum Lese-Deckel rund 375.000 Schreibzeilen ungezählt verbraucht (echtes Kontingent 100.000). Folge: höchstens ~50.000 Meldungen am Tag. Gewählt statt „kein Upsert bei kleinen Lesemengen“ (dann blieben Schleifen mit je < Schwelle Lesezeilen ungezählt) und statt Sammeln im Isolate (geht mit jedem Isolate verloren, mehrere Isolate parallel). Fehlt Migration 052, schreibt der Worker einmal je Isolate `TAGESDECKEL AUS (…)` ins Protokoll (`wrangler tail`, Workers Logs); gesperrt wird nichts. Ab `DECKEL_LESEN` = 1.500.000 am UTC-Tag antwortet sie mit 429 und `Retry-After` bis 00:00 UTC, mit demselben Rumpf wie der Schreib-Deckel (`tageslimit: true`). Aufträge der Pipeline (abhaken, wieder öffnen) und alle anderen Routen zählen nie mit. Ein Fehler beim Zählen sperrt nichts. Mehrere gleichzeitige Anfragen können die Schwelle um ihre eigenen Zeilen überschreiten (Disney+: 3 Bahnen × bis zu einigen hundert).
 
+**Überholt seit 15.10.2026:** Alle Routen zählen jetzt mit, die Meldung bucht nur noch ihre geschriebenen Zeilen, `DECKEL_LESEN` ist 3,0 Mio. (Abschnitt „Lese-Deckel für jede Anfrage“ unten).
+
 **Schwelle 1,5 Mio.:** 5,0 Mio. Kontingent − rund 2,0 Mio. Grundlast der übrigen Wege (4,87 Mio. am 12.10. minus rund 2,9 Mio. aus PR 968; die Meldungen jenes Tages stecken darin, die Zahl ist also eher zu hoch) − 1,5 Mio. Reserve für Spitzen (Bau-Läufe, Board, Status nach Cache-Verlust) = 1,5 Mio. **Nachmessen** ein paar Tage nach dem Deploy mit `wrangler d1 insights` und `SELECT tag, zeilen, gelesen FROM schreib_tag`; Schwelle dann anpassen.
 
 **Das echte D1-Limit wird zur selben Antwort:** `D1_ERROR: Your account has exceeded D1's free tier daily row read limit.` (Wortlaut vom 01.09.2026; der Schreib-Fall ist nach demselben Muster angenommen) wurde bisher zu 500 ohne `tageslimit` — die Erweiterung erkennt nur 429 mit diesem Feld (`extension/tageslimit.js`; Netflix lief weiter, Prime legte Staffeln als übersprungen ab). Jetzt merkt sich die Zähl-Hülle (`zaehlendeDb`) den Fehler, auch wenn die Meldung ihn selbst fängt (Stapel je Meldung, Rohfolgen), und die Route antwortet mit der 429 des Deckels. Gilt nur für die Meldungs-Route. **Das Limit greift verzögert** (14.10.2026: nach 9,1 Mio. gelesenen Zeilen lief der Worker um 11:44 MESZ noch normal, ab spätestens 12:16 Fehler bis 00:00 UTC; Abschnitt „Titelzeile für Netflix“) — Massenabfragen vorher mit eigener Summe planen.
@@ -1757,3 +1759,28 @@ Die Free-Stufe erlaubt **50 Unteraufrufe je Worker-Aufruf**, D1-Abfragen zählen
 Seitdem: Der Digest hat einen eigenen Trigger `0 5,6 * * *` (`DIGEST_CRON` in `worker/src/digest-versand.ts`, Zeichen für Zeichen in `wrangler.toml`; 05/06 UTC = 07:00 Berlin in Sommer-/Winterzeit, `SEND_HOUR_BERLIN` entscheidet). Er verschickt per Resend-Stapel (`/emails/batch`, höchstens 100 je Aufruf, alles oder nichts je Stapel) und schreibt Sync-Schlüssel und `last_sent_at` je in **einer** Abfrage über `json_each`. Der Monitor schreibt Stände und Verlauf ebenfalls in je einer Abfrage. Gemessen (D1-Stapel je Anweisung gezählt): Digest-Aufruf 11–13 bei 1/10/50/150 Abonnenten, Montag mit Wochendigest 16–17; stündlicher Aufruf 35 unabhängig von der Abonnentenzahl. Prüfung: `tools/worker-digest-versand.test.ts` (in `check:worker`).
 
 Offen: Push-Abos kosten im stündlichen Aufruf weiter je etwa zwei; rote Seiten kosten Nachprüfung und Störungsmail. Resend Free schickt 100 Mails am Tag. Cron-Trigger je Konto: 5 (Free).
+
+## Lese-Deckel für jede Anfrage (`lesedeckel.ts`, 15.10.2026)
+
+**Anlass:** Am 15.10.2026 um 12:48 MESZ waren 6,72 Mio. Zeilen gelesen (Kontingent 5 Mio.), D1 stand bis 02:00 MESZ. Der Tagesdeckel zählte nur Meldungen; `GET /pruefung?token=` (`offenePruefungen`, rund 36.000 Zeilen je Aufruf laut Insights) lief bei jedem Prime-Seitenaufruf der Erweiterung am Zähler vorbei.
+
+**Würde der Riegel je Anfrage (5.000) den Bau sperren?** Auf `main` vor diesem Stand nein: Er sitzt nur in `mitTagesdeckel`, und das umschließt nur Meldungen (`istMeldung`); der Bau-Abruf und die Aufträge laufen daneben. Ein auf alle Routen ausgeweiteter Riegel hätte es getan (36.000 > 5.000, Buchung von `DECKEL_LESEN`). Deshalb bleibt der Riegel bei den Meldungen.
+
+**Inventur (lokal, workerd, `meta.rows_read`, Bestand wie am 12.10.: `pruefung` 17.800, `prime_folge` 55.000; `titel_zeile` und `pruefung_titel` leer, darum liegt `?token=` lokal weit unter dem Produktionswert):**
+
+| Route (Datei:Zeile) | Cache | gelesen lokal |
+|---|---|---|
+| `?token=` offene, alle (`pruefung-lesen.ts:128`) | neu R2, 5 min nach Marke | 1.002 (Produktion ~36.000) |
+| `?token=&plattform=primevideo` | neu R2 | 4.269 |
+| `?zaehlen=1` (`pruefung-lesen.ts:97`, `pruefung-zaehlen.ts`) | Edge 2 h je Rechenzentrum | 61.315 |
+| `?stand=1` (`pruefung-lesen.ts:78`) | Edge 5 min | 43.513 |
+| `?rohfolgen=1&namen=1` (`pruefung-lesen.ts:93`) | Edge | 35.601 |
+| `?rohfolgen=1` Seite 1 | Edge | 11.101 |
+| `?alle=1` Seite 1 (`pruefung-lesen.ts:123`) | R2 | 10.000 |
+| `?gemeldet=<url>` (`pruefung-lesen.ts:55`) | Edge 30 min | 2 |
+| `/verlauf` (`verlauf.ts:9`), `/lauf` (`lauf.ts:41`, `:163`) | – | 1–4 |
+| `/status` (`index.ts:1543`, `site_status`), `/health` (`index.ts:1580`) | – | Tabellengröße (Dutzende) bzw. aktive Abonnenten |
+
+**Was jetzt gilt:** Jede Anfrage läuft über `mitEingang` (`auffangnetz.ts`) → `mitLesedeckel`: zählende Datenbank (auch `first()`), gelesene Zeilen je Isolate gesammelt und ab 1.000 in `schreib_tag.gelesen` gebucht (höchstens 5.000 Buchungen am Tag statt einer je Anfrage). Ab `DECKEL_LESEN` (jetzt 3,0 Mio.: Die Grundlast steckt im Zähler, aber nach dem Deckel lesen Cron, Schnellmesser-DO, D1-API-Werkzeuge und freie Bau-Abrufe ungezählt weiter, zusammen höchstens ~1,8 Mio.; bei 3,5 Mio. wären es im schlimmsten Fall 5,3 Mio.) bekommen `/pruefung`, `/netzfund`, `/vorfall` ohne gültiges Token beim ersten D1-Zugriff 429; Cache-Treffer laufen weiter. `/lauf`, `/verlauf`, `/status` (zusammen unter 30.000 Zeilen am Tag) werden gezählt, aber nie gesperrt (15.10.2026), damit die Statusanzeige am Deckel nicht blind ist. Frei: Token-Anfragen (Bau, Läufe, Meldungen unter ihrem eigenen Deckel) und Besucher-Wege. Nicht gezählt: Cron (`scheduled`), Newsletter-Worker, Board, Sammelstände verlorener Isolates (< 1.000 je Isolate), Hintergrundaufgaben nach der Antwort.
+
+**Nachprüfen:** nach einem Tag `wrangler d1 insights` gegen `schreib_tag.gelesen` (an der Meldungskopie) halten; liegt der Zähler weit unter den Insights, ist der ungezählte Rest größer als die Reserve (seit 15.10.2026 2,0 Mio. bis zum Kontingent).
