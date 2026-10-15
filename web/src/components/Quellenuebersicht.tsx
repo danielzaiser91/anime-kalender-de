@@ -184,7 +184,7 @@ const ANZEIGENAME: Record<string, string> = {
 
 const NAME_ORIGINAL = 'TMDB'
 
-/** Die Seite der Originaltermine, auf denen errechnete Folgen beruhen: Grundlage, kein Beleg (`schedule.nachOriginalQuelle`). */
+/** Die Seite der Originaltermine, auf denen geschätzte Folgen beruhen: Grundlage, kein Beleg (`schedule.nachOriginalQuelle`). */
 function originalQuelle(r: Release): { url: string; name: string }[] {
   const url = r.schedule.nachOriginalQuelle
   return url ? [{ url, name: NAME_ORIGINAL }] : []

@@ -1,4 +1,4 @@
-import { addDays } from './time.ts'
+import { addDays, diffDays } from './time.ts'
 
 /**
  * **Synchro-Termine aus den Terminen des Originals** (15.10.2026).
@@ -20,15 +20,11 @@ export const MAX_STREUUNG_TAGE = 1
  */
 export const MIN_ABWEICHUNG_TAGE = 2
 
-function tage(datum: string): number {
-  return Date.parse(`${datum}T12:00:00Z`) / 86_400_000
-}
-
 /** Der Abstand Synchro minus Original in Tagen; `undefined`, wenn zu wenige oder zu uneinheitliche Folgen vorliegen. */
 export function synchroVersatz(beobachtet: Record<number, string>, original: Record<number, string>): number | undefined {
   const abstaende = Object.entries(beobachtet)
     .filter(([folge, datum]) => datum && original[Number(folge)])
-    .map(([folge, datum]) => Math.round(tage(datum) - tage(original[Number(folge)])))
+    .map(([folge, datum]) => diffDays(original[Number(folge)], datum))
     .sort((a, b) => a - b)
   if (abstaende.length < MIN_BEOBACHTUNGEN) return undefined
   if (abstaende[abstaende.length - 1] - abstaende[0] > MAX_STREUUNG_TAGE) return undefined
@@ -54,7 +50,7 @@ export function termineNachOriginal(beobachtet: Record<number, string>, original
     davor = tag
   }
   const takt = (folge: number) => addDays(beobachtet[letzte], 7 * (folge - letzte))
-  const pause = Object.entries(ergebnis).findIndex(([folge, tag]) => Math.abs(tage(tag) - tage(takt(Number(folge)))) >= MIN_ABWEICHUNG_TAGE)
+  const pause = Object.entries(ergebnis).findIndex(([folge, tag]) => Math.abs(diffDays(takt(Number(folge)), tag)) >= MIN_ABWEICHUNG_TAGE)
   return pause < 0 ? {} : Object.fromEntries(Object.entries(ergebnis).slice(pause))
 }
 

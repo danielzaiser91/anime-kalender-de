@@ -66,7 +66,7 @@ export function laeuftNeben(a: Laeuft, T: Uebersetze): string {
         : a.raus === 0 && !a.offenesEnde && !a.komplett
           ? T('antwort.letzteFolge')
           : null,
-    a.verschobenVon && T(a.haupt.estimated ? 'antwort.verschobenErrechnet' : 'antwort.verschobenVon', { datum: formatDate(a.verschobenVon) }),
+    a.verschobenVon && T(a.haupt.estimated && !a.vermerk?.neuErwartet ? 'antwort.verschobenGeschaetzt' : 'antwort.verschobenVon', { datum: formatDate(a.verschobenVon) }),
   ]
     .filter(Boolean)
     .join(' · ')

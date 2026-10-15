@@ -109,9 +109,11 @@ const neben = (r: Release) => {
   const a = berechneAntwort({ title: { id: 184356, format: 'TV', episodes: 12 } as unknown as Title, releases: [r], today: '2026-10-15' })
   return a?.art === 'laeuft' ? laeuftNeben(a, T) : undefined
 }
-pruefe('errechneter Ersatztermin: „erwartet statt … (errechnet)“', neben(mitVermerk)?.includes('erwartet statt 14.10.2026 (errechnet)') === true, neben(mitVermerk))
+pruefe('geschätzter Ersatztermin: „erwartet statt … (geschätzt)“', neben(mitVermerk)?.includes('erwartet statt 14.10.2026 (geschätzt)') === true, neben(mitVermerk))
 const genannt = release({ observed: { ...SYNCHRO, 12: '2026-10-21' }, verpasst: { 12: { erwartetAm: '2026-10-14T17:25:00.000Z' } } })
 pruefe('vom Anbieter genannter Ersatztermin: „verschoben vom …“', neben(genannt)?.includes('verschoben vom 14.10.') === true, neben(genannt))
+const recherchiert = release({ verpasst: { 12: { erwartetAm: '2026-10-14T17:25:00.000Z', neuErwartet: '2026-10-22' } } })
+pruefe('recherchierter Ersatztermin (neuErwartet): „verschoben vom …“', neben(recherchiert)?.includes('verschoben vom 14.10.') === true, neben(recherchiert))
 
 const folgen = (s: number, daten: Record<number, string | null>) => Object.entries(daten).map(([e, datum]) => ({ s, e: Number(e), titel: null, datum }))
 pruefe('eine Staffel: Originaltage', originalTage({ folgen: folgen(1, ORIGINAL) })[12] === ORIGINAL[12])
