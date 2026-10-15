@@ -3,7 +3,7 @@ import type { Translate } from './i18n.tsx'
 import { istStaffelfinale, istStaffelstart } from '@shared/tv-signale.ts'
 
 /** Was eine Kachel an Auszeichnung trägt: Katalog-Release schlägt Staffelstart, der schlägt das Finale. */
-export type KartenArt = 'start' | 'finale' | 'katalog' | 'katalogVermutlich' | 'imAngebot'
+export type KartenArt = 'start' | 'finale' | 'katalog' | 'katalogVermutlich' | 'imAngebot' | 'erstausgabe'
 
 /** Ring um das Cover, Farbe der Fahne und Texte (`kal.*`) je Auszeichnung — Woche und Monat teilen sie. */
 export const ART_STIL = {
@@ -12,11 +12,12 @@ export const ART_STIL = {
   katalog: { ring: 'ring-ak-katalog', fahne: 'bg-ak-katalog', name: 'kal.katalog', hinweis: 'kal.katalogHinweis' },
   katalogVermutlich: { ring: 'ring-ak-katalog', fahne: 'bg-ak-katalog', name: 'kal.katalogVermutlich', hinweis: 'kal.katalogVermutlichHinweis' },
   imAngebot: { ring: 'ring-transparent', fahne: 'bg-ak-marke', name: 'kal.imAngebot', hinweis: 'kal.imAngebotHinweis' },
+  erstausgabe: { ring: 'ring-transparent', fahne: 'bg-ak-akzent', name: 'kal.erstausgabe', hinweis: 'kal.erstausgabeHinweis' },
 } as const
 
-/** Zwei Spalten breit nur Staffelstart, -finale und Katalog-Release; „Neu bei …“ ist eine Fahne an der schmalen Kachel. */
+/** Zwei Spalten breit nur Staffelstart, -finale und Katalog-Release; „Neu bei …“ und „Erstveröffentlichung“ sind Fahnen an der schmalen Kachel. */
 export function istBreit(art: KartenArt | undefined): boolean {
-  return !!art && art !== 'imAngebot'
+  return !!art && art !== 'imAngebot' && art !== 'erstausgabe'
 }
 
 /** Der Anbieter, den die Fahne „Neu bei …“ nennt: der erste Termin der Kachel mit der Marke. */
@@ -69,6 +70,7 @@ export function kartenArt(buendel: ReleaseEvent[], data: MitReleases): KartenArt
   if (buendel.some((e) => e.katalog === 'belegt')) return 'katalog'
   if (buendel.some((e) => e.katalog)) return 'katalogVermutlich'
   if (buendel.some((e) => e.imAngebot)) return 'imAngebot'
+  if (buendel.some((e) => e.erstausgabe)) return 'erstausgabe'
   if (buendel.some((e) => istStaffelstart(e, data))) return 'start'
   return buendel.some((e) => istStaffelfinale(e, data)) ? 'finale' : undefined
 }
