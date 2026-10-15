@@ -877450,6 +877450,46 @@
     },
     "fetchedAt": "2026-10-12T06:14:28.981Z"
   },
+  "218216": {
+    "anisearchId": 22045,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Nue no Onmyouji",
+          "titleNative": "Nue no Onmyōji",
+          "status": "Zukünftig",
+          "released": "07.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Sommer 2027",
+      "studios": [
+        "Studio Hibari Co., Ltd."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/NuesExorcist_PR"
+        },
+        {
+          "name": "Nues Exorcist",
+          "url": "https://www.nues-exorcist.com/"
+        }
+      ],
+      "synonyms": [
+        "Nue’s Exorcist"
+      ]
+    },
+    "fetchedAt": "2026-10-15T06:00:52.927Z"
+  },
   "218217": {
     "anisearchId": 22025,
     "streams": [],
@@ -877473,5 +877513,41 @@
       "adaptedFrom": "Manga"
     },
     "fetchedAt": "2026-10-13T06:01:17.650Z"
+  },
+  "218315": {
+    "anisearchId": 22047,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Yumene Connect",
+          "titleNative": "ゆめねこねくと",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "STUDIO MASSKET Inc."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/yumeconne_anime"
+        },
+        {
+          "name": "Sh Anime Shochiku",
+          "url": "https://sh-anime.shochiku.co.jp/yumeconne-anime/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-15T06:00:59.666Z"
   }
 }
