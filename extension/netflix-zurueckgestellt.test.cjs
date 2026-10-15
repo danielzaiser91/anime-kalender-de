@@ -98,6 +98,16 @@ async function tagesgrenze() {
   const spaetAbends = berlin(2026, 10, 15, 21) + 59 * 60 * 1000
   const heuteSpaet = bis('Erinnern', '15. Oktober', spaetAbends)
   pruefe('23:59 Berlin am 15.10.: „15. Oktober“ ist weiter heute', heuteSpaet === berlin(2026, 10, 14, 22), heuteSpaet)
+  /* 00:30 Berlin am 16.10. = 22:30 UTC am 15.10.: in UTC wäre „15. Oktober“ noch heute, in Berlin ist er gestern. */
+  const nachMitternacht = berlin(2026, 10, 15, 22) + 30 * 60 * 1000
+  const gesternBerlin = bis('Erinnern', '15. Oktober', nachMitternacht)
+  pruefe('00:30 Berlin am 16.10.: „15. Oktober“ ist gestern, unlesbar, 7 Tage', gesternBerlin === nachMitternacht + 7 * TAG, gesternBerlin)
+  /* Nacht der Zeitumstellung (25.10.2026, 03:00 → 02:00 Berlin): der Umstellungstag hat 25 Stunden. */
+  const umstellung = berlin(2026, 10, 25, 1) + 30 * 60 * 1000
+  const tagDerUmstellung = bis('Erinnern', '25. Oktober', umstellung)
+  pruefe('Nach der Umstellung (02:30 Berlin am 25.10.): „25. Oktober“ ist heute, Beginn 24.10. 22:00 UTC', tagDerUmstellung === berlin(2026, 10, 24, 22), tagDerUmstellung)
+  const nachUmstellung = bis('Erinnern', '26. Oktober', umstellung)
+  pruefe('Nach der Umstellung: „26. Oktober“ beginnt 25.10. 23:00 UTC (Winterzeit)', nachUmstellung === berlin(2026, 10, 25, 23), nachUmstellung)
 }
 
 async function neustart() {
