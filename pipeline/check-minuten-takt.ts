@@ -21,13 +21,13 @@ gleich(msBisNaechsteMinute(tag + 59_999), 1, '12:00:59.999')
 const echt = { setTimeout: globalThis.setTimeout, clearTimeout: globalThis.clearTimeout }
 const wartezeiten: number[] = []
 const abrufe: (() => void)[] = []
-let geloescht = 0
+let geloescht: unknown
 globalThis.setTimeout = ((f: () => void, ms: number) => {
   abrufe.push(f)
   wartezeiten.push(ms)
   return abrufe.length as unknown as ReturnType<typeof setTimeout>
 }) as typeof setTimeout
-globalThis.clearTimeout = (() => { geloescht++ }) as typeof clearTimeout
+globalThis.clearTimeout = ((id: unknown) => { geloescht = id }) as typeof clearTimeout
 
 let zeit = tag + 12_345
 let takte = 0
@@ -39,7 +39,7 @@ abrufe[0]!()
 gleich(takte, 1, 'Takte nach der Minutengrenze')
 gleich(wartezeiten[1], 60_000, 'zweiter Takt nach')
 aufraeumen()
-gleich(geloescht, 1, 'Aufräumen löscht den Timer')
+gleich(geloescht, 2, 'Aufräumen löscht den gerade laufenden Timer (nicht den ersten)')
 
 globalThis.setTimeout = echt.setTimeout
 globalThis.clearTimeout = echt.clearTimeout
