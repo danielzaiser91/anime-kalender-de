@@ -16,8 +16,8 @@ export const TEXTE_ANTWORT = {
   // „Offen kommunizieren": je Stufe, wann zuletzt und wann als Nächstes.
   // Die Folge hat einen neuen Termin, ist aber weiterhin überfällig (Daniel,
   // 20.09.2026): „entsprechend muss eine ausfallnotiz im detail panel stehen".
-  // Ausfälle entstehen nur für errechnete Termine (`pipeline/termine-pruefen.ts`), daher „erwartet“.
-  'antwort.vermerkUeberfaellig': 'Folge {n} wurde für den {datum} erwartet (errechnet) und ist bis heute nicht erschienen.',
+  // Ausfälle entstehen nur für geschätzte Termine (`pipeline/termine-pruefen.ts`), daher „erwartet“.
+  'antwort.vermerkUeberfaellig': 'Folge {n} wurde für den {datum} erwartet (geschätzt) und ist bis heute nicht erschienen.',
   'antwort.vermerkAnnahme': 'Der Termin oben ist unsere Annahme — ändert sich etwas, tragen wir ihn nach.',
   'antwort.vermerkNaechsterBlick': 'Der nächste Blick folgt in wenigen Stunden.',
   'antwort.vermerkNewsLeerStand': 'Anime2You meldet bisher keine Verschiebung (Stand: {wann}, nächster Abgleich morgen früh).',
