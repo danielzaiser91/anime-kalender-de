@@ -40,7 +40,7 @@ export function DubMark({ dub }: { dub?: boolean }) {
   if (dub === true) {
     return (
       <Tooltip text={t('detail.dubYes')} seite="oben">
-        <span className="text-[11px] font-bold text-emerald-400">🇩🇪 ✓</span>
+        <span className="text-[11px] font-bold text-ak-gut-text">🇩🇪 ✓</span>
       </Tooltip>
     )
   }
@@ -89,7 +89,7 @@ export function Chip({
             ? PILLE_JA
             : gross
               ? 'border-ak-text/10 bg-ak-flaeche-2 text-ak-text hover:border-ak-akzent hover:text-ak-akzent-text'
-              : 'border-slate-300/70 text-slate-600 hover:border-slate-400 hover:text-slate-900 dark:border-white/15 dark:text-slate-300 dark:hover:border-white/40 dark:hover:text-white',
+              : 'border-slate-300/70 text-slate-600 hover:border-ak-leise dark:border-white/15 dark:text-slate-300',
       ].join(' ')}
     >
       {excluded && (
@@ -209,9 +209,9 @@ export function ReleaseTypeBadge({ type, small }: { type: ReleaseType; small?: b
 /* Hell 700er-, dunkel 400er-Töne: die 400er allein lagen im hellen Thema bei 1,9–2,8:1,
    „unbekannt" dunkel bei 3,5:1 (axe, 18.09.2026). „Erschienen" neutral wie „abgeschlossen": der Regelfall, stand im Akzent auf fast jeder Kachel (08.10.2026). */
 const STATUS_STYLE: Record<ReleaseStatus, string> = {
-  airing: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 ring-emerald-500/40',
+  airing: 'bg-ak-gut-grund text-ak-gut-text ring-ak-gut/40',
   abgeschlossen: 'bg-slate-500/15 text-slate-600 dark:text-slate-400 ring-slate-500/40',
-  tba: 'bg-amber-500/15 text-amber-800 dark:text-amber-400 ring-amber-500/40',
+  tba: 'bg-slate-500/10 text-ak-leise ring-ak-leise/40',
   erschienen: 'bg-slate-500/15 text-slate-600 dark:text-slate-400 ring-slate-500/40',
   unbekannt: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 ring-slate-500/30',
 }
@@ -270,10 +270,10 @@ export function Button({
     CLICKABLE,
     size === 'sm' ? 'px-2.5 py-1.5 text-xs' : 'px-3.5 py-2 text-sm',
     variant === 'primary'
-      ? 'bg-sky-700 text-white hover:bg-sky-800'
+      ? 'bg-ak-akzent text-ak-auf-akzent hover:bg-ak-akzent-hover'
       : variant === 'ghost'
-        ? 'text-slate-600 hover:bg-slate-200/60 dark:text-slate-300 dark:hover:bg-white/10'
-        : 'bg-slate-200/70 text-slate-800 hover:bg-slate-300/70 dark:bg-white/10 dark:text-slate-100 dark:hover:bg-white/20',
+        ? 'text-slate-600 hover:bg-ak-flaeche-2 dark:text-slate-300'
+        : 'bg-ak-flaeche-2 text-ak-text hover:bg-ak-flaeche-3',
   ].join(' ')
 
   if (href) {
@@ -296,7 +296,7 @@ export function Button({
     'oben',
     <button
       type={type}
-      className={`${cls}${disabled ? ' cursor-not-allowed opacity-50' : ''}`}
+      className={`${cls} disabled:cursor-default disabled:opacity-45`}
       onClick={onClick}
       disabled={disabled}
     >
@@ -344,8 +344,8 @@ export function FavoriteStar({
         CLICKABLE,
         size === 'sm' ? `size-5 text-[13px] ${TREFFER_24}` : `size-7 text-base${grosseFlaeche ? ` ${TIPPFLAECHE}` : ''}`,
         active
-          ? 'text-amber-400 drop-shadow-[0_0_4px_rgba(251,191,36,.55)]'
-          : 'text-slate-400/70 hover:text-amber-300 dark:text-slate-500 dark:hover:text-amber-300',
+          ? 'text-ak-finale-text drop-shadow-[0_0_4px_color-mix(in_srgb,var(--ak-finale)_55%,transparent)]'
+          : 'text-slate-400/70 hover:text-ak-finale-text dark:text-slate-500',
       ].join(' ')}
     >
       {active ? '★' : '☆'}
@@ -371,8 +371,8 @@ export function Fragezeichen({ text, gekapselt }: { text: string; gekapselt?: bo
         className={[
           'inline-flex items-center justify-center font-bold leading-none transition',
           gekapselt
-            ? 'h-10 rounded-r-full border-l border-ak-rand bg-ak-flaeche-2 pr-4 pl-[13px] text-xs text-ak-leise hover:bg-ak-rand hover:text-ak-text'
-            : 'size-4 rounded-full bg-slate-300/70 text-[10px] text-slate-600 hover:bg-slate-400/70 dark:bg-white/15 dark:text-slate-300 dark:hover:bg-white/25',
+            ? 'h-10 rounded-r-full border-l border-ak-rand bg-ak-flaeche-2 pr-4 pl-[13px] text-xs text-ak-leise hover:bg-ak-flaeche-3 hover:text-ak-text'
+            : 'size-4 rounded-full bg-ak-flaeche-2 text-[10px] text-slate-600 hover:bg-ak-flaeche-3 dark:text-slate-300',
           CLICKABLE,
         ].join(' ')}
       >
@@ -417,7 +417,7 @@ export function HideEye({
         size === 'sm' ? `size-5 ${TREFFER_24}` : 'size-7',
         hidden
           ? 'text-sky-500 dark:text-sky-400'
-          : 'text-slate-400/70 hover:text-sky-500 dark:text-slate-500 dark:hover:text-sky-400',
+          : 'text-slate-400/70 hover:text-ak-text dark:text-slate-500',
       ].join(' ')}
     >
       <svg
@@ -466,8 +466,8 @@ export function ShareIcon({
         CLICKABLE,
         size === 'sm' ? `size-5 text-[12px] ${TREFFER_24}` : 'size-7 text-sm',
         copied
-          ? 'text-emerald-400'
-          : 'text-slate-400/70 hover:text-sky-400 dark:text-slate-500 dark:hover:text-sky-300',
+          ? 'text-ak-gut-text'
+          : 'text-slate-400/70 hover:text-ak-text dark:text-slate-500',
       ].join(' ')}
     >
       {copied ? '✓' : '🔗'}

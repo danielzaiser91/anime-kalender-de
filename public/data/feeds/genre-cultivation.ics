@@ -6,37 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Cultivation
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-07#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T151000Z
-DTEND:20261007T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-07#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T153500Z
-DTEND:20261007T160500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:naruto-shippuden-s3-disneyplus@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261007
-DTEND;VALUE=DATE:20261008
-SUMMARY:Naruto Shippuden – Staffel 3 (im Angebot)
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nIm Angebot seit 
- diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1491/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-08#19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T151000Z
@@ -102,8 +71,8 @@ UID:demon-slayer-hashira-training-arc-primevideo@2026-10-10@anime-kalender-
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (im Angebot) (S
- ynchro offen)
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (neu bei Prime 
+ Video) (Synchro offen)
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
  eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
  ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
@@ -315,6 +284,26 @@ UID:auto-223-tv-prosieben-maxx@2026-10-21#37@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T153500Z
 DTEND:20261021T160500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-22#38@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T151000Z
+DTEND:20261022T154000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-22#39@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T153500Z
+DTEND:20261022T160500Z
 SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/

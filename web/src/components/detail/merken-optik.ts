@@ -12,12 +12,12 @@ export function merkenHuelleKlasse(mitFarbe: boolean): string {
 /** In einer Anbieterzeile: ein 44-px-Knopf neben dem Link, ohne Eckplatz. */
 export const MERKEN_ZEILE_HUELLE = 'relative shrink-0'
 export const MERKEN_ZEILE_KNOPF =
-  'grid size-11 shrink-0 cursor-pointer place-items-center rounded-full text-slate-700 transition hover:bg-slate-500/10 dark:text-slate-200 dark:hover:bg-white/10'
+  'grid size-11 shrink-0 cursor-pointer place-items-center rounded-full text-slate-700 transition hover:bg-ak-flaeche-2 dark:text-slate-200'
 
 export function merkenKnopfKlasse(mitFarbe: boolean): string {
   const basis = mitFarbe
-    ? 'grid size-[22px] shrink-0 cursor-pointer place-items-center rounded-full bg-white transition hover:brightness-110 dark:bg-[#162238]'
-    : 'grid size-7 shrink-0 cursor-pointer place-items-center rounded-full bg-slate-500/10 text-slate-700 transition hover:bg-slate-500/20 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/15'
+    ? 'grid size-[22px] shrink-0 cursor-pointer place-items-center rounded-full bg-ak-pille transition hover:bg-ak-pille-hover'
+    : 'grid size-7 shrink-0 cursor-pointer place-items-center rounded-full bg-ak-flaeche-2 text-slate-700 transition hover:bg-ak-flaeche-3 dark:text-slate-200'
   return `${basis} ${TIPPFLAECHE}`
 }
 

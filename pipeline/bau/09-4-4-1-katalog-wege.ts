@@ -1,6 +1,6 @@
 import { readJson, log } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
-import { dubKey } from '../lib/dub-confirmed.ts'
+import { wegVerneint } from '../lib/dub-confirmed.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 
 /**
@@ -51,7 +51,6 @@ export function legeCrWegeAusKatalogAn({ titles, anisearch, handNein }: {
   if (nachKennung.size) {
     for (const title of titles.values()) {
       if (title.streams.some((s) => s.platform === 'crunchyroll')) continue
-      if (handNein.has(dubKey(title.id, 'crunchyroll'))) continue
       const asCr = (anisearch[title.id]?.streams ?? []).find((q) => q.provider === 'crunchyroll')
       const kennung = /\/series\/([A-Z0-9]+)/.exec(asCr?.url ?? '')?.[1]
       if (!kennung) continue
@@ -59,6 +58,7 @@ export function legeCrWegeAusKatalogAn({ titles, anisearch, handNein }: {
       if (!eintrag?.folgen || (eintrag.staffeln ?? 0) !== 1) continue
       if (!(eintrag.audio ?? []).includes('de-DE')) continue
       const url = (asCr?.url ?? '').split('?')[0]!
+      if (wegVerneint(handNein, title.id, 'crunchyroll', url)) continue
       title.streams.push({ platform: 'crunchyroll', url, dub: true })
       ausKatalogNeu++
     }

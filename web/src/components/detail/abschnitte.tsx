@@ -33,7 +33,7 @@ export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, s
                 <button
                   type="button"
                   onClick={() => setGenresOffen(true)}
-                  className="min-h-11 min-w-11 cursor-pointer rounded-full px-3 text-t3 text-ak-leise transition hover:text-ak-akzent-text"
+                  className="min-h-11 min-w-11 cursor-pointer rounded-full px-3 text-t3 text-ak-leise transition hover:text-ak-text"
                 >
                   +{title.genres.length - 3}
                 </button>
@@ -57,7 +57,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
   return (
     <>
       {plot && (
-        <PanelKarte symbol={<BuchZeichen />} titel={t('detail.plot')} akzent="amber">
+        <PanelKarte symbol={<BuchZeichen />} titel={t('detail.plot')} akzent="akzent">
           {/*
             **Der Hinweis steht über dem Text, nicht darunter.**
 
@@ -65,7 +65,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
             findet, hat die Handlung schon dem falschen Titel zugeschrieben.
           */}
           {plot.vonTeil && (
-            <p className="mb-1 text-t4 text-amber-800 dark:text-amber-300">
+            <p className="mb-1 text-t4 text-ak-warnung-text">
               {t(plot.erschienen ? 'detail.plotVonTeilFrueher' : 'detail.plotVonTeil', { teil: plot.vonTeil.name })}
             </p>
           )}
@@ -93,7 +93,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
                 type="button"
                 onClick={() => setPlotOffen((v) => !v)}
                 aria-expanded={plotOffen}
-                className="min-h-11 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-4 text-t3 font-semibold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text"
+                className="min-h-11 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-4 text-t3 font-semibold text-ak-text transition hover:border-ak-leise"
               >
                 {t(plotOffen ? 'detail.plotLess' : 'detail.plotMore')}
               </button>
@@ -105,7 +105,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
             ) : (
               <span className="text-t4 text-slate-600 dark:text-slate-400">
                 {t('detail.plotQuelle')}{' '}
-                <a href={plot.quelle.url} target="_blank" rel="noopener noreferrer" className="-my-3 inline-flex min-h-11 items-center underline decoration-slate-400/50 underline-offset-2 hover:text-ak-akzent-text">
+                <a href={plot.quelle.url} target="_blank" rel="noopener noreferrer" className="-my-3 inline-flex min-h-11 items-center underline decoration-slate-400/50 underline-offset-2 hover:text-ak-text">
                   {quelleLabel(plot.quelle.name)} ↗
                 </a>
               </span>

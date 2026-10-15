@@ -31,16 +31,35 @@ export interface Mail {
   fromName?: string
 }
 
-/**
- * Ein Adapter pro Anbieter. `console` schreibt nur ins Log und ist der
- * Standard für `wrangler dev`, damit beim Entwickeln niemand Post bekommt.
- */
-export async function sendMail(env: MailEnv, mail: Mail): Promise<void> {
+/** Abmelde-Kopfzeilen (RFC 8058): Mailclients zeigen damit einen eigenen Abmeldeknopf. */
+function abmeldeKopf(mail: Mail): Record<string, string> {
   const headers: Record<string, string> = {}
   if (mail.unsubscribeUrl) {
     headers['List-Unsubscribe'] = `<${mail.unsubscribeUrl}>`
     headers['List-Unsubscribe-Post'] = 'List-Unsubscribe=One-Click'
   }
+  return headers
+}
+
+/** Eine Mail im Format der Resend-API — Einzel- und Stapelversand nehmen dasselbe Objekt. */
+export function resendMail(env: MailEnv, mail: Mail): Record<string, unknown> {
+  return {
+    from: `${mail.fromName ?? env.FROM_NAME} <${env.FROM_EMAIL}>`,
+    to: [mail.to],
+    subject: mail.subject,
+    html: mail.html,
+    text: mail.text,
+    headers: abmeldeKopf(mail),
+    ...(env.REPLY_TO ? { reply_to: env.REPLY_TO } : {}),
+  }
+}
+
+/**
+ * Ein Adapter pro Anbieter. `console` schreibt nur ins Log und ist der
+ * Standard für `wrangler dev`, damit beim Entwickeln niemand Post bekommt.
+ */
+export async function sendMail(env: MailEnv, mail: Mail): Promise<void> {
+  const headers = abmeldeKopf(mail)
   const fromName = mail.fromName ?? env.FROM_NAME
 
   switch (env.MAIL_PROVIDER) {
@@ -51,15 +70,7 @@ export async function sendMail(env: MailEnv, mail: Mail): Promise<void> {
           Authorization: `Bearer ${env.MAIL_API_KEY}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          from: `${fromName} <${env.FROM_EMAIL}>`,
-          to: [mail.to],
-          subject: mail.subject,
-          html: mail.html,
-          text: mail.text,
-          headers,
-          ...(env.REPLY_TO ? { reply_to: env.REPLY_TO } : {}),
-        }),
+        body: JSON.stringify(resendMail(env, mail)),
       })
       if (!res.ok) throw new Error(`Resend ${res.status}: ${await res.text()}`)
       return

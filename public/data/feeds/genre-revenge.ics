@@ -6,27 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Revenge
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T133000Z
-DTEND:20261007T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/13080/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:naruto-shippuden-s3-disneyplus@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261007
-DTEND;VALUE=DATE:20261008
-SUMMARY:Naruto Shippuden – Staffel 3 (im Angebot)
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nIm Angebot seit 
- diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1491/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-183423-tv-prosieben-maxx@2026-10-08#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T162500Z
@@ -82,8 +61,8 @@ UID:demon-slayer-hashira-training-arc-primevideo@2026-10-10@anime-kalender-
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (im Angebot) (S
- ynchro offen)
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (neu bei Prime 
+ Video) (Synchro offen)
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
  eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
  ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
@@ -136,8 +115,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261014T133000Z
 DTEND:20261014T140000Z
 SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/13080/
 CATEGORIES:Crunchyroll
 END:VEVENT

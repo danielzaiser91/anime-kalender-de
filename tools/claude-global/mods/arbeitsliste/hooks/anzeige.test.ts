@@ -67,13 +67,13 @@ const SITZUNG = 'eigene-sitzung'
 const FREMDE_MARKER = [`${MARKER_ORDNER}/fremde-sitzung.txt`, 'C:/Users/ih/.claude/autonomer-modus-bis.txt']
 
 // `engine`: unterste Leiste wie im Betrieb, wenn kein fremdes Modul zeichnet.
-function starte(on: On, marker: string | null, status: (string | undefined)[] = [], engine = true, stand = STAND, ruhe: boolean | string = false, agenten = 0, zaehler: string | null = null) {
+function starte(on: On, marker: string | null, status: (string | undefined)[] = [], engine = true, stand = STAND, ruhe: boolean | string = false, agenten = 0, zaehler: string | null = null, pruefer = 0) {
   mock.clock(on)
   on('session.start', ($, e) => ({ cwd: e.cwd }))
   on('session.id', () => ({ value: SITZUNG }) as never)
   on('ui.status', ($, e) => { status.push((e as { text?: string }).text); return { value: undefined } as never })
   if (agenten) {
-    const laeuft = Array.from({ length: agenten }, () => ({ description: 'Bauer', status: 'running' }))
+    const laeuft = Array.from({ length: agenten }, (_, i) => ({ description: i < pruefer ? 'Prüfer: x' : 'Bauer', status: 'running' }))
     on('state.get', (_$, e, next) => ((e as { plugin?: string }).plugin === 'savvy-progress' ? ({ value: { value: laeuft, version: 1 } } as never) : next(e)))
   }
   if (engine) on('ui.render', { component: 'AbovePrompt' }, () => ({ type: 'engine', ref: 0 }) as never)
@@ -205,6 +205,16 @@ test('Leiste: Ruhemodus sanft ohne Sanduhr, sobald höchstens 1 Agent läuft', a
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
   expect(reihe.s).toBe('Agents 1Arbeitsliste 0○●')
+  await band.unmount()
+})
+
+test('Leiste: Ruhemodus sanft zählt Prüfer nicht — 1 Agent und 2 Prüfer ohne Sanduhr', async ($, on) => {
+  starte(on, null, [], true, STAND, 'sanft', 3, null, 2)
+  await $.session.start({ cwd: 'C:/x', surface: 'desktop', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'desktop' })
+  const reihe = { s: '' }
+  zeilen(await band.drawn(), [], reihe)
+  expect(reihe.s).toBe('Agents 1+2Arbeitsliste 0○●')
   await band.unmount()
 })
 

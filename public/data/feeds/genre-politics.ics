@@ -6,46 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Politics
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T133000Z
-DTEND:20261007T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/13080/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:trapped-in-a-dating-sim-s2@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T153000Z
-DTEND:20261007T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/14858/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-07#19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T162500Z
-DTEND:20261007T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-07#20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T165000Z
-DTEND:20261007T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-183423-tv-prosieben-maxx@2026-10-08#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T162500Z
@@ -70,7 +30,7 @@ UID:adn-1423-s1-20261008-116589@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261008
 DTEND;VALUE=DATE:20261009
-SUMMARY:86: Eighty Six (im Angebot)
+SUMMARY:86: Eighty Six (neu bei ADN)
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
  em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
  nicht bestätigt.\nDetails: https://anime-kalender.de/t/11361/
@@ -81,7 +41,7 @@ UID:adn-1423-s1-20261008-131586@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261008
 DTEND;VALUE=DATE:20261009
-SUMMARY:86: Eighty Six – Teil 2 (im Angebot)
+SUMMARY:86: Eighty Six – Teil 2 (neu bei ADN)
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
  em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
  nicht bestätigt.\nDetails: https://anime-kalender.de/t/12794/
@@ -129,17 +89,6 @@ SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-10-10@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261010T150000Z
-DTEND:20261010T153000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 2/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00378078@2026-10-10@anime-kalender-de
@@ -197,8 +146,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261014T133000Z
 DTEND:20261014T140000Z
 SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/13080/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -208,8 +156,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261014T153000Z
 DTEND:20261014T160000Z
 SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/14858/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -246,8 +193,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-15#30@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261015T165000Z
-DTEND:20261015T172000Z
+DTSTART:20261015T165500Z
+DTEND:20261015T172500Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
@@ -315,18 +262,6 @@ SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 22/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/15570/
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-10-17@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T150000Z
-DTEND:20261017T153000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 3/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00378078@2026-10-17@anime-kalender-de
@@ -399,6 +334,26 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-22#39@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T162500Z
+DTEND:20261022T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-22#40@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T165000Z
+DTEND:20261022T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261023T080000Z
@@ -420,18 +375,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/15570/
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-10-24@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T150000Z
-DTEND:20261024T153000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 4/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00378078@2026-10-24@anime-kalender-de
@@ -466,18 +409,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/15570/
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-10-31@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T160000Z
-DTEND:20261031T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 5/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00378078@2026-10-31@anime-kalender-de
@@ -522,18 +453,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-11-07@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261107T160000Z
-DTEND:20261107T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 6/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-09@anime-kalender-de
@@ -601,18 +520,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-11-14@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261114T160000Z
-DTEND:20261114T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 7/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-16@anime-kalender-de
@@ -692,18 +599,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-11-21@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261121T160000Z
-DTEND:20261121T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 8/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261123T175000Z
@@ -769,18 +664,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-11-28@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261128T160000Z
-DTEND:20261128T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 9/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-30@anime-kalender-de
@@ -870,18 +753,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-12-05@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261205T160000Z
-DTEND:20261205T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 10/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261207T175000Z
@@ -935,18 +806,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-12-12@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261212T160000Z
-DTEND:20261212T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 11/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-14@anime-kalender-de
@@ -1004,18 +863,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-12-19@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261219T160000Z
-DTEND:20261219T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 12/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261221T175000Z
@@ -1069,18 +916,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-12-26@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261226T160000Z
-DTEND:20261226T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 13/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-28@anime-kalender-de
@@ -1138,18 +973,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2027-01-02@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20270102T160000Z
-DTEND:20270102T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 14/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270104T175000Z
@@ -1203,18 +1026,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2027-01-09@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20270109T160000Z
-DTEND:20270109T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 15/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-11@anime-kalender-de
@@ -1326,18 +1137,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2027-01-16@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20270116T160000Z
-DTEND:20270116T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 16/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270118T175000Z
@@ -1391,18 +1190,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2027-01-23@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20270123T160000Z
-DTEND:20270123T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 17/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-25@anime-kalender-de
@@ -1460,18 +1247,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2027-01-30@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20270130T160000Z
-DTEND:20270130T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 18/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270201T175000Z
@@ -1527,18 +1302,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2027-02-06@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20270206T160000Z
-DTEND:20270206T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 19/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270208T175000Z
@@ -1592,18 +1355,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2027-02-13@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20270213T160000Z
-DTEND:20270213T163000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 20/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-15@anime-kalender-de

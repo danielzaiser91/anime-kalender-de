@@ -14,6 +14,7 @@ import {
   pushFavorites,
   requestRestore,
   setSyncToken,
+  subscribe,
   type Einstellungen,
 } from '../lib/newsletterSync.ts'
 import { AdminPanel, readAdminToken } from './AdminPanel.tsx'
@@ -100,7 +101,7 @@ function PlatformToggleList({
               'ak-tz cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition',
               active
                 ? 'border-transparent bg-slate-100 text-slate-900'
-                : 'border-slate-300/70 text-slate-600 hover:border-slate-400 dark:border-white/15 dark:text-slate-300',
+                : 'border-slate-300/70 text-slate-600 hover:border-ak-leise dark:border-white/15 dark:text-slate-300',
             ].join(' ')}
           >
             {PLATFORMS[p].name}
@@ -154,7 +155,7 @@ function FavoritenFeed() {
           {t('sub.favAnlegen')}
         </Button>
       )}
-      {fehler && <p className="mt-2 text-xs text-rose-600 dark:text-rose-400">{fehler}</p>}
+      {fehler && <p className="mt-2 text-xs text-ak-fehler-text">{fehler}</p>}
     </Card>
   )
 }
@@ -259,7 +260,7 @@ function AboEinstellungen({ meta, onWechseln, abmeldeState, setAbmeldeState }: {
   return (
     <Card>
       <SectionTitle>{t('news.yourSubscription')}</SectionTitle>
-      {fehler && <p className="mb-2 text-sm text-red-400">{fehler}</p>}
+      {fehler && <p className="mb-2 text-sm text-ak-fehler-text">{fehler}</p>}
       {laedt ? (
         <p className="text-sm text-slate-400">{t('news.loadingPrefs')}</p>
       ) : !stand ? null : (
@@ -282,7 +283,7 @@ function AboEinstellungen({ meta, onWechseln, abmeldeState, setAbmeldeState }: {
                     'cursor-pointer rounded-lg border px-3 py-2 text-sm transition',
                     stand.frequency === f
                       ? 'border-sky-500 bg-sky-500/10 font-medium text-slate-900 dark:text-white'
-                      : 'border-slate-300 text-slate-600 hover:border-slate-400 dark:border-white/15 dark:text-slate-300',
+                      : 'border-slate-300 text-slate-600 hover:border-ak-leise dark:border-white/15 dark:text-slate-300',
                   ].join(' ')}
                 >
                   {t(f === 'weekly' ? 'news.weekly' : 'news.daily')}
@@ -342,13 +343,13 @@ function AboEinstellungen({ meta, onWechseln, abmeldeState, setAbmeldeState }: {
           </div>
           </div>
 
-          {speichert === 'ok' && <p className="text-sm text-emerald-500">{t('news.prefsSaved')}</p>}
+          {speichert === 'ok' && <p className="text-sm text-ak-gut-text">{t('news.prefsSaved')}</p>}
 
           <div className="flex flex-wrap items-center gap-3 border-t border-slate-200 pt-3 dark:border-white/10">
             <button
               type="button"
               onClick={onWechseln}
-              className="cursor-pointer text-sm text-sky-700 dark:text-sky-300 underline hover:text-sky-600 dark:hover:text-sky-200"
+              className="cursor-pointer text-sm text-sky-700 dark:text-sky-300 underline hover:text-ak-text"
             >
               {t('news.changeAddress')}
             </button>
@@ -523,13 +524,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
     }
     setState('sending')
     try {
-      const res = await fetch(`${WORKER_URL}/subscribe`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, frequency, platforms, favorites: [...favorites], ak: 1 }),
-      })
-      const body = (await res.json()) as { ok?: boolean; error?: string }
-      if (!res.ok || !body.ok) throw new Error(body.error ?? 'Unbekannter Fehler')
+      await subscribe({ email, frequency, platforms, favorites: [...favorites] })
       setState('ok')
       setMessage(t('news.ok'))
     } catch (err) {
@@ -548,7 +543,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
       {adminToken && <AdminPanel token={adminToken} />}
 
       {welcome && (
-        <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-500">
+        <div className="rounded-xl border border-ak-gut/40 bg-ak-gut-grund px-4 py-3 text-sm text-ak-gut-text">
           <strong className="block">{t('news.welcomeTitle')}</strong>
           {t('news.welcomeBody')}
         </div>
@@ -559,9 +554,9 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
           className={[
             'rounded-xl border px-4 py-3 text-sm',
             syncState === 'ok'
-              ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-500'
+              ? 'border-ak-gut/40 bg-ak-gut-grund text-ak-gut-text'
               : syncState === 'error'
-                ? 'border-red-500/40 bg-red-500/10 text-red-400'
+                ? 'border-ak-fehler/40 bg-ak-fehler-grund text-ak-fehler-text'
                 : 'border-slate-300 text-slate-500 dark:border-white/15',
           ].join(' ')}
         >
@@ -588,7 +583,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
                     type="checkbox"
                     checked={favorites.has(id)}
                     onChange={() => toggleFavorit(id)}
-                    className="size-4 cursor-pointer accent-amber-400"
+                    className="size-4 cursor-pointer accent-ak-akzent"
                   />
                   <span className={favorites.has(id) ? '' : 'text-slate-400 line-through dark:text-slate-500'}>
                     {namen.get(id) ?? `#${id}`}
@@ -642,7 +637,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
                     'flex-1 cursor-pointer rounded-lg border p-3 transition',
                     frequency === value
                       ? 'border-sky-400 bg-sky-400/10'
-                      : 'border-slate-300 hover:border-slate-400 dark:border-white/15',
+                      : 'border-slate-300 hover:border-ak-leise dark:border-white/15',
                   ].join(' ')}
                 >
                   <input
@@ -681,9 +676,9 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
               — für den wäre der Hinweis eine Warnung vor nichts.
             */}
             {autoSync ? (
-              <p className="mt-1 text-xs text-emerald-500">✓ {t('news.autoSync')}</p>
+              <p className="mt-1 text-xs text-ak-gut-text">✓ {t('news.autoSync')}</p>
             ) : favorites.size > 0 ? (
-              <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">{t('news.noSyncYet')}</p>
+              <p className="mt-1 text-xs text-ak-warnung-text">{t('news.noSyncYet')}</p>
             ) : null}
           </div>
 
@@ -724,7 +719,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
               <span
                 className={[
                   'text-sm',
-                  state === 'ok' ? 'text-emerald-500' : state === 'error' ? 'text-red-400' : 'text-slate-400',
+                  state === 'ok' ? 'text-ak-gut-text' : state === 'error' ? 'text-ak-fehler-text' : 'text-slate-400',
                 ].join(' ')}
               >
                 {message}
@@ -774,7 +769,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
         {zeigeGeraet ? (
           <>
             {abmeldeState !== 'weg' && (
-              <p className="rounded-lg bg-emerald-500/10 px-3 py-2 text-sm text-emerald-600 dark:text-emerald-400">
+              <p className="rounded-lg bg-ak-gut-grund px-3 py-2 text-sm text-ak-gut-text">
                 ✓ {t('news.restoreConnected')}
               </p>
             )}
@@ -782,7 +777,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
               <button
                 type="button"
                 onClick={() => setRestoreOffen(true)}
-                className="cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-3 py-1.5 text-[13px] font-semibold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text"
+                className="cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-3 py-1.5 text-[13px] font-semibold text-ak-text transition hover:border-ak-leise"
               >
                 {t('news.restoreAnyway')}
               </button>
@@ -802,7 +797,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
           <>
         <p className="text-sm text-slate-600 dark:text-slate-300">{t('news.restoreBody')}</p>
         {restoreState === 'done' ? (
-          <p className="mt-3 rounded-lg bg-emerald-500/10 px-3 py-2 text-sm text-emerald-600 dark:text-emerald-400">
+          <p className="mt-3 rounded-lg bg-ak-gut-grund px-3 py-2 text-sm text-ak-gut-text">
             {t('news.restoreSent')}
           </p>
         ) : (
@@ -828,7 +823,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
             <button
               type="submit"
               disabled={restoreState === 'sending' || !WORKER_URL}
-              className="cursor-pointer rounded-lg bg-slate-700 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-600 disabled:opacity-60 dark:bg-white/15 dark:hover:bg-white/25"
+              className="cursor-pointer rounded-lg bg-ak-flaeche-2 px-4 py-2 text-sm font-medium text-ak-text transition hover:bg-ak-flaeche-3 disabled:cursor-default disabled:opacity-45"
             >
               {restoreState === 'sending' ? t('news.sending') : t('news.restoreSubmit')}
             </button>

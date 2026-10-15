@@ -15,7 +15,9 @@ const JE_STAFFEL = 100_000
 
 /**
  * Eine Folge: [staffel, nummer, folgentitel, gti, sprachen, vorhanden, ton_de, art, titel_id, gemeldet_am,
- * meldung_uebernommen, rohfolge_uebernommen, notiz, fassung]. `fassung` zählt (0..99, danach von vorn; 100 Änderungen einer Folge zwischen Lesen und Abhaken sind praktisch
+ * meldung_uebernommen, rohfolge_uebernommen, notiz, fassung, folgen?, roh_titel?]. Die beiden letzten nur, wo belegt (Netflix, 14.10.2026):
+ * `folgen` = Folgenzahl der Seite (Hand-Meldung), `roh_titel` = Titel der Rohfolge, wo er von `folge` abweicht (Netflix meldet
+ * als `folge` die Kennung). `fassung` zählt (0..99, danach von vorn; 100 Änderungen einer Folge zwischen Lesen und Abhaken sind praktisch
  * ausgeschlossen) jede inhaltliche Änderung und steckt in
  * der Id: Eine Id, die der Bau vor einer Änderung gelesen hat, hakt die geänderte Folge nicht ab (wie eine neue Zeile in `pruefung`).
  */
@@ -34,6 +36,8 @@ export type Eintrag = [
   0 | 1,
   string | null,
   number,
+  (number | null)?,
+  (string | null)?,
 ]
 
 /** Stellen im Eintrag, wo mehr als eine Zahl gelesen wird. */
@@ -43,6 +47,8 @@ export const AM = 9
 export const MELDUNG_UEBERNOMMEN = 10
 export const ROHFOLGE_UEBERNOMMEN = 11
 export const FASSUNG = 13
+export const FOLGEN = 14
+export const ROH_TITEL = 15
 
 export type TitelDaten = {
   /** Die Aufteilung des Anbieters, wie die Erweiterung sie meldet. */
@@ -70,9 +76,9 @@ export function ausId(id: number): { nr: number; fassung: number; staffel: numbe
 /** Zwei Folgen sind dieselbe, wenn Staffel und Nummer gleich sind (beide auch leer). */
 export const gleicheFolge = (a: Eintrag, b: Eintrag) => a[STAFFEL] === b[STAFFEL] && a[NUMMER] === b[NUMMER]
 
-/** Gleicher Inhalt: alles bis auf Zeitpunkt und Abhak-Marken. */
+/** Gleicher Inhalt: alles bis auf Zeitpunkt, Abhak-Marken und Fassung. */
 export function gleicherInhalt(a: Eintrag, b: Eintrag): boolean {
-  const inhalt = (e: Eintrag) => JSON.stringify([e.slice(0, AM), e[12]])
+  const inhalt = (e: Eintrag) => JSON.stringify([e.slice(0, AM), e[12], e[FOLGEN] ?? null, e[ROH_TITEL] ?? null])
   return inhalt(a) === inhalt(b)
 }
 
@@ -115,7 +121,7 @@ export function eintragAusMeldung(
 ): Eintrag {
   const roh = Array.isArray(daten.rohfolgen) && daten.rohfolgen.length === 1 ? (daten.rohfolgen[0] as Record<string, unknown>) : null
   const sprachen = Array.isArray(daten.sprachen) ? (daten.sprachen as string[]) : null
-  return [
+  const e: Eintrag = [
     zahl(daten.staffel),
     zahl(daten.folge_nr),
     daten.folge ? String(daten.folge).slice(0, 200) : null,
@@ -131,6 +137,17 @@ export function eintragAusMeldung(
     daten.notiz ? String(daten.notiz).slice(0, 500) : null,
     0,
   ]
+  const rohTitel = roh?.titel ? String(roh.titel).slice(0, 200) : null
+  return mitZusatz(e, zahl(daten.folgen), rohTitel === e[2] ? null : rohTitel)
+}
+
+/** Hängt `folgen` und `roh_titel` nur an, wo belegt: Disney+-Einträge bleiben 14 Felder lang. */
+function mitZusatz(e: Eintrag, folgen: number | null, rohTitel: string | null): Eintrag {
+  if (folgen === null && rohTitel === null) return e
+  const neu: Eintrag = [...e]
+  neu[FOLGEN] = folgen
+  if (rohTitel !== null) neu[ROH_TITEL] = rohTitel
+  return neu
 }
 
 export type Aenderung = 'neu' | 'geaendert' | 'gleich'

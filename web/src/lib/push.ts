@@ -3,6 +3,9 @@
  * Herstellers; der Worker merkt sich nur den Endpunkt und die Favoriten dieses Browsers und
  * schickt stündlich einen Push, wenn eine gemerkte Folge erschienen ist. Kein Konto.
  */
+import { DIENST_PAUSE } from '@shared/dienst-pause.ts'
+import { dienstFetch } from './dienstFetch.ts'
+
 const WORKER = import.meta.env.VITE_NEWSLETTER_API ?? ''
 const MERKER = 'pushAbo'
 
@@ -26,7 +29,7 @@ export function pushAktivGemerkt(): boolean {
 }
 
 async function senden(abo: PushSubscription, favoriten: number[] | null): Promise<void> {
-  const res = await fetch(`${WORKER}/push/abo`, {
+  const res = await dienstFetch(`${WORKER}/push/abo`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(favoriten ? { subscription: abo.toJSON(), favoriten, ak: 1 } : { subscription: abo.toJSON(), abmelden: true }),
@@ -37,8 +40,8 @@ async function senden(abo: PushSubscription, favoriten: number[] | null): Promis
 export async function pushEinschalten(favoriten: number[]): Promise<void> {
   if ((await Notification.requestPermission()) !== 'granted') throw new Error('Benachrichtigungen sind im Browser nicht erlaubt.')
   const reg = await navigator.serviceWorker.ready
-  const { schluessel } = (await (await fetch(`${WORKER}/push/schluessel`)).json()) as { schluessel: string | null }
-  if (!schluessel) throw new Error('Der Dienst ist gerade nicht erreichbar.')
+  const { schluessel } = (await (await dienstFetch(`${WORKER}/push/schluessel`)).json()) as { schluessel: string | null }
+  if (!schluessel) throw new Error(DIENST_PAUSE)
   const abo =
     (await reg.pushManager.getSubscription()) ??
     (await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: schluesselBytes(schluessel) }))

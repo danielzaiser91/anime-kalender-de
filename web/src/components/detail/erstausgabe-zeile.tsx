@@ -1,7 +1,7 @@
 import type { Title } from '@shared/types.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { datumKurz } from '../../lib/news-text.ts'
-import { NEWS_FARBE } from '../NewsView.tsx'
+import { NEWS_FARBE } from '../news-farben.ts'
 import { QuellenKnopf } from '../beleg-dialog.tsx'
 
 /**
@@ -14,7 +14,7 @@ export function ErstausgabeZeile({ title }: { title: Title }) {
   const belege = title.anisearchId ? [{ name: 'aniSearch', url: `https://www.anisearch.de/anime/${title.anisearchId}` }] : []
   return (
     <li className="relative flex flex-col gap-1">
-      <span aria-hidden className="absolute -left-[17px] top-1.5 size-[9px] rounded-full bg-emerald-500 ring-2 ring-ak-flaeche" />
+      <span aria-hidden className="absolute -left-[17px] top-1.5 size-[9px] rounded-full bg-ak-gut ring-2 ring-ak-flaeche" />
       <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
         <span className="shrink-0 rounded-md bg-ak-flaeche-2 px-1.5 py-0.5 text-t5 font-semibold tabular-nums text-ak-text">{datumKurz(e.von!)}</span>
         <span className={`shrink-0 rounded-md px-1.5 py-0.5 text-t5 font-semibold ${NEWS_FARBE.neu}`}>{t('detail.erstausgabeArt')}</span>

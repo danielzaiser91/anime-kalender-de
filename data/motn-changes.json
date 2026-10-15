@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 56
+    "2026-10": 59
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1348,7 +1348,7 @@
       "imdbId": "tt31589662",
       "tmdbId": "tv/243875",
       "dienst": "prime",
-      "am": "2026-10-12",
+      "am": "2026-10-14",
       "deutsch": true
     },
     "removed:4303794:prime": {
@@ -1828,7 +1828,7 @@
       "imdbId": "tt13696152",
       "tmdbId": "tv/122228",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-10-14",
       "deutsch": false
     },
     "removed:8818:prime": {
@@ -3148,7 +3148,7 @@
       "imdbId": "tt38709442",
       "tmdbId": "tv/303265",
       "dienst": "prime",
-      "am": "2026-09-04",
+      "am": "2026-10-14",
       "deutsch": false
     },
     "removed:439:prime": {
@@ -4708,7 +4708,7 @@
       "imdbId": "tt2261391",
       "tmdbId": "tv/44006",
       "dienst": "prime",
-      "am": "2026-09-26",
+      "am": "2026-10-14",
       "deutsch": true
     },
     "removed:4869:netflix": {
@@ -6698,7 +6698,7 @@
       "imdbId": "tt0163503",
       "tmdbId": "tv/4498",
       "dienst": "prime",
-      "am": "2026-10-07",
+      "am": "2026-10-14",
       "deutsch": false
     },
     "new:25980564:netflix": {
@@ -7950,7 +7950,37 @@
       "dienst": "netflix",
       "am": "2026-10-13",
       "deutsch": false
+    },
+    "new:26598509:disney": {
+      "art": "new",
+      "titel": "Dragon Ball Super: Beerus",
+      "originalTitel": "ドラゴンボール超 ビルス",
+      "imdbId": "tt39395275",
+      "tmdbId": "tv/312359",
+      "dienst": "disney",
+      "am": "2026-10-14",
+      "deutsch": false
+    },
+    "removed:6312:prime": {
+      "art": "removed",
+      "titel": "The Bonfire of Destiny",
+      "originalTitel": "Le Bazar de la Charité",
+      "imdbId": "tt9050352",
+      "tmdbId": "tv/93742",
+      "dienst": "prime",
+      "am": "2026-10-14",
+      "deutsch": false
+    },
+    "removed:2514662:prime": {
+      "art": "removed",
+      "titel": "Lady Lovely Locks and the Pixietails",
+      "originalTitel": "Lady Lovely Locks and the Pixietails",
+      "imdbId": "tt0287240",
+      "tmdbId": "tv/14130",
+      "dienst": "prime",
+      "am": "2026-10-14",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-10-14T04:11:44.764Z"
+  "fetchedAt": "2026-10-15T04:12:18.355Z"
 }

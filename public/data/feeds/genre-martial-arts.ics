@@ -6,37 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Martial Arts
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-07#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T151000Z
-DTEND:20261007T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-07#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T153500Z
-DTEND:20261007T160500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:naruto-shippuden-s3-disneyplus@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261007
-DTEND;VALUE=DATE:20261008
-SUMMARY:Naruto Shippuden – Staffel 3 (im Angebot)
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nIm Angebot seit 
- diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1491/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-08#19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T151000Z
@@ -302,6 +271,26 @@ UID:auto-223-tv-prosieben-maxx@2026-10-21#37@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T153500Z
 DTEND:20261021T160500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-22#38@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T151000Z
+DTEND:20261022T154000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-22#39@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T153500Z
+DTEND:20261022T160500Z
 SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
@@ -585,16 +574,6 @@ DTEND;VALUE=DATE:20270116
 SUMMARY:Dragon Ball Z: Der Legendäre Super-Saiyajin (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/791/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-891-disc@2027-01-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270115
-DTEND;VALUE=DATE:20270116
-SUMMARY:Dragon Ball: Das Schloss der Dämonen
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: Film\nUhrzeit noch nicht
-  bestätigt.\nDetails: https://anime-kalender.de/t/781/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

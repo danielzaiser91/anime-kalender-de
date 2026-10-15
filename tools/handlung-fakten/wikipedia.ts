@@ -66,7 +66,7 @@ export function erstelleHoler(opt: HolerOptionen = {}): Holer {
   async function abrufMitSprung(sprache: Sprache, url: string): Promise<Response | 'gesperrt'> {
     const res = await fetchFn(url, { headers: { 'User-Agent': UA }, redirect: 'manual' })
     if (res.status < 300 || res.status >= 400) return res
-    const host = `${sprache}.wikipedia.org`
+    const host = `${sprache}.wikipedia.org` as const
     const ziel = new URL(res.headers.get('location') ?? '', url)
     if (ziel.protocol !== 'https:' || ziel.host !== host) return 'gesperrt'
     if (opt.regeln && !istErlaubt(opt.regeln[host], ziel.pathname + ziel.search)) return 'gesperrt'

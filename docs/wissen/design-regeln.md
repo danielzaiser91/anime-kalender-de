@@ -28,19 +28,21 @@ Vorher/Nachher der ganzen App und des Filterfensters: Mockups `design-app` und `
 | Fläche | `ak-flaeche` | Karten, Panel, Fenster, Eingabefelder |
 | Fläche 2 | `ak-flaeche-2` | abgesetzte Flächen (Segmentgruppe, Chip-Grund), Hover auf Fläche |
 | Fläche 3 | `ak-flaeche-3` | Hover auf Fläche 2, gedrückter Zustand neutraler Knöpfe |
+| Anbieter-Pille | `ak-pille`, `ak-pille-hover` | Fläche der Anbieter-Pille und ihr Hover (dunkel 1,28:1 Unterschied, die graue Zeile `ak-leise` bleibt darauf ≥ 4,5:1; Paare in der Kontrasttabelle); Stellen: `detail/pille.tsx`, `pillen.tsx`, `merken-optik.ts` |
 | Rand / Linie | `ak-rand`, `ak-linie` | Rahmen von Karten und Feldern / Trennlinien |
 | Text | `ak-text`, `ak-leise`, `ak-sehr-leise` | Haupttext / Nebentext, Beschriftungen / Platzhalter, Zahlen in Chips |
 | Akzent | `ak-akzent`, `ak-akzent-hover`, `ak-auf-akzent` | Primärknopf, gewähltes Segment, Heute, Läuft; Text darauf dunkel |
 | Akzent als Text | `ak-akzent-text`, `ak-link` | Akzent in Schriftgröße (hell dunkler, 4,5:1); `ak-link` ist derselbe Wert mit Namen |
 | Gewählt | `ak-gewaehlt`, `ak-auf-gewaehlt` | genau eins von n (Reiter, Segment, Navigation) — Alias auf Akzent, damit es einmal umstellbar bleibt |
 | Fokus | `ak-fokus` | Fokusring, 2 px, 2 px Abstand (`outline`, nicht `ring`) |
-| Gut | `ak-gut`, `ak-gut-text`, `ak-gut-grund` | belegt, bestätigt, ✓ Deutsch, Erfolg, gewählte Filter-Pille (Rand) |
-| Fehler | `ak-fehler`, `ak-fehler-text`, `ak-fehler-grund` | Fehler, Abbrechen/Beenden, ausgeschlossene Filter-Pille (Rand) |
+| Gut | `ak-gut`, `ak-gut-text`, `ak-gut-grund`, `ak-auf-gut` | belegt, bestätigt, ✓ Deutsch, Erfolg, gewählte Filter-Pille (Rand); `ak-auf-gut` = Text auf der Füllung (hell weiß, dunkel dunkel; 4,5:1) |
+| Fehler | `ak-fehler`, `ak-fehler-text`, `ak-fehler-grund`, `ak-auf-fehler` | Fehler, Abbrechen/Beenden, ausgeschlossene Filter-Pille (Rand); `ak-auf-fehler` = Text auf der Füllung; `.ak-immer-dunkel` gibt Flächen, die in beiden Themen dunkel sind (Beleg-Dialog, Trailer-Fenster), alle Rollen der Dunkelfassung, die ein Kind sonst hell erbt (Liste im Abschnitt Werkzeuge) |
 | Warnung | `ak-warnung`, `ak-warnung-text`, `ak-warnung-grund` | Warnung, Hinweis mit Handlungsbedarf, Bugfix in den Patch Notes |
-| Info | `ak-info`, `ak-info-text`, `ak-info-grund` | erklärende Marke ohne Handlungsbedarf: Nachtrag, Schnellfilter-Band, Neuigkeiten-Marken |
+| Info | `ak-info`, `ak-info-text`, `ak-info-grund` | erklärende Marke ohne Handlungsbedarf: Nachtrag, Schnellfilter-Band, Neuigkeiten-Marken, „ab 11.10.“-Pille unter „Demnächst“ (nur eine Auskunft über den Start, kein Handlungsbedarf, deshalb Info statt Warnung) |
 | TV | `ak-tv`, `ak-tv-grund`, `ak-tv-rand` | nur lineares Fernsehen |
 | Katalog | `ak-katalog`, `ak-katalog-text` | nur Katalog-Release |
-| Finale | `ak-finale`, `ak-finale-text` | Staffelfinale **und** Favoriten-Stern (Gold = Höhepunkt) |
+| Finale | `ak-finale`, `ak-finale-text` | Staffelfinale, Favoriten-Stern **und** Disc-Punkt der Neuigkeiten (Gold; die Liste „Was sich getan hat“ färbt Disc ebenfalls gelb; als Punkt `ak-finale-text`, weil `ak-finale` hell nur 1,6:1 hat). Die übrigen Punkte der Neuigkeiten und die Chips der News tragen dieselbe Kennfarbe je Art (`web/src/components/news-farben.ts`): neu, Folgen, nachgereicht `ak-gut`; angekündigt, offiziell `ak-info`; Kino, Rhythmus `ak-akzent`; verspätet, nachgetragen `ak-leise` |
+| Neutrale Marke | `ak-marke` | Fahne „Neu bei <Anbieter>“ (ohne Kennfarbe, in beiden Themen gleich hell); Text darauf `#0d0f14` |
 | Heute | `ak-heute` | Grund der Heute-Spalte |
 
 `-text` ist die Variante für Schrift (hell dunkler, dunkel heller), `-grund` die 10–12 % Tönung über `ak-flaeche` für Kästen und Pillen.
@@ -63,6 +65,8 @@ Zwei Bestandswerte verfehlten die Schwelle und wurden am 13.10.2026 korrigiert: 
 | leise | flaeche | 4.5 | 6.7 (#9aa0ab auf #151922) | 6.8 (#555b66 auf #ffffff) |
 | leise | flaeche-2 | 4.5 | 6.2 (#9aa0ab auf #1b202a) | 5.6 (#555b66 auf #ebe9e3) |
 | sehr-leise | flaeche | 4.5 | 4.9 (#828894 auf #151922) | 5.5 (#636974 auf #ffffff) |
+| leise | pille | 4.5 | 6.1 (#9aa0ab auf #162238) | 6.8 (#555b66 auf #ffffff) |
+| leise | pille-hover | 4.5 | 4.7 (#9aa0ab auf #26344f) | 5.6 (#555b66 auf #ebe9e3) |
 | akzent-text | grund | 4.5 | 7.5 (#ff7a5c auf #0d0f14) | 5.4 (#b8321a auf #f5f4f0) |
 | akzent-text | flaeche | 4.5 | 6.9 (#ff7a5c auf #151922) | 6.0 (#b8321a auf #ffffff) |
 | akzent-text | flaeche-2 | 4.5 | 6.4 (#ff7a5c auf #1b202a) | 4.9 (#b8321a auf #ebe9e3) |
@@ -84,7 +88,9 @@ Zwei Bestandswerte verfehlten die Schwelle und wurden am 13.10.2026 korrigiert: 
 | fokus | grund | 3 | 9.6 (#ff9e85 auf #0d0f14) | 5.4 (#b8321a auf #f5f4f0) |
 | fokus | flaeche | 3 | 8.8 (#ff9e85 auf #151922) | 6.0 (#b8321a auf #ffffff) |
 | fokus | flaeche-2 | 3 | 8.1 (#ff9e85 auf #1b202a) | 4.9 (#b8321a auf #ebe9e3) |
+| auf-gut | gut | 4.5 | 10.0 (#0d0f14 auf #34d399) | 5.5 (#ffffff auf #047857) |
 | gut | flaeche | 3 | 9.1 (#34d399 auf #151922) | 5.5 (#047857 auf #ffffff) |
+| auf-fehler | fehler | 4.5 | 7.1 (#0d0f14 auf #fb7185) | 4.7 (#ffffff auf #e11d48) |
 | fehler | flaeche | 3 | 6.5 (#fb7185 auf #151922) | 4.7 (#e11d48 auf #ffffff) |
 | warnung | flaeche | 3 | 10.5 (#fbbf24 auf #151922) | 3.2 (#d97706 auf #ffffff) |
 | info | flaeche | 3 | 6.9 (#60a5fa auf #151922) | 5.2 (#2563eb auf #ffffff) |
@@ -138,15 +144,15 @@ Bilder: Scratchpad `design-regeln/bilder/vorher-*` (Woche, Panel, Filter, Suche,
 
 | Bedeutung | heute | Regel |
 |---|---|---|
-| Gewählt (eins von n) | fünf Formen: Akzent-Füllung (Woche/Monat), Text-Füllung schwarz/weiß (News-Chips, Patch-Notes-Pillen, Stream/Disc), grüne Füllung (Klick-Modus), Akzent-Unterstrich (Navigation), grüner Rand (Filter-Pillen) | Akzent-Füllung; Navigation Unterstrich; Filter-Pillen grüner Rand (Mehrfachauswahl); Klick-Modus bleibt. Umgesetzt 14.10.2026 (Woche/Monat, News-Chips, Patch-Notes-Pillen, Stream/Disc, Saison-Reiter, Navigation); offen: Panel-Reiter in `reihen-kopf.tsx`/`folgen-bereich.tsx` (sky/slate, gehört zum Slate/Sky-Abbau) |
+| Gewählt (eins von n) | fünf Formen: Akzent-Füllung (Woche/Monat), Text-Füllung schwarz/weiß (News-Chips, Patch-Notes-Pillen, Stream/Disc), grüne Füllung (Klick-Modus), Akzent-Unterstrich (Navigation), grüner Rand (Filter-Pillen) | Akzent-Füllung; Navigation Unterstrich; Filter-Pillen grüner Rand (Mehrfachauswahl); Klick-Modus bleibt. Umgesetzt 14.10.2026 (Woche/Monat, News-Chips, Patch-Notes-Pillen, Stream/Disc, Saison-Reiter, Navigation); ebenfalls 14.10.2026: Datumssprung (Monat, Tag) und UND/ODER-Schalter; offen: Panel-Reiter in `reihen-kopf.tsx`/`folgen-bereich.tsx` (sky/slate, gehört zum Slate/Sky-Abbau) |
 | Fokus | `ring-sky-400` in `ui.tsx` (= `#ff7a5c` in beiden Themen, hell 2,6:1 auf Weiß); Patch Notes eigener Outline; die meisten Knöpfe ohne eigene Regel (Browser-Standard) | ein Ring `ak-fokus`, überall |
-| Hover-Fläche | fünf Werte (`ak-flaeche-2`, `white/10`, `slate-100`, `slate-50`, `slate-900/60`) | `ak-flaeche-2`, auf Fläche 2 `ak-flaeche-3` |
-| Hover-Rand | vier Werte (`ak-leise`, `slate-400`, `white/40`, `ak-akzent`) | `ak-leise`; Akzent nur bei Verweis-Chips im Panel |
-| Amber | vier Bedeutungen: Warnung/Hinweis, Favoriten-Stern, Bugfix, Sonne im Themaknopf | Warnung; Stern → `ak-finale-text`; Bugfix → `ak-warnung`; Sonne → `ak-finale` |
-| Rot | `rose` (Ausschluss, Beleg-Dialog, Kino-Knopf) neben `red` (Fehler, Abo beenden) | `ak-fehler`; Kino-Knopf verliert das Rot |
-| Grün | Pille gewählt, ✓ Deutsch, Klick-Modus, Feature | `ak-gut` für alle (eine Bedeutung: „ja/belegt“) |
-| Blau | Schnellfilter-Band, Nachtrag, Panel-Karte, Neuigkeiten-Marken | `ak-info` |
-| Deaktiviert | `opacity-30/40/50/60` | `opacity-45` |
+| Hover-Fläche | fünf Werte (`ak-flaeche-2`, `white/10`, `slate-100`, `slate-50`, `slate-900/60`) | `ak-flaeche-2`, auf Fläche 2 `ak-flaeche-3`. **Umgesetzt 14.10.2026** (`hover:bg-slate/white/sky`, `dark:hover:`, `hover:brightness` = 0; Pillen mit Anbieterfarbe nehmen `hover:bg-ak-flaeche-2`, Meldungs-Chips der News einen inneren Ring `ak-leise`) |
+| Hover-Rand | vier Werte (`ak-leise`, `slate-400`, `white/40`, `ak-akzent`) | `ak-leise`; Akzent nur bei Verweis-Chips im Panel. **Umgesetzt 14.10.2026**; Text bei Hover: `ak-text` (Links, Textknöpfe) |
+| Amber | vier Bedeutungen: Warnung/Hinweis, Favoriten-Stern, Bugfix, Sonne im Themaknopf | Warnung; Stern → `ak-finale-text`; Bugfix → `ak-warnung`; Sonne → `ak-finale`. **Umgesetzt 14.10.2026** (`amber-` in `web/src` = 0); „Sprache offen“, TBA und „ungeklärt“ sind `ak-leise`; Mond → `ak-info` |
+| Rot | `rose` (Ausschluss, Beleg-Dialog, Kino-Knopf) neben `red` (Fehler, Abo beenden) | `ak-fehler`; Kino-Knopf verliert das Rot. **Umgesetzt 14.10.2026** (`rose-`, `red-` = 0); Kino-Knopf ist Sekundärknopf, Kino-Punkt in den Neuigkeiten und Plakette auf dem Cover nehmen den Akzent |
+| Grün | Pille gewählt, ✓ Deutsch, Klick-Modus, Feature | `ak-gut` für alle (eine Bedeutung: „ja/belegt“). **Umgesetzt 14.10.2026** (`emerald-` = 0) |
+| Blau | Schnellfilter-Band, Nachtrag, Panel-Karte, Neuigkeiten-Marken | `ak-info`. **Umgesetzt 14.10.2026** (`blue-`, `indigo-`, `violet-`, `teal-` = 0): Violett (Nachtrag „Zusage“, „Geplant“, Stufe „angekündigt“, Karten Neuigkeiten/Reihe) ist Info, „angekündigt“ heißt überall Info; Violett bleibt allein `ak-katalog` |
+| Deaktiviert | `opacity-30/40/50/60` | `disabled:opacity-45 disabled:cursor-default`. **Umgesetzt 14.10.2026** (`opacity-30/40/50/60` = 0); Zahlen in Chips stehen auf `opacity-70` statt `ak-sehr-leise`, weil `ak-sehr-leise` auf der gewählten dunklen Pille nur 3,9:1 hat (gemessen); noch nicht erschienene Cover (Saison, Reihe) auf `opacity-45` |
 | Neutral | `slate` mit `dark:`-Paar an 550 Stellen | `ak-text`/`ak-leise`/`ak-flaeche-*` ohne `dark:` |
 
 ## 7. Werkzeuge und Umsetzung
@@ -160,6 +166,8 @@ Bilder: Scratchpad `design-regeln/bilder/vorher-*` (Woche, Panel, Filter, Suche,
   Gegenprobe `tools/design-klassen.test.mjs`); `--liste` zeigt Datei:Zeile je Muster; `--festschreiben` senkt die Grenzen und läuft nur im
   Bestandsbau (`tools/commit-data.sh`), nie in einem PR; ist die Grenzdatei unlesbar, bricht es mit Exit 1 ab. Startwerte 14.10.2026: `slate-` 564, `dark:` 419, `sky-` 91, `white/` 106, Hex 51 (`.tsx`) / 4 (`.ts`) / 4 (`.css`) u. a.
   Wer eine Fläche auf Tokens umstellt, sieht die Zahl sinken; der Bestandsbau schreibt sie fest. Eine Grenze kommt in keinem PR hoch.
+- `tools/design-info.test.mjs`, `design-hover.test.mjs`, `design-deaktiviert.test.mjs` (14.10.2026, laufen über `check:workflows` → `tests-alle`) halten `blue-/indigo-/violet-/teal-`, die alten Hover-Paare und `opacity-30/40/50/60` in `web/src` bei null und prüfen, dass Chip und Punkt jeder Meldungsart (`news-farben.ts`) dieselbe Kennfarbe tragen; Helfer: `tools/design-quelle.mjs`. Dunkle Fenster (Beleg-Dialog, Trailer) tragen `.ak-immer-dunkel`; der Block setzt `ak-grund`, `ak-flaeche`, `ak-flaeche-2`, `ak-flaeche-3`, `ak-rand`, `ak-linie`, `ak-text`, `ak-leise`, `ak-sehr-leise`, `ak-akzent-text`, `ak-link`, `ak-fokus`, `ak-fehler`, `ak-fehler-text` auf die Werte von `html.dark`. `tools/design-immer-dunkel.test.mjs` (15.10.2026) streicht jede dieser Zeilen einzeln und setzt sie auf den hellen Wert (muss rot werden: Text-auf-Fläche-Rollen über die Kontrastrechnung in `design-kontrast.mjs`, `rand`/`linie`/`fokus`/`fehler`/`fehler-text` über die Gleichheit mit `html.dark`), prüft Ruhe/Hover der Pille (≥ 1,2:1) und dass `bg-ak-pille`/`hover:bg-ak-pille-hover` an jeder Pillen-Stelle einzeln stehen (`pille.tsx` zweimal plus Hover, `pillen.tsx`, `merken-optik.ts`). Das Kontrastmodell löst, was der Block setzt, gegen den Block auf und, was er nicht setzt, gegen das Hauptthema (so wie der Browser erbt).
+- `tools/design-status.test.mjs` (in `check:logic`) hält `amber-`, `emerald-`, `rose-`, `red-` in `web/src` bei null (die Grenzdatei sinkt erst im Bestandsbau) und prüft die Zuordnungen; `tools/ansicht-statusfarben.mjs` (aus `check:ansichten`, Rechner) misst im gebauten Filterfenster und in den Patch Notes, dass gewählt `--ak-gut`, ausgeschlossen `--ak-fehler`, Feature `--ak-gut-text`, Bugfix `--ak-warnung-text` tragen, hell und dunkel.
 - Bühne: `web/buehne/ausschnitte/design.tsx` (Rollen und Zustände), Mockups `web/buehne/mockups/design-regeln.tsx`; `Variante.stil` legt
   ein Nachher-Stylesheet über die echte App (`zelle.tsx`).
 - Umsetzung in kleinen PRs: `daniel-zum-abarbeiten/vorrat/design-01-…` bis `design-08-…` (Tokens zuerst ohne sichtbare Änderung, dann je Bereich).

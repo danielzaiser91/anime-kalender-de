@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-14 · **39 offene Verweise** in **32 Zeilen**,
+Stand 2026-10-15 · **40 offene Verweise** in **33 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -49,26 +49,27 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 12 | Prime Video | Urusei Yatsura | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9) |
 | 13 | Prime Video | The Detective Is Already Dead | [Staffel 2]() |
 | 14 | Prime Video | Danganronpa | [Hauptserie]() |
-| 15 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
-| 16 | Disney+ | A Sign of Affection | [Hauptserie]() |
-| 17 | Disney+ | Campfire Cooking in Another World with My Absurd Skill | [Hauptserie](https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855) |
-| 18 | Disney+ | Classroom of the Elite | [Hauptserie](https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3) |
-| 19 | Prime Video | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
-| 20 | Netflix | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
+| 15 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
+| 16 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
+| 17 | Disney+ | A Sign of Affection | [Hauptserie]() |
+| 18 | Disney+ | Campfire Cooking in Another World with My Absurd Skill | [Hauptserie](https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855) |
+| 19 | Disney+ | Classroom of the Elite | [Hauptserie](https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3) |
+| 20 | Prime Video | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
 
-## Paket 2 — Zeilen 21 bis 32
+## Paket 2 — Zeilen 21 bis 33
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 21 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 22 | Netflix | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
-| 23 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
-| 24 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
-| 25 | Disney+ | Jujutsu Kaisen | [0]() |
-| 26 | Prime Video | As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World | [Staffel 3]() |
-| 27 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
-| 28 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
-| 29 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
-| 30 | Prime Video | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DCGS7Y4J) |
-| 31 | Disney+ | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
-| 32 | Prime Video | Spycies: Zwei tierisch coole Agenten | [Hauptserie](https://www.amazon.de/gp/video/detail/B0FK2YJHJK) |
+| 21 | Netflix | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
+| 22 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 23 | Netflix | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
+| 24 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
+| 25 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
+| 26 | Disney+ | Jujutsu Kaisen | [0]() |
+| 27 | Prime Video | As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World | [Staffel 3]() |
+| 28 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
+| 29 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
+| 30 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
+| 31 | Prime Video | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DCGS7Y4J) |
+| 32 | Disney+ | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
+| 33 | Prime Video | Spycies: Zwei tierisch coole Agenten | [Hauptserie](https://www.amazon.de/gp/video/detail/B0FK2YJHJK) |

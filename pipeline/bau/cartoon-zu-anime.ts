@@ -2,7 +2,7 @@ import type { StreamLink, Title } from '../../shared/types.ts'
 import { readJson, writeJson, log, warn } from '../lib/util.ts'
 import { findeZwillinge, tmdbJeAnimeAus, ZWILLING_AUSNAHMEN } from '../lib/cartoon-zwilling.ts'
 import { alsTitel, type CartoonEintrag } from '../lib/cartoons.ts'
-import { dubKey, loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
+import { loadDubChecks, neinHandbelege, wegVerneint } from '../lib/dub-confirmed.ts'
 import { OUT } from './grundlagen.ts'
 
 /** Gedächtnis der umgezogenen Cartoons als `[Cartoon-Kennung, Anime-Kennung]`; es wächst nur, damit gemerkte Titel auch nach einem Abruf ohne den Cartoon umziehen. */
@@ -14,11 +14,11 @@ const ANIME_DATEIEN = ['titles.json', 'ohne-synchro.json', 'titles-core.json']
 /**
  * Die Anbieter des Cartoons (TMDB, Deutschland), die dem Anime-Zwilling fehlen, als Weg ohne Sprachangabe: Der Cartoon nannte nur den Dienst,
  * ob dort Deutsch läuft, sagt allein der Dub-Stand des Anime-Titels. Hat der Anime den Anbieter schon (auch als „nicht mehr im Katalog"), bleibt er unberührt;
- * einen Anbieter, den ein Nein-Handbeleg des Anime-Titels verneint (`dubKey`-Schlüssel in `handNein`), legt er nicht neu an.
+ * einen Anbieter, den ein Nein-Handbeleg des Anime-Titels verneint (`wegVerneint`), legt er nicht neu an.
  */
 export function fehlendeAnbieter(cartoon: Pick<Title, 'streams'>, anime: Partial<Pick<Title, 'streams'>> & Pick<Title, 'id'>, handNein: ReadonlySet<string>): StreamLink[] {
   const hat = new Set((anime.streams ?? []).map((s) => s.platform))
-  return cartoon.streams.filter((s) => !hat.has(s.platform) && !handNein.has(dubKey(anime.id, s.platform))).map((s) => ({ platform: s.platform, url: s.url, herkunft: 'tmdb' as const, zugang: 'unbekannt' as const }))
+  return cartoon.streams.filter((s) => !hat.has(s.platform) && !wegVerneint(handNein, anime.id, s.platform, s.url)).map((s) => ({ platform: s.platform, url: s.url, herkunft: 'tmdb' as const, zugang: 'unbekannt' as const }))
 }
 
 /** Schreibt die Anbieter in die Titel-Dateien von `ausgabe` (nur die Prüfung nimmt einen anderen Ordner als `OUT`). */

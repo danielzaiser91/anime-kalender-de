@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-14T11:02:12.267Z",
+  "scrapedAt": "2026-10-15T12:01:43.131Z",
   "window": {
     "from": "2026-10-05",
     "to": "2026-10-25"
@@ -1141,7 +1141,8 @@
         "2026-09-16",
         "2026-09-23",
         "2026-09-30",
-        "2026-10-07"
+        "2026-10-07",
+        "2026-10-14"
       ],
       "rawTitle": "Saga of Tanya the Evil Staffel 2 (Deutsch)",
       "seriesId": "GR9P57W96",
@@ -1190,6 +1191,10 @@
         {
           "date": "2026-10-07",
           "episode": 11
+        },
+        {
+          "date": "2026-10-14",
+          "episode": 12
         }
       ],
       "earliest": {
@@ -1212,7 +1217,8 @@
         "2026-09-16",
         "2026-09-23",
         "2026-09-30",
-        "2026-10-07"
+        "2026-10-07",
+        "2026-10-14"
       ],
       "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
       "seriesId": "G0XHWM0D3",
@@ -1261,6 +1267,10 @@
         {
           "date": "2026-10-07",
           "episode": 11
+        },
+        {
+          "date": "2026-10-14",
+          "episode": 12
         }
       ],
       "earliest": {
@@ -1518,7 +1528,8 @@
         "2026-06-03",
         "2026-06-10",
         "2026-06-17",
-        "2026-09-09"
+        "2026-09-09",
+        "2026-10-14"
       ],
       "rawTitle": "Re:ZERO -Starting Life in Another World- Staffel 4 (Deutsch)",
       "seriesId": "GRGG9798R",
@@ -1543,6 +1554,10 @@
         {
           "date": "2026-09-09",
           "episode": 13
+        },
+        {
+          "date": "2026-10-14",
+          "episode": 14
         }
       ],
       "earliest": {
@@ -2002,6 +2017,36 @@
       "date": "2026-10-12",
       "time": "17:30",
       "episode": 13,
+      "german": true
+    },
+    {
+      "key": "saga of tanya the evil s2",
+      "rawTitle": "Saga of Tanya the Evil Staffel 2 (Deutsch)",
+      "seriesId": "GR9P57W96",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GR9P57W96/saga-of-tanya-the-evil",
+      "date": "2026-10-14",
+      "time": "15:30",
+      "episode": 12,
+      "german": true
+    },
+    {
+      "key": "re zero starting life in another world s4",
+      "rawTitle": "Re:ZERO -Starting Life in Another World- Staffel 4 (Deutsch)",
+      "seriesId": "GRGG9798R",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRGG9798R/rezero--starting-life-in-another-world-",
+      "date": "2026-10-14",
+      "time": "16:00",
+      "episode": 14,
+      "german": true
+    },
+    {
+      "key": "trapped in a dating sim the world of otome games is tough for mobs s2",
+      "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
+      "seriesId": "G0XHWM0D3",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
+      "date": "2026-10-14",
+      "time": "17:30",
+      "episode": 12,
       "german": true
     }
   ]

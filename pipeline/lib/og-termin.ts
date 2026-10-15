@@ -24,7 +24,7 @@ export function terminZeilen(release: Release, events: ReturnType<typeof expandE
   const woechentlich = release.releaseType === 'weekly'
   const zeilen = [
     {
-      label: release.dateMeaning === 'available-from' ? 'Im Angebot seit' : kommend ? (woechentlich ? naechsteFolgeLabel(events, kommend) : 'Termin') : woechentlich ? 'Erste Folge' : 'Erschienen',
+      label: release.erstausgabe ? 'Erstveröffentlichung' : release.dateMeaning === 'available-from' ? 'Im Angebot seit' : kommend ? (woechentlich ? naechsteFolgeLabel(events, kommend) : 'Termin') : woechentlich ? 'Erste Folge' : 'Erschienen',
       value: `${weekdayName(termin.date, true)}, ${formatDate(termin.date)}`,
     },
   ]
