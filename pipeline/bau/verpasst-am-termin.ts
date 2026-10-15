@@ -1,4 +1,5 @@
 import { toIsoDate } from '../../shared/time.ts'
+import type { WocheBelegVermerk } from '../../shared/woche-beleg-typ.ts'
 
 /**
  * **Was der Anbieter nicht eingehalten hat, steht am Termin.**
@@ -30,6 +31,7 @@ type Verpasst = {
   geprueftAm?: string | null
   newsGeprueftAm?: string | null; messbeleg?: { bild?: string }; nachgereichtBeleg?: { bild?: string }
   hinweise?: { quelle: string; titel: string; url: string; datum: string }[]
+  wocheBeleg?: WocheBelegVermerk
 }
 
 export function verpasstAmTermin(slug: string, verpasst: Verpasst[], ab?: string) {
@@ -62,6 +64,7 @@ export function verpasstAmTermin(slug: string, verpasst: Verpasst[], ab?: string
         ...(v.messbeleg?.bild ? { messBild: v.messbeleg.bild } : {}),
         ...(v.nachgereichtBeleg?.bild ? { nachBild: v.nachgereichtBeleg.bild } : {}),
         ...(v.hinweise?.length ? { hinweise: v.hinweise } : {}),
+        ...(v.wocheBeleg ? { wocheBeleg: v.wocheBeleg } : {}),
       },
     ]),
   )

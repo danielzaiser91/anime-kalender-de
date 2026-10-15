@@ -38,6 +38,8 @@ import { resolve } from 'node:path'
 import { log, readJson, ROOT, writeJson } from './lib/util.ts'
 import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminPruefen } from './lib/ausgeblieben.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
+import { BELEGE_DATEI, belegeAnhaengen, type WocheBelege } from './lib/woche-beleg.ts'
+import type { WocheBelegVermerk } from '../shared/woche-beleg-typ.ts'
 
 /*
   **Dieser Lauf ist im Stundeltakt als geduldeter Schritt eingehängt** (`continue-on-error`, weil er
@@ -127,6 +129,8 @@ export interface VerpassterTermin {
   /** Bild und HTML des Kalendertags beim Bemerken bzw. beim Nachreichen (`messbelege.ts`). */
   messbeleg?: Messbeleg
   nachgereichtBeleg?: Messbeleg
+  /** Foto der Wochenprogramm-Zeile, die den Termin ankündigte (`lib/woche-beleg.ts`). */
+  wocheBeleg?: WocheBelegVermerk
 }
 
 /** Was wir beim Messen gesehen haben — privat abgelegt, der Schlüssel steht hier. */
@@ -293,6 +297,11 @@ for (const e of ereignisse) {
   })
   neu++
 }
+
+/* Das Bild der Ankündigung im Wochenprogramm kommt an jeden Vermerk, zu dem eine Zeile vorliegt — auch an bestehende (Tomb Raider King F12). */
+const wocheBelege = readJson<WocheBelege>(BELEGE_DATEI, {})
+const wocheBelegNeu = belegeAnhaengen(verpasst, wocheBelege, (slug) => adressKern(adresseJeSlug.get(slug) ?? ''))
+if (wocheBelegNeu) log(`${wocheBelegNeu} Vermerk(e) mit dem Bild der Wochenprogramm-Ankündigung versehen`)
 
 /*
   **Nachgeholt: Steht die Folge inzwischen im Kalender, bekommt der Eintrag ihr Datum.**
