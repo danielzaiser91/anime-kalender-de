@@ -5,7 +5,7 @@
  */
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, rmSync, truncateSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -13,7 +13,10 @@ import { baumZeilen, bildLinks, eingabeFehler, repoAus } from './pr-bilder.mjs'
 
 const WERKZEUG = fileURLToPath(new URL('./pr-bilder.mjs', import.meta.url))
 const GIT = process.env.GIT || 'git'
-const KENNUNG = { GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t' }
+const LEERE_CONFIG = path.join(tmpdir(), 'pr-bilder-leer.gitconfig')
+writeFileSync(LEERE_CONFIG, '')
+// Leere globale Konfiguration: ein globales core.hooksPath beträfe den Test sonst.
+const KENNUNG = { GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: LEERE_CONFIG, GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t' }
 
 const git = (cwd, ...args) => execFileSync(GIT, args, { cwd, encoding: 'utf8', env: { ...process.env, ...KENNUNG } }).trim()
 const werkzeug = (cwd, ...args) => spawnSync(process.execPath, [WERKZEUG, ...args], { cwd, encoding: 'utf8', env: { ...process.env, ...KENNUNG } })
@@ -28,6 +31,27 @@ assert.deepEqual(eingabeFehler('gut-1', []), ['Keine Bilddatei angegeben.'])
 assert.equal(eingabeFehler('Schlecht', ['x.png']).length, 2) // Name ungültig, Datei fehlt
 assert.match(eingabeFehler('gut', ['x.txt']).join(), /kein Bild/)
 assert.match(eingabeFehler('gut', ['a/x.png', 'b/x.png']).join(), /mehrfach/)
+
+// Abzulehnende Eingaben; die Bilddateien existieren, damit nur die Regel für Name bzw. Endung greift.
+const ablehnen = mkdtempSync(path.join(tmpdir(), 'pr-bilder-ablehnen-'))
+try {
+  for (const n of ['x.png.txt', '-x.png', 'ok.png']) writeFileSync(path.join(ablehnen, n), 'x')
+  const ok = path.join(ablehnen, 'ok.png')
+  for (const name of ['a/../main', 'a:b', 'a b', 'a.b', 'main/x']) {
+    assert.match(eingabeFehler(name, [ok]).join(), /ungültig/, `Name ${name} muss abgelehnt werden`)
+  }
+  assert.deepEqual(eingabeFehler('gut-1', [ok]), [])
+  assert.match(eingabeFehler('gut', [path.join(ablehnen, 'x.png.txt')]).join(), /kein Bild/)
+  assert.match(eingabeFehler('gut', [path.join(ablehnen, '-x.png')]).join(), /beginnen/)
+  const gross = path.join(ablehnen, 'gross.png')
+  writeFileSync(gross, '')
+  truncateSync(gross, 10 * 1024 * 1024)
+  assert.deepEqual(eingabeFehler('gut', [gross]), [], '10 MB sind erlaubt')
+  truncateSync(gross, 10 * 1024 * 1024 + 1)
+  assert.match(eingabeFehler('gut', [gross]).join(), /größer als 10 MB/)
+} finally {
+  rmSync(ablehnen, { recursive: true, force: true })
+}
 
 // Ablauf an einem echten Repo.
 const wurzel = mkdtempSync(path.join(tmpdir(), 'pr-bilder-test-'))

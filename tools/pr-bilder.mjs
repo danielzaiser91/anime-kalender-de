@@ -9,12 +9,14 @@
  * Ein vorhandener Zweig wird nur mit `--ersetzen` überschrieben.
  */
 import { execFileSync } from 'node:child_process'
-import { existsSync } from 'node:fs'
+import { existsSync, statSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const ENDUNG = /\.(png|jpe?g|webp|gif)$/i
 const NAME = /^[a-z0-9][a-z0-9-]*$/
+const DATEINAME = /^[A-Za-z0-9_]/ // kein führender Bindestrich: git läse ihn als Option
+const MAX_BYTES = 10 * 1024 * 1024
 
 /** Fehlertexte zu Name und Bildliste; leer = in Ordnung. Dateinamen müssen im flachen Baum eindeutig sein. */
 export function eingabeFehler(name, dateien) {
@@ -24,7 +26,9 @@ export function eingabeFehler(name, dateien) {
   const namen = dateien.map((d) => path.basename(d))
   for (const datei of dateien) {
     if (!ENDUNG.test(datei)) fehler.push(`${datei}: kein Bild (png, jpg, webp, gif).`)
+    else if (!DATEINAME.test(path.basename(datei))) fehler.push(`${datei}: Dateiname muss mit Buchstabe, Ziffer oder _ beginnen.`)
     else if (!existsSync(datei)) fehler.push(`${datei}: nicht gefunden.`)
+    else if (statSync(datei).size > MAX_BYTES) fehler.push(`${datei}: größer als 10 MB, bitte verkleinern.`)
   }
   for (const doppelt of namen.filter((n, i) => namen.indexOf(n) !== i)) fehler.push(`${doppelt}: Dateiname kommt mehrfach vor.`)
   return fehler
@@ -56,7 +60,7 @@ function git(args, eingabe) {
 /** Legt Zweig-Inhalt an und schiebt ihn; gibt den Kopf-Hash zurück. */
 export function bilderPushen(name, dateien, { ersetzen = false } = {}) {
   const blobs = {}
-  for (const datei of dateien) blobs[path.basename(datei)] = git(['hash-object', '-w', '--no-filters', datei])
+  for (const datei of dateien) blobs[path.basename(datei)] = git(['hash-object', '-w', '--no-filters', '--', datei])
   const baum = git(['mktree'], baumZeilen(blobs))
   const kopf = git(['commit-tree', baum, '-m', `Bilder für PR: ${name}`])
   git(['push', 'origin', `${ersetzen ? '+' : ''}${kopf}:refs/heads/bilder/${name}`])
