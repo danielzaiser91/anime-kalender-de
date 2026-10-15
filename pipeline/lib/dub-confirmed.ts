@@ -320,7 +320,6 @@ export function wegVerneint(nein: ReadonlySet<string>, anilistId: number, platfo
   return nein.has(titel) || nein.has(`${titel}|${adressKern(url)}`)
 }
 
-
 /**
  * Teilt neu erzeugte YAML-Zeilen in Belege und liefert nur die, die weder in `alt` noch weiter
  * vorn unter den neuen stehen. Verglichen wird das gelesene Objekt, nicht der Text: Kommentare
