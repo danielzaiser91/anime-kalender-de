@@ -5467,9 +5467,9 @@ async function speicherSchreiben(werte) {
         **Im selben Takt der Stand, den die Statusanzeige zeigt.**
 
         `?stand=1` ist die Prüfliste minus der Meldungen seit ihrer Erzeugung,
-        gerechnet vom Worker. Er verwirft seinen Zwischenspeicher bei jeder
-        Meldung, also bildet der nächste Abruf die eigene Meldung ab — dann ist
-        die Überbrückung in `frischGemeldet` für diese Adresse erledigt.
+        gerechnet vom Worker. Er hält seine Antwort 300 s (seit 11.10.2026) und
+        bildet die eigene Meldung erst nach dieser Frist ab — bis dahin trägt
+        die Überbrückung in `frischGemeldet` die Adresse.
       */
       try {
         const stand = await fetch(`${WORKER}?stand=1`, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null))

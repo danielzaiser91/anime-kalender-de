@@ -1,5 +1,5 @@
 /*
-  **Der Prime-Stand aus dem Briefkasten** (4.31.2, 15.10.2026).
+  **Der Prime-Stand aus dem Briefkasten** (4.31.4, 15.10.2026).
 
   `amazon.js` holte ihn bis 4.31.1 über `GET /pruefung?token=…` — die ungecachte Liste der offenen
   Meldungen. Jeder Prime-Seitenaufruf las damit rund 36.000 D1-Zeilen, im Durchgang 2,7 Mio. je
@@ -9,7 +9,7 @@
 
   Die Antwort trägt je Meldung nur Adresse, Staffel und Folgennummer. Der Befund (🇩🇪/✕) fehlt dort;
   die Staffel steht deshalb als „✓" (gemeldet). Lokale Meldungen behalten ihren Befund, weil
-  `vereinige()` in `amazon.js` den lokalen Wert vorgehen lässt.
+  `akPrimeStandVereinigen()` den lokalen Befund vorgehen lässt (die Folgenzahl: die größere von beiden).
 */
 
 /** Meldungen `{ url, folge_nr, staffel }` → je Prime-Kennung die gemeldeten Staffeln, wie `erledigt` sie führt. */
@@ -42,6 +42,16 @@ globalThis.akPrimeMeldungEintragen = (bisher, nr, befund, folgen) => {
   bisher.folgen = { ...(bisher.folgen ?? {}), [nr]: folgen }
 }
 
+/*
+  Je Staffel die größere Folgenzahl: Eine fremde Teilmeldung (höchste Folge 3) darf das lokal gemerkte
+  „E1–12" der eigenen Meldung nicht kürzen; weiß der Worker mehr, zählt das (CI-Prüfer, 15.10.2026).
+*/
+const folgenVereinigen = (lokal, ausWorker) => {
+  const folgen = { ...(lokal ?? {}) }
+  for (const [nr, n] of Object.entries(ausWorker ?? {})) folgen[nr] = Math.max(folgen[nr] ?? 0, n)
+  return folgen
+}
+
 /**
  * Den Worker-Stand mit dem lokalen vereinigen.
  *
@@ -52,6 +62,7 @@ globalThis.akPrimeMeldungEintragen = (bisher, nr, befund, folgen) => {
  *
  * `gesamt` bleibt beim lokalen Wert, wo es einen gibt: Der stammt aus
  * „N Staffeln" auf der Seite und ist genauer als die Zahl der Meldungen.
+ * Der Befund (`staffeln`) bleibt ebenfalls lokal; die Folgenzahl ist die größere von beiden.
  */
 globalThis.akPrimeStandVereinigen = (lokal, ausWorker) => {
   if (!ausWorker) return lokal
@@ -62,7 +73,7 @@ globalThis.akPrimeStandVereinigen = (lokal, ausWorker) => {
       ...wert,
       ...(da ?? {}),
       staffeln: { ...(wert.staffeln ?? {}), ...(da?.staffeln ?? {}) },
-      folgen: { ...(da?.folgen ?? {}), ...(wert.folgen ?? {}) },
+      folgen: folgenVereinigen(da?.folgen, wert.folgen),
       gesamt: Math.max(da?.gesamt ?? 1, wert.gesamt ?? 1),
       serie: da?.serie ?? wert.serie ?? null,
     }

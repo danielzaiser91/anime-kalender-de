@@ -1,5 +1,5 @@
 /**
- * **Der Prime-Stand kommt aus dem Briefkasten, nicht aus der Token-Liste** (4.31.2, 15.10.2026).
+ * **Der Prime-Stand kommt aus dem Briefkasten, nicht aus der Token-Liste** (4.31.4, 15.10.2026).
  *
  * Geprüft wird `prime-stand.js` (Umrechnung der Meldungen in `erledigt`-Einträge) und dass
  * `amazon.js` dieselbe gecachte Adresse wie `disney.js` abruft — nur dann teilen beide den Edge-Cache.
@@ -43,6 +43,25 @@ const bisher = { staffeln: { 1: '✓' }, folgen: { 1: 3 } }
 sandkasten.akPrimeMeldungEintragen(bisher, 2, '🇩🇪', 12)
 const erwartet = { staffeln: { 1: '✓', 2: '🇩🇪' }, folgen: { 1: 3, 2: 12 } }
 pruefe('Eigene Meldung: Befund und Folgenzahl lokal, Vorhandenes bleibt', JSON.stringify(bisher) === JSON.stringify(erwartet), bisher)
+
+/*
+  Befund 2 des CI-Prüfers: Eigene Meldung „E1–12" lokal, fremde Teilmeldung mit höchster Folge 3 vom Worker.
+  Die höhere Zahl gewinnt (E1–12 bleibt, mehr Wissen des Workers zählt), der Befund bleibt der lokale.
+*/
+const vereinige = sandkasten.akPrimeStandVereinigen
+const lokal = { B0ABCDEFGH: { staffeln: { 1: '🇩🇪' }, folgen: { 1: 12 }, gesamt: 5, serie: 'Titel' } }
+const fremdTeil = { B0ABCDEFGH: { staffeln: { 1: '✓' }, folgen: { 1: 3 }, gesamt: 1, serie: null } }
+const nachTeil = vereinige(lokal, fremdTeil).B0ABCDEFGH
+pruefe('vereinige: fremde Teilmeldung (E1–3) überschreibt die eigene (E1–12) nicht', nachTeil.folgen[1] === 12, nachTeil.folgen)
+pruefe('vereinige: der lokale Befund bleibt', nachTeil.staffeln[1] === '🇩🇪', nachTeil.staffeln)
+const fremdMehr = { B0ABCDEFGH: { staffeln: { 1: '✓' }, folgen: { 1: 24 }, gesamt: 1, serie: null } }
+pruefe('vereinige: weiß der Worker mehr (E1–24), zählt das', vereinige(lokal, fremdMehr).B0ABCDEFGH.folgen[1] === 24)
+const fremdAndere = { B0ABCDEFGH: { staffeln: { 2: '✓' }, folgen: { 2: 7 }, gesamt: 2, serie: null } }
+const nachAndere = vereinige(lokal, fremdAndere).B0ABCDEFGH
+pruefe('vereinige: Staffeln nur des Workers kommen dazu', nachAndere.folgen[2] === 7 && nachAndere.folgen[1] === 12 && nachAndere.staffeln[2] === '✓', nachAndere)
+pruefe('vereinige: ohne lokale Folgenzahl gilt die des Workers', vereinige({}, fremdTeil).B0ABCDEFGH.folgen[1] === 3)
+pruefe('vereinige: ohne Worker-Folgenzahl bleibt die lokale', vereinige(lokal, { B0ABCDEFGH: { staffeln: { 1: '✓' } } }).B0ABCDEFGH.folgen[1] === 12)
+pruefe('vereinige: ohne Worker-Stand bleibt der lokale', vereinige(lokal, null) === lokal)
 
 const amazon = readFileSync(__dirname + '/amazon.js', 'utf8')
 const disney = readFileSync(__dirname + '/disney.js', 'utf8')
