@@ -31,10 +31,6 @@ export interface Mail {
   fromName?: string
 }
 
-/**
- * Ein Adapter pro Anbieter. `console` schreibt nur ins Log und ist der
- * Standard für `wrangler dev`, damit beim Entwickeln niemand Post bekommt.
- */
 /** Abmelde-Kopfzeilen (RFC 8058): Mailclients zeigen damit einen eigenen Abmeldeknopf. */
 function abmeldeKopf(mail: Mail): Record<string, string> {
   const headers: Record<string, string> = {}
@@ -58,6 +54,10 @@ export function resendMail(env: MailEnv, mail: Mail): Record<string, unknown> {
   }
 }
 
+/**
+ * Ein Adapter pro Anbieter. `console` schreibt nur ins Log und ist der
+ * Standard für `wrangler dev`, damit beim Entwickeln niemand Post bekommt.
+ */
 export async function sendMail(env: MailEnv, mail: Mail): Promise<void> {
   const headers = abmeldeKopf(mail)
   const fromName = mail.fromName ?? env.FROM_NAME
