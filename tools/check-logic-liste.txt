@@ -30,6 +30,7 @@ pipeline/check-anisearch-reihen.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
 pipeline/check-antwort-jetzt.ts
+pipeline/check-ausgeblieben-text.ts
 pipeline/check-auto-disc-handeintrag.ts
 pipeline/check-beleg-anbieter.ts
 pipeline/check-beleg-bis-anker.ts
