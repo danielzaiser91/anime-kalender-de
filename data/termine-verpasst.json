@@ -182,8 +182,8 @@
     "episode": 15,
     "erwartetAm": "2026-09-23T14:00:00.000Z",
     "bemerktAm": "2026-09-23T17:16:47.310Z",
-    "erschienenAm": null,
-    "verzugStunden": null,
+    "erschienenAm": "2026-10-15T14:00:00.000Z",
+    "verzugStunden": 528,
     "folgenVerfuegbar": 25,
     "neuErwartet": null,
     "recherche": "Die deutsche Synchro von Re:ZERO Staffel 4 (Rückeroberungs-Arc) läuft seit ihrem verspäteten Start am 9. September 2026 wöchentlich hinter dem japanischen Simulcast her – Folge 15 fällt in diesen bereits von Crunchyroll angekündigten Rhythmus.",
@@ -196,6 +196,12 @@
       "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-09-23",
       "bild": "www.crunchyroll.com/simulcastcalendar/2026-09-23/2026-10-03-20-02.jpg",
       "html": "www.crunchyroll.com/simulcastcalendar/2026-09-23/2026-10-03-20-02.html.gz"
+    },
+    "nachgereichtBeleg": {
+      "am": "2026-10-15T14:03:00.594Z",
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-15",
+      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-15/2026-10-15-14-03.jpg",
+      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-15/2026-10-15-14-03.html.gz"
     }
   },
   {
@@ -243,7 +249,7 @@
     "folgenVerfuegbar": 21,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-10-15T13:02:33.827Z",
+    "geprueftAm": "2026-10-15T14:02:34.482Z",
     "newsGeprueftAm": "2026-10-15T04:15:24.125Z",
     "rechercheAm": "2026-10-10T11:04:38.973Z",
     "messbeleg": {
@@ -268,7 +274,7 @@
     "neuErwartet": "2026-10-14T14:00:00.000Z",
     "recherche": "Laut Crunchyrolls offiziellem Wochenprogramm pausiert die deutsche Synchro von Re:ZERO Staffel 4 weiter: Die nächste deutsche Folge erscheint erst am 14. Oktober 2026 um 16:00 Uhr.",
     "rechercheQuelle": "https://www.4p.de/news/crunchyroll-wochenprogramm-kw40/3430422",
-    "geprueftAm": "2026-10-15T13:02:33.827Z",
+    "geprueftAm": "2026-10-15T14:02:34.482Z",
     "newsGeprueftAm": "2026-10-15T04:15:24.125Z",
     "rechercheAm": "2026-10-14T11:05:14.121Z",
     "messbeleg": {
@@ -322,7 +328,7 @@
     "folgenVerfuegbar": 22,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-10-15T13:02:33.827Z",
+    "geprueftAm": "2026-10-15T14:02:34.482Z",
     "messbeleg": {
       "am": "2026-10-04T01:14:30.361Z",
       "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-03",
@@ -404,7 +410,7 @@
     "folgenVerfuegbar": 23,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-10-15T13:02:33.827Z",
+    "geprueftAm": "2026-10-15T14:02:34.482Z",
     "newsGeprueftAm": "2026-10-15T04:15:24.125Z",
     "rechercheAm": "2026-10-15T11:03:28.472Z",
     "messbeleg": {
@@ -428,7 +434,7 @@
     "folgenVerfuegbar": 25,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-10-15T13:02:33.827Z",
+    "geprueftAm": "2026-10-15T14:02:34.482Z",
     "newsGeprueftAm": "2026-10-15T04:15:24.125Z",
     "messbeleg": {
       "am": "2026-10-13T23:02:16.670Z",
@@ -452,7 +458,7 @@
     "folgenVerfuegbar": 11,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-10-15T13:02:33.827Z",
+    "geprueftAm": "2026-10-15T14:02:34.482Z",
     "messbeleg": {
       "am": "2026-10-14T18:02:45.913Z",
       "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-14",
@@ -460,6 +466,18 @@
       "html": "www.crunchyroll.com/simulcastcalendar/2026-10-14/2026-10-14-18-02.html.gz"
     },
     "newsGeprueftAm": "2026-10-15T04:15:24.125Z",
-    "rechercheAm": "2026-10-15T11:03:28.472Z"
+    "rechercheAm": "2026-10-15T11:03:28.472Z",
+    "wocheBeleg": {
+      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+      "gesehenAm": "2026-10-12T11:04:14.990Z",
+      "bild": "www.crunchyroll.com/wochenprogramm/gt00378123/2026-10-14-f12-2026-10-15-14-02.webp",
+      "bildAm": "2026-10-15T14:02:41.453Z",
+      "markierung": [
+        0.5138888888888888,
+        0.896551724137931,
+        0.21861111111111112,
+        0.09127789046653144
+      ]
+    }
   }
 ]
