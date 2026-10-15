@@ -16,7 +16,7 @@ import { type ReinErgebnis, type ReinHand, type ReinTitel, bestandReihenAusAnise
  * Mit ihm kommen `franchiseId` des Hauptbestands und die Reihen des Katalogs allein aus aniSearch (Regeln in `anisearch-reihen-rein.ts`); `data/reihen-von-hand.yaml` gilt weiter.
  * Die Prüfliste dieses Wegs steht in einer eigenen Datei, damit der Standardweg seine nicht verliert.
  */
-export const REIN_PRUEFLISTE_DATEI = 'data/anisearch-reihen-rein-pruefliste.json'
+export const REIN_PRUEFLISTE_DATEI = `${process.env.PRUEFLISTE_ORDNER ?? 'data'}/anisearch-reihen-rein-pruefliste.json` // PRUEFLISTE_ORDNER: nur Tests
 
 /** `ids:`, `reinIds:` und `getrennt:` der Handdatei; `reinIds:` verbindet wie `ids:`, wird aber nur hier gelesen (der Standardweg kennt diese Teile schon als eine Reihe). */
 export function ladeHand(datei = `${ROOT}/data/reihen-von-hand.yaml`): ReinHand {
@@ -99,10 +99,10 @@ function reinKatalogReihen(eintraege: KatalogEintrag[], kennung: Map<number, num
 }
 
 /** `anisearchKatalogReihen` mit dem Schalter; gleiche Parameter, damit `nebendateien.ts` nur den Namen wechselt. `schreibe`: die Prüfliste des reinen Wegs (nur Tests tauschen es). */
-export function anisearchKatalogReihenQuelle(reihe: Map<number, number>, eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden, schreibe: (e: ReinErgebnis) => void = (e) => schreibePruefliste('katalog', e)): Map<number, number> {
-  if (!katalogReihenAusAnisearch()) return anisearchKatalogReihen(reihe, eintraege, bekannt, verschoben, kennung, weg)
+export function anisearchKatalogReihenQuelle(reihe: Map<number, number>, eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden, schreibe: (e: ReinErgebnis) => void = (e) => schreibePruefliste('katalog', e), hauptbestand?: Title[]): Map<number, number> {
+  if (!katalogReihenAusAnisearch()) return anisearchKatalogReihen(reihe, eintraege, bekannt, verschoben, kennung, weg, undefined, hauptbestand)
   try {
-    const anker = katalogAnker(eintraege, bekannt, verschoben, kennung, weg)
+    const anker = katalogAnker(eintraege, bekannt, verschoben, kennung, weg, hauptbestand)
     return reinKatalogReihen(eintraege, kennung, anker, weg.katalogWeg, schreibe)
   } catch (e) {
     warn(`aniSearch-Reihen im Katalog (rein) übersprungen (Fehler): ${(e as Error).message}`)

@@ -16,7 +16,7 @@ import { bestandReihenAusAnisearch } from './anisearch-reihen-rein.ts'
  * Reihen hinzunimmt (Regeln in `anisearch-reihen-uebernahme.ts`), und schreibt, was nicht automatisch geht, als Prüfliste `data/anisearch-reihen-pruefliste.json` — der Weg dafür ist
  * `data/reihen-von-hand.yaml` (`ids:` verbindet, `getrennt:` verbietet die aniSearch-Beziehung). Ein Fehler hier stoppt den Bau nie: dann bleiben die Reihen aus AniList, wie sie sind. `anisearchKatalogReihen` tut dasselbe für den Katalog (Stufe C, Teil 3) und schreibt seinen Teil der Prüfliste (`quelle: katalog`).
  */
-export const PRUEFLISTE_DATEI = 'data/anisearch-reihen-pruefliste.json'
+export const PRUEFLISTE_DATEI = `${process.env.PRUEFLISTE_ORDNER ?? 'data'}/anisearch-reihen-pruefliste.json` // PRUEFLISTE_ORDNER: nur Tests, damit sie keine Repo-Daten schreiben
 
 /** `bestand`: der Hauptbestand (`03-reihen.ts`, Weg `data/reihen-von-hand.yaml`); `katalog`: der AniList-Katalog (`ohne-synchro.json`, `nebendateien.ts`). */
 export type Quelle = 'bestand' | 'katalog'
@@ -93,9 +93,9 @@ export function anisearchRelationenKanten(titles: Map<number, Title>, wurzel: (i
 export type Ausgeschieden = { katalogWeg: ReadonlyMap<number, number>; zeilenWeg: { has(id: number): boolean } }
 
 /** Die Titel, die beim Katalog nie umziehen und als Ziel dienen: der ausgelieferte Hauptbestand (aus `titles.json`) und die aus ihm verschobenen Titel, die der Katalog nicht führt. */
-export function katalogAnker(eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden): Anker[] {
+export function katalogAnker(eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden, hauptbestand: Title[] = readJson<Title[]>('public/data/titles.json', [])): Anker[] {
   const imKatalog = new Set(eintraege.map((e) => e.id))
-  const haupt = readJson<Title[]>('public/data/titles.json', []).filter((t) => bekannt.has(t.id))
+  const haupt = hauptbestand.filter((t) => bekannt.has(t.id))
   const fest = [...haupt.map((t) => ({ t, reihe: bekannt.get(t.id)! })), ...verschoben.filter((t) => !imKatalog.has(t.id) && !weg.zeilenWeg.has(t.id) && !bekannt.has(t.id)).map((t) => ({ t, reihe: t.franchiseId ?? t.id }))]
   return fest.map(({ t, reihe: r }) => ({ id: t.id, name: t.titleRomaji ?? t.titleEn ?? `#${t.id}`, anisearchId: t.anisearchId ?? kennung.get(t.id), reihe: r, mal: t.malId }))
 }
@@ -105,9 +105,9 @@ export function katalogAnker(eintraege: KatalogEintrag[], bekannt: Map<number, n
  * `verschoben`: aus dem Hauptbestand verschobene Titel (die, die der Katalog nicht führt, gelten als fest); `kennung`: aniSearch-Kennung je Katalogtitel. Der Hauptbestand kommt aus der schon
  * geschriebenen `titles.json` (wie bei `ohneWerkDubletten`). Ein Fehler stoppt den Bau nie: dann bleiben die Reihen aus AniList.
  */
-export function anisearchKatalogReihen(reihe: Map<number, number>, eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden, schreibe: typeof schreibePruefliste = schreibePruefliste): Map<number, number> {
+export function anisearchKatalogReihen(reihe: Map<number, number>, eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden, schreibe: typeof schreibePruefliste = schreibePruefliste, hauptbestand?: Title[]): Map<number, number> {
   try {
-    const anker = katalogAnker(eintraege, bekannt, verschoben, kennung, weg)
+    const anker = katalogAnker(eintraege, bekannt, verschoben, kennung, weg, hauptbestand)
     const { kanten, namen } = ladeBeziehungen()
     const u = uebernimmKatalogReihen(eintraege.filter((e) => !weg.katalogWeg.has(e.id)), erbeReihe(reihe, weg.katalogWeg, anker), anker, kennung, kanten, namen, ladeTrennungen())
     schreibe('katalog', u.ergebnis.pruefliste, { angehaengt: u.ergebnis.angehaengt, neueReihen: u.ergebnis.neueReihen }, u.bestandEinzeln)
