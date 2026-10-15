@@ -119,3 +119,18 @@ export function offeneMessbelege<V extends { bemerktAm: string; erwartetAm: stri
 export function messbelegSchluessel(tag: string, amIso: string): string {
   return `www.crunchyroll.com/simulcastcalendar/${tag}/${amIso.slice(0, 16).replace(/[T:]/g, '-')}`
 }
+
+/**
+ * Ob `termine-pruefen.ts` einen Termin des Plans prüft: geschätzte immer, belegte nur, wenn das Crunchyroll-Wochenprogramm
+ * die Folge für diesen Tag angekündigt hat und der Kalender sie noch nicht zeigt (`uebernommen`).
+ * Seit die Zeile bis in den Sendetag übernommen wird, ist der Termin an diesem Tag belegt — ohne diese Weiche würde er erst
+ * nach Mitternacht wieder geschätzt und damit geprüft, das „nicht erschienen“ käme Stunden später.
+ */
+export function terminPruefen(
+  e: { date: string; episode?: number; estimated?: boolean },
+  seriesId: string | undefined,
+  uebernommen: { seriesId: string | null; episode: number; date: string }[],
+): boolean {
+  if (e.estimated) return true
+  return uebernommen.some((f) => f.seriesId === seriesId && f.episode === e.episode && f.date === e.date)
+}
