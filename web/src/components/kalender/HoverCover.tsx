@@ -52,7 +52,7 @@ export function useHoverCover(cover: string | undefined): {
         const x = e.clientX
         window.clearTimeout(frist.current)
         setWartet(true)
-        frist.current =window.setTimeout(() => setLage(vorschauLage(zeile, x, { breite: window.innerWidth, hoehe: window.innerHeight })), VORSCHAU_FRIST_MS)
+        frist.current = window.setTimeout(() => setLage(vorschauLage(zeile, x, { breite: window.innerWidth, hoehe: window.innerHeight })), VORSCHAU_FRIST_MS)
       },
       onPointerLeave: weg,
       /* Ein Klick öffnet das Panel — die Vorschau hat ihren Zweck erfüllt. */

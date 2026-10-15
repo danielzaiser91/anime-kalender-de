@@ -4,11 +4,15 @@
  *   und nicht schon nach 100 ms; ihr Bild wird erst dann angefordert; Zeile und Liste bewegen sich nicht (kein Layout-Sprung);
  *   beim Verlassen verschwindet sie.
  * - Rollen (scroll) oder Fensterwechsel (blur) nach dem Zeigen, vor Ablauf der Frist: keine Vorschau, kein Bildabruf.
+ * - Verdecken des Tabs (visibilitychange mit document.hidden) ebenso.
+ * - Aufräumen: nach Zeigen und Verlassen hängt kein scroll-/blur-/visibilitychange-Listener mehr am Fenster;
+ *   Ansicht wechseln während der Frist lässt keinen Timer zurück.
  * - Touch: eine Zeigerberührung der Art `touch` lässt keine Vorschau entstehen und fordert kein Bild an.
  * Zeilen mit Cover tragen `data-hover-zeile`; die Prüfung probiert die ersten acht und meldet, wenn keine eine Vorschau bekommt.
  */
 const FRIST_MIN_MS = 100
 const FRIST_MAX_MS = 600
+const FRIST_MS = 150 // = VORSCHAU_FRIST_MS; erkennt den Timer der Vorschau unter den übrigen
 const ZEILEN = '[data-hover-zeile]'
 
 /** Fordert ein Bild an: nur Anfragen an fremde Hosts (Cover), nicht die App selbst. Läuft in Node. */
@@ -86,6 +90,83 @@ async function messeTouch(seite, urls) {
   return { vorschauen, neueBilder: urls.length - vorher }
 }
 
+/** Läuft vor jeder Seite im Browser: führt Buch über lebende scroll/blur/visibilitychange-Listener und offene Fristen-Timer. */
+function buchfuehrung(fristMs) {
+  const buch = { listener: [], timer: new Set() }
+  window.__hcBuch = buch
+  const ART = ['scroll', 'blur', 'visibilitychange']
+  const erfasst = (o) => (typeof o === 'object' && o ? !!o.capture : !!o)
+  const add = EventTarget.prototype.addEventListener
+  const remove = EventTarget.prototype.removeEventListener
+  const gleich = (a, b) => a.ziel === b.ziel && a.art === b.art && a.fn === b.fn && a.capture === b.capture
+  EventTarget.prototype.addEventListener = function (art, fn, o) {
+    const eintrag = { ziel: this, art, fn, capture: erfasst(o) }
+    if (ART.includes(art) && !buch.listener.some((e) => gleich(e, eintrag))) buch.listener.push(eintrag)
+    return add.call(this, art, fn, o)
+  }
+  EventTarget.prototype.removeEventListener = function (art, fn, o) {
+    const eintrag = { ziel: this, art, fn, capture: erfasst(o) }
+    buch.listener = buch.listener.filter((e) => !gleich(e, eintrag))
+    return remove.call(this, art, fn, o)
+  }
+  const setze = window.setTimeout
+  const loesche = window.clearTimeout
+  window.setTimeout = (fn, ms, ...rest) => {
+    const id = setze(() => {
+      buch.timer.delete(id)
+      fn(...rest)
+    }, ms)
+    if (ms === fristMs) buch.timer.add(id)
+    return id
+  }
+  window.clearTimeout = (id) => {
+    buch.timer.delete(id)
+    return loesche(id)
+  }
+}
+
+/** Lebende Listener je Art (Browser). */
+function listenerJeArt() {
+  const n = { scroll: 0, blur: 0, visibilitychange: 0 }
+  for (const e of window.__hcBuch.listener) n[e.art]++
+  return n
+}
+
+/** Zeigen und Verlassen: danach hängt nichts mehr am Fenster. */
+async function messeAufraeumen(seite) {
+  const zeile = seite.locator(ZEILEN).first()
+  await zeile.scrollIntoViewIfNeeded()
+  await seite.mouse.move(2, 2)
+  await seite.waitForTimeout(200)
+  const vorher = await seite.evaluate(listenerJeArt)
+  const box = await zeile.boundingBox()
+  await seite.mouse.move(box.x + Math.min(box.width / 2, 60), box.y + box.height / 2)
+  await seite.waitForTimeout(400)
+  await seite.mouse.move(2, 2)
+  await seite.waitForTimeout(200)
+  const nachher = await seite.evaluate(listenerJeArt)
+  return Object.keys(vorher).filter((art) => vorher[art] !== nachher[art]).map((art) => `${art}: ${vorher[art]} vorher, ${nachher[art]} nachher`)
+}
+
+/** Ansicht wechseln, während die Frist läuft: ihr Timer muss mit der Zeile verschwinden (sonst läuft er auf ein totes Bauteil). */
+async function messeAnsichtWechsel(seite) {
+  const zeile = seite.locator(ZEILEN).first()
+  await zeile.scrollIntoViewIfNeeded()
+  await seite.mouse.move(2, 2)
+  await seite.waitForTimeout(200)
+  const box = await zeile.boundingBox()
+  await seite.mouse.move(box.x + Math.min(box.width / 2, 60), box.y + box.height / 2)
+  const rest = await seite.evaluate(async (wahl) => {
+    const offen = window.__hcBuch.timer.size
+    location.hash = '#/datenbank'
+    while (document.querySelector(wahl)) await new Promise((r) => setTimeout(r, 2))
+    return { offen, nachWechsel: window.__hcBuch.timer.size }
+  }, ZEILEN)
+  await seite.goto('http://ak.test/#/woche', { waitUntil: 'networkidle' })
+  await seite.mouse.move(2, 2)
+  return rest
+}
+
 /** Rollen oder Fensterwechsel während der Frist: weder Karte noch Bildabruf. Zählt Karten und neue Bilder je Auslöser. */
 async function messeAbbruch(seite, urls) {
   const zeile = seite.locator(ZEILEN).first()
@@ -94,6 +175,11 @@ async function messeAbbruch(seite, urls) {
   const ausloeser = {
     Rollen: () => document.dispatchEvent(new Event('scroll')),
     Fensterwechsel: () => window.dispatchEvent(new Event('blur')),
+    Verdecken: () => {
+      Object.defineProperty(document, 'hidden', { value: true, configurable: true })
+      document.dispatchEvent(new Event('visibilitychange'))
+      delete document.hidden
+    },
   }
   for (const [name, aktion] of Object.entries(ausloeser)) {
     await seite.mouse.move(2, 2)
@@ -111,7 +197,7 @@ async function messeAbbruch(seite, urls) {
 }
 
 /** Wertet die Messungen aus; leer, wenn alles stimmt. */
-export function hoverCoverAbweichungen(maus, touch, abbruch) {
+export function hoverCoverAbweichungen(maus, touch, abbruch, aufraeumen, wechsel) {
   if (!maus) return ['keine der ersten 8 Zeilen (Im Handel, Im Fernsehen) bekam mit der Maus eine Cover-Vorschau']
   const a = []
   if (maus.nach < FRIST_MIN_MS) a.push(`Vorschau schon nach ${Math.round(maus.nach)} ms (mindestens ${FRIST_MIN_MS} ms Ruhe des Zeigers)`)
@@ -125,6 +211,9 @@ export function hoverCoverAbweichungen(maus, touch, abbruch) {
     if (m.karten) a.push(`${name} während der Frist: Vorschau erschien trotzdem`)
     if (m.bilder) a.push(`${name} während der Frist: ${m.bilder} Bild(er) trotzdem angefordert`)
   }
+  for (const l of aufraeumen) a.push('Nach dem Verlassen der Zeile hängen Listener am Fenster (' + l + ')')
+  if (wechsel.offen !== 1) a.push('Ansichtswechsel: die Frist lief beim Wechsel nicht (' + wechsel.offen + ' offene Timer, erwartet 1)')
+  else if (wechsel.nachWechsel) a.push('Ansichtswechsel während der Frist: der Timer lebt nach dem Verschwinden der Zeile weiter')
   return a
 }
 
@@ -133,12 +222,15 @@ export async function pruefeHoverCover(chromium, antworte) {
   const browser = await chromium.launch()
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
   await seite.route('**/*', antworte)
+  await seite.addInitScript(buchfuehrung, FRIST_MS)
   const urls = bilderZaehler(seite)
   await seite.goto('http://ak.test/#/woche', { waitUntil: 'networkidle' })
   await seite.waitForTimeout(2500)
   const maus = await messeMaus(seite, urls)
   const touch = await messeTouch(seite, urls)
   const abbruch = await messeAbbruch(seite, urls)
+  const aufraeumen = await messeAufraeumen(seite)
+  const wechsel = await messeAnsichtWechsel(seite)
   await browser.close()
-  return { maus, touch, abweichungen: hoverCoverAbweichungen(maus, touch, abbruch) }
+  return { maus, touch, abweichungen: hoverCoverAbweichungen(maus, touch, abbruch, aufraeumen, wechsel) }
 }
