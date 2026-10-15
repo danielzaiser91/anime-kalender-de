@@ -60,6 +60,7 @@ pruefe('eine Folge im Wochentakt, eine nach Pause: die Tabelle beginnt bei der P
 const EIN_TAG_DANEBEN = { ...ORIGINAL, 12: addDays(ORIGINAL[11], 8) }
 pruefe('ein Tag neben dem Wochentakt: leer', Object.keys(termineNachOriginal(SYNCHRO, EIN_TAG_DANEBEN, 12)).length === 0)
 pruefe('ein Tag früher als der Wochentakt: leer', Object.keys(termineNachOriginal(SYNCHRO, { ...ORIGINAL, 12: addDays(ORIGINAL[11], 6) }, 12)).length === 0)
+pruefe('zwei Tage früher als der Wochentakt: Tabelle', termineNachOriginal(SYNCHRO, { ...ORIGINAL, 12: addDays(ORIGINAL[11], 5) }, 12)[12] === addDays(ORIGINAL[11], 25))
 const ZWEI_TAGE_DANEBEN = { ...ORIGINAL, 12: addDays(ORIGINAL[11], 9) }
 pruefe('zwei Tage neben dem Wochentakt: Tabelle', termineNachOriginal(SYNCHRO, ZWEI_TAGE_DANEBEN, 12)[12] === addDays(ZWEI_TAGE_DANEBEN[12], 20))
 pruefe('ein Tag daneben, danach Pause: nur die Pause zählt', Object.keys(termineNachOriginal(SYNCHRO, { ...EIN_TAG_DANEBEN, 13: addDays(EIN_TAG_DANEBEN[12], 14) }, 13)).join() === '13')
