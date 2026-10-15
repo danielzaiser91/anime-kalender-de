@@ -1,7 +1,7 @@
 /**
  * Zusicherungen zu den Reihen nach der Einzelauflistung (14.10.2026): Ein Sammeltitel, der in seine aniSearch-Seiten zerfällt (`katalogWeg`), gibt seine AniList-Beziehungen
  * an seine Zeile ab; was nur über ihn in einer Reihe hing (Aware! Meisaku-kun Ryuuguuchuu-hen, Fanren Xiu Xian Zhuan Movie), erbt die Reihe der Zeile. Alle Titel sind
- * erfunden (`lib/reihen-traeger-testdaten.ts`), die Prüfung hängt nicht vom Katalog-Cache ab. Die Aufrufer prüft `check-reihen-traeger-aufrufer-bestand.ts`. Läuft in `check:logic`.
+ * erfunden (`lib/reihen-traeger-testdaten.ts`), die Prüfung hängt nicht vom Katalog-Cache ab. Die Aufrufer prüft `check-reihen-traeger-aufrufer.ts`. Läuft in `check:logic`.
  */
 import { type Anker, erbeReihe } from './bau/anisearch-reihen-katalog.ts'
 import { anilistKantenOhneKennung, reineKatalogReihen } from './bau/anisearch-reihen-rein-bau.ts'
