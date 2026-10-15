@@ -119,8 +119,35 @@ export function tabelle() {
   return { text: zeilen.join('\n'), rot }
 }
 
+const IMMER_TEXT = ['text', 'leise', 'sehr-leise', 'akzent-text', 'link']
+const IMMER_GRUND = ['grund', 'flaeche', 'flaeche-2', 'flaeche-3']
+
+/**
+ * Text gegen Fläche innerhalb `.ak-immer-dunkel` in beiden Themen (4,5:1), dazu Ruhe gegen Hover der Anbieter-Pille (1,2:1).
+ * `.ak-immer-dunkel` überschreibt den Themenblock; was dort fehlt, erbt die helle Fassung (Trailer-Fenster, 15.10.2026).
+ */
+export function immerDunkelRot(css) {
+  const rot = []
+  const ueber = rohwerte(css, '.ak-immer-dunkel')
+  for (const [thema, selektor] of [['dunkel', 'html.dark'], ['hell', 'html:not(.dark)']]) {
+    const roh = new Map([...rohwerte(css, selektor), ...ueber])
+    for (const v of IMMER_TEXT) {
+      for (const g of IMMER_GRUND) {
+        if (v === 'sehr-leise' && g === 'flaeche-3') continue // im Hauptthema ebenfalls 4,2:1, dort nicht vorgesehen
+        const k = kontrast(aufloesen(roh.get(v) ?? fehlt(v), roh), aufloesen(roh.get(g) ?? fehlt(g), roh))
+        if (k < 4.5) rot.push(`${thema} in .ak-immer-dunkel: ${v} auf ${g} ${k.toFixed(2)} < 4.5`)
+      }
+    }
+    const pille = rohwerte(css, selektor)
+    const kp = kontrast(aufloesen(pille.get('pille') ?? fehlt('pille'), pille), aufloesen(pille.get('pille-hover') ?? fehlt('pille-hover'), pille))
+    if (kp < 1.2) rot.push(`${thema}: Pille Ruhe gegen Hover ${kp.toFixed(2)} < 1.2`)
+  }
+  return rot
+}
+
 function main() {
   const { text, rot } = tabelle()
+  rot.push(...immerDunkelRot(readFileSync(CSS, 'utf8')))
   const doku = readFileSync(DOKU, 'utf8')
   const [a, e] = [doku.indexOf(ANFANG), doku.indexOf(ENDE)]
   if (a < 0 || e < 0) throw new Error(`Marken ${ANFANG} / ${ENDE} fehlen in ${DOKU}`)

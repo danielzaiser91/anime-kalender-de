@@ -7,8 +7,8 @@ import { useLang, type Translate } from '../../lib/i18n.tsx'
   die Schrift in der Textfarbe (Daniel, 19.09.2026: „rot auf rot ist nicht so gut"; 12.10.2026: wieder Pillen statt Zeilen).
 */
 const PILLE_MARKE =
-  'bg-white text-ak-text shadow-[inset_0_0_0_1px_rgba(15,23,42,.12),inset_3px_0_0_var(--marke)] dark:bg-[#162238] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08),inset_3px_0_0_var(--marke)]'
-const PILLE_OHNE_MARKE = 'bg-white text-ak-text shadow-[inset_0_0_0_1px_rgba(15,23,42,.12)] dark:bg-[#162238] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08)]'
+  'bg-ak-pille text-ak-text shadow-[inset_0_0_0_1px_rgba(15,23,42,.12),inset_3px_0_0_var(--marke)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08),inset_3px_0_0_var(--marke)]'
+const PILLE_OHNE_MARKE = 'bg-ak-pille text-ak-text shadow-[inset_0_0_0_1px_rgba(15,23,42,.12)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08)]'
 
 /**
  * **Ein Anbieter, eine Pille** (Daniel, 12.10.2026, Panel V2 nachgeschärft): Zeichen in Markenfarbe, Name, darunter Folgen und
@@ -33,7 +33,7 @@ export function Pille({ name, farbe, url, unten, titel, icon, durchgestrichen, s
       target="_blank"
       rel="noreferrer noopener"
       style={farbe ? ({ '--marke': farbe } as CSSProperties) : undefined}
-      className={`relative inline-flex min-h-[52px] max-w-full items-center gap-2.5 rounded-full py-1.5 pl-3.5 pr-4 transition hover:bg-ak-flaeche-2 ${farbe ? PILLE_MARKE : PILLE_OHNE_MARKE}`}
+      className={`relative inline-flex min-h-[52px] max-w-full items-center gap-2.5 rounded-full py-1.5 pl-3.5 pr-4 transition hover:bg-ak-pille-hover ${farbe ? PILLE_MARKE : PILLE_OHNE_MARKE}`}
     >
       {icon && (
         <span className="flex shrink-0 items-center" style={farbe ? { color: farbe } : undefined}>

@@ -16,7 +16,7 @@ export const MERKEN_ZEILE_KNOPF =
 
 export function merkenKnopfKlasse(mitFarbe: boolean): string {
   const basis = mitFarbe
-    ? 'grid size-[22px] shrink-0 cursor-pointer place-items-center rounded-full bg-white transition hover:bg-ak-flaeche-2 dark:bg-[#162238]'
+    ? 'grid size-[22px] shrink-0 cursor-pointer place-items-center rounded-full bg-ak-pille transition hover:bg-ak-pille-hover'
     : 'grid size-7 shrink-0 cursor-pointer place-items-center rounded-full bg-ak-flaeche-2 text-slate-700 transition hover:bg-ak-flaeche-3 dark:text-slate-200'
   return `${basis} ${TIPPFLAECHE}`
 }

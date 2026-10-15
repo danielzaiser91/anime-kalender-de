@@ -48,6 +48,8 @@
   --color-ak-heute: var(--ak-heute);
   /* Rollen der Design-Regeln (13.10.2026, docs/wissen/design-regeln.md); Kontrast: tools/design-kontrast.mjs */
   --color-ak-flaeche-3: var(--ak-flaeche-3);
+  --color-ak-pille: var(--ak-pille);
+  --color-ak-pille-hover: var(--ak-pille-hover);
   --color-ak-akzent-hover: var(--ak-akzent-hover);
   --color-ak-fokus: var(--ak-fokus);
   --color-ak-gewaehlt: var(--ak-gewaehlt);
@@ -91,6 +93,9 @@ html.dark {
   --ak-marke: #cbd5e1;
   --ak-heute: #1a1512;
   --ak-flaeche-3: #222733;
+  /* Anbieter-Pille: Hover 1,4:1 über der Ruhe (flaeche-2 lag nur 1,03:1 daneben, 15.10.2026). */
+  --ak-pille: #162238;
+  --ak-pille-hover: #2a3a58;
   --ak-akzent-hover: #ff7a5c;
   --ak-fokus: #ff9e85;
   --ak-gewaehlt: var(--ak-akzent);
@@ -114,11 +119,20 @@ html.dark {
 
 /* Fläche, die in beiden Themen dunkel ist (Beleg-Dialog): Fehlerfarben in der Dunkelfassung, sonst fällt die Schrift im hellen Thema unter 4,5:1. */
 .ak-immer-dunkel {
-  --ak-fehler: #fb7185;
-  --ak-fehler-text: #fda4af;
+  --ak-grund: #0d0f14;
+  --ak-flaeche: #151922;
   --ak-flaeche-2: #1b202a;
+  --ak-flaeche-3: #222733;
+  --ak-rand: #2c3240;
+  --ak-linie: #232833;
   --ak-text: #f2f1ee;
   --ak-leise: #9aa0ab;
+  --ak-sehr-leise: #828894;
+  --ak-akzent-text: #ff7a5c;
+  --ak-link: var(--ak-akzent-text);
+  --ak-fokus: #ff9e85;
+  --ak-fehler: #fb7185;
+  --ak-fehler-text: #fda4af;
 }
 
 html:not(.dark) {
@@ -144,6 +158,8 @@ html:not(.dark) {
   --ak-marke: #cbd5e1;
   --ak-heute: #fff0ea;
   --ak-flaeche-3: #e4e1da;
+  --ak-pille: #ffffff;
+  --ak-pille-hover: #ebe9e3;
   --ak-akzent-hover: #e8491f;
   --ak-fokus: #b8321a;
   --ak-gewaehlt: var(--ak-akzent);
