@@ -5,14 +5,15 @@
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-handbeleg-weg.ts`
  */
-import { readFileSync, writeFileSync } from 'node:fs'
+import { mkdtempSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import type { StreamLink, Title } from '../shared/types.ts'
 import type { CrDubData } from './lib/crunchyroll-dub.ts'
 import { ordneCrSerienZu } from './bau/09-4-1-serien.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { behalteNurHandbelegteWege } from './lib/handbeleg-weg.ts'
 import { loadDubChecks, verschmelze, type DubCheck } from './lib/dub-confirmed.ts'
-import { readJson, ROOT } from './lib/util.ts'
+import { readJson } from './lib/util.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 
@@ -80,17 +81,9 @@ pruefe('Gegenprobe: der Beleg eines anderen Titels trägt nichts', behalten([ja(
 pruefe('Gegenprobe: eine andere Plattform fällt', behalten([ja({ platform: 'netflix' })], [weg(URL_BELEG)]).length === 0)
 
 console.log('\nAufrufer (schliesseWegeAb) reicht die Belege durch:')
-/** Der Abschluss schreibt nebenbei die Listen der offenen Suchadressen; die Prüfung stellt sie zurück. */
-const NEBENDATEIEN = ['data/suchadressen-offen.json', 'daniel-zum-abarbeiten/listen/18-suchadressen.md'].map((p) => `${ROOT}/${p}`)
+/** Der Abschluss schreibt nebenbei die Listen der offenen Suchadressen; die Prüfung lenkt sie in einen Temp-Ordner um. */
+process.env.SUCHADRESSEN_ORDNER = mkdtempSync(`${tmpdir()}/suchadressen-`)
 function abschliessen(checks: DubCheck[]): StreamLink[] {
-  const vorher = NEBENDATEIEN.map((p) => readFileSync(p, 'utf8'))
-  try {
-    return abschliessenOhneSicherung(checks)
-  } finally {
-    NEBENDATEIEN.forEach((p, i) => writeFileSync(p, vorher[i]!))
-  }
-}
-function abschliessenOhneSicherung(checks: DubCheck[]): StreamLink[] {
   const nurAnisearch = titel(10_000_000 + OVA, [weg(URL_BELEG, { dub: true })])
   schliesseWegeAb({
     titles: new Map([[nurAnisearch.id, nurAnisearch]]),
