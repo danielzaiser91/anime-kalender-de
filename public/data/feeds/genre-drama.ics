@@ -371,8 +371,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-15#30@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261015T165000Z
-DTEND:20261015T172000Z
+DTSTART:20261015T165500Z
+DTEND:20261015T172500Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
@@ -623,6 +623,26 @@ UID:auto-21-tv-prosieben-maxx@2026-10-21#38@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T165000Z
 DTEND:20261021T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-22#39@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T162500Z
+DTEND:20261022T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-22#40@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T165000Z
+DTEND:20261022T172000Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
