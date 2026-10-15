@@ -40,6 +40,9 @@ export function sammleBelege(releases: Release[]): Map<number, Beleg> {
   return belege
 }
 
+/** Staffel-0-Zuordnung (TMDB) von der Platte. */
+export const ladeStaffel0 = (): Kontext['staffel0'] => readJson('data/tmdb-staffel0.json', {})
+
 /** Liest Hauptbestand, Termine, Belege und aniSearch-Stimmen von der Platte (public/data, data/). */
 export function ladeKontext(heute: string): Kontext {
   const alle = readJson<Title[]>('public/data/titles.json', [])
@@ -58,7 +61,7 @@ export function ladeKontext(heute: string): Kontext {
     hqGrund: new Map(klein.map((z) => [z.id, z.grund])),
     banner: readJson(BANNER_DATEI, {}),
     zuordnung: readJson('data/tmdb-titles.json', {}),
-    staffel0: readJson('data/tmdb-staffel0.json', {}),
+    staffel0: ladeStaffel0(),
     ak: new Map(kennungen.map((z) => [z[1], z[0]])),
     alle,
   }
