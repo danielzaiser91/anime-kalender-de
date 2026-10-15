@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { ROOT, readJson } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
+import type { WocheBelegVermerk } from '../../shared/woche-beleg-typ.ts'
 import { ankuendigungenLaden } from '../lib/ankuendigungen.ts'
 
 /**
@@ -101,6 +102,7 @@ export const verpassteTermine = readJson<
     geprueftAm?: string | null
     newsGeprueftAm?: string | null; messbeleg?: { bild?: string }; nachgereichtBeleg?: { bild?: string }
     hinweise?: { quelle: string; titel: string; url: string; datum: string }[]
+    wocheBeleg?: WocheBelegVermerk
   }>
 >('data/termine-verpasst.json', [])
 

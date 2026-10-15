@@ -135,6 +135,7 @@ pipeline/check-synchro-original.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
 pipeline/check-termine-uebersicht.ts
+pipeline/check-termine-woche-lauf.ts
 pipeline/check-tmdb-ablauf.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
@@ -147,6 +148,7 @@ pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts
 pipeline/check-wege-aus-terminen.ts
 pipeline/check-werk-doppelt.ts
+pipeline/check-woche-beleg.ts
 pipeline/check-wochen-datei.ts
 pipeline/check-wochenprogramm-sendetag.ts
 pipeline/check-zaehlung.ts

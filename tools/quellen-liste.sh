@@ -205,6 +205,9 @@ QUELLEN=(
   # Crunchyrolls Wochenprogramm — die einzige Quelle für kommende Synchro-Folgen
   # (der Simulcast-Kalender führt sie nicht, gemessen 25.09.2026).
   data/crunchyroll-woche.json
+  # Welche deutsche Wochenprogramm-Zeile wann zuerst gesehen und als Bild gesichert wurde (15.10.2026). Das Gedächtnis hinter dem
+  # Beleg „angekündigt“ einer Nicht-erschienen-Meldung: der Artikel wandert, die Zeile steht nach der Woche nicht mehr dort.
+  data/crunchyroll-woche-belege.json
   # Welche deutschen Termine das Wochenprogramm widerlegt hat (02.10.2026). Das
   # Gedächtnis trägt sie über das Wochenfenster hinaus — ohne es fiele die
   # Widerlegung zurück, sobald die Vorschau weiterzieht.
