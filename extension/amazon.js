@@ -6638,44 +6638,20 @@ async function speicherSchreiben(werte) {
    * vergisst, wäre schlechter als einer, der manchmal hinterherhinkt.
    *
    * Die Meldungen tragen die **Listen-Adresse** (`url`) und, wo sie bekannt
-   * war, die Staffelnummer. Von 192 Meldungen am 24.08.2026 trugen 65 eine
-   * Nummer; die übrigen sind Filme oder Einzelstaffeln, bei denen es keine
-   * gibt. Wo sie fehlt, zählt die Meldung als „dieser Titel wurde gemeldet" —
-   * gröber, aber nie falsch.
+   * war, die Staffelnummer. Wo sie fehlt, zählt die Meldung als „dieser Titel
+   * wurde gemeldet" — gröber, aber nie falsch.
+   *
+   * Quelle ist `?zaehlen=1&nummern=1` (Edge-Cache, dieselbe Adresse wie in
+   * `disney.js`), nicht mehr die Token-Liste: die las je Seitenaufruf rund
+   * 36.000 D1-Zeilen (15.10.2026). Umrechnung in `prime-stand.js`.
    */
   async function standVomWorker() {
     try {
-      const { token } = await chrome.storage.sync.get('token')
-      if (!token) return null
-      const antwort = await fetch(`${WORKER}?token=${encodeURIComponent(token)}`)
+      const antwort = await fetch(`${WORKER}?zaehlen=1&nummern=1`)
       if (!antwort.ok) return null
-      const { pruefungen } = await antwort.json()
-      if (!Array.isArray(pruefungen)) return null
-
-      const jeAdresse = {}
-      for (const p of pruefungen) {
-        if (p?.plattform !== 'primevideo' || typeof p.url !== 'string') continue
-        // Die Kennung aus der Adresse ist der Listenschlüssel.
-        const asin = /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,32})/.exec(p.url)?.[1]
-        if (!asin) continue
-        const nr = p.staffel != null ? String(p.staffel) : 'ohne Nummer'
-        // Dieselbe Schreibweise wie auf dem Knopf: „201" liest sich als
-        // „2, Vol. 1" — siehe staffelText() in der Knopf-Logik.
-        const bandNr = /^([1-9]\d?)(\d{2})$/.exec(nr)
-        const angezeigt =
-          bandNr && Number(bandNr[2]) > 0 ? `${bandNr[1]}, Vol. ${Number(bandNr[2])}` : nr
-        const zeichen = p.befund === 'dub' ? '🇩🇪' : p.befund === 'weg' ? '✕✕' : '✕'
-        jeAdresse[asin] = jeAdresse[asin] ?? { staffeln: {}, folgen: {}, gesamt: 1, serie: null }
-        jeAdresse[asin].staffeln[angezeigt] = zeichen
-        /* Wie viele Folgen die Meldung trug — für „S1 E1–54 gemeldet". */
-        if (Number.isFinite(p.folgen) && p.folgen > 0) jeAdresse[asin].folgen[angezeigt] = p.folgen
-        if (p.titel) jeAdresse[asin].serie = p.titel
-        jeAdresse[asin].gesamt = Math.max(
-          jeAdresse[asin].gesamt,
-          Object.keys(jeAdresse[asin].staffeln).length,
-        )
-      }
-      return jeAdresse
+      const { eintraege } = await antwort.json()
+      if (!Array.isArray(eintraege)) return null
+      return globalThis.akPrimeStandAusBriefkasten(eintraege)
     } catch {
       return null
     }
