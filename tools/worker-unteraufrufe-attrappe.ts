@@ -7,11 +7,24 @@ import { DatabaseSync } from 'node:sqlite'
 import { readFileSync, readdirSync } from 'node:fs'
 import type { Env } from '../worker/src/env.ts'
 
-export const zaehler = { fetch: 0, d1: 0, objekt: 0, stapel: [] as Record<string, unknown>[][], einzelmails: 0, ablehnen: 0, stoerung: null as RegExp | null }
+const leererZaehler = () => ({
+  fetch: 0,
+  d1: 0,
+  objekt: 0,
+  /** Jeder Resend-Stapel mit seinen Mails. */
+  stapel: [] as Record<string, unknown>[][],
+  einzelmails: 0,
+  /** So viele Resend-Stapel lehnt die Attrappe ab, bevor sie annimmt. */
+  ablehnen: 0,
+  stoerung: null as RegExp | null,
+  /** Text jeder ausgeführten Einzelabfrage (ohne Stapel). */
+  sql: [] as string[],
+})
+export const zaehler = leererZaehler()
 export const unteraufrufe = () => zaehler.fetch + zaehler.d1 + zaehler.objekt
 
 export function zaehlerZurueck(): void {
-  Object.assign(zaehler, { fetch: 0, d1: 0, objekt: 0, stapel: [], einzelmails: 0, ablehnen: 0, stoerung: null as RegExp | null })
+  Object.assign(zaehler, leererZaehler())
 }
 
 type Wert = string | number | null
@@ -23,6 +36,7 @@ interface Anweisung {
 /** `zaehler.stoerung` lässt passende Abfragen scheitern wie eine gesperrte D1. */
 function anweisung(db: DatabaseSync, a: Anweisung) {
   const ausfuehren = () => {
+    zaehler.sql.push(a.sql)
     if (zaehler.stoerung?.test(a.sql)) throw new Error('D1_ERROR: Störung (Attrappe)')
     return db.prepare(a.sql)
   }

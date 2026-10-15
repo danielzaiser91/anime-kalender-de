@@ -58,6 +58,8 @@ function pruefeMails(db: DatabaseSync, n: number) {
   })
   pruefe(mails.length === n && passt, `N=${n}: jede Mail mit Abmeldelink, List-Unsubscribe und gespeichertem Sync-Schlüssel`)
   pruefe(zeilen.every((z) => z.last_sent_at === JETZT.toISOString()), `N=${n}: last_sent_at bei allen gesetzt`)
+  const ablauf = new Date(JETZT.getTime() + 30 * 86_400_000).toISOString()
+  pruefe(zahl(db, `SELECT COUNT(*) n FROM subscribers WHERE sync_expires = '${ablauf}'`) === n, `N=${n}: Sync-Schlüssel 30 Tage gültig`)
   pruefe(versandLog(db)?.recipients === n, `N=${n}: send_log mit ${n} Empfängern`)
 }
 
@@ -73,6 +75,13 @@ async function grenzeJeAbonnentenzahl(db: DatabaseSync) {
   await digest(db, 150)
   pruefe(zaehler.stapel.map((s) => s.length).join() === '100,50', 'N=150: zwei Stapel zu 100 und 50 (Resend-Grenze 100)')
   pruefe(versandLog(db)?.recipients === 150, 'N=150: send_log mit 150 Empfängern')
+
+  abonnenten(db, 3)
+  db.exec('DELETE FROM send_log')
+  zaehlerZurueck()
+  await runDigest({ ...testEnv(db, 7), MAIL_PROVIDER: 'console' }, JETZT)
+  const gesetzt = zahl(db, 'SELECT COUNT(*) n FROM subscribers WHERE last_sent_at IS NOT NULL')
+  pruefe(zaehler.stapel.length === 0 && gesetzt === 3 && versandLog(db)?.recipients === 3, 'Anbieter ohne Stapel (console): einzeln verschickt, alle drei gezählt')
 }
 
 async function fehlerfaelle(db: DatabaseSync) {
@@ -85,6 +94,10 @@ async function fehlerfaelle(db: DatabaseSync) {
   pruefe(!(msg instanceof Error), 'Resend lehnt ab: Lauf wirft nicht')
   pruefe(versandLog(db)?.recipients === 0, 'Resend lehnt ab: send_log trotzdem geschrieben, 0 Empfänger')
   pruefe(zahl(db, 'SELECT COUNT(*) n FROM subscribers WHERE last_sent_at IS NOT NULL') === 0, 'Resend lehnt ab: last_sent_at bleibt leer')
+  pruefe(!zaehler.sql.some((s) => s.includes('SET last_sent_at')), 'Resend lehnt ab: keine leere last_sent_at-Abfrage (spart einen Unteraufruf)')
+
+  await digest(db, 0)
+  pruefe(!zaehler.sql.some((s) => s.startsWith('UPDATE')), 'keine Abonnenten: keine Schreibabfrage (Montag ohne Wochen-Abonnenten)')
 
   abonnenten(db, 150)
   db.exec('DELETE FROM send_log')
@@ -101,6 +114,12 @@ async function fehlerfaelle(db: DatabaseSync) {
   await runDigest(testEnv(db, 7), JETZT)
   pruefe(zaehler.stapel.length === 0, 'Sync-Schlüssel nicht gespeichert: keine Mail mit totem Abgleich-Link')
   pruefe(versandLog(db)?.recipients === 0, 'Sync-Schlüssel nicht gespeichert: send_log mit 0')
+
+  db.exec('DELETE FROM send_log')
+  zaehlerZurueck()
+  zaehler.stoerung = /SET last_sent_at/
+  const ohneMarke = await runDigest(testEnv(db, 7), JETZT).catch((e: Error) => e)
+  pruefe(!(ohneMarke instanceof Error) && versandLog(db)?.recipients === 10, 'last_sent_at nicht gespeichert: Lauf wirft nicht, send_log zählt die 10 Mails')
 }
 
 const ergebnis = (url: string, ok: boolean, ms: number): CheckResult => ({ site: { url, name: url } as CheckResult['site'], ok, status: ok ? 200 : 503, ms, reason: ok ? undefined : 'weg' })
