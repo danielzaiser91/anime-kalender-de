@@ -103,7 +103,7 @@ export function FolgenBereich({ titleId, erschienen, laufzeitImKopf }: { titleId
                   role="tab"
                   aria-selected={i === paket}
                   onClick={() => setPaket(i)}
-                  className={`min-h-11 min-w-11 cursor-pointer rounded px-2 tabular-nums ${i === paket ? 'bg-slate-300 font-bold dark:bg-white/20' : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10'}`}
+                  className={`min-h-11 min-w-11 cursor-pointer rounded px-2 tabular-nums ${i === paket ? 'bg-slate-300 font-bold dark:bg-white/20' : 'bg-ak-flaeche-2 text-slate-700 hover:bg-ak-flaeche-3 dark:text-slate-300'}`}
                 >
                   {i * PAKET + 1}–{Math.min((i + 1) * PAKET, folgen!.length)}
                 </button>

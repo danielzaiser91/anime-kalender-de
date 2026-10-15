@@ -22,7 +22,7 @@ export function VerlaufZeilen({ staende }: { staende: Stand[] }) {
             {s.ueberholtAm && <span> · {t('news.ueberholtAm', { datum: datumKurz(s.ueberholtAm) })}</span>}
             <span className="block line-through">{newsSatz(s.m)}</span>
             {belege.map((b) => (
-              <a key={b.url} href={b.url} target="_blank" rel="noopener noreferrer" className="mr-2 underline decoration-dotted underline-offset-2 hover:text-slate-600 dark:hover:text-slate-300">
+              <a key={b.url} href={b.url} target="_blank" rel="noopener noreferrer" className="mr-2 underline decoration-dotted underline-offset-2 hover:text-ak-text">
                 {quellenLabel(b as never)} ↗
               </a>
             ))}

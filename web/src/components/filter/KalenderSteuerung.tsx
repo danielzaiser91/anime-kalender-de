@@ -51,7 +51,7 @@ export function HeuteChip({ view, date, onDate }: { view: ViewId; date: string; 
           aria-label={`${t('nav.today')}: ${text}`}
           aria-current={hier ? 'date' : undefined}
           className={[
-            'flex h-11 w-16 max-[339px]:w-14 max-[339px]:text-[13px] shrink-0 cursor-pointer items-center justify-center gap-0.5 rounded-full border text-sm font-bold transition disabled:cursor-default disabled:opacity-40',
+            'flex h-11 w-16 max-[339px]:w-14 max-[339px]:text-[13px] shrink-0 cursor-pointer items-center justify-center gap-0.5 rounded-full border text-sm font-bold transition disabled:cursor-default disabled:opacity-45',
             hier ? 'border-transparent text-ak-text' : GETOENT,
           ].join(' ')}
         >

@@ -105,7 +105,7 @@ function LoeschKnopf({ leeren }: { leeren: () => void }) {
       aria-label={translate('suche.leeren')}
       title={translate('suche.leeren')}
       onClick={leeren}
-      className="my-auto ml-2 flex h-10 w-10 cursor-pointer items-center justify-center self-center rounded-full text-ak-leise transition hover:bg-white/15 hover:text-ak-text"
+      className="my-auto ml-2 flex h-10 w-10 cursor-pointer items-center justify-center self-center rounded-full text-ak-leise transition hover:bg-ak-flaeche-2 hover:text-ak-text"
     >
       <svg viewBox="0 0 14 14" className="size-3.5" fill="none" aria-hidden="true">
         <path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />

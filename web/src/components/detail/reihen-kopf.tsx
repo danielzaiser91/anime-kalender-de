@@ -62,7 +62,7 @@ export function ReihenKopf({ t, suche, onSuche, schalter, reiterZeile, reiter, a
                     'min-h-11 cursor-pointer rounded-full px-3 text-t4 transition',
                     g.titel === aktiv
                       ? 'bg-sky-500/20 font-semibold text-sky-700 dark:text-sky-200'
-                      : 'text-slate-600 hover:bg-slate-200/70 dark:text-slate-300 dark:hover:bg-white/10',
+                      : 'text-slate-600 hover:bg-ak-flaeche-2 dark:text-slate-300',
                   ].join(' ')}
                 >
                   {g.titel} <span className="tabular-nums">{g.anzahl}</span>

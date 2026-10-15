@@ -101,7 +101,7 @@ function PlatformToggleList({
               'ak-tz cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition',
               active
                 ? 'border-transparent bg-slate-100 text-slate-900'
-                : 'border-slate-300/70 text-slate-600 hover:border-slate-400 dark:border-white/15 dark:text-slate-300',
+                : 'border-slate-300/70 text-slate-600 hover:border-ak-leise dark:border-white/15 dark:text-slate-300',
             ].join(' ')}
           >
             {PLATFORMS[p].name}
@@ -283,7 +283,7 @@ function AboEinstellungen({ meta, onWechseln, abmeldeState, setAbmeldeState }: {
                     'cursor-pointer rounded-lg border px-3 py-2 text-sm transition',
                     stand.frequency === f
                       ? 'border-sky-500 bg-sky-500/10 font-medium text-slate-900 dark:text-white'
-                      : 'border-slate-300 text-slate-600 hover:border-slate-400 dark:border-white/15 dark:text-slate-300',
+                      : 'border-slate-300 text-slate-600 hover:border-ak-leise dark:border-white/15 dark:text-slate-300',
                   ].join(' ')}
                 >
                   {t(f === 'weekly' ? 'news.weekly' : 'news.daily')}
@@ -349,7 +349,7 @@ function AboEinstellungen({ meta, onWechseln, abmeldeState, setAbmeldeState }: {
             <button
               type="button"
               onClick={onWechseln}
-              className="cursor-pointer text-sm text-sky-700 dark:text-sky-300 underline hover:text-sky-600 dark:hover:text-sky-200"
+              className="cursor-pointer text-sm text-sky-700 dark:text-sky-300 underline hover:text-ak-text"
             >
               {t('news.changeAddress')}
             </button>
@@ -637,7 +637,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
                     'flex-1 cursor-pointer rounded-lg border p-3 transition',
                     frequency === value
                       ? 'border-sky-400 bg-sky-400/10'
-                      : 'border-slate-300 hover:border-slate-400 dark:border-white/15',
+                      : 'border-slate-300 hover:border-ak-leise dark:border-white/15',
                   ].join(' ')}
                 >
                   <input
@@ -777,7 +777,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
               <button
                 type="button"
                 onClick={() => setRestoreOffen(true)}
-                className="cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-3 py-1.5 text-[13px] font-semibold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text"
+                className="cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-3 py-1.5 text-[13px] font-semibold text-ak-text transition hover:border-ak-leise"
               >
                 {t('news.restoreAnyway')}
               </button>
@@ -823,7 +823,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
             <button
               type="submit"
               disabled={restoreState === 'sending' || !WORKER_URL}
-              className="cursor-pointer rounded-lg bg-slate-700 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-600 disabled:opacity-60 dark:bg-white/15 dark:hover:bg-white/25"
+              className="cursor-pointer rounded-lg bg-ak-flaeche-2 px-4 py-2 text-sm font-medium text-ak-text transition hover:bg-ak-flaeche-3 disabled:cursor-default disabled:opacity-45"
             >
               {restoreState === 'sending' ? t('news.sending') : t('news.restoreSubmit')}
             </button>

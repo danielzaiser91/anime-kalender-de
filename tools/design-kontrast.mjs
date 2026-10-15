@@ -29,6 +29,8 @@ export const PAARE = [
   ['leise', 'flaeche', 4.5],
   ['leise', 'flaeche-2', 4.5],
   ['sehr-leise', 'flaeche', 4.5],
+  ['leise', 'pille', 4.5],
+  ['leise', 'pille-hover', 4.5],
   ['akzent-text', 'grund', 4.5],
   ['akzent-text', 'flaeche', 4.5],
   ['akzent-text', 'flaeche-2', 4.5],
@@ -96,15 +98,14 @@ const fehlt = (name) => {
 }
 
 /** Die aufgelösten Farben beider Themen: { dunkel: Map, hell: Map } mit RGB je Rolle. */
-export function rollen() {
-  const css = readFileSync(CSS, 'utf8')
+export function rollen(css = readFileSync(CSS, 'utf8')) {
   const themen = { dunkel: rohwerte(css, 'html.dark'), hell: rohwerte(css, 'html:not(.dark)') }
   return Object.fromEntries(Object.entries(themen).map(([t, w]) => [t, new Map([...w].map(([k, v]) => [k, aufloesen(v, w)]))]))
 }
 
 /** Zeilen der Tabelle; `rot` nennt die Paare unter ihrer Schwelle. */
-export function tabelle() {
-  const farben = rollen()
+export function tabelle(css = readFileSync(CSS, 'utf8')) {
+  const farben = rollen(css)
   const zeilen = ['| Vorne | Hinten | Mindestens | Dunkel | Hell |', '|---|---|---|---|---|']
   const rot = []
   for (const [vorne, hinten, min] of PAARE) {
@@ -119,8 +120,70 @@ export function tabelle() {
   return { text: zeilen.join('\n'), rot }
 }
 
+const IMMER_TEXT = ['text', 'leise', 'sehr-leise', 'akzent-text', 'link']
+const IMMER_GRUND = ['grund', 'flaeche', 'flaeche-2', 'flaeche-3']
+/** Jede Rolle, die `.ak-immer-dunkel` selbst setzen muss, mit dem Wert von `html.dark` (auch Rollen ohne Text-auf-Fläche-Paar). */
+export const IMMER_ROLLEN = ['grund', 'flaeche', 'flaeche-2', 'flaeche-3', 'rand', 'linie', 'text', 'leise', 'sehr-leise', 'akzent-text', 'link', 'fokus', 'fehler', 'fehler-text']
+const THEMEN = [['dunkel', 'html.dark'], ['hell', 'html:not(.dark)']]
+
+/**
+ * Werte innerhalb `.ak-immer-dunkel` unter einem Themenblock: was der Block setzt, löst gegen den Block auf; was er nicht setzt,
+ * erbt der Browser als schon aufgelösten Wert des Themas (`--ak-link: var(--ak-akzent-text)` im Block verdeckt nichts).
+ */
+function immerDunkelWerte(css, selektor) {
+  const thema = rohwerte(css, selektor)
+  const ueber = rohwerte(css, '.ak-immer-dunkel')
+  const roh = new Map([...thema, ...ueber])
+  return new Map([...roh].map(([k, v]) => [k, aufloesen(v, ueber.has(k) ? roh : thema)]))
+}
+
+/** Text gegen Fläche innerhalb des Blocks, in beiden Themen (4,5:1). */
+export function immerDunkelKontrast(css) {
+  const rot = []
+  for (const [thema, selektor] of THEMEN) {
+    const w = immerDunkelWerte(css, selektor)
+    for (const v of IMMER_TEXT) {
+      for (const g of IMMER_GRUND) {
+        if (v === 'sehr-leise' && g === 'flaeche-3') continue // im Hauptthema ebenfalls 4,2:1, dort nicht vorgesehen
+        const k = kontrast(w.get(v) ?? fehlt(v), w.get(g) ?? fehlt(g))
+        if (k < 4.5) rot.push(`${thema} in .ak-immer-dunkel: ${v} auf ${g} ${k.toFixed(2)} < 4.5`)
+      }
+    }
+  }
+  return rot
+}
+
+/** Der Block setzt jede Rolle aus `IMMER_ROLLEN` selbst und auf den Wert von `html.dark`. */
+export function immerDunkelGleich(css) {
+  const ueber = rohwerte(css, '.ak-immer-dunkel')
+  const dunkel = rohwerte(css, 'html.dark')
+  const eigen = immerDunkelWerte(css, 'html.dark')
+  const rot = []
+  for (const r of IMMER_ROLLEN) {
+    if (!ueber.has(r)) rot.push(`.ak-immer-dunkel setzt --ak-${r} nicht`)
+    else if (hex(eigen.get(r)) !== hex(aufloesen(dunkel.get(r) ?? fehlt(r), dunkel))) rot.push(`.ak-immer-dunkel: --ak-${r} weicht von html.dark ab`)
+  }
+  return rot
+}
+
+/** Ruhe gegen Hover der Anbieter-Pille: mindestens 1,2:1, in beiden Themen. */
+function pilleStufeRot(css) {
+  const rot = []
+  for (const [thema, selektor] of THEMEN) {
+    const w = rohwerte(css, selektor)
+    const k = kontrast(aufloesen(w.get('pille') ?? fehlt('pille'), w), aufloesen(w.get('pille-hover') ?? fehlt('pille-hover'), w))
+    if (k < 1.2) rot.push(`${thema}: Pille Ruhe gegen Hover ${k.toFixed(2)} < 1.2`)
+  }
+  return rot
+}
+
+/** Prüfungen für `.ak-immer-dunkel` (Trailer-Fenster, Beleg-Dialog) und die Anbieter-Pille (15.10.2026). */
+export const immerDunkelRot = (css) => [...immerDunkelKontrast(css), ...immerDunkelGleich(css), ...pilleStufeRot(css)]
+
+
 function main() {
   const { text, rot } = tabelle()
+  rot.push(...immerDunkelRot(readFileSync(CSS, 'utf8')))
   const doku = readFileSync(DOKU, 'utf8')
   const [a, e] = [doku.indexOf(ANFANG), doku.indexOf(ENDE)]
   if (a < 0 || e < 0) throw new Error(`Marken ${ANFANG} / ${ENDE} fehlen in ${DOKU}`)

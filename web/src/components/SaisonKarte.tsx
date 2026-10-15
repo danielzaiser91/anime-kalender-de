@@ -12,7 +12,7 @@ import { terminText } from '../lib/saison-termin.ts'
 const STUFE_FARBE: Record<Stufe, string> = {
   'auf-deutsch': 'border-ak-gut bg-ak-gut text-ak-auf-gut',
   bestaetigt: 'border-ak-gut text-ak-gut-text',
-  angekuendigt: 'border-violet-500 text-violet-700 dark:border-violet-400 dark:text-violet-300',
+  angekuendigt: 'border-ak-info text-ak-info-text',
   termin: 'border-dashed border-ak-leise text-ak-leise',
   ungeklaert: 'border-dashed border-ak-leise text-ak-leise',
   offen: 'border-dashed border-ak-leise text-ak-leise',
@@ -36,7 +36,7 @@ export function SaisonKarte({ z, data, favorit, oeffne, ausblick }: { z: SaisonZ
     <li className="flex">
       <button type="button" onClick={() => void klick()} className={`flex w-full cursor-pointer gap-2.5 rounded-xl border bg-ak-flaeche p-2 text-left transition ${rand}`}>
         {cover ? (
-          <img {...coverBild(cover, 60)} alt="" width={60} height={85} loading="lazy" decoding="async" className={`h-[85px] w-[60px] shrink-0 rounded-md object-cover ${z.erschienen ? '' : 'opacity-60 grayscale-[40%]'}`} />
+          <img {...coverBild(cover, 60)} alt="" width={60} height={85} loading="lazy" decoding="async" className={`h-[85px] w-[60px] shrink-0 rounded-md object-cover ${z.erschienen ? '' : 'opacity-45 grayscale-[40%]'}`} />
         ) : (
           <span className="h-[85px] w-[60px] shrink-0 rounded-md bg-ak-flaeche-2" />
         )}

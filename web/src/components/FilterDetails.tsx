@@ -249,7 +249,7 @@ function SchnellSchalter({
   const texte = schluessel.map((k) => t(`filter.schnell.${k}` as never))
   /* Band über die volle Breite, kein Kasten: hebt die Schnellfilter ab (Mockup „Leiste neu“); Chips bleiben grün/rot. */
   return (
-    <div className="border-y border-blue-600 bg-blue-600/[.08] px-3 py-3 dark:border-blue-400 dark:bg-blue-400/10">
+    <div className="border-y border-ak-info bg-ak-info-grund px-3 py-3">
       <Bereich label={label} suche={suche} texte={texte} klasse="[&>div]:gap-y-3">
         <SchnellChips t={t} filters={filters} onChange={(next) => set(next)} mode={mode} favoriteCount={favoriteCount} showConfidence={showConfidence} tvAn={tvAn} setTvAn={setTvAn} zeige={(text) => zeigePille(suche, label, text)} />
       </Bereich>
@@ -331,7 +331,7 @@ export function FilterDetails({
   const [mehr, setMehr] = useState(false)
   const plattformen: PlatformId[] = (platformZaehlung ? [...platformZaehlung.entries()].sort((a, b) => b[1] - a[1]).map(([p]) => p) : meta.platforms).filter((p) => p !== 'disc')
   const genres = genreListe ?? visibleGenres
-  const mitZahl = (n: number | undefined) => (n ? <span className="opacity-60">{n}</span> : null)
+  const mitZahl = (n: number | undefined) => (n ? <span className="opacity-70">{n}</span> : null)
   const suche = bereichsSuche(filterQuery)
   const plattformLabel = t('filter.platform')
   const genreLabel = t('filter.genre')

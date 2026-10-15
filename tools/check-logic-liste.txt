@@ -152,6 +152,7 @@ tools/cartoon-jw-stichprobe.test.mjs
 tools/check-patchnotes-pflicht.mjs
 tools/d1-verbrauch.test.mjs
 tools/design-fokus.test.mjs
+tools/design-immer-dunkel.test.mjs
 tools/design-klassen.mjs
 tools/design-klassen.test.mjs
 tools/design-kontrast.mjs

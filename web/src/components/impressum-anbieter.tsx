@@ -14,7 +14,7 @@ export function ImpressumAnbieter() {
           20459 Hamburg
           <br />
           E-Mail:{' '}
-          <a className="underline hover:text-sky-400" href={`mailto:${CONTACT_EMAIL}`}>
+          <a className="underline hover:text-ak-text" href={`mailto:${CONTACT_EMAIL}`}>
             {CONTACT_EMAIL}
           </a>
         </p>

@@ -270,7 +270,7 @@ function MehrKnopf({ tag, stream, tv, mehr, p }: { tag: Tag; stream: ReleaseEven
       <button
         type="button"
         aria-label={t('kal.mehrLabel', { n: stream.length, datum })}
-        className="flex h-8 w-[22px] cursor-pointer items-center justify-center rounded-[5px] bg-ak-flaeche-2 text-[10px] font-extrabold text-ak-text transition hover:bg-ak-rand sm:h-14 sm:w-[38px] sm:rounded-md sm:text-[13px]"
+        className="flex h-8 w-[22px] cursor-pointer items-center justify-center rounded-[5px] bg-ak-flaeche-2 text-[10px] font-extrabold text-ak-text transition hover:bg-ak-flaeche-3 sm:h-14 sm:w-[38px] sm:rounded-md sm:text-[13px]"
       >
         +{mehr}
       </button>
