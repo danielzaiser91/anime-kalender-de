@@ -104,6 +104,11 @@ export interface Schedule {
    * Was hier steht, ist im Kalender gesehen worden und schlägt jede Rechnung.
    */
   observed?: Record<number, string>
+  /**
+   * Synchro-Tage der Folgen hinter der letzten Beobachtung, aus dem Originaltermin plus gemessenem Abstand
+   * (`shared/synchro-original.ts`, 15.10.2026). Nur gesetzt, wenn der Abstand stabil ist; bleibt Fortschreibung (`estimated`).
+   */
+  nachOriginal?: Record<number, string>
   /** Uhrzeit je Folge, wenn eine TV-Sichtung zu verschiedenen Zeiten lief (19.09.2026). */
   zeiten?: Record<number, string>
   /**
