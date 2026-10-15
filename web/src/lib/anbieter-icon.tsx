@@ -117,7 +117,7 @@ export function AnbieterIcon({ was, groesse = 14 }: { was: string; groesse?: num
   if (ALS_BILD.has(datei)) {
     return (
       <img
-        src={`${import.meta.env.BASE_URL}anbieter/${datei}.svg`}
+        src={`${import.meta.env?.BASE_URL ?? '/'}anbieter/${datei}.svg`}
         alt=""
         aria-hidden
         width={breite}
@@ -126,7 +126,7 @@ export function AnbieterIcon({ was, groesse = 14 }: { was: string; groesse?: num
       />
     )
   }
-  const url = `url(${import.meta.env.BASE_URL}anbieter/${datei}.svg)`
+  const url = `url(${import.meta.env?.BASE_URL ?? '/'}anbieter/${datei}.svg)`
   return (
     <span
       aria-hidden

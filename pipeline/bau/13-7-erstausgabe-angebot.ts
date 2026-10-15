@@ -1,14 +1,9 @@
 import { log } from '../lib/util.ts'
-import { type PlatformId, type Release, type Title } from '../../shared/types.ts'
+import { type Release, type Title } from '../../shared/types.ts'
+import { ANBIETER_VON_VERLAG } from '../../shared/verlag-anbieter.ts'
 import { todayIso } from '../../shared/time.ts'
 import { titelMitTermin } from './titel-mit-termin.ts'
 
-/** Nur diese Verlagsnamen aus aniSearch sind eindeutig ein Streaming-Anbieter; „Crunchyroll", „KSM Anime" & Co. sind Disc-Verlage oder mehrdeutig. */
-const ANBIETER_VON_VERLAG: Record<string, PlatformId> = {
-  'Amazon.com, Inc.': 'primevideo',
-  'Netflix, Inc.': 'netflix',
-  'The Walt Disney Company': 'disneyplus',
-}
 const GRENZE = '2026-01-01'
 
 /**
