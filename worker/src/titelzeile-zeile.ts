@@ -11,7 +11,7 @@ export type Zeile = { nr: number; version: number; daten: string }
 /** Wie oft eine Änderung nach einem Zusammenstoß mit einer gleichzeitigen neu versucht wird. */
 export const VERSUCHE = 6
 
-/** Über `all()`, damit die gelesene Zeile im Tageszähler steht (`first()` zählt `zaehlendeDb` nicht). */
+/** Die gelesene Zeile steht im Tageszähler (`zaehlendeDb` zählt `all()` und seit 15.10.2026 auch `first()`). */
 export async function ladeZeile(env: Env, url: string, plattform: string): Promise<Zeile | null> {
   const { results } = await env.DB.prepare('SELECT nr, version, daten FROM titel_zeile WHERE url = ?1 AND plattform = ?2')
     .bind(url, plattform)
