@@ -6657,39 +6657,11 @@ async function speicherSchreiben(werte) {
     }
   }
 
-  /**
-   * Den Worker-Stand mit dem lokalen vereinigen.
-   *
-   * **In beide Richtungen**, und das ist der Punkt: Der Worker kennt, was
-   * andere Browser und frühere Sitzungen gemeldet haben; der lokale Stand
-   * kennt den Klick von vor zwei Sekunden. Beide sind wahr, keine Meldung wird
-   * je zurückgenommen.
-   *
-   * `gesamt` bleibt beim lokalen Wert, wo es einen gibt: Der stammt aus
-   * „N Staffeln" auf der Seite und ist genauer als die Zahl der Meldungen.
-   */
-  function vereinige(lokal, ausWorker) {
-    if (!ausWorker) return lokal
-    const zusammen = { ...lokal }
-    for (const [asin, wert] of Object.entries(ausWorker)) {
-      const da = zusammen[asin]
-      zusammen[asin] = {
-        ...wert,
-        ...(da ?? {}),
-        staffeln: { ...(wert.staffeln ?? {}), ...(da?.staffeln ?? {}) },
-        folgen: { ...(da?.folgen ?? {}), ...(wert.folgen ?? {}) },
-        gesamt: Math.max(da?.gesamt ?? 1, wert.gesamt ?? 1),
-        serie: da?.serie ?? wert.serie ?? null,
-      }
-    }
-    return zusammen
-  }
-
   // Im Hintergrund abgleichen — der Knopf wartet nicht darauf.
   void (async () => {
     const ausWorker = await standVomWorker()
     if (!ausWorker) return
-    erledigt = vereinige(erledigt, ausWorker)
+    erledigt = globalThis.akPrimeStandVereinigen(erledigt, ausWorker)
     letzteSignatur = null
     letzterStand = ''
     uebersichtZeichnen()
