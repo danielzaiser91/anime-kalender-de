@@ -17,7 +17,7 @@
  * Recherche wert.
  */
 
-import { addDays, toIsoDate } from '../../shared/time.ts'
+import { addDays, berlinToUtc, toIsoDate } from '../../shared/time.ts'
 
 const STUNDE = 36e5
 const TAG = 24 * STUNDE
@@ -133,4 +133,17 @@ export function terminPruefen(
 ): boolean {
   if (e.estimated) return true
   return uebernommen.some((f) => f.seriesId === seriesId && f.episode === e.episode && f.date === e.date)
+}
+
+/** Fünfzehn Minuten Nachsicht — ein Anbieter stellt selten auf die Sekunde ein. */
+const KARENZ_MS = 15 * 60 * 1000
+
+/** Der Termin als echter Zeitpunkt; die Uhrzeit ist Berliner Ortszeit, der Offset (+01:00/+02:00) folgt dem Datum. Ohne Uhrzeit gilt Mitternacht. */
+export function terminZeitpunkt(datum: string, uhrzeit?: string): Date {
+  return berlinToUtc(datum, uhrzeit ?? '00:00')
+}
+
+/** Ab wann ein Ausbleiben gilt: Uhrzeit plus Karenz, ohne Uhrzeit das Ende des Tages (23:59:59 Ortszeit). */
+export function terminFrist(datum: string, uhrzeit?: string): Date {
+  return uhrzeit ? new Date(terminZeitpunkt(datum, uhrzeit).getTime() + KARENZ_MS) : new Date(berlinToUtc(datum, '23:59').getTime() + 59_000)
 }

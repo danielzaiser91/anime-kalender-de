@@ -12,6 +12,7 @@ import { verpasstAmTermin } from './bau/verpasst-am-termin.ts'
 import { staerksteJeAnbieter } from './lib/beleg-anbieter.ts'
 import { istArtikel } from './lib/beleg-lesung.ts'
 import { verspaetungsMeldungen } from './lib/news-verspaetung.ts'
+import { terminFrist, terminZeitpunkt } from './lib/ausgeblieben.ts'
 import { belegFuerTermin, belegeAnhaengen, bildSchluessel, fortschreiben, zeilenSchluessel, type WocheBelege } from './lib/woche-beleg.ts'
 import type { WochenEintrag } from './scrape-crunchyroll-woche.ts'
 
@@ -61,6 +62,13 @@ console.log('\nWochenprogramm-Belege: welches Bild zu welchem Termin gehört')
   const liste = [v(), v({ episode: null }), v({ slug: 'unbekannt' }), v({ erwartetAm: '2026-10-21T17:25:00.000Z' }), v({ wocheBeleg: { url: 'x', gesehenAm: 'y', bild: 'bleibt.webp', bildAm: 'z' } })]
   const n = belegeAnhaengen(liste, { a: bel() }, (slug) => (slug === 'tomb-raider-king' ? SERIE : undefined))
   pruefe('Vermerke: nur der ohne Bild, mit Folge und bekannter Serie bekommt es; ein vorhandenes bleibt', n === 1 && liste[0]!.wocheBeleg?.bild === 'a.webp' && !liste[1]!.wocheBeleg && !liste[2]!.wocheBeleg && liste[4]!.wocheBeleg?.bild === 'bleibt.webp' && !liste[3]!.wocheBeleg, liste)
+  /* Der Offset folgt dem Datum: vor dem 25.10.2026 gilt +02:00, danach +01:00 — der Vermerk eines Termins um 00:30 muss zur Zeile seines Berliner Tages passen. */
+  const winter = [v({ erwartetAm: terminZeitpunkt('2026-10-26', '00:30').toISOString() })]
+  pruefe('Wintertermin 00:30 (MEZ) = 23:30 UTC am Vortag; sein Vermerk bekommt das Bild der Zeile vom 26.10.', winter[0]!.erwartetAm === '2026-10-25T23:30:00.000Z' && belegeAnhaengen(winter, { a: bel({ datum: '2026-10-26' }) }, () => SERIE) === 1, winter[0])
+  const sommer = [v({ erwartetAm: terminZeitpunkt('2026-10-14', '00:30').toISOString() })]
+  pruefe('Sommertermin 00:30 (MESZ) = 22:30 UTC am Vortag; sein Vermerk bekommt das Bild der Zeile vom 14.10.', sommer[0]!.erwartetAm === '2026-10-13T22:30:00.000Z' && belegeAnhaengen(sommer, { a: bel({ datum: '2026-10-14' }) }, () => SERIE) === 1, sommer[0])
+  pruefe('Frist: Uhrzeit plus 15 Minuten, im Sommer 19:25 → 17:40 UTC, im Winter → 18:40 UTC', terminFrist('2026-10-14', '19:25').toISOString() === '2026-10-14T17:40:00.000Z' && terminFrist('2026-11-03', '19:25').toISOString() === '2026-11-03T18:40:00.000Z')
+  pruefe('Frist ohne Uhrzeit: 23:59:59 Ortszeit, im Sommer 21:59:59 UTC, im Winter 22:59:59 UTC', terminFrist('2026-10-14').toISOString() === '2026-10-14T21:59:59.000Z' && terminFrist('2026-11-03').toISOString() === '2026-11-03T22:59:59.000Z')
   const nachts = [v({ erwartetAm: '2026-10-14T22:30:00.000Z' })]
   pruefe('der Tag des Vermerks ist der Berliner: 00:30 am 15.10. (22:30 UTC am 14.10.) gehört zur Zeile vom 15.10.', belegeAnhaengen(nachts, { a: bel({ datum: '2026-10-15' }) }, () => SERIE) === 1)
   const schluessel = bildSchluessel(bel() as never, '2026-10-15T13:00:12.345Z')

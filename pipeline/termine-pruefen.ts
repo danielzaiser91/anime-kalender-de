@@ -36,7 +36,7 @@
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { log, readJson, ROOT, writeJson } from './lib/util.ts'
-import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminPruefen } from './lib/ausgeblieben.ts'
+import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminFrist, terminPruefen, terminZeitpunkt } from './lib/ausgeblieben.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
 import { BELEGE_DATEI, belegeAnhaengen, type WocheBelege } from './lib/woche-beleg.ts'
 import type { WocheBelegVermerk } from '../shared/woche-beleg-typ.ts'
@@ -54,9 +54,6 @@ for (const ereignis of ['uncaughtException', 'unhandledRejection'] as const) {
     process.exit(1)
   })
 }
-
-/** Fünfzehn Minuten Nachsicht — ein Anbieter stellt selten auf die Sekunde ein. */
-const KARENZ_MS = 15 * 60 * 1000
 
 const JETZT = new Date(
   /--jetzt[= ](\S+)/.exec(process.argv.join(' '))?.[1] ?? new Date().toISOString(),
@@ -196,7 +193,7 @@ function beobachtungen(slug: string): Beobachtung[] {
 }
 
 function zeitpunkt(e: Ereignis): Date {
-  return new Date(`${e.date}T${e.time ?? '00:00'}:00+02:00`)
+  return terminZeitpunkt(e.date, e.time)
 }
 
 /**
@@ -213,9 +210,7 @@ function zeitpunkt(e: Ereignis): Date {
  * nachzutragen ist offen; bis dahin bleibt es bei der Karenz allein.
  */
 function frist(e: Ereignis): Date {
-  return e.time
-    ? new Date(new Date(`${e.date}T${e.time}:00+02:00`).getTime() + KARENZ_MS)
-    : new Date(`${e.date}T23:59:59+02:00`)
+  return terminFrist(e.date, e.time)
 }
 
 /**
