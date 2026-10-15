@@ -3,6 +3,7 @@ import type { PremiereVorher, ReleasePremiere } from './premiere.ts'
 import type { FolgenFenster } from './folgen-fenster.ts'
 import type { ReleaseRhythmus } from './folgenrhythmus.ts'
 import type { WatchLink } from './watchlink-typ.ts'
+import type { VermerkAusgeblieben } from './vermerk-typ.ts'
 /** Gemeinsame Typen für Pipeline, Web-App und Newsletter-Worker. */
 
 export type PlatformId =
@@ -103,6 +104,13 @@ export interface Schedule {
    * Was hier steht, ist im Kalender gesehen worden und schlägt jede Rechnung.
    */
   observed?: Record<number, string>
+  /**
+   * Synchro-Tage der Folgen hinter der letzten Beobachtung, aus dem Originaltermin plus gemessenem Abstand
+   * (`shared/synchro-original.ts`, 15.10.2026). Nur gesetzt, wenn der Abstand stabil ist; bleibt Fortschreibung (`estimated`).
+   */
+  nachOriginal?: Record<number, string>
+  /** Die Seite mit den Originalterminen, auf denen `nachOriginal` beruht: Grundlage der Schätzung, kein Beleg des Termins — darum nicht in `sources` (die lesen Belegprüfung und News). */
+  nachOriginalQuelle?: string
   /** Uhrzeit je Folge, wenn eine TV-Sichtung zu verschiedenen Zeiten lief (19.09.2026). */
   zeiten?: Record<number, string>
   /**
@@ -539,6 +547,7 @@ export interface Quelle {
 
 export type { Meldung } from './meldung-typ.ts'
 export type { WatchLink } from './watchlink-typ.ts'
+export type { VermerkAusgeblieben } from './vermerk-typ.ts'
 
 /** Eine konkrete deutsche Veröffentlichung — das, was im Kalender steht. */
 export interface Release {
@@ -723,38 +732,6 @@ export interface ReleaseEvent {
    * erschienen ist.
    */
   verpasst?: VermerkAusgeblieben
-}
-
-/**
- * Was wir über einen Termin wissen, den der Anbieter nicht eingehalten hat.
- *
- * Die Felder ab `geprueftAm` beantworten die Frage, die jeder stellt, der „nicht erschienen" liest:
- * **und wann dann?** Wissen wir es nicht, soll wenigstens dastehen, dass und wann wir nachgesehen
- * haben, und wo.
- */
-export interface VermerkAusgeblieben {
-  /** Wann es hätte sein sollen. */
-  erwartetAm: string
-  /** Wann der Lauf das Ausbleiben bemerkte (Tag der Messung) und wann die Folge wirklich kam — leer, solange sie aussteht. */
-  bemerktAm?: string; erschienenAm?: string; messBild?: string; nachBild?: string // Schlüssel der privaten Beleg-Bilder (Kalendertag beim Bemerken / beim Nachreichen)
-  /** Verzug in Stunden, sobald beides bekannt ist. */
-  verzugStunden?: number
-  /** Wie viele Folgen der Anbieter zu diesem Zeitpunkt zeigte. */
-  folgenVerfuegbar?: number
-  /** Der neue erwartete Termin — nur mit einer Quelle, die ihn nennt. */
-  neuErwartet?: string
-  /** Was die Recherche ergeben hat, ein bis zwei Sätze für Besucher. */
-  recherche?: string
-  /** Die Adresse, die `recherche` belegt. */
-  rechercheQuelle?: string
-  /** Wann zuletzt recherchiert wurde — auch wenn nichts gefunden wurde. */
-  rechercheAm?: string
-  /** Wann der Anbieter-Kalender zuletzt gelesen wurde, ohne die Folge zu zeigen. */
-  geprueftAm?: string
-  /** Wann die News-Feeds zuletzt gelesen wurden. */
-  newsGeprueftAm?: string
-  /** Meldungen, die zu diesem Titel eine Pause oder Verschiebung nennen. */
-  hinweise?: { quelle: string; titel: string; url: string; datum: string }[]
 }
 
 /**

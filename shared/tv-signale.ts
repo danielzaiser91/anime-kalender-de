@@ -44,7 +44,7 @@
  * deutsch erscheint, oder ob es bereits in streaming erhältlich ist".
  */
 import type { Release, ReleaseEvent, Title } from './types.ts'
-import { expandEvents } from './logic.ts'
+import { expandEvents, istAusgeblieben } from './logic.ts'
 import { addDays } from './time.ts'
 
 /** Tag der belegten deutschen Erstausgabe: aniSearch mit Synchro-Marke oder Wikipedia-Episodenliste (ohne Marke wäre es evtl. nur OmU). */
@@ -162,10 +162,11 @@ export function istStaffelstart(e: ReleaseEvent, data: MitReleases): boolean {
 
 /**
  * Endet an diesem Termin die Staffel? Nur mit belegter Folgenzahl — eine geratene
- * (`episodeCountAssumed`) macht aus der letzten bekannten Folge kein Finale.
+ * (`episodeCountAssumed`) macht aus der letzten bekannten Folge kein Finale. Der Vermerk eines ausgebliebenen Tages
+ * ist keins: das Finale steht an dem Tag, an dem die Folge kommt.
  */
 export function istStaffelfinale(e: ReleaseEvent, data: MitReleases): boolean {
   const release = woechentlich(e, data)
-  if (!release || release.schedule?.episodeCountAssumed) return false
+  if (!release || release.schedule?.episodeCountAssumed || istAusgeblieben(e)) return false
   return !!e.episodeCount && e.episode === e.episodeCount
 }

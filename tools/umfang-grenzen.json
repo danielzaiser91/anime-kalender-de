@@ -8,12 +8,12 @@
     },
     "shared": {
       "funktionen": 237,
-      "dateien": 175,
+      "dateien": 152,
       "ketten": 37
     },
     "web/src": {
-      "funktionen": 4045,
-      "dateien": 380,
+      "funktionen": 4039,
+      "dateien": 374,
       "ketten": 41
     },
     "worker/src": {
@@ -23,7 +23,7 @@
     },
     "extension": {
       "funktionen": 7234,
-      "dateien": 16338,
+      "dateien": 16286,
       "ketten": 45
     },
     "tools": {

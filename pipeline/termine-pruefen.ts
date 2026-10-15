@@ -36,7 +36,7 @@
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { log, readJson, ROOT, writeJson } from './lib/util.ts'
-import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig } from './lib/ausgeblieben.ts'
+import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminPruefen } from './lib/ausgeblieben.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
 
 /*
@@ -140,6 +140,7 @@ export interface Messbeleg {
 const ereignisse = readJson<Ereignis[]>('public/data/events.json', [])
 const kalender = readJson<Kalender>('data/crunchyroll.json', {})
 const verpasst = readJson<VerpassterTermin[]>('data/termine-verpasst.json', [])
+const wocheFolgen = readJson<{ uebernommen?: { seriesId: string | null; episode: number; date: string }[] }>('data/crunchyroll-woche.json', {}).uebernommen ?? []
 
 /**
  * **Der Schlüssel ist die Serienkennung, nicht die volle Adresse.**
@@ -246,7 +247,8 @@ const bekannt = new Set(verpasst.map((v) => v.id))
 
 let neu = 0
 for (const e of ereignisse) {
-  if (!e.estimated || bekannt.has(e.id)) continue
+  const kennung = adressKern(adresseJeSlug.get(e.releaseSlug) ?? '')
+  if (bekannt.has(e.id) || !terminPruefen(e, kennung, wocheFolgen)) continue
   /*
     **Nur Crunchyroll — dort gibt es einen Kalender, den wir lesen.**
 

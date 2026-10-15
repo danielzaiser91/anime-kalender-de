@@ -30,6 +30,7 @@ pipeline/check-anisearch-reihen.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
 pipeline/check-antwort-jetzt.ts
+pipeline/check-ausgeblieben-text.ts
 pipeline/check-auto-disc-handeintrag.ts
 pipeline/check-beleg-anbieter.ts
 pipeline/check-beleg-bis-anker.ts
@@ -130,6 +131,7 @@ pipeline/check-staffel-teil.ts
 pipeline/check-stand-halten.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-such-chip.ts
+pipeline/check-synchro-original.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
 pipeline/check-termine-uebersicht.ts
@@ -146,6 +148,7 @@ pipeline/check-verweise-gedaechtnis.ts
 pipeline/check-wege-aus-terminen.ts
 pipeline/check-werk-doppelt.ts
 pipeline/check-wochen-datei.ts
+pipeline/check-wochenprogramm-sendetag.ts
 pipeline/check-zaehlung.ts
 pipeline/check-zweitanbieter.ts
 tools/anime2you-luecken.test.ts
@@ -161,6 +164,7 @@ tools/design-kontrast.mjs
 tools/design-status.test.mjs
 tools/dienst-fetch.test.ts
 tools/handbeleg-verwaist.test.mjs
+tools/laeufe-abruf.test.mjs
 tools/pruef-bestand.test.mjs
 tools/tmdb-bilddatum.test.mjs
 tools/untersucher-schluessel.test.mjs
