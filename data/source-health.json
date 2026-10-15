@@ -91,7 +91,7 @@
   },
   "rohfolgen": {
     "lastOk": "2026-10-15T09:41:50.778Z",
-    "lastRun": "2026-10-15T13:48:00.143Z",
+    "lastRun": "2026-10-15T14:00:20.257Z",
     "lastCount": 0,
     "lastError": "HTTP 503"
   },
@@ -122,7 +122,7 @@
   },
   "vorfaelle": {
     "lastOk": "2026-10-15T10:03:15.966Z",
-    "lastRun": "2026-10-15T13:47:58.712Z",
+    "lastRun": "2026-10-15T14:00:18.563Z",
     "lastCount": 0,
     "lastError": "HTTP 503"
   },
