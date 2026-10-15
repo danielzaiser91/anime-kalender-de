@@ -160,6 +160,7 @@ tools/design-kontrast.mjs
 tools/design-status.test.mjs
 tools/dienst-fetch.test.ts
 tools/handbeleg-verwaist.test.mjs
+tools/laeufe-abruf.test.mjs
 tools/pruef-bestand.test.mjs
 tools/tmdb-bilddatum.test.mjs
 tools/untersucher-schluessel.test.mjs
