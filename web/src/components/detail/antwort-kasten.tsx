@@ -1,6 +1,6 @@
 import { MitFachwoertern } from '../fachwort.tsx'
 import { type ReleaseEvent, type Title, type Release, PLATFORMS } from '@shared/types.ts'
-import { formatDate, weekdayName } from '@shared/time.ts'
+import { formatDate } from '@shared/time.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { type ReactNode, useState } from 'react'
 import { useFolgenZaehlung } from './folgen-bereich.tsx'
@@ -13,7 +13,7 @@ import { gruppeVon as gruppeVonPille, sichtbareStreamPillen, type Gruppe } from 
 import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText, teilweiseNeben } from './antwort-regeln.ts'
 import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
-import { kostenlosKopfVon } from './kasten-texte.ts'
+import { ausgebliebenTerminText, kostenlosKopfVon } from './kasten-texte.ts'
 import { folgenKopf, laeuftNeben } from './antwort-block.ts'
 
 /** Pillenreihe: 8 px zwischen den Pillen, 16 px zwischen den Zeilen (Platz für die Blase), 8 px über der ersten. */
@@ -337,13 +337,7 @@ export function AntwortKasten({
         </span>
         <span className="font-normal text-slate-700 dark:text-slate-300">
           {', '}
-          {e.time
-            ? T('antwort.angekuendigtFuerZeit', {
-                tag: weekdayName(e.date),
-                datum: formatDate(e.date),
-                zeit: e.timeEstimated ? `≈ ${e.time}` : e.time,
-              })
-            : T('antwort.angekuendigtFuer', { tag: weekdayName(e.date), datum: formatDate(e.date) })}
+          {ausgebliebenTerminText(e, T)}
         </span>
       </>
     ) : (
