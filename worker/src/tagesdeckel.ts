@@ -26,6 +26,15 @@
  * **Das echte D1-Limit wird genauso beantwortet:** Verweigert D1 selbst (`istD1Tageslimit`), auch wenn die
  * Meldung den Fehler fängt, kommt dieselbe 429 statt 500 — nur diese erkennt die Erweiterung als Pause.
  *
+ * **Riegel je Anfrage (15.10.2026):** Ein Netflix-Probelauf las in 10 Minuten 2,5 Mio. Zeilen, eine Abfrage
+ * des Titelzeilen-Wegs je Anfrage rund 50.000; der Tagesdeckel griff erst danach. Liest eine einzelne Anfrage
+ * mehr als `RIEGEL_LESEN_JE_ANFRAGE`, bucht sie zusätzlich `DECKEL_LESEN` (der Tag ist ab der nächsten Anfrage
+ * gesperrt) und schreibt `RIEGEL JE ANFRAGE` mit der teuersten Anweisung ins Protokoll. Ihre eigene Antwort
+ * bleibt: Die Meldung ist gespeichert, eine 429 ließe die Erweiterung sie morgen über denselben teuren Weg
+ * erneut schicken. Grenze 5.000: Die größten gemessenen Anfragen (betrieb.md) sind Prime mit 90 Rohfolgen
+ * (183), Netflix-Stapel n + 2 (72 bei 70 Folgen) und Disney+ 4 je Folge; mit höchstens 500 Rohfolgen je
+ * Meldung und rund 1.100 Folgen der längsten Serien bleibt das unter rund 1.200, der Fehler lag bei 50.000.
+ *
  * Ein Fehler beim Zählen sperrt nichts: Der Deckel ist ein Schutz, keine Voraussetzung. Mehrere
  * gleichzeitige Anfragen können ihn um die Zeilen der laufenden Anfragen überschreiten.
  */
@@ -35,11 +44,15 @@ import { istD1Tageslimit, sekundenBisMitternachtUtc } from './d1-limit.ts'
 
 export const DECKEL_ZEILEN = 50_000
 export const DECKEL_LESEN = 1_500_000
+export const RIEGEL_LESEN_JE_ANFRAGE = 5_000
 
 type D1Antwort = { meta?: { rows_written?: number; rows_read?: number; changes?: number } }
 
 /** Was eine Anfrage (oder der Tag) an D1-Zeilen geschrieben und gelesen hat. */
 export type Zeilen = { geschrieben: number; gelesen: number }
+
+/** Eine Anweisung (SQL-Text, über alle ihre Aufrufe der Anfrage summiert) und ihre gelesenen Zeilen. */
+type Anweisung = { sql: string; gelesen: number }
 
 /** Der UTC-Tag, auf den auch das Kontingent zurückgesetzt wird. */
 export function utcTag(jetzt: Date): string {
@@ -59,10 +72,11 @@ export function istMeldung(daten: Record<string, unknown>): boolean {
  * Die Datenbank so verpackt, dass jede Antwort auf `run`, `all` und `batch` ihre geschriebenen und
  * gelesenen Zeilen in die Summe gibt. Anweisungen für `batch` werden vorher ausgepackt (D1 prüft die
  * Herkunft). `limit()` meldet, ob D1 selbst das Tageskontingent verweigert hat — auch wenn die
- * Meldung den Fehler fängt (Stapel, Rohfolgen).
+ * Meldung den Fehler fängt (Stapel, Rohfolgen). `teuerste()` nennt die Anweisung mit den meisten gelesenen Zeilen.
  */
-export function zaehlendeDb(db: D1Database): { db: D1Database; zeilen: () => Zeilen; limit: () => boolean } {
+export function zaehlendeDb(db: D1Database): { db: D1Database; zeilen: () => Zeilen; limit: () => boolean; teuerste: () => Anweisung | null } {
   const summe: Zeilen = { geschrieben: 0, gelesen: 0 }
+  const jeSql = new Map<string, number>()
   let limit = false
   const beobachte = async <T extends D1Antwort | D1Antwort[]>(frage: Promise<T>): Promise<T> => {
     try {
@@ -72,33 +86,61 @@ export function zaehlendeDb(db: D1Database): { db: D1Database; zeilen: () => Zei
       throw e
     }
   }
-  const echte = new WeakMap<object, D1PreparedStatement>()
-  const zaehle = (r: D1Antwort) => {
+  const echte = new WeakMap<object, { stmt: D1PreparedStatement; sql: string }>()
+  const zaehle = (r: D1Antwort, sql: string) => {
+    const gelesen = Number(r?.meta?.rows_read ?? 0)
     summe.geschrieben += Number(r?.meta?.rows_written ?? r?.meta?.changes ?? 0)
-    summe.gelesen += Number(r?.meta?.rows_read ?? 0)
+    summe.gelesen += gelesen
+    jeSql.set(sql, (jeSql.get(sql) ?? 0) + gelesen)
     return r
   }
-  const huelle = (stmt: D1PreparedStatement): D1PreparedStatement => {
+  const huelle = (stmt: D1PreparedStatement, sql: string): D1PreparedStatement => {
     const h = new Proxy(stmt, {
       get(ziel, name) {
-        if (name === 'bind') return (...a: unknown[]) => huelle(ziel.bind(...a))
-        if (name === 'run' || name === 'all') return async () => zaehle(await beobachte(ziel[name]()))
+        if (name === 'bind') return (...a: unknown[]) => huelle(ziel.bind(...a), sql)
+        if (name === 'run' || name === 'all') return async () => zaehle(await beobachte(ziel[name]()), sql)
         const wert = Reflect.get(ziel, name)
         return typeof wert === 'function' ? wert.bind(ziel) : wert
       },
     })
-    echte.set(h, stmt)
+    echte.set(h, { stmt, sql })
     return h
   }
   const verpackt = {
-    prepare: (sql: string) => huelle(db.prepare(sql)),
+    prepare: (sql: string) => huelle(db.prepare(sql), sql),
     batch: async (liste: D1PreparedStatement[]) => {
-      const antworten = await beobachte(db.batch(liste.map((s) => echte.get(s) ?? s)))
-      antworten.forEach(zaehle)
+      const antworten = await beobachte(db.batch(liste.map((s) => echte.get(s)?.stmt ?? s)))
+      antworten.forEach((r, i) => zaehle(r, echte.get(liste[i]!)?.sql ?? '(unbekannt)'))
       return antworten
     },
   }
-  return { db: verpackt as unknown as D1Database, zeilen: () => ({ ...summe }), limit: () => limit }
+  return {
+    db: verpackt as unknown as D1Database,
+    zeilen: () => ({ ...summe }),
+    limit: () => limit,
+    teuerste: () => teuersteAnweisung(jeSql),
+  }
+}
+
+function teuersteAnweisung(jeSql: Map<string, number>): Anweisung | null {
+  let teuerste: Anweisung | null = null
+  for (const [sql, gelesen] of jeSql) {
+    if (!teuerste || gelesen > teuerste.gelesen) teuerste = { sql, gelesen }
+  }
+  return teuerste
+}
+
+/**
+ * Was die Anfrage in den Tageszähler bucht. Über dem Riegel zusätzlich `DECKEL_LESEN`, damit jede weitere
+ * Meldung des Tages die 429 bekommt, und eine Zeile ins Protokoll (`wrangler tail`, Workers Logs).
+ */
+function buchungMitRiegel(zeilen: Zeilen, teuerste: Anweisung | null): { zeilen: Zeilen; gerissen: boolean } {
+  if (zeilen.gelesen <= RIEGEL_LESEN_JE_ANFRAGE) return { zeilen, gerissen: false }
+  const wo = teuerste ? `${teuerste.gelesen} in: ${teuerste.sql.replace(/\s+/g, ' ').trim().slice(0, 120)}` : 'unbekannt'
+  console.error(
+    `RIEGEL JE ANFRAGE: ${zeilen.gelesen} gelesene Zeilen (Grenze ${RIEGEL_LESEN_JE_ANFRAGE}), Meldungen bis 00:00 UTC gesperrt; teuerste Anweisung ${wo}`,
+  )
+  return { zeilen: { ...zeilen, gelesen: zeilen.gelesen + DECKEL_LESEN }, gerissen: true }
 }
 
 let zaehlerAusGemeldet = false
@@ -181,12 +223,15 @@ export async function mitTagesdeckel<K extends MitDb>(kontext: K, lauf: (k: K) =
     antwort = await lauf({ ...kontext, env: { ...kontext.env, DB: zaehler.db } })
   } catch (e) {
     if (zaehler.limit()) return deckelAntwort(kontext.antwort, jetzt)
+    /* Auch eine gescheiterte Anfrage hat gelesen: über dem Riegel sperrt sie den Tag trotzdem. */
+    const buchung = buchungMitRiegel(zaehler.zeilen(), zaehler.teuerste())
+    if (buchung.gerissen) await verbuchen(kontext.env, tag, buchung.zeilen)
     throw e
   } finally {
     kontext.beiZeilen?.(zaehler.zeilen())
   }
   /* D1 hat verweigert, die Meldung den Fehler gefangen (Stapel: je Meldung `ok: false`): auch das ist das Tageslimit. */
   if (zaehler.limit()) return deckelAntwort(kontext.antwort, jetzt)
-  await verbuchen(kontext.env, tag, zaehler.zeilen())
+  await verbuchen(kontext.env, tag, buchungMitRiegel(zaehler.zeilen(), zaehler.teuerste()).zeilen)
   return antwort
 }
