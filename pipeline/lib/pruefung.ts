@@ -224,8 +224,13 @@ export function pruefeErgebnis(
       if (/themoviedb\.org/.test(w.url) && !w.ueberTmdb)
         fehler.push(`Anime ${t.id}: Bezugsweg „${w.name}" zeigt auf TMDB, ohne als „über TMDB" gekennzeichnet zu sein`)
 
-  fehler.push(...landFehler(titles), ...geteilteWegeTrotzWiderlegung(releases, titles), ...premiereFehler(releases))
+  fehler.push(...schlussFehler(releases, titles))
   return { fehler, warnungen }
+}
+
+/** Die Prüfungen am Ende von `pruefeErgebnis`, die nicht je Release laufen (eigene Funktion, damit jene nicht wächst). */
+function schlussFehler(releases: Release[], titles: Map<number, Title>): string[] {
+  return [...landFehler(titles), ...geteilteWegeTrotzWiderlegung(releases, titles), ...premiereFehler(releases)]
 }
 
 /**
