@@ -6,7 +6,7 @@ import { istNahAmJapanStart } from '../lib/nah-am-japan-start.ts'
 /** Anbieter, Sender oder Disc, die den Titel schon vor dem Termin führten (eine frühere Disc zählt: „kein Anbieter vorher deutsch“). */
 function fruehererAnbieter(release: Release, geschwister: Release[]): boolean {
   const tag = release.schedule.firstEpisodeDate
-  return geschwister.some((o) => !o.widerlegt &&o.schedule.firstEpisodeDate < tag)
+  return geschwister.some((o) => !o.widerlegt && o.schedule.firstEpisodeDate < tag)
 }
 
 /** Der Tag, ISO oder fehlend, als UTC-Millisekunden. */

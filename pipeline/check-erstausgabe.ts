@@ -11,10 +11,10 @@ import { ART_STIL, istBreit, kartenArt } from '../web/src/lib/kachel-folgen.ts'
 import { TEXTE_KALENDER } from '../web/src/lib/i18n-kalender.ts'
 import { terminZeilen } from './lib/og-termin.ts'
 import { erstausgabeTrotzNein, istErstausgabe, markiereErstausgabe } from './bau/erstausgabe-markieren.ts'
-import { terminiereNeueReleases } from './bau/13-7-angebot-termine.ts'
+import { ergaenzeAngebotTermine, terminiereNeueReleases } from './bau/13-7-angebot-termine.ts'
 import { rolleTermineAusMitKomplettabwurf } from './bau/10-komplettabwurf.ts'
 import type { rolleTermineAus } from './bau/10-termine.ts'
-import { neinHandbelege } from './lib/dub-confirmed.ts'
+import { loadDubChecks, neinHandbelege } from './lib/dub-confirmed.ts'
 import { istNahAmJapanStart } from './lib/nah-am-japan-start.ts'
 
 let verletzt = 0
@@ -184,6 +184,44 @@ console.log('\nAufrufer im Bau: die Marke steht, bevor die Termine entstehen:')
   gesehen.length = 0
   aufruf([katalog({ slug: 'hensuki-crunchyroll', platform: 'crunchyroll', titleId: 987654 })], neinHandbelege([{ anilistId: 987654, platform: 'crunchyroll', dub: false }]))
   pruefe('frühe Phase: ein Nein-Handbeleg verhindert die Marke', gesehen.length === 1 && gesehen[0] === undefined, gesehen)
+}
+
+console.log('\nAufrufer im Bau ohne eingesetzte Werte: der Standard liest die echten Nein-Handbelege (Prüfer 15.10.2026):')
+{
+  /* Titel 98320 hat bei Prime einen Nein-Handbeleg („nur Untertitel“) in data/dub-confirmed.yaml; 987654 hat keinen. */
+  const NEIN_ID = 98320
+  const OHNE_NEIN_ID = 987654
+  pruefe('Voraussetzung: der Handbeleg zu 98320 bei Prime steht in den Daten', neinHandbelege(loadDubChecks()).has('98320|primevideo'))
+  const titles = new Map([[NEIN_ID, titel({}, NEIN_ID)], [OHNE_NEIN_ID, titel({}, OHNE_NEIN_ID)]])
+  const prime = (id: number, o: Partial<Release> = {}) => katalog({ slug: `anisearch-${id}-primevideo`, titleId: id, ...o })
+  const gesehen: (true | undefined)[] = []
+  const rolle = ((args: { releases: Release[] }) => {
+    gesehen.push(...args.releases.map((r) => r.erstausgabe))
+    return {}
+  }) as unknown as typeof rolleTermineAus
+  const frueh = (id: number) => rolleTermineAusMitKomplettabwurf({ releases: [prime(id)], titles, jpStart: new Map() }, { rolle })
+  frueh(OHNE_NEIN_ID)
+  pruefe('frühe Phase, Standard: ohne Nein-Handbeleg wird markiert', gesehen[0] === true, gesehen)
+  gesehen.length = 0
+  frueh(NEIN_ID)
+  pruefe('frühe Phase, Standard: der echte Nein-Handbeleg verhindert die Marke', gesehen.length === 1 && gesehen[0] === undefined, gesehen)
+
+  const kernOhneDatei = () => ({ lies: () => [] as Title[], schreibe: () => undefined })
+  const spaet = (releases: Release[], ab: number) => {
+    const events: ReleaseEvent[] = []
+    ergaenzeAngebotTermine({ events, releases, ab, slim: [], titles }, { kern: kernOhneDatei() })
+    return events
+  }
+  const ohne = spaet([prime(OHNE_NEIN_ID)], 0)
+  pruefe('späte Phase, Standard: ohne Nein-Handbeleg trägt der Termin „erstausgabe“', ohne.length === 1 && ohne[0]?.erstausgabe === true, ohne)
+  const mit = spaet([prime(NEIN_ID)], 0)
+  pruefe('späte Phase, Standard: der echte Nein-Handbeleg verhindert die Marke', mit.length === 1 && mit[0]?.imAngebot === true && mit[0].erstausgabe === undefined, mit)
+  const davor = anderer({ slug: 'crunchyroll-davor', titleId: OHNE_NEIN_ID })
+  const mitDavor = spaet([davor, prime(OHNE_NEIN_ID)], 1)
+  pruefe('späte Phase: ein früheres Release (vor „ab“) verhindert die Marke, und nur die neuen bekommen einen Termin', mitDavor.length === 1 && mitDavor[0]?.imAngebot === true && mitDavor[0].erstausgabe === undefined, mitDavor)
+  const discDavor = anderer({ slug: 'disc-davor', platform: 'disc', releaseType: 'disc', titleId: OHNE_NEIN_ID })
+  const mitDisc = spaet([discDavor, prime(OHNE_NEIN_ID)], 1)
+  pruefe('späte Phase: eine frühere Disc verhindert die Marke', mitDisc.length === 1 && mitDisc[0]?.erstausgabe === undefined, mitDisc)
 }
 
 console.log('\nTermin (expandEvents):')
