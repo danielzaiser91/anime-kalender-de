@@ -93,9 +93,9 @@ html.dark {
   --ak-marke: #cbd5e1;
   --ak-heute: #1a1512;
   --ak-flaeche-3: #222733;
-  /* Anbieter-Pille: Hover 1,4:1 über der Ruhe (flaeche-2 lag nur 1,03:1 daneben, 15.10.2026). */
+  /* Anbieter-Pille: Hover 1,28:1 über der Ruhe (flaeche-2 lag nur 1,03:1 daneben), graue Zusatzzeile darauf 4,7:1 (15.10.2026). */
   --ak-pille: #162238;
-  --ak-pille-hover: #2a3a58;
+  --ak-pille-hover: #26344f;
   --ak-akzent-hover: #ff7a5c;
   --ak-fokus: #ff9e85;
   --ak-gewaehlt: var(--ak-akzent);
@@ -117,7 +117,7 @@ html.dark {
   --ak-info-grund: color-mix(in srgb, var(--ak-info) 12%, var(--ak-flaeche));
 }
 
-/* Fläche, die in beiden Themen dunkel ist (Beleg-Dialog): Fehlerfarben in der Dunkelfassung, sonst fällt die Schrift im hellen Thema unter 4,5:1. */
+/* Fläche, die in beiden Themen dunkel ist (Beleg-Dialog, Trailer-Fenster): alle Rollen des dunklen Themas, die ein Kind sonst hell erbt (Flächen, Ränder, Text, Link, Fokus, Fehler). Jede Zeile hält `tools/design-immer-dunkel.test.mjs` fest. */
 .ak-immer-dunkel {
   --ak-grund: #0d0f14;
   --ak-flaeche: #151922;
