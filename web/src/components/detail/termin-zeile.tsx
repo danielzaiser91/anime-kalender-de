@@ -8,10 +8,11 @@ import type { tvAngabe } from '../../lib/tv-angabe.ts'
 import { AnbieterIcon } from '../../lib/anbieter-icon.tsx'
 import { PremiereFaehnchen, zeigtPremiere } from './premiere-faehnchen.tsx'
 import { MerkenKnopf } from './merken.tsx'
-import { Pille } from './pille.tsx'
+import { DubStatus, Pille } from './pille.tsx'
 import { erschieneneSpanne } from './folgen-spanne.ts'
 import { PROSIEBEN_MAXX_ROT, TOGGO_ORANGE } from './pillen.tsx'
 import { pillenZiel } from './pillen-ziel.ts'
+import { seitAbText } from './seit-datum.ts'
 
 type TvText = ReturnType<typeof tvAngabe>
 
@@ -167,8 +168,7 @@ function terminTeil(release: Release, tvText: TvText | undefined, today: string,
     const naechste = Object.values(release.schedule?.observed ?? {}).filter((d) => d >= today).sort()[0] ?? release.tvLetzteSichtung
     return t('detail.tvGesehen', { d: formatDate(naechste) })
   }
-  const datum = release.schedule?.firstEpisodeDate
-  return datum ? t(datum > today ? 'detail.abDatum' : 'detail.seitDatum', { d: formatDate(datum) }) : undefined
+  return seitAbText(release.schedule?.firstEpisodeDate, today, t)
 }
 
 /** Tag und Uhrzeit farbig, der Rest bleibt grau; ohne Zeit trennt der Platzhalter nichts. */
@@ -213,7 +213,7 @@ function ProgrammLink({ href, t }: { href: string; t: Translate }) {
         target="_blank"
         rel="noopener"
         aria-label={t('tv.imProgramm')}
-        className="grid size-11 place-items-center rounded-full text-slate-500 transition hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-300"
+        className="grid size-11 place-items-center rounded-full text-slate-500 transition hover:text-ak-text dark:text-slate-300"
       >
         <TvZeichen />
       </a>
@@ -233,19 +233,21 @@ function terminName(release: Release, titel: string | undefined, t: Translate, p
 }
 
 /** Ein Termin als Anbieterzeile: Sender oder Anbieter, Datum, Folge; bei TV mit Programm-Link, mit Kalenderknopf. */
-export function TerminZeile({ release, titel, today, tvText }: {
+export function TerminZeile({ release, titel, today, tvText, deutsch }: {
   release: Release
   titel?: string
   today: string
   /** Bei TV: „Fg. 16 · heute 21:15“ und ob es eine Premiere ist (`lib/tv-angabe.ts`). */
   tvText?: TvText
+  /** Ein Prime-Kanal-Termin, dessen Anbieter Deutsch belegt: die Blase „Deutsch“ und dessen Folgen statt der Zählung des Termins. */
+  deutsch?: { folgen: string }
 }) {
   const { t } = useLang()
   const tv = release.platform === 'tv'
   /* Eine Prime-Zeile ohne Adresse führt zur Suche; der Hinweis sagt es (#842). */
   const ziel = pillenZiel(release, titel, t)
   const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
-  const text = [zweite, fortschrittVon(release, t), terminTeil(release, tvText, today, t)].filter(Boolean).join(' · ')
+  const text = [zweite, deutsch?.folgen || fortschrittVon(release, t), terminTeil(release, tvText, today, t)].filter(Boolean).join(' · ')
   const unten = (
     <>
       {tvText?.laeuft && <LaeuftZeile laeuft={tvText.laeuft} t={t} />}
@@ -264,6 +266,7 @@ export function TerminZeile({ release, titel, today, tvText }: {
       titel={ziel.hinweis}
       icon={release.releaseType !== 'disc' ? <AnbieterIcon was={tv ? (release.sender ?? '') : release.platform} groesse={18} /> : undefined}
       unten={unten}
+      status={deutsch ? <DubStatus art="belegt" /> : undefined}
       aktion={
         <>
           {tvText?.programm && <ProgrammLink href={tvText.programm} t={t} />}

@@ -20,6 +20,7 @@
  *   LAUF_TOKEN=… node tools/laeufe-aufraeumen.mjs [--auch-github] [--trocken]
  */
 import { execFileSync } from 'node:child_process'
+import { holeLaeufe } from './laeufe-abruf.mjs'
 
 const WORKER = 'https://newsletter.animekalender.workers.dev/lauf'
 const REPO = 'danielzaiser91/anime-kalender-de'
@@ -31,8 +32,12 @@ const TOKEN = process.env.LAUF_TOKEN
 const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 })
 
 async function main() {
-  const laeufe = await (await fetch(WORKER)).json()
-  const liste = Array.isArray(laeufe) ? laeufe : (laeufe.laeufe ?? [])
+  const { liste, meldung } = await holeLaeufe(fetch, WORKER)
+  if (meldung) {
+    console.error(meldung)
+    process.exitCode = TROCKEN ? 0 : 1
+    return
+  }
   const rote = liste.filter((l) => l.zustand === 'fehler' || l.zustand === 'warnung')
   console.log(`${liste.length} Läufe in der App, ${rote.length} rot`)
   if (!rote.length) return

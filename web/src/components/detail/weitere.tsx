@@ -40,7 +40,7 @@ export function WeitereTitel({ title }: { title: Title }) {
       <button
         type="button"
         onClick={() => setOffen((o) => !o)}
-        className="-my-3 inline-flex min-h-11 cursor-pointer items-center text-ak-leise underline decoration-dotted underline-offset-2 hover:text-ak-akzent-text"
+        className="-my-3 inline-flex min-h-11 cursor-pointer items-center text-ak-leise underline decoration-dotted underline-offset-2 hover:text-ak-text"
       >
         {offen ? t('detail.otherTitlesHide') : t('detail.otherTitles', { count: weitere.length })}
       </button>
@@ -74,7 +74,7 @@ function VoiceQuellen({ stimmen }: { stimmen: Voices }) {
       {stimmen.annUrl && (
         <>
           {namen.length ? ', ' : ''}
-          <a href={stimmen.annUrl} target="_blank" rel="noreferrer noopener" className="underline hover:text-sky-400">
+          <a href={stimmen.annUrl} target="_blank" rel="noreferrer noopener" className="underline hover:text-ak-text">
             Anime News Network
           </a>
         </>
@@ -245,7 +245,7 @@ export function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; dat
                       mit dreizeiligem Titel hätte ein höheres Poster als die daneben.
                       144 px bei 96 px Breite ist das Posterformat 2:3.
                     */
-                    className="flex h-36 w-full cursor-pointer items-stretch gap-2 rounded-lg p-1.5 text-left transition hover:bg-slate-100 dark:hover:bg-white/5"
+                    className="flex h-36 w-full cursor-pointer items-stretch gap-2 rounded-lg p-1.5 text-left transition hover:bg-ak-flaeche-2"
                   >
                     {v.title.coverImage ? (
                       <img

@@ -267,6 +267,11 @@ function takten(takte, durchlaeufe = 5) {
   for (let i = 0; i < durchlaeufe; i++) for (const takt of takte) takt()
 }
 
+/* Wie im Manifest: `prime-stand.js` vor `amazon.js`, das beim Melden `akPrimeMeldungEintragen` aufruft. */
+function ladeSkripte(sandkasten) {
+  for (const datei of ['prime-stand.js', 'amazon.js']) vm.runInContext(readFileSync(`${__dirname}/${datei}`, 'utf8'), sandkasten)
+}
+
 function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite = true) {
 
   const traeger = { hoerer: null, fenster: null, adresse: null }
@@ -458,7 +463,7 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite 
   }
   sandkasten.globalThis = sandkasten
   vm.createContext(sandkasten)
-  vm.runInContext(readFileSync(__dirname + '/amazon.js', 'utf8'), sandkasten)
+  ladeSkripte(sandkasten)
   traeger.fenster = sandkasten.window
   traeger.adresse = sandkasten.location
   traegerListe.set(sandkasten, traeger)
@@ -947,6 +952,9 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
       e && Object.keys(e.staffeln ?? {}).length === 1 && e.gesamt === 5,
       e,
     )
+    /* „E1–N" für die eigene Meldung: Der Briefkasten kennt die Folgenzahl bei einheitlicher Staffel nicht (15.10.2026). */
+    const staffel = Object.keys(e?.staffeln ?? {})[0]
+    pruefe('die eigene Meldung trägt ihre geladene Folgenzahl lokal', staffel && e.folgen?.[staffel] === 1, e?.folgen)
 
     const uebersicht = angehaengt.find((x) => x.className.includes('ak-uebersicht'))
     pruefe(

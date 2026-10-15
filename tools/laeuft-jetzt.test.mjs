@@ -99,11 +99,10 @@ assert.deepEqual(kachelAngabe({ date: T, time: '17:00' }, T, '17:42', undefined)
 assert.deepEqual(kachelAngabe({ date: T, time: '18:00' }, T, '17:42', '18:00'), { in: 'in 18 Min' })
 assert.deepEqual(kachelAngabe({ date: T, time: '18:00', timeEstimated: true }, T, '17:42', '18:00'), {})
 
-// Wie schnell die Seite eine Änderung zeigt: Die Woche zieht „jetzt" einmal je Minute nach (`useSprungZuHeute`);
+// Wie schnell die Seite eine Änderung zeigt: Die Woche zieht „jetzt" zu jeder vollen Minute nach (`useSprungZuHeute`, `minutenTakt` – Zusicherungen in pipeline/check-minuten-takt.ts);
 // die Rechnung hängt nur an der Minute, also steht „Läuft" spätestens 60 Sekunden nach dem Ende der Sendung nicht mehr da.
-const takt = /window\.setInterval\(\(\) => setNow\(nowHhMm\(\)\), (\d[\d_]*)\)/.exec(readFileSync(new URL('../web/src/lib/woche-sprung.ts', import.meta.url), 'utf8'))
-assert.ok(takt, 'die Woche zieht "jetzt" in einem Intervall nach')
-assert.ok(Number(takt[1].replaceAll('_', '')) <= 60_000, 'höchstens eine Minute Abstand')
+const takt = readFileSync(new URL('../web/src/lib/woche-sprung.ts', import.meta.url), 'utf8').includes('minutenTakt(() => setNow(nowHhMm()))')
+assert.ok(takt, 'die Woche zieht "jetzt" zu jeder vollen Minute nach')
 assert.equal(art(stand(gruppen, sendungen, '17:39'))[0], 'laeuft')
 assert.equal(art(stand(gruppen, sendungen, '17:40'))[0], 'vorbei')
 

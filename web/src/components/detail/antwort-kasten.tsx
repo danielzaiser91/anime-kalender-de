@@ -1,6 +1,6 @@
 import { MitFachwoertern } from '../fachwort.tsx'
 import { type ReleaseEvent, type Title, type Release, PLATFORMS } from '@shared/types.ts'
-import { formatDate, weekdayName } from '@shared/time.ts'
+import { formatDate } from '@shared/time.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { type ReactNode, useState } from 'react'
 import { useFolgenZaehlung } from './folgen-bereich.tsx'
@@ -13,7 +13,7 @@ import { gruppeVon as gruppeVonPille, sichtbareStreamPillen, type Gruppe } from 
 import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText, teilweiseNeben } from './antwort-regeln.ts'
 import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
-import { kostenlosKopfVon } from './kasten-texte.ts'
+import { ausgebliebenTerminText, kostenlosKopfVon } from './kasten-texte.ts'
 import { folgenKopf, laeuftNeben } from './antwort-block.ts'
 
 /** Pillenreihe: 8 px zwischen den Pillen, 16 px zwischen den Zeilen (Platz für die Blase), 8 px über der ersten. */
@@ -337,13 +337,7 @@ export function AntwortKasten({
         </span>
         <span className="font-normal text-slate-700 dark:text-slate-300">
           {', '}
-          {e.time
-            ? T('antwort.angekuendigtFuerZeit', {
-                tag: weekdayName(e.date),
-                datum: formatDate(e.date),
-                zeit: e.timeEstimated ? `≈ ${e.time}` : e.time,
-              })
-            : T('antwort.angekuendigtFuer', { tag: weekdayName(e.date), datum: formatDate(e.date) })}
+          {ausgebliebenTerminText(e, T)}
         </span>
       </>
     ) : (
@@ -419,8 +413,8 @@ export function AntwortKasten({
       Dybex". Sie füllt die Nebenzeile, die seit dem Zusammenlegen der drei
       Dopplungen leer war, und sagt etwas Neues statt desselben noch einmal.
 
-      Wo wir selbst gemessen haben, steht das Feld gar nicht erst da — die
-      Übernahme in `build.ts` überspringt jeden Titel mit Termin.
+      Das Feld steht auch bei Titeln mit eigenem Termin (14.10.2026: 366 von 2.559
+      Titeln mit Erstausgabe); die Pillen nennen ihr „seit“ dann nicht doppelt.
     */
     neben = erstausgabeAlsNeuigkeit(title) ? '' : deSeitZeile(title, T)
     nebenTitel = title.deErstausgabe
@@ -797,7 +791,7 @@ export function AntwortKasten({
             {schnitt.quellen.map((q, i) => (
               <span key={q}>
                 {i > 0 && ' · '}
-                <a href={q} target="_blank" rel="noopener noreferrer" className="underline hover:text-sky-700 dark:hover:text-sky-300">
+                <a href={q} target="_blank" rel="noopener noreferrer" className="underline hover:text-ak-text">
                   {new URL(q).hostname.replace(/^www\./, '')}
                 </a>
               </span>

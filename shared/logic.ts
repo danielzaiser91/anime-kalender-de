@@ -1,6 +1,7 @@
 import type { Release, ReleaseEvent, ReleaseStatus, Title } from './types.ts'
 import { addDays, todayIso, berlinToUtc, utcZeitInBerlin } from './time.ts'
 import { markiereNachLuecke, verpasstAnVorhandenes } from './luecken.ts'
+import { erstesFreiesDatum, folgeNachOriginal } from './synchro-original.ts'
 
 /**
  * Beobachtete Folgen als Stützpunkte, aufsteigend nach Folgennummer.
@@ -83,6 +84,8 @@ export function lastEpisodeDate(release: Release): string | undefined {
   const first = Math.max(1, s.firstEpisodeNumber ?? 1)
   const letzte = first + s.episodeCount - 1
   const anker = stuetzpunkte(s).filter((a) => a.episode >= first && a.episode <= letzte).at(-1)
+  const nachOriginal = folgeNachOriginal(s.nachOriginal, letzte, anker)
+  if (nachOriginal) return erstesFreiesDatum(nachOriginal, skips)
   let date = anker?.date ?? s.firstEpisodeDate
   let produced = anker?.episode ?? first
   let guard = 0
@@ -246,7 +249,7 @@ export const NETFLIX_UHRZEIT_UTC = '08:00'
 
 export function expandEvents(release: Release): ReleaseEvent[] {
   const termine = termineAusPlan(release)
-  if (release.dateMeaning === 'available-from') for (const e of termine) e.imAngebot = true
+  if (release.dateMeaning === 'available-from') for (const e of termine) e[release.erstausgabe ? 'erstausgabe' : 'imAngebot'] = true
   if (release.platform !== 'netflix' || !release.netflixOriginal) return termine
   return termine.map((e) => (e.time ? e : { ...e, time: utcZeitInBerlin(e.date, NETFLIX_UHRZEIT_UTC), timeEstimated: true }))
 }
@@ -438,7 +441,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
     }
 
     return anchor
-      ? sendeplatz(s, anchor.date, episode - anchor.episode)
+      ? (folgeNachOriginal(s.nachOriginal, episode, anchor) ?? sendeplatz(s, anchor.date, episode - anchor.episode))
       : sendeplatz(s, s.firstEpisodeDate, episode - first)
   }
 

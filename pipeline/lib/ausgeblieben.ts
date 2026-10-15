@@ -17,7 +17,7 @@
  * Recherche wert.
  */
 
-import { addDays, toIsoDate } from '../../shared/time.ts'
+import { addDays, berlinToUtc, toIsoDate } from '../../shared/time.ts'
 
 const STUNDE = 36e5
 const TAG = 24 * STUNDE
@@ -118,4 +118,32 @@ export function offeneMessbelege<V extends { bemerktAm: string; erwartetAm: stri
 /** Ablageschlüssel eines Messbelegs — nur Kleinbuchstaben, Ziffern und `/_.-` (Regel des Workers, `SCHLUESSEL`). */
 export function messbelegSchluessel(tag: string, amIso: string): string {
   return `www.crunchyroll.com/simulcastcalendar/${tag}/${amIso.slice(0, 16).replace(/[T:]/g, '-')}`
+}
+
+/**
+ * Ob `termine-pruefen.ts` einen Termin des Plans prüft: geschätzte immer, belegte nur, wenn das Crunchyroll-Wochenprogramm
+ * die Folge für diesen Tag angekündigt hat und der Kalender sie noch nicht zeigt (`uebernommen`).
+ * Seit die Zeile bis in den Sendetag übernommen wird, ist der Termin an diesem Tag belegt — ohne diese Weiche würde er erst
+ * nach Mitternacht wieder geschätzt und damit geprüft, das „nicht erschienen“ käme Stunden später.
+ */
+export function terminPruefen(
+  e: { date: string; episode?: number; estimated?: boolean },
+  seriesId: string | undefined,
+  uebernommen: { seriesId: string | null; episode: number; date: string }[],
+): boolean {
+  if (e.estimated) return true
+  return uebernommen.some((f) => f.seriesId === seriesId && f.episode === e.episode && f.date === e.date)
+}
+
+/** Fünfzehn Minuten Nachsicht — ein Anbieter stellt selten auf die Sekunde ein. */
+const KARENZ_MS = 15 * 60 * 1000
+
+/** Der Termin als echter Zeitpunkt; die Uhrzeit ist Berliner Ortszeit, der Offset (+01:00/+02:00) folgt dem Datum. Ohne Uhrzeit gilt Mitternacht. */
+export function terminZeitpunkt(datum: string, uhrzeit?: string): Date {
+  return berlinToUtc(datum, uhrzeit ?? '00:00')
+}
+
+/** Ab wann ein Ausbleiben gilt: Uhrzeit plus Karenz, ohne Uhrzeit das Ende des Tages (23:59:59 Ortszeit). */
+export function terminFrist(datum: string, uhrzeit?: string): Date {
+  return uhrzeit ? new Date(terminZeitpunkt(datum, uhrzeit).getTime() + KARENZ_MS) : new Date(berlinToUtc(datum, '23:59').getTime() + 59_000)
 }

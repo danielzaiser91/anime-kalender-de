@@ -104,7 +104,7 @@ export function TrailerKino({
             'group inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border py-1 pl-2 pr-4 text-t3 font-semibold transition',
             deutsch
               ? 'border-ak-rand bg-ak-flaeche text-ak-text hover:border-ak-leise hover:bg-ak-flaeche-2'
-              : 'border-slate-300 bg-slate-500/5 text-slate-600 hover:border-slate-400 hover:bg-slate-500/10 dark:border-white/15 dark:text-slate-300',
+              : 'border-slate-300 bg-slate-500/5 text-slate-600 hover:border-ak-leise hover:bg-ak-flaeche-2 dark:border-white/15 dark:text-slate-300',
           ].join(' ')}
         >
           <span
@@ -146,7 +146,7 @@ export function TrailerKino({
           {/* Der Klick im Dialog darf ihn nicht schließen — nur der daneben. */}
           <div
             onClick={(e) => e.stopPropagation()}
-            className="flex h-[95vh] w-[95vw] flex-col overflow-hidden rounded-2xl border border-white/15 bg-slate-950 shadow-2xl"
+            className="flex h-[95vh] w-[95vw] flex-col overflow-hidden rounded-2xl border border-white/15 bg-slate-950 shadow-2xl ak-immer-dunkel"
           >
             <div className="flex shrink-0 items-center gap-3 border-b border-white/10 px-4 py-2.5">
               <h2 className="min-w-0 flex-1 truncate text-t3 font-semibold text-white">
@@ -168,7 +168,7 @@ export function TrailerKino({
                   href={`https://www.youtube.com/watch?v=${trailer.video}`}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="shrink-0 rounded-full border border-white/20 px-3 py-1 text-t4 font-semibold text-slate-200 transition hover:border-white/40 hover:bg-white/10 hover:text-white"
+                  className="shrink-0 rounded-full border border-white/20 px-3 py-1 text-t4 font-semibold text-slate-200 transition hover:border-ak-leise hover:bg-ak-flaeche-2"
                 >
                   {t('trailer.beiYoutube')} ↗
                 </a>
@@ -177,7 +177,7 @@ export function TrailerKino({
                 type="button"
                 onClick={() => setOffen(false)}
                 aria-label={t('trailer.schliessen')}
-                className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-t2 text-slate-300 transition hover:bg-white/10 hover:text-white"
+                className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-t2 text-slate-300 transition hover:bg-ak-flaeche-2 hover:text-ak-text"
               >
                 ✕
               </button>

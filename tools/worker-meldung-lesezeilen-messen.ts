@@ -191,5 +191,15 @@ await roh.prepare("UPDATE prime_folge SET uebernommen = 1 WHERE url = 'https://w
 await roh.prepare("UPDATE pruefung SET uebernommen = 1 WHERE url = 'https://www.amazon.de/dp/B0NEU'").run()
 await messe('Prime 90 Rohfolgen, alles übernommen, andere Notiz', prime('B0NEU', 90, 'dritter Durchgang'))
 await messe('Prime 12 Rohfolgen, Seite neu', prime('B0KURZ', 12))
+
+/* Titelzeile (Schalter wie live seit 15.10.2026): Ein neuer Titel ohne Zeile und ohne Altzeilen las am
+   15.10.2026 je Anfrage ~50.000 Zeilen (Altzeilen-Prüfung über `prime_folge` ohne `url`-Index). */
+console.log('-- Titelzeile (TITELZEILE_PLATTFORMEN=disneyplus,netflix)')
+Object.assign(env as object, { TITELZEILE_PLATTFORMEN: 'disneyplus,netflix' })
+await messe('Titelzeile Netflix Einzelmeldung, Titel neu', netflix('tz-neu-1', 1))
+await messe('Titelzeile Netflix Einzelmeldung, gleicher Titel unverändert', netflix('tz-neu-1', 1))
+await messe('Titelzeile Netflix Stapel 10, Titel neu', { stapel: Array.from({ length: 10 }, (_, k) => netflix('tz-neu-2', 1 + k)) })
+await messe('Titelzeile Disney+ erste Meldung, Seite neu', disney('tz-neu-3', 1))
+await messe('Titelzeile Disney+ zweite Folge derselben Seite', disney('tz-neu-3', 2))
 await proxy.dispose()
 process.exit(0)

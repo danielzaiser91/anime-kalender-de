@@ -1736,7 +1736,8 @@
 .ak-netflix-kasten .ak-uebersicht,
 .ak-netflix-kasten .ak-durchlauf-leiste,
 .ak-disney-kasten .ak-melder,
-.ak-disney-kasten .ak-uebersicht {
+.ak-disney-kasten .ak-uebersicht,
+.ak-adn-kasten .ak-melder {
   position: static;
   right: auto;
   bottom: auto;

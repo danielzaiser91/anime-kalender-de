@@ -46,7 +46,7 @@
  *
  * Aufruf: npm run check:handbelege
  */
-import { loadDubChecks, adressKern, type DubCheck } from './lib/dub-confirmed.ts'
+import { loadDubChecks, adressKern, neinHandbelege, type DubCheck } from './lib/dub-confirmed.ts'
 import { readJson, log, warn, ROOT } from './lib/util.ts'
 import { resolve } from 'node:path'
 import { readFileSync } from 'node:fs'
@@ -57,7 +57,8 @@ import { findeSchrumpf } from './lib/dub-schrumpf.ts'
 import { findeVoraussichtlichImBestand } from './lib/voraussichtlich-pruefung.ts'
 import { pruefeVerwaiste } from './lib/handbeleg-verwaist.ts'
 import { bezugswegeTrotzNein } from './lib/handbeleg-bezugswege.ts'
-import type { Title } from '../shared/types.ts'
+import type { Release, Title } from '../shared/types.ts'
+import { erstausgabeTrotzNein } from './bau/erstausgabe-markieren.ts'
 
 /*
   Seit dem 11.10.2026 verteilt `bau/cartoon-wege.ts` einen Cartoon-Weg auf Staffeln (ein Weg je Staffel, gleiche Adresse).
@@ -347,4 +348,17 @@ log('✓ Jede eindeutige Handprüfung steht so im Datensatz, wie sie geprüft wu
     process.exit(1)
   }
   log('✓ Jeder kuratierte Termin mit „voraussichtlich" in der note trägt estimated: true.')
+}
+
+/*
+  Keine Erstveröffentlichung gegen einen Nein-Handbeleg (Bleach „The Calamity“, Disney+, 14.10.2026: Handbeleg „nur mit Untertiteln“, der Termin hieß trotzdem
+  „Erstveröffentlichung“). Der Bau lässt die Marke dort weg; hier die Zusicherung am gebauten Bestand.
+*/
+{
+  const falsch = erstausgabeTrotzNein(readJson<Release[]>(resolve(ROOT, 'public/data/releases.json'), []), neinHandbelege(belege))
+  if (falsch.length) {
+    warn(`Abbruch: ${falsch.length} Release(s) tragen „erstausgabe“, obwohl ein Nein-Handbeleg ihren Anbieter verneint: ${falsch.slice(0, 5).join(', ')}`)
+    process.exit(1)
+  }
+  log('✓ Keine Erstveröffentlichung gegen einen Nein-Handbeleg.')
 }

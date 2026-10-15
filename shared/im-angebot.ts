@@ -6,6 +6,13 @@ declare module './types.ts' {
   interface ReleaseEvent {
     /** Das Datum sagt, seit wann der Anbieter den Titel führt, nicht wann die deutsche Fassung erschien. */
     imAngebot?: boolean
+    /** Das Datum ist laut aniSearch der erste Tag der deutschen Fassung überhaupt (F9, 14.10.2026): statt „Neu bei …“ die Erstveröffentlichung. */
+    erstausgabe?: boolean
+  }
+
+  interface Release {
+    /** Ein Katalogdatum (`available-from`), das mit der aniSearch-Erstausgabe zusammenfällt, ohne dass ein Anbieter früher war (`markiereErstausgabe`). */
+    erstausgabe?: true
   }
 }
 

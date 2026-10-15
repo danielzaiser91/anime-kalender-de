@@ -24,13 +24,14 @@
  *
  * Aufruf: npx tsx pipeline/scrape-crunchyroll-woche.ts [--adresse <Artikel>] [--head]
  */
-import { chromium } from 'playwright'
+import { chromium, type Page } from 'playwright'
 import { normalizeTitle, type CrunchyrollData } from './lib/crunchyroll.ts'
 import { todayIso } from '../shared/time.ts'
 import { MONATE, neuesterWochenartikel, wocheAus } from '../shared/wochenprogramm.ts'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
+import { belegeAktualisieren } from './lib/woche-bild.ts'
 
 const args = process.argv.slice(2)
 const HEADED = args.includes('--head')
@@ -83,7 +84,8 @@ export interface WochenProgramm {
  * **Die Regel.** Das Wochenprogramm wird von Hand gepflegt und
  * lag im PoC einmal eine Folge daneben (Schleim S4: „Folge 22" am 25.09., gemessen 21). Deshalb:
  *
- * - nur **künftige** Synchro-Zeilen (Datum nach heute);
+ * - nur Synchro-Zeilen **ab heute**: Am Sendetag selbst bleibt die Ankündigung am Termin, sonst fiele er um 00:06
+ *   auf `estimated` zurück und verlöre die Bindung an das Wochenprogramm (Tomb Raider King F12, 14.10.2026);
  * - nur an einen vorhandenen Kalendereintrag mit derselben Serienkennung;
  * - nur, wenn die erste Folge an die letzte beobachtete anschließt (+1) **und** das Datum nach
  *   deren Datum liegt — sonst ist es eine Abweichung, die gemeldet und nicht übernommen wird;
@@ -100,7 +102,7 @@ export function entscheiden(
   const abweichungen: WochenProgramm['abweichungen'] = []
   const ohneEintrag: string[] = []
   for (const e of eintraege) {
-    if (e.sprache !== 'de' || e.datum <= heute) continue
+    if (e.sprache !== 'de' || e.datum < heute) continue
     /*
       Erst über den Titel, dann über die Kennung: Das Wochenprogramm schreibt „Das Band der
       Unterwelt", der Kalender führt den englischen Namen. Die Kennung zählt aber nur, wenn sie
@@ -188,6 +190,68 @@ export function zeileLesen(text: string): { von: number; bis: number; zeit: stri
   return { von: Number(f[1]), bis: Number(f[2] ?? f[1]), zeit: z ? `${z[1].padStart(2, '0')}:${z[2]}` : null }
 }
 
+/** Der Artikel, wie der Browser ihn liefert: je Überschrift ein Eintrag mit seinen Sprachzeilen. */
+export interface WocheRoh {
+  ueberschrift: string
+  jahr: string | null
+  eintraege: { tag: string | null; seriesUrl: string | null; titel: string; zeilen: { flagge: string; text: string }[] }[]
+}
+
+export async function rohLesen(seite: Page): Promise<WocheRoh> {
+  return seite.evaluate((tage) => {
+    const text = (e: Element | null) => (e?.textContent ?? '').replace(/Opens in a new tab/g, '').trim()
+    const h1 = document.querySelector('h1')
+    const aktualisiert = /Aktualisiert:\s*\d{1,2}\.\s*\S+\s*(\d{4})/.exec(document.body.innerText)?.[1] ?? null
+    const eintraege: WocheRoh['eintraege'] = []
+    let tag: string | null = null
+    const alle = document.querySelectorAll('body *')
+    for (const el of alle) {
+      const t = el.childElementCount === 0 ? text(el) : ''
+      if (t && (tage.includes(t) || t === 'Katalogtitel')) {
+        tag = t
+        continue
+      }
+      if (el.tagName !== 'H3' || !tag) continue
+      const link = el.querySelector('a[href*="/series/"]') as HTMLAnchorElement | null
+      const zeilen = [...(el.parentElement?.querySelectorAll('p') ?? [])]
+        .map((p) => ({ img: p.querySelector('img') as HTMLImageElement | null, p }))
+        .filter(({ img }) => img && /flag|flagge|drapeau/i.test(img.src + img.alt))
+        .map(({ img, p }, j) => {
+          /* Die Marke findet die Zeile später wieder, wenn sie fotografiert wird (`lib/woche-bild.ts`). */
+          p.setAttribute('data-woche-zeile', `${eintraege.length}-${j}`)
+          return { flagge: (img as HTMLImageElement).src, text: (p as HTMLElement).innerText }
+        })
+      eintraege.push({ tag, seriesUrl: link?.href ?? null, titel: text(el), zeilen })
+    }
+    return { ueberschrift: text(h1), jahr: aktualisiert, eintraege }
+  }, TAGE)
+}
+
+/** Die Zeilen des Artikels als Einträge mit Tag, Folge und Zeit; Katalogtitel und Zeilen ohne Folge entfallen. `marken[k]` ist die Marke im Artikel zu `eintraege[k]`. */
+export function eintraegeAus(roh: WocheRoh, wocheAb: string): { eintraege: WochenEintrag[]; marken: string[] } {
+  const eintraege: WochenEintrag[] = []
+  const marken: string[] = []
+  for (const [i, e] of roh.eintraege.entries()) {
+    if (!e.tag || e.tag === 'Katalogtitel') continue
+    const tagDatum = plusTage(wocheAb, TAGE.indexOf(e.tag))
+    for (const [j, z] of e.zeilen.entries()) {
+      const gelesen = zeileLesen(z.text)
+      if (!gelesen) continue
+      const anders = abweichendesDatum(z.text, wocheAb)
+      eintraege.push({
+        seriesId: /\/series\/([A-Z0-9]+)/.exec(e.seriesUrl ?? '')?.[1] ?? null,
+        titel: e.titel,
+        sprache: /deutschland/i.test(z.flagge) ? 'de' : /japan/i.test(z.flagge) ? 'ja' : (z.flagge.split('/').at(-3) ?? '?'),
+        ...gelesen,
+        datum: anders ?? tagDatum,
+        abweichend: Boolean(anders),
+      })
+      marken.push(`${i}-${j}`)
+    }
+  }
+  return { eintraege, marken }
+}
+
 /*
   **Der Wachhund muss diese Quelle kennen.** Bis zum 30.09.2026 meldete sie sich nirgends — ein stiller
   Ausfall wie der vom 28.09. konnte deshalb drei Tage unbemerkt bleiben. `check-sources` liest
@@ -214,51 +278,11 @@ async function main(): Promise<void> {
     await seite.goto(artikel, { waitUntil: 'domcontentloaded', timeout: 60_000 })
     await seite.waitForSelector('h3 a[href*="/series/"]', { timeout: 30_000 })
 
-    const roh = await seite.evaluate((tage) => {
-      const text = (e: Element | null) => (e?.textContent ?? '').replace(/Opens in a new tab/g, '').trim()
-      const h1 = document.querySelector('h1')
-      const aktualisiert = /Aktualisiert:\s*\d{1,2}\.\s*\S+\s*(\d{4})/.exec(document.body.innerText)?.[1] ?? null
-      const eintraege: { tag: string | null; seriesUrl: string | null; titel: string; zeilen: { flagge: string; text: string }[] }[] = []
-      let tag: string | null = null
-      const alle = document.querySelectorAll('body *')
-      for (const el of alle) {
-        const t = el.childElementCount === 0 ? text(el) : ''
-        if (t && (tage.includes(t) || t === 'Katalogtitel')) {
-          tag = t
-          continue
-        }
-        if (el.tagName !== 'H3' || !tag) continue
-        const link = el.querySelector('a[href*="/series/"]') as HTMLAnchorElement | null
-        const zeilen = [...(el.parentElement?.querySelectorAll('p') ?? [])]
-          .map((p) => ({ img: p.querySelector('img') as HTMLImageElement | null, p }))
-          .filter(({ img }) => img && /flag|flagge|drapeau/i.test(img.src + img.alt))
-          .map(({ img, p }) => ({ flagge: (img as HTMLImageElement).src, text: (p as HTMLElement).innerText }))
-        eintraege.push({ tag, seriesUrl: link?.href ?? null, titel: text(el), zeilen })
-      }
-      return { ueberschrift: text(h1), jahr: aktualisiert, eintraege }
-    }, TAGE)
-
+    const roh = await rohLesen(seite)
     const jahr = Number(roh.jahr) || new Date().getUTCFullYear()
     const wocheAb = wocheAus(roh.ueberschrift, jahr)
     if (!wocheAb) throw new Error(`Woche nicht lesbar aus „${roh.ueberschrift}"`)
-    const eintraege: WochenEintrag[] = []
-    for (const e of roh.eintraege) {
-      if (!e.tag || e.tag === 'Katalogtitel') continue
-      const tagDatum = plusTage(wocheAb, TAGE.indexOf(e.tag))
-      for (const z of e.zeilen) {
-        const gelesen = zeileLesen(z.text)
-        if (!gelesen) continue
-        const anders = abweichendesDatum(z.text, wocheAb)
-        eintraege.push({
-          seriesId: /\/series\/([A-Z0-9]+)/.exec(e.seriesUrl ?? '')?.[1] ?? null,
-          titel: e.titel,
-          sprache: /deutschland/i.test(z.flagge) ? 'de' : /japan/i.test(z.flagge) ? 'ja' : (z.flagge.split('/').at(-3) ?? '?'),
-          ...gelesen,
-          datum: anders ?? tagDatum,
-          abweichend: Boolean(anders),
-        })
-      }
-    }
+    const { eintraege, marken } = eintraegeAus(roh, wocheAb)
     const kalender = readJson<CrunchyrollData>('data/crunchyroll.json', { scrapedAt: '', german: {}, slots: [] }).german
     const entschieden = entscheiden(eintraege, kalender, todayIso())
     const programm: WochenProgramm = { geholtAm: new Date().toISOString(), artikel, ueberschrift: roh.ueberschrift, wocheAb, eintraege, ...entschieden }
@@ -269,6 +293,8 @@ async function main(): Promise<void> {
     log(`Übernommen: ${entschieden.uebernommen.length} Folgen · Abweichungen: ${entschieden.abweichungen.length} · ohne Kalendereintrag: ${entschieden.ohneEintrag.length}`)
     for (const a of entschieden.abweichungen) warn(`Wochenprogramm weicht ab: ${a.titel} Folge ${a.von} am ${a.datum} — ${a.grund}`)
     await abweichungenMelden(entschieden.abweichungen, artikel)
+    /* Zuletzt: Ein gescheitertes Foto darf die Zeilen oben nicht aufhalten. */
+    await belegeAktualisieren(seite, eintraege, marken, artikel, programm.geholtAm)
   } finally {
     await browser.close()
   }

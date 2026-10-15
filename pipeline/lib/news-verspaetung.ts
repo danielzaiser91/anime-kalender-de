@@ -7,6 +7,7 @@
  * Crunchyrolls Simulcast-Kalender an genau diesem Tag.
  */
 import type { NewsBeleg, NewsMeldung, Release } from '../../shared/types.ts'
+import type { VermerkMitAnkuendigung, WocheBelegVermerk } from '../../shared/woche-beleg-typ.ts'
 import { toIsoDate } from '../../shared/time.ts'
 import type { DatiertNews } from './news-verlauf.ts'
 
@@ -22,6 +23,18 @@ function messBeleg(tag: string, gemessenAm: string, bild?: string): NewsBeleg {
   return { url: kalenderTag(tag), name: 'Crunchyroll-Kalender', gemessenAm, ...(bild ? { bild } : {}) }
 }
 
+/** Die Ankündigung im Wochenprogramm: das Bild mit der markierten Zeile. Es zeigt den Stand von vorher und steht vor dem Kalender (Nachher). */
+function wochenBeleg(w: WocheBelegVermerk): NewsBeleg {
+  return {
+    url: w.url,
+    name: 'Crunchyroll-Wochenprogramm',
+    erstGeprueftAm: toIsoDate(new Date(w.gesehenAm)),
+    bildAm: toIsoDate(new Date(w.bildAm)),
+    bild: w.bild,
+    ...(w.markierung ? { markierung: w.markierung } : {}),
+  }
+}
+
 type Roh = NewsMeldung & { schluessel: string; fallback: string }
 
 /** Folgen, die am Nachreich-Tag planmäßig dazukamen: am selben Tag beobachtet, nach der letzten nachgereichten. */
@@ -35,7 +48,7 @@ export function verspaetungsMeldungen(r: Release): Roh[] {
   const gemessen = r.platform === 'crunchyroll'
   const raus: Roh[] = []
   const nachTag = new Map<string, { nummer: number; erwartet: string; bild?: string }[]>()
-  for (const [nummer, v] of Object.entries(r.schedule?.verpasst ?? {})) {
+  for (const [nummer, v] of Object.entries<VermerkMitAnkuendigung>(r.schedule?.verpasst ?? {})) {
     if (!v?.erwartetAm) continue
     const erwartet = toIsoDate(new Date(v.erwartetAm))
     raus.push({
@@ -46,7 +59,7 @@ export function verspaetungsMeldungen(r: Release): Roh[] {
       datum: erwartet,
       von: Number(nummer),
       release: r.slug,
-      ...(gemessen ? { quelle: kalenderTag(erwartet), belege: [messBeleg(erwartet, toIsoDate(new Date(v.bemerktAm ?? v.erwartetAm)), v.messBild)] } : {}),
+      ...(gemessen ? { quelle: kalenderTag(erwartet), belege: [...(v.wocheBeleg ? [wochenBeleg(v.wocheBeleg)] : []), messBeleg(erwartet, toIsoDate(new Date(v.bemerktAm ?? v.erwartetAm)), v.messBild)] } : {}),
     })
     if (!v.erschienenAm) continue
     const tag = toIsoDate(new Date(v.erschienenAm))

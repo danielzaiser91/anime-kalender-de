@@ -143,7 +143,7 @@ const TEXTE = {
   // sein zweiter Halbsatz („Wir ziehen nach, sobald der Anbieter den Tag
   // nennt") ist ein Versprechen, kein Handlungshinweis.
   'legend.estimated':
-    'Geschätzter Termin — aus dem bisherigen Wochenrhythmus fortgeschrieben. Wir ziehen nach, sobald der Anbieter den Tag nennt.',
+    'Geschätzter Termin — kein vom Anbieter genannter Tag. Wir ziehen nach, sobald der Anbieter den Tag nennt.',
   /*
     Ein Termin, den der Anbieter hat verstreichen lassen. Der Text nennt drei
     Dinge, weil ohne sie eine falsche Auskunft stehen bliebe: dass es nicht
@@ -508,7 +508,12 @@ const TEXTE = {
   'antwort.ausgeblieben': 'Folge {n} ist nicht erschienen',
   'antwort.angekuendigtFuer': 'angekündigt für {tag} den {datum}.',
   'antwort.angekuendigtFuerZeit': 'angekündigt für {tag} den {datum}, {zeit} Uhr.',
+  // Fortgeschriebener Tag (`estimated`): kein vom Anbieter genannter Tag (Wochentakt, Starttag laut Quelle, Meldetag), also „geschätzt“.
+  'antwort.erwartetFuer': 'erwartet für {tag} den {datum} (geschätzt).',
+  'antwort.erwartetFuerZeit': 'erwartet für {tag} den {datum}, {zeit} Uhr (geschätzt).',
   'antwort.verschobenVon': 'verschoben vom {datum}',
+  // Steht der neue Tag nur geschätzt da, klänge „verschoben“ nach einer Ansage des Anbieters.
+  'antwort.verschobenGeschaetzt': 'erwartet statt {datum} (geschätzt)',
   'antwort.ausgebliebenMehrere': 'Folgen {von} bis {bis} sind nicht erschienen',
   'antwort.naechsteVoraussichtlich': 'voraussichtlich {tag} ab {zeit} Uhr',
   'antwort.amDatum': 'am {datum}',
@@ -689,7 +694,7 @@ const TEXTE = {
     'Filtert Ergebnisse auf bestätigte Streaming-Verfügbarkeit.',
   'detail.estimatedDate': 'geschätzter Termin',
   'detail.estimatedWhy':
-    'Aus dem bisherigen Wochenrhythmus dieser Reihe fortgeschrieben. Wir ziehen nach, sobald der Anbieter den Tag nennt.',
+    'Kein vom Anbieter genannter Tag, sondern geschätzt, etwa aus dem Rhythmus der Reihe oder den Originalterminen. Wir ziehen nach, sobald der Anbieter den Tag nennt.',
   'detail.timeNoteSource': 'Quelle',
   'detail.assumedEpisodes': 'Folgenzahl nicht belegt — 12 angenommen',
   'detail.assumedEpisodesAnisearch': 'Folgenzahl laut aniSearch, dort als vorläufige Schätzung geführt.',
@@ -711,6 +716,7 @@ const TEXTE = {
   'quellen.colSource': 'Quelle',
   'quellen.colFeeds': 'liefert',
   'quellen.feedTermine': 'Termine',
+  'quellen.feedOriginal': 'Originaltermine als Grundlage geschätzter Folgen',
   'quellen.feedWerk': 'Titel, Cover, Genres, Jahr, Studio, Folgenzahl',
   // aniSearch liefert den **Haupttitel** seiner Seite, nicht zwingend einen
   // deutschen — bei „Maomao no Hitorigoto Dai 2 Ki" ist es eine zweite

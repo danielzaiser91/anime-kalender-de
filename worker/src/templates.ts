@@ -176,10 +176,11 @@ function eventRow(ctx: RowContext, ev: ReleaseEvent, highlight: boolean): string
   // Der Anbietername ist der Knopf zum Ansehen. Fehlt der Deeplink, bleibt er
   // schlichter Text — ein Link ins Leere wäre schlimmer als keiner.
   // Bei „Neu bei <Anbieter>“ ist die Marke selbst der Link (kein zweites „ADN ansehen“ daneben).
-  const linkText = ev.imAngebot ? `Neu bei ${plattformName}` : `${plattformName} ${ev.releaseType === 'disc' ? 'kaufen' : 'ansehen'}`
+  const marke = ev.imAngebot ? 'Neu bei' : ev.erstausgabe ? 'Erstveröffentlichung bei' : ''
+  const linkText = marke ? `${marke} ${plattformName}` : `${plattformName} ${ev.releaseType === 'disc' ? 'kaufen' : 'ansehen'}`
   const platformPart = watch
     ? `<a href="${escapeHtml(watch)}" style="color:${platform.color};text-decoration:none;font-weight:600;">${escapeHtml(linkText)} &rsaquo;</a>`
-    : escapeHtml(ev.imAngebot ? linkText : plattformName)
+    : escapeHtml(marke ? linkText : plattformName)
 
   return `<tr>
     <td style="padding:7px 0;border-top:1px solid #232c40;">

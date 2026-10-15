@@ -135,7 +135,7 @@ Claude-Läufe in Actions: `claude-verpasst-recherche.yml` (täglich 11:17 UTC, d
 Routen: `/subscribe /confirm /unsubscribe /prefs /favorites /push/*` (öffentlich, Newsletter/Push), `/lauf /pruefung /netzfund /vorfall /beleg`
 (Header `X-Lauf-Token` = ein gemeinsames Geheimnis `LAUF_TOKEN`, GET teils auch `?token=`), `/status /ereignisse` (Statusanzeige per
 Durable Object `EREIGNISSE`), `/cr-zugang`, `/land`, `/debug/*` (eigenes `DEBUG_TOKEN`, ebenfalls als Query), `/restore`, `/sync`, `/rhythmus`,
-`/feed/favoriten.ics`. Cron stündlich (`0 * * * *`); ob versendet wird, entscheidet die Berliner Ortszeit (`SEND_HOUR_BERLIN=7`).
+`/feed/favoriten.ics`. Cron stündlich (`0 * * * *`: Monitor, Wecker, Push) und eigener Digest-Trigger `0 5,6 * * *` (`DIGEST_CRON`); ob versendet wird, entscheidet die Berliner Ortszeit (`SEND_HOUR_BERLIN=7`).
 Bindings: D1 `DB`, R2 `BELEGE`, DO `EREIGNISSE`. Migrationen in `worker/migrations`; ausliefern **nur** mit
 `cd worker && npx wrangler deploy --config wrangler.toml`. Der Worker (`newsletter`) ist von der Wurzel-`wrangler.jsonc`
 (Assets-Hosting, nur für `npm run preview`/`deploy`) getrennt — zwei Cloudflare-Konfigurationen im selben Repo.

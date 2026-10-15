@@ -93,7 +93,7 @@ export function SchnellChips({
             >
               <span aria-hidden="true" className="text-xs">{z === 'ja' ? '✓' : z === 'nein' ? '⊘' : k.zeichen}</span>
               {k.text}
-              {k.id === 'favoriten' && favoriteCount ? <span className="font-normal opacity-60">({favoriteCount})</span> : null}
+              {k.id === 'favoriten' && favoriteCount ? <span className="font-normal opacity-70">({favoriteCount})</span> : null}
             </button>
           )
         })}

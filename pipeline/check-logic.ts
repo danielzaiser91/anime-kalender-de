@@ -6266,7 +6266,7 @@ pruefe(
   )
   pruefe(
     'das ? hat dort eine eigene Fläche und eine Hover-Farbe',
-    /bg-ak-flaeche-2[^']*hover:bg-ak-rand/.test(uiQuelle),
+    /bg-ak-flaeche-2[^']*hover:bg-ak-flaeche-3/.test(uiQuelle),
     'Fläche oder Hover fehlen',
   )
   pruefe(
@@ -7371,7 +7371,7 @@ pruefe(
   const hk = r.uebernommen.filter((f) => f.key === 'hana kimi s2').map((f) => f.episode)
   pruefe('Wochenprogramm: nachgereichtes Paket mit Anschluss wird übernommen (Hana-Kimi 10–12)', hk.join() === '10,11,12', r.uebernommen)
   pruefe('Wochenprogramm: Lücke zur letzten Folge ist eine Abweichung, keine Übernahme (Schleim 23 nach 21)', r.abweichungen.some((a) => a.von === 23) && !r.uebernommen.some((f) => f.episode === 23))
-  pruefe('Wochenprogramm: vergangene oder heutige Zeilen bleiben unberührt (Schleim „22" am 25.09.)', !r.uebernommen.some((f) => f.episode === 22 && f.key.includes('schleim')) && !r.abweichungen.some((a) => a.von === 22))
+  pruefe('Wochenprogramm: eine heutige Zeile, die nicht anschließt, wird gemeldet und nicht übernommen (Schleim „22" am 25.09., gemessen 21)', !r.uebernommen.some((f) => f.episode === 22 && f.key.includes('schleim')) && r.abweichungen.some((a) => a.von === 22))
   pruefe('Wochenprogramm: anderer Name, eindeutige Kennung — über die Kennung zugeordnet', r.uebernommen.some((f) => f.key === 'daemons of the shadow realm' && f.episode === 22))
   pruefe('Wochenprogramm: Kennung mit mehreren Staffeln entscheidet nicht', r.ohneEintrag.some((x) => x.startsWith('Franchise A')) && !r.uebernommen.some((f) => f.seriesId === 'GMEHRFACH'))
   pruefe('Wochenprogramm: Untertitel-Zeilen werden nie übernommen', !r.uebernommen.some((f) => f.episode === 13))
