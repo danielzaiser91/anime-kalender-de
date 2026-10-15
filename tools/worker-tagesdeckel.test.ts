@@ -144,7 +144,7 @@ console.log('Tagesdeckel')
   const quellen = readdirSync('worker/src')
     .filter((f) => f.endsWith('.ts'))
     .filter((f) => readFileSync(`worker/src/${f}`, 'utf8').includes("from './tagesdeckel.ts'"))
-  pruefe(quellen.join() === 'pruefung-speichern.ts', `nur die Meldungs-Route nutzt den Deckel (${quellen.join(', ')}) — Anmeldung, Push, Cron bleiben frei`)
+  pruefe(quellen.join() === 'lesedeckel.ts,pruefung-speichern.ts', `nur Meldungs-Route und Lese-Deckel nutzen den Deckel (${quellen.join(', ')}) — Anmeldung, Push, Cron bleiben frei (istFrei)`)
 }
 
 console.log('Unveränderte Meldung')

@@ -30,6 +30,7 @@ pipeline/check-anisearch-reihen.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
 pipeline/check-antwort-jetzt.ts
+pipeline/check-ausgeblieben-text.ts
 pipeline/check-auto-disc-handeintrag.ts
 pipeline/check-beleg-anbieter.ts
 pipeline/check-beleg-bis-anker.ts
@@ -88,6 +89,7 @@ pipeline/check-kino-zuletzt.ts
 pipeline/check-leerer-kasten.ts
 pipeline/check-logic.ts
 pipeline/check-mal-teilung.ts
+pipeline/check-minuten-takt.ts
 pipeline/check-motn-reihe.ts
 pipeline/check-nein-handbeleg-abschluss.ts
 pipeline/check-nein-handbeleg-aufrufer.ts
@@ -162,6 +164,7 @@ tools/design-kontrast.mjs
 tools/design-status.test.mjs
 tools/dienst-fetch.test.ts
 tools/handbeleg-verwaist.test.mjs
+tools/laeufe-abruf.test.mjs
 tools/pruef-bestand.test.mjs
 tools/tmdb-bilddatum.test.mjs
 tools/untersucher-schluessel.test.mjs
