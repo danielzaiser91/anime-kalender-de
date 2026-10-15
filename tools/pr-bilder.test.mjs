@@ -18,8 +18,9 @@ writeFileSync(LEERE_CONFIG, '')
 // Leere globale Konfiguration: ein globales core.hooksPath beträfe den Test sonst.
 const KENNUNG = { GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: LEERE_CONFIG, GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t' }
 
-const git = (cwd, ...args) => execFileSync(GIT, args, { cwd, encoding: 'utf8', env: { ...process.env, ...KENNUNG } }).trim()
-const werkzeug = (cwd, ...args) => spawnSync(process.execPath, [WERKZEUG, ...args], { cwd, encoding: 'utf8', env: { ...process.env, ...KENNUNG } })
+const UMGEBUNG = { ...process.env, ...KENNUNG }
+const git = (cwd, ...args) => execFileSync(GIT, args, { cwd, encoding: 'utf8', env: UMGEBUNG }).trim()
+const werkzeug = (cwd, ...args) => spawnSync(process.execPath, [WERKZEUG, ...args], { cwd, encoding: 'utf8', env: UMGEBUNG })
 
 // Reine Funktionen.
 assert.equal(repoAus('https://github.com/danielzaiser91/anime-kalender-de.git'), 'danielzaiser91/anime-kalender-de')
@@ -81,12 +82,20 @@ try {
   assert.equal(git(fern, 'rev-parse', 'refs/heads/bilder/panel-test'), kopf)
   assert.equal(git(fern, 'rev-list', '--parents', '-n', '1', kopf), kopf, 'Zweig hat einen Vorgänger')
   assert.equal(git(fern, 'ls-tree', '--name-only', '-r', kopf), 'nachher.png\nvorher.png')
-  assert.deepEqual(execFileSync(GIT, ['cat-file', 'blob', `${kopf}:vorher.png`], { cwd: fern }), bytes)
+  assert.deepEqual(execFileSync(GIT, ['cat-file', 'blob', `${kopf}:vorher.png`], { cwd: fern, env: UMGEBUNG }), bytes)
 
   // Der Hook wurde nicht umgangen: keine Hook-Einstellung im Repo, und ein echter Commit scheitert weiter am Hook.
-  assert.equal(spawnSync(GIT, ['config', '--get', 'core.hooksPath'], { cwd: arbeit }).status, 1)
+  assert.equal(spawnSync(GIT, ['config', '--local', '--get', 'core.hooksPath'], { cwd: arbeit, env: UMGEBUNG }).status, 1)
   git(arbeit, 'add', 'vorher.png')
-  assert.throws(() => execFileSync(GIT, ['commit', '-m', 'x'], { cwd: arbeit, stdio: 'pipe', env: { ...process.env, ...KENNUNG } }))
+  const commit = spawnSync(GIT, ['commit', '-m', 'x'], { cwd: arbeit, encoding: 'utf8', env: UMGEBUNG })
+  assert.notEqual(commit.status, 0)
+  assert.match(commit.stderr, /Hook lief/)
+
+  // Verzeichnis mit führendem Bindestrich: ohne `--` läse git den Pfad als Option.
+  mkdirSync(path.join(arbeit, '-ordner'))
+  writeFileSync(path.join(arbeit, '-ordner', 'x.png'), bytes)
+  const mitBindestrich = werkzeug(arbeit, 'bindestrich', '-ordner/x.png')
+  assert.equal(mitBindestrich.status, 0, mitBindestrich.stderr)
 
   // Ein vorhandener Zweig wird nur mit --ersetzen überschrieben.
   writeFileSync(vorher, Buffer.from([7, 7, 7]))
@@ -101,8 +110,9 @@ try {
 
   // Falsche Eingabe: Exit 1, nichts gepusht.
   assert.equal(werkzeug(arbeit, 'Falsch Name', vorher).status, 1)
-  assert.equal(git(fern, 'branch', '--list', 'bilder/*').split('\n').length, 1)
+  assert.equal(git(fern, 'branch', '--list', 'bilder/*').split('\n').length, 2) // panel-test und bindestrich, kein "Falsch Name"
   console.log('pr-bilder.test: ok')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
+  rmSync(LEERE_CONFIG, { force: true })
 }
