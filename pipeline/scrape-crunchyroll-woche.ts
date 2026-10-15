@@ -83,7 +83,8 @@ export interface WochenProgramm {
  * **Die Regel.** Das Wochenprogramm wird von Hand gepflegt und
  * lag im PoC einmal eine Folge daneben (Schleim S4: „Folge 22" am 25.09., gemessen 21). Deshalb:
  *
- * - nur **künftige** Synchro-Zeilen (Datum nach heute);
+ * - nur Synchro-Zeilen **ab heute**: Am Sendetag selbst bleibt die Ankündigung am Termin, sonst fiele er um 00:06
+ *   auf `estimated` zurück und verlöre die Bindung an das Wochenprogramm (Tomb Raider King F12, 14.10.2026);
  * - nur an einen vorhandenen Kalendereintrag mit derselben Serienkennung;
  * - nur, wenn die erste Folge an die letzte beobachtete anschließt (+1) **und** das Datum nach
  *   deren Datum liegt — sonst ist es eine Abweichung, die gemeldet und nicht übernommen wird;
@@ -100,7 +101,7 @@ export function entscheiden(
   const abweichungen: WochenProgramm['abweichungen'] = []
   const ohneEintrag: string[] = []
   for (const e of eintraege) {
-    if (e.sprache !== 'de' || e.datum <= heute) continue
+    if (e.sprache !== 'de' || e.datum < heute) continue
     /*
       Erst über den Titel, dann über die Kennung: Das Wochenprogramm schreibt „Das Band der
       Unterwelt", der Kalender führt den englischen Namen. Die Kennung zählt aber nur, wenn sie
