@@ -12,6 +12,8 @@ import { verpasstAmTermin } from './bau/verpasst-am-termin.ts'
 import { staerksteJeAnbieter } from './lib/beleg-anbieter.ts'
 import { istArtikel } from './lib/beleg-lesung.ts'
 import { verspaetungsMeldungen } from './lib/news-verspaetung.ts'
+import { newsSatz } from '../web/src/lib/news-text.ts'
+import { newsSatz as mailSatz } from '../worker/src/mail-abschnitte.ts'
 import { terminFrist, terminZeitpunkt } from './lib/ausgeblieben.ts'
 import { belegFuerTermin, belegeAnhaengen, bildSchluessel, fortschreiben, zeilenSchluessel, type WocheBelege } from './lib/woche-beleg.ts'
 import type { WochenEintrag } from './scrape-crunchyroll-woche.ts'
@@ -91,6 +93,18 @@ console.log('\nWochenprogramm-Belege: die Meldung')
   pruefe('ohne Foto der Ankündigung bleibt es bei einem Beleg (der Kalender)', ohne?.belege?.length === 1 && ohne.belege[0]!.url.includes('simulcastcalendar'), ohne?.belege)
   pruefe('die tägliche Beleg-Lesung liest den Wanderartikel nicht (sie überschriebe Datum und Bild des Belegs), andere Season-Artikel schon',
     !istArtikel(ARTIKEL) && istArtikel('https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026'))
+  pruefe('Wortwahl „Nicht erschienen“: mit Foto der Ankündigung „angekündigt“, sonst „erwartet“ — Seite und Mail gleich',
+    newsSatz(m!) === 'Folge 12 war für den 14.10.2026 angekündigt und ist nicht erschienen' && mailSatz(m!) === 'Folge 12 war für den 14.10.2026 angekündigt und ist nicht erschienen' &&
+    newsSatz(ohne!) === 'Folge 12 war für den 14.10.2026 erwartet und ist nicht erschienen' && mailSatz(ohne!) === 'Folge 12 war für den 14.10.2026 erwartet und ist nicht erschienen',
+    [newsSatz(ohne!), mailSatz(ohne!)])
+  const spaet = (mitFoto: boolean) => {
+    const v = { ...vermerke[0]!, erschienenAm: '2026-10-15T17:25:00.000Z', wocheBeleg: mitFoto ? wocheBeleg : undefined }
+    const rel = { ...release, schedule: { ...release.schedule, verpasst: verpasstAmTermin('tomb-raider-king', [v]) } } as Release
+    return verspaetungsMeldungen(rel).find((x) => x.art === 'nachgereicht')!
+  }
+  pruefe('Wortwahl „Verspätet erschienen“: nur mit Foto der Ankündigung „angekündigt war“, sonst „erwartet war“',
+    newsSatz(spaet(true)) === 'Folge 12 ist da, angekündigt war der 14.10.2026' && newsSatz(spaet(false)) === 'Folge 12 ist da, erwartet war der 14.10.2026',
+    [newsSatz(spaet(true)), newsSatz(spaet(false))])
 }
 
 if (verletzt) {

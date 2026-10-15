@@ -76,6 +76,8 @@ export interface NewsMeldung {
   anzahl?: number
   /** Bei `nachgereicht`: die angekündigten Tage der nachgereichten Folgen. */
   erwartet?: string[]; planmaessig?: number[] // planmäßige Folgen, die am selben Tag mit erschienen
+  /** Bei `verspaetet`/`nachgereicht`: der Tag stand wirklich in einer Ankündigung (Wochenprogramm-Beleg). Sonst ist er errechnet. */
+  angekuendigtBelegt?: true
   release?: string
   /**
    * Der Teil der Reihe, um den es geht — nur wenn er nicht der Kopf ist.
@@ -137,6 +139,11 @@ export interface NewsMeldung {
    * Ankündigung widerlegt hat — nicht, weil sie uns gerade fehlt.
    */
   zurueckgezogen?: { grund?: string }
+}
+
+/** „angekündigt“ nur bei belegter Ankündigung, sonst „erwartet“ (der Tag ist dann Rhythmus oder Originaltermin plus Versatz). */
+export function ankuendigungsWort(m: Pick<NewsMeldung, 'angekuendigtBelegt'>): 'angekündigt' | 'erwartet' {
+  return m.angekuendigtBelegt ? 'angekündigt' : 'erwartet'
 }
 
 /** Rückzugsgrund, wenn die Ankündigung aus einer Meldung mit nur Originalton kam — ihr eigener Beleg widerlegt sie (10.10.2026). */

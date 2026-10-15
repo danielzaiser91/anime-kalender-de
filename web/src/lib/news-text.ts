@@ -1,6 +1,7 @@
 import { PLATFORMS, type NewsMeldung, type PlatformId } from '@shared/types.ts'
 import { translate as t } from './i18n.tsx'
 import { weekdayName } from '@shared/time.ts'
+import { ankuendigungsWort } from '@shared/news-typen.ts'
 import { omuDatumText, omuStartText } from '@shared/ankuendigung.ts'
 import { folgenProWoche } from '@shared/folgenrhythmus.ts'
 
@@ -75,20 +76,21 @@ export function newsSatz(m: NewsMeldung, am?: string): string {
     case 'kino':
       return t('news.kino', { datum }) + lautQuelle(m, am)
     case 'verspaetet':
-      return t('news.verspaetet', { von: m.von ?? '', datum })
+      return t('news.verspaetet', { von: m.von ?? '', datum, wie: ankuendigungsWort(m) })
     case 'nachgetragen':
       return m.zeit && m.datum
         ? t('news.nachgetragenZeit', { von: m.von ?? 1, tag: weekdayName(m.datum), datum, zeit: uhrzeitKurz(m.zeit), anbieter })
         : t('news.nachgetragen', { von: m.von ?? 1, datum, anbieter })
     case 'nachgereicht': {
       const erwartet = aufzaehlen((m.erwartet ?? []).map((d) => (m.erwartet!.length > 1 ? datumKurz(d).slice(0, 6) : datumKurz(d))))
+      const wie = ankuendigungsWort(m)
       const p = m.planmaessig
       const plan = p?.length ? (p.length > 1 ? t('news.planMehrere', { von: p[0]!, bis: p.at(-1)! }) : t('news.planEine', { n: p[0]! })) : ''
       const mehrere = m.bis !== undefined && m.bis !== m.von
-      if (plan) return t(mehrere ? 'news.nachgereichtMehrereMitPlan' : 'news.nachgereichtMitPlan', { von: m.von ?? '', bis: m.bis ?? '', plan, erwartet })
+      if (plan) return t(mehrere ? 'news.nachgereichtMehrereMitPlan' : 'news.nachgereichtMitPlan', { von: m.von ?? '', bis: m.bis ?? '', plan, erwartet, wie })
       return mehrere
-        ? t('news.nachgereichtMehrere', { von: m.von ?? '', bis: m.bis ?? '', erwartet })
-        : t('news.nachgereicht', { von: m.von ?? '', erwartet })
+        ? t('news.nachgereichtMehrere', { von: m.von ?? '', bis: m.bis ?? '', erwartet, wie })
+        : t('news.nachgereicht', { von: m.von ?? '', erwartet, wie })
     }
   }
 }

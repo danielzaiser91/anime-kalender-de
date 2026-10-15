@@ -9,6 +9,7 @@
  * dort ohne HTML, damit man die Regeln lesen kann.
  */
 import { SPRACHE_HINWEIS, SPRACHE_MARKE } from '../../shared/ics.ts'
+import { ankuendigungsWort } from '../../shared/news-typen.ts'
 import { omuStartText } from '../../shared/ankuendigung.ts'
 import { folgenProWoche } from '../../shared/folgenrhythmus.ts'
 import { OFFIZIELL_SATZ } from '../../shared/news-offiziell-satz.ts'
@@ -133,7 +134,7 @@ export function newsSatz(m: NewsMeldung): string {
     case 'kino':
       return `Kinostart am ${datum}`
     case 'verspaetet':
-      return `Folge ${m.von} war für den ${datum} angekündigt und ist nicht erschienen`
+      return `Folge ${m.von} war für den ${datum} ${ankuendigungsWort(m)} und ist nicht erschienen`
     case 'nachgetragen':
       return `Rückwirkend eingetragen: Folge ${m.von ?? 1} erschien am ${datum}${m.zeit ? ` um ${m.zeit} Uhr` : ''}${anbieter ? ` bei ${anbieter}` : ''} mit deutscher Synchro`
     case 'nachgereicht':

@@ -7985,7 +7985,7 @@ console.log('\nLücke:')
   } as never
   const nachgereicht = verspaetungsMeldungen(nach).find((m) => m.art === 'nachgereicht')
   pruefe('Nachgereicht: 8–10 verspätet zusammen mit der geplanten Folge 11',
-    nachgereicht?.planmaessig?.join() === '11' && newsSatz(nachgereicht) === 'Folgen 8–10 sind verspätet zusammen mit der geplanten Folge 11 erschienen, angekündigt waren 13.09., 20.09. und 27.09.',
+    nachgereicht?.planmaessig?.join() === '11' && newsSatz(nachgereicht) === 'Folgen 8–10 sind verspätet zusammen mit der geplanten Folge 11 erschienen, erwartet waren 13.09., 20.09. und 27.09.',
     nachgereicht && newsSatz(nachgereicht))
   pruefe('Beleg-Bild: die Nachreich-Meldung trägt das Bild des Kalendertags, die Verspätungsmeldung das ihres Tages',
     nachgereicht?.belege?.[0]?.bild === 'www.crunchyroll.com/simulcastcalendar/2026-10-04/2026-10-04-11-02.jpg' && verspaetungsMeldungen(nach).find((m) => m.art === 'verspaetet' && m.von === 9)?.belege?.[0]?.bild === 'www.crunchyroll.com/simulcastcalendar/2026-09-20/2026-10-03-20-01.jpg')
