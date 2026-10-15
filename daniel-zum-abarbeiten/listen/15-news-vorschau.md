@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-14. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-15. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-24 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+23 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -20,7 +20,6 @@ Stand: 2026-10-14. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-26, 2026-11 (Monat) | netflix | ⚠️ offen | [Netflix-Termin des Thriller-Anime »Fool Night« + Teaser](https://www.anime2you.de/news/1043399/fool-night-netflix-termin/) |
 | 2026-11-03, 2026-11 (Monat) | netflix | – unklar | [Netflix kündigt neuen Original-Anime »Bass X Machina« an + Teaser](https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/) |
 | 2026-11-03, 2026-11-05, 2026-11 (Monat) | kino | – unklar | [Deutscher Kinostart von »Godzilla Minus Zero« steht fest + Teaser](https://www.anime2you.de/news/1033172/godzilla-minus-zero-deutscher-kinostart/) |
-| 2027-01 (Monat) | crunchyroll | – unklar | [Crunchyroll zeigt »Red Riding Hood: A Detective Story« im Simulcast + Trailer](https://www.anime2you.de/news/1057673/crunchyroll-zeigt-red-riding-hood/) |
 | 2027-01 (Monat) | ? | – unklar | [Start von »The True Saint Was Banished« steht fest + Teaser](https://www.anime2you.de/news/1056952/start-von-the-true-saint-was-banished/) |
 | 2027-01-26, 2027-01 (Monat) | crunchyroll, kino | ✅ zugesagt | [Crunchyroll bringt »Witch on the Holy Night« ins Kino + Trailer](https://www.anime2you.de/news/1048494/crunchyroll-witch-on-the-holy-night-kinostart/) |
 | 2027-01 (Monat) | ? | – unklar | [»SSS-Class Revival Hunter« erhält eine Anime-Adaption + Simulcast](https://www.anime2you.de/news/1048438/sss-class-revival-hunter-erhaelt-anime/) |
@@ -40,52 +39,52 @@ Dazu 46 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersic
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 8 |
-| adn-catalog | 1.9 Tage her | 109 |
+| adn-catalog | 2.9 Tage her | 109 |
 | adn-news | 0.1 Tage her | 74 |
-| anilist-voices | 2.0 Tage her | 3 |
-| anime-offline-database | 2.0 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 99 |
-| anisearch | 0.9 Tage her | 6 |
-| anisearch-cover-eigen | 2.5 Tage her | 1874 |
-| anisearch-dubs | 2.0 Tage her | 11910 |
-| anisearch-eintraege | 2.0 Tage her | 400 |
-| anisearch-folgen | 2.0 Tage her | 1958 |
-| anisearch-slugs | 2.0 Tage her | 14846 |
-| anisearch-zuordnung | 1.0 Tage her | 18458 |
-| ann-voices | 2.0 Tage her | 8876 |
+| anilist-voices | 3.0 Tage her | 3 |
+| anime-offline-database | 3.0 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 98 |
+| anisearch | 0.9 Tage her | 14820 |
+| anisearch-cover-eigen | 3.5 Tage her | 1874 |
+| anisearch-dubs | 3.0 Tage her | 11910 |
+| anisearch-eintraege | 3.0 Tage her | 400 |
+| anisearch-folgen | 3.0 Tage her | 1958 |
+| anisearch-slugs | 3.0 Tage her | 14846 |
+| anisearch-zuordnung | 1.0 Tage her | 18460 |
+| ann-voices | 3.0 Tage her | 8876 |
 | beleg-lesungen | 0.0 Tage her | 57 |
-| cartoon-folgen | 2.0 Tage her | 150 |
+| cartoon-folgen | 3.0 Tage her | 150 |
 | cartoon-reihen | 1.0 Tage her | 0 |
-| cartoons | 1.0 Tage her | 0 |
-| cinestar | 2.0 Tage her | 1 |
-| cr-einzelwerke | 20.7 Tage her | 0 |
-| cr-filmbloecke | 20.7 Tage her | 0 |
+| cartoons | 1.0 Tage her | 1 |
+| cinestar | 3.0 Tage her | 1 |
+| cr-einzelwerke | 21.7 Tage her | 0 |
+| cr-filmbloecke | 21.7 Tage her | 0 |
 | crunchyroll | 0.0 Tage her | 20 |
 | crunchyroll-dub | 0.0 Tage her | 1133 |
-| crunchyroll-neu | 0.0 Tage her | 127 |
-| crunchyroll-offene | 1.9 Tage her | 14 |
+| crunchyroll-neu | 0.0 Tage her | 130 |
+| crunchyroll-offene | 2.9 Tage her | 14 |
 | crunchyroll-woche | 0.1 Tage her | 65 |
-| fsk | 8.6 Tage her | 3 |
-| justwatch-audio | 1.9 Tage her | 792 |
-| kinoheld | 2.0 Tage her | 1 |
-| kitsu-folgen | 2.0 Tage her | 23 |
-| link-check | 8.6 Tage her | 287 |
+| fsk | 9.6 Tage her | 3 |
+| justwatch-audio | 2.9 Tage her | 792 |
+| kinoheld | 3.0 Tage her | 1 |
+| kitsu-folgen | 3.0 Tage her | 23 |
+| link-check | 9.6 Tage her | 287 |
 | messbelege | 0.1 Tage her | 0 |
-| motn | 5.7 Tage her | 1943 |
+| motn | 6.7 Tage her | 1943 |
 | motn-changes | 0.0 Tage her | 3 |
-| rohfolgen | 0.5 Tage her | 0 |
-| rtlplus-folgen | 2.0 Tage her | 3 |
-| tmdb-banner | 2.0 Tage her | 82 |
-| tmdb-folgen | 2.0 Tage her | 883 |
-| tmdb-kino | 2.0 Tage her | 3 |
-| tmdb-poster | 2.0 Tage her | 72 |
-| tmdb-titles | 2.0 Tage her | 248 |
+| rohfolgen | 1.5 Tage her | 0 |
+| rtlplus-folgen | 3.0 Tage her | 3 |
+| tmdb-banner | 3.0 Tage her | 82 |
+| tmdb-folgen | 3.0 Tage her | 883 |
+| tmdb-kino | 3.0 Tage her | 3 |
+| tmdb-poster | 3.0 Tage her | 72 |
+| tmdb-titles | 3.0 Tage her | 248 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 1.0 Tage her | 33 |
-| tv-de | 0.2 Tage her | 58 |
-| tv-programm | 0.1 Tage her | 291 |
-| vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 2.0 Tage her | 4788 |
-| wikidata-titel | 2.0 Tage her | 15 |
+| trailer | 1.0 Tage her | 1 |
+| tv-de | 0.2 Tage her | 60 |
+| tv-programm | 0.1 Tage her | 290 |
+| vorfaelle | 0.1 Tage her | 0 |
+| wikidata-imdb | 3.0 Tage her | 4788 |
+| wikidata-titel | 3.0 Tage her | 15 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 2.0 Tage her | 1 |
+| youtube-check | 3.0 Tage her | 1 |
