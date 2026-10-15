@@ -25,7 +25,6 @@ import { ladeMesswerte } from './monitor-statistik.ts'
 import {
   BRAND,
   confirmMail,
-  digestMail,
   outageMail,
   page,
   restoreMail,
@@ -37,32 +36,17 @@ import { Ereignisse, ereignisSenden } from './ereignisse.ts'
 import { leererPush, pushVersand } from './push.ts'
 import { istErschienen } from '../../shared/logic.ts'
 import { type Env } from './env.ts'
+import { digestFuer, type DigestKontext, type Reihen, type SubscriberRow } from './digest-inhalt.ts'
+import { DIGEST_CRON, versendeDigest } from './digest-versand.ts'
 import { ISO_JETZT, berlinParts, fehlerLog, jetztIso, zahlOderNull } from './werte.ts'
 import { handlePruefung } from './pruefung.ts'
-import { loadNews, newsFuerAbonnent, weitereAusNews } from './news-quelle.ts'
+import { loadNews, weitereAusNews } from './news-quelle.ts'
 import { handleLauf } from './lauf.ts'
 import { handleCrZugang } from './cr-zugang.ts'
 import { handleBeleg } from './beleg.ts'; import { loescheAbgelaufenes } from './loeschfristen.ts'; import { starteFaelligeLaeufe } from './wecker.ts'
 
 export { Ereignisse }
 export { Schnellmesser } from './schnellmesser.ts'
-
-interface SubscriberRow {
-  id: string
-  email: string
-  frequency: 'daily' | 'weekly'
-  platforms: string
-  favorites: string
-  /** Auch Neues aus Reihen melden, von denen ein Titel gemerkt ist. */
-  franchise_hinweis: number
-  unsub_token: string
-  pref_token: string
-  /**
-   * Wann diese Adresse zuletzt eine Mail bekam — die Grenze dafür, welcher
-   * Neuzugang schon gemeldet wurde. `null`, solange noch keine verschickt ist.
-   */
-  last_sent_at: string | null
-}
 
 /** Kommagetrennte Zahlenliste aus der Datenbank in ein Set. */
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i
@@ -781,8 +765,6 @@ async function loadEvents(env: Env): Promise<ReleaseEvent[]> {
  * diesen Abschnitt. Das ist der richtige Ausgang: Lieber ein Newsletter ohne
  * die frohe Botschaft als gar keiner.
  */
-/** Je Titel seine Reihe und sein Jahr — siehe `reihen.json` im Bau. */
-type Reihen = Record<string, { f: number; j: number | null }>
 
 /**
  * Die Reihen-Zuordnung, fuer den Hinweis auf Neues aus gemerkten Reihen.
@@ -907,117 +889,22 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
       .bind(frequency)
       .all<SubscriberRow>()
 
-    let sent = 0
-    for (const sub of results ?? []) {
-      const wanted = sub.platforms ? sub.platforms.split(',') : []
-      const events = wanted.length ? window.filter((e) => wanted.includes(e.platform)) : window
-
-      // Gemerkte Titel nach vorn: Eine neue Folge einer Serie, der jemand
-      // folgt, ist ihm wichtiger als irgendein Disc-Release.
-      const favorites = leseFavoriten(sub.favorites, kennungen)
-
-      /**
-       * Gemerkte Titel, die **seit der letzten Mail an diesen Abonnenten** eine
-       * Synchro bekommen haben.
-       *
-       * Die Grenze ist bewusst der persönliche Versandzeitpunkt und nicht ein
-       * festes Fenster: Wer eine Woche lang keine Mail bekam, weil nichts
-       * anstand, soll die Nachricht trotzdem noch sehen. Umgekehrt verhindert
-       * sie, dass derselbe Titel in jeder Mail erneut gefeiert wird.
-       */
-      const seit = (sub.last_sent_at ?? '').slice(0, 10)
-      const eigene = alleNeu.filter((n) => favorites.has(n.id) && (!seit || n.seit > seit))
-
-      /**
-       * **Neues aus einer Reihe, von der etwas gemerkt ist.**
-       *
-       * Daniel am 28.08.2026: „ich will informiert werden weil ich es sonst
-       * evtl verpasse." Wer die letzte Staffel gemerkt hat, erfaehrt sonst nie,
-       * dass eine neue angekuendigt wurde — sie ist ein eigener Titel, und den
-       * hat er noch nicht gemerkt, weil es ihn gerade erst gibt.
-       *
-       * **Zwei Riegel gegen Laerm**, beide einfach:
-       *
-       * - Nur, was **nicht aelter** ist als der gemerkte Titel. Wird eine OVA
-       *   von 2005 erstmals erfasst, ist sie fuer den Bestand neu, aber keine
-       *   Ankuendigung. Ohne Jahresangabe gilt sie als neu — Schweigen waere
-       *   hier der groessere Fehler.
-       * - Nur einmal, ueber dieselbe Grenze wie die uebrigen Neuzugaenge.
-       *
-       * Gemessen kommen rund 0,2 Titel je Tag neu in den Bestand; eine Flut
-       * ist daraus nicht zu erwarten.
-       */
-      const meineReihen = new Map<number, number>()
-      if (sub.franchise_hinweis) {
-        for (const id of favorites) {
-          const ausReihenDatei = reihen[String(id)]
-          const reihe = ausReihenDatei?.f ?? alleNeu.find((n) => n.id === id)?.franchiseId
-          if (!reihe) continue
-          const jahr = ausReihenDatei?.j ?? null
-          const bisher = meineReihen.get(reihe)
-          if (bisher === undefined || (jahr !== null && jahr < bisher)) meineReihen.set(reihe, jahr ?? 0)
-        }
-      }
-      const ausReihe = sub.franchise_hinweis
-        ? alleNeu.filter(
-            (n) =>
-              !favorites.has(n.id) &&
-              (!seit || n.seit > seit) &&
-              n.franchiseId !== undefined &&
-              meineReihen.has(n.franchiseId) &&
-              (n.jahr == null || n.jahr >= (meineReihen.get(n.franchiseId) ?? 0)),
-          )
-        : []
-      const neuMitSynchro = [...eigene, ...ausReihe.map((n) => ({ ...n, ausReihe: true }))]
-      /* Ein weiterer Anbieter für einen gemerkten Titel, seit der letzten Mail (18.09.2026). */
-      const auchBei = weitereAnbieter.filter((w) => favorites.has(w.id) && (!seit || w.am > seit))
-
-      /**
-       * Ohne Termine **und** ohne Neuzugang gibt es nichts zu erzählen.
-       *
-       * Eine angekündigte Synchro ohne Termin ist genau die Nachricht, auf die
-       * jemand monatelang wartet — sie löst eine Mail aus, auch ohne Termine.
-       */
-      if (!events.length && !neuMitSynchro.length && !auchBei.length) continue
-
-      const base = (env.WORKER_URL || '').replace(/\/$/, '')
-      const unsubUrl = `${base}/unsubscribe?token=${sub.unsub_token}`
-      /**
-       * Befristeter Abgleich-Link statt des Dauerschlüssels.
-       *
-       * Der `pref_token` verlässt den Server nicht mehr (siehe `handleSync`).
-       * Je Versand entsteht ein neuer, dreißig Tage gültiger Schlüssel — eine
-       * drei Monate alte weitergeleitete Mail führt damit ins Leere, eine
-       * gestern empfangene funktioniert.
-       */
-      const syncToken = crypto.randomUUID()
-      await env.DB.prepare('UPDATE subscribers SET sync_token = ?1, sync_expires = ?2 WHERE id = ?3')
-        .bind(syncToken, new Date(now.getTime() + 30 * 24 * 60 * 60_000).toISOString(), sub.id)
-        .run()
-      const syncUrl = `${base}/sync?token=${syncToken}`
-      // Der Umstell-Knopf zeigt auf den jeweils **anderen** Rhythmus — was in
-      // der Mail steht, ist ja der aktuelle.
-      const rhythmusUrl = `${base}/rhythmus?token=${syncToken}&auf=${frequency === 'daily' ? 'weekly' : 'daily'}`
-      const meineNews = newsFuerAbonnent(news, seit, iso, until, frequency)
-      const mail = digestMail(events, frequency, env.SITE_URL, unsubUrl, {
-        favorites,
-        syncUrl,
-        rhythmusUrl,
-        links,
-        neuMitSynchro,
-        auchBei,
-        news: meineNews,
-      })
-      try {
-        await sendMail(env, { to: sub.email, ...mail, unsubscribeUrl: unsubUrl })
-        sent++
-        await env.DB.prepare('UPDATE subscribers SET last_sent_at = ?1 WHERE id = ?2')
-          .bind(now.toISOString(), sub.id)
-          .run()
-      } catch (err) {
-        fehlerLog('Versand an einen Abonnenten fehlgeschlagen', err)
-      }
+    const kontext: DigestKontext = {
+      frequency,
+      iso,
+      until,
+      window,
+      alleNeu,
+      reihen,
+      weitereAnbieter,
+      kennungen,
+      news,
+      links,
+      workerUrl: env.WORKER_URL || '',
+      siteUrl: env.SITE_URL,
     }
+    const posten = (results ?? []).map((sub) => digestFuer(sub, kontext)).filter((p) => p !== null)
+    const sent = await versendeDigest(env, posten, now)
 
     if (!force) {
       await env.DB.prepare('INSERT OR REPLACE INTO send_log (run_key, sent_at, recipients) VALUES (?1, ?2, ?3)')
@@ -1589,19 +1476,24 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
     }
 }
 
+const digestMitLog = (env: Env, now: Date) =>
+  runDigest(env, now)
+    .then((msg) => console.log(`[digest] ${msg}`))
+    .catch((err) => fehlerLog('[digest] fehlgeschlagen', err))
+
 export default {
   fetch: (request: Request, env: Env, ctx: ExecutionContext): Promise<Response> =>
     mitAuffangnetz(new URL(request.url).pathname, cors(env), () => verteile(request, env, ctx)),
 
-  async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+  /** Der Digest hat einen eigenen Trigger und damit eigene 50 Unteraufrufe; alles Übrige teilt sich den stündlichen. */
+  async scheduled(event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     const now = new Date()
+    if (event.cron === DIGEST_CRON) {
+      ctx.waitUntil(digestMitLog(env, now))
+      return
+    }
     ctx.waitUntil(sichereSchnellmessung(env.SCHNELLMESSER).catch((e) => fehlerLog('[schnell]', e))); ctx.waitUntil(loescheAbgelaufenes(env, now)) // Löschfristen der Datenschutzerklärung
     ctx.waitUntil(starteFaelligeLaeufe(env).catch((e) => fehlerLog('[wecker]', e))) // Newsletter und Überwachung laufen getrennt, fällt eines aus, laufen die anderen weiter
-    ctx.waitUntil(
-      runDigest(env, now)
-        .then((msg) => console.log(`[digest] ${msg}`))
-        .catch((err) => fehlerLog('[digest] fehlgeschlagen', err)),
-    )
     // Welches Land bekommt ein Cron-Lauf? Entscheidet, ob sich die Erneuerung des Crunchyroll-Zugangs ohne Daniels Rechner automatisieren lässt.
     ctx.waitUntil(
       crunchyrollLand('cron')
