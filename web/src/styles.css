@@ -44,9 +44,12 @@
   --color-ak-finale-text: var(--ak-finale-text);
   --color-ak-katalog: var(--ak-katalog);
   --color-ak-katalog-text: var(--ak-katalog-text);
+  --color-ak-marke: var(--ak-marke);
   --color-ak-heute: var(--ak-heute);
   /* Rollen der Design-Regeln (13.10.2026, docs/wissen/design-regeln.md); Kontrast: tools/design-kontrast.mjs */
   --color-ak-flaeche-3: var(--ak-flaeche-3);
+  --color-ak-pille: var(--ak-pille);
+  --color-ak-pille-hover: var(--ak-pille-hover);
   --color-ak-akzent-hover: var(--ak-akzent-hover);
   --color-ak-fokus: var(--ak-fokus);
   --color-ak-gewaehlt: var(--ak-gewaehlt);
@@ -55,9 +58,11 @@
   --color-ak-gut: var(--ak-gut);
   --color-ak-gut-text: var(--ak-gut-text);
   --color-ak-gut-grund: var(--ak-gut-grund);
+  --color-ak-auf-gut: var(--ak-auf-gut);
   --color-ak-fehler: var(--ak-fehler);
   --color-ak-fehler-text: var(--ak-fehler-text);
   --color-ak-fehler-grund: var(--ak-fehler-grund);
+  --color-ak-auf-fehler: var(--ak-auf-fehler);
   --color-ak-warnung: var(--ak-warnung);
   --color-ak-warnung-text: var(--ak-warnung-text);
   --color-ak-warnung-grund: var(--ak-warnung-grund);
@@ -85,8 +90,12 @@ html.dark {
   --ak-finale-text: #f5c542;
   --ak-katalog: #a78bfa;
   --ak-katalog-text: #a78bfa;
+  --ak-marke: #cbd5e1;
   --ak-heute: #1a1512;
   --ak-flaeche-3: #222733;
+  /* Anbieter-Pille: Hover 1,28:1 über der Ruhe (flaeche-2 lag nur 1,03:1 daneben), graue Zusatzzeile darauf 4,7:1 (15.10.2026). */
+  --ak-pille: #162238;
+  --ak-pille-hover: #26344f;
   --ak-akzent-hover: #ff7a5c;
   --ak-fokus: #ff9e85;
   --ak-gewaehlt: var(--ak-akzent);
@@ -95,15 +104,35 @@ html.dark {
   --ak-gut: #34d399;
   --ak-gut-text: #4ade9f;
   --ak-gut-grund: color-mix(in srgb, var(--ak-gut) 12%, var(--ak-flaeche));
+  --ak-auf-gut: #0d0f14;
   --ak-fehler: #fb7185;
   --ak-fehler-text: #fda4af;
   --ak-fehler-grund: color-mix(in srgb, var(--ak-fehler) 12%, var(--ak-flaeche));
+  --ak-auf-fehler: #0d0f14;
   --ak-warnung: #fbbf24;
   --ak-warnung-text: #fcd34d;
   --ak-warnung-grund: color-mix(in srgb, var(--ak-warnung) 12%, var(--ak-flaeche));
   --ak-info: #60a5fa;
   --ak-info-text: #93c5fd;
   --ak-info-grund: color-mix(in srgb, var(--ak-info) 12%, var(--ak-flaeche));
+}
+
+/* Fläche, die in beiden Themen dunkel ist (Beleg-Dialog, Trailer-Fenster): alle Rollen des dunklen Themas, die ein Kind sonst hell erbt (Flächen, Ränder, Text, Link, Fokus, Fehler). Jede Zeile hält `tools/design-immer-dunkel.test.mjs` fest. */
+.ak-immer-dunkel {
+  --ak-grund: #0d0f14;
+  --ak-flaeche: #151922;
+  --ak-flaeche-2: #1b202a;
+  --ak-flaeche-3: #222733;
+  --ak-rand: #2c3240;
+  --ak-linie: #232833;
+  --ak-text: #f2f1ee;
+  --ak-leise: #9aa0ab;
+  --ak-sehr-leise: #828894;
+  --ak-akzent-text: #ff7a5c;
+  --ak-link: var(--ak-akzent-text);
+  --ak-fokus: #ff9e85;
+  --ak-fehler: #fb7185;
+  --ak-fehler-text: #fda4af;
 }
 
 html:not(.dark) {
@@ -126,8 +155,11 @@ html:not(.dark) {
   --ak-finale-text: #8a6300;
   --ak-katalog: #8b6cf0;
   --ak-katalog-text: #5b3fc4;
+  --ak-marke: #cbd5e1;
   --ak-heute: #fff0ea;
   --ak-flaeche-3: #e4e1da;
+  --ak-pille: #ffffff;
+  --ak-pille-hover: #ebe9e3;
   --ak-akzent-hover: #e8491f;
   --ak-fokus: #b8321a;
   --ak-gewaehlt: var(--ak-akzent);
@@ -136,9 +168,11 @@ html:not(.dark) {
   --ak-gut: #047857;
   --ak-gut-text: #04664a;
   --ak-gut-grund: color-mix(in srgb, var(--ak-gut) 10%, var(--ak-flaeche));
+  --ak-auf-gut: #ffffff;
   --ak-fehler: #e11d48;
   --ak-fehler-text: #a8002c;
   --ak-fehler-grund: color-mix(in srgb, var(--ak-fehler) 10%, var(--ak-flaeche));
+  --ak-auf-fehler: #ffffff;
   --ak-warnung: #d97706;
   --ak-warnung-text: #92400e;
   --ak-warnung-grund: color-mix(in srgb, var(--ak-warnung) 10%, var(--ak-flaeche));
@@ -490,9 +524,6 @@ html:not(.dark) .ak-saal-licht {
 html:not(.dark) {
   --color-slate-400: #6a6f79;
   --color-slate-500: #555b66;
-  --color-emerald-600: #047857;
-  --color-emerald-700: #00664a;
-  --color-rose-700: #a8002c;
 }
 html.dark {
   --color-slate-400: #9aa0ab;

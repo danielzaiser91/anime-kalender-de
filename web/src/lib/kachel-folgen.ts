@@ -1,8 +1,9 @@
-import type { ReleaseEvent } from '@shared/types.ts'
+import { anbieterName, type ReleaseEvent } from '@shared/types.ts'
+import type { Translate } from './i18n.tsx'
 import { istStaffelfinale, istStaffelstart } from '@shared/tv-signale.ts'
 
 /** Was eine Kachel an Auszeichnung trägt: Katalog-Release schlägt Staffelstart, der schlägt das Finale. */
-export type KartenArt = 'start' | 'finale' | 'katalog' | 'katalogVermutlich' | 'imAngebot'
+export type KartenArt = 'start' | 'finale' | 'katalog' | 'katalogVermutlich' | 'imAngebot' | 'erstausgabe'
 
 /** Ring um das Cover, Farbe der Fahne und Texte (`kal.*`) je Auszeichnung — Woche und Monat teilen sie. */
 export const ART_STIL = {
@@ -10,8 +11,40 @@ export const ART_STIL = {
   finale: { ring: 'ring-ak-finale', fahne: 'bg-ak-finale', name: 'kal.finale', hinweis: 'kal.finaleHinweis' },
   katalog: { ring: 'ring-ak-katalog', fahne: 'bg-ak-katalog', name: 'kal.katalog', hinweis: 'kal.katalogHinweis' },
   katalogVermutlich: { ring: 'ring-ak-katalog', fahne: 'bg-ak-katalog', name: 'kal.katalogVermutlich', hinweis: 'kal.katalogVermutlichHinweis' },
-  imAngebot: { ring: 'ring-transparent', fahne: 'bg-slate-300', name: 'kal.imAngebot', hinweis: 'kal.imAngebotHinweis' },
+  imAngebot: { ring: 'ring-transparent', fahne: 'bg-ak-marke', name: 'kal.imAngebot', hinweis: 'kal.imAngebotHinweis' },
+  erstausgabe: { ring: 'ring-transparent', fahne: 'bg-ak-akzent', name: 'kal.erstausgabe', hinweis: 'kal.erstausgabeHinweis' },
 } as const
+
+/** Zwei Spalten breit nur Staffelstart, -finale und Katalog-Release; „Neu bei …“ und „Erstveröffentlichung“ sind Fahnen an der schmalen Kachel. */
+export function istBreit(art: KartenArt | undefined): boolean {
+  return !!art && art !== 'imAngebot' && art !== 'erstausgabe'
+}
+
+/** Der Anbieter, den die Fahne „Neu bei …“ nennt: der erste Termin der Kachel mit der Marke. */
+export function markenAnbieter(art: KartenArt | undefined, termine: ReleaseEvent[]): string | undefined {
+  const ev = art === 'imAngebot' ? termine.find((e) => e.imAngebot) : undefined
+  return ev && anbieterName(ev.platform, ev.sender)
+}
+
+/** Text der Fahne; „Neu bei {anbieter}“ nennt den Anbieter des Termins, der die Marke trägt. */
+export function artName(art: KartenArt, termine: ReleaseEvent[], t: Translate): string {
+  const anbieter = markenAnbieter(art, termine)
+  return t(ART_STIL[art].name, anbieter ? { anbieter } : undefined)
+}
+
+/**
+ * Anbieternamen einer Kachel für die Beschriftung. Nennt die Fahne den einzigen Anbieter schon, entfällt er (keine Dopplung);
+ * bei mehreren Anbietern bleibt die Liste vollständig, sie sagt, wo es sonst läuft.
+ */
+export function anbieterNamenDerKachel(koepfe: ReleaseEvent[], art: KartenArt | undefined, termine: ReleaseEvent[]): string[] {
+  const namen = koepfe.map((k) => anbieterName(k.platform, k.sender))
+  return koepfe.length === 1 && namen[0] === markenAnbieter(art, termine) ? [] : namen
+}
+
+/** Alle Termine der Kachel eines Termins (alle Anbieter, ganze Bündel) — daraus liest `artName` den Anbieter der Marke. */
+export function termineDerKachel(ev: ReleaseEvent, mehrere?: Map<string, ReleaseEvent[][]>, buendel?: Map<string, ReleaseEvent[]>): ReleaseEvent[] {
+  return (mehrere?.get(ev.id) ?? [buendel?.get(ev.id) ?? [ev]]).flat()
+}
 
 export interface FolgenSpanne {
   von: number
@@ -37,6 +70,7 @@ export function kartenArt(buendel: ReleaseEvent[], data: MitReleases): KartenArt
   if (buendel.some((e) => e.katalog === 'belegt')) return 'katalog'
   if (buendel.some((e) => e.katalog)) return 'katalogVermutlich'
   if (buendel.some((e) => e.imAngebot)) return 'imAngebot'
+  if (buendel.some((e) => e.erstausgabe)) return 'erstausgabe'
   if (buendel.some((e) => istStaffelstart(e, data))) return 'start'
   return buendel.some((e) => istStaffelfinale(e, data)) ? 'finale' : undefined
 }

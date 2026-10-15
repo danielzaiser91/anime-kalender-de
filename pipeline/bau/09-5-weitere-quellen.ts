@@ -19,6 +19,7 @@ import { type Release, type Title } from '../../shared/types.ts'
 import { anisearchFelderAnwenden } from '../lib/anisearch-felder.ts'
 import { handErstausgabe, ladeErstausgabeVonHand } from '../lib/erstausgabe-von-hand.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
+import { istNahAmJapanStart } from '../lib/nah-am-japan-start.ts'
 
 export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerweiseErgaenzt, verweiseEntfernt }: {
   releases: Release[]
@@ -104,18 +105,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
         .map((a) => a.datum)
         .filter(Boolean)
         .sort()[0]
-      /*
-        Erst ab 2012 und nicht bei Filmen: Davor heißt ein deutsches Datum nah am japanischen
-        Start eine echte Ausstrahlung mit Synchro — „Wickie" 1974, „Final Fantasy: Die Mächte
-        in Dir" im Kino 2001. Gemessen danach: 548 Serien, Stichprobe durchweg OmU-Simulcasts
-        (Kazé, peppermint, Crunchyroll) mit späteren deutschen Discs.
-      */
-      const nahAmStart =
-        deTag !== undefined &&
-        jpTag !== undefined &&
-        deTag - jpTag <= 30 * 864e5 &&
-        new Date(jpTag).getUTCFullYear() >= 2012 &&
-        title.format !== 'MOVIE'
+      const nahAmStart = istNahAmJapanStart(deTag, jpTag, title.format)
       const discDatumGilt =
         Boolean(fruehesteDisc) && (simulcast || nahAmStart) && (!termin.start || fruehesteDisc! > termin.start)
       if (discDatumGilt) {

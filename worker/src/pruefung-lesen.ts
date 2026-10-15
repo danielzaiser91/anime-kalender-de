@@ -9,6 +9,9 @@ import { wartendSchluessel } from './pruefung-stand-briefkasten.ts'
 import { type AusCache } from './cache-kurz.ts'
 import { allePruefungen, offenePruefungen } from './titelzeile-lesen.ts'
 
+/** Höchstalter der offenen Liste für den Bau (`?token=`), wenn seitdem gemeldet oder abgehakt wurde. */
+export const OFFEN_FRIST_MS = 5 * 60_000
+
 export async function beantwortePruefungLesen({ request, env, antwort, ausCache }: {
   request: Request<unknown, CfProperties<unknown>>
   env: Env
@@ -122,5 +125,14 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
       return { pruefungen: zeilen, weiter }
     })
 
-    return antwort({ pruefungen: await offenePruefungen(env, sucheP.get('plattform')) })
+    return await offeneFuerBau(env, sucheP.get('plattform'))
+}
+
+/**
+ * Die offenen Meldungen für den Bau (`?token=`), in R2 wie `?alle=1` (15.10.2026): Ein Aufruf liest rund 36.000
+ * Zeilen, und die Erweiterung fragte auf jeder Prime-Seite. Neu gerechnet wird erst nach einer Meldung oder einem
+ * Abhaken (Marke), dann spätestens nach `OFFEN_FRIST_MS`: Der Bau sieht eine frische Meldung nach höchstens fünf Minuten.
+ */
+async function offeneFuerBau(env: Env, plattform: string | null): Promise<Response> {
+  return await ausSpeicher(env, `offen-pruefung-${plattform ?? 'alle'}`, async () => ({ pruefungen: await offenePruefungen(env, plattform) }), OFFEN_FRIST_MS)
 }

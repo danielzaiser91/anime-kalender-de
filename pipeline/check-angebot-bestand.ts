@@ -1,6 +1,6 @@
 /**
  * Zusicherung am gebauten Bestand (`public/data`): jedes „Im Angebot seit“-Release (`dateMeaning: 'available-from'`) hat seinen Termin, der Termin trägt die Marke
- * `imAngebot`, und der Titel steht im Kern (`titles-core.json`), den der Kalender lädt. Bis 13.10.2026 fehlten alle 108 späten Releases (`motn-*`, `anisearch-*`):
+ * `imAngebot` (oder `erstausgabe`, wo es laut aniSearch der erste Tag der deutschen Fassung ist), und der Titel steht im Kern (`titles-core.json`), den der Kalender lädt. Bis 13.10.2026 fehlten alle 108 späten Releases (`motn-*`, `anisearch-*`):
  * ihre Termine entstanden vor dem Anhängen der Releases (`pipeline/bau/13-7-angebot-termine.ts`).
  * Läuft in `check:bestand`, nicht in `check:logic` (der Bestand liegt hinter neueren Rohdaten zurück).
  */
@@ -23,9 +23,23 @@ console.log('\n„Im Angebot seit“ im Bestand:')
   const kern = new Set(lies<Title[]>('titles-core.json').map((t) => t.id))
   const ohneTermin = releases.filter((r) => !termine.has(r.slug)).map((r) => r.slug)
   pruefe(`alle ${releases.length} Katalog-Releases haben einen Termin`, releases.length > 0 && !ohneTermin.length, ohneTermin.slice(0, 5))
-  const ohneMarke = releases.filter((r) => termine.has(r.slug) && !termine.get(r.slug)!.imAngebot).map((r) => r.slug)
-  pruefe('jeder dieser Termine trägt „imAngebot“', !ohneMarke.length, ohneMarke.slice(0, 5))
-  const ohneKern = releases.filter((r) => termine.has(r.slug) && !kern.has(r.titleId)).map((r) => `${r.slug}:${r.titleId}`)
+  const ohneMarke = releases.filter((r) => termine.has(r.slug) && !termine.get(r.slug)!.imAngebot && !termine.get(r.slug)!.erstausgabe).map((r) => r.slug)
+  pruefe('jeder dieser Termine trägt „imAngebot“ oder „erstausgabe“', !ohneMarke.length, ohneMarke.slice(0, 5))
+  const beides = [...termine.values()].filter((e) => e.imAngebot && e.erstausgabe).map((e) => e.id)
+  pruefe('kein Termin trägt beide Marken', !beides.length, beides.slice(0, 5))
+  const titel = new Map(lies<Title[]>('titles.json').map((t) => [t.id, t]))
+  const falsch = [...termine.values()].filter((e) => e.erstausgabe && titel.get(e.titleId)?.deErstausgabe?.von !== e.date).map((e) => e.id)
+  pruefe('jede Erstveröffentlichung liegt auf dem aniSearch-Erstausgabetag des Titels', !falsch.length, falsch.slice(0, 5))
+  /* Alle Releases des Titels, auch Disc und Fernsehen: ein früherer Termin heißt, die Synchro war nicht „zuerst“ hier (Bleach, Snowball Earth). */
+  const alle = lies<Release[]>('releases.json').filter((r) => !r.widerlegt && r.schedule?.firstEpisodeDate)
+  const fruehesterTag = new Map<number, string>()
+  for (const r of alle) {
+    const tag = r.schedule.firstEpisodeDate
+    if (tag < (fruehesterTag.get(r.titleId) ?? '9999')) fruehesterTag.set(r.titleId, tag)
+  }
+  const nichtErst = [...termine.values()].filter((e) => e.erstausgabe && (fruehesterTag.get(e.titleId) ?? e.date) < e.date).map((e) => e.id)
+  pruefe('keine Erstveröffentlichung, wenn der Titel einen früheren Termin hat (Disc eingeschlossen)', !nichtErst.length, nichtErst.slice(0, 5))
+  const ohneKern =releases.filter((r) => termine.has(r.slug) && !kern.has(r.titleId)).map((r) => `${r.slug}:${r.titleId}`)
   pruefe('jeder Titel mit solchem Termin steht im Kern (Cover und Name für die Karte)', !ohneKern.length, ohneKern.slice(0, 5))
   const jeTag = new Map<string, number>()
   for (const r of releases.filter((x) => x.slug.startsWith('motn-'))) jeTag.set(`${r.platform} ${r.schedule.firstEpisodeDate}`, (jeTag.get(`${r.platform} ${r.schedule.firstEpisodeDate}`) ?? 0) + 1)

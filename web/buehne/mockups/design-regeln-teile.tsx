@@ -97,7 +97,7 @@ const ZEILEN: Zeile[] = [
       gewaehlt: (
         <span className="flex flex-wrap items-center gap-2">
           {zelle('reiter', 'gewaehlt', `${SEGMENT} bg-ak-akzent text-ak-auf-akzent`, 'Woche')}
-          {zelle('reiter-news', 'gewaehlt', `${NEWS_CHIP} bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900`, 'Alles')}
+          {zelle('reiter-news', 'gewaehlt', `${NEWS_CHIP} bg-ak-gewaehlt font-bold text-ak-auf-gewaehlt`, 'Alles')}
           {zelle('reiter-nav', 'gewaehlt', 'border-b-2 border-ak-akzent py-1 text-sm font-semibold text-ak-text', 'Kalender', 'a')}
         </span>
       ),

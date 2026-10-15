@@ -1,9 +1,9 @@
 import type { ReleaseEvent } from '@shared/types.ts'
-import { PLATFORMS } from '@shared/types.ts'
+import { PLATFORMS, anbieterName } from '@shared/types.ts'
 import type { KachelAngabe } from '@shared/laeuft-jetzt.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import { Tooltip } from '../ui.tsx'
-import { folgenSpanne, type FolgenSpanne } from '../../lib/kachel-folgen.ts'
+import { folgenSpanne, type FolgenSpanne, type KartenArt } from '../../lib/kachel-folgen.ts'
 
 const ZEIT_PILLE = 'rounded-md bg-[rgba(13,15,20,.85)] px-1.5 py-0.5 text-xs font-bold tabular-nums text-[#f2f1ee]'
 
@@ -72,6 +72,16 @@ export function weitereFolgen(buendel: ReleaseEvent[] | undefined, t: Translate)
 export const nurFolge = (event: ReleaseEvent, t: Translate, buendel?: ReleaseEvent[]): string =>
   anbieterUndFolge(event, t, buendel).slice(PLATFORMS[event.platform].name.length + 3)
 
+/** „Folge 15/≈24" ohne den Anbieter davor (auch der Sender im Fernsehen) — wenn die Fahne „Neu bei …“ ihn schon nennt. Leer, wenn nur der Anbieter dastand. */
+export function folgeOhneAnbieter(event: ReleaseEvent, t: Translate, buendel?: ReleaseEvent[]): string {
+  return anbieterUndFolge(event, t, buendel).slice(anbieterName(event.platform, event.sender).length).replace(/^ · /, '')
+}
+
+/** Die Zeile unter dem Titel eines einzelnen Anbieters: mit Fahne „Neu bei …“ ohne den Anbieter, sonst „Anbieter · Folge“. */
+export function anbieterZeile(event: ReleaseEvent, t: Translate, buendel: ReleaseEvent[] | undefined, art: KartenArt | undefined): string {
+  return art === 'imAngebot' ? folgeOhneAnbieter(event, t, buendel) : anbieterUndFolge(event, t, buendel)
+}
+
 /**
  * **Ein nicht eingehaltener Termin bleibt stehen und sagt, was los ist** — dass wir nachgesehen
  * haben, wie viele Folgen der Anbieter zeigt und wann wir wieder nachsehen.
@@ -89,7 +99,7 @@ export function VerpasstMarke({ event, t }: { event: ReleaseEvent; t: Translate 
     .join(' · ')
   return (
     <Tooltip text={hinweis} seite="oben">
-      <span className="rounded bg-rose-500/15 px-1 text-[11px] font-semibold text-rose-600 dark:text-rose-400">
+      <span className="rounded bg-ak-fehler-grund px-1 text-[11px] font-semibold text-ak-fehler-text">
         {v.erschienenAm && v.verzugStunden != null
           ? `↻ ${t('card.missedLateBadge', { d: v.erschienenAm.slice(0, 10) })}`
           : `⚠ ${t('card.missedBadge')}`}
@@ -106,7 +116,7 @@ export function SpracheMarke({ event, t }: { event: ReleaseEvent; t: Translate }
   if (!event.sprache) return null
   return (
     <Tooltip text={t(event.sprache === 'omu' ? 'fachwort.omu' : 'kal.synchroOffenHinweis')} seite="oben">
-      <span className="rounded bg-amber-500/15 px-1 text-[11px] font-semibold text-amber-700 dark:text-amber-300">
+      <span className="rounded bg-ak-flaeche-2 px-1 text-[11px] font-semibold text-ak-leise">
         {t(event.sprache === 'omu' ? 'kal.omu' : 'kal.synchroOffen')}
       </span>
     </Tooltip>

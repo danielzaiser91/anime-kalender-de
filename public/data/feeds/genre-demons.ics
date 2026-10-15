@@ -6,26 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Demons
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T144500Z
-DTEND:20261007T151500Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:tomb-raider-king@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T172500Z
-DTEND:20261007T175500Z
-SUMMARY:Tomb Raider King – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16348/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T144500Z
@@ -83,8 +63,8 @@ UID:demon-slayer-entertainment-district-arc-primevideo@2026-10-10@anime-kal
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Entertainment District Arc (im Angeb
- ot) (Synchro offen)
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Entertainment District Arc (neu bei 
+ Prime Video) (Synchro offen)
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
  eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
  ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
@@ -97,8 +77,8 @@ UID:demon-slayer-hashira-training-arc-primevideo@2026-10-10@anime-kalender-
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (im Angebot) (S
- ynchro offen)
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (neu bei Prime 
+ Video) (Synchro offen)
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
  eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
  ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
@@ -110,8 +90,8 @@ UID:demon-slayer-mugen-train-arc-primevideo@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Mugen Train Arc (im Angebot) (Synchr
- o offen)
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Mugen Train Arc (neu bei Prime Video
+ ) (Synchro offen)
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
  eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
  ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
@@ -124,8 +104,8 @@ UID:demon-slayer-swordsmith-village-arc-primevideo@2026-10-10@anime-kalende
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc (im Angebot) 
- (Synchro offen)
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc (neu bei Prim
+ e Video) (Synchro offen)
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
  eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
  ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
@@ -217,7 +197,7 @@ UID:tomb-raider-king@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T172500Z
 DTEND:20261014T175500Z
-SUMMARY:Tomb Raider King – Folge 12/12
+SUMMARY:⚠ nicht erschienen: Tomb Raider King – Folge 12/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16348/
@@ -341,6 +321,16 @@ UID:auto-118399-tv-prosieben-maxx@2026-10-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T144500Z
 DTEND:20261021T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T144500Z
+DTEND:20261022T151500Z
 SUMMARY:Yashahime: Princess Half-Demon
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/11570/

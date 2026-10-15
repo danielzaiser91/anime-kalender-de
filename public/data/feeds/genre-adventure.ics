@@ -6,128 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Adventure
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-GRGG9798R@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T140000Z
-DTEND:20261007T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 17/19
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/16757/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T140500Z
-DTEND:20261007T143500Z
-SUMMARY:Pokémon Horizonte – Folge 4/130
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T144500Z
-DTEND:20261007T151500Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T150500Z
-DTEND:20261007T153500Z
-SUMMARY:Pokémon Horizonte – Folge 4/130
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-07#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T151000Z
-DTEND:20261007T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-07#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T153500Z
-DTEND:20261007T160500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T155500Z
-DTEND:20261007T162500Z
-SUMMARY:Detektiv Conan – Folge 149/159
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-07#19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T162500Z
-DTEND:20261007T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-07#20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T165000Z
-DTEND:20261007T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:tomb-raider-king@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T172500Z
-DTEND:20261007T175500Z
-SUMMARY:Tomb Raider King – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16348/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T191500Z
-DTEND:20261007T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 10/15
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:naruto-shippuden-s3-disneyplus@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261007
-DTEND;VALUE=DATE:20261008
-SUMMARY:Naruto Shippuden – Staffel 3 (im Angebot)
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nIm Angebot seit 
- diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1491/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T140500Z
@@ -182,7 +60,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T160000Z
 DTEND:20261008T163000Z
-SUMMARY:Detektiv Conan – Folge 150/159
+SUMMARY:Detektiv Conan – Folge 150/160
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -212,7 +90,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T191500Z
 DTEND:20261008T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 11/15
+SUMMARY:Pokémon Reisen: Die Serie – Folge 11/16
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -295,7 +173,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T160000Z
 DTEND:20261009T163000Z
-SUMMARY:Detektiv Conan – Folge 151/159
+SUMMARY:Detektiv Conan – Folge 151/160
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -335,7 +213,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T191500Z
 DTEND:20261009T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 12/15
+SUMMARY:Pokémon Reisen: Die Serie – Folge 12/16
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -437,8 +315,8 @@ UID:demon-slayer-entertainment-district-arc-primevideo@2026-10-10@anime-kal
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Entertainment District Arc (im Angeb
- ot) (Synchro offen)
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Entertainment District Arc (neu bei 
+ Prime Video) (Synchro offen)
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
  eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
  ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
@@ -451,8 +329,8 @@ UID:demon-slayer-hashira-training-arc-primevideo@2026-10-10@anime-kalender-
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (im Angebot) (S
- ynchro offen)
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (neu bei Prime 
+ Video) (Synchro offen)
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
  eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
  ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
@@ -464,8 +342,8 @@ UID:demon-slayer-mugen-train-arc-primevideo@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Mugen Train Arc (im Angebot) (Synchr
- o offen)
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Mugen Train Arc (neu bei Prime Video
+ ) (Synchro offen)
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
  eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
  ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
@@ -478,8 +356,8 @@ UID:demon-slayer-swordsmith-village-arc-primevideo@2026-10-10@anime-kalende
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc (im Angebot) 
- (Synchro offen)
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc (neu bei Prim
+ e Video) (Synchro offen)
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
  eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
  ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
@@ -591,7 +469,7 @@ UID:bleach-diamonddust-rebellion-adn@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T070000Z
 DTEND:20261012T073000Z
-SUMMARY:Bleach: The DiamondDust Rebellion (im Angebot)
+SUMMARY:Bleach: The DiamondDust Rebellion (neu bei ADN)
 DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nIm Angebot seit diesem Tag 
  – nicht der Erscheinungstag der deutschen Fassung.\nDetails: https://ani
  me-kalender.de/t/2398/
@@ -602,7 +480,7 @@ UID:bleach-fade-to-black-adn@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T070000Z
 DTEND:20261012T073000Z
-SUMMARY:Bleach: Fade to Black (im Angebot)
+SUMMARY:Bleach: Fade to Black (neu bei ADN)
 DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nIm Angebot seit diesem Tag 
  – nicht der Erscheinungstag der deutschen Fassung.\nDetails: https://ani
  me-kalender.de/t/3282/
@@ -613,7 +491,7 @@ UID:adn-197@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T070000Z
 DTEND:20261012T073000Z
-SUMMARY:Bleach: Memories of Nobody - Movie 1 (im Angebot)
+SUMMARY:Bleach: Memories of Nobody - Movie 1 (neu bei ADN)
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
  em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
  s://anime-kalender.de/t/1451/
@@ -664,7 +542,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T160000Z
 DTEND:20261012T163000Z
-SUMMARY:Detektiv Conan – Folge 152/159
+SUMMARY:Detektiv Conan – Folge 152/160
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -704,7 +582,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T191500Z
 DTEND:20261012T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 13/15
+SUMMARY:Pokémon Reisen: Die Serie – Folge 13/16
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -794,7 +672,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T160000Z
 DTEND:20261013T163000Z
-SUMMARY:Detektiv Conan – Folge 153/159
+SUMMARY:Detektiv Conan – Folge 153/160
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -824,7 +702,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T191500Z
 DTEND:20261013T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 14/15
+SUMMARY:Pokémon Reisen: Die Serie – Folge 14/16
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -834,9 +712,8 @@ UID:cr-GRGG9798R@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T140000Z
 DTEND:20261014T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 18/19
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 14/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16757/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -885,7 +762,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T160000Z
 DTEND:20261014T163000Z
-SUMMARY:Detektiv Conan – Folge 154/159
+SUMMARY:Detektiv Conan – Folge 154/160
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -915,7 +792,7 @@ UID:tomb-raider-king@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T172500Z
 DTEND:20261014T175500Z
-SUMMARY:Tomb Raider King – Folge 12/12
+SUMMARY:⚠ nicht erschienen: Tomb Raider King – Folge 12/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16348/
@@ -926,10 +803,20 @@ UID:auto-112153-tv-toggo-plus@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T191500Z
 DTEND:20261014T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 15/15
+SUMMARY:Pokémon Reisen: Die Serie – Folge 15/16
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-10-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261015T140500Z
+DTEND:20261015T143500Z
+SUMMARY:Pokémon Horizonte – Folge 10/130
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-15@anime-kalender-de
@@ -940,6 +827,16 @@ SUMMARY:Yashahime: Princess Half-Demon
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/11570/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-10-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261015T150500Z
+DTEND:20261015T153500Z
+SUMMARY:Pokémon Horizonte – Folge 10/130
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-15@anime-kalender-de
@@ -956,7 +853,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T160000Z
 DTEND:20261015T163000Z
-SUMMARY:Detektiv Conan – Folge 155/159
+SUMMARY:Detektiv Conan – Folge 155/160
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -974,12 +871,22 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-15#30@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261015T165000Z
-DTEND:20261015T172000Z
+DTSTART:20261015T165500Z
+DTEND:20261015T172500Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261015T191500Z
+DTEND:20261015T194500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 16/16
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-16@anime-kalender-de
@@ -1039,7 +946,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T155500Z
 DTEND:20261016T162500Z
-SUMMARY:Detektiv Conan – Folge 156/159
+SUMMARY:Detektiv Conan – Folge 156/160
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -1232,7 +1139,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T160000Z
 DTEND:20261019T163000Z
-SUMMARY:Detektiv Conan – Folge 157/159
+SUMMARY:Detektiv Conan – Folge 157/160
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -1332,7 +1239,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261020T160000Z
 DTEND:20261020T163000Z
-SUMMARY:Detektiv Conan – Folge 158/159
+SUMMARY:Detektiv Conan – Folge 158/160
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -1362,7 +1269,7 @@ UID:cr-GRGG9798R@2026-10-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T140000Z
 DTEND:20261021T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 19/19
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 15/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16757/
@@ -1403,7 +1310,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T160000Z
 DTEND:20261021T163000Z
-SUMMARY:Detektiv Conan – Folge 159/159
+SUMMARY:Detektiv Conan – Folge 159/160
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -1423,6 +1330,66 @@ UID:auto-21-tv-prosieben-maxx@2026-10-21#38@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T165000Z
 DTEND:20261021T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T144500Z
+DTEND:20261022T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-22#38@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T151000Z
+DTEND:20261022T154000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-22#39@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T153500Z
+DTEND:20261022T160500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-10-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T160000Z
+DTEND:20261022T163000Z
+SUMMARY:Detektiv Conan – Folge 160/160
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-22#39@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T162500Z
+DTEND:20261022T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-22#40@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261022T165000Z
+DTEND:20261022T172000Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
@@ -1454,7 +1421,7 @@ UID:auto-128400-primevideo@2026-10-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261022
 DTEND;VALUE=DATE:20261023
-SUMMARY:Saiyuki Reload: Zeroin (im Angebot)
+SUMMARY:Saiyuki Reload: Zeroin (neu bei Prime Video)
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
  eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/12416/
@@ -1525,6 +1492,17 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU:
  Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-10-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261028T150000Z
+DTEND:20261028T153000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 16/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16757/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-30@anime-kalender-de
@@ -1601,6 +1579,17 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU:
  Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-11-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261104T150000Z
+DTEND:20261104T153000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 17/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16757/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-05@anime-kalender-de
@@ -1752,6 +1741,17 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-11-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261111T150000Z
+DTEND:20261111T153000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 18/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16757/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-11@anime-kalender-de
@@ -1907,6 +1907,17 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-11-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261118T150000Z
+DTEND:20261118T153000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 19/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16757/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-18@anime-kalender-de
@@ -3131,16 +3142,6 @@ DTEND;VALUE=DATE:20270116
 SUMMARY:Dragon Ball Z: Der Legendäre Super-Saiyajin (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/791/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-891-disc@2027-01-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270115
-DTEND;VALUE=DATE:20270116
-SUMMARY:Dragon Ball: Das Schloss der Dämonen
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: Film\nUhrzeit noch nicht
-  bestätigt.\nDetails: https://anime-kalender.de/t/781/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

@@ -1,6 +1,7 @@
 import { type Zugangsart } from '@shared/zugangsart.ts'
 import { gruppiereKaufwege } from './pillen.tsx'
 import { type Title } from '@shared/types.ts'
+import { falteTeilwege } from './wege-falten.ts'
 
 /** Schlüssel einer Weg-Pille: Anbieter, Adresse und, wo ein Weg je Staffel geführt wird (Cartoons), sein Ausschnitt. */
 export function pillenSchluessel(s: { platform: string; url: string; teilBereich?: { von: number } }): string {
@@ -21,7 +22,7 @@ export function sortiereNachZugang({ title }: {
       Zugang, Sprachurteil und Folgenbereich übereinstimmt — sonst sagen die Pillen
       Verschiedenes und bleiben beide. Im Datensatz stehen weiter beide.
     */
-    plattformen: (title?.streams ?? [])
+    plattformen: falteTeilwege(title?.streams ?? [])
       .filter((s) => (s.zugang ?? 'abo') === art)
       .filter((s, i, alle) => {
         const sig = (x: typeof s) =>

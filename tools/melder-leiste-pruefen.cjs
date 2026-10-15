@@ -31,7 +31,7 @@
 const { readFileSync } = require('node:fs')
 const vm = require('node:vm')
 
-const quelle = readFileSync('extension/box.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/melder.js', 'utf8')
+const quelle = readFileSync('extension/box.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/netflix-zurueckgestellt.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/melder.js', 'utf8')
 
 const fehler = []
 const pruefe = (was, ok, zusatz) => {

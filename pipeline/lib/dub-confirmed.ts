@@ -14,6 +14,7 @@ import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { vereinigeBereiche, vereinigeGleichzeitige } from './dub-bereiche.ts'
 import { ROOT } from './util.ts'
+import { adressKern, adressGleich } from '../../shared/adresse-kern.ts'
 import { PLATFORMS, type PlatformId } from '../../shared/types.ts'
 import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
 import { warn } from './util.ts'
@@ -133,42 +134,10 @@ export interface DubCheck {
   kanalMessung?: 'ja' | 'nein'
 }
 
-const DATEI = resolve(ROOT, 'data', 'dub-confirmed.yaml')
+/** Zuhause ist `shared/adresse-kern.ts` (das Panel vergleicht Adressen ebenso); hier bleibt der Name für die Bau-Importe. */
+export { adressKern, adressGleich }
 
-/**
- * Adressen vergleichen sich nur ohne Protokoll, Parameter und Schrägstrich —
- * und bei Amazon zusätzlich ohne den Pfadteil vor der Kennung: Dieselbe Ausgabe
- * steht dort als `/dp/<ASIN>` und als `/gp/video/detail/<ASIN>`.
- */
-export function adressKern(u: string | undefined): string {
-  if (!u) return ''
-  const ohne = u
-    .replace(/^https?:\/\//, '')
-    .replace(/^www\./, '')
-    .split('?')[0]!
-    .replace(/\/$/, '')
-    .toLowerCase()
-  const asin = /\/(?:dp|gp\/video\/detail)\/([a-z0-9]{10,26})/.exec(ohne)?.[1]
-  if (asin) return `amazon:${asin}`
-  /* JustWatchs Amazon-Adresse trägt die Kennung im Parameter (gti-Brücke, 17.09.2026). */
-  const gti = /[?&]gti=(amzn1\.dv\.gti\.[0-9a-f-]{36})/.exec(u)?.[1]
-  if (gti) return `amazon-gti:${gti}`
-  /*
-    Bei YouTube steckt die Kennung im Parameter. Ohne ihn war jede Adresse
-    `youtube.com/watch`, und ein belegtes Nein zu einem Video sperrte im
-    Gedächtnis der entfernten Verweise alle YouTube-Videos aller Titel —
-    gemessen am 17.09.2026: 30 Titel, deren aniSearch-Video nie ergänzt wurde.
-    Groß- und Kleinschreibung zählt in der Kennung.
-  */
-  const yt = /(?:^|\.)youtube\.com\/(?:watch|playlist)$/.test(ohne) ? /[?&](v|list)=([\w-]+)/.exec(u) : null
-  if (yt) return `${ohne}?${yt[1]}=${yt[2]}`
-  /*
-    Dasselbe bei Partnerlinks: bücher.de läuft über `awin1.com/pclick.php?p=<Produkt>`. Ohne den
-    Parameter teilten sich acht Titel einen Kern (gemessen am 22.09.2026).
-  */
-  const awin = /(?:^|\.)awin1\.com\/pclick\.php$/.test(ohne) ? /[?&]p=(\d+)/.exec(u) : null
-  return awin ? `${ohne}?p=${awin[1]}` : ohne
-}
+const DATEI = resolve(ROOT, 'data', 'dub-confirmed.yaml')
 
 /** Alle Synchro-Belege: die Handbelege und, wo keiner steht, die am kuratierten Termin (`dub-aus-terminen.ts`). */
 export function loadDubChecks(): DubCheck[] {
@@ -319,17 +288,36 @@ export function dubKey(anilistId: number, platform: string): string {
 }
 
 /**
- * Schlüssel (`dubKey`) aller Handbelege, die einen Weg verneinen: `available: false` (nicht im Katalog) oder `dub: false` (kein Deutsch).
- * Ein Ja derselben Plattform daneben hebt das Nein nicht auf: Der Schlüssel kennt keine Adresse, das Nein kann einer anderen Ausgabe gelten.
+ * Schlüssel aller Handbelege, die einen Weg verneinen (`available: false` oder `dub: false`), ausgewertet je Adresse (`adressKern`):
+ * Ein Ja derselben Adresse (`dub: true` oder ein deutscher Bereich) hebt das Nein auf, ein Ja einer anderen Adresse nicht; ohne Adresse ist
+ * „dieselbe" nicht belegt, Ja und Nein bleiben dann uneindeutig und das Nein gilt (Kuroko's Basketball 3, 20725, bei Netflix: altes Ja, jüngeres „nicht verfügbar").
+ * Das Nein gilt der ganzen Plattform (`dubKey`), wenn es keine Adresse trägt oder die Plattform keine Ausgabe mit Ja führt: Eine neue Adresse
+ * kann dieselbe Ausgabe in anderer Schreibweise sein (JustWatch-gti statt ASIN). Erst eine belegte zweite Ausgabe (ein Ja mit eigener Adresse) beschränkt es auf seine Adresse
+ * (`dubKey|adressKern`; Digimon 552 bei Prime: B0CGRJGJX1 ja, Crunchyroll-Kanal B0CHHNJJW3 nein). Abgefragt wird mit `wegVerneint`.
  */
-export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' | 'dub' | 'available'>[]): Set<string> {
-  return new Set(checks.filter((c) => c.dub === false || c.available === false).map((c) => dubKey(c.anilistId, c.platform)))
+export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges'>[]): Set<string> {
+  const adressen = new Map<string, { titel: string; kern: string; nein: boolean; ja: boolean }>()
+  for (const c of checks) {
+    const titel = dubKey(c.anilistId, c.platform)
+    const kern = adressKern(c.url)
+    const a = adressen.get(`${titel}|${kern}`) ?? { titel, kern, nein: false, ja: false }
+    a.nein ||= c.dub === false || c.available === false
+    a.ja ||= c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub))
+    adressen.set(`${titel}|${kern}`, a)
+  }
+  const mitJa = new Set([...adressen.values()].filter((a) => a.ja && a.kern).map((a) => a.titel))
+  const nein = new Set<string>()
+  for (const a of adressen.values()) {
+    if (!a.nein || (a.ja && a.kern)) continue
+    nein.add(a.kern && mitJa.has(a.titel) ? `${a.titel}|${a.kern}` : a.titel)
+  }
+  return nein
 }
 
-/** Meinen zwei Adressen dieselbe Ausgabe? */
-export function adressGleich(a: string | undefined, b: string | undefined): boolean {
-  const ka = adressKern(a)
-  return Boolean(ka) && ka === adressKern(b)
+/** Verneint ein Handbeleg aus `neinHandbelege` den Weg zu `url`? */
+export function wegVerneint(nein: ReadonlySet<string>, anilistId: number, platform: string, url: string | undefined): boolean {
+  const titel = dubKey(anilistId, platform)
+  return nein.has(titel) || nein.has(`${titel}|${adressKern(url)}`)
 }
 
 /**

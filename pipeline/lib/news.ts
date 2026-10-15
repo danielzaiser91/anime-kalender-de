@@ -62,7 +62,15 @@ export interface NewsHistorie extends TerminGedaechtnis {
  * Anbieter hat (`kanalErbtVomAnbieter`), ist kein weiterer: Die Titel laufen dort seit Langem, die Meldung wäre zu ihrem Tag falsch (13.10.2026).
  */
 function anbieterMitDeutsch(t: Title): Set<PlatformId> {
-  return new Set(t.streams.filter((s) => eigenesJa(s) && s.platform !== 'youtube').map((s) => s.platform))
+  return new Set(t.streams.filter((s) => meldetNeu(s) && s.platform !== 'youtube').map((s) => s.platform))
+}
+
+/**
+ * Ein Ja, das „neu auf Deutsch“ melden darf. Ein Weg, den nur ein Handbeleg trägt (`herkunft: 'handbeleg'`), belegt das Angebot, nicht seinen
+ * Beginn: Durarara!! Tenka Taihei ist seit 2022 deutsch bei Crunchyroll, die Meldung trüge den Tag der Aufnahme in den Bestand (14.10.2026).
+ */
+function meldetNeu(s: StreamLink): boolean {
+  return eigenesJa(s) && s.herkunft !== 'handbeleg'
 }
 
 /** Ein belegtes Ja des Weges selbst; ein vom Anbieter geerbtes Ja (`geerbteWege`) zählt für Meldungen nicht. */
@@ -338,7 +346,7 @@ export function baueNews(
   for (const n of neuMitSynchro) {
     const t = nachId.get(n.id)
     if (!t) continue
-    const anbieter = t.streams.find(eigenesJa)?.platform
+    const anbieter = t.streams.find(meldetNeu)?.platform
     const erreichtRelease = erreichtesRelease(releases, t.id, heute, anbieter)
     const erreicht = erreichtRelease?.schedule?.firstEpisodeDate
     if ((!anbieter && !erreicht) || nurAngekuendigt(releases, t.id, anbieter, n.seit)) continue

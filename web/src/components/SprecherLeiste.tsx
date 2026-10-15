@@ -23,7 +23,7 @@ export function SprecherLeiste({ data, filters, children }: { data: Dataset; fil
     <TitelNamenContext.Provider value={titelName}>
       {children}
       {fehler && (
-        <p role="alert" className="text-sm text-rose-600 dark:text-rose-300">
+        <p role="alert" className="text-sm text-ak-fehler-text">
           {t('filter.sprecher.datenFehler')}{' '}
           <button type="button" className="cursor-pointer font-semibold underline" onClick={nochmal}>
             {t('filter.sprecher.nochmal')}

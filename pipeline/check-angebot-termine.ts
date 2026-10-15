@@ -7,6 +7,7 @@
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { expandEvents } from '../shared/logic.ts'
 import { fuegeTermineEin, kernMitTerminTiteln } from './bau/13-7-angebot-termine.ts'
+import { digestMail } from '../worker/src/templates.ts'
 import { IM_ANGEBOT_HINWEIS, buildIcs, eventDescription, eventSummary } from '../shared/ics.ts'
 
 let verletzt = 0
@@ -40,13 +41,46 @@ console.log('\nIm Angebot seit (Termin):')
   const [ev] = expandEvents(katalog())
   const titel = eventSummary(ev!)
   const text = eventDescription(ev!, {})
-  pruefe('Titel der Kalenderdatei sagt „im Angebot“', titel === 'Fairy Tail (im Angebot)', titel)
+  pruefe('Titel der Kalenderdatei sagt „neu bei <Anbieter>“', titel === 'Fairy Tail (neu bei Crunchyroll)', titel)
   pruefe('Beschreibung nennt den Unterschied zum Erscheinungstag', text.includes(IM_ANGEBOT_HINWEIS), text)
   pruefe('weder Titel noch Beschreibung behaupten „erschienen am“', !/erschienen am|Start:/i.test(`${titel}\n${text.replace(IM_ANGEBOT_HINWEIS, '')}`), text)
   const [premiere] = expandEvents(katalog({ dateMeaning: undefined }))
   pruefe('ein Termin ohne Katalogdatum bleibt unverändert', eventSummary(premiere!) === 'Fairy Tail' && !eventDescription(premiere!, {}).includes(IM_ANGEBOT_HINWEIS))
   const ics = buildIcs([ev!]).split('\r\n ').join('')
-  pruefe('die .ics-Datei trägt Titel und Hinweis', ics.includes('SUMMARY:Fairy Tail (im Angebot)') && ics.includes('Im Angebot seit diesem Tag'), ics)
+  pruefe('die .ics-Datei trägt Titel und Hinweis', ics.includes('SUMMARY:Fairy Tail (neu bei Crunchyroll)') && ics.includes('Im Angebot seit diesem Tag'), ics)
+}
+
+console.log('\nNeu bei <Anbieter> (Kalenderdatei und Newsletter folgen dem Anbieter des Termins):')
+{
+  const [adn] = expandEvents(katalog({ platform: 'adn' }))
+  pruefe('Kalenderdatei: ADN-Termin heißt „neu bei ADN“', eventSummary(adn!) === 'Fairy Tail (neu bei ADN)', eventSummary(adn!))
+  const [tv] = expandEvents(katalog({ platform: 'tv', sender: 'RTL Zwei' } as Partial<Release>))
+  pruefe('Kalenderdatei: bei TV der Sender', eventSummary(tv!) === 'Fairy Tail (neu bei RTL Zwei)', eventSummary(tv!))
+}
+
+/** HTML der Mail für einen Termin; `link` setzt den Direktlink zum Anbieter (sonst steht der Name als Text). */
+function mailHtml(ev: ReleaseEvent, link?: string): string {
+  const links = link ? new Map([[ev.releaseSlug, { platformUrl: link }]]) : undefined
+  return digestMail([ev], 'daily', 'https://anime-kalender.de/', 'https://x/u', { links }).html
+}
+
+console.log('\nNeu bei <Anbieter> (Newsletter: Marke und Link sind eins, kein zweites „ansehen“):')
+{
+  const [adn] = expandEvents(katalog({ platform: 'adn' }))
+  // Nur die TV-Premiere läuft durch dieselbe Zeile wie Streaming-Termine (TV-Wiederholungen stehen in einer eigenen Liste).
+  const [tv] = expandEvents(katalog({ platform: 'tv', sender: 'RTL Zwei' } as Partial<Release>)).map((e) => ({ ...e, tvPremiere: true }))
+  const [ohne] = expandEvents(katalog({ platform: 'adn', dateMeaning: undefined }))
+  const ohneLink = mailHtml(adn!)
+  pruefe('ohne Link: „Neu bei ADN“ als Text, einmal', ohneLink.split('Neu bei ADN').length === 2 && !/im Angebot|neu bei/.test(ohneLink), ohneLink.match(/.{40}Neu bei.{20}/)?.[0])
+  const mitLink = mailHtml(adn!, 'https://adn.example/x')
+  pruefe('mit Link: die Marke ist der Link „Neu bei ADN ›“', mitLink.includes('>Neu bei ADN &rsaquo;</a>'), mitLink.match(/.{60}Neu bei.{30}/)?.[0])
+  pruefe('mit Link: kein zweites „ADN ansehen“ daneben', !mitLink.includes('ansehen'), mitLink.match(/.{40}ansehen.{20}/)?.[0])
+  pruefe('Crunchyroll: die Marke folgt dem Anbieter', mailHtml(expandEvents(katalog())[0]!).includes('Neu bei Crunchyroll'))
+  const tvHtml = mailHtml(tv!, 'https://tv.example/x')
+  pruefe('TV: die Marke trägt den Sender', tvHtml.includes('>Neu bei RTL Zwei &rsaquo;</a>'), tvHtml.match(/.{40}Neu bei.{30}/)?.[0])
+  const normalOhneLink = mailHtml(ohne!)
+  pruefe('normale Zeile ohne Direktlink: nur der Anbietername, weder „ADN ansehen“ noch „Neu bei ADN“', normalOhneLink.includes('ADN') && !normalOhneLink.includes('ADN ansehen') && !normalOhneLink.includes('Neu bei ADN'), normalOhneLink.match(/.{50}(ADN ansehen|Neu bei ADN).{30}/)?.[0])
+  pruefe('ohne Katalogdatum bleibt es bei „ADN ansehen ›“', mailHtml(ohne!, 'https://adn.example/x').includes('>ADN ansehen &rsaquo;</a>') && !mailHtml(ohne!).includes('Neu bei ADN'))
 }
 
 console.log('\nIm Angebot seit (Bau: Termine nachtragen):')

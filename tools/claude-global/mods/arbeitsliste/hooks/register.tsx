@@ -424,7 +424,7 @@ function paneAutonom(a: Ansicht, d: PaneDaten) {
 function paneRuhe(a: Ansicht, d: PaneDaten) {
   const { Text } = a
   if (!d.still) return null
-  return <Text color="warning">{d.still === 'sanft' ? '🔇 Ruhemodus sanft: Laufende enden, dann höchstens 1 Agent' : '🔇 Ruhemodus hart: höchstens 1 Agent'}</Text>
+  return <Text color="warning">{d.still === 'sanft' ? '🔇 Ruhemodus sanft: Laufende enden, dann höchstens 1 Agent (Prüfer zählen nicht)' : '🔇 Ruhemodus hart: höchstens 1 Agent (Prüfer zählen nicht)'}</Text>
 }
 
 function paneLive(a: Ansicht, d: PaneDaten) {

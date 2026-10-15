@@ -64,6 +64,9 @@ export const SPRACHE_HINWEIS = {
 /** Ein Katalogdatum sagt, seit wann der Anbieter den Titel führt, nicht wann die deutsche Fassung erschien. */
 export const IM_ANGEBOT_HINWEIS = 'Im Angebot seit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.'
 
+/** Der erste Tag der deutschen Fassung (aniSearch), anders als ein Katalogdatum. */
+export const ERSTAUSGABE_HINWEIS = 'Erster Tag der deutschen Fassung, laut aniSearch.'
+
 /** `bis`: die letzte Folge, wenn der Eintrag mehrere Folgen desselben Tages trägt („Folge 13–14/14“). */
 export function eventSummary(ev: ReleaseEvent, bis?: number): string {
   const text = summaryOhneMarke(ev, bis)
@@ -83,7 +86,8 @@ function summaryOhneMarke(ev: ReleaseEvent, bis?: number): string {
     return `${vorn}${ev.name} – Folge ${ev.episode}${bis ? `–${bis}` : ''}${ev.episodeCount ? `/${ev.episodeCountAssumed ? '≈' : ''}${ev.episodeCount}` : ''}`
   }
   if (ev.releaseType === 'disc') return `${ev.name} (${type.short})`
-  if (ev.imAngebot) return `${ev.name} (im Angebot)`
+  if (ev.imAngebot) return `${ev.name} (neu bei ${anbieterName(ev.platform, ev.sender)})`
+  if (ev.erstausgabe) return `${ev.name} (Erstveröffentlichung bei ${anbieterName(ev.platform, ev.sender)})`
   return ev.name
 }
 
@@ -93,6 +97,7 @@ export function eventDescription(ev: ReleaseEvent, opts: IcsOptions = {}): strin
     `Release-Art: ${RELEASE_TYPES[ev.releaseType].name}`,
   ]
   if (ev.imAngebot) lines.push(IM_ANGEBOT_HINWEIS)
+  if (ev.erstausgabe) lines.push(ERSTAUSGABE_HINWEIS)
   if (ev.sprache) lines.push(SPRACHE_HINWEIS[ev.sprache])
   if (ev.premiere || ev.tvPremiere) lines.push(premiereHinweis(ev.platform, ev.premiereVorher))
   if (!ev.time) lines.push('Uhrzeit noch nicht bestätigt.')

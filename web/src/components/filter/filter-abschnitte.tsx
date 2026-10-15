@@ -31,7 +31,7 @@ export function FilterFuss({ treffer, zuruecksetzen, fertig }: { treffer?: React
       <button type="button" onClick={zuruecksetzen} className="ml-auto h-11 cursor-pointer rounded-full border border-ak-rand px-4 text-sm font-bold text-ak-text hover:bg-ak-flaeche-2">
         {t('filter.alleZuruecksetzen')}
       </button>
-      <button type="button" onClick={fertig} className="h-11 cursor-pointer rounded-full bg-ak-akzent px-5 text-sm font-extrabold text-ak-auf-akzent">
+      <button type="button" onClick={fertig} className="h-11 cursor-pointer rounded-full bg-ak-akzent px-5 text-sm font-extrabold text-ak-auf-akzent hover:bg-ak-akzent-hover">
         {t('filter.fertig')}
       </button>
     </div>

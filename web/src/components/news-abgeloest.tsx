@@ -21,19 +21,19 @@ export function AbgeloestHinweis({ m }: { m: NewsMeldung }) {
         target="_blank"
         rel="noopener noreferrer"
         title={t('news.ersetztTitel')}
-        className="shrink-0 text-[10px] text-amber-700 underline decoration-dotted underline-offset-2 hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-300"
+        className="shrink-0 text-[10px] text-ak-warnung-text underline decoration-dotted underline-offset-2 hover:text-ak-text"
       >
         {text} ↗
       </a>
     ) : (
-      <span title={t('news.ersetztTitel')} className="shrink-0 text-[10px] text-amber-700 dark:text-amber-400">
+      <span title={t('news.ersetztTitel')} className="shrink-0 text-[10px] text-ak-warnung-text">
         {text}
       </span>
     )
   }
   if (m.zurueckgezogen) {
     return (
-      <span title={m.zurueckgezogen.grund === GRUND_NUR_ORIGINALTON ? GRUND_NUR_ORIGINALTON : t('news.zurueckgezogenTitel')} className="shrink-0 text-[10px] text-rose-600 dark:text-rose-400">
+      <span title={m.zurueckgezogen.grund === GRUND_NUR_ORIGINALTON ? GRUND_NUR_ORIGINALTON : t('news.zurueckgezogenTitel')} className="shrink-0 text-[10px] text-ak-fehler-text">
         {t(m.zurueckgezogen.grund === GRUND_NUR_ORIGINALTON ? 'news.zurueckgezogenOmu' : 'news.zurueckgezogen')}
       </span>
     )

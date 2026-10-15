@@ -8,7 +8,7 @@
 import type { StreamLink, Title, WatchLink } from '../shared/types.ts'
 import { fehlendeAnbieter } from './bau/cartoon-zu-anime.ts'
 import { ergaenzeWegeOhneWeg } from './bau/11-2-2-wege-ohne-weg.ts'
-import { dubKey, neinHandbelege, type DubCheck } from './lib/dub-confirmed.ts'
+import { dubKey, neinHandbelege, wegVerneint, type DubCheck } from './lib/dub-confirmed.ts'
 import { bezugswegeTrotzNein, entferneBezugswegeTrotzNein } from './lib/handbeleg-bezugswege.ts'
 
 let verletzt = 0
@@ -19,7 +19,13 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 }
 
 const weg = (platform: string): StreamLink => ({ platform, url: `https://example.org/${platform}` }) as StreamLink
-const hand = (anilistId: number, platform: string, rest: Partial<Pick<DubCheck, 'dub' | 'available' | 'dubRanges'>>) => ({ anilistId, platform, ...rest }) as Parameters<typeof neinHandbelege>[0][number]
+const hand = (anilistId: number, platform: string, rest: Partial<Pick<DubCheck, 'url' | 'dub' | 'available' | 'dubRanges'>>) => ({ anilistId, platform, ...rest }) as Parameters<typeof neinHandbelege>[0][number]
+const prime = (asin: string) => `https://www.amazon.de/dp/${asin}`
+const PRIME_NEIN = prime('B0CHHNJJW3')
+const JW_PRIME = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.70a9f6b2-e01c-dfe3-ef0c-dc0ae2d750a5'
+/** Zwei Prime-Ausgaben: Nein an `PRIME_NEIN`, Ja an einer zweiten Adresse. Das Nein gilt dann nur seiner Adresse. */
+const neinNurDort = (id: number, platform: string, neinUrl: string) =>
+  neinHandbelege([hand(id, platform, { url: neinUrl, dub: false }), hand(id, platform, { url: 'https://example.org/ja', dub: true })])
 
 console.log('\nNein-Handbelege als Schlüsselmenge:')
 {
@@ -27,18 +33,26 @@ console.log('\nNein-Handbelege als Schlüsselmenge:')
   pruefe('dub: false und available: false zählen, dub: true und Beleg ohne Urteil nicht', nein.size === 2 && nein.has(dubKey(1, 'crunchyroll')) && nein.has(dubKey(2, 'netflix')), [...nein])
 
   /*
-    Neuanlegen ist strenger als Entfernen: Ein Ja derselben Plattform hebt das Nein hier nicht auf, denn beide können verschiedenen Ausgaben gelten
-    (Digimon 552: Prime-Ausgabe B0CGRJGJX1 ja, Crunchyroll-Kanal B0CHHNJJW3 nein). Ohne Adresse im Schlüssel würde eine JustWatch-Runde die verneinte Ausgabe
-    neu anlegen (Bau-Vergleich 14.10.2026: Digimon und 10719 bekamen einen Prime-Weg). `entferneBezugswegeTrotzNein` dagegen löscht bei Ja daneben nichts.
+    Je Adresse (14.10.2026): Ein Ja hebt nur das Nein derselben Adresse auf. Erst ein Ja an einer anderen Adresse beschränkt das Nein auf seine eigene
+    (Digimon 552 bei Prime: Ausgabe B0CGRJGJX1 ja, Crunchyroll-Kanal B0CHHNJJW3 nein); ohne zweite Ausgabe sperrt es die Plattform, denn eine neue
+    Adresse kann dieselbe Ausgabe in anderer Schreibweise sein (JustWatch-gti statt ASIN).
   */
-  const gemischt = neinHandbelege([
-    hand(10, 'primevideo', { dub: false }),
-    hand(10, 'primevideo', { dub: true }),
-    hand(11, 'netflix', { available: false }),
-    hand(11, 'netflix', { dubRanges: [{ from: 1, to: 3, dub: true }] }),
-  ])
-  pruefe('ein Ja derselben Plattform (dub: true) hebt das Nein nicht auf', gemischt.has(dubKey(10, 'primevideo')), [...gemischt])
-  pruefe('ein deutscher Bereich (dubRanges) daneben hebt es auch nicht auf', gemischt.has(dubKey(11, 'netflix')), [...gemischt])
+  const zweiAusgaben = neinHandbelege([hand(10, 'primevideo', { url: PRIME_NEIN, dub: false }), hand(10, 'primevideo', { url: prime('B0CGRJGJX1'), dub: true })])
+  pruefe('Ja an einer anderen Adresse: der Weg zu einer dritten Adresse ist frei', !wegVerneint(zweiAusgaben, 10, 'primevideo', JW_PRIME), [...zweiAusgaben])
+  pruefe('… die verneinte Adresse bleibt gesperrt, Schreibweise egal', wegVerneint(zweiAusgaben, 10, 'primevideo', 'https://www.amazon.de/gp/video/detail/B0CHHNJJW3?ref=x'))
+  const allein = neinHandbelege([hand(11, 'primevideo', { url: PRIME_NEIN, dub: false })])
+  pruefe('Nein mit Adresse ohne Ja daneben sperrt die ganze Plattform', wegVerneint(allein, 11, 'primevideo', JW_PRIME), [...allein])
+  /* Ein Ja ohne Adresse belegt keine zweite Ausgabe (Overgeared 212888 bei Crunchyroll: Nein an crunchyroll.com, Ja ohne url). */
+  const jaOhneAdresse = neinHandbelege([hand(16, 'primevideo', { url: PRIME_NEIN, dub: false }), hand(16, 'primevideo', { dub: true })])
+  pruefe('Nein mit Adresse, Ja ohne Adresse: das Nein sperrt die ganze Plattform', wegVerneint(jaOhneAdresse, 16, 'primevideo', JW_PRIME), [...jaOhneAdresse])
+  const ohneAdresse = neinHandbelege([hand(12, 'netflix', { available: false }), hand(12, 'netflix', { url: 'https://www.netflix.com/title/1', dub: true })])
+  pruefe('Nein ohne Adresse sperrt trotz Ja an einer Adresse die ganze Plattform', wegVerneint(ohneAdresse, 12, 'netflix', 'https://www.netflix.com/title/2'), [...ohneAdresse])
+  const gleich = neinHandbelege([hand(13, 'primevideo', { url: prime('B09JV7CC61'), available: false }), hand(13, 'primevideo', { url: 'https://www.amazon.de/gp/video/detail/B09JV7CC61', dub: true })])
+  pruefe('Ja (dub: true) an derselben Adresse hebt das Nein auf', gleich.size === 0, [...gleich])
+  const bereich = neinHandbelege([hand(14, 'netflix', { url: 'https://www.netflix.com/title/7', available: false }), hand(14, 'netflix', { url: 'https://www.netflix.com/title/7', dubRanges: [{ from: 1, to: 3, dub: true }] })])
+  pruefe('ein deutscher Bereich (dubRanges) an derselben Adresse zählt als Ja', bereich.size === 0, [...bereich])
+  const ohneBeide = neinHandbelege([hand(15, 'netflix', { available: false }), hand(15, 'netflix', { dub: true })])
+  pruefe('Ja und Nein ohne Adresse: dieselbe Ausgabe ist nicht belegt, das Nein gilt', wegVerneint(ohneBeide, 15, 'netflix', 'https://www.netflix.com/title/8'), [...ohneBeide])
 }
 
 console.log('\nCartoon-Zwilling übernimmt Anbieter:')
@@ -49,6 +63,8 @@ console.log('\nCartoon-Zwilling übernimmt Anbieter:')
   pruefe('ohne Nein-Handbeleg kommen beide Anbieter dazu', plattformen(new Set(), 1292) === 'crunchyroll,netflix')
   pruefe('mit Nein-Handbeleg für Crunchyroll kommt nur Netflix dazu', plattformen(nein, 1292) === 'netflix', plattformen(nein, 1292))
   pruefe('das Nein gilt nur dem Anime-Titel, dem es gehört', plattformen(nein, 99) === 'crunchyroll,netflix')
+  pruefe('Nein nur an seiner Adresse: der Weg dorthin kommt nicht dazu', plattformen(neinNurDort(1292, 'crunchyroll', weg('crunchyroll').url), 1292) === 'netflix')
+  pruefe('… ein Weg zu einer anderen Adresse schon', plattformen(neinNurDort(1292, 'crunchyroll', 'https://example.org/anders'), 1292) === 'crunchyroll,netflix')
 }
 
 console.log('\nJustWatch-Runde „Titel ohne jeden Weg":')
@@ -63,6 +79,8 @@ console.log('\nJustWatch-Runde „Titel ohne jeden Weg":')
   pruefe('ohne Nein-Handbeleg legt die Runde Crunchyroll und Netflix an', lauf(new Set()).join() === 'Crunchyroll,Netflix', lauf(new Set()))
   const ohne = lauf(neinHandbelege([hand(185515, 'crunchyroll', { dub: false })]))
   pruefe('mit Nein-Handbeleg für Crunchyroll bleibt nur Netflix', ohne.join() === 'Netflix', ohne)
+  pruefe('Nein nur an seiner Adresse: die Runde legt diese Adresse nicht an', lauf(neinNurDort(185515, 'crunchyroll', 'https://www.crunchyroll.com/de/watch/GG1U2JQM9')).join() === 'Netflix')
+  pruefe('… eine andere Adresse derselben Plattform schon', lauf(neinNurDort(185515, 'crunchyroll', 'https://www.crunchyroll.com/de/watch/ANDERS')).join() === 'Crunchyroll,Netflix')
 }
 
 console.log('\ncheck:handbelege liest auch Bezugswege (`bezugswegeTrotzNein`):')

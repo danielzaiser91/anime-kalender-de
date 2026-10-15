@@ -212,6 +212,7 @@ function lade(pfad, liste, suchteil = '') {
   /* `box.js` lädt im Browser vor `melder.js` — hier genauso, sonst fehlt akBox(). */
   vm.runInContext(readFileSync(__dirname + '/box.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/offene-netflix.js', 'utf8'), kontext)
+  vm.runInContext(readFileSync(__dirname + '/netflix-zurueckgestellt.js', 'utf8'), kontext)
   if (liste) umgebung.AK_OFFENE_TITEL = liste
   let fehler = null
   try {

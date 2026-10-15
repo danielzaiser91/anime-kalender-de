@@ -66,6 +66,19 @@
       "gefundenAm": "2026-10-13"
     },
     {
+      "id": "0572cd283f9e",
+      "host": "www.lastboss-anime.com",
+      "titelIds": [
+        204389
+      ],
+      "titel": "TVアニメ『野生のラスボスが現れた！』第2期が長崎文化放送、北海道テレビでも放送決定！",
+      "datum": "2026-09-18",
+      "url": "https://www.lastboss-anime.com/news/index00380000.html",
+      "sprache": "ja",
+      "kategorie": "staffel",
+      "gefundenAm": "2026-10-14"
+    },
+    {
       "id": "d65f7b029c43",
       "host": "bst-animation.com",
       "titelIds": [
@@ -79,6 +92,32 @@
       "gefundenAm": "2026-10-13"
     },
     {
+      "id": "4f45d6c9ddce",
+      "host": "www.tankchair-anime.com",
+      "titelIds": [
+        209499
+      ],
+      "titel": "TVアニメ『TANK CHAIR-戦車椅子-』配信情報が解禁、Prime Videoで本放送同日23:30より先行配信！",
+      "datum": "2026-09-17",
+      "url": "https://www.tankchair-anime.com/news-single.php?id=25725&offset=0",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-14"
+    },
+    {
+      "id": "6afc6a06932d",
+      "host": "www.tankchair-anime.com",
+      "titelIds": [
+        209499
+      ],
+      "titel": "EDテーマ・Daoko「SYNC」10月4日24時より配信開始！ジャケットは原作者・やしろ学描き下ろしイラストに決定！",
+      "datum": "2026-09-17",
+      "url": "https://www.tankchair-anime.com/news-single.php?id=25726&offset=0",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-14"
+    },
+    {
       "id": "a55a93efdcfa",
       "host": "hyakkano.com",
       "titelIds": [
@@ -90,6 +129,19 @@
       "sprache": "ja",
       "kategorie": "staffel",
       "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "6f233792f698",
+      "host": "www.madoka-magica.com",
+      "titelIds": [
+        133007
+      ],
+      "titel": "オーディオコメンタリー配信決定",
+      "datum": "2026-09-15",
+      "url": "https://www.madoka-magica.com/wr/news/?id=71273",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-14"
     },
     {
       "id": "11128f1d06fd",
@@ -157,6 +209,33 @@
       "gefundenAm": "2026-10-13"
     },
     {
+      "id": "e9521b3c49bd",
+      "host": "one-piece.com",
+      "titelIds": [
+        182469
+      ],
+      "titel": "新作映画公開決定！2027年夏『ONE PIECE FILM GOD VALLEY』、2029年『ONE PIECE FILM BAAD』が公開!! 劇場版",
+      "datum": "2026-08-23",
+      "url": "https://one-piece.com/news/81811/index.html",
+      "sprache": "ja",
+      "kategorie": "film",
+      "gefundenAm": "2026-10-14"
+    },
+    {
+      "id": "2161fdde1589",
+      "host": "shiboyugi-anime.com",
+      "titelIds": [
+        180746,
+        209961
+      ],
+      "titel": "『死亡遊戯で飯を食う。 44:CLOUDY BEACH』の放送・配信が決定いたしました",
+      "datum": "2026-08-03",
+      "url": "https://shiboyugi-anime.com/theater/index.html#onair",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-14"
+    },
+    {
       "id": "4c3e2de196e1",
       "host": "hyouken-anime.com",
       "titelIds": [
@@ -170,6 +249,60 @@
       "gefundenAm": "2026-10-13"
     },
     {
+      "id": "93a09ba52f00",
+      "host": "thunder3-anime.com",
+      "titelIds": [
+        207254
+      ],
+      "titel": "DATE 2026.07.17 Amazonギフト券が当たる！連休はNetflixで『サンダー３』を見ようキャンペーン",
+      "datum": "2026-07-17",
+      "url": "https://thunder3-anime.com/news/post-123",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-14"
+    },
+    {
+      "id": "3724b42dc33a",
+      "host": "shiboyugi-anime.com",
+      "titelIds": [
+        180746,
+        209961
+      ],
+      "titel": "『死亡遊戯で飯を食う。 44:CLOUDY BEACH』劇場公開記念キャンペンーンを開催します",
+      "datum": "2026-07-10",
+      "url": "https://shiboyugi-anime.com/news/index01400000.html",
+      "sprache": "ja",
+      "kategorie": "film",
+      "gefundenAm": "2026-10-14"
+    },
+    {
+      "id": "652a71cc3b8c",
+      "host": "shiboyugi-anime.com",
+      "titelIds": [
+        180746,
+        209961
+      ],
+      "titel": "佐久間貴史さんから劇場公開に際しコメントをいただきました",
+      "datum": "2026-07-09",
+      "url": "https://shiboyugi-anime.com/news/index01390000.html",
+      "sprache": "ja",
+      "kategorie": "film",
+      "gefundenAm": "2026-10-14"
+    },
+    {
+      "id": "6f917c0d8eb8",
+      "host": "www.theghostintheshell-anime.jp",
+      "titelIds": [
+        177699
+      ],
+      "titel": "<?php echo $record_datetime_format; ?> 2026. 06.20 2026年7月8日（水）より国内各種動画配信サービスにて配信決定!!",
+      "datum": "2026-07-08",
+      "url": "https://www.theghostintheshell-anime.jp/news/article/?id=23773",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-14"
+    },
+    {
       "id": "33e2f5deb5af",
       "host": "mahouka.jp",
       "titelIds": [
@@ -181,6 +314,19 @@
       "sprache": "ja",
       "kategorie": "film",
       "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "ecd721eef9ba",
+      "host": "www.theghostintheshell-anime.jp",
+      "titelIds": [
+        177699
+      ],
+      "titel": "<?php echo $record_datetime_format; ?> 2026. 06.16 2026年7月7月（火）よりPrime Videoで国内見放題最速配信決定!! Prime Video版予告編映像も公開！",
+      "datum": "2026-07-07",
+      "url": "https://www.theghostintheshell-anime.jp/news/article/?id=23744",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-14"
     },
     {
       "id": "7c78250e8663",
@@ -222,6 +368,32 @@
       "gefundenAm": "2026-10-13"
     },
     {
+      "id": "c31ca1250371",
+      "host": "tongari-anime.com",
+      "titelIds": [
+        147105
+      ],
+      "titel": "TVアニメ「とんがり帽子のアトリエ」第2期制作決定 原作・白浜鴎＆監督・渡辺歩コメント到着",
+      "datum": "2026-06-29",
+      "url": "https://tongari-anime.com/news/detail/?id=1134339",
+      "sprache": "ja",
+      "kategorie": "staffel",
+      "gefundenAm": "2026-10-14"
+    },
+    {
+      "id": "55eb1f34c5ca",
+      "host": "wistoria-anime.com",
+      "titelIds": [
+        182300
+      ],
+      "titel": "TVアニメ『杖と剣のウィストリア』Season3制作決定！",
+      "datum": "2026-06-28",
+      "url": "https://wistoria-anime.com/news/610/",
+      "sprache": "ja",
+      "kategorie": "staffel",
+      "gefundenAm": "2026-10-14"
+    },
+    {
       "id": "5d3a61e46787",
       "host": "mission-yozakura-family.com",
       "titelIds": [
@@ -235,6 +407,19 @@
       "gefundenAm": "2026-10-13"
     },
     {
+      "id": "c61d8016add0",
+      "host": "wistoria-anime.com",
+      "titelIds": [
+        182300
+      ],
+      "titel": "TVアニメ『杖と剣のウィストリア』音楽集 配信決定！",
+      "datum": "2026-06-28",
+      "url": "https://wistoria-anime.com/news/612/",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-14"
+    },
+    {
       "id": "85912d14d138",
       "host": "snowballearth.net",
       "titelIds": [
@@ -246,6 +431,19 @@
       "sprache": "en",
       "kategorie": "staffel",
       "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "052430ba0743",
+      "host": "www.foolnight.com",
+      "titelIds": [
+        213457
+      ],
+      "titel": "Netflixにて、2026年世界独占配信決定！ティザービジュアル&ティザーPV公開！",
+      "datum": "2026-06-24",
+      "url": "https://www.foolnight.com/news/detail.php?id=23715",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-14"
     },
     {
       "id": "171d044b5a6b",
@@ -365,6 +563,32 @@
       "gefundenAm": "2026-10-13"
     },
     {
+      "id": "ae8bf2c30190",
+      "host": "tongari-anime.com",
+      "titelIds": [
+        147105
+      ],
+      "titel": "TVアニメ「とんがり帽子のアトリエ」4月6日(月)23時～全世界一斉配信決定！ アライラ役・三石琴乃出演解禁＆キャラビジュアル公開",
+      "datum": "2026-03-15",
+      "url": "https://tongari-anime.com/news/detail/?id=1132125",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-14"
+    },
+    {
+      "id": "e6bb7d6d22eb",
+      "host": "tongari-anime.com",
+      "titelIds": [
+        147105
+      ],
+      "titel": "Anime “Witch Hat Atelier” to Be Featured at Crunchyroll Anime Nights",
+      "datum": "2026-03-09",
+      "url": "https://tongari-anime.com/news/detail/?id=1131898",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-14"
+    },
+    {
       "id": "bcd5158965df",
       "host": "bst-animation.com",
       "titelIds": [
@@ -376,6 +600,19 @@
       "sprache": "ja",
       "kategorie": "termin",
       "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "dc0fc57b998b",
+      "host": "you-zitsu.com",
+      "titelIds": [
+        180745
+      ],
+      "titel": "カレンダーイラストプロジェクト 4th Season",
+      "datum": "2026-01-01",
+      "url": "https://you-zitsu.com/special.html",
+      "sprache": "ja",
+      "kategorie": "staffel",
+      "gefundenAm": "2026-10-14"
     }
   ]
 }

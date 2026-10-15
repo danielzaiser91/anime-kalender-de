@@ -66,7 +66,7 @@ export function Meldungen({ titleId }: { titleId: number }) {
               href={m.quelle.url}
               target="_blank"
               rel="noreferrer noopener"
-              className="font-semibold underline hover:text-sky-400"
+              className="font-semibold underline hover:text-ak-text"
             >
               {m.titel}
             </a>

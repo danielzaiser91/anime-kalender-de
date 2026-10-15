@@ -103,7 +103,7 @@ export function FolgenBereich({ titleId, erschienen, laufzeitImKopf }: { titleId
                   role="tab"
                   aria-selected={i === paket}
                   onClick={() => setPaket(i)}
-                  className={`min-h-11 min-w-11 cursor-pointer rounded px-2 tabular-nums ${i === paket ? 'bg-slate-300 font-bold dark:bg-white/20' : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10'}`}
+                  className={`min-h-11 min-w-11 cursor-pointer rounded px-2 tabular-nums ${i === paket ? 'bg-slate-300 font-bold dark:bg-white/20' : 'bg-ak-flaeche-2 text-slate-700 hover:bg-ak-flaeche-3 dark:text-slate-300'}`}
                 >
                   {i * PAKET + 1}–{Math.min((i + 1) * PAKET, folgen!.length)}
                 </button>
@@ -157,7 +157,7 @@ function FolgeOhneFlagge({ hinweis, gibtDeutsche }: { hinweis?: string; gibtDeut
       <span
         role="img"
         aria-label={hinweis ?? 'Keine deutsche Synchro belegt'}
-        className={`${marke} ${hinweis ? 'border-rose-500 text-rose-600 dark:border-rose-400 dark:text-rose-300' : 'border-slate-400 text-slate-500 dark:border-slate-500 dark:text-slate-400'}`}
+        className={`${marke} ${hinweis ? 'border-ak-fehler text-ak-fehler-text' : 'border-slate-400 text-slate-500 dark:border-slate-500 dark:text-slate-400'}`}
       >
         {hinweis ? '✕' : '?'}
       </span>

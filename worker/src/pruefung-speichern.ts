@@ -29,6 +29,7 @@ import { fuegePruefungEin } from './pruefung-einfuegen.ts'
 import { rohfolgeFuerMeldung, rohfolgeFuerZeile } from './pruefung-rohfolge-spalte.ts'
 import { leiteAb } from './pruefung-ableiten.ts'
 import { mitTitelzeilenAuftrag, titelzeileOderNull } from './titelzeile-speichern.ts'
+import { titelzeilenImStapel } from './titelzeile-stapel.ts'
 import { hakeRohfolgenAb } from './rohfolgen-abhaken.ts'
 import { adressenDerMeldung, verwirfGemeldet } from './pruefung-gemeldet-cache.ts'
 import { pruefeUnveraendert, ladeOffeneHashes, folgeVon, type OffeneHashes } from './pruefung-unveraendert.ts'
@@ -68,8 +69,8 @@ async function speichereAuftrag(kontext: Kontext, daten: Record<string, unknown>
 }
 
 /** Eine geparste Meldung — oder ein Auftrag der Pipeline (abhaken, wieder öffnen) — speichern. */
-export async function speichereDaten({ request, antwort, token, env, ctx, offene }: Kontext, daten: Record<string, unknown>) {
-  const titelzeile = await titelzeileOderNull({ env, ctx, antwort }, daten)
+export async function speichereDaten({ request, antwort, token, env, ctx, offene, ohneTitelzeile }: Kontext, daten: Record<string, unknown>) {
+  const titelzeile = ohneTitelzeile ? null : await titelzeileOderNull({ env, ctx, antwort }, daten)
   if (titelzeile) return titelzeile
   /*
     **Ein Stapel: mehrere Meldungen in einer Anfrage**.
@@ -266,19 +267,25 @@ export type Kontext = {
   ctx: ExecutionContext<unknown> | undefined
   /** Hashes der offenen Zeilen der gemeldeten Adressen, einmal je Aufruf geladen. */
   offene?: OffeneHashes
+  /** Im Stapel schon entschieden (`titelzeile-stapel.ts`): diese Meldung geht den bisherigen Weg. */
+  ohneTitelzeile?: boolean
 }
 
 async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, stapel: unknown[]) {
-  const mitUrl = stapel.filter((m): m is Record<string, unknown> => typeof (m as { url?: unknown } | null)?.url === 'string')
+  /* Folgen in Titelzeilen gebündelt je Titel (Begründung in titelzeile-stapel.ts), der Rest einzeln wie bisher. */
+  const inTitelzeile = await titelzeilenImStapel(env, stapel)
+  const rest = stapel.filter((_, i) => !inTitelzeile.has(i))
+  const mitUrl = rest.filter((m): m is Record<string, unknown> => typeof (m as { url?: unknown } | null)?.url === 'string')
   const offene = await ladeOffeneHashes(env, mitUrl.map(folgeVon))
-  const ergebnisse = await verarbeiteStapel(stapel, async (einzeln) => {
+  const uebrige = await verarbeiteStapel(rest, async (einzeln) => {
     if (!einzeln || typeof einzeln !== 'object' || 'stapel' in einzeln) {
       return { ok: false, status: 400, grund: 'Meldung ist kein Objekt oder ein verschachtelter Stapel' }
     }
-    const r = await speichereDaten({ request, antwort, token, env, ctx: undefined, offene }, einzeln as Record<string, unknown>)
+    const r = await speichereDaten({ request, antwort, token, env, ctx: undefined, offene, ohneTitelzeile: true }, einzeln as Record<string, unknown>)
     const inhalt = (await r.json().catch(() => ({}))) as { befund?: string; error?: string }
     return r.ok ? { ok: true, befund: inhalt.befund ?? null } : { ok: false, status: r.status, grund: inhalt.error ?? 'ohne Grund' }
   })
+  const ergebnisse = stapel.map((_, i) => inTitelzeile.get(i) ?? uebrige.shift()!)
   const erste = stapel[0] as Record<string, unknown>
   ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(erste?.plattform ?? 'unbekannt') }))
   return antwort({ ok: true, ergebnisse })

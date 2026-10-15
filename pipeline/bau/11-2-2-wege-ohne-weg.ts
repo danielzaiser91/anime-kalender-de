@@ -1,7 +1,7 @@
 import { log } from '../lib/util.ts'
 import { type Title, type WatchLink } from '../../shared/types.ts'
 import { providerName, stripAffiliate } from '../../shared/mappings.ts'
-import { dubKey } from '../lib/dub-confirmed.ts'
+import { wegVerneint } from '../lib/dub-confirmed.ts'
 import { plattformVon } from '../lib/cartoons.ts'
 
 export type JwEintrag = { ohneTreffer?: boolean; angebote?: { anbieter: string; art: string; url?: string }[] }
@@ -39,7 +39,7 @@ export const PHYSISCHE_SHOPS =
 export function ergaenzeWegeOhneWeg({ titles, jw, handNein, tmdbMehrdeutig, toteAdressen }: {
   titles: Map<number, Title>
   jw: Record<string, JwEintrag>
-  /** `dubKey`-Schlüssel der Nein-Handbelege: Ein Weg zu einem Anbieter, den eine Handprüfung verneint hat, wird nicht angelegt. */
+  /** Nein-Handbelege (`neinHandbelege`): Ein Weg zu einem Anbieter, den eine Handprüfung verneint hat, wird nicht angelegt. */
   handNein: Set<string>
   tmdbMehrdeutig: Set<string>
   toteAdressen: Set<string>
@@ -58,7 +58,7 @@ export function ergaenzeWegeOhneWeg({ titles, jw, handNein, tmdbMehrdeutig, tote
       const name = providerName(a.anbieter)
       if (!name || wege.some((w) => w.name === name)) continue
       const plattform = plattformVon(a.anbieter)
-      if (plattform && handNein.has(dubKey(title.id, plattform))) continue
+      if (plattform && wegVerneint(handNein, title.id, plattform, a.url)) continue
       /*
         **Ein Kino ist kein Bezugsweg** (Daniel, 19.09.2026: Cinestar führte nach Leipzig,
         Filmspiegel nach Essen). JustWatch kennzeichnet Kinoangebote selbst mit `art: CINEMA`

@@ -1,7 +1,7 @@
 import { log } from '../lib/util.ts'
 import { type StreamLink, type Title } from '../../shared/types.ts'
 import { stripAffiliate } from '../../shared/mappings.ts'
-import { dubKey } from '../lib/dub-confirmed.ts'
+import { wegVerneint } from '../lib/dub-confirmed.ts'
 import { plattformVon } from '../lib/cartoons.ts'
 
 export type JwAbo = { ohneTreffer?: boolean; angebote?: { anbieter: string; art: string; url?: string; audio?: string[] }[] }
@@ -67,7 +67,7 @@ export function ergaenzeAboWege({ titles, jw, handNein, tmdbMehrdeutig, toteAdre
       if (/Amazon Channel/i.test(a.anbieter)) continue
       const plattform = plattformVon(a.anbieter)
       if (!plattform || vorhanden.has(plattform)) continue
-      if (handNein.has(dubKey(title.id, plattform))) continue
+      if (wegVerneint(handNein, title.id, plattform, a.url)) continue
       title.streams = [
         ...(title.streams ?? []),
         {

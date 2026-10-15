@@ -27,7 +27,7 @@ export function QuellenKnopf({ belege, betreff }: { belege: NewsBeleg[]; betreff
         type="button"
         onClick={() => setOffen(true)}
         title={belege.map(quellenLabel).join(' · ')}
-        className="-my-2.5 ml-auto inline-flex min-h-11 min-w-11 shrink-0 cursor-pointer items-center justify-center px-1 text-t4 text-slate-600 underline underline-offset-2 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+        className="-my-2.5 ml-auto inline-flex min-h-11 min-w-11 shrink-0 cursor-pointer items-center justify-center px-1 text-t4 text-slate-600 underline underline-offset-2 hover:text-ak-text dark:text-slate-300"
       >
         {archiv ? '▣ ' : ''}
         {text}
@@ -78,7 +78,7 @@ function tabName(b: NewsBeleg, alle: NewsBeleg[]): string {
   return `${name} · ${BELEG_TYP_LABEL[belegTyp(b.url)]}${wann ? ` ${kurzTag(wann)}` : ''}`
 }
 
-const BTN = 'cursor-pointer rounded border border-slate-600 px-2.5 py-1 text-xs hover:bg-white/10'
+const BTN = 'cursor-pointer rounded border border-slate-600 px-2.5 py-1 text-xs hover:bg-ak-flaeche-2'
 
 /**
  * **Das Fenster füllt den ganzen Bildschirm** und hängt am `<body>`: Im Detail-Panel (transformiert) bezog sich `fixed` auf das Panel,
@@ -94,7 +94,7 @@ function BelegDialog({ belege, betreff, zu }: { belege: NewsBeleg[]; betreff?: s
   /* Hinter dem Dialog bleibt die Seite stehen — und ihre Bildlaufleiste verschwindet (Daniel, 04.10.2026). */
   useSeiteGesperrt(true)
   return createPortal(
-    <div role="dialog" aria-modal="true" aria-label={`Quellen: ${betreff ?? ''}`} className="fixed inset-0 z-[60] flex flex-col bg-black/90 text-slate-200" onClick={zu}>
+    <div role="dialog" aria-modal="true" aria-label={`Quellen: ${betreff ?? ''}`} className="ak-immer-dunkel fixed inset-0 z-[60] flex flex-col bg-black/90 text-slate-200" onClick={zu}>
       <div className="shrink-0 border-b border-white/10 bg-slate-900 px-4 pt-2" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-3 text-sm">
           <b className="min-w-0 flex-1 truncate">{belege.length > 1 ? 'Quellen' : 'Quelle'}{betreff ? `: ${betreff}` : ''}</b>
@@ -109,7 +109,7 @@ function BelegDialog({ belege, betreff, zu }: { belege: NewsBeleg[]; betreff?: s
                 role="tab"
                 aria-selected={i === aktiv}
                 onClick={() => setAktiv(i)}
-                className={`shrink-0 cursor-pointer rounded-t border border-b-0 px-3 py-1 text-xs ${i === aktiv ? 'border-slate-500 bg-slate-800 font-bold text-white' : 'border-transparent text-slate-400 hover:text-white'}`}
+                className={`shrink-0 cursor-pointer rounded-t border border-b-0 px-3 py-1 text-xs ${i === aktiv ? 'border-slate-500 bg-slate-800 font-bold text-white' : 'border-transparent text-slate-400 hover:text-ak-text'}`}
               >
                 {b.bild && WORKER ? '▣ ' : ''}
                 {tabName(b, belege)}
@@ -190,14 +190,14 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
         <div className="flex flex-wrap items-center gap-2 text-xs leading-snug text-slate-300">
           <Erklaerung beleg={beleg} mitBild={Boolean(bild)} />
           {x !== undefined && url && (
-            <button type="button" onClick={zurFundstelle} className={`${BTN} border-rose-400 text-rose-200`}>{markiert ? 'Marke aus' : 'Zur Fundstelle'}</button>
+            <button type="button" onClick={zurFundstelle} className={`${BTN} border-ak-fehler text-ak-fehler-text`}>{markiert ? 'Marke aus' : 'Zur Fundstelle'}</button>
           )}
           {url && (
             <button type="button" onClick={() => setEinpassen((e) => !e)} aria-pressed={einpassen} className={BTN}>
               {einpassen ? 'Volle Breite' : 'Einpassen'}
             </button>
           )}
-          <a href={beleg.url} target="_blank" rel="noopener noreferrer" className={`${BTN} border-rose-400 font-semibold text-rose-200`}>
+          <a href={beleg.url} target="_blank" rel="noopener noreferrer" className={`${BTN} border-ak-fehler font-semibold text-ak-fehler-text`}>
             Originalseite bei {hostVon(beleg.url)} ↗
           </a>
         </div>
@@ -206,14 +206,14 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
         {!bild ? (
           beleg.messung ? <Messung m={beleg.messung} /> : null
         ) : fehler ? (
-          <p className="p-4 text-sm text-rose-300">{fehler}</p>
+          <p className="p-4 text-sm text-ak-fehler-text">{fehler}</p>
         ) : (
           <BelegBild url={url} alt={`Beleg: ${beleg.name}`} einpassen={einpassen} bereit={bildBereit}>
             {markiert && x !== undefined && (
               <div
                 ref={marke}
                 aria-label="Fundstelle"
-                className="pointer-events-none absolute rounded border-[3px] border-rose-500 bg-rose-500/10 shadow-[0_0_0_9999px_rgba(0,0,0,0.35)]"
+                className="pointer-events-none absolute rounded border-[3px] border-ak-fehler bg-ak-fehler/10 shadow-[0_0_0_9999px_rgba(0,0,0,0.35)]"
                 style={{ left: `${x * 100}%`, top: `${(y ?? 0) * 100}%`, width: `${(b ?? 0) * 100}%`, height: `${(h ?? 0) * 100}%` }}
               />
             )}
@@ -233,7 +233,7 @@ function BelegBild({ url, alt, einpassen, bereit, children }: { url?: string; al
   useLayoutEffect(() => {
     if (stand === 'fertig') bereit()
   }, [stand]) // eslint-disable-line react-hooks/exhaustive-deps -- `bereit` liest nur Refs
-  if (stand === 'kaputt') return <p className="p-4 text-sm text-rose-300">Bild konnte nicht angezeigt werden</p>
+  if (stand === 'kaputt') return <p className="p-4 text-sm text-ak-fehler-text">Bild konnte nicht angezeigt werden</p>
   const fertig = stand === 'fertig'
   const hoehe = fertig ? '' : 'min-h-[60svh]'
   return (

@@ -139,7 +139,7 @@ function FilterFuss(p: FilterFeldProps) {
       >
         {t('filter.alleZuruecksetzen')}
       </button>
-      <button type="button" onClick={p.schliessen} className="h-11 cursor-pointer rounded-full bg-ak-akzent px-5 text-sm font-extrabold text-ak-auf-akzent">
+      <button type="button" onClick={p.schliessen} className="h-11 cursor-pointer rounded-full bg-ak-akzent px-5 text-sm font-extrabold text-ak-auf-akzent hover:bg-ak-akzent-hover">
         {t('filter.fertig')}
       </button>
     </div>

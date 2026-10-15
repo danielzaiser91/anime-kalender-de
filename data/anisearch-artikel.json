@@ -107616,6 +107616,42 @@
     "fetchedAt": "2026-10-11T04:43:09.234Z",
     "stand": 1
   },
+  "68489": {
+    "ean": "4013549111232",
+    "audio": [
+      "Deutsch (DTS-HD 5.1)",
+      "Englisch (DTS-HD 5.1)"
+    ],
+    "publisher": "Splendid Animation",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 14868,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-10-15T03:30:29.701Z",
+    "stand": 1
+  },
+  "68490": {
+    "ean": "4013549116480",
+    "audio": [
+      "Deutsch (Dolby Digital 5.1)",
+      "Englisch (Dolby Digital 5.1)"
+    ],
+    "publisher": "Splendid Animation",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 14868,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-10-15T03:30:36.096Z",
+    "stand": 1
+  },
   "68506": {
     "ean": "4260495768472",
     "audio": [
@@ -115154,6 +115190,57 @@
     "fetchedAt": "2026-10-03T21:46:32.434Z",
     "stand": 1
   },
+  "77655": {
+    "ean": "4029759083054",
+    "audio": [
+      "Deutsch"
+    ],
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 14517,
+        "typ": "TV-Serie",
+        "folgen": 13
+      }
+    ],
+    "fetchedAt": "2026-10-15T03:30:23.303Z",
+    "stand": 1
+  },
+  "77656": {
+    "ean": "4029759083061",
+    "audio": [
+      "Deutsch"
+    ],
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 14517,
+        "typ": "TV-Serie",
+        "folgen": 13
+      }
+    ],
+    "fetchedAt": "2026-10-15T03:30:16.819Z",
+    "stand": 1
+  },
+  "77657": {
+    "ean": "4029759083078",
+    "audio": [
+      "Deutsch"
+    ],
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 14517,
+        "typ": "TV-Serie",
+        "folgen": 13
+      }
+    ],
+    "fetchedAt": "2026-10-15T03:30:10.428Z",
+    "stand": 1
+  },
   "77828": {
     "ean": "7630017523051",
     "audio": [
@@ -115623,6 +115710,20 @@
       }
     ],
     "fetchedAt": "2026-10-11T05:50:25.350Z",
+    "stand": 1
+  },
+  "77856": {
+    "ean": "4029759091349",
+    "umfang": "Bundle / Komplettset",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 14517,
+        "typ": "TV-Serie",
+        "folgen": 13
+      }
+    ],
+    "fetchedAt": "2026-10-15T03:30:04.036Z",
     "stand": 1
   },
   "77859": {
@@ -176617,6 +176718,118 @@
       }
     ],
     "fetchedAt": "2026-10-06T06:21:00.725Z",
+    "stand": 1
+  },
+  "174349": {
+    "ean": "5051890340429",
+    "audio": [
+      "Englisch",
+      "Deutsch",
+      "Italienisch",
+      "Spanisch"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Englisch",
+      "Spanisch"
+    ],
+    "publisher": "Warner Bros. Entertainment GmbH",
+    "umfang": "Film",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 19566,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-10-15T03:31:02.035Z",
+    "stand": 1
+  },
+  "174350": {
+    "ean": "5051890340917",
+    "audio": [
+      "Deutsch",
+      "Englisch",
+      "Französisch",
+      "Polnisch",
+      "Tschechisch",
+      "Slowakisch"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Englisch",
+      "Tschechisch",
+      "Niederländisch",
+      "Französisch",
+      "Polnisch",
+      "Slowakisch"
+    ],
+    "publisher": "Warner Bros. Entertainment GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 19566,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-10-15T03:30:42.607Z",
+    "stand": 1
+  },
+  "174351": {
+    "ean": "5051890341013",
+    "audio": [
+      "Deutsch",
+      "Englisch",
+      "Französisch",
+      "weitere"
+    ],
+    "untertitel": [
+      "Deutsch",
+      "Englisch",
+      "Französisch",
+      "weitere"
+    ],
+    "publisher": "Warner Bros. Entertainment GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray + 4K UHD",
+    "enthalten": [
+      {
+        "anisearchId": 19566,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-10-15T03:30:49.127Z",
+    "stand": 1
+  },
+  "174352": {
+    "ean": "5051890340825",
+    "audio": [
+      "Englisch",
+      "Deutsch",
+      "Französisch",
+      "weitere"
+    ],
+    "untertitel": [
+      "Englisch",
+      "Deutsch",
+      "Französisch",
+      "weitere"
+    ],
+    "publisher": "Warner Bros. Entertainment GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray + 4K UHD",
+    "enthalten": [
+      {
+        "anisearchId": 19566,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-10-15T03:30:55.639Z",
     "stand": 1
   },
   "174397": {

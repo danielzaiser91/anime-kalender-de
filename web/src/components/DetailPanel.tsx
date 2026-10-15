@@ -327,11 +327,11 @@ export function DetailPanel({
   )
 
   /*
-    **Die Pille nennt, wie viele Folgen es dort gibt — nicht, seit wann.**
+    **Die Pille nennt, wie viele Folgen es dort gibt.**
 
     Daniel am 13.09.2026: „in den pills muss überall drin stehen wieviele
     episoden bei dem jeweiligen anbieter sind. einfaches de ✅ reicht nicht, und
-    seit datum ist uninteressant." Das Datum bleibt im Datensatz.
+    seit datum ist uninteressant." Am 14.10.2026 kehrte er das um: „seit" steht in der Pille (`pilleUnten`).
 
     Vier Quellen, gemessen am 14.09.2026 über 1.982 deutsche Verweise (517 Filme,
     783 mit Einzelbeleg je Anbieter, 682 abgeschlossene Serien, 0 laufende ohne

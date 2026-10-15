@@ -2443,7 +2443,8 @@ function durchgangEndeZeigen() {
     const regulaer = durchgangEnde.grund === 'kein offener Auftrag mehr'
     el.textContent =
       (regulaer ? 'Durchgang fertig' : `Durchgang abgebrochen · ${durchgangEnde.grund}`) +
-      (namen.length ? ` · übersprungen: ${namen.join(', ')}` : '')
+      (namen.length ? ` · übersprungen: ${namen.join(', ')}` : '') +
+      selbstUebersprungen.zurueckText()
     el.title = durchgangEnde.grund
   } catch {
     /* Eine Anzeige darf den Takt nicht aufhalten. */
@@ -2506,9 +2507,8 @@ let selbstVersucht = null
 /** Seit wann die Automatik auf dieser Seite auf die Folgenliste wartet. */
 let selbstWartet = null
 const SELBST_LISTE_WARTEN = 20000
-/** Titel, die die Automatik in dieser Sitzung übersprungen hat — sonst pendelt sie zwischen ihnen. */
-/** Titel, die der Durchgang nicht mehr anfasst, samt Grund (Kennung → Text). */
-const selbstUebersprungen = new Map()
+/** Titel, die der Durchgang nicht mehr anfasst, samt Grund (Kennung → Text); mit Ablauf auch im Speicher (`netflix-zurueckgestellt.js`). */
+const selbstUebersprungen = akNetflixZurueckNeu(offeneTitel, fertig)
 /** Wie oft ein Titel als „fertig" galt, den die Prüfliste noch führt — nach zwei Anläufen wird er übersprungen (29.09.2026). */
 const selbstVersuche = new Map()
 const SELBST_VERSUCHE = 2
@@ -5445,8 +5445,8 @@ async function dialogOeffnen() {
         einen älteren Prüfstand — ein Neuladen der Seite holt ihn.
       */
       const vorher = selbst.textContent
-      selbst.textContent = 'nichts offen — Seite neu laden'
-      selbst.title = 'Die Liste hält gerade keinen offenen Auftrag. Nach einem Neuladen der Seite ist der Prüfstand frisch.'
+      selbst.textContent = selbstUebersprungen.keinAuftrag().text
+      selbst.title = selbstUebersprungen.keinAuftrag().title
       selbst.disabled = true
       setTimeout(() => {
         selbst.textContent = vorher

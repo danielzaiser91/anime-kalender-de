@@ -66,7 +66,7 @@ function offenAusTitel(env: Env): Quelle {
     ab: TITEL_ID_AB,
     lies: async (von, anzahl) => {
       const { results } = await env.DB.prepare(
-        `SELECT id, url, NULL AS asin, gti, folge_nr AS nummer, folge AS titel, NULL AS erschienen, NULL AS dauer_sek,
+        `SELECT id, url, NULL AS asin, gti, folge_nr AS nummer, COALESCE(roh_titel, folge) AS titel, NULL AS erschienen, NULL AS dauer_sek,
                 sprachen, NULL AS untertitel, NULL AS staffel_text, staffel AS staffel_nr, gemeldet_am,
                 titel_id, plattform, NULL AS seiten_kennung
            FROM pruefung_titel
@@ -122,15 +122,15 @@ function alleAusMeldung(env: Env): Quelle {
   }
 }
 
-/** Alle Rohfolgen der Titelzeilen (Migration 055), in der Gestalt von `prime_folge`; `angenommen` gibt es dort nicht. */
+/** Alle Rohfolgen der Titelzeilen (Migration 055), in der Gestalt von `prime_folge`; `angenommen` aus der `art` der Netflix-Meldung. */
 function alleAusTitel(env: Env): Quelle {
   return {
     ab: TITEL_ID_AB,
     lies: async (von, anzahl) => {
       const { results } = await env.DB.prepare(
-        `SELECT id, plattform, url, NULL AS asin, gti, folge_nr AS nummer, folge AS titel, NULL AS erschienen,
+        `SELECT id, plattform, url, NULL AS asin, gti, folge_nr AS nummer, COALESCE(roh_titel, folge) AS titel, NULL AS erschienen,
                 staffel AS staffel_nr, titel_id, NULL AS seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen,
-                NULL AS angenommen
+                CASE WHEN plattform = 'netflix' AND art = 'angenommen' THEN 1 END AS angenommen
            FROM pruefung_titel WHERE id > ?1 AND gti IS NOT NULL ORDER BY id LIMIT ?2`,
       )
         .bind(von + TITEL_ID_AB, anzahl)
