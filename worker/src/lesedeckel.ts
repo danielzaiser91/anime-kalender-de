@@ -26,8 +26,12 @@ import { DECKEL_LESEN, deckelAntwort, heutigerStand, utcTag, verbuchen, zaehlend
 
 export const BUCHEN_AB = 1_000
 
-/** Routen der Werkzeuge (Erweiterung, Statusanzeige): ohne gültiges Token ab `DECKEL_LESEN` gesperrt. */
-export const GEDECKELT = ['/pruefung', '/lauf', '/netzfund', '/vorfall', '/status', '/verlauf']
+/**
+ * Routen der Erweiterung: ohne gültiges Token ab `DECKEL_LESEN` gesperrt. `/lauf`, `/verlauf` und `/status` fehlen
+ * absichtlich (15.10.2026): zusammen unter 30.000 Zeilen am Tag, mit Sperre wäre die Statusanzeige am Deckel blind.
+ * Ihre Lesungen zählen weiter (`zaehlendeDb` zählt jede Anfrage), nur die 429 entfällt.
+ */
+export const GEDECKELT = ['/pruefung', '/netzfund', '/vorfall']
 
 /** Gelesene Zeilen dieses Isolates, die noch nicht im Tageszähler stehen. */
 let ungebucht = 0

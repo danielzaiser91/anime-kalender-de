@@ -25,7 +25,8 @@
  *
  * **Seit 15.10.2026 zählt jede Anfrage dieses Workers** (`lesedeckel.ts`), die Grundlast steckt also im Zähler.
  * Neue Schwelle: 5,0 Mio. − 1,5 Mio. Reserve für Ungezähltes (Cron, Newsletter-Worker, Board, verlorene
- * Sammelstände) und für die freien Routen nach dem Deckel = 3,5 Mio.
+ * Sammelstände) und für die freien Routen nach dem Deckel = 3,5 Mio.; am selben Tag auf 3,0 Mio. gesenkt, weil das
+ * Ungezählte nach dem Deckel weiterläuft (Rechnung an der Konstante).
  *
  * **Das echte D1-Limit wird genauso beantwortet:** Verweigert D1 selbst (`istD1Tageslimit`), auch wenn die
  * Meldung den Fehler fängt, kommt dieselbe 429 statt 500 — nur diese erkennt die Erweiterung als Pause.
@@ -47,7 +48,9 @@ import { fehlerLog } from './werte.ts'
 import { istD1Tageslimit, sekundenBisMitternachtUtc } from './d1-limit.ts'
 
 export const DECKEL_ZEILEN = 50_000
-export const DECKEL_LESEN = 3_500_000
+/* 15.10.2026: Nach dem Deckel lesen ungezählt weiter: Cron, Schnellmesser-DO, D1-API-Werkzeuge (0,2–0,4 Mio.), freie
+ * Bau-Abrufe (bis 1,4 Mio.), zusammen höchstens ~1,8 Mio. Schlimmster Fall bei 3,0 Mio. also ~4,8 Mio. (bei 3,5 Mio.: 5,3 Mio. > Kontingent). */
+export const DECKEL_LESEN = 3_000_000
 export const RIEGEL_LESEN_JE_ANFRAGE = 5_000
 
 type D1Antwort = { meta?: { rows_written?: number; rows_read?: number; changes?: number } }

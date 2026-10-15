@@ -10,7 +10,7 @@ import { DatabaseSync } from 'node:sqlite'
 import { readdirSync, readFileSync } from 'node:fs'
 import { handlePruefung } from '../worker/src/pruefung.ts'
 import { mitEingang } from '../worker/src/auffangnetz.ts'
-import { BUCHEN_AB, istFrei, mitLesedeckel, ungebuchtFuerTest } from '../worker/src/lesedeckel.ts'
+import { BUCHEN_AB, GEDECKELT, istFrei, mitLesedeckel, ungebuchtFuerTest } from '../worker/src/lesedeckel.ts'
 import { DECKEL_LESEN, RIEGEL_LESEN_JE_ANFRAGE, utcTag, zaehlendeDb } from '../worker/src/tagesdeckel.ts'
 import { type Env } from '../worker/src/env.ts'
 
@@ -42,12 +42,14 @@ function neueDatenbank() {
 
 type Anweisung = { run: () => Promise<unknown>; all: () => Promise<unknown>; first: () => Promise<unknown>; bind: (...w: unknown[]) => Anweisung }
 /** Jede Anweisung landet in `abfragen`; `extra` gibt gewählten Leseanweisungen zusätzliche gelesene Zeilen. */
-type Spur = { abfragen: string[]; extra?: (sql: string) => number }
+type Spur = { abfragen: string[]; extra?: (sql: string) => number; langsam?: boolean }
 
 function d1(db: DatabaseSync, spur: Spur) {
   const anweisung = (sql: string, werte: unknown[] = []): Anweisung => ({
     bind: (...w) => anweisung(sql, w),
     run: async () => {
+      /* Wie die echte D1: eine Schreibanweisung braucht Zeit; was nicht abgewartet wird, steht beim Rückgabewert noch nicht da. */
+      if (spur.langsam) await new Promise((fertig) => setTimeout(fertig, 20))
       spur.abfragen.push(sql)
       const r = db.prepare(sql).run(...(werte as never[]))
       return { meta: { changes: Number(r.changes), rows_written: Number(r.changes), rows_read: 0 } }
@@ -118,7 +120,10 @@ console.log('Welche Anfragen der Deckel sperren darf (istFrei)')
 {
   const env = { LAUF_TOKEN: 't', DEBUG_TOKEN: 'd' } as unknown as Env
   pruefe(!istFrei(anfrage('/pruefung?zaehlen=1'), env), 'Zähler der Erweiterung ohne Token: gedeckelt')
-  pruefe(!istFrei(anfrage('/status'), env), 'Statusanzeige /status: gedeckelt')
+  pruefe(DECKEL_LESEN <= 3_000_000, `DECKEL_LESEN höchstens 3,0 Mio.: ungezählte Lesungen nach dem Deckel (~1,8 Mio.) bleiben unter 5 Mio. (${DECKEL_LESEN})`)
+  pruefe(GEDECKELT.join(' ') === '/pruefung /netzfund /vorfall', `die gesperrten Routen genau: ${GEDECKELT.join(' ')}`)
+  for (const pfad of ['/pruefung', '/netzfund', '/vorfall']) pruefe(!istFrei(anfrage(pfad), env), `${pfad} ohne Token: gedeckelt`)
+  pruefe(['/lauf', '/verlauf', '/status'].every((pfad) => istFrei(anfrage(pfad), env)), 'Statusanzeige (/lauf, /verlauf, /status): nie gesperrt, sonst am Deckel blind')
   pruefe(istFrei(anfrage('/pruefung?token=t'), env), 'Bau mit Token in der Adresse: frei')
   pruefe(istFrei(anfrage('/pruefung', { method: 'POST', headers: { 'X-Lauf-Token': 't' } }), env), 'Meldung/Auftrag mit Token im Kopf: frei (eigener Deckel)')
   pruefe(istFrei(anfrage('/lauf?token=d'), env), 'Wartung mit DEBUG_TOKEN: frei')
@@ -139,6 +144,14 @@ console.log('Jede Anfrage zählt, gebucht wird gesammelt')
   pruefe(gelesenHeute(db) === BUCHEN_AB && ungebuchtFuerTest() === 0, `spätestens nach BUCHEN_AB Zeilen steht alles im Tageszähler (${gelesenHeute(db)}), auch von freien Routen`)
   await mitLesedeckel(anfrage('/pruefung?token=t'), env, {}, liesZeilen(36_000))
   pruefe(gelesenHeute(db) === BUCHEN_AB + 36_000, `eine große Anfrage wird sofort gebucht (${gelesenHeute(db)})`)
+}
+{
+  /* Nach der Antwort bricht der Worker unbeachtete Arbeit ab: Die Buchung muss vor der Rückgabe fertig sein. */
+  const db = neueDatenbank()
+  const spur: Spur = { abfragen: [], extra: extraAusSql, langsam: true }
+  ungebuchtFuerTest(0)
+  await mitLesedeckel(anfrage('/health'), umgebung(db, spur), {}, liesZeilen(BUCHEN_AB))
+  pruefe(gelesenHeute(db) === BUCHEN_AB, `die Buchung ist bei der Rückgabe abgeschlossen, nicht im Hintergrund (${gelesenHeute(db)})`)
 }
 {
   const db = neueDatenbank()
@@ -181,8 +194,8 @@ console.log('Am Deckel')
   const bau = await eingang(anfrage('/pruefung?token=t'), env)
   pruefe(bau.status === 200 && Array.isArray(((await bau.json()) as { pruefungen?: unknown[] }).pruefungen), 'der Bau (Token) bekommt am Deckel seine Liste')
   pruefe((await mitLesedeckel(anfrage('/subscribe'), env, {}, liesZeilen(1))).status === 200, 'Besucher-Wege (Newsletter) lesen am Deckel weiter')
-  pruefe((await mitLesedeckel(anfrage('/status'), env, {}, async () => new Response('aus dem Cache'))).status === 200, 'eine Antwort aus dem Cache (kein D1-Zugriff) kommt am Deckel weiter')
-  const gefangen = await mitLesedeckel(anfrage('/status'), env, {}, async (e) => {
+  pruefe((await mitLesedeckel(anfrage('/pruefung?zaehlen=1'), env, {}, async () => new Response('aus dem Cache'))).status === 200, 'eine Antwort aus dem Cache (kein D1-Zugriff) kommt am Deckel weiter')
+  const gefangen = await mitLesedeckel(anfrage('/pruefung?zaehlen=1'), env, {}, async (e) => {
     try {
       await e.DB.prepare('SELECT 1').all()
       return new Response('{}')
@@ -193,12 +206,35 @@ console.log('Am Deckel')
   pruefe(gefangen.status === 429, `fängt die Route den Fehler selbst, bleibt es die 429 (${gefangen.status})`)
   spur.abfragen.length = 0
   setzeHeute(db, 0)
-  await mitLesedeckel(anfrage('/status'), env, {}, async (e) => {
+  await mitLesedeckel(anfrage('/pruefung?zaehlen=1'), env, {}, async (e) => {
     for (let i = 0; i < 3; i++) await e.DB.prepare('SELECT 1').all()
     return new Response('{}')
   })
   const blicke = spur.abfragen.filter((s) => s.includes('FROM schreib_tag')).length
   pruefe(blicke === 1, `der Zähler wird je Anfrage einmal gelesen, nicht je Anweisung (${blicke})`)
+}
+
+console.log('Die Statusanzeige bleibt am Deckel erreichbar und zählt weiter')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db, { abfragen: [], extra: extraAusSql })
+  ungebuchtFuerTest(0)
+  setzeHeute(db, DECKEL_LESEN)
+  for (const pfad of ['/lauf', '/verlauf', '/status']) {
+    const vorher = ungebuchtFuerTest()
+    const r = await mitLesedeckel(anfrage(pfad), env, {}, liesZeilen(11))
+    pruefe(r.status === 200 && ungebuchtFuerTest() === vorher + 11, `${pfad} am Deckel: 200, ${ungebuchtFuerTest() - vorher} Zeilen gezählt`)
+  }
+}
+
+console.log('Ein Fehler beim Ablegen in R2 kostet die Antwort nicht')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db, { abfragen: [] })
+  /* R2: ein Schreibzugriff je Sekunde und Schlüssel; Bau und Erweiterung können gleichzeitig ablegen. */
+  const werfend = { get: async () => null, head: async () => null, put: async () => Promise.reject(new Error('429 Too Many Requests')) }
+  const r = await eingang(anfrage('/pruefung?token=t'), { ...env, BELEGE: werfend } as unknown as Env)
+  pruefe(r.status === 200 && Array.isArray(((await r.json()) as { pruefungen?: unknown[] }).pruefungen), `put wirft: ?token= antwortet trotzdem 200 mit der Liste (${r.status})`)
 }
 
 console.log('Riegel je Anfrage: der Bau sperrt den Tag nicht, eine teure Meldung schon')
