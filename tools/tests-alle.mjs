@@ -2,7 +2,7 @@
  * Führt jede `tools/*.test.mjs` aus: bis zu 6 gleichzeitig (`tools/arbeiterpool.mjs`), Ausgabe je Test gepuffert und alphabetisch.
  * Die langsamsten Tests starten zuerst (sonst läuft am Ende einer allein, Messung 15.10.2026: zusammen 110 s).
  * Ohne `--alle` startet nach dem ersten roten Test keiner mehr; mit `--alle` laufen alle durch, am Ende steht die Liste der roten (Exit 1).
- * Alle Tests laufen unter der Bestandssperre (`tools/bestand-sperre.cjs`, wie `check:logic`); Ausnahmen mit Grund in `OHNE_SPERRE`.
+ * Alle Tests laufen unter der Bestandssperre (`tools/bestand-sperre.cjs`, wie `check:logic`); sie dürfen `public/data` nicht lesen.
  * Läuft in `npm run check:workflows`. Eine neue Test-Datei ist damit ohne Eintrag in `package.json` dabei:
  * die lange `&&`-Kette dort war die Stelle, an der jeder PR mit neuem Test mit den anderen kollidierte.
  */
@@ -18,13 +18,7 @@ const tests = readdirSync(tools).filter((f) => f.endsWith('.test.mjs')).sort()
 const alle = process.argv.includes('--alle')
 const LANGSAM = ['quellen-pr.test.mjs', 'bash-an-angehaengtes-log.test.mjs', 'commit-data.test.mjs']
 
-/** Tests, die den gebauten Bestand (`public/data`) absichtlich lesen und deshalb ohne Sperre laufen; Grund je Test. */
-const OHNE_SPERRE = {
-  'lueckenlisten.test.mjs': 'prüft die Lückenlisten am echten Datensatz (titles, releases, events, ~200 Dateien in synopses/)',
-}
-const umgebung = (test) => (test in OHNE_SPERRE ? process.env : sperreUmgebung())
-
-const auftraege = tests.map((test) => ({ befehl: process.execPath, args: [join(tools, test)], cwd: wurzel, env: umgebung(test) }))
+const auftraege = tests.map((test) => ({ befehl: process.execPath, args: [join(tools, test)], cwd: wurzel, env: sperreUmgebung() }))
 const { rote, gelaufen, veraendert } = await laufePool(auftraege, {
   wurzel,
   alle,
