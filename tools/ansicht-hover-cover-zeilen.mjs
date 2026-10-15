@@ -1,10 +1,12 @@
 /**
  * Cover-Vorschau je Ansicht der Woche (Im Handel, Im Fernsehen; 15.10.2026): Zeigen auf eine Zeile zeigt genau das Cover
  * dieses Titels, und die Karte liegt neben dem Zeiger und der Zeile vollständig im Fenster — auch am rechten und unteren Rand.
- * Erwartet wird aus `dist/data/woche.json` (Ereignisse → Titel → Cover), nicht aus dem, was die Zeile selbst übergibt.
+ * Erwartet wird aus `dist/data/woche.json` (Ereignisse → Titel → Cover), nicht aus dem, was die Zeile selbst übergibt;
+ * gemessen wird an einer Zeile ab Index 1 (das Rechteck der Liste fiele an der ersten nicht auf) und das Bild in der Größenstufe von `coverBild(…, 120)`.
  * Hat die Woche für eine Ansicht keine Ereignisse mit Cover, wird sie übersprungen; sonst muss es Zeilen geben.
  */
 import { readFileSync } from 'node:fs'
+import { coverBild } from '../web/src/lib/cover.ts'
 
 const ANSICHTEN = [
   { name: 'Im Handel', plattform: 'disc', wahl: '[data-hover-zeile]:not([data-tv-zeile])' },
@@ -12,6 +14,10 @@ const ANSICHTEN = [
 ]
 const FENSTER = { width: 1280, height: 900 }
 const REIHEN = 8
+/** Breite der Karte in CSS-Pixeln (= VORSCHAU_BREITE); bestimmt die Größenstufe des Bildes. */
+const KARTEN_BREITE = 120
+/** Randfall rechts: so weit ragt das Fenster über die Zeile hinaus; die Karte (120 + 16 + 8 px) passt dann nicht rechts neben den Zeiger. */
+const RAND_RECHTS = 40
 const RAND_MIN = 4
 const ABSTAND_MIN = 8
 const ABSTAND_MAX = 40
@@ -23,13 +29,26 @@ function bildName(url) {
   return url.split('?')[0].split('/').pop()
 }
 
-/** Erwartete Cover-Dateinamen für eine Zeile: Titel der Ereignisse dieser Ansicht, deren Name im Zeilentext steht (längster Name gewinnt). */
-export function erwarteteBilder(woche, plattform, zeilenText) {
+/** Erwartete Cover-Links für eine Zeile: Titel der Ereignisse dieser Ansicht, deren Name im Zeilentext steht (längster Name gewinnt). */
+export function erwarteteCover(woche, plattform, zeilenText) {
   const cover = new Map(woche.titles.map((t) => [t.id, t.coverImage]))
   const treffer = woche.events.filter((e) => e.platform === plattform && zeilenText.includes(e.name))
   const laengster = Math.max(0, ...treffer.map((e) => e.name.length))
   const ids = new Set(treffer.filter((e) => e.name.length === laengster).map((e) => e.titleId))
-  return [...ids].map((id) => cover.get(id)).filter(Boolean).map(bildName)
+  return [...ids].map((id) => cover.get(id)).filter(Boolean)
+}
+
+/**
+ * Der Link, den der Browser aus `srcset` und `sizes` von `coverBild(cover, 120)` wählt (absolut, wie `currentSrc`):
+ * die kleinste Stufe mit genug Pixeln für die Dichte, sonst die größte. Eine andere Kartenbreite wählt eine andere Stufe.
+ */
+function gewaehlteStufe(cover, dichte) {
+  const { src, srcSet } = coverBild(cover, KARTEN_BREITE)
+  const stufen = srcSet
+    ? srcSet.split(', ').map((k) => ({ link: k.split(' ')[0], breite: parseInt(k.split(' ')[1], 10) })).sort((a, b) => a.breite - b.breite)
+    : [{ link: src, breite: Infinity }]
+  const passend = stufen.find((s) => s.breite / KARTEN_BREITE >= dichte) ?? stufen[stufen.length - 1]
+  return new URL(passend.link, 'http://ak.test').href
 }
 
 /** Lage der Karte gegen Fenster, Zeiger und Zeile; leer, wenn sie stimmt. Alle Maße in Pixeln des Fensters. */
@@ -71,6 +90,7 @@ async function zeigeUndMesse(seite, zeile, ausRechts) {
   return {
     text: await zeile.innerText(),
     bild: await bild.evaluate((i) => i.currentSrc),
+    dichte: await seite.evaluate(() => window.devicePixelRatio),
     karte: await karte.boundingBox(),
     amBody: await karte.evaluate((k) => k.parentElement === document.body),
     zeigerEreignisse: await karte.evaluate((k) => getComputedStyle(k).pointerEvents),
@@ -80,17 +100,36 @@ async function zeigeUndMesse(seite, zeile, ausRechts) {
   }
 }
 
-/** Die erste der ersten acht Zeilen, die eine Karte bekommt, samt ihrer Zeile; null, wenn keine. */
+/**
+ * Die erste der ersten acht Zeilen ab der zweiten, die eine Karte bekommt, samt ihrer Zeile; null, wenn keine.
+ * Die erste Zeile scheidet aus: ihre Oberkante ist die der Liste, ein Rechteck der Liste statt der Zeile fiele dort nicht auf.
+ * Gibt es nur eine Zeile, bleibt nur sie.
+ */
 async function ersteMitKarte(seite, wahl) {
   const zeilen = seite.locator(wahl)
   const anzahl = Math.min(await zeilen.count(), REIHEN)
-  for (let i = 0; i < anzahl; i++) {
+  for (let i = Math.min(1, anzahl - 1); i < anzahl; i++) {
     const zeile = zeilen.nth(i)
     await zeile.scrollIntoViewIfNeeded()
     const m = await zeigeUndMesse(seite, zeile)
     if (m) return { ort: zeile, ...m }
   }
   return null
+}
+
+/** Fenster so schmal, dass die Zeile bis kurz vor den rechten Rand reicht; dann muss die Karte links vom Zeiger liegen. */
+async function messeRechterRand(seite, zeile) {
+  const zuvor = await zeile.boundingBox()
+  const breite = Math.min(FENSTER.width, Math.ceil(zuvor.x + zuvor.width) + RAND_RECHTS)
+  await seite.setViewportSize({ width: breite, height: FENSTER.height })
+  await seite.waitForTimeout(200)
+  await zeile.scrollIntoViewIfNeeded()
+  const box = await zeile.boundingBox()
+  const nah = breite - (box.x + box.width)
+  if (nah > RAND_RECHTS + 20) return [`am rechten Fensterrand: Zeile endet ${Math.round(nah)} px vor dem Rand, die Lage lässt sich nicht messen`]
+  const rechts = await zeigeUndMesse(seite, zeile, 4)
+  if (!rechts) return ['am rechten Fensterrand: keine Vorschau']
+  return lageAbweichungen(rechts).map((l) => `am rechten Fensterrand: ${l}`)
 }
 
 /** Randfälle an derselben Zeile: Fenster knapp unter ihr (Karte muss darüber) und knapp rechts von ihr (Karte muss links vom Zeiger). */
@@ -105,12 +144,7 @@ async function messeRaender(seite, zeile) {
   const unten = await zeigeUndMesse(seite, zeile)
   if (!unten) befunde.push('unten am Fenster: keine Vorschau')
   else befunde.push(...lageAbweichungen(unten).map((l) => `unten am Fenster: ${l}`))
-  await seite.setViewportSize({ width: 1100, height: FENSTER.height })
-  await seite.waitForTimeout(200)
-  await zeile.scrollIntoViewIfNeeded()
-  const rechts = await zeigeUndMesse(seite, zeile, 4)
-  if (!rechts) befunde.push('am rechten Fensterrand: keine Vorschau')
-  else befunde.push(...lageAbweichungen(rechts).map((l) => `am rechten Fensterrand: ${l}`))
+  befunde.push(...(await messeRechterRand(seite, zeile)))
   await seite.setViewportSize(FENSTER)
   await seite.waitForTimeout(200)
   await seite.mouse.move(2, 2)
@@ -124,10 +158,12 @@ async function messeAnsicht(seite, ansicht, woche) {
   const m = await ersteMitKarte(seite, ansicht.wahl)
   if (!m) return { name: ansicht.name, befunde: ['keine der ersten Zeilen bekam eine Vorschau (Zeilen fehlen oder tragen keinen Zeiger)'] }
   const befunde = []
-  const erwartet = erwarteteBilder(woche, ansicht.plattform, m.text)
+  const covers = erwarteteCover(woche, ansicht.plattform, m.text)
+  const erwartet = covers.map(bildName)
   const titel = m.text.replace(/\s+/g, ' ').slice(0, 60)
   if (!erwartet.length) befunde.push(`Zeile „${titel}“ ist keinem Ereignis der Woche zuzuordnen`)
   else if (!erwartet.includes(bildName(m.bild))) befunde.push(`zeigt das Cover ${bildName(m.bild)} statt ${erwartet.join(' oder ')} (Zeile „${titel}“)`)
+  else if (!covers.some((c) => gewaehlteStufe(c, m.dichte) === m.bild)) befunde.push(`lädt ${m.bild}, nicht die Größenstufe, die coverBild für ${KARTEN_BREITE} px wählt (Zeile „${titel}“)`)
   befunde.push(...lageAbweichungen(m).map((l) => `neben dem Zeiger: ${l}`))
   if (!m.amBody) befunde.push('die Karte hängt nicht am body (ein Vorfahr mit transform würde ihr `fixed` verschieben)')
   if (m.zeigerEreignisse !== 'none') befunde.push(`die Karte fängt Zeigerereignisse ab (pointer-events: ${m.zeigerEreignisse})`)
