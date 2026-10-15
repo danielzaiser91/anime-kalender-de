@@ -18,11 +18,11 @@
  * (`tools/check-logic-vollstaendig.mjs`, bewusste Ausnahmen in `tools/check-logic-liste-ausnahmen.txt`).
  */
 import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
-import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { laufePool } from './arbeiterpool.mjs'
 import { pruefeVollstaendig } from './check-logic-vollstaendig.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
@@ -58,11 +58,12 @@ function umgebung(ausnahme, spurDatei) {
   return { ...process.env, NODE_OPTIONS: optionen, BESTAND_ERLAUBT: ausnahme?.erlaubt.join(',') ?? '', BESTAND_SPUR: spurDatei }
 }
 
-/** Eine Ausnahme, deren Pfade nicht mehr gelesen werden, ist überflüssig: Der Wächter verlangt, sie zu streichen. */
+/** Eine Ausnahme, deren Pfade nicht mehr gelesen werden, ist überflüssig: Der Wächter verlangt, sie zu streichen (Fehltext oder null). */
 function pruefeAusnahmeGenutzt(ausnahme, spurDatei) {
   const gelesen = new Set(existsSync(spurDatei) ? readFileSync(spurDatei, 'utf8').split('\n').filter(Boolean) : [])
   const unnoetig = ausnahme.erlaubt.filter((p) => !gelesen.has(p))
-  if (unnoetig.length) abbruch(`${ausnahme.datei} liest ${unnoetig.join(', ')} nicht mehr: die Ausnahme (tools/check-logic-bestand-ausnahmen.json) streichen.`)
+  if (unnoetig.length) return `${name}: ${ausnahme.datei} liest ${unnoetig.join(', ')} nicht mehr: die Ausnahme (tools/check-logic-bestand-ausnahmen.json) streichen.`
+  return null
 }
 
 const dateien = readFileSync(resolve(wurzel, listeArg), 'utf8')
@@ -94,30 +95,34 @@ if (doppelt) {
 }
 
 const alle = process.argv.includes('--alle')
-const rote = []
-
 const ausnahmen = ladeAusnahmen(dateien)
 const spurOrdner = mkdtempSync(join(tmpdir(), 'bestand-spur-'))
-for (const [i, datei] of dateien.entries()) {
-  console.log(`[${name} ${i + 1}/${dateien.length}] ${datei}`)
-  const spurDatei = join(spurOrdner, 'spur.txt')
-  rmSync(spurDatei, { force: true })
-  const lauf = spawnSync(process.execPath, [tsx, datei], { cwd: wurzel, stdio: 'inherit', env: umgebung(ausnahmen.get(datei), spurDatei) })
-  if (lauf.status === 0) {
-    if (ausnahmen.has(datei)) pruefeAusnahmeGenutzt(ausnahmen.get(datei), spurDatei)
-    continue
+
+/** Ein Auftrag je Prüfung; die Spur-Datei ist je Prüfung eigen, weil Prüfungen gleichzeitig laufen. */
+const auftraege = dateien.map((datei, i) => {
+  const spurDatei = join(spurOrdner, `spur-${i}.txt`)
+  return {
+    befehl: process.execPath,
+    args: [tsx, datei],
+    cwd: wurzel,
+    env: umgebung(ausnahmen.get(datei), spurDatei),
+    nachher: () => (ausnahmen.has(datei) ? pruefeAusnahmeGenutzt(ausnahmen.get(datei), spurDatei) : null),
   }
-  rote.push(datei)
-  if (!alle) {
-    console.error(`${name}: ${datei} ist rot (nach ${i} grünen von ${dateien.length}).`)
-    console.error(`Weitere Fehler dahinter bleiben verdeckt. Alle roten Prüfungen auf einmal: \`npm run ${mitSperre ? 'check:logic' : 'check:bestand-liste'} -- --alle\`.`)
-    process.exit(lauf.status ?? 1)
-  }
-}
+})
+
+const { rote, gelaufen } = await laufePool(auftraege, {
+  alle,
+  meldung: (i) => console.log(`[${name} ${i + 1}/${dateien.length}] ${dateien[i]}`),
+})
 rmSync(spurOrdner, { recursive: true, force: true })
+if (rote.length > 0 && !alle) {
+  console.error(`${name}: ${dateien[rote[0].index]} ist rot (${gelaufen - rote.length} von ${dateien.length} Prüfungen grün gelaufen).`)
+  console.error(`Weitere Fehler dahinter bleiben verdeckt. Alle roten Prüfungen auf einmal: \`npm run ${mitSperre ? 'check:logic' : 'check:bestand-liste'} -- --alle\`.`)
+  process.exit(rote[0].status)
+}
 if (rote.length > 0) {
   console.error(`${name}: ${rote.length} von ${dateien.length} Prüfungen rot:`)
-  for (const datei of rote) console.error(`  - ${datei}`)
+  for (const r of rote) console.error(`  - ${dateien[r.index]}`)
   process.exit(1)
 }
 console.log(`${name}: ${dateien.length} von ${dateien.length} Prüfungen grün.`)
