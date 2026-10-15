@@ -90,7 +90,7 @@ export function MehrKnopf({ schritt, rest, onClick }: { schritt: number; rest: n
     <button
       type="button"
       onClick={onClick}
-      className="mx-auto cursor-pointer rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-200/60 dark:border-white/15 dark:text-slate-300 dark:hover:bg-white/10"
+      className="mx-auto cursor-pointer rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-ak-flaeche-2 dark:border-white/15 dark:text-slate-300"
     >
       {t('db.more', { count: Math.min(schritt, rest) })}
       <span className="ml-2 text-xs text-slate-500 dark:text-slate-400">{t('db.remaining', { count: rest })}</span>

@@ -35,7 +35,7 @@ export function HerkunftChip({
     <Chip {...zustand} onClick={onClick}>
       <Flagge land={land} />
       {herkunftName(t, land)}
-      {anzahl ? <span className="opacity-60">{anzahl.toLocaleString('de-DE')}</span> : null}
+      {anzahl ? <span className="opacity-70">{anzahl.toLocaleString('de-DE')}</span> : null}
     </Chip>
   )
   if (land !== 'XX') return chip

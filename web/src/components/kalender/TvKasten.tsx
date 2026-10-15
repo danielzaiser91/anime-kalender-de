@@ -106,7 +106,7 @@ function TvZeile({
         type="button"
         data-schliesst
         onClick={() => onOpen(ev)}
-        className="grid w-full cursor-pointer grid-cols-[24px_44px_minmax(0,1fr)] items-center gap-2 rounded-lg py-1 text-left text-[13px] transition hover:bg-ak-tv/10 focus-visible:-outline-offset-2"
+        className="grid w-full cursor-pointer grid-cols-[24px_44px_minmax(0,1fr)] items-center gap-2 rounded-lg py-1 text-left text-[13px] transition hover:bg-ak-flaeche-2 focus-visible:-outline-offset-2"
       >
         {cover ? (
           <img {...coverBild(cover, 24)} alt="" loading="lazy" className="h-[34px] w-6 rounded object-cover" />

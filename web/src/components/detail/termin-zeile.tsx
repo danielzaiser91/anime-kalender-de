@@ -213,7 +213,7 @@ function ProgrammLink({ href, t }: { href: string; t: Translate }) {
         target="_blank"
         rel="noopener"
         aria-label={t('tv.imProgramm')}
-        className="grid size-11 place-items-center rounded-full text-slate-500 transition hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-300"
+        className="grid size-11 place-items-center rounded-full text-slate-500 transition hover:text-ak-text dark:text-slate-300"
       >
         <TvZeichen />
       </a>

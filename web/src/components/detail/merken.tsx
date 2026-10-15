@@ -119,7 +119,7 @@ export function MerkenKnopf({
                     e.stopPropagation()
                     setMerkenOffen(false)
                   }}
-                  className="px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-white/10"
+                  className="px-3 py-2 text-left hover:bg-ak-flaeche-2"
                 >
                   {t(wochenserie(kuenftige).anzahl > 1 ? 'detail.merkenGoogleSerie' : 'detail.merkenGoogle')}
                 </a>
@@ -134,7 +134,7 @@ export function MerkenKnopf({
                     downloadIcs(kuenftige, release.slug)
                     setMerkenOffen(false)
                   }}
-                  className="cursor-pointer px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-white/10"
+                  className="cursor-pointer px-3 py-2 text-left hover:bg-ak-flaeche-2"
                 >
                   {t('detail.merkenIcs')}
                 </button>
