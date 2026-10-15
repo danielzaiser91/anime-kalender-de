@@ -3843,5 +3843,117 @@
       "primevideo"
     ],
     "inhaltAm": "2026-10-14"
+  },
+  "pokemon-die-anfaenge-staffel-1-2-dvd": {
+    "tmdbId": 60572,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/tv/60572/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "buy"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "primevideo",
+      "rtlplus"
+    ],
+    "inhaltAm": "2026-10-15"
+  },
+  "dragon-ball-z-filmbox-1-die-todeszone-des-garlic-jr": {
+    "tmdbId": 28609,
+    "fsk": 12,
+    "inhaltAm": "2026-10-15"
+  },
+  "dragon-ball-z-filmbox-1-der-staerkste-auf-erden": {
+    "tmdbId": 39100,
+    "fsk": 12,
+    "inhaltAm": "2026-10-15"
+  },
+  "dragon-ball-z-filmbox-1-die-entscheidungsschlacht": {
+    "tmdbId": 39101,
+    "fsk": 12,
+    "inhaltAm": "2026-10-15"
+  },
+  "dragon-ball-z-filmbox-1-super-saiyajin-son-goku": {
+    "tmdbId": 39102,
+    "fsk": 12,
+    "inhaltAm": "2026-10-15"
+  },
+  "dragon-ball-z-filmbox-2-rache-fuer-freezer": {
+    "tmdbId": 24752,
+    "fsk": 12,
+    "inhaltAm": "2026-10-15"
+  },
+  "dragon-ball-z-filmbox-2-coolers-rueckkehr": {
+    "tmdbId": 39103,
+    "fsk": 12,
+    "inhaltAm": "2026-10-15"
+  },
+  "dragon-ball-z-filmbox-2-angriff-der-cyborgs": {
+    "tmdbId": 39104,
+    "fsk": 12,
+    "inhaltAm": "2026-10-15"
+  },
+  "dragon-ball-z-filmbox-2-der-legendaere-super-saiyajin": {
+    "tmdbId": 34433,
+    "fsk": 12,
+    "inhaltAm": "2026-10-15"
+  },
+  "yu-gi-oh-zexal-s2-s3-primevideo": {},
+  "beyblade-x-s2-teil-2-disneyplus": {
+    "tmdbId": 226688,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/tv/226688-beyblade-x/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "disneyplus",
+      "rtlplus",
+      "primevideo"
+    ],
+    "inhaltAm": "2026-10-15"
   }
 }

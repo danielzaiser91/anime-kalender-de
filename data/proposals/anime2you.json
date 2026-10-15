@@ -1,15 +1,87 @@
 {
-  "scrapedAt": "2026-10-14T04:14:43.025Z",
+  "scrapedAt": "2026-10-15T04:15:24.125Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 38,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 39,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 40,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 41,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Sprachhinweis älter als 45 Tage": 5
+    "schon in einem Rubrik-Feed gelesen": 39,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 43,
+    "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "Disney+ ergänzt einen neuen Simulcast und eine neue Synchro",
+      "articleUrl": "https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/",
+      "publishedAt": "2026-10-14",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Dragon Ball Super: Beerus",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Disney+"
+          ],
+          "datum": "2026-10-14",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Snowball Earth",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Disney+"
+          ],
+          "folgen": 13,
+          "datum": "2026-10-14",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-15"
+    },
+    {
+      "articleTitle": "Design der 30th Anniversary Edition von »Detektiv Conan«",
+      "articleUrl": "https://www.anime2you.de/news/1060605/detektiv-conan-30th-anniversary-edition-design/",
+      "publishedAt": "2026-10-14",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-12",
+          "context": "Neuauflage enthüllt, das ihr euch weiter unten ansehen könnt. Release im Dezember 2026 Das erste Volume der »30th Anniversary Edition«, das"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Termin des zweiten Blu-ray-Volumes der vierten »Shield Hero«-Staffel + Design",
+      "articleUrl": "https://www.anime2you.de/news/1060648/shield-hero-staffel-2-volume-2-termin/",
+      "publishedAt": "2026-10-14",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2027-01",
+          "context": "o« fortsetzt. Ein erstes Produktbild findet ihr unten. Zweites Volume im Januar 2027 Das zweite Volume der vierten Staffel, das die Episoden"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Crunchyroll nimmt sechs Anime-Neuzugänge ins Programm + Synchro",
       "articleUrl": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/",
@@ -176,7 +248,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Blu-ray-Termin des zweiten Parts von »Dr. STONE: Science Future«",
@@ -272,7 +344,7 @@
           "folgen": 54
         }
       ],
-      "sammelGelesen": "2026-10-12"
+      "sammelGelesen": "2026-10-15"
     },
     {
       "articleTitle": "Erste »Kaiju No. 8«-Staffel erscheint im limitierten Steelbook + Design",
@@ -837,7 +909,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Amazon startet Prime Deal Days mit XXL-Anime-Angeboten",
@@ -1239,7 +1311,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-12"
+      "sammelGelesen": "2026-10-15"
     },
     {
       "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
@@ -1388,7 +1460,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast",
@@ -1518,7 +1590,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-10-12"
+      "sammelGelesen": "2026-10-15"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -1633,7 +1705,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-12"
+      "sammelGelesen": "2026-10-15"
     },
     {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
@@ -1717,7 +1789,7 @@
           "datum": "2026-10-01"
         }
       ],
-      "sammelGelesen": "2026-10-12"
+      "sammelGelesen": "2026-10-15"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -2585,7 +2657,7 @@
           "edition": ""
         }
       ],
-      "discGelesen": "2026-10-12"
+      "discGelesen": "2026-10-15"
     },
     {
       "articleTitle": "Design der limitierten Steelbook-Edition von »My Dress-Up Darling«",
@@ -3452,20 +3524,6 @@
       ],
       "dub": "unklar",
       "alreadyCurated": false
-    },
-    {
-      "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Disney+ verfügbar",
-      "articleUrl": "https://www.anime2you.de/news/1049988/disney-plus-the-god-of-high-school-und-mehr/",
-      "publishedAt": "2026-09-14",
-      "category": "streaming",
-      "platforms": [
-        "disneyplus"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Deutscher Kinostart von »Rascal Does Not Dream of a Dear Friend«",

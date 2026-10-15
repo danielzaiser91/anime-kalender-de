@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-10-14",
+  "stand": "2026-10-15",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -10674,6 +10674,126 @@
           "hatSynchroBelege": false
         },
         "inhaltZeichen": 321
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/|Dragon Ball Super: Beerus||start|disneyplus",
+      "erstGesehen": "2026-10-15",
+      "fingerabdruck": "209e5b47bc59",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/",
+          "veroeffentlicht": "2026-10-14",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Dragon Ball Super: Beerus",
+        "art": "start",
+        "plattformen": [
+          "disneyplus"
+        ],
+        "datum": "2026-10-14",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "nein",
+        "woechentlich": true,
+        "konfidenz": 0.8,
+        "gruende": [
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Dragon Ball Super: Beerus« (Simulcast)\n»Dragon Ball Super: Beerus« (Simulcast)\nEpisoden: 1 verfügbar\nSprache: Japanisch (UT)\nSimulcast: Jeden Mittwoch\nStream: Disney+",
+        "zuordnung": {
+          "anilistId": 206814,
+          "name": "Dragon Ball Super: Beerus",
+          "wie": "name+start",
+          "abstandTage": 3
+        },
+        "bestand": {
+          "status": "neu",
+          "ankuendigung": {
+            "omuAb": "2026-10-11",
+            "synchro": "offen"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 359
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/|Snowball Earth|Episode 7 bis 13|start|disneyplus",
+      "erstGesehen": "2026-10-15",
+      "fingerabdruck": "30b37acc3ffe",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/",
+          "veroeffentlicht": "2026-10-14",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Snowball Earth",
+        "zusatz": "Episode 7 bis 13",
+        "art": "start",
+        "plattformen": [
+          "disneyplus"
+        ],
+        "datum": "2026-10-14",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "(Synchro)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Snowball Earth« – Episode 7 bis 13 (Synchro)",
+        "zuordnung": {
+          "anilistId": 196144,
+          "name": "Snowball Earth",
+          "wie": "name-genau",
+          "abstandTage": 194,
+          "vorbehalt": "Zusatz „Episode 7 bis 13\" nicht aufgelöst"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        }
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/|Snowball Earth||start|disneyplus",
+      "erstGesehen": "2026-10-15",
+      "fingerabdruck": "f6251d9db1b1",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/",
+          "veroeffentlicht": "2026-10-14",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Snowball Earth",
+        "art": "start",
+        "plattformen": [
+          "disneyplus"
+        ],
+        "datum": "2026-10-14",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "folgen": 13,
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Snowball Earth« (Synchro)\nEpisoden: 7 bis 13 (komplett)\nSprache: Deutsch, Japanisch (UT)\nHinweis: Die Episoden 1 bis 6 waren bereits zuvor auf Deutsch und alle 13 Episoden schon seit geraumer Zeit auf Japanisch mit Untertiteln verfügbar.\nStream: Disney+",
+        "zuordnung": {
+          "anilistId": 196144,
+          "name": "Snowball Earth",
+          "wie": "name-genau",
+          "abstandTage": 194
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 314
       }
     }
   ]
