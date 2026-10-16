@@ -26,15 +26,28 @@ function letzteNummer(r: Release): number {
   return Math.max(1, r.schedule.firstEpisodeNumber ?? 1) + (r.schedule.episodeCount ?? 1) - 1
 }
 
+/** Belegtes Ende: `lastEpisodeDate` liegt vor dem Tag der höchsten Beobachtung — eine Quelle widerspricht der anderen. */
+function endeWiderlegtBeobachtung(r: Release, hoechste: number): boolean {
+  const ende = r.schedule.lastEpisodeDate
+  const tag = r.schedule.observed?.[hoechste]
+  return ende !== undefined && !!tag && tag > ende
+}
+
 /**
  * Hebt die Folgenzahl auf die höchste Beobachtung an, wo diese darüber liegt, und kennzeichnet sie als
- * angenommen. Verändert die Releases; gibt die betroffenen Slugs zurück.
+ * angenommen. Verändert die Releases; gibt die betroffenen Slugs zurück. Bei belegtem Ende
+ * (`lastEpisodeDate`) bleibt die Zahl: Das Ende schlägt die Fortschreibung, den Widerspruch meldet
+ * `beobachtetOhneTermin` als Fehler.
  */
 export function hebeFolgenzahlAufBeobachtung(releases: Release[]): string[] {
   const betroffen: string[] = []
   for (const r of releases) {
     const hoechste = hoechsteBeobachtung(r)
     if (hoechste === undefined || hoechste <= letzteNummer(r)) continue
+    if (endeWiderlegtBeobachtung(r, hoechste)) {
+      warn(`"${r.slug}": Folge ${hoechste} nach dem belegten Ende (${r.schedule.lastEpisodeDate}) beobachtet — Folgenzahl bleibt ${r.schedule.episodeCount ?? 'offen'}, bitte prüfen`)
+      continue
+    }
     const alt = r.schedule.episodeCount
     r.schedule.episodeCount = hoechste - Math.max(1, r.schedule.firstEpisodeNumber ?? 1) + 1
     r.schedule.episodeCountAssumed = true
@@ -52,7 +65,7 @@ export function beobachtetOhneTermin(releases: Release[], events: ReleaseEvent[]
   for (const r of releases) {
     if (r.widerlegt || hoechsteBeobachtung(r) === undefined) continue
     for (const [nr, datum] of Object.entries(r.schedule.observed ?? {})) {
-      if (!datum || Number(nr) <= letzteNummer(r) || vorhanden.has(`${r.slug}#${nr}`)) continue
+      if (!datum || Number(nr) < (r.schedule.firstEpisodeNumber ?? 1) || vorhanden.has(`${r.slug}#${nr}`)) continue
       fehler.push(`"${r.slug}": Folge ${nr} am ${datum} beobachtet, über der Folgenzahl ${r.schedule.episodeCount ?? 'offen'} — aber ohne Termin im Datensatz`)
     }
   }

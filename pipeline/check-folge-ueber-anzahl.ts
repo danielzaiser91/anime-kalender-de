@@ -90,7 +90,7 @@ const mitFinale = (e: ReleaseEvent, r: Release): boolean => istStaffelfinale(e, 
   pruefe('widerlegt: keine Meldung', beobachtetOhneTermin([widerlegt], []).length === 0, beobachtetOhneTermin([widerlegt], []))
   const ohneDatum = crSerie(11, 11)
   ohneDatum.schedule.observed![12] = ''
-  pruefe('Beobachtung ohne Datum: weder Anhebung noch Meldung', hebeFolgenzahlAufBeobachtung([ohneDatum]).length === 0 && beobachtetOhneTermin([ohneDatum], []).length === 0)
+  pruefe('Beobachtung ohne Datum: weder Anhebung noch Meldung', hebeFolgenzahlAufBeobachtung([ohneDatum]).length === 0 && beobachtetOhneTermin([ohneDatum], expandEvents(ohneDatum)).length === 0)
 }
 
 /* Ohne Folgenzahl rechnet der Plan mit einer Folge; die Beobachtungen geben die Zahl vor (nicht zwölf). */
@@ -105,7 +105,7 @@ const mitFinale = (e: ReleaseEvent, r: Release): boolean => istStaffelfinale(e, 
 {
   const r = crSerie(5, 8, { firstEpisodeNumber: 6 }, 6)
   pruefe('geteilter Start innerhalb der Spanne: keine Anhebung', hebeFolgenzahlAufBeobachtung([r]).length === 0 && r.schedule.episodeCount === 5, r.schedule)
-  pruefe('… und keine Meldung', beobachtetOhneTermin([r], []).length === 0)
+  pruefe('… und keine Meldung', beobachtetOhneTermin([r], expandEvents(r)).length === 0)
 }
 
 /* Der Termin muss zum selben Release gehören, und ein Batch wird nicht geprüft. */
@@ -113,11 +113,41 @@ const mitFinale = (e: ReleaseEvent, r: Release): boolean => istStaffelfinale(e, 
   const a = crSerie(11, 12)
   const b = { ...crSerie(11, 12), slug: 'anderes' } as Release
   const nurB = expandEvents((hebeFolgenzahlAufBeobachtung([b]), b))
-  pruefe('Termin eines anderen Releases deckt Folge 12 nicht', beobachtetOhneTermin([a], nurB).length === 1, beobachtetOhneTermin([a], nurB))
+  pruefe('Termin eines anderen Releases deckt Folge 12 nicht', beobachtetOhneTermin([a], nurB).some((f) => /Folge 12 /.test(f)), beobachtetOhneTermin([a], nurB))
   const mitTermin = expandEvents((hebeFolgenzahlAufBeobachtung([b]), b)).map((e) => ({ ...e, releaseSlug: a.slug }))
   pruefe('Folge über der Zahl, aber mit Termin im Datensatz: keine Meldung', beobachtetOhneTermin([a], mitTermin).length === 0, beobachtetOhneTermin([a], mitTermin))
   const batch = { ...crSerie(11, 12), releaseType: 'batch' } as Release
   pruefe('Batch: keine Meldung', beobachtetOhneTermin([batch], []).length === 0, beobachtetOhneTermin([batch], []))
+}
+
+/* Belegtes Ende schlägt die Beobachtung: 11 Folgen, Ende am Tag von F11, F12 danach — Zahl bleibt, Fehler statt Anhebung. */
+{
+  const r = crSerie(11, 12, { episodeCountSource: 'anisearch' })
+  r.schedule.lastEpisodeDate = r.schedule.observed![11]
+  const betroffen = hebeFolgenzahlAufBeobachtung([r])
+  const events = expandEvents(r)
+  pruefe('belegtes Ende: keine Anhebung', betroffen.length === 0 && r.schedule.episodeCount === 11 && r.schedule.episodeCountAssumed === undefined, r.schedule)
+  pruefe('belegtes Ende: Herkunft bleibt', r.schedule.episodeCountSource === 'anisearch', r.schedule)
+  pruefe('belegtes Ende: Folge 11 bleibt Finale', mitFinale(events.find((e) => e.episode === 11)!, r))
+  pruefe('belegtes Ende: Widerspruch wird als Fehler gemeldet', beobachtetOhneTermin([r], events).length === 1, beobachtetOhneTermin([r], events))
+  const amEndeTag = crSerie(11, 12)
+  amEndeTag.schedule.lastEpisodeDate = amEndeTag.schedule.observed![12]
+  pruefe('Ende am Tag der höchsten Beobachtung: Anhebung wie sonst', hebeFolgenzahlAufBeobachtung([amEndeTag]).length === 1)
+}
+
+/* Beobachtungen unterhalb von firstEpisodeNumber (Nummer einer anderen Staffel) sind kein fehlender Termin. */
+{
+  const r = crSerie(5, 8, { firstEpisodeNumber: 6 }, 6)
+  r.schedule.observed![3] = '2026-07-19'
+  pruefe('Nummer unter dem Start: keine Meldung', beobachtetOhneTermin([r], expandEvents(r)).length === 0, beobachtetOhneTermin([r], expandEvents(r)))
+}
+
+/* Die Prüfung vergleicht nicht gegen die angehobene Zahl: Fehlt der Termin trotz Anhebung, meldet sie ihn. */
+{
+  const r = crSerie(11, 12)
+  hebeFolgenzahlAufBeobachtung([r])
+  const ohne12 = expandEvents(r).filter((e) => e.episode !== 12)
+  pruefe('angehobene Zahl, Termin fehlt: Meldung', beobachtetOhneTermin([r], ohne12).length === 1, beobachtetOhneTermin([r], ohne12))
 }
 
 if (fehler) {
