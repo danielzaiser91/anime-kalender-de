@@ -17,6 +17,16 @@ if [ "$ZWEIG" = HEAD ] || [ "$ZWEIG" = main ]; then
   exit 1
 fi
 
+# Vorprüfung (tools/pr-vorpruefung.mjs): fängt vor dem Push, was der CI-Prüfer sonst mit „ändern“ zurückgibt. Rot bricht ab.
+# Gibt es den PR schon, gilt seine (unveränderliche) Beschreibung, sonst der Text dieses Aufrufs.
+if gh pr view "$ZWEIG" --json number -q .number > /dev/null 2>&1; then
+  PR_TEXT="$(gh pr view "$ZWEIG" --json body -q .body)"
+else
+  PR_TEXT="${TEXT:-$TITEL}"
+fi
+export PR_TEXT
+node tools/pr-vorpruefung.mjs --titel "$TITEL" || { echo "✖ Einreichen abgebrochen: Vorprüfung rot (Befunde oben)." >&2; exit 1; }
+
 git push -q -u origin "$ZWEIG"
 if ! gh pr view "$ZWEIG" --json number -q .number > /dev/null 2>&1; then
   gh pr create --base main --head "$ZWEIG" --title "$TITEL" --body "${TEXT:-$TITEL}"

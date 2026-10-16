@@ -156,6 +156,10 @@
       "am": "2026-10-13",
       "vorschlaege": 0
     },
+    "1059242": {
+      "am": "2026-10-16",
+      "vorschlaege": 1
+    },
     "1059269": {
       "am": "2026-10-13",
       "vorschlaege": 1
@@ -277,6 +281,10 @@
       "am": "2026-10-14",
       "vorschlaege": 1
     },
+    "1060118": {
+      "am": "2026-10-16",
+      "vorschlaege": 0
+    },
     "1060120": {
       "am": "2026-10-14",
       "vorschlaege": 0
@@ -292,6 +300,10 @@
     "1060278": {
       "am": "2026-10-14",
       "vorschlaege": 0
+    },
+    "1060351": {
+      "am": "2026-10-16",
+      "vorschlaege": 1
     },
     "1060438": {
       "am": "2026-10-14",
@@ -333,6 +345,32 @@
     "1060835": {
       "am": "2026-10-15",
       "vorschlaege": 1
+    },
+    "1060891": {
+      "am": "2026-10-16",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1060902": {
+      "am": "2026-10-16",
+      "vorschlaege": 0
+    },
+    "1060912": {
+      "am": "2026-10-16",
+      "vorschlaege": 2
+    },
+    "1060922": {
+      "am": "2026-10-16",
+      "vorschlaege": 1
+    },
+    "1060946": {
+      "am": "2026-10-16",
+      "vorschlaege": 2
+    },
+    "1060953": {
+      "am": "2026-10-16",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
     }
   },
   "vorschlaege": [
@@ -3558,6 +3596,138 @@
       "quelle": "https://www.anime2you.de/news/1048587/neue-sega-momo-jin-figuren-dan-da-dan/",
       "veroeffentlicht": "2026-10-14",
       "gelesenAm": "2026-10-15"
+    },
+    {
+      "titel": "Cyberpunk: Edgerunners II",
+      "zitat": "Die weltweite Veröffentlichung auf Netflix ist für den 20. Oktober 2026 unter anderem mit deutscher Sprachausgabe sowie im japanischen Originalton mit Untertiteln geplant.",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "netflix",
+      "datum": "2026-10-20",
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Dienstag",
+      "warnungen": [],
+      "artikelId": "1060922",
+      "artikel": "Deutscher Synchro-Trailer zu »Cyberpunk: Edgerunners II« + Visual",
+      "quelle": "https://www.anime2you.de/news/1060922/cyberpunk-edgerunners-2-synchro-trailer/",
+      "veroeffentlicht": "2026-10-15",
+      "gelesenAm": "2026-10-16"
+    },
+    {
+      "titel": "I Got a Cheat Skill in Another World and Became Unrivaled in the Real World, Too",
+      "zitat": "Auf dem X-Account der Anime-Umsetzung von »I Got a Cheat Skill in Another World and Became Unrivaled in the Real World, Too« wurde heute verkündet, dass die zweite Staffel im Januar 2027 startet.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1060912",
+      "artikel": "Start der zweiten »I Got a Cheat Skill in Another World«-Staffel + Teaser",
+      "quelle": "https://www.anime2you.de/news/1060912/cheat-skill-in-another-world-staffel-2-start/",
+      "veroeffentlicht": "2026-10-15",
+      "gelesenAm": "2026-10-16"
+    },
+    {
+      "titel": "Avatar: Die sieben Häfen",
+      "zitat": "»Avatar: Die sieben Häfen« Episoden: 1 ohne Zusatzchannel verfügbar Sprache: Deutsch, Englisch (UT)",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "1",
+      "unsicher": "Nur Episode 1 ist ohne Zusatzchannel verfügbar, Episoden 2 und 3 laut Artikel nur im Paramount+-Channel.",
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1060946",
+      "artikel": "Prime Video nimmt zwei weitere Neuzugänge ins Programm",
+      "quelle": "https://www.anime2you.de/news/1060946/prime-video-avatar-die-sieben-haefen-und-mehr/",
+      "veroeffentlicht": "2026-10-15",
+      "gelesenAm": "2026-10-16"
+    },
+    {
+      "titel": "Yoyo & Nene – Die magischen Schwestern",
+      "zitat": "»Yoyo & Nene – Die magischen Schwestern« Laufzeit: 99 Minuten Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1060946",
+      "artikel": "Prime Video nimmt zwei weitere Neuzugänge ins Programm",
+      "quelle": "https://www.anime2you.de/news/1060946/prime-video-avatar-die-sieben-haefen-und-mehr/",
+      "veroeffentlicht": "2026-10-15",
+      "gelesenAm": "2026-10-16"
+    },
+    {
+      "titel": "Lupin III",
+      "zitat": "Die Streaming-Plattform Crunchyroll hat mehrere Serien und Filme aus dem »Lupin III«-Franchise auf Deutsch und Japanisch im Programm.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Artikel nennt nicht, welche einzelnen Lupin-III-Serien oder -Filme konkret auf Deutsch verfügbar sind.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1060351",
+      "artikel": "Neue Figur von Lupin und Daisuke aus »Lupin III« vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1060351/neue-lupin-55th-limited-model-figur/",
+      "veroeffentlicht": "2026-10-15",
+      "gelesenAm": "2026-10-16"
+    },
+    {
+      "titel": "Nadia und die Macht des Zaubersteins",
+      "zitat": "Hierzulande war die Serie zuletzt im Mai 2023 mit deutscher Sprachfassung auf ProSieben MAXX zu sehen.",
+      "art": "sprachfassung",
+      "sprache": "deutsch",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Angabe bezieht sich auf eine vergangene Ausstrahlung von 2023, keine aktuelle Verfügbarkeit genannt.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1059242",
+      "artikel": "Neue »Nadia und die Macht des Zaubersteins«-Figur von Nadia enthüllt",
+      "quelle": "https://www.anime2you.de/news/1059242/neue-nadia-und-die-macht-des-zaubersteins-figur/",
+      "veroeffentlicht": "2026-10-15",
+      "gelesenAm": "2026-10-16"
     }
   ]
 }

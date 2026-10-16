@@ -5,12 +5,10 @@
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-nein-handbeleg-abschluss.ts`
  */
-import { readFileSync, writeFileSync } from 'node:fs'
-import { resolve } from 'node:path'
 import type { Title, WatchLink } from '../shared/types.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
+import { suchadressenInTemp } from './lib/suchadressen-temp.ts'
 import type { DubCheck } from './lib/dub-confirmed.ts'
-import { ROOT } from './lib/util.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -23,21 +21,11 @@ const ID = 9000020
 const weg = (name: string, url: string): WatchLink => ({ name, url, kind: 'stream' }) as WatchLink
 const beleg = (platform: string, rest: { dub?: boolean; available?: boolean }) => ({ anilistId: ID, platform, ...rest }) as DubCheck
 
-/* `bereinigeWege` schreibt bei jedem Lauf die Suchadressen-Liste; der Test stellt sie danach so wieder her, wie sie war. */
-const SCHREIBT = ['data/suchadressen-offen.json', 'daniel-zum-abarbeiten/listen/18-suchadressen.md']
-function ohneSpuren<T>(f: () => T): T {
-  const vorher = SCHREIBT.map((p) => readFileSync(resolve(ROOT, p), 'utf8'))
-  try {
-    return f()
-  } finally {
-    SCHREIBT.forEach((p, i) => writeFileSync(resolve(ROOT, p), vorher[i]!, 'utf8'))
-  }
-}
+/* `bereinigeWege` schreibt bei jedem Lauf die Suchadressen-Liste; der Test lenkt sie in einen Temp-Ordner um. */
+suchadressenInTemp()
 
 /** Lässt den Abschluss mit einem Titel (Netflix- und Prime-Bezugsweg) und den Handbelegen laufen; liefert die Namen der verbleibenden Bezugswege. */
-const lauf = (alleChecks: DubCheck[]): string => ohneSpuren(() => laufRoh(alleChecks))
-
-function laufRoh(alleChecks: DubCheck[]): string {
+function lauf(alleChecks: DubCheck[]): string {
   const titel = {
     id: ID,
     streams: [],

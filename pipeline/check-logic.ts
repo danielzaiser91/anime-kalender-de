@@ -317,6 +317,10 @@ console.log('Sendeplan gegen belegtes Ende:')
   const belegt = expandEvents({ ...release, slug: 'nf2', platform: 'netflix', schedule: { firstEpisodeDate: '2026-09-25', time: '17:30' } })
   pruefe('eine belegte Netflix-Uhrzeit bleibt und gilt nicht als geschätzt', belegt[0]?.time === '17:30' && !belegt[0]?.timeEstimated, belegt[0])
   pruefe('andere Anbieter ohne Uhrzeit bleiben ohne', einzeln[0]?.time === undefined && !einzeln[0]?.timeEstimated, einzeln[0])
+  const festgelegt = expandEvents({ ...release, slug: 'avt', platform: 'paramountplus', schedule: { firstEpisodeDate: '2026-10-09', time: '11:00', timeEstimated: true } })
+  pruefe('eine festgelegte, nicht gemessene Uhrzeit aus der Pflege gilt als geschätzt (≈ 11:00)', festgelegt[0]?.time === '11:00' && festgelegt[0]?.timeEstimated === true, festgelegt[0])
+  const festgelegtIcs = buildIcs(festgelegt.slice(0, 1)).replace(/\r\n /g, '')
+  pruefe('ICS: eine geschätzte Uhrzeit außerhalb von Netflix nennt nicht die Netflix-Regel', festgelegtIcs.includes('nicht gemessen') && !festgelegtIcs.includes('Netflix'), festgelegtIcs)
 
   /*
     Vom Landei zum Schwertheiligen II (25.09.2026): Beleg 1–10 vom 13.09., danach 11 und 12 im
@@ -3554,7 +3558,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     Zusatz „— Kauftitel (FSK 16, mit OVA)") und der Beleg ohne Folgenzuordnung,
     wenn Prime eigene Folgennamen und für alle dasselbe Datum führt.
   */
-  const roh = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8')
+  const roh = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8') + readFileSync('pipeline/lib/rohfolgen-abschluss.ts', 'utf8')
   pruefe(
     'der gemeldete Name wird am Gedankenstrich geschnitten',
     /titelSchluessel\(name\.split\(' — '\)\[0\]!\)/.test(roh),
@@ -4008,8 +4012,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
          Fehlermeldung zwei Bildschirme lang und niemand liest sie. */
       .map((block) => (block.split('{')[0] ?? '').split('*/').pop()?.trim() ?? '')
     const ohneAnbieter = versteckt.filter(
-      /* `html.ak-zu` (Einklappen, box.js) ist ein Nutzerzustand, kein Anbieter-Zustand. */
-      (wahl) => /\.ak-(uebersicht|melder|amazon-knopf)/.test(wahl) && !/\.ak-amazon\s/.test(wahl) && !/\.ak-zu(?![\w-])/.test(wahl),
+      /* `html.ak-eingeklappt` (Einklappen, box.js) ist ein Nutzerzustand, kein Anbieter-Zustand. */
+      (wahl) => /\.ak-(uebersicht|melder|amazon-knopf)/.test(wahl) && !/\.ak-amazon\s/.test(wahl) && !/\.ak-eingeklappt(?![\w-])/.test(wahl),
     )
     pruefe(
       'kein Knopf wird ohne Anbieter-Anker unsichtbar geschaltet',
@@ -7985,7 +7989,7 @@ console.log('\nLücke:')
   } as never
   const nachgereicht = verspaetungsMeldungen(nach).find((m) => m.art === 'nachgereicht')
   pruefe('Nachgereicht: 8–10 verspätet zusammen mit der geplanten Folge 11',
-    nachgereicht?.planmaessig?.join() === '11' && newsSatz(nachgereicht) === 'Folgen 8–10 sind verspätet zusammen mit der geplanten Folge 11 erschienen, angekündigt waren 13.09., 20.09. und 27.09.',
+    nachgereicht?.planmaessig?.join() === '11' && newsSatz(nachgereicht) === 'Folgen 8–10 sind verspätet zusammen mit der geplanten Folge 11 erschienen, erwartet waren 13.09., 20.09. und 27.09.',
     nachgereicht && newsSatz(nachgereicht))
   pruefe('Beleg-Bild: die Nachreich-Meldung trägt das Bild des Kalendertags, die Verspätungsmeldung das ihres Tages',
     nachgereicht?.belege?.[0]?.bild === 'www.crunchyroll.com/simulcastcalendar/2026-10-04/2026-10-04-11-02.jpg' && verspaetungsMeldungen(nach).find((m) => m.art === 'verspaetet' && m.von === 9)?.belege?.[0]?.bild === 'www.crunchyroll.com/simulcastcalendar/2026-09-20/2026-10-03-20-01.jpg')

@@ -1,4 +1,5 @@
-import { log, readJson, writeJson } from '../lib/util.ts'
+import { resolve } from 'node:path'
+import { log, readJson, ROOT, writeJson } from '../lib/util.ts'
 import type { Title } from '../../shared/types.ts'
 import { adressKern, loadDubChecks } from '../lib/dub-confirmed.ts'
 import { kanalAusNotiz } from '../lib/amazon-adresse.ts'
@@ -22,7 +23,7 @@ function kanalSeiten(): Set<string> {
   return seiten
 }
 
-export function setzePrimeTeilseiten(titles: Map<number, Title>): void {
+export function setzePrimeTeilseiten(titles: Map<number, Title>, schreibWurzel = ROOT): void {
   const meldungen = Object.entries(readJson<Record<string, PrimeMeldung>>('data/prime-zugeordnet.json', {}))
   const kanaele = kanalSeiten()
   const pruefen: TeilseitenPruefung[] = []
@@ -47,6 +48,6 @@ export function setzePrimeTeilseiten(titles: Map<number, Title>): void {
       pruefen.push({ titleId: title.id, titel: title.titleDe ?? title.titleEn ?? title.titleRomaji ?? '', url, grund: urteil.grund })
     }
   }
-  writeJson(PRIME_PRUEFLISTE, pruefen.sort((a, b) => a.titleId - b.titleId))
+  writeJson(resolve(schreibWurzel, PRIME_PRUEFLISTE), pruefen.sort((a, b) => a.titleId - b.titleId))
   log(`Geteilte Prime-Seiten: ${gesetzt} Bereiche aus Meldungen, ${pruefen.length} auf der Prüfliste`)
 }

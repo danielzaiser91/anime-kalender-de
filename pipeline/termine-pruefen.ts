@@ -38,7 +38,9 @@ import { resolve } from 'node:path'
 import { log, readJson, ROOT, writeJson } from './lib/util.ts'
 import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminFrist, terminPruefen, terminZeitpunkt } from './lib/ausgeblieben.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
+import { beobachtetAusRelease } from './lib/verpasst-beobachtet.ts'
 import { BELEGE_DATEI, belegeAnhaengen, type WocheBelege } from './lib/woche-beleg.ts'
+import { neuerVermerk } from './lib/vermerk-neu.ts'
 import type { WocheBelegVermerk } from '../shared/woche-beleg-typ.ts'
 
 /*
@@ -103,6 +105,8 @@ export interface VerpassterTermin {
   verzugStunden: number | null
   /** Wie viele Folgen der Anbieter zu diesem Zeitpunkt wirklich zeigte. */
   folgenVerfuegbar: number | null
+  /** War der Tag beim Vermerken errechnet? Hält das Wort „angekündigt“/„erwartet“ stabil, auch wenn die Folge kommt. */
+  tagGeschaetzt?: boolean
   /** Von Hand: der neue erwartete Termin, wenn die Recherche einen ergibt. */
   neuErwartet: string | null
   /** Was die Recherche ergeben hat — ein bis zwei Sätze, die auf der Seite stehen. */
@@ -171,11 +175,12 @@ for (const eintrag of Object.values(kalender.german ?? {})) {
   gesehen.set(schluessel, [...(gesehen.get(schluessel) ?? []), ...(eintrag.observations ?? [])])
 }
 /* Ein Ereignis kennt die Serienadresse nicht — die Veröffentlichung schon. */
-const veroeffentlichungen = readJson<Array<{ slug: string; platformUrl?: string; schedule?: { firstEpisodeDate?: string } }>>(
+const veroeffentlichungen = readJson<Array<{ slug: string; platformUrl?: string; schedule?: { firstEpisodeDate?: string; observed?: Record<string, string> } }>>(
   'public/data/releases.json',
   [],
 )
 const adresseJeSlug = new Map(veroeffentlichungen.map((r) => [r.slug, r.platformUrl]))
+const folgentageJeSlug = new Map(veroeffentlichungen.map((r) => [r.slug, r.schedule?.observed]))
 /*
   **Ein Vermerk vor dem heutigen Start ist gegenstandslos.** Er stammt aus einer
   Schätzung, die eine spätere Ankündigung widerlegt hat (Apothekerin: 01.10.
@@ -189,7 +194,8 @@ const vorDemStart = (v: { slug: string; erwartetAm: string }) => {
 
 function beobachtungen(slug: string): Beobachtung[] {
   const adresse = adresseJeSlug.get(slug)
-  return adresse ? (gesehen.get(adressKern(adresse)) ?? []) : []
+  const ausKalender = adresse ? (gesehen.get(adressKern(adresse)) ?? []) : []
+  return [...ausKalender, ...beobachtetAusRelease(folgentageJeSlug.get(slug), JETZT)]
 }
 
 function zeitpunkt(e: Ereignis): Date {
@@ -275,21 +281,7 @@ for (const e of ereignisse) {
   )
   const treffer = gesehenHier.some((o) => o.date === e.date || (folge != null && o.episode === folge))
   if (treffer) continue
-  verpasst.push({
-    id: e.id,
-    slug: e.releaseSlug,
-    titleId: e.titleId,
-    name: e.name,
-    platform: e.platform,
-    episode: folge,
-    erwartetAm: zeitpunkt(e).toISOString(),
-    bemerktAm: JETZT.toISOString(),
-    erschienenAm: null,
-    verzugStunden: null,
-    folgenVerfuegbar: folgenBeimAnbieter(e.releaseSlug),
-    neuErwartet: null,
-    recherche: null,
-  })
+  verpasst.push(neuerVermerk(e, folge, zeitpunkt(e).toISOString(), JETZT.toISOString(), folgenBeimAnbieter(e.releaseSlug)))
   neu++
 }
 

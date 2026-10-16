@@ -296,6 +296,11 @@ function terminGeschaetzt(
   return lastAnchor || (nurStartBelegt && episode > first) ? true : s.estimated
 }
 
+/** Uhrzeit aus dem Plan; eine festgelegte, nicht gemessene trägt `timeEstimated` („≈"). */
+function uhrzeitAusPlan(s: NonNullable<Release['schedule']>) {
+  return s.time && s.timeEstimated ? { time: s.time, timeEstimated: true } : { time: s.time }
+}
+
 function termineAusPlan(release: Release): ReleaseEvent[] {
   const s = release.schedule
   if (!s?.firstEpisodeDate || release.widerlegt) return []
@@ -303,7 +308,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
   const base = {
     releaseSlug: release.slug,
     titleId: release.titleId,
-    time: s.time,
+    ...uhrzeitAusPlan(s),
     releaseType: release.releaseType,
     platform: release.platform,
     ...(release.sender ? { sender: release.sender } : {}), ...(release.sprache ? { sprache: release.sprache } : {}),
@@ -570,7 +575,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
    * rückt einen Sendeplatz weiter. Angefasst wird nur Fortgeschriebenes;
    * Beobachtetes und Ausfallvermerke bleiben, wo sie sind.
    */
-  for (const ev of events.filter((e) => e.estimated).sort((a, b) => (a.episode ?? 0) - (b.episode ?? 0))) {
+  for (const ev of events.filter((e) => e.estimated && !e.verpasst).sort((a, b) => (a.episode ?? 0) - (b.episode ?? 0))) {
     let schutz = 0
     while (
       schutz++ < 60 &&

@@ -9,6 +9,8 @@
  * dort ohne HTML, damit man die Regeln lesen kann.
  */
 import { SPRACHE_HINWEIS, SPRACHE_MARKE } from '../../shared/ics.ts'
+import { ankuendigungsWort, tagIstAngekuendigt } from '../../shared/news-typen.ts'
+import { toIsoDate } from '../../shared/time.ts'
 import { omuStartText } from '../../shared/ankuendigung.ts'
 import { folgenProWoche } from '../../shared/folgenrhythmus.ts'
 import { OFFIZIELL_SATZ } from '../../shared/news-offiziell-satz.ts'
@@ -16,6 +18,7 @@ import type { NewsEintrag, NewsMeldung, ReleaseEvent } from '../../shared/types.
 import { PLATFORMS, anbieterName } from '../../shared/types.ts'
 import { abzeichen } from './mail-sorten.ts'
 import { hostVon, istLink } from '../../shared/quelle.ts'
+import { formatDate } from '../../shared/time.ts'
 
 /** Was jede Zeile zum Verlinken braucht. */
 export interface RowContext {
@@ -109,7 +112,7 @@ export function tvWiederholungen(ctx: RowContext, events: ReleaseEvent[]): strin
  */
 export function newsSatz(m: NewsMeldung): string {
   const anbieter = m.anbieter || (m.platform ? anbieterName(m.platform) : '')
-  const datum = m.datum ? m.datum.split('-').reverse().join('.') : ''
+  const datum = m.datum ? formatDate(m.datum) : ''
   switch (m.art) {
     case 'neu':
       if (m.jahre && anbieter) return m.discSeitText ? `Nach ${m.jahre} Jahren endlich im Stream auf Deutsch bei ${anbieter}! (Auf Disc gibt es die Synchro seit ${m.discSeitText})` : `Nach ${m.jahre} Jahren endlich auf Deutsch: jetzt mit Synchro bei ${anbieter}!`
@@ -133,7 +136,7 @@ export function newsSatz(m: NewsMeldung): string {
     case 'kino':
       return `Kinostart am ${datum}`
     case 'verspaetet':
-      return `Folge ${m.von} war für den ${datum} angekündigt und ist nicht erschienen`
+      return `Folge ${m.von} war für den ${datum} ${ankuendigungsWort(m.angekuendigtBelegt)} und ist nicht erschienen`
     case 'nachgetragen':
       return `Rückwirkend eingetragen: Folge ${m.von ?? 1} erschien am ${datum}${m.zeit ? ` um ${m.zeit} Uhr` : ''}${anbieter ? ` bei ${anbieter}` : ''} mit deutscher Synchro`
     case 'nachgereicht':
@@ -195,4 +198,21 @@ export function newsText(eintraege: NewsEintrag[], siteUrl: string): string {
       return `* ${e.titel} — ${saetze}\n  ${siteUrl.replace(/\/$/, '')}#/datenbank?t=${e.titelId}`
     })
     .join('\n')
+}
+
+/** „angekündigt“ oder „erwartet“ für den alten Tag eines ausgebliebenen Termins — dasselbe Urteil wie Detailfenster und Meldung. */
+export function ausfallWort(ev: ReleaseEvent): 'angekündigt' | 'erwartet' {
+  return ankuendigungsWort(tagIstAngekuendigt(ev.verpasst, ev.estimated))
+}
+
+/** Was eine Meldung (nicht erschienen / verspätet erschienen) schon sagt, steht nicht noch einmal im Block „Verschoben oder ausgeblieben“. */
+export function ohneGemeldeteAusfaelle(verschoben: ReleaseEvent[], eintraege: NewsEintrag[]): ReleaseEvent[] {
+  const meldungen = eintraege.flatMap((e) => e.meldungen)
+  const gemeldet = (ev: ReleaseEvent) => {
+    const tag = ev.verpasst?.erwartetAm ? toIsoDate(new Date(ev.verpasst.erwartetAm)) : ev.date
+    return meldungen.some(
+      (m) => m.release === ev.releaseSlug && (m.art === 'verspaetet' ? m.datum === tag : m.art === 'nachgereicht' && m.erwartet?.includes(tag)),
+    )
+  }
+  return verschoben.filter((ev) => !gemeldet(ev))
 }

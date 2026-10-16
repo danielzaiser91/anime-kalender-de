@@ -11,6 +11,7 @@
     "erschienenAm": "2026-09-06T15:00:00.000Z",
     "verzugStunden": 168,
     "folgenVerfuegbar": 5,
+    "tagGeschaetzt": true,
     "neuErwartet": "2026-09-06T15:00:00.000Z",
     "recherche": "Stand 31.08.2026, 18:15. KEINE oeffentliche Aeusserung gefunden - weder von Crunchyroll (Serienseite, Simulcast-Kalender, News), noch bei anime2you.de, animenachrichten.de, aniSearch, fernsehserien.de, JustWatch oder Wikipedia. Gesichert: Die deutsche Synchro startete verspaetet am 19.08.2026 mit den Folgen 1-3, als der OmU-Simulcast schon bei Folge 8 war (anime2you.de/news/1042819); angekuendigt ist \"jeden Sonntag 17:00 Uhr\". Folge 5 kam am 23.08. Seit dem 24.08. fuehrt der deutsche Simulcast-Kalender die Staffel gar nicht mehr (eigener Scrape, Fenster 24.08.-13.09., kein Slot). PRAEZEDENZFALL bei derselben Serie: Am 11.06.2024 hat Crunchyroll die Synchro-Folgen 19-25 der zweiten Staffel \"produktionsbedingt\" verschoben und spaeter gesammelt nachgereicht (anime2you.de/news/799226) - der OmU-Simulcast lief damals unveraendert weiter. Dasselbe Muster passt auf den jetzigen Fall, ist aber unbestaetigt. Naechster planmaessiger Termin waere Sonntag, 06.09.2026, 17:00."
   },
@@ -26,6 +27,7 @@
     "erschienenAm": "2026-10-04T08:30:00.000Z",
     "verzugStunden": 504,
     "folgenVerfuegbar": 12,
+    "tagGeschaetzt": true,
     "neuErwartet": null,
     "recherche": null,
     "rechercheAm": "2026-09-26T15:00:55.893Z",
@@ -50,6 +52,7 @@
     "erschienenAm": "2026-09-20T15:00:00.000Z",
     "verzugStunden": 168,
     "folgenVerfuegbar": null,
+    "tagGeschaetzt": true,
     "neuErwartet": null,
     "recherche": null,
     "geprueftAm": "2026-09-20T12:30:58.639Z",
@@ -74,6 +77,7 @@
     "erschienenAm": "2026-10-14T14:00:00.000Z",
     "verzugStunden": 672,
     "folgenVerfuegbar": 25,
+    "tagGeschaetzt": true,
     "neuErwartet": null,
     "recherche": "Crunchyroll hat die deutsche Synchronfassung des zweiten Teils (Rückeroberungs-Arc) von Re:ZERO Staffel 4 verspätet gestartet: Während die Serie seit dem 12. August 2026 mit Untertiteln lief, folgen die deutschen Stimmen erst seit dem 9. September 2026 im wöchentlichen Rhythmus.",
     "rechercheQuelle": "https://www.anime2you.de/news/1040288/re-zero-staffel-4-teil-2-synchro-startet-spaeter/",
@@ -99,6 +103,7 @@
     "erschienenAm": "2026-10-02T16:00:00.000Z",
     "verzugStunden": 384,
     "folgenVerfuegbar": 12,
+    "tagGeschaetzt": true,
     "neuErwartet": null,
     "recherche": null,
     "geprueftAm": "2026-10-02T12:56:09.703Z",
@@ -123,6 +128,7 @@
     "erschienenAm": "2026-09-26T09:30:00.000Z",
     "verzugStunden": 168,
     "folgenVerfuegbar": 18,
+    "tagGeschaetzt": true,
     "neuErwartet": null,
     "recherche": "Episode 20 wurde bei der japanischen TV-Ausstrahlung und im Crunchyroll-Simulcast wegen der Nippon-TV-Spendengala „Love Saves the Earth\" von 29.08. auf den 05.09.2026 verschoben.",
     "rechercheQuelle": "https://www.anime2you.de/news/1043487/bookworm-adopted-daughter-episode-20-verschoben/",
@@ -154,6 +160,7 @@
     "erschienenAm": "2026-10-04T08:30:00.000Z",
     "verzugStunden": 336,
     "folgenVerfuegbar": 12,
+    "tagGeschaetzt": true,
     "neuErwartet": "2026-09-27T08:30:00.000Z",
     "recherche": "Die japanische Ausstrahlung und der Crunchyroll-Simulcast von Staffel 2 legten eine einwöchige Pause ein: Die als nächstes fällige Folge (Episode 12 der Originalzählung) wurde vom 20. auf den 27. September 2026 verschoben.",
     "rechercheQuelle": "https://www.anime2you.de/news/1049815/you-and-i-are-polar-opposites-staffel-2-episode-12-verschoben/",
@@ -185,6 +192,7 @@
     "erschienenAm": "2026-10-15T14:00:00.000Z",
     "verzugStunden": 528,
     "folgenVerfuegbar": 25,
+    "tagGeschaetzt": true,
     "neuErwartet": null,
     "recherche": "Die deutsche Synchro von Re:ZERO Staffel 4 (Rückeroberungs-Arc) läuft seit ihrem verspäteten Start am 9. September 2026 wöchentlich hinter dem japanischen Simulcast her – Folge 15 fällt in diesen bereits von Crunchyroll angekündigten Rhythmus.",
     "rechercheQuelle": "https://www.anime2you.de/news/1040288/re-zero-staffel-4-teil-2-synchro-startet-spaeter/",
@@ -216,6 +224,7 @@
     "erschienenAm": "2026-10-02T16:00:00.000Z",
     "verzugStunden": 216,
     "folgenVerfuegbar": 12,
+    "tagGeschaetzt": true,
     "neuErwartet": "2026-09-30T16:00:00.000Z",
     "recherche": "Laut Crunchyrolls Wochenprogramm erscheinen die deutschen Synchronfolgen 10 bis 12 von Hana-Kimi Staffel 2 gebündelt am 30. September 2026 um 18:00 Uhr – die Synchro hatte sich gegenüber dem Original verzögert.",
     "rechercheQuelle": "https://www.4p.de/news/crunchyroll-wochenprogramm-kw40/3430422",
@@ -236,30 +245,6 @@
     }
   },
   {
-    "id": "das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-09-26",
-    "slug": "das-band-der-unterwelt-crunchyroll-de-2026-04-04",
-    "titleId": 195600,
-    "name": "Das Band der Unterwelt",
-    "platform": "crunchyroll",
-    "episode": 22,
-    "erwartetAm": "2026-09-26T16:00:00.000Z",
-    "bemerktAm": "2026-09-26T17:18:02.264Z",
-    "erschienenAm": null,
-    "verzugStunden": null,
-    "folgenVerfuegbar": 21,
-    "neuErwartet": null,
-    "recherche": null,
-    "geprueftAm": "2026-10-16T10:02:25.384Z",
-    "newsGeprueftAm": "2026-10-16T04:14:57.609Z",
-    "rechercheAm": "2026-10-10T11:04:38.973Z",
-    "messbeleg": {
-      "am": "2026-10-03T21:52:07.738Z",
-      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-09-26",
-      "bild": "www.crunchyroll.com/simulcastcalendar/2026-09-26/2026-10-03-21-52.jpg",
-      "html": "www.crunchyroll.com/simulcastcalendar/2026-09-26/2026-10-03-21-52.html.gz"
-    }
-  },
-  {
     "id": "cr-GRGG9798R@2026-09-30",
     "slug": "cr-GRGG9798R",
     "titleId": 189046,
@@ -271,10 +256,11 @@
     "erschienenAm": null,
     "verzugStunden": null,
     "folgenVerfuegbar": 25,
+    "tagGeschaetzt": true,
     "neuErwartet": "2026-10-14T14:00:00.000Z",
     "recherche": "Laut Crunchyrolls offiziellem Wochenprogramm pausiert die deutsche Synchro von Re:ZERO Staffel 4 weiter: Die nächste deutsche Folge erscheint erst am 14. Oktober 2026 um 16:00 Uhr.",
     "rechercheQuelle": "https://www.4p.de/news/crunchyroll-wochenprogramm-kw40/3430422",
-    "geprueftAm": "2026-10-16T10:02:25.384Z",
+    "geprueftAm": "2026-10-16T15:02:24.766Z",
     "newsGeprueftAm": "2026-10-16T04:14:57.609Z",
     "rechercheAm": "2026-10-14T11:05:14.121Z",
     "messbeleg": {
@@ -296,6 +282,7 @@
     "erschienenAm": "2026-10-02T16:00:00.000Z",
     "verzugStunden": 48,
     "folgenVerfuegbar": 12,
+    "tagGeschaetzt": true,
     "neuErwartet": null,
     "recherche": null,
     "geprueftAm": "2026-10-02T12:56:09.703Z",
@@ -315,30 +302,6 @@
     }
   },
   {
-    "id": "das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-03",
-    "slug": "das-band-der-unterwelt-crunchyroll-de-2026-04-04",
-    "titleId": 195600,
-    "name": "Das Band der Unterwelt",
-    "platform": "crunchyroll",
-    "episode": 23,
-    "erwartetAm": "2026-10-03T16:00:00.000Z",
-    "bemerktAm": "2026-10-03T20:01:42.178Z",
-    "erschienenAm": null,
-    "verzugStunden": null,
-    "folgenVerfuegbar": 22,
-    "neuErwartet": null,
-    "recherche": null,
-    "geprueftAm": "2026-10-16T10:02:25.384Z",
-    "messbeleg": {
-      "am": "2026-10-04T01:14:30.361Z",
-      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-03",
-      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-03/2026-10-04-01-14.jpg",
-      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-03/2026-10-04-01-14.html.gz"
-    },
-    "newsGeprueftAm": "2026-10-16T04:14:57.609Z",
-    "rechercheAm": "2026-10-15T11:03:28.472Z"
-  },
-  {
     "id": "you-and-i-are-polar-opposites-s2@2026-09-27",
     "slug": "you-and-i-are-polar-opposites-s2",
     "titleId": 210031,
@@ -350,6 +313,7 @@
     "erschienenAm": "2026-10-04T08:30:00.000Z",
     "verzugStunden": 168,
     "folgenVerfuegbar": 12,
+    "tagGeschaetzt": true,
     "neuErwartet": null,
     "recherche": null,
     "geprueftAm": "2026-10-04T07:02:56.093Z",
@@ -379,6 +343,7 @@
     "erschienenAm": "2026-10-04T15:00:00.000Z",
     "verzugStunden": 168,
     "folgenVerfuegbar": 24,
+    "tagGeschaetzt": true,
     "neuErwartet": null,
     "recherche": null,
     "geprueftAm": "2026-10-04T14:03:46.248Z",
@@ -397,30 +362,6 @@
     }
   },
   {
-    "id": "das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-10",
-    "slug": "das-band-der-unterwelt-crunchyroll-de-2026-04-04",
-    "titleId": 195600,
-    "name": "Das Band der Unterwelt",
-    "platform": "crunchyroll",
-    "episode": 24,
-    "erwartetAm": "2026-10-10T16:00:00.000Z",
-    "bemerktAm": "2026-10-10T17:02:25.532Z",
-    "erschienenAm": null,
-    "verzugStunden": null,
-    "folgenVerfuegbar": 23,
-    "neuErwartet": null,
-    "recherche": null,
-    "geprueftAm": "2026-10-16T10:02:25.384Z",
-    "newsGeprueftAm": "2026-10-16T04:14:57.609Z",
-    "rechercheAm": "2026-10-15T11:03:28.472Z",
-    "messbeleg": {
-      "am": "2026-10-11T13:02:26.326Z",
-      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-10",
-      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-10/2026-10-11-13-02.jpg",
-      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-10/2026-10-11-13-02.html.gz"
-    }
-  },
-  {
     "id": "cr-GRGG9798R@2026-10-07",
     "slug": "cr-GRGG9798R",
     "titleId": 189046,
@@ -432,9 +373,10 @@
     "erschienenAm": null,
     "verzugStunden": null,
     "folgenVerfuegbar": 25,
+    "tagGeschaetzt": true,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-10-16T10:02:25.384Z",
+    "geprueftAm": "2026-10-16T15:02:24.766Z",
     "newsGeprueftAm": "2026-10-16T04:14:57.609Z",
     "messbeleg": {
       "am": "2026-10-13T23:02:16.670Z",
@@ -442,7 +384,7 @@
       "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-07/2026-10-13-23-02.jpg",
       "html": "www.crunchyroll.com/simulcastcalendar/2026-10-07/2026-10-13-23-02.html.gz"
     },
-    "rechercheAm": "2026-10-15T11:03:28.472Z"
+    "rechercheAm": "2026-10-16T11:04:48.969Z"
   },
   {
     "id": "tomb-raider-king@2026-10-14",
@@ -456,9 +398,10 @@
     "erschienenAm": null,
     "verzugStunden": null,
     "folgenVerfuegbar": 11,
+    "tagGeschaetzt": true,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-10-16T10:02:25.384Z",
+    "geprueftAm": "2026-10-16T15:02:24.766Z",
     "messbeleg": {
       "am": "2026-10-14T18:02:45.913Z",
       "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-14",
@@ -466,7 +409,7 @@
       "html": "www.crunchyroll.com/simulcastcalendar/2026-10-14/2026-10-14-18-02.html.gz"
     },
     "newsGeprueftAm": "2026-10-16T04:14:57.609Z",
-    "rechercheAm": "2026-10-15T11:03:28.472Z",
+    "rechercheAm": "2026-10-16T11:04:48.969Z",
     "wocheBeleg": {
       "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
       "gesehenAm": "2026-10-12T11:04:14.990Z",

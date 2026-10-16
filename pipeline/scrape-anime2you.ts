@@ -30,6 +30,7 @@ import { ANBIETER_SAMMELARTIKEL, artikelZeilen, leseSammelartikel, zaehleSammelV
 import { SAMMELARTIKEL, leseVerschiebungstabelle, type Verschiebung } from './lib/disc-verschiebungen.ts'
 import { DISC_UEBERSICHT, leseDiscUebersicht, type DiscZeile } from './lib/disc-uebersicht.ts'
 import { deutschlandBezug, dubBefund, type Sprachbefund } from './lib/sprachbefund.ts'
+import { leichteFeeds, volltextNoetig, vorschlaegeGeaendert } from './lib/anime2you-leicht.ts'
 
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
 
@@ -42,7 +43,7 @@ const ALLGEMEIN_SEITEN = 4
 const ALLGEMEIN = 'allgemein'
 /** Ein Sprachhinweis ohne Tag wird nur kurz vorgehalten; danach ist die Meldung überholt. */
 const HINWEIS_TAGE = 45
-const FEEDS: { category: string; url: string }[] = [
+const ALLE_FEEDS: { category: string; url: string }[] = [
   ...Array.from({ length: STREAMING_SEITEN }, (_, i) => ({
     category: 'streaming',
     url: `https://www.anime2you.de/streaming-news/feed/${i ? `?paged=${i + 1}` : ''}`,
@@ -56,6 +57,10 @@ const FEEDS: { category: string; url: string }[] = [
     url: `https://www.anime2you.de/feed/${i ? `?paged=${i + 1}` : ''}`,
   })),
 ]
+
+/** `--leicht` (stündlich, siehe `lib/anime2you-leicht.ts`) holt nur die erste Seite je Feed und nichts nach. */
+const LEICHT = process.argv.includes('--leicht')
+const FEEDS = LEICHT ? leichteFeeds(ALLE_FEEDS) : ALLE_FEEDS
 
 /** Wortmarken, an denen eine Plattform im Fließtext erkennbar ist. */
 const PLATFORM_HINTS: { platform: PlatformId; pattern: RegExp }[] = [
@@ -297,7 +302,7 @@ function mitBestand(proposals: Proposal[]): Proposal[] {
   // Bestehende Vorschläge behalten: Ein Feed zeigt nur die letzten Meldungen,
   // ältere wären sonst nach einer Woche verschwunden, bevor jemand sie liest.
   const previous = readJson<{ proposals: Proposal[] }>('data/proposals/anime2you.json', { proposals: [] })
-  const merged = new Map(previous.proposals.map((p) => [p.articleUrl, p]))
+  const merged = new Map(previous.proposals.map((p) => [p.articleUrl, p] as const))
   /* Ein frischer Feed-Treffer kennt die gelesene Liste eines Sammelartikels nicht — sie bleibt erhalten, sonst verschwinden alle ihre Termine, bis der Artikel neu gelesen ist (ADN Oktober 2026, 05.10.2026). */
   for (const proposal of proposals) {
     const vorher = merged.get(proposal.articleUrl)
@@ -335,6 +340,30 @@ function verwerfensgrund(kategorie: string, deutschlandBezogen: boolean, traegtA
   return traegtAussage ? undefined : `${kategorie}: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage`
 }
 
+const VORSCHLAEGE = 'data/proposals/anime2you.json'
+
+/** Schreibt die Vorschlagsdatei; der leichte Lauf holt nichts nach und schreibt nur bei neuem Inhalt. */
+async function schreibeVorschlaege(all: Proposal[], verworfen: Map<string, number>, heute: string): Promise<void> {
+  const fertig = LEICHT ? all : await shopTabellenNachholen(await discUebersichtNachholen(await sammelartikelNachholen(await verschiebungenNachholen(all), heute), heute), heute)
+  if (LEICHT && !vorschlaegeGeaendert(readJson<{ proposals: Proposal[] }>(VORSCHLAEGE, { proposals: [] }).proposals, fertig)) {
+    log('Anime2You (leicht): nichts Neues, Datei bleibt unverändert.')
+    return
+  }
+  writeJson(VORSCHLAEGE, { scrapedAt: new Date().toISOString(), verworfen: Object.fromEntries(verworfen), proposals: fertig }, true)
+}
+
+/** Protokoll des Laufs: Verwerfungen, Zahlen und die ersten noch nicht eingearbeiteten Vorschläge. */
+function meldeLauf(all: Proposal[], verworfen: Map<string, number>): void {
+  const offen = all.filter((p) => !p.alreadyCurated)
+  for (const [grund, n] of verworfen) log(`  verworfen: ${n} × ${grund}`)
+  log(`  Sprachhinweise ohne Tag: ${all.filter((p) => p.hinweis === 'sprache' && !p.alreadyCurated).length}`)
+  log(`${all.length} Vorschläge gespeichert, davon ${offen.length} noch nicht eingearbeitet.`)
+  for (const p of offen.slice(0, 15)) {
+    const when = p.dates.map((d) => d.iso ?? d.month).join(', ')
+    log(`  · [${p.platforms.join('/') || '?'}] ${p.articleTitle} — ${when} (Synchro: ${p.dub})`)
+  }
+}
+
 async function main(): Promise<void> {
   // Welche Artikel sind schon eingearbeitet? Ihre Adresse steht in einer Handdatei (Termine, Ankündigungen, Erstausgaben, Belege).
   const curatedSources = eingearbeiteteAdressen()
@@ -347,6 +376,7 @@ async function main(): Promise<void> {
   const verworfen = new Map<string, number>()
   const verwirf = (grund: string): void => void verworfen.set(grund, (verworfen.get(grund) ?? 0) + 1)
   const gesehen = new Set<string>()
+  const bekannt = new Map(readJson<{ proposals: Proposal[] }>(VORSCHLAEGE, { proposals: [] }).proposals.map((p) => [p.articleUrl, p] as const))
 
   for (const feed of FEEDS) {
     const xml = await fetchText(feed.url)
@@ -381,8 +411,9 @@ async function main(): Promise<void> {
       // Sendezeit nachholen, solange das Kontingent reicht. Der Volltext ist
       // der einzige Ort, an dem sie steht — und nur bei Streaming-Meldungen
       // ist sie überhaupt eine Frage: Eine Disc erscheint im Laden.
-      let zeiten: Sendezeit[] | undefined
+      let zeiten: Sendezeit[] | undefined = LEICHT ? bekannt.get(item.link)?.zeiten : undefined
       if (
+        volltextNoetig(LEICHT, bekannt, item.link) &&
         volltexte < HOECHSTENS_VOLLTEXTE &&
         feed.category === 'streaming' &&
         platforms.length > 0 &&
@@ -449,16 +480,8 @@ async function main(): Promise<void> {
     .filter((p) => p.dates.some((d) => (d.iso ?? `${d.month}-31`) >= today) || !p.alreadyCurated || p.verschiebungen?.length || p.sammel?.some((e) => (e.datum ?? '') >= today))
     .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
 
-  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), verworfen: Object.fromEntries(verworfen), proposals: await shopTabellenNachholen(await discUebersichtNachholen(await sammelartikelNachholen(await verschiebungenNachholen(all), today), today), today) }, true)
-
-  const offen = all.filter((p) => !p.alreadyCurated)
-  for (const [grund, n] of verworfen) log(`  verworfen: ${n} × ${grund}`)
-  log(`  Sprachhinweise ohne Tag: ${all.filter((p) => p.hinweis === 'sprache' && !p.alreadyCurated).length}`)
-  log(`${all.length} Vorschläge gespeichert, davon ${offen.length} noch nicht eingearbeitet.`)
-  for (const p of offen.slice(0, 15)) {
-    const when = p.dates.map((d) => d.iso ?? d.month).join(', ')
-    log(`  · [${p.platforms.join('/') || '?'}] ${p.articleTitle} — ${when} (Synchro: ${p.dub})`)
-  }
+  await schreibeVorschlaege(all, verworfen, today)
+  meldeLauf(all, verworfen)
   meldeSendezeiten(all, volltexte)
 }
 

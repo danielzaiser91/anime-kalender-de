@@ -3,7 +3,7 @@
  * Geprüft werden die Ordner der Liste (`tools/check-logic-liste.txt`, heute pipeline/ und tools/), nicht rekursiv:
  * jede `check-*.ts` und jede `*.test.mjs|ts` muss laufen über
  *  - `tools/check-logic-liste.txt` oder `tools/check-bestand-liste.txt`,
- *  - `tools/*.test.mjs` (läuft vollständig über `tools/tests-alle.mjs`, also `check:workflows`),
+ *  - `tools/*.test.mjs` (läuft vollständig über `tools/tests-alle.mjs`, also `check:workflows`; in einer Liste ist er ein Fehler: er liefe doppelt),
  *  - einen Pfad in einem Skript von `package.json` oder
  *  - `tools/check-logic-liste-ausnahmen.txt` (eine Datei je Zeile, `#` beginnt einen Kommentar; Grund dahinter).
  * Eine Ausnahme, die nicht mehr nötig ist (Datei fehlt oder läuft anderswo), ist selbst ein Fehler.
@@ -21,10 +21,12 @@ const maskiere = (pfad) => pfad.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 /** Läuft die Datei über einen Pfad in einem `package.json`-Skript? Das Zeichen dahinter darf nicht Teil eines längeren Namens sein. */
 const imSkript = (pfad, skripte) => new RegExp(`${maskiere(pfad)}(?![\\w.-])`).test(skripte)
 
+const TESTS_ALLE = /^tools\/[^/]+\.test\.mjs$/
+
 /** Wo läuft die Datei schon? Leer, wenn nirgends. */
 function laeuftDurch(pfad, { listen, skripte }) {
+  if (TESTS_ALLE.test(pfad)) return 'tests-alle'
   if (listen.has(pfad)) return 'Liste'
-  if (/^tools\/[^/]+\.test\.mjs$/.test(pfad)) return 'tests-alle'
   return imSkript(pfad, skripte) ? 'package.json' : ''
 }
 
@@ -38,6 +40,9 @@ export function unverdrahtet({ dateien, listen, skripte, ausnahmen }) {
     if (!laeuftDurch(pfad, { listen, skripte }) && !ausnahmen.includes(pfad)) {
       fehler.push(`${pfad} steht in keiner Prüfliste: in tools/check-logic-liste.txt aufnehmen (sortiert) oder mit Grund in tools/check-logic-liste-ausnahmen.txt.`)
     }
+  }
+  for (const pfad of [...listen].filter((p) => TESTS_ALLE.test(p))) {
+    fehler.push(`${pfad} steht in einer Prüfliste, läuft aber schon über tools/tests-alle.mjs: aus der Liste streichen (sonst läuft er doppelt).`)
   }
   for (const pfad of ausnahmen) {
     if (!dateien.includes(pfad)) fehler.push(`Ausnahme ${pfad}: Datei gibt es nicht (mehr) oder sie ist keine Prüfdatei: streichen.`)

@@ -239,11 +239,10 @@ export function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; dat
                     type="button"
                     onClick={() => onOpenTitle(v.title.id)}
                     /*
-                      **Cover über die volle Höhe, Name oben, Merkmale unten** (Daniel,
-                      16.09.2026). Die feste Kachelhöhe ist der Grund, warum das geht:
-                      Ohne sie richtet sich das Bild nach der Textmenge, und eine Kachel
-                      mit dreizeiligem Titel hätte ein höheres Poster als die daneben.
-                      144 px bei 96 px Breite ist das Posterformat 2:3.
+                      Mindesthöhe 144 px, Name oben, Merkmale unten. Die Kachel wächst mit
+                      dem Text, damit Chips einen dreizeiligen Titel nie überdecken; das
+                      Cover bleibt 2:3, egal wie die Bilddatei geschnitten ist. Gleich
+                      hohe Poster (16.09.2026) sind dafür bewusst aufgegeben (16.10.2026).
                     */
                     className="flex min-h-36 w-full cursor-pointer items-stretch gap-2 rounded-lg p-1.5 text-left transition hover:bg-ak-flaeche-2"
                   >
@@ -252,10 +251,10 @@ export function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; dat
                         {...coverBild(v.title.coverImage, 88)}
                         alt=""
                         loading="lazy"
-                        className="w-[88px] shrink-0 rounded-md object-cover shadow-sm"
+                        className="aspect-[2/3] w-[88px] shrink-0 self-start rounded-md object-cover shadow-sm"
                       />
                     ) : (
-                      <span className="w-[88px] shrink-0 rounded-md bg-slate-200 dark:bg-white/10" />
+                      <span className="aspect-[2/3] w-[88px] shrink-0 self-start rounded-md bg-slate-200 dark:bg-white/10" />
                     )}
                     {/* Name oben, Chips darunter im Fluss; die Kachel wächst, statt dass Chips den Titel überdecken. */}
                     <span className="flex min-w-0 flex-1 flex-col justify-between gap-1 py-0.5">

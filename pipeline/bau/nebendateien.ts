@@ -1,6 +1,7 @@
 import { writeJson, readJson, log, warn } from '../lib/util.ts'
 import { STAND_ZEILE, writeTextStand } from '../lib/stand-halten.ts'
 import { plattformAusAdresse } from '../../shared/adresse-passt.ts'
+import { hatAufnahmeBeleg } from '../lib/cartoon-aufnahme.ts'
 import { type CartoonEintrag, type JwAngebotTon, alsTitel, jwTonAnbieter, plattformVon, tonAnbieterNamen } from '../lib/cartoons.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
 import { type PlatformId, type Title, type Release, type Quelle } from '../../shared/types.ts'
@@ -62,8 +63,15 @@ import { anisearchKatalogReihenQuelle as anisearchKatalogReihen } from './anisea
  * Amazons Abwehr hat am 09.09.2026 zugemacht. Was hinter einem Produktpfad
  * liegt, kann eine DVD sein; das entscheidet ein Blick, kein Abruf.
  */
+/** Ziele der Suchadressen-Listen; Prüfungen lenken sie per `SUCHADRESSEN_ORDNER` um, damit sie keine getrackten Dateien beschreiben. */
+function suchadressenZiele(): { md: string; json: string } {
+  const ordner = process.env.SUCHADRESSEN_ORDNER
+  if (ordner) return { md: `${ordner}/18-suchadressen.md`, json: `${ordner}/suchadressen-offen.json` }
+  return { md: 'daniel-zum-abarbeiten/listen/18-suchadressen.md', json: 'data/suchadressen-offen.json' }
+}
+
 export function schreibeSuchadressen(offen: { id: number; titel: string; plattform: string; url: string }[]): void {
-  const ziel = 'daniel-zum-abarbeiten/listen/18-suchadressen.md'
+  const { md: ziel, json } = suchadressenZiele()
   const stand = new Date().toISOString().slice(0, 10)
   if (!offen.length) {
     writeTextStand(ziel, [`# Suchadressen`, '', `_Stand ${stand}_`, '', 'Nichts offen — jeder Verweis führt auf eine Titelseite.', ''].join('\n'), STAND_ZEILE)
@@ -72,7 +80,7 @@ export function schreibeSuchadressen(offen: { id: number; titel: string; plattfo
       `data/suchadressen-offen.json` behielt die letzten sechs Einträge — alle
       am 13.09.2026 geklärt, und die Statusanzeige zeigte weiter „Suchadressen 6".
     */
-    writeJson('data/suchadressen-offen.json', [])
+    writeJson(json, [])
     return
   }
   const anisearch = readJson<Record<string, { streams?: { provider?: string; url?: string }[] }>>(
@@ -116,7 +124,7 @@ export function schreibeSuchadressen(offen: { id: number; titel: string; plattfo
     beantwortet die
     Frage nicht, für die es sie gibt.
   */
-  writeJson('data/suchadressen-offen.json', offen)
+  writeJson(json, offen)
   log(`${offen.length} Suchadressen in ${ziel} vorgelegt`)
 }
 
@@ -133,7 +141,7 @@ export function schreibeSuchadressen(offen: { id: number; titel: string; plattfo
  */
 export function schreibeCartoons(): void {
   const roh = readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {})
-  const eintraege = Object.values(roh)
+  const eintraege = Object.values(roh).filter(hatAufnahmeBeleg)
   if (!eintraege.length) {
     warn('Keine data/cartoons.json — cartoons.json bleibt auf dem letzten Stand. Holen mit "npm run data:cartoons".')
     return

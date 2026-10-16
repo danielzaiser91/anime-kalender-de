@@ -12,6 +12,10 @@ import { LECKS_DATEI, zaehleLecks } from './lecks'
 import type { Lecks } from './lecks'
 import { kopierText } from './kopieren'
 import { agentenText, istPruefer } from './pruefer'
+import { bereichOffen, bereichsKennung, bereichsKopf, topPriosKasten } from './bereiche'
+import type { PrioUmfeld } from './bereiche'
+import { prioZeichenJeZeile, zaehleTopPrios, zeichenJeSpalte } from './prios'
+import type { PrioEintrag } from './prios'
 
 const DATEI = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/stand.md'
 // Je Sitzung eine Datei `<Sitzungs-ID>.txt` (Stop-Hook agenten-vorrat.js); fremde Sitzungen zählen hier nicht.
@@ -38,6 +42,8 @@ const live = atom({ plugin: 'arbeitsliste', key: 'live' } as const, [] as LiveEi
 const pipeline = atom({ plugin: 'arbeitsliste', key: 'pipeline' } as const, [] as PipelineEintrag[])
 // Farbe der Ort-Marke in „In Pipeline“ (Themenschlüssel); „?“ fällt auf.
 const ORT_FARBE: Record<Ort, string> = { pipeline: 'warning', worker: AKZENT, warteliste: 'suggestion', deploy: 'success', '?': 'error' }
+// Schlüssel V2: ein beim Hot-Reload erhaltener Altzustand ohne status/details darf nicht gezeichnet werden.
+const topPrios = atom({ plugin: 'arbeitsliste', key: 'topPriosV2' } as const, [] as PrioEintrag[])
 const regeln = atom({ plugin: 'arbeitsliste', key: 'regeln' } as const, [] as Regel[])
 // Minute der letzten Neuzeichnung: der Countdown „in 13 h 45 min“ ändert sich nur beim Minutenwechsel.
 const minute = atom({ plugin: 'arbeitsliste', key: 'minute' } as const, 0)
@@ -224,6 +230,8 @@ async function aktualisiere($: EngineInterface): Promise<void> {
     if (!gleich(await read($, live), neuLive)) await update($, live, () => neuLive)
     const neuPipeline = zaehlePipeline(text)
     if (!gleich(await read($, pipeline), neuPipeline)) await update($, pipeline, () => neuPipeline)
+    const neueTop = zaehleTopPrios(text)
+    if (!gleich(await read($, topPrios), neueTop)) await update($, topPrios, () => neueTop)
     const neueRegeln = zaehleRegelmaessig(text)
     if (!gleich(await read($, regeln), neueRegeln)) await update($, regeln, () => neueRegeln)
     const min = Math.floor((await $.clock.now()) / 60_000)
@@ -305,6 +313,7 @@ type PaneDaten = {
   pipeListe: PipelineEintrag[]
   von: ReturnType<typeof teile>
   agenten: Agent[]
+  top: PrioEintrag[]
 }
 
 // Liest alle Atome des Panes; faellig und minute nur, damit der Render bei ihnen neu läuft.
@@ -321,7 +330,8 @@ async function lesePaneDaten($: EngineInterface): Promise<PaneDaten> {
   const liveListe = await read($, live)
   const pipeListe = await read($, pipeline)
   const von = teile(await read($, vonDir), new Date())
-  return { l, bis, still, auf, ausgeklappt, jetztMs, regelListe, liveListe, pipeListe, von, agenten: agentenListe }
+  const top = await read($, topPrios)
+  return { l, bis, still, auf, ausgeklappt, jetztMs, regelListe, liveListe, pipeListe, von, agenten: agentenListe, top }
 }
 
 // Grundbausteine des Panes: Breite, Kürzen, Kürzungsschnitte, Titel, Punkt, Aufklapp-Zeilen.
@@ -330,8 +340,8 @@ function baueAnsicht($: EngineInterface, e: any, d: PaneDaten) {
   const breite = Math.max(16, (e.props.bodyColumns || 38) - 2 - 5)
   // Titel brechen um (Folgezeile unter dem Text); gekürzt wird erst jenseits von MAX_ZEILEN Zeilen, Wortumbruch kostet Reserve.
   // Desktop setzt Proportionalschrift: dort passen gut 1,6 Zeichen je Spalte (Screenshot 11.10.2026, zweite Zeile blieb halb leer).
-  const zeichenJeSpalte = e.surface === 'terminal' ? 1 : 1.6
-  const gesamt = (b: number) => Math.floor(b * zeichenJeSpalte) * MAX_ZEILEN - 4
+  const zeichenJe = zeichenJeSpalte(e.surface)
+  const gesamt = (b: number) => Math.floor(b * zeichenJe) * MAX_ZEILEN - 4
   const kt = (text: string) => kuerze(text, gesamt(breite))
   const { Box, Button, Link, Text } = $.ui.resolve(e)
   const schnitt = <T,>(liste: T[], id: string, max?: number) => schneide(liste, id, d.ausgeklappt, max)
@@ -358,7 +368,11 @@ function baueAnsicht($: EngineInterface, e: any, d: PaneDaten) {
       {text}
     </Text>
   )
-  return { Box, Button, Link, Text, breite, gesamt, kt, schnitt, mehr, titel, jetztTitel, punkt, stumm, rest }
+  // Bereichskopf mit Klapp-Schalter; `offen` entscheidet, ob der Körper gezeichnet wird.
+  const istAuf = (id: string) => bereichOffen(id, d.ausgeklappt)
+  const kopf = (id: string, titel: string, zahl?: number, gedimmt?: boolean) =>
+    bereichsKopf($.ui.resolve(e), id, istAuf(id), () => void update($, aufgeklappt, a => schalte(a, bereichsKennung(id))), titel, zahl, gedimmt)
+  return { Box, Button, Link, Text, breite, gesamt, kt, schnitt, mehr, titel, jetztTitel, punkt, stumm, rest, kopf, istAuf }
 }
 
 // Link-Zeile, Kopierknopf und aufgeklappte Details eines Eintrags.
@@ -407,7 +421,7 @@ function baueVerweise($: EngineInterface, a: ReturnType<typeof baueAnsicht>) {
     ...[z.titel.length > gesamt(breite) ? z.titel : '', z.rest].filter(Boolean).map((text, k) => rest(text, k)),
     kopierKnopf(`kopie:${key}`, kopierText(z)),
   ]
-  return { verweise, details }
+  return { verweise, details, oeffne }
 }
 
 type Ansicht = ReturnType<typeof baueAnsicht> & ReturnType<typeof baueVerweise>
@@ -428,80 +442,71 @@ function paneRuhe(a: Ansicht, d: PaneDaten) {
 }
 
 function paneLive(a: Ansicht, d: PaneDaten) {
-  const { Box, Text, titel, punkt, verweise, details, mehr, schnitt } = a
+  const { Box, kopf, istAuf, titel, punkt, verweise, details, mehr, schnitt } = a
   if (!d.liveListe.length) return null
   const liveS = schnitt(d.liveListe, 'live')
   return (
     <Box flexDirection="column">
-      <Text bold color="success">
-        Neu und jetzt live testbar:
-      </Text>
-      {liveS.sichtbar.map((z, i) => (
+      {kopf('live', 'Neu und jetzt live testbar:')}
+      {!istAuf('live') ? null : liveS.sichtbar.map((z, i) => (
         <Box flexDirection="column" key={`live-${i}`}>
           {zeile(Box, `live-z-${i}`, punkt(`live:${i}`, '✦', 400 + i), titel(z))}
           {verweise(z, 'v-live-' + i)}
           {d.auf === 400 + i ? details(z, `live:${i}`) : null}
         </Box>
       ))}
-      {mehr('live', liveS)}
+      {istAuf('live') ? mehr('live', liveS) : null}
     </Box>
   )
 }
 
 function paneJetzt(a: Ansicht, d: PaneDaten) {
-  const { Box, Text, jetztTitel, punkt, verweise, details, mehr, schnitt } = a
+  const { Box, Text, kopf, istAuf, jetztTitel, punkt, verweise, details, mehr, schnitt } = a
   const jetztS = schnitt(sortiereJetzt(d.von.jetzt), 'jetzt')
   return (
     <Box flexDirection="column">
-      <Text bold>
-        Jetzt <Text color="warning">{d.von.jetzt.length}</Text>
-      </Text>
-      {d.von.jetzt.length === 0 ? <Text dimColor>  nichts</Text> : null}
-      {jetztS.sichtbar.map((z, i) => (
+      {kopf('jetzt', 'Jetzt', d.von.jetzt.length)}
+      {istAuf('jetzt') && d.von.jetzt.length === 0 ? <Text dimColor>  nichts</Text> : null}
+      {!istAuf('jetzt') ? null : jetztS.sichtbar.map((z, i) => (
         <Box flexDirection="column" key={`von-${i}`}>
           {zeile(Box, `von-z-${i}`, punkt(`von:${i}`, z.faellig ? '⏰' : DRINGLICH_ICON[z.dringlichkeit ?? 'heute'], 100 + i), jetztTitel(z))}
           {verweise(z, 'v-von-' + i)}
           {d.auf === 100 + i ? details(z, `von:${i}`) : null}
         </Box>
       ))}
-      {mehr('jetzt', jetztS)}
+      {istAuf('jetzt') ? mehr('jetzt', jetztS) : null}
     </Box>
   )
 }
 
 function paneSpaeter(a: Ansicht, d: PaneDaten) {
-  const { Box, Text, kt, punkt, verweise, details, mehr, schnitt } = a
+  const { Box, Text, kopf, istAuf, kt, punkt, verweise, details, mehr, schnitt } = a
   if (!d.von.spaeter.length) return null
   const spaetS = schnitt(d.von.spaeter, 'spaeter')
   return (
     <Box flexDirection="column">
-      <Text bold dimColor>
-        Später {d.von.spaeter.length}
-      </Text>
-      {spaetS.sichtbar.map((z: DanielEintrag, i) => (
+      {kopf('spaeter', 'Später', d.von.spaeter.length, true)}
+      {!istAuf('spaeter') ? null : spaetS.sichtbar.map((z: DanielEintrag, i) => (
         <Box flexDirection="column" key={`spaet-${i}`}>
           {zeile(Box, `spaet-z-${i}`, punkt(`spaet:${i}`, ICON[z.icon ?? ''] ?? '○', 200 + i), <Text dimColor wrap="wrap">{kt(z.titel)}</Text>)}
           {verweise(z, 'v-spaet-' + i)}
           {d.auf === 200 + i ? details(z, `spaet:${i}`) : null}
         </Box>
       ))}
-      {mehr('spaeter', spaetS)}
+      {istAuf('spaeter') ? mehr('spaeter', spaetS) : null}
     </Box>
   )
 }
 
 function paneAgenten($: EngineInterface, a: Ansicht, d: PaneDaten) {
-  const { Box, Button, Text, breite, gesamt, stumm, mehr, schnitt } = a
+  const { Box, Button, Text, kopf, istAuf, breite, gesamt, stumm, mehr, schnitt } = a
   if (!d.agenten.length) return null
   const agentS = schnitt(d.agenten, 'agenten')
   return (
     <Box flexDirection="column">
-      <Button key="agenten" plain onPress={() => void schalteSavvyPane($)}>
-        <Text bold>
-          {agentenText(d.agenten.filter(x => !istPruefer(x)).length, d.agenten.filter(istPruefer).length).replace('Agents', 'Agenten')}
-        </Text>
-      </Button>
-      {agentS.sichtbar.map((x, i) =>
+      {kopf('agenten', agentenText(d.agenten.filter(x => !istPruefer(x)).length, d.agenten.filter(istPruefer).length).replace('Agents', 'Agenten'))}
+      {istAuf('agenten') ? <Button key="agenten" plain dimColor label="    Agents öffnen" onPress={() => void schalteSavvyPane($)} /> : null}
+      {!istAuf('agenten') ? null : agentS.sichtbar.map((x, i) =>
         zeile(
           Box,
           `agent-${i}`,
@@ -512,13 +517,13 @@ function paneAgenten($: EngineInterface, a: Ansicht, d: PaneDaten) {
           </Text>,
         ),
       )}
-      {mehr('agenten', agentS)}
+      {istAuf('agenten') ? mehr('agenten', agentS) : null}
     </Box>
   )
 }
 
 function paneInArbeit(a: Ansicht, d: PaneDaten) {
-  const { Box, Text, titel, punkt, verweise, details, mehr, schnitt } = a
+  const { Box, Text, kopf, istAuf, titel, punkt, verweise, details, mehr, schnitt } = a
   const arbeit = sortiere(d.l.inArbeit)
   const arbeitS = schnitt(arbeit.filter(z => z.groesse !== 'klein'), 'arbeit')
   const kleinS = schnitt(arbeit.filter(z => z.groesse === 'klein'), 'klein', 0)
@@ -535,49 +540,42 @@ function paneInArbeit(a: Ansicht, d: PaneDaten) {
   }
   return (
     <Box flexDirection="column">
-      <Text bold>
-        In Arbeit{' '}
-        <Text color={AKZENT}>{d.l.inArbeit.length}</Text>
-      </Text>
-      {d.l.inArbeit.length === 0 ? <Text dimColor>  nichts</Text> : null}
-      {arbeitS.sichtbar.map(arbeitZeile)}
-      {mehr('arbeit', arbeitS)}
-      {kleinS.sichtbar.map(arbeitZeile)}
-      {mehr('klein', kleinS, 'Kleinigkeiten')}
+      {kopf('arbeit', 'In Arbeit', d.l.inArbeit.length)}
+      {istAuf('arbeit') && d.l.inArbeit.length === 0 ? <Text dimColor>  nichts</Text> : null}
+      {istAuf('arbeit') ? arbeitS.sichtbar.map(arbeitZeile) : null}
+      {istAuf('arbeit') ? mehr('arbeit', arbeitS) : null}
+      {istAuf('arbeit') ? kleinS.sichtbar.map(arbeitZeile) : null}
+      {istAuf('arbeit') ? mehr('klein', kleinS, 'Kleinigkeiten') : null}
     </Box>
   )
 }
 
 function paneNaechstes(a: Ansicht, d: PaneDaten) {
-  const { Box, Text, kt, stumm, verweise, mehr, schnitt } = a
+  const { Box, Text, kopf, istAuf, kt, stumm, verweise, mehr, schnitt } = a
   const later = schnitt(sortiere(d.l.todo), 'todo')
   return (
     <Box flexDirection="column">
-      <Text bold dimColor>
-        Als Nächstes {d.l.todo.length}
-      </Text>
-      {d.l.todo.length === 0 ? <Text dimColor>  nichts</Text> : null}
-      {later.sichtbar.map((z, i) => (
+      {kopf('todo', 'Als Nächstes', d.l.todo.length, true)}
+      {istAuf('todo') && d.l.todo.length === 0 ? <Text dimColor>  nichts</Text> : null}
+      {!istAuf('todo') ? null : later.sichtbar.map((z, i) => (
         <Box flexDirection="column" key={`later-${i}`}>
           {zeile(Box, `later-z-${i}`, stumm(symbol(z.groesse, '○'), farbe(z.groesse)), <Text dimColor={z.groesse !== 'gross'} bold={z.groesse === 'gross'} wrap="wrap">{kt(z.titel)}</Text>)}
           {verweise(z, 'v-later-' + i)}
         </Box>
       ))}
-      {mehr('todo', later)}
+      {istAuf('todo') ? mehr('todo', later) : null}
     </Box>
   )
 }
 
 function panePipeline(a: Ansicht, d: PaneDaten) {
-  const { Box, Text, kt, punkt, verweise, details, mehr, schnitt } = a
+  const { Box, Text, kopf, istAuf, kt, punkt, verweise, details, mehr, schnitt } = a
   if (!d.pipeListe.length) return null
   const pipeS = schnitt(d.pipeListe, 'pipe')
   return (
     <Box flexDirection="column">
-      <Text bold dimColor>
-        In Pipeline {d.pipeListe.length}
-      </Text>
-      {pipeS.sichtbar.map((z, i) => (
+      {kopf('pipe', 'In Pipeline', d.pipeListe.length, true)}
+      {!istAuf('pipe') ? null : pipeS.sichtbar.map((z, i) => (
         <Box flexDirection="column" key={`pipe-${i}`}>
           {zeile(
             Box,
@@ -594,21 +592,19 @@ function panePipeline(a: Ansicht, d: PaneDaten) {
           {d.auf === 500 + i ? details(z, `pipe:${i}`) : null}
         </Box>
       ))}
-      {mehr('pipe', pipeS)}
+      {istAuf('pipe') ? mehr('pipe', pipeS) : null}
     </Box>
   )
 }
 
 function paneRegeln($: EngineInterface, a: Ansicht, d: PaneDaten) {
-  const { Box, Button, Text, breite, gesamt, rest, mehr, schnitt } = a
+  const { Box, Button, Text, kopf, istAuf, breite, gesamt, rest, mehr, schnitt } = a
   if (!d.regelListe.length) return null
   const regelSchnitt = schnitt(d.regelListe, 'regeln')
   return (
     <Box flexDirection="column">
-      <Text bold dimColor>
-        Regelmäßig {d.regelListe.length}
-      </Text>
-      {regelSchnitt.sichtbar.map(({ r, ms, datei }, i) => {
+      {kopf('regeln', 'Regelmäßig', d.regelListe.length, true)}
+      {!istAuf('regeln') ? null : regelSchnitt.sichtbar.map(({ r, ms, datei }, i) => {
         const min = ms === null ? null : abstandMin(ms, d.jetztMs)
         const chip = ms === null ? '—' : inKurz(ms, d.jetztMs)
         const dringend = min !== null && min <= DRINGEND_MIN
@@ -635,10 +631,20 @@ function paneRegeln($: EngineInterface, a: Ansicht, d: PaneDaten) {
           </Box>
         )
       })}
-      {mehr('regeln', regelSchnitt)}
-      <Text dimColor>  Cron UTC · Wecker feuert zur Stunde ±min</Text>
+      {istAuf('regeln') ? mehr('regeln', regelSchnitt) : null}
+      {istAuf('regeln') ? <Text dimColor>  Cron UTC · Wecker feuert zur Stunde ±min</Text> : null}
     </Box>
   )
+}
+
+// Breite und Klappzustand für den Top-Prios-Kasten.
+function prioUmfeld($: EngineInterface, e: any, d: PaneDaten, oeffne: (href: string) => Promise<void>): PrioUmfeld {
+  return {
+    zeichenJeZeile: prioZeichenJeZeile(e.props.bodyColumns, e.surface),
+    offen: kennung => d.ausgeklappt.includes(kennung),
+    schalte: kennung => void update($, aufgeklappt, a => schalte(a, kennung)),
+    oeffne: href => void oeffne(href),
+  }
 }
 
 // Pane: Statuszeile, dann Abschnitte mit je einer umbrechenden Zeile pro Eintrag.
@@ -650,6 +656,7 @@ async function zeichnePane($: EngineInterface, e: any) {
   const { Box } = a
   return (
     <Box flexDirection="column" gap={1} paddingX={1}>
+      {topPriosKasten($.ui.resolve(e), d.top, prioUmfeld($, e, d, a.oeffne))}
       {paneAutonom(a, d)}
       {paneRuhe(a, d)}
       {paneLive(a, d)}

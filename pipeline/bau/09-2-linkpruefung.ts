@@ -7,6 +7,19 @@ import { netflixAdresseTaugt } from '../../shared/netflix-adresse-pruefung.ts'
 import { todayIso } from '../../shared/time.ts'
 import { ersetztSucheUndMeldetWeg, urteilAmWeg } from '../lib/weg-aus-beleg.ts'
 
+/** Anbieter mit „DE ✓" je Titel im vorigen Bestand — auch die geführten Abgänge, sonst verschwände einer beim Bau nach seinem Entstehen. */
+function deutschJeTitel(alt: Title[] | Record<string, Title>): Map<number, Set<string>> {
+  const jeTitel = new Map<number, Set<string>>()
+  for (const t of Array.isArray(alt) ? alt : Object.values(alt)) {
+    const deutsch = [
+      ...(t.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform),
+      ...(t.entfernteStreams ?? []).filter((s) => s.dub === true).map((s) => s.platform),
+    ]
+    if (deutsch.length) jeTitel.set(t.id, new Set(deutsch))
+  }
+  return jeTitel
+}
+
 export function werteLinkpruefungAus({
   ytKanal,
   ytKauf,
@@ -17,6 +30,7 @@ export function werteLinkpruefungAus({
   belegFuer,
   vonHandBelegtAm,
   checks,
+  vorherTitles,
 }: {
   ytKanal: Record<string, string>
   ytKauf: Set<string>
@@ -27,6 +41,8 @@ export function werteLinkpruefungAus({
   belegFuer: (titleId: number, plattform: PlatformId, url?: string, anzahlWege?: number) => DubCheck | undefined
   vonHandBelegtAm: Map<string, string>
   checks: Map<string, DubCheck>
+  /** Der vorige Bestand; ohne Angabe liest die Funktion `public/data/titles.json`. */
+  vorherTitles?: Title[]
 }) {
   let geprueft = 0
   /** YouTube-Verweise, deren Urteil aus der Tonspur-Angabe der Videoseite stammt. */
@@ -119,18 +135,7 @@ export function werteLinkpruefungAus({
   /** Wie oft der Kanal-Verweis mit dem Crunchyroll-Befund entfallen ist. */
   let kanalMitEntfernt = 0
   /** Welche Anbieter der zuletzt ausgelieferte Stand je Titel mit „DE ✓" führte — für die Abgänge. */
-  const vorherDeutsch = new Map<number, Set<string>>()
-  {
-    const alt = readJson<Title[] | Record<string, Title>>('public/data/titles.json', [])
-    for (const t of Array.isArray(alt) ? alt : Object.values(alt)) {
-      /* Auch die geführten Abgänge — sonst verschwände einer beim Bau nach seinem Entstehen. */
-      const deutsch = [
-        ...(t.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform),
-        ...(t.entfernteStreams ?? []).filter((s) => s.dub === true).map((s) => s.platform),
-      ]
-      if (deutsch.length) vorherDeutsch.set(t.id, new Set(deutsch))
-    }
-  }
+  const vorherDeutsch = deutschJeTitel(vorherTitles ?? readJson<Title[] | Record<string, Title>>('public/data/titles.json', []))
 
   for (const title of titles.values()) {
     /**

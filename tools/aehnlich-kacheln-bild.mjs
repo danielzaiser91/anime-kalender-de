@@ -17,10 +17,8 @@ const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
 const VORHER = process.argv.includes('--vorher')
 const BILDER = process.argv.slice(2).find((a) => !a.startsWith('--'))
-const EIN_PUNKT = Buffer.from(
-  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
-  'base64',
-)
+// Hohes Platzhalterbild (1:4): ein Cover schmaler als 2:3 darf die Kachel nicht verlängern.
+const HOHES_BILD = '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="400"><rect width="100" height="400" fill="#888"/></svg>'
 const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml' }
 const TITEL = ['Kurz', 'Blue Exorcist: The Blue Night Saga Extra', 'Beyond the Boundary: Kyoukai no Kanata Extra Lang Lang Lang']
 const CHIPS = ['Dämonen', 'Zeitmanipulation', 'Schule', 'Übernatürliche Kräfte', 'Fantasy', 'Magie']
@@ -59,7 +57,11 @@ function setzeUndMesse({ vorher, faelle, chips }) {
     const abgeschnitten = Math.round(soll - name.getBoundingClientRect().height)
     const ueber = Math.round(name.getBoundingClientRect().bottom - name.nextElementSibling.getBoundingClientRect().top)
     const raus = Math.round(name.nextElementSibling.getBoundingClientRect().bottom - k.getBoundingClientRect().bottom)
-    if (ueber > 0 || raus > 0 || abgeschnitten > 1) fehler.push({ kachel: i, fall: faelle[i % faelle.length][1] + ' Chips', ueber, raus, abgeschnitten })
+    const bild = k.querySelector('img')
+    const bildZuHoch = bild ? Math.round(bild.getBoundingClientRect().height - 144) : 0
+    if (ueber > 0 || raus > 0 || abgeschnitten > 1 || bildZuHoch > 0) {
+      fehler.push({ kachel: i, fall: faelle[i % faelle.length][1] + ' Chips', ueber, raus, abgeschnitten, bildZuHoch })
+    }
   })
   return { kacheln: kacheln.length, fehler }
 }
@@ -78,7 +80,7 @@ async function main() {
     await seite.route('**/*', async (route) => {
       const url = new URL(route.request().url())
       if (url.protocol !== 'http:' && url.protocol !== 'https:') return route.continue()
-      if (url.hostname !== 'ak.test') return route.fulfill({ status: 200, contentType: 'image/png', body: EIN_PUNKT })
+      if (url.hostname !== 'ak.test') return route.fulfill({ status: 200, contentType: 'image/svg+xml', body: HOHES_BILD })
       const datei = path.join(DIST, url.pathname === '/' ? '/index.html' : url.pathname)
       if (!datei.startsWith(DIST) || !existsSync(datei)) return route.fulfill({ status: 404, body: '' })
       return route.fulfill({ status: 200, contentType: TYPEN[path.extname(datei)] ?? 'application/octet-stream', body: await readFile(datei) })

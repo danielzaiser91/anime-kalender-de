@@ -20,7 +20,6 @@ export function verpasstAnVorhandenes(events: ReleaseEvent[], tag: string, episo
   if (!e) return false
   if (!e.verpasst) {
     e.verpasst = v
-    e.estimated = undefined
   }
   return true
 }

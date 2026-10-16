@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 
@@ -48,6 +48,20 @@ try {
 
   const gegenprobe = lauf('anderes', LIEST_ANDERES)
   assert.equal(gegenprobe.status, 0, `eine Prüfung ohne Zugriff auf public/data läuft durch: ${gegenprobe.text}`)
+
+  const attrappe = join(ordner, 'kopie', 'public', 'data')
+  mkdirSync(attrappe, { recursive: true })
+  writeFileSync(join(attrappe, 'titles.json'), '[]')
+  const imTemp = lauf('im-temp', `import { readFileSync } from 'node:fs'\nreadFileSync(${JSON.stringify(join(attrappe, 'titles.json'))}, 'utf8')\n`)
+  assert.equal(imTemp.status, 0, `eine Attrappe public/data unter dem Temp-Ordner darf gelesen werden: ${imTemp.text}`)
+
+  const tempInRepo = join(WURZEL, 'tmp-sperre-probe')
+  const unterRepo = spawnSync(
+    process.execPath,
+    ['--require', join(WURZEL, 'tools', 'bestand-sperre.cjs'), '-e', `require('node:fs').readFileSync(${JSON.stringify(join(tempInRepo, 'public', 'data', 'x.json'))})`],
+    { encoding: 'utf8', env: { ...process.env, TEMP: tempInRepo, TMP: tempInRepo, TMPDIR: tempInRepo } },
+  )
+  assert.match(unterRepo.stderr, new RegExp(ABLEHNUNG), 'liegt der Temp-Ordner unter der Repo-Wurzel, zählt public/data dort nicht als Temp')
 
   const erlaubt = lauf('erlaubt', LIEST_BESTAND, (d) => ({ hoechstens: 1, ausnahmen: [ausnahme(d)] }))
   assert.equal(erlaubt.status, 0, `eine Prüfung mit Ausnahme für genau diesen Pfad läuft durch: ${erlaubt.text}`)

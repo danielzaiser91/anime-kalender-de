@@ -9,12 +9,14 @@ import { rtlplusWochentermine, type RtlFolge } from '../lib/rtlplus-folgen.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { type DubCheck } from '../lib/dub-confirmed.ts'
 
-export function schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, belegFuer }: {
+export function schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, belegFuer, schreibWurzel }: {
   titles: Map<number, Title>
   verweiseEntfernt: EntfernterVerweis[]
   releases: Release[]
   crDub: CrDubData
   belegFuer: (titleId: number, plattform: PlatformId, url?: string, anzahlWege?: number) => DubCheck | undefined
+  /** Wurzel für die Prüflisten der Teilseiten (Test: Wegwerf-Ordner); ohne Angabe die Projektwurzel. */
+  schreibWurzel?: string
 }) {
   /**
    * **Wer die Staffeln exakt füllt, lässt für einen weiteren keinen Platz.**
@@ -169,7 +171,7 @@ export function schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, 
     Genau das braucht `expandEvents()` — siehe `schedule.belegtBis`.
   */
   setzeCrBereiche(titles, crDub)
-  setzeTeilseiten(titles, crDub)
+  setzeTeilseiten(titles, crDub, schreibWurzel)
 
   /*
     RTL+-Staffeln, die gerade wöchentlich wachsen (Beyblade X, 19.09.2026). Erst hier: Die

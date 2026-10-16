@@ -18,7 +18,9 @@ import { readFile } from 'node:fs/promises'
 import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { distPruefen } from './dist-frisch.mjs'
-import { kontrast, kopfMasse, schriftgroessen, tippziele } from './panel-messen-browser.mjs'
+import { flaggenOhneLink, kontrast, kopfMasse, schriftgroessen, tippziele, totesBanner } from './panel-messen-browser.mjs'
+import { AUSNAHMEN } from './trefferprobe-ausnahmen.mjs'
+import { trefferprobe } from './trefferprobe-browser.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const arg = (name) => (process.argv.includes(name) ? process.argv[process.argv.indexOf(name) + 1] : undefined)
@@ -117,6 +119,13 @@ function pruefeKopf(t, geraet, m) {
   return probleme
 }
 
+/** Trefferprobe über das ganze Panel (jedes Bedienelement anklickbar). Nichts geprüft = rot, sonst läuft die Probe ins Leere. */
+async function trefferprobePanel(seite) {
+  const r = await seite.evaluate(trefferprobe, { wurzel: '[data-panel="titel"]', ausnahmen: AUSNAHMEN })
+  if (r.geprueft === 0) return ['Trefferprobe: kein Bedienelement im Panel gefunden']
+  return r.befunde.map((b) => `Verdeckt: ${b}`)
+}
+
 /** Eine Messzelle (Titel × Gerät × Thema): alle Zusicherungen, dazu die gefundenen Schriftgrößen für die Gesamtprüfung. */
 async function messeZelle(seite, fall, geraet, thema, groessenGesamt) {
   const panel = await oeffne(seite, fall.ak, thema)
@@ -131,7 +140,28 @@ async function messeZelle(seite, fall, geraet, thema, groessenGesamt) {
   const m = await seite.evaluate(kopfMasse)
   rot.push(...pruefeKopf(daten.get(fall.ak), geraet, m), ...pruefeFlaggen(daten.get(fall.ak), m))
   if (MIT('--docs') && !fall.name.includes('-')) await panel.screenshot({ path: path.join(WURZEL, 'docs', `panel-kopf-${fall.name}-${geraet}-${thema}.png`) })
+  // Zuletzt: beide Proben scrollen das Panel und würden Maße und Bild danach verfälschen.
+  rot.push(...(await trefferprobePanel(seite)))
+  for (const f of await seite.evaluate(flaggenOhneLink)) rot.push(`Verdeckt: ${f}`)
+  for (const f of await seite.evaluate(totesBanner)) rot.push(`Totes Banner: ${f}`)
   return { rot, kastenTop: Math.round(m.kastenTop) }
+}
+
+/** Nur die Trefferprobe bei 360 px (kleinste verbreitete Handybreite, die übrigen Messungen laufen bei 393 px), beide Themen. */
+async function messeSchmal(browser) {
+  const rot = []
+  const seite = await browser.newPage({ viewport: { width: 360, height: 1700 } })
+  await seite.route('**/*', beantworte)
+  for (const fall of [...TITEL, ...flaggenFaelle()]) {
+    for (const thema of fall.name.includes('-') ? ['hell'] : ['hell', 'dunkel']) {
+      await oeffne(seite, fall.ak, thema)
+      const befunde = await trefferprobePanel(seite)
+      console.log(`  ${befunde.length ? '✕' : 'ok'} ${fall.name} 360 px ${thema}: Trefferprobe, ${befunde.length} Verstöße`)
+      rot.push(...befunde.map((b) => `${fall.name} 360 px ${thema}: ${b}`))
+    }
+  }
+  await seite.close()
+  return rot
 }
 
 async function messeAlles() {
@@ -151,6 +181,7 @@ async function messeAlles() {
     }
     await seite.close()
   }
+  rot.push(...(await messeSchmal(browser)))
   await browser.close()
   console.log(`  Schriftgrößen gefunden: ${[...groessenGesamt].sort((a, b) => a - b).join(', ')} px`)
   if (groessenGesamt.size !== 5) rot.push(`${groessenGesamt.size} Schriftgrößen statt genau fünf`)

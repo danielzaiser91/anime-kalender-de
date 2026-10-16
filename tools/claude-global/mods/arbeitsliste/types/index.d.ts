@@ -8,6 +8,7 @@ export type DanielTodo = { jetzt: DanielEintrag[]; spaeter: DanielEintrag[] }
 export type LiveEintrag = Eintrag & { zeit: number }
 
 export type PipelineEintrag = Eintrag & { zeit: number; ort: 'pipeline' | 'worker' | 'warteliste' | 'deploy' | '?' }
+export type PrioEintrag = Eintrag & { status: string; details: string[] }
 
 declare module 'claude-code' {
   interface PluginState {
@@ -22,7 +23,10 @@ declare module 'claude-code' {
       // Index des aufgeklappten Now-Eintrags.
       offen: number | null
       // Kennungen der ausgeklappten Bereiche („+ N weitere“) und Gruppen (Kleinigkeiten); jeder Bereich zeigt sonst höchstens fünf.
+      // `bereich:<id>` kehrt den Standard des Bereichs um (zu, nur „jetzt“ offen).
       aufgeklappt: string[]
+      // „## Top-Prios“: Kasten ganz oben, immer offen (Schlüssel V2: Form mit status und details).
+      topPriosV2: PrioEintrag[]
       // „Daniel-Todo“ aus stand.md: Jetzt und Später.
       vonDir: DanielTodo
       // Anzahl fälliger 📅-Einträge: ändert sich nur an einer Zeitgrenze und zeichnet dann neu.

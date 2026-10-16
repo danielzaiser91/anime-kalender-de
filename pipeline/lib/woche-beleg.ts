@@ -74,16 +74,16 @@ export function bildSchluessel(b: WocheBeleg, am: string): string {
   return `www.crunchyroll.com/wochenprogramm/${b.seriesId.toLowerCase()}/${b.datum}-f${b.von}-${am.slice(0, 16).replace(/[T:]/g, '-')}.webp`
 }
 
-/** Hängt das Bild der Ankündigung an jeden Vermerk, der noch keins hat und zu dessen Folge und Tag eine Zeile mit Bild vorliegt. Gibt die Zahl der Treffer zurück. */
+/** Hängt das Bild der Ankündigung an jeden offenen Vermerk (ein geschlossener bleibt, wie er war: seine Meldung ist geschrieben), der noch keins hat und zu dessen Folge und Tag eine Zeile mit Bild vorliegt. Gibt die Zahl der Treffer zurück. */
 export function belegeAnhaengen(
-  verpasst: { slug: string; episode: number | null; erwartetAm: string; wocheBeleg?: WocheBelegVermerk }[],
+  verpasst: { slug: string; episode: number | null; erwartetAm: string; erschienenAm?: string | null; wocheBeleg?: WocheBelegVermerk }[],
   belege: WocheBelege,
   kennungJeSlug: (slug: string) => string | undefined,
 ): number {
   let n = 0
   for (const v of verpasst) {
     const seriesId = kennungJeSlug(v.slug)
-    if (v.wocheBeleg || v.episode == null || !seriesId) continue
+    if (v.wocheBeleg || v.erschienenAm || v.episode == null || !seriesId) continue
     const treffer = belegFuerTermin(belege, { seriesId, episode: v.episode, datum: toIsoDate(new Date(v.erwartetAm)), erwartetAm: v.erwartetAm })
     if (!treffer) continue
     v.wocheBeleg = treffer

@@ -203,6 +203,12 @@ jobs:
         with:
           cache: 'aus'
 
+      # Welche Titel aniSearch als deutsch vertont führt (API, ein Abruf je Tag; Limit mit Token 1 je Stunde). Vor allen anderen Abrufen dieses Jobs; vorher wöchentlich (15.10.2026).
+      - name: aniSearch-Dub-Liste holen
+        env:
+          ANISEARCH_TOKEN: ${{ secrets.ANISEARCH_TOKEN }}
+        run: bash tools/schritt.sh --zeit 10m "aniSearch-Dubs" -- npm run data:anisearch-dubs
+
       # 200 Titel im Sechs-Sekunden-Takt (Kontingent und Takt stehen im Skript). Der Bestand liegt im Repo und geht nicht verloren. Vom 09. bis 10.08.2026 ausgesetzt:
       # anisearch.de war vom Anschluss des Betreibers aus nicht erreichbar; die Sperre verschwand von selbst.
       - name: Deutsche Texte und Anbieter von aniSearch

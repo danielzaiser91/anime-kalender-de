@@ -21,7 +21,7 @@ export function KopfGrund({ banner, cover }: { banner: string | undefined; cover
 }
 
 const POSTER =
-  'h-[180px] w-[120px] shrink-0 rounded-xl object-cover shadow-[0_8px_24px_rgba(0,0,0,.35)] ring-2 ring-white min-[512px]:h-[210px] min-[512px]:w-[140px] dark:ring-[#0d1220]'
+  'pointer-events-auto h-[180px] w-[120px] shrink-0 rounded-xl object-cover shadow-[0_8px_24px_rgba(0,0,0,.35)] ring-2 ring-white min-[512px]:h-[210px] min-[512px]:w-[140px] dark:ring-[#0d1220]'
 
 /** Das ganze Cover, unbeschnitten, als Karte; ragt in das Banner (der Kopf legt sie dorthin). */
 export function Posterkarte({ bild, onClick }: { bild: string | undefined; onClick: (e: { target: EventTarget }) => void }) {

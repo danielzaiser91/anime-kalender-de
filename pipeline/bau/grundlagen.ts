@@ -95,6 +95,7 @@ export const verpassteTermine = readJson<
     erschienenAm?: string | null
     verzugStunden?: number | null
     folgenVerfuegbar?: number | null
+    tagGeschaetzt?: boolean
     neuErwartet?: string | null
     recherche?: string | null
     rechercheQuelle?: string | null

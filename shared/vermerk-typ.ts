@@ -10,6 +10,8 @@ export interface VermerkAusgeblieben {
   erwartetAm: string
   /** Wann der Lauf das Ausbleiben bemerkte (Tag der Messung) und wann die Folge wirklich kam — leer, solange sie aussteht. */
   bemerktAm?: string; erschienenAm?: string; messBild?: string; nachBild?: string // Schlüssel der privaten Beleg-Bilder (Kalendertag beim Bemerken / beim Nachreichen)
+  /** War der Tag beim Vermerken errechnet (Plan geschätzt)? Bleibt stehen, auch wenn die Folge später kommt und der Plan sich ändert. */
+  tagGeschaetzt?: boolean
   /** Verzug in Stunden, sobald beides bekannt ist. */
   verzugStunden?: number
   /** Wie viele Folgen der Anbieter zu diesem Zeitpunkt zeigte. */

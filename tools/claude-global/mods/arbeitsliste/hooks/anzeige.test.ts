@@ -1,98 +1,13 @@
 import { test, expect, mock } from 'claude-code/testing'
 import type { On } from 'claude-code'
 
-const STAND = `# Stand
-## In Arbeit (Stand 10.10.2026)
-
-- **Patchnotes ohne Footer, Kopfzeile 64 statt 96 px, Rooster Fighter bei Netflix mit Link** — Code fertig und geprüft, **noch nicht live**: Commit wartet.
-- **Prüfliste Rooster Fighter (Netflix)** — erst nach dem Bestandsbau möglich.
-- **Impressum-Anschrift eintragen (Daniel, 10.10. 12:27)** — Verifizierung abgeschlossen. Erste Aufgabe der nächsten Sitzung.
-- **Autonomer Modus** — aus (Daniel stoppte 12:17).
-
-## Als Nächstes (Todo)
-
-- Fahrplan 1: Wecker-Wache ausliefern und prüfen, Monatswache.
-- Fahrplan 2: Register der Zugänge und Token samt Ablaufwächter.
-- Fahrplan 3 und 4: Wachen-Urteil als Claude-Lauf; Invarianten am Bau-Ergebnis.
-- Fahrplan 6 bis 9: Sammelartikel abbauen, Crunchyroll-Lineup lesen, Doppelbau verengen, Wiedervorlage nach Alter.
-- Live-Messungen für die Handy-Prüfungen in [stand.md](stand.md).
-- Ursache des kaputten Bash-PATH finden (Elternprozess).
-- Kontext weiter kürzen — wartet auf deine Entscheidung (MCP-Server, Skills, Regeldateien).
-`
-
-const PANE = {
-  plugin: 'arbeitsliste',
-  component: 'Pane',
-  requestId: 'arbeitsliste',
-  props: { title: 'Arbeitsliste', isFocused: false, bodyColumns: 80, placement: 'dock', scroll: { offset: 0, bodyRows: 40 }, view: {} },
-} as const
-
-const BAND = {
-  plugin: 'arbeitsliste',
-  component: 'AbovePrompt',
-  props: { hasSurvey: false, isWorking: false, maxRows: 10, bodyColumns: 100, scroll: { offset: 0, bodyRows: 9 }, view: {} },
-} as const
-
-// Sichtbarer Text eines Baums, zeilenweise (Box in Spaltenrichtung trennt Zeilen).
-function zeilen(knoten: unknown, aus: string[] = [], zeile = { s: '' }): string[] {
-  if (typeof knoten === 'string') { zeile.s += knoten; return aus }
-  if (!knoten || typeof knoten !== 'object') return aus
-  const k = knoten as { type?: string; props?: Record<string, unknown>; children?: unknown[] }
-  const kinder = k.children ?? (k.props?.children as unknown[] | undefined) ?? []
-  const spalte = k.type === 'Box' && k.props?.flexDirection === 'column'
-  if (k.type === 'Button' && typeof k.props?.label === 'string' && kinder.length === 0) zeile.s += k.props.label
-  for (const kind of Array.isArray(kinder) ? kinder : [kinder]) {
-    if (spalte) {
-      const z = { s: '' }
-      zeilen(kind, aus, z)
-      if (z.s.trim()) aus.push(z.s)
-    } else zeilen(kind, aus, zeile)
-  }
-  return aus
-}
-
-// Baum nach Elementen mit gesetztem Prop durchsuchen.
-function hat(knoten: unknown, prop: string, wert: unknown): boolean {
-  if (!knoten || typeof knoten !== 'object') return false
-  const k = knoten as { props?: Record<string, unknown>; children?: unknown[] }
-  if (k.props?.[prop] === wert) return true
-  const kinder = k.children ?? (k.props?.children as unknown[] | undefined) ?? []
-  return (Array.isArray(kinder) ? kinder : [kinder]).some(c => hat(c, prop, wert))
-}
-
-
-// Autonomer Modus: je Sitzung eine Datei. Die Testsitzung ist SITZUNG; fremde Dateien (und die alte globale) liegen mit Endzeit vor.
-const MARKER_ORDNER = 'C:/Users/ih/.claude/autonomer-modus'
-const SITZUNG = 'eigene-sitzung'
-const FREMDE_MARKER = [`${MARKER_ORDNER}/fremde-sitzung.txt`, 'C:/Users/ih/.claude/autonomer-modus-bis.txt']
-
-// `engine`: unterste Leiste wie im Betrieb, wenn kein fremdes Modul zeichnet.
-function starte(on: On, marker: string | null, status: (string | undefined)[] = [], engine = true, stand = STAND, ruhe: boolean | string = false, agenten = 0, zaehler: string | null = null, pruefer = 0) {
-  mock.clock(on)
-  on('session.start', ($, e) => ({ cwd: e.cwd }))
-  on('session.id', () => ({ value: SITZUNG }) as never)
-  on('ui.status', ($, e) => { status.push((e as { text?: string }).text); return { value: undefined } as never })
-  if (agenten) {
-    const laeuft = Array.from({ length: agenten }, (_, i) => ({ description: i < pruefer ? 'Prüfer: x' : 'Bauer', status: 'running' }))
-    on('state.get', (_$, e, next) => ((e as { plugin?: string }).plugin === 'savvy-progress' ? ({ value: { value: laeuft, version: 1 } } as never) : next(e)))
-  }
-  if (engine) on('ui.render', { component: 'AbovePrompt' }, () => ({ type: 'engine', ref: 0 }) as never)
-  on('fs.read', ($, e) => {
-    // Der Pfad kommt mit Rückwärtsschrägstrichen an (Windows).
-    const pfad = e.path.replace(/\\/g, '/')
-    if (pfad.endsWith('stand.md')) return { value: stand } as never
-    if (marker !== null && pfad === `${MARKER_ORDNER}/${SITZUNG}.txt`) return { value: marker } as never
-    if (FREMDE_MARKER.includes(pfad)) return { value: new Date(Date.now() + 3_600_000).toISOString() } as never
-    if (ruhe !== false && e.path.endsWith('ruhemodus.txt')) return { value: ruhe === true ? '' : ruhe } as never
-    if (zaehler !== null && e.path.endsWith('zaehler.json')) return { value: zaehler } as never
-    return { deny: 'fehlt' } as never
-  })
-}
+import { STAND, PANE, BAND, zeilen, hat, oeffneAlle, starte } from './testhilfe'
 
 test('Pane: eine Zeile je Eintrag, ohne Markdown, Later eingeklappt', async ($, on) => {
   starte(on, null)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  await oeffneAlle(pane)
   const z = zeilen(await pane.drawn())
   const text = z.join('\n')
 
@@ -100,10 +15,10 @@ test('Pane: eine Zeile je Eintrag, ohne Markdown, Later eingeklappt', async ($, 
   expect(text).not.toContain('**')
   expect(text).not.toContain('](')
   expect(text).not.toMatch(/Autonomer Modus — /)
-  expect(z).toContain('In Arbeit 3')
+  expect(z).toContain('▾ In Arbeit 3')
   expect(z).toContain('  ● Prüfliste Rooster Fighter (Netflix)')
   expect(z).toContain('  ● Impressum-Anschrift eintragen (Daniel, 10.10. 12:27)')
-  expect(z).toContain('Als Nächstes 7')
+  expect(z).toContain('▾ Als Nächstes 7')
   expect(z.filter(s => s.startsWith('  ○ '))).toHaveLength(5)
   expect(z).toContain('    + 2 weitere')
   expect(hat(await pane.drawn(), 'wrap', 'wrap')).toBe(true)
@@ -157,9 +72,10 @@ test('Autonomer Modus an: Endzeit in Statuszeile und Leiste, kein Now-Eintrag', 
   starte(on, bis)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  await oeffneAlle(pane)
   const z = zeilen(await pane.drawn())
   expect(z[0]).toMatch(/^● Autonomer Modus bis \d\d:\d\d$/)
-  expect(z).toContain('In Arbeit 3')
+  expect(z).toContain('▾ In Arbeit 3')
   await pane.unmount()
   const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
   const reihe = { s: '' }
@@ -173,6 +89,7 @@ test('Autonomer Modus: Marker einer fremden Sitzung oder die alte globale Datei 
   starte(on, null)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  await oeffneAlle(pane)
   expect(zeilen(await pane.drawn())[0]).toBe('○ Autonomer Modus aus')
   await pane.unmount()
 })
@@ -274,6 +191,7 @@ test('Pane: auf Terminal und Desktop gezeichnet, ohne Savvy kein Agenten-Abschni
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   for (const surface of ['terminal', 'desktop'] as const) {
     const pane = await $.ui.mount({ ...PANE, surface })
+    await oeffneAlle(pane)
     const text = zeilen(await pane.drawn()).join('\n')
     expect(text).toContain('Patchnotes ohne Footer')
     expect(text).not.toContain('Agenten')
@@ -319,6 +237,7 @@ test('Pane: Jetzt nach Dringlichkeit gefärbt und sortiert, Icon statt Nummer, n
   starte(on, null, [], true, MIT_DANIEL)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  await oeffneAlle(pane)
   const baum = await pane.drawn()
   const z = zeilen(baum)
   const reihe = ['  🔴 Live falsch: Termin prüfen', '  🟠 rtk-Hook aus settings.json entfernen', '  ⏰ 01.01. 08:00 Alt fällig prüfen', '  🔵 Wenn Zeit ist: Aufräumen']
@@ -337,11 +256,12 @@ test('Pane: Jetzt und Später getrennt, Icons vorn, Fälliges wandert nach Jetzt
   starte(on, null, [], true, MIT_DANIEL)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  await oeffneAlle(pane)
   const z = zeilen(await pane.drawn())
-  expect(z).toContain('Jetzt 4')
+  expect(z).toContain('▾ Jetzt 4')
   expect(z).toContain('  🟠 rtk-Hook aus settings.json entfernen')
   expect(z).toContain('  ⏰ 01.01. 08:00 Alt fällig prüfen')
-  expect(z).toContain('Später 3')
+  expect(z).toContain('▾ Später 3')
   expect(z).toContain('  📅 31.12. 23:59 Spät prüfen')
   expect(z).toContain('  ⏳ Impressum-Antwort abwarten')
   expect(z).toContain('  🚫 Rechtsfrage Handlung klären')
@@ -407,6 +327,7 @@ test('Pane: https als Link-Element (blau, unterstrichen), file als schlichter Bu
   on('process.run', (_$, e) => { gestartet.push([...(e as { argv: string[] }).argv]); return { value: { exitCode: 0, stdout: '', stderr: '' } } as never })
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  await oeffneAlle(pane)
   const links: { href: string; label: string; farbe?: string; unterstrichen?: boolean }[] = []
   const knoepfe: string[] = []
   const alle: string[] = []
@@ -456,9 +377,10 @@ test('Pane: Regelmäßig unten, nach nächstem Lauf sortiert, Chip, Einklappen a
   starte(on, null, [], true, stand)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  await oeffneAlle(pane)
   let z = zeilen(await pane.drawn())
-  const start = z.indexOf('Regelmäßig 7')
-  expect(start).toBeGreaterThan(z.indexOf('Als Nächstes 7'))
+  const start = z.indexOf('▾ Regelmäßig 7')
+  expect(start).toBeGreaterThan(z.indexOf('▾ Als Nächstes 7'))
   const reihen = z.slice(start + 1)
   // Chip (9 Zellen, rechtsbündig) · ▸ · Titel; fünf sichtbar, danach „+ 2 weitere“ und die Fußnote
   expect(reihen.slice(0, 5).every(r => /^( {0,7}in \d+ (min|h|d)|    jetzt) ▸ Lauf \d$/.test(r))).toBe(true)
@@ -483,10 +405,11 @@ test('Pane: In Pipeline über Regelmäßig, Ort-Marke je Zeile, älteste zuerst,
   starte(on, null, [], true, stand)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  await oeffneAlle(pane)
   let z = zeilen(await pane.drawn())
-  const k = z.indexOf('In Pipeline 3')
-  expect(k).toBeGreaterThan(z.indexOf('Als Nächstes 7'))
-  expect(k).toBeLessThan(z.findIndex(s => s.startsWith('Regelmäßig')))
+  const k = z.indexOf('▾ In Pipeline 3')
+  expect(k).toBeGreaterThan(z.indexOf('▾ Als Nächstes 7'))
+  expect(k).toBeLessThan(z.findIndex(s => s.startsWith('▾ Regelmäßig')))
   expect(z.slice(k + 1, k + 4)).toEqual(['  ⇢ pipeline Ältere Änderung', '  ⇢ worker Neuere Änderung', '  ⇢ ? Ohne Ort angegeben, lang genug'])
   await pane.press({ key: 'pipe:1' })
   z = zeilen(await pane.drawn())
@@ -498,6 +421,7 @@ test('Pane: ohne Pipeline-Zeilen kein Bereich', async ($, on) => {
   starte(on, null)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  await oeffneAlle(pane)
   expect(zeilen(await pane.drawn()).some(s => s.startsWith('In Pipeline'))).toBe(false)
   await pane.unmount()
 })
@@ -509,6 +433,7 @@ test('Pane: langer Titel bricht auf Panebreite um, gekürzt erst jenseits von zw
   starte(on, null, [], true, stand)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, props: { ...PANE.props, bodyColumns: 45 }, surface: 'terminal' })
+  await oeffneAlle(pane)
   const z = zeilen(await pane.drawn())
   // breite 45 - 7 = 38; Gesamt 2 * 38 - 4 = 72: der 74-Zeichen-Titel ist knapp gekürzt, aber nicht auf 38
   const e = z.find(s => s.includes('Wochenstart'))!
@@ -534,8 +459,9 @@ test('Pane: jeder Bereich zeigt höchstens 5, der Rest klappt hinter „+ N weit
   starte(on, null, [], true, VIELE)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  await oeffneAlle(pane)
   let z = zeilen(await pane.drawn())
-  expect(z).toContain('Jetzt 7')
+  expect(z).toContain('▾ Jetzt 7')
   expect(z.filter(s => /^ {2}\S+ Jetzt \d$/.test(s))).toHaveLength(5)
   expect(z.filter(s => s.startsWith('  ○ Danach'))).toHaveLength(5)
   expect(z.filter(s => s === '    + 2 weitere')).toHaveLength(2)
@@ -567,6 +493,7 @@ test('Pane: ein einzelnes ui.press wirkt, auch nach Neuzeichnung; die Knopf-Kenn
   starte(on, null, [], true, VIELE)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  await oeffneAlle(pane)
   const kennungen = async () => {
     const alle: string[] = []
     const sammle = (k: any) => {
@@ -599,6 +526,7 @@ test('Pane: aufgeklappt gibt es „Text kopieren“, der Druck legt Titel und Re
   })
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  await oeffneAlle(pane)
   expect(zeilen(await pane.drawn()).some(s => s.includes('Text kopieren'))).toBe(false)
 
   await pane.press({ key: 'now:0' })
@@ -664,4 +592,92 @@ test('Messung an: eine Zeile je Render samt Dauer, Cache-Treffer und Auslöser',
 
 test('Messung aus: keine Protokolldatei', async ($, on) => {
   expect(await messLauf($, on, false)).toBe('')
+})
+test('Pane: Standard alle Bereiche zu außer Jetzt; Kopf zeigt Titel und Anzahl; Klick klappt auf und wieder zu', async ($, on) => {
+  starte(on, null, [], true, STAND.replace('## In Arbeit', '## Daniel-Todo\n\n### Jetzt\n- 🔴 **Eins prüfen** — x\n\n## In Arbeit'))
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  let z = zeilen(await pane.drawn())
+  expect(z).toContain('▾ Jetzt 1')
+  expect(z).toContain('  🔴 Eins prüfen — x')
+  expect(z).toContain('▸ In Arbeit 3')
+  expect(z).toContain('▸ Als Nächstes 7')
+  expect(z.some(s => s.includes('Prüfliste Rooster'))).toBe(false)
+
+  await pane.press({ key: 'bereich:arbeit' })
+  z = zeilen(await pane.drawn())
+  expect(z).toContain('▾ In Arbeit 3')
+  expect(z).toContain('  ● Prüfliste Rooster Fighter (Netflix)')
+  expect(z).toContain('▸ Als Nächstes 7')
+
+  await pane.press({ key: 'bereich:arbeit' })
+  expect(zeilen(await pane.drawn())).toContain('▸ In Arbeit 3')
+
+  await pane.press({ key: 'bereich:jetzt' })
+  z = zeilen(await pane.drawn())
+  expect(z).toContain('▸ Jetzt 1')
+  expect(z).not.toContain('  🔴 Eins prüfen — x')
+  await pane.unmount()
+})
+
+// Alle Bereiche mit mehr als fünf Zeilen: zu zeigt nur den Kopf, kein „+ N weitere“, keinen Körper.
+function standMitAllem(): string {
+  const p = (n: number) => String(n).padStart(2, '0')
+  const jetzt = new Date(Date.now() - 3_600_000)
+  const stempel = `${jetzt.getFullYear()}-${p(jetzt.getMonth() + 1)}-${p(jetzt.getDate())} ${p(jetzt.getHours())}:${p(jetzt.getMinutes())}`
+  const reihe = (n: number, f: (i: number) => string) => Array.from({ length: n }, (_, i) => f(i + 1))
+  return [
+    '## Neu und live testbar',
+    ...reihe(6, i => `- [${stempel}] **Live ${i}** — [x](https://example.org/${i})`),
+    '## Daniel-Todo',
+    '### Jetzt',
+    ...reihe(6, i => `- 🔴 **Jetzt ${i}**`),
+    '### Später',
+    ...reihe(6, i => `- ⏳ **Spät ${i}**`),
+    '## In Arbeit',
+    ...reihe(6, i => `- **Arbeit ${i}**`),
+    ...reihe(2, i => `- [klein] **Klein ${i}**`),
+    '## Als Nächstes (Todo)',
+    ...reihe(6, i => `- Danach ${i}`),
+    '## In Pipeline',
+    ...reihe(6, i => `- [${stempel}] **Pipe ${i}** — Ort: worker (x)`),
+    '## Regelmäßig (Quelle: x)',
+    ...reihe(6, i => `- ⟳ **Regel ${i}** — Datei r${i}.yml · Rhythmus: täglich · cron: 0 ${i} * * *`),
+    '',
+  ].join('\n')
+}
+
+const KOEPFE = ['Neu und jetzt live testbar:', 'Später 6', 'In Arbeit 8', 'Als Nächstes 6', 'In Pipeline 6', 'Regelmäßig 6', 'Agenten 6']
+
+test('Pane: alle Bereiche zu zeigen nur den Kopf (außer Jetzt), aufgeklappt Körper und „+ N weitere“', async ($, on) => {
+  starte(on, null, [], true, standMitAllem(), false, 6)
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  let z = zeilen(await pane.drawn())
+  for (const k of KOEPFE) expect(z.some(s => s.startsWith('▸ ') && s.includes(k.replace(' 6', '')))).toBe(true)
+  expect(z).toContain('▾ Jetzt 6')
+  expect(z.filter(s => s === '    + 1 weitere')).toHaveLength(1)
+  for (const wort of ['Live 1', 'Spät 1', 'Arbeit 1', 'Klein', 'Danach', 'Pipe 1', 'Lauf', 'Regel 1', 'Agents öffnen', 'Cron UTC']) {
+    expect(z.some(s => s.includes(wort))).toBe(false)
+  }
+  await oeffneAlle(pane)
+  z = zeilen(await pane.drawn())
+  expect(z.filter(s => s === '    + 1 weitere').length).toBeGreaterThanOrEqual(7)
+  for (const wort of ['Live 1', 'Spät 1', 'Arbeit 1', 'Danach 1', 'Pipe 1', 'Regel 1', 'Agents öffnen', 'Cron UTC']) {
+    expect(z.some(s => s.includes(wort))).toBe(true)
+  }
+  await pane.unmount()
+})
+
+test('Pane: leere Bereiche zeigen „nichts“ nur, solange sie offen sind', async ($, on) => {
+  starte(on, null, [], true, '## Daniel-Todo\n### Später\n- ⏳ **Warten**\n## In Arbeit\n## Als Nächstes (Todo)\n')
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  const nichts = async () => zeilen(await pane.drawn()).filter(s => s === '  nichts').length
+  expect(await nichts()).toBe(1)
+  await pane.press({ key: 'bereich:jetzt' })
+  expect(await nichts()).toBe(0)
+  await oeffneAlle(pane)
+  expect(await nichts()).toBe(3)
+  await pane.unmount()
 })

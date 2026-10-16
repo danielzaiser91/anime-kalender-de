@@ -5,7 +5,7 @@
 import assert from 'node:assert/strict'
 import { werteFeldAus, feldMarkdown, uebersichtMarkdown, istListeA, A_MIN_STIMMEN } from '../pipeline/lib/luecken-rahmen.ts'
 import { readFileSync } from 'node:fs'
-import { sammleTage, ladeKontext } from '../pipeline/lib/luecken-kontext.ts'
+import { ladeStaffel0, sammleTage } from '../pipeline/lib/luecken-kontext.ts'
 import { FELDER } from '../pipeline/lib/luecken-felder.ts'
 import { grundOhneBanner } from '../pipeline/lib/banner-luecken.ts'
 
@@ -58,8 +58,8 @@ const bannerFeld = FELDER.find((f) => f.datei === 'banner.md')
 const mitStaffel0 = { ...kontext, staffel0: { 1: { tmdbId: 5 } } }
 assert.equal(bannerFeld.fehlt(titel(1), mitStaffel0), 'Staffel 0 führt kein Standbild ab 1280 px', 'Banner-Feld reicht k.staffel0 an grundOhneBanner weiter')
 assert.equal(bannerFeld.fehlt(titel(1), kontext), 'keine TMDB-Zuordnung')
-const geladen = ladeKontext('2026-10-14')
+const geladen = { staffel0: ladeStaffel0() }
 const dateiStaffel0 = JSON.parse(readFileSync('data/tmdb-staffel0.json', 'utf8'))
 assert.ok(Object.keys(dateiStaffel0).length > 0, 'data/tmdb-staffel0.json ist nicht leer')
-assert.deepEqual(Object.keys(geladen.staffel0), Object.keys(dateiStaffel0), 'ladeKontext liest data/tmdb-staffel0.json')
+assert.deepEqual(Object.keys(geladen.staffel0), Object.keys(dateiStaffel0), 'ladeStaffel0 liest data/tmdb-staffel0.json')
 console.log('lueckenlisten.test: ok')

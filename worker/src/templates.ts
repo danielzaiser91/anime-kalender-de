@@ -10,6 +10,8 @@ import {
   hinweisZeile,
   kalenderLink,
   newsBlock,
+  ausfallWort,
+  ohneGemeldeteAusfaelle,
   newsText,
   tvWiederholungen,
   wiederholungsText,
@@ -318,6 +320,7 @@ function heading(text: string, colour: string): string {
 function ordneEin(
   mine: ReleaseEvent[],
   rest: ReleaseEvent[],
+  meldungen: NewsEintrag[],
 ): {
   meine: ReleaseEvent[]
   nachSorte: Map<Sorte, ReleaseEvent[]>
@@ -343,7 +346,7 @@ function ordneEin(
     meine,
     nachSorte,
     wiederholungen: nachSorte.get('tv-wiederholung') ?? [],
-    verschoben: verschobene.sort((a, b) => a.date.localeCompare(b.date)),
+    verschoben: ohneGemeldeteAusfaelle(verschobene.sort((a, b) => a.date.localeCompare(b.date)), meldungen),
   }
 }
 
@@ -388,12 +391,12 @@ function koerper(o: {
 function verschobenBlock(events: ReleaseEvent[]): string {
   const zeilen = events.map((ev) => {
     const v = ev.verpasst
-    const datum = (iso?: string) => (iso ? iso.split('-').reverse().join('.') : '')
+    const datum = (iso?: string) => (iso ? formatDate(iso) : '')
     const alt = datum(v?.erwartetAm ?? ev.date)
     const neu = v?.erschienenAm ? `nachgeholt am ${datum(v.erschienenAm)}` : 'noch nicht erschienen'
     return `<p style="margin:10px 0 0;padding-top:8px;border-top:1px solid #232c40;">
         <strong>${escapeHtml(ev.name)}</strong><br>
-        <span style="color:#9aa5bd;font-size:13px;">angekündigt für ${alt} — ${neu}${
+        <span style="color:#9aa5bd;font-size:13px;">${ausfallWort(ev)} für ${alt} — ${neu}${
           v?.geprueftAm ? ` (zuletzt geprüft am ${datum(v.geprueftAm)})` : ''
         }</span>
       </p>`
@@ -423,9 +426,9 @@ function verschobenBlock(events: ReleaseEvent[]): string {
       o.verschoben
         .map((ev) => {
           const v = ev.verpasst
-          const datum = (iso?: string) => (iso ? iso.split('-').reverse().join('.') : '')
+          const datum = (iso?: string) => (iso ? formatDate(iso) : '')
           const neu = v?.erschienenAm ? `nachgeholt am ${datum(v.erschienenAm)}` : 'noch nicht erschienen'
-          return `* ${ev.name} — angekündigt für ${datum(v?.erwartetAm ?? ev.date)}, ${neu}`
+          return `* ${ev.name} — ${ausfallWort(ev)} für ${datum(v?.erwartetAm ?? ev.date)}, ${neu}`
         })
         .join('\n') +
       '\n\n'
@@ -437,7 +440,7 @@ function verschobenBlock(events: ReleaseEvent[]): string {
         .map(
           (n) =>
             `* ${n.name} — ${
-              n.termin ? `erster deutscher Termin: ${n.termin.split('-').reverse().join('.')}` : 'angekündigt, Termin steht noch aus'
+              n.termin ? `erster deutscher Termin: ${formatDate(n.termin)}` : 'angekündigt, Termin steht noch aus'
             }\n  ${o.siteUrl}#/datenbank?t=${n.id}`,
         )
         .join('\n') +
@@ -488,7 +491,7 @@ export function digestMail(
   /*
     **Einordnen nach Rubriken und Wichtigkeit** — die Regeln stehen in `mail-sorten.ts`.
   */
-  const { meine, nachSorte, wiederholungen, verschoben } = ordneEin(mine, rest)
+  const { meine, nachSorte, wiederholungen, verschoben } = ordneEin(mine, rest, meldungen)
   /*
     **Zwei Sorten Neuzugang, und der Unterschied gehört in den Betreff.**
 
@@ -558,7 +561,7 @@ export function digestMail(
     `<p style="margin:0 0 8px;padding:11px 13px;background:#10251d;border-left:3px solid #34d399;border-radius:0 8px 8px 0;">
        <a href="${siteUrl}#/datenbank?t=${n.id}" style="color:#e2e8f0;font-weight:700;text-decoration:none;font-size:15px;">${n.name}</a><br>
        <span style="color:#9aa5bd;font-size:13px;">${
-         n.termin ? `Erster deutscher Termin: ${n.termin.split('-').reverse().join('.')}` : 'Angekündigt — ein Termin steht noch aus.'
+         n.termin ? `Erster deutscher Termin: ${formatDate(n.termin)}` : 'Angekündigt — ein Termin steht noch aus.'
        }</span>
      </p>`
 
