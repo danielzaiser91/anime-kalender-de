@@ -131,7 +131,7 @@ const titelName = new Map(
 )
 for (const [url, z] of Object.entries(zugeordnet)) {
   const folgen = z.folgen ?? []
-  if (z.plattform !== 'primevideo' || z.titleId == null || !folgen.length) continue
+  if (z.plattform !== 'primevideo' || z.titleId == null || z.titleId < 0 || !folgen.length) continue
   if (folgen.some((f) => !f.sprachen?.length || f.sprachen.includes('Deutsch'))) continue
   if (belege.some((x) => x.anilistId === z.titleId && (x.platform ?? 'primevideo') === 'primevideo')) continue
   kanalOffen.push({ anilistId: z.titleId, title: titelName.get(z.titleId), platform: 'primevideo', url })

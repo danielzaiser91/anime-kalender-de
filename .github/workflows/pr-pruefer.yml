@@ -192,6 +192,11 @@ jobs:
             belegt. Concurrency-Änderungen in Workflows spielst du gegen workflow_run, push und "ein wartender
             Lauf je Gruppe (queue: single)" durch. Jeder neue Wächter braucht einen Fixture-Negativtest, der
             ohne seinen Fix rot ist; sonst "aendern".
+            Neue Titel- oder Datenquelle neben titles.json oder neuer Schreiber einer gelesenen Datei: Leser per
+            Grep aufzählen und jeden prüfen. Feldformate (z. B. Sprachcodes) mit dem Erzeuger vergleichen, nicht
+            mit der Fixture.
+            Kulissen-Tests: Die Kulisse muss Daten enthalten, die es im echten Repo nicht gibt, sonst beweist Grün
+            nicht, dass die Kulisse gelesen wird; relative Dateipfade im Prüfling per Grep suchen.
 
             Schreibe zwei Dateien:
             1. ${{ runner.temp }}/pruefer/protokoll.md — deutsch, höchstens 25 Zeilen: Urteil, Befunde mit Datei und
