@@ -2,8 +2,9 @@
  * Zusicherungen zu `bau/13-1-weg-adresse-bezugsweg.ts` (16.10.2026): ein Prime-Weg aus einem Termin ohne Adresse nimmt die Adresse des
  * Prime-Bezugswegs desselben Titels, damit ihn die Prüfliste der Erweiterung aufnehmen kann. Läuft in `check:logic`.
  */
-import type { StreamLink, Title, WatchLink } from '../shared/types.ts'
-import { adresseAusBezugsweg, uebernehmeBezugswegAdressen } from './bau/13-1-weg-adresse-bezugsweg.ts'
+import type { Release, StreamLink, Title, WatchLink } from '../shared/types.ts'
+import { adresseAusBezugsweg, kanalImNamen, uebernehmeBezugswegAdressen } from './bau/13-1-weg-adresse-bezugsweg.ts'
+import { richteTerminAdressen } from './bau/13-1-termin-adressen.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, ist?: unknown): void {
@@ -38,6 +39,29 @@ pruefe('Ohne Bezugswege keine Adresse', adresseAusBezugsweg(weg(), titel([])) ==
 const t = titel([aniverse], [weg(), weg({ platform: 'netflix' })])
 const n = uebernehmeBezugswegAdressen([t, titel([crunchy, aniverse])])
 pruefe('Gezählt und gesetzt wird nur der eindeutige Fall', n === 1 && t.streams[0]!.url === AM && t.streams[1]!.url === '', { n, streams: t.streams })
+
+/* Kanal: ein Weg ohne Kanal auf einer Kanal-Seite bekommt den Kanal des Bezugswegs, ein vorhandener bleibt. */
+pruefe('Der Kanal steht im Namen des Bezugswegs', kanalImNamen('Amazon Prime (Aniverse)') === 'Aniverse' && kanalImNamen('Amazon Prime Video') === undefined)
+const ohneKanal = titel([crunchy])
+uebernehmeBezugswegAdressen([ohneKanal])
+pruefe('Die Übernahme setzt den Kanal des Bezugswegs', ohneKanal.streams[0]!.kanal === 'Crunchyroll', ohneKanal.streams)
+const mitKanal = titel([aniverse], [weg({ kanal: 'aniverse' })])
+uebernehmeBezugswegAdressen([mitKanal])
+pruefe('Ein vorhandener Kanal bleibt, wie er ist', mitKanal.streams[0]!.kanal === 'aniverse', mitKanal.streams)
+const ohneKanalBezug = titel([bezug('Amazon Prime Video', AM)])
+uebernehmeBezugswegAdressen([ohneKanalBezug])
+pruefe('Ein Bezugsweg ohne Kanal im Namen setzt keinen', ohneKanalBezug.streams[0]!.url === AM && ohneKanalBezug.streams[0]!.kanal === undefined, ohneKanalBezug.streams)
+
+/* Verdrahtung: über richteTerminAdressen bekommen Weg und Termin (Suchadresse) die Titelseite. */
+const suche = 'https://www.amazon.de/s?k=x&i=instant-video'
+const termine = [
+  { slug: 'a', titleId: 1, platform: 'primevideo', kanal: 'Aniverse', platformUrl: suche },
+  { slug: 'b', titleId: 1, platform: 'primevideo', kanal: 'Aniverse' },
+] as unknown as Release[]
+const verdrahtet = titel([aniverse])
+richteTerminAdressen(termine, [verdrahtet])
+pruefe('richteTerminAdressen: der Weg bekommt die Titelseite', verdrahtet.streams[0]!.url === AM, verdrahtet.streams)
+pruefe('richteTerminAdressen: beide Termine zeigen auf die Titelseite statt Suche/nichts', termine.every((r) => r.platformUrl === AM), termine)
 
 if (fehler) {
   console.error(`${fehler} Fehler`)
