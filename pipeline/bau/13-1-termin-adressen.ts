@@ -2,6 +2,7 @@ import { type Release, type Title } from '../../shared/types.ts'
 import { amazonAdresseRichten } from '../lib/amazon-adresse.ts'
 import { log } from '../lib/util.ts'
 import { istKeineTitelseite } from './11-7-wege-aus-terminen.ts'
+import { uebernehmeBezugswegAdressen } from './13-1-weg-adresse-bezugsweg.ts'
 
 /**
  * **Hat ein Termin keine eigene Adresse, nimmt seine Pille die des Weges desselben Titels** (11.10.2026, Reborn as a Space Mercenary:
@@ -24,6 +25,7 @@ export function adresseDesWegs(r: Release, titel: Title | undefined): string | u
  * Gibt zurück, wie viele Adressen gerichtet wurden; die übernommenen stehen im Protokoll.
  */
 export function richteTerminAdressen(releases: Release[], titles: Title[]): number {
+  uebernehmeBezugswegAdressen(titles)
   const titelNachId = new Map(titles.map((t) => [t.id, t]))
   let gerichtet = 0
   let uebernommen = 0

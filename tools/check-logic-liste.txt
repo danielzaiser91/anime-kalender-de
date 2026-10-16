@@ -160,6 +160,7 @@ pipeline/check-tv-sichtungen-vor-start.ts
 pipeline/check-urteil-art.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts
+pipeline/check-weg-adresse-bezugsweg.ts
 pipeline/check-wege-aus-terminen.ts
 pipeline/check-werk-doppelt.ts
 pipeline/check-woche-beleg.ts
