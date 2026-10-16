@@ -3,6 +3,7 @@ import { type PlatformId, type Title } from '../../shared/types.ts'
 import { dubKey, adressGleich, adressKern, type DubCheck } from '../lib/dub-confirmed.ts'
 import { amazonAdresseRichten, amazonTitelAdresse } from '../lib/amazon-adresse.ts'
 import { rohDeutsch } from '../lib/kanal-titel.ts'
+import { germanizeUrl } from '../../shared/mappings.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 import { zugangsart, type Zugangsart } from '../../shared/zugangsart.ts'
 import { type TmdbTitelEintrag, type AnisearchEintrag } from './01-quellen.ts'
@@ -148,7 +149,7 @@ export function uebernehmePrimeUndCrVorschlaege({
       const gemeldeteAdresse = schluessel.split('#')[0]!
       let seite =
         plattform !== 'primevideo'
-          ? gemeldeteAdresse
+          ? germanizeUrl(plattform, gemeldeteAdresse)
           : /amazon\.[a-z.]+\/(?:dp|gp\/video\/detail)\//i.test(gemeldeteAdresse)
             ? amazonAdresseRichten(gemeldeteAdresse)
             : eintrag.asin
