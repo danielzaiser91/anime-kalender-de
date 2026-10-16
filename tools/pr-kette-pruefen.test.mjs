@@ -37,6 +37,8 @@ fall('neuer Teiljob nicht in needs', (d) => { d.jobs.neu = { name: 'Kette – ne
 fall('Sammeljob ohne Ergebnisprüfung', (d) => { sammler(d).steps = [{ run: 'echo "$NEEDS"', env: { NEEDS: '${{ toJSON(needs) }}' } }] }, /nicht auf success/)
 fall('needs nennt unbekannten Job', (d) => { sammler(d).needs.push('gibtsnicht') }, /unbekannten Job "gibtsnicht"/)
 fall('Teiljob ruft vor-commit zusätzlich auf', (d) => { d.jobs.typen.steps.push({ run: 'npm run check:vor-commit' }) }, /"check:install" läuft 2-mal/)
+fall('fremdes npm-Skript vor der Prüfung', (d) => { d.jobs.logik.steps.unshift({ run: 'npm run data:fetch' }) }, /"data:fetch" gehört nicht zu check:vor-commit/)
+fall('Namensbruchteil eines Prüfnamens', (d) => { d.jobs.logik.steps.unshift({ run: 'npm run check:log' }) }, /"check:log" gehört nicht zu check:vor-commit/)
 fall('Sammeljob liest needs nicht', (d) => { sammler(d).steps = [{ run: "jq -e '.result == \"success\"' x" }] }, /nicht auf success/)
 const pruefSchritt = (d) => d.jobs.logik.steps.find((s) => /check:logic/.test(s.run ?? ''))
 fall('Prüfschritt mit if: false', (d) => { pruefSchritt(d).if = 'false' }, /Schlüssel "if" am Schritt/)

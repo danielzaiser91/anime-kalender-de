@@ -103,24 +103,28 @@ function pruefeSammler(jobs, sammlerId) {
   return fehler
 }
 
-/** Verstöße eines Teiljob-Schritts: nur bekannte Schlüssel, `uses` nur aus der Liste, `run` nur als `npm run <name>`, env nur PAGES_BASE. */
-function pruefeTeiljobSchritt(id, s) {
+/** Verstöße eines Teiljob-Schritts: nur bekannte Schlüssel, `uses` nur aus der Liste, `run` nur als `npm run <name>` mit Name aus `check:vor-commit`, env nur PAGES_BASE. */
+function pruefeTeiljobSchritt(id, s, vorCommit) {
   const fehler = fremdeSchluessel(s, SCHRITT_SCHLUESSEL).map((k) => `Teiljob "${id}": Schlüssel "${k}" am Schritt nicht erlaubt`)
   if (s.uses !== undefined && !ERLAUBTE_ACTIONS.includes(s.uses)) fehler.push(`Teiljob "${id}": uses "${s.uses}" nicht erlaubt`)
   if (s.run !== undefined && pruefName(s.run) === null) fehler.push(`Teiljob "${id}": run ist nicht exakt "npm run <name>" (${JSON.stringify(s.run)})`)
+  const name = pruefName(s.run)
+  if (name !== null && name !== 'check:vor-commit' && !vorCommit.includes(name)) {
+    fehler.push(`Teiljob "${id}": run "${name}" gehört nicht zu check:vor-commit (kein fremdes Skript vor der Prüfung)`)
+  }
   if (s.env !== undefined && JSON.stringify(s.env) !== JSON.stringify({ PAGES_BASE: '/' })) fehler.push(`Teiljob "${id}": env am Schritt nur PAGES_BASE: / erlaubt`)
   return fehler
 }
 
 /** Auflagen an Jobs: feste Bedingung, feste Form, nichts abfangen (übersprungen oder abgefangen zählt als bestanden). */
-function pruefeAuflagen(doc, jobs, sammlerId) {
+function pruefeAuflagen(doc, jobs, sammlerId, vorCommit) {
   const fehler = fremdeSchluessel(doc, WORKFLOW_SCHLUESSEL).map((k) => `Workflow: Schlüssel "${k}" nicht erlaubt (env/defaults wirken auf alle Schritte)`)
   const standard = `\${{ ${TEILJOB_BEDINGUNG} }}`
   for (const [id, job] of Object.entries(jobs)) {
     if (job.name === NICHT_VERPFLICHTEND || id === sammlerId) continue
     fehler.push(...pruefeJobForm(id, job, JOB_SCHLUESSEL))
     if (job.if !== standard) fehler.push(`Teiljob "${id}": if ist nicht textgleich "${standard}"`)
-    for (const s of job.steps ?? []) fehler.push(...pruefeTeiljobSchritt(id, s))
+    for (const s of job.steps ?? []) fehler.push(...pruefeTeiljobSchritt(id, s, vorCommit))
     fehler.push(...pruefeSchrittfolge(id, job.steps ?? []))
   }
   return fehler
@@ -136,7 +140,7 @@ export function pruefeKette(doc, scripts, aktion) {
     .filter(([id, j]) => id !== sammlerId && j.name !== NICHT_VERPFLICHTEND)
     .map(([, j]) => j)
   const pflichtJobs = Object.entries(jobs).filter(([, j]) => j.name !== NICHT_VERPFLICHTEND)
-  const fehler = [...pruefeSammler(jobs, sammlerId), ...pruefeAuflagen(doc, jobs, sammlerId), ...pruefeRahmen(doc, pflichtJobs, aktion)]
+  const fehler = [...pruefeSammler(jobs, sammlerId), ...pruefeAuflagen(doc, jobs, sammlerId, vorCommit), ...pruefeRahmen(doc, pflichtJobs, aktion)]
   for (const [name, anzahl] of zaehleVorkommen(teiljobs, vorCommit)) {
     if (anzahl !== 1) fehler.push(`Prüfung "${name}" läuft ${anzahl}-mal in den Teiljobs (verlangt: genau einmal)`)
   }
