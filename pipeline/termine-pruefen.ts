@@ -38,6 +38,7 @@ import { resolve } from 'node:path'
 import { log, readJson, ROOT, writeJson } from './lib/util.ts'
 import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminFrist, terminPruefen, terminZeitpunkt } from './lib/ausgeblieben.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
+import { beobachtetAusRelease } from './lib/verpasst-beobachtet.ts'
 import { BELEGE_DATEI, belegeAnhaengen, type WocheBelege } from './lib/woche-beleg.ts'
 import type { WocheBelegVermerk } from '../shared/woche-beleg-typ.ts'
 
@@ -171,11 +172,12 @@ for (const eintrag of Object.values(kalender.german ?? {})) {
   gesehen.set(schluessel, [...(gesehen.get(schluessel) ?? []), ...(eintrag.observations ?? [])])
 }
 /* Ein Ereignis kennt die Serienadresse nicht — die Veröffentlichung schon. */
-const veroeffentlichungen = readJson<Array<{ slug: string; platformUrl?: string; schedule?: { firstEpisodeDate?: string } }>>(
+const veroeffentlichungen = readJson<Array<{ slug: string; platformUrl?: string; schedule?: { firstEpisodeDate?: string; observed?: Record<string, string> } }>>(
   'public/data/releases.json',
   [],
 )
 const adresseJeSlug = new Map(veroeffentlichungen.map((r) => [r.slug, r.platformUrl]))
+const folgentageJeSlug = new Map(veroeffentlichungen.map((r) => [r.slug, r.schedule?.observed]))
 /*
   **Ein Vermerk vor dem heutigen Start ist gegenstandslos.** Er stammt aus einer
   Schätzung, die eine spätere Ankündigung widerlegt hat (Apothekerin: 01.10.
@@ -189,7 +191,8 @@ const vorDemStart = (v: { slug: string; erwartetAm: string }) => {
 
 function beobachtungen(slug: string): Beobachtung[] {
   const adresse = adresseJeSlug.get(slug)
-  return adresse ? (gesehen.get(adressKern(adresse)) ?? []) : []
+  const ausKalender = adresse ? (gesehen.get(adressKern(adresse)) ?? []) : []
+  return [...ausKalender, ...beobachtetAusRelease(folgentageJeSlug.get(slug), JETZT)]
 }
 
 function zeitpunkt(e: Ereignis): Date {
