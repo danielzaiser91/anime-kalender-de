@@ -53,6 +53,13 @@ pruefe('Prime ohne Kanal-Angabe: unberührt', erbe([cr({ dub: true }), kanal({ k
 pruefe('Kanal-Angabe an einem anderen Anbieter-Weg (Netflix): unberührt', erbe([cr({ dub: true }), kanal({ platform: 'netflix' })]).weg.dub === undefined)
 pruefe('Weg des Kanals nur noch als Vermerk: unberührt', erbe([cr({ dub: true }), kanal({ entferntAm: '2026-09-01' })]).weg.dub === undefined)
 
+/* Alle Prime-Termine tragen eine Sprachkennzeichnung: kein Erbe (Demon Slayer Hashira, 16.10.2026). */
+const termin = (extra: Partial<Release> = {}): Release => ({ titleId: 1, platform: 'primevideo', ...extra }) as Release
+const mitSprache = [cr({ dub: true }), kanal()]
+pruefe('Alle Prime-Termine gekennzeichnet: Kanal erbt nicht', kanalErbtVomAnbieter([{ id: 1, streams: mitSprache } as unknown as Title], [termin({ sprache: 'offen' })]) === 0 && mitSprache[1]!.dub === undefined)
+const ohneSprache = [cr({ dub: true }), kanal()]
+pruefe('Ein Prime-Termin ohne Kennzeichnung: Kanal erbt', kanalErbtVomAnbieter([{ id: 1, streams: ohneSprache } as unknown as Title], [termin({ sprache: 'offen' }), termin()]) === 1)
+
 /* Eigene Urteile des Kanals bleiben, Ja wie Nein. */
 const kanalNein = erbe([cr({ dub: true, dubRanges: bereiche }), kanal({ dub: false })])
 pruefe('Eigenes Nein des Kanals bleibt', kanalNein.weg.dub === false && kanalNein.weg.dubRanges === undefined && kanalNein.n === 0, kanalNein)
@@ -180,7 +187,7 @@ pruefe('Gegenprobe: dasselbe Ja als eigenes Ja des Kanal-Wegs belegt', belegt([k
 /* Der Bau ruft es auf, vor der Auslieferung (sonst bliebe die Regel Papier). */
 const schreiben = readFileSync(new URL('./bau/13-schreiben.ts', import.meta.url), 'utf8')
 const nachAnreichern = schreiben.indexOf('schreibeSynopsenUndReichereAn({')
-const aufruf = schreiben.indexOf('kanalErbtVomAnbieter(allTitles)')
+const aufruf = schreiben.indexOf('kanalErbtVomAnbieter(allTitles, releases)')
 const auslieferung = schreiben.indexOf('baueAuslieferung({')
 pruefe('13-schreiben ruft kanalErbtVomAnbieter nach dem Anreichern und vor der Auslieferung', nachAnreichern > 0 && aufruf > nachAnreichern && aufruf < auslieferung, { nachAnreichern, aufruf, auslieferung })
 
