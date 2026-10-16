@@ -10,13 +10,13 @@ einmal täglich im Netz (Anbieter-News, Social Media, Anime2You) und schreibt `r
 `rechercheQuelle`, `rechercheAm` und — nur mit Quelle, die den Tag nennt — `neuErwartet`.
 Nach zwei Wochen wöchentlich, nach zwei Monaten nicht mehr. Von Hand eintragen geht weiterhin.
 
-Stand: 2026-10-16 07:02 · 6 offen, 12 nachgeholt
+Stand: 2026-10-16 08:02 · 6 offen, 12 nachgeholt
 
 | Titel | Folge | erwartet | beim Anbieter | Kalender gelesen | Anime2You | Recherche | fällig |
 |---|---|---|---|---|---|---|---|
-| Das Band der Unterwelt | 22 | 2026-09-26 16:00 | 21 Folgen | 2026-10-16 07:02 | keine Meldung | nichts gefunden (2026-10-10) | nein |
-| Re:ZERO -Starting Life in Another World- Staffel 4 | 16 | 2026-09-30 14:00 | 25 Folgen | 2026-10-16 07:02 | keine Meldung | Laut Crunchyrolls offiziellem Wochenprogramm pausiert die deutsche Synchro von Re:ZERO Staffel 4 weiter: Die nächste deutsche Folge erscheint erst am 14. Oktober 2026 um 16:00 Uhr. ([Quelle](https://www.4p.de/news/crunchyroll-wochenprogramm-kw40/3430422)) | nein |
-| Das Band der Unterwelt | 23 | 2026-10-03 16:00 | 22 Folgen | 2026-10-16 07:02 | keine Meldung | nichts gefunden (2026-10-15) | nein |
-| Das Band der Unterwelt | 24 | 2026-10-10 16:00 | 23 Folgen | 2026-10-16 07:02 | keine Meldung | nichts gefunden (2026-10-15) | nein |
-| Re:ZERO -Starting Life in Another World- Staffel 4 | 17 | 2026-10-07 14:00 | 25 Folgen | 2026-10-16 07:02 | keine Meldung | nichts gefunden (2026-10-15) | nein |
-| Tomb Raider King | 12 | 2026-10-14 17:25 | 11 Folgen | 2026-10-16 07:02 | keine Meldung | nichts gefunden (2026-10-15) | nein |
+| Das Band der Unterwelt | 22 | 2026-09-26 16:00 | 21 Folgen | 2026-10-16 08:02 | keine Meldung | nichts gefunden (2026-10-10) | nein |
+| Re:ZERO -Starting Life in Another World- Staffel 4 | 16 | 2026-09-30 14:00 | 25 Folgen | 2026-10-16 08:02 | keine Meldung | Laut Crunchyrolls offiziellem Wochenprogramm pausiert die deutsche Synchro von Re:ZERO Staffel 4 weiter: Die nächste deutsche Folge erscheint erst am 14. Oktober 2026 um 16:00 Uhr. ([Quelle](https://www.4p.de/news/crunchyroll-wochenprogramm-kw40/3430422)) | nein |
+| Das Band der Unterwelt | 23 | 2026-10-03 16:00 | 22 Folgen | 2026-10-16 08:02 | keine Meldung | nichts gefunden (2026-10-15) | ja |
+| Das Band der Unterwelt | 24 | 2026-10-10 16:00 | 23 Folgen | 2026-10-16 08:02 | keine Meldung | nichts gefunden (2026-10-15) | ja |
+| Re:ZERO -Starting Life in Another World- Staffel 4 | 17 | 2026-10-07 14:00 | 25 Folgen | 2026-10-16 08:02 | keine Meldung | nichts gefunden (2026-10-15) | ja |
+| Tomb Raider King | 12 | 2026-10-14 17:25 | 11 Folgen | 2026-10-16 08:02 | keine Meldung | nichts gefunden (2026-10-15) | ja |
