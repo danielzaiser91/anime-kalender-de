@@ -81,6 +81,16 @@ const faelle: Fall[] = [
   { id: 9008, name: 'Kanal-Ja durch echtes Ja abgelöst: Deutsch zählt', kanalSeite: 'B0KANALGGG', spaetesJa: true, url: dp('B0KANALGGG'), seite: 'B0KANALGGG', de: 3, von: 3, erwartet: true },
 ]
 
+/** Netflix und Disney+ melden Sprachen als „de|Deutsch“ bzw. „de“, Disney+ ohne `/de-de/` (16.10.2026): derselbe Weg wie bei Prime, nie ein zweiter für dieselbe Seite. */
+const DIS = 'https://www.disneyplus.com/de-de/browse/entity-aaaa'
+const andere = [
+  { id: 9101, plattform: 'netflix', url: 'https://www.netflix.com/title/91010', sprachen: ['de|Deutsch', 'ja|Japanisch [Original]'], vorhanden: [] as string[], erwartetWege: 1, erwartetDub: true },
+  { id: 9102, plattform: 'disneyplus', url: 'https://www.disneyplus.com/browse/entity-bbbb', sprachen: ['de', 'ja'], vorhanden: [] as string[], erwartetWege: 1, erwartetDub: true },
+  { id: 9103, plattform: 'disneyplus', url: 'https://www.disneyplus.com/browse/entity-aaaa', sprachen: ['de'], vorhanden: [DIS], erwartetWege: 1, erwartetDub: true },
+  { id: 9105, plattform: 'disneyplus', url: 'https://www.disneyplus.com/browse/entity-cccc', sprachen: ['de'], vorhanden: ['https://www.disneyplus.com/browse/entity-cccc'], erwartetWege: 1, erwartetDub: true },
+  { id: 9104, plattform: 'netflix', url: 'https://www.netflix.com/title/91040', sprachen: ['ja|Japanisch [Original]'], vorhanden: [] as string[], erwartetWege: 0, erwartetDub: false },
+]
+
 const fehler: string[] = []
 try {
   schreibe('data/dub-confirmed.yaml', faelle.map((f) => belege(f.id, f.kanalSeite, f.kanalUrl ?? dp(f.kanalSeite), f.kaufSeite, f.spaetesJa)).join(''))
@@ -88,12 +98,17 @@ try {
   for (const f of faelle) {
     zugeordnet[`${f.url}#0`] = { titleId: f.id, plattform: 'primevideo', asin: 'B0EPISODE01', seite: f.seite ?? undefined, folgen: folgen(f.von, f.de) }
   }
+  for (const a of andere) zugeordnet[`${a.url}#0`] = { titleId: a.id, plattform: a.plattform, asin: null, folgen: [{ unsere: 1, sprachen: a.sprachen }] }
   schreibe('data/prime-zugeordnet.json', JSON.stringify(zugeordnet))
   mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
   const { uebernehmePrimeUndCrVorschlaege } = await import('./bau/09-3-prime.ts')
   const { loadDubChecks, dubKey } = await import('./lib/dub-confirmed.ts')
   const alleChecks = loadDubChecks()
   const titles = new Map<number, Title>(faelle.map((f) => [f.id, { id: f.id, slug: `kanal-${f.id}`, streams: [] } as unknown as Title]))
+  for (const a of andere) {
+    const streams = a.vorhanden.map((url) => ({ platform: a.plattform, url }))
+    titles.set(a.id, { id: a.id, slug: `andere-${a.id}`, streams } as unknown as Title)
+  }
   uebernehmePrimeUndCrVorschlaege({
     titles,
     checks: new Map(alleChecks.map((c) => [dubKey(c.anilistId, c.platform), c])),
@@ -121,6 +136,11 @@ try {
     if (!prime.length) fehler.push(`${f.name}: gar kein Prime-Verweis angelegt (Kulisse greift nicht)`)
     else if (haken !== f.erwartet) fehler.push(`${f.name}: Häkchen ${haken}, erwartet ${f.erwartet}`)
   }
+  for (const a of andere) {
+    const wege = titles.get(a.id)!.streams.filter((s) => s.platform === a.plattform)
+    if (wege.length !== a.erwartetWege) fehler.push(`${a.plattform} ${a.id}: ${wege.length} Weg(e), erwartet ${a.erwartetWege}`)
+    else if (wege.some((s) => s.dub === true) !== a.erwartetDub) fehler.push(`${a.plattform} ${a.id}: Häkchen ${!a.erwartetDub}, erwartet ${a.erwartetDub}`)
+  }
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }
@@ -128,4 +148,4 @@ if (fehler.length) {
   console.error(`FEHL check-kanal-je-seite:\n  ${fehler.join('\n  ')}`)
   process.exit(1)
 }
-console.log(`check-kanal-je-seite: ${faelle.length} Fälle ok.`)
+console.log(`check-kanal-je-seite: ${faelle.length + andere.length} Fälle ok.`)

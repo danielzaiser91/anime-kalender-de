@@ -3,6 +3,7 @@ import { type PlatformId, type Title } from '../../shared/types.ts'
 import { dubKey, adressGleich, adressKern, type DubCheck } from '../lib/dub-confirmed.ts'
 import { amazonAdresseRichten, amazonTitelAdresse } from '../lib/amazon-adresse.ts'
 import { rohDeutsch } from '../lib/kanal-titel.ts'
+import { germanizeUrl } from '../../shared/mappings.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 import { zugangsart, type Zugangsart } from '../../shared/zugangsart.ts'
 import { type TmdbTitelEintrag, type AnisearchEintrag } from './01-quellen.ts'
@@ -120,8 +121,8 @@ export function uebernehmePrimeUndCrVorschlaege({
         **Der Verweis gehört dem Anbieter, der gemeldet hat.**
 
         Hier stand dreimal `'primevideo'` fest verdrahtet — aus der Zeit, als nur
-        Prime Rohfolgen meldete. Sobald Netflix oder Disney+ dieselbe Route
-        gehen (`status.md`, „Sammeln und Zuordnen vollstaendig trennen"), wäre
+        Prime Rohfolgen meldete. Netflix und Disney+ gehen dieselbe Route
+        (seit 16.10.2026 erkennt `rohDeutsch` auch ihre Sprachformen), sonst wäre
         daraus ein Prime-Verweis auf eine Netflix-Adresse geworden.
 
         Alles Amazon-Eigene bleibt an Prime gebunden: die Seite aus der ASIN und
@@ -148,7 +149,7 @@ export function uebernehmePrimeUndCrVorschlaege({
       const gemeldeteAdresse = schluessel.split('#')[0]!
       let seite =
         plattform !== 'primevideo'
-          ? gemeldeteAdresse
+          ? germanizeUrl(plattform, gemeldeteAdresse)
           : /amazon\.[a-z.]+\/(?:dp|gp\/video\/detail)\//i.test(gemeldeteAdresse)
             ? amazonAdresseRichten(gemeldeteAdresse)
             : eintrag.asin
@@ -209,7 +210,7 @@ export function uebernehmePrimeUndCrVorschlaege({
        * „Im Abo".
        */
       const da =
-        (seite ? title.streams.find((x) => x.platform === plattform && x.url === seite) : null) ??
+        (seite ? title.streams.find((x) => x.platform === plattform && germanizeUrl(plattform, x.url) === seite) : null) ??
         (plattform === 'primevideo'
           ? title.streams.find((x) => x.platform === 'primevideo' && /amazon\.[a-z.]+\/s\?/i.test(x.url))
           : undefined)

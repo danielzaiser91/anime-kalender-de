@@ -3548,7 +3548,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'der Verweis zeigt auf die gemeldete Seite, nicht auf die ASIN der ersten Folge',
-    /const gemeldeteAdresse = schluessel\.split\('#'\)\[0\]!/.test(bau) && /\? gemeldeteAdresse/.test(bau),
+    /const gemeldeteAdresse = schluessel\.split\('#'\)\[0\]!/.test(bau) && /\? germanizeUrl\(plattform, gemeldeteAdresse\)/.test(bau),
     'die Folgen-ASIN wird wieder als Titelseite verlinkt (B0GSSL7BMZ statt B0GPD4GNLL)',
   )
 
@@ -3627,7 +3627,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'Amazon-Eigenes bleibt an Prime gebunden',
-    /plattform !== 'primevideo'\n\s+\? gemeldeteAdresse/.test(bau),
+    /plattform !== 'primevideo'\n\s+\? germanizeUrl\(plattform, gemeldeteAdresse\)/.test(bau),
     'die Seite aus der ASIN gilt nur bei Amazon — bei Netflix ist die gemeldete Adresse die Seite',
   )
 
