@@ -36,5 +36,6 @@ pipeline/check-tmdb-ablauf-bestand.ts
 pipeline/check-wochen-datei-bestand.ts
 pipeline/check-zaehlung-synchro.ts
 tools/cartoon-jw-stichprobe-bestand-pruefen.mjs
+tools/pruefliste-asid-bestand.mjs
 tools/sprache-netz-bestand-pruefen.mjs
 tools/tmdb-bilddatum-bestand.mjs
