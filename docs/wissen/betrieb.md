@@ -1821,3 +1821,7 @@ Der Deploy nach einem Merge baut nicht neu, wenn die PR-Prüfkette genau diesen 
 ## PR-Datenbau: Auslieferungsprüfung vor dem Merge (16.10.2026)
 
 `pipeline/lib/pruefung.ts` lief nur im Bestandsbau; PR 1368 setzte `kanal`, ein späterer Bauschritt vererbte es anders, main brach ab. Der Job `PR-Datenbau` in `pr-pruefung.yml` (im Sammeljob `needs`) fährt `npm run data:build` ohne Commit auf dem Cache `anilist-cache-` (nur lesen, wie `bestand-bauen.yml`); ohne Cache rot statt leerem Bau. Bewusst ohne Pfadfilter: die Eingaben des Baus reichen bis `web/src/lib` (news-text, i18n); der Job läuft parallel und ist kürzer als die längste Kette. Form fest in `tools/pr-kette-datenbau.mjs`. Der Cache ist so alt wie der des Bestandsbaus; ein lokaler Bau mit altem `data/cache` bricht ab, die CI nicht. Eine Teilbau-Option (Phasen ab 13) gibt es nicht: die Phasen reichen Zwischenstände im Speicher weiter.
+
+## TMDB-Staffel nur im Startjahr des Titels (16.10.2026)
+
+`findeStaffel` nahm bei genau einem Längentreffer die Staffel ohne Jahrprobe. `passendeStaffel` (`shared/folgen-anker.ts`) verlangt das gleiche Startjahr; kein Nachbarjahr (die sechs Fälle mit einem Jahr Abstand: 3 falsch, 2 richtig, 1 unklar, Hand-Urteil im PR). Die Laufzeit prüft weiter nur der Reihenkopf: beim eigenen Eintrag verlor sie 5 richtige gegen 1 falsche Staffel. Gemessen: 734 Titel hatten eine Staffel, 723 behalten sie; `ordneFolgenZu` nimmt zuerst aniSearch, alle 11 Fälle haben aniSearch-Folgen, der Schaden in `folgen-zuordnung.json` war also nur möglich, nicht belegt.

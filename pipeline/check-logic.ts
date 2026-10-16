@@ -7188,12 +7188,12 @@ pruefe(
     entscheidet; eine Zuordnung, deren Adresse aus dem Bestand fällt, bleibt stehen.
   */
   const { ordneFolgenZu, adressIndex, ankerAdresse } = await import('./lib/folgen-je-folge.ts')
-  const t = (id: number, episodes: number) => [id, { id, episodes, streams: [], watchLinks: [] } as unknown as Title] as const
-  const titel = new Map([t(1, 1), t(2, 1), t(3, 12)])
-  const folge = (s: number, e: number, titel: string) => ({ s, e, titel, datum: null, minuten: null })
+  const t = (id: number, episodes: number, jpYear = 2019) => [id, { id, episodes, jpYear, streams: [], watchLinks: [] } as unknown as Title] as const
+  const titel = new Map([t(1, 1), t(2, 1), t(3, 12), t(4, 1, 2021)])
+  const folge = (s: number, e: number, titel: string, datum = '2019-04-01') => ({ s, e, titel, datum, minuten: null })
   const kontext = {
     titel,
-    tmdb: { '1': { folgen: [folge(1, 1, 'Das Ende des Krieges')] }, '2': { folgen: [folge(2, 1, 'Sklaven')] } },
+    tmdb: { '1': { folgen: [folge(1, 1, 'Das Ende des Krieges')] }, '2': { folgen: [folge(2, 1, 'Sklaven')] }, '4': { folgen: [folge(1, 1, 'Wanderer')] } },
     asFolgen: {},
     asKennung: {},
     jeAdresse: adressIndex(titel, [['https://www.amazon.de/dp/B0C55SJB1W', 2]]),
@@ -7206,12 +7206,14 @@ pruefe(
       b(1, 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.8395764e-78be-4174-a913-6803849052a1', 'B0H16J2S3P', 'Folge A', 3, '2026-09-22T16:47'),
       b(2, 'https://www.amazon.de/gp/video/detail/B0H16J2S3P', 'B0H16J2S3P', 'Folge A', 3, '2026-09-22T16:48'),
       b(3, 'https://www.amazon.de/dp/B0C55SJB1W', 'B0C55SJ001', 'Sklaven', 1, '2026-09-01T10:00'),
+      b(4, 'https://www.amazon.de/dp/B0C55SJ444', 'B0C55SJ444', 'Wanderer', 4, '2026-09-01T10:00'),
     ],
     kontext,
     { 'primevideo:ALT0000001': { titel: 3, folge: 5, grund: 'titel', gesehen: '2026-08-01' } },
   )
   pruefe('Stufe 2: zwei Adressen, eine Folgen-ASIN, ein Eintrag', Object.keys(z).filter((k) => k.endsWith('B0H16J2S3P')).length === 1 && z['primevideo:B0H16J2S3P']?.titel === 3, z)
   pruefe('Stufe 2: der Folgentitel schlägt den Auftrag (Vinland Saga → Staffel 2)', z['primevideo:B0C55SJ001']?.titel === 2 && z['primevideo:B0C55SJ001']?.folge === 1, z['primevideo:B0C55SJ001'])
+  pruefe('Stufe 2: einzige Staffel mit Folgenzahl im falschen Jahr (2019 gegen 2021) ist kein Anker', z['primevideo:B0C55SJ444']?.grund !== 'titel', z['primevideo:B0C55SJ444'])
   pruefe('Stufe 2: eine frühere Zuordnung bleibt stehen', z['primevideo:ALT0000001']?.titel === 3 && z['primevideo:ALT0000001']?.folge === 5)
   pruefe('Stufe 2: eine Suchadresse ist kein Anker', ankerAdresse('https://www.amazon.de/s?k=JoJo') === '' && ankerAdresse('https://www.amazon.de/dp/B0C55SJB1W') !== '')
 }

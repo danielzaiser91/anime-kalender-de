@@ -21,11 +21,11 @@ import { adressKern } from './dub-confirmed.ts'
 import {
   ausAnisearch,
   englischeSchreibweisen,
-  findeStaffel,
   ordneZu,
   type AsFolgeRoh,
   type TmdbFolge,
 } from '../../shared/folgen-zuordnung.ts'
+import { passendeStaffel } from '../../shared/folgen-anker.ts'
 import type { Title } from '../../shared/types.ts'
 
 /** Eine Beobachtung aus `prime_folge`, wie `?rohfolgen=1&alle=1` sie liefert. */
@@ -141,7 +141,7 @@ export function ordneFolgenZu(
     const as = asId ? k.asFolgen[String(asId)] : undefined
     if (as?.folgen?.length) a = [...ausAnisearch(as.folgen), ...englischeSchreibweisen(as.folgen)]
     else if (t && k.tmdb[String(id)]) {
-      const s = findeStaffel(k.tmdb[String(id)]!.folgen, t.episodes ?? null, t.jpYear ?? null)
+      const s = passendeStaffel(k.tmdb[String(id)]!.folgen, t)
       if (s !== null) a = k.tmdb[String(id)]!.folgen.filter((f) => f.s === s)
     }
     ankerCache.set(id, a)

@@ -82,12 +82,12 @@ const rohfolgen = [
 
 const titles = [
   ...[10, 11, 12].map((t) => ({ id: t, titleDe: `Kulissenreihe ${t}`, franchiseId: 50, episodes: 3 })),
-  { id: 20, titleDe: 'Kulissen-TMDB', episodes: 3 },
+  { id: 20, titleDe: 'Kulissen-TMDB', episodes: 3, jpYear: 2019 },
   { id: 30, titleDe: 'Kulissenkopf', franchiseId: 70, episodes: 3, jpYear: 2010 },
   { id: 31, titleDe: 'Kulissenkopf Zwei', franchiseId: 70, episodes: 3, jpYear: 2012 },
   { id: 32, titleDe: 'Kulissenkopf Drei', franchiseId: 70, episodes: 3, jpYear: 2014 },
-  { id: 40, titleDe: 'Kulissen-Zweistaffel', episodes: 3 },
-  { id: 50, titleDe: 'Kulissen-Datum', episodes: 3 },
+  { id: 40, titleDe: 'Kulissen-Zweistaffel', episodes: 3, jpYear: 2019 },
+  { id: 50, titleDe: 'Kulissen-Datum', episodes: 3, jpYear: 2020 },
   { id: 60, titleDe: 'Kulissen-Reihe', franchiseId: 60, episodes: 3, jpYear: 2010 },
   { id: 61, titleDe: 'Kulissen-Reihe Zwei', franchiseId: 60, episodes: 3, jpYear: 2012 },
   { id: 62, titleDe: 'Kulissen-Reihe Drei', franchiseId: 60, episodes: 3, jpYear: 2014 },
@@ -101,8 +101,8 @@ const asKennung = { 10: { anisearchId: 9010 }, 11: { anisearchId: 9011 }, 30: { 
 const tmdb = (titel: string[], s: number, datum: (i: number) => string | null = () => null) =>
   titel.map((t, i) => ({ s, e: i + 1, titel: t, datum: datum(i), minuten: 24 }))
 const tmdbFolgen = {
-  20: { tmdbId: 1, folgen: tmdb(TMDB, 1) },
-  40: { tmdbId: 2, folgen: [...tmdb(KOPF, 1), ...tmdb(FALSCH, 2)] },
+  20: { tmdbId: 1, folgen: tmdb(TMDB, 1, () => '2019-03-01') },
+  40: { tmdbId: 2, folgen: [...tmdb(KOPF, 1, () => '2019-03-01'), ...tmdb(FALSCH, 2)] },
   50: { tmdbId: 3, folgen: tmdb(S3, 1, (i) => `2020-01-0${i + 1}`) },
   60: {
     tmdbId: 4,
