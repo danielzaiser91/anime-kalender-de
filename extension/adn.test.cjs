@@ -141,46 +141,52 @@ async function haupt() {
 haupt()
 
 /** Der Kasten im Sandkasten: nichts geht ohne Klick an den Worker, „nicht im Angebot" nie von selbst. */
+const alleAngenommen = (b) => ({ ergebnisse: (b.stapel ?? []).map(() => ({ ok: true, befund: null })) })
+async function kastenLauf(fall, apiStatus = 200, gemeldet = [], postAntwort = alleAngenommen) {
+  const gesendet = []
+  const knoepfe = []
+  const box = { querySelector: () => ({ appendChild: (k) => knoepfe.push(k) }) }
+  const fakeFetch = async (url, init) => {
+    if (url.includes('gw.api.animationdigitalnetwork.com')) return antwort(apiStatus, F[fall].videos)
+    if (init?.method === 'POST') {
+      const body = JSON.parse(init.body)
+      gesendet.push(body)
+      const inhalt = postAntwort(body)
+      const status = inhalt.status ?? 200
+      return { ok: status < 400, status, clone() { return this }, json: async () => inhalt }
+    }
+    return { ok: true, status: 200, json: async () => ({ paare: gemeldet.map((folge) => ({ folge })) }) }
+  }
+  const k = vm.createContext({
+    console,
+    setTimeout,
+    setInterval: () => 0,
+    URL: { createObjectURL: () => '' },
+    Blob: class {},
+    CustomEvent: class {},
+    fetch: fakeFetch,
+    chrome: { storage: { sync: { get: async () => ({ token: 't' }) } }, runtime: { getManifest: () => ({ version: 'test' }) } },
+    location: { pathname: `/de/video/${F[fall].show ?? 1427}-x`, href: `https://animationdigitalnetwork.com/de/video/${F[fall].show ?? 1427}-x` },
+    document: {
+      title: 'Titel | ADN',
+      createElement: () => ({ remove() {}, isConnected: true }),
+      addEventListener() {},
+      querySelectorAll: () => F[fall].seite.testids.map((t) => ({ getAttribute: () => t })),
+      querySelector: (s) => (s === 'main' ? { textContent: F[fall].seite.keinVideo ? 'Kein Video verfügbar.' : '' } : s === 'h1' ? { textContent: F[fall].seite.h1 } : null),
+    },
+    akBox: () => box,
+    akDebugLeiste() {},
+    akBerichtSchalter: () => ({}),
+  })
+  k.globalThis = k
+  for (const datei of ['disney-netz.js', 'adn-leser.js', 'adn-senden.js', 'adn.js']) vm.runInContext(lies(datei), k, { filename: datei })
+  await new Promise((fertig) => setTimeout(fertig, 50))
+  return { gesendet, knopf: knoepfe[0], k }
+}
+
 async function kastenFaelle() {
   console.log('Kasten')
-  async function lauf(fall, apiStatus = 200, gemeldet = []) {
-    const gesendet = []
-    const knoepfe = []
-    const box = { querySelector: () => ({ appendChild: (k) => knoepfe.push(k) }) }
-    const fakeFetch = async (url, init) => {
-      if (url.includes('gw.api.animationdigitalnetwork.com')) return antwort(apiStatus, F[fall].videos)
-      if (init?.method === 'POST') {
-        gesendet.push(JSON.parse(init.body))
-        return { ok: true, status: 200 }
-      }
-      return { ok: true, status: 200, json: async () => ({ paare: gemeldet.map((folge) => ({ folge })) }) }
-    }
-    const k = vm.createContext({
-      console,
-      setTimeout,
-      setInterval: () => 0,
-      URL: { createObjectURL: () => '' },
-      Blob: class {},
-      CustomEvent: class {},
-      fetch: fakeFetch,
-      chrome: { storage: { sync: { get: async () => ({ token: 't' }) } }, runtime: { getManifest: () => ({ version: 'test' }) } },
-      location: { pathname: `/de/video/${F[fall].show ?? 1427}-x`, href: `https://animationdigitalnetwork.com/de/video/${F[fall].show ?? 1427}-x` },
-      document: {
-        title: 'Titel | ADN',
-        createElement: () => ({ remove() {}, isConnected: true }),
-        addEventListener() {},
-        querySelectorAll: () => F[fall].seite.testids.map((t) => ({ getAttribute: () => t })),
-        querySelector: (s) => (s === 'main' ? { textContent: F[fall].seite.keinVideo ? 'Kein Video verfügbar.' : '' } : s === 'h1' ? { textContent: F[fall].seite.h1 } : null),
-      },
-      akBox: () => box,
-      akDebugLeiste() {},
-      akBerichtSchalter: () => ({}),
-    })
-    k.globalThis = k
-    for (const datei of ['disney-netz.js', 'adn-leser.js', 'adn.js']) vm.runInContext(lies(datei), k, { filename: datei })
-    await new Promise((fertig) => setTimeout(fertig, 50))
-    return { gesendet, knopf: knoepfe[0], k }
-  }
+  const lauf = kastenLauf
 
   const syn = await lauf('film-synchro')
   pruefe('Film mit Synchro: Knopf nennt „1 melden (1× deutsch)"', /1 melden \(1× deutsch\)/.test(syn.knopf.textContent), syn.knopf.textContent)
@@ -202,16 +208,49 @@ async function kastenFaelle() {
   await weg.knopf.onclick()
   pruefe('Klick: eine Meldung vorhanden = nein', weg.gesendet.length === 1 && weg.gesendet[0].vorhanden === 'nein' && !weg.gesendet[0].stapel)
 
+  await ergebnisFaelle(titel)
+
   const kaputt = await lauf('film-synchro', 500)
   pruefe('Schnittstelle antwortet 500: Fehler angezeigt, nichts als „weg" angeboten', /nicht lesbar/.test(kaputt.knopf.textContent) && kaputt.gesendet.length === 0, kaputt.knopf.textContent)
 
+}
+
+/** Der Worker nennt je Zeile, ob er sie angenommen hat; nur das zählt als gemeldet. */
+async function ergebnisFaelle(titel) {
+  const lauf = kastenLauf
+  const lehneZweitenAb = (b) => ({
+    ergebnisse: b.stapel.map((_, i) => (i === 1 ? { ok: false, status: 400, grund: 'Titel unbekannt' } : { ok: true, befund: null })),
+  })
+  const ab = await lauf('serie-untertitel', 200, [], lehneZweitenAb)
+  await ab.knopf.onclick()
+  pruefe('Abgelehnte Zeile zählt nicht als gemeldet (Kasten nicht „✓ … gemeldet")', !/✓/.test(ab.knopf.textContent), ab.knopf.textContent)
+  pruefe('... Kasten nennt Zahl und Grund des Servers', /1 abgelehnt: Titel unbekannt/.test(ab.knopf.textContent), ab.knopf.textContent)
+  pruefe('... und die Zeile ist erneut sendbar (Klick vorhanden)', typeof ab.knopf.onclick === 'function')
+  const gesendetVorher = ab.gesendet.length
+  await ab.knopf.onclick()
+  pruefe('Erneuter Klick sendet nur die abgelehnte Zeile', ab.gesendet.length === gesendetVorher + 1 && ab.gesendet.at(-1).stapel.length === 1 && ab.gesendet.at(-1).stapel[0].folge === titel[1], ab.gesendet.at(-1))
+
+  const verschieden = await lauf('serie-untertitel', 200, [], (b) => ({ ergebnisse: b.stapel.map((_, i) => ({ ok: false, status: 400, grund: `Grund ${i}` })) }))
+  await verschieden.knopf.onclick()
+  pruefe('Verschiedene Gründe stehen getrennt im Kasten', /2 abgelehnt: Grund 0 \/ Grund 1/.test(verschieden.knopf.textContent), verschieden.knopf.textContent)
+
+  const ohneErgebnis =await lauf('film-synchro', 200, [], () => ({ ok: true }))
+  await ohneErgebnis.knopf.onclick()
+  pruefe('Antwort ohne Ergebnisliste gilt nicht als gemeldet', !/✓/.test(ohneErgebnis.knopf.textContent) && /abgelehnt/.test(ohneErgebnis.knopf.textContent), ohneErgebnis.knopf.textContent)
+
+  const schonAlle = await lauf('film-synchro', 200, [F['film-synchro'].videos[0].title])
+  pruefe('Alles schon in der Ferne: Kasten sagt „schon gemeldet", ohne POST', /✓ 1 schon gemeldet/.test(schonAlle.knopf.textContent) && schonAlle.gesendet.length === 0, schonAlle.knopf.textContent)
+
+  const wegAb = await lauf('film-ohne-video', 404, [], () => ({ status: 400, error: 'plattform fehlt' }))
+  await wegAb.knopf.onclick()
+  pruefe('„nicht im Angebot" vom Server abgelehnt: Grund sichtbar, erneut sendbar', /plattform fehlt/.test(wegAb.knopf.textContent) && typeof wegAb.knopf.onclick === 'function', wegAb.knopf.textContent)
 }
 
 function verdrahtung() {
   console.log('Verdrahtung und Testdaten')
   const manifest = JSON.parse(lies('manifest.json'))
   const gruppe = manifest.content_scripts.find((g) => g.matches.includes('https://animationdigitalnetwork.com/*'))
-  pruefe('Manifest: ADN-Gruppe lädt box.js und disney-netz.js vor adn.js', gruppe && ['box.js', 'disney-netz.js', 'adn-leser.js'].every((d) => gruppe.js.indexOf(d) > -1 && gruppe.js.indexOf(d) < gruppe.js.indexOf('adn.js')))
+  pruefe('Manifest: ADN-Gruppe lädt box.js und disney-netz.js vor adn.js', gruppe && ['box.js', 'disney-netz.js', 'adn-leser.js', 'adn-senden.js'].every((d) => gruppe.js.indexOf(d) > -1 && gruppe.js.indexOf(d) < gruppe.js.indexOf('adn.js')))
   pruefe('Gegenprobe: keine andere Gruppe lädt adn.js', manifest.content_scripts.filter((g) => g.js.includes('adn.js')).length === 1)
   const text = lies('adn-ausschnitte.fixture.json')
   pruefe('Testdaten ohne persönliche Daten (@, token, email, account, user, Konto, Profil)', !/@|token|e-?mail|account|user|konto|profil/i.test(text), text.match(/.{20}(@|token|e-?mail|account|user|konto|profil).{20}/i)?.[0])
