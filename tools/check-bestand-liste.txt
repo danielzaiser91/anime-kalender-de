@@ -27,7 +27,6 @@ pipeline/check-logic-bestand.ts
 pipeline/check-nein-liste-bestand.ts
 pipeline/check-news-offiziell-bestand.ts
 pipeline/check-prime-teilseiten-bestand.ts
-pipeline/check-pruefliste-asid-bestand.ts
 pipeline/check-reihen-namen-bestand.ts
 pipeline/check-reihen-teilname-bestand.ts
 pipeline/check-saison-deutsch-bestand.ts
@@ -37,5 +36,6 @@ pipeline/check-tmdb-ablauf-bestand.ts
 pipeline/check-wochen-datei-bestand.ts
 pipeline/check-zaehlung-synchro.ts
 tools/cartoon-jw-stichprobe-bestand-pruefen.mjs
+tools/pruefliste-asid-bestand.mjs
 tools/sprache-netz-bestand-pruefen.mjs
 tools/tmdb-bilddatum-bestand.mjs
