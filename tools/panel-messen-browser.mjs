@@ -151,3 +151,26 @@ export function verdeckte() {
   }
   return befunde
 }
+
+/**
+ * Totes Banner (16.10.2026): Rasterpunkte im ganzen sichtbaren Banner. Liegt dort der leere Namensblock (Raster oder Zelle statt Poster,
+ * Text oder Bedienelement) oben, schluckt er den Klick, der die Großansicht öffnen soll.
+ */
+export function totesBanner() {
+  const wurzel = document.querySelector('[data-panel="titel"]')
+  const kopf = wurzel.querySelector('[data-kopf]')
+  const block = wurzel.querySelector('[data-kopfblock]')
+  kopf.scrollIntoView({ block: 'start' })
+  const r = kopf.getBoundingClientRect()
+  const tot = []
+  for (let y = r.top + 2; y < r.bottom - 1; y += 16) {
+    for (let x = r.left + 2; x < r.right - 1; x += 16) {
+      const oben = document.elementFromPoint(x, y)
+      if (oben === block || oben?.parentElement === block && !oben.matches('[data-poster]')) tot.push(`${Math.round(x - r.left)}/${Math.round(y - r.top)}`)
+    }
+  }
+  const poster = wurzel.querySelector('[data-poster]')
+  const pr = poster.getBoundingClientRect()
+  if (document.elementFromPoint(pr.left + pr.width / 2, pr.top + pr.height / 2) !== poster) tot.push('Poster')
+  return tot.length ? [`${tot.length} Punkte unter dem Namensblock bzw. Poster nicht oben: ${tot.slice(0, 3).join(' ')}`] : []
+}

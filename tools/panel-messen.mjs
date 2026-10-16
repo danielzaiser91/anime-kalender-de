@@ -18,7 +18,7 @@ import { readFile } from 'node:fs/promises'
 import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { distPruefen } from './dist-frisch.mjs'
-import { kontrast, kopfMasse, schriftgroessen, tippziele, verdeckte } from './panel-messen-browser.mjs'
+import { kontrast, kopfMasse, schriftgroessen, tippziele, totesBanner, verdeckte } from './panel-messen-browser.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const arg = (name) => (process.argv.includes(name) ? process.argv[process.argv.indexOf(name) + 1] : undefined)
@@ -128,10 +128,12 @@ async function messeZelle(seite, fall, geraet, thema, groessenGesamt) {
   }
   for (const f of await seite.evaluate(tippziele, 44)) rot.push(`Tippziel ${f.w}×${f.h}: ${f.schluessel}`)
   for (const f of await seite.evaluate(kontrast)) rot.push(`Kontrast ${f.verhaeltnis}:1 (soll ${f.soll}): ${f.schluessel}`)
-  for (const f of await seite.evaluate(verdeckte)) rot.push(`Verdeckt: ${f}`)
   const m = await seite.evaluate(kopfMasse)
   rot.push(...pruefeKopf(daten.get(fall.ak), geraet, m), ...pruefeFlaggen(daten.get(fall.ak), m))
   if (MIT('--docs') && !fall.name.includes('-')) await panel.screenshot({ path: path.join(WURZEL, 'docs', `panel-kopf-${fall.name}-${geraet}-${thema}.png`) })
+  // Zuletzt: beide Proben scrollen das Panel und würden Maße und Bild danach verfälschen.
+  for (const f of await seite.evaluate(verdeckte)) rot.push(`Verdeckt: ${f}`)
+  for (const f of await seite.evaluate(totesBanner)) rot.push(`Totes Banner: ${f}`)
   return { rot, kastenTop: Math.round(m.kastenTop) }
 }
 
