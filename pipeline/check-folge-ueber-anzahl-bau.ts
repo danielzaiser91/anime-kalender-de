@@ -3,7 +3,8 @@
  * ein toter Aufruf `0 && …` blieb in `check:logic` grün). Fährt `pruefeSynchroJePlattform()` mit einem
  * erfundenen Release ohne Netz; läuft in `check:logic`, also in vor-commit und PR-CI.
  */
-import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import fs, { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { syncBuiltinESMExports } from 'node:module'
 import { resolve } from 'node:path'
 import type { Release } from '../shared/types.ts'
 import { pruefeSynchroJePlattform } from './bau/09-synchro.ts'
@@ -25,6 +26,12 @@ const release = {
     observed: { 1: '2026-08-02', 2: '2026-08-09', 3: '2026-08-16' },
   },
 } as Release
+
+/* Die Phase liest den vorigen Bestand (`public/data/titles.json`), den `check:logic` nicht lesen darf: leer unterschieben. */
+const leserOriginal = fs.readFileSync
+fs.readFileSync = ((pfad: unknown, ...rest: unknown[]) =>
+  /public[\\/]data[\\/]/.test(String(pfad)) ? '[]' : Reflect.apply(leserOriginal, fs, [pfad, ...rest])) as typeof fs.readFileSync
+syncBuiltinESMExports()
 
 /* Die Phase schreibt die Teilseiten-Prüflisten unter `data/`; der Lauf stellt sie danach wieder her. */
 const prueflisten = [PRUEFLISTE, PRIME_PRUEFLISTE].map((pfad) => resolve(ROOT, pfad))
