@@ -29,6 +29,7 @@ export interface AnkerTitel {
   episodes?: number | null
   jpYear?: number | null
   franchiseId?: number | null
+  runtimeMin?: number | null
 }
 
 export interface AnkerErgebnis {
@@ -73,11 +74,29 @@ export function sammleAnker(
   return { listen, grund: '' }
 }
 
+/** Größte Abweichung (Minuten) zwischen unserer Folgenlaufzeit und dem Median der TMDB-Staffel. */
+export const MAX_LAUFZEIT_ABWEICHUNG_MIN = 8
+
+function median(werte: number[]): number {
+  const s = [...werte].sort((a, b) => a - b)
+  return s[Math.floor(s.length / 2)]!
+}
+
+/** Passt die Staffel zum Titel? Startjahr gleich (Nachbarjahr zählt nicht), Laufzeit je Folge nah beieinander (wo beide bekannt). */
+function staffelPasst(folgen: TmdbFolge[], titel: AnkerTitel): boolean {
+  const erstes = folgen.filter((f) => f.datum).map((f) => f.datum!).sort()[0]
+  if (!erstes || Number(erstes.slice(0, 4)) !== titel.jpYear) return false
+  const minuten = folgen.map((f) => f.minuten).filter((m): m is number => typeof m === 'number' && m > 0)
+  if (!titel.runtimeMin || !minuten.length) return true
+  return Math.abs(median(minuten) - titel.runtimeMin) <= MAX_LAUFZEIT_ABWEICHUNG_MIN
+}
+
 /**
  * Die TMDB-Folgen für einen Titel: seine eigenen, sonst die des Reihenkopfs (`franchiseId`), wenn dort genau eine
- * Staffel zu Folgenzahl und Startjahr passt (höchstens ein Jahr Abstand). TMDB führt eine Reihe unter einer Serie;
- * Staffeln wie "Dorohedoro Staffel 2" haben keinen eigenen Eintrag. Gemessen 16.10.2026: 164 von 2.921 Titeln
- * gewinnen so einen Anker; ohne die Jahresprobe käme "Full Metal Panic? Fumoffu" (2003) in die Staffel von 2018.
+ * Staffel zu Folgenzahl und Startjahr passt. TMDB führt eine Reihe unter einer Serie; Staffeln wie "Dorohedoro
+ * Staffel 2" haben keinen eigenen Eintrag. Das Jahr muss gleich sein: `findeStaffel` prüft es bei einem einzigen
+ * Längentreffer nicht, und ein Nachbarjahr brachte Attack on Titan 3 (2018) in Staffel 2 (2017). Ableger mit
+ * anderer Folgenlaufzeit (Akame ga Kill! Theater, 1 min gegen 24) bekommen die Hauptserie nicht.
  */
 export function tmdbFuerTitel(
   titel: AnkerTitel,
@@ -89,9 +108,7 @@ export function tmdbFuerTitel(
   if (!kopf || !titel.jpYear) return undefined
   const staffel = findeStaffel(kopf.folgen, titel.episodes ?? null, titel.jpYear)
   if (staffel === null) return undefined
-  const erstes = kopf.folgen.filter((f) => f.s === staffel && f.datum).map((f) => f.datum!).sort()[0]
-  const abstand = erstes ? Math.abs(Number(erstes.slice(0, 4)) - titel.jpYear) : Infinity
-  return abstand <= 1 ? kopf : undefined
+  return staffelPasst(kopf.folgen.filter((f) => f.s === staffel), titel) ? kopf : undefined
 }
 
 export interface AnkerPaare {
