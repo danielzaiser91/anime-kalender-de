@@ -9,15 +9,17 @@ const REPO = 'o/r'
 const SHA = 'a'.repeat(40)
 const KOPF = 'c'.repeat(40)
 const BAUM = 'b'.repeat(40)
-const GH = 'd'.repeat(40)
+const DIFF = 'diff --no-renames --name-only HEAD~1 HEAD -- .github'
+const FREMD = ['.github/workflows/pr-pruefer.yml', '.github/workflows/refresh-data.yml']
+/** Ausgabe von `git diff --name-only` mit der bedenklichen Datei zwischen zwei fremden Workflows. */
+const diffMit = (p) => [FREMD[0], p, FREMD[1]].join('\n')
 
 /** Kulisse eines Treffers; `zusatz` überschreibt einzelne Antworten. Unbekannte git-Aufrufe werfen wie ein fehlender Elterncommit. */
 function kulisse(zusatz = {}) {
   const aufrufe = { kopiert: [], api: [], git: [], geladen: [] }
   const antworten = {
     'rev-parse HEAD^{tree}': BAUM,
-    'rev-parse HEAD:.github': GH,
-    'rev-parse HEAD~1:.github': GH,
+    [DIFF]: '',
     ...zusatz.git,
   }
   const pr = { number: 7, merged_at: 'x', merge_commit_sha: SHA, base: { ref: 'main' }, head: { sha: KOPF } }
@@ -57,7 +59,10 @@ assert.equal(treffer.ergebnis.treffer, true, 'alle Beweise erfüllt: Treffer')
 assert.deepEqual(treffer.aufrufe.kopiert, [['/tmp/artifact.tar', 'z.tar']])
 assert.deepEqual(treffer.aufrufe.geladen, [[REPO, 5]], 'geladen wird das Artefakt des gewählten Laufs')
 assert.match(treffer.ergebnis.grund, /^PR #7, Lauf 5$/, 'der PR mit dem Squash-Commit, nicht der erste der Liste')
-assert.ok(treffer.aufrufe.git.includes('rev-parse HEAD~1:.github'), 'Vergleich mit dem Elterncommit')
+assert.ok(treffer.aufrufe.git.includes(DIFF), 'Vergleich von .github/ mit dem Elterncommit')
+const fremd = lauf({ git: { [DIFF]: `${FREMD.join('\n')}\n` } })
+assert.equal(fremd.ergebnis.treffer, true, 'PR ändert nur Workflows außerhalb von Kette und Deploy: Treffer')
+assert.deepEqual(fremd.aufrufe.kopiert, [['/tmp/artifact.tar', 'z.tar']])
 
 function keinTreffer(beschreibung, zusatz, grund) {
   const { ergebnis, aufrufe } = lauf(zusatz)
@@ -68,9 +73,10 @@ function keinTreffer(beschreibung, zusatz, grund) {
 
 keinTreffer('Baum weicht ab (main weitergewandert)', { version: JSON.stringify({ baum: 'f'.repeat(40) }) }, /Baum des Baus .* weicht ab/)
 keinTreffer('Artefakt ohne Baum', { version: '' }, /Baum des Baus/)
-keinTreffer('.github/ im Commit geändert', { git: { 'rev-parse HEAD:.github': 'e'.repeat(40) } }, /\.github\/ weicht/)
-keinTreffer('.github/ nur im Elterncommit anders', { git: { 'rev-parse HEAD~1:.github': 'e'.repeat(40) } }, /\.github\/ weicht/)
-keinTreffer('kein Elterncommit', { git: { 'rev-parse HEAD~1:.github': undefined } }, /Elterncommit/)
+keinTreffer('Kette im PR geändert', { git: { [DIFF]: diffMit('.github/workflows/pr-pruefung.yml') } }, /\.github\/ im PR geändert.*pr-pruefung\.yml/)
+keinTreffer('Deploy im PR geändert', { git: { [DIFF]: diffMit('.github/workflows/deploy.yml') } }, /\.github\/ im PR geändert/)
+keinTreffer('Action der Kette im PR geändert', { git: { [DIFF]: diffMit('.github/actions/kette-einrichten/action.yml') } }, /\.github\/ im PR geändert/)
+keinTreffer('kein Elterncommit', { git: { [DIFF]: undefined } }, /Elterncommit/)
 keinTreffer('kein gemergter PR', { prs: [] }, /kein gemergter PR/)
 keinTreffer('PR nicht gemergt', { prs: [{ number: 7, merged_at: null, merge_commit_sha: SHA, base: { ref: 'main' }, head: { sha: KOPF } }] }, /kein gemergter PR/)
 keinTreffer('Sammeljob rot', { jobs: [{ name: 'PR-Prüfkette', conclusion: 'failure' }] }, /kein grüner Lauf/)

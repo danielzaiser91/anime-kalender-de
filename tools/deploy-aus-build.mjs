@@ -2,7 +2,8 @@
  * Deploy aus dem geprüften Build (16.10.2026): Der Deploy nach einem Squash-Merge baut nicht neu, wenn die PR-Prüfkette genau diesen
  * Quelltext schon gebaut und geprüft hat. Beweis ist der Git-Baum: `version.json` im Bau der PR-Prüfkette trägt `baum` (HEAD^{tree} der
  * Prüfung), und der gemergte Commit muss denselben Baum haben. Weicht er ab (main ist inzwischen weitergewandert), fehlt der Lauf,
- * ist der Lauf nicht grün, das Artefakt abgelaufen oder hat der PR `.github/` geändert, bleibt der Treffer aus und der Deploy baut wie bisher.
+ * ist der Lauf nicht grün, das Artefakt abgelaufen oder hat der PR unter `.github/` mehr als fremde Workflows geändert (`githubUnbedenklich`),
+ * bleibt der Treffer aus und der Deploy baut wie bisher.
  * Aufruf im Workflow `deploy.yml` (Job `herkunft`): schreibt bei Treffer `treffer=1` nach $GITHUB_OUTPUT und `artifact.tar` ins Arbeitsverzeichnis.
  */
 import { execFileSync } from 'node:child_process'
@@ -42,9 +43,15 @@ export function baumPasst(versionJson, baum) {
   }
 }
 
-/** Der Teil `.github/` (Workflows, Action der Kette) darf sich im PR nicht geändert haben: sonst hätte der PR die Prüfung selbst verändern können. */
-export function githubUnveraendert(ordnerCommit, ordnerEltern) {
-  return Boolean(ordnerCommit) && ordnerCommit === ordnerEltern
+/** Workflows, die den geholten Bau erzeugen (die Kette) oder ihn ausliefern (Bau-Env des Deploys muss dem der Kette gleichen). */
+export const KETTEN_WORKFLOWS = [`.github/workflows/${KETTE}`, '.github/workflows/deploy.yml']
+
+/**
+ * Die im PR geänderten Pfade unter `.github/` dürfen weder Kette noch Deploy verändern: sonst hätte der PR die Prüfung selbst verfälschen können.
+ * Unbedenklich sind nur andere Workflow-Dateien (Sammler, Prüfer-Agent), denn sie laufen in keiner der beiden; Actions und alles Übrige zählen immer.
+ */
+export function githubUnbedenklich(geaendert) {
+  return geaendert.every((p) => /^\.github\/workflows\/[^/]+\.ya?ml$/.test(p) && !KETTEN_WORKFLOWS.includes(p))
 }
 
 const ausfuehren = (befehl, args, optionen = {}) => execFileSync(befehl, args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, ...optionen }).trim()
@@ -76,14 +83,14 @@ const ECHT = {
 /** Prüft und holt den Bau; Rückgabe `{ treffer, grund }`. Wirft nie bei erwartbaren Abweichungen. */
 export function holeBau({ repo, sha, ziel }, w = ECHT) {
   const baum = w.git(['rev-parse', 'HEAD^{tree}'])
-  const gh = w.git(['rev-parse', 'HEAD:.github'])
-  let elternGh = ''
+  let geaendert = []
   try {
-    elternGh = w.git(['rev-parse', 'HEAD~1:.github'])
+    // --no-renames: Umbenennungserkennung bräuchte Blobs, der Checkout holt nur Bäume (blob:none).
+    geaendert = w.git(['diff', '--no-renames', '--name-only', 'HEAD~1', 'HEAD', '--', '.github']).split('\n').filter(Boolean)
   } catch {
     return { treffer: false, grund: 'kein Elterncommit zum Vergleich von .github/' }
   }
-  if (!githubUnveraendert(gh, elternGh)) return { treffer: false, grund: '.github/ weicht vom Elterncommit ab (Workflows im PR geändert)' }
+  if (!githubUnbedenklich(geaendert)) return { treffer: false, grund: `.github/ im PR geändert (Kette, Deploy oder Action): ${geaendert.join(', ')}` }
   const pr = waehlePR(w.api(`repos/${repo}/commits/${sha}/pulls`), sha)
   if (!pr) return { treffer: false, grund: 'kein gemergter PR mit diesem Squash-Commit' }
   const laeufe = w.api(`repos/${repo}/actions/workflows/${KETTE}/runs?head_sha=${pr.kopf}&event=pull_request&per_page=20`).workflow_runs
