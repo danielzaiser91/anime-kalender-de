@@ -25,7 +25,7 @@ const release = {
     episodeCount: 2,
     observed: { 1: '2026-08-02', 2: '2026-08-09', 3: '2026-08-16' },
   },
-} as Release
+} as unknown as Release
 
 /* Die Phase liest den vorigen Bestand (`public/data/titles.json`), den `check:logic` nicht lesen darf: leer unterschieben. */
 const leserOriginal = fs.readFileSync
