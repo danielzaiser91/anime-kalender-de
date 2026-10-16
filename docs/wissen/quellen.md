@@ -3304,6 +3304,13 @@ Abruf mit Token am 05.10.2026 ca. 22:30 (je ein Aufruf: `/v1/anime/dubs`, `/asso
 - **Gegenprobe Hauptbestand:** 161 unserer Titel mit MAL-Kennung nennt aniSearch ohne Deutsch (z. B. Rozen Maiden: Dreaming und Cardcaptor Sakura mit `canceled: de`, Yu-Gi-Oh! GX und Hamtaro ebenfalls, bei uns `high`/`very-high`). Das ist eine Prüfliste für Handbelege, kein Beweis gegen uns.
 - **Nutzen:** (1) täglich eine Prüfliste „aniSearch kennt de, wir nicht" (5 + 297 + 72) und „wir behaupten de, aniSearch nicht" (161); (2) `planned` als Hinweis auf Ankündigungen (Beleg bleibt aniSearch); (3) kein Ersatz für Belege, weil `dubbed` keine Folgen, Plattformen oder Termine nennt. **Noch nicht eingebaut.** Messskripte liegen nur im Scratchpad; vor dem Bau die 5 + 7 Titel von Hand ansehen.
 
+## Schnellere Daten: Takte seit 15.10.2026
+
+Anlass: Messung [live-zeit-2026-10-15.md](../../daniel-zum-abarbeiten/berichte/live-zeit-2026-10-15.md) (Artikel warteten im Mittel 16 h auf den Tageslauf).
+
+- **aniSearch-Dubs (`data:anisearch-dubs`) täglich statt wöchentlich.** Es ist die API (`GET api.anisearch.com/v1/anime/dubs`, Bearer-Token, ein Abruf je Lauf, keine Seite); Limit mit Token 1 Abruf je Stunde (siehe oben). Vorher 1 Abruf je Woche (Wochenlauf Mo 05:00 UTC), jetzt 1 je Tag im Tageslauf (Job aniSearch, 04:00 UTC, erster Schritt) und nicht mehr im Wochenlauf: 1 von 24 erlaubten Abrufen je Tag. Folge: `d`/`p`/`c`-Marken (Regel in `bau/ohne-beleg.ts`) sind höchstens einen Tag alt statt bis zu sieben. `data:anisearch-eintraege` (Wochenlauf) liest die Kennungen weiter aus `data/anisearch-dub-ids.json`.
+- **Anime2You leicht (`data:anime2you -- --leicht`) stündlich im Stundenlauf.** robots.txt (gelesen 08.10.2026, `sammelartikel-poc.md`): `User-agent: *` sperrt nur `/wordpress/wp-admin/` und `/wordpress/wp-includes/`; das Impressum nennt keine AGB. Der leichte Lauf holt nur die erste Seite der vier Feeds (streaming, disc, kino, Gesamt: 4 Abrufe je Lauf), Volltexte nur für Adressen, die `data/proposals/anime2you.json` noch nicht kennt, nichts nach (Sammelartikel, Tabellen, Übersichten bleiben dem Tageslauf) und schreibt die Datei nur bei neuem Inhalt. Anfragen je Tag: vorher 10 Feeds + bis 12 Volltexte + bis 18 Nachhol-Abrufe (höchstens 40); nachher zusätzlich 96 Feed-Abrufe + die Volltexte neuer Meldungen. Wartezeit eines Artikels bis zur Vorschlagsdatei: im Mittel etwa 0,5 h statt 16 h.
+
 ## Cover: Rückfall für kleine AniList-Cover (gemessen 06.10.2026)
 
 Bericht: alle 2.787 Titel haben ein AniList-Cover. 2.236 (80,2 %) liegen als 460-px-Datei vor (höher gibt AniList nicht her), 551 (19,8 %) nur als `medium` mit ca. 225 px, einer (AniList 204585) hat den Platzhalter `default.jpg`.

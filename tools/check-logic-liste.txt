@@ -16,6 +16,7 @@ pipeline/check-angebot-stichtag.ts
 pipeline/check-angebot-termine.ts
 pipeline/check-anilist-produkt.ts
 pipeline/check-anime2you-entwurf.ts
+pipeline/check-anime2you-leicht.ts
 pipeline/check-anime2you-rhythmus.ts
 pipeline/check-anime2you-sammelartikel.ts
 pipeline/check-anime2you-vorschlag.ts
