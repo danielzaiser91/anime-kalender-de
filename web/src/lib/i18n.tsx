@@ -196,6 +196,7 @@ const TEXTE = {
 
   'card.inStores': 'im Handel',
   'card.zeitVoraussichtlich': 'Voraussichtlich — Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit',
+  'card.zeitFestgelegt': 'Voraussichtlich, nicht gemessen',
   'pwa.title': 'Auf den Startbildschirm legen',
   'pwa.pitch': 'Öffnet sich wie eine App, im Vollbild, und läuft auch ohne Verbindung.',
   'pwa.install': 'App installieren',

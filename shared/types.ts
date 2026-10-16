@@ -67,8 +67,9 @@ export type DubConfidence = 'low' | 'normal' | 'high' | 'very-high'
 export interface Schedule {
   /** ISO-Datum der ersten Folge mit deutscher Synchro. */
   firstEpisodeDate: string
-  /** "HH:MM" in Europe/Berlin. Fehlt, wenn die Uhrzeit nicht belegt ist. */
+  /** "HH:MM" in Europe/Berlin, fehlt ohne Beleg; `timeEstimated`: festgelegt, nicht gemessen (≈). */
   time?: string
+  timeEstimated?: boolean
   episodeCount?: number
   /**
    * Nummer der ersten Folge dieses Releases. Fehlt, wenn es bei 1 anfängt.
@@ -77,8 +78,7 @@ export interface Schedule {
    * startete am 19.03.2026 mit einer einzelnen 47-Minuten-Folge, der Rest kam
    * ein halbes Jahr später als „2nd & 3rd STAGE". Beides sind eigene Releases
    * mit eigenem Termin — aber die Folgen laufen durch. Ohne dieses Feld begann
-   * die Terminliste des zweiten Teils wieder bei „1.", und wer das las, hielt
-   * den 25.09. für den Termin der Auftaktfolge.
+   * die Terminliste des zweiten Teils wieder bei „1." (25.09. las sich als Auftakt).
    */
   firstEpisodeNumber?: number
   /** Explizites Enddatum; sonst aus firstEpisodeDate + episodeCount berechnet. */
