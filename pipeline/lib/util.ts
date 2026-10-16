@@ -2,7 +2,8 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
+/** Wurzel des Repos; `AK_WURZEL` lenkt sie für Tests auf eine Attrappe um (`tools/luecken-kontext.test.mjs`). */
+export const ROOT = process.env.AK_WURZEL ?? resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
 
 /**
  * `.env` einlesen, damit die Schlüssel nicht bei jedem Aufruf gesetzt werden müssen.
