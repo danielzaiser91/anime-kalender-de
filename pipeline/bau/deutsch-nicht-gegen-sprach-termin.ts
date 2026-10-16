@@ -1,5 +1,6 @@
 import type { Release, Title } from '../../shared/types.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
+import { alleTermineGekennzeichnet } from '../lib/pruefung.ts'
 import { log } from '../lib/util.ts'
 
 /**
@@ -9,15 +10,10 @@ import { log } from '../lib/util.ts'
  * Ein Handbeleg „deutsch" bleibt unberührt — er hat Vorrang, und widerspricht ihm der Termin, soll die Prüfung es zeigen. Gibt die Zahl der Wege zurück.
  */
 export function nimmDeutschGegenSprachTermin(titles: Map<number, Title>, releases: Release[]): number {
-  const alleGekennzeichnet = new Map<string, boolean>()
-  for (const r of releases) {
-    const k = `${r.titleId}|${r.platform}`
-    alleGekennzeichnet.set(k, (alleGekennzeichnet.get(k) ?? true) && Boolean(r.sprache))
-  }
   const handJa = new Set(loadDubChecks().filter((c) => c.dub === true).map((c) => `${c.anilistId}|${c.platform}`))
   let genommen = 0
-  for (const [k, gekennzeichnet] of alleGekennzeichnet) {
-    if (!gekennzeichnet || handJa.has(k)) continue
+  for (const k of alleTermineGekennzeichnet(releases)) {
+    if (handJa.has(k)) continue
     const [id, plattform] = k.split('|')
     for (const s of titles.get(Number(id))?.streams ?? []) {
       if (s.platform !== plattform || s.dub !== true) continue
