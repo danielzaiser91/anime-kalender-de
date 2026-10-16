@@ -2,15 +2,16 @@
  * Zusicherung: **Die Bauphase 9 ruft `hebeFolgenzahlAufBeobachtung()` wirklich auf** (16.10.2026, Prüfer:
  * ein toter Aufruf `0 && …` blieb in `check:logic` grün). Fährt `pruefeSynchroJePlattform()` mit einem
  * erfundenen Release ohne Netz; läuft in `check:logic`, also in vor-commit und PR-CI.
+ * Den vorigen Bestand und die Wurzel für die Prüflisten gibt der Test als Parameter vor: kein Lesen von
+ * `public/data`, kein Schreiben nach `data/`.
  */
-import fs, { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
-import { syncBuiltinESMExports } from 'node:module'
-import { resolve } from 'node:path'
+import { existsSync, mkdtempSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import type { Release } from '../shared/types.ts'
 import { pruefeSynchroJePlattform } from './bau/09-synchro.ts'
 import { PRUEFLISTE } from './bau/09-7-cr-teilseiten.ts'
 import { PRIME_PRUEFLISTE } from './bau/09-7-prime-teilseiten.ts'
-import { ROOT } from './lib/util.ts'
 
 const release = {
   slug: 'villainess',
@@ -27,16 +28,7 @@ const release = {
   },
 } as unknown as Release
 
-/* Die Phase liest den vorigen Bestand (`public/data/titles.json`), den `check:logic` nicht lesen darf: leer unterschieben. */
-const leserOriginal = fs.readFileSync
-fs.readFileSync = ((pfad: unknown, ...rest: unknown[]) =>
-  /public[\\/]data[\\/]/.test(String(pfad)) ? '[]' : Reflect.apply(leserOriginal, fs, [pfad, ...rest])) as typeof fs.readFileSync
-syncBuiltinESMExports()
-
-/* Die Phase schreibt die Teilseiten-Prüflisten unter `data/`; der Lauf stellt sie danach wieder her. */
-const prueflisten = [PRUEFLISTE, PRIME_PRUEFLISTE].map((pfad) => resolve(ROOT, pfad))
-const gesichert = prueflisten.map((pfad) => (existsSync(pfad) ? readFileSync(pfad) : undefined))
-
+const schreibWurzel = mkdtempSync(join(tmpdir(), 'folge-ueber-anzahl-'))
 try {
   pruefeSynchroJePlattform({
     releases: [release],
@@ -52,9 +44,16 @@ try {
     katalogEintraege: [],
     adnKatalog: { scrapedAt: '', shows: [] } as never,
     adnVerweiseErgaenzt: 0,
+    vorherTitles: [],
+    schreibWurzel,
   })
+  const fehlt = [PRUEFLISTE, PRIME_PRUEFLISTE].filter((pfad) => !existsSync(join(schreibWurzel, pfad)))
+  if (fehlt.length) {
+    console.error('FEHLER: die Phase schreibt ihre Prüfliste nicht unter die übergebene Wurzel', fehlt)
+    process.exit(1)
+  }
 } finally {
-  prueflisten.forEach((pfad, i) => (gesichert[i] ? writeFileSync(pfad, gesichert[i]) : rmSync(pfad, { force: true })))
+  rmSync(schreibWurzel, { recursive: true, force: true })
 }
 
 if (release.schedule.episodeCount !== 3 || release.schedule.episodeCountAssumed !== true) {
