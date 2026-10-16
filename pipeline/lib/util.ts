@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-/** `AK_ROOT` lässt Prüfungen ein ganzes Skript gegen eine Kulisse laufen (check-rohfolgen-cartoons.ts); im Betrieb ungesetzt. */
+/** `AK_ROOT` lässt Prüfungen ein ganzes Skript gegen eine Kulisse laufen (check-rohfolgen-ablauf.ts); im Betrieb ungesetzt. */
 export const ROOT = process.env.AK_ROOT ?? resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
 
 /**

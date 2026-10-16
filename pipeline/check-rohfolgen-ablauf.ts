@@ -15,7 +15,9 @@ const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
 const mock = pathToFileURL(join(wurzel, 'tools/rohfolgen-ablauf-mock.mjs')).href
 
 const NETFLIX = 'https://www.netflix.com/title/70234440'
-const DISNEY = 'https://www.disneyplus.com/browse/entity-c752c178-c507-4c43-a73f-b6b64abf06d9'
+// Erfundene Adresse und Kennung: gibt es im echten Repo nicht, Grün beweist also, dass die Kulisse gelesen wird.
+const DISNEY = 'https://www.disneyplus.com/browse/entity-00000000-kulisse-zebra'
+const ANIME = 'https://www.netflix.com/title/777'
 const FREMD = 'https://www.netflix.com/title/999'
 
 const zeile = (id: number, url: string, sprachen: string[], plattform: string, titel?: string) => ({
@@ -43,15 +45,23 @@ const rohfolgen = [
   zeile(4, DISNEY, ['en'], 'disneyplus'),
   zeile(5, FREMD, ['Deutsch'], 'primevideo'),
   zeile(6, FREMD, ['Deutsch'], 'primevideo'),
+  zeile(7, ANIME, ['Deutsch'], 'netflix', 'Erste Kulissenfolge'),
 ]
 
 const cartoons = [{ id: -100, titleDe: 'Testpony', streams: [{ platform: 'netflix', url: NETFLIX }] }]
-const handbelege = `- anilistId: -46848
-  title: "Angry Birds Toons"
+const handbelege = `- anilistId: -987654
+  title: "Kulissen-Zebra"
   platform: disneyplus
   url: ${DISNEY}
   dub: false
+- anilistId: -987655
+  title: "Anime-Adresse im Handbeleg"
+  platform: netflix
+  url: ${ANIME}
+  dub: false
 `
+
+const anime = { id: 7, titleDe: 'Kulissen-Anime', streams: [{ platform: 'netflix', url: ANIME }] }
 
 const kulisse = mkdtempSync(join(tmpdir(), 'rohfolgen-ablauf-'))
 const schreibe = (pfad: string, inhalt: string) => {
@@ -59,7 +69,7 @@ const schreibe = (pfad: string, inhalt: string) => {
   writeFileSync(join(kulisse, pfad), inhalt)
 }
 schreibe('rohfolgen.json', JSON.stringify(rohfolgen))
-schreibe('public/data/titles.json', '[]')
+schreibe('public/data/titles.json', JSON.stringify([anime]))
 schreibe('public/data/cartoons.json', JSON.stringify(cartoons))
 schreibe('data/dub-confirmed.yaml', handbelege)
 schreibe('data/cartoon-folgen.json', JSON.stringify({ '-100': { folgen: [{ s: 1, e: 1, en: 'Ausflug zum Leuchtturm' }, { s: 1, e: 2, en: 'Hitch und das Geheimnis' }] } }))
@@ -77,9 +87,11 @@ try {
   if (zugeordnet[`${NETFLIX}#0`]?.titleId !== -100 && zugeordnet[NETFLIX]?.titleId !== -100) fehler.push('Cartoon-Adresse nicht zugeordnet')
   const unsere = Object.values(zugeordnet).find((z) => z.titleId === -100)?.folgen.map((x) => x.unsere)
   if (JSON.stringify(unsere) !== '[1,2]') fehler.push(`Folgenliste nicht genutzt: ${JSON.stringify(unsere)}`)
-  if (zugeordnet[DISNEY]?.titleId !== -46848) fehler.push('Handbeleg-Adresse nicht zugeordnet')
+  if (zugeordnet[DISNEY]?.titleId !== -987654) fehler.push('Handbeleg-Adresse nicht zugeordnet')
+  if (Object.values(zugeordnet).some((z) => z.titleId === -987655)) fehler.push('Anime-Adresse landete im Handbeleg-Weg')
+  if (zugeordnet[ANIME]?.titleId !== 7) fehler.push('Anime-Adresse nicht beim Anime-Weg zugeordnet')
   const abgehakt = (lies('post.json') as { rohfolgenUebernommen: number[] }).rohfolgenUebernommen.sort()
-  if (JSON.stringify(abgehakt) !== '[1,2,3,4]') fehler.push(`abgehakt: ${JSON.stringify(abgehakt)}, erwartet [1,2,3,4]`)
+  if (JSON.stringify(abgehakt) !== '[1,2,3,4,7]') fehler.push(`abgehakt: ${JSON.stringify(abgehakt)}, erwartet [1,2,3,4,7]`)
   const offen = lies('data/prime-unzugeordnet.json') as { url: string; grund: string }[]
   if (offen.length !== 1 || offen[0]!.url !== FREMD) fehler.push('die unbekannte Adresse bleibt nicht als einziger Rest offen')
 } catch (e) {

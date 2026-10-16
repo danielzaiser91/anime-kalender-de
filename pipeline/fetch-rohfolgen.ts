@@ -16,7 +16,8 @@
  *
  * Aufruf: `npx tsx pipeline/fetch-rohfolgen.ts`
  */
-import { log, readJson, warn, writeJson } from './lib/util.ts'
+import { resolve } from 'node:path'
+import { log, readJson, ROOT, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { ohneDoppelte } from './lib/rohfolgen-doppelte.ts'
 import {
@@ -314,7 +315,7 @@ async function main(): Promise<void> {
   const cartoonLauf = ordneCartoonsZu(
     jeUrl,
     readJson<Title[]>('public/data/cartoons.json', []),
-    handbelegAdressen(yaml.load(readFileSync('data/dub-confirmed.yaml', 'utf8')) as Parameters<typeof handbelegAdressen>[0]),
+    handbelegAdressen(yaml.load(readFileSync(resolve(ROOT, 'data/dub-confirmed.yaml'), 'utf8')) as Parameters<typeof handbelegAdressen>[0]),
     readJson<CartoonFolgenDatei>('data/cartoon-folgen.json', {}),
     animeZugehoerigkeit(titles),
   )
