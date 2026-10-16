@@ -13,6 +13,7 @@
  */
 import { folgenZuTitel, unsereFolgen, type CartoonFolge, type UnsereFolge } from './episodentitel-block.ts'
 import { adressKern } from '../../shared/adresse-kern.ts'
+import { hatDeutschenTon } from '../../shared/sprachen-ton.ts'
 import type { Title } from '../../shared/types.ts'
 
 /** Die Felder einer Rohfolge, die dieser Weg liest. */
@@ -130,6 +131,11 @@ export function ordneCartoonAdresse(liste: CartoonRohfolge[], ziel: ZielTitel, f
     plattform: liste[0]!.plattform ?? 'primevideo',
   }
   const sprachenJe = liste.map((f) => f.sprachen ?? '[]')
+  const widerspruch = Boolean(ziel.dubFalse) && sprachenJe.some((s) => hatDeutschenTon(JSON.parse(s) as string[]))
+  if (widerspruch) {
+    const grund = 'Handbeleg sagt kein Deutsch, die Zeilen nennen deutschen Ton (Widerspruch prüfen)'
+    return { offen: { titel: ziel.name ?? restTitel(liste), grund } }
+  }
   const titelFolge = [{ unsere: null, sprachen: JSON.parse(sprachenJe[0]!) as string[] }]
   const alsTitel: CartoonUrteil = { zugeordnet: { ...kopf, folgen: titelFolge } }
   if (liste.length === 1) return alsTitel
@@ -139,7 +145,7 @@ export function ordneCartoonAdresse(liste: CartoonRohfolge[], ziel: ZielTitel, f
     const folgen = treffer.map((t) => ({ unsere: t.unsere, sprachen: JSON.parse(sprachenJe[t.index]!) as string[] }))
     return { zugeordnet: { ...kopf, folgen } }
   }
-  const keinDeutsch = Boolean(ziel.dubFalse) && !sprachenJe.some((s) => s.includes('Deutsch'))
+  const keinDeutsch = Boolean(ziel.dubFalse)
   if (new Set(sprachenJe).size === 1 || keinDeutsch) return alsTitel
   const anker = unsere.length ? 'Cartoon-Folgenliste' : 'keine Folgenliste in cartoon-folgen.json'
   const grund = `keine einzige Folge zuzuordnen, Tonspuren uneinheitlich (Anker: ${anker})`

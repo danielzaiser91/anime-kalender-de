@@ -6,6 +6,7 @@
  */
 import { readFileSync } from 'node:fs'
 import type { Title } from '../shared/types.ts'
+import { hatDeutschenTon } from '../shared/sprachen-ton.ts'
 import {
   animeZugehoerigkeit,
   handbelegAdressen,
@@ -172,6 +173,25 @@ const belege = handbelegAdressen([
   const g = lauf([zeile(u, 'a', '["en"]'), zeile(u, 'b', '["fr"]')], [], gemischt)
   pruefe('ein Handbeleg mit Ja und Nein zur Adresse gilt nicht als „kein Deutsch“', g.offen.length === 1 && !g.erledigt.length, g.offen)
 }
+/* Je Anbieter das Format, das der Erzeuger schreibt: Prime `amazon-leser.js` (Namen), Netflix `melder.js` (`code|name`), Disney+ `disney-leser.js` (Codes). */
+const formate: [string, string, string, string][] = [
+  ['Prime', 'primevideo', '["Deutsch","日本語"]', '["English"]'],
+  ['Netflix', 'netflix', '["de|Deutsch","en|English"]', '["en|English"]'],
+  ['Disney+', 'disneyplus', '["de","en"]', '["en","fr"]'],
+]
+for (const [name, plattform, mitDeutsch, ohneDeutsch] of formate) {
+  const url = `https://example.org/${plattform}/hb`
+  const nein = handbelegAdressen([{ anilistId: -900, title: 'Nein-Beleg', url, dub: false }])
+  const mit = lauf([zeile(url, 'a', mitDeutsch), zeile(url, 'b', mitDeutsch)], [], nein)
+  pruefe(`${name}: Handbeleg „kein Deutsch“ und einheitlich deutscher Ton: offen, nicht abgehakt`, mit.offen.length === 1 && !mit.erledigt.length && /Widerspruch/.test(mit.offen[0]!.grund), mit.offen)
+  const gemischt = lauf([zeile(url, 'a', mitDeutsch), zeile(url, 'b', ohneDeutsch)], [], nein)
+  pruefe(`${name}: Handbeleg „kein Deutsch“, eine Zeile mit deutschem Ton: offen`, gemischt.offen.length === 1 && !gemischt.erledigt.length, gemischt.offen)
+  const ohne = lauf([zeile(url, 'a', ohneDeutsch), zeile(url, 'b', ohneDeutsch)], [], nein)
+  pruefe(`${name}: Handbeleg „kein Deutsch“ und kein deutscher Ton: erledigt`, ohne.erledigt.length === 2 && !ohne.offen.length, ohne.offen)
+  pruefe(`${name}: hatDeutschenTon erkennt die Schreibweise`, hatDeutschenTon(JSON.parse(mitDeutsch)) && !hatDeutschenTon(JSON.parse(ohneDeutsch)))
+}
+
+pruefe('hatDeutschenTon: Codes mit Region und Pipe, aber nicht „den“/„des“', hatDeutschenTon(['de-DE']) && hatDeutschenTon(['de|x']) && !hatDeutschenTon(['den', 'des', 'fr']))
 
 const quelle = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8')
 pruefe('fetch-rohfolgen.ts liest die Cartoons (public/data/cartoons.json)', quelle.includes("readJson<Title[]>('public/data/cartoons.json', [])"))
