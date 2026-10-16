@@ -40,6 +40,7 @@ import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminFri
 import { meldeAbbruch } from './lib/abbruch.ts'
 import { beobachtetAusRelease } from './lib/verpasst-beobachtet.ts'
 import { BELEGE_DATEI, belegeAnhaengen, type WocheBelege } from './lib/woche-beleg.ts'
+import { neuerVermerk } from './lib/vermerk-neu.ts'
 import type { WocheBelegVermerk } from '../shared/woche-beleg-typ.ts'
 
 /*
@@ -278,21 +279,7 @@ for (const e of ereignisse) {
   )
   const treffer = gesehenHier.some((o) => o.date === e.date || (folge != null && o.episode === folge))
   if (treffer) continue
-  verpasst.push({
-    id: e.id,
-    slug: e.releaseSlug,
-    titleId: e.titleId,
-    name: e.name,
-    platform: e.platform,
-    episode: folge,
-    erwartetAm: zeitpunkt(e).toISOString(),
-    bemerktAm: JETZT.toISOString(),
-    erschienenAm: null,
-    verzugStunden: null,
-    folgenVerfuegbar: folgenBeimAnbieter(e.releaseSlug),
-    neuErwartet: null,
-    recherche: null,
-  })
+  verpasst.push(neuerVermerk(e, folge, zeitpunkt(e).toISOString(), JETZT.toISOString(), folgenBeimAnbieter(e.releaseSlug)))
   neu++
 }
 
