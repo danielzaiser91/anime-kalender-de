@@ -5,7 +5,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { parse } from 'yaml'
-import { entscheide, MAX_STARTS_OHNE_ERFOLG, ROT_WARTEN_H } from './wecker-wache-entscheid.mjs'
+import { entscheide, MAX_STARTS_OHNE_ERFOLG, ROT, ROT_WARTEN_H } from './wecker-wache-entscheid.mjs'
 
 const lies = (pfad) => readFileSync(new URL(`../${pfad}`, import.meta.url), 'utf8')
 const JETZT = Date.parse('2026-10-16T12:00:00Z')
@@ -36,17 +36,55 @@ assert.equal(ja([vor(8, 'failure'), vor(20, 'failure'), vor(32, 'failure'), vor(
 assert.equal(ja([vor(8, 'failure'), vor(20, 'failure'), vor(60, 'success')]), false)
 assert.equal(ja([vor(31, 'failure'), vor(50, 'failure')]), true, 'nach der vollen Frist wird wieder gestartet (wie bisher)')
 
-/* ---- Abgebrochen: nur bei ohne-abbruch ein Nicht-Start ---- */
+/* ---- Abgebrochen (gewollt: D1-Tageslimit, Sperre) zählt nie als rot, nur bei ohne-abbruch als Nicht-Start ---- */
 const abbruch = [vor(5, 'cancelled'), vor(40, 'success')]
 assert.equal(ja(abbruch, 30, false), false, 'abgebrochener Start zählt als Start (wie bisher)')
 assert.equal(ja(abbruch, 30, true), true, 'mit ohne-abbruch zählt er nicht')
 assert.equal(ja([vor(5, 'cancelled'), vor(12, 'failure')], 30, true), true, 'ohne-abbruch: der rote Start davor entscheidet')
+assert.equal(ja([vor(7, 'cancelled'), vor(40, 'success')]), false, 'Abbruch nach der Wartezeit wird nicht nachgeholt')
+assert.equal(ja([vor(7, 'cancelled')]), false, 'Abbruch ohne je einen Erfolg wird nicht nachgeholt')
+
+/* ---- Jeder Ausgang einmal jenseits jeder Wartezeit (7 h > ROT_WARTEN_H, 31 h > Frist), letzter Erfolg 60 h alt ---- */
+const ausgaenge = [
+  ['success', 'completed', false, true],
+  ['failure', 'completed', true, true],
+  ['cancelled', 'completed', false, true],
+  ['timed_out', 'completed', true, true],
+  ['startup_failure', 'completed', true, true],
+  ['skipped', 'completed', true, true],
+  [null, 'in_progress', false, false],
+]
+for (const [conclusion, status, bei7, bei31] of ausgaenge) {
+  assert.equal(ja([vor(7, conclusion, status), vor(60, 'success')]), bei7, `${conclusion ?? status} vor 7 h`)
+  assert.equal(ja([vor(31, conclusion, status), vor(60, 'success')]), bei31, `${conclusion ?? status} vor 31 h`)
+}
+assert.deepEqual(ROT, ['failure', 'timed_out', 'startup_failure', 'skipped'])
+assert.equal(ja([]), true, 'kein Start')
 
 /* ---- Verdrahtung: Wache kennt jeden Workflow des Weckplans und ruft die Entscheidung auf ---- */
 const wache = parse(lies('.github/workflows/wecker-wache.yml'))
 const schritte = wache.jobs.wache.steps
 const nachholen = schritte.find((s) => s.id === 'nachholen')
-assert.match(nachholen.run, /node tools\/wecker-wache-entscheid\.mjs "\$max"/)
+/* Ganzer Aufruf samt Argumenten, --json-Feldern, --limit und Vergleich mit dem Ergebnis, zusammenhängend im Schleifenrumpf. */
+const zeilen = nachholen.run.split('\n').map((z) => z.trim())
+const ruempf = [
+  'laeufe="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow "$wf" --limit 10 --json createdAt,conclusion,status)"',
+  'urteil="$(printf \'%s\' "$laeufe" | node tools/wecker-wache-entscheid.mjs "$max" ${ohne:+ohne-abbruch})"',
+  'printf \'%-34s %s (Frist %s h)\\n\' "$wf" "$urteil" "$max"',
+  'if [ "${urteil%% *}" = "ja" ]; then',
+  'echo "::warning title=Wecker überfällig::$wf: ${urteil#ja } — wird jetzt gestartet; Cloudflare-Wecker prüfen (worker/src/wecker.ts, Secret GITHUB_WECKER_TOKEN)"',
+  'gh workflow run "$wf" --repo "$GITHUB_REPOSITORY" --ref main',
+  'nachgeholt=$((nachgeholt + 1))',
+  'fi',
+]
+const start = zeilen.indexOf(ruempf[0])
+assert.ok(start >= 0, 'gh run list fehlt oder weicht ab')
+assert.deepEqual(zeilen.slice(start, start + ruempf.length + 1).filter((z) => !z.startsWith('#')), ruempf, 'Schleifenrumpf der Wache weicht ab')
+assert.equal(zeilen[start + ruempf.length + 1], 'done', 'Schleife endet direkt nach dem Rumpf')
+assert.ok(zeilen.includes('for eintrag in $PLAN; do'))
+assert.ok(zeilen.some((z) => z.startsWith('wf="${eintrag%%:*}"; rest="${eintrag#*:}"; max="${rest%%:*}"; ohne=""; case "$rest" in *:ohne-abbruch) ohne=1;; esac')))
+assert.equal(nachholen.if, undefined, 'Schritt „nachholen“ läuft immer')
+assert.equal(nachholen['continue-on-error'], undefined)
 const plan = nachholen.run.match(/PLAN="([^"]+)"/)[1].split(' ').map((e) => e.split(':')[0])
 const weckplan = [...lies('shared/weckplan.ts').matchAll(/\{ workflow: '([^']+)'/g)].map((m) => m[1])
 assert.ok(weckplan.length >= 12)
@@ -57,6 +95,7 @@ const mk = lies('shared/weckplan.ts').match(/workflow: 'meldungskopie\.yml', stu
 assert.ok(mk && Number(mk[1]) < 15 * 60, `Mindestabstand meldungskopie.yml ${mk?.[1]} min muss unter 15 h liegen`)
 const checkout =schritte.findIndex((s) => s.uses?.startsWith('actions/checkout'))
 assert.ok(checkout >= 0 && checkout < schritte.indexOf(nachholen), 'Checkout liegt vor dem Schritt, der das Skript ruft')
+assert.equal(schritte[checkout].if, undefined, 'Checkout läuft immer')
 assert.match(schritte[checkout].with['sparse-checkout'], /tools\/wecker-wache-entscheid\.mjs/)
 assert.match(schritte[checkout].with['sparse-checkout'], /tools\/lauf-melden\.sh/)
 
