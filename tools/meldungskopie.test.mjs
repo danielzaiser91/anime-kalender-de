@@ -5,7 +5,7 @@
  */
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync, copyFileSync, existsSync } from 'node:fs'
+import { cpSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync, copyFileSync, existsSync } from 'node:fs'
 import { DatabaseSync } from 'node:sqlite'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -319,6 +319,25 @@ const falscheWurzel = join(ordner, 'wurzel')
 mkdirSync(join(falscheWurzel, 'node_modules/wrangler/bin'), { recursive: true })
 writeFileSync(join(falscheWurzel, 'node_modules/wrangler/bin/wrangler.js'), 'console.log(JSON.stringify({ error: { text: "D1_ERROR: echter Grund" } }))\nprocess.exit(1)\n')
 assert.throws(() => wranglerAus(falscheWurzel)(['d1', 'execute']), /echter Grund/)
+
+// Die ganze Verdrahtung: eine Kopie der Werkzeug-Dateien mit falschem wrangler, aufgerufen wie im Lauf (`ziehen --ziel …`).
+const werkzeug = join(ordner, 'werkzeug')
+mkdirSync(join(werkzeug, 'tools'), { recursive: true })
+for (const datei of readdirSync(join(WURZEL, 'tools')).filter((d) => /^meldungskopie.*\.mjs$/.test(d) && !d.endsWith('.test.mjs'))) {
+  copyFileSync(join(WURZEL, 'tools', datei), join(werkzeug, 'tools', datei))
+}
+cpSync(join(falscheWurzel, 'node_modules'), join(werkzeug, 'node_modules'), { recursive: true })
+const imLauf = spawnSync(process.execPath, [join(werkzeug, 'tools/meldungskopie.mjs'), 'ziehen', '--ziel', join(ordner, 'v.enc')], {
+  encoding: 'utf8',
+  env: { ...UMGEBUNG, GITHUB_ACTIONS: 'true', LAUF_TOKEN: TOKEN, ...CF },
+})
+assert.equal(imLauf.status, 1)
+assert.match(imLauf.stderr, /echter Grund/, 'der Fehlertext von wrangler erreicht das Protokoll des Laufs')
+assert.equal(existsSync(join(ordner, 'v.enc')), false)
+
+// Die Ausgabe von wrangler wird auf 2000 Zeichen gekürzt (Protokoll bleibt lesbar), der Anfang bleibt.
+const lang = Object.assign(new Error('kaputt'), { stdout: `ANFANG${'x'.repeat(3000)}ENDMARKE`, stderr: '' })
+assert.throws(() => mitFehlertext(() => { throw lang })([]), (f) => f.message.includes('ANFANG') && !f.message.includes('ENDMARKE') && f.message.length < 2100)
 
 // Ein roter Lauf erscheint in der Laufstatus-App: nur bei Fehlschlag, nie selbst rot machend (der Lauf vom 15.10.2026 blieb dort unsichtbar).
 const meldung = workflow.jobs.kopie.steps.filter((s) => /lauf-melden\.sh fehler/.test(s.run ?? ''))
