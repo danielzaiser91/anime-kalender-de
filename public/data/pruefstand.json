@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-16T19:17:03.777Z",
+ "erzeugtAm": "2026-10-16T22:06:35.869Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 314,
-   "gesamt": 871,
-   "offen": 557,
+   "gemeldet": 313,
+   "gesamt": 896,
+   "offen": 583,
    "ohneSeite": 28,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
@@ -329,6 +329,10 @@
      "titel": "Der Herr der Ringe: Die Schlacht der Rohirrim (The Lord of the Rings: The War of the Rohirrim)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0D956JD5Y",
+     "titel": "Clannad"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0CV5Z8JPZ",
      "titel": "Girls und Panzer: Das Finale – Teil 4 (Girls und Panzer das Finale - Part 4)"
     },
@@ -537,12 +541,20 @@
      "titel": "Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense. (BOFURI: I Don't Want to Get Hurt, so I'll Max Out My Defense.)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0D2NL5GYX",
+     "titel": "Haikyu!! To the Top"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0CHQGCNZB",
      "titel": "Infinite Dendrogram"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVHGSMMX",
      "titel": "Deca-Dence"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B09192P17W",
+     "titel": "Haikyu!! An Land vs. In der Luft / Der ”Weg” des Balls (HAIKYU!! LAND VS. AIR)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GFGTTR3N",
@@ -897,6 +909,10 @@
      "titel": "Code Geass: Akito the Exiled - To The Beloved (Code Geass: Akito the Exiled - To Beloved Ones)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0CVBLNC3X",
+     "titel": "Die rothaarige Schneeprinzessin: Staffel 2 (Snow White with the Red Hair Season 2)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0BZMDLZJP",
      "titel": "Phantasy Star Online 2: The Animation (Phantasy Star Online 2 The Animation)"
     },
@@ -963,6 +979,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CJK2RNDL",
      "titel": "Code Geass: Akito the Exiled - Memories of Hatred"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0FWXSTJ3K",
+     "titel": "Psycho-Pass: The Movie"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0B7D54NPQ",
@@ -1209,6 +1229,10 @@
      "titel": "K-On! The Movie (K-ON!: The Movie)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B01ASXCBV4",
+     "titel": "Pokémon: Der Film - Weiß: Victini und Zekrom (Pokémon the Movie: White—Victini and Zekrom)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B078BLV9WP",
      "titel": "AnoHana: Die Blume, die wir an jenem Tag sahen (Anohana: The Flower We Saw That Day)"
     },
@@ -1229,6 +1253,10 @@
      "titel": "Haganai: I Don’t Have Many Friends (Haganai)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B01ASYLFJW",
+     "titel": "Pokémon: Der Film - Schwarz: Victini und Reshiram (Pokémon the Movie: Black—Victini and Reshiram)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0GTDSP1Q1",
      "titel": "Hunter × Hunter (Hunter x Hunter (2011))"
     },
@@ -1237,8 +1265,20 @@
      "titel": "Eden of the East: Das verlorene Paradies (Eden of the East the Movie II: Paradise Lost)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0CPST368C",
+     "titel": "Yu-Gi-Oh!: Bonds Beyond Time (Yu-Gi-Oh! 3D: Bonds Beyond Time)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0DMWSJ7B9",
      "titel": "Maid-sama (Maid-Sama!)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B08V14MGSB",
+     "titel": "Demon King Daimao"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B091FT1NCC",
+     "titel": "Bakuman."
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0B6PRVP2L",
@@ -1273,12 +1313,28 @@
      "titel": "Summer Wars"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0916V7VFR",
+     "titel": "Lupin III. vs Detektiv Conan: The Special (Lupin the 3rd Vs Detective Conan)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0GNLVPRBV",
      "titel": "Naruto Shippuden: The Movie - Die Erben des Willens des Feuers (Naruto Shippuden the Movie: The Will of Fire)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B01LZHQI1P",
+     "titel": "Yuna & Stitch Staffel 2 (Stitch! ~The Mischievous Alien's Great Adventure~)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B08FNPM83G",
      "titel": "Rosario + Vampire"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0CHDFY1LD",
+     "titel": "The Familiar of Zero 3: “Rondo” of Princesses (The Familiar of Zero: \"Rondo\" of Princesses)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B09C53B6BQ",
+     "titel": "Rosario + Vampire Capu2"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GMYN3JS9",
@@ -1287,6 +1343,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CH28HZSD",
      "titel": "A Certain Magical Index"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B01M0SP5H8",
+     "titel": "Yuna & Stitch (Stitch!)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CC5L519V",
@@ -1319,10 +1379,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B09JTSD79F",
      "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D956JD5Y",
-     "titel": "Clannad"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CN5T82TL",
@@ -1369,12 +1425,28 @@
      "titel": "Yu-Gi-Oh! GX"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0FLDDPRVL",
+     "titel": "Yu-Gi-Oh! Der Film (Yu-Gi-Oh! The Movie: Pyramid of Light)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0D59HJGBZ",
+     "titel": "Peace Maker Kurogane (Peacemaker)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0FV7Z1617",
      "titel": "InuYasha: Der Film - Die Schwerter, die die Welt unterwerfen (InuYasha the Movie 3: Swords of an Honorable Ruler)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0DK9XXZYV",
+     "titel": "Naruto: Die Geheimmission - Rettet das Dorf Takigakure (Naruto: The Lost Story - Mission: Protect the Waterfall Village)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0FXS96LSG",
      "titel": "InuYasha: Der Film - Das Traumschloss im Inneren der Spiegel (InuYasha the Movie 2: The Castle Beyond the Looking Glass)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0751KL252",
+     "titel": "Detektiv Conan: Das Phantom der Baker Street (Detective Conan: The Phantom of Baker Street)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0B8TR93HR",
@@ -1383,6 +1455,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0FWZ4L2B2",
      "titel": "InuYasha: Der Film - Gefühle, die die Zeit überwinden (InuYasha the Movie: Affections Touching Across Time)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B00H39Z6Q4",
+     "titel": "Robotic Angel (Metropolis)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0C941Q2LY",
@@ -1409,6 +1485,10 @@
      "titel": "Yu-Gi-Oh!"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B074ZRCX91",
+     "titel": "Detektiv Conan: Der Killer in ihren Augen (Detective Conan: Captured in Her Eyes)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0CVKVFXYC",
      "titel": "Monster Rancher (Monster Rancher (2000))"
     },
@@ -1417,12 +1497,20 @@
      "titel": "Digimon (Digimon: Digital Monsters)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0CHL1TMC2",
+     "titel": "Detektiv Conan: Der Magier des letzten Jahrhunderts (Detective Conan: The Last Wizard of the Century)"
+    },
+    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d",
      "titel": "Trigun"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GYDLTDD8",
      "titel": "Cardcaptor Sakura"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0CJYMLW6W",
+     "titel": "Fushigi Yûgi New OVA: The Mysterious Play (Mysterious Play OVA 2)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
@@ -1441,12 +1529,20 @@
      "titel": "Ghost in the Shell"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0FWXB2BKG",
+     "titel": "Lupin III.: Der Schatz des Harimao (Lupin the 3rd: The Pursuit of Harimao's Treasure)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0CVG5FM5P",
      "titel": "Memories"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0G3R919KN",
      "titel": "Lupin III: Der goldene Drache (Lupin the 3rd: Dragon of Doom)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0CK5BDPM8",
+     "titel": "Lupin III: Der Höllentrip (Lupin the 3rd: Voyage to Danger)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
@@ -1467,6 +1563,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B07C1D8JXX",
      "titel": "Captain Tsubasa: Die tollen Fußballstars (Captain Tsubasa)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0DMHSFLGQ",
+     "titel": "Georgie (Lady Georgie)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B088K17QGJ",
@@ -2021,8 +2121,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 416,
-   "gesamt": 689,
-   "offen": 273,
+   "gesamt": 690,
+   "offen": 274,
    "ohneSeite": 18,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
@@ -2199,6 +2299,10 @@
     {
      "url": "https://www.netflix.com/title/81004665",
      "titel": "Mech Cadets"
+    },
+    {
+     "url": "https://www.netflix.com/title/81659233",
+     "titel": "Bakugan"
     },
     {
      "url": "https://www.netflix.com/title/81028343",
