@@ -59,7 +59,7 @@ export function schreibeDatensatz({
     kanalJeAdresse,
   })
 
-  const geerbt = kanalErbtVomAnbieter(allTitles)
+  const geerbt = kanalErbtVomAnbieter(allTitles, releases)
   if (geerbt) log(`${geerbt} Prime-Kanal-Wege erben das Deutsch ihres Anbieters`)
 
   const { slim } = baueAuslieferung({
