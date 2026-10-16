@@ -5,7 +5,7 @@ import { todayIso } from '../../shared/time.ts'
 import type { Title } from '../../shared/types.ts'
 import type { KatalogEintrag } from '../lib/anilist.ts'
 import { fuehreReihenZusammen } from './03-reihen.ts'
-import { alle } from './anisearch-titel.ts'
+import { alle, anisearchNamensKanten } from './anisearch-titel.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import type { Kante, Namen } from './anisearch-reihen.ts'
 import { type Ausgeschieden, anisearchKatalogReihen, katalogAnker, ladeBeziehungen } from './anisearch-reihen-pruefliste.ts'
@@ -44,6 +44,8 @@ function reinBestandReihen(titles: Map<number, Title>): void {
   const { kanten, namen } = ladeBeziehungen()
   const e = reineReihen(titel, kanten, namen, ladeHand())
   for (const t of titles.values()) t.franchiseId = e.reihe.get(t.id) ?? t.id
+  // Der Namensvorspann (Daniel, 10.10.2026) ging mit dem Wechsel auf reines aniSearch am 12.10. verloren; `check-reihen-namen-bestand.ts` meldet es seit 16.10.2026.
+  for (const { ids: [reihe, id] } of anisearchNamensKanten(titles, (i) => titles.get(i)!.franchiseId ?? i)) titles.get(id!)!.franchiseId = reihe
   schreibePruefliste('bestand', e)
   log(`aniSearch-Reihen (rein): ${e.reihen} Reihen mit ${e.inReihen} Titeln, ${e.pruefliste.length} Fälle auf der Prüfliste (${REIN_PRUEFLISTE_DATEI})`)
 }
