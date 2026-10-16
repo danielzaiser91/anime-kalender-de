@@ -291,7 +291,7 @@ export function berechneAntwort({ title, releases, today, jetzt = new Date() }: 
     return {
       art: 'laeuft' as const,
       haupt: n,
-      ...restUndBlock(kuenftig, n),
+      ...restUndBlock(kuenftig, n, releases.find((r) => r.slug === n.releaseSlug)),
       raus,
       gesamt, gesamtGeschaetzt: gesamtGeschaetzt(title, releases, n),
       sendetage: releases.find((r) => r.slug === n.releaseSlug)?.schedule.wochentage,

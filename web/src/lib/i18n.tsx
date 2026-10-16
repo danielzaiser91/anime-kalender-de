@@ -530,6 +530,7 @@ const TEXTE = {
   // Ohne Wochentag: der Rhythmus sagt nur noch die Frequenz, der Tag steht in
   // der Überschrift.
   'antwort.rhythmusWoechentlichKurz': 'Wöchentlich',
+  'antwort.taktUnklar': 'Takt unklar',
   'antwort.rhythmusWoechentlich': 'Wöchentlich {tag}s',
   // „freitags", nicht „Frs" — siehe DetailPanel. Kleingeschrieben, weil es ein
   // Adverb ist: „wöchentlich freitags".

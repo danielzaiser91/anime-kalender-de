@@ -17,6 +17,7 @@ export const NEWS_FARBE: Record<NewsArt, string> = {
   verspaetet: LEISE,
   nachgetragen: LEISE,
   rhythmus: AKZENT,
+  takt: LEISE,
   offiziell: INFO,
 }
 
@@ -31,5 +32,6 @@ export const NEWS_PUNKT: Record<NewsArt, string> = {
   nachgereicht: 'bg-ak-gut',
   nachgetragen: 'bg-ak-leise',
   rhythmus: 'bg-ak-akzent',
+  takt: 'bg-ak-leise',
   offiziell: 'bg-ak-info',
 }

@@ -21,7 +21,7 @@ export function kalenderTag(tag: string): string {
   return `https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=${tag}`
 }
 
-function messBeleg(tag: string, gemessenAm: string, bild?: string): NewsBeleg {
+export function messBeleg(tag: string, gemessenAm: string, bild?: string): NewsBeleg {
   return { url: kalenderTag(tag), name: 'Crunchyroll-Kalender', gemessenAm, ...(bild ? { bild } : {}) }
 }
 

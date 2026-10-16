@@ -19,6 +19,8 @@ export type Antwort =
       letzter?: string
       /** Erscheinen mehrere belegte Folgen am Tag der nächsten, die Nummer der letzten davon (Avatar: 4–6 am 16.10.). */
       blockBis?: number
+      /** Die letzten Folgen kamen nicht im Wochentakt (Pause, mehrere auf einmal, Folgetag), und die nächste ist nur fortgeschrieben (`shared/takt.ts`). */
+      taktUnklar?: boolean
       /** Feste Sendetage der Ausgabe (Fernsehen), 1 = Montag. */
       sendetage?: number[]
       /** Ein Komplettabwurf (`available-from`): alle Folgen an einem Tag, kein Wochentakt. */

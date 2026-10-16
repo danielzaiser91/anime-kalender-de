@@ -5,7 +5,8 @@
  * von dort — die Aufrufer importieren unverändert aus `shared/types.ts`.
  */
 import type { PlatformId } from './types.ts'
-export type NewsArt = 'neu' | 'folgen' | 'angekuendigt' | 'disc' | 'kino' | 'verspaetet' | 'nachgereicht' | 'nachgetragen' | 'rhythmus' | 'offiziell'
+import type { TaktArt } from './takt.ts'
+export type NewsArt = 'neu' | 'folgen' | 'angekuendigt' | 'disc' | 'kino' | 'verspaetet' | 'nachgereicht' | 'nachgetragen' | 'rhythmus' | 'takt' | 'offiziell'
 
 /** Worum es einer freigegebenen Meldung der offiziellen Website geht (Art `offiziell`). */
 export type OffiziellKategorie = 'staffel' | 'film' | 'synchro' | 'termin'
@@ -63,6 +64,9 @@ export interface NewsMeldung {
   kategorie?: OffiziellKategorie
   /** Bei `rhythmus`: Folgen pro Woche bis `datum` laut Quelle (von, bis) — Satz „Bis … wöchentlich 3–4 neue Folgen“, kein Start. */
   proWoche?: [number, number]
+  /** Bei `takt`: wie der Takt abwich (Pause, mehrere Folgen auf einmal, Folge kurz nach der vorigen); `abstand` = Tage seit dem vorigen Folgen-Tag. */
+  takt?: TaktArt
+  abstand?: number
   /** Bei `disc`: welche Ausgabe („Vol. 1/2", „Gesamtausgabe", „Box 9") — ohne sie sagt der Satz bei jedem Volume dasselbe. */
   ausgabe?: string
   /** Der Termin, um den es geht (angekündigt, Disc, Kino, verpasst). */
