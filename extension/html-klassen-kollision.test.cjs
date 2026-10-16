@@ -23,6 +23,20 @@ function wurzelKlassen(quellen) {
   return klassen
 }
 
+/**
+ * Schreibweisen, die der Wörter-Suche entgehen: `classList.add(variable)`, `className =`, `setAttribute('class'`
+ * an html/body. Sie sind verboten (Literal-Klasse nehmen), sonst bliebe die Kollision unsichtbar.
+ */
+function unlesbareWurzelKlassen(quellen) {
+  const wurzel = '(?:documentElement|body|\\bhtml)'
+  const muster = [
+    new RegExp(`${wurzel}\\.classList\\.(?:add|toggle)\\((?!')`, 'g'),
+    new RegExp(`${wurzel}\\.className\\s*[+]?=(?!=)`, 'g'),
+    new RegExp(`${wurzel}\\.setAttribute\\(\\s*'class'`, 'g'),
+  ]
+  return quellen.flatMap((text) => muster.flatMap((m) => [...text.matchAll(m)].map((t) => t[0])))
+}
+
 /** Selektoren, die mit nur einem Teil (ohne Vorfahren) eine der Klassen als Ziel haben. */
 function treffenWurzel(css, klassen) {
   const ohneKommentar = css.replace(/\/\*[\s\S]*?\*\//g, '')
@@ -47,6 +61,9 @@ console.log('Zusicherungen: Wurzelklassen der Erweiterung kollidieren nicht mit 
 pruefe('Wurzelklassen gefunden (Suche arbeitet)', klassen.has('ak-eingeklappt') && klassen.has('ak-durchgang'), [...klassen])
 pruefe('keine Regel trifft html/body allein über eine Wurzelklasse', treffenWurzel(css, klassen).length === 0, treffenWurzel(css, klassen))
 pruefe('das Einklappen blendet wirklich aus (Klasse aus box.js steht in melder.css)', css.includes('html.ak-icon-da.ak-eingeklappt .ak-box'))
+pruefe('keine Wurzelklasse über Variable, className oder setAttribute (Suche würde sie übersehen)', unlesbareWurzelKlassen(quellen).length === 0, unlesbareWurzelKlassen(quellen))
+pruefe('Gegenprobe: Variable, className und setAttribute werden erkannt', unlesbareWurzelKlassen(['document.body.classList.add(name)', 'document.documentElement.className = x', "html.setAttribute('class', x)"]).length === 3)
+pruefe('Gegenprobe: Literal-Klasse bleibt erlaubt', unlesbareWurzelKlassen(["document.body.classList.add('ak-x')"]).length === 0)
 pruefe('Gegenprobe: die alte Kollision (.ak-zu bei Klasse ak-zu) wird erkannt', treffenWurzel('.ak-zu { font-size: 22px }', new Set(['ak-zu'])).length === 1)
 pruefe('Gegenprobe: Regel mit Vorfahr bleibt erlaubt', treffenWurzel('html.ak-eingeklappt .ak-box { opacity: 0 }', new Set(['ak-eingeklappt'])).length === 0)
 

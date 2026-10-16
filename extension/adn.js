@@ -27,12 +27,24 @@
     stand: null,
     fehler: null,
     knopf: null,
+    pruefliste: null,
   }
 
   const kasten = () => akBox('ak-adn-kasten', S.seite ?? location.pathname)
 
   function debugZeile(box) {
     akDebugLeiste(box, [akBerichtSchalter(() => document.dispatchEvent(new CustomEvent('ak-report')))])
+  }
+
+  /** Die Prüfliste steht auf jedem Anbieter im Kasten; ADN führt keine, also leer mit Hinweis (Daniel, 16.10.2026). */
+  function prueflisteZeigen(box) {
+    if (S.pruefliste?.isConnected) return
+    S.pruefliste = document.createElement('button')
+    S.pruefliste.type = 'button'
+    S.pruefliste.disabled = true
+    S.pruefliste.className = 'ak-uebersicht ak-uebersicht-innen'
+    S.pruefliste.textContent = 'Prüfliste: leer, ADN meldet je Video'
+    box.querySelector('.ak-such-fuss-mitte')?.appendChild(S.pruefliste)
   }
 
   function zeige(text, { klasse = null, klick = null } = {}) {
@@ -43,6 +55,7 @@
       box.querySelector('.ak-z-melden')?.appendChild(S.knopf)
     }
     debugZeile(box)
+    prueflisteZeigen(box)
     S.knopf.textContent = text
     S.knopf.className = 'ak-melder' + (klasse === 'gut' ? ' ak-erfolg' : klasse === 'schlecht' ? ' ak-fehler' : '')
     S.knopf.disabled = !klick

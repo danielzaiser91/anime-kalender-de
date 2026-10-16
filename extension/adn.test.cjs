@@ -181,7 +181,7 @@ async function kastenLauf(fall, apiStatus = 200, gemeldet = [], postAntwort = al
   k.globalThis = k
   for (const datei of ['disney-netz.js', 'adn-leser.js', 'adn-senden.js', 'adn.js']) vm.runInContext(lies(datei), k, { filename: datei })
   await new Promise((fertig) => setTimeout(fertig, 50))
-  return { gesendet, knopf: knoepfe[0], k }
+  return { gesendet, knopf: knoepfe[0], alle: knoepfe, k }
 }
 
 async function kastenFaelle() {
@@ -191,6 +191,11 @@ async function kastenFaelle() {
   const syn = await lauf('film-synchro')
   pruefe('Film mit Synchro: Knopf nennt „1 melden (1× deutsch)"', /1 melden \(1× deutsch\)/.test(syn.knopf.textContent), syn.knopf.textContent)
   pruefe('... und bis zum Klick geht nichts an den Worker', syn.gesendet.length === 0)
+  const liste = (l) => l.alle.find((e) => /ak-uebersicht/.test(e.className ?? ''))
+  pruefe('Prüfliste steht im Kasten, leer mit Hinweis (Daniel, 16.10.2026)', /^Prüfliste: leer/.test(liste(syn)?.textContent), liste(syn)?.textContent)
+  const weg0 = await lauf('film-ohne-video', 404)
+  pruefe('... auch auf einer Seite ohne Video', /^Prüfliste: leer/.test(liste(weg0)?.textContent), liste(weg0)?.textContent)
+  pruefe('Gegenprobe: der Melde-Knopf ist nicht die Prüfliste', !/Prüfliste/.test(syn.knopf.textContent))
   await syn.knopf.onclick()
   pruefe('Klick: ein Stapel mit der Meldung', syn.gesendet.length === 1 && syn.gesendet[0].stapel.length === 1 && syn.gesendet[0].stapel[0].plattform === 'adn')
   pruefe('... danach „gemeldet" ohne Klick-Aktion', /✓ 1 gemeldet/.test(syn.knopf.textContent) && !syn.knopf.onclick, syn.knopf.textContent)
