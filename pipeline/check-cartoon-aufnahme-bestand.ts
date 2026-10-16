@@ -1,6 +1,6 @@
 /**
  * Bestandsteil von `check-cartoon-aufnahme.ts`: Jeder Cartoon in `public/data/cartoons.json` hat in `data/cartoons.json` einen Aufnahmebeleg
- * (`lib/cartoon-aufnahme.ts`). Fängt einen Bau, der den Filter in `schreibeCartoons` verloren hat. Liest `public/data`, also `check:bestand`.
+ * (`lib/cartoon-aufnahme.ts`). Zweites Netz hinter `check-cartoon-aufnahme-bau.ts`. Liest `public/data`, also `check:bestand`.
  */
 import { readJson } from './lib/util.ts'
 import { hatAufnahmeBeleg } from './lib/cartoon-aufnahme.ts'

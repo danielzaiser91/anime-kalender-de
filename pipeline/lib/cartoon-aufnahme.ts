@@ -11,6 +11,9 @@ import type { CartoonEintrag } from './cartoons.ts'
 /** Netzwerke, die ein Webkanal sind: jeder darf dort senden, das Netzwerk belegt keine Serie. */
 const WEBKANAELE = ['youtube', 'twitch', 'tiktok', 'vimeo', 'dailymotion']
 
+/** Studio-Einträge, die nur „keine Firma“ heißen (TMDB-Eintrag „Independent“ bei HaneKage). */
+const KEIN_STUDIO = ['independent']
+
 export function istWebkanal(netzwerk: string | undefined): boolean {
   const n = (netzwerk ?? '').toLowerCase()
   return WEBKANAELE.some((k) => n.startsWith(k))
@@ -19,5 +22,5 @@ export function istWebkanal(netzwerk: string | undefined): boolean {
 export function hatAufnahmeBeleg(e: Pick<CartoonEintrag, 'anbieterDe' | 'netzwerk' | 'studios'>): boolean {
   if (e.anbieterDe.length) return true
   if (istWebkanal(e.netzwerk)) return false
-  return Boolean(e.netzwerk) || Boolean(e.studios?.length)
+  return Boolean(e.netzwerk) || (e.studios ?? []).some((s) => !KEIN_STUDIO.includes(s.toLowerCase()))
 }
