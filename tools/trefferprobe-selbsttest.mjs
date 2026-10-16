@@ -5,6 +5,7 @@
  */
 import { chromium } from 'playwright'
 import { trefferprobe } from './trefferprobe-browser.mjs'
+import { AUSNAHMEN } from './trefferprobe-ausnahmen.mjs'
 
 const CSS = '<style>body{margin:0}.deck{position:absolute;left:0;top:0;width:100%;height:200px;background:#ccc}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.zeile{position:relative;height:60px}</style>'
 const ALLE_ARTEN = '<a href="#x">a</a><button>b</button><div role="button" tabindex="0">r</div><input type="checkbox"><details><summary>s</summary></details>'
@@ -21,6 +22,7 @@ const FAELLE = [
   { name: 'unsichtbarer Schalter trägt Etikett (frei)', html: '<label>Schalter<input class="sr" type="checkbox"></label>', geprueft: 1, befunde: 0 },
   { name: 'unsichtbarer Schalter, Etikett verdeckt', html: '<div class="zeile"><label>Schalter<input class="sr" type="checkbox"></label><div class="deck"></div></div>', geprueft: 1, befunde: 1 },
   { name: 'benannte Ausnahme', html: '<div class="zeile"><button class="frei">e</button><div class="deck"></div></div>', ausnahmen: [{ waehler: 'button.frei', grund: 'Test' }], geprueft: 0, befunde: 0 },
+{ name: 'echte Ausnahme: unsichtbarer Karten-Knopf bleibt frei', html: '<div class="zeile"><button class="ak-oeffnen sr-only">k</button><div class="deck"></div></div>', ausnahmen: AUSNAHMEN, geprueft: 0, befunde: 0 },  { name: 'echte Ausnahme gilt nicht für andere Knöpfe', html: '<div class="zeile"><button>a</button><button class="ak-oeffnen">b</button><button class="sr-only">c</button><div class="deck"></div></div>', ausnahmen: AUSNAHMEN, geprueft: 3, befunde: 3 },
   { name: 'weit unten (Scrollen) und höher als das Fenster', html: '<div style="height:3000px"></div><button>unten</button><button style="height:2000px;display:block">hoch</button>', geprueft: 2, befunde: 0 },
   { name: 'nur unter der Wurzel', html: '<div id="w"><button>drin</button></div><div class="zeile"><button>draussen</button><div class="deck"></div></div>', wurzel: '#w', geprueft: 1, befunde: 0 },
   { name: 'Größe null zählt nicht', html: '<a href="#x"></a><button>ok</button>', geprueft: 1, befunde: 0 },

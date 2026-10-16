@@ -30,6 +30,7 @@ const ohneLogik = (d) => { d.jobs.logik.steps = d.jobs.logik.steps.filter((s) =>
 fall('Prüfung fehlt', ohneLogik, /"check:logic" läuft 0-mal/)
 fall('Prüfung doppelt', (d) => { d.jobs.typen.steps.push({ run: 'npm run check:logic' }) }, /"check:logic" läuft 2-mal/)
 fall('Sammeljob verliert needs', (d) => { sammler(d).needs = sammler(d).needs.slice(1) }, /fehlt in needs/)
+fall('Sammeljob ohne die Aussehen-Jobs', (d) => { sammler(d).needs = sammler(d).needs.filter((id) => id !== 'aussehen') }, /"aussehen" fehlt in needs/)
 fall('Sammeljob ohne always()', (d) => { sammler(d).if = "${{ !startsWith(github.head_ref, 'daten/') }}" }, /always\(\)/)
 fall('Sammeljob prüft nichts', (d) => { sammler(d).steps = [{ run: 'echo ok' }] }, /nicht auf success/)
 fall('Sammeljob umbenannt', (d) => { sammler(d).name = 'Kette' }, /Kein Job mit dem Namen/)
