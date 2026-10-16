@@ -11,6 +11,7 @@
  *
  * Eine zweite, unabhängige Quelle hebt das auf: das Feld `zweiteQuelle` (dasselbe wie beim Nein).
  */
+import { amazonTitelAdresse } from './amazon-adresse.ts'
 import { adressKern, type DubCheck } from './dub-confirmed.ts'
 
 /** Trägt der Beleg die Kanal-Warnung der Erweiterung? */
@@ -57,14 +58,41 @@ export function belegOhneGenaueAdresse(liste: DubCheck[], anzahlWege: number, al
   return anzahlWege > 1 ? undefined : liste[0]
 }
 
+/** Die Amazon-Seite, die ein Beleg beschreibt: die gelesene („Amazon-Seite <ASIN>“ in der Notiz), sonst seine Adresse. */
+export function belegSeitenKern(c: Pick<DubCheck, 'note' | 'url'>): string {
+  const asin = /Amazon-Seite ([A-Za-z0-9]+)/.exec(c.note ?? '')?.[1]
+  if (asin) return adressKern(`https://www.amazon.de/dp/${asin}`)
+  return adressKern(c.url)
+}
+
+/** Die Schlüssel (Titel und gelesene Seite), deren Deutsch nur Amazons Angabe auf einem Kanal-Titel ist. */
+export function kanalSeitenOhneBeleg(checks: DubCheck[]): Set<string> {
+  return new Set(checks.filter((c) => c.kanalOhneBeleg && c.dub !== true && c.url).map((c) => `${c.anilistId}|${belegSeitenKern(c)}`))
+}
+
+const kanalSeitenMengen = new WeakMap<DubCheck[], Set<string>>()
+
+function kanalSeitenMenge(checks: DubCheck[]): Set<string> {
+  if (!kanalSeitenMengen.has(checks)) kanalSeitenMengen.set(checks, kanalSeitenOhneBeleg(checks))
+  return kanalSeitenMengen.get(checks)!
+}
+
+/** Ist diese Rohfolgen-Gruppe eine Kanal-Seite? Je gelesener Seite; nur ohne gelesene Seite zählt die Prüflisten-Adresse, eine Suchadresse dann nie. */
+function istKanalGruppe(titelId: number, gruppe: { seite?: string | null; url: string }, alleChecks: DubCheck[]): boolean {
+  if (gruppe.seite) return kanalSeitenMenge(alleChecks).has(`${titelId}|${adressKern(amazonTitelAdresse(gruppe.seite))}`)
+  if (/amazon\.[a-z.]+\/s\?/i.test(gruppe.url)) return false
+  return kanalMenge(alleChecks).has(kanalSchluessel(titelId, gruppe.url))
+}
+
 /**
  * Belegt eine gemeldete Folgenliste (`prime-zugeordnet.json`) Deutsch? `undefined`: keine Folge nennt Deutsch. `false`: Deutsch steht da, aber auf
- * einer Kanal-Seite (`seite`, sonst null) — Amazon führt dort je Folge die Sprachen des Kanals, die Rohmeldung ist dieselbe Angabe wie der Handbeleg.
+ * einer Kanal-Seite (`gruppe`, null bei anderen Anbietern) — Amazon führt dort je Folge die Sprachen des Kanals, die Rohmeldung ist dieselbe
+ * Angabe wie der Handbeleg. Unter einer Kanal-Adresse liegen auch Seiten ohne Kanal, deshalb zählt die gelesene Seite, nicht die Prüflisten-Adresse.
  * Der Verweis selbst bleibt (Adresse, Kanal), nur das Häkchen entfällt.
  */
-export function rohDeutsch(folgen: { sprachen: string[] }[], titelId: number, seite: string | null, alleChecks: DubCheck[]): boolean | undefined {
+export function rohDeutsch(folgen: { sprachen: string[] }[], titelId: number, gruppe: { seite?: string | null; url: string } | null, alleChecks: DubCheck[]): boolean | undefined {
   if (!folgen.some((f) => f.sprachen.includes('Deutsch'))) return undefined
-  return !(seite && kanalMenge(alleChecks).has(kanalSchluessel(titelId, seite)))
+  return !(gruppe && istKanalGruppe(titelId, gruppe, alleChecks))
 }
 
 /**
