@@ -383,11 +383,7 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void, (next:
   const setRoute = useCallback((neu: AppRoute) => setzeRoute((alt) => mitStabilenFiltern(alt, neu)), [])
 
   useEffect(() => {
-    const onChange = () => {
-      const neu = mitPfad(parseHash(window.location.hash), window.location.pathname)
-      hashAufraeumen(neu, browser())
-      setRoute(neu)
-    }
+    const onChange = () => liesAdresse(browser(), setRoute)
     onChange()
     panelUnterlegen(mitPfad(parseHash(window.location.hash), window.location.pathname))
     /*
@@ -410,6 +406,13 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void, (next:
 
   const { navigate, ersetze } = schreiber(route, setRoute, browser)
   return [route, navigate, ersetze]
+}
+
+/** Die Route aus der Adressleiste lesen, die Adresse dabei aufräumen und die Route setzen. */
+export function liesAdresse(umg: Umgebung, setRoute: (r: AppRoute) => void): void {
+  const neu = mitPfad(parseHash(umg.ort.hash), umg.ort.pathname)
+  hashAufraeumen(neu, umg)
+  setRoute(neu)
 }
 
 /** Die beiden Schreibwege einer Route: `navigate` legt einen Schritt an, `ersetze` legt Schalter um (kein Verlaufseintrag, kein `hashchange`). */
