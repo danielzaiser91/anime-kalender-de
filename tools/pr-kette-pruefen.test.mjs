@@ -10,15 +10,18 @@ import { pruefeKette } from './pr-kette-pruefen.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 const lesen = () => parse(readFileSync(resolve(WURZEL, '.github/workflows/pr-pruefung.yml'), 'utf8'))
+const aktionLesen = () => parse(readFileSync(resolve(WURZEL, '.github/actions/kette-einrichten/action.yml'), 'utf8'))
 const { scripts } = JSON.parse(readFileSync(resolve(WURZEL, 'package.json'), 'utf8'))
 
-assert.deepEqual(pruefeKette(lesen(), scripts), [], 'echte Kette muss grün sein')
+assert.deepEqual(pruefeKette(lesen(), scripts, aktionLesen()), [], 'echte Kette muss grün sein')
 
 /** Verfälschte Kopie der echten Kette; `aendere` bekommt das Dokument. */
-function fall(beschreibung, aendere, muster) {
+function fall(beschreibung, aendere, muster, aendereAktion = () => {}) {
   const doc = lesen()
+  const aktion = aktionLesen()
   aendere(doc)
-  const fehler = pruefeKette(doc, scripts).join('\n')
+  aendereAktion(aktion)
+  const fehler = pruefeKette(doc, scripts, aktion).join('\n')
   assert.match(fehler, muster, `${beschreibung}: muss rot sein, war: ${fehler || 'grün'}`)
 }
 
@@ -58,7 +61,6 @@ fall('run-Block mit true danach', (d) => setzeRun(d, 'npm run check:logic\ntrue\
 fall('set +e davor', (d) => setzeRun(d, 'set +e\nnpm run check:logic\n'), ABGEFANGEN)
 fall('& am Ende', (d) => setzeRun(d, 'npm run check:logic &'), ABGEFANGEN)
 fall('--dry-run', (d) => setzeRun(d, 'npm run check:logic --dry-run'), ABGEFANGEN)
-fall('env npm_config_dry_run', (d) => setzeSchritt(d, 'env', { npm_config_dry_run: true }), /env am Schritt/)
 fall('working-directory am Schritt', (d) => setzeSchritt(d, 'working-directory', 'web'), /Schlüssel "working-directory"/)
 fall('shell am Schritt', (d) => setzeSchritt(d, 'shell', 'bash {0}'), /Schlüssel "shell"/)
 fall('defaults.run.shell im Workflow', (d) => { d.defaults = { run: { shell: 'bash {0}' } } }, /Workflow: Schlüssel "defaults"/)
@@ -71,4 +73,31 @@ fall('Sammeljob jq mit Kommentar', (d) => { sammler(d).steps[0].run = 'echo "$NE
 fall('Sammeljob weiterer Schritt', (d) => { sammler(d).steps.push({ run: 'true' }) }, /genau ein Schritt/)
 fall('fremde Action', (d) => { d.jobs.logik.steps.push({ uses: 'evil/action@v1' }) }, /uses "evil\/action@v1" nicht erlaubt/)
 fall('Sammeljob env verändert', (d) => { sammler(d).steps[0].env = { NEEDS: '[]' } }, /env ist nicht exakt/)
+
+// Prüfer Runde 4 (16.10.2026): Rahmen, `with` je Action und Composite-Action. Der Fall npm_config_dry_run entfällt: die Skripte laufen trotzdem (gemessen).
+fall('Checkout mit ref: main', (d) => { d.jobs.logik.steps[0].with = { ref: 'main' } }, /Checkout mit with/)
+fall('Checkout mit repository', (d) => { d.jobs.logik.steps[0].with = { repository: 'x/y' } }, /Checkout mit with/)
+fall('zweiter Checkout mit ref: main', (d) => { d.jobs.logik.steps.splice(2, 0, { uses: 'actions/checkout@v4', with: { ref: 'main' } }) }, /genau ein Checkout/)
+fall('kette-einrichten mit fremdem with', (d) => { d.jobs.logik.steps[1].with = { playwright: 'true', x: 1 } }, /erlaubt nur with playwright/)
+fall('with an run-Schritt', (d) => { d.jobs.typen.steps.at(-1).with = { ref: 'main' } }, /with an einem run-Schritt/)
+fall('Checkout nicht mehr erster Schritt', (d) => { d.jobs.logik.steps.reverse() }, /erster Schritt ist nicht/)
+fall('permissions erweitert', (d) => { d.permissions = { contents: 'write' } }, /permissions/)
+fall('permissions mit zusätzlichem Recht', (d) => { d.permissions = { contents: 'read', 'pull-requests': 'write' } }, /permissions/)
+fall('pull_request_target', (d) => { d.on = { pull_request_target: { branches: ['main'] } } }, /Workflow: on/)
+fall('types eingeschränkt', (d) => { d.on.pull_request.types = ['opened'] }, /Workflow: on/)
+fall('timeout über Obergrenze', (d) => { d.jobs.logik['timeout-minutes'] = 360 }, /timeout-minutes über/)
+fall('runs-on selbst gehostet', (d) => { d.jobs.logik['runs-on'] = 'self-hosted' }, /runs-on ist nicht/)
+fall('runs-on des Sammeljobs', (d) => { sammler(d)['runs-on'] = 'self-hosted' }, /runs-on ist nicht/)
+const aktSchritte = (a, fn) => fn(a.runs.steps)
+fall('Action: git checkout origin/main', () => {}, /Aktion kette-einrichten: Schritt 3/, (a) => { a.runs.steps[2].run = 'git checkout origin/main -- . && npm ci' })
+fall('Action: npm pkg set', () => {}, /Schritte, Sollfassung/, (a) => aktSchritte(a, (s) => s.push({ shell: 'bash', run: 'npm pkg set scripts.check:logic=true' })))
+fall('Action: GITHUB_ENV', () => {}, /Aktion kette-einrichten: Schritt 3/, (a) => { a.runs.steps[2].run = 'npm ci\necho "npm_config_dry_run=true" >> $GITHUB_ENV' })
+fall('Action: Schritt entfernt', () => {}, /Schritte, Sollfassung/, (a) => { a.runs.steps.splice(2, 1) })
+fall('Action: Cache-Schlüssel verändert', () => {}, /Schritt 2/, (a) => { a.runs.steps[1].with.key = 'x' })
+fall('Action: fremde Action', () => {}, /Schritt 1/, (a) => { a.runs.steps[0].uses = 'evil/setup@v1' })
+fall('Action: inputs verändert', () => {}, /inputs weichen/, (a) => { a.inputs.playwright.default = 'true' })
+fall('kette-einrichten fehlt im Teiljob', (d) => { d.jobs.typen.steps.splice(1, 1) }, /zweiter Schritt ist nicht/)
+fall('Action: using docker', () => {}, /runs.using ist nicht composite/, (a) => { a.runs.using = 'docker' })
+fall('Action: runs.post', () => {}, /runs.post nicht erlaubt/, (a) => { a.runs.post = 'x.js' })
+assert.match(pruefeKette(lesen(), scripts, undefined).join('\n'), /Aktion kette-einrichten: nicht gelesen/, 'ohne Aktion muss rot sein')
 console.log('pr-kette-pruefen.test: grün')

@@ -6,6 +6,7 @@
  *    nur so zählt eine Prüfung. Jede `npm run X` aus `check:vor-commit` steht in genau einem Teiljob (`check:vor-commit` selbst zählt alle);
  *  - Teiljob-Schlüssel nur name/if/runs-on/timeout-minutes/steps (kein strategy, defaults, env, continue-on-error), `if` textgleich der Standardbedingung,
  *    Schritt-Schlüssel nur name/uses/with/run/env (kein if, shell, working-directory), `uses` nur checkout und kette-einrichten, Workflow ohne env/defaults;
+ *    Rahmen (Trigger, Rechte, Runner, Frist, `with` je Action, Schritte der Action `kette-einrichten`) siehe tools/pr-kette-rahmen.mjs;
  *  - der Sammeljob (Name `PR-Prüfkette`) führt jeden anderen Job außer `PR-Aussehen` in `needs`, sein `if` ist textgleich `always() && <if der Teiljobs>`
  *    (sonst überspringt ihn ein roter Teiljob, und übersprungen zählt als bestanden), er hat genau einen Schritt, dessen Zeilen und env textgleich der Sollfassung sind.
  * Aufruf: node tools/pr-kette-pruefen.mjs  (Exit 1 bei Verstoß; läuft über tools/pr-kette-pruefen.test.mjs in check:workflows)
@@ -14,6 +15,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parse } from 'yaml'
+import { pruefeRahmen, pruefeSchrittfolge } from './pr-kette-rahmen.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 const SAMMEL = 'PR-Prüfkette'
@@ -119,12 +121,13 @@ function pruefeAuflagen(doc, jobs, sammlerId) {
     fehler.push(...pruefeJobForm(id, job, JOB_SCHLUESSEL))
     if (job.if !== standard) fehler.push(`Teiljob "${id}": if ist nicht textgleich "${standard}"`)
     for (const s of job.steps ?? []) fehler.push(...pruefeTeiljobSchritt(id, s))
+    fehler.push(...pruefeSchrittfolge(id, job.steps ?? []))
   }
   return fehler
 }
 
 /** Gesamtprüfung: Liste der Verstöße (leer = in Ordnung). */
-export function pruefeKette(doc, scripts) {
+export function pruefeKette(doc, scripts, aktion) {
   const vorCommit = npmNamen(scripts['check:vor-commit'])
   const jobs = doc.jobs ?? {}
   const sammlerId = Object.keys(jobs).find((id) => jobs[id].name === SAMMEL)
@@ -132,7 +135,8 @@ export function pruefeKette(doc, scripts) {
   const teiljobs = Object.entries(jobs)
     .filter(([id, j]) => id !== sammlerId && j.name !== NICHT_VERPFLICHTEND)
     .map(([, j]) => j)
-  const fehler = [...pruefeSammler(jobs, sammlerId), ...pruefeAuflagen(doc, jobs, sammlerId)]
+  const pflichtJobs = Object.entries(jobs).filter(([, j]) => j.name !== NICHT_VERPFLICHTEND)
+  const fehler = [...pruefeSammler(jobs, sammlerId), ...pruefeAuflagen(doc, jobs, sammlerId), ...pruefeRahmen(doc, pflichtJobs, aktion)]
   for (const [name, anzahl] of zaehleVorkommen(teiljobs, vorCommit)) {
     if (anzahl !== 1) fehler.push(`Prüfung "${name}" läuft ${anzahl}-mal in den Teiljobs (verlangt: genau einmal)`)
   }
@@ -142,7 +146,8 @@ export function pruefeKette(doc, scripts) {
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const doc = parse(readFileSync(resolve(WURZEL, '.github/workflows/pr-pruefung.yml'), 'utf8'))
   const { scripts } = JSON.parse(readFileSync(resolve(WURZEL, 'package.json'), 'utf8'))
-  const fehler = pruefeKette(doc, scripts)
+  const aktion = parse(readFileSync(resolve(WURZEL, '.github/actions/kette-einrichten/action.yml'), 'utf8'))
+  const fehler = pruefeKette(doc, scripts, aktion)
   for (const f of fehler) console.error(`✗ ${f}`)
   if (fehler.length > 0) process.exit(1)
   console.log(`pr-kette-pruefen: ${npmNamen(scripts['check:vor-commit']).length} Prüfungen, jede in genau einem Teiljob; Sammeljob vollständig.`)
