@@ -108,10 +108,12 @@ console.log('\nEine Meldung schreibt sich nicht um: dasselbe Wort vor und nach d
 
 console.log('\nEin geschätzter Plan bleibt „erwartet“, auch mit Vermerk')
 {
-  const plan = { slug: 'x', titleId: 1, name: 'X', platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-07-26', estimated: true, episodeCount: 13, verpasst: { 9: { erwartetAm: '2026-09-20T08:30:00.000Z', neuErwartet: '2026-09-27T08:30:00.000Z' } } } } as unknown as Release
+  const vermerk = { slug: 'x', episode: 9, erwartetAm: '2026-09-20T08:30:00.000Z', neuErwartet: '2026-09-27T08:30:00.000Z', tagGeschaetzt: true }
+  const plan = { slug: 'x', titleId: 1, name: 'X', platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-07-26', estimated: true, episodeCount: 13, verpasst: verpasstAmTermin('x', [vermerk] as never) } } as unknown as Release
   const ausgefallen = expandEvents(plan).find((e) => e.verpasst)!
-  pruefe('Vermerk mit neuErwartet im geschätzten Plan: der Termin bleibt geschätzt', ausgefallen.estimated === true, ausgefallen.estimated)
-  pruefe('… und das Detailfenster sagt „erwartet“', ausgebliebenTerminText(ausgefallen, (k: string) => k) === 'antwort.erwartetFuer')
+  pruefe('Vermerk mit neuErwartet im geschätzten Plan: das Detailfenster sagt „erwartet“', ausgebliebenTerminText(ausgefallen, (k: string) => k) === 'antwort.erwartetFuer')
+  pruefe('… die Meldung auch', newsSatz(verspaetungsMeldungen(plan).find((m) => m.art === 'verspaetet')!).includes(' erwartet '))
+  pruefe('… und die Mail', /erwartet für /.test(digestMail([ausgefallen], 'daily', 'https://anime-kalender.de/', 'https://x/u', { news: [] }).html))
   const vorhanden = [{ date: '2026-09-20', episode: 9, estimated: true }] as unknown as ReleaseEvent[]
   verpasstAnVorhandenes(vorhanden, '2026-09-20', 9, { erwartetAm: '2026-09-20T08:30:00.000Z' })
   pruefe('Vermerk an vorhandener Folge: estimated bleibt stehen', vorhanden[0]!.estimated === true && Boolean(vorhanden[0]!.verpasst), vorhanden[0])

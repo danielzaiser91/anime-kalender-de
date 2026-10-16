@@ -545,7 +545,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
       date: alterTag,
       episode,
       episodeCount: last,
-      estimated: s.estimated,
+      estimated: undefined,
       verpasst: v,
     })
   }
