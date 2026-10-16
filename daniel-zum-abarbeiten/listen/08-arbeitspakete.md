@@ -37,7 +37,7 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 |---|---|---|---|
 | 1 | Disney+ | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
 | 2 | Prime Video | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! Zexal II](https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832) |
-| 3 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Hauptserie]() · [Mugen Train Arc]() · [Entertainment District Arc]() · [Swordsmith Village Arc]() · [Hashira Training Arc]() |
+| 3 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Hauptserie]() · [Mugen Train Arc]() · [Entertainment District Arc]() · [Swordsmith Village Arc](https://www.amazon.de/gp/video/detail/B0FD7YTKWK) · [Hashira Training Arc](https://www.amazon.de/gp/video/detail/B0CYGQ9WSF) |
 | 4 | Netflix | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
 | 5 | Netflix | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
 | 6 | Prime Video | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
@@ -45,10 +45,10 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 8 | Prime Video | Trigun | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d) |
 | 9 | Disney+ | Spy × Family | [Teil 2]() · [Staffel 2]() |
 | 10 | Disney+ | Gachiakuta | [Hauptserie]() |
-| 11 | Prime Video | Samurai Girls | [Hauptserie]() · [2: Samurai Bride]() |
+| 11 | Prime Video | Samurai Girls | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DP5DZW86) · [2: Samurai Bride](https://www.amazon.de/gp/video/detail/B0DND4SB6V) |
 | 12 | Prime Video | Urusei Yatsura | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9) |
 | 13 | Prime Video | The Detective Is Already Dead | [Staffel 2]() |
-| 14 | Prime Video | Danganronpa | [Hauptserie]() |
+| 14 | Prime Video | Danganronpa | [Hauptserie](https://www.amazon.de/gp/video/detail/B0CHK728W1) |
 | 15 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
 | 16 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
 | 17 | Disney+ | A Sign of Affection | [Hauptserie]() |

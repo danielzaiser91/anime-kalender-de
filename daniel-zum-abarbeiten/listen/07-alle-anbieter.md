@@ -42,7 +42,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
-| 2 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Hauptserie]() · [Mugen Train Arc]() · [Entertainment District Arc]() · [Swordsmith Village Arc]() · [Hashira Training Arc]() |
+| 2 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Hauptserie]() · [Mugen Train Arc]() · [Entertainment District Arc]() · [Swordsmith Village Arc](https://www.amazon.de/gp/video/detail/B0FD7YTKWK) · [Hashira Training Arc](https://www.amazon.de/gp/video/detail/B0CYGQ9WSF) |
 | 3 | 2026-10-09 | Gachiakuta | [Hauptserie]() |
 | 4 | 2026-10-07 | The Detective Is Already Dead | [Staffel 2]() |
 | 5 | 2026-10-06 | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
@@ -54,8 +54,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 11 | 2026-09-26 | A Wild Last Boss Appeared! | [Staffel 2]() |
 | 12 | 2026-09-20 | A Sign of Affection | [Hauptserie]() |
 | 13 | 2026-09-17 | Campfire Cooking in Another World with My Absurd Skill | [Hauptserie](https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855) |
-| 14 | 2026-09-17 | Danganronpa | [Hauptserie]() |
-| 15 | 2026-09-17 | Samurai Girls | [Hauptserie]() · [2: Samurai Bride]() |
+| 14 | 2026-09-17 | Danganronpa | [Hauptserie](https://www.amazon.de/gp/video/detail/B0CHK728W1) |
+| 15 | 2026-09-17 | Samurai Girls | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DP5DZW86) · [2: Samurai Bride](https://www.amazon.de/gp/video/detail/B0DND4SB6V) |
 | 16 | 2026-09-13 | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
 | 17 | 2026-09-09 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! Zexal II](https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832) |
 | 18 | 2026-09-06 | Classroom of the Elite | [Hauptserie](https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3) |
