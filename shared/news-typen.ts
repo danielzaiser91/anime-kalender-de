@@ -148,7 +148,9 @@ export function ankuendigungsWort(angekuendigt?: boolean): 'angekündigt' | 'erw
 
 /** Ob der Tag eines ausgebliebenen Termins genannt wurde: Foto der Ankündigung oder im Plan nicht geschätzt. Detailfenster, Mail und Meldungen fragen hier. */
 export function tagIstAngekuendigt(vermerk: object | undefined, estimated?: boolean): boolean {
-  return Boolean((vermerk as { wocheBeleg?: unknown } | undefined)?.wocheBeleg) || !estimated
+  const v = vermerk as { wocheBeleg?: unknown; tagGeschaetzt?: boolean } | undefined
+  /* Der beim Vermerken festgehaltene Stand gilt für immer; der Plan ändert sich, sobald die Folge da ist (Meldungen schreiben sich nicht um). */
+  return Boolean(v?.wocheBeleg) || !(v?.tagGeschaetzt ?? estimated)
 }
 
 /** Rückzugsgrund, wenn die Ankündigung aus einer Meldung mit nur Originalton kam — ihr eigener Beleg widerlegt sie (10.10.2026). */

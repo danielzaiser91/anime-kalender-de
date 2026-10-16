@@ -24,6 +24,7 @@ type Verpasst = {
   erschienenAm?: string | null
   verzugStunden?: number | null
   folgenVerfuegbar?: number | null
+  tagGeschaetzt?: boolean
   neuErwartet?: string | null
   recherche?: string | null
   rechercheQuelle?: string | null
@@ -55,6 +56,7 @@ export function verpasstAmTermin(slug: string, verpasst: Verpasst[], ab?: string
         ...(v.erschienenAm ? { erschienenAm: v.erschienenAm } : {}),
         ...(v.verzugStunden != null ? { verzugStunden: v.verzugStunden } : {}),
         ...(v.folgenVerfuegbar != null ? { folgenVerfuegbar: v.folgenVerfuegbar } : {}),
+        ...(v.tagGeschaetzt != null ? { tagGeschaetzt: v.tagGeschaetzt } : {}),
         ...(v.neuErwartet ? { neuErwartet: v.neuErwartet } : {}),
         ...(v.recherche ? { recherche: v.recherche } : {}),
         ...(v.recherche && v.rechercheQuelle ? { rechercheQuelle: v.rechercheQuelle } : {}),

@@ -5,8 +5,10 @@ export interface AusgebliebenesEreignis {
   titleId: number
   name: string
   platform: string
+  estimated?: boolean
 }
 
+/** `tagGeschaetzt` hält den Stand des Plans zum Vermerken fest: Das Wort „angekündigt“/„erwartet“ darf sich später nicht ändern. */
 export function neuerVermerk(e: AusgebliebenesEreignis, folge: number | null, erwartetAm: string, bemerktAm: string, folgenVerfuegbar: number | null) {
   return {
     id: e.id,
@@ -20,6 +22,7 @@ export function neuerVermerk(e: AusgebliebenesEreignis, folge: number | null, er
     erschienenAm: null,
     verzugStunden: null,
     folgenVerfuegbar,
+    tagGeschaetzt: Boolean(e.estimated),
     neuErwartet: null,
     recherche: null,
   }

@@ -8,6 +8,9 @@ import { newsSatz } from '../web/src/lib/news-text.ts'
 import { digestMail } from '../worker/src/templates.ts'
 import { verpasstAmTermin } from './bau/verpasst-am-termin.ts'
 import { verspaetungsMeldungen } from './lib/news-verspaetung.ts'
+import { expandEvents } from '../shared/logic.ts'
+import { verpasstAnVorhandenes } from '../shared/luecken.ts'
+import { ohneGemeldeteAusfaelle } from '../worker/src/mail-abschnitte.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -81,6 +84,45 @@ console.log('\nEin Kriterium für Meldung, Detailfenster und Mail')
   pruefe('eine Meldung derselben Tageszahl zu einer anderen Serie nimmt den Block nicht weg', fremd.html.includes('Verschoben oder ausgeblieben'))
   const nach = mail(ev(true), [eintrag({ art: 'nachgereicht', platform: 'crunchyroll', datum: '2026-10-02', von: 12, bis: 12, erwartet: ['2026-09-30'], release: 'x' })])
   pruefe('eine Nachreich-Meldung zu diesem Tag nimmt den Block ebenfalls weg', !nach.html.includes('Verschoben oder ausgeblieben'))
+}
+
+console.log('\nEine Meldung schreibt sich nicht um: dasselbe Wort vor und nach dem Schließen')
+{
+  /* Plan nicht geschätzt, kein Foto: nur der beim Vermerken festgehaltene Stand `tagGeschaetzt` trägt das Wort. */
+  const ausfall = (tagGeschaetzt: boolean, geschlossen: boolean) => {
+    const v = { slug: 'x', episode: 12, erwartetAm: '2026-10-14T17:25:00.000Z', tagGeschaetzt, ...(geschlossen ? { erschienenAm: '2026-10-20T17:25:00.000Z' } : {}) }
+    const observed = geschlossen ? { observed: { 12: '2026-10-20' } } : {}
+    const r = { slug: 'x', titleId: 1, name: 'X', platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-07-29', episodeCount: 13, ...observed, verpasst: verpasstAmTermin('x', [v] as never) } } as unknown as Release
+    return verspaetungsMeldungen(r)
+  }
+  for (const geschaetzt of [false, true]) {
+    const wort = geschaetzt ? 'erwartet' : 'angekündigt'
+    const offen = ausfall(geschaetzt, false)[0]!
+    const zu = ausfall(geschaetzt, true)
+    pruefe(`tagGeschaetzt=${geschaetzt}: gleicher schluessel offen und geschlossen`, offen.schluessel === zu[0]!.schluessel, [offen.schluessel, zu[0]!.schluessel])
+    pruefe(`tagGeschaetzt=${geschaetzt}: offen sagt „${wort}“`, newsSatz(offen).includes(` ${wort} `), newsSatz(offen))
+    pruefe(`tagGeschaetzt=${geschaetzt}: geschlossen, Verspätungsmeldung sagt dasselbe`, newsSatz(zu[0]!).includes(` ${wort} `), newsSatz(zu[0]!))
+    pruefe(`tagGeschaetzt=${geschaetzt}: geschlossen, Nachreich-Meldung sagt dasselbe`, newsSatz(zu.find((m) => m.art === 'nachgereicht')!).includes(`${wort} war`), newsSatz(zu.find((m) => m.art === 'nachgereicht')!))
+  }
+}
+
+console.log('\nEin geschätzter Plan bleibt „erwartet“, auch mit Vermerk')
+{
+  const plan = { slug: 'x', titleId: 1, name: 'X', platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-07-26', estimated: true, episodeCount: 13, verpasst: { 9: { erwartetAm: '2026-09-20T08:30:00.000Z', neuErwartet: '2026-09-27T08:30:00.000Z' } } } } as unknown as Release
+  const ausgefallen = expandEvents(plan).find((e) => e.verpasst)!
+  pruefe('Vermerk mit neuErwartet im geschätzten Plan: der Termin bleibt geschätzt', ausgefallen.estimated === true, ausgefallen.estimated)
+  pruefe('… und das Detailfenster sagt „erwartet“', ausgebliebenTerminText(ausgefallen, (k: string) => k) === 'antwort.erwartetFuer')
+  const vorhanden = [{ date: '2026-09-20', episode: 9, estimated: true }] as unknown as ReleaseEvent[]
+  verpasstAnVorhandenes(vorhanden, '2026-09-20', 9, { erwartetAm: '2026-09-20T08:30:00.000Z' })
+  pruefe('Vermerk an vorhandener Folge: estimated bleibt stehen', vorhanden[0]!.estimated === true && Boolean(vorhanden[0]!.verpasst), vorhanden[0])
+}
+
+console.log('\nDoppel-Erkennung rechnet in Berlin, nicht in UTC')
+{
+  /* 22:30 UTC am 30.09. ist 00:30 Berlin am 01.10.: die Meldung trägt den 01.10. */
+  const ev = { releaseSlug: 'x', titleId: 1, name: 'X', date: '2026-10-01', platform: 'crunchyroll', releaseType: 'weekly', episode: 3, verpasst: { erwartetAm: '2026-09-30T22:30:00.000Z' } } as unknown as ReleaseEvent
+  const eintrag = { am: '2026-10-02', titelId: 1, titel: 'X', slug: 'x', meldungen: [{ art: 'verspaetet', platform: 'crunchyroll', datum: '2026-10-01', von: 3, release: 'x' }] } as unknown as NewsEintrag
+  pruefe('Ausfall nach 22 Uhr UTC wird von der Meldung des Berliner Tages erkannt', ohneGemeldeteAusfaelle([ev], [eintrag]).length === 0)
 }
 
 if (verletzt) {

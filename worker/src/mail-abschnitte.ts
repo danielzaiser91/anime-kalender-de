@@ -10,6 +10,7 @@
  */
 import { SPRACHE_HINWEIS, SPRACHE_MARKE } from '../../shared/ics.ts'
 import { ankuendigungsWort, tagIstAngekuendigt } from '../../shared/news-typen.ts'
+import { toIsoDate } from '../../shared/time.ts'
 import { omuStartText } from '../../shared/ankuendigung.ts'
 import { folgenProWoche } from '../../shared/folgenrhythmus.ts'
 import { OFFIZIELL_SATZ } from '../../shared/news-offiziell-satz.ts'
@@ -207,7 +208,7 @@ export function ausfallWort(ev: ReleaseEvent): 'angekündigt' | 'erwartet' {
 export function ohneGemeldeteAusfaelle(verschoben: ReleaseEvent[], eintraege: NewsEintrag[]): ReleaseEvent[] {
   const meldungen = eintraege.flatMap((e) => e.meldungen)
   const gemeldet = (ev: ReleaseEvent) => {
-    const tag = (ev.verpasst?.erwartetAm ?? ev.date).slice(0, 10)
+    const tag = ev.verpasst?.erwartetAm ? toIsoDate(new Date(ev.verpasst.erwartetAm)) : ev.date
     return meldungen.some(
       (m) => m.release === ev.releaseSlug && (m.art === 'verspaetet' ? m.datum === tag : m.art === 'nachgereicht' && m.erwartet?.includes(tag)),
     )

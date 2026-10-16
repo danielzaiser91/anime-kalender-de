@@ -105,6 +105,8 @@ export interface VerpassterTermin {
   verzugStunden: number | null
   /** Wie viele Folgen der Anbieter zu diesem Zeitpunkt wirklich zeigte. */
   folgenVerfuegbar: number | null
+  /** War der Tag beim Vermerken errechnet? Hält das Wort „angekündigt“/„erwartet“ stabil, auch wenn die Folge kommt. */
+  tagGeschaetzt?: boolean
   /** Von Hand: der neue erwartete Termin, wenn die Recherche einen ergibt. */
   neuErwartet: string | null
   /** Was die Recherche ergeben hat — ein bis zwei Sätze, die auf der Seite stehen. */
