@@ -58,11 +58,33 @@ export function zaehleTopPrios(text: string): PrioEintrag[] {
   return aus
 }
 
-// Zeilen, die Chip, Titel und Kurztext umbrochen brauchen; Chip, Leerzeichen und Rand zählen mit.
-export function zeilenBedarf(e: PrioEintrag, zeichenJeZeile: number): number {
-  const zeichen = (statusVon(e.status)?.label.length ?? -3) + 3 + e.titel.length + (e.rest ? e.rest.length + 1 : 0)
-  return Math.ceil(zeichen / Math.max(8, zeichenJeZeile))
+// Zeilen eines Textes bei Umbruch am Leerzeichen (wie Ink); ein Wort über der Breite bricht hart.
+export function umbruchZeilen(text: string, breite: number): number {
+  let zeilen = 1
+  let laenge = 0
+  text.split(' ').forEach((wort, i) => {
+    const mit = laenge + (i > 0 ? 1 : 0) + wort.length
+    if (mit <= breite || laenge === 0) laenge = mit
+    else {
+      zeilen++
+      laenge = wort.length
+    }
+    if (laenge > breite) {
+      zeilen += Math.ceil(laenge / breite) - 1
+      laenge -= (Math.ceil(laenge / breite) - 1) * breite
+    }
+  })
+  return zeilen
 }
+
+// Gezeichneter Text des Kopfes (Chip, Titel, Kurztext) so, wie bereiche.tsx ihn setzt.
+export function kopfText(e: PrioEintrag): string {
+  const st = statusVon(e.status)
+  return (st ? ` ${st.label}  ${e.titel}` : e.titel) + (e.rest ? ` ${e.rest}` : '')
+}
+
+// Zeilen, die Chip, Titel und Kurztext umbrochen brauchen.
+export const zeilenBedarf = (e: PrioEintrag, zeichenJeZeile: number): number => umbruchZeilen(kopfText(e), Math.max(8, zeichenJeZeile))
 
 // Passt der Kurztext nicht in MAX_ZEILEN_PRIO Zeilen, steht er nur im Ausklapp-Teil (nie abgeschnitten).
 export const textKlappt = (e: PrioEintrag, zeichenJeZeile: number): boolean => zeilenBedarf(e, zeichenJeZeile) > MAX_ZEILEN_PRIO

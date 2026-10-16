@@ -1,6 +1,6 @@
 import { test, expect } from 'claude-code/testing'
 
-import { STATUS, hatAusklapp, prioZeichenJeZeile, statusVon, textKlappt, zaehleTopPrios, zeichenJeSpalte } from './prios'
+import { STATUS, hatAusklapp, prioZeichenJeZeile, statusVon, textKlappt, umbruchZeilen, zaehleTopPrios, zeichenJeSpalte, zeilenBedarf } from './prios'
 import { STAND_ALTFORMAT } from './stand-altformat'
 
 const T = '# Stand\n\n## Top-Prios\n- **D1** {arbeit-agent} Zuordner nachgebessert — [Plan](https://x.org/a)\n- **Speed** {live} Vorprüfung\n  - Detail eins\n  Detail zwei — [Bericht](file:///C:/x/b.md)\nText\n\n## Anderes\n- **Nein** {live} nicht\n'
@@ -109,4 +109,47 @@ test('Status-Farben: Themenschlüssel je Status (Kontrast in hell und dunkel gep
     'wartet-daniel': 'warning',
     blockiert: 'error',
   })
+})
+
+test('Umbruch am Leerzeichen: Wort über der Breite bricht hart, kurze Wörter füllen die Zeile', () => {
+  expect(umbruchZeilen('aaaa bbbb', 9)).toBe(1)
+  expect(umbruchZeilen('aaaa bbbb', 8)).toBe(2)
+  expect(umbruchZeilen('x'.repeat(25), 10)).toBe(3)
+  expect(umbruchZeilen('ab ' + 'x'.repeat(25), 10)).toBe(4)
+  expect(umbruchZeilen('', 10)).toBe(1)
+})
+
+test('Echte Sätze: passt genau in vier Zeilen -> bleibt sichtbar', () => {
+  const satz = 'Der Zuordner kennt jetzt Cartoons und Handbelege; Prüfung läuft, danach Altzeilen abhaken und den Rest parken'
+  const e = zaehleTopPrios(`## Top-Prios\n- **D1** {arbeit-agent} ${satz}\n`)[0]!
+  expect(zeilenBedarf(e, 31)).toBe(4)
+  expect(textKlappt(e, 31)).toBe(false)
+  expect(zeilenBedarf(e, 30)).toBe(5)
+  expect(textKlappt(e, 30)).toBe(true)
+})
+
+test('Detailzeile, die den Link des Kopfes wiederholt, ergibt genau einen Knopf', () => {
+  const e = zaehleTopPrios('## Top-Prios\n- **A** {live} x — [P](https://x.org/a)\n  - mehr — [P](https://x.org/a)\n')[0]!
+  expect(e.links.map(l => l.href)).toEqual(['https://x.org/a'])
+})
+
+test('Grenzfall: 258 Zeichen ergäben bei 72 je Zeile 4 Zeilen, der Umbruch am Wort braucht 5 -> klappt', () => {
+  const woerter = ['Zuordner-Verbesserungen', 'Prüfkettenparallelisierung', 'Wiedervorlagebeobachtung', 'Altzeilenabhakungen', 'Amazon-Kanalfolgenaussortierung']
+  const teile: string[] = []
+  for (let i = 0; i < 9; i++) teile.push(woerter[i % woerter.length]!, 'und')
+  const e = zaehleTopPrios(`## Top-Prios\n- **D1** ${teile.slice(0, 17).join(' ')}\n`)[0]!
+  expect(`${e.titel} ${e.rest}`.length).toBe(258)
+  expect(Math.ceil(258 / 72)).toBe(4)
+  expect(zeilenBedarf(e, 72)).toBe(5)
+  expect(textKlappt(e, 72)).toBe(true)
+  expect(textKlappt(e, 129)).toBe(false)
+})
+
+test('Kopf: Chip samt Abstand zählt mit, Breite hat Untergrenze 8, Rest nach hartem Umbruch füllt die Zeile weiter', () => {
+  const e = zaehleTopPrios('## Top-Prios\n- **A** {queue} bb\n')[0]!
+  expect(zeilenBedarf(e, 12)).toBe(1)
+  expect(zeilenBedarf(e, 11)).toBe(2)
+  const klein = zaehleTopPrios('## Top-Prios\n- **T** ab\n')[0]!
+  expect(zeilenBedarf(klein, 3)).toBe(1)
+  expect(umbruchZeilen('x'.repeat(25) + ' ab cd ef', 10)).toBe(4)
 })
