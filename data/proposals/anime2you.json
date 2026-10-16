@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-10-16T16:02:44.772Z",
+  "scrapedAt": "2026-10-16T17:02:56.220Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
-    "schon in einem Rubrik-Feed gelesen": 7,
+    "schon in einem Rubrik-Feed gelesen": 8,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 4
   },
@@ -20,6 +20,86 @@
         {
           "month": "2027-04",
           "context": "OP vorbestellt werden kann. Wir fassen alle Details zusammen. Release im April 2027 Der neue Plüsch-Schlüsselanhänger des Charakters Jinshi"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Vier Januar-Neuheiten 2027 bei Anime Planet vorbestellbar",
+      "articleUrl": "https://www.anime2you.de/news/1061657/anime-planet-januar-2027-vorbestellbar/",
+      "publishedAt": "2026-10-16",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-28",
+          "context": "r fassen nachfolgend alle Details zusammen. Vier Blu-ray-Neuheiten Am 28. Januar 2027 erscheinen unter anderem eine neue Blu-ray-Komplettbox"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "MediaMarkt und SATURN starten neue Mehrwertsteuer-Sparaktion",
+      "articleUrl": "https://www.anime2you.de/news/1061668/mediamarkt-saturn-neue-mehrwertsteuer-sparaktion/",
+      "publishedAt": "2026-10-16",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-10-17",
+          "context": "Wir fassen zusammen. 15,966 % Rabatt Die neue Rabattaktion beginnt am 17. Oktober 2026 um 06:00 Uhr in den Online-Shops von MediaMarkt und S"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Neun Blu-ray-Termine von AniMoon, Crunchyroll und Hardball Films verschoben",
+      "articleUrl": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "publishedAt": "2026-10-16",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "pause": "verschoben",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Neuer Trailer zum Finale von »Bleach: Thousand-Year Blood War«",
+      "articleUrl": "https://www.anime2you.de/news/1061640/bleach-thousand-year-blood-war-finale-trailer/",
+      "publishedAt": "2026-10-16",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-10-19",
+          "context": "Parts (Folge 49 in der Gesamtzählung) wird nach einer Verschiebung am 19. Oktober 2026 im japanischen Fernsehen ausgestrahlt und bei […] D"
+        },
+        {
+          "month": "2026-10",
+          "context": "Blood War« veröffentlicht. Das Video findet ihr weiter unten. Finale im Oktober 2026 Die neunte Episode des vierten Parts (Folge 49 in der"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Fairy Tail« erhält neue Anhänger, Tragetasche und XXL-Mauspad",
+      "articleUrl": "https://www.anime2you.de/news/1061130/neues-fairy-tail-merchandise/",
+      "publishedAt": "2026-10-16",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-05",
+          "context": "werden können. Wir fassen alle Details nachfolgend zusammen. Release im Mai 2027 Zu den neuen »Fairy Tail«-Produkten zählen unter anderem z"
         }
       ],
       "dub": "unklar",
