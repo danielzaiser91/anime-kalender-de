@@ -7176,6 +7176,8 @@ async function speicherSchreiben(werte) {
     befund: () => `${location.pathname}|${staffelSchluessel()}|${deutschInFolgen()}`,
     angekommen: () => !nichtAngekommen(listenId),
     zeichneRoh: () => zeichnenRoh(),
+    lesen: speicherLesen,
+    schreiben: speicherSchreiben,
     standVergessen: () => {
       letzterStand = ''
     },
@@ -7209,14 +7211,11 @@ async function speicherSchreiben(werte) {
     }
 
     /*
-      **Der Takt beginnt ohne Marke — außer hier ist gerade gemeldet worden.**
-
-      Sonst setzt sie nur der Zweig „alles durch" wieder, und der greift nicht
-      bei jedem Titel; die Marke wäre zwei Sekunden nach der Meldung wieder weg.
-      Der Merker verschwindet mit dem Titel, denn er hängt am Pfad.
+      **Der Takt beginnt ohne Marke — außer dieser Befund ist gemeldet (Sperre) oder alles durch.**
+      Ohne die Sperre hier blendeten Zweige den Knopf aus und der Kasten blieb leer (06.09. und 16.10.2026).
     */
     {
-      const an = durchFuerPfad === location.pathname
+      const an = meldeSperre.gesperrt() || durchFuerPfad === location.pathname
       const wegweisung = weiterTextPfad === location.pathname ? weiterText : null
       gemeldetMarke(an, an ? (wegweisung ?? 'gemeldet ✓') : undefined)
     }

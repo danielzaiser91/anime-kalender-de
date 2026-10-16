@@ -117,6 +117,8 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
     staffelSchluessel: () => zustand.staffel,
     nichtAngekommen: () => !zustand.angekommen,
     letzterStand: 'x',
+    speicherLesen: async () => ({}),
+    speicherSchreiben: async () => true,
     /* Der Takt: beschriftet den Knopf aus „vielen Zweigen" und gibt ihn frei — wie die Zweige in amazon.js. */
     zeichnenRoh: () => {
       zustand.roh++
@@ -282,7 +284,7 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
   pruefe('zwischen Abhaken und Vermerk steht nur Kommentar, nichts, was den Vermerk überspringt',
     erfolg > 0 && vermerk > erfolg && zwischen.replace(/\/\*[\s\S]*?\*\//g, '').trim() === '', zwischen)
   /* Die Marke „alles durch" (`gemeldetMarke(an, …)`) hängt an `durchFuerPfad`, nicht an einer Konstanten. */
-  pruefe('die Marke „alles durch" folgt dem Pfad-Merker', /const an = durchFuerPfad === location\.pathname\s+const wegweisung/.test(quelle))
+  pruefe('die Marke folgt der Sperre und dem Pfad-Merker', quelle.includes('const an = meldeSperre.gesperrt() || durchFuerPfad === location.pathname'))
   pruefe('genau ein Vermerk und kein zweiter Weg zur Marke', (quelle.match(/meldeSperre\.vermerken\(/g) ?? []).length === 1)
   pruefe('zeichnen() läuft über die Sperre', /function zeichnen\(\) \{\s*meldeSperre\.zeichnen\(\)\s*\}/.test(quelle))
 }

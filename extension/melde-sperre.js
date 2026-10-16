@@ -6,11 +6,33 @@
   D1-Schreibzeilen. Eine Sperre aus „Beschriftung + Zustand" hält nicht, weil ein Takt den Knopf
   neu beschriftet; hier hängt sie am Befund (Seite + Staffel + Tonurteil) und wird nach jedem Zeichnen angelegt.
   Alle gemeldeten Befunde der Seite bleiben gemerkt (Menge, Frist je Befund): S1 → S2 → S1 öffnet nicht wieder.
+  Seit 4.31.8 (Prime): gesperrt zeigt die Marke statt des Knopfs, und die Befunde überstehen das Neuladen.
 
   - `setzeKlick`: Anbieter, die den Knopf je Zustand neu setzen (ADN, Disney+) — kein Klick = gesperrt.
   - `sperren` / `anwenden`: Prime, dessen Takt den Knopf aus vielen Zweigen beschriftet.
   Ohne Browser-Zustand, damit `melde-sperre.test.cjs` es im Sandkasten spielen kann.
 */
+/* Gemeldete Befunde überstehen das Neuladen (Daniel, 16.10.2026, Nukitashi: zurück, wieder „melden"); nach einem Tag fallen sie weg. */
+globalThis.AK_MELDE_SPEICHER = (() => {
+  const SCHLUESSEL = 'akMeldeSperre'
+  const HALTE_MS = 24 * 3600 * 1000
+
+  /** Liest die gesicherten Befunde der letzten `HALTE_MS` in `gemeldet` ein, mit ihrer Meldezeit. */
+  async function laden(gemeldet, lesen) {
+    const alt = (await lesen(SCHLUESSEL))?.[SCHLUESSEL] ?? {}
+    for (const [befund, zeit] of Object.entries(alt)) {
+      if (Date.now() - zeit < HALTE_MS) gemeldet.set(befund, zeit)
+    }
+  }
+
+  /** Sichert die Befunde der Seite; Verfallenes kam nie hinein (`laden`), so wächst der Speicher nicht. */
+  function sichern(gemeldet, schreiben) {
+    return schreiben({ [SCHLUESSEL]: Object.fromEntries(gemeldet) })
+  }
+
+  return { laden, sichern }
+})()
+
 globalThis.AK_MELDE_SPERRE = (() => {
   /* Der Briefkasten ist bis zu einer Minute alt; kam die Meldung dann nicht an, darf man erneut melden. */
   const FRIST_MS = 120000
@@ -50,15 +72,24 @@ globalThis.AK_MELDE_SPERRE = (() => {
   /**
    * Die Sperre für einen Knopf, den ein Takt aus vielen Zweigen beschriftet (Prime).
    * `befund()` nennt, wofür eine Meldung gälte; `angekommen()`, ob der Worker sie kennt;
-   * `zeichneRoh()` ist das bisherige Zeichnen; `standVergessen()` erzwingt danach eine Neubeschriftung.
+   * `zeichneRoh()` ist das bisherige Zeichnen; `standVergessen()` erzwingt danach eine Neubeschriftung;
+   * `lesen(schluessel)` / `schreiben(werte)` sind der Speicher (`chrome.storage.local`).
+   * Gesperrt spricht die Marke (`gesperrt()` in `zeichnenRoh`), der Knopf geht: keine Information zweimal.
    */
-  function fuer(knopf, { befund, angekommen, zeichneRoh, standVergessen }) {
+  function fuer(knopf, { befund, angekommen, zeichneRoh, standVergessen, lesen, schreiben }) {
     let gesperrt = false
     const gemeldet = new Map()
     const lage = () => zustand(gemeldet, befund(), Date.now(), angekommen())
+    const { laden, sichern } = globalThis.AK_MELDE_SPEICHER
+    const geladen = laden(gemeldet, lesen).catch(() => {})
     return {
+      geladen,
+      gesperrt: () => lage() === 'gesperrt',
       /* Ohne Angabe gilt der Befund von jetzt; der Klick gibt seinen mit, denn nach den awaits ist die Seite womöglich weiter. */
-      vermerken: (gemeldeterBefund = befund()) => sperren(gemeldet, gemeldeterBefund, Date.now()),
+      vermerken(gemeldeterBefund = befund()) {
+        sperren(gemeldet, gemeldeterBefund, Date.now())
+        Promise.resolve(sichern(gemeldet, schreiben)).catch(() => {})
+      },
       zeichnen() {
         if (gesperrt && lage() !== 'gesperrt') {
           standVergessen()
@@ -66,6 +97,7 @@ globalThis.AK_MELDE_SPERRE = (() => {
         }
         zeichneRoh()
         gesperrt = anwenden(knopf, gemeldet, befund(), Date.now(), angekommen()) === 'gesperrt'
+        if (gesperrt) knopf.style.display = 'none'
       },
       /* Ein Klick auf den gesperrten Knopf meldet nichts — auch nicht, wenn er aus dem Code kommt. `tun` bekommt den Befund des Klicks als erstes Argument. */
       mitSperre: (tun) => (...args) => (lage() === 'gesperrt' ? undefined : tun(befund(), ...args)),
