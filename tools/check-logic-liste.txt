@@ -85,6 +85,7 @@ pipeline/check-kachel-buendel.ts
 pipeline/check-kachel-im-angebot.ts
 pipeline/check-kachel-katalog.ts
 pipeline/check-kalender-filter.ts
+pipeline/check-kalender-plausibilitaet.ts
 pipeline/check-kanal-abgehakt.ts
 pipeline/check-kanal-aussortieren.ts
 pipeline/check-kanal-erbt.ts

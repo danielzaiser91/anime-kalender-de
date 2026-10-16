@@ -19,6 +19,7 @@ pipeline/check-handlung-eigen-bestand.ts
 pipeline/check-herkunftsland-bestand.ts
 pipeline/check-jw-vertrauen-bestand.ts
 pipeline/check-kachel-buendel-bestand.ts
+pipeline/check-kalender-plausibilitaet-bestand.ts
 pipeline/check-katalog-eingefroren-bestand.ts
 pipeline/check-katalog-release-bestand.ts
 pipeline/check-logic-bestand.ts
