@@ -73,13 +73,7 @@ jobs:
           # Beschreibungen sind unveränderlich; spätere Runden stehen als Kommentar "**Nachtrag…", "## Nachtrag…" oder "# Nachtrag…" am Textanfang des PR-Autors (nur dieser zählt).
           autor=$(gh pr view "$PR" --repo "$GITHUB_REPOSITORY" --json author -q .author.login) || autor=""
           if [[ "$autor" =~ ^[A-Za-z0-9][A-Za-z0-9-]*(\[bot\])?$ ]]; then
-            gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$PR/comments" \
-              -q ".[] | select(.user.login == \"$autor\" and (.body | test(\"^[[:space:]]*([*][*]|#+ *)Nachtrag\"))) | \"\n\n\" + .body" > "$T/nachtraege.txt" || : > "$T/nachtraege.txt"
-            if [ -s "$T/nachtraege.txt" ]; then
-              printf '\n\n## Nachträge (gelten als Teil der Beschreibung, spätere gehen vor)' >> "$T/pr-beschreibung.txt"
-              cat "$T/nachtraege.txt" >> "$T/pr-beschreibung.txt"
-            fi
-            rm -f "$T/nachtraege.txt"
+            node tools/pr-nachtraege.mjs "$PR" "$autor" "$T/pr-beschreibung.txt"
           fi
           echo "diff-zustand=$zustand" >> "$GITHUB_OUTPUT"
           echo "Diff-Zustand: $zustand"
