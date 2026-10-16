@@ -113,7 +113,7 @@ jobs:
   # diesen Job überspringen, und übersprungen zählt als bestanden. Hier zählt nur `success`.
   kette:
     name: PR-Prüfkette
-    needs: [logik, bau, workflows, typen, uebrige, aussehen]
+    needs: [logik, bau, workflows, typen, uebrige, datenbau, aussehen]
     if: ${{ always() && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -125,6 +125,33 @@ jobs:
           echo "$NEEDS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
           echo "$NEEDS" | jq -e 'all(.[]; .result == "success")' > /dev/null
 
+
+  # Datenbau (16.10.2026): `pipeline/lib/pruefung.ts` lief nur im Bestandsbau nach dem Merge; PR 1368 setzte ein Feld, das ein späterer Bauschritt
+  # anders vererbt, und main brach ab. Der Job baut den Datensatz wie `bestand-bauen.yml` (Cache `anilist-cache-`, nur lesen) ohne Commit; ein
+  # Widerspruch macht ihn rot. Bewusst ohne Pfadfilter: die Eingaben des Baus reichen bis in `web/src/lib` (news-text, i18n), eine Positivliste
+  # ginge am Importgraph vorbei; der Job läuft parallel zur längsten Kette. Form fest: tools/pr-kette-datenbau.mjs.
+  datenbau:
+    name: PR-Datenbau
+    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/kette-einrichten
+      - name: AniList-Cache lesen
+        id: cache
+        uses: actions/cache/restore@v4
+        with:
+          path: data/cache
+          key: anilist-cache-${{ github.run_id }}
+          restore-keys: anilist-cache-
+      - if: steps.cache.outputs.cache-matched-key == ''
+        name: Kein Cache vorhanden
+        run: |
+          echo "::error::Kein anilist-cache gefunden"
+          exit 1
+      - name: Datensatz bauen (ohne Commit)
+        run: npm run data:build
 
   # Aussehen (wie aussehen-pruefen.yml), nur bei Änderungen an der Oberfläche; sonst endet jeder Teil nach der Pfadprüfung grün.
   # Drei parallele Teile statt einer Kette (16.10.2026): die längste Kette wächst durch die Trefferprobe sonst um ≈ 130 s. Jeder Teil

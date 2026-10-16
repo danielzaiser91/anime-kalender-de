@@ -15,6 +15,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parse } from 'yaml'
+import { DATENBAU_NAME, pruefeDatenbau } from './pr-kette-datenbau.mjs'
 import { pruefeRahmen, pruefeSchrittfolge } from './pr-kette-rahmen.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
@@ -22,6 +23,8 @@ const SAMMEL = 'PR-Prüfkette'
 const AUSSEHEN = 'PR-Aussehen'
 /** Aussehen-Jobs (Matrix, eigene Form, kein Teil von check:vor-commit); sie zählen im Sammeljob trotzdem (seit 16.10.2026). */
 const istAussehen = (job) => String(job.name ?? '').startsWith(AUSSEHEN)
+/** Jobs mit eigener Form (Aussehen-Matrix, Datenbau), die nicht Teil von check:vor-commit sind. */
+const istSonderjob = (job) => istAussehen(job) || job.name === DATENBAU_NAME
 const TEILJOB_BEDINGUNG = "!startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft"
 
 /** Alle `npm run X`-Namen in einem Text (für `check:vor-commit`). */
@@ -132,7 +135,7 @@ function pruefeAuflagen(doc, jobs, sammlerId, vorCommit) {
   const fehler = fremdeSchluessel(doc, WORKFLOW_SCHLUESSEL).map((k) => `Workflow: Schlüssel "${k}" nicht erlaubt (env/defaults wirken auf alle Schritte)`)
   const standard = `\${{ ${TEILJOB_BEDINGUNG} }}`
   for (const [id, job] of Object.entries(jobs)) {
-    if (istAussehen(job) || id === sammlerId) continue
+    if (istSonderjob(job) || id === sammlerId) continue
     fehler.push(...pruefeJobForm(id, job, JOB_SCHLUESSEL))
     if (job.if !== standard) fehler.push(`Teiljob "${id}": if ist nicht textgleich "${standard}"`)
     for (const s of job.steps ?? []) fehler.push(...pruefeTeiljobSchritt(id, s, vorCommit))
@@ -150,10 +153,15 @@ export function pruefeKette(doc, scripts, aktion) {
   const sammlerId = Object.keys(jobs).find((id) => jobs[id].name === SAMMEL)
   if (!sammlerId) return [`Kein Job mit dem Namen "${SAMMEL}" (Pflicht-Check im Ruleset)`]
   const teiljobs = Object.entries(jobs)
-    .filter(([id, j]) => id !== sammlerId && !istAussehen(j))
+    .filter(([id, j]) => id !== sammlerId && !istSonderjob(j))
     .map(([, j]) => j)
   const pflichtJobs = Object.entries(jobs).filter(([, j]) => !istAussehen(j))
-  const fehler = [...pruefeSammler(jobs, sammlerId), ...pruefeAuflagen(doc, jobs, sammlerId, vorCommit), ...pruefeRahmen(doc, pflichtJobs, aktion)]
+  const fehler = [
+    ...pruefeSammler(jobs, sammlerId),
+    ...pruefeAuflagen(doc, jobs, sammlerId, vorCommit),
+    ...pruefeDatenbau(jobs),
+    ...pruefeRahmen(doc, pflichtJobs, aktion),
+  ]
   for (const [name, anzahl] of zaehleVorkommen(teiljobs, vorCommit)) {
     if (anzahl !== 1) fehler.push(`Prüfung "${name}" läuft ${anzahl}-mal in den Teiljobs (verlangt: genau einmal)`)
   }
