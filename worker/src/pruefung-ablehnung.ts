@@ -10,6 +10,7 @@
  * Suchteil, Titel, Notiz, Browserkennung, IP.
  */
 import { kurzeMeldung } from './werte.ts'
+import { EXPORT_PAUSE_TEXT, istD1Export } from './d1-limit.ts'
 
 export type Ablehnung = { status: number; grund: string; fehler?: string }
 
@@ -22,8 +23,12 @@ export function kennungAus(url: unknown): string | null {
   return kennung || null
 }
 
-/** Grund einer Ausnahme: der Fehlername für die Erweiterung, die gekürzte Meldung nur fürs Protokoll. */
+/**
+ * Grund einer Ausnahme: der Fehlername für die Erweiterung, die gekürzte Meldung nur fürs Protokoll.
+ * Ein laufender D1-Export ist vorübergehend: 503 mit dem Satz zum Wiederholen statt 500.
+ */
 export function ausnahmeAls(e: unknown): Ablehnung {
+  if (istD1Export(e)) return { status: 503, grund: EXPORT_PAUSE_TEXT, fehler: kurzeMeldung(e) }
   const name = (e as Error)?.name ?? 'Fehler'
   return { status: 500, grund: `ausnahme ${name}`, fehler: kurzeMeldung(e) }
 }
