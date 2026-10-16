@@ -9,6 +9,7 @@
 (() => {
   const L = globalThis.AK_ADN_LESER
   const NETZ = globalThis.AK_DISNEY_NETZ
+  const SENDEN = globalThis.AK_ADN_SENDEN
   const WORKER = 'https://newsletter.animekalender.workers.dev/pruefung'
   /* Der Worker nimmt höchstens zehn Meldungen je Stapel (`PRUEFUNG_STAPEL_HOECHSTENS`). */
   const STAPEL = 10
@@ -20,6 +21,8 @@
     zeilen: [],
     ohneAngabe: 0,
     gemeldet: new Set(),
+    abgelehnt: new Map(),
+    neuGemeldet: 0,
     nichtImAngebot: false,
     stand: null,
     fehler: null,
@@ -83,7 +86,9 @@
     if (!S.zeilen.length) return zeige(`${kopf}\nkeine Sprachangabe von ADN (${S.ohneAngabe} Videos)`)
     const zeilen = staffelZeilen(S.zeilen).join('\n')
     const offen = offene()
-    if (!offen.length) return zeige(`${kopf}\n${zeilen}\n✓ ${S.zeilen.length} gemeldet`, { klasse: 'gut' })
+    if (!offen.length) return zeige(`${kopf}\n${zeilen}\n✓ ${S.zeilen.length} ${S.neuGemeldet ? '' : 'schon '}gemeldet`, { klasse: 'gut' })
+    const abgelehnt = SENDEN.abgelehntText(S, L.schluessel, offen)
+    if (abgelehnt) return zeige(`${kopf}\n${zeilen}\n${abgelehnt}`, { klasse: 'schlecht', klick: melden })
     const deutsch = offen.filter((z) => z.tonDe === 'ja').length
     zeige(`${kopf}\n${zeilen}\n▸ ${offen.length} melden (${deutsch}× deutsch)`, { klasse: deutsch ? 'gut' : null, klick: melden })
   }
@@ -99,12 +104,7 @@
     })
   }
 
-  const sendeStapel = (token, teil) =>
-    NETZ.sende(WORKER, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
-      body: JSON.stringify({ stapel: teil }),
-    })
+  const senden = (token, body) => SENDEN.sendeMitKoerper({ sende: NETZ.sende, holen: (...a) => fetch(...a), url: WORKER, token, body })
 
   async function melden() {
     const { token } = await chrome.storage.sync.get('token')
@@ -114,8 +114,8 @@
     for (let i = 0; i < offen.length && !fehler; i += STAPEL) {
       const teil = offen.slice(i, i + STAPEL)
       zeige(`${S.serie.titel}\nmelde ${Math.min(i + STAPEL, offen.length)}/${offen.length} …`)
-      const antwort = await sendeStapel(token, teil.map((z) => L.meldung(S.serie, S.url, z)))
-      if (antwort.ok) teil.forEach((z) => S.gemeldet.add(L.schluessel(z)))
+      const antwort = await senden(token, { stapel: teil.map((z) => L.meldung(S.serie, S.url, z)) })
+      if (antwort.ok) SENDEN.ergebnisseEintragen(S, L.schluessel, teil, antwort.daten?.ergebnisse)
       else fehler = antwort.fehler
     }
     if (fehler) zeige(`${S.serie.titel}\n${fehler} — Klick sendet den Rest erneut`, { klasse: 'schlecht', klick: melden })
@@ -125,12 +125,9 @@
   async function wegMelden() {
     const { token } = await chrome.storage.sync.get('token')
     if (!token) return zeige('Kein Token — Rechtsklick aufs Symbol, dann Optionen', { klasse: 'schlecht' })
-    const antwort = await NETZ.sende(WORKER, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
-      body: JSON.stringify(L.wegMeldung(S.serie, S.url)),
-    })
-    zeige(`${S.serie.titel}\n${antwort.ok ? '✓ „nicht im Angebot" gemeldet' : `${antwort.fehler} — Klick sendet erneut`}`, {
+    const antwort = await senden(token, L.wegMeldung(S.serie, S.url))
+    const grund = antwort.daten?.error ? ` (${antwort.daten.error})` : ''
+    zeige(`${S.serie.titel}\n${antwort.ok ? '✓ „nicht im Angebot" gemeldet' : `${antwort.fehler}${grund} — Klick sendet erneut`}`, {
       klasse: antwort.ok ? 'gut' : 'schlecht',
       klick: antwort.ok ? null : wegMelden,
     })
@@ -191,6 +188,8 @@
     S.serie = null
     S.zeilen = []
     S.gemeldet = new Set()
+    S.abgelehnt = new Map()
+    S.neuGemeldet = 0
     S.fehler = null
     S.nichtImAngebot = false
     S.knopf?.remove()
