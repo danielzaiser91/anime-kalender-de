@@ -58,6 +58,10 @@ try {
 }
 pruefe('formatDate: langer Nicht-Zeitpunkt wirft nicht', langerText === 'sondern.Datum.kein', langerText)
 
+pruefe('formatDate: "Herbst 2026" bleibt unverändert', formatDate('Herbst 2026') === 'Herbst 2026')
+pruefe('formatDate: Datum plus Uhrzeit ohne T ist kein Zeitpunkt', formatDate('2026-09-19 22:30') === '19 22:30.09.2026')
+pruefe('formatDate: reiner Tag (10 Zeichen) bleibt Tag', formatDate('2026-09-19') === '19.09.2026')
+
 /* „Erster deutscher Termin": termin kommt als "JJJJ-MM-TT" aus public/data/neu-mit-synchro.json (Erzeuger: nebendateien.ts). */
 const neuMitSynchro = [{ id: 7, name: 'Neuling', slug: 'neuling', seit: '2026-10-01', termin: '2026-10-04' }]
 const neuMail = mailMit({ erwartetAm: '2026-09-19T22:30:00.000Z' }, '2026-09-20', { neuMitSynchro })
