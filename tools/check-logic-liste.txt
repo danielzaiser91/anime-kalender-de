@@ -88,6 +88,7 @@ pipeline/check-katalog-release.ts
 pipeline/check-kino-zuletzt.ts
 pipeline/check-leerer-kasten.ts
 pipeline/check-logic.ts
+pipeline/check-luecken-staffel0.ts
 pipeline/check-mal-teilung.ts
 pipeline/check-minuten-takt.ts
 pipeline/check-motn-reihe.ts
@@ -159,9 +160,4 @@ tools/check-patchnotes-pflicht.mjs
 tools/design-klassen.mjs
 tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
-tools/handbeleg-verwaist.test.mjs
 tools/hover-cover.test.ts
-tools/laeufe-abruf.test.mjs
-tools/pruef-bestand.test.mjs
-tools/tmdb-bilddatum.test.mjs
-tools/untersucher-schluessel.test.mjs
