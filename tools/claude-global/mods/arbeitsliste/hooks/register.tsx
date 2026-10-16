@@ -12,7 +12,10 @@ import { LECKS_DATEI, zaehleLecks } from './lecks'
 import type { Lecks } from './lecks'
 import { kopierText } from './kopieren'
 import { agentenText, istPruefer } from './pruefer'
-import { bereichOffen, bereichsKennung, bereichsKopf, topPriosKasten, zaehleTopPrios } from './bereiche'
+import { bereichOffen, bereichsKennung, bereichsKopf, topPriosKasten } from './bereiche'
+import type { PrioUmfeld } from './bereiche'
+import { prioZeichenJeZeile, zaehleTopPrios, zeichenJeSpalte } from './prios'
+import type { PrioEintrag } from './prios'
 
 const DATEI = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/stand.md'
 // Je Sitzung eine Datei `<Sitzungs-ID>.txt` (Stop-Hook agenten-vorrat.js); fremde Sitzungen zählen hier nicht.
@@ -39,7 +42,8 @@ const live = atom({ plugin: 'arbeitsliste', key: 'live' } as const, [] as LiveEi
 const pipeline = atom({ plugin: 'arbeitsliste', key: 'pipeline' } as const, [] as PipelineEintrag[])
 // Farbe der Ort-Marke in „In Pipeline“ (Themenschlüssel); „?“ fällt auf.
 const ORT_FARBE: Record<Ort, string> = { pipeline: 'warning', worker: AKZENT, warteliste: 'suggestion', deploy: 'success', '?': 'error' }
-const topPrios = atom({ plugin: 'arbeitsliste', key: 'topPrios' } as const, [] as Eintrag[])
+// Schlüssel V2: ein beim Hot-Reload erhaltener Altzustand ohne status/details darf nicht gezeichnet werden.
+const topPrios = atom({ plugin: 'arbeitsliste', key: 'topPriosV2' } as const, [] as PrioEintrag[])
 const regeln = atom({ plugin: 'arbeitsliste', key: 'regeln' } as const, [] as Regel[])
 // Minute der letzten Neuzeichnung: der Countdown „in 13 h 45 min“ ändert sich nur beim Minutenwechsel.
 const minute = atom({ plugin: 'arbeitsliste', key: 'minute' } as const, 0)
@@ -309,7 +313,7 @@ type PaneDaten = {
   pipeListe: PipelineEintrag[]
   von: ReturnType<typeof teile>
   agenten: Agent[]
-  top: Eintrag[]
+  top: PrioEintrag[]
 }
 
 // Liest alle Atome des Panes; faellig und minute nur, damit der Render bei ihnen neu läuft.
@@ -336,8 +340,8 @@ function baueAnsicht($: EngineInterface, e: any, d: PaneDaten) {
   const breite = Math.max(16, (e.props.bodyColumns || 38) - 2 - 5)
   // Titel brechen um (Folgezeile unter dem Text); gekürzt wird erst jenseits von MAX_ZEILEN Zeilen, Wortumbruch kostet Reserve.
   // Desktop setzt Proportionalschrift: dort passen gut 1,6 Zeichen je Spalte (Screenshot 11.10.2026, zweite Zeile blieb halb leer).
-  const zeichenJeSpalte = e.surface === 'terminal' ? 1 : 1.6
-  const gesamt = (b: number) => Math.floor(b * zeichenJeSpalte) * MAX_ZEILEN - 4
+  const zeichenJe = zeichenJeSpalte(e.surface)
+  const gesamt = (b: number) => Math.floor(b * zeichenJe) * MAX_ZEILEN - 4
   const kt = (text: string) => kuerze(text, gesamt(breite))
   const { Box, Button, Link, Text } = $.ui.resolve(e)
   const schnitt = <T,>(liste: T[], id: string, max?: number) => schneide(liste, id, d.ausgeklappt, max)
@@ -417,7 +421,7 @@ function baueVerweise($: EngineInterface, a: ReturnType<typeof baueAnsicht>) {
     ...[z.titel.length > gesamt(breite) ? z.titel : '', z.rest].filter(Boolean).map((text, k) => rest(text, k)),
     kopierKnopf(`kopie:${key}`, kopierText(z)),
   ]
-  return { verweise, details }
+  return { verweise, details, oeffne }
 }
 
 type Ansicht = ReturnType<typeof baueAnsicht> & ReturnType<typeof baueVerweise>
@@ -633,6 +637,16 @@ function paneRegeln($: EngineInterface, a: Ansicht, d: PaneDaten) {
   )
 }
 
+// Breite und Klappzustand für den Top-Prios-Kasten.
+function prioUmfeld($: EngineInterface, e: any, d: PaneDaten, oeffne: (href: string) => Promise<void>): PrioUmfeld {
+  return {
+    zeichenJeZeile: prioZeichenJeZeile(e.props.bodyColumns, e.surface),
+    offen: kennung => d.ausgeklappt.includes(kennung),
+    schalte: kennung => void update($, aufgeklappt, a => schalte(a, kennung)),
+    oeffne: href => void oeffne(href),
+  }
+}
+
 // Pane: Statuszeile, dann Abschnitte mit je einer umbrechenden Zeile pro Eintrag.
 async function zeichnePane($: EngineInterface, e: any) {
   protokoll($, 'pane', `render ${e.surface} spalten=${e.props.bodyColumns}`)
@@ -642,7 +656,7 @@ async function zeichnePane($: EngineInterface, e: any) {
   const { Box } = a
   return (
     <Box flexDirection="column" gap={1} paddingX={1}>
-      {topPriosKasten($.ui.resolve(e), d.top, a.kt, a.verweise)}
+      {topPriosKasten($.ui.resolve(e), d.top, prioUmfeld($, e, d, a.oeffne))}
       {paneAutonom(a, d)}
       {paneRuhe(a, d)}
       {paneLive(a, d)}
