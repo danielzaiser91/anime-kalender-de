@@ -120,8 +120,8 @@ export function uebernehmePrimeUndCrVorschlaege({
         **Der Verweis gehört dem Anbieter, der gemeldet hat.**
 
         Hier stand dreimal `'primevideo'` fest verdrahtet — aus der Zeit, als nur
-        Prime Rohfolgen meldete. Sobald Netflix oder Disney+ dieselbe Route
-        gehen (`status.md`, „Sammeln und Zuordnen vollstaendig trennen"), wäre
+        Prime Rohfolgen meldete. Netflix und Disney+ gehen dieselbe Route
+        (seit 16.10.2026 erkennt `rohDeutsch` auch ihre Sprachformen), sonst wäre
         daraus ein Prime-Verweis auf eine Netflix-Adresse geworden.
 
         Alles Amazon-Eigene bleibt an Prime gebunden: die Seite aus der ASIN und
