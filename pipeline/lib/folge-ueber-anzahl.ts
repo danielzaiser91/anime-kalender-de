@@ -58,7 +58,11 @@ export function hebeFolgenzahlAufBeobachtung(releases: Release[]): string[] {
   return betroffen
 }
 
-/** Fehler für jede Folge, die über der Folgenzahl beobachtet wurde, aber keinen Termin im Datensatz hat. */
+/**
+ * Fehler für jede datierte Beobachtung ab `firstEpisodeNumber`, zu der kein Termin im Datensatz steht — gleich, ob
+ * die Folge über oder (z. B. durch den Filter `lastEpisodeDate`) innerhalb der Folgenzahl liegt: Eine Quelle nennt
+ * die Folge, der Datensatz verliert sie still. Im Bestand vom 16.10.2026 trifft das nur Villainess F12 (breit = eng = 1).
+ */
 export function beobachtetOhneTermin(releases: Release[], events: ReleaseEvent[]): string[] {
   const vorhanden = new Set(events.map((e) => `${e.releaseSlug}#${e.episode}`))
   const fehler: string[] = []
@@ -66,7 +70,7 @@ export function beobachtetOhneTermin(releases: Release[], events: ReleaseEvent[]
     if (r.widerlegt || hoechsteBeobachtung(r) === undefined) continue
     for (const [nr, datum] of Object.entries(r.schedule.observed ?? {})) {
       if (!datum || Number(nr) < (r.schedule.firstEpisodeNumber ?? 1) || vorhanden.has(`${r.slug}#${nr}`)) continue
-      fehler.push(`"${r.slug}": Folge ${nr} am ${datum} beobachtet, über der Folgenzahl ${r.schedule.episodeCount ?? 'offen'} — aber ohne Termin im Datensatz`)
+      fehler.push(`"${r.slug}": Folge ${nr} am ${datum} beobachtet (Folgenzahl ${r.schedule.episodeCount ?? 'offen'}), aber ohne Termin im Datensatz`)
     }
   }
   return fehler

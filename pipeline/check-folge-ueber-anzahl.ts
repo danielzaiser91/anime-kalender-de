@@ -120,6 +120,15 @@ const mitFinale = (e: ReleaseEvent, r: Release): boolean => istStaffelfinale(e, 
   pruefe('Batch: keine Meldung', beobachtetOhneTermin([batch], []).length === 0, beobachtetOhneTermin([batch], []))
 }
 
+/* Breite Fassung: Fehlt der Termin einer beobachteten Folge INNERHALB der Zahl (z. B. durch einen Filter), meldet die Prüfung es auch. */
+{
+  const r = crSerie(11, 5)
+  const ohneF3 = expandEvents(r).filter((e) => e.episode !== 3)
+  const f = beobachtetOhneTermin([r], ohneF3)
+  pruefe('Folge 3 innerhalb der Zahl ohne Termin: genau ein Fund mit Nummer und Zahl', f.length === 1 && /Folge 3 .*\(Folgenzahl 11\)/.test(f[0]!), f)
+  pruefe('… und mit allen Terminen keine Meldung', beobachtetOhneTermin([r], expandEvents(r)).length === 0)
+}
+
 /* Belegtes Ende schlägt die Beobachtung: 11 Folgen, Ende am Tag von F11, F12 danach — Zahl bleibt, Fehler statt Anhebung. */
 {
   const r = crSerie(11, 12, { episodeCountSource: 'anisearch' })
