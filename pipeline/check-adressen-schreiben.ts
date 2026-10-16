@@ -3,6 +3,8 @@
  * Ort und Verlauf: Unter `/t/<id>/` entsteht nie wieder `t=` im Hash, und eine alte Adresse wird tatsächlich umgeschrieben.
  * Aufruf: `npm run check:logic`.
  */
+import { readFileSync } from 'node:fs'
+import ts from 'typescript'
 import { EMPTY_FILTERS } from '../web/src/lib/filters.ts'
 import { ersetzeAdresse, liesAdresse, navigiere, schreiber, syncSharePath, type AppRoute, type Umgebung } from '../web/src/lib/router.ts'
 import { todayIso } from '../shared/time.ts'
@@ -75,9 +77,50 @@ const neueRoute: AppRoute[] = []
 t = umgebung('/t/15957/', '#/datenbank')
 schreiber(route(15957), (r) => void neueRoute.push(r), () => t.umg).ersetze({ view: 'datenbank', sort: 'titel' })
 pruefe('ersetze legt die Adresse um und setzt die Route', t.aufrufe.length === 1 && t.aufrufe[0]![0] === 'ersetzt' && t.aufrufe[0]![1] === '/t/15957/#/datenbank?sort=titel' && neueRoute.length === 1, [t.aufrufe, neueRoute.length])
+pruefe('ersetze behält den offenen Titel (Schalter schließen das Panel nicht)', neueRoute[0]?.title === 15957, neueRoute[0]?.title)
+t = umgebung('/', '#/datenbank?t=15957')
+schreiber(route(15957), (r) => void neueRoute.push(r), () => t.umg).ersetze({ view: 'datenbank', sort: 'titel' })
+pruefe('… an der Wurzel steht der Titel weiter im Hash', t.aufrufe[0]![1] === '/#/datenbank?t=15957&sort=titel', t.aufrufe)
 t = umgebung('/t/15957/', '#/woche')
 schreiber(route(15957), (r) => void neueRoute.push(r), () => t.umg).navigate({ view: 'datenbank' })
 pruefe('navigate setzt den Hash ohne t=', t.umg.ort.hash === '#/datenbank', t.umg.ort.hash)
+neueRoute.length = 0
+t = umgebung('/', '#/woche?t=15957')
+schreiber(route(15957), (r) => void neueRoute.push(r), () => t.umg).navigate({})
+pruefe('navigate behält den offenen Titel', neueRoute.length === 1 && neueRoute[0]!.title === 15957, neueRoute.map((r) => r.title))
+t = umgebung('/t/15957/', '#/woche', { panel: true })
+schreiber(route(15957), (r) => void neueRoute.push(r), () => t.umg).navigate({ title: undefined })
+pruefe('navigate kennt das offene Panel: Schließen geht einen Schritt zurück', t.aufrufe.length === 1 && t.aufrufe[0]![0] === 'zurueck', t.aufrufe)
+
+/*
+  Der Hook selbst läuft nicht ohne React und Vite; seine Zeilen reichen nur durch. Geprüft wird der Syntaxbaum von `useRoute`
+  (kein Regex): `schreiber(route, setRoute, browser)` bekommt die Route unverändert, `onChange` ruft `liesAdresse` unmittelbar.
+*/
+function aufrufeIn(funktion: string, name: string): ts.CallExpression[] {
+  const quelle = ts.createSourceFile('router.ts', readFileSync('web/src/lib/router.ts', 'utf8'), ts.ScriptTarget.Latest, true)
+  const treffer: ts.CallExpression[] = []
+  const suche = (n: ts.Node, innen: boolean): void => {
+    const jetzt = innen || (ts.isFunctionDeclaration(n) && n.name?.text === funktion)
+    if (jetzt && ts.isCallExpression(n) && n.expression.getText() === name) treffer.push(n)
+    n.forEachChild((k) => suche(k, jetzt))
+  }
+  suche(quelle, false)
+  return treffer
+}
+const schreiberAufrufe = aufrufeIn('useRoute', 'schreiber')
+pruefe('useRoute reicht die Route unverändert an schreiber', schreiberAufrufe.length === 1 && schreiberAufrufe[0]!.arguments.map((a) => a.getText()).join('|') === 'route|setRoute|browser', schreiberAufrufe.map((a) => a.getText()))
+const liesAufrufe = aufrufeIn('useRoute', 'liesAdresse')
+pruefe('onChange ruft liesAdresse als ganzen Rumpf auf', liesAufrufe.length === 1 && ts.isArrowFunction(liesAufrufe[0]!.parent) && liesAufrufe[0]!.arguments.map((a) => a.getText()).join('|') === 'browser()|setRoute', liesAufrufe.map((a) => a.parent.getText()))
+
+console.log('\nvorliebenNachfuehren (über navigate):')
+const speicher = new Map<string, string>()
+Object.defineProperty(globalThis, 'localStorage', {
+  configurable: true,
+  value: { getItem: (k: string) => speicher.get(k) ?? null, setItem: (k: string, v: string) => void speicher.set(k, v) },
+})
+t = umgebung('/', '#/woche')
+schreiber(route(), () => undefined, () => t.umg).navigate({ filters: { ...EMPTY_FILTERS, favoritesOnly: true } })
+pruefe('ein umgelegter Schnellfilter wird zur Vorliebe', [...speicher.values()].some((v) => v.includes('"favoritesOnly":true')), [...speicher.values()])
 
 const mitSuche = { ...route(), view: 'datenbank', filters: { ...EMPTY_FILTERS, search: 'naruto' } } as AppRoute
 t = umgebung('/', '#/woche')

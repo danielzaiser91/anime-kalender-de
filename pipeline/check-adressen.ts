@@ -110,14 +110,17 @@ pruefe('Termin-Seite (Cartoon): Skript mit Tag und t=', terminCartoon.includes('
 pruefe('Termin-Seite (Cartoon): „Im Kalender ansehen“ über den Namens-Pfad mit Tag und t=', /\/t\/avatar-284833\/#\/woche\?d=2099-10-20&(amp;)?t=-284833"/.test(terminCartoon))
 
 const mehrere = { ...release, schedule: { firstEpisodeDate: '2026-10-01', estimated: false, episodeCount: 4 } } as unknown as Release
+const jahreswechsel = { ...release, schedule: { firstEpisodeDate: '2026-12-18', estimated: false, episodeCount: 4 } } as unknown as Release
 const tagImSkript = (seite: string) => /location\.hash = "#\/woche\?d=([0-9-]+)"/.exec(seite)?.[1]
 const tagImLink = (seite: string) => /\/t\/15957\/#\/woche\?d=([0-9-]+)"/.exec(seite)?.[1]
-for (const [heute, erwartet, was] of [
+for (const [heute, erwartet, was, rel] of [
   ['2026-10-16', '2026-10-22', 'nächster künftiger Termin (Folgen davor und danach)'],
   ['2026-10-22', '2026-10-22', 'Termin heute zählt noch (>=)'],
   ['2026-11-30', '2026-10-01', 'alle Termine vorbei: der erste'],
+  ['2026-10-09', '2026-10-15', 'der richtige Termin liegt in der Mitte'],
+  ['2026-12-30', '2027-01-01', 'über den Jahreswechsel', jahreswechsel],
 ] as const) {
-  const seite = terminSeite(15957, '15957', mehrere, heute)
+  const seite = terminSeite(15957, '15957', rel ?? mehrere, heute)
   pruefe(`Termin-Seite, ${was}: Skript zeigt ${erwartet}`, tagImSkript(seite) === erwartet, tagImSkript(seite))
   pruefe(`Termin-Seite, ${was}: „Im Kalender ansehen“ zeigt ${erwartet}`, tagImLink(seite) === erwartet, tagImLink(seite))
 }
