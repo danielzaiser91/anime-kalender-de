@@ -76,14 +76,14 @@ export function newsSatz(m: NewsMeldung, am?: string): string {
     case 'kino':
       return t('news.kino', { datum }) + lautQuelle(m, am)
     case 'verspaetet':
-      return t('news.verspaetet', { von: m.von ?? '', datum, wie: ankuendigungsWort(m) })
+      return t('news.verspaetet', { von: m.von ?? '', datum, wie: ankuendigungsWort(m.angekuendigtBelegt) })
     case 'nachgetragen':
       return m.zeit && m.datum
         ? t('news.nachgetragenZeit', { von: m.von ?? 1, tag: weekdayName(m.datum), datum, zeit: uhrzeitKurz(m.zeit), anbieter })
         : t('news.nachgetragen', { von: m.von ?? 1, datum, anbieter })
     case 'nachgereicht': {
       const erwartet = aufzaehlen((m.erwartet ?? []).map((d) => (m.erwartet!.length > 1 ? datumKurz(d).slice(0, 6) : datumKurz(d))))
-      const wie = ankuendigungsWort(m)
+      const wie = ankuendigungsWort(m.angekuendigtBelegt)
       const p = m.planmaessig
       const plan = p?.length ? (p.length > 1 ? t('news.planMehrere', { von: p[0]!, bis: p.at(-1)! }) : t('news.planEine', { n: p[0]! })) : ''
       const mehrere = m.bis !== undefined && m.bis !== m.von

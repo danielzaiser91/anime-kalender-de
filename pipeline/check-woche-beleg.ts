@@ -82,7 +82,7 @@ console.log('\nWochenprogramm-Belege: die Meldung')
   const wocheBeleg = { url: ARTIKEL, gesehenAm: '2026-10-12T11:04:14.990Z', bild: 'www.crunchyroll.com/wochenprogramm/gt00378123/2026-10-14-f12-x.webp', bildAm: '2026-10-15T13:00:00.000Z', markierung: MARKE }
   const vermerke = [{ slug: 'tomb-raider-king', episode: 12, erwartetAm: '2026-10-14T17:25:00.000Z', bemerktAm: '2026-10-14T18:02:41.716Z', messbeleg: { bild: 'www.crunchyroll.com/simulcastcalendar/2026-10-14/2026-10-14-18-02.jpg' }, wocheBeleg }]
   const verpasst = verpasstAmTermin('tomb-raider-king', vermerke)
-  const release = { slug: 'tomb-raider-king', titleId: 1, name: 'Tomb Raider King', platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-07-29', verpasst } } as unknown as Release
+  const release = { slug: 'tomb-raider-king', titleId: 1, name: 'Tomb Raider King', platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-07-29', episodeCount: 13, estimated: true, verpasst } } as unknown as Release
   const m = verspaetungsMeldungen(release).find((x) => x.art === 'verspaetet')
   pruefe('der Bau reicht das Bild an den Vermerk weiter', verpasst?.[12]?.wocheBeleg?.bild === wocheBeleg.bild, verpasst)
   pruefe('die Meldung trägt zwei Belege: Wochenprogramm (Vorher) zuerst, dann der Kalender (Nachher)', m?.belege?.length === 2 && m.belege[0]!.url === ARTIKEL && m.belege[1]!.url.includes('simulcastcalendar'), m?.belege)

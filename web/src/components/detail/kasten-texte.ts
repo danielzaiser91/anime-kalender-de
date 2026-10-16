@@ -1,5 +1,6 @@
 import type { ReleaseEvent, Title } from '@shared/types.ts'
 import { formatDate, weekdayName } from '@shared/time.ts'
+import { tagIstAngekuendigt } from '@shared/news-typen.ts'
 import { kostenloseFolgen, kostenlosEtikett } from '@shared/kostenlos.ts'
 import type { Antwort } from './antwort-typ.ts'
 
@@ -32,13 +33,13 @@ export function kostenlosKopfVon({ title, antwort, T }: {
 
 /**
  * Der Tag, an dem die ausgebliebene Folge kommen sollte, mit Uhrzeit, wenn bekannt.
- * Ein fortgeschriebener Tag (`estimated`) ist keine Ankündigung des Anbieters und heißt „erwartet“.
+ * Ein errechneter Tag ist keine Ankündigung des Anbieters und heißt „erwartet“ (`tagIstAngekuendigt`, dasselbe Urteil wie in Mail und Meldungen).
  */
 export function ausgebliebenTerminText(
   e: ReleaseEvent,
   T: (k: string, v?: Record<string, string | number>) => string,
 ): string {
-  const schluessel = e.estimated ? 'antwort.erwartetFuer' : 'antwort.angekuendigtFuer'
+  const schluessel = tagIstAngekuendigt(e.verpasst, e.estimated) ? 'antwort.angekuendigtFuer' : 'antwort.erwartetFuer'
   const werte = { tag: weekdayName(e.date), datum: formatDate(e.date) }
   if (!e.time) return T(schluessel, werte)
   return T(`${schluessel}Zeit`, { ...werte, zeit: e.timeEstimated ? `≈ ${e.time}` : e.time })

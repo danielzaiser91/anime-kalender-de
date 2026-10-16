@@ -9,7 +9,7 @@
  * dort ohne HTML, damit man die Regeln lesen kann.
  */
 import { SPRACHE_HINWEIS, SPRACHE_MARKE } from '../../shared/ics.ts'
-import { ankuendigungsWort } from '../../shared/news-typen.ts'
+import { ankuendigungsWort, tagIstAngekuendigt } from '../../shared/news-typen.ts'
 import { omuStartText } from '../../shared/ankuendigung.ts'
 import { folgenProWoche } from '../../shared/folgenrhythmus.ts'
 import { OFFIZIELL_SATZ } from '../../shared/news-offiziell-satz.ts'
@@ -134,7 +134,7 @@ export function newsSatz(m: NewsMeldung): string {
     case 'kino':
       return `Kinostart am ${datum}`
     case 'verspaetet':
-      return `Folge ${m.von} war für den ${datum} ${ankuendigungsWort(m)} und ist nicht erschienen`
+      return `Folge ${m.von} war für den ${datum} ${ankuendigungsWort(m.angekuendigtBelegt)} und ist nicht erschienen`
     case 'nachgetragen':
       return `Rückwirkend eingetragen: Folge ${m.von ?? 1} erschien am ${datum}${m.zeit ? ` um ${m.zeit} Uhr` : ''}${anbieter ? ` bei ${anbieter}` : ''} mit deutscher Synchro`
     case 'nachgereicht':
@@ -196,4 +196,21 @@ export function newsText(eintraege: NewsEintrag[], siteUrl: string): string {
       return `* ${e.titel} — ${saetze}\n  ${siteUrl.replace(/\/$/, '')}#/datenbank?t=${e.titelId}`
     })
     .join('\n')
+}
+
+/** „angekündigt“ oder „erwartet“ für den alten Tag eines ausgebliebenen Termins — dasselbe Urteil wie Detailfenster und Meldung. */
+export function ausfallWort(ev: ReleaseEvent): 'angekündigt' | 'erwartet' {
+  return ankuendigungsWort(tagIstAngekuendigt(ev.verpasst, ev.estimated))
+}
+
+/** Was eine Meldung (nicht erschienen / verspätet erschienen) schon sagt, steht nicht noch einmal im Block „Verschoben oder ausgeblieben“. */
+export function ohneGemeldeteAusfaelle(verschoben: ReleaseEvent[], eintraege: NewsEintrag[]): ReleaseEvent[] {
+  const meldungen = eintraege.flatMap((e) => e.meldungen)
+  const gemeldet = (ev: ReleaseEvent) => {
+    const tag = (ev.verpasst?.erwartetAm ?? ev.date).slice(0, 10)
+    return meldungen.some(
+      (m) => m.release === ev.releaseSlug && (m.art === 'verspaetet' ? m.datum === tag : m.art === 'nachgereicht' && m.erwartet?.includes(tag)),
+    )
+  }
+  return verschoben.filter((ev) => !gemeldet(ev))
 }

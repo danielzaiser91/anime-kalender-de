@@ -9,6 +9,8 @@
 import type { NewsBeleg, NewsMeldung, Release } from '../../shared/types.ts'
 import type { VermerkMitAnkuendigung, WocheBelegVermerk } from '../../shared/woche-beleg-typ.ts'
 import { toIsoDate } from '../../shared/time.ts'
+import { expandEvents } from '../../shared/logic.ts'
+import { tagIstAngekuendigt } from '../../shared/news-typen.ts'
 import type { DatiertNews } from './news-verlauf.ts'
 
 /**
@@ -47,10 +49,14 @@ export function verspaetungsMeldungen(r: Release): Roh[] {
   /* Gemessen wird nur bei Crunchyroll — nur dort lesen wir einen Kalender (`termine-pruefen.ts`). */
   const gemessen = r.platform === 'crunchyroll'
   const raus: Roh[] = []
+  const events = r.schedule?.verpasst ? expandEvents(r) : []
   const nachTag = new Map<string, { nummer: number; erwartet: string; bild?: string; angekuendigt: boolean }[]>()
   for (const [nummer, v] of Object.entries<VermerkMitAnkuendigung>(r.schedule?.verpasst ?? {})) {
     if (!v?.erwartetAm) continue
     const erwartet = toIsoDate(new Date(v.erwartetAm))
+    /* Dasselbe Urteil wie im Detailfenster und in der Mail (`tagIstAngekuendigt`); ohne Termin im Plan gilt der Tag als errechnet. */
+    const imPlan = events.find((e) => e.verpasst === v)
+    const angekuendigt = tagIstAngekuendigt(v, imPlan ? imPlan.estimated : true)
     raus.push({
       schluessel: `verspaetet:${r.slug}:${nummer}:${v.erwartetAm}`,
       fallback: erwartet,
@@ -59,12 +65,12 @@ export function verspaetungsMeldungen(r: Release): Roh[] {
       datum: erwartet,
       von: Number(nummer),
       release: r.slug,
-      ...(v.wocheBeleg ? { angekuendigtBelegt: true as const } : {}),
+      ...(angekuendigt ? { angekuendigtBelegt: true as const } : {}),
       ...(gemessen ? { quelle: kalenderTag(erwartet), belege: [...(v.wocheBeleg ? [wochenBeleg(v.wocheBeleg)] : []), messBeleg(erwartet, toIsoDate(new Date(v.bemerktAm ?? v.erwartetAm)), v.messBild)] } : {}),
     })
     if (!v.erschienenAm) continue
     const tag = toIsoDate(new Date(v.erschienenAm))
-    nachTag.set(tag, [...(nachTag.get(tag) ?? []), { nummer: Number(nummer), erwartet, bild: v.nachBild, angekuendigt: !!v.wocheBeleg }])
+    nachTag.set(tag, [...(nachTag.get(tag) ?? []), { nummer: Number(nummer), erwartet, bild: v.nachBild, angekuendigt }])
   }
   for (const [tag, folgen] of nachTag) {
     folgen.sort((a, b) => a.nummer - b.nummer); const plan = planFolgenAm(r, tag, folgen.at(-1)!.nummer)
