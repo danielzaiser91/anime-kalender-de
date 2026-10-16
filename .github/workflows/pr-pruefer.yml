@@ -70,7 +70,7 @@ jobs:
           rm -f "$T/dateien.ndjson"
           gh pr view "$PR" --repo "$GITHUB_REPOSITORY" --json title,body,headRefName \
             -q '"Titel: " + .title + "\nZweig: " + .headRefName + "\n\n" + .body' > "$T/pr-beschreibung.txt"
-          # Beschreibungen sind unveränderlich; spätere Runden stehen als Kommentar "**Nachtrag…", "## Nachtrag…" oder "# Nachtrag…" am Textanfang des PR-Autors (nur dieser zählt).
+          # Beschreibungen sind unveränderlich; spätere Runden stehen als Kommentar "Nachtrag…" oder "Nachbesserung…" (mit oder ohne **, #) am Textanfang des PR-Autors (nur dieser zählt).
           autor=$(gh pr view "$PR" --repo "$GITHUB_REPOSITORY" --json author -q .author.login) || autor=""
           if [[ "$autor" =~ ^[A-Za-z0-9][A-Za-z0-9-]*(\[bot\])?$ ]]; then
             # Fail-soft: fehlt das Skript (z. B. auf main vor dem Merge) oder stürzt node ab, muss diff-zustand trotzdem geschrieben werden.

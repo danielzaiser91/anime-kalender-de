@@ -4,13 +4,13 @@
  *   node tools/pr-nachtraege.mjs <PR> <autor> <datei>     (hängt die Nachträge an <datei>; bei Fehler bleibt sie unverändert, Exit 0)
  *
  * Beschreibungen sind unveränderlich; spätere Runden stehen als Kommentar des PR-Autors, dessen Text mit
- * `**Nachtrag`, `## Nachtrag` oder `# Nachtrag` beginnt (führender Leerraum erlaubt). Nur der Autor zählt.
+ * `Nachtrag` oder `Nachbesserung` beginnt, mit oder ohne Marke (`**`, `#`), beliebige Schreibweise, führender Leerraum erlaubt. Nur der Autor zählt.
  */
 import { spawnSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
-export const NACHTRAG = /^\s*(\*\*|#+ *)Nachtrag/
+export const NACHTRAG = /^\s*(\*\*|#+ *)?(Nachtrag|Nachbesserung)/i
 const AUTOR = /^[A-Za-z0-9][A-Za-z0-9-]*(\[bot\])?$/
 const KOPF = '\n\n## Nachträge (gelten als Teil der Beschreibung, spätere gehen vor)'
 
