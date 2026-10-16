@@ -63,9 +63,31 @@ assert.equal(githubUnbedenklich(mitte('.github/CODEOWNERS')), false, 'alles Übr
 assert.equal(githubUnbedenklich(mitte('.github/workflows/x.yml.bak')), false, 'keine Workflow-Endung')
 assert.equal(githubUnbedenklich(mitte('docs/.github/workflows/x.yml')), false, 'nur der Wurzelordner .github/')
 assert.deepEqual(KETTEN_WORKFLOWS, ['.github/workflows/pr-pruefung.yml', '.github/workflows/deploy.yml'])
-// Kette und Deploy rufen keine wiederverwendbaren Workflows: deren Datei wäre sonst „fremd“ und ihre Änderung unbemerkt.
+// Kette und Deploy rufen keine wiederverwendbaren Workflows und lokal nur Actions: eine andere Datei wäre sonst „fremd“ und ihre Änderung unbemerkt.
+// Geparst statt per Regex, damit Anführungszeichen und Flow-Syntax nicht vorbeikommen.
+/** Unzulässige `uses` eines geparsten Workflows: jedes auf Job-Ebene, lokal (`./…`) nur unter `./.github/actions/` ohne `..`. */
+function unzulaessigeAufrufe(wf) {
+  const schlecht = []
+  for (const [id, job] of Object.entries(wf?.jobs ?? {})) {
+    if (job?.uses !== undefined) schlecht.push(`${id}: ${job.uses}`)
+    for (const s of job?.steps ?? []) {
+      const u = String(s?.uses ?? '')
+      if (u.startsWith('.') && (!u.startsWith('./.github/actions/') || u.includes('..'))) schlecht.push(`${id}: ${u}`)
+    }
+  }
+  return schlecht
+}
+const yamlFall = (text) => unzulaessigeAufrufe(parse(text)).length
+assert.equal(yamlFall('jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v4\n      - uses: ./.github/actions/kette-einrichten\n      - run: x\n'), 0, 'Action der Kette und fremde Action sind zulässig')
+assert.equal(yamlFall("jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v4\n      - uses: './.github/workflows/x.yml'\n      - run: x\n"), 1, 'in Anführungszeichen')
+assert.equal(yamlFall('jobs: {a: {steps: [{uses: actions/checkout@v4}, {uses: ./.github/workflows/x.yml}, {run: x}]}}'), 1, 'Flow-Syntax')
+assert.equal(yamlFall('jobs:\n  a:\n    steps: [{run: x}]\n  b:\n    uses: ./.github/workflows/x.yml\n  c:\n    steps: [{run: x}]\n'), 1, 'Job-Ebene lokal')
+assert.equal(yamlFall('jobs:\n  b:\n    uses: org/repo/.github/workflows/x.yml@v1\n'), 1, 'Job-Ebene fremd')
+assert.equal(yamlFall('jobs:\n  a:\n    steps:\n      - uses: ./.github/actions/../workflows/x.yml\n'), 1, 'aus actions/ heraus')
+assert.equal(yamlFall('jobs:\n  a:\n    steps:\n      - uses: ./tools/action\n'), 1, 'lokale Action außerhalb .github/actions/')
 for (const datei of KETTEN_WORKFLOWS) {
-  assert.doesNotMatch(readFileSync(resolve(import.meta.dirname, '..', datei), 'utf8'), /uses:\s*\.\/\.github\/workflows\//, `${datei} ruft einen lokalen Workflow`)
+  const wf = parse(readFileSync(resolve(import.meta.dirname, '..', datei), 'utf8'))
+  assert.deepEqual(unzulaessigeAufrufe(wf), [], `${datei} ruft etwas außerhalb von .github/actions/`)
 }
 
 // Verdrahtung in deploy.yml: Fallback auf den Neubau bleibt, und ohne Treffer läuft alles wie vorher.
