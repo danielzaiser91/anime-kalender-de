@@ -10,6 +10,7 @@ import { coverBild } from '../../lib/cover.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { FernsehZeichen } from './Zeichen.tsx'
 import { PremiereMarke } from './PremiereMarke.tsx'
+import { useHoverCover } from './HoverCover.tsx'
 import { TREFFER_24_HOCH } from '../detail/tippziel.ts'
 
 /**
@@ -94,14 +95,15 @@ function TvZeile({
   const { t } = useLang()
   const [auf, setAuf] = useState(false)
   const [ev, ...weitere] = gruppe
+  const cover = data.titleById.get(ev.titleId)?.coverImage
+  const { zeiger, vorschau } = useHoverCover(versteckt ? undefined : cover)
   if (versteckt) {
     return <li className="py-1 text-[13px] italic text-ak-sehr-leise">{ev.name}</li>
   }
-  const cover = data.titleById.get(ev.titleId)?.coverImage
   const premiere = tvPremiere(ev, data)
   const letzte = weitere[weitere.length - 1]?.time
   return (
-    <li data-tv-zeile className={vorbei ? 'ak-vorbei' : ''}>
+    <li data-tv-zeile className={vorbei ? 'ak-vorbei' : ''} {...zeiger}>
       <button
         type="button"
         data-schliesst
@@ -137,6 +139,7 @@ function TvZeile({
               : t('kal.buendelTvOhneZeit', { n: weitere.length })}
         </button>
       )}
+      {vorschau}
     </li>
   )
 }

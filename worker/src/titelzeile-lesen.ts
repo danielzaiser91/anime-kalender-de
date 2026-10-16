@@ -9,7 +9,7 @@
  * Fortsetzung führen beide Ergebnisse zusammen.
  */
 import { type Env } from './env.ts'
-import { AM, lies, NUMMER, STAFFEL, TITEL_ID_AB } from './titelzeile-format.ts'
+import { AM, ausId, lies, NUMMER, STAFFEL, TITEL_ID_AB } from './titelzeile-format.ts'
 import { vereint, type Quelle, type Seite } from './seiten-vereint.ts'
 
 /** Bedingung für Abfragen auf `pruefung`: nur Adressen ohne Titelzeile (deren Folgen stehen in der Sicht). */
@@ -29,7 +29,16 @@ export async function gemeldetAusTitelzeile(env: Env, url: string) {
   }
 }
 
-const ALLE_SPALTEN = `id, plattform, url, befund, folge_nr, staffel, staffeln, folgen, teil_von, teil_bis,
+/**
+ * Seitenweise über die Sicht (Migration 058): `id` beginnt mit der Titelnummer, also ordnet `titel_nr, id` wie `id`. So liest
+ * SQLite die Titel über `titel_zeile_nr` ab dem Titel der Marke und hört in D1 nach `LIMIT` auf (workerd gemessen), statt je
+ * Seite alle Folgen auszupacken und zu sortieren. Platzhalter: ?1 Marke, ?2 Anzahl, ?3 Titelnummer der Marke (`titelSeite`).
+ */
+export const TITEL_AB_MARKE = 'titel_nr >= ?3 AND id > ?1'
+export const TITEL_REIHE = 'ORDER BY titel_nr, id LIMIT ?2'
+export const titelSeite = (von: number, anzahl: number) => [von + TITEL_ID_AB, anzahl, ausId(von + TITEL_ID_AB).nr]
+
+const ALLE_SPALTEN =`id, plattform, url, befund, folge_nr, staffel, staffeln, folgen, teil_von, teil_bis,
                 titel, serientitel, titel_id, notiz, abos, gemeldet_am, vorhanden, ton_de, art`
 
 /** `?alle=1`: jede Meldung, seitenweise — erst `pruefung` (ohne verdrängte Adressen), dann die Titelzeilen. */
@@ -49,9 +58,9 @@ export async function allePruefungen(env: Env, nach: number): Promise<Seite> {
       const { results } = await env.DB.prepare(
         `SELECT id, plattform, url, befund, folge_nr, staffel, staffeln, folgen, NULL AS teil_von, NULL AS teil_bis,
                 titel, serientitel, titel_id, notiz, NULL AS abos, gemeldet_am, vorhanden, ton_de, art
-           FROM pruefung_titel WHERE id > ?1 ORDER BY id LIMIT ?2`,
+           FROM pruefung_titel WHERE ${TITEL_AB_MARKE} ${TITEL_REIHE}`,
       )
-        .bind(von + TITEL_ID_AB, anzahl)
+        .bind(...titelSeite(von, anzahl))
         .all()
       return (results ?? []) as { id: number; url: string }[]
     },

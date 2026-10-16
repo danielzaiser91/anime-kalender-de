@@ -134,6 +134,7 @@ pipeline/check-such-chip.ts
 pipeline/check-synchro-original.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
+pipeline/check-termine-observed-lauf.ts
 pipeline/check-termine-uebersicht.ts
 pipeline/check-termine-woche-lauf.ts
 pipeline/check-tmdb-ablauf.ts
@@ -158,3 +159,9 @@ tools/check-patchnotes-pflicht.mjs
 tools/design-klassen.mjs
 tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
+tools/handbeleg-verwaist.test.mjs
+tools/hover-cover.test.ts
+tools/laeufe-abruf.test.mjs
+tools/pruef-bestand.test.mjs
+tools/tmdb-bilddatum.test.mjs
+tools/untersucher-schluessel.test.mjs

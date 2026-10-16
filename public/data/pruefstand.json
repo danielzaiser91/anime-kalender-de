@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-15T00:05:52.766Z",
+ "erzeugtAm": "2026-10-16T00:08:17.094Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
    "gemeldet": 304,
-   "gesamt": 849,
-   "offen": 545,
+   "gesamt": 851,
+   "offen": 547,
    "ohneSeite": 28,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
@@ -685,6 +685,10 @@
      "titel": "Rotschühchen und die sieben Zwerge (Red Shoes and the Seven Dwarfs)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0D83P6X34",
+     "titel": "Tokyo Ghoul"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B07Y547M9T",
      "titel": "K: Seven Stories Movie 1 - R:B - Blaze (K: SEVEN STORIES \"R:B - BLAZE -\")"
     },
@@ -770,10 +774,6 @@
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CW5WH6XZ",
-     "titel": "Tokyo Ghoul:re (Tokyo Ghoul:re 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D83P6X34",
      "titel": "Tokyo Ghoul:re (Tokyo Ghoul:re 2)"
     },
     {
@@ -1143,6 +1143,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0FGHMWPZF",
      "titel": "Ame & Yuki: Die Wolfskinder (Wolf Children)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0DNCF1M3N",
+     "titel": "Jormungand"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B07NLB57CX",

@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-10-15",
+  "stand": "2026-10-16",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -10794,6 +10794,74 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 314
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1060946/prime-video-avatar-die-sieben-haefen-und-mehr/|Avatar: Die sieben Häfen||start|primevideo",
+      "erstGesehen": "2026-10-16",
+      "fingerabdruck": "084e0592a806",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1060946/prime-video-avatar-die-sieben-haefen-und-mehr/",
+          "veroeffentlicht": "2026-10-15",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Avatar: Die sieben Häfen",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "deutsch": "ja",
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Deutsch, Englisch (UT)",
+          "kein Tag genannt"
+        ],
+        "zitat": "»Avatar: Die sieben Häfen«\nEpisoden: 1 ohne Zusatzchannel verfügbar\nSprache: Deutsch, Englisch (UT)\nHinweis: Die Episoden 2 und 3 sind im Paramount+-Channel verfügbar.\nStream: Prime Video",
+        "offen": {
+          "grund": "kein Titel mit diesem Namen",
+          "kandidaten": []
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 235
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1060946/prime-video-avatar-die-sieben-haefen-und-mehr/|Yoyo & Nene – Die magischen Schwestern||start|primevideo",
+      "erstGesehen": "2026-10-16",
+      "fingerabdruck": "84d037ac6249",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1060946/prime-video-avatar-die-sieben-haefen-und-mehr/",
+          "veroeffentlicht": "2026-10-15",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Yoyo & Nene – Die magischen Schwestern",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "deutsch": "ja",
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Deutsch",
+          "kein Tag genannt"
+        ],
+        "zitat": "»Yoyo & Nene – Die magischen Schwestern«\nLaufzeit: 99 Minuten\nSprache: Deutsch\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 15813,
+          "name": "Yoyo & Nene: Die magischen Schwestern",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 345
       }
     }
   ]

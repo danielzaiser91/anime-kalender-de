@@ -1,4 +1,4 @@
-# Belege ohne Fundstelle (74)
+# Belege ohne Fundstelle (80)
 
 Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artikel den Titel und den Termin? Wenn nein, ist der Beleg hinfällig und der Termin braucht eine andere Quelle.
 
@@ -6,6 +6,9 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1032820/netflix-beelzebub-und-mehr/ (gelesen 2026-10-13) — Beelzebub (9513)
 - https://www.anime2you.de/news/1033802/netflix-anime-neu-im-august-2026/ (gelesen 2026-10-13) — The Ribbon Hero (211308)
 - https://www.anisearch.de/article/15034,the-quintessential-quintuplets-staffel-1-2-komplettset-sammelschuber (gelesen 2026-10-13) — The Quintessential Quintuplets (103572)
+- https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release (gelesen 2026-10-05) — Boruto: Naruto the Movie (21220), Naruto Shippuden: The Movie (2472)
+- https://www.anisearch.de/article/216205 (gelesen 2026-10-05) — Boruto: Naruto the Movie (21220), Naruto Shippuden: The Movie (2472)
+- https://www.anime2you.de/news/1044447/miss-kobayashis-dragon-maid-steelbook-edition/ (gelesen 2026-10-16) — Kobayashi-san Chi no Maidragon S (107717)
 - https://www.anisearch.de/article/211704,the-ancient-magus-bride-staffel-2-gesamtausgabe-blu-ray (gelesen 2026-10-13) — The Ancient Magus’ Bride: Staffel 2 (154364)
 - https://www.anisearch.de/article/211704 (gelesen 2026-10-14) — The Ancient Magus’ Bride: Staffel 2 (154364)
 - https://www.anisearch.de/article/211705,code-geass-lelouch-of-the-rebellion-staffel-1-2-komplettset-blu-ray (gelesen 2026-10-13) — Code Geass: Lelouch of the Rebellion (1575)
@@ -48,6 +51,8 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.joyn.de/serien/tokyo-revengers (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/serien/welcome-to-demon-school-iruma-kun (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.anisearch.de/article/15034 (gelesen 2026-10-15) — The Quintessential Quintuplets (103572)
+- https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/ (gelesen 2026-10-16) — Kobayashi-san Chi no Maidragon S (107717), Afro Samurai + Afro Samurai Resurrection (1292), Miss Kobayashi’s Dragon Maid – Staffel 1 (21776)
+- https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/ (gelesen 2026-10-16) — Naruto Shippuden – Staffel 3 (1735), SPY x FAMILY (140960), Spy × Family (Cour 2) (142838), Spy × Family: Staffel 2 (158927)
 - https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/ (gelesen 2026-10-15) — BLEACH: The DiamondDust Rebellion - Mou Hitotsu no Hyourinmaru (2889), BLEACH: Fade to Black - Kimi no Na wo Yobu (4835), Bleach: The Movie - Hell Verse (8247), 86: Eighty Six (116589), 86: Eighty Six – Teil 2 (131586), Tensei Shitara Dragon no Tamago Datta: Saikyou Igai Mezasa Nee (187941), Mahou Shoujo Madoka☆Magica (9756)
 - https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/ (gelesen 2026-10-14) — Beelzebub (9513)
 - https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/ (gelesen 2026-10-14) — Bishoujo Senshi Sailor Moon SuperS (1239), Bishoujo Senshi Sailor Moon R (740), Bishoujo Senshi Sailor Moon: Sailor Stars (996), Hanarokushou ga Akeru Hi ni (177132)
@@ -76,3 +81,4 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/ (gelesen 2026-10-15) — Snowball Earth (196144)
 - https://www.anime2you.de/news/1058501/starttermin-von-magical-buffs/ (gelesen 2026-10-15) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1057673/crunchyroll-zeigt-red-riding-hood/ (gelesen 2026-10-15) — kein Titel zugeordnet
+- https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/ (gelesen 2026-10-16) — Snowball Earth (196144)

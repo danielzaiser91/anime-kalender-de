@@ -26,6 +26,7 @@ import { bilderOrdner } from './bilder-ordner.mjs'
 import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
 import { pruefeFilterfensterRechner } from './ansicht-filterfenster-rechner.mjs'
 import { pruefeAdressen } from './ansicht-adressen.mjs'
+import { pruefeHoverCover } from './ansicht-hover-cover.mjs'
 import { pruefeStatusfarben } from './ansicht-statusfarben.mjs'
 import { distPruefen } from './dist-frisch.mjs'
 
@@ -216,6 +217,16 @@ async function pruefeWerkzeugleiste(seite) {
   return abweichungen
 }
 
+/** Cover-Vorschau der Listenzeilen in der Woche (Maus und Touch); wahr, wenn rot. */
+async function meldeHoverCover() {
+  const r = await pruefeHoverCover(chromium, antworteAusDist)
+  const ok = r.maus ? `ok (nach ${Math.round(r.maus.nach)} ms)` : ''
+  console.log(`\nCover-Vorschau (Woche, Maus und Touch): ${r.abweichungen.length ? '' : ok}`)
+  for (const a of r.ansichten) console.log(`  ${a.name}: ${a.uebersprungen ? 'übersprungen (keine Ereignisse mit Cover in dieser Woche)' : `geprüft an „${a.zeile ?? '–'}“`}`)
+  for (const l of r.abweichungen) console.log(`  ✕ ${l}`)
+  return r.abweichungen.length > 0
+}
+
 /** Die Zusatzprüfungen nach den Bildern; wahr, wenn eine rot ist. */
 async function meldeZusatzpruefungen(seite, ansichten, handy) {
   /* Der Cartoon-Filter wird am Rechner geprüft; am Handy liegt der Schalter im geschlossenen Filterfenster. */
@@ -228,6 +239,7 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
     for (const l of rechner.abweichungen) console.log(`  ✕ ${l}`)
     if (rechner.abweichungen.length) rot = true
   }
+  if (!handy && ansichten.includes('woche') && (await meldeHoverCover())) rot = true
   if (handy && ['woche', 'monat', 'datenbank'].every((a) => ansichten.includes(a))) {
     const leiste = await pruefeWerkzeugleiste(seite)
     console.log(`\nWerkzeugleiste unten (320/360/393/440 px): ${leiste.length ? '' : 'ok'}`)
