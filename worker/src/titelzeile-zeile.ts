@@ -19,17 +19,21 @@ export async function ladeZeile(env: Env, url: string, plattform: string): Promi
   return results?.[0] ?? null
 }
 
+/** Das `UPDATE` einer gelesenen Zeile gegen ihre Version (einzeln in `schreibe`, gesammelt in `titelzeile-aufgaben.ts`). */
+export function aktualisierung(env: Env, zeile: Zeile & { url: string; plattform: string }, neu: TitelDaten): D1PreparedStatement {
+  const offen = zaehleOffene(neu)
+  return env.DB.prepare(
+    'UPDATE titel_zeile SET daten = ?3, version = version + 1, gemeldet_am = ?4, offen_meldung = ?6, offen_rohfolge = ?7 WHERE url = ?1 AND plattform = ?2 AND version = ?5',
+  ).bind(zeile.url, zeile.plattform, JSON.stringify(neu), jetztIso(), zeile.version, offen.meldung, offen.rohfolge)
+}
+
 /** Schreibt gegen die gelesene Version; `false`, wenn jemand dazwischen geschrieben (oder dieselbe Nummer vergeben) hat. */
 async function schreibe(env: Env, url: string, plattform: string, zeile: Zeile | null, neu: TitelDaten): Promise<boolean> {
   const text = JSON.stringify(neu)
   const am = jetztIso()
   const offen = zaehleOffene(neu)
   const r = zeile
-    ? await env.DB.prepare(
-        'UPDATE titel_zeile SET daten = ?3, version = version + 1, gemeldet_am = ?4, offen_meldung = ?6, offen_rohfolge = ?7 WHERE url = ?1 AND plattform = ?2 AND version = ?5',
-      )
-        .bind(url, plattform, text, am, zeile.version, offen.meldung, offen.rohfolge)
-        .run()
+    ? await aktualisierung(env, { url, plattform, ...zeile }, neu).run()
     : await env.DB.prepare(
         'INSERT INTO titel_zeile (url, plattform, nr, daten, gemeldet_am, offen_meldung, offen_rohfolge) VALUES (?1, ?2, (SELECT IFNULL(MAX(nr), 0) + 1 FROM titel_zeile), ?3, ?4, ?5, ?6) ON CONFLICT DO NOTHING',
       )
