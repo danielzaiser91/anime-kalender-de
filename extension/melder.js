@@ -2573,7 +2573,7 @@ function offeneGruppen() {
  * Menüeintrag, dessen Folgenzahl genau einmal passt — sonst keiner.
  */
 function gruppenLabel(gruppe) {
-  const passend = (letztesMenue ?? []).filter((e) => e.folgen === gruppe.length)
+  const passend = akNetflixMenue(letztesMenue, gemeinteReihe()).filter((e) => e.folgen === gruppe.length)
   if (passend.length !== 1) return null
   return passend[0].text.replace(/\s*\(?\s*\d+\s*(?:Folgen|Folge|Episoden|Episode|Episodes)\s*\)?\s*$/i, '').trim() || null
 }
@@ -2688,7 +2688,7 @@ function meldeZiel(reihe, folge) {
     : eigene.length === 1
       ? Number(eigene[0].nr)
       : null
-  return { staffel, titelId }
+  return { staffel, titelId, folgen: gruppe.length, ausKennung: mitListe }
 }
 
 /**
@@ -2760,7 +2760,7 @@ async function netflixStaffelnImMenue() {
   /* „Alle Folgen anzeigen" ist keine Staffel — der Durchgang wechselt nur zwischen echten. */
   const staffeln = raus.filter((e) => !istAlleFolgenEintrag(e.text))
   /* Gemerkt für `gruppenLabel()` — im Player gibt es kein Menü. */
-  if (staffeln.length) letztesMenue = staffeln
+  if (staffeln.length) letztesMenue = akNetflixMenueMerken(staffeln, gemeinteReihe())
   return staffeln
 }
 
@@ -3799,6 +3799,7 @@ async function durchlaufStarten() {
   const angezeigt = angezeigterNetflixName()
   DURCHLAUF.staffelLabel =
     DURCHLAUF.selbst || DURCHLAUF.mehrfach || istAlleFolgenEintrag(angezeigt) ? gruppenLabel(DURCHLAUF.folgen) : angezeigt
+  if (!imPlayer()) await netflixStaffelnImMenue()
   if (!DURCHLAUF.uebergangen) await durchlaufStandLaden(reihe)
   DURCHLAUF.uebergangen = false
   /*
@@ -4302,8 +4303,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
             gti: f.videoId != null ? String(f.videoId) : null,
             nummer: f.nummer ?? null,
             titel: f.titel ?? null,
-            staffelText: DURCHLAUF.staffelLabel ?? (f.seasonId != null ? String(f.seasonId) : null),
-            staffelNr: ziel.staffel,
+            ...akNetflixRohStaffel(ziel, akNetflixMenue(letztesMenue, reihe), DURCHLAUF.staffelLabel, f.seasonId),
             /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
             ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
             roh: {
@@ -4449,8 +4449,7 @@ async function durchlaufMelden(folge, echte, deutsch) {
             nummer: folge.nummer ?? null,
             titel: folge.titel ?? null,
             sprachen: echte.map((x) => `${x.code}|${x.name}`),
-            staffelText: DURCHLAUF.staffelLabel ?? (folge.seasonId != null ? String(folge.seasonId) : null),
-            staffelNr: meldeZiel(gemeinteReihe(), folge).staffel,
+            ...akNetflixRohStaffel(meldeZiel(gemeinteReihe(), folge), akNetflixMenue(letztesMenue, gemeinteReihe()), DURCHLAUF.staffelLabel, folge.seasonId),
             /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
             ...beobachtung(true, deutsch),
             /*
