@@ -134,6 +134,7 @@ pipeline/check-sammel-erste-folgen.ts
 pipeline/check-sammelartikel.ts
 pipeline/check-schwester-shop.ts
 pipeline/check-seiten-seo.ts
+pipeline/check-sprache-netz.ts
 pipeline/check-sprache-termin.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
