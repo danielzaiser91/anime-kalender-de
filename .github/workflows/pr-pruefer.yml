@@ -207,6 +207,10 @@ jobs:
             nicht, dass die Kulisse gelesen wird; relative Dateipfade im Prüfling per Grep suchen.
             Klasse an html/body (16.10.2026): CSS-Regeln nur mit Vorfahr; Fake-document-Tests sehen keine
             Stil-Kollision — prüfe jede Klasse, die ein Skript an html/body hängt, auf Kollision mit CSS-Regeln.
+            Melde-Knopf der Erweiterung (16.10.2026): Jede Änderung an einem Knopf, der eine Meldung sendet, prüfst
+            du auf „nach angekommener Meldung nicht mehr klickbar" (disabled und aria-disabled, auch nach dem
+            Neuzeichnen durch den Takt und bei einem Klick aus dem Code) — Doppelmeldungen kosten D1-Schreibzeilen.
+            Fehlt der Negativtest „zweiter Klick löst keine Meldung aus" (extension/melde-sperre.test.cjs), "aendern".
             Ein Wächter auf YAML/JSON, der den Text per Regex prüft, ist ein Befund, wenn Anführungszeichen oder
             Flow-Syntax ihn umgehen (geparstes Dokument prüfen); ein Workflow-Wächter sichert auch die Position
             des Schritts zum überwachten Schritt zu.
