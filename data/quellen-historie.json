@@ -7155,5 +7155,19 @@
       "sagt": "2026-10-14",
       "stand": "aktuell"
     }
+  ],
+  "adn-887": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/09/18/dreamland-enthuellt-in-neuem-trailer-die-titelsongs/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-16",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-16",
+      "stand": "aktuell"
+    }
   ]
 }
