@@ -1,4 +1,5 @@
-import { log, writeJson } from '../lib/util.ts'
+import { resolve } from 'node:path'
+import { log, ROOT, writeJson } from '../lib/util.ts'
 import type { Title } from '../../shared/types.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
 import { ladeCrArchiv } from './folgentitel-cr.ts'
@@ -25,7 +26,7 @@ function unserTitel(t: Title): UnserTitel {
   return { id: t.id, episodes: t.episodes ?? 0, zaehlt: ZAEHLT.has(t.format ?? ''), folgen: folgenlisteVon(t.id) }
 }
 
-export function setzeCrTeilseiten(titles: Map<number, Title>, crDub: CrDubData): void {
+export function setzeCrTeilseiten(titles: Map<number, Title>, crDub: CrDubData, schreibWurzel = ROOT): void {
   const serien = new Map(crDub.serien.filter((s) => s.katalog === 'de').map((s) => [s.url, s]))
   const pruefen: TeilseitenPruefung[] = []
   const je = { titel: 0, zahl: 0 }
@@ -47,6 +48,6 @@ export function setzeCrTeilseiten(titles: Map<number, Title>, crDub: CrDubData):
       pruefen.push({ titleId: title.id, titel: title.titleDe ?? title.titleEn ?? title.titleRomaji ?? '', url, grund })
     }
   }
-  writeJson(PRUEFLISTE, pruefen.sort((a, b) => a.titleId - b.titleId))
+  writeJson(resolve(schreibWurzel, PRUEFLISTE), pruefen.sort((a, b) => a.titleId - b.titleId))
   log(`Geteilte Crunchyroll-Seiten: ${je.titel} Bereiche über Folgentitel, ${je.zahl} über die Folgenzahl, ${pruefen.length} auf der Prüfliste`)
 }
