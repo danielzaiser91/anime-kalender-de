@@ -29,6 +29,7 @@ export interface AnkerTitel {
   episodes?: number | null
   jpYear?: number | null
   franchiseId?: number | null
+  runtimeMin?: number | null
 }
 
 export interface AnkerErgebnis {
@@ -73,25 +74,63 @@ export function sammleAnker(
   return { listen, grund: '' }
 }
 
+/** Größte Abweichung (Minuten) zwischen unserer Folgenlaufzeit und dem Median der TMDB-Staffel. */
+export const MAX_LAUFZEIT_ABWEICHUNG_MIN = 8
+
+function median(werte: number[]): number {
+  const s = [...werte].sort((a, b) => a - b)
+  return s[Math.floor(s.length / 2)]!
+}
+
+/** Passt die Staffel zum Titel? Startjahr gleich (Nachbarjahr zählt nicht), Laufzeit je Folge nah beieinander (wo beide bekannt). */
+function staffelPasst(folgen: TmdbFolge[], titel: AnkerTitel): boolean {
+  const erstes = folgen.filter((f) => f.datum).map((f) => f.datum!).sort()[0]
+  if (!erstes || Number(erstes.slice(0, 4)) !== titel.jpYear) return false
+  const minuten = folgen.map((f) => f.minuten).filter((m): m is number => typeof m === 'number' && m > 0)
+  if (!titel.runtimeMin || !minuten.length) return true
+  return Math.abs(median(minuten) - titel.runtimeMin) <= MAX_LAUFZEIT_ABWEICHUNG_MIN
+}
+
+/**
+ * Die TMDB-Folgen für einen Titel: seine eigenen, sonst die des Reihenkopfs (`franchiseId`), wenn dort genau eine
+ * Staffel zu Folgenzahl und Startjahr passt. TMDB führt eine Reihe unter einer Serie; Staffeln wie "Dorohedoro
+ * Staffel 2" haben keinen eigenen Eintrag. Das Jahr muss gleich sein: `findeStaffel` prüft es bei einem einzigen
+ * Längentreffer nicht, und ein Nachbarjahr brachte Attack on Titan 3 (2018) in Staffel 2 (2017). Ableger mit
+ * anderer Folgenlaufzeit (Akame ga Kill! Theater, 1 min gegen 24) bekommen die Hauptserie nicht.
+ */
+export function tmdbFuerTitel(
+  titel: AnkerTitel,
+  tmdbAlle: Record<string, { folgen: TmdbFolge[] }>,
+): { folgen: TmdbFolge[] } | undefined {
+  const eigene = tmdbAlle[String(titel.id)]
+  if (eigene || !titel.franchiseId) return eigene
+  const kopf = tmdbAlle[String(titel.franchiseId)]
+  if (!kopf || !titel.jpYear) return undefined
+  const staffel = findeStaffel(kopf.folgen, titel.episodes ?? null, titel.jpYear)
+  if (staffel === null) return undefined
+  return staffelPasst(kopf.folgen.filter((f) => f.s === staffel), titel) ? kopf : undefined
+}
+
 export interface AnkerPaare {
   paare: Zuordnung[]
   quelle: string
 }
 
 /**
- * Der erste Anker mit mindestens einem Treffer gewinnt. Trifft keiner, gilt der erste (sein
- * Name steht im Protokoll). Die Listen werden nicht vermischt: Gleiche Daten in beiden
- * wären sonst mehrdeutig, und `ordneZu` schwiege.
+ * Der Anker mit den meisten verschiedenen Treffern gewinnt, bei Gleichstand der frühere. Trifft
+ * keiner, gilt der erste (sein Name steht im Protokoll). Die Listen werden nicht vermischt:
+ * Gleiche Daten in beiden wären sonst mehrdeutig, und `ordneZu` schwiege. Der erste mit einem
+ * Treffer genügte nicht: Dorohedoro Staffel 2 trifft in aniSearch 1 von 11, in TMDB 8 (16.10.2026).
  */
 export function ordneUeberAnker(anbieter: AnbieterFolge[], listen: AnkerListe[]): AnkerPaare {
   const eindeutig = ohneGeteiltesDatum(anbieter)
-  let erste: AnkerPaare | null = null
+  let beste: (AnkerPaare & { n: number }) | null = null
   for (const l of listen) {
     const paare = ordneZu(eindeutig, l.folgen)
-    if (paare.some((p) => p.unsere !== null)) return { paare, quelle: l.quelle }
-    erste ??= { paare, quelle: l.quelle }
+    const n = verschiedeneZiele(paare)
+    if (!beste || n > beste.n) beste = { paare, quelle: l.quelle, n }
   }
-  return erste ?? { paare: ordneZu(anbieter, []), quelle: '' }
+  return beste ? { paare: beste.paare, quelle: beste.quelle } : { paare: ordneZu(anbieter, []), quelle: '' }
 }
 
 /**
