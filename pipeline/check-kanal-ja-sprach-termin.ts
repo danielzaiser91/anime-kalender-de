@@ -33,8 +33,8 @@ const titel = (id: number, streams: StreamLink[], watchLinks: WatchLink[] = []):
 const DE = ['Deutsch', 'Japanisch']
 
 /* Bau-Reihenfolge: Rohfolgen-Weg (09-3) → Kanal aus „Abos:“ (13-1) → tonDerKanalWege (13-schreiben) → Prüfung (13-5). */
-function baue(titles: Title[], releases: Release[]): string[] {
-  tonDerKanalWege(titles, releases, () => false)
+function baue(titles: Title[], releases: Release[], jwNein: (t: Title, s: StreamLink) => boolean = () => false): string[] {
+  tonDerKanalWege(titles, releases, jwNein)
   return deutschNurAusSpracheTermin(releases, new Map(titles.map((t) => [t.id, t])))
 }
 
@@ -127,6 +127,26 @@ const hashiraTermine = [termin(166240, 'offen'), termin(166240, 'offen')]
   const prime = rohWeg(13, 'B0DREIZEHN', ['Japanisch'], { kanal: 'Crunchyroll' })
   tonDerKanalWege([titel(13, [cr(), prime])], [], () => false)
   pruefe('tonDerKanalWege vererbt weiter, wo kein Termin spricht', prime.dub === true && geerbteWege.has(prime), prime)
+}
+{
+  /* JustWatchs „ohne de“ an der Kanal-Seite schlägt das Erbe (main, 16.10.2026); `tonDerKanalWege` reicht `jwNein` durch. Der gemessene Titel in der Mitte. */
+  const wege = [900030, 900031, 900032].map((id) => rohWeg(id, `B0JW${id}`, ['Japanisch'], { kanal: 'Crunchyroll' }))
+  const jwNein = (t: Title, s: StreamLink) => t.id === 900031 && s.url === seite('B0JW900031')
+  const widerspruch = baue(
+    wege.map((w, i) => titel(900030 + i, [cr(), w])),
+    [termin(900030), termin(900031), termin(900032)],
+    jwNein,
+  )
+  pruefe('JW „ohne de“ an der Seite, Termine ungekennzeichnet: der Weg erbt nicht, die Nachbarn schon', wege[1]!.dub === undefined && wege[0]!.dub === true && wege[2]!.dub === true && widerspruch.length === 0, wege)
+  const gekennzeichnet = rohWeg(900031, 'B0JW900031', ['Japanisch'], { kanal: 'Crunchyroll' })
+  const zweiter = baue([titel(900031, [cr(), gekennzeichnet])], [termin(900031, 'offen')], jwNein)
+  pruefe('JW „ohne de“ und gekennzeichnete Termine: kein Ja, kein Widerspruch', gekennzeichnet.dub === undefined && zweiter.length === 0, { gekennzeichnet, zweiter })
+}
+{
+  /* Ein entfernter Kanal-Weg zählt für die Prüfung mit (sie sieht `entferntAm` nicht): sein Ja fällt ebenso. */
+  const entfernt = rohWeg(900033, 'B0ENTFERNT', DE, { kanal: 'Crunchyroll', entferntAm: '2026-10-01' } as Partial<StreamLink>)
+  const widerspruch = baue([titel(900033, [cr(), entfernt])], [termin(900033, 'offen')])
+  pruefe('Entfernter Kanal-Weg mit Ja gegen gekennzeichnete Termine: genommen, kein Widerspruch', entfernt.dub === undefined && widerspruch.length === 0, { entfernt, widerspruch })
 }
 
 /* Die Verdrahtung im Bau: eine eigene Anweisung in `schreibeDatensatz`, nach dem Anreichern, vor der Auslieferung, mit genau diesen Argumenten. */
