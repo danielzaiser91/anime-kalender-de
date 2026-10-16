@@ -169,7 +169,7 @@ async function kastenLauf(fall, apiStatus = 200, gemeldet = [], postAntwort = al
     location: { pathname: `/de/video/${F[fall].show ?? 1427}-x`, href: `https://animationdigitalnetwork.com/de/video/${F[fall].show ?? 1427}-x` },
     document: {
       title: 'Titel | ADN',
-      createElement: () => ({ remove() {}, isConnected: true }),
+      createElement: () => ({ remove() {}, isConnected: true, setAttribute() {}, removeAttribute() {} }),
       addEventListener() {},
       querySelectorAll: () => F[fall].seite.testids.map((t) => ({ getAttribute: () => t })),
       querySelector: (s) => (s === 'main' ? { textContent: F[fall].seite.keinVideo ? 'Kein Video verfügbar.' : '' } : s === 'h1' ? { textContent: F[fall].seite.h1 } : null),
@@ -179,7 +179,7 @@ async function kastenLauf(fall, apiStatus = 200, gemeldet = [], postAntwort = al
     akBerichtSchalter: () => ({}),
   })
   k.globalThis = k
-  for (const datei of ['disney-netz.js', 'adn-leser.js', 'adn-senden.js', 'adn.js']) vm.runInContext(lies(datei), k, { filename: datei })
+  for (const datei of ['disney-netz.js', 'melde-sperre.js', 'adn-leser.js', 'adn-senden.js', 'adn.js']) vm.runInContext(lies(datei), k, { filename: datei })
   await new Promise((fertig) => setTimeout(fertig, 50))
   return { gesendet, knopf: knoepfe[0], alle: knoepfe, k }
 }

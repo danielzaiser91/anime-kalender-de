@@ -362,8 +362,7 @@
     */
     pruefKnopf.className =
       'ak-melder' + (klasse === 'gut' ? ' ak-erfolg' : klasse === 'schlecht' ? ' ak-fehler' : '')
-    pruefKnopf.disabled = !klick
-    pruefKnopf.onclick = klick
+    globalThis.AK_MELDE_SPERRE.setzeKlick(pruefKnopf, klick)
   }
 
   // --- Übersicht ------------------------------------------------------------

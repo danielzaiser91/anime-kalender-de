@@ -167,7 +167,7 @@ pruefe('Beschreibung gelesen', (erste?.beschreibung ?? '').length > 40, (erste?.
  */
 {
   const amazon = readFileSync(resolve(__dirname, 'amazon.js'), 'utf8')
-  const von = amazon.indexOf('function zeichnen() {')
+  const von = amazon.indexOf('function zeichnenRoh() {')
   pruefe('zeichnen() ist auffindbar', von > 0, von)
 
   /* Bis zum Ende der Funktion — über die Klammertiefe, nicht über eine Zeilenzahl. */

@@ -13,6 +13,8 @@
  */
 const { readFileSync } = require('node:fs')
 const vm = require('node:vm')
+/* Attribute, die die Knopf-Sperre (melde-sperre.js) am echten DOM setzt. */
+const ATTRAPPE = { setAttribute() {}, removeAttribute() {} }
 
 const fehler = []
 function pruefe(name, bedingung, gefunden) {
@@ -165,7 +167,7 @@ function machDom(traeger = { hoerer: null, fenster: null, adresse: null }) {
     alle,
     body,
     createElement(tag) {
-      return element(tag)
+      return Object.assign(element(tag), ATTRAPPE)
     },
     /**
      * **Ein gesetzter Quelltext löst die Widget-Antwort aus, die er beschreibt.**
@@ -269,7 +271,7 @@ function takten(takte, durchlaeufe = 5) {
 
 /* Wie im Manifest: `prime-stand.js` vor `amazon.js`, das beim Melden `akPrimeMeldungEintragen` aufruft. */
 function ladeSkripte(sandkasten) {
-  for (const datei of ['prime-stand.js', 'amazon.js']) vm.runInContext(readFileSync(`${__dirname}/${datei}`, 'utf8'), sandkasten)
+  for (const datei of ['melde-sperre.js', 'prime-stand.js', 'amazon.js']) vm.runInContext(readFileSync(`${__dirname}/${datei}`, 'utf8'), sandkasten)
 }
 
 function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite = true) {

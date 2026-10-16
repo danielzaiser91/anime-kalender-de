@@ -58,8 +58,7 @@
     prueflisteZeigen(box)
     S.knopf.textContent = text
     S.knopf.className = 'ak-melder' + (klasse === 'gut' ? ' ak-erfolg' : klasse === 'schlecht' ? ' ak-fehler' : '')
-    S.knopf.disabled = !klick
-    S.knopf.onclick = klick
+    globalThis.AK_MELDE_SPERRE.setzeKlick(S.knopf, klick)
   }
 
   /** Die Staffelzeilen der Anzeige: „Staffel 2: 11 Folgen, 11× deutsch" bzw. „nur Untertitel". */

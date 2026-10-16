@@ -3567,20 +3567,6 @@ async function speicherSchreiben(werte) {
    */
   let letzteMeldung = null
 
-  /**
-   * **Für welchen Pfad eine Meldung durchgegangen ist.**
-   *
-   * Ohne ihn verschwand die Marke „gemeldet ✓" zwei Sekunden nach der Meldung
-   * wieder: `zeichnen()` räumt sie zu Beginn jedes Takts weg, und nur der Zweig
-   * „alles durch" setzt sie neu — der greift aber nicht bei jedem Titel.
-   * Übrig blieb ein Kasten, der weder Knopf noch Ergebnis zeigte (Daniel,
-   * 06.09.2026, mit Bild).
-   *
-   * Der Pfad, nicht die volle Adresse: Prime schreibt den `ref_`-Parameter
-   * laufend um (siehe `filmAusSeite()`), und die Marke soll den Titelwechsel
-   * nicht überleben, wohl aber das Umschreiben der Adresse.
-   */
-  let gemeldetFuerPfad = null
   /** Text der Marke, wenn noch eine Staffel aussteht — sonst „gemeldet ✓". */
   let weiterText = null
   /*
@@ -7185,8 +7171,21 @@ async function speicherSchreiben(werte) {
     if (el.style[feld] !== wert) el.style[feld] = wert
   }
 
+  // Sperre nach angekommener Meldung (melde-sperre.js, Daniel 16.10.2026): am Befund, nicht an der Beschriftung.
+  const meldeSperre = globalThis.AK_MELDE_SPERRE.fuer(knopf, {
+    befund: () => `${location.pathname}|${staffelSchluessel()}|${deutschInFolgen()}`,
+    angekommen: () => !nichtAngekommen(listenId),
+    zeichneRoh: () => zeichnenRoh(),
+    standVergessen: () => {
+      letzterStand = ''
+    },
+  })
 
   function zeichnen() {
+    meldeSperre.zeichnen()
+  }
+
+  function zeichnenRoh() {
     /*
       **Auf einer Suchseite gibt es nichts zu melden — in jedem Takt.**
 
@@ -7217,7 +7216,7 @@ async function speicherSchreiben(werte) {
       Der Merker verschwindet mit dem Titel, denn er hängt am Pfad.
     */
     {
-      const an = gemeldetFuerPfad === location.pathname || durchFuerPfad === location.pathname
+      const an = durchFuerPfad === location.pathname
       const wegweisung = weiterTextPfad === location.pathname ? weiterText : null
       gemeldetMarke(an, an ? (wegweisung ?? 'gemeldet ✓') : undefined)
     }
@@ -9974,7 +9973,7 @@ async function speicherSchreiben(werte) {
 
   // --- Melden --------------------------------------------------------------
 
-  knopf.addEventListener('click', async () => {
+  knopf.addEventListener('click', meldeSperre.mitSperre(async (befundBeimKlick) => {
     if (!verbindungLebt()) {
       knopf.textContent = '↻ Seite neu laden'
       knopf.title = 'Die Erweiterung wurde neu geladen. Diese Seite kennt sie noch nicht — einmal aktualisieren, dann geht es weiter.'
@@ -10742,7 +10741,7 @@ async function speicherSchreiben(werte) {
         */
         if (eintrag.ausSuche && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()
         /* Erst hier, nicht nach dem catch: Ein Fehlschlag darf keine Marke setzen. */
-        gemeldetFuerPfad = location.pathname
+        meldeSperre.vermerken(befundBeimKlick)
         uebersichtZeichnen()
       }
     } catch (err) {
@@ -10777,7 +10776,7 @@ async function speicherSchreiben(werte) {
       letzterStand = ''
       zeichnen()
     }, 1200)
-  })
+  }))
 
   // --- Durchgang über die Prüfliste ------------------------------------------
 
