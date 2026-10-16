@@ -30,16 +30,13 @@ import {
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import {
-  ausAnisearch,
-  englischeSchreibweisen,
-  findeStaffel,
   folgenKern,
   gruppiereNachAusgabe,
-  ordneZu,
   type AnbieterFolge,
   type AsFolgeRoh,
   type TmdbFolge,
 } from '../shared/folgen-zuordnung.ts'
+import { ordneUeberAnker, probeGeschwister, sammleAnker } from '../shared/folgen-anker.ts'
 import type { Title } from '../shared/types.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
@@ -311,6 +308,9 @@ async function main(): Promise<void> {
   > = {}
   /** Die Rohfolgen-Kennungen, die verwertet wurden — sie werden danach abgehakt. */
   const erledigt: number[] = []
+  /** Alle Anker eines Titels: aniSearch, dann TMDB (`shared/folgen-anker.ts`). */
+  const listenFuer = (t: Title) =>
+    sammleAnker(asFolgen[String(asKennung[String(t.id)]?.anisearchId)]?.folgen, tmdbFolgen[String(t.id)], t)
   /* Cartoons und Handbeleg-Adressen zuerst: sie stehen nicht in titles.json (F20, 16.10.2026). */
   const cartoonLauf = ordneCartoonsZu(
     jeUrl,
@@ -697,39 +697,11 @@ async function main(): Promise<void> {
       continue
     }
 
-    const asId = asKennung[String(titel.id)]?.anisearchId
-    const asEintrag = asId ? asFolgen[String(asId)] : undefined
-    let anker: TmdbFolge[] | null = null
-    let ankerQuelle = ''
-
-    if (asEintrag?.folgen?.length) {
-      anker = [...ausAnisearch(asEintrag.folgen), ...englischeSchreibweisen(asEintrag.folgen)]
-      ankerQuelle = 'aniSearch'
-    } else {
-      const tmdb = tmdbFolgen[String(titel.id)]
-      if (!tmdb) {
-        offen.push({
-          url,
-          titel: titel.titleDe ?? titel.titleEn ?? null,
-          grund: 'keine Folgentitel vorhanden (weder aniSearch noch TMDB)',
-          folgen: liste.length,
-        })
-        continue
-      }
-      const staffel = findeStaffel(tmdb.folgen, titel.episodes ?? null, titel.jpYear ?? null)
-      if (staffel === null) {
-        offen.push({
-          url,
-          titel: titel.titleDe ?? titel.titleEn ?? null,
-          grund: `keine TMDB-Staffel mit ${titel.episodes ?? '?'} Folgen eindeutig`,
-          folgen: liste.length,
-        })
-        continue
-      }
-      anker = tmdb.folgen.filter((f) => f.s === staffel)
-      ankerQuelle = 'TMDB'
+    const ak = listenFuer(titel)
+    if (!ak.listen.length) {
+      offen.push({ url, titel: titel.titleDe ?? titel.titleEn ?? null, grund: ak.grund, folgen: liste.length })
+      continue
     }
-    const tmdbStaffel = anker
     const anbieter: AnbieterFolge[] = liste.map((f) => ({
       nummer: f.nummer,
       titel: f.titel,
@@ -737,8 +709,17 @@ async function main(): Promise<void> {
       minuten: f.dauer_sek ? Math.round(f.dauer_sek / 60) : null,
     }))
 
-    const paare = ordneZu(anbieter, tmdbStaffel)
-    const treffend = paare.filter((p) => p.unsere !== null)
+    let { paare, quelle: ankerQuelle } = ordneUeberAnker(anbieter, ak.listen)
+    let treffend = paare.filter((p) => p.unsere !== null)
+    /* Passt keine Folge zum gemeldeten Titel, prüft die Probe die Staffeln derselben Reihe. */
+    let ziel = titel
+    const ohneKopf = (t: Title) => gemeldeteStaffel !== null && gemeldeteStaffel > 1 && istReihenkopf(t, titles)
+    const probe = treffend.length ? null : probeGeschwister(anbieter, titel, titles, (t) => listenFuer(t).listen, ohneKopf)
+    if (probe) {
+      ziel = probe.titel
+      paare = probe.paare
+      treffend = paare.filter((p) => p.unsere !== null)
+    }
     if (!treffend.length) {
       /*
         **Welche Folge gemeint ist, bleibt offen — welche Sprache, nicht.**
@@ -791,7 +772,7 @@ async function main(): Promise<void> {
     }
 
     zugeordnet[schluessel] = {
-      titleId: titel.id,
+      titleId: ziel.id,
       plattform: liste[0]!.plattform ?? 'primevideo',
       seite: seiteDer(liste),
       /* Alle Zeilen einer Adresse stammen von derselben Seite — die erste genügt. */
