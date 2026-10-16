@@ -181,7 +181,7 @@ export function uebernehmePrimeUndCrVorschlaege({
         fremdeAdresse++
         continue
       }
-      const belegt = rohDeutsch(eintrag.folgen, eintrag.titleId, plattform === 'primevideo' ? seite : null, alleChecks)
+      const belegt = rohDeutsch(eintrag.folgen, eintrag.titleId, plattform === 'primevideo' ? { seite: eintrag.seite, url: gemeldeteAdresse } : null, alleChecks)
       if (belegt === undefined) continue
 
       /**

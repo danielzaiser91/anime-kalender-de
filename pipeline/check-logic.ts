@@ -3558,7 +3558,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     Zusatz „— Kauftitel (FSK 16, mit OVA)") und der Beleg ohne Folgenzuordnung,
     wenn Prime eigene Folgennamen und für alle dasselbe Datum führt.
   */
-  const roh = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8')
+  const roh = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8') + readFileSync('pipeline/lib/rohfolgen-abschluss.ts', 'utf8')
   pruefe(
     'der gemeldete Name wird am Gedankenstrich geschnitten',
     /titelSchluessel\(name\.split\(' — '\)\[0\]!\)/.test(roh),

@@ -25,8 +25,8 @@ export function kanalProben(pruefe: Pruefe): void {
   pruefe('D-25: eine deutsche Erstausgabe geht durch', kanalTitelOhneBeleg(hell(true, { deErstausgabe: { von: '2026-01-10' } }), hellKanal, keine).length === 0)
   const deutsch = [{ sprachen: ['Deutsch', 'Japanisch'] }]
   const lader = [ohneKanalSprache(hellBeleg)]
-  pruefe('D-25: gemeldete Folgen auf einer Kanal-Seite belegen kein Deutsch', rohDeutsch(deutsch, 185262, hellUrl, lader) === false)
-  pruefe('D-25: gemeldete Folgen auf einer anderen Seite belegen Deutsch', rohDeutsch(deutsch, 185262, 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA', lader) === true)
+  pruefe('D-25: gemeldete Folgen auf einer Kanal-Seite belegen kein Deutsch', rohDeutsch(deutsch, 185262, { url: hellUrl }, lader) === false)
+  pruefe('D-25: gemeldete Folgen auf einer anderen Seite belegen Deutsch', rohDeutsch(deutsch, 185262, { url: 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA' }, lader) === true)
   pruefe('D-25: gemeldete Folgen ohne Deutsch belegen nichts', rohDeutsch([{ sprachen: ['Japanisch'] }], 185262, null, []) === undefined)
   const andere = 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA'
   const fremdesNein = { anilistId: 185262, platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/B0CFL5Y7XN', dub: false, checkedAt: '2026-09-01' } as DubCheck
