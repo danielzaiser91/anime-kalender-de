@@ -14510,9 +14510,9 @@
   title: "Fruits Basket"
   platform: primevideo
   url: https://www.amazon.de/dp/B0G6HF46PV
-  dub: true
-  checkedAt: '2026-09-17'
-  note: "Crunchyroll-Kanal: ohne Kanal-Abo zeigt Amazon keine deutsche Tonspur; JustWatch (07.09.2026) führt für den Crunchyroll Amazon Channel Ton de — auf Daniels Entscheidung vom 17.09.2026 als Beleg übernommen"
+  dub: false
+  checkedAt: '2026-10-16'
+  note: "Staffel 1 hat bei Amazon keine deutsche Tonspur (alle 25 Folgen, Amazon-Seite 27.08.2026; Daniel 16.09.2026). JustWatchs Ton de (07.09.2026) gilt der ganzen Serie, Staffel 3 (B0GDFC7BL6) ist deutsch — eigene Messung schlägt JustWatch; Beleg vom 17.09.2026 (Serienton) zurückgenommen"
 # --- Aus dem Browser gemeldet, abgeholt am 2026-09-17 ---
 
 - anilistId: 102977

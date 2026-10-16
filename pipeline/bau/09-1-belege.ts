@@ -1,5 +1,5 @@
 import { type PlatformId, type StreamLink, type Release, type Title } from '../../shared/types.ts'
-import { crunchyrollSeriesId, type CrunchyrollEntry } from '../lib/crunchyroll.ts'
+import { type CrunchyrollEntry } from '../lib/crunchyroll.ts'
 import { log, readJson } from '../lib/util.ts'
 import { type Zugangsart } from '../../shared/zugangsart.ts'
 import { adressKern, adressGleich, loadDubChecks, type DubCheck, dubKey } from '../lib/dub-confirmed.ts'
@@ -12,6 +12,7 @@ import { type TmdbTitelEintrag } from './01-quellen.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
 import { deutschGeplantLautAnisearch } from './ohne-beleg.ts'
+import { serienkennungenMitNullBlock, slotBelegt } from '../lib/cr-ja-deckung.ts'
 
 /**
  * Ein Termin, der noch aussteht, ist kein Beleg für eine Synchro von heute: geschätzt ist er der Untertitel-Start, und wo aniSearch Deutsch als „Geplant“ führt,
@@ -51,6 +52,7 @@ export function sammleBelege({
     set.add(release.platform)
     dubByTitle.set(release.titleId, set)
   }
+  const serienMitNullBlock = serienkennungenMitNullBlock(crDub)
   for (const title of titles.values()) {
     const confirmed = dubByTitle.get(title.id)
     for (const stream of title.streams) {
@@ -58,13 +60,7 @@ export function sammleBelege({
         stream.dub = true
         continue
       }
-      if (stream.platform === 'crunchyroll') {
-        const id = crunchyrollSeriesId(stream.url)
-        // Nur ein Treffer beweist etwas. Ein Fehlen beweist nichts: Der
-        // Simulcast-Kalender führt ausschließlich laufende Staffeln, nicht den
-        // gesamten Katalog. „Nicht gefunden" bleibt deshalb „ungeprüft".
-        if (id && crBySeriesId.has(id)) stream.dub = true
-      }
+      if (stream.platform === 'crunchyroll' && slotBelegt(stream.url, crBySeriesId, serienMitNullBlock)) stream.dub = true
     }
   }
 
