@@ -319,6 +319,8 @@ console.log('Sendeplan gegen belegtes Ende:')
   pruefe('andere Anbieter ohne Uhrzeit bleiben ohne', einzeln[0]?.time === undefined && !einzeln[0]?.timeEstimated, einzeln[0])
   const festgelegt = expandEvents({ ...release, slug: 'avt', platform: 'paramountplus', schedule: { firstEpisodeDate: '2026-10-09', time: '11:00', timeEstimated: true } })
   pruefe('eine festgelegte, nicht gemessene Uhrzeit aus der Pflege gilt als geschätzt (≈ 11:00)', festgelegt[0]?.time === '11:00' && festgelegt[0]?.timeEstimated === true, festgelegt[0])
+  const festgelegtIcs = buildIcs(festgelegt.slice(0, 1)).replace(/\r\n /g, '')
+  pruefe('ICS: eine geschätzte Uhrzeit außerhalb von Netflix nennt nicht die Netflix-Regel', festgelegtIcs.includes('nicht gemessen') && !festgelegtIcs.includes('Netflix'), festgelegtIcs)
 
   /*
     Vom Landei zum Schwertheiligen II (25.09.2026): Beleg 1–10 vom 13.09., danach 11 und 12 im

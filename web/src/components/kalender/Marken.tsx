@@ -26,7 +26,7 @@ export function ZeitMarke({ event, t, angabe }: { event: ReleaseEvent; t: Transl
       ? t('card.inStores')
       : ''
   if (!text) return null
-  const hinweis = event.timeEstimated ? t('card.zeitVoraussichtlich') : event.estimated ? t('legend.estimated') : ''
+  const hinweis = event.timeEstimated ? t(event.platform === 'netflix' ? 'card.zeitVoraussichtlich' : 'card.zeitFestgelegt') : event.estimated ? t('legend.estimated') : ''
   const marke = <span className={ZEIT_PILLE}>{text}</span>
   return hinweis ? (
     <Tooltip text={hinweis} seite="oben">
