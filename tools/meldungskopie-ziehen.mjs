@@ -4,6 +4,7 @@
  * Lauf `meldungskopie.yml`; ein Agent holt die Kopie mit `holen`, nie mit `ziehen`. Auf die Platte des Laufs (und ins Artefakt)
  * kommt nur die verschlüsselte Datei.
  */
+import { execFileSync } from 'node:child_process'
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -12,6 +13,15 @@ import { tokenOderAbbruch, verschluessle } from './meldungskopie-schluessel.mjs'
 
 export const DATENBANK = 'anime-kalender'
 export const WRANGLER_CONFIG = 'worker/wrangler.toml'
+
+/** Startet das wrangler unter `wurzel/node_modules`. */
+export const wranglerAus = (wurzel) => (args) =>
+  execFileSync(process.execPath, [`${wurzel}/node_modules/wrangler/bin/wrangler.js`, ...args], {
+    encoding: 'utf8',
+    maxBuffer: 64 << 20,
+    stdio: ['ignore', 'pipe', 'inherit'],
+    env: { ...process.env, WRANGLER_SEND_METRICS: 'false' },
+  })
 
 /** `wrangler(args)` startet wrangler und liefert dessen Ausgabe; `jetzt` ist der Stand, der vor dem Export genommen wird. */
 export function ziehen({ wrangler, ziel, umgebung = process.env, jetzt = new Date() }) {
