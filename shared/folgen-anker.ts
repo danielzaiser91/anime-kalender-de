@@ -66,7 +66,7 @@ export function sammleAnker(
   if (!tmdb) {
     return { listen, grund: 'keine Folgentitel vorhanden (weder aniSearch noch TMDB)' }
   }
-  const staffel = findeStaffel(tmdb.folgen, titel.episodes ?? null, titel.jpYear ?? null)
+  const staffel = passendeStaffel(tmdb.folgen, titel)
   if (staffel === null) {
     return { listen, grund: `keine TMDB-Staffel mit ${titel.episodes ?? '?'} Folgen eindeutig` }
   }
@@ -82,13 +82,29 @@ function median(werte: number[]): number {
   return s[Math.floor(s.length / 2)]!
 }
 
-/** Passt die Staffel zum Titel? Startjahr gleich (Nachbarjahr zählt nicht), Laufzeit je Folge nah beieinander (wo beide bekannt). */
-function staffelPasst(folgen: TmdbFolge[], titel: AnkerTitel): boolean {
+/** Startjahr der Staffel gleich dem des Titels (Nachbarjahr zählt nicht). */
+function startjahrGleich(folgen: TmdbFolge[], titel: AnkerTitel): boolean {
   const erstes = folgen.filter((f) => f.datum).map((f) => f.datum!).sort()[0]
-  if (!erstes || Number(erstes.slice(0, 4)) !== titel.jpYear) return false
+  return !!erstes && Number(erstes.slice(0, 4)) === titel.jpYear
+}
+
+/** Laufzeit je Folge nah an der des Titels (wo beide bekannt). */
+function laufzeitPasst(folgen: TmdbFolge[], titel: AnkerTitel): boolean {
   const minuten = folgen.map((f) => f.minuten).filter((m): m is number => typeof m === 'number' && m > 0)
   if (!titel.runtimeMin || !minuten.length) return true
   return Math.abs(median(minuten) - titel.runtimeMin) <= MAX_LAUFZEIT_ABWEICHUNG_MIN
+}
+
+/**
+ * Die TMDB-Staffel, die zu Folgenzahl und Startjahr des Titels passt. `findeStaffel` prüft das Jahr bei einem einzigen
+ * Längentreffer nicht: Spy x Family (2022, 12 Folgen) bekam Staffel 2 (2023), Bakemonogatari (2009, 15) die Staffel 5
+ * von 2024. Keine Staffel ist besser als die falsche, die Folge bleibt dann unzuordenbar. Die Laufzeit prüft nur der
+ * Reihenkopf (`tmdbFuerTitel`): beim eigenen Eintrag verlor sie 5 richtige Staffeln gegen 1 falsche (16.10.2026).
+ */
+export function passendeStaffel(folgen: TmdbFolge[], titel: AnkerTitel): number | null {
+  const staffel = findeStaffel(folgen, titel.episodes ?? null, titel.jpYear ?? null)
+  if (staffel === null) return null
+  return startjahrGleich(folgen.filter((f) => f.s === staffel), titel) ? staffel : null
 }
 
 /**
@@ -106,9 +122,9 @@ export function tmdbFuerTitel(
   if (eigene || !titel.franchiseId) return eigene
   const kopf = tmdbAlle[String(titel.franchiseId)]
   if (!kopf || !titel.jpYear) return undefined
-  const staffel = findeStaffel(kopf.folgen, titel.episodes ?? null, titel.jpYear)
+  const staffel = passendeStaffel(kopf.folgen, titel)
   if (staffel === null) return undefined
-  return staffelPasst(kopf.folgen.filter((f) => f.s === staffel), titel) ? kopf : undefined
+  return laufzeitPasst(kopf.folgen.filter((f) => f.s === staffel), titel) ? kopf : undefined
 }
 
 export interface AnkerPaare {

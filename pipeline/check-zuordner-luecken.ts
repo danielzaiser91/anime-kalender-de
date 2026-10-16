@@ -5,7 +5,7 @@
  * Prime-Rohfolge nach `AnbieterFolge`). Läuft in `check:logic`.
  */
 import { ausAnisearch, englischeSchreibweisen, folgenKern, ordneZu, type AnbieterFolge, type AsFolgeRoh, type TmdbFolge } from '../shared/folgen-zuordnung.ts'
-import { entscheideZuordnung, ordneUeberAnker, probeGeschwister, sammleAnker, type AnkerTitel } from '../shared/folgen-anker.ts'
+import { entscheideZuordnung, ordneUeberAnker, passendeStaffel, probeGeschwister, sammleAnker, type AnkerTitel } from '../shared/folgen-anker.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, detail = ''): void {
@@ -57,7 +57,7 @@ pruefe('ein Titel, der mit E anfängt, bleibt', folgenKern('Eden of the East') !
 /* Ursache III: aniSearch ohne deutsche Titel, TMDB hat sie (Pac-Man) */
 {
   const asOhneDe: AsFolgeRoh[] = asFolgen(26, 'Pac').map((f) => ({ nr: f.nr, en: `Pac Episode ${f.nr}` }))
-  const tmdb: TmdbFolge[] = asFolgen(26, 'Pac').map((f) => ({ s: 1, e: f.nr, titel: f.de!, datum: null, minuten: 24 }))
+  const tmdb: TmdbFolge[] = asFolgen(26, 'Pac').map((f) => ({ s: 1, e: f.nr, titel: f.de!, datum: '2016-07-01', minuten: 24 }))
   const titel: AnkerTitel = { id: 1, episodes: 26, jpYear: 2016 }
   const prime = primeSicht(asFolgen(26, 'Pac'))
   const ak = sammleAnker(asOhneDe, { folgen: tmdb }, titel)
@@ -70,6 +70,37 @@ pruefe('ein Titel, der mit E anfängt, bleibt', folgenKern('Eden of the East') !
   pruefe('ohne jeden Anker: Grund statt Raten', ohneAs.listen.length === 0 && ohneAs.grund.startsWith('keine Folgentitel'))
   const keineStaffel = sammleAnker(undefined, { folgen: tmdb }, { ...titel, episodes: 52 })
   pruefe('TMDB ohne passende Staffel: Grund', keineStaffel.listen.length === 0 && keineStaffel.grund.includes('52'))
+}
+
+/* Staffelwahl: ein einziger Längentreffer im falschen Jahr ist keine Staffel (Spy x Family: 12 Folgen 2022, TMDB-Staffel 2 von 2023) */
+{
+  const staffel = (s: number, n: number, jahr: number, minuten = 24): TmdbFolge[] =>
+    Array.from({ length: n }, (_, i) => ({ s, e: i + 1, titel: `S${s} Titel ${i + 1}`, datum: `${jahr}-04-${String(i + 1).padStart(2, '0')}`, minuten }))
+  /* Drei Kandidaten, die zwölfte-Folgen-Staffel steht in der Mitte */
+  const folgen = [...staffel(1, 10, 2018), ...staffel(2, 12, 2022), ...staffel(3, 13, 2025)]
+  const titel: AnkerTitel = { id: 1, episodes: 12, jpYear: 2022, runtimeMin: 24 }
+  pruefe('Jahr, Folgenzahl und Laufzeit passen: die mittlere Staffel', passendeStaffel(folgen, titel) === 2)
+  pruefe('einziger Längentreffer im Vorjahr: keine Staffel', passendeStaffel(folgen, { ...titel, jpYear: 2021 }) === null)
+  pruefe('einziger Längentreffer im Folgejahr: keine Staffel', passendeStaffel(folgen, { ...titel, jpYear: 2023 }) === null)
+  pruefe('ohne Titeljahr wird nicht geraten', passendeStaffel(folgen, { ...titel, jpYear: null }) === null)
+  pruefe('Laufzeit weicht ab: beim eigenen TMDB-Eintrag zählt nur das Jahr', passendeStaffel(folgen, { ...titel, runtimeMin: 63 }) === 2)
+  const ohneDatum = [...staffel(1, 10, 2018), ...staffel(2, 12, 2022).map((f) => ({ ...f, datum: null })), ...staffel(3, 13, 2025)]
+  pruefe('Staffel ohne Sendedatum: keine Staffel', passendeStaffel(ohneDatum, titel) === null)
+  /* Staffel über den Jahreswechsel: Es zählt die erste Ausstrahlung (Dezember 2021), nicht die letzte (Januar 2022). Die Folgen stehen absteigend, damit auch „erste Zeile“ statt „frühestes Datum“ rot wird. */
+  const ueberJahr = (Array.from({ length: 12 }, (_, i) => ({
+    s: 2,
+    e: i + 1,
+    titel: `J Titel ${i + 1}`,
+    minuten: 24,
+    datum: i < 4 ? `2021-12-${String(20 + i).padStart(2, '0')}` : `2022-01-${String(i).padStart(2, '0')}`,
+  })) as TmdbFolge[]).reverse()
+  const jahreswechsel = [...staffel(1, 10, 2018), ...ueberJahr, ...staffel(3, 13, 2025)]
+  pruefe('Staffel Dez. 2021 bis Jan. 2022, Titeljahr 2021: Treffer', passendeStaffel(jahreswechsel, { ...titel, jpYear: 2021 }) === 2)
+  pruefe('Staffel Dez. 2021 bis Jan. 2022, Titeljahr 2022: keine Staffel', passendeStaffel(jahreswechsel, { ...titel, jpYear: 2022 }) === null)
+  const falsch = sammleAnker(undefined, { folgen }, { ...titel, jpYear: 2021 })
+  pruefe('sammleAnker: falsches Jahr liefert keinen Anker', falsch.listen.length === 0 && falsch.grund.includes('12'))
+  const richtig = sammleAnker(undefined, { folgen }, titel)
+  pruefe('sammleAnker: passende Staffel liefert 12 Folgen', richtig.listen[0]?.folgen.length === 12 && richtig.listen[0].folgen.every((f) => f.s === 2))
 }
 
 /* L3: der Anker mit den meisten Treffern gewinnt, nicht der erste mit einem (Dorohedoro Staffel 2: aniSearch 1 von 11, TMDB 8) */
@@ -164,7 +195,7 @@ pruefe('ein Titel, der mit E anfängt, bleibt', folgenKern('Eden of the East') !
   const listen = (t: T) => (t.id === 1 ? sammleAnker(undefined, { folgen: platz(12) }, t).listen : [])
   pruefe('Platzhalter-Anker wählen keine Staffel', probeGeschwister(seite, s3, [s1, s3], listen, () => false) === null)
   for (const p of ['Folge 3', 'Episode 3', 'Ep. 3', 'E3', '#3']) {
-    pruefe(`Platzhalter „${p}“ ist kein Titelanker`, sammleAnker(undefined, { folgen: [{ s: 1, e: 3, titel: p, datum: null, minuten: null }] }, { id: 1, episodes: 1 }).listen[0]!.folgen[0]!.titel === null)
+    pruefe(`Platzhalter „${p}“ ist kein Titelanker`, sammleAnker(undefined, { folgen: [{ s: 1, e: 3, titel: p, datum: '2019-03-01', minuten: null }] }, { id: 1, episodes: 1, jpYear: 2019 }).listen[0]!.folgen[0]!.titel === null)
   }
   const echt = sammleAnker([{ nr: 1, de: 'Folge 3: Der Sturm' }], undefined, { id: 1 }).listen[0]!.folgen[0]!.titel
   pruefe('ein Titel nach der Zählung bleibt', echt === 'Folge 3: Der Sturm', String(echt))
