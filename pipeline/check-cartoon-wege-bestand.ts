@@ -8,6 +8,7 @@ import { readJson } from './lib/util.ts'
 import { loadDubChecks } from './lib/dub-confirmed.ts'
 import { summe } from './lib/cartoon-staffeln.ts'
 import { PRUEFLISTE, type StaffelPruefung } from './bau/cartoon-staffeln.ts'
+import { jwKennzeichnungFehler } from './lib/jw-seite.ts'
 import type { StreamLink, Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -39,8 +40,8 @@ function pruefeBestand(titelListe: Title[]): void {
   pruefe('Bestand: kein Cartoon-Häkchen ohne Handbeleg', ohneBeleg.length === 0, ohneBeleg.map(({ t }) => t.id).slice(0, 5).join())
   const teilHaken = alleWege.filter(({ s }) => s.teilBereich && s.dub === true)
   pruefe('Bestand: Häkchen je Staffel nennt Folgenbereiche, die in der Staffel liegen', teilHaken.every(({ s }) => s.dubRanges?.length && s.dubRanges.every((r) => r.from >= s.teilBereich!.von && r.to <= s.teilBereich!.bis)))
-  const hinweise = alleWege.filter(({ s }) => s.dubQuelle)
-  pruefe('Bestand: JustWatch-Hinweis je Staffel nie mit Urteil, nur bei JustWatch-Staffeln, mit Datum', hinweise.every(({ t, s }) => s.dub === undefined && t.staffelnQuelle === 'justwatch' && /^\d{4}-\d\d-\d\d$/.test(s.dubStand ?? '')))
+  const falsch = alleWege.filter(({ t, s }) => jwKennzeichnungFehler(t.staffelnQuelle, s))
+  pruefe('Bestand: JustWatch-Kennzeichnung (Flagge an der Seite, Staffel-Hinweis nur bei JustWatch-Staffeln)', falsch.length === 0, falsch.slice(0, 5).map(({ t, s }) => `${t.id} ${s.platform}: ${jwKennzeichnungFehler(t.staffelnQuelle, s)}`).join('; '))
 }
 
 const OUT = 'public/data/cartoons.json'

@@ -6,7 +6,7 @@
 import type { StreamLink, Title } from '../shared/types.ts'
 import type { DubCheck } from './lib/dub-confirmed.ts'
 import type { JwBefund } from './lib/jw-vertrauen.ts'
-import { abgeschalteteAnbieter, befundGilt, deutscheSeiten, jwTonAnSeite, nurSerie, seitenSchluessel } from './lib/jw-seite.ts'
+import { abgeschalteteAnbieter, befundGilt, deutscheSeiten, jwKennzeichnungFehler, jwTonAnSeite, nurSerie, seitenSchluessel } from './lib/jw-seite.ts'
 import { kennzeichneJwSeiten, type Messung } from './bau/jw-seite-ton.ts'
 import { messungAusBelegen, neinAdressenAus } from './bau/jw-seite-messung.ts'
 import { abschnitt, ersetzeAbschnitt, WIDERSPRUCHS_LISTE, widerspruchsZiel } from './bau/jw-widerspruchs-liste.ts'
@@ -244,6 +244,22 @@ function lauf(titelListe: Title[], befunde: Record<string, JwBefund>, zusatz: Pa
   pruefe('Hover nennt JustWatch an der Flagge', zeilen({ dubQuelle: 'justwatch', dubStand: '2026-10-10' })[0]?.startsWith('detail.pilleJustwatch') === true)
   pruefe('Hover schweigt beim Hinweis (Stand steht in der Pille)', zeilen({ dubQuelle: 'justwatch', dubStand: '2026-10-10', dubHintOnly: true }).length === 0)
   pruefe('Hover schweigt ohne JustWatch-Quelle', zeilen({ dubStand: '2026-10-10' }).length === 0)
+}
+
+// Bestandsprüfung der Kennzeichnung: Flagge an der Seite, Staffel-Hinweis nur bei JustWatch-Staffeln
+{
+  const disney = 'https://www.disneyplus.com/de-de/movies/x/AbC123'
+  const flagge = { platform: 'disneyplus', url: disney, dubQuelle: 'justwatch', dubStand: '2026-10-10' } as StreamLink
+  const staffel = { platform: 'disneyplus', url: disney, dubQuelle: 'justwatch', dubStand: '2026-10-10', dubHintOnly: true, teilBereich: { von: 1, bis: 3 } } as StreamLink
+  pruefe('Film-Flagge ohne JustWatch-Staffeln ist richtig', jwKennzeichnungFehler('tmdb', flagge) === undefined)
+  pruefe('Flagge ohne Seitenkennung ist falsch', jwKennzeichnungFehler(undefined, { ...flagge, url: 'https://www.disneyplus.com/' }) !== undefined)
+  pruefe('Hinweis ohne Seitenkennung ist richtig', jwKennzeichnungFehler(undefined, { ...flagge, url: 'https://www.disneyplus.com/', dubHintOnly: true }) === undefined)
+  pruefe('Staffel-Hinweis bei JustWatch-Staffeln ist richtig', jwKennzeichnungFehler('justwatch', staffel) === undefined)
+  pruefe('Staffel-Hinweis bei TMDB-Staffeln ist falsch', jwKennzeichnungFehler('tmdb', staffel) !== undefined)
+  pruefe('Staffel-Teilweg mit Flagge ist falsch', jwKennzeichnungFehler('justwatch', { ...staffel, dubHintOnly: undefined }) !== undefined)
+  pruefe('Kennzeichnung mit Urteil ist falsch', jwKennzeichnungFehler('tmdb', { ...flagge, dub: true }) !== undefined)
+  pruefe('Kennzeichnung ohne Datum ist falsch', jwKennzeichnungFehler('tmdb', { ...flagge, dubStand: undefined }) !== undefined)
+  pruefe('Weg ohne Kennzeichnung ist richtig', jwKennzeichnungFehler(undefined, { platform: 'netflix', url: 'n' } as StreamLink) === undefined)
 }
 
 // Prüfungen schreiben die Liste nicht ins Repo

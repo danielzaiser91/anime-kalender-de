@@ -6,6 +6,7 @@
  */
 import { BEFUND_MAX_TAGE, type JwBefund } from './jw-vertrauen.ts'
 import type { JwAngebot } from './amazon-gti.ts'
+import type { StreamLink } from '../../shared/types.ts'
 
 /** Ab diesem Anteil Widersprüche (eigene Messung „nein“ gegen JustWatch „de“) gilt JustWatch bei einem Anbieter nur als Hinweis. */
 export const WAECHTER_GRENZE = 0.02
@@ -89,4 +90,17 @@ export function abgeschalteteAnbieter(zaehlung: Map<string, WaechterZahl>): Set<
   const aus = new Set<string>()
   for (const [anbieter, z] of zaehlung) if (z.gemessen && z.widerspruch / z.gemessen > WAECHTER_GRENZE) aus.add(anbieter)
   return aus
+}
+
+/**
+ * Was an der JustWatch-Kennzeichnung eines gebauten Wegs nicht stimmt, sonst `undefined`. Flagge (ohne `dubHintOnly`) nur an
+ * einer Seite mit Kennung und nie an einem Staffel-Teilweg; ein Staffel-Hinweis nur, wenn die Staffeln von JustWatch stammen.
+ */
+export function jwKennzeichnungFehler(staffelnQuelle: string | undefined, s: StreamLink): string | undefined {
+  if (!s.dubQuelle) return undefined
+  if (s.dub !== undefined) return 'Kennzeichnung und Urteil zugleich'
+  if (!/^\d{4}-\d\d-\d\d$/.test(s.dubStand ?? '')) return 'Kennzeichnung ohne Datum'
+  if (s.teilBereich) return s.dubHintOnly && staffelnQuelle === 'justwatch' ? undefined : 'Staffel-Kennzeichnung ohne JustWatch-Staffeln oder als Flagge'
+  if (!s.dubHintOnly && !seitenSchluessel(s.url)) return 'Flagge ohne Seitenkennung'
+  return undefined
 }

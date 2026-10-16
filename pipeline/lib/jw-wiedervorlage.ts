@@ -5,7 +5,7 @@
 import type { Title } from '../../shared/types.ts'
 import { BEFUND_MAX_TAGE } from './jw-vertrauen.ts'
 
-/** Wie viele Tage vor dem Ablauf der Vertrauensregel ein Befund erneuert wird (ein Wochenlauf Vorlauf). */
+/** Wie viele Tage vor seinem Ablauf (`BEFUND_MAX_TAGE`) ein Befund erneuert wird (ein Wochenlauf Vorlauf). */
 export const ERNEUERN_VORLAUF_TAGE = 7
 
 interface BefundKurz {
@@ -22,7 +22,7 @@ export function staffelnFehlen(e: BefundKurz | undefined): boolean {
 }
 
 /**
- * Ein Prime-Weg mit „Deutsch laut JustWatch" gilt nur bei einem Befund unter 28 Tagen. Der Abruf holt Befunde ab dem
+ * Ein Weg mit „Deutsch laut JustWatch" (jeder Anbieter, `jw-seite.ts`) gilt nur bei einem Befund unter 28 Tagen. Der Abruf holt Befunde ab dem
  * 28. Tag — dazwischen wäre die Kennzeichnung tagelang weg. Deshalb wird dieser Befund einen Wochenlauf früher erneuert.
  */
 export function vertrauensBefundAlt(t: Title, e: BefundKurz | undefined, heute: string): boolean {
