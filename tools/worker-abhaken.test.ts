@@ -26,8 +26,11 @@ console.error = () => {}
 console.warn = () => {}
 globalThis.fetch = (async () => new Response(JSON.stringify({ erzeugtAm: '2020-01-02T00:00:00.000Z', anbieter: [] }))) as typeof fetch
 
-/** Zähler eines Aufrufs; `scheitere` lässt Anweisungen mit diesem Anfang scheitern (Teilerfolg). */
-const z = { abfragen: 0, geschrieben: 0, scheitere: '' }
+/**
+ * Zähler eines Aufrufs; `scheitere` lässt Anweisungen mit diesem Anfang scheitern (Teilerfolg), `dazwischen` läuft
+ * vor dem Stapel der Titelzeilen (eine fremde Änderung zwischen Lesen und Schreiben).
+ */
+const z = { abfragen: 0, geschrieben: 0, scheitere: '', dazwischen: null as null | (() => void) }
 type Anweisung = { sql: string; werte: unknown[]; bind: (...w: unknown[]) => Anweisung; run: () => Promise<unknown>; all: () => Promise<unknown>; first: () => Promise<unknown> }
 
 /** Eine D1-Attrappe mit den Grenzen der freien Stufe, wie die echte D1 sie mit einer Ausnahme beantwortet. */
@@ -61,6 +64,7 @@ function d1(db: DatabaseSync) {
     prepare: (sql: string) => anweisung(sql),
     batch: async (liste: Anweisung[]) => {
       zaehle()
+      if (liste[0]?.sql.startsWith('UPDATE titel_zeile')) z.dazwischen?.()
       db.exec('BEGIN')
       try {
         const antworten = liste.map(fuehreAus)
@@ -171,6 +175,24 @@ console.log('Teilerfolg: Die Marke des Auszugs steht auch nach einem Fehler, ein
 
   const abgelehnt = await aufruf(env, { reoeffnen: { plattform: 'netflix' } })
   pruefe(abgelehnt.status === 400 && !puts.includes('export/_ungueltig-offen'), 'eine abgelehnte Anfrage (400) setzt keine Marke')
+}
+
+console.log('Versionskonflikt: Ein Titel, der zwischen Lesen und Schreiben geändert wird, bleibt unverändert und offen')
+{
+  const db = neueDatenbank()
+  const ids = befuelle(db)
+  const env = { LAUF_TOKEN: 't', SITE_URL: 'https://attrappe.test/', DB: d1(db), BELEGE: belege } as never
+  /* Mitten in der Liste, nicht der erste Titel: die anderen 199 werden trotzdem abgehakt. */
+  const fremd = "UPDATE titel_zeile SET version = version + 1, daten = json_set(daten, '$.t', 'Fremd') WHERE nr = 100"
+  z.dazwischen = () => db.exec(fremd)
+  const r = await aufruf(env, { rohfolgenUebernommen: ids })
+  z.dazwischen = null
+  const t100 = db.prepare('SELECT daten, offen_rohfolge AS o FROM titel_zeile WHERE nr = 100').get() as { daten: string; o: number }
+  pruefe(r.status === 200, `ein Konflikt ist kein Fehler (${r.status})`)
+  pruefe(offen(db) === '0/0/3', `nur die drei Folgen des geänderten Titels bleiben offen (${offen(db)})`)
+  pruefe(JSON.parse(t100.daten).t === 'Fremd' && t100.o === 3, 'die fremde Änderung bleibt erhalten, nichts überschrieben')
+  await aufruf(env, { rohfolgenUebernommen: ids })
+  pruefe(offen(db) === '0/0/0' && z.geschrieben === 1, `der nächste Bau hakt ihn ab (${offen(db)}, ${z.geschrieben} Zeile)`)
 }
 
 if (fehler) {
