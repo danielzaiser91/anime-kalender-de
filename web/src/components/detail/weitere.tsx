@@ -245,20 +245,20 @@ export function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; dat
                       mit dreizeiligem Titel hätte ein höheres Poster als die daneben.
                       144 px bei 96 px Breite ist das Posterformat 2:3.
                     */
-                    className="flex h-36 w-full cursor-pointer items-stretch gap-2 rounded-lg p-1.5 text-left transition hover:bg-ak-flaeche-2"
+                    className="flex min-h-36 w-full cursor-pointer items-stretch gap-2 rounded-lg p-1.5 text-left transition hover:bg-ak-flaeche-2"
                   >
                     {v.title.coverImage ? (
                       <img
                         {...coverBild(v.title.coverImage, 88)}
                         alt=""
                         loading="lazy"
-                        className="h-full w-[88px] shrink-0 rounded-md object-cover shadow-sm"
+                        className="w-[88px] shrink-0 rounded-md object-cover shadow-sm"
                       />
                     ) : (
-                      <span className="h-full w-[88px] shrink-0 rounded-md bg-slate-200 dark:bg-white/10" />
+                      <span className="w-[88px] shrink-0 rounded-md bg-slate-200 dark:bg-white/10" />
                     )}
-                    {/* `justify-between` verankert: Name am oberen Rand, Chips am unteren. */}
-                    <span className="flex min-w-0 flex-1 flex-col justify-between py-0.5">
+                    {/* Name oben, Chips darunter im Fluss; die Kachel wächst, statt dass Chips den Titel überdecken. */}
+                    <span className="flex min-w-0 flex-1 flex-col justify-between gap-1 py-0.5">
                       <span className="line-clamp-3 text-t3 font-semibold text-slate-700 dark:text-slate-200">
                         {anzeigeName(v.title)}
                       </span>
