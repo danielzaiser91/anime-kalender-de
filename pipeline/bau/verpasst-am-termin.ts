@@ -1,5 +1,6 @@
 import { toIsoDate } from '../../shared/time.ts'
 import type { WocheBelegVermerk } from '../../shared/woche-beleg-typ.ts'
+import type { Release } from '../../shared/types.ts'
 
 /**
  * **Was der Anbieter nicht eingehalten hat, steht am Termin.**
@@ -85,4 +86,20 @@ export function nachgereichteFolgen(verpasst: ReturnType<typeof verpasstAmTermin
       .filter(([, v]) => v.erschienenAm)
       .map(([nr, v]) => [Number(nr), toIsoDate(new Date(v.erschienenAm!))]),
   )
+}
+
+/**
+ * Hängt die Vermerke an alle Releases, die noch keine tragen — auch an die, die erst nach Phase 05 entstehen
+ * (automatisch ergänzte Crunchyroll-Simuldubs: Re:ZERO Staffel 4 blieb ohne „war angekündigt“-Meldungen).
+ */
+export function ergaenzeVerpasstAnReleases(releases: Release[], vermerke: Verpasst[]): number {
+  let n = 0
+  for (const r of releases) {
+    if (!r.schedule || r.schedule.verpasst) continue
+    const verpasst = verpasstAmTermin(r.slug, vermerke, r.schedule.firstEpisodeDate)
+    if (!verpasst) continue
+    r.schedule.verpasst = verpasst
+    n++
+  }
+  return n
 }

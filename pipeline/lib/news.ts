@@ -29,16 +29,17 @@ import type { NewsArt, NewsBeleg, NewsEintrag, NewsMeldung, PlatformId, Release,
 import { pflegeTerminverlauf, type DatiertNews, type TerminGedaechtnis } from './news-verlauf.ts'
 import { bereinigeNews } from './news-bereinigen.ts'
 import { ausgabeKurz } from './news-ausgabe.ts'
-import { addDays, todayIso } from '../../shared/time.ts'
+import { addDays, todayIso, toIsoDate } from '../../shared/time.ts'
 import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { hostVon } from '../../shared/quelle.ts'
 import { geerbteWege } from '../../shared/kanal-anbieter.ts'
 import { ohneDoppelteFolgen, verspaetungsMeldungen } from './news-verspaetung.ts'
 import { omuMeldungen } from './news-omu.ts'
-import { fensterBeginn, offizielleMeldungen, traegtOffizielle, type OffizielleMeldung } from './news-offiziell.ts'
+import { fensterBeginn, offizielleMeldungen, type OffizielleMeldung } from './news-offiziell.ts'
+import { behalteEintrag } from './news-obergrenze.ts'
+import { titelNachSerienId, waehleStaffel } from './news-cr-zuordnung.ts'
 import { rhythmusMeldung } from './news-rhythmus.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
-import { titelNachSerienId } from './news-cr-zuordnung.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
 const FENSTER_TAGE = 120
@@ -397,8 +398,8 @@ export function baueNews(
   /* 2. Neue deutsche Folgen — je Serie und Tag eine Meldung, nicht je Folge. */
   const jeSerieUndTag = new Map<string, { serie: string; tag: string; nummern: number[] }>()
   for (const f of crNeu) {
-    /* Crunchyrolls eigenes Datum, sonst unser Fundtag. */
-    const tag = (f.verfuegbarAb ?? f.gesehenAm).slice(0, 10)
+    /* Crunchyrolls eigenes Datum als Berliner Tag (00:30 Berlin ist UTC am Vortag), sonst unser Fundtag. */
+    const tag = f.verfuegbarAb ? toIsoDate(new Date(f.verfuegbarAb)) : f.gesehenAm.slice(0, 10)
     if (!f.serieId || tag < grenze) continue
     const schluessel = `${f.serieId}|${tag}`
     const eintrag = jeSerieUndTag.get(schluessel) ?? { serie: f.serie, tag, nummern: [] }
@@ -413,9 +414,9 @@ export function baueNews(
   const nachSerienId = titelNachSerienId(titles)
   for (const [schluessel, eintrag] of jeSerieUndTag) {
     const serienId = schluessel.split('|')[0]!
-    const t = nachSerienId.get(serienId)
-    if (!t) continue
     const nummern = [...new Set(eintrag.nummern)].sort((a, b) => a - b)
+    const t = waehleStaffel(nachSerienId.get(serienId), releases, serienId, eintrag.tag, nummern)
+    if (!t) continue
     roh.push({
       schluessel: `folgen:${schluessel}`,
       fallback: eintrag.tag,
@@ -531,7 +532,7 @@ export function baueNews(
         rang[a.meldungen[0]!.art] - rang[b.meldungen[0]!.art] ||
         a.titel.localeCompare(b.titel, 'de'),
     )
-    .filter((e, i) => i < HOECHSTENS || traegtOffizielle(e))
+    .filter((e, i) => behalteEintrag(e, i, heute, HOECHSTENS))
 }
 
 /**

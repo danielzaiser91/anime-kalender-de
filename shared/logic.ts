@@ -32,9 +32,14 @@ function stuetzpunkte(s: Release['schedule']): { episode: number; date: string }
     episode: Number(episode),
     date,
   }))
+  /*
+    Eine Recherche, die eine beobachtete Folge derselben oder einer früheren Nummer an einem späteren Tag
+    gesehen hat, ist überholt: Folge 16 kann nicht vor Folge 15 erscheinen (Re:ZERO, 4p.de meinte Folge 14).
+  */
+  const nochGueltig = ausRecherche.filter((r) => !beobachtet.some((b) => b.episode <= r.episode && b.date > r.date))
   /* Eine Beobachtung schlägt eine Recherche — gemessen vor vermutet. */
   const jeFolge = new Map<number, string>()
-  for (const a of [...ausRecherche, ...beobachtet]) if (a.date) jeFolge.set(a.episode, a.date)
+  for (const a of [...nochGueltig, ...beobachtet]) if (a.date) jeFolge.set(a.episode, a.date)
   return [...jeFolge.entries()]
     .map(([episode, date]) => ({ episode, date }))
     .filter((a) => a.episode > 0 && a.date)
