@@ -58,6 +58,9 @@ jobs:
   herkunft:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
     env:
       LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
       LAUF_ZIEL: "Prüfkette grün, neuer Stand auf GitHub Pages"
@@ -72,6 +75,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 2
+          filter: blob:none
+          sparse-checkout: tools
 
       - name: Melder bereitlegen
         run: |
@@ -95,6 +100,7 @@ jobs:
 
       - name: Artefakt für die Veröffentlichung hochladen
         id: hochladen
+        continue-on-error: true
         if: ${{ steps.holen.outputs.treffer == '1' }}
         uses: actions/upload-artifact@v4
         with:

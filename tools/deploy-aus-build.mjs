@@ -6,7 +6,7 @@
  * Aufruf im Workflow `deploy.yml` (Job `herkunft`): schreibt bei Treffer `treffer=1` nach $GITHUB_OUTPUT und `artifact.tar` ins Arbeitsverzeichnis.
  */
 import { execFileSync } from 'node:child_process'
-import { appendFileSync, copyFileSync, existsSync, mkdtempSync, rmSync } from 'node:fs'
+import { appendFileSync, copyFileSync, mkdtempSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -25,9 +25,10 @@ export function sammelGruen(jobs) {
   return jobs.some((j) => j.name === SAMMEL && j.conclusion === 'success')
 }
 
-/** Neuester Lauf der PR-Prüfkette für den Kopf-Commit des PR, dessen Sammeljob grün ist (höchstens die drei neuesten werden gefragt), sonst null. */
-export function waehleLauf(laeufe, kopf, jobsVon) {
-  const kandidaten = (laeufe ?? []).filter((l) => l.event === 'pull_request' && l.head_sha === kopf).sort((a, b) => b.id - a.id)
+/** Neuester Lauf der PR-Prüfkette für den Kopf-Commit des PR aus diesem Repo (kein Fork: dessen Bau liefe unter anderem Env), dessen Sammeljob grün ist (höchstens die drei neuesten werden gefragt), sonst null. */
+export function waehleLauf(laeufe, kopf, jobsVon, repo) {
+  const meiner = (l) => l.event === 'pull_request' && l.head_sha === kopf && l.head_repository?.full_name === repo
+  const kandidaten = (laeufe ?? []).filter(meiner).sort((a, b) => b.id - a.id)
   return kandidaten.slice(0, 3).find((l) => sammelGruen(jobsVon(l.id))) ?? null
 }
 
@@ -47,7 +48,6 @@ export function githubUnveraendert(ordnerCommit, ordnerEltern) {
 }
 
 const ausfuehren = (befehl, args, optionen = {}) => execFileSync(befehl, args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, ...optionen }).trim()
-const api = (pfad) => JSON.parse(ausfuehren('gh', ['api', pfad]))
 
 function versionAusTar(tar) {
   for (const name of ['./version.json', 'version.json']) {
@@ -60,31 +60,43 @@ function versionAusTar(tar) {
   return ''
 }
 
+/** Die echten Aufrufe (git, gh, tar); `holeBau` bekommt im Test ein Kulissen-Werkzeug mit denselben vier Funktionen. */
+const ECHT = {
+  git: (args) => ausfuehren('git', args, { stdio: ['ignore', 'pipe', 'ignore'] }),
+  api: (pfad) => JSON.parse(ausfuehren('gh', ['api', pfad])),
+  laden: (repo, laufId) => {
+    const ordner = mkdtempSync(join(tmpdir(), 'bau-'))
+    ausfuehren('gh', ['run', 'download', String(laufId), '--repo', repo, '-n', 'github-pages', '-D', ordner], { stdio: ['ignore', 'pipe', 'pipe'] })
+    return join(ordner, 'artifact.tar')
+  },
+  version: versionAusTar,
+  kopieren: copyFileSync,
+}
+
 /** Prüft und holt den Bau; Rückgabe `{ treffer, grund }`. Wirft nie bei erwartbaren Abweichungen. */
-export function holeBau({ repo, sha, ziel }) {
-  const baum = ausfuehren('git', ['rev-parse', 'HEAD^{tree}'])
-  const gh = ausfuehren('git', ['rev-parse', 'HEAD:.github'])
+export function holeBau({ repo, sha, ziel }, w = ECHT) {
+  const baum = w.git(['rev-parse', 'HEAD^{tree}'])
+  const gh = w.git(['rev-parse', 'HEAD:.github'])
   let elternGh = ''
   try {
-    elternGh = ausfuehren('git', ['rev-parse', 'HEAD~1:.github'], { stdio: ['ignore', 'pipe', 'ignore'] })
+    elternGh = w.git(['rev-parse', 'HEAD~1:.github'])
   } catch {
     return { treffer: false, grund: 'kein Elterncommit zum Vergleich von .github/' }
   }
   if (!githubUnveraendert(gh, elternGh)) return { treffer: false, grund: '.github/ weicht vom Elterncommit ab (Workflows im PR geändert)' }
-  const pr = waehlePR(api(`repos/${repo}/commits/${sha}/pulls`), sha)
+  const pr = waehlePR(w.api(`repos/${repo}/commits/${sha}/pulls`), sha)
   if (!pr) return { treffer: false, grund: 'kein gemergter PR mit diesem Squash-Commit' }
-  const lauf = waehleLauf(api(`repos/${repo}/actions/workflows/${KETTE}/runs?head_sha=${pr.kopf}&event=pull_request&per_page=20`).workflow_runs, pr.kopf, (id) => api(`repos/${repo}/actions/runs/${id}/jobs`).jobs)
+  const laeufe = w.api(`repos/${repo}/actions/workflows/${KETTE}/runs?head_sha=${pr.kopf}&event=pull_request&per_page=20`).workflow_runs
+  const lauf = waehleLauf(laeufe, pr.kopf, (id) => w.api(`repos/${repo}/actions/runs/${id}/jobs`).jobs, repo)
   if (!lauf) return { treffer: false, grund: `kein grüner Lauf der PR-Prüfkette für ${pr.kopf.slice(0, 8)}` }
-  const ordner = mkdtempSync(join(tmpdir(), 'bau-'))
+  let tar = ''
   try {
-    ausfuehren('gh', ['run', 'download', String(lauf.id), '--repo', repo, '-n', 'github-pages', '-D', ordner], { stdio: ['ignore', 'pipe', 'pipe'] })
+    tar = w.laden(repo, lauf.id)
   } catch {
-    rmSync(ordner, { recursive: true, force: true })
     return { treffer: false, grund: `Artefakt von Lauf ${lauf.id} nicht abrufbar (abgelaufen?)` }
   }
-  const tar = join(ordner, 'artifact.tar')
-  if (!existsSync(tar) || !baumPasst(versionAusTar(tar), baum)) return { treffer: false, grund: `Baum des Baus aus Lauf ${lauf.id} weicht ab (main ist weitergewandert)` }
-  copyFileSync(tar, ziel)
+  if (!baumPasst(w.version(tar), baum)) return { treffer: false, grund: `Baum des Baus aus Lauf ${lauf.id} weicht ab (main ist weitergewandert)` }
+  w.kopieren(tar, ziel)
   return { treffer: true, grund: `PR #${pr.nummer}, Lauf ${lauf.id}` }
 }
 
