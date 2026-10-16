@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-16T16:59:20.455Z",
+ "erzeugtAm": "2026-10-16T17:19:13.958Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -3350,9 +3350,9 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 65,
-   "gesamt": 356,
-   "offen": 291,
+   "gemeldet": 69,
+   "gesamt": 357,
+   "offen": 288,
    "ohneSeite": 23,
    "ziel": "https://www.disneyplus.com/browse/entity-33df4bde-d2eb-49f6-9f89-3ccbe65a55a3",
    "ziele": [
@@ -3536,10 +3536,6 @@
      "seit": "2026-08-26"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855",
-     "titel": "Campfire Cooking in Another World with My Absurd Skill"
-    },
-    {
      "url": "https://www.disneyplus.com/de-de/series/the-rising-of-the-shield-hero-aka-tate-no-yuusha-no/4lgHH2jdAefe",
      "titel": "The Rising of the Shield Hero: Staffel 2",
      "seit": "2026-08-26"
@@ -3565,12 +3561,8 @@
      "seit": "2026-08-26"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89",
-     "titel": "Dragon Ball Super: Broly"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3",
-     "titel": "Classroom of the Elite"
+     "url": "https://www.disneyplus.com/de-de/browse/entity-cfb90125-8678-4327-a1b8-e608f293eccd",
+     "titel": "Heidi"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-9ba0f41b-6173-4ff1-8967-71cad0620244",
@@ -4066,11 +4058,6 @@
      "url": "https://www.disneyplus.com/browse/entity-f68d4e4b-281a-42ae-be09-e1715396c4ae",
      "titel": "Marvel's Guardians of the Galaxy",
      "hinweis": "Staffeln unklar: TMDB zählt 77 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-cfb90125-8678-4327-a1b8-e608f293eccd",
-     "titel": "Heidi",
-     "hinweis": "Staffeln unklar: TMDB zählt 91 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-d772d3ad-b8d8-4f85-a6a7-ede8452db70b",

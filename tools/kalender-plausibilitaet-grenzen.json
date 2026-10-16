@@ -3,7 +3,7 @@
   "vorkommen": {
     "erschienenOhneTermin": 0,
     "schaetzungNachEnde": 0,
-    "spracheOffenTrotzMeldung": 10,
+    "spracheOffenTrotzMeldung": 7,
     "ereignisOhneNews": 2,
     "terminOhneBeleg": 15
   },
@@ -12,10 +12,7 @@
     "schaetzungNachEnde": [],
     "spracheOffenTrotzMeldung": [
       "21519|primevideo",
-      "98659|disneyplus",
-      "101302|disneyplus",
       "142838|disneyplus",
-      "156067|disneyplus",
       "158927|disneyplus",
       "10015342|netflix",
       "10015835|netflix",

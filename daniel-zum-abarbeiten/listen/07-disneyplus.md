@@ -1,6 +1,6 @@
 # Disney+: was noch zu prüfen ist
 
-Stand 2026-10-16 · **10 offene Verweise** in **9 Zeilen**.
+Stand 2026-10-16 · **7 offene Verweise** in **6 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -14,7 +14,4 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | 3 | 2026-09-28 | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
 | 4 | 2026-09-28 | Jujutsu Kaisen | [0]() |
 | 5 | 2026-09-20 | A Sign of Affection | [Hauptserie]() |
-| 6 | 2026-09-17 | Campfire Cooking in Another World with My Absurd Skill | [Hauptserie](https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855) |
-| 7 | 2026-09-06 | Classroom of the Elite | [Hauptserie](https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3) |
-| 8 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
-| 9 | 2023-07-07 | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
+| 6 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
