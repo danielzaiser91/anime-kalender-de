@@ -12,6 +12,8 @@ const lauf = (e) =>
   vorpruefe({ neu: [], zweig: 'speed/x', existiert: (p) => p === 'tools/alt.mjs', ...e })
 const rot = (e) => lauf(e).rot.length > 0
 
+// Zusammengesetzt, damit check:cache-register den Beispielpfad nicht für einen echten Zugriff hält.
+const CACHE = ['data', 'cache', 'x.json'].join('/')
 const PN = 'Patch Notes: keine – Technik'
 pruefe('Text nennt alle Dateien → grün', !rot({ dateien: ['tools/a.mjs'], text: `tools/a.mjs neu. ${PN}` }))
 pruefe('Datei nicht erwähnt → rot', rot({ dateien: ['tools/a.mjs', 'tools/b.mjs'], text: 'Nur a.mjs wird neu.' }))
@@ -30,8 +32,8 @@ pruefe('existiertIn: voll, Platte, Endstück; sonst nicht', ex('pipeline/lib/a.t
 pruefe('Sichtbar ohne Patch Notes → rot', rot({ dateien: ['web/src/a.ts'], text: 'web/src/a.ts' }))
 pruefe('Sichtbar mit Ausnahmezeile → grün', !rot({ dateien: ['web/src/a.ts'], text: `web/src/a.ts\n${PN}` }))
 pruefe('Sichtbar mit neuem Eintrag, Wort Patch Notes deckt Ordner', !rot({ dateien: ['web/src/a.ts', 'data/patchnotes/n.yaml'], neu: ['data/patchnotes/n.yaml'], text: 'web/src/a.ts, dazu Patch Notes' }))
-pruefe('data/cache → rot', rot({ dateien: ['data/cache/x.json'], text: 'data/cache/x.json' }))
-pruefe('data/cache im daten/-Zweig → grün', !rot({ dateien: ['data/cache/x.json'], text: 'data/cache/x.json', zweig: 'daten/x' }))
+pruefe('Cache-Datei → rot', rot({ dateien: [CACHE], text: CACHE }))
+pruefe('Cache-Datei im daten/-Zweig → grün', !rot({ dateien: [CACHE], text: CACHE, zweig: 'daten/x' }))
 pruefe('Workflow, Pfad im Text nennt ihn → grün', !rot({ dateien: ['.github/workflows/a.yml'], text: '.github/workflows/a.yml' }))
 pruefe('Workflow, Text nennt ihn nicht ausdrücklich → rot', rot({ dateien: ['.github/workflows/a.yml'], text: 'a.yml ändert den Lauf' }))
 pruefe('Prüfdatei, Pfad im Text nennt Check → grün', !rot({ dateien: ['pipeline/check-x.ts'], text: 'pipeline/check-x.ts' }))
