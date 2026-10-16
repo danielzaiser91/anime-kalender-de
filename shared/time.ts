@@ -157,9 +157,13 @@ export function monthName(monthIndex0: number): string {
   return NAMES.months[monthIndex0]
 }
 
-/** "2026-08-13" → "13.08.2026" */
+/**
+ * "2026-08-13" → "13.08.2026". Nimmt auch einen ISO-Zeitpunkt ("2026-08-12T22:30:00.000Z", wie
+ * `verpasst.erwartetAm`) und liefert dessen Berliner Kalendertag (hier: 13.08.2026).
+ */
 export function formatDate(iso: string): string {
-  const [y, m, d] = iso.split('-')
+  const tag = iso.length > 10 ? toIsoDate(new Date(iso)) : iso
+  const [y, m, d] = tag.split('-')
   return `${d}.${m}.${y}`
 }
 

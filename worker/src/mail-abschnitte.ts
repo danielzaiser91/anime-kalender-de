@@ -18,6 +18,7 @@ import type { NewsEintrag, NewsMeldung, ReleaseEvent } from '../../shared/types.
 import { PLATFORMS, anbieterName } from '../../shared/types.ts'
 import { abzeichen } from './mail-sorten.ts'
 import { hostVon, istLink } from '../../shared/quelle.ts'
+import { formatDate } from '../../shared/time.ts'
 
 /** Was jede Zeile zum Verlinken braucht. */
 export interface RowContext {
@@ -111,7 +112,7 @@ export function tvWiederholungen(ctx: RowContext, events: ReleaseEvent[]): strin
  */
 export function newsSatz(m: NewsMeldung): string {
   const anbieter = m.anbieter || (m.platform ? anbieterName(m.platform) : '')
-  const datum = m.datum ? m.datum.split('-').reverse().join('.') : ''
+  const datum = m.datum ? formatDate(m.datum) : ''
   switch (m.art) {
     case 'neu':
       if (m.jahre && anbieter) return m.discSeitText ? `Nach ${m.jahre} Jahren endlich im Stream auf Deutsch bei ${anbieter}! (Auf Disc gibt es die Synchro seit ${m.discSeitText})` : `Nach ${m.jahre} Jahren endlich auf Deutsch: jetzt mit Synchro bei ${anbieter}!`
