@@ -77,7 +77,7 @@ export function nurSerie(befund: JwBefund, titelJeJwId: number, eigeneStaffeln =
   if (titelJeJwId > 1) return 'Mehrteiler'
   const { staffeln } = befund
   if (eigeneStaffeln > 1 || (staffeln && staffeln.length > 1)) return 'mehrere Staffeln'
-  return staffeln ? undefined : 'Staffeln unbekannt'
+  return staffeln?.length ? undefined : 'Staffeln unbekannt'
 }
 
 export interface WaechterZahl {

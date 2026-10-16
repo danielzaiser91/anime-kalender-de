@@ -75,6 +75,7 @@ pruefe('Mehrteiler (Kennung bei mehreren unserer Titel)', nurSerie(befund([]), 2
 pruefe('mehrere Staffeln bei JustWatch', nurSerie(befund([], { staffeln: [{ nr: 1, angebote: [] }, { nr: 2, angebote: [] }] }), 1) === 'mehrere Staffeln')
 pruefe('mehrere Staffeln in unserem Bestand', nurSerie(befund([]), 1, 2) === 'mehrere Staffeln')
 pruefe('Staffeln unbekannt (älterer Befund)', nurSerie(befund([], { staffeln: undefined }), 1) === 'Staffeln unbekannt')
+pruefe('Staffeln unbekannt (leere Liste, JustWatch meldet Staffeln ohne Nummer)', nurSerie(befund([], { staffeln: [] }), 1) === 'Staffeln unbekannt')
 
 // Wächter: mehr als 2 % Widersprüche
 pruefe('Wächter: 1 von 50 (2 %) bleibt Flagge', !abgeschalteteAnbieter(new Map([['primevideo', { gemessen: 50, widerspruch: 1 }]])).has('primevideo'))
