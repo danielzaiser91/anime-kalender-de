@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 59
+    "2026-10": 61
   },
   "gesehen": {
     "26341901:netflix": {
@@ -7980,7 +7980,27 @@
       "dienst": "prime",
       "am": "2026-10-14",
       "deutsch": false
+    },
+    "new:26342054:netflix": {
+      "art": "new",
+      "titel": "Hollywood Arts",
+      "originalTitel": "Hollywood Arts",
+      "imdbId": "tt35673115",
+      "tmdbId": "tv/286183",
+      "dienst": "netflix",
+      "am": "2026-10-15",
+      "deutsch": false
+    },
+    "removed:34391:netflix": {
+      "art": "removed",
+      "titel": "Inside West Coast Customs",
+      "originalTitel": "Inside West Coast Customs",
+      "imdbId": "tt1885855",
+      "tmdbId": "tv/58559",
+      "dienst": "netflix",
+      "am": "2026-10-15",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-10-15T04:12:18.355Z"
+  "fetchedAt": "2026-10-16T04:11:51.956Z"
 }

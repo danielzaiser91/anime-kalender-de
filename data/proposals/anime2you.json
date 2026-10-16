@@ -1,15 +1,109 @@
 {
-  "scrapedAt": "2026-10-15T04:15:24.125Z",
+  "scrapedAt": "2026-10-16T04:14:57.609Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 39,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 38,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 39,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 43,
-    "Sprachhinweis älter als 45 Tage": 4
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 44,
+    "schon in einem Rubrik-Feed gelesen": 40,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
+    "Sprachhinweis älter als 45 Tage": 5
   },
   "proposals": [
+    {
+      "articleTitle": "Deutscher Synchro-Trailer zu »Cyberpunk: Edgerunners II« + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1060922/cyberpunk-edgerunners-2-synchro-trailer/",
+      "publishedAt": "2026-10-15",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2026-10",
+          "context": "dgerunners«-Serie veröffentlicht. Das Video findet ihr unten. Release im Oktober 2026 »Cyberpunk: Edgerunners II« entsteht wie der Vorgänger"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Prime Video nimmt zwei weitere Neuzugänge ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1060946/prime-video-avatar-die-sieben-haefen-und-mehr/",
+      "publishedAt": "2026-10-15",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Avatar: Die sieben Häfen",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ]
+        },
+        {
+          "titel": "Yoyo & Nene – Die magischen Schwestern",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-10-16"
+    },
+    {
+      "articleTitle": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
+      "articleUrl": "https://www.anime2you.de/news/1060934/my-love-story-with-yamada-kun-at-lv999-blu-ray-design/",
+      "publishedAt": "2026-10-15",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "t. Ein Produktbild findet ihr weiter unten in diesem Artikel. Release im November 2026 Das erste Volume von »My Love Story with Yamada-kun a"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Konkreter Termin von »Are You a Landmine, Chihara-san?« + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1060902/are-you-a-landmine-chihara-san-termin/",
+      "publishedAt": "2026-10-15",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2027-01-07",
+          "context": "n Desu ka? Chihara-san«) wurde heute verkündet, dass die Serie ab dem 7. Januar 2027 im japanischen Fernsehen ausgestrahlt wird. Wir fassen"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Episodenanzahl von »Firefly Wedding« steht fest",
+      "articleUrl": "https://www.anime2you.de/news/1060661/firefly-wedding-episodenanzahl/",
+      "publishedAt": "2026-10-15",
+      "category": "allgemein",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "hinweis": "sprache",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Disney+ ergänzt einen neuen Simulcast und eine neue Synchro",
       "articleUrl": "https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/",
@@ -1932,7 +2026,7 @@
           "datum": "2026-10-06"
         }
       ],
-      "sammelGelesen": "2026-10-12"
+      "sammelGelesen": "2026-10-16"
     },
     {
       "articleTitle": "Action-Anime »Rooster Fighter« bald auf Netflix verfügbar",
@@ -1994,7 +2088,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-10-12"
+      "sammelGelesen": "2026-10-16"
     },
     {
       "articleTitle": "ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an",
@@ -2252,7 +2346,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-13"
+      "sammelGelesen": "2026-10-16"
     },
     {
       "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
@@ -2284,7 +2378,7 @@
           "datum": "2026-09-30"
         }
       ],
-      "sammelGelesen": "2026-10-12"
+      "sammelGelesen": "2026-10-16"
     },
     {
       "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
@@ -2334,7 +2428,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-12"
+      "sammelGelesen": "2026-10-16"
     },
     {
       "articleTitle": "AniMoon-Angebot: »Higurashi GOU«-Komplettset zum Sonderpreis",
@@ -4483,19 +4577,6 @@
       "alreadyCurated": true
     },
     {
-      "articleTitle": "Prime Video entfernt vier Anime-Serien aus dem Programm",
-      "articleUrl": "https://www.anime2you.de/news/1045389/prime-video-entfernt-ragna-crimson-und-mehr/",
-      "publishedAt": "2026-08-31",
-      "category": "streaming",
-      "platforms": [
-        "primevideo"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
-      "alreadyCurated": false
-    },
-    {
       "articleTitle": "»A Gatherer’s Adventure in Isekai« erscheint als Blu-ray-Komplettbox",
       "articleUrl": "https://www.anime2you.de/news/1044440/a-gatherers-adventure-in-isekai-blu-ray-komplettbox/",
       "publishedAt": "2026-08-30",
@@ -4966,7 +5047,7 @@
           "edition": "limited-edition steelbook"
         }
       ],
-      "discGelesen": "2026-10-13"
+      "discGelesen": "2026-10-16"
     },
     {
       "articleTitle": "»Afro Samurai« erscheint im limitierten Steelbook auf Blu-ray",
@@ -5881,10 +5962,6 @@
         "kino"
       ],
       "dates": [
-        {
-          "iso": "2026-10-15",
-          "context": "iter unten findet. Kinostart im Oktober 2026 »A New Dawn« wird ab dem 15. Oktober 2026 sowohl mit deutscher Sprachfassung als auch im […]"
-        },
         {
           "month": "2026-10",
           "context": "ynchro-Trailer veröffentlicht, den ihr weiter unten findet. Kinostart im Oktober 2026 »A New Dawn« wird ab dem 15. Oktober 2026 sowohl mit d"

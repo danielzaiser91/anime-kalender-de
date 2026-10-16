@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-10-15T04:12:14.804Z",
+  "scrapedAt": "2026-10-16T04:11:49.086Z",
   "window": {
-    "from": "2026-08-31",
-    "to": "2026-12-29"
+    "from": "2026-09-01",
+    "to": "2026-12-30"
   },
   "shows": [
     {
@@ -869,6 +869,29 @@
           "duration": 5636,
           "title": "Hell Verse",
           "image": "https://image.animationdigitalnetwork.com/license/bleach/film/web/mov4_320x180.jpg"
+        }
+      ],
+      "batch": false
+    },
+    {
+      "showId": 887,
+      "title": "Dreamland",
+      "originalTitle": "Dreamland",
+      "age": "12+",
+      "url": "https://animationdigitalnetwork.com/de/video/887",
+      "episodes": [
+        {
+          "date": "2026-10-17",
+          "time": "19:00",
+          "episode": 1,
+          "url": "https://animationdigitalnetwork.com/de/video/887-dreamland/32720-folge-1",
+          "season": "1",
+          "seasonReference": "dreamland_tv",
+          "order": 6,
+          "type": "EPS",
+          "duration": 1380,
+          "title": "Dreamland - Folge 1",
+          "image": "https://image.animationdigitalnetwork.com/license/dreamland/tv_0001/web/license_320x180.jpg"
         }
       ],
       "batch": false
