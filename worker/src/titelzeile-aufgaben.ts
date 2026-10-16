@@ -3,21 +3,27 @@
  *
  * Abhaken, Wiederöffnen und Löschen kennen die Folgen einer Titelzeile über ihre Id (`titelzeile-format.ts`); eine
  * Anfrage ändert je Titel **eine** Zeile, nicht je Folge eine (vorher 50 Ids je `UPDATE`). Alle Änderungen laufen
- * über `aendereTitelzeile` (Versionsprüfung, `titelzeile-zeile.ts`).
+ * über die Versionsprüfung (`titelzeile-zeile.ts`); das Abhaken schreibt gesammelt im Stapel (`aendereFolgen`).
  */
 import { type Env } from './env.ts'
-import { AM, ausId, FASSUNG, MELDUNG_UEBERNOMMEN, NUMMER, ROHFOLGE_UEBERNOMMEN, STAFFEL, TITEL_ID_AB, type Eintrag, type TitelDaten } from './titelzeile-format.ts'
-import { aendereTitelzeile } from './titelzeile-zeile.ts'
+import { AM, ausId, FASSUNG, lies, MELDUNG_UEBERNOMMEN, NUMMER, ROHFOLGE_UEBERNOMMEN, STAFFEL, TITEL_ID_AB, type Eintrag, type TitelDaten } from './titelzeile-format.ts'
+import { aendereTitelzeile, aktualisierung, type Zeile } from './titelzeile-zeile.ts'
 
 /** Ids, die zu Titelzeilen gehören. */
 export const sindTitelIds = (ids: number[]) => ids.filter((id) => id >= TITEL_ID_AB)
 
-/** Die Adresse zu jeder Titelnummer, in einer Abfrage über den Index `titel_zeile_nr`. */
-async function adressen(env: Env, nummern: number[]): Promise<{ nr: number; url: string; plattform: string }[]> {
+type Gelesen = Zeile & { url: string; plattform: string }
+
+/**
+ * Die Zeile zu jeder Titelnummer, in einer Abfrage über den Index `titel_zeile_nr`. Die Nummern reisen als ein
+ * JSON-Wert: D1 bindet höchstens 100 Werte, mit einem `?` je Nummer scheiterte jedes Abhaken ab 101 Titeln
+ * („too many SQL variables“, HTTP 500 in jedem Bestandsbau bis 16.10.2026).
+ */
+async function adressen(env: Env, nummern: number[]): Promise<Gelesen[]> {
   if (!nummern.length) return []
-  const { results } = await env.DB.prepare(`SELECT nr, url, plattform FROM titel_zeile WHERE nr IN (${nummern.map(() => '?').join(',')})`)
-    .bind(...nummern)
-    .all<{ nr: number; url: string; plattform: string }>()
+  const { results } = await env.DB.prepare('SELECT nr, url, plattform, version, daten FROM titel_zeile WHERE nr IN (SELECT value FROM json_each(?1))')
+    .bind(JSON.stringify(nummern))
+    .all<Gelesen>()
   return results ?? []
 }
 
@@ -35,22 +41,30 @@ const trifft = (e: Eintrag, f: { staffel: number; nummer: number; fassung: numbe
   (e[STAFFEL] ?? 0) === f.staffel && (e[NUMMER] ?? 0) === f.nummer && e[FASSUNG] === f.fassung
 
 /** Setzt in allen Titelzeilen eine Änderung auf die Folgen, die `ids` nennen; `null` aus `aendere` heißt „nichts zu ändern". */
+/*
+  **Ein Lesen, dann die UPDATEs im Stapel** (16.10.2026). Je Titel zwei Abfragen (lesen, schreiben) kamen bei rund
+  1.000 Titeln weit über die 50 Abfragen je Aufruf der freien Stufe; ein `batch` zählt als eine (eine Prime-Meldung
+  mit 93 Anweisungen in einem Stapel ging am 19.09.2026 durch). Ein Titel, den jemand zwischen Lesen und Schreiben
+  geändert hat, bleibt offen (Versionsprüfung) und kommt mit dem nächsten Bau wieder.
+*/
+const JE_STAPEL = 100
+
 async function aendereFolgen(env: Env, ids: number[], aendere: (e: Eintrag) => Eintrag | null): Promise<void> {
   const je = jeTitel(ids)
+  const anweisungen: D1PreparedStatement[] = []
   for (const t of await adressen(env, [...je.keys()])) {
     const folgen = je.get(t.nr)!
-    await aendereTitelzeile(env, { url: t.url, plattform: t.plattform }, async (alt) => {
-      if (!alt) return null
-      let n = 0
-      const f = alt.f.map((e) => {
-        if (!folgen.some((x) => trifft(e, x))) return e
-        const neu = aendere(e)
-        if (neu) n++
-        return neu ?? e
-      })
-      return n ? { ...alt, f } : null
+    const alt = lies(t.daten)
+    let n = 0
+    const f = alt.f.map((e) => {
+      if (!folgen.some((x) => trifft(e, x))) return e
+      const neu = aendere(e)
+      if (neu) n++
+      return neu ?? e
     })
+    if (n) anweisungen.push(aktualisierung(env, t, { ...alt, f }))
   }
+  for (let i = 0; i < anweisungen.length; i += JE_STAPEL) await env.DB.batch(anweisungen.slice(i, i + JE_STAPEL))
 }
 
 /** `uebernommen: [ids]` bzw. `rohfolgenUebernommen: [ids]` für Folgen in Titelzeilen; eine veraltete Fassung bleibt offen. */

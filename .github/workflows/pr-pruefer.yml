@@ -217,6 +217,9 @@ jobs:
             Benennt die Beschreibung eine Verdrahtung (Aufruf in build.ts oder einer Phase) selbst als ungetestet,
             ist das ein Befund, kein Hinweis. Behauptungen über fremde Module ("X ist generisch") zählen nur mit
             Datei:Zeile des Belegs, sonst nicht als Argument verwenden.
+            Eine Worker-Route, die eine Id-Liste der Pipeline annimmt, ist nur frei mit einem Test in Produktionsgröße
+            gegen die Grenzen der freien Stufe (100 Bindungen je Anweisung, 50 Abfragen je Aufruf, Wiederholung
+            schreibfrei); eine als "offen" beschriebene Überschreitung dieser Grenzen ist ein Befund (PR 1155).
 
             Schreibe zwei Dateien:
             1. ${{ runner.temp }}/pruefer/protokoll.md — deutsch, höchstens 25 Zeilen: Urteil, Befunde mit Datei und
