@@ -136,7 +136,7 @@
   -webkit-text-fill-color: rgb(230 237 243 / 45%);
 }
 
-.ak-zu {
+button.ak-zu {
   border: 0;
   background: none;
   color: #8b949e;
@@ -144,7 +144,7 @@
   line-height: 1;
   cursor: pointer;
 }
-.ak-zu:hover { color: #e6edf3; }
+button.ak-zu:hover { color: #e6edf3; }
 
 .ak-liste { overflow-y: auto; padding: 6px 0; }
 
@@ -1851,10 +1851,10 @@ html.ak-icon-da .ak-uebersicht.ak-amazon-uebersicht:not(.ak-uebersicht-innen) {
 }
 /* Im Kasten liegt nichts über dem Icon: der Freiraum von 52px ließ eine Lücke in der Melde-Zeile (Netflix, 10.10.2026). */
 html .ak-box .ak-durchlauf { margin-bottom: 0; }
-html.ak-icon-da.ak-zu .ak-box,
-html.ak-icon-da.ak-zu .ak-amazon-knopf,
-html.ak-icon-da.ak-zu .ak-durchlauf,
-html.ak-icon-da.ak-zu .ak-uebersicht.ak-amazon-uebersicht:not(.ak-uebersicht-innen) {
+html.ak-icon-da.ak-eingeklappt .ak-box,
+html.ak-icon-da.ak-eingeklappt .ak-amazon-knopf,
+html.ak-icon-da.ak-eingeklappt .ak-durchlauf,
+html.ak-icon-da.ak-eingeklappt .ak-uebersicht.ak-amazon-uebersicht:not(.ak-uebersicht-innen) {
   opacity: 0;
   transform: translateY(12px) scale(0.96);
   visibility: hidden;
