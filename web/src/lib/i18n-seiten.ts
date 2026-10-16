@@ -76,6 +76,7 @@ export const TEXTE_SEITEN = {
   'news.nachtrag.abhilfe': 'Was wir geändert haben',
   'news.nachtrag.zusage': 'Falls es nicht stimmt',
   'news.art.rhythmus': 'Rhythmus',
+  'news.art.takt': 'Takt',
   'news.art.offiziell': 'Offizielle Website',
   'news.offiziell.staffel': 'Weitere Staffel bestätigt',
   'news.offiziell.film': 'Film angekündigt',

@@ -4,6 +4,7 @@ import { weekdayName } from '@shared/time.ts'
 import { ankuendigungsWort } from '@shared/news-typen.ts'
 import { omuDatumText, omuStartText } from '@shared/ankuendigung.ts'
 import { folgenProWoche } from '@shared/folgenrhythmus.ts'
+import { taktKurz, taktSatz } from '@shared/takt-text.ts'
 
 /**
  * **Der Satz zu einer Meldung — für die Nachrichtenseite und den RSS-Feed.**
@@ -69,6 +70,8 @@ export function newsSatz(m: NewsMeldung, am?: string): string {
       return t('news.angekuendigt', { datum, anbieter }) + lautQuelle(m, am)
     case 'rhythmus':
       return t('news.angekRhythmus', { datum, anbieter, zahl: folgenProWoche(m.proWoche ?? [0, 0]) })
+    case 'takt':
+      return taktSatz(m)
     case 'offiziell':
       return t(`news.offiziell.${m.kategorie ?? 'termin'}` as never)
     case 'disc':
@@ -112,6 +115,8 @@ export function newsKurz(m: NewsMeldung): string {
       return t(m.omu ? 'news.kurz.omu' : 'news.kurz.angekuendigt', { datum, anbieter })
     case 'rhythmus':
       return t('news.kurz.angekRhythmus', { zahl: folgenProWoche(m.proWoche ?? [0, 0]), datum, anbieter })
+    case 'takt':
+      return taktKurz(m)
     case 'offiziell':
       return t(`news.offiziell.${m.kategorie ?? 'termin'}` as never)
     case 'disc':

@@ -39,6 +39,7 @@ import { fensterBeginn, offizielleMeldungen, type OffizielleMeldung } from './ne
 import { behalteEintrag } from './news-obergrenze.ts'
 import { titelNachSerienId, waehleStaffel } from './news-cr-zuordnung.ts'
 import { rhythmusMeldung } from './news-rhythmus.ts'
+import { ohneDoppelteTakte, taktMeldungen } from './news-takt.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
@@ -195,6 +196,7 @@ function terminMeldungen(
     }
     for (const m of verspaetungsMeldungen(r)) raus.push({ ...m, titel: t })
     for (const m of rhythmusMeldung(r)) raus.push({ ...m, titel: t })
+    for (const m of taktMeldungen(r, heute)) raus.push({ ...m, titel: t })
   }
   return raus
 }
@@ -311,6 +313,7 @@ const rang: Record<NewsArt, number> = {
   nachgereicht: 2,
   nachgetragen: 1,
   rhythmus: 2,
+  takt: 2,
   offiziell: 3,
   kino: 3,
   disc: 4,
@@ -468,7 +471,7 @@ export function baueNews(
   const kopfTitel = new Map<number, Title>()
   for (const t of titles) if (wurzelVon(t) === t.id) kopfTitel.set(t.id, t)
 
-  datiert = ohneDoppelteFolgen(verschmelzeGleicheQuelle(datiert))
+  datiert = ohneDoppelteTakte(ohneDoppelteFolgen(verschmelzeGleicheQuelle(datiert)))
   datiert.push(...pflegeTerminverlauf({ datiert, nachId, historie, vorherige, name, wurzel: wurzelVon, grenze, heute, nurOriginalton }))
   datiert = bereinigeNews(ohneKuenstlicheAnkuendigung(datiert))
 

@@ -9,7 +9,7 @@ export const GESAMT_HOECHSTENS = 440
 
 /** Trägt der Eintrag Folgen, Verspätungen oder Nachreichungen der letzten acht Wochen? */
 const laufendeSerie = (e: NewsEintrag, heute: string): boolean =>
-  e.am >= addDays(heute, -LAUFEND_TAGE) && e.meldungen.some((m) => m.art === 'folgen' || m.art === 'verspaetet' || m.art === 'nachgereicht')
+  e.am >= addDays(heute, -LAUFEND_TAGE) && e.meldungen.some((m) => m.art === 'folgen' || m.art === 'verspaetet' || m.art === 'nachgereicht' || m.art === 'takt')
 
 /**
  * Bleibt der Eintrag an Platz `i` der nach Tag sortierten Liste? Die ersten `hoechstens` immer, offizielle Meldungen immer,

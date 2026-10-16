@@ -62,7 +62,7 @@ const GEWAEHLT = 'bg-ak-gewaehlt font-bold text-ak-auf-gewaehlt'
  * wieder. Sie ist zugleich die Rangfolge: Was hier vorn steht, formuliert die
  * Satzzeile der Übersicht.
  */
-const ARTEN = ['neu', 'angekuendigt', 'nachgetragen', 'verspaetet', 'nachgereicht', 'rhythmus', 'offiziell', 'kino', 'disc', 'folgen'] as const satisfies readonly NewsArt[]
+const ARTEN = ['neu', 'angekuendigt', 'nachgetragen', 'verspaetet', 'nachgereicht', 'rhythmus', 'takt', 'offiziell', 'kino', 'disc', 'folgen'] as const satisfies readonly NewsArt[]
 /* Fehlt eine `NewsArt` in `ARTEN`, ist diese Zuweisung ein Typfehler (sonst ohne Chip und mit Rang -1). */
 const _artenVollstaendig: Exclude<NewsArt, (typeof ARTEN)[number]> extends never ? true : never = true
 void _artenVollstaendig

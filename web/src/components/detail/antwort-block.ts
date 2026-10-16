@@ -3,7 +3,8 @@
  * bringt freitags drei Folgen, der Kasten nannte nur die erste („Nächste Folge (Folge 4)“).
  */
 import { folgenblockBis } from '@shared/folgenblock.ts'
-import type { ReleaseEvent } from '@shared/types.ts'
+import { taktUnklar } from '@shared/takt.ts'
+import type { Release, ReleaseEvent } from '@shared/types.ts'
 import { formatDate } from '@shared/time.ts'
 import type { Antwort } from './antwort-typ.ts'
 import { sendetageText } from './hilfen.tsx'
@@ -12,10 +13,15 @@ import { ungefaehr } from './antwort-regeln.ts'
 type Laeuft = Extract<Antwort, { art: 'laeuft' }>
 type Uebersetze = (k: string, v?: Record<string, string | number>) => string
 
+/** Trägt der Wochentakt nicht mehr, und ist die nächste Folge nur fortgeschrieben? Dann sagt der Kasten „Takt unklar“ statt „Wöchentlich“. */
+function taktUnklarBei(release: Release | undefined, n: ReleaseEvent): boolean {
+  return Boolean(n.estimated && release?.releaseType === 'weekly' && release.platform !== 'tv' && !release.rhythmus && taktUnklar(release.schedule))
+}
+
 /** Was nach der nächsten Folge noch aussteht, wann die letzte kommt, und wie weit ihr Block reicht. */
-export function restUndBlock(kuenftig: ReleaseEvent[], n: ReleaseEvent): Pick<Laeuft, 'rest' | 'letzter' | 'blockBis'> {
+export function restUndBlock(kuenftig: ReleaseEvent[], n: ReleaseEvent, release?: Release): Pick<Laeuft, 'rest' | 'letzter' | 'blockBis' | 'taktUnklar'> {
   const derselben = kuenftig.filter((e) => e.releaseSlug === n.releaseSlug)
-  return { rest: derselben.length, letzter: derselben[derselben.length - 1]?.date, blockBis: folgenblockBis(derselben, n) }
+  return { rest: derselben.length, letzter: derselben[derselben.length - 1]?.date, blockBis: folgenblockBis(derselben, n), taktUnklar: taktUnklarBei(release, n) }
 }
 
 /** Wie viele Folgen mit der nächsten am selben Tag erscheinen (1 ohne Block). */
@@ -58,11 +64,11 @@ export function folgenKopf(a: Laeuft, T: Uebersetze): string {
  */
 export function laeuftNeben(a: Laeuft, T: Uebersetze): string {
   return [
-    a.sendetage?.length ? sendetageText(a.sendetage) : a.offenesEnde || a.komplett ? null : T('antwort.rhythmusWoechentlichKurz'),
+    a.taktUnklar ? T('antwort.taktUnklar') : a.sendetage?.length ? sendetageText(a.sendetage) : a.offenesEnde || a.komplett ? null : T('antwort.rhythmusWoechentlichKurz'),
     blockIstEnde(a)
       ? null
       : a.letzter && a.rest > 1 && !a.offenesEnde
-        ? T('antwort.nochFolgen', { count: ungefaehr(a.rest, a.gesamtGeschaetzt), datum: ungefaehr(formatDate(a.letzter), a.gesamtGeschaetzt) })
+        ? T('antwort.nochFolgen', { count: ungefaehr(a.rest, a.gesamtGeschaetzt), datum: ungefaehr(formatDate(a.letzter), a.gesamtGeschaetzt || a.taktUnklar) })
         : a.raus === 0 && !a.offenesEnde && !a.komplett
           ? T('antwort.letzteFolge')
           : null,
