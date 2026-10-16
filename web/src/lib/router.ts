@@ -245,13 +245,14 @@ export function mitPfad(route: AppRoute, pathname: string): AppRoute {
  */
 const KALENDER_FILTER_PARAM = /[?&](q|conf|sicher|wo|frei|ohne|staffeln|x?(p|anb|rt|st|fsk|y|g|kw|sp))=/
 
-function hashAufraeumen(neu: AppRoute, hash: string): void {
+export function hashAufraeumen(neu: AppRoute, umg: Umgebung): void {
+  const { ort, verlauf } = umg
   if (
-    ALTE_ANSICHTEN[hash.replace(/^#\/?/, '').split('?')[0]] ||
-    /[?&]r=/.test(hash) ||
-    (istKalender(neu.view) && KALENDER_FILTER_PARAM.test(hash))
+    ALTE_ANSICHTEN[ort.hash.replace(/^#\/?/, '').split('?')[0]] ||
+    /[?&]r=/.test(ort.hash) ||
+    (istKalender(neu.view) && KALENDER_FILTER_PARAM.test(ort.hash))
   )
-    history.replaceState(history.state, '', window.location.pathname + window.location.search + buildHash(neu))
+    verlauf.replaceState(verlauf.state, '', ort.pathname + ort.search + buildHash(neu))
 }
 
 /**
@@ -384,7 +385,7 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void, (next:
   useEffect(() => {
     const onChange = () => {
       const neu = mitPfad(parseHash(window.location.hash), window.location.pathname)
-      hashAufraeumen(neu, window.location.hash)
+      hashAufraeumen(neu, browser())
       setRoute(neu)
     }
     onChange()
@@ -407,20 +408,20 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void, (next:
     if (!route.title) syncSharePath()
   }, [route.title])
 
+  const { navigate, ersetze } = schreiber(route, setRoute, browser)
+  return [route, navigate, ersetze]
+}
+
+/** Die beiden Schreibwege einer Route: `navigate` legt einen Schritt an, `ersetze` legt Schalter um (kein Verlaufseintrag, kein `hashchange`). */
+export function schreiber(route: AppRoute, setRoute: (r: AppRoute) => void, umgebung: () => Umgebung) {
   const navigate = (next: Partial<AppRoute>) => {
     const merged: AppRoute = { ...route, ...next }
     /* Die Filter der Datenbank gehen nicht in den Kalender mit, die des Kalenders nicht in die Datenbank (`App.tsx`). */
     if (istKalender(merged.view)) merged.filters = kalenderBasis(merged.filters)
     /* Ändert sich ein Schnellfilter, wird er zur Vorliebe — vor dem Adresswechsel, den `parseHash` danach liest. */
     vorliebenNachfuehren(route.filters, merged.filters)
-    navigiere(route, next, merged, browser(), setRoute)
+    navigiere(route, next, merged, umgebung(), setRoute)
   }
-
-  /** Schalter umlegen: die Adresse wird ersetzt (kein Verlaufseintrag, kein `hashchange`), die übrigen Parameter bleiben. */
-  const ersetze = (next: Partial<AppRoute>) => {
-    const merged: AppRoute = { ...route, ...next }
-    ersetzeAdresse(merged, browser(), setRoute)
-  }
-
-  return [route, navigate, ersetze]
+  const ersetze = (next: Partial<AppRoute>) => ersetzeAdresse({ ...route, ...next }, umgebung(), setRoute)
+  return { navigate, ersetze }
 }
