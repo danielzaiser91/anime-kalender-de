@@ -9,6 +9,8 @@
  */
 const fs = require('node:fs')
 const { fileURLToPath } = require('node:url')
+const os = require('node:os')
+const path = require('node:path')
 
 const erlaubt = (process.env.BESTAND_ERLAUBT ?? '').split(',').filter(Boolean)
 const spur = process.env.BESTAND_SPUR
@@ -18,9 +20,21 @@ function pfadVon(p) {
   return typeof p === 'string' ? p.replace(/\\/g, '/') : ''
 }
 
+const normal = (p) => p.replace(/\\/g, '/').toLowerCase()
+const WURZEL = normal(path.resolve(__dirname, '..'))
+const TEMP_ORDNER = [os.tmpdir(), fs.existsSync(os.tmpdir()) ? fs.realpathSync(os.tmpdir()) : ''].filter(Boolean).map(normal)
+
+/** Unter dem Temp-Ordner liegen Attrappen der Tests (`…/public/data` einer Kopie), nie der echte Bestand; was unter der Repo-Wurzel liegt, zählt nie als Temp. */
+function imTemp(pfad) {
+  const abs = normal(path.resolve(pfad))
+  if (abs.startsWith(`${WURZEL}/`)) return false
+  return TEMP_ORDNER.some((t) => abs.startsWith(`${t}/`))
+}
+
 function bestandPfad(p) {
-  const m = /(?:^|\/)(public\/data(?:\/[^?#]*)?)$/.exec(pfadVon(p))
-  return m ? m[1] : null
+  const voll = pfadVon(p)
+  const m = /(?:^|\/)(public\/data(?:\/[^?#]*)?)$/.exec(voll)
+  return m && !imTemp(voll) ? m[1] : null
 }
 
 function pruefe(funktion, p) {
