@@ -109,6 +109,41 @@ function aufrufeIn(funktion: string, name: string): ts.CallExpression[] {
 }
 const schreiberAufrufe = aufrufeIn('useRoute', 'schreiber')
 pruefe('useRoute reicht die Route unverändert an schreiber', schreiberAufrufe.length === 1 && schreiberAufrufe[0]!.arguments.map((a) => a.getText()).join('|') === 'route|setRoute|browser', schreiberAufrufe.map((a) => a.getText()))
+function bezeichnerIn(funktion: string, name: string): ts.Identifier[] {
+  const quelle = ts.createSourceFile('router.ts', readFileSync('web/src/lib/router.ts', 'utf8'), ts.ScriptTarget.Latest, true)
+  const treffer: ts.Identifier[] = []
+  const suche = (n: ts.Node, innen: boolean): void => {
+    const jetzt = innen || (ts.isFunctionDeclaration(n) && n.name?.text === funktion)
+    if (jetzt && ts.isIdentifier(n) && n.text === name) treffer.push(n)
+    n.forEachChild((k) => suche(k, jetzt))
+  }
+  suche(quelle, false)
+  return treffer
+}
+function rueckgabenIn(funktion: string): string[] {
+  const quelle = ts.createSourceFile('router.ts', readFileSync('web/src/lib/router.ts', 'utf8'), ts.ScriptTarget.Latest, true)
+  const treffer: string[] = []
+  const suche = (n: ts.Node): void => {
+    if (ts.isFunctionDeclaration(n) && n.name?.text === funktion) {
+      const sammle = (k: ts.Node): void => {
+        if (ts.isReturnStatement(k) && k.expression) treffer.push(k.expression.getText())
+        if (!ts.isFunctionLike(k) || k === n) k.forEachChild(sammle)
+      }
+      sammle(n)
+    }
+    n.forEachChild(suche)
+  }
+  suche(quelle)
+  return treffer
+}
+/* Das Ergebnis jenes einen Aufrufs ist der Initialisierer von `{ navigate, ersetze }` (ohne Umbenennung), und `useRoute` gibt sie in dieser Reihenfolge zurück. */
+const deklaration = schreiberAufrufe[0]?.parent
+const bindung = deklaration && ts.isVariableDeclaration(deklaration) && deklaration.initializer === schreiberAufrufe[0] ? deklaration.name : undefined
+const namen = bindung && ts.isObjectBindingPattern(bindung) ? bindung.elements.map((e) => (e.propertyName ? '!' : '') + e.name.getText()).join('|') : undefined
+pruefe('schreiber-Ergebnis wird als { navigate, ersetze } gebunden', namen === 'navigate|ersetze', namen)
+pruefe('schreiber kommt in useRoute nur einmal vor', bezeichnerIn('useRoute', 'schreiber').length === 1)
+const rueckgaben = rueckgabenIn('useRoute')
+pruefe('useRoute gibt [route, navigate, ersetze] zurück', rueckgaben.length === 1 && rueckgaben[0] === '[route, navigate, ersetze]', rueckgaben)
 const liesAufrufe = aufrufeIn('useRoute', 'liesAdresse')
 pruefe('onChange ruft liesAdresse als ganzen Rumpf auf', liesAufrufe.length === 1 && ts.isArrowFunction(liesAufrufe[0]!.parent) && liesAufrufe[0]!.arguments.map((a) => a.getText()).join('|') === 'browser()|setRoute', liesAufrufe.map((a) => a.parent.getText()))
 
