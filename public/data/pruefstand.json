@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-15T22:05:21.597Z",
+ "erzeugtAm": "2026-10-16T00:08:17.094Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
    "gemeldet": 304,
-   "gesamt": 850,
-   "offen": 546,
+   "gesamt": 851,
+   "offen": 547,
    "ohneSeite": 28,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
@@ -685,6 +685,10 @@
      "titel": "Rotschühchen und die sieben Zwerge (Red Shoes and the Seven Dwarfs)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0D83P6X34",
+     "titel": "Tokyo Ghoul"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B07Y547M9T",
      "titel": "K: Seven Stories Movie 1 - R:B - Blaze (K: SEVEN STORIES \"R:B - BLAZE -\")"
     },
@@ -770,10 +774,6 @@
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CW5WH6XZ",
-     "titel": "Tokyo Ghoul:re (Tokyo Ghoul:re 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D83P6X34",
      "titel": "Tokyo Ghoul:re (Tokyo Ghoul:re 2)"
     },
     {

@@ -1052,6 +1052,56 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261023T144500Z
+DTEND:20261023T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-23#40@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261023T151000Z
+DTEND:20261023T154000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-23#41@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261023T153500Z
+DTEND:20261023T160500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-23#41@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261023T162500Z
+DTEND:20261023T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-23#42@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261023T165000Z
+DTEND:20261023T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261024T093000Z

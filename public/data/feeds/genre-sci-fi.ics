@@ -440,6 +440,26 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-23#40@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261023T151000Z
+DTEND:20261023T154000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-23#41@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261023T153500Z
+DTEND:20261023T160500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384006@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T150000Z

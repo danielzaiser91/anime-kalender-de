@@ -312,6 +312,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261023T144500Z
+DTEND:20261023T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261024T093000Z
