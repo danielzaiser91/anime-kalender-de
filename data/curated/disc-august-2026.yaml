@@ -459,3 +459,16 @@
   edition: "Limited Edition, DVD & Blu-ray"
   schedule: { firstEpisodeDate: "2026-10-02" }
   sources: [https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/]
+
+# Step Up Love Story, OVA von 2014 (3 Folgen): Gesamtausgabe, 175 Min., 1 Disc, Ton Japanisch und Deutsch. Akiba Pass Shop,
+# Artikel 26POL033 (Seite abgerufen 17.10.2026: "Sprachen: Japanisch, Deutsch", "erstmals auf Deutsch", Releasedatum 31.07.2026). Die Serie von 2002 (4 Folgen) bekommt keinen Eintrag: Sie ist seit 2007 auf Disc
+# (Kazé), und ein Termin hier machte daraus die Meldung "Nach 24 Jahren endlich im Stream auf Deutsch".
+- slug: manga-love-story-step-up-gesamtausgabe-ova
+  anilistId: 10009632
+  titleDe: "Manga Love Story: The One And Only Step Up Love Story"
+  platform: disc
+  releaseType: disc
+  publisher: "polyband anime"
+  edition: "Gesamtausgabe, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-07-31" }
+  sources: [https://www.akibapassshop.de/products/26pol033-manga-love-story-gesamtausgabe-bluray]
