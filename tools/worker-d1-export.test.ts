@@ -14,7 +14,7 @@ import { DatabaseSync } from 'node:sqlite'
 import worker from '../worker/src/index.ts'
 import { mitAuffangnetz } from '../worker/src/auffangnetz.ts'
 import { EXPORT_PAUSE_SEKUNDEN, EXPORT_PAUSE_TEXT, istD1Export, istD1Tageslimit } from '../worker/src/d1-limit.ts'
-import { ausnahmeAls } from '../worker/src/pruefung-ablehnung.ts'
+import { ablehnungLoggen, ausnahmeAls, kennungDerMeldung } from '../worker/src/pruefung-ablehnung.ts'
 import { verarbeiteStapel } from '../worker/src/pruefung-stapel.ts'
 import { migriere } from './worker-titelzeile-hilfe.ts'
 
@@ -247,12 +247,34 @@ async function stapel() {
   pruefe(ergebnisse.map((e) => (e.ok ? 200 : e.status)).join() === '200,503,200', `Stapel: nur die mittlere 503 (${JSON.stringify(ergebnisse)})`)
 }
 
+/** Kennung im Protokoll (Log vom 16.10.2026: `kennung: "s"`): die Seite vor der Adresse, eine Suchadresse nennt keinen Titel. */
+function kennungImProtokoll() {
+  const such = 'https://www.amazon.de/s?k=die+dinos+sind+los'
+  const faelle: [Record<string, unknown>, string | null, string][] = [
+    [{ url: such, suchUrl: such, seiten_kennung: 'B00LDDJYB4' }, 'B00LDDJYB4', 'Suchauftrag mit Seite -> ASIN'],
+    [{ url: such, suchUrl: such }, null, 'Suchauftrag ohne Seite -> keine Kennung, nicht „s“'],
+    [{ url: 'https://www.amazon.de/gp/video/detail/B0URL', suchUrl: such, seiten_kennung: 'B0SEITE' }, 'B0SEITE', 'Seite schlägt Adresse'],
+    [{ url: 'https://www.netflix.com/title/80000002', seiten_kennung: 'a.b' }, '80000002', 'ungültige Seite -> Adresse'],
+    [{ url: 'https://www.netflix.com/title/80000003' }, '80000003', 'ohne Seite -> Adresse'],
+  ]
+  for (const [m, soll, text] of faelle) {
+    const ist = kennungDerMeldung(m)
+    pruefe(ist === soll, `kennungDerMeldung: ${text} (${ist})`)
+  }
+  protokoll.length = 0
+  ablehnungLoggen('pruefung', ausnahmeAls(EXPORT()), meldung('ja'))
+  ablehnungLoggen('pruefung', ausnahmeAls(EXPORT()), { ...meldung('ja'), url: such, suchUrl: such })
+  const kennungen = protokoll.map((z) => (JSON.parse(z) as { kennung?: string }).kennung)
+  pruefe(kennungen.join() === 'B00LDDJYB4,B00LDDJYB4', `Protokoll: Kennung der Seite (${kennungen.join()})`)
+}
+
 await jederSchritt()
 await tageslimitJederSchritt()
 await andererFehlerJederSchritt()
 await gegenprobe()
 await andereRouten()
 await stapel()
+kennungImProtokoll()
 if (fehler) {
   console.log(`\n${fehler} Prüfung(en) rot`)
   process.exit(1)
