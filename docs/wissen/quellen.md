@@ -465,6 +465,13 @@ der 209 Titel mit verlorenem Häkchen `de` am Kanal-Angebot (Hell Mode: nur `ja`
 gti am Weg, die „Deutsch laut JustWatch“ (`lib/jw-vertrauen.ts`) verlangt — das Kennzeichen kommt, sobald
 die Erweiterung die gti liest.
 
+**Die gemeldeten Folgen erkennen eine Kanal-Seite nur über einen Handbeleg** (16.10.2026, Bestandsbau rot an
+Demon Slayer 166240/145139). `rohDeutsch()` kennt Kanal-Seiten nur aus Zeilen mit `kanalOhneBeleg`; eine neue
+Meldung zu einer Kanal-Seite ohne solche Zeile setzt das Häkchen, und das Erbe vom Anbieter setzt es auch. Gegen
+Termine, die alle `sprache` tragen, nimmt `tonDerKanalWege()` (`bau/deutsch-nicht-gegen-sprach-termin.ts`) jedes
+Kanal-Ja ohne Handbeleg wieder weg, nach dem Erbe. Offen: 19 Rohmeldungs-Ja an Kanal-Wegen ohne Termin (gemessen
+16.10.2026 an `prime-zugeordnet.json`), darunter Aniverse-Titel wie Yu-Gi-Oh! GX, die ohne das Häkchen keins mehr trügen.
+
 **Ein Nein zu einer anderen Adresse gilt für den Kanal-Weg nicht** (12.10.2026, Prüfer: Goblin Slayer II, JoJo
 Diamond is Unbreakable). Nach `ohneKanalSprache()` hat die Kanal-Zeile kein `dub` mehr und zählt als Adressbeleg;
 `belegFuer()` fiel bei einem Weg auf `liste[0]` zurück und nahm das Nein einer fremden Adresse. Jetzt hält die
