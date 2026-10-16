@@ -7,6 +7,7 @@ import { schreibeNurOriginalton } from '../lib/nur-originalton-liste.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { type TvSendung } from '../fetch-tv-programm.ts'
 import { type WikiListen, sendungNeuZuordnen, releasesAusTvProgramm, sendungenAnhaengen } from '../lib/tv-termine.ts'
+import { type AnisearchFolgen, anisearchFolgenListe } from '../lib/anisearch-folgen-liste.ts'
 import { quellenPflegen } from './nebendateien.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 
@@ -60,10 +61,15 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
   quellenPflegen(releases)
 }
 
+function kennungenAusTabelle(): Map<string, number> {
+  const tabelle = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
+  return new Map(Object.entries(tabelle).flatMap(([id, x]) => (x.anisearchId ? [[id, x.anisearchId] as const] : [])))
+}
+
 /** Folgentitel je Titel für die TV-Termine: aniSearch als Grundstock, spätere Listen gewinnen. */
 function folgenListen(): WikiListen {
   // Einmal lesen: Je Eintrag neu geparst kostete die ~10-MB-Datei über 10 Minuten (10.10.2026).
-  const anisearchFolgen = readJson<Record<string, { folgen?: { nr: number; de?: string; datum?: string }[] }>>('data/anisearch-folgen.json', {})
+  const anisearchFolgen = readJson<AnisearchFolgen>('data/anisearch-folgen.json', {})
   return {
     /*
       **aniSearch-Folgentitel als Grundstock** (23.09.2026). Ohne sie hat ein Titel ohne
@@ -71,15 +77,7 @@ function folgenListen(): WikiListen {
       zum Beispiel, dessen vier Sendungen am 28./29.09.2026 unter One Piece liefen. Steht
       weiter unten eine bessere Liste (TMDB, RTL+, Wikipedia), gewinnt sie: Sie kommt später.
     */
-    ...Object.fromEntries(
-      Object.entries(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})).flatMap(([id, x]) => {
-        const folgen = x.anisearchId
-          ? (anisearchFolgen[String(x.anisearchId)]?.folgen ?? [])
-          : []
-        const mit = folgen.filter((f) => f.de).map((f) => ({ nr: f.nr, dt: f.de!, ...(f.datum ? { ead: f.datum.slice(0, 10) } : {}) }))
-        return mit.length ? [[id, { seite: 'aniSearch', url: `https://www.anisearch.de/anime/${x.anisearchId}/episodes`, folgen: mit }] as const] : []
-      }),
-    ),
+    ...anisearchFolgenListe(kennungenAusTabelle(), anisearchFolgen),
       /*
         TMDB zuletzt: deutsche Folgentitel, über Staffeln durchgezählt (Staffel 0 = Specials
         zählt nicht). Bei Solo Leveling die einzige Liste; bei Eyeshield 21 passten 0 von 5
