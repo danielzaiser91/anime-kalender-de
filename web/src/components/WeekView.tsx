@@ -12,6 +12,7 @@ import { kartenArt } from '../lib/kachel-folgen.ts'
 import { eigenstaendigBeiAnbietern, kanalAnbieterVon, vereineAnbieter } from '../lib/anbieter-kachel.ts'
 import { gesehenLesen, neuesteErschienen, neuSeitGesehen } from '../lib/gesehen.ts'
 import { PosterKarte } from './kalender/PosterKarte.tsx'
+import { useHoverCover } from './kalender/HoverCover.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
 import { ZweitanbieterZeilen } from './kalender/ZweitanbieterZeilen.tsx'
 import { anbieterUndFolge, zaehlung } from './kalender/Marken.tsx'
@@ -136,7 +137,7 @@ function TagZeile({
       <div className={['flex min-w-0 flex-col gap-4', rasterLeer && zeigeTv ? 'lg:min-h-[250px]' : ''].join(' ')}>
         {!rasterLeer && <PosterRaster tag={tag} p={p} heute={heute} now={now} landingId={landingId} landingRef={landingRef} />}
         <ZweitanbieterZeilen termine={tag.zweit} data={p.data} hidden={p.hidden} vorbeiBis={vorbeiBis} onOpen={p.onOpen} />
-        <DiscKasten termine={tag.disc} hidden={p.hidden} onOpen={p.onOpen} />
+        <DiscKasten termine={tag.disc} data={p.data} hidden={p.hidden} onOpen={p.onOpen} />
       </div>
       {zeigeTv && <TvSpalte tag={tag} p={p} vorbeiBis={vorbeiBis} jetzt={heute ? now : undefined} />}
     </section>
@@ -238,10 +239,12 @@ function PosterRaster({
  */
 function DiscKasten({
   termine,
+  data,
   hidden,
   onOpen,
 }: {
   termine: ReleaseEvent[]
+  data: Dataset
   hidden: Set<number>
   onOpen: (slug: string, date: string) => void
 }) {
@@ -254,21 +257,47 @@ function DiscKasten({
       </h3>
       <ul className="flex flex-col">
         {termine.map((ev) => (
-          <li key={ev.id}>
-            <button
-              type="button"
-              onClick={() => onOpen(ev.releaseSlug, ev.date)}
-              className="flex w-full cursor-pointer items-center gap-2 rounded-lg py-1 text-left text-[13px] transition hover:bg-ak-flaeche-2"
-            >
-              <span className="min-w-0 flex-1 truncate font-semibold text-ak-text">
-                {hidden.has(ev.titleId) ? <span className="text-ak-sehr-leise italic">{ev.name}</span> : ev.name}
-              </span>
-              <span className="shrink-0 text-xs text-ak-leise">{anbieterUndFolge(ev, t)}</span>
-            </button>
-          </li>
+          <DiscZeile
+            key={ev.id}
+            ev={ev}
+            cover={hidden.has(ev.titleId) ? undefined : data.titleById.get(ev.titleId)?.coverImage}
+            versteckt={hidden.has(ev.titleId)}
+            onOpen={onOpen}
+          />
         ))}
       </ul>
     </div>
+  )
+}
+
+/** Eine Zeile „Im Handel"; das Cover erscheint erst, wenn eine Maus auf ihr ruht (Zeile bleibt bildlos, kein Layout-Sprung). */
+function DiscZeile({
+  ev,
+  cover,
+  versteckt,
+  onOpen,
+}: {
+  ev: ReleaseEvent
+  cover: string | undefined
+  versteckt: boolean
+  onOpen: (slug: string, date: string) => void
+}) {
+  const { t } = useLang()
+  const { zeiger, vorschau } = useHoverCover(cover)
+  return (
+    <li {...zeiger}>
+      <button
+        type="button"
+        onClick={() => onOpen(ev.releaseSlug, ev.date)}
+        className="flex w-full cursor-pointer items-center gap-2 rounded-lg py-1 text-left text-[13px] transition hover:bg-ak-flaeche-2"
+      >
+        <span className="min-w-0 flex-1 truncate font-semibold text-ak-text">
+          {versteckt ? <span className="text-ak-sehr-leise italic">{ev.name}</span> : ev.name}
+        </span>
+        <span className="shrink-0 text-xs text-ak-leise">{anbieterUndFolge(ev, t)}</span>
+      </button>
+      {vorschau}
+    </li>
   )
 }
 
