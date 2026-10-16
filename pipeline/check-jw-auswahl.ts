@@ -8,7 +8,7 @@ import type { JwBefund } from './lib/jw-vertrauen.ts'
 import { jwTonAnSeite } from './lib/jw-seite.ts'
 import { unbedingteAufrufe } from './lib/unbedingte-aufrufe.ts'
 import { kennzeichneJwSeiten, type Messung } from './bau/jw-seite-ton.ts'
-import { messungAusBelegen } from './bau/jw-seite-messung.ts'
+import { messungAusBelegen, type MeldungRoh } from './bau/jw-seite-messung.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info: unknown = ''): void {
@@ -44,6 +44,8 @@ const namen = (zeilen: string): string[] => unbedingteAufrufe(rumpf(zeilen), 'f'
   pruefe('Parser: else-Zweig zählt nicht', namen('if (c) {\n} else {\ng()\n}').length === 0)
   pruefe('Parser: Ternär-Zweige zählen nicht', namen('c ? g() : h()').length === 0)
   pruefe('Parser: Ternär in einer Zuweisung zählt nicht', namen('const x = c ? g() : h()').length === 0)
+  const drei = `function a() {\n  x1()\n}\nfunction f() {\n  const p = y1(1), q = y2(2)\n}\nfunction z() {\n  x2()\n}`
+  pruefe('Parser: die genannte Funktion in der Mitte von dreien, nur der erste Deklarator zählt', unbedingteAufrufe(drei, 'f').map((a) => a.name).join() === 'y1', unbedingteAufrufe(drei, 'f'))
   pruefe('Parser: Aufruf neben einem bedingten zählt allein', namen('0 && g()\nh()\nif (c) k()').join() === 'h', namen('0 && g()\nh()\nif (c) k()'))
 }
 
@@ -93,6 +95,31 @@ const namen = (zeilen: string): string[] => unbedingteAufrufe(rumpf(zeilen), 'f'
   pruefe('Meldung: Adresse eines anderen Wegs davor, Deutsch an unserer Seite', m(titel(6, []), s)?.urteil === 'ja', m(titel(6, []), s))
 }
 
+// jw-seite-messung.ts: drei Meldungen an derselben Seite, Deutsch nur bei der mittleren (Treffer weder vorn noch hinten)
+{
+  const s = weg('primevideo', amazon(1))
+  const meldung = (nr: number, sprache: string): [string, MeldungRoh] => [`${amazon(1)}&y=${nr}`, { titleId: 11, plattform: 'primevideo', folgen: [{ sprachen: [sprache] }] }]
+  const mitte = Object.fromEntries([meldung(1, 'Japanisch'), meldung(2, 'Deutsch'), meldung(3, 'Japanisch')])
+  const m = messungAusBelegen([], {}, mitte)
+  pruefe('Meldungen: Deutsch nur bei der mittleren von dreien an unserer Seite', m(titel(11, []), s)?.urteil === 'ja', m(titel(11, []), s))
+  pruefe('Meldungen: Quelle ist die erste Meldung mit Ton', m(titel(11, []), s)?.quelle === `Meldung der Erweiterung ${amazon(1)}&y=1`, m(titel(11, []), s))
+  const leer = (nr: number, sprachen: string[]): [string, MeldungRoh] => [`${amazon(1)}&z=${nr}`, { titleId: 13, plattform: 'primevideo', folgen: [{ sprachen }] }]
+  const ohneTon = messungAusBelegen([], {}, Object.fromEntries([leer(1, []), leer(2, ['Japanisch']), leer(3, [])]))
+  pruefe('Meldungen: nur die mittlere von dreien nennt einen Ton, ohne Deutsch heißt nein', ohneTon(titel(13, []), s)?.urteil === 'nein', ohneTon(titel(13, []), s))
+  const folgen3 = { [`${amazon(1)}&z=9`]: { titleId: 14, plattform: 'primevideo', folgen: [{ sprachen: [] }, { sprachen: ['Japanisch'] }, { sprachen: [] }] } }
+  const mf = messungAusBelegen([], {}, folgen3)
+  pruefe('Meldung: nur die mittlere von drei Folgen nennt einen Ton', mf(titel(14, []), s)?.urteil === 'nein', mf(titel(14, []), s))
+  const bereiche = [{ dub: false }, { dub: true }, { dub: false }]
+  const rb = messungAusBelegen([{ anilistId: 12, platform: 'primevideo', checkedAt: '2026-10-07', dubRanges: bereiche } as unknown as DubCheck], {}, {})
+  pruefe('Handbeleg: Deutsch nur im mittleren von drei Bereichen', rb(titel(12, []), s)?.urteil === 'ja', rb(titel(12, []), s))
+  const keine = Object.fromEntries([meldung(1, 'Japanisch'), meldung(2, 'Englisch'), meldung(3, 'Japanisch')])
+  const n = messungAusBelegen([], {}, keine)
+  pruefe('Meldungen: ohne Deutsch bei allen dreien heißt nein', n(titel(11, []), s)?.urteil === 'nein', n(titel(11, []), s))
+  const folgen = { [`${amazon(1)}&y=1`]: { titleId: 11, plattform: 'primevideo', folgen: [{ sprachen: ['Japanisch'] }, { sprachen: ['Deutsch'] }, { sprachen: ['Japanisch'] }] } }
+  const f = messungAusBelegen([], {}, folgen)
+  pruefe('Meldung: Deutsch nur bei der mittleren von drei Folgen', f(titel(11, []), s)?.urteil === 'ja', f(titel(11, []), s))
+}
+
 // jw-seite-ton.ts: Ein Nein, dessen Weg noch besteht, zählt als Widerspruch des Wegs, nicht noch einmal als entfernter
 {
   const nein = (): Messung => ({ urteil: 'nein', quelle: 'Handbeleg 2026-10-01' })
@@ -109,6 +136,19 @@ const namen = (zeilen: string): string[] => unbedingteAufrufe(rumpf(zeilen), 'f'
   const weg2 = titel(1, [weg('primevideo', amazon(2))])
   const f = kennzeichneJwSeiten({ titel: [weg2], befunde: { '1': b }, heute: HEUTE, messung: () => undefined, neinAdressen: adressen, hinweisNurSerie: true })
   pruefe('Nein-Adresse bei entferntem Weg: ein Widerspruch', f.widersprueche.length === 1 && f.widersprueche[0]!.id === 1, f.widersprueche)
+  // drei Wege, der verneinte in der Mitte: er besteht noch, also kein zweiter, „entfernter“ Widerspruch
+  const drei = titel(1, [weg('primevideo', amazon(2)), da, weg('primevideo', amazon(3))])
+  const nur = [adressen[1]!]
+  const g = kennzeichneJwSeiten({ titel: [drei], befunde: { '1': b }, heute: HEUTE, messung: nein, neinAdressen: nur, hinweisNurSerie: true })
+  pruefe('Nein-Adresse beim mittleren von drei Wegen: ein Widerspruch', g.widersprueche.length === 1, g.widersprueche)
+  // Kandidat an einer Seite ohne unseren Weg: „Weg ohne Kennung“ nur, wenn ein Weg des Anbieters (hier der mittlere) keine hat
+  const fremd = befund([angebot(amazon(5), ['de'])])
+  const kand = (wege: StreamLink[]) => kennzeichneJwSeiten({ titel: [titel(1, wege)], befunde: { '1': fremd }, heute: HEUTE, messung: () => undefined, hinweisNurSerie: true }).kandidaten
+  const ohneKennung = kand([weg('primevideo', amazon(2)), weg('primevideo', 'https://www.amazon.de/dp/B0X'), weg('primevideo', amazon(3))])
+  pruefe('Kandidat: mittlerer von drei Wegen ohne Kennung', ohneKennung.length === 1 && ohneKennung[0]!.wegOhneKennung === true, ohneKennung)
+  const alleMit = kand([weg('primevideo', amazon(2)), weg('primevideo', amazon(4)), weg('primevideo', amazon(3))])
+  pruefe('Kandidat: alle drei Wege mit Kennung', alleMit.length === 1 && alleMit[0]!.wegOhneKennung === false, alleMit)
+  pruefe('Nein-Adresse beim mittleren von drei Wegen: einmal gezählt', g.zaehlung.get('primevideo')?.widerspruch === 1, [...g.zaehlung])
 }
 
 if (fehler) {
