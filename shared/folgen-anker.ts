@@ -117,3 +117,29 @@ export function probeGeschwister<T extends AnkerTitel>(
   if (treffer.length > 1 && treffer[0]!.treffer === treffer[1]!.treffer) return null
   return treffer[0]!
 }
+
+export type Entscheid<T> =
+  | { art: 'folgen'; ziel: T; paare: Zuordnung[]; quelle: string }
+  | { art: 'titel' }
+  | { art: 'offen'; grund: string }
+
+/**
+ * **Reihenfolge der Belege einer Adresse.** Ohne Anker bleibt sie offen; sonst erst die Folgen
+ * des gemeldeten Titels, dann die Geschwister-Probe, zuletzt der Beleg ohne Folgennummer, wenn er
+ * trägt (Kennung, Adresse oder genauer Name, einheitliche Tonspuren).
+ */
+export function entscheideZuordnung<T extends AnkerTitel>(
+  anbieter: AnbieterFolge[],
+  gemeldet: T,
+  ak: AnkerErgebnis,
+  titelBelegTraegt: boolean,
+  probe: () => GeschwisterTreffer<T> | null,
+): Entscheid<T> {
+  if (!ak.listen.length) return { art: 'offen', grund: ak.grund }
+  const eigen = ordneUeberAnker(anbieter, ak.listen)
+  if (eigen.paare.some((p) => p.unsere !== null)) return { art: 'folgen', ziel: gemeldet, ...eigen }
+  const p = probe()
+  if (p) return { art: 'folgen', ziel: p.titel, paare: p.paare, quelle: p.quelle }
+  if (titelBelegTraegt) return { art: 'titel' }
+  return { art: 'offen', grund: `keine einzige Folge zuzuordnen (Anker: ${eigen.quelle})` }
+}

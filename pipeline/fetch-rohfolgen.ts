@@ -36,7 +36,7 @@ import {
   type AsFolgeRoh,
   type TmdbFolge,
 } from '../shared/folgen-zuordnung.ts'
-import { ordneUeberAnker, probeGeschwister, sammleAnker } from '../shared/folgen-anker.ts'
+import { entscheideZuordnung, probeGeschwister, sammleAnker } from '../shared/folgen-anker.ts'
 import type { Title } from '../shared/types.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
@@ -698,10 +698,6 @@ async function main(): Promise<void> {
     }
 
     const ak = listenFuer(titel)
-    if (!ak.listen.length) {
-      offen.push({ url, titel: titel.titleDe ?? titel.titleEn ?? null, grund: ak.grund, folgen: liste.length })
-      continue
-    }
     const anbieter: AnbieterFolge[] = liste.map((f) => ({
       nummer: f.nummer,
       titel: f.titel,
@@ -709,56 +705,43 @@ async function main(): Promise<void> {
       minuten: f.dauer_sek ? Math.round(f.dauer_sek / 60) : null,
     }))
 
-    let { paare, quelle: ankerQuelle } = ordneUeberAnker(anbieter, ak.listen)
-    let treffend = paare.filter((p) => p.unsere !== null)
-    /* Passt keine Folge zum gemeldeten Titel, prüft die Probe die Staffeln derselben Reihe. */
-    let ziel = titel
+    /*
+      **Welche Folge gemeint ist, bleibt offen — welche Sprache, nicht.**
+
+      Prime vergibt bei Kauftiteln eigene Folgennamen und setzt bei allen
+      dasselbe Datum. Gemessen am 05.09.2026 an „My First Girlfriend Is a
+      Gal": elf Folgen, alle „12. Juli 2017", Namen wie „1. Mein erstes Mal
+      mit einer Gal" — aniSearch führt dieselbe Staffel als „Der erste
+      Kniefall", 12.07. bis 13.09. Weder über den Namen noch über das Datum
+      ist da etwas zuzuordnen, und das ist kein Fehler: Es sind schlicht
+      andere Texte.
+
+      Die Frage dieses Projekts hängt nicht daran. Elf Zeilen, jede mit
+      `["Deutsch"]` — dass es die Serie dort auf Deutsch gibt, steht damit
+      fest. Der Beleg wird deshalb wie beim Einzeleintrag oben ohne
+      Folgennummer abgelegt: Er gilt dem Titel.
+
+      **Zwei Bedingungen, sonst bleibt es offen:**
+
+      1. Der Titel muss über die **Kennung, die Adresse oder einen genauen
+         Namenstreffer** gefunden worden sein. Ein Namensanfang oder ein
+         Vorschlag aus den Folgentiteln reicht nicht — bei denen ist die
+         Folgenprüfung die einzige Gegenprobe, und die ist hier gerade
+         durchgefallen.
+      2. **Alle** Zeilen müssen dieselben Tonspuren nennen. Sagen sie
+         Verschiedenes, ist die Auskunft folgenweise — und dann fehlt sie,
+         solange die Folgen nicht zuzuordnen sind.
+    */
+    const sprachen = new Set(liste.map((f) => f.sprachen ?? '[]'))
+    const belastbar = (ausBestand || nameGenau) && sprachen.size === 1
     const ohneKopf = (t: Title) => gemeldeteStaffel !== null && gemeldeteStaffel > 1 && istReihenkopf(t, titles)
-    const probe = treffend.length ? null : probeGeschwister(anbieter, titel, titles, (t) => listenFuer(t).listen, ohneKopf)
-    if (probe) {
-      ziel = probe.titel
-      paare = probe.paare
-      treffend = paare.filter((p) => p.unsere !== null)
+    const probe = () => probeGeschwister(anbieter, titel, titles, (t) => listenFuer(t).listen, ohneKopf)
+    const wahl = entscheideZuordnung(anbieter, titel, ak, belastbar, probe)
+    if (wahl.art === 'offen') {
+      offen.push({ url, titel: titel.titleDe ?? titel.titleEn ?? null, grund: wahl.grund, folgen: liste.length })
+      continue
     }
-    if (!treffend.length) {
-      /*
-        **Welche Folge gemeint ist, bleibt offen — welche Sprache, nicht.**
-
-        Prime vergibt bei Kauftiteln eigene Folgennamen und setzt bei allen
-        dasselbe Datum. Gemessen am 05.09.2026 an „My First Girlfriend Is a
-        Gal": elf Folgen, alle „12. Juli 2017", Namen wie „1. Mein erstes Mal
-        mit einer Gal" — aniSearch führt dieselbe Staffel als „Der erste
-        Kniefall", 12.07. bis 13.09. Weder über den Namen noch über das Datum
-        ist da etwas zuzuordnen, und das ist kein Fehler: Es sind schlicht
-        andere Texte.
-
-        Die Frage dieses Projekts hängt nicht daran. Elf Zeilen, jede mit
-        `["Deutsch"]` — dass es die Serie dort auf Deutsch gibt, steht damit
-        fest. Der Beleg wird deshalb wie beim Einzeleintrag oben ohne
-        Folgennummer abgelegt: Er gilt dem Titel.
-
-        **Zwei Bedingungen, sonst bleibt es offen:**
-
-        1. Der Titel muss über die **Kennung, die Adresse oder einen genauen
-           Namenstreffer** gefunden worden sein. Ein Namensanfang oder ein
-           Vorschlag aus den Folgentiteln reicht nicht — bei denen ist die
-           Folgenprüfung die einzige Gegenprobe, und die ist hier gerade
-           durchgefallen.
-        2. **Alle** Zeilen müssen dieselben Tonspuren nennen. Sagen sie
-           Verschiedenes, ist die Auskunft folgenweise — und dann fehlt sie,
-           solange die Folgen nicht zuzuordnen sind.
-      */
-      const sprachen = new Set(liste.map((f) => f.sprachen ?? '[]'))
-      const belastbar = (ausBestand || nameGenau) && sprachen.size === 1
-      if (!belastbar) {
-        offen.push({
-          url,
-          titel: titel.titleDe ?? titel.titleEn ?? null,
-          grund: `keine einzige Folge zuzuordnen (Anker: ${ankerQuelle})`,
-          folgen: liste.length,
-        })
-        continue
-      }
+    if (wahl.art === 'titel') {
       zugeordnet[schluessel] = {
         titleId: titel.id,
         plattform: liste[0]!.plattform ?? 'primevideo',
@@ -770,9 +753,10 @@ async function main(): Promise<void> {
       ohneFolgenzuordnung++
       continue
     }
+    const treffend = wahl.paare.filter((p) => p.unsere !== null)
 
     zugeordnet[schluessel] = {
-      titleId: ziel.id,
+      titleId: wahl.ziel.id,
       plattform: liste[0]!.plattform ?? 'primevideo',
       seite: seiteDer(liste),
       /* Alle Zeilen einer Adresse stammen von derselben Seite — die erste genügt. */

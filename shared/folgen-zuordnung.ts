@@ -121,17 +121,13 @@ export function findeStaffel(
 /**
  * **Ordnet die Folgen eines Anbieters unseren zu.**
  *
- * Drei Wege, in dieser Reihenfolge — jeder spätere greift nur, wo der frühere
- * schweigt:
+ * Zwei Wege, in dieser Reihenfolge — der zweite greift nur, wo der erste
+ * schweigt; sonst bleibt die Folge offen (die Position ist gestrichen, siehe unten):
  *
  * 1. **Datum.** Trifft der Anbieter-Termin genau eine TMDB-Folge dieser Staffel,
  *    ist sie es. Der stärkste Anker, weil ihn niemand neu vergibt.
  * 2. **Titel.** Nach `folgenKern()` normalisiert. Trägt, wo der Anbieter das
  *    Erscheinungsdatum seiner eigenen Aufnahme führt statt der Erstausstrahlung.
- * 3. **Position.** Nur, wenn die Anbieterliste genau so lang ist wie die Staffel
- *    — dann ist die Reihenfolge die Zuordnung. Bei jeder Abweichung schweigt sie:
- *    Genau hier entstand der Fehler, den Amazon mit seinen 44 statt 25 Folgen
- *    provoziert.
  */
 export function ordneZu(anbieter: AnbieterFolge[], staffel: TmdbFolge[]): Zuordnung[] {
   const nachDatum = new Map<string, TmdbFolge[]>()

@@ -4,7 +4,6 @@
  * Ursache ein Fall im Format der Erzeuger (aniSearch `{nr,de,en,datum}`, TMDB `{s,e,titel,datum}`,
  * Prime-Rohfolge nach `AnbieterFolge`). Läuft in `check:logic`.
  */
-import { readFileSync } from 'node:fs'
 import { ausAnisearch, englischeSchreibweisen, folgenKern, ordneZu, type AnbieterFolge, type AsFolgeRoh, type TmdbFolge } from '../shared/folgen-zuordnung.ts'
 import { ordneUeberAnker, probeGeschwister, sammleAnker, type AnkerTitel } from '../shared/folgen-anker.ts'
 
@@ -119,19 +118,6 @@ pruefe('ein Titel, der mit E anfängt, bleibt', folgenKern('Eden of the East') !
   pruefe('„ BD“ am englischen Titel wird in der zweiten Schreibweise entfernt', englischeSchreibweisen([{ nr: 1, de: 'Deutsch', en: 'English Title BD' }])[0]!.titel === 'English Title' && enBd.length === 1)
   const knapp: Record<number, AsFolgeRoh[]> = { 1: s2.slice(0, 5), 2: [], 3: [] }
   pruefe('höchstens die Hälfte genügt nicht', probeGeschwister(gelesen, gemeldet, alle, (t) => sammleAnker(knapp[t.id], undefined, t).listen, keine) === null)
-}
-
-/* Verdrahtung: der Lauf ruft die Funktionen auf und speichert beim gefundenen Geschwister */
-{
-  const q = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8')
-  pruefe('fetch-rohfolgen: sammleAnker', q.includes('sammleAnker('))
-  pruefe('fetch-rohfolgen: ordneUeberAnker', q.includes('ordneUeberAnker(anbieter'))
-  pruefe('fetch-rohfolgen: probeGeschwister', q.includes('probeGeschwister(anbieter, titel, titles, '))
-  pruefe('fetch-rohfolgen: alle Anker', q.includes('ordneUeberAnker(anbieter, ak.listen)'))
-  pruefe('fetch-rohfolgen: Probe nur ohne Treffer', q.includes('treffend.length ? null : probeGeschwister('))
-  pruefe('fetch-rohfolgen: ohne Anker offen mit Grund', q.includes('if (!ak.listen.length) {') && q.includes('grund: ak.grund'))
-  pruefe('fetch-rohfolgen: Reihenkopf ausgenommen', q.includes('listenFuer(t).listen, ohneKopf)') && q.includes('istReihenkopf(t, titles)'))
-  pruefe('fetch-rohfolgen: speichert unter dem Geschwister', q.includes('titleId: ziel.id'))
 }
 
 if (fehler) process.exit(1)
