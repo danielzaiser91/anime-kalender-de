@@ -128,7 +128,8 @@ jobs:
 
   # Datenbau (16.10.2026): `pipeline/lib/pruefung.ts` lief nur im Bestandsbau nach dem Merge; PR 1368 setzte ein Feld, das ein späterer Bauschritt
   # anders vererbt, und main brach ab. Der Job baut den Datensatz wie `bestand-bauen.yml` (Cache `anilist-cache-`, nur lesen) ohne Commit; ein
-  # Widerspruch macht ihn rot. Pfadfilter als Schritt-`if` (ein ausgefilterter Job meldet sich sonst nie). Form fest: tools/pr-kette-datenbau.mjs.
+  # Widerspruch macht ihn rot. Bewusst ohne Pfadfilter: die Eingaben des Baus reichen bis in `web/src/lib` (news-text, i18n), eine Positivliste
+  # ginge am Importgraph vorbei; der Job läuft parallel zur längsten Kette. Form fest: tools/pr-kette-datenbau.mjs.
   datenbau:
     name: PR-Datenbau
     if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
@@ -136,32 +137,20 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Betrifft der PR den Datenbau?
-        id: pfad
-        run: |
-          PFADE='^(pipeline/|shared/|data/|package-lock\.json$|\.github/workflows/pr-pruefung\.yml$)'
-          if git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep -qE "$PFADE"; then
-            echo "betroffen=1" >> "$GITHUB_OUTPUT"
-          fi
-      - if: steps.pfad.outputs.betroffen == '1'
-        uses: ./.github/actions/kette-einrichten
-      - if: steps.pfad.outputs.betroffen == '1'
-        name: AniList-Cache lesen
+      - uses: ./.github/actions/kette-einrichten
+      - name: AniList-Cache lesen
         id: cache
         uses: actions/cache/restore@v4
         with:
           path: data/cache
           key: anilist-cache-${{ github.run_id }}
           restore-keys: anilist-cache-
-      - if: steps.pfad.outputs.betroffen == '1' && steps.cache.outputs.cache-matched-key == ''
+      - if: steps.cache.outputs.cache-matched-key == ''
         name: Kein Cache vorhanden
         run: |
           echo "::error::Kein anilist-cache gefunden"
           exit 1
-      - if: steps.pfad.outputs.betroffen == '1'
-        name: Datensatz bauen (ohne Commit)
+      - name: Datensatz bauen (ohne Commit)
         run: npm run data:build
 
   # Aussehen (wie aussehen-pruefen.yml), nur bei Änderungen an der Oberfläche; sonst endet jeder Teil nach der Pfadprüfung grün.
