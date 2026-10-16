@@ -74,8 +74,15 @@ export function ersetzeAbschnitt(text: string, art: 'Anime' | 'Cartoons', neu: s
   return `${basis}\n\n${neu}\n`
 }
 
+/** Prüfungen, die den Wege-Abschluss durchlaufen, lenken die Liste wie die Suchadressen per `SUCHADRESSEN_ORDNER` um (`suchadressenInTemp`). */
+export function widerspruchsZiel(): string {
+  const ordner = process.env.SUCHADRESSEN_ORDNER
+  return ordner ? `${ordner}/justwatch-widersprueche.md` : WIDERSPRUCHS_LISTE
+}
+
 export function schreibeJwWidersprueche(art: 'Anime' | 'Cartoons', e: JwSeitenErgebnis): void {
-  const voll = resolve(ROOT, WIDERSPRUCHS_LISTE)
+  const ziel = widerspruchsZiel()
+  const voll = resolve(ROOT, ziel)
   const alt = existsSync(voll) ? readFileSync(voll, 'utf8') : ''
-  writeText(WIDERSPRUCHS_LISTE, ersetzeAbschnitt(alt, art, abschnitt(art, e)))
+  writeText(ziel, ersetzeAbschnitt(alt, art, abschnitt(art, e)))
 }

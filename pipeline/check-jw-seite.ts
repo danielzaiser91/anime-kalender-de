@@ -9,7 +9,7 @@ import type { JwBefund } from './lib/jw-vertrauen.ts'
 import { abgeschalteteAnbieter, befundGilt, deutscheSeiten, jwTonAnSeite, nurSerie, seitenSchluessel } from './lib/jw-seite.ts'
 import { kennzeichneJwSeiten, type Messung } from './bau/jw-seite-ton.ts'
 import { messungAusBelegen, neinAdressenAus } from './bau/jw-seite-messung.ts'
-import { abschnitt, ersetzeAbschnitt } from './bau/jw-widerspruchs-liste.ts'
+import { abschnitt, ersetzeAbschnitt, WIDERSPRUCHS_LISTE, widerspruchsZiel } from './bau/jw-widerspruchs-liste.ts'
 import { jwNeinAus, kanalErbtVomAnbieter } from './bau/kanal-erbt-anbieter.ts'
 import { dubZeilenVon } from '../web/src/components/detail/dub-zeilen.ts'
 
@@ -244,6 +244,16 @@ function lauf(titelListe: Title[], befunde: Record<string, JwBefund>, zusatz: Pa
   pruefe('Hover nennt JustWatch an der Flagge', zeilen({ dubQuelle: 'justwatch', dubStand: '2026-10-10' })[0]?.startsWith('detail.pilleJustwatch') === true)
   pruefe('Hover schweigt beim Hinweis (Stand steht in der Pille)', zeilen({ dubQuelle: 'justwatch', dubStand: '2026-10-10', dubHintOnly: true }).length === 0)
   pruefe('Hover schweigt ohne JustWatch-Quelle', zeilen({ dubStand: '2026-10-10' }).length === 0)
+}
+
+// Prüfungen schreiben die Liste nicht ins Repo
+{
+  const vorher = process.env.SUCHADRESSEN_ORDNER
+  process.env.SUCHADRESSEN_ORDNER = '/tmp/x'
+  pruefe('Liste folgt SUCHADRESSEN_ORDNER', widerspruchsZiel() === '/tmp/x/justwatch-widersprueche.md', widerspruchsZiel())
+  delete process.env.SUCHADRESSEN_ORDNER
+  pruefe('Liste ohne Umlenkung im Repo', widerspruchsZiel() === WIDERSPRUCHS_LISTE, widerspruchsZiel())
+  if (vorher !== undefined) process.env.SUCHADRESSEN_ORDNER = vorher
 }
 
 if (fehler) {
