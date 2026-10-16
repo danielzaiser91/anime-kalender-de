@@ -1,12 +1,13 @@
 /**
  * Wächter für `.github/workflows/pr-pruefung.yml`: Die Teiljobs der PR-Prüfkette müssen zusammen genau `check:vor-commit` abdecken,
  * und der Sammeljob `PR-Prüfkette` darf keinen Teiljob verlieren (16.10.2026, Aufteilung in parallele Jobs).
- * Regeln:
- *  - jede `npm run X` aus `check:vor-commit` steht in genau einem Teiljob (ruft ein Job `check:vor-commit` selbst auf, zählt jeder Eintrag);
- *  - der Sammeljob (Name `PR-Prüfkette`) führt jeden anderen Job außer `PR-Aussehen` in `needs`;
- *  - sein `if` ist textgleich `always() && <if der Teiljobs>` (sonst überspringt ein roter Teiljob ihn, und übersprungen zählt als bestanden),
- *    seine Schritte prüfen jedes Ergebnis auf `success`, `jq -e` steht ohne `||`;
- *  - Teiljobs: `if` textgleich der Standardbedingung, kein `continue-on-error`, Prüfschritte (`npm run`) ohne `if`, `||`, `;`.
+ * Regeln (Form statt Muster, Whitelist statt Verbotsliste; 16.10.2026):
+ *  - Prüfschritte eines Teiljobs sind genau `run: npm run <name>` (eine Zeile, nichts davor oder danach; env nur `PAGES_BASE: /`);
+ *    nur so zählt eine Prüfung. Jede `npm run X` aus `check:vor-commit` steht in genau einem Teiljob (`check:vor-commit` selbst zählt alle);
+ *  - Teiljob-Schlüssel nur name/if/runs-on/timeout-minutes/steps (kein strategy, defaults, env, continue-on-error), `if` textgleich der Standardbedingung,
+ *    Schritt-Schlüssel nur name/uses/with/run/env (kein if, shell, working-directory), `uses` nur checkout und kette-einrichten, Workflow ohne env/defaults;
+ *  - der Sammeljob (Name `PR-Prüfkette`) führt jeden anderen Job außer `PR-Aussehen` in `needs`, sein `if` ist textgleich `always() && <if der Teiljobs>`
+ *    (sonst überspringt ihn ein roter Teiljob, und übersprungen zählt als bestanden), er hat genau einen Schritt, dessen Zeilen und env textgleich der Sollfassung sind.
  * Aufruf: node tools/pr-kette-pruefen.mjs  (Exit 1 bei Verstoß; läuft über tools/pr-kette-pruefen.test.mjs in check:workflows)
  */
 import { readFileSync } from 'node:fs'
@@ -19,26 +20,70 @@ const SAMMEL = 'PR-Prüfkette'
 const NICHT_VERPFLICHTEND = 'PR-Aussehen'
 const TEILJOB_BEDINGUNG = "!startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft"
 
-/** Alle `npm run X`-Namen in einem Text, in Reihenfolge. */
+/** Alle `npm run X`-Namen in einem Text (für `check:vor-commit`). */
 function npmNamen(text) {
   return [...String(text ?? '').matchAll(/npm run ([\w:.-]+)/g)].map((m) => m[1])
 }
 
-/** Zählt je Prüfung, in wie vielen Vorkommen sie über alle Teiljobs läuft. */
+/** Name der Prüfung, wenn `run` exakt die Form `npm run <name>` hat (eine Zeile, sonst nichts), sonst null. */
+function pruefName(run) {
+  return /^npm run ([\w:.-]+)$/.exec(String(run ?? ''))?.[1] ?? null
+}
+
+/** Zählt je Prüfung, in wie vielen Vorkommen sie über alle Teiljobs läuft (nur feste Form zählt). */
 function zaehleVorkommen(teiljobs, vorCommit) {
   const zaehler = new Map(vorCommit.map((n) => [n, 0]))
   for (const job of teiljobs) {
     for (const schritt of job.steps ?? []) {
-      for (const name of npmNamen(schritt.run)) {
-        const liste = name === 'check:vor-commit' ? vorCommit : [name]
-        for (const n of liste) if (zaehler.has(n)) zaehler.set(n, zaehler.get(n) + 1)
-      }
+      const name = pruefName(schritt.run)
+      if (name === null) continue
+      const liste = name === 'check:vor-commit' ? vorCommit : [name]
+      for (const n of liste) if (zaehler.has(n)) zaehler.set(n, zaehler.get(n) + 1)
     }
   }
   return zaehler
 }
 
-/** Verstöße des Sammeljobs: `needs`, `always()`, Ergebnisprüfung. */
+const SAMMEL_ZEILEN = [
+  `echo "$NEEDS" | jq -r 'to_entries[] | "\\(.key): \\(.value.result)"'`,
+  `echo "$NEEDS" | jq -e 'all(.[]; .result == "success")' > /dev/null`,
+].join('\n')
+const SAMMEL_ENV = { NEEDS: '${{ toJSON(needs) }}' }
+const WORKFLOW_SCHLUESSEL = ['name', 'on', 'permissions', 'concurrency', 'jobs']
+const JOB_SCHLUESSEL = ['name', 'if', 'runs-on', 'timeout-minutes', 'steps']
+const SAMMEL_JOB_SCHLUESSEL = [...JOB_SCHLUESSEL, 'needs']
+const SCHRITT_SCHLUESSEL = ['name', 'uses', 'with', 'run', 'env']
+const ERLAUBTE_ACTIONS = ['actions/checkout@v4', './.github/actions/kette-einrichten']
+
+/** Unerlaubte Schlüssel eines Objekts (Whitelist statt Verbotsliste: neue Schalter fallen von selbst auf). */
+function fremdeSchluessel(objekt, erlaubt) {
+  return Object.keys(objekt).filter((k) => !erlaubt.includes(k))
+}
+
+/** Verstöße eines Jobs gegen die feste Form (Schlüssel, Laufzeitgrenze). */
+function pruefeJobForm(id, job, erlaubt) {
+  const fehler = fremdeSchluessel(job, erlaubt).map((k) => `Job "${id}": Schlüssel "${k}" nicht erlaubt (Whitelist: ${erlaubt.join(', ')})`)
+  const frist = job['timeout-minutes']
+  if (!Number.isInteger(frist) || frist < 1) fehler.push(`Job "${id}": timeout-minutes muss eine ganze Zahl ≥ 1 sein`)
+  return fehler
+}
+
+/** Verstöße der Sammeljob-Schritte: genau ein Schritt mit fester Fassung, nichts davor, nichts danach. */
+function pruefeSammlerSchritte(sammler) {
+  const schritte = sammler.steps ?? []
+  const fehler = []
+  if (schritte.length !== 1) fehler.push(`Sammeljob: genau ein Schritt verlangt, gefunden ${schritte.length}`)
+  for (const s of schritte) {
+    for (const k of fremdeSchluessel(s, ['name', 'env', 'run'])) fehler.push(`Sammeljob: Schlüssel "${k}" am Schritt nicht erlaubt`)
+    if (JSON.stringify(s.env) !== JSON.stringify(SAMMEL_ENV)) fehler.push('Sammeljob: env ist nicht exakt NEEDS: ${{ toJSON(needs) }}')
+    if (String(s.run ?? '').trim() !== SAMMEL_ZEILEN) {
+      fehler.push('Sammeljob: nicht auf success geprüft - die Schritt-Zeilen sind nicht textgleich der Sollfassung (jq -e all(.[]; .result == "success"))')
+    }
+  }
+  return fehler
+}
+
+/** Verstöße des Sammeljobs: `needs`, `always()`, Form, feste Prüfzeilen. */
 function pruefeSammler(jobs, sammlerId) {
   const fehler = []
   const sammler = jobs[sammlerId]
@@ -52,29 +97,28 @@ function pruefeSammler(jobs, sammlerId) {
   if (sammler.if !== erwartetIf) {
     fehler.push(`Sammeljob: if ist nicht textgleich "${erwartetIf}" (always() ist Pflicht, sonst überspringt ihn ein roter Teiljob = bestanden)`)
   }
-  const text = (sammler.steps ?? []).map((s) => `${s.run ?? ''} ${JSON.stringify(s.env ?? {})}`).join('\n')
-  if (!/toJSON\(needs\)/.test(text) || !/\.result == "success"/.test(text)) {
-    fehler.push('Sammeljob: prüft die Ergebnisse der Teiljobs nicht auf success')
-  }
-  if ((sammler.steps ?? []).some((s) => /\|\|/.test(s.run ?? ''))) fehler.push('Sammeljob: "||" in einem Schritt (jq -e darf nicht abgefangen werden)')
+  fehler.push(...pruefeJobForm('Sammeljob', sammler, SAMMEL_JOB_SCHLUESSEL), ...pruefeSammlerSchritte(sammler))
   return fehler
 }
 
-/** Auflagen an Jobs: feste Bedingung, nichts abfangen, kein Prüfschritt mit eigener Bedingung (übersprungen zählt als bestanden). */
-function pruefeAuflagen(jobs, sammlerId) {
-  const fehler = []
+/** Verstöße eines Teiljob-Schritts: nur bekannte Schlüssel, `uses` nur aus der Liste, `run` nur als `npm run <name>`, env nur PAGES_BASE. */
+function pruefeTeiljobSchritt(id, s) {
+  const fehler = fremdeSchluessel(s, SCHRITT_SCHLUESSEL).map((k) => `Teiljob "${id}": Schlüssel "${k}" am Schritt nicht erlaubt`)
+  if (s.uses !== undefined && !ERLAUBTE_ACTIONS.includes(s.uses)) fehler.push(`Teiljob "${id}": uses "${s.uses}" nicht erlaubt`)
+  if (s.run !== undefined && pruefName(s.run) === null) fehler.push(`Teiljob "${id}": run ist nicht exakt "npm run <name>" (${JSON.stringify(s.run)})`)
+  if (s.env !== undefined && JSON.stringify(s.env) !== JSON.stringify({ PAGES_BASE: '/' })) fehler.push(`Teiljob "${id}": env am Schritt nur PAGES_BASE: / erlaubt`)
+  return fehler
+}
+
+/** Auflagen an Jobs: feste Bedingung, feste Form, nichts abfangen (übersprungen oder abgefangen zählt als bestanden). */
+function pruefeAuflagen(doc, jobs, sammlerId) {
+  const fehler = fremdeSchluessel(doc, WORKFLOW_SCHLUESSEL).map((k) => `Workflow: Schlüssel "${k}" nicht erlaubt (env/defaults wirken auf alle Schritte)`)
   const standard = `\${{ ${TEILJOB_BEDINGUNG} }}`
   for (const [id, job] of Object.entries(jobs)) {
-    if (job.name === NICHT_VERPFLICHTEND) continue
-    if (job['continue-on-error'] !== undefined) fehler.push(`Job "${id}": continue-on-error`)
-    if (id === sammlerId) continue
+    if (job.name === NICHT_VERPFLICHTEND || id === sammlerId) continue
+    fehler.push(...pruefeJobForm(id, job, JOB_SCHLUESSEL))
     if (job.if !== standard) fehler.push(`Teiljob "${id}": if ist nicht textgleich "${standard}"`)
-    for (const s of job.steps ?? []) {
-      if (s['continue-on-error'] !== undefined) fehler.push(`Teiljob "${id}": continue-on-error an einem Schritt`)
-      if (npmNamen(s.run).length === 0) continue
-      if (s.if !== undefined) fehler.push(`Teiljob "${id}": Prüfschritt mit if (${s.run})`)
-      if (/\|\||;/.test(s.run)) fehler.push(`Teiljob "${id}": Prüfschritt fängt den Exit ab (${s.run})`)
-    }
+    for (const s of job.steps ?? []) fehler.push(...pruefeTeiljobSchritt(id, s))
   }
   return fehler
 }
@@ -88,7 +132,7 @@ export function pruefeKette(doc, scripts) {
   const teiljobs = Object.entries(jobs)
     .filter(([id, j]) => id !== sammlerId && j.name !== NICHT_VERPFLICHTEND)
     .map(([, j]) => j)
-  const fehler = [...pruefeSammler(jobs, sammlerId), ...pruefeAuflagen(jobs, sammlerId)]
+  const fehler = [...pruefeSammler(jobs, sammlerId), ...pruefeAuflagen(doc, jobs, sammlerId)]
   for (const [name, anzahl] of zaehleVorkommen(teiljobs, vorCommit)) {
     if (anzahl !== 1) fehler.push(`Prüfung "${name}" läuft ${anzahl}-mal in den Teiljobs (verlangt: genau einmal)`)
   }
