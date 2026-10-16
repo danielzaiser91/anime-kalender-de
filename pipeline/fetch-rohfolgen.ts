@@ -19,6 +19,7 @@
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { ohneDoppelte } from './lib/rohfolgen-doppelte.ts'
+import { animeZugehoerigkeit, ordneCartoonsZu, type CartoonFolgenDatei } from './lib/rohfolgen-cartoons.ts'
 import {
   ausAnisearch,
   englischeSchreibweisen,
@@ -301,8 +302,18 @@ async function main(): Promise<void> {
   > = {}
   /** Die Rohfolgen-Kennungen, die verwertet wurden — sie werden danach abgehakt. */
   const erledigt: number[] = []
-
-  for (const [schluessel, liste] of jeUrl) {
+  /* Cartoons zuerst: ihre Adressen kennt `titles.json` nicht (F20, 16.10.2026). */
+  const cartoonLauf = ordneCartoonsZu(
+    jeUrl,
+    readJson<Title[]>('public/data/cartoons.json', []),
+    readJson<CartoonFolgenDatei>('data/cartoon-folgen.json', {}),
+    animeZugehoerigkeit(titles),
+  )
+  Object.assign(zugeordnet, cartoonLauf.zugeordnet)
+  offen.push(...cartoonLauf.offen)
+  erledigt.push(...cartoonLauf.erledigt)
+  log(`${Object.keys(cartoonLauf.zugeordnet).length} Cartoon-Adressen zugeordnet, ${cartoonLauf.offen.length} offen`)
+  for (const [schluessel, liste] of cartoonLauf.uebrig) {
     /*
       Der Schlüssel trägt seit dem 30.08.2026 die Ausgabe mit (`url#asin`) —
       gesucht und gespeichert wird aber unter der Adresse selbst. Sie steht in
