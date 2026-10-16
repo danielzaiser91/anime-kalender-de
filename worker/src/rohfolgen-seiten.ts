@@ -9,7 +9,7 @@
 import { type Env } from './env.ts'
 import { ROH_FELDER } from './pruefung-rohfolgen-speichern.ts'
 import { vereint, SEITE, type Quelle, type Seite, type Zeile } from './seiten-vereint.ts'
-import { NICHT_VERDRAENGT } from './titelzeile-lesen.ts'
+import { NICHT_VERDRAENGT, TITEL_AB_MARKE, TITEL_REIHE, titelSeite } from './titelzeile-lesen.ts'
 import { TITEL_ID_AB } from './titelzeile-format.ts'
 
 export { SEITE, type Seite }
@@ -70,10 +70,10 @@ function offenAusTitel(env: Env): Quelle {
                 sprachen, NULL AS untertitel, NULL AS staffel_text, staffel AS staffel_nr, gemeldet_am,
                 titel_id, plattform, NULL AS seiten_kennung
            FROM pruefung_titel
-          WHERE offen_rohfolge > 0 AND id > ?1 AND roh_uebernommen = 0 AND gti IS NOT NULL AND (vorhanden IS NULL OR vorhanden <> 'nein')
-          ORDER BY id LIMIT ?2`,
+          WHERE offen_rohfolge > 0 AND ${TITEL_AB_MARKE} AND roh_uebernommen = 0 AND gti IS NOT NULL AND (vorhanden IS NULL OR vorhanden <> 'nein')
+          ${TITEL_REIHE}`,
       )
-        .bind(von + TITEL_ID_AB, anzahl)
+        .bind(...titelSeite(von, anzahl))
         .all()
       return (results ?? []) as Zeile[]
     },
@@ -131,9 +131,9 @@ function alleAusTitel(env: Env): Quelle {
         `SELECT id, plattform, url, NULL AS asin, gti, folge_nr AS nummer, COALESCE(roh_titel, folge) AS titel, NULL AS erschienen,
                 staffel AS staffel_nr, titel_id, NULL AS seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen,
                 CASE WHEN plattform = 'netflix' AND art = 'angenommen' THEN 1 END AS angenommen
-           FROM pruefung_titel WHERE id > ?1 AND gti IS NOT NULL ORDER BY id LIMIT ?2`,
+           FROM pruefung_titel WHERE ${TITEL_AB_MARKE} AND gti IS NOT NULL ${TITEL_REIHE}`,
       )
-        .bind(von + TITEL_ID_AB, anzahl)
+        .bind(...titelSeite(von, anzahl))
         .all()
       return (results ?? []) as Zeile[]
     },
