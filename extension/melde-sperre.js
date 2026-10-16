@@ -42,8 +42,11 @@ globalThis.AK_MELDE_SPEICHER = (() => {
 })()
 
 globalThis.AK_MELDE_SPERRE = (() => {
-  /* Der Briefkasten ist bis zu einer Minute alt; kam die Meldung dann nicht an, darf man erneut melden. */
-  const FRIST_MS = 120000
+  /*
+    Der Briefkasten (`?zaehlen=1`) hält die Edge bis `ZAEHLEN_SEKUNDEN` (worker/src/pruefung-zaehlen.ts, 2 h),
+    eine Meldung leert ihn nicht: „nicht da“ zählt erst, wenn die Antwort sicher nach der Meldung entstand.
+  */
+  const FRIST_MS = (7200 + 600) * 1000
   const TEXT = 'gemeldet ✓'
 
   function setzeKlick(knopf, klick) {

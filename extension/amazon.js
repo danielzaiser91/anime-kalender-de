@@ -10655,8 +10655,8 @@ async function speicherSchreiben(werte) {
         /*
           **Die eigene Meldung zählt sofort, nicht erst beim nächsten Abruf.**
 
-          `nichtAngekommen()` fragt die geholte Briefkasten-Liste, und die ist
-          bis zu einer Minute alt. Direkt nach dem Melden stand die Adresse dort
+          `nichtAngekommen()` fragt die geholte Briefkasten-Liste, und die hält die
+          Edge bis zu zwei Stunden (ZAEHLEN_SEKUNDEN). Direkt nach dem Melden stand die Adresse dort
           noch nicht — der Knopf ging wieder auf „melden", als wäre nichts
           geschehen. Gemessen war die Meldung längst angekommen.
 

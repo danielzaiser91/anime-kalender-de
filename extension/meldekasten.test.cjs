@@ -390,7 +390,7 @@ async function pruefeBeleg() {
 /* Takt vor der Briefkasten-Antwort vergisst nichts; erst „nicht da“ (belegt) löscht (Prüfer, 1397, Auflage A). */
 async function pruefeBelegSpaet() {
   const ADRESSE = 'https://www.amazon.de/dp/A'
-  const alt = () => ({ akMeldeSperre: { '/dp/A|1|true': Date.now() - STUNDE } })
+  const alt = () => ({ akMeldeSperre: { '/dp/A|1|true': Date.now() - sperre.AK_MELDE_SPERRE.FRIST_MS - 1000 } })
   const z = zustandNeu()
   const s = seiteNeu(z, alt())
   s.werte.set('briefkastenAdressen', null)
@@ -398,7 +398,7 @@ async function pruefeBelegSpaet() {
   s.takt()
   s.werte.set('briefkastenAdressen', new Set(['x', ADRESSE, 'y']))
   s.takt()
-  pruefe('Takt vor der Antwort (null), Meldung > 120 s alt, dann führt der Briefkasten die Adresse: gesperrt',
+  pruefe('Takt vor der Antwort (null), Frist um, dann führt der Briefkasten die Adresse: gesperrt',
     s.meldeSperre.gesperrt() && z.marke === 'gemeldet ✓', { marke: z.marke })
   const z3 = zustandNeu()
   const s3 = seiteNeu(z3, alt())
@@ -417,6 +417,49 @@ async function pruefeBelegSpaet() {
   s2.werte.set('briefkastenAdressen', new Set(['x', ADRESSE, 'y']))
   s2.takt()
   pruefe('Briefkasten antwortet „nicht da“, Frist um: vergessen, auch wenn die Adresse später auftaucht', !s2.meldeSperre.gesperrt())
+  /* Auflage D: Kennung nicht lesbar, Briefkasten ohne die Adresse, Frist um — das ist „nicht da“ (false), nicht unbekannt. */
+  const z4 = zustandNeu()
+  const s4 = seiteNeu(z4, alt())
+  s4.werte.set('briefkastenAdressen', new Set(['x', 'y']))
+  s4.werte.set('asin', () => { if (new Error().stack.includes('belegt')) throw new Error('weg'); return 'A' })
+  await s4.meldeSperre.geladen
+  s4.takt()
+  s4.werte.set('briefkastenAdressen', new Set(['x', ADRESSE, 'y']))
+  s4.takt()
+  pruefe('Kennung wirft, Briefkasten ohne Adresse, Frist um: vergessen, auch wenn die Adresse später auftaucht', !s4.meldeSperre.gesperrt())
+}
+
+/*
+  Auflage C (Prüfer, 1397): Der Briefkasten kommt bis zu ZAEHLEN_SEKUNDEN (2 h) alt aus dem Edge-Cache und kennt die
+  eigene Meldung dann noch nicht. Speicher B, A, C; A ist 121 s bzw. knapp 2 h alt; der Briefkasten führt andere
+  Adressen und Kennungen vor und hinter ihr. Erwartet: gesperrt, auf derselben Seite (mehrere Takte) und nach dem Neuladen.
+*/
+async function pruefeVeralteterBriefkasten() {
+  const leer = await geladenNeu({ angekommen: true }, {})
+  pruefe('leerer Speicher, Worker führt die Adresse: frei, Knopf sichtbar', !leer.s.meldeSperre.gesperrt() && sichtbar(leer.s.knopf))
+  for (const alter of [121 * 1000, 2 * STUNDE - 1000]) {
+    const jetzt = Date.now()
+    const speicher = { akMeldeSperre: { '/dp/B|1|true': jetzt - STUNDE, '/dp/A|1|true': jetzt - alter, '/dp/C|1|true': jetzt - 3 * STUNDE } }
+    const veraltet = (s) => {
+      s.werte.set('briefkastenAdressen', new Set(['https://www.amazon.de/dp/B', 'https://www.amazon.de/dp/C']))
+      s.werte.set('briefkastenSeiten', new Set(['B', 'C']))
+    }
+    const z = zustandNeu()
+    const s = seiteNeu(z, speicher)
+    veraltet(s)
+    await s.meldeSperre.geladen
+    s.takt()
+    s.takt()
+    pruefe(`Meldung ${alter / 1000} s alt, Briefkasten aus dem Cache ohne sie: gesperrt, Marke`,
+      s.meldeSperre.gesperrt() && z.marke === 'gemeldet ✓' && !sichtbar(s.knopf), { marke: z.marke })
+    const z2 = zustandNeu()
+    const neu = seiteNeu(z2, speicher)
+    veraltet(neu)
+    await neu.meldeSperre.geladen
+    neu.takt()
+    pruefe(`… neu geladen, Briefkasten weiter veraltet: gesperrt, Marke`,
+      neu.meldeSperre.gesperrt() && z2.marke === 'gemeldet ✓' && !sichtbar(neu.knopf), { marke: z2.marke })
+  }
 }
 
 /* Seite meldet X jetzt, im Speicher steht X noch mit alter Zeit: die jüngere gewinnt (Prüfer, 1397, Auflage B). */
@@ -439,6 +482,7 @@ async function main() {
   await pruefeZweiTabs()
   await pruefeBeleg()
   await pruefeBelegSpaet()
+  await pruefeVeralteterBriefkasten()
   await pruefeJuengereGewinnt()
   if (fehler.length) {
     console.error(`\n${fehler.length} Zusicherung(en) verletzt`)
