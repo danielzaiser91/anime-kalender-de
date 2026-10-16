@@ -95,6 +95,7 @@ pruefe('erst sammeln, dann je Staffel prüfen', /await selbstSammeln\(reihe\)/.t
 /* 30.09.2026: Jede Staffel ist nach einem Lauf durch — vorher lief eine meldende Staffel zweimal („18/14"). */
 pruefe('eine Staffel ist nach einem Lauf geprüft', /selbstStaffelnGeprueft\.add\(schluessel\)/.test(start) && !/=== vorher/.test(start))
 const wahlCode = schneide('netflixStaffelWaehlen')
+const staffelLeser = readFileSync(resolve(__dirname, 'netflix-staffel.js'), 'utf8')
 pruefe('die Staffelwahl nimmt auch einen Menütext', /typeof ziel === 'string'/.test(wahlCode))
 
 /*
@@ -114,7 +115,7 @@ async function waehleIm(menue, ziel) {
     ergebnis: null,
   }
   vm.createContext(kontext)
-  vm.runInContext(`${wahlCode}\nergebnis = netflixStaffelWaehlen(${JSON.stringify(ziel)})`, kontext)
+  vm.runInContext(`${staffelLeser}\n${wahlCode}\nergebnis = netflixStaffelWaehlen(${JSON.stringify(ziel)})`, kontext)
   return { ok: await kontext.ergebnis, geklickt }
 }
 const JOJO_MENUE = [

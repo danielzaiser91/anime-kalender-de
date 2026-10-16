@@ -54,6 +54,7 @@
         "netflix-durchgang-schutz.js",
         "netflix-uebernahme.js",
         "netflix-randvoll.js",
+        "netflix-staffel.js",
         "netflix-erinnern.js",
         "netflix-zurueckgestellt.js",
         "melder.js",
