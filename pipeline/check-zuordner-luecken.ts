@@ -5,7 +5,7 @@
  * Prime-Rohfolge nach `AnbieterFolge`). Läuft in `check:logic`.
  */
 import { ausAnisearch, englischeSchreibweisen, folgenKern, ordneZu, type AnbieterFolge, type AsFolgeRoh, type TmdbFolge } from '../shared/folgen-zuordnung.ts'
-import { ordneUeberAnker, probeGeschwister, sammleAnker, type AnkerTitel } from '../shared/folgen-anker.ts'
+import { entscheideZuordnung, ordneUeberAnker, probeGeschwister, sammleAnker, type AnkerTitel } from '../shared/folgen-anker.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, detail = ''): void {
@@ -118,6 +118,62 @@ pruefe('ein Titel, der mit E anfängt, bleibt', folgenKern('Eden of the East') !
   pruefe('„ BD“ am englischen Titel wird in der zweiten Schreibweise entfernt', englischeSchreibweisen([{ nr: 1, de: 'Deutsch', en: 'English Title BD' }])[0]!.titel === 'English Title' && enBd.length === 1)
   const knapp: Record<number, AsFolgeRoh[]> = { 1: s2.slice(0, 5), 2: [], 3: [] }
   pruefe('höchstens die Hälfte genügt nicht', probeGeschwister(gelesen, gemeldet, alle, (t) => sammleAnker(knapp[t.id], undefined, t).listen, keine) === null)
+}
+
+/* Gegenbeispiel 1: Prime gibt allen Folgen eines Kauftitels dasselbe Datum („My First Girlfriend Is a Gal“) */
+{
+  interface T extends AnkerTitel { franchiseId: number }
+  const tmdb = (n: number, stamm: string, jahr: number): TmdbFolge[] =>
+    Array.from({ length: n }, (_, i) => ({ s: 1, e: i + 1, titel: `${stamm} ${i + 1} qqqq`, datum: `${jahr}-07-${String(i + 1).padStart(2, '0')}`, minuten: 24 }))
+  const gal: AnbieterFolge[] = Array.from({ length: 11 }, (_, i) => ({ nummer: i + 1, titel: `${i + 1}. Kauftitel-Name ${i}`, datum: '2017-07-01', minuten: 24 }))
+  const s2: T = { id: 2, episodes: 12, jpYear: 2017, franchiseId: 4 }
+  const s3: T = { id: 3, episodes: 11, jpYear: 2025, franchiseId: 4 }
+  const anker: Record<number, TmdbFolge[]> = { 2: tmdb(12, 'Zweite', 2017), 3: tmdb(11, 'Dritte', 2025) }
+  const listen = (t: T) => sammleAnker(undefined, { folgen: anker[t.id]! }, t).listen
+  const eigen = ordneUeberAnker(gal, listen(s2))
+  pruefe('gleiches Datum für alle Folgen belegt keine', treffer(eigen.paare) === 0, String(treffer(eigen.paare)))
+  pruefe('gleiches Datum: keine Probe auf Staffel 2', probeGeschwister(gal, s3, [s2, s3], listen, () => false) === null)
+  /* Dieselbe Zeile zwölfmal auf Folge 1 ist ein Ziel, kein Dutzend: gezählt werden verschiedene Folgen. */
+  const doppelt: AnbieterFolge[] = [1, 1, 1, 2, 50].map((e, i) => ({ nummer: i + 1, titel: `Zweite ${e} qqqq`, datum: null, minuten: 24 }))
+  pruefe('vier Zeilen auf zwei Folgen tragen die Probe nicht', probeGeschwister(doppelt, s3, [s2, s3], listen, () => false) === null)
+}
+
+/* Gegenbeispiel 2: Platzhalter-Anker „Folge n“ treffen jede Staffel über die Nummer */
+{
+  interface T extends AnkerTitel { franchiseId: number }
+  const platz = (n: number): TmdbFolge[] => Array.from({ length: n }, (_, i) => ({ s: 1, e: i + 1, titel: `Folge ${i + 1}`, datum: null, minuten: 24 }))
+  const s1: T = { id: 1, episodes: 12, jpYear: 2019, franchiseId: 5 }
+  const s3: T = { id: 3, episodes: 12, jpYear: 2025, franchiseId: 5 }
+  const seite: AnbieterFolge[] = platz(12).map((f) => ({ nummer: f.e, titel: f.titel, datum: '2025-04-01', minuten: 24 }))
+  const listen = (t: T) => (t.id === 1 ? sammleAnker(undefined, { folgen: platz(12) }, t).listen : [])
+  pruefe('Platzhalter-Anker wählen keine Staffel', probeGeschwister(seite, s3, [s1, s3], listen, () => false) === null)
+  for (const p of ['Folge 3', 'Episode 3', 'Ep. 3', 'E3', '#3']) {
+    pruefe(`Platzhalter „${p}“ ist kein Titelanker`, sammleAnker(undefined, { folgen: [{ s: 1, e: 3, titel: p, datum: null, minuten: null }] }, { id: 1, episodes: 1 }).listen[0]!.folgen[0]!.titel === null)
+  }
+  const echt = sammleAnker([{ nr: 1, de: 'Folge 3: Der Sturm' }], undefined, { id: 1 }).listen[0]!.folgen[0]!.titel
+  pruefe('ein Titel nach der Zählung bleibt', echt === 'Folge 3: Der Sturm', String(echt))
+  const asPlatz = sammleAnker([{ nr: 3, en: 'Episode 3' }], undefined, { id: 1 }).listen[0]!.folgen[0]!.titel
+  pruefe('aniSearch-Platzhalter ist kein Titelanker', asPlatz === null, String(asPlatz))
+}
+
+/* Reihenfolge: Folgen des Titels, dann Beleg ohne Folgennummer, dann Probe (Kennung/Adresse schlägt Probe) */
+{
+  const as = asFolgen(12, 'Reihe B')
+  const gelesen = primeSicht(as)
+  const leer = sammleAnker(asFolgen(12, 'Fremd'), undefined, { id: 1 })
+  const fund = { titel: { id: 2 }, paare: ordneZu(gelesen, ausAnisearch(as)), quelle: 'aniSearch', treffer: 12 }
+  pruefe('trägt der Beleg ohne Folgennummer, überstimmt die Probe ihn nicht', entscheideZuordnung(gelesen, { id: 1 }, leer, true, () => fund).art === 'titel')
+  const ohne = entscheideZuordnung(gelesen, { id: 1 }, leer, false, () => fund)
+  pruefe('trägt er nicht, greift die Probe', ohne.art === 'folgen' && ohne.ziel.id === 2)
+  const keinAnker = sammleAnker(undefined, undefined, { id: 1 })
+  const mitProbe = entscheideZuordnung(gelesen, { id: 1 }, keinAnker, true, () => fund)
+  pruefe('ohne eigenen Anker darf die Probe ran', mitProbe.art === 'folgen' && mitProbe.ziel.id === 2)
+  const nichts = entscheideZuordnung(gelesen, { id: 1 }, keinAnker, true, () => null)
+  pruefe('ohne Anker und ohne Probe: Grund des Ankers', nichts.art === 'offen' && nichts.grund === keinAnker.grund)
+  const fremd = entscheideZuordnung(gelesen, { id: 1 }, leer, false, () => null)
+  pruefe('ohne Treffer: offen mit Ankerquelle', fremd.art === 'offen' && fremd.grund.endsWith('(Anker: aniSearch)'))
+  const selbst = entscheideZuordnung(gelesen, { id: 1 }, sammleAnker(as, undefined, { id: 1 }), true, () => fund)
+  pruefe('trifft der gemeldete Titel, bleibt er', selbst.art === 'folgen' && selbst.ziel.id === 1)
 }
 
 if (fehler) process.exit(1)

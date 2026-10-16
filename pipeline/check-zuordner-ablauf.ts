@@ -1,5 +1,5 @@
 /**
- * Verdrahtung der Geschwister-Probe im echten Ablauf von `fetch-rohfolgen.ts` — dieselbe Kulisse wie
+ * Verdrahtung und Reihenfolge der Geschwister-Probe im echten Ablauf von `fetch-rohfolgen.ts` — dieselbe Kulisse wie
  * `check-rohfolgen-ablauf.ts` (`AK_ROOT`, Attrappe `tools/rohfolgen-ablauf-mock.mjs`). Eine Reihe mit drei
  * Staffeln; nur Staffel 2 hat die Folgentitel, die die Seite zeigt. Läuft in `check:logic`.
  */
@@ -41,7 +41,13 @@ function gruppe(url: string, titelId: number, sprachen: string[][]) {
 
 /** Verschiedene Tonspuren je Folge: der Beleg ohne Folgennummer trägt nicht. */
 const GEMISCHT = [['Deutsch'], ['Deutsch', 'Japanisch']]
-const rohfolgen = [...gruppe(seite('A'), 11, GEMISCHT)]
+const rohfolgen = [
+  ...gruppe(seite('A'), 11, GEMISCHT),
+  /* Gleiche Tonspuren und Kennung: der Beleg ohne Folgennummer trägt, die Probe überstimmt ihn nicht. */
+  ...gruppe(seite('B'), 11, [['Deutsch']]),
+  /* Titel 12 ohne jeden Anker: die Probe darf trotzdem ran. */
+  ...gruppe(seite('C'), 12, GEMISCHT),
+]
 
 const titles = [10, 11, 12].map((t) => ({ id: t, titleDe: `Kulissenreihe ${t}`, franchiseId: 50, episodes: 3 }))
 const asKennung = { 10: { anisearchId: 9010 }, 11: { anisearchId: 9011 } }
@@ -77,6 +83,9 @@ try {
   const a = zugeordnet[seite('A')]
   const folgenA = JSON.stringify(a?.folgen.map((f) => f.unsere))
   if (a?.titleId !== 10 || folgenA !== '[1,2,3]') fehler.push(`Probe: gemeldet 11, erwartet 10 mit [1,2,3], ist ${a?.titleId} ${folgenA}`)
+  const b = zugeordnet[seite('B')]
+  if (b?.titleId !== 11 || JSON.stringify(b.folgen.map((f) => f.unsere)) !== '[null]') fehler.push(`Kennung schlägt Probe: ist ${JSON.stringify(b)}`)
+  if (zugeordnet[seite('C')]?.titleId !== 10) fehler.push(`ohne Anker greift die Probe nicht: ist ${zugeordnet[seite('C')]?.titleId}`)
 } catch (e) {
   fehler.push(`Ergebnis nicht lesbar: ${(e as Error).message}`)
 } finally {
@@ -86,4 +95,4 @@ if (fehler.length) {
   console.error(`FEHL check-zuordner-ablauf: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-zuordner-ablauf: Probe hängt die Seite an die Staffel, deren Folgen sie zeigt.')
+console.log('check-zuordner-ablauf: Probe hängt die Seite an die Staffel, deren Folgen sie zeigt; Kennung schlägt Probe; ohne Anker greift sie.')

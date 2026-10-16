@@ -721,7 +721,7 @@ async function main(): Promise<void> {
       fest. Der Beleg wird deshalb wie beim Einzeleintrag oben ohne
       Folgennummer abgelegt: Er gilt dem Titel.
 
-      **Zwei Bedingungen, sonst bleibt es offen:**
+      **Zwei Bedingungen, sonst bleibt es offen (oder die Geschwister-Probe greift):**
 
       1. Der Titel muss über die **Kennung, die Adresse oder einen genauen
          Namenstreffer** gefunden worden sein. Ein Namensanfang oder ein

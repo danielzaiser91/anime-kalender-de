@@ -38,6 +38,17 @@ export interface AnkerErgebnis {
 }
 
 /**
+ * „Folge 3“, „Episode 3“, „Ep. 3“, „E3“, „#3“: Zählung statt Titel. Als Anker träfe „Folge 3“ jede
+ * dritte Folge jeder Staffel — die Probe wählte so Staffel 1 für eine Staffel-3-Seite. Gemessen
+ * 16.10.2026: 9.930 von 35.439 TMDB-Folgen (125 von 875 Titeln überwiegend), 136 aniSearch-Folgen.
+ */
+const PLATZHALTER = /^\s*(?:folge|episode|ep\.?|e|#)\s*\d+\s*$/i
+
+function ohnePlatzhalter(folgen: TmdbFolge[]): TmdbFolge[] {
+  return folgen.map((f) => (f.titel && PLATZHALTER.test(f.titel) ? { ...f, titel: null } : f))
+}
+
+/**
  * Alle Anker eines Titels in der Reihenfolge, in der sie befragt werden: aniSearch (wie unser
  * Bestand aufgeteilt, deutsch), danach die TMDB-Staffel mit unserer Folgenzahl.
  */
@@ -48,7 +59,8 @@ export function sammleAnker(
 ): AnkerErgebnis {
   const listen: AnkerListe[] = []
   if (anisearch?.length) {
-    listen.push({ quelle: 'aniSearch', folgen: [...ausAnisearch(anisearch), ...englischeSchreibweisen(anisearch)] })
+    const folgen = [...ausAnisearch(anisearch), ...englischeSchreibweisen(anisearch)]
+    listen.push({ quelle: 'aniSearch', folgen: ohnePlatzhalter(folgen) })
   }
   if (!tmdb) {
     return { listen, grund: 'keine Folgentitel vorhanden (weder aniSearch noch TMDB)' }
@@ -57,7 +69,7 @@ export function sammleAnker(
   if (staffel === null) {
     return { listen, grund: `keine TMDB-Staffel mit ${titel.episodes ?? '?'} Folgen eindeutig` }
   }
-  listen.push({ quelle: 'TMDB', folgen: tmdb.folgen.filter((f) => f.s === staffel) })
+  listen.push({ quelle: 'TMDB', folgen: ohnePlatzhalter(tmdb.folgen.filter((f) => f.s === staffel)) })
   return { listen, grund: '' }
 }
 
@@ -72,13 +84,30 @@ export interface AnkerPaare {
  * wären sonst mehrdeutig, und `ordneZu` schwiege.
  */
 export function ordneUeberAnker(anbieter: AnbieterFolge[], listen: AnkerListe[]): AnkerPaare {
+  const eindeutig = ohneGeteiltesDatum(anbieter)
   let erste: AnkerPaare | null = null
   for (const l of listen) {
-    const paare = ordneZu(anbieter, l.folgen)
+    const paare = ordneZu(eindeutig, l.folgen)
     if (paare.some((p) => p.unsere !== null)) return { paare, quelle: l.quelle }
     erste ??= { paare, quelle: l.quelle }
   }
   return erste ?? { paare: ordneZu(anbieter, []), quelle: '' }
+}
+
+/**
+ * Ein Datum, das mehrere Anbieter-Folgen tragen, belegt keine davon: Prime setzt bei Kauftiteln
+ * allen Folgen dasselbe Datum („My First Girlfriend Is a Gal“, 11× 12.07.2017), und über den
+ * Anker landeten alle elf auf unserer Folge 1. Der Titel bleibt als Weg.
+ */
+function ohneGeteiltesDatum(anbieter: AnbieterFolge[]): AnbieterFolge[] {
+  const wieOft = new Map<string, number>()
+  for (const a of anbieter) if (a.datum) wieOft.set(a.datum, (wieOft.get(a.datum) ?? 0) + 1)
+  return anbieter.map((a) => (a.datum && wieOft.get(a.datum)! > 1 ? { ...a, datum: null } : a))
+}
+
+/** Verschiedene unserer Folgen, die getroffen wurden — zwölf Zeilen auf Folge 1 sind ein Treffer. */
+function verschiedeneZiele(paare: Zuordnung[]): number {
+  return new Set(paare.map((p) => p.unsere).filter((u) => u !== null)).size
 }
 
 export interface GeschwisterTreffer<T extends AnkerTitel> extends AnkerPaare {
@@ -86,7 +115,10 @@ export interface GeschwisterTreffer<T extends AnkerTitel> extends AnkerPaare {
   treffer: number
 }
 
-/** Dieselbe Schwelle wie bei der Folgentitel-Stufe: mindestens drei und mehr als die Hälfte. */
+/**
+ * Dieselbe Schwelle wie bei der Folgentitel-Stufe: mindestens drei und mehr als die Hälfte —
+ * gezählt werden verschiedene unserer Folgen, nicht Zeilen.
+ */
 export const MIN_GESCHWISTER_TREFFER = 3
 
 /**
@@ -109,7 +141,7 @@ export function probeGeschwister<T extends AnkerTitel>(
   for (const t of alle) {
     if (t.id === gemeldet.id || t.franchiseId !== gemeldet.franchiseId || ausgenommen(t)) continue
     const { paare, quelle } = ordneUeberAnker(anbieter, listenFuer(t))
-    const n = paare.filter((p) => p.unsere !== null).length
+    const n = verschiedeneZiele(paare)
     if (n >= MIN_GESCHWISTER_TREFFER && n > anbieter.length / 2) treffer.push({ titel: t, paare, quelle, treffer: n })
   }
   treffer.sort((a, b) => b.treffer - a.treffer)
@@ -124,9 +156,11 @@ export type Entscheid<T> =
   | { art: 'offen'; grund: string }
 
 /**
- * **Reihenfolge der Belege einer Adresse.** Ohne Anker bleibt sie offen; sonst erst die Folgen
- * des gemeldeten Titels, dann die Geschwister-Probe, zuletzt der Beleg ohne Folgennummer, wenn er
- * trägt (Kennung, Adresse oder genauer Name, einheitliche Tonspuren).
+ * **Reihenfolge der Belege einer Adresse.** Erst die Folgen des gemeldeten Titels; trifft keine,
+ * der Beleg ohne Folgennummer, wenn er trägt (Kennung, Adresse oder genauer Name, einheitliche
+ * Tonspuren); erst danach die Geschwister-Probe. Die Probe füllt nur, was sonst offen bliebe —
+ * sie überstimmt keinen Beleg, den der Lauf ohne sie abgelegt hätte. Ohne eigenen Anker darf sie
+ * trotzdem ran (16.10.2026: 176 von 2.921 Titeln haben keinen, aber ein Geschwister mit Anker).
  */
 export function entscheideZuordnung<T extends AnkerTitel>(
   anbieter: AnbieterFolge[],
@@ -135,11 +169,11 @@ export function entscheideZuordnung<T extends AnkerTitel>(
   titelBelegTraegt: boolean,
   probe: () => GeschwisterTreffer<T> | null,
 ): Entscheid<T> {
-  if (!ak.listen.length) return { art: 'offen', grund: ak.grund }
   const eigen = ordneUeberAnker(anbieter, ak.listen)
   if (eigen.paare.some((p) => p.unsere !== null)) return { art: 'folgen', ziel: gemeldet, ...eigen }
+  if (ak.listen.length && titelBelegTraegt) return { art: 'titel' }
   const p = probe()
   if (p) return { art: 'folgen', ziel: p.titel, paare: p.paare, quelle: p.quelle }
-  if (titelBelegTraegt) return { art: 'titel' }
+  if (!ak.listen.length) return { art: 'offen', grund: ak.grund }
   return { art: 'offen', grund: `keine einzige Folge zuzuordnen (Anker: ${eigen.quelle})` }
 }
