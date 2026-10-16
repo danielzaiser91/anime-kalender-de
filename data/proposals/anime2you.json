@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-10-16T17:02:56.220Z",
+  "scrapedAt": "2026-10-16T18:02:42.573Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 8,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "schon in einem Rubrik-Feed gelesen": 7,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 4
   },
@@ -100,6 +100,21 @@
         {
           "month": "2027-05",
           "context": "werden können. Wir fassen alle Details nachfolgend zusammen. Release im Mai 2027 Zu den neuen »Fairy Tail«-Produkten zählen unter anderem z"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Starttermin von »Wound and Bandage« steht fest + Teaser",
+      "articleUrl": "https://www.anime2you.de/news/1061578/starttermin-von-wound-and-bandage/",
+      "publishedAt": "2026-10-16",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2027-01-09",
+          "context": "von »Wound and Bandage« wurde heute verkündet, dass die Serie ab dem 9. Januar 2027 im japanischen Fernsehen ausgestrahlt wird. Einen erste"
         }
       ],
       "dub": "unklar",
