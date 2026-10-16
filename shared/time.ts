@@ -158,13 +158,15 @@ export function monthName(monthIndex0: number): string {
 }
 
 /**
- * "2026-08-13" → "13.08.2026". Nimmt auch einen ISO-Zeitpunkt ("2026-08-12T22:30:00.000Z", wie
- * `verpasst.erwartetAm`) und liefert dessen Berliner Kalendertag (hier: 13.08.2026).
+ * "2026-08-13" → "13.08.2026", monatsgenau "2027-01" → "01.2027". Nimmt auch einen ISO-Zeitpunkt
+ * ("2026-08-12T22:30:00.000Z", wie `verpasst.erwartetAm`) und liefert dessen Berliner Kalendertag.
+ * Längere Texte, die kein Zeitpunkt sind, werden wie ein Tag zerlegt (kein Fehler).
  */
 export function formatDate(iso: string): string {
-  const tag = iso.length > 10 ? toIsoDate(new Date(iso)) : iso
+  const zeitpunkt = iso.length > 10 ? new Date(iso) : null
+  const tag = zeitpunkt && !Number.isNaN(zeitpunkt.getTime()) ? toIsoDate(zeitpunkt) : iso
   const [y, m, d] = tag.split('-')
-  return `${d}.${m}.${y}`
+  return d === undefined ? `${m}.${y}` : `${d}.${m}.${y}`
 }
 
 /** "2026-08-13" → "13. August 2026" */

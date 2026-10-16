@@ -15,7 +15,7 @@ function pruefe(name: string, ok: boolean, info = ''): void {
   }
 }
 
-function mailMit(verpasst: Record<string, string>, date = '2026-09-20') {
+function mailMit(verpasst: Record<string, string>, date = '2026-09-20', optionen: object = {}) {
   const ev = {
     id: 'x1',
     titleId: 1,
@@ -26,7 +26,7 @@ function mailMit(verpasst: Record<string, string>, date = '2026-09-20') {
     episode: 3,
     verpasst,
   } as unknown as ReleaseEvent
-  return digestMail([ev], 'daily', 'https://anime-kalender.de/', 'https://x/u', {})
+  return digestMail([ev], 'daily', 'https://anime-kalender.de/', 'https://x/u', optionen)
 }
 
 /* 00:30 Berlin (Sommerzeit, UTC+2) ist noch der Vortag in UTC: 19.09. 22:30Z = 20.09. 00:30. */
@@ -47,12 +47,27 @@ const nurTag = mailMit({ bemerktAm: '2026-09-21T08:30:00.000Z' })
 pruefe('ohne erwartetAm gilt ev.date', nurTag.html.includes('angekündigt für 20.09.2026'))
 
 pruefe("formatDate: ISO-Zeitpunkt 00:30 Berlin", formatDate("2026-09-19T22:30:00.000Z") === "20.09.2026")
-pruefe("formatDate: reiner Tag unverändert", formatDate("2026-09-20") === "20.09.2026")
+pruefe('formatDate: reiner Tag unverändert', formatDate('2026-09-20') === '20.09.2026')
+pruefe('formatDate: monatsgenau "2027-01"', formatDate('2027-01') === '01.2027')
+pruefe('formatDate: Winterzeit 23:30Z = 00:30 Berlin', formatDate('2026-12-31T23:30:00.000Z') === '01.01.2027')
+let langerText = ''
+try {
+  langerText = formatDate('kein-Datum-sondern-Text')
+} catch (e) {
+  langerText = `WIRFT ${String(e)}`
+}
+pruefe('formatDate: langer Nicht-Zeitpunkt wirft nicht', langerText === 'sondern.Datum.kein', langerText)
+
+/* „Erster deutscher Termin": termin kommt als "JJJJ-MM-TT" aus public/data/neu-mit-synchro.json (Erzeuger: nebendateien.ts). */
+const neuMitSynchro = [{ id: 7, name: 'Neuling', slug: 'neuling', seit: '2026-10-01', termin: '2026-10-04' }]
+const neuMail = mailMit({ erwartetAm: '2026-09-19T22:30:00.000Z' }, '2026-09-20', { neuMitSynchro })
+pruefe('HTML: Erster deutscher Termin 04.10.2026', neuMail.html.includes('Erster deutscher Termin: 04.10.2026'))
+pruefe('Text: erster deutscher Termin 04.10.2026', neuMail.text.includes('erster deutscher Termin: 04.10.2026'))
 
 /* Wächter: kein Mail-Baustein zerlegt Datumswerte selbst (split/reverse) — alles läuft über formatDate. */
-for (const datei of readdirSync("worker/src").filter((n) => n.endsWith(".ts"))) {
-  const q = readFileSync(`worker/src/${datei}`, "utf8")
-  pruefe(`${datei}: kein split('-').reverse()`, !/split\('-'\)\s*\.reverse\(\)/.test(q))
+for (const datei of readdirSync('worker/src').filter((n) => n.endsWith('.ts'))) {
+  const q = readFileSync(`worker/src/${datei}`, 'utf8')
+  pruefe(`${datei}: kein split('-').reverse()`, !/split\(\s*(['"`])-\1\s*\)\s*\.reverse\(\)/.test(q))
 }
 
 console.log(fehler ? `\nMail verschoben: ${fehler} Zusicherung(en) verletzt.` : 'Mail verschoben: alle Zusicherungen halten.')
