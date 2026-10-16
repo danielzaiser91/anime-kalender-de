@@ -73,7 +73,8 @@ globalThis.AK_MELDE_SPERRE = (() => {
       if (knopf.textContent !== TEXT) knopf.textContent = TEXT
       return z
     }
-    if (z === 'abgelaufen') gemeldet.delete(befund)
+    /* Nur eine belegte Antwort „nicht da“ (false) vergisst den Befund; unbekannt (null) lässt ihn stehen. */
+    if (z === 'abgelaufen' && angekommen === false) gemeldet.delete(befund)
     return z
   }
 
@@ -117,14 +118,16 @@ globalThis.AK_MELDE_SPERRE = (() => {
 
 /**
  * Angekommen heißt: der Worker führt die Meldung — die Adresse der Prüfliste oder die Kennung der Seite.
- * Fehlt seine Antwort, ist nichts belegt, und es gilt die Frist (Prüfer, 1397).
+ * Fehlt seine Antwort (`adressen` null), ist es unbekannt (null): die Frist gilt, der Befund bleibt gemerkt.
+ * Nur eine Antwort ohne Treffer ergibt false (Prüfer, 1397).
  */
 globalThis.AK_MELDUNG_BELEGT = function belegt(adresse, kennung, adressen, seiten) {
   if (adressen?.has(adresse)) return true
+  const unbekannt = adressen ? false : null
   try {
     const k = kennung()
-    return Boolean(k && seiten?.has(String(k)))
+    return Boolean(k && seiten?.has(String(k))) || unbekannt
   } catch {
-    return false
+    return unbekannt
   }
 }

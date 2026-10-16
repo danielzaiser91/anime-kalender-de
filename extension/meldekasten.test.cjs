@@ -387,6 +387,49 @@ async function pruefeBeleg() {
   }
 }
 
+/* Takt vor der Briefkasten-Antwort vergisst nichts; erst „nicht da“ (belegt) löscht (Prüfer, 1397, Auflage A). */
+async function pruefeBelegSpaet() {
+  const ADRESSE = 'https://www.amazon.de/dp/A'
+  const alt = () => ({ akMeldeSperre: { '/dp/A|1|true': Date.now() - STUNDE } })
+  const z = zustandNeu()
+  const s = seiteNeu(z, alt())
+  s.werte.set('briefkastenAdressen', null)
+  await s.meldeSperre.geladen
+  s.takt()
+  s.werte.set('briefkastenAdressen', new Set(['x', ADRESSE, 'y']))
+  s.takt()
+  pruefe('Takt vor der Antwort (null), Meldung > 120 s alt, dann führt der Briefkasten die Adresse: gesperrt',
+    s.meldeSperre.gesperrt() && z.marke === 'gemeldet ✓', { marke: z.marke })
+  const z3 = zustandNeu()
+  const s3 = seiteNeu(z3, alt())
+  s3.werte.set('briefkastenAdressen', null)
+  s3.werte.set('asin', () => { if (new Error().stack.includes('belegt')) throw new Error('weg'); return 'A' })
+  await s3.meldeSperre.geladen
+  s3.takt()
+  s3.werte.set('briefkastenAdressen', new Set(['x', ADRESSE, 'y']))
+  s3.takt()
+  pruefe('… auch wenn die Kennung beim ersten Takt nicht lesbar ist', s3.meldeSperre.gesperrt())
+  const z2 = zustandNeu()
+  const s2 = seiteNeu(z2, alt())
+  s2.werte.set('briefkastenAdressen', new Set(['x', 'y', 'z']))
+  await s2.meldeSperre.geladen
+  s2.takt()
+  s2.werte.set('briefkastenAdressen', new Set(['x', ADRESSE, 'y']))
+  s2.takt()
+  pruefe('Briefkasten antwortet „nicht da“, Frist um: vergessen, auch wenn die Adresse später auftaucht', !s2.meldeSperre.gesperrt())
+}
+
+/* Seite meldet X jetzt, im Speicher steht X noch mit alter Zeit: die jüngere gewinnt (Prüfer, 1397, Auflage B). */
+async function pruefeJuengereGewinnt() {
+  const jetzt = Date.now()
+  const speicher = { akMeldeSperre: { '/dp/W|1|true': jetzt - STUNDE, '/dp/X|1|true': jetzt - 5 * STUNDE, '/dp/V|1|true': jetzt - 2 * STUNDE } }
+  const x = await geladenNeu({ pfad: '/dp/X', angekommen: true }, speicher)
+  await x.s.meldeSperre.vermerken()
+  const k = speicher.akMeldeSperre
+  pruefe('Speicher X alt, Seite meldet X jetzt: X = jetzt, W und V bleiben',
+    k['/dp/X|1|true'] > jetzt - 1000 && k['/dp/W|1|true'] === jetzt - STUNDE && k['/dp/V|1|true'] === jetzt - 2 * STUNDE, k)
+}
+
 async function main() {
   pruefeVorher()
   pruefeZweige()
@@ -395,6 +438,8 @@ async function main() {
   await pruefeMehrere()
   await pruefeZweiTabs()
   await pruefeBeleg()
+  await pruefeBelegSpaet()
+  await pruefeJuengereGewinnt()
   if (fehler.length) {
     console.error(`\n${fehler.length} Zusicherung(en) verletzt`)
     process.exit(1)
