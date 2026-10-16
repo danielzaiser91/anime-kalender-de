@@ -86,6 +86,17 @@ pruefe('ein Titel, der mit E anfängt, bleibt', folgenKern('Eden of the East') !
   pruefe('Laufzeit weicht ab: beim eigenen TMDB-Eintrag zählt nur das Jahr', passendeStaffel(folgen, { ...titel, runtimeMin: 63 }) === 2)
   const ohneDatum = [...staffel(1, 10, 2018), ...staffel(2, 12, 2022).map((f) => ({ ...f, datum: null })), ...staffel(3, 13, 2025)]
   pruefe('Staffel ohne Sendedatum: keine Staffel', passendeStaffel(ohneDatum, titel) === null)
+  /* Staffel über den Jahreswechsel: Es zählt die erste Ausstrahlung (Dezember 2021), nicht die letzte (Januar 2022). Die Folgen stehen absteigend, damit auch „erste Zeile“ statt „frühestes Datum“ rot wird. */
+  const ueberJahr = (Array.from({ length: 12 }, (_, i) => ({
+    s: 2,
+    e: i + 1,
+    titel: `J Titel ${i + 1}`,
+    minuten: 24,
+    datum: i < 4 ? `2021-12-${String(20 + i).padStart(2, '0')}` : `2022-01-${String(i).padStart(2, '0')}`,
+  })) as TmdbFolge[]).reverse()
+  const jahreswechsel = [...staffel(1, 10, 2018), ...ueberJahr, ...staffel(3, 13, 2025)]
+  pruefe('Staffel Dez. 2021 bis Jan. 2022, Titeljahr 2021: Treffer', passendeStaffel(jahreswechsel, { ...titel, jpYear: 2021 }) === 2)
+  pruefe('Staffel Dez. 2021 bis Jan. 2022, Titeljahr 2022: keine Staffel', passendeStaffel(jahreswechsel, { ...titel, jpYear: 2022 }) === null)
   const falsch = sammleAnker(undefined, { folgen }, { ...titel, jpYear: 2021 })
   pruefe('sammleAnker: falsches Jahr liefert keinen Anker', falsch.listen.length === 0 && falsch.grund.includes('12'))
   const richtig = sammleAnker(undefined, { folgen }, titel)
