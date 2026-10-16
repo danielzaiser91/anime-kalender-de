@@ -94,17 +94,8 @@ const struktur = existsSync(resolve(wurzel, 'data/anbieter-staffeln.json'))
   gab es gar keinen. aniSearch führt deutsche Titel, deutsche Beschreibungen und
   eine Episodenliste mit deutschen Folgentiteln; bei einer Reihe, die der
   Anbieter anders schneidet als wir, ist das die Seite, die es klärt.
+  Die Kennung kommt aus dem Titel selbst (`t.anisearchId`): `data/anisearch.json` kennt nur Titel mit AniList-Schlüssel.
 */
-const anisearchKennung = (() => {
-  try {
-    const roh = JSON.parse(readFileSync(resolve(wurzel, 'data/anisearch.json'), 'utf8'))
-    const jeId = {}
-    for (const [id, wert] of Object.entries(roh)) if (wert?.anisearchId) jeId[id] = wert.anisearchId
-    return jeId
-  } catch {
-    return {}
-  }
-})()
 
 /**
  * **Drei Zustände je Folge, eine Quelle**.
@@ -210,8 +201,7 @@ for (const [id, eintraege] of nachRang(jeAdresse, 'netflix')) {
     offen[id] = {
       ...(verdacht ? { wiedervorlage: verdachtHinweis(verdacht) } : {}),
       titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
-    asId: anisearchKennung[String(sortiert[0].t.id)] ?? null,
-      asId: anisearchKennung[String(sortiert[0].t.id)] ?? null,
+      asId: sortiert[0].t.anisearchId ?? null,
       staffeln: gemeldet.map((s, i) => ({
         nr: s.seq,
         name: s.name ?? `Staffel ${s.seq}`,
@@ -407,7 +397,7 @@ for (const [id, eintraege] of nachRang(jeAdresse, 'netflix')) {
   }
   offen[id] = {
     titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
-    asId: anisearchKennung[String(sortiert[0].t.id)] ?? null,
+    asId: sortiert[0].t.anisearchId ?? null,
     ...eintragsInfo(sortiert[0].t, 'netflix', sortiert[0]),
     staffeln: sortiert.map((e, i) => ({
       nr: i + 1,
