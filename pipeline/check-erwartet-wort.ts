@@ -10,6 +10,7 @@ import { verpasstAmTermin } from './bau/verpasst-am-termin.ts'
 import { verspaetungsMeldungen } from './lib/news-verspaetung.ts'
 import { expandEvents } from '../shared/logic.ts'
 import { verpasstAnVorhandenes } from '../shared/luecken.ts'
+import { neuerVermerk } from './lib/vermerk-neu.ts'
 import { ohneGemeldeteAusfaelle } from '../worker/src/mail-abschnitte.ts'
 
 let verletzt = 0
@@ -117,6 +118,12 @@ console.log('\nEin geschätzter Plan bleibt „erwartet“, auch mit Vermerk')
   const vorhanden = [{ date: '2026-09-20', episode: 9, estimated: true }] as unknown as ReleaseEvent[]
   verpasstAnVorhandenes(vorhanden, '2026-09-20', 9, { erwartetAm: '2026-09-20T08:30:00.000Z' })
   pruefe('Vermerk an vorhandener Folge: estimated bleibt stehen', vorhanden[0]!.estimated === true && Boolean(vorhanden[0]!.verpasst), vorhanden[0])
+  /* Ein geschätzter Ausfalltag trägt jetzt estimated; die Verschiebe-Schleife darf ihn nicht als Fortschreibung anfassen. */
+  const zwei = { slug: 'x', titleId: 1, name: 'X', platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-07-26', time: '10:30', estimated: true, episodeCount: 10, observed: { 7: '2026-09-06' }, verpasst: { 8: { erwartetAm: '2026-09-13T08:30:00.000Z' }, 9: { erwartetAm: '2026-09-20T08:30:00.000Z' } } } } as unknown as Release
+  const ausfallTage = expandEvents(zwei).filter((e) => e.verpasst).map((e) => e.date).join()
+  pruefe('Ausfalltage bleiben auf ihrem Tag, auch mit estimated', ausfallTage === '2026-09-13,2026-09-20,2026-09-20', ausfallTage)
+  const stand = { id: 'x@1', releaseSlug: 'x', titleId: 1, name: 'X', platform: 'crunchyroll' }
+  pruefe('neuer Vermerk hält den Plan-Stand fest: geschätzter Termin = tagGeschaetzt true, belegter = false', neuerVermerk({ ...stand, estimated: true }, 3, 'a', 'b', null).tagGeschaetzt === true && neuerVermerk(stand, 3, 'a', 'b', null).tagGeschaetzt === false)
 }
 
 console.log('\nDoppel-Erkennung rechnet in Berlin, nicht in UTC')

@@ -64,6 +64,8 @@ console.log('\nWochenprogramm-Belege: welches Bild zu welchem Termin gehört')
   const liste = [v(), v({ episode: null }), v({ slug: 'unbekannt' }), v({ erwartetAm: '2026-10-21T17:25:00.000Z' }), v({ wocheBeleg: { url: 'x', gesehenAm: 'y', bild: 'bleibt.webp', bildAm: 'z' } })]
   const n = belegeAnhaengen(liste, { a: bel() }, (slug) => (slug === 'tomb-raider-king' ? SERIE : undefined))
   pruefe('Vermerke: nur der ohne Bild, mit Folge und bekannter Serie bekommt es; ein vorhandenes bleibt', n === 1 && liste[0]!.wocheBeleg?.bild === 'a.webp' && !liste[1]!.wocheBeleg && !liste[2]!.wocheBeleg && liste[4]!.wocheBeleg?.bild === 'bleibt.webp' && !liste[3]!.wocheBeleg, liste)
+  const zu = [v({ erschienenAm: '2026-10-20T17:25:00.000Z' })]
+  pruefe('ein geschlossener Vermerk bekommt kein Bild mehr (seine Meldung ist geschrieben)', belegeAnhaengen(zu, { a: bel() }, () => SERIE) === 0 && !zu[0]!.wocheBeleg, zu[0])
   /* Der Offset folgt dem Datum: vor dem 25.10.2026 gilt +02:00, danach +01:00 — der Vermerk eines Termins um 00:30 muss zur Zeile seines Berliner Tages passen. */
   const winter = [v({ erwartetAm: terminZeitpunkt('2026-10-26', '00:30').toISOString() })]
   pruefe('Wintertermin 00:30 (MEZ) = 23:30 UTC am Vortag; sein Vermerk bekommt das Bild der Zeile vom 26.10.', winter[0]!.erwartetAm === '2026-10-25T23:30:00.000Z' && belegeAnhaengen(winter, { a: bel({ datum: '2026-10-26' }) }, () => SERIE) === 1, winter[0])

@@ -570,7 +570,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
    * rückt einen Sendeplatz weiter. Angefasst wird nur Fortgeschriebenes;
    * Beobachtetes und Ausfallvermerke bleiben, wo sie sind.
    */
-  for (const ev of events.filter((e) => e.estimated).sort((a, b) => (a.episode ?? 0) - (b.episode ?? 0))) {
+  for (const ev of events.filter((e) => e.estimated && !e.verpasst).sort((a, b) => (a.episode ?? 0) - (b.episode ?? 0))) {
     let schutz = 0
     while (
       schutz++ < 60 &&
