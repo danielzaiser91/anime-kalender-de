@@ -1,6 +1,6 @@
 name: Kette einrichten
 description: >
-  Gemeinsamer Anfang der Teiljobs der PR-Prüfkette: Node, Abhängigkeiten (node_modules aus dem Cache, wenn package-lock.json gleich blieb),
+  Gemeinsamer Anfang der Teiljobs der PR-Prüfkette: Node, Abhängigkeiten (node_modules aus dem Cache, wenn package.json und package-lock.json gleich blieben),
   Chromium (Browser-Cache). Steht an einer Stelle, damit die Teiljobs sich nicht auseinanderentwickeln (16.10.2026).
 inputs:
   playwright:
@@ -14,13 +14,13 @@ runs:
         node-version: 22
         cache: npm
 
-    # Treffer: node_modules samt .bin-Verknüpfungen kommt fertig zurück, `npm ci` entfällt. Schlüssel = Lockdatei, Node-Hauptversion, Betriebssystem.
+    # Treffer: node_modules samt .bin-Verknüpfungen kommt fertig zurück, `npm ci` entfällt. Schlüssel = package.json und Lockdatei (sonst entfiele bei Treffer der Abgleich von `npm ci`), Node-Hauptversion, Betriebssystem.
     - name: node_modules aus dem Cache
       id: nm
       uses: actions/cache@v4
       with:
         path: node_modules
-        key: nm-${{ runner.os }}-node22-${{ hashFiles('package-lock.json') }}
+        key: nm-${{ runner.os }}-node22-${{ hashFiles('package.json', 'package-lock.json') }}
 
     - name: Abhängigkeiten installieren
       if: steps.nm.outputs.cache-hit != 'true'
