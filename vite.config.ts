@@ -7,6 +7,7 @@ import { datenKennung } from './tools/daten-kennung.ts'
 import { vorladeSkript } from './tools/vite-vorladen.ts'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { quellBaum } from './tools/quell-baum.ts'
 
 import { cloudflare } from "@cloudflare/vite-plugin";
 
@@ -47,7 +48,7 @@ function versionDatei() {
       ziel = resolve(c.root, c.build.outDir, 'version.json')
     },
     closeBundle() {
-      writeFileSync(ziel, JSON.stringify({ v: appVersion, daten: buildId }))
+      writeFileSync(ziel, JSON.stringify({ v: appVersion, daten: buildId, baum: quellBaum() }))
     },
   }
 }

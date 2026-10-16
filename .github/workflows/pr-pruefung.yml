@@ -49,12 +49,20 @@ jobs:
       - name: Bauen
         env:
           PAGES_BASE: /
+          VITE_NEWSLETTER_API: ${{ vars.NEWSLETTER_API_URL }}
         run: npm run build
       # `check:install` rendert mit Chromium und liest das gebaute `dist/`.
       - name: Installationszustände
         env:
           PAGES_BASE: /
         run: npm run check:install
+      # Der Deploy nach dem Merge liefert diesen geprüften Bau aus, wenn der Git-Baum des Merge-Commits dem hier gebauten gleicht
+      # (`dist/version.json` trägt ihn; tools/deploy-aus-build.mjs). Letzter Schritt: nur ein Bau, der `check:install` bestand.
+      - name: Bau für den Deploy bereithalten
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+          retention-days: 3
 
   workflows:
     name: Kette – Workflows
@@ -98,6 +106,8 @@ jobs:
       - run: npm run check:beleg-wand
       - run: npm run check:beleg-reihenfolge
       - run: npm run check:woche-bild
+      - run: npm run check:pfade
+      - run: npm run check:search
 
   # Sammeljob: der Name `PR-Prüfkette` ist der Pflicht-Check im Ruleset. `always()` ist Pflicht: ohne es würde ein roter Teiljob
   # diesen Job überspringen, und übersprungen zählt als bestanden. Hier zählt nur `success`.

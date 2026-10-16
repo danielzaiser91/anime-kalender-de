@@ -53,7 +53,65 @@ jobs:
   # **Zwei Wege zum Deploy** (Daniel, 08.10.2026): Der Bau und die Prüfungen laufen nebeneinander. **Hart** (Standard): Deployt wird erst, wenn beides grün ist.
   # **Schlank** (`[schlank]` in der Commit-Nachricht, gesetzt von `bash tools/pushen.sh --schlank`): Für kleine Änderungen, die lokal vollständig geprüft sind. Deployt wird
   # gleich nach dem Bau; die Prüfungen laufen weiter und melden sich rot, wenn doch etwas nicht stimmt.
+  # **Deploy aus dem geprüften Build** (16.10.2026): Hat die PR-Prüfkette genau diesen Quelltext schon gebaut und geprüft, wird ihr Artefakt ausgeliefert
+  # (Beweis und Rückfälle: tools/deploy-aus-build.mjs, Baum in version.json). Dann entfallen `build` und `pruefen`; ohne Treffer läuft alles wie bisher.
+  herkunft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+    env:
+      LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
+      LAUF_ZIEL: "Prüfkette grün, neuer Stand auf GitHub Pages"
+      LAUF_SCHRITTE: '6'
+    outputs:
+      treffer: ${{ steps.hochladen.outcome == 'success' && '1' || '' }}
+    if: >-
+      (github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success') &&
+      !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          filter: blob:none
+          sparse-checkout: tools
+
+      - name: Melder bereitlegen
+        run: |
+          cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
+          echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
+
+      - name: Lauf anmelden
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" laeuft
+
+      # `[schlank]` baut weiter selbst (Weg ohne Prüfkette). Jeder Fehler hier heißt nur „kein Treffer“.
+      - name: Geprüften Bau der PR-Prüfkette holen
+        id: holen
+        if: ${{ !contains(github.event.head_commit.message, '[schlank]') }}
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node tools/deploy-aus-build.mjs "$RUNNER_TEMP/artifact.tar"
+
+      - name: Artefakt für die Veröffentlichung hochladen
+        id: hochladen
+        continue-on-error: true
+        if: ${{ steps.holen.outputs.treffer == '1' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-pages
+          path: ${{ runner.temp }}/artifact.tar
+          retention-days: 1
+          if-no-files-found: error
+
   build:
+    needs: herkunft
     runs-on: ubuntu-latest
     # Zweck und Ziel gehen an die Statusanzeige mit. Ohne sie steht dort nur
     # der Workflow-Name, und der sagt bei drei Auftrags-Läufen dreimal
@@ -70,7 +128,8 @@ jobs:
     if: >-
       (github.event_name != 'workflow_run' ||
       github.event.workflow_run.conclusion == 'success') &&
-      !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]')
+      !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]') &&
+      needs.herkunft.outputs.treffer != '1'
     steps:
       # Sofort anmelden, noch vor allem anderen.
       #
@@ -171,6 +230,7 @@ jobs:
         run: bash "$MELDER" schritt "Artefakt hochgeladen"
 
   pruefen:
+    needs: herkunft
     runs-on: ubuntu-latest
     env:
       LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
@@ -179,7 +239,8 @@ jobs:
     if: >-
       (github.event_name != 'workflow_run' ||
       github.event.workflow_run.conclusion == 'success') &&
-      !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]')
+      !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]') &&
+      needs.herkunft.outputs.treffer != '1'
     steps:
       - uses: actions/checkout@v4
 
@@ -308,9 +369,15 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Hooks-Regeln geprüft"
 
+  # Treffer: Das Artefakt der PR-Prüfkette liegt (Job `herkunft`), `build` und `pruefen` sind übersprungen. Sonst wie bisher: beide grün.
+  # `!cancelled()` ist nötig, weil übersprungene Needs den Job sonst mitüberspringen.
   deploy_hart:
-    needs: [build, pruefen]
-    if: ${{ !contains(github.event.head_commit.message, '[schlank]') }}
+    needs: [herkunft, build, pruefen]
+    if: >-
+      ${{ !cancelled() && needs.herkunft.result == 'success' &&
+      !contains(github.event.head_commit.message, '[schlank]') &&
+      (needs.herkunft.outputs.treffer == '1' ||
+      (needs.build.result == 'success' && needs.pruefen.result == 'success')) }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -332,8 +399,8 @@ jobs:
 
   # Abmeldung und Aufräumen am Ende, nach allen Jobs: Sie brauchen das Meldeskript (Auscheckvorgang) und den Gesamtstand.
   abschluss:
-    needs: [build, pruefen, deploy_hart, deploy_schlank]
-    if: always() && needs.build.result != 'skipped'
+    needs: [herkunft, build, pruefen, deploy_hart, deploy_schlank]
+    if: always() && needs.herkunft.result != 'skipped'
     # Der Job hält die Gruppe `pages`; ein hängender Checkout hielt sie am 16.10.2026 sechs Minuten (normal unter einer).
     timeout-minutes: 3
     runs-on: ubuntu-latest

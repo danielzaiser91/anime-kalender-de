@@ -57,7 +57,12 @@ const WORKFLOW_SCHLUESSEL = ['name', 'on', 'permissions', 'concurrency', 'jobs']
 const JOB_SCHLUESSEL = ['name', 'if', 'runs-on', 'timeout-minutes', 'steps']
 const SAMMEL_JOB_SCHLUESSEL = [...JOB_SCHLUESSEL, 'needs']
 const SCHRITT_SCHLUESSEL = ['name', 'uses', 'with', 'run', 'env']
-const ERLAUBTE_ACTIONS = ['actions/checkout@v4', './.github/actions/kette-einrichten']
+const UPLOAD = 'actions/upload-pages-artifact@v3'
+const ERLAUBTE_ACTIONS = ['actions/checkout@v4', './.github/actions/kette-einrichten', UPLOAD]
+/** Einziger Schritt mit Ausgabe: der Bau für den Deploy (`tools/deploy-aus-build.mjs`), fest in Form, nur als letzter Schritt, nur mit dem Pflicht-Env. */
+const BAU_JOB = 'bau'
+const UPLOAD_WITH = { path: 'dist', 'retention-days': 3 }
+const BAU_ENV = { PAGES_BASE: '/', VITE_NEWSLETTER_API: '${{ vars.NEWSLETTER_API_URL }}' }
 
 /** Unerlaubte Schlüssel eines Objekts (Whitelist statt Verbotsliste: neue Schalter fallen von selbst auf). */
 function fremdeSchluessel(objekt, erlaubt) {
@@ -114,7 +119,11 @@ function pruefeTeiljobSchritt(id, s, vorCommit) {
   if (name !== null && name !== 'check:vor-commit' && !vorCommit.includes(name)) {
     fehler.push(`Teiljob "${id}": run "${name}" gehört nicht zu check:vor-commit (kein fremdes Skript vor der Prüfung)`)
   }
-  if (s.env !== undefined && JSON.stringify(s.env) !== JSON.stringify({ PAGES_BASE: '/' })) fehler.push(`Teiljob "${id}": env am Schritt nur PAGES_BASE: / erlaubt`)
+  const envErlaubt = [{ PAGES_BASE: '/' }, BAU_ENV].some((e) => JSON.stringify(s.env) === JSON.stringify(e))
+  if (JSON.stringify(s.env) === JSON.stringify(BAU_ENV) && id !== BAU_JOB) fehler.push(`Teiljob "${id}": das Env des Baus (VITE_NEWSLETTER_API) nur im Job "${BAU_JOB}"`)
+  if (s.uses === UPLOAD && id !== BAU_JOB) fehler.push(`Teiljob "${id}": ${UPLOAD} nur im Job "${BAU_JOB}"`)
+  if (s.env !== undefined && !envErlaubt) fehler.push(`Teiljob "${id}": env am Schritt nur PAGES_BASE: / (beim Bau zusätzlich VITE_NEWSLETTER_API) erlaubt`)
+  if (s.uses === UPLOAD && JSON.stringify(s.with) !== JSON.stringify(UPLOAD_WITH)) fehler.push(`Teiljob "${id}": ${UPLOAD} nur mit with ${JSON.stringify(UPLOAD_WITH)}`)
   return fehler
 }
 
@@ -128,6 +137,8 @@ function pruefeAuflagen(doc, jobs, sammlerId, vorCommit) {
     if (job.if !== standard) fehler.push(`Teiljob "${id}": if ist nicht textgleich "${standard}"`)
     for (const s of job.steps ?? []) fehler.push(...pruefeTeiljobSchritt(id, s, vorCommit))
     fehler.push(...pruefeSchrittfolge(id, job.steps ?? []))
+    const hochladen = (job.steps ?? []).findIndex((s) => s.uses === UPLOAD)
+    if (hochladen >= 0 && hochladen !== (job.steps ?? []).length - 1) fehler.push(`Teiljob "${id}": ${UPLOAD} nur als letzter Schritt`)
   }
   return fehler
 }
