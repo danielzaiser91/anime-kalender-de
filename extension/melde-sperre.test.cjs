@@ -56,30 +56,38 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
   const { k, uhr } = weltNeu()
   const S = k.AK_MELDE_SPERRE
   const knopf = knopfNeu()
-  pruefe('ohne Meldung: frei', S.anwenden(knopf, 'a|true', uhr.t, true) === 'frei' && !knopf.disabled)
-  S.sperren(knopf, 'a|true', uhr.t)
+  const m = new Map()
+  pruefe('ohne Meldung: frei', S.anwenden(knopf, m, 'a|true', uhr.t, true) === 'frei' && !knopf.disabled)
+  S.sperren(m, 'a|true', uhr.t)
   pruefe('nach der Meldung: gesperrt, disabled und aria-disabled, Beschriftung „gemeldet ✓"',
-    S.anwenden(knopf, 'a|true', uhr.t, true) === 'gesperrt' &&
+    S.anwenden(knopf, m, 'a|true', uhr.t, true) === 'gesperrt' &&
       knopf.disabled &&
       knopf.getAttribute('aria-disabled') === 'true' &&
       knopf.textContent === 'gemeldet ✓',
     { disabled: knopf.disabled, aria: knopf.getAttribute('aria-disabled'), text: knopf.textContent })
-  pruefe('anderer Befund (andere Seite oder anderes Tonurteil): frei und die Sperre ist gelöscht',
-    S.anwenden(knopf, 'b|true', uhr.t, true) === 'frei' &&
-      knopf.getAttribute('aria-disabled') === null &&
-      knopf.dataset.gemeldetBefund === undefined,
+  pruefe('anderer Befund (andere Seite oder anderes Tonurteil): frei',
+    S.anwenden(knopf, m, 'b|true', uhr.t, true) === 'frei',
   )
-  S.sperren(knopf, 'a|false', uhr.t)
-  pruefe('Tonurteil gekippt (Deutsch → nicht): frei', S.zustand(knopf, 'a|true', uhr.t, true) === 'frei')
+  pruefe('… aber a|true bleibt gemerkt: A → B → A ist wieder gesperrt',
+    m.has('a|true') && S.anwenden(knopf, m, 'a|true', uhr.t, true) === 'gesperrt' && knopf.disabled)
+  const m2 = new Map()
+  S.sperren(m2, 'a|false', uhr.t)
+  pruefe('Tonurteil gekippt (nicht → Deutsch): frei', S.zustand(m2, 'a|true', uhr.t, true) === 'frei')
+  S.sperren(m2, 'a|true', uhr.t)
+  pruefe('mehrere Befunde zugleich gemerkt, Frist je Befund (ältester abgelaufen, jüngster nicht)',
+    S.zustand(m2, 'a|false', uhr.t + S.FRIST_MS + 1000, false) === 'abgelaufen' &&
+      S.zustand(m2, 'a|true', uhr.t + S.FRIST_MS - 1000, false) === 'gesperrt')
+  S.anwenden(knopf, m2, 'a|false', uhr.t + S.FRIST_MS + 1000, false)
+  pruefe('abgelaufen: der Befund wird vergessen, der andere bleibt', !m2.has('a|false') && m2.has('a|true'))
 
   /* Änderung wird spätestens nach FRIST_MS sichtbar: kam die Meldung nicht an, geht der Knopf wieder auf. */
-  S.sperren(knopf, 'c|true', uhr.t)
+  S.sperren(m, 'c|true', uhr.t)
   pruefe('nicht angekommen, vor der Frist: gesperrt (Briefkasten ist bis zu einer Minute alt)',
-    S.zustand(knopf, 'c|true', uhr.t + S.FRIST_MS - 1000, false) === 'gesperrt')
+    S.zustand(m, 'c|true', uhr.t + S.FRIST_MS - 1000, false) === 'gesperrt')
   pruefe('nicht angekommen, nach der Frist: abgelaufen (erneut melden erlaubt)',
-    S.zustand(knopf, 'c|true', uhr.t + S.FRIST_MS + 1000, false) === 'abgelaufen')
+    S.zustand(m, 'c|true', uhr.t + S.FRIST_MS + 1000, false) === 'abgelaufen')
   pruefe('angekommen: bleibt gesperrt, egal wie spät',
-    S.zustand(knopf, 'c|true', uhr.t + 10 * S.FRIST_MS, true) === 'gesperrt')
+    S.zustand(m, 'c|true', uhr.t + 10 * S.FRIST_MS, true) === 'gesperrt')
 
   const klick = () => {}
   S.setzeKlick(knopf, klick)
@@ -194,12 +202,87 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
   k.zeichnen()
   pruefe('nicht angekommen, nach 150 s: Knopf wieder frei (Frist)', !knopf.disabled && k.letzterStand === '')
 
+  /* Hin und zurück (A → B → A): jeder schon gemeldete Befund bleibt gesperrt, der neue bleibt meldbar. */
+  zustand.angekommen = true
+  zustand.deutsch = true
+  zustand.staffel = '1'
+  const meldeUndZeichne = () => {
+    const vorher = meldungen
+    klick()
+    k.zeichnen()
+    return meldungen - vorher
+  }
+  zustand.pfad = '/hinzurueck/S1'
+  k.zeichnen()
+  pruefe('A → B → A (Adressen): S1 meldet einmal', meldeUndZeichne() === 1 && knopf.disabled)
+  zustand.pfad = '/hinzurueck/S2'
+  k.zeichnen()
+  pruefe('… S2 ist nach dem Wechsel meldbar (kein Falsch-Negativ)', !knopf.disabled)
+  pruefe('… und meldet einmal', meldeUndZeichne() === 1 && knopf.disabled)
+  zustand.pfad = '/hinzurueck/S1'
+  k.zeichnen()
+  pruefe('… zurück auf S1: gesperrt', knopf.disabled && knopf.getAttribute('aria-disabled') === 'true')
+  pruefe('… zweiter Klick auf S1 meldet nichts', meldeUndZeichne() === 0)
+  zustand.pfad = '/hinzurueck/S2'
+  k.zeichnen()
+  pruefe('… wieder auf S2: ebenfalls gesperrt, Klick meldet nichts', knopf.disabled && meldeUndZeichne() === 0)
+
+  zustand.pfad = '/hinzurueck/gleiche-adresse'
+  zustand.staffel = '1'
+  k.zeichnen()
+  pruefe('A → B → A (Staffelnummer, gleiche Adresse): Staffel 1 meldet einmal', meldeUndZeichne() === 1)
+  zustand.staffel = '2'
+  k.zeichnen()
+  pruefe('… Staffel 2 meldbar und meldet einmal', !knopf.disabled && meldeUndZeichne() === 1)
+  zustand.staffel = '1'
+  k.zeichnen()
+  pruefe('… zurück auf Staffel 1: gesperrt, Klick meldet nichts', knopf.disabled && meldeUndZeichne() === 0)
+
+  zustand.pfad = '/hinzurueck/ton'
+  zustand.staffel = '1'
+  zustand.deutsch = true
+  k.zeichnen()
+  pruefe('A → B → A (Tonurteil): Deutsch meldet einmal', meldeUndZeichne() === 1)
+  zustand.deutsch = false
+  k.zeichnen()
+  pruefe('… Tonurteil „nein" ist ein neuer Befund: meldbar, meldet einmal', !knopf.disabled && meldeUndZeichne() === 1)
+  zustand.deutsch = true
+  k.zeichnen()
+  pruefe('… zurück auf Deutsch: gesperrt, Klick meldet nichts', knopf.disabled && meldeUndZeichne() === 0)
+  /* Ein Tonurteil, das nur kurz kippt (leerer Schnappschuss), ohne dass dort gemeldet wurde. */
+  zustand.pfad = '/hinzurueck/ton-kurz'
+  k.zeichnen()
+  pruefe('Tonurteil kippt kurz, ohne Meldung: Deutsch meldet einmal', meldeUndZeichne() === 1)
+  zustand.deutsch = false
+  k.zeichnen()
+  zustand.deutsch = true
+  k.zeichnen()
+  pruefe('… nach dem Zurückkippen weiter gesperrt', knopf.disabled && meldeUndZeichne() === 0)
+
+  /* Frist abgelaufen, noch kein Takt dazwischen: der Klick selbst darf schon melden (kam nicht an). */
+  zustand.pfad = '/hinzurueck/frist'
+  zustand.angekommen = false
+  k.zeichnen()
+  pruefe('nicht angekommen: erste Meldung', meldeUndZeichne() === 1)
+  uhr.t += 150_000
+  pruefe('… nach der Frist meldet schon der Klick, ohne Takt dazwischen', (() => {
+    const vorher = meldungen
+    klick()
+    return meldungen - vorher
+  })() === 1)
+
   /* Die zwei Stellen im Handler selbst: Registrierung und Vermerk nach Erfolg. */
   pruefe('der Klick-Handler ist mit der Sperre umhüllt', /knopf\.addEventListener\('click', meldeSperre\.mitSperre\(async \(\) => \{/.test(quelle))
   const erfolg = quelle.indexOf('        if (eintrag.ausSuche && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()')
   const vermerk = quelle.indexOf('        meldeSperre.vermerken()')
   const fehlerzweig = quelle.indexOf("knopf.textContent = `Nicht erreichbar: ${err.message}`")
   pruefe('der Vermerk steht im Erfolgszweig (nach dem Abhaken, vor dem Fehlerzweig)', erfolg > 0 && vermerk > erfolg && vermerk < fehlerzweig, { erfolg, vermerk, fehlerzweig })
+  /* Zwischen dem Abhaken und dem Vermerk darf nur Kommentar stehen: keine Steuerzeile (`if (false)`, `return`), die ihn überspringt. */
+  const zwischen = quelle.slice(erfolg + '        if (eintrag.ausSuche && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()'.length, vermerk)
+  pruefe('zwischen Abhaken und Vermerk steht nur Kommentar, nichts, was den Vermerk überspringt',
+    erfolg > 0 && vermerk > erfolg && zwischen.replace(/\/\*[\s\S]*?\*\//g, '').trim() === '', zwischen)
+  /* Die Marke „alles durch" (`gemeldetMarke(an, …)`) hängt an `durchFuerPfad`, nicht an einer Konstanten. */
+  pruefe('die Marke „alles durch" folgt dem Pfad-Merker', /const an = durchFuerPfad === location\.pathname\s+const wegweisung/.test(quelle))
   pruefe('genau ein Vermerk und kein zweiter Weg zur Marke', (quelle.match(/meldeSperre\.vermerken\(\)/g) ?? []).length === 1)
   pruefe('zeichnen() läuft über die Sperre', /function zeichnen\(\) \{\s*meldeSperre\.zeichnen\(\)\s*\}/.test(quelle))
 }

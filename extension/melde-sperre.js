@@ -4,7 +4,8 @@
   Anlass (Daniel, 16.10.2026, Prime, Arifureta): Der Knopf stand auf „gemeldet ✓" und ließ sich erneut
   klicken, Staffel 1 (Deutsch) wie Staffel 2 (nicht mehr verfügbar). Jede Doppelmeldung kostet
   D1-Schreibzeilen. Eine Sperre aus „Beschriftung + Zustand" hält nicht, weil ein Takt den Knopf
-  neu beschriftet; hier hängt sie am Befund (Seite + Tonurteil) und wird nach jedem Zeichnen angelegt.
+  neu beschriftet; hier hängt sie am Befund (Seite + Staffel + Tonurteil) und wird nach jedem Zeichnen angelegt.
+  Alle gemeldeten Befunde der Seite bleiben gemerkt (Menge, Frist je Befund): S1 → S2 → S1 öffnet nicht wieder.
 
   - `setzeKlick`: Anbieter, die den Knopf je Zustand neu setzen (ADN, Disney+) — kein Klick = gesperrt.
   - `sperren` / `anwenden`: Prime, dessen Takt den Knopf aus vielen Zweigen beschriftet.
@@ -22,31 +23,27 @@ globalThis.AK_MELDE_SPERRE = (() => {
   }
 
   /** Nach erfolgreicher Antwort aufrufen: `befund` nennt, wofür gemeldet wurde. */
-  function sperren(knopf, befund, jetzt) {
-    knopf.dataset.gemeldetBefund = befund
-    knopf.dataset.gemeldetAm = String(jetzt)
+  function sperren(gemeldet, befund, jetzt) {
+    gemeldet.set(befund, jetzt)
   }
 
-  /** 'gesperrt' | 'frei' | 'abgelaufen' (Meldung kam nicht an und die Frist ist um). */
-  function zustand(knopf, befund, jetzt, angekommen) {
-    if (knopf.dataset.gemeldetBefund !== befund) return 'frei'
-    if (angekommen || jetzt - Number(knopf.dataset.gemeldetAm) < FRIST_MS) return 'gesperrt'
+  /** 'gesperrt' | 'frei' | 'abgelaufen' (Meldung kam nicht an und die Frist ist um) — je Befund, auch bei A → B → A. */
+  function zustand(gemeldet, befund, jetzt, angekommen) {
+    if (!gemeldet.has(befund)) return 'frei'
+    if (angekommen || jetzt - gemeldet.get(befund) < FRIST_MS) return 'gesperrt'
     return 'abgelaufen'
   }
 
   /** Nach jedem Zeichnen: legt die Sperre an (oder hebt sie auf) und nennt den Zustand. */
-  function anwenden(knopf, befund, jetzt, angekommen) {
-    const z = zustand(knopf, befund, jetzt, angekommen)
+  function anwenden(knopf, gemeldet, befund, jetzt, angekommen) {
+    const z = zustand(gemeldet, befund, jetzt, angekommen)
     if (z === 'gesperrt') {
       knopf.disabled = true
       knopf.setAttribute('aria-disabled', 'true')
       if (knopf.textContent !== TEXT) knopf.textContent = TEXT
       return z
     }
-    if (knopf.dataset.gemeldetBefund === undefined) return z
-    delete knopf.dataset.gemeldetBefund
-    delete knopf.dataset.gemeldetAm
-    knopf.removeAttribute('aria-disabled')
+    if (z === 'abgelaufen') gemeldet.delete(befund)
     return z
   }
 
@@ -57,13 +54,17 @@ globalThis.AK_MELDE_SPERRE = (() => {
    */
   function fuer(knopf, { befund, angekommen, zeichneRoh, standVergessen }) {
     let gesperrt = false
-    const lage = () => zustand(knopf, befund(), Date.now(), angekommen())
+    const gemeldet = new Map()
+    const lage = () => zustand(gemeldet, befund(), Date.now(), angekommen())
     return {
-      vermerken: () => sperren(knopf, befund(), Date.now()),
+      vermerken: () => sperren(gemeldet, befund(), Date.now()),
       zeichnen() {
-        if (gesperrt && lage() !== 'gesperrt') standVergessen()
+        if (gesperrt && lage() !== 'gesperrt') {
+          standVergessen()
+          knopf.removeAttribute('aria-disabled')
+        }
         zeichneRoh()
-        gesperrt = anwenden(knopf, befund(), Date.now(), angekommen()) === 'gesperrt'
+        gesperrt = anwenden(knopf, gemeldet, befund(), Date.now(), angekommen()) === 'gesperrt'
       },
       /* Ein Klick auf den gesperrten Knopf meldet nichts — auch nicht, wenn er aus dem Code kommt. */
       mitSperre: (tun) => (...args) => (lage() === 'gesperrt' ? undefined : tun(...args)),
