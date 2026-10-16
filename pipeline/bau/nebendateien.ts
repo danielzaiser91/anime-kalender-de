@@ -1,7 +1,8 @@
 import { writeJson, readJson, log, warn } from '../lib/util.ts'
 import { STAND_ZEILE, writeTextStand } from '../lib/stand-halten.ts'
 import { plattformAusAdresse } from '../../shared/adresse-passt.ts'
-import { type CartoonEintrag, type JwAngebotTon, alsTitel, jwTonAnbieter, plattformVon, tonAnbieterNamen } from '../lib/cartoons.ts'
+import { hatAufnahmeBeleg } from '../lib/cartoon-aufnahme.ts'
+import { type CartoonEintrag,type JwAngebotTon, alsTitel, jwTonAnbieter, plattformVon, tonAnbieterNamen } from '../lib/cartoons.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
 import { type PlatformId, type Title, type Release, type Quelle } from '../../shared/types.ts'
 import { OUT, kinoFeld, mitAnkuendigung } from './grundlagen.ts'
@@ -140,7 +141,7 @@ export function schreibeSuchadressen(offen: { id: number; titel: string; plattfo
  */
 export function schreibeCartoons(): void {
   const roh = readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {})
-  const eintraege = Object.values(roh)
+  const eintraege = Object.values(roh).filter(hatAufnahmeBeleg)
   if (!eintraege.length) {
     warn('Keine data/cartoons.json — cartoons.json bleibt auf dem letzten Stand. Holen mit "npm run data:cartoons".')
     return

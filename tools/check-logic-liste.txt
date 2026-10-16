@@ -38,6 +38,7 @@ pipeline/check-beleg-stoerung.ts
 pipeline/check-belegstaerke.ts
 pipeline/check-bild-und-synchro.ts
 pipeline/check-bookworm-dublette.ts
+pipeline/check-cartoon-aufnahme.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
