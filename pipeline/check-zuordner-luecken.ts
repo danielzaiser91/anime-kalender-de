@@ -116,8 +116,8 @@ pruefe('ein Titel, der mit E anfängt, bleibt', folgenKern('Eden of the East') !
   pruefe('ohne Treffer nennt das Protokoll den ersten Anker', keinTreffer.quelle === 'aniSearch', keinTreffer.quelle)
   const enBd = ausAnisearch([{ nr: 1, de: 'Deutsch', en: 'English Title BD' }])
   pruefe('„ BD“ am englischen Titel wird in der zweiten Schreibweise entfernt', englischeSchreibweisen([{ nr: 1, de: 'Deutsch', en: 'English Title BD' }])[0]!.titel === 'English Title' && enBd.length === 1)
-  const knapp: Record<number, AsFolgeRoh[]> = { 1: s2.slice(0, 5), 2: [], 3: [] }
-  pruefe('höchstens die Hälfte genügt nicht', probeGeschwister(gelesen, gemeldet, alle, (t) => sammleAnker(knapp[t.id], undefined, t).listen, keine) === null)
+  const knapp: Record<number, AsFolgeRoh[]> = { 1: s2.slice(0, 6), 2: [], 3: [] }
+  pruefe('genau die Hälfte (6 von 12) genügt nicht', probeGeschwister(gelesen, gemeldet, alle, (t) => sammleAnker(knapp[t.id], undefined, t).listen, keine) === null)
 }
 
 /* Gegenbeispiel 1: Prime gibt allen Folgen eines Kauftitels dasselbe Datum („My First Girlfriend Is a Gal“) */
@@ -132,6 +132,8 @@ pruefe('ein Titel, der mit E anfängt, bleibt', folgenKern('Eden of the East') !
   const listen = (t: T) => sammleAnker(undefined, { folgen: anker[t.id]! }, t).listen
   const eigen = ordneUeberAnker(gal, listen(s2))
   pruefe('gleiches Datum für alle Folgen belegt keine', treffer(eigen.paare) === 0, String(treffer(eigen.paare)))
+  const zweiGleich: AnbieterFolge[] = [1, 2].map((n) => ({ nummer: n, titel: `Kauftitel-Name ${n}`, datum: '2017-07-01', minuten: 24 }))
+  pruefe('schon zwei Zeilen mit demselben Datum belegen keine', treffer(ordneUeberAnker(zweiGleich, listen(s2)).paare) === 0)
   pruefe('gleiches Datum: keine Probe auf Staffel 2', probeGeschwister(gal, s3, [s2, s3], listen, () => false) === null)
   /* Dieselbe Zeile zwölfmal auf Folge 1 ist ein Ziel, kein Dutzend: gezählt werden verschiedene Folgen. */
   const doppelt: AnbieterFolge[] = [1, 1, 1, 2, 50].map((e, i) => ({ nummer: i + 1, titel: `Zweite ${e} qqqq`, datum: null, minuten: 24 }))

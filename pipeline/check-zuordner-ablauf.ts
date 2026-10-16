@@ -1,7 +1,8 @@
 /**
  * Verdrahtung und Reihenfolge der Geschwister-Probe im echten Ablauf von `fetch-rohfolgen.ts` — dieselbe Kulisse wie
  * `check-rohfolgen-ablauf.ts` (`AK_ROOT`, Attrappe `tools/rohfolgen-ablauf-mock.mjs`). Eine Reihe mit drei
- * Staffeln; nur Staffel 2 hat die Folgentitel, die die Seite zeigt. Läuft in `check:logic`.
+ * Staffeln, in der nur Staffel 2 die Folgentitel hat, die die Seite zeigt; dazu ein Titel nur mit TMDB-Anker und
+ * eine Reihe mit Kopf für Meldungen ab Staffel 2. Läuft in `check:logic`.
  */
 import { spawnSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
@@ -17,10 +18,13 @@ const mock = pathToFileURL(join(wurzel, 'tools/rohfolgen-ablauf-mock.mjs')).href
 const seite = (k: string) => `https://www.amazon.de/gp/video/detail/KULISSE${k}`
 /** Folgentitel von Staffel 2 (Titel 10); Staffel 3 (11) führt andere, Titel 12 hat gar keine. */
 const S2 = ['Kulissenwald am Morgen', 'Kulissenbrücke im Regen', 'Kulissenturm bei Nacht']
+const TMDB = ['Leinwandsee im Nebel', 'Leinwandberg im Schnee', 'Leinwandtal im Sturm']
+const KOPF = ['Bühnenhaus am Abend', 'Bühnenhof im Licht', 'Bühnendach im Wind']
+const S3 = ['Kulissenhafen im Sturm', 'Kulissenmarkt am Mittag', 'Kulissengarten im Herbst']
 
 let id = 0
-function gruppe(url: string, titelId: number, sprachen: string[][]) {
-  return S2.map((titel, i) => ({
+function gruppe(url: string, titelId: number, sprachen: string[][], folgen = S2, staffel: number | null = null) {
+  return folgen.map((titel, i) => ({
     id: ++id,
     url,
     asin: null,
@@ -32,7 +36,7 @@ function gruppe(url: string, titelId: number, sprachen: string[][]) {
     sprachen: JSON.stringify(sprachen[i % sprachen.length]),
     untertitel: null,
     staffel_text: null,
-    staffel_nr: null,
+    staffel_nr: staffel,
     gemeldet_am: '2026-10-16T10:00:00Z',
     titel_id: titelId,
     plattform: 'primevideo',
@@ -47,11 +51,26 @@ const rohfolgen = [
   ...gruppe(seite('B'), 11, [['Deutsch']]),
   /* Titel 12 ohne jeden Anker: die Probe darf trotzdem ran. */
   ...gruppe(seite('C'), 12, GEMISCHT),
+  /* Titel 20 hat nur TMDB-Folgentitel: die zählen als Anker. */
+  ...gruppe(seite('D'), 20, GEMISCHT, TMDB),
+  /* Prime meldet Staffel 2: der Reihenkopf 30 ist kein Kandidat der Probe, auch wenn seine Folgen passen. */
+  ...gruppe(seite('E'), 31, GEMISCHT, KOPF, 2),
+  /* Dieselbe Meldung mit den Folgen von Staffel 3 (32): Geschwister außer dem Kopf bleiben Kandidaten. */
+  ...gruppe(seite('F'), 31, GEMISCHT, S3, 2),
 ]
 
-const titles = [10, 11, 12].map((t) => ({ id: t, titleDe: `Kulissenreihe ${t}`, franchiseId: 50, episodes: 3 }))
-const asKennung = { 10: { anisearchId: 9010 }, 11: { anisearchId: 9011 } }
+const titles = [
+  ...[10, 11, 12].map((t) => ({ id: t, titleDe: `Kulissenreihe ${t}`, franchiseId: 50, episodes: 3 })),
+  { id: 20, titleDe: 'Kulissen-TMDB', episodes: 3 },
+  { id: 30, titleDe: 'Kulissenkopf', franchiseId: 70, episodes: 3, jpYear: 2010 },
+  { id: 31, titleDe: 'Kulissenkopf Zwei', franchiseId: 70, episodes: 3, jpYear: 2012 },
+  { id: 32, titleDe: 'Kulissenkopf Drei', franchiseId: 70, episodes: 3, jpYear: 2014 },
+]
+const asKennung = { 10: { anisearchId: 9010 }, 11: { anisearchId: 9011 }, 30: { anisearchId: 9030 }, 32: { anisearchId: 9032 } }
+const tmdbFolgen = { 20: { tmdbId: 1, folgen: TMDB.map((titel, i) => ({ s: 1, e: i + 1, titel, datum: null, minuten: 24 })) } }
 const asFolgen = {
+  9030: { folgen: KOPF.map((de, i) => ({ nr: i + 1, de })) },
+  9032: { folgen: S3.map((de, i) => ({ nr: i + 1, de })) },
   9010: { folgen: S2.map((de, i) => ({ nr: i + 1, de })) },
   9011: { folgen: ['Ganz anders eins', 'Ganz anders zwei', 'Ganz anders drei'].map((de, i) => ({ nr: i + 1, de })) },
 }
@@ -65,6 +84,7 @@ schreibe('rohfolgen.json', rohfolgen)
 schreibe('public/data/titles.json', titles)
 schreibe('data/anisearch.json', asKennung)
 schreibe('data/anisearch-folgen.json', asFolgen)
+schreibe('data/tmdb-folgen.json', tmdbFolgen)
 mkdirSync(join(kulisse, 'data'), { recursive: true })
 writeFileSync(join(kulisse, 'data/dub-confirmed.yaml'), '[]\n')
 
@@ -86,6 +106,10 @@ try {
   const b = zugeordnet[seite('B')]
   if (b?.titleId !== 11 || JSON.stringify(b.folgen.map((f) => f.unsere)) !== '[null]') fehler.push(`Kennung schlägt Probe: ist ${JSON.stringify(b)}`)
   if (zugeordnet[seite('C')]?.titleId !== 10) fehler.push(`ohne Anker greift die Probe nicht: ist ${zugeordnet[seite('C')]?.titleId}`)
+  const folgenD = JSON.stringify(zugeordnet[seite('D')]?.folgen.map((f) => f.unsere))
+  if (folgenD !== '[1,2,3]') fehler.push(`TMDB-Anker: erwartet [1,2,3], ist ${folgenD}`)
+  if (zugeordnet[seite('E')]) fehler.push(`Staffel 2 landet auf dem Reihenkopf: ${JSON.stringify(zugeordnet[seite('E')])}`)
+  if (zugeordnet[seite('F')]?.titleId !== 32) fehler.push(`Staffel 2: Geschwister außer dem Kopf, erwartet 32, ist ${zugeordnet[seite('F')]?.titleId}`)
 } catch (e) {
   fehler.push(`Ergebnis nicht lesbar: ${(e as Error).message}`)
 } finally {
@@ -95,4 +119,4 @@ if (fehler.length) {
   console.error(`FEHL check-zuordner-ablauf: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-zuordner-ablauf: Probe hängt die Seite an die Staffel, deren Folgen sie zeigt; Kennung schlägt Probe; ohne Anker greift sie.')
+console.log('check-zuordner-ablauf: Probe hängt die Seite an die Staffel, deren Folgen sie zeigt; Kennung schlägt Probe; ohne Anker greift sie; TMDB ist Anker; Staffel 2 nie auf den Reihenkopf.')
