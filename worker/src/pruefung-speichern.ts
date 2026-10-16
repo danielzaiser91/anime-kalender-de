@@ -30,7 +30,7 @@ import { rohfolgeFuerMeldung, rohfolgeFuerZeile } from './pruefung-rohfolge-spal
 import { leiteAb } from './pruefung-ableiten.ts'
 import { mitTitelzeilenAuftrag, titelzeileOderNull } from './titelzeile-speichern.ts'
 import { titelzeilenImStapel } from './titelzeile-stapel.ts'
-import { hakeRohfolgenAb } from './rohfolgen-abhaken.ts'
+import { abhakAnweisungen, hakeRohfolgenAb } from './rohfolgen-abhaken.ts'
 import { adressenDerMeldung, verwirfGemeldet } from './pruefung-gemeldet-cache.ts'
 import { pruefeUnveraendert, ladeOffeneHashes, folgeVon, type OffeneHashes } from './pruefung-unveraendert.ts'
 
@@ -60,12 +60,20 @@ export async function speicherePruefung(kontext: Kontext) {
 
 /** Abhaken und Wiederöffnen ändern nur `uebernommen`, das allein der Auszug `offen-*` enthält. */
 async function speichereAuftrag(kontext: Kontext, daten: Record<string, unknown>) {
-  const antwort = await mitTitelzeilenAuftrag(kontext.env, daten, () => speichereDaten(kontext, daten))
   const liste = (v: unknown) => Array.isArray(v) && v.length > 0
-  if (antwort.ok && (liste(daten.uebernommen) || liste(daten.rohfolgenUebernommen) || daten.reoeffnen)) {
-    await exporteVerwerfen(kontext.env, 'offen')
+  const aendert = liste(daten.uebernommen) || liste(daten.rohfolgenUebernommen) || Boolean(daten.reoeffnen)
+  let abgelehnt = false
+  try {
+    const antwort = await mitTitelzeilenAuftrag(kontext.env, daten, () => speichereDaten(kontext, daten))
+    abgelehnt = !antwort.ok
+    return antwort
+  } finally {
+    /*
+      Auch nach einer Ausnahme: Ein Teil kann schon geschrieben sein. Ohne Marke lieferte der Auszug `offen-*` dem
+      nächsten Bau dieselben Ids, und jeder Bau hakte sie erneut ab (16.10.2026: 22.557 Rohfolgen in jedem Bau).
+    */
+    if (aendert && !abgelehnt) await exporteVerwerfen(kontext.env, 'offen')
   }
-  return antwort
 }
 
 /** Eine geparste Meldung — oder ein Auftrag der Pipeline (abhaken, wieder öffnen) — speichern. */
@@ -157,26 +165,10 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
     if (!ids.length) return antwort({ ok: true, markiert: 0 })
 
     /**
-     * In Stapeln, nicht in einem Rutsch.
-     *
-     * D1 begrenzt die gebundenen Werte je Anfrage auf 100. Am 23.08.2026
-     * schickte ein Lauf 107 Kennungen und bekam HTTP 500 zurück — die Meldung
-     * lautete „sie kommen beim nächsten Lauf erneut", und genau das war das
-     * Problem: Was nicht abgehakt wird, wird erneut geholt, erneut
-     * geschrieben und scheitert erneut. Der Briefkasten wächst, bis jeder
-     * Lauf über dieselbe Grenze stolpert.
-     *
-     * 50 je Stapel lässt Luft, falls die Grenze je enger wird.
+     * D1 begrenzt die gebundenen Werte je Anweisung auf 100 (am 23.08.2026 scheiterte ein Lauf mit 107 Kennungen
+     * an HTTP 500): je 50 Ids eine Anweisung, alle in einem `batch`, nur offene Zeilen (Begründung: `rohfolgen-abhaken.ts`).
      */
-    const STAPEL = 50
-    for (let i = 0; i < ids.length; i += STAPEL) {
-      const teil = ids.slice(i, i + STAPEL)
-      await env.DB.prepare(
-        `UPDATE pruefung SET uebernommen = 1 WHERE id IN (${teil.map(() => '?').join(',')})`,
-      )
-        .bind(...teil)
-        .run()
-    }
+    await env.DB.batch(abhakAnweisungen(env, 'pruefung', 'uebernommen', ids))
     return antwort({ ok: true, markiert: ids.length })
   }
 
