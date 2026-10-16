@@ -145,7 +145,7 @@ export function loadDubChecks(): DubCheck[] {
   return [...hand, ...dubChecksAusTerminen(loadCurated(), hand)]
 }
 
-function ladeHandbelege(): DubCheck[] {
+export function ladeHandbelege(): DubCheck[] {
   if (!existsSync(DATEI)) return []
   const raw = yaml.load(readFileSync(DATEI, 'utf8'))
   if (!Array.isArray(raw)) return []

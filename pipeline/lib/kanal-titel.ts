@@ -58,9 +58,12 @@ export function belegOhneGenaueAdresse(liste: DubCheck[], anzahlWege: number, al
   return anzahlWege > 1 ? undefined : liste[0]
 }
 
-/** Die Amazon-Seite, die ein Beleg beschreibt: die gelesene („Amazon-Seite <ASIN>“ in der Notiz), sonst seine Adresse. */
+/** Die Seite, die die Notiz eines Belegs ausdrücklich nennt („Amazon-Seite <ASIN>“). */
+export const notizSeite = (c: Pick<DubCheck, 'note'>): string | undefined => /Amazon-Seite ([A-Za-z0-9]+)/.exec(c.note ?? '')?.[1]
+
+/** Die Amazon-Seite, die ein Beleg beschreibt: die genannte, sonst seine Adresse. */
 export function belegSeitenKern(c: Pick<DubCheck, 'note' | 'url'>): string {
-  const asin = /Amazon-Seite ([A-Za-z0-9]+)/.exec(c.note ?? '')?.[1]
+  const asin = notizSeite(c)
   if (asin) return adressKern(`https://www.amazon.de/dp/${asin}`)
   return adressKern(c.url)
 }

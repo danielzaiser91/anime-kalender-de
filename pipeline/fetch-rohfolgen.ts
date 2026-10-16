@@ -20,6 +20,8 @@ import { resolve } from 'node:path'
 import { log, readJson, ROOT, warn } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { schliesseRohfolgenAb, type Offen } from './lib/rohfolgen-abschluss.ts'
+import { sortiereKanalGruppenAus, type ZugeordneteSeiten } from './lib/kanal-aussortieren.ts'
+import { ladeHandbelege } from './lib/dub-confirmed.ts'
 import { ohneDoppelte } from './lib/rohfolgen-doppelte.ts'
 import {
   animeZugehoerigkeit,
@@ -804,7 +806,12 @@ async function main(): Promise<void> {
     for (const f of liste) erledigt.push(f.id)
   }
 
+  const bearbeitet = new Set(erledigt)
+  const offeneGruppen = [...cartoonLauf.uebrig.values()].filter((liste) => !liste.every((f) => bearbeitet.has(f.id)))
+  const bisherZugeordnet = readJson<ZugeordneteSeiten>('data/prime-zugeordnet.json', {})
+  const kanalWeg = sortiereKanalGruppenAus(offeneGruppen, ladeHandbelege(), bisherZugeordnet)
   await schliesseRohfolgenAb({
+    kanalWeg,
     zugeordnet,
     offen,
     erledigt,

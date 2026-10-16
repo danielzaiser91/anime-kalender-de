@@ -4,6 +4,7 @@
  */
 import { log, readJson, warn, writeJson } from './util.ts'
 import { recordSource } from './health.ts'
+import { verschiebeKanalGruppen, type KanalAussortiert } from './kanal-aussortieren.ts'
 
 /** Ein Fall, der geklärt werden muss, statt geraten zu werden. */
 export interface Offen {
@@ -31,6 +32,7 @@ export interface Zaehler {
 
 export async function schliesseRohfolgenAb({
   zugeordnet,
+  kanalWeg,
   offen,
   erledigt,
   veraltet,
@@ -39,6 +41,8 @@ export async function schliesseRohfolgenAb({
   token: TOKEN,
 }: {
   zugeordnet: Record<string, Zugeordnet>
+  /** Offene Kanal-Gruppen ohne Deutsch (lib/kanal-aussortieren.ts): kommen aus der offenen Liste und werden abgehakt. */
+  kanalWeg: KanalAussortiert[]
   offen: Offen[]
   erledigt: number[]
   veraltet: number[]
@@ -65,6 +69,7 @@ export async function schliesseRohfolgenAb({
     Dasselbe Muster wie beim Filmblock-Abruf, aus demselben Grund: Ein Lauf, der
     nichts findet, darf nicht löschen, was ein früherer gefunden hat.
   */
+  erledigt.push(...verschiebeKanalGruppen(kanalWeg, offen))
   const bisher = readJson<typeof zugeordnet>('data/prime-zugeordnet.json', {})
   writeJson('data/prime-zugeordnet.json', { ...bisher, ...zugeordnet })
   writeJson('data/prime-unzugeordnet.json', offen)

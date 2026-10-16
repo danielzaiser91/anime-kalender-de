@@ -139,6 +139,7 @@ QUELLEN=(
   data/justwatch-handpruefung.json
   daniel-zum-abarbeiten/listen/20-justwatch-handpruefung.md
   data/prime-unzugeordnet.json
+  data/prime-kanal-aussortiert.json
   data/cr-vorschlaege.json
   data/adn-vorschlaege.json
   data/anime-ids.json
