@@ -1331,6 +1331,8 @@ Zweiter Einstieg in dieselbe Vite-App (Konzept: `daniel-zum-abarbeiten/listen/mo
 
 Live nachsehen: `cd worker && npx wrangler tail newsletter --format json --search meldung_abgelehnt`, danach in der Erweiterung die Meldung wiederholen. Ausnahmen, die der Worker nicht selbst fängt (`scriptThrewException`), zeigt `wrangler tail` als Ausnahme-Ereignis; ob die gespeicherten Workers Logs sie bei ausgeschalteten Aufruf-Logs führen, ist nach dem Deploy zu prüfen (nicht belegt).
 
+Vergangene Logs (bis 3 Tage zurück) liest man per API: `POST https://api.cloudflare.com/client/v4/accounts/{account_id}/workers/observability/telemetry/query` mit dem Token „anime-kalender-deploy“, das seit 17.10.2026 00:03 das Recht „Workers Observability Read“ trägt (Wert in `my_secrets.md`, nie in Repo oder Log). So kam am 16.10.2026 die Ursache der 500 bei der Prime-Meldung ans Licht (Abschnitt „D1-Export weist Meldungen ab“).
+
 ## D1-Schreibkontingent: Tagesdeckel, weniger Indexzeilen, Hash statt Wiederholung (11.10.2026)
 
 **Anlass:** Das Gratis-Kontingent von D1 (100.000 geschriebene Zeilen am UTC-Tag, je Konto, Newsletter-Worker und Ticket-Board teilen es) war am 11.10.2026 zwischen 18:00 und 18:39 MESZ durch einen „alle durchgehen"-Lauf (Disney+ 7.104 Folgen, dazu Netflix und Prime) auf rund 150.000 geschriebene Zeilen gestiegen; alle Schreibpfade waren bis 02:00 MESZ gesperrt. Jede Indexzeile zählt als geschriebene Zeile.
@@ -1839,3 +1841,14 @@ Der Deploy nach einem Merge baut nicht neu, wenn die PR-Prüfkette genau diesen 
 ## Wecker-Wache zählt einen roten Start nicht als erledigt (16.10.2026)
 
 Die Wache (`wecker-wache.yml`) wiederholte einen roten Lauf erst nach der vollen Frist (30 h), weil jeder nicht abgebrochene Start zählte. Jetzt entscheidet `tools/wecker-wache-entscheid.mjs`: Ist der neueste Start rot (failure, timed_out, startup_failure; nie cancelled, nie skipped — Abbrüche sind gewollt und zählen als Start), der letzte Erfolg älter als die Frist und der rote Start älter als 6 h, wird einmal nachgeholt; höchstens zwei Starts seit dem letzten Erfolg, danach schweigt die Wache bis zur vollen Frist (kein Dauerfeuer bei dauerhaft rotem Lauf). `meldungskopie.yml` fehlte am 16.10. um 03 UTC, weil ein Handlauf (15.10. 12:00, rot) den Mindestabstand von 20 h sperrte (jetzt 13 h) und der Worker nach PR 1244 vermutlich noch nicht neu ausgeliefert war. **Eine Änderung an `shared/weckplan.ts` wirkt erst nach `cd worker && npx wrangler deploy --config wrangler.toml`.**
+
+## D1-Export weist Meldungen ab: 503 statt 500, Rohfolgen ohne Verlust (17.10.2026)
+
+**Anlass:** Daniels Prime-Meldung „Die Dinos sind los“ (B00LDDJYB4) bekam am 16.10.2026 um 21:38:45 UTC eine 500, im Log `D1_ERROR: Currently processing a long-running export.` Zur selben Zeit zog der Workflow Meldungskopie (`tools/meldungskopie-bauen.mjs`) den D1-Export (Lauf 38970700434, Schritt „Kopie ziehen“ 21:38:41–21:38:53, 12 s für 79.062 Zeilen). Während eines Exports scheitert **jede** D1-Abfrage, auch Lesen.
+
+**Klasse:** alle Worker-Routen mit D1 (Meldungen, Stapel, `/lauf`, `/status`, Aufträge der Pipeline, Newsletter). Der Export läuft täglich um 03 UTC (`shared/weckplan.ts`, `meldungskopie`), dazu von Hand und als Nachholung der Wecker-Wache. Kein Sammler bricht bei 500 ab (alle warnen und laufen weiter oder holen beim nächsten Lauf nach); still verloren gehen nur `tools/lauf-melden.sh` (curl ohne `-f`, `|| true`) und die Vorfall-POSTs in `pipeline/lib/abbruch.ts` und `scrape-crunchyroll-woche.ts`. Deshalb keine Wiederholung in den Sammlern.
+
+**Was jetzt gilt:**
+- `istD1Export()` in `worker/src/d1-limit.ts`; das Auffangnetz (`auffangnetz.ts`) antwortet darauf mit 503, `Retry-After: 30` und „Die Datenbank ist gerade kurz beschäftigt. …“, loggt `d1_export_abgewiesen` statt eines Fehlers. Im Stapel trägt nur die betroffene Meldung 503 (`ausnahmeAls`).
+- **Rohfolgen gingen still verloren:** `speichereDaten` schrieb die Meldungszeile (mit Hash) vor den Rohfolgen; scheiterten diese, galt der nächste Klick als „unveraendert“ und übersprang sie. Jetzt erst Rohfolgen, dann Zeile; `ladeRohfolgen`, `loescheRohfolgen` und der Einfüge-Batch werfen D1-Abweisungen (Export, Tageslimit) weiter statt sie zu schlucken (sonst Dubletten oder alte Zeilen). Test `tools/worker-d1-export.test.ts` stört jeden der 8 D1-Aufrufe einzeln und ab dort; danach ist alles genau einmal da.
+- **Kennung im Protokoll:** Ein Suchauftrag schickt als `url` die Suchadresse `amazon.de/s?k=…`, deren letzter Abschnitt „s“ war. Jetzt zuerst `seiten_kennung`, eine Suchadresse liefert keine Kennung (`kennungDerMeldung`).
