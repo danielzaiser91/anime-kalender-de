@@ -2,10 +2,14 @@
  * Zusicherungen zur Kalender-Plausibilität (`lib/kalender-plausibilitaet.ts`, 16.10.2026): je Regel ein Treffer und ein Nicht-Treffer.
  * Läuft hinter `check:logic`, liest keinen Bestand; die Zahlen am gebauten Bestand prüft `check-kalender-plausibilitaet-bestand.ts`.
  */
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import type { NewsEintrag } from '../shared/news-typen.ts'
 import { kanalSchluessel } from './lib/kanal-titel.ts'
-import { plausibilitaet, type Bestand, type Regel } from './lib/kalender-plausibilitaet.ts'
+import { plausibilitaet, REGELN, type Bestand, type Regel, type Treffer } from './lib/kalender-plausibilitaet.ts'
+import { festschreiben, ueberschreitungen, type Grenzen, type TrefferJeRegel } from './lib/kalender-plausibilitaet-grenzen.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -28,6 +32,7 @@ function treffer(regel: Regel, teil: Partial<Bestand>): number[] {
 }
 
 const gleich = (a: number[], b: number[]) => JSON.stringify(a) === JSON.stringify(b)
+const gleichS = (a: unknown, b: string[]) => JSON.stringify(a) === JSON.stringify(b)
 const urteil = { urteil: 'deutsch', art: 'gemessen' }
 
 console.log('\nKalender-Plausibilität 1: erschienen, aber „Ohne bekannten Termin“')
@@ -121,6 +126,27 @@ console.log('\nKalender-Plausibilität 5: Termin ohne Quelle')
 {
   const ids = treffer('terminOhneBeleg', { titles: [titel(1), titel(2)], releases: [release(1, 'r1', {}, { sources: [] }), release(2, 'r2', {})] })
   pruefe('Termin ohne sources trifft, mit Quelle nicht', gleich(ids, [1]), ids)
+}
+
+console.log('\nKalender-Plausibilität: Wächter „Treffer dürfen nur sinken“ (Kulisse)')
+{
+  const t = (schluessel: string): Treffer => ({ titleId: 1, schluessel, text: schluessel })
+  const leer = () => Object.fromEntries(REGELN.map((r) => [r, [] as Treffer[]])) as TrefferJeRegel
+  const grenzen: Grenzen = { _hinweis: 'x', vorkommen: { terminOhneBeleg: 2 }, bekannt: { terminOhneBeleg: ['a', 'b'] } }
+  const mit = (...s: string[]) => ({ ...leer(), terminOhneBeleg: s.map(t) })
+  const dir = mkdtempSync(join(tmpdir(), 'plausi-'))
+  const datei = join(dir, 'grenzen.json')
+  const vorher = JSON.stringify(grenzen)
+  writeFileSync(datei, vorher)
+
+  pruefe('gleiche Zahl ist grün', !ueberschreitungen(mit('a', 'b'), grenzen).length)
+  const rot = ueberschreitungen(mit('a', 'b', 'c'), grenzen)
+  pruefe('ein Treffer mehr ist rot und nennt nur den neuen Schlüssel', rot.length === 1 && rot[0].includes('c') && !rot[0].includes('a —'), rot)
+  pruefe('Festschreiben bei Anstieg lehnt ab und lässt die Datei unverändert', festschreiben(mit('a', 'b', 'c'), grenzen, datei).length === 1 && readFileSync(datei, 'utf8') === vorher)
+  pruefe('Festschreiben bei Senkung übernimmt Zahl und Schlüssel', festschreiben(mit('a'), grenzen, datei).length === 0)
+  const neu = JSON.parse(readFileSync(datei, 'utf8')) as Grenzen
+  pruefe('die Datei trägt die gesenkte Zahl und den verbliebenen Schlüssel', neu.vorkommen.terminOhneBeleg === 1 && gleichS(neu.bekannt.terminOhneBeleg, ['a']), neu)
+  rmSync(dir, { recursive: true })
 }
 
 if (fehler) {
