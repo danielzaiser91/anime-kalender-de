@@ -21,6 +21,7 @@ const S2 = ['Kulissenwald am Morgen', 'Kulissenbrücke im Regen', 'Kulissenturm 
 const TMDB = ['Leinwandsee im Nebel', 'Leinwandberg im Schnee', 'Leinwandtal im Sturm']
 const KOPF = ['Bühnenhaus am Abend', 'Bühnenhof im Licht', 'Bühnendach im Wind']
 const S3 = ['Kulissenhafen im Sturm', 'Kulissenmarkt am Mittag', 'Kulissengarten im Herbst']
+const FALSCH = ['Falschstaffel am Fluss', 'Falschstaffel im Moor']
 
 let id = 0
 function gruppe(url: string, titelId: number, sprachen: string[][], folgen = S2, staffel: number | null = null) {
@@ -57,6 +58,10 @@ const rohfolgen = [
   ...gruppe(seite('E'), 31, GEMISCHT, KOPF, 2),
   /* Dieselbe Meldung mit den Folgen von Staffel 3 (32): Geschwister außer dem Kopf bleiben Kandidaten. */
   ...gruppe(seite('F'), 31, GEMISCHT, S3, 2),
+  /* Titel 40 hat zwei TMDB-Staffeln; die Seite zeigt die Folgen der falschen (Staffel 2): Anker ist nur Staffel 1. */
+  ...gruppe(seite('G'), 40, GEMISCHT, [...FALSCH, 'Kulissenfremd am Ende']),
+  /* Zwei Zeilen ohne Titel am selben Tag: das Datum belegt keine von beiden. */
+  ...gruppe(seite('H'), 50, GEMISCHT, ['', '']).map((z) => ({ ...z, titel: null, erschienen: '2020-01-01' })),
 ]
 
 const titles = [
@@ -65,9 +70,17 @@ const titles = [
   { id: 30, titleDe: 'Kulissenkopf', franchiseId: 70, episodes: 3, jpYear: 2010 },
   { id: 31, titleDe: 'Kulissenkopf Zwei', franchiseId: 70, episodes: 3, jpYear: 2012 },
   { id: 32, titleDe: 'Kulissenkopf Drei', franchiseId: 70, episodes: 3, jpYear: 2014 },
+  { id: 40, titleDe: 'Kulissen-Zweistaffel', episodes: 3 },
+  { id: 50, titleDe: 'Kulissen-Datum', episodes: 3 },
 ]
 const asKennung = { 10: { anisearchId: 9010 }, 11: { anisearchId: 9011 }, 30: { anisearchId: 9030 }, 32: { anisearchId: 9032 } }
-const tmdbFolgen = { 20: { tmdbId: 1, folgen: TMDB.map((titel, i) => ({ s: 1, e: i + 1, titel, datum: null, minuten: 24 })) } }
+const tmdb = (titel: string[], s: number, datum: (i: number) => string | null = () => null) =>
+  titel.map((t, i) => ({ s, e: i + 1, titel: t, datum: datum(i), minuten: 24 }))
+const tmdbFolgen = {
+  20: { tmdbId: 1, folgen: tmdb(TMDB, 1) },
+  40: { tmdbId: 2, folgen: [...tmdb(KOPF, 1), ...tmdb(FALSCH, 2)] },
+  50: { tmdbId: 3, folgen: tmdb(S3, 1, (i) => `2020-01-0${i + 1}`) },
+}
 const asFolgen = {
   9030: { folgen: KOPF.map((de, i) => ({ nr: i + 1, de })) },
   9032: { folgen: S3.map((de, i) => ({ nr: i + 1, de })) },
@@ -110,6 +123,8 @@ try {
   if (folgenD !== '[1,2,3]') fehler.push(`TMDB-Anker: erwartet [1,2,3], ist ${folgenD}`)
   if (zugeordnet[seite('E')]) fehler.push(`Staffel 2 landet auf dem Reihenkopf: ${JSON.stringify(zugeordnet[seite('E')])}`)
   if (zugeordnet[seite('F')]?.titleId !== 32) fehler.push(`Staffel 2: Geschwister außer dem Kopf, erwartet 32, ist ${zugeordnet[seite('F')]?.titleId}`)
+  if (zugeordnet[seite('G')]) fehler.push(`falsche TMDB-Staffel als Anker: ${JSON.stringify(zugeordnet[seite('G')])}`)
+  if (zugeordnet[seite('H')]) fehler.push(`geteiltes Datum ohne Titel belegt Folgen: ${JSON.stringify(zugeordnet[seite('H')])}`)
 } catch (e) {
   fehler.push(`Ergebnis nicht lesbar: ${(e as Error).message}`)
 } finally {
@@ -119,4 +134,4 @@ if (fehler.length) {
   console.error(`FEHL check-zuordner-ablauf: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-zuordner-ablauf: Probe hängt die Seite an die Staffel, deren Folgen sie zeigt; Kennung schlägt Probe; ohne Anker greift sie; TMDB ist Anker; Staffel 2 nie auf den Reihenkopf.')
+console.log('check-zuordner-ablauf: Probe hängt die Seite an die Staffel, deren Folgen sie zeigt; Kennung schlägt Probe; ohne Anker greift sie; TMDB ist Anker; Staffel 2 nie auf den Reihenkopf; falsche TMDB-Staffel und geteiltes Datum belegen nichts.')
