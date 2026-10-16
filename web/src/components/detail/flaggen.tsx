@@ -46,7 +46,8 @@ function Flagge({ name, wertung, verweis, hinweis }: { name: string; wertung?: s
 /**
  * **Zwei Flaggen an der rechten Bildkante** (Daniel, 12.10.2026): Wertung und Absprung zur Quelle sind eine Flagge, weil die Wertung von
  * dort stammt („aniSearch ★ 8,5 ↗“, bei Cartoons „TMDB ★ 7,2 ↗“); MAL ist die zweite. Ohne Kennung entfällt der Absprung (`verweise.ts`),
- * ohne Wertung steht kein Stern. Direktlinks auf die Titelseite, nie eine Suche.
+ * ohne Wertung steht kein Stern. Direktlinks auf die Titelseite, nie eine Suche. `z-[11]`: der Namensblock darunter (`z-10`) ragt 72 px in das Banner und
+ * risse sonst die untere Flagge an sich (16.10.2026); `panel-messen.mjs` prüft, dass jeder Link an seiner Mitte oben liegt.
  */
 export function Flaggen({ title, ziel, t }: { title: Title; ziel?: string; t: Translate }) {
   const verweise = verweiseFuer(title, ziel)
@@ -57,7 +58,7 @@ export function Flaggen({ title, ziel, t }: { title: Title; ziel?: string; t: Tr
   const quelleHinweis = [quelle?.hinweis, wertung ? t('detail.scoreHint', { quelle: quellenName }) : undefined].filter(Boolean).join(' — ')
   if (!quelle && !wertung && !mal) return null
   return (
-    <div data-flaggen className="absolute bottom-6 right-0 z-[3] flex flex-col items-end gap-1">
+    <div data-flaggen className="absolute bottom-6 right-0 z-[11] flex flex-col items-end gap-1">
       {(quelle || wertung) && <Flagge name={quellenName} wertung={wertung} verweis={quelle} hinweis={quelleHinweis} />}
       {mal && <Flagge name="MAL" verweis={mal} hinweis={mal.hinweis} />}
     </div>
