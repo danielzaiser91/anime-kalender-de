@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-16T15:40:02.714Z",
+  "stand": "2026-10-16T19:16:29.715Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -6540,6 +6540,17 @@
       "titel": "Fruits Basket",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-16",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 105334,
+      "titel": "Fruits Basket",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0G6HF46PV",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
