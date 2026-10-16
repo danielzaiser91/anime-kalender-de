@@ -9,7 +9,8 @@
  */
 import type { Release, StreamLink, Title } from '../shared/types.ts'
 import { sammleBelege } from './bau/09-1-belege.ts'
-import { crJaOhneDeckung } from './lib/cr-ja-deckung.ts'
+import { crBelegKennungen, type BelegQuellen } from './lib/cr-ja-belege.ts'
+import { crJaOhneDeckung, serienkennungenMitNullBlock } from './lib/cr-ja-deckung.ts'
 import type { CrDubData, CrSerie } from './lib/crunchyroll-dub.ts'
 import type { CrunchyrollEntry } from './lib/crunchyroll.ts'
 
@@ -44,10 +45,21 @@ const serie = (staffeln: Array<[number, number]>): CrSerie =>
     deutschImAngebot: true,
     staffeln: staffeln.map(([deutsch, folgen]) => ({ deutsch, folgen })),
   }) as unknown as CrSerie
-const daten = (staffeln: Array<[number, number]>): CrDubData => ({ scrapedAt: '', serien: [serie(staffeln)] }) as unknown as CrDubData
+/** Serien ohne Null-Block vor und hinter der geprüften: Die Auswahl darf weder nur die erste noch nur die letzte Serie ansehen. */
+const nachbar = (n: number): CrSerie =>
+  ({
+    url: `https://www.crunchyroll.com/de/series/GFREMD000${n}/x`,
+    seriesId: `GFREMD000${n}`,
+    katalog: 'de',
+    deutschImAngebot: true,
+    staffeln: [{ deutsch: 12, folgen: 12 }],
+  }) as unknown as CrSerie
+const daten = (staffeln: Array<[number, number]>, nachbarn = false): CrDubData =>
+  ({ scrapedAt: '', serien: nachbarn ? [nachbar(1), serie(staffeln), nachbar(2)] : [serie(staffeln)] }) as unknown as CrDubData
 const leer = new Set<number>()
-const lauf = (staffeln: Array<[number, number]>, t: Title, termine = leer, belege = leer) =>
-  crJaOhneDeckung({ titles: [t], mitTermin: termine, mitBeleg: belege, crDub: daten(staffeln) })
+const lauf = (staffeln: Array<[number, number]>, t: Title, termine = leer, belege = leer, nachbarn = false) =>
+  crJaOhneDeckung({ titles: [t], mitTermin: termine, mitBeleg: belege, crDub: daten(staffeln, nachbarn) })
+const quellen = (teil: Partial<BelegQuellen>): BelegQuellen => ({ handbelege: [], katalog: [], zuordnung: [], offene: {}, titel: [], ...teil })
 
 // 12 Folgen passen zu keinem Block (13 und 11): kein Block-Urteil trägt das Ja
 const ungedeckt = titel(7, [weg({ dub: true })])
@@ -64,9 +76,36 @@ pruefe('ein Ja mit Folgenbereichen ist gedeckt', lauf([[0, 13], [11, 11]], mitBe
 const vollDeutsch = titel(8, [weg({ dub: true })], 11)
 pruefe('ein Block-Urteil deckt das Ja (11 Folgen = der vollständig deutsche Block)', lauf([[0, 13], [11, 11]], vollDeutsch).length === 0)
 
+// Keine einzige deutsche Folge in der Serie: Das Block-Urteil lautet „nein“ und darf das Ja nicht decken
+pruefe('ein Block-Urteil „nein“ deckt das Ja nicht', lauf([[0, 13], [0, 11]], ungedeckt).length === 1)
+
+console.log('\nBeleg-Mengen des Bestandswächters (crBelegKennungen)')
+const gedeckt = (teil: Partial<BelegQuellen>): boolean => crBelegKennungen(quellen(teil)).has(7)
+pruefe('Handbeleg dub false deckt nicht', !gedeckt({ handbelege: [{ platform: 'crunchyroll', dub: false, anilistId: 7 }] }))
+pruefe('Handbeleg einer anderen Plattform deckt nicht', !gedeckt({ handbelege: [{ platform: 'netflix', dub: true, anilistId: 7 }] }))
+pruefe('Handbeleg „deutsch“ auf Crunchyroll deckt', gedeckt({ handbelege: [{ platform: 'crunchyroll', dub: true, anilistId: 7 }] }))
+pruefe('Katalogtreffer ohne de-DE deckt nicht', !gedeckt({ katalog: [{ id: 7, treffer: { audio: ['ja-JP'] } }] }))
+pruefe('Katalogtreffer mit de-DE deckt', gedeckt({ katalog: [{ id: 7, treffer: { audio: ['ja-JP', 'de-DE'] } }] }))
+pruefe('Zuordnung ohne de-DE deckt nicht', !gedeckt({ zuordnung: [{ id: 7, audio: ['ja-JP'] }] }))
+pruefe('Zuordnung mit de-DE deckt', gedeckt({ zuordnung: [{ id: 7, audio: ['de-DE'] }] }))
+pruefe('offener Befund ohne dub deckt nicht', !gedeckt({ offene: { [URL]: {} }, titel: [ungedeckt] }))
+pruefe('offener Befund mit dub false deckt nicht', !gedeckt({ offene: { [URL]: { dub: false } }, titel: [ungedeckt] }))
+const nurNetflix = titel(7, [{ platform: 'netflix', url: URL } as StreamLink])
+pruefe('offener Befund an einer Adresse einer anderen Plattform deckt nicht', !gedeckt({ offene: { [URL]: { dub: true } }, titel: [nurNetflix] }))
+pruefe('offener Befund mit dub true deckt',gedeckt({ offene: { [URL]: { dub: true } }, titel: [ungedeckt] }))
+
+console.log('\nmehrere Serien, Null-Block nicht an erster Stelle')
+pruefe('Null-Block als zweiter Block derselben Serie wird erkannt', lauf([[11, 11], [0, 13]], ungedeckt).length === 1)
+pruefe('Null-Block als zweiter Block, Serie zwischen anderen: gemeldet', lauf([[11, 11], [0, 13], [10, 10]], ungedeckt, leer, leer, true).length === 1)
+const kennungen = serienkennungenMitNullBlock(daten([[11, 11], [0, 13], [10, 10]], true))
+pruefe('nur die Serie mit Null-Block (in der Mitte) steht in der Kennungsmenge', kennungen.size === 1 && kennungen.has('GTEST0001'), [...kennungen])
+const zweiteNull = { ...serie([[0, 13], [11, 11]]), seriesId: 'GTEST0002', url: URL.replace('GTEST0001', 'GTEST0002') }
+const beide = serienkennungenMitNullBlock({ scrapedAt: '', serien: [serie([[0, 13]]), zweiteNull] } as unknown as CrDubData)
+pruefe('mehrere Serien mit Null-Block stehen alle in der Kennungsmenge', beide.size === 2, [...beide])
+
 console.log('\nBauphase sammleBelege: Slot der Staffel, Geschwister an derselben Serienadresse')
 /** Baut mit einem Kalender-Slot für Titel 1 und liefert (Titel mit Termin, Geschwister ohne Termin). */
-function slotLauf(staffeln: Array<[number, number]>, slotKennung = 'GTEST0001'): [Title, Title] {
+function slotLauf(staffeln: Array<[number, number]>, slotKennung = 'GTEST0001', nachbarn = false): [Title, Title] {
   const mitTermin = titel(1, [weg()])
   const geschwister = titel(2, [weg()])
   sammleBelege({
@@ -77,7 +116,7 @@ function slotLauf(staffeln: Array<[number, number]>, slotKennung = 'GTEST0001'):
     tmdbTitles: {},
     tvJeTmdb: new Set(),
     toteAdressen: new Set(),
-    crDub: daten(staffeln),
+    crDub: daten(staffeln, nachbarn),
   })
   return [mitTermin, geschwister]
 }
@@ -89,6 +128,8 @@ pruefe('ohne Null-Block gilt der Slot der ganzen Serie (Slime S3, Mushoku S2)', 
 const [, leererBlock] = slotLauf([[0, 0], [12, 13]])
 pruefe('ein leerer Block (0 von 0) sperrt den Slot nicht', leererBlock.streams[0]!.dub === true, leererBlock.streams[0])
 const [, fremdeKennung] = slotLauf([[12, 12], [11, 11]], 'GANDERE')
+const [, mitteSerie] = slotLauf([[11, 11], [0, 13], [10, 10]], 'GTEST0001', true)
+pruefe('Null-Block-Serie in der Mitte mehrerer Serien: Geschwister ohne Termin bekommt kein Ja', mitteSerie.streams[0]!.dub === undefined, mitteSerie.streams[0])
 pruefe('ein Slot einer anderen Serie belegt nichts', fremdeKennung.streams[0]!.dub === undefined, fremdeKennung.streams[0])
 
 if (verletzt) process.exit(1)
