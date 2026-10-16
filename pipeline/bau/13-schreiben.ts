@@ -23,9 +23,8 @@ import { schreibeSynopsenUndReichereAn } from './13-1-anreichern.ts'
 import { mitBelegstaerke } from '../lib/belegstaerke.ts'
 import { ergaenzeEigeneHandlungen } from './handlung-eigen-einbinden.ts'
 import { ergaenzeDeutscheFolgenzahl } from './deutsche-folgenzahl-einbinden.ts'
-import { jwNeinAnSeite, kanalErbtVomAnbieter } from './kanal-erbt-anbieter.ts'
-import { nimmDeutschGegenSprachTermin } from './deutsch-nicht-gegen-sprach-termin.ts'
-import { log } from '../lib/util.ts'
+import { jwNeinAnSeite } from './kanal-erbt-anbieter.ts'
+import { tonDerKanalWege } from './deutsch-nicht-gegen-sprach-termin.ts'
 
 export function schreibeDatensatz({
   allTitles,
@@ -60,9 +59,7 @@ export function schreibeDatensatz({
     kanalJeAdresse,
   })
 
-  const geerbt = kanalErbtVomAnbieter(allTitles, jwNeinAnSeite())
-  nimmDeutschGegenSprachTermin(titles, releases)
-  if (geerbt) log(`${geerbt} Prime-Kanal-Wege erben das Deutsch ihres Anbieters`)
+  tonDerKanalWege(allTitles, releases, jwNeinAnSeite())
 
   const { slim } = baueAuslieferung({
     allTitles: mitBelegstaerke(allTitles, releases),

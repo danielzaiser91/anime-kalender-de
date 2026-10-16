@@ -11,7 +11,6 @@ import { geerbteWege } from '../shared/kanal-anbieter.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { deutschNurAusSpracheTermin } from './lib/pruefung.ts'
 import { unbedingteAufrufe } from './lib/unbedingte-aufrufe.ts'
-import { nimmDeutschGegenSprachTermin } from './bau/deutsch-nicht-gegen-sprach-termin.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, ist?: unknown): void {
@@ -194,24 +193,23 @@ pruefe('Gegenprobe: dasselbe Ja als eigenes Ja des Kanal-Wegs belegt', belegt([k
 const schreiben = readFileSync(new URL('./bau/13-schreiben.ts', import.meta.url), 'utf8')
 const aufrufe = unbedingteAufrufe(schreiben, 'schreibeDatensatz')
 const stelle = (name: string): number => aufrufe.find((x) => x.name === name)?.stelle ?? -1
-const erbt = aufrufe.find((x) => x.name === 'kanalErbtVomAnbieter')
-pruefe('13-schreiben ruft kanalErbtVomAnbieter(allTitles, jwNeinAnSeite()) unbedingt auf', erbt?.args.join('|') === 'allTitles|jwNeinAnSeite()', erbt)
+/* Das Erbe läuft in `tonDerKanalWege` (vor der Sprach-Termin-Regel); 13-schreiben reicht JustWatchs Seiten-Nein hinein. */
+const ton = aufrufe.find((x) => x.name === 'tonDerKanalWege')
+pruefe('13-schreiben ruft tonDerKanalWege(allTitles, releases, jwNeinAnSeite()) unbedingt auf', ton?.args.join('|') === 'allTitles|releases|jwNeinAnSeite()', ton)
 pruefe(
-  '13-schreiben: kanalErbtVomAnbieter steht nach dem Anreichern und vor der Auslieferung',
-  stelle('schreibeSynopsenUndReichereAn') >= 0 && stelle('kanalErbtVomAnbieter') > stelle('schreibeSynopsenUndReichereAn') && stelle('kanalErbtVomAnbieter') < stelle('baueAuslieferung'),
+  '13-schreiben: tonDerKanalWege steht nach dem Anreichern und vor der Auslieferung',
+  stelle('schreibeSynopsenUndReichereAn') >= 0 && stelle('tonDerKanalWege') > stelle('schreibeSynopsenUndReichereAn') && stelle('tonDerKanalWege') < stelle('baueAuslieferung'),
   aufrufe.map((x) => `${x.stelle}:${x.name}`),
 )
-
-/* Eine Rohmeldung setzte „deutsch" an einen Weg, dessen Termine alle „Sprache offen“ sagen (Demon Slayer 166240/145139, 16.10.2026). */
-const rohWeg = { platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/B0CYGQ9WSF', dub: true, dubRanges: bereiche } as StreamLink
-const rohTitel = { id: 166240, streams: [rohWeg] } as unknown as Title
-const sprachTermine = [{ titleId: 166240, platform: 'primevideo', sprache: 'offen' }] as unknown as Release[]
-const genommen = nimmDeutschGegenSprachTermin(new Map([[166240, rohTitel]]), sprachTermine)
-pruefe('Sprach-Termin: Rohmeldungs-Ja wird genommen', genommen === 1 && rohWeg.dub === undefined && rohWeg.dubRanges === undefined, rohWeg)
-pruefe('Sprach-Termin: danach kein Widerspruch', deutschNurAusSpracheTermin(sprachTermine, new Map([[166240, rohTitel]])).length === 0)
-const gemischt = { id: 7, streams: [{ platform: 'primevideo', url: 'x', dub: true }] } as unknown as Title
-const gemischteTermine = [{ titleId: 7, platform: 'primevideo', sprache: 'offen' }, { titleId: 7, platform: 'primevideo' }] as unknown as Release[]
-pruefe('Sprach-Termin: ein Termin ohne Kennzeichnung lässt das Ja stehen', nimmDeutschGegenSprachTermin(new Map([[7, gemischt]]), gemischteTermine) === 0 && gemischt.streams[0]!.dub === true)
+const tonQuelle = readFileSync(new URL('./bau/deutsch-nicht-gegen-sprach-termin.ts', import.meta.url), 'utf8')
+const tonAufrufe = unbedingteAufrufe(tonQuelle, 'tonDerKanalWege')
+const erbt = tonAufrufe.find((x) => x.name === 'kanalErbtVomAnbieter')
+pruefe('tonDerKanalWege reicht jwNein an kanalErbtVomAnbieter(allTitles, jwNein) weiter', erbt?.args.join('|') === 'allTitles|jwNein', erbt)
+pruefe(
+  'tonDerKanalWege: erst das Erbe, dann die Sprach-Termin-Regel',
+  erbt !== undefined && erbt.stelle < (tonAufrufe.find((x) => x.name === 'nimmKanalJaGegenSprachTermin')?.stelle ?? -1),
+  tonAufrufe.map((x) => `${x.stelle}:${x.name}`),
+)
 
 if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
