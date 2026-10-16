@@ -14,7 +14,8 @@ export function kanalErbtVomAnbieter(titles: Iterable<Title>): number {
   let geerbt = 0
   for (const t of titles) {
     for (const s of t.streams ?? []) {
-      if (s.dub !== undefined || !geschaltet(s)) continue
+      /* Ein Weg aus einem Termin trägt nie ein Tonurteil (`tonOhneBeleg`); der Termin kann das Gegenteil sagen (`sprache: offen`). */
+      if (s.dub !== undefined || s.herkunft === 'termin' || !geschaltet(s)) continue
       const quelle = anbieterWegMitJa(s, t.streams)
       if (!quelle) continue
       s.dub = true
