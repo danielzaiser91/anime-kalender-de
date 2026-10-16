@@ -36,6 +36,8 @@ export function pruefeSynchroJePlattform({
   katalogEintraege,
   adnKatalog,
   adnVerweiseErgaenzt,
+  vorherTitles,
+  schreibWurzel,
 }: {
   releases: Release[]
   titles: Map<number, Title>
@@ -50,10 +52,13 @@ export function pruefeSynchroJePlattform({
   katalogEintraege: KatalogEintrag[]
   adnKatalog: AdnData
   adnVerweiseErgaenzt: number
+  /** Nur für Tests: voriger Bestand und Wurzel der Prüflisten statt `public/data` und `data/`. */
+  vorherTitles?: Title[]
+  schreibWurzel?: string
 }) {
   const crDub = readJson<CrDubData>('data/crunchyroll-dub.json', { scrapedAt: '', serien: [] })
   const belege = sammleBelege({ releases, titles, crBySeriesId, tmdbMehrdeutig, tmdbTitles, tvJeTmdb, toteAdressen, crDub })
-  const pruefung = werteLinkpruefungAus({ ...belege, titles, netflixOhneKennung })
+  const pruefung = werteLinkpruefungAus({ ...belege, titles, netflixOhneKennung, vorherTitles })
   uebernehmePrimeUndCrVorschlaege({ ...belege, ...pruefung, titles, tmdbTitles, anisearch })
   werteCrunchyrollDubAus({
     crDub,
@@ -81,7 +86,7 @@ export function pruefeSynchroJePlattform({
     adnArchiv,
     adnStreamSchaerfen,
   })
-  schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, belegFuer: belege.belegFuer })
+  schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, belegFuer: belege.belegFuer, schreibWurzel })
   kennzeichneAdnNeuzugaengeOhneSprache(releases, titles, belege.belegFuer)
   /* Erst hier sind alle Crunchyroll-Termine da; vor Phase 10 übernehmen die Ereignisse das Flag. */
   hebeFolgenzahlAufBeobachtung(releases)
