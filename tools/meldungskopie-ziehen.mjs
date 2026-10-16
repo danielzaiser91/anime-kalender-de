@@ -14,14 +14,31 @@ import { tokenOderAbbruch, verschluessle } from './meldungskopie-schluessel.mjs'
 export const DATENBANK = 'anime-kalender'
 export const WRANGLER_CONFIG = 'worker/wrangler.toml'
 
-/** Startet das wrangler unter `wurzel/node_modules`. */
-export const wranglerAus = (wurzel) => (args) =>
-  execFileSync(process.execPath, [`${wurzel}/node_modules/wrangler/bin/wrangler.js`, ...args], {
-    encoding: 'utf8',
-    maxBuffer: 64 << 20,
-    stdio: ['ignore', 'pipe', 'inherit'],
-    env: { ...process.env, WRANGLER_SEND_METRICS: 'false' },
-  })
+/**
+ * `wrangler d1 execute --json` meldet Fehler als JSON auf stdout (stderr bleibt leer); `execFileSync` wirft nur "Command failed: …".
+ * Ohne diesen Zusatz stand im Lauf vom 15.10.2026 kein Grund im Protokoll.
+ */
+export function mitFehlertext(start) {
+  return (args) => {
+    try {
+      return start(args)
+    } catch (e) {
+      const ausgabe = `${e.stdout ?? ''}${e.stderr ?? ''}`.trim().slice(0, 2000)
+      throw new Error(ausgabe ? `${e.message}\nAusgabe von wrangler: ${ausgabe}` : e.message, { cause: e })
+    }
+  }
+}
+
+/** Startet das wrangler unter `wurzel/node_modules` (dessen Fehlertext siehe `mitFehlertext`). */
+export const wranglerAus = (wurzel) =>
+  mitFehlertext((args) =>
+    execFileSync(process.execPath, [`${wurzel}/node_modules/wrangler/bin/wrangler.js`, ...args], {
+      encoding: 'utf8',
+      maxBuffer: 64 << 20,
+      stdio: ['ignore', 'pipe', 'inherit'],
+      env: { ...process.env, WRANGLER_SEND_METRICS: 'false' },
+    }),
+  )
 
 /** `wrangler(args)` startet wrangler und liefert dessen Ausgabe; `jetzt` ist der Stand, der vor dem Export genommen wird. */
 export function ziehen({ wrangler, ziel, umgebung = process.env, jetzt = new Date() }) {
@@ -37,8 +54,9 @@ export function ziehen({ wrangler, ziel, umgebung = process.env, jetzt = new Dat
   const ordner = mkdtempSync(join(tmpdir(), 'meldungskopie-ziehen-'))
   try {
     const ausgabe = join(ordner, 'export.sql')
-    wrangler(exportArgumente(DATENBANK, ausgabe, WRANGLER_CONFIG))
+    // Schema zuerst: ein Fehler kostet vor dem Export nichts, und ein laufender Export blockiert andere Abfragen an der D1 (Lauf 15.10.2026 scheiterte hier).
     const schemaSql = schemaAusJson(wrangler(schemaArgumente(DATENBANK, WRANGLER_CONFIG)))
+    wrangler(exportArgumente(DATENBANK, ausgabe, WRANGLER_CONFIG))
     const klar = join(ordner, 'kopie.sqlite')
     const zeilen = baueKopie({ exportSql: readFileSync(ausgabe, 'utf8'), schemaSql, stand: jetzt.toISOString(), ziel: klar })
     writeFileSync(ziel, verschluessle(readFileSync(klar), token))

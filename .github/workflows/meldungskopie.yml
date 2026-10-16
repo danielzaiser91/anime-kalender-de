@@ -44,6 +44,16 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: 567f5e28368c5bbcfeffad3e674b02ab
         run: node tools/meldungskopie.mjs ziehen --ziel meldungen.sqlite.enc
 
+      # Ein roter Lauf steht sonst nur in GitHub; die Laufstatus-App (und damit `laeufe-aufraeumen`) sah den vom 15.10.2026 nie.
+      - name: Fehlschlag melden
+        if: failure()
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          LAUF_ZWECK: "Zieht täglich die Kopie der Meldungsdaten für Auswertungen"
+          LAUF_ZIEL: "Artefakt meldungskopie liegt bereit"
+        run: bash tools/lauf-melden.sh fehler "Meldungskopie nicht gebaut"
+
       - uses: actions/upload-artifact@v4
         with:
           name: meldungskopie

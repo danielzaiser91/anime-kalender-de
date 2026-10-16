@@ -5,7 +5,7 @@
  */
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, rmSync, writeFileSync, copyFileSync, existsSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync, copyFileSync, existsSync } from 'node:fs'
 import { DatabaseSync } from 'node:sqlite'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -15,7 +15,7 @@ import { TABELLEN, SCHEMA_ABFRAGE, baueKopie, exportArgumente, schemaArgumente, 
 import { STAND_MAX_STUNDEN, alterStunden, fuehreAus, fusszeile, istEinzeln } from './meldungskopie-abfrage.mjs'
 import { ARTEFAKT, ARTEFAKT_DATEI, DATEINAME, WORKFLOW, holen, lokalerStand } from './meldungskopie-holen.mjs'
 import { entschluessle, verschluessle } from './meldungskopie-schluessel.mjs'
-import { ziehen } from './meldungskopie-ziehen.mjs'
+import { mitFehlertext, wranglerAus, ziehen } from './meldungskopie-ziehen.mjs'
 
 const WURZEL = join(fileURLToPath(import.meta.url), '..', '..')
 const ordner = mkdtempSync(join(tmpdir(), 'meldungskopie-test-'))
@@ -244,18 +244,25 @@ assert.throws(() => ziehen({ wrangler: wrangler(ohneLauf), ziel: join(ordner, 'a
 assert.equal(ohneLauf.length, 0)
 assert.equal(existsSync(join(ordner, 'a.enc')), false)
 const IM_LAUF = { GITHUB_ACTIONS: 'true', ...MIT_TOKEN, ...CF }
-const exportOrdner = (aufrufe) => dirname(aufrufe[0][aufrufe[0].indexOf('--output') + 1])
+const exportOrdner = (aufrufe) => {
+  const a = aufrufe.find((x) => x[1] === 'export')
+  return dirname(a[a.indexOf('--output') + 1])
+}
 // Bricht der Zugriff mittendrin ab, bleibt kein Klartext liegen und keine Datei zum Hochladen.
 const abgebrochen = []
-const scheitert = (args) => (args[1] === 'execute' ? assert.fail('Schemaabfrage gescheitert') : wrangler(abgebrochen)(args))
-assert.throws(() => ziehen({ wrangler: scheitert, ziel: join(ordner, 'c.enc'), umgebung: IM_LAUF }), /Schemaabfrage gescheitert/)
+const scheitert = (args) => {
+  const aus = wrangler(abgebrochen)(args)
+  return args[1] === 'export' ? assert.fail('Export gescheitert') : aus
+}
+assert.throws(() => ziehen({ wrangler: scheitert, ziel: join(ordner, 'c.enc'), umgebung: IM_LAUF }), /Export gescheitert/)
 assert.equal(existsSync(exportOrdner(abgebrochen)), false, 'der Klartext-Export ist nach dem Abbruch weg')
 assert.equal(existsSync(join(ordner, 'c.enc')), false)
 const gezogen = []
 const zeitpunkt = new Date('2026-10-16T03:00:07.000Z')
 const gebaut = ziehen({ wrangler: wrangler(gezogen), ziel: join(ordner, 'b.enc'), umgebung: IM_LAUF, jetzt: zeitpunkt })
 assert.deepEqual(gebaut, { pruefung: 2, prime_folge: 3, titel_zeile: 1 })
-assert.deepEqual(gezogen.map((a) => a[1]), ['export', 'execute'])
+// Schema vor dem Export: ein laufender Export blockiert die D1 für die Schemaabfrage (15.10.2026).
+assert.deepEqual(gezogen.map((a) => a[1]), ['execute', 'export'])
 assert.equal(existsSync(exportOrdner(gezogen)), false, 'Klartext-Export und -Kopie liegen nach dem Lauf nicht mehr auf der Platte')
 // Die Datei zum Hochladen ist Geheimtext (weder SQLite-Kopf noch Klartext aus dem Export); entschlüsselt hat sie Indexe und Sicht.
 const hochzuladen = readFileSync(join(ordner, 'b.enc'))
@@ -297,6 +304,28 @@ assert.deepEqual(workflow.permissions, { contents: 'read' })
 assert.deepEqual(Object.values(workflow.jobs).map((j) => j.permissions), [undefined], 'kein Job weitet die Rechte aus')
 const hochladen = workflow.jobs.kopie.steps.filter((s) => s.uses?.startsWith('actions/upload-artifact'))
 assert.deepEqual(hochladen.map((s) => s.with['retention-days']), [3])
+
+// wrangler --json meldet Fehler auf stdout; das Protokoll muss den Grund tragen (15.10.2026: nur "Command failed").
+const kaputt = Object.assign(new Error('Command failed: wrangler d1 execute'), { stdout: '{"error":{"text":"D1_ERROR: Grund-Text"}}', stderr: '' })
+assert.throws(
+  () => mitFehlertext(() => { throw kaputt })(['d1']),
+  /Command failed: wrangler d1 execute\nAusgabe von wrangler: .*Grund-Text/s,
+)
+assert.throws(() => mitFehlertext(() => { throw new Error('nur Meldung') })(['d1']), (f) => f.message === 'nur Meldung')
+assert.equal(mitFehlertext((a) => a.join('+'))(['x', 'y']), 'x+y')
+
+// Das echte Startprogramm (wie `ziehen` es im Lauf nutzt) trägt die stdout-Ausgabe eines scheiternden wrangler in den Fehler.
+const falscheWurzel = join(ordner, 'wurzel')
+mkdirSync(join(falscheWurzel, 'node_modules/wrangler/bin'), { recursive: true })
+writeFileSync(join(falscheWurzel, 'node_modules/wrangler/bin/wrangler.js'), 'console.log(JSON.stringify({ error: { text: "D1_ERROR: echter Grund" } }))\nprocess.exit(1)\n')
+assert.throws(() => wranglerAus(falscheWurzel)(['d1', 'execute']), /echter Grund/)
+
+// Ein roter Lauf erscheint in der Laufstatus-App: nur bei Fehlschlag, nie selbst rot machend (der Lauf vom 15.10.2026 blieb dort unsichtbar).
+const meldung = workflow.jobs.kopie.steps.filter((s) => /lauf-melden\.sh fehler/.test(s.run ?? ''))
+assert.equal(meldung.length, 1)
+assert.equal(meldung[0].if, 'failure()')
+assert.equal(meldung[0]['continue-on-error'], true)
+assert.equal(meldung[0].env.LAUF_TOKEN, '${{ secrets.LAUF_TOKEN }}')
 
 rmSync(ordner, { recursive: true, force: true })
 console.log('meldungskopie.test: ok')
