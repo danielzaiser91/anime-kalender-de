@@ -18,12 +18,12 @@ export function cartoonMitSynchroBeleg(titel: { streams?: Array<{ dub?: boolean 
 
 /**
  * Der Hash einer Titelseite. Steht die Kennung schon im Pfad `/t/<ak>/`, kommt sie nicht noch einmal als `t=` hinein;
- * nur ein Namens-Pfad (Cartoons, `/t/<name>-<id>/`) trägt sie nicht und braucht `t=`.
+ * ein Namens-Pfad (`/t/<name>-<id>/`) trägt sie nicht, und `titelAusPfad` liest keine negative Kennung (Cartoons): beide brauchen `t=`.
  */
 export function titelHash(ak: number, adresse: string | number, datum?: string): string {
   const params = new URLSearchParams()
   if (datum) params.set('d', datum)
-  if (String(adresse) !== String(ak)) params.set('t', String(ak))
+  if (ak < 0 || String(adresse) !== String(ak)) params.set('t', String(ak))
   const query = params.toString()
   return `#/woche${query ? `?${query}` : ''}`
 }

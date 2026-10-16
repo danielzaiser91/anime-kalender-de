@@ -10,7 +10,8 @@ import { todayIso } from '../shared/time.ts'
 import { titelAdresse, titelHash } from '../shared/teilen.ts'
 import { titelInhalt, titelKopf } from './lib/titel-seite.ts'
 import { calendarUrl } from '../worker/src/mail-abschnitte.ts'
-import type { Title } from '../shared/types.ts'
+import type { Release, Title } from '../shared/types.ts'
+import { body, head } from './lib/termin-seite.ts'
 import type { Umfeld } from './lib/titel-umfeld.ts'
 import type { ReleaseEvent } from '../shared/types.ts'
 
@@ -64,6 +65,7 @@ console.log('\nWächter: kein Erzeuger schreibt t= in einen Hash hinter einen Ti
 /* Titelseiten tragen den Titel im Pfad: dort darf nirgends `t=` in einen Hash. Die Mail setzt Pfad und Hash in eine Zeile. */
 const ERZEUGER: Array<[string, RegExp]> = [
   ['pipeline/build-share-pages.ts', /[?&]t=/],
+  ['pipeline/lib/termin-seite.ts', /[?&]t=/],
   ['pipeline/lib/titel-seite.ts', /[?&]t=/],
   ['worker/src/mail-abschnitte.ts', /\/t\/.*#\/.*[?&]t=/],
 ]
@@ -73,9 +75,39 @@ for (const [datei, muster] of ERZEUGER) {
   pruefe(`${datei}: kein t= im Hash hinter einem Titel-Pfad`, treffer.length === 0, treffer)
 }
 
-/* `head`/`body` der Termin-Seiten sind nicht einzeln aufrufbar; der Namens-Pfad der Cartoons gelangt nur über `adresse` hinein. */
-const termineSeite = readFileSync('pipeline/build-share-pages.ts', 'utf8')
-pruefe('Termin-Seiten reichen die Adresse (nicht die Kennung) an titelHash und titelAdresse', /titelHash\(ak, adresse,/.test(termineSeite) && /titelAdresse\(ak, adresse,/.test(termineSeite))
+console.log('\nNegative Kennung (Cartoon) behält t=, sonst liest der Router den Titel nicht:')
+pruefe('Titelhash: Kennung als Pfad, aber negativ → t=', titelHash(-284833, '-284833') === '#/woche?t=-284833', titelHash(-284833, '-284833'))
+pruefe('Titelhash: Namens-Pfad mit Termin → d= und t=', titelHash(-284833, 'avatar-284833', '2026-10-20') === '#/woche?d=2026-10-20&t=-284833')
+pruefe('Titelseite (Cartoon, Kennung als Adresse): t= im Skript', seite(-284833, '-284833').includes('location.hash = "#/woche?t=-284833"'))
+pruefe('Titelseite (Cartoon): „Im Kalender ansehen“ mit Namens-Pfad und t=', cartoon.includes('/t/avatar-284833/#/woche?t=-284833"'))
+const cartoonEv = { titleId: -284833, date: '2026-10-20' } as unknown as ReleaseEvent
+const mailCartoon = calendarUrl({ siteUrl: 'https://anime-kalender.de/' } as never, cartoonEv)
+pruefe('Mail-Link (Cartoon): Umleitungs-Pfad, Tag und t=', mailCartoon === 'https://anime-kalender.de/t/-284833/#/woche?d=2026-10-20&t=-284833', mailCartoon)
+
+pruefe('Titelhash: Namens-Pfad mit positiver Kennung → t=', titelHash(15957, 'cowboy-bebop-15957') === '#/woche?t=15957')
+pruefe('Titelseite (Namens-Pfad, positive Kennung): t= im Skript', seite(15957, 'cowboy-bebop-15957').includes('location.hash = "#/woche?t=15957"'))
+
+console.log('\nTermin-Seiten (head/body):')
+const release = {
+  slug: 'test-1',
+  titleId: 1,
+  name: 'Test',
+  platform: 'netflix',
+  releaseType: 'weekly',
+  schedule: { firstEpisodeDate: '2099-10-20', estimated: false, episodeCount: 1 },
+} as unknown as Release
+const titel = { id: 1, slug: 'x', titleRomaji: 'Test', titleDe: 'Test', genres: [], streams: [] } as unknown as Title
+function terminSeite(ak: number, adresse: string): string {
+  return head(release, titel, '2026-10-16', ak, adresse, umfeld) + body(release, titel, undefined, '2026-10-16', [], ak, adresse, umfeld)
+}
+const terminAnime = terminSeite(15957, '15957')
+pruefe('Termin-Seite (Anime): Skript mit Tag, ohne t=', terminAnime.includes('location.hash = "#/woche?d=2099-10-20"') && !/[?&]t=/.test(terminAnime))
+pruefe('Termin-Seite (Anime): „Im Kalender ansehen“ über den Pfad mit Tag', terminAnime.includes('/t/15957/#/woche?d=2099-10-20"'))
+const terminName = terminSeite(15957, 'cowboy-bebop-15957')
+pruefe('Termin-Seite (Namens-Pfad, positive Kennung): t= in Skript und Link', terminName.includes('location.hash = "#/woche?d=2099-10-20&amp;t=15957"') || terminName.includes('location.hash = "#/woche?d=2099-10-20&t=15957"'))
+const terminCartoon = terminSeite(-284833, 'avatar-284833')
+pruefe('Termin-Seite (Cartoon): Skript mit Tag und t=', terminCartoon.includes('location.hash = "#/woche?d=2099-10-20&amp;t=-284833"') || terminCartoon.includes('location.hash = "#/woche?d=2099-10-20&t=-284833"'))
+pruefe('Termin-Seite (Cartoon): „Im Kalender ansehen“ über den Namens-Pfad mit Tag und t=', /\/t\/avatar-284833\/#\/woche\?d=2099-10-20&(amp;)?t=-284833"/.test(terminCartoon))
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nTitel-Adressen: alle Zusicherungen halten.')
 process.exit(verletzt ? 1 : 0)
