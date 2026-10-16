@@ -189,7 +189,9 @@ jobs:
             Zusicherungen/Prüfungen dazu. Änderungen an Prüfungen (check:*, pipeline/lib/pruefung.ts,
             package.json-Ketten, .github/workflows, diese Prüfer-Anweisung) benennst du ausdrücklich und
             urteilst dort streng: Abschwächen einer Prüfung ist "aendern", außer die Beschreibung begründet es
-            belegt.
+            belegt. Concurrency-Änderungen in Workflows spielst du gegen workflow_run, push und "ein wartender
+            Lauf je Gruppe (queue: single)" durch. Jeder neue Wächter braucht einen Fixture-Negativtest, der
+            ohne seinen Fix rot ist; sonst "aendern".
 
             Schreibe zwei Dateien:
             1. ${{ runner.temp }}/pruefer/protokoll.md — deutsch, höchstens 25 Zeilen: Urteil, Befunde mit Datei und
