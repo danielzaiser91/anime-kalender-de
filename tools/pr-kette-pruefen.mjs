@@ -7,7 +7,7 @@
  *  - Teiljob-Schlüssel nur name/if/runs-on/timeout-minutes/steps (kein strategy, defaults, env, continue-on-error), `if` textgleich der Standardbedingung,
  *    Schritt-Schlüssel nur name/uses/with/run/env (kein if, shell, working-directory), `uses` nur checkout und kette-einrichten, Workflow ohne env/defaults;
  *    Rahmen (Trigger, Rechte, Runner, Frist, `with` je Action, Schritte der Action `kette-einrichten`) siehe tools/pr-kette-rahmen.mjs;
- *  - der Sammeljob (Name `PR-Prüfkette`) führt jeden anderen Job außer `PR-Aussehen` in `needs`, sein `if` ist textgleich `always() && <if der Teiljobs>`
+ *  - der Sammeljob (Name `PR-Prüfkette`) führt jeden anderen Job in `needs`, auch `PR-Aussehen…` (davon nur die Form ausgenommen), sein `if` ist textgleich `always() && <if der Teiljobs>`
  *    (sonst überspringt ihn ein roter Teiljob, und übersprungen zählt als bestanden), er hat genau einen Schritt, dessen Zeilen und env textgleich der Sollfassung sind.
  * Aufruf: node tools/pr-kette-pruefen.mjs  (Exit 1 bei Verstoß; läuft über tools/pr-kette-pruefen.test.mjs in check:workflows)
  */
@@ -19,7 +19,9 @@ import { pruefeRahmen, pruefeSchrittfolge } from './pr-kette-rahmen.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 const SAMMEL = 'PR-Prüfkette'
-const NICHT_VERPFLICHTEND = 'PR-Aussehen'
+const AUSSEHEN = 'PR-Aussehen'
+/** Aussehen-Jobs (Matrix, eigene Form, kein Teil von check:vor-commit); sie zählen im Sammeljob trotzdem (seit 16.10.2026). */
+const istAussehen = (job) => String(job.name ?? '').startsWith(AUSSEHEN)
 const TEILJOB_BEDINGUNG = "!startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft"
 
 /** Alle `npm run X`-Namen in einem Text (für `check:vor-commit`). */
@@ -94,7 +96,7 @@ function pruefeSammler(jobs, sammlerId) {
   const fehler = []
   const sammler = jobs[sammlerId]
   const erwartet = Object.entries(jobs)
-    .filter(([id, j]) => id !== sammlerId && j.name !== NICHT_VERPFLICHTEND)
+    .filter(([id]) => id !== sammlerId)
     .map(([id]) => id)
   const needs = [sammler.needs ?? []].flat()
   for (const id of erwartet) if (!needs.includes(id)) fehler.push(`Sammeljob: Teiljob "${id}" fehlt in needs`)
@@ -127,7 +129,7 @@ function pruefeAuflagen(doc, jobs, sammlerId, vorCommit) {
   const fehler = fremdeSchluessel(doc, WORKFLOW_SCHLUESSEL).map((k) => `Workflow: Schlüssel "${k}" nicht erlaubt (env/defaults wirken auf alle Schritte)`)
   const standard = `\${{ ${TEILJOB_BEDINGUNG} }}`
   for (const [id, job] of Object.entries(jobs)) {
-    if (job.name === NICHT_VERPFLICHTEND || id === sammlerId) continue
+    if (istAussehen(job) || id === sammlerId) continue
     fehler.push(...pruefeJobForm(id, job, JOB_SCHLUESSEL))
     if (job.if !== standard) fehler.push(`Teiljob "${id}": if ist nicht textgleich "${standard}"`)
     for (const s of job.steps ?? []) fehler.push(...pruefeTeiljobSchritt(id, s, vorCommit))
@@ -145,9 +147,9 @@ export function pruefeKette(doc, scripts, aktion) {
   const sammlerId = Object.keys(jobs).find((id) => jobs[id].name === SAMMEL)
   if (!sammlerId) return [`Kein Job mit dem Namen "${SAMMEL}" (Pflicht-Check im Ruleset)`]
   const teiljobs = Object.entries(jobs)
-    .filter(([id, j]) => id !== sammlerId && j.name !== NICHT_VERPFLICHTEND)
+    .filter(([id, j]) => id !== sammlerId && !istAussehen(j))
     .map(([, j]) => j)
-  const pflichtJobs = Object.entries(jobs).filter(([, j]) => j.name !== NICHT_VERPFLICHTEND)
+  const pflichtJobs = Object.entries(jobs).filter(([, j]) => !istAussehen(j))
   const fehler = [...pruefeSammler(jobs, sammlerId), ...pruefeAuflagen(doc, jobs, sammlerId, vorCommit), ...pruefeRahmen(doc, pflichtJobs, aktion)]
   for (const [name, anzahl] of zaehleVorkommen(teiljobs, vorCommit)) {
     if (anzahl !== 1) fehler.push(`Prüfung "${name}" läuft ${anzahl}-mal in den Teiljobs (verlangt: genau einmal)`)

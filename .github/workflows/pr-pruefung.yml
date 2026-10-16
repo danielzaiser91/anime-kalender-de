@@ -113,7 +113,7 @@ jobs:
   # diesen Job überspringen, und übersprungen zählt als bestanden. Hier zählt nur `success`.
   kette:
     name: PR-Prüfkette
-    needs: [logik, bau, workflows, typen, uebrige]
+    needs: [logik, bau, workflows, typen, uebrige, aussehen]
     if: ${{ always() && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -125,12 +125,26 @@ jobs:
           echo "$NEEDS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
           echo "$NEEDS" | jq -e 'all(.[]; .result == "success")' > /dev/null
 
-  # Nicht verpflichtend: Aussehen (wie aussehen-pruefen.yml), nur bei Änderungen an der Oberfläche.
+
+  # Aussehen (wie aussehen-pruefen.yml), nur bei Änderungen an der Oberfläche; sonst endet jeder Teil nach der Pfadprüfung grün.
+  # Drei parallele Teile statt einer Kette (16.10.2026): die längste Kette wächst durch die Trefferprobe sonst um ≈ 130 s. Jeder Teil
+  # baut selbst (parallel kostet das keine Wartezeit; ein Artefakt-Umweg würde seriell Hoch- und Herunterladen anhängen). Der Sammeljob
+  # führt `aussehen` in `needs`, ein roter Teil hält also den Merge auf.
   aussehen:
-    name: PR-Aussehen
+    name: PR-Aussehen – ${{ matrix.teil }}
     if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - teil: Panel
+            befehl: npm run check:panel
+          - teil: Ansichten
+            befehl: npm run check:ansichten-desktop
+          - teil: Ansichten Handy
+            befehl: npm run check:ansichten-handy
     steps:
       - uses: actions/checkout@v4
         with:
@@ -138,24 +152,21 @@ jobs:
       - name: Betrifft der PR die Oberfläche?
         id: pfad
         run: |
-          # Außer der Oberfläche zählen genau die Dateien, die dieser Job ausführt: panel-bild.mjs,
-          # ansicht-bild.mjs, deren direkte Importe und dieser Workflow.
+          # Außer der Oberfläche zählen genau die Dateien, die dieser Job ausführt: die Werkzeuge von check:panel und
+          # check:ansichten, deren direkte Importe und dieser Workflow.
           PFADE='^(web/src/|extension/.*\.css$|\.github/workflows/pr-pruefung\.yml$'
           PFADE="$PFADE|tools/(panel-bild|ansicht-bild|ak-von|bilder-ordner|dist-frisch|panel-sperre"
-          PFADE="$PFADE|ansicht-filterfenster|ansicht-filterfenster-rechner|ansicht-adressen)\.mjs$)"
+          PFADE="$PFADE|ansicht-filterfenster|ansicht-filterfenster-rechner|ansicht-adressen"
+          PFADE="$PFADE|ansicht-trefferprobe|trefferprobe-browser|trefferprobe-ausnahmen|trefferprobe-selbsttest"
+          PFADE="$PFADE|panel-messen|panel-messen-browser)\.mjs$)"
           if git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep -qE "$PFADE"; then
             echo "betroffen=1" >> "$GITHUB_OUTPUT"
           fi
       - if: steps.pfad.outputs.betroffen == '1'
-        uses: actions/setup-node@v4
+        uses: ./.github/actions/kette-einrichten
         with:
-          node-version: 22
-          cache: npm
-      - if: steps.pfad.outputs.betroffen == '1'
-        run: npm ci
-      - if: steps.pfad.outputs.betroffen == '1'
-        run: npx playwright install --with-deps chromium
+          playwright: 'true'
       - if: steps.pfad.outputs.betroffen == '1'
         run: npm run build
       - if: steps.pfad.outputs.betroffen == '1'
-        run: npm run check:panel && npm run check:ansichten
+        run: ${{ matrix.befehl }}

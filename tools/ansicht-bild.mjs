@@ -25,6 +25,7 @@ import path from 'node:path'
 import { bilderOrdner } from './bilder-ordner.mjs'
 import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
 import { pruefeFilterfensterRechner } from './ansicht-filterfenster-rechner.mjs'
+import { pruefeTrefferprobe } from './ansicht-trefferprobe.mjs'
 import { pruefeAdressen } from './ansicht-adressen.mjs'
 import { pruefeHoverCover } from './ansicht-hover-cover.mjs'
 import { pruefeStatusfarben } from './ansicht-statusfarben.mjs'
@@ -249,6 +250,10 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
     console.log(`\nFilterfenster (320/375/393/440 px, Woche und Datenbank): ${fenster.abweichungen.length ? '' : 'ok'}`)
     for (const l of fenster.abweichungen) console.log(`  ✕ ${l}`)
     if (fenster.abweichungen.length) rot = true
+    const treffer = await pruefeTrefferprobe(seite)
+    console.log(`\nTrefferprobe (360 px, beide Themen, ${Object.values(treffer.geprueft).reduce((a, b) => a + b, 0)} Bedienelemente): ${treffer.abweichungen.length ? '' : 'ok'}`)
+    for (const l of treffer.abweichungen) console.log(`  ✕ ${l}`)
+    if (treffer.abweichungen.length) rot = true
   }
   return rot
 }
