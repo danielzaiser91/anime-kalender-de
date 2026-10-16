@@ -4012,8 +4012,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
          Fehlermeldung zwei Bildschirme lang und niemand liest sie. */
       .map((block) => (block.split('{')[0] ?? '').split('*/').pop()?.trim() ?? '')
     const ohneAnbieter = versteckt.filter(
-      /* `html.ak-zu` (Einklappen, box.js) ist ein Nutzerzustand, kein Anbieter-Zustand. */
-      (wahl) => /\.ak-(uebersicht|melder|amazon-knopf)/.test(wahl) && !/\.ak-amazon\s/.test(wahl) && !/\.ak-zu(?![\w-])/.test(wahl),
+      /* `html.ak-eingeklappt` (Einklappen, box.js) ist ein Nutzerzustand, kein Anbieter-Zustand. */
+      (wahl) => /\.ak-(uebersicht|melder|amazon-knopf)/.test(wahl) && !/\.ak-amazon\s/.test(wahl) && !/\.ak-eingeklappt(?![\w-])/.test(wahl),
     )
     pruefe(
       'kein Knopf wird ohne Anbieter-Anker unsichtbar geschaltet',
