@@ -1,7 +1,8 @@
 // Bereichskopf mit Klapp-Schalter und Kasten „Top-Prios“ (Daniel, 16.10.2026).
 // Klappzustand: Kennungen `bereich:<id>` in der Liste `aufgeklappt`, gelesen als Abweichung vom Standard.
-import { extrahiereLinks, klartext, kurzMitMarke } from './zaehlen'
-import type { Eintrag } from './zaehlen'
+import { hatAusklapp, statusVon, textKlappt } from './prios'
+import type { PrioEintrag } from './prios'
+import type { Verweis } from './zaehlen'
 
 // Standard: alles zu, nur „Jetzt“ offen; ein Eintrag in der Liste kehrt den Standard um.
 const STANDARD_OFFEN = ['jetzt']
@@ -12,24 +13,6 @@ export function bereichOffen(id: string, geschaltet: string[]): boolean {
   return STANDARD_OFFEN.includes(id) !== geschaltet.includes(bereichsKennung(id))
 }
 
-// Kurztitel ist der fette Anfang („**D1** — …“), auch unter 20 Zeichen (kurz() trennt dort nicht).
-function topPrio(roh: string): Eintrag {
-  const m = /^\*\*(.+?)\*\*\s*(?:—\s*)?(.*)$/.exec(roh)
-  if (!m) return kurzMitMarke(roh)
-  return { titel: klartext(m[1]!), rest: klartext(m[2]!), groesse: 'normal', links: extrahiereLinks(roh) }
-}
-
-// „## Top-Prios“: Zeilen „- “ bis zur nächsten „## “-Überschrift; fehlt der Abschnitt, bleibt die Liste leer.
-export function zaehleTopPrios(text: string): Eintrag[] {
-  const aus: Eintrag[] = []
-  let drin = false
-  for (const zeile of text.split(/\r?\n/)) {
-    if (zeile.startsWith('## ')) drin = zeile.startsWith('## Top-Prios')
-    else if (drin && zeile.startsWith('- ')) aus.push(topPrio(zeile.slice(2)))
-  }
-  return aus
-}
-
 // Kopfzeile eines Bereichs: ein Knopf, dessen Label Titel und Anzahl trägt (auch eingeklappt).
 // Button nimmt nur ein Label, keine Textstile im Inneren: Hervorhebung nur über dimColor.
 export function bereichsKopf(ui: any, id: string, offen: boolean, onPress: () => void, titel: string, zahl?: number, gedimmt = false) {
@@ -38,8 +21,74 @@ export function bereichsKopf(ui: any, id: string, offen: boolean, onPress: () =>
   return <Button key={bereichsKennung(id)} plain dimColor={gedimmt} onPress={onPress} label={label} />
 }
 
-// Kasten mit Rahmen ganz oben, immer offen, ohne Schalter.
-export function topPriosKasten(ui: any, eintraege: Eintrag[], kt: (text: string) => string, verweise: (z: Eintrag, key: string) => unknown) {
+// Was der Kasten vom Pane braucht: Breite, Klappzustand, Öffnen eines Ziels.
+export type PrioUmfeld = {
+  zeichenJeZeile: number
+  offen: (kennung: string) => boolean
+  schalte: (kennung: string) => void
+  oeffne: (href: string) => void
+}
+
+export const prioKennung = (e: PrioEintrag): string => `prio:${e.titel}`
+
+// Link als Schaltfläche: graue Fläche mit fettem Pfeil in Textfarbe (bester Kontrast in beiden Themen).
+function linkKnoepfe(ui: any, e: PrioEintrag, oeffne: (href: string) => void) {
+  const { Box, Button, Text } = ui
+  if (!e.links.length) return null
+  return (
+    <Box key={`links-${e.titel}`} flexDirection="row" flexWrap="wrap" gap={1} paddingLeft={2}>
+      {e.links.map((v: Verweis, k: number) => (
+        <Box key={`${e.titel}-l${k}`} backgroundColor="subtle" paddingX={1}>
+          <Text bold>
+            ↗
+          </Text>
+          <Button key={`link:${e.titel}:${k}`} plain label={` ${v.label}`} onPress={() => oeffne(v.href)} />
+        </Box>
+      ))}
+    </Box>
+  )
+}
+
+// Chip mit Status-Farbe, fetter Titel, Kurztext in höchstens vier Zeilen (zu lang: nur im Ausklapp-Teil).
+function prioKopf(ui: any, e: PrioEintrag, u: PrioUmfeld) {
+  const { Box, Button, Text } = ui
+  const st = statusVon(e.status)
+  const klappt = hatAusklapp(e, u.zeichenJeZeile)
+  const auf = u.offen(prioKennung(e))
+  return (
+    <Box flexDirection="row">
+      {klappt ? <Button key={`klapp-${e.titel}`} plain label={auf ? '▾ ' : '▸ '} onPress={() => u.schalte(prioKennung(e))} /> : <Text>{'  '}</Text>}
+      <Box flexGrow={1} flexShrink={1}>
+        <Text wrap="wrap">
+          {st ? (
+            <Text backgroundColor={st.farbe} color="inverseText" bold>
+              {` ${st.label} `}
+            </Text>
+          ) : null}
+          <Text bold>{`${st ? ' ' : ''}${e.titel}`}</Text>
+          {e.rest && !textKlappt(e, u.zeichenJeZeile) ? <Text>{` ${e.rest}`}</Text> : null}
+        </Text>
+      </Box>
+    </Box>
+  )
+}
+
+function prioDetails(ui: any, e: PrioEintrag, u: PrioUmfeld) {
+  const { Box, Text } = ui
+  if (!hatAusklapp(e, u.zeichenJeZeile) || !u.offen(prioKennung(e))) return null
+  const zeilen = [textKlappt(e, u.zeichenJeZeile) ? e.rest : '', ...e.details].filter(Boolean)
+  // Echte Einrückung (marginLeft), damit umbrochene Folgezeilen unter dem Text bleiben, nicht auf Spalte 0 fallen.
+  return zeilen.map((t, k) => (
+    <Box key={`det-${e.titel}-${k}`} marginLeft={4}>
+      <Text dimColor wrap="wrap">
+        {t}
+      </Text>
+    </Box>
+  ))
+}
+
+// Kasten mit Rahmen ganz oben, immer offen, ohne Schalter; je Eintrag Status-Chip, Text, Link-Knöpfe.
+export function topPriosKasten(ui: any, eintraege: PrioEintrag[], u: PrioUmfeld) {
   const { Box, Text } = ui
   if (!eintraege.length) return null
   return (
@@ -47,13 +96,11 @@ export function topPriosKasten(ui: any, eintraege: Eintrag[], kt: (text: string)
       <Text bold color="warning">
         Top-Prios
       </Text>
-      {eintraege.map((z, i) => (
+      {eintraege.map((e, i) => (
         <Box flexDirection="column" key={`top-${i}`}>
-          <Text wrap="wrap">
-            <Text bold>{z.titel}</Text>
-            {z.rest ? <Text dimColor>{` — ${kt(z.rest)}`}</Text> : null}
-          </Text>
-          {verweise(z, `v-top-${i}`)}
+          {prioKopf(ui, e, u)}
+          {prioDetails(ui, e, u)}
+          {linkKnoepfe(ui, e, u.oeffne)}
         </Box>
       ))}
     </Box>

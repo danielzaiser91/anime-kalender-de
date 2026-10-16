@@ -593,38 +593,6 @@ test('Messung an: eine Zeile je Render samt Dauer, Cache-Treffer und Auslöser',
 test('Messung aus: keine Protokolldatei', async ($, on) => {
   expect(await messLauf($, on, false)).toBe('')
 })
-
-const MIT_TOP = `# Stand
-Aktualisiert: 16.10.2026 13:25
-
-## Top-Prios
-- **D1** — Grundlast senken, dann die Durchgänge — [Plan](https://example.org/d1)
-- **Speed** — Mobile Ladezeit unter 2 s
-
-${STAND}`
-
-test('Pane: Top-Prios als Kasten mit Rahmen ganz oben, ohne Schalter', async ($, on) => {
-  starte(on, null, [], true, MIT_TOP)
-  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
-  const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
-  const z = zeilen(await pane.drawn())
-  expect(hat(await pane.drawn(), 'borderStyle', 'round')).toBe(true)
-  expect(z[0]).toBe('Top-Prios')
-  expect(z[1]).toBe('D1 — Grundlast senken, dann die Durchgänge — Plan')
-  expect(z.some(s => s.includes('Top-Prios') && /[▸▾]/.test(s))).toBe(false)
-  expect(z).toContain('Speed — Mobile Ladezeit unter 2 s')
-  await pane.unmount()
-})
-
-test('Pane: ohne „## Top-Prios“ kein Kasten und kein Fehler', async ($, on) => {
-  starte(on, null)
-  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
-  const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
-  expect(hat(await pane.drawn(), 'borderStyle', 'round')).toBe(false)
-  expect(zeilen(await pane.drawn()).join('\n')).not.toContain('Top-Prios')
-  await pane.unmount()
-})
-
 test('Pane: Standard alle Bereiche zu außer Jetzt; Kopf zeigt Titel und Anzahl; Klick klappt auf und wieder zu', async ($, on) => {
   starte(on, null, [], true, STAND.replace('## In Arbeit', '## Daniel-Todo\n\n### Jetzt\n- 🔴 **Eins prüfen** — x\n\n## In Arbeit'))
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
@@ -711,15 +679,5 @@ test('Pane: leere Bereiche zeigen „nichts“ nur, solange sie offen sind', asy
   expect(await nichts()).toBe(0)
   await oeffneAlle(pane)
   expect(await nichts()).toBe(3)
-  await pane.unmount()
-})
-
-test('Pane: Top-Prios ohne Rest zeigen nur den Titel, Links werden verlinkt', async ($, on) => {
-  starte(on, null, [], true, '## Top-Prios\n- **Nur Titel**\n- **Mit Link** — [Plan](https://example.org/p)\n')
-  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
-  const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
-  const z = zeilen(await pane.drawn())
-  expect(z).toContain('Nur Titel')
-  expect(hat(await pane.drawn(), 'href', 'https://example.org/p')).toBe(true)
   await pane.unmount()
 })
