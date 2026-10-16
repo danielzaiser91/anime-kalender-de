@@ -162,13 +162,12 @@ export interface StreamLink {
   seite?: string
   /** true — deutsche Synchro dort belegt; false — dort ausdrücklich nur Originalton mit Untertiteln; fehlt — nicht geprüft */
   dub?: boolean
-  /**
-   * Wenn `dub` fehlt, aber die Vertrauensregel greift: Deutsch laut JustWatch (`pipeline/lib/jw-vertrauen.ts`,
-   * 99,4 % richtig bei Prime-Filmen und einzeln geführten Serien, Messung 11.10.2026). Kein Beleg — `dub` bleibt offen.
-   */
+  /** Wenn `dub` fehlt: JustWatch nennt deutschen Ton an genau dieser Seite (`pipeline/lib/jw-seite.ts`, 16.10.2026); kein Beleg. */
   dubQuelle?: 'justwatch'
   /** Datum des JustWatch-Befunds hinter `dubQuelle` (JJJJ-MM-TT). */
   dubStand?: string
+  /** JustWatch spricht nur von der Staffel, nicht von dieser Seite, oder der Wächter hat den Anbieter abgeschaltet: nur Hinweis „laut JustWatch“. */
+  dubHintOnly?: true
   /** Woher der Weg stammt, wenn nicht aus unseren Anime-Quellen: `tmdb` = nur der Anbieter laut TMDB (Deutschland), ohne Sprachangabe (Cartoon-Umzug, 09.10.2026); `termin` = nur der Anbieter eines sicheren Kalendertermins, ohne Tonurteil (11.10.2026); `handbeleg` = Weg eines Titels nur bei aniSearch, den ein Handbeleg „deutsch“ mit Adresse trägt (14.10.2026). */
   herkunft?: 'tmdb' | 'termin' | 'handbeleg'
   /**

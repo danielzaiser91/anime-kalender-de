@@ -11,6 +11,7 @@
  * Das Ergebnis ist kein Beleg: `dub` bleibt unberührt, der Weg bekommt nur Herkunft und Stand.
  */
 import { gtiAus, type JwAngebot } from './amazon-gti.ts'
+import type { Staffel } from './jw-staffeln.ts'
 
 /** Ein Befund, der älter ist, sagt nichts mehr über heute (28 Tage, wie die Wiedervorlage des Abrufs). */
 export const BEFUND_MAX_TAGE = 28
@@ -25,6 +26,8 @@ export interface JwBefund {
   ohneTreffer?: boolean
   verfehltAm?: string
   angebote: JwAngebot[]
+  /** Staffeln laut JustWatch (seit 11.10.2026); fehlt bei Filmen und älteren Befunden. */
+  staffeln?: Staffel[]
 }
 
 export interface JwVertrauenEingabe {
