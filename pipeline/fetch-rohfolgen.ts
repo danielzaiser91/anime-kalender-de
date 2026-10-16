@@ -39,7 +39,7 @@ import {
   type AsFolgeRoh,
   type TmdbFolge,
 } from '../shared/folgen-zuordnung.ts'
-import { entscheideZuordnung, probeGeschwister, sammleAnker } from '../shared/folgen-anker.ts'
+import { entscheideZuordnung, probeGeschwister, sammleAnker, tmdbFuerTitel } from '../shared/folgen-anker.ts'
 import type { Title } from '../shared/types.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
@@ -303,7 +303,7 @@ async function main(): Promise<void> {
   const erledigt: number[] = []
   /** Alle Anker eines Titels: aniSearch, dann TMDB (`shared/folgen-anker.ts`). */
   const listenFuer = (t: Title) =>
-    sammleAnker(asFolgen[String(asKennung[String(t.id)]?.anisearchId)]?.folgen, tmdbFolgen[String(t.id)], t)
+    sammleAnker(asFolgen[String(asKennung[String(t.id)]?.anisearchId)]?.folgen, tmdbFuerTitel(t, tmdbFolgen), t)
   /* Cartoons und Handbeleg-Adressen zuerst: sie stehen nicht in titles.json (F20, 16.10.2026). */
   const cartoonLauf = ordneCartoonsZu(
     jeUrl,

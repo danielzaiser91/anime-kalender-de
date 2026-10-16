@@ -72,6 +72,20 @@ pruefe('ein Titel, der mit E anfängt, bleibt', folgenKern('Eden of the East') !
   pruefe('TMDB ohne passende Staffel: Grund', keineStaffel.listen.length === 0 && keineStaffel.grund.includes('52'))
 }
 
+/* L3: der Anker mit den meisten Treffern gewinnt, nicht der erste mit einem (Dorohedoro Staffel 2: aniSearch 1 von 11, TMDB 8) */
+{
+  const prime = primeSicht(asFolgen(10, 'Wahl'))
+  const liste = (quelle: 'aniSearch' | 'TMDB', trifft: number) => ({
+    quelle,
+    folgen: asFolgen(10, 'Wahl').map((f, i) => ({ s: 1, e: f.nr, titel: i < trifft ? f.de!.replace(/ BD$/, '') : `Andere ${quelle} ${i}`, datum: null, minuten: 24 })),
+  })
+  const gewinner = (...l: ReturnType<typeof liste>[]) => ordneUeberAnker(prime, l).quelle
+  pruefe('mehr Treffer schlagen den früheren Anker', gewinner(liste('aniSearch', 1), liste('TMDB', 8)) === 'TMDB')
+  pruefe('mittlere Liste mit den meisten Treffern gewinnt', gewinner(liste('aniSearch', 1), liste('TMDB', 6), liste('aniSearch', 3)) === 'TMDB')
+  pruefe('Gleichstand: der frühere bleibt', gewinner(liste('aniSearch', 4), liste('TMDB', 4)) === 'aniSearch')
+  pruefe('ohne Treffer gilt der erste', gewinner(liste('aniSearch', 0), liste('TMDB', 0)) === 'aniSearch')
+}
+
 /* Ursachen I und IIa: Geschwister-Probe */
 {
   interface T extends AnkerTitel { franchiseId: number }

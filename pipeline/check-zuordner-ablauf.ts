@@ -22,6 +22,11 @@ const TMDB = ['Leinwandsee im Nebel', 'Leinwandberg im Schnee', 'Leinwandtal im 
 const KOPF = ['Bühnenhaus am Abend', 'Bühnenhof im Licht', 'Bühnendach im Wind']
 const S3 = ['Kulissenhafen im Sturm', 'Kulissenmarkt am Mittag', 'Kulissengarten im Herbst']
 const FALSCH = ['Falschstaffel am Fluss', 'Falschstaffel im Moor']
+/** Reihe 60: drei Staffeln zu je drei Folgen (2010, 2012, 2014) und eine mit fünf (2012), alle nur bei TMDB des Kopfs. */
+const R1 = ['Reihenstart am Hafen', 'Reihenstart im Tal', 'Reihenstart auf dem Berg']
+const R2 = ['Reihenmitte am Hafen', 'Reihenmitte im Tal', 'Reihenmitte auf dem Berg']
+const R3 = ['Reihenende am Hafen', 'Reihenende im Tal', 'Reihenende auf dem Berg']
+const R4 = ['Sonderstaffel eins', 'Sonderstaffel zwei', 'Sonderstaffel drei', 'Sonderstaffel vier', 'Sonderstaffel fuenf']
 
 let id = 0
 function gruppe(url: string, titelId: number, sprachen: string[][], folgen = S2, staffel: number | null = null) {
@@ -62,6 +67,13 @@ const rohfolgen = [
   ...gruppe(seite('G'), 40, GEMISCHT, [...FALSCH, 'Kulissenfremd am Ende']),
   /* Zwei Zeilen ohne Titel am selben Tag: das Datum belegt keine von beiden. */
   ...gruppe(seite('H'), 50, GEMISCHT, ['', '']).map((z) => ({ ...z, titel: null, erschienen: '2020-01-01' })),
+  /* Titel 61 (Staffel 2) hat keinen eigenen TMDB-Eintrag: der Kopf 60 liefert die mittlere seiner drei gleich langen Staffeln. */
+  ...gruppe(seite('J'), 61, GEMISCHT, R2),
+  /* Titel 63 (2030) passt nach Folgenzahl zur Staffel von 2012: das Jahr schließt sie aus. */
+  ...gruppe(seite('K'), 63, GEMISCHT, R4),
+  /* Ein Jahr Abstand (2013 gegen 2012) genügt, zwei (2014) nicht. */
+  ...gruppe(seite('L'), 64, GEMISCHT, R4),
+  ...gruppe(seite('M'), 65, GEMISCHT, R4),
 ]
 
 const titles = [
@@ -72,6 +84,12 @@ const titles = [
   { id: 32, titleDe: 'Kulissenkopf Drei', franchiseId: 70, episodes: 3, jpYear: 2014 },
   { id: 40, titleDe: 'Kulissen-Zweistaffel', episodes: 3 },
   { id: 50, titleDe: 'Kulissen-Datum', episodes: 3 },
+  { id: 60, titleDe: 'Kulissen-Reihe', franchiseId: 60, episodes: 3, jpYear: 2010 },
+  { id: 61, titleDe: 'Kulissen-Reihe Zwei', franchiseId: 60, episodes: 3, jpYear: 2012 },
+  { id: 62, titleDe: 'Kulissen-Reihe Drei', franchiseId: 60, episodes: 3, jpYear: 2014 },
+  { id: 63, titleDe: 'Kulissen-Reihe Sonder', franchiseId: 60, episodes: 5, jpYear: 2030 },
+  { id: 64, titleDe: 'Kulissen-Reihe Sonder Zwei', franchiseId: 60, episodes: 5, jpYear: 2013 },
+  { id: 65, titleDe: 'Kulissen-Reihe Sonder Drei', franchiseId: 60, episodes: 5, jpYear: 2014 },
 ]
 const asKennung = { 10: { anisearchId: 9010 }, 11: { anisearchId: 9011 }, 30: { anisearchId: 9030 }, 32: { anisearchId: 9032 } }
 const tmdb = (titel: string[], s: number, datum: (i: number) => string | null = () => null) =>
@@ -80,6 +98,10 @@ const tmdbFolgen = {
   20: { tmdbId: 1, folgen: tmdb(TMDB, 1) },
   40: { tmdbId: 2, folgen: [...tmdb(KOPF, 1), ...tmdb(FALSCH, 2)] },
   50: { tmdbId: 3, folgen: tmdb(S3, 1, (i) => `2020-01-0${i + 1}`) },
+  60: {
+    tmdbId: 4,
+    folgen: [...tmdb(R1, 1, () => '2010-05-01'), ...tmdb(R2, 2, () => '2012-05-01'), ...tmdb(R3, 3, () => '2014-05-01'), ...tmdb(R4, 4, () => '2012-06-01')],
+  },
 }
 const asFolgen = {
   9030: { folgen: KOPF.map((de, i) => ({ nr: i + 1, de })) },
@@ -124,6 +146,11 @@ try {
   if (zugeordnet[seite('E')]) fehler.push(`Staffel 2 landet auf dem Reihenkopf: ${JSON.stringify(zugeordnet[seite('E')])}`)
   if (zugeordnet[seite('F')]?.titleId !== 32) fehler.push(`Staffel 2: Geschwister außer dem Kopf, erwartet 32, ist ${zugeordnet[seite('F')]?.titleId}`)
   if (zugeordnet[seite('G')]) fehler.push(`falsche TMDB-Staffel als Anker: ${JSON.stringify(zugeordnet[seite('G')])}`)
+  const folgenJ = JSON.stringify(zugeordnet[seite('J')]?.folgen.map((f) => f.unsere))
+  if (zugeordnet[seite('J')]?.titleId !== 61 || folgenJ !== '[1,2,3]') fehler.push(`TMDB des Reihenkopfs: erwartet 61 mit [1,2,3], ist ${zugeordnet[seite('J')]?.titleId} ${folgenJ}`)
+  if (zugeordnet[seite('L')]?.titleId !== 64) fehler.push(`ein Jahr Abstand zur TMDB-Staffel: erwartet 64, ist ${zugeordnet[seite('L')]?.titleId}`)
+  if (zugeordnet[seite('M')]?.titleId === 65) fehler.push(`zwei Jahre Abstand zur TMDB-Staffel (die Probe darf auf 64 gehen): ${JSON.stringify(zugeordnet[seite('M')])}`)
+  if (zugeordnet[seite('K')]?.titleId === 63) fehler.push(`Staffel von 2012 für einen Titel von 2030: ${JSON.stringify(zugeordnet[seite('K')])}`)
   if (zugeordnet[seite('H')]) fehler.push(`geteiltes Datum ohne Titel belegt Folgen: ${JSON.stringify(zugeordnet[seite('H')])}`)
 } catch (e) {
   fehler.push(`Ergebnis nicht lesbar: ${(e as Error).message}`)
@@ -134,4 +161,4 @@ if (fehler.length) {
   console.error(`FEHL check-zuordner-ablauf: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-zuordner-ablauf: Probe hängt die Seite an die Staffel, deren Folgen sie zeigt; Kennung schlägt Probe; ohne Anker greift sie; TMDB ist Anker; Staffel 2 nie auf den Reihenkopf; falsche TMDB-Staffel und geteiltes Datum belegen nichts.')
+console.log('check-zuordner-ablauf: Probe hängt die Seite an die Staffel, deren Folgen sie zeigt; Kennung schlägt Probe; ohne Anker greift sie; TMDB ist Anker; Staffel 2 nie auf den Reihenkopf; falsche TMDB-Staffel und geteiltes Datum belegen nichts; der Reihenkopf liefert TMDB für Staffeln ohne eigenen Eintrag, nur im passenden Jahr.')

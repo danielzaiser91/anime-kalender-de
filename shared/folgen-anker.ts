@@ -73,25 +73,47 @@ export function sammleAnker(
   return { listen, grund: '' }
 }
 
+/**
+ * Die TMDB-Folgen für einen Titel: seine eigenen, sonst die des Reihenkopfs (`franchiseId`), wenn dort genau eine
+ * Staffel zu Folgenzahl und Startjahr passt (höchstens ein Jahr Abstand). TMDB führt eine Reihe unter einer Serie;
+ * Staffeln wie "Dorohedoro Staffel 2" haben keinen eigenen Eintrag. Gemessen 16.10.2026: 164 von 2.921 Titeln
+ * gewinnen so einen Anker; ohne die Jahresprobe käme "Full Metal Panic? Fumoffu" (2003) in die Staffel von 2018.
+ */
+export function tmdbFuerTitel(
+  titel: AnkerTitel,
+  tmdbAlle: Record<string, { folgen: TmdbFolge[] }>,
+): { folgen: TmdbFolge[] } | undefined {
+  const eigene = tmdbAlle[String(titel.id)]
+  if (eigene || !titel.franchiseId) return eigene
+  const kopf = tmdbAlle[String(titel.franchiseId)]
+  if (!kopf || !titel.jpYear) return undefined
+  const staffel = findeStaffel(kopf.folgen, titel.episodes ?? null, titel.jpYear)
+  if (staffel === null) return undefined
+  const erstes = kopf.folgen.filter((f) => f.s === staffel && f.datum).map((f) => f.datum!).sort()[0]
+  const abstand = erstes ? Math.abs(Number(erstes.slice(0, 4)) - titel.jpYear) : Infinity
+  return abstand <= 1 ? kopf : undefined
+}
+
 export interface AnkerPaare {
   paare: Zuordnung[]
   quelle: string
 }
 
 /**
- * Der erste Anker mit mindestens einem Treffer gewinnt. Trifft keiner, gilt der erste (sein
- * Name steht im Protokoll). Die Listen werden nicht vermischt: Gleiche Daten in beiden
- * wären sonst mehrdeutig, und `ordneZu` schwiege.
+ * Der Anker mit den meisten verschiedenen Treffern gewinnt, bei Gleichstand der frühere. Trifft
+ * keiner, gilt der erste (sein Name steht im Protokoll). Die Listen werden nicht vermischt:
+ * Gleiche Daten in beiden wären sonst mehrdeutig, und `ordneZu` schwiege. Der erste mit einem
+ * Treffer genügte nicht: Dorohedoro Staffel 2 trifft in aniSearch 1 von 11, in TMDB 8 (16.10.2026).
  */
 export function ordneUeberAnker(anbieter: AnbieterFolge[], listen: AnkerListe[]): AnkerPaare {
   const eindeutig = ohneGeteiltesDatum(anbieter)
-  let erste: AnkerPaare | null = null
+  let beste: (AnkerPaare & { n: number }) | null = null
   for (const l of listen) {
     const paare = ordneZu(eindeutig, l.folgen)
-    if (paare.some((p) => p.unsere !== null)) return { paare, quelle: l.quelle }
-    erste ??= { paare, quelle: l.quelle }
+    const n = verschiedeneZiele(paare)
+    if (!beste || n > beste.n) beste = { paare, quelle: l.quelle, n }
   }
-  return erste ?? { paare: ordneZu(anbieter, []), quelle: '' }
+  return beste ? { paare: beste.paare, quelle: beste.quelle } : { paare: ordneZu(anbieter, []), quelle: '' }
 }
 
 /**
