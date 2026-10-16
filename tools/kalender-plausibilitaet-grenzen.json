@@ -1,0 +1,47 @@
+{
+  "_hinweis": "Wird nur vom Bestandsbau gesenkt (tools/commit-data.sh, --festschreiben), nie von Hand erhöht. Ausgangswerte 16.10.2026.",
+  "vorkommen": {
+    "erschienenOhneTermin": 0,
+    "schaetzungNachEnde": 0,
+    "spracheOffenTrotzMeldung": 10,
+    "ereignisOhneNews": 2,
+    "terminOhneBeleg": 15
+  },
+  "bekannt": {
+    "erschienenOhneTermin": [],
+    "schaetzungNachEnde": [],
+    "spracheOffenTrotzMeldung": [
+      "21519|primevideo",
+      "98659|disneyplus",
+      "101302|disneyplus",
+      "142838|disneyplus",
+      "156067|disneyplus",
+      "158927|disneyplus",
+      "10015342|netflix",
+      "10015835|netflix",
+      "10020607|netflix",
+      "10021027|netflix"
+    ],
+    "ereignisOhneNews": [
+      "ghost-in-the-shell-2026@2026-07-07",
+      "vom-landei-zum-schwertheiligen-2@2026-07-08"
+    ],
+    "terminOhneBeleg": [
+      "anisearch-169228-primevideo",
+      "anisearch-176509-netflix",
+      "anisearch-177679-primevideo",
+      "anisearch-182578-disneyplus",
+      "anisearch-185692-primevideo",
+      "anisearch-185874-disneyplus",
+      "anisearch-186497-netflix",
+      "anisearch-189275-disneyplus",
+      "anisearch-197474-netflix",
+      "anisearch-204949-netflix",
+      "anisearch-103303-netflix",
+      "anisearch-201903-netflix",
+      "anisearch-206914-primevideo",
+      "anisearch-207141-netflix",
+      "anisearch-210032-netflix"
+    ]
+  }
+}

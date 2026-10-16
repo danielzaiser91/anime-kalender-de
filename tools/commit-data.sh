@@ -226,6 +226,11 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     hinzu tools/design-klassen-grenzen.json
   fi
 
+  # Dasselbe für die Treffer der Kalender-Plausibilität (pipeline/lib/kalender-plausibilitaet.ts): gesunkene Zahlen übernehmen.
+  if npm run check:kalender-plausibilitaet -- --festschreiben > /dev/null 2>&1; then
+    hinzu tools/kalender-plausibilitaet-grenzen.json
+  fi
+
   # Rot endet der Lauf, sobald Aufbau oder Bestand scheitern — nach dem Sichern der Quellen.
   LAUF_ROT=0
   if [ "${AUFBAU_GESCHEITERT:-0}" = 1 ] || [ "${BESTAND_KAPUTT:-0}" = 1 ]; then

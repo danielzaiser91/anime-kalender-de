@@ -60,6 +60,7 @@
     "check:belege": "node tools/belege-pruefen.mjs",
     "check:cr-folgen": "tsx pipeline/check-cr-folgen.ts",
     "check:kachel-anbieter-bestand": "tsx pipeline/check-kachel-anbieter-bestand.ts",
+    "check:kalender-plausibilitaet": "tsx pipeline/check-kalender-plausibilitaet-bestand.ts",
     "check:bookworm-bestand": "tsx pipeline/check-bookworm-dublette-bestand.ts",
     "check:bild-bestand": "tsx pipeline/check-bild-bestand.ts",
     "check:beleg-wand": "tsx pipeline/check-beleg-wand.ts",
