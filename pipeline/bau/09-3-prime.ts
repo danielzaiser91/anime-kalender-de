@@ -210,7 +210,7 @@ export function uebernehmePrimeUndCrVorschlaege({
        * „Im Abo".
        */
       const da =
-        (seite ? title.streams.find((x) => x.platform === plattform && x.url === seite) : null) ??
+        (seite ? title.streams.find((x) => x.platform === plattform && germanizeUrl(plattform, x.url) === seite) : null) ??
         (plattform === 'primevideo'
           ? title.streams.find((x) => x.platform === 'primevideo' && /amazon\.[a-z.]+\/s\?/i.test(x.url))
           : undefined)

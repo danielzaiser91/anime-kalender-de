@@ -87,6 +87,7 @@ const andere = [
   { id: 9101, plattform: 'netflix', url: 'https://www.netflix.com/title/91010', sprachen: ['de|Deutsch', 'ja|Japanisch [Original]'], vorhanden: [] as string[], erwartetWege: 1, erwartetDub: true },
   { id: 9102, plattform: 'disneyplus', url: 'https://www.disneyplus.com/browse/entity-bbbb', sprachen: ['de', 'ja'], vorhanden: [] as string[], erwartetWege: 1, erwartetDub: true },
   { id: 9103, plattform: 'disneyplus', url: 'https://www.disneyplus.com/browse/entity-aaaa', sprachen: ['de'], vorhanden: [DIS], erwartetWege: 1, erwartetDub: true },
+  { id: 9105, plattform: 'disneyplus', url: 'https://www.disneyplus.com/browse/entity-cccc', sprachen: ['de'], vorhanden: ['https://www.disneyplus.com/browse/entity-cccc'], erwartetWege: 1, erwartetDub: true },
   { id: 9104, plattform: 'netflix', url: 'https://www.netflix.com/title/91040', sprachen: ['ja|Japanisch [Original]'], vorhanden: [] as string[], erwartetWege: 0, erwartetDub: false },
 ]
 
