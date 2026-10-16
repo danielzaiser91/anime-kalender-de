@@ -19,7 +19,15 @@
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { ohneDoppelte } from './lib/rohfolgen-doppelte.ts'
-import { animeZugehoerigkeit, ordneCartoonsZu, type CartoonFolgenDatei } from './lib/rohfolgen-cartoons.ts'
+import {
+  animeZugehoerigkeit,
+  handbelegAdressen,
+  ordneCartoonsZu,
+  restTitel,
+  type CartoonFolgenDatei,
+} from './lib/rohfolgen-cartoons.ts'
+import { readFileSync } from 'node:fs'
+import yaml from 'js-yaml'
 import {
   ausAnisearch,
   englischeSchreibweisen,
@@ -302,10 +310,11 @@ async function main(): Promise<void> {
   > = {}
   /** Die Rohfolgen-Kennungen, die verwertet wurden — sie werden danach abgehakt. */
   const erledigt: number[] = []
-  /* Cartoons zuerst: ihre Adressen kennt `titles.json` nicht (F20, 16.10.2026). */
+  /* Cartoons und Handbeleg-Adressen zuerst: sie stehen nicht in titles.json (F20, 16.10.2026). */
   const cartoonLauf = ordneCartoonsZu(
     jeUrl,
     readJson<Title[]>('public/data/cartoons.json', []),
+    handbelegAdressen(yaml.load(readFileSync('data/dub-confirmed.yaml', 'utf8')) as Parameters<typeof handbelegAdressen>[0]),
     readJson<CartoonFolgenDatei>('data/cartoon-folgen.json', {}),
     animeZugehoerigkeit(titles),
   )
@@ -596,7 +605,7 @@ async function main(): Promise<void> {
     if (treffer.length !== 1) {
       offen.push({
         url,
-        titel: liste[0]?.titel ?? null,
+        titel: restTitel(liste),
         grund: treffer.length ? `${treffer.length} Titel teilen diese Adresse` : 'kein Titel zu dieser Adresse',
         folgen: liste.length,
         /*

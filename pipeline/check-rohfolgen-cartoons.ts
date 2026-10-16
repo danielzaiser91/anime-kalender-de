@@ -8,6 +8,8 @@ import { readFileSync } from 'node:fs'
 import type { Title } from '../shared/types.ts'
 import {
   animeZugehoerigkeit,
+  handbelegAdressen,
+  type HandbelegAdressen,
   ordneCartoonsZu,
   type CartoonFolgenDatei,
   type CartoonRohfolge,
@@ -53,8 +55,8 @@ const zeile = (url: string, titel: string | null, sprachen = '["Deutsch"]', tite
   titel_id: titelId,
 })
 const gruppen = (liste: CartoonRohfolge[]) => new Map([[liste[0]!.url + '#0', liste]])
-const lauf = (liste: CartoonRohfolge[], cartoons: Title[] = [pony, ohneListe]) =>
-  ordneCartoonsZu(gruppen(liste), cartoons, listen, animeZugehoerigkeit([anime]))
+const lauf = (liste: CartoonRohfolge[], cartoons: Title[] = [pony, ohneListe], belege: HandbelegAdressen = new Map()) =>
+  ordneCartoonsZu(gruppen(liste), cartoons, belege, listen, animeZugehoerigkeit([anime]))
 
 console.log('Cartoon-Zuordner')
 {
@@ -112,7 +114,7 @@ console.log('Cartoon-Zuordner')
     },
   }
   const url = 'https://www.netflix.com/title/400'
-  const r = ordneCartoonsZu(gruppen([zeile(url, 'Gleicher Name'), zeile(url, 'Anders')]), [doppelt], dl, () => false)
+  const r = ordneCartoonsZu(gruppen([zeile(url, 'Gleicher Name'), zeile(url, 'Anders')]), [doppelt], new Map(), dl, () => false)
   const f = Object.values(r.zugeordnet)[0]?.folgen
   pruefe('ein Folgentitel, der zwei Folgen trifft, wird nicht geraten', f?.length === 1 && f[0]!.unsere === null, f)
 }
@@ -123,12 +125,58 @@ const anbieter: [string, string, string][] = [
 ]
 for (const [name, url, plattform] of anbieter) {
   const c = cartoon(-500, url, 'Für alle Anbieter', plattform)
-  const r = ordneCartoonsZu(gruppen([zeile(url, 'a'), zeile(url, 'b')]), [c], {}, animeZugehoerigkeit([anime]))
+  const r = ordneCartoonsZu(gruppen([zeile(url, 'a'), zeile(url, 'b')]), [c], new Map(), {}, animeZugehoerigkeit([anime]))
   pruefe(`Cartoon-Adressen von ${name} werden zugeordnet`, Object.values(r.zugeordnet)[0]?.titleId === -500 && r.erledigt.length === 2)
+}
+
+const DISNEY = 'https://www.disneyplus.com/browse/entity-c752c178-c507-4c43-a73f-b6b64abf06d9'
+const AMAZON = 'https://www.amazon.de/dp/B0CP7P8QCY'
+const belege = handbelegAdressen([
+  { anilistId: -46848, title: 'Angry Birds Toons', url: DISNEY, dub: false },
+  { anilistId: -46848, title: 'Angry Birds Toons', url: DISNEY, dub: false },
+  { anilistId: 106479, title: 'Abwehrspezialisierung', url: 'https://www.amazon.de/gp/video/detail/B0CP7P8QCY' },
+  { anilistId: 20540, title: 'Eins', url: 'https://www.amazon.de/dp/B0B7D1XZJY', dub: true },
+  { anilistId: 20944, title: 'Zwei', url: 'https://www.amazon.de/gp/video/detail/B0B7D1XZJY', dub: true },
+])
+{
+  const rest = [zeile(DISNEY, 'Chuck Time', '["en"]'), zeile(DISNEY, 'Treasure Hunt', '["en"]'), zeile(DISNEY, 'Royal Heist', '["en", "fr"]')]
+  const r = lauf(rest, [], belege)
+  pruefe('Handbeleg-Adresse ohne Verweis im Bestand gehört dem Titel des Handbelegs', Object.values(r.zugeordnet)[0]?.titleId === -46848, r.offen)
+  pruefe('Folgen ohne deutschen Ton gelten als erledigt', r.erledigt.length === 3 && !r.offen.length)
+}
+{
+  const r = lauf([zeile(DISNEY, 'x', '["en"]'), zeile(DISNEY, 'y', '["de", "Deutsch"]')], [], belege)
+  pruefe('ein Handbeleg „kein Deutsch“ deckt keine Zeile mit deutschem Ton zu', r.offen.length === 1 && r.erledigt.length === 0, r.offen)
+  pruefe('der Rest-Eintrag nennt den Serientitel', r.offen[0]?.titel === 'Angry Birds Toons', r.offen[0]?.titel)
+}
+{
+  const r = lauf([zeile(AMAZON, 'Abwehr 1'), zeile(AMAZON, 'Abwehr 2')], [], belege)
+  pruefe('Amazon-Adressen finden den Handbeleg über /dp/ und /gp/video/detail/', Object.values(r.zugeordnet)[0]?.titleId === 106479 && r.erledigt.length === 2)
+}
+{
+  const u = 'https://www.amazon.de/gp/video/detail/B0B7D1XZJY'
+  const r = lauf([zeile(u, 'x'), zeile(u, 'y')], [], belege)
+  pruefe('zwei Titel im Handbeleg: offen mit benanntem Grund', r.offen[0]?.grund === '2 Titel teilen diese Adresse' && !r.erledigt.length, r.offen)
+  pruefe('ohne Serienname zeigt der Rest-Eintrag den Folgentitel als „Folge: …“', r.offen[0]?.titel === 'Folge: x', r.offen[0]?.titel)
+  const mit = lauf([{ ...zeile(u, 'x'), serientitel: 'Die Serie' }, zeile(u, 'y')], [], belege)
+  pruefe('mit Serienname zeigt er die Serie', mit.offen[0]?.titel === 'Die Serie', mit.offen[0]?.titel)
+}
+{
+  const r = lauf([zeile(AMAZON, 'a', '["en"]'), zeile(AMAZON, 'b', '["fr"]')], [], belege)
+  pruefe('ohne „kein Deutsch“ im Handbeleg bleiben uneinheitliche Tonspuren offen', r.offen.length === 1 && !r.erledigt.length, r.offen)
+  const u = 'https://www.disneyplus.com/browse/entity-gemischt'
+  const gemischt = handbelegAdressen([
+    { anilistId: -777, title: 'Gemischt', url: u, dub: false },
+    { anilistId: -777, title: 'Gemischt', url: u, dub: true },
+  ])
+  const g = lauf([zeile(u, 'a', '["en"]'), zeile(u, 'b', '["fr"]')], [], gemischt)
+  pruefe('ein Handbeleg mit Ja und Nein zur Adresse gilt nicht als „kein Deutsch“', g.offen.length === 1 && !g.erledigt.length, g.offen)
 }
 
 const quelle = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8')
 pruefe('fetch-rohfolgen.ts liest die Cartoons (public/data/cartoons.json)', quelle.includes("readJson<Title[]>('public/data/cartoons.json', [])"))
+pruefe('und die Handbeleg-Adressen (data/dub-confirmed.yaml)', quelle.includes("handbelegAdressen(yaml.load(readFileSync('data/dub-confirmed.yaml'"))
+pruefe('und der Rest-Eintrag „kein Titel“ nennt Serie statt Folge', quelle.includes('titel: restTitel(liste),'))
 pruefe('und lässt die Cartoon-Zuordnung vor dem Anime-Weg laufen', /ordneCartoonsZu\(\s*jeUrl,/.test(quelle) && quelle.includes('of cartoonLauf.uebrig)'))
 pruefe('und führt ihre Ergebnisse zusammen (zugeordnet, offen, erledigt)', quelle.includes('Object.assign(zugeordnet, cartoonLauf.zugeordnet)') && quelle.includes('offen.push(...cartoonLauf.offen)') && quelle.includes('erledigt.push(...cartoonLauf.erledigt)'))
 
