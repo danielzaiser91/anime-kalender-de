@@ -15,19 +15,13 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { fuehreAus, fusszeile } from './meldungskopie-abfrage.mjs'
 import { ARTEFAKT_DATEI, DATEINAME, holen } from './meldungskopie-holen.mjs'
-import { ziehen } from './meldungskopie-ziehen.mjs'
+import { wranglerAus, ziehen } from './meldungskopie-ziehen.mjs'
 
 const WURZEL = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const wert = (a, name) => (a.includes(name) ? a[a.indexOf(name) + 1] : undefined)
 const kopie = (a) => resolve(wert(a, '--kopie') ?? process.env.MELDUNGSKOPIE ?? `${WURZEL}/data/cache/meldungskopie/${DATEINAME}`)
 const gh = (args) => execFileSync(process.env.GH_BIN || 'gh', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit'] })
-const wrangler = (args) =>
-  execFileSync(process.execPath, [`${WURZEL}/node_modules/wrangler/bin/wrangler.js`, ...args], {
-    encoding: 'utf8',
-    maxBuffer: 64 << 20,
-    stdio: ['ignore', 'pipe', 'inherit'],
-    env: { ...process.env, WRANGLER_SEND_METRICS: 'false' },
-  })
+const wrangler = wranglerAus(WURZEL)
 
 function abfrage(a) {
   const datei = wert(a, '--datei')
