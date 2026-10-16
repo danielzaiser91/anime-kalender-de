@@ -16,8 +16,22 @@
  *
  * Aufruf: `npx tsx pipeline/fetch-rohfolgen.ts`
  */
-import { log, readJson, warn, writeJson } from './lib/util.ts'
+import { resolve } from 'node:path'
+import { log, readJson, ROOT, warn } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { schliesseRohfolgenAb, type Offen } from './lib/rohfolgen-abschluss.ts'
+import { sortiereKanalGruppenAus, type ZugeordneteSeiten } from './lib/kanal-aussortieren.ts'
+import { ladeHandbelege } from './lib/dub-confirmed.ts'
+import { ohneDoppelte } from './lib/rohfolgen-doppelte.ts'
+import {
+  animeZugehoerigkeit,
+  handbelegAdressen,
+  ordneCartoonsZu,
+  restTitel,
+  type CartoonFolgenDatei,
+} from './lib/rohfolgen-cartoons.ts'
+import { readFileSync } from 'node:fs'
+import yaml from 'js-yaml'
 import {
   ausAnisearch,
   englischeSchreibweisen,
@@ -101,16 +115,6 @@ interface TmdbEintrag {
   folgen: TmdbFolge[]
 }
 
-/** Ein Fall, der geklärt werden muss, statt geraten zu werden. */
-interface Offen {
-  url: string
-  titel: string | null
-  grund: string
-  folgen: number
-  /** Ob mindestens eine Rohfolge eine Titel-Kennung mitbrachte — siehe unten. */
-  mitKennung?: boolean
-}
-
 async function main(): Promise<void> {
   if (!TOKEN) {
     warn('LAUF_TOKEN fehlt — ohne Token gibt der Worker die Rohfolgen nicht heraus.')
@@ -191,52 +195,11 @@ async function main(): Promise<void> {
     }
   }
 
-  /*
-    **Dubletten aus dem Altbestand wegräumen.**
-
-    Bis zum 28.08.2026 hängte jede erneute Meldung derselben Adresse ihre Folgen
-    an, statt die offenen zu ersetzen — der Worker macht es seitdem richtig, aber
-    was davor entstand, liegt noch da: **3.569 Zeilen allein unter „Captain
-    Tsubasa"**, einer Seite mit 91 Folgen, weil Daniel an dem Titel oft gemeldet
-    hat. Sie machen zwei Drittel des Briefkastens aus und blockieren jeden Lauf.
-
-    Behalten wird je Adresse und Folgennummer die **jüngste** Zeile; die
-    überzähligen werden abgehakt. Das ist kein Datenverlust: Es sind wörtliche
-    Wiederholungen derselben Meldung.
-  */
-  const jungste = new Map<string, Rohfolge>()
-  const veraltet: number[] = []
-  for (const f of folgen) {
-    /*
-      **Der Schlüssel ist der Inhalt, nicht nur die Nummer.**
-
-      Prime führt in einer Liste die deutsche Zählung neben der japanischen
-      Gesamtzählung (Detektiv Conan: 149–151 neben 1146–1148, siehe CLAUDE.md).
-      Zwei verschiedene Folgen mit derselben Nummer sind damit möglich, und ein
-      Schlüssel aus Adresse und Nummer allein würde eine davon wegwerfen.
-
-      Gemessen am Altbestand vom 29.08.2026: 5.633 Zeilen, 1.169 Gruppen, und in
-      **keiner einzigen** unterscheidet sich der Inhalt. Die Verschärfung kostet
-      also nichts und schließt den Fall trotzdem aus, bevor er eintritt.
-    */
-    const k = `${f.url}|${f.nummer ?? ""}|${f.titel ?? ""}|${f.erschienen ?? ""}|${f.sprachen ?? ""}`
-    const da = jungste.get(k)
-    if (!da) {
-      jungste.set(k, f)
-      continue
-    }
-    /* Die spätere Meldung gewinnt; bei gleichem Zeitpunkt die höhere Kennung. */
-    const neuer = f.gemeldet_am > da.gemeldet_am || (f.gemeldet_am === da.gemeldet_am && f.id > da.id)
-    if (neuer) {
-      veraltet.push(da.id)
-      jungste.set(k, f)
-    } else {
-      veraltet.push(f.id)
-    }
-  }
+  const entdoppelt = ohneDoppelte(folgen)
+  const veraltet = entdoppelt.veraltet
   if (veraltet.length) {
     log(`${veraltet.length} doppelte Rohfolgen aussortiert (Altbestand vor dem 28.08.2026)`)
-    folgen = [...jungste.values()]
+    folgen = entdoppelt.folgen
   }
 
   /* Die Regel, welche Folgen zusammengehören, steht in `shared/folgen-zuordnung.ts`. */
@@ -341,8 +304,19 @@ async function main(): Promise<void> {
   > = {}
   /** Die Rohfolgen-Kennungen, die verwertet wurden — sie werden danach abgehakt. */
   const erledigt: number[] = []
-
-  for (const [schluessel, liste] of jeUrl) {
+  /* Cartoons und Handbeleg-Adressen zuerst: sie stehen nicht in titles.json (F20, 16.10.2026). */
+  const cartoonLauf = ordneCartoonsZu(
+    jeUrl,
+    readJson<Title[]>('public/data/cartoons.json', []),
+    handbelegAdressen(yaml.load(readFileSync(resolve(ROOT, 'data/dub-confirmed.yaml'), 'utf8')) as Parameters<typeof handbelegAdressen>[0]),
+    readJson<CartoonFolgenDatei>('data/cartoon-folgen.json', {}),
+    animeZugehoerigkeit(titles),
+  )
+  Object.assign(zugeordnet, cartoonLauf.zugeordnet)
+  offen.push(...cartoonLauf.offen)
+  erledigt.push(...cartoonLauf.erledigt)
+  log(`${Object.keys(cartoonLauf.zugeordnet).length} Cartoon-Adressen zugeordnet, ${cartoonLauf.offen.length} offen`)
+  for (const [schluessel, liste] of cartoonLauf.uebrig) {
     /*
       Der Schlüssel trägt seit dem 30.08.2026 die Ausgabe mit (`url#asin`) —
       gesucht und gespeichert wird aber unter der Adresse selbst. Sie steht in
@@ -625,7 +599,7 @@ async function main(): Promise<void> {
     if (treffer.length !== 1) {
       offen.push({
         url,
-        titel: liste[0]?.titel ?? null,
+        titel: restTitel(liste),
         grund: treffer.length ? `${treffer.length} Titel teilen diese Adresse` : 'kein Titel zu dieser Adresse',
         folgen: liste.length,
         /*
@@ -832,61 +806,20 @@ async function main(): Promise<void> {
     for (const f of liste) erledigt.push(f.id)
   }
 
-  /*
-    **Der Bestand dieser Datei ist der Ertrag aller Läufe, nicht der des letzten.**
-
-    Geschrieben wurde hier `zugeordnet` — die Zuordnungen **dieses** Laufs. Und
-    weil der Briefkasten danach abgehakt wird, kommen die alten Meldungen nie
-    wieder: Was gestern zugeordnet war, war heute weg. Der Verlauf der Datei
-    zeigt es unmissverständlich — 0, 1, 2, 0, 1 Adressen, nie mehr. Am
-    04.09.2026 standen dort die zwölf deutschen Takagi-Folgen (AniList 99468),
-    am 05.09. nicht mehr.
-
-    Der Schaden ist nicht die Datei, sondern was daran hängt: `build.ts` legt aus
-    ihr die Prime-Verweise an. Ein Verweis, der aus gemeldeten Folgen entsteht,
-    hielt damit genau einen Bau.
-
-    Zusammengeführt wird über den Schlüssel `url#asin` — eine erneute Meldung
-    derselben Ausgabe **ersetzt** ihren Eintrag, alle übrigen bleiben stehen.
-    Dasselbe Muster wie beim Filmblock-Abruf, aus demselben Grund: Ein Lauf, der
-    nichts findet, darf nicht löschen, was ein früherer gefunden hat.
-  */
-  const bisher = readJson<typeof zugeordnet>('data/prime-zugeordnet.json', {})
-  writeJson('data/prime-zugeordnet.json', { ...bisher, ...zugeordnet })
-  writeJson('data/prime-unzugeordnet.json', offen)
-
-  /*
-    **Erst schreiben, dann abhaken.** Die Zuordnung steht committet im Repo,
-    bevor der Briefkasten sie vergisst — andersherum wäre ein Netzfehler zwischen
-    beiden Schritten ein Datenverlust.
-  */
-  erledigt.push(...veraltet)
-  if (erledigt.length) {
-    try {
-      const res = await fetch(`${WORKER}/pruefung`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': TOKEN },
-        body: JSON.stringify({ rohfolgenUebernommen: erledigt }),
-      })
-      if (res.ok) log(`${erledigt.length} Rohfolgen abgehakt`)
-      else warn(`Rohfolgen nicht abgehakt: HTTP ${res.status} — sie kommen beim nächsten Lauf erneut`)
-    } catch (e) {
-      warn(`Rohfolgen nicht abgehakt: ${(e as Error).message}`)
-    }
-  }
-
-  const gesamtZugeordnet = Object.values(zugeordnet).reduce((n, z) => n + z.folgen.length, 0)
-  log(
-    `${Object.keys(zugeordnet).length} Adressen zugeordnet (${gesamtZugeordnet} Folgen), ${offen.length} offen` +
-      (ueberFolgentitel ? `, davon ${ueberFolgentitel} allein über die Folgentitel gefunden` : '') +
-      (uebersprungenStaffel
-        ? `, ${uebersprungenStaffel} übersprungen: die Meldung nennt eine Staffel ab 2, der Treffer war der Reihenkopf`
-        : ''),
-  )
-  if (ohneFolgenzuordnung)
-    log(`${ohneFolgenzuordnung} Adressen belegen nur den Titel — die Folgen sind dort nicht zuzuordnen`)
-  for (const o of offen.slice(0, 5)) log(`  offen: ${o.titel ?? o.url} — ${o.grund}`)
-  recordSource('rohfolgen', gesamtZugeordnet, undefined, Object.keys(zugeordnet).length)
+  const bearbeitet = new Set(erledigt)
+  const offeneGruppen = [...cartoonLauf.uebrig.values()].filter((liste) => !liste.every((f) => bearbeitet.has(f.id)))
+  const bisherZugeordnet = readJson<ZugeordneteSeiten>('data/prime-zugeordnet.json', {})
+  const kanalWeg = sortiereKanalGruppenAus(offeneGruppen, ladeHandbelege(), bisherZugeordnet)
+  await schliesseRohfolgenAb({
+    kanalWeg,
+    zugeordnet,
+    offen,
+    erledigt,
+    veraltet,
+    zaehler: { ueberFolgentitel, uebersprungenStaffel, ohneFolgenzuordnung },
+    worker: WORKER,
+    token: TOKEN,
+  })
 }
 
 await main()

@@ -34,10 +34,10 @@ export function baueWarteschlange(e: {
      * Titan" mehr. Ein Bestand, der nur wachsen kann,
      * behauptet solche Angebote weiter.
      *
-     * Vierzehn Tage sind der Kompromiss: aniSearch gehört einer kleinen
-     * Redaktion, jeder Abruf kostet dort Last, und Lizenzen wechseln nicht
-     * wöchentlich. Bei 2.612 Einträgen bedeutet das rund 190 Abrufe je Nacht,
-     * verteilt über die ohnehin laufende Warteschlange.
+     * Dreißig Tage (`TITEL_MAX_AGE_DAYS` in `fetch-anisearch.ts`, Begründung dort) sind der
+     * Kompromiss: aniSearch gehört einer kleinen Redaktion, jeder Abruf kostet dort Last, und
+     * Lizenzen wechseln nicht wöchentlich. Bei rund 2.600 Einträgen sind das etwa 87 Abrufe je
+     * Tag (Stand 15.10.2026), verteilt über die ohnehin laufende Warteschlange.
      */
     /*
       **Eine fehlende Archivdatei ist ein Grund zum Nachholen — auch bei

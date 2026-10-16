@@ -209,7 +209,7 @@ else window.addEventListener('popstate', akPlayerMarke)
  * **Einklappbarer Kasten** (Daniel, 09.10.2026): ein kleines Icon unten rechts klappt den Kasten
  * aus und ein, auf allen Seiten gleich (Disney+, Netflix, Prime). Standard: eingeklappt, damit
  * Wiedergabe- und Stöberseiten frei bleiben. Ein Schlüssel für alle Seiten (`chrome.storage.local`,
- * Berechtigung `storage` besteht schon). Eingeklappt ist nur visuell (`melder.css`, `html.ak-zu`);
+ * Berechtigung `storage` besteht schon). Eingeklappt ist nur visuell (`melder.css`, `html.ak-eingeklappt`);
  * die Melder-Logik läuft weiter. Ein Durchgang (`html.ak-durchgang`, bei Disney+/Prime `pflicht`)
  * hält den Kasten offen, er ist dann der Notausgang.
  *
@@ -254,7 +254,7 @@ function akIconZeichnen() {
   const html = document.documentElement
   const zwang = akPflicht || html.classList.contains('ak-durchgang')
   const offen = !akZu || zwang
-  html.classList.toggle('ak-zu', !offen)
+  html.classList.toggle('ak-eingeklappt', !offen)
   if (!akIcon) return
   akIcon.ariaExpanded = String(offen)
   akIcon.ariaDisabled = String(zwang)

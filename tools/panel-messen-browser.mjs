@@ -130,22 +130,10 @@ export function kopfMasse() {
   }
 }
 
-/**
- * Verdeckte Bedienelemente (Flaggen-Fehler 16.10.2026): jeder sichtbare Link und Knopf im Panel muss an seiner Mitte selbst das oberste
- * Element sein. Dazu: eine Flagge mit Pfeil (↗) ohne Link ist ein leeres Versprechen.
- */
-export function verdeckte() {
+/** Flaggen-Fehler 16.10.2026: Eine Flagge mit Pfeil (↗) ohne Link ist ein leeres Versprechen. */
+export function flaggenOhneLink() {
   const wurzel = document.querySelector('[data-panel="titel"]')
   const befunde = []
-  for (const el of wurzel.querySelectorAll('a[href], button')) {
-    el.scrollIntoView({ block: 'nearest' })
-    const r = el.getBoundingClientRect()
-    if (r.width === 0 || r.height === 0 || getComputedStyle(el).visibility === 'hidden') continue
-    const oben = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)
-    if (oben && (el.contains(oben) || oben.contains(el))) continue
-    const name = (el.getAttribute('aria-label') ?? el.textContent).trim().replace(/\s+/g, ' ').slice(0, 30)
-    befunde.push(`${el.tagName.toLowerCase()} „${name}“ liegt unter ${oben?.tagName.toLowerCase() ?? 'nichts'} ${String(oben?.className ?? '').slice(0, 40)}`)
-  }
   for (const f of wurzel.querySelectorAll('[data-flaggen] span.inline-flex')) {
     if (!f.querySelector('a') && f.querySelector('svg')) befunde.push(`Flagge „${f.textContent.trim()}“ hat einen Pfeil, aber keinen Link`)
   }

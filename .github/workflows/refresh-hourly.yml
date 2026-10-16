@@ -86,6 +86,10 @@ jobs:
       - name: Verpasste Termine prüfen
         run: bash tools/schritt.sh --zeit 5m "Verpasste Termine" -- npx tsx pipeline/termine-pruefen.ts
 
+      # Neue Anime2You-Meldungen stündlich statt erst im Tageslauf (Artikel warteten im Mittel 16 h): nur die erste Seite je Feed (4 Abrufe), Volltext nur für neue Adressen.
+      - name: Anime2You (leicht)
+        run: bash tools/schritt.sh --zeit 5m "Anime2You (leicht)" -- npm run data:anime2you -- --leicht
+
       # Was der Prüflauf gemessen hat, als Bild festhalten (privat, R2). Öffnet nur dann einen Browser, wenn ein frischer Vermerk noch kein Bild hat.
       - name: Messbelege ablegen
         run: bash tools/schritt.sh --zeit 10m "Messbelege" -- npx tsx pipeline/messbelege.ts

@@ -16,6 +16,7 @@ pipeline/check-angebot-stichtag.ts
 pipeline/check-angebot-termine.ts
 pipeline/check-anilist-produkt.ts
 pipeline/check-anime2you-entwurf.ts
+pipeline/check-anime2you-leicht.ts
 pipeline/check-anime2you-rhythmus.ts
 pipeline/check-anime2you-sammelartikel.ts
 pipeline/check-anime2you-vorschlag.ts
@@ -38,6 +39,8 @@ pipeline/check-beleg-stoerung.ts
 pipeline/check-belegstaerke.ts
 pipeline/check-bild-und-synchro.ts
 pipeline/check-bookworm-dublette.ts
+pipeline/check-cartoon-aufnahme-bau.ts
+pipeline/check-cartoon-aufnahme.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
@@ -84,7 +87,9 @@ pipeline/check-kachel-katalog.ts
 pipeline/check-kalender-filter.ts
 pipeline/check-kalender-plausibilitaet.ts
 pipeline/check-kanal-abgehakt.ts
+pipeline/check-kanal-aussortieren.ts
 pipeline/check-kanal-erbt.ts
+pipeline/check-kanal-je-seite.ts
 pipeline/check-kanal-messung.ts
 pipeline/check-kanal-verlust.ts
 pipeline/check-katalog-eingefroren.ts
@@ -123,12 +128,15 @@ pipeline/check-reihen-teilname.ts
 pipeline/check-reihen-traeger-aufrufer.ts
 pipeline/check-reihen-traeger.ts
 pipeline/check-reinids-grund.ts
+pipeline/check-rohfolgen-ablauf.ts
+pipeline/check-rohfolgen-cartoons.ts
 pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
 pipeline/check-sammelartikel.ts
 pipeline/check-schwester-shop.ts
 pipeline/check-seiten-seo.ts
+pipeline/check-sprache-netz.ts
 pipeline/check-sprache-termin.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts

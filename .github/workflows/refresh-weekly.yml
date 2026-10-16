@@ -309,11 +309,7 @@ jobs:
       - name: Kitsu-Folgen holen
         run: bash tools/schritt.sh --zeit 20m "Kitsu-Folgen" -- npm run data:kitsu-folgen -- --limit 300
 
-      # Welche Titel aniSearch als deutsch vertont führt (ein Abruf; mit Token eine Abfrage je Stunde).
-      - name: aniSearch-Dub-Liste holen
-        env:
-          ANISEARCH_TOKEN: ${{ secrets.ANISEARCH_TOKEN }}
-        run: bash tools/schritt.sh --zeit 10m "aniSearch-Dubs" -- npm run data:anisearch-dubs
+      # Die aniSearch-Dub-Liste kommt seit 15.10.2026 aus dem Tageslauf (Job aniSearch); die Einträge unten lesen ihre Kennungen aus dem Bestand.
 
       # Einträge, die aniSearch führt und wir noch nicht (erst die mit Deutsch, dann der Rest); 400 Kennungen je Woche, tokenlos alle 10 Sekunden ein Abruf.
       - name: aniSearch-Einträge holen

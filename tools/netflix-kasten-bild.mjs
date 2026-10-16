@@ -96,7 +96,7 @@ await seite.evaluate(
 )
 
 /*
-  Seit 4.24.17 (09.10.2026) ist der Kasten standardmäßig eingeklappt (`html.ak-zu`, unsichtbar).
+  Seit 4.24.17 (09.10.2026) ist der Kasten standardmäßig eingeklappt (`html.ak-eingeklappt`, unsichtbar).
   Erst den eingeklappten Zustand messen (Icon da, Kasten weg), dann per Icon-Klick ausklappen —
   alles Weitere wird wie bisher im ausgeklappten Zustand geprüft.
 */

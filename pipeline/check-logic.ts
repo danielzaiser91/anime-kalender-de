@@ -3558,7 +3558,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     Zusatz „— Kauftitel (FSK 16, mit OVA)") und der Beleg ohne Folgenzuordnung,
     wenn Prime eigene Folgennamen und für alle dasselbe Datum führt.
   */
-  const roh = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8')
+  const roh = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8') + readFileSync('pipeline/lib/rohfolgen-abschluss.ts', 'utf8')
   pruefe(
     'der gemeldete Name wird am Gedankenstrich geschnitten',
     /titelSchluessel\(name\.split\(' — '\)\[0\]!\)/.test(roh),
@@ -4012,8 +4012,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
          Fehlermeldung zwei Bildschirme lang und niemand liest sie. */
       .map((block) => (block.split('{')[0] ?? '').split('*/').pop()?.trim() ?? '')
     const ohneAnbieter = versteckt.filter(
-      /* `html.ak-zu` (Einklappen, box.js) ist ein Nutzerzustand, kein Anbieter-Zustand. */
-      (wahl) => /\.ak-(uebersicht|melder|amazon-knopf)/.test(wahl) && !/\.ak-amazon\s/.test(wahl) && !/\.ak-zu(?![\w-])/.test(wahl),
+      /* `html.ak-eingeklappt` (Einklappen, box.js) ist ein Nutzerzustand, kein Anbieter-Zustand. */
+      (wahl) => /\.ak-(uebersicht|melder|amazon-knopf)/.test(wahl) && !/\.ak-amazon\s/.test(wahl) && !/\.ak-eingeklappt(?![\w-])/.test(wahl),
     )
     pruefe(
       'kein Knopf wird ohne Anbieter-Anker unsichtbar geschaltet',
