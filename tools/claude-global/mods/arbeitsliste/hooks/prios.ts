@@ -9,7 +9,7 @@ export type PrioStatus = { label: string; farbe: string }
 export const STATUS: Record<string, PrioStatus> = {
   queue: { label: 'QUEUE', farbe: 'inactive' },
   'arbeit-agent': { label: 'AGENT', farbe: 'suggestion' },
-  'arbeit-ich': { label: 'ICH', farbe: 'claude' },
+  'arbeit-ich': { label: 'ICH', farbe: 'planMode' },
   pipeline: { label: 'PIPELINE', farbe: 'merged' },
   live: { label: 'LIVE', farbe: 'success' },
   'wartet-daniel': { label: 'DANIEL', farbe: 'warning' },
@@ -26,21 +26,22 @@ export function statusVon(status: string): PrioStatus | null {
   return STATUS[status] ?? { label: `?${status}`, farbe: 'error' }
 }
 
-const ohneLinks = (s: string) => s.replace(/\[[^\]]+\]\([^)]*\)/g, ' ')
+// Links hinter „ — “ am Zeilenende sind reine Knöpfe; Links mitten im Satz behalten ihren Text.
+const KNOPFREIHE = /(?:^|\s)—\s+(?:\[[^\]]+\]\([^)]*\)\s*)+$/
+const lesbar = (s: string) => klartext(s.replace(KNOPFREIHE, ''))
 
 // Kopf ohne fetten Titel: ganze Zeile ist der Titel.
 function prioKopf(roh: string): PrioEintrag {
   const m = /^\*\*(.+?)\*\*\s*(?:\{([^}]*)\})?\s*(?:—\s*)?(.*)$/.exec(roh)
   const links = extrahiereLinks(roh)
-  if (!m) return { titel: klartext(ohneLinks(roh)), rest: '', groesse: 'normal', links, status: '', details: [] }
-  const rest = klartext(ohneLinks(m[3]!)).replace(/\s*—$/, '')
-  return { titel: klartext(m[1]!), rest, groesse: 'normal', links, status: (m[2] ?? '').trim(), details: [] }
+  if (!m) return { titel: lesbar(roh), rest: '', groesse: 'normal', links, status: '', details: [] }
+  return { titel: klartext(m[1]!), rest: lesbar(m[3]!), groesse: 'normal', links, status: (m[2] ?? '').trim(), details: [] }
 }
 
-// Eingerückte Folgezeile: Text wird Detail, Links wandern in die Knopfzeile.
+// Eingerückte Folgezeile: Text wird Detail, Links wandern zusätzlich in die Knopfzeile.
 function ergaenzeDetail(e: PrioEintrag, zeile: string) {
   const roh = zeile.replace(/^\s*(?:-\s+)?/, '')
-  const text = klartext(ohneLinks(roh))
+  const text = lesbar(roh)
   if (text) e.details.push(text)
   for (const v of extrahiereLinks(roh)) if (!e.links.some(l => l.href === v.href)) e.links.push(v)
 }
@@ -67,3 +68,13 @@ export function zeilenBedarf(e: PrioEintrag, zeichenJeZeile: number): number {
 export const textKlappt = (e: PrioEintrag, zeichenJeZeile: number): boolean => zeilenBedarf(e, zeichenJeZeile) > MAX_ZEILEN_PRIO
 
 export const hatAusklapp = (e: PrioEintrag, zeichenJeZeile: number): boolean => e.details.length > 0 || textKlappt(e, zeichenJeZeile)
+
+// Desktop setzt Proportionalschrift: dort passen gut 1,6 Zeichen je Spalte (Screenshot 11.10.2026); Terminal 1.
+export const zeichenJeSpalte = (surface: string): number => (surface === 'terminal' ? 1 : 1.6)
+
+// Pane-Rand 2, Kastenrand samt Innenrand 4, Klappknopf 2.
+export const PRIO_RAND = 8
+
+export function prioZeichenJeZeile(bodyColumns: number, surface: string): number {
+  return Math.floor(Math.max(16, (bodyColumns || 38) - PRIO_RAND) * zeichenJeSpalte(surface))
+}

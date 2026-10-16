@@ -31,7 +31,7 @@ export type PrioUmfeld = {
 
 export const prioKennung = (e: PrioEintrag): string => `prio:${e.titel}`
 
-// Link als Schaltfläche: graue Fläche (in beiden Themen lesbar), Pfeil in der Link-Farbe des Themas.
+// Link als Schaltfläche: graue Fläche mit fettem Pfeil in Textfarbe (bester Kontrast in beiden Themen).
 function linkKnoepfe(ui: any, e: PrioEintrag, oeffne: (href: string) => void) {
   const { Box, Button, Text } = ui
   if (!e.links.length) return null
@@ -39,10 +39,10 @@ function linkKnoepfe(ui: any, e: PrioEintrag, oeffne: (href: string) => void) {
     <Box key={`links-${e.titel}`} flexDirection="row" flexWrap="wrap" gap={1} paddingLeft={2}>
       {e.links.map((v: Verweis, k: number) => (
         <Box key={`${e.titel}-l${k}`} backgroundColor="subtle" paddingX={1}>
-          <Text color="suggestion" bold>
+          <Text bold>
             ↗
           </Text>
-          <Button plain label={` ${v.label}`} onPress={() => oeffne(v.href)} />
+          <Button key={`link:${e.titel}:${k}`} plain label={` ${v.label}`} onPress={() => oeffne(v.href)} />
         </Box>
       ))}
     </Box>
@@ -74,13 +74,16 @@ function prioKopf(ui: any, e: PrioEintrag, u: PrioUmfeld) {
 }
 
 function prioDetails(ui: any, e: PrioEintrag, u: PrioUmfeld) {
-  const { Text } = ui
+  const { Box, Text } = ui
   if (!hatAusklapp(e, u.zeichenJeZeile) || !u.offen(prioKennung(e))) return null
   const zeilen = [textKlappt(e, u.zeichenJeZeile) ? e.rest : '', ...e.details].filter(Boolean)
+  // Echte Einrückung (marginLeft), damit umbrochene Folgezeilen unter dem Text bleiben, nicht auf Spalte 0 fallen.
   return zeilen.map((t, k) => (
-    <Text key={`det-${e.titel}-${k}`} dimColor wrap="wrap">
-      {`    ${t}`}
-    </Text>
+    <Box key={`det-${e.titel}-${k}`} marginLeft={4}>
+      <Text dimColor wrap="wrap">
+        {t}
+      </Text>
+    </Box>
   ))
 }
 

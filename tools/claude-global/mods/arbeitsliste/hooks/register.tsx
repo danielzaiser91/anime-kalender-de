@@ -14,7 +14,7 @@ import { kopierText } from './kopieren'
 import { agentenText, istPruefer } from './pruefer'
 import { bereichOffen, bereichsKennung, bereichsKopf, topPriosKasten } from './bereiche'
 import type { PrioUmfeld } from './bereiche'
-import { zaehleTopPrios } from './prios'
+import { prioZeichenJeZeile, zaehleTopPrios, zeichenJeSpalte } from './prios'
 import type { PrioEintrag } from './prios'
 
 const DATEI = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/stand.md'
@@ -340,8 +340,8 @@ function baueAnsicht($: EngineInterface, e: any, d: PaneDaten) {
   const breite = Math.max(16, (e.props.bodyColumns || 38) - 2 - 5)
   // Titel brechen um (Folgezeile unter dem Text); gekürzt wird erst jenseits von MAX_ZEILEN Zeilen, Wortumbruch kostet Reserve.
   // Desktop setzt Proportionalschrift: dort passen gut 1,6 Zeichen je Spalte (Screenshot 11.10.2026, zweite Zeile blieb halb leer).
-  const zeichenJeSpalte = e.surface === 'terminal' ? 1 : 1.6
-  const gesamt = (b: number) => Math.floor(b * zeichenJeSpalte) * MAX_ZEILEN - 4
+  const zeichenJe = zeichenJeSpalte(e.surface)
+  const gesamt = (b: number) => Math.floor(b * zeichenJe) * MAX_ZEILEN - 4
   const kt = (text: string) => kuerze(text, gesamt(breite))
   const { Box, Button, Link, Text } = $.ui.resolve(e)
   const schnitt = <T,>(liste: T[], id: string, max?: number) => schneide(liste, id, d.ausgeklappt, max)
@@ -637,11 +637,10 @@ function paneRegeln($: EngineInterface, a: Ansicht, d: PaneDaten) {
   )
 }
 
-// Breite und Klappzustand für den Top-Prios-Kasten (Pane-Rand 2, Kastenrand und Innenrand 4, Klappknopf 2).
+// Breite und Klappzustand für den Top-Prios-Kasten.
 function prioUmfeld($: EngineInterface, e: any, d: PaneDaten, oeffne: (href: string) => Promise<void>): PrioUmfeld {
-  const spalten = Math.max(16, (e.props.bodyColumns || 38) - 8)
   return {
-    zeichenJeZeile: Math.floor(spalten * (e.surface === 'terminal' ? 1 : 1.6)),
+    zeichenJeZeile: prioZeichenJeZeile(e.props.bodyColumns, e.surface),
     offen: kennung => d.ausgeklappt.includes(kennung),
     schalte: kennung => void update($, aufgeklappt, a => schalte(a, kennung)),
     oeffne: href => void oeffne(href),
