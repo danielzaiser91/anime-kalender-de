@@ -11,6 +11,7 @@ export interface Aufruf {
 /**
  * Die Aufrufe, die eine Funktion unbedingt als eigene Anweisung ausführt (`f(…)` oder `const x = f(…)` direkt im Rumpf), geparst.
  * `0 && f()`, `if (false) f()` und `cond ? f() : g()` zählen nicht: Sie sind keine eigene Anweisung mit dem Aufruf als Wert.
+ * Grenze: Ein frühes `return` vor dem Aufruf und ein lokal überschatteter Name werden nicht erkannt.
  * Prüfungen vergleichen damit Name, Argumente und Reihenfolge im Bau, statt ein Textstück zu suchen.
  */
 export function unbedingteAufrufe(quelltext: string, funktion: string): Aufruf[] {
