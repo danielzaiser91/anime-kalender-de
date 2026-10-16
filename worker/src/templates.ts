@@ -391,7 +391,7 @@ function koerper(o: {
 function verschobenBlock(events: ReleaseEvent[]): string {
   const zeilen = events.map((ev) => {
     const v = ev.verpasst
-    const datum = (iso?: string) => (iso ? iso.split('-').reverse().join('.') : '')
+    const datum = (iso?: string) => (iso ? formatDate(iso) : '')
     const alt = datum(v?.erwartetAm ?? ev.date)
     const neu = v?.erschienenAm ? `nachgeholt am ${datum(v.erschienenAm)}` : 'noch nicht erschienen'
     return `<p style="margin:10px 0 0;padding-top:8px;border-top:1px solid #232c40;">
@@ -426,7 +426,7 @@ function verschobenBlock(events: ReleaseEvent[]): string {
       o.verschoben
         .map((ev) => {
           const v = ev.verpasst
-          const datum = (iso?: string) => (iso ? iso.split('-').reverse().join('.') : '')
+          const datum = (iso?: string) => (iso ? formatDate(iso) : '')
           const neu = v?.erschienenAm ? `nachgeholt am ${datum(v.erschienenAm)}` : 'noch nicht erschienen'
           return `* ${ev.name} — ${ausfallWort(ev)} für ${datum(v?.erwartetAm ?? ev.date)}, ${neu}`
         })
@@ -440,7 +440,7 @@ function verschobenBlock(events: ReleaseEvent[]): string {
         .map(
           (n) =>
             `* ${n.name} — ${
-              n.termin ? `erster deutscher Termin: ${n.termin.split('-').reverse().join('.')}` : 'angekündigt, Termin steht noch aus'
+              n.termin ? `erster deutscher Termin: ${formatDate(n.termin)}` : 'angekündigt, Termin steht noch aus'
             }\n  ${o.siteUrl}#/datenbank?t=${n.id}`,
         )
         .join('\n') +
@@ -561,7 +561,7 @@ export function digestMail(
     `<p style="margin:0 0 8px;padding:11px 13px;background:#10251d;border-left:3px solid #34d399;border-radius:0 8px 8px 0;">
        <a href="${siteUrl}#/datenbank?t=${n.id}" style="color:#e2e8f0;font-weight:700;text-decoration:none;font-size:15px;">${n.name}</a><br>
        <span style="color:#9aa5bd;font-size:13px;">${
-         n.termin ? `Erster deutscher Termin: ${n.termin.split('-').reverse().join('.')}` : 'Angekündigt — ein Termin steht noch aus.'
+         n.termin ? `Erster deutscher Termin: ${formatDate(n.termin)}` : 'Angekündigt — ein Termin steht noch aus.'
        }</span>
      </p>`
 
