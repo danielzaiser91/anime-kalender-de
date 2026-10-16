@@ -20,6 +20,10 @@ assert.equal(ja([vor(5, 'success'), vor(29, 'success')]), false, 'erfolgreich un
 assert.equal(ja([vor(31, 'success')]), true, 'Erfolg älter als die Frist')
 assert.equal(ja([vor(31, null, 'in_progress'), vor(60, 'success')]), false, 'läuft gerade (auch ein alter Start)')
 assert.equal(ja([vor(1, null, 'queued'), vor(40, 'failure')]), false, 'wartender Lauf sperrt das Nachholen')
+/* Jeder aktive Zustand sperrt für sich: der wartende Start ist älter als die Frist, ohne Sperre käme ein Doppelstart. */
+for (const status of ['in_progress', 'queued', 'pending', 'waiting']) {
+  assert.equal(ja([vor(31, null, status), vor(60, 'success')]), false, `${status} sperrt das Nachholen`)
+}
 
 /* ---- Der Fall vom 16.10.2026: einziger Lauf rot, nie ein Erfolg ---- */
 assert.equal(ja([vor(15, 'failure')]), true, 'roter Start vor 15 h, kein Erfolg -> nachholen (vorher erst nach 30 h)')
@@ -73,6 +77,11 @@ assert.equal(ja([vor(7, 'failure'), vor(60, 'success'), vor(70, null, 'in_progre
 assert.equal(ja([vor(30.5, 'success')]), false, '30,5 h bei Frist 30 h: noch nicht überfällig')
 assert.equal(ja([vor(31, 'success')]), true, '31 h bei Frist 30 h: überfällig')
 
+/* ---- Grenzen der Rot-Regel: Erfolgsfrist ohne Abrunden, Wartezeit exakt ---- */
+assert.equal(ja([vor(10, 'failure'), vor(30, 'success')]), false, 'Erfolg genau 30 h alt: noch innerhalb der Frist')
+assert.equal(ja([vor(10, 'failure'), vor(30.5, 'success')]), true, 'Erfolg 30,5 h alt: außerhalb der Frist')
+assert.equal(ja([vor(ROT_WARTEN_H, 'failure')]), false, 'roter Start genau an der Wartezeit: noch nicht')
+
 /* ---- Kommandozeile als eigener Prozess: Argumente, Ausgabe, echte Uhrzeit ---- */
 const lauf = (laeufe, ...argumente) => {
   const r = spawnSync(process.execPath, [fileURLToPath(new URL('./wecker-wache-entscheid.mjs', import.meta.url)), ...argumente], { input: JSON.stringify(laeufe), encoding: 'utf8' })
@@ -96,10 +105,12 @@ assert.equal(wache.jobs.wache.if, undefined, 'Job „wache“ läuft immer (übe
 assert.equal(wache.jobs.wache['continue-on-error'], undefined, 'Job „wache“ darf nicht rot verschluckt werden')
 assert.deepEqual(wache.on.schedule, [{ cron: '37 */3 * * *' }], 'GitHubs eigener Cron, alle 3 h')
 const FRISTEN = 'refresh-hourly.yml:3 refresh-data.yml:30 refresh-weekly.yml:192 adn-laufende.yml:9 claude-verpasst-recherche.yml:30 claude-anime2you-extraktion.yml:30 claude-wache-urteil.yml:30 anisearch-katalog.yml:30 ladezeiten.yml:30 offizielle-news.yml:30 meldungskopie.yml:30 tonspuren-monatlich.yml:744:ohne-abbruch'
-assert.equal(nachholen.run.match(/PLAN="([^"]+)"/)[1], FRISTEN, 'Fristen der Wache (meldungskopie.yml: 30 h)')
-/* Ganzer Aufruf samt Argumenten, --json-Feldern, --limit und Vergleich mit dem Ergebnis, zusammenhängend im Schleifenrumpf. */
-const zeilen = nachholen.run.split('\n').map((z) => z.trim())
-const ruempf = [
+/* Der ganze run-Block ohne Kommentare und Leerzeilen, Zeile für Zeile: nichts davor (exit 0), nichts dazwischen, nichts am Ende. */
+const SOLL = [
+  `PLAN="${FRISTEN}"`,
+  'nachgeholt=0',
+  'for eintrag in $PLAN; do',
+  'wf="${eintrag%%:*}"; rest="${eintrag#*:}"; max="${rest%%:*}"; ohne=""; case "$rest" in *:ohne-abbruch) ohne=1;; esac',
   'laeufe="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow "$wf" --limit 10 --json createdAt,conclusion,status)"',
   'urteil="$(printf \'%s\' "$laeufe" | node tools/wecker-wache-entscheid.mjs "$max" ${ohne:+ohne-abbruch})"',
   'printf \'%-34s %s (Frist %s h)\\n\' "$wf" "$urteil" "$max"',
@@ -108,13 +119,12 @@ const ruempf = [
   'gh workflow run "$wf" --repo "$GITHUB_REPOSITORY" --ref main',
   'nachgeholt=$((nachgeholt + 1))',
   'fi',
+  'done',
+  'echo "Nachgeholt: $nachgeholt" | tee -a "$GITHUB_STEP_SUMMARY"',
+  'echo "nachgeholt=$nachgeholt" >> "$GITHUB_OUTPUT"',
 ]
-const start = zeilen.indexOf(ruempf[0])
-assert.ok(start >= 0, 'gh run list fehlt oder weicht ab')
-assert.deepEqual(zeilen.slice(start, start + ruempf.length + 1).filter((z) => !z.startsWith('#')), ruempf, 'Schleifenrumpf der Wache weicht ab')
-assert.equal(zeilen[start + ruempf.length + 1], 'done', 'Schleife endet direkt nach dem Rumpf')
-assert.ok(zeilen.includes('for eintrag in $PLAN; do'))
-assert.ok(zeilen.some((z) => z.startsWith('wf="${eintrag%%:*}"; rest="${eintrag#*:}"; max="${rest%%:*}"; ohne=""; case "$rest" in *:ohne-abbruch) ohne=1;; esac')))
+const IST = nachholen.run.split('\n').map((z) => z.trim()).filter((z) => z !== '' && !z.startsWith('#'))
+assert.deepEqual(IST, SOLL, 'run-Block der Wache weicht ab')
 assert.equal(nachholen.if, undefined, 'Schritt „nachholen“ läuft immer')
 assert.equal(nachholen['continue-on-error'], undefined)
 const plan = nachholen.run.match(/PLAN="([^"]+)"/)[1].split(' ').map((e) => e.split(':')[0])
@@ -125,10 +135,9 @@ for (const w of plan) assert.ok(weckplan.includes(w), `${w} steht in der Wecker-
 /* Handlauf um 12 Uhr + Wecker um 03 Uhr des Folgetags = 15 h: der Mindestabstand darf den Wecker-Start nicht sperren (16.10.2026 fehlte er so). */
 const mk = lies('shared/weckplan.ts').match(/workflow: 'meldungskopie\.yml', stunden: \[3\], abstandMin: (\d+)/)
 assert.ok(mk && Number(mk[1]) < 15 * 60, `Mindestabstand meldungskopie.yml ${mk?.[1]} min muss unter 15 h liegen`)
-const checkout =schritte.findIndex((s) => s.uses?.startsWith('actions/checkout'))
+const checkout = schritte.findIndex((s) => s.uses?.startsWith('actions/checkout'))
 assert.ok(checkout >= 0 && checkout < schritte.indexOf(nachholen), 'Checkout liegt vor dem Schritt, der das Skript ruft')
 assert.equal(schritte[checkout].if, undefined, 'Checkout läuft immer')
-assert.match(schritte[checkout].with['sparse-checkout'], /tools\/wecker-wache-entscheid\.mjs/)
-assert.match(schritte[checkout].with['sparse-checkout'], /tools\/lauf-melden\.sh/)
+assert.deepEqual(schritte[checkout].with, { 'sparse-checkout': 'tools/lauf-melden.sh\ntools/wecker-wache-entscheid.mjs\n' }, 'Checkout: nur diese zwei Dateien, kein ref')
 
 console.log('wecker-wache-entscheid: ok')
