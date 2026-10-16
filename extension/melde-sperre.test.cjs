@@ -272,9 +272,9 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
   })() === 1)
 
   /* Die zwei Stellen im Handler selbst: Registrierung und Vermerk nach Erfolg. */
-  pruefe('der Klick-Handler ist mit der Sperre umhüllt', /knopf\.addEventListener\('click', meldeSperre\.mitSperre\(async \(\) => \{/.test(quelle))
+  pruefe('der Klick-Handler ist mit der Sperre umhüllt', /knopf\.addEventListener\('click', meldeSperre\.mitSperre\(async \(befundBeimKlick\) => \{/.test(quelle))
   const erfolg = quelle.indexOf('        if (eintrag.ausSuche && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()')
-  const vermerk = quelle.indexOf('        meldeSperre.vermerken()')
+  const vermerk = quelle.indexOf('        meldeSperre.vermerken(befundBeimKlick)')
   const fehlerzweig = quelle.indexOf("knopf.textContent = `Nicht erreichbar: ${err.message}`")
   pruefe('der Vermerk steht im Erfolgszweig (nach dem Abhaken, vor dem Fehlerzweig)', erfolg > 0 && vermerk > erfolg && vermerk < fehlerzweig, { erfolg, vermerk, fehlerzweig })
   /* Zwischen dem Abhaken und dem Vermerk darf nur Kommentar stehen: keine Steuerzeile (`if (false)`, `return`), die ihn überspringt. */
@@ -283,7 +283,7 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
     erfolg > 0 && vermerk > erfolg && zwischen.replace(/\/\*[\s\S]*?\*\//g, '').trim() === '', zwischen)
   /* Die Marke „alles durch" (`gemeldetMarke(an, …)`) hängt an `durchFuerPfad`, nicht an einer Konstanten. */
   pruefe('die Marke „alles durch" folgt dem Pfad-Merker', /const an = durchFuerPfad === location\.pathname\s+const wegweisung/.test(quelle))
-  pruefe('genau ein Vermerk und kein zweiter Weg zur Marke', (quelle.match(/meldeSperre\.vermerken\(\)/g) ?? []).length === 1)
+  pruefe('genau ein Vermerk und kein zweiter Weg zur Marke', (quelle.match(/meldeSperre\.vermerken\(/g) ?? []).length === 1)
   pruefe('zeichnen() läuft über die Sperre', /function zeichnen\(\) \{\s*meldeSperre\.zeichnen\(\)\s*\}/.test(quelle))
 }
 

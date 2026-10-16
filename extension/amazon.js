@@ -9973,7 +9973,7 @@ async function speicherSchreiben(werte) {
 
   // --- Melden --------------------------------------------------------------
 
-  knopf.addEventListener('click', meldeSperre.mitSperre(async () => {
+  knopf.addEventListener('click', meldeSperre.mitSperre(async (befundBeimKlick) => {
     if (!verbindungLebt()) {
       knopf.textContent = '↻ Seite neu laden'
       knopf.title = 'Die Erweiterung wurde neu geladen. Diese Seite kennt sie noch nicht — einmal aktualisieren, dann geht es weiter.'
@@ -10741,7 +10741,7 @@ async function speicherSchreiben(werte) {
         */
         if (eintrag.ausSuche && !erwartungNochOffen(suchAdresse)) suchauftragVergessen()
         /* Erst hier, nicht nach dem catch: Ein Fehlschlag darf keine Marke setzen. */
-        meldeSperre.vermerken()
+        meldeSperre.vermerken(befundBeimKlick)
         uebersichtZeichnen()
       }
     } catch (err) {

@@ -57,7 +57,8 @@ globalThis.AK_MELDE_SPERRE = (() => {
     const gemeldet = new Map()
     const lage = () => zustand(gemeldet, befund(), Date.now(), angekommen())
     return {
-      vermerken: () => sperren(gemeldet, befund(), Date.now()),
+      /* Ohne Angabe gilt der Befund von jetzt; der Klick gibt seinen mit, denn nach den awaits ist die Seite womöglich weiter. */
+      vermerken: (gemeldeterBefund = befund()) => sperren(gemeldet, gemeldeterBefund, Date.now()),
       zeichnen() {
         if (gesperrt && lage() !== 'gesperrt') {
           standVergessen()
@@ -66,8 +67,8 @@ globalThis.AK_MELDE_SPERRE = (() => {
         zeichneRoh()
         gesperrt = anwenden(knopf, gemeldet, befund(), Date.now(), angekommen()) === 'gesperrt'
       },
-      /* Ein Klick auf den gesperrten Knopf meldet nichts — auch nicht, wenn er aus dem Code kommt. */
-      mitSperre: (tun) => (...args) => (lage() === 'gesperrt' ? undefined : tun(...args)),
+      /* Ein Klick auf den gesperrten Knopf meldet nichts — auch nicht, wenn er aus dem Code kommt. `tun` bekommt den Befund des Klicks als erstes Argument. */
+      mitSperre: (tun) => (...args) => (lage() === 'gesperrt' ? undefined : tun(befund(), ...args)),
     }
   }
 
