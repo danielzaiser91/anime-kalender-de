@@ -7,7 +7,8 @@ import { schreibeNurOriginalton } from '../lib/nur-originalton-liste.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { type TvSendung } from '../fetch-tv-programm.ts'
 import { type WikiListen, sendungNeuZuordnen, releasesAusTvProgramm, sendungenAnhaengen } from '../lib/tv-termine.ts'
-import { type AnisearchFolgen, anisearchFolgenListe } from '../lib/anisearch-folgen-liste.ts'
+import { type AnisearchFolgen, anisearchFolgenListe, kennungenVereint } from '../lib/anisearch-folgen-liste.ts'
+import { anisearchKennungen } from './anisearch-kennung.ts'
 import { quellenPflegen } from './nebendateien.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 
@@ -46,7 +47,7 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
   const tvProgramm = Object.entries(
     readJson<{ sendungen?: Record<string, TvSendung> }>('data/tv-programm.json', {}).sendungen ?? {},
   ).map(([k, s]) => ({ ...s, kennung: /^tvde_[^+]+\+(\d+)$/.exec(k)?.[1] }))
-  const tvFolgenListen = folgenListen()
+  const tvFolgenListen = folgenListen(titles)
   /*
     Erst umhängen, dann beides füttern: Die Termine entstehen aus den zugeordneten Sendungen, und
     dieselben Sendungen hängen danach an den Terminen. Mit den Rohdaten bekam „One Piece Log:
@@ -61,15 +62,19 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
   quellenPflegen(releases)
 }
 
-function kennungenAusTabelle(): Map<string, number> {
-  const tabelle = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
-  return new Map(Object.entries(tabelle).flatMap(([id, x]) => (x.anisearchId ? [[id, x.anisearchId] as const] : [])))
+/** Woher `folgenListen` liest; im Test ersetzt. */
+export interface FolgenQuellen {
+  lies: typeof readJson
+  kennungen: typeof anisearchKennungen
 }
 
 /** Folgentitel je Titel für die TV-Termine: aniSearch als Grundstock, spätere Listen gewinnen. */
-function folgenListen(): WikiListen {
+export function folgenListen(titles: Map<number, Title>, dep: Partial<FolgenQuellen> = {}): WikiListen {
+  const lies = dep.lies ?? readJson
+  const kennungenVon = dep.kennungen ?? anisearchKennungen
   // Einmal lesen: Je Eintrag neu geparst kostete die ~10-MB-Datei über 10 Minuten (10.10.2026).
-  const anisearchFolgen = readJson<AnisearchFolgen>('data/anisearch-folgen.json', {})
+  const kennungenDerTitel = kennungenVon([...titles.values()].map((t) => ({ id: t.id, mal: t.malId })))
+  const anisearchFolgen = lies<AnisearchFolgen>('data/anisearch-folgen.json', {})
   return {
     /*
       **aniSearch-Folgentitel als Grundstock** (23.09.2026). Ohne sie hat ein Titel ohne
@@ -77,7 +82,7 @@ function folgenListen(): WikiListen {
       zum Beispiel, dessen vier Sendungen am 28./29.09.2026 unter One Piece liefen. Steht
       weiter unten eine bessere Liste (TMDB, RTL+, Wikipedia), gewinnt sie: Sie kommt später.
     */
-    ...anisearchFolgenListe(kennungenAusTabelle(), anisearchFolgen),
+    ...anisearchFolgenListe(kennungenVereint(lies('data/anisearch.json', {}), kennungenDerTitel), anisearchFolgen),
       /*
         TMDB zuletzt: deutsche Folgentitel, über Staffeln durchgezählt (Staffel 0 = Specials
         zählt nicht). Bei Solo Leveling die einzige Liste; bei Eyeshield 21 passten 0 von 5
@@ -85,7 +90,7 @@ function folgenListen(): WikiListen {
       */
       ...Object.fromEntries(
         Object.entries(
-          readJson<Record<string, { tmdbId: number; folgen: { s: number; e: number; titel?: string }[] }>>('data/tmdb-folgen.json', {}),
+          lies<Record<string, { tmdbId: number; folgen: { s: number; e: number; titel?: string }[] }>>('data/tmdb-folgen.json', {}),
         ).map(([id, x]) => [
           id,
           {
@@ -102,12 +107,12 @@ function folgenListen(): WikiListen {
       /* RTL+ nur, wo die Wikipedia keine Liste hat (Beyblade X, 19.09.2026). */
       ...Object.fromEntries(
         Object.entries(
-          readJson<{ titel?: Record<string, { programm: string; folgen: WikiListen[string]['folgen'] }> }>(
+          lies<{ titel?: Record<string, { programm: string; folgen: WikiListen[string]['folgen'] }> }>(
             'data/rtlplus-folgen.json',
             {},
           ).titel ?? {},
         ).map(([id, x]) => [id, { seite: 'den Folgenseiten von RTL+', url: `https://plus.rtl.de/${x.programm}`, folgen: x.folgen }]),
       ),
-      ...(readJson<{ titel?: WikiListen }>('data/wikipedia-folgen.json', {}).titel ?? {}),
+      ...(lies<{ titel?: WikiListen }>('data/wikipedia-folgen.json', {}).titel ?? {}),
   }
 }

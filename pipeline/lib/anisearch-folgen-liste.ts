@@ -13,3 +13,11 @@ export function anisearchFolgenListe(kennungen: Map<string, number>, folgen: Ani
     }),
   )
 }
+
+/** Kennungen aus der Tabelle (`data/anisearch.json`, nur AniList-Schlüssel), ergänzt um die des Titels selbst — reine aniSearch-Titel stehen nur dort. */
+export function kennungenVereint(tabelle: Record<string, { anisearchId?: number }>, ausTiteln: Map<number, number>): Map<string, number> {
+  const m = new Map<string, number>()
+  for (const [id, x] of Object.entries(tabelle)) if (x.anisearchId) m.set(id, x.anisearchId)
+  for (const [id, asId] of ausTiteln) m.set(String(id), asId)
+  return m
+}
