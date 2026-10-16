@@ -58,8 +58,8 @@ const TEXTE = {
   'news.disc': 'Erscheint am {datum} auf Disc',
   'news.discAusgabe': '{ausgabe} erscheint am {datum} auf Disc',
   'news.kino': 'Kinostart am {datum}',
-  'news.verspaetet': 'Folge {von} war für den {datum} angekündigt und ist nicht erschienen',
-  'news.nachgereicht': 'Folge {von} ist da, angekündigt war der {erwartet}',
+  'news.verspaetet': 'Folge {von} war für den {datum} {wie} und ist nicht erschienen',
+  'news.nachgereicht': 'Folge {von} ist da, {wie} war der {erwartet}',
   /*
     **Eine abgelöste Meldung bleibt stehen**. Sie wird
     durchgestrichen, nennt aber, wodurch sie ersetzt wurde — mit Verweis auf die
@@ -156,7 +156,6 @@ const TEXTE = {
   // „stündlich" stimmte nie: GitHub startet den Lauf im Mittel alle 4,7 Stunden
   // (gemessen 03.09.2026, CLAUDE.md „Der stündliche Lauf läuft fünfmal am Tag").
   'card.missedCheck': 'wir sehen mehrmals täglich nach',
-  'card.missedLate': 'erschien {d} — {h} Stunden später als angekündigt',
   'card.missedLateBadge': 'kam {d}',
 
   'filter.mode': 'Klick-Modus',

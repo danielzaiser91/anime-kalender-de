@@ -10,6 +10,8 @@ import {
   hinweisZeile,
   kalenderLink,
   newsBlock,
+  ausfallWort,
+  ohneGemeldeteAusfaelle,
   newsText,
   tvWiederholungen,
   wiederholungsText,
@@ -318,6 +320,7 @@ function heading(text: string, colour: string): string {
 function ordneEin(
   mine: ReleaseEvent[],
   rest: ReleaseEvent[],
+  meldungen: NewsEintrag[],
 ): {
   meine: ReleaseEvent[]
   nachSorte: Map<Sorte, ReleaseEvent[]>
@@ -343,7 +346,7 @@ function ordneEin(
     meine,
     nachSorte,
     wiederholungen: nachSorte.get('tv-wiederholung') ?? [],
-    verschoben: verschobene.sort((a, b) => a.date.localeCompare(b.date)),
+    verschoben: ohneGemeldeteAusfaelle(verschobene.sort((a, b) => a.date.localeCompare(b.date)), meldungen),
   }
 }
 
@@ -393,7 +396,7 @@ function verschobenBlock(events: ReleaseEvent[]): string {
     const neu = v?.erschienenAm ? `nachgeholt am ${datum(v.erschienenAm)}` : 'noch nicht erschienen'
     return `<p style="margin:10px 0 0;padding-top:8px;border-top:1px solid #232c40;">
         <strong>${escapeHtml(ev.name)}</strong><br>
-        <span style="color:#9aa5bd;font-size:13px;">angekündigt für ${alt} — ${neu}${
+        <span style="color:#9aa5bd;font-size:13px;">${ausfallWort(ev)} für ${alt} — ${neu}${
           v?.geprueftAm ? ` (zuletzt geprüft am ${datum(v.geprueftAm)})` : ''
         }</span>
       </p>`
@@ -425,7 +428,7 @@ function verschobenBlock(events: ReleaseEvent[]): string {
           const v = ev.verpasst
           const datum = (iso?: string) => (iso ? iso.split('-').reverse().join('.') : '')
           const neu = v?.erschienenAm ? `nachgeholt am ${datum(v.erschienenAm)}` : 'noch nicht erschienen'
-          return `* ${ev.name} — angekündigt für ${datum(v?.erwartetAm ?? ev.date)}, ${neu}`
+          return `* ${ev.name} — ${ausfallWort(ev)} für ${datum(v?.erwartetAm ?? ev.date)}, ${neu}`
         })
         .join('\n') +
       '\n\n'
@@ -488,7 +491,7 @@ export function digestMail(
   /*
     **Einordnen nach Rubriken und Wichtigkeit** — die Regeln stehen in `mail-sorten.ts`.
   */
-  const { meine, nachSorte, wiederholungen, verschoben } = ordneEin(mine, rest)
+  const { meine, nachSorte, wiederholungen, verschoben } = ordneEin(mine, rest, meldungen)
   /*
     **Zwei Sorten Neuzugang, und der Unterschied gehört in den Betreff.**
 

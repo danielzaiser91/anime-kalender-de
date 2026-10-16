@@ -76,6 +76,8 @@ export interface NewsMeldung {
   anzahl?: number
   /** Bei `nachgereicht`: die angekündigten Tage der nachgereichten Folgen. */
   erwartet?: string[]; planmaessig?: number[] // planmäßige Folgen, die am selben Tag mit erschienen
+  /** Bei `verspaetet`/`nachgereicht`: der Tag wurde genannt (`tagIstAngekuendigt`). Sonst ist er errechnet. */
+  angekuendigtBelegt?: true
   release?: string
   /**
    * Der Teil der Reihe, um den es geht — nur wenn er nicht der Kopf ist.
@@ -137,6 +139,18 @@ export interface NewsMeldung {
    * Ankündigung widerlegt hat — nicht, weil sie uns gerade fehlt.
    */
   zurueckgezogen?: { grund?: string }
+}
+
+/** „angekündigt“ nur bei belegter Ankündigung, sonst „erwartet“ (der Tag ist dann Rhythmus oder Originaltermin plus Versatz). */
+export function ankuendigungsWort(angekuendigt?: boolean): 'angekündigt' | 'erwartet' {
+  return angekuendigt ? 'angekündigt' : 'erwartet'
+}
+
+/** Ob der Tag eines ausgebliebenen Termins genannt wurde: Foto der Ankündigung oder im Plan nicht geschätzt. Detailfenster, Mail und Meldungen fragen hier. */
+export function tagIstAngekuendigt(vermerk: object | undefined, estimated?: boolean): boolean {
+  const v = vermerk as { wocheBeleg?: unknown; tagGeschaetzt?: boolean } | undefined
+  /* Der beim Vermerken festgehaltene Stand gilt für immer; der Plan ändert sich, sobald die Folge da ist (Meldungen schreiben sich nicht um). */
+  return Boolean(v?.wocheBeleg) || !(v?.tagGeschaetzt ?? estimated)
 }
 
 /** Rückzugsgrund, wenn die Ankündigung aus einer Meldung mit nur Originalton kam — ihr eigener Beleg widerlegt sie (10.10.2026). */

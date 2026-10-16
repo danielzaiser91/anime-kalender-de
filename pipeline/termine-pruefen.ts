@@ -40,6 +40,7 @@ import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminFri
 import { meldeAbbruch } from './lib/abbruch.ts'
 import { beobachtetAusRelease } from './lib/verpasst-beobachtet.ts'
 import { BELEGE_DATEI, belegeAnhaengen, type WocheBelege } from './lib/woche-beleg.ts'
+import { neuerVermerk } from './lib/vermerk-neu.ts'
 import type { WocheBelegVermerk } from '../shared/woche-beleg-typ.ts'
 
 /*
@@ -104,6 +105,8 @@ export interface VerpassterTermin {
   verzugStunden: number | null
   /** Wie viele Folgen der Anbieter zu diesem Zeitpunkt wirklich zeigte. */
   folgenVerfuegbar: number | null
+  /** War der Tag beim Vermerken errechnet? Hält das Wort „angekündigt“/„erwartet“ stabil, auch wenn die Folge kommt. */
+  tagGeschaetzt?: boolean
   /** Von Hand: der neue erwartete Termin, wenn die Recherche einen ergibt. */
   neuErwartet: string | null
   /** Was die Recherche ergeben hat — ein bis zwei Sätze, die auf der Seite stehen. */
@@ -278,21 +281,7 @@ for (const e of ereignisse) {
   )
   const treffer = gesehenHier.some((o) => o.date === e.date || (folge != null && o.episode === folge))
   if (treffer) continue
-  verpasst.push({
-    id: e.id,
-    slug: e.releaseSlug,
-    titleId: e.titleId,
-    name: e.name,
-    platform: e.platform,
-    episode: folge,
-    erwartetAm: zeitpunkt(e).toISOString(),
-    bemerktAm: JETZT.toISOString(),
-    erschienenAm: null,
-    verzugStunden: null,
-    folgenVerfuegbar: folgenBeimAnbieter(e.releaseSlug),
-    neuErwartet: null,
-    recherche: null,
-  })
+  verpasst.push(neuerVermerk(e, folge, zeitpunkt(e).toISOString(), JETZT.toISOString(), folgenBeimAnbieter(e.releaseSlug)))
   neu++
 }
 
