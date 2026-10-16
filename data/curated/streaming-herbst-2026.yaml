@@ -334,6 +334,8 @@
     firstEpisodeDate: "2026-10-09"
     episodeCount: 13
     lastEpisodeDate: "2026-10-30"
+    # Daniel sah F4–6 am 16.10. um 11:42 schon bei Paramount+; 11:00 = letzte volle Stunde davor, am 23.10. genauer messen.
+    time: "11:00"
     observed:
       1: "2026-10-09"
       2: "2026-10-09"
