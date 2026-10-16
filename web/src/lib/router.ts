@@ -234,7 +234,7 @@ export function titelAusPfad(pathname: string): number | undefined {
 }
 
 /** Füllt den offenen Titel aus dem Pfad, wenn der Hash keinen nennt. */
-function mitPfad(route: AppRoute, pathname: string): AppRoute {
+export function mitPfad(route: AppRoute, pathname: string): AppRoute {
   return route.title ? route : { ...route, title: titelAusPfad(pathname) }
 }
 
@@ -271,17 +271,42 @@ function hashAufraeumen(neu: AppRoute, hash: string): void {
  */
 export function syncSharePath(titelSlug?: string): void {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '')
-  const target = zielPfad(titelSlug)
-  if (window.location.pathname === target) return
+  const ziel = seitenAdresseFuer(base, window.location, titelSlug)
+  if (ziel) history.replaceState(history.state, '', ziel)
+}
+
+/** Die Adresse, die in die Leiste soll — oder nichts, wenn sie schon stimmt oder die Seite nicht zum Muster passt. */
+export function seitenAdresseFuer(base: string, ort: { pathname: string; search: string; hash: string }, titelSlug?: string): string | undefined {
   // Nur innerhalb der eigenen Seite umschreiben. Läuft die App aus einem
   // Unterverzeichnis, das nicht zum Muster passt, bleibt der Pfad unangetastet.
-  if (!window.location.pathname.startsWith(`${base}/`)) return
-  history.replaceState(history.state, '', target + window.location.search + window.location.hash)
+  if (!ort.pathname.startsWith(`${base}/`)) return undefined
+  const ziel = titelAdresseNeu(zielPfad(titelSlug, base), ort.search, ort.hash, titelSlug)
+  return ort.pathname + ort.search + ort.hash === ziel ? undefined : ziel
+}
+
+/** Der Hash ohne `t=`: Eine Kennung im Pfad steht nicht noch einmal im Hash (alte Links `#/…?t=<id>` werden so umgeschrieben). */
+export function hashOhneTitel(hash: string): string {
+  const [pfad, query] = hash.split('?')
+  if (!query) return hash
+  const params = new URLSearchParams(query)
+  params.delete('t')
+  const rest = params.toString()
+  return rest ? `${pfad}?${rest}` : (pfad ?? '')
+}
+
+/** Die Adresse zu einem Titel-Pfad: Ist der Pfad die reine Kennung (`/t/15957/`), fällt `t=` aus dem Hash. */
+export function titelAdresseNeu(pfad: string, search: string, hash: string, titelSlug?: string): string {
+  return pfad + search + (titelSlug && /^\d+$/.test(titelSlug) ? hashOhneTitel(hash) : hash)
+}
+
+/** Der Hash fürs Schreiben: Trägt der Pfad den offenen Titel schon, steht er nicht zusätzlich im Hash. */
+export function adressHash(route: AppRoute, pathname = window.location.pathname): string {
+  const hash = buildHash(route)
+  return route.title && titelAusPfad(pathname) === route.title ? hashOhneTitel(hash) : hash
 }
 
 /** Der Pfad zum geöffneten Titel: `/t/<ak>/`. */
-function zielPfad(titelSlug?: string): string {
-  const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+function zielPfad(titelSlug?: string, base = import.meta.env.BASE_URL.replace(/\/$/, '')): string {
   return titelSlug ? `${base}/t/${encodeURIComponent(titelSlug)}/` : `${base}/`
 }
 
@@ -355,11 +380,11 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void, (next:
     const verlauf = panelVerlauf(route, next, merged)
     /* Ein geteilter Link (Newsletter) hat kein Vorher in der App: ✕ und Klick daneben ersetzen die Adresse, statt zurückzugehen (Daniel, 07.10.2026). */
     if (verlauf === 'zurueck' && history.state?.tief) {
-      history.replaceState(null, '', zielPfad(undefined) + window.location.search + buildHash(merged))
+      history.replaceState(null, '', zielPfad(undefined) + window.location.search + adressHash(merged))
       return setRoute(merged)
     }
     if (verlauf === 'zurueck') return history.back()
-    const hash = buildHash(merged)
+    const hash = adressHash(merged)
     if (verlauf === 'eintrag') {
       history.pushState({ panel: true }, '', zielPfad() + window.location.search + hash)
       return setRoute(merged)
@@ -373,7 +398,7 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void, (next:
   /** Schalter umlegen: die Adresse wird ersetzt (kein Verlaufseintrag, kein `hashchange`), die übrigen Parameter bleiben. */
   const ersetze = (next: Partial<AppRoute>) => {
     const merged: AppRoute = { ...route, ...next }
-    history.replaceState(history.state, '', window.location.pathname + window.location.search + buildHash(merged))
+    history.replaceState(history.state, '', window.location.pathname + window.location.search + adressHash(merged))
     setRoute(merged)
   }
 

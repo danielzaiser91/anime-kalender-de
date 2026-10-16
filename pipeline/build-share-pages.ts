@@ -31,7 +31,7 @@ import { belegteTermine, uebersichtTexte } from './lib/termine-uebersicht.ts'
 import { schreibeVerzeichnis, verzeichnisAdressen, type Buchstabe } from './lib/titel-verzeichnis.ts'
 import { umfeldFuer, type Umfeld, type UmfeldRahmen } from './lib/titel-umfeld.ts'
 import { titelAenderung } from './lib/sitemap-datum.ts'
-import { cartoonMitSynchroBeleg, teilenPfad } from '../shared/teilen.ts'
+import { cartoonMitSynchroBeleg, teilenPfad, titelAdresse, titelHash } from '../shared/teilen.ts'
 import { synchroBelegt } from '../shared/titles.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
 import { standardKennungFuer } from './lib/og-standard.ts'
@@ -205,11 +205,12 @@ function body(
   today: string,
   geschwister: Release[],
   ak: number,
+  adresse: string,
   umfeld: Umfeld,
 ): string {
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
-  const hash = `#/woche?${next ? `d=${next.date}&` : ''}t=${ak}`
+  const adresseImKalender = titelAdresse(ak, adresse, next?.date)
   const art = RELEASE_TYPES[release.releaseType].short
   const platform = anbieterName(release.platform, release.sender)
 
@@ -249,7 +250,7 @@ function body(
       ${wegeBlock}
       ${andere}
       ${umfeld.aehnlichHtml}
-      <p><a href="${esc(SITE + hash)}" style="color:#7dd3fc;">Im Kalender ansehen</a></p>
+      <p><a href="${esc(SITE + adresseImKalender)}" style="color:#7dd3fc;">Im Kalender ansehen</a></p>
     </article>`
 }
 
@@ -340,7 +341,7 @@ function head(release: Release, title: Title | undefined, today: string, ak: num
   const image = `${SITE}og/${release.slug}.jpg?v=${OG_FASSUNG}`
   const headline = seitenTitel(release.name, title, true)
   const description = describe(release, title, today)
-  const hash = `#/woche?${next ? `d=${next.date}&` : ''}t=${ak}`
+  const hash = titelHash(ak, adresse, next?.date)
 
   return `    <title>${esc(headline)}</title>
     <meta name="description" content="${esc(description)}" />
@@ -506,7 +507,7 @@ function schreibeTitelSeiten(mitAk: { t: Title; ak: number; adresse: string }[],
     const umfeld = umfeldFuer(t, `${SITE}${teilenPfad(adresse)}`, umfeldRahmen)
     const kopf = haupt ? head(haupt, t, r.today, ak, adresse, umfeld) : titelKopf({ ...t, id: ak, slug: adresse }, umfeld, r.standardKennung)
     const inhalt = haupt
-      ? body(haupt, t, synopsis, r.today, eigene.filter((g) => g.slug !== haupt.slug), ak, umfeld)
+      ? body(haupt, t, synopsis, r.today, eigene.filter((g) => g.slug !== haupt.slug), ak, adresse, umfeld)
       : titelInhalt({ ...t, id: ak, slug: adresse }, synopsis, eigene, umfeld)
     writeFileSync(resolve(dir, 'index.html'), (r.before + kopf + r.after).replace(r.rootTag, `<div id="root">${inhalt}</div>`), 'utf8')
   }

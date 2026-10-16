@@ -1,0 +1,81 @@
+/**
+ * Zusicherungen zur Titel-Adresse: Steht die Kennung im Pfad `/t/<id>/`, steht sie nicht noch einmal als `t=` im Hash
+ * (vorher `/t/15957/#/woche?t=15957`). Alte Links mit `#/…?t=<id>` bleiben lesbar und werden umgeschrieben.
+ * Aufruf: `npm run check:logic`.
+ */
+import { readFileSync } from 'node:fs'
+import { adressHash, hashOhneTitel, mitPfad, parseHash, seitenAdresseFuer, titelAusPfad } from '../web/src/lib/router.ts'
+import { EMPTY_FILTERS } from '../web/src/lib/filters.ts'
+import { todayIso } from '../shared/time.ts'
+import { titelAdresse, titelHash } from '../shared/teilen.ts'
+import { titelInhalt, titelKopf } from './lib/titel-seite.ts'
+import { calendarUrl } from '../worker/src/mail-abschnitte.ts'
+import type { Title } from '../shared/types.ts'
+import type { Umfeld } from './lib/titel-umfeld.ts'
+import type { ReleaseEvent } from '../shared/types.ts'
+
+let verletzt = 0
+function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
+  if (ok) return void console.log(`  ✓ ${name}`)
+  verletzt++
+  console.error(`  ✖ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
+}
+
+console.log('\nErzeuger: Kennung im Pfad, nicht im Hash:')
+pruefe('Titelhash ohne Termin: #/woche', titelHash(15957, '15957') === '#/woche', titelHash(15957, '15957'))
+pruefe('Titelhash mit Termin: nur d=', titelHash(15957, '15957', '2026-10-20') === '#/woche?d=2026-10-20', titelHash(15957, '15957', '2026-10-20'))
+pruefe('Namens-Pfad (Cartoon) trägt die Kennung nicht und behält t=', titelHash(-284833, 'avatar-die-sieben-haefen-284833') === '#/woche?t=-284833')
+pruefe('Adresse = Pfad + Hash', titelAdresse(15957, '15957', '2026-10-20') === 't/15957/#/woche?d=2026-10-20')
+
+const umfeld = { aehnlichHtml: '', krumenJsonLd: '' } as unknown as Umfeld
+function seite(id: number, slug: string): string {
+  const t = { id, slug, titleRomaji: 'Test', titleDe: 'Test', streams: [] } as unknown as Title
+  return titelKopf(t, umfeld, 'x') + titelInhalt(t, undefined, [], umfeld)
+}
+const anime = seite(15957, '15957')
+pruefe('Titelseite (Anime): Skript setzt #/woche ohne t=', anime.includes('location.hash = "#/woche"') && !/[?&]t=/.test(anime))
+pruefe('Titelseite (Anime): „Im Kalender ansehen“ führt über den Pfad', anime.includes('/t/15957/#/woche"'))
+const cartoon = seite(-284833, 'avatar-284833')
+pruefe('Titelseite (Cartoon, Namens-Pfad): t= bleibt, sonst fehlt der Titel', cartoon.includes('location.hash = "#/woche?t=-284833"'))
+
+const ev = { titleId: 15957, date: '2026-10-20' } as unknown as ReleaseEvent
+const mail = calendarUrl({ siteUrl: 'https://anime-kalender.de/' } as never, ev)
+pruefe('Mail-Link: Pfad plus Tag, kein t=', mail === 'https://anime-kalender.de/t/15957/#/woche?d=2026-10-20', mail)
+
+console.log('\nRouter: Pfad zuerst, alte Links bleiben lesbar:')
+pruefe('Titel aus dem Pfad', titelAusPfad('/t/15957/') === 15957 && parseHash('#/woche').title === undefined)
+pruefe('Route unter /t/15957/ ohne t= im Hash trägt den Titel', mitPfad(parseHash('#/woche'), '/t/15957/').title === 15957)
+pruefe('… der Hash gewinnt, wenn er einen anderen Titel nennt', mitPfad(parseHash('#/woche?t=7'), '/t/15957/').title === 7)
+pruefe('Alter Hash #/woche?t=15957 liefert weiter den Titel', parseHash('#/woche?t=15957').title === 15957)
+const ort = (pathname: string, hash: string) => ({ pathname, search: '', hash })
+pruefe('… und wird beim Öffnen auf /t/15957/#/woche umgeschrieben (Seite mit altem Doppel)', seitenAdresseFuer('', ort('/t/15957/', '#/woche?t=15957'), '15957') === '/t/15957/#/woche')
+pruefe('… ebenso aus dem Wurzel-Link /#/datenbank?kw=Cartoon&t=15957', seitenAdresseFuer('', ort('/', '#/datenbank?kw=Cartoon&t=15957'), '15957') === '/t/15957/#/datenbank?kw=Cartoon')
+pruefe('… das Doppel verliert t= und behält d=', seitenAdresseFuer('', ort('/t/15957/', '#/woche?d=2026-10-20&t=15957'), '15957') === '/t/15957/#/woche?d=2026-10-20')
+pruefe('… eine schon saubere Adresse bleibt, kein Schreiben', seitenAdresseFuer('', ort('/t/15957/', '#/woche'), '15957') === undefined)
+pruefe('Namens-Pfad behält t= (Cartoons, späterer Umbau)', seitenAdresseFuer('', ort('/', '#/woche?t=-284833'), 'avatar-284833') === '/t/avatar-284833/#/woche?t=-284833')
+pruefe('Ohne Titel (Panel zu) bleibt der Hash unangetastet', seitenAdresseFuer('', ort('/t/15957/', '#/woche?t=15957'), undefined) === '/#/woche?t=15957')
+const route = { view: 'woche', date: todayIso(), title: 15957, filters: { ...EMPTY_FILTERS } } as const
+pruefe('Navigation unter /t/15957/: der Hash bleibt ohne t=', adressHash(route, '/t/15957/') === '#/woche', adressHash(route, '/t/15957/'))
+pruefe('Navigation von der Wurzel: t= bleibt, bis der Pfad den Titel trägt', adressHash(route, '/') === '#/woche?t=15957', adressHash(route, '/'))
+pruefe('Navigation zu einem anderen Titel als im Pfad: t= bleibt', adressHash({ ...route, title: 7 }, '/t/15957/') === '#/woche?t=7')
+pruefe('hashOhneTitel ohne Query ändert nichts', hashOhneTitel('#/woche') === '#/woche' && hashOhneTitel('') === '')
+
+console.log('\nWächter: kein Erzeuger schreibt t= in einen Hash hinter einen Titel-Pfad:')
+/* Titelseiten tragen den Titel im Pfad: dort darf nirgends `t=` in einen Hash. Die Mail setzt Pfad und Hash in eine Zeile. */
+const ERZEUGER: Array<[string, RegExp]> = [
+  ['pipeline/build-share-pages.ts', /[?&]t=/],
+  ['pipeline/lib/titel-seite.ts', /[?&]t=/],
+  ['worker/src/mail-abschnitte.ts', /\/t\/.*#\/.*[?&]t=/],
+]
+for (const [datei, muster] of ERZEUGER) {
+  const zeilen = readFileSync(datei, 'utf8').split('\n')
+  const treffer = zeilen.filter((z) => !/^\s*(\/?\*|\/\/)/.test(z) && muster.test(z))
+  pruefe(`${datei}: kein t= im Hash hinter einem Titel-Pfad`, treffer.length === 0, treffer)
+}
+
+/* `head`/`body` der Termin-Seiten sind nicht einzeln aufrufbar; der Namens-Pfad der Cartoons gelangt nur über `adresse` hinein. */
+const termineSeite = readFileSync('pipeline/build-share-pages.ts', 'utf8')
+pruefe('Termin-Seiten reichen die Adresse (nicht die Kennung) an titelHash und titelAdresse', /titelHash\(ak, adresse,/.test(termineSeite) && /titelAdresse\(ak, adresse,/.test(termineSeite))
+
+console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nTitel-Adressen: alle Zusicherungen halten.')
+process.exit(verletzt ? 1 : 0)

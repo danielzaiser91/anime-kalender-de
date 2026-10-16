@@ -4,7 +4,7 @@
  */
 import { PLATFORMS, type Release, type Title } from '../../shared/types.ts'
 import { GENRE_DE } from '../../shared/mappings.ts'
-import { teilenPfad } from '../../shared/teilen.ts'
+import { teilenPfad, titelAdresse, titelHash } from '../../shared/teilen.ts'
 import { synchroBelegt } from '../../shared/titles.ts'
 import { andereNamen, titelJsonLd } from './titel-namen.ts'
 import { standardBildAdresse } from './og-standard.ts'
@@ -126,7 +126,7 @@ ${masse}    <meta property="og:image:alt" content="${esc(name)}" />
 ${titelJsonLd(titelDaten(t, name, url, description, eigenesBild))}
 ${umfeld.krumenJsonLd}
     <script>
-      if (!location.hash) location.hash = ${JSON.stringify(`#/woche?t=${t.id}`)};
+      if (!location.hash) location.hash = ${JSON.stringify(titelHash(t.id, t.slug))};
     </script>`
 }
 
@@ -160,6 +160,6 @@ export function titelInhalt(t: Title, synopsis: SynopsenText | undefined, eigene
           : ''
       }
       ${umfeld.aehnlichHtml}
-      <p><a href="${esc(SITE + '#/woche?t=' + t.id)}" style="color:#7dd3fc;">Im Kalender ansehen</a></p>
+      <p><a href="${esc(SITE + titelAdresse(t.id, t.slug))}" style="color:#7dd3fc;">Im Kalender ansehen</a></p>
     </article>`
 }
