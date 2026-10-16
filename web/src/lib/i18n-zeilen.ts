@@ -7,6 +7,7 @@ export const TEXTE_ZEILEN = {
   'detail.statusOmu': 'nur Untertitel',
   'detail.statusOffen': 'Sprache offen',
   'detail.stand': 'Stand {datum}',
+  'detail.pilleJustwatch': 'Deutsch laut JustWatch (Stand {datum})',
   'detail.legendeJustwatch': '„laut JustWatch“: deutsche Tonspur dort gelistet, von uns nicht je Folge geprüft.',
   'detail.legendeSchwester': '„laut Schwester-Shop“: Ein Schwester-Shop (maxdome, MagentaTV, Videoload) führt den Titel auf Deutsch.',
   'detail.legendeAnnahme': '„Deutsch angenommen“: Der Telekom-Katalog (Videoload, MagentaTV) gilt als deutsch; zu diesem Titel nennt er keine Tonspur.',

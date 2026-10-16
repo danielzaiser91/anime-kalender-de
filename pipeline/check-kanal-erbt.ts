@@ -191,7 +191,7 @@ pruefe('Gegenprobe: dasselbe Ja als eigenes Ja des Kanal-Wegs belegt', belegt([k
 /* Der Bau ruft es auf, vor der Auslieferung (sonst bliebe die Regel Papier). */
 const schreiben = readFileSync(new URL('./bau/13-schreiben.ts', import.meta.url), 'utf8')
 const nachAnreichern = schreiben.indexOf('schreibeSynopsenUndReichereAn({')
-const aufruf = schreiben.indexOf('kanalErbtVomAnbieter(allTitles)')
+const aufruf = schreiben.indexOf('kanalErbtVomAnbieter(allTitles, jwNeinAnSeite())')
 const auslieferung = schreiben.indexOf('baueAuslieferung({')
 pruefe('13-schreiben ruft kanalErbtVomAnbieter nach dem Anreichern und vor der Auslieferung', nachAnreichern > 0 && aufruf > nachAnreichern && aufruf < auslieferung, { nachAnreichern, aufruf, auslieferung })
 

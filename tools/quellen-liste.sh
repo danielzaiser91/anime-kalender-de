@@ -374,6 +374,8 @@ QUELLEN=(
   # Verweise, die auf eine Suche zeigten statt auf eine Titelseite — der Bau
   # entfernt sie und legt die Frage hier ab (10.09.2026).
   daniel-zum-abarbeiten/listen/18-suchadressen.md
+  # Widersprüche unserer Messung zu JustWatchs „de“ an derselben Seite, Wächter je Anbieter, Seiten ohne eigenen Weg (16.10.2026).
+  daniel-zum-abarbeiten/listen/justwatch-widersprueche.md
   data/suchadressen-offen.json
   # Cartoons, deren Staffelangaben sich widersprechen oder nicht zur Gesamtfolgenzahl passen (11.10.2026).
   data/cartoon-staffeln-pruefliste.json

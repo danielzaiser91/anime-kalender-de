@@ -80,6 +80,7 @@ pipeline/check-herkunftsland.ts
 pipeline/check-ics-folgen.ts
 pipeline/check-install-stellen.ts
 pipeline/check-invarianten.ts
+pipeline/check-jw-seite.ts
 pipeline/check-jw-staffeln.ts
 pipeline/check-jw-vertrauen.ts
 pipeline/check-kachel-anbieter.ts

@@ -13,6 +13,7 @@ type Kaufweg = Wege[number]['streamWege'][number]
 /** Der Sprachzustand eines Stream-Links: Beleg am Weg, JustWatch (mit Datum), nur Untertitel (Ankündigung oder Termin mit Quelle „nur Originalton“) oder offen. */
 export function streamStatus(title: Title, s: StreamLink, releases: Release[]): DubStatusArt {
   const art = statusArt(s.dub, s.dubQuelle === 'justwatch' ? s.dubStand : undefined)
+  if (art === 'justwatch' && !s.dubHintOnly) return 'jwDeutsch'
   return art === 'offen' && streamNurOmu(title, s, releases) ? 'omu' : art
 }
 

@@ -2,6 +2,13 @@ import { type Release, type StreamLink, type Title } from '@shared/types.ts'
 import { dubBild, dubGrenze, dubLuecken, bereicheKurz } from '@shared/dub-grenze.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import { deutschAbgeschlossen } from './antwort-regeln.ts'
+import { formatDate } from '@shared/time.ts'
+
+type JwHerkunft = Pick<StreamLink, 'dubQuelle' | 'dubStand' | 'dubHintOnly'>
+
+/** Die Flagge „Deutsch“ aus JustWatchs Ton an dieser Seite sieht aus wie belegt; die Herkunft steht im Hover (16.10.2026). */
+const jwHerkunft = (s: JwHerkunft, t: Translate): string[] =>
+  s.dubQuelle === 'justwatch' && !s.dubHintOnly && s.dubStand ? [t('detail.pilleJustwatch', { datum: formatDate(s.dubStand) })] : []
 
 /**
  * Der Tooltip an einer Weg-Pille nennt nur, was Pille und Kasten nicht sagen: was ohne deutschen Ton dort liegt und,
@@ -15,7 +22,7 @@ export function dubZeilenVon({ title, t, releases, today }: {
   today: string
 }) {
   const abgeschlossen = title ? deutschAbgeschlossen(title, releases, today) : true
-  const dubZeilen = (s: { dubRanges?: StreamLink['dubRanges'] }): string[] => {
+  const wegZeilen = (s: { dubRanges?: StreamLink['dubRanges'] }): string[] => {
     const bild = dubBild(s.dubRanges, title?.episodes)
     if (!bild?.deutsch.length || (!bild.ohneTon.length && !bild.nichtImAngebot.length)) {
       const grenze = dubGrenze(s.dubRanges)
@@ -35,5 +42,5 @@ export function dubZeilenVon({ title, t, releases, today }: {
         : '',
     ].filter(Boolean)
   }
-  return dubZeilen
+  return (s: JwHerkunft & { dubRanges?: StreamLink['dubRanges'] }): string[] => [...jwHerkunft(s, t), ...wegZeilen(s)]
 }
