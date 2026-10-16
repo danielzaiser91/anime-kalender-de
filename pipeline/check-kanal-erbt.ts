@@ -9,6 +9,7 @@ import { kanalErbtVomAnbieter } from './bau/kanal-erbt-anbieter.ts'
 import { belegteDeutscheSynchro, ersterTerminMitGrund } from './bau/nebendateien.ts'
 import { geerbteWege } from '../shared/kanal-anbieter.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
+import { deutschNurAusSpracheTermin } from './lib/pruefung.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, ist?: unknown): void {
@@ -36,6 +37,16 @@ pruefe('Die Bereiche sind eine Kopie, kein geteiltes Objekt', ja.weg.dubRanges?.
 
 const ohneBereiche = erbe([cr({ dub: true }), kanal()])
 pruefe('Anbieter-Ja ohne Bereiche: Kanal bekommt Ja, keine erfundenen Bereiche', ohneBereiche.weg.dub === true && ohneBereiche.weg.dubRanges === undefined, ohneBereiche.weg)
+
+const termin = erbe([cr({ dub: true }), kanal({ herkunft: 'termin' })])
+pruefe('Demon Slayer 166240: ein Kanal-Weg aus einem Termin erbt kein Ja (der Termin sagt Sprache offen)', termin.weg.dub === undefined && termin.n === 0, termin)
+
+/* Die Prüfung des Bestandsbaus (`pruefung.ts`) bleibt still: Termin sagt „Sprache offen“, der Kanal-Weg trägt kein „deutsch“. */
+const hashira = { id: 166240, streams: [cr({ dub: true }), kanal({ herkunft: 'termin' })] } as unknown as Title
+kanalErbtVomAnbieter([hashira])
+const offenerTermin = [{ titleId: 166240, platform: 'primevideo', sprache: 'offen' }] as unknown as Release[]
+const widerspruch = deutschNurAusSpracheTermin(offenerTermin, new Map([[166240, hashira]]))
+pruefe('Demon Slayer 166240: kein Widerspruch zwischen Termin „Sprache offen“ und dem Kanal-Weg', widerspruch.length === 0, widerspruch)
 
 const adnJa = erbe([adn({ dub: true }), kanal({ kanal: 'ADN' })])
 pruefe('ADN: Kanal „ADN“ erbt von ADN', adnJa.weg.dub === true, adnJa.weg)
