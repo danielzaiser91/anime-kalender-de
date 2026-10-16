@@ -49,6 +49,7 @@ pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
 pipeline/check-cover-quelle.ts
 pipeline/check-cr-film-wege.ts
+pipeline/check-cr-ja-deckung.ts
 pipeline/check-cr-komplettabwurf.ts
 pipeline/check-cr-teilseiten.ts
 pipeline/check-daten-kennung.ts
@@ -70,6 +71,7 @@ pipeline/check-folge-ueber-anzahl.ts
 pipeline/check-folgenblock.ts
 pipeline/check-folgenzahl-belegt.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
+pipeline/check-handbeleg-serienton.ts
 pipeline/check-handbeleg-weg.ts
 pipeline/check-handlung-eigen.ts
 pipeline/check-herkunft-je-folge.ts
