@@ -5,6 +5,8 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { parse } from 'yaml'
+import { spawnSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 import { entscheide, MAX_STARTS_OHNE_ERFOLG, ROT, ROT_WARTEN_H } from './wecker-wache-entscheid.mjs'
 
 const lies = (pfad) => readFileSync(new URL(`../${pfad}`, import.meta.url), 'utf8')
@@ -51,20 +53,50 @@ const ausgaenge = [
   ['cancelled', 'completed', false, true],
   ['timed_out', 'completed', true, true],
   ['startup_failure', 'completed', true, true],
-  ['skipped', 'completed', true, true],
+  ['skipped', 'completed', false, true],
   [null, 'in_progress', false, false],
 ]
 for (const [conclusion, status, bei7, bei31] of ausgaenge) {
   assert.equal(ja([vor(7, conclusion, status), vor(60, 'success')]), bei7, `${conclusion ?? status} vor 7 h`)
   assert.equal(ja([vor(31, conclusion, status), vor(60, 'success')]), bei31, `${conclusion ?? status} vor 31 h`)
 }
-assert.deepEqual(ROT, ['failure', 'timed_out', 'startup_failure', 'skipped'])
+assert.deepEqual(ROT, ['failure', 'timed_out', 'startup_failure'])
 assert.equal(ja([]), true, 'kein Start')
+assert.equal(ja([vor(7, 'skipped'), vor(60, 'success')]), false, 'übersprungen ist kein Fehler: kein Nachholen nach der Wartezeit')
+
+/* ---- Auswahl mit zweitem Kandidaten: der Treffer steht nicht vorn ---- */
+assert.equal(ja([vor(7, 'failure'), vor(31, 'success'), vor(32, 'success')]), true, 'der neueste Erfolg zählt, nicht der älteste')
+assert.equal(ja([vor(1, 'success'), vor(40, null, 'in_progress')]), false, 'ein laufender Start weiter hinten sperrt ebenfalls')
+assert.equal(ja([vor(7, 'failure'), vor(60, 'success'), vor(70, null, 'in_progress')]), false, 'ein weiter hinten laufender Start sperrt das Nachholen')
+
+/* ---- Frist wie bisher: ganze Stunden, 30,5 h bei Frist 30 sind noch rechtzeitig (floor(h) > max) ---- */
+assert.equal(ja([vor(30.5, 'success')]), false, '30,5 h bei Frist 30 h: noch nicht überfällig')
+assert.equal(ja([vor(31, 'success')]), true, '31 h bei Frist 30 h: überfällig')
+
+/* ---- Kommandozeile als eigener Prozess: Argumente, Ausgabe, echte Uhrzeit ---- */
+const lauf = (laeufe, ...argumente) => {
+  const r = spawnSync(process.execPath, [fileURLToPath(new URL('./wecker-wache-entscheid.mjs', import.meta.url)), ...argumente], { input: JSON.stringify(laeufe), encoding: 'utf8' })
+  assert.equal(r.status, 0, r.stderr)
+  return r.stdout
+}
+const jetzt = Date.now()
+const echt = (h, conclusion, status = 'completed') => ({ createdAt: new Date(jetzt - h * 3600e3).toISOString(), conclusion, status })
+assert.match(lauf([echt(1, 'success'), echt(25, 'success'), echt(49, 'success')], '30'), /^nein [^\n]+\n$/, 'rechtzeitig -> nein')
+assert.match(lauf([echt(40, 'success'), echt(64, 'success'), echt(88, 'success')], '30'), /^ja [^\n]+\n$/, 'überfällig -> ja')
+assert.match(lauf([echt(5, 'cancelled'), echt(40, 'success'), echt(64, 'success')], '30'), /^nein /, 'Abbruch zählt als Start')
+assert.match(lauf([echt(5, 'cancelled'), echt(40, 'success'), echt(64, 'success')], '30', 'ohne-abbruch'), /^ja /, 'ohne-abbruch: Abbruch zählt nicht')
+assert.match(lauf([echt(8, 'failure'), echt(60, 'success'), echt(80, 'success')], '30'), /^ja /, 'roter Start -> ja')
+assert.match(lauf([], '30'), /^ja nie gestartet\n$/)
 
 /* ---- Verdrahtung: Wache kennt jeden Workflow des Weckplans und ruft die Entscheidung auf ---- */
 const wache = parse(lies('.github/workflows/wecker-wache.yml'))
 const schritte = wache.jobs.wache.steps
 const nachholen = schritte.find((s) => s.id === 'nachholen')
+assert.equal(wache.jobs.wache.if, undefined, 'Job „wache“ läuft immer (übersprungen zählt als bestanden)')
+assert.equal(wache.jobs.wache['continue-on-error'], undefined, 'Job „wache“ darf nicht rot verschluckt werden')
+assert.deepEqual(wache.on.schedule, [{ cron: '37 */3 * * *' }], 'GitHubs eigener Cron, alle 3 h')
+const FRISTEN = 'refresh-hourly.yml:3 refresh-data.yml:30 refresh-weekly.yml:192 adn-laufende.yml:9 claude-verpasst-recherche.yml:30 claude-anime2you-extraktion.yml:30 claude-wache-urteil.yml:30 anisearch-katalog.yml:30 ladezeiten.yml:30 offizielle-news.yml:30 meldungskopie.yml:30 tonspuren-monatlich.yml:744:ohne-abbruch'
+assert.equal(nachholen.run.match(/PLAN="([^"]+)"/)[1], FRISTEN, 'Fristen der Wache (meldungskopie.yml: 30 h)')
 /* Ganzer Aufruf samt Argumenten, --json-Feldern, --limit und Vergleich mit dem Ergebnis, zusammenhängend im Schleifenrumpf. */
 const zeilen = nachholen.run.split('\n').map((z) => z.trim())
 const ruempf = [

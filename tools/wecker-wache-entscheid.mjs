@@ -14,7 +14,7 @@ export const ROT_WARTEN_H = 6
 export const MAX_STARTS_OHNE_ERFOLG = 2
 const H = 3600e3
 /** Nur diese Ausgänge holt die Wache nach; `cancelled` ist gewollt (D1-Tageslimit, Sperre) und zählt nie als rot. */
-export const ROT = ['failure', 'timed_out', 'startup_failure', 'skipped']
+export const ROT = ['failure', 'timed_out', 'startup_failure']
 const AKTIV = ['in_progress', 'queued', 'pending', 'waiting']
 
 /** `laeufe`: neuester zuerst, wie `gh run list` (createdAt, conclusion, status). */
@@ -23,7 +23,7 @@ export function entscheide(laeufe, jetzt, fristH, ohneAbbruch = false) {
   const zaehlt = laeufe.filter((l) => !ohneAbbruch || l.conclusion !== 'cancelled')
   if (zaehlt.length === 0) return { nachholen: true, grund: 'nie gestartet' }
   const alterH = (l) => (jetzt - Date.parse(l.createdAt)) / H
-  if (alterH(zaehlt[0]) > fristH) return { nachholen: true, grund: `letzter Start vor ${Math.round(alterH(zaehlt[0]))} h` }
+  if (Math.floor(alterH(zaehlt[0])) > fristH) return { nachholen: true, grund: `letzter Start vor ${Math.round(alterH(zaehlt[0]))} h` }
   const erfolg = zaehlt.findIndex((l) => l.conclusion === 'success')
   const seitErfolg = erfolg === -1 ? zaehlt.length : erfolg
   const erfolgAlt = erfolg === -1 || alterH(zaehlt[erfolg]) > fristH
