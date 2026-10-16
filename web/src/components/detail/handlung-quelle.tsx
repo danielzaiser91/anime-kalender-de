@@ -8,7 +8,7 @@ const linkKlasse = '-my-3 inline-flex min-h-11 items-center underline decoration
 export function EigeneQuellenZeile({ eigen, t }: { eigen: NonNullable<Synopsis['eigen']>; t: Translate }) {
   const lizenzSeite = LIZENZ_SEITEN[eigen.lizenz]
   return (
-    <span className="text-right text-t4 text-slate-600 dark:text-slate-400">
+    <span className="flex flex-wrap justify-end gap-x-1 gap-y-3 text-right text-t4 text-slate-600 dark:text-slate-400">
       {t('detail.plotEigen')}{' '}
       {eigen.quellen.map((q, i) => (
         <span key={q.url}>

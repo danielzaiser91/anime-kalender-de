@@ -48,9 +48,9 @@ export function PanelBuehne({ reihenName, teilName, reihenTeile, buehnenBild, gr
         <Flaggen title={title} ziel={asZiel} t={t} />
       </div>
       <CoverMaximieren bild={buehnenBild} banner={title.bannerImage} gross={grossBild} titel={anzeigeName(title)} />
-      <div className="relative z-10 -mt-[72px] grid shrink-0 grid-cols-[120px_1fr] gap-3 px-4 pb-3 min-[512px]:-mt-[84px] min-[512px]:grid-cols-[140px_1fr]">
+      <div data-kopfblock className="pointer-events-none relative z-10 -mt-[72px] grid shrink-0 grid-cols-[120px_1fr] gap-3 px-4 pb-3 min-[512px]:-mt-[84px] min-[512px]:grid-cols-[140px_1fr]">
         <Posterkarte bild={buehnenBild} onClick={beiCoverKlick} />
-        <div className="min-w-0 pt-[80px] min-[512px]:pt-[92px]">
+        <div className="min-w-0 pt-[80px] min-[512px]:pt-[92px] [&>*]:pointer-events-auto">
           <h2 title={reihenName} className="line-clamp-2 text-t1 font-bold text-ak-text">
             {reihenName}
           </h2>
