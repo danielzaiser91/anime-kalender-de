@@ -59,7 +59,9 @@ try {
   console.log('wache-verdrahtung.test: ok')
 } finally {
   for (const o of ordnerListe) {
-    unlinkSync(join(o, 'node_modules'))
+    try {
+      unlinkSync(join(o, 'node_modules')) // fehlt der Link (baueRepo früh gescheitert), darf das den eigentlichen Fehler nicht verdecken
+    } catch {}
     rmSync(o, { recursive: true, force: true })
   }
 }
