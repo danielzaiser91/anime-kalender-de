@@ -97,8 +97,8 @@ const release = {
   schedule: { firstEpisodeDate: '2099-10-20', estimated: false, episodeCount: 1 },
 } as unknown as Release
 const titel = { id: 1, slug: 'x', titleRomaji: 'Test', titleDe: 'Test', genres: [], streams: [] } as unknown as Title
-function terminSeite(ak: number, adresse: string): string {
-  return head(release, titel, '2026-10-16', ak, adresse, umfeld) + body(release, titel, undefined, '2026-10-16', [], ak, adresse, umfeld)
+function terminSeite(ak: number, adresse: string, rel: Release = release, heute = '2026-10-16'): string {
+  return head(rel, titel, heute, ak, adresse, umfeld) + body(rel, titel, undefined, heute, [], ak, adresse, umfeld)
 }
 const terminAnime = terminSeite(15957, '15957')
 pruefe('Termin-Seite (Anime): Skript mit Tag, ohne t=', terminAnime.includes('location.hash = "#/woche?d=2099-10-20"') && !/[?&]t=/.test(terminAnime))
@@ -108,6 +108,19 @@ pruefe('Termin-Seite (Namens-Pfad, positive Kennung): t= in Skript und Link', te
 const terminCartoon = terminSeite(-284833, 'avatar-284833')
 pruefe('Termin-Seite (Cartoon): Skript mit Tag und t=', terminCartoon.includes('location.hash = "#/woche?d=2099-10-20&amp;t=-284833"') || terminCartoon.includes('location.hash = "#/woche?d=2099-10-20&t=-284833"'))
 pruefe('Termin-Seite (Cartoon): „Im Kalender ansehen“ über den Namens-Pfad mit Tag und t=', /\/t\/avatar-284833\/#\/woche\?d=2099-10-20&(amp;)?t=-284833"/.test(terminCartoon))
+
+const mehrere = { ...release, schedule: { firstEpisodeDate: '2026-10-01', estimated: false, episodeCount: 4 } } as unknown as Release
+const tagImSkript = (seite: string) => /location\.hash = "#\/woche\?d=([0-9-]+)"/.exec(seite)?.[1]
+const tagImLink = (seite: string) => /\/t\/15957\/#\/woche\?d=([0-9-]+)"/.exec(seite)?.[1]
+for (const [heute, erwartet, was] of [
+  ['2026-10-16', '2026-10-22', 'nächster künftiger Termin (Folgen davor und danach)'],
+  ['2026-10-22', '2026-10-22', 'Termin heute zählt noch (>=)'],
+  ['2026-11-30', '2026-10-01', 'alle Termine vorbei: der erste'],
+] as const) {
+  const seite = terminSeite(15957, '15957', mehrere, heute)
+  pruefe(`Termin-Seite, ${was}: Skript zeigt ${erwartet}`, tagImSkript(seite) === erwartet, tagImSkript(seite))
+  pruefe(`Termin-Seite, ${was}: „Im Kalender ansehen“ zeigt ${erwartet}`, tagImLink(seite) === erwartet, tagImLink(seite))
+}
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nTitel-Adressen: alle Zusicherungen halten.')
 process.exit(verletzt ? 1 : 0)

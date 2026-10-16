@@ -252,7 +252,7 @@ export function hashAufraeumen(neu: AppRoute, umg: Umgebung): void {
     /[?&]r=/.test(ort.hash) ||
     (istKalender(neu.view) && KALENDER_FILTER_PARAM.test(ort.hash))
   )
-    verlauf.replaceState(verlauf.state, '', ort.pathname + ort.search + buildHash(neu))
+    verlauf.replaceState(verlauf.state, '', ort.pathname + ort.search + adressHash(neu, ort.pathname))
 }
 
 /**
