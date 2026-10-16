@@ -44,7 +44,7 @@ function wegJeStaffel(weg: StreamLink, b: StaffelBereich, jwStand: string | unde
   const teil: StreamLink = { ...weg, teilBereich: { von: b.von, bis: b.bis } }
   delete teil.dub
   delete teil.dubRanges
-  if (weg.dub === undefined) return jwStand ? { ...teil, dubQuelle: 'justwatch', dubStand: jwStand } : teil
+  if (weg.dub === undefined) return jwStand ? { ...teil, dubQuelle: 'justwatch', dubStand: jwStand, dubHintOnly: true } : teil
   const ausschnitt = beschneiden(weg.dubRanges!, b)
   if (!ausschnitt.length) return teil
   return { ...teil, dub: ausschnitt.some((r) => r.dub), dubRanges: ausschnitt }

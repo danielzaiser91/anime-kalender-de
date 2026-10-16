@@ -10,6 +10,7 @@ import { belegteDeutscheSynchro, ersterTerminMitGrund } from './bau/nebendateien
 import { geerbteWege } from '../shared/kanal-anbieter.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { deutschNurAusSpracheTermin } from './lib/pruefung.ts'
+import { unbedingteAufrufe } from './lib/unbedingte-aufrufe.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, ist?: unknown): void {
@@ -190,10 +191,15 @@ pruefe('Gegenprobe: dasselbe Ja als eigenes Ja des Kanal-Wegs belegt', belegt([k
 
 /* Der Bau ruft es auf, vor der Auslieferung (sonst bliebe die Regel Papier). */
 const schreiben = readFileSync(new URL('./bau/13-schreiben.ts', import.meta.url), 'utf8')
-const nachAnreichern = schreiben.indexOf('schreibeSynopsenUndReichereAn({')
-const aufruf = schreiben.indexOf('kanalErbtVomAnbieter(allTitles)')
-const auslieferung = schreiben.indexOf('baueAuslieferung({')
-pruefe('13-schreiben ruft kanalErbtVomAnbieter nach dem Anreichern und vor der Auslieferung', nachAnreichern > 0 && aufruf > nachAnreichern && aufruf < auslieferung, { nachAnreichern, aufruf, auslieferung })
+const aufrufe = unbedingteAufrufe(schreiben, 'schreibeDatensatz')
+const stelle = (name: string): number => aufrufe.find((x) => x.name === name)?.stelle ?? -1
+const erbt = aufrufe.find((x) => x.name === 'kanalErbtVomAnbieter')
+pruefe('13-schreiben ruft kanalErbtVomAnbieter(allTitles, jwNeinAnSeite()) unbedingt auf', erbt?.args.join('|') === 'allTitles|jwNeinAnSeite()', erbt)
+pruefe(
+  '13-schreiben: kanalErbtVomAnbieter steht nach dem Anreichern und vor der Auslieferung',
+  stelle('schreibeSynopsenUndReichereAn') >= 0 && stelle('kanalErbtVomAnbieter') > stelle('schreibeSynopsenUndReichereAn') && stelle('kanalErbtVomAnbieter') < stelle('baueAuslieferung'),
+  aufrufe.map((x) => `${x.stelle}:${x.name}`),
+)
 
 if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)

@@ -26,7 +26,8 @@ pruefe('Termin mit offener Sprache: bleibt offen', streamStatus(titel(), weg('ne
 pruefe('ein Termin ohne Kennzeichnung dabei: bleibt offen', streamStatus(titel(), weg('netflix'), [termin('netflix', 'omu'), termin('netflix')]) === 'offen')
 pruefe('anderer Anbieter: bleibt offen', streamStatus(titel(), weg('primevideo'), [termin('netflix', 'omu')]) === 'offen')
 pruefe('belegtes Deutsch geht vor', streamStatus(titel({ platform: 'crunchyroll', synchro: 'offen' }), weg('crunchyroll', { dub: true }), []) === 'belegt')
-pruefe('JustWatch geht vor', streamStatus(titel(), weg('netflix', { dubQuelle: 'justwatch', dubStand: '2026-10-01' }), [termin('netflix', 'omu')]) === 'justwatch')
+pruefe('JustWatch-Flagge geht vor', streamStatus(titel(), weg('netflix', { dubQuelle: 'justwatch', dubStand: '2026-10-01' }), [termin('netflix', 'omu')]) === 'jwDeutsch')
+pruefe('JustWatch-Hinweis geht vor', streamStatus(titel(), weg('netflix', { dubQuelle: 'justwatch', dubStand: '2026-10-01', dubHintOnly: true }), [termin('netflix', 'omu')]) === 'justwatch')
 
 console.log('\nFolgen für den Kasten:')
 const sortiert = [{ art: 'abo', plattformen: [weg('netflix')], streamWege: [] }] as unknown as Parameters<typeof alleOhneSprachbeleg>[0]

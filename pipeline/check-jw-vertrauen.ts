@@ -1,8 +1,8 @@
 /**
- * Zusicherungen zur Vertrauensregel „Deutsch laut JustWatch" (Prime): jede Bedingung der Regel einzeln. Der Bestand nach einem Bau
- * (nur Prime, nie bei vorhandenem Urteil, nie bei Cartoons) steht in `check-jw-vertrauen-bestand.ts`. Läuft in `check:logic`.
+ * Zusicherungen zum JustWatch-Befund (Titel je Kennung) und zum Prime-Häkchen nur mit Beleg. Die Regel „Deutsch laut JustWatch“
+ * je Seite prüft `check-jw-seite.ts`, den Bestand nach einem Bau `check-jw-vertrauen-bestand.ts`. Läuft in `check:logic`.
  */
-import { BEFUND_MAX_TAGE, justwatchDeutsch, titelJeJustwatchKennung, type JwBefund, type JwVertrauenEingabe } from './lib/jw-vertrauen.ts'
+import { titelJeJustwatchKennung, type JwBefund } from './lib/jw-vertrauen.ts'
 import { primeHakenOhneBeleg, primeTitelMitBeleg } from './lib/haken-beleg.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -14,52 +14,8 @@ function pruefe(name: string, ok: boolean, info = ''): void {
   }
 }
 
-const GTI = 'amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d'
-const ANDERE_GTI = 'amzn1.dv.gti.00000000-0000-0000-0000-000000000000'
-const URL = `https://watch.amazon.de/detail?gti=${GTI}`
-const angebot = (anbieter: string, audio: string[], gti = GTI) => ({
-  anbieter,
-  art: 'FLATRATE',
-  audio,
-  url: `https://watch.amazon.de/detail?gti=${gti}`,
-})
-const befund = (angebote: JwBefund['angebote'], zusatz: Partial<JwBefund> = {}): JwBefund => ({
-  geprueftAm: '2026-10-01',
-  jwId: 'ts1',
-  jwPfad: '/de/Serie/x',
-  angebote,
-  ...zusatz,
-})
-const prime = (audio: string[]) => befund([angebot('Amazon Prime Video', audio)])
-const eingabe = (zusatz: Partial<JwVertrauenEingabe> = {}): JwVertrauenEingabe => ({
-  url: URL,
-  dub: undefined,
-  befund: prime(['de']),
-  titelJeJwId: 1,
-  widerspruch: false,
-  heute: '2026-10-11',
-  ...zusatz,
-})
-const gilt = (zusatz: Partial<JwVertrauenEingabe> = {}) => justwatchDeutsch(eingabe(zusatz)) !== undefined
-
-pruefe('einzeln geführte Serie mit Deutsch an der Wegadresse gilt', justwatchDeutsch(eingabe()) === '2026-10-01')
-pruefe('Film gilt auch bei geteilter Kennung', gilt({ titelJeJwId: 3, befund: befund([angebot('Amazon Prime Video', ['de'])], { jwPfad: '/de/Film/x' }) }))
-pruefe('Mehrteiler (Serie, mehrere Titel) bekommt nichts', !gilt({ titelJeJwId: 2 }))
-pruefe('Prime mit Werbung gilt', gilt({ befund: befund([angebot('Amazon Prime Video with Ads', ['de'])]) }))
-pruefe('Amazon-Kanal gilt', gilt({ befund: befund([angebot('Aniverse Amazon Channel', ['de'])]) }))
-pruefe('Amazon-Store (Kauf) gilt nicht', !gilt({ befund: befund([angebot('Amazon Video', ['de'])]) }))
-pruefe('nur Originalton (audio ohne de, auch mit deutschen Untertiteln) gilt nicht', !gilt({ befund: prime(['ja']) }))
-pruefe('keine Tonangabe gilt nicht', !gilt({ befund: prime([]) }))
-pruefe('Deutsch bei einer anderen Adresse gilt nicht', !gilt({ befund: befund([angebot('Amazon Prime Video', ['de'], ANDERE_GTI)]) }))
-pruefe('Weg ohne gti-Adresse gilt nicht', !gilt({ url: 'https://www.amazon.de/gp/video/detail/B09JLN6S1R' }))
-pruefe('vorhandenes Urteil bleibt unberührt (ja)', !gilt({ dub: true }))
-pruefe('vorhandenes Urteil bleibt unberührt (nein)', !gilt({ dub: false }))
-pruefe('Widerspruch von Handbeleg oder Urteil sperrt', !gilt({ widerspruch: true }))
-pruefe('Befund von vor 27 Tagen gilt', justwatchDeutsch(eingabe({ befund: { ...prime(['de']), geprueftAm: '2026-09-14' } })) === '2026-09-14')
-pruefe(`Befund ab ${BEFUND_MAX_TAGE} Tagen gilt nicht`, !gilt({ befund: { ...prime(['de']), geprueftAm: '2026-09-13' } }))
-pruefe('verfehlte Suche (alter Befund) gilt nicht', !gilt({ befund: { ...prime(['de']), verfehltAm: '2026-10-05' } }))
-pruefe('ohne Treffer gilt nicht', !gilt({ befund: befund([], { ohneTreffer: true }) }))
-pruefe('ohne Befund gilt nicht', !gilt({ befund: undefined }))
+const URL = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d'
+const befund = (angebote: JwBefund['angebote'], zusatz: Partial<JwBefund> = {}): JwBefund => ({ geprueftAm: '2026-10-01', jwId: 'ts1', angebote, ...zusatz })
 const jeKennung = titelJeJustwatchKennung({ a: befund([]), b: befund([]), c: befund([], { jwId: 'ts2' }), d: befund([], { jwId: undefined }) })
 pruefe('Titel je JustWatch-Kennung zählt gleiche Kennungen', jeKennung.get('ts1') === 2 && jeKennung.get('ts2') === 1 && jeKennung.size === 2)
 

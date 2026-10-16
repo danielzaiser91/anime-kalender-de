@@ -2256,6 +2256,9 @@ Shin-chan, Cyberpunk: Edgerunners 2, Fool Night) kommen als Verdachtsquelle `fol
   99,4 % richtig bei n = 468) trägt diese Quelle mit Stufe `hoch`. Vorgabe weiter: nichts ausblenden (`ausblenden: []`) — `["hoch"]` blendet genau diese Wege aus
   (nur mit `erweitert`). Cartoons bleiben bei `justwatch` / `ungeprueft`, bis Daniels Stichprobe (50 + 50) vorliegt. Gibt es einen JustWatch-Irrtum über der Grenze
   (Bericht: Fruits Basket bei Crunchyroll), setzt man `justwatch-regel` auf `ungeprueft` zurück.
+  **Seit 16.10.2026** gilt die Prime-Vertrauensregel nicht mehr: `dubQuelle: 'justwatch'` steht an jedem Anbieter, an dem JustWatch an genau
+  der Seite des Wegs „de“ nennt (`pipeline/lib/jw-seite.ts`, quellen.md „JustWatch-Ton je Seite“). Mit `dubHintOnly` ist es nur ein Hinweis
+  (Mehrteiler, mehrere Staffeln, Wächter); `quelleVon` in `tools/pruef-bestand.mjs` zählt beide noch gleich als `justwatch-regel`.
 - **Staffel-Unschärfe:** Cartoon-Serien tragen `staffelUnscharf: true` und `hinweis` (TMDB zählt Gesamtfolgen; der Anbieter kann anders schneiden, z. B.
   Avatar Buch 1–3). Die Erweiterung zeigt das Feld noch nicht (nur `pruefstand.json` `ziele[].hinweis`); der Zuordner ordnet nur zu, wenn die Folgenzahl
   stimmt (`ordneNachStaffelliste`), eine unpassende Meldung bleibt unzugeordnet statt falsch belegt zu werden.

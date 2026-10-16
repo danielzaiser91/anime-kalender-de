@@ -24,7 +24,7 @@ export type JwAbo = { ohneTreffer?: boolean; angebote?: { anbieter: string; art:
  * 3. Nur Anbieter, die wir als Plattform führen, und höchstens **zwei** je Titel.
  *
  * Der Weg trägt **kein** `dub` (11.10.2026): JustWatch ist kein Beleg. Bei Prime setzt `11-6-jw-vertrauen.ts`
- * danach den Umriss „Deutsch laut JustWatch", wo die Vertrauensregel greift.
+ * danach den Umriss „Deutsch laut JustWatch", wo JustWatch an der Seite „de“ nennt (`lib/jw-seite.ts`).
  */
 export function ergaenzeAboWege({ titles, jw, handNein, tmdbMehrdeutig, toteAdressen }: {
   titles: Map<number, Title>

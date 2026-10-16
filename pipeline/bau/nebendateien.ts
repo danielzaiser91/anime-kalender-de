@@ -24,6 +24,7 @@ import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
 import { setzeStaffeln, staffelnAusBelegen } from './cartoon-staffeln.ts'
 import { verteileWege } from './cartoon-wege.ts'
+import { kennzeichneCartoonJwSeiten } from './cartoon-jw-seite.ts'
 import type { Staffel } from '../lib/jw-staffeln.ts'
 import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-titel.ts'
 import { findeAnisearchDubletten, zeilenMitKennungWeg, type DublettenUrteil } from './anisearch-dubletten.ts'
@@ -204,6 +205,7 @@ export function schreibeCartoons(): void {
   if (belegt) log(`${belegt} Cartoon-Verweise mit Handbeleg`)
   setzeTonHinweise(titel, jw, belege)
   const ungeprueft = setzeStaffeln(titel, roh, jw, staffelnAusBelegen(belege))
+  kennzeichneCartoonJwSeiten(titel, belege)
   verteileWege(titel, jw, ungeprueft)
   ordneCartoonReihen(titel)
   writeJson(`${OUT}/cartoons.json`, titel)
