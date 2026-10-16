@@ -70,7 +70,7 @@ jobs:
           rm -f "$T/dateien.ndjson"
           gh pr view "$PR" --repo "$GITHUB_REPOSITORY" --json title,body,headRefName \
             -q '"Titel: " + .title + "\nZweig: " + .headRefName + "\n\n" + .body' > "$T/pr-beschreibung.txt"
-          # Beschreibungen sind unveränderlich; spätere Runden stehen als Kommentar "**Nachtrag…", "## Nachtrag…" oder "# Nachtrag…" am Textanfang des PR-Autors (nur dieser zählt).
+          # Beschreibungen sind unveränderlich; spätere Runden stehen als Kommentar "Nachtrag…" oder "Nachbesserung…" (mit oder ohne **, #) am Textanfang des PR-Autors (nur dieser zählt).
           autor=$(gh pr view "$PR" --repo "$GITHUB_REPOSITORY" --json author -q .author.login) || autor=""
           if [[ "$autor" =~ ^[A-Za-z0-9][A-Za-z0-9-]*(\[bot\])?$ ]]; then
             # Fail-soft: fehlt das Skript (z. B. auf main vor dem Merge) oder stürzt node ab, muss diff-zustand trotzdem geschrieben werden.
@@ -207,6 +207,16 @@ jobs:
             nicht, dass die Kulisse gelesen wird; relative Dateipfade im Prüfling per Grep suchen.
             Klasse an html/body (16.10.2026): CSS-Regeln nur mit Vorfahr; Fake-document-Tests sehen keine
             Stil-Kollision — prüfe jede Klasse, die ein Skript an html/body hängt, auf Kollision mit CSS-Regeln.
+            Ein Wächter auf YAML/JSON, der den Text per Regex prüft, ist ein Befund, wenn Anführungszeichen oder
+            Flow-Syntax ihn umgehen (geparstes Dokument prüfen); ein Workflow-Wächter sichert auch die Position
+            des Schritts zum überwachten Schritt zu.
+            Eine Mutationsprobe an einem Ausschluss zählt nur, wenn die Testdaten ohne ihn ein anderes Ergebnis
+            liefern.
+            Toleranz in einer Zuordnung (±1 Jahr, ungefähre Folgenzahl): nur frei, wenn die Beschreibung die Fälle
+            zählt, die allein durch sie hereinkommen, und jeden als richtig belegt.
+            Benennt die Beschreibung eine Verdrahtung (Aufruf in build.ts oder einer Phase) selbst als ungetestet,
+            ist das ein Befund, kein Hinweis. Behauptungen über fremde Module ("X ist generisch") zählen nur mit
+            Datei:Zeile des Belegs, sonst nicht als Argument verwenden.
 
             Schreibe zwei Dateien:
             1. ${{ runner.temp }}/pruefer/protokoll.md — deutsch, höchstens 25 Zeilen: Urteil, Befunde mit Datei und
