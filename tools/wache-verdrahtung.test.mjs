@@ -5,7 +5,7 @@
  */
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
-import { copyFileSync, mkdirSync, mkdtempSync, rmSync, rmdirSync, symlinkSync, writeFileSync } from 'node:fs'
+import { copyFileSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 
@@ -59,7 +59,7 @@ try {
   console.log('wache-verdrahtung.test: ok')
 } finally {
   for (const o of ordnerListe) {
-    rmdirSync(join(o, 'node_modules'))
+    unlinkSync(join(o, 'node_modules'))
     rmSync(o, { recursive: true, force: true })
   }
 }
