@@ -38,6 +38,7 @@ import { omuMeldungen } from './news-omu.ts'
 import { fensterBeginn, offizielleMeldungen, traegtOffizielle, type OffizielleMeldung } from './news-offiziell.ts'
 import { rhythmusMeldung } from './news-rhythmus.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
+import { titelNachSerienId } from './news-cr-zuordnung.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
 const FENSTER_TAGE = 120
@@ -409,13 +410,7 @@ export function baueNews(
     Serienkennung, unsere Verweise tragen sie in der Adresse. Ohne Treffer gibt
     es keine Meldung — ein Name allein ist keine Zuordnung (CLAUDE.md).
   */
-  const nachSerienId = new Map<string, Title>()
-  for (const t of titles) {
-    for (const s of t.streams) {
-      const id = /crunchyroll\.com\/(?:[a-z-]+\/)?series\/([A-Z0-9]+)/i.exec(s.url)?.[1]
-      if (id && !nachSerienId.has(id)) nachSerienId.set(id, t)
-    }
-  }
+  const nachSerienId = titelNachSerienId(titles)
   for (const [schluessel, eintrag] of jeSerieUndTag) {
     const serienId = schluessel.split('|')[0]!
     const t = nachSerienId.get(serienId)
