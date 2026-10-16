@@ -13,6 +13,7 @@
  */
 import { amazonTitelAdresse } from './amazon-adresse.ts'
 import { adressKern, type DubCheck } from './dub-confirmed.ts'
+import { hatDeutschenTon } from '../../shared/sprachen-ton.ts'
 
 /** Trägt der Beleg die Kanal-Warnung der Erweiterung? */
 export const istKanalTitel = (c: Pick<DubCheck, 'note'>): boolean => /Kanal-Titel/.test(c.note ?? '')
@@ -94,7 +95,7 @@ function istKanalGruppe(titelId: number, gruppe: { seite?: string | null; url: s
  * Der Verweis selbst bleibt (Adresse, Kanal), nur das Häkchen entfällt.
  */
 export function rohDeutsch(folgen: { sprachen: string[] }[], titelId: number, gruppe: { seite?: string | null; url: string } | null, alleChecks: DubCheck[]): boolean | undefined {
-  if (!folgen.some((f) => f.sprachen.includes('Deutsch'))) return undefined
+  if (!folgen.some((f) => hatDeutschenTon(f.sprachen))) return undefined
   return !(gruppe && istKanalGruppe(titelId, gruppe, alleChecks))
 }
 

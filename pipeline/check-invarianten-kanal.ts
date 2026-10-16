@@ -28,6 +28,11 @@ export function kanalProben(pruefe: Pruefe): void {
   pruefe('D-25: gemeldete Folgen auf einer Kanal-Seite belegen kein Deutsch', rohDeutsch(deutsch, 185262, { url: hellUrl }, lader) === false)
   pruefe('D-25: gemeldete Folgen auf einer anderen Seite belegen Deutsch', rohDeutsch(deutsch, 185262, { url: 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA' }, lader) === true)
   pruefe('D-25: gemeldete Folgen ohne Deutsch belegen nichts', rohDeutsch([{ sprachen: ['Japanisch'] }], 185262, null, []) === undefined)
+  /* Prime schreibt „Deutsch“, Netflix „de|Deutsch“, Disney+ „de“ (shared/sprachen-ton.ts). */
+  for (const form of ['Deutsch', 'de|Deutsch', 'de']) {
+    pruefe(`D-25: Sprachform „${form}“ belegt Deutsch`, rohDeutsch([{ sprachen: [form] }], 185262, null, []) === true)
+  }
+  pruefe('D-25: Netflix „ja|Japanisch“ belegt nichts', rohDeutsch([{ sprachen: ['ja|Japanisch'] }], 185262, null, []) === undefined)
   const andere = 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA'
   const fremdesNein = { anilistId: 185262, platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/B0CFL5Y7XN', dub: false, checkedAt: '2026-09-01' } as DubCheck
   pruefe('belegFuer: ein Nein zu einer anderen Adresse gilt für die Kanal-Zeile nicht', belegOhneGenaueAdresse([fremdesNein], 1, lader, 185262, hellUrl) === undefined)
