@@ -77,6 +77,10 @@ assert.equal(ja([vor(7, 'failure'), vor(60, 'success'), vor(70, null, 'in_progre
 assert.equal(ja([vor(30.5, 'success')]), false, '30,5 h bei Frist 30 h: noch nicht überfällig')
 assert.equal(ja([vor(31, 'success')]), true, '31 h bei Frist 30 h: überfällig')
 
+/* ---- Ein aktiver Lauf auf Platz 7 sperrt (--limit 10 der Wache); Wartezeit als Zahl ---- */
+assert.equal(ja([...[40, 41, 42, 43, 44, 45].map((h) => vor(h, 'success')), vor(50, null, 'in_progress')]), false, 'aktiver Lauf weit hinten sperrt')
+assert.equal(ja([vor(5, 'failure')]), false, 'roter Start vor 5 h: Wartezeit 6 h noch nicht um')
+
 /* ---- Grenzen der Rot-Regel: Erfolgsfrist ohne Abrunden, Wartezeit exakt ---- */
 assert.equal(ja([vor(10, 'failure'), vor(30, 'success')]), false, 'Erfolg genau 30 h alt: noch innerhalb der Frist')
 assert.equal(ja([vor(10, 'failure'), vor(30.5, 'success')]), true, 'Erfolg 30,5 h alt: außerhalb der Frist')
@@ -96,6 +100,12 @@ assert.match(lauf([echt(5, 'cancelled'), echt(40, 'success'), echt(64, 'success'
 assert.match(lauf([echt(5, 'cancelled'), echt(40, 'success'), echt(64, 'success')], '30', 'ohne-abbruch'), /^ja /, 'ohne-abbruch: Abbruch zählt nicht')
 assert.match(lauf([echt(8, 'failure'), echt(60, 'success'), echt(80, 'success')], '30'), /^ja /, 'roter Start -> ja')
 assert.match(lauf([], '30'), /^ja nie gestartet\n$/)
+/* Die Frist kommt aus dem Argument: Stunden-, Wochen- und Monatslauf (Werte der Wache) in beide Richtungen. */
+assert.match(lauf([echt(5, 'success'), echt(6, 'success'), echt(7, 'success')], '3'), /^ja /, 'Frist 3 h, letzter Start vor 5 h')
+assert.match(lauf([echt(2, 'success'), echt(3, 'success'), echt(4, 'success')], '3'), /^nein /, 'Frist 3 h, letzter Start vor 2 h')
+assert.match(lauf([echt(40, 'success'), echt(64, 'success'), echt(88, 'success')], '192'), /^nein /, 'Frist 192 h, Start vor 40 h')
+assert.match(lauf([echt(200, 'success'), echt(300, 'success'), echt(400, 'success')], '192'), /^ja /, 'Frist 192 h, Start vor 200 h')
+assert.match(lauf([echt(300, 'success'), echt(500, 'success'), echt(700, 'success')], '744'), /^nein /, 'Frist 744 h, Start vor 300 h')
 
 /* ---- Verdrahtung: Wache kennt jeden Workflow des Weckplans und ruft die Entscheidung auf ---- */
 const wache = parse(lies('.github/workflows/wecker-wache.yml'))
@@ -127,6 +137,11 @@ const IST = nachholen.run.split('\n').map((z) => z.trim()).filter((z) => z !== '
 assert.deepEqual(IST, SOLL, 'run-Block der Wache weicht ab')
 assert.equal(nachholen.if, undefined, 'Schritt „nachholen“ läuft immer')
 assert.equal(nachholen['continue-on-error'], undefined)
+/* Jeder andere Zugriffsweg (shell, working-directory, env, timeout-minutes, defaults) könnte den geprüften run-Block umgehen. */
+assert.deepEqual(Object.keys(nachholen).sort(), ['id', 'name', 'run'], 'Schritt „nachholen“ hat nur id, name, run')
+assert.equal(wache.defaults, undefined, 'keine Workflow-defaults (shell)')
+assert.equal(wache.jobs.wache.defaults, undefined, 'keine Job-defaults (shell)')
+assert.deepEqual(wache.jobs.wache.env, { GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }, 'Job-env genau das Token')
 const plan = nachholen.run.match(/PLAN="([^"]+)"/)[1].split(' ').map((e) => e.split(':')[0])
 const weckplan = [...lies('shared/weckplan.ts').matchAll(/\{ workflow: '([^']+)'/g)].map((m) => m[1])
 assert.ok(weckplan.length >= 12)
