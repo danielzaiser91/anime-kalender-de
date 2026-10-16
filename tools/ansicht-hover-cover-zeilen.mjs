@@ -2,11 +2,12 @@
  * Cover-Vorschau je Ansicht der Woche (Im Handel, Im Fernsehen; 15.10.2026): Zeigen auf eine Zeile zeigt genau das Cover
  * dieses Titels, und die Karte liegt neben dem Zeiger und der Zeile vollständig im Fenster — auch am rechten und unteren Rand.
  * Erwartet wird aus `dist/data/woche.json` (Ereignisse → Titel → Cover), nicht aus dem, was die Zeile selbst übergibt;
- * gemessen wird an einer Zeile ab Index 1 (das Rechteck der Liste fiele an der ersten nicht auf) und das Bild in der Größenstufe von `coverBild(…, 120)`.
+ * gemessen wird an einer Zeile ab Index 1 (das Rechteck der Liste fiele an der ersten nicht auf) und das Bild in der Größenstufe von `coverBild(…, VORSCHAU_BREITE)`.
  * Hat die Woche für eine Ansicht keine Ereignisse mit Cover, wird sie übersprungen; sonst muss es Zeilen geben.
  */
 import { readFileSync } from 'node:fs'
 import { coverBild } from '../web/src/lib/cover.ts'
+import { VORSCHAU_BREITE, VORSCHAU_HOEHE } from '../web/src/lib/hover-cover.ts'
 
 const ANSICHTEN = [
   { name: 'Im Handel', plattform: 'disc', wahl: '[data-hover-zeile]:not([data-tv-zeile])' },
@@ -14,15 +15,15 @@ const ANSICHTEN = [
 ]
 const FENSTER = { width: 1280, height: 900 }
 const REIHEN = 8
-/** Breite der Karte in CSS-Pixeln (= VORSCHAU_BREITE); bestimmt die Größenstufe des Bildes. */
-const KARTEN_BREITE = 120
-/** Randfall rechts: so weit ragt das Fenster über die Zeile hinaus; die Karte (120 + 16 + 8 px) passt dann nicht rechts neben den Zeiger. */
+/** Breite der Karte in CSS-Pixeln; bestimmt die Größenstufe des Bildes. */
+const KARTEN_BREITE = VORSCHAU_BREITE
+/** Randfall rechts: so weit ragt das Fenster über die Zeile hinaus; die Karte (Breite + 16 + 8 px) passt dann nicht rechts neben den Zeiger. */
 const RAND_RECHTS = 40
 const RAND_MIN = 4
 const ABSTAND_MIN = 8
 const ABSTAND_MAX = 40
-/** Mindesthöhe über einer Zeile, damit die 170 px hohe Karte darüber Platz hat. */
-const VORSCHAU_PLATZ = 190
+/** Mindesthöhe über einer Zeile, damit die Karte darüber Platz hat. */
+const VORSCHAU_PLATZ = VORSCHAU_HOEHE + 20
 
 /** Dateiname eines Cover-Links ohne Größenordner und Abfrage: gleich für jede Größe desselben Bildes. */
 function bildName(url) {
@@ -132,18 +133,32 @@ async function messeRechterRand(seite, zeile) {
   return lageAbweichungen(rechts).map((l) => `am rechten Fensterrand: ${l}`)
 }
 
-/** Randfälle an derselben Zeile: Fenster knapp unter ihr (Karte muss darüber) und knapp rechts von ihr (Karte muss links vom Zeiger). */
-async function messeRaender(seite, zeile) {
+/**
+ * Fenster knapp unter einer Zeile: die Karte muss darüber. Liegt die gemessene Zeile im Dokument zu weit oben,
+ * als dass die ganze Karte darüber passt, wird eine spätere Zeile der Liste mit Vorschau genommen.
+ */
+async function messeUntenRand(seite, zeile, wahl) {
+  const zeilen = seite.locator(wahl)
+  const kandidaten = [zeile]
+  for (let i = 0; i < Math.min(await zeilen.count(), 12); i++) kandidaten.push(zeilen.nth(i))
+  for (const z of kandidaten) {
+    if ((await z.evaluate((el) => el.getBoundingClientRect().top + window.scrollY)) < VORSCHAU_PLATZ) continue
+    await seite.setViewportSize(FENSTER)
+    await seite.mouse.move(2, 2)
+    await z.evaluate((el, platz) => window.scrollBy(0, el.getBoundingClientRect().top - platz - 110), VORSCHAU_PLATZ)
+    const box = await z.boundingBox()
+    await seite.setViewportSize({ width: FENSTER.width, height: Math.ceil(box.y + box.height) + 24 })
+    await seite.waitForTimeout(200)
+    const unten = await zeigeUndMesse(seite, z)
+    if (unten) return lageAbweichungen(unten).map((l) => `unten am Fenster: ${l}`)
+  }
+  return ['unten am Fenster: keine Zeile mit Vorschau und genug Platz darüber']
+}
+
+/** Randfälle: Fenster knapp unter einer Zeile (Karte muss darüber) und knapp rechts von ihr (Karte muss links vom Zeiger). */
+async function messeRaender(seite, zeile, wahl) {
   const befunde = []
-  await seite.mouse.move(2, 2)
-  await zeile.evaluate((el) => window.scrollBy(0, el.getBoundingClientRect().top - 300))
-  const box = await zeile.boundingBox()
-  if (box.y < VORSCHAU_PLATZ) befunde.push('unten am Fenster: Zeile liegt zu weit oben, um die Lage zu messen')
-  await seite.setViewportSize({ width: FENSTER.width, height: Math.ceil(box.y + box.height) + 24 })
-  await seite.waitForTimeout(200)
-  const unten = await zeigeUndMesse(seite, zeile)
-  if (!unten) befunde.push('unten am Fenster: keine Vorschau')
-  else befunde.push(...lageAbweichungen(unten).map((l) => `unten am Fenster: ${l}`))
+  befunde.push(...(await messeUntenRand(seite, zeile, wahl)))
   befunde.push(...(await messeRechterRand(seite, zeile)))
   await seite.setViewportSize(FENSTER)
   await seite.waitForTimeout(200)
@@ -168,7 +183,7 @@ async function messeAnsicht(seite, ansicht, woche) {
   if (!m.amBody) befunde.push('die Karte hängt nicht am body (ein Vorfahr mit transform würde ihr `fixed` verschieben)')
   if (m.zeigerEreignisse !== 'none') befunde.push(`die Karte fängt Zeigerereignisse ab (pointer-events: ${m.zeigerEreignisse})`)
   befunde.push(...(await klickSchliesst(seite, m.ort)))
-  befunde.push(...(await messeRaender(seite, m.ort)))
+  befunde.push(...(await messeRaender(seite, m.ort, ansicht.wahl)))
   return { name: ansicht.name, zeile: titel, befunde }
 }
 

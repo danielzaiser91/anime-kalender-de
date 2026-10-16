@@ -2,8 +2,8 @@
  * Cover-Vorschau beim Zeigen auf eine Listenzeile (Im Handel, Im Fernsehen): Größe, Frist und Lage.
  * Die Vorschau hängt als `fixed`-Karte am `body`, die Zeile selbst ändert ihre Größe nie (kein Layout-Sprung).
  */
-export const VORSCHAU_BREITE = 120
-export const VORSCHAU_HOEHE = 170
+export const VORSCHAU_BREITE = 240
+export const VORSCHAU_HOEHE = 340
 /** Erst nach dieser Frist (ms) mit ruhendem Zeiger wird das Bild angefordert — Durchfahren der Liste kostet keine Bytes. */
 export const VORSCHAU_FRIST_MS = 150
 
