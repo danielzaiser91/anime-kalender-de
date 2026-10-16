@@ -33,3 +33,8 @@ export const EXPORT_PAUSE_SEKUNDEN = 30
 
 /** Der Satz für die Export-Abweisung (Erweiterung und Seite zeigen `error`). */
 export const EXPORT_PAUSE_TEXT = 'Die Datenbank ist gerade kurz beschäftigt. Versuch es in einer halben Minute noch einmal.'
+
+/** Verweigert D1 gerade vorübergehend (Export oder Tageslimit)? Dann gehen Teilergebnisse nicht still verloren, sondern die Anfrage scheitert. */
+export function istD1Abweisung(e: unknown): boolean {
+  return istD1Export(e) || istD1Tageslimit(e)
+}
