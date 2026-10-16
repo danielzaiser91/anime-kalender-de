@@ -1267,6 +1267,7 @@ Das Ruleset `main-pruefweg` (Squash-PR mit einer Freigabe, kein Direkt-Push) lä
   `check:workflows` kennt diese Form der Gruppe `bau`. **Ob `github.actor` bei einem Squash-Merge der App wirklich `anime-kalender-daten[bot]` ist, ist erst am ersten echten Lauf belegt** (Test T4 in der Spezifikation).
 - **Lokal:** `tools/pushen.sh` und `tools/erneut-melden.mjs` pushen nicht mehr nach `main`, sondern reichen über `tools/pr-einreichen.sh` einen PR ein und schalten `gh pr merge --auto --squash` ein;
   `[schlank]` steht im Squash-Text (`--body`), den `deploy.yml` liest.
+- **Vorprüfung vor dem Push (16.10.2026):** `tools/pr-einreichen.sh` ruft vor `git push` `tools/pr-vorpruefung.mjs` auf (Patch-Notes-Pflicht, `check:umfang`, geänderte Dateien gegen den PR-Text, `data/cache/`, Workflow-/Prüfungsänderung benannt). Rot bricht ab; Grund: 57 % der „ändern“-Urteile des CI-Prüfers betrafen eine Beschreibung, die nicht zum Diff passte. Inhaltliche Regeln (Belege, Umbau gegen Verhalten, Zeilen auf den Auftrag zurückführbar) bleiben beim CI-Prüfer.
 
 ## Bestandsbau: Doppelläufe bei Push und selbstschließende Rot-Issues (11.10.2026)
 
