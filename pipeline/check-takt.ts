@@ -85,7 +85,13 @@ pruefe('Meldung trägt Tag, Abstand, Beleg des Kalenders an diesem Tag', rz[1]?.
 pruefe('Schlüssel ist release und Tag (stabil)', rz[2]?.schluessel === `takt:r-1:${tag(-1)}`, rz[2]?.schluessel)
 pruefe('Meldung vom heutigen Tag zählt (Grenze), vom morgigen nicht', taktMeldungen(release({ '1': tag(-12), '2': tag(-5), '3': tag(0) }), heute).length === 1 && taktMeldungen(release({ '1': tag(-11), '2': tag(-4), '3': tag(1) }), heute).length === 0)
 pruefe('Kontrolle: derselbe Release ohne Ausschluss gibt genau eine Meldung', taktMeldungen(release({ '1': tag(-16), '2': tag(-9), '3': tag(-8) }), heute).length === 1)
-pruefe('andere Anbieter, Komplettabwurf, Handbeleg-Rhythmus und widerlegte Termine: keine Meldung', [{ platform: 'tv' }, { platform: 'paramountplus' }, { releaseType: 'available-from' }, { rhythmus: { stand: heute } }, { widerlegt: { gemeldet: true } }].every((x) => taktMeldungen(release({ '1': tag(-9), '2': tag(-8) }, x), heute).length === 0))
+const basis = { '1': tag(-16), '2': tag(-9), '3': tag(-8) }
+const ausgeschlossen = (x: Record<string, unknown>) => taktMeldungen(release(basis, x), heute).length === 0
+pruefe('Ausschluss Fernsehen: ohne ihn gäbe es eine Meldung', taktMeldungen(release(basis), heute).length === 1 && ausgeschlossen({ platform: 'tv' }))
+pruefe('Ausschluss anderer Anbieter (Paramount+, Netflix, Prime)', ['paramountplus', 'netflix', 'primevideo'].every((p) => ausgeschlossen({ platform: p })))
+pruefe('Ausschluss Komplettabwurf', ausgeschlossen({ releaseType: 'available-from' }) && ausgeschlossen({ releaseType: 'disc' }))
+pruefe('Ausschluss Handbeleg-Rhythmus', ausgeschlossen({ rhythmus: { stand: heute } }))
+pruefe('Ausschluss widerlegter Termin', ausgeschlossen({ widerlegt: { gemeldet: true } }))
 pruefe('Sätze', taktSatz(rz[2]!) === `Folge 15 ist schon da — einen Tag nach Folge 14` && taktSatz(rz[1]!) === 'Nach 5 Wochen Pause wieder neue Folgen: Folge 14' && taktSatz(rz[0]!) === 'Nach 12 Wochen Pause wieder neue Folgen: Folgen 12–13', rz.map((m) => taktSatz(m)))
 pruefe('Sätze: Zwei/Drei/Vier und viele, mehrere Tage', taktSatz({ takt: 'doppelt', von: 12, bis: 13, anzahl: 2 }) === 'Zwei Folgen auf einmal: 12 und 13' && taktSatz({ takt: 'doppelt', von: 6, bis: 8, anzahl: 3 }) === 'Drei Folgen auf einmal: 6–8' && taktSatz({ takt: 'doppelt', von: 6, bis: 10, anzahl: 5 }) === '5 Folgen auf einmal: 6–10' && taktSatz({ takt: 'doppelt', von: 6, bis: 9, anzahl: 4 }) === 'Vier Folgen auf einmal: 6–9' && taktSatz({ takt: 'doppelt', von: 5, bis: 6 }) === 'Zwei Folgen auf einmal: 5 und 6' && taktSatz({ takt: 'folgetag', von: 7, bis: 7, anzahl: 1, abstand: 5 }) === 'Folge 7 ist schon da — 5 Tage nach Folge 6')
 pruefe('Wochen werden gerundet (26 Tage = 4 Wochen)', taktSatz({ takt: 'pause', von: 3, bis: 3, abstand: 26 }) === 'Nach 4 Wochen Pause wieder neue Folgen: Folge 3' && taktSatz({ takt: 'pause', von: 3, bis: 3, abstand: 24 }) === 'Nach 3 Wochen Pause wieder neue Folgen: Folge 3' && taktKurz({ takt: 'pause', von: 3, bis: 3, abstand: 26 }) === 'E3 · nach 4 Wo. Pause')
@@ -130,6 +136,26 @@ verspaetet.schedule.verpasst = { 3: { erwartetAm: `${tag(-39)}T14:00:00.000Z`, e
 const mitNachreich = bau(verspaetet, [])
 pruefe('Bau: neben „verspätet erschienen“ keine zweite Aussage zu denselben Folgen', mitNachreich.filter((m) => m.art === 'takt').length === 0, mitNachreich.map((m) => `${m.art}${m.takt ?? ''}`))
 
+/* 5b. Zwei Bau-Läufe mit derselben Historie: Fällt eine Takt-Meldung weg, zeigt die abgelöste Fassung ihren eigenen Satz und ist zurückgezogen — nie „ersetzt durch“ eine andere Takt-Meldung. */
+const zweiLaeufe = (erst: Release, dann: Release, folgenCr: ReturnType<typeof crFolge>[] = []) => {
+  const historie = { zuerst: {} }
+  baueNews([titel(1)], [erst], [], folgenCr, historie)
+  return baueNews([titel(1)], [dann], [], folgenCr, historie).flatMap((e) => e.meldungen.map((m) => ({ ...m, am: e.am })))
+}
+const ohne15 = { '1': tag(-170), ...rezero, '16': tag(1) } as Record<string, string>
+delete ohne15['15']
+const rzLauf2 = zweiLaeufe(release({ '1': tag(-170), ...rezero }), release(ohne15))
+const weg = rzLauf2.filter((m) => m.art === 'takt' && m.zurueckgezogen)
+pruefe('Verlauf Re:ZERO: die abgelöste Folgetag-Meldung nennt ihre Angaben und ist zurückgezogen', weg.length === 1 && newsSatz(weg[0]!) === 'Folge 15 ist schon da — einen Tag nach Folge 14' && !weg[0]!.ersetzt, weg.map((m) => newsSatz(m)))
+pruefe('Verlauf Re:ZERO: die beiden Pausen-Meldungen stehen weiter da, ohne „ersetzt“', rzLauf2.filter((m) => m.art === 'takt' && !m.zurueckgezogen && !m.ersetzt).length === 2 && !rzLauf2.some((m) => m.art === 'takt' && m.ersetzt))
+const eintraegeRz = baueNews([titel(1)], [release({ '1': tag(-170), ...rezero })], [], [], { zuerst: {} })
+const ausSeed = baueNews([titel(1)], [release(ohne15)], [], [], { zuerst: {} }, eintraegeRz).flatMap((e) => e.meldungen).filter((m) => m.art === 'takt' && m.zurueckgezogen)
+pruefe('Verlauf aus dem ausgelieferten news.json (erster Lauf ohne Gedächtnis): derselbe Satz, zurückgezogen', ausSeed.length === 1 && newsSatz(ausSeed[0]!) === 'Folge 15 ist schon da — einen Tag nach Folge 14' && !ausSeed[0]!.ersetzt, ausSeed.map((m) => newsSatz(m)))
+const mk = { '1': tag(-60), '2': tag(-53), '3': tag(-46), '4': tag(-46) }
+const mkLauf2 = zweiLaeufe(release(mk), release({ '1': tag(-60), '2': tag(-53), '3': tag(-46) }))
+const mkWeg = mkLauf2.filter((m) => m.art === 'takt')
+pruefe('Verlauf Mushoku: „Zwei Folgen auf einmal“ fällt weg und zeigt ihren Satz, zurückgezogen', mkWeg.length === 1 && newsSatz(mkWeg[0]!) === 'Zwei Folgen auf einmal: 3 und 4' && Boolean(mkWeg[0]!.zurueckgezogen) && !mkWeg[0]!.ersetzt, mkWeg.map((m) => newsSatz(m)))
+
 /* 6. Panel: „Takt unklar“ statt „Wöchentlich“, solange die nächste Folge nur fortgeschrieben ist. */
 const panel = (observed: Record<string, string>, extra: Partial<Release> = {}) => {
   const r = release(observed, extra)
@@ -140,6 +166,21 @@ const panel = (observed: Record<string, string>, extra: Partial<Release> = {}) =
 const pr = panel({ '1': tag(-170), ...rezero, '16': tag(-1) })
 pruefe('Panel Re:ZERO: „Takt unklar“, nicht „Wöchentlich“', pr?.estimated === true && pr.unklar === true && pr.neben.startsWith('Takt unklar') && !pr.neben.includes('Wöchentlich'), pr)
 pruefe('Panel Re:ZERO: das Finale-Datum ist „≈“', pr?.neben.includes('bis zum Finale am ≈ ') === true, pr)
+/* Drei Releases eines Titels (der Kasten nimmt die nächste Folge des ersten Releases mit offenen Terminen): die beiden äußeren sind abgeschlossen, der mittlere ist unregelmäßig und hat die nächste Folge. Die Auswahl muss den Release der nächsten Folge nehmen, nicht den ersten oder letzten. */
+const wochen = (slug: string, spaetestens: number, folgen = 20): Release => {
+  const r = release({ '101': tag(spaetestens - 21), '102': tag(spaetestens - 14), '103': tag(spaetestens - 7), '104': tag(spaetestens) })
+  r.schedule = { ...r.schedule, firstEpisodeDate: tag(spaetestens - 21), firstEpisodeNumber: 101, episodeCount: folgen }
+  return { ...r, slug } as Release
+}
+const mitte = { ...release({ '1': tag(-170), ...rezero, '16': tag(-1) }), slug: 'r-mitte' } as Release
+const dreiRel = (rs: Release[]) => {
+  const a = berechneAntwort({ title: { id: 1, format: 'TV', episodes: 20 } as unknown as Title, releases: rs, today: heute })
+  return a?.art === 'laeuft' ? { slug: a.haupt.releaseSlug, unklar: a.taktUnklar } : undefined
+}
+const ersterUndLetzter = dreiRel([wochen('r-vorn', -2, 4), mitte, wochen('r-hinten', -2, 4)])
+pruefe('Panel mit drei Releases: die nächste Folge gehört zum mittleren, dessen Takt unklar ist', ersterUndLetzter?.slug === 'r-mitte' && ersterUndLetzter.unklar === true, ersterUndLetzter)
+const andersherum = dreiRel([wochen('r-b', -3), mitte, wochen('r-c', -2)])
+pruefe('Panel mit drei Releases: ist der regelmäßige der nächste, kein „Takt unklar“', andersherum?.slug === 'r-b' && andersherum?.unklar === false, andersherum)
 const wk = panel({ '1': tag(-23), '2': tag(-16), '3': tag(-9), '4': tag(-2) })
 pruefe('Panel im Wochentakt: weiter „Wöchentlich“', wk?.unklar === false && wk.neben.startsWith('Wöchentlich'), wk)
 const fest = panel({ '1': tag(-23), '2': tag(-22), '3': tag(-9), '4': tag(-2), '5': tag(5) })

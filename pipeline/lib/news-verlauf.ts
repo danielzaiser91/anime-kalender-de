@@ -43,6 +43,8 @@ export interface TerminVerlauf {
   geschaetzt?: boolean
   /** Nur Art `rhythmus`: ohne die Spanne sagte die überholte Fassung „wöchentlich 0 neue Folgen“. */
   proWoche?: [number, number]
+  /** Nur Art `takt`: Fall, Folgen und Abstand — ohne sie ließe sich der Satz der abgelösten Meldung nicht mehr bilden. */
+  taktAngaben?: Pick<NewsMeldung, 'takt' | 'von' | 'bis' | 'anzahl' | 'abstand'>
   /** Tag, an dem die Meldung zuerst dastand. */
   am: string
 }
@@ -60,6 +62,8 @@ export type DatiertNews = NewsMeldung & { am: string; titel: Title; schluessel: 
 
 const tag = (d: string | undefined) => (d ?? '').slice(0, 10)
 
+const taktAngabenVon = (m: NewsMeldung) => ({ takt: m.takt, von: m.von, bis: m.bis, anzahl: m.anzahl, abstand: m.abstand })
+
 /** Der gespeicherte Stand einer ausgelieferten Meldung. */
 function ausMeldung(m: DatiertNews, name: (t: Title) => string, wurzel: (t: Title) => number): TerminVerlauf {
   return {
@@ -73,6 +77,7 @@ function ausMeldung(m: DatiertNews, name: (t: Title) => string, wurzel: (t: Titl
     quelle: m.quelle,
     geschaetzt: m.geschaetzt,
     ...(m.proWoche ? { proWoche: m.proWoche } : {}),
+    ...(m.art === 'takt' ? { taktAngaben: taktAngabenVon(m) } : {}),
     am: m.am,
   }
 }
@@ -98,6 +103,7 @@ function seedAusVorherige(
         quelle: m.quelle,
         geschaetzt: m.geschaetzt,
         ...(m.proWoche ? { proWoche: m.proWoche } : {}),
+        ...(m.art === 'takt' ? { taktAngaben: taktAngabenVon(m) } : {}),
         am: e.am,
       }
       verlauf[m.release] = [...(verlauf[m.release] ?? []), v]
@@ -188,7 +194,8 @@ function verlaufsKette({
       const titel =
         nachId.get(alt.titelId) ??
         ({ id: alt.titelId, franchiseId: alt.wurzel, titleDe: alt.name, coverImage: alt.cover } as unknown as Title)
-      const nachfolger = kette.slice(i + 1).find((k) => k.art === alt.art) ?? aktuell.find((n) => n.art === alt.art)
+      /* Takt-Meldungen sind je Tag eigene Aussagen: eine andere Takt-Meldung löst sie nicht ab. */
+      const nachfolger = alt.art === 'takt' ? undefined : (kette.slice(i + 1).find((k) => k.art === alt.art) ?? aktuell.find((n) => n.art === alt.art))
       raus.push({
         art: alt.art,
         platform: alt.platform,
@@ -197,6 +204,7 @@ function verlaufsKette({
         quelle: alt.quelle,
         geschaetzt: alt.geschaetzt,
         ...(alt.proWoche ? { proWoche: alt.proWoche } : {}),
+        ...(alt.taktAngaben ? alt.taktAngaben : {}),
         am: alt.am,
         titel,
         schluessel: `verlauf:${release}:${alt.art}:${tag(alt.datum)}:${i}`,
