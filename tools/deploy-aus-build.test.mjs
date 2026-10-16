@@ -20,15 +20,22 @@ assert.equal(waehlePR([pr({ base: { ref: 'dev' } })], SHA), null, 'anderer Zielz
 assert.equal(waehlePR([pr(), pr({ number: 8 })], SHA), null, 'mehrdeutig')
 assert.equal(waehlePR([], SHA), null)
 
-// Lauf: nur grün, nur pull_request, nur für den Kopf-Commit, der neueste gewinnt.
+// Lauf: nur pull_request für den Kopf-Commit, der neueste mit grünem Sammeljob gewinnt; ein noch laufendes PR-Aussehen stört nicht.
 const kopf = 'c'.repeat(40)
-const lauf = (id, zusatz = {}) => ({ id, event: 'pull_request', head_sha: kopf, status: 'completed', conclusion: 'success', ...zusatz })
-assert.equal(waehleLauf([lauf(1), lauf(3), lauf(2)], kopf).id, 3)
-assert.equal(waehleLauf([lauf(1, { conclusion: 'failure' })], kopf), null, 'roter Lauf')
-assert.equal(waehleLauf([lauf(1, { conclusion: 'cancelled' })], kopf), null, 'abgebrochener Lauf')
-assert.equal(waehleLauf([lauf(1, { status: 'in_progress', conclusion: null })], kopf), null, 'laufender Lauf')
-assert.equal(waehleLauf([lauf(1, { event: 'push' })], kopf), null, 'fremdes Ereignis')
-assert.equal(waehleLauf([lauf(1, { head_sha: 'e'.repeat(40) })], kopf), null, 'anderer Kopf-Commit')
+const lauf = (id, zusatz = {}) => ({ id, event: 'pull_request', head_sha: kopf, ...zusatz })
+const jobListe = (ergebnis, name = 'PR-Prüfkette') => [{ name: 'PR-Aussehen', conclusion: null }, { name, conclusion: ergebnis }]
+const gruen = () => jobListe('success')
+const nurEins = (id) => (id === 1 ? jobListe('success') : jobListe('failure'))
+assert.equal(waehleLauf([lauf(1), lauf(3), lauf(2)], kopf, gruen).id, 3)
+assert.equal(waehleLauf([lauf(1)], kopf, () => jobListe('failure')), null, 'roter Sammeljob')
+assert.equal(waehleLauf([lauf(1)], kopf, () => jobListe('cancelled')), null, 'abgebrochener Sammeljob')
+assert.equal(waehleLauf([lauf(1)], kopf, () => jobListe(null)), null, 'laufender Sammeljob')
+assert.equal(waehleLauf([lauf(1)], kopf, () => jobListe('success', 'Kette – Logik')), null, 'anderer Job grün zählt nicht')
+assert.equal(waehleLauf([lauf(1, { event: 'push' })], kopf, gruen), null, 'fremdes Ereignis')
+assert.equal(waehleLauf([lauf(1, { head_sha: 'e'.repeat(40) })], kopf, gruen), null, 'anderer Kopf-Commit')
+assert.equal(waehleLauf([lauf(5), lauf(1)], kopf, nurEins).id, 1, 'neuerer roter Lauf, älterer grüner')
+assert.equal(waehleLauf([lauf(9), lauf(8), lauf(7), lauf(1)], kopf, nurEins), null, 'nur die drei neuesten')
+assert.equal(waehleLauf([], kopf, gruen), null)
 
 // Baum: gleicher Baum passt, jede Abweichung (auch leer, fehlend, kein JSON, falsche Länge) nicht.
 assert.equal(baumPasst(JSON.stringify({ v: 'x', baum: BAUM }), BAUM), true)

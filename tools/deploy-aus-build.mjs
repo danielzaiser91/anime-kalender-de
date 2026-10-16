@@ -12,6 +12,7 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const KETTE = 'pr-pruefung.yml'
+const SAMMEL = 'PR-Prüfkette'
 
 /** Der PR, dessen Squash-Commit genau `sha` ist (Zusammenführung nach main), sonst null. */
 export function waehlePR(prs, sha) {
@@ -19,10 +20,15 @@ export function waehlePR(prs, sha) {
   return treffer.length === 1 ? { nummer: treffer[0].number, kopf: treffer[0].head.sha } : null
 }
 
-/** Neuester erfolgreich beendeter Lauf der PR-Prüfkette für den Kopf-Commit des PR, sonst null. */
-export function waehleLauf(laeufe, kopf) {
-  const gruen = (laeufe ?? []).filter((l) => l.event === 'pull_request' && l.head_sha === kopf && l.conclusion === 'success')
-  return gruen.sort((a, b) => b.id - a.id)[0] ?? null
+/** Ist der Pflicht-Check "PR-Prüfkette" (Sammeljob) in diesen Jobs erfolgreich? Der Lauf selbst zählt nicht: das unverbindliche PR-Aussehen kann noch laufen. */
+export function sammelGruen(jobs) {
+  return jobs.some((j) => j.name === SAMMEL && j.conclusion === 'success')
+}
+
+/** Neuester Lauf der PR-Prüfkette für den Kopf-Commit des PR, dessen Sammeljob grün ist (höchstens die drei neuesten werden gefragt), sonst null. */
+export function waehleLauf(laeufe, kopf, jobsVon) {
+  const kandidaten = (laeufe ?? []).filter((l) => l.event === 'pull_request' && l.head_sha === kopf).sort((a, b) => b.id - a.id)
+  return kandidaten.slice(0, 3).find((l) => sammelGruen(jobsVon(l.id))) ?? null
 }
 
 /** Stimmt der Baum aus `version.json` des Baus mit dem Baum des gemergten Commits überein (und ist nicht leer)? */
@@ -67,7 +73,7 @@ export function holeBau({ repo, sha, ziel }) {
   if (!githubUnveraendert(gh, elternGh)) return { treffer: false, grund: '.github/ weicht vom Elterncommit ab (Workflows im PR geändert)' }
   const pr = waehlePR(api(`repos/${repo}/commits/${sha}/pulls`), sha)
   if (!pr) return { treffer: false, grund: 'kein gemergter PR mit diesem Squash-Commit' }
-  const lauf = waehleLauf(api(`repos/${repo}/actions/workflows/${KETTE}/runs?head_sha=${pr.kopf}&event=pull_request&per_page=20`).workflow_runs, pr.kopf)
+  const lauf = waehleLauf(api(`repos/${repo}/actions/workflows/${KETTE}/runs?head_sha=${pr.kopf}&event=pull_request&per_page=20`).workflow_runs, pr.kopf, (id) => api(`repos/${repo}/actions/runs/${id}/jobs`).jobs)
   if (!lauf) return { treffer: false, grund: `kein grüner Lauf der PR-Prüfkette für ${pr.kopf.slice(0, 8)}` }
   const ordner = mkdtempSync(join(tmpdir(), 'bau-'))
   try {
