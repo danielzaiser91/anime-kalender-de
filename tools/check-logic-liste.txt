@@ -16,6 +16,7 @@ pipeline/check-angebot-stichtag.ts
 pipeline/check-angebot-termine.ts
 pipeline/check-anilist-produkt.ts
 pipeline/check-anime2you-entwurf.ts
+pipeline/check-anime2you-leicht.ts
 pipeline/check-anime2you-rhythmus.ts
 pipeline/check-anime2you-sammelartikel.ts
 pipeline/check-anime2you-vorschlag.ts
@@ -84,6 +85,7 @@ pipeline/check-kachel-buendel.ts
 pipeline/check-kachel-im-angebot.ts
 pipeline/check-kachel-katalog.ts
 pipeline/check-kalender-filter.ts
+pipeline/check-kalender-plausibilitaet.ts
 pipeline/check-kanal-abgehakt.ts
 pipeline/check-kanal-aussortieren.ts
 pipeline/check-kanal-erbt.ts
@@ -165,6 +167,8 @@ pipeline/check-woche-beleg.ts
 pipeline/check-wochen-datei.ts
 pipeline/check-wochenprogramm-sendetag.ts
 pipeline/check-zaehlung.ts
+pipeline/check-zuordner-ablauf.ts
+pipeline/check-zuordner-luecken.ts
 pipeline/check-zweitanbieter.ts
 tools/anime2you-luecken.test.ts
 tools/check-patchnotes-pflicht.mjs

@@ -1,15 +1,30 @@
 {
-  "scrapedAt": "2026-10-16T04:14:57.609Z",
+  "scrapedAt": "2026-10-16T16:02:44.772Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 38,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 44,
-    "schon in einem Rubrik-Feed gelesen": 40,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
-    "Sprachhinweis älter als 45 Tage": 5
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
+    "schon in einem Rubrik-Feed gelesen": 7,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
+    "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "Neue »Apothecary Diaries«-Plüschfigur von Jinshi vorgestellt",
+      "articleUrl": "https://www.anime2you.de/news/1056535/apothecary-diaries-plueschfigur-jinshi/",
+      "publishedAt": "2026-10-16",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-04",
+          "context": "OP vorbestellt werden kann. Wir fassen alle Details zusammen. Release im April 2027 Der neue Plüsch-Schlüsselanhänger des Charakters Jinshi"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Deutscher Synchro-Trailer zu »Cyberpunk: Edgerunners II« + Visual",
       "articleUrl": "https://www.anime2you.de/news/1060922/cyberpunk-edgerunners-2-synchro-trailer/",
@@ -1419,124 +1434,7 @@
       "dates": [],
       "dub": "unklar",
       "pause": "verschoben",
-      "alreadyCurated": false,
-      "verschiebungen": [
-        {
-          "titel": "Sailor Moon – Staffel 1 (Limited Steelbook Edition)",
-          "alt": "2026-10-02",
-          "neu": "2026-10-16"
-        },
-        {
-          "titel": "Call of the Night (Staffel 2) – Vol. 2",
-          "alt": "2026-10-31",
-          "neu": "2026-11-06"
-        },
-        {
-          "titel": "Girls Band Cry – Vol. 2",
-          "alt": "2026-10-02",
-          "neu": "2026-11-20"
-        },
-        {
-          "titel": "Girls Band Cry – Vol. 2 (Limited Edition)",
-          "alt": "2026-10-02",
-          "neu": "2026-11-20"
-        },
-        {
-          "titel": "2.5 Dimensional Seduction – Vol. 4 (Limited Edition)",
-          "alt": "2026-10-23",
-          "neu": "2026-10-30"
-        },
-        {
-          "titel": "Bitte zieh dich an, Takamine! – Vol. 1 (Limited Edition mit Sammelschuber)",
-          "alt": "2026-10-02",
-          "neu": "2026-11-20"
-        },
-        {
-          "titel": "Bitte zieh dich an, Takamine! – Vol. 2 (Limited Edition)",
-          "alt": "2026-11-20",
-          "neu": "2026-12-18"
-        },
-        {
-          "titel": "Bocchi the Rock! – Vol. 1 (Limited Edition mit Sammelschuber)",
-          "alt": "2026-10-02",
-          "neu": "2026-11-06"
-        },
-        {
-          "titel": "Inazuma Eleven – Staffel 1 (Komplettbox)",
-          "alt": "2026-10-23",
-          "neu": "2026-11-20"
-        },
-        {
-          "titel": "Inazuma Eleven – The Movie (Limited Edition)",
-          "alt": "2026-11-06",
-          "neu": "2026-12-18"
-        },
-        {
-          "titel": "Infinite Dendrogram – Vol. 2 (Limited Edition)",
-          "alt": "2026-10-23",
-          "neu": "2026-10-30"
-        },
-        {
-          "titel": "My Love Story with Yamada-kun at Lv999 – Vol. 1 (Limited Edition mit Sammelschuber)",
-          "alt": "2026-10-02",
-          "neu": "2026-11-06"
-        },
-        {
-          "titel": "My Love Story with Yamada-kun at Lv999 – Vol. 2 (Limited Edition)",
-          "alt": "2026-11-20",
-          "neu": "2026-12-18"
-        },
-        {
-          "titel": "My Love Story with Yamada-kun at Lv999 – Vol. 3 (Limited Edition)",
-          "alt": "2026-12-18",
-          "neu": "2027-01-15"
-        },
-        {
-          "titel": "Nukitashi – Vol. 1 (Limited Edition mit Sammelschuber)",
-          "alt": "2026-10-23",
-          "neu": "2026-10-30"
-        },
-        {
-          "titel": "Sakamoto Days – Vol. 1 (Limited Edition mit Sammelschuber)",
-          "alt": "2026-10-23",
-          "neu": "2026-10-30"
-        },
-        {
-          "titel": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 1 (Limited Edition mit Sammelschuber)",
-          "alt": "2026-10-02",
-          "neu": "2026-11-06"
-        },
-        {
-          "titel": "Strike Witches (Staffel 2) – Vol. 1 (Limited Edition mit Sammelschuber)",
-          "alt": "2026-10-23",
-          "neu": "2026-11-06"
-        },
-        {
-          "titel": "Strike Witches (Staffel 2) – Vol. 2 (Limited Edition)",
-          "alt": "2026-11-06",
-          "neu": "2026-12-11"
-        },
-        {
-          "titel": "Strike Witches (Staffel 2) – Vol. 3 (Limited Edition)",
-          "alt": "2026-12-04",
-          "neu": "2027-01-15"
-        },
-        {
-          "titel": "The Café Terrace and Its Goddesses – Staffel 1 (Komplettbox)",
-          "alt": "2026-11-06",
-          "neu": "2026-11-20"
-        },
-        {
-          "titel": "The Café Terrace and Its Goddesses – Staffel 2 (Komplettbox)",
-          "alt": "2026-12-04",
-          "neu": "2027-01-15"
-        },
-        {
-          "titel": "Virgin Road – Vol. 1 (Limited Edition mit Sammelschuber)",
-          "alt": "2026-10-23",
-          "neu": "2026-10-30"
-        }
-      ]
+      "alreadyCurated": false
     },
     {
       "articleTitle": "Design der neuen Blu-ray-Filmbox zu »Dragon Ball Z« enthüllt",

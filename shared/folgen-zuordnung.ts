@@ -71,7 +71,8 @@ export function folgenKern(t: string | null | undefined): string {
     .replace(/[īíìî]/g, 'i')
     .replace(/[ōóòô]/g, 'o')
     .replace(/[ūúùû]/g, 'u')
-    .replace(/^\s*(?:folge\s*)?\d+\s*[.:–-]\s*/, '')
+    /* „E0 - Zeiten“ (Prime, Lupin III. Part 6): „E<n> - “ ist wie „Folge n:“ eine Zählung, kein Titel. */
+    .replace(/^\s*(?:folge\s*|e)?\d+\s*[.:–-]\s*/, '')
     .replace(/[^a-z0-9äöüß]/g, '')
 }
 
@@ -120,17 +121,13 @@ export function findeStaffel(
 /**
  * **Ordnet die Folgen eines Anbieters unseren zu.**
  *
- * Drei Wege, in dieser Reihenfolge — jeder spätere greift nur, wo der frühere
- * schweigt:
+ * Zwei Wege, in dieser Reihenfolge — der zweite greift nur, wo der erste
+ * schweigt; sonst bleibt die Folge offen (die Position ist gestrichen, siehe unten):
  *
  * 1. **Datum.** Trifft der Anbieter-Termin genau eine TMDB-Folge dieser Staffel,
  *    ist sie es. Der stärkste Anker, weil ihn niemand neu vergibt.
  * 2. **Titel.** Nach `folgenKern()` normalisiert. Trägt, wo der Anbieter das
  *    Erscheinungsdatum seiner eigenen Aufnahme führt statt der Erstausstrahlung.
- * 3. **Position.** Nur, wenn die Anbieterliste genau so lang ist wie die Staffel
- *    — dann ist die Reihenfolge die Zuordnung. Bei jeder Abweichung schweigt sie:
- *    Genau hier entstand der Fehler, den Amazon mit seinen 44 statt 25 Folgen
- *    provoziert.
  */
 export function ordneZu(anbieter: AnbieterFolge[], staffel: TmdbFolge[]): Zuordnung[] {
   const nachDatum = new Map<string, TmdbFolge[]>()
@@ -274,11 +271,16 @@ export function gruppiereNachAusgabe<T extends { url: string; nummer: number | n
   return ergebnis
 }
 
+/** aniSearch hängt bei Blu-ray-Fassungen „ BD“ an den Titel („Girl meets Hirsch BD“); Prime kennt das Suffix nicht. */
+function ohneBd(t: string | null | undefined): string | null {
+  return t ? t.replace(/\s+BD$/, '') : null
+}
+
 export function ausAnisearch(folgen: AsFolgeRoh[]): TmdbFolge[] {
   return folgen.map((f) => ({
     s: 1,
     e: f.nr,
-    titel: f.de ?? f.en ?? null,
+    titel: ohneBd(f.de) ?? ohneBd(f.en),
     datum: f.datum ?? null,
     minuten: f.minuten ?? null,
   }))
@@ -294,5 +296,5 @@ export function ausAnisearch(folgen: AsFolgeRoh[]): TmdbFolge[] {
 export function englischeSchreibweisen(folgen: AsFolgeRoh[]): TmdbFolge[] {
   return folgen
     .filter((f) => f.en && f.en !== f.de)
-    .map((f) => ({ s: 1, e: f.nr, titel: f.en!, datum: f.datum ?? null, minuten: f.minuten ?? null }))
+    .map((f) => ({ s: 1, e: f.nr, titel: ohneBd(f.en), datum: f.datum ?? null, minuten: f.minuten ?? null }))
 }
