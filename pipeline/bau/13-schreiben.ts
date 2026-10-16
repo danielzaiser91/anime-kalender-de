@@ -24,6 +24,7 @@ import { mitBelegstaerke } from '../lib/belegstaerke.ts'
 import { ergaenzeEigeneHandlungen } from './handlung-eigen-einbinden.ts'
 import { ergaenzeDeutscheFolgenzahl } from './deutsche-folgenzahl-einbinden.ts'
 import { jwNeinAnSeite, kanalErbtVomAnbieter } from './kanal-erbt-anbieter.ts'
+import { nimmDeutschGegenSprachTermin } from './deutsch-nicht-gegen-sprach-termin.ts'
 import { log } from '../lib/util.ts'
 
 export function schreibeDatensatz({
@@ -60,6 +61,7 @@ export function schreibeDatensatz({
   })
 
   const geerbt = kanalErbtVomAnbieter(allTitles, jwNeinAnSeite())
+  nimmDeutschGegenSprachTermin(titles, releases)
   if (geerbt) log(`${geerbt} Prime-Kanal-Wege erben das Deutsch ihres Anbieters`)
 
   const { slim } = baueAuslieferung({

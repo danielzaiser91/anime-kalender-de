@@ -11,6 +11,7 @@ import { geerbteWege } from '../shared/kanal-anbieter.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { deutschNurAusSpracheTermin } from './lib/pruefung.ts'
 import { unbedingteAufrufe } from './lib/unbedingte-aufrufe.ts'
+import { nimmDeutschGegenSprachTermin } from './bau/deutsch-nicht-gegen-sprach-termin.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, ist?: unknown): void {
@@ -200,6 +201,17 @@ pruefe(
   stelle('schreibeSynopsenUndReichereAn') >= 0 && stelle('kanalErbtVomAnbieter') > stelle('schreibeSynopsenUndReichereAn') && stelle('kanalErbtVomAnbieter') < stelle('baueAuslieferung'),
   aufrufe.map((x) => `${x.stelle}:${x.name}`),
 )
+
+/* Eine Rohmeldung setzte „deutsch" an einen Weg, dessen Termine alle „Sprache offen“ sagen (Demon Slayer 166240/145139, 16.10.2026). */
+const rohWeg = { platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/B0CYGQ9WSF', dub: true, dubRanges: bereiche } as StreamLink
+const rohTitel = { id: 166240, streams: [rohWeg] } as unknown as Title
+const sprachTermine = [{ titleId: 166240, platform: 'primevideo', sprache: 'offen' }] as unknown as Release[]
+const genommen = nimmDeutschGegenSprachTermin(new Map([[166240, rohTitel]]), sprachTermine)
+pruefe('Sprach-Termin: Rohmeldungs-Ja wird genommen', genommen === 1 && rohWeg.dub === undefined && rohWeg.dubRanges === undefined, rohWeg)
+pruefe('Sprach-Termin: danach kein Widerspruch', deutschNurAusSpracheTermin(sprachTermine, new Map([[166240, rohTitel]])).length === 0)
+const gemischt = { id: 7, streams: [{ platform: 'primevideo', url: 'x', dub: true }] } as unknown as Title
+const gemischteTermine = [{ titleId: 7, platform: 'primevideo', sprache: 'offen' }, { titleId: 7, platform: 'primevideo' }] as unknown as Release[]
+pruefe('Sprach-Termin: ein Termin ohne Kennzeichnung lässt das Ja stehen', nimmDeutschGegenSprachTermin(new Map([[7, gemischt]]), gemischteTermine) === 0 && gemischt.streams[0]!.dub === true)
 
 if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
