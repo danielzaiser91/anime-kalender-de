@@ -345,6 +345,11 @@ assert.equal(meldung.length, 1)
 assert.equal(meldung[0].if, 'failure()')
 assert.equal(meldung[0]['continue-on-error'], true)
 assert.equal(meldung[0].env.LAUF_TOKEN, '${{ secrets.LAUF_TOKEN }}')
+// Ein Schritt vor dem Ziehen sähe dessen Fehlschlag nie: der Melder steht direkt hinter "Kopie ziehen und bauen".
+const schritte = workflow.jobs.kopie.steps
+const ziehSchritt = schritte.findIndex((s) => /meldungskopie\.mjs ziehen/.test(s.run ?? ''))
+assert.ok(ziehSchritt >= 0)
+assert.equal(schritte.indexOf(meldung[0]), ziehSchritt + 1)
 
 rmSync(ordner, { recursive: true, force: true })
 console.log('meldungskopie.test: ok')
