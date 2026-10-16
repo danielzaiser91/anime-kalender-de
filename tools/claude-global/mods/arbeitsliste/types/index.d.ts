@@ -22,7 +22,10 @@ declare module 'claude-code' {
       // Index des aufgeklappten Now-Eintrags.
       offen: number | null
       // Kennungen der ausgeklappten Bereiche („+ N weitere“) und Gruppen (Kleinigkeiten); jeder Bereich zeigt sonst höchstens fünf.
+      // `bereich:<id>` kehrt den Standard des Bereichs um (zu, nur „jetzt“ offen).
       aufgeklappt: string[]
+      // „## Top-Prios“: Kasten ganz oben, immer offen.
+      topPrios: Eintrag[]
       // „Daniel-Todo“ aus stand.md: Jetzt und Später.
       vonDir: DanielTodo
       // Anzahl fälliger 📅-Einträge: ändert sich nur an einer Zeitgrenze und zeichnet dann neu.
