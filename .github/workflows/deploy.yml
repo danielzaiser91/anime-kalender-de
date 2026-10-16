@@ -61,6 +61,7 @@ jobs:
     permissions:
       contents: read
       actions: read
+      pull-requests: read
     env:
       LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
       LAUF_ZIEL: "Prüfkette grün, neuer Stand auf GitHub Pages"

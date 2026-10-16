@@ -60,6 +60,7 @@ const SCHRITT_SCHLUESSEL = ['name', 'uses', 'with', 'run', 'env']
 const UPLOAD = 'actions/upload-pages-artifact@v3'
 const ERLAUBTE_ACTIONS = ['actions/checkout@v4', './.github/actions/kette-einrichten', UPLOAD]
 /** Einziger Schritt mit Ausgabe: der Bau für den Deploy (`tools/deploy-aus-build.mjs`), fest in Form, nur als letzter Schritt, nur mit dem Pflicht-Env. */
+const BAU_JOB = 'bau'
 const UPLOAD_WITH = { path: 'dist', 'retention-days': 3 }
 const BAU_ENV = { PAGES_BASE: '/', VITE_NEWSLETTER_API: '${{ vars.NEWSLETTER_API_URL }}' }
 
@@ -119,6 +120,8 @@ function pruefeTeiljobSchritt(id, s, vorCommit) {
     fehler.push(`Teiljob "${id}": run "${name}" gehört nicht zu check:vor-commit (kein fremdes Skript vor der Prüfung)`)
   }
   const envErlaubt = [{ PAGES_BASE: '/' }, BAU_ENV].some((e) => JSON.stringify(s.env) === JSON.stringify(e))
+  if (JSON.stringify(s.env) === JSON.stringify(BAU_ENV) && id !== BAU_JOB) fehler.push(`Teiljob "${id}": das Env des Baus (VITE_NEWSLETTER_API) nur im Job "${BAU_JOB}"`)
+  if (s.uses === UPLOAD && id !== BAU_JOB) fehler.push(`Teiljob "${id}": ${UPLOAD} nur im Job "${BAU_JOB}"`)
   if (s.env !== undefined && !envErlaubt) fehler.push(`Teiljob "${id}": env am Schritt nur PAGES_BASE: / (beim Bau zusätzlich VITE_NEWSLETTER_API) erlaubt`)
   if (s.uses === UPLOAD && JSON.stringify(s.with) !== JSON.stringify(UPLOAD_WITH)) fehler.push(`Teiljob "${id}": ${UPLOAD} nur mit with ${JSON.stringify(UPLOAD_WITH)}`)
   return fehler

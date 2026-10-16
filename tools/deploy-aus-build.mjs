@@ -100,8 +100,14 @@ export function holeBau({ repo, sha, ziel }, w = ECHT) {
   return { treffer: true, grund: `PR #${pr.nummer}, Lauf ${lauf.id}` }
 }
 
+/** Aufrufweg des Workflows: holt den Bau, meldet das Ergebnis im Log und setzt bei Treffer (nur dann) den Job-Ausgang `treffer=1`. */
+export function laufe({ env, ziel }, w = ECHT, schreibe = appendFileSync, log = console.log) {
+  const { treffer, grund } = holeBau({ repo: env.GITHUB_REPOSITORY, sha: env.GITHUB_SHA, ziel }, w)
+  log(treffer ? `Deploy aus geprüftem Bau: ${grund}` : `Deploy baut neu: ${grund}`)
+  if (treffer && env.GITHUB_OUTPUT) schreibe(env.GITHUB_OUTPUT, 'treffer=1\n')
+  return treffer
+}
+
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
-  const { treffer, grund } = holeBau({ repo: process.env.GITHUB_REPOSITORY, sha: process.env.GITHUB_SHA, ziel: process.argv[2] ?? 'artifact.tar' })
-  console.log(treffer ? `Deploy aus geprüftem Bau: ${grund}` : `Deploy baut neu: ${grund}`)
-  if (treffer && process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, 'treffer=1\n')
+  laufe({ env: process.env, ziel: process.argv[2] ?? 'artifact.tar' })
 }

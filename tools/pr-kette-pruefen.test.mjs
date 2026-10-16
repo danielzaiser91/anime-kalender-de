@@ -111,6 +111,8 @@ fall('Upload in anderem Teiljob mit anderem with', (d) => { d.jobs.typen.steps.p
 fall('fremdes Env am Bau', (d) => { d.jobs.bau.steps.find((s) => s.name === 'Bauen').env.PAGES_BASE = '/x/' }, /env am Schritt nur/)
 fall('weiteres Env am Bau', (d) => { d.jobs.bau.steps.find((s) => s.name === 'Bauen').env.NODE_OPTIONS = '--require x' }, /env am Schritt nur/)
 fall('anderes Env am Schritt', (d) => { d.jobs.logik.steps.at(-1).env = { X: 1 } }, /env am Schritt nur/)
+fall('Upload in anderem Teiljob mit richtigem with', (d) => { d.jobs.typen.steps.push({ uses: 'actions/upload-pages-artifact@v3', with: { path: 'dist', 'retention-days': 3 } }) }, /nur im Job "bau"/)
+fall('Bau-Env in anderem Teiljob', (d) => { d.jobs.typen.steps.at(-1).env = { PAGES_BASE: '/', VITE_NEWSLETTER_API: '${{ vars.NEWSLETTER_API_URL }}' } }, /Env des Baus .* nur im Job "bau"/)
 fall('zweite fremde Action', (d) => { d.jobs.logik.steps.push({ uses: 'x/y@v1' }) }, /uses "x\/y@v1" nicht erlaubt/)
 fall('Upload-Action anderer Version', (d) => { hochladenSchritt(d).uses = 'actions/upload-pages-artifact@v2' }, /uses "actions\/upload-pages-artifact@v2" nicht erlaubt/)
 assert.match(pruefeKette(lesen(), scripts, undefined).join('\n'), /Aktion kette-einrichten: nicht gelesen/, 'ohne Aktion muss rot sein')

@@ -78,6 +78,6 @@ assert.match(schritt('hochladen').if, /steps\.holen\.outputs\.treffer == '1'/, '
 assert.match(jobs.herkunft.outputs.treffer, /steps\.hochladen\.outcome == 'success'/, 'Treffer erst, wenn das Artefakt liegt')
 assert.equal(schritt('hochladen').with.name, 'github-pages', 'deploy-pages sucht diesen Namen')
 assert.equal(schritt('hochladen')['continue-on-error'], true, 'scheitert der Upload, baut der Deploy neu (treffer bleibt leer)')
-assert.deepEqual(jobs.herkunft.permissions, { contents: 'read', actions: 'read' }, 'herkunft braucht weder pages noch id-token')
+assert.deepEqual(jobs.herkunft.permissions, { contents: 'read', actions: 'read', 'pull-requests': 'read' }, 'herkunft braucht weder pages noch id-token')
 assert.equal(jobs.herkunft.steps[0].with['sparse-checkout'], 'tools', 'dünner Checkout: spart Zeit vor jedem Deploy ohne Treffer')
 console.log('deploy-aus-build.test: ok')
