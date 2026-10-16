@@ -11,7 +11,7 @@ import { baueTitelGemessen } from './bau/anisearch-abweichungen.ts'
 import { fuehreReihenZusammenQuelle as fuehreReihenZusammen } from './bau/anisearch-reihen-rein-bau.ts'
 import { indiziereCrSendeplaetze } from './bau/04-cr-sendeplaetze.ts'
 import { baueReleases } from './bau/05-releases.ts'
-import { ergaenzeCrSimuldubs } from './bau/06-cr-simuldubs.ts'
+import { ergaenzeCrReleases } from './bau/06-cr-release-vermerke.ts'
 import { ergaenzeAdnTitel } from './bau/07-adn.ts'
 import { ergaenzeTermineAusNewsUndTv } from './bau/08-news-tv.ts'
 import { pruefeSynchroJePlattform } from './bau/09-synchro.ts'
@@ -54,7 +54,7 @@ function main(): void {
     crKalenderBis: cr.crKalenderBis,
     crunchyroll: cr.crunchyroll,
   })
-  ergaenzeCrSimuldubs({ ...cr, usedCrKeys, seenSlugs, releases, anisearchEpisodes, unverified })
+  ergaenzeCrReleases({ ...cr, usedCrKeys, seenSlugs, releases, anisearchEpisodes, unverified })
   const { adnKatalog, adnVerweiseErgaenzt } = ergaenzeAdnTitel({
     titles,
     releases,

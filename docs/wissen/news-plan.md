@@ -114,3 +114,12 @@ Der Kalender-Beleg (Schritt 5) zeigt den Nachher-Stand: „wir sahen nichts“. 
 - **Ehrlich datiert.** „Erstmals geprüft am …“ ist der Tag, an dem **ein Lauf** die Zeile zuerst sah, nicht notwendig der, an dem Crunchyroll sie schrieb; „Bild vom …“ ist der Tag der Aufnahme. Tomb Raider King F12 ist von Hand vorgemerkt (erste Sichtung 12.10.2026 11:04 UTC, Git `3c831edb4`); sein Bild entsteht im ersten Lauf mit dem neuen Code, solange der Artikel die Woche 12.–18.10. zeigt.
 - **Wanderartikel nicht täglich lesen.** `ARTIKEL` in `beleg-lesung.ts` nimmt `…wochenprogramm…` aus: Eine Lesung der Beleg-Warteschlange überschriebe `erstGeprueftAm`/`bildAm` des Belegs mit eigenen Daten.
 - **Offen.** Die Meldung sagt weiter „war angekündigt“ auch dort, wo kein Foto vorliegt (8 von 9 Fällen am 15.10.2026 ohne Vorab-Quelle): Textfrage, siehe Bericht `daniel-zum-abarbeiten/berichte/beleg-nicht-erschienen-2026-10-15.md`. Markierung im Kalender-Messbild (Variante C) nicht gebaut.
+
+## Re:ZERO Staffel 4: drei Lücken in den Meldungen (16.10.2026)
+
+Bericht: `daniel-zum-abarbeiten/berichte/rezero-doppelfolge-2026-10-16.md`. Behoben in `fix/rezero-news`:
+- **Folgen-Meldung an der falschen Staffel:** Teilen Staffeln eine Crunchyroll-Kennung, wählt `waehleStaffel()` (`pipeline/lib/news-cr-zuordnung.ts`) die Staffel mit einem Crunchyroll-Release dieser Kennung, das am Tag lief und die Folgennummern abdeckt (jüngste zuerst); sonst der erste Titel wie vorher.
+- **Ausfall-Vermerke bei Auto-Simuldubs:** `ergaenzeVerpasstAnReleases()` (nach Phase 06 in `build.ts`) hängt `schedule.verpasst` an jedes Release ohne Vermerke.
+- **Obergrenze 400:** `bleibtTrotzObergrenze()` (`news-obergrenze.ts`) nimmt Folgen-/Verspätungs-/Nachreich-Einträge der letzten 56 Tage und offizielle Meldungen von der Kappung aus.
+- Fortschreibung F16–F19 war schon `estimated`; der Hinweis „Takt unklar“ gehört zur geplanten Art `takt` (Phase 2, nicht gebaut).
+- **Runde 2 (16.10.2026):** `news.json` hat eine harte Gesamtgrenze von 440 Einträgen (`GESAMT_HOECHSTENS`, offizielle ausgenommen). Der Tag einer Crunchyroll-Folge ist der Berliner Tag von `verfuegbarAb` (nicht der UTC-Tag). Ein `neuErwartet`, hinter dem eine gleiche oder frühere Folge beobachtet wurde, zählt nicht mehr als Stützpunkt (`shared/logic.ts`); der Re:ZERO-Vermerk F16 (4p.de meinte Folge 14) ist berichtigt.
