@@ -7174,7 +7174,7 @@ async function speicherSchreiben(werte) {
   // Sperre nach angekommener Meldung (melde-sperre.js, Daniel 16.10.2026): am Befund, nicht an der Beschriftung.
   const meldeSperre = globalThis.AK_MELDE_SPERRE.fuer(knopf, {
     befund: () => `${location.pathname}|${staffelSchluessel()}|${deutschInFolgen()}`,
-    angekommen: () => !nichtAngekommen(listenId),
+    angekommen: () => globalThis.AK_MELDUNG_BELEGT(liste[listenId]?.url, asin, briefkastenAdressen, briefkastenSeiten),
     zeichneRoh: () => zeichnenRoh(),
     lesen: speicherLesen,
     schreiben: speicherSchreiben,

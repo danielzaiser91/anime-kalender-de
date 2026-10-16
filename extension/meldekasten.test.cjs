@@ -104,11 +104,11 @@ function grundwerte(z, knopf, speicher) {
     standGeladen: true,
     standZiele: new Set(),
     briefkastenSeiten: new Set(),
+    briefkastenAdressen: { has: (url) => z.angekommen && url === 'https://www.amazon.de/dp/A' },
     staffelZahl: () => NaN,
     staffelnDerSerie: () => z.staffelnDerSerie,
     gesamtDerSerie: () => z.gesamtDerSerie,
     fertig: () => z.fertig,
-    nichtAngekommen: () => !z.angekommen,
     wiedervorlage: () => false,
     widerspruchSeit: 0,
     asin: () => 'A',
@@ -123,6 +123,12 @@ function grundwerte(z, knopf, speicher) {
 function seiteNeu(z, speicher) {
   const knopf = knopfNeu()
   const werte = new Map(Object.entries(grundwerte(z, knopf, speicher)))
+  /* Wie `nichtAngekommen()` in amazon.js: nur ein vorhandener Briefkasten ohne die Adresse zählt als nicht angekommen. */
+  werte.set('nichtAngekommen', (id) => {
+    const url = werte.get('liste')[id]?.url
+    const adressen = werte.get('briefkastenAdressen')
+    return Boolean(url && adressen && !adressen.has(url))
+  })
   const kulisse = new Proxy({}, {
     has: (_, name) => typeof name === 'string' && !NATIV.has(name),
     get: (_, name) => {
@@ -260,8 +266,7 @@ async function pruefeNeuladen() {
     const z = zustandNeu()
     const vorher = seiteNeu(z, speicher)
     vorher.takt()
-    vorher.meldeSperre.vermerken()
-    await Promise.resolve()
+    await vorher.meldeSperre.vermerken()
     const z2 = zustandNeu()
     const neu = seiteNeu(z2, speicher)
     await neu.meldeSperre.geladen
@@ -293,8 +298,7 @@ async function pruefeAlter() {
     spaet.takt()
     pruefe('25 Stunden später: der gesicherte Befund ist verfallen, Knopf frei', sichtbar(spaet.knopf) && z4.marke === null,
       { marke: z4.marke })
-    spaet.meldeSperre.vermerken()
-    await Promise.resolve()
+    await spaet.meldeSperre.vermerken()
     pruefe('… und die nächste Meldung sichert ihn nicht weiter (der Speicher wächst nicht)',
       Object.keys(alt.akMeldeSperre).join() === '/dp/A|1|true' && alt.akMeldeSperre['/dp/A|1|true'] > Date.now() - 5000, alt.akMeldeSperre)
     /* Die Meldezeit bleibt die von damals: kam die Meldung nicht an, ist der Knopf nach der Frist auch nach dem Neuladen frei. */
@@ -312,11 +316,85 @@ async function pruefeAlter() {
   }
 }
 
+const STUNDE = 3600 * 1000
+/** Eine neu geladene Seite mit gemeinsamem Speicher, Sperre fertig geladen und ein Takt gezeichnet. */
+async function geladenNeu(extra, speicher) {
+  const z = zustandNeu(extra)
+  const s = seiteNeu(z, speicher)
+  await s.meldeSperre.geladen
+  s.takt()
+  return { z, s }
+}
+
+/* Drei gesicherte Befunde, der geprüfte in der Mitte, ein verfallener dazwischen (Prüfer, 1397: `break`, `slice(-1)`). */
+async function pruefeMehrere() {
+  const jetzt = Date.now()
+  const gelesen = { akMeldeSperre: { '/dp/A|1|true': jetzt - STUNDE, '/dp/A|9|true': jetzt - 25 * STUNDE, '/dp/A|2|true': jetzt - 2 * STUNDE, '/dp/A|3|true': jetzt - 3 * STUNDE } }
+  const mitte = await geladenNeu({ staffel: 2, angekommen: true }, gelesen)
+  pruefe('drei Befunde im Speicher, neu geladen auf dem mittleren: gesperrt, Marke', mitte.s.meldeSperre.gesperrt() && mitte.z.marke === 'gemeldet ✓',
+    { marke: mitte.z.marke })
+  const speicher = {}
+  const z = zustandNeu({ angekommen: true })
+  const s = seiteNeu(z, speicher)
+  for (const staffel of [1, 2, 3]) {
+    z.staffel = staffel
+    await s.meldeSperre.vermerken()
+  }
+  const neu = await geladenNeu({ staffel: 2, angekommen: true }, speicher)
+  pruefe('S1, S2, S3 gemeldet, neu geladen auf S2: gesperrt', neu.s.meldeSperre.gesperrt(), speicher.akMeldeSperre)
+  pruefe('… alle drei im Speicher', Object.keys(speicher.akMeldeSperre ?? {}).length === 3, speicher.akMeldeSperre)
+}
+
+/* Zwei offene Prime-Tabs: B sichert, ohne A die Sperre zu löschen (Prüfer, 1397). */
+async function pruefeZweiTabs() {
+  const speicher = {}
+  const a = await geladenNeu({ pfad: '/dp/X', angekommen: true }, speicher)
+  const b = await geladenNeu({ pfad: '/dp/Y', angekommen: true }, speicher)
+  await a.s.meldeSperre.vermerken()
+  await b.s.meldeSperre.vermerken()
+  const wieder = await geladenNeu({ pfad: '/dp/X', angekommen: true }, speicher)
+  pruefe('Tab A meldet, Tab B meldet, A neu geladen: weiter „gemeldet"', wieder.s.meldeSperre.gesperrt() && wieder.z.marke === 'gemeldet ✓',
+    speicher.akMeldeSperre)
+  /* A kennt X noch mit alter Zeit, ein anderer Tab hat X jünger gesichert und einen verfallenen Befund liegen lassen. */
+  const jetzt = Date.now()
+  const geteilt = { akMeldeSperre: { '/dp/X|1|true': jetzt - 5 * STUNDE } }
+  const alt = await geladenNeu({ pfad: '/dp/X', angekommen: true }, geteilt)
+  geteilt.akMeldeSperre = { '/dp/W|1|true': jetzt - 25 * STUNDE, '/dp/X|1|true': jetzt - STUNDE, '/dp/V|1|true': jetzt - 2 * STUNDE }
+  alt.z.pfad = '/dp/Y'
+  await alt.s.meldeSperre.vermerken()
+  const k = geteilt.akMeldeSperre
+  pruefe('Zusammenführen: jüngste Meldezeit je Befund, Verfallenes fällt, fremde bleiben',
+    k['/dp/X|1|true'] === jetzt - STUNDE && !('/dp/W|1|true' in k) && k['/dp/V|1|true'] === jetzt - 2 * STUNDE && '/dp/Y|1|true' in k, k)
+}
+
+/* Angekommen nur, wenn der Worker die Meldung führt; sonst gilt die Frist (Prüfer, 1397). */
+async function pruefeBeleg() {
+  const nachFrist = () => ({ akMeldeSperre: { '/dp/A|1|true': Date.now() - sperre.AK_MELDE_SPERRE.FRIST_MS - 1000 } })
+  const faelle = [
+    ['Briefkasten-Antwort fehlt', { briefkastenAdressen: null, briefkastenSeiten: null }, false],
+    ['Seite nicht auf der Prüfliste, Briefkasten ohne sie', { liste: {}, briefkastenAdressen: new Set(), briefkastenSeiten: new Set() }, false],
+    ['Worker führt die Kennung der Seite', { briefkastenAdressen: new Set(), briefkastenSeiten: new Set(['B', 'A', 'C']) }, true],
+    ['Worker führt eine andere Kennung', { briefkastenAdressen: new Set(), briefkastenSeiten: new Set(['B']) }, false],
+    ['Kennung nicht lesbar', { briefkastenAdressen: new Set(), briefkastenSeiten: new Set(['A']), asin: () => { throw new Error('weg') } }, false],
+    ['Worker führt die Adresse der Prüfliste', { briefkastenAdressen: new Set(['https://www.amazon.de/dp/A']), briefkastenSeiten: null }, true],
+  ]
+  for (const [name, werte, gesperrt] of faelle) {
+    const z = zustandNeu()
+    const s = seiteNeu(z, nachFrist())
+    for (const [k, v] of Object.entries(werte)) s.werte.set(k, v)
+    await s.meldeSperre.geladen
+    pruefe(`${name}, Frist um: ${gesperrt ? 'gesperrt' : 'frei'}`, s.meldeSperre.gesperrt() === gesperrt)
+  }
+}
+
 async function main() {
   pruefeVorher()
   pruefeZweige()
   await pruefeNeuladen()
   await pruefeAlter()
+  await pruefeMehrere()
+  await pruefeZweiTabs()
+  await pruefeBeleg()
   if (fehler.length) {
     console.error(`\n${fehler.length} Zusicherung(en) verletzt`)
     process.exit(1)

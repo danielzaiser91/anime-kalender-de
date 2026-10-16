@@ -25,9 +25,17 @@ globalThis.AK_MELDE_SPEICHER = (() => {
     }
   }
 
-  /** Sichert die Befunde der Seite; Verfallenes kam nie hinein (`laden`), so wächst der Speicher nicht. */
-  function sichern(gemeldet, schreiben) {
-    return schreiben({ [SCHLUESSEL]: Object.fromEntries(gemeldet) })
+  /**
+   * Führt die Befunde der Seite mit dem Speicher zusammen: andere Tabs sichern dort ihre eigenen (Prüfer, 1397).
+   * Je Befund gilt die jüngste Meldezeit; Verfallenes fällt heraus, so wächst der Speicher nicht.
+   */
+  async function sichern(gemeldet, lesen, schreiben) {
+    const neu = {}
+    const gesichert = (await lesen(SCHLUESSEL))?.[SCHLUESSEL] ?? {}
+    for (const [befund, zeit] of [...Object.entries(gesichert), ...gemeldet]) {
+      if (Date.now() - zeit < HALTE_MS && !(neu[befund] > zeit)) neu[befund] = zeit
+    }
+    return schreiben({ [SCHLUESSEL]: neu })
   }
 
   return { laden, sichern }
@@ -88,7 +96,7 @@ globalThis.AK_MELDE_SPERRE = (() => {
       /* Ohne Angabe gilt der Befund von jetzt; der Klick gibt seinen mit, denn nach den awaits ist die Seite womöglich weiter. */
       vermerken(gemeldeterBefund = befund()) {
         sperren(gemeldet, gemeldeterBefund, Date.now())
-        Promise.resolve(sichern(gemeldet, schreiben)).catch(() => {})
+        return sichern(gemeldet, lesen, schreiben).catch(() => {})
       },
       zeichnen() {
         if (gesperrt && lage() !== 'gesperrt') {
@@ -106,3 +114,17 @@ globalThis.AK_MELDE_SPERRE = (() => {
 
   return { FRIST_MS, setzeKlick, sperren, zustand, anwenden, fuer }
 })()
+
+/**
+ * Angekommen heißt: der Worker führt die Meldung — die Adresse der Prüfliste oder die Kennung der Seite.
+ * Fehlt seine Antwort, ist nichts belegt, und es gilt die Frist (Prüfer, 1397).
+ */
+globalThis.AK_MELDUNG_BELEGT = function belegt(adresse, kennung, adressen, seiten) {
+  if (adressen?.has(adresse)) return true
+  try {
+    const k = kennung()
+    return Boolean(k && seiten?.has(String(k)))
+  } catch {
+    return false
+  }
+}
