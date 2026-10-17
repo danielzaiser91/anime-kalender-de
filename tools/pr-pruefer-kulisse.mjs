@@ -12,15 +12,9 @@ import { fileURLToPath } from 'node:url'
 
 export const KOPF = 'c'.repeat(40)
 const BASIS = 'e'.repeat(40)
+const CHECKOUT = 'actions/checkout@v4'
 const REPO = 'o/r'
 const WURZEL = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
-export const EINGANG = {
-  name: 'Prüfer-Eingang prüfen',
-  id: 'eingang',
-  env: { DIFF_ZUSTAND: '${{ steps.diff.outputs.diff-zustand }}', KOPF: '${{ github.event.pull_request.head.sha }}' },
-  run: 'node tools/pr-eingang.mjs "$RUNNER_TEMP/pruefer/pr-beschreibung.txt" "$DIFF_ZUSTAND" "$KOPF" >> "$GITHUB_OUTPUT"',
-}
-export const BEDINGUNG_FREIGABE = 'if [ "$DIFF_ZUSTAND" != "ok" ] && [ "$art" = "ok" ]; then'
 const SCHLUESSEL = { workflow: ['name', 'on', 'permissions', 'concurrency', 'jobs'], job: ['name', 'if', 'runs-on', 'timeout-minutes', 'env', 'steps'] }
 
 const ATTRAPPE = fs.readFileSync(new URL('./pr-pruefer-kulisse-gh.cjs', import.meta.url), 'utf8')
@@ -117,7 +111,9 @@ function laufeSchritte(wf, ordner, prs) {
   const bash = process.platform === 'win32' ? 'C:/Program Files/Git/bin/bash.exe' : 'bash'
   for (const [i, s] of schritte.entries()) {
     if (s.uses !== undefined) {
-      if (s.uses !== 'actions/checkout@v4' || fremdeSchluessel(s, ['uses', 'with']).length) return { fehler: `Schritt ${i} nicht nachgebildet` }
+      if (s.uses !== CHECKOUT || fremdeSchluessel(s, ['uses', 'with']).length) {
+        return { fehler: `Schritt ${i}: uses ist "${s.uses}", die Kulisse bildet nur "${CHECKOUT}" nach (const CHECKOUT in tools/pr-pruefer-kulisse.mjs anpassen, wenn die Änderung Absicht ist)` }
+      }
       continue
     }
     if (fremdeSchluessel(s, ['name', 'id', 'env', 'run']).length) return { fehler: `${s.name}: Schlüssel nicht nachgebildet: ${fremdeSchluessel(s, ['name', 'id', 'env', 'run'])}` }
@@ -130,7 +126,13 @@ function laufeSchritte(wf, ordner, prs) {
     if (s.id) kontext.ausgaben[s.id] = leseAusgaben(ausgabe)
   }
   const datei = path.join(temp, 'pruefer', 'pr-beschreibung.txt')
-  return { ausgaben: kontext.ausgaben, beschreibung: fs.existsSync(datei) ? fs.readFileSync(datei, 'utf8') : null }
+  return { ausgaben: kontext.ausgaben, beschreibung: fs.existsSync(datei) ? fs.readFileSync(datei, 'utf8') : null, aufrufe: leseAufrufe(path.join(ordner, 'aufrufe.log')) }
+}
+
+/** Alle gh-Aufrufe der Attrappe in Reihenfolge, je Aufruf ein Wortlaut `api …` bzw. `pr …`. */
+function leseAufrufe(datei) {
+  const zeilen = fs.existsSync(datei) ? fs.readFileSync(datei, 'utf8').split('\n').filter(Boolean) : []
+  return zeilen.map((z) => JSON.parse(z).join(' '))
 }
 
 /** Führt den Job bis zur Sperre aus; liefert die Ausgaben je Schritt-id und die Beschreibung, oder `fehler`. */

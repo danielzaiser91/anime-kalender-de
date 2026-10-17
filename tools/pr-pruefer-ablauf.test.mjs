@@ -7,7 +7,7 @@
  */
 import fs from 'node:fs'
 import { parse } from 'yaml'
-import { BEDINGUNG_FREIGABE, EINGANG, laufeBisEingang, prDaten, KOPF } from './pr-pruefer-kulisse.mjs'
+import { laufeBisEingang, prDaten, KOPF } from './pr-pruefer-kulisse.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -24,21 +24,27 @@ const ERWARTET = 'Titel: Titel 7\nZweig: zweig-7\n\nBeschreibung 7\n'
   + `\n- aaaaaaaaa fix: eins — a.ts\n- bbbbbbbbb refactor: zwei — lib/x.ts\n- ${KOPF.slice(0, 9)} test: drei — a.test.ts`
 
 const gut = laufeBisEingang(wf, { 7: prDaten(7, KOPF), 1: prDaten(1, 'f'.repeat(40)) })
-const FREIGABE_VOR_BEDINGUNG = [
-  'set -u',
-  'T="$RUNNER_TEMP/pruefer"',
-  'if [ ! -s "$T/urteil.json" ] || [ ! -s "$T/protokoll.md" ]; then',
-  'echo "::error::Kein Urteil geschrieben (urteil.json oder protokoll.md fehlt/leer) - keine Freigabe. Inhalt von $T:"',
-  'ls -la "$T" || true',
-  'exit 1',
-  'fi',
-  'urteil=$(node -e \'const u=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));console.log(u.urteil+" "+u.sha)\' "$T/urteil.json") || { echo "::error::urteil.json unlesbar - keine Freigabe."; exit 1; }',
-  'art=${urteil% *}; sha=${urteil#* }',
-]
 pruefe('Ablauf: alle Schritte bis zur Sperre laufen durch', gut.fehler === undefined, gut.fehler)
 pruefe('Ablauf: Beschreibung mit Nachträgen und Commit-Liste kommt beim Prüfer an', gut.beschreibung === ERWARTET, gut.beschreibung)
 pruefe('Ablauf: Sperre meldet zustand=ok', gut.ausgaben?.eingang?.zustand === 'ok', gut.ausgaben)
 pruefe('Ablauf: Diff-Schritt meldet diff-zustand=ok', gut.ausgaben?.diff?.['diff-zustand'] === 'ok', gut.ausgaben)
+// Alle gh-Aufrufe des guten Laufs, in Reihenfolge und Wort für Wort: ein Einschub (auch mit `|| true` oder `&`) ist rot.
+const AUFRUFE = [
+  'api --method GET repos/o/r/compare/' + 'e'.repeat(40) + '...' + KOPF + ' -f per_page=1 -q .merge_base_commit.sha',
+  'api --method GET --paginate repos/o/r/pulls/7/files -f per_page=100 -q .[]',
+  'pr view 7 --repo o/r --json title,body,headRefName -q "Titel: " + .title + "\\nZweig: " + .headRefName + "\\n\\n" + .body',
+  'api repos/o/r/pulls/7 -q .user.login',
+  'api --paginate --slurp repos/o/r/issues/7/comments',
+  'api --paginate --slurp repos/o/r/pulls/7/commits',
+  'api repos/o/r/commits/' + 'a'.repeat(40),
+  'api repos/o/r/commits/' + 'b'.repeat(40),
+  'api repos/o/r/commits/' + KOPF,
+  'pr diff 7',
+  'api repos/o/r/issues/7/comments --paginate -q .[] | select(.body | startswith("<!-- pr-stufe -->")) | .id',
+  'pr comment 7 --repo o/r --body-file <datei>',
+]
+const aufrufe = (gut.aufrufe ?? []).map((a) => a.replace(/--body-file \S+/, '--body-file <datei>'))
+pruefe('Ablauf: gh-Aufrufe genau die erwartete Liste (kein zusätzlicher Aufruf)', JSON.stringify(aufrufe) === JSON.stringify(AUFRUFE), { ist: aufrufe, soll: AUFRUFE })
 
 // Die Sperre greift: fehlt die Commit-Liste (API scheitert), ist der Zustand nicht ok, obwohl der Diff vollständig ist.
 const ohneCommits = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), commits: undefined } })
@@ -54,28 +60,14 @@ const fremderKopf = laufeBisEingang(wf, { 7: prDaten(7, 'f'.repeat(40)) })
 pruefe('Sperre: Liste endet nicht am Kopf -> zustand=unvollstaendig',
   fremderKopf.ausgaben?.diff?.['diff-zustand'] === 'ok' && fremderKopf.ausgaben?.eingang?.zustand === 'unvollstaendig', fremderKopf.ausgaben)
 
-// Wächter auf dem geparsten Dokument: Sperre exakt, direkt vor den Prüfern, und ihr Zustand ist der, den Prompts und Freigabe lesen.
+// Sperre, Freigabe-env und -run deckt der Schnappschuss (pr-pruefer-freigabe.test.mjs) ab; hier bleibt der Prompt-Text.
 const schritte = wf.jobs.pruefen.steps
-const iEingang = schritte.findIndex((s) => s.id === 'eingang')
-pruefe('Sperre-Schritt exakt (Name, id, env, run; keine weiteren Schlüssel)', JSON.stringify(schritte[iEingang]) === JSON.stringify(EINGANG), schritte[iEingang])
-const pruefer = schritte.map((s, i) => [s, i]).filter(([s]) => String(s.uses ?? '').startsWith('anthropics/claude-code-action'))
-pruefe('Sperre steht direkt vor den beiden Prüfer-Schritten', pruefer.length === 2
-  && pruefer[0][1] === iEingang + 1 && pruefer[1][1] === iEingang + 2, pruefer.map(([, i]) => i))
-for (const [s] of pruefer) {
+const pruefer = schritte.filter((s) => String(s.uses ?? '').startsWith('anthropics/claude-code-action'))
+pruefe('Zwei Prüfer-Schritte', pruefer.length === 2, pruefer.map((s) => s.name))
+for (const s of pruefer) {
   pruefe(`${s.name}: Prompt liest den Zustand der Sperre, alles außer "ok" ist unvollständig`,
     String(s.with?.prompt ?? '').includes('Diff-Zustand: ${{ steps.eingang.outputs.zustand }}. Lautet er nicht "ok",'))
 }
-const freigabe = schritte.find((s) => s.name === 'Protokoll und Freigabe')
-pruefe('Freigabe liest den Zustand der Sperre', freigabe?.env?.DIFF_ZUSTAND === '${{ steps.eingang.outputs.zustand }}')
-pruefe('Freigabe macht aus "ok" ein "aendern", wenn der Zustand nicht ok ist',
-  String(freigabe?.run ?? '').split('\n').map((z) => z.trim()).includes(BEDINGUNG_FREIGABE))
-// Zwischen `set -u` und der Bedingung darf nichts stehen, was DIFF_ZUSTAND setzt: exakter Abgleich aller Zeilen dazwischen.
-const freigabeZeilen = String(freigabe?.run ?? '').split('\n').map((z) => z.trim())
-const iSetU = freigabeZeilen.indexOf('set -u')
-const iBedingung = freigabeZeilen.indexOf(BEDINGUNG_FREIGABE)
-pruefe('Freigabe: set -u steht vor der Bedingung, dazwischen exakt die bekannten Zeilen',
-  iSetU >= 0 && iBedingung > iSetU && JSON.stringify(freigabeZeilen.slice(iSetU, iBedingung)) === JSON.stringify(FREIGABE_VOR_BEDINGUNG),
-  freigabeZeilen.slice(iSetU, iBedingung))
 const leserDiffZustand = schritte.filter((s) => JSON.stringify(s).includes('steps.diff.outputs.diff-zustand'))
 pruefe('diff-zustand liest nur noch die Sperre', leserDiffZustand.length === 1 && leserDiffZustand[0].id === 'eingang')
 

@@ -9,6 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { parse } from 'yaml'
+import { WORKFLOW, fuerSchnappschuss, leseSchnappschuss, meldung, schreibeSchnappschuss, unterschiede } from './pr-pruefer-schnappschuss.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -17,11 +18,20 @@ const pruefe = (name, ok, info) => {
   console.error(`  ✗ ${name}${info === undefined ? '' : ` — ${JSON.stringify(info)}`}`)
 }
 
-const wf = parse(fs.readFileSync(new URL('../.github/workflows/pr-pruefer.yml', import.meta.url), 'utf8'))
-const FREIGABE_NAME = 'Protokoll und Freigabe'
-const alleSchritte = Object.values(wf.jobs).flatMap((j) => j.steps ?? [])
-const freigabe = wf.jobs.pruefen.steps.find((s) => s.name === FREIGABE_NAME)
-const JOB_IF = "github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft"
+const wf = parse(fs.readFileSync(WORKFLOW, 'utf8'))
+if (process.argv.includes('--schnappschuss')) {
+  schreibeSchnappschuss(wf)
+  console.log('tools/pr-pruefer.schnappschuss.json neu geschrieben.')
+  process.exit(0)
+}
+// Das ganze Dokument gegen den Schnappschuss: ein Zusatzschritt, ein anderer Wert oder ein neuer Schlüssel ist rot.
+const abweichungen = unterschiede(leseSchnappschuss(), fuerSchnappschuss(wf))
+if (abweichungen.length) {
+  console.error(meldung(abweichungen))
+  process.exit(1)
+}
+console.log('  ✓ Workflow stimmt mit dem Schnappschuss überein (alle Schlüssel und Werte außer dem Prompt-Text)')
+const freigabe = wf.jobs.pruefen.steps.find((s) => s.name === 'Protokoll und Freigabe')
 const KOPF = 'c'.repeat(40)
 const ANDERER = 'd'.repeat(40)
 const TOKEN = 'tok-geheim-123'
@@ -89,9 +99,7 @@ function laufe(f) {
     const aufrufe = fs.existsSync(log) ? fs.readFileSync(log, 'utf8').split('\n').filter(Boolean) : []
     return {
       status: r.status,
-      approve: aufrufe.filter((a) => a.startsWith('pr review') && a.includes('--approve')).length,
-      aendern: aufrufe.filter((a) => a.startsWith('pr review') && a.includes('--request-changes')).length,
-      kommentare: aufrufe.filter((a) => a.startsWith('pr comment')).length,
+      aufrufe: aufrufe.map((a) => a.replace(/--body-file \S+/, '--body-file <datei>')),
       kommentar: fs.existsSync(kommentar) ? fs.readFileSync(kommentar, 'utf8') : '',
     }
   } finally {
@@ -101,36 +109,16 @@ function laufe(f) {
 
 const urteil = (art, sha = KOPF) => JSON.stringify({ urteil: art, sha })
 const basis = { urteil: urteil('ok'), protokoll: 'Alles gut.\n', zustand: 'ok' }
-const FREIGABE = { status: 0, approve: 1, aendern: 0, kommentare: 1 }
-const ABLEHNUNG = { status: 0, approve: 0, aendern: 1, kommentare: 1 }
-const NICHTS = { status: 0, approve: 0, aendern: 0, kommentare: 0 }
-const KEIN_URTEIL = { status: 1, approve: 0, aendern: 0, kommentare: 0 }
+// Die gh-Aufrufe des guten Laufs, Wort für Wort: jeder zusätzliche Aufruf ist rot, auch wenn der Schritt grün endet.
+const ANSICHT = 'pr view 7 --repo o/r --json headRefOid -q .headRefOid'
+const KOMMENTAR = 'pr comment 7 --repo o/r --body-file <datei>'
+const APPROVE = 'pr review 7 --repo o/r --approve --body Prüfprotokoll steht als Kommentar (Stand ccccccccc).'
+const AENDERN = 'pr review 7 --repo o/r --request-changes --body Befunde im Prüfprotokoll-Kommentar (Stand ccccccccc).'
+const FREIGABE = { status: 0, aufrufe: [ANSICHT, KOMMENTAR, APPROVE] }
+const ABLEHNUNG = { status: 0, aufrufe: [ANSICHT, KOMMENTAR, AENDERN] }
+const NICHTS = { status: 0, aufrufe: [ANSICHT] }
+const KEIN_URTEIL = { status: 1, aufrufe: [] }
 
-pruefe('Schritt: nur name, if, env, run; läuft immer (if: always())',
-  JSON.stringify(Object.keys(freigabe)) === JSON.stringify(['name', 'if', 'env', 'run']) && freigabe.if === 'always()', freigabe)
-pruefe('Der Name der Freigabe kommt im ganzen Workflow genau einmal vor',
-  alleSchritte.filter((s) => s.name === FREIGABE_NAME).length === 1, alleSchritte.map((s) => s.name))
-// Struktur statt Textsuche: Jeder zusätzliche Job oder Schritt (egal wie er freigibt) und jede Workflow-env ist rot.
-const ERWARTET = [
-  { name: undefined, art: 'uses:actions/checkout@v4' },
-  { name: 'Diff bereitlegen', art: 'run' },
-  { name: 'Prüfstufe', art: 'run' },
-  { name: 'Prüfer-Eingang prüfen', art: 'run' },
-  { name: 'Prüfer (Stufe 0, schlank)', art: 'uses:anthropics/claude-code-action@v1' },
-  { name: 'Prüfer', art: 'uses:anthropics/claude-code-action@v1' },
-  { name: FREIGABE_NAME, art: 'run' },
-]
-const schrittArt = (s) => (s.uses !== undefined ? `uses:${s.uses}` : s.run !== undefined ? 'run' : 'andere')
-const ist = wf.jobs.pruefen.steps.map((s) => ({ name: s.name, art: schrittArt(s) }))
-const gleich = (a, b) => JSON.stringify(a) === JSON.stringify(b)
-pruefe('Workflow: nur name, on, permissions, concurrency, jobs (keine Workflow-env, keine defaults)',
-  gleich(Object.keys(wf), ['name', 'on', 'permissions', 'concurrency', 'jobs']), Object.keys(wf))
-pruefe('Jobs: genau [pruefen]', gleich(Object.keys(wf.jobs), ['pruefen']), Object.keys(wf.jobs))
-pruefe('Job pruefen: genau die erwarteten Schlüssel (keine defaults, continue-on-error, container …)',
-  gleich(Object.keys(wf.jobs.pruefen), ['name', 'if', 'runs-on', 'timeout-minutes', 'env', 'steps']), Object.keys(wf.jobs.pruefen))
-pruefe('Job-env: genau PR, HEAD_SHA, BASE_SHA', gleich(Object.keys(wf.jobs.pruefen.env), ['PR', 'HEAD_SHA', 'BASE_SHA']), wf.jobs.pruefen.env)
-pruefe('Job-if: der erwartete Ausdruck', String(wf.jobs.pruefen.if).replace(/\s+/g, ' ').trim() === JOB_IF, wf.jobs.pruefen.if)
-pruefe('Schrittfolge von pruefen: genau die erwartete (Name und uses/run), kein Zusatzschritt', gleich(ist, ERWARTET), ist)
 const faelle = [
   ['Zustand ok, Urteil ok: Freigabe', basis, FREIGABE],
   ['Zustand unvollstaendig, Urteil ok: keine Freigabe, Änderungswunsch', { ...basis, zustand: 'unvollstaendig' }, ABLEHNUNG],
@@ -149,7 +137,7 @@ const faelle = [
 ]
 for (const [name, eingabe, soll] of faelle) {
   const ist = laufe(eingabe)
-  pruefe(name, ['status', 'approve', 'aendern', 'kommentare'].every((s) => ist[s] === soll[s]), ist)
+  pruefe(name, ist.status === soll.status && JSON.stringify(ist.aufrufe) === JSON.stringify(soll.aufrufe), { ist: ist.aufrufe, soll: soll.aufrufe })
 }
 
 const unvollstaendig = laufe({ ...basis, zustand: 'unvollstaendig' })

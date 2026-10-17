@@ -4,9 +4,9 @@ const fs = require('node:fs')
 const path = require('node:path')
 
 const roh = process.argv.slice(2)
-fs.appendFileSync(process.env.ATTRAPPE_LOG, JSON.stringify(roh) + '\n')
-const daten = JSON.parse(fs.readFileSync(process.env.ATTRAPPE_DATEN, 'utf8'))
 const befehl = path.basename(process.argv[1])
+fs.appendFileSync(process.env.ATTRAPPE_LOG, JSON.stringify([befehl, ...roh]) + '\n')
+const daten = JSON.parse(fs.readFileSync(process.env.ATTRAPPE_DATEN, 'utf8'))
 const iq = roh.indexOf('-q')
 const abfrage = iq < 0 ? null : roh[iq + 1]
 const schluessel = [befehl, ...(iq < 0 ? roh : [...roh.slice(0, iq), ...roh.slice(iq + 2)])].join(' ')
