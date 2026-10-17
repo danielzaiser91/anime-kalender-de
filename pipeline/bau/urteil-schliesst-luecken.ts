@@ -18,13 +18,7 @@ import { kanalAdressenOhneBeleg, kanalSchluessel } from '../lib/kanal-titel.ts'
  * Schritt 2, wenn die Gegenproben dafür stehen.
  */
 export function urteilSchliesstLuecken(titles: Map<number, Title>): void {
-  const urteile = readJson<Record<string, { urteil?: string }>>('data/urteile.json', {})
-  const jaJeWeg = new Set<string>()
-  for (const [schluessel, u] of Object.entries(urteile)) {
-    if (u?.urteil !== 'deutsch') continue
-    const [id, plattform] = schluessel.split('|')
-    if (id && plattform) jaJeWeg.add(`${id}|${plattform}`)
-  }
+  const jaJeWeg = urteilJaJeWeg()
   /* Auch das Urteil beruht auf Amazons Sprachangabe; auf einem Kanal-Titel ist sie kein Beleg (`lib/kanal-titel.ts`). */
   const kanal = kanalAdressenOhneBeleg(loadDubChecks())
   let ausUrteil = 0
@@ -38,4 +32,16 @@ export function urteilSchliesstLuecken(titles: Map<number, Title>): void {
     }
   }
   if (ausUrteil) log(`${ausUrteil} Weg(e) über das Urteil aus Stufe 3 belegt`)
+}
+
+/** `titleId|plattform` mit mindestens einer Folge, deren Urteil aus Stufe 3 „deutsch“ lautet (`data/urteile.json`). */
+export function urteilJaJeWeg(): Set<string> {
+  const urteile = readJson<Record<string, { urteil?: string }>>('data/urteile.json', {})
+  const jaJeWeg = new Set<string>()
+  for (const [schluessel, u] of Object.entries(urteile)) {
+    if (u?.urteil !== 'deutsch') continue
+    const [id, plattform] = schluessel.split('|')
+    if (id && plattform) jaJeWeg.add(`${id}|${plattform}`)
+  }
+  return jaJeWeg
 }
