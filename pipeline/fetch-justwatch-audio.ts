@@ -46,7 +46,7 @@ import { istUnplausibel } from './lib/justwatch-plausibel.ts'
 import { todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
 import { STAFFELN_ABFRAGE, staffelnVon, type Staffel, type StaffelRoh } from './lib/jw-staffeln.ts'
-import { vorgezogen } from './lib/jw-wiedervorlage.ts'
+import { titelMitJwFlagge, vorgezogen } from './lib/jw-wiedervorlage.ts'
 
 const ENDPUNKT = 'https://apis.justwatch.com/graphql'
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -217,6 +217,7 @@ async function main(): Promise<void> {
   const tmdb = readJson<Record<string, { tmdbId?: number }>>('data/tmdb-titles.json', {})
   const bestand = readJson<Record<string, Befund>>(DATEI, {})
 
+  const mitFlagge = titelMitJwFlagge(titles, bestand)
   const grenze = new Date(Date.now() - alterTage * 86_400_000).toISOString().slice(0, 10)
 
   /*
@@ -268,12 +269,12 @@ async function main(): Promise<void> {
         (bestand[String(t.id)]?.geprueftAm ?? '') < grenze ||
         kennungGewechselt(t) ||
         fehlschlagOhneKennung(t) ||
-        vorgezogen(t, bestand, todayIso()),
+        vorgezogen(t, bestand, todayIso(), mitFlagge),
     )
     .sort(
       (a, b) =>
         Number(kennungGewechselt(b)) - Number(kennungGewechselt(a)) ||
-        Number(vorgezogen(b, bestand, todayIso())) - Number(vorgezogen(a, bestand, todayIso())) ||
+        Number(vorgezogen(b, bestand, todayIso(), mitFlagge)) - Number(vorgezogen(a, bestand, todayIso(), mitFlagge)) ||
         Number(dringend(b)) - Number(dringend(a)) ||
         (bestand[String(a.id)]?.geprueftAm ?? '').localeCompare(bestand[String(b.id)]?.geprueftAm ?? ''),
     )

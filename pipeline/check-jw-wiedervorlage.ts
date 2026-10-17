@@ -1,0 +1,92 @@
+/**
+ * Zusicherungen zur vorzeitigen Wiedervorlage der JustWatch-Befunde (`lib/jw-wiedervorlage.ts`): Titel, deren „Deutsch laut JustWatch“
+ * am Befund hängt, werden eine Woche vor Ablauf erneuert — auch ohne `dubQuelle`-Marke (Your Name, 17.10.2026: Befund vom 17.09.,
+ * im Wochenlauf vom 12.10. mit 25 Tagen nicht erneuert, am 15.10. abgelaufen). Läuft in `check:logic`.
+ */
+import { readFileSync } from 'node:fs'
+import type { Title } from '../shared/types.ts'
+import type { JwBefund } from './lib/jw-vertrauen.ts'
+import { titelMitJwFlagge, vertrauensBefundAlt, vorgezogen } from './lib/jw-wiedervorlage.ts'
+import { unbedingteAufrufe } from './lib/unbedingte-aufrufe.ts'
+
+let fehler = 0
+function pruefe(name: string, ok: boolean, info: unknown = ''): void {
+  if (ok) return
+  fehler++
+  console.error(`FEHLER: ${name} ${JSON.stringify(info)}`)
+}
+
+const HEUTE = '2026-10-12'
+const gti = (n: number) => `amzn1.dv.gti.3004ad12-53d7-4c50-856c-e55711247c${String(n).padStart(2, '0')}`
+const amazon = (n: number) => `https://watch.amazon.de/detail?gti=${gti(n)}`
+const angebot = (n: number, audio: string[]) => ({ anbieter: 'Arthouse CNMA Amazon Channel', art: 'FLATRATE', audio, url: amazon(n) })
+const weg = (n: number, rest: object = {}) => ({ platform: 'primevideo', url: amazon(n), ...rest })
+const titel = (id: number, streams: object[], rest: object = {}) => ({ id, fsk: 12, streams, ...rest }) as unknown as Title
+const film = (tag: string, angebote: JwBefund['angebote'], rest: object = {}): JwBefund => ({
+  geprueftAm: tag,
+  jwId: `tm${tag}${angebote.length}`,
+  jwPfad: '/de/Film/x',
+  angebote,
+  ...rest,
+})
+const serie = (jwId: string, angebote: JwBefund['angebote'], rest: object = {}): JwBefund => ({
+  geprueftAm: '2026-09-17',
+  jwId,
+  jwPfad: '/de/Serie/x',
+  angebote,
+  ...rest,
+})
+
+/* Your Name in der Mitte von drei Kandidaten; die anderen haben je einen Grund, nicht dazuzugehören. */
+const yourName = titel(21519, [weg(1)])
+const bestand: Record<string, JwBefund> = {
+  '100': film('2026-09-17', [angebot(2, ['en'])]),
+  '21519': film('2026-09-17', [angebot(0, []), angebot(1, ['de'])], { jwId: 'tm233386' }),
+  '300': film('2026-09-17', [angebot(3, ['de'])], { jwId: 'tm300' }),
+}
+const andere = [titel(100, [weg(2)]), yourName, titel(300, [weg(9)]), titel(400, [weg(1)])]
+pruefe('nur Your Name hängt an einer Flagge (en-Ton und fremde Seite nicht)', [...titelMitJwFlagge(andere, bestand)].join() === '21519', [...titelMitJwFlagge(andere, bestand)])
+const flagge = titelMitJwFlagge(andere, bestand)
+pruefe('Your Name, Befund 25 Tage alt, ohne Marke: im Wochenlauf vorgezogen', vorgezogen(yourName, bestand, HEUTE, flagge))
+pruefe('… Befund 20 Tage alt: noch nicht', !vorgezogen(yourName, { '21519': { ...bestand['21519']!, geprueftAm: '2026-09-22' } }, HEUTE, flagge))
+pruefe('… Befund 21 Tage alt: genau jetzt', vorgezogen(yourName, { '21519': { ...bestand['21519']!, geprueftAm: '2026-09-21' } }, HEUTE, flagge))
+pruefe('… Befund 40 Tage alt (jenseits der Frist): erst recht', vorgezogen(yourName, { '21519': { ...bestand['21519']!, geprueftAm: '2026-09-02' } }, HEUTE, flagge))
+pruefe('ohne Flagge nie vorgezogen, auch bei altem Befund', !vorgezogen(titel(100, [weg(2)]), bestand, HEUTE, titelMitJwFlagge(andere, bestand)))
+pruefe('ohne Befund nie', !vertrauensBefundAlt(true, undefined, HEUTE))
+pruefe('Altersangabe nachholen geht weiter ohne Flagge', vorgezogen({ id: 5 } as Title, { '5': { geprueftAm: '2026-10-11', jwId: 'x' } }, HEUTE, new Set()))
+
+const jungeSerie = { '8': { geprueftAm: '2026-10-11', jwId: 'ts8', jwPfad: '/de/Serie/x' } }
+pruefe('Staffelangaben nachholen geht weiter ohne Flagge', vorgezogen({ id: 8, fsk: 12 } as Title, jungeSerie, HEUTE, new Set()))
+pruefe('ein junger Film ohne Anlass wird nicht vorgezogen', !vorgezogen(titel(1, [weg(1)]), { '1': film('2026-10-11', [angebot(1, ['de'])], { altersangabe: '12' }) }, HEUTE, new Set()))
+
+/** Ein Titel allein, mit einer Änderung am Weg oder am Befund. */
+const flaggeFuer = (t: Title, b: JwBefund): boolean => titelMitJwFlagge([t], { [String(t.id)]: b }).has(String(t.id))
+const mitTon = film('2026-09-17', [angebot(1, ['de'])])
+pruefe('Grundfall: Weg ohne Urteil, Seite mit Ton', flaggeFuer(titel(1, [weg(1)]), mitTon))
+pruefe('Weg mit dub true hängt nicht am Befund', !flaggeFuer(titel(1, [weg(1, { dub: true })]), mitTon))
+pruefe('Weg mit dub false hängt nicht am Befund', !flaggeFuer(titel(1, [weg(1, { dub: false })]), mitTon))
+pruefe('entfernter Weg zählt nicht', !flaggeFuer(titel(1, [weg(1, { entferntAm: '2026-10-01' })]), mitTon))
+pruefe('ein entfernter Weg vor dem passenden ändert nichts', flaggeFuer(titel(1, [weg(1, { entferntAm: '2026-10-01' }), weg(1)]), mitTon))
+pruefe('ein Weg hinter dem passenden ändert nichts', flaggeFuer(titel(1, [weg(1), weg(7)]), mitTon))
+pruefe('Seite des Befunds ist eine andere', !flaggeFuer(titel(1, [weg(7)]), mitTon))
+pruefe('Seite mit nur englischem Ton', !flaggeFuer(titel(1, [weg(1)]), film('2026-09-17', [angebot(1, ['en'])])))
+pruefe('Befund ohne Treffer', !flaggeFuer(titel(1, [weg(1)]), { ...mitTon, ohneTreffer: true }))
+pruefe('Befund ohne jwId', !flaggeFuer(titel(1, [weg(1)]), { ...mitTon, jwId: undefined }))
+pruefe('Ton nur in den Staffel-Angeboten zählt', flaggeFuer(titel(1, [weg(1)]), serie('ts1', [], { staffeln: [{ nr: 1, angebote: [angebot(1, ['de'])] }] })))
+pruefe('Einzelstaffel (genau eine Staffel) hängt dran', flaggeFuer(titel(1, [weg(1)]), serie('ts1', [angebot(1, ['de'])], { staffeln: [{ nr: 1, angebote: [] }] })))
+pruefe('Serie mit mehreren Staffeln trägt den Hinweis und hängt dran', flaggeFuer(titel(1, [weg(1)]), serie('ts1', [angebot(1, ['de'])], { staffeln: [{ nr: 1, angebote: [] }, { nr: 2, angebote: [] }] })))
+const einzel = serie('ts9', [angebot(1, ['de'])], { staffeln: [{ nr: 1, angebote: [] }] })
+const mehrteiler = titelMitJwFlagge([titel(1, [weg(1)]), titel(2, [weg(1)])], { '1': einzel, '2': einzel })
+pruefe('Mehrteiler (zwei Titel, eine JustWatch-Kennung) hängt nicht dran', mehrteiler.size === 0, [...mehrteiler])
+
+/* Verdrahtung im Abruf: unbedingt aufgerufen, mit dem Bestand, und beide Stellen der Warteschlange fragen die Menge. */
+const abruf = readFileSync('pipeline/fetch-justwatch-audio.ts', 'utf8')
+const aufruf = unbedingteAufrufe(abruf, 'main').filter((a) => a.name === 'titelMitJwFlagge')
+pruefe('main ruft titelMitJwFlagge(titles, bestand) unbedingt auf', aufruf.length === 1 && aufruf[0]!.args.join() === 'titles,bestand', aufruf)
+pruefe('Filter und Sortierung der Warteschlange reichen die Menge an vorgezogen', (abruf.match(/vorgezogen\([a-z], bestand, todayIso\(\), mitFlagge\)/g) ?? []).length === 3)
+
+if (fehler) {
+  console.error(`${fehler} Fehler`)
+  process.exit(1)
+}
+console.log('check-jw-wiedervorlage: ok')
