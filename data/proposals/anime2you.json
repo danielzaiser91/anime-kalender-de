@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-17T20:02:39.602Z",
+  "scrapedAt": "2026-10-17T21:02:44.826Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
@@ -43,6 +43,27 @@
         }
       ],
       "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Drama-Film »Die letzte Blüte« erscheint auf Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1061758/die-letzte-bluete-blu-ray-release/",
+      "publishedAt": "2026-10-17",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-28",
+          "context": "se im Januar 2027 Der Disc-Release von »Die letzte Blüte« ist für den 28. Januar 2027 mit deutscher und japanischer Sprachausgabe geplant. A"
+        },
+        {
+          "month": "2027-01",
+          "context": "nigen Monaten auf Blu-ray in den Handel. Wir fassen zusammen. Release im Januar 2027 Der Disc-Release von »Die letzte Blüte« ist für den 28."
+        }
+      ],
+      "dub": "unklar",
       "alreadyCurated": false
     },
     {
