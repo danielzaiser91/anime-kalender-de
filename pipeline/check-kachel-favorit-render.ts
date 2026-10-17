@@ -75,7 +75,7 @@ for (const f of FAELLE) {
   const html = woche(f.art, f.favorit)
   const k = klassen(html, 'bg-ak-flaeche-2')
   const r = ringe(k)
-  pruefe(`Woche ${f.name}: Cover gefunden`, k.includes('rounded-t-xl') && !k.includes('rounded-xl') && k.includes('ak-ring-oben'), k)
+  pruefe(`Woche ${f.name}: Cover gefunden`, k.includes('rounded-t-xl') && !k.includes('rounded-xl') && k.includes('ak-ring-oben-woche') && !k.includes('ak-ring-oben'), k)
   pruefe(`Woche ${f.name}: Ringfarbe ${f.aussen || 'keine'}, genau eine`, r.farben.join() === f.aussen, r.farben)
   pruefe(`Woche ${f.name}: höchstens eine Ringbreite`, r.breiten.length <= 1, r.breiten)
   pruefe(`Woche ${f.name}: Favorit ring-3, sonst breit ring-2`, f.favorit ? r.breiten.join() === 'ring-3' : r.breiten.join() === (f.breit ? 'ring-2' : ''), r.breiten)

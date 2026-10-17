@@ -444,6 +444,10 @@ html:not(.dark) .ak-punkt {
 .ak-ring-oben {
   clip-path: inset(-20px -20px 0 -20px);
 }
+/* Wochen-Kachel: Die Leiste ist ein Geschwister und auf ganze Pixel gerundet, das Cover hat eine gebrochene Unterkante; clip-path rundet nicht und ließe eine halbe Ringzeile unter der Leiste. 1 px höher schneiden: die 4 px hohe Leiste deckt es. */
+.ak-ring-oben-woche {
+  clip-path: inset(-20px -20px 1px -20px);
+}
 .ak-vorbei .ak-titel {
   color: var(--ak-leise);
 }

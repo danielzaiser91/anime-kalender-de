@@ -5,7 +5,8 @@
  * Je Kachel (Woche: Cover, Monat: Cover-Knopf, Leiste = nächstes Geschwister bzw. letztes Kind):
  *  - Leiste: Unterkante gleich mit und ohne Favorit (Rechteck);
  *  - Ecke: der Pixel in der unteren linken und rechten Ecke der Leiste hat Leistenfarbe, nicht Seitengrund oder Gold (rund = Lücke);
- *  - unter der Leiste: die Pixel 1 bis 3 px darunter sind mit Favorit dieselben wie ohne (kein Goldstreifen darunter).
+ *  - unter der Leiste: die Pixel 1 bis 4 px darunter (1 = die Zeile gleich unter der letzten Leistenzeile) sind mit Favorit dieselben wie ohne (kein Ringrest darunter);
+ *  - die Woche hat Kino-Saal-Kacheln (sonst bliebe deren Rand ungemessen).
  * Ohne Server: `page.route()` liefert `dist/` (vorher `npm run build`); `--dist <ordner>` misst einen anderen Bau (Vorher-Bilder).
  * Aufruf: `node tools/kachel-ecken-messen.mjs [--dist <ordner>] [--bilder <ordner>]`.
  */
@@ -13,6 +14,7 @@ import { chromium } from 'playwright'
 import { readFile, mkdir } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { distPruefen } from './dist-frisch.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
@@ -23,7 +25,8 @@ const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/cs
 /** Fremde Bilder (Cover) werden durch einen Verlauf ersetzt, damit ein Rand gegen ein Bild und nicht gegen Weiß geprüft wird. */
 const COVER_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="300"><rect width="200" height="300" fill="#4a5a80"/></svg>'
 const THEMEN = ['dunkel', 'hell']
-const DATUM = '2026-10-19'
+/** Eine Woche mit Kino-Saal (Termine am 27.10.; gemessen 17.10.2026); in der Woche vom 19.10. gibt es keinen. */
+const DATUM = '2026-10-26'
 const SELEKTOR = {
   woche: '.ak-breit-cover, div[class~="aspect-[2/3]"]',
   monat: 'button[class*="w-[22px]"][class*="overflow-hidden"]',
@@ -37,9 +40,11 @@ const TOLERANZ = 48
 /** Mindestzahl Kacheln mit Favoritenrand im Lauf „mit“; ohne sie wäre der Vergleich leer (Kennungen greifen nicht). */
 const MIN_FAVORITEN = 5
 /** Pixel je Kachel (`stellen`). */
-const ANZAHL = 11
-/** Von diesem Pixel an stehen die Stellen unter der Leiste (4 bis 6) nicht mehr; 7 bis 10 sind Seitenränder über der Leiste. */
-const UNTER_ENDE = 7
+const ANZAHL = 12
+/** Mindestzahl Kino-Saal-Kacheln in der Woche (26.10.2026: 2). */
+const MIN_SAAL = 1
+/** Stellen unter der Leiste: [Index in `stellen`, Abstand in px unter der letzten Leistenzeile]. */
+const UNTER = [[11, 1], [4, 2], [5, 3], [6, 4]]
 
 async function antworte(route) {
   const url = new URL(route.request().url())
@@ -58,7 +63,7 @@ function messeKacheln({ selektor, monat, ausschnitt }) {
     .map((el) => {
       const leiste = monat ? el.lastElementChild : el.nextElementSibling
       const r = leiste.getBoundingClientRect()
-      return { x: r.x + dx, w: r.width, oben: el.getBoundingClientRect().top + dy, unten: r.bottom + dy, breit: el.classList.contains('ak-breit-cover'), favorit: el.classList.contains('ring-ak-favorit-rand') }
+      return { x: r.x + dx, w: r.width, oben: el.getBoundingClientRect().top + dy, unten: r.bottom + dy, breit: el.classList.contains('ak-breit-cover'), favorit: el.classList.contains('ring-ak-favorit-rand'), saal: el.classList.contains('ak-saal') }
     })
 }
 
@@ -106,7 +111,7 @@ async function ladeAnsicht(seite, ansicht, datum) {
 async function sammleKennungen(browser) {
   const seite = await neueSeite(browser, 'dunkel', [])
   const ids = []
-  for (const datum of [DATUM, '2026-10-26', '2026-11-02']) {
+  for (const datum of [DATUM, '2026-11-02', '2026-11-09']) {
     await ladeAnsicht(seite, 'woche', datum)
     await seite.evaluate(() => document.querySelectorAll('button[aria-label="Als Favorit merken"]').forEach((b) => b.click()))
     await seite.waitForTimeout(500)
@@ -164,15 +169,15 @@ async function pruefeFenster(browser, thema, ids, kachelnMit) {
   return f
 }
 
-/** Geprüfte Pixel einer Leiste: untere Ecke links und rechts, je drei Pixel weiter innen (Leistenfarbe), drei Pixel unter der Mitte. */
+/** Geprüfte Pixel einer Leiste: untere Ecke links und rechts, je drei Pixel weiter innen und zwei Zeilen höher (Leistenfarbe; fehlt die letzte Leistenzeile, fällt das auf), drei Pixel unter der Mitte. */
 function stellen(k) {
   const unten = Math.floor(k.unten) - 1
   const mitte = Math.round(k.x + k.w / 2)
   return [
     [Math.ceil(k.x), unten],
     [Math.floor(k.x + k.w) - 1, unten],
-    [Math.ceil(k.x) + 3, unten],
-    [Math.floor(k.x + k.w) - 4, unten],
+    [Math.ceil(k.x) + 3, unten - 2],
+    [Math.floor(k.x + k.w) - 4, unten - 2],
     [mitte, unten + 2],
     [mitte, unten + 3],
     [mitte, unten + 4],
@@ -180,6 +185,7 @@ function stellen(k) {
     [Math.floor(k.x + k.w) - 1, unten - 5],
     [Math.ceil(k.x), unten - 20],
     [Math.floor(k.x + k.w) - 1, unten - 20],
+    [mitte, unten + 1],
   ]
 }
 
@@ -205,9 +211,15 @@ export function bewerte(name, ohne, mit, mindestens = MIN_FAVORITEN) {
     }
     /* Eine Kachel direkt darunter (Monat: Cover stehen untereinander) zeigt mit Favorit ihren eigenen Rand an dieser Stelle. */
     const darunter = mit.kacheln.some((o) => o.oben < mk.unten + 5 && o.oben > mk.unten - 2 && o.x < mk.x + mk.w && o.x + o.w > mk.x)
-    for (let n = 4; n < UNTER_ENDE; n++) if (!darunter && abstand(a[n], b[n]) > TOLERANZ) fehler.push(`${f}: ${n - 2} px unter der Leiste liegt mit Favorit ein Rand ${b[n]} statt ${a[n]}`)
+    for (const [n, px] of UNTER) if (!darunter && abstand(a[n], b[n]) > TOLERANZ) fehler.push(`${f}: ${px} px unter der Leiste liegt mit Favorit ein Rand ${b[n]} statt ${a[n]}`)
   })
   return fehler
+}
+
+/** Die Woche muss Kino-Saal-Kacheln haben, sonst bliebe deren Unterkante ungemessen (Fehlertexte, leer = ok). */
+export function saalFehler(name, kacheln, mindestens = MIN_SAAL) {
+  const saal = kacheln.filter((k) => k.saal).length
+  return saal < mindestens ? [`${name}: nur ${saal} Kino-Saal-Kacheln (mindestens ${mindestens}), ihre Unterkante bliebe ungemessen`] : []
 }
 
 /** Bild des Ausschnitts um die erste Favoriten-Kachel des Laufs „mit“ (in beiden Läufen dieselbe Stelle). */
@@ -246,6 +258,7 @@ async function main() {
       const f = bewerte(`${thema}/${ansicht}`, lauf.ohne, lauf.mit)
       console.log(`${thema}/${ansicht}: ${lauf.ohne.kacheln.length} Kacheln, ${f.length} Fehler`)
       fehler.push(...f)
+      if (ansicht === 'woche') fehler.push(...saalFehler(`${thema}/woche`, lauf.mit.kacheln))
       if (ansicht === 'monat') fehler.push(...(await pruefeFenster(browser, thema, ids, lauf.mit.kacheln)))
     }
   }
@@ -257,4 +270,4 @@ async function main() {
   console.log('Kachel-Ecken: Leiste sitzt mit Favorit gleich, Ecken eckig, nichts unter der Leiste.')
 }
 
-if (import.meta.url === `file:///${process.argv[1].replace(/\\/g, '/')}`) await main()
+if (import.meta.url === pathToFileURL(process.argv[1]).href) await main()

@@ -132,7 +132,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
     <div className="relative">
     <div
       className={[
-        'ak-ring-oben relative overflow-hidden rounded-t-xl bg-ak-flaeche-2',
+        'ak-ring-oben-woche relative overflow-hidden rounded-t-xl bg-ak-flaeche-2',
         /* Breit: so hoch wie die schmalen Nachbarn — zwei Spalten minus Lücke, mal 3/4. */
         zwei ? 'ak-breit-cover h-0' : 'aspect-[2/3]',
         p.favorite ? 'ring-3' : p.breit ? 'ring-2' : '',
