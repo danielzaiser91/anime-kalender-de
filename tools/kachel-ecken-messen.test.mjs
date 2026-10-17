@@ -4,7 +4,12 @@
  * Unterkante) ein eigener Fall; die Pixel sind Zahlen, kein Browser nötig. Der Lauf im Browser steht in `check:ansichten-desktop`.
  */
 import assert from 'node:assert/strict'
-import { ansichtErgebnis, bewerte, saalFehler } from './kachel-ecken-messen.mjs'
+import { spawnSync } from 'node:child_process'
+import { copyFileSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, unlinkSync } from 'node:fs'
+import os from 'node:os'
+import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+import { ansichtErgebnis, bewerte, fehlendeZeilen, saalFehler, sammleFehler } from './kachel-ecken-messen.mjs'
 
 const LEISTE = [200, 20, 20]
 const COVER = [70, 90, 130]
@@ -108,5 +113,53 @@ assert.equal(wocheOhneSaal.zeile, 'hell/woche: 5 Kacheln (0 Saal), 1 Fehler', 'F
 const monat = ansichtErgebnis('hell', 'monat', ohneSaal)
 assert.deepEqual(monat.fehler, [], 'Monat braucht keinen Saal')
 assert.equal(monat.zeile, 'hell/monat: 5 Kacheln, 0 Fehler', 'Monat ohne Saalangabe')
+
+// `ansichtErgebnis` reicht die Fehler von `bewerte` durch (Leiste einer mittleren Kachel mit Favorit 1 px tiefer) und zählt sie in der Zeile.
+const tieferMit = { ohne: ohneSaal.ohne, mit: { ...mitSaalLauf.mit, kacheln: mitSaalLauf.mit.kacheln.map((k, i) => (i === 2 ? { ...k, unten: k.unten + 1 } : k)) } }
+const monatTiefer = ansichtErgebnis('hell', 'monat', tieferMit)
+assert.equal(monatTiefer.fehler.length, 1, 'Monat: ein Fehler aus bewerte')
+assert.match(monatTiefer.fehler[0], /^hell\/monat Kachel 2: Leiste sitzt mit Favorit 1.00 px tiefer$/, 'Monat: Fehlertext von bewerte')
+assert.equal(monatTiefer.zeile, 'hell/monat: 5 Kacheln, 1 Fehler', 'Monat: Fehlerzahl in der Zeile')
+const wocheTiefer = ansichtErgebnis('dunkel', 'woche', tieferMit)
+assert.match(wocheTiefer.fehler.join('\n'), /dunkel\/woche Kachel 2: Leiste sitzt/, 'Woche: Fehler von bewerte')
+assert.equal(wocheTiefer.zeile, 'dunkel/woche: 5 Kacheln (1 Saal), 1 Fehler', 'Woche: Fehlerzahl in der Zeile')
+
+// Vollständigkeitssperre: Jede der 8 Ergebniszeilen {dunkel,hell}×{woche,monat,fenster,handy} muss da sein; eine nicht aufgerufene Ansicht endet rot.
+const alleZeilen = ['dunkel', 'hell'].flatMap((t) => ['woche', 'monat', 'fenster', 'handy'].map((a) => `${t}/${a}: 21 Kacheln, 0 Fehler`))
+assert.deepEqual(fehlendeZeilen(alleZeilen), [], 'alle 8 Zeilen: nichts fehlt')
+for (let i = 0; i < alleZeilen.length; i++) {
+  const ohneEine = alleZeilen.filter((_, j) => j !== i)
+  assert.deepEqual(fehlendeZeilen(ohneEine), [alleZeilen[i].split(':')[0]], `fehlt allein: ${alleZeilen[i]}`)
+}
+assert.deepEqual(fehlendeZeilen(alleZeilen.filter((z) => !z.includes('/handy'))), ['dunkel/handy', 'hell/handy'], 'Handy in beiden Themen fehlt')
+assert.equal(fehlendeZeilen([]).length, 8, 'ohne Zeilen fehlen alle 8')
+assert.deepEqual(fehlendeZeilen([...alleZeilen.slice(0, 3), ...alleZeilen.slice(4)]), ['dunkel/handy'], 'Lücke mitten in der Liste')
+assert.deepEqual(fehlendeZeilen(alleZeilen.map((z) => z.replace('/handy: ', '/handy-x: '))), ['dunkel/handy', 'hell/handy'], 'Name muss ganz stimmen')
+assert.deepEqual(fehlendeZeilen(alleZeilen.map((z) => (z.startsWith('hell/handy') ? `Meldung ${z}` : z))), ['hell/handy'], 'Name steht am Zeilenanfang, nicht irgendwo')
+assert.deepEqual(fehlendeZeilen([...alleZeilen, 'dunkel/sonst: 1 Kacheln, 0 Fehler']), [], 'eine zusätzliche Zeile stört nicht')
+
+// `sammleFehler`: Fehler der Ansichten in Reihenfolge, dazu die Meldung über fehlende Zeilen (das Werkzeug endet dann mit Exit 1).
+const gemessen = alleZeilen.map((zeile, i) => ({ zeile, fehler: i === 2 || i === 5 ? [`F${i}`] : [] }))
+assert.deepEqual(sammleFehler(gemessen), ['F2', 'F5'], 'vollständig: nur die Fehler der Ansichten')
+assert.deepEqual(sammleFehler(gemessen.map((e) => ({ ...e, fehler: [] }))), [], 'vollständig und sauber: kein Fehler')
+assert.deepEqual(sammleFehler(gemessen.filter((_, i) => i !== 3 && i !== 7)), ['F2', 'F5', 'Ergebniszeilen fehlen: dunkel/handy, hell/handy'], 'fehlende Zeilen sind ein Fehler')
+assert.deepEqual(sammleFehler(gemessen.filter((_, i) => i !== 3)), ['F2', 'F5', 'Ergebniszeilen fehlen: dunkel/handy'], 'eine fehlende Zeile')
+assert.deepEqual(sammleFehler([]), ['Ergebniszeilen fehlen: ' + fehlendeZeilen([]).join(', ')], 'ohne Ergebnisse fehlen alle')
+
+// Exit-Code als eigener Prozess: Fehlt dist/, endet das Werkzeug rot (Kopie in einer Wegwerf-Wurzel ohne dist/, node_modules per Verknüpfung).
+const wurzel = mkdtempSync(path.join(os.tmpdir(), 'kachel-ecken-'))
+try {
+  const quelle = path.dirname(fileURLToPath(import.meta.url))
+  mkdirSync(path.join(wurzel, 'tools'))
+  mkdirSync(path.join(wurzel, 'web', 'src'), { recursive: true })
+  for (const datei of ['kachel-ecken-messen.mjs', 'dist-frisch.mjs']) copyFileSync(path.join(quelle, datei), path.join(wurzel, 'tools', datei))
+  symlinkSync(path.join(quelle, '..', 'node_modules'), path.join(wurzel, 'node_modules'), 'junction')
+  const lauf = spawnSync(process.execPath, [path.join(wurzel, 'tools', 'kachel-ecken-messen.mjs')], { encoding: 'utf8', timeout: 60000 })
+  assert.equal(lauf.status, 1, `ohne dist/ Exit 1 (stderr: ${lauf.stderr})`)
+  assert.match(lauf.stderr, /dist\/ fehlt/, 'Meldung nennt dist/')
+} finally {
+  unlinkSync(path.join(wurzel, 'node_modules'))
+  rmSync(wurzel, { recursive: true, force: true })
+}
 
 console.log('kachel-ecken-messen.test: ok')

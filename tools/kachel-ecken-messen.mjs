@@ -25,6 +25,7 @@ const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/cs
 /** Fremde Bilder (Cover) werden durch einen Verlauf ersetzt, damit ein Rand gegen ein Bild und nicht gegen Weiß geprüft wird. */
 const COVER_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="300"><rect width="200" height="300" fill="#4a5a80"/></svg>'
 const THEMEN = ['dunkel', 'hell']
+const ANSICHTEN = ['woche', 'monat', 'fenster', 'handy']
 /** Eine Woche mit Kino-Saal (Termine am 27.10.; gemessen 17.10.2026); in der Woche vom 19.10. gibt es keinen. */
 const DATUM = '2026-10-26'
 const SELEKTOR = {
@@ -188,8 +189,7 @@ async function pruefeHandy(browser, thema, ids) {
     await seite.context().close()
   }
   const f = bewerte(`${thema}/handy`, lauf.ohne, lauf.mit, MIN_HANDY)
-  console.log(`${thema}/handy: ${lauf.ohne.kacheln.length} Kacheln, ${f.length} Fehler`)
-  return f
+  return { fehler: f, zeile: `${thema}/handy: ${lauf.ohne.kacheln.length} Kacheln, ${f.length} Fehler` }
 }
 
 /** Das Fenster mit der Tageszeile: dieselben Monats-Cover ohne und mit Favoriten anzeigen und vergleichen. */
@@ -202,8 +202,7 @@ async function pruefeFenster(browser, thema, ids, kachelnMit) {
     await seite.context().close()
   }
   const f = bewerte(`${thema}/fenster`, lauf.ohne, lauf.mit, indizes.length)
-  console.log(`${thema}/fenster: ${lauf.ohne.kacheln.length} Kacheln, ${f.length} Fehler`)
-  return f
+  return { fehler: f, zeile: `${thema}/fenster: ${lauf.ohne.kacheln.length} Kacheln, ${f.length} Fehler` }
 }
 
 /** Geprüfte Pixel einer Leiste (die letzte Leistenzeile ist die auf ganze Pixel gerundete Unterkante minus eins, wie Chrome sie malt): untere Ecke links und rechts, je drei Pixel weiter innen und zwei Zeilen höher (Leistenfarbe; fehlt die letzte Leistenzeile, fällt das auf), drei Pixel unter der Mitte. */
@@ -270,6 +269,20 @@ export function ansichtErgebnis(thema, ansicht, lauf) {
   return { fehler, zeile: `${name}: ${lauf.ohne.kacheln.length} Kacheln${saal}, ${fehler.length} Fehler` }
 }
 
+/** Namen (Thema/Ansicht) der erwarteten Ergebniszeilen, die in `zeilen` fehlen: eine nicht aufgerufene Ansicht darf nie grün enden. */
+export function fehlendeZeilen(zeilen) {
+  const erwartet = THEMEN.flatMap((thema) => ANSICHTEN.map((ansicht) => `${thema}/${ansicht}`))
+  return erwartet.filter((name) => !zeilen.some((z) => z.startsWith(`${name}: `)))
+}
+
+/** Alle Fehler der Ergebnisse (`{ fehler, zeile }` je Ansicht), dazu einer, wenn erwartete Ergebniszeilen fehlen. */
+export function sammleFehler(gemessen) {
+  const fehler = gemessen.flatMap((e) => e.fehler)
+  const fehlend = fehlendeZeilen(gemessen.map((e) => e.zeile))
+  if (fehlend.length) fehler.push(`Ergebniszeilen fehlen: ${fehlend.join(', ')}`)
+  return fehler
+}
+
 /** Bild des Ausschnitts um die erste Favoriten-Kachel des Laufs „mit“ (in beiden Läufen dieselbe Stelle). */
 async function bildVonKachel(seite, ansicht, datei, kachelnMit) {
   const index = kachelnMit.findIndex((k) => k.favorit)
@@ -293,7 +306,11 @@ async function main() {
   if (BILDER) await mkdir(BILDER, { recursive: true })
   const browser = await chromium.launch()
   const ids = await sammleKennungen(browser)
-  const fehler = []
+  const gemessen = []
+  const melde = (ergebnis) => {
+    console.log(ergebnis.zeile)
+    gemessen.push(ergebnis)
+  }
   for (const thema of THEMEN) {
     for (const ansicht of ['woche', 'monat']) {
       const lauf = {}
@@ -303,14 +320,13 @@ async function main() {
         if (BILDER) await bildVonKachel(seite, ansicht, path.join(BILDER, `kachel-ecken-${ansicht}-${thema}-${art}-favorit.png`), lauf.mit.kacheln)
         await seite.context().close()
       }
-      const ergebnis = ansichtErgebnis(thema, ansicht, lauf)
-      console.log(ergebnis.zeile)
-      fehler.push(...ergebnis.fehler)
-      if (ansicht === 'monat') fehler.push(...(await pruefeFenster(browser, thema, ids, lauf.mit.kacheln)))
+      melde(ansichtErgebnis(thema, ansicht, lauf))
+      if (ansicht === 'monat') melde(await pruefeFenster(browser, thema, ids, lauf.mit.kacheln))
     }
-    fehler.push(...(await pruefeHandy(browser, thema, ids)))
+    melde(await pruefeHandy(browser, thema, ids))
   }
   await browser.close()
+  const fehler = sammleFehler(gemessen)
   if (fehler.length) {
     console.error(`${fehler.length} Fehler, je Art das erste Beispiel:\n${zeigeArten(fehler)}`)
     process.exit(1)
