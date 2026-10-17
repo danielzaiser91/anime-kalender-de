@@ -25,24 +25,37 @@ export function ergaenzeBeschreibung(text, kommentare, autor) {
   return texte.length === 0 ? text : text + KOPF + texte.map((t) => '\n\n' + t).join('')
 }
 
-/** `--slurp` fasst die Seiten von `--paginate` zu einem Array von Arrays zusammen. */
-function holeKommentare(pr) {
-  const pfad = `repos/${process.env.GITHUB_REPOSITORY}/issues/${pr}/comments`
-  const r = spawnSync('gh', ['api', '--paginate', '--slurp', pfad], { encoding: 'utf8', maxBuffer: 1 << 28 })
+function gh(args) {
+  const r = spawnSync('gh', ['api', ...args], { encoding: 'utf8', maxBuffer: 1 << 28 })
   if (r.status !== 0) throw new Error(r.stderr)
-  return JSON.parse(r.stdout).flat()
+  return JSON.parse(r.stdout)
+}
+
+/** `--slurp` fasst die Seiten von `--paginate` zu einem Array von Arrays zusammen. */
+function holeKommentare(api, repo, pr) {
+  return api(['--paginate', '--slurp', `repos/${repo}/issues/${pr}/comments`]).flat()
+}
+
+/** Teil fail-soft anhängen: bei Fehler bleibt die Datei unverändert. */
+function haenge(datei, name, teil) {
+  try {
+    const alt = readFileSync(datei, 'utf8')
+    const neu = teil(alt)
+    if (neu !== alt) writeFileSync(datei, neu)
+  } catch (e) {
+    console.error(`${name} nicht lesbar, Beschreibung unverändert: ${e.message}`)
+  }
+}
+
+/** Hängt die Nachträge an <datei>; `api(args)` liefert das JSON von `gh api <args>`. */
+export function ergaenzeDatei(datei, { api, repo, pr, autor }) {
+  haenge(datei, 'Nachträge', (alt) => ergaenzeBeschreibung(alt, holeKommentare(api, repo, pr), autor))
 }
 
 function main() {
   const [pr, autor, datei] = process.argv.slice(2)
   if (!/^\d+$/.test(pr ?? '') || !AUTOR.test(autor ?? '') || !datei) return console.error('Aufruf: pr-nachtraege.mjs <PR> <autor> <datei>')
-  try {
-    const alt = readFileSync(datei, 'utf8')
-    const neu = ergaenzeBeschreibung(alt, holeKommentare(pr), autor)
-    if (neu !== alt) writeFileSync(datei, neu)
-  } catch (e) {
-    console.error(`Nachträge nicht lesbar, Beschreibung unverändert: ${e.message}`)
-  }
+  ergaenzeDatei(datei, { api: gh, repo: process.env.GITHUB_REPOSITORY, pr, autor })
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) main()
