@@ -1,13 +1,14 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-16. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-17. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-25 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+29 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
+| 2026-10-19, 2026-10 (Monat) | ? | – unklar | [Neuer Trailer zum Finale von »Bleach: Thousand-Year Blood War«](https://www.anime2you.de/news/1061640/bleach-thousand-year-blood-war-finale-trailer/) |
 | 2026-10 (Monat) | netflix | ✅ zugesagt | [Deutscher Synchro-Trailer zu »Cyberpunk: Edgerunners II« + Visual](https://www.anime2you.de/news/1060922/cyberpunk-edgerunners-2-synchro-trailer/) |
 | 2026-10-20, 2026-10 (Monat) | netflix | – unklar | [Netflix enthüllt neuen Sneak-Peek-Teaser zu »Cyberpunk: Edgerunners II«](https://www.anime2you.de/news/1058410/netflix-cyberpunk-edgerunners-ii-neuer-sneak-peek-teaser/) |
 | 2026-10 (Monat) | primevideo, aniverse | ✅ zugesagt | [Neue Anime-Katalogtitel im Oktober 2026 bei aniverse](https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/) |
@@ -26,67 +27,70 @@ Stand: 2026-10-16. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-01 (Monat) | ? | – unklar | [»SSS-Class Revival Hunter« erhält eine Anime-Adaption + Simulcast](https://www.anime2you.de/news/1048438/sss-class-revival-hunter-erhaelt-anime/) |
 | 2027-01 (Monat) | netflix | – unklar | [Neuer Netflix-Teaser zur zweiten »Sakamoto Days«-Staffel + Visual](https://www.anime2you.de/news/1043270/sakamoto-days-staffel-2-neuer-teaser/) |
 | 2027-01-07 | ? | – unklar | [Konkreter Termin von »Are You a Landmine, Chihara-san?« + Visual](https://www.anime2you.de/news/1060902/are-you-a-landmine-chihara-san-termin/) |
+| 2027-01-09 | ? | – unklar | [Starttermin von »Wound and Bandage« steht fest + Teaser](https://www.anime2you.de/news/1061578/starttermin-von-wound-and-bandage/) |
 | 2027-02 (Monat) | netflix | – unklar | [Netflix enthüllt neues Visual zur ersten Staffel von »THE ONE PIECE«](https://www.anime2you.de/news/1043291/the-one-piece-staffel-1-neues-visual/) |
 | 2027-03-31, 2027-03 (Monat) | ? | – unklar | [Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027](https://www.anime2you.de/news/1057381/tapas-bestaetigt-abschaltung-fuer-maerz-2027/) |
 | 2027-03-01 | netflix | – unklar | [Netflix startet große Werbeoffensive in 15 weiteren Ländern](https://www.anime2you.de/news/1055001/netflix-startet-grosse-werbeoffensive/) |
+| 2027-04 (Monat) | ? | – unklar | [Neue »Apothecary Diaries«-Plüschfigur von Jinshi vorgestellt](https://www.anime2you.de/news/1056535/apothecary-diaries-plueschfigur-jinshi/) |
 | 2027-04 (Monat) | crunchyroll | – unklar | [Action-Anime »The Vermilion Mask« erhält einen zweiten Teil](https://www.anime2you.de/news/1058275/the-vermilion-mask-erhaelt-zweiten-teil/) |
 | 2027-04 (Monat) | ? | – unklar | [Start von »Walking Home with You« steht fest + Visual](https://www.anime2you.de/news/1058153/start-von-walking-home-with-you/) |
 | 2027-04 (Monat) | ? | – unklar | [Start von »The Case Files of Biblia Bookstore« + Teaser](https://www.anime2you.de/news/1057109/start-von-the-case-files-of-biblia-bookstor/) |
 | 2027-05-07, 2027-04-30 | kino | – unklar | [Nintendo verschiebt »The Legend of Zelda«-Film erneut + Bilder](https://www.anime2you.de/news/1010428/the-legend-of-zelda-film-erneut-verschoben/) |
+| 2027-05 (Monat) | ? | – unklar | [»Fairy Tail« erhält neue Anhänger, Tragetasche und XXL-Mauspad](https://www.anime2you.de/news/1061130/neues-fairy-tail-merchandise/) |
 
-Dazu 47 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 49 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 0.0 Tage her | 9 |
-| adn-catalog | 3.9 Tage her | 109 |
-| adn-news | 0.1 Tage her | 75 |
-| anilist-voices | 4.0 Tage her | 3 |
-| anime-offline-database | 4.0 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 100 |
-| anisearch | 0.9 Tage her | 2 |
-| anisearch-cover-eigen | 4.5 Tage her | 1874 |
-| anisearch-dubs | 4.0 Tage her | 11910 |
-| anisearch-eintraege | 4.0 Tage her | 400 |
-| anisearch-folgen | 4.0 Tage her | 1958 |
-| anisearch-slugs | 4.0 Tage her | 14846 |
-| anisearch-zuordnung | 1.0 Tage her | 18466 |
-| ann-voices | 4.0 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 57 |
-| cartoon-folgen | 4.0 Tage her | 150 |
+| adn | 0.0 Tage her | 12 |
+| adn-catalog | 4.9 Tage her | 109 |
+| adn-news | 0.1 Tage her | 74 |
+| anilist-voices | 5.0 Tage her | 3 |
+| anime-offline-database | 5.0 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 104 |
+| anisearch | 0.9 Tage her | 14822 |
+| anisearch-cover-eigen | 5.5 Tage her | 1874 |
+| anisearch-dubs | 5.0 Tage her | 11910 |
+| anisearch-eintraege | 5.0 Tage her | 400 |
+| anisearch-folgen | 5.0 Tage her | 1958 |
+| anisearch-slugs | 5.0 Tage her | 14846 |
+| anisearch-zuordnung | 1.0 Tage her | 18471 |
+| ann-voices | 5.0 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 55 |
+| cartoon-folgen | 5.0 Tage her | 150 |
 | cartoon-reihen | 1.0 Tage her | 0 |
 | cartoons | 1.0 Tage her | 1 |
-| cinestar | 4.0 Tage her | 1 |
-| cr-einzelwerke | 22.7 Tage her | 0 |
-| cr-filmbloecke | 22.7 Tage her | 0 |
+| cinestar | 5.0 Tage her | 1 |
+| cr-einzelwerke | 23.7 Tage her | 0 |
+| cr-filmbloecke | 23.7 Tage her | 0 |
 | crunchyroll | 0.0 Tage her | 20 |
 | crunchyroll-dub | 0.0 Tage her | 1133 |
-| crunchyroll-neu | 0.0 Tage her | 131 |
-| crunchyroll-offene | 3.9 Tage her | 14 |
+| crunchyroll-neu | 0.0 Tage her | 132 |
+| crunchyroll-offene | 4.9 Tage her | 14 |
 | crunchyroll-woche | 0.1 Tage her | 65 |
-| fsk | 10.6 Tage her | 3 |
-| justwatch-audio | 3.9 Tage her | 792 |
-| kinoheld | 4.0 Tage her | 1 |
-| kitsu-folgen | 4.0 Tage her | 23 |
-| link-check | 10.6 Tage her | 287 |
+| fsk | 11.6 Tage her | 3 |
+| justwatch-audio | 4.9 Tage her | 792 |
+| kinoheld | 5.0 Tage her | 1 |
+| kitsu-folgen | 5.0 Tage her | 23 |
+| link-check | 11.6 Tage her | 287 |
 | messbelege | 0.1 Tage her | 0 |
-| motn | 7.7 Tage her | 1943 |
-| motn-changes | 0.0 Tage her | 2 |
-| rohfolgen | 0.2 Tage her | 0 |
-| rtlplus-folgen | 4.0 Tage her | 3 |
-| tmdb-banner | 4.0 Tage her | 82 |
-| tmdb-folgen | 4.0 Tage her | 883 |
-| tmdb-kino | 4.0 Tage her | 3 |
-| tmdb-poster | 4.0 Tage her | 72 |
-| tmdb-titles | 4.0 Tage her | 248 |
+| motn | 8.7 Tage her | 1943 |
+| motn-changes | 0.0 Tage her | 3 |
+| rohfolgen | 0.3 Tage her | 0 |
+| rtlplus-folgen | 5.0 Tage her | 3 |
+| tmdb-banner | 5.0 Tage her | 82 |
+| tmdb-folgen | 5.0 Tage her | 883 |
+| tmdb-kino | 5.0 Tage her | 3 |
+| tmdb-poster | 5.0 Tage her | 72 |
+| tmdb-titles | 5.0 Tage her | 248 |
 | toggo | 0.0 Tage her | 22 |
 | trailer | 1.0 Tage her | 0 |
-| tv-de | 0.2 Tage her | 60 |
-| tv-programm | 0.1 Tage her | 289 |
+| tv-de | 0.2 Tage her | 61 |
+| tv-programm | 0.1 Tage her | 283 |
 | vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 4.0 Tage her | 4788 |
-| wikidata-titel | 4.0 Tage her | 15 |
+| wikidata-imdb | 5.0 Tage her | 4788 |
+| wikidata-titel | 5.0 Tage her | 15 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 4.0 Tage her | 1 |
+| youtube-check | 5.0 Tage her | 1 |
