@@ -59,6 +59,10 @@ for (const name of ['wrangler.json', 'wrangler.jsonc', 'wrangler.toml']) pruefe(
 const skripte = JSON.parse(readFileSync(join(wurzel, 'package.json'), 'utf8')).scripts as Record<string, string>
 for (const name of ['build', 'build:schlank']) pruefe(skripte[name].endsWith(' && tsx tools/dateibudget.ts'), `${name} endet mit tsx tools/dateibudget.ts`)
 
+// Deploy nennt die Website-Config (ohne --config findet wrangler keine), und die Vite-Config lädt kein Cloudflare-Plugin mehr.
+pruefe(skripte.deploy.endsWith(' wrangler deploy --config wrangler.web.jsonc'), 'deploy nennt --config wrangler.web.jsonc')
+pruefe(!readFileSync(join(wurzel, 'vite.config.ts'), 'utf8').includes('cloudflare'), 'vite.config.ts lädt kein Cloudflare-Plugin')
+
 // Exit-Code des Laufs: am Budget 0, eins drüber 1 mit FEHL.
 const amBudget = dateibudgetErgebnis(15_000, '2026-10-17')
 pruefe(amBudget.code === 0 && !amBudget.zeile.includes('FEHL') && amBudget.zeile.includes('Budget erreicht, Grenze ≈ 2026-12-25'), `am Budget Exit 0: ${amBudget.zeile}`)
@@ -74,6 +78,12 @@ try {
   pruefe(zaehleDateien(tmp) === 6, `zaehleDateien: ${zaehleDateien(tmp)}, erwartet 6`)
   const lauf = spawnSync(process.execPath, [tsx, join(wurzel, 'tools/dateibudget.ts'), tmp], { encoding: 'utf8' })
   pruefe(lauf.status === 0 && lauf.stdout.startsWith('[dateibudget] 6 Dateien in dist/'), `Lauf: ${lauf.stdout.trim()}`)
+  // Aufruf ohne Argument (so ruft ihn `build` auf) zählt `dist/` im Arbeitsordner, nicht den Nachbarn `public/` (3 gegen 5 Dateien).
+  mkdirSync(join(tmp, 'ohne', 'dist'), { recursive: true })
+  mkdirSync(join(tmp, 'ohne', 'public'), { recursive: true })
+  for (const datei of ['dist/a', 'dist/b', 'dist/c', 'public/a', 'public/b', 'public/c', 'public/d', 'public/e']) writeFileSync(join(tmp, 'ohne', datei), '')
+  const ohneArg = spawnSync(process.execPath, [tsx, join(wurzel, 'tools/dateibudget.ts')], { encoding: 'utf8', cwd: join(tmp, 'ohne') })
+  pruefe(ohneArg.status === 0 && ohneArg.stdout.startsWith('[dateibudget] 3 Dateien in dist/'), `Lauf ohne Argument zählt dist/: ${ohneArg.stdout.trim()}${ohneArg.stderr.trim()}`)
   // Rotpfad ohne 15.001 echte Dateien (auf Windows Minuten): ein Vorlader meldet für den Ordner „GROSS“ 15.001 Dateien.
   const vorlader = join(tmp, 'gross.mjs')
   writeFileSync(
