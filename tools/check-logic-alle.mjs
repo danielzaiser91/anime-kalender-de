@@ -1,7 +1,7 @@
 /**
  * `npm run check:logic`: führt die Prüfungen aus tools/check-logic-liste.txt mit tsx aus, bis zu 6 gleichzeitig (tools/arbeiterpool.mjs; Ausgabe je Prüfung gepuffert, in Listenreihenfolge).
  * Eine Datei je Zeile (Pfad ab Repo-Wurzel), `#` beginnt einen Kommentar. Nach dem ersten Fehler startet keine weitere Prüfung;
- * dessen Exit-Code ist der des Laufs. Mit `--alle` laufen alle durch, am Ende steht die Liste der roten
+ * dessen Exit-Code ist der des Laufs. Mit `--alle` — und in CI (`CI=true`, 17.10.2026: sonst blieben die Prüfungen hinter der ersten roten in fremden PRs ungeprüft) — laufen alle durch, am Ende steht die Liste der roten
  * (Exit 1). Eigene Datei statt einer Kette in package.json, damit zwei PRs,
  * die je einen Check ergänzen, nicht in derselben Zeile kollidieren; die Liste ist sortiert, damit sie auch
  * nicht an derselben Stelle (Listenende) einfügen.
@@ -93,7 +93,7 @@ if (doppelt) {
   process.exit(1)
 }
 
-const alle = process.argv.includes('--alle')
+const alle = process.argv.includes('--alle') || process.env.CI === 'true'
 const ausnahmen = ladeAusnahmen(dateien)
 const spurOrdner = mkdtempSync(join(tmpdir(), 'bestand-spur-'))
 
