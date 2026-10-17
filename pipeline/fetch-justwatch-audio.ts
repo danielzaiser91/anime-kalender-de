@@ -46,7 +46,7 @@ import { istUnplausibel } from './lib/justwatch-plausibel.ts'
 import { todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
 import { STAFFELN_ABFRAGE, staffelnVon, type Staffel, type StaffelRoh } from './lib/jw-staffeln.ts'
-import { staffelnFehlen, vertrauensBefundAlt } from './lib/jw-wiedervorlage.ts'
+import { vorgezogen } from './lib/jw-wiedervorlage.ts'
 
 const ENDPUNKT = 'https://apis.justwatch.com/graphql'
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -124,21 +124,6 @@ interface JwKnoten {
       }[]
     | null
   seasons?: StaffelRoh[] | null
-}
-
-/**
- * Altersangabe nachholen (08.10.2026): Treffer aus der Zeit vor dem Feld haben keine `altersangabe`;
- * für Titel ohne FSK werden sie vorgezogen — dieselbe Abfrage, nur früher als die 28-Tage-Frist.
- */
-function alterNachholen(t: Title, bestand: Record<string, Befund>): boolean {
-  const e = bestand[String(t.id)]
-  return t.fsk === undefined && Boolean(e?.jwId && !e.ohneTreffer && e.altersangabe === undefined)
-}
-
-/** Was vor der 28-Tage-Frist wieder an die Reihe kommt: Altersangabe, Staffelangaben, Befunde hinter „Deutsch laut JustWatch". */
-function vorgezogen(t: Title, bestand: Record<string, Befund>): boolean {
-  const e = bestand[String(t.id)]
-  return alterNachholen(t, bestand) || staffelnFehlen(e) || vertrauensBefundAlt(t, e, todayIso())
 }
 
 /** Die drei Lücken der Warteschlange (Kommentar in `main`): Weg ohne Sprachurteil, Titel ganz ohne Weg, Weg nur auf die TMDB-Übersicht. */
@@ -283,12 +268,12 @@ async function main(): Promise<void> {
         (bestand[String(t.id)]?.geprueftAm ?? '') < grenze ||
         kennungGewechselt(t) ||
         fehlschlagOhneKennung(t) ||
-        vorgezogen(t, bestand),
+        vorgezogen(t, bestand, todayIso()),
     )
     .sort(
       (a, b) =>
         Number(kennungGewechselt(b)) - Number(kennungGewechselt(a)) ||
-        Number(vorgezogen(b, bestand)) - Number(vorgezogen(a, bestand)) ||
+        Number(vorgezogen(b, bestand, todayIso())) - Number(vorgezogen(a, bestand, todayIso())) ||
         Number(dringend(b)) - Number(dringend(a)) ||
         (bestand[String(a.id)]?.geprueftAm ?? '').localeCompare(bestand[String(b.id)]?.geprueftAm ?? ''),
     )
