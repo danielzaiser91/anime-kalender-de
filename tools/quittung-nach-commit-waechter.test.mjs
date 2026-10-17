@@ -8,7 +8,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { parse } from 'yaml'
 import { aufrufe } from './quittung-aufrufe.mjs'
-import { FEST, pruefeAlle, pruefeFest, pruefeJob, pruefeWorkflow } from './quittung-nach-commit-waechter.mjs'
+import { FEST, pruefeAlle, pruefeFest, pruefeJob, pruefeMerkerPfade, pruefeWorkflow } from './quittung-nach-commit-waechter.mjs'
 
 const s = (run, name = run) => ({ name, run })
 const BAU = s('npm run data:build')
@@ -35,11 +35,14 @@ for (const q of QUITT) {
   assert.ok(fehler.some((f) => f.includes('nach dem Commit')), `${q.run}: ${fehler}`)
 }
 
-// Merken nach dem Commit, Quittieren ohne Commit, Briefkasten-Abruf ohne Schalter.
+// Merken nach dem Commit, Quittieren ohne Commit, Briefkasten-Abruf ohne Schalter (merkt seit Runde 2 immer).
 assert.match(pruefeJob('spaet', [BAU, COMMIT, MERKEN[2], QUITT[1]]).join('|'), /merkt nach dem Commit/)
 assert.match(pruefeJob('ohne', [MERKEN[2], QUITT[1]]).join('|'), /quittiert vor dem Commit/)
-assert.match(pruefeJob('sofort', [CHECK, s('npm run data:pruefungen'), BAU, COMMIT]).join('|'), /ohne --abhaken-spaeter/)
+assert.match(pruefeJob('sofort', [CHECK, s('npm run data:pruefungen'), BAU, COMMIT]).join('|'), /kein Schritt „npm run data:pruefungen -- --nur-abhaken"/)
+assert.deepEqual(pruefeJob('sofort', [CHECK, s('npm run data:pruefungen'), BAU, COMMIT, QUITT[0]]), [])
+// Trockenläufe merken nicht und brauchen keine Quittung.
 assert.deepEqual(pruefeJob('trocken', [s('npm run data:pruefungen -- --trocken'), CHECK]), [])
+assert.deepEqual(pruefeJob('trocken', [CHECK, s('npm run data:vorfaelle -- --trocken'), CHECK]), [])
 
 // Festgelegte Schritte: genau diese Schlüssel, direkt hintereinander.
 const fest = structuredClone(FEST)
@@ -87,6 +90,11 @@ for (const run of ['echo a; npm run data:rohfolgen-abhaken', 'echo a\nnpm run da
   const fehler = pruefeJob('trenner', [BAU, s(run, 'eingeschoben'), COMMIT, CHECK])
   assert.ok(fehler.some((f) => f.includes('quittiert vor dem Commit')), `${JSON.stringify(run)}: ${fehler}`)
 }
+// `||` und `|` trennen ebenfalls; der Treffer vorn in einer Kette zählt (nicht nur der letzte Aufruf).
+const R = 'npx tsx pipeline/rohfolgen-abhaken.ts'
+for (const run of [`npx tsx pipeline/build.ts || ${R}`, `npx tsx pipeline/build.ts | ${R}`, `${R} && node tools/z.mjs`]) {
+  assert.match(pruefeJob('kette', [BAU, s(run, 'eingeschoben'), COMMIT, CHECK]).join('|'), /quittiert vor dem Commit/, run)
+}
 assert.doesNotMatch(pruefeJob('wort', [BAU, s('npm run data:vorfaelle -- --nur-loeschenX'), COMMIT, QUITT[2]]).join('|'), /quittiert vor dem Commit/)
 // Dateiendungen und Argumente der Erkennung selbst.
 assert.deepEqual(aufrufe('node tools/a.mjs --x && tsx ./b/c.cjs; node d.js', {}).map((a) => a.datei), ['tools/a.mjs', 'b/c.cjs', 'd.js'])
@@ -98,10 +106,12 @@ assert.deepEqual(pruefeJob('nach', [...MERKEN, BAU, COMMIT, CHECK, ...NACH, CHEC
 // Merken per Pfad oder verkettet nach dem Commit: rot; fehlende Quittung bei verkettetem Merken: rot.
 assert.match(pruefeJob('spaet', [BAU, COMMIT, s('npx tsx pipeline/fetch-rohfolgen.ts --x'), CHECK]).join('|'), /merkt nach dem Commit/)
 assert.match(pruefeJob('kette', [s('npm run data:build && npm run data:vorfaelle --x'), COMMIT, CHECK]).join('|'), /kein Schritt „npm run data:vorfaelle -- --nur-loeschen"/)
-// Briefkasten-Abruf ohne Schalter per Pfad oder verkettet: rot; mit Schalter und Zusatzargument: grün.
-assert.match(pruefeJob('pfad', [CHECK, s('npx tsx pipeline/fetch-pruefungen.ts'), BAU, COMMIT]).join('|'), /ohne --abhaken-spaeter/)
-assert.match(pruefeJob('kette', [CHECK, s('npm run data:x && npm run data:pruefungen -- --x'), BAU, COMMIT]).join('|'), /ohne --abhaken-spaeter/)
-assert.doesNotMatch(pruefeJob('mit', [s('npm run data:pruefungen -- --abhaken-spaeter --x'), BAU, COMMIT, QUITT[0]]).join('|'), /ohne --abhaken-spaeter/)
+// Briefkasten-Abruf per Pfad oder verkettet ohne Quittung danach: rot; mit Quittung: grün.
+assert.match(pruefeJob('pfad', [CHECK, s('npx tsx pipeline/fetch-pruefungen.ts'), BAU, COMMIT]).join('|'), /kein Schritt/)
+assert.match(pruefeJob('kette', [CHECK, s('npm run data:x && npm run data:pruefungen -- --x'), BAU, COMMIT]).join('|'), /kein Schritt/)
+assert.deepEqual(pruefeJob('mit', [s('npm run data:pruefungen -- --abhaken-spaeter --x'), BAU, COMMIT, QUITT[0]]), [])
+// Pfad als erstes Wort des Teilbefehls (ausführbare Datei).
+assert.deepEqual(aufrufe('pipeline/rohfolgen-abhaken.ts --x', {}).map((a) => a.datei), ['pipeline/rohfolgen-abhaken.ts'])
 
 // Indirekt über andere npm-Skripte der package.json (auch zweistufig, Kreis ohne Absturz).
 const SKRIPTE = {
@@ -111,14 +121,29 @@ const SKRIPTE = {
   'data:ganz-alles': 'npm run data:alles-abhaken',
   'data:kreis': 'npm run data:kreis2',
   'data:kreis2': 'npm run data:kreis',
+  'data:zweit': 'tsx pipeline/build.ts && tsx pipeline/rohfolgen-abhaken.ts && node tools/z.mjs',
 }
 const indirekt = (run) => pruefeJob('ind', [s('npm run data:build'), s(run, 'x'), COMMIT, CHECK], SKRIPTE).join('|')
 assert.match(indirekt('npm run data:ganz-alles'), /quittiert vor dem Commit/)
 assert.match(indirekt('npm run data:alles-abhaken'), /quittiert vor dem Commit/)
+assert.match(indirekt('npm run data:zweit'), /quittiert vor dem Commit/)
 assert.match(indirekt('npm run data:vorfaelle'), /merkt|kein Schritt/)
 assert.match(indirekt('npm run data:vorfaelle -- --nur-loeschen'), /quittiert vor dem Commit/)
 assert.equal(indirekt('npm run data:kreis'), '')
 assert.equal(indirekt('npm run data:unbekannt'), '')
+
+// Merker nur unter quittung-offen/: der alte Pfad (vor Runde 2) und quittung-frei/ sind rot, auch mitten in einer Zeile.
+// Der alte Pfad steht zusammengesetzt, sonst hielte ihn tools/check-cache-abhaengigkeit.mjs für eine echte Cache-Datei.
+const CACHE = 'data/cache'
+const OK = 'data/cache/quittung-offen/pruefungen-abhaken.json'
+const pfade = pruefeMerkerPfade('m', [
+  s(`rm -f ${OK}`),
+  s(`rm -f ${OK} ${CACHE}/pruefungen-abhaken.json data/cache/quittung-offen/vorfaelle-loeschen.json`, 'alt'),
+  s('cat data/cache/quittung-frei/rohfolgen-abhaken.json', 'frei'),
+  s('echo ok'),
+])
+assert.deepEqual(pfade.map((f) => f.match(/„(\w+)"/)[1]), ['alt', 'frei'])
+assert.match(pruefeWorkflow('x.yml', { jobs: { j: { steps: [s(`rm -f ${CACHE}/vorfaelle-loeschen.json`, 'w')] } } }).join('|'), /„w": Merker/)
 
 // pruefeAlle liest jede .yml und .yaml eines Ordners.
 const ordner = mkdtempSync(join(tmpdir(), 'quittung-waechter-'))

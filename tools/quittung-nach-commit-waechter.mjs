@@ -5,10 +5,16 @@
  * Anlass: Am 16.10.2026 (Lauf 38959396065) hakte der Schritt „Rohfolgen zuordnen" 13.350 Rohfolgen ab. Danach
  * scheiterte „Datensatz bauen", „Änderungen committen" lief nicht, und 1.029 zugeordnete Adressen gingen verloren.
  *
+ * Die Sperre selbst sitzt seit Runde 2 von PR 1426 in den Skripten: Sie quittieren nur, was `tools/commit-data.sh` nach
+ * einem grünen Commit freigegeben hat (`pipeline/lib/spaeter-quittieren.ts`), und brechen bei falschen Schaltern ab
+ * (`pipeline/lib/schalter.ts`); belegt in `check-quittung-freigabe.ts` und `commit-data-test.sh`. Wie ein Schritt
+ * geschrieben ist, spielt dafür keine Rolle. Dieser Wächter warnt nur vor, dass ein Schritt an der falschen Stelle
+ * steht (dort quittierte er nichts) oder auf einen merkenden Schritt keine Quittung folgt.
+ *
  * Regel je Job jedes Workflows (geparstes YAML, nicht der Text):
  * 1. Ein Schritt, der quittiert (`QUITTUNGEN[].quittiert`), steht nach dem ersten Schritt mit `tools/commit-data.sh`.
  * 2. Ein Schritt, der merkt (`QUITTUNGEN[].merkt`), steht vor diesem Commit, und nach ihm folgt sein Quittungsschritt.
- * 3. `data:pruefungen` läuft nur mit `--abhaken-spaeter`, `--nur-abhaken` oder `--trocken`: ohne Schalter hakt er sofort ab.
+ * 3. Ein Merker-Dateiname steht in einem Schritt nur als `data/cache/quittung-offen/<name>` (`pruefeMerkerPfade`).
  * Aufrufe erkennt `quittung-aufrufe.mjs` am Kommando (npm-Skript auch indirekt, Pfad, verkettet, mit Zusatzargumenten).
  * Für `bestand-bauen.yml` sind Commit- und Quittungsschritte zusätzlich Schlüssel für Schlüssel festgelegt.
  */
@@ -22,7 +28,6 @@ const TOKEN_ENV = { LAUF_TOKEN: '${{ secrets.LAUF_TOKEN }}' }
 
 const PRUEFUNGEN = 'pipeline/fetch-pruefungen.ts'
 const VORFAELLE = 'pipeline/fetch-vorfaelle.ts'
-const SCHALTER_PRUEFUNGEN = /--(abhaken-spaeter|nur-abhaken|trocken)(?!\S)/
 const hat = (schalter) => (befehl) => new RegExp(`--(${schalter})(?!\\S)`).test(befehl)
 
 /** `merkt`/`quittiert` sind die Sollzeilen (für FEST); erkannt wird über Datei und Schalter. */
@@ -32,7 +37,7 @@ export const QUITTUNGEN = [
     merkt: 'npm run data:pruefungen -- --abhaken-spaeter',
     quittiert: 'npm run data:pruefungen -- --nur-abhaken',
     merktDatei: PRUEFUNGEN,
-    merktPasst: hat('abhaken-spaeter'),
+    merktPasst: (b) => !hat('nur-abhaken|trocken')(b),
     quittDatei: PRUEFUNGEN,
     quittPasst: hat('nur-abhaken'),
   },
@@ -71,9 +76,6 @@ export function pruefeJob(ort, schritte, skripte = SKRIPTE) {
   const fehler = []
   const commit = schritte.findIndex((s) => lauf(s).includes('tools/commit-data.sh'))
   schritte.forEach((s, i) => {
-    if (ruft(s, PRUEFUNGEN, (b) => !SCHALTER_PRUEFUNGEN.test(b), skripte)) {
-      fehler.push(`${ort}, Schritt ${i} „${s.name}": data:pruefungen ohne --abhaken-spaeter hakt vor dem Commit ab`)
-    }
     for (const q of QUITTUNGEN) {
       if (ruft(s, q.quittDatei, q.quittPasst, skripte) && (commit < 0 || i < commit)) fehler.push(`${ort}, Schritt ${i} „${s.name}": quittiert vor dem Commit`)
       if (!ruft(s, q.merktDatei, q.merktPasst, skripte)) continue
@@ -95,11 +97,24 @@ export function pruefeFest(schritte) {
   )
 }
 
+/**
+ * Ein Schritt, der einen Merker anfasst (z. B. löscht, wenn neue Handbelege zurückgestellt werden), nennt ihn unter
+ * `data/cache/quittung-offen/`; ein anderer Pfad ginge ins Leere, und die Quittung käme trotzdem.
+ */
+export function pruefeMerkerPfade(ort, schritte) {
+  return schritte.flatMap((s, i) =>
+    [...lauf(s).matchAll(/(\S*?)(rohfolgen-abhaken|vorfaelle-loeschen|pruefungen-abhaken)\.json/g)]
+      .filter((m) => m[1] !== 'data/cache/quittung-offen/')
+      .map((m) => `${ort}, Schritt ${i} „${s.name}": Merker ${m[0]} liegt unter data/cache/quittung-offen/`),
+  )
+}
+
 export function pruefeWorkflow(datei, doc) {
   const fehler = []
   for (const [job, inhalt] of Object.entries(doc?.jobs ?? {})) {
     const schritte = inhalt?.steps ?? []
     fehler.push(...pruefeJob(`${datei} → ${job}`, schritte))
+    fehler.push(...pruefeMerkerPfade(`${datei} → ${job}`, schritte))
     if (datei === 'bestand-bauen.yml' && job === 'bauen') fehler.push(...pruefeFest(schritte))
   }
   if (datei === 'bestand-bauen.yml' && !doc?.jobs?.bauen) fehler.push('bestand-bauen.yml: Job „bauen" fehlt')
