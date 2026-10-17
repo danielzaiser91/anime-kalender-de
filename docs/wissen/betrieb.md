@@ -250,9 +250,9 @@ Rückfrage (Daniel, 02.10.2026: „worker auslieferung in zukunft selber machen"
 
 **Aus der Wurzel bricht es ab**, und die Meldung führt in die Irre: „The
 `assets` property in your configuration is missing the required `directory`
-property" (29.08.2026) — und **`cd worker` allein genügt nicht**, das `--config` gehört dazu. Wrangler findet sonst `wrangler.jsonc` — die gehört zur
-**Web-Anwendung** (SPA-Zustellung, kein `main`, keine D1-Bindung) und ist ohne
-gebautes `dist/` unvollständig. Der Newsletter-Worker hat seine eigene
+property" (29.08.2026) — und **`cd worker` allein genügt nicht**, das `--config` gehört dazu. Bis 17.10.2026 fand wrangler sonst die Wurzel-`wrangler.jsonc`
+der **Web-Anwendung**; seitdem heißt sie `wrangler.web.jsonc` (nur Assets, kein `main`, keine Bindung,
+Wächter `tools/web-hosting.test.ts`), ohne `--config` findet wrangler in der Wurzel keine Config. Der Newsletter-Worker hat seine eigene
 Konfiguration in `worker/wrangler.toml`, mit `main`, Cron und D1.
 
 Zwei Konfigurationen in einem Repo sind kein Versehen: Die Wurzel liefert die
