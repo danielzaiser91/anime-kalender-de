@@ -1,0 +1,14 @@
+// Website auf Cloudflare Workers Static Assets: nur Dateien, kein Worker-Code, keine Bindings
+// (Wächter: tools/web-hosting.test.ts). Aufruf immer mit --config wrangler.web.jsonc.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "anime-kalender-web",
+  "compatibility_date": "2026-08-25",
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}
