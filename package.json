@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build:schlank": "vite build && tsx pipeline/patchnotes-ausliefern.ts && tsx pipeline/build-share-pages.ts && tsx pipeline/check-teilseiten.ts",
-    "build": "npm run check:umfang && npm run check:hooks && npm run check:folgen && tsc -b --noEmit && vite build && tsx pipeline/patchnotes-ausliefern.ts && tsx pipeline/build-share-pages.ts && tsx pipeline/check-teilseiten.ts",
+    "build": "npm run check:umfang && npm run check:hooks && npm run check:folgen && tsc -b --noEmit && node tools/bau-eingaben.mjs \"vite build && tsx pipeline/patchnotes-ausliefern.ts && tsx pipeline/build-share-pages.ts\" && tsx pipeline/check-teilseiten.ts",
     "preview": "npm run build && wrangler dev",
     "data:fetch": "tsx pipeline/fetch.ts",
     "data:crunchyroll": "tsx pipeline/scrape-crunchyroll.ts --weeks 8",
