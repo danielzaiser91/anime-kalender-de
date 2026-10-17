@@ -250,9 +250,9 @@ Rückfrage (Daniel, 02.10.2026: „worker auslieferung in zukunft selber machen"
 
 **Aus der Wurzel bricht es ab**, und die Meldung führt in die Irre: „The
 `assets` property in your configuration is missing the required `directory`
-property" (29.08.2026) — und **`cd worker` allein genügt nicht**, das `--config` gehört dazu. Wrangler findet sonst `wrangler.jsonc` — die gehört zur
-**Web-Anwendung** (SPA-Zustellung, kein `main`, keine D1-Bindung) und ist ohne
-gebautes `dist/` unvollständig. Der Newsletter-Worker hat seine eigene
+property" (29.08.2026) — und **`cd worker` allein genügt nicht**, das `--config` gehört dazu. Bis 17.10.2026 fand wrangler sonst die Wurzel-`wrangler.jsonc`
+der **Web-Anwendung**; seitdem heißt sie `wrangler.web.jsonc` (nur Assets, kein `main`, keine Bindung,
+Wächter `tools/web-hosting.test.ts`), ohne `--config` findet wrangler in der Wurzel keine Config. Der Newsletter-Worker hat seine eigene
 Konfiguration in `worker/wrangler.toml`, mit `main`, Cron und D1.
 
 Zwei Konfigurationen in einem Repo sind kein Versehen: Die Wurzel liefert die
@@ -1858,3 +1858,12 @@ Die Wache (`wecker-wache.yml`) wiederholte einen roten Lauf erst nach der vollen
 **`main` selbst rot (Runde 2):** Rot wird mit dem Stand von `origin/main` verglichen (`quellen_neue_fehler` in `tools/quellen-pruefen.sh`, eigener Arbeitsbaum, Frist 240 s). Hat `main` dieselben roten Prüfungen schon, zählt der Fund nicht als rot (Warnung `main ist schon rot`, Einreichen und Mergen wie vor dem 17.10.); nur Fehler, die erst der Fund bringt, markieren. Vergleichbar ist nur eine Liste roter Prüfungen als ganze Zeilen; Frist, Absturz und Startfehler bleiben rot. Lücke: Verglichen wird je Prüfung (Zeile `  - <Prüfdatei>`), nicht je Fehler — ein neuer Fehler in einer auf `main` schon roten Prüfung fällt nicht auf und wird gemergt; tragbar, weil `main` dann ohnehin rot ist und der Bestandsbau es zeigt.
 **Lücke:** Direkte Schreiber auf `main` (`delta-wache.yml`, `commit-data.sh` im Bestandsbau) laufen nicht über diese Stelle.
 **Lehre:** Eine Zusicherung über Sammler-Ergebnisse gehört an die Stelle, durch die alle Sammler gehen, nicht in jeden Workflow.
+
+## CI-Prüfer: Nachträge und Commit-Liste (17.10.2026)
+
+- `tools/pr-nachtraege.mjs` hängt an `pr-beschreibung.txt` die Nachtrag-Kommentare und die Commit-Liste (je Commit Kurz-Hash, Betreff, Dateien) an. Es zählen Kommentare des PR-Autors und von Konten mit `author_association` OWNER, MEMBER oder COLLABORATOR.
+- Anlass PR 1394: Die Claude-App hat den PR geöffnet, `gh pr view --json author` lieferte `app/claude`, die Autor-Prüfung im Workflow ließ das nicht durch, und die Nachträge stammten ohnehin vom Inhaberkonto. Drei Nachträge kamen nie beim Prüfer an; er wiederholte zweimal schon beantwortete Befunde. Der Autor kommt jetzt als REST-Login (`gh api …/pulls/<n> -q .user.login`, bei Apps `claude[bot]`).
+- Ohne Commit-Liste sah der Prüfer nur den Gesamtdiff und konnte „Umbau und Verhaltensänderung nie im selben Commit“ nicht nachprüfen.
+- Lehre: GraphQL (`gh pr view`) und REST liefern für App-Konten verschiedene Login-Formen; Tests für Autor-Filter brauchen einen App-PR als Fall.
+- Laufzeitsperre (Runde 3): Der Schritt „Prüfer-Eingang prüfen“ (`tools/pr-eingang.mjs`) steht direkt vor den Prüfern. `ok` gibt er nur aus, wenn der Diff vollständig ist und die Beschreibung mit der Commit-Liste endet, deren letzter Commit `head.sha` ist. Gemessen an 60 PRs am 17.10.2026: die Liste endet in 60 von 60 Fällen am Kopf. Prompts und Freigabe lesen diesen Zustand. `tools/pr-pruefer-freigabe.test.mjs` fährt den `run`-Block des Freigabe-Schritts (aus der YAML gelesen) mit gh-Attrappe aus und prüft, welche Aufrufe (`--approve`, `--request-changes`, Kommentar) entstehen. `tools/pr-pruefer-ablauf.test.mjs` führt den Job bis dahin mit bash und nachgebautem `gh` aus (`tools/pr-pruefer-kulisse*.{mjs,cjs}`).
+- Lehre: Statt jede Schreibweise eines Workflows per Wächter zu sperren (PR-Nummer, Pfade, `shell`, `env`), prüft man das Ergebnis zur Laufzeit an einem unabhängigen Wert (Kopf-SHA).
