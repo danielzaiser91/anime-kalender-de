@@ -1,11 +1,12 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { todayIso } from '../../shared/time.ts'
-import { auslieferbarePatchnotes, pruefeHighlightsJeTag, pruefePatchnotes, type Patchnote } from '../../shared/patchnotes.ts'
+import { auslieferbarePatchnotes, istTag, pruefeHighlightsJeTag, pruefePatchnotes, type Patchnote } from '../../shared/patchnotes.ts'
 import { tageAusGit } from './patchnotes-datum.ts'
 
 /** Ein Eintrag je Datei (`<name>.yaml`), damit parallele PRs keine gemeinsame Datei ändern. */
 export const PATCHNOTES_ORDNER = 'data/patchnotes'
+export const STEMPEL_DATEI = '_ueberarbeitet-bis.txt'
 
 type Roh = Record<string, unknown>
 
@@ -30,6 +31,17 @@ export function mitDatum(dateien: PatchnotesDatei[], tage: (namen: string[]) => 
   return dateien.map((d) => (d.eintrag.datum === undefined ? { ...d.eintrag, datum: tagVon.get(d.name) } : d.eintrag))
 }
 
+/** Stempel „überarbeitet bis“: letzter Tag, dessen Texte der Überarbeitungs-PR umgeschrieben hat. Fehlt die Datei, gibt es keine Entwürfe; ein ungültiger Inhalt bricht ab.
+ * Umgehungen, selten: ein Nachtrags-`datum` ≤ Stempel gilt als überarbeitet; scheitert git (`allesHeute`), tragen alle Einträge den heutigen Tag und damit den Stift. */
+export function leseUeberarbeitetBis(ordner = PATCHNOTES_ORDNER): string | undefined {
+  const datei = `${ordner}/${STEMPEL_DATEI}`
+  if (!existsSync(datei)) return undefined
+  const tag = readFileSync(datei, 'utf8').trim()
+  if (istTag(tag)) return tag
+  console.error(`  ✖ ${datei}: „${tag}“ ist kein Tag (JJJJ-MM-TT)`)
+  process.exit(1)
+}
+
 const gelesen = new Map<string, Patchnote[]>()
 
 /** Liest den Ordner und bricht bei einem Widerspruch ab. Je Prozess und Ordner einmal. */
@@ -50,7 +62,7 @@ export function leseAuslieferbarePatchnotes(ordner = PATCHNOTES_ORDNER): Patchno
     console.error(`\n${zuViele.length} Widerspruch/Widersprüche in ${ordner} — abgebrochen.`)
     process.exit(1)
   }
-  const liste = auslieferbarePatchnotes(mitTag)
+  const liste = auslieferbarePatchnotes(mitTag, leseUeberarbeitetBis(ordner))
   gelesen.set(ordner, liste)
   return liste
 }
