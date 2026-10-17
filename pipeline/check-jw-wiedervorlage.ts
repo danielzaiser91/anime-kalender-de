@@ -17,6 +17,7 @@ function pruefe(name: string, ok: boolean, info: unknown = ''): void {
 }
 
 const HEUTE = '2026-10-12'
+const KEINE = new Set<number>()
 const gti = (n: number) => `amzn1.dv.gti.3004ad12-53d7-4c50-856c-e55711247c${String(n).padStart(2, '0')}`
 const amazon = (n: number) => `https://watch.amazon.de/detail?gti=${gti(n)}`
 const angebot = (n: number, audio: string[]) => ({ anbieter: 'Arthouse CNMA Amazon Channel', art: 'FLATRATE', audio, url: amazon(n) })
@@ -45,13 +46,13 @@ const bestand: Record<string, JwBefund> = {
   '300': film('2026-09-17', [angebot(3, ['de'])], { jwId: 'tm300' }),
 }
 const andere = [titel(100, [weg(2)]), yourName, titel(300, [weg(9)]), titel(400, [weg(1)])]
-pruefe('nur Your Name hängt an einer Flagge (en-Ton und fremde Seite nicht)', [...titelMitJwFlagge(andere, bestand)].join() === '21519', [...titelMitJwFlagge(andere, bestand)])
-const flagge = titelMitJwFlagge(andere, bestand)
+pruefe('nur Your Name hängt an einer Flagge (en-Ton und fremde Seite nicht)', [...titelMitJwFlagge(andere, bestand, KEINE)].join() === '21519', [...titelMitJwFlagge(andere, bestand, KEINE)])
+const flagge = titelMitJwFlagge(andere, bestand, KEINE)
 pruefe('Your Name, Befund 25 Tage alt, ohne Marke: im Wochenlauf vorgezogen', vorgezogen(yourName, bestand, HEUTE, flagge))
 pruefe('… Befund 20 Tage alt: noch nicht', !vorgezogen(yourName, { '21519': { ...bestand['21519']!, geprueftAm: '2026-09-22' } }, HEUTE, flagge))
 pruefe('… Befund 21 Tage alt: genau jetzt', vorgezogen(yourName, { '21519': { ...bestand['21519']!, geprueftAm: '2026-09-21' } }, HEUTE, flagge))
 pruefe('… Befund 40 Tage alt (jenseits der Frist): erst recht', vorgezogen(yourName, { '21519': { ...bestand['21519']!, geprueftAm: '2026-09-02' } }, HEUTE, flagge))
-pruefe('ohne Flagge nie vorgezogen, auch bei altem Befund', !vorgezogen(titel(100, [weg(2)]), bestand, HEUTE, titelMitJwFlagge(andere, bestand)))
+pruefe('ohne Flagge nie vorgezogen, auch bei altem Befund', !vorgezogen(titel(100, [weg(2)]), bestand, HEUTE, titelMitJwFlagge(andere, bestand, KEINE)))
 pruefe('ohne Befund nie', !vertrauensBefundAlt(true, undefined, HEUTE))
 pruefe('Altersangabe nachholen geht weiter ohne Flagge', vorgezogen({ id: 5 } as Title, { '5': { geprueftAm: '2026-10-11', jwId: 'x' } }, HEUTE, new Set()))
 
@@ -60,7 +61,7 @@ pruefe('Staffelangaben nachholen geht weiter ohne Flagge', vorgezogen({ id: 8, f
 pruefe('ein junger Film ohne Anlass wird nicht vorgezogen', !vorgezogen(titel(1, [weg(1)]), { '1': film('2026-10-11', [angebot(1, ['de'])], { altersangabe: '12' }) }, HEUTE, new Set()))
 
 /** Ein Titel allein, mit einer Änderung am Weg oder am Befund. */
-const flaggeFuer = (t: Title, b: JwBefund): boolean => titelMitJwFlagge([t], { [String(t.id)]: b }).has(String(t.id))
+const flaggeFuer = (t: Title, b: JwBefund): boolean => titelMitJwFlagge([t], { [String(t.id)]: b }, KEINE).has(String(t.id))
 const mitTon = film('2026-09-17', [angebot(1, ['de'])])
 pruefe('Grundfall: Weg ohne Urteil, Seite mit Ton', flaggeFuer(titel(1, [weg(1)]), mitTon))
 pruefe('Weg mit dub true hängt nicht am Befund', !flaggeFuer(titel(1, [weg(1, { dub: true })]), mitTon))
@@ -76,13 +77,26 @@ pruefe('Ton nur in den Staffel-Angeboten zählt', flaggeFuer(titel(1, [weg(1)]),
 pruefe('Einzelstaffel (genau eine Staffel) hängt dran', flaggeFuer(titel(1, [weg(1)]), serie('ts1', [angebot(1, ['de'])], { staffeln: [{ nr: 1, angebote: [] }] })))
 pruefe('Serie mit mehreren Staffeln trägt den Hinweis und hängt dran', flaggeFuer(titel(1, [weg(1)]), serie('ts1', [angebot(1, ['de'])], { staffeln: [{ nr: 1, angebote: [] }, { nr: 2, angebote: [] }] })))
 const einzel = serie('ts9', [angebot(1, ['de'])], { staffeln: [{ nr: 1, angebote: [] }] })
-const mehrteiler = titelMitJwFlagge([titel(1, [weg(1)]), titel(2, [weg(1)])], { '1': einzel, '2': einzel })
+const mehrteiler = titelMitJwFlagge([titel(1, [weg(1)]), titel(2, [weg(1)])], { '1': einzel, '2': einzel }, KEINE)
 pruefe('Mehrteiler (zwei Titel, eine JustWatch-Kennung) hängt nicht dran', mehrteiler.size === 0, [...mehrteiler])
+
+/* Cartoons: ein Serien-Grund heißt im Bau weder Flagge noch Hinweis (kennzeichneCartoonJwSeiten), also auch keine Wiedervorlage. */
+const serieMitTon = serie('ts1', [angebot(1, ['de'])], { staffeln: [{ nr: 1, angebote: [] }] })
+const cartoonFlagge = (t: Title, b: JwBefund) => titelMitJwFlagge([t], { [String(t.id)]: b }, new Set([t.id])).has(String(t.id))
+const cartoon = (staffeln: number) => titel(-5, [weg(1)], { staffeln: Array.from({ length: staffeln }, (_, i) => ({ nr: i + 1 })) })
+pruefe('Cartoon-Serie mit zwei eigenen Staffeln: keine Wiedervorlage', !cartoonFlagge(cartoon(2), serieMitTon))
+pruefe('… derselbe Titel als Anime (Hinweis): schon', flaggeFuer(cartoon(2), serieMitTon))
+pruefe('Cartoon-Serie, Staffeln laut JustWatch unbekannt: keine Wiedervorlage', !cartoonFlagge(cartoon(1), serie('ts1', [angebot(1, ['de'])])))
+pruefe('Cartoon-Serie mit einer Staffel und passender Seite: Wiedervorlage', cartoonFlagge(cartoon(1), serieMitTon))
+pruefe('Cartoon-Film an der de-Seite: Wiedervorlage', cartoonFlagge(cartoon(0), mitTon))
+pruefe('Cartoon ohne passende Seite: nie', !cartoonFlagge(titel(-5, [weg(7)]), mitTon))
+const imGemisch = titelMitJwFlagge([cartoon(2), titel(1, [weg(1)])], { '-5': serieMitTon, '1': { ...serieMitTon, jwId: 'ts2' } }, new Set([-5]))
+pruefe('Cartoon-Ausschluss trifft nur die Kennungen der Cartoons', [...imGemisch].join() === '1', [...imGemisch])
 
 /* Verdrahtung im Abruf: main bildet die Schlange unbedingt aus den Titeln und dem Bestand. */
 const abruf = readFileSync('pipeline/fetch-justwatch-audio.ts', 'utf8')
 const aufruf = unbedingteAufrufe(abruf, 'main').filter((a) => a.name === 'warteschlange')
-pruefe('main ruft warteschlange({ titles, bestand, … }) unbedingt auf', aufruf.length === 1 && aufruf[0]!.args[0]!.startsWith('{ titles, bestand, tmdb, grenze,'), aufruf)
+pruefe('main ruft warteschlange({ titles, bestand, … }) unbedingt auf', aufruf.length === 1 && aufruf[0]!.args[0] === '{ titles, bestand, tmdb, grenze, heute: todayIso(), cartoonIds: new Set(cartoons.map((t) => t.id)) }', aufruf)
 
 if (fehler) {
   console.error(`${fehler} Fehler`)

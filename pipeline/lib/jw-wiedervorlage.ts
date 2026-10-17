@@ -40,15 +40,18 @@ export function vorgezogen(t: Title, bestand: Record<string, BefundKurz>, heute:
 
 /**
  * Titel, deren „Deutsch laut JustWatch“ (Flagge oder Hinweis, `bau/jw-seite-ton.ts`) am Befund hängt: ein Weg ohne eigenes Urteil, dessen Seite
- * JustWatch mit deutschem Ton nennt, bei Filmen und Einzelstaffeln. Das Alter des Befunds zählt nicht — auch eine schon abgelaufene Flagge
- * kommt mit einem neuen Befund zurück. Mehrteiler fallen weg (dort gibt es weder Flagge noch Hinweis).
+ * JustWatch mit deutschem Ton nennt. Das Alter des Befunds zählt nicht — auch eine schon abgelaufene Flagge kommt mit einem neuen Befund
+ * zurück. Anime: Filme, Einzelstaffeln und Serien mit Hinweis, nur Mehrteiler fallen weg. Cartoons (`cartoonIds`) nur ohne Serien-Grund
+ * (`nurSerie` mit eigenen Staffeln): `kennzeichneCartoonJwSeiten` gibt solchen Wegen weder Flagge noch Hinweis.
  */
-export function titelMitJwFlagge(titel: Title[], bestand: Record<string, JwBefund>): Set<string> {
+export function titelMitJwFlagge(titel: Title[], bestand: Record<string, JwBefund>, cartoonIds: Set<number>): Set<string> {
   const jeKennung = titelJeJustwatchKennung(bestand)
   const mit = new Set<string>()
   for (const t of titel) {
     const befund = bestand[String(t.id)]
-    if (!befund || nurSerie(befund, jeKennung.get(befund.jwId ?? '') ?? 0) === 'Mehrteiler') continue
+    if (!befund) continue
+    const grund = nurSerie(befund, jeKennung.get(befund.jwId ?? '') ?? 0, t.staffeln?.length ?? 0)
+    if (grund === 'Mehrteiler' || (grund && cartoonIds.has(t.id))) continue
     const seiten = deutscheSeiten(befund, befund.geprueftAm)
     const haengtDran = (t.streams ?? []).some((s) => !s.entferntAm && s.dub === undefined && seiten.has(seitenSchluessel(s.url) ?? ''))
     if (haengtDran) mit.add(String(t.id))
