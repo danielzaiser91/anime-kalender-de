@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-10-17T17:03:03.540Z",
+  "scrapedAt": "2026-10-17T20:02:39.602Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
     "schon in einem Rubrik-Feed gelesen": 7,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -22,6 +22,27 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Eureka Seven« erscheint in einer Blu-ray-Komplettbox",
+      "articleUrl": "https://www.anime2you.de/news/1061704/eureka-seven-blu-ray-komplettbox/",
+      "publishedAt": "2026-10-17",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-28",
+          "context": "n. Release im Januar 2027 »Eureka Seven« erscheint voraussichtlich am 28. Januar 2027 in einer Komplettbox, die alle 50 Episoden mit deutsch"
+        },
+        {
+          "month": "2027-01",
+          "context": "t auf Blu-ray in den Handel. Wir fassen die Details zusammen. Release im Januar 2027 »Eureka Seven« erscheint voraussichtlich am 28. Januar"
+        }
+      ],
+      "dub": "ja",
       "alreadyCurated": false
     },
     {
