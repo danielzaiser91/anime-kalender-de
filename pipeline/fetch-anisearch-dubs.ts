@@ -11,9 +11,10 @@
  * Aufruf: `npx tsx pipeline/fetch-anisearch-dubs.ts`
  */
 import { existsSync, readFileSync } from 'node:fs'
-import { log, warn, writeJson } from './lib/util.ts'
+import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { anisearchBruecke } from './lib/anisearch-katalog-ids.ts'
+import { zieheMarkeNach } from './lib/anisearch-marke.ts'
 
 const GEHEIM = 'C:/code/ai/ai helper files/my_secrets.md'
 
@@ -58,11 +59,24 @@ async function main(): Promise<void> {
     recordSource('anisearch-dubs', 0, 'zu wenige Einträge')
     return
   }
-  writeJson('data/anisearch-dubs.json', aus)
-  /* Alle Kennungen mit Deutsch (auch ohne Titel bei uns): Quelle für `fetch-anisearch-eintraege.ts`. */
-  writeJson('data/anisearch-dub-ids.json', Object.fromEntries(Object.entries(alle).map(([id, s]) => [id, deutschKennzeichen(s)] as const).filter(([, k]) => k !== '-')))
-  log(`${Object.keys(alle).length} Einträge bei aniSearch, ${Object.keys(aus).length} von ${unsere.size} unserer Kennungen übernommen`)
+  const nachgezogen = schreibeMarken(alle, aus)
+  log(`${Object.keys(alle).length} Einträge bei aniSearch, ${Object.keys(aus).length} von ${unsere.size} unserer Kennungen übernommen, ${nachgezogen} Einträge nachgezogen`)
   recordSource('anisearch-dubs', Object.keys(aus).length)
 }
 
-await main()
+/**
+ * Schreibt Auszug und Liste und zieht das Feld `dub` der Einträge auf die Liste nach: Die Marke steht in drei Dateien aus derselben Antwort und darf
+ * nicht auseinanderlaufen (`check-bild-und-synchro.ts`; 18892 am 17.10.2026). Gibt die Zahl der nachgezogenen Einträge zurück.
+ */
+export function schreibeMarken(alle: Record<string, Sprachen>, auszug: Record<string, string>): number {
+  writeJson('data/anisearch-dubs.json', auszug)
+  /* Alle Kennungen mit Deutsch (auch ohne Titel bei uns): Quelle für `fetch-anisearch-eintraege.ts`. */
+  const liste = Object.fromEntries(Object.entries(alle).map(([id, s]) => [id, deutschKennzeichen(s)] as const).filter(([, k]) => k !== '-'))
+  writeJson('data/anisearch-dub-ids.json', liste)
+  const eintraege = readJson<Record<string, { dub: string }>>('data/anisearch-eintraege.json', {})
+  const geaendert = zieheMarkeNach(eintraege, liste)
+  if (geaendert > 0) writeJson('data/anisearch-eintraege.json', eintraege)
+  return geaendert
+}
+
+if (process.argv[1]?.endsWith('fetch-anisearch-dubs.ts')) await main()
