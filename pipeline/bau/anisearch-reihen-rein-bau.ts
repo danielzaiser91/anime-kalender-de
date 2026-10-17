@@ -6,6 +6,7 @@ import type { Title } from '../../shared/types.ts'
 import type { KatalogEintrag } from '../lib/anilist.ts'
 import { fuehreReihenZusammen } from './03-reihen.ts'
 import { alle, anisearchNamensKanten } from './anisearch-titel.ts'
+import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import type { Kante, Namen } from './anisearch-reihen.ts'
 import { type Ausgeschieden, anisearchKatalogReihen, katalogAnker, ladeBeziehungen } from './anisearch-reihen-pruefliste.ts'
@@ -37,17 +38,41 @@ function schreibePruefliste(teil: 'bestand' | 'katalog', e: ReinErgebnis): void 
 /** Die MAL-Kennung eines Titels (sein Feld) und die im aniSearch-Eintrag; die zweite gilt nur als Ersatz und verbindet nur mit Beleg (`malVerbindungen`). */
 const malVon = (mal: number | undefined, anisearchId: number | undefined): { mal?: number; malAnisearch?: number } => ({ mal, malAnisearch: anisearchId ? alle()[String(anisearchId)]?.mal : undefined })
 
+/** Was der Hauptbestand-Weg von draußen liest; Prüfungen reichen eigene Quellen durch. */
+export type ReinQuellen = { beziehungen: () => { kanten: Kante[]; namen: Namen }; katalog: () => KatalogEintrag[]; hand: () => ReinHand; kennungen: typeof anisearchKennungen }
+const STANDARD_QUELLEN: ReinQuellen = { beziehungen: ladeBeziehungen, katalog: ladeKatalogEintraege, hand: () => ladeHand(), kennungen: anisearchKennungen }
+
+/** Reihe je Katalogtitel, wie der Katalog-Schritt sie mit dem Stand des Hauptbestands bildet (Vorschau ohne Dubletten und Verschobene: dieser Schritt kommt erst nach `titles.json`). */
+function katalogVorschau(titles: Map<number, Title>, eintraege: KatalogEintrag[], q: ReinQuellen): Map<number, number> {
+  const haupt = [...titles.values()]
+  const kennung = q.kennungen([...eintraege.map((e) => ({ id: e.id, mal: e.mal ?? undefined })), ...haupt.map((t) => ({ id: t.id, mal: t.malId }))])
+  const anker = katalogAnker(eintraege, new Map(haupt.map((t) => [t.id, t.franchiseId ?? t.id])), [], kennung, { katalogWeg: new Map(), zeilenWeg: new Set() }, haupt)
+  const { kanten, namen } = q.beziehungen()
+  return reineKatalogReihen(eintraege, kennung, anker, new Map(), kanten, namen, q.hand()).reihe
+}
+
+/**
+ * Der Namensvorspann (Daniel, 10.10.2026) ging mit dem Wechsel auf reines aniSearch am 12.10. verloren; `check-reihen-namen-bestand.ts` meldet es seit 16.10.2026.
+ * Das Ziel darf ein Katalogtitel sein (Name aus `t`, Reihe aus der Vorschau), denn `titles.json` steht beim Katalog-Schritt schon; verschoben wird nur ein Titel des Hauptbestands.
+ */
+function wendeNamensvorspannAn(titles: Map<number, Title>, q: ReinQuellen): void {
+  const eintraege = q.katalog()
+  const vorschau = eintraege.length ? katalogVorschau(titles, eintraege, q) : new Map<number, number>()
+  const mit = new Map(titles)
+  for (const e of eintraege) if (!mit.has(e.id)) mit.set(e.id, { id: e.id, titleRomaji: e.t[0] ?? undefined, titleEn: e.t[1] ?? undefined, franchiseId: vorschau.get(e.id) } as Title)
+  for (const { ids: [reihe, id] } of anisearchNamensKanten(mit, (i) => mit.get(i)!.franchiseId ?? i)) titles.get(id!)!.franchiseId = reihe
+}
+
 /** Hauptbestand: `franchiseId` aus aniSearch für jeden Titel (Titel ohne archivierte Seite stehen allein). */
-function reinBestandReihen(titles: Map<number, Title>): void {
+function reinBestandReihen(titles: Map<number, Title>, quellen: ReinQuellen): void {
   const kennung = anisearchKennungen([...titles.values()].map((t) => ({ id: t.id, mal: t.malId })))
   const titel: ReinTitel[] = [...titles.values()].map((t) => ({ id: t.id, name: t.titleRomaji ?? t.titleEn ?? `#${t.id}`, anisearchId: kennung.get(t.id), ...malVon(t.malId, kennung.get(t.id)) }))
-  const { kanten, namen } = ladeBeziehungen()
-  const e = reineReihen(titel, kanten, namen, ladeHand())
+  const { kanten, namen } = quellen.beziehungen()
+  const e = reineReihen(titel, kanten, namen, quellen.hand())
   for (const t of titles.values()) t.franchiseId = e.reihe.get(t.id) ?? t.id
-  // Der Namensvorspann (Daniel, 10.10.2026) ging mit dem Wechsel auf reines aniSearch am 12.10. verloren; `check-reihen-namen-bestand.ts` meldet es seit 16.10.2026.
-  for (const { ids: [reihe, id] } of anisearchNamensKanten(titles, (i) => titles.get(i)!.franchiseId ?? i)) titles.get(id!)!.franchiseId = reihe
   schreibePruefliste('bestand', e)
   log(`aniSearch-Reihen (rein): ${e.reihen} Reihen mit ${e.inReihen} Titeln, ${e.pruefliste.length} Fälle auf der Prüfliste (${REIN_PRUEFLISTE_DATEI})`)
+  wendeNamensvorspannAn(titles, quellen) // zuletzt: scheitert er, bleiben die Reihen und die Prüfliste stehen
 }
 
 type ReihenArgs = Parameters<typeof fuehreReihenZusammen>[0]
@@ -56,11 +81,11 @@ type ReihenArgs = Parameters<typeof fuehreReihenZusammen>[0]
  * `fuehreReihenZusammen`, mit dem Schalter aber ohne AniList-Beziehungen (leere Medienlisten) und danach `franchiseId` aus aniSearch.
  * Ein Fehler stoppt den Bau nie: dann bleibt es bei den Reihen ohne AniList-Kanten, und die Warnung nennt den Grund.
  */
-export function fuehreReihenZusammenQuelle(args: ReihenArgs): ReturnType<typeof fuehreReihenZusammen> {
+export function fuehreReihenZusammenQuelle(args: ReihenArgs, quellen: ReinQuellen = STANDARD_QUELLEN): ReturnType<typeof fuehreReihenZusammen> {
   if (!bestandReihenAusAnisearch()) return fuehreReihenZusammen(args)
   const ergebnis = fuehreReihenZusammen({ ...args, byAniId: {}, byMal: {} })
   try {
-    reinBestandReihen(args.titles)
+    reinBestandReihen(args.titles, quellen)
   } catch (e) {
     warn(`aniSearch-Reihen (rein) übersprungen (Fehler): ${(e as Error).message}`)
   }
