@@ -173,12 +173,12 @@ async function einLauf(browser, viewport, thema, woche) {
   const nach = await neueSeite(browser, viewport, thema, woche.ids)
   await lade(nach, 'woche', woche.datum)
   const wNach = await nach.evaluate(messeWoche)
-  await nach.screenshot({ path: path.join(BILDER, `favoriten-rand-${viewport.name}-${thema}-woche.png`) })
+  await nach.screenshot({ path: path.join(BILDER, `favoriten-rand-r2-${viewport.name}-${thema}-woche.png`) })
   await nach.evaluate(baueTafel, { vorherHtml, indizes: Object.fromEntries(Object.entries(woche.wahl).map(([art, k]) => [art, k.i])) })
-  await nach.screenshot({ path: path.join(BILDER, `favoriten-rand-${viewport.name}-${thema}-vergleich.png`) })
+  await nach.screenshot({ path: path.join(BILDER, `favoriten-rand-r2-${viewport.name}-${thema}-vergleich.png`) })
   await lade(nach, 'monat', woche.datum)
   const mNach = await nach.evaluate(messeMonat)
-  await nach.screenshot({ path: path.join(BILDER, `favoriten-rand-${viewport.name}-${thema}-monat.png`) })
+  await nach.screenshot({ path: path.join(BILDER, `favoriten-rand-r2-${viewport.name}-${thema}-monat.png`) })
   await nach.context().close()
   return { wVor, wNach, mVor, mNach }
 }

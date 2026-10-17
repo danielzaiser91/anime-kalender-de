@@ -185,7 +185,7 @@ function ZelleHandy({ tag, stream, tv, p, heute, t }: ZellProps) {
 }
 
 /** Am Handy ein Punkt je Streaming-Termin in der Anbieterfarbe statt 22 px großer Cover (kein Bild geladen); die Titel nennt der Knopf per aria-label und die Tagesliste. */
-function PunkteReihe({ stream, p }: { stream: ReleaseEvent[]; p: MonatProps }) {
+export function PunkteReihe({ stream, p }: { stream: ReleaseEvent[]; p: MonatProps }) {
   const zeigen = stream.length > PUNKTE_MAX ? stream.slice(0, PUNKTE_MAX - 1) : stream
   const mehr = stream.length - zeigen.length
   return (
@@ -243,7 +243,7 @@ function farbleiste(ev: ReleaseEvent, p: MonatProps): string {
 }
 
 /** Ein Cover ohne Text: Zeigen nennt die Einzelheiten, ein Klick öffnet das Panel. */
-function CoverKnopf({ ev, p }: { ev: ReleaseEvent; p: MonatProps }) {
+export function CoverKnopf({ ev, p }: { ev: ReleaseEvent; p: MonatProps }) {
   const { t } = useLang()
   const cover = p.data.titleById.get(ev.titleId)?.coverImage
   const favorit = !!p.favorites?.has(ev.titleId)
@@ -262,7 +262,7 @@ function CoverKnopf({ ev, p }: { ev: ReleaseEvent; p: MonatProps }) {
         ].join(' ')}
       >
         {cover && <img {...coverBild(cover, 38)} alt="" loading="lazy" className="size-full object-cover" />}
-        {rand.innen && <span className={`pointer-events-none absolute inset-0 rounded-[5px] inset-ring-2 sm:rounded-md ${rand.innen}`} />}
+        {rand.innen && <span className={`pointer-events-none absolute inset-0 rounded-[5px] border border-ak-flaeche inset-ring-2 sm:rounded-md ${rand.innen}`} />}
         <span className="absolute inset-x-0 bottom-0 h-[3px]" style={{ background: farbleiste(ev, p) }} />
       </button>
     </Schwebe>
@@ -326,7 +326,7 @@ function TvInhalt({ tag, p }: { tag: Tag; p: MonatProps }) {
 }
 
 /** Eine Zeile mit Cover, Zeit, Titel und „Anbieter · Folge" — in der Hover-Karte groß. */
-function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?: boolean }) {
+export function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?: boolean }) {
   const { t } = useLang()
   const cover = p.data.titleById.get(ev.titleId)?.coverImage
   const favorit = !!p.favorites?.has(ev.titleId)
@@ -339,7 +339,7 @@ function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?
       onClick={() => p.onOpen(ev.releaseSlug, ev.date)}
       className="grid w-full cursor-pointer grid-cols-[auto_minmax(0,1fr)] items-center gap-2.5 rounded-xl p-1.5 text-left transition hover:bg-ak-flaeche-2"
     >
-      <span className={`relative block overflow-hidden rounded-md bg-ak-flaeche-2 ${gross ? 'h-24 w-16' : 'h-14 w-10'} ${favorit ? 'ring-2 ring-ak-favorit' : ''}`}>
+      <span className={`relative block overflow-hidden rounded-md bg-ak-flaeche-2 ${gross ? 'h-24 w-16' : 'h-14 w-10'} ${favorit ? 'ring-2 ring-ak-favorit-rand' : ''}`}>
         {cover && <img {...coverBild(cover, gross ? 64 : 40)} alt="" loading="lazy" className="size-full object-cover" />}
         <span className="absolute inset-x-0 bottom-0 h-[3px]" style={{ background: farbleiste(ev, p) }} />
       </span>

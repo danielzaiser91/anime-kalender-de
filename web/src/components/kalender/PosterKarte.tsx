@@ -138,7 +138,9 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
         /* Breit: so hoch wie die schmalen Nachbarn — zwei Spalten minus Lücke, mal 3/4. */
         zwei ? 'ak-breit-cover h-0' : 'aspect-[2/3]',
         p.favorite ? 'ring-3' : p.breit ? 'ring-2' : '',
-        p.saal ? 'ak-saal ring-1 ring-white/10' : '',
+        p.saal ? 'ak-saal' : '',
+        /* Der Saal-Rand weicht dem Favoriten-Ring (ein Saal hat nie eine Art), sonst schlüge seine Ringfarbe im CSS die goldene (Reihenfolge der Stylesheet-Regeln). */
+        p.saal && !p.favorite ? 'ring-1 ring-white/10' : '',
         rand.aussen,
         p.art === 'katalog' && !p.favorite ? 'ak-katalog-glanz' : '',
       ].join(' ')}
@@ -156,7 +158,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
           {p.event.name}
         </span>
       )}
-      {rand.innen && <span className={`pointer-events-none absolute inset-0 rounded-xl inset-ring-2 ${rand.innen}`} />}
+      {rand.innen && <span className={`pointer-events-none absolute inset-0 rounded-xl border border-ak-grund inset-ring-2 ${rand.innen}`} />}
       <span className={['absolute flex flex-wrap items-center gap-1.5', p.saal ? SAAL_MARKEN : 'top-2 left-2'].join(' ')}>
         {(!p.anbieter || zeitGemeinsam(p.anbieter)) && <ZeitMarke event={p.event} t={t} angabe={p.zeitAngabe} />}
         {p.art && <ArtFahne art={p.art} termine={(p.anbieter ?? [p.buendel ?? [p.event]]).flat()} />}

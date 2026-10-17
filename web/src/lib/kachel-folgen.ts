@@ -17,11 +17,11 @@ export const ART_STIL = {
 
 /**
  * Rand einer Kachel (Woche und Monat). Favorit: Gold außen, wo sonst der Art-Ring säße; trägt die Kachel eine Auszeichnung,
- * liegt deren Farbe als Innenring darin (Doppelrand). So bleibt das Maß gleich, und der Rand ragt nicht weiter in die Nachbarn.
+ * liegt deren Farbe als Innenring darin (Doppelrand, dazwischen 1 px Grundfarbe als Rand des Innenrings). So bleibt das Maß gleich, und der Rand ragt nicht weiter in die Nachbarn.
  */
 export function randKlassen(art: KartenArt | undefined, favorit: boolean): { aussen: string; innen: string } {
   if (!favorit) return { aussen: art ? ART_STIL[art].ring : '', innen: '' }
-  return { aussen: 'ring-ak-favorit', innen: art ? ART_STIL[art].innen : '' }
+  return { aussen: 'ring-ak-favorit-rand', innen: art ? ART_STIL[art].innen : '' }
 }
 
 /** Zwei Spalten breit nur Staffelstart, -finale und Katalog-Release; „Neu bei …“ und „Erstveröffentlichung“ sind Fahnen an der schmalen Kachel. */
