@@ -26,7 +26,7 @@ const ALTES_JA = `- anilistId: 1
   note: "Kanal-Titel"
 `
 
-const kulisse = mkdtempSync(join(tmpdir(), 'quittung-freigabe-'))
+const kulisse = mkdtempSync(join(tmpdir(), 'quittung-sperre-'))
 const fehler: string[] = []
 const da = (pfad: string) => existsSync(join(kulisse, pfad))
 
@@ -146,7 +146,7 @@ try {
   rmSync(kulisse, { recursive: true, force: true })
 }
 if (fehler.length) {
-  console.error(`FEHL check-quittung-freigabe: ${fehler.join('; ')}`)
+  console.error(`FEHL check-quittung-sperre: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-quittung-freigabe: Abruf merkt nur, Quittung erst nach Freigabe, falsche Schalter brechen ab.')
+console.log('check-quittung-sperre: Abruf merkt nur, Quittung erst nach Freigabe, falsche Schalter brechen ab.')

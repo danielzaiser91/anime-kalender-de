@@ -7,7 +7,7 @@
  *
  * Die Sperre selbst sitzt seit Runde 2 von PR 1426 in den Skripten: Sie quittieren nur, was `tools/commit-data.sh` nach
  * einem grünen Commit freigegeben hat (`pipeline/lib/spaeter-quittieren.ts`), und brechen bei falschen Schaltern ab
- * (`pipeline/lib/schalter.ts`); belegt in `check-quittung-freigabe.ts` und `commit-data-test.sh`. Wie ein Schritt
+ * (`pipeline/lib/schalter.ts`); belegt in `check-quittung-sperre.ts` und `commit-data-test.sh`. Wie ein Schritt
  * geschrieben ist, spielt dafür keine Rolle. Dieser Wächter warnt nur vor, dass ein Schritt an der falschen Stelle
  * steht (dort quittierte er nichts) oder auf einen merkenden Schritt keine Quittung folgt.
  *

@@ -1,4 +1,4 @@
-// Vorlader für pipeline/check-quittung-freigabe.ts, nach tools/kanal-messung-mock.mjs geladen: schreibt jeden Abruf
+// Vorlader für pipeline/check-quittung-sperre.ts, nach tools/kanal-messung-mock.mjs geladen: schreibt jeden Abruf
 // (Methode, Pfad, Body) und jede Merker-Datei unter quittung-offen/ bzw. quittung-frei/ zeilenweise nach $AK_AUFZEICHNUNG.
 // Die Attrappe davor verwirft alle Schreibungen außer dem Beleg; hier wird nur mitgeschrieben, nicht geändert.
 import fs from 'node:fs'
