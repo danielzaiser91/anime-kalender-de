@@ -9,6 +9,7 @@
  * übernommen. Die Bilanz je Fenster steht neben den Zahlen aus dem Log des Laufs.
  *
  * Aufruf: `LAUF_TOKEN=… npm run meldungskopie -- holen`, dann `npx tsx tools/worker-rohfolgen-rettung.ts [--kopie <sqlite>]`
+ * (trocken: Bilanz und Zahlen je Sammlung), mit `--schreiben` übernimmt es die Ergebnisse in dieses Repo.
  */
 import { DatabaseSync } from 'node:sqlite'
 import { spawnSync } from 'node:child_process'
@@ -78,8 +79,22 @@ export function beruehrteAdressen(db: DatabaseSync, fenster: Fenster) {
 }
 
 /**
- * Stellt in der Kopie den Briefkasten am Fensterende nach: je berührter Adresse alle Rohfolgen bis Fensterende wieder
- * offen (auch ältere: der Lauf sah die ganze Adresse und ersetzt ihren Eintrag), später gemeldete und noch offene zu.
+ * Die jüngste Zeile je Folge (`asin|gti|nummer` wie `aktuelleUebernommene` im Worker) einer berührten Adresse bis
+ * Fensterende, sofern abgehakt. Ältere Fassungen bleiben zu: Der Worker löscht abgehakte Zeilen nie, und zwei Fassungen
+ * derselben Nummer teilten die Adresse in `url#0`/`url#1`.
+ */
+const juengsteAbgehakte = (tabelle: string, url: string, felder: string, status: string) =>
+  `id IN (SELECT id FROM (SELECT id, ${status} AS s, row_number() OVER (PARTITION BY ${url}, plattform, ${felder}` +
+  ` ORDER BY julianday(gemeldet_am) DESC, id DESC) AS rang FROM ${tabelle} WHERE ${url} ${BERUEHRT} AND ${BIS_ENDE})` +
+  ' WHERE rang = 1 AND s = 1)'
+const ROH = (feld: string) => `json_extract(rohfolge, '$.${feld}')`
+const PRIME = juengsteAbgehakte('prime_folge', 'url', 'asin, gti, nummer', 'uebernommen')
+const MELDUNG = juengsteAbgehakte('pruefung', MELDUNG_URL, `${ROH('asin')}, ${ROH('gti')}, ${ROH('nummer')}`, 'roh_uebernommen')
+
+/**
+ * Stellt in der Kopie den Briefkasten am Fensterende nach: je berührter Adresse die jüngste Zeile jeder Folge bis
+ * Fensterende wieder offen (auch ältere als das Fenster: der Lauf sah die ganze Adresse und ersetzt ihren Eintrag),
+ * später gemeldete und noch offene zu.
  */
 export function oeffneFenster(db: DatabaseSync, fenster: Fenster) {
   const adressen = beruehrteAdressen(db, fenster)
@@ -88,8 +103,6 @@ export function oeffneFenster(db: DatabaseSync, fenster: Fenster) {
   for (const url of adressen) merke.run(url)
   const n = (sql: string) => Number(db.prepare(sql).run(fenster.von, fenster.bis).changes)
   const zahl = (sql: string) => Number(db.prepare(sql).get(fenster.von, fenster.bis)!.n)
-  const PRIME = `uebernommen = 1 AND url ${BERUEHRT} AND ${BIS_ENDE}`
-  const MELDUNG = `roh_uebernommen = 1 AND ${MELDUNG_URL} ${BERUEHRT} AND ${BIS_ENDE}`
   const vorFenster = zahl(`SELECT count(*) AS n FROM prime_folge WHERE ${PRIME} AND NOT ${IM_FENSTER}`) +
     zahl(`SELECT count(*) AS n FROM pruefung WHERE ${MELDUNG} AND NOT ${IM_FENSTER}`)
   const prime = n(`UPDATE prime_folge SET uebernommen = 0 WHERE ${PRIME}`)
@@ -128,17 +141,13 @@ function oeffneTitelzeilen(db: DatabaseSync, fenster: Fenster, adressen: Set<str
   return zaehler
 }
 
-/** `fetch` des Zuordners: Seiten aus der Kopie wie `GET /pruefung?rohfolgen=1`, das Abhaken wird nur gezählt. */
+/** `fetch` des Zuordners: Seiten aus der Kopie wie `GET /pruefung?rohfolgen=1`; alles andere (auch ein POST) wirft. */
 export function workerAusKopie(db: DatabaseSync, token: string) {
   const env = { LAUF_TOKEN: token, DB: d1(db, { geschrieben: 0 }) } as never
-  const stand = { seiten: 0, geholt: 0, abgehakt: 0 }
+  const stand = { seiten: 0, geholt: 0 }
   const fetch = async (adresse: string | URL, optionen?: RequestInit) => {
     const url = new URL(String(adresse))
-    if (url.pathname !== '/pruefung') throw new Error(`Rettung: unerwarteter Aufruf ${url.pathname}`)
-    if (optionen?.method === 'POST') {
-      stand.abgehakt += (JSON.parse(String(optionen.body)).rohfolgenUebernommen ?? []).length
-      return new Response('{}')
-    }
+    if (url.pathname !== '/pruefung' || optionen?.method) throw new Error(`Rettung: unerwarteter Aufruf ${url.pathname}`)
     if (url.searchParams.get('rohfolgen') !== '1' || url.searchParams.get('token') !== token) throw new Error(`Rettung: falsche Anfrage ${url.search}`)
     stand.seiten++
     const { zeilen, weiter } = await offeneRohfolgen(env, Number(url.searchParams.get('nach') ?? 0))
@@ -154,15 +163,23 @@ const folgenZahl = (v: unknown) => ((v as { folgen?: unknown[] } | undefined)?.f
 
 /**
  * Dreiseitig: nimmt aus `gerettet`, was gegenüber `basis` neu ist, außer `heute` hat den Schlüssel seit `basis` schon
- * geändert (oder entfernt). Ein geretteter Eintrag mit weniger Folgen als heute bleibt draußen und wird gemeldet.
+ * geändert (oder entfernt). Ein geretteter Eintrag mit weniger Folgen als heute bleibt draußen und wird gemeldet, ebenso
+ * einer, dessen Adresse heute unter einer anderen Schlüsselform steht (`url` gegen `url#0`): er stünde sonst daneben.
  */
 export function mische(basis: Sammlung, gerettet: Sammlung, heute: Sammlung) {
   const ergebnis = { ...heute }
   const neu: string[] = []
   const spaeterGeaendert: string[] = []
   const geschrumpft: string[] = []
+  const andereForm: string[] = []
+  const adresse = (k: string) => k.split('#')[0]!
+  const formenHeute = new Set(Object.keys(heute).map(adresse))
   for (const [k, v] of Object.entries(gerettet)) {
     if (isDeepStrictEqual(basis[k], v)) continue
+    if (!(k in heute) && formenHeute.has(adresse(k))) {
+      andereForm.push(k)
+      continue
+    }
     if (!isDeepStrictEqual(heute[k], basis[k])) {
       spaeterGeaendert.push(k)
       continue
@@ -174,15 +191,15 @@ export function mische(basis: Sammlung, gerettet: Sammlung, heute: Sammlung) {
     ergebnis[k] = v
     neu.push(k)
   }
-  return { ergebnis, neu, spaeterGeaendert, geschrumpft }
+  return { ergebnis, neu, spaeterGeaendert, geschrumpft, andereForm }
 }
 
 /** Was der Zuordner liest und schreibt. */
 export const KULISSE = ['data', 'public/data']
 
-/** Legt die Pfade (`KULISSE`) des Stands in einen leeren Ordner. */
-export function kulisseAusStand(stand: string, ziel: string, pfade = KULISSE) {
-  const git = spawnSync('git', ['archive', '--format=tar', stand, ...pfade], { cwd: WURZEL, maxBuffer: 2 ** 31 - 1 })
+/** Legt die Pfade (`KULISSE`) eines Stands aus dem Repo `repo` in einen leeren Ordner. */
+export function kulisseAusStand(repo: string, stand: string, ziel: string, pfade = KULISSE) {
+  const git = spawnSync('git', ['archive', '--format=tar', stand, ...pfade], { cwd: repo, maxBuffer: 2 ** 31 - 1 })
   if (git.status !== 0) throw new Error(`git archive ${stand}: ${git.stderr}`)
   // Im Zielordner statt `-C <pfad>`: GNU-tar aus Git Bash liest `C:` als entfernten Rechner.
   const tar = spawnSync('tar', ['-x', '-f', '-'], { cwd: ziel, input: git.stdout, maxBuffer: 2 ** 31 - 1 })
@@ -190,6 +207,15 @@ export function kulisseAusStand(stand: string, ziel: string, pfade = KULISSE) {
 }
 
 const lesen = (datei: string): Sammlung => (existsSync(datei) ? JSON.parse(readFileSync(datei, 'utf8')) : {})
+/**
+ * Abgehakt wird seit #1407 erst nach dem Commit: gezählt wird, was der Zuordner dafür ablegt. Ohne Abzuhakendes räumt
+ * er die Datei weg (`merkeZumQuittieren`). Dynamisch geladen, weil das Modul `ROOT` beim ersten Import festlegt.
+ */
+export async function abgehaktIn(kulisse: string) {
+  const { ROHFOLGEN_ABHAKEN } = await import('../pipeline/lib/spaeter-quittieren.ts')
+  const datei = join(kulisse, ROHFOLGEN_ABHAKEN)
+  return existsSync(datei) ? (JSON.parse(readFileSync(datei, 'utf8')) as number[]).length : 0
+}
 
 /** Liest „… Adressen zugeordnet (… Folgen)“ aus den Zeilen des Zuordners. */
 export function zugeordnetAusLog(zeilen: string[]) {
@@ -221,18 +247,22 @@ export async function zuordnerLauf(kulisse: string, db: DatabaseSync) {
   } finally {
     console.log = echt
   }
-  const stand = { ...worker.stand, ...zugeordnetAusLog(zeilen) }
+  const stand = { ...worker.stand, abgehakt: await abgehaktIn(kulisse), ...zugeordnetAusLog(zeilen) }
   return { vorher, nachher: SAMMLUNGEN.map((d) => lesen(join(kulisse, d))), stand }
 }
 
-/** Mischt die Ergebnisse in `ziel/` (das Repo) und zählt Adressen und Folgen der Zuordnungen. */
-export function uebernimm(ziel: string, lauf: Pick<Awaited<ReturnType<typeof zuordnerLauf>>, 'vorher' | 'nachher'>) {
+/** Mischt die Ergebnisse in `ziel/` (das Repo; nur mit `schreiben`) und zählt Adressen und Folgen der Zuordnungen. */
+export function uebernimm(
+  ziel: string,
+  lauf: Pick<Awaited<ReturnType<typeof zuordnerLauf>>, 'vorher' | 'nachher'>,
+  schreiben: boolean,
+) {
   return SAMMLUNGEN.map((datei, i) => {
     const heute = lesen(join(ziel, datei))
     const m = mische(lauf.vorher[i]!, lauf.nachher[i]!, heute)
-    if (m.neu.length) writeFileSync(join(ziel, datei), JSON.stringify(m.ergebnis, null, EINGERUECKT.has(datei) ? 2 : undefined))
-    const { neu, spaeterGeaendert, geschrumpft } = m
-    return { datei, vorher: zaehle(heute), nachher: zaehle(m.ergebnis), neu, spaeterGeaendert, geschrumpft }
+    if (schreiben && m.neu.length) writeFileSync(join(ziel, datei), JSON.stringify(m.ergebnis, null, EINGERUECKT.has(datei) ? 2 : undefined))
+    const { neu, spaeterGeaendert, geschrumpft, andereForm } = m
+    return { datei, vorher: zaehle(heute), nachher: zaehle(m.ergebnis), neu, spaeterGeaendert, geschrumpft, andereForm }
   })
 }
 
@@ -252,49 +282,70 @@ export function bilanz(fenster: Fenster, stand: LogZahlen) {
 }
 
 /** Fünf gerettete Schlüssel, gleichmäßig über die Liste verteilt, mit Titel und Folgenzahl. */
-function stichproben(neu: string[]) {
-  const sammlung = lesen(join(WURZEL, SAMMLUNGEN[0]!)) as Record<string, { titleId: number; folgen?: unknown[] }>
-  const titel = new Map((lesen(join(WURZEL, 'public/data/titles.json')) as unknown as { id: number; titleDe: string }[]).map((t) => [t.id, t.titleDe]))
+function stichproben(ziel: string, gerettet: Sammlung, neu: string[]) {
+  const titel = new Map((lesen(join(ziel, 'public/data/titles.json')) as unknown as { id: number; titleDe: string }[]).map((t) => [t.id, t.titleDe]))
   for (let k = 0; k < Math.min(5, neu.length); k++) {
     const schluessel = neu[Math.floor((k * neu.length) / Math.min(5, neu.length))]!
-    const z = sammlung[schluessel]
+    const z = gerettet[schluessel] as { titleId: number; folgen?: unknown[] } | undefined
     if (z) console.log(`  Stichprobe: ${titel.get(z.titleId) ?? z.titleId} · ${schluessel} · ${z.folgen?.length ?? 0} Folgen`)
   }
 }
 
-/** Ein Fenster: Kopie öffnen, Zuordner im Stand des Laufs, Ergebnis ins Repo mischen, Bilanz drucken. */
-async function rette(fenster: Fenster, quelle: string) {
+/**
+ * Ein Fenster: Kopie öffnen, Zuordner im Stand des Laufs (aus dem Repo `ziel`), Bilanz drucken, Ergebnis dreiseitig in
+ * `ziel` mischen — geschrieben wird nur mit `schreiben`, sonst nur gezählt.
+ */
+export async function rette(fenster: Fenster, quelle: string, ziel: string, schreiben: boolean) {
   const arbeit = mkdtempSync(join(tmpdir(), 'rohfolgen-rettung-'))
   copyFileSync(quelle, join(arbeit, 'kopie.sqlite'))
   const db = new DatabaseSync(join(arbeit, 'kopie.sqlite'))
   try {
     const stand = db.prepare('SELECT stand FROM kopie_stand').get() as { stand: string }
+    console.log(`Lauf ${fenster.lauf} (${schreiben ? 'schreibt' : 'trocken'}), Kopie ${stand.stand}`)
     if (Date.parse(stand.stand) < Date.parse(fenster.bis)) throw new Error(`Kopie von ${stand.stand} ist älter als das Fenster`)
-    console.log(`Lauf ${fenster.lauf}, Kopie ${stand.stand}; wieder geöffnet: ${JSON.stringify(oeffneFenster(db, fenster))}`)
+    console.log(`Wieder geöffnet: ${JSON.stringify(oeffneFenster(db, fenster))}`)
     mkdirSync(join(arbeit, 'kulisse'))
-    kulisseAusStand(fenster.stand, join(arbeit, 'kulisse'))
+    kulisseAusStand(ziel, fenster.stand, join(arbeit, 'kulisse'))
     const lauf = await zuordnerLauf(join(arbeit, 'kulisse'), db)
     for (const b of bilanz(fenster, lauf.stand)) console.log(`Bilanz ${b.feld}: Log ${b.log}, Rettung ${b.rettung} (${b.abweichung >= 0 ? '+' : ''}${b.abweichung})`)
-    for (const b of uebernimm(WURZEL, lauf)) {
-      const zahlen = `neu ${b.neu.length}, später geändert ${b.spaeterGeaendert.length}, geschrumpft (nicht übernommen) ${b.geschrumpft.length}`
-      console.log(`${b.datei}: ${JSON.stringify(b.vorher)} → ${JSON.stringify(b.nachher)}, ${zahlen}`)
-      stichproben(b.neu)
+    const berichte = uebernimm(ziel, lauf, schreiben)
+    for (const [i, b] of berichte.entries()) {
+      const nicht = `geschrumpft ${b.geschrumpft.length}, andere Schlüsselform ${b.andereForm.length}`
+      const zahlen = `neu ${b.neu.length}, später geändert ${b.spaeterGeaendert.length}, nicht übernommen: ${nicht}`
+      console.log(`${b.datei}${schreiben ? '' : ' (trocken)'}: ${JSON.stringify(b.vorher)} → ${JSON.stringify(b.nachher)}, ${zahlen}`)
+      stichproben(ziel, lauf.nachher[i]!, b.neu)
     }
+    return { ...lauf, berichte }
   } finally {
     db.close()
     rmSync(arbeit, { recursive: true, force: true })
   }
 }
 
+/** `--kopie <sqlite>` (sonst die Standardkopie), `--fenster <lauf>` (sonst alle), `--schreiben` (sonst trocken). */
+export function optionen(argv: string[]) {
+  const wert = (name: string) => (argv.includes(name) ? argv[argv.indexOf(name) + 1] : undefined)
+  const fenster = wert('--fenster')
+  return {
+    quelle: resolve(wert('--kopie') ?? join(WURZEL, 'data/cache/meldungskopie/meldungen.sqlite')),
+    fenster: fenster === undefined ? null : Number(fenster),
+    schreiben: argv.includes('--schreiben'),
+  }
+}
+
 /** Ohne `--fenster` jedes Fenster in einem eigenen Prozess, nacheinander: der Zuordner läuft je Prozess nur einmal. */
 async function main() {
-  const i = process.argv.indexOf('--kopie')
-  const quelle = resolve(i > 0 ? process.argv[i + 1]! : join(WURZEL, 'data/cache/meldungskopie/meldungen.sqlite'))
-  if (!existsSync(quelle)) throw new Error(`Keine Meldungskopie unter ${quelle}: LAUF_TOKEN=… npm run meldungskopie -- holen`)
-  const f = process.argv.indexOf('--fenster')
-  if (f > 0) return await rette(FENSTER.find((x) => x.lauf === Number(process.argv[f + 1]))!, quelle)
+  const o = optionen(process.argv.slice(2))
+  if (!existsSync(o.quelle)) throw new Error(`Keine Meldungskopie unter ${o.quelle}: LAUF_TOKEN=… npm run meldungskopie -- holen`)
+  if (o.fenster !== null) {
+    const fenster = FENSTER.find((x) => x.lauf === o.fenster)
+    if (!fenster) throw new Error(`Rettung: kein Fenster ${o.fenster}`)
+    return void (await rette(fenster, o.quelle, WURZEL, o.schreiben))
+  }
+  if (!o.schreiben) console.log('Trocken: nichts wird geschrieben (mit --schreiben übernehmen).')
   for (const fenster of FENSTER) {
-    const kind = spawnSync(process.execPath, [...process.execArgv, process.argv[1]!, '--kopie', quelle, '--fenster', String(fenster.lauf)], { stdio: 'inherit' })
+    const weiter = ['--kopie', o.quelle, '--fenster', String(fenster.lauf), ...(o.schreiben ? ['--schreiben'] : [])]
+    const kind = spawnSync(process.execPath, [...process.execArgv, process.argv[1]!, ...weiter], { stdio: 'inherit' })
     if (kind.status !== 0) throw new Error(`Rettung: Fenster ${fenster.lauf} endete mit ${kind.status}`)
   }
 }
