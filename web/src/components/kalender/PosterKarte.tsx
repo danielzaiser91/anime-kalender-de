@@ -132,7 +132,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
     <div className="relative">
     <div
       className={[
-        'ak-ring-oben-woche relative overflow-hidden rounded-t-xl bg-ak-flaeche-2',
+        'ak-ring-oben-leiste relative overflow-hidden rounded-t-xl bg-ak-flaeche-2',
         /* Breit: so hoch wie die schmalen Nachbarn — zwei Spalten minus Lücke, mal 3/4. */
         zwei ? 'ak-breit-cover h-0' : 'aspect-[2/3]',
         p.favorite ? 'ring-3' : p.breit ? 'ring-2' : '',
@@ -166,7 +166,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
     </div>
     {/*
       **Die Anbieterleiste schließt das Cover unten ab, mit oder ohne Ring** (Daniel, 04.10. und 17.10.2026): Der Ring endet über der Leiste
-      (`ak-ring-oben` schneidet ihn unten ab), die unteren Ecken sind eckig; sonst bliebe dort eine Lücke zwischen Ring und Leiste.
+      (`ak-ring-oben-leiste` schneidet ihn 1 px über der Unterkante ab, Begründung in `styles.css`), die unteren Ecken sind eckig; sonst bliebe dort eine Lücke zwischen Ring und Leiste.
     */}
     <span
       className="pointer-events-none absolute inset-x-0 bottom-0 h-1"

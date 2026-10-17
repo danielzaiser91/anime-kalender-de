@@ -4,7 +4,7 @@
  * Unterkante) ein eigener Fall; die Pixel sind Zahlen, kein Browser nötig. Der Lauf im Browser steht in `check:ansichten-desktop`.
  */
 import assert from 'node:assert/strict'
-import { bewerte, saalFehler } from './kachel-ecken-messen.mjs'
+import { ansichtErgebnis, bewerte, saalFehler } from './kachel-ecken-messen.mjs'
 
 const LEISTE = [200, 20, 20]
 const COVER = [70, 90, 130]
@@ -94,5 +94,19 @@ assert.match(saalFehler('t', [kachel(0), kachel(200)], 1).join('\n'), /nur 0 Kin
 assert.match(saalFehler('t', mitSaal, 2).join('\n'), /nur 1 Kino-Saal-Kacheln \(mindestens 2\)/, 'Mindestzahl gilt')
 assert.deepEqual(saalFehler('t', [kachel(0), { ...kachel(200), saal: true }, { ...kachel(400), saal: true }]), [], 'Standardmindestzahl 1 genügt bei zwei')
 assert.equal(saalFehler('t', [kachel(0), kachel(200)]).length, 1, 'Standardmindestzahl verlangt mindestens einen Saal')
+
+// Verdrahtung der Ansicht: Die Woche prüft den Saal und nennt die Zahl in der Zeile, der Monat prüft ihn nicht.
+const fuenf = [0, 1, 2, 3, 4].map((i) => kachel(i * 200))
+const ohneSaal = { ohne: lauf(fuenf, fuenf.map(gesund)), mit: lauf(fuenf.map((k) => ({ ...k, favorit: true })), fuenf.map(gesund)) }
+const mitSaalLauf = { ohne: ohneSaal.ohne, mit: { ...ohneSaal.mit, kacheln: ohneSaal.mit.kacheln.map((k, i) => ({ ...k, saal: i === 2 })) } }
+const woche = ansichtErgebnis('dunkel', 'woche', mitSaalLauf)
+assert.deepEqual(woche.fehler, [], 'Woche mit Saal: kein Fehler')
+assert.equal(woche.zeile, 'dunkel/woche: 5 Kacheln (1 Saal), 0 Fehler', 'Zeile nennt die Saalzahl')
+const wocheOhneSaal = ansichtErgebnis('hell', 'woche', ohneSaal)
+assert.match(wocheOhneSaal.fehler.join('\n'), /hell\/woche: nur 0 Kino-Saal-Kacheln/, 'Woche ohne Saal ist ein Fehler')
+assert.equal(wocheOhneSaal.zeile, 'hell/woche: 5 Kacheln (0 Saal), 1 Fehler', 'Fehlerzahl in der Zeile')
+const monat = ansichtErgebnis('hell', 'monat', ohneSaal)
+assert.deepEqual(monat.fehler, [], 'Monat braucht keinen Saal')
+assert.equal(monat.zeile, 'hell/monat: 5 Kacheln, 0 Fehler', 'Monat ohne Saalangabe')
 
 console.log('kachel-ecken-messen.test: ok')

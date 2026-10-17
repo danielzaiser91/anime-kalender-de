@@ -2,7 +2,7 @@
  * Wächter (Daniel, 17.10.2026, PR 1452): Die Startprüfung eines Skripts darf den `file:`-Vergleich nie selbst aus `process.argv[1]` bauen.
  * Unter Linux ergibt das `file:////home/…`, die Prüfung ist nie wahr, `main()` läuft nicht, und das Skript endet grün ohne zu messen.
  * Richtig: `import.meta.url === pathToFileURL(process.argv[1]).href`.
- * Aufruf: `node tools/start-pruefung-wacht.mjs` (in `check:logic`); prüft alle versionierten .mjs/.cjs/.js/.ts im Repo.
+ * Aufruf: `node tools/start-pruefung-wacht.mjs [<wurzel>]` (in `check:logic`); prüft alle versionierten .mjs/.cjs/.js/.ts im Repo.
  */
 import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
@@ -17,7 +17,8 @@ export function findeFehlstarts(texte) {
 }
 
 function main() {
-  const wurzel = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+  /* Wurzel per Argument: der Test startet den Wächter gegen ein Wegwerf-Repo. */
+  const wurzel = process.argv[2] ? path.resolve(process.argv[2]) : path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
   const liste = execFileSync('git', ['ls-files', '*.mjs', '*.cjs', '*.js', '*.ts', '*.tsx'], { cwd: wurzel, encoding: 'utf8' }).split('\n').filter(Boolean)
   const texte = Object.fromEntries(liste.map((p) => [p, readFileSync(path.join(wurzel, p), 'utf8')]))
   const falsch = findeFehlstarts(texte)

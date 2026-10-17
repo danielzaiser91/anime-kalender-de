@@ -75,7 +75,7 @@ for (const f of FAELLE) {
   const html = woche(f.art, f.favorit)
   const k = klassen(html, 'bg-ak-flaeche-2')
   const r = ringe(k)
-  pruefe(`Woche ${f.name}: Cover gefunden`, k.includes('rounded-t-xl') && !k.includes('rounded-xl') && k.includes('ak-ring-oben-woche') && !k.includes('ak-ring-oben'), k)
+  pruefe(`Woche ${f.name}: Cover gefunden`, k.includes('rounded-t-xl') && !k.includes('rounded-xl') && k.includes('ak-ring-oben-leiste') && !k.includes('ak-ring-oben'), k)
   pruefe(`Woche ${f.name}: Ringfarbe ${f.aussen || 'keine'}, genau eine`, r.farben.join() === f.aussen, r.farben)
   pruefe(`Woche ${f.name}: höchstens eine Ringbreite`, r.breiten.length <= 1, r.breiten)
   pruefe(`Woche ${f.name}: Favorit ring-3, sonst breit ring-2`, f.favorit ? r.breiten.join() === 'ring-3' : r.breiten.join() === (f.breit ? 'ring-2' : ''), r.breiten)
@@ -113,7 +113,7 @@ for (const f of FAELLE) {
   const html = renderToStaticMarkup(createElement(TerminZeile, { ev: termin('netflix'), p: monatsProps(f.art, f.favorit) }))
   const k = klassen(html, 'overflow-hidden')
   const r = ringe(k)
-  pruefe(`Tagesliste ${f.name}: untere Ecken eckig, Ring endet an der Leiste`, k.includes('rounded-t-md') && !k.includes('rounded-md') && k.includes('ak-ring-oben'), k)
+  pruefe(`Tagesliste ${f.name}: untere Ecken eckig, Ring endet an der Leiste`, k.includes('rounded-t-md') && !k.includes('rounded-md') && k.includes('ak-ring-oben-leiste') && !k.includes('ak-ring-oben'), k)
   pruefe(`Tagesliste ${f.name}: Favorit = goldener Ring, sonst keiner`, f.favorit ? r.farben.join() === 'ring-ak-favorit-rand' && r.breiten.join() === 'ring-2' : r.farben.length === 0 && r.breiten.length === 0, r)
 }
 

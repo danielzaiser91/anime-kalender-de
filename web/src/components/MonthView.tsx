@@ -339,8 +339,10 @@ export function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps;
       onClick={() => p.onOpen(ev.releaseSlug, ev.date)}
       className="grid w-full cursor-pointer grid-cols-[auto_minmax(0,1fr)] items-center gap-2.5 rounded-xl p-1.5 text-left transition hover:bg-ak-flaeche-2"
     >
-      <span className={`ak-ring-oben relative block overflow-hidden rounded-t-md bg-ak-flaeche-2 ${gross ? 'h-24 w-16' : 'h-14 w-10'} ${favorit ? 'ring-2 ring-ak-favorit-rand' : ''}`}>
-        {cover && <img {...coverBild(cover, gross ? 64 : 40)} alt="" loading="lazy" className="size-full object-cover" />}
+      <span className={`relative block ${gross ? 'h-24 w-16' : 'h-14 w-10'}`}>
+        <span className={`ak-ring-oben-leiste absolute inset-0 overflow-hidden rounded-t-md bg-ak-flaeche-2 ${favorit ? 'ring-2 ring-ak-favorit-rand' : ''}`}>
+          {cover && <img {...coverBild(cover, gross ? 64 : 40)} alt="" loading="lazy" className="size-full object-cover" />}
+        </span>
         <span className="absolute inset-x-0 bottom-0 h-[3px]" style={{ background: farbleiste(ev, p) }} />
       </span>
       <span className="flex min-w-0 flex-col items-start gap-1">

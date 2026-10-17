@@ -1,7 +1,7 @@
 /**
  * Anbieter-Leiste unten an den Kacheln (Daniel, 17.10.2026): Die unteren Cover-Ecken sind eckig (sonst Lücke zwischen Rand und Leiste),
  * und der goldene Favoritenrand schiebt die Leiste nicht nach oben. Gemessen wird an Pixeln der gebauten App, nicht an Klassen:
- * dieselbe Woche und derselbe Monat einmal ohne Favoriten, einmal mit allen Titeln als Favorit, je Thema (dunkel/hell), Desktop 1280.
+ * dieselbe Woche und derselbe Monat einmal ohne Favoriten, einmal mit allen Titeln als Favorit, je Thema (dunkel/hell), Desktop 1280 und Handy 360 px (Tap auf einen Tag, Tageszeilen).
  * Je Kachel (Woche: Cover, Monat: Cover-Knopf, Leiste = nächstes Geschwister bzw. letztes Kind):
  *  - Leiste: Unterkante gleich mit und ohne Favorit (Rechteck);
  *  - Ecke: der Pixel in der unteren linken und rechten Ecke der Leiste hat Leistenfarbe, nicht Seitengrund oder Gold (rund = Lücke);
@@ -33,6 +33,10 @@ const SELEKTOR = {
   /* Das Cover der Tageszeile im Fenster, das beim Zeigen auf ein Monats-Cover aufgeht. */
   fenster: '[data-schliesst] > span.relative',
 }
+/** Tage, die am Handy angetippt werden (die Schaltfläche eines Tages trägt den Monatspunkt), und die Mindestzahl Tageszeilen mit Favorit darin (26.10.2026: 9 ganz sichtbare). */
+const TAGE_HANDY = 6
+const TAG_KNOPF = 'button:has([data-monatspunkt])'
+const MIN_HANDY = 5
 /** So viele Monats-Cover mit Favorit werden für das Fenster angezeigt. */
 const MAX_FENSTER = 6
 /** Farbabstand (Summe der Kanäle), ab dem zwei Pixel als verschieden gelten; Kantenglättung bleibt darunter. */
@@ -60,10 +64,12 @@ function messeKacheln({ selektor, monat, ausschnitt }) {
   const [dx, dy] = ausschnitt ? [0, 0] : [scrollX, scrollY]
   return [...document.querySelectorAll(selektor)]
     .filter((el) => el.offsetParent !== null)
+    /* Im Ausschnitt nur ganz sichtbare Kacheln: darunter liest das Bild keine Pixel. */
+    .filter((el) => !ausschnitt || el.lastElementChild.getBoundingClientRect().bottom + 5 < innerHeight)
     .map((el) => {
       const leiste = monat ? el.lastElementChild : el.nextElementSibling
       const r = leiste.getBoundingClientRect()
-      return { x: r.x + dx, w: r.width, oben: el.getBoundingClientRect().top + dy, unten: r.bottom + dy, breit: el.classList.contains('ak-breit-cover'), favorit: el.classList.contains('ring-ak-favorit-rand'), saal: el.classList.contains('ak-saal') }
+      return { x: r.x + dx, w: r.width, leiste: r.height, oben: el.getBoundingClientRect().top + dy, unten: r.bottom + dy, breit: el.classList.contains('ak-breit-cover'), favorit: el.classList.contains('ring-ak-favorit-rand') || !!el.querySelector(':scope > .ring-ak-favorit-rand'), saal: el.classList.contains('ak-saal') }
     })
 }
 
@@ -87,8 +93,9 @@ async function lesePixel({ png, punkte }) {
 
 const abstand = (a, b) => a.reduce((s, v, i) => s + Math.abs(v - b[i]), 0)
 
-async function neueSeite(browser, thema, favoriten) {
-  const kontext = await browser.newContext({ viewport: { width: 1280, height: 900 }, colorScheme: thema === 'dunkel' ? 'dark' : 'light' })
+async function neueSeite(browser, thema, favoriten, handy = false) {
+  const geraet = handy ? { viewport: { width: 360, height: 800 }, isMobile: true, hasTouch: true } : { viewport: { width: 1280, height: 900 } }
+  const kontext = await browser.newContext({ ...geraet, colorScheme: thema === 'dunkel' ? 'dark' : 'light' })
   /* Die Kennungs-Umzüge der App (anilist → ak, `kennung:*`) laufen sonst an und leeren die gesetzten Favoriten. */
   await kontext.addInitScript((ids) => {
     localStorage.setItem('kennung:ak1', '1')
@@ -155,6 +162,36 @@ async function messeFenster(seite, indizes) {
   return gesamt
 }
 
+/** Am Handy (360 px, Touch): Tippt nacheinander die ersten Tage des Monats an und misst jedes Mal die Tageszeilen. */
+async function messeHandy(seite) {
+  await ladeAnsicht(seite, 'monat', DATUM)
+  const gesamt = { kacheln: [], farben: [] }
+  for (let i = 0; i < TAGE_HANDY; i++) {
+    await seite.locator(TAG_KNOPF).nth(i).click()
+    await seite.waitForTimeout(700)
+    const einzeln = await messeSichtbare(seite, 'fenster')
+    gesamt.kacheln.push(...einzeln.kacheln)
+    gesamt.farben.push(...einzeln.farben)
+    await seite.keyboard.press('Escape')
+    await seite.mouse.click(5, 790)
+    await seite.waitForTimeout(300)
+  }
+  return gesamt
+}
+
+/** Die Tageszeile am Handy, ohne und mit Favoriten (die Kennungen stammen vom Desktop, am Handy fände `sammleKennungen` keine). */
+async function pruefeHandy(browser, thema, ids) {
+  const lauf = {}
+  for (const [art, favoriten] of [['mit', ids], ['ohne', []]]) {
+    const seite = await neueSeite(browser, thema, favoriten, true)
+    lauf[art] = await messeHandy(seite)
+    await seite.context().close()
+  }
+  const f = bewerte(`${thema}/handy`, lauf.ohne, lauf.mit, MIN_HANDY)
+  console.log(`${thema}/handy: ${lauf.ohne.kacheln.length} Kacheln, ${f.length} Fehler`)
+  return f
+}
+
 /** Das Fenster mit der Tageszeile: dieselben Monats-Cover ohne und mit Favoriten anzeigen und vergleichen. */
 async function pruefeFenster(browser, thema, ids, kachelnMit) {
   const indizes = kachelnMit.flatMap((k, i) => (k.favorit ? [i] : [])).slice(0, MAX_FENSTER)
@@ -169,9 +206,11 @@ async function pruefeFenster(browser, thema, ids, kachelnMit) {
   return f
 }
 
-/** Geprüfte Pixel einer Leiste: untere Ecke links und rechts, je drei Pixel weiter innen und zwei Zeilen höher (Leistenfarbe; fehlt die letzte Leistenzeile, fällt das auf), drei Pixel unter der Mitte. */
+/** Geprüfte Pixel einer Leiste (die letzte Leistenzeile ist die auf ganze Pixel gerundete Unterkante minus eins, wie Chrome sie malt): untere Ecke links und rechts, je drei Pixel weiter innen und zwei Zeilen höher (Leistenfarbe; fehlt die letzte Leistenzeile, fällt das auf), drei Pixel unter der Mitte. */
 function stellen(k) {
-  const unten = Math.floor(k.unten) - 1
+  const unten = Math.round(k.unten) - 1
+  /* Die Seitenränder werden in der ersten Zeile über der Leiste gelesen (dort zeigt sich eine runde Ecke am stärksten). */
+  const ersteCoverZeile = unten - Math.round(k.leiste)
   const mitte = Math.round(k.x + k.w / 2)
   return [
     [Math.ceil(k.x), unten],
@@ -181,8 +220,8 @@ function stellen(k) {
     [mitte, unten + 2],
     [mitte, unten + 3],
     [mitte, unten + 4],
-    [Math.ceil(k.x), unten - 5],
-    [Math.floor(k.x + k.w) - 1, unten - 5],
+    [Math.ceil(k.x), ersteCoverZeile],
+    [Math.floor(k.x + k.w) - 1, ersteCoverZeile],
     [Math.ceil(k.x), unten - 20],
     [Math.floor(k.x + k.w) - 1, unten - 20],
     [mitte, unten + 1],
@@ -222,6 +261,15 @@ export function saalFehler(name, kacheln, mindestens = MIN_SAAL) {
   return saal < mindestens ? [`${name}: nur ${saal} Kino-Saal-Kacheln (mindestens ${mindestens}), ihre Unterkante bliebe ungemessen`] : []
 }
 
+/** Fehler und Ergebniszeile einer Ansicht; die Woche hat zusätzlich Kino-Saal-Kacheln (Zahl steht in der Zeile, damit das CI-Log sie zeigt). */
+export function ansichtErgebnis(thema, ansicht, lauf) {
+  const name = `${thema}/${ansicht}`
+  const fehler = bewerte(name, lauf.ohne, lauf.mit)
+  if (ansicht === 'woche') fehler.push(...saalFehler(name, lauf.mit.kacheln))
+  const saal = ansicht === 'woche' ? ` (${lauf.mit.kacheln.filter((k) => k.saal).length} Saal)` : ''
+  return { fehler, zeile: `${name}: ${lauf.ohne.kacheln.length} Kacheln${saal}, ${fehler.length} Fehler` }
+}
+
 /** Bild des Ausschnitts um die erste Favoriten-Kachel des Laufs „mit“ (in beiden Läufen dieselbe Stelle). */
 async function bildVonKachel(seite, ansicht, datei, kachelnMit) {
   const index = kachelnMit.findIndex((k) => k.favorit)
@@ -255,12 +303,12 @@ async function main() {
         if (BILDER) await bildVonKachel(seite, ansicht, path.join(BILDER, `kachel-ecken-${ansicht}-${thema}-${art}-favorit.png`), lauf.mit.kacheln)
         await seite.context().close()
       }
-      const f = bewerte(`${thema}/${ansicht}`, lauf.ohne, lauf.mit)
-      console.log(`${thema}/${ansicht}: ${lauf.ohne.kacheln.length} Kacheln, ${f.length} Fehler`)
-      fehler.push(...f)
-      if (ansicht === 'woche') fehler.push(...saalFehler(`${thema}/woche`, lauf.mit.kacheln))
+      const ergebnis = ansichtErgebnis(thema, ansicht, lauf)
+      console.log(ergebnis.zeile)
+      fehler.push(...ergebnis.fehler)
       if (ansicht === 'monat') fehler.push(...(await pruefeFenster(browser, thema, ids, lauf.mit.kacheln)))
     }
+    fehler.push(...(await pruefeHandy(browser, thema, ids)))
   }
   await browser.close()
   if (fehler.length) {
