@@ -6,7 +6,7 @@ import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { dirname, join, resolve } from 'node:path'
+import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { abdruck, BAU_EINGABEN, bauMitSpur, befehlErlaubt, frei, PATCHNOTES_LOG, unerklaert } from './bau-eingaben.mjs'
 
@@ -66,8 +66,10 @@ assert.deepEqual(unerklaert([...kopien, ...kopienHinten]), ['.', 'daniel-zum-aba
 // und jedes process.binding ist unerklärt — jeder Fremdstart einzeln in der Mitte der erlaubten.
 const start = (s) => `start\t${JSON.stringify(s)}`
 const ESB = '/r/node_modules/@esbuild/linux-x64/bin/esbuild'
+// Node gilt nur mit Kennung, die ein Kind in seine Spur-Datei geschrieben hat (Prüfer R3, Auflage 2).
+const KENNUNGEN = new Set(['7-0-1', '7-0-2', '7-0-3'])
 const erlaubt = [
-  start({ datei: 'C:\\Programme\\nodejs\\node.exe', argv: ['x.mjs'], cwd: '.' }),
+  start({ datei: 'C:\\Programme\\nodejs\\node.exe', argv: ['x.mjs'], cwd: '.', kennung: '7-0-2' }),
   start({ datei: ESB, argv: ['--service=0.25.12', '--ping'], cwd: '.' }),
   start({ datei: 'git', argv: PATCHNOTES_LOG, cwd: '.' }),
   start({ datei: 'C:\\r\\node_modules\\vite\\node_modules\\@esbuild\\win32-x64\\esbuild.exe', argv: ['--service=0.28.1'], cwd: 'web' }),
@@ -75,9 +77,13 @@ const erlaubt = [
   start({ shell: 'net use' }),
   start({ datei: 'git', argv: ['rev-parse', '--is-shallow-repository'], cwd: '.' }),
   start({ datei: 'C:\\Git\\cmd\\git.exe', argv: ['fetch', '--unshallow', '--filter=blob:none', '--quiet', 'origin'], cwd: '.' }),
-  start({ datei: '/usr/bin/node', argv: [], cwd: 'web' }),
+  start({ datei: '/usr/bin/node', argv: [], cwd: 'web', kennung: '7-0-3' }),
+  'dlopen\t//?/C:/r/node_modules/@rollup/rollup-win32-x64-msvc/rollup.win32-x64-msvc.node',
+  'dlopen\t/r/node_modules/@tailwindcss/oxide-linux-x64-gnu/tailwindcss-oxide.linux-x64-gnu.node',
+  'dlopen\t/r/node_modules/lightningcss-linux-x64-gnu/lightningcss.linux-x64-gnu.node',
+  'scanner\tweb',
 ]
-assert.deepEqual(unerklaert(erlaubt), [], 'erlaubte Starts')
+assert.deepEqual(unerklaert(erlaubt, KENNUNGEN), [], 'erlaubte Starts')
 const fremdeStarts = [
   start({ datei: 'cat', argv: ['data/frei.json'], cwd: '.' }),
   start({ datei: 'git', argv: ['log', 'data/frei.json'], cwd: '.' }),
@@ -98,18 +104,31 @@ const fremdeStarts = [
   start({ datei: 'nodex', argv: [], cwd: '.' }),
   start({ datei: 'node' }),
   'binding\tfs',
+  start({ datei: '/usr/bin/node', argv: [], cwd: '.' }),
+  start({ datei: '/usr/bin/node', argv: [], cwd: '.', kennung: '7-0-4' }),
+  // Ein Hüllprogramm, das selbst liest und Node startet: Das Kind schreibt die Kennung, der Name bleibt fremd.
+  start({ datei: '/usr/bin/nodex', argv: [], cwd: '.', kennung: '7-0-1' }),
+  'dlopen\t/r/node_modules/sharp/build/sharp.node',
+  'dlopen\t/r/xnode_modules/lightningcss-linux-x64-gnu/lightningcss.linux-x64-gnu.node',
+  'dlopen\t/r/node_modules/@rollup/rollup-linux-x64-gnu/rollup.node',
+  'dlopen\t/r/node_modules/lightningcss-linux-x64-gnu/lightningcss.linux-x64-gnu.node.x',
+  'nativ\tbundle',
 ]
 for (const f of fremdeStarts) {
   const erwartet = [`${f.split('\t')[0]} ${f.split('\t')[1]}`]
-  assert.deepEqual(unerklaert([...erlaubt.slice(0, 4), f, ...erlaubt.slice(4)]), erwartet, `Fremdstart in der Mitte: ${f}`)
+  assert.deepEqual(unerklaert([...erlaubt.slice(0, 4), f, ...erlaubt.slice(4)], KENNUNGEN), erwartet, `Fremdstart in der Mitte: ${f}`)
 }
-assert.equal(unerklaert(fremdeStarts).length, fremdeStarts.length, 'jeder Fremdstart gezählt')
+assert.equal(unerklaert(fremdeStarts, KENNUNGEN).length, fremdeStarts.length, 'jeder Fremdstart gezählt')
+// Der Tailwind-Scanner liest ganze Ordner: Wurzel, Vorfahren freier Pfade und freie Ordner sind unerklärt.
+assert.deepEqual(unerklaert(['scanner\tweb', 'scanner\tdocs', 'scanner\tpublic', 'scanner\t.', 'scanFiles\tweb/a.tsx', 'scanFiles\tdata/x.json']), ['.', 'data/x.json', 'docs'])
 
-// Bau-Befehl (Wächter auf package.json): nur `vite build` und `tsx pipeline/<name>.ts` mit `&&`.
+// Bau-Befehl (Wächter auf package.json): feste Prüfungen vorweg, dann die Spur bis zum Ende (Prüfer R3, Auflage 1: kein Schritt dahinter);
+// in der Spur nur `vite build` und `tsx pipeline/<name>.ts` mit `&&`.
 const paket = JSON.parse(readFileSync(join(WURZEL, 'package.json'), 'utf8')).scripts.build
+const VORWEG = 'npm run check:umfang && npm run check:hooks && npm run check:folgen && tsc -b --noEmit'
 const innerer = /node tools\/bau-eingaben\.mjs "([^"]*)"/.exec(paket)?.[1]
 assert.ok(befehlErlaubt(innerer), `Bau-Befehl in package.json: ${innerer}`)
-assert.equal(paket.split('node tools/bau-eingaben.mjs').length, 2, 'genau ein Bau mit Spur')
+assert.equal(paket, `${VORWEG} && node tools/bau-eingaben.mjs "${innerer}"`, 'Bau-Befehl: Prüfungen vorweg, Spur bis zum Ende')
 assert.ok(befehlErlaubt('vite build && tsx pipeline/a-b.ts && tsx pipeline/c.ts'))
 for (const b of ['vite build && cat data/x', 'vite build; cat data/x', 'tsx pipeline/../x.ts', 'tsx pipeline/a.ts && node -e 1', 'vite build|cat', 'vite build --x', 'tsx pipeline/a.ts > data/x', '', undefined]) {
   assert.ok(!befehlErlaubt(b), `Befehl nicht erlaubt: ${b}`)
@@ -124,6 +143,15 @@ for (const b of ['vite build && cat data/x', 'vite build; cat data/x', 'tsx pipe
  * `Q:` über `\\?\` (Windows) bzw. `/proc/self/cwd` (Linux), `U:` prüft die Rückgaben von promisify, `E:` promisify(fs.exists), `Z:`
  * promisify(execFile) startet `cat`, `C:` startet Node über `ChildProcess` direkt, sonst readFileSync.
  */
+/** Ein Programm namens node, das nicht Node ist (Prüfer R3): Kopie von `cat` bzw. `findstr` in `falsch/` der Wegwerf-Wurzel. */
+const FALSCHER_NODE = process.platform === 'win32' ? 'node.exe' : 'node'
+const FREMDPROGRAMM = process.platform === 'win32' ? join(process.env.SystemRoot ?? 'C:\\Windows', 'System32', 'findstr.exe') : '/bin/cat'
+/** Ein natives Modul unter fremdem Pfad: Kopie des oxide-Moduls dieser Plattform. */
+const OXIDE_NODE = (() => {
+  const ordner = join(WURZEL, 'node_modules', '@tailwindcss')
+  const paket = readdirSync(ordner).find((d) => d.startsWith('oxide-') && readdirSync(join(ordner, d)).some((f) => f.endsWith('.node')))
+  return join(ordner, paket, readdirSync(join(ordner, paket)).find((f) => f.endsWith('.node')))
+})()
 const SONDEN_R2 = [
   "  const still = { stdio: 'ignore' }",
   "  if (art === 'g') try { execFileSync('cat', [p], still) } catch {}",
@@ -163,6 +191,21 @@ const SONDEN_R2 = [
   "    existsSync('dist/d/fehlt.json')",
   '  }',
   "  if (art === 'R') readFileSync(join(realpathSync.native('.'), p))",
+  // R4: Kind mit eigener NODE_OPTIONS ohne Vorlader; Fremdprogramm namens node, direkt und als `execPath` von fork; Tailwind-Scanner.
+  "  if (art === 'O') execFileSync(process.execPath, ['lies.mjs', p], { env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' } })",
+  "  if (art === 'M') for (const datei of [process.execPath, FALSCH, process.execPath]) try { execFileSync(datei, ['x', p], still) } catch {}",
+  "  if (art === 'B') await new Promise((fertig) => {",
+  "    fork('lies.mjs', [p], { execPath: FALSCH, stdio: ['ignore', 'ignore', 'ignore', 'ipc'] }).on('exit', fertig).on('error', fertig)",
+  '  })',
+  "  if (art === 'T') {",
+  "    const ausgenommen = { base: resolve('data'), pattern: '**/*', negated: true }",
+  "    new (scanner())({ sources: [ausgenommen, { base: resolve(p), pattern: '**/*', negated: false }, ausgenommen] }).scan()",
+  '  }',
+  "  if (art === 'D') new (scanner())({ sources: [] }).scanFiles([{ file: resolve(p), extension: 'json' }])",
+  // Native Module: lightningcss bündelt nativ (jeder Aufruf unerklärt), ein natives Modul außerhalb der gemessenen.
+  "  if (art === 'lb') try { lightningcss().bundle({ filename: resolve(p) }) } catch {}",
+  "  if (art === 'la') try { await lightningcss().bundleAsync({ filename: resolve(p) }) } catch {}",
+  "  if (art === 'nf') createRequire(import.meta.url)('./falsch/fremd.node')",
 ]
 const LIES = [
   "import fs, { closeSync, existsSync, symlinkSync, copyFileSync, cpSync, createReadStream, mkdtempSync, openSync, readFileSync, realpathSync, rmSync } from 'node:fs'",
@@ -173,6 +216,10 @@ const LIES = [
   "import { join, resolve, toNamespacedPath } from 'node:path'",
   "import { pathToFileURL } from 'node:url'",
   "import { parentPort, Worker } from 'node:worker_threads'",
+  "import { createRequire } from 'node:module'",
+  `const scanner = () => createRequire(${JSON.stringify(join(WURZEL, 'package.json'))})('@tailwindcss/oxide').Scanner`,
+  `const lightningcss = () => createRequire(${JSON.stringify(join(WURZEL, 'package.json'))})('lightningcss')`,
+  `const FALSCH = resolve('falsch', ${JSON.stringify(FALSCHER_NODE)})`,
   "realpathSync.native('.')",
   'for (const a of process.argv.slice(2)) {',
   "  const [art, p] = a.includes(':') ? a.split(':') : ['s', a]",
@@ -214,7 +261,9 @@ const LIES = [
 /** Wegwerf-Wurzel mit Spur-Vorlader, `lies.mjs`/`lies.ts` (lesen die Pfade aus argv) und `dist/version.json`. */
 function wurzel() {
   const ort = mkdtempSync(join(tmpdir(), 'bau-eingaben-'))
-  for (const d of ['tools', 'data', 'dist', 'web']) mkdirSync(join(ort, d))
+  for (const d of ['tools', 'data', 'dist', 'web', 'falsch']) mkdirSync(join(ort, d))
+  copyFileSync(FREMDPROGRAMM, join(ort, 'falsch', FALSCHER_NODE))
+  copyFileSync(OXIDE_NODE, join(ort, 'falsch', 'fremd.node'))
   copyFileSync(join(WURZEL, 'tools', 'bau-eingaben-spur.cjs'), join(ort, 'tools', 'bau-eingaben-spur.cjs'))
   writeFileSync(join(ort, 'lies.mjs'), LIES)
   writeFileSync(join(ort, 'lies.ts'), "import { readFileSync } from 'node:fs'\nconst p: string = process.argv[2]\nreadFileSync(p)\n")
@@ -289,6 +338,23 @@ for (const weg of ['C', 'Y', 'y', 'V', 'W', 'L', 'N']) {
   const ergebnis = bau(`node lies.mjs ${weg}:data/kennungen.json`)
   assert.deepEqual([ergebnis.exit, ergebnis.version], [0, OHNE], `${weg}: unerklärt, kein Abdruck`)
 }
+// Sonden R4 (Prüfer R3, Auflagen 2 bis 4): eigene NODE_OPTIONS ohne Vorlader, Tailwind-Scanner (Ordner und scanFiles); je freier Weg ohne,
+// derselbe Weg zu einer Eingabe mit Abdruck.
+for (const [weg, frei, eingabe] of [['O', 'data/frei.json', 'data/kennungen.json'], ['T', 'data', 'web'], ['D', 'data/frei.json', 'data/kennungen.json']]) {
+  assert.deepEqual(bau(`node lies.mjs ${weg}:${frei}`).version, OHNE, `${weg}: freier Pfad, kein Abdruck`)
+  assert.equal(bau(`node lies.mjs ${weg}:${eingabe}`).version.abdruck, A, `${weg}: nur Eingabe, Abdruck steht`)
+}
+for (const weg of ['lb', 'la', 'nf']) {
+  const ergebnis = bau(`node lies.mjs ${weg}:web/a.txt`)
+  assert.deepEqual([ergebnis.exit, ergebnis.version], [0, OHNE], `${weg}: natives Lesen, kein Abdruck`)
+  assert.match(ergebnis.meldungen.join('\n'), weg === 'nf' ? /dlopen [^,]*falsch\/fremd\.node/ : new RegExp(`nativ ${weg === 'lb' ? 'bundle' : 'bundleAsync'}`), weg)
+}
+// Fremdprogramm namens node, direkt und als `execPath` von fork: schreibt keine Kennung, der Start steht mit seinem Pfad in der Warnung.
+for (const weg of ['M', 'B']) {
+  const ergebnis = bau(`node lies.mjs ${weg}:data/kennungen.json`)
+  assert.deepEqual([ergebnis.exit, ergebnis.version], [0, OHNE], `${weg}: Node ohne Spur-Datei, kein Abdruck`)
+  assert.match(ergebnis.meldungen.join('\n'), /"datei":"[^"]*falsch(\\\\|\/)node(\.exe)?"/, `${weg}: Pfad des Fremdprogramms in der Warnung`)
+}
 // Wurzel über einen Link gebaut: Lesen über den echten Pfad der Wurzel zählt wie Lesen ab Wurzel.
 function bauUeberLink(argument) {
   const ort = wurzel()
@@ -330,6 +396,22 @@ assert.match(unvollstaendig('beginn\nende\n', '3-1.txt'), /\(1 Prozesse ohne End
 assert.match(unvollstaendig('beginn\nende\n', 'x.txt'), /\(1 Prozesse ohne Ende/, 'Datei ohne PID-Muster')
 const voll = bau('x', gitBaum, false, spurDateien('beginn\nreadFileSync\tweb.txt\nende\n'))
 assert.deepEqual(voll.meldungen, [`Spur: 5 Zugriffe, 4 Prozesse und Threads, 0 unerklärt, Abdruck ${A}`], 'Thread ohne ende: vollständig')
+// Kennung eines Node-Starts zählt nur aus dem Haupt-Thread eines anderen Prozesses (nicht aus dem Starter, nicht aus einem Thread).
+const NODE_START = `start\t${JSON.stringify({ datei: 'node', argv: [], cwd: '.', kennung: '1-0-1' })}`
+const kennungIn = (ziel) => (_befehl, optionen) => {
+  for (const d of ['0-0.txt', '1-0.txt', '1-1.txt', '2-0.txt', '2-1.txt']) {
+    const start = d === '1-0.txt' ? `${NODE_START}\n` : ''
+    const kennung = d === ziel ? 'kennung\t1-0-1\n' : ''
+    writeFileSync(join(optionen.env.BAU_SPUR, d), `beginn\n${kennung}${start}${d.endsWith('-0.txt') ? 'ende\n' : ''}`)
+  }
+  return { status: 0, signal: null }
+}
+const mitKennung = bau('x', gitBaum, false, kennungIn('2-0.txt'))
+assert.equal(mitKennung.version.abdruck, A, 'Kennung im Haupt-Thread des Kinds: Abdruck steht')
+assert.deepEqual(mitKennung.meldungen, [`Spur: 1 Zugriffe, 5 Prozesse und Threads, 0 unerklärt, Abdruck ${A}`], 'Kennung zählt nicht als Zugriff')
+for (const ziel of ['1-0.txt', '1-1.txt', '2-1.txt', 'keine']) {
+  assert.match(bau('x', gitBaum, false, kennungIn(ziel)).meldungen.join('\n'), /^::warning::.*"kennung":"1-0-1"/, `Kennung nur in ${ziel}: unerklärt`)
+}
 const leer = bau('exit 0', gitBaum, false)
 assert.deepEqual([leer.exit, leer.version], [0, OHNE], 'kein Node-Prozess in der Spur: kein Abdruck')
 assert.match(leer.meldungen.join('\n'), /Spur unvollständig \(0 Prozesse ohne Ende, 0 Spur-Dateien\)/)
@@ -357,4 +439,25 @@ while (offen.length > 0) {
 const erreicht = [...besucht].map((d) => d.slice(WURZEL.length + 1).replace(/\\/g, '/'))
 assert.ok(erreicht.includes('pipeline/lib/ausgabe-kennung.ts'), `Importe der Konfiguration verfolgt: ${erreicht.join(', ')}`)
 assert.deepEqual(erreicht.filter(frei), [], 'Konfiguration importiert freie Pfade')
+
+// Tailwind durchsucht nativ (oxide, Prüfer R3 Auflage 4): kein `@source` und kein `source(…)` einer CSS-Datei zeigt aus web/ heraus.
+const cssDateien = (ordner) => readdirSync(ordner, { withFileTypes: true }).flatMap((e) => {
+  const voll = join(ordner, e.name)
+  if (e.isDirectory()) return e.name === 'node_modules' ? [] : cssDateien(voll)
+  return e.name.endsWith('.css') ? [voll] : []
+})
+const quellen = cssDateien(join(WURZEL, 'web')).flatMap((datei) => {
+  const text = readFileSync(datei, 'utf8')
+  const ziele = [...text.matchAll(/@source\s+(?!not\s)['"]([^'"]+)['"]/g), ...text.matchAll(/\bsource\(\s*['"]([^'"]+)['"]\s*\)/g)]
+  return ziele.map(([, ziel]) => relative(WURZEL, resolve(dirname(datei), ziel)).replace(/\\/g, '/'))
+})
+assert.ok(quellen.includes('web/buehne/mockups/**/*.tsx'), `@source gefunden: ${quellen.join(', ')}`)
+assert.deepEqual(quellen.filter((q) => !q.startsWith('web/')), [], 'Tailwind-Quelle außerhalb von web/')
+assert.equal(readFileSync(join(WURZEL, 'vite.config.ts'), 'utf8').match(/^ {2}root: '([^']*)',$/m)?.[1], 'web', 'Wurzel von Vite (Basis des Scanners): web')
+
+// Exit-Code des Aufrufs aus package.json als eigener Prozess: scheitert der Befehl, Exit 1; läuft er (hier ohne Abdruck), Exit 0.
+const cli = (befehl) => spawnSync(process.execPath, [join(WURZEL, 'tools', 'bau-eingaben.mjs'), befehl], { cwd: WURZEL, encoding: 'utf8' })
+assert.equal(cli('exit 3').status, 1, 'Bau rot: Exit 1')
+const gruen = cli('exit 0')
+assert.deepEqual([gruen.status, /^::warning::Bau-Befehl außerhalb/.test(gruen.stdout)], [0, true], 'Bau grün, fremder Befehl: Exit 0 mit Warnung')
 console.log('bau-eingaben.test: ok')

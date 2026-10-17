@@ -6,7 +6,7 @@
  * Gleicher Abdruck heißt: gleiche Ausgabe bis auf `v`/`baum` in `version.json` (belegt an zwei Paaren echter Artefakte, Bericht
  * daniel-zum-abarbeiten/berichte/deploy-daten-schnellweg-2026-10-17.md). Der Deploy liefert dann den geprüften Bau aus (`tools/deploy-aus-build.mjs`).
  *
- * Aufruf im Bau (`package.json`): `node tools/bau-eingaben.mjs "<befehl>"` führt den Befehl mit der Spur (`tools/bau-eingaben-spur.cjs`) aus
+ * Aufruf im Bau (`package.json`, letzter Schritt nach den Prüfungen): `node tools/bau-eingaben.mjs "<befehl>"` führt den Befehl mit der Spur (`tools/bau-eingaben-spur.cjs`) aus
  * und schreibt danach `abdruck` in `dist/version.json` — nur, wenn jeder gelesene freie Pfad in `BAU_EINGABEN` steht, jeder Programmstart
  * erlaubt ist (`startErlaubt`) und Git den Baum nennt. Fehlt der Abdruck, baut der Deploy neu.
  */
@@ -50,8 +50,8 @@ export function abdruckAusGit(git) {
 /** Lesefunktionen, die nur Namen liefern: Namen freier Pfade stehen ohnehin im Abdruck. */
 const NUR_NAMEN = new Set(['readdirSync', 'readdir', 'opendirSync', 'opendir', 'promises.readdir', 'promises.opendir'])
 
-/** Kopierfunktionen nehmen ganze Ordner, ohne dass die Dateien darin in der Spur erscheinen (natives `cpSync`). */
-const KOPIEREN = new Set(['cpSync', 'cp', 'promises.cp'])
+/** Kopierfunktionen und der Tailwind-Scanner nehmen ganze Ordner, ohne dass die Dateien darin in der Spur erscheinen (nativ). */
+const KOPIEREN = new Set(['cpSync', 'cp', 'promises.cp', 'scanner'])
 /** Wurzel und Ordner, unter denen freie Pfade liegen: ganz kopiert, ist ihr Inhalt gelesen. */
 const VORFAHREN_FREIER = new Set(['.', 'data', 'docs', 'daniel-zum-abarbeiten', 'tools'])
 
@@ -60,41 +60,65 @@ const GIT_ERLAUBT = [['rev-parse', 'HEAD^{tree}'], ['rev-parse', '--is-shallow-r
 /** esbuild-Dienst von Vite und tsx: bekommt Quelltext per stdin, liest selbst keine Dateien (Konfiguration: Test in bau-eingaben.test.mjs). */
 const ESBUILD = /(^|[\\/])node_modules[\\/](.+[\\/])?(@esbuild[\\/][\w-]+[\\/](bin[\\/])?esbuild|esbuild[\\/]bin[\\/]esbuild)(\.exe)?$/
 const programm = (datei) => datei.replace(/^.*[\\/]/, '').replace(/\.exe$/i, '').toLowerCase()
+/** Native Module des Baus (gemessen 17.10.2026 per `process.dlopen`): Rollup und lightningcss bekommen nur Text, oxide liest über `Scanner` (Spur). */
+const NATIV = /\/node_modules\/(@rollup\/rollup-[\w-]+\/rollup|@tailwindcss\/oxide-[\w-]+\/tailwindcss-oxide|lightningcss-[\w-]+\/lightningcss)\.[\w-]+\.node$/
 
-/** Erlaubt sind Node (bekommt die Spur selbst), der esbuild-Dienst, die git-Aufrufe aus `GIT_ERLAUBT` und `net use` (Vite unter Windows). */
-export function startErlaubt(start) {
+/**
+ * Erlaubt sind Node, wenn das Kind die Kennung seines Starts in eine eigene Spur-Datei geschrieben hat (`kennungen`, sonst lud dort kein
+ * Vorlader), der esbuild-Dienst, die git-Aufrufe aus `GIT_ERLAUBT` und `net use` (Vite unter Windows).
+ */
+export function startErlaubt(start, kennungen = new Set()) {
   if (start.shell !== undefined) return start.shell === 'net use'
   if (typeof start.datei !== 'string' || !Array.isArray(start.argv)) return false
-  if (programm(start.datei) === 'node') return true
+  if (programm(start.datei) === 'node') return kennungen.has(start.kennung)
   if (ESBUILD.test(start.datei)) return /^--service=\d+\.\d+\.\d+$/.test(start.argv[0]) && start.argv.slice(1).every((a) => a === '--ping') && start.argv.length <= 2
   const wortlaut = JSON.stringify(start.argv)
   return programm(start.datei) === 'git' && start.cwd === '.' && GIT_ERLAUBT.some((g) => JSON.stringify(g) === wortlaut)
 }
 
-/** Unerklärte Spur-Zeilen (`<funktion>\t<pfad>`, `start\t<JSON>`, `binding\t<name>`): berührte freie Pfade außerhalb von `BAU_EINGABEN`, Programmstarts außerhalb von `startErlaubt`, jedes `process.binding`. */
-export function unerklaert(zeilen) {
+/** Spur-Arten ohne Pfad: Programmstart, `process.binding`, natives Modul, nativer Bündler. */
+const OHNE_PFAD = new Set(['start', 'binding', 'dlopen', 'nativ'])
+
+/**
+ * Unerklärte Spur-Zeilen (`<funktion>\t<pfad>`, `start\t<JSON>`, `binding\t<name>`, `dlopen\t<datei>`, `nativ\t<name>`): berührte freie Pfade
+ * außerhalb von `BAU_EINGABEN`, Programmstarts außerhalb von `startErlaubt`, native Module außerhalb von `NATIV`, jedes `process.binding` und `nativ`.
+ */
+export function unerklaert(zeilen, kennungen = new Set()) {
   const inhalt = ([funktion, pfad]) => (frei(pfad) && !eingabe(pfad) && !NUR_NAMEN.has(funktion)) || (KOPIEREN.has(funktion) && VORFAHREN_FREIER.has(pfad))
   const geteilt = zeilen.filter(Boolean).map((z) => [z.slice(0, z.indexOf('\t')), z.slice(z.indexOf('\t') + 1)])
   const offen = geteilt.filter(([art, rest]) => {
-    if (art === 'binding') return true
-    if (art === 'start') return !startErlaubt(JSON.parse(rest))
+    if (art === 'binding' || art === 'nativ') return true
+    if (art === 'dlopen') return !NATIV.test(rest)
+    if (art === 'start') return !startErlaubt(JSON.parse(rest), kennungen)
     return inhalt([art, rest])
   })
-  return [...new Set(offen.map(([art, rest]) => (art === 'start' || art === 'binding' ? `${art} ${rest}` : rest)))].sort()
+  return [...new Set(offen.map(([art, rest]) => (OHNE_PFAD.has(art) ? `${art} ${rest}` : rest)))].sort()
 }
 
 /**
  * Liest die Spur-Dateien `<pid>-<thread>.txt`. Vollständig ist ein Prozess, wenn die letzte Zeile seines Haupt-Threads (`-0`) `ende` ist; Threads
  * schreiben jeden Pfad vor dem Zugriff und brauchen kein eigenes `ende`. `offen` zählt Prozesse ohne `ende` am Schluss (auch bei
- * wiederverwendeter PID) und Threads ohne Haupt-Thread-Datei.
+ * wiederverwendeter PID) und Threads ohne Haupt-Thread-Datei. `kennungen` sind die Start-Kennungen, die ein Haupt-Thread eines anderen Prozesses
+ * als des startenden geschrieben hat.
  */
 export function liesSpur(ordner) {
   const dateien = new Map(readdirSync(ordner).map((d) => [d, readFileSync(join(ordner, d), 'utf8').split('\n').filter(Boolean)]))
   rmSync(ordner, { recursive: true, force: true })
-  const zeilen = [...dateien.values()].flat().filter((z) => z !== 'ende' && z !== 'beginn')
+  const zeilen = [...dateien.values()].flat().filter((z) => z !== 'ende' && z !== 'beginn' && !z.startsWith('kennung\t'))
   const prozessFertig = (pid) => dateien.get(`${pid}-0.txt`)?.at(-1) === 'ende'
   const offen = new Set([...dateien.keys()].map((d) => /^(\d+)-\d+\.txt$/.exec(d)?.[1] ?? d).filter((pid) => !prozessFertig(pid)))
-  return { zeilen, prozesse: dateien.size, offen: offen.size }
+  return { zeilen, prozesse: dateien.size, offen: offen.size, kennungen: kennungenAus(dateien) }
+}
+
+/** Kennungen aus `kennung\t<pid>-<thread>-<n>` in Haupt-Thread-Dateien `<pid>-0.txt`, deren PID nicht die des Starters ist. */
+function kennungenAus(dateien) {
+  const kennungen = new Set()
+  for (const [datei, zeilen] of dateien) {
+    const pid = /^(\d+)-0\.txt$/.exec(datei)?.[1]
+    if (pid === undefined) continue
+    for (const z of zeilen) if (z.startsWith('kennung\t') && z.split('\t')[1].split('-')[0] !== pid) kennungen.add(z.split('\t')[1])
+  }
+  return kennungen
 }
 
 /** Befehle, die die Spur trägt: `vite build` und `tsx pipeline/<name>.ts`, mit `&&` verkettet — keine Shell-Programme, die außerhalb der Spur lesen. */
@@ -118,7 +142,7 @@ export function bauMitSpur(befehl, { wurzel, versionDatei, git, log = console.lo
     log(`::warning::Spur unvollständig (${spur.offen} Prozesse ohne Ende, ${spur.prozesse} Spur-Dateien), Deploy baut neu.`)
     return 0
   }
-  const offen = unerklaert(spur.zeilen)
+  const offen = unerklaert(spur.zeilen, spur.kennungen)
   if (offen.length > 0) {
     log(`::warning::Bau liest außerhalb von BAU_EINGABEN oder startet Fremdes (tools/bau-eingaben.mjs), Deploy baut neu: ${offen.join(', ')}`)
     return 0

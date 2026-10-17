@@ -2,7 +2,8 @@
  * Spur des Seitenbaus (17.10.2026): `tools/bau-eingaben.mjs` lädt diese Datei per `NODE_OPTIONS=--require` in jeden Node-Prozess und Thread
  * des Baus. Sie hängt jeden neuen Pfad, den eine fs-Funktion bekommt, sofort an `$BAU_SPUR/<pid>-<thread>.txt` an (Zeile:
  * `<funktion>\t<Pfad ab Wurzel>`, Wurzel als `.`; Aliase wie Junction, `\\?\` oder `/proc/self/cwd` aufgelöst), dazu jeden Programmstart
- * (`start\t<JSON>`) und jeden `process.binding`-Aufruf. Der Haupt-Thread beginnt mit `beginn` und endet mit `ende`; Threads brauchen kein
+ * (`start\t<JSON>` samt Kennung, die ein Node-Kind als `kennung\t…` in seine Datei schreibt), jeden `process.binding`-Aufruf und jedes native
+ * Modul (`dlopen\t…`; Tailwind-`Scanner` und lightningcss-`bundle*` umhüllt). Der Haupt-Thread beginnt mit `beginn` und endet mit `ende`; Threads brauchen kein
  * `ende` (tsx-Ladethreads enden per `terminate()`), weil jeder Pfad vor dem Zugriff geschrieben wird. Ausgewertet wird in bau-eingaben.mjs.
  */
 const fs = require('node:fs')
@@ -82,10 +83,15 @@ function umhuelle(ziel, vorsatz, fd) {
   }
 }
 
-/** Eine env (auch `{}` oder eine geleerte `process.env`) bekommt Spur-Ordner und Vorlader, damit kein Kind außerhalb der Spur liest. */
-function mitSpur(env) {
+/**
+ * Eine env (auch `{}` oder eine geleerte `process.env`) bekommt Spur-Ordner und Vorlader, damit kein Kind außerhalb der Spur liest, und bei
+ * einem Programmstart dessen Kennung: Ein Node-Kind schreibt sie in seine Spur-Datei, so belegt es, dass der Vorlader dort geladen hat.
+ */
+function mitSpur(env, kennung) {
   const optionen = env.NODE_OPTIONS ?? ''
-  return { ...env, BAU_SPUR: ORDNER, NODE_OPTIONS: optionen.includes(VORLADER) ? optionen : `${optionen} ${VORLADER}`.trim() }
+  const neu = { ...env, BAU_SPUR: ORDNER, NODE_OPTIONS: optionen.includes(VORLADER) ? optionen : `${optionen} ${VORLADER}`.trim() }
+  if (kennung) neu.BAU_SPUR_START = kennung
+  return neu
 }
 const istOptionen = (a) => a !== null && typeof a === 'object' && !Array.isArray(a)
 
@@ -99,17 +105,19 @@ function startVon(name, args) {
   return { datei: String(datei), argv, cwd }
 }
 
-/** Jede Startfunktion schreibt den Start in die Spur und reicht die Spur weiter (eigene env oder wieder ergänzte `process.env`). */
+/** Jede Startfunktion schreibt den Start samt eigener Kennung in die Spur und reicht beides weiter (eigene env oder wieder ergänzte `process.env`). */
 function reicheWeiter(fd) {
-  const ergaenze = (args) => {
-    Object.assign(process.env, mitSpur(process.env))
-    return args.map((a) => (istOptionen(a) && istOptionen(a.env) ? { ...a, env: mitSpur(a.env) } : a))
+  const ergaenze = (args, kennung) => {
+    Object.assign(process.env, mitSpur(process.env, kennung))
+    return args.map((a) => (istOptionen(a) && istOptionen(a.env) ? { ...a, env: mitSpur(a.env, kennung) } : a))
   }
+  let starts = 0
   for (const name of Object.keys(childProcess)) {
     if (typeof childProcess[name] !== 'function' || /^[A-Z]/.test(name)) continue
     childProcess[name] = huelle(childProcess[name], (args) => {
-      schreibe(fd, `start\t${JSON.stringify(startVon(name, args))}`)
-      return ergaenze(args)
+      const kennung = `${process.pid}-${workerThreads.threadId}-${++starts}`
+      schreibe(fd, `start\t${JSON.stringify({ ...startVon(name, args), kennung })}`)
+      return ergaenze(args, kennung)
     })
   }
   // Wer `ChildProcess` direkt startet, umgeht die Funktionen oben: das zählt als unerklärter Start.
@@ -126,9 +134,45 @@ function reicheWeiter(fd) {
   }
 }
 
+/** Tailwind (oxide) durchsucht Ordner nativ: Jede Quelle des `Scanner` zählt wie ein ganz kopierter Ordner, jede Datei von `scanFiles` als gelesen. */
+function scanner(Scanner, fd) {
+  const scanFiles = Scanner.prototype.scanFiles
+  Scanner.prototype.scanFiles = function (dateien) {
+    for (const d of dateien ?? []) merke(fd, 'scanFiles', d?.file)
+    return scanFiles.call(this, dateien)
+  }
+  return new Proxy(Scanner, {
+    construct(ziel, args, neu) {
+      for (const quelle of args[0]?.sources ?? []) if (!quelle.negated) merke(fd, 'scanner', quelle.base)
+      return Reflect.construct(ziel, args, neu)
+    },
+  })
+}
+
+/** Native Module lesen an fs vorbei: jedes geladene steht in der Spur (erlaubt sind nur die gemessenen), lightningcss `bundle*` ist unerklärt. */
+function nativ(fd) {
+  const dlopen = process.dlopen
+  process.dlopen = function (modul, datei, ...rest) {
+    schreibe(fd, `dlopen\t${String(datei).replace(/\\/g, '/')}`)
+    const ergebnis = dlopen.call(this, modul, datei, ...rest)
+    const exporte = modul.exports
+    if (typeof exporte.Scanner === 'function') exporte.Scanner = scanner(exporte.Scanner, fd)
+    for (const name of ['bundle', 'bundleAsync']) {
+      if (typeof exporte[name] !== 'function') continue
+      exporte[name] = huelle(exporte[name], (args) => {
+        schreibe(fd, `nativ\t${name}`)
+        return args
+      })
+    }
+    return ergebnis
+  }
+}
+
 if (ORDNER) {
   const fd = openSync(path.join(ORDNER, `${process.pid}-${workerThreads.threadId}.txt`), 'a')
   writeSync(fd, 'beginn\n')
+  if (process.env.BAU_SPUR_START) writeSync(fd, `kennung\t${process.env.BAU_SPUR_START}\n`)
+  nativ(fd)
   umhuelle(fs, '', fd)
   umhuelle(fs.promises, 'promises.', fd)
   reicheWeiter(fd)
