@@ -75,7 +75,14 @@
             "allowed_bots": "claude,github-actions",
             "settings": "{\"permissions\":{\"deny\":[\"Read(//proc/**)\",\"Read(//sys/**)\",\"Read(//run/**)\",\"Read(//etc/**)\",\"Read(./.git/**)\",\"Read(**/.git/**)\",\"Bash\"]}}\n",
             "claude_args": "--max-turns 8\n--allowedTools \"Read(/${{ runner.temp }}/pruefer/**),Edit(/${{ runner.temp }}/pruefer/**)\"\n",
-            "prompt": "<Prompt-Text: nicht Teil des Schnappschusses>"
+            "prompt": {
+              "platzhalter": "<Prompt-Text: nicht Teil des Schnappschusses>",
+              "ausdruecke": [
+                "github.event.pull_request.head.sha",
+                "runner.temp",
+                "steps.eingang.outputs.zustand"
+              ]
+            }
           }
         },
         {
@@ -88,7 +95,16 @@
             "allowed_bots": "claude,github-actions",
             "settings": "{\"permissions\":{\"deny\":[\"Read(//proc/**)\",\"Read(//sys/**)\",\"Read(//run/**)\",\"Read(//etc/**)\",\"Read(./.git/**)\",\"Read(**/.git/**)\",\"Bash\"]}}\n",
             "claude_args": "--max-turns 40\n--allowedTools \"Read(/${{ runner.temp }}/pruefer/**),Read(./**),Grep,Glob,Edit(/${{ runner.temp }}/pruefer/**)\"\n",
-            "prompt": "<Prompt-Text: nicht Teil des Schnappschusses>"
+            "prompt": {
+              "platzhalter": "<Prompt-Text: nicht Teil des Schnappschusses>",
+              "ausdruecke": [
+                "github.event.pull_request.head.sha",
+                "github.workspace",
+                "runner.temp",
+                "steps.eingang.outputs.zustand",
+                "steps.stufe.outputs.stufe"
+              ]
+            }
           }
         },
         {

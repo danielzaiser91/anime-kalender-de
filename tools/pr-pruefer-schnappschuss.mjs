@@ -1,7 +1,8 @@
 /**
  * Schnappschuss von .github/workflows/pr-pruefer.yml (Schreib-Token, Freigabe): Das ganze geparste Dokument wird mit
- * tools/pr-pruefer.schnappschuss.json verglichen, jeder Schlüssel und jeder Wert zählt. Nur der Prompt-Text der
- * Prüfer wird ersetzt (ändert sich oft, hat keine Rechte; seine Wirkung auf den Zustand prüft pr-pruefer-ablauf.test).
+ * tools/pr-pruefer.schnappschuss.json verglichen, jeder Schlüssel und jeder Wert zählt. Der Prompt-Text der Prüfer
+ * ändert sich oft und wird ersetzt, seine `${{ … }}`-Ausdrücke aber nicht: Actions setzt sie vor dem Lauf ein, ein
+ * neuer Ausdruck brächte Secrets oder PR-Text in den Kontext des Prüfers und in den öffentlichen Kommentar.
  */
 import fs from 'node:fs'
 
@@ -9,12 +10,18 @@ export const WORKFLOW = new URL('../.github/workflows/pr-pruefer.yml', import.me
 export const SCHNAPPSCHUSS = new URL('./pr-pruefer.schnappschuss.json', import.meta.url)
 const PROMPT = '<Prompt-Text: nicht Teil des Schnappschusses>'
 
-/** Tiefe Kopie des Workflows, bei der `with.prompt` jedes Schritts durch einen festen Platzhalter ersetzt ist. */
+/** Sortierte Liste der verschiedenen `${{ … }}`-Ausdrücke eines Texts; jedes `${{` zählt, auch ohne schließendes `}}`. */
+export function ausdruecke(text) {
+  const teile = String(text).split('${{').slice(1)
+  return [...new Set(teile.map((t) => t.split('}}')[0].trim()))].sort()
+}
+
+/** Tiefe Kopie des Workflows; `with.prompt` jedes Schritts wird zu Platzhalter plus Liste seiner Ausdrücke. */
 export function fuerSchnappschuss(wf) {
   const kopie = JSON.parse(JSON.stringify(wf))
   for (const job of Object.values(kopie.jobs ?? {})) {
     for (const s of job.steps ?? []) {
-      if (s.with && 'prompt' in s.with) s.with.prompt = PROMPT
+      if (s.with && 'prompt' in s.with) s.with.prompt = { platzhalter: PROMPT, ausdruecke: ausdruecke(s.with.prompt) }
     }
   }
   return kopie
