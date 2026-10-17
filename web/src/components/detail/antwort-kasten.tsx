@@ -807,7 +807,7 @@ export function AntwortKasten({
             className={[
               'flex min-h-[2.1rem] items-center text-t4',
               antwort.art === 'kino'
-                ? 'text-ak-finale-text'
+                ? 'text-ak-favorit-text'
                 : 'text-slate-500 dark:text-slate-400',
             ].join(' ')}
           >

@@ -41,7 +41,7 @@ const SOLL = {
   kino: 'akzent',
   rhythmus: 'akzent',
   takt: 'leise',
-  disc: 'finale',
+  disc: 'favorit',
   verspaetet: 'leise',
   nachgetragen: 'leise',
 }
