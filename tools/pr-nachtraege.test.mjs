@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { parse } from 'yaml'
-import { commitAbschnitt, ergaenzeBeschreibung, ergaenzeDatei, waehleNachtraege } from './pr-nachtraege.mjs'
+import { HINWEIS_NACHTRAEGE, commitAbschnitt, ergaenzeBeschreibung, ergaenzeDatei, waehleNachtraege } from './pr-nachtraege.mjs'
 
 const fehler = []
 const pruefe = (name, ok) => {
@@ -104,7 +104,13 @@ const erwartet = 'Beschreibung\n\n## Nachträge (gelten als Teil der Beschreibun
   + '\n\n## Commits des PR (älteste zuerst, je Commit die geänderten Dateien)\n- s1 Betreff 1 — a.ts\n- s2 Betreff 2 — lib/pruefung.ts\n- s3 Betreff 3 — a.ts, b.ts'
 pruefe('Ablauf: Nachträge beider Seiten und alle Commits mit Dateien in der Datei', voll === erwartet)
 pruefe('Ablauf: Commits fehlen -> Nachträge kommen trotzdem an', lauf({ commitsFehlen: true }) === erwartet.split('\n\n## Commits')[0])
-pruefe('Ablauf: Kommentare fehlen -> Commits kommen trotzdem an', lauf({ kommentareFehlen: true }) === 'Beschreibung\n\n## Commits' + erwartet.split('\n\n## Commits')[1])
+const ohneKommentare = lauf({ kommentareFehlen: true })
+pruefe('Ablauf: Kommentare fehlen -> Commits kommen trotzdem an, danach der Hinweis als letzte Zeile',
+  ohneKommentare === 'Beschreibung\n\n## Commits' + erwartet.split('\n\n## Commits')[1] + HINWEIS_NACHTRAEGE)
+pruefe('Ablauf: Kommentare fehlen -> letzte Zeile ist kein Commit (Sperre kann nicht ok melden)', ohneKommentare.split('\n').at(-1).startsWith('- Hinweis:'))
+pruefe('Ablauf: Commits fehlen, Kommentare da -> kein Hinweis', !lauf({ commitsFehlen: true }).includes('- Hinweis:'))
+pruefe('Ablauf: beides fällt aus -> Beschreibung plus Hinweis, ohne Commit-Kopf',
+  lauf({ kommentareFehlen: true, commitsFehlen: true }) === 'Beschreibung' + HINWEIS_NACHTRAEGE)
 fs.rmSync(ordner, { recursive: true, force: true })
 
 // Workflow (geparst): Autor per REST-Login, Prüfung lässt App-Login durch, Aufruf fail-soft und vor den Prüfern.

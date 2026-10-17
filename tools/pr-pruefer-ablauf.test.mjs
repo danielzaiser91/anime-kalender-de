@@ -24,6 +24,17 @@ const ERWARTET = 'Titel: Titel 7\nZweig: zweig-7\n\nBeschreibung 7\n'
   + `\n- aaaaaaaaa fix: eins — a.ts\n- bbbbbbbbb refactor: zwei — lib/x.ts\n- ${KOPF.slice(0, 9)} test: drei — a.test.ts`
 
 const gut = laufeBisEingang(wf, { 7: prDaten(7, KOPF), 1: prDaten(1, 'f'.repeat(40)) })
+const FREIGABE_VOR_BEDINGUNG = [
+  'set -u',
+  'T="$RUNNER_TEMP/pruefer"',
+  'if [ ! -s "$T/urteil.json" ] || [ ! -s "$T/protokoll.md" ]; then',
+  'echo "::error::Kein Urteil geschrieben (urteil.json oder protokoll.md fehlt/leer) - keine Freigabe. Inhalt von $T:"',
+  'ls -la "$T" || true',
+  'exit 1',
+  'fi',
+  'urteil=$(node -e \'const u=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));console.log(u.urteil+" "+u.sha)\' "$T/urteil.json") || { echo "::error::urteil.json unlesbar - keine Freigabe."; exit 1; }',
+  'art=${urteil% *}; sha=${urteil#* }',
+]
 pruefe('Ablauf: alle Schritte bis zur Sperre laufen durch', gut.fehler === undefined, gut.fehler)
 pruefe('Ablauf: Beschreibung mit Nachträgen und Commit-Liste kommt beim Prüfer an', gut.beschreibung === ERWARTET, gut.beschreibung)
 pruefe('Ablauf: Sperre meldet zustand=ok', gut.ausgaben?.eingang?.zustand === 'ok', gut.ausgaben)
@@ -33,6 +44,11 @@ pruefe('Ablauf: Diff-Schritt meldet diff-zustand=ok', gut.ausgaben?.diff?.['diff
 const ohneCommits = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), commits: undefined } })
 pruefe('Sperre: Commit-Liste fehlt -> zustand=unvollstaendig bei diff-zustand=ok',
   ohneCommits.ausgaben?.diff?.['diff-zustand'] === 'ok' && ohneCommits.ausgaben?.eingang?.zustand === 'unvollstaendig', ohneCommits.ausgaben)
+// Fällt nur die Kommentar-API aus, fehlen die Nachträge: auch das darf nicht als vollständig gelten.
+const ohneKommentare = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), kommentare: undefined } })
+pruefe('Sperre: Kommentare fehlen (Commits da) -> zustand=unvollstaendig bei diff-zustand=ok',
+  ohneKommentare.ausgaben?.diff?.['diff-zustand'] === 'ok' && ohneKommentare.ausgaben?.eingang?.zustand === 'unvollstaendig', ohneKommentare.ausgaben)
+pruefe('Sperre: Kommentare fehlen -> Commit-Liste ist trotzdem da', ohneKommentare.beschreibung?.includes('- ' + KOPF.slice(0, 9) + ' test: drei'), ohneKommentare.beschreibung)
 // Falsche PR-Nummer liefert eine vollständige Liste eines anderen PR: nur der Abgleich mit dem Kopf fängt das.
 const fremderKopf = laufeBisEingang(wf, { 7: prDaten(7, 'f'.repeat(40)) })
 pruefe('Sperre: Liste endet nicht am Kopf -> zustand=unvollstaendig',
@@ -53,6 +69,13 @@ const freigabe = schritte.find((s) => s.name === 'Protokoll und Freigabe')
 pruefe('Freigabe liest den Zustand der Sperre', freigabe?.env?.DIFF_ZUSTAND === '${{ steps.eingang.outputs.zustand }}')
 pruefe('Freigabe macht aus "ok" ein "aendern", wenn der Zustand nicht ok ist',
   String(freigabe?.run ?? '').split('\n').map((z) => z.trim()).includes(BEDINGUNG_FREIGABE))
+// Zwischen `set -u` und der Bedingung darf nichts stehen, was DIFF_ZUSTAND setzt: exakter Abgleich aller Zeilen dazwischen.
+const freigabeZeilen = String(freigabe?.run ?? '').split('\n').map((z) => z.trim())
+const iSetU = freigabeZeilen.indexOf('set -u')
+const iBedingung = freigabeZeilen.indexOf(BEDINGUNG_FREIGABE)
+pruefe('Freigabe: set -u steht vor der Bedingung, dazwischen exakt die bekannten Zeilen',
+  iSetU >= 0 && iBedingung > iSetU && JSON.stringify(freigabeZeilen.slice(iSetU, iBedingung)) === JSON.stringify(FREIGABE_VOR_BEDINGUNG),
+  freigabeZeilen.slice(iSetU, iBedingung))
 const leserDiffZustand = schritte.filter((s) => JSON.stringify(s).includes('steps.diff.outputs.diff-zustand'))
 pruefe('diff-zustand liest nur noch die Sperre', leserDiffZustand.length === 1 && leserDiffZustand[0].id === 'eingang')
 

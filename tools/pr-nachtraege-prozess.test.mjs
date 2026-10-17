@@ -8,6 +8,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { HINWEIS_NACHTRAEGE } from './pr-nachtraege.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -104,7 +105,7 @@ pruefe('Prozess: gh-Aufrufe mit --paginate --slurp und Pfaden aus GITHUB_REPOSIT
 ].join('|'), voll.aufrufe)
 
 const fremdesRepo = lauf(['7', 'claude[bot]', '<datei>'], 'x/y')
-pruefe('Prozess: gh scheitert -> Exit 0, Beschreibung unverändert', fremdesRepo.status === 0 && fremdesRepo.text === 'Beschreibung', fremdesRepo)
+pruefe('Prozess: gh scheitert -> Exit 0, Beschreibung nur mit Hinweis statt Nachträgen', fremdesRepo.status === 0 && fremdesRepo.text === 'Beschreibung' + HINWEIS_NACHTRAEGE, fremdesRepo)
 const vertauscht = lauf(['claude[bot]', '7', '<datei>'])
 pruefe('Prozess: falsche Argumentreihenfolge -> kein gh-Aufruf, Beschreibung unverändert',
   vertauscht.text === 'Beschreibung' && vertauscht.aufrufe.length === 0, vertauscht)

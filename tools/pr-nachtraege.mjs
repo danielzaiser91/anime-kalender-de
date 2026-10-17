@@ -17,7 +17,8 @@ export const NACHTRAG = /^\s*(\*\*|#+ *)?(Nachtrag|Nachbesserung)/i
 const AUTOR = /^[A-Za-z0-9][A-Za-z0-9-]*(\[bot\])?$/
 const VERTRAUT = new Set(['OWNER', 'MEMBER', 'COLLABORATOR'])
 const KOPF = '\n\n## Nachträge (gelten als Teil der Beschreibung, spätere gehen vor)'
-export const COMMITS ='\n\n## Commits des PR (älteste zuerst, je Commit die geänderten Dateien)'
+export const COMMITS = '\n\n## Commits des PR (älteste zuerst, je Commit die geänderten Dateien)'
+export const HINWEIS_NACHTRAEGE = '\n- Hinweis: Nachträge nicht lesbar, Beschreibung unvollständig'
 // Grenzen der GitHub-API: `pulls/<n>/commits` liefert höchstens 250 Commits, `commits/<sha>` höchstens 300 Dateien.
 const MAX_COMMITS = 250
 const MAX_DATEIEN = 300
@@ -63,21 +64,25 @@ function holeCommits(api, repo, pr) {
   }))
 }
 
-/** Jeder Teil für sich fail-soft: fehlen die Commits, kommen die Nachträge trotzdem an. */
+/** Jeder Teil für sich fail-soft: fehlen die Commits, kommen die Nachträge trotzdem an. Liefert, ob der Teil gelang. */
 function haenge(datei, name, teil) {
   try {
     const alt = readFileSync(datei, 'utf8')
     const neu = teil(alt)
     if (neu !== alt) writeFileSync(datei, neu)
+    return true
   } catch (e) {
     console.error(`${name} nicht lesbar, Beschreibung ohne sie: ${e.message}`)
+    return false
   }
 }
 
 /** Hängt Nachträge und Commit-Liste an <datei>; `api(args)` liefert das JSON von `gh api <args>`. */
 export function ergaenzeDatei(datei, { api, repo, pr, autor }) {
-  haenge(datei, 'Nachträge', (alt) => ergaenzeBeschreibung(alt, holeKommentare(api, repo, pr), autor))
+  const nachtraegeOk = haenge(datei, 'Nachträge', (alt) => ergaenzeBeschreibung(alt, holeKommentare(api, repo, pr), autor))
   haenge(datei, 'Commits', (alt) => alt + commitAbschnitt(holeCommits(api, repo, pr)))
+  // Letzte Zeile ist dann nicht der Kopf-Commit: die Sperre in pr-eingang.mjs meldet „unvollstaendig“.
+  if (!nachtraegeOk) haenge(datei, 'Hinweis', (alt) => alt + HINWEIS_NACHTRAEGE)
 }
 
 function main() {

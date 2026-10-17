@@ -4,8 +4,9 @@
  *   node tools/pr-eingang.mjs <pr-beschreibung.txt> <diff-zustand> <kopf-sha>     (gibt `zustand=ok` oder `zustand=unvollstaendig` aus)
  *
  * `ok` nur, wenn der Diff vollständig ist und die Beschreibung mit der Commit-Liste aus `pr-nachtraege.mjs` endet, deren
- * letzter Commit der Kopf des PR ist. So fällt jeder Weg auf, auf dem Nachträge und Commits den Prüfer nicht erreichen
- * (Schritt umgebaut, falsche PR-Nummer, Datei danach überschrieben), statt jede Schreibweise einzeln zu bewachen.
+ * letzter Commit der Kopf des PR ist. So fällt jeder Weg auf, auf dem die Commit-Liste den Prüfer nicht erreicht
+ * (Schritt umgebaut, falsche PR-Nummer, Datei danach überschrieben). Fehlen nur die Nachträge (Kommentar-API aus),
+ * setzt pr-nachtraege.mjs eine Hinweiszeile ans Ende; sie ist nicht der Kopf-Commit, also ebenfalls `unvollstaendig`.
  */
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
@@ -29,7 +30,7 @@ function main() {
     console.error(`Beschreibung nicht lesbar: ${e.message}`)
   }
   const zustand = eingangZustand(text, diffZustand, kopf)
-  if (zustand !== 'ok') console.error(`Prüfer-Eingang unvollständig (Diff ${diffZustand || 'leer'}, Commit-Liste fehlt oder endet nicht am Kopf ${kopf})`)
+  if (zustand !== 'ok') console.error(`Prüfer-Eingang unvollständig (Diff ${diffZustand || 'leer'}, Commit-Liste fehlt, endet nicht am Kopf ${kopf} oder trägt einen Hinweis)`)
   console.log(`zustand=${zustand}`)
 }
 
