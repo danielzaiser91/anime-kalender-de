@@ -4,7 +4,7 @@
  * Fängt, wenn die Cartoon-Zuordnung nicht aufgerufen wird oder ihre Quellen (cartoons.json, dub-confirmed.yaml) leer ankommen.
  */
 import { spawnSync } from 'node:child_process'
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -82,7 +82,8 @@ const lauf = spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'p
   env: { ...process.env, AK_ROOT: kulisse, LAUF_TOKEN: 'test' },
 })
 const lies = (pfad: string) => JSON.parse(readFileSync(join(kulisse, pfad), 'utf8'))
-const MERKER = 'data/cache/rohfolgen-abhaken.json'
+const MERKER = 'data/cache/quittung-offen/rohfolgen-abhaken.json'
+const FREI = 'data/cache/quittung-frei/rohfolgen-abhaken.json'
 const abhaken = (status: number) =>
   spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'pipeline/rohfolgen-abhaken.ts')], {
     cwd: wurzel,
@@ -91,7 +92,8 @@ const abhaken = (status: number) =>
   })
 
 /**
- * Der Zuordner merkt nur (17.10.2026); abgehakt wird erst im Schritt nach dem Commit. Ein Fehlschlag beim Worker
+ * Der Zuordner merkt nur (17.10.2026); abgehakt wird erst, wenn `commit-data.sh` den Merker nach dem Commit freigegeben
+ * hat — vorher schickt `rohfolgen-abhaken.ts` nichts ab, gleich wie es aufgerufen wird. Ein Fehlschlag beim Worker
  * lässt den Merker stehen, ein Erfolg räumt ihn weg.
  */
 function pruefeAbhakenNachCommit(): string[] {
@@ -99,13 +101,18 @@ function pruefeAbhakenNachCommit(): string[] {
   if (existsSync(join(kulisse, 'post.json'))) fehler.push('der Zuordner hat selbst abgehakt — das darf erst nach dem Commit geschehen')
   const gemerkt = (lies(MERKER) as number[]).sort()
   if (JSON.stringify(gemerkt) !== '[1,2,3,4,7,8]') fehler.push(`gemerkt: ${JSON.stringify(gemerkt)}, erwartet [1,2,3,4,7,8]`)
+  const vorher = abhaken(200)
+  if (vorher.status !== 0 || existsSync(join(kulisse, 'post.json'))) fehler.push('vor der Freigabe abgehakt (Quittung vor dem Commit)')
+  if (!existsSync(join(kulisse, MERKER))) fehler.push('Abhaken vor der Freigabe hat den Merker angefasst')
+  mkdirSync(dirname(join(kulisse, FREI)), { recursive: true })
+  renameSync(join(kulisse, MERKER), join(kulisse, FREI))
   abhaken(500)
-  if (!existsSync(join(kulisse, MERKER))) fehler.push('HTTP 500 beim Abhaken hat den Merker gelöscht')
+  if (!existsSync(join(kulisse, FREI))) fehler.push('HTTP 500 beim Abhaken hat den Merker gelöscht')
   const lauf2 = abhaken(200)
   if (lauf2.status !== 0) fehler.push(`Abhaken endete mit ${lauf2.status}: ${lauf2.stderr.slice(-300)}`)
   const abgehakt = (lies('post.json') as { rohfolgenUebernommen: number[] }).rohfolgenUebernommen.sort()
   if (JSON.stringify(abgehakt) !== '[1,2,3,4,7,8]') fehler.push(`abgehakt: ${JSON.stringify(abgehakt)}, erwartet [1,2,3,4,7,8]`)
-  if (existsSync(join(kulisse, MERKER))) fehler.push('der Merker bleibt nach erfolgreichem Abhaken liegen')
+  if (existsSync(join(kulisse, FREI))) fehler.push('der Merker bleibt nach erfolgreichem Abhaken liegen')
   return fehler
 }
 

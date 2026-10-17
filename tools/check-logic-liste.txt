@@ -130,6 +130,7 @@ pipeline/check-premiere.ts
 pipeline/check-prime-kanal.ts
 pipeline/check-prime-pille.ts
 pipeline/check-prime-teilseiten.ts
+pipeline/check-quittung-sperre.ts
 pipeline/check-reihen-namen.ts
 pipeline/check-reihen-teilname.ts
 pipeline/check-reihen-traeger-aufrufer.ts

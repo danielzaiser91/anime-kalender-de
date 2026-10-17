@@ -197,7 +197,7 @@ jobs:
           grep '✖' /tmp/logic.txt || true
           git checkout -- data/dub-confirmed.yaml
           git checkout -- data/anbieter-staffeln.json 2>/dev/null || true
-          rm -f data/cache/pruefungen-abhaken.json
+          rm -f data/cache/quittung-offen/pruefungen-abhaken.json
           grund="$(grep -m 3 '✖' /tmp/logic.txt | tr -d '\"' | tr -s '[:space:]' ' ')"
           echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Neue Meldungen zurückgestellt: $grund" >> "$GITHUB_ENV"
 

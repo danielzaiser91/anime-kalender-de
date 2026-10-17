@@ -6,6 +6,9 @@
  */
 import { warn } from './lib/util.ts'
 import { quittiereGemerkte, ROHFOLGEN_ABHAKEN } from './lib/spaeter-quittieren.ts'
+import { schalterOderAbbruch } from './lib/schalter.ts'
+
+schalterOderAbbruch([])
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN ?? ''

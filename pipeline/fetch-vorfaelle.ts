@@ -28,9 +28,11 @@ import { resolve } from 'node:path'
 import { log, warn, ROOT } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { merkeZumQuittieren, quittiereGemerkte, VORFAELLE_LOESCHEN } from './lib/spaeter-quittieren.ts'
+import { schalterOderAbbruch } from './lib/schalter.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN ?? ''
+schalterOderAbbruch(['--trocken', '--nur-loeschen'])
 const TROCKEN = process.argv.includes('--trocken')
 
 interface Vorfall {
