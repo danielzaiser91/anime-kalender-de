@@ -9,6 +9,7 @@ import { chromium } from 'playwright'
 import { readFile, mkdir } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { distPruefen } from './dist-frisch.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
@@ -217,4 +218,4 @@ async function main() {
   console.log('Favoriten-Rand: Maße gleich, kein neues Berühren.')
 }
 
-if (import.meta.url === `file:///${process.argv[1].replace(/\\/g, '/')}`) await main()
+if (import.meta.url === pathToFileURL(process.argv[1]).href) await main()

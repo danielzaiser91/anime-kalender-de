@@ -178,3 +178,9 @@ Bilder: Scratchpad `design-regeln/bilder/vorher-*` (Woche, Panel, Filter, Suche,
   ein Nachher-Stylesheet über die echte App (`zelle.tsx`).
 - Umsetzung in kleinen PRs: `daniel-zum-abarbeiten/vorrat/design-01-…` bis `design-08-…` (Tokens zuerst ohne sichtbare Änderung, dann je Bereich).
 - Nach jeder Umstellung: `npm run check:ansichten` und `check:panel`, Screenshots beider Themen im PR.
+
+## 8. Kachel-Rand und Anbieter-Leiste (17.10.2026, Daniel)
+
+- Die Anbieter-Leiste schließt das Cover unten ab (Woche `PosterKarte`, Monat `CoverKnopf`): untere Ecken eckig, Leiste bündig an der Unterkante, ohne Überstand. Ring und Glanz enden darüber (`.ak-ring-oben`, `clip-path` schneidet unten ab); die oberen Ecken bleiben rund. Der Goldrand eines Favoriten sitzt dadurch nie unter der Leiste und schiebt sie nicht nach oben.
+- Wächter: `tools/kachel-ecken-messen.mjs` (in `check:ansichten-desktop`) misst an Pixeln, beide Themen, Woche und Monat, jede Kachel einmal ohne und einmal mit Favorit: gleiche Unterkante der Leiste, Leistenfarbe in beiden unteren Ecken, nichts unter der Leiste. Dazu der Klassentest in `pipeline/check-kachel-favorit-render.ts`.
+- **Lehre:** „Maße unverändert“ (`getBoundingClientRect`) sagt nichts über einen Rand, der außerhalb der Box liegt (Ring als `box-shadow`) — #1432 maß nur Rechtecke, und niemand sah sich die Kante zwischen Rand und Leiste an. Ein Rand oder Overlay an einer Kachel wird an Pixeln der Unterkante geprüft, mit und ohne Zustand.
