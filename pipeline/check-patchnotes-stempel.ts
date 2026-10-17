@@ -1,9 +1,14 @@
+import { createRequire } from 'node:module'
 import { spawnSync } from 'node:child_process'
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
+import { pathToFileURL } from 'node:url'
 import { auslieferbarePatchnotes } from '../shared/patchnotes.ts'
-import { leseAuslieferbarePatchnotes, leseUeberarbeitetBis, STEMPEL_DATEI } from './lib/patchnotes.ts'
+import { leseAuslieferbarePatchnotes, lesePatchnotesDateien, leseUeberarbeitetBis, STEMPEL_DATEI } from './lib/patchnotes.ts'
 import { tageVon } from '../web/src/lib/patchnotes-tage.ts'
+
+// Unabhängig vom Arbeitsordner (ein flacher Wegwerf-Klon hat kein node_modules).
+const tsx = pathToFileURL(createRequire(import.meta.url).resolve('tsx/esm')).href
 
 /**
  * Der Stift im Dialog hängt am Stempel `data/patchnotes/_ueberarbeitet-bis.txt`, nicht am Kalendertag
@@ -34,7 +39,9 @@ pruefe('Stift: ein Tag mit Highlight und Zeile zeigt ihn einmal', gemischt.lengt
 
 const echt = leseUeberarbeitetBis()
 pruefe('Stempel: die echte Datei im Ordner ist ein gültiger Tag', echt !== undefined, echt)
-pruefe('Stempel: die ausgelieferte echte Liste trägt Entwürfe genau hinter dem Stempel', leseAuslieferbarePatchnotes().every((n) => (n.entwurf === true) === (n.datum > (echt ?? ''))))
+// Nur Einträge mit eigenem `datum`: Die Datumsauflösung der übrigen braucht git und damit `git fetch` (Wettlauf um shallow.lock in check:logic, PR 1433).
+const echteMitDatum = lesePatchnotesDateien().map((d) => d.eintrag).filter((e) => e.datum !== undefined)
+pruefe('Stempel: die echte Liste (Einträge mit datum) trägt Entwürfe genau hinter dem Stempel', auslieferbarePatchnotes(echteMitDatum, echt).every((n) => (n.entwurf === true) === (n.datum > (echt ?? ''))))
 
 function mitOrdner<T>(stempel: string | undefined, tun: (ordner: string) => T): T {
   const ordner = mkdtempSync(`${tmpdir()}/patchnotes-stempel-`)
@@ -53,7 +60,7 @@ pruefe('Stempel: Ordner ohne Datei liefert keinen Stempel', mitOrdner(undefined,
 const modul = new URL('./lib/patchnotes.ts', import.meta.url).href
 const kaputt = mitOrdner('gestern', (o) => {
   const code = `import { leseUeberarbeitetBis } from ${JSON.stringify(modul)}\nleseUeberarbeitetBis(${JSON.stringify(o)})`
-  const r = spawnSync(process.execPath, ['--import', 'tsx', '--input-type=module', '--eval', code], { encoding: 'utf8', timeout: 60_000 })
+  const r = spawnSync(process.execPath, ['--import', tsx, '--input-type=module', '--eval', code], { encoding: 'utf8', timeout: 60_000 })
   return { status: r.status, aus: `${r.stdout}${r.stderr}` }
 })
 pruefe('Stempel: ein ungültiger Inhalt bricht den Bau ab', kaputt.status === 1 && kaputt.aus.includes('kein Tag'), kaputt)

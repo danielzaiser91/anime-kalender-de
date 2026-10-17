@@ -3,7 +3,6 @@ import { createRequire } from 'node:module'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { todayIso } from '../shared/time.ts'
 import { lesePatchnotesDateien, leseUeberarbeitetBis, mitDatum, PATCHNOTES_ORDNER } from './lib/patchnotes.ts'
 import { tageAusGit } from './lib/patchnotes-datum.ts'
 import { STEMPEL_PFAD, stempelBefund, umgeschriebeneEintraege } from './lib/patchnotes-stempel-regel.ts'
@@ -24,16 +23,31 @@ function gelesenAus(basis: string): string | undefined {
   }
 }
 
-function ereignis(): void {
-  const basis = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH!, 'utf8')).pull_request.base.sha as string
+/** Kein Tag aus der Git-Historie (flach, nicht eingecheckt): darf nie als „heute“ durchgehen. */
+const KEIN_TAG = '9999-12-31'
+
+function bricheOhneHistorieAb(grund: string): never {
+  console.error(`  ✖ Patch-Notes-Stempel: ${grund}. Die Prüfung holt selbst keine Historie (paralleler git fetch → shallow.lock); sie kommt von tools/check-logic-historie.mjs.`)
+  process.exit(1)
+}
+
+/** Ohne volle Historie und ohne Basis lassen sich Anlagetage nicht bestimmen: laut rot statt „alle heute“. */
+function pruefeHistorie(basis: string): void {
+  if (git('rev-parse', '--is-shallow-repository').trim() === 'true') bricheOhneHistorieAb('Der Checkout ist flach')
   try {
     git('cat-file', '-e', `${basis}^{commit}`)
   } catch {
-    git('fetch', '--no-tags', '--depth=1', 'origin', basis)
+    bricheOhneHistorieAb(`Die Basis ${basis} fehlt im Checkout`)
   }
+}
+
+function ereignis(): void {
+  const basis = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH!, 'utf8')).pull_request.base.sha as string
+  pruefeHistorie(basis)
   const namen = umgeschriebeneEintraege(git('diff', '--name-status', '--no-renames', basis, 'HEAD'))
   const dateien = lesePatchnotesDateien().filter((d) => namen.includes(d.name))
-  const tage = mitDatum(dateien, (n) => tageAusGit(PATCHNOTES_ORDNER, n, todayIso())).map((e) => e.datum as string)
+  const tage = mitDatum(dateien, (n) => tageAusGit(PATCHNOTES_ORDNER, n, KEIN_TAG)).map((e) => e.datum as string)
+  if (tage.includes(KEIN_TAG)) bricheOhneHistorieAb('Der Anlagetag eines umgeschriebenen Eintrags ist in der Git-Historie nicht lesbar')
   const befund = stempelBefund({ tage, alt: gelesenAus(basis), neu: leseUeberarbeitetBis() })
   if (befund) {
     console.error(`  ✖ Patch-Notes-Stempel: ${befund}`)

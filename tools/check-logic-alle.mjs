@@ -23,6 +23,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { laufePool } from './arbeiterpool.mjs'
+import { holeHistorie } from './check-logic-historie.mjs'
 import { pruefeVollstaendig } from './check-logic-vollstaendig.mjs'
 import { sperreUmgebung } from './sperre-umgebung.mjs'
 
@@ -80,6 +81,9 @@ if (mitSperre) {
   for (const f of unverdrahtet) console.error(`${name}: ${f}`)
   if (unverdrahtet.length) process.exit(1)
 }
+
+const historieWarnung = holeHistorie(wurzel)
+if (historieWarnung) console.warn(`${name}: ${historieWarnung}`)
 
 const unsortiert = dateien.find((d, i) => i > 0 && d < dateien[i - 1])
 if (unsortiert) {
