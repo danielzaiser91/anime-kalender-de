@@ -12,15 +12,19 @@
  * ohne Delta ist die Regel und sagt nichts.
  */
 import { existsSync, readFileSync } from 'node:fs'
+import { stempelWarnungAusDatei } from './patchnotes-stempel-alter.mjs'
 
 const DATEI = 'data/bestand-historie.jsonl'
 const args = process.argv.slice(2)
 const TAGE = Number(args[args.indexOf('--tage') + 1]) || 2
 const ALLES = args.includes('--alles')
 
+const stempelWarnung = stempelWarnungAusDatei()
+if (stempelWarnung) console.log(`⚠  ${stempelWarnung}\n`)
+
 if (!existsSync(DATEI)) {
   console.log('Noch keine Historie — der erste Lauf legt sie an.')
-  process.exit(0)
+  process.exit(stempelWarnung ? 1 : 0)
 }
 
 const zeilen = readFileSync(DATEI, 'utf8')
@@ -77,5 +81,5 @@ const auffaellige = jung.filter((z) => z.auffaellig?.length)
 if (auffaellige.length) {
   console.log('')
   console.log(`⚠  ${auffaellige.length} Lauf/Läufe mit Auffälligkeiten — siehe oben.`)
-  process.exit(1)
 }
+if (auffaellige.length || stempelWarnung) process.exit(1)

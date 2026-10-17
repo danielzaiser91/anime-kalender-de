@@ -31,7 +31,8 @@ export function mitDatum(dateien: PatchnotesDatei[], tage: (namen: string[]) => 
   return dateien.map((d) => (d.eintrag.datum === undefined ? { ...d.eintrag, datum: tagVon.get(d.name) } : d.eintrag))
 }
 
-/** Stempel „überarbeitet bis“: letzter Tag, dessen Texte der Überarbeitungs-PR umgeschrieben hat. Fehlt die Datei, gibt es keine Entwürfe; ein ungültiger Inhalt bricht ab. */
+/** Stempel „überarbeitet bis“: letzter Tag, dessen Texte der Überarbeitungs-PR umgeschrieben hat. Fehlt die Datei, gibt es keine Entwürfe; ein ungültiger Inhalt bricht ab.
+ * Umgehungen, selten: ein Nachtrags-`datum` ≤ Stempel gilt als überarbeitet; scheitert git (`allesHeute`), tragen alle Einträge den heutigen Tag und damit den Stift. */
 export function leseUeberarbeitetBis(ordner = PATCHNOTES_ORDNER): string | undefined {
   const datei = `${ordner}/${STEMPEL_DATEI}`
   if (!existsSync(datei)) return undefined
