@@ -1846,3 +1846,10 @@ Die Wache (`wecker-wache.yml`) wiederholte einen roten Lauf erst nach der vollen
 **Fix:** Zuordner und Vorfall-Abruf merken die Kennungen nur (`data/cache/rohfolgen-abhaken.json`, `data/cache/vorfaelle-loeschen.json`, `pipeline/lib/spaeter-quittieren.ts`); die Schritte „Rohfolgen abhaken" (`npm run data:rohfolgen-abhaken`) und „Vorfälle löschen" (`npm run data:vorfaelle -- --nur-loeschen`) laufen nach „Änderungen committen", wie „Meldungen abhaken" seit 17.09.2026. Endet der Commit-Schritt rot, bleibt alles im Briefkasten und kommt beim nächsten Lauf erneut (Zusammenführung über `url#asin`, also folgenlos).
 **Wächter:** `tools/quittung-nach-commit-waechter.mjs` (in `check:logic`) prüft je Workflow-Job das geparste YAML: Quittungsschritte nach dem ersten `commit-data.sh`, merkende Schritte davor samt Quittung, `data:pruefungen` nie ohne Schalter; in `bestand-bauen.yml` Commit- und Quittungsschritte Schlüssel für Schlüssel.
 **Lehre:** Ein Kommentar „steht committet im Repo" ist keine Zusicherung. Wer im Worker etwas vergessen lässt, belegt die Reihenfolge am Workflow, nicht am Skript.
+
+## CI-Prüfer: Nachträge und Commit-Liste (17.10.2026)
+
+- `tools/pr-nachtraege.mjs` hängt an `pr-beschreibung.txt` die Nachtrag-Kommentare und die Commit-Liste (je Commit Kurz-Hash, Betreff, Dateien) an. Es zählen Kommentare des PR-Autors und von Konten mit `author_association` OWNER, MEMBER oder COLLABORATOR.
+- Anlass PR 1394: Die Claude-App hat den PR geöffnet, `gh pr view --json author` lieferte `app/claude`, die Autor-Prüfung im Workflow ließ das nicht durch, und die Nachträge stammten ohnehin vom Inhaberkonto. Drei Nachträge kamen nie beim Prüfer an; er wiederholte zweimal schon beantwortete Befunde. Der Autor kommt jetzt als REST-Login (`gh api …/pulls/<n> -q .user.login`, bei Apps `claude[bot]`).
+- Ohne Commit-Liste sah der Prüfer nur den Gesamtdiff und konnte „Umbau und Verhaltensänderung nie im selben Commit“ nicht nachprüfen.
+- Lehre: GraphQL (`gh pr view`) und REST liefern für App-Konten verschiedene Login-Formen; Tests für Autor-Filter brauchen einen App-PR als Fall.
