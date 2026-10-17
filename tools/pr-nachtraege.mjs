@@ -17,7 +17,7 @@ export const NACHTRAG = /^\s*(\*\*|#+ *)?(Nachtrag|Nachbesserung)/i
 const AUTOR = /^[A-Za-z0-9][A-Za-z0-9-]*(\[bot\])?$/
 const VERTRAUT = new Set(['OWNER', 'MEMBER', 'COLLABORATOR'])
 const KOPF = '\n\n## Nachträge (gelten als Teil der Beschreibung, spätere gehen vor)'
-const COMMITS = '\n\n## Commits des PR (älteste zuerst, je Commit die geänderten Dateien)'
+export const COMMITS ='\n\n## Commits des PR (älteste zuerst, je Commit die geänderten Dateien)'
 // Grenzen der GitHub-API: `pulls/<n>/commits` liefert höchstens 250 Commits, `commits/<sha>` höchstens 300 Dateien.
 const MAX_COMMITS = 250
 const MAX_DATEIEN = 300

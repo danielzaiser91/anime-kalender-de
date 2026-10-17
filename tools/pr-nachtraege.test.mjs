@@ -130,9 +130,7 @@ pruefe('if-Zeile vollständig (keine Zusätze wie || true)',
 const block = zeilen.slice(zeilen.indexOf(autorZeilen[0]), zeilen.indexOf(aufruf[0]) + 1).filter((z) => !z.startsWith('#'))
 pruefe('Autor-Zeile, if-Zeile, Aufruf direkt hintereinander (nur Kommentare dazwischen)',
   block.length === 3 && block[0] === autorZeilen[0] && block[1] === bedingung && block[2] === aufruf[0])
-// Nach dem Aufruf schreibt niemand mehr auf die Beschreibung: weder im selben Schritt noch in einem späteren run.
-const danach = [...zeilen.slice(zeilen.indexOf(aufruf[0]) + 1), ...schritte.slice(schritte.indexOf(mitAufruf[0]) + 1).map((s) => s.run ?? '')]
-pruefe('nach dem Aufruf kein run mit pr-beschreibung', danach.length > 0 && danach.every((z) => !z.includes('pr-beschreibung')))
+// Was nach dem Aufruf mit der Beschreibung geschieht, prüft die Laufzeitsperre (tools/pr-eingang.mjs, tools/pr-pruefer-ablauf.test.mjs).
 const pruefer = schritte.filter((s) => String(s.uses ?? '').startsWith('anthropics/claude-code-action'))
 pruefe('zwei Prüfer-Schritte, beide nach dem Nachtrag-Schritt',
   pruefer.length === 2 && pruefer.every((s) => schritte.indexOf(s) > schritte.indexOf(mitAufruf[0])))
