@@ -71,10 +71,12 @@ async function main(): Promise<void> {
 export function schreibeMarken(alle: Record<string, Sprachen>, auszug: Record<string, string>): number {
   writeJson('data/anisearch-dubs.json', auszug)
   /* Alle Kennungen mit Deutsch (auch ohne Titel bei uns): Quelle für `fetch-anisearch-eintraege.ts`. */
-  const liste = Object.fromEntries(Object.entries(alle).map(([id, s]) => [id, deutschKennzeichen(s)] as const).filter(([, k]) => k !== '-'))
+  const neu = Object.fromEntries(Object.entries(alle).map(([id, s]) => [id, deutschKennzeichen(s)] as const).filter(([, k]) => k !== '-'))
+  /* Was die Antwort nicht nennt, ist nicht widerlegt: die bisherige Marke bleibt in Liste und Eintrag (beide müssen übereinstimmen). */
+  const liste = { ...Object.fromEntries(Object.entries(readJson<Record<string, string>>('data/anisearch-dub-ids.json', {})).filter(([id]) => !(id in alle))), ...neu }
   writeJson('data/anisearch-dub-ids.json', liste)
   const eintraege = readJson<Record<string, { dub: string }>>('data/anisearch-eintraege.json', {})
-  const geaendert = zieheMarkeNach(eintraege, liste)
+  const geaendert = zieheMarkeNach(eintraege, liste, alle)
   if (geaendert > 0) writeJson('data/anisearch-eintraege.json', eintraege)
   return geaendert
 }

@@ -37,11 +37,12 @@ export const deutschMarke = (titelId: number): string | undefined => dubsNachTit
 
 /**
  * Zieht das Feld `dub` jedes Eintrags auf die Liste nach (die Wahrheit, s. o.): Der Eintrag hält die Marke vom Abruf, die Liste ändert sich täglich
- * (18892 wurde am 17.10.2026 von „nicht genannt" zu „geplant"). Gibt die Zahl der geänderten Einträge zurück.
+ * (18892 wurde am 17.10.2026 von „nicht genannt" zu „geplant"). Nur was in der Antwort steht, zählt: Fehlt eine Kennung dort (die Antwort deckt nicht alles ab), ist ihr Deutsch nicht widerlegt, der Eintrag bleibt. Gibt die Zahl der geänderten Einträge zurück.
  */
-export function zieheMarkeNach(eintraege: Record<string, { dub: string }>, liste: Record<string, string>): number {
+export function zieheMarkeNach(eintraege: Record<string, { dub: string }>, liste: Record<string, string>, antwort: Record<string, unknown>): number {
   let geaendert = 0
   for (const [id, eintrag] of Object.entries(eintraege)) {
+    if (!(id in antwort)) continue
     const marke = liste[id] ?? '-'
     if (eintrag.dub === marke) continue
     eintrag.dub = marke
