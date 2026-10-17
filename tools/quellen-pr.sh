@@ -143,6 +143,16 @@ fi
 # Rot: Der Pull Request entsteht trotzdem, mit Titelpräfix, Label und dem Grund im Text; gemergt wird er nicht (ein Mensch löst, `tools/daten-pr-mergen.sh`).
 PRUEF_ROT=0
 PRUEF_GRUND="$(quellen_pruefen)" || PRUEF_ROT=1
+# Ist `main` selbst rot, zählen nur die Fehler, die erst der Fund bringt: sonst bliebe jeder Sammler-PR markiert liegen, und nach der Reparatur löste ihn nichts.
+if [ "$PRUEF_ROT" = 1 ]; then
+  NEUE_FEHLER="$(quellen_neue_fehler "$PRUEF_GRUND")"
+  if [ -n "$NEUE_FEHLER" ]; then
+    PRUEF_GRUND="$NEUE_FEHLER"
+  else
+    PRUEF_ROT=0
+    echo "::warning title=main ist schon rot::Die Datenprüfung ist auf main bereits aus denselben Gründen rot; der Fund bringt keine neuen Fehler und wird wie bisher eingereicht."
+  fi
+fi
 TITEL="$NACHRICHT"
 BODY="Automatisch eingereicht von **${GITHUB_WORKFLOW:-lokal}** (Lauf ${GITHUB_RUN_ID:-—})."
 if [ "$PRUEF_ROT" = 1 ]; then
@@ -152,7 +162,7 @@ if [ "$PRUEF_ROT" = 1 ]; then
 **$MARKE_ROT** Die Datenprüfungen (\`npm run check:logic\`) sind auf diesem Stand rot. Der Sammler hat den Fund eingereicht, aber nicht gemergt:
 
 \`\`\`
-$PRUEF_GRUND
+$(printf '%s\n' "$PRUEF_GRUND" | head -20)
 \`\`\`
 
 Beheben, dann den Titelpräfix mit \`gh pr edit <Nr> --title\` entfernen und \`tools/daten-pr-mergen.sh <Nr>\` laufen lassen."
@@ -178,6 +188,11 @@ if [ "$PRUEF_ROT" = 1 ]; then
   # Das Label ist eine Zugabe: Fehlt es oder schlägt das Anlegen fehl, bleibt der Titelpräfix als Markierung.
   gh label create "$LABEL_ROT" --color B60205 --description "Datenprüfung rot, nicht gemergt" --force >/dev/null 2>&1 || true
   gh pr edit "$ZWEIG" --add-label "$LABEL_ROT" >/dev/null 2>&1 || true
+  # Grenze: Je Workflow liegt höchstens ein roter PR offen; die älteren löst der neue ab (ihr Zweig bleibt erhalten, der neue Lauf holt auf frischem main alles neu).
+  ALTE="$(gh pr list --state open --limit 100 --json number,title,body | node "$(dirname "${BASH_SOURCE[0]}")/rote-sammler-prs.mjs" nummern "${GITHUB_WORKFLOW:-lokal}" "$NUMMER")" || ALTE=""
+  for alt in $ALTE; do
+    gh pr close "$alt" --comment "Abgelöst durch #$NUMMER (neuerer roter Fund desselben Workflows). Der Zweig bleibt erhalten." >/dev/null 2>&1 || true
+  done
   echo "::warning title=Datenprüfung rot::Pull Request $NUMMER ist eingereicht, aber nicht gemergt: $(printf '%s' "$PRUEF_GRUND" | tr '\n' ' ' | cut -c1-300)"
   melde "gemerged=false"
   exit 0

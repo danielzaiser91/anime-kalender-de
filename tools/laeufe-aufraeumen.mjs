@@ -21,6 +21,7 @@
  */
 import { execFileSync } from 'node:child_process'
 import { holeLaeufe } from './laeufe-abruf.mjs'
+import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
 
 const WORKER = 'https://newsletter.animekalender.workers.dev/lauf'
 const REPO = 'danielzaiser91/anime-kalender-de'
@@ -32,6 +33,8 @@ const TOKEN = process.env.LAUF_TOKEN
 const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 })
 
 async function main() {
+  // Ein roter Sammler-Fund lässt den Lauf grün; er bleibt als PR liegen und muss hier auffallen (tools/rote-sammler-prs.mjs).
+  meldeRoteSammlerPrs()
   const { liste, meldung } = await holeLaeufe(fetch, WORKER)
   if (meldung) {
     console.error(meldung)

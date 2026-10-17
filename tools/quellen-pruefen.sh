@@ -5,12 +5,17 @@
 # erst der Bestandsbau merkte es, und `main` war über sieben Stunden rot.
 #
 # Wird mit `source` geladen (`quellen-pr.sh`). `quellen_pruefen` läuft im Arbeitsverzeichnis des Sammlers, auf dem Stand, der eingereicht wird.
-# Rückgabe: Exit 0 = grün; sonst rot, auch wenn die Prüfung nicht startet oder die Frist reißt. Auf stdout steht dann der Grund (rote Prüfungen),
+# Rückgabe: Exit 0 = grün; sonst rot, auch wenn die Prüfung nicht startet oder die Frist reißt. Auf stdout steht dann der Grund (alle roten Prüfungen),
 # das ganze Protokoll geht nach stderr. `check:logic` liest nur `data/` und den Code, nie `public/data` (Sperre), und braucht kein Chromium.
 #
-# `QUELLEN_PRUEFBEFEHL` und `QUELLEN_PRUEFFRIST` sind Schalter für den Test; kein Workflow setzt sie (`tools/sammler-pruefschritt.test.mjs`).
+# `quellen_neue_fehler` zieht davon ab, was `origin/main` selbst schon rot hat: Ist `main` rot, markiert nicht jeder Sammler seinen PR, und nach der Reparatur
+# bleibt nichts liegen. Nur Fehler, die erst der Fund bringt, zählen.
+#
+# `QUELLEN_PRUEFBEFEHL` und `QUELLEN_PRUEFFRIST` sind Schalter für den Test; kein Workflow setzt sie (`tools/sammler-pruefschritt-waechter.test.mjs`).
 
 QUELLEN_PRUEFFRIST_STANDARD=900
+# Der Vergleichslauf auf `main` kommt dazu; mit 900 + 240 s bleibt er unter dem kleinsten Job-Timeout der Sammler (20 min, fund-nachliefern) samt Sammeln.
+QUELLEN_BASISFRIST_STANDARD=240
 
 quellen_pruefen() {
   local protokoll status=0
@@ -25,11 +30,36 @@ quellen_pruefen() {
   if [ "$status" = 124 ]; then
     echo "Die Prüfung brauchte länger als ${QUELLEN_PRUEFFRIST:-$QUELLEN_PRUEFFRIST_STANDARD} s und wurde abgebrochen."
   elif grep -qE '^  - ' "$protokoll"; then
-    grep -E '^  - ' "$protokoll" | head -20
+    grep -E '^  - ' "$protokoll"
   else
     echo "Die Prüfung endete mit Exit $status:"
     tail -n 5 "$protokoll"
   fi
   rm -f "$protokoll"
   return 1
+}
+
+# Dieselbe Prüfung auf dem Stand von `origin/main` (eigener Arbeitsbaum, `node_modules` verlinkt); stdout wie bei `quellen_pruefen`. Nie ein Abbruch.
+quellen_pruefen_main() {
+  local dir
+  dir="$(mktemp -d)"
+  if git worktree add --detach --quiet "$dir/main" origin/main >&2; then
+    if [ -e node_modules ]; then ln -s "$PWD/node_modules" "$dir/main/node_modules"; fi
+    (cd "$dir/main" && QUELLEN_PRUEFFRIST="${QUELLEN_PRUEFFRIST:-$QUELLEN_BASISFRIST_STANDARD}" quellen_pruefen) || true
+    rm -f "$dir/main/node_modules"
+    git worktree remove --force "$dir/main" >&2 || true
+  fi
+  rm -rf "$dir"
+}
+
+# $1 = stdout von `quellen_pruefen` (rot). Gibt aus, was davon neu ist gegenüber `main`; leer = `main` hat dieselben Fehler schon.
+# Nur eine Liste roter Prüfungen ist vergleichbar; Frist, Absturz und alles andere bleiben ganz stehen (rot).
+quellen_neue_fehler() {
+  local fund="$1" basis
+  if printf '%s\n' "$fund" | grep -qvE '^  - '; then
+    printf '%s\n' "$fund"
+    return 0
+  fi
+  basis="$(quellen_pruefen_main)" || basis=""
+  printf '%s\n' "$fund" | grep -vxFf <(printf '%s\n' "$basis") || true
 }
