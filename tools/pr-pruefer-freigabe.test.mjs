@@ -21,7 +21,7 @@ const wf = parse(fs.readFileSync(new URL('../.github/workflows/pr-pruefer.yml', 
 const FREIGABE_NAME = 'Protokoll und Freigabe'
 const alleSchritte = Object.values(wf.jobs).flatMap((j) => j.steps ?? [])
 const freigabe = wf.jobs.pruefen.steps.find((s) => s.name === FREIGABE_NAME)
-const MIT_REVIEW = /gh\s+pr\s+review|approve/i
+const JOB_IF = "github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft"
 const KOPF = 'c'.repeat(40)
 const ANDERER = 'd'.repeat(40)
 const TOKEN = 'tok-geheim-123'
@@ -110,9 +110,27 @@ pruefe('Schritt: nur name, if, env, run; läuft immer (if: always())',
   JSON.stringify(Object.keys(freigabe)) === JSON.stringify(['name', 'if', 'env', 'run']) && freigabe.if === 'always()', freigabe)
 pruefe('Der Name der Freigabe kommt im ganzen Workflow genau einmal vor',
   alleSchritte.filter((s) => s.name === FREIGABE_NAME).length === 1, alleSchritte.map((s) => s.name))
-const mitReview = alleSchritte.filter((s) => MIT_REVIEW.test(JSON.stringify(s)))
-pruefe('Nur der Freigabe-Schritt ruft gh pr review / approve auf (kein zweiter, kein Zusatzschritt)',
-  mitReview.length === 1 && mitReview[0] === freigabe, mitReview.map((s) => s.name))
+// Struktur statt Textsuche: Jeder zusätzliche Job oder Schritt (egal wie er freigibt) und jede Workflow-env ist rot.
+const ERWARTET = [
+  { name: undefined, art: 'uses:actions/checkout@v4' },
+  { name: 'Diff bereitlegen', art: 'run' },
+  { name: 'Prüfstufe', art: 'run' },
+  { name: 'Prüfer-Eingang prüfen', art: 'run' },
+  { name: 'Prüfer (Stufe 0, schlank)', art: 'uses:anthropics/claude-code-action@v1' },
+  { name: 'Prüfer', art: 'uses:anthropics/claude-code-action@v1' },
+  { name: FREIGABE_NAME, art: 'run' },
+]
+const schrittArt = (s) => (s.uses !== undefined ? `uses:${s.uses}` : s.run !== undefined ? 'run' : 'andere')
+const ist = wf.jobs.pruefen.steps.map((s) => ({ name: s.name, art: schrittArt(s) }))
+const gleich = (a, b) => JSON.stringify(a) === JSON.stringify(b)
+pruefe('Workflow: nur name, on, permissions, concurrency, jobs (keine Workflow-env, keine defaults)',
+  gleich(Object.keys(wf), ['name', 'on', 'permissions', 'concurrency', 'jobs']), Object.keys(wf))
+pruefe('Jobs: genau [pruefen]', gleich(Object.keys(wf.jobs), ['pruefen']), Object.keys(wf.jobs))
+pruefe('Job pruefen: genau die erwarteten Schlüssel (keine defaults, continue-on-error, container …)',
+  gleich(Object.keys(wf.jobs.pruefen), ['name', 'if', 'runs-on', 'timeout-minutes', 'env', 'steps']), Object.keys(wf.jobs.pruefen))
+pruefe('Job-env: genau PR, HEAD_SHA, BASE_SHA', gleich(Object.keys(wf.jobs.pruefen.env), ['PR', 'HEAD_SHA', 'BASE_SHA']), wf.jobs.pruefen.env)
+pruefe('Job-if: der erwartete Ausdruck', String(wf.jobs.pruefen.if).replace(/\s+/g, ' ').trim() === JOB_IF, wf.jobs.pruefen.if)
+pruefe('Schrittfolge von pruefen: genau die erwartete (Name und uses/run), kein Zusatzschritt', gleich(ist, ERWARTET), ist)
 const faelle = [
   ['Zustand ok, Urteil ok: Freigabe', basis, FREIGABE],
   ['Zustand unvollstaendig, Urteil ok: keine Freigabe, Änderungswunsch', { ...basis, zustand: 'unvollstaendig' }, ABLEHNUNG],
