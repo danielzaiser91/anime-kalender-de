@@ -26,7 +26,7 @@ export function SaisonKarte({ z, data, favorit, oeffne, ausblick }: { z: SaisonZ
   const cover = z.titel?.coverImage ?? (z.katalog?.coverImage && !z.katalog.coverImage.startsWith('http') ? ANILIST_COVER_BASIS + z.katalog.coverImage : z.katalog?.coverImage)
   const anbieter = (z.titel ? anbieterVon(z.titel, data.releasesByTitle.get(z.id)) : (z.katalog?.anbieter ?? [])).map((p) => PLATFORMS[p]?.name ?? p).slice(0, 3)
   const termin = terminText(z, Boolean(ausblick), todayIso().slice(0, 4), t)
-  const rand = favorit ? 'border-ak-finale/70 shadow-[0_0_0_1px_color-mix(in_srgb,var(--ak-finale)_30%,transparent)]' : z.erschienen ? 'border-ak-rand hover:border-ak-leise' : 'border-dashed border-ak-rand hover:border-ak-leise'
+  const rand = favorit ? 'border-ak-favorit/70 shadow-[0_0_0_1px_color-mix(in_srgb,var(--ak-favorit)_30%,transparent)]' : z.erschienen ? 'border-ak-rand hover:border-ak-leise' : 'border-dashed border-ak-rand hover:border-ak-leise'
   /* Ein Titel außerhalb des Kerns liegt in titles.json, ein Katalogtitel hinter dem Schalter: Erst beim Klick wird geholt, was das Panel zum Finden braucht. */
   const klick = async () => {
     if (!z.titel) await ladeTitelBestand(data, z.id)
