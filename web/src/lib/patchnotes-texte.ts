@@ -12,8 +12,8 @@ export const PT = {
   bugfix: 'Bugfix',
   heute: 'heute',
   gestern: 'gestern',
-  /** Tooltip am Stift der heutigen Überschrift; der tägliche Überarbeitungslauf (Fable) sucht diese Konstante. */
-  heuteHinweis: 'Heutige Einträge sind Entwürfe und werden abends überarbeitet.',
+  /** Tooltip am Stift der Überschrift eines noch nicht überarbeiteten Tages; der tägliche Überarbeitungslauf (Fable) sucht diese Konstante. */
+  heuteHinweis: 'Diese Einträge sind Entwürfe und werden noch überarbeitet.',
   highlight: 'HIGHLIGHT',
   ansehen: 'ansehen ›',
   laden: 'Lädt …',

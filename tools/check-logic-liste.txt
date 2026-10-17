@@ -125,6 +125,7 @@ pipeline/check-offizielle-news.ts
 pipeline/check-og-termin.ts
 pipeline/check-panel-chips.ts
 pipeline/check-paramount.ts
+pipeline/check-patchnotes-stempel.ts
 pipeline/check-patchnotes.ts
 pipeline/check-pille-nur-untertitel.ts
 pipeline/check-poster-karte-saal.ts
