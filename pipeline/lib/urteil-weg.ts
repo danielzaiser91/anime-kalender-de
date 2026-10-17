@@ -9,10 +9,12 @@ import { kanalSchluessel } from './kanal-titel.ts'
  */
 export function urteilDarfBelegen(
   titleId: number,
-  s: Pick<StreamLink, 'platform' | 'url' | 'kanal'>,
+  s: Pick<StreamLink, 'platform' | 'url' | 'seite' | 'kanal'>,
   kanal: ReadonlySet<string>,
   gekennzeichnet: ReadonlySet<string>,
 ): boolean {
-  if (s.platform === 'primevideo' && (s.kanal || kanal.has(kanalSchluessel(titleId, s.url)))) return false
+  /* Auch `seite`: Hat die gti-Brücke die Adresse schon umgestellt, steht die Amazon-Seite (der Kanal-Schlüssel) dort. */
+  const kanalAdresse = [s.url, s.seite].some((u) => u && kanal.has(kanalSchluessel(titleId, u)))
+  if (s.platform === 'primevideo' && (s.kanal || kanalAdresse)) return false
   return !gekennzeichnet.has(`${titleId}|${s.platform}`)
 }
