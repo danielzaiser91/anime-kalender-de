@@ -186,7 +186,7 @@ function CoverAktionen(p: PosterKarteProps & { saal: boolean }) {
         steht nur der gesetzte Stern als Zeichen, bedient wird im Panel.
       */}
       {p.favorite && (
-        <span className={`absolute ${p.saal ? SAAL_STERN : 'right-2 bottom-3'} text-base text-ak-finale drop-shadow-[0_1px_2px_rgba(0,0,0,.8)] sm:hidden`} role="img" aria-label={t('kal.favorit')}>
+        <span className={`absolute ${p.saal ? SAAL_STERN : 'right-2 bottom-3'} text-base text-ak-favorit drop-shadow-[0_1px_2px_rgba(0,0,0,.8)] sm:hidden`} role="img" aria-label={t('kal.favorit')}>
           ★
         </span>
       )}

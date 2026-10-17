@@ -8,7 +8,7 @@ export type KartenArt = 'start' | 'finale' | 'katalog' | 'katalogVermutlich' | '
 /** Ring um das Cover, Farbe der Fahne und Texte (`kal.*`) je Auszeichnung — Woche und Monat teilen sie. */
 export const ART_STIL = {
   start: { ring: 'ring-ak-akzent', fahne: 'bg-ak-akzent', name: 'kal.start', hinweis: 'kal.startHinweis' },
-  finale: { ring: 'ring-ak-finale', fahne: 'bg-ak-finale', name: 'kal.finale', hinweis: 'kal.finaleHinweis' },
+  finale: { ring: 'ring-ak-favorit', fahne: 'bg-ak-favorit', name: 'kal.finale', hinweis: 'kal.finaleHinweis' },
   katalog: { ring: 'ring-ak-katalog', fahne: 'bg-ak-katalog', name: 'kal.katalog', hinweis: 'kal.katalogHinweis' },
   katalogVermutlich: { ring: 'ring-ak-katalog', fahne: 'bg-ak-katalog', name: 'kal.katalogVermutlich', hinweis: 'kal.katalogVermutlichHinweis' },
   imAngebot: { ring: 'ring-transparent', fahne: 'bg-ak-marke', name: 'kal.imAngebot', hinweis: 'kal.imAngebotHinweis' },

@@ -41,7 +41,7 @@ Vorher/Nachher der ganzen App und des Filterfensters: Mockups `design-app` und `
 | Info | `ak-info`, `ak-info-text`, `ak-info-grund` | erklärende Marke ohne Handlungsbedarf: Nachtrag, Schnellfilter-Band, Neuigkeiten-Marken, „ab 11.10.“-Pille unter „Demnächst“ (nur eine Auskunft über den Start, kein Handlungsbedarf, deshalb Info statt Warnung) |
 | TV | `ak-tv`, `ak-tv-grund`, `ak-tv-rand` | nur lineares Fernsehen |
 | Katalog | `ak-katalog`, `ak-katalog-text` | nur Katalog-Release |
-| Finale | `ak-finale`, `ak-finale-text` | Staffelfinale, Favoriten-Stern **und** Disc-Punkt der Neuigkeiten (Gold; die Liste „Was sich getan hat“ färbt Disc ebenfalls gelb; als Punkt `ak-finale-text`, weil `ak-finale` hell nur 1,6:1 hat). Die übrigen Punkte der Neuigkeiten und die Chips der News tragen dieselbe Kennfarbe je Art (`web/src/components/news-farben.ts`): neu, Folgen, nachgereicht `ak-gut`; angekündigt, offiziell `ak-info`; Kino, Rhythmus `ak-akzent`; verspätet, nachgetragen `ak-leise` |
+| Finale | `ak-favorit`, `ak-favorit-text` | Staffelfinale, Favoriten-Stern **und** Disc-Punkt der Neuigkeiten (Gold; die Liste „Was sich getan hat“ färbt Disc ebenfalls gelb; als Punkt `ak-favorit-text`, weil `ak-favorit` hell nur 1,6:1 hat). Die übrigen Punkte der Neuigkeiten und die Chips der News tragen dieselbe Kennfarbe je Art (`web/src/components/news-farben.ts`): neu, Folgen, nachgereicht `ak-gut`; angekündigt, offiziell `ak-info`; Kino, Rhythmus `ak-akzent`; verspätet, nachgetragen `ak-leise` |
 | Neutrale Marke | `ak-marke` | Fahne „Neu bei <Anbieter>“ (ohne Kennfarbe, in beiden Themen gleich hell); Text darauf `#0d0f14` |
 | Heute | `ak-heute` | Grund der Heute-Spalte |
 
@@ -81,7 +81,7 @@ Zwei Bestandswerte verfehlten die Schwelle und wurden am 13.10.2026 korrigiert: 
 | info-text | flaeche | 4.5 | 9.8 (#93c5fd auf #151922) | 6.7 (#1d4ed8 auf #ffffff) |
 | info-text | info-grund | 4.5 | 8.0 (#93c5fd auf #1e2a3c) | 5.8 (#1d4ed8 auf #e9effd) |
 | tv | tv-grund | 4.5 | 8.5 (#3cc7b4 auf #121821) | 5.0 (#0b7568 auf #eaf4f2) |
-| finale-text | flaeche | 4.5 | 10.8 (#f5c542 auf #151922) | 5.4 (#8a6300 auf #ffffff) |
+| favorit-text | flaeche | 4.5 | 10.8 (#f5c542 auf #151922) | 5.4 (#8a6300 auf #ffffff) |
 | katalog-text | flaeche | 4.5 | 6.5 (#a78bfa auf #151922) | 7.1 (#5b3fc4 auf #ffffff) |
 | akzent | grund | 3 | 6.2 (#ff5a36 auf #0d0f14) | 3.2 (#f54b27 auf #f5f4f0) |
 | akzent | flaeche | 3 | 5.7 (#ff5a36 auf #151922) | 3.5 (#f54b27 auf #ffffff) |
@@ -132,7 +132,7 @@ Pille, die er erzeugt, und ⊘ ist das zweite Merkmal.
 | Fehler | `ak-fehler-*`, Zeichen ✕ oder Wortlaut |
 | Erfolg, belegt | `ak-gut-*`, Zeichen ✓ |
 | Info, Nachtrag | `ak-info-*`, Wort („Nachtrag“, „Schnell“) |
-| TV, Katalog, Finale | Kennfarben wie bisher (`ak-tv`, `ak-katalog`, `ak-finale`), je genau eine Bedeutung |
+| TV, Katalog, Finale | Kennfarben wie bisher (`ak-tv`, `ak-katalog`, `ak-favorit`), je genau eine Bedeutung |
 | Kino | kein Rot als Kennfarbe (Rot ist Fehler/Ausschluss): Kino-Knopf ist ein Primär- oder Sekundärknopf, der Saal bleibt (`.ak-saal`) |
 
 ## 6. Inventur 13.10.2026 (vor der Umstellung) und Abweichungen
@@ -148,7 +148,7 @@ Bilder: Scratchpad `design-regeln/bilder/vorher-*` (Woche, Panel, Filter, Suche,
 | Fokus | `ring-sky-400` in `ui.tsx` (= `#ff7a5c` in beiden Themen, hell 2,6:1 auf Weiß); Patch Notes eigener Outline; die meisten Knöpfe ohne eigene Regel (Browser-Standard) | ein Ring `ak-fokus`, überall |
 | Hover-Fläche | fünf Werte (`ak-flaeche-2`, `white/10`, `slate-100`, `slate-50`, `slate-900/60`) | `ak-flaeche-2`, auf Fläche 2 `ak-flaeche-3`. **Umgesetzt 14.10.2026** (`hover:bg-slate/white/sky`, `dark:hover:`, `hover:brightness` = 0; Pillen mit Anbieterfarbe nehmen `hover:bg-ak-flaeche-2`, Meldungs-Chips der News einen inneren Ring `ak-leise`) |
 | Hover-Rand | vier Werte (`ak-leise`, `slate-400`, `white/40`, `ak-akzent`) | `ak-leise`; Akzent nur bei Verweis-Chips im Panel. **Umgesetzt 14.10.2026**; Text bei Hover: `ak-text` (Links, Textknöpfe) |
-| Amber | vier Bedeutungen: Warnung/Hinweis, Favoriten-Stern, Bugfix, Sonne im Themaknopf | Warnung; Stern → `ak-finale-text`; Bugfix → `ak-warnung`; Sonne → `ak-finale`. **Umgesetzt 14.10.2026** (`amber-` in `web/src` = 0); „Sprache offen“, TBA und „ungeklärt“ sind `ak-leise`; Mond → `ak-info` |
+| Amber | vier Bedeutungen: Warnung/Hinweis, Favoriten-Stern, Bugfix, Sonne im Themaknopf | Warnung; Stern → `ak-favorit-text`; Bugfix → `ak-warnung`; Sonne → `ak-favorit`. **Umgesetzt 14.10.2026** (`amber-` in `web/src` = 0); „Sprache offen“, TBA und „ungeklärt“ sind `ak-leise`; Mond → `ak-info` |
 | Rot | `rose` (Ausschluss, Beleg-Dialog, Kino-Knopf) neben `red` (Fehler, Abo beenden) | `ak-fehler`; Kino-Knopf verliert das Rot. **Umgesetzt 14.10.2026** (`rose-`, `red-` = 0); Kino-Knopf ist Sekundärknopf, Kino-Punkt in den Neuigkeiten und Plakette auf dem Cover nehmen den Akzent |
 | Grün | Pille gewählt, ✓ Deutsch, Klick-Modus, Feature | `ak-gut` für alle (eine Bedeutung: „ja/belegt“). **Umgesetzt 14.10.2026** (`emerald-` = 0) |
 | Blau | Schnellfilter-Band, Nachtrag, Panel-Karte, Neuigkeiten-Marken | `ak-info`. **Umgesetzt 14.10.2026** (`blue-`, `indigo-`, `violet-`, `teal-` = 0): Violett (Nachtrag „Zusage“, „Geplant“, Stufe „angekündigt“, Karten Neuigkeiten/Reihe) ist Info, „angekündigt“ heißt überall Info; Violett bleibt allein `ak-katalog` |

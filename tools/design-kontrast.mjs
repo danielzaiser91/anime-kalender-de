@@ -45,7 +45,7 @@ export const PAARE = [
   ['info-text', 'flaeche', 4.5],
   ['info-text', 'info-grund', 4.5],
   ['tv', 'tv-grund', 4.5],
-  ['finale-text', 'flaeche', 4.5],
+  ['favorit-text', 'flaeche', 4.5],
   ['katalog-text', 'flaeche', 4.5],
   ['akzent', 'grund', 3],
   ['akzent', 'flaeche', 3],

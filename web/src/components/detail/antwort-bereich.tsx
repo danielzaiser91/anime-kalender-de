@@ -78,7 +78,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                     : t('detail.noDubWatchOpen')}
                 </p>
                 {favorites.has(title.id) && (
-                  <p className="mt-1 text-t4 font-semibold text-ak-finale-text">
+                  <p className="mt-1 text-t4 font-semibold text-ak-favorit-text">
                     {t('detail.noDubWatched')}
                   </p>
                 )}
