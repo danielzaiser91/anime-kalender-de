@@ -9,19 +9,23 @@
 # das ganze Protokoll geht nach stderr. `check:logic` liest nur `data/` und den Code, nie `public/data` (Sperre), und braucht kein Chromium.
 #
 # `quellen_neue_fehler` zieht davon ab, was `origin/main` selbst schon rot hat: Ist `main` rot, markiert nicht jeder Sammler seinen PR, und nach der Reparatur
-# bleibt nichts liegen. Nur Fehler, die erst der Fund bringt, zählen.
+# bleibt nichts liegen. Verglichen wird je Prüfung (die Zeilen `  - <Prüfdatei>`), nicht je Fehler: Ist eine Prüfung auf `main` schon rot, fällt ein neuer
+# Fehler des Funds in derselben Prüfung nicht auf und wird gemergt. Tragbar, weil `main` dann ohnehin rot und im Bestandsbau sichtbar ist.
+#
+# Das App-Token (GH_TOKEN) sieht die Prüfung nicht: Es mergt am Ruleset vorbei und gehört nur `quellen-pr.sh` (`tools/app-token-sperre.mjs`).
 #
 # `QUELLEN_PRUEFBEFEHL` und `QUELLEN_PRUEFFRIST` sind Schalter für den Test; kein Workflow setzt sie (`tools/sammler-pruefschritt-waechter.test.mjs`).
 
-QUELLEN_PRUEFFRIST_STANDARD=900
-# Der Vergleichslauf auf `main` kommt dazu; mit 900 + 240 s bleibt er unter dem kleinsten Job-Timeout der Sammler (20 min, fund-nachliefern) samt Sammeln.
+# Fristen (17.10.2026): check:logic braucht in der CI unter einer Minute (lokal unter Windows knapp 3). Fund und Vergleich auf `main` zusammen samt dem
+# übrigen Job passen in den kleinsten Job-Timeout eines Einreichers; das rechnet der Wächter aus den Workflows nach (`pruefeFristen` in `tools/sammler-pruefschritt-waechter.mjs`).
+QUELLEN_PRUEFFRIST_STANDARD=420
 QUELLEN_BASISFRIST_STANDARD=240
 
 quellen_pruefen() {
   local protokoll status=0
   protokoll="$(mktemp)"
   CI=true timeout "${QUELLEN_PRUEFFRIST:-$QUELLEN_PRUEFFRIST_STANDARD}" \
-    bash -c "${QUELLEN_PRUEFBEFEHL:-npm run check:logic -- --alle}" > "$protokoll" 2>&1 || status=$?
+    env -u GH_TOKEN -u GITHUB_TOKEN bash -c "${QUELLEN_PRUEFBEFEHL:-npm run check:logic -- --alle}" > "$protokoll" 2>&1 || status=$?
   cat "$protokoll" >&2
   if [ "$status" = 0 ]; then
     rm -f "$protokoll"

@@ -42,7 +42,7 @@ echo "$*" | head -n 1 >> "${d}/aufrufe.txt"
 case "$1 $2" in
   "pr create") printf '%s\\0' "$@" > "${d}/create.bin"; if [ -f "${d}/pruefung-lief" ]; then : > "${d}/create-nach-pruefung"; fi; echo "https://github.com/x/y/pull/99" ;;
   "pr view") echo "MERGEABLE" ;;
-  "pr list") case "$*" in *"--state open"*"--json number,title,body"*) if [ -f "${d}/liste.json" ]; then cat "${d}/liste.json"; else echo "[]"; fi ;; *) echo "falsche Parameter: $*" >&2; exit 1 ;; esac ;;
+  "pr list") if [ -f "${d}/liste-kaputt" ]; then cat "${d}/liste.json"; echo "HTTP 502" >&2; exit 1; fi; case "$*" in *"--state open"*"--json number,title,body"*) if [ -f "${d}/liste.json" ]; then cat "${d}/liste.json"; else echo "[]"; fi ;; *) echo "falsche Parameter: $*" >&2; exit 1 ;; esac ;;
   "pr merge") exit 0 ;;
   "pr edit"|"label create") if [ -f "${d}/label-kaputt" ]; then echo "label kaputt" >&2; exit 1; fi ;;
 esac
@@ -59,13 +59,14 @@ exec "${echtes}" "$@"
 }
 
 /** Ein Sammel-Lauf mit einer geänderten Quelle (oder keiner); `befehl` ist die Prüfung, `frist` ihre Zeitgrenze in Sekunden. */
-async function szenario({ befehl, frist = 60, aenderung = true, labelKaputt = false, nurFund = false, liste = null, module = false }) {
+async function szenario({ befehl, frist = 60, aenderung = true, labelKaputt = false, nurFund = false, liste = null, module = false, listeKaputt = false }) {
   const dir = mkdtempSync(join(tmpdir(), 'quellen-pr-pruefung-'))
   try {
     const bin = join(dir, 'bin')
     mkdirSync(bin)
     schreibeGh(bin, dir)
     if (labelKaputt) writeFileSync(join(dir, 'label-kaputt'), '')
+    if (listeKaputt) writeFileSync(join(dir, 'liste-kaputt'), '')
     if (liste) writeFileSync(join(dir, 'liste.json'), JSON.stringify(liste))
     sh(dir, 'git init -q --bare -b main ursprung.git && git clone -q ursprung.git lauf 2>/dev/null')
     const lauf = join(dir, 'lauf')
@@ -87,6 +88,10 @@ async function szenario({ befehl, frist = 60, aenderung = true, labelKaputt = fa
       GITHUB_OUTPUT: posix(ausgabeDatei),
       GITHUB_RUN_ID: '77',
       GITHUB_WORKFLOW: 'Sammler Test',
+      /* Fest gesetzt: In der CI trägt der Testlauf selbst einen GITHUB_JOB. Das App-Token darf die Prüfung nicht sehen (`quellen_pruefen`). */
+      GITHUB_JOB: 'sammeln',
+      GH_TOKEN: 'app-token-attrappe',
+      GITHUB_TOKEN: 'github-token-attrappe',
       /* nurFund: rot nur auf dem Stand des Funds (v2); auf main (v1) grün, sonst läge main selbst rot. */
       QUELLEN_PRUEFBEFEHL: (nurFund ? `if grep -q '"v":2' data/anisearch.json; then ${befehl}; fi` : befehl).replaceAll('$MARKE', `${posix(dir)}/pruefung-lief`),
       ...(frist === null ? {} : { QUELLEN_PRUEFFRIST: String(frist) }),
@@ -113,20 +118,25 @@ async function szenario({ befehl, frist = 60, aenderung = true, labelKaputt = fa
 }
 
 console.log('grün: wie bisher')
-const gruenBefehl = `test "$CI" = true && touch "$MARKE" && git diff --quiet HEAD && test "$(cat data/anisearch.json)" = '{"v":2}'`
+const gruenBefehl = `test "$CI" = true && test -z "\${GH_TOKEN:-}\${GITHUB_TOKEN:-}" && touch "$MARKE" && git diff --quiet HEAD && test "$(cat data/anisearch.json)" = '{"v":2}'`
 /* Alle Szenarien gleichzeitig: Jedes legt sich einen eigenen Ursprung an, die Läufe stören sich nicht (einzeln gut 15 s, zusammen etwa eines). */
 const rotBefehl = 'echo PROTOKOLL-ZEILE; echo "  - tools/a.ts"; echo "  - pipeline/zweite.ts"; for i in $(seq 1 25); do echo "  - tools/p$i.ts"; done; exit 1'
-/* Offene PRs: der richtige Treffer steht jeweils in der Mitte; 99 ist der neue PR selbst. */
+/* Offene PRs: der richtige Treffer steht jeweils in der Mitte; 99 ist der neue PR selbst. Schlüssel = Workflow/Job/Nachricht (quellen-pr.sh). */
+const SCHLUESSEL = 'Sammler Test/sammeln/chore(data): Test'
+const pr = (number, title, schluessel) => ({ number, title, body: `von **Sammler Test** (Lauf ${number})\n<!-- fund-schluessel: ${schluessel} -->` })
 const LISTE = [
-  { number: 11, title: '[Prüfung rot] chore(data): Anderes', body: 'von **Anderer Lauf** (Lauf 5)' },
-  { number: 12, title: '[Prüfung rot] chore(data): Alt', body: 'von **Sammler Test** (Lauf 5)' },
-  { number: 13, title: 'chore(data): ohne Marke', body: 'von **Sammler Test** (Lauf 6)' },
-  { number: 99, title: '[Prüfung rot] chore(data): Test', body: 'von **Sammler Test** (Lauf 77)' },
-  { number: 14, title: '[Prüfung rot] chore(data): Älter', body: 'von **Sammler Test** (Lauf 4)' },
-  { number: 15, title: '[Prüfung rot] chore(data): Dritter', body: 'von **Sammler Testy** (Lauf 3)' },
+  pr(11, '[Prüfung rot] chore(data): Anderes', 'Anderer Lauf/sammeln/chore(data): Test'),
+  pr(12, '[Prüfung rot] chore(data): Alt', SCHLUESSEL),
+  /* Zweiter Job desselben Workflows (refresh-weekly hat sieben): sein Fund bleibt offen. */
+  pr(16, '[Prüfung rot] chore(data): Test (ADN)', 'Sammler Test/adn/chore(data): Test (ADN)'),
+  pr(13, 'chore(data): ohne Marke', SCHLUESSEL),
+  pr(99, '[Prüfung rot] chore(data): Test', SCHLUESSEL),
+  pr(14, '[Prüfung rot] chore(data): Älter', SCHLUESSEL),
+  pr(15, '[Prüfung rot] chore(data): Dritter', `${SCHLUESSEL} 2`),
+  { number: 17, title: '[Prüfung rot] chore(data): ohne Schlüssel', body: 'von **Sammler Test** (Lauf 3)' },
 ]
 const imFund = (zeile) => `if grep -q '"v":2' data/anisearch.json; then echo "  - ${zeile}"; fi`
-const [gruen, rot, ohneListe, zuLang, nichtDa, labelKaputt, leer, ohneFrist, mainGleich, mainNeu, mainAbsturz, mainLangerText, mainMitModulen, ohneFristRot, basisHaengt, mainViele] = await Promise.all([
+const [gruen, rot, ohneListe, zuLang, nichtDa, labelKaputt, leer, ohneFrist, mainGleich, mainNeu, mainAbsturz, mainLangerText, mainMitModulen, ohneFristRot, basisHaengt, mainViele, listeKaputt] = await Promise.all([
   szenario({ befehl: gruenBefehl }),
   szenario({ befehl: rotBefehl, nurFund: true, liste: LISTE }),
   szenario({ befehl: 'echo Absturz-Text; exit 3' }),
@@ -143,6 +153,7 @@ const [gruen, rot, ohneListe, zuLang, nichtDa, labelKaputt, leer, ohneFrist, mai
   szenario({ befehl: 'echo "  - x"; exit 1', frist: null }),
   szenario({ befehl: `if grep -q '"v":2' data/anisearch.json; then echo "  - fund"; exit 1; else sleep 20; fi`, frist: 1 }),
   szenario({ befehl: `for i in $(seq 1 25); do echo "  - alt$i"; done; ${imFund('neu26')}; exit 1` }),
+  szenario({ befehl: rotBefehl, nurFund: true, liste: LISTE, listeKaputt: true }),
 ])
 const gruenMitListe = await szenario({ befehl: gruenBefehl, liste: LISTE })
 
@@ -169,8 +180,10 @@ pruefe('main rot mit mehr als 20 Zeilen: ein neuer Fehler hinter Zeile 20 wird n
 pruefe('Vergleichslauf sieht node_modules des Sammlers (verlinkt): gleiche Prüfung, gleiches Ergebnis', mainMitModulen.titel === 'chore(data): Test' && /pr merge/.test(mainMitModulen.aufrufe), [mainMitModulen.titel, mainMitModulen.out.slice(-300)])
 pruefe('Vergleichslauf räumt auf: kein Arbeitsbaum bleibt zurück', [mainGleich, mainNeu, mainAbsturz, mainLangerText, rot].every((s) => s.arbeitsbaeume === 1), [mainGleich.arbeitsbaeume, mainNeu.arbeitsbaeume, mainAbsturz.arbeitsbaeume])
 
-console.log('Grenze: je Workflow ein roter PR')
-pruefe('rot: ältere rote PRs desselben Workflows werden geschlossen (12 und 14), keine anderen', /pr close 12 /.test(rot.aufrufe) && /pr close 14 /.test(rot.aufrufe) && !/pr close (11|13|15|99)/.test(rot.aufrufe), rot.aufrufe)
+console.log('Grenze: je Fund (Workflow, Job, Nachricht) ein roter PR')
+pruefe('rot: ältere rote PRs desselben Funds werden geschlossen (12 und 14), der Fund eines anderen Jobs (16, mittendrin) und alle übrigen bleiben', /pr close 12 /.test(rot.aufrufe) && /pr close 14 /.test(rot.aufrufe) && !/pr close (11|13|15|16|17|99)/.test(rot.aufrufe), rot.aufrufe)
+pruefe('Text trägt den Fund-Schlüssel als eigene Zeile', rot.text.split('\n').includes(`<!-- fund-schluessel: ${SCHLUESSEL} -->`) && gruen.text.includes(`<!-- fund-schluessel: ${SCHLUESSEL} -->`), rot.text.slice(0, 200))
+pruefe('pr list scheitert (auch nach ausgegebener Liste): Lauf grün, PR mit Marke, nichts geschlossen, Warnung im Lauf', listeKaputt.status === 0 && listeKaputt.titel.startsWith('[Prüfung rot]') && /pr=99/.test(listeKaputt.ausgabe) && /gemerged=false/.test(listeKaputt.ausgabe) && !/pr close|pr merge/.test(listeKaputt.aufrufe) && /::warning title=Ältere rote PRs nicht abgelöst::/.test(listeKaputt.out), [listeKaputt.status, listeKaputt.aufrufe, listeKaputt.out.slice(-400)])
 pruefe('rot: der Abbau läuft nach dem Anlegen des neuen PR', rot.aufrufe.indexOf('pr create') < rot.aufrufe.indexOf('pr close'), rot.aufrufe)
 pruefe('grün: es wird nichts geschlossen, auch wenn rote PRs offen sind', gruenMitListe.status === 0 && !/pr close/.test(gruenMitListe.aufrufe) && /pr merge/.test(gruenMitListe.aufrufe), gruenMitListe.aufrufe)
 
@@ -185,11 +198,11 @@ pruefe('keine Änderung: weder Prüfung noch Pull Request', !leer.markeDa && lee
 
 console.log('Zeitgrenze')
 const standard = Number(sh(wurzel, 'source tools/quellen-pruefen.sh; echo $QUELLEN_PRUEFFRIST_STANDARD').out.trim())
-/* Untergrenze: Lauf von check:logic (gemessen 17.10.2026: 1,5 bis 2 Minuten lokal) mit Reserve für einen langsameren Runner; Obergrenze: kleinster Job-Timeout der Sammler (fund-nachliefern: 20 Minuten). */
-pruefe('ohne Vorgabe gilt die Standardfrist, sie liegt zwischen 10 und 20 Minuten', ohneFrist.fristArg === String(standard) && standard >= 600 && standard <= 1200, [ohneFrist.fristArg, standard])
+/* Untergrenze: Lauf von check:logic (gemessen 17.10.2026: 54 s in der CI, knapp 3 min lokal unter Windows) mit Reserve. Die Obergrenze (Job-Timeouts der
+   Einreicher minus der übrige Job) rechnet der Wächter aus den Workflows nach (`pruefeFristen`, tools/sammler-pruefschritt-waechter.test.mjs). */
+pruefe('ohne Vorgabe gilt die Standardfrist, mindestens 5 Minuten', ohneFrist.fristArg === String(standard) && standard >= 300, [ohneFrist.fristArg, standard])
 const basisFrist = Number(sh(wurzel, 'source tools/quellen-pruefen.sh; echo $QUELLEN_BASISFRIST_STANDARD').out.trim())
-/* Fund und Vergleich auf main laufen nacheinander im selben Job: zusammen unter dem kleinsten Job-Timeout (20 Minuten), der Vergleich nicht kürzer als eine Minute. */
-pruefe('rot ohne Vorgabe: erst die Standardfrist, dann die Vergleichsfrist; zusammen höchstens 20 Minuten', ohneFristRot.fristArg === `${standard}\n${basisFrist}` && basisFrist >= 60 && standard + basisFrist <= 1200, [ohneFristRot.fristArg, basisFrist])
+pruefe('rot ohne Vorgabe: erst die Standardfrist, dann die Vergleichsfrist (mindestens eine Minute)', ohneFristRot.fristArg === `${standard}\n${basisFrist}` && basisFrist >= 60, [ohneFristRot.fristArg, basisFrist])
 pruefe('Vergleich auf main hängt: bricht nach der Frist ab, der Fund bleibt rot, der Lauf endet', basisHaengt.status === 0 && basisHaengt.fristArg === '1\n1' && basisHaengt.titel.startsWith('[Prüfung rot]') && /- fund/.test(basisHaengt.text) && !/pr merge/.test(basisHaengt.aufrufe), [basisHaengt.status, basisHaengt.fristArg, basisHaengt.text])
 
 if (fehler.length) {

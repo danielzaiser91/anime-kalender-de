@@ -2,9 +2,10 @@
  * Rote Sammler-PRs (17.10.2026): Ein Fund, der `check:logic` bricht, wird als PR mit der Marke „[Prüfung rot]“ eingereicht und nie gemergt (`tools/quellen-pr.sh`).
  * Der Lauf endet dabei grün, deshalb braucht es zwei Dinge, damit der Fund nicht still liegt:
  *  - Sichtbarkeit: `meldeRoteSammlerPrs` listet die offenen Marken-PRs mit Alter; `tools/laeufe-aufraeumen.mjs` ruft es an jeder Wachphase auf.
- *  - Grenze: Ein neuer roter PR desselben Workflows löst die älteren ab (`nummern`); es liegt je Quelle höchstens einer.
+ *  - Grenze: Ein neuer roter PR desselben Funds löst die älteren ab (`nummern`); es liegt je Fund höchstens einer. Der Fund-Schlüssel (Workflow/Job/Nachricht)
+ *    steht als Kommentarzeile im Text: Ein Workflow hat mehrere Einreicher (refresh-weekly: sieben Jobs), der Name allein schlösse fremde Funde.
  *
- * Aufruf: `gh pr list --state open --limit 100 --json number,title,body,createdAt | node tools/rote-sammler-prs.mjs nummern "<Workflow>" "<neue Nummer>"`
+ * Aufruf: `gh pr list --state open --limit 100 --json number,title,body,createdAt | node tools/rote-sammler-prs.mjs nummern "<Fund-Schlüssel>" "<neue Nummer>"`
  * gibt die Nummern der abzulösenden PRs aus, eine je Zeile.
  */
 import { execSync } from 'node:child_process'
@@ -12,14 +13,20 @@ import { execSync } from 'node:child_process'
 export const MARKE = '[Prüfung rot]'
 const STUNDE = 3600_000
 
-/** Offene PRs mit der Marke im Titel; mit `workflow` nur die dieses Workflows (der Text nennt ihn als `**Name**`). */
-export function rotePrs(liste, workflow) {
-  return liste.filter((pr) => pr.title.startsWith(MARKE) && (workflow === undefined || String(pr.body ?? '').includes(`**${workflow}**`)))
+/* GitHub liefert Texte, die im Browser bearbeitet wurden, mit CRLF; `$` mit `m` endet auch vor `\r`, `.` frisst es nicht. */
+const SCHLUESSEL_ZEILE = /^<!-- fund-schluessel: (.*) -->$/m
+
+/** Fund-Schlüssel aus dem PR-Text (`tools/quellen-pr.sh`); undefined, wenn der Text keinen trägt. */
+export const schluesselVon = (pr) => String(pr.body ?? '').match(SCHLUESSEL_ZEILE)?.[1]
+
+/** Offene PRs mit der Marke im Titel; mit `schluessel` nur die desselben Funds (ganzer Schlüssel, kein Teilwort). */
+export function rotePrs(liste, schluessel) {
+  return liste.filter((pr) => pr.title.startsWith(MARKE) && (schluessel === undefined || schluesselVon(pr) === schluessel))
 }
 
-/** Nummern, die ein neuer roter PR (`neu`) von `workflow` ablöst: alle anderen roten PRs desselben Workflows. */
-export function abzuloesen(liste, workflow, neu) {
-  return rotePrs(liste, workflow).filter((pr) => String(pr.number) !== String(neu)).map((pr) => pr.number)
+/** Nummern, die ein neuer roter PR (`neu`) mit `schluessel` ablöst: alle anderen roten PRs desselben Funds. */
+export function abzuloesen(liste, schluessel, neu) {
+  return rotePrs(liste, schluessel).filter((pr) => String(pr.number) !== String(neu)).map((pr) => pr.number)
 }
 
 function alter(erstellt, jetzt) {

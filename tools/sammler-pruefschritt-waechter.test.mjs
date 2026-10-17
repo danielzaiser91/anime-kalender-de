@@ -1,13 +1,18 @@
 /**
- * Gegenprobe zu `tools/sammler-pruefschritt-waechter.mjs`: Der Stand des Repos ist in Ordnung, und jede einzelne Abweichung — ein Sammler mit eigenem PR-Weg,
- * eine umgangene Aktion, ein gesetzter Test-Schalter, eine vertauschte Reihenfolge, eine fehlende Marke — macht ihn rot.
+ * Gegenprobe zu `tools/sammler-pruefschritt-waechter.mjs`: Der Stand des Repos ist in Ordnung, und jede einzelne Abweichung — eine umgangene Aktion,
+ * ein gesetzter Schalter, eine vertauschte Reihenfolge, eine fehlende Marke, eine zu lange Frist — macht ihn rot. Die App-Token-Sperre hat ihre eigene
+ * Gegenprobe (`tools/app-token-sperre.test.mjs`); hier steht nur, dass der Wächter sie aufruft, und der Exit-Code als eigener Prozess.
  * Aufruf: node tools/sammler-pruefschritt-waechter.test.mjs
  */
 import assert from 'node:assert/strict'
+import { spawnSync } from 'node:child_process'
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { ladeRepo, pruefeSammler } from './sammler-pruefschritt-waechter.mjs'
+import { ladeRepo, pruefeFristen, pruefeSammler, REST_SEKUNDEN } from './sammler-pruefschritt-waechter.mjs'
 
-const original = ladeRepo(join(import.meta.dirname, '..'))
+const WURZEL = join(import.meta.dirname, '..')
+const original = ladeRepo(WURZEL)
 const kopie = () => structuredClone(original)
 
 /** Mutation anwenden und die Fehlertexte holen. */
@@ -20,53 +25,32 @@ function erwarte(name, aendere, muster) {
   const fehler = mit(aendere)
   assert.ok(fehler.some((f) => muster.test(f)), `${name}: erwartet ${muster}, gefunden ${JSON.stringify(fehler)}`)
 }
-function erwarteOk(name, aendere) {
-  const fehler = mit(aendere)
-  assert.deepEqual(fehler, [], `${name}: ${JSON.stringify(fehler)}`)
-}
 
 assert.deepEqual(pruefeSammler(original), [], 'der Stand des Repos ist in Ordnung')
-
 const neuerWorkflow = (schritte) => ({ name: 'Neuer Sammler', on: 'workflow_dispatch', jobs: { sammeln: { 'runs-on': 'ubuntu-latest', steps: schritte } } })
 
-// Weg 1: Sammler ohne die gemeinsame Stelle
-erwarte('Sammler mit eigenem gh pr create', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ name: 'Einreichen', run: 'gh pr create --fill' }]) }, /neu\.yml: öffnet einen Pull Request auf eigenem Weg/)
-erwarte('eigener Weg in einem with-Feld', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ uses: 'x/y@v1', with: { befehl: 'gh pr create --fill' } }]) }, /neu\.yml: öffnet/)
-erwarte('eigener Weg über die API', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ run: 'gh api repos/x/y/pulls -f title=a' }]) }, /neu\.yml: öffnet/)
-erwarte('Sammler-Skript mit gh pr create', (s) => { s.skripte['neu.sh'] = 'gh pr create --fill\n' }, /tools\/neu\.sh: öffnet/)
-erwarteOk('Sammler über die Aktion (auch in der Schreibweise mit Anführungszeichen und Zweig)', (s) => {
-  s.workflows['neu.yml'] = neuerWorkflow([{ uses: '.github/actions/einreichen/@main', with: { nachricht: 'x' } }])
-})
-erwarteOk('Sammler über quellen-pr.sh', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ run: 'bash tools/quellen-pr.sh "x"' }]) })
-erwarteOk('claude-auftrag.yml darf einen eigenen Weg haben (Prüfkette im PR)', (s) => {
-  s.workflows['claude-auftrag.yml'] = neuerWorkflow([{ run: 'gh pr create --fill' }])
-})
-erwarte('kein Workflow nutzt die Aktion (Erkennung)', (s) => {
-  for (const [datei, doc] of Object.entries(s.workflows)) {
-    for (const job of Object.values(doc.jobs ?? {})) job.steps = (job.steps ?? []).filter((x) => !String(x.uses ?? '').includes('actions/einreichen'))
-    s.workflows[datei] = doc
-  }
-}, /keinen Workflow, der die Aktion einreichen benutzt/)
-erwarte('kein Workflow ruft quellen-pr.sh direkt auf (Erkennung)', (s) => {
-  for (const doc of Object.values(s.workflows)) {
-    for (const job of Object.values(doc.jobs ?? {})) for (const x of job.steps ?? []) if (typeof x.run === 'string') x.run = x.run.replaceAll('quellen-pr.sh', 'anders.sh')
-  }
-}, /quellen-pr\.sh direkt/)
+// Die App-Token-Sperre ist verdrahtet: Array-Form im Token-Job macht auch den Wächter rot (Auflage 2, Runde 3).
+const ARRAY_FORM = `node -e "require('child_process').execFileSync('gh', ['pr', 'merge', '5', '--admin'])"`
+erwarte('Array-Form gh im Token-Schritt', (s) => {
+  s.workflows['claude-wache-urteil.yml'].jobs.urteilen.steps.find((x) => x.name === 'Ergebnis als Pull Request einreichen').run = ARRAY_FORM
+}, /claude-wache-urteil\.yml: Job urteilen, Schritt „Ergebnis als Pull Request einreichen“ \(quellen-pr\): run genau/)
 
-// Weg 2: die Aktion
+// Weg 1: die Aktion
 const schritteDerAktion = (s) => s.aktionen.einreichen.runs.steps
 const aufrufSchritt = (s) => schritteDerAktion(s).find((x) => x.id === 'pr')
 erwarte('Aktion: Aufruf mit || true', (s) => { aufrufSchritt(s).run += ' || true' }, /0 Aufrufe/)
 erwarte('Aktion: Aufruf fehlt', (s) => { s.aktionen.einreichen.runs.steps = schritteDerAktion(s).filter((x) => x.id !== 'pr') }, /0 Aufrufe/)
-erwarte('Aktion: Aufruf doppelt', (s) => { schritteDerAktion(s).push({ ...aufrufSchritt(s) }) }, /2 Aufrufe/)
-erwarte('Aktion: zusätzlicher Schritt mit gh pr create', (s) => { schritteDerAktion(s).push({ name: 'Heimlich', run: 'gh pr create --fill' }) }, /Schritt „Heimlich“/)
+erwarte('Aktion: Aufruf doppelt', (s) => { schritteDerAktion(s).push({ ...aufrufSchritt(s), id: 'pr2' }) }, /2 Aufrufe/)
 erwarte('Aktion: zusätzlicher Aufruf von quellen-pr.sh mit anderem Text', (s) => { schritteDerAktion(s).push({ name: 'Zweiter', run: 'bash tools/quellen-pr.sh "anders"' }) }, /Schritt „Zweiter“/)
 
-// Weg 3: Schalter
-erwarte('Workflow setzt QUELLEN_PRUEFBEFEHL', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ run: 'true', env: { QUELLEN_PRUEFBEFEHL: 'true' } }]) }, /neu\.yml: setzt oder nennt einen Test-Schalter/)
-erwarte('Aktion setzt QUELLEN_PRUEFFRIST', (s) => { aufrufSchritt(s).env.QUELLEN_PRUEFFRIST = '1' }, /einreichen: setzt oder nennt einen Test-Schalter/)
+// Weg 2: Schalter
+erwarte('Workflow setzt QUELLEN_PRUEFBEFEHL', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ run: 'true', env: { QUELLEN_PRUEFBEFEHL: 'true' } }]) }, /neu\.yml: setzt oder nennt einen Schalter/)
+erwarte('Aktion setzt QUELLEN_PRUEFFRIST', (s) => { aufrufSchritt(s).env.QUELLEN_PRUEFFRIST = '1' }, /einreichen: setzt oder nennt einen Schalter/)
+erwarte('Workflow setzt APP_AUTOR für den Nachholer', (s) => {
+  s.workflows['claude-daten-merge.yml'].jobs.pruefen.env = { APP_AUTOR: 'github-actions[bot]' }
+}, /claude-daten-merge\.yml: setzt oder nennt einen Schalter/)
 
-// Weg 4: quellen-pr.sh und quellen-pruefen.sh
+// Weg 3: quellen-pr.sh und quellen-pruefen.sh
 const PR = 'quellen-pr.sh'
 const ohne = (text, teil) => { assert.ok(text.includes(teil), `Mutation trifft nichts: ${teil}`); return text.replace(teil, '') }
 erwarte('quellen-pr.sh lädt die Prüfung nicht', (s) => { s.skripte[PR] = ohne(s.skripte[PR], 'source "$(dirname "${BASH_SOURCE[0]}")/quellen-pruefen.sh"') }, /Reihenfolge muss sein/)
@@ -76,82 +60,87 @@ erwarte('quellen-pr.sh prüft erst nach dem Anlegen', (s) => {
   s.skripte[PR] = t.replace('PRUEF_GRUND="$(quellen_pruefen)" || PRUEF_ROT=1\n', '').replace('NUMMER="$(printf', 'PRUEF_GRUND="$(quellen_pruefen)" || PRUEF_ROT=1\nNUMMER="$(printf')
 }, /Reihenfolge muss sein/)
 erwarte('quellen-pr.sh: Rot-Zweig nach dem Merge', (s) => {
-  const t = s.skripte[PR]
-  s.skripte[PR] = t.replace('if [ "$PRUEF_ROT" = 1 ]; then\n  # Das Label', 'if false; then\n  # Das Label')
+  s.skripte[PR] = s.skripte[PR].replace('if [ "$PRUEF_ROT" = 1 ]; then\n  # Das Label', 'if false; then\n  # Das Label')
 }, /Reihenfolge muss sein/)
 erwarte('quellen-pr.sh: andere Marke', (s) => { s.skripte[PR] = s.skripte[PR].replace('MARKE_ROT="[Prüfung rot]"', 'MARKE_ROT="[rot]"') }, /MARKE_ROT ist nicht/)
 erwarte('Prüfung fährt nur check:logic ohne --alle', (s) => { s.skripte['quellen-pruefen.sh'] = s.skripte['quellen-pruefen.sh'].replace('check:logic -- --alle', 'check:logic') }, /Standardbefehl/)
 erwarte('Prüfung fährt etwas anderes', (s) => { s.skripte['quellen-pruefen.sh'] = s.skripte['quellen-pruefen.sh'].replace('npm run check:logic -- --alle', 'true') }, /Standardbefehl/)
+const ROT_BLOCK = 'if [ "$PRUEF_ROT" = 1 ]; then\n  # Das Label'
+erwarte('quellen-pr.sh: Rot-Zweig steht vor dem Anlegen', (s) => { s.skripte[PR] = `${ROT_BLOCK}\n${ohne(s.skripte[PR], ROT_BLOCK)}` }, /Reihenfolge muss sein/)
+erwarte('quellen-pr.sh: Rot-Zweig steht erst nach dem Merge', (s) => { s.skripte[PR] = `${ohne(s.skripte[PR], ROT_BLOCK)}\n${ROT_BLOCK}` }, /Reihenfolge muss sein/)
+erwarte('quellen-pr.sh: gh pr merge steht vor dem Anlegen', (s) => { s.skripte[PR] = `if gh pr merge x\n${s.skripte[PR]}` }, /Reihenfolge muss sein/)
+erwarte('quellen-pr.sh: zweites gh pr create', (s) => { s.skripte[PR] += '\ngh pr create --fill\n' }, /genau ein gh pr create/)
+erwarte('quellen-pr.sh: zweites gh pr create als gh pr new', (s) => { s.skripte[PR] += '\ngh pr new --fill\n' }, /genau ein gh pr create/)
+erwarte('quellen-pr.sh: zweites gh pr merge', (s) => { s.skripte[PR] += '\ngh  pr merge 1 --admin\n' }, /genau ein gh pr merge/)
+assert.deepEqual(mit((s) => { s.skripte[PR] += '\n# gh pr create\n' }), [], 'quellen-pr.sh: Kommentar mit gh pr create zählt nicht')
 
-// Weg 5: die Marke bei den Nachholern
-erwarte('daten-pr-mergen.sh ohne Marke', (s) => { s.skripte['daten-pr-mergen.sh'] = s.skripte['daten-pr-mergen.sh'].replace('"[Prüfung rot]"*', '"x"*') }, /daten-pr-mergen\.sh überspringt/)
+// Weg 4: die Marke und der App-Autor bei den Nachholern
+const MERGEN = 'daten-pr-mergen.sh'
+erwarte('daten-pr-mergen.sh ohne Marke', (s) => { s.skripte[MERGEN] = s.skripte[MERGEN].replace('"[Prüfung rot]"*', '"x"*') }, /daten-pr-mergen\.sh überspringt/)
+erwarte('daten-pr-mergen.sh ohne Autorprüfung', (s) => { s.skripte[MERGEN] = ohne(s.skripte[MERGEN], '[ "$autor" = "$APP_AUTOR" ] || {') }, /prüft den Autor nicht/)
+erwarte('daten-pr-mergen.sh mit anderem App-Autor', (s) => { s.skripte[MERGEN] = s.skripte[MERGEN].replace('app/anime-kalender-daten}', 'github-actions}') }, /prüft den Autor nicht/)
 const listen = (s) => s.workflows['claude-daten-merge.yml'].jobs.pruefen.steps.find((x) => x.id === 'suche')
+const FILTER = 'select(.title | startswith("[Prüfung rot]") | not) | '
 for (const nr of [0, 1]) {
   erwarte(`claude-daten-merge.yml: Filter in der ${nr + 1}. gh pr list fehlt`, (s) => {
     const schritt = listen(s)
-    const teile = schritt.run.split('select(.title | startswith("[Prüfung rot]") | not) | ')
+    const teile = schritt.run.split(FILTER)
     assert.equal(teile.length, 3, 'zwei Filter erwartet')
-    const filter = 'select(.title | startswith("[Prüfung rot]") | not) | '
-    schritt.run = teile.reduce((text, teil, i) => text + (i - 1 === nr ? '' : filter) + teil)
+    schritt.run = teile.reduce((text, teil, i) => text + (i - 1 === nr ? '' : FILTER) + teil)
   }, /filtert die Marke nicht heraus/)
 }
 erwarte('claude-daten-merge.yml: gar keine gh pr list (Erkennung)', (s) => { listen(s).run = 'echo nichts' }, /keine `gh pr list` gefunden/)
 
-const ROT_BLOCK = 'if [ "$PRUEF_ROT" = 1 ]; then\n  # Das Label'
-erwarte('quellen-pr.sh: Rot-Zweig steht vor dem Anlegen', (s) => {
-  s.skripte[PR] = `${ROT_BLOCK}\n${ohne(s.skripte[PR], ROT_BLOCK)}`
-}, /Reihenfolge muss sein/)
-erwarte('quellen-pr.sh: Rot-Zweig steht erst nach dem Merge', (s) => {
-  s.skripte[PR] = `${ohne(s.skripte[PR], ROT_BLOCK)}\n${ROT_BLOCK}`
-}, /Reihenfolge muss sein/)
-erwarte('quellen-pr.sh: gh pr merge steht vor dem Anlegen', (s) => {
-  s.skripte[PR] = `if gh pr merge x\n${s.skripte[PR]}`
-}, /Reihenfolge muss sein/)
-// Runde 2 (17.10.2026): weitere Schreibweisen eines eigenen PR-Wegs
-const eigenerWeg = (name, run, muster = /neu\.yml: öffnet/) => erwarte(name, (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ run }]) }, muster)
-eigenerWeg('gh pr new (Alias von create)', 'gh pr new --fill')
-eigenerWeg('mehrfache Leerzeichen', 'gh  pr   create --fill')
-eigenerWeg('Zeilenfortsetzung mit Backslash', 'gh pr \\\n   create --fill')
-eigenerWeg('Schalter vor pr', 'gh --repo x/y pr create --fill')
-eigenerWeg('API-POST ohne Zeilenende nach /pulls', 'gh api -X POST repos/o/r/pulls')
-erwarte('Aktion create-pull-request', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ uses: 'peter-evans/create-pull-request@v7' }]) }, /neu\.yml: öffnet/)
-eigenerWeg('quellen-pr.sh und danach ein zweiter Befehl im selben Schritt', 'bash tools/quellen-pr.sh "x"\ngh pr create --fill')
-erwarteOk('Lesen von commits/<sha>/pulls ist kein PR-Öffnen', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ run: 'gh api repos/o/r/commits/abc/pulls' }]) })
-erwarteOk('Lesen einer PR-Datei (…/pulls/5/files) ist kein PR-Öffnen', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ run: 'gh api repos/o/r/pulls/5/files' }]) })
-// Quelltexte unter tools/ und pipeline/
-const quellcode = (name, pfad, text, muster) => erwarte(name, (s) => { s.quellcode[pfad] = text }, muster)
-quellcode('tools/*.mjs mit execSync gh pr create', 'tools/neu.mjs', "execSync('gh pr create --fill')", /tools\/neu\.mjs: öffnet/)
-quellcode('pipeline/*.ts mit Octokit pulls.create', 'pipeline/neu.ts', 'await octokit.rest.pulls.create({})', /pipeline\/neu\.ts: öffnet/)
-erwarteOk('Kommentar in einem Quelltext öffnet nichts', (s) => { s.quellcode['tools/neu.mjs'] = '// früher: gh pr create --fill\n * gh pr merge' })
-assert.ok(Object.keys(original.quellcode).some((p) => p.startsWith('tools/') && p.endsWith('.mjs')), 'ladeRepo liest tools/*.mjs')
-assert.ok(Object.keys(original.quellcode).some((p) => p.startsWith('pipeline/') && p.endsWith('.ts')), 'ladeRepo liest pipeline/*.ts')
-assert.ok(!Object.keys(original.quellcode).some((p) => /\.test\./.test(p)), 'Tests werden nicht gelesen')
-assert.ok(Object.keys(original.quellcode).some((p) => /^pipeline\/[^/]+\/[^/]+\.ts$/.test(p)), 'ladeRepo liest auch Unterordner von pipeline/')
-assert.ok(Object.keys(original.quellcode).some((p) => /^tools\/[^/]+\/[^/]+\.(mjs|js|ts)$/.test(p)), 'ladeRepo liest auch Unterordner von tools/')
-quellcode('Octokit createPullRequest (GraphQL)', 'tools/neu.mjs', 'graphql(`mutation { createPullRequest(input: {}) }`)', /tools\/neu\.mjs: öffnet/)
-erwarteOk('Blockkommentar in einem Quelltext öffnet nichts', (s) => { s.quellcode['tools/neu.mjs'] = '/* gh pr create --fill */' })
-erwarteOk('Kommentarzeile in einem Shell-Skript öffnet nichts', (s) => { s.skripte['neu.sh'] = '# gh pr create --fill\necho x\n' })
-erwarte('Quelltext öffnet nach einer Kommentarzeile', (s) => { s.quellcode['tools/neu.mjs'] = '// nichts\nexecSync("gh pr create")' }, /tools\/neu\.mjs: öffnet/)
-// genau ein create und genau ein merge in quellen-pr.sh
-erwarte('quellen-pr.sh: zweites gh pr create', (s) => { s.skripte[PR] += '\ngh pr create --fill\n' }, /genau ein gh pr create/)
-erwarte('quellen-pr.sh: zweites gh pr create als gh pr new', (s) => { s.skripte[PR] += '\ngh pr new --fill\n' }, /genau ein gh pr create/)
-erwarte('quellen-pr.sh: zweites gh pr merge', (s) => { s.skripte[PR] += '\ngh  pr merge 1 --admin\n' }, /genau ein gh pr merge/)
-erwarteOk('quellen-pr.sh: Kommentar mit gh pr create zählt nicht', (s) => { s.skripte[PR] += '\n# gh pr create\n' })
-// Merge-Stellen: Liste
-const merge = /kann einen Pull Request mergen/
-erwarte('neuer Workflow mit gh pr merge --admin', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ run: 'gh pr merge 5 --squash --admin' }]) }, /\.github\/workflows\/neu\.yml: kann einen Pull Request mergen/)
-erwarte('neues Skript mit gh pr merge', (s) => { s.skripte['x.sh'] = 'gh pr merge $n --admin\n' }, /tools\/x\.sh: kann/)
-erwarte('Quelltext mit gh pr merge', (s) => { s.quellcode['tools/x.mjs'] = "execSync('gh pr merge 5')" }, /tools\/x\.mjs: kann/)
-erwarte('Merge über die API', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ run: 'gh api -X PUT repos/o/r/pulls/5/merge' }]) }, merge)
-erwarte('Auto-Merge-Aktion', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ uses: 'pascalgn/automerge-action@v0.16' }]) }, merge)
-erwarte('Merge mit Schalter vor pr und Leerzeichen', (s) => { s.workflows['neu.yml'] = neuerWorkflow([{ run: 'gh -R x/y  pr   merge 5' }]) }, merge)
-erwarte('Merge in einer Aktion', (s) => { schritteDerAktion(s).push({ name: 'M', run: 'gh pr merge 5' }) }, /\.github\/actions\/einreichen: kann/)
-erwarte('Octokit pulls.merge', (s) => { s.quellcode['tools/x.mjs'] = 'await octokit.rest.pulls.merge({})' }, /tools\/x\.mjs: kann/)
-erwarte('GraphQL mergePullRequest', (s) => { s.quellcode['tools/x.mjs'] = 'graphql(`mutation { mergePullRequest(input: {}) }`)' }, /tools\/x\.mjs: kann/)
-erwarte('GraphQL enablePullRequestAutoMerge', (s) => { s.quellcode['tools/x.mjs'] = 'graphql(`mutation { enablePullRequestAutoMerge(input: {}) }`)' }, /tools\/x\.mjs: kann/)
-erwarte('Merge in einem Skript nach einer Kommentarzeile', (s) => { s.skripte['x.sh'] = '# nichts\ngh pr merge 1\n' }, /tools\/x\.sh: kann/)
-for (const stelle of ['quellen-pr.sh', 'daten-pr-mergen.sh', 'pr-einreichen.sh']) {
-  erwarte(`${stelle}: ohne Eintrag auf der Liste wäre sie rot (Gegenprobe über eine Kopie)`, (s) => { s.skripte['kopie-von-' + stelle] = s.skripte[stelle] }, /kann einen Pull Request mergen/)
+// Weg 5: Fristen (Auflage 3, Runde 3). fund-nachliefern hat 20 min; mit den Fristen aus Runde 2 (900 + 240 s) blieben 60 s für Download und Merge.
+const PRUEFEN = 'quellen-pruefen.sh'
+const fristen = (pruef, basis) => (s) => {
+  s.skripte[PRUEFEN] = s.skripte[PRUEFEN]
+    .replace(/^QUELLEN_PRUEFFRIST_STANDARD=\d+$/m, `QUELLEN_PRUEFFRIST_STANDARD=${pruef}`)
+    .replace(/^QUELLEN_BASISFRIST_STANDARD=\d+$/m, `QUELLEN_BASISFRIST_STANDARD=${basis}`)
 }
-erwarteOk('Merge-Stellen auf der Liste bleiben erlaubt', (s) => { s.skripte['pr-einreichen.sh'] += '\ngh pr merge 3 --auto\n' })
+erwarte('Fristen aus Runde 2 sprengen fund-nachliefern', fristen(900, 240), /fund-nachliefern\.yml: Job nachliefern \(timeout 1200 s\) lässt nach Prüfung und Vergleich \(1140 s\)/)
+erwarte('Basisfrist allein zu lang', fristen(420, 400), /fund-nachliefern\.yml: Job nachliefern/)
+assert.deepEqual(mit(fristen(1200 - 240 - REST_SEKUNDEN, 240)), [], 'genau auf der Grenze ist erlaubt')
+erwarte('eine Sekunde über der Grenze', fristen(1200 - 240 - REST_SEKUNDEN + 1, 240), /fund-nachliefern\.yml: Job nachliefern/)
+erwarte('Frist nicht lesbar', (s) => { s.skripte[PRUEFEN] = ohne(s.skripte[PRUEFEN], 'QUELLEN_BASISFRIST_STANDARD=240\n') }, /als Zahl erwartet/)
+// Ein neuer Einreicher mit kurzem Timeout als mittlerer von drei Jobs: über die Aktion wie über den direkten Aufruf.
+const dreiJobs = (mitte) => ({ jobs: { a: { 'timeout-minutes': 300, steps: [{ uses: './.github/actions/einreichen' }] }, b: mitte, c: { steps: [{ run: 'bash tools/quellen-pr.sh "x"' }] } } })
+erwarte('Einreicher über die Aktion mit 15 min', (s) => { s.workflows['neu.yml'] = dreiJobs({ 'timeout-minutes': 15, steps: [{ uses: '.github/actions/einreichen@main' }] }) }, /neu\.yml: Job b \(timeout 900 s\)/)
+erwarte('direkter Aufruf mit 15 min', (s) => { s.workflows['neu.yml'] = dreiJobs({ 'timeout-minutes': 15, steps: [{ run: 'true' }, { run: 'bash tools/quellen-pr.sh "y"' }] }) }, /neu\.yml: Job b/)
+erwarte('Timeout als Ausdruck ist nicht nachrechenbar', (s) => { s.workflows['neu.yml'] = dreiJobs({ 'timeout-minutes': '${{ inputs.t }}', steps: [{ uses: './.github/actions/einreichen' }] }) }, /neu\.yml: Job b/)
+assert.deepEqual(pruefeFristen({ 'x.yml': dreiJobs({ steps: [{ run: 'true' }] }) }, original.skripte[PRUEFEN]), [], 'ohne timeout gelten 360 min; ein Job ohne Einreichen zählt nicht')
+assert.deepEqual(pruefeFristen({ 'x.yml': { jobs: { a: { steps: [{ run: 'true' }] } } } }, original.skripte[PRUEFEN]), ['Wächter findet keinen Job, der einreicht — Erkennung kaputt?'])
+const ohneTimeout = { 'x.yml': { jobs: { a: { steps: [{ run: 'bash tools/quellen-pr.sh "x"' }] } } } }
+assert.match(pruefeFristen(ohneTimeout, 'QUELLEN_PRUEFFRIST_STANDARD=21000\nQUELLEN_BASISFRIST_STANDARD=240\n').join(), /x\.yml: Job a \(timeout 21600 s\)/, 'ohne timeout-minutes zählen 360 min')
+erwarte('Einreichen vor einem weiteren Schritt', (s) => { s.workflows['neu.yml'] = dreiJobs({ 'timeout-minutes': 15, steps: [{ uses: './.github/actions/einreichen' }, { run: 'true' }] }) }, /neu\.yml: Job b/)
+erwarte('zu knapper Einreicher nach einem Job ohne Einreichen', (s) => { s.workflows['neu.yml'] = { jobs: { a: { steps: [{ run: 'true' }] }, b: { 'timeout-minutes': 15, steps: [{ uses: './.github/actions/einreichen' }] } } } }, /neu\.yml: Job b/)
+erwarte('Frist nur am Zeilenanfang (kein Präfix-Name davor)', (s) => { fristen(900, 240)(s); s.skripte[PRUEFEN] = `ALT_QUELLEN_PRUEFFRIST_STANDARD=1\n${s.skripte[PRUEFEN]}` }, /fund-nachliefern\.yml: Job nachliefern/)
+// Gemessen 17.10.2026 in fund-nachliefern: rund 370 s nach der Prüfung (Checkout, Einrichten, Download, Push, Merge); 420 s mit Rand. Wer den Wert ändert, misst neu.
+assert.equal(REST_SEKUNDEN, 420)
+
+// Fund-Schlüssel (Auflage 1): daten-auf-abruf hat einen Job, aber wechselnde Läufe — die Nachricht trägt den Lauf, sonst löste ein roter TOGGO-Fund einen roten aniSearch-Fund ab.
+const abruf = original.workflows['daten-auf-abruf.yml'].jobs.lauf.steps
+assert.match(abruf.find((x) => x.id === 'lauf').run, /^ {0}echo "name=\$LAUF" >> "\$GITHUB_OUTPUT"$/m, 'der Lauf-Schritt gibt den Lauf aus')
+assert.match(abruf.find((x) => String(x.uses).includes('actions/einreichen')).with.nachricht, /\$\{\{ steps\.lauf\.outputs\.name/, 'die Nachricht trägt den Lauf')
+
+// Exit-Code als eigener Prozess: Wächter und Repo-Teile in einem Wegwerf-Ordner, einmal unverändert (0), einmal mit Array-Form im Token-Job (1).
+const ordner = mkdtempSync(join(tmpdir(), 'sammler-waechter-'))
+try {
+  for (const teil of ['.github', 'tools/sammler-pruefschritt-waechter.mjs', 'tools/app-token-sperre.mjs', 'node_modules/yaml', 'package.json']) cpSync(join(WURZEL, teil), join(ordner, teil), { recursive: true })
+  for (const sh of Object.keys(original.skripte)) cpSync(join(WURZEL, 'tools', sh), join(ordner, 'tools', sh))
+  const lauf = () => spawnSync(process.execPath, [join(ordner, 'tools/sammler-pruefschritt-waechter.mjs')], { cwd: ordner, encoding: 'utf8' })
+  const gruen = lauf()
+  assert.equal(gruen.status, 0, gruen.stderr)
+  assert.match(gruen.stdout, /^sammler-pruefschritt-waechter: ok \(\d+ Workflows/)
+  const datei = join(ordner, '.github/workflows/claude-wache-urteil.yml')
+  const aufruf = 'bash tools/quellen-pr.sh "chore(wache): Wache durchgesehen, Urteil eingetragen"'
+  assert.ok(readFileSync(datei, 'utf8').includes(aufruf), 'Mutation trifft den Aufruf')
+  writeFileSync(datei, readFileSync(datei, 'utf8').replace(aufruf, ARRAY_FORM))
+  const rot = lauf()
+  assert.equal(rot.status, 1, 'Fehlerfall endet mit Exit 1')
+  assert.match(rot.stderr, /^FEHL claude-wache-urteil\.yml: Job urteilen/m)
+  assert.equal(rot.stdout, '', 'rot: keine Erfolgszeile')
+} finally {
+  rmSync(ordner, { recursive: true, force: true })
+}
 console.log('sammler-pruefschritt-waechter.test: ok')

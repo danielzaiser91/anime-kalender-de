@@ -154,7 +154,10 @@ if [ "$PRUEF_ROT" = 1 ]; then
   fi
 fi
 TITEL="$NACHRICHT"
-BODY="Automatisch eingereicht von **${GITHUB_WORKFLOW:-lokal}** (Lauf ${GITHUB_RUN_ID:-—})."
+# Fund-Schlüssel: Ein Workflow hat mehrere Einreicher (refresh-weekly: sieben Jobs), ein neuer roter PR löst nur denselben Fund ab (`tools/rote-sammler-prs.mjs`).
+SCHLUESSEL="${GITHUB_WORKFLOW:-lokal}/${GITHUB_JOB:-lokal}/$NACHRICHT"
+BODY="Automatisch eingereicht von **${GITHUB_WORKFLOW:-lokal}** (Lauf ${GITHUB_RUN_ID:-—}).
+<!-- fund-schluessel: $SCHLUESSEL -->"
 if [ "$PRUEF_ROT" = 1 ]; then
   TITEL="$MARKE_ROT $NACHRICHT"
   BODY="$BODY
@@ -188,10 +191,13 @@ if [ "$PRUEF_ROT" = 1 ]; then
   # Das Label ist eine Zugabe: Fehlt es oder schlägt das Anlegen fehl, bleibt der Titelpräfix als Markierung.
   gh label create "$LABEL_ROT" --color B60205 --description "Datenprüfung rot, nicht gemergt" --force >/dev/null 2>&1 || true
   gh pr edit "$ZWEIG" --add-label "$LABEL_ROT" >/dev/null 2>&1 || true
-  # Grenze: Je Workflow liegt höchstens ein roter PR offen; die älteren löst der neue ab (ihr Zweig bleibt erhalten, der neue Lauf holt auf frischem main alles neu).
-  ALTE="$(gh pr list --state open --limit 100 --json number,title,body | node "$(dirname "${BASH_SOURCE[0]}")/rote-sammler-prs.mjs" nummern "${GITHUB_WORKFLOW:-lokal}" "$NUMMER")" || ALTE=""
+  # Grenze: Je Fund liegt höchstens ein roter PR offen; die älteren löst der neue ab (ihr Zweig bleibt erhalten, derselbe Job holt auf frischem main alles neu).
+  if ! ALTE="$(gh pr list --state open --limit 100 --json number,title,body | node "$(dirname "${BASH_SOURCE[0]}")/rote-sammler-prs.mjs" nummern "$SCHLUESSEL" "$NUMMER")"; then
+    ALTE=""
+    echo "::warning title=Ältere rote PRs nicht abgelöst::Die Liste offener Pull Requests war nicht lesbar; ältere rote PRs desselben Funds bleiben offen."
+  fi
   for alt in $ALTE; do
-    gh pr close "$alt" --comment "Abgelöst durch #$NUMMER (neuerer roter Fund desselben Workflows). Der Zweig bleibt erhalten." >/dev/null 2>&1 || true
+    gh pr close "$alt" --comment "Abgelöst durch #$NUMMER (neuerer roter Fund desselben Jobs). Der Zweig bleibt erhalten." >/dev/null 2>&1 || true
   done
   echo "::warning title=Datenprüfung rot::Pull Request $NUMMER ist eingereicht, aber nicht gemergt: $(printf '%s' "$PRUEF_GRUND" | tr '\n' ' ' | cut -c1-300)"
   melde "gemerged=false"
