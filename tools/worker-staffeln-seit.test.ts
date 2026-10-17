@@ -131,5 +131,17 @@ console.log('Neuer Titel nach dem Prüfstand')
   pruefe(r.zeilen.some((z) => z.url === url(TITEL)) && (await gemeldet()).includes(url(TITEL)), 'die erste Meldung eines Titels zählt sofort (INSERT trägt ihren Zeitpunkt)')
 }
 
+console.log('Neuer Titel vor dem nächsten Prüfstand, ohne Abhaken')
+{
+  await handlePruefung(post(folge(TITEL + 1, 1, 1)), env)
+  const spaeter = new Date(Date.now() + 60_000).toISOString()
+  stand.erzeugtAm = spaeter
+  ausgepackt = 0
+  const zeilen = await staffelnSeit(env, spaeter)
+  const n = ausgepackt
+  pruefe(n === 0 && zeilen.length === 0, `kein Titel zählt nach einem jüngeren Prüfstand, auch der neu angelegte nicht (${n} Folgen)`)
+  pruefe((await gemeldet()).length === 0, '?zaehlen=1 nennt nach einem jüngeren Prüfstand keine Adresse')
+}
+
 console.log(fehler ? `\n${fehler} Prüfung(en) fehlgeschlagen` : '\nalle Prüfungen bestanden')
 process.exit(fehler ? 1 : 0)

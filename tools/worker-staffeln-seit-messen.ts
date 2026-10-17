@@ -6,7 +6,7 @@
  *   npx tsx tools/worker-staffeln-seit-messen.ts <db-ordner> <worker-ordner>
  * Die Datenbank legt vorher `wrangler d1 execute anime-kalender --local --config wrangler.toml --persist-to <db-ordner>
  * --file=<Migrationen der Prüf-Tabellen>` an (frischer Ordner je Lauf). Mengen wie im Sollkonzept vom 16.10.2026: 812
- * Titelzeilen mit 27.743 Folgen, 18.000 Zeilen `pruefung`. Alle Folgen vor dem Prüfstand gemeldet; `ABGEHAKT` Titel
+ * Titelzeilen mit 27.736 Folgen (gemessen 17.10.2026), 18.000 Zeilen `pruefung`. Alle Folgen vor dem Prüfstand gemeldet; `ABGEHAKT` Titel
  * (Vorgabe 400) hakt der Bestandsbau nach dem Prüfstand ab, `GEMELDET` Titel (Vorgabe 6) bekommen danach je drei neue Folgen.
  */
 import { DatabaseSync } from 'node:sqlite'
