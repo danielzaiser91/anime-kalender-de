@@ -197,7 +197,7 @@ const quelle = readFileSync('pipeline/fetch-rohfolgen.ts', 'utf8')
 pruefe('fetch-rohfolgen.ts liest die Cartoons (public/data/cartoons.json)', quelle.includes("readJson<Title[]>('public/data/cartoons.json', [])"))
 pruefe('und die Handbeleg-Adressen (data/dub-confirmed.yaml)', quelle.includes("handbelegAdressen(yaml.load(readFileSync(resolve(ROOT, 'data/dub-confirmed.yaml')"))
 pruefe('und der Rest-Eintrag „kein Titel“ nennt Serie statt Folge', quelle.includes('titel: restTitel(liste),'))
-pruefe('und lässt die Cartoon-Zuordnung vor dem Anime-Weg laufen', /ordneCartoonsZu\(\s*jeUrl,/.test(quelle) && quelle.includes('of cartoonLauf.uebrig)'))
+pruefe('und lässt die Cartoon-Zuordnung vor dem Anime-Weg laufen', /ordneCartoonsZu\(\s*jeUrl,/.test(quelle) && quelle.includes("of teileNachNetflixStaffel(cartoonLauf.uebrig, titles, readJson('data/anbieter-staffeln.json', {})))"))
 pruefe('und führt ihre Ergebnisse zusammen (zugeordnet, offen, erledigt)', quelle.includes('Object.assign(zugeordnet, cartoonLauf.zugeordnet)') && quelle.includes('offen.push(...cartoonLauf.offen)') && quelle.includes('erledigt.push(...cartoonLauf.erledigt)'))
 
 if (fehler) {
