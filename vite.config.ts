@@ -9,9 +9,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { quellBaum } from './tools/quell-baum.ts'
 
-import { cloudflare } from "@cloudflare/vite-plugin";
-
-// Basis-Pfad: auf GitHub Pages liegt die Seite unter /<repo>/, lokal unter /
+// Basis-Pfad: die Seite liegt an der Wurzel ihrer Domain (anime-kalender.de); CI baut mit PAGES_BASE=/
 const base = process.env.PAGES_BASE ?? '/'
 
 /**
@@ -81,7 +79,7 @@ export default defineConfig({
   root: 'web',
   publicDir: '../public',
   define: { __BUILD_ID__: JSON.stringify(buildId), __APP_VERSION__: JSON.stringify(appVersion) },
-  plugins: [react(), tailwindcss(), cloudflare(), datenVorladen(), eigeneKennungen(), versionDatei()],
+  plugins: [react(), tailwindcss(), datenVorladen(), eigeneKennungen(), versionDatei()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./web/src', import.meta.url)),

@@ -137,8 +137,8 @@ Routen: `/subscribe /confirm /unsubscribe /prefs /favorites /push/*` (öffentlic
 Durable Object `EREIGNISSE`), `/cr-zugang`, `/land`, `/debug/*` (eigenes `DEBUG_TOKEN`, ebenfalls als Query), `/restore`, `/sync`, `/rhythmus`,
 `/feed/favoriten.ics`. Cron stündlich (`0 * * * *`: Monitor, Wecker, Push) und eigener Digest-Trigger `0 5,6 * * *` (`DIGEST_CRON`); ob versendet wird, entscheidet die Berliner Ortszeit (`SEND_HOUR_BERLIN=7`).
 Bindings: D1 `DB`, R2 `BELEGE`, DO `EREIGNISSE`. Migrationen in `worker/migrations`; ausliefern **nur** mit
-`cd worker && npx wrangler deploy --config wrangler.toml`. Der Worker (`newsletter`) ist von der Wurzel-`wrangler.jsonc`
-(Assets-Hosting, nur für `npm run preview`/`deploy`) getrennt — zwei Cloudflare-Konfigurationen im selben Repo.
+`cd worker && npx wrangler deploy --config wrangler.toml`. Der Worker (`newsletter`) ist von der Wurzel-`wrangler.web.jsonc`
+(Website `anime-kalender-web`, nur Assets, seit 17.10.2026; mit `--config` in `npm run preview`/`deploy`) getrennt — zwei Cloudflare-Konfigurationen im selben Repo.
 
 ## 8. Rezepte: gezielte Änderungen
 
