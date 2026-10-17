@@ -3,7 +3,8 @@
  * in `fetch-justwatch-audio.ts`.
  */
 import type { Title } from '../../shared/types.ts'
-import { BEFUND_MAX_TAGE } from './jw-vertrauen.ts'
+import { deutscheSeiten, nurSerie, seitenSchluessel } from './jw-seite.ts'
+import { BEFUND_MAX_TAGE, titelJeJustwatchKennung, type JwBefund } from './jw-vertrauen.ts'
 
 /** Wie viele Tage vor seinem Ablauf (`BEFUND_MAX_TAGE`) ein Befund erneuert wird (ein Wochenlauf Vorlauf). */
 export const ERNEUERN_VORLAUF_TAGE = 7
@@ -32,17 +33,36 @@ function alterNachholen(t: Title, bestand: Record<string, BefundKurz>): boolean 
 }
 
 /** Was vor der 28-Tage-Frist wieder an die Reihe kommt: Altersangabe, Staffelangaben, Befunde hinter „Deutsch laut JustWatch". */
-export function vorgezogen(t: Title, bestand: Record<string, BefundKurz>, heute: string): boolean {
+export function vorgezogen(t: Title, bestand: Record<string, BefundKurz>, heute: string, mitFlagge: Set<string>): boolean {
   const e = bestand[String(t.id)]
-  return alterNachholen(t, bestand) || staffelnFehlen(e) || vertrauensBefundAlt(t, e, heute)
+  return alterNachholen(t, bestand) || staffelnFehlen(e) || vertrauensBefundAlt(mitFlagge.has(String(t.id)), e, heute)
+}
+
+/**
+ * Titel, deren „Deutsch laut JustWatch“ (Flagge oder Hinweis, `bau/jw-seite-ton.ts`) am Befund hängt: ein Weg ohne eigenes Urteil, dessen Seite
+ * JustWatch mit deutschem Ton nennt, bei Filmen und Einzelstaffeln. Das Alter des Befunds zählt nicht — auch eine schon abgelaufene Flagge
+ * kommt mit einem neuen Befund zurück. Mehrteiler fallen weg (dort gibt es weder Flagge noch Hinweis).
+ */
+export function titelMitJwFlagge(titel: Title[], bestand: Record<string, JwBefund>): Set<string> {
+  const jeKennung = titelJeJustwatchKennung(bestand)
+  const mit = new Set<string>()
+  for (const t of titel) {
+    const befund = bestand[String(t.id)]
+    if (!befund || nurSerie(befund, jeKennung.get(befund.jwId ?? '') ?? 0) === 'Mehrteiler') continue
+    const seiten = deutscheSeiten(befund, befund.geprueftAm)
+    const haengtDran = (t.streams ?? []).some((s) => !s.entferntAm && s.dub === undefined && seiten.has(seitenSchluessel(s.url) ?? ''))
+    if (haengtDran) mit.add(String(t.id))
+  }
+  return mit
 }
 
 /**
  * Ein Weg mit „Deutsch laut JustWatch" (jeder Anbieter, `jw-seite.ts`) gilt nur bei einem Befund unter 28 Tagen. Der Abruf holt Befunde ab dem
- * 28. Tag — dazwischen wäre die Kennzeichnung tagelang weg. Deshalb wird dieser Befund einen Wochenlauf früher erneuert.
+ * 28. Tag — dazwischen wäre die Kennzeichnung tagelang weg. Deshalb wird der Befund eines Titels mit Flagge (`titelMitJwFlagge`) einen
+ * Wochenlauf früher erneuert. Nicht an `dubQuelle` hängen: Die Marke gibt es nur, solange die Flagge gilt (Your Name, 17.10.2026).
  */
-export function vertrauensBefundAlt(t: Title, e: BefundKurz | undefined, heute: string): boolean {
-  if (!e || !(t.streams ?? []).some((s) => s.dubQuelle === 'justwatch')) return false
+export function vertrauensBefundAlt(mitFlagge: boolean, e: BefundKurz | undefined, heute: string): boolean {
+  if (!e || !mitFlagge) return false
   const alterTage = (Date.parse(heute) - Date.parse(e.geprueftAm)) / 86_400_000
   return alterTage >= BEFUND_MAX_TAGE - ERNEUERN_VORLAUF_TAGE
 }
