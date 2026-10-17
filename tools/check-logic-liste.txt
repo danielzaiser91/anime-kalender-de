@@ -83,6 +83,7 @@ pipeline/check-install-stellen.ts
 pipeline/check-invarianten.ts
 pipeline/check-jw-ablauf.ts
 pipeline/check-jw-auswahl.ts
+pipeline/check-jw-schlange.ts
 pipeline/check-jw-seite.ts
 pipeline/check-jw-staffeln.ts
 pipeline/check-jw-vertrauen.ts

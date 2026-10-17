@@ -223,7 +223,7 @@ async function main(): Promise<void> {
     Sprachurteil, Titel ganz ohne Weg (243 im Hauptbestand, 07.09.2026) und Wege, die nur auf die TMDB-Übersicht
     zeigen statt zum Anbieter (1.187 auf 364 Titeln, 16.09.2026).
   */
-  const offen = warteschlange({ titles, bestand, tmdb, grenze, heute: todayIso() })
+  const offen = warteschlange({ titles, bestand, tmdb, grenze, heute: todayIso(), cartoonIds: new Set(cartoons.map((t) => t.id)) })
 
   if (!offen.length) {
     log('JustWatch: keine offenen Verweise zur Wiedervorlage.')

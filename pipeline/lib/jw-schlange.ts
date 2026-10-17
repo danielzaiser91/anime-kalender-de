@@ -12,6 +12,8 @@ export interface SchlangenEingabe {
   /** Befunde mit `geprueftAm` vor diesem Tag (ISO) sind fällig. */
   grenze: string
   heute: string
+  /** Kennungen der Cartoons unter `titles` (ihre Serien-Wege bekommen im Bau keine Flagge). */
+  cartoonIds: Set<number>
 }
 
 /** Die drei Lücken der Warteschlange: Weg ohne Sprachurteil, Titel ganz ohne Weg, Weg nur auf die TMDB-Übersicht. */
@@ -27,8 +29,8 @@ export function dringend(t: Title): boolean {
  * Titel mit TMDB-Kennung, die fällig sind: Alter, berichtigte Kennung, Fehlschlag ohne gespeicherte Kennung oder Wiedervorlage.
  * Reihenfolge: berichtigte Kennung, vorgezogen, dringend (`dringend`), dann der älteste Befund zuerst.
  */
-export function warteschlange({ titles, bestand, tmdb, grenze, heute }: SchlangenEingabe): Title[] {
-  const mitFlagge = titelMitJwFlagge(titles, bestand)
+export function warteschlange({ titles, bestand, tmdb, grenze, heute, cartoonIds }: SchlangenEingabe): Title[] {
+  const mitFlagge = titelMitJwFlagge(titles, bestand, cartoonIds)
   const tmdbVon = (t: Title) => (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
   /*
     **Eine berichtigte TMDB-Zuordnung macht den alten Befund wertlos.** Gesucht wird
