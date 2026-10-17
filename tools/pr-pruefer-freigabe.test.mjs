@@ -18,7 +18,10 @@ const pruefe = (name, ok, info) => {
 }
 
 const wf = parse(fs.readFileSync(new URL('../.github/workflows/pr-pruefer.yml', import.meta.url), 'utf8'))
-const freigabe = wf.jobs.pruefen.steps.find((s) => s.name === 'Protokoll und Freigabe')
+const FREIGABE_NAME = 'Protokoll und Freigabe'
+const alleSchritte = Object.values(wf.jobs).flatMap((j) => j.steps ?? [])
+const freigabe = wf.jobs.pruefen.steps.find((s) => s.name === FREIGABE_NAME)
+const MIT_REVIEW = /gh\s+pr\s+review|approve/i
 const KOPF = 'c'.repeat(40)
 const ANDERER = 'd'.repeat(40)
 const TOKEN = 'tok-geheim-123'
@@ -101,6 +104,11 @@ const KEIN_URTEIL = { status: 1, approve: 0, aendern: 0, kommentare: 0 }
 
 pruefe('Schritt: nur name, if, env, run; läuft immer (if: always())',
   JSON.stringify(Object.keys(freigabe)) === JSON.stringify(['name', 'if', 'env', 'run']) && freigabe.if === 'always()', freigabe)
+pruefe('Der Name der Freigabe kommt im ganzen Workflow genau einmal vor',
+  alleSchritte.filter((s) => s.name === FREIGABE_NAME).length === 1, alleSchritte.map((s) => s.name))
+const mitReview = alleSchritte.filter((s) => MIT_REVIEW.test(JSON.stringify(s)))
+pruefe('Nur der Freigabe-Schritt ruft gh pr review / approve auf (kein zweiter, kein Zusatzschritt)',
+  mitReview.length === 1 && mitReview[0] === freigabe, mitReview.map((s) => s.name))
 const faelle = [
   ['Zustand ok, Urteil ok: Freigabe', basis, FREIGABE],
   ['Zustand unvollstaendig, Urteil ok: keine Freigabe, Änderungswunsch', { ...basis, zustand: 'unvollstaendig' }, ABLEHNUNG],
