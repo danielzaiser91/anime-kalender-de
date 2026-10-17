@@ -6,137 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Fantasy
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-10-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T140500Z
-DTEND:20261009T143500Z
-SUMMARY:Pokémon Horizonte – Folge 6/130
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-10-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T144500Z
-DTEND:20261009T151500Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-10-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T150000Z
-DTEND:20261009T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
- Folge 23/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16234/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-10-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T150500Z
-DTEND:20261009T153500Z
-SUMMARY:Pokémon Horizonte – Folge 6/130
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-09#21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T151000Z
-DTEND:20261009T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-09#22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T153500Z
-DTEND:20261009T160500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-09#21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T162500Z
-DTEND:20261009T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-09#22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T165000Z
-DTEND:20261009T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-10-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T191500Z
-DTEND:20261009T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 12/17
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-10-09#22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T201000Z
-DTEND:20261009T204000Z
-SUMMARY:Gachiakuta – Folge 22/24
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-10-09#23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T204000Z
-DTEND:20261009T211000Z
-SUMMARY:Gachiakuta – Folge 23/24
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-10-09#24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T211500Z
-DTEND:20261009T214500Z
-SUMMARY:Gachiakuta – Folge 24/24
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-176496-tv-prosieben-maxx@2026-10-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T214500Z
-DTEND:20261009T221500Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 6/7
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15790/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-176496-tv-prosieben-maxx@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T221500Z
@@ -151,7 +20,7 @@ UID:auto-158871-tv-super-rtl@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261010T110000Z
 DTEND:20261010T113000Z
-SUMMARY:Pokémon Horizonte – Folge 130/130
+SUMMARY:Pokémon Horizonte – Folge 130/131
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -161,7 +30,7 @@ UID:auto-158871-tv-toggo-plus@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261010T120000Z
 DTEND:20261010T123000Z
-SUMMARY:Pokémon Horizonte – Folge 130/130
+SUMMARY:Pokémon Horizonte – Folge 130/131
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -288,7 +157,7 @@ UID:auto-158871-tv-super-rtl@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T140500Z
 DTEND:20261012T143500Z
-SUMMARY:Pokémon Horizonte – Folge 7/130
+SUMMARY:Pokémon Horizonte – Folge 7/131
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -308,7 +177,7 @@ UID:auto-158871-tv-toggo-plus@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T150500Z
 DTEND:20261012T153500Z
-SUMMARY:Pokémon Horizonte – Folge 7/130
+SUMMARY:Pokémon Horizonte – Folge 7/131
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -358,7 +227,7 @@ UID:auto-158871-tv-super-rtl@2026-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T140500Z
 DTEND:20261013T143500Z
-SUMMARY:Pokémon Horizonte – Folge 8/130
+SUMMARY:Pokémon Horizonte – Folge 8/131
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -378,7 +247,7 @@ UID:auto-158871-tv-toggo-plus@2026-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T150500Z
 DTEND:20261013T153500Z
-SUMMARY:Pokémon Horizonte – Folge 8/130
+SUMMARY:Pokémon Horizonte – Folge 8/131
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -458,7 +327,7 @@ UID:auto-158871-tv-super-rtl@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T140500Z
 DTEND:20261014T143500Z
-SUMMARY:Pokémon Horizonte – Folge 9/130
+SUMMARY:Pokémon Horizonte – Folge 9/131
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -478,7 +347,7 @@ UID:auto-158871-tv-toggo-plus@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T150500Z
 DTEND:20261014T153500Z
-SUMMARY:Pokémon Horizonte – Folge 9/130
+SUMMARY:Pokémon Horizonte – Folge 9/131
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -558,7 +427,7 @@ UID:auto-158871-tv-super-rtl@2026-10-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T140500Z
 DTEND:20261015T143500Z
-SUMMARY:Pokémon Horizonte – Folge 10/130
+SUMMARY:Pokémon Horizonte – Folge 10/131
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -578,7 +447,7 @@ UID:auto-158871-tv-toggo-plus@2026-10-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T150500Z
 DTEND:20261015T153500Z
-SUMMARY:Pokémon Horizonte – Folge 10/130
+SUMMARY:Pokémon Horizonte – Folge 10/131
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -638,7 +507,7 @@ UID:auto-158871-tv-super-rtl@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T140500Z
 DTEND:20261016T143500Z
-SUMMARY:Pokémon Horizonte – Folge 11/130
+SUMMARY:Pokémon Horizonte – Folge 11/131
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -669,7 +538,7 @@ UID:auto-158871-tv-toggo-plus@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T150500Z
 DTEND:20261016T153500Z
-SUMMARY:Pokémon Horizonte – Folge 11/130
+SUMMARY:Pokémon Horizonte – Folge 11/131
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -764,6 +633,26 @@ SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 22/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/15570/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-10-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T110000Z
+DTEND:20261017T113000Z
+SUMMARY:Pokémon Horizonte – Folge 131/131
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-10-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T120000Z
+DTEND:20261017T123000Z
+SUMMARY:Pokémon Horizonte – Folge 131/131
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-17@anime-kalender-d
@@ -1195,6 +1084,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1318@2026-10-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261029T080000Z
+DTEND:20261029T083000Z
+SUMMARY:Puella Magi Madoka Magica (neu bei ADN)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
+ s://anime-kalender.de/t/4943/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261029T150000Z
@@ -1205,17 +1105,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
   oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
  6757/
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-9756-adn@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261029
-DTEND;VALUE=DATE:20261030
-SUMMARY:Puella Magi Madoka Magica (neu bei ADN)
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
- em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
- nicht bestätigt.\nDetails: https://anime-kalender.de/t/4943/
-CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-10-31@anime-kalender-de

@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Ninja
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-21220-tv-prosieben-maxx@2026-10-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T181500Z
-DTEND:20261009T184500Z
-SUMMARY:Boruto: Naruto the Movie
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/7680/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:demon-slayer-entertainment-district-arc-primevideo@2026-10-10@anime-kal
  ender-de
 DTSTAMP:20200101T000000Z

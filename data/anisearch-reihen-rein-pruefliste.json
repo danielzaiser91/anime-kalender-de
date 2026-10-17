@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-15",
+  "stand": "2026-10-17",
   "bestand": {
     "inReihen": 3034,
     "reihen": 819,
@@ -1552,8 +1552,8 @@
     ]
   },
   "katalog": {
-    "inReihen": 11952,
-    "reihen": 3057,
+    "inReihen": 11998,
+    "reihen": 3066,
     "pruefliste": [
       {
         "art": "verschmilzt",
@@ -1952,7 +1952,7 @@
           {
             "id": 148972,
             "name": "Xiong Chumo",
-            "titel": 16
+            "titel": 22
           },
           {
             "id": 10015219,
@@ -1969,7 +1969,7 @@
           {
             "id": 148972,
             "name": "Xiong Chumo",
-            "titel": 16
+            "titel": 22
           },
           {
             "id": 10012541,
@@ -1986,7 +1986,7 @@
           {
             "id": 148972,
             "name": "Xiong Chumo",
-            "titel": 16
+            "titel": 22
           },
           {
             "id": 10018812,
@@ -2448,9 +2448,9 @@
             "titel": 3
           },
           {
-            "id": 10020365,
-            "name": "Yinyang Shi: Buzhi Huo",
-            "titel": 1
+            "id": 154999,
+            "name": "Onmyouji",
+            "titel": 2
           }
         ],
         "alleinstehende": [],
@@ -2972,7 +2972,7 @@
           {
             "id": 8644,
             "name": "Sylvanian Families",
-            "titel": 12
+            "titel": 13
           },
           {
             "id": 182157,
@@ -3516,7 +3516,7 @@
           {
             "id": 80,
             "name": "Kidou Senshi Gundam",
-            "titel": 51
+            "titel": 52
           },
           {
             "id": 20756,
@@ -4313,7 +4313,7 @@
           {
             "id": 80,
             "name": "Kidou Senshi Gundam",
-            "titel": 51
+            "titel": 52
           },
           {
             "id": 21268,
@@ -5214,7 +5214,7 @@
           {
             "id": 80,
             "name": "Kidou Senshi Gundam",
-            "titel": 51
+            "titel": 52
           },
           {
             "id": 95,
@@ -5435,7 +5435,7 @@
           {
             "id": 80,
             "name": "Kidou Senshi Gundam",
-            "titel": 51
+            "titel": 52
           },
           {
             "id": 93,
@@ -5656,7 +5656,7 @@
           {
             "id": 80,
             "name": "Kidou Senshi Gundam",
-            "titel": 51
+            "titel": 52
           },
           {
             "id": 3288,
@@ -5724,7 +5724,7 @@
           {
             "id": 80,
             "name": "Kidou Senshi Gundam",
-            "titel": 51
+            "titel": 52
           },
           {
             "id": 96,
@@ -6098,7 +6098,7 @@
           {
             "id": 80,
             "name": "Kidou Senshi Gundam",
-            "titel": 51
+            "titel": 52
           },
           {
             "id": 8839,
@@ -6251,7 +6251,7 @@
           {
             "id": 80,
             "name": "Kidou Senshi Gundam",
-            "titel": 51
+            "titel": 52
           },
           {
             "id": 92,
@@ -6557,7 +6557,7 @@
           {
             "id": 80,
             "name": "Kidou Senshi Gundam",
-            "titel": 51
+            "titel": 52
           },
           {
             "id": 20658,
@@ -6574,7 +6574,7 @@
           {
             "id": 80,
             "name": "Kidou Senshi Gundam",
-            "titel": 51
+            "titel": 52
           },
           {
             "id": 19319,
@@ -6591,7 +6591,7 @@
           {
             "id": 80,
             "name": "Kidou Senshi Gundam",
-            "titel": 51
+            "titel": 52
           },
           {
             "id": 10808,
@@ -6608,7 +6608,7 @@
           {
             "id": 80,
             "name": "Kidou Senshi Gundam",
-            "titel": 51
+            "titel": 52
           },
           {
             "id": 2581,
@@ -6625,7 +6625,7 @@
           {
             "id": 80,
             "name": "Kidou Senshi Gundam",
-            "titel": 51
+            "titel": 52
           },
           {
             "id": 90,
