@@ -45,12 +45,18 @@ esac
 
 /** Die env des Schritts aus der YAML; nur die beiden bekannten Ausdrücke werden eingesetzt. */
 function werteEnv(zustand) {
-  const ausdruecke = { 'steps.eingang.outputs.zustand': zustand, 'secrets.GITHUB_TOKEN': TOKEN }
+  const ausdruecke = {
+    'steps.eingang.outputs.zustand': zustand,
+    'secrets.GITHUB_TOKEN': TOKEN,
+    'github.event.pull_request.number': '7',
+    'github.event.pull_request.head.sha': KOPF,
+    'github.event.pull_request.base.sha': ANDERER,
+  }
   const setze = (_, a) => {
     if (!(a in ausdruecke)) throw new Error(`Ausdruck nicht nachgebildet: ${a}`)
     return ausdruecke[a]
   }
-  return Object.fromEntries(Object.entries(freigabe.env ?? {}).map(([s, w]) => [s, String(w).replace(/\$\{\{\s*([^}]+?)\s*\}\}/g, setze)]))
+  return Object.fromEntries(Object.entries({ ...wf.jobs.pruefen.env, ...freigabe.env }).map(([s, w]) => [s, String(w).replace(/\$\{\{\s*([^}]+?)\s*\}\}/g, setze)]))
 }
 
 /** Führt den run-Block aus; `f.urteil`: Text von urteil.json oder null, `f.protokoll` ebenso. */
@@ -72,8 +78,6 @@ function laufe(f) {
     const pfad = Object.keys(env).find((s) => s.toUpperCase() === 'PATH') ?? 'PATH'
     env[pfad] = bin + path.delimiter + env[pfad]
     Object.assign(env, {
-      PR: '7',
-      HEAD_SHA: KOPF,
       GITHUB_REPOSITORY: 'o/r',
       RUNNER_TEMP: temp,
       ...werteEnv(f.zustand),
