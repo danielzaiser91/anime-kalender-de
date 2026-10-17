@@ -8,6 +8,8 @@ import type { NewsEintrag } from '../../shared/news-typen.ts'
 import { addDays } from '../../shared/time.ts'
 import { stufeTitelEin } from '../../web/src/lib/db-relevanz.ts'
 import { kanalSchluessel } from './kanal-titel.ts'
+import { alleTermineGekennzeichnet } from './pruefung.ts'
+import { urteilDarfBelegen } from './urteil-weg.ts'
 
 export const REGELN = ['erschienenOhneTermin', 'schaetzungNachEnde', 'spracheOffenTrotzMeldung', 'ereignisOhneNews', 'terminOhneBeleg'] as const
 export type Regel = (typeof REGELN)[number]
@@ -100,15 +102,19 @@ export function schaetzungNachEnde(b: Bestand): Treffer[] {
   return treffer
 }
 
-/** 3. Die Pille zeigt „Sprache offen“, obwohl die Erweiterung auf diesem Anbieter Deutsch gemessen hat (Prime-Kanal ausgenommen: dort kein Beleg). */
+/**
+ * 3. Die Pille zeigt „Sprache offen“, obwohl die Erweiterung auf diesem Anbieter Deutsch gemessen hat. Ausgenommen, was der Bau
+ * nicht belegen darf (`urteilDarfBelegen`): Prime-Kanal (dort kein Beleg) und ein Anbieter, dessen Termine alle eine Sprachkennzeichnung tragen.
+ */
 export function spracheOffenTrotzMeldung(b: Bestand): Treffer[] {
   const gemessen = gemessenDeutsch(b.urteile)
+  const gekennzeichnet = alleTermineGekennzeichnet(b.releases)
   const treffer: Treffer[] = []
   for (const t of b.titles) {
     for (const s of t.streams ?? []) {
       if (s.dub === true || (s.dubQuelle === 'justwatch' && s.dubStand)) continue
       if (!gemessen.has(`${t.id}|${s.platform}`)) continue
-      if (s.platform === 'primevideo' && b.kanal.has(kanalSchluessel(t.id, s.url))) continue
+      if (!urteilDarfBelegen(t.id, s, b.kanal, gekennzeichnet)) continue
       treffer.push({ titleId: t.id, schluessel: `${t.id}|${s.platform}`, text: `${name(t, t.id)}: ${s.platform} „Sprache offen“, Erweiterung hat Deutsch gemessen` })
     }
   }
