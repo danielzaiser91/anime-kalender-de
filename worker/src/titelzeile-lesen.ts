@@ -98,7 +98,7 @@ export async function offeneZeilen(env: Env): Promise<Folge[]> {
 /** Adressen und Staffeln, zu denen seit `seit` (ohne Angabe: je) gemeldet wurde — `pruefung-stand.ts`. */
 export async function staffelnSeit(env: Env, seit: string | null): Promise<{ plattform: string; url: string; staffel: number | null }[]> {
   const bedingung = seit ? ' AND gemeldet_am > ?1' : ''
-  /* Titel, in denen seit dem Listenbau nichts geschrieben wurde, startet `json_each` gar nicht erst. */
+  /* Titel ohne Meldung seit dem Listenbau (`gemeldet_am` = jüngste Folge, `juengsteMeldung`) startet `json_each` gar nicht erst. */
   const sql = (tabelle: string, mehr: string) =>
     `SELECT DISTINCT plattform, url, staffel FROM ${tabelle} WHERE url IS NOT NULL AND url != ''${bedingung}${mehr}`
   const binde = (s: string) => (seit ? env.DB.prepare(s).bind(seit) : env.DB.prepare(s))
