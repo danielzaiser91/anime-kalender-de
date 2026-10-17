@@ -101,12 +101,14 @@ console.log('\nKalender-Plausibilität 3: „Sprache offen“ trotz gemessenem D
     weg(24, 'netflix', { kanal: 'Aniverse' }),
     weg(25, 'crunchyroll'),
     weg(26, 'primevideo'),
+    /* 27: Kanal-Adresse nach der gti-Brücke nur in `seite` (Your Name 21519). */
+    weg(27, 'primevideo', { url: 'gti27', seite: 'k27' }),
   ]
   const termin = (titleId: number, platform: string, sprache?: string) => release(titleId, `r${titleId}${platform}${sprache}`, {}, { platform, sprache } as never)
   const releases = [termin(22, 'netflix', 'offen'), termin(22, 'netflix', 'omu'), termin(23, 'netflix', 'offen'), termin(23, 'netflix'), termin(25, 'netflix', 'offen')]
   const urteile = Object.fromEntries(titles.flatMap((x) => x.streams!.map((s) => [`${x.id}|${s.platform}|1`, urteil])))
-  const t = treffer('spracheOffenTrotzMeldung', { titles, releases, urteile })
-  pruefe('Kanal am Prime-Weg und lauter gekennzeichnete Termine treffen nicht, der Rest schon', gleich(t, [20, 21, 23, 24, 25, 26]), t)
+  const t = treffer('spracheOffenTrotzMeldung', { titles, releases, urteile, kanal: new Set([kanalSchluessel(27, 'k27')]) })
+  pruefe('Kanal am Prime-Weg (auch in `seite`) und lauter gekennzeichnete Termine treffen nicht, der Rest schon', gleich(t, [20, 21, 23, 24, 25, 26]), t)
 }
 
 console.log('\nKalender-Plausibilität 4: Ereignis ohne News')
