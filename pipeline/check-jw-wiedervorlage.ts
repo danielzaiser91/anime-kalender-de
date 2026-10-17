@@ -79,11 +79,10 @@ const einzel = serie('ts9', [angebot(1, ['de'])], { staffeln: [{ nr: 1, angebote
 const mehrteiler = titelMitJwFlagge([titel(1, [weg(1)]), titel(2, [weg(1)])], { '1': einzel, '2': einzel })
 pruefe('Mehrteiler (zwei Titel, eine JustWatch-Kennung) hängt nicht dran', mehrteiler.size === 0, [...mehrteiler])
 
-/* Verdrahtung im Abruf: unbedingt aufgerufen, mit dem Bestand, und beide Stellen der Warteschlange fragen die Menge. */
+/* Verdrahtung im Abruf: main bildet die Schlange unbedingt aus den Titeln und dem Bestand. */
 const abruf = readFileSync('pipeline/fetch-justwatch-audio.ts', 'utf8')
-const aufruf = unbedingteAufrufe(abruf, 'main').filter((a) => a.name === 'titelMitJwFlagge')
-pruefe('main ruft titelMitJwFlagge(titles, bestand) unbedingt auf', aufruf.length === 1 && aufruf[0]!.args.join() === 'titles,bestand', aufruf)
-pruefe('Filter und Sortierung der Warteschlange reichen die Menge an vorgezogen', (abruf.match(/vorgezogen\([a-z], bestand, todayIso\(\), mitFlagge\)/g) ?? []).length === 3)
+const aufruf = unbedingteAufrufe(abruf, 'main').filter((a) => a.name === 'warteschlange')
+pruefe('main ruft warteschlange({ titles, bestand, … }) unbedingt auf', aufruf.length === 1 && aufruf[0]!.args[0]!.startsWith('{ titles, bestand, tmdb, grenze,'), aufruf)
 
 if (fehler) {
   console.error(`${fehler} Fehler`)
