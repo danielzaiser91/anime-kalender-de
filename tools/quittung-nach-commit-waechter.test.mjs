@@ -7,6 +7,7 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { parse } from 'yaml'
+import { aufrufe } from './quittung-aufrufe.mjs'
 import { FEST, pruefeAlle, pruefeFest, pruefeJob, pruefeWorkflow } from './quittung-nach-commit-waechter.mjs'
 
 const s = (run, name = run) => ({ name, run })
@@ -65,6 +66,59 @@ assert.match(pruefeWorkflow('bestand-bauen.yml', parse('jobs: {}\n')).join('|'),
 
 // `run: |` endet mit Zeilenumbruch: zählt wie ohne.
 assert.match(pruefeJob('block', [s('npm run data:rohfolgen\n'), BAU, COMMIT, CHECK]).join('|'), /data:rohfolgen-abhaken/)
+
+// Erkennung am Kommando, nicht an der Zeile: verkettet, per Pfad, mit Zusatzargumenten, mehrzeilig — vor dem Commit rot.
+const VOR_COMMIT = [
+  'npm run data:rohfolgen && npm run data:rohfolgen-abhaken',
+  'npx tsx pipeline/rohfolgen-abhaken.ts',
+  'npm run data:vorfaelle -- --nur-loeschen --x',
+  'npm run data:build;\nnpm run data:pruefungen -- --nur-abhaken --y',
+  'echo a \\\n  && npm run data:rohfolgen-abhaken',
+  'LAUF=1 npm run-script data:rohfolgen-abhaken',
+  'node ./pipeline/rohfolgen-abhaken.ts',
+]
+for (const run of VOR_COMMIT) {
+  const job = [...MERKEN, BAU, s(run, 'eingeschoben'), CHECK, COMMIT, ...QUITT]
+  const fehler = pruefeJob('eingeschoben', job)
+  assert.ok(fehler.some((f) => f.includes('„eingeschoben": quittiert vor dem Commit')), `${run}: ${fehler}`)
+}
+// Trenner einzeln: `;` in einer Zeile, reiner Zeilenumbruch, Fortsetzungszeile ohne Trenner, Schalter nur als ganzes Wort.
+for (const run of ['echo a; npm run data:rohfolgen-abhaken', 'echo a\nnpm run data:rohfolgen-abhaken', 'npm run \\\ndata:rohfolgen-abhaken']) {
+  const fehler = pruefeJob('trenner', [BAU, s(run, 'eingeschoben'), COMMIT, CHECK])
+  assert.ok(fehler.some((f) => f.includes('quittiert vor dem Commit')), `${JSON.stringify(run)}: ${fehler}`)
+}
+assert.doesNotMatch(pruefeJob('wort', [BAU, s('npm run data:vorfaelle -- --nur-loeschenX'), COMMIT, QUITT[2]]).join('|'), /quittiert vor dem Commit/)
+// Dateiendungen und Argumente der Erkennung selbst.
+assert.deepEqual(aufrufe('node tools/a.mjs --x && tsx ./b/c.cjs; node d.js', {}).map((a) => a.datei), ['tools/a.mjs', 'b/c.cjs', 'd.js'])
+assert.deepEqual(aufrufe('echo hallo', {}), [])
+
+// Dieselben Kommandos nach dem Commit, verkettet und mit Zusatzargumenten: grün.
+const NACH = [s('npm run data:rohfolgen-abhaken --silent'), s('npx tsx pipeline/fetch-vorfaelle.ts --nur-loeschen\n'), s('npm run data:pruefungen -- --nur-abhaken && echo ok')]
+assert.deepEqual(pruefeJob('nach', [...MERKEN, BAU, COMMIT, CHECK, ...NACH, CHECK]), [])
+// Merken per Pfad oder verkettet nach dem Commit: rot; fehlende Quittung bei verkettetem Merken: rot.
+assert.match(pruefeJob('spaet', [BAU, COMMIT, s('npx tsx pipeline/fetch-rohfolgen.ts --x'), CHECK]).join('|'), /merkt nach dem Commit/)
+assert.match(pruefeJob('kette', [s('npm run data:build && npm run data:vorfaelle --x'), COMMIT, CHECK]).join('|'), /kein Schritt „npm run data:vorfaelle -- --nur-loeschen"/)
+// Briefkasten-Abruf ohne Schalter per Pfad oder verkettet: rot; mit Schalter und Zusatzargument: grün.
+assert.match(pruefeJob('pfad', [CHECK, s('npx tsx pipeline/fetch-pruefungen.ts'), BAU, COMMIT]).join('|'), /ohne --abhaken-spaeter/)
+assert.match(pruefeJob('kette', [CHECK, s('npm run data:x && npm run data:pruefungen -- --x'), BAU, COMMIT]).join('|'), /ohne --abhaken-spaeter/)
+assert.doesNotMatch(pruefeJob('mit', [s('npm run data:pruefungen -- --abhaken-spaeter --x'), BAU, COMMIT, QUITT[0]]).join('|'), /ohne --abhaken-spaeter/)
+
+// Indirekt über andere npm-Skripte der package.json (auch zweistufig, Kreis ohne Absturz).
+const SKRIPTE = {
+  'data:rohfolgen-abhaken': 'tsx pipeline/rohfolgen-abhaken.ts',
+  'data:vorfaelle': 'tsx pipeline/fetch-vorfaelle.ts',
+  'data:alles-abhaken': 'npm run data:rohfolgen-abhaken && echo x',
+  'data:ganz-alles': 'npm run data:alles-abhaken',
+  'data:kreis': 'npm run data:kreis2',
+  'data:kreis2': 'npm run data:kreis',
+}
+const indirekt = (run) => pruefeJob('ind', [s('npm run data:build'), s(run, 'x'), COMMIT, CHECK], SKRIPTE).join('|')
+assert.match(indirekt('npm run data:ganz-alles'), /quittiert vor dem Commit/)
+assert.match(indirekt('npm run data:alles-abhaken'), /quittiert vor dem Commit/)
+assert.match(indirekt('npm run data:vorfaelle'), /merkt|kein Schritt/)
+assert.match(indirekt('npm run data:vorfaelle -- --nur-loeschen'), /quittiert vor dem Commit/)
+assert.equal(indirekt('npm run data:kreis'), '')
+assert.equal(indirekt('npm run data:unbekannt'), '')
 
 // pruefeAlle liest jede .yml und .yaml eines Ordners.
 const ordner = mkdtempSync(join(tmpdir(), 'quittung-waechter-'))

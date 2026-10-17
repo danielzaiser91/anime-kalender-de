@@ -9,19 +9,51 @@
  * 1. Ein Schritt, der quittiert (`QUITTUNGEN[].quittiert`), steht nach dem ersten Schritt mit `tools/commit-data.sh`.
  * 2. Ein Schritt, der merkt (`QUITTUNGEN[].merkt`), steht vor diesem Commit, und nach ihm folgt sein Quittungsschritt.
  * 3. `data:pruefungen` läuft nur mit `--abhaken-spaeter`, `--nur-abhaken` oder `--trocken`: ohne Schalter hakt er sofort ab.
+ * Aufrufe erkennt `quittung-aufrufe.mjs` am Kommando (npm-Skript auch indirekt, Pfad, verkettet, mit Zusatzargumenten).
  * Für `bestand-bauen.yml` sind Commit- und Quittungsschritte zusätzlich Schlüssel für Schlüssel festgelegt.
  */
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { isDeepStrictEqual } from 'node:util'
 import { parse } from 'yaml'
+import { aufrufe, SKRIPTE } from './quittung-aufrufe.mjs'
 
 const TOKEN_ENV = { LAUF_TOKEN: '${{ secrets.LAUF_TOKEN }}' }
 
+const PRUEFUNGEN = 'pipeline/fetch-pruefungen.ts'
+const VORFAELLE = 'pipeline/fetch-vorfaelle.ts'
+const SCHALTER_PRUEFUNGEN = /--(abhaken-spaeter|nur-abhaken|trocken)(?!\S)/
+const hat = (schalter) => (befehl) => new RegExp(`--(${schalter})(?!\\S)`).test(befehl)
+
+/** `merkt`/`quittiert` sind die Sollzeilen (für FEST); erkannt wird über Datei und Schalter. */
 export const QUITTUNGEN = [
-  { merkt: 'npm run data:pruefungen -- --abhaken-spaeter', quittiert: 'npm run data:pruefungen -- --nur-abhaken', name: 'Meldungen abhaken' },
-  { merkt: 'npm run data:rohfolgen', quittiert: 'npm run data:rohfolgen-abhaken', name: 'Rohfolgen abhaken' },
-  { merkt: 'npm run data:vorfaelle', quittiert: 'npm run data:vorfaelle -- --nur-loeschen', name: 'Vorfälle löschen' },
+  {
+    name: 'Meldungen abhaken',
+    merkt: 'npm run data:pruefungen -- --abhaken-spaeter',
+    quittiert: 'npm run data:pruefungen -- --nur-abhaken',
+    merktDatei: PRUEFUNGEN,
+    merktPasst: hat('abhaken-spaeter'),
+    quittDatei: PRUEFUNGEN,
+    quittPasst: hat('nur-abhaken'),
+  },
+  {
+    name: 'Rohfolgen abhaken',
+    merkt: 'npm run data:rohfolgen',
+    quittiert: 'npm run data:rohfolgen-abhaken',
+    merktDatei: 'pipeline/fetch-rohfolgen.ts',
+    merktPasst: () => true,
+    quittDatei: 'pipeline/rohfolgen-abhaken.ts',
+    quittPasst: () => true,
+  },
+  {
+    name: 'Vorfälle löschen',
+    merkt: 'npm run data:vorfaelle',
+    quittiert: 'npm run data:vorfaelle -- --nur-loeschen',
+    merktDatei: VORFAELLE,
+    merktPasst: (b) => !hat('nur-loeschen|trocken')(b),
+    quittDatei: VORFAELLE,
+    quittPasst: hat('nur-loeschen'),
+  },
 ]
 
 /** Die festgelegten Schritte in `bestand-bauen.yml`, in dieser Reihenfolge direkt hintereinander. */
@@ -32,20 +64,21 @@ export const FEST = [
 
 const lauf = (schritt) => String(schritt?.run ?? '').trim()
 
-/** Fehler eines Jobs: Reihenfolge von Merken, Commit und Quittieren. */
-export function pruefeJob(ort, schritte) {
+const ruft = (schritt, datei, passt, skripte) => aufrufe(lauf(schritt), skripte).some((a) => a.datei === datei && passt(a.befehl))
+
+/** Fehler eines Jobs: Reihenfolge von Merken, Commit und Quittieren. `skripte` = `scripts` der package.json. */
+export function pruefeJob(ort, schritte, skripte = SKRIPTE) {
   const fehler = []
   const commit = schritte.findIndex((s) => lauf(s).includes('tools/commit-data.sh'))
   schritte.forEach((s, i) => {
-    const r = lauf(s)
-    if (/data:pruefungen(?!\S)/.test(r) && !/--(abhaken-spaeter|nur-abhaken|trocken)\b/.test(r)) {
+    if (ruft(s, PRUEFUNGEN, (b) => !SCHALTER_PRUEFUNGEN.test(b), skripte)) {
       fehler.push(`${ort}, Schritt ${i} „${s.name}": data:pruefungen ohne --abhaken-spaeter hakt vor dem Commit ab`)
     }
     for (const q of QUITTUNGEN) {
-      if (r === q.quittiert && (commit < 0 || i < commit)) fehler.push(`${ort}, Schritt ${i} „${s.name}": quittiert vor dem Commit`)
-      if (r !== q.merkt) continue
+      if (ruft(s, q.quittDatei, q.quittPasst, skripte) && (commit < 0 || i < commit)) fehler.push(`${ort}, Schritt ${i} „${s.name}": quittiert vor dem Commit`)
+      if (!ruft(s, q.merktDatei, q.merktPasst, skripte)) continue
       if (i > commit) fehler.push(`${ort}, Schritt ${i} „${s.name}": merkt nach dem Commit oder ohne Commit`)
-      if (!schritte.some((t, j) => j > commit && lauf(t) === q.quittiert)) {
+      if (!schritte.some((t, j) => j > commit && ruft(t, q.quittDatei, q.quittPasst, skripte))) {
         fehler.push(`${ort}, Schritt ${i} „${s.name}": kein Schritt „${q.quittiert}" nach dem Commit`)
       }
     }
