@@ -131,6 +131,9 @@ fall('Datenbau: Bestandsprüfung vor dem Bau', (d) => { const s = datenbau(d).st
 fall('Datenbau: Bestandsprüfung mit continue-on-error', (d) => { datenbau(d).steps.at(-1)['continue-on-error'] = true }, DATENBAU)
 fall('Datenbau: Bestandsprüfung mit || true', (d) => { datenbau(d).steps.at(-1).run += ' || true' }, DATENBAU)
 fall('Datenbau: Bestandsprüfung nur die Liste', (d) => { datenbau(d).steps.at(-1).run = 'npm run check:bestand-liste' }, DATENBAU)
+// Basisvergleich (17.10.2026): gegen HEAD selbst wäre jedes Rot „geerbt“, ohne Tiefe 2 fehlt HEAD^1.
+fall('Datenbau: Basis ist der PR selbst', (d) => { datenbau(d).steps.at(-1).run = 'node tools/pr-bestand-vergleich.mjs HEAD' }, DATENBAU)
+fall('Datenbau: Checkout ohne Tiefe 2', (d) => { delete datenbau(d).steps[0].with }, DATENBAU)
 fall('Datenbau mit continue-on-error', (d) => { datenbau(d).steps.at(-2)['continue-on-error'] = true }, DATENBAU)
 fall('Datenbau mit || true', (d) => { datenbau(d).steps.at(-2).run = 'npm run data:build || true' }, DATENBAU)
 fall('Datenbau: Cache-Präfix verändert', (d) => { datenbau(d).steps[2].with['restore-keys'] = 'x-' }, DATENBAU)
