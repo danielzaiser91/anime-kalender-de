@@ -14,11 +14,27 @@ interface BefundKurz {
   jwPfad?: string
   ohneTreffer?: boolean
   staffeln?: unknown[]
+  altersangabe?: string | null
 }
 
 /** Eine Serie, zu der noch keine Staffelangaben gesammelt sind (Befunde aus der Zeit vor dem 11.10.2026). */
 export function staffelnFehlen(e: BefundKurz | undefined): boolean {
   return Boolean(e?.jwId && !e.ohneTreffer && e.jwPfad?.startsWith('/de/Serie') && e.staffeln === undefined)
+}
+
+/**
+ * Altersangabe nachholen (08.10.2026): Treffer aus der Zeit vor dem Feld haben keine `altersangabe`;
+ * für Titel ohne FSK werden sie vorgezogen — dieselbe Abfrage, nur früher als die 28-Tage-Frist.
+ */
+function alterNachholen(t: Title, bestand: Record<string, BefundKurz>): boolean {
+  const e = bestand[String(t.id)]
+  return t.fsk === undefined && Boolean(e?.jwId && !e.ohneTreffer && e.altersangabe === undefined)
+}
+
+/** Was vor der 28-Tage-Frist wieder an die Reihe kommt: Altersangabe, Staffelangaben, Befunde hinter „Deutsch laut JustWatch". */
+export function vorgezogen(t: Title, bestand: Record<string, BefundKurz>, heute: string): boolean {
+  const e = bestand[String(t.id)]
+  return alterNachholen(t, bestand) || staffelnFehlen(e) || vertrauensBefundAlt(t, e, heute)
 }
 
 /**
