@@ -13,6 +13,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
+| primevideo | 1 | 0 | 0.0 % | Flagge |
 
 ### Widersprüche (0)
 

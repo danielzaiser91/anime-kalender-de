@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-17 · **37 offene Verweise** in **30 Zeilen**,
+Stand 2026-10-17 · **35 offene Verweise** in **28 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -56,7 +56,7 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 19 | Netflix | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
 | 20 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
 
-## Paket 2 — Zeilen 21 bis 30
+## Paket 2 — Zeilen 21 bis 28
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
@@ -68,5 +68,3 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 26 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
 | 27 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
 | 28 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
-| 29 | Prime Video | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DCGS7Y4J) |
-| 30 | Prime Video | Spycies: Zwei tierisch coole Agenten | [Hauptserie](https://www.amazon.de/gp/video/detail/B0FK2YJHJK) |
