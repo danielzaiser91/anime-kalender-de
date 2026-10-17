@@ -20,7 +20,7 @@ export const Schluessel = () => (
   </svg>
 )
 /** Stift an der Überschrift eines Tages, dessen Texte noch nicht überarbeitet sind. Kein Knopf: ein Knopf öffnet die Blase beim Tippen nicht (Tooltip wartet auf Tastaturfokus), die Hülle öffnet sie per Tippen, Zeigen und Tab. */
-const EntwurfHinweis = () => (
+export const EntwurfHinweis = () => (
   <Tooltip text={PT.heuteHinweis} seite="unten">
     <span role="img" aria-label={PT.heuteHinweis} className="pn-entwurf">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinejoin="round" strokeLinecap="round" aria-hidden="true">

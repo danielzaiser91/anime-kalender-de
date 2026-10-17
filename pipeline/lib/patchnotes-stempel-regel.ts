@@ -14,9 +14,10 @@ export function umgeschriebeneEintraege(nameStatus: string): string[] {
 
 export const STEMPEL_PFAD = `${PATCHNOTES_ORDNER}/${STEMPEL_DATEI}`
 
-/** Befund zum Stempel „überarbeitet bis“ in einem PR, oder `null`: Er sinkt nie, und wer Texte bestehender Einträge umschreibt, hebt ihn mindestens auf deren jüngsten Tag. `tage`: Tag je umgeschriebenem Eintrag. */
+/** Befund zum Stempel „überarbeitet bis“ in einem PR, oder `null`: Er sinkt nie, verschwindet nicht, und wer Texte bestehender Einträge umschreibt, hebt ihn mindestens auf deren jüngsten Tag. `tage`: Tag je umgeschriebenem Eintrag. */
 export function stempelBefund({ tage, alt, neu }: { tage: string[]; alt?: string; neu?: string }): string | null {
   if (alt !== undefined && neu !== undefined && neu < alt) return `${STEMPEL_PFAD} sinkt von ${alt} auf ${neu}.`
+  if (alt !== undefined && neu === undefined) return `${STEMPEL_PFAD} wurde gelöscht (stand auf ${alt}); ohne ihn verlieren alle Tage den Entwurfs-Stift.`
   if (!tage.length) return null
   const juengster = [...tage].sort().at(-1)!
   if (neu !== undefined && neu >= juengster) return null
