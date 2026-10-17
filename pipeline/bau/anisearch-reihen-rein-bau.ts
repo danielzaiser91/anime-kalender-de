@@ -8,6 +8,7 @@ import { fuehreReihenZusammen } from './03-reihen.ts'
 import { alle, anisearchNamensKanten } from './anisearch-titel.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
+import { type AnisearchTitel, katalogNamen, ladeAnisearchTitel } from './katalog-namen.ts'
 import type { Kante, Namen } from './anisearch-reihen.ts'
 import { type Ausgeschieden, anisearchKatalogReihen, katalogAnker, ladeBeziehungen } from './anisearch-reihen-pruefliste.ts'
 import { type ReinErgebnis, type ReinHand, type ReinTitel, bestandReihenAusAnisearch, katalogReihenAusAnisearch, reineReihen } from './anisearch-reihen-rein.ts'
@@ -39,8 +40,20 @@ function schreibePruefliste(teil: 'bestand' | 'katalog', e: ReinErgebnis): void 
 const malVon = (mal: number | undefined, anisearchId: number | undefined): { mal?: number; malAnisearch?: number } => ({ mal, malAnisearch: anisearchId ? alle()[String(anisearchId)]?.mal : undefined })
 
 /** Was der Hauptbestand-Weg von draußen liest; Prüfungen reichen eigene Quellen durch. */
-export type ReinQuellen = { beziehungen: () => { kanten: Kante[]; namen: Namen }; katalog: () => KatalogEintrag[]; hand: () => ReinHand; kennungen: typeof anisearchKennungen }
-const STANDARD_QUELLEN: ReinQuellen = { beziehungen: ladeBeziehungen, katalog: ladeKatalogEintraege, hand: () => ladeHand(), kennungen: anisearchKennungen }
+export type ReinQuellen = {
+  beziehungen: () => { kanten: Kante[]; namen: Namen }
+  katalog: () => KatalogEintrag[]
+  hand: () => ReinHand
+  kennungen: typeof anisearchKennungen
+  anisearchTitel: () => Record<string, AnisearchTitel>
+}
+export const STANDARD_QUELLEN: ReinQuellen = {
+  beziehungen: ladeBeziehungen,
+  katalog: ladeKatalogEintraege,
+  hand: () => ladeHand(),
+  kennungen: anisearchKennungen,
+  anisearchTitel: ladeAnisearchTitel,
+}
 
 /** Reihe je Katalogtitel, wie der Katalog-Schritt sie mit dem Stand des Hauptbestands bildet (Vorschau ohne Dubletten und Verschobene: dieser Schritt kommt erst nach `titles.json`). */
 function katalogVorschau(titles: Map<number, Title>, eintraege: KatalogEintrag[], q: ReinQuellen): Map<number, number> {
@@ -53,14 +66,27 @@ function katalogVorschau(titles: Map<number, Title>, eintraege: KatalogEintrag[]
 
 /**
  * Der Namensvorspann (Daniel, 10.10.2026) ging mit dem Wechsel auf reines aniSearch am 12.10. verloren; `check-reihen-namen-bestand.ts` meldet es seit 16.10.2026.
- * Das Ziel darf ein Katalogtitel sein (Name aus `t`, Reihe aus der Vorschau), denn `titles.json` steht beim Katalog-Schritt schon; verschoben wird nur ein Titel des Hauptbestands.
+ * Das Ziel darf ein Katalogtitel sein (Namen wie in `ohne-synchro.json`, Reihe aus der Vorschau), denn `titles.json` steht beim Katalog-Schritt schon; verschoben wird nur ein Titel des Hauptbestands.
  */
 function wendeNamensvorspannAn(titles: Map<number, Title>, q: ReinQuellen): void {
-  const eintraege = q.katalog()
-  const vorschau = eintraege.length ? katalogVorschau(titles, eintraege, q) : new Map<number, number>()
   const mit = new Map(titles)
-  for (const e of eintraege) if (!mit.has(e.id)) mit.set(e.id, { id: e.id, titleRomaji: e.t[0] ?? undefined, titleEn: e.t[1] ?? undefined, franchiseId: vorschau.get(e.id) } as Title)
+  for (const t of katalogZiele(titles, q)) mit.set(t.id, t)
   for (const { ids: [reihe, id] } of anisearchNamensKanten(mit, (i) => mit.get(i)!.franchiseId ?? i)) titles.get(id!)!.franchiseId = reihe
+}
+
+/** Die Katalogtitel als Namensziele; ist der Katalog nicht lesbar, gelten nur die Ziele im Hauptbestand (Warnung statt Abbruch). */
+function katalogZiele(titles: Map<number, Title>, q: ReinQuellen): Title[] {
+  try {
+    const eintraege = q.katalog()
+    const vorschau = eintraege.length ? katalogVorschau(titles, eintraege, q) : new Map<number, number>()
+    const ausAnisearch = q.anisearchTitel()
+    // wie `deutscheReihe` in `13-4-zusatzdateien.ts`: der deutsche Name je Reihenkopf des Hauptbestands
+    const deutscheReihe = new Map([...titles.values()].filter((t) => (t.franchiseId ?? t.id) === t.id && t.titleDe).map((t) => [t.id, t.titleDe!]))
+    return eintraege.filter((e) => !titles.has(e.id)).map((e) => ({ id: e.id, ...katalogNamen(e, ausAnisearch[String(e.id)], deutscheReihe.get(vorschau.get(e.id) ?? e.id)), franchiseId: vorschau.get(e.id) }) as Title)
+  } catch (e) {
+    warn(`aniSearch-Reihen (rein): Namensvorspann nur mit Zielen im Hauptbestand, Katalog nicht lesbar: ${(e as Error).message}`)
+    return []
+  }
 }
 
 /** Hauptbestand: `franchiseId` aus aniSearch für jeden Titel (Titel ohne archivierte Seite stehen allein). */
