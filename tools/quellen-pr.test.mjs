@@ -54,7 +54,7 @@ esac
 
   mkdirSync(join(lauf, 'data'), { recursive: true })
   mkdirSync(join(lauf, 'tools'), { recursive: true })
-  for (const datei of ['quellen-liste.sh', 'quellen-aufsetzen.sh', 'quellen-pr.sh', 'health-vereinen.mjs', 'dub-belege-vereinen.mjs'])
+  for (const datei of ['quellen-liste.sh', 'quellen-aufsetzen.sh', 'quellen-pr.sh', 'quellen-pruefen.sh', 'health-vereinen.mjs', 'dub-belege-vereinen.mjs'])
     copyFileSync(join(wurzel, 'tools', datei), join(lauf, 'tools', datei))
   writeFileSync(join(lauf, 'data/anisearch.json'), '{"v":1}')
   sh(lauf, `git add -A && ${git} commit -q -m start && git push -q origin HEAD:main`)
@@ -70,7 +70,7 @@ esac
   writeFileSync(join(ursprung, 'ablehnen'), '')
   const ausgabeDatei = join(dir, 'ausgabe.txt')
   writeFileSync(ausgabeDatei, '')
-  const r = sh(lauf, `PATH="${posix(bin)}:$PATH" GITHUB_OUTPUT="${posix(ausgabeDatei)}" GITHUB_RUN_ID=77 bash tools/quellen-pr.sh "chore(data): Test"`, {})
+  const r = sh(lauf, `PATH="${posix(bin)}:$PATH" GITHUB_OUTPUT="${posix(ausgabeDatei)}" GITHUB_RUN_ID=77 QUELLEN_PRUEFBEFEHL=true bash tools/quellen-pr.sh "chore(data): Test"`, {})
   const knapp = r.out.split('\n').filter((z) => !z.includes('übersprungen (nicht vorhanden)')).join('\n').slice(-1800)
   pruefe('das Skript endet mit Erfolg', r.status === 0, `${r.status} ${knapp}`)
   pruefe('die abgelehnte erste Übertragung wird gemeldet und neu aufgesetzt', /Push abgelehnt \(Versuch 1 von 3\)/.test(r.out), r.out.slice(-400))
