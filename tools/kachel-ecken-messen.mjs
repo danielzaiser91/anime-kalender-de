@@ -45,7 +45,7 @@ const TOLERANZ = 48
 const MIN_FAVORITEN = 5
 /** Pixel je Kachel (`stellen`). */
 const ANZAHL = 12
-/** Mindestzahl Kino-Saal-Kacheln in der Woche (26.10.2026: 2). */
+/** Mindestzahl Kino-Saal-Kacheln in der Woche (26.10.2026: 1). */
 const MIN_SAAL = 1
 /** Stellen unter der Leiste: [Index in `stellen`, Abstand in px unter der letzten Leistenzeile]. */
 const UNTER = [[11, 1], [4, 2], [5, 3], [6, 4]]
