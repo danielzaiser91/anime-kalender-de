@@ -75,7 +75,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
         'group flex cursor-pointer flex-col overflow-hidden rounded-xl text-left transition',
         keinDub ? 'border border-dashed' : 'border',
         favorite
-          ? 'border-ak-finale/70 shadow-[0_0_0_1px_color-mix(in_srgb,var(--ak-finale)_30%,transparent)]'
+          ? 'border-ak-favorit/70 shadow-[0_0_0_1px_color-mix(in_srgb,var(--ak-favorit)_30%,transparent)]'
           : keinDub
             ? 'border-slate-400/60 hover:border-ak-leise dark:border-white/25'
             : 'border-slate-200 hover:border-ak-leise dark:border-white/10',
@@ -171,7 +171,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
             <span
               className={[
                 'text-[10px] leading-snug',
-                favorite ? 'font-medium text-ak-finale-text' : 'text-slate-500 dark:text-slate-400',
+                favorite ? 'font-medium text-ak-favorit-text' : 'text-slate-500 dark:text-slate-400',
               ].join(' ')}
             >
               {favorite ? t('db.noDubWatched') : t('db.noDubWatch')}

@@ -13,12 +13,14 @@ import { anbieterZeile, SpracheMarke, VerpasstMarke, weitereFolgen, ZeitMarke } 
 import { AnbieterAngaben } from './AnbieterAngaben.tsx'
 import { anbieterVerlauf, zeitGemeinsam, type AnbieterKachel } from '../../lib/anbieter-kachel.ts'
 import { PremiereMarke } from './PremiereMarke.tsx'
-import { ART_STIL, artName, istBreit, type KartenArt } from '../../lib/kachel-folgen.ts'
+import { ART_STIL, artName, istBreit, randKlassen, type KartenArt } from '../../lib/kachel-folgen.ts'
 import { istKinoSaal, KinoBuehne, SAAL_FENSTER, SAAL_KNOEPFE, SAAL_MARKEN, SAAL_STERN } from './KinoBuehne.tsx'
 import { FundstellenZeichen, TrefferName } from '../Suchtreffer.tsx'
 
 const KNOPF_GRUND = 'flex items-center gap-0.5 rounded-full bg-[rgba(13,15,20,.72)] px-0.5 text-[#f2f1ee]'
 const ERST_BEIM_ZEIGEN = 'transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:hover)]:opacity-0'
+/** Die Anbieterleiste einer breiten Kachel deckt deren Ring unten ab: 2 px ohne, 3 px mit Favoriten-Rand. */
+const RAND_LEISTE = ['-inset-x-0.5 -bottom-0.5 h-1.5', '-inset-x-[3px] -bottom-[3px] h-[7px]'] as const
 
 export interface PosterKarteProps {
   event: ReleaseEvent
@@ -126,6 +128,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
   const cover = p.title?.coverImage
   const farbe = anbieterVerlauf((p.anbieter ?? [[p.event]]).map((b) => PLATFORMS[b[0]!.platform]?.color ?? '#888'))
   const zwei = p.breit || p.saal
+  const rand = randKlassen(p.art, p.favorite)
   const bild = coverBild(cover, zwei ? 320 : 160, zwei ? '(min-width: 1024px) 320px, 92vw' : '(min-width: 1024px) 160px, 46vw', KACHEL_DICHTE)
   return (
     <div className="relative">
@@ -134,10 +137,12 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
         'relative overflow-hidden rounded-xl bg-ak-flaeche-2',
         /* Breit: so hoch wie die schmalen Nachbarn — zwei Spalten minus Lücke, mal 3/4. */
         zwei ? 'ak-breit-cover h-0' : 'aspect-[2/3]',
-        p.breit ? 'ring-2' : '',
-        p.saal ? 'ak-saal ring-1 ring-white/10' : '',
-        p.art ? ART_STIL[p.art].ring : '',
-        p.art === 'katalog' ? 'ak-katalog-glanz' : '',
+        p.favorite ? 'ring-3' : p.breit ? 'ring-2' : '',
+        p.saal ? 'ak-saal' : '',
+        /* Der Saal-Rand weicht dem Favoriten-Ring (ein Saal hat nie eine Art), sonst schlüge seine Ringfarbe im CSS die goldene (Reihenfolge der Stylesheet-Regeln). */
+        p.saal && !p.favorite ? 'ring-1 ring-white/10' : '',
+        rand.aussen,
+        p.art === 'katalog' && !p.favorite ? 'ak-katalog-glanz' : '',
       ].join(' ')}
     >
       {p.saal && <KinoBuehne />}
@@ -153,6 +158,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
           {p.event.name}
         </span>
       )}
+      {rand.innen && <span className={`pointer-events-none absolute inset-0 rounded-xl border border-ak-grund inset-ring-2 ${rand.innen}`} />}
       <span className={['absolute flex flex-wrap items-center gap-1.5', p.saal ? SAAL_MARKEN : 'top-2 left-2'].join(' ')}>
         {(!p.anbieter || zeitGemeinsam(p.anbieter)) && <ZeitMarke event={p.event} t={t} angabe={p.zeitAngabe} />}
         {p.art && <ArtFahne art={p.art} termine={(p.anbieter ?? [p.buendel ?? [p.event]]).flat()} />}
@@ -165,7 +171,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
       reicht bei einer Kachel mit Ring deshalb zwei Pixel darüber hinaus und deckt ihn unten ab, links, oben und rechts bleibt er stehen.
     */}
     <span
-      className={['pointer-events-none absolute rounded-b-xl', p.breit ? '-inset-x-0.5 -bottom-0.5 h-1.5' : 'inset-x-0 bottom-0 h-1'].join(' ')}
+      className={['pointer-events-none absolute rounded-b-xl', p.breit ? RAND_LEISTE[p.favorite ? 1 : 0] : 'inset-x-0 bottom-0 h-1'].join(' ')}
       style={{ background: farbe }}
     />
     </div>
@@ -186,7 +192,7 @@ function CoverAktionen(p: PosterKarteProps & { saal: boolean }) {
         steht nur der gesetzte Stern als Zeichen, bedient wird im Panel.
       */}
       {p.favorite && (
-        <span className={`absolute ${p.saal ? SAAL_STERN : 'right-2 bottom-3'} text-base text-ak-finale drop-shadow-[0_1px_2px_rgba(0,0,0,.8)] sm:hidden`} role="img" aria-label={t('kal.favorit')}>
+        <span className={`absolute ${p.saal ? SAAL_STERN : 'right-2 bottom-3'} text-base text-ak-favorit drop-shadow-[0_1px_2px_rgba(0,0,0,.8)] sm:hidden`} role="img" aria-label={t('kal.favorit')}>
           ★
         </span>
       )}
