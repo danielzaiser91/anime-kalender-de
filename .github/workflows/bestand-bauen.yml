@@ -309,6 +309,19 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:pruefungen -- --nur-abhaken
 
+      # Ebenso die zugeordneten Rohfolgen (17.10.2026): Am 16.10. hakte der Zuordner selbst ab, der Bau
+      # scheiterte danach, und 1.029 Adressen aus Daniels Prime-Durchgang kamen nie ins Repo.
+      # Wächter: tools/quittung-nach-commit-waechter.mjs.
+      - name: Rohfolgen abhaken
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:rohfolgen-abhaken
+
+      - name: Vorfälle löschen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:vorfaelle -- --nur-loeschen
+
       # Der Alarm für stumm gewordene Quellen. Er gehört hierher und nicht in
       # den Sammler: Ein Sammler, der eine Quelle nicht erreicht, macht weiter
       # — dass sie seit Tagen schweigt, ist eine Aussage über den Bestand.

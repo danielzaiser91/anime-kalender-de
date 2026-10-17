@@ -28,6 +28,7 @@ pipeline/check-anisearch-cover-eigen.ts
 pipeline/check-anisearch-dubletten.ts
 pipeline/check-anisearch-katalog-abgleich.ts
 pipeline/check-anisearch-kennung-mehrfach.ts
+pipeline/check-anisearch-marke-nachziehen.ts
 pipeline/check-anisearch-reihen-rein.ts
 pipeline/check-anisearch-reihen.ts
 pipeline/check-anisearch-spalte.ts
@@ -89,6 +90,8 @@ pipeline/check-jw-staffeln.ts
 pipeline/check-jw-vertrauen.ts
 pipeline/check-kachel-anbieter.ts
 pipeline/check-kachel-buendel.ts
+pipeline/check-kachel-favorit-render.ts
+pipeline/check-kachel-favorit.ts
 pipeline/check-kachel-im-angebot.ts
 pipeline/check-kachel-katalog.ts
 pipeline/check-kalender-filter.ts
@@ -169,9 +172,11 @@ pipeline/check-tmdb-suche.ts
 pipeline/check-tv-schaetzung.ts
 pipeline/check-tv-sichtungen-vor-start.ts
 pipeline/check-urteil-art.ts
+pipeline/check-urteil-spaet.ts
 pipeline/check-verpasst-verdrahtung.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts
+pipeline/check-vorfaelle-ablauf.ts
 pipeline/check-weg-adresse-bezugsweg.ts
 pipeline/check-wege-aus-terminen.ts
 pipeline/check-werk-doppelt.ts
@@ -188,4 +193,5 @@ tools/design-klassen.mjs
 tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
 tools/hover-cover.test.ts
+tools/quittung-nach-commit-waechter.mjs
 tools/workflow-abbruch-waechter.mjs

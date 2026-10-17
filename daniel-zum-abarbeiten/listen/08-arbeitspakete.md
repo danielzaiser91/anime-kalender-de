@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-17 · **37 offene Verweise** in **30 Zeilen**,
+Stand 2026-10-17 · **28 offene Verweise** in **23 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -36,37 +36,30 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | Disney+ | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
-| 2 | Prime Video | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! Zexal II](https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832) |
-| 3 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Hauptserie]() · [Mugen Train Arc]() · [Entertainment District Arc]() · [Swordsmith Village Arc](https://www.amazon.de/gp/video/detail/B0FD7YTKWK) · [Hashira Training Arc](https://www.amazon.de/gp/video/detail/B0CYGQ9WSF) |
-| 4 | Netflix | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
-| 5 | Netflix | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
-| 6 | Prime Video | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
-| 7 | Netflix | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
-| 8 | Prime Video | Trigun | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d) |
-| 9 | Disney+ | Spy × Family | [Teil 2]() · [Staffel 2]() |
-| 10 | Disney+ | Gachiakuta | [Hauptserie]() |
-| 11 | Prime Video | Samurai Girls | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DP5DZW86) · [2: Samurai Bride](https://www.amazon.de/gp/video/detail/B0DND4SB6V) |
-| 12 | Prime Video | Urusei Yatsura | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9) |
-| 13 | Prime Video | The Detective Is Already Dead | [Staffel 2]() |
-| 14 | Prime Video | Danganronpa | [Hauptserie](https://www.amazon.de/gp/video/detail/B0CHK728W1) |
-| 15 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
-| 16 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
-| 17 | Disney+ | A Sign of Affection | [Hauptserie]() |
-| 18 | Prime Video | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
-| 19 | Netflix | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
-| 20 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 2 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() · [Swordsmith Village Arc](https://www.amazon.de/gp/video/detail/B0FD7YTKWK) · [Hashira Training Arc](https://www.amazon.de/gp/video/detail/B0CYGQ9WSF) |
+| 3 | Netflix | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
+| 4 | Netflix | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
+| 5 | Prime Video | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
+| 6 | Netflix | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
+| 7 | Disney+ | Gachiakuta | [Hauptserie]() |
+| 8 | Prime Video | Samurai Girls | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DP5DZW86) · [2: Samurai Bride](https://www.amazon.de/gp/video/detail/B0DND4SB6V) |
+| 9 | Prime Video | The Detective Is Already Dead | [Staffel 2]() |
+| 10 | Prime Video | Danganronpa | [Hauptserie](https://www.amazon.de/gp/video/detail/B0CHK728W1) |
+| 11 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
+| 12 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
+| 13 | Disney+ | A Sign of Affection | [Hauptserie]() |
+| 14 | Netflix | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
+| 15 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 16 | Netflix | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
+| 17 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
+| 18 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
+| 19 | Disney+ | Jujutsu Kaisen | [0]() |
+| 20 | Prime Video | As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World | [Staffel 3]() |
 
-## Paket 2 — Zeilen 21 bis 30
+## Paket 2 — Zeilen 21 bis 23
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 21 | Netflix | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
-| 22 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
-| 23 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
-| 24 | Disney+ | Jujutsu Kaisen | [0]() |
-| 25 | Prime Video | As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World | [Staffel 3]() |
-| 26 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
-| 27 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
-| 28 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
-| 29 | Prime Video | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DCGS7Y4J) |
-| 30 | Prime Video | Spycies: Zwei tierisch coole Agenten | [Hauptserie](https://www.amazon.de/gp/video/detail/B0FK2YJHJK) |
+| 21 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
+| 22 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
+| 23 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |

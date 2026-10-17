@@ -1421,6 +1421,14 @@
       "stand": "aktuell"
     },
     {
+      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-02-19",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-01-15"
+    },
+    {
       "url": "https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
@@ -3900,21 +3908,32 @@
       "url": "https://www.anisearch.de/article/216284,good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-02",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2026-11-20"
     },
     {
       "url": "https://www.anisearch.de/article/216284",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
       "stand": "vermutlich-ueberholt",
-      "sagt": "2026-11-20"
+      "sagt": "2026-11-20",
+      "grund": "Termin verschoben auf: 2027-02-05"
     },
     {
       "url": "good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber",
       "name": "good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber",
       "gesehenAm": "2026-10-01",
       "stand": "vermutlich-ueberholt",
-      "sagt": "2026-11-20"
+      "sagt": "2026-11-20",
+      "grund": "Termin verschoben auf: 2027-02-05"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-02-05",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-11-20"
     }
   ],
   "good-luck-girl-vol-2-2027-02-05": [
@@ -3922,21 +3941,32 @@
       "url": "https://www.anisearch.de/article/216285,good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-02",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2027-02-05"
     },
     {
       "url": "https://www.anisearch.de/article/216285",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
       "stand": "vermutlich-ueberholt",
-      "sagt": "2027-02-05"
+      "sagt": "2027-02-05",
+      "grund": "Termin verschoben auf: 2027-03-05"
     },
     {
       "url": "good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray",
       "name": "good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray",
       "gesehenAm": "2026-10-01",
       "stand": "vermutlich-ueberholt",
-      "sagt": "2027-02-05"
+      "sagt": "2027-02-05",
+      "grund": "Termin verschoben auf: 2027-03-05"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-03-05",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-02-05"
     }
   ],
   "road-to-ninja-naruto-the-movie-2026-11-19": [
@@ -6632,13 +6662,23 @@
       "url": "https://www.anime2you.de/news/1058332/kaiju-no-8-staffel-1-steelbook-edition/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-12",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2027-03-05"
     },
     {
       "url": "https://www.anime2you.de/news/1044367/kaiju-no-8-staffel-2-disc-release/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-12",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2027-03-05"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-05-07",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-03-05"
     }
   ],
   "demon-slayer-entertainment-district-arc-primevideo": [
@@ -7167,6 +7207,70 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-16",
+      "stand": "aktuell"
+    }
+  ],
+  "manga-love-story-step-up-gesamtausgabe-ova": [
+    {
+      "url": "https://www.akibapassshop.de/products/26pol033-manga-love-story-gesamtausgabe-bluray",
+      "name": "akibapassshop.de",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-1319": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-1320": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-1321": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-1318": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-17",
       "stand": "aktuell"
     }
   ]

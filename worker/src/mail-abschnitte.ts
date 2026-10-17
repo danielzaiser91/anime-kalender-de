@@ -58,6 +58,9 @@ export function hinweisZeile(text: string): string {
   return `<p style="margin:6px 0 0;color:#9aa5bd;font-size:13px;">${text}</p>`
 }
 
+/** Gelbgrün wie `ak-finale` auf der Seite: Gold ist dort nur noch Favorit (Daniel, 17.10.2026). */
+export const FINALE_GRUEN = '#86d93a'
+
 /**
  * Das Abzeichen an der Zeile — Finale, Start, TV-Premiere **und „heute kostenlos"**.
  *
@@ -67,7 +70,7 @@ export function hinweisZeile(text: string): string {
  */
 export function badge(ev: ReleaseEvent): string {
   const text = abzeichen(ev)
-  const farbe = text === 'Premiere' ? '#2dd4bf' : '#fbbf24'
+  const farbe = text === 'Premiere' ? '#2dd4bf' : text === 'Finale' ? FINALE_GRUEN : '#fbbf24'
   const marke = text
     ? ` <span style="padding:1px 7px;border:1px solid ${farbe};border-radius:999px;color:${farbe};font-size:11px;font-weight:600;">${text}</span>`
     : ''

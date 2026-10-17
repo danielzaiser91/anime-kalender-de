@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-16T22:06:35.869Z",
+ "erzeugtAm": "2026-10-17T10:37:11.604Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 313,
+   "gemeldet": 323,
    "gesamt": 896,
-   "offen": 583,
+   "offen": 573,
    "ohneSeite": 28,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
@@ -305,10 +305,6 @@
      "titel": "Demon Slayer: Kimetsu no Yaiba - Hashira Training Arc (Demon Slayer: Kimetsu no Yaiba Hashira Training Arc)"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60",
-     "titel": "Suicide Squad Isekai"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0FSCGZ9SG",
      "titel": "Dragon Ball Daima"
     },
@@ -323,10 +319,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D4YZTX2S",
      "titel": "Shangri-La Frontier: Staffel 2 (Shangri-La Frontier Season 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DCGS7Y4J",
-     "titel": "Der Herr der Ringe: Die Schlacht der Rohirrim (The Lord of the Rings: The War of the Rohirrim)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D956JD5Y",
@@ -469,10 +461,6 @@
      "titel": "Golden Kamuy 4 (Golden Kamuy Season 4)"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9",
-     "titel": "Urusei Yatsura (Urusei Yatsura (2022) Seasons 1 & 2)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0D4JLN98Z",
      "titel": "Lonely Castle in the Mirror"
     },
@@ -587,10 +575,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CGQ64WRN",
      "titel": "Dragon Quest: The Adventure of Dai"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FK2YJHJK",
-     "titel": "Spycies: Zwei tierisch coole Agenten (Spycies)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D4KNHDMT",
@@ -1121,10 +1105,6 @@
      "titel": "Wanna Be the Strongest in the World!"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0GZKDF9RG",
-     "titel": "Patema Inverted"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0GP5XXDNT",
      "titel": "Encouragement of Climb"
     },
@@ -1201,10 +1181,6 @@
      "titel": "Naruto Spin off! Rock Lee & seine Ninja-Kumpels (NARUTO Spin-Off: Rock Lee & His Ninja Pals)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0CPQ52815",
-     "titel": "Road to Ninja: Naruto the Movie"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0DZD8YRT8",
      "titel": "Blast of Tempest"
     },
@@ -1215,10 +1191,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CH1GVRKK",
      "titel": "JoJo’s Bizarre Adventure (JoJo's Bizarre Adventure (TV))"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832",
-     "titel": "Yu-Gi-Oh! Zexal II"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B00G0PC16U",
@@ -1243,10 +1215,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B01EKI0SQ8",
      "titel": "Yu-Gi-Oh! Zexal"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GMYVTRC1",
-     "titel": "Naruto Shippuden: The Movie 5 - Blood Prison (Naruto Shippuden the Movie: Blood Prison)"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6b0f25fd-4994-4c67-bd57-228fde6cef40",
@@ -1279,10 +1247,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B091FT1NCC",
      "titel": "Bakuman."
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B6PRVP2L",
-     "titel": "Naruto Shippuden: The Movie 4 - The Lost Tower (Naruto Shippuden the Movie: The Lost Tower)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DP5DZW86",
@@ -1499,10 +1463,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHL1TMC2",
      "titel": "Detektiv Conan: Der Magier des letzten Jahrhunderts (Detective Conan: The Last Wizard of the Century)"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d",
-     "titel": "Trigun"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GYDLTDD8",
@@ -2106,7 +2066,7 @@
     "B0D8Z7K7Y3": 12,
     "B0GYFVBMRM": 16,
     "B0F2GXP162": 13,
-    "B0GDGLLYLS": 23,
+    "B0GDGLLYLS": 24,
     "B0FJ7GC6S6": 10,
     "B0DJWXLZ55": 12,
     "B0HKFFGQ7F": 2,
@@ -2120,9 +2080,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 416,
+   "gemeldet": 417,
    "gesamt": 690,
-   "offen": 274,
+   "offen": 273,
    "ohneSeite": 18,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
@@ -2275,10 +2235,6 @@
      "url": "https://www.netflix.com/title/80060413",
      "titel": "Heidi",
      "hinweis": "Staffeln unklar: TMDB zählt 91 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/81744227",
-     "titel": "Cyberpunk: Edgerunners 2"
     },
     {
      "url": "https://www.netflix.com/title/81684733",
