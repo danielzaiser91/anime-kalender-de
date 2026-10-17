@@ -13,7 +13,7 @@ export const PT = {
   heute: 'heute',
   gestern: 'gestern',
   /** Tooltip am Stift der Überschrift eines noch nicht überarbeiteten Tages; der tägliche Überarbeitungslauf (Fable) sucht diese Konstante. */
-  heuteHinweis: 'Diese Einträge sind Entwürfe und werden noch überarbeitet.',
+  heuteHinweis: 'Entwurf: Texte werden noch überarbeitet.',
   highlight: 'HIGHLIGHT',
   ansehen: 'ansehen ›',
   laden: 'Lädt …',
