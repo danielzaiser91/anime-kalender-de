@@ -39,22 +39,39 @@ export function abdruck(lsTree) {
 /** Lesefunktionen, die nur Namen liefern: Namen freier Pfade stehen ohnehin im Abdruck. */
 const NUR_NAMEN = new Set(['readdirSync', 'readdir', 'opendirSync', 'opendir', 'promises.readdir', 'promises.opendir'])
 
+/** Kopierfunktionen nehmen ganze Ordner, ohne dass die Dateien darin in der Spur erscheinen (natives `cpSync`). */
+const KOPIEREN = new Set(['cpSync', 'cp', 'promises.cp'])
+/** Wurzel und Ordner, unter denen freie Pfade liegen: ganz kopiert, ist ihr Inhalt gelesen. */
+const VORFAHREN_FREIER = new Set(['.', 'data', 'docs', 'daniel-zum-abarbeiten', 'tools'])
+
 /** Freie Pfade aus den Spur-Zeilen (`<funktion>\t<pfad>`), deren Inhalt der Bau berührt hat, ohne dass sie in `BAU_EINGABEN` stehen. */
 export function unerklaert(zeilen) {
-  const pfade = zeilen.map((z) => z.split('\t')).filter(([funktion, pfad]) => pfad && !NUR_NAMEN.has(funktion) && frei(pfad) && !eingabe(pfad))
+  const inhalt = ([funktion, pfad]) => (frei(pfad) && !eingabe(pfad) && !NUR_NAMEN.has(funktion)) || (KOPIEREN.has(funktion) && VORFAHREN_FREIER.has(pfad))
+  const pfade = zeilen.map((z) => z.split('\t')).filter(inhalt)
   return [...new Set(pfade.map(([, pfad]) => pfad))].sort()
 }
 
+/** Liest die Spur-Dateien (je Prozess und Thread eine); `offen` zählt Dateien ohne `ende` (beendeter Thread, Absturz, Prozess läuft noch). */
+function liesSpur(ordner) {
+  const dateien = readdirSync(ordner).map((d) => readFileSync(join(ordner, d), 'utf8').split('\n'))
+  rmSync(ordner, { recursive: true, force: true })
+  const zeilen = dateien.flat().filter((z) => z && z !== 'ende')
+  return { zeilen, prozesse: dateien.length, offen: dateien.filter((d) => !d.includes('ende')).length }
+}
+
 /** Führt `befehl` mit Spur aus und ergänzt `abdruck` in `version.json`; Rückgabe: 1, wenn der Befehl scheitert (auch durch ein Signal), sonst 0. */
-export function bauMitSpur(befehl, { wurzel, versionDatei, git, log = console.log }) {
+export function bauMitSpur(befehl, { wurzel, versionDatei, git, log = console.log, starte = spawnSync }) {
   const ordner = mkdtempSync(join(tmpdir(), 'bau-spur-'))
   const vorlader = join(wurzel, 'tools', 'bau-eingaben-spur.cjs').replace(/\\/g, '/')
   const env = { ...process.env, BAU_SPUR: ordner, NODE_OPTIONS: `${process.env.NODE_OPTIONS ?? ''} --require ${vorlader}`.trim() }
-  const lauf = spawnSync(befehl, { cwd: wurzel, env, shell: true, stdio: 'inherit' })
-  const zeilen = readdirSync(ordner).flatMap((d) => readFileSync(join(ordner, d), 'utf8').split('\n'))
-  rmSync(ordner, { recursive: true, force: true })
+  const lauf = starte(befehl, { cwd: wurzel, env, shell: true, stdio: 'inherit' })
+  const spur = liesSpur(ordner)
   if (lauf.status !== 0) return 1
-  const offen = unerklaert(zeilen)
+  if (spur.prozesse === 0 || spur.offen > 0) {
+    log(`::warning::Spur unvollständig (${spur.offen} von ${spur.prozesse} Prozessen ohne Ende), Deploy baut neu.`)
+    return 0
+  }
+  const offen = unerklaert(spur.zeilen)
   if (offen.length > 0) {
     log(`::warning::Bau liest freie Pfade außerhalb von BAU_EINGABEN (tools/bau-eingaben.mjs), Deploy baut neu: ${offen.join(', ')}`)
     return 0
@@ -67,7 +84,9 @@ export function bauMitSpur(befehl, { wurzel, versionDatei, git, log = console.lo
     return 0
   }
   const version = JSON.parse(readFileSync(versionDatei, 'utf8'))
-  writeFileSync(versionDatei, JSON.stringify({ ...version, abdruck: abdruck(baum) }))
+  const wert = abdruck(baum)
+  writeFileSync(versionDatei, JSON.stringify({ ...version, abdruck: wert }))
+  log(`Spur: ${spur.zeilen.length} Zugriffe, ${spur.prozesse} Prozesse und Threads, 0 unerklärt, Abdruck ${wert}`)
   return 0
 }
 

@@ -92,6 +92,8 @@ keinTreffer('Code nach dem Bau geändert', mainMit({ 'web/src/a.tsx': '2' }), /B
 keinTreffer('Bau-Eingabe nach dem Bau geändert', mainMit({ 'data/kennungen.json': '2' }), /Baum und Abdruck/)
 keinTreffer('freie Datei hinzugekommen', mainMit({ 'data/neu.json': '1' }), /Baum und Abdruck/)
 keinTreffer('Abdruck verkürzt', { ...mainMit({}), version: JSON.stringify({ baum: 'f'.repeat(40), abdruck: ABDRUCK.slice(1) }) }, /Baum und Abdruck/)
+const ersterAnders = `${ABDRUCK[0] === 'a' ? 'b' : 'a'}${ABDRUCK.slice(1)}`
+keinTreffer('Abdruck im ersten Zeichen anders', { ...mainMit({}), version: JSON.stringify({ baum: 'f'.repeat(40), abdruck: ersterAnders }) }, /Baum und Abdruck/)
 keinTreffer('Abdruck fehlt', { ...mainMit({}), version: JSON.stringify({ baum: 'f'.repeat(40) }) }, /Baum und Abdruck/)
 keinTreffer('Abdruck ist keine Zeichenkette', { ...mainMit({}), version: JSON.stringify({ baum: 'f'.repeat(40), abdruck: 40 }) }, /Baum und Abdruck/)
 keinTreffer('git ls-tree scheitert', { version: MIT_ABDRUCK }, /Baum und Abdruck/)
