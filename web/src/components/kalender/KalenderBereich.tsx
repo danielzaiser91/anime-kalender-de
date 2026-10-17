@@ -84,7 +84,7 @@ export function KalenderBereich(p: KalenderBereichProps) {
         onMonat={() => navigate({ view: 'monat' })}
       />
       {monat ? (
-        <MonthView data={p.data} events={p.events} anchorDate={route.date} hidden={p.hidden} onOpen={oeffnen} onPickDay={zurWoche} />
+        <MonthView data={p.data} events={p.events} anchorDate={route.date} hidden={p.hidden} onOpen={oeffnen} onPickDay={zurWoche} favorites={p.favorites} />
       ) : (
         <WeekView
           data={p.data}

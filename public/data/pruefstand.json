@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-17T04:23:33.270Z",
+ "erzeugtAm": "2026-10-17T10:37:11.604Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 319,
+   "gemeldet": 323,
    "gesamt": 896,
-   "offen": 577,
+   "offen": 573,
    "ohneSeite": 28,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
@@ -305,10 +305,6 @@
      "titel": "Demon Slayer: Kimetsu no Yaiba - Hashira Training Arc (Demon Slayer: Kimetsu no Yaiba Hashira Training Arc)"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60",
-     "titel": "Suicide Squad Isekai"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0FSCGZ9SG",
      "titel": "Dragon Ball Daima"
     },
@@ -463,10 +459,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CJYLSY3D",
      "titel": "Golden Kamuy 4 (Golden Kamuy Season 4)"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9",
-     "titel": "Urusei Yatsura (Urusei Yatsura (2022) Seasons 1 & 2)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D4JLN98Z",
@@ -1201,10 +1193,6 @@
      "titel": "JoJo’s Bizarre Adventure (JoJo's Bizarre Adventure (TV))"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832",
-     "titel": "Yu-Gi-Oh! Zexal II"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B00G0PC16U",
      "titel": "Onigamiden: Legend of the Millennium Dragon (Legend of the Millennium Dragon)"
     },
@@ -1475,10 +1463,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHL1TMC2",
      "titel": "Detektiv Conan: Der Magier des letzten Jahrhunderts (Detective Conan: The Last Wizard of the Century)"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d",
-     "titel": "Trigun"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GYDLTDD8",

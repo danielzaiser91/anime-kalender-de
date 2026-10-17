@@ -344,8 +344,8 @@ export function FavoriteStar({
         CLICKABLE,
         size === 'sm' ? `size-5 text-[13px] ${TREFFER_24}` : `size-7 text-base${grosseFlaeche ? ` ${TIPPFLAECHE}` : ''}`,
         active
-          ? 'text-ak-finale-text drop-shadow-[0_0_4px_color-mix(in_srgb,var(--ak-finale)_55%,transparent)]'
-          : 'text-slate-400/70 hover:text-ak-finale-text dark:text-slate-500',
+          ? 'text-ak-favorit-text drop-shadow-[0_0_4px_color-mix(in_srgb,var(--ak-favorit)_55%,transparent)]'
+          : 'text-slate-400/70 hover:text-ak-favorit-text dark:text-slate-500',
       ].join(' ')}
     >
       {active ? '★' : '☆'}
