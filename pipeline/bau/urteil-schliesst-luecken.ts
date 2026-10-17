@@ -57,6 +57,10 @@ export function urteilSchliesstSpaeteLuecken(
       if (!urteilDarfBelegen(title.id, stream, kanal, gekennzeichnet)) continue
       stream.dub = true
       if (stream.herkunft === 'termin') delete stream.herkunft
+      /* Die JustWatch-Flagge galt dem offenen Weg; mit gemessenem Ja ist sie erledigt (Kennzeichnung und Urteil zugleich bricht check:bestand). */
+      delete stream.dubQuelle
+      delete stream.dubStand
+      delete stream.dubHintOnly
       ausUrteil++
     }
   }

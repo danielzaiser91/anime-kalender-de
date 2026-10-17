@@ -50,9 +50,10 @@ try {
     titel(35, [weg('wow', { herkunft: 'tmdb' })]),
     titel(36, [weg('crunchyroll'), weg('wow', { kanal: 'Aniverse' })]),
     /* 37: gti-Brücke hat die Adresse umgestellt, die Kanal-Adresse aus den Handbelegen steht in `seite` (Your Name 21519). */
+    titel(38, [weg('crunchyroll', { dubQuelle: 'justwatch', dubStand: '2026-10-16' })]),
     titel(37, [weg('primevideo', { url: 'https://app.primevideo.com/detail?gti=X', seite: 'https://www.amazon.de/gp/video/detail/HAND37' })]),
   ]
-  const jaWege = new Set(['31|netflix', '31|primevideo', '31|crunchyroll', '32|primevideo', '33|primevideo', '34|netflix', '35|wow', '36|wow', '37|primevideo'])
+  const jaWege = new Set(['31|netflix', '31|primevideo', '31|crunchyroll', '32|primevideo', '33|primevideo', '34|netflix', '35|wow', '36|wow', '37|primevideo', '38|crunchyroll'])
   const termin = (titleId: number, platform: string, sprache?: string) => ({ titleId, platform, slug: `r${titleId}`, sprache }) as unknown as Release
   /* 34: Netflix-Termine alle gekennzeichnet (kein Ja), Disney+ mit einem ungekennzeichneten Termin in der Mitte (Ja bleibt erlaubt). */
   const releases = [termin(34, 'netflix', 'offen'), termin(34, 'disneyplus', 'offen'), termin(34, 'netflix', 'omu'), termin(34, 'disneyplus'), termin(34, 'disneyplus', 'omu')]
@@ -72,7 +73,8 @@ try {
   pruefe('Ohne Urteil-Ja bleibt der Weg offen (36)', dub(36, 0)!.dub === undefined, dub(36, 0))
   pruefe('Kanal-Angabe zählt nur bei Prime; Ja auch hinter einem Weg ohne Urteil (36 WOW)', dub(36, 1)!.dub === true, dub(36, 1))
   pruefe('Kanal-Adresse in `seite` (nach der gti-Brücke) bleibt offen (37)', dub(37, 0)!.dub === undefined, dub(37, 0))
-  pruefe('Zahl der belegten Wege', n === 6, n)
+  pruefe('JustWatch-Flagge fällt mit dem Ja weg (38)', dub(38, 0)!.dub === true && dub(38, 0)!.dubQuelle === undefined && dub(38, 0)!.dubStand === undefined, dub(38, 0))
+  pruefe('Zahl der belegten Wege', n === 7, n)
   const widerspruch = deutschNurAusSpracheTermin(releases, new Map(titles.map((t) => [t.id, t])))
   pruefe('Kein Widerspruch zu Terminen mit Sprachkennzeichnung', widerspruch.length === 0, widerspruch)
   pruefe('Zweiter Lauf belegt nichts mehr', urteilSchliesstSpaeteLuecken(titles, releases, jaWege, kanal) === 0)
