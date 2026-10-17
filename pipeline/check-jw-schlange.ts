@@ -61,6 +61,27 @@ pruefe('ohne Flagge steht der 25 Tage alte Befund (2) nicht in der Schlange', !i
 pruefe('Wiedervorlage ist Vorlauf, nicht Dauerzustand: mit 20 Tagen nicht dabei', !ids(lauf(titles, { ...bestand, '2': befund('2026-09-22', 2, ['de']) })).includes('2'))
 pruefe('Kennung über die Tabelle `tmdb` zählt wie die am Titel', ids(warteschlange({ titles: [titel(1, [weg(1, { dub: true })])], bestand, tmdb: { '1': { tmdbId: 5 } }, grenze: GRENZE, heute: HEUTE, cartoonIds: new Set() })) === '1')
 
+/* Dringend-Zweige einzeln: je ein fälliger Titel mit genau einer Lücke steht in der Mitte vor dem älteren ohne Anlass. */
+const aelter = titel(1, [weg(1, { dub: true })], { tmdbId: 101 })
+const juenger = titel(9, [weg(9, { dub: true })], { tmdbId: 109 })
+const dringendBestand = { '1': bestand['1'], '9': bestand['9'], '11': befund('2026-09-12', 11, ['de']), '12': befund('2026-09-12', 12, ['de']) }
+const ohneWeg = titel(11, [], { tmdbId: 111 })
+const nurTmdb = titel(12, [weg(12, { dub: true })], { tmdbId: 112, watchLinks: [{ url: 'https://www.crunchyroll.com/x' }, { url: 'https://www.themoviedb.org/movie/5/watch' }, { url: 'https://example.org/y' }] })
+pruefe('Titel ganz ohne Weg ist dringend: steht vor dem älteren ohne Anlass', ids(lauf([aelter, ohneWeg, juenger], dringendBestand)) === '11,1,9', ids(lauf([aelter, ohneWeg, juenger], dringendBestand)))
+pruefe('Weg nur auf die TMDB-Übersicht ist dringend: steht vor dem älteren ohne Anlass', ids(lauf([aelter, nurTmdb, juenger], dringendBestand)) === '12,1,9', ids(lauf([aelter, nurTmdb, juenger], dringendBestand)))
+
+/* Cartoons: `cartoonIds` kommt bis `titelMitJwFlagge` an. Serien-Grund (zwei eigene Staffeln) bringt im Bau keine Flagge, ein Cartoon-Film schon. */
+const seriePfad = { jwPfad: '/de/Serie/x', staffeln: [{ nr: 1, angebote: [] }] }
+const cartoonSerie = titel(-5, [weg(5)], { tmdbId: 205, staffeln: [{ nr: 1 }, { nr: 2 }] })
+const cartoonFilm = titel(-6, [weg(6)], { tmdbId: 206 })
+const cartoonBestand = { '1': bestand['1'], '9': bestand['9'], '-5': befund('2026-09-17', 5, ['de'], seriePfad), '-6': befund('2026-09-17', 6, ['de']) }
+const cartoonLauf = (z: Title[], cartoons: number[]) =>
+  warteschlange({ titles: z, bestand: cartoonBestand, tmdb: {}, grenze: GRENZE, heute: HEUTE, cartoonIds: new Set(cartoons) })
+const cartoonEingabe = [aelter, cartoonSerie, juenger]
+pruefe('Cartoon-Serie mit Serien-Grund bleibt in der Schlange draußen', ids(cartoonLauf(cartoonEingabe, [-5])) === '1,9', ids(cartoonLauf(cartoonEingabe, [-5])))
+pruefe('… dieselbe Serie ohne Cartoon-Kennung (Anime) steht vorn', ids(cartoonLauf(cartoonEingabe, [])) === '-5,1,9', ids(cartoonLauf(cartoonEingabe, [])))
+pruefe('Cartoon-Film in `cartoonIds` bleibt vorgezogen', ids(cartoonLauf([aelter, cartoonFilm, juenger], [-6])) === '-6,1,9', ids(cartoonLauf([aelter, cartoonFilm, juenger], [-6])))
+
 if (fehler) {
   console.error(`${fehler} Fehler`)
   process.exit(1)

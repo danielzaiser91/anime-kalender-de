@@ -4,6 +4,7 @@
  * im Wochenlauf vom 12.10. mit 25 Tagen nicht erneuert, am 15.10. abgelaufen). Läuft in `check:logic`.
  */
 import { readFileSync } from 'node:fs'
+import ts from 'typescript'
 import type { Title } from '../shared/types.ts'
 import type { JwBefund } from './lib/jw-vertrauen.ts'
 import { titelMitJwFlagge, vertrauensBefundAlt, vorgezogen } from './lib/jw-wiedervorlage.ts'
@@ -97,6 +98,28 @@ pruefe('Cartoon-Ausschluss trifft nur die Kennungen der Cartoons', [...imGemisch
 const abruf = readFileSync('pipeline/fetch-justwatch-audio.ts', 'utf8')
 const aufruf = unbedingteAufrufe(abruf, 'main').filter((a) => a.name === 'warteschlange')
 pruefe('main ruft warteschlange({ titles, bestand, … }) unbedingt auf', aufruf.length === 1 && aufruf[0]!.args[0] === '{ titles, bestand, tmdb, grenze, heute: todayIso(), cartoonIds: new Set(cartoons.map((t) => t.id)) }', aufruf)
+
+/* `offen` (die Schlange) wird in main nur gelesen: `offen.length` und `offen.slice(0, limit)`, kein Umsortieren, kein Zweitzugriff. */
+function offenZugriffe(quelltext: string): string[] {
+  const datei = ts.createSourceFile('x.ts', quelltext, ts.ScriptTarget.Latest, true)
+  const rumpf = datei.statements.find((s): s is ts.FunctionDeclaration => ts.isFunctionDeclaration(s) && s.name?.text === 'main')
+  const zugriffe: string[] = []
+  const besuche = (n: ts.Node): void => {
+    if (ts.isIdentifier(n) && n.text === 'offen' && !(ts.isVariableDeclaration(n.parent) && n.parent.name === n)) {
+      const p = n.parent
+      const nutzung = ts.isPropertyAccessExpression(p) && p.expression === n ? (ts.isCallExpression(p.parent) && p.parent.expression === p ? p.parent.getText(datei) : p.getText(datei)) : n.getText(datei)
+      zugriffe.push(nutzung)
+    }
+    ts.forEachChild(n, besuche)
+  }
+  if (rumpf) besuche(rumpf)
+  return zugriffe
+}
+const zugriffe = offenZugriffe(abruf)
+const erlaubt = ['offen.length', 'offen.slice(0, limit)']
+pruefe('main liest die Schlange nur mit offen.length und offen.slice(0, limit)', zugriffe.length > 0 && zugriffe.every((z) => erlaubt.includes(z)) && zugriffe.includes('offen.slice(0, limit)'), zugriffe)
+const mutiert = offenZugriffe(abruf.replace('offen.slice(0, limit)', 'offen.reverse().slice(0, limit)'))
+pruefe('Selbsttest: offen.reverse().slice(…) fällt auf', mutiert.some((z) => !erlaubt.includes(z)), mutiert)
 
 if (fehler) {
   console.error(`${fehler} Fehler`)
