@@ -14,9 +14,17 @@
       "vorschlaege": 0,
       "uebersprungen": "von Hand gelesen, keine Lücke gefüllt"
     },
+    "1056478": {
+      "am": "2026-10-17",
+      "vorschlaege": 1
+    },
     "1056508": {
       "am": "2026-10-11",
       "vorschlaege": 0
+    },
+    "1056535": {
+      "am": "2026-10-17",
+      "vorschlaege": 2
     },
     "1056555": {
       "am": "2026-10-13",
@@ -131,6 +139,10 @@
     "1058808": {
       "am": "2026-10-12",
       "vorschlaege": 1
+    },
+    "1058839": {
+      "am": "2026-10-17",
+      "vorschlaege": 3
     },
     "1058843": {
       "am": "2026-10-11",
@@ -363,12 +375,51 @@
       "am": "2026-10-16",
       "vorschlaege": 1
     },
+    "1060934": {
+      "am": "2026-10-17",
+      "vorschlaege": 3
+    },
     "1060946": {
       "am": "2026-10-16",
       "vorschlaege": 2
     },
     "1060953": {
       "am": "2026-10-16",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1061001": {
+      "am": "2026-10-17",
+      "vorschlaege": 9
+    },
+    "1061050": {
+      "am": "2026-10-17",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1061130": {
+      "am": "2026-10-17",
+      "vorschlaege": 0
+    },
+    "1061578": {
+      "am": "2026-10-17",
+      "vorschlaege": 0
+    },
+    "1061640": {
+      "am": "2026-10-17",
+      "vorschlaege": 2
+    },
+    "1061657": {
+      "am": "2026-10-17",
+      "vorschlaege": 4
+    },
+    "1061668": {
+      "am": "2026-10-17",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1061725": {
+      "am": "2026-10-17",
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     }
@@ -3728,6 +3779,388 @@
       "quelle": "https://www.anime2you.de/news/1059242/neue-nadia-und-die-macht-des-zaubersteins-figur/",
       "veroeffentlicht": "2026-10-15",
       "gelesenAm": "2026-10-16"
+    },
+    {
+      "titel": "Eureka Seven",
+      "zitat": "Am 28. Januar 2027 erscheinen unter anderem eine neue Blu-ray-Komplettbox von »Eureka Seven« sowie eine Gesamtausgabe des Anime-Klassikers »Lady Oscar« – jeweils mit allen Episoden in der deutschen und japanischen Sprachfassung.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2027-01-28",
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „KSM Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1061657",
+      "artikel": "Vier Januar-Neuheiten 2027 bei Anime Planet vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1061657/anime-planet-januar-2027-vorbestellbar/",
+      "veroeffentlicht": "2026-10-16",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "Lady Oscar",
+      "zitat": "Am 28. Januar 2027 erscheinen unter anderem eine neue Blu-ray-Komplettbox von »Eureka Seven« sowie eine Gesamtausgabe des Anime-Klassikers »Lady Oscar« – jeweils mit allen Episoden in der deutschen und japanischen Sprachfassung.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2027-01-28",
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „KSM Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1061657",
+      "artikel": "Vier Januar-Neuheiten 2027 bei Anime Planet vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1061657/anime-planet-januar-2027-vorbestellbar/",
+      "veroeffentlicht": "2026-10-16",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "Isekai Onsen Paradise",
+      "zitat": "Am 28. Januar 2027 erscheinen unter anderem eine neue Blu-ray-Komplettbox von »Eureka Seven« sowie eine Gesamtausgabe des Anime-Klassikers »Lady Oscar« – jeweils mit allen Episoden in der deutschen und japanischen Sprachfassung. Für denselben Tag sind außerdem Blu-ray-Veröffentlichungen der zwölfteiligen Ecchi-Comedy-Serie »Isekai Onsen Paradise« und des rund 90-minütigen Drama-Films »Die letzte Blüte« aus dem Jahr 2025 geplant.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-28",
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Sprachfassung im Artikel nur für »Eureka Seven« und »Lady Oscar« genannt, nicht ausdrücklich für diesen Titel.",
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „KSM Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1061657",
+      "artikel": "Vier Januar-Neuheiten 2027 bei Anime Planet vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1061657/anime-planet-januar-2027-vorbestellbar/",
+      "veroeffentlicht": "2026-10-16",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "Die letzte Blüte",
+      "zitat": "Am 28. Januar 2027 erscheinen unter anderem eine neue Blu-ray-Komplettbox von »Eureka Seven« sowie eine Gesamtausgabe des Anime-Klassikers »Lady Oscar« – jeweils mit allen Episoden in der deutschen und japanischen Sprachfassung. Für denselben Tag sind außerdem Blu-ray-Veröffentlichungen der zwölfteiligen Ecchi-Comedy-Serie »Isekai Onsen Paradise« und des rund 90-minütigen Drama-Films »Die letzte Blüte« aus dem Jahr 2025 geplant.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-28",
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Sprachfassung im Artikel nur für »Eureka Seven« und »Lady Oscar« genannt, nicht ausdrücklich für diesen Titel.",
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „KSM Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1061657",
+      "artikel": "Vier Januar-Neuheiten 2027 bei Anime Planet vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1061657/anime-planet-januar-2027-vorbestellbar/",
+      "veroeffentlicht": "2026-10-16",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "Bleach: Thousand-Year Blood War",
+      "zitat": "Die neunte Episode des vierten Parts (Folge 49 in der Gesamtzählung) wird nach einer Verschiebung am 19. Oktober 2026 im japanischen Fernsehen ausgestrahlt und bei Disney+ im Simulcast gezeigt.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "disneyplus",
+      "datum": "2026-10-19",
+      "uhrzeit": null,
+      "anbieter": "Disney+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "49",
+      "unsicher": null,
+      "wochentag": "Montag",
+      "warnungen": [],
+      "artikelId": "1061640",
+      "artikel": "Neuer Trailer zum Finale von »Bleach: Thousand-Year Blood War«",
+      "quelle": "https://www.anime2you.de/news/1061640/bleach-thousand-year-blood-war-finale-trailer/",
+      "veroeffentlicht": "2026-10-16",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "Bleach: Thousand-Year Blood War",
+      "zitat": "Am 26. Oktober 2026 folgt dann die zehnte Episode (Folge 50), mit der die Serie ihren Abschluss findet.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "disneyplus",
+      "datum": "2026-10-26",
+      "uhrzeit": null,
+      "anbieter": "Disney+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "50",
+      "unsicher": "Plattform Disney+ aus dem vorherigen Satz übernommen, in diesem Satz selbst nicht erneut genannt.",
+      "wochentag": "Montag",
+      "warnungen": [
+        "anbieter „Disney+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „disney+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1061640",
+      "artikel": "Neuer Trailer zum Finale von »Bleach: Thousand-Year Blood War«",
+      "quelle": "https://www.anime2you.de/news/1061640/bleach-thousand-year-blood-war-finale-trailer/",
+      "veroeffentlicht": "2026-10-16",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "Afro Samurai",
+      "zitat": "Afro Samurai (Komplettbox im limitierten Steelbook) 05.03. 07.05.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-05-07",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Jahr nicht im Artikel genannt; mechanisch aus dem Veröffentlichungsjahr 2026 ergänzt. Das Datum liegt vor dem Erscheinungsdatum des Artikels (16.10.2026), gemeint ist daher möglicherweise 2027.",
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1061001",
+      "artikel": "Neun Blu-ray-Termine von AniMoon, Crunchyroll und Hardball Films verschoben",
+      "quelle": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "veroeffentlicht": "2026-10-16",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "Kaiju No. 8 – Staffel 2",
+      "zitat": "Kaiju No. 8 – Staffel 2 (Komplettbox) 05.03. 07.05.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-05-07",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Jahr nicht im Artikel genannt; mechanisch aus dem Veröffentlichungsjahr 2026 ergänzt. Das Datum liegt vor dem Erscheinungsdatum des Artikels (16.10.2026), gemeint ist daher möglicherweise 2027.",
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1061001",
+      "artikel": "Neun Blu-ray-Termine von AniMoon, Crunchyroll und Hardball Films verschoben",
+      "quelle": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "veroeffentlicht": "2026-10-16",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "Sakamoto Days – Vol. 2",
+      "zitat": "Sakamoto Days – Vol. 2 (Limited Edition) 30.10. 11.12.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-11",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Jahr nicht im Artikel genannt; mechanisch aus dem Veröffentlichungsjahr 2026 ergänzt.",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1061001",
+      "artikel": "Neun Blu-ray-Termine von AniMoon, Crunchyroll und Hardball Films verschoben",
+      "quelle": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "veroeffentlicht": "2026-10-16",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "Virgin Road – Vol. 2",
+      "zitat": "Virgin Road – Vol. 2 (Limited Edition) 30.10. 04.12.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Jahr nicht im Artikel genannt; mechanisch aus dem Veröffentlichungsjahr 2026 ergänzt.",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1061001",
+      "artikel": "Neun Blu-ray-Termine von AniMoon, Crunchyroll und Hardball Films verschoben",
+      "quelle": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "veroeffentlicht": "2026-10-16",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "Frieren: Beyond Journey's End",
+      "zitat": "Eine dritte Staffel startet im Oktober 2027.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1056478",
+      "artikel": "Neue Figur zeigt Protagonistin aus »Frieren« beim Lesen",
+      "quelle": "https://www.anime2you.de/news/1056478/frieren-figur-protagonistin-beim-lesen/",
+      "veroeffentlicht": "2026-10-16",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "Berserk",
+      "zitat": "»Berserk« steht hierzulande in der japanischen Originalvertonung mit deutschen Untertiteln auf Netflix sowie mit deutscher Sprachausgabe auf aniverse zur Verfügung.",
+      "art": "sprachfassung",
+      "sprache": "omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1058839",
+      "artikel": "Zwei neue »Berserk«-Figuren von Guts und Griffith angekündigt",
+      "quelle": "https://www.anime2you.de/news/1058839/zwei-berserk-figuren-guts-und-griffith/",
+      "veroeffentlicht": "2026-10-16",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "Berserk",
+      "zitat": "»Berserk« steht hierzulande in der japanischen Originalvertonung mit deutschen Untertiteln auf Netflix sowie mit deutscher Sprachausgabe auf aniverse zur Verfügung.",
+      "art": "sprachfassung",
+      "sprache": "deutsch",
+      "plattform": "aniverse",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "aniverse",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1058839",
+      "artikel": "Zwei neue »Berserk«-Figuren von Guts und Griffith angekündigt",
+      "quelle": "https://www.anime2you.de/news/1058839/zwei-berserk-figuren-guts-und-griffith/",
+      "veroeffentlicht": "2026-10-16",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "Berserk",
+      "zitat": "Ein Blu-ray-Release erfolgte durch KSM Anime.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1058839",
+      "artikel": "Zwei neue »Berserk«-Figuren von Guts und Griffith angekündigt",
+      "quelle": "https://www.anime2you.de/news/1058839/zwei-berserk-figuren-guts-und-griffith/",
+      "veroeffentlicht": "2026-10-16",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "My Love Story with Yamada-kun at Lv999",
+      "zitat": "Das erste Volume von »My Love Story with Yamada-kun at Lv999«, das die ersten vier Episoden mit deutscher und japanischer Sprachausgabe beinhaltet, erscheint am 6. November 2026 in einer Mediabook-Edition als DVD und Blu-ray.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2026-11-06",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "1–4",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1060934",
+      "artikel": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
+      "quelle": "https://www.anime2you.de/news/1060934/my-love-story-with-yamada-kun-at-lv999-blu-ray-design/",
+      "veroeffentlicht": "2026-10-15",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "My Love Story with Yamada-kun at Lv999",
+      "zitat": "Das zweite Volume mit den Episoden 5 bis 8 kommt voraussichtlich am 18. Dezember 2026 in den Handel, bevor das dritte Volume mit den Episoden 9 bis 13 den deutschen Disc-Release voraussichtlich gegen Anfang 2027 abschließt.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "5–8",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1060934",
+      "artikel": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
+      "quelle": "https://www.anime2you.de/news/1060934/my-love-story-with-yamada-kun-at-lv999-blu-ray-design/",
+      "veroeffentlicht": "2026-10-15",
+      "gelesenAm": "2026-10-17"
+    },
+    {
+      "titel": "My Love Story with Yamada-kun at Lv999",
+      "zitat": "Das zweite Volume mit den Episoden 5 bis 8 kommt voraussichtlich am 18. Dezember 2026 in den Handel, bevor das dritte Volume mit den Episoden 9 bis 13 den deutschen Disc-Release voraussichtlich gegen Anfang 2027 abschließt.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "9–13",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1060934",
+      "artikel": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
+      "quelle": "https://www.anime2you.de/news/1060934/my-love-story-with-yamada-kun-at-lv999-blu-ray-design/",
+      "veroeffentlicht": "2026-10-15",
+      "gelesenAm": "2026-10-17"
     }
   ]
 }
