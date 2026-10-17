@@ -51,9 +51,12 @@ try {
     titel(36, [weg('crunchyroll'), weg('wow', { kanal: 'Aniverse' })]),
     /* 37: gti-Brücke hat die Adresse umgestellt, die Kanal-Adresse aus den Handbelegen steht in `seite` (Your Name 21519). */
     titel(37, [weg('primevideo', { url: 'https://app.primevideo.com/detail?gti=X', seite: 'https://www.amazon.de/gp/video/detail/HAND37' })]),
-    titel(38, [weg('netflix', { dubQuelle: 'justwatch', dubStand: '2026-10-01', dubHintOnly: true })]),
+    /* 38: JustWatch-Flagge ohne dubHintOnly wie am echten Fall (166710 Suicide Squad Isekai). */
+    titel(38, [weg('netflix', { dubQuelle: 'justwatch', dubStand: '2026-10-01' })]),
+    /* 44: Gegenfälle zu 38 — Prime-Kanal mit Ja und WOW ohne Ja behalten die Flagge, nur Netflix in der Mitte verliert sie. */
+    titel(44, [weg('primevideo', { kanal: 'Aniverse', dubQuelle: 'justwatch', dubStand: '2026-10-01' }), weg('netflix', { dubQuelle: 'justwatch', dubStand: '2026-10-01' }), weg('wow', { dubQuelle: 'justwatch', dubStand: '2026-10-01' })]),
   ]
-  const jaWege = new Set(['31|netflix', '31|primevideo', '31|crunchyroll', '32|primevideo', '33|primevideo', '34|netflix', '35|wow', '36|wow', '37|primevideo', '38|netflix'])
+  const jaWege = new Set(['31|netflix', '31|primevideo', '31|crunchyroll', '32|primevideo', '33|primevideo', '34|netflix', '35|wow', '36|wow', '37|primevideo', '38|netflix', '44|primevideo', '44|netflix'])
   const termin = (titleId: number, platform: string, sprache?: string) => ({ titleId, platform, slug: `r${titleId}`, sprache }) as unknown as Release
   /* 34: Netflix-Termine alle gekennzeichnet (kein Ja), Disney+ mit einem ungekennzeichneten Termin in der Mitte (Ja bleibt erlaubt). */
   const releases = [termin(34, 'netflix', 'offen'), termin(34, 'disneyplus', 'offen'), termin(34, 'netflix', 'omu'), termin(34, 'disneyplus'), termin(34, 'disneyplus', 'omu')]
@@ -78,7 +81,10 @@ try {
     dub(38, 0)!.dub === true && dub(38, 0)!.dubQuelle === undefined && dub(38, 0)!.dubStand === undefined && dub(38, 0)!.dubHintOnly === undefined,
     dub(38, 0),
   )
-  pruefe('Zahl der belegten Wege', n === 7, n)
+  pruefe('Prime-Kanal mit Ja behält die JustWatch-Flagge (44)', dub(44, 0)!.dub === undefined && dub(44, 0)!.dubQuelle === 'justwatch', dub(44, 0))
+  pruefe('Urteil-Ja in der Mitte löscht die Flagge (44 Netflix)', dub(44, 1)!.dub === true && dub(44, 1)!.dubQuelle === undefined && dub(44, 1)!.dubStand === undefined, dub(44, 1))
+  pruefe('Ohne Urteil-Ja bleibt die Flagge (44 WOW)', dub(44, 2)!.dub === undefined && dub(44, 2)!.dubQuelle === 'justwatch' && dub(44, 2)!.dubStand === '2026-10-01', dub(44, 2))
+  pruefe('Zahl der belegten Wege', n === 8, n)
   const widerspruch = deutschNurAusSpracheTermin(releases, new Map(titles.map((t) => [t.id, t])))
   pruefe('Kein Widerspruch zu Terminen mit Sprachkennzeichnung', widerspruch.length === 0, widerspruch)
   pruefe('Zweiter Lauf belegt nichts mehr', urteilSchliesstSpaeteLuecken(titles, releases, jaWege, kanal) === 0)
