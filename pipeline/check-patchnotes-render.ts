@@ -1,7 +1,7 @@
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { auslieferbarePatchnotes } from '../shared/patchnotes.ts'
-import { PatchTagBlock } from '../web/src/components/patchnotes-teile.tsx'
+import { EntwurfHinweis, PatchTagBlock } from '../web/src/components/patchnotes-teile.tsx'
 import { PT } from '../web/src/lib/patchnotes-texte.ts'
 import { tageVon } from '../web/src/lib/patchnotes-tage.ts'
 
@@ -35,6 +35,11 @@ pruefe('Stift: eine Woche später (heute 25.10.) bleibt er an denselben Tagen', 
 const mitStift = tage.find((t) => t.datum === '2026-10-16')!
 const html = renderToStaticMarkup(createElement(PatchTagBlock, { tag: mitStift, index: 0, heute: '2026-10-18', gestern: '2026-10-17', schliessen: () => undefined }))
 pruefe('Stift: trägt den Tooltip-Text als Beschriftung', html.includes(`aria-label="${PT.heuteHinweis}"`), html)
+pruefe('Stift: ist für Hilfsmittel ein Bild mit Beschriftung (role="img")', html.includes('role="img"'), html)
+// Die Blase selbst wird erst beim Öffnen gezeichnet, im Server-Render fehlt sie; deshalb die Eigenschaften des Elements.
+const hinweis = EntwurfHinweis()
+pruefe('Stift: die Blase trägt den Tooltip-Text (nicht leer, nicht eine andere Konstante)', hinweis.props.text === PT.heuteHinweis, hinweis.props.text)
+pruefe('Stift: die Blase öffnet unten', hinweis.props.seite === 'unten', hinweis.props.seite)
 pruefe('Stift: Tooltip-Text ist „Entwurf: Texte werden noch überarbeitet.“', PT.heuteHinweis === 'Entwurf: Texte werden noch überarbeitet.', PT.heuteHinweis)
 const ohne = tage.find((t) => t.datum === '2026-10-15')!
 const htmlOhne = renderToStaticMarkup(createElement(PatchTagBlock, { tag: ohne, index: 0, heute: '2026-10-18', gestern: '2026-10-17', schliessen: () => undefined }))

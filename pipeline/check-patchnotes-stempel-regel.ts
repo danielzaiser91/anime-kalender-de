@@ -47,6 +47,10 @@ if (process.argv[2] === 'ereignis') {
   process.exit(0)
 }
 
+// Der Weg der PR-Kette (`pr-pruefung.yml`): Ereignisname statt Argument. Der Kindprozess der Verdrahtungsproben überspringt die eigenen Proben.
+if (process.env.GITHUB_EVENT_NAME === 'pull_request') ereignis()
+if (process.env.STEMPEL_REGEL_OHNE_PROBEN) process.exit(0)
+
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
   if (bedingung) return void console.log(`  ✓ ${name}`)
@@ -65,6 +69,7 @@ pruefe('Regel: maßgeblich ist der jüngste der Tage, in der Mitte der Liste', s
 pruefe('Regel: der jüngste Tag steht am Ende der Liste', stempelBefund({ tage: ['2026-10-14', '2026-10-15', '2026-10-17'], alt: '2026-10-15', neu: '2026-10-16' }) !== null)
 pruefe('Regel: Stempel fehlt, Texte umgeschrieben → rot', stempelBefund({ tage: ['2026-10-16'] }) !== null)
 pruefe('Regel: Stempel sinkt (15 → 14) auch ohne Texte → rot', stempelBefund({ tage: [], alt: '2026-10-15', neu: '2026-10-14' }) !== null)
+pruefe('Regel: Stempel gelöscht (vorher 15), nichts umgeschrieben → rot', stempelBefund({ tage: [], alt: '2026-10-15' }) !== null)
 pruefe('Regel: Stempel gleich, nichts umgeschrieben → grün', stempelBefund({ tage: [], alt: '2026-10-15', neu: '2026-10-15' }) === null)
 pruefe('Regel: nur der Stempel steigt (16) → grün', stempelBefund({ tage: [], alt: '2026-10-15', neu: '2026-10-16' }) === null)
 pruefe('Regel: kein Stempel vorher, keiner nachher, nichts umgeschrieben → grün', stempelBefund({ tage: [] }) === null)
@@ -72,6 +77,7 @@ pruefe('Regel: kein Stempel vorher, keiner nachher, nichts umgeschrieben → gr�
 // Wache: Fristgrenze relativ zur Konstante; „heute“ ist ein Berliner Tag.
 const vor = (tage: number): string => new Date(Date.parse('2026-10-20T00:00:00Z') - tage * 86400000).toISOString().slice(0, 10)
 const entwurf = (datum: string) => ({ datum, entwurf: true })
+pruefe('Wache: die Frist beträgt 3 Tage (steht so in karte.md)', ENTWURF_MAX_TAGE === 3, ENTWURF_MAX_TAGE)
 pruefe('Wache: Entwurf genau an der Frist → keine Warnung', veralteterStempel([entwurf(vor(ENTWURF_MAX_TAGE))], '2026-10-20') === null)
 pruefe('Wache: Entwurf einen Tag über der Frist → Warnung (spätestens dann sichtbar)', veralteterStempel([entwurf(vor(ENTWURF_MAX_TAGE + 1))], '2026-10-20') !== null)
 pruefe('Wache: maßgeblich ist der älteste Entwurf, nicht der erste der Liste', veralteterStempel([entwurf(vor(0)), entwurf(vor(ENTWURF_MAX_TAGE + 2)), entwurf(vor(1))], '2026-10-20') !== null)
@@ -92,8 +98,8 @@ function schreibe(ordner: string, pfad: string, inhalt: string): void {
   writeFileSync(`${ordner}/${pfad}`, inhalt)
 }
 
-/** Wegwerf-Repo mit drei Einträgen (15./16./17.10.) und Stempel 15; `aenderung` ist der PR-Commit darauf. */
-function ereignisLauf(aenderung: (ordner: string) => void): { status: number | null; aus: string } {
+/** Wegwerf-Repo mit drei Einträgen (15./16./17.10.) und Stempel 15; `aenderung` ist der PR-Commit darauf. `ereignisName`: Start wie in der PR-Kette über `GITHUB_EVENT_NAME` (ohne: über das Argument `ereignis`). */
+function ereignisLauf(aenderung: (ordner: string) => void, ereignisName?: string, basisMitStempel = true): { status: number | null; aus: string } {
   const ordner = mkdtempSync(`${tmpdir()}/stempel-regel-`)
   const g = (...a: string[]) => execFileSync('git', a, { cwd: ordner, stdio: 'pipe', env: { ...process.env, GIT_AUTHOR_DATE: '2026-10-17T12:00:00+02:00', GIT_COMMITTER_DATE: '2026-10-17T12:00:00+02:00' } })
   try {
@@ -101,7 +107,7 @@ function ereignisLauf(aenderung: (ordner: string) => void): { status: number | n
     g('config', 'user.email', 'x@x')
     g('config', 'user.name', 'x')
     for (const tag of ['15', '16', '17']) schreibe(ordner, `${PATCHNOTES_ORDNER}/e${tag}.yaml`, `datum: '2026-10-${tag}'\nkategorie: bugfix\ntext: Eintrag ${tag}\n`)
-    schreibe(ordner, STEMPEL_PFAD, '2026-10-15\n')
+    if (basisMitStempel) schreibe(ordner, STEMPEL_PFAD, '2026-10-15\n')
     g('add', '-A')
     g('commit', '-q', '-m', 'basis')
     const basis = g('rev-parse', 'HEAD').toString().trim()
@@ -109,7 +115,9 @@ function ereignisLauf(aenderung: (ordner: string) => void): { status: number | n
     g('add', '-A')
     g('commit', '-q', '--allow-empty', '-m', 'pr')
     schreibe(ordner, '.ereignis.json', JSON.stringify({ pull_request: { base: { sha: basis } } }))
-    return lauf(ordner, [fileURLToPath(import.meta.url), 'ereignis'], { GITHUB_EVENT_PATH: `${ordner}/.ereignis.json` })
+    const pfad = { GITHUB_EVENT_PATH: `${ordner}/.ereignis.json` }
+    if (ereignisName === undefined) return lauf(ordner, [fileURLToPath(import.meta.url), 'ereignis'], pfad)
+    return lauf(ordner, [fileURLToPath(import.meta.url)], { ...pfad, GITHUB_EVENT_NAME: ereignisName, STEMPEL_REGEL_OHNE_PROBEN: '1' })
   } finally {
     rmSync(ordner, { recursive: true, force: true })
   }
@@ -132,10 +140,36 @@ const mehrere = ereignisLauf((o) => {
 pruefe('Ablauf: Texte vom 15., 16. und 17. umgeschrieben, Stempel 16 → Exit 1 (der 17. fehlt)', mehrere.status === 1 && mehrere.aus.includes('bis 2026-10-17'), mehrere)
 const sinkt = ereignisLauf((o) => schreibe(o, STEMPEL_PFAD, '2026-10-14\n'))
 pruefe('Ablauf: Stempel sinkt auf 14 → Exit 1', sinkt.status === 1 && sinkt.aus.includes('sinkt'), sinkt)
+const loeschen = (o: string) => rmSync(`${o}/${STEMPEL_PFAD}`)
+const geloescht = ereignisLauf(loeschen)
+pruefe('Ablauf: Stempel gelöscht, keine Texte umgeschrieben → Exit 1', geloescht.status === 1 && geloescht.aus.includes('gelöscht'), geloescht)
+const geloeschtUndUmgeschrieben = ereignisLauf((o) => {
+  umschreiben('16')(o)
+  loeschen(o)
+})
+pruefe('Ablauf: Stempel gelöscht, Text vom 16. umgeschrieben → Exit 1', geloeschtUndUmgeschrieben.status === 1, geloeschtUndUmgeschrieben)
 const nurStempel = ereignisLauf((o) => schreibe(o, STEMPEL_PFAD, '2026-10-16\n'))
 pruefe('Ablauf: nur der Stempel steigt → Exit 0', nurStempel.status === 0, nurStempel)
 const neuerEintrag = ereignisLauf((o) => schreibe(o, `${PATCHNOTES_ORDNER}/e18.yaml`, "datum: '2026-10-18'\nkategorie: bugfix\ntext: Neu 18\n"))
 pruefe('Ablauf: ein neuer Eintrag verlangt keinen Stempel → Exit 0', neuerEintrag.status === 0, neuerEintrag)
+
+const ersterStempel = ereignisLauf((o) => schreibe(o, STEMPEL_PFAD, '2026-10-16\n'), undefined, false)
+pruefe('Ablauf: die Basis hat noch keinen Stempel, der PR legt ihn an (16) → Exit 0', ersterStempel.status === 0, ersterStempel)
+const keinStempelBleibt = ereignisLauf(umschreiben('16'), undefined, false)
+pruefe('Ablauf: die Basis hat keinen Stempel, der PR schreibt den 16. um und legt keinen an → Exit 1', keinStempelBleibt.status === 1, keinStempelBleibt)
+
+// Verdrahtung: so startet die PR-Kette das Skript (`GITHUB_EVENT_NAME=pull_request`, kein Argument). Fehlt die Zeile, ist die Regel dort still weg.
+const kette = ereignisLauf(umschreiben('16'), 'pull_request')
+pruefe('Verdrahtung: im Ereignis pull_request läuft die Prüfung → Text vom 16. ohne Stempel, Exit 1', kette.status === 1 && kette.aus.includes('bis 2026-10-16'), kette)
+const ketteGeloescht = ereignisLauf(loeschen, 'pull_request')
+pruefe('Verdrahtung: im Ereignis pull_request, Stempel gelöscht → Exit 1', ketteGeloescht.status === 1 && ketteGeloescht.aus.includes('gelöscht'), ketteGeloescht)
+const ketteGruen = ereignisLauf((o) => {
+  umschreiben('16')(o)
+  schreibe(o, STEMPEL_PFAD, '2026-10-16\n')
+}, 'pull_request')
+pruefe('Verdrahtung: im Ereignis pull_request, Stempel gehoben → Exit 0 mit Ausgabe der Prüfung', ketteGruen.status === 0 && ketteGruen.aus.includes('Stempel passt'), ketteGruen)
+const keinPr = ereignisLauf(umschreiben('16'), 'push')
+pruefe('Verdrahtung: in einem anderen Ereignis (push) läuft die Prüfung nicht → Exit 0', keinPr.status === 0 && !keinPr.aus.includes('Stempel'), keinPr)
 
 // Wache im Ablauf: delta-pruefen.mjs in einem Ordner mit der ausgelieferten Liste (oder ohne) und optional einer Lauf-Historie.
 function wacheLauf(liste: unknown[] | null, auffaellig = false, mitHistorie = true): { status: number | null; aus: string } {
@@ -165,8 +199,7 @@ pruefe('Wache-Ablauf: ohne ausgelieferte Liste keine Warnung und kein Absturz �
 const nurHistorie = wacheLauf(knapp, true)
 pruefe('Wache-Ablauf: Auffälligkeit in der Historie allein → Exit 1', nurHistorie.status === 1 && nurHistorie.aus.includes('Auffälligkeiten'), nurHistorie)
 
-if (process.env.GITHUB_EVENT_NAME === 'pull_request') ereignis()
-else console.log('  – Patch-Notes-Stempel: echte Prüfung nur im PR-Ereignis.')
+if (process.env.GITHUB_EVENT_NAME !== 'pull_request') console.log('  – Patch-Notes-Stempel: echte Prüfung nur im PR-Ereignis.')
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
