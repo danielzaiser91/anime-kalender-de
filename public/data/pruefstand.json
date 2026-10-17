@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-17T02:06:58.061Z",
+ "erzeugtAm": "2026-10-17T04:04:44.310Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -2096,9 +2096,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 416,
+   "gemeldet": 417,
    "gesamt": 690,
-   "offen": 274,
+   "offen": 273,
    "ohneSeite": 18,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
@@ -2251,10 +2251,6 @@
      "url": "https://www.netflix.com/title/80060413",
      "titel": "Heidi",
      "hinweis": "Staffeln unklar: TMDB zählt 91 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/81744227",
-     "titel": "Cyberpunk: Edgerunners 2"
     },
     {
      "url": "https://www.netflix.com/title/81684733",
