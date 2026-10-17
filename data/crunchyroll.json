@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-17T15:02:22.308Z",
+  "scrapedAt": "2026-10-17T16:02:22.467Z",
   "window": {
     "from": "2026-10-05",
     "to": "2026-10-25"
@@ -1656,7 +1656,8 @@
         "2026-09-19",
         "2026-09-26",
         "2026-10-03",
-        "2026-10-10"
+        "2026-10-10",
+        "2026-10-17"
       ],
       "rawTitle": "Jaadugar: A Witch in Mongolia Staffel 1 (Deutsch)",
       "seriesId": "GT00378078",
@@ -1697,6 +1698,10 @@
         {
           "date": "2026-10-10",
           "episode": 9
+        },
+        {
+          "date": "2026-10-17",
+          "episode": 10
         }
       ],
       "earliest": {
@@ -2092,6 +2097,16 @@
       "date": "2026-10-17",
       "time": "11:30",
       "episode": 22,
+      "german": true
+    },
+    {
+      "key": "jaadugar a witch in mongolia s1",
+      "rawTitle": "Jaadugar: A Witch in Mongolia Staffel 1 (Deutsch)",
+      "seriesId": "GT00378078",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00378078/jaadugar-a-witch-in-mongolia",
+      "date": "2026-10-17",
+      "time": "18:00",
+      "episode": 10,
       "german": true
     }
   ]
