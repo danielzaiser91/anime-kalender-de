@@ -1,15 +1,29 @@
 {
-  "scrapedAt": "2026-10-17T05:02:44.273Z",
+  "scrapedAt": "2026-10-17T17:03:03.540Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
     "schon in einem Rubrik-Feed gelesen": 7,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "Zwei neue Acrylanhänger zu »Detektiv Conan« angekündigt",
+      "articleUrl": "https://www.anime2you.de/news/1061186/zwei-detektiv-conan-acrylanhaenger/",
+      "publishedAt": "2026-10-17",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-05",
+          "context": "önnen. Wir fassen alle Details nachfolgend für euch zusammen. Release im Mai 2027 Die neuen »Detektiv Conan«-Schlüsselanhänger der Charakter"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Neue »Apothecary Diaries«-Plüschfigur von Jinshi vorgestellt",
       "articleUrl": "https://www.anime2you.de/news/1056535/apothecary-diaries-plueschfigur-jinshi/",
