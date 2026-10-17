@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 61
+    "2026-10": 63
   },
   "gesehen": {
     "26341901:netflix": {
@@ -7989,7 +7989,7 @@
       "tmdbId": "tv/286183",
       "dienst": "netflix",
       "am": "2026-10-15",
-      "deutsch": false
+      "deutsch": true
     },
     "removed:34391:netflix": {
       "art": "removed",
@@ -8000,7 +8000,37 @@
       "dienst": "netflix",
       "am": "2026-10-15",
       "deutsch": false
+    },
+    "new:27067912:netflix": {
+      "art": "new",
+      "titel": "Doctor X: Mafia in White",
+      "originalTitel": "닥터X: 하얀 마피아의 시대",
+      "imdbId": "tt39328047",
+      "tmdbId": "tv/293610",
+      "dienst": "netflix",
+      "am": "2026-10-16",
+      "deutsch": false
+    },
+    "new:5058809:disney": {
+      "art": "new",
+      "titel": "Obituary",
+      "originalTitel": "Obituary",
+      "imdbId": "tt23458434",
+      "tmdbId": "tv/235769",
+      "dienst": "disney",
+      "am": "2026-10-16",
+      "deutsch": true
+    },
+    "new:26635611:disney": {
+      "art": "new",
+      "titel": "The Real Rooneys",
+      "originalTitel": "The Real Rooneys",
+      "imdbId": "tt37497762",
+      "tmdbId": "tv/335571",
+      "dienst": "disney",
+      "am": "2026-10-16",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-10-16T04:11:51.956Z"
+  "fetchedAt": "2026-10-17T04:11:59.414Z"
 }
