@@ -775,15 +775,13 @@ async function main(): Promise<void> {
   const offeneGruppen = [...cartoonLauf.uebrig.values()].filter((liste) => !liste.every((f) => bearbeitet.has(f.id)))
   const bisherZugeordnet = readJson<ZugeordneteSeiten>('data/prime-zugeordnet.json', {})
   const kanalWeg = sortiereKanalGruppenAus(offeneGruppen, ladeHandbelege(), bisherZugeordnet)
-  await schliesseRohfolgenAb({
+  schliesseRohfolgenAb({
     kanalWeg,
     zugeordnet,
     offen,
     erledigt,
     veraltet,
     zaehler: { ueberFolgentitel, uebersprungenStaffel, ohneFolgenzuordnung },
-    worker: WORKER,
-    token: TOKEN,
   })
 }
 

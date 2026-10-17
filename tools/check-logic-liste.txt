@@ -170,6 +170,7 @@ pipeline/check-urteil-art.ts
 pipeline/check-verpasst-verdrahtung.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts
+pipeline/check-vorfaelle-ablauf.ts
 pipeline/check-weg-adresse-bezugsweg.ts
 pipeline/check-wege-aus-terminen.ts
 pipeline/check-werk-doppelt.ts
@@ -186,4 +187,5 @@ tools/design-klassen.mjs
 tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
 tools/hover-cover.test.ts
+tools/quittung-nach-commit-waechter.mjs
 tools/workflow-abbruch-waechter.mjs

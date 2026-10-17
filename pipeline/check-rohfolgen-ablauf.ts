@@ -4,7 +4,7 @@
  * Fängt, wenn die Cartoon-Zuordnung nicht aufgerufen wird oder ihre Quellen (cartoons.json, dub-confirmed.yaml) leer ankommen.
  */
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -42,6 +42,8 @@ const rohfolgen = [
   zeile(1, NETFLIX, ['de|Deutsch', 'en|English'], 'netflix', 'Ausflug zum Leuchtturm'),
   zeile(2, NETFLIX, ['de|Deutsch', 'en|English'], 'netflix', 'Hitch und das Geheimnis'),
   zeile(3, DISNEY, ['en'], 'disneyplus'),
+  // Ältere wörtliche Wiederholung von Zeile 5: veraltet, wird mit abgehakt, obwohl ihre Adresse offen bleibt.
+  { ...zeile(5, FREMD, ['Deutsch'], 'primevideo'), id: 8, gemeldet_am: '2026-10-15T10:00:00Z' },
   zeile(4, DISNEY, ['en'], 'disneyplus'),
   zeile(5, FREMD, ['Deutsch'], 'primevideo'),
   zeile(6, FREMD, ['Deutsch'], 'primevideo'),
@@ -80,6 +82,33 @@ const lauf = spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'p
   env: { ...process.env, AK_ROOT: kulisse, LAUF_TOKEN: 'test' },
 })
 const lies = (pfad: string) => JSON.parse(readFileSync(join(kulisse, pfad), 'utf8'))
+const MERKER = 'data/cache/rohfolgen-abhaken.json'
+const abhaken = (status: number) =>
+  spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'pipeline/rohfolgen-abhaken.ts')], {
+    cwd: wurzel,
+    encoding: 'utf8',
+    env: { ...process.env, AK_ROOT: kulisse, LAUF_TOKEN: 'test', AK_POST_STATUS: String(status) },
+  })
+
+/**
+ * Der Zuordner merkt nur (17.10.2026); abgehakt wird erst im Schritt nach dem Commit. Ein Fehlschlag beim Worker
+ * lässt den Merker stehen, ein Erfolg räumt ihn weg.
+ */
+function pruefeAbhakenNachCommit(): string[] {
+  const fehler: string[] = []
+  if (existsSync(join(kulisse, 'post.json'))) fehler.push('der Zuordner hat selbst abgehakt — das darf erst nach dem Commit geschehen')
+  const gemerkt = (lies(MERKER) as number[]).sort()
+  if (JSON.stringify(gemerkt) !== '[1,2,3,4,7,8]') fehler.push(`gemerkt: ${JSON.stringify(gemerkt)}, erwartet [1,2,3,4,7,8]`)
+  abhaken(500)
+  if (!existsSync(join(kulisse, MERKER))) fehler.push('HTTP 500 beim Abhaken hat den Merker gelöscht')
+  const lauf2 = abhaken(200)
+  if (lauf2.status !== 0) fehler.push(`Abhaken endete mit ${lauf2.status}: ${lauf2.stderr.slice(-300)}`)
+  const abgehakt = (lies('post.json') as { rohfolgenUebernommen: number[] }).rohfolgenUebernommen.sort()
+  if (JSON.stringify(abgehakt) !== '[1,2,3,4,7,8]') fehler.push(`abgehakt: ${JSON.stringify(abgehakt)}, erwartet [1,2,3,4,7,8]`)
+  if (existsSync(join(kulisse, MERKER))) fehler.push('der Merker bleibt nach erfolgreichem Abhaken liegen')
+  return fehler
+}
+
 const fehler: string[] = []
 try {
   if (lauf.status !== 0) fehler.push(`Lauf endete mit ${lauf.status}: ${lauf.stderr.slice(-300)}`)
@@ -90,8 +119,7 @@ try {
   if (zugeordnet[DISNEY]?.titleId !== -987654) fehler.push('Handbeleg-Adresse nicht zugeordnet')
   if (Object.values(zugeordnet).some((z) => z.titleId === -987655)) fehler.push('Anime-Adresse landete im Handbeleg-Weg')
   if (zugeordnet[ANIME]?.titleId !== 7) fehler.push('Anime-Adresse nicht beim Anime-Weg zugeordnet')
-  const abgehakt = (lies('post.json') as { rohfolgenUebernommen: number[] }).rohfolgenUebernommen.sort()
-  if (JSON.stringify(abgehakt) !== '[1,2,3,4,7]') fehler.push(`abgehakt: ${JSON.stringify(abgehakt)}, erwartet [1,2,3,4,7]`)
+  fehler.push(...pruefeAbhakenNachCommit())
   const offen = lies('data/prime-unzugeordnet.json') as { url: string; grund: string }[]
   if (offen.length !== 1 || offen[0]!.url !== FREMD) fehler.push('die unbekannte Adresse bleibt nicht als einziger Rest offen')
 } catch (e) {
@@ -103,4 +131,4 @@ if (fehler.length) {
   console.error(`FEHL check-rohfolgen-ablauf: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-rohfolgen-ablauf: Cartoon- und Handbeleg-Adresse zugeordnet und abgehakt, Fremde bleibt offen.')
+console.log('check-rohfolgen-ablauf: Cartoon- und Handbeleg-Adresse zugeordnet, nach dem Commit abgehakt, Fremde bleibt offen.')

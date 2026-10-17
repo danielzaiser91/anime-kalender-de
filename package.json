@@ -126,6 +126,7 @@
     "data:wiedervorlage": "tsx pipeline/wiedervorlage.ts",
     "check:qualitaet": "tsx pipeline/check-qualitaet.ts",
     "data:rohfolgen": "tsx pipeline/fetch-rohfolgen.ts",
+    "data:rohfolgen-abhaken": "tsx pipeline/rohfolgen-abhaken.ts",
     "data:folgen-zuordnung": "tsx pipeline/fetch-folgen-zuordnung.ts",
     "data:urteile": "tsx pipeline/fetch-urteile.ts",
     "data:disc-ausgaben": "tsx pipeline/extract-disc-ausgaben.ts",

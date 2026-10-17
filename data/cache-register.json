@@ -43,6 +43,20 @@
       "bauBraucht": false,
       "fehlt": "Kurzlebiger Merkzettel innerhalb eines Laufs; ohne ihn wird nichts abgehakt"
     },
+    "rohfolgen-abhaken.json": {
+      "schreiber": "pipeline/fetch-rohfolgen.ts (schliesseRohfolgenAb)",
+      "laeufe": ["bestand-bauen.yml (je Bauzyklus; „Rohfolgen abhaken“ nach dem Commit löscht ihn)"],
+      "intervall": "je Bauzyklus",
+      "bauBraucht": false,
+      "fehlt": "Kurzlebiger Merkzettel innerhalb eines Laufs; ohne ihn wird nichts abgehakt"
+    },
+    "vorfaelle-loeschen.json": {
+      "schreiber": "pipeline/fetch-vorfaelle.ts",
+      "laeufe": ["bestand-bauen.yml (je Bauzyklus; „Vorfälle löschen“ nach dem Commit löscht ihn)"],
+      "intervall": "je Bauzyklus",
+      "bauBraucht": false,
+      "fehlt": "Kurzlebiger Merkzettel innerhalb eines Laufs; ohne ihn wird nichts gelöscht"
+    },
     "anisearch-titelliste.json": {
       "schreiber": "pipeline/fetch-anisearch-katalog-abgleich.ts (npm run data:anisearch-katalog-abgleich)",
       "laeufe": ["von Hand (einmaliger Abgleich 11.10.2026; kein Workflow)"],
