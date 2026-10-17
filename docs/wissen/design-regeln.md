@@ -41,7 +41,8 @@ Vorher/Nachher der ganzen App und des Filterfensters: Mockups `design-app` und `
 | Info | `ak-info`, `ak-info-text`, `ak-info-grund` | erklärende Marke ohne Handlungsbedarf: Nachtrag, Schnellfilter-Band, Neuigkeiten-Marken, „ab 11.10.“-Pille unter „Demnächst“ (nur eine Auskunft über den Start, kein Handlungsbedarf, deshalb Info statt Warnung) |
 | TV | `ak-tv`, `ak-tv-grund`, `ak-tv-rand` | nur lineares Fernsehen |
 | Katalog | `ak-katalog`, `ak-katalog-text` | nur Katalog-Release |
-| Finale | `ak-favorit`, `ak-favorit-text` | Staffelfinale, Favoriten-Stern **und** Disc-Punkt der Neuigkeiten (Gold; die Liste „Was sich getan hat“ färbt Disc ebenfalls gelb; als Punkt `ak-favorit-text`, weil `ak-favorit` hell nur 1,6:1 hat). Die übrigen Punkte der Neuigkeiten und die Chips der News tragen dieselbe Kennfarbe je Art (`web/src/components/news-farben.ts`): neu, Folgen, nachgereicht `ak-gut`; angekündigt, offiziell `ak-info`; Kino, Rhythmus `ak-akzent`; verspätet, nachgetragen `ak-leise` |
+| Favorit | `ak-favorit`, `ak-favorit-text` | Favoriten-Stern, Favoriten-Rand der Kachel **und** Disc-Punkt der Neuigkeiten (Gold; die Liste „Was sich getan hat“ färbt Disc ebenfalls gelb; als Punkt `ak-favorit-text`, weil `ak-favorit` hell nur 1,6:1 hat). Die übrigen Punkte der Neuigkeiten und die Chips der News tragen dieselbe Kennfarbe je Art (`web/src/components/news-farben.ts`): neu, Folgen, nachgereicht `ak-gut`; angekündigt, offiziell `ak-info`; Kino, Rhythmus `ak-akzent`; verspätet, nachgetragen `ak-leise` |
+| Finale | `ak-finale`, `ak-finale-text` | Staffelfinale (Ring, Fahne, Punkt am Handy): Gelbgrün, Farbton ~98° — 35° neben Favorit-Gold, 60° neben dem Smaragd von `ak-gut` (17.10.2026) |
 | Neutrale Marke | `ak-marke` | Fahne „Neu bei <Anbieter>“ (ohne Kennfarbe, in beiden Themen gleich hell); Text darauf `#0d0f14` |
 | Heute | `ak-heute` | Grund der Heute-Spalte |
 
@@ -82,6 +83,8 @@ Zwei Bestandswerte verfehlten die Schwelle und wurden am 13.10.2026 korrigiert: 
 | info-text | info-grund | 4.5 | 8.0 (#93c5fd auf #1e2a3c) | 5.8 (#1d4ed8 auf #e9effd) |
 | tv | tv-grund | 4.5 | 8.5 (#3cc7b4 auf #121821) | 5.0 (#0b7568 auf #eaf4f2) |
 | favorit-text | flaeche | 4.5 | 10.8 (#f5c542 auf #151922) | 5.4 (#8a6300 auf #ffffff) |
+| finale-text | flaeche | 4.5 | 10.0 (#86d93a auf #151922) | 6.1 (#356f0c auf #ffffff) |
+| finale | flaeche | 3 | 10.0 (#86d93a auf #151922) | 3.5 (#4a9a12 auf #ffffff) |
 | katalog-text | flaeche | 4.5 | 6.5 (#a78bfa auf #151922) | 7.1 (#5b3fc4 auf #ffffff) |
 | akzent | grund | 3 | 6.2 (#ff5a36 auf #0d0f14) | 3.2 (#f54b27 auf #f5f4f0) |
 | akzent | flaeche | 3 | 5.7 (#ff5a36 auf #151922) | 3.5 (#f54b27 auf #ffffff) |
@@ -132,7 +135,7 @@ Pille, die er erzeugt, und ⊘ ist das zweite Merkmal.
 | Fehler | `ak-fehler-*`, Zeichen ✕ oder Wortlaut |
 | Erfolg, belegt | `ak-gut-*`, Zeichen ✓ |
 | Info, Nachtrag | `ak-info-*`, Wort („Nachtrag“, „Schnell“) |
-| TV, Katalog, Finale | Kennfarben wie bisher (`ak-tv`, `ak-katalog`, `ak-favorit`), je genau eine Bedeutung |
+| TV, Katalog, Finale | Kennfarben (`ak-tv`, `ak-katalog`, `ak-finale`; Gold ist seit 17.10.2026 nur noch `ak-favorit`), je genau eine Bedeutung |
 | Kino | kein Rot als Kennfarbe (Rot ist Fehler/Ausschluss): Kino-Knopf ist ein Primär- oder Sekundärknopf, der Saal bleibt (`.ak-saal`) |
 
 ## 6. Inventur 13.10.2026 (vor der Umstellung) und Abweichungen
