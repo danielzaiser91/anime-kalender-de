@@ -440,6 +440,10 @@ html:not(.dark) .ak-punkt {
 .ak-katalog-glanz {
   box-shadow: 0 0 0 2px var(--ak-katalog), 0 0 18px -2px var(--ak-katalog);
 }
+/* Cover mit Anbieterleiste: Ring und Glanz enden an der Unterkante, sonst läge unter der Leiste ein Streifen Goldrand und schöbe sie bei Favoriten nach oben. */
+.ak-ring-oben {
+  clip-path: inset(-20px -20px 0 -20px);
+}
 .ak-vorbei .ak-titel {
   color: var(--ak-leise);
 }
