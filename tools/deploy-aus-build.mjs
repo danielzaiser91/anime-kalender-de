@@ -12,7 +12,7 @@ import { appendFileSync, copyFileSync, mkdtempSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { abdruck } from './bau-eingaben.mjs'
+import { abdruckAusGit } from './bau-eingaben.mjs'
 
 const KETTE = 'pr-pruefung.yml'
 const SAMMEL = 'PR-Prüfkette'
@@ -45,10 +45,10 @@ export function baumPasst(versionJson, baum) {
   }
 }
 
-/** Stimmt der Abdruck aus `version.json` des Baus mit dem Abdruck des gemergten Baums (`lsTree()` liefert `git ls-tree -r -z HEAD`) überein? Fehlt er oder scheitert Git: nein. */
-export function abdruckPasst(versionJson, lsTree) {
+/** Stimmt der Abdruck aus `version.json` des Baus mit dem Abdruck des gemergten Stands (`git` wie `w.git`, tools/bau-eingaben.mjs) überein? Fehlt er oder scheitert Git: nein. */
+export function abdruckPasst(versionJson, git) {
   try {
-    return JSON.parse(versionJson).abdruck === abdruck(lsTree())
+    return JSON.parse(versionJson).abdruck === abdruckAusGit(git)
   } catch {
     return false
   }
@@ -115,7 +115,7 @@ export function holeBau({ repo, sha, ziel }, w = ECHT) {
   }
   const version = w.version(tar)
   const nurDaten = !baumPasst(version, baum)
-  if (nurDaten && !abdruckPasst(version, () => w.git(['ls-tree', '-r', '-z', 'HEAD']))) {
+  if (nurDaten && !abdruckPasst(version, w.git)) {
     return { treffer: false, grund: `Baum und Abdruck des Baus aus Lauf ${lauf.id} weichen ab (main ist mit Code oder Bau-Eingaben weitergewandert)` }
   }
   w.kopieren(tar, ziel)

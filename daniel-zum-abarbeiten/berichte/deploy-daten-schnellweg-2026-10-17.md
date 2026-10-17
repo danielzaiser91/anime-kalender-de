@@ -14,7 +14,7 @@
 |---|---|---|---|---|
 | U | Untergrenze: nichts ändern | 11/30 | wie heute | 0 |
 | A1 | feste Freiliste (`data/**` außer bekannten Eingaben), ohne Spur | 16/30 | ein neuer Leser in Vite oder den Ausgabeschritten bliebe unbemerkt (`cartoon-umzug.json` wird z. B. über einen abgeleiteten Pfad gelesen) | klein |
-| **A2** | **Freiliste plus deklarierte Eingaben, Spur aller fs-Zugriffe beim Bau als Wächter, `abdruck` in `version.json` (gebaut)** | **16/30** | ein unerklärter Lesezugriff führt zu „kein Abdruck“ und damit zum Neubau | mittel |
+| **A2** | **Freiliste plus deklarierte Eingaben, Spur aller fs-Zugriffe beim Bau als Wächter, `abdruck` in `version.json` (gebaut)** | **16/30, seit Runde 3 15/30** | ein unerklärter Lesezugriff führt zu „kein Abdruck“ und damit zum Neubau | mittel |
 | A3 | Manifest der gelesenen Dateien im Artefakt | 16/30 | wie A2 | etwa 10 KB öffentliche Datei oder Umbau von Kette und Kettenwächter |
 | B | `pruefen` im Deploy überspringen, wenn sich nur Daten ändern (Datenbau) | Datenbau ~40–80 s schneller | braucht einen eigenen Sicherheitsbeweis: `pruefen` prüft gerade die Daten | nicht gebaut |
 | C | `buildId` aus dem Bündel lösen, Daten als Overlay | Datenbau-Treffer möglich | Umbau des Web-Pakets | nicht gebaut |
@@ -23,4 +23,6 @@
 
 ## Gewinn
 
-5 von 30 Merges (17 %) wechseln vom Neubau (typisch 145–200 s) auf den schnellen Weg (36–59 s). Ersparnis also etwa 2 min je betroffenem Merge. Datenbauten bleiben bei ~175 s; der nächste Hebel dort wäre B, mit eigenem Beleg.
+Runde 3 (Prüfer): Der Abdruck enthält jetzt die Ausgabe von `git log` über `data/patchnotes` (das Datum jeder Patch Note steht auf der Seite). Ein PR mit eigener Patch Note bekommt beim Squash eine neue Commit-Zeit und trifft daher nicht mehr; unter den fünf neuen Treffern betrifft das #1450. Datencommits ohne Patch Note lassen den Abdruck gleich.
+
+4 von 30 Merges (13 %, vor Runde 3 5) wechseln vom Neubau (typisch 145–200 s) auf den schnellen Weg (36–59 s). Ersparnis also etwa 2 min je betroffenem Merge. Datenbauten bleiben bei ~175 s; der nächste Hebel dort wäre B, mit eigenem Beleg.

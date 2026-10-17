@@ -3,7 +3,7 @@
  * der ohne sie einen Treffer meldete. Aufruf: node tools/deploy-aus-build-holen.test.mjs
  */
 import assert from 'node:assert/strict'
-import { abdruck } from './bau-eingaben.mjs'
+import { abdruck, PATCHNOTES_LOG } from './bau-eingaben.mjs'
 import { holeBau, laufe } from './deploy-aus-build.mjs'
 
 const REPO = 'o/r'
@@ -18,10 +18,15 @@ const LS = 'ls-tree -r -z HEAD'
 /** `git ls-tree -r -z` eines Baums aus Pfad → Blob-Kennung (eine Ziffer, 40-fach). */
 const lsTree = (dateien) => Object.entries(dateien).map(([p, k]) => `100644 blob ${k.repeat(40)}\t${p}\0`).join('')
 const GEBAUT = { 'data/a.json': '1', 'data/kennungen.json': '1', 'status.md': '1', 'web/src/a.tsx': '1', 'data/z.json': '1' }
-const ABDRUCK = abdruck(lsTree(GEBAUT))
+const LOG = PATCHNOTES_LOG.join(' ')
+const FLACH = 'rev-parse --is-shallow-repository'
+const VERTIEFEN = 'fetch --unshallow --filter=blob:none --quiet origin'
+/** Ausgabe von `PATCHNOTES_LOG`: Commit-Zeit vor jeder hinzugefügten Patch Note. */
+const PATCH_LOG = '@1760000000\n\ndata/patchnotes/a.yaml\n'
+const ABDRUCK = abdruck(lsTree(GEBAUT), PATCH_LOG)
 /** Bau der Kette mit anderem Baum (main ist weitergewandert), aber Abdruck des gebauten Stands. */
 const MIT_ABDRUCK = JSON.stringify({ v: 'x', baum: 'f'.repeat(40), abdruck: ABDRUCK })
-const mainMit = (aenderung) => ({ version: MIT_ABDRUCK, git: { [LS]: lsTree({ ...GEBAUT, ...aenderung }) } })
+const mainMit = (aenderung, log = PATCH_LOG) => ({ version: MIT_ABDRUCK, git: { [LS]: lsTree({ ...GEBAUT, ...aenderung }), [LOG]: log } })
 
 /** Kulisse eines Treffers; `zusatz` überschreibt einzelne Antworten. Unbekannte git-Aufrufe werfen wie ein fehlender Elterncommit. */
 function kulisse(zusatz = {}) {
@@ -29,6 +34,7 @@ function kulisse(zusatz = {}) {
   const antworten = {
     'rev-parse HEAD^{tree}': BAUM,
     [DIFF]: '',
+    [FLACH]: 'false\n',
     ...zusatz.git,
   }
   const pr = { number: 7, merged_at: 'x', merge_commit_sha: SHA, base: { ref: 'main' }, head: { sha: KOPF } }
@@ -96,7 +102,15 @@ const ersterAnders = `${ABDRUCK[0] === 'a' ? 'b' : 'a'}${ABDRUCK.slice(1)}`
 keinTreffer('Abdruck im ersten Zeichen anders', { ...mainMit({}), version: JSON.stringify({ baum: 'f'.repeat(40), abdruck: ersterAnders }) }, /Baum und Abdruck/)
 keinTreffer('Abdruck fehlt', { ...mainMit({}), version: JSON.stringify({ baum: 'f'.repeat(40) }) }, /Baum und Abdruck/)
 keinTreffer('Abdruck ist keine Zeichenkette', { ...mainMit({}), version: JSON.stringify({ baum: 'f'.repeat(40), abdruck: 40 }) }, /Baum und Abdruck/)
-keinTreffer('git ls-tree scheitert', { version: MIT_ABDRUCK }, /Baum und Abdruck/)
+keinTreffer('git ls-tree scheitert', { version: MIT_ABDRUCK, git: { [LOG]: PATCH_LOG } }, /Baum und Abdruck/)
+// Datum der Patch Notes (Commit-Zeit, PATCHNOTES_LOG) zählt mit; der flache Deploy-Klon wird dafür vertieft.
+keinTreffer('Patch Note mit anderer Commit-Zeit', mainMit({}, PATCH_LOG.replace('@1760000000', '@1760090000')), /Baum und Abdruck/)
+keinTreffer('git log scheitert', { version: MIT_ABDRUCK, git: { [LS]: lsTree(GEBAUT) } }, /Baum und Abdruck/)
+const flach = lauf({ ...mainMit({}), git: { ...mainMit({}).git, [FLACH]: 'true\n', [VERTIEFEN]: '' } })
+assert.equal(flach.ergebnis.treffer, true, 'flacher Klon: vertieft, dann Treffer')
+assert.deepEqual(flach.aufrufe.git.filter((a) => [FLACH, VERTIEFEN, LOG].includes(a)), [FLACH, VERTIEFEN, LOG], 'erst vertiefen, dann git log')
+assert.ok(!lauf(mainMit({})).aufrufe.git.includes(VERTIEFEN), 'voller Klon: nicht vertiefen')
+keinTreffer('Vertiefen scheitert', { ...mainMit({}), git: { ...mainMit({}).git, [FLACH]: 'true\n' } }, /Baum und Abdruck/)
 assert.equal(lauf(mainMit({})).ergebnis.treffer, true, 'Abdruck gleich, Baum anders: Treffer')
 keinTreffer('Kette im PR geändert', { git: { [DIFF]: diffMit('.github/workflows/pr-pruefung.yml') } }, /\.github\/ im PR geändert.*pr-pruefung\.yml/)
 keinTreffer('Deploy im PR geändert', { git: { [DIFF]: diffMit('.github/workflows/deploy.yml') } }, /\.github\/ im PR geändert/)
