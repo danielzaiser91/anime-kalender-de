@@ -141,6 +141,15 @@ function vorgezogen(t: Title, bestand: Record<string, Befund>): boolean {
   return alterNachholen(t, bestand) || staffelnFehlen(e) || vertrauensBefundAlt(t, e, todayIso())
 }
 
+/** Die drei Lücken der Warteschlange (Kommentar in `main`): Weg ohne Sprachurteil, Titel ganz ohne Weg, Weg nur auf die TMDB-Übersicht. */
+function dringend(t: Title): boolean {
+  return (
+    (t.streams ?? []).some((s) => s.dub === undefined) ||
+    (!(t.streams ?? []).length && !(t.watchLinks ?? []).length) ||
+    (t.watchLinks ?? []).some((w) => /themoviedb.org/.test(w.url ?? ''))
+  )
+}
+
 function angeboteVon(offers: JwKnoten['offers']): Angebot[] {
   return (offers ?? [])
     .map((o) => ({
@@ -238,10 +247,6 @@ async function main(): Promise<void> {
     Sprachurteil, Titel ganz ohne Weg (243 im Hauptbestand, 07.09.2026) und Wege, die nur auf die TMDB-Übersicht
     zeigen statt zum Anbieter (1.187 auf 364 Titeln, 16.09.2026).
   */
-  const dringend = (t: Title) =>
-    (t.streams ?? []).some((s) => s.dub === undefined) ||
-    (!(t.streams ?? []).length && !(t.watchLinks ?? []).length) ||
-    (t.watchLinks ?? []).some((w) => /themoviedb.org/.test(w.url ?? ''))
   /*
     **Eine berichtigte TMDB-Zuordnung macht den alten Befund wertlos.** Gesucht wird
     gegen die Kennung; stand dort gestern ein anderer Film, sagt das Ergebnis nichts
