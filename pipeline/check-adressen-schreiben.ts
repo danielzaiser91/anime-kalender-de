@@ -144,6 +144,17 @@ pruefe('schreiber-Ergebnis wird als { navigate, ersetze } gebunden', namen === '
 pruefe('schreiber kommt in useRoute nur einmal vor', bezeichnerIn('useRoute', 'schreiber').length === 1)
 const rueckgaben = rueckgabenIn('useRoute')
 pruefe('useRoute gibt [route, navigate, ersetze] zurück', rueckgaben.length === 1 && rueckgaben[0] === '[route, navigate, ersetze]', rueckgaben)
+/* Bindung (dieselbe Deklaration wie oben, Vergleich über die Stelle) und Rückgabe sind die letzten beiden direkten Anweisungen,
+   die Bindung `const`: dazwischen kann nichts vertauschen oder verdecken. */
+function schlussVon(funktion: string): ts.Statement[] {
+  const quelle = ts.createSourceFile('router.ts', readFileSync('web/src/lib/router.ts', 'utf8'), ts.ScriptTarget.Latest, true)
+  const rumpf = quelle.statements.find((s): s is ts.FunctionDeclaration => ts.isFunctionDeclaration(s) && s.name?.text === funktion)?.body
+  return rumpf ? rumpf.statements.slice(-2) : []
+}
+const [vorletzte, letzte] = schlussVon('useRoute')
+const liste = vorletzte && ts.isVariableStatement(vorletzte) ? vorletzte.declarationList : undefined
+pruefe('die Bindung ist const und die vorletzte Anweisung von useRoute', liste !== undefined && (liste.flags & ts.NodeFlags.Const) !== 0 && liste.declarations.length === 1 && liste.declarations[0]!.pos === deklaration?.pos, vorletzte?.getText())
+pruefe('die Rückgabe ist die letzte Anweisung von useRoute', letzte !== undefined && ts.isReturnStatement(letzte) && letzte.expression?.getText() === '[route, navigate, ersetze]', letzte?.getText())
 const liesAufrufe = aufrufeIn('useRoute', 'liesAdresse')
 pruefe('onChange ruft liesAdresse als ganzen Rumpf auf', liesAufrufe.length === 1 && ts.isArrowFunction(liesAufrufe[0]!.parent) && liesAufrufe[0]!.arguments.map((a) => a.getText()).join('|') === 'browser()|setRoute', liesAufrufe.map((a) => a.parent.getText()))
 
