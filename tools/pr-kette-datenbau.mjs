@@ -9,7 +9,8 @@ import { isDeepStrictEqual } from 'node:util'
 
 export const DATENBAU_NAME = 'PR-Datenbau'
 const SOLL_SCHRITTE = [
-  { uses: 'actions/checkout@v4' },
+  // Tiefe 2: die Bestandsprüfungen bauen bei Rot die Basis HEAD^1 (main im Merge-Ref) zum Vergleich.
+  { uses: 'actions/checkout@v4', with: { 'fetch-depth': 2 } },
   { uses: './.github/actions/kette-einrichten' },
   // Gleiches Präfix wie bestand-bauen.yml: der Bau liest den Cache nur.
   {
@@ -25,6 +26,9 @@ const SOLL_SCHRITTE = [
     run: 'echo "::error::Kein anilist-cache gefunden"\nexit 1\n',
   },
   { name: 'Datensatz bauen (ohne Commit)', run: 'npm run data:build' },
+  // Direkt nach dem Bau und als letzter Schritt: `check:bestand` liest die Bauausgabe (16.10.2026, vorher erst im Bestandsbau nach dem Merge).
+  // Jede Prüfung läuft; rot nur, was auf der Basis grün ist (17.10.2026, tools/pr-bestand-vergleich.mjs).
+  { name: 'Bestandsprüfungen auf der Bauausgabe', run: 'node tools/pr-bestand-vergleich.mjs HEAD^1' },
 ]
 
 export const SOLL_DATENBAU = {
