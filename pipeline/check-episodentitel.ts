@@ -103,13 +103,13 @@ function pruefeVerteilung(): void {
   pruefe('Titel aus zwei Blöcken in einer Staffel: nichts zugeordnet, Grund für die Prüfliste', folgenVon(streit).length === 0 && streit.zuPruefen.length === 1, streit.zuPruefen)
 }
 
-/** Die Liste der Erweiterung kennt Cartoons; Avatar steht nur darin, solange er ungeprüft ist (seit dem Handbeleg vom 11.10.2026 nicht mehr), dann als ein Eintrag -246 mit 61 Folgen. */
+/** Die Liste der Erweiterung kennt Cartoons (wie viele, hängt davon ab, wie viele Wege schon gemeldet sind: 231 → 89 binnen eines Tages, deshalb nur „nicht leer“); Avatar steht nur darin, solange er ungeprüft ist (seit dem Handbeleg vom 11.10.2026 nicht mehr), dann als ein Eintrag -246 mit 61 Folgen. */
 function pruefeErweiterungsliste(): void {
   console.log('\nErweiterung: Cartoons stehen in der Liste der Netflix-Adressen')
   const text = readFileSync('extension/offene-netflix.js', 'utf8').replace(/^globalThis\.AK_OFFENE_TITEL = /, '')
   const liste = JSON.parse(text) as Record<string, { staffeln: Array<{ id?: number; folgen: number }> }>
   const cartoons = Object.values(liste).filter(e => e.staffeln.some(s => (s.id ?? 0) < 0)).length
-  pruefe('Netflix-Liste enthält Cartoon-Adressen (Prüfliste eingeschaltet)', cartoons >= 100, cartoons)
+  pruefe('Netflix-Liste enthält Cartoon-Adressen (Prüfliste eingeschaltet)', cartoons > 0, cartoons)
   const avatar = liste['70142405']
   pruefe('Avatar (Netflix 70142405): fehlt (geprüft) oder ein Eintrag -246 mit 61 Folgen', !avatar || (avatar.staffeln.length === 1 && avatar.staffeln[0]!.id === -246 && avatar.staffeln[0]!.folgen === 61), avatar)
 }
