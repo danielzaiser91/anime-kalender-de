@@ -1,3 +1,3 @@
 kategorie: bugfix
-text: "Ausgebliebene Folgen zeigen: angekündigt oder nur erwartet"
-untertitel: In Neuigkeiten, Detailfenster, Mail und Kalender-Abo
+text: Neuigkeiten sagen „erwartet“, wenn kein Termin belegt ist
+untertitel: Auch in Mail und Kalender-Abo; „angekündigt“ nur mit Beleg
