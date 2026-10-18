@@ -26,6 +26,7 @@ import { readFileSync } from 'node:fs'
 import type { PlatformId, Title } from '../shared/types.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { pruefbare } from './lib/pruefbare-adresse.ts'
 
 const DATEI = 'data/link-check.json'
 
@@ -294,7 +295,7 @@ async function main(): Promise<void> {
   if (vorrang.size) log(`${vorrang.size} Adressen könnten eine Suche ablösen — sie kommen zuerst dran`)
 
   const grenze = new Date(Date.now() - ALTER * 86_400_000).toISOString().slice(0, 10)
-  const offen = [...adressen].filter((u) => {
+  const offen = pruefbare(adressen).filter((u) => {
     const alt = bestand[u]
     /*
       **`unklar` ist kein Befund, sondern eine offene Frage.** Es steht dort, wo
