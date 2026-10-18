@@ -7,7 +7,7 @@
 // Wirksames Verzeichnis: Bash-cwd, `cd`, `git -C`, `--work-tree`. Ein `cd` ohne folgendes `&&` kann scheitern: dann zählen beide
 // Möglichkeiten. Nicht bestimmbare Ziele (`$X`, `~`) fallen auf das Startverzeichnis (cwd) zurück. Klammern halten ihr `cd` im Inneren.
 // „Im Hauptordner“ heißt: erster Vorfahr mit `.git` ist der Hauptordner selbst (eine `.git`-Datei oder ein anderer Treffer = eigener
-// Arbeitsbaum); noch nicht angelegte `HAUPT/_wt-*` und `HAUPT/.claude/worktrees/*` gelten vorab als Worktrees.
+// Arbeitsbaum); noch nicht angelegte `HAUPT/_wt-*` und `HAUPT/.claude/worktrees/*` gelten vorab als Worktrees (ein vorhandener Ordner ohne `.git` nicht: Git läuft dort im Hauptordner).
 // Unbekannte Git-Unterbefehle sind frei: gesperrt wird nur, was Zweig oder Stand schreibt (SCHREIBEND und SONDER).
 // Einbindung ohne Änderung an settings.json: in ~/.claude/hooks/dispatch-pretooluse.js ins Feld PRUEFER eine Zeile
 //   ['hauptordner-sperre.js', (i) => { const g = require(path.join(H, 'hauptordner-sperre.js')).pruefe(i); return g ? { permissionDecision: 'deny', permissionDecisionReason: g } : null }],
@@ -42,7 +42,7 @@ function inEigenemBaum(p, haupt) {
 
 function imHaupt(p, haupt) {
   if (!p || !(p === haupt || p.startsWith(`${haupt}/`))) return false
-  if (/^(_wt-|\.claude\/worktrees\/)/.test(p.slice(haupt.length + 1))) return false
+  if (!fs.existsSync(p) && /^(_wt-|\.claude\/worktrees\/)/.test(p.slice(haupt.length + 1))) return false
   return !inEigenemBaum(p, haupt)
 }
 

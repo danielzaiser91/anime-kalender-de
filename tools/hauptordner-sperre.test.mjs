@@ -94,6 +94,7 @@ frei(`git -C ${IN}/_wt-a commit -m x`, HAUPT, '-C auf _wt im Hauptordner')
 gesperrt(`cd ${IN}/web && git checkout x`, HAUPT, 'Unterordner ohne eigenen Arbeitsbaum')
 gesperrt('git checkout x', `${IN}/_wtx`, '_wtx ohne Bindestrich ist kein Worktree-Name')
 gesperrt('git checkout x', `${IN}/.claude/worktrees`, '.claude/worktrees selbst')
+gesperrt('git checkout x', `${IN}/.claude/worktrees-neu`, 'worktrees-Präfix ohne Schrägstrich, Ordner nicht vorhanden')
 gesperrt('git checkout x', `${IN}/.claude/agent-x`, '.claude ohne worktrees')
 gesperrt('git checkout x', `${IN}/x/_wt-a`, '_wt-* nur direkt unter dem Hauptordner')
 gesperrt(`cd ${IN}/ && git checkout x`, WT, 'Hauptordner mit Endstrich')
@@ -104,8 +105,9 @@ gesperrt(`cd ${IN}/../anime-kalender-de && git checkout x`, WT, '.. führt zurü
 const wurzel = join(tmpdir(), `ak-sperre-${process.pid}`)
 const haupt = loese(null, wurzel)
 try {
-  for (const d of ['.git', 'web', 'wtx/sub', 'nested/.git']) mkdirSync(join(wurzel, d), { recursive: true })
+  for (const d of ['.git', 'web', 'wtx/sub', 'nested/.git', '_wt-rest/node_modules', '.claude/worktrees/agent-rest', '_wt-echt']) mkdirSync(join(wurzel, d), { recursive: true })
   writeFileSync(join(wurzel, 'wtx', '.git'), 'gitdir: irgendwo')
+  writeFileSync(join(wurzel, '_wt-echt', '.git'), 'gitdir: irgendwo')
   const pruef = (befehl, cwd) => pruefeBefehl(befehl, cwd, haupt)
   assert.match(pruef('git checkout x', haupt), /^git checkout$/, 'echter Hauptordner')
   assert.match(pruef('git checkout x', `${haupt}/web`), /^git checkout$/, 'Unterordner ohne .git')
@@ -118,6 +120,14 @@ try {
   assert.equal(pruef(`cd ${haupt}/wtx && git checkout x`, '/'), null, 'cd in Worktree mit Dateisystem')
   assert.match(pruef('bash -c "git checkout x"', haupt), /^git checkout$/, 'Shell prüft gegen denselben Hauptordner')
   assert.equal(pruef('bash -c "git checkout x"', `${haupt}/wtx`), null, 'Shell im Worktree')
+  // A10: vorhandener Rest-Ordner ohne .git ist kein Worktree (Git läuft dort im Hauptordner); mit .git oder noch nicht angelegt schon.
+  assert.match(pruef('git -C _wt-rest checkout main', haupt), /^git checkout$/, 'A10 -C auf Rest-Ordner')
+  assert.match(pruef('git commit -m x', `${haupt}/_wt-rest`), /^git commit$/, 'A10 cwd im Rest-Ordner')
+  assert.match(pruef('git checkout x', `${haupt}/_wt-rest/node_modules`), /^git checkout$/, 'A10 Unterordner des Rest-Ordners')
+  assert.match(pruef(`cd ${haupt}/_wt-rest && git checkout -b foo`, haupt), /^git checkout$/, 'A10 cd in Rest-Ordner')
+  assert.match(pruef(`cd ${haupt}/.claude/worktrees/agent-rest && git commit -m x`, haupt), /^git commit$/, 'A10 Agent-Rest-Ordner')
+  assert.equal(pruef('git -C _wt-echt checkout main', haupt), null, 'A10 vorhandener Worktree mit .git')
+  assert.equal(pruef(`git worktree add ${haupt}/_wt-neu -b n origin/main && cd ${haupt}/_wt-neu && git commit -m x`, haupt), null, 'A10 noch nicht angelegt')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }

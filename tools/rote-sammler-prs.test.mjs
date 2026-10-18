@@ -78,7 +78,8 @@ const dir = mkdtempSync(join(tmpdir(), 'rote-prs-'))
 try {
   const d = dir.replace(/\\/g, '/')
   const befehl = 'pr list --state open --limit 100 --json number,title,body,createdAt'
-  writeFileSync(join(dir, 'liste.json'), JSON.stringify(liste))
+  const verschiebung = Date.now() - JETZT // der Unterprozess rechnet mit der echten Uhr
+  writeFileSync(join(dir, 'liste.json'), JSON.stringify(liste.map((p) => ({ ...p, createdAt: new Date(Date.parse(p.createdAt) + verschiebung).toISOString() }))))
   writeFileSync(join(dir, 'gh'), `#!/bin/sh\ncase "$*" in "${befehl}") cat "${d}/liste.json" ;; *) echo "falsche Parameter: $*" >&2; exit 1 ;; esac\n`)
   chmodSync(join(dir, 'gh'), 0o755)
   writeFileSync(join(dir, 'gh.cmd'), `@echo off\r\nif "%*"=="${befehl}" (type "${join(dir, 'liste.json')}") else (echo falsche Parameter: %* 1>&2 & exit /b 1)\r\n`)
