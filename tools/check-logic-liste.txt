@@ -134,6 +134,7 @@ pipeline/check-premiere.ts
 pipeline/check-prime-kanal.ts
 pipeline/check-prime-pille.ts
 pipeline/check-prime-teilseiten.ts
+pipeline/check-quarantaene.ts
 pipeline/check-reihen-namen-rein.ts
 pipeline/check-reihen-namen.ts
 pipeline/check-reihen-teilname.ts
@@ -197,6 +198,7 @@ tools/design-klassen.mjs
 tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
 tools/hover-cover.test.ts
+tools/quarantaene-pruefungen.test.ts
 tools/quittung-nach-commit-waechter.mjs
 tools/sammler-pruefschritt-waechter.mjs
 tools/web-hosting.test.ts

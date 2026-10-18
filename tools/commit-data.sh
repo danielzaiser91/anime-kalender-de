@@ -152,9 +152,31 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   # Die Quellen bleiben davon unberührt und werden committet. Sie sind der
   # teure Teil (fremde APIs, Ratenlimits), und an ihnen liegt es nicht.
   BESTAND_KAPUTT=0
+  QUARANTAENE_AKTIV=0
   # Beide Prüfketten in eine Datei; check:logic läuft nur nach grünem check:bestand.
   bestand_pruefen() {
     npm run check:bestand > "$TEMP_LAUF/bestand-pruefung.txt" 2>&1 && npm run check:logic >> "$TEMP_LAUF/bestand-pruefung.txt" 2>&1
+  }
+  # Titel-Quarantäne (18.10.2026, tools/quarantaene.mjs): Tragen die roten Prüfungen Titel-Kennungen, wird ohne genau diese
+  # Titel neu gebaut und erneut geprüft, bis es grün ist oder das Gate sperrt (keine neue Kennung, Cartoon, mehr als drei).
+  # Nur im Bau-Lauf; der Neubau sieht denselben Vorstand (public/data von HEAD) wie der erste.
+  quarantaene_versuchen() {
+    [ "${BAU_LAUF:-0}" = 1 ] || return 1
+    while node tools/quarantaene.mjs sammeln "$TEMP_LAUF/bestand-pruefung.txt" "$TEMP_LAUF/quarantaene.json" > "$TEMP_LAUF/quarantaene.txt"; do
+      cat "$TEMP_LAUF/bestand-pruefung.txt" "$TEMP_LAUF/quarantaene.txt"
+      git checkout HEAD -- public/data 2>/dev/null || true
+      git clean -fdq -- public/data
+      if ! BAU_QUARANTAENE="$TEMP_LAUF/quarantaene.json" npm run data:build; then
+        echo "keine Quarantäne: der Neubau ohne die Titel ist gescheitert" > "$TEMP_LAUF/quarantaene.txt"
+        return 1
+      fi
+      # Dieselben Listen wie der Workflow-Schritt „Arbeitslisten und Prüfstand neu erzeugen“ (bestand-bauen.yml).
+      if ! { npm run data:vorschlaege && npm run data:dub-checks && npm run data:extension-liste && npm run data:start-liste; }; then
+        echo "::warning::Die Arbeitslisten sind nach der Quarantäne nicht neu entstanden."
+      fi
+      bestand_pruefen && return 0
+    done
+    return 1
   }
   if [ "${AUFBAU_KAPUTT:-0}" != 1 ] && { [ "${NEU_GEBAUT:-0}" = 1 ] || [ "${BAU_LAUF:-0}" = 1 ]; }; then
     # Seit dem 17.09.2026 auch check:logic, und im Bau-Lauf (BAU_LAUF=1) werden
@@ -163,7 +185,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     # Zusicherung verletzen, als Quelle ins Repo und machten danach jeden
     # Deploy rot. Der Lauf endet rot, auch im Bau-Lauf (seit 11.10.2026:
     # von 15:14 bis 21:08 UTC lieferte er grün keine Erzeugnisse aus, sechs Stunden unbemerkt).
-    if ! bestand_pruefen; then
+    if ! bestand_pruefen && ! quarantaene_versuchen; then
       cat "$TEMP_LAUF/bestand-pruefung.txt"
       # Die sechs Prüfungen in `check:bestand` melden über `warn()` (Zeichen
       # `⚠`) oder mit `✗` (U+2717); nur `check-logic.ts` und `build.ts`
@@ -177,6 +199,9 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       # den Fall ab, in dem keines der drei Zeichen vorkommt.
       # FEHLER:-Zeilen zuerst: Sonst füllen drei ⚠-Hinweise die drei Plätze, und der echte Fehler fehlt in der Meldung.
       grund="$({ grep -E 'FEHLER:' "$TEMP_LAUF/bestand-pruefung.txt"; grep -E '✖|✗|⚠' "$TEMP_LAUF/bestand-pruefung.txt" | grep -v 'FEHLER:'; } | head -n 3 | tr -d '\"' | tr -s '[:space:]' ' ')" || true
+      if [ -s "$TEMP_LAUF/quarantaene.txt" ]; then
+        grund="$grund · $(tail -n 1 "$TEMP_LAUF/quarantaene.txt")"
+      fi
       echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon."
       if [ "${BAU_LAUF:-0}" = 1 ]; then
         git checkout -- data/dub-confirmed.yaml 2>/dev/null || true
@@ -186,6 +211,12 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       BESTAND_KAPUTT=1
     else
       cat "$TEMP_LAUF/bestand-pruefung.txt" | tail -3
+      # Zurückgestellte Titel (meta.quarantaene): Lauf gelb mit der Liste. Die Kalender-Grenzen bleiben stehen, sonst sänken sie um die fehlenden Titel.
+      if zurueck="$(node tools/quarantaene.mjs text public/data/meta.json)"; then
+        QUARANTAENE_AKTIV=1
+        echo "::warning::Bestand ohne zurückgestellte Titel übernommen: $zurueck"
+        echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }$zurueck" >> "${GITHUB_ENV:-/dev/null}"
+      fi
     fi
   fi
 
@@ -245,7 +276,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   fi
 
   # Dasselbe für die Treffer der Kalender-Plausibilität (pipeline/lib/kalender-plausibilitaet.ts): gesunkene Zahlen übernehmen.
-  if npm run check:kalender-plausibilitaet -- --festschreiben > /dev/null 2>&1; then
+  if [ "$QUARANTAENE_AKTIV" != 1 ] && npm run check:kalender-plausibilitaet -- --festschreiben > /dev/null 2>&1; then
     hinzu tools/kalender-plausibilitaet-grenzen.json
   fi
 

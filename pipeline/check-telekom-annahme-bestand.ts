@@ -8,6 +8,7 @@ import { existsSync } from 'node:fs'
 import { readJson } from './lib/util.ts'
 import { telekomFehler } from './lib/telekom-annahme.ts'
 import { schwesterFehler } from './lib/schwester-shop.ts'
+import { meldeVerletzte } from './lib/quarantaene.ts'
 import type { Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -30,9 +31,11 @@ const anderswoDeutsch = (t: Title): boolean =>
   Boolean(t.hasVoices) ||
   Boolean(t.deErstausgabe?.synchro) ||
   (t.watchLinks ?? []).some((w) => w.dubAbgeleitet !== 'telekom-annahme' && w.dubRanges?.some((r) => r.dub))
-pruefe('Bestand: Annahme nur an Telekom-Wegen, nur mit reinen Deutsch-Bereichen', telekomFehler(titel).length === 0, telekomFehler(titel)[0])
-pruefe('Bestand: freenet-Kennzeichnung weiter zulässig', schwesterFehler(titel).length === 0, schwesterFehler(titel)[0])
-const nurAnnahme = titel.filter((t) => angenommen(t).length && !anderswoDeutsch(t))
+const telekomRot = meldeVerletzte(titel, 'telekom-annahme', 'Annahme an fremdem Weg oder ohne reine Deutsch-Bereiche', (t) => telekomFehler([t]).length > 0)
+pruefe('Bestand: Annahme nur an Telekom-Wegen, nur mit reinen Deutsch-Bereichen', telekomRot.length === 0, telekomFehler(titel)[0])
+const schwesterRot = meldeVerletzte(titel, 'telekom-annahme', 'freenet-Kennzeichnung unzulässig', (t) => schwesterFehler([t]).length > 0)
+pruefe('Bestand: freenet-Kennzeichnung weiter zulässig', schwesterRot.length === 0, schwesterFehler(titel)[0])
+const nurAnnahme = meldeVerletzte(titel, 'telekom-annahme', 'Deutsch-Antwort hängt allein an der Annahme', (t) => angenommen(t).length > 0 && !anderswoDeutsch(t))
 pruefe('Bestand: kein Titel hängt mit seiner Deutsch-Antwort allein an der Annahme', nurAnnahme.length === 0, nurAnnahme.map((t) => t.id).slice(0, 5).join(','))
 console.log(`  ${titel.filter((t) => angenommen(t).length).length} Titel mit Telekom-Annahme`)
 if (fehler) process.exit(1)
