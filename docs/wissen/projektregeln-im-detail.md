@@ -40,15 +40,20 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   Daniel sah Folge 2 um 09:35 noch nicht, um 10:11 schon). `expandEvents` setzt diese Zeit dort,
   wo keine belegt ist, als `timeEstimated` — angezeigt mit „≈", ohne Countdown.
   **Zweite Ausnahme (18.10.2026): Uhrzeit aus einem eigenen Sichtungsfenster von höchstens 30 min.**
-  Fehlte eine Folge zu `notSeen` und war zu `seen` da, darf `time` ein Wert im Fenster sein, mit
-  `timeEstimated: true` und `schedule.timeSighting` (`notSeen`, `seen`, `date` der Sichtung, `source`).
-  `data:validate` (`pipeline/lib/sichtungsfenster.ts`) lehnt ein Fenster über 30 min, fehlendes
-  `timeEstimated`, fehlende Fensterangaben, eine `time` außerhalb des Fensters und ein Sichtungsdatum
-  vor der ersten Folge oder in der Zukunft ab. Ein einzelnes „da" ohne vorheriges „nicht da" belegt
-  keine Uhrzeit. **Die Sichtung gilt nur für den Termin am Sichtungstag** (`nurGesichteteFolge` in
-  `shared/sichtung.ts`, aufgerufen von `expandEvents`): alle anderen Folgen des Plans bekommen keine
-  Uhrzeit. Trifft `date` keinen Termin, meldet das Bau-Ende (`sichtungOhneUhrzeit` in `pruefeErgebnis`) einen Fehler. Eine festgelegte `time` mit
-  `timeEstimated` ohne `timeSighting` (Avatar 11:00, von Daniel festgelegt) bleibt, wie sie war.
+  Fehlte eine Folge zu `notSeen` und war zu `seen` da, darf die Zeit ein Wert im Fenster sein. Sie steht
+  **nur** in `schedule.timeSighting` (`time`, `notSeen`, `seen`, `date` der Sichtung, `source`), nie in
+  `schedule.time`; `setzeSichtungszeit` (`shared/sichtung.ts`, aufgerufen von `expandEvents`) ist ihr
+  einziger Leser und setzt `time` + `timeEstimated` am Termin des Sichtungstags. Alle anderen Termine
+  bekommen daraus nichts, auch News, Kanal-Plan und Sammelreleases nicht (sie lesen `schedule.time`).
+  `data:validate` (`pipeline/lib/sichtungsfenster.ts`) lehnt ein Fenster über 30 min, fehlende Angaben,
+  eine Zeit außerhalb des Fensters, `schedule.time` neben der Sichtung und ein Sichtungsdatum vor der
+  ersten Folge oder in der Zukunft ab. Trifft `date` keinen Termin, meldet das Bau-Ende
+  (`sichtungOhneUhrzeit` in `pruefeErgebnis`) einen Fehler und das Log eine Ergebniszeile
+  („N Uhrzeit aus Sichtung: …"). Ein einzelnes „da" ohne vorheriges „nicht da" belegt keine Uhrzeit.
+  **Jede kuratierte `time` + `timeEstimated` braucht eine benannte Ausnahme:** `timeSighting` oder einen
+  Eintrag in `FESTGELEGTE_ZEITEN` (Altfall Avatar 11:00, Paramount+: Daniel sah F4–6 um 11:42 schon da,
+  Fenster fehlt, Befund offen, am 23.10. messen). Folgeläufe: die Sichtung gilt für einen Tag; ein
+  Fortschreiben auf kommende Folgen wäre eine Änderung der Bedingung in `setzeSichtungszeit` (offen, F39).
 - **Abgeleitetes kennzeichnen.** Datum aus dem Simulcast-Start übernommen statt aus einer
   Dub-Ankündigung? Dann `estimated: true`. Folgenzahl geraten? Setzt die Pipeline selbst als
   `episodeCountAssumed`. Beides erscheint im UI als `≈`.

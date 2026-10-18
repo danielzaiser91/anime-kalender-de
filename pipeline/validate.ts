@@ -44,7 +44,7 @@ function main(): void {
     } else {
       if (!ISO_DATE.test(String(s.firstEpisodeDate)))
         errors.push(`${at}: firstEpisodeDate "${s.firstEpisodeDate}" ist kein ISO-Datum in Anführungszeichen`)
-      for (const f of zeitFehler(s, todayIso())) errors.push(`${at}: ${f}`)
+      for (const f of zeitFehler(s, todayIso(), e.slug)) errors.push(`${at}: ${f}`)
       if (s.lastEpisodeDate && !ISO_DATE.test(String(s.lastEpisodeDate)))
         errors.push(`${at}: lastEpisodeDate ist kein ISO-Datum`)
       for (const d of s.skipDates ?? []) {
