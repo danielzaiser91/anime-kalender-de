@@ -15,6 +15,7 @@ pipeline/check-cartoon-zwilling-bestand.ts
 pipeline/check-cr-ja-deckung-bestand.ts
 pipeline/check-cr-teilseiten-bestand.ts
 pipeline/check-deutsche-folgenzahl-bestand.ts
+pipeline/check-folgenflaggen-bestand.ts
 pipeline/check-folgenzahl-kennzeichnung-bestand.ts
 pipeline/check-handlung-eigen-bestand.ts
 pipeline/check-herkunftsland-bestand.ts
