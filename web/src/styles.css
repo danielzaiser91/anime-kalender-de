@@ -202,6 +202,14 @@ body,
   height: 100%;
 }
 
+/*
+  Der Platz der Bildlaufleiste bleibt auch bei `overflow: hidden` (Panel, Dialoge, Kino) reserviert; sonst springt die Seite um die Leistenbreite.
+  Überlagernde Leisten (Telefone, Emulation mit `isMobile`) brauchen keinen Platz, die Regel kostet dort 0 px.
+*/
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   margin: 0;
   background: var(--ak-grund);

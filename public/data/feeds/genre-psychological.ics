@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Psychological
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:the-sky-crawlers-primevideo@2026-10-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261010
-DTEND;VALUE=DATE:20261011
-SUMMARY:The Sky Crawlers (neu bei Prime Video)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Film\nIm Angebot seit dies
- em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
- nicht bestätigt.\nDetails: https://anime-kalender.de/t/2523/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T160000Z
@@ -262,9 +251,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261126
 DTEND;VALUE=DATE:20261127
 SUMMARY:Fool Night (Synchro offen)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nSynchro offen: D
- er Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nicht be
- stätigt.\nDetails: https://anime-kalender.de/t/17705/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalog\nSynchro offen: Der Te
+ rmin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nicht bestät
+ igt.\nDetails: https://anime-kalender.de/t/17705/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT

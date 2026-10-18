@@ -287,9 +287,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261018
 DTEND;VALUE=DATE:20261019
 SUMMARY:Dragon Ball Super: Beerus – Folge 1/≈12 (OmU)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
- Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -446,6 +446,36 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-10-25#10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261025T135000Z
+DTEND:20261025T142000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-10-25#11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261025T142000Z
+DTEND:20261025T145000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-10-25#12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261025T145000Z
+DTEND:20261025T152000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384006@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T150000Z
@@ -489,9 +519,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261025
 DTEND;VALUE=DATE:20261026
 SUMMARY:Dragon Ball Super: Beerus – Folge 2/≈12 (OmU)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
- Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -548,9 +578,11 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261101
 DTEND;VALUE=DATE:20261102
 SUMMARY:Dragon Ball Super: Beerus – Folge 3/≈12 (OmU)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
- Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern
+  aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anime-ka
+ lender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -607,9 +639,11 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261108
 DTEND;VALUE=DATE:20261109
 SUMMARY:Dragon Ball Super: Beerus – Folge 4/≈12 (OmU)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
- Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern
+  aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anime-ka
+ lender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -656,9 +690,11 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261115
 DTEND;VALUE=DATE:20261116
 SUMMARY:Dragon Ball Super: Beerus – Folge 5/≈12 (OmU)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
- Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern
+  aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anime-ka
+ lender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -769,9 +805,11 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261122
 DTEND;VALUE=DATE:20261123
 SUMMARY:Dragon Ball Super: Beerus – Folge 6/≈12 (OmU)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
- Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern
+  aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anime-ka
+ lender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -780,9 +818,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261126
 DTEND;VALUE=DATE:20261127
 SUMMARY:Fool Night (Synchro offen)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nSynchro offen: D
- er Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nicht be
- stätigt.\nDetails: https://anime-kalender.de/t/17705/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalog\nSynchro offen: Der Te
+ rmin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nicht bestät
+ igt.\nDetails: https://anime-kalender.de/t/17705/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -829,9 +867,11 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261129
 DTEND;VALUE=DATE:20261130
 SUMMARY:Dragon Ball Super: Beerus – Folge 7/≈12 (OmU)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
- Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern
+  aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anime-ka
+ lender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -890,9 +930,11 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261206
 DTEND;VALUE=DATE:20261207
 SUMMARY:Dragon Ball Super: Beerus – Folge 8/≈12 (OmU)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
- Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern
+  aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anime-ka
+ lender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -959,9 +1001,11 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261213
 DTEND;VALUE=DATE:20261214
 SUMMARY:Dragon Ball Super: Beerus – Folge 9/≈12 (OmU)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
- Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern
+  aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anime-ka
+ lender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -1008,9 +1052,11 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261220
 DTEND;VALUE=DATE:20261221
 SUMMARY:Dragon Ball Super: Beerus – Folge 10/≈12 (OmU)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
- Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern
+  aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anime-ka
+ lender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -1045,9 +1091,11 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261227
 DTEND;VALUE=DATE:20261228
 SUMMARY:Dragon Ball Super: Beerus – Folge 11/≈12 (OmU)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
- Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern
+  aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anime-ka
+ lender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -1056,9 +1104,11 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270103
 DTEND;VALUE=DATE:20270104
 SUMMARY:Dragon Ball Super: Beerus – Folge 12/≈12 (OmU)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
- Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, sondern
+  aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anime-ka
+ lender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -1123,6 +1173,16 @@ DTEND;VALUE=DATE:20270116
 SUMMARY:Dr. Stone: Science Future (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15604/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-237-disc@2027-01-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270128
+DTEND;VALUE=DATE:20270129
+SUMMARY:Eureka Seven (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/206/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

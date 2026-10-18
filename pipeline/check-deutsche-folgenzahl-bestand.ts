@@ -4,13 +4,16 @@
  */
 import type { Title } from '../shared/types.ts'
 import { readJson } from './lib/util.ts'
+import { zurueckgestellt } from './lib/quarantaene.ts'
 import { deFolgenGilt, ladeErstausgabeVonHand } from './lib/erstausgabe-von-hand.ts'
 
 const titel = new Map(readJson<Title[]>('public/data/titles.json', []).map((t) => [t.id, t]))
 const meldungen: string[] = []
+const zurueck = zurueckgestellt().ids
 for (const e of ladeErstausgabeVonHand()) {
   if (!e.deFolgen) continue
   const t = titel.get(e.anilistId ?? 0)
+  if (!t && zurueck.has(e.anilistId ?? 0)) continue // zurückgestellt (Quarantäne), nicht verloren
   if (!t) meldungen.push(`Deutsche Folgenzahl ${e.anilistId} (${e.title}): Titel nicht im Bestand`)
   else if (!deFolgenGilt(e.deFolgen, t.episodes)) meldungen.push(`Deutsche Folgenzahl ${e.anilistId} (${e.title}): ${e.deFolgen.n} liegt nicht unter den ${t.episodes} Folgen des Werks`)
 }

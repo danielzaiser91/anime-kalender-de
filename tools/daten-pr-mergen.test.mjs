@@ -32,7 +32,7 @@ case "$1 $2" in
 esac
 case "$7" in
   .mergeable) echo MERGEABLE ;;
-  .title) echo "chore(data): Test" ;;
+  .title) if [ "$FALL" = rot ]; then echo "[Prüfung rot] chore(data): Test"; else echo "chore(data): Test"; fi ;;
   .author.login) if [ "$FALL" = autor ]; then echo "app/fremder"; else echo "app/anime-kalender-daten"; fi ;;
   .isCrossRepository) if [ "$FALL" = fork ]; then echo true; else echo false; fi ;;
   .files*) echo data/crunchyroll.json; echo data/adn-raw/a.json; if [ "$FALL" = datei ]; then echo .github/workflows/x.yml; fi ;;
@@ -57,6 +57,8 @@ esac
     const r = lauf(fall)
     pruefe(`Fall „${fall}“: nicht gemergt, Lauf rot, PR-Nummer im Fehler`, r.status === 1 && !r.gemergt && /::error::Pull Request 7 wird nicht gemergt/.test(r.out) && grund.test(r.out), r.out)
   }
+  const rot = lauf('rot')
+  pruefe('Marke „Prüfung rot“ im Titel: nicht gemergt, Lauf bleibt grün, Hinweis im Protokoll', rot.status === 0 && !rot.gemergt && /Pull Request 7 trägt die Marke/.test(rot.out), rot.out)
 } finally {
   rmSync(dir, { recursive: true, force: true })
 }

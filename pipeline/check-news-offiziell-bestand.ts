@@ -5,9 +5,11 @@
  */
 import { ROOT, readJson } from './lib/util.ts'
 import { offizielleLaden } from './lib/news-offiziell.ts'
+import { zurueckgestellt } from './lib/quarantaene.ts'
 import { todayIso } from '../shared/time.ts'
 
 const titel = new Set(readJson<{ id: number }[]>('public/data/titles.json', []).map((t) => t.id))
+for (const id of zurueckgestellt().ids) titel.add(id) // zurückgestellt (Quarantäne), nicht verloren
 const liste = offizielleLaden(ROOT)
 const ohneTitel = liste.filter((e) => !titel.has(e.titleId)).map((e) => `${e.id} (Titel ${e.titleId})`)
 const zukunft = liste.filter((e) => e.datum > todayIso()).map((e) => e.id)

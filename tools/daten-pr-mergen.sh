@@ -41,6 +41,11 @@ for nr in "$@"; do
     echo "::notice::Pull Request $nr bleibt offen ($zustand)."
     continue
   fi
+  # Marke aus `tools/quellen-pr.sh`: Die Datenprüfungen waren auf diesem Stand rot, erst ein Mensch löst sie.
+  if [[ "$(gh pr view "$nr" --json title -q .title)" == "[Prüfung rot]"* ]]; then
+    echo "::notice::Pull Request $nr trägt die Marke „Prüfung rot“ und wird nicht gemergt: erst beheben, dann die Marke aus dem Titel nehmen."
+    continue
+  fi
   if ! grund="$(fremd_grund "$nr")"; then
     echo "::error::Pull Request $nr wird nicht gemergt: $grund."
     fehler=1

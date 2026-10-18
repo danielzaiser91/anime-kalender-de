@@ -14,11 +14,11 @@
  *
  * Aufruf: npm run data:pruefungen
  */
-import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { appendFileSync, existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
 import yaml from 'js-yaml'
 import { amazonTitelAdresse, echteAmazonAdresse } from './lib/amazon-adresse.js'
-import { dirname, resolve } from 'node:path'
+import { resolve } from 'node:path'
 import {
   beschreibeBereiche,
   bildeBereiche,
@@ -36,6 +36,7 @@ import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
 import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
 import { ladePruefTitel } from './lib/pruef-titel.ts'
+import { ladeMeldungen, legeAbhakenAb } from './lib/meldungen-stapel.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN
@@ -114,7 +115,7 @@ if (process.argv.includes('--nur-abhaken')) {
   process.exit(0)
 }
 
-const antwort = await fetch(`${WORKER}/pruefung?token=${encodeURIComponent(TOKEN)}`)
+const antwort = await ladeMeldungen(`${WORKER}/pruefung?token=${encodeURIComponent(TOKEN)}`)
 if (!antwort.ok) {
   warn(`Prüfungen nicht abrufbar: HTTP ${antwort.status}`)
   /*
@@ -1131,24 +1132,12 @@ for (const gruppe of jeAdresse.values()) {
     if (ohneAussage) {
       ausgelassenKanal++
       /*
-        **Ausgelassen heißt abgehakt — sonst liest sie jeder Lauf wieder.**
-
-        `geschrieben` bleibt hier null, und ganz unten hakt nur ab, wer etwas
-        geschrieben hat. Eine Kanal-Meldung ohne Aussage blieb damit für immer
-        im Briefkasten liegen: Am 05.09.2026 lagen dort **16 Meldungen auf 13
-        Adressen**, die älteste (`B09MDQX4CW`) seit Wochen — jeder Lauf holte
-        sie, ließ sie aus, ließ sie liegen. Die Wache zählte sie als Rückstand,
-        und niemand konnte etwas damit anfangen.
-
-        **Die Entscheidung ist endgültig, deshalb darf sie abgehakt werden.**
-        Sie hängt an drei Dingen, von denen keines sich zurückdreht: Der Titel
-        ist ein Kanal-Angebot (Amazons Sprachangabe belegt dort nichts, siehe
-        `CLAUDE.md`), unser Datensatz kennt die Adresse bereits, und die Meldung
-        trägt keinen Folgenbefund. Morgen käme dasselbe heraus.
-
-        **Nicht abgehakt wird, was nur heute nicht zuzuordnen ist.** Eine
-        Meldung ohne Titel steht in `11-meldungen-ohne-zuordnung.md` und bleibt
-        liegen — dort kann der nächste Bestand die Antwort bringen.
+        **Ausgelassen heißt abgehakt — sonst liest sie jeder Lauf wieder** (05.09.2026: 16 Meldungen lagen wochenlang). Die
+        Entscheidung ist endgültig: Kanal-Angebot (Amazons Sprachangabe belegt nichts), Adresse bekannt, kein Folgenbefund.
+        Abgehakt wird im Bestandslauf erst nach dem Commit (`--abhaken-spaeter`, Schritt „Meldungen abhaken“). Was nur heute
+        nicht zuzuordnen ist, bleibt liegen (`11-meldungen-ohne-zuordnung.md`) und belegt einen Platz im Fenster des
+        Briefkastens (`OFFEN_FENSTER`, 18.10.2026: 5000); eine Meldung, an der die Handbeleg-Prüfung scheitert, stellt
+        `tools/meldungen-eingrenzen.mjs` allein zurück; bleibt die Übernahme ganz aus, meldet es `tools/briefkasten-wache.mjs`.
       */
       for (const x of gruppe) erledigteIds.add(x.id)
       continue
@@ -1367,8 +1356,7 @@ if (TROCKEN) {
   process.exit(0)
 }
 if (erledigteIds.size && ABHAKEN_SPAETER) {
-  mkdirSync(dirname(ABHAKEN_DATEI), { recursive: true })
-  writeFileSync(ABHAKEN_DATEI, JSON.stringify([...erledigteIds]))
+  legeAbhakenAb(ABHAKEN_DATEI, erledigteIds)
   log(`${erledigteIds.size} Meldungen werden nach dem Commit abgehakt`)
 } else if (erledigteIds.size) {
   const quittung = await fetch(`${WORKER}/pruefung`, {

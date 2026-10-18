@@ -1630,6 +1630,12 @@
   ],
   "though-i-am-an-inept-villainess": [
     {
+      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+      "name": "Crunchyroll News",
+      "gesehenAm": "2026-10-18",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
@@ -5993,8 +5999,8 @@
       "url": "https://www.anime2you.de/news/1057429/netflix-blue-box-staffel-2-und-mehr/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-11",
-      "sagt": "2026-10-04",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2026-10-04"
     },
     {
       "url": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
@@ -7271,6 +7277,32 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-237-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1061704/eureka-seven-blu-ray-komplettbox/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-01-28",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-171019-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1061686/isekai-onsen-paradise-blu-ray-komplettbox/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-18",
+      "sagt": "2027-01-28",
+      "stand": "aktuell"
+    }
+  ],
+  "cr-GG5H5XQMD": [
+    {
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar",
+      "name": "crunchyroll.com",
+      "gesehenAm": "2026-10-18",
       "stand": "aktuell"
     }
   ]

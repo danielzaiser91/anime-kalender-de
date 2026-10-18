@@ -1,15 +1,148 @@
 {
-  "scrapedAt": "2026-10-17T05:02:44.273Z",
+  "scrapedAt": "2026-10-18T19:02:45.313Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
-    "schon in einem Rubrik-Feed gelesen": 7,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "schon in einem Rubrik-Feed gelesen": 8,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "»Lady Oscar« erscheint in einer neuen Blu-ray-Komplettbox",
+      "articleUrl": "https://www.anime2you.de/news/1061740/lady-oscar-neue-blu-ray-komplettbox/",
+      "publishedAt": "2026-10-18",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-28",
+          "context": "Wir fassen zusammen. Release im Januar 2027 »Lady Oscar« erscheint am 28. Januar 2027 in einer neuen Komplettbox, die alle 40 Episoden mit d"
+        },
+        {
+          "month": "2027-01",
+          "context": "nächst erneut auf Blu-ray in den Handel. Wir fassen zusammen. Release im Januar 2027 »Lady Oscar« erscheint am 28. Januar 2027 in einer neue"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Isekai Onsen Paradise« erscheint als Blu-ray-Komplettbox",
+      "articleUrl": "https://www.anime2you.de/news/1061686/isekai-onsen-paradise-blu-ray-komplettbox/",
+      "publishedAt": "2026-10-18",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-28",
+          "context": "nuar 2027 »Isekai Onsen Paradise« erscheint nach aktueller Planung am 28. Januar 2027 in einer Komplettbox auf Blu-ray. Diese enthält alle z"
+        },
+        {
+          "month": "2027-01",
+          "context": "Jahr erstmals auf Blu-ray in den Handel. Wir fassen zusammen. Release im Januar 2027 »Isekai Onsen Paradise« erscheint nach aktueller Planun"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Neue Plüschfigur der »Frieren«-Protagonistin angekündigt",
+      "articleUrl": "https://www.anime2you.de/news/1061247/frieren-protagonistin-sakami-plueschfigur/",
+      "publishedAt": "2026-10-18",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-05",
+          "context": "im AKIBA PASS SHOP erworben werden kann. Wir fassen zusammen. Release im Mai 2027 Die neue Plüschfigur von Frieren ist ungefähr 25 Zentimete"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "ProSieben FUN wiederholt »Magical Girl Special Ops Asuka«",
+      "articleUrl": "https://www.anime2you.de/news/1062104/prosieben-fun-magical-girl-special-ops-asuka-wiederholung/",
+      "publishedAt": "2026-10-18",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-09",
+          "context": "November 2026 »Magical Girl Special Ops Asuka« startet demzufolge am 9. November 2026 und läuft fortan jeden Montag ab 22:35 Uhr in Doppelf"
+        },
+        {
+          "month": "2026-11",
+          "context": "utscher Vertonung ausstrahlen wird. Wir fassen zusammen. Wiederholung ab November 2026 »Magical Girl Special Ops Asuka« startet demzufolge a"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zwei neue Acrylanhänger zu »Detektiv Conan« angekündigt",
+      "articleUrl": "https://www.anime2you.de/news/1061186/zwei-detektiv-conan-acrylanhaenger/",
+      "publishedAt": "2026-10-17",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-05",
+          "context": "önnen. Wir fassen alle Details nachfolgend für euch zusammen. Release im Mai 2027 Die neuen »Detektiv Conan«-Schlüsselanhänger der Charakter"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Eureka Seven« erscheint in einer Blu-ray-Komplettbox",
+      "articleUrl": "https://www.anime2you.de/news/1061704/eureka-seven-blu-ray-komplettbox/",
+      "publishedAt": "2026-10-17",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-28",
+          "context": "n. Release im Januar 2027 »Eureka Seven« erscheint voraussichtlich am 28. Januar 2027 in einer Komplettbox, die alle 50 Episoden mit deutsch"
+        },
+        {
+          "month": "2027-01",
+          "context": "t auf Blu-ray in den Handel. Wir fassen die Details zusammen. Release im Januar 2027 »Eureka Seven« erscheint voraussichtlich am 28. Januar"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Drama-Film »Die letzte Blüte« erscheint auf Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1061758/die-letzte-bluete-blu-ray-release/",
+      "publishedAt": "2026-10-17",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-28",
+          "context": "se im Januar 2027 Der Disc-Release von »Die letzte Blüte« ist für den 28. Januar 2027 mit deutscher und japanischer Sprachausgabe geplant. A"
+        },
+        {
+          "month": "2027-01",
+          "context": "nigen Monaten auf Blu-ray in den Handel. Wir fassen zusammen. Release im Januar 2027 Der Disc-Release von »Die letzte Blüte« ist für den 28."
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Neue »Apothecary Diaries«-Plüschfigur von Jinshi vorgestellt",
       "articleUrl": "https://www.anime2you.de/news/1056535/apothecary-diaries-plueschfigur-jinshi/",
@@ -248,7 +381,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-15"
+      "sammelGelesen": "2026-10-18"
     },
     {
       "articleTitle": "Design der 30th Anniversary Edition von »Detektiv Conan«",
@@ -548,7 +681,7 @@
           "folgen": 54
         }
       ],
-      "sammelGelesen": "2026-10-15"
+      "sammelGelesen": "2026-10-18"
     },
     {
       "articleTitle": "Erste »Kaiju No. 8«-Staffel erscheint im limitierten Steelbook + Design",
@@ -1214,54 +1347,6 @@
       "sammelGelesen": "2026-10-17"
     },
     {
-      "articleTitle": "Drei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
-      "articleUrl": "https://www.anime2you.de/news/1057429/netflix-blue-box-staffel-2-und-mehr/",
-      "publishedAt": "2026-10-04",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "alreadyCurated": false,
-      "sammel": [
-        {
-          "titel": "Blue Box",
-          "zusatz": "Staffel 2",
-          "deutsch": true,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ],
-          "datum": "2026-10-04",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Ranma 1/2",
-          "zusatz": "Staffel 3",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ],
-          "datum": "2026-10-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Tougen Anki",
-          "zusatz": "Staffel 2",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ],
-          "datum": "2026-10-02",
-          "datumGeschaetzt": true
-        }
-      ],
-      "sammelGelesen": "2026-10-17"
-    },
-    {
       "articleTitle": "Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027",
       "articleUrl": "https://www.anime2you.de/news/1057381/tapas-bestaetigt-abschaltung-fuer-maerz-2027/",
       "publishedAt": "2026-10-04",
@@ -1515,7 +1600,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-15"
+      "sammelGelesen": "2026-10-18"
     },
     {
       "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
@@ -1677,7 +1762,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-10-15"
+      "sammelGelesen": "2026-10-18"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -1792,7 +1877,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-15"
+      "sammelGelesen": "2026-10-18"
     },
     {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
@@ -1876,7 +1961,7 @@
           "datum": "2026-10-01"
         }
       ],
-      "sammelGelesen": "2026-10-15"
+      "sammelGelesen": "2026-10-18"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -2744,7 +2829,7 @@
           "edition": ""
         }
       ],
-      "discGelesen": "2026-10-15"
+      "discGelesen": "2026-10-18"
     },
     {
       "articleTitle": "Design der limitierten Steelbook-Edition von »My Dress-Up Darling«",

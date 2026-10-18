@@ -126,7 +126,9 @@ async function messeRechterRand(seite, zeile) {
   await seite.waitForTimeout(200)
   await zeile.scrollIntoViewIfNeeded()
   const box = await zeile.boundingBox()
-  const nah = breite - (box.x + box.width)
+  /* Der reservierte Leistenplatz (`scrollbar-gutter`, auch bei versteckter Leiste) liegt rechts neben der Seite und zählt nicht zum Abstand. */
+  const leiste = await seite.evaluate(() => innerWidth - document.documentElement.getBoundingClientRect().width)
+  const nah = breite - leiste - (box.x + box.width)
   if (nah > RAND_RECHTS + 20) return [`am rechten Fensterrand: Zeile endet ${Math.round(nah)} px vor dem Rand, die Lage lässt sich nicht messen`]
   const rechts = await zeigeUndMesse(seite, zeile, 4)
   if (!rechts) return ['am rechten Fensterrand: keine Vorschau']
