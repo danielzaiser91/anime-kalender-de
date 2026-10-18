@@ -121,6 +121,7 @@ szenario() {
   echo '{"v":1}' > "$d/start/data/anisearch.json"
   mkdir -p "$d/start/public/data"
   echo '{"stand":"alt"}' > "$d/start/public/data/stand.json"
+  echo '{"zuletzt":"alt"}' > "$d/start/data/meldungen-uebernahme.json"
   if [ "${UNBEWEGT:-nein}" = ja ]; then
     mkdir -p "$d/start/public/data" "$d/start/public/og"
     echo '{}' > "$d/start/public/data/titles.json"
@@ -139,6 +140,7 @@ szenario() {
   fi
   if [ "${LAUF_AENDERT:-ja}" = ja ]; then
     echo '{"v":2,"von":"lauf"}' > "$d/lauf/data/anisearch.json"
+    echo '{"zuletzt":"neu"}' > "$d/lauf/data/meldungen-uebernahme.json"
   fi
   [ "${OHNE_TITLES:-nein}" = ja ] && rm "$d/lauf/public/data/titles.json"
   local pause=""
@@ -153,12 +155,14 @@ szenario() {
 
 im_fernstand() { git -C "$ORIGIN" cat-file -e "main:$1" 2>/dev/null && echo ja || echo nein; }
 quelle_gepusht() { git -C "$ORIGIN" show main:data/anisearch.json 2>/dev/null | grep -q '"von":"lauf"' && echo ja || echo nein; }
+stempel() { git -C "$ORIGIN" show main:data/meldungen-uebernahme.json 2>/dev/null | tr -d '\n'; }
 
 echo "Aufbau gelingt, Bestand ok: grün, Erzeugnisse und Quellen im Fernstand"
 szenario gruen FAKE_BAU=ok FAKE_BESTAND=ok
 pruefe "Exit 0" 0 "$CODE"
 pruefe "Quelle gepusht" ja "$(quelle_gepusht)"
 pruefe "Erzeugnis gepusht" ja "$(im_fernstand public/data/titles.json)"
+pruefe "Übernahme-Stempel gepusht" '{"zuletzt":"neu"}' "$(stempel)"
 
 echo "data:build scheitert: rot, Quellen trotzdem gesichert, keine Erzeugnisse"
 szenario aufbau FAKE_BAU=fail
@@ -177,6 +181,7 @@ mkdir -p "$ARBEIT/warnung"
 szenario warnung FAKE_BESTAND=fehler BAU_LAUF=1 GITHUB_ENV="$ARBEIT/warnung/env.txt"
 pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
 pruefe "Warnung enthält den Grund" ja "$(grep -q '^DATEN_WARNUNG=.*FEHLER: Cover fehlt bei Titel 7' "$ARBEIT/warnung/env.txt" && echo ja || echo nein)"
+pruefe "Übernahme-Stempel zurückgenommen" '{"zuletzt":"alt"}' "$(stempel)"
 
 echo "Drei ⚠-Zeilen vor einer FEHLER:-Zeile: DATEN_WARNUNG nennt den Fehler zuerst"
 mkdir -p "$ARBEIT/reihenfolge"
