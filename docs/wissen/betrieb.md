@@ -1881,3 +1881,10 @@ Die Wache (`wecker-wache.yml`) wiederholte einen roten Lauf erst nach der vollen
 - Untersucher: Ein offener PR hielt ihn zurück, auch wenn er liegenblieb (PR 1464, 11 h). Jetzt zählt ein PR nur `PR_FRIST_MS` (6 h, `tools/untersucher-logik.mjs`); danach arbeitet der Untersucher weiter. Hat er bewusst nichts getan (`claude=nein`), meldet „Lauf abmelden“ `warnung` mit PR-Nummer statt `ok`.
 - `tools/commit-data.sh`: fehlt nach gelungenem Bau `public/og` oder `public/data/titles.json`, oder scheitert `data:extension-liste`, endet der Lauf rot (nach dem Sichern der Quellen). Fehlende Quellpfade bleiben eine Warnung (Listen entstehen nicht immer).
 - Arbeitslisten im Bestandsbau: Scheitert eines der vier `data:`-Skripte im Schritt „Arbeitslisten und Prüfstand neu erzeugen“, steht `::error::` im Log und die Statusanzeige zeigt `Arbeitslisten nicht neu erzeugt: <skript>` (`DATEN_WARNUNG`). Der Lauf bleibt grün (14 von 14 Läufen hatten den Schritt grün), nur `commit-data.sh` macht den seltenen Neuaufbau-Weg rot.
+
+## D1-Kosten eines Prime-Durchgangs „Alle durchgehen“ (18.10.2026)
+
+- Umfang (Meldungskopie, Stand 12:57 UTC): Durchgang 12:16–12:35 UTC, 29 Adressen, 139 Meldungszeilen, 426 Rohfolgen.
+- Verbrauch (`d1-verbrauch.yml`, UTC-Tag seit 00:00): Lauf 39126558165 (12:15 UTC) 362.653 gelesen / 4.441 geschrieben, Lauf 39127790297 (12:33 UTC) 366.601 / 7.573. Der Durchgang kostete also rund 4.000 Lese- und 3.100 Schreibzeilen, je Adresse etwa 140 und 110.
+- Hochrechnung gegen das Kontingent (5 Mio. Lesen, 100.000 Schreiben je Tag): Schreiben begrenzt, rund 900 Adressen pro Tag ohne andere Last; bei der heutigen Grundlast (~8.000 Schreibzeilen bis 13 UTC) bleibt Platz für mehrere volle Durchgänge.
+- Ein zusätzlicher Meldungskopie-Lauf (`meldungskopie.yml`, 12:57 UTC) fiel in dasselbe Fenster: Lauf 39130682076 (13:16 UTC) zeigte 553.567 gelesen, also rund 187.000 mehr — fast alles der Export. Eine Kopie nur für eine einzelne Kennung zu ziehen ist deshalb teuer; der nächtliche Lauf reicht, wenn es nicht eilt.
