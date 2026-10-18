@@ -30,6 +30,8 @@ const FUENF = ['11', '13', '15', '18', '24']
 /** Jujutsu Kaisen (mit Banner) und Rozen Maiden: Dreaming (ohne Banner, `listen/luecken/banner.md`). */
 const TITEL = [{ name: '113415', ak: akVon('113415') }, { name: '65', ak: akVon('65') }]
 const GERAETE = { handy: { width: 393, height: 1700 }, rechner: { width: 1280, height: 1100 } }
+/** Handy-Seiten wie ein Telefon emulieren: überlagernde Leiste ohne Platzbedarf (`scrollbar-gutter` reserviert sonst 10 px). */
+const TELEFON = { hasTouch: true, isMobile: true }
 const EIN_PUNKT = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64')
 const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2', '.webmanifest': 'application/manifest+json' }
 const lies = (datei) => JSON.parse(readFileSync(path.join(DIST, 'data', datei), 'utf8'))
@@ -150,7 +152,7 @@ async function messeZelle(seite, fall, geraet, thema, groessenGesamt) {
 /** Nur die Trefferprobe bei 360 px (kleinste verbreitete Handybreite, die übrigen Messungen laufen bei 393 px), beide Themen. */
 async function messeSchmal(browser) {
   const rot = []
-  const seite = await browser.newPage({ viewport: { width: 360, height: 1700 } })
+  const seite = await browser.newPage({ viewport: { width: 360, height: 1700 }, ...TELEFON })
   await seite.route('**/*', beantworte)
   for (const fall of [...TITEL, ...flaggenFaelle()]) {
     for (const thema of fall.name.includes('-') ? ['hell'] : ['hell', 'dunkel']) {
@@ -169,7 +171,7 @@ async function messeAlles() {
   const rot = []
   const groessenGesamt = new Set()
   for (const [geraet, viewport] of Object.entries(GERAETE)) {
-    const seite = await browser.newPage({ viewport })
+    const seite = await browser.newPage({ viewport, ...(geraet === 'handy' ? TELEFON : {}) })
     await seite.route('**/*', beantworte)
     const faelle = MIT('--breit') && geraet === 'handy' ? breiteFaelle() : [...TITEL, ...(geraet === 'handy' ? flaggenFaelle() : [])]
     for (const fall of faelle) {
@@ -191,7 +193,7 @@ async function messeAlles() {
 /** Öffnungszeit: von der Adressänderung bis zwei Bildwiederholungen nach dem Erscheinen des Kopfs; Median, CPU 4-fach gedrosselt. */
 async function messeZeit() {
   const browser = await chromium.launch()
-  const seite = await browser.newPage({ viewport: GERAETE.handy })
+  const seite = await browser.newPage({ viewport: GERAETE.handy, ...TELEFON })
   await seite.route('**/*', beantworte)
   await seite.goto('http://ak.test/#/datenbank', { waitUntil: 'networkidle' })
   const cdp = await seite.context().newCDPSession(seite)

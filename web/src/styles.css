@@ -204,12 +204,10 @@ body,
 
 /*
   Der Platz der Bildlaufleiste bleibt auch bei `overflow: hidden` (Panel, Dialoge, Kino) reserviert; sonst springt die Seite um die Leistenbreite.
-  Nur mit Maus: Touch-Geräte haben überlagernde Leisten ohne Platzbedarf, im Handy-Emulator reserviert Chromium dagegen trotzdem.
+  Überlagernde Leisten (Telefone, Emulation mit `isMobile`) brauchen keinen Platz, die Regel kostet dort 0 px.
 */
-@media (hover: hover) and (pointer: fine) {
-  html {
-    scrollbar-gutter: stable;
-  }
+html {
+  scrollbar-gutter: stable;
 }
 
 body {

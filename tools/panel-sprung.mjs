@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Prüft mit klassischer Bildlaufleiste, dass die Wochenansicht beim Öffnen und Schließen des Detail-Panels stehen bleibt (18.10.2026):
- * `documentElement.clientWidth` und die Rechtecke der Kacheln sind mit offenem Panel und danach so wie vorher.
+ * die Breite der Wurzelbox (`html`; `clientWidth` zählt reservierten Leistenplatz nicht ab) und die Rechtecke der Kacheln sind mit offenem Panel und danach so wie vorher.
  * Headless-Chromium blendet Bildlaufleisten sonst aus (`--hide-scrollbars`), dann sieht keine Layoutprüfung den Sprung.
  * Aufruf: node tools/panel-sprung.mjs [--dist <Ordner>]     (Teil von `npm run check:panel`)
  */
