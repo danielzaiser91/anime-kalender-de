@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-18 · **27 offene Verweise** in **22 Zeilen**.
+Stand 2026-10-18 · **26 offene Verweise** in **21 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -34,7 +34,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | Offen je Anbieter | Verweise |
 |---|---|
 | [Prime Video](07-primevideo.md) | 13 |
-| [Netflix](07-netflix.md) | 9 |
+| [Netflix](07-netflix.md) | 8 |
 | [Disney+](07-disneyplus.md) | 5 |
 
 ## Zu prüfen
@@ -62,7 +62,6 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 19 | 2021-03-04 | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
 | 20 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
 | 21 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
-| 22 | 2019-03-15 | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 

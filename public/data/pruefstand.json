@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-18T19:06:55.867Z",
+ "erzeugtAm": "2026-10-18T19:17:17.634Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 367,
-   "gesamt": 908,
-   "offen": 541,
+   "gemeldet": 548,
+   "gesamt": 944,
+   "offen": 396,
    "ohneSeite": 28,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
@@ -38,47 +38,12 @@
     "https://www.amazon.de/s?k=Dragonkeeper&i=instant-video",
     "https://www.amazon.de/s?k=Manga%20Love%20Story%3A%20Step%20Up%20Love%20Story&i=instant-video"
    ],
-   "ziel": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5876a543-a76d-4ff0-bfb5-f4211aba99d8",
+   "ziel": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8944b97e-0dac-4af6-9343-fd9014786a6a",
    "ziele": [
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5876a543-a76d-4ff0-bfb5-f4211aba99d8",
-     "titel": "Kevin",
-     "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.64aa9ea1-0556-44de-9b16-c2d227d19f98",
-     "titel": "LEGO Ninjago: Aufstieg der Drachen (LEGO Ninjago: Dragons Rising)",
-     "hinweis": "Staffeln unklar: TMDB zählt 80 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.ea77bc7d-0c6d-4556-8efd-2b6ba88bd944",
-     "titel": "Little Angel",
-     "hinweis": "Staffeln unklar: TMDB zählt 24 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8f9408ea-345e-4a88-9f6e-1245b4eac9bd",
-     "titel": "Hello Neighbor: Welcome to Raven Brooks",
-     "hinweis": "Staffeln unklar: TMDB zählt 13 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8944b97e-0dac-4af6-9343-fd9014786a6a",
      "titel": "The Legend of Vox Machina",
      "hinweis": "Staffeln unklar: TMDB zählt 48 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.ddb99a49-8691-4e16-8838-0a6c5e8c24ac",
-     "titel": "Hot Wheels: Monster Trucks",
-     "hinweis": "Staffeln unklar: TMDB zählt 21 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.02f65553-da89-46e7-b606-e7b821c73b19",
-     "titel": "Die Croods: Der Familienbaum (The Croods: Family Tree)",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d4bc0a58-139a-abbc-046b-d9ffcd25c463",
-     "titel": "INVINCIBLE",
-     "hinweis": "Staffeln unklar: TMDB zählt 32 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d6baec2d-d9eb-b71e-a5da-194cd8bf1e4f",
@@ -86,29 +51,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 3 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c8b6fd03-0e90-28fa-e0ab-881c607a92b8",
-     "titel": "Enchantimals (Enchantimals: Tales From Everwilde)",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.f31cbd14-bf91-428f-9d6f-44ed20ec5d7f",
-     "titel": "Kung Fu Panda: Die Tatzen des Schicksals (Kung Fu Panda: The Paws of Destiny)",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.7d9ef604-87dd-4cf5-907d-9983d277112a",
-     "titel": "Die Abenteuer von Rocky & Bullwinkle (The Adventures of Rocky and Bullwinkle)",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6cb73598-111c-d762-dfc8-229e070d9d7e",
      "titel": "Sherazade – Geschichten aus 1001 Nacht (Sherazade: The Untold Stories)",
      "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.09b1fecc-3e58-48b0-89a1-49467d758715",
-     "titel": "Niko und das Schwert des Lichts (Niko and the Sword of Light)",
-     "hinweis": "Staffeln unklar: TMDB zählt 23 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.74b1c880-2dbf-11c6-4e87-795cae20636c",
@@ -116,34 +61,14 @@
      "hinweis": "Staffeln unklar: TMDB zählt 27 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d2ab880c-bf6b-8c43-795d-863a5a76ff70",
-     "titel": "Die Stinky & Dirty Show (The Stinky & Dirty Show)",
-     "hinweis": "Staffeln unklar: TMDB zählt 66 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.f10e9a74-91a4-4392-96e2-7090feb92faa",
      "titel": "PJ Masks – Pyjamahelden (PJ Masks)",
      "hinweis": "Staffeln unklar: TMDB zählt 257 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.9d00924b-cfcd-4c09-98d6-641dab9bf5e0",
-     "titel": "Lost in Oz",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c9bcf7ab-b647-4ca9-beb7-ff647c8ec60b",
      "titel": "Sonic Boom",
      "hinweis": "Staffeln unklar: TMDB zählt 104 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.30471d05-9b3d-4235-ad0e-4623b2983a4a",
-     "titel": "King Julien (All Hail King Julien)",
-     "hinweis": "Staffeln unklar: TMDB zählt 65 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.50b4ec7d-c809-a120-d7f7-da2508a83206",
-     "titel": "Om Nom Geschichten (Om Nom Stories)",
-     "hinweis": "Staffeln unklar: TMDB zählt 281 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.71fb4585-caa0-4165-97f9-80e54b5609bd",
@@ -159,11 +84,6 @@
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.b0ba4692-9abe-9f51-5050-73fd2997613c",
      "titel": "Simon's Cat",
      "hinweis": "Staffeln unklar: TMDB zählt 147 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.dc9615ff-12e3-42c9-85c7-36ad46e8b9cb",
-     "titel": "Max & Ruby",
-     "hinweis": "Staffeln unklar: TMDB zählt 346 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
@@ -586,11 +506,11 @@
      "titel": "Seven Days War"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/0I8UZXM92IXRYUU0Z8TR0TY4AE",
+     "url": "https://www.amazon.de/gp/video/detail/B0F5CG5FHF",
      "titel": "Magical Girl Spec Ops Asuka (Magical Girl Spec-Ops Asuka)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0F5CG5FHF",
+     "url": "https://www.amazon.de/gp/video/detail/0I8UZXM92IXRYUU0Z8TR0TY4AE",
      "titel": "Magical Girl Spec Ops Asuka (Magical Girl Spec-Ops Asuka)"
     },
     {
@@ -836,10 +756,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0FW93J46S",
      "titel": "Food Wars! Shokugeki no Soma (Food Wars!)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/0M8DANTSGA69M1PDY94H2WE49L",
-     "titel": "Kabaneri of the Iron Fortress"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHKG67BC",
@@ -1506,11 +1422,6 @@
      "titel": "Future Boy Conan"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.7e205d42-33d4-48f1-8c5d-73d599a6bdf3",
-     "titel": "Die glücklichste Familie in Amerika (#1 Happy Family USA)",
-     "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.1ad7d08f-1403-43ef-bce4-cd0b47c1c80e",
      "titel": "Secret Level",
      "hinweis": "Staffeln unklar: TMDB zählt 15 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -1519,26 +1430,6 @@
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.7a7dac4b-df26-4863-80bb-6903c78acf7f",
      "titel": "Sausage Party: Foodtopia",
      "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.f5fd1139-28b9-41db-96cf-3f6a159416ba",
-     "titel": "Das zweitbeste Krankenhaus der Galaxie (The Second Best Hospital in the Galaxy)",
-     "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.41954324-9ee9-4895-babe-d40eb5203f29",
-     "titel": "Hazbin Hotel",
-     "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a0c48eb2-f5d8-4f71-a209-6934df704aee",
-     "titel": "LEGO DreamZzz",
-     "hinweis": "Staffeln unklar: TMDB zählt 60 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.06d2b863-f5fa-4a0e-a163-7f297ed0933e",
-     "titel": "LEGO Friends: Das nächste Kapitel (LEGO Friends: The Next Chapter)",
-     "hinweis": "Staffeln unklar: TMDB zählt 53 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.997a9b32-1ceb-4c36-8b93-52198e2a75af",
@@ -1556,54 +1447,14 @@
      "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.547db9e6-e89f-496e-806b-62412d6797fc",
-     "titel": "Murder Drones",
-     "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.afca1812-292e-43af-917a-5c88a16e612c",
-     "titel": "Matchbox Adventures",
-     "hinweis": "Staffeln unklar: TMDB zählt 22 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.39645b53-62a2-44f6-9765-aecfd64d47a2",
      "titel": "Thomas & seine Freunde - Alle Maschinen los (Thomas & Friends: All Engines Go!)",
      "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.885dd4e1-eeb9-4f0d-8ff6-5d46122d8f01",
-     "titel": "Dragons - Die 9 Welten (Dragons: The Nine Realms)",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5d04ea48-33f2-409b-b4af-375bc5212885",
-     "titel": "Fairfax",
-     "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5538c7d5-a22f-486c-9de7-5f0c8898b233",
-     "titel": "Kamp Koral: SpongeBobs Kinderjahre (Kamp Koral: SpongeBob's Under Years)",
-     "hinweis": "Staffeln unklar: TMDB zählt 75 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.cd03cfaa-479c-46c0-8e12-f05bd5e84ba0",
-     "titel": "Helluva Boss",
-     "hinweis": "Staffeln unklar: TMDB zählt 27 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.2a16d470-9ee5-4c50-8d84-a2d7d327a3e7",
-     "titel": "Gecko's Garage 3D",
-     "hinweis": "Staffeln unklar: TMDB zählt 84 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.740f567b-5708-4b3e-86b2-0529c5105e2a",
      "titel": "VIP Pets Club",
      "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6cfb3be4-5a04-47ca-a6ac-e511a1b42ca4",
-     "titel": "Madagascar – Die kleine Wildnis (Madagascar: A Little Wild)",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eba6d76-ed99-baa1-9625-01b9104cea8f",
@@ -1621,29 +1472,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.385e2ddc-8d05-46d1-bdff-3b9e81ec0a8b",
-     "titel": "Hot Wheels City",
-     "hinweis": "Staffeln unklar: TMDB zählt 50 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.563daf76-d554-434d-8958-e30a9424769a",
-     "titel": "Go Buster!",
-     "hinweis": "Staffeln unklar: TMDB zählt 6 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.e424abe3-33c8-4415-bb60-30461c54307e",
-     "titel": "Loo Loo Kinderlieder: Musikalische Abenteuer mit Johny und seinen Freunden (Loo Loo Kids Johny & Friends Musical Adventure)",
-     "hinweis": "Staffeln unklar: TMDB zählt 60 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae3ff17b-4de5-4638-8882-f5f40ab74bcd",
      "titel": "She-Ra und die Rebellen-Prinzessinnen (She-Ra and the Princesses of Power)",
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c84ea477-336e-473c-a5ed-54df31b508a0",
-     "titel": "Little Big Awesome",
-     "hinweis": "Staffeln unklar: TMDB zählt 33 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.44b69da7-d905-017f-c691-54059237c2a9",
@@ -1656,39 +1487,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 78 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.f69a8506-eb83-497c-8151-bef2e03ffc29",
-     "titel": "Die Welt der Winx (World of Winx)",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.74d21db9-ee3f-49da-9316-0b0bd98c478f",
-     "titel": "Leo der Lastwagen (Leo the Truck)",
-     "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.14b2361c-a7ea-c2c0-53d7-ed87ab7b2a80",
-     "titel": "Die Mr. Peabody & Sherman Show (The Mr. Peabody & Sherman Show)",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.7b475a33-0c6d-4343-bf32-284d83031eaf",
-     "titel": "Oddbods Cartoon (Oddbods (Shorts))",
-     "hinweis": "Staffeln unklar: TMDB zählt 46 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.2aa9f6b9-25b2-7d1e-0ed8-533d61a22046",
-     "titel": "Heidi",
-     "hinweis": "Staffeln unklar: TMDB zählt 91 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.4eb94cf9-eb45-16c7-3e83-e618caafde9b",
      "titel": "Zack & Quack",
      "hinweis": "Staffeln unklar: TMDB zählt 78 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8bd755bd-8533-42f8-a856-9181f4889459",
-     "titel": "Lassie (The New Adventures of Lassie)",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.52a52322-0b3d-4a00-b09b-e294df9c7bad",
@@ -1701,11 +1502,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.103b81c1-995f-4d09-b577-dc91f6ac2372",
-     "titel": "Mia and Me - Abenteuer in Centopia (Mia and Me)",
-     "hinweis": "Staffeln unklar: TMDB zählt 104 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.b4b6ed81-9ca3-af1e-264d-131b6d3f38b1",
      "titel": "Superbuch (Superbook)",
      "hinweis": "Staffeln unklar: TMDB zählt 68 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -1714,41 +1510,6 @@
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.84a9f6d4-7e11-7b4f-b3be-3bed0667cf96",
      "titel": "Summ, summ, super! (The Hive)",
      "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5aa9f6c1-e103-4539-287b-7b50d732d0f4",
-     "titel": "Das Dschungelbuch (The Jungle Book)",
-     "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.94a9f6d9-5665-d8c6-5364-5222c3b2847e",
-     "titel": "My Little Pony - Freundschaft ist Magie (My Little Pony: Friendship Is Magic)",
-     "hinweis": "Staffeln unklar: TMDB zählt 221 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.68b86333-7968-50dd-2298-39b32eaa1cde",
-     "titel": "Gormiti: The Lords of Nature Return",
-     "hinweis": "Staffeln unklar: TMDB zählt 65 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.b9f99552-c8a5-48f1-8f74-4bc7f9bf13b5",
-     "titel": "Hot Wheels Battle Force 5",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.692cd095-6a22-4463-a45f-4dcd7f254bb5",
-     "titel": "Die Pinguine aus Madagascar (The Penguins of Madagascar)",
-     "hinweis": "Staffeln unklar: TMDB zählt 149 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.38b82c2b-cb17-efce-95db-b9aa5b7ce0be",
-     "titel": "Monster Buster Club",
-     "hinweis": "Staffeln unklar: TMDB zählt 53 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8ab76605-a75b-5dd3-b8bc-6576410bc93f",
-     "titel": "Kleine Prinzessin (Little Princess)",
-     "hinweis": "Staffeln unklar: TMDB zählt 135 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.745efd5c-a350-4c81-89c5-a9d09abba684",
@@ -1761,31 +1522,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.471fc212-743c-4fdf-9641-2faaccb700af",
-     "titel": "Miss Spider's Sunny Patch Friends",
-     "hinweis": "Staffeln unklar: TMDB zählt 83 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.1e743af8-5cb1-4ccc-85a2-8a8f7bb8afd3",
-     "titel": "Peppa Wutz (Peppa Pig)",
-     "hinweis": "Staffeln unklar: TMDB zählt 492 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a1340b73-987e-40a5-8a3a-b56a5a91c683",
-     "titel": "Emily Erdbeer (Strawberry Shortcake)",
-     "hinweis": "Staffeln unklar: TMDB zählt 50 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.ccb6ba86-00d0-3573-a6eb-58f96347e8fe",
-     "titel": "Die Koala Brüder (The Koala Brothers)",
-     "hinweis": "Staffeln unklar: TMDB zählt 79 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.61ff47a9-ef1f-4cd3-9861-a4ca7cd72102",
-     "titel": "Jacob 2/2 (Jacob Two-Two)",
-     "hinweis": "Staffeln unklar: TMDB zählt 62 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d1db02ca-2142-4ab9-a187-232f74c14666",
      "titel": "Tutenstein",
      "hinweis": "Staffeln unklar: TMDB zählt 39 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -1794,14 +1530,9 @@
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.01cb826d-d2a1-4099-9c09-e9d5d1c3891c",
      "titel": "Stargate: Infinity (Stargate Infinity)",
      "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.feb8fae2-5edb-ede6-aa78-db300d1f3e11",
-     "titel": "Mr. Bean - Die Cartoon-Serie (Mr. Bean: The Animated Series)",
-     "hinweis": "Staffeln unklar: TMDB zählt 182 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     }
    ],
-   "naechster": "Kevin",
+   "naechster": "The Legend of Vox Machina",
    "bekannt": {
     "B0DGGZSKRM": 13,
     "B0FKZM9J6V": 25,
@@ -1872,7 +1603,7 @@
     "B0GZ5Q2Z5F": 12,
     "B0DHCNTKCR": 12,
     "B0883CSMBB": 13,
-    "0M8DANTSGA69M1PDY94H2WE49L": 12,
+    "B0CHKG67BC": 12,
     "B0DN482ZYY": 13,
     "B0DNG8BDW3": 12,
     "B0DNC27MBN": 13,
@@ -1972,9 +1703,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 483,
-   "gesamt": 740,
-   "offen": 257,
+   "gemeldet": 588,
+   "gesamt": 820,
+   "offen": 232,
    "ohneSeite": 18,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
@@ -1999,23 +1730,8 @@
      "hinweis": "Staffeln unklar: TMDB zählt 36 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.netflix.com/title/80205037",
-     "titel": "Supa Team 4",
-     "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/81044590",
      "titel": "Carol & the End of the World",
-     "hinweis": "Staffeln unklar: TMDB zählt 10 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80141172",
-     "titel": "The Guardians of Justice",
-     "hinweis": "Staffeln unklar: TMDB zählt 7 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80211128",
-     "titel": "Super Giant Robot Brothers",
      "hinweis": "Staffeln unklar: TMDB zählt 10 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
@@ -2042,11 +1758,6 @@
      "url": "https://www.netflix.com/title/82116613",
      "titel": "Monkey Wrench",
      "hinweis": "Staffeln unklar: TMDB zählt 6 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80198673",
-     "titel": "Ada Twist",
-     "hinweis": "Staffeln unklar: TMDB zählt 61 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/81039557",
@@ -2082,26 +1793,6 @@
      "url": "https://www.netflix.com/title/81054417",
      "titel": "Spirit wild und frei: Reitakademie",
      "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80189632",
-     "titel": "Charlie's Colorforms City",
-     "hinweis": "Staffeln unklar: TMDB zählt 58 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80210294",
-     "titel": "Für immer Zwölf",
-     "hinweis": "Staffeln unklar: TMDB zählt 25 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80227818",
-     "titel": "Hallo Ninja",
-     "hinweis": "Staffeln unklar: TMDB zählt 39 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80198459",
-     "titel": "Cupcake und Dino: Dienste aller Art",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/81272431",
@@ -2151,10 +1842,6 @@
     {
      "url": "https://www.netflix.com/title/70302573",
      "titel": "Sword Art Online"
-    },
-    {
-     "url": "https://www.netflix.com/title/80212481",
-     "titel": "YooHoo: Retter in der Not"
     },
     {
      "url": "https://www.netflix.com/title/81218604",
@@ -2333,11 +2020,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 24 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.netflix.com/title/80222411",
-     "titel": "Princess Power",
-     "hinweis": "Staffeln unklar: TMDB zählt 45 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/80240585",
      "titel": "Agent Elvis",
      "hinweis": "Staffeln unklar: TMDB zählt 10 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -2440,12 +2122,9 @@
     {
      "url": "https://www.netflix.com/title/80115119",
      "titel": "Ollies Odyssee",
-     "hinweis": "Staffeln unklar: TMDB zählt 4 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80214601",
-     "titel": "Deepa und Anoop",
-     "hinweis": "Staffeln unklar: TMDB zählt 18 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+     "staffeln": [
+      1
+     ]
     },
     {
      "url": "https://www.netflix.com/title/80234642",
@@ -2590,7 +2269,9 @@
     {
      "url": "https://www.netflix.com/title/80222892",
      "titel": "I Heart Arlo",
-     "hinweis": "Staffeln unklar: TMDB zählt 19 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+     "staffeln": [
+      1
+     ]
     },
     {
      "url": "https://www.netflix.com/title/80240923",
@@ -2748,26 +2429,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 22 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.netflix.com/title/80201451",
-     "titel": "Chico Bon Bon",
-     "hinweis": "Staffeln unklar: TMDB zählt 38 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80215155",
-     "titel": "Sternenstreif",
-     "hinweis": "Staffeln unklar: TMDB zählt 41 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80218108",
-     "titel": "Die Zauberer",
-     "hinweis": "Staffeln unklar: TMDB zählt 10 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80221337",
-     "titel": "Glitch Techs",
-     "hinweis": "Staffeln unklar: TMDB zählt 19 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/80234731",
      "titel": "Mü-Mo das Müllmobil",
      "hinweis": "Staffeln unklar: TMDB zählt 28 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -2838,41 +2499,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 98 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.netflix.com/title/80167821",
-     "titel": "Carmen Sandiego",
-     "hinweis": "Staffeln unklar: TMDB zählt 32 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80174608",
-     "titel": "Love, Death & Robots",
-     "hinweis": "Staffeln unklar: TMDB zählt 45 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80192734",
-     "titel": "Barbie - Traumvilla-Abenteuer: Go Team Roberts",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80198137",
-     "titel": "Tuca & Bertie",
-     "hinweis": "Staffeln unklar: TMDB zählt 30 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80217066",
-     "titel": "Die sechs Hände der Rache",
-     "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80218107",
-     "titel": "Dragons - Die jungen Drachenretter",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80225085",
-     "titel": "Fast & Furious Spy Racers",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/80235932",
      "titel": "Trailer Park Boys: The Animated Series",
      "hinweis": "Staffeln unklar: TMDB zählt 20 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -2886,81 +2512,6 @@
      "url": "https://www.netflix.com/title/81056491",
      "titel": "True Tunes",
      "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80107989",
-     "titel": "Unten am Fluss",
-     "hinweis": "Staffeln unklar: TMDB zählt 2 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80115338",
-     "titel": "Lama Lama",
-     "hinweis": "Staffeln unklar: TMDB zählt 48 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80115341",
-     "titel": "Spy Kids - Auf wichtiger Mission",
-     "hinweis": "Staffeln unklar: TMDB zählt 20 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80115346",
-     "titel": "Hilda",
-     "hinweis": "Staffeln unklar: TMDB zählt 34 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80117560",
-     "titel": "Trolls - Die Party geht weiter!",
-     "hinweis": "Staffeln unklar: TMDB zählt 103 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80134440",
-     "titel": "Magie in Motown",
-     "hinweis": "Staffeln unklar: TMDB zählt 51 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80147919",
-     "titel": "The Hollow",
-     "hinweis": "Staffeln unklar: TMDB zählt 20 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80147920",
-     "titel": "Robozuna",
-     "hinweis": "Staffeln unklar: TMDB zählt 40 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80147923",
-     "titel": "Baumhausdetektive",
-     "hinweis": "Staffeln unklar: TMDB zählt 20 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80179784",
-     "titel": "3 von oben",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80180600",
-     "titel": "Kulipari: Traumwandler",
-     "hinweis": "Staffeln unklar: TMDB zählt 10 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80191522",
-     "titel": "Paradise PD",
-     "hinweis": "Staffeln unklar: TMDB zählt 40 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80202146",
-     "titel": "Luna Petunia: Return to Amazia",
-     "hinweis": "Staffeln unklar: TMDB zählt 21 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80212245",
-     "titel": "Der Prinz der Drachen",
-     "hinweis": "Staffeln unklar: TMDB zählt 63 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80213643",
-     "titel": "Chips und Toffel",
-     "hinweis": "Staffeln unklar: TMDB zählt 62 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/80243473",
@@ -2978,69 +2529,14 @@
      "hinweis": "Staffeln unklar: TMDB zählt 70 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.netflix.com/title/80105933",
-     "titel": "LEGO Elves: Geheimnisse von Elvendale",
-     "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80108373",
-     "titel": "Der Zauberschulbus ist wieder unterwegs",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80109399",
-     "titel": "Kibaoh Klashers",
-     "hinweis": "Staffeln unklar: TMDB zählt 30 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80115432",
-     "titel": "Spirit: wild und frei",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80117038",
-     "titel": "Big Mouth",
-     "hinweis": "Staffeln unklar: TMDB zählt 81 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80124711",
-     "titel": "Die Supermonster",
-     "hinweis": "Staffeln unklar: TMDB zählt 41 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80152350",
-     "titel": "Neo Yokio",
-     "hinweis": "Staffeln unklar: TMDB zählt 6 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/81691739",
      "titel": "Lukas, die Spinne",
      "hinweis": "Staffeln unklar: TMDB zählt 50 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.netflix.com/title/80108159",
-     "titel": "Fragestunde mit den StoryBots",
-     "hinweis": "Staffeln unklar: TMDB zählt 22 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80113201",
-     "titel": "Skylanders Academy",
-     "hinweis": "Staffeln unklar: TMDB zählt 38 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/81186971",
      "titel": "Willkommen bei den Louds",
      "hinweis": "Staffeln unklar: TMDB zählt 416 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80187223",
-     "titel": "PJ Masks – Pyjamahelden",
-     "hinweis": "Staffeln unklar: TMDB zählt 257 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80162994",
-     "titel": "Talking Tom and Friends",
-     "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/80026226",
@@ -3094,8 +2590,44 @@
      "titel": "Kazoops!"
     },
     {
+     "url": "https://www.netflix.com/title/80115338",
+     "titel": "Lama Lama"
+    },
+    {
+     "url": "https://www.netflix.com/title/80117560",
+     "titel": "Trolls - Die Party geht weiter!"
+    },
+    {
+     "url": "https://www.netflix.com/title/80124711",
+     "titel": "Die Supermonster"
+    },
+    {
      "url": "https://www.netflix.com/title/80135674",
      "titel": "My Hero Academia"
+    },
+    {
+     "url": "https://www.netflix.com/title/80174608",
+     "titel": "Love, Death & Robots"
+    },
+    {
+     "url": "https://www.netflix.com/title/80189632",
+     "titel": "Charlie's Colorforms City"
+    },
+    {
+     "url": "https://www.netflix.com/title/80198459",
+     "titel": "Cupcake und Dino: Dienste aller Art"
+    },
+    {
+     "url": "https://www.netflix.com/title/80202146",
+     "titel": "Luna Petunia: Return to Amazia"
+    },
+    {
+     "url": "https://www.netflix.com/title/80213643",
+     "titel": "Chips und Toffel"
+    },
+    {
+     "url": "https://www.netflix.com/title/80222411",
+     "titel": "Princess Power"
     },
     {
      "url": "https://www.netflix.com/title/81099976",
@@ -3117,6 +2649,7 @@
     "80174974": 10,
     "80186926": 6,
     "80206326": 26,
+    "80212481": 13,
     "80221272": 13,
     "80992137": 24,
     "81002444": 8,
