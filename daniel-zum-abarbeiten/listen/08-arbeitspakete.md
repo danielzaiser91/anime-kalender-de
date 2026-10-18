@@ -1,7 +1,7 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-18 · **26 offene Verweise** in **21 Zeilen**,
-aufgeteilt in **2 Pakete** zu je 20.
+Stand 2026-10-19 · **25 offene Verweise** in **20 Zeilen**,
+aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
 `dub-pruefliste.md`, nur nach Nutzen sortiert statt nach Datum: Was viele Folgen oder einen
@@ -40,24 +40,18 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 3 | Netflix | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
 | 4 | Netflix | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
 | 5 | Prime Video | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
-| 6 | Disney+ | Gachiakuta | [Hauptserie]() |
-| 7 | Prime Video | Samurai Girls | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DP5DZW86) · [2: Samurai Bride](https://www.amazon.de/gp/video/detail/B0DND4SB6V) |
-| 8 | Prime Video | The Detective Is Already Dead | [Staffel 2]() |
-| 9 | Prime Video | Danganronpa | [Hauptserie](https://www.amazon.de/gp/video/detail/B0CHK728W1) |
-| 10 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
-| 11 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
-| 12 | Disney+ | A Sign of Affection | [Hauptserie]() |
-| 13 | Netflix | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
-| 14 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 15 | Netflix | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
-| 16 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
-| 17 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
-| 18 | Disney+ | Jujutsu Kaisen | [0]() |
-| 19 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
-| 20 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
-
-## Paket 2 — Zeilen 21 bis 21
-
-| # | Anbieter | Reihe | Noch zu bestätigen |
-|---|---|---|---|
-| 21 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
+| 6 | Joyn | Dororo (1969) | [Dororo]() |
+| 7 | Disney+ | Gachiakuta | [Hauptserie]() |
+| 8 | Prime Video | Samurai Girls | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DP5DZW86) · [2: Samurai Bride](https://www.amazon.de/gp/video/detail/B0DND4SB6V) |
+| 9 | Joyn | Hell’s Paradise | [Hauptserie]() |
+| 10 | Prime Video | The Detective Is Already Dead | [Staffel 2]() |
+| 11 | Prime Video | Danganronpa | [Hauptserie](https://www.amazon.de/gp/video/detail/B0CHK728W1) |
+| 12 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
+| 13 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
+| 14 | Disney+ | A Sign of Affection | [Hauptserie]() |
+| 15 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 16 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
+| 17 | Disney+ | Jujutsu Kaisen | [0]() |
+| 18 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
+| 19 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
+| 20 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
