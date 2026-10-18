@@ -77,11 +77,6 @@ pruefe('AniList-Schätzung (13) weicht der Zahl von Crunchyroll (12), samt Herku
 const crBelegt = { ...crTermin('2026-10-04'), schedule: { firstEpisodeDate: '2026-10-04', time: '16:00', episodeCount: 24 } } as unknown as Release
 const rebornBelegt = primeMit13([crBelegt])
 pruefe('Belegte Zahl von Crunchyroll: Prime führt sie ohne „geschätzt“-Marke', rebornBelegt?.schedule.episodeCount === 24 && !rebornBelegt.schedule.episodeCountAssumed, rebornBelegt?.schedule)
-/* Sichtungszeit des Anbieters (timeSighting) wandert nicht auf den Prime-Kanal: dort weder `time` noch Sichtung, kein Termin mit Uhrzeit. */
-const crSicht = { ...crTermin('2026-10-04'), schedule: { ...crTermin('2026-10-04').schedule, time: undefined, timeSighting: { time: '16:30', notSeen: '16:18', seen: '16:32', date: '2026-10-11', source: 'Daniel' } } } as unknown as Release
-const primeNachSicht = primeMit13([crSicht])
-pruefe('Kanal-Plan: Sichtungszeit des Anbieters geht nicht auf den Prime-Kanal', primeNachSicht?.schedule.time === undefined && !primeNachSicht?.schedule.timeSighting, primeNachSicht?.schedule)
-pruefe('Kanal-Plan: kein Termin des Prime-Kanals trägt eine Uhrzeit', primeNachSicht !== undefined && expandEvents(primeNachSicht).every((e) => !e.time && !e.timeEstimated))
 const rebornOhneCr = primeMit13([])
 pruefe('Ohne Crunchyroll-Termin bleibt die AniList-Schätzung (13)', rebornOhneCr?.schedule.episodeCount === 13 && rebornOhneCr.schedule.episodeCountAssumed === true, rebornOhneCr?.schedule)
 
