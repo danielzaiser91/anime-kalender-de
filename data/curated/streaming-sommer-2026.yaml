@@ -109,6 +109,9 @@
   schedule:
     firstEpisodeDate: "2026-07-12"
     estimated: true
+  # Folge 12 steht seit 15.10.2026 im Crunchyroll-Wochenprogramm (data/crunchyroll-woche-belege.json). Japan sendete 11 Folgen
+  # (aniSearch 20297, Folge 11 am 21.09.), Folge 12 wäre dort am 27.09. gelaufen — außer der Ankündigung deutet nichts auf sie.
+  note: "Folge 12 steht im Crunchyroll-Wochenprogramm. Vermutlich ein Fehler: In Japan gab es nur 11 Folgen."
   sources:
     - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
 
