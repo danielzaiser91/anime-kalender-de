@@ -39,6 +39,12 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   keine Uhrzeit, veröffentlicht Anime aber um 17:00 JST = 08:00 UTC (Tudum zu Steel Ball Run;
   Daniel sah Folge 2 um 09:35 noch nicht, um 10:11 schon). `expandEvents` setzt diese Zeit dort,
   wo keine belegt ist, als `timeEstimated` — angezeigt mit „≈", ohne Countdown.
+  **Zweite Ausnahme (18.10.2026): Uhrzeit aus einem eigenen Sichtungsfenster von höchstens 30 min.**
+  Fehlte eine Folge zu `notSeen` und war zu `seen` da, darf `time` ein Wert im Fenster sein, mit
+  `timeEstimated: true` und `schedule.timeSighting` (`notSeen`, `seen`, `date` der Sichtung, `source`).
+  `data:validate` (`pipeline/lib/sichtungsfenster.ts`) lehnt ein Fenster über 30 min, fehlendes
+  `timeEstimated`, fehlende Fensterangaben und eine `time` außerhalb des Fensters ab. Ein einzelnes
+  „da" ohne vorheriges „nicht da" belegt keine Uhrzeit. Die Sichtung gilt nur für die gesichtete Folge.
 - **Abgeleitetes kennzeichnen.** Datum aus dem Simulcast-Start übernommen statt aus einer
   Dub-Ankündigung? Dann `estimated: true`. Folgenzahl geraten? Setzt die Pipeline selbst als
   `episodeCountAssumed`. Beides erscheint im UI als `≈`.

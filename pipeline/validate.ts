@@ -4,6 +4,7 @@ import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { loadCurated } from './lib/curated.ts'
 import { dubFeldFehler } from './lib/dub-aus-terminen.ts'
+import { sichtungsFehler } from './lib/sichtungsfenster.ts'
 import { ROOT } from './lib/util.ts'
 import { log } from './lib/util.ts'
 import { PLATFORMS, RELEASE_TYPES } from '../shared/types.ts'
@@ -44,6 +45,7 @@ function main(): void {
       if (!ISO_DATE.test(String(s.firstEpisodeDate)))
         errors.push(`${at}: firstEpisodeDate "${s.firstEpisodeDate}" ist kein ISO-Datum in Anführungszeichen`)
       if (s.time && !TIME.test(s.time)) errors.push(`${at}: time "${s.time}" ist nicht HH:MM`)
+      for (const f of sichtungsFehler(s)) errors.push(`${at}: ${f}`)
       if (s.lastEpisodeDate && !ISO_DATE.test(String(s.lastEpisodeDate)))
         errors.push(`${at}: lastEpisodeDate ist kein ISO-Datum`)
       for (const d of s.skipDates ?? []) {
