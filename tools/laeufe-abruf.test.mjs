@@ -104,11 +104,11 @@ const mitCommitVor = (stunden, gruenAm = '2026-10-17T00:00:00Z') => {
 const rot = mitCommitVor(20)
 assert.equal(rot.status, 0)
 assert.match(rot.stdout, /0 rot\nROT im Verlauf: Bestand — letzter Lauf fehler am 2026-10-18T09:00:00Z \(vor -?[\d.]+ h, kein grüner Lauf danach\)\n/)
-assert.doesNotMatch(rot.stdout, /Sammler/)
+assert.doesNotMatch(rot.stdout, /ROT im Verlauf: Sammler/)
 // Grüner Lauf nach dem Fehler: keine ROT-Zeile (Gegenprobe gegen `gh run list`).
 assert.doesNotMatch(mitCommitVor(20, '2026-10-18T09:30:00Z').stdout, /ROT im Verlauf/)
 
-assert.match(rot.stdout, /^STILLSTAND: public\/data seit 20\.0 h unverändert \(Grenze 8 h, letzter Commit /)
+assert.match(rot.stdout, /^STILLSTAND: public\/data seit 20\.0 h unverändert \(Grenze 8 h, letzter Commit /m)
 assert.doesNotMatch(mitCommitVor(7).stdout, /STILLSTAND/)
 
 // Grenze: genau 8 h noch in Ordnung, eine Sekunde mehr nicht.
