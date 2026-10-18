@@ -194,11 +194,11 @@ jobs:
         run: |
           if git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi
           if npm run check:logic > /tmp/logic.txt 2>&1 && npx tsx pipeline/check-logic-bestand.ts >> /tmp/logic.txt 2>&1; then exit 0; fi
-          grep '✖' /tmp/logic.txt || true
+          tail -n 40 /tmp/logic.txt
           git checkout -- data/dub-confirmed.yaml
           git checkout -- data/anbieter-staffeln.json 2>/dev/null || true
           rm -f data/cache/pruefungen-abhaken.json
-          grund="$(grep -m 3 '✖' /tmp/logic.txt | tr -d '\"' | tr -s '[:space:]' ' ')"
+          grund="$(bash tools/pruefgrund.sh /tmp/logic.txt)"
           echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Neue Meldungen zurückgestellt: $grund" >> "$GITHUB_ENV"
 
       # Was der Erweiterung aufgefallen ist, ohne dass jemand die Konsole oeffnet.

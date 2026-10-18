@@ -122,7 +122,8 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     # Kennung — der Prüfstand meldete weiter 15, und die Pille in der Status-App
     # führte auf eine Liste, in der nichts stand.
     if [ "${AUFBAU_KAPUTT:-0}" != 1 ] && ! npm run data:extension-liste; then
-      echo "::warning::Die Prüflisten sind nicht neu entstanden. Sie zählen dann gegen einen älteren Bestand."
+      echo "::error::Die Prüflisten sind nicht neu entstanden. Sie zählen dann gegen einen älteren Bestand; der Lauf endet rot."
+      LISTEN_GESCHEITERT=1
     fi
   fi
   # Seit dem 17.09.2026 außerhalb des Neuaufbau-Zweigs: nach einem Neuaufbau und
@@ -215,6 +216,18 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     fi
   }
 
+  pflicht_erzeugnisse_da() {
+    local pfad
+    local da=0
+    for pfad in public/og public/data/titles.json; do
+      if [ ! -e "$pfad" ]; then
+        echo "::error::Pflicht-Erzeugnis fehlt: $pfad"
+        da=1
+      fi
+    done
+    return $da
+  }
+
   # Gesunkene Umfangsgrenzen übernimmt nur dieser Lauf auf main, nie ein PR: Sonst ändert fast jeder PR dieselbe Zeile
   # in tools/umfang-grenzen.json und macht die übrigen offenen PRs DIRTY (11.10.2026). Scheitert es, bleibt alles beim Alten.
   if node tools/umfang-pruefen.mjs --festschreiben > /dev/null 2>&1; then
@@ -233,7 +246,11 @@ for versuch in $(seq 1 "$VERSUCHE"); do
 
   # Rot endet der Lauf, sobald Aufbau oder Bestand scheitern — nach dem Sichern der Quellen.
   LAUF_ROT=0
-  if [ "${AUFBAU_GESCHEITERT:-0}" = 1 ] || [ "${BESTAND_KAPUTT:-0}" = 1 ]; then
+  if [ "${AUFBAU_GESCHEITERT:-0}" = 1 ] || [ "${BESTAND_KAPUTT:-0}" = 1 ] || [ "${LISTEN_GESCHEITERT:-0}" = 1 ]; then
+    LAUF_ROT=1
+  fi
+  # Ein Pflicht-Erzeugnis, das nach gelungenem Bau fehlt, ist ein Fehler (18.10.2026: `hinzu` übersprang es still).
+  if [ "${AUFBAU_KAPUTT:-0}" != 1 ] && ! pflicht_erzeugnisse_da; then
     LAUF_ROT=1
   fi
 

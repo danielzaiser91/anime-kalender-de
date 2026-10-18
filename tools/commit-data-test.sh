@@ -33,8 +33,14 @@ cat > "$ATTRAPPE/npm" <<'SKRIPT'
 case "$2" in
   data:build)
     [ "${FAKE_BAU:-ok}" = fail ] && { echo "✖ Titelschwund"; exit 1; }
-    mkdir -p public/data
+    mkdir -p public/data public/og
     echo '{"neu":true}' > public/data/titles.json
+    echo bild > public/og/a.txt
+    [ "${FAKE_BAU:-ok}" = ohne-titles ] && rm public/data/titles.json && echo '{}' > public/data/woche.json
+    [ "${FAKE_BAU:-ok}" = ohne-og ] && rm -r public/og
+    ;;
+  data:extension-liste)
+    [ "${FAKE_LISTE:-ok}" = fail ] && { echo "Prüfstand-Abbruch"; exit 1; }
     ;;
   check:bestand)
     [ "${FAKE_BESTAND:-ok}" = fail ] && { echo "✗ Handbeleg ohne Titel"; exit 1; }
@@ -118,6 +124,26 @@ pruefe "kein Erzeugnis gepusht" nein "$(im_fernstand public/data/titles.json)"
 echo "data:build scheitert und es gibt nichts zu committen: trotzdem rot"
 LAUF_AENDERT=nein szenario leer FAKE_BAU=fail
 pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+
+echo "data:extension-liste scheitert (18.10.2026): rot, Quellen und Erzeugnisse trotzdem gesichert"
+szenario liste FAKE_LISTE=fail
+pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+pruefe "Quelle gepusht" ja "$(quelle_gepusht)"
+pruefe "Erzeugnis gepusht" ja "$(im_fernstand public/data/titles.json)"
+pruefe "Fehlerzeile im Log" ja "$(grep -q '::error::Die Prüflisten sind nicht neu entstanden' "$ARBEIT/liste/log.txt" && echo ja || echo nein)"
+
+echo "Pflicht-Erzeugnis fehlt nach gelungenem Bau: rot, Quellen gesichert, Fehler im Log"
+szenario ohnetitles FAKE_BAU=ohne-titles
+pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+pruefe "Quelle gepusht" ja "$(quelle_gepusht)"
+pruefe "Fehler nennt die Datei" ja "$(grep -q '::error::Pflicht-Erzeugnis fehlt: public/data/titles.json' "$ARBEIT/ohnetitles/log.txt" && echo ja || echo nein)"
+szenario ohneog FAKE_BAU=ohne-og
+pruefe "ohne public/og: Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+pruefe "ohne public/og: Fehler nennt den Ordner" ja "$(grep -q '::error::Pflicht-Erzeugnis fehlt: public/og' "$ARBEIT/ohneog/log.txt" && echo ja || echo nein)"
+
+echo "Grüner Lauf: fehlende Quellen bleiben ein Hinweis, kein Pflicht-Fehler"
+pruefe "kein Pflicht-Fehler im grünen Lauf" 0 "$(grep -c 'Pflicht-Erzeugnis fehlt' "$ARBEIT/gruen/log.txt" || true)"
+pruefe "Pfad-Warnung für Quellen bleibt" ja "$(grep -q '::warning::.*nicht vorhanden' "$ARBEIT/gruen/log.txt" && echo ja || echo nein)"
 
 echo "Gleichzeitige Läufe teilen sich keine festen Pfade (Wackeln unter Last, 14.10.2026)"
 pruefe "kein fester /tmp-Pfad in commit-data.sh" 0 "$(grep -c "/tmp/" "$WURZEL/tools/commit-data.sh" || true)"
