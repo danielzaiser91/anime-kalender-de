@@ -58,19 +58,22 @@ console.log('\nKalender-Plausibilität 2: belegtes Ende, trotzdem geschätzt')
 {
   const ende = { firstEpisodeDate: '2026-07-01', lastEpisodeDate: '2026-09-30', episodeCount: 12 }
   const b = {
-    titles: [titel(1), titel(2), titel(3), titel(4), titel(5)],
+    titles: [titel(1), titel(2), titel(3), titel(4), titel(5), titel(6), titel(7)],
     releases: [
       release(1, 'r1', { ...ende, episodeCountAssumed: true }),
       release(2, 'r2', ende),
       release(3, 'r3', { firstEpisodeDate: '2026-07-01', episodeCount: 12, observed: { 12: '2026-09-30' } }),
       release(4, 'r4', { ...ende, lastEpisodeDate: '2026-12-30', episodeCountAssumed: true }),
       release(5, 'r5', ende),
+      release(6, 'r6', { firstEpisodeDate: '2026-07-01', episodeCount: 12, episodeCountAssumed: true, observed: { 12: HEUTE } }),
+      release(7, 'r7', { ...ende, observed: { 12: '2026-09-23' } }),
     ],
-    events: [ereignis(2, 'e2', '2026-10-07', { estimated: true }), ereignis(3, 'e3', '2026-09-30', { episodeCountAssumed: true }), ereignis(5, 'e5', '2026-09-23', { estimated: true })],
+    events: [ereignis(2, 'e2', '2026-10-07', { estimated: true }), ereignis(3, 'e3', '2026-09-30', { episodeCountAssumed: true }), ereignis(5, 'e5', '2026-09-23', { estimated: true }), ereignis(7, 'e7', '2026-09-27', { estimated: true })],
   }
   const ids = treffer('schaetzungNachEnde', b)
-  pruefe('„≈“ am Termin, geschätzter Termin danach, „≈“ am Ereignis nach beobachtetem Finale treffen', gleich(ids, [1, 2, 3]), ids)
+  pruefe('„≈“ am Termin, geschätzter Termin danach, „≈“ am Ereignis nach beobachtetem Finale treffen', gleich(ids, [1, 2, 3, 7]), ids)
   pruefe('Ende in der Zukunft und Schätzung vor dem Ende treffen nicht', !ids.includes(4) && !ids.includes(5), ids)
+  pruefe('Geschätzte Folgenzahl: die beobachtete „letzte“ Folge am Tag ist kein belegtes Ende', !ids.includes(6), ids)
 }
 
 console.log('\nKalender-Plausibilität 3: „Sprache offen“ trotz gemessenem Deutsch')

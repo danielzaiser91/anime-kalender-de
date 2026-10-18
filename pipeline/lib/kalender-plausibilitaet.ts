@@ -78,7 +78,8 @@ export function erschienenOhneTermin(b: Bestand): Treffer[] {
 /** Belegtes Ende: `lastEpisodeDate` oder die beobachtete letzte Folge, jeweils nicht in der Zukunft. */
 function belegtesEnde(r: Release, heute: string): string | undefined {
   const s = r.schedule
-  const finale = s.episodeCount ? s.observed?.[s.episodeCount] : undefined
+  // Bei geschätzter Folgenzahl ist „Folge N“ nur die Annahme, kein Finale.
+  const finale = s.episodeCount && !s.episodeCountAssumed ? s.observed?.[s.episodeCount] : undefined
   const ende = [s.lastEpisodeDate, finale].filter((d): d is string => !!d && d <= heute).sort()[0]
   return ende
 }
