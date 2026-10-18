@@ -4,9 +4,10 @@ import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath, URL } from 'node:url'
 import { eigeneKennungen } from './tools/vite-kennungen.ts'
 import { datenKennung } from './tools/daten-kennung.ts'
+import { NACH_DEM_BAU_UMGESCHRIEBEN, dateiKennungen, schreibeDateienInMeta } from './tools/daten-kennungen.ts'
 import { vorladeSkript } from './tools/vite-vorladen.ts'
 import { readFileSync, writeFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import { quellBaum } from './tools/quell-baum.ts'
 
 // Basis-Pfad: die Seite liegt an der Wurzel ihrer Domain (anime-kalender.de); CI baut mit PAGES_BASE=/
@@ -38,6 +39,15 @@ const buildId = datenKennung(fileURLToPath(new URL('./public/data', import.meta.
 /** Kennung des Codes: im CI die Commit-Kennung, lokal die Bauzeit. Sie steht im Bündel und in `version.json` (siehe `web/src/lib/aktualisierung.ts`). */
 const appVersion = (process.env.GITHUB_SHA ?? `lokal-${Date.now()}`).slice(0, 12)
 
+/**
+ * Inhalts-Kennung je Datendatei bzw. Datenordner: nur geänderte Dateien bekommen eine neue Adresse (`web/src/lib/daten-adresse.ts`);
+ * `buildId` bleibt Ersatz für nicht erfasste Dateien. Salz ist `data/kennungen.json`, mit der der Bau `dist/data` umschreibt.
+ */
+const kennungen = dateiKennungen(fileURLToPath(new URL('./public/data', import.meta.url)), readFileSync('data/kennungen.json', 'utf8'), NACH_DEM_BAU_UMGESCHRIEBEN)
+
+/** Die beiden nach `vite build` umgeschriebenen Dateien wechseln mit jedem Deploy die Adresse (Inhalt vorab nicht bekannt). */
+const adressKennungen = { ...kennungen, 'meta.json': appVersion, 'patchnotes.json': appVersion }
+
 function versionDatei() {
   let ziel = ''
   return {
@@ -47,6 +57,7 @@ function versionDatei() {
     },
     closeBundle() {
       writeFileSync(ziel, JSON.stringify({ v: appVersion, daten: buildId, baum: quellBaum() }))
+      schreibeDateienInMeta(resolve(dirname(ziel), 'data/meta.json'), kennungen)
     },
   }
 }
@@ -69,7 +80,7 @@ function datenVorladen() {
       } catch {
         // Ohne Wochen-Datei starten alle Adressen aus den vollen Dateien.
       }
-      return html.replace('</head>', `    ${vorladeSkript({ base, buildId, woche })}\n  </head>`)
+      return html.replace('</head>', `    ${vorladeSkript({ base, kennungen: adressKennungen, ersatz: buildId, woche })}\n  </head>`)
     },
   }
 }
@@ -78,7 +89,11 @@ export default defineConfig({
   base,
   root: 'web',
   publicDir: '../public',
-  define: { __BUILD_ID__: JSON.stringify(buildId), __APP_VERSION__: JSON.stringify(appVersion) },
+  define: {
+    __BUILD_ID__: JSON.stringify(buildId),
+    __DATEI_KENNUNGEN__: JSON.stringify(adressKennungen),
+    __APP_VERSION__: JSON.stringify(appVersion),
+  },
   plugins: [react(), tailwindcss(), datenVorladen(), eigeneKennungen(), versionDatei()],
   resolve: {
     alias: {

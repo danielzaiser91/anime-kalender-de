@@ -10,7 +10,7 @@
  *   HTML          Netz zuerst, aber mit Zeitlimit — sonst hängt die App an
  *                 einer toten Verbindung, statt die Kopie zu nehmen.
  *   /assets/…     Cache zuerst. Die Namen tragen einen Hash, sie ändern sich nie.
- *   /data/…       Cache zuerst **je Build-Kennung**, sonst Netz. Siehe unten.
+ *   /data/…       Cache zuerst **je Datei-Kennung** (Inhalts-Hash in der Adresse), sonst Netz. Siehe unten.
  *   Cover         Cache zuerst, auch vom fremden CDN. Die App legt die Bilder
  *                 der aktuellen und nächsten Woche selbst hier ab.
  *
@@ -168,7 +168,7 @@ async function cacheFirst(request, cacheName) {
 const DATA_MAX = 80
 
 /**
- * Daten: Cache zuerst — aber nur bei **gleicher** Build-Kennung.
+ * Daten: Cache zuerst — aber nur bei **gleicher** Datei-Kennung (gleiche Adresse = gleicher Inhalt).
  *
  * Der Kern des Cache-Bustings, und der Grund, warum hartes Neuladen nie wieder
  * nötig sein sollte:
