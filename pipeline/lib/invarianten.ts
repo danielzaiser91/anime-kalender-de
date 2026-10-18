@@ -5,6 +5,7 @@
  * Gegenprobe je Regel: `pipeline/check-invarianten.ts`.
  */
 import type { Release, ReleaseEvent, Title } from '../../shared/types.ts'
+import { termineOhneBelegteSynchro } from './ohne-synchro-beleg.ts'
 
 export interface Invarianten {
   fehler: string[]
@@ -120,6 +121,7 @@ export function pruefeInvarianten(releases: Release[], events: ReleaseEvent[], t
       ...slugsEindeutig(releases), ...folgennummernEindeutig(releases, events), ...verweise.fehler,
       ...folgenDatumSteigt(releases, events), ...filmOhneMehrereFolgen(releases, titles), ...deutschNichtVorJapan(releases, titles),
       ...terminKennungenEindeutig(events), ...widerlegteOhneTermine(releases, events),
+      ...termineOhneBelegteSynchro(events),
     ],
     warnungen: verweise.warnungen,
   }

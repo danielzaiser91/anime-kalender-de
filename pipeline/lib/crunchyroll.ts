@@ -23,6 +23,8 @@ export interface CrunchyrollObservation {
   date: string
   /** Folgennummer, falls die Kachel eine nennt. */
   episode?: number
+  /** Nur aus dem Wochenprogramm angehängt (Ankündigung), nicht im Kalender gemessen. */
+  quelle?: 'woche'
 }
 
 export interface CrunchyrollEntry {
@@ -225,7 +227,7 @@ export function wocheAnhaengen(german: Record<string, CrunchyrollEntry>, folgen:
     if (!eintrag || (f.seriesId && eintrag.seriesId && f.seriesId !== eintrag.seriesId)) continue
     const beob = eintrag.observations ?? []
     if (beob.some((o) => o.episode === f.episode)) continue
-    eintrag.observations = [...beob, { date: f.date, episode: f.episode }].sort((a, b) => a.date.localeCompare(b.date))
+    eintrag.observations = [...beob, { date: f.date, episode: f.episode, quelle: 'woche' as const }].sort((a, b) => a.date.localeCompare(b.date))
     n++
   }
   return n

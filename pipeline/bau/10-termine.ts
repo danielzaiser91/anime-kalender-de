@@ -1,9 +1,9 @@
 import { type ReleaseEvent, type Title, type Release } from '../../shared/types.ts'
-import { expandEvents } from '../../shared/logic.ts'
 import { istPremiere, istStaffelfinale, istStaffelstart } from '../../shared/tv-signale.ts'
 import { schreibeZweitanbieter } from '../../shared/zweitanbieter.ts'
 import { schreibeKatalogReleaseVonHand } from '../lib/katalog-belege.ts'
 import { log, warn } from '../lib/util.ts'
+import { kalenderTermine } from '../lib/ohne-synchro-beleg.ts'
 import { pruefeErgebnis } from '../lib/pruefung.ts'
 import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 import { schreibePremiereMitMeldung } from '../lib/premiere.ts'
@@ -81,7 +81,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
   /* Erst widerlegen, dann auffalten: Ein widerlegter Termin erzeugt kein Ereignis (02.10.2026). */
   widerlegeDeutscheTermine(releases, titles)
   const events: ReleaseEvent[] = releases
-    .flatMap(expandEvents)
+    .flatMap(kalenderTermine)
     .sort(nachTagUndZeit)
 
   urteilSchliesstLuecken(titles)
