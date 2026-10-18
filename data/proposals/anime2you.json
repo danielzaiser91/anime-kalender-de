@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-18T10:02:42.281Z",
+  "scrapedAt": "2026-10-18T11:02:48.930Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
@@ -1306,54 +1306,6 @@
             "Crunchyroll"
           ],
           "datum": "2026-10-04",
-          "datumGeschaetzt": true
-        }
-      ],
-      "sammelGelesen": "2026-10-17"
-    },
-    {
-      "articleTitle": "Drei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
-      "articleUrl": "https://www.anime2you.de/news/1057429/netflix-blue-box-staffel-2-und-mehr/",
-      "publishedAt": "2026-10-04",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "alreadyCurated": false,
-      "sammel": [
-        {
-          "titel": "Blue Box",
-          "zusatz": "Staffel 2",
-          "deutsch": true,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ],
-          "datum": "2026-10-04",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Ranma 1/2",
-          "zusatz": "Staffel 3",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ],
-          "datum": "2026-10-03",
-          "datumGeschaetzt": true
-        },
-        {
-          "titel": "Tougen Anki",
-          "zusatz": "Staffel 2",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "Netflix"
-          ],
-          "datum": "2026-10-02",
           "datumGeschaetzt": true
         }
       ],
