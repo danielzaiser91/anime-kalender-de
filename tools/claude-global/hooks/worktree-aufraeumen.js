@@ -5,7 +5,7 @@
 // Zweige bleiben. Verknüpfungen (node_modules, data/cache) werden vor dem Entfernen einzeln gelöst, nie rekursiv. Lose `_wt-*`-Ordner:
 // leer oder nur node_modules-Junction → weg, sonst nur aufgelistet.
 // Von Hand:  node worktree-aufraeumen.js --liste   (zeigt Entscheidungen, ändert nichts)   |   --abbau (Abbau im Vordergrund)
-// Einträge in ~/.claude/settings.json: siehe docs/wissen/betrieb.md, Abschnitt „Worktrees räumen sich selbst ab“.
+// Einträge in ~/.claude/settings.json: siehe docs/wissen/projektregeln-im-detail.md, Punkt „Worktrees räumen sich selbst ab“.
 const { execFileSync, spawnSync } = require('node:child_process')
 const fs = require('node:fs')
 const path = require('node:path')
