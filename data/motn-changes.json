@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 63
+    "2026-10": 65
   },
   "gesehen": {
     "26341901:netflix": {
@@ -8030,7 +8030,37 @@
       "dienst": "disney",
       "am": "2026-10-16",
       "deutsch": false
+    },
+    "new:26598509:netflix": {
+      "art": "new",
+      "titel": "Dragon Ball Super: Beerus",
+      "originalTitel": "ドラゴンボール超 ビルス",
+      "imdbId": "tt39395275",
+      "tmdbId": "tv/312359",
+      "dienst": "netflix",
+      "am": "2026-10-18",
+      "deutsch": false
+    },
+    "new:27067506:netflix": {
+      "art": "new",
+      "titel": "ONE PIECE BONUS CONTENT",
+      "originalTitel": "ONE PIECE BONUS CONTENT",
+      "imdbId": "tt41450549",
+      "tmdbId": "tv/316804",
+      "dienst": "netflix",
+      "am": "2026-10-17",
+      "deutsch": false
+    },
+    "new:27077098:netflix": {
+      "art": "new",
+      "titel": "On the Ship of Enchantment",
+      "originalTitel": "En la nave del encanto",
+      "imdbId": "tt35327640",
+      "tmdbId": "tv/281503",
+      "dienst": "netflix",
+      "am": "2026-10-17",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-10-17T04:11:59.414Z"
+  "fetchedAt": "2026-10-18T04:10:47.080Z"
 }
