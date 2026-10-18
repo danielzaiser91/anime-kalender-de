@@ -23843,9 +23843,5 @@
   platform: netflix
   url: https://www.netflix.com/title/81663323
   dub: true
-  dubRanges:
-    - from: 3
-      to: 3
-      dub: true
   checkedAt: '2026-10-18'
-  note: "Daniel, Sichtung Netflix/Prime 18.10.2026: Folge 3 der Staffel (bei Netflix Folge 28) am 18.10.2026 um 10:31 mit deutscher Synchro verfügbar; Folge 29 steht dort als Verfügbar ab 25. Oktober."
+  note: "Daniel, Sichtung Netflix/Prime 18.10.2026: Folge 3 der Staffel (bei Netflix Folge 28) am 18.10.2026 um 10:31 mit deutscher Synchro verfügbar; Folge 29 steht dort als Verfügbar ab 25. Oktober. Einzeln gesehen ist nur Folge 3; kein Bereich, weil keine Quelle die Folgen davor als nicht deutsch widerlegt."

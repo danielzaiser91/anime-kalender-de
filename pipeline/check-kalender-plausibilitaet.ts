@@ -166,10 +166,13 @@ console.log('\nKalender-Plausibilität 6: Prime-Termin nur mit Amazon-Suche')
     release(7, 'n7', {}, { platform: 'netflix', releaseType: 'weekly', platformUrl: 'https://www.netflix.com/search?q=x' } as never),
     prime(8, such, { releaseType: 'movie' } as never),
     prime(9, seite),
+    prime(10, 'https://www.amazon.de/s/ref=nb_sb_noss?k=Test'),
+    release(11, 'd11', {}, { platform: 'disneyplus', releaseType: 'weekly', platformUrl: 'https://www.disneyplus.com/search?q=x' } as never),
+    prime(12, seite),
   ]
   const ids = treffer('primeOhneTitelseite', { titles: [titel(2, { titleDe: 'Zwei' })], releases })
-  pruefe('Prime-Termine mit Suchadresse treffen (Serie und Film, Mitte und Ende der Liste)', gleich(ids, [2, 8]), ids)
-  pruefe('Titelseite, fehlende Adresse, Disc-Suche und fremder Anbieter treffen nicht', !ids.some((id) => [1, 3, 4, 5, 6, 7, 9].includes(id)), ids)
+  pruefe('Prime-Termine mit Suchadresse treffen (Serie und Film, beide Suchformen: /s?k= und /s/ref=…?k=)', gleich(ids, [2, 8, 10]), ids)
+  pruefe('Titelseite, fehlende Adresse, Disc-Suche und fremde Anbieter (Netflix, Disney+ mit Suchlink) treffen nicht', !ids.some((id) => [1, 3, 4, 5, 6, 7, 9, 11, 12].includes(id)), ids)
   const text = plausibilitaet({ titles: [titel(2, { titleDe: 'Zwei' })], releases, events: [], news: [], urteile: {}, kanal: new Set(), heute: HEUTE }).primeOhneTitelseite[0]!
   pruefe('der Treffer nennt Titel und Termin', text.schluessel === 'p2' && text.text.includes('Zwei') && text.text.includes('p2'), text)
 }
