@@ -1,7 +1,7 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-19 · **25 offene Verweise** in **20 Zeilen**,
-aufgeteilt in **1 Pakete** zu je 20.
+Stand 2026-10-19 · **28 offene Verweise** in **23 Zeilen**,
+aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
 `dub-pruefliste.md`, nur nach Nutzen sortiert statt nach Datum: Was viele Folgen oder einen
@@ -49,9 +49,17 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 12 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
 | 13 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
 | 14 | Disney+ | A Sign of Affection | [Hauptserie]() |
-| 15 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 16 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
-| 17 | Disney+ | Jujutsu Kaisen | [0]() |
-| 18 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
-| 19 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
-| 20 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
+| 15 | Netflix | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
+| 16 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 17 | Netflix | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
+| 18 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
+| 19 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
+| 20 | Disney+ | Jujutsu Kaisen | [0]() |
+
+## Paket 2 — Zeilen 21 bis 23
+
+| # | Anbieter | Reihe | Noch zu bestätigen |
+|---|---|---|---|
+| 21 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
+| 22 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
+| 23 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
