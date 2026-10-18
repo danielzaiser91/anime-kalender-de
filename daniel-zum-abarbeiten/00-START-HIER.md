@@ -1,6 +1,6 @@
 # Was zu tun ist
 
-Stand: 2026-10-17 — **erzeugt aus dem ausgelieferten Datensatz**,
+Stand: 2026-10-18 — **erzeugt aus dem ausgelieferten Datensatz**,
 nicht von Hand gepflegt. Wer hier eine Zahl ändert, ändert sie am
 falschen Ort; sie kommt beim nächsten Lauf zurück.
 
@@ -20,8 +20,8 @@ schickt die Meldung ab. Die Listen hier sind zum Nachschlagen, nicht zum Abtippe
 
 ## Was das bringt
 
-Von 2922 Titeln zeigen **349** keinen einzigen Bezugsweg,
-**205** davon mit belegter deutscher Synchro. Für die ist die
+Von 2922 Titeln zeigen **350** keinen einzigen Bezugsweg,
+**206** davon mit belegter deutscher Synchro. Für die ist die
 Antwort auf „wo kann ich das sehen?" heute: nirgends bekannt. Jede Meldung von hier
 macht eine davon weniger.
 

@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-10-17",
+  "stand": "2026-10-18",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
