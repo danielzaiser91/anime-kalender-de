@@ -11,7 +11,8 @@
  *
  * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-urteile.ts   (höchstens alle 6 Stunden, `--voll` erzwingt: `lib/abruf-stempel.ts`)
  */
-import { log, readJson, warn, writeJson } from './lib/util.ts'
+import { log, readJson, ROOT, warn, writeJson } from './lib/util.ts'
+import { fremdeAdressen } from './lib/fremde-adressen.ts'
 import { abrufMitStempel } from './lib/abruf-stempel.ts'
 import { adressIndex, artDerMeldung, artDerRohfolge, folgenDerMeldung, meldungGrund, nameIndex, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type StaffelKandidat, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
 import type { Title } from '../shared/types.ts'
@@ -107,12 +108,12 @@ function logOhneTitel(): void {
  * entscheidet die gemeldete Staffel (`staffelTreffer`); ist die Adresse unbekannt, entscheidet der
  * Name (`nameIndex`). Beides braucht dieselbe Titelliste.
  */
-function meldungsZuordnung(titelAlle: Title[]) {
+export function meldungsZuordnung(titelAlle: Title[]) {
   const titelNachId = new Map(titelAlle.map((t) => [t.id, t]))
   const reihen = new Map<number, number[]>()
   for (const t of titelAlle) reihen.set(t.franchiseId ?? t.id, [...(reihen.get(t.franchiseId ?? t.id) ?? []), t.id])
   return {
-    nachAdresse: adressIndex(titelAlle),
+    nachAdresse: adressIndex(titelAlle, fremdeAdressen(ROOT, new Set(titelNachId.keys()))),
     nachName: nameIndex(titelAlle),
     /* Alle Titel der Reihen, an denen die Adresse hängt — für spätere Staffeln (`spaeteStaffel`). */
     reiheVon: (ids: number[]) => [...new Set(ids.flatMap((i) => reihen.get(titelNachId.get(i)?.franchiseId ?? i) ?? [i]))],
