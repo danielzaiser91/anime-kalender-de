@@ -72,6 +72,8 @@ if [ "$EIGENE" -gt 0 ]; then
 fi
 
 for versuch in $(seq 1 "$VERSUCHE"); do
+  # Die Quarantäne-Liste gilt nur für den Bau dieses Versuchs; nach dem Neuaufsetzen zählt allein der neue Prüfstand.
+  rm -f "$TEMP_LAUF/quarantaene.json" "$TEMP_LAUF/quarantaene.txt"
   git fetch origin main --quiet
 
   if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then

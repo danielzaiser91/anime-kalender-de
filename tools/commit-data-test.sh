@@ -61,6 +61,8 @@ case "$2" in
     [ "${FAKE_BESTAND:-ok}" = fehler ] && { echo "FEHLER: Cover fehlt bei Titel 7"; exit 1; }
     [ "${FAKE_BESTAND:-ok}" = gemischt ] && { printf '⚠ Hinweis eins\n⚠ Hinweis zwei\n⚠ Hinweis drei\nFEHLER: Cover fehlt bei Titel 9\n'; exit 1; }
     # FAKE_ROT: Gruppen roter Titel ("11 22,33"), je Titel eine Marke; rot ist die erste Gruppe, die noch nicht zurückgestellt ist.
+    # FAKE_ROT_NACH_PAUSE: rote Titel, sobald der Fernstand in der Pause bewegt wurde (Versuch 2).
+    grep -qs pause fremd.txt && FAKE_ROT="${FAKE_ROT_NACH_PAUSE-$FAKE_ROT}"
     zurueck=" $(grep -o '"titleId":[-0-9]*' public/data/meta.json 2> /dev/null | cut -d: -f2 | tr '\n' ' ') "
     IFS=, read -ra gruppen <<< "${FAKE_ROT:-}"
     for gruppe in "${gruppen[@]}"; do

@@ -93,3 +93,19 @@ szenario q-sammler FAKE_ROT=22
 pruefe "Exit ≠ 0" ja "$(rot)"
 pruefe "kein Neubau ohne Titel" 0 "$(aufrufe q-sammler 'data:build  *q=ja')"
 pruefe "kein Erzeugnis gepusht" nein "$(im_fernstand public/data/titles.json)"
+
+echo "Quarantäne: scheitert der Push, beginnt Versuch 2 ohne die Liste aus Versuch 1 (derselbe Titel bleibt rot)"
+ERSTEN_ABLEHNEN=ja VERSUCHE_N=2 bau_szenario q-neuversuch FAKE_ROT=22
+pruefe "Exit 0" 0 "$CODE"
+pruefe "Versuch 2 gepusht" ja "$(grep -q '^Gepusht (Versuch 2)' "$ARBEIT/q-neuversuch/log.txt" && echo ja || echo nein)"
+pruefe "meta.json nennt den Titel" "22 " "$(zurueckgestellt_im_fernstand)"
+
+echo "Quarantäne: ist in Versuch 2 ein anderer Titel rot, wird nur dieser zurückgestellt"
+ERSTEN_ABLEHNEN=ja VERSUCHE_N=2 bau_szenario q-neuversuch-anders FAKE_ROT=22 FAKE_ROT_NACH_PAUSE=33
+pruefe "Exit 0" 0 "$CODE"
+pruefe "meta.json nennt nur den neuen Titel" "33 " "$(zurueckgestellt_im_fernstand)"
+pruefe "Warnung nennt nur den neuen Titel" ja "$(warnt q-neuversuch-anders ': 33 (probe)$')"
+
+echo "Quarantäne: Titel aus Versuch 1 zählen in Versuch 2 nicht auf die Obergrenze"
+ERSTEN_ABLEHNEN=ja VERSUCHE_N=2 bau_szenario q-neuversuch-grenze FAKE_ROT="11 22" FAKE_ROT_NACH_PAUSE="33 44"
+pruefe "Exit 0, meta.json nennt die zwei neuen" "0 33 44 " "$CODE $(zurueckgestellt_im_fernstand)"
