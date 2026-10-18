@@ -9,21 +9,25 @@ import { MARKE, SPERRE, wartAufSchwerenLauf } from './schwerer-lauf.mjs'
 
 const WINDOWS = process.platform === 'win32'
 
-/** Beendet das Kind samt Enkeln: Windows `taskkill /T`, sonst die ganze Prozessgruppe (das Kind ist dank `detached` Gruppenführer). */
-function beendeBaum(kind) {
-  if (WINDOWS) spawnSync('taskkill', ['/T', '/F', '/PID', String(kind.pid)], { stdio: 'ignore', windowsHide: true })
-  else process.kill(-kind.pid, 'SIGKILL')
+/** Beendet das Kind samt Enkeln: Windows `taskkill /T`, sonst Prozessgruppe (`gruppe`: das Kind ist Gruppenführer) bzw. nur das Kind. */
+function beendeBaum(kind, gruppe) {
+  if (WINDOWS) return void spawnSync('taskkill', ['/T', '/F', '/PID', String(kind.pid)], { stdio: 'ignore', windowsHide: true })
+  try {
+    process.kill(gruppe ? -kind.pid : kind.pid, 'SIGKILL')
+  } catch {} // schon beendet
 }
 
 /** Startet `befehl` mit der Umgebung `env`, liefert dessen Exit-Code. Hält der Aufruf die Sperre, steht das Kind in der Sperrdatei. */
 export function fuehreAus(befehl, env) {
   return new Promise((fertig) => {
     const zeile = befehl.map((a) => (/\s/.test(a) ? `"${a}"` : a)).join(' ') // die Shell bräuchte Anführungszeichen um Pfade mit Leerzeichen
-    const kind = spawn(zeile, { stdio: 'inherit', shell: true, env, detached: !WINDOWS, windowsHide: true })
-    if (env[MARKE] === String(process.pid)) vermerkeKind(SPERRE, kind.pid)
-    // `detached` nur unter POSIX (Windows öffnete ein Konsolenfenster).
+    const haeltSperre = env[MARKE] === String(process.pid)
+    // Eigene Gruppe nur beim Sperrhalter und nur unter POSIX (Windows öffnete ein Konsolenfenster); ein verschachtelter Wrapper bleibt in der Gruppe des äußeren.
+    const gruppe = haeltSperre && !WINDOWS
+    const kind = spawn(zeile, { stdio: 'inherit', shell: true, env, detached: gruppe, windowsHide: true })
+    if (haeltSperre) vermerkeKind(SPERRE, kind.pid)
     // Endet der Wrapper vorzeitig, stirbt das Kind vor dem Freigeben der Sperre; nach dem normalen Ende wird nichts mehr getötet.
-    const beiEnde = () => beendeBaum(kind)
+    const beiEnde = () => beendeBaum(kind, gruppe)
     process.prependListener('exit', beiEnde)
     kind.once('exit', (code) => {
       process.off('exit', beiEnde)

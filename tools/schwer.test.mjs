@@ -16,11 +16,15 @@ const [modus, text, haltMs] = process.argv.slice(2)
 if (modus === 'arbeit') {
   console.log(`an ${text} marke=${process.env[MARKE] ? 'ja' : 'nein'} pid=${process.pid}`)
   setTimeout(() => process.exit(Number(text === 'rot' ? 7 : 0)), Number(haltMs ?? 0))
-} else if (modus === 'abbruch') {
-  // Wrapper, der mitten im Lauf endet (wie SIGTERM über die Schlange): das Kind muss mit ihm sterben
-  const lauf = fuehreAus([process.execPath, import.meta.filename, 'arbeit', 'ABBR', '60000'], process.env)
-  setTimeout(() => process.exit(0), 2_000)
+} else if (modus === 'abbruch' || modus === 'aussen') {
+  // Wrapper als Sperrhalter, der mitten im Lauf endet (wie SIGTERM über die Schlange): das Kind muss mit ihm sterben,
+  // bei „aussen“ über einen verschachtelten Wrapper („innen“) hinweg
+  const ziel = modus === 'abbruch' ? ['arbeit', 'ABBR', '60000'] : ['innen']
+  const lauf = fuehreAus([process.execPath, import.meta.filename, ...ziel], { ...process.env, [MARKE]: String(process.pid) })
+  setTimeout(() => process.exit(0), 3_000)
   await lauf
+} else if (modus === 'innen') {
+  await fuehreAus([process.execPath, import.meta.filename, 'arbeit', 'ABBR', '60000'], process.env)
 } else {
   await pruefe()
 }
@@ -153,8 +157,8 @@ async function pruefeKindLebt(temp) {
 }
 
 /** Abbruch des Wrappers: das Enkelkind (arbeit) darf nicht weiterlaufen, sonst läuft es ohne Sperre. */
-async function pruefeAbbruch() {
-  const ab = spawn(process.execPath, [import.meta.filename, 'abbruch'], { stdio: ['ignore', 'pipe', 'inherit'], windowsHide: true })
+async function pruefeAbbruch(modus) {
+  const ab = spawn(process.execPath, [import.meta.filename, modus], { stdio: ['ignore', 'pipe', 'inherit'], windowsHide: true })
   let abAus = ''
   ab.stdout.on('data', (d) => (abAus += d))
   await new Promise((fertig) => ab.once('exit', fertig))
@@ -186,7 +190,8 @@ async function pruefe() {
     await pruefeWarten(temp)
     await pruefeVerwaist(temp)
     await pruefeKindLebt(temp)
-    await pruefeAbbruch()
+    await pruefeAbbruch('abbruch')
+    await pruefeAbbruch('aussen')
     await pruefeUmgehung(temp)
   } finally {
     rmSync(temp, { recursive: true, force: true })
