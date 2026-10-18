@@ -1,4 +1,4 @@
-/** Zusicherung: Eine Uhrzeit aus Sichtungsfenster steht nur in timeSighting.time, Fenster ≤ 30 min, Datum, Quelle; jede andere festgelegte Zeit braucht eine benannte Ausnahme (18.10.2026). */
+/** Zusicherung: Ein Regeltermin aus Sichtungsfenster steht in schedule.time, belegt durch timeSighting (Fenster, Datum, Quelle), unter 60 min ohne ≈; jede andere festgelegte Zeit braucht eine benannte Ausnahme (18.10.2026). */
 import { spawnSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
