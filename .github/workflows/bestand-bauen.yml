@@ -194,7 +194,9 @@ jobs:
         run: |
           if git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi
           if npm run check:logic > /tmp/logic.txt 2>&1 && npx tsx pipeline/check-logic-bestand.ts >> /tmp/logic.txt 2>&1; then exit 0; fi
-          tail -n 40 /tmp/logic.txt
+          echo "::group::Protokoll der Prüfung (die Ursache steht nicht am Ende: parallele Prüfungen drucken danach weiter)"
+          cat /tmp/logic.txt
+          echo "::endgroup::"
           git checkout -- data/dub-confirmed.yaml
           git checkout -- data/anbieter-staffeln.json 2>/dev/null || true
           rm -f data/cache/pruefungen-abhaken.json
@@ -266,7 +268,14 @@ jobs:
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:vorschlaege && npm run data:dub-checks && npm run data:extension-liste && npm run data:start-liste
+        run: |
+          for skript in data:vorschlaege data:dub-checks data:extension-liste data:start-liste; do
+            if ! npm run "$skript"; then
+              echo "::error::$skript ist gescheitert, die Arbeitslisten zählen gegen einen älteren Bestand."
+              echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Arbeitslisten nicht neu erzeugt: $skript" >> "$GITHUB_ENV"
+              exit 1
+            fi
+          done
 
       - name: Fortschritt — Arbeitslisten neu erzeugen
         continue-on-error: true

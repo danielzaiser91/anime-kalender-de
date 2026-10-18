@@ -40,12 +40,12 @@ function lauf({ diff, logic, bestand, vorher = '' }) {
   attrappe('npx', `echo "npx $*" >> "${spur}"\n${bestand}`)
   const env = { ...process.env, ...schritt.env, GITHUB_ENV: envDatei, PATH: `${join(ordner, 'bin')}${delimiter}${process.env.PATH}` }
   if (vorher) env.DATEN_WARNUNG = vorher
-  const r = spawnSync('bash', ['-e', '-c', schritt.run], { cwd: arbeit, encoding: 'utf8', env })
+  const r = spawnSync('bash', ['--noprofile', '--norc', '-eo', 'pipefail', '-c', schritt.run], { cwd: arbeit, encoding: 'utf8', env })
   assert.equal(r.status, 0, `Schritt endet grün: ${r.stderr}`)
   return { env: readFileSync(envDatei, 'utf8').trim(), spur: readFileSync(spur, 'utf8'), ausgabe: r.stdout }
 }
 
-const ROT = 'echo "check:logic: pipeline/check-x.ts ist rot (11 von 194 Prüfungen grün gelaufen)."; echo "Weitere Fehler dahinter bleiben verdeckt."; echo "npm error done"; exit 1'
+const ROT = 'echo "[check:logic 12/194] pipeline/check-x.ts"; echo "Error: Ursache steht vorn"; for i in $(seq 1 160); do echo "[check:logic $i/194] fremde Ausgabe"; done; echo "check:logic: pipeline/check-x.ts ist rot (11 von 194 Prüfungen grün gelaufen)."; echo "Weitere Fehler dahinter bleiben verdeckt."; echo "npm error done"; exit 1'
 const GRUEN = 'exit 0'
 
 try {
@@ -60,7 +60,10 @@ try {
   const rot = lauf({ diff: true, logic: ROT, bestand: GRUEN })
   assert.match(rot.env, /^DATEN_WARNUNG=Neue Meldungen zurückgestellt: .*pipeline\/check-x\.ts ist rot/, 'check:logic ohne ✖: Grund steht in der Warnung')
   assert.ok(rot.spur.includes('git checkout -- data/dub-confirmed.yaml'), 'Meldungen werden zurückgenommen')
-  assert.ok(rot.ausgabe.includes('ist rot'), 'die Prüfausgabe steht im Schrittprotokoll, nicht nur im Grund')
+  assert.match(rot.ausgabe, /^check:logic: pipeline\/check-x\.ts ist rot \(/m, 'die Prüfausgabe steht im Schrittprotokoll, nicht nur im Grund')
+  assert.match(rot.ausgabe, /^Error: Ursache steht vorn$/m, 'die Ursache steht im Schrittprotokoll, auch wenn danach über 150 Zeilen fremder Ausgabe folgen')
+  assert.match(rot.ausgabe, /^::group::/m, 'das Protokoll steht in einer Gruppe')
+  assert.match(rot.ausgabe, /^::endgroup::$/m, 'die Gruppe wird geschlossen')
 
   const bestandRot = lauf({ diff: true, logic: GRUEN, bestand: 'echo "  ✖ Titel 5 fehlt"; exit 1' })
   assert.match(bestandRot.env, /Neue Meldungen zurückgestellt: ✖ Titel 5 fehlt/, 'zweite Prüfung rot: Grund aus ihrer ✖-Zeile')

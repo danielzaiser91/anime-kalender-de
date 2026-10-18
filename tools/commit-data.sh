@@ -101,6 +101,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     # NUR_QUELLEN ist kein Fehler und bleibt grün.
     AUFBAU_KAPUTT=0
     AUFBAU_GESCHEITERT=0
+    LISTEN_GESCHEITERT=0
     if [ "${NUR_QUELLEN:-0}" = 1 ]; then
       echo "NUR_QUELLEN=1 — kein Neuaufbau, nur die geholten Quellen."
       AUFBAU_KAPUTT=1

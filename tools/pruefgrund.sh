@@ -9,7 +9,10 @@ set -uo pipefail
 
 DATEI="${1:?Protokolldatei fehlt}"
 
-gefunden="$({ grep -E '✖' "$DATEI"; grep -E 'ist rot' "$DATEI"; } | head -n 3 | tr -d '\"' | tr -s '[:space:]' ' ')"
+# Formatzeilen von check-logic-alle.mjs: `<name>: <datei> ist rot (` bzw. `<name>: N von M Prüfungen rot:` mit `  - <datei>`.
+# Grüne Testzeilen enthalten oft auch „ist rot" (`✓ … ist rot`), deshalb nur am Zeilenanfang suchen.
+rote_liste() { sed -n '/^[^ ]*: [0-9]* von [0-9]* Prüfungen rot:$/,$p' "$DATEI" | grep -E '^[^ ]+: |^  - '; }
+gefunden="$({ grep -E '✖' "$DATEI"; grep -E '^[^ ]+: [^ ]+ ist rot \(' "$DATEI"; rote_liste; } | head -n 3 | tr -d '\"' | tr -s '[:space:]' ' ')"
 if [ -z "$gefunden" ]; then
   gefunden="$(grep -v '^[[:space:]]*$' "$DATEI" | tail -n 3 | tr -d '\"' | tr -s '[:space:]' ' ')"
 fi

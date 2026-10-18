@@ -21,8 +21,22 @@ function grund(protokoll) {
 }
 
 try {
+  // Grüne Zeilen mit „ist rot" aus einem echten grünen check:logic (Lauf 39119366901), dazu eine mit „ist rot (" mitten in der Zeile.
+  const gruenIstRot = [
+    '[check:logic 93/194] pipeline/check-kalender-plausibilitaet.ts',
+    '  ✓ ein Treffer mehr ist rot und nennt nur den neuen Schlüssel',
+    '[check:logic 194/195] tools/web-hosting.test.ts',
+    'ok   Budget + 1 (15.001) ist rot',
+    'ok   Grenze 20.000 ist rot',
+    '  ✓ Wächter: Treffer ist rot (Kulisse)',
+    'Kulisse: Treffer ist rot und bleibt rot',
+  ]
+  // Ausgabe eines echten Rots (throw in check-logic.ts, 18.10.2026): Fehler, dann Ausgaben der parallel gelaufenen Prüfungen, dann die Formatzeile.
   const logikRot = [
+    ...gruenIstRot,
     '[check:logic 12/194] pipeline/check-x.ts',
+    'Error: Mutationsprobe Bauer R2',
+    ...Array.from({ length: 150 }, (_, i) => `[check:logic ${13 + i}/194] pipeline/check-y${i}.ts`),
     'check:logic: pipeline/check-x.ts ist rot (11 von 194 Prüfungen grün gelaufen).',
     'Weitere Fehler dahinter bleiben verdeckt. Alle roten Prüfungen auf einmal: `npm run check:logic -- --alle`.',
     'npm error Lifecycle script failed',
@@ -30,7 +44,10 @@ try {
     'npm error done',
     '',
   ].join('\n')
-  assert.match(grund(logikRot), /pipeline\/check-x\.ts ist rot/, 'check:logic ohne ✖ nennt die rote Prüfung')
+  assert.match(grund(logikRot), /^check:logic: pipeline\/check-x\.ts ist rot \(/, 'check:logic ohne ✖ nennt die rote Prüfung, nicht grüne „ist rot"-Zeilen davor')
+
+  const alleRot = [...gruenIstRot, 'check:logic: 3 von 194 Prüfungen rot:', '  - pipeline/check-a.ts', '  - pipeline/check-b.ts', '  - pipeline/check-c.ts', 'npm error Lifecycle script failed', 'npm error exit 1', ''].join('\n')
+  assert.equal(grund(alleRot), 'check:logic: 3 von 194 Prüfungen rot: - pipeline/check-a.ts - pipeline/check-b.ts', '--alle: Kopfzeile und rote Dateien')
 
   const mitKreuz = ['bla', '  ✖ Titel 5 fehlt', '  ✖ Titel 6 fehlt', '  ✖ Titel 7 fehlt', '  ✖ Titel 8 fehlt', 'check:logic: a ist rot'].join('\n')
   assert.equal(grund(mitKreuz), '✖ Titel 5 fehlt ✖ Titel 6 fehlt ✖ Titel 7 fehlt', 'höchstens drei ✖-Zeilen, ✖ zuerst')
