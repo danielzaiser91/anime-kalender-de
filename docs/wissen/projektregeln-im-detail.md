@@ -43,8 +43,12 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   Fehlte eine Folge zu `notSeen` und war zu `seen` da, darf `time` ein Wert im Fenster sein, mit
   `timeEstimated: true` und `schedule.timeSighting` (`notSeen`, `seen`, `date` der Sichtung, `source`).
   `data:validate` (`pipeline/lib/sichtungsfenster.ts`) lehnt ein Fenster über 30 min, fehlendes
-  `timeEstimated`, fehlende Fensterangaben und eine `time` außerhalb des Fensters ab. Ein einzelnes
-  „da" ohne vorheriges „nicht da" belegt keine Uhrzeit. Die Sichtung gilt nur für die gesichtete Folge.
+  `timeEstimated`, fehlende Fensterangaben, eine `time` außerhalb des Fensters und ein Sichtungsdatum
+  vor der ersten Folge oder in der Zukunft ab. Ein einzelnes „da" ohne vorheriges „nicht da" belegt
+  keine Uhrzeit. **Die Sichtung gilt nur für den Termin am Sichtungstag** (`nurGesichteteFolge` in
+  `shared/sichtung.ts`, aufgerufen von `expandEvents`): alle anderen Folgen des Plans bekommen keine
+  Uhrzeit. Trifft `date` keinen Termin, erscheint nirgends eine Uhrzeit. Eine festgelegte `time` mit
+  `timeEstimated` ohne `timeSighting` (Avatar 11:00, von Daniel festgelegt) bleibt, wie sie war.
 - **Abgeleitetes kennzeichnen.** Datum aus dem Simulcast-Start übernommen statt aus einer
   Dub-Ankündigung? Dann `estimated: true`. Folgenzahl geraten? Setzt die Pipeline selbst als
   `episodeCountAssumed`. Beides erscheint im UI als `≈`.
