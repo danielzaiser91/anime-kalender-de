@@ -209,6 +209,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon."
       if [ "${BAU_LAUF:-0}" = 1 ]; then
         git checkout -- data/dub-confirmed.yaml 2>/dev/null || true
+        git checkout -- data/meldungen-uebernahme.json 2>/dev/null || true
         rm -f data/cache/pruefungen-abhaken.json
         echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Bestand nicht übernommen: $grund" >> "${GITHUB_ENV:-/dev/null}"
       fi
