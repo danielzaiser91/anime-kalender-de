@@ -21,6 +21,7 @@ import { lastEpisodeDate } from '../../shared/logic.ts'
 import { addDays } from '../../shared/time.ts'
 import { premiereFehler } from './premiere.ts'
 import { beobachtetOhneTermin } from './folge-ueber-anzahl.ts'
+import { sichtungOhneUhrzeit } from './sichtungsfenster.ts'
 
 export interface Pruefergebnis {
   fehler: string[]
@@ -236,6 +237,7 @@ function schlussFehler(releases: Release[], events: ReleaseEvent[], titles: Map<
     ...geteilteWegeTrotzWiderlegung(releases, titles),
     ...premiereFehler(releases),
     ...beobachtetOhneTermin(releases, events),
+    ...sichtungOhneUhrzeit(releases, events),
   ]
 }
 

@@ -1,6 +1,7 @@
 /** Zusicherung: Eine Uhrzeit aus Sichtungsfenster gilt nur für den gesichteten Tag, die übrigen Folgen bleiben ohne Uhrzeit (18.10.2026, Tank Chair). */
 import type { Release } from '../shared/types.ts'
 import { expandEvents } from '../shared/logic.ts'
+import { pruefeErgebnis } from './lib/pruefung.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, ist?: unknown): void {
@@ -35,6 +36,19 @@ pruefe('ohne timeSighting bleibt die Uhrzeit bei allen Folgen (Bestand)', ohne.e
 
 const stuecke = expandEvents(serie({ timeSighting: { ...sichtung, date: '2026-10-11' } }))
 pruefe('Sichtungstag wandert mit: nur 11.10. trägt die Uhrzeit', stuecke.filter((e) => e.time).map((e) => e.date).join() === '2026-10-11', stuecke)
+
+/* Bau-Ende: eine Sichtung ohne Termin mit Uhrzeit ist ein Fehler (drei Releases, der mittlere ohne Folgenzahl wie Tank Chair vor der Anreicherung). */
+const sichtungsFehlerImBau = (rs: Release[]): string[] =>
+  pruefeErgebnis(rs, rs.flatMap(expandEvents), new Map(), '2026-10-18').fehler.filter((f) => /timeSighting/.test(f))
+const eigen = (slug: string, extra: Partial<Release['schedule']>): Release => ({ ...serie(extra), slug })
+const ohneZahl = eigen('mitte', { episodeCount: undefined, timeSighting: sichtung })
+pruefe('Bau-Ende: Sichtungstag ohne Termin wird gemeldet', sichtungsFehlerImBau([eigen('a', {}), ohneZahl, eigen('c', {})]).join() === '"mitte": timeSighting.date 2026-10-18 ergibt keinen Termin mit Uhrzeit (Folgenzahl oder Datum prüfen)', sichtungsFehlerImBau([ohneZahl]))
+pruefe('Bau-Ende: mit Folgenzahl still', sichtungsFehlerImBau([eigen('a', {}), eigen('mitte', { timeSighting: sichtung }), eigen('c', {})]).length === 0)
+pruefe('Bau-Ende: widerlegtes Release wird nicht gemeldet', sichtungsFehlerImBau([{ ...ohneZahl, widerlegt: { am: '2026-10-01', grund: 'Kulisse', gemeldet: true } }]).length === 0)
+pruefe('Bau-Ende: Termin eines anderen Releases am Sichtungstag zählt nicht', sichtungsFehlerImBau([ohneZahl, eigen('fremd', {})]).length === 1)
+pruefe('Bau-Ende: Termin am Sichtungstag ohne Uhrzeit wird gemeldet', sichtungsFehlerImBau([eigen('mitte', { time: undefined, timeSighting: sichtung })]).length === 1)
+const netflix = { ...eigen('nf', { episodeCount: 1, timeSighting: sichtung }), platform: 'netflix', netflixOriginal: true } as Release
+pruefe('Bau-Ende: Uhrzeit eines anderen Tags (Netflix-Schätzung) deckt die Sichtung nicht', sichtungsFehlerImBau([netflix]).length === 1)
 
 if (fehler) process.exit(1)
 console.log('check-sichtung-folge: alle Zusicherungen erfüllt')

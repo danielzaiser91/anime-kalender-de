@@ -2,7 +2,7 @@
  * Uhrzeit aus einem eigenen Sichtungsfenster (Ausnahme von „keine erfundenen Uhrzeiten", 18.10.2026):
  * eine Folge fehlte zu `notSeen` und war zu `seen` da, höchstens 30 Minuten später; `time` liegt im Fenster.
  */
-import type { Schedule } from '../../shared/types.ts'
+import type { Release, ReleaseEvent, Schedule } from '../../shared/types.ts'
 
 /** Sichtung als Zusatz zum Zeitplan; bewusst nicht in shared/types.ts (Datei über der Umfanggrenze). */
 export type SichtungsZeitplan = Schedule & { timeSighting?: { notSeen: string; seen: string; date: string; source: string } }
@@ -36,4 +36,16 @@ export function sichtungsFehler(s: SichtungsZeitplan, heute: string): string[] {
   const t = minuten(s.time)
   if (t < von || t > bis) return [`timeSighting: time ${s.time} liegt außerhalb des Fensters ${w.notSeen}–${w.seen}`]
   return []
+}
+
+/** Eine Sichtung, deren Tag keinen Termin mit Uhrzeit ergibt, bewirkt nichts — das darf nicht still bleiben (Bau-Ende, `pruefeErgebnis`). */
+export function sichtungOhneUhrzeit(releases: Release[], events: ReleaseEvent[]): string[] {
+  const fehler: string[] = []
+  for (const r of releases) {
+    const w = (r.schedule as SichtungsZeitplan | undefined)?.timeSighting
+    if (!w || r.widerlegt) continue
+    if (events.some((e) => e.releaseSlug === r.slug && e.date === w.date && e.time)) continue
+    fehler.push(`"${r.slug}": timeSighting.date ${w.date} ergibt keinen Termin mit Uhrzeit (Folgenzahl oder Datum prüfen)`)
+  }
+  return fehler
 }
