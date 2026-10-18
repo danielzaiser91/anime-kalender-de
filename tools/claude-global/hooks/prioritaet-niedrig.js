@@ -6,13 +6,14 @@
 // Eintrag in ~/.claude/settings.json unter hooks.SessionStart:
 //   { "hooks": [{ "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/prioritaet-niedrig.js"], "timeout": 15 }] }
 const { execFileSync } = require('node:child_process')
-const { writeFileSync } = require('node:fs')
+const { rmSync, writeFileSync } = require('node:fs')
 const { constants, setPriority, tmpdir } = require('node:os')
 const { join } = require('node:path')
 
 /** Prozesstabelle als Map pid → { ppid, pfad } über WMI (wmic ist entfernt, PowerShell tabu). */
 function prozesse() {
-  const vbs = join(tmpdir(), 'prioritaet-niedrig.vbs')
+  // Je Prozess eine eigene Datei: gleichzeitig startende Sitzungen überschreiben sich sonst das Skript.
+  const vbs = join(tmpdir(), `prioritaet-niedrig-${process.pid}.vbs`)
   writeFileSync(vbs, [
     'Set w = GetObject("winmgmts:\\\\.\\root\\cimv2")',
     'For Each p In w.ExecQuery("SELECT ProcessId,ParentProcessId,ExecutablePath FROM Win32_Process")',
@@ -26,6 +27,7 @@ function prozesse() {
     const [pid, ppid, pfad] = z.split('|')
     if (pid) m.set(Number(pid), { ppid: Number(ppid), pfad: pfad ?? '' })
   }
+  rmSync(vbs, { force: true })
   return m
 }
 
@@ -41,14 +43,18 @@ function claudeCodeVorfahr(tabelle, start) {
   return undefined
 }
 
+/** Setzt den Claude-Code-Vorfahren des Elternprozesses `eltern` herab; gibt die gesetzte PID zurück. */
+function herabsetzen(tabelle, eltern, setze) {
+  const ziel = claudeCodeVorfahr(tabelle, eltern)
+  if (ziel) setze(ziel, constants.priority.PRIORITY_BELOW_NORMAL)
+  return ziel
+}
+
 if (require.main === module) {
   try {
-    if (process.platform === 'win32') {
-      const ziel = claudeCodeVorfahr(prozesse(), process.ppid)
-      if (ziel) setPriority(ziel, constants.priority.PRIORITY_BELOW_NORMAL)
-    }
+    if (process.platform === 'win32') herabsetzen(prozesse(), process.ppid, setPriority)
   } catch {}
   process.exit(0)
 }
 
-module.exports = { claudeCodeVorfahr }
+module.exports = { claudeCodeVorfahr, herabsetzen }
