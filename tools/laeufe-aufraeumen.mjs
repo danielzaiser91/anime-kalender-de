@@ -39,6 +39,21 @@ async function stillstandMelden() {
   if (s.zuLang) console.log(`STILLSTAND: public/data seit ${s.stunden.toFixed(1)} h unverändert (Grenze ${STILLSTAND_GRENZE_STUNDEN} h, letzter Commit ${am})`)
 }
 
+/**
+ * Jüngster erfolgreicher Lauf je Workflow, einzeln gefragt: Die letzten 60 Läufe aller Workflows reichten am 18.10.2026
+ * nur eine Stunde zurück, jeder seltenere Workflow galt so als rot. Ein Name ohne GitHub-Workflow fehlt in der Map.
+ */
+function letzterGruenJe(namen) {
+  const gruen = new Map()
+  for (const name of namen) {
+    try {
+      const [lauf] = JSON.parse(gh('run', 'list', '--repo', REPO, '--workflow', name, '--status', 'success', '--limit', '1', '--json', 'createdAt'))
+      if (lauf) gruen.set(name, lauf.createdAt)
+    } catch {}
+  }
+  return gruen
+}
+
 async function main() {
   // Ein roter Sammler-Fund lässt den Lauf grün; er bleibt als PR liegen und muss hier auffallen (tools/rote-sammler-prs.mjs).
   meldeRoteSammlerPrs()
@@ -53,15 +68,7 @@ async function main() {
   console.log(`${liste.length} Läufe in der App, ${rote.length} rot`)
   // Rote Läufe stehen seit 28.09.2026 nur im Verlauf, nicht in `liste` (18.10.2026: elf Stunden Stillstand bei „0 rot“).
   // Je Workflow der jüngste erfolgreiche Lauf — der Prüfstein für „überholt".
-  const roh = JSON.parse(
-    gh('run', 'list', '--repo', REPO, '--limit', '60', '--json', 'workflowName,conclusion,createdAt'),
-  )
-  const letzterGruen = new Map()
-  for (const r of roh) {
-    if (r.conclusion !== 'success') continue
-    const bisher = letzterGruen.get(r.workflowName)
-    if (!bisher || r.createdAt > bisher) letzterGruen.set(r.workflowName, r.createdAt)
-  }
+  const letzterGruen = letzterGruenJe(new Set([...roteArten(verlauf).map((r) => r.art), ...rote.map((l) => l.workflow)]))
   for (const r of roteArten(verlauf, letzterGruen)) {
     console.log(`ROT im Verlauf: ${r.art} — letzter Lauf ${r.zustand} am ${r.am} (vor ${r.stunden.toFixed(1)} h, kein grüner Lauf danach)`)
   }
