@@ -30,12 +30,24 @@ ATTRAPPE="$ARBEIT/attrappe"
 mkdir -p "$ATTRAPPE"
 cat > "$ATTRAPPE/npm" <<'SKRIPT'
 #!/usr/bin/env bash
+# Jeder Aufruf landet im Protokoll des Szenarios (Arbeitsordner ist <szenario>/lauf), samt Quarantäne-Liste des Baus.
+echo "$2 ${3:-} ${4:-} q=${BAU_QUARANTAENE:+ja}" >> ../npm.txt
 case "$2" in
   data:build)
     [ "${FAKE_BAU:-ok}" = fail ] && { echo "✖ Titelschwund"; exit 1; }
+    [ "${FAKE_BAU:-ok}" = neubau ] && [ -n "${BAU_QUARANTAENE:-}" ] && { echo "✖ Neubau"; exit 1; }
+    # Vorstand des Baus: Inhalt der committeten stand.json und alle Dateien in public/data (der Neubau beginnt ohne Reste des ersten).
+    echo "q=${BAU_QUARANTAENE:+ja} $(cat public/data/stand.json 2> /dev/null) $(ls public/data 2> /dev/null | tr '\n' ' ')" >> ../vorbau.txt
     mkdir -p public/data public/og
     echo '{"neu":true}' > public/data/titles.json
+    echo '{"stand":"gebaut"}' > public/data/stand.json
     echo bild > public/og/a.txt
+    # Wie `vermerkeQuarantaene`: die zurückgestellten Titel stehen in meta.json, ohne Liste fehlt das Feld.
+    liste="${BAU_QUARANTAENE:-}"
+    if [ -n "$liste" ] && command -v cygpath > /dev/null; then
+      liste="$(cygpath -w "$liste")"
+    fi
+    node -e 'const fs = require("fs"); const p = process.argv[1]; const q = p ? JSON.parse(fs.readFileSync(p, "utf8")) : []; fs.writeFileSync("public/data/meta.json", JSON.stringify(q.length ? { quarantaene: q } : {}))' "$liste"
     [ "${FAKE_BAU:-ok}" = ohne-titles ] && rm public/data/titles.json && echo '{}' > public/data/woche.json
     [ "${FAKE_BAU:-ok}" = ohne-og ] && rm -r public/og
     ;;
@@ -48,6 +60,29 @@ case "$2" in
     [ "${FAKE_BESTAND:-ok}" = fail ] && { echo "✗ Handbeleg ohne Titel"; exit 1; }
     [ "${FAKE_BESTAND:-ok}" = fehler ] && { echo "FEHLER: Cover fehlt bei Titel 7"; exit 1; }
     [ "${FAKE_BESTAND:-ok}" = gemischt ] && { printf '⚠ Hinweis eins\n⚠ Hinweis zwei\n⚠ Hinweis drei\nFEHLER: Cover fehlt bei Titel 9\n'; exit 1; }
+    # FAKE_ROT: Gruppen roter Titel ("11 22,33"), je Titel eine Marke; rot ist die erste Gruppe, die noch nicht zurückgestellt ist.
+    # FAKE_ROT_NACH_PAUSE: rote Titel, sobald der Fernstand in der Pause bewegt wurde (Versuch 2).
+    grep -qs pause fremd.txt && FAKE_ROT="${FAKE_ROT_NACH_PAUSE-$FAKE_ROT}"
+    zurueck=" $(grep -o '"titleId":[-0-9]*' public/data/meta.json 2> /dev/null | cut -d: -f2 | tr '\n' ' ') "
+    IFS=, read -ra gruppen <<< "${FAKE_ROT:-}"
+    for gruppe in "${gruppen[@]}"; do
+      rot=0
+      for id in $gruppe; do
+        case "$zurueck" in
+          *" $id "*) ;;
+          *)
+            echo '  QUARANTAENE {"titleId":'"$id"',"pruefung":"probe","grund":"rot an '"$id"'"}'
+            echo "FEHLER: Titel $id rot"
+            rot=1
+            ;;
+        esac
+      done
+      [ "$rot" = 1 ] && exit 1
+    done
+    [ "${FAKE_STRUKTUR:-nein}" = ja ] && { echo "FEHLER: Struktur ohne Kennung"; exit 1; }
+    ;;
+  check:logic)
+    [ "${FAKE_LOGIK:-ok}" = fail ] && { echo "✖ Logik ohne Kennung"; exit 1; }
     ;;
 esac
 exit 0
@@ -80,10 +115,12 @@ szenario() {
   git init -q --bare -b main "$ORIGIN"
   git clone -q "$ORIGIN" "$d/start" 2>/dev/null
   mkdir -p "$d/start/tools" "$d/start/data"
-  for datei in commit-data.sh quellen-liste.sh quellen-aufsetzen.sh health-vereinen.mjs dub-belege-vereinen.mjs; do
+  for datei in commit-data.sh quellen-liste.sh quellen-aufsetzen.sh health-vereinen.mjs dub-belege-vereinen.mjs quarantaene.mjs; do
     cp "$WURZEL/tools/$datei" "$d/start/tools/$datei"
   done
   echo '{"v":1}' > "$d/start/data/anisearch.json"
+  mkdir -p "$d/start/public/data"
+  echo '{"stand":"alt"}' > "$d/start/public/data/stand.json"
   if [ "${UNBEWEGT:-nein}" = ja ]; then
     mkdir -p "$d/start/public/data" "$d/start/public/og"
     echo '{}' > "$d/start/public/data/titles.json"
@@ -191,6 +228,8 @@ pruefe "Versuch 1 abgelehnt" ja "$(grep -q '^Push abgelehnt (Versuch 1)' "$ARBEI
 pruefe "Versuch 1 meldete die Prüfliste als gescheitert" ja "$(grep -q '^::error::Die Prüflisten sind nicht neu entstanden' "$ARBEIT/neuversuch/log.txt" && echo ja || echo nein)"
 pruefe "Versuch 2 gepusht" ja "$(grep -q '^Gepusht (Versuch 2)' "$ARBEIT/neuversuch/log.txt" && echo ja || echo nein)"
 pruefe "Exit 0 (die Warnung aus Versuch 1 gilt nicht mehr)" 0 "$CODE"
+
+source "$WURZEL/tools/commit-data-test-quarantaene.sh"
 
 echo "Gleichzeitige Läufe teilen sich keine festen Pfade (Wackeln unter Last, 14.10.2026)"
 pruefe "kein fester /tmp-Pfad in commit-data.sh" 0 "$(grep -c "/tmp/" "$WURZEL/tools/commit-data.sh" || true)"
