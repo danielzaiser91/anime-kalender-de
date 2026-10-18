@@ -23,12 +23,15 @@ const PRIME_EIGEN = 'https://www.amazon.de/gp/video/detail/B0EIGEN001'
 const BELEG_FREMD = 'https://www.amazon.de/gp/video/detail/B0CH9BW1PW'
 const GETEILT = 'https://www.netflix.com/title/900003'
 const NETFLIX = 'https://www.netflix.com/title/80060413'
+const BELEG_GETEILT = 'https://www.amazon.de/gp/video/detail/B0GETEILT1'
+const YOUTUBE = 'https://www.youtube.com/playlist?list=PLcartoon900001'
 schreibe('public/data/cartoons.json', JSON.stringify([
-  { id: -900001, titleEn: 'Heidi', streams: [{ url: GTI }, { url: DISNEY, seite: SUCHE }, { url: GETEILT }, { url: NETFLIX }] },
+  { id: -900001, titleEn: 'Heidi', streams: [{ url: GTI }, { url: DISNEY, seite: SUCHE }, { url: GETEILT }, { url: NETFLIX }, { url: YOUTUBE }] },
 ]))
 schreibe('public/data/ohne-synchro.json', JSON.stringify([{ id: 900011, titleEn: 'Magic High: Staffel 3', streams: [{ url: OHNE }] }, { id: 900012 }]))
-schreibe('data/prime-zugeordnet.json', JSON.stringify({ [`${PRIME_FREMD}#2`]: { titleId: -900002 }, [PRIME_EIGEN]: { titleId: 900002 } }))
-schreibe('data/dub-confirmed.yaml', `- anilistId: 900013\n  url: ${BELEG_FREMD}\n- anilistId: 900002\n  url: https://www.amazon.de/gp/video/detail/B0EIGEN002\n`)
+schreibe('data/prime-zugeordnet.json', JSON.stringify({ [`${PRIME_FREMD}#2`]: { titleId: -900002 }, [PRIME_EIGEN]: { titleId: 900002 }, [DISNEY]: { titleId: 900002 } }))
+schreibe('data/dub-confirmed.yaml', `- anilistId: 900013\n  url: ${BELEG_FREMD}\n- anilistId: 900002\n  url: https://www.amazon.de/gp/video/detail/B0EIGEN002\n` +
+  `- anilistId: 900014\n  url: ${BELEG_GETEILT}\n- anilistId: 900001\n  url: ${BELEG_GETEILT}\n`)
 process.env.AK_ROOT = wurzel
 
 const { meldungsZuordnung } = await import('./fetch-urteile.ts')
@@ -45,7 +48,8 @@ rmSync(wurzel, { recursive: true, force: true })
 
 const faelle: [string, number | null, number | null][] = [
   ['Cartoon-Adresse (gti), Name eines Anime', ziel(GTI, 'Heidi'), null],
-  ['Cartoon-Adresse (Disney+), ohne Staffel', ziel(DISNEY, 'Heidi', null), null],
+  ['Cartoon-Adresse (Disney+), ohne Staffel, trotz eigener Prime-Zuordnung', ziel(DISNEY, 'Heidi', null), null],
+  ['Cartoon-Adresse (YouTube-Liste)', ziel(YOUTUBE, 'Heidi'), null],
   ['Cartoon-Adresse (Disney+) mit Ländersegment', ziel(DISNEY.replace('.com/', '.com/de-de/'), 'Heidi'), null],
   ['Cartoon-Adresse (Netflix) mit Ländersegment', ziel(NETFLIX.replace('.com/', '.com/de/'), 'Heidi'), null],
   ['Cartoon-Seite als Suchadresse', ziel(SUCHE, 'Heidi'), null],
@@ -55,6 +59,8 @@ const faelle: [string, number | null, number | null][] = [
   ['Kontrolle: unbekannte Adresse, exakter Name', ziel('https://www.netflix.com/title/123', 'Heidi'), 900002],
   ['Kontrolle: andere Disney+-Seite mit Ländersegment', ziel('https://www.disneyplus.com/de-de/browse/entity-900002', 'Heidi'), 900002],
   ['Kontrolle: Prime-Zuordnung eines eigenen Titels sperrt nicht', ziel(PRIME_EIGEN, 'Heidi'), 900002],
+  ['Kontrolle: andere YouTube-Liste', ziel(YOUTUBE.replace('PLcartoon', 'PLanime'), 'Heidi'), 900002],
+  ['Kontrolle: Handbeleg eines eigenen und eines fremden Titels an einer Sammelseite', ziel(BELEG_GETEILT, 'Magic High'), 900001],
   ['Kontrolle: Handbeleg eines eigenen Titels sperrt nicht', ziel('https://www.amazon.de/gp/video/detail/B0EIGEN002', 'Heidi'), 900002],
   ['Kontrolle: der eigene Weg schlägt den Cartoon an derselben Adresse', ziel(GETEILT, 'Heidi'), 900003],
 ]
