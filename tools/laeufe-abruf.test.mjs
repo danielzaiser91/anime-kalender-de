@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
-import { holeLaeufe, roteArten } from './laeufe-abruf.mjs'
+import { holeLaeufe, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
 
 const antwort = (status, text) => async () => new Response(text, { status })
 
@@ -51,6 +51,7 @@ const lauf = (...args) =>
   })
 const trocken = lauf('--trocken')
 assert.equal(trocken.status, 0)
+assert.match(trocken.stdout, /^STILLSTAND\? Letzte Änderung von public\/data nicht lesbar/)
 assert.match(trocken.stderr, /Status-Worker antwortet 500/)
 assert.doesNotMatch(trocken.stderr, /SyntaxError|\n\s+at /)
 assert.equal(lauf().status, 1)
@@ -72,10 +73,37 @@ assert.deepEqual(roteArten(undefined), [])
 
 // Das ganze Werkzeug: Liste leer (nichts läuft), Verlauf mit rotem Bestandsbau -> die Zeile erscheint, auch bei --trocken.
 const rotAntwort = JSON.stringify({ laeufe: [], verlauf: { Bestand: [eintrag('ok', 'x'), eintrag('fehler', 'y')], Sammler: [eintrag('ok', 'z')] } })
-const vorlaufRot = `data:text/javascript,globalThis.fetch=async()=>new Response(${JSON.stringify(rotAntwort)},{status:200})`
-const rot = spawnSync(process.execPath, ['--import', vorlaufRot, werkzeug, '--trocken'], { encoding: 'utf8' })
+const STUNDE = 3_600_000
+const mitCommitVor = (stunden) => {
+  const datum = new Date(Date.now() - stunden * STUNDE).toISOString()
+  const commits = JSON.stringify([{ commit: { committer: { date: datum } } }, { commit: { committer: { date: '2000-01-01T00:00:00Z' } } }])
+  const stub = `globalThis.fetch=async(u)=>String(u).startsWith("https://api.github.com/repos/danielzaiser91/anime-kalender-de/commits?path=public/data&per_page=1")?new Response(${JSON.stringify(commits)},{status:200}):new Response(${JSON.stringify(rotAntwort)},{status:200})`
+  return spawnSync(process.execPath, ['--import', `data:text/javascript,${stub}`, werkzeug, '--trocken'], { encoding: 'utf8' })
+}
+const rot = mitCommitVor(20)
 assert.equal(rot.status, 0)
 assert.match(rot.stdout, /0 rot\nROT im Verlauf: Bestand — letzter Lauf fehler am y\n/)
 assert.doesNotMatch(rot.stdout, /Sammler/)
+
+assert.match(rot.stdout, /^STILLSTAND: public\/data seit 20\.0 h unverändert \(Grenze 8 h, letzter Commit /)
+assert.doesNotMatch(mitCommitVor(7).stdout, /STILLSTAND/)
+
+// Grenze: genau 8 h noch in Ordnung, eine Sekunde mehr nicht.
+const jetzt = Date.parse('2026-10-18T12:00:00Z')
+assert.equal(STILLSTAND_GRENZE_STUNDEN, 8)
+assert.equal(stillstand('2026-10-18T04:00:00Z', jetzt).zuLang, false)
+assert.equal(stillstand('2026-10-18T03:59:59Z', jetzt).zuLang, true)
+assert.equal(stillstand('2026-10-18T11:00:00Z', jetzt).stunden, 1)
+
+// Die Abfrage nimmt den ersten (neuesten) Commit und fragt genau `public/data`; unlesbar ergibt `undefined`.
+let gefragt = ''
+const kulisse = async (u) => {
+  gefragt = u
+  return new Response(JSON.stringify([{ commit: { committer: { date: 'A' } } }, { commit: { committer: { date: 'B' } } }]))
+}
+assert.equal(await letzteDatenAenderung(kulisse, 'o/r'), 'A')
+assert.equal(gefragt, 'https://api.github.com/repos/o/r/commits?path=public/data&per_page=1')
+assert.equal(await letzteDatenAenderung(async () => new Response('[]'), 'o/r'), undefined)
+assert.equal(await letzteDatenAenderung(async () => { throw new Error('netz') }, 'o/r'), undefined)
 
 console.log('laeufe-abruf: ok')

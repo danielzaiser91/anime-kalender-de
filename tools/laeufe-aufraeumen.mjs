@@ -20,7 +20,7 @@
  *   LAUF_TOKEN=… node tools/laeufe-aufraeumen.mjs [--auch-github] [--trocken]
  */
 import { execFileSync } from 'node:child_process'
-import { holeLaeufe, roteArten } from './laeufe-abruf.mjs'
+import { holeLaeufe, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
 import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
 
 const WORKER = 'https://newsletter.animekalender.workers.dev/lauf'
@@ -32,9 +32,17 @@ const TOKEN = process.env.LAUF_TOKEN
 
 const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 })
 
+async function stillstandMelden() {
+  const am = await letzteDatenAenderung(fetch, REPO)
+  if (!am) return console.log('STILLSTAND? Letzte Änderung von public/data nicht lesbar')
+  const s = stillstand(am, Date.now())
+  if (s.zuLang) console.log(`STILLSTAND: public/data seit ${s.stunden.toFixed(1)} h unverändert (Grenze ${STILLSTAND_GRENZE_STUNDEN} h, letzter Commit ${am})`)
+}
+
 async function main() {
   // Ein roter Sammler-Fund lässt den Lauf grün; er bleibt als PR liegen und muss hier auffallen (tools/rote-sammler-prs.mjs).
   meldeRoteSammlerPrs()
+  await stillstandMelden()
   const { liste, verlauf, meldung } = await holeLaeufe(fetch, WORKER)
   if (meldung) {
     console.error(meldung)

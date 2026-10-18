@@ -39,3 +39,24 @@ export function roteArten(verlauf) {
   }
   return rote
 }
+
+/**
+ * Stunden Stillstand von `public/data` und ob die Grenze gerissen ist. Gemessen an den Commits 10.-17.10.2026: größte Lücke
+ * eines gesunden Betriebs rund 6 h (nachts), der Stillstand vom 17.10. dauerte über 11 h; deshalb 8 h statt 3 h.
+ */
+export const STILLSTAND_GRENZE_STUNDEN = 8
+export function stillstand(letzteAenderungIso, jetztMs) {
+  const stunden = (jetztMs - Date.parse(letzteAenderungIso)) / 3_600_000
+  return { stunden, zuLang: stunden > STILLSTAND_GRENZE_STUNDEN }
+}
+
+/** Zeitpunkt des letzten Commits, der `public/data` berührt (GitHub-API, öffentlich); `undefined`, wenn nicht lesbar. */
+export async function letzteDatenAenderung(abruf, repo) {
+  try {
+    const antwort = await abruf(`https://api.github.com/repos/${repo}/commits?path=public/data&per_page=1`)
+    const daten = await antwort.json()
+    return daten[0]?.commit?.committer?.date
+  } catch {
+    return undefined
+  }
+}
