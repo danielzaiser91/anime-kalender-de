@@ -14,9 +14,11 @@ on:
     branches: [main]
     types: [opened, synchronize, reopened, ready_for_review]
 
+# checks: read für den Schritt „Check-Stand des Kopfes“ (Check-Runs des Kopfes; das Ruleset braucht nur Metadaten).
 permissions:
   contents: read
   pull-requests: write
+  checks: read
 
 concurrency:
   group: pr-pruefer-${{ github.event.pull_request.number }}

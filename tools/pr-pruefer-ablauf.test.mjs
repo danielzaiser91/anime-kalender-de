@@ -71,7 +71,7 @@ for (const s of pruefer) {
 const voll = String(pruefer.find((s) => s.name === 'Prüfer')?.with?.prompt ?? '')
 pruefe('Voller Prüfer: Vorgabe Folgeläufe, übersprungene Tests, inhaltlicher Abgleich je Ziel',
   ['Folgeläufe', 'leere oder gelöschte Eingabedatei', 'übersprungen wird, belegt dort nichts', 'je Ziel einen inhaltlichen Abgleich'].every((t) => voll.includes(t)))
-const leserDiffZustand =schritte.filter((s) => JSON.stringify(s).includes('steps.diff.outputs.diff-zustand'))
+const leserDiffZustand = schritte.filter((s) => JSON.stringify(s).includes('steps.diff.outputs.diff-zustand'))
 pruefe('diff-zustand liest nur noch die Sperre', leserDiffZustand.length === 1 && leserDiffZustand[0].id === 'eingang')
 
 if (fehler.length) {
