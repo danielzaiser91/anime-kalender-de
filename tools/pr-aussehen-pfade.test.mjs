@@ -32,6 +32,12 @@ const MUSS = [
   'tools/panel-messen-browser.mjs',
   'tools/ansicht-bild.mjs',
   'tools/panel-bild.mjs',
+  'tools/schwer.mjs', // Wrapt check:panel und check:ansichten (package.json)
+  'tools/schwerer-lauf.mjs',
+  'tools/einzel-sperre.mjs',
+  'tools/einzel-sperre-schlange.mjs',
+  'tools/bau-vergleich-log.mjs',
+  'package.json',
   'web/src/main.tsx',
   '.github/workflows/pr-pruefung.yml',
 ]

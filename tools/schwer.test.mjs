@@ -6,15 +6,20 @@ import { spawn, spawnSync } from 'node:child_process'
 import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { main } from './schwer.mjs'
+import { fuehreAus, main } from './schwer.mjs'
 import { brauchtSperre, MARKE, SPERRE, wartAufSchwerenLauf } from './schwerer-lauf.mjs'
 
 const SCHWER = join(import.meta.dirname, 'schwer.mjs')
 const [modus, text, haltMs] = process.argv.slice(2)
 
 if (modus === 'arbeit') {
-  console.log(`an ${text} marke=${process.env[MARKE] ? 'ja' : 'nein'}`)
+  console.log(`an ${text} marke=${process.env[MARKE] ? 'ja' : 'nein'} pid=${process.pid}`)
   setTimeout(() => process.exit(Number(text === 'rot' ? 7 : 0)), Number(haltMs ?? 0))
+} else if (modus === 'abbruch') {
+  // Wrapper, der mitten im Lauf endet (wie SIGTERM über die Schlange): das Kind muss mit ihm sterben
+  const lauf = fuehreAus([process.execPath, import.meta.filename, 'arbeit', 'ABBR', '60000'], process.env)
+  setTimeout(() => process.exit(0), 2_000)
+  await lauf
 } else {
   await pruefe()
 }
@@ -86,6 +91,16 @@ async function pruefe() {
     if (process.platform !== 'win32') c.kind.kill('SIGKILL')
     await d.bis('an D')
     assert.equal(await d.ende, 0)
+
+    // Abbruch des Wrappers: das Enkelkind (arbeit) darf nicht weiterlaufen, sonst läuft es ohne Sperre
+    const ab = spawn(process.execPath, [import.meta.filename, 'abbruch'], { stdio: ['ignore', 'pipe', 'inherit'] })
+    let abAus = ''
+    ab.stdout.on('data', (d) => (abAus += d))
+    await new Promise((fertig) => ab.once('exit', fertig))
+    const enkel = Number(/pid=(\d+)/.exec(abAus)?.[1])
+    assert.ok(enkel > 0, `Enkel-PID fehlt: ${abAus}`)
+    await new Promise((fertig) => setTimeout(fertig, 500))
+    assert.throws(() => process.kill(enkel, 0), 'Kind lebt nach Ende des Wrappers weiter')
 
     // CI und Elternmarke: läuft sofort, auch während ein anderer hält
     const e = starte(temp, {}, 'E', 60_000)
