@@ -3,11 +3,14 @@
  * Rechner läuft (Näheres in `schwerer-lauf.mjs`). Exit-Code ist der des Befehls.
  */
 import { spawn, spawnSync } from 'node:child_process'
+import { basename } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { vermerkeKind } from './einzel-sperre.mjs'
 import { MARKE, SPERRE, wartAufSchwerenLauf } from './schwerer-lauf.mjs'
 
 const WINDOWS = process.platform === 'win32'
+// Programm der Shell, die `spawn(…, { shell: true })` startet; unter POSIX nicht vermerkt, weil `sh -c` sich durch den Befehl ersetzen kann.
+const SHELL_EXE = WINDOWS ? basename(process.env.comspec || 'cmd.exe').toLowerCase() : undefined
 
 /** Beendet das Kind samt Enkeln: Windows `taskkill /T`, sonst Prozessgruppe (`gruppe`: das Kind ist Gruppenführer) bzw. nur das Kind. */
 function beendeBaum(kind, gruppe) {
@@ -25,7 +28,7 @@ export function fuehreAus(befehl, env) {
     // Eigene Gruppe nur beim Sperrhalter und nur unter POSIX (Windows öffnete ein Konsolenfenster); ein verschachtelter Wrapper bleibt in der Gruppe des äußeren.
     const gruppe = haeltSperre && !WINDOWS
     const kind = spawn(zeile, { stdio: 'inherit', shell: true, env, detached: gruppe, windowsHide: true })
-    if (haeltSperre) vermerkeKind(SPERRE, kind.pid)
+    if (haeltSperre) vermerkeKind(SPERRE, kind.pid, SHELL_EXE)
     // Endet der Wrapper vorzeitig, stirbt das Kind vor dem Freigeben der Sperre; nach dem normalen Ende wird nichts mehr getötet.
     const beiEnde = () => beendeBaum(kind, gruppe)
     process.prependListener('exit', beiEnde)

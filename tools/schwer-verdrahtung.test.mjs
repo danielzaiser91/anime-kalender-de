@@ -59,19 +59,23 @@ assert.ok(beschreibung && ts.isTemplateExpression(beschreibung), 'der Wartende n
 assert.match(beschreibung.getText(datei), /basis.*kandidat/s)
 assert.ok(datei.statements.some((s) => ts.isImportDeclaration(s) && s.moduleSpecifier.getText(datei) === "'./schwerer-lauf.mjs'"))
 
-// Wächter: jeder Prozessstart in schwer.mjs trägt windowsHide: true (sonst öffnet Windows sichtbare Konsolenfenster)
-const wrapper = ts.createSourceFile('schwer.mjs', readFileSync(resolve(WURZEL, 'tools/schwer.mjs'), 'utf8'), ts.ScriptTarget.Latest, true)
-const starter = []
-const sammle = (n) => {
-  if (ts.isCallExpression(n) && /^(spawn|spawnSync|exec|execSync|execFile|execFileSync|fork)$/.test(n.expression.getText(wrapper))) starter.push(n)
-  ts.forEachChild(n, sammle)
+// Wächter: jeder Prozessstart in schwer.mjs und der Sperre (Wartetakt) trägt windowsHide: true (sonst öffnet Windows sichtbare Konsolenfenster)
+function pruefeVersteckt(pfad, erwartet) {
+  const quelle = ts.createSourceFile(pfad, readFileSync(resolve(WURZEL, pfad), 'utf8'), ts.ScriptTarget.Latest, true)
+  const starter = []
+  const sammle = (n) => {
+    if (ts.isCallExpression(n) && /^(spawn|spawnSync|exec|execSync|execFile|execFileSync|fork)$/.test(n.expression.getText(quelle))) starter.push(n)
+    ts.forEachChild(n, sammle)
+  }
+  sammle(quelle)
+  assert.ok(starter.length >= erwartet.length, `${pfad}: ${erwartet.join(', ')} erwartet`)
+  for (const aufruf of starter) {
+    const optionen = aufruf.arguments.find(ts.isObjectLiteralExpression)
+    const hide = optionen?.properties.find((p) => p.name?.getText(quelle) === 'windowsHide')
+    assert.equal(hide?.initializer.getText(quelle), 'true', `${aufruf.getText(quelle).slice(0, 40)} ohne windowsHide: true`)
+  }
 }
-sammle(wrapper)
-assert.ok(starter.length >= 2, 'spawn und taskkill erwartet')
-for (const aufruf of starter) {
-  const optionen = aufruf.arguments.find(ts.isObjectLiteralExpression)
-  const hide = optionen?.properties.find((p) => p.name?.getText(wrapper) === 'windowsHide')
-  assert.equal(hide?.initializer.getText(wrapper), 'true', `${aufruf.getText(wrapper).slice(0, 40)} ohne windowsHide: true`)
-}
+pruefeVersteckt('tools/schwer.mjs', ['spawn', 'taskkill'])
+pruefeVersteckt('tools/einzel-sperre.mjs', ['tasklist', 'ps', 'cscript'])
 
 console.log(`schwer-verdrahtung.test: grün (${Object.keys(MIT_SPERRE).length} Skripte, bau-vergleich Schritt ${warteSchwer})`)
