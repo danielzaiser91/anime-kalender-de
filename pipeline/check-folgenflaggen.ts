@@ -1,16 +1,14 @@
 /**
  * Pille und Folgenflaggen lesen denselben Bestand (Tempal, 18.10.2026: Pille „Fg. 1–3“, in der Folgenliste trug nur
- * Folge 1 die Flagge). Drei Zusicherungen, läuft in `check:logic`:
+ * Folge 1 die Flagge). Zwei Zusicherungen, läuft in `check:logic` (der Bestand: `check-folgenflaggen-bestand.ts`):
  * 1. Fixture: Wochenplan ergänzt Folge 2 und 3 — die Flagge folgt der Pille, Folge 4 bleibt ohne.
- * 2. Bestand: Jede Folge einer Folgenliste, die ein Weg der Pille als deutsch führt, bekommt eine Flagge.
- * 3. Verdrahtung: Panel → Nachleger-Zeilen → Folgenbereich reichen die Bereiche der Wege wirklich durch.
+ * 2. Verdrahtung: Panel → Nachleger-Zeilen → Folgenbereich reichen die Bereiche der Wege wirklich durch.
  */
-import { existsSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import ts from 'typescript'
 import type { Release, Title } from '../shared/types.ts'
 import { deutscheBereicheDerWege, folgeIstDeutsch, titelMitTerminBereichen } from '../web/src/components/detail/stream-bereiche.ts'
 
-const DATEN = new URL('../public/data/', import.meta.url)
 const KOMPONENTEN = new URL('../web/src/components/detail/', import.meta.url)
 let fehler = 0
 function pruefe(name: string, ok: boolean, ist?: unknown): void {
@@ -54,29 +52,6 @@ function pruefeFixture(): void {
   pruefe('Fixture: Fernseh-Folgen der Liste flaggen ohne Weg', folgeIstDeutsch(7, [[5, 8]], []))
 }
 
-function pruefeBestand(): string {
-  const titel = JSON.parse(readFileSync(new URL('titles.json', DATEN), 'utf8')) as Title[]
-  const roh = JSON.parse(readFileSync(new URL('releases.json', DATEN), 'utf8'))
-  const releases: Release[] = roh.releases ?? roh
-  const jeTitel = new Map<number, Release[]>()
-  for (const r of releases) jeTitel.set(r.titleId, [...(jeTitel.get(r.titleId) ?? []), r])
-  let listen = 0
-  let folgen = 0
-  for (const t of titel) {
-    const datei = new URL(`folgen/${t.id}.json`, DATEN)
-    if (!existsSync(datei)) continue
-    listen++
-    const liste = JSON.parse(readFileSync(datei, 'utf8')) as { f: [number, string][]; de: [number, number][] }
-    const wege = deutscheBereicheDerWege(titelMitTerminBereichen(t, jeTitel.get(t.id) ?? []))
-    for (const [nr] of liste.f) {
-      if (!wege.some((w) => nr >= w.from && nr <= w.to)) continue
-      folgen++
-      pruefe(`Bestand: ${t.id} Folge ${nr} steht in der Pille, trägt aber keine Flagge`, folgeIstDeutsch(nr, liste.de, wege))
-    }
-  }
-  return `${listen} Folgenlisten, ${folgen} Folgen aus den Bereichen der Wege`
-}
-
 function quelltext(datei: string): ts.SourceFile {
   return ts.createSourceFile(datei, readFileSync(new URL(datei, KOMPONENTEN), 'utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)
 }
@@ -107,7 +82,6 @@ function pruefeVerdrahtung(): void {
 }
 
 pruefeFixture()
-const bestand = pruefeBestand()
 pruefeVerdrahtung()
-console.log(`check-folgenflaggen: ${fehler ? `${fehler} Fehler` : 'ok'} (${bestand})`)
+console.log(`check-folgenflaggen: ${fehler ? `${fehler} Fehler` : 'ok'}`)
 process.exit(fehler ? 1 : 0)
