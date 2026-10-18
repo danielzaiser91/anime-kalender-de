@@ -25284,3 +25284,1537 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
   checkedAt: '2026-10-11'
   note: "Folgen 1–19 mit deutschem Ton — Tonspuren: ar, cs, da, de, el, en, es-ES, fr-FR, he, hu, it, ja, nl, no, pl, pt-PT, ro, sk, sv, tr"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-18 ---
+
+- anilistId: -204139
+  title: "Primos"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-757a188f-334c-479a-9711-e504f6c4e901
+  dub: true
+  dubRanges:
+    - from: 20
+      to: 28
+      dub: true
+      checked: [20, 21, 22, 23, 24, 25, 26, 27, 28]
+  checkedAt: '2026-10-11'
+  note: "Folgen 20–28 mit deutschem Ton — Tonspuren: ar, cs, da, de, el, en, es-ES, fr-FR, he, hu, it, ja, nl, no, pl, pt-PT, ro, sk, sv, tr"
+- anilistId: -70047
+  title: "Rapunzel - Die Serie"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-5185259f-9c95-4ef3-86f2-9c3dfb2c697e
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 23
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–23 mit deutschem Ton — Tonspuren: cmn-TW, cs, da, de, el, en, es-419, es-ES, fr-FR, he, hu, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sv, th, tr, yue"
+- anilistId: -131364
+  title: "Ready for Preschool"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-61294e8c-61e7-41f9-b49e-d4b1c752e2f3
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–64 mit deutschem Ton — Tonspuren: ar, ar-EG, cmn, cmn-TW, da, de, el, en, es-419, es-ES, fi, fr-FR, he, hu, it, ja, ko, nl, no, pl, pt-BR, pt-PT, ro, sk, sv, tr, yue"
+- anilistId: -70784
+  title: "Rocket & Groot"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-e770ad0a-b7d9-4b9c-acde-99f703cad9b7
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: cmn-TW, da, de, el, en, es-419, es-ES, fi, fr-FR, he, id, ja, ko, nl, no, pl, pt-BR, pt-PT, ro, sv, th, tr, yue"
+- anilistId: -196460
+  title: "Schneckenzug"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-1c6e9212-221e-42aa-b4e6-c4b12530bbd4
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de, el, en-GB, es-ES, fr-FR, it, nl, pl, pt-PT, tr"
+- anilistId: -3902
+  title: "Shaun das Schaf"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-1d73ef9f-32ea-43be-8ead-68d9b9e45702
+  dub: false
+  dubRanges:
+    - from: 1
+      to: 150
+      dub: false
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–150 ohne deutschen Ton — Tonspuren: en"
+- anilistId: -82679
+  title: "Shaun das Schaf - Meisterschaf"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-cb9eb827-5e12-4dba-b823-4261e8c92108
+  dub: false
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–21 ohne deutschen Ton — Tonspuren: en"
+- anilistId: -46928
+  title: "Sofia die Erste - Auf einmal Prinzessin"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-158f0e51-8d09-44fe-852b-5c286767cc9a
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 5
+      dub: true
+      checked: [1, 2, 3, 4, 5]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–5 mit deutschem Ton — Tonspuren: ar, ar-EG, cmn-TW, cs, da, de, el, en, es-419, es-ES, fi, fr-FR, he, hu, it, ja, ko, nl, no, pl, pt-BR, pt-PT, ro, sk, sv, tr, yue"
+- anilistId: -261647
+  title: "Sofia die Erste: Königliche Zauberschule"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-6cb79190-540d-480b-bc83-de2045ceadbf
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 11
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–11 mit deutschem Ton — Tonspuren: ar, ar-EG, cmn-TW, cs, da, de, el, en, es-419, es-ES, fi, fr-FR, he, hu, id, it, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sk, sv, th, tr, yue"
+- anilistId: -97645
+  title: "Solar Opposites"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-3f37735f-6bf6-4df9-9a9d-c7d0bbcd13a6
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 53
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–53 mit deutschem Ton — Tonspuren: de, en, es-419, fr-FR, pt-BR"
+- anilistId: -72705
+  title: "Spider-Man"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-133d6369-075f-44ab-ae24-d4781a291d3b
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 6
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–6 mit deutschem Ton — Tonspuren: ar, ar-EG, cmn-TW, cs, de, el, en, es-419, es-ES, fr-FR, he, hu, id, it, ja, ms, nl, pl, pt-BR, pt-PT, ro, th, tr, yue"
+- anilistId: -127635
+  title: "Spidey und seine Super Freunde"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-cc992c16-e126-4a2b-a039-0b1e7106b727
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 108
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–108 mit deutschem Ton — Tonspuren: ar, cmn-TW, da, de, el, en, es-419, fi, fr-FR, he, id, ko, ms, no, pt-BR, sv, th, yue"
+- anilistId: -104065
+  title: "Spielspaß mit den Welpen-Freunden"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-b4164759-c6f0-4a75-a66b-ea37ab71ab6a
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–16 mit deutschem Ton — Tonspuren: ar, ar-EG, cmn-TW, da, de, el, en, es-419, es-ES, fi, fr-FR, he, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sv, th, tr, yue"
+- anilistId: -60554
+  title: "Star Wars Rebels"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-08249c74-0178-4861-a1e4-dfc7b168dce5
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 59
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–59 mit deutschem Ton — Tonspuren: ar, cmn-TW, cs, da, de, el, en, es-419, es-ES, fi, fr-FR, he, hu, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sv, th, tr, yue"
+- anilistId: -71412
+  title: "Star Wars: Die Mächte des Schicksals"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-158c4929-11c0-4b66-98f7-3bba207aac8a
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 16
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–16 mit deutschem Ton — Tonspuren: ar, cmn-TW, cs, da, de, el, en, es-419, es-ES, fr-FR, he, hu, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sv, th, tr, yue"
+- anilistId: -203085
+  title: "Star Wars: Geschichten der Jedi"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-da8eb910-7fba-44ae-a37e-edd4b4d6630b
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–6 mit deutschem Ton — Tonspuren: ar, ar-EG, cmn, cmn-TW, cs, da, de, el, en, es-419, es-ES, fi, fr-FR, he, hu, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sk, sv, th, tr, yue"
+- anilistId: -288055
+  title: "Star Wars: Geschichten der Unterwelt"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-421b732e-fe78-4cfc-93e9-d3fbca13bb91
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–6 mit deutschem Ton — Tonspuren: cs, de, en, es-419, es-ES, fr-FR, hu, it, ja, pl, pt-BR, ro, sk, tr"
+- anilistId: -251091
+  title: "Star Wars: Geschichten des Imperiums"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-b9acb4dc-2c55-4829-9ecf-37d1f96ff29f
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–6 mit deutschem Ton — Tonspuren: cs, de, en, es-419, es-ES, fr-FR, hu, it, ja, pl, pt-BR, ro, sk, tr"
+- anilistId: -289219
+  title: "Star Wars: Maul - Shadow Lord"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-9ba0f41b-6173-4ff1-8967-71cad0620244
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: cs, de, en, es-419, es-ES, fr-FR, hu, it, ja, pl, pt-BR, ro, sk, th, tr"
+- anilistId: -79093
+  title: "Star Wars: Resistance"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-01ad3367-1b24-458c-a8fb-a245226ea237
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 40
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–40 mit deutschem Ton — Tonspuren: ar, cmn-TW, da, de, el, en, es-419, es-ES, fr-FR, he, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sv, th, tr, yue"
+- anilistId: -228672
+  title: "StuGo"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-d4419604-4df6-40c7-8a15-a2a3c6d9b148
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 20
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–20 mit deutschem Ton — Tonspuren: ar, cs, de, el, en, es-419, es-ES, he, hu, it, ja, nl, pl, pt-BR, pt-PT, ro, tr"
+- anilistId: -201478
+  title: "SuperKitties"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-d488cfed-d102-494b-a384-f6bf64467e32
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 69
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–69 mit deutschem Ton — Tonspuren: cs, de, el, en, es-419, es-ES, he, hu, it, ko, nl, no, pl, pt-BR, pt-PT, ro, sk, sv"
+- anilistId: -91433
+  title: "T.O.T.S."
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-6d5885ee-c4f7-41b7-b3cd-82bd711ecf03
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 75
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–75 mit deutschem Ton — Tonspuren: ar, ar-EG, cmn-TW, cs, da, de, el, en, es-419, es-ES, fi, fr-FR, he, hu, it, ja, ko, nl, no, pl, pt-BR, pt-PT, ro, sv, tr, yue"
+- anilistId: -204137
+  title: "The Doomies"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-37cc90b8-a8ca-46e4-abc4-e03fa265e7fe
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–22 mit deutschem Ton — Tonspuren: ar, cmn-TW, cs, da, de, el, en, es-419, es-ES, fi, fr-FR, he, hu, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sk, sv, th, tr, yue"
+- anilistId: -196430
+  title: "The Egg Band"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-81de5d86-d1aa-4952-b19d-c6f1274b86bb
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–5 mit deutschem Ton — Tonspuren: de, el, en-GB, es-ES, fr-FR, it, nl, pl, pt-PT, tr"
+- anilistId: -93221
+  title: "The Great North"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-374cdbc2-3b08-4b81-a68f-a45a70665849
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–97 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, it, pt-BR, tr"
+- anilistId: -195625
+  title: "The Post Train"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-4dc5b155-0bcb-4cd0-b684-af923fb33dc7
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 10
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de, el, en-GB, es-ES, fr-FR, it, nl, pl, pt-PT, tr"
+- anilistId: -95543
+  title: "The Rocketeer"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-165f8793-f613-4190-986f-f30be72dad8d
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 22
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–22 mit deutschem Ton — Tonspuren: ar, cmn-TW, da, de, el, en, es-419, es-ES, fi, fr-FR, he, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sv, th, tr, yue"
+- anilistId: -19889
+  title: "Timmy, das Schäfchen"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-b569cc47-9368-494f-a8d6-4cbe0dfe6314
+  dub: false
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–78 ohne deutschen Ton — Tonspuren: en"
+- anilistId: -195456
+  title: "Toto's Kindergarten"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-f548f29c-f113-4983-aa0c-afa5049e5239
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 6
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–6 mit deutschem Ton — Tonspuren: de, el, en-GB, es-ES, fr-FR, it, nl, pl, pt-PT, tr"
+- anilistId: -255868
+  title: "Traum Studios"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-2c539a37-28e3-4dce-b0e8-b4882fcbbc71
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–4 mit deutschem Ton — Tonspuren: de, en"
+- anilistId: -34356
+  title: "Tron - Der Aufstand"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-1798d2b0-6786-443b-86ea-a68c4c0fb8b3
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 19
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–19 mit deutschem Ton — Tonspuren: cmn, cmn-TW, cs, de, en, es-419, es-ES, fr-FR, he, id, it, ja, ko, nl, pt-BR, th, yue"
+- anilistId: -98566
+  title: "Walt Disney Animation Studios: \"Kurzschluss\" Experimentalfilme"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-ebf262a3-a488-45ea-a449-6979fd050fa5
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–22 mit deutschem Ton — Tonspuren: ar, ar-EG, cmn-TW, cs, da, de, el, en, es-419, es-ES, fi, fr-FR, he, hu, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sk, sv, th, tr, yue"
+- anilistId: -40075
+  title: "Willkommen in Gravity Falls"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-86c2ae21-1b07-4f81-af63-628df6c45639
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 17
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–17 mit deutschem Ton — Tonspuren: ar, ar-EG, cmn-TW, da, de, el, en, es-419, es-ES, fr-FR, he, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sv, th, tr, yue"
+- anilistId: -114500
+  title: "Win or Lose"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-2b4c4455-0b40-4a21-83ec-8a647aa7b32b
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: cmn-TW, cs, da, de, el, en, es-419, es-ES, fi, fr-FR, he, hu, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sk, sv, th, yue"
+- anilistId: -103822
+  title: "Zenimation"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-53dbe23f-0e40-427c-b2c7-317a873129a8
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 11
+      dub: false
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    - from: 12
+      to: 20
+      dub: true
+      checked: [12, 13, 14, 15, 16, 17, 18, 19, 20]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–11 ohne deutschen Ton, Folgen 12–20 mit deutschem Ton — Tonspuren: ar, ar-EG, cs, da, de, el, en, es-419, es-ES, fi, fr-FR, he, hu, it, ja, ko, nl, no, pl, pt-BR, pt-PT, ro, sk, sv, tr, yue — Widersprüchliche Meldungen zu Folge 1, 2, 3, 4, 5, 6, 7, 8, 9"
+- anilistId: -204136
+  title: "Zombies: Jetzt animiert! Die Serie"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-17e55fcb-32d1-40dc-9e8e-f99b55d19d0d
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 20
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–20 mit deutschem Ton — Tonspuren: ar, cs, da, de, el, en, es-419, es-ES, fr-FR, he, hu, it, ja, nl, no, pl, pt-BR, pt-PT, ro, sk, sv, tr"
+- anilistId: -114463
+  title: "Zoomania+"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-cc247101-8863-40df-b1d1-3fc447173188
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–6 mit deutschem Ton — Tonspuren: cmn, cmn-TW, cs, da, de, el, en, es-419, es-ES, fi, fr-CA, fr-FR, hu, it, ja, ko, nl, nl-BE, no, pl, pt-BR, pt-PT, ro, sk, sv, tr, yue"
+- anilistId: -69930
+  title: "Luna Petunia"
+  platform: netflix
+  url: https://www.netflix.com/title/80057171
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 11
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–11 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, nl-BE|Flämisch, he|Hebräisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 11, dazwischen nicht geprüft — Folge 11: Der Spaßtag — Netflix: Staffel 1"
+- anilistId: -69930
+  title: "Luna Petunia"
+  platform: netflix
+  url: https://www.netflix.com/title/80057171
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 5
+      dub: true
+      checked: [1, 2, 3, 4, 5]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–5 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, nl-BE|Flämisch, he|Hebräisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 5, dazwischen nicht geprüft — Folge 5: Licht! Kamera! Sammy! / Wie verhext — Netflix: Staffel 2"
+- anilistId: -63350
+  title: "Dinotrux"
+  platform: netflix
+  url: https://www.netflix.com/title/80049903
+  dub: true
+  dubRanges:
+    - from: 47
+      to: 52
+      dub: true
+      checked: [47, 48, 49, 50, 51, 52]
+  checkedAt: '2026-10-12'
+  note: "Folgen 47–52 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], nl|Niederländisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, da|Dänisch, fi|Finnisch, he|Hebräisch, id|Indonesisch, yue|Kantonesisch, ko|Koreanisch, zh-TW|Mandarin (Guoyu), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 6, dazwischen nicht geprüft — Folge 6: Das Ende des Kraters: Teil 2 — Netflix: Staffel 5"
+- anilistId: -63350
+  title: "Dinotrux"
+  platform: netflix
+  url: https://www.netflix.com/title/80049903
+  dub: true
+  dubRanges:
+    - from: 11
+      to: 23
+      dub: true
+      checked: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+  checkedAt: '2026-10-12'
+  note: "Folgen 11–23 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, he|Hebräisch, id|Indonesisch, yue|Kantonesisch, ko|Koreanisch, zh-TW|Mandarin (Guoyu), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Blitz — Netflix: Staffel 2"
+- anilistId: -63350
+  title: "Dinotrux"
+  platform: netflix
+  url: https://www.netflix.com/title/80049903
+  dub: true
+  dubRanges:
+    - from: 40
+      to: 46
+      dub: true
+      checked: [40, 41, 42, 43, 44, 45, 46]
+  checkedAt: '2026-10-12'
+  note: "Folgen 40–46 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], nl|Niederländisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, da|Dänisch, fi|Finnisch, he|Hebräisch, id|Indonesisch, yue|Kantonesisch, ko|Koreanisch, zh-TW|Mandarin (Guoyu), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 7, dazwischen nicht geprüft — Folge 7: Die Brücke — Netflix: Staffel 4"
+- anilistId: -63350
+  title: "Dinotrux"
+  platform: netflix
+  url: https://www.netflix.com/title/80049903
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 10
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, he|Hebräisch, id|Indonesisch, yue|Kantonesisch, ko|Koreanisch, zh-TW|Mandarin (Guoyu), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Die falsche Schlucht — Netflix: Staffel 1"
+- anilistId: -63350
+  title: "Dinotrux"
+  platform: netflix
+  url: https://www.netflix.com/title/80049903
+  dub: true
+  dubRanges:
+    - from: 24
+      to: 39
+      dub: true
+      checked: [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+  checkedAt: '2026-10-12'
+  note: "Folgen 24–39 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], nl|Niederländisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, da|Dänisch, fi|Finnisch, he|Hebräisch, id|Indonesisch, yue|Kantonesisch, ko|Koreanisch, zh-TW|Mandarin (Guoyu), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 16, dazwischen nicht geprüft — Folge 16: Der Magnetberg — Netflix: Staffel 3"
+- anilistId: -81896
+  title: "4 ½ Freunde"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.a5bda3a8-8308-46ce-aefd-fc789d00c9d8
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite 0OYUMHWTY9PO4FWGNX2Y66J108: alle 26 Folgen geprüft, Abos: Prime, zdftivi, zdfselect, zugang=abo_und_kauf, gti=amzn1.dv.gti.8a0a0706-6dbb-44bf-bec4-b0b323d7f5c2"
+- anilistId: -81896
+  title: "4 ½ Freunde"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.a5bda3a8-8308-46ce-aefd-fc789d00c9d8
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0B8TVXX44: alle 26 Folgen geprüft, Abos: Prime, zdftivi, zdfselect, zugang=abo_und_kauf, gti=amzn1.dv.gti.8a0a0706-6dbb-44bf-bec4-b0b323d7f5c2"
+- anilistId: -86957
+  title: "Grünes Ei mit Speck"
+  platform: netflix
+  url: https://www.netflix.com/title/80057250
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, hi|Hindi, id|Indonesisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Nirgends — Netflix: Staffel 1"
+- anilistId: -281485
+  title: "Antiks"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0OVHSHXXB8EW0QNO4OS7EP7BN1
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Italiano, Polski, Português (Brasil), Português (Portugal), 日本語, English Dialogue Boost: Medium, English Dialogue Boost: High — Amazon-Seite 0OVHSHXXB8EW0QNO4OS7EP7BN1: alle 3 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.7d7f7939-5459-4c7c-a3b5-dd25aac96364"
+- anilistId: -86957
+  title: "Grünes Ei mit Speck"
+  platform: netflix
+  url: https://www.netflix.com/title/80057250
+  dub: true
+  dubRanges:
+    - from: 14
+      to: 23
+      dub: true
+      checked: [14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+  checkedAt: '2026-10-12'
+  note: "Folgen 14–23 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, hi|Hindi, id|Indonesisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh-CN|Mandarin (Putonghua), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Die Mutter, die mich liebte — Netflix: Der zweite Gang"
+- anilistId: -281485
+  title: "Antiks"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CWCQVK1B
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Italiano, Polski, Português (Brasil), Português (Portugal), 日本語, English Dialogue Boost: Medium, English Dialogue Boost: High — Amazon-Seite B0CWCQVK1B: alle 2 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.da4f111e-1c80-4fb5-bc38-b689db9664ac"
+- anilistId: -281485
+  title: "Antiks"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CKKB6DQ6
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Italiano, Polski, Português (Brasil), Português (Portugal), 日本語, English Dialogue Boost: Medium, English Dialogue Boost: High — Amazon-Seite B0CKKB6DQ6: alle 3 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.7d7f7939-5459-4c7c-a3b5-dd25aac96364"
+- anilistId: -69450
+  title: "Tarzan und Jane"
+  platform: netflix
+  url: https://www.netflix.com/title/80057506
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 8
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, hi|Hindi, id|Indonesisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 8: Showdown im Dschungel — Netflix: Staffel 1"
+- anilistId: -10283
+  title: "Archer"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.7eb88c30-17ab-9b3e-20e5-5633d9a1f48a
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite 0MNORS7GVDMJ13UK6T4T0PK96Y: alle 10 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.18b88c30-0842-cb58-0261-3d2983d8e13a"
+- anilistId: -69450
+  title: "Tarzan und Jane"
+  platform: netflix
+  url: https://www.netflix.com/title/80057506
+  dub: true
+  dubRanges:
+    - from: 9
+      to: 13
+      dub: true
+      checked: [9, 10, 11, 12, 13]
+  checkedAt: '2026-10-12'
+  note: "Folgen 9–13 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, hi|Hindi, id|Indonesisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 5, dazwischen nicht geprüft — Folge 5: Rückkehr des Königs — Netflix: Staffel 2"
+- anilistId: -10283
+  title: "Archer"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B087QQ89Q9
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B087QQ89Q9: alle 13 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.18b8de5a-6fee-1fcc-027d-7e7288514b0d"
+- anilistId: -10283
+  title: "Archer"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B086P9QS1Y
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B086P9QS1Y: alle 13 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.bab89be8-4a28-1e74-71b9-20520d3813fb"
+- anilistId: -10283
+  title: "Archer"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.7eb88c30-17ab-9b3e-20e5-5633d9a1f48a
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B086FX19K6: alle 10 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.18b88c30-0842-cb58-0261-3d2983d8e13a"
+- anilistId: -80321
+  title: "Kazoops!"
+  platform: netflix
+  url: https://www.netflix.com/title/80057609
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, da|Dänisch, fi|Finnisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: Mitten im Irgendwo — Netflix: Staffel 3"
+- anilistId: -10283
+  title: "Archer"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B088QW37KZ
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B088QW37KZ: alle 13 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.e6b912b3-df04-5e85-e3cc-0726b1299745"
+- anilistId: -10283
+  title: "Archer"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0892JB8X7
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0892JB8X7: alle 13 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.10b91dcc-e5f5-23fa-499e-77fcca254d76"
+- anilistId: -80321
+  title: "Kazoops!"
+  platform: netflix
+  url: https://www.netflix.com/title/80057609
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 7
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–7 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, da|Dänisch, fi|Finnisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 7, dazwischen nicht geprüft — Folge 7: Glückwunsch zu einem ganz normalen Tag / Der Kokosnuss-Safari-Club / So gut wie neu!"
+- anilistId: -246
+  title: "Avatar - Der Herr der Elemente"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.44a9f602-9cc3-13b3-d736-047284ca9187
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High — Amazon-Seite 0J7Y9T3ECUJ9CG0LKLC4H6LZLZ: alle 20 Folgen geprüft, Abos: Prime, paramountplusde, rtlde, wowfictionde, zugang=abo_und_kauf, gti=amzn1.dv.gti.e7aac404-1095-446b-81e0-c9d469a06d77"
+- anilistId: -80321
+  title: "Kazoops!"
+  platform: netflix
+  url: https://www.netflix.com/title/80057609
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 7
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–7 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, da|Dänisch, fi|Finnisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 7, dazwischen nicht geprüft — Folge 7: Techno Monty / Hässliche Früchte / Spaß-Fabrik"
+- anilistId: -72350
+  title: "DuckTales - Neues aus Entenhausen"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-8603eb8d-b163-4473-a7fa-bb3d772eb152
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 15
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: ar, cmn-TW, cs, da, de, el, en, es-419, es-ES, fr-FR, he, hu, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sv, th, tr, yue"
+- anilistId: -71819
+  title: "Baahubali: The Lost Legends"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.d8ae79b2-3f2f-7f4b-43e2-7d08428286b5
+  dub: false
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: English, हिन्दी, हिन्दी Dialogue Boost: Medium, हिन्दी Dialogue Boost: High, தமிழ், తెలుగు — Amazon-Seite 0RZF4FS5A3HJ0F8N49YDGDDQYD: alle 2 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.90adbdea-1239-ce47-4e20-ec9e6650401b"
+- anilistId: -71819
+  title: "Baahubali: The Lost Legends"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.d8ae79b2-3f2f-7f4b-43e2-7d08428286b5
+  dub: false
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: English, हिन्दी, हिन्दी Dialogue Boost: Medium, हिन्दी Dialogue Boost: High, தமிழ், తెలుగు — Amazon-Seite B09G5XPLBQ: alle 2 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.90adbdea-1239-ce47-4e20-ec9e6650401b"
+- anilistId: -74222
+  title: "Kulipari – Die Frosch-Armee"
+  platform: netflix
+  url: https://www.netflix.com/title/80057610
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Folge 13"
+- anilistId: -241205
+  title: "Barbie Dream Squad"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.834e9582-7c8f-4eb2-9c1a-80a0a6bcd066
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), 日本語 — Amazon-Seite 0MXGN7QQ0VV98DPD3X2N59IA1Y: alle 4 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.5d2c6872-9622-45ad-9ca1-5a73eeb44858"
+- anilistId: -241205
+  title: "Barbie Dream Squad"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.834e9582-7c8f-4eb2-9c1a-80a0a6bcd066
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil), 日本語 — Amazon-Seite B0BZQYWT9J: alle 4 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.5d2c6872-9622-45ad-9ca1-5a73eeb44858"
+- anilistId: -67264
+  title: "Beat Bugs"
+  platform: netflix
+  url: https://www.netflix.com/title/80057611
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 26
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: The Long and Winding Road — Netflix: Staffel 3"
+- anilistId: -232383
+  title: "Barbie Dream Vacation"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.2527c736-fe51-4eb4-960e-5a5e90ad9ee0
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil) — Amazon-Seite 0HCSQL9SNJQHP0ZQPTDVL35QZK: alle 4 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.525a7f0b-a789-4735-9587-25e238e2caf6"
+- anilistId: -67264
+  title: "Beat Bugs"
+  platform: netflix
+  url: https://www.netflix.com/title/80057611
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Please Mr. Postman / Across the Universe"
+- anilistId: -232383
+  title: "Barbie Dream Vacation"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.2527c736-fe51-4eb4-960e-5a5e90ad9ee0
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Italiano, Português (Brasil) — Amazon-Seite B0CD32DHBT: alle 4 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.525a7f0b-a789-4735-9587-25e238e2caf6"
+- anilistId: -67264
+  title: "Beat Bugs"
+  platform: netflix
+  url: https://www.netflix.com/title/80057611
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Carry That Weight / Blackbird"
+- anilistId: -289483
+  title: "Barbie: Dream Besties"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.64f1dc8f-2d19-49c1-9ebe-2ca98a870ede
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil) — Amazon-Seite 0L4R2BUXYFR2AW0RAVOBR22JTQ: alle 10 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.ff50b8a3-6ad9-46a8-ac06-44d375619f28"
+- anilistId: -289483
+  title: "Barbie: Dream Besties"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.64f1dc8f-2d19-49c1-9ebe-2ca98a870ede
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil) — Amazon-Seite B0DM723KBF: alle 10 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.ff50b8a3-6ad9-46a8-ac06-44d375619f28"
+- anilistId: -62475
+  title: "Heidi"
+  platform: netflix
+  url: https://www.netflix.com/title/80060413
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 26
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, fr|Französisch [Original], pl|Polnisch, it|Italienisch, es|Spanisch (Lateinamerika), en|Englisch, pt-BR|Portugiesisch (Brasilien), hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Heidi muss sich entscheiden — Netflix: Staffel 3"
+- anilistId: -78839
+  title: "Barbie: Dreamtopia"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.e0b4e5d4-bb3c-c0d9-97f3-b9bdc50ab381
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite 0SGIUX2ODZKMBSIQ4XJHRYSDXD: alle 34 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.28b4e5d0-a3fa-fcd5-ed88-5a79bd0160a9"
+- anilistId: -74153
+  title: "LEGO Bionicle: Das Abenteuer beginnt"
+  platform: netflix
+  url: https://www.netflix.com/title/80062112
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 3
+      dub: true
+      checked: [1, 2, 3]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–3 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, nl-BE|Flämisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 3, dazwischen nicht geprüft — Folge 3: Der Weg zur Maske von Makuta — Netflix: Staffel 1"
+- anilistId: -74153
+  title: "LEGO Bionicle: Das Abenteuer beginnt"
+  platform: netflix
+  url: https://www.netflix.com/title/80062112
+  dub: true
+  dubRanges:
+    - from: 4
+      to: 5
+      dub: true
+      checked: [4, 5]
+  checkedAt: '2026-10-12'
+  note: "Folgen 4–5 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, nl-BE|Flämisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 2, dazwischen nicht geprüft — Folge 2: Das dunkle Portal — Netflix: Staffel 2"
+- anilistId: -225361
+  title: "Bat-Fam - Die Superheldenfamilie"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.7c70d240-9583-4c46-8a75-0cccbf6ea7c1
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, Dansk, English, English [Audio Description], English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français (Canada), Français (France), Indonesia, Italiano, Magyar, Melayu, Nederlands, Norsk Bokmål, Polski, Português (Brasil), Português (Portugal), Română, Suomi, Svenska, Türkçe, Čeština, Ελληνικά, עברית, العربية, हिन्दी, ไทย, 中文（中国）, 中文（台灣）, 日本語, 한국어 — Amazon-Seite 0MITTL3NLP1X0FOKD3W0MF77B5: alle 10 Folgen geprüft, Abos: Prime, FVOD, zugang=abo, gti=amzn1.dv.gti.a2e6803c-55ab-4099-a290-e2cfc49704d6"
+- anilistId: -225361
+  title: "Bat-Fam - Die Superheldenfamilie"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.7c70d240-9583-4c46-8a75-0cccbf6ea7c1
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, Dansk, English, English [Audio Description], English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français (Canada), Français (France), Indonesia, Italiano, Magyar, Melayu, Nederlands, Norsk Bokmål, Polski, Português (Brasil), Português (Portugal), Română, Suomi, Svenska, Türkçe, Čeština, Ελληνικά, עברית, العربية, हिन्दी, ไทย, 中文（中国）, 中文（台灣）, 日本語, 한국어 — Amazon-Seite B0FQWF1LNX: alle 10 Folgen geprüft, Abos: Prime, FVOD, zugang=abo, gti=amzn1.dv.gti.a2e6803c-55ab-4099-a290-e2cfc49704d6"
+- anilistId: -125909
+  title: "Batman: Caped Crusader"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.737cc8f1-0f87-4738-bdd9-af83c2b296e4
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français (Canada), Français (France), Italiano, Polski, Português (Brasil), Türkçe, हिन्दी, ไทย, 日本語 — Amazon-Seite 0LZQVC3XN4GJKIV9ETUE3HGAN8: alle 10 Folgen geprüft, Abos: Prime, FVOD, zugang=abo, gti=amzn1.dv.gti.6dbee8bb-246b-442b-befc-8493544f2b01"
+- anilistId: -73275
+  title: "True und das Regenbogenreich"
+  platform: netflix
+  url: https://www.netflix.com/title/80063599
+  dub: true
+  dubRanges:
+    - from: 15
+      to: 19
+      dub: true
+      checked: [15, 16, 17, 18, 19]
+  checkedAt: '2026-10-12'
+  note: "Folgen 15–19 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 5, dazwischen nicht geprüft — Folge 5: Der Na-Na-Baum — Netflix: Wilde Yetis"
+- anilistId: -125909
+  title: "Batman: Caped Crusader"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0H5543MMQ
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français (Canada), Français (France), Italiano, Polski, Português (Brasil), Türkçe, हिन्दी, ไทย, 日本語 — Amazon-Seite B0H5543MMQ: alle 10 Folgen geprüft, Abos: Prime, FVOD, zugang=abo, gti=amzn1.dv.gti.777dd3b2-b63e-4216-86b8-2473eb40298a"
+- anilistId: -125909
+  title: "Batman: Caped Crusader"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.737cc8f1-0f87-4738-bdd9-af83c2b296e4
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français (Canada), Français (France), Italiano, Polski, Português (Brasil), Türkçe, हिन्दी, ไทย, 日本語 — Amazon-Seite B0CYFC3RDM: alle 10 Folgen geprüft, Abos: Prime, FVOD, zugang=abo, gti=amzn1.dv.gti.6dbee8bb-246b-442b-befc-8493544f2b01"
+- anilistId: -73275
+  title: "True und das Regenbogenreich"
+  platform: netflix
+  url: https://www.netflix.com/title/80063599
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 10
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Ein großes, beeriges Mysterium — Netflix: Das Regenbogenreich"
+- anilistId: -73275
+  title: "True und das Regenbogenreich"
+  platform: netflix
+  url: https://www.netflix.com/title/80063599
+  dub: true
+  dubRanges:
+    - from: 11
+      to: 14
+      dub: true
+      checked: [11, 12, 13, 14]
+  checkedAt: '2026-10-12'
+  note: "Folgen 11–14 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 4, dazwischen nicht geprüft — Folge 4: Grüne Flummis überall — Netflix: Pilzstadt"
+- anilistId: -70082
+  title: "Bianca Zauberkind"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.0ab962ed-ced2-5d50-108c-069e343d8db4
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], English Dialogue Boost: Low, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Indonesia, Italiano, Nederlands, Polski, Português (Brasil), Türkçe, Русский, العربية, हिन्दी, 中文（中国）, 中文（台灣）, 日本語, 한국어 — Amazon-Seite 0FSGRNHPGD97EM65CJRGZ3X038: nur 13 von 26 Folgen geladen — Rest ungeprüft, Abos: Prime, FVOD, zugang=abo, gti=amzn1.dv.gti.ccb95746-1b3a-0a37-5462-f0496a2dbcdf"
+- anilistId: -70082
+  title: "Bianca Zauberkind"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B08CM3DRB7
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High — Amazon-Seite B08CM3DRB7: alle 13 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.4eb95746-1b01-c69e-54bd-b6982764c485"
+- anilistId: -70082
+  title: "Bianca Zauberkind"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0H248XBQ8
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], English Dialogue Boost: Low, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Indonesia, Italiano, Nederlands, Polski, Português (Brasil), Türkçe, Русский, العربية, हिन्दी, 中文（中国）, 中文（台灣）, 日本語, 한국어 — Amazon-Seite B0H248XBQ8: alle 26 Folgen geprüft, Abos: Prime, FVOD, zugang=abo, gti=amzn1.dv.gti.2826b403-cf52-465e-9fa4-ac08e12c8233"
+- anilistId: -70082
+  title: "Bianca Zauberkind"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.0ab962ed-ced2-5d50-108c-069e343d8db4
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], English Dialogue Boost: Low, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Indonesia, Italiano, Nederlands, Polski, Português (Brasil), Türkçe, Русский, العربية, हिन्दी, 中文（中国）, 中文（台灣）, 日本語, 한국어 — Amazon-Seite B08BYYPQ2D: nur 13 von 26 Folgen geladen — Rest ungeprüft, Abos: Prime, FVOD, zugang=abo, gti=amzn1.dv.gti.ccb95746-1b3a-0a37-5462-f0496a2dbcdf"
+- anilistId: -70082
+  title: "Bianca Zauberkind"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B08CM52M2B
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High — Amazon-Seite B08CM52M2B: alle 6 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.82b95746-1bd7-528b-09d2-5edefac73897"
+- anilistId: -70082
+  title: "Bianca Zauberkind"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B08CM8J66F
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High — Amazon-Seite B08CM8J66F: alle 7 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.e8b95746-1c24-77c9-60d4-f1c8b4b3c567"
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.335c288c-f435-413f-851b-708578609172
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch — Amazon-Seite 0I72LTTGXUSIO7RC4H8TVQSUWI: alle 20 Folgen geprüft, Abos: Prime, paramountplusde, wowfictionde, zugang=abo, gti=amzn1.dv.gti.d9954d13-747b-472b-8358-69c684556af0"
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0B1N7L61W
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0B1N7L61W: alle 20 Folgen geprüft, Abos: Prime, paramountplusde, wowfictionde, zugang=abo, gti=amzn1.dv.gti.1ebbd903-fcd0-befd-8f5a-236c0d56b4ce"
+- anilistId: -67059
+  title: "Wortparty"
+  platform: netflix
+  url: https://www.netflix.com/title/80063705
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 14
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch (Vereinigte Staaten) [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, en-GB|Englisch (Vereinigtes Königreich), fi|Finnisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 14, dazwischen nicht geprüft — Folge 14: Helfer Bailey"
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09S18JVBH
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English — Amazon-Seite B09S18JVBH: alle 20 Folgen geprüft, Abos: paramountplusde, wowfictionde, zugang=abo, gti=amzn1.dv.gti.2abbd904-0413-a597-1562-f3e049abb92c — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: -67059
+  title: "Wortparty"
+  platform: netflix
+  url: https://www.netflix.com/title/80063705
+  dub: true
+  dubRanges:
+    - from: 15
+      to: 26
+      dub: true
+      checked: [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  checkedAt: '2026-10-12'
+  note: "Folgen 15–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch (Vereinigte Staaten) [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, en-GB|Englisch (Vereinigtes Königreich), fi|Finnisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: Jeder kann etwas richtig gut — Netflix: Staffel 2"
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09SVX1TT1
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English [Audio Description] — Amazon-Seite B09SVX1TT1: alle 20 Folgen geprüft, Abos: paramountplusde, wowfictionde, zugang=abo, gti=amzn1.dv.gti.184098d2-15db-4bdc-ae36-a43c053c64dd — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0B72LB1P9
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English — Amazon-Seite B0B72LB1P9: alle 20 Folgen geprüft, Abos: paramountplusde, wowfictionde, zugang=abo, gti=amzn1.dv.gti.d0bc3f95-17cf-f2a4-0ce9-f2928a4e087e — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09ZL6FBW2
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 8
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8]
+    - from: 9
+      to: 9
+      dub: false
+      checked: [9]
+    - from: 10
+      to: 11
+      dub: true
+      checked: [10, 11]
+    - from: 12
+      to: 15
+      dub: false
+      checked: [12, 13, 14, 15]
+    - from: 16
+      to: 16
+      dub: true
+      checked: [16]
+    - from: 17
+      to: 17
+      dub: false
+      checked: [17]
+    - from: 18
+      to: 18
+      dub: true
+      checked: [18]
+    - from: 19
+      to: 19
+      dub: false
+      checked: [19]
+    - from: 20
+      to: 20
+      dub: true
+      checked: [20]
+    - from: 21
+      to: 21
+      dub: false
+      checked: [21]
+    - from: 22
+      to: 22
+      dub: true
+      checked: [22]
+    - from: 23
+      to: 23
+      dub: false
+      checked: [23]
+    - from: 24
+      to: 24
+      dub: true
+      checked: [24]
+    - from: 25
+      to: 25
+      dub: false
+      checked: [25]
+    - from: 26
+      to: 26
+      dub: true
+      checked: [26]
+  kanalMessung: ja
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–8 mit deutschem Ton, Folge 9 ohne deutschen Ton, Folgen 10–11 mit deutschem Ton, Folgen 12–15 ohne deutschen Ton, Folge 16 mit deutschem Ton, Folge 17 ohne deutschen Ton, Folge 18 mit deutschem Ton, Folge 19 ohne deutschen Ton, Folge 20 mit deutschem Ton, Folge 21 ohne deutschen Ton, Folge 22 mit deutschem Ton, Folge 23 ohne deutschen Ton, Folge 24 mit deutschem Ton, Folge 25 ohne deutschen Ton, Folge 26 mit deutschem Ton — Tonspuren: Deutsch, English — Amazon-Seite B09ZL6FBW2: alle 26 Folgen geprüft, Abos: paramountplusde, zugang=abo, gti=amzn1.dv.gti.cff9ed7e-3e31-4a4c-a568-047acdfe0cab — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0D1543X1S
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English [Audio Description] — Amazon-Seite B0D1543X1S: nur 9 von 11 Folgen geladen — Rest ungeprüft, Abos: paramountplusde, zugang=abo, gti=amzn1.dv.gti.38e9c576-f29a-4408-bd38-2631168ee4ac, regionsperre=laut Seite nicht mehr im Abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CD3129X6
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 20
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    - from: 21
+      to: 22
+      dub: false
+      checked: [21, 22]
+    - from: 23
+      to: 23
+      dub: true
+      checked: [23]
+    - from: 24
+      to: 26
+      dub: false
+      checked: [24, 25, 26]
+  kanalMessung: ja
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–20 mit deutschem Ton, Folgen 21–22 ohne deutschen Ton, Folge 23 mit deutschem Ton, Folgen 24–26 ohne deutschen Ton — Tonspuren: English — Amazon-Seite B0CD3129X6: alle 26 Folgen geprüft, Abos: paramountplusde, zugang=abo, gti=amzn1.dv.gti.4273d196-b4f0-4421-b31b-34373d9032c9 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: -68267
+  title: "Trolljäger"
+  platform: netflix
+  url: https://www.netflix.com/title/80075820
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 26
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, hi|Hindi, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh-TW|Mandarin (Guoyu), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Kampf gegen Angor Rot — Netflix: Teil 1"
+- anilistId: -64198
+  title: "Blaze und die Monster-Maschinen"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FBGH4VXX
+  available: false
+  checkedAt: '2026-10-12'
+  note: "Amazon-Seite B0FBGH4VXX: nur 0 von 9 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.14917dc5-0cca-4199-b654-48de6db45628, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: -68267
+  title: "Trolljäger"
+  platform: netflix
+  url: https://www.netflix.com/title/80075820
+  dub: true
+  dubRanges:
+    - from: 40
+      to: 52
+      dub: true
+      checked: [40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52]
+  checkedAt: '2026-10-12'
+  note: "Folgen 40–52 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, hi|Hindi, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh-TW|Mandarin (Guoyu), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Der ewige Ritter – Teil 2"
+- anilistId: -68267
+  title: "Trolljäger"
+  platform: netflix
+  url: https://www.netflix.com/title/80075820
+  dub: true
+  dubRanges:
+    - from: 27
+      to: 39
+      dub: true
+      checked: [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+  checkedAt: '2026-10-12'
+  note: "Folgen 27–39 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, hi|Hindi, it|Italienisch, ja|Japanisch, ko|Koreanisch, zh-TW|Mandarin (Guoyu), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, vi|Vietnamesisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: In der Halle des Gumm-Gumm-Königs"
+- anilistId: -125760
+  title: "Blippi"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.d2ba9968-f286-b35d-9c3d-c92bdc4e588b
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite 0RMQED15SYONN2G75T0FA5NOGB: alle 10 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.54ba9969-59b9-5612-0835-0ca1662123fa"
+- anilistId: -125760
+  title: "Blippi"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0HJ26TV2C
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English — Amazon-Seite B0HJ26TV2C: alle 13 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.ec0d50d5-7e1d-4be0-84e6-f360f3e98b74"
+- anilistId: -125760
+  title: "Blippi"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0H8CVPNRH
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, English — Amazon-Seite B0H8CVPNRH: alle 13 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.6abdb1a7-a29f-4d5a-9c09-94c50c03a38d"
+- anilistId: -70454
+  title: "Buddy Thunderstruck"
+  platform: netflix
+  url: https://www.netflix.com/title/80081170
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: Geldbeutel ändert alles"
+- anilistId: -155063
+  title: "Blippi Wonders"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.91cbcd53-4ffd-4cbf-95d5-f204285c8b7d
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, Español (Latinoamérica), Português (Brasil), Türkçe — Amazon-Seite 0NSCCCGTV8L9413XYCVJWMY3CT: alle 3 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.f24bfcd1-5ae4-42f8-9500-fa94ac60d946"
+- anilistId: -155063
+  title: "Blippi Wonders"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CWL2GT93
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, Español (Latinoamérica), Português (Brasil), Türkçe — Amazon-Seite B0CWL2GT93: alle 3 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.32d99c11-0f2a-4c5d-ae69-c0a7c19c2942"
+- anilistId: -155063
+  title: "Blippi Wonders"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.91cbcd53-4ffd-4cbf-95d5-f204285c8b7d
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, Español (Latinoamérica), Português (Brasil), Türkçe — Amazon-Seite B0D58H7L3W: alle 3 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.f24bfcd1-5ae4-42f8-9500-fa94ac60d946"
+- anilistId: -32388
+  title: "Ben & Hollys kleines Königreich"
+  platform: netflix
+  url: https://www.netflix.com/title/80082160
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 26
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, ko|Koreanisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Auf zum Nordpol / Notlandung beim Weihnachtsmann — Netflix: Teil 1"
+- anilistId: 137822
+  title: "Bluelock"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0BZWFR7H1
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Polski [Opis audio], Português (Brasil), 日本語 — Amazon-Seite B0BZWFR7H1: alle 24 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.5ffce646-76c7-439d-bf71-df531041cb0f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: 163146
+  title: "Blue Lock: Staffel 2"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DHVD768H
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil), 日本語 — Amazon-Seite B0DHVD768H: alle 14 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.5c60d817-030a-4369-8b50-485ed84afc0f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: 137822
+  title: "Bluelock"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0BZWFR7H1
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Polski [Opis audio], Português (Brasil), 日本語 — Amazon-Seite B0BZYQSDN8: alle 24 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.5ffce646-76c7-439d-bf71-df531041cb0f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: -289244
+  title: "Bob's Beach"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.153cdf69-abf6-48d0-a372-935d42d35483
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch — Amazon-Seite 0GEVFTN1PE71MEIRYQ2AYP575V: alle 52 Folgen geprüft, Abos: Prime, fixandfoxi, zugang=abo_und_kauf, gti=amzn1.dv.gti.4b713e3b-d5a7-47a7-9422-015858581f1c"
+- anilistId: -71024
+  title: "Castlevania"
+  platform: netflix
+  url: https://www.netflix.com/title/80095241
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 4
+      dub: true
+      checked: [1, 2, 3, 4]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–4 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, tr|Türkisch, ja|Japanisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 4, dazwischen nicht geprüft — Folge 4: Denkmal — Netflix: Staffel 1"
+- anilistId: -289244
+  title: "Bob's Beach"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.153cdf69-abf6-48d0-a372-935d42d35483
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0H4DV6V7Y: alle 52 Folgen geprüft, Abos: Prime, fixandfoxi, zugang=abo_und_kauf, gti=amzn1.dv.gti.4b713e3b-d5a7-47a7-9422-015858581f1c"
+- anilistId: -71024
+  title: "Castlevania"
+  platform: netflix
+  url: https://www.netflix.com/title/80095241
+  dub: true
+  dubRanges:
+    - from: 23
+      to: 32
+      dub: true
+      checked: [23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
+  checkedAt: '2026-10-12'
+  note: "Folgen 23–32 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, tr|Türkisch, ja|Japanisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Eine seltsame Zeit"
+- anilistId: -1763
+  title: "Braceface – Alles klar, Sharon Spitz?"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0KPVB3KL5ZJML828PXI7PHGENB
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch — Amazon-Seite 0KPVB3KL5ZJML828PXI7PHGENB: alle 13 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.91812a94-9c36-4f90-8d2e-d5e1aa329391"
+- anilistId: -71024
+  title: "Castlevania"
+  platform: netflix
+  url: https://www.netflix.com/title/80095241
+  dub: true
+  dubRanges:
+    - from: 5
+      to: 12
+      dub: true
+      checked: [5, 6, 7, 8, 9, 10, 11, 12]
+  checkedAt: '2026-10-12'
+  note: "Folgen 5–12 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, tr|Türkisch, ja|Japanisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 8: Endzeit — Netflix: Staffel 2"
+- anilistId: -71024
+  title: "Castlevania"
+  platform: netflix
+  url: https://www.netflix.com/title/80095241
+  dub: true
+  dubRanges:
+    - from: 13
+      to: 22
+      dub: true
+      checked: [13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+  checkedAt: '2026-10-12'
+  note: "Folgen 13–22 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, tr|Türkisch, ja|Japanisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Lasst alle Hoffnung fahren"
+- anilistId: -1763
+  title: "Braceface – Alles klar, Sharon Spitz?"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09F5CNVSR
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch — Amazon-Seite B09F5CNVSR: alle 13 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.1b9d6a77-563f-4762-838b-96c60408b137"
+- anilistId: -1763
+  title: "Braceface – Alles klar, Sharon Spitz?"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09F5FH9YC
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch — Amazon-Seite B09F5FH9YC: alle 13 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.dde1c45d-bc9e-407d-85d8-82b211ef7795"
+- anilistId: -1763
+  title: "Braceface – Alles klar, Sharon Spitz?"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09F59BFHB
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch — Amazon-Seite B09F59BFHB: alle 13 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.f150f432-5bc6-44da-a2ca-b240eff82ad6"
+- anilistId: 141391
+  title: "Call of the Night"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0B6FVJXST
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0B6FVJXST: alle 13 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.271e53da-023c-4e5c-8eac-f0c3be87672a — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: -69538
+  title: "Lalaloopsy"
+  platform: netflix
+  url: https://www.netflix.com/title/80095649
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Cat und Cat haben sich verirrt / Storm E Skys Ankunft"
+- anilistId: -118382
+  title: "Cave Club"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.d4c064f5-6c7d-4c63-8e8d-0b2c414f8bf0
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English — Amazon-Seite 0RR1L6OB5QJAWW6C7L9QZDTLO0: alle 8 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.eb54a609-e722-4252-8269-b99317d69b80"
+- anilistId: -118382
+  title: "Cave Club"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.d4c064f5-6c7d-4c63-8e8d-0b2c414f8bf0
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English — Amazon-Seite B0DM83HYD1: alle 8 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.eb54a609-e722-4252-8269-b99317d69b80"
+- anilistId: -73021
+  title: "Disenchantment"
+  platform: netflix
+  url: https://www.netflix.com/title/80095697
+  dub: true
+  dubRanges:
+    - from: 21
+      to: 30
+      dub: true
+      checked: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+  checkedAt: '2026-10-12'
+  note: "Folgen 21–30 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, uk|Ukrainisch, tr|Türkisch, ru|Russisch, fr|Französisch, hi|Hindi, it|Italienisch, ja|Japanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Beans Abstieg"
+- anilistId: 2167
+  title: "Clannad"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CN5T82TL
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CN5T82TL: alle 24 Folgen geprüft, Abos: animedigitalde, aniversede, zugang=abo, gti=amzn1.dv.gti.629ca9c8-3bfc-415f-888c-b5baa007b0aa — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: -73021
+  title: "Disenchantment"
+  platform: netflix
+  url: https://www.netflix.com/title/80095697
+  dub: true
+  dubRanges:
+    - from: 41
+      to: 50
+      dub: true
+      checked: [41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
+  checkedAt: '2026-10-12'
+  note: "Folgen 41–50 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, uk|Ukrainisch, tr|Türkisch, it|Italienisch, fr|Französisch, hi|Hindi, ja|Japanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Auf Wiedersehen, Bean"
+- anilistId: -73021
+  title: "Disenchantment"
+  platform: netflix
+  url: https://www.netflix.com/title/80095697
+  dub: true
+  dubRanges:
+    - from: 11
+      to: 20
+      dub: true
+      checked: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  checkedAt: '2026-10-12'
+  note: "Folgen 11–20 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, uk|Ukrainisch, tr|Türkisch, ru|Russisch, fr|Französisch, it|Italienisch, ja|Japanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Tiabeanies Untergang"
+- anilistId: -73021
+  title: "Disenchantment"
+  platform: netflix
+  url: https://www.netflix.com/title/80095697
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 10
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, uk|Ukrainisch, tr|Türkisch, ru|Russisch, fr|Französisch, hi|Hindi, it|Italienisch, ja|Japanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Dreamlands Untergang"
+- anilistId: -247813
+  title: "CoComelon JJ's Animal Time"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.71db4029-8c59-4d2a-9790-803d8b51ea4b
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English — Amazon-Seite 0LW9QAHDVHYPK8I20MI9JCV39N: alle 10 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.ffe3fc17-7ff4-42bd-90e5-812e171b368f"
+- anilistId: -73021
+  title: "Disenchantment"
+  platform: netflix
+  url: https://www.netflix.com/title/80095697
+  dub: true
+  dubRanges:
+    - from: 31
+      to: 40
+      dub: true
+      checked: [31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
+  checkedAt: '2026-10-12'
+  note: "Folgen 31–40 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, uk|Ukrainisch, tr|Türkisch, ru|Russisch, fr|Französisch, hi|Hindi, it|Italienisch, ja|Japanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Das doppelte Beanchen"
+- anilistId: -247813
+  title: "CoComelon JJ's Animal Time"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CWDRN1BY
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English — Amazon-Seite B0CWDRN1BY: alle 10 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.dd4b55e3-c004-4153-834e-62b32831476a"
+- anilistId: -247813
+  title: "CoComelon JJ's Animal Time"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.71db4029-8c59-4d2a-9790-803d8b51ea4b
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English — Amazon-Seite B0CTWDG6SH: alle 10 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.ffe3fc17-7ff4-42bd-90e5-812e171b368f"
+- anilistId: -4630
+  title: "Cosmo und Wanda - Wenn Elfen helfen"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.78b43bf5-8d79-4cff-b899-d0f835181e6f
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite 0MAV4CRWPASV9BIJM9BCQ85ISV: alle 13 Folgen geprüft, Abos: Prime, fixandfoxi, zugang=abo_und_kauf, gti=amzn1.dv.gti.cfc0dc51-272d-4dde-8e02-d40dadfe36de"
+- anilistId: -75116
+  title: "Stretch Armstrong und die Flex Fighters"
+  platform: netflix
+  url: https://www.netflix.com/title/80095988
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Das Flexariumzeitalter — Netflix: Staffel 1"
+- anilistId: -75116
+  title: "Stretch Armstrong und die Flex Fighters"
+  platform: netflix
+  url: https://www.netflix.com/title/80095988
+  dub: true
+  dubRanges:
+    - from: 14
+      to: 23
+      dub: true
+      checked: [14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+  checkedAt: '2026-10-12'
+  note: "Folgen 14–23 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Die Zeit läuft ab — Netflix: Staffel 2"
+- anilistId: -86838
+  title: "Costume Quest"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0KN6W3G7AE8PEE6ELMVV11N5T7
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], English Dialogue Boost: Low, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Italiano, Nederlands, Português (Brasil), العربية, हिन्दी, 中文（中国）, 中文（台灣）, 日本語 — Amazon-Seite 0KN6W3G7AE8PEE6ELMVV11N5T7: alle 6 Folgen geprüft, Abos: Prime, FVOD, zugang=abo, gti=amzn1.dv.gti.5a0d6173-73ae-46f8-9328-a480a5e21452"
+- anilistId: -64572
+  title: "Alvinnn!!! und die Chipmunks"
+  platform: netflix
+  url: https://www.netflix.com/title/80097036
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 26
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], nl|Niederländisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), ar|Arabisch, he|Hebräisch, hi|Hindi, pl|Polnisch, pt|Portugiesisch (Portugal) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Das Abendessen / Die große Tour"
+- anilistId: -86838
+  title: "Costume Quest"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0H3TYKCW8
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 7
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7]
+  kanalMessung: ja
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–7 mit deutschem Ton — Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High — Amazon-Seite B0H3TYKCW8: alle 8 Folgen geprüft, Abos: FVOD, zugang=abo, gti=amzn1.dv.gti.8573ac7f-81e6-4a5d-9727-1852d64277c9 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: -70140
+  title: "Creative Galaxy"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.80aaa1d2-74ac-0e6d-6988-f1aa55f8e68d
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], English Dialogue Boost: Low, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Indonesia, Italiano, Nederlands, Português (Brasil), Türkçe, Русский, العربية, हिन्दी, 中文（中国）, 中文（台灣）, 日本語, 한국어 — Amazon-Seite 0MRU1XPUY7OIM4J5W5KBDH4HHP: alle 12 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.c6aaa1cf-be2f-6409-9467-05cdadc5797e"
+- anilistId: -70140
+  title: "Creative Galaxy"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B089XPGL6P
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], English Dialogue Boost: Low, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Italiano, Nederlands, Português (Brasil), العربية, हिन्दी, 中文（中国）, 中文（台灣）, 日本語 — Amazon-Seite B089XPGL6P: nur 1 von 10 Folgen geladen — Rest ungeprüft, Abos: FVOD, zugang=abo, gti=amzn1.dv.gti.aeb38a73-a222-ea56-80b8-6c2fc365118d, regionsperre=laut Seite nicht mehr im Abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: -70140
+  title: "Creative Galaxy"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B089XTJJLP
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Indonesia, Italiano, Nederlands, Português (Brasil), Türkçe, Русский, العربية, हिन्दी, 中文（中国）, 中文（台灣）, 日本語, 한국어, English Dialogue Boost: Low — Amazon-Seite B089XTJJLP: alle 13 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.8cac3cda-40d2-0a10-4cfe-e3760334f4bb"
+- anilistId: -70140
+  title: "Creative Galaxy"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.80aaa1d2-74ac-0e6d-6988-f1aa55f8e68d
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], English Dialogue Boost: Low, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Indonesia, Italiano, Nederlands, Português (Brasil), Türkçe, Русский, العربية, हिन्दी, 中文（中国）, 中文（台灣）, 日本語, 한국어 — Amazon-Seite B089XTQPZF: alle 12 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.c6aaa1cf-be2f-6409-9467-05cdadc5797e"
+- anilistId: -45140
+  title: "Teen Titans Go!"
+  platform: netflix
+  url: https://www.netflix.com/title/80103408
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 26
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 26: Die große Katastrophe / Die Zuschauer entscheiden"
+- anilistId: -71986
+  title: "Danger & Eggs"
+  platform: primevideo
+  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.edc5da5e-3428-43f5-85d4-857583779de0
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], English Dialogue Boost: Low, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Indonesia, Italiano, Nederlands, Polski, Português (Brasil), Türkçe, Русский, العربية, हिन्दी, 中文（中国）, 中文（台灣）, 日本語, 한국어 — Amazon-Seite 0T8DDS9EJ7K16Y252ZA387BSV4: alle 13 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.4c2a2e1c-2723-4728-a46a-a1c017943169"
+- anilistId: -45140
+  title: "Teen Titans Go!"
+  platform: netflix
+  url: https://www.netflix.com/title/80103408
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 11
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+  checkedAt: '2026-10-12'
+  note: "Folgen 1–11 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 11: Liebe macht blöd / Voll auf den Nuschel"

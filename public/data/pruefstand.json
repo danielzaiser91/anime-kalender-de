@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-18T18:45:33.783Z",
+ "erzeugtAm": "2026-10-18T19:06:55.867Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 325,
-   "gesamt": 898,
-   "offen": 573,
+   "gemeldet": 367,
+   "gesamt": 908,
+   "offen": 541,
    "ohneSeite": 28,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
@@ -46,11 +46,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a42a7992-811d-4616-8b19-e160276b57ad",
-     "titel": "Antiks",
-     "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.64aa9ea1-0556-44de-9b16-c2d227d19f98",
      "titel": "LEGO Ninjago: Aufstieg der Drachen (LEGO Ninjago: Dragons Rising)",
      "hinweis": "Staffeln unklar: TMDB zählt 80 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -76,11 +71,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 21 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.91cbcd53-4ffd-4cbf-95d5-f204285c8b7d",
-     "titel": "Blippi Wonders",
-     "hinweis": "Staffeln unklar: TMDB zählt 51 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.02f65553-da89-46e7-b606-e7b821c73b19",
      "titel": "Die Croods: Der Familienbaum (The Croods: Family Tree)",
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -94,11 +84,6 @@
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d6baec2d-d9eb-b71e-a5da-194cd8bf1e4f",
      "titel": "Phungus & Mowld",
      "hinweis": "Staffeln unklar: TMDB zählt 3 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5cb49836-d087-ac56-85f0-40ab9cbb722b",
-     "titel": "Costume Quest",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c8b6fd03-0e90-28fa-e0ab-881c607a92b8",
@@ -126,11 +111,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 23 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d8ae79b2-3f2f-7f4b-43e2-7d08428286b5",
-     "titel": "Baahubali: The Lost Legends",
-     "hinweis": "Staffeln unklar: TMDB zählt 71 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.74b1c880-2dbf-11c6-4e87-795cae20636c",
      "titel": "Troy the Train of Car City",
      "hinweis": "Staffeln unklar: TMDB zählt 27 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -141,11 +121,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 66 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a5bda3a8-8308-46ce-aefd-fc789d00c9d8",
-     "titel": "4 ½ Freunde (Four and a Half Friends)",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.f10e9a74-91a4-4392-96e2-7090feb92faa",
      "titel": "PJ Masks – Pyjamahelden (PJ Masks)",
      "hinweis": "Staffeln unklar: TMDB zählt 257 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -154,11 +129,6 @@
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.9d00924b-cfcd-4c09-98d6-641dab9bf5e0",
      "titel": "Lost in Oz",
      "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.335c288c-f435-413f-851b-708578609172",
-     "titel": "Blaze und die Monster-Maschinen (Blaze and the Monster Machines)",
-     "hinweis": "Staffeln unklar: TMDB zählt 179 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c9bcf7ab-b647-4ca9-beb7-ff647c8ec60b",
@@ -191,18 +161,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 147 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.153cdf69-abf6-48d0-a372-935d42d35483",
-     "titel": "Bob's Beach"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.dc9615ff-12e3-42c9-85c7-36ad46e8b9cb",
      "titel": "Max & Ruby",
      "hinweis": "Staffeln unklar: TMDB zählt 346 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5df64ad7-4e91-48fa-a043-b06f44985327",
-     "titel": "Braceface – Alles klar, Sharon Spitz? (Braceface)",
-     "hinweis": "Staffeln unklar: TMDB zählt 78 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
@@ -321,10 +282,6 @@
      "titel": "Shangri-La Frontier: Staffel 2 (Shangri-La Frontier Season 2)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0D956JD5Y",
-     "titel": "Clannad"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CV5Z8JPZ",
      "titel": "Girls und Panzer: Das Finale – Teil 4 (Girls und Panzer das Finale - Part 4)"
     },
@@ -339,6 +296,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CWYCLT9J",
      "titel": "Digimon Adventure 02: The Beginning (Digimon Adventure 02 The Beginning)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0D956JD5Y",
+     "titel": "Edens Zero: Season 2 (EDENS ZERO Season 2)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D3XZ42T9",
@@ -441,11 +402,11 @@
      "titel": "Mob Psycho 100 III"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/0HGZCX1WR9YH6FJX0HXEO8182Y",
+     "url": "https://www.amazon.de/gp/video/detail/B0B6FVJXST",
      "titel": "Call of the Night"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0B6FVJXST",
+     "url": "https://www.amazon.de/gp/video/detail/0HGZCX1WR9YH6FJX0HXEO8182Y",
      "titel": "Call of the Night"
     },
     {
@@ -1349,6 +1310,10 @@
      "titel": "Clannad"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0H4LGN96W",
+     "titel": "Clannad"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0DJM3HKFX",
      "titel": "Sword of the Stranger"
     },
@@ -1541,19 +1506,9 @@
      "titel": "Future Boy Conan"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.7c70d240-9583-4c46-8a75-0cccbf6ea7c1",
-     "titel": "Bat-Fam - Die Superheldenfamilie (BAT-FAM)",
-     "hinweis": "Staffeln unklar: TMDB zählt 10 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.7e205d42-33d4-48f1-8c5d-73d599a6bdf3",
      "titel": "Die glücklichste Familie in Amerika (#1 Happy Family USA)",
      "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.64f1dc8f-2d19-49c1-9ebe-2ca98a870ede",
-     "titel": "Barbie: Dream Besties",
-     "hinweis": "Staffeln unklar: TMDB zählt 10 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.1ad7d08f-1403-43ef-bce4-cd0b47c1c80e",
@@ -1571,24 +1526,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.737cc8f1-0f87-4738-bdd9-af83c2b296e4",
-     "titel": "Batman: Caped Crusader",
-     "hinweis": "Staffeln unklar: TMDB zählt 20 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.41954324-9ee9-4895-babe-d40eb5203f29",
      "titel": "Hazbin Hotel",
      "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.834e9582-7c8f-4eb2-9c1a-80a0a6bcd066",
-     "titel": "Barbie Dream Squad",
-     "hinweis": "Staffeln unklar: TMDB zählt 4 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.2527c736-fe51-4eb4-960e-5a5e90ad9ee0",
-     "titel": "Barbie Dream Vacation",
-     "hinweis": "Staffeln unklar: TMDB zählt 4 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a0c48eb2-f5d8-4f71-a209-6934df704aee",
@@ -1604,11 +1544,6 @@
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.997a9b32-1ceb-4c36-8b93-52198e2a75af",
      "titel": "Rubble & Crew",
      "hinweis": "Staffeln unklar: TMDB zählt 162 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.71db4029-8c59-4d2a-9790-803d8b51ea4b",
-     "titel": "CoComelon JJ's Animal Time",
-     "hinweis": "Staffeln unklar: TMDB zählt 60 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a81b91a6-cbf2-4089-9bdc-e17f02f54023",
@@ -1666,11 +1601,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d4c064f5-6c7d-4c63-8e8d-0b2c414f8bf0",
-     "titel": "Cave Club",
-     "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6cfb3be4-5a04-47ca-a6ac-e511a1b42ca4",
      "titel": "Madagascar – Die kleine Wildnis (Madagascar: A Little Wild)",
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -1721,21 +1651,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 62 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d2ba9968-f286-b35d-9c3d-c92bdc4e588b",
-     "titel": "Blippi",
-     "hinweis": "Staffeln unklar: TMDB zählt 508 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.e0b4e5d4-bb3c-c0d9-97f3-b9bdc50ab381",
-     "titel": "Barbie: Dreamtopia (Barbie Dreamtopia)",
-     "hinweis": "Staffeln unklar: TMDB zählt 34 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.edc5da5e-3428-43f5-85d4-857583779de0",
-     "titel": "Danger & Eggs",
-     "hinweis": "Staffeln unklar: TMDB zählt 25 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.73e94ed9-65e7-478f-a1d7-1940b52ceda8",
      "titel": "Splash and Bubbles",
      "hinweis": "Staffeln unklar: TMDB zählt 78 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -1753,11 +1668,6 @@
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.14b2361c-a7ea-c2c0-53d7-ed87ab7b2a80",
      "titel": "Die Mr. Peabody & Sherman Show (The Mr. Peabody & Sherman Show)",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.0ab962ed-ced2-5d50-108c-069e343d8db4",
-     "titel": "Bianca Zauberkind (Wishenpoof!)",
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
@@ -1779,11 +1689,6 @@
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8bd755bd-8533-42f8-a856-9181f4889459",
      "titel": "Lassie (The New Adventures of Lassie)",
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.80aaa1d2-74ac-0e6d-6988-f1aa55f8e68d",
-     "titel": "Creative Galaxy",
-     "hinweis": "Staffeln unklar: TMDB zählt 68 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.52a52322-0b3d-4a00-b09b-e294df9c7bad",
@@ -1831,11 +1736,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.7eb88c30-17ab-9b3e-20e5-5633d9a1f48a",
-     "titel": "Archer",
-     "hinweis": "Staffeln unklar: TMDB zählt 140 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.692cd095-6a22-4463-a45f-4dcd7f254bb5",
      "titel": "Die Pinguine aus Madagascar (The Penguins of Madagascar)",
      "hinweis": "Staffeln unklar: TMDB zählt 149 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -1859,11 +1759,6 @@
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.7cb82c8c-11cc-fc25-f90f-58e49d041bba",
      "titel": "Team Galaxy",
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.44a9f602-9cc3-13b3-d736-047284ca9187",
-     "titel": "Avatar - Der Herr der Elemente (Avatar: The Last Airbender)",
-     "hinweis": "Staffeln unklar: TMDB zählt 61 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.471fc212-743c-4fdf-9641-2faaccb700af",
@@ -1904,11 +1799,6 @@
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.feb8fae2-5edb-ede6-aa78-db300d1f3e11",
      "titel": "Mr. Bean - Die Cartoon-Serie (Mr. Bean: The Animated Series)",
      "hinweis": "Staffeln unklar: TMDB zählt 182 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.78b43bf5-8d79-4cff-b899-d0f835181e6f",
-     "titel": "Cosmo und Wanda - Wenn Elfen helfen (The Fairly OddParents)",
-     "hinweis": "Staffeln unklar: TMDB zählt 268 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     }
    ],
    "naechster": "Kevin",
@@ -2038,6 +1928,7 @@
     "B0CWF24FSQ": 12,
     "B0B6GH3ZK4": 20,
     "B0CJJKGFGW": 24,
+    "B0BZWFR7H1": 24,
     "B0CJYLSY3D": 13,
     "B0H45KB3MK": 23,
     "B0CKL9J95C": 24,
@@ -2048,7 +1939,7 @@
     "B0H4C7LCXK": 24,
     "B08KYJSFPC": 12,
     "B0DZ2ZDJNV": 28,
-    "B0BZYQSDN8": 14,
+    "B0DHVD768H": 14,
     "B0D516QSYS": 13,
     "B0D8FH5NC6": 13,
     "B0FX17N29N": 13,
@@ -2081,9 +1972,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 450,
-   "gesamt": 723,
-   "offen": 273,
+   "gemeldet": 483,
+   "gesamt": 740,
+   "offen": 257,
    "ohneSeite": 18,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
@@ -2216,26 +2107,6 @@
      "url": "https://www.netflix.com/title/81272431",
      "titel": "Numberblocks",
      "hinweis": "Staffeln unklar: TMDB zählt 185 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80057611",
-     "titel": "Beat Bugs",
-     "hinweis": "Staffeln unklar: TMDB zählt 78 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80062112",
-     "titel": "LEGO Bionicle: Das Abenteuer beginnt",
-     "hinweis": "Staffeln unklar: TMDB zählt 5 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80049903",
-     "titel": "Dinotrux",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80060413",
-     "titel": "Heidi",
-     "hinweis": "Staffeln unklar: TMDB zählt 91 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/81684733",
@@ -2967,11 +2838,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 98 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.netflix.com/title/80057250",
-     "titel": "Grünes Ei mit Speck",
-     "hinweis": "Staffeln unklar: TMDB zählt 23 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/80167821",
      "titel": "Carmen Sandiego",
      "hinweis": "Staffeln unklar: TMDB zählt 32 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -3020,11 +2886,6 @@
      "url": "https://www.netflix.com/title/81056491",
      "titel": "True Tunes",
      "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80095697",
-     "titel": "Disenchantment",
-     "hinweis": "Staffeln unklar: TMDB zählt 50 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/80107989",
@@ -3117,31 +2978,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 70 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.netflix.com/title/80057506",
-     "titel": "Tarzan und Jane",
-     "hinweis": "Staffeln unklar: TMDB zählt 13 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80063599",
-     "titel": "True und das Regenbogenreich",
-     "hinweis": "Staffeln unklar: TMDB zählt 19 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80081170",
-     "titel": "Buddy Thunderstruck",
-     "hinweis": "Staffeln unklar: TMDB zählt 23 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80095241",
-     "titel": "Castlevania",
-     "hinweis": "Staffeln unklar: TMDB zählt 32 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80095988",
-     "titel": "Stretch Armstrong und die Flex Fighters",
-     "hinweis": "Staffeln unklar: TMDB zählt 23 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/80105933",
      "titel": "LEGO Elves: Geheimnisse von Elvendale",
      "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -3182,31 +3018,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 50 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.netflix.com/title/80057171",
-     "titel": "Luna Petunia",
-     "hinweis": "Staffeln unklar: TMDB zählt 36 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80057609",
-     "titel": "Kazoops!",
-     "hinweis": "Staffeln unklar: TMDB zählt 94 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80057610",
-     "titel": "Kulipari – Die Frosch-Armee",
-     "hinweis": "Staffeln unklar: TMDB zählt 13 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80063705",
-     "titel": "Wortparty",
-     "hinweis": "Staffeln unklar: TMDB zählt 60 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80075820",
-     "titel": "Trolljäger",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/80108159",
      "titel": "Fragestunde mit den StoryBots",
      "hinweis": "Staffeln unklar: TMDB zählt 22 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -3220,11 +3031,6 @@
      "url": "https://www.netflix.com/title/81186971",
      "titel": "Willkommen bei den Louds",
      "hinweis": "Staffeln unklar: TMDB zählt 416 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80097036",
-     "titel": "Alvinnn!!! und die Chipmunks",
-     "hinweis": "Staffeln unklar: TMDB zählt 259 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/80187223",
@@ -3242,24 +3048,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 578 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.netflix.com/title/80095649",
-     "titel": "Lalaloopsy",
-     "hinweis": "Staffeln unklar: TMDB zählt 56 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80103408",
-     "titel": "Teen Titans Go!",
-     "hinweis": "Staffeln unklar: TMDB zählt 454 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/70171947",
      "titel": "Mission Scooby-Doo",
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/80082160",
-     "titel": "Ben & Hollys kleines Königreich",
-     "hinweis": "Staffeln unklar: TMDB zählt 104 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/70155567",
@@ -3293,6 +3084,14 @@
     {
      "url": "https://www.netflix.com/title/80049870",
      "titel": "Wir sind die Croods!"
+    },
+    {
+     "url": "https://www.netflix.com/title/80057171",
+     "titel": "Luna Petunia"
+    },
+    {
+     "url": "https://www.netflix.com/title/80057609",
+     "titel": "Kazoops!"
     },
     {
      "url": "https://www.netflix.com/title/80135674",
@@ -3367,45 +3166,20 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 139,
-   "gesamt": 353,
-   "offen": 214,
+   "gemeldet": 173,
+   "gesamt": 352,
+   "offen": 179,
    "ohneSeite": 23,
-   "ziel": "https://www.disneyplus.com/browse/entity-17e55fcb-32d1-40dc-9e8e-f99b55d19d0d",
+   "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
-    {
-     "url": "https://www.disneyplus.com/browse/entity-17e55fcb-32d1-40dc-9e8e-f99b55d19d0d",
-     "titel": "Zombies: Jetzt animiert! Die Serie",
-     "hinweis": "Staffeln unklar: TMDB zählt 56 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
     {
      "url": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
      "titel": "Star Wars: Die Abenteuer der jungen Jedi",
      "hinweis": "Staffeln unklar: TMDB zählt 55 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-53dbe23f-0e40-427c-b2c7-317a873129a8",
-     "titel": "Zenimation",
-     "hinweis": "Staffeln unklar: TMDB zählt 18 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-4249e544-b4cd-4f3d-bb68-31967428ce13",
      "titel": "Willkommen im Haus der Eulen",
-     "hinweis": "Staffeln unklar: TMDB zählt 43 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-1c6e9212-221e-42aa-b4e6-c4b12530bbd4",
-     "titel": "Schneckenzug",
-     "hinweis": "Staffeln unklar: TMDB zählt 35 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-61294e8c-61e7-41f9-b49e-d4b1c752e2f3",
-     "titel": "Ready for Preschool",
-     "hinweis": "Staffeln unklar: TMDB zählt 64 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-165f8793-f613-4190-986f-f30be72dad8d",
-     "titel": "The Rocketeer",
      "hinweis": "Staffeln unklar: TMDB zählt 43 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
@@ -3414,19 +3188,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 57 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-4dc5b155-0bcb-4cd0-b684-af923fb33dc7",
-     "titel": "The Post Train",
-     "hinweis": "Staffeln unklar: TMDB zählt 30 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-27cceaed-30a3-4922-8a7e-36393f00658a",
      "titel": "Goldie & Bear",
      "hinweis": "Staffeln unklar: TMDB zählt 49 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-cb9eb827-5e12-4dba-b823-4261e8c92108",
-     "titel": "Shaun das Schaf - Meisterschaf",
-     "hinweis": "Staffeln unklar: TMDB zählt 21 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-b7115365-988a-4ffc-b4d3-8f4d9f4ea616",
@@ -3439,19 +3203,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-b569cc47-9368-494f-a8d6-4cbe0dfe6314",
-     "titel": "Timmy, das Schäfchen",
-     "hinweis": "Staffeln unklar: TMDB zählt 78 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-f1bf2db1-d201-4c1f-8b4b-3e8cc79a85f6",
      "titel": "The Cleveland Show",
      "hinweis": "Staffeln unklar: TMDB zählt 88 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-1d73ef9f-32ea-43be-8ead-68d9b9e45702",
-     "titel": "Shaun das Schaf",
-     "hinweis": "Staffeln unklar: TMDB zählt 170 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
@@ -3509,26 +3263,6 @@
      "seit": "2026-08-26"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-9ba0f41b-6173-4ff1-8967-71cad0620244",
-     "titel": "Star Wars: Maul - Shadow Lord",
-     "hinweis": "Staffeln unklar: TMDB zählt 10 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-6cb79190-540d-480b-bc83-de2045ceadbf",
-     "titel": "Sofia die Erste: Königliche Zauberschule",
-     "hinweis": "Staffeln unklar: TMDB zählt 25 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-37cc90b8-a8ca-46e4-abc4-e03fa265e7fe",
-     "titel": "The Doomies",
-     "hinweis": "Staffeln unklar: TMDB zählt 22 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-421b732e-fe78-4cfc-93e9-d3fbca13bb91",
-     "titel": "Star Wars: Geschichten der Unterwelt",
-     "hinweis": "Staffeln unklar: TMDB zählt 6 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-dc471806-a107-436c-9bec-0e4455c7249c",
      "titel": "Micky Maus Wunderhaus+",
      "hinweis": "Staffeln unklar: TMDB zählt 35 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -3539,26 +3273,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 100 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-d4419604-4df6-40c7-8a15-a2a3c6d9b148",
-     "titel": "StuGo",
-     "hinweis": "Staffeln unklar: TMDB zählt 40 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-2b4c4455-0b40-4a21-83ec-8a647aa7b32b",
-     "titel": "Win or Lose",
-     "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-2c539a37-28e3-4dce-b0e8-b4882fcbbc71",
-     "titel": "Traum Studios",
-     "hinweis": "Staffeln unklar: TMDB zählt 4 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-b9acb4dc-2c55-4829-9ecf-37d1f96ff29f",
-     "titel": "Star Wars: Geschichten des Imperiums",
-     "hinweis": "Staffeln unklar: TMDB zählt 6 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-508455db-79c2-4aad-8c35-4173b3214770",
      "titel": "Arielle",
      "hinweis": "Staffeln unklar: TMDB zählt 77 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -3567,11 +3281,6 @@
      "url": "https://www.disneyplus.com/browse/entity-8dc91ed4-cdca-4fab-9723-d3d42f382d34",
      "titel": "X-Men '97",
      "hinweis": "Staffeln unklar: TMDB zählt 19 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-d488cfed-d102-494b-a384-f6bf64467e32",
-     "titel": "SuperKitties",
-     "hinweis": "Staffeln unklar: TMDB zählt 142 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-7a60f8f2-c92d-4dbd-a230-d82794831d09",
@@ -3599,24 +3308,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 120 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-da8eb910-7fba-44ae-a37e-edd4b4d6630b",
-     "titel": "Star Wars: Geschichten der Jedi",
-     "hinweis": "Staffeln unklar: TMDB zählt 6 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-1d2914e7-7a77-47d4-a9eb-706e78f6ad92",
      "titel": "Alice in der Wunderland-Bäckerei",
      "hinweis": "Staffeln unklar: TMDB zählt 98 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-cc247101-8863-40df-b1d1-3fc447173188",
-     "titel": "Zoomania+",
-     "hinweis": "Staffeln unklar: TMDB zählt 6 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-81de5d86-d1aa-4952-b19d-c6f1274b86bb",
-     "titel": "The Egg Band",
-     "hinweis": "Staffeln unklar: TMDB zählt 5 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-939e4a8f-e1f7-48e5-9426-1f34e0bab1e1",
@@ -3624,19 +3318,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 20 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-cc992c16-e126-4a2b-a039-0b1e7106b727",
-     "titel": "Spidey und seine Super Freunde",
-     "hinweis": "Staffeln unklar: TMDB zählt 216 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-c93113fb-94ec-43b6-9d38-308825f7cd94",
      "titel": "Star Wars: The Bad Batch",
      "hinweis": "Staffeln unklar: TMDB zählt 47 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-374cdbc2-3b08-4b81-a68f-a45a70665849",
-     "titel": "The Great North",
-     "hinweis": "Staffeln unklar: TMDB zählt 97 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-fc588cfe-ff2b-4a44-abbd-d76359ce778f",
@@ -3654,26 +3338,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 75 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-ebf262a3-a488-45ea-a449-6979fd050fa5",
-     "titel": "Walt Disney Animation Studios: \"Kurzschluss\" Experimentalfilme",
-     "hinweis": "Staffeln unklar: TMDB zählt 22 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-3f37735f-6bf6-4df9-9a9d-c7d0bbcd13a6",
-     "titel": "Solar Opposites",
-     "hinweis": "Staffeln unklar: TMDB zählt 59 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-f548f29c-f113-4983-aa0c-afa5049e5239",
-     "titel": "Toto's Kindergarten",
-     "hinweis": "Staffeln unklar: TMDB zählt 17 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-6d5885ee-c4f7-41b7-b3cd-82bd711ecf03",
-     "titel": "T.O.T.S.",
-     "hinweis": "Staffeln unklar: TMDB zählt 150 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-b34deb87-bc07-4888-8302-21b829dca922",
      "titel": "Gigantosaurus",
      "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -3682,11 +3346,6 @@
      "url": "https://www.disneyplus.com/browse/entity-b2cc4a87-ce26-4993-895d-6a725388fd45",
      "titel": "Amphibia",
      "hinweis": "Staffeln unklar: TMDB zählt 106 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-b4164759-c6f0-4a75-a66b-ea37ab71ab6a",
-     "titel": "Spielspaß mit den Welpen-Freunden",
-     "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-3c3e5e4a-38dd-4125-a478-d16c406022bd",
@@ -3704,11 +3363,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 123 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-01ad3367-1b24-458c-a8fb-a245226ea237",
-     "titel": "Star Wars: Resistance",
-     "hinweis": "Staffeln unklar: TMDB zählt 38 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-a5caa1c4-9182-4a84-aaa6-b762c4c30122",
      "titel": "Marvel Superhelden Abenteuer",
      "hinweis": "Staffeln unklar: TMDB zählt 40 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -3722,21 +3376,6 @@
      "url": "https://www.disneyplus.com/browse/entity-f8943a45-a9dd-4554-92ba-5c43560ee888",
      "titel": "Vampirina",
      "hinweis": "Staffeln unklar: TMDB zählt 147 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-158c4929-11c0-4b66-98f7-3bba207aac8a",
-     "titel": "Star Wars: Die Mächte des Schicksals",
-     "hinweis": "Staffeln unklar: TMDB zählt 32 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-e770ad0a-b7d9-4b9c-acde-99f703cad9b7",
-     "titel": "Rocket & Groot",
-     "hinweis": "Staffeln unklar: TMDB zählt 12 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-5185259f-9c95-4ef3-86f2-9c3dfb2c697e",
-     "titel": "Rapunzel - Die Serie",
-     "hinweis": "Staffeln unklar: TMDB zählt 59 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-00d5fca8-cb17-477d-aad8-a8e3e9763122",
@@ -3769,19 +3408,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-08249c74-0178-4861-a1e4-dfc7b168dce5",
-     "titel": "Star Wars Rebels",
-     "hinweis": "Staffeln unklar: TMDB zählt 69 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-29a8b74d-bc37-4a10-842e-420e8eb764ec",
      "titel": "Sheriff Callie's Wilder Westen",
      "hinweis": "Staffeln unklar: TMDB zählt 90 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-158f0e51-8d09-44fe-852b-5c286767cc9a",
-     "titel": "Sofia die Erste - Auf einmal Prinzessin",
-     "hinweis": "Staffeln unklar: TMDB zählt 108 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-8bdb64a0-4ca5-4092-ad51-362157105bfb",
@@ -3792,16 +3421,6 @@
      "url": "https://www.disneyplus.com/browse/entity-ed27c1b6-937b-48d8-a086-d7eebf509384",
      "titel": "Mia and Me - Abenteuer in Centopia",
      "hinweis": "Staffeln unklar: TMDB zählt 104 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-86c2ae21-1b07-4f81-af63-628df6c45639",
-     "titel": "Willkommen in Gravity Falls",
-     "hinweis": "Staffeln unklar: TMDB zählt 40 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-1798d2b0-6786-443b-86ea-a68c4c0fb8b3",
-     "titel": "Tron - Der Aufstand",
-     "hinweis": "Staffeln unklar: TMDB zählt 18 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-bc3e4917-124a-4a76-94c5-a97e816f7803",
@@ -3849,7 +3468,7 @@
      "hinweis": "Staffeln unklar: TMDB zählt 106 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     }
    ],
-   "naechster": "Zombies: Jetzt animiert! Die Serie",
+   "naechster": "Star Wars: Die Abenteuer der jungen Jedi",
    "bekannt": {
     "bc2dae95-23e6-45dc-8177-066425b10fa0": 57,
     "6g48QKlgQdWK": 51,
