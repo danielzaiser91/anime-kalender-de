@@ -33,8 +33,16 @@ cat > "$ATTRAPPE/npm" <<'SKRIPT'
 case "$2" in
   data:build)
     [ "${FAKE_BAU:-ok}" = fail ] && { echo "✖ Titelschwund"; exit 1; }
-    mkdir -p public/data
+    mkdir -p public/data public/og
     echo '{"neu":true}' > public/data/titles.json
+    echo bild > public/og/a.txt
+    [ "${FAKE_BAU:-ok}" = ohne-titles ] && rm public/data/titles.json && echo '{}' > public/data/woche.json
+    [ "${FAKE_BAU:-ok}" = ohne-og ] && rm -r public/og
+    ;;
+  data:extension-liste)
+    [ "${FAKE_LISTE:-ok}" = fail ] && { echo "Prüfstand-Abbruch"; exit 1; }
+    # `einmal`: nur der erste Aufruf scheitert (FAKE_ZAEHLER merkt ihn sich).
+    if [ "${FAKE_LISTE:-ok}" = einmal ] && [ ! -e "$FAKE_ZAEHLER" ]; then : > "$FAKE_ZAEHLER"; echo "Prüfstand-Abbruch (erster Aufruf)"; exit 1; fi
     ;;
   check:bestand)
     [ "${FAKE_BESTAND:-ok}" = fail ] && { echo "✗ Handbeleg ohne Titel"; exit 1; }
@@ -46,7 +54,22 @@ exit 0
 SKRIPT
 chmod +x "$ATTRAPPE/npm"
 
+# Attrappe `sleep`: kein Warten zwischen den Versuchen. Mit NACH_PAUSE (Klon eines anderen Pushers) bewegt sie in der Pause den Fernstand.
+cat > "$ATTRAPPE/sleep" <<'SKRIPT'
+#!/usr/bin/env bash
+if [ -n "${NACH_PAUSE:-}" ]; then
+  echo "pause" >> "$NACH_PAUSE/fremd.txt"
+  git -C "$NACH_PAUSE" add -A
+  git -C "$NACH_PAUSE" -c user.name=t -c user.email=t@t commit -q -m pause
+  git -C "$NACH_PAUSE" push -q origin HEAD:main
+fi
+exit 0
+SKRIPT
+chmod +x "$ATTRAPPE/sleep"
+
 # Ein Szenario: frisches Repo, der Fernstand hat sich bewegt (das löst den Neuaufbau-Zweig aus), der Lauf hat data/anisearch.json geändert.
+# Wahlschalter (Umgebung des Aufrufs): UNBEWEGT=ja (Fernstand bleibt, `public/` liegt schon im Repo), OHNE_TITLES=ja (Lauf löscht titles.json),
+# ERSTEN_ABLEHNEN=ja (Bare-Repo lehnt den ersten Push ab, in der Pause bewegt sich der Fernstand), VERSUCHE_N (Versuche, Standard 1).
 # Ergebnis in $CODE (Exit des Skripts) und $ORIGIN (Fernstand zum Nachsehen).
 szenario() {
   local name="$1"
@@ -61,19 +84,33 @@ szenario() {
     cp "$WURZEL/tools/$datei" "$d/start/tools/$datei"
   done
   echo '{"v":1}' > "$d/start/data/anisearch.json"
+  if [ "${UNBEWEGT:-nein}" = ja ]; then
+    mkdir -p "$d/start/public/data" "$d/start/public/og"
+    echo '{}' > "$d/start/public/data/titles.json"
+    echo bild > "$d/start/public/og/a.txt"
+  fi
   git -C "$d/start" add -A
   git -C "$d/start" -c user.name=t -c user.email=t@t commit -q -m start
   git -C "$d/start" push -q origin HEAD:main
   git clone -q "$ORIGIN" "$d/lauf" 2>/dev/null
   git clone -q "$ORIGIN" "$d/anderer" 2>/dev/null
-  echo "x" > "$d/anderer/fremd.txt"
-  git -C "$d/anderer" add -A
-  git -C "$d/anderer" -c user.name=t -c user.email=t@t commit -q -m fremd
-  git -C "$d/anderer" push -q origin HEAD:main
+  if [ "${UNBEWEGT:-nein}" != ja ]; then
+    echo "x" > "$d/anderer/fremd.txt"
+    git -C "$d/anderer" add -A
+    git -C "$d/anderer" -c user.name=t -c user.email=t@t commit -q -m fremd
+    git -C "$d/anderer" push -q origin HEAD:main
+  fi
   if [ "${LAUF_AENDERT:-ja}" = ja ]; then
     echo '{"v":2,"von":"lauf"}' > "$d/lauf/data/anisearch.json"
   fi
-  (cd "$d/lauf" && env "$@" PATH="$ATTRAPPE:$PATH" bash tools/commit-data.sh "chore(data): test" 1 > "$d/log.txt" 2>&1)
+  [ "${OHNE_TITLES:-nein}" = ja ] && rm "$d/lauf/public/data/titles.json"
+  local pause=""
+  if [ "${ERSTEN_ABLEHNEN:-nein}" = ja ]; then
+    printf '#!/bin/sh\nif [ ! -e schon-abgelehnt ]; then : > schon-abgelehnt; echo "abgelehnt (Test)" >&2; exit 1; fi\n' > "$ORIGIN/hooks/pre-receive"
+    chmod +x "$ORIGIN/hooks/pre-receive"
+    pause="$d/anderer"
+  fi
+  (cd "$d/lauf" && env "$@" NACH_PAUSE="$pause" PATH="$ATTRAPPE:$PATH" bash tools/commit-data.sh "chore(data): test" "${VERSUCHE_N:-1}" > "$d/log.txt" 2>&1)
   CODE=$?
 }
 
@@ -118,6 +155,42 @@ pruefe "kein Erzeugnis gepusht" nein "$(im_fernstand public/data/titles.json)"
 echo "data:build scheitert und es gibt nichts zu committen: trotzdem rot"
 LAUF_AENDERT=nein szenario leer FAKE_BAU=fail
 pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+
+echo "data:extension-liste scheitert (18.10.2026): rot, Quellen und Erzeugnisse trotzdem gesichert"
+szenario liste FAKE_LISTE=fail
+pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+pruefe "Quelle gepusht" ja "$(quelle_gepusht)"
+pruefe "Erzeugnis gepusht" ja "$(im_fernstand public/data/titles.json)"
+pruefe "Fehlerzeile im Log" ja "$(grep -q '::error::Die Prüflisten sind nicht neu entstanden' "$ARBEIT/liste/log.txt" && echo ja || echo nein)"
+
+echo "Pflicht-Erzeugnis fehlt nach gelungenem Bau: rot, Quellen gesichert, Fehler im Log"
+szenario ohnetitles FAKE_BAU=ohne-titles
+pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+pruefe "Quelle gepusht" ja "$(quelle_gepusht)"
+pruefe "Fehler nennt die Datei" ja "$(grep -q '::error::Pflicht-Erzeugnis fehlt: public/data/titles.json' "$ARBEIT/ohnetitles/log.txt" && echo ja || echo nein)"
+szenario ohneog FAKE_BAU=ohne-og
+pruefe "ohne public/og: Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+pruefe "ohne public/og: Fehler nennt den Ordner" ja "$(grep -q '::error::Pflicht-Erzeugnis fehlt: public/og' "$ARBEIT/ohneog/log.txt" && echo ja || echo nein)"
+
+echo "Grüner Lauf: fehlende Quellen bleiben ein Hinweis, kein Pflicht-Fehler"
+pruefe "kein Pflicht-Fehler im grünen Lauf" 0 "$(grep -c 'Pflicht-Erzeugnis fehlt' "$ARBEIT/gruen/log.txt" || true)"
+pruefe "Pfad-Warnung für Quellen bleibt" ja "$(grep -q '::warning::.*nicht vorhanden' "$ARBEIT/gruen/log.txt" && echo ja || echo nein)"
+
+echo "Üblicher Weg im Bestandsbau (BAU_LAUF=1, Fernstand unbewegt): Pflicht-Erzeugnisse werden auch ohne Neuaufbau geprüft"
+UNBEWEGT=ja szenario unbewegt BAU_LAUF=1
+pruefe "Erzeugnisse da: Exit 0" 0 "$CODE"
+pruefe "Erzeugnisse da: kein Pflicht-Fehler" 0 "$(grep -c 'Pflicht-Erzeugnis fehlt' "$ARBEIT/unbewegt/log.txt" || true)"
+UNBEWEGT=ja OHNE_TITLES=ja szenario unbewegt-ohne BAU_LAUF=1
+pruefe "titles.json fehlt: Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+pruefe "titles.json fehlt: Fehler nennt die Datei" ja "$(grep -q '^::error::Pflicht-Erzeugnis fehlt: public/data/titles.json$' "$ARBEIT/unbewegt-ohne/log.txt" && echo ja || echo nein)"
+pruefe "titles.json fehlt: Quelle trotzdem gepusht" ja "$(quelle_gepusht)"
+
+echo "Prüfliste scheitert im ersten Versuch, der Push wird abgelehnt, der zweite Versuch baut sauber: grün"
+ERSTEN_ABLEHNEN=ja VERSUCHE_N=2 szenario neuversuch FAKE_LISTE=einmal FAKE_ZAEHLER="$ARBEIT/neuversuch/zaehler"
+pruefe "Versuch 1 abgelehnt" ja "$(grep -q '^Push abgelehnt (Versuch 1)' "$ARBEIT/neuversuch/log.txt" && echo ja || echo nein)"
+pruefe "Versuch 1 meldete die Prüfliste als gescheitert" ja "$(grep -q '^::error::Die Prüflisten sind nicht neu entstanden' "$ARBEIT/neuversuch/log.txt" && echo ja || echo nein)"
+pruefe "Versuch 2 gepusht" ja "$(grep -q '^Gepusht (Versuch 2)' "$ARBEIT/neuversuch/log.txt" && echo ja || echo nein)"
+pruefe "Exit 0 (die Warnung aus Versuch 1 gilt nicht mehr)" 0 "$CODE"
 
 echo "Gleichzeitige Läufe teilen sich keine festen Pfade (Wackeln unter Last, 14.10.2026)"
 pruefe "kein fester /tmp-Pfad in commit-data.sh" 0 "$(grep -c "/tmp/" "$WURZEL/tools/commit-data.sh" || true)"
