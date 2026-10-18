@@ -3,7 +3,7 @@
  * (nie das echte Repo, nie cwd = Repo), Sperre, Auslöser, Wächterzeile und Prozess-Verdrahtung (Attrappe statt Prozess-Register).
  */
 import assert from 'node:assert/strict'
-import { execFileSync, spawnSync } from 'node:child_process'
+import { execFileSync, spawn, spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, utimesSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -19,7 +19,7 @@ const SCHON = L.SCHONFRIST_MS
 const JETZT = 1_000_000_000_000
 const PR_SCHON = L.SCHONFRIST_PR_MS
 const ctxBasis = { haupt: 'C:/x/haupt', jetzt: JETZT, prs: [], cacheLeer: () => true, sauber: () => true }
-const wt = (extra = {}) => ({ pfad: 'C:/x/haupt/_wt-a', zweig: 'z', kopf: 'k', existiert: true, juengsteAenderungMs: JETZT - SCHON - 1, ...extra })
+const wt = (extra = {}) => ({ pfad: 'C:/x/haupt/_wt-a', zweig: 'z', kopf: 'k', existiert: true, juengsteAenderungMs: JETZT - SCHON - 1, kopfZeitMs: JETZT - PR_SCHON - 1, ...extra })
 const e = (w, c = {}) => L.entscheide(w, { ...ctxBasis, ...c })
 const iso = (ms) => new Date(ms).toISOString()
 const pr = (state, extra = {}) => ({ headRefName: 'z', headRefOid: 'k', state, mergedAt: iso(JETZT - PR_SCHON), closedAt: null, ...extra })
@@ -52,6 +52,13 @@ assert.equal(e(wt(), mit(pr('MERGED', { mergedAt: null, closedAt: null }))).grun
 assert.equal(e(wt(), mit(pr('MERGED', { mergedAt: 'kein-datum' }))).grund, 'ohne-pr')
 assert.equal(e(wt(), mit(pr('MERGED', { mergedAt: iso(JETZT - 5 * PR_SCHON) }), pr('MERGED', { mergedAt: iso(JETZT - 1000) }))).grund, 'pr-jung', 'jüngster Abschluss zählt')
 assert.equal(e(wt(), mit(pr('MERGED', { mergedAt: iso(JETZT - 1000) }), pr('MERGED', { mergedAt: iso(JETZT - 5 * PR_SCHON) }))).grund, 'pr-jung')
+// A6: HEAD erst nach dem Abschluss bewegt (Nachprüfung, neuer Zweig auf altem Kopf) → behalten; genau zur Abschlusszeit noch weg.
+assert.equal(e(wt({ kopfZeitMs: JETZT - PR_SCHON }), mit(pr('MERGED'))).aktion, 'weg', 'HEAD genau zum Merge')
+assert.equal(e(wt({ kopfZeitMs: JETZT - PR_SCHON + 1 }), mit(pr('MERGED'))).grund, 'kopf-nach-abschluss')
+assert.equal(e(wt({ kopfZeitMs: JETZT - 1000 }), mit(pr('MERGED'))).grund, 'kopf-nach-abschluss', 'HEAD deutlich nach dem Merge')
+assert.equal(e(wt({ kopfZeitMs: JETZT - PR_SCHON + 1 }), mit(pr('CLOSED', { mergedAt: null, closedAt: iso(JETZT - PR_SCHON) }))).grund, 'kopf-nach-abschluss', 'auch bei geschlossenem PR')
+assert.equal(e(wt({ kopfZeitMs: undefined }), mit(pr('MERGED'))).grund, 'kopf-nach-abschluss', 'ohne HEAD-Zeit bleibt der Worktree')
+assert.equal(e(wt({ kopfZeitMs: Infinity }), mit(pr('MERGED'))).grund, 'kopf-nach-abschluss', 'unlesbare HEAD-Zeit bleibt')
 assert.equal(e(wt({ pfad: 'C:/x/haupt' }), mit(pr('MERGED'))).grund, 'haupt', 'Hauptordner nie')
 assert.equal(e(wt({ pfad: 'C:\\X\\Haupt\\' }), mit(pr('MERGED'))).grund, 'haupt', 'Schreibweise egal')
 assert.equal(e(wt({ pfad: 'C:/x/haupt/anderer' }), mit(pr('MERGED'))).grund, 'fremd', 'nur _wt-Ordner')
@@ -76,6 +83,16 @@ assert.deepEqual(losEintrag([]), { aktion: 'weg', grund: 'leer' })
 assert.deepEqual(losEintrag([{ name: 'node_modules', istVerknuepfung: true }]), { aktion: 'weg', grund: 'nur-junction' })
 assert.equal(losEintrag([{ name: 'node_modules', istVerknuepfung: false }]).aktion, 'behalten', 'echter node_modules-Ordner bleibt')
 assert.equal(losEintrag([{ name: 'andere', istVerknuepfung: true }]).aktion, 'behalten')
+// Reste aus Verknüpfungen, auch einen Ordner tief (data/cache, worker/node_modules): weg; jeder echte Eintrag daneben hält sie zurück.
+const link = (name) => ({ name, istVerknuepfung: true })
+const ordner = (name, ...kinder) => ({ name, istVerknuepfung: false, kinder })
+assert.deepEqual(losEintrag([ordner('data', link('cache'))]), { aktion: 'weg', grund: 'nur-junction' })
+assert.equal(losEintrag([ordner('data', link('cache')), link('node_modules'), ordner('worker', link('node_modules'))]).aktion, 'weg')
+assert.equal(losEintrag([ordner('data', { name: 'cache', istVerknuepfung: false })]).aktion, 'behalten', 'echter Cache im Unterordner')
+assert.equal(losEintrag([ordner('data', link('cache'), { name: 'a.txt', istVerknuepfung: false })]).aktion, 'behalten', 'echte Datei neben der Verknüpfung')
+assert.equal(losEintrag([ordner('data', link('fremd'))]).aktion, 'behalten', 'Verknüpfung mit unbekanntem Namen')
+assert.equal(losEintrag([ordner('data')]).aktion, 'behalten', 'leerer Unterordner ist ein Befund, kein Rest')
+assert.equal(losEintrag([ordner('data', link('cache')), { name: 'x.txt', istVerknuepfung: false }]).aktion, 'behalten', 'echte Datei im Kopf')
 assert.equal(losEintrag([{ name: 'node_modules', istVerknuepfung: true }, { name: 'x', istVerknuepfung: false }]).aktion, 'behalten')
 assert.equal(losEintrag([], SCHON - 1).grund, 'jung')
 
@@ -121,6 +138,9 @@ try {
   g(haupt, 'push', 'origin', 'HEAD:main')
   const c1 = g(haupt, 'rev-parse', 'HEAD')
 
+  // HEAD-Zeit des Worktrees setzen (Reflog-Datei im Verwaltungsordner); ohne Angabe 30 h zurück, also vor jedem Abschluss dieser Tests.
+  const kopfDatei = (name) => join(haupt, '.git', 'worktrees', name, 'logs', 'HEAD')
+  const setzeKopfZeit = (name, vorH = 30) => utimesSync(kopfDatei(name), new Date(Date.now() - vorH * 3600_000), new Date(Date.now() - vorH * 3600_000))
   const neu = (name, zweig, mitCommit = false) => {
     g(haupt, 'worktree', 'add', '-b', zweig, join(haupt, name), c1)
     if (mitCommit) {
@@ -128,6 +148,7 @@ try {
       g(join(haupt, name), 'add', 'neu.txt')
       g(join(haupt, name), 'commit', '-m', zweig)
     }
+    setzeKopfZeit(name)
   }
   neu('_wt-gemergt', 'b-gemergt', true)
   neu('_wt-geschlossen', 'b-geschlossen', true)
@@ -150,6 +171,7 @@ try {
   // A5: Prüfer-Worktree losgelöst auf dem Kopf eines gemergten PR; A2: Zweig des gemergten PR mit späterer Arbeit; A4: echter Cache; A3: Junction unter worker/.
   const oidGemergt = g(join(haupt, '_wt-gemergt'), 'rev-parse', 'HEAD')
   g(haupt, 'worktree', 'add', '--detach', join(haupt, '_wt-pruefer'), oidGemergt)
+  setzeKopfZeit('_wt-pruefer')
   neu('_wt-wieder', 'b-wieder', true)
   const oidWieder = g(join(haupt, '_wt-wieder'), 'rev-parse', 'HEAD')
   writeFileSync(join(haupt, '_wt-wieder', 'spaeter.txt'), 'neue Arbeit')
@@ -286,6 +308,74 @@ try {
   assert.equal(beiRennen.fehler.filter((f) => f.includes('_wt-dirty') || f.includes('_wt-untracked')).length, 2, 'ohne --force: Entfernen scheitert')
   assert.equal(readFileSync(join(haupt, '_wt-untracked', 'agent-notiz.txt'), 'utf8'), 'wichtig\n')
   assert.equal(readFileSync(join(haupt, '_wt-dirty', 'data', 'a.txt'), 'utf8'), 'geändert\n')
+
+  // A6: erst nach dem Merge auf den PR-Kopf gesetzte Worktrees (neuer Zweig, losgelöste Nachprüfung, alter Zweig wieder ausgecheckt) bleiben.
+  prs.push(erledigt('b-gemergt', '_wt-pruefer', 'MERGED', oidGemergt))
+  g(haupt, 'worktree', 'add', '-b', 'neue-arbeit', join(haupt, '_wt-a6-zweig'), oidGemergt)
+  g(haupt, 'worktree', 'add', '--detach', join(haupt, '_wt-a6-nachpruefung'), oidGemergt)
+  g(haupt, 'worktree', 'add', join(haupt, '_wt-a6-alt'), 'b-gemergt')
+  const a6 = ['_wt-a6-zweig', '_wt-a6-nachpruefung', '_wt-a6-alt']
+  const a6Liste = H.abbau(haupt, welt, false)
+  for (const n of a6) assert.deepEqual([grund(a6Liste, n).aktion, grund(a6Liste, n).grund], ['behalten', 'kopf-nach-abschluss'], n)
+  // Gegenprobe: dieselben Worktrees mit HEAD-Zeit vor dem Merge wären weg.
+  for (const n of a6) setzeKopfZeit(n)
+  const a6Alt = H.abbau(haupt, welt, false)
+  for (const n of a6) assert.deepEqual([grund(a6Alt, n).aktion, grund(a6Alt, n).grund], ['weg', 'pr-merged'], `${n} mit altem HEAD`)
+  for (const n of a6) setzeKopfZeit(n, 0)
+  const a6Los = H.abbau(haupt, welt, true)
+  for (const n of a6) assert.equal(existsSync(join(haupt, n, '.git')), true, `${n} nach dem Abbau noch da`)
+  assert.equal(a6Los.fehler.filter((f) => a6.some((n) => f.includes(n))).length, 0)
+
+  // A7: Ordner in Benutzung (EBUSY/EPERM beim Umbenennen) → nichts gelöst, nichts entfernt, nur gemeldet.
+  const ebusy = () => { throw Object.assign(new Error('busy'), { code: 'EBUSY' }) }
+  const umbenennungen = []
+  assert.equal(H.ordnerFrei(join(wurzel, 'x'), (von, nach) => umbenennungen.push([von, nach])), true)
+  assert.deepEqual(umbenennungen, [[join(wurzel, 'x'), `${join(wurzel, 'x')}-p`], [`${join(wurzel, 'x')}-p`, join(wurzel, 'x')]], 'hin und zurück')
+  assert.equal(H.ordnerFrei(join(wurzel, 'x'), ebusy), false)
+  let zaehler = 0
+  assert.equal(H.ordnerFrei(join(wurzel, 'x'), () => { if (++zaehler === 2) ebusy() }), false, 'Zurückbenennen scheitert')
+  neu('_wt-benutzt', 'b-benutzt', true)
+  symlinkSync(fremdNm, join(haupt, '_wt-benutzt', 'node_modules'), 'junction')
+  prs.push(erledigt('b-benutzt', '_wt-benutzt'))
+  const belegt = H.abbau(haupt, { ...welt, frei: (p) => H.ordnerFrei(p, ebusy) }, true)
+  assert.equal(belegt.fehler.filter((f) => f.startsWith('In Benutzung') && f.includes('_wt-benutzt')).length, 1)
+  assert.equal(existsSync(join(haupt, '_wt-benutzt', 'neu.txt')), true, 'Dateien bleiben')
+  assert.equal(H.verknuepfungen(join(haupt, '_wt-benutzt')).length, 1, 'Verknüpfung bleibt')
+  assert.equal(entfernt.some((p) => p.endsWith('_wt-benutzt')), false, 'git worktree remove nicht aufgerufen')
+  assert.ok(g(haupt, 'worktree', 'list').includes('_wt-benutzt'), 'Registrierung bleibt')
+  if (process.platform === 'win32') {
+    // Windows: echter Kindprozess mit cwd im Worktree hält den Ordner; die Standardprobe (fs.renameSync) muss das sehen.
+    const kind = spawn(process.execPath, ['-e', 'setInterval(() => {}, 1000)'], { cwd: join(haupt, '_wt-benutzt'), stdio: 'ignore', windowsHide: true })
+    try {
+      await new Promise((ok) => setTimeout(ok, 1500))
+      const mitKind = H.abbau(haupt, welt, true)
+      assert.equal(mitKind.fehler.filter((f) => f.startsWith('In Benutzung') && f.includes('_wt-benutzt')).length, 1, 'cwd im Worktree: in Benutzung')
+      assert.equal(existsSync(join(haupt, '_wt-benutzt', 'neu.txt')), true)
+      assert.ok(g(haupt, 'worktree', 'list').includes('_wt-benutzt'))
+    } finally {
+      kind.kill()
+      await new Promise((ok) => kind.once('exit', ok))
+    }
+  }
+  const frei = H.abbau(haupt, welt, true)
+  assert.equal(existsSync(join(haupt, '_wt-benutzt')), false, 'ohne Benutzung wird abgebaut')
+  assert.deepEqual(frei.fehler.filter((f) => f.includes('_wt-benutzt')), [])
+  assert.equal(readFileSync(join(fremdNm, 'paket.txt'), 'utf8'), 'p')
+
+  // Lose Reste aus Verknüpfungen einen Ordner tief (data/cache) gehen weg, echter Cache im selben Aufbau nicht; die Wächterzeile zählt sie mit.
+  const vorher = H.zaehleWt(haupt)
+  mkdirSync(join(haupt, '_wt-lose-datacache', 'data'), { recursive: true })
+  symlinkSync(fremdCache, join(haupt, '_wt-lose-datacache', 'data', 'cache'), 'junction')
+  symlinkSync(fremdNm, join(haupt, '_wt-lose-datacache', 'node_modules'), 'junction')
+  mkdirSync(join(haupt, '_wt-lose-echtcache', 'data', 'cache'), { recursive: true })
+  writeFileSync(join(haupt, '_wt-lose-echtcache', 'data', 'cache', 'k.json'), '{}')
+  assert.equal(H.zaehleWt(haupt), vorher + 2, 'lose Ordner zählen mit')
+  const loseListe = H.abbau(haupt, { ...welt, jetzt: () => Date.now() + 3 * 3600_000 }, true)
+  assert.equal(existsSync(join(haupt, '_wt-lose-datacache')), false, 'Reste weg')
+  assert.equal(readFileSync(join(fremdCache, 'roh.json'), 'utf8'), '{}', 'Ziel der Junction unberührt')
+  assert.equal(readFileSync(join(fremdNm, 'paket.txt'), 'utf8'), 'p')
+  assert.equal(readFileSync(join(haupt, '_wt-lose-echtcache', 'data', 'cache', 'k.json'), 'utf8'), '{}', 'echter Cache bleibt')
+  assert.equal(lose(loseListe, '_wt-lose-echtcache').grund, 'inhalt')
 
   // Sperre im Vordergrundlauf: gehalten → nichts läuft; frei → während des Laufs gehalten, danach (auch bei Fehler) freigegeben.
   const vSperre = join(wurzel, 'vordergrund.lock')

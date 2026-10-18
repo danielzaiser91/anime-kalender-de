@@ -1,7 +1,7 @@
 // Worktrees räumen sich selbst ab (Anlass 18.10.2026: 274 `_wt-*`-Worktrees ≈ 3 GB Kernel-Dateicache). Entscheidungen: worktree-aufraeumen-logik.js.
 // Zwei Auslöser, beide kehren sofort zurück und starten den Abbau unsichtbar über das Prozess-Register (Frist, Sperre = höchstens ein Abbau):
 //   PostToolUse(Bash) nach erfolgreichem `gh pr merge`  und  SessionStart (dort zusätzlich die Wächterzeile bei > 20 Worktrees).
-// Entfernt wird nur: sauberer Worktree, keine Änderung in den letzten 2 h, Kopf == headRefOid eines gemergten/geschlossenen PR seit mindestens 24 h (Lesen hinterlässt kein Lebenszeichen), kein offener PR, kein echter data/cache.
+// Entfernt wird nur: sauberer Worktree, HEAD seit vor dem Abschluss unbewegt, Ordner frei (Probe-Umbenennen), keine Änderung in den letzten 2 h, Kopf == headRefOid eines gemergten/geschlossenen PR seit mindestens 24 h (Lesen hinterlässt kein Lebenszeichen), kein offener PR, kein echter data/cache.
 // Zweige bleiben. Verknüpfungen (node_modules, data/cache) werden vor dem Entfernen einzeln gelöst, nie rekursiv. Lose `_wt-*`-Ordner:
 // leer oder nur node_modules-Junction → weg, sonst nur aufgelistet.
 // Von Hand:  node worktree-aufraeumen.js --liste   (zeigt Entscheidungen, ändert nichts)   |   --abbau (Abbau im Vordergrund)
@@ -27,10 +27,25 @@ function juengsteAenderung(pfad, haupt) {
   const stat = (p) => { try { zeiten.push(fs.lstatSync(p).mtimeMs) } catch {} }
   stat(pfad)
   for (const n of fs.readdirSync(pfad)) stat(path.join(pfad, n))
-  let verwaltung = path.join(haupt, '.git', 'worktrees', path.basename(pfad))
-  try { verwaltung = fs.readFileSync(path.join(pfad, '.git'), 'utf8').replace(/^gitdir:\s*/, '').trim() } catch {}
+  const verwaltung = verwaltungsOrdner(pfad, haupt)
   for (const d of ['index', 'HEAD', 'logs/HEAD']) stat(path.join(verwaltung, d))
   return Math.max(...zeiten)
+}
+
+/** Git-Verwaltungsordner des Worktrees (`.git`-Datei, sonst der Standardort unter dem Hauptordner). */
+function verwaltungsOrdner(pfad, haupt) {
+  let verwaltung = path.join(haupt, '.git', 'worktrees', path.basename(pfad))
+  try { verwaltung = fs.readFileSync(path.join(pfad, '.git'), 'utf8').replace(/^gitdir:\s*/, '').trim() } catch {}
+  return verwaltung
+}
+
+/** Letzte Bewegung von HEAD (Reflog, sonst HEAD-Datei); unlesbar = Infinity, damit der Worktree bleibt. */
+function kopfZeit(pfad, haupt) {
+  const verwaltung = verwaltungsOrdner(pfad, haupt)
+  for (const d of ['logs/HEAD', 'HEAD']) {
+    try { return fs.statSync(path.join(verwaltung, d)).mtimeMs } catch {}
+  }
+  return Infinity
 }
 
 /** Alle Verknüpfungen (Junctions/Symlinks) im Worktree-Kopf, unter data/ sowie `<Ordner>/node_modules` — dahinter liegt fremder Bestand. */
@@ -68,6 +83,17 @@ function loeseVerknuepfungen(pfad) {
   return verknuepfungen(pfad).length === 0
 }
 
+/**
+ * Probeweise umbenennen und zurück: unter Windows scheitert das (EPERM/EBUSY), solange ein Prozess dort sein cwd oder eine offene Datei hat.
+ * Nur so wird ein halb gelöschter Worktree vermieden. `umbenennen` ist für den Test ersetzbar.
+ */
+function ordnerFrei(pfad, umbenennen = fs.renameSync) {
+  const probe = `${pfad}-p`
+  try { umbenennen(pfad, probe) } catch { return false }
+  try { umbenennen(probe, pfad) } catch { return false }
+  return true
+}
+
 /** Gesammelte Eingaben der echten Welt; im Test ersetzt. */
 function echteWelt(haupt) {
   return {
@@ -76,8 +102,17 @@ function echteWelt(haupt) {
     sauber: (pfad) => { try { return git(pfad, 'status', '--porcelain') === '' } catch { return false } },
     entferne: (pfad) => { git(haupt, 'worktree', 'remove', pfad) },
     loese: loeseVerknuepfungen,
+    frei: ordnerFrei,
     jetzt: () => Date.now(),
   }
+}
+
+/** Eintrag eines losen Ordners (lstat); echte Unterordner bringen ihre Kinder mit. */
+function leseEintrag(p) {
+  const name = path.basename(p)
+  const l = fs.lstatSync(p)
+  if (l.isSymbolicLink() || !l.isDirectory()) return { name, istVerknuepfung: l.isSymbolicLink() }
+  return { name, istVerknuepfung: false, kinder: fs.readdirSync(p).map((n) => ({ name: n, istVerknuepfung: fs.lstatSync(path.join(p, n)).isSymbolicLink() })) }
 }
 
 /** Lose `_wt-*`-Ordner unter `haupt` ohne Git-Registrierung, mit Bewertung. */
@@ -85,7 +120,7 @@ function loseOrdner(haupt, registriert, jetzt) {
   return fs.readdirSync(haupt).filter((n) => n.startsWith('_wt-') && !registriert.has(L.norm(`${haupt}/${n}`))).map((name) => {
     const pfad = path.join(haupt, name)
     let eintraege = []
-    try { eintraege = fs.readdirSync(pfad).map((n) => ({ name: n, istVerknuepfung: fs.lstatSync(path.join(pfad, n)).isSymbolicLink() })) } catch { return { pfad, aktion: 'behalten', grund: 'unlesbar' } }
+    try { eintraege = fs.readdirSync(pfad).map((n) => leseEintrag(path.join(pfad, n))) } catch { return { pfad, aktion: 'behalten', grund: 'unlesbar' } }
     return { pfad, ...L.bewerteLosen({ eintraege, jetzt, juengsteAenderungMs: juengsteAenderung(pfad, haupt) }) }
   })
 }
@@ -97,7 +132,7 @@ function abbau(haupt, welt, los) {
   const alle = L.leseWorktrees(git(haupt, 'worktree', 'list', '--porcelain'))
   for (const w of alle) {
     const existiert = fs.existsSync(w.pfad)
-    const entscheidung = L.entscheide({ ...w, existiert, juengsteAenderungMs: existiert ? juengsteAenderung(w.pfad, haupt) : 0 }, ctx)
+    const entscheidung = L.entscheide({ ...w, existiert, juengsteAenderungMs: existiert ? juengsteAenderung(w.pfad, haupt) : 0, kopfZeitMs: existiert ? kopfZeit(w.pfad, haupt) : 0 }, ctx)
     bericht.worktrees.push({ pfad: w.pfad, zweig: w.zweig, ...entscheidung })
   }
   bericht.lose = loseOrdner(haupt, new Set(alle.map((w) => L.norm(w.pfad))), ctx.jetzt)
@@ -107,6 +142,7 @@ function abbau(haupt, welt, los) {
 
 /** Ein Worktree: erneut prüfen (ein Agent kann nach der Planung geschrieben haben), Verknüpfungen lösen, entfernen, Rest melden. */
 function entferneWorktree(welt, w, bericht) {
+  if (!welt.frei(w.pfad)) { bericht.fehler.push(`In Benutzung: ${w.pfad}`); return }
   if (welt.sauber(w.pfad) !== true) { bericht.fehler.push(`Geändert nach der Prüfung: ${w.pfad}`); return }
   if (!welt.loese(w.pfad)) { bericht.fehler.push(`Verknüpfung bleibt: ${w.pfad}`); return }
   try { welt.entferne(w.pfad) } catch { bericht.fehler.push(`Entfernen scheitert: ${w.pfad}`); return }
@@ -119,7 +155,11 @@ function vollziehe(haupt, welt, bericht) {
   for (const w of bericht.worktrees.filter((x) => x.aktion === 'weg')) entferneWorktree(welt, w, bericht)
   for (const o of bericht.lose.filter((x) => x.aktion === 'weg')) {
     if (!welt.loese(o.pfad)) { bericht.fehler.push(`Verknüpfung bleibt: ${o.pfad}`); continue }
-    try { fs.rmdirSync(o.pfad); bericht.entfernt++ } catch { bericht.fehler.push(`Ordner nicht leer: ${o.pfad}`) }
+    try {
+      for (const n of fs.readdirSync(o.pfad)) fs.rmdirSync(path.join(o.pfad, n))
+      fs.rmdirSync(o.pfad)
+      bericht.entfernt++
+    } catch { bericht.fehler.push(`Ordner nicht leer: ${o.pfad}`) }
   }
   git(haupt, 'worktree', 'prune')
 }
@@ -164,12 +204,19 @@ function ausloeser(eingabe) {
   return ok && L.istMerge(eingabe.tool_input?.command) ? 'merge' : null
 }
 
+/** Registrierte `_wt-*`-Worktrees plus lose `_wt-*`-Ordner im Hauptordner (die Reste aus Verknüpfungen zählen mit). */
+function zaehleWt(haupt) {
+  const pfade = L.leseWorktrees(git(haupt, 'worktree', 'list', '--porcelain')).map((w) => L.norm(w.pfad)).filter(L.istWtName)
+  const lose = fs.readdirSync(haupt).filter((n) => n.startsWith('_wt-')).map((n) => L.norm(`${haupt}/${n}`))
+  return new Set([...pfade, ...lose]).size
+}
+
 function hook(eingabe, optionen = {}) {
   const was = ausloeser(eingabe)
   if (!was) return null
   const zeilen = []
   if (was === 'sitzung') {
-    const anzahl = L.leseWorktrees(git(optionen.haupt ?? HAUPT, 'worktree', 'list', '--porcelain')).filter((w) => L.istWtName(w.pfad)).length
+    const anzahl = zaehleWt(optionen.haupt ?? HAUPT)
     const zeile = L.warnzeile(anzahl)
     if (zeile) zeilen.push(zeile)
   }
@@ -206,4 +253,4 @@ function main() {
 
 if (require.main === module) process.exit(main())
 
-module.exports = { PR_FELDER, abbauImVordergrund, vollziehe, abbau, hook, starteAbbau, ausloeser, nimmSperre, echteWelt, juengsteAenderung, loeseVerknuepfungen, verknuepfungen }
+module.exports = { PR_FELDER, abbauImVordergrund, vollziehe, abbau, hook, starteAbbau, ausloeser, nimmSperre, echteWelt, juengsteAenderung, loeseVerknuepfungen, verknuepfungen, ordnerFrei, kopfZeit, zaehleWt }

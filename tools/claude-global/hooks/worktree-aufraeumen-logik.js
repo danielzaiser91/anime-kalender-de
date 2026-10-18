@@ -38,12 +38,12 @@ function bewertePr(w, prs, jetzt) {
   const mitZeit = passend.map((p) => ({ p, zeit: Date.parse(p.mergedAt ?? p.closedAt) }))
   if (mitZeit.some((x) => Number.isNaN(x.zeit))) return { stand: 'ohne' }
   const jung = mitZeit.reduce((a, b) => (b.zeit > a.zeit ? b : a))
-  return { stand: 'erledigt', grund: `pr-${jung.p.state.toLowerCase()}`, seitMs: jetzt - jung.zeit }
+  return { stand: 'erledigt', grund: `pr-${jung.p.state.toLowerCase()}`, seitMs: jetzt - jung.zeit, abschlussMs: jung.zeit }
 }
 
 /**
  * Entscheidung für einen Worktree: { aktion: 'weg' | 'prune' | 'behalten', grund }.
- * w: { pfad, zweig, kopf, existiert, juengsteAenderungMs }; ctx: { haupt, jetzt, prs, cacheLeer(pfad), sauber(pfad) }.
+ * w: { pfad, zweig, kopf, existiert, juengsteAenderungMs, kopfZeitMs (letzte HEAD-Bewegung) }; ctx: { haupt, jetzt, prs, cacheLeer(pfad), sauber(pfad) }.
  * Reihenfolge: billige Prüfungen zuerst, `sauber` (git status, berührt alle Dateien) nur für Kandidaten zum Entfernen.
  */
 function entscheide(w, ctx) {
@@ -55,6 +55,8 @@ function entscheide(w, ctx) {
   if (pr.stand === 'offen') return { aktion: 'behalten', grund: 'pr-offen' }
   if (pr.stand === 'ohne') return { aktion: 'behalten', grund: 'ohne-pr' }
   if (pr.seitMs < SCHONFRIST_PR_MS) return { aktion: 'behalten', grund: 'pr-jung' }
+  // Erst nach dem Abschluss auf diesen Kopf gesetzt (Nachprüfung, neuer Zweig) gehört nicht zum erledigten PR; fehlende Zeit = behalten.
+  if (!(w.kopfZeitMs <= pr.abschlussMs)) return { aktion: 'behalten', grund: 'kopf-nach-abschluss' }
   if (ctx.cacheLeer(w.pfad) !== true) return { aktion: 'behalten', grund: 'cache-inhalt' }
   if (ctx.sauber(w.pfad) !== true) return { aktion: 'behalten', grund: 'geaendert' }
   return { aktion: 'weg', grund: pr.grund }
@@ -62,15 +64,20 @@ function entscheide(w, ctx) {
 
 /**
  * Loser `_wt-*`-Ordner ohne Git-Registrierung. eintraege: [{ name, istVerknuepfung }] (lstat, Verknüpfung nicht verfolgt).
- * Weg nur: leer, oder nur `node_modules` als Verknüpfung (Junction). Alles andere wird nur aufgelistet.
+ * Weg nur: leer, oder nur Verknüpfungen (Junctions `node_modules`/`cache`), auch einen Ordner tief (`data/cache`, `worker/node_modules`).
+ * Alles andere wird nur aufgelistet. Eintrag mit `kinder` (Namen und Verknüpfungs-Flags) = echter Unterordner.
  */
 function bewerteLosen(ordner) {
   if (ordner.jetzt - ordner.juengsteAenderungMs < SCHONFRIST_MS) return { aktion: 'behalten', grund: 'jung' }
   const e = ordner.eintraege
   if (e.length === 0) return { aktion: 'weg', grund: 'leer' }
-  if (e.length === 1 && e[0].name === 'node_modules' && e[0].istVerknuepfung) return { aktion: 'weg', grund: 'nur-junction' }
+  if (e.every(nurVerknuepfung)) return { aktion: 'weg', grund: 'nur-junction' }
   return { aktion: 'behalten', grund: 'inhalt' }
 }
+
+const JUNCTION_NAMEN = ['node_modules', 'cache']
+const istJunction = (x) => x.istVerknuepfung === true && JUNCTION_NAMEN.includes(x.name)
+const nurVerknuepfung = (x) => (x.kinder ? x.kinder.length > 0 && x.kinder.every(istJunction) : istJunction(x))
 
 /** Löst der Bash-Befehl einen PR-Merge aus? Zu großzügiges Erkennen kostet nur einen unnötigen (gesperrten) Abbaulauf. */
 function istMerge(befehl) {
