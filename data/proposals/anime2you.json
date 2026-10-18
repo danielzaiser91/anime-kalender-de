@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-10-18T19:02:45.313Z",
+  "scrapedAt": "2026-10-18T22:03:02.730Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
-    "schon in einem Rubrik-Feed gelesen": 8,
+    "schon in einem Rubrik-Feed gelesen": 7,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -81,6 +81,21 @@
         {
           "month": "2026-11",
           "context": "utscher Vertonung ausstrahlen wird. Wir fassen zusammen. Wiederholung ab November 2026 »Magical Girl Special Ops Asuka« startet demzufolge a"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 43/2026",
+      "articleUrl": "https://www.anime2you.de/news/1062070/anime-tv-programm-43-2026/",
+      "publishedAt": "2026-10-18",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-10-25",
+          "context": "amit ihr keine Sendung verpasst! Premieren und Highlights Vom 19. bis 25. Oktober 2026 gibt es wieder zahlreiche Anime-Premieren und -Highli"
         }
       ],
       "dub": "unklar",
