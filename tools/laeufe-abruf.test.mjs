@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
-import { holeLaeufe } from './laeufe-abruf.mjs'
+import { holeLaeufe, roteArten } from './laeufe-abruf.mjs'
 
 const antwort = (status, text) => async () => new Response(text, { status })
 
@@ -54,5 +54,28 @@ assert.equal(trocken.status, 0)
 assert.match(trocken.stderr, /Status-Worker antwortet 500/)
 assert.doesNotMatch(trocken.stderr, /SyntaxError|\n\s+at /)
 assert.equal(lauf().status, 1)
+
+// Rote Läufe stehen nur im Verlauf (neuester zuletzt): Treffer vorn, in der Mitte und hinten, dazu Gegenfälle.
+const eintrag = (z, am) => ({ z, am })
+const verlauf = {
+  A: [eintrag('fehler', '1'), eintrag('ok', '2')],
+  B: [eintrag('ok', '3'), eintrag('fehler', '4'), eintrag('laeuft', '5')],
+  C: [eintrag('ok', '6'), eintrag('laeuft', '7')],
+  D: [eintrag('fehler', '8'), eintrag('warnung', '9'), eintrag('ok', '10'), eintrag('warnung', '11')],
+  E: [eintrag('abgebrochen', '12')],
+}
+assert.deepEqual(roteArten(verlauf), [
+  { art: 'B', zustand: 'fehler', am: '4' },
+  { art: 'D', zustand: 'warnung', am: '11' },
+])
+assert.deepEqual(roteArten(undefined), [])
+
+// Das ganze Werkzeug: Liste leer (nichts läuft), Verlauf mit rotem Bestandsbau -> die Zeile erscheint, auch bei --trocken.
+const rotAntwort = JSON.stringify({ laeufe: [], verlauf: { Bestand: [eintrag('ok', 'x'), eintrag('fehler', 'y')], Sammler: [eintrag('ok', 'z')] } })
+const vorlaufRot = `data:text/javascript,globalThis.fetch=async()=>new Response(${JSON.stringify(rotAntwort)},{status:200})`
+const rot = spawnSync(process.execPath, ['--import', vorlaufRot, werkzeug, '--trocken'], { encoding: 'utf8' })
+assert.equal(rot.status, 0)
+assert.match(rot.stdout, /0 rot\nROT im Verlauf: Bestand — letzter Lauf fehler am y\n/)
+assert.doesNotMatch(rot.stdout, /Sammler/)
 
 console.log('laeufe-abruf: ok')

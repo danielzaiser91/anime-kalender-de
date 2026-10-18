@@ -517,6 +517,8 @@ hast."
 ```
 LAUF_TOKEN=… node tools/laeufe-aufraeumen.mjs [--auch-github]
 ```
+**Seit 18.10.2026 meldet es auch `ROT im Verlauf: <Art>`:** Die App-Liste führt seit 28.09. nur noch laufende Läufe, ein roter Lauf steht nur im `verlauf`; „0 rot“ allein sagte elf Stunden lang nichts (Bestandsbau rot seit 17.10. 22:07 UTC).
+
 
 Es liest die roten Läufe aus der App und nimmt genau die ab, die **überholt** sind — also die,
 deren Workflow danach erfolgreich durchgelaufen ist. Das ist gemessen, nicht angenommen: Ein

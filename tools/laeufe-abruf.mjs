@@ -24,5 +24,18 @@ export async function holeLaeufe(abruf, url) {
     const hinweis = kontingent ? ' (D1-Tageslimit erreicht, Reset 00:00 UTC)' : ''
     return { meldung: `Status-Worker antwortet ${antwort.status}${hinweis} — nichts aufgeräumt` }
   }
-  return { liste: Array.isArray(daten) ? daten : (daten.laeufe ?? []) }
+  return { liste: Array.isArray(daten) ? daten : (daten.laeufe ?? []), verlauf: daten.verlauf ?? {} }
+}
+
+/**
+ * Lauf-Arten, deren letzter beendeter Lauf rot oder gelb endete. Die Liste `laeufe` führt seit 28.09.2026 nur noch, was
+ * läuft (worker/src/lauf.ts); ein roter Lauf steht dort nie, nur im `verlauf` (je Art aufsteigend, neuester zuletzt).
+ */
+export function roteArten(verlauf) {
+  const rote = []
+  for (const [art, eintraege] of Object.entries(verlauf ?? {})) {
+    const letzter = eintraege.findLast((e) => e.z !== 'laeuft')
+    if (letzter && (letzter.z === 'fehler' || letzter.z === 'warnung')) rote.push({ art, zustand: letzter.z, am: letzter.am })
+  }
+  return rote
 }
