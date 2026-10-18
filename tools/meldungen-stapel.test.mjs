@@ -1,15 +1,19 @@
 // Prüft pipeline/lib/meldungen-stapel.ts: Sichern, Nachspielen und Weglassen des Meldungsstapels sowie den Übernahme-Stempel.
-// Eigener Prozess mit tsx; `AK_ROOT` lenkt den Stempel in einen Wegwerf-Ordner.
+// Eigener Prozess mit tsx; `AK_ROOT` lenkt den Stempel in einen Wegwerf-Ordner. Der Prozess läuft in einem zweiten leeren
+// Ordner, nie im Repo: ein Pfad, der `AK_ROOT` übergeht, schreibt dann ins Leere statt in den echten Stempel (18.10.2026).
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
+const TSX = pathToFileURL(createRequire(join(wurzel, 'package.json')).resolve('tsx/esm')).href
+const MODUL = pathToFileURL(join(wurzel, 'pipeline/lib/meldungen-stapel.ts')).href
 const skript = `
-const { ladeMeldungen, legeAbhakenAb } = await import('./pipeline/lib/meldungen-stapel.ts')
+const { ladeMeldungen, legeAbhakenAb } = await import(${JSON.stringify(MODUL)})
 const [ort, briefkasten, status] = process.argv.slice(1)
 const abrufe = []
 globalThis.fetch = async (u) => (abrufe.push(String(u)), new Response(briefkasten, { status: Number(status) }))
@@ -35,8 +39,9 @@ function lauf(status) {
   mkdirSync(join(ort, 'data'))
   writeFileSync(join(ort, 'antwort.json'), JSON.stringify({ pruefungen: [{ id: 4 }, { id: 5 }, { id: 6 }] }))
   writeFileSync(join(ort, 'ohne.json'), '[5, 2]')
-  const r = spawnSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', skript, ort, BRIEFKASTEN, String(status)], {
-    cwd: wurzel,
+  mkdirSync(join(ort, 'arbeit'))
+  const r = spawnSync(process.execPath, ['--import', TSX, '--input-type=module', '-e', skript, ort, BRIEFKASTEN, String(status)], {
+    cwd: join(ort, 'arbeit'),
     encoding: 'utf8',
     env: { ...process.env, AK_ROOT: ort },
   })
