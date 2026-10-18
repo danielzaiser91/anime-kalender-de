@@ -9,7 +9,7 @@
  * (PID, was läuft, von wo) und seit wann (Uhrzeit und „vor N min“): Prüfer warteten am 12.10.2026 10–15 min, ohne zu wissen, worauf.
  */
 import { execFileSync } from 'node:child_process'
-import { readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { basename, join } from 'node:path'
 
@@ -82,13 +82,26 @@ export function nimmSperre(name, wer = standardWer()) {
       if (e.code !== 'EEXIST') throw e
     }
     const alt = lies(datei)
-    if (alt && lebt(alt.pid, alt.exe)) {
+    if (alt && (lebt(alt.pid, alt.exe) || (alt.kind && lebt(alt.kind)))) {
       return `${name} läuft schon (${beschreibeHalter(alt)}) — warten oder die Sperre ${datei} nur löschen, wenn der Prozess nicht echt läuft.`
     }
     console.warn(`${name}: verwaiste Sperre${alt ? ` (PID ${alt.pid}, seit ${alt.seit}, tot)` : ' (unlesbar)'} übernommen.`)
     if (JSON.stringify(lies(datei)) === JSON.stringify(alt)) rmSync(datei, { force: true })
   }
   return `${name}: Sperre ${datei} wurde gleichzeitig neu vergeben — später erneut versuchen.`
+}
+
+/**
+ * Trägt das Kind des Halters (`schwer.mjs`) in die eigene Sperre ein: Wurde der Halter hart beendet, gilt die Sperre weiter,
+ * solange das Kind lebt (sonst liefe es ohne Sperre neben dem nächsten schweren Lauf).
+ */
+export function vermerkeKind(name, kind) {
+  const datei = join(tmpdir(), `${name}.sperre`)
+  const sperre = lies(datei)
+  if (sperre?.pid !== process.pid) return
+  const entwurf = `${datei}.kind-${process.pid}` // atomar ersetzen: ein halb geschriebenes Lesen gälte als verwaist
+  writeFileSync(entwurf, JSON.stringify({ ...sperre, kind }))
+  renameSync(entwurf, datei)
 }
 
 /** Für den Aufruf am Skriptanfang: bei Absage Meldung und Exit 3. */

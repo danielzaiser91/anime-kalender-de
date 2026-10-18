@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-18 · **28 offene Verweise** in **23 Zeilen**,
+Stand 2026-10-18 · **27 offene Verweise** in **22 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -54,12 +54,11 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 17 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
 | 18 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
 | 19 | Disney+ | Jujutsu Kaisen | [0]() |
-| 20 | Prime Video | As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World | [Staffel 3]() |
+| 20 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
 
-## Paket 2 — Zeilen 21 bis 23
+## Paket 2 — Zeilen 21 bis 22
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 21 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
-| 22 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
-| 23 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
+| 21 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
+| 22 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |

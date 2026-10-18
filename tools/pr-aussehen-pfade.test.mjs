@@ -30,11 +30,10 @@ export function skripteVon(scripts, name, gesehen = new Set()) {
   const dateien = new Set()
   if (gesehen.has(name)) return dateien
   gesehen.add(name)
-  for (const schritt of scripts[name].split('&&').map((s) => s.trim())) {
-    const npm = schritt.match(/^npm run (\S+)/)
-    if (npm) skripteVon(scripts, npm[1], gesehen).forEach((d) => dateien.add(d))
-    const node = schritt.match(/^node (\S+)/)
-    if (node) dateien.add(node[1])
+  /* Auch verschachtelt: `node tools/schwer.mjs node tools/x.mjs` und `node tools/schwer.mjs npm run y` starten beide Ziele. */
+  for (const schritt of scripts[name].split('&&')) {
+    for (const m of schritt.matchAll(/\bnpm run (\S+)/g)) skripteVon(scripts, m[1], gesehen).forEach((d) => dateien.add(d))
+    for (const m of schritt.matchAll(/\bnode (tools\/\S+\.mjs)/g)) dateien.add(m[1])
   }
   return dateien
 }
@@ -63,7 +62,7 @@ function main() {
   const scripts = JSON.parse(readFileSync(resolve(WURZEL, 'package.json'), 'utf8')).scripts
   const namen = Object.keys(scripts).filter((n) => WURZELN.some((w) => n === w || n.startsWith(`${w}-`)))
   const dateien = huelle(namen.flatMap((n) => [...skripteVon(scripts, n)]))
-  const muss = [...dateien, 'web/src/main.tsx', '.github/workflows/pr-pruefung.yml']
+  const muss = [...dateien, 'package.json', 'web/src/main.tsx', '.github/workflows/pr-pruefung.yml']
   const fehlen = muss.filter((d) => !ausdruck.test(d))
   assert.deepEqual(fehlen, [], `lösen den Job aussehen nicht aus: ${fehlen.join(', ')}`)
   assert.ok(dateien.size >= 15, `zu wenige Werkzeuge erkannt (${dateien.size})`)

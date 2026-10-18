@@ -5,14 +5,14 @@
     "lastCount": 12
   },
   "anime2you": {
-    "lastOk": "2026-10-18T15:02:59.079Z",
-    "lastRun": "2026-10-18T15:02:59.079Z",
+    "lastOk": "2026-10-18T17:02:37.009Z",
+    "lastRun": "2026-10-18T17:02:37.009Z",
     "lastCount": 49
   },
   "crunchyroll": {
-    "lastOk": "2026-10-18T15:02:37.738Z",
-    "lastRun": "2026-10-18T15:02:37.738Z",
-    "lastCount": 10
+    "lastOk": "2026-10-18T17:02:14.140Z",
+    "lastRun": "2026-10-18T17:02:14.140Z",
+    "lastCount": 16
   },
   "anisearch": {
     "lastOk": "2026-10-18T06:01:40.153Z",
@@ -91,7 +91,7 @@
   },
   "rohfolgen": {
     "lastOk": "2026-10-18T13:07:03.886Z",
-    "lastRun": "2026-10-18T14:06:03.229Z",
+    "lastRun": "2026-10-18T17:06:04.964Z",
     "lastCount": 0
   },
   "anisearch-folgen": {
@@ -120,9 +120,9 @@
     "lastCount": 14
   },
   "vorfaelle": {
-    "lastOk": "2026-10-18T14:05:58.086Z",
-    "lastRun": "2026-10-18T14:05:58.086Z",
-    "lastCount": 0
+    "lastOk": "2026-10-18T17:06:00.272Z",
+    "lastRun": "2026-10-18T17:06:00.272Z",
+    "lastCount": 1
   },
   "crunchyroll-neu": {
     "lastOk": "2026-10-18T04:05:44.875Z",
@@ -145,9 +145,10 @@
     "lastCount": 15
   },
   "tv-programm": {
-    "lastOk": "2026-10-18T15:03:02.000Z",
-    "lastRun": "2026-10-18T15:03:02.000Z",
-    "lastCount": 270
+    "lastOk": "2026-10-18T16:03:14.089Z",
+    "lastRun": "2026-10-18T17:02:38.816Z",
+    "lastCount": 0,
+    "lastError": "keine Sendung gelesen"
   },
   "tv-de": {
     "lastOk": "2026-10-18T00:04:26.595Z",
@@ -180,8 +181,8 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-10-18T15:02:43.611Z",
-    "lastRun": "2026-10-18T15:02:43.611Z",
+    "lastOk": "2026-10-18T17:02:20.399Z",
+    "lastRun": "2026-10-18T17:02:20.399Z",
     "lastCount": 65
   },
   "adn-news": {
@@ -190,8 +191,8 @@
     "lastCount": 75
   },
   "messbelege": {
-    "lastOk": "2026-10-18T15:03:00.310Z",
-    "lastRun": "2026-10-18T15:03:00.310Z",
+    "lastOk": "2026-10-18T17:02:37.979Z",
+    "lastRun": "2026-10-18T17:02:37.979Z",
     "lastCount": 0
   },
   "beleg-lesungen": {
