@@ -1888,3 +1888,10 @@ Die Wache (`wecker-wache.yml`) wiederholte einen roten Lauf erst nach der vollen
 - Verbrauch (`d1-verbrauch.yml`, UTC-Tag seit 00:00): Lauf 39126558165 (12:15 UTC) 362.653 gelesen / 4.441 geschrieben, Lauf 39127790297 (12:33 UTC) 366.601 / 7.573. Der Durchgang kostete also rund 4.000 Lese- und 3.100 Schreibzeilen, je Adresse etwa 140 und 110.
 - Hochrechnung gegen das Kontingent (5 Mio. Lesen, 100.000 Schreiben je Tag): Schreiben begrenzt, rund 900 Adressen pro Tag ohne andere Last; bei der heutigen Grundlast (~8.000 Schreibzeilen bis 13 UTC) bleibt Platz für mehrere volle Durchgänge.
 - Ein zusätzlicher Meldungskopie-Lauf (`meldungskopie.yml`, 12:57 UTC) fiel in dasselbe Fenster: Lauf 39130682076 (13:16 UTC) zeigte 553.567 gelesen, also rund 187.000 mehr — fast alles der Export. Eine Kopie nur für eine einzelne Kennung zu ziehen ist deshalb teuer; der nächtliche Lauf reicht, wenn es nicht eilt.
+
+## Höchstens ein schwerer Lauf gleichzeitig (18.10.2026)
+
+- `tools/schwer.mjs <Befehl>` (Logik in `tools/schwerer-lauf.mjs`) wartet auf die Sperre `schwerer-lauf` in `tmpdir()` und startet den Befehl erst, wenn kein anderer schwerer Lauf auf dem Rechner läuft. Die Warteschlange ist die von `bau-vergleich` (`einzel-sperre-schlange.mjs`): der Älteste zuerst, Meldung „Platz n von m — Sperre hält PID …, Befehl …“, verwaiste Sperre (PID tot) wird übernommen, Frist 45 min.
+- Eingebunden: `data:build`, `check:ansichten` (samt `-desktop`/`-handy`), `check:panel` (die Einzelteile jetzt `check:panel-teile`/`check:ansichten-teile`) und `tools/bau-vergleich.mjs`. Verschachtelt (Marke `AK_SCHWERER_LAUF` im Kind) wartet nur der äußerste Aufruf; in CI (`CI=true`) keine Wirkung.
+- Nicht erfasst: direkter Aufruf von `tsx pipeline/build.ts` oder `node tools/panel-bild.mjs` und der Web-Bau in `npm run build` — bei Bedarf `node tools/schwer.mjs …` voranstellen.
+- Test: `tools/schwer.test.mjs` (echte Prozesse in Wegwerf-TEMP: Warten, Reihenfolge, kill des Halters, CI, Marke).

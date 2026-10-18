@@ -53,6 +53,7 @@ import { raeumeVerwaisteBaeume } from './bau-vergleich-reste.mjs'
 import { abstandsWarnung, fremdeUnterschiede, messeAbstand, vonBasisGeaendert } from './bau-vergleich-abstand.mjs'
 import { EXIT, exitFuerFehler } from './bau-vergleich-urteil.mjs'
 import { FRIST_MS, wartAufSperre } from './einzel-sperre-schlange.mjs'
+import { wartAufSchwerenLauf } from './schwerer-lauf.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 const ABLAGE = join(tmpdir(), 'bau-vergleich')
@@ -203,6 +204,7 @@ const warnung = abstandsWarnung(abstand, basis, kandidat)
 for (const zeile of [...warnung, ...einstellungsZeilen(KATALOG_CACHE, process.env)]) console.log(zeile)
 logge(`Vergleich ${basis.slice(0, 12)} gegen ${kandidat.slice(0, 12)} gestartet, warte auf die Sperre`)
 await wartAufSperre('bau-vergleich', FRIST_MS, undefined, `bau-vergleich ${basis.slice(0, 12)} gegen ${kandidat.slice(0, 12)} in ${WURZEL}`)
+Object.assign(process.env, await wartAufSchwerenLauf(`bau-vergleich ${basis.slice(0, 12)} gegen ${kandidat.slice(0, 12)} in ${WURZEL}`))
 raeumeVerwaisteBaeume(git, ABLAGE)
 logge('Bau A (Basis) beginnt')
 const a = baue(basis, basis)
