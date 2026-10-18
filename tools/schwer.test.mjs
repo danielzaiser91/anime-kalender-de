@@ -3,9 +3,10 @@
 // und in CI oder unter einem haltenden Elternlauf wird nicht gewartet.
 import assert from 'node:assert/strict'
 import { spawn, spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync } from 'node:fs'
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { liesSperre, nimmSperre, vermerkeKind } from './einzel-sperre.mjs'
 import { fuehreAus, main } from './schwer.mjs'
 import { brauchtSperre, MARKE, SPERRE, wartAufSchwerenLauf } from './schwerer-lauf.mjs'
 
@@ -28,6 +29,7 @@ function starte(temp, env, marke, haltMs) {
   const kind = spawn(process.execPath, [SCHWER, process.execPath, import.meta.filename, 'arbeit', marke, haltMs], {
     env: { ...process.env, TEMP: temp, TMP: temp, TMPDIR: temp, CI: 'false', [MARKE]: '', ...env },
     stdio: ['ignore', 'pipe', 'pipe'],
+    windowsHide: true,
   })
   const lauf = { kind, aus: '', ende: new Promise((fertig) => kind.once('exit', (code) => fertig(code))) }
   kind.stdout.on('data', (d) => (lauf.aus += d))
@@ -42,8 +44,23 @@ function starte(temp, env, marke, haltMs) {
   return lauf
 }
 
-async function pruefe() {
-  // Entscheidung: nur ohne CI und ohne Elternmarke
+function arbeitPid(lauf) {
+  return Number(/pid=(\d+)/.exec(lauf.aus)?.[1])
+}
+
+/** Beendet Wrapper und Arbeitsprozess hart, wie ein abgestürzter Lauf samt Kind. */
+function toete(lauf) {
+  spawnSync('taskkill', ['/T', '/F', '/PID', String(lauf.kind.pid)], { stdio: 'ignore', windowsHide: true })
+  for (const pid of [arbeitPid(lauf), lauf.kind.pid]) {
+    try {
+      process.kill(pid, 'SIGKILL')
+    } catch {} // ist schon tot
+  }
+}
+
+
+/** Entscheidungen und Aufruf der Schlange ohne Prozesse. */
+async function pruefeOhneProzesse() {
   assert.equal(brauchtSperre({}), true)
   assert.equal(brauchtSperre({ CI: 'true' }), false)
   assert.equal(brauchtSperre({ [MARKE]: '123' }), false)
@@ -66,54 +83,111 @@ async function pruefe() {
   assert.deepEqual(ci, { CI: 'true' })
 
   assert.equal(await main([]), 2, 'ohne Befehl: Aufruffehler')
+}
 
+/** Das Kind in der Sperrdatei: lebt es, gilt die Sperre trotz totem Halter; fremde Sperren werden nicht beschrieben. */
+function pruefeKindInSperre() {
+  const temp = mkdtempSync(join(tmpdir(), 'schwer-kind-'))
+  const alt = { TEMP: process.env.TEMP, TMP: process.env.TMP, TMPDIR: process.env.TMPDIR }
+  Object.assign(process.env, { TEMP: temp, TMP: temp, TMPDIR: temp })
+  try {
+    const datei = join(temp, 'kind-test.sperre')
+    const TOT = 2_000_000_000 // keine gültige PID
+    const lege = (kind) => writeFileSync(datei, JSON.stringify({ pid: TOT, exe: 'node.exe', seit: new Date().toISOString(), kind }))
+    lege(process.pid)
+    assert.match(nimmSperre('kind-test') ?? '', /läuft schon/, 'Halter tot, Kind lebt: Sperre gilt')
+    lege(TOT)
+    assert.equal(nimmSperre('kind-test'), null, 'Halter und Kind tot: Sperre wird übernommen')
+    vermerkeKind('kind-test', 4242)
+    assert.equal(liesSperre('kind-test').kind, 4242, 'eigene Sperre bekommt das Kind')
+    lege(undefined)
+    vermerkeKind('kind-test', 4242)
+    assert.equal(liesSperre('kind-test').kind, undefined, 'fremde Sperre bleibt unverändert')
+  } finally {
+    for (const [k, v] of Object.entries(alt)) v === undefined ? delete process.env[k] : (process.env[k] = v)
+  }
+  rmSync(temp, { recursive: true, force: true })
+}
+
+/** Zweiter wartet mit Meldung (PID, Befehl) und startet erst nach dem Ende des ersten; Exit-Code kommt durch. */
+async function pruefeWarten(temp) {
+  const a = starte(temp, {}, 'A', 1500)
+  await a.bis('an A marke=ja')
+  const b = starte(temp, {}, 'rot', 0)
+  await b.bis(`Sperre hält PID`)
+  assert.match(b.aus, /schwerer-lauf: Platz 1 von 1/)
+  assert.match(b.aus, /arbeit A/, 'Meldung nennt den Befehl des Halters')
+  assert.ok(!b.aus.includes('an rot'), 'B darf nicht starten, solange A läuft')
+  const aEnde = Date.now()
+  assert.equal(await a.ende, 0)
+  assert.equal(await b.ende, 7)
+  assert.ok(b.aus.includes('an rot') && Date.now() >= aEnde)
+}
+
+/** Halter samt Kind hart beendet: der Wartende übernimmt die verwaiste Sperre. */
+async function pruefeVerwaist(temp) {
+  const c = starte(temp, {}, 'C', 60_000)
+  await c.bis('an C')
+  const d = starte(temp, {}, 'D', 0)
+  await d.bis('Sperre hält PID')
+  toete(c)
+  await d.bis('an D')
+  assert.equal(await d.ende, 0)
+}
+
+/** Halter hart ohne Baum beendet, Kind lebt: die Sperre gilt weiter, der Wartende startet erst nach dem Ende des Kindes. */
+async function pruefeKindLebt(temp) {
+  // Unter Windows stirbt die Shell mit dem Wrapper (libuv-Job), ohne `detached` (öffnet dort ein Fenster) ist das Kind nicht beobachtbar.
+  if (process.platform === 'win32') return
+  const h = starte(temp, {}, 'H', 60_000)
+  await h.bis('an H')
+  h.kind.kill('SIGKILL')
+  await h.ende
+  const i = starte(temp, {}, 'I', 0)
+  await i.bis('Sperre hält PID')
+  await new Promise((fertig) => setTimeout(fertig, 2_500))
+  assert.ok(!i.aus.includes('an I'), 'I darf nicht starten, solange das Kind des toten Halters lebt')
+  process.kill(arbeitPid(h), 'SIGKILL')
+  await i.bis('an I')
+  assert.equal(await i.ende, 0)
+}
+
+/** Abbruch des Wrappers: das Enkelkind (arbeit) darf nicht weiterlaufen, sonst läuft es ohne Sperre. */
+async function pruefeAbbruch() {
+  const ab = spawn(process.execPath, [import.meta.filename, 'abbruch'], { stdio: ['ignore', 'pipe', 'inherit'], windowsHide: true })
+  let abAus = ''
+  ab.stdout.on('data', (d) => (abAus += d))
+  await new Promise((fertig) => ab.once('exit', fertig))
+  const enkel = Number(/pid=(\d+)/.exec(abAus)?.[1])
+  assert.ok(enkel > 0, `Enkel-PID fehlt: ${abAus}`)
+  await new Promise((fertig) => setTimeout(fertig, 500))
+  assert.throws(() => process.kill(enkel, 0), 'Kind lebt nach Ende des Wrappers weiter')
+}
+
+/** CI und Elternmarke: läuft sofort, auch während ein anderer hält. */
+async function pruefeUmgehung(temp) {
+  const e = starte(temp, {}, 'E', 60_000)
+  await e.bis('an E')
+  const ciLauf = starte(temp, { CI: 'true' }, 'F', 0)
+  await ciLauf.bis('an F marke=nein')
+  assert.equal(await ciLauf.ende, 0)
+  const kind = starte(temp, { [MARKE]: '99' }, 'G', 0)
+  await kind.bis('an G marke=ja')
+  assert.equal(await kind.ende, 0)
+  toete(e)
+  await e.ende
+}
+
+async function pruefe() {
+  await pruefeOhneProzesse()
+  pruefeKindInSperre()
   const temp = mkdtempSync(join(tmpdir(), 'schwer-test-'))
   try {
-    // Zweiter wartet mit Meldung (PID, Befehl) und startet erst nach dem Ende des ersten; Exit-Code kommt durch
-    const a = starte(temp, {}, 'A', 1500)
-    await a.bis('an A marke=ja')
-    const b = starte(temp, {}, 'rot', 0)
-    await b.bis(`Sperre hält PID`)
-    assert.match(b.aus, /schwerer-lauf: Platz 1 von 1/)
-    assert.match(b.aus, /arbeit A/, 'Meldung nennt den Befehl des Halters')
-    assert.ok(!b.aus.includes('an rot'), 'B darf nicht starten, solange A läuft')
-    const aEnde = Date.now()
-    assert.equal(await a.ende, 0)
-    assert.equal(await b.ende, 7)
-    assert.ok(b.aus.includes('an rot') && Date.now() >= aEnde)
-
-    // Hart beendeter Halter: der Wartende übernimmt die verwaiste Sperre
-    const c = starte(temp, {}, 'C', 60_000)
-    await c.bis('an C')
-    const d = starte(temp, {}, 'D', 0)
-    await d.bis('Sperre hält PID')
-    spawnSync('taskkill', ['/T', '/F', '/PID', String(c.kind.pid)], { stdio: 'ignore' })
-    if (process.platform !== 'win32') c.kind.kill('SIGKILL')
-    await d.bis('an D')
-    assert.equal(await d.ende, 0)
-
-    // Abbruch des Wrappers: das Enkelkind (arbeit) darf nicht weiterlaufen, sonst läuft es ohne Sperre
-    const ab = spawn(process.execPath, [import.meta.filename, 'abbruch'], { stdio: ['ignore', 'pipe', 'inherit'] })
-    let abAus = ''
-    ab.stdout.on('data', (d) => (abAus += d))
-    await new Promise((fertig) => ab.once('exit', fertig))
-    const enkel = Number(/pid=(\d+)/.exec(abAus)?.[1])
-    assert.ok(enkel > 0, `Enkel-PID fehlt: ${abAus}`)
-    await new Promise((fertig) => setTimeout(fertig, 500))
-    assert.throws(() => process.kill(enkel, 0), 'Kind lebt nach Ende des Wrappers weiter')
-
-    // CI und Elternmarke: läuft sofort, auch während ein anderer hält
-    const e = starte(temp, {}, 'E', 60_000)
-    await e.bis('an E')
-    const ciLauf = starte(temp, { CI: 'true' }, 'F', 0)
-    await ciLauf.bis('an F marke=nein')
-    assert.equal(await ciLauf.ende, 0)
-    const kind = starte(temp, { [MARKE]: '99' }, 'G', 0)
-    await kind.bis('an G marke=ja')
-    assert.equal(await kind.ende, 0)
-    e.kind.kill()
-    spawnSync('taskkill', ['/T', '/F', '/PID', String(e.kind.pid)], { stdio: 'ignore' })
-    await e.ende
+    await pruefeWarten(temp)
+    await pruefeVerwaist(temp)
+    await pruefeKindLebt(temp)
+    await pruefeAbbruch()
+    await pruefeUmgehung(temp)
   } finally {
     rmSync(temp, { recursive: true, force: true })
   }

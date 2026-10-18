@@ -59,4 +59,19 @@ assert.ok(beschreibung && ts.isTemplateExpression(beschreibung), 'der Wartende n
 assert.match(beschreibung.getText(datei), /basis.*kandidat/s)
 assert.ok(datei.statements.some((s) => ts.isImportDeclaration(s) && s.moduleSpecifier.getText(datei) === "'./schwerer-lauf.mjs'"))
 
+// Wächter: jeder Prozessstart in schwer.mjs trägt windowsHide: true (sonst öffnet Windows sichtbare Konsolenfenster)
+const wrapper = ts.createSourceFile('schwer.mjs', readFileSync(resolve(WURZEL, 'tools/schwer.mjs'), 'utf8'), ts.ScriptTarget.Latest, true)
+const starter = []
+const sammle = (n) => {
+  if (ts.isCallExpression(n) && /^(spawn|spawnSync|exec|execSync|execFile|execFileSync|fork)$/.test(n.expression.getText(wrapper))) starter.push(n)
+  ts.forEachChild(n, sammle)
+}
+sammle(wrapper)
+assert.ok(starter.length >= 2, 'spawn und taskkill erwartet')
+for (const aufruf of starter) {
+  const optionen = aufruf.arguments.find(ts.isObjectLiteralExpression)
+  const hide = optionen?.properties.find((p) => p.name?.getText(wrapper) === 'windowsHide')
+  assert.equal(hide?.initializer.getText(wrapper), 'true', `${aufruf.getText(wrapper).slice(0, 40)} ohne windowsHide: true`)
+}
+
 console.log(`schwer-verdrahtung.test: grün (${Object.keys(MIT_SPERRE).length} Skripte, bau-vergleich Schritt ${warteSchwer})`)
