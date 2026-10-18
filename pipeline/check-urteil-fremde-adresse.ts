@@ -22,8 +22,9 @@ const PRIME_FREMD = 'https://www.amazon.de/gp/video/detail/B0FREMD001'
 const PRIME_EIGEN = 'https://www.amazon.de/gp/video/detail/B0EIGEN001'
 const BELEG_FREMD = 'https://www.amazon.de/gp/video/detail/B0CH9BW1PW'
 const GETEILT = 'https://www.netflix.com/title/900003'
+const NETFLIX = 'https://www.netflix.com/title/80060413'
 schreibe('public/data/cartoons.json', JSON.stringify([
-  { id: -900001, titleEn: 'Heidi', streams: [{ url: GTI }, { url: DISNEY, seite: SUCHE }, { url: GETEILT }] },
+  { id: -900001, titleEn: 'Heidi', streams: [{ url: GTI }, { url: DISNEY, seite: SUCHE }, { url: GETEILT }, { url: NETFLIX }] },
 ]))
 schreibe('public/data/ohne-synchro.json', JSON.stringify([{ id: 900011, titleEn: 'Magic High: Staffel 3', streams: [{ url: OHNE }] }, { id: 900012 }]))
 schreibe('data/prime-zugeordnet.json', JSON.stringify({ [`${PRIME_FREMD}#2`]: { titleId: -900002 }, [PRIME_EIGEN]: { titleId: 900002 } }))
@@ -45,11 +46,14 @@ rmSync(wurzel, { recursive: true, force: true })
 const faelle: [string, number | null, number | null][] = [
   ['Cartoon-Adresse (gti), Name eines Anime', ziel(GTI, 'Heidi'), null],
   ['Cartoon-Adresse (Disney+), ohne Staffel', ziel(DISNEY, 'Heidi', null), null],
+  ['Cartoon-Adresse (Disney+) mit Ländersegment', ziel(DISNEY.replace('.com/', '.com/de-de/'), 'Heidi'), null],
+  ['Cartoon-Adresse (Netflix) mit Ländersegment', ziel(NETFLIX.replace('.com/', '.com/de/'), 'Heidi'), null],
   ['Cartoon-Seite als Suchadresse', ziel(SUCHE, 'Heidi'), null],
   ['Adresse eines Titels ohne Synchro', ziel(OHNE, 'Magic High'), null],
   ['Prime-Zuordnung einer fremden Kennung (mit #-Anhang)', ziel(PRIME_FREMD, 'Heidi'), null],
   ['Handbeleg einer fremden Kennung', ziel(BELEG_FREMD, 'Freezing'), null],
   ['Kontrolle: unbekannte Adresse, exakter Name', ziel('https://www.netflix.com/title/123', 'Heidi'), 900002],
+  ['Kontrolle: andere Disney+-Seite mit Ländersegment', ziel('https://www.disneyplus.com/de-de/browse/entity-900002', 'Heidi'), 900002],
   ['Kontrolle: Prime-Zuordnung eines eigenen Titels sperrt nicht', ziel(PRIME_EIGEN, 'Heidi'), 900002],
   ['Kontrolle: Handbeleg eines eigenen Titels sperrt nicht', ziel('https://www.amazon.de/gp/video/detail/B0EIGEN002', 'Heidi'), 900002],
   ['Kontrolle: der eigene Weg schlägt den Cartoon an derselben Adresse', ziel(GETEILT, 'Heidi'), 900003],

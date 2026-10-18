@@ -164,12 +164,12 @@ export function rohfolgenSpanne(
 /**
  * Adresse → unsere Titel, aus `streams` samt geöffneter Seite (`seite`) — wie im Einleser. Eine
  * Prime-Suchadresse (`/s?k=…`) löst der Suchbegriff auf, wie `ausSuchadresse` in
- * `fetch-pruefungen.ts`: Name gleich nach `titelSchluessel`, nur eindeutig. Eine Adresse aus `fremd` (`fremdeAdressen`)
+ * `fetch-pruefungen.ts`: Name gleich nach `titelSchluessel`, nur eindeutig. Eine Adresse, die `istFremd` (`fremdeAdressen`) kennt,
  * ergibt eine leere Liste: bekannt, aber keinem unserer Titel — auch nicht über den Suchbegriff.
  */
 export function adressIndex(
   titel: { id: number; titleDe?: string; titleEn?: string; titleRomaji?: string; streams?: { url: string; seite?: string }[] }[],
-  fremd: Set<string> = new Set(),
+  istFremd: (url: string) => boolean = () => false,
 ): (url: string) => number[] | undefined {
   const nachName = new Map<string, Set<number>>()
   for (const t of titel)
@@ -198,7 +198,7 @@ export function adressIndex(
         const liste = index.get(schluesselAdresse(u)) ?? []
         if (!liste.includes(t.id)) index.set(schluesselAdresse(u), [...liste, t.id])
       }
-  return (url) => index.get(schluesselAdresse(url)) ?? (fremd.has(schluesselAdresse(url)) ? [] : url.includes('/s?k=') ? ausSuche(url) : undefined)
+  return (url) => index.get(schluesselAdresse(url)) ?? (istFremd(url) ? [] : url.includes('/s?k=') ? ausSuche(url) : undefined)
 }
 
 /** Ein Kandidat für die Staffel-Zuordnung — nur, was `staffelNummern()` braucht. */
