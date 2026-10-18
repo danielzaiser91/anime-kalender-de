@@ -23845,3 +23845,12 @@
   dub: true
   checkedAt: '2026-10-18'
   note: "Daniel, Sichtung Netflix/Prime 18.10.2026: Folge 3 der Staffel (bei Netflix Folge 28) am 18.10.2026 um 10:31 mit deutscher Synchro verfügbar; Folge 29 steht dort als Verfügbar ab 25. Oktober. Einzeln gesehen ist nur Folge 3; kein Bereich, weil keine Quelle die Folgen davor als nicht deutsch widerlegt."
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-18 ---
+
+- anilistId: 2043
+  title: "Cat’s Eye – Ein Supertrio"
+  platform: primevideo
+  url: https://www.amazon.de/dp/0NRA8APAOPCTKPDYT08UOO3K4B
+  dub: true
+  checkedAt: '2026-10-02'
+  note: "Tonspuren: Deutsch — Amazon-Seite 0NRA8APAOPCTKPDYT08UOO3K4B: alle 73 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=kauf, gti=amzn1.dv.gti.914ca375-26cf-4fa9-8b58-63c3d7b2e09b"
