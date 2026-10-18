@@ -5,7 +5,8 @@
     "schaetzungNachEnde": 0,
     "spracheOffenTrotzMeldung": 4,
     "ereignisOhneNews": 2,
-    "terminOhneBeleg": 15
+    "terminOhneBeleg": 15,
+    "primeOhneTitelseite": 8
   },
   "bekannt": {
     "erschienenOhneTermin": [],
@@ -36,6 +37,16 @@
       "anisearch-206914-primevideo",
       "anisearch-207141-netflix",
       "anisearch-210032-netflix"
+    ],
+    "primeOhneTitelseite": [
+      "seven-knights-marronnier-kingdom-primevideo",
+      "tank-chair-primevideo",
+      "demon-slayer-s1-primevideo",
+      "demon-slayer-entertainment-district-arc-primevideo",
+      "demon-slayer-mugen-train-arc-primevideo",
+      "kuroko-winter-cup-movie-2-primevideo",
+      "kuroko-winter-cup-movie-3-primevideo",
+      "yu-gi-oh-s1-primevideo"
     ]
   }
 }

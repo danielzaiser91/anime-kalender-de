@@ -94,7 +94,8 @@ function summaryOhneMarke(ev: ReleaseEvent, bis?: number): string {
 export function eventDescription(ev: ReleaseEvent, opts: IcsOptions = {}): string {
   const lines = [
     `Plattform: ${anbieterName(ev.platform, ev.sender)}`,
-    `Release-Art: ${RELEASE_TYPES[ev.releaseType].name}`,
+    // „Simuldub“ im Namen der Art behauptet eine Synchro; bei gesetzter Sprache (omu/offen) gilt die Kurzform.
+    `Release-Art: ${ev.sprache ? RELEASE_TYPES[ev.releaseType].short : RELEASE_TYPES[ev.releaseType].name}`,
   ]
   if (ev.imAngebot) lines.push(IM_ANGEBOT_HINWEIS)
   if (ev.erstausgabe) lines.push(ERSTAUSGABE_HINWEIS)
