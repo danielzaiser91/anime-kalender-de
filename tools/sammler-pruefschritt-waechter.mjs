@@ -16,7 +16,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { parse } from 'yaml'
-import { pruefeAppToken } from './app-token-sperre.mjs'
+import { pruefeAppToken, QUELLEN_PR_AKTION } from './app-token-sperre.mjs'
 
 const MARKE = '[Prüfung rot]'
 const EINREICHEN = '.github/actions/einreichen'
@@ -48,7 +48,7 @@ const ohneKommentare = (text) => normal(text).split('\n').filter((z) => !/^\s*(#
 /** Weg 1: Die Aktion führt quellen-pr.sh genau einmal aus (Befehl exakt); kein anderer Schritt nennt es. */
 function pruefeAktion(aktion) {
   const schritte = schritteVon(aktion)
-  const erwartet = 'bash tools/quellen-pr.sh "${{ inputs.nachricht }}"'
+  const erwartet = QUELLEN_PR_AKTION
   const aufrufe = schritte.filter((s) => typeof s.run === 'string' && s.run.trim() === erwartet)
   const fehler = []
   if (aufrufe.length !== 1) fehler.push(`Aktion einreichen: ${aufrufe.length} Aufrufe von \`${erwartet}\`, erwartet genau einer`)

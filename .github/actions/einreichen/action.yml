@@ -39,7 +39,9 @@ runs:
         GH_TOKEN: ${{ steps.app.outputs.token }}
         # Das Aufsetzen legt hier die geänderten Quelldateien ab, bevor es auf den Stand von main wechselt.
         FUND_DIR: ${{ runner.temp }}/fund
-      run: bash tools/quellen-pr.sh "${{ inputs.nachricht }}"
+        # Über env, nicht in den Skripttext: ein `"` in der Nachricht (fund-nachliefern setzt `inputs.lauf` ein) würde sonst Code mit dem App-Token.
+        NACHRICHT: ${{ inputs.nachricht }}
+      run: bash tools/quellen-pr.sh "$NACHRICHT"
 
     - name: Fund sichern
       if: always()
@@ -53,6 +55,8 @@ runs:
     - name: Einreichen fehlgeschlagen
       if: steps.pr.outcome == 'failure'
       shell: bash
+      env:
+        FUND: ${{ inputs.fund }}
       run: |
-        echo "::error::Der Pull Request konnte nicht angelegt werden. Der Fund liegt als Artefakt „fund-${{ inputs.fund }}“ bereit — „Fund nachliefern“ spielt ihn ein."
+        echo "::error::Der Pull Request konnte nicht angelegt werden. Der Fund liegt als Artefakt „fund-${FUND}“ bereit — „Fund nachliefern“ spielt ihn ein."
         exit 1

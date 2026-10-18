@@ -156,6 +156,30 @@ erwarte('Aktion: zweiter Token-Schritt mit derselben id', (s) => { aktion(s).pus
 erwarte('Aktion: kein Schritt pr', (s) => { prSchritt(s).id = 'anders' }, AKTION)
 erwarteOk('Aktion: Schritt nach pr mit eigener id', (s) => { aktion(s).at(-1).id = 'hinweis' })
 erwarte('andere Aktion nennt das App-Secret', (s) => { s.aktionen.einrichten.description += ' DATEN_APP_KEY' }, /\.github\/actions\/einrichten: holt oder nennt/)
+// R4: Zugriffswege auf den Schlüssel, Nachricht nur über env, kein Ausdruck im run-Text
+erwarte("Aktion: inputs['app-key'] in einem anderen Schritt", (s) => { aktion(s).push({ shell: 'bash', env: { K: "${{ inputs['app-key'] }}" }, run: 'true' }) }, AKTION)
+erwarte('Aktion: toJSON(inputs) in einem anderen Schritt', (s) => { aktion(s).push({ shell: 'bash', env: { K: '${{ toJSON(inputs) }}' }, run: 'true' }) }, AKTION)
+erwarte("Aktion: inputs [ 'app-key' ] mit Leerzeichen", (s) => { aktion(s).push({ shell: 'bash', env: { K: "${{ inputs [ 'app-key' ] }}" }, run: 'true' }) }, AKTION)
+erwarte('Aktion: toJSON( inputs ) mit Leerzeichen', (s) => { aktion(s).push({ shell: 'bash', env: { K: '${{ toJSON( inputs ) }}' }, run: 'true' }) }, AKTION)
+erwarte('Aktion: BASH_ENV im Schritt pr', (s) => { prSchritt(s).env.BASH_ENV = './x.sh' }, AKTION)
+erwarte('Aktion: inputs . app-key mit Leerzeichen', (s) => { aktion(s).push({ shell: 'bash', env: { K: '${{ inputs . app-key }}' }, run: 'true' }) }, AKTION)
+const AUSDRUCK = (name) => new RegExp(`einreichen: Schritt „${name}“ setzt einen Ausdruck in den run-Text`)
+erwarte('Aktion: Nachricht wieder im Skripttext', (s) => { prSchritt(s).run = 'bash tools/quellen-pr.sh "${{ inputs.nachricht }}"' }, AUSDRUCK('Quellen als Pull Request einreichen'))
+erwarte('Aktion: Ausdruck im run des letzten Schritts', (s) => { aktion(s).at(-1).run = 'echo "${{ inputs.fund }}"' }, AUSDRUCK('Einreichen fehlgeschlagen'))
+erwarte('Aktion: NACHRICHT aus anderer Quelle', (s) => { prSchritt(s).env.NACHRICHT = '${{ github.event.head_commit.message }}' }, AKTION)
+erwarteOk('Aufrufer-Nachricht mit Einschub bleibt Text', (s) => { s.workflows['adn-laufende.yml'].jobs.auffrischen.steps.find((x) => String(x.uses).includes('actions/einreichen')).with.nachricht = 'x" ; gh pr merge 5 --admin ; echo "' })
+// R4: Jobs, die über einreichen ein Token bekommen — Umgebung je Ebene (Workflow, Job, Schritt) und defaults; der Job crunchyroll steht in refresh-weekly mittendrin.
+const einreichSchritt = (s, d, j) => job(s, d, j).steps.find((x) => String(x.uses).includes('actions/einreichen'))
+const EINREICHER = (d, j) => new RegExp(`${d.replace('.', '\\.')}: Job ${j} holt ein App-Token \\(Aktion einreichen\\); env nur`)
+erwarte('einreichen: NODE_OPTIONS im Workflow', (s) => { s.workflows['adn-laufende.yml'].env = { NODE_OPTIONS: '--require ./x.cjs' } }, EINREICHER('adn-laufende.yml', 'auffrischen'))
+erwarte('einreichen: BASH_ENV im Job', (s) => { job(s, 'refresh-weekly.yml', 'crunchyroll').env.BASH_ENV = './x.sh' }, EINREICHER('refresh-weekly.yml', 'crunchyroll'))
+erwarte('einreichen: defaults im Workflow', (s) => { s.workflows['adn-laufende.yml'].defaults = { run: { shell: 'node {0}' } } }, EINREICHER('adn-laufende.yml', 'auffrischen'))
+erwarte('einreichen: defaults im Job', (s) => { job(s, 'refresh-weekly.yml', 'crunchyroll').defaults = { run: { shell: 'node {0}' } } }, EINREICHER('refresh-weekly.yml', 'crunchyroll'))
+erwarte('einreichen: BASH_ENV am mittleren von drei Einreich-Schritten', (s) => {
+  const steps = job(s, 'refresh-weekly.yml', 'crunchyroll').steps
+  const e = einreichSchritt(s, 'refresh-weekly.yml', 'crunchyroll')
+  steps.splice(steps.indexOf(e), 0, { ...e }, { ...e, env: { BASH_ENV: './x.sh' } })
+}, /refresh-weekly\.yml: Job crunchyroll: der Schritt einreichen darf nur/)
 erwarte('andere Aktion holt ein Token',(s) => { s.aktionen.einrichten.runs.steps.push({ uses: 'actions/create-github-app-token@v3', with: {} }) }, /\.github\/actions\/einrichten: holt oder nennt ein App-Token/)
 
 // Ohne App-Token bleibt ein Befehl in jeder Form ohne Wirkung auf main: GITHUB_TOKEN umgeht das Ruleset nicht, der Nachholer mergt nur App-PRs.

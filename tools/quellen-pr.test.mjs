@@ -84,6 +84,16 @@ esac
   const dateien = sh(ursprung, `git diff --name-only main ${zweig}`).out.trim().split('\n').sort()
   pruefe('der Zweig trägt die eigene Änderung', inhalt === '{"v":2}', inhalt)
   pruefe('der Zweig liegt auf dem jüngsten main: nur die eigenen Dateien unterscheiden ihn', dateien.join(',') === 'data/anisearch.json,data/cinestar.json', dateien)
+
+  // Anmeldung der Claude-Läufe: Token in der Remote-Adresse; insteadOf (nur in der Umgebung, nicht in .git/config) lenkt sie auf den lokalen Ursprung.
+  const mitToken = 'https://x-access-token:geheim@github.com/x/y.git'
+  sh(lauf, `git remote set-url origin "${mitToken}"`)
+  pruefe('Vorbedingung: das Token steht in .git/config', readFileSync(join(lauf, '.git/config'), 'utf8').includes('geheim'))
+  const umlenken = { GIT_CONFIG_COUNT: '1', GIT_CONFIG_KEY_0: `url.${posix(ursprung)}.insteadOf`, GIT_CONFIG_VALUE_0: mitToken }
+  const r2 = sh(lauf, `PATH="${posix(bin)}:$PATH" GITHUB_RUN_ID=78 QUELLEN_PRUEFBEFEHL=true bash tools/quellen-pr.sh "chore(data): Test 2"`, umlenken)
+  pruefe('zweiter Lauf über die Token-Adresse endet mit Erfolg', r2.status === 0, r2.out.slice(-600))
+  const remote = sh(lauf, 'git config --get remote.origin.url').out.trim()
+  pruefe('nach dem Lauf steht das Token nicht mehr in .git/config', !readFileSync(join(lauf, '.git/config'), 'utf8').includes('geheim') && remote === 'https://github.com/x/y.git', remote)
 } finally {
   rmSync(dir, { recursive: true, force: true })
 }

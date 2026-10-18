@@ -34,8 +34,11 @@ const ANMELDUNG = [
 ]
 /* Feste Nachricht: In doppelten Anführungszeichen wirken nur `"`, `$`, Backtick, Backslash und `!` — keins davon darf vorkommen. */
 const QUELLEN_PR_AUFRUF = /^bash tools\/quellen-pr\.sh "[^"$`\\!]*"$/
-/* Job- und Workflow-env eines Token-Jobs: NODE_OPTIONS oder BASH_ENV liefen sonst mit dem Token mit; `defaults` könnte die Shell tauschen. */
-const UMGEBUNG = ['LAUF_ZWECK', 'LAUF_ZIEL', 'LAUF_SCHRITTE', 'LAUF_TOKEN']
+/* In der Aktion kommt die Nachricht über env: als `${{ inputs.nachricht }}` im Skripttext würde ein `"` im Wert Code (fund-nachliefern setzt `inputs.lauf` ein). */
+export const QUELLEN_PR_AKTION = 'bash tools/quellen-pr.sh "$NACHRICHT"'
+/* Job- und Workflow-env eines Jobs mit Token (auch über `einreichen`): NODE_OPTIONS oder BASH_ENV liefen sonst mit dem Token mit; `defaults` könnte die Shell tauschen. */
+const UMGEBUNG = ['LAUF_ZWECK', 'LAUF_ZIEL', 'LAUF_SCHRITTE', 'LAUF_TOKEN', 'JOB_ANZEIGE']
+const EINREICHEN_SCHLUESSEL = ['name', 'id', 'if', 'uses', 'with']
 /* Schlüssel eines Weitergabe-Schritts: `shell`, `working-directory` oder fremde env (NODE_OPTIONS, BASH_ENV) könnten den Befehl umleiten. */
 const RUN_SCHLUESSEL = ['name', 'id', 'if', 'env', 'run', 'continue-on-error', 'timeout-minutes']
 const ENV_SCHLUESSEL = ['GH_TOKEN', 'FUND_DIR', 'NUMMERN']
@@ -97,14 +100,16 @@ function pruefeTokenJobs(datei, doc) {
     const schritte = j.steps ?? []
     const holer = schritte.filter(istAppSchritt)
     const art = TOKEN_JOBS[datei]?.[job]
+    const einreicher = schritte.filter((s) => usesAlsPfad(s.uses) === EINREICHEN)
+    const umgebung = [...Object.keys(doc.env ?? {}), ...Object.keys(j.env ?? {})].filter((k) => !UMGEBUNG.includes(k))
+    if ((holer.length || einreicher.length) && (umgebung.length || doc.defaults !== undefined || j.defaults !== undefined))
+      fehler.push(`${datei}: Job ${job} holt ein App-Token${holer.length ? '' : ' (Aktion einreichen)'}; env nur ${UMGEBUNG.join(', ')} und keine defaults (gefunden: ${umgebung.join(', ') || 'defaults'})`)
+    for (const s of einreicher) if (Object.keys(s).some((k) => !EINREICHEN_SCHLUESSEL.includes(k))) fehler.push(`${datei}: Job ${job}: der Schritt einreichen darf nur ${EINREICHEN_SCHLUESSEL.join(', ')} haben (seine env erbt der Schritt pr mit dem Token)`)
     if (!holer.length) {
       if (art) fehler.push(`${datei}: Job ${job} steht in TOKEN_JOBS, holt aber kein App-Token — Tabelle in tools/app-token-sperre.mjs nachführen`)
       continue
     }
     if (!art) fehler.push(`${datei}: Job ${job} holt ein App-Token, steht aber nicht in TOKEN_JOBS (tools/app-token-sperre.mjs)`)
-    const umgebung = [...Object.keys(doc.env ?? {}), ...Object.keys(j.env ?? {})].filter((k) => !UMGEBUNG.includes(k))
-    if (umgebung.length || doc.defaults !== undefined || j.defaults !== undefined)
-      fehler.push(`${datei}: Job ${job} holt ein App-Token; env nur ${UMGEBUNG.join(', ')} und keine defaults (gefunden: ${umgebung.join(', ') || 'defaults'})`)
     if (holer.length !== 1 || !holer[0].id || holer[0].uses !== APP_SCHRITT) {
       fehler.push(`${datei}: Job ${job} braucht genau einen Schritt ${APP_SCHRITT} mit id`)
       continue
@@ -134,15 +139,16 @@ function pruefeAktionen(aktionen) {
     }
     const schritte = doc.runs.steps
     const pr = schritte.find((s) => s.id === 'pr')
-    const sicht = blaetter({ ...doc, runs: { ...doc.runs, steps: schritte.map((s) => (holer.includes(s) ? null : s)) } }).filter(([, t]) => /steps\s*\.\s*app\b|steps\s*\[|toJSON\(\s*steps|inputs\.app-/.test(t))
+    const sicht = blaetter({ ...doc, runs: { ...doc.runs, steps: schritte.map((s) => (holer.includes(s) ? null : s)) } }).filter(([, t]) => /steps\s*\.\s*app\b|steps\s*\[|toJSON\(\s*steps|inputs\s*\.\s*app-|inputs\s*\[|toJSON\(\s*inputs/.test(t))
     const stellen = [...new Set(sicht.map(([p]) => p.slice(0, 3).join('.')))]
     const ok =
       holer.length === 1 && holer[0].id === 'app' && holer[0].uses === APP_SCHRITT &&
       holer[0].with?.['app-id'] === '${{ inputs.app-id }}' && holer[0].with?.['private-key'] === '${{ inputs.app-key }}' &&
       stellen.length === 1 && pr?.shell === 'bash' &&
-      pr.run === 'bash tools/quellen-pr.sh "${{ inputs.nachricht }}"' && pr.env?.GH_TOKEN === '${{ steps.app.outputs.token }}' &&
-      Object.keys(pr.env).every((k) => ENV_SCHLUESSEL.includes(k)) && Object.keys(pr).every((k) => [...RUN_SCHLUESSEL, 'shell'].includes(k))
-    if (!ok) fehler.push(`.github/actions/einreichen: das App-Token darf nur der Schritt pr sehen (Stellen: ${stellen.join(', ') || 'keine'}), mit genau bash tools/quellen-pr.sh "\${{ inputs.nachricht }}"`)
+      pr.run === QUELLEN_PR_AKTION && pr.env?.GH_TOKEN === '${{ steps.app.outputs.token }}' && pr.env.NACHRICHT === '${{ inputs.nachricht }}' &&
+      Object.keys(pr.env).every((k) => [...ENV_SCHLUESSEL, 'NACHRICHT'].includes(k)) && Object.keys(pr).every((k) => [...RUN_SCHLUESSEL, 'shell'].includes(k))
+    if (!ok) fehler.push(`.github/actions/einreichen: das App-Token darf nur der Schritt pr sehen (Stellen: ${stellen.join(', ') || 'keine'}), mit genau ${QUELLEN_PR_AKTION} und env.NACHRICHT`)
+    for (const s of schritte) if (String(s.run).includes('${{')) fehler.push(`.github/actions/einreichen: Schritt „${s.name ?? s.id ?? '?'}“ setzt einen Ausdruck in den run-Text — Werte nur über env (ein Eingabewert mit " würde sonst Code)`)
   }
   return fehler
 }

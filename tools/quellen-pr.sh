@@ -29,6 +29,14 @@
 
 set -euo pipefail
 
+# Die Anmeldung der Claude-Läufe legt das App-Token in die Remote-Adresse (`.git/config`); bei jedem Ende wieder heraus, sonst sähen es die späteren Schritte des Jobs.
+token_abmelden() {
+  local url
+  url="$(git config --get remote.origin.url)"
+  case "$url" in *x-access-token:*) git remote set-url origin "${url/x-access-token:*@/}" ;; esac
+}
+trap token_abmelden EXIT
+
 NACHRICHT="${1:?Commit-Nachricht fehlt}"
 
 source "$(dirname "${BASH_SOURCE[0]}")/quellen-liste.sh"
