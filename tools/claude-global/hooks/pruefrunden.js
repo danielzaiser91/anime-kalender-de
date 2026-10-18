@@ -2,7 +2,10 @@
 // Daniel 18.10.2026: „höchstens 3 Prüfrunden“ war Vorsatz, PR 1427 und 1389 liefen bis Runde 9 bzw. 6 — jetzt greift es technisch.
 // Ein Urteil des Agent-Prüfers ist ein PR-Kommentar, dessen erste Zeile mit „Prüfer:“ oder „Prüfer Runde N:“ beginnt (5 PRs gemessen:
 // 1427, 1442, 1454, 1389, 1433). Das CI-Urteil beginnt mit „**Prüfer-Review**“ und zählt nicht.
-// Ausweg: „[runde-ausnahme: <Grund>]“ im Auftrag. Scheitert gh oder fehlt die PR-Nummer, läuft der Start durch (Sperre aus Versehen ist schlimmer).
+// Ausweg: „[runde-ausnahme: <Grund>]“ im Auftrag (Grund ab 8 Zeichen, nicht der Platzhalter). Scheitert gh, fehlt die PR-Nummer oder nennt der Auftrag
+// mehrere Repos, läuft der Start durch (Sperre aus Versehen ist schlimmer).
+// Eintrag in ~/.claude/settings.json unter hooks.PreToolUse (timeout über den 20 s von gh, der Nachbar agenten-grenze hat 10):
+//   { "matcher": "Agent|Task", "hooks": [{ "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/pruefrunden.js"], "timeout": 30 }] }
 const fs = require('node:fs')
 const { execFileSync } = require('node:child_process')
 
@@ -10,14 +13,30 @@ const GRENZE = 3
 const STANDARD_REPO = 'danielzaiser91/anime-kalender-de'
 const GH_WINDOWS = 'C:/Program Files/GitHub CLI/gh.exe'
 const URTEIL = /^[\s*_#>]*Prüfer(?: Runde \d+)?:/
-const AUSNAHME = /\[runde-ausnahme:\s*\S[^\]]*\]/
+// Grund: mindestens 8 Zeichen und nicht der Platzhalter „<Grund>“ aus der Verweigerung.
+const AUSNAHME = /\[runde-ausnahme:\s*(?!<)\S[^\]]{6,}\S\]/
 const PR_IM_AUFTRAG = /\bPR\s*#?(\d{2,5})\b|github\.com\/([\w.-]+\/[\w.-]+)\/pull\/(\d{1,5})\b/i
+const REPO_ADRESSEN = [
+  /github\.com\/([\w.-]+\/[\w.-]+)\/pull\//g,
+  /\b(danielzaiser91\/[A-Za-z][\w-]*)/g,
+  /\bRepo:?\s+C:\/code\/ai\/([A-Za-z][\w-]*)/gi,
+]
 
-/** { nummer, repo } aus dem ersten Treffer im Auftrag, sonst null. */
+/** Repos, die der Auftrag nennt (Adresse, `danielzaiser91/<name>` oder „Repo C:/code/ai/<name>“); ohne Nennung das Standard-Repo. */
+function nenneRepos(prompt) {
+  const repos = new Set()
+  for (const muster of REPO_ADRESSEN) {
+    for (const m of prompt.matchAll(muster)) repos.add(m[1].includes('/') ? m[1] : `danielzaiser91/${m[1]}`)
+  }
+  return repos.size ? [...repos] : [STANDARD_REPO]
+}
+
+/** { nummer, repo } aus dem ersten PR-Treffer im Auftrag; `repo` null, wenn der Auftrag mehrere Repos nennt; null ohne PR-Nummer. */
 function findePr(prompt) {
   const m = PR_IM_AUFTRAG.exec(prompt)
   if (!m) return null
-  return m[1] ? { nummer: m[1], repo: STANDARD_REPO } : { nummer: m[3], repo: m[2] }
+  const repos = nenneRepos(prompt)
+  return { nummer: m[1] || m[3], repo: repos.length === 1 ? repos[0] : null }
 }
 
 // PRUEFRUNDEN_GH_SKRIPT: Node-Skript statt gh, nur für den Prozesstest.
@@ -27,8 +46,21 @@ function ghAufruf(args) {
   return execFileSync(gh, skript ? [skript, ...args] : args, { encoding: 'utf8', timeout: 20000, stdio: ['ignore', 'pipe', 'pipe'] })
 }
 
-/** Anzahl der Agent-Prüfer-Urteile unter den Kommentaren. */
-const zaehleUrteile = (kommentare) => kommentare.filter((k) => URTEIL.test(k.body)).length
+/**
+ * Anzahl der Runden des Agent-Prüfers. Ein Urteil gleich nach einem Urteil (nur CI-Kommentare dazwischen) ist ein Nachtrag
+ * derselben Runde (PR 1407, 1435, 1440); zwischen zwei Runden steht immer ein Kommentar des Bauers.
+ */
+function zaehleUrteile(kommentare) {
+  let n = 0
+  let vorherUrteil = false
+  for (const k of kommentare) {
+    if (k.author && k.author.login === 'github-actions') continue
+    const urteil = URTEIL.test(k.body)
+    if (urteil && !vorherUrteil) n++
+    vorherUrteil = urteil
+  }
+  return n
+}
 
 /** Verweigerungstext oder null. `gh(args)` liefert stdout oder wirft; `warne(text)` schreibt nach stderr. */
 function pruefe(input, { gh = ghAufruf, warne = (t) => process.stderr.write(`${t}\n`) } = {}) {
@@ -39,6 +71,10 @@ function pruefe(input, { gh = ghAufruf, warne = (t) => process.stderr.write(`${t
   const pr = findePr(prompt)
   if (!pr) {
     warne('pruefrunden: keine PR-Nummer im Auftrag, Start nicht geprüft')
+    return null
+  }
+  if (!pr.repo) {
+    warne(`pruefrunden: Auftrag nennt mehrere Repos, PR ${pr.nummer} nicht geprüft`)
     return null
   }
   let kommentare
