@@ -72,6 +72,7 @@ pipeline/check-folge-ueber-anzahl.ts
 pipeline/check-folge-ueber-titel.ts
 pipeline/check-folge-zwoelf-hinweis.ts
 pipeline/check-folgenblock.ts
+pipeline/check-folgenflaggen.ts
 pipeline/check-folgenzahl-belegt.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-handbeleg-serienton.ts
