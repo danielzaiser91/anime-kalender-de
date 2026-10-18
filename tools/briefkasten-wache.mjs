@@ -41,6 +41,7 @@ if (!TOKEN) {
 const WORKER = 'https://newsletter.animekalender.workers.dev'
 const LISTE = 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'
 const UEBERNAHME = 'data/meldungen-uebernahme.json'
+const ZURUECK = 'data/meldungen-zurueckgestellt.json'
 
 /*
   **Gezählt wird über `?zaehlen=1`, nicht über die Liste.**
@@ -85,11 +86,20 @@ for (const zeile of listenText.split('\n')) {
   for (const treffer of zeile.matchAll(/https?:\/\/[^\s)|]+/g)) gelistet.add(treffer[0])
 }
 
-const fehlend = adressen.filter((u) => !gelistet.has(u))
+/* Was der Bestandslauf beim Eingrenzen zurückgestellt hat, ist bekannt und Arbeitsvorrat, kein Verlust (`meldungen-eingrenzen.mjs`). */
+const zurueck = existsSync(ZURUECK) ? JSON.parse(readFileSync(ZURUECK, 'utf8')) : []
+const zurueckJeAdresse = new Map(zurueck.map((e) => [e.url, e]))
+const fehlend = adressen.filter((u) => !gelistet.has(u) && !zurueckJeAdresse.has(u))
 
 const verteilung = Object.entries(jeAnbieter).map(([k, v]) => `${k} ${v}`).join(', ')
 console.log(`Briefkasten: ${offen} Meldungen auf ${adressen.length} Adressen (${verteilung || '—'})`)
 console.log(`Liste ${LISTE}: ${gelistet.size} Adressen`)
+const zurueckImKasten = adressen.filter((u) => zurueckJeAdresse.has(u))
+console.log(`Zurückgestellt (${ZURUECK}): ${zurueckImKasten.length} Adressen im Briefkasten`)
+for (const u of zurueckImKasten.slice(0, 10)) {
+  const e = zurueckJeAdresse.get(u)
+  console.log(`   zurückgestellt seit ${e.seit}: ${u} — ${e.grund ?? 'ungeprüft (Versuchsgrenze)'}`)
+}
 
 if (!adressen.length) {
   console.log('Nichts im Briefkasten — nichts zu prüfen.')

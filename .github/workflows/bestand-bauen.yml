@@ -191,10 +191,14 @@ jobs:
       # `meldungen-eingrenzen.mjs` die auslösenden Meldungen; nur sie bleiben im Briefkasten, der Rest wird übernommen
       # (18.10.2026: eine Meldung hielt sieben Tage lang 10.556 andere auf). Findet es keine, bleiben wie bisher alle
       # neuen draußen. Der Lauf wird in beiden Fällen gelb statt rot, Grund und Kennungen stehen in der Statusanzeige.
+      # Die Zurückgestellten führt `data/meldungen-zurueckgestellt.json` (Briefkasten-Wache, nächstes Eingrenzen); ist der ganze Stapel grün, ist sie leer.
       - name: Neue Handbelege prüfen
         run: |
           if git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi
-          if npm run check:logic > /tmp/logic.txt 2>&1 && npx tsx pipeline/check-logic-bestand.ts >> /tmp/logic.txt 2>&1; then exit 0; fi
+          if npm run check:logic > /tmp/logic.txt 2>&1 && npx tsx pipeline/check-logic-bestand.ts >> /tmp/logic.txt 2>&1; then
+            echo '[]' > data/meldungen-zurueckgestellt.json
+            exit 0
+          fi
           echo "::group::Protokoll der Prüfung (die Ursache steht nicht am Ende: parallele Prüfungen drucken danach weiter)"
           cat /tmp/logic.txt
           echo "::endgroup::"

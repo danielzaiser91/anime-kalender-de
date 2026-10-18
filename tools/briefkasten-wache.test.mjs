@@ -58,20 +58,20 @@ function attrappe(protokoll, alter) {
     'return new Response("",{status:404})}',
   ].join('')
 }
-function wache({ zuletzt, gelistet = '', alter = 48 }) {
+function wache({ zuletzt, gelistet = '', alter = 48, zurueck }) {
   const ort = mkdtempSync(join(tmpdir(), 'briefkasten-wache-'))
   const protokoll = join(ort, 'abrufe.txt')
   mkdirSync(join(ort, 'daniel-zum-abarbeiten/listen'), { recursive: true })
+  mkdirSync(join(ort, 'data'))
   writeFileSync(join(ort, 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'), `| [a](https://x/gelistet) |\n${gelistet}`)
-  if (zuletzt !== undefined) {
-    mkdirSync(join(ort, 'data'))
-    writeFileSync(join(ort, 'data/meldungen-uebernahme.json'), JSON.stringify({ zuletzt, meldungen: 1 }))
-  }
+  if (zuletzt !== undefined) writeFileSync(join(ort, 'data/meldungen-uebernahme.json'), JSON.stringify({ zuletzt, meldungen: 1 }))
+  if (zurueck) writeFileSync(join(ort, 'data/meldungen-zurueckgestellt.json'), JSON.stringify(zurueck))
   const vorlauf = `data:text/javascript,${encodeURIComponent(attrappe(protokoll, alter))}`
   const lauf = spawnSync(process.execPath, ['--import', vorlauf, WACHE], {
     cwd: ort,
     encoding: 'utf8',
     env: { ...process.env, LAUF_TOKEN: 'geheim' },
+    windowsHide: true,
   })
   const abrufe = readFileSync(protokoll, 'utf8').trim().split('\n')
   rmSync(ort, { recursive: true, force: true })
@@ -104,4 +104,24 @@ const ohne = wache({})
 assert.equal(ohne.status, 1)
 assert.match(ohne.stdout, /^Übernahme: zuletzt unbekannt \(data\/meldungen-uebernahme\.json\)$/m)
 assert.doesNotMatch(ohne.stdout, /Übernahme-Stau/)
-console.log('briefkasten-wache.test: 6 Fälle Liegengeblieben, 6 Fälle Stau, 5 Wache-Läufe grün.')
+assert.match(ohne.stdout, /^Zurückgestellt \(data\/meldungen-zurueckgestellt\.json\): 0 Adressen im Briefkasten$/m, 'ohne Datei: keine')
+
+/* Beim Eingrenzen zurückgestellt (48 h alte Meldung): bekannt, kein Befund, auch beim alten Stempel kein Stau; dazu eine schon abgearbeitete. */
+const ZURUECK = [
+  { url: 'https://x/erledigt', ids: [1], grund: 'pipeline/check-x.ts', seit: '2026-10-17T01:00:00.000Z' },
+  { url: ADRESSE, ids: [2, 3], grund: 'pipeline/check-x.ts', seit: '2026-10-18T01:00:00.000Z' },
+]
+for (const zuletzt of [vorStunden(2), vorStunden(72.2)]) {
+  const zurueck = wache({ zuletzt, zurueck: ZURUECK })
+  assert.equal(zurueck.status, 0, zurueck.stdout + zurueck.stderr)
+  assert.match(zurueck.stdout, /^Zurückgestellt \(data\/meldungen-zurueckgestellt\.json\): 1 Adressen im Briefkasten$/m)
+  assert.match(zurueck.stdout, /^ {3}zurückgestellt seit 2026-10-18T01:00:00\.000Z: https:\/\/www\.amazon\.de\/gp\/video\/detail\/B0TEST0001 — pipeline\/check-x\.ts$/m)
+  assert.match(zurueck.stdout, /^Alle Adressen sind gelistet\.$/m)
+  assert.doesNotMatch(zurueck.stdout, /Übernahme-Stau|erledigt/)
+}
+const ungeprueft = wache({ zuletzt: vorStunden(2), zurueck: [{ ...ZURUECK[1], grund: null }] })
+assert.equal(ungeprueft.status, 0, ungeprueft.stdout)
+assert.match(ungeprueft.stdout, /B0TEST0001 — ungeprüft \(Versuchsgrenze\)$/m)
+const leer = wache({ zuletzt: vorStunden(2), zurueck: [] })
+assert.equal(leer.status, 1, 'leere Datei: die alte Adresse bleibt ein Befund')
+console.log('briefkasten-wache.test: 6 Fälle Liegengeblieben, 6 Fälle Stau, 9 Wache-Läufe grün.')

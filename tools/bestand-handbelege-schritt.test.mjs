@@ -21,6 +21,7 @@ assert.equal(einarbeiten.length, 1, 'genau ein Schritt „Meldungen aus der Erwe
 assert.ok(wf.jobs.bauen.steps.indexOf(einarbeiten[0]) < wf.jobs.bauen.steps.indexOf(schritt), 'gesichert wird vor der Prüfung')
 const ANTWORT = einarbeiten[0].env.MELDUNGEN_SICHERN
 
+const GESTERN = '[{"url":"u","ids":[1],"grund":"x","seit":"T"}]'
 const ordner = mkdtempSync(join(tmpdir(), 'handbelege-schritt-'))
 
 function attrappe(name, text) {
@@ -40,6 +41,7 @@ function lauf({ diff, logic, bestand, vorher = '', eingrenzen = 'exit 1' }) {
   writeFileSync(envDatei, '')
   mkdirSync(join(arbeit, 'data/cache'), { recursive: true })
   writeFileSync(join(arbeit, 'data/cache/pruefungen-abhaken.json'), '[1]')
+  writeFileSync(join(arbeit, 'data/meldungen-zurueckgestellt.json'), GESTERN)
   mkdirSync(join(ordner, 'bin'), { recursive: true })
   attrappe('git', `echo "git $*" >> "${spur}"\n[ "$1 $2" = "diff --quiet" ] && exit ${diff ? 1 : 0}\nexit 0`)
   attrappe('npm', `echo "npm $*" >> "${spur}"\n${logic}`)
@@ -50,7 +52,8 @@ function lauf({ diff, logic, bestand, vorher = '', eingrenzen = 'exit 1' }) {
   const r = spawnSync('bash', ['--noprofile', '--norc', '-eo', 'pipefail', '-c', schritt.run], { cwd: arbeit, encoding: 'utf8', env })
   assert.equal(r.status, 0, `Schritt endet grün: ${r.stderr}`)
   const abhaken = existsSync(join(arbeit, 'data/cache/pruefungen-abhaken.json'))
-  return { env: readFileSync(envDatei, 'utf8').trim(), spur: readFileSync(spur, 'utf8'), ausgabe: r.stdout, abhaken }
+  const zurueck = readFileSync(join(arbeit, 'data/meldungen-zurueckgestellt.json'), 'utf8')
+  return { env: readFileSync(envDatei, 'utf8').trim(), spur: readFileSync(spur, 'utf8'), ausgabe: r.stdout, abhaken, zurueck }
 }
 
 const ROT = 'echo "[check:logic 12/194] pipeline/check-x.ts"; echo "Error: Ursache steht vorn"; for i in $(seq 1 160); do echo "[check:logic $i/194] fremde Ausgabe"; done; echo "check:logic: pipeline/check-x.ts ist rot (11 von 194 Prüfungen grün gelaufen)."; echo "Weitere Fehler dahinter bleiben verdeckt."; echo "npm error done"; exit 1'
@@ -60,10 +63,12 @@ try {
   const keinDiff = lauf({ diff: false, logic: ROT, bestand: GRUEN })
   assert.equal(keinDiff.env, '', 'ohne Änderung an dub-confirmed.yaml keine Warnung')
   assert.ok(!keinDiff.spur.includes('npm'), 'ohne Änderung wird nichts geprüft')
+  assert.equal(keinDiff.zurueck, GESTERN, 'ohne Änderung bleiben die Zurückgestellten')
 
   const gruen = lauf({ diff: true, logic: GRUEN, bestand: GRUEN })
   assert.equal(gruen.env, '', 'beide Prüfungen grün: keine Warnung')
   assert.ok(!gruen.spur.includes('checkout'), 'grün: nichts zurückgenommen')
+  assert.equal(gruen.zurueck, '[]\n', 'ganzer Stapel grün: nichts mehr zurückgestellt')
 
   const rot = lauf({ diff: true, logic: ROT, bestand: GRUEN })
   assert.match(rot.env, /^DATEN_WARNUNG=Neue Meldungen zurückgestellt: .*pipeline\/check-x\.ts ist rot/, 'check:logic ohne ✖: Grund steht in der Warnung')
@@ -72,6 +77,7 @@ try {
   assert.ok(rot.spur.includes('git checkout -- data/meldungen-uebernahme.json\n'), 'nichts eingegrenzt: der Übernahme-Stempel geht mit zurück')
   assert.ok(rot.spur.includes('git checkout -- data/anbieter-staffeln.json\n'), 'nichts eingegrenzt: die Staffelaufteilung geht mit zurück')
   assert.equal(rot.abhaken, false, 'nichts eingegrenzt: nichts wird abgehakt')
+  assert.equal(rot.zurueck, GESTERN, 'nichts eingegrenzt: die Zurückgestellten des Vortags bleiben gelistet')
   assert.match(rot.ausgabe, /^check:logic: pipeline\/check-x\.ts ist rot \(/m, 'die Prüfausgabe steht im Schrittprotokoll, nicht nur im Grund')
   assert.match(rot.ausgabe, /^Error: Ursache steht vorn$/m, 'die Ursache steht im Schrittprotokoll, auch wenn danach über 150 Zeilen fremder Ausgabe folgen')
   assert.match(rot.ausgabe, /^::group::/m, 'das Protokoll steht in einer Gruppe')
@@ -89,6 +95,7 @@ try {
   assert.equal(eingegrenzt.env.split('\n').length, 1, 'eingegrenzt: genau eine Warnung')
   assert.ok(!eingegrenzt.spur.includes('checkout'), 'eingegrenzt: der übernommene Rest bleibt')
   assert.equal(eingegrenzt.abhaken, true, 'eingegrenzt: der Rest wird nach dem Commit abgehakt')
+  assert.equal(eingegrenzt.zurueck, GESTERN, 'eingegrenzt: die Datei schreibt das Werkzeug, der Schritt setzt sie nicht zurück')
   console.log('bestand-handbelege-schritt: ok')
 } finally {
   rmSync(ordner, { recursive: true, force: true })

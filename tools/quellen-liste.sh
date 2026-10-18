@@ -115,6 +115,8 @@ QUELLEN=(
   data/anbieter-staffeln.json
   # Stempel der jüngsten Übernahme (18.10.2026), liest tools/briefkasten-wache.mjs.
   data/meldungen-uebernahme.json
+  # Beim Eingrenzen zurückgestellte Meldungen mit Grund (18.10.2026), liest tools/briefkasten-wache.mjs.
+  data/meldungen-zurueckgestellt.json
   data/tmdb.json
   # Deutsche Handlung, FSK und Anbieter je Titel. Fehlte hier bis zum
   # 21.08.2026 — der Abruf lief allerdings auch in keinem Workflow.
