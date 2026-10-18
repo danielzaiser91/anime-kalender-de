@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-18T08:02:23.860Z",
+  "scrapedAt": "2026-10-18T09:02:12.549Z",
   "window": {
     "from": "2026-10-05",
     "to": "2026-10-25"
@@ -1718,7 +1718,8 @@
         "2026-08-23",
         "2026-08-30",
         "2026-09-06",
-        "2026-10-04"
+        "2026-10-04",
+        "2026-10-18"
       ],
       "rawTitle": "You and I Are Polar Opposites Staffel 2 (Deutsch)",
       "seriesId": "GT00365624",
@@ -1743,6 +1744,10 @@
         {
           "date": "2026-10-04",
           "episode": 11
+        },
+        {
+          "date": "2026-10-18",
+          "episode": 12
         }
       ],
       "earliest": {
@@ -2107,6 +2112,16 @@
       "date": "2026-10-17",
       "time": "18:00",
       "episode": 10,
+      "german": true
+    },
+    {
+      "key": "you and i are polar opposites s2",
+      "rawTitle": "You and I Are Polar Opposites Staffel 2 (Deutsch)",
+      "seriesId": "GT00365624",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00365624/you-and-i-are-polar-opposites",
+      "date": "2026-10-18",
+      "time": "10:30",
+      "episode": 12,
       "german": true
     }
   ]
