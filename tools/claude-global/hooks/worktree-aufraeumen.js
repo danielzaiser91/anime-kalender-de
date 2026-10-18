@@ -1,7 +1,7 @@
 // Worktrees räumen sich selbst ab (Anlass 18.10.2026: 274 `_wt-*`-Worktrees ≈ 3 GB Kernel-Dateicache). Entscheidungen: worktree-aufraeumen-logik.js.
 // Zwei Auslöser, beide kehren sofort zurück und starten den Abbau unsichtbar über das Prozess-Register (Frist, Sperre = höchstens ein Abbau):
 //   PostToolUse(Bash) nach erfolgreichem `gh pr merge`  und  SessionStart (dort zusätzlich die Wächterzeile bei > 20 Worktrees).
-// Entfernt wird nur: sauberer Worktree, keine Änderung in den letzten 2 h, PR gemergt/geschlossen oder Kopf in origin/main, kein offener PR.
+// Entfernt wird nur: sauberer Worktree, keine Änderung in den letzten 2 h, Kopf == headRefOid eines gemergten/geschlossenen PR seit mindestens 24 h (Lesen hinterlässt kein Lebenszeichen), kein offener PR, kein echter data/cache.
 // Zweige bleiben. Verknüpfungen (node_modules, data/cache) werden vor dem Entfernen einzeln gelöst, nie rekursiv. Lose `_wt-*`-Ordner:
 // leer oder nur node_modules-Junction → weg, sonst nur aufgelistet.
 // Von Hand:  node worktree-aufraeumen.js --liste   (zeigt Entscheidungen, ändert nichts)   |   --abbau (Abbau im Vordergrund)
@@ -16,6 +16,8 @@ const HAUPT = process.env.WT_HAUPT ?? 'C:/code/ai/anime-kalender-de'
 const REGISTER = process.env.WT_REGISTER ?? 'C:/code/ai/__assets/tools/prozess-register.mjs'
 const SPERRE = process.env.WT_SPERRE ?? 'C:/code/ai/__assets/prozesse/worktree-aufraeumen.lock'
 const FRIST_MIN = 30
+/** Felder der PR-Liste: das Erledigt-Zeichen braucht Kopf und Abschlusszeit. */
+const PR_FELDER = 'headRefName,headRefOid,state,mergedAt,closedAt'
 
 const git = (cwd, ...a) => execFileSync('git', ['--no-optional-locks', ...a], { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], windowsHide: true }).trim()
 
@@ -31,18 +33,31 @@ function juengsteAenderung(pfad, haupt) {
   return Math.max(...zeiten)
 }
 
-/** Alle Verknüpfungen (Junctions/Symlinks) im Worktree-Kopf und unter data/ — hinter ihnen liegt fremder Bestand. */
+/** Alle Verknüpfungen (Junctions/Symlinks) im Worktree-Kopf, unter data/ sowie `<Ordner>/node_modules` — dahinter liegt fremder Bestand. */
 function verknuepfungen(pfad) {
-  const treffer = []
+  const kandidaten = []
   for (const ordner of [pfad, path.join(pfad, 'data')]) {
     let namen = []
     try { namen = fs.readdirSync(ordner) } catch {}
-    for (const n of namen) {
-      const p = path.join(ordner, n)
-      try { if (fs.lstatSync(p).isSymbolicLink()) treffer.push(p) } catch {}
-    }
+    for (const n of namen) kandidaten.push(path.join(ordner, n))
   }
-  return treffer
+  let oberste = []
+  try { oberste = fs.readdirSync(pfad) } catch {}
+  for (const n of oberste) kandidaten.push(path.join(pfad, n, 'node_modules'))
+  return [...new Set(kandidaten)].filter((p) => {
+    try { return fs.lstatSync(p).isSymbolicLink() } catch { return false }
+  })
+}
+
+/** Ist `data/cache` leer, fehlend oder eine Verknüpfung? Echter Inhalt (lokaler Sammlerlauf) ginge mit dem Worktree verloren. */
+function cacheLeer(pfad) {
+  const cache = path.join(pfad, 'data', 'cache')
+  try {
+    if (fs.lstatSync(cache).isSymbolicLink()) return true
+    return fs.readdirSync(cache).length === 0
+  } catch {
+    return true
+  }
 }
 
 /** Löst Verknüpfungen einzeln (unlink, nie rekursiv); false, wenn eine bleibt — dann wird der Worktree nicht angefasst. */
@@ -56,9 +71,8 @@ function loeseVerknuepfungen(pfad) {
 /** Gesammelte Eingaben der echten Welt; im Test ersetzt. */
 function echteWelt(haupt) {
   return {
-    prs: () => JSON.parse(execFileSync('gh', ['pr', 'list', '--state', 'all', '--limit', '1000', '--json', 'headRefName,state'], { cwd: haupt, encoding: 'utf8', windowsHide: true })),
-    holeMain: () => git(haupt, 'fetch', 'origin', 'main', '--quiet'),
-    inMain: (kopf) => { try { git(haupt, 'merge-base', '--is-ancestor', kopf, 'origin/main'); return true } catch { return false } },
+    prs: () => JSON.parse(execFileSync('gh', ['pr', 'list', '--state', 'all', '--limit', '3000', '--json', PR_FELDER], { cwd: haupt, encoding: 'utf8', windowsHide: true })),
+    cacheLeer,
     sauber: (pfad) => { try { return git(pfad, 'status', '--porcelain') === '' } catch { return false } },
     entferne: (pfad) => { git(haupt, 'worktree', 'remove', pfad) },
     loese: loeseVerknuepfungen,
@@ -79,8 +93,7 @@ function loseOrdner(haupt, registriert, jetzt) {
 /** Planen und (mit `los`) ausführen. Rückgabe: { worktrees: [{pfad, zweig, aktion, grund}], lose: [...] , entfernt, fehler }. */
 function abbau(haupt, welt, los) {
   const bericht = { worktrees: [], lose: [], entfernt: 0, fehler: [] }
-  welt.holeMain()
-  const ctx = { haupt, jetzt: welt.jetzt(), prStand: L.prStandKarte(welt.prs()), inMain: welt.inMain, sauber: welt.sauber }
+  const ctx = { haupt, jetzt: welt.jetzt(), prs: welt.prs(), cacheLeer: welt.cacheLeer, sauber: welt.sauber }
   const alle = L.leseWorktrees(git(haupt, 'worktree', 'list', '--porcelain'))
   for (const w of alle) {
     const existiert = fs.existsSync(w.pfad)
@@ -92,11 +105,18 @@ function abbau(haupt, welt, los) {
   return bericht
 }
 
+/** Ein Worktree: erneut prüfen (ein Agent kann nach der Planung geschrieben haben), Verknüpfungen lösen, entfernen, Rest melden. */
+function entferneWorktree(welt, w, bericht) {
+  if (welt.sauber(w.pfad) !== true) { bericht.fehler.push(`Geändert nach der Prüfung: ${w.pfad}`); return }
+  if (!welt.loese(w.pfad)) { bericht.fehler.push(`Verknüpfung bleibt: ${w.pfad}`); return }
+  try { welt.entferne(w.pfad) } catch { bericht.fehler.push(`Entfernen scheitert: ${w.pfad}`); return }
+  // git entfernt Ordner mit nicht gelöster Verknüpfung nicht, meldet aber Erfolg.
+  if (fs.existsSync(w.pfad)) bericht.fehler.push(`Rest bleibt: ${w.pfad}`)
+  else bericht.entfernt++
+}
+
 function vollziehe(haupt, welt, bericht) {
-  for (const w of bericht.worktrees.filter((x) => x.aktion === 'weg')) {
-    if (!welt.loese(w.pfad)) { bericht.fehler.push(`Verknüpfung bleibt: ${w.pfad}`); continue }
-    try { welt.entferne(w.pfad); bericht.entfernt++ } catch { bericht.fehler.push(`Entfernen scheitert: ${w.pfad}`) }
-  }
+  for (const w of bericht.worktrees.filter((x) => x.aktion === 'weg')) entferneWorktree(welt, w, bericht)
   for (const o of bericht.lose.filter((x) => x.aktion === 'weg')) {
     if (!welt.loese(o.pfad)) { bericht.fehler.push(`Verknüpfung bleibt: ${o.pfad}`); continue }
     try { fs.rmdirSync(o.pfad); bericht.entfernt++ } catch { bericht.fehler.push(`Ordner nicht leer: ${o.pfad}`) }
@@ -109,11 +129,22 @@ function liesSperre(datei) {
   try { return JSON.parse(fs.readFileSync(datei, 'utf8')) } catch { return null }
 }
 
+/** Eine unlesbare Sperrdatei, die älter ist als jede Abbaufrist, zählt als verwaist (sonst bliebe der Abbau für immer gesperrt). */
+function unlesbarUndAlt(datei, jetzt) {
+  try { return jetzt - fs.statSync(datei).mtimeMs > L.SPERRE_MAX_MS ? { pid: 0, zeit: 0 } : null } catch { return null }
+}
+
 /** Nimmt die Sperre (atomar); false, wenn ein anderer Abbau läuft. Eine verwaiste Sperre wird übernommen. */
 function nimmSperre(datei, jetzt) {
   fs.mkdirSync(path.dirname(datei), { recursive: true })
-  if (!L.sperreFrei(liesSperre(datei), jetzt, lebt)) return false
-  try { fs.rmSync(datei, { force: true }); fs.writeFileSync(datei, JSON.stringify({ pid: process.pid, zeit: jetzt }), { flag: 'wx' }) } catch { return false }
+  const alt = liesSperre(datei) ?? unlesbarUndAlt(datei, jetzt)
+  if (!L.sperreFrei(alt, jetzt, lebt)) return false
+  try {
+    if (alt) fs.rmSync(datei, { force: true })
+    fs.writeFileSync(datei, JSON.stringify({ pid: process.pid, zeit: jetzt }), { flag: 'wx' })
+  } catch {
+    return false
+  }
   return true
 }
 
@@ -157,7 +188,7 @@ function abbauImVordergrund(los, o = {}) {
     console.log(`Abbau ${los ? 'fertig' : '(Liste)'}: entfernt ${b.entfernt}, behalten ${behalten}, Fehler ${b.fehler.length}`)
     for (const f of b.fehler) console.log(f)
   } finally {
-    if (los) fs.rmSync(sperre, { force: true })
+    if (los && liesSperre(sperre)?.pid === process.pid) fs.rmSync(sperre, { force: true })
   }
   return 0
 }
@@ -175,4 +206,4 @@ function main() {
 
 if (require.main === module) process.exit(main())
 
-module.exports = { abbauImVordergrund, vollziehe, abbau, hook, starteAbbau, ausloeser, nimmSperre, echteWelt, juengsteAenderung, loeseVerknuepfungen, verknuepfungen }
+module.exports = { PR_FELDER, abbauImVordergrund, vollziehe, abbau, hook, starteAbbau, ausloeser, nimmSperre, echteWelt, juengsteAenderung, loeseVerknuepfungen, verknuepfungen }

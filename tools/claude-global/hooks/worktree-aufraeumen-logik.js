@@ -3,6 +3,8 @@
 
 /** Änderungen jünger als das: dort arbeitet vielleicht noch ein Agent. */
 const SCHONFRIST_MS = 2 * 60 * 60 * 1000
+/** Schonfrist seit Merge/Schließen des PR (größer als die Höchstfrist 4 h des Prozess-Registers). */
+const SCHONFRIST_PR_MS = 24 * 60 * 60 * 1000
 /** Ab so vielen Worktrees meldet der Sitzungsstart eine Warnzeile. */
 const WARN_AB = 20
 /** Eine Sperre älter als das gilt als verwaist (die Registerfrist des Abbaus ist kürzer). */
@@ -24,16 +26,24 @@ const norm = (p) => p.replace(/\\/g, '/').replace(/\/+$/, '').toLowerCase()
 /** Nur Arbeitsbäume mit `_wt-`-Ordnernamen kommen in Frage — nie der Hauptordner. */
 const istWtName = (pfad) => /\/_wt-[^/]+$/.test(norm(pfad))
 
-/** Zweig → Stand; ein offener PR schlägt jeden anderen. `prs`: [{ headRefName, state }]. */
-function prStandKarte(prs) {
-  const karte = new Map()
-  for (const p of prs) if (!karte.has(p.headRefName) || p.state === 'OPEN') karte.set(p.headRefName, p.state)
-  return karte
+/**
+ * Positives Erledigt-Zeichen (Lesen hinterlässt kein Lebenszeichen, darum reicht „lange nichts geändert“ nie): ein PR mit
+ * `headRefOid === kopf`, gemergt oder geschlossen. Rückgabe: { stand: 'offen' } | { stand: 'ohne' } | { stand: 'erledigt', grund, seitMs }.
+ * Ein offener PR zählt auch über den Zweignamen. Mehrere passende PRs: der jüngste Abschluss zählt.
+ */
+function bewertePr(w, prs, jetzt) {
+  if (prs.some((p) => p.state === 'OPEN' && ((w.zweig && p.headRefName === w.zweig) || (w.kopf && p.headRefOid === w.kopf)))) return { stand: 'offen' }
+  const passend = prs.filter((p) => (p.state === 'MERGED' || p.state === 'CLOSED') && w.kopf && p.headRefOid === w.kopf)
+  if (passend.length === 0) return { stand: 'ohne' }
+  const mitZeit = passend.map((p) => ({ p, zeit: Date.parse(p.mergedAt ?? p.closedAt) }))
+  if (mitZeit.some((x) => Number.isNaN(x.zeit))) return { stand: 'ohne' }
+  const jung = mitZeit.reduce((a, b) => (b.zeit > a.zeit ? b : a))
+  return { stand: 'erledigt', grund: `pr-${jung.p.state.toLowerCase()}`, seitMs: jetzt - jung.zeit }
 }
 
 /**
  * Entscheidung für einen Worktree: { aktion: 'weg' | 'prune' | 'behalten', grund }.
- * w: { pfad, zweig, kopf, existiert, juengsteAenderungMs }; ctx: { haupt, jetzt, prStand (Map), inMain(kopf), sauber(pfad) }.
+ * w: { pfad, zweig, kopf, existiert, juengsteAenderungMs }; ctx: { haupt, jetzt, prs, cacheLeer(pfad), sauber(pfad) }.
  * Reihenfolge: billige Prüfungen zuerst, `sauber` (git status, berührt alle Dateien) nur für Kandidaten zum Entfernen.
  */
 function entscheide(w, ctx) {
@@ -41,14 +51,13 @@ function entscheide(w, ctx) {
   if (!istWtName(w.pfad)) return { aktion: 'behalten', grund: 'fremd' }
   if (!w.existiert) return { aktion: 'prune', grund: 'ordner-fehlt' }
   if (ctx.jetzt - w.juengsteAenderungMs < SCHONFRIST_MS) return { aktion: 'behalten', grund: 'jung' }
-  const pr = w.zweig ? ctx.prStand.get(w.zweig) : undefined
-  if (pr === 'OPEN') return { aktion: 'behalten', grund: 'pr-offen' }
-  let grund
-  if (pr === 'MERGED' || pr === 'CLOSED') grund = `pr-${pr.toLowerCase()}`
-  else if (w.kopf && ctx.inMain(w.kopf)) grund = 'in-main'
-  else return { aktion: 'behalten', grund: 'ohne-pr' }
+  const pr = bewertePr(w, ctx.prs, ctx.jetzt)
+  if (pr.stand === 'offen') return { aktion: 'behalten', grund: 'pr-offen' }
+  if (pr.stand === 'ohne') return { aktion: 'behalten', grund: 'ohne-pr' }
+  if (pr.seitMs < SCHONFRIST_PR_MS) return { aktion: 'behalten', grund: 'pr-jung' }
+  if (ctx.cacheLeer(w.pfad) !== true) return { aktion: 'behalten', grund: 'cache-inhalt' }
   if (ctx.sauber(w.pfad) !== true) return { aktion: 'behalten', grund: 'geaendert' }
-  return { aktion: 'weg', grund }
+  return { aktion: 'weg', grund: pr.grund }
 }
 
 /**
@@ -80,4 +89,4 @@ function warnzeile(anzahl) {
   return anzahl > WARN_AB ? `Worktree-Wächter: ${anzahl} Worktrees (Grenze ${WARN_AB}); Abbau läuft im Hintergrund, Rest: node ~/.claude/hooks/worktree-aufraeumen.js --liste` : null
 }
 
-module.exports = { SCHONFRIST_MS, WARN_AB, SPERRE_MAX_MS, leseWorktrees, prStandKarte, entscheide, bewerteLosen, istMerge, sperreFrei, warnzeile, istWtName, norm }
+module.exports = { SCHONFRIST_MS, SCHONFRIST_PR_MS, WARN_AB, SPERRE_MAX_MS, leseWorktrees, bewertePr, entscheide, bewerteLosen, istMerge, sperreFrei, warnzeile, istWtName, norm }
