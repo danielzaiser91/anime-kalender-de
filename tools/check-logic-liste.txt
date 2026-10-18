@@ -69,6 +69,8 @@ pipeline/check-erwartet-wort.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-folge-ueber-anzahl-bau.ts
 pipeline/check-folge-ueber-anzahl.ts
+pipeline/check-folge-ueber-titel.ts
+pipeline/check-folge-zwoelf-hinweis.ts
 pipeline/check-folgenblock.ts
 pipeline/check-folgenzahl-belegt.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
@@ -152,6 +154,9 @@ pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
 pipeline/check-staffel-jahr0.ts
 pipeline/check-staffel-teil.ts
+pipeline/check-staffel-verdrahtung.ts
+pipeline/check-staffel-von-hand-ablauf.ts
+pipeline/check-staffel-von-hand.ts
 pipeline/check-stand-halten.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts

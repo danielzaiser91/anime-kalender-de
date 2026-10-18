@@ -40,6 +40,7 @@ const blockIstEnde = (a: Laeuft): boolean => a.blockBis !== undefined && a.rest 
 function wasKommt(a: Laeuft): 'erste' | 'naechste' | 'finale' {
   if (a.offenesEnde) return !a.sichtung && a.haupt.episode === 1 ? 'erste' : 'naechste'
   if (a.raus === 0) return 'erste'
+  if (a.gesamtGeschaetzt) return 'naechste'
   return a.rest === folgenImBlock(a) ? 'finale' : 'naechste'
 }
 
