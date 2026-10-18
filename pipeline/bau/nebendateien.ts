@@ -9,6 +9,7 @@ import { OUT, kinoFeld, mitAnkuendigung } from './grundlagen.ts'
 import { mitLaufzeit } from '../lib/anisearch-felder.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
+import { ohneZurueckgestellte } from '../lib/quarantaene.ts'
 import { katalogNamen, ladeAnisearchTitel } from './katalog-namen.ts'
 import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { coverFuer } from './cover-regel.ts'
@@ -259,7 +260,8 @@ export function schreibeOhneSynchro(
   deutscheReihe: Map<number, string> = new Map(),
   geschuetzt: Set<number> = new Set(),
 ): void {
-  const eintraege = ladeKatalogEintraege()
+  // Zurückgestellt heißt: auch nicht hinter dem Schalter (`11-9-quarantaene.ts`).
+  const eintraege = ohneZurueckgestellte(ladeKatalogEintraege())
   if (!eintraege.length) {
     /**
      * Kein Katalog — dann bleibt die zuletzt gebaute Datei **stehen**.

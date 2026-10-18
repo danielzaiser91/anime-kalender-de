@@ -13,6 +13,7 @@ import { omuTitelAusKatalog } from '../lib/news-omu.ts'
 import { belegeFuerAlle, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { entdoppeleUndMelde } from '../lib/beleg-anbieter.ts'
 import { messungenFuerFolgen } from '../lib/news-messung.ts'
+import { nimmVerlaufHeraus, setzeVerlaufEin, zurueckgestellt } from '../lib/quarantaene.ts'
 import { nurOriginaltonMeldungen, type Vorschlag } from '../lib/meldungen.ts'
 import { type Release, type ReleaseEvent, type Title, type DataMeta, type NewsEintrag } from '../../shared/types.ts'
 
@@ -52,6 +53,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
   let newsFuerRss: ReturnType<typeof baueNews> | undefined
   {
     const newsHistorie = readJson<NewsHistorie>('data/news-historie.json', { zuerst: {} })
+    const gehalten = nimmVerlaufHeraus(newsHistorie, zurueckgestellt(meta).releases)
     const meldungen = entdoppeleUndMelde(messungenFuerFolgen(belegeFuerAlle(baueNews(
       [...titles.values(), ...cartoonsAusReleases(releases)],
       releases,
@@ -66,6 +68,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
     ), readJson<BelegGedaechtnis>('data/beleg-lesungen.json', {}))))
     writeJson(`${OUT}/news.json`, meldungen)
     newsFuerRss = meldungen
+    setzeVerlaufEin(newsHistorie, gehalten)
     writeJson('data/news-historie.json', newsHistorie)
     const jeArt = new Map<string, number>()
     let einzeln = 0
