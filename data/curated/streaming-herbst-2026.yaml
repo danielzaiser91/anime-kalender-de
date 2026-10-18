@@ -183,9 +183,9 @@
   releaseType: weekly
   schedule:
     firstEpisodeDate: "2026-10-04"
-    # Uhrzeit nur für Folge 3 (18.10.2026): fehlte um 16:18 MESZ, war um 16:32 da (Daniel); Prime nennt keine Zeit. 16:30 liegt im Fenster, nicht gemessen (≈); `schedule.time` bleibt leer, die Zeit setzt allein `setzeSichtungszeit`.
+    # Regeltermin aller Folgen (18.10.2026, F39): Folge 3 fehlte um 16:18 MESZ, war um 16:32 da (Daniel); Fenster unter 60 min gilt als belegt, daher ohne ≈. Prime nennt keine Zeit.
+    time: "16:30"
     timeSighting:
-      time: "16:30"
       notSeen: "16:18"
       seen: "16:32"
       date: "2026-10-18"
