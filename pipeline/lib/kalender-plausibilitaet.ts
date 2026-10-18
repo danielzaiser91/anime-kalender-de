@@ -1,5 +1,5 @@
 /**
- * **Kalender-Plausibilität: fünf Widersprüche, die ein Besucher am Kalender sieht** (Prüftisch 16.10.2026: 18 Datenfehler
+ * **Kalender-Plausibilität: sechs Widersprüche, die ein Besucher am Kalender sieht** (Prüftisch 16.10.2026: 18 Datenfehler
  * in sieben Tagen, 16 ohne Wächter). Jede Regel ist an den echten Daten gemessen und von Hand gegengeprüft
  * (`daniel-zum-abarbeiten/listen/kalender-plausibilitaet.md`). Rein: liest nichts, die Dateien lädt `check-kalender-plausibilitaet-bestand.ts`.
  */
@@ -7,11 +7,12 @@ import type { Release, ReleaseEvent, Title } from '../../shared/types.ts'
 import type { NewsEintrag } from '../../shared/news-typen.ts'
 import { addDays } from '../../shared/time.ts'
 import { stufeTitelEin } from '../../web/src/lib/db-relevanz.ts'
+import { istKeineTitelseite } from '../bau/11-7-wege-aus-terminen.ts'
 import { kanalSchluessel } from './kanal-titel.ts'
 import { alleTermineGekennzeichnet } from './pruefung.ts'
 import { urteilDarfBelegen } from './urteil-weg.ts'
 
-export const REGELN = ['erschienenOhneTermin', 'schaetzungNachEnde', 'spracheOffenTrotzMeldung', 'ereignisOhneNews', 'terminOhneBeleg'] as const
+export const REGELN = ['erschienenOhneTermin', 'schaetzungNachEnde', 'spracheOffenTrotzMeldung', 'ereignisOhneNews', 'terminOhneBeleg', 'primeOhneTitelseite'] as const
 export type Regel = (typeof REGELN)[number]
 
 /** Ein Treffer: der Titel (für den Panel-Link) und ein Satz, der den Widerspruch nennt; `schluessel` bleibt über Läufe gleich. */
@@ -168,12 +169,24 @@ export function terminOhneBeleg(b: Bestand): Treffer[] {
     .map((r) => ({ titleId: r.titleId, schluessel: r.slug, text: `${name(titel.get(r.titleId), r.titleId)} (${r.slug}): Termin ${r.schedule.firstEpisodeDate} ohne Quelle` }))
 }
 
+/**
+ * 6. Ein Prime-Streaming-Termin verlinkt eine Amazon-Suche statt der Titelseite (Daniel, 18.10.2026: „keine Titelseite ist eine echte Lücke“).
+ * Disc-Termine zählen nicht: ihre Produktsuche ist Absicht (`amazonSearchUrl` in `05-releases.ts`).
+ */
+export function primeOhneTitelseite(b: Bestand): Treffer[] {
+  const titel = new Map(b.titles.map((t) => [t.id, t]))
+  return b.releases
+    .filter((r) => r.platform === 'primevideo' && r.releaseType !== 'disc' && !!r.platformUrl && istKeineTitelseite(r.platformUrl))
+    .map((r) => ({ titleId: r.titleId, schluessel: r.slug, text: `${name(titel.get(r.titleId), r.titleId)} (${r.slug}): Prime-Termin verlinkt nur eine Suche` }))
+}
+
 const PRUEFUNG: Record<Regel, (b: Bestand) => Treffer[]> = {
   erschienenOhneTermin,
   schaetzungNachEnde,
   spracheOffenTrotzMeldung,
   ereignisOhneNews,
   terminOhneBeleg,
+  primeOhneTitelseite,
 }
 
 export function plausibilitaet(b: Bestand): Record<Regel, Treffer[]> {
