@@ -641,6 +641,12 @@ Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `
 - Wegwerfskripte gehören ins Scratchpad, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
 - Dieselben Regeln projektübergreifend: `tools/claude-global/` — auf jedem Rechner einmal `node tools/claude-global/einrichten.mjs` (prüfen: `--pruefen`).
 - Die Claude-Code-Mod `arbeitsliste` (zeigt `daniel-zum-abarbeiten/stand.md`) wird seit 12.10.2026 in `tools/claude-global/mods/arbeitsliste/` gepflegt; `einrichten.mjs` kopiert sie nach `~/.claude/mods/arbeitsliste/` (Test: `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1 claude plugin test` im Mod-Ordner). Nicht im Repo: `messung.log`, `.claude-plugin/types/`.
+- **Worktrees räumen sich selbst ab (seit 18.10.2026)** — Hook `tools/claude-global/hooks/worktree-aufraeumen.js` (+ `-logik.js`, Test `tools/worktree-aufraeumen.test.mjs`). Anlass: 274 `_wt-*`-Worktrees à ~49 000 Dateien, Windows hielt ~8 KB Kernel-Dateicache je Datei (~3 GB RAM). Auslöser: PostToolUse nach `gh pr merge` und SessionStart (dort zusätzlich eine Zeile bei > 20 Worktrees); beide kehren sofort zurück und starten `--abbau` unsichtbar über `prozess-register.mjs` (Frist 30 min, Sperrdatei `__assets/prozesse/worktree-aufraeumen.lock` = höchstens ein Abbau). Entfernt wird nur: sauber (auch ohne unversionierte Dateien), keine Änderung in den letzten 2 h (jüngste Zeit aus Ordner, obersten Einträgen, `index`, `HEAD`, `logs/HEAD` — Dateien in der Tiefe werden nicht durchsucht), kein offener PR, PR gemergt/geschlossen oder Kopf in `origin/main`; ohne `--force`. Zweige bleiben. Verknüpfungen (`node_modules`, `data/cache`) werden vorher einzeln mit `unlink` gelöst, nie rekursiv; bleibt eine, bleibt der Worktree. Lose `_wt-*` im Hauptordner: leer oder nur `node_modules`-Junction → weg, sonst nur Liste (`--liste`). Einrichten: `node tools/claude-global/einrichten.mjs` kopiert beide Dateien nach `~/.claude/hooks/`; in `~/.claude/settings.json` je einen Eintrag ergänzen (Handarbeit):
+  ```json
+  "SessionStart": [ { "hooks": [ { "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/worktree-aufraeumen.js"], "timeout": 15 } ] } ],
+  "PostToolUse": [ { "matcher": "Bash", "hooks": [ { "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/worktree-aufraeumen.js"], "timeout": 15 } ] } ]
+  ```
+  (Beide gehören als zusätzliche Elemente in die vorhandenen Listen `hooks.SessionStart` und `hooks.PostToolUse`, nicht als Ersatz.)
 
 ### Wissen nach Thema (Verweisliste)
 
