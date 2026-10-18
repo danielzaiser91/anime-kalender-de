@@ -58,32 +58,55 @@ assert.equal(lauf().status, 1)
 
 // Rote Läufe stehen nur im Verlauf (neuester zuletzt): Treffer vorn, in der Mitte und hinten, dazu Gegenfälle.
 const eintrag = (z, am) => ({ z, am })
+const T = (stunde) => `2026-10-18T${String(stunde).padStart(2, '0')}:00:00Z`
 const verlauf = {
-  A: [eintrag('fehler', '1'), eintrag('ok', '2')],
-  B: [eintrag('ok', '3'), eintrag('fehler', '4'), eintrag('laeuft', '5')],
-  C: [eintrag('ok', '6'), eintrag('laeuft', '7')],
-  D: [eintrag('fehler', '8'), eintrag('warnung', '9'), eintrag('ok', '10'), eintrag('warnung', '11')],
-  E: [eintrag('abgebrochen', '12')],
+  A: [eintrag('fehler', T(1)), eintrag('ok', T(2))],
+  B: [eintrag('ok', T(3)), eintrag('fehler', T(4)), eintrag('laeuft', T(5))],
+  C: [eintrag('ok', T(6)), eintrag('laeuft', T(7))],
+  G: [eintrag('ok', T(1)), eintrag('fehler', T(8))],
+  D: [eintrag('fehler', T(8)), eintrag('warnung', T(9)), eintrag('ok', T(10)), eintrag('warnung', T(11))],
+  E: [eintrag('abgebrochen', T(12))],
+  F: [eintrag('ok', T(1)), eintrag('fehler', T(2)), eintrag('abgebrochen', T(3))],
+  H: [eintrag('ok', T(1)), eintrag('fehler', T(8))],
 }
-assert.deepEqual(roteArten(verlauf), [
-  { art: 'B', zustand: 'fehler', am: '4' },
-  { art: 'D', zustand: 'warnung', am: '11' },
+// G: grüner Lauf nach dem Fehler (überholt); H: grüner Lauf davor und einer genau zur Fehlerzeit (nicht überholt).
+const gruen = new Map([['G', T(9)], ['H', T(8)]])
+const jetztRot = Date.parse(T(14))
+assert.deepEqual(roteArten(verlauf, gruen, jetztRot), [
+  { art: 'B', zustand: 'fehler', am: T(4), stunden: 10 },
+  { art: 'D', zustand: 'warnung', am: T(11), stunden: 3 },
+  { art: 'F', zustand: 'fehler', am: T(2), stunden: 12 },
+  { art: 'H', zustand: 'fehler', am: T(8), stunden: 6 },
 ])
 assert.deepEqual(roteArten(undefined), [])
+assert.equal(roteArten({ G: [eintrag('fehler', T(8))] }, new Map([['G', T(7)]]), jetztRot).length, 1)
+assert.equal(roteArten({ G: [eintrag('fehler', T(8))] }, new Map([['G', T(9)]]), jetztRot).length, 0)
 
 // Das ganze Werkzeug: Liste leer (nichts läuft), Verlauf mit rotem Bestandsbau -> die Zeile erscheint, auch bei --trocken.
-const rotAntwort = JSON.stringify({ laeufe: [], verlauf: { Bestand: [eintrag('ok', 'x'), eintrag('fehler', 'y')], Sammler: [eintrag('ok', 'z')] } })
+// `gh run list` und die GitHub-API sind Kulissen; die Kulisse prüft den Aufruf und liefert den grünen Lauf zur Wahl.
+const FEHLERZEIT = '2026-10-18T09:00:00Z'
+const rotAntwort = JSON.stringify({ laeufe: [], verlauf: { Bestand: [eintrag('ok', '2026-10-18T08:00:00Z'), eintrag('fehler', FEHLERZEIT)], Sammler: [eintrag('ok', FEHLERZEIT)] } })
 const STUNDE = 3_600_000
-const mitCommitVor = (stunden) => {
+const mitCommitVor = (stunden, gruenAm = '2026-10-17T00:00:00Z') => {
   const datum = new Date(Date.now() - stunden * STUNDE).toISOString()
   const commits = JSON.stringify([{ commit: { committer: { date: datum } } }, { commit: { committer: { date: '2000-01-01T00:00:00Z' } } }])
-  const stub = `globalThis.fetch=async(u)=>String(u).startsWith("https://api.github.com/repos/danielzaiser91/anime-kalender-de/commits?path=public/data&per_page=1")?new Response(${JSON.stringify(commits)},{status:200}):new Response(${JSON.stringify(rotAntwort)},{status:200})`
+  const laeufe = JSON.stringify([
+    { workflowName: 'Sammler', conclusion: 'failure', createdAt: '2026-10-18T23:00:00Z' },
+    { workflowName: 'Bestand', conclusion: 'success', createdAt: gruenAm },
+    { workflowName: 'Bestand', conclusion: 'failure', createdAt: '2026-10-18T23:30:00Z' },
+  ])
+  const stub =
+    'import cp from "node:child_process";import {syncBuiltinESMExports} from "node:module";' +
+    `cp.execFileSync=(c,a)=>{if(c!=="gh"||a[0]!=="run"||a[1]!=="list"||!a.includes("--json"))throw new Error("gh?");return ${JSON.stringify(laeufe)}};syncBuiltinESMExports();` +
+    `globalThis.fetch=async(u)=>String(u).startsWith("https://api.github.com/repos/danielzaiser91/anime-kalender-de/commits?path=public/data&per_page=1")?new Response(${JSON.stringify(commits)},{status:200}):new Response(${JSON.stringify(rotAntwort)},{status:200})`
   return spawnSync(process.execPath, ['--import', `data:text/javascript,${stub}`, werkzeug, '--trocken'], { encoding: 'utf8' })
 }
 const rot = mitCommitVor(20)
 assert.equal(rot.status, 0)
-assert.match(rot.stdout, /0 rot\nROT im Verlauf: Bestand — letzter Lauf fehler am y\n/)
+assert.match(rot.stdout, /0 rot\nROT im Verlauf: Bestand — letzter Lauf fehler am 2026-10-18T09:00:00Z \(vor -?[\d.]+ h, kein grüner Lauf danach\)\n/)
 assert.doesNotMatch(rot.stdout, /Sammler/)
+// Grüner Lauf nach dem Fehler: keine ROT-Zeile (Gegenprobe gegen `gh run list`).
+assert.doesNotMatch(mitCommitVor(20, '2026-10-18T09:30:00Z').stdout, /ROT im Verlauf/)
 
 assert.match(rot.stdout, /^STILLSTAND: public\/data seit 20\.0 h unverändert \(Grenze 8 h, letzter Commit /)
 assert.doesNotMatch(mitCommitVor(7).stdout, /STILLSTAND/)
@@ -105,5 +128,13 @@ assert.equal(await letzteDatenAenderung(kulisse, 'o/r'), 'A')
 assert.equal(gefragt, 'https://api.github.com/repos/o/r/commits?path=public/data&per_page=1')
 assert.equal(await letzteDatenAenderung(async () => new Response('[]'), 'o/r'), undefined)
 assert.equal(await letzteDatenAenderung(async () => { throw new Error('netz') }, 'o/r'), undefined)
+
+
+// Fehlerfälle der Abfrage: Rate-Limit (403 mit Objekt), Nicht-JSON, `null`, ungültiges Datum -> `undefined` bzw. Wächter schlägt an.
+const limit403 = async () => new Response('{"message":"API rate limit exceeded"}', { status: 403 })
+assert.equal(await letzteDatenAenderung(limit403, 'o/r'), undefined)
+assert.equal(await letzteDatenAenderung(async () => new Response('<html>Bad gateway</html>', { status: 502 }), 'o/r'), undefined)
+assert.equal(await letzteDatenAenderung(async () => new Response('null'), 'o/r'), undefined)
+assert.equal(stillstand('kein Datum', jetzt).zuLang, true)
 
 console.log('laeufe-abruf: ok')

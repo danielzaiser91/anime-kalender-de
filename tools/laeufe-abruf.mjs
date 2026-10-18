@@ -30,12 +30,16 @@ export async function holeLaeufe(abruf, url) {
 /**
  * Lauf-Arten, deren letzter beendeter Lauf rot oder gelb endete. Die Liste `laeufe` führt seit 28.09.2026 nur noch, was
  * läuft (worker/src/lauf.ts); ein roter Lauf steht dort nie, nur im `verlauf` (je Art aufsteigend, neuester zuletzt).
+ * `abgebrochen` (der Deploy bricht den vorigen ab) verdeckt keinen Fehler; ein späterer grüner Lauf des Workflows
+ * (`letzterGruen`: Workflow -> Zeitpunkt, wie bei `rote` in laeufe-aufraeumen.mjs) hebt die Zeile auf.
  */
-export function roteArten(verlauf) {
+export function roteArten(verlauf, letzterGruen = new Map(), jetztMs = Date.now()) {
   const rote = []
   for (const [art, eintraege] of Object.entries(verlauf ?? {})) {
-    const letzter = eintraege.findLast((e) => e.z !== 'laeuft')
-    if (letzter && (letzter.z === 'fehler' || letzter.z === 'warnung')) rote.push({ art, zustand: letzter.z, am: letzter.am })
+    const letzter = eintraege.findLast((e) => e.z !== 'laeuft' && e.z !== 'abgebrochen')
+    if (!letzter || (letzter.z !== 'fehler' && letzter.z !== 'warnung')) continue
+    if ((letzterGruen.get(art) ?? '') > letzter.am) continue
+    rote.push({ art, zustand: letzter.z, am: letzter.am, stunden: (jetztMs - Date.parse(letzter.am)) / 3_600_000 })
   }
   return rote
 }
@@ -47,7 +51,7 @@ export function roteArten(verlauf) {
 export const STILLSTAND_GRENZE_STUNDEN = 8
 export function stillstand(letzteAenderungIso, jetztMs) {
   const stunden = (jetztMs - Date.parse(letzteAenderungIso)) / 3_600_000
-  return { stunden, zuLang: stunden > STILLSTAND_GRENZE_STUNDEN }
+  return { stunden, zuLang: !(stunden <= STILLSTAND_GRENZE_STUNDEN) }
 }
 
 /** Zeitpunkt des letzten Commits, der `public/data` berührt (GitHub-API, öffentlich); `undefined`, wenn nicht lesbar. */
@@ -55,7 +59,7 @@ export async function letzteDatenAenderung(abruf, repo) {
   try {
     const antwort = await abruf(`https://api.github.com/repos/${repo}/commits?path=public/data&per_page=1`)
     const daten = await antwort.json()
-    return daten[0]?.commit?.committer?.date
+    return daten[0].commit.committer.date
   } catch {
     return undefined
   }

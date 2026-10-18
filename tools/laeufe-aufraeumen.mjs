@@ -52,9 +52,6 @@ async function main() {
   const rote = liste.filter((l) => l.zustand === 'fehler' || l.zustand === 'warnung')
   console.log(`${liste.length} Läufe in der App, ${rote.length} rot`)
   // Rote Läufe stehen seit 28.09.2026 nur im Verlauf, nicht in `liste` (18.10.2026: elf Stunden Stillstand bei „0 rot“).
-  for (const r of roteArten(verlauf)) console.log(`ROT im Verlauf: ${r.art} — letzter Lauf ${r.zustand} am ${r.am}`)
-  if (!rote.length) return
-
   // Je Workflow der jüngste erfolgreiche Lauf — der Prüfstein für „überholt".
   const roh = JSON.parse(
     gh('run', 'list', '--repo', REPO, '--limit', '60', '--json', 'workflowName,conclusion,createdAt'),
@@ -65,6 +62,10 @@ async function main() {
     const bisher = letzterGruen.get(r.workflowName)
     if (!bisher || r.createdAt > bisher) letzterGruen.set(r.workflowName, r.createdAt)
   }
+  for (const r of roteArten(verlauf, letzterGruen)) {
+    console.log(`ROT im Verlauf: ${r.art} — letzter Lauf ${r.zustand} am ${r.am} (vor ${r.stunden.toFixed(1)} h, kein grüner Lauf danach)`)
+  }
+  if (!rote.length) return
 
   let abgenommen = 0
   let gelassen = 0
