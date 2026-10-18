@@ -877549,5 +877549,45 @@
       ]
     },
     "fetchedAt": "2026-10-15T06:00:59.666Z"
+  },
+  "218439": {
+    "anisearchId": 22058,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Shiawase Kanako no Koroshiya Seikatsu",
+          "titleNative": "幸せカナコの殺し屋生活",
+          "status": "Zukünftig",
+          "released": "04.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Frühling 2027",
+      "studios": [
+        "Drive Inc."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/kanako__anime"
+        },
+        {
+          "name": "Happy Kanako Anime",
+          "url": "https://happy-kanako-anime.jp/"
+        }
+      ],
+      "synonyms": [
+        "Happy Kanako’s Killer Life"
+      ]
+    },
+    "fetchedAt": "2026-10-18T06:01:33.988Z"
   }
 }
