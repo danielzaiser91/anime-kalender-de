@@ -3,10 +3,10 @@
 // und in CI oder unter einem haltenden Elternlauf wird nicht gewartet.
 import assert from 'node:assert/strict'
 import { spawn, spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { liesSperre, nimmSperre, vermerkeKind } from './einzel-sperre.mjs'
+import { hatJungeKinder, kindLaeuft, liesSperre, nimmSperre, vermerkeKind } from './einzel-sperre.mjs'
 import { fuehreAus, main } from './schwer.mjs'
 import { brauchtSperre, MARKE, SPERRE, wartAufSchwerenLauf } from './schwerer-lauf.mjs'
 
@@ -89,6 +89,47 @@ async function pruefeOhneProzesse() {
   assert.equal(await main([]), 2, 'ohne Befehl: Aufruffehler')
 }
 
+/**
+ * Wiederverwendete PID: Lebt unter der PID des Kindes ein anderes Programm als vermerkt, ist die Sperre verwaist. Ein eigener
+ * Schläfer statt `process.pid`: unter Windows wäre die WMI-Abfrage selbst ein junges Kind des Testprozesses.
+ */
+function pruefeKindExe(lege, datei) {
+  const schlaefer = spawn(process.execPath, ['-e', 'setTimeout(() => {}, 60000)'], { stdio: 'ignore', windowsHide: true })
+  try {
+    const name = process.platform === 'win32' ? 'node.exe' : 'node'
+    lege(schlaefer.pid, name)
+    assert.match(nimmSperre('kind-test') ?? '', /läuft schon/, 'Kind lebt mit vermerktem Programm: Sperre gilt')
+    lege(schlaefer.pid, 'cmd.exe')
+    assert.equal(nimmSperre('kind-test'), null, 'unter der PID läuft ein anderes Programm: Sperre wird übernommen')
+    rmSync(datei, { force: true })
+  } finally {
+    schlaefer.kill('SIGKILL')
+  }
+}
+
+/** Kinder einer toten Shell (WMI-Ausgabe eingespeist): nur nach Sperrbeginn gestartete zählen, Fehler zählt als nein. */
+function pruefeJungeKinder() {
+  const seit = '2026-10-18T17:00:00.000Z' // 19:00 Ortszeit bei +120
+  const aus = (...zeilen) => () => zeilen.join('\r\n')
+  assert.equal(hatJungeKinder(1, seit, aus('368 20261018185959.999999+120')), false, 'vor Sperrbeginn: früherer Träger der PID')
+  assert.equal(hatJungeKinder(1, seit, aus('368 20261018185959.999999+120', '900 20261018190000.000000+120', '')), true)
+  assert.equal(hatJungeKinder(1, seit, aus('900 20261018170000.000000+000')), true, 'Versatz wird abgezogen')
+  assert.equal(hatJungeKinder(1, seit, aus('900 20261018190000.000000-120')), true, 'negativer Versatz')
+  assert.equal(hatJungeKinder(1, seit, aus('900 20261018200000+120', '')), false, 'fremdes Format zählt nicht')
+  assert.equal(hatJungeKinder(1, seit, aus('900 20261018200000+120', '901 20261018200000.000000+120')), true, 'fremde Zeile bricht nicht ab')
+  assert.equal(hatJungeKinder(1, seit, aus('')), false, 'keine Kinder')
+  assert.equal(hatJungeKinder(1, seit, () => { throw new Error('cscript fehlt') }), false, 'Abfragefehler zählt als nein')
+  const gefragt = []
+  const frage = (pid) => {
+    gefragt.push(pid)
+    return '900 20261018190000.000000+120'
+  }
+  const TOT = 2_000_000_000
+  assert.equal(kindLaeuft({ pid: TOT, seit, kind: TOT }, frage), process.platform === 'win32', 'tote Shell, lebendes Kind: nur Windows fragt nach')
+  assert.deepEqual(gefragt, process.platform === 'win32' ? [TOT] : [])
+  assert.equal(kindLaeuft({ pid: TOT, seit }, frage), false, 'ohne vermerktes Kind')
+}
+
 /** Das Kind in der Sperrdatei: lebt es, gilt die Sperre trotz totem Halter; fremde Sperren werden nicht beschrieben. */
 function pruefeKindInSperre() {
   const temp = mkdtempSync(join(tmpdir(), 'schwer-kind-'))
@@ -97,13 +138,15 @@ function pruefeKindInSperre() {
   try {
     const datei = join(temp, 'kind-test.sperre')
     const TOT = 2_000_000_000 // keine gültige PID
-    const lege = (kind) => writeFileSync(datei, JSON.stringify({ pid: TOT, exe: 'node.exe', seit: new Date().toISOString(), kind }))
+    const lege = (kind, kindExe) => writeFileSync(datei, JSON.stringify({ pid: TOT, exe: 'node.exe', seit: new Date().toISOString(), kind, kindExe }))
     lege(process.pid)
     assert.match(nimmSperre('kind-test') ?? '', /läuft schon/, 'Halter tot, Kind lebt: Sperre gilt')
     lege(TOT)
     assert.equal(nimmSperre('kind-test'), null, 'Halter und Kind tot: Sperre wird übernommen')
-    vermerkeKind('kind-test', 4242)
+    vermerkeKind('kind-test', 4242, 'cmd.exe')
     assert.equal(liesSperre('kind-test').kind, 4242, 'eigene Sperre bekommt das Kind')
+    assert.equal(liesSperre('kind-test').kindExe, 'cmd.exe', 'samt Programmname')
+    pruefeKindExe(lege, datei)
     lege(undefined)
     vermerkeKind('kind-test', 4242)
     assert.equal(liesSperre('kind-test').kind, undefined, 'fremde Sperre bleibt unverändert')
@@ -141,10 +184,11 @@ async function pruefeVerwaist(temp) {
 
 /** Halter hart ohne Baum beendet, Kind lebt: die Sperre gilt weiter, der Wartende startet erst nach dem Ende des Kindes. */
 async function pruefeKindLebt(temp) {
-  // Unter Windows stirbt die Shell mit dem Wrapper (libuv-Job), ohne `detached` (öffnet dort ein Fenster) ist das Kind nicht beobachtbar.
-  if (process.platform === 'win32') return
+  // Unter Windows stirbt dabei die Shell mit dem Wrapper (libuv-Job); die Sperre muss über deren noch lebendes Kind halten.
   const h = starte(temp, {}, 'H', 60_000)
   await h.bis('an H')
+  const sperre = JSON.parse(readFileSync(join(temp, `${SPERRE}.sperre`), 'utf8'))
+  assert.equal(sperre.kindExe, process.platform === 'win32' ? 'cmd.exe' : undefined, 'Programm der Shell steht in der Sperre')
   h.kind.kill('SIGKILL')
   await h.ende
   const i = starte(temp, {}, 'I', 0)
@@ -185,6 +229,7 @@ async function pruefeUmgehung(temp) {
 async function pruefe() {
   await pruefeOhneProzesse()
   pruefeKindInSperre()
+  pruefeJungeKinder()
   const temp = mkdtempSync(join(tmpdir(), 'schwer-test-'))
   try {
     await pruefeWarten(temp)
