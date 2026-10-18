@@ -1,7 +1,6 @@
 import type { Release, ReleaseEvent, ReleaseStatus, Title } from './types.ts'
 import { addDays, todayIso, berlinToUtc, utcZeitInBerlin } from './time.ts'
 import { markiereNachLuecke, verpasstAnVorhandenes } from './luecken.ts'
-import { setzeSichtungszeit } from './sichtung.ts'
 import { erstesFreiesDatum, folgeNachOriginal } from './synchro-original.ts'
 
 /**
@@ -254,7 +253,7 @@ export function istAusgeblieben(ereignis: { verpasst?: { erschienenAm?: string }
 export const NETFLIX_UHRZEIT_UTC = '08:00'
 
 export function expandEvents(release: Release): ReleaseEvent[] {
-  const termine = setzeSichtungszeit(termineAusPlan(release), release.schedule?.timeSighting)
+  const termine = termineAusPlan(release)
   if (release.dateMeaning === 'available-from') for (const e of termine) e[release.erstausgabe ? 'erstausgabe' : 'imAngebot'] = true
   if (release.platform !== 'netflix' || !release.netflixOriginal) return termine
   return termine.map((e) => (e.time ? e : { ...e, time: utcZeitInBerlin(e.date, NETFLIX_UHRZEIT_UTC), timeEstimated: true }))

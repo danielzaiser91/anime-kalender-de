@@ -21,7 +21,7 @@ import { lastEpisodeDate } from '../../shared/logic.ts'
 import { addDays } from '../../shared/time.ts'
 import { premiereFehler } from './premiere.ts'
 import { beobachtetOhneTermin } from './folge-ueber-anzahl.ts'
-import { sichtungOhneUhrzeit, sichtungsZeilen } from './sichtungsfenster.ts'
+import { sichtungsZeilen } from './sichtungsfenster.ts'
 
 export interface Pruefergebnis {
   fehler: string[]
@@ -237,13 +237,12 @@ function schlussFehler(releases: Release[], events: ReleaseEvent[], titles: Map<
     ...geteilteWegeTrotzWiderlegung(releases, titles),
     ...premiereFehler(releases),
     ...beobachtetOhneTermin(releases, events),
-    ...sichtungOhneUhrzeit(releases, events),
   ]
 }
 
 /** Schluss-Fehler plus die Ergebniszeile der Sichtungen fürs Bau-Log (sie belegt, dass die Prüfung am echten Bestand lief). */
 function schlussPruefung(releases: Release[], events: ReleaseEvent[], titles: Map<number, Title>): Pruefergebnis {
-  return { fehler: schlussFehler(releases, events, titles), warnungen: sichtungsZeilen(releases, events) }
+  return { fehler: schlussFehler(releases, events, titles), warnungen: sichtungsZeilen(releases) }
 }
 
 /**

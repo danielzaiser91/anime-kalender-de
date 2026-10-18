@@ -1,19 +1,15 @@
 /**
- * Uhrzeit aus Sichtungsfenster (18.10.2026, Tank Chair: Folge 3 am 18.10. zwischen 16:18 und 16:32).
- * Sie steht nur in `schedule.timeSighting.time`; `setzeSichtungszeit` ist ihr einziger Leser und macht daraus die
- * geschätzte Terminzeit am Sichtungstag. Alle anderen Termine bekommen aus der Sichtung nichts. Ein späteres
- * Fortschreiben auf kommende Folgen ändert nur die Bedingung dort.
+ * Beleg für die Uhrzeit einer Serie aus einer eigenen Sichtung (18.10.2026, F39; Tank Chair: Folge 3 fehlte um 16:18, war um 16:32 da).
+ * Die Zeit selbst steht als Regeltermin in `schedule.time` und gilt für alle Folgen; eine Abweichung einzelner Folgen steht in
+ * `schedule.zeiten` und schlägt sie. `timeSighting` belegt nur das Fenster: unter einer Stunde breit gilt `time` als belegt,
+ * ab einer Stunde als `timeEstimated` (≈). Geprüft in `pipeline/lib/sichtungsfenster.ts`.
  */
-import type { ReleaseEvent } from './types.ts'
-
 export interface Sichtung {
-  /** Gewählte Zeit im Fenster, "HH:MM" Berlin. */
-  time: string
-  /** Zu dieser Zeit fehlte die Folge noch. */
+  /** Zu dieser Zeit fehlte die Folge noch, "HH:MM" Berlin. */
   notSeen: string
-  /** Zu dieser Zeit war sie da (höchstens 30 min nach `notSeen`). */
+  /** Zu dieser Zeit war sie da, "HH:MM" Berlin. */
   seen: string
-  /** ISO-Tag der Sichtung, gehört zu genau einem Termin. */
+  /** ISO-Tag der Sichtung. */
   date: string
   source: string
 }
@@ -22,10 +18,4 @@ declare module './types.ts' {
   interface Schedule {
     timeSighting?: Sichtung
   }
-}
-
-/** Setzt `time` + `timeEstimated` am Termin des Sichtungstags; eine gemessene Zeit am Termin bleibt. */
-export function setzeSichtungszeit(termine: ReleaseEvent[], sichtung: Sichtung | undefined): ReleaseEvent[] {
-  if (!sichtung) return termine
-  return termine.map((e) => (e.date === sichtung.date && !e.time ? { ...e, time: sichtung.time, timeEstimated: true } : e))
 }

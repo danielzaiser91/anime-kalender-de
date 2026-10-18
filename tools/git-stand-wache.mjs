@@ -27,7 +27,8 @@ export function gitStand(wurzel) {
   try {
     const stand = new Map()
     for (const datei of zeilen(git(wurzel, ['diff', 'HEAD', '--name-only']))) {
-      stand.set(datei, createHash('sha1').update(git(wurzel, ['diff', 'HEAD', '--', datei])).digest('hex'))
+      /* Volle Hashes: Ein Lauf vertieft den flachen CI-Klon (`vertiefeFlachenKlon`), danach kürzt Git länger ab, und jede schon geänderte Datei sah verändert aus (Bestandsbau seit 16.10.2026). */
+      stand.set(datei, createHash('sha1').update(git(wurzel, ['diff', '--full-index', 'HEAD', '--', datei])).digest('hex'))
     }
     for (const datei of zeilen(git(wurzel, ['ls-files', '--others', '--exclude-standard']))) {
       stand.set(datei, ungetrackt(wurzel, datei))
