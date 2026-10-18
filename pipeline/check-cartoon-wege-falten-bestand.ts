@@ -64,7 +64,8 @@ if (om.length === 0) {
 
   // Die Zeilen: Staffel und Folgen stehen je Pille genau einmal.
   const omZeilen = zeilenTexte(cartoons.find((x) => x.id === OM_NOM)!).filter((z) => z.unten.includes('Flg.'))
-  pruefe(omZeilen.length >= 4, `Om Nom: ${omZeilen.length} Zeilen mit Folgenausschnitt, erwartet mindestens 4`)
+  // Eigenschaft statt Zahl: wie viele Ausschnitte JustWatch trennt, wechselt mit den Live-Daten (18.10.2026: 6 → 3).
+  pruefe(omZeilen.length >= 1, 'Om Nom: keine Zeile mit Folgenausschnitt')
   for (const z of omZeilen) {
     pruefe(/Staffel \d/.test(z.unten), `Om Nom ${z.name}: keine Staffelangabe in „${z.unten}“`)
     pruefe(vorkommen(z.unten, /Flg\./g) === 1, `Om Nom ${z.name}: „Flg.“ nicht genau einmal in „${z.unten}“`)
