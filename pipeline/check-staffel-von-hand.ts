@@ -2,12 +2,9 @@
  * Zusicherung: **eine von Hand belegte Staffelnummer macht aus „Teil 2" eine eigene Staffel** (18.10.2026,
  * „Though I Am an Inept Villainess": aniSearch führt die zweite Hälfte als „Dai 2 Cour" mit dem Synonym „Staffel 2";
  * AniList nennt sie „Part 2", das Panel zeigte „Teil 1"). Prüft die Handdatei `data/staffel-von-hand.yaml`
- * (Pflichtfelder, jede Kennung steht in einer Reihe) und ihre Wirkung auf `staffelBeschriftungen()`. Läuft in `check:logic`.
+ * (Pflichtfelder) und ihre Wirkung auf `staffelBeschriftungen()`. Läuft in `check:logic`.
  */
-import { readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
 import { staffelBeschriftungen } from '../shared/titles.ts'
-import { ROOT } from './lib/util.ts'
 import { alleStaffelQuellen, fehlerImHandeintrag, staffelEintraegeVonHand, staffelQuellenAusAnisearch } from './bau/staffel-quelle.ts'
 
 let fehler = 0
@@ -19,10 +16,9 @@ function pruefe(name: string, ok: boolean, info = ''): void {
 
 const eintraege = staffelEintraegeVonHand()
 pruefe('Handdatei hat Einträge', eintraege.length > 0)
-/* Jede Kennung steht in einer Reihe von `public/data/franchises.json` — ein Tippfehler bliebe sonst stumm. */
-const reihen = JSON.parse(readFileSync(resolve(ROOT, 'public/data/franchises.json'), 'utf8')) as Record<string, { id: number }[]>
-const inReihen = new Set(Object.values(reihen).flatMap((r) => r.map((m) => m.id)))
-for (const e of eintraege) pruefe(`AniList ${e.anilistId}: Handeintrag in Ordnung`, fehlerImHandeintrag(e, inReihen).length === 0, fehlerImHandeintrag(e, inReihen).join(', '))
+/* Ob jede Kennung in einer Reihe steht, prüft `check-staffel-von-hand-bestand.ts` (liest den gebauten Bestand). */
+const eigeneIds = new Set(eintraege.map((e) => e.anilistId))
+for (const e of eintraege) pruefe(`AniList ${e.anilistId}: Handeintrag in Ordnung`, fehlerImHandeintrag(e, eigeneIds).length === 0, fehlerImHandeintrag(e, eigeneIds).join(', '))
 
 const gut = { anilistId: 188139, staffel: 2, quelle: 'https://x', belegtAm: '2026-10-18' }
 const reihenIds = new Set([188139])

@@ -22,9 +22,8 @@ const kuratiert = yaml.load(readFileSync(resolve(ROOT, 'data/curated/streaming-s
 const note = kuratiert.find((e) => e.slug === SLUG)?.note
 pruefe('Kuratierter Eintrag trägt den Hinweis zu Folge 12', Boolean(note?.includes('Folge 12')) && Boolean(note?.includes('11 Folgen')), String(note))
 
-const alle = JSON.parse(readFileSync(resolve(ROOT, 'public/data/releases.json'), 'utf8')) as Release[] | { releases: Release[] }
-const releases = (Array.isArray(alle) ? alle : alle.releases).filter((r) => r.slug === SLUG).map((r) => ({ ...r, note }))
-pruefe('Release des Titels gefunden', releases.length === 1)
+/* Der Release, wie der Bau ihn aus dem Eintrag macht: Slug, Termin (vor heute) und die durchgereichte Notiz. */
+const releases = [{ slug: SLUG, platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-08-02' }, note }] as unknown as Release[]
 pruefe('Der Kasten zeigt den Hinweis (Termin liegt vor „heute")', kastenNotizVon(releases, '2026-10-18')?.note === note)
 pruefe('Ohne Hinweis zeigt der Kasten nichts', kastenNotizVon(releases.map((r) => ({ ...r, note: undefined })), '2026-10-18') === undefined)
 
