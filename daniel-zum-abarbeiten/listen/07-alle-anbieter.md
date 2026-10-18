@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-18 · **26 offene Verweise** in **21 Zeilen**.
+Stand 2026-10-18 · **23 offene Verweise** in **18 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -34,8 +34,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | Offen je Anbieter | Verweise |
 |---|---|
 | [Prime Video](07-primevideo.md) | 13 |
-| [Netflix](07-netflix.md) | 8 |
 | [Disney+](07-disneyplus.md) | 5 |
+| [Netflix](07-netflix.md) | 5 |
 
 ## Zu prüfen
 
@@ -57,11 +57,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 14 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
 | 15 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
 | 16 | 2024-12-13 | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
-| 17 | 2023-08-10 | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
-| 18 | 2022-10-21 | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
-| 19 | 2021-03-04 | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
-| 20 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
-| 21 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
+| 17 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
+| 18 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
