@@ -151,6 +151,29 @@ console.log('\nKalender-Plausibilität 5: Termin ohne Quelle')
   pruefe('Termin ohne sources trifft, mit Quelle nicht', gleich(ids, [1]), ids)
 }
 
+console.log('\nKalender-Plausibilität 6: Prime-Termin nur mit Amazon-Suche')
+{
+  const such = 'https://www.amazon.de/s?k=Test&i=instant-video'
+  const seite = 'https://www.amazon.de/dp/B0HKCYH1C6'
+  const prime = (id: number, platformUrl?: string, extra: Partial<Release> = {}) => release(id, `p${id}`, {}, { platform: 'primevideo', releaseType: 'weekly', platformUrl, ...extra } as never)
+  const releases = [
+    prime(1, seite),
+    prime(2, such),
+    prime(3, undefined),
+    prime(4, such, { releaseType: 'disc' } as never),
+    prime(5, seite),
+    prime(6, 'https://www.amazon.de/gp/video/detail/B0HG69RT1Y'),
+    release(7, 'n7', {}, { platform: 'netflix', releaseType: 'weekly', platformUrl: 'https://www.netflix.com/search?q=x' } as never),
+    prime(8, such, { releaseType: 'movie' } as never),
+    prime(9, seite),
+  ]
+  const ids = treffer('primeOhneTitelseite', { titles: [titel(2, { titleDe: 'Zwei' })], releases })
+  pruefe('Prime-Termine mit Suchadresse treffen (Serie und Film, Mitte und Ende der Liste)', gleich(ids, [2, 8]), ids)
+  pruefe('Titelseite, fehlende Adresse, Disc-Suche und fremder Anbieter treffen nicht', !ids.some((id) => [1, 3, 4, 5, 6, 7, 9].includes(id)), ids)
+  const text = plausibilitaet({ titles: [titel(2, { titleDe: 'Zwei' })], releases, events: [], news: [], urteile: {}, kanal: new Set(), heute: HEUTE }).primeOhneTitelseite[0]!
+  pruefe('der Treffer nennt Titel und Termin', text.schluessel === 'p2' && text.text.includes('Zwei') && text.text.includes('p2'), text)
+}
+
 console.log('\nKalender-Plausibilität: Wächter „Treffer dürfen nur sinken“ (Kulisse)')
 {
   const t = (schluessel: string): Treffer => ({ titleId: 1, schluessel, text: schluessel })
