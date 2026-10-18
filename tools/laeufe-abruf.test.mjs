@@ -51,7 +51,7 @@ const lauf = (...args) =>
   })
 const trocken = lauf('--trocken')
 assert.equal(trocken.status, 0)
-assert.match(trocken.stdout, /^STILLSTAND\? Letzte Änderung von public\/data nicht lesbar/)
+assert.match(trocken.stdout, /^STILLSTAND\? Letzte Änderung von public\/data nicht lesbar/m)
 assert.match(trocken.stderr, /Status-Worker antwortet 500/)
 assert.doesNotMatch(trocken.stderr, /SyntaxError|\n\s+at /)
 assert.equal(lauf().status, 1)
