@@ -30,7 +30,7 @@
  * Rückgabe 1 bei einem Befund, sonst 0 — der Workflow wird dann rot.
  */
 import { readFileSync, existsSync } from 'node:fs'
-import { liegengeblieben as liegengebliebeneAdressen } from './briefkasten-wache-logik.mjs'
+import { liegengeblieben as liegengebliebeneAdressen, uebernahmeStau } from './briefkasten-wache-logik.mjs'
 
 const TOKEN = process.env.LAUF_TOKEN
 if (!TOKEN) {
@@ -40,11 +40,12 @@ if (!TOKEN) {
 
 const WORKER = 'https://newsletter.animekalender.workers.dev'
 const LISTE = 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'
+const UEBERNAHME = 'data/meldungen-uebernahme.json'
 
 /*
   **Gezählt wird über `?zaehlen=1`, nicht über die Liste.**
 
-  Die Listenabfrage trägt `LIMIT 500`. Am 26.08.2026 gab sie 497 Einträge
+  Die Listenabfrage trägt ein Fenster (damals 500). Am 26.08.2026 gab sie 497 Einträge
   zurück, während der Briefkasten 563 hielt — und der Schluss daraus („die
   Meldung ist verlorengegangen") war falsch. Eine Antwort, die abgeschnitten
   sein kann, beantwortet eine andere Frage als die gestellte.
@@ -106,7 +107,7 @@ if (!adressen.length) {
   NACHZUEGLER_STUNDEN Stunden** alt ist: Seitdem lief mindestens ein Datenlauf,
   und die Liste führt auch, was er wegen unklarer Staffel liegen lässt (seit
   11.10.2026). Das Alter liest die Listenabfrage (`gemeldet_am`). Sie trägt
-  `LIMIT 500`: eine Adresse, die in ihrer Antwort fehlt, hat kein bekanntes Alter
+  ein Fenster (`OFFEN_FENSTER`, die ältesten 5000): eine Adresse, die fehlt, hat kein bekanntes Alter
   und zählt nicht als alt — ein Alarm aus Unwissen wäre falsch, und ein
   abgeschnittener Rest verbirgt höchstens weitere Funde, nie einen erfundenen.
   So geht es ohne Zustand.
@@ -133,6 +134,14 @@ if (liegengeblieben.length) {
       ? `${fehlend.length} Adresse(n) noch nicht gelistet — Nachzügler, jünger als ${NACHZUEGLER_STUNDEN} Stunden.`
       : 'Alle Adressen sind gelistet.',
   )
+}
+/* Der Stau nennt die Ursache; rot macht den Lauf schon der Befund oben, dessen Bedingung der Stau voraussetzt. */
+const stempel = existsSync(UEBERNAHME) ? JSON.parse(readFileSync(UEBERNAHME, 'utf8')).zuletzt : null
+console.log(`Übernahme: zuletzt ${stempel ?? 'unbekannt'} (${UEBERNAHME})`)
+const stau = uebernahmeStau(stempel, fehlend, meldungen, Date.now(), NACHZUEGLER_STUNDEN)
+if (stau) {
+  console.log(`⚠  Übernahme-Stau: seit ${stau.stunden} Stunden keine Meldung übernommen, ${stau.wartend} zuzuordnende warten länger als ${NACHZUEGLER_STUNDEN} Stunden.`)
+  console.log('Das heißt: Der Bestandslauf nimmt neue Meldungen zurück (Schritt „Neue Handbelege prüfen“) oder sieht sie nicht.')
 }
 }
 
