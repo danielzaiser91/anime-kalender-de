@@ -9,7 +9,7 @@ import { copyFileSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, unlinkSync }
 import os from 'node:os'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { ansichtErgebnis, bewerte, fehlendeZeilen, saalFehler, sammleFehler } from './kachel-ecken-messen.mjs'
+import { ansichtErgebnis, bewerte, fehlendeZeilen, main, saalFehler, sammleFehler } from './kachel-ecken-messen.mjs'
 
 const LEISTE = [200, 20, 20]
 const COVER = [70, 90, 130]
@@ -161,5 +161,26 @@ try {
   unlinkSync(path.join(wurzel, 'node_modules'))
   rmSync(wurzel, { recursive: true, force: true })
 }
+
+// Ende von main: Exit-Code aus der (eingespeisten) Messung, ohne Browser; --dist umgeht die Frische-Prüfung von dist/.
+process.argv.push('--dist', 'dist')
+const alleOk = () => fehlendeZeilen([]).map((name) => ({ fehler: [], zeile: `${name}: 3 Kacheln, 0 Fehler` }))
+const stumm = async (messe) => {
+  const log = console.log
+  const err = console.error
+  console.log = () => {}
+  console.error = () => {}
+  try {
+    return await main(messe)
+  } finally {
+    console.log = log
+    console.error = err
+  }
+}
+assert.equal(await stumm(async () => alleOk()), 0, 'alles ok: Exit 0')
+const mitFehlerErgebnis = alleOk()
+mitFehlerErgebnis[1] = { fehler: ['hell/woche: Ecke zu rund'], zeile: mitFehlerErgebnis[1].zeile }
+assert.equal(await stumm(async () => mitFehlerErgebnis), 1, 'ein Fehler: Exit 1')
+assert.equal(await stumm(async () => alleOk().slice(1)), 1, 'fehlende Ergebniszeile: Exit 1')
 
 console.log('kachel-ecken-messen.test: ok')

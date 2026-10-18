@@ -301,8 +301,8 @@ function zeigeArten(fehler) {
   return [...arten.values()].map((l) => `${l.length}x ${l[0]}`).join('\n')
 }
 
-async function main() {
-  if (!arg('--dist') && !distPruefen(WURZEL)) return
+/** Misst alle Ansichten im Browser und liefert die Ergebnisse (`{ fehler, zeile }`) in Reihenfolge. */
+async function messeAlles() {
   if (BILDER) await mkdir(BILDER, { recursive: true })
   const browser = await chromium.launch()
   const ids = await sammleKennungen(browser)
@@ -326,12 +326,19 @@ async function main() {
     melde(await pruefeHandy(browser, thema, ids))
   }
   await browser.close()
-  const fehler = sammleFehler(gemessen)
-  if (fehler.length) {
-    console.error(`${fehler.length} Fehler, je Art das erste Beispiel:\n${zeigeArten(fehler)}`)
-    process.exit(1)
-  }
-  console.log('Kachel-Ecken: Leiste sitzt mit Favorit gleich, Ecken eckig, nichts unter der Leiste.')
+  return gemessen
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) await main()
+/** Exit-Code des Laufs: 0 ohne Fehler, sonst 1; `messe` ist eingespeist, damit der Test ohne Browser auskommt. */
+export async function main(messe = messeAlles) {
+  if (!arg('--dist') && !distPruefen(WURZEL)) return 1
+  const fehler = sammleFehler(await messe())
+  if (fehler.length) {
+    console.error(`${fehler.length} Fehler, je Art das erste Beispiel:\n${zeigeArten(fehler)}`)
+    return 1
+  }
+  console.log('Kachel-Ecken: Leiste sitzt mit Favorit gleich, Ecken eckig, nichts unter der Leiste.')
+  return 0
+}
+
+if (import.meta.url === pathToFileURL(process.argv[1]).href) process.exit(await main())
