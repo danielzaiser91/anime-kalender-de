@@ -1,11 +1,12 @@
 {
-  "scrapedAt": "2026-10-18T11:02:48.930Z",
+  "scrapedAt": "2026-10-18T14:02:39.872Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 9,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
+    "schon in einem Rubrik-Feed gelesen": 8,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -46,6 +47,21 @@
         {
           "month": "2027-01",
           "context": "Jahr erstmals auf Blu-ray in den Handel. Wir fassen zusammen. Release im Januar 2027 »Isekai Onsen Paradise« erscheint nach aktueller Planun"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Neue Plüschfigur der »Frieren«-Protagonistin angekündigt",
+      "articleUrl": "https://www.anime2you.de/news/1061247/frieren-protagonistin-sakami-plueschfigur/",
+      "publishedAt": "2026-10-18",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-05",
+          "context": "im AKIBA PASS SHOP erworben werden kann. Wir fassen zusammen. Release im Mai 2027 Die neue Plüschfigur von Frieren ist ungefähr 25 Zentimete"
         }
       ],
       "dub": "unklar",
