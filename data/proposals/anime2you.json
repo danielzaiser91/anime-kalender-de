@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-10-18T14:02:39.872Z",
+  "scrapedAt": "2026-10-18T19:02:45.313Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
-    "schon in einem Rubrik-Feed gelesen": 8,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "schon in einem Rubrik-Feed gelesen": 8,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -62,6 +62,25 @@
         {
           "month": "2027-05",
           "context": "im AKIBA PASS SHOP erworben werden kann. Wir fassen zusammen. Release im Mai 2027 Die neue Plüschfigur von Frieren ist ungefähr 25 Zentimete"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "ProSieben FUN wiederholt »Magical Girl Special Ops Asuka«",
+      "articleUrl": "https://www.anime2you.de/news/1062104/prosieben-fun-magical-girl-special-ops-asuka-wiederholung/",
+      "publishedAt": "2026-10-18",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-09",
+          "context": "November 2026 »Magical Girl Special Ops Asuka« startet demzufolge am 9. November 2026 und läuft fortan jeden Montag ab 22:35 Uhr in Doppelf"
+        },
+        {
+          "month": "2026-11",
+          "context": "utscher Vertonung ausstrahlen wird. Wir fassen zusammen. Wiederholung ab November 2026 »Magical Girl Special Ops Asuka« startet demzufolge a"
         }
       ],
       "dub": "unklar",
