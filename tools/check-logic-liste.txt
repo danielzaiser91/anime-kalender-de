@@ -152,6 +152,7 @@ pipeline/check-sprache-termin.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
 pipeline/check-staffel-jahr0.ts
+pipeline/check-staffel-von-hand.ts
 pipeline/check-staffel-teil.ts
 pipeline/check-stand-halten.ts
 pipeline/check-studio-archiv.ts
