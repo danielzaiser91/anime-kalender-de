@@ -7,20 +7,20 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 2 Wege, nur Hinweis: 0.
+Flagge „Deutsch“: 3 Wege, nur Hinweis: 0.
 
 JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): Mehrteiler 2, Staffeln unbekannt 1.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
-| primevideo | 1 | 0 | 0.0 % | Flagge |
+| primevideo | 2 | 0 | 0.0 % | Flagge |
 
 ### Widersprüche (0)
 
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (8)
+### Kandidaten für neue Wege (7)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -32,7 +32,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Overlord (Movies) (98873) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.d063559a-9393-44e3-a0d7-3657cf7c7a45 | nein |
 | Starship Troopers: Traitor of Mars (101913) | Amazon Video | amazon:amzn1.dv.gti.a0aef3c1-2ce6-daff-9a6a-bdc986bfb936 | nein |
 | Made in Abyss: Gefährten der Dämmerung (101344) | CineMix+ Amazon Channel | amazon:amzn1.dv.gti.18b83256-a558-424b-beb0-9f6bcffb0fe5 | ja |
-| Girls und Panzer: Das Finale – Teil 4 (132420) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.f8444de9-0fbd-4ba6-ac9e-1e2711401efe | ja |
 | Totto-chan: Das kleine Mädchen am Fenster (162904) | Amazon Video | amazon:amzn1.dv.gti.31f7b6e7-37c4-477a-bbd4-41b966d4e595 | ja |
 <!-- anime:end -->
 
