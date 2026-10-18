@@ -298,7 +298,8 @@ async function main() {
   const breite = HANDY ? 375 : 1280
   const hoehe = HANDY ? 812 : 900
   const browser = await chromium.launch()
-  const seite = await browser.newPage({ viewport: { width: breite, height: hoehe } })
+  /* Handy = Touch: so greift die Maus-Regel für den Leistenplatz (`scrollbar-gutter`, styles.css) nicht, wie auf einem echten Telefon. */
+  const seite = await browser.newPage({ viewport: { width: breite, height: hoehe }, hasTouch: HANDY })
 
   const fehler = []
   seite.on('console', (m) => {

@@ -178,3 +178,7 @@ Bilder: Scratchpad `design-regeln/bilder/vorher-*` (Woche, Panel, Filter, Suche,
   ein Nachher-Stylesheet über die echte App (`zelle.tsx`).
 - Umsetzung in kleinen PRs: `daniel-zum-abarbeiten/vorrat/design-01-…` bis `design-08-…` (Tokens zuerst ohne sichtbare Änderung, dann je Bereich).
 - Nach jeder Umstellung: `npm run check:ansichten` und `check:panel`, Screenshots beider Themen im PR.
+
+## 8. Leistensprung beim Öffnen des Panels (18.10.2026)
+
+Panel, Beleg-Dialog und Filterfenster sperren die Seite mit `overflow: hidden` an `html`; mit klassischer Bildlaufleiste (Windows, 10 bis 17 px) verschwand sie dabei, die Wochenkacheln rückten und wurden breiter. Behoben mit `scrollbar-gutter: stable` auf `html` (`styles.css`, nur bei Maus: `(hover: hover) and (pointer: fine)`; Touch-Geräte haben überlagernde Leisten, `ansicht-bild.mjs --handy` läuft deshalb mit `hasTouch`); `kino.tsx` sperrt am `body`, das deckt dieselbe Regel. Warum es durchging: Playwright startet Chromium headless mit `--hide-scrollbars`, jede Layoutprüfung sah eine Leiste von 0 px und damit nie einen Sprung. Wächter: `tools/panel-sprung.mjs` (in `check:panel`, mit `ignoreDefaultArgs: ['--hide-scrollbars']`, misst die Wurzelbox, nicht `clientWidth` — das zählt den reservierten Platz nicht mit). Neue Layoutprüfungen mit Breitenbezug brauchen denselben Schalter; außer `ansicht-filterfenster-rechner.mjs` und `panel-sprung.mjs` starten die übrigen 40 Playwright-Werkzeuge in `tools/` ohne ihn (Stand 18.10.2026; nur gemeldet, nicht umgebaut).

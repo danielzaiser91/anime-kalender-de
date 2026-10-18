@@ -32,6 +32,7 @@ const MUSS = [
   'tools/panel-messen-browser.mjs',
   'tools/ansicht-bild.mjs',
   'tools/panel-bild.mjs',
+  'tools/panel-sprung.mjs',
   'web/src/main.tsx',
   '.github/workflows/pr-pruefung.yml',
 ]
