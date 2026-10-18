@@ -79,11 +79,9 @@ try {
   const d = dir.replace(/\\/g, '/')
   const befehl = 'pr list --state open --limit 100 --json number,title,body,createdAt'
   writeFileSync(join(dir, 'liste.json'), JSON.stringify(liste))
-  // Die Gegenprobe roter Lauf-Arten fragt `gh run list` (tools/laeufe-aufraeumen.mjs); hier gibt es keine.
-  const laeufe = 'run list --repo danielzaiser91/anime-kalender-de --limit 60 --json workflowName,conclusion,createdAt'
-  writeFileSync(join(dir, 'gh'), `#!/bin/sh\ncase "$*" in "${befehl}") cat "${d}/liste.json" ;; "${laeufe}") echo "[]" ;; *) echo "falsche Parameter: $*" >&2; exit 1 ;; esac\n`)
+  writeFileSync(join(dir, 'gh'), `#!/bin/sh\ncase "$*" in "${befehl}") cat "${d}/liste.json" ;; *) echo "falsche Parameter: $*" >&2; exit 1 ;; esac\n`)
   chmodSync(join(dir, 'gh'), 0o755)
-  writeFileSync(join(dir, 'gh.cmd'), `@echo off\r\nif "%*"=="${befehl}" (type "${join(dir, 'liste.json')}") else if "%*"=="${laeufe}" (echo []) else (echo falsche Parameter: %* 1>&2 & exit /b 1)\r\n`)
+  writeFileSync(join(dir, 'gh.cmd'), `@echo off\r\nif "%*"=="${befehl}" (type "${join(dir, 'liste.json')}") else (echo falsche Parameter: %* 1>&2 & exit /b 1)\r\n`)
   const werkzeug = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
   const wache = (antwort) =>
     spawnSync(process.execPath, ['--import', `data:text/javascript,globalThis.fetch=async()=>${antwort}`, werkzeug, '--trocken'], {
