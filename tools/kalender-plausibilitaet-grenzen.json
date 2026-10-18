@@ -6,7 +6,7 @@
     "spracheOffenTrotzMeldung": 4,
     "ereignisOhneNews": 2,
     "terminOhneBeleg": 15,
-    "primeOhneTitelseite": 8
+    "primeOhneTitelseite": 6
   },
   "bekannt": {
     "erschienenOhneTermin": [],
@@ -39,8 +39,6 @@
       "anisearch-210032-netflix"
     ],
     "primeOhneTitelseite": [
-      "seven-knights-marronnier-kingdom-primevideo",
-      "tank-chair-primevideo",
       "demon-slayer-s1-primevideo",
       "demon-slayer-entertainment-district-arc-primevideo",
       "demon-slayer-mugen-train-arc-primevideo",

@@ -1,6 +1,15 @@
 {
-  "stand": "2026-10-17",
+  "stand": "2026-10-18",
   "eintraege": [
+    {
+      "titel": "Blue Box",
+      "artikel": "https://www.anime2you.de/news/1057429/netflix-blue-box-staffel-2-und-mehr/",
+      "tag": "2026-10-04",
+      "anbieter": [
+        "netflix"
+      ],
+      "quelle": "Sammelartikel"
+    },
     {
       "titel": "Demon Slayer: Kimetsu no Yaiba – Infinity Castle I",
       "artikel": "https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/",
@@ -84,9 +93,27 @@
       "quelle": "Sammelartikel"
     },
     {
+      "titel": "Blue Box",
+      "artikel": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
+      "tag": "2026-10-04",
+      "anbieter": [
+        "netflix"
+      ],
+      "quelle": "Sammelartikel"
+    },
+    {
       "titel": "Cyberpunk: Edgerunners II",
       "artikel": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
       "tag": "2026-10-20",
+      "anbieter": [
+        "netflix"
+      ],
+      "quelle": "Sammelartikel"
+    },
+    {
+      "titel": "Blue Box",
+      "artikel": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/",
+      "tag": "2026-10-04",
       "anbieter": [
         "netflix"
       ],
