@@ -109,3 +109,7 @@ pruefe "Warnung nennt nur den neuen Titel" ja "$(warnt q-neuversuch-anders ': 33
 echo "Quarantäne: Titel aus Versuch 1 zählen in Versuch 2 nicht auf die Obergrenze"
 ERSTEN_ABLEHNEN=ja VERSUCHE_N=2 bau_szenario q-neuversuch-grenze FAKE_ROT="11 22" FAKE_ROT_NACH_PAUSE="33 44"
 pruefe "Exit 0, meta.json nennt die zwei neuen" "0 33 44 " "$CODE $(zurueckgestellt_im_fernstand)"
+
+echo "Quarantäne: ist in Versuch 2 nichts mehr rot, gilt die Warnung aus Versuch 1 nicht mehr, die frühere bleibt"
+ERSTEN_ABLEHNEN=ja VERSUCHE_N=2 bau_szenario q-neuversuch-gruen FAKE_ROT=22 FAKE_ROT_NACH_PAUSE="" DATEN_WARNUNG=vorher
+pruefe "Exit 0, nichts zurückgestellt, letzte Warnung wie vor dem Lauf" "0 DATEN_WARNUNG=vorher" "$CODE $(zurueckgestellt_im_fernstand)$(grep '^DATEN_WARNUNG=' "$ARBEIT/q-neuversuch-gruen/env.txt" | tail -n 1)"

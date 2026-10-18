@@ -74,6 +74,8 @@ fi
 for versuch in $(seq 1 "$VERSUCHE"); do
   # Die Quarantäne-Liste gilt nur für den Bau dieses Versuchs; nach dem Neuaufsetzen zählt allein der neue Prüfstand.
   rm -f "$TEMP_LAUF/quarantaene.json" "$TEMP_LAUF/quarantaene.txt"
+  # Ebenso die Warnung: die letzte Zeile in GITHUB_ENV gilt, ohne diese stünde nach einem grünen Versuch 2 der Text von Versuch 1.
+  echo "DATEN_WARNUNG=${DATEN_WARNUNG:-}" >> "${GITHUB_ENV:-/dev/null}"
   git fetch origin main --quiet
 
   if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
