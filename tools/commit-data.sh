@@ -152,6 +152,10 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   # Die Quellen bleiben davon unberührt und werden committet. Sie sind der
   # teure Teil (fremde APIs, Ratenlimits), und an ihnen liegt es nicht.
   BESTAND_KAPUTT=0
+  # Beide Prüfketten in eine Datei; check:logic läuft nur nach grünem check:bestand.
+  bestand_pruefen() {
+    npm run check:bestand > "$TEMP_LAUF/bestand-pruefung.txt" 2>&1 && npm run check:logic >> "$TEMP_LAUF/bestand-pruefung.txt" 2>&1
+  }
   if [ "${AUFBAU_KAPUTT:-0}" != 1 ] && { [ "${NEU_GEBAUT:-0}" = 1 ] || [ "${BAU_LAUF:-0}" = 1 ]; }; then
     # Seit dem 17.09.2026 auch check:logic, und im Bau-Lauf (BAU_LAUF=1) werden
     # die neuen Meldungen zurückgenommen: Sie bleiben im Briefkasten, die
@@ -159,7 +163,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     # Zusicherung verletzen, als Quelle ins Repo und machten danach jeden
     # Deploy rot. Der Lauf endet rot, auch im Bau-Lauf (seit 11.10.2026:
     # von 15:14 bis 21:08 UTC lieferte er grün keine Erzeugnisse aus, sechs Stunden unbemerkt).
-    if ! npm run check:bestand > "$TEMP_LAUF/bestand-pruefung.txt" 2>&1 || ! npm run check:logic >> "$TEMP_LAUF/bestand-pruefung.txt" 2>&1; then
+    if ! bestand_pruefen; then
       cat "$TEMP_LAUF/bestand-pruefung.txt"
       # Die sechs Prüfungen in `check:bestand` melden über `warn()` (Zeichen
       # `⚠`) oder mit `✗` (U+2717); nur `check-logic.ts` und `build.ts`

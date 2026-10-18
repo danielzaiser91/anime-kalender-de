@@ -84,16 +84,8 @@ function main(): void {
   // Alles, was Verweise ändert, muss vor `baueMeta` stehen — dort beginnt die Auslieferung.
   schliesseWegeAb({ ...synchro, titles, anisearch, releases, tmdbMehrdeutig, toteAdressen, verweiseEntfernt })
 
-  const { allTitles, meta, platforms, genres, keywords } = baueMeta({
-    titles,
-    releases,
-    events,
-    motnBelege: synchro.motnBelege,
-  })
-  const { newsFuerRss } = schreibeDatensatzGemessen({
-    allTitles,
-    releases,
-    kanalJeAdresse: synchro.kanalJeAdresse,
+  liefereAus({
+    synchro,
     anisearch,
     tmdbTitles,
     mitStimmen,
@@ -101,7 +93,28 @@ function main(): void {
     verweiseEntfernt,
     titles,
     jpStartAnzeige,
+    releases,
     events,
+  })
+}
+
+type Auslieferung = Omit<Parameters<typeof schreibeDatensatzGemessen>[0], 'allTitles' | 'meta' | 'kanalJeAdresse'> & {
+  synchro: Pick<ReturnType<typeof pruefeSynchroJePlattform>, 'kanalJeAdresse' | 'motnBelege'>
+}
+
+/** Ab `baueMeta` beginnt die Auslieferung: Meta, Datensatz, Abo-Feeds. */
+function liefereAus({ synchro, ...rest }: Auslieferung): void {
+  const { titles, releases, events } = rest
+  const { allTitles, meta, platforms, genres, keywords } = baueMeta({
+    titles,
+    releases,
+    events,
+    motnBelege: synchro.motnBelege,
+  })
+  const { newsFuerRss } = schreibeDatensatzGemessen({
+    ...rest,
+    allTitles,
+    kanalJeAdresse: synchro.kanalJeAdresse,
     meta,
   })
   schreibeAboFeeds({ newsFuerRss, events, platforms, allTitles, genres, meta, keywords })
