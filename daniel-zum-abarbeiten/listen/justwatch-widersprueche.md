@@ -39,13 +39,13 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 <!-- cartoons:start -->
 ## Cartoons
 
-Flagge „Deutsch“: 68 Wege, nur Hinweis: 0.
+Flagge „Deutsch“: 34 Wege, nur Hinweis: 0.
 
 JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 187, Staffeln unbekannt 2, Mehrteiler 2.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
-| disneyplus | 37 | 0 | 0.0 % | Flagge |
+| disneyplus | 48 | 0 | 0.0 % | Flagge |
 | primevideo | 4 | 0 | 0.0 % | Flagge |
 
 ### Widersprüche (0)
