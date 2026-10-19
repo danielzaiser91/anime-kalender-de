@@ -8,7 +8,8 @@
  * Aufruf (Dirigent, vor jedem Merge): node tools/pr-nachrechnen.mjs <PR>
  *   Exit 0: der neueste Kettenlauf zum Kopf rechnete gegen den jetzigen main-HEAD.
  *   Exit 1: nicht aktuell; der PR wurde geschlossen und wieder geöffnet, die Kette läuft neu (der Prüfer hört nicht auf `reopened`).
- *   Exit 2: nichts angestoßen (Konflikt, Mergebarkeit offen, kein Lauf, Basis nicht lesbar, Fehler); die Meldung sagt, warum.
+ *   Exit 2: nichts angestoßen (Konflikt, Mergebarkeit oder Test-Merge noch nicht berechnet, kein Lauf, Basis nicht lesbar, Fehler);
+ *           die Meldung sagt, warum. Scheitert es erst nach dem Schließen, steht „SCHON ANGESTOSSEN“ in der Meldung.
  * Die Basis steht in der Checkout-Zeile des Jobs JOB: „HEAD is now at … Merge <Kopf> into <Basis>“ (Text des Merge-Commits von GitHub).
  */
 import { execFileSync } from 'node:child_process'
@@ -55,8 +56,10 @@ function oeffneMitWiederholung(gh, nummer) {
   }
 }
 
-function wiederoeffnen(gh, nummer) {
+/** `begonnen()` meldet, dass der PR geschlossen wurde: ab da ist etwas angestoßen, auch wenn später etwas scheitert. */
+function wiederoeffnen(gh, nummer, begonnen) {
   gh(['pr', 'close', String(nummer)])
+  begonnen()
   oeffneMitWiederholung(gh, nummer)
 }
 
@@ -76,15 +79,26 @@ function mergeBasis(gh, nummer) {
  */
 export function anstossen(gh, nummer, main, warte) {
   const vorher = mergeBasis(gh, nummer)
-  if (vorher === main) return wiederoeffnen(gh, nummer)
-  wiederoeffnen(gh, nummer)
+  if (vorher === null) throw new Error(`PR ${nummer}: Test-Merge noch nicht berechnet, gleich erneut aufrufen (nichts angestoßen)`)
+  let angestossen = false
+  try {
+    anstossenAb(gh, nummer, main, warte, vorher, () => { angestossen = true })
+  } catch (e) {
+    if (!angestossen) throw e
+    throw new Error(`${e.message} (SCHON ANGESTOSSEN: PR war geschlossen, Zustand und Kettenlauf prüfen, nicht blind wiederholen)`)
+  }
+}
+
+function anstossenAb(gh, nummer, main, warte, vorher, begonnen) {
+  if (vorher === main) return wiederoeffnen(gh, nummer, begonnen)
+  wiederoeffnen(gh, nummer, begonnen)
   for (let i = 0; ; i++) {
     const neu = mergeBasis(gh, nummer)
     if (neu !== null && neu !== vorher) break
     if (i >= REF_PRUEFUNGEN) throw new Error(`PR ${nummer}: Merge-Commit nicht neu gerechnet, die Kette läuft noch gegen ${kurz(vorher)}`)
     warte(REF_ABSTAND_MS)
   }
-  wiederoeffnen(gh, nummer)
+  wiederoeffnen(gh, nummer, begonnen)
 }
 
 /** Liest Basis des neuesten Kettenlaufs; Rückgabe { basis } oder { grund } (dann ist nichts zu entscheiden). */
