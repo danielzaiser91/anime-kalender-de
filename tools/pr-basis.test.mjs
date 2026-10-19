@@ -44,11 +44,11 @@ function baue(ordner, { prDatei, linear = false }) {
   return { git, basis, mainKopf, prKopf }
 }
 
-function pflichtLauf(ordner, basisSha) {
+function pflichtLauf(ordner, basisSha, arbeit = ordner) {
   const ereignis = join(ordner, '..', `${basisSha}.json`)
   writeFileSync(ereignis, JSON.stringify({ pull_request: { base: { sha: basisSha }, head: { ref: 'fix/x' }, body: '' } }))
   const env = { ...process.env, GITHUB_EVENT_NAME: 'pull_request', GITHUB_EVENT_PATH: ereignis }
-  const r = spawnSync(process.execPath, [PFLICHT], { cwd: ordner, env, encoding: 'utf8', windowsHide: true })
+  const r = spawnSync(process.execPath, [PFLICHT], { cwd: arbeit, env, encoding: 'utf8', windowsHide: true })
   rmSync(ereignis)
   return { status: r.status, ausgabe: `${r.stdout}${r.stderr}` }
 }
@@ -82,11 +82,13 @@ mitRepo({ prDatei: 'docs/pr.md', linear: true }, (ordner, { git }) => {
   assert.throws(() => ersterElternteil(git), /kein Merge-Commit/)
 })
 
-mitRepo({ prDatei: 'docs/pr.md' }, (ordner, { git, mainKopf }) => {
+mitRepo({ prDatei: 'docs/pr.md' }, (ordner, { git, mainKopf, basis }) => {
   git('config', 'uploadpack.allowAnySHA1InWant', 'true')
   const flach = mkdtempSync(join(WURZEL, 'pr-basis-klon-'))
   try {
     execFileSync('git', ['clone', '-q', '--depth=1', pathToFileURL(ordner).href, flach], { windowsHide: true })
+    const flachLauf = pflichtLauf(ordner, basis, flach)
+    assert.equal(flachLauf.status, 0, `Pflicht-Wächter im flachen Klon lädt die Basis nach (${flachLauf.ausgabe})`)
     const gitFlach = gitIn(flach)
     assert.equal(ersterElternteil(gitFlach), mainKopf, 'Elternteil lesbar, obwohl der Klon flach ist')
     assert.equal(ladeBasis(gitFlach), mainKopf)
