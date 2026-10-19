@@ -590,6 +590,15 @@ Meldung wäre wieder ausgelassen worden. Die Gegenprobe liest deshalb zusätzlic
 Tonspuren tragen und keine davon Deutsch. **Prüffrage bei jedem Auslassen: Wer braucht die
 Zeile, die jetzt nicht geschrieben wird?**
 
+#### Die Merkliste `data/kanal-seiten.json` (19.10.2026, Issue #1601)
+
+Der Kanal-Hinweis steht nur in der Notiz des Handbelegs. Stellt der Lauf „Neue Handbelege prüfen“ eine Meldung zurück, fehlt der Beleg im Bau, und die Rohfolgen derselben Seite brachten ein Ja zurück. Die Merkliste hält die Kanal-Seiten (Titel, Adresse, gelesene Seite in der Notiz) ohne eigenes Ja fest.
+
+- **Wer schreibt:** `fetch-pruefungen.ts` über `schreibeBelege()` (`pipeline/lib/kanal-merkliste.ts`), nach jedem Schreiben der Handbelege, sortiert und ohne Dubletten. Die Datei wird beim Zurückstellen nicht zurückgesetzt (`ARBEITSDATEIEN` in `tools/meldungen-eingrenzen.mjs` nennt sie bewusst nicht).
+- **Wer liest:** jeder Leser des Kanal-Wissens über `ladeKanalWissen()` bzw. `kanalWissen()`: Wegwahl (`belegFuer`), Prime-Phase (`rohDeutsch`), Stufe 3 und spätes Urteil, die Wächter D-25 bis D-27, das Aussortieren der Rohfolgen und die Bestandsprüfung `check:kalender-plausibilitaet`. Ein neuer Leser nimmt dieselbe Quelle; `pipeline/check-kanal-leser.ts` führt jeden Leser gegen eine Kulisse.
+- **Wann wirkt ein Eintrag:** solange kein Handbeleg desselben Titels dieselbe Seite nennt. Ein Handbeleg zur Seite (zweite Quelle, Korrektur) gilt vor dem Eintrag.
+- **Entfernen:** nur von Hand aus der Datei; der Lauf fügt Einträge hinzu und löscht nie. Ein von Hand entfernter Eintrag kommt mit dem nächsten Lauf zurück, solange der Kanal-Beleg in der YAML steht (`tools/quellen-liste.sh` führt die Datei als Lauf-Ausgabe).
+
 ## Ein Beleg gehört einer Ausgabe, nicht einem Titel
 
 Am 07.09.2026 stand über „Date a Live IV" ein grünes „DE ✓", und die verlinkte
