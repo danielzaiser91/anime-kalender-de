@@ -35,4 +35,9 @@ PR_URL="$(gh pr view "$ZWEIG" --json url -q .url)"
 PR_NR="$(gh pr view "$ZWEIG" --json number -q .number)"
 echo "PR eingereicht: $PR_URL"
 echo "Nächster Schritt (kein Auto-Merge): node tools/pr-nachrechnen.mjs $PR_NR, bei Exit 0 dann:"
-echo "  gh pr merge $PR_NR --squash --delete-branch --body \"${TEXT:-$TITEL}\""
+if [ -n "$TEXT" ]; then
+  printf '  gh pr merge %s --squash --delete-branch --body %q
+' "$PR_NR" "$TEXT"
+else
+  echo "  gh pr merge $PR_NR --squash --delete-branch"
+fi
