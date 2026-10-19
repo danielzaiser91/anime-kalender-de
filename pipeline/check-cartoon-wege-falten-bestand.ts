@@ -118,19 +118,14 @@ function pruefeJackZeilen(): void {
   })
 }
 
-const om = pillen(OM_NOM)
-if (om.length === 0) {
-  console.log('Cartoon-Wege falten (Bestand): Om Nom Stories nicht im Bestand, übersprungen')
-} else {
-  if (om.length > MAX_PILLEN_OM_NOM) {
-    fehler++
-    console.error(`FEHLER: Om Nom Stories zeigt ${om.length} Pillen (höchstens ${MAX_PILLEN_OM_NOM})`)
+/** Om-Nom-Anker: Pillenzahl, Staffel und Folgen je Zeile; übersprungen, wenn der Titel im Bestand fehlt (die Eigenschaften aller Cartoons laufen trotzdem). */
+function pruefeOmNom(): void {
+  const om = pillen(OM_NOM)
+  if (om.length === 0) {
+    console.log('Cartoon-Wege falten (Bestand): Om Nom Stories nicht im Bestand, Anker übersprungen')
+    return
   }
-  pruefeAlleCartoons()
-  // Jacks Bücher haben je einen eigenen Beleg; ihre Getrenntheit prüft `pruefeAussagen`, hier nur der Haken (Vorhandensein und Anzahl wechseln mit den Daten).
-  const jack = pillen(JACK).filter((s) => s.platform === 'netflix' && s.teilBereich)
-  pruefe(jack.every((s) => s.dub), `Jack: ${jack.length} Netflix-Teilpillen, nicht jede mit Haken`)
-
+  pruefe(om.length <= MAX_PILLEN_OM_NOM, `Om Nom Stories zeigt ${om.length} Pillen (höchstens ${MAX_PILLEN_OM_NOM})`)
   // Die Zeilen: Staffel und Folgen stehen je Pille genau einmal.
   const omZeilen = zeilenTexte(cartoons.find((x) => x.id === OM_NOM)!).filter((z) => z.unten.includes('Flg.'))
   // Eigenschaft statt Zahl: wie viele Ausschnitte JustWatch trennt, wechselt mit den Live-Daten (18.10.2026: 6 → 3).
@@ -141,8 +136,14 @@ if (om.length === 0) {
     pruefe(!z.unten.includes('Dieser Eintrag'), `Om Nom ${z.name}: Tooltip-Text in der Unterzeile „${z.unten}“`)
     pruefe(z.titel.includes('Dieser Eintrag umfasst dort die Folge'), `Om Nom ${z.name}: Tooltip nennt den Ausschnitt nicht: „${z.titel}“`)
   }
-  pruefeJackZeilen()
 }
+
+pruefeAlleCartoons()
+pruefeOmNom()
+// Jacks Bücher haben je einen eigenen Beleg; ihre Getrenntheit prüft `pruefeAussagen`, hier nur der Haken (Vorhandensein und Anzahl wechseln mit den Daten).
+const jack = pillen(JACK).filter((s) => s.platform === 'netflix' && s.teilBereich)
+pruefe(jack.every((s) => s.dub), `Jack: ${jack.length} Netflix-Teilpillen, nicht jede mit Haken`)
+pruefeJackZeilen()
 
 if (fehler) process.exit(1)
 console.log('Cartoon-Wege falten (Bestand): Zusicherungen erfüllt')
