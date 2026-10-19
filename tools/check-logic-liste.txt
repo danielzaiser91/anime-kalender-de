@@ -201,7 +201,6 @@ tools/check-patchnotes-pflicht.mjs
 tools/design-klassen.mjs
 tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
-tools/dub-belege-vereinen.test.mjs
 tools/hover-cover.test.ts
 tools/quarantaene-pruefungen.test.ts
 tools/quittung-nach-commit-waechter.mjs
