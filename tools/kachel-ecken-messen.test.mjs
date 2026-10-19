@@ -5,7 +5,7 @@
  */
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { copyFileSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, unlinkSync } from 'node:fs'
+import { copyFileSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -182,5 +182,24 @@ const mitFehlerErgebnis = alleOk()
 mitFehlerErgebnis[1] = { fehler: ['hell/woche: Ecke zu rund'], zeile: mitFehlerErgebnis[1].zeile }
 assert.equal(await stumm(async () => mitFehlerErgebnis), 1, 'ein Fehler: Exit 1')
 assert.equal(await stumm(async () => alleOk().slice(1)), 1, 'fehlende Ergebniszeile: Exit 1')
+
+// Startzeile als eigener Prozess in der echten Aufrufform: Liefert main 1 wegen eines Messfehlers (--dist umgeht distPruefen, kein exitCode gesetzt), muss der Prozess mit 1 enden.
+const messDir = mkdtempSync(path.join(os.tmpdir(), 'kachel-messung-'))
+try {
+  const skript = path.join(path.dirname(fileURLToPath(import.meta.url)), 'kachel-ecken-messen.mjs')
+  const startMit = (ergebnisse) => {
+    const datei = path.join(messDir, 'messung.json')
+    writeFileSync(datei, JSON.stringify(ergebnisse))
+    return spawnSync(process.execPath, [skript, '--dist', messDir, '--messung', datei], { cwd: messDir, encoding: 'utf8', timeout: 60000 })
+  }
+  const lauf1 = startMit(mitFehlerErgebnis)
+  assert.equal(lauf1.status, 1, `Messfehler: Prozess endet mit 1 (stderr: ${lauf1.stderr})`)
+  assert.match(lauf1.stderr, /1 Fehler/, 'Messfehler wird gemeldet')
+  const lauf0 = startMit(alleOk())
+  assert.equal(lauf0.status, 0, `sauber: Prozess endet mit 0 (stderr: ${lauf0.stderr})`)
+  assert.match(lauf0.stdout, /Kachel-Ecken: Leiste sitzt/, 'Erfolgszeile')
+} finally {
+  rmSync(messDir, { recursive: true, force: true })
+}
 
 console.log('kachel-ecken-messen.test: ok')

@@ -341,4 +341,10 @@ export async function main(messe = messeAlles) {
   return 0
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) process.exit(await main())
+/** Startet die Messung; `--messung <json>` liefert fertige Ergebnisse statt Browser (Prozesstest des Exit-Codes). */
+async function start() {
+  const datei = arg('--messung')
+  return main(datei ? async () => JSON.parse(await readFile(datei, 'utf8')) : messeAlles)
+}
+
+if (import.meta.url === pathToFileURL(process.argv[1]).href) process.exit(await start())
