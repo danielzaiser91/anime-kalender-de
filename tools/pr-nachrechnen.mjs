@@ -30,18 +30,27 @@ export function veraltete(prs, pushZeit, laeufeVon) {
   })
 }
 
-/** Ein PR, der geschlossen bliebe, wäre aus der Kette verschwunden: ein zweiter Versuch, dann Fehler. */
+const OEFFNEN_VERSUCHE = 3
+
+/** Ein PR, der geschlossen bliebe, wäre aus der Kette verschwunden (der nächste Lauf sieht nur offene): mehrere Versuche, dann ein lauter Fehler. */
 function oeffneMitWiederholung(oeffne, nummer) {
-  try {
-    oeffne(nummer)
-  } catch {
-    oeffne(nummer)
+  for (let versuch = 1; ; versuch++) {
+    try {
+      return oeffne(nummer)
+    } catch (e) {
+      if (versuch >= OEFFNEN_VERSUCHE) throw new Error(`PR ${nummer} BLEIBT GESCHLOSSEN, von Hand öffnen (${e.message})`)
+    }
   }
 }
 
-/** Ablauf: veraltete PR schließen und öffnen. Jeder PR einzeln, ein Fehler bei einem hält die anderen nicht auf. */
+/**
+ * Ablauf: veraltete PR schließen und öffnen. Jeder PR einzeln, ein Fehler bei einem hält die anderen nicht auf.
+ * Ein PR mit Auto-Merge bleibt unberührt: Schließen löscht die Einstellung, und das Wiederherstellen liefe mit dem Token, das am Ruleset vorbei mergt.
+ */
 export function nachrechnen({ prs, pushZeit, laeufeVon, schliesse, oeffne, melde }) {
-  const betroffen = veraltete(prs, pushZeit, laeufeVon)
+  const veraltet = veraltete(prs, pushZeit, laeufeVon)
+  const betroffen = veraltet.filter((pr) => !pr.autoMergeRequest)
+  for (const pr of veraltet.filter((p) => p.autoMergeRequest)) melde(`PR ${pr.number}: Auto-Merge aktiv, nicht angefasst, Kette bleibt veraltet`)
   let fehler = 0
   for (const pr of betroffen) {
     try {
@@ -64,7 +73,7 @@ function gh(args, token) {
 
 /** Verdrahtung: offene PR lesen (Lese-Token), veraltete schließen und öffnen (Schreib-Token). `gh(args, token)` ist eingespeist. */
 export function ausfuehren(pushZeit, gh, { lesen, schreiben }, melde) {
-  const prs = JSON.parse(gh(['pr', 'list', '--state', 'open', '--base', 'main', '--limit', '100', '--json', 'number,isDraft,headRefName,headRefOid'], lesen))
+  const prs = JSON.parse(gh(['pr', 'list', '--state', 'open', '--base', 'main', '--limit', '100', '--json', 'number,isDraft,headRefName,headRefOid,autoMergeRequest'], lesen))
   const laeufeVon = (pr) =>
     JSON.parse(gh(['run', 'list', '--workflow', KETTE, '--event', 'pull_request', '--branch', pr.headRefName, '--limit', '10', '--json', 'createdAt,headSha'], lesen))
   const fehler = nachrechnen({

@@ -82,7 +82,17 @@ function kulisse({ schliesseFehler = new Set(), oeffneFehlerBei = new Map() } = 
 {
   const k = kulisse({ oeffneFehlerBei: new Map([[1, 2]]) })
   const f = nachrechnen({ prs: [pr(1)], pushZeit: PUSH, laeufeVon, ...k })
-  pruefe('Öffnen scheitert zweimal -> Fehler gezählt', f === 1, k.meldungen)
+  pruefe('Öffnen scheitert zweimal -> dritter Versuch, kein Fehler', k.log.join() === 'close 1,reopen 1,reopen 1,reopen 1' && f === 0, k.log)
+}
+{
+  const k = kulisse({ oeffneFehlerBei: new Map([[1, 3]]) })
+  const f = nachrechnen({ prs: [pr(1)], pushZeit: PUSH, laeufeVon, ...k })
+  pruefe('Öffnen scheitert dreimal -> Fehler gezählt, Meldung nennt den geschlossenen PR', f === 1 && k.meldungen[0].includes('PR 1 BLEIBT GESCHLOSSEN'), k.meldungen)
+}
+{
+  const k = kulisse()
+  const f = nachrechnen({ prs: [pr(1, { autoMergeRequest: { enabledAt: 'x' } }), pr(2)], pushZeit: PUSH, laeufeVon: () => [lauf('sha1', '2026-10-19T08:00:00Z'), lauf('sha2', '2026-10-19T08:00:00Z')], ...k })
+  pruefe('PR mit Auto-Merge bleibt unberührt und wird gemeldet, der andere wird neu angestoßen', k.log.join() === 'close 2,reopen 2' && f === 0 && k.meldungen[0].includes('PR 1: Auto-Merge aktiv'), { log: k.log, m: k.meldungen })
 }
 
 // Verdrahtung: ausfuehren liest mit dem Lese-Token, schreibt mit dem Schreib-Token, fragt je PR den Lauf des Branches ab.
@@ -106,6 +116,7 @@ function kulisse({ schliesseFehler = new Set(), oeffneFehlerBei = new Map() } = 
   const lesen = aufrufe.find((a) => a.args[0] === 'run')
   pruefe('Lauf-Abfrage gilt der Kette und dem Ereignis pull_request', lesen.args.includes('pr-pruefung.yml') && lesen.args.includes('pull_request'), lesen.args)
   pruefe('ausfuehren gibt 0 zurück', f === 0)
+  pruefe('PR-Liste fragt autoMergeRequest ab', aufrufe[0].args.at(-1).split(',').includes('autoMergeRequest'), aufrufe[0].args)
   const kaputt = (args, token) => {
     if (args[1] === 'close') throw new Error('403')
     return gh(args, token)

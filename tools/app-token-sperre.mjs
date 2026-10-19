@@ -10,7 +10,7 @@
  */
 import { isDeepStrictEqual } from 'node:util'
 
-const APP_SCHRITT ='actions/create-github-app-token@v3'
+const APP_SCHRITT = 'actions/create-github-app-token@v3'
 const EINREICHEN = '.github/actions/einreichen'
 const SECRET_WERT = { 'app-id': '${{ secrets.DATEN_APP_ID }}', 'app-key': '${{ secrets.DATEN_APP_KEY }}', 'private-key': '${{ secrets.DATEN_APP_KEY }}' }
 
