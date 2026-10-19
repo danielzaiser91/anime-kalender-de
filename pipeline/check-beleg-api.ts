@@ -6,7 +6,7 @@
 import type { NewsEintrag, Release, Title } from '../shared/types.ts'
 import { belegLink, istApiAdresse, istLink } from '../shared/quelle.ts'
 import { baueNews } from './lib/news.ts'
-import { adnSerienseite, apiBelegFehler, apiBelegMitInhalt } from './lib/beleg-api.ts'
+import { adnApiBeleg, adnSerienseite, apiBelegFehler, apiBelegMitInhalt } from './lib/beleg-api.ts'
 import { belegFehler, entdoppeleBelege, entdoppeleUndMelde } from './lib/beleg-anbieter.ts'
 import { belegeFuerAlle } from './lib/beleg-lesung.ts'
 
@@ -97,6 +97,14 @@ const belegeVon = (r: Release) => baueNews([titel], [r], [], [], { zuerst: {} })
   pruefe('ein Netflix-Termin macht aus der ADN-Adresse keinen ADN-Beleg', !netflixAdn.some((b) => istApiAdresse(b.url)), netflixAdn)
   const fremd = belegeVon(release({ platform: 'netflix', sources: ['https://api.example.com/x'], quellen: [{ url: 'https://api.example.com/x', name: 'x', gesehenAm: '2026-10-17', stand: 'aktuell' }] }))
   pruefe('eine fremde API-Adresse wird nie ein Beleg', !fremd.some((b) => istApiAdresse(b.url)), fremd)
+}
+
+console.log('\nADN-Endpunkt: nur die ganze Adresse zählt (Prüfer 1598 B27)')
+{
+  const beleg = (url: string) => adnApiBeleg(release(), url, '2026-10-17')
+  pruefe('Kalender und Katalog-Serie werden erkannt', beleg(API)?.name === 'ADN-Kalender' && beleg('https://gw.api.animationdigitalnetwork.com/video/show/1318')?.name === 'ADN-Katalog')
+  for (const url of [`https://x.de/?u=${API}`, `x${API}`, `${API}/x`, `${API}?date=1`, API.replace('https', 'http'), API.replace('gw.api', 'api'), API.replace('/calendar', '/show/abc')])
+    pruefe(`fremde oder angehängte Adresse ergibt keinen Beleg: ${url}`, beleg(url) === undefined)
 }
 
 console.log('\nBau-Zusicherung: Rückfall wird rot')

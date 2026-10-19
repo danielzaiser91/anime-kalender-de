@@ -52,7 +52,7 @@ const release = (showId: number, sources: string[]): Release =>
 
 try {
   const { adnKatalogUrl, adnKatalogShow } = await import('./bau/grundlagen.ts')
-  const { adnLesetage, behalteLesetag, mitLesetag } = await import('./bau/adn-lesetag.ts')
+  const { adnLesetage, behalteLesetag, mitLesetag, ohneFehlzuordnung } = await import('./bau/adn-lesetag.ts')
 
   console.log('\nADN-Adresse: Kalender oder Folgenliste der Serie')
   pruefe('Katalog-Adresse und Serienkennung', adnKatalogShow(adnKatalogUrl(1318)) === 1318, adnKatalogUrl(1318))
@@ -171,6 +171,28 @@ try {
   const gewechselt = plan(release(902, [adnKatalogUrl(902)]), { firstEpisodeDate: '2026-11-05' })
   quellenPflegen([gewechselt])
   pruefe('neue Adresse, anderes Datum: alte Quelle vermutlich überholt, ohne Grund', kalAlt(gewechselt)?.stand === 'vermutlich-ueberholt' && kalAlt(gewechselt)?.grund === undefined && kalAlt(gewechselt)?.gelesenAm === '2026-10-19', gewechselt.quellen)
+
+  console.log('\nFehlzuordnung: die frühere Kalender-Adresse einer Katalog-Serie zählt nicht als überholter Beleg (Prüfer 1598 R2, A10)')
+  const artikel = 'https://www.anime2you.de/news/1/x/'
+  const vorher = (slug: string, quellen: Quelle[]) => writeFileSync(join(wurzel, 'data', 'quellen-historie.json'), JSON.stringify({ [slug]: quellen }))
+  const ungelesen: Quelle = { url: KALENDER, name: 'ADN API', gesehenAm: '2026-10-01', stand: 'aktuell' }
+  const gelesen: Quelle = { ...ungelesen, gelesenAm: '2026-10-05', bestaetigt: '2026-10-29' }
+  const presse: Quelle = { url: artikel, name: 'anime2you.de', gesehenAm: '2026-10-01', stand: 'aktuell' }
+  const katalogNeu: Quelle[] = [{ url: adnKatalogUrl(905), name: 'ADN API', gesehenAm: '2026-10-19' }]
+  pruefe('Einheit: ungelesene Kalender-Adresse fällt bei einer Katalog-Serie weg, andere Quellen bleiben', JSON.stringify(ohneFehlzuordnung([ungelesen, presse], katalogNeu)) === JSON.stringify([presse]))
+  pruefe('Einheit: eine vom Kalender gelesene Adresse bleibt (echter überholter Beleg)', ohneFehlzuordnung([gelesen], katalogNeu).length === 1)
+  pruefe('Einheit: bei einer Kalender-Serie bleibt die Kalender-Adresse', ohneFehlzuordnung([ungelesen], [{ url: KALENDER, name: 'ADN API', gesehenAm: '2026-10-19' }]).length === 1)
+  /* Wie der Bestand: Termin auf die Adresse der Folgenliste umgestellt, in der Historie steht noch die Kalender-Adresse. */
+  vorher('adn-905', [ungelesen, presse])
+  const umgestellt = release(905, [artikel, adnKatalogUrl(905)])
+  quellenPflegen([umgestellt])
+  const adressen = (r: Release) => r.quellen?.map((q) => `${q.url} ${q.stand}`) ?? []
+  pruefe('Bau: Kalender-Adresse ist weder aktuell noch vermutlich überholt', !adressen(umgestellt).some((a) => a.startsWith(KALENDER)), adressen(umgestellt))
+  pruefe('Bau: eine andere alte Quelle der Serie bleibt erhalten', umgestellt.quellen?.some((q) => q.url === artikel) === true, adressen(umgestellt))
+  vorher('adn-906', [gelesen])
+  const echt = release(906, [adnKatalogUrl(906)])
+  quellenPflegen([echt])
+  pruefe('Bau: eine vom Kalender gelesene Adresse bleibt als vermutlich überholt', echt.quellen?.some((q) => q.url === KALENDER && q.stand === 'vermutlich-ueberholt') === true, adressen(echt))
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }

@@ -78,3 +78,13 @@ export function behalteLesetag(neu: Quelle[], historie: Quelle[], termin: string
     return termin && alt?.gelesenAm && alt.bestaetigt === termin ? { ...q, gelesenAm: alt.gelesenAm, bestaetigt: termin } : q
   })
 }
+
+/**
+ * Die Kalender-Adresse in der Historie einer Katalog-Serie war eine Fehlzuordnung, kein überholter Beleg: vor Prüfer 1598 trug
+ * jede Katalog-Serie die Kalender-Adresse, obwohl der Kalender sie nie lieferte (107 Termine, 19.10.2026). Hat der Kalenderabruf sie
+ * je bestätigt, steht dort ein `gelesenAm`; ohne ist die Adresse nie gelesen worden und zählt nicht als Termin-Quelle weiter.
+ */
+export function ohneFehlzuordnung(historie: Quelle[], neu: Quelle[]): Quelle[] {
+  const katalogSerie = neu.some((q) => adnKatalogShow(q.url) !== undefined)
+  return katalogSerie ? historie.filter((q) => q.url !== ADN_CALENDAR_URL || q.gelesenAm) : historie
+}
