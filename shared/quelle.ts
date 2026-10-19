@@ -13,8 +13,8 @@
  * `gw.api.animationdigitalnetwork.com` ist ADNs Kalender-Endpunkt. Als Link
  * sichtbar sagte der Host niemandem, warum der Klick in eine Fehlermeldung
  * führt (ohne `date`-Parameter antwortet er mit `400 Bad Request`, Daniel mit
- * Bild, 01.10.2026). Der Link führt weiter dorthin — die Beschriftung nennt
- * jetzt die Sache, damit vor dem Klick klar ist, was einen erwartet.
+ * Bild, 01.10.2026). Seit dem 19.10.2026 ist so eine Adresse kein Klickziel mehr
+ * (`istLink`); der Name bleibt für Übersichten, die den Host nennen.
  */
 const ANZEIGENAME: Record<string, string> = {
   'gw.api.animationdigitalnetwork.com': 'ADN API',
@@ -40,7 +40,26 @@ export function hostVon(url: string): string {
   }
 }
 
-/** Nur eine echte Adresse ist ein Klickziel — alles andere bleibt Text. */
+const API_HOST = /(?:^|\.)(?:api|graphql)\./i
+const API_PFAD = /\/api\/|graphql|\.json$/i
+
+/** Maschinenadresse (ADN-Gateway, `/api/`, GraphQL, `.json`): liefert keine Seite, die ein Besucher lesen kann. */
+export function istApiAdresse(url: string): boolean {
+  try {
+    const u = new URL(url)
+    return API_HOST.test(u.hostname) || API_PFAD.test(u.pathname)
+  } catch {
+    return false
+  }
+}
+
+/** Nur eine echte Adresse ist ein Klickziel — alles andere bleibt Text. Eine API-Adresse ist keine (ADN-Kalender: 400 Bad Request). */
 export function istLink(url?: string): url is string {
-  return Boolean(url && /^https?:\/\//i.test(url))
+  return Boolean(url && /^https?:\/\//i.test(url) && !istApiAdresse(url))
+}
+
+/** Wohin „Originalseite“ eines Belegs führt: die öffentliche Seite (`seite`), sonst die Adresse selbst; eine API-Adresse nie. */
+export function belegLink(b: { url: string; seite?: string }): string | undefined {
+  const ziel = b.seite ?? b.url
+  return istLink(ziel) ? ziel : undefined
 }
