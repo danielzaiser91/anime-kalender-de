@@ -51,11 +51,12 @@ const zeile = (id, titelNr, folgen, staffel = 1, titelId = null) => ({
   folge: null,
 })
 
-const echt = globalThis.fetch
 globalThis.fetch = async (url, opt) => {
   if (String(url).includes('/pruefung') && !(opt && opt.method === 'POST')) {
     const pruefungen = [zeile(900001, 1, 6), zeile(900002, 3, 40), zeile(900003, 4, 12, 2, 4)]
     return new Response(JSON.stringify({ pruefungen }), { status: 200, headers: { 'content-type': 'application/json' } })
   }
-  return echt(url, opt)
+  /* Jeder andere Abruf bleibt im Prozess (kein Netz) und steht im Log. */
+  schreibe(`${opt?.method ?? 'GET'} ${url}`, '')
+  return new Response('{}', { status: 200 })
 }

@@ -51,6 +51,7 @@ pruefe(befunde.length === 2, `Befunde im Lauf: ${befunde.length} statt 2 (${JSON
 pruefe(befunde.some((b) => b.text.includes('Titel 3 (Gti-Titel 3) hat 12')), 'Titelname fehlt im Folgen-Befund')
 pruefe(befunde.some((b) => b.text.includes('Titel 4 (Gti-Titel 4) ist Staffel 1')), 'Titelname fehlt im Staffel-Befund')
 pruefe(!befunde.some((b) => b.text.includes('alter Befund')), 'alter Eintrag blieb stehen')
+pruefe(schreiben.filter((s) => /^(GET|POST) /.test(s.pfad)).every((s) => /^POST .*\/pruefung$/.test(s.pfad)), 'Der Lauf rief außer dem Abhaken im Briefkasten etwas ab')
 const warn = schreiben.find((s) => /github-env\.txt$/.test(s.pfad))
 pruefe(warn?.inhalt.includes('DATEN_WARNUNG=2 Meldung(en) auffällig') === true, `Warnung: ${warn?.inhalt}`)
 
