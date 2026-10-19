@@ -42,6 +42,11 @@ export function adnKalenderBeleg(release: Release, url: string, gesehenAm: strin
   }
 }
 
+/** Ein Beleg zählt, wenn er keine API-Adresse ist oder seine Messung trägt. */
+export function apiBelegMitInhalt(b: NewsBeleg): boolean {
+  return !istApiAdresse(b.url) || Boolean(b.messung?.zeilen.length)
+}
+
 /**
  * Bau-Zusicherung (`belegFehler`): ein Beleg auf eine API-Adresse trägt seine Messung, und die „Originalseite“ ist nie eine API-Adresse.
  * Ohne Messung bliebe nur „Quelle: X.“, ohne Prüfung führte ein Link in „400 Bad Request“.

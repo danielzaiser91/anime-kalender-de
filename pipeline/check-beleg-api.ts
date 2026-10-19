@@ -6,8 +6,9 @@
 import type { NewsEintrag, Release, Title } from '../shared/types.ts'
 import { belegLink, istApiAdresse, istLink } from '../shared/quelle.ts'
 import { baueNews } from './lib/news.ts'
-import { adnSerienseite, apiBelegFehler } from './lib/beleg-api.ts'
-import { belegFehler, entdoppeleBelege } from './lib/beleg-anbieter.ts'
+import { adnSerienseite, apiBelegFehler, apiBelegMitInhalt } from './lib/beleg-api.ts'
+import { belegFehler, entdoppeleBelege, entdoppeleUndMelde } from './lib/beleg-anbieter.ts'
+import { belegeFuerAlle } from './lib/beleg-lesung.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -98,6 +99,43 @@ function eintragMit(belege: NonNullable<NewsEintrag['meldungen'][number]['belege
   const sauber = eintragMit([{ url: ARTIKEL, name: 'x' }])
   pruefe('belegFehler prüft das Ergebnis, nicht die Eingabe', belegFehler([sauber], { eintraege: [leer], entfallen: [], vorher: 1 }).some((f) => f.includes('API-Adresse')))
   pruefe('belegFehler: eine API-Eingabe, die entfällt, ist kein Befund', !belegFehler([leer], { eintraege: [sauber], entfallen: [{ titel: 'x', am: 'x', behalten: 'x', entfallen: 'x' }], vorher: 1 }).some((f) => f.includes('API-Adresse')))
+}
+
+console.log('\nDie Kette des Baus (baueNews → belegeFuerAlle → entdoppeleUndMelde), wie in 13-5-kerndateien.ts')
+{
+  const kette = (r: Release) => entdoppeleUndMelde(belegeFuerAlle(baueNews([titel], [r], [], [], { zuerst: {} }), {}))
+  const belegeDer = (es: NewsEintrag[]) => es.flatMap((e) => e.meldungen).flatMap((m) => m.belege ?? [])
+  const nurApi = (extra: Record<string, unknown> = {}) => release({ sources: [API], quellen: undefined, ...extra })
+  /* `quelleVonRelease` fällt auf die API-Adresse zurück, wenn nur sie da ist; daraus darf kein Beleg ohne Inhalt entstehen. */
+  const ohneQuellen = baueNews([titel], [nurApi()], [], [], { zuerst: {} })[0]?.meldungen[0]
+  pruefe('Ausgangslage: `sources` nur API ergibt eine Meldung mit API-Adresse als Quelle', ohneQuellen?.quelle === API, ohneQuellen)
+  let wurf = ''
+  const probe = (name: string, r: Release, erwartet: (b: ReturnType<typeof belegeDer>) => boolean) => {
+    try {
+      const belege = belegeDer(kette(r))
+      pruefe(name, erwartet(belege), belege)
+    } catch (e) {
+      wurf = (e as Error).message
+      pruefe(name, false, wurf)
+    }
+  }
+  probe('nur API in `sources`, kein `quellen`: Bau läuft, kein API-Beleg', nurApi(), (b) => !b.some((x) => istApiAdresse(x.url)))
+  probe('nur API in `quellen` ohne Abrufdatum: Bau läuft, kein API-Beleg', nurApi({ quellen: [{ url: API, name: 'ADN API', gesehenAm: '', stand: 'aktuell' }] }), (b) => !b.some((x) => istApiAdresse(x.url)))
+  probe('Nicht-ADN-Termin mit API-Quelle: Bau läuft, kein API-Beleg', nurApi({ platform: 'netflix', sources: ['https://api.example.com/x'], quellen: [{ url: 'https://api.example.com/x', name: 'x', gesehenAm: '2026-10-17', stand: 'aktuell' }] }), (b) => !b.some((x) => istApiAdresse(x.url)))
+  probe('ADN-Termin mit Abrufdatum: der API-Beleg überlebt die Kette mit Messung', release(), (b) => b.some((x) => x.url === API && Boolean(x.messung?.zeilen.length) && x.seite === SERIE))
+  const vorhanden = eintragMit([{ url: API, name: 'ADN API' }])
+  const danach = belegeFuerAlle([vorhanden], {})
+  pruefe('Meldung mit nur einem leeren API-Beleg: die Belege entfallen, der Bau läuft', !danach[0]?.meldungen[0]?.belege?.length && entdoppeleUndMelde(danach).length === 1, danach)
+  const gemischt = belegeFuerAlle([eintragMit([{ url: API, name: 'ADN API' }, { url: ARTIKEL, name: 'x' }])], {})
+  pruefe('Meldung mit leerem API-Beleg und Artikel: nur der Artikel bleibt', gemischt[0]?.meldungen[0]?.belege?.map((b) => b.url).join() === ARTIKEL, gemischt)
+  pruefe('apiBelegMitInhalt: Seite ja, API ohne Messung nein, API mit Messung ja', apiBelegMitInhalt({ url: ARTIKEL, name: 'x' }) && !apiBelegMitInhalt({ url: API, name: 'x' }) && apiBelegMitInhalt({ url: API, name: 'x', messung: { am: 'a', quelle: 'q', zeilen: ['z'] } }))
+  let geworfen = false
+  try {
+    entdoppeleUndMelde([eintragMit([{ url: API, name: 'ADN API' }])])
+  } catch {
+    geworfen = true
+  }
+  pruefe('Gegenprobe: ein von Hand eingeschleuster leerer API-Beleg bricht den Bau ab', geworfen)
 }
 
 if (fehler) {
