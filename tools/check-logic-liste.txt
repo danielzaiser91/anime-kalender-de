@@ -188,6 +188,7 @@ pipeline/check-tv-schaetzung.ts
 pipeline/check-tv-sichtungen-vor-start.ts
 pipeline/check-urteil-art.ts
 pipeline/check-urteil-fremde-adresse.ts
+pipeline/check-prime-seiten-sperre.ts
 pipeline/check-urteil-spaet.ts
 pipeline/check-verpasst-verdrahtung.ts
 pipeline/check-verweis-ziel.ts
