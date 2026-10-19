@@ -109,7 +109,8 @@ function pruefeErweiterungsliste(): void {
   const text = readFileSync('extension/offene-netflix.js', 'utf8').replace(/^globalThis\.AK_OFFENE_TITEL = /, '')
   const liste = JSON.parse(text) as Record<string, { staffeln: Array<{ id?: number; folgen: number }> }>
   const cartoons = Object.values(liste).filter(e => e.staffeln.some(s => (s.id ?? 0) < 0)).length
-  pruefe('Netflix-Liste enthält Cartoon-Adressen (Prüfliste eingeschaltet)', cartoons >= 100, cartoons)
+  // Die Zahl sinkt, wo Meldungen Cartoon-Adressen beantworten (152 → 89 am 19.10.2026); geprüft wird nur, dass die Prüfliste sie führt.
+  pruefe('Netflix-Liste enthält Cartoon-Adressen (Prüfliste eingeschaltet)', cartoons >= 1, cartoons)
   const avatar = liste['70142405']
   pruefe('Avatar (Netflix 70142405): fehlt (geprüft) oder ein Eintrag -246 mit 61 Folgen', !avatar || (avatar.staffeln.length === 1 && avatar.staffeln[0]!.id === -246 && avatar.staffeln[0]!.folgen === 61), avatar)
 }
