@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 65
+    "2026-10": 67
   },
   "gesehen": {
     "26341901:netflix": {
@@ -978,7 +978,7 @@
       "imdbId": "tt27124268",
       "tmdbId": "tv/222559",
       "dienst": "prime",
-      "am": "2026-08-03",
+      "am": "2026-10-19",
       "deutsch": true
     },
     "new:25880450:crunchyroll": {
@@ -1058,7 +1058,7 @@
       "imdbId": "tt9813792",
       "tmdbId": "tv/124364",
       "dienst": "prime",
-      "am": "2026-10-10",
+      "am": "2026-10-19",
       "deutsch": true
     },
     "removed:39338:prime": {
@@ -2568,7 +2568,7 @@
       "imdbId": "tt2805096",
       "tmdbId": "tv/58841",
       "dienst": "prime",
-      "am": "2026-09-08",
+      "am": "2026-10-18",
       "deutsch": true
     },
     "removed:37932:prime": {
@@ -2758,8 +2758,8 @@
       "imdbId": "tt0289021",
       "tmdbId": "tv/41293",
       "dienst": "prime",
-      "am": "2026-09-01",
-      "deutsch": false
+      "am": "2026-10-19",
+      "deutsch": true
     },
     "removed:11830:prime": {
       "art": "removed",
@@ -2798,7 +2798,7 @@
       "imdbId": "tt6470478",
       "tmdbId": "tv/71712",
       "dienst": "prime",
-      "am": "2026-10-06",
+      "am": "2026-10-18",
       "deutsch": true
     },
     "removed:8:prime": {
@@ -3228,7 +3228,7 @@
       "imdbId": "tt0460681",
       "tmdbId": "tv/1622",
       "dienst": "prime",
-      "am": "2026-09-07",
+      "am": "2026-10-18",
       "deutsch": true
     },
     "removed:40065:netflix": {
@@ -4488,7 +4488,7 @@
       "imdbId": "tt6734482",
       "tmdbId": "tv/72061",
       "dienst": "prime",
-      "am": "2026-09-25",
+      "am": "2026-10-19",
       "deutsch": false
     },
     "removed:25370637:prime": {
@@ -6198,8 +6198,8 @@
       "imdbId": "tt2188671",
       "tmdbId": "tv/46786",
       "dienst": "prime",
-      "am": "2026-10-06",
-      "deutsch": true
+      "am": "2026-10-18",
+      "deutsch": false
     },
     "removed:1370:prime": {
       "art": "removed",
@@ -6788,7 +6788,7 @@
       "imdbId": "tt1405406",
       "tmdbId": "tv/18165",
       "dienst": "prime",
-      "am": "2026-10-08",
+      "am": "2026-10-18",
       "deutsch": true
     },
     "removed:5461236:prime": {
@@ -8060,7 +8060,127 @@
       "dienst": "netflix",
       "am": "2026-10-17",
       "deutsch": false
+    },
+    "new:82835:prime": {
+      "art": "new",
+      "titel": "Macky Pancake",
+      "originalTitel": "Macky Pancake",
+      "imdbId": "tt0488917",
+      "tmdbId": "tv/121386",
+      "dienst": "prime",
+      "am": "2026-10-18",
+      "deutsch": true
+    },
+    "new:4383090:prime": {
+      "art": "new",
+      "titel": "Fenix",
+      "originalTitel": "Fenix",
+      "imdbId": "tt6361278",
+      "tmdbId": "tv/81729",
+      "dienst": "prime",
+      "am": "2026-10-18",
+      "deutsch": true
+    },
+    "new:27068045:prime": {
+      "art": "new",
+      "titel": "Hometown Giants",
+      "originalTitel": "Hometown Giants",
+      "imdbId": "tt43122927",
+      "tmdbId": "tv/336973",
+      "dienst": "prime",
+      "am": "2026-10-18",
+      "deutsch": false
+    },
+    "new:25861498:prime": {
+      "art": "new",
+      "titel": "Marília Mendonça: All the Feels",
+      "originalTitel": "Marília Mendonça: Sentimento Louco",
+      "imdbId": "tt43702035",
+      "tmdbId": "tv/296466",
+      "dienst": "prime",
+      "am": "2026-10-18",
+      "deutsch": false
+    },
+    "new:26598137:prime": {
+      "art": "new",
+      "titel": "Friends Sex and Games",
+      "originalTitel": "Friends Sex and Games",
+      "imdbId": "tt37180305",
+      "tmdbId": "tv/298550",
+      "dienst": "prime",
+      "am": "2026-10-18",
+      "deutsch": true
+    },
+    "removed:68770:prime": {
+      "art": "removed",
+      "titel": "Farming Life in Another World",
+      "originalTitel": "異世界のんびり農家",
+      "imdbId": "tt19223420",
+      "tmdbId": "tv/196285",
+      "dienst": "prime",
+      "am": "2026-10-19",
+      "deutsch": false
+    },
+    "removed:19825667:prime": {
+      "art": "removed",
+      "titel": "Mengele Unveiled",
+      "originalTitel": "Mengele Unveiled",
+      "imdbId": "tt36940475",
+      "tmdbId": "tv/291381",
+      "dienst": "prime",
+      "am": "2026-10-19",
+      "deutsch": false
+    },
+    "removed:3376:prime": {
+      "art": "removed",
+      "titel": "Dan Brown's The Lost Symbol",
+      "originalTitel": "Dan Brown's The Lost Symbol",
+      "imdbId": "tt10478054",
+      "tmdbId": "tv/120452",
+      "dienst": "prime",
+      "am": "2026-10-19",
+      "deutsch": true
+    },
+    "removed:302:prime": {
+      "art": "removed",
+      "titel": "Archer",
+      "originalTitel": "Archer",
+      "imdbId": "tt1486217",
+      "tmdbId": "tv/10283",
+      "dienst": "prime",
+      "am": "2026-10-18",
+      "deutsch": true
+    },
+    "removed:19902109:prime": {
+      "art": "removed",
+      "titel": "Only See Great",
+      "originalTitel": "Only See Great",
+      "imdbId": "tt13666232",
+      "tmdbId": "tv/110598",
+      "dienst": "prime",
+      "am": "2026-10-18",
+      "deutsch": false
+    },
+    "removed:19926983:prime": {
+      "art": "removed",
+      "titel": "Double Vie",
+      "originalTitel": "Double Vie",
+      "imdbId": "tt9389630",
+      "tmdbId": "tv/85740",
+      "dienst": "prime",
+      "am": "2026-10-18",
+      "deutsch": false
+    },
+    "removed:14011:prime": {
+      "art": "removed",
+      "titel": "Sekai Ichi Hatsukoi: The World's Greatest First Love",
+      "originalTitel": "世界一初恋",
+      "imdbId": "tt1907374",
+      "tmdbId": "tv/42554",
+      "dienst": "prime",
+      "am": "2026-10-18",
+      "deutsch": true
     }
   },
-  "fetchedAt": "2026-10-18T04:10:47.080Z"
+  "fetchedAt": "2026-10-19T04:09:45.203Z"
 }

@@ -877589,5 +877589,32 @@
       ]
     },
     "fetchedAt": "2026-10-18T06:01:33.988Z"
+  },
+  "218532": {
+    "anisearchId": 22024,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Maomao no Hitorigoto Dai 3 Ki",
+          "titleNative": "猫猫のひとりごと 第3期",
+          "status": "Laufend",
+          "released": "05.10.2026 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "Web",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Herbst 2026",
+      "adaptedFrom": "Light Novel",
+      "synonyms": [
+        "Maomao no Hitorigoto 3rd Season"
+      ]
+    },
+    "fetchedAt": "2026-10-19T06:01:39.618Z"
   }
 }
