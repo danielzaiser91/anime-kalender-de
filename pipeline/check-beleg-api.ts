@@ -46,7 +46,8 @@ const release = (extra: Record<string, unknown> = {}): Release =>
     sources: [ARTIKEL, API],
     quellen: [
       { url: ARTIKEL, name: 'news.animationdigitalnetwork.com', gesehenAm: '2026-10-17', stand: 'aktuell', bild: 'artikel.webp' },
-      { url: API, name: 'ADN API', gesehenAm: '2026-10-17', stand: 'aktuell' },
+      /* Erste Sichtung am 01.10., gelesen am 17.10.: die Messung nennt den Lesetag (Prüfer 1598 A1). */
+      { url: API, name: 'ADN API', gesehenAm: '2026-10-01', gelesenAm: '2026-10-17', stand: 'aktuell' },
     ],
     ...extra,
   }) as unknown as Release
@@ -57,7 +58,7 @@ const belegeVon = (r: Release) => baueNews([titel], [r], [], [], { zuerst: {} })
   const api = belege.find((b) => b.url === API)
   pruefe('der API-Beleg bleibt, mit Messung', Boolean(api?.messung?.zeilen.length), belege)
   pruefe('Serie, gezählte Folgen, Datum und Sprache stehen drin, keine erfundene Startnummer', JSON.stringify(api?.messung?.zeilen) === JSON.stringify(['Serie: Puella Magi Madoka Magica', '12 Folgen', 'Datum: 29.10.2026, 09:00 Uhr', 'Sprache: Deutsch']), api?.messung)
-  pruefe('Abrufzeit: der Tag, an dem wir den Kalender sahen', api?.messung?.am === '2026-10-17', api)
+  pruefe('Abrufzeit: der Lesetag (gelesenAm), nicht die Erstsichtung (gesehenAm)', api?.messung?.am === '2026-10-17', api)
   pruefe('Originalseite ist die Serienseite des Titels', api?.seite === SERIE && belegLink(api!) === SERIE, api)
   pruefe('kein Beleg des Termins hat eine API-Adresse als Link', belege.every((b) => !istApiAdresse(belegLink(b) ?? '')), belege)
   pruefe('der Artikel-Beleg bleibt unverändert', belege.some((b) => b.url === ARTIKEL && !b.messung && b.bild === 'artikel.webp'), belege)
@@ -68,8 +69,14 @@ const belegeVon = (r: Release) => baueNews([titel], [r], [], [], { zuerst: {} })
   const ohneSeite = belegeVon(release({ platformUrl: undefined })).find((b) => b.url === API)
   pruefe('ohne Serienseite: Messung ja, Knopf nein', Boolean(ohneSeite?.messung) && belegLink(ohneSeite!) === undefined, ohneSeite)
   pruefe('Serienseite: keine Folge-Adresse, nicht von anderen Anbietern', adnSerienseite(release({ platform: 'netflix' })) === undefined && adnSerienseite(release({ platformUrl: 'https://www.netflix.com/title/1' })) === undefined)
-  const ohneTag = belegeVon(release({ quellen: [{ url: API, name: 'ADN API', gesehenAm: '', stand: 'aktuell' }] }))
-  pruefe('ohne Abrufdatum entsteht kein leerer API-Beleg', !ohneTag.some((b) => istApiAdresse(b.url)), ohneTag)
+  const ohneTag = belegeVon(release({ quellen: [{ url: API, name: 'ADN API', gesehenAm: '2026-10-01', stand: 'aktuell' }] }))
+  pruefe('ohne Lesetag (nur Erstsichtung) entsteht kein leerer API-Beleg', !ohneTag.some((b) => istApiAdresse(b.url)), ohneTag)
+  const KATALOG = 'https://gw.api.animationdigitalnetwork.com/video/show/1318'
+  const katalog = belegeVon(release({ sources: [KATALOG], quellen: [{ url: KATALOG, name: 'ADN API', gesehenAm: '2026-10-01', gelesenAm: '2026-10-12', stand: 'aktuell' }] }))
+  const kat = katalog.find((b) => b.url === KATALOG)
+  pruefe('Katalog-Termin ohne Kalendereintrag: weder Name noch Messquelle „ADN-Kalender“ (Prüfer 1598 A2)', kat?.name === 'ADN-Katalog' && kat.messung?.quelle === 'ADN-Katalog' && kat.messung.am === '2026-10-12', katalog)
+  const kalenderZusatz = belegeVon(release({ quellen: [{ url: `${KATALOG}/extra`, name: 'ADN API', gesehenAm: '2026-10-01', gelesenAm: '2026-10-12', stand: 'aktuell' }] }))
+  pruefe('andere ADN-API-Adresse: kein Beleg (nur Kalender und Folgenliste der Serie sind bekannt)', !kalenderZusatz.some((b) => istApiAdresse(b.url)), kalenderZusatz)
   const nurQuelle = belegeVon(release({ quellen: [] }))
   pruefe('eine API-Adresse nur in `sources` wird kein Beleg', !nurQuelle.some((b) => istApiAdresse(b.url)), nurQuelle)
   const einzel = belegeVon(release({ schedule: { firstEpisodeDate: '2026-10-29', time: '09:00', episodeCount: 1 } })).find((b) => b.url === API)
@@ -99,6 +106,8 @@ function eintragMit(belege: NonNullable<NewsEintrag['meldungen'][number]['belege
 {
   const leer = eintragMit([{ url: API, name: 'ADN API' }])
   pruefe('API-Beleg ohne Inhalt: Befund', apiBelegFehler([leer]).length === 1, apiBelegFehler([leer]))
+  const leereZeilen = eintragMit([{ url: API, name: 'ADN-Kalender', messung: { am: '2026-10-17', quelle: 'ADN-Kalender', zeilen: [] } }])
+  pruefe('API-Beleg mit Messung, aber ohne Zeilen: Befund (Prüfer 1598 A3)', apiBelegFehler([leereZeilen]).length === 1, apiBelegFehler([leereZeilen]))
   pruefe('API-Adresse als Originalseite: Befund', apiBelegFehler([eintragMit([{ url: ARTIKEL, name: 'x', seite: API }])]).length === 1)
   pruefe('gewöhnlicher Beleg ohne Inhalt: kein Befund (Händlerseite trägt ihren Link)', apiBelegFehler([eintragMit([{ url: 'https://www.amazon.de/dp/1', name: 'x' }])]).length === 0)
   pruefe('belegFehler (der Bau) meldet den leeren API-Beleg', belegFehler([leer], entdoppeleBelege([leer])).some((f) => f.includes('API-Adresse')))
@@ -126,7 +135,7 @@ console.log('\nDie Kette des Baus (baueNews → belegeFuerAlle → entdoppeleUnd
     }
   }
   probe('nur API in `sources`, kein `quellen`: Bau läuft, kein API-Beleg', nurApi(), (b) => !b.some((x) => istApiAdresse(x.url)))
-  probe('nur API in `quellen` ohne Abrufdatum: Bau läuft, kein API-Beleg', nurApi({ quellen: [{ url: API, name: 'ADN API', gesehenAm: '', stand: 'aktuell' }] }), (b) => !b.some((x) => istApiAdresse(x.url)))
+  probe('nur API in `quellen` ohne Lesetag: Bau läuft, kein API-Beleg', nurApi({ quellen: [{ url: API, name: 'ADN API', gesehenAm: '2026-10-01', stand: 'aktuell' }] }), (b) => !b.some((x) => istApiAdresse(x.url)))
   probe('Nicht-ADN-Termin mit API-Quelle: Bau läuft, kein API-Beleg', nurApi({ platform: 'netflix', sources: ['https://api.example.com/x'], quellen: [{ url: 'https://api.example.com/x', name: 'x', gesehenAm: '2026-10-17', stand: 'aktuell' }] }), (b) => !b.some((x) => istApiAdresse(x.url)))
   probe('ADN-Termin mit Abrufdatum: der API-Beleg überlebt die Kette mit Messung', release(), (b) => b.some((x) => x.url === API && Boolean(x.messung?.zeilen.length) && x.seite === SERIE))
   const vorhanden = eintragMit([{ url: API, name: 'ADN API' }])

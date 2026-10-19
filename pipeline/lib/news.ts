@@ -32,7 +32,7 @@ import { ausgabeKurz } from './news-ausgabe.ts'
 import { addDays, todayIso, toIsoDate } from '../../shared/time.ts'
 import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { hostVon, istApiAdresse } from '../../shared/quelle.ts'
-import { adnKalenderBeleg } from './beleg-api.ts'
+import { adnApiBeleg } from './beleg-api.ts'
 import { geerbteWege } from '../../shared/kanal-anbieter.ts'
 import { ohneDoppelteFolgen, verspaetungsMeldungen } from './news-verspaetung.ts'
 import { omuMeldungen } from './news-omu.ts'
@@ -135,8 +135,8 @@ export function belegeVonRelease(r: Release): NewsBeleg[] | undefined {
   for (const q of r.quellen ?? []) {
     if (q.stand && q.stand !== 'aktuell') continue
     if (istApiAdresse(q.url)) {
-      /* Eine API-Adresse zeigt ihre Messung statt einer Seite; ohne Abrufdatum bleibt nichts zu zeigen. */
-      const api = adnKalenderBeleg(r, q.url, q.gesehenAm)
+      /* Eine API-Adresse zeigt ihre Messung statt einer Seite; ohne Lesetag (`gelesenAm`, nicht die Erstsichtung) bleibt nichts zu zeigen. */
+      const api = adnApiBeleg(r, q.url, q.gelesenAm)
       if (api && !nachUrl.has(q.url)) nachUrl.set(q.url, api)
       continue
     }

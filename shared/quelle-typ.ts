@@ -20,6 +20,8 @@ export interface Quelle {
   name: string
   /** Wann ein Lauf diese Quelle zum ersten Mal gesehen hat. */
   gesehenAm: string
+  /** Nur API-Quellen, deren Messung ein Beleg zeigt (ADN): der Tag, an dem ein Lauf die Daten zuletzt gelesen hat (`pipeline/bau/adn-lesetag.ts`). */
+  gelesenAm?: string
   /** Was die Quelle sagt, sofern auslesbar — etwa ein Datum. */
   sagt?: string
   /** Laut Artikel (Beleg-Lesung); `ausgabeAm`: bei einer Produktseite der Erscheinungstag der Ausgabe, kein Textdatum. */

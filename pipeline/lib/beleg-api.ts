@@ -28,7 +28,7 @@ function folgenZeile(s: Release['schedule'] | undefined): string[] {
   return [anzahl === 1 ? '1 Folge' : `${anzahl} Folgen`]
 }
 
-/** Was der Kalender zum Termin sagte, Zeile für Zeile — nur, was der Termin trägt: Serie, Folgen, Datum, Sprache (der Kalender führt nur deutsche Folgen). */
+/** Was ADN zum Termin sagte, Zeile für Zeile — nur, was der Termin trägt: Serie, Folgen, Datum, Sprache (Kalender und Katalog-Lauf führen nur deutsche Folgen). */
 export function kalenderZeilen(release: Release): string[] {
   const s = release.schedule
   return [
@@ -39,14 +39,22 @@ export function kalenderZeilen(release: Release): string[] {
   ]
 }
 
-/** Der Beleg zur Kalender-Adresse eines ADN-Termins; ohne Abrufdatum gibt es nichts zu zeigen (`undefined`). */
-export function adnKalenderBeleg(release: Release, url: string, gesehenAm: string | undefined): NewsBeleg | undefined {
-  if (!gesehenAm || release.platform !== 'adn' || !url.startsWith('https://gw.api.animationdigitalnetwork.com/')) return undefined
+/** Welcher ADN-Endpunkt die Daten des Termins lieferte: der Kalender oder die Folgenliste einer Katalog-Serie (`pipeline/bau/grundlagen.ts`). */
+function adnEndpunkt(url: string): string | undefined {
+  const m = /^https:\/\/gw\.api\.animationdigitalnetwork\.com\/video\/(calendar|show\/\d+)$/.exec(url)
+  if (!m) return undefined
+  return m[1] === 'calendar' ? 'ADN-Kalender' : 'ADN-Katalog'
+}
+
+/** Der Beleg zur API-Adresse eines ADN-Termins; `gelesenAm` ist der Tag des Abrufs (`Quelle.gelesenAm`), ohne ihn gibt es nichts zu zeigen (`undefined`). */
+export function adnApiBeleg(release: Release, url: string, gelesenAm: string | undefined): NewsBeleg | undefined {
+  const quelle = adnEndpunkt(url)
+  if (!gelesenAm || release.platform !== 'adn' || !quelle) return undefined
   const seite = adnSerienseite(release)
   return {
     url,
-    name: 'ADN-Kalender',
-    messung: { am: gesehenAm, quelle: 'ADN-Kalender', zeilen: kalenderZeilen(release) },
+    name: quelle,
+    messung: { am: gelesenAm, quelle, zeilen: kalenderZeilen(release) },
     ...(seite ? { seite } : {}),
   }
 }

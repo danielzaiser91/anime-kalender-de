@@ -21,6 +21,7 @@ import { eigenesJa, zaehltAlsDeutscherTermin } from '../lib/news.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
 import { reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
+import { ladeAdnLesetage, mitLesetag } from './adn-lesetag.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
 import { setzeStaffeln, staffelnAusBelegen } from './cartoon-staffeln.ts'
@@ -398,6 +399,7 @@ export function quellenPflegen(releases: Release[]): void {
   const historie = readJson<Record<string, Quelle[]>>(QUELLEN_HISTORIE, {})
   const lesungen = readJson<BelegGedaechtnis>('data/beleg-lesungen.json', {})
   const heute = todayIso()
+  const lesetag = ladeAdnLesetage()
 
   for (const release of releases) {
     const termin = release.schedule.firstEpisodeDate
@@ -407,7 +409,7 @@ export function quellenPflegen(releases: Release[]): void {
      * Hand geprüften Termine die schlechtere Belegkette als die automatischen.
      * **Kein `sagt`:** Unser Termin als Aussage der Quelle war ein Zirkelschluss.
      */
-    const neu: Quelle[] =
+    const roh: Quelle[] =
       release.quellen ??
       release.sources.map((url) => ({
         url,
@@ -415,6 +417,7 @@ export function quellenPflegen(releases: Release[]): void {
         gesehenAm: heute,
         stand: 'aktuell' as const,
       }))
+    const neu = mitLesetag(release, roh, lesetag)
 
     const aktuelleAdressen = new Set(neu.map((q) => q.url))
     const alt = (historie[release.slug] ?? []).map((q) => {
