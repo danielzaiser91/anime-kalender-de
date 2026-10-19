@@ -304,6 +304,11 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     hinzu tools/design-klassen-grenzen.json
   fi
 
+  # Dasselbe für die echte Uhr in Tests (tools/uhr-in-tests.mjs).
+  if node tools/uhr-in-tests.mjs --festschreiben > /dev/null 2>&1; then
+    hinzu tools/uhr-in-tests-grenzen.json
+  fi
+
   # Dasselbe für die Treffer der Kalender-Plausibilität (pipeline/lib/kalender-plausibilitaet.ts): gesunkene Zahlen übernehmen.
   if [ "$QUARANTAENE_AKTIV" != 1 ] && npm run check:kalender-plausibilitaet -- --festschreiben > /dev/null 2>&1; then
     hinzu tools/kalender-plausibilitaet-grenzen.json
