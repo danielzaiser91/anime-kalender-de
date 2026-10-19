@@ -31,14 +31,8 @@ function testdateien(quelle) {
     .split('\0')
     .filter(Boolean)
   const liste = existsSync(join(quelle, LISTE)) ? readFileSync(join(quelle, LISTE), 'utf8').split('\n') : []
-  const eintraege = liste.map((z) => z.trim()).filter((z) => z && !z.startsWith('#') && existsSync(join(quelle, z)))
+  const eintraege = liste.map((z) => z.trim()).filter((z) => z && existsSync(join(quelle, z)))
   return [...new Set([...getrackt.filter((p) => TESTNAME.test(p)), ...eintraege])].sort()
-}
-
-function skriptArt(pfad) {
-  if (/\.tsx$/.test(pfad)) return ts.ScriptKind.TSX
-  if (/\.jsx$/.test(pfad)) return ts.ScriptKind.JSX
-  return /\.[mc]?ts$/.test(pfad) ? ts.ScriptKind.TS : ts.ScriptKind.JS
 }
 
 const istDate = (n) =>
@@ -60,8 +54,8 @@ function liestUhr(n) {
 /** Zeilen (1-basiert) mit einem Kommentar `uhr-echt: <Grund>`: Kommentare hängen als Trivia an einem Token, nie in einem String. */
 function ausnahmeZeilen(sf, text) {
   const zeilen = new Set()
-  // Vor und hinter jedem Knoten (am Zeilenende einer letzten Anweisung im Block hängt der Kommentar nur hinter dem Knoten).
-  const kommentare = (pos) => [...(ts.getTrailingCommentRanges(text, pos) ?? []), ...(ts.getLeadingCommentRanges(text, pos) ?? [])]
+  // Hinter dem Ende von Knoten und Token: ein Kommentar derselben Zeile ist immer Trailing-Trivia des Tokens davor.
+  const kommentare = (pos) => ts.getTrailingCommentRanges(text, pos) ?? []
   const besuche = (n) => {
     for (const k of [...kommentare(n.pos), ...kommentare(n.end)]) {
       if (!GRUND.test(text.slice(k.pos, k.end))) continue
@@ -77,7 +71,7 @@ function ausnahmeZeilen(sf, text) {
 
 /** Fundstellen `pfad:zeile` einer Quelle, eine je Vorkommen. */
 export function stellenInQuelle(pfad, text) {
-  const sf = ts.createSourceFile(pfad, text, ts.ScriptTarget.Latest, true, skriptArt(pfad))
+  const sf = ts.createSourceFile(pfad, text, ts.ScriptTarget.Latest, true)
   const frei = ausnahmeZeilen(sf, text)
   const funde = []
   const besuche = (n) => {

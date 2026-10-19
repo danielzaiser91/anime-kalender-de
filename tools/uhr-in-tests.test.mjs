@@ -103,6 +103,8 @@ try {
   assert.deepEqual(funde('const t = Date.now() // uhr-echt:   \n'), ['a.test.ts:1'], 'Leerzeichen sind kein Grund')
   assert.deepEqual(funde('const t = /* uhr-echt: Grund */ Date.now()\n'), [], 'Blockkommentar vor der Stelle')
   assert.deepEqual(funde('const t = /* uhr-echt: Grund\n weiter */ Date.now()\n'), [], 'Blockkommentar über zwei Zeilen, Stelle in der letzten')
+  assert.deepEqual(funde('const t = Date.now() /* uhr-echt: Grund\n weiter */\n'), [], 'Blockkommentar über zwei Zeilen, Stelle in der ersten')
+  assert.deepEqual(funde('const t =\n  Date.now()\n'), ['a.test.ts:2'], 'gezählt wird die Zeile, in der die Stelle beginnt')
   assert.deepEqual(funde('const t = Date.now() /* uhr-echt: */\n'), ['a.test.ts:1'], 'leerer Blockkommentar')
   assert.deepEqual(funde('const t = [Date.now(), "uhr-echt: Grund"]\n'), ['a.test.ts:1'], 'im String gilt es nicht')
   assert.deepEqual(funde('const t = Date.now(), s = `uhr-echt: Grund`\n'), ['a.test.ts:1'], 'im Template gilt es nicht')
