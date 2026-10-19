@@ -448,6 +448,14 @@ html:not(.dark) .ak-punkt {
 .ak-katalog-glanz {
   box-shadow: 0 0 0 2px var(--ak-katalog), 0 0 18px -2px var(--ak-katalog);
 }
+/* Cover mit Anbieterleiste: Ring und Glanz enden an der Unterkante, sonst läge unter der Leiste ein Streifen Goldrand und schöbe sie bei Favoriten nach oben. */
+.ak-ring-oben {
+  clip-path: inset(-20px -20px 0 -20px);
+}
+/* Woche und Tageszeile: Die Leiste ist ein Geschwister und auf ganze Pixel gerundet, das Cover hat eine gebrochene Unterkante; clip-path rundet nicht und ließe eine halbe Ringzeile unter der Leiste. 1 px höher schneiden: die Leiste (Woche 4 px, Tageszeile 3 px) deckt es. */
+.ak-ring-oben-leiste {
+  clip-path: inset(-20px -20px 1px -20px);
+}
 .ak-vorbei .ak-titel {
   color: var(--ak-leise);
 }

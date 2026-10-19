@@ -1,0 +1,224 @@
+{
+ "quelle": "gh pr view <n> --json headRefOid,comments am 19.10.2026 gegen 19 Uhr; Kommentare auf 400 Zeichen gekürzt",
+ "prs": {
+  "1513": {
+   "headRefOid": "fb72b09bf212fa6a09a09f2cd53e03479a8801b9",
+   "comments": {
+    "nodes": [
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "<!-- pr-stufe -->\n**Prüfstufe 2** für fb72b09bf\n\n- pipeline/check-sichtung-folge.ts: Stufe 2 (Pfad ohne Herabstufungsregel (Pipeline, Logik, Workflow, Worker, Schema oder unbekannt))\n- pipeline/check-sichtungsfenster.ts: Stufe 2 (Pfad ohne Herabstufungsregel (Pipeline, Logik, Workflow, Worker, Schema oder unbekannt))\n- pipeline/lib/pruefung.ts: Stufe 2 (Pfad ohne Herabstufungsregel (Pipeline, Logi"
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "**Prüfer-Review** für 1bc2f4cae - Urteil: **aendern**\n\nUrteil: aendern (Diff ok, vollständig gesehen; ein Commit, nur Regel + Wächter, kein Umbau/Verhaltens-Mix).\n\nBefunde:\n1. Regel „Gilt nur für die gesichtete Folge\" (projektregeln-im-detail.md, neuer Absatz) ist nicht erzwungen und nicht darstellbar:\n   `timeSighting` hat kein Feld für die Folge (Nummer/Datum der gesichteten Folge), `schedule.ti"
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "## Nachtrag (Kopf 941124e61): Antwort auf Prüfer-Befunde und roten Bau\n\n- Rot „Kette – Bau und Installation\": `check:umfang` (Funktionen 9504 statt 9503), weil ich in `main()` von `validate.ts` eine Zeile ergänzt hatte. Jetzt ersetzt eine Zeile die alte (`zeitFehler` fasst das HH:MM-Format und die Sichtung zusammen), `check:umfang` ist grün.\n- Befund 1 (gilt nur für die gesichtete Folge): neu `sha"
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "**Prüfer-Review** für 941124e61 - Urteil: **ok**\n\n# Protokoll Prüfer (Stufe 2), Kopf 941124e61\n\nUrteil: ok. Diff-Zustand ok, Commit-Liste vorhanden, keine Stubs.\n\nGeprüft:\n- Änderung an einer Prüfung: `pipeline/validate.ts` bekommt `zeitFehler`, eine strengere Prüfung. Die alte HH:MM-Prüfung bleibt dort enthalten (`sichtungsfenster.ts:189`). Nichts wird abgeschwächt.\n- Der Wächter prüft das gepars"
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "## Nachtrag 2: Wächter gegen stille Wirkungslosigkeit (aus Prüfer-Runde von PR 1508)\n\nNeu in `pipeline/lib/sichtungsfenster.ts`: `sichtungOhneUhrzeit`, aufgerufen in `schlussFehler` von `pruefung.ts` (damit im Bau-Ende und im CI-Job „PR-Datenbau“ gegen den echten Bestand). Meldet jedes nicht widerlegte Release mit `timeSighting`, zu dem kein Termin am Sichtungstag eine Uhrzeit trägt (z. B. Folgenz"
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "**Prüfer-Review** für 3ec1ef008 - Urteil: **ok**\n\nUrteil: ok (Diff-Zustand ok, Stufe 2; nur den Diff gegen die Beschreibung gelesen, keine Gegenproben im Repo)\n\nGeprüft:\n- Neue Ausnahme (CLAUDE.md, projektregeln-im-detail.md) ist als Regel, Wächter und Test belegt; sie schwächt keine Prüfung. Das alte TIME-Format in validate.ts bleibt in zeitFehler erhalten (pipeline/lib/sichtungsfenster.ts:222).\n"
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "Prüfer: ändern\n\n**Runde 1 (Prüfer-Agent), geprüfter Kopf 3ec1ef008c06c774914cae285b28f35a6e19cc4e.** mergeable, alle Checks grün, beide Merge-Commits gleich `git merge-tree` (941124e61, 3ec1ef008).\n\nDie Regel selbst passt zum Projektziel: Die Zeit liegt im Fenster, ist mit „≈“ gekennzeichnet und gilt nur am Sichtungstag. Zwei Leser von `schedule.time` außerhalb von `expandEvents` umgehen sie aber."
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "## Nachtrag 3 (Kopf 97ca4f7db): Runde 2, A1–A4 strukturell\n\nUmbau: Die Sichtungszeit steht nur in `schedule.timeSighting.time`, `schedule.time` bleibt dort leer (der Wächter lehnt beides zusammen ab). Einziger Leser ist `setzeSichtungszeit` (`shared/sichtung.ts`, aus `expandEvents`): setzt `time` + `timeEstimated` am Termin des Sichtungstags, eine gemessene Zeit am Termin bleibt; nichts wird gestr"
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "**Prüfer-Review** für 97ca4f7db - Urteil: **ok**\n\n# Prüfer-Protokoll (Stufe 2, Kopf 97ca4f7db, Diff-Zustand ok)\n\n**Urteil: ok**\n\nGeprüft: Regeltext (CLAUDE.md, projektregeln-im-detail.md), `pipeline/lib/sichtungsfenster.ts`, `shared/sichtung.ts`, Aufrufe in `validate.ts`, `shared/logic.ts` (`expandEvents`) und `pruefung.ts`, beide neuen Check-Dateien, Eintrag in `check-logic-liste.txt`.\n\n- Keine P"
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "Prüfer: ändern\n\n**Runde 2, geprüfter Kopf 97ca4f7dbd0538241796d602de45b992cbf98008** (über 1508, Kopf 344485728, der genau zwei Datendateien darauf setzt). mergeable, 11/11 Checks grün.\n\n## R1-Auflagen\n- **A1 erfüllt:** Die Sichtungszeit steht nur in `timeSighting.time`. `news.ts:185` sieht leeres `schedule.time`, und `check-sichtung-folge` (Nachtrag + Sichtung → kein `zeit`) ist grün.\n- **A2 erfü"
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "**Prüfer-Review** für 5d26d4daf - Urteil: **aendern**\n\nUrteil: aendern (Diff-Zustand ok, 9 Dateien gesehen; Bash war gesperrt, daher keine Gegenproben an main außer dem Diff selbst)\n\nBefunde:\n1. Beschreibung und Stand widersprechen sich. Kopf und Nachträge 1–3 sagen: Fenster ≤ 30 min, gilt nur für die gesichtete Folge, Sichtungszeit nur in `timeSighting.time`, Wächter `sichtungOhneUhrzeit`. Der le"
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "Prüfer Runde 3: ändern\n\nGeprüfter Kopf 5d26d4daf546ce420ac5c8d47e30f7d59b16eb73. mergeable, 11/11 Checks grün. Der Kopf hat die Auslegung von R1/R2 umgedreht (5d192ab46: `schedule.time` = Regeltermin aller Folgen, Fenster unter 60 min ohne ≈, `zeiten` je Folge schlägt ihn, F39). Dadurch sind A1, A2 und A6 gegenstandslos: es gibt keinen Sichtungstag-Leser mehr, alle Stellen lesen `schedule.time`.\n\n"
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "## Nachtrag 4 — Stand des Kopfes fb72b09bf (ersetzt Beschreibung und Nachträge 1–3, wo sie widersprechen)\n\nSeit 5d192ab46 (Entscheidung F39) gilt eine andere Auslegung als in der Beschreibung:\n\n- `schedule.time` ist der **Regeltermin aller Folgen**; `schedule.timeSighting` (`notSeen`, `seen`, `date`, `source`) belegt das Fenster, in dem er liegt. Nicht mehr „nur die gesichtete Folge“.\n- Fenster **"
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "Prüfer Runde 4: freigeben [runde-ausnahme: nur Textauflagen A7a/A7b aus Runde 3]\n\n- A7a erfüllt: `git diff 5d26d4daf..fb72b09bf` ändert nur Zeile 1 von `pipeline/check-sichtungsfenster.ts`; neuer Wortlaut (Regeltermin in schedule.time, Beleg timeSighting, unter 60 min ohne ≈) stimmt mit `pipeline/lib/sichtungsfenster.ts` (BELEGT_UNTER_MINUTEN = 60, Zeile 9/64) überein.\n- A7b erfüllt (mit Hinweis):"
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "**Prüfer-Review** für fb72b09bf - Urteil: **aendern**\n\nUrteil: aendern (Stufe 2, Diff-Zustand ok, nur Diff und Beschreibung gelesen, keine Gegenlesung im Repo möglich: Bash gesperrt)\n\nBefunde:\n1. Beschreibung und Diff widersprechen sich. Titel/Kopf nennen „≤ 30 min“ und „gilt nur für die gesichtete Folge“. Nachtrag 3 sagt „Folge 4 bekommt keine Zeit“. Der letzte Inhaltscommit 5d192ab46 macht das G"
+     }
+    ]
+   }
+  },
+  "1524": {
+   "headRefOid": "6851c48c0acfa351ae08064d05260431b80a6e40",
+   "comments": {
+    "nodes": [
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "<!-- pr-stufe -->\n**Prüfstufe 2** für 6851c48c0\n\n- pipeline/bau/11-7-wege-aus-terminen.ts: Stufe 2 (Pfad ohne Herabstufungsregel (Pipeline, Logik, Workflow, Worker, Schema oder unbekannt))\n- pipeline/check-link-leere-adresse.ts: Stufe 2 (Pfad ohne Herabstufungsregel (Pipeline, Logik, Workflow, Worker, Schema oder unbekannt))\n- pipeline/check-links.ts: Stufe 2 (Pfad ohne Herabstufungsregel (Pipelin"
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "**Prüfer-Review** für 7883b6d2d - Urteil: **ok**\n\n# Protokoll Prüfer (Stufe 2) – PR fix/link-leere-adresse\n\nUrteil: ok. Diff-Zustand ok, ein Commit, Commit-Liste vorhanden, keine Stubs.\n\nGeprüft:\n- `pipeline/check-links.ts`: Ersatz einer Zeile (`[...adressen]` -> `pruefbare(adressen)`), kein Zuwachs in `main`. Die Kulisse-Zeilen 226/229/278/444 lesen über `ROOT`/`AK_ROOT` oder relativ zum cwd. Der"
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "Prüfer Runde 1: ändern\n\nKern ok (Kulisse echt, Exit 0, Zeile, Bestand bleibt; CI grün, MERGEABLE). Mutationen an Aufruf (weg, `0 &&`), Filter weg, Rückgabe, Zahl 0, catch→true, leer→true sterben. Eine Testlücke, eine Auflage:\n\n**A1 (Test: Protokoll-Zweig ungeprüft).** `pipeline/lib/pruefbare-adresse.ts:12` (`u.protocol === 'https:' || u.protocol === 'http:'`) überlebt als `true`, als nur `https:` "
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "**Prüfer-Review** für d891e4fbc - Urteil: **ok, Checks rot: Kette – Daten, Erweiterung, Belege**\n\n# Prüfer-Protokoll (Stufe 2), PR fix/link-leere-adresse\n\nUrteil: ok. Diff-Zustand ok, Commit-Liste vorhanden. Bash war gesperrt; ich habe nichts ausgeführt, nur gelesen.\n\nGeprüft:\n- `pruefbare()` filtert in `check-links.ts:297` die Menge `adressen`, bevor `new URL(url)` in Z. 379 sie erreicht. `s.seit"
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "## Nachtrag Runde 2\n\nKopf `d891e4fbc` (nur `pipeline/check-link-leere-adresse.ts`, +11/-4; `pruefbare-adresse.ts` unverändert).\n\n**A1 abgehakt.** Kulisse jetzt: `''`, `keine-adresse`, `ftp://…` (primevideo), `mailto:…` (rtlplus) = 4 Übersprungene, dazu frische `https:`- und `http:`-Wege (joyn, wow) im Bestand. Neue Zusicherungen: Zeile „4 Einträge ohne gültige Adresse übersprungen.\", `http:` bleib"
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "**Prüfer-Review** für 6851c48c0 - Urteil: **ok**\n\n# Protokoll Prüfer (Stufe 2) – PR fix/link-leere-adresse\n\nDiff-Zustand ok (5 Dateien im PR-eigenen Diff; der Merge-Commit von main bringt nur Datenstand, nicht Teil des Unterschieds).\n\n**Urteil: ok**\n\nGelesen und gegengeprüft:\n- `pipeline/lib/pruefbare-adresse.ts`: filtert auf gültiges http(s); leer, ohne Protokoll, ftp: und mailto: fallen heraus. "
+     }
+    ]
+   }
+  },
+  "1597": {
+   "headRefOid": "1e1929ce03aab8b6a4fcde3a92dd11e3394ac745",
+   "comments": {
+    "nodes": [
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "## Nachtrag\n- Mutationsliste: `scratchpad/kette-nachrechnen/mut.txt` (18 Mutanten auf `tools/pr-nachrechnen.mjs`, Log `mut.log`, Kopie im Temp, Original per `diff` unverändert).\n- Annahme offen: App darf PR schließen/öffnen und das Wiederöffnen löst die Kette aus (erst nach Merge messbar). Fällt sie, bleibt die Kette wie vorher; Fehler stehen als `FEHLER`-Zeile im Lauf.\n- Vorschlag Repo-Einstellun"
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "<!-- pr-stufe -->\n**Prüfstufe 2** für 1e1929ce0\n\n- .github/workflows/pr-pruefer.yml: Stufe 2 (Pfad ohne Herabstufungsregel (Pipeline, Logik, Workflow, Worker, Schema oder unbekannt))\n- .github/workflows/pr-pruefung.yml: Stufe 2 (Pfad ohne Herabstufungsregel (Pipeline, Logik, Workflow, Worker, Schema oder unbekannt))\n- tools/pr-kette-pruefen.mjs: Stufe 2 (Pfad ohne Herabstufungsregel (Pipeline, Log"
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "**Prüfer-Review** für ca12927c6 - Urteil: **aendern**\n\nUrteil: aendern (Stufe 2, Diff-Zustand ok, ein Commit, keine Stubs).\n\nBerührte Prüfungen (ausdrücklich): app-token-sperre.mjs (neue Art pr-neustart, streng: feste Zeile/env, Negativtests vorhanden), pr-kette-rahmen.mjs/pr-kette-pruefen.mjs (env TZ fest, Negativtests vorhanden), pr-pruefung.yml (env TZ), zugangs-register.json. Keine Abschwächun"
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "**Prüfer-Review** für 394963225 - Urteil: **aendern**\n\n# Prüfer-Protokoll (Stufe 2, Diff-Zustand ok)\n\nUrteil: **aendern**\n\nBerührte Prüfungen: `tools/app-token-sperre.mjs` (neue Art `pr-neustart`, strenge Form), `tools/pr-kette-rahmen.mjs` und `pr-kette-pruefen.mjs` (env `TZ` fest, Negativtests vorhanden), neuer Workflow `pr-nachrechnen.yml`. Das sind keine Abschwächungen.\n\n## Befunde\n1. **Schließ"
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "## Nachtrag 2\nKette Logik war rot: `check-logic.ts` verlangt, dass jeder Workflow-`name:` in `LAUF_ARTEN` (worker/src/lauf-sql.ts) steht. Eingetragen (`PR-Kette nachrechnen`); `check-logic.ts`, `tsc -p .` und `tsc -p tools/tsconfig.worker.json` lokal grün, CI auf 394963225: alle Checks pass (PR-Prüfkette pass). Ursache: mein erster Lokallauf von check:logic lag vor dem Anlegen der Workflow-Datei. "
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "## Nachtrag 3 (Prüfer-Befunde zu ca12927c6)\n- A1 Auto-Merge: PR mit `autoMergeRequest` werden nicht geschlossen, sondern mit Zeile „Auto-Merge aktiv, nicht angefasst, Kette bleibt veraltet“ gemeldet (Wiederherstellen liefe mit dem Token, das am Ruleset vorbei mergt). Test + Mutanten (Filter weg, Meldung weg, Feld aus `--json` weg) rot.\n- A2 Geschlossen bleibt: drei Öffnen-Versuche, danach Fehler „"
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "**Prüfer-Review** für 75f416431 - Urteil: **aendern**\n\n# Prüfer-Protokoll PR fix/kette-nachrechnen (Stufe 2, Diff-Zustand ok, Commit-Liste vorhanden)\n\nUrteil: aendern (ein offener Befund, sonst sauber).\n\nGeänderte Prüfungen/Workflows (ausdrücklich benannt): neuer Workflow pr-nachrechnen.yml, env-Wächter in pr-kette-rahmen.mjs / pr-kette-pruefen.mjs (TZ), neue Art `pr-neustart` in app-token-sperre."
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "## Nachtrag 4 (Prüfer-Befund 1 zu 75f416431)\n- Richtung war falsch gesehen, Befund stimmt: Commit-Zeit kann älter als der Push sein, dann gälte eine Kette zwischen Commit und Push als frisch. Jetzt ohne Argument und ohne Env `PUSH_ZEIT`: das Skript nimmt den Start des Laufs (`new Date()`), das ist nie älter als der Push. Preis: höchstens ein unnötiger Neustart. Sperre `pr-neustart` pinnt `node too"
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "**Prüfer-Review** für 08798af3f - Urteil: **ok**\n\n# Protokoll Prüfer (Stufe 2) – PR fix/kette-nachrechnen, 08798af3f\n\nUrteil: ok. Diff-Zustand ok, vollständig gelesen, Commit-Liste vorhanden, keine Stubs.\n\nBerührte Prüfungen (ausdrücklich benannt): `tools/app-token-sperre.mjs` (neue Art `pr-neustart`, strenge Form: feste Zeile, env per isDeepStrictEqual, nur bekannte Schlüssel), `tools/pr-kette-ra"
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "Prüfer Runde 1: ändern\n\nKopf 08798af3f, mergeable MERGEABLE, `gh pr checks` alle pass (keine Rot-Fälle). Mutationsskript und Listen: `scratchpad/p1597/mut.mjs`, `m1.json` (41 Mutanten), `m2.json` (9), Umgehungen `umgeh.mjs`, Messung `zaehle.mjs` (nur lesend, ruft `veraltete()`, nie `ausfuehren()`).\n\n## Messung am echten Bestand (19.10.2026, lesend)\n- `veraltete()` gegen die offenen PR jetzt: **26 "
+     },
+     {
+      "author": {
+       "login": "danielzaiser91"
+      },
+      "body": "## Nachtrag (R2: Ansatzwechsel, Nachrechnen nur vor dem Merge)\n\n**Ansatzwechsel (Entscheidung Dirigent, wegen A1-Kosten):** Der Push-Workflow `pr-nachrechnen.yml`, der bei jedem main-Push alle offenen PR schloss und wieder öffnete (je Push ein Ketten- und ein Prüferlauf je offenem PR), ist entfernt, ebenso die App-Token-Art `pr-neustart` (`tools/app-token-sperre.mjs`, `data/zugangs-register.json`,"
+     },
+     {
+      "author": {
+       "login": "github-actions"
+      },
+      "body": "**Prüfer-Review** für 1e1929ce0 - Urteil: **ok, Checks laufen noch: Kette – Bau und Installation, Kette – Typen und Worker, PR-Aussehen – Ansichten, PR-Aussehen – Ansichten Handy, PR-Aussehen – Panel, PR-Prüfkette**\n\nUrteil: ok (Stufe 2, Diff-Zustand ok, Commit-Liste vorhanden; Diff vollständig gelesen)\n\nGelesen: der Gesamtdiff, die Beschreibung mit allen Nachträgen und die Commit-Liste. Ich konnt"
+     }
+    ]
+   }
+  }
+ }
+}

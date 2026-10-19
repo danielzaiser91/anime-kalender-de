@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-10-19T13:02:47.436Z",
+  "scrapedAt": "2026-10-19T18:03:00.424Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 6,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "schon in einem Rubrik-Feed gelesen": 7,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 4
   },
@@ -40,6 +40,45 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Elf neue Merchandise-Produkte zu »Apothecary Diaries« angekündigt",
+      "articleUrl": "https://www.anime2you.de/news/1061032/apothecary-diaries-elf-merchandise-produkte/",
+      "publishedAt": "2026-10-19",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-05",
+          "context": "P vorbestellt werden können. Wir fassen die Details zusammen. Release im Mai 2027 Zur neuen »The Apothecary Diaries«-Kollektion zählen ein E"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Crunchyroll nimmt drei Anime-Neuzugänge ins Programm + Synchro",
+      "articleUrl": "https://www.anime2you.de/news/1062283/crunchyroll-your-letter-und-mehr/",
+      "publishedAt": "2026-10-19",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "zeiten": [
+        {
+          "tag": "Sonntag",
+          "zeit": "17:00",
+          "satz": "ffel 3 (Synchro) »Dreamland« – Episode 1 »Your Letter« »As a Reincarnated Aristocrat« – Staffel 3 (Synchro) Episoden: 1 verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Sonntag um 17:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "19:00",
+          "satz": "am mit seinen Verbündeten muss er alles daransetzen, seine Heimat zu verteidigen. »Dreamland« – Episode 1 Episode: 1 verfügbar Sprache: Englisch, Französisch (UT) Simulcast: Jeden Samstag um 19:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        }
+      ],
       "alreadyCurated": false
     },
     {

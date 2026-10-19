@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-19T11:16:05.880Z",
+  "stand": "2026-10-19T14:34:36.738Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -1374,7 +1374,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
       "entferntAm": "2026-10-19",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 15583,
@@ -2848,7 +2848,7 @@
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
       "entferntAm": "2026-10-19",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 151513,
@@ -3167,7 +3167,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
       "entferntAm": "2026-10-19",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 897,
@@ -4974,17 +4974,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 552,
-      "titel": "Digimon",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0CHHNJJW3",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-19",
-      "letzterWeg": true
-    },
-    {
       "titleId": 603,
       "titel": "Pretty Cure",
       "plattform": "crunchyroll",
@@ -5374,17 +5363,6 @@
       "titel": "Yu-Gi-Oh! Zexal",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/yu-gi-oh-zexal",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-19",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 10015,
-      "titel": "Yu-Gi-Oh! Zexal",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B07FBGYPR6",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -5945,7 +5923,7 @@
       "titleId": 21368,
       "titel": "Sinbad: The Magic Lamp and the Moving Islands",
       "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0FQP23X45",
+      "url": "https://www.amazon.de/gp/video/detail/B0FQP23X45",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -6338,17 +6316,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 100722,
-      "titel": "Date a Live III",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0DMB2MKZX",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-19",
-      "letzterWeg": false
-    },
-    {
       "titleId": 100465,
       "titel": "Attack on Titan Movie Teil 3: Gebrüll des Erwachens",
       "plattform": "youtube",
@@ -6407,7 +6374,7 @@
       "titleId": 101348,
       "titel": "Vinland Saga",
       "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0C55SJB1W",
+      "url": "https://www.amazon.de/gp/video/detail/B0C55SJB1W",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -6451,7 +6418,7 @@
       "titleId": 103631,
       "titel": "Trinity Seven: Heavens Library & Crimson Lord",
       "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0HFKQ7R7T",
+      "url": "https://www.amazon.de/gp/video/detail/B0HFKQ7R7T",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -6467,7 +6434,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-19",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 145850,
@@ -7064,17 +7031,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 136430,
-      "titel": "Vinland Saga: Staffel 2",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/gp/video/detail/B0BX1M7K82",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-19",
-      "letzterWeg": false
-    },
-    {
       "titleId": 139369,
       "titel": "Management of a Novice Alchemist",
       "plattform": "adn",
@@ -7232,7 +7188,7 @@
       "titleId": 148969,
       "titel": "Kubo Won’t Let Me Be Invisible",
       "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0FM8SL11C",
+      "url": "https://www.amazon.de/gp/video/detail/B0FM8SL11C",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -7298,7 +7254,7 @@
       "titleId": 156040,
       "titel": "The Most Heretical Last Boss Queen: From Villainess to Savior",
       "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0FBGJHHXK",
+      "url": "https://www.amazon.de/gp/video/detail/B0FBGJHHXK",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -7376,6 +7332,17 @@
       "titel": "My Hero Academia: Season 7",
       "plattform": "netflix",
       "url": "https://www.netflix.com/title/80135674",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-19",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 155645,
+      "titel": "Urusei Yatsura: Staffel 2",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81642888",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -7612,17 +7579,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-19",
       "letzterWeg": true
-    },
-    {
-      "titleId": 176301,
-      "titel": "Die Tagebücher der Apothekerin: Staffel 2",
-      "plattform": "netflix",
-      "url": "https://www.netflix.com/title/81712068",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-19",
-      "letzterWeg": false
     },
     {
       "titleId": 177476,
@@ -8107,6 +8063,61 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-19",
       "letzterWeg": true
+    },
+    {
+      "titleId": 552,
+      "titel": "Digimon",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CHHNJJW3",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-19",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 10015,
+      "titel": "Yu-Gi-Oh! Zexal",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B07FBGYPR6",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-19",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 100722,
+      "titel": "Date a Live III",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0DMB2MKZX",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-19",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 136430,
+      "titel": "Vinland Saga: Staffel 2",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B0BX1M7K82",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-19",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 176301,
+      "titel": "Die Tagebücher der Apothekerin: Staffel 2",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81712068",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-19",
+      "letzterWeg": false
     },
     {
       "titleId": 97940,

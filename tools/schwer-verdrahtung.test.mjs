@@ -13,7 +13,7 @@ const MIT_SPERRE = {
   'data:build': 'node tools/schwer.mjs tsx pipeline/build.ts',
   'check:panel': 'node tools/schwer.mjs npm run check:panel-teile',
   'check:ansichten': 'node tools/schwer.mjs npm run check:ansichten-teile',
-  'check:ansichten-desktop': 'node tools/schwer.mjs node tools/ansicht-bild.mjs',
+  'check:ansichten-desktop': 'node tools/schwer.mjs node tools/ansicht-bild.mjs && node tools/schwer.mjs node tools/kachel-ecken-messen.mjs',
   'check:ansichten-handy': 'node tools/schwer.mjs node tools/ansicht-bild.mjs --handy woche monat datenbank',
 }
 for (const [name, soll] of Object.entries(MIT_SPERRE)) assert.equal(skripte[name], soll, `${name} läuft nicht über schwer.mjs`)
