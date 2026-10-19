@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-18T23:10:59.233Z",
+  "stand": "2026-10-19T00:10:25.347Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -5400,7 +5400,18 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-19",
-      "letzterWeg": false
+      "letzterWeg": true
+    },
+    {
+      "titleId": 11743,
+      "titel": "A Certain Magical Index: The Miracle of Endymion",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B0D169XWP1",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-19",
+      "letzterWeg": true
     },
     {
       "titleId": 11763,
@@ -6489,18 +6500,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-19",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 104252,
-      "titel": "Demon Lord, Retry!",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/gp/video/detail/B0D7N1J8PV",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-19",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 104276,
