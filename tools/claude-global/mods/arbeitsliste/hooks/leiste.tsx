@@ -1,4 +1,4 @@
-// Leiste über dem Prompt (Daniel, 10.10.2026 23:11): zwei Knöpfe und zwei Statusbälle, dazu seit 11.10.2026 „Lecks n/5“.
+// Leiste über dem Prompt (Daniel, 10.10.2026 23:11): zwei Knöpfe und Statusbälle (seit 19.10.2026 drei: autonom, Ruhe, Spar), dazu seit 11.10.2026 „Lecks n/5“.
 // Nur Textzeichen: SVG-Bilder wurden bei jedem Neuzeichnen neu dekodiert und blinkten ein Bild lang leer (11.10.2026).
 import { lecksText } from './lecks'
 import type { Lecks } from './lecks'
@@ -13,6 +13,8 @@ export type LeisteStand = {
   autonomBis: string | null
   // „hart“: höchstens 1 Agent sofort; „sanft“: Laufende enden, die Sanduhr steht, bis höchstens 1 übrig ist.
   ruhe: 'hart' | 'sanft' | null
+  // Sparmodus (Daniel, 19.10.2026): nur günstige Subagenten, solange die Markerdatei existiert.
+  spar: boolean
   // Prozess-Lecks (Zähler der Inventur), null = keine Zählerdatei, nichts zeichnen.
   lecks?: Lecks | null
   oeffneAgenten: () => void
@@ -57,6 +59,7 @@ export function baueLeiste(ui: any, s: LeisteStand) {
       {ball(ui, 'ball-autonom', !!s.autonomBis, 'success')}
       {ball(ui, 'ball-ruhe', !!s.ruhe, 'warning')}
       {s.ruhe === 'sanft' && s.agenten > 1 ? sanduhr(ui) : null}
+      {ball(ui, 'ball-spar', s.spar, 'suggestion')}
       {s.lecks ? lecksAnzeige(ui, s.lecks) : null}
     </Box>
   )

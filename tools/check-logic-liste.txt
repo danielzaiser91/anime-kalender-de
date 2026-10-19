@@ -7,6 +7,7 @@ pipeline/check-adn-anisearch.ts
 pipeline/check-adn-film.ts
 pipeline/check-adn-kuratiert-ton.ts
 pipeline/check-adn-kuratiert.ts
+pipeline/check-adn-lesetag.ts
 pipeline/check-adn-neuzugaenge.ts
 pipeline/check-adn-sprache-offen.ts
 pipeline/check-adn-titelliste-abruf.ts
@@ -35,7 +36,10 @@ pipeline/check-antwort-jetzt.ts
 pipeline/check-ausgeblieben-text.ts
 pipeline/check-auto-disc-handeintrag.ts
 pipeline/check-beleg-anbieter.ts
+pipeline/check-beleg-api-web.ts
+pipeline/check-beleg-api.ts
 pipeline/check-beleg-bis-anker.ts
+pipeline/check-beleg-href.ts
 pipeline/check-beleg-stoerung.ts
 pipeline/check-belegstaerke.ts
 pipeline/check-bild-und-synchro.ts

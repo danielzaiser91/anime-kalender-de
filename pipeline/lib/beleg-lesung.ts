@@ -9,6 +9,7 @@
 import { createHash } from 'node:crypto'
 import type { NewsBeleg, NewsEintrag, Quelle, Release } from '../../shared/types.ts'
 import { hostVon } from '../../shared/quelle.ts'
+import { apiBelegMitInhalt } from './beleg-api.ts'
 import { releaseStatus } from '../../shared/logic.ts'
 import { inPause, type Fehlschlaege } from './beleg-fehlschlag.ts'
 
@@ -256,7 +257,10 @@ export function belegeFuerAlle(eintraege: NewsEintrag[], gedaechtnis: BelegGedae
   return eintraege.map((e) => ({
     ...e,
     meldungen: e.meldungen.map((m) => {
-      const roh = m.belege?.length ? m.belege : typeof m.quelle === 'string' && /^https?:\/\//.test(m.quelle) ? [{ url: m.quelle, name: hostVon(m.quelle) }] : []
+      const nackt = typeof m.quelle === 'string' && /^https?:\/\//.test(m.quelle) ? [{ url: m.quelle, name: hostVon(m.quelle) }] : []
+      /* Eine API-Adresse ohne Messung ist kein Beleg (nur die Adresse, kein Inhalt): sie entfällt, statt den Bau am Wächter scheitern zu lassen. */
+      const roh = (m.belege?.length ? m.belege : nackt).filter(apiBelegMitInhalt)
+      if (m.belege?.length && !roh.length) return { ...m, belege: undefined }
       return roh.length ? { ...m, belege: roh.map((b) => ergaenze(b, m.teilId ?? e.titelId)) } : m
     }),
   }))
