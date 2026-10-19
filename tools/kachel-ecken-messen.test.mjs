@@ -9,7 +9,7 @@ import { copyFileSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, unlinkSync, 
 import os from 'node:os'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { ansichtErgebnis, bewerte, fehlendeZeilen, kandidatenWochen, main, messwocheAbbruch, saalFehler, sammleFehler, tagePlus, waehleMesswoche } from './kachel-ecken-messen.mjs'
+import { ansichtErgebnis, bewerte, fehlendeZeilen, kandidatenWochen, kennungsWochen, main, messeMitWahl, messwocheAbbruch, saalFehler, sammleFehler, tagePlus, waehleMesswoche } from './kachel-ecken-messen.mjs'
 
 const LEISTE = [200, 20, 20]
 const COVER = [70, 90, 130]
@@ -133,6 +133,28 @@ assert.deepEqual(gefragt, ['2026-10-19', '2026-10-26', '2026-11-02'], 'danach wi
 const keine = await waehleMesswoche(['2026-10-19', '2026-10-26'], async () => 0)
 assert.match(keine.fehler, /keine der 2 Wochen ab 2026-10-19 hat 1 Kino-Saal-Kacheln/, 'keine Woche mit Saal: laut rot')
 assert.equal(keine.datum, undefined, 'ohne Saal keine Messwoche')
+assert.deepEqual(kennungsWochen('2026-11-02'), ['2026-11-02', '2026-11-09', '2026-11-16'], 'Kennungen aus der Messwoche und den zwei folgenden')
+// Verdrahtung von Wahl und Messung: ohne Messwoche läuft die Messung nicht, mit ihr bekommt sie Browser und Datum der Wahl.
+{
+  const aufrufe = []
+  const browser = { name: 'browser' }
+  const messe = async (...args) => {
+    aufrufe.push(args)
+    return [{ fehler: [], zeile: 'gemessen' }]
+  }
+  const stillLog = console.log
+  console.log = () => {}
+  try {
+    const ohne = await messeMitWahl(browser, async () => keine, messe)
+    assert.deepEqual(ohne, messwocheAbbruch(keine), 'ohne Messwoche kommt der Abbruch')
+    assert.equal(aufrufe.length, 0, 'ohne Messwoche wird nicht gemessen')
+    const mit = await messeMitWahl(browser, async (b) => (b === browser ? woche3 : keine), messe)
+    assert.deepEqual(mit, [{ fehler: [], zeile: 'gemessen' }], 'mit Messwoche kommt das Ergebnis der Messung')
+    assert.deepEqual(aufrufe, [[browser, '2026-11-02']], 'Messung bekommt Browser und Datum der Wahl')
+  } finally {
+    console.log = stillLog
+  }
+}
 // Fehlt die Messwoche, endet der Lauf mit Exit 1 (Ergebnis wie von messeAlles geliefert).
 process.argv.push('--dist', 'dist')
 assert.equal(messwocheAbbruch(woche3), null, 'mit Messwoche kein Abbruch')

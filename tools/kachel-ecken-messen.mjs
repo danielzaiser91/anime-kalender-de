@@ -122,6 +122,9 @@ export function tagePlus(iso, tage) {
   return d.toISOString().slice(0, 10)
 }
 
+/** Die drei Wochen (Montage), aus denen die Kennungen der Favoriten gesammelt werden: die Messwoche und die zwei folgenden. */
+export const kennungsWochen = (montag) => [montag, tagePlus(montag, 7), tagePlus(montag, 14)]
+
 /** Montage der `anzahl` Wochen ab der Woche des Datenstands `erzeugt` (ISO-Zeitstempel aus `meta.json`; wechselt mit dem Bau, nicht mit der Uhr). */
 export function kandidatenWochen(erzeugt, anzahl = WOCHEN_SUCHE) {
   const tag = erzeugt.slice(0, 10)
@@ -166,7 +169,7 @@ async function findeMesswoche(browser) {
 async function sammleKennungen(browser, datum0) {
   const seite = await neueSeite(browser, 'dunkel', [])
   const ids = []
-  for (const datum of [datum0, tagePlus(datum0, 7), tagePlus(datum0, 14)]) {
+  for (const datum of kennungsWochen(datum0)) {
     await ladeAnsicht(seite, 'woche', datum)
     await seite.evaluate(() => document.querySelectorAll('button[aria-label="Als Favorit merken"]').forEach((b) => b.click()))
     await seite.waitForTimeout(500)
@@ -352,14 +355,24 @@ function zeigeArten(fehler) {
 async function messeAlles() {
   if (BILDER) await mkdir(BILDER, { recursive: true })
   const browser = await chromium.launch()
-  const woche = await findeMesswoche(browser)
-  const abbruch = messwocheAbbruch(woche)
-  if (abbruch) {
+  try {
+    return await messeMitWahl(browser, findeMesswoche, messeWoche)
+  } finally {
     await browser.close()
-    return abbruch
   }
-  const datum = woche.datum
-  console.log(`Messwoche ${datum} (${woche.saal} Saal)`)
+}
+
+/** Wählt die Messwoche (`waehle(browser)`) und misst sie (`messe(browser, datum)`); ohne Messwoche kommt der Abbruch zurück und `messe` läuft nicht. */
+export async function messeMitWahl(browser, waehle, messe) {
+  const woche = await waehle(browser)
+  const abbruch = messwocheAbbruch(woche)
+  if (abbruch) return abbruch
+  console.log(`Messwoche ${woche.datum} (${woche.saal} Saal)`)
+  return messe(browser, woche.datum)
+}
+
+/** Alle Ansichten und Themen einer Messwoche `datum`. */
+async function messeWoche(browser, datum) {
   const ids = await sammleKennungen(browser, datum)
   const gemessen = []
   const melde = (ergebnis) => {
@@ -380,7 +393,6 @@ async function messeAlles() {
     }
     melde(await pruefeHandy(browser, thema, ids, datum))
   }
-  await browser.close()
   return gemessen
 }
 
