@@ -289,7 +289,8 @@ export function dubKey(anilistId: number, platform: string): string {
 
 /**
  * Schlüssel aller Handbelege, die einen Weg verneinen (`available: false` oder `dub: false`), ausgewertet je Adresse (`adressKern`):
- * Ein Ja derselben Adresse (`dub: true` oder ein deutscher Bereich) hebt das Nein auf, ein Ja einer anderen Adresse nicht; ohne Adresse ist
+ * Ein Ja derselben Adresse (`dub: true` oder ein deutscher Bereich) hebt das Nein auf, außer die verschmolzene Zeile trägt selbst
+ * `available: false` (jüngeres „nicht verfügbar“ zum selben Ja, `verschmelze`; wie in `handbelegteJaWege` gilt dann das Nein), ein Ja einer anderen Adresse nicht; ohne Adresse ist
  * „dieselbe" nicht belegt, Ja und Nein bleiben dann uneindeutig und das Nein gilt (Kuroko's Basketball 3, 20725, bei Netflix: altes Ja, jüngeres „nicht verfügbar").
  * Das Nein gilt der ganzen Plattform (`dubKey`), wenn es keine Adresse trägt oder die Plattform keine Ausgabe mit Ja führt: Eine neue Adresse
  * kann dieselbe Ausgabe in anderer Schreibweise sein (JustWatch-gti statt ASIN). Erst eine belegte zweite Ausgabe (ein Ja mit eigener Adresse) beschränkt es auf seine Adresse
@@ -302,7 +303,7 @@ export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' |
     const kern = adressKern(c.url)
     const a = adressen.get(`${titel}|${kern}`) ?? { titel, kern, nein: false, ja: false }
     a.nein ||= c.dub === false || c.available === false
-    a.ja ||= c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub))
+    a.ja ||= c.available !== false && (c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub)))
     adressen.set(`${titel}|${kern}`, a)
   }
   const mitJa = new Set([...adressen.values()].filter((a) => a.ja && a.kern).map((a) => a.titel))
