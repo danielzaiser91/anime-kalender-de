@@ -6,6 +6,7 @@
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import type { NewsBeleg, Release } from '../shared/types.ts'
+import { adnApiBeleg } from './lib/beleg-api.ts'
 import { BelegAnsicht } from '../web/src/components/beleg-dialog.tsx'
 import { AbgeloestHinweis } from '../web/src/components/news-abgeloest.tsx'
 import { VerlaufZeilen } from '../web/src/components/news-verlauf.tsx'
@@ -26,12 +27,14 @@ const FOLGE = `${SERIE}/29565-folge-1`
 
 console.log('\nBeleg-Fenster: Originalseite')
 const html = (b: NewsBeleg) => renderToStaticMarkup(createElement(BelegAnsicht, { beleg: b, zu: () => {} }))
-const messung = { am: '2026-10-17', quelle: 'ADN-Kalender', zeilen: ['Titel: Madoka', 'Folge 1 bis 12'] }
+/* Die Messung kommt aus dem Erzeuger (`adnApiBeleg`), nicht von Hand (Prüfer 1598 A8). */
+const madoka = { slug: 'adn-1318', name: 'Puella Magi Madoka Magica', platform: 'adn', platformUrl: FOLGE, schedule: { firstEpisodeDate: '2026-10-29', time: '09:00', episodeCount: 12 } }
+const messung = adnApiBeleg(madoka as unknown as Release, API, '2026-10-17')!.messung!
 {
   const mit = html({ url: API, name: 'ADN-Kalender', messung, seite: SERIE })
   pruefe('API-Beleg mit Serienseite: Knopf auf die Serienseite', mit.includes(`href="${SERIE}"`) && mit.includes('Originalseite bei animationdigitalnetwork.com') && !mit.includes('ADN API'), mit)
   pruefe('API-Beleg mit Serienseite: die API-Adresse steht nirgends', !mit.includes('gw.api'), mit)
-  pruefe('API-Beleg zeigt seine Messung', mit.includes('Folge 1 bis 12'), mit)
+  pruefe('API-Beleg zeigt seine Messung', mit.includes('12 Folgen') && mit.includes('Datum: 29.10.2026, 09:00 Uhr') && mit.includes('Sprache: Deutsch'), mit)
   const ohne = html({ url: API, name: 'ADN-Kalender', messung })
   pruefe('API-Beleg ohne Serienseite: kein Knopf, keine Adresse', !ohne.includes('Originalseite') && !ohne.includes('<a ') && !ohne.includes('gw.api'), ohne)
   const gewoehnlich = html({ url: ARTIKEL, name: 'news.animationdigitalnetwork.com' })
@@ -48,6 +51,11 @@ console.log('\nVerlauf überholter Stände (VerlaufZeilen)')
   pruefe('überholter Stand mit API-Beleg ohne Serienseite: nur der Name, kein Link', ohne.includes('ADN-Kalender') && !ohne.includes('<a ') && !ohne.includes('gw.api'), ohne)
   const gewoehnlich = verlauf([{ url: ARTIKEL, name: 'news.animationdigitalnetwork.com' }])
   pruefe('überholter Stand mit gewöhnlichem Beleg: Link auf dessen Adresse', gewoehnlich.includes(`href="${ARTIKEL}"`), gewoehnlich)
+  const nurQuelle = (quelle: string) =>
+    renderToStaticMarkup(createElement(VerlaufZeilen, { staende: [{ am: '2026-10-10', ueberholtAm: '2026-10-12', m: { art: 'angekuendigt', platform: 'adn', datum: '2026-10-29', quelle } as never }] }))
+  const api = nurQuelle(API)
+  pruefe('überholter Stand ohne Belege, Quelle ist die API-Adresse: kein Link, kein leerer Beleg (Prüfer 1598 A7)', !api.includes('<a ') && !api.includes('gw.api') && !api.includes('ADN API'), api)
+  pruefe('überholter Stand ohne Belege, Quelle ist eine Seite: Link auf sie', nurQuelle(ARTIKEL).includes(`href="${ARTIKEL}"`))
 }
 
 console.log('\nAbgelöste Meldung (AbgeloestHinweis)')
@@ -79,6 +87,10 @@ const wahl = (r: Release) =>
   pruefe('API-Adresse zuerst in `sources`: die lesbare wird gewählt', wahl(release({ sources: [API, ARTIKEL] }))?.url === ARTIKEL)
   pruefe('nur die API-Adresse: die Folgen-Seite des Anbieters', wahl(release({ sources: [API], quellen: quellen('2026-10-17', '2026-10-10').slice(0, 1) } as Partial<Release>))?.url === FOLGE)
   pruefe('nur die API-Adresse und keine Seite: kein Link', wahl(release({ sources: [API], platformUrl: undefined }))?.url === undefined)
+  const abgeloest = (quelle: string) =>
+    quelleFuer({ m: { release: 'adn-1318', platform: 'adn', ersetzt: { datum: '2026-10-10' }, quelle }, teilId: 1 } as never, { releaseBySlug: new Map(), releases: [], titleById: new Map() } as never)
+  pruefe('abgelöste Meldung mit API-Adresse als Quelle: kein Link (Prüfer 1598 A6)', abgeloest(API) === undefined, abgeloest(API))
+  pruefe('abgelöste Meldung mit Seite als Quelle: ihre damalige Quelle', abgeloest(ARTIKEL)?.url === ARTIKEL, abgeloest(ARTIKEL))
 }
 
 console.log('\nQuellenübersicht: Termin-Quellen je Host')
