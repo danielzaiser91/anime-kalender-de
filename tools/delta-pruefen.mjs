@@ -17,6 +17,8 @@ const DATEI = 'data/bestand-historie.jsonl'
 const args = process.argv.slice(2)
 const TAGE = Number(args[args.indexOf('--tage') + 1]) || 2
 const ALLES = args.includes('--alles')
+/** `--jetzt <ISO>` setzt die Uhr (Tests); im Betrieb ungesetzt. */
+const JETZT = args.includes('--jetzt') ? Date.parse(args[args.indexOf('--jetzt') + 1]) : Date.now()
 
 if (!existsSync(DATEI)) {
   console.log('Noch keine Historie — der erste Lauf legt sie an.')
@@ -35,8 +37,15 @@ const zeilen = readFileSync(DATEI, 'utf8')
     }
   })
   .filter(Boolean)
+  // Verworfene Läufe (Bau nicht ausgeliefert, `pipeline/lib/historie-zeilen.ts`) haben nie ein Gegenstück im Netz gehabt.
+  .filter((z) => z.verworfen !== true)
 
-const grenze = Date.now() - TAGE * 86400000
+if (!zeilen.length) {
+  console.log('Noch keine geltende Zeile in der Historie.')
+  process.exit(0)
+}
+
+const grenze = JETZT - TAGE * 86400000
 const jung = zeilen.filter((z) => Date.parse(z.zeitpunkt) >= grenze)
 
 const zeit = (iso) => new Date(iso).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
@@ -56,6 +65,7 @@ for (const z of jung) {
         .map(([k, v]) => `${k} ${vz(v)}`)
     : ['erste Zeile']
   console.log(`${zeit(z.zeitpunkt)}  ${(z.lauf ?? '?').slice(0, 22).padEnd(24)} ${teile.join(', ') || 'nichts'}`)
+  if (z.erklaert?.length) console.log(`${' '.repeat(12)}ℹ  erklärt, nicht rot: ${z.erklaert.join('; ')}`)
   if (z.auffaellig?.length) console.log(`${' '.repeat(12)}⚠  ${z.auffaellig.join('; ')}`)
 }
 if (!gezeigt) console.log('Keiner dieser Läufe hat etwas verändert.')
