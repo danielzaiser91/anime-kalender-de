@@ -436,8 +436,8 @@ Eine Kanal-Meldung **mit** deutschem Ton wird seitdem ein Beleg (`dub: true`, No
 Kanal-Hinweis); ausgelassen wird nur noch das Nein. Sonst legte die Prüfliste dieselbe Seite
 endlos wieder vor (Golden Kamuy). Fehler der Erweiterung sollen stattdessen auffallen:
 `fetch-pruefungen.ts` schreibt Auffälligkeiten (Titel der Meldung passt nicht zur Staffel der
-Seite, Folgenzahl weicht grob ab) nach `data/meldungs-auffaelligkeiten.json` und macht den
-Bau gelb. Der Rest dieses Abschnitts beschreibt, warum das Nein weiter zwei Quellen braucht.
+Seite, Folgenzahl höher als beim Titel) nach `data/meldungs-auffaelligkeiten.json` und macht den
+Bau gelb (Stand seit 19.10.2026: Abschnitt „Meldungs-Auffälligkeiten: Momentaufnahme“ unten). Der Rest dieses Abschnitts beschreibt, warum das Nein weiter zwei Quellen braucht.
 
 **Zurückgenommen am 11.10.2026 für das Ja.** Daniel an Hell Mode: „Auf Deutsch, Prime Video ✓ Deutsch“ ist
 falsch, bei ADN gibt es den Titel nur mit Untertiteln. Der Handbeleg vom 30.08. trug `dub: true` **und**
@@ -4046,3 +4046,7 @@ Auftrag Daniel (16.10.2026): Nennt JustWatch an der Seite eines unserer Wege deu
 Messung am Stand 17.10. (Spiegelabgleich Auswahl gegen Marke `dubQuelle === 'justwatch'`, Titel): Auswahl 80 (Anime 12, Cartoon 68); Marke 162 (Anime 2, Cartoon 160); beides 70 (2 / 68); Auswahl ohne Marke 10 (alle Anime); Marke ohne Auswahl 92 (alle Cartoon, davon 91 „mehrere Staffeln", 1 Mehrteiler). Diese 92 tragen die Marke aus dem Cartoon-Staffel-Hinweis (`bau/cartoon-wege.ts`, `dubHinweis` in `bau/nebendateien.ts`), der das Befundalter nicht prüft — sie verlieren die Wiedervorlage ohne Schaden; wären sie drin, kostete es Abrufe (Erneuern alle 21 statt 28 Tage) und verdrängte dringende Anime. Abgelaufene Wege (Weg ohne Urteil, de-Seite, Befund ab 28 Tagen): 25 Wege auf 20 Titeln (13 Anime, 7 Cartoon); davon 22 ohne die 3 Mehrteiler-Wege (der Prüfer zählt 22 / 17 Titel, ohne Mehrteiler), und genau 10 Titel (alle Anime, Your Name einer) kommen durch die neue Auswahl zurück, die 7 Cartoons mit Serien-Grund bleiben ohne Flagge, wie im Bau vorgesehen.
 
 Wochenlauf 12.10.: 2.433 offen, 800 geholt in 16,5 min (1,24 s je Titel, kein 429); Bestand 3.048 Befunde, 1.006 gültig, 2.042 fällig. Simulation (Lauf je Montag, `--limit 800`, Reihenfolge Wiedervorlage, dringend, ältester zuerst), gültige Befunde der 80 Flaggen-Titel vor dem Lauf: alt (Marke) 70 bis 80, neu immer 80 ab dem 26.10. Der Abstand ist klein, weil die Auswahl klein ist: Der Gewinn sind die 10 Anime ab 19.10. und dass keine Flagge mehr unbemerkt ausläuft. Ein höheres `--limit` (1200) ändert daran nichts: die Gesamtzahl schwingt zwischen 1.848 und 2.858 (Wellen der ältesten Kohorte).
+
+## Meldungs-Auffälligkeiten: Momentaufnahme, nur noch echte Befunde (19.10.2026)
+
+`fetch-pruefungen.ts` schreibt `data/meldungs-auffaelligkeiten.json` bei jedem Lauf neu (`pipeline/lib/meldungs-auffaelligkeiten.ts`): Ein Eintrag fällt weg, sobald der Lauf ihn nicht mehr erzeugt; ein unveränderter Text behält sein Datum. Die 60-Tage-Kürzung entfällt. Ein Lauf ohne Meldungen im Briefkasten beendet sich vorher und lässt die Datei, wie sie ist. Ein Befund ist: mehr Folgen gemeldet als der Titel (Abweichung über max(2, 25 %)) und der Staffel-Widerspruch. **Weniger gemeldet als der Titel ist bei keinem Anbieter ein Befund** (Seite = Staffel, Titel = ganze Serie; vorher nur Netflix ausgenommen). Der Text nennt neben der Kennung den Namen (`Titel 123 (Name)`). Die Bau-Warnung „N Meldung(en) auffällig“ zählt die Einträge der Datei nach diesen Regeln. Am Stand 19.10.: 762 → 93 Einträge (669 „weniger“, 60 „mehr“, 33 Staffel). Prüfung: `pipeline/check-meldungs-auffaelligkeiten.ts` (in `check:logic`).

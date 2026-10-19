@@ -116,6 +116,7 @@ pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
 pipeline/check-mal-teilung.ts
 pipeline/check-meldung-gti.ts
+pipeline/check-meldungs-auffaelligkeiten.ts
 pipeline/check-minuten-takt.ts
 pipeline/check-motn-reihe.ts
 pipeline/check-nein-handbeleg-abschluss.ts
