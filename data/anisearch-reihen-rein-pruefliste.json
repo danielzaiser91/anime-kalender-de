@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-18",
+  "stand": "2026-10-19",
   "bestand": {
     "inReihen": 3034,
     "reihen": 819,
@@ -1553,7 +1553,7 @@
   },
   "katalog": {
     "inReihen": 11999,
-    "reihen": 3066,
+    "reihen": 3067,
     "pruefliste": [
       {
         "art": "verschmilzt",
@@ -2931,6 +2931,23 @@
         ],
         "alleinstehende": [],
         "beispiel": "GAMERA: Rebirth —?→ Yoru wa Neko to Issho × GAMERA: Rebirth"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 161645,
+            "name": "Kusuriya no Hitorigoto",
+            "titel": 6
+          },
+          {
+            "id": 170508,
+            "name": "Maomao no Hitorigoto",
+            "titel": 4
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Kusuriya no Hitorigoto —?→ Maomao no Hitorigoto"
       },
       {
         "art": "verschmilzt",

@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-19T04:08:53.536Z",
+  "stand": "2026-10-19T04:27:52.615Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -5400,18 +5400,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-19",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 11743,
-      "titel": "A Certain Magical Index: The Miracle of Endymion",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/gp/video/detail/B0D169XWP1",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-19",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 11763,
@@ -6500,7 +6489,18 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-19",
-      "letzterWeg": false
+      "letzterWeg": true
+    },
+    {
+      "titleId": 104252,
+      "titel": "Demon Lord, Retry!",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B0D7N1J8PV",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-19",
+      "letzterWeg": true
     },
     {
       "titleId": 104276,
@@ -7394,17 +7394,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 164702,
-      "titel": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-19",
-      "letzterWeg": true
-    },
-    {
       "titleId": 166531,
       "titel": "Oshi no Ko: Mein Star",
       "plattform": "netflix",
@@ -7640,17 +7629,6 @@
       "titel": "Kakushite! Makina-san!!",
       "plattform": "adn",
       "url": "https://animationdigitalnetwork.com/de/video/1284-kakushite-makina-san",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-19",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 178434,
-      "titel": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 2",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
