@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { Release, Title } from '@shared/types.ts'
+import { istLink } from '@shared/quelle.ts'
 import { useLang } from '../lib/i18n.tsx'
 
 /**
@@ -55,7 +56,7 @@ export function Quellenuebersicht({ title, releases, asZiel }: { title: Title; r
     const raus: { name: string; url?: string; speist: string; anzahl?: number }[] = [
       ...terminQuellen.map((q) => ({
         name: ANZEIGENAME[q.host] ?? q.host,
-        url: q.url,
+        url: istLink(q.url) ? q.url : undefined,
         speist: t(q.host === NAME_ORIGINAL ? 'quellen.feedOriginal' : 'quellen.feedTermine'),
         anzahl: q.anzahl,
       })),

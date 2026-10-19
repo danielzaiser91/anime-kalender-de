@@ -35,6 +35,7 @@ pipeline/check-antwort-jetzt.ts
 pipeline/check-ausgeblieben-text.ts
 pipeline/check-auto-disc-handeintrag.ts
 pipeline/check-beleg-anbieter.ts
+pipeline/check-beleg-api.ts
 pipeline/check-beleg-bis-anker.ts
 pipeline/check-beleg-stoerung.ts
 pipeline/check-belegstaerke.ts
