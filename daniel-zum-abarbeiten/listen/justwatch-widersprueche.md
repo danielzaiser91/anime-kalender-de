@@ -7,21 +7,21 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 14 Wege, nur Hinweis: 1.
+Flagge „Deutsch“: 17 Wege, nur Hinweis: 1.
 
 JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 11, Mehrteiler 6.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
 | crunchyroll | 1 | 0 | 0.0 % | Flagge |
-| primevideo | 10 | 0 | 0.0 % | Flagge |
+| primevideo | 13 | 0 | 0.0 % | Flagge |
 
 ### Widersprüche (0)
 
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (258)
+### Kandidaten für neue Wege (255)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -80,7 +80,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Michiko & Hatchin (4087) | Crunchyroll | crunchyroll:GG1U24423 | ja |
 | Michiko & Hatchin (4087) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.c835475f-dcc2-40e6-84ac-07cf1077f7b1 | nein |
 | The Garden of Sinners: Paradoxe Helix (4282) | Crunchyroll | crunchyroll:G50UZ1EDE | ja |
-| Naruto Shippuden: The Movie - Bonds (4437) | RTL+ Max Amazon Channel | amazon:amzn1.dv.gti.f2dcc016-0b5e-4c52-b085-797581285834 | ja |
 | Erzählung einer weißen Schlange (4513) | Amazon Prime Video | amazon:amzn1.dv.gti.f06a68b4-be29-4b33-8158-0be169c5484d | ja |
 | Puschel das Eichhorn (4515) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.b0e1c89f-061b-4bd3-808a-81273ccb13f7 | nein |
 | Kiss × Sis (OVA) (5042) | Amazon Prime Video | amazon:amzn1.dv.gti.9a7ade6e-ed6a-4705-95d1-e4815843d8ad | nein |
@@ -122,7 +121,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Love Stage!! (20520) | Crunchyroll | crunchyroll:G9DUE1ZZW | ja |
 | Love Stage!! (20520) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.42a8bd0e-1a22-4c1d-a9ea-f08a7959cae4 | nein |
 | Brynhildr in the Darkness (20534) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.a2f4d9d0-7cbf-4e2b-87d3-f38acbad4778 | nein |
-| Tamako Love Story (20519) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.e489211f-047b-42b3-8c53-9a8edeccf259 | ja |
 | Daimidaler: Prince vs. Penguin Empire (20588) | Crunchyroll | crunchyroll:GEVUZEP9P | nein |
 | Daimidaler: Prince vs. Penguin Empire (20588) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.787acdc7-6cef-4e3f-b66c-a715f7b8041e | ja |
 | Ronja Räubertochter (20617) | Viaplay Amazon Channel | amazon:amzn1.dv.gti.1bf8256f-1e8c-489c-ae66-8e96247f6004 | nein |
@@ -134,7 +132,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Strike Witches: Operation Victory Arrow (20650) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.de665b73-d5cd-4eb1-8c80-9a1eb06cd54e | ja |
 | Lance N’ Masques (20712) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.9d0dfa9b-3d8b-4230-b3ca-55a7b859bc93 | ja |
 | Anti Magic Academy: Test-Trupp 35 (20704) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.7cb64cad-60ca-9552-1bf0-a6c677798051 | ja |
-| Tao Tao: Der kleine Pandabär (102460) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.06e695f8-4007-4b51-8372-7124ba8d4835 | ja |
 | Akatsuki no Yona: Prinzessin der Morgendämmerung (20770) | Amazon Prime Video | amazon:amzn1.dv.gti.acb7379b-54e3-9c6a-b499-00b86c1613b1 | ja |
 | Trinity Seven (20631) | Amazon Prime Video | amazon:amzn1.dv.gti.ef0ffada-e2db-4e80-999d-c8a1c81ac0d4 | ja |
 | Inou Battle Within Everyday Life (20646) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.c9667593-ba0f-4e6a-a5f0-a1de3d9b4338 | nein |
