@@ -52,17 +52,17 @@ pruefe('hindernis: Mergebarkeit unbekannt', /noch nicht berechnet \(UNKNOWN\)/.t
 
 // Kulisse: Antworten je genauer Argumentliste; drei Läufe, drei Jobs, der richtige jeweils in der Mitte.
 const PR = { number: 7, state: 'OPEN', mergeable: 'MERGEABLE', headRefOid: KOPF, headRefName: 'fix/x' }
-function antworten({ pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTES_LOG } = {}) {
+function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTES_LOG } = {}) {
   return {
-    'pr view 7 --json number,state,mergeable,headRefOid,headRefName': { aus: JSON.stringify(pr) },
+    [`pr view ${nr} --json number,state,mergeable,headRefOid,headRefName`]: { aus: JSON.stringify(pr) },
     [`run list --workflow ${KETTE} --event pull_request --branch fix/x --limit 20 --json databaseId,headSha,createdAt`]: {
       aus: JSON.stringify(laeufe ?? [lauf(KOPF, '2026-10-19T10:00:00Z', 11), lauf(KOPF, '2026-10-19T12:00:00Z', 12), lauf(KOPF, '2026-10-19T11:00:00Z', 13)]),
     },
     'run view 12 --json jobs': { aus: JSON.stringify({ jobs: jobs ?? [{ name: 'Kette – Logik', databaseId: 91 }, { name: JOB, databaseId: 92 }, { name: 'PR-Prüfkette', databaseId: 93 }] }) },
     'api repos/{owner}/{repo}/actions/jobs/92/logs': { aus: log },
     'api repos/{owner}/{repo}/git/ref/heads/main --jq .object.sha': { aus: `${mainSha}\n` },
-    'pr close 7': { aus: '' },
-    'pr reopen 7': { aus: '' },
+    [`pr close ${nr}`]: { aus: '' },
+    [`pr reopen ${nr}`]: { aus: '' },
   }
 }
 function kulisse(daten, { reopenFehler = 0 } = {}) {
@@ -164,6 +164,11 @@ function prozess(daten, argv) {
   const r = prozess(antworten({ mainSha: MAIN }), ['7'])
   const args = r.aufrufe.map(([, a]) => a.join(' '))
   pruefe('Prozess: veraltet -> Exit 1, schließt und öffnet 7', r.status === 1 && args.slice(-2).join() === 'pr close 7,pr reopen 7', { status: r.status, args })
+}
+{
+  const r = prozess(antworten({ nr: 1602, pr: { ...PR, number: 1602 }, mainSha: MAIN }), ['1602'])
+  const args = r.aufrufe.map(([, a]) => a.join(' '))
+  pruefe('Prozess: Nummer aus argv (1602) reicht bis zum Schließen', r.status === 1 && args[0].startsWith('pr view 1602 ') && args.slice(-2).join() === 'pr close 1602,pr reopen 1602', { status: r.status, args })
 }
 {
   const daten = antworten({ mainSha: MAIN })
