@@ -28,12 +28,15 @@ interface Fall {
   kanal: boolean
   /** Mit zweiter Quelle: Der Handbeleg gilt vor der Merkliste. */
   zweiteQuelle?: boolean
+  /** Ein jüngerer Beleg derselben Adresse ohne Kanal-Warnung hat das Ja bestätigt (so wird es geladen: Ja bleibt). */
+  echtesJa?: boolean
   erwartet: boolean
 }
 const faelle: Fall[] = [
   { id: 9201, name: 'Kanal-Seite: kein Häkchen, mit und ohne Handbeleg', seite: 'B0MERKAAAA', kanal: true, erwartet: false },
   { id: 9202, name: 'zweite Kanal-Seite eines anderen Titels', seite: 'B0MERKBBBB', kanal: true, erwartet: false },
   { id: 9203, name: 'Kanal-Seite mit zweiter Quelle: Deutsch zählt', seite: 'B0MERKCCCC', kanal: true, zweiteQuelle: true, erwartet: true },
+  { id: 9206, name: 'Kanal-Ja später durch echtes Ja bestätigt: nie in der Merkliste', seite: 'B0MERKEEEE', kanal: true, echtesJa: true, erwartet: true },
   { id: 9204, name: 'Titel ohne Kanal-Beleg: Deutsch zählt', seite: 'B0MERKDDDD', kanal: false, erwartet: true },
 ]
 
@@ -46,7 +49,14 @@ function belege(f: Fall, mitKanal: boolean, spaeteZweite = false): string {
   checkedAt: '2026-10-01'${spaeteZweite && f.zweiteQuelle ? '\n  zweiteQuelle: JustWatch' : ''}
   note: "Tonspuren: Deutsch — Amazon-Seite ${f.seite}: alle 4 Folgen geprüft, ${KANAL}"
 `
-  return `${kanal}
+  const echt = mitKanal && f.echtesJa ? `- anilistId: ${f.id}
+  platform: primevideo
+  url: ${dp(f.seite)}
+  dub: true
+  checkedAt: '2026-10-03'
+  note: "Tonspuren: Deutsch — Amazon-Seite ${f.seite}: alle 4 Folgen geprüft"
+` : ''
+  return `${kanal}${echt}
 - anilistId: ${f.id}
   platform: primevideo
   url: ${dp('B0FREMDEND')}

@@ -8,16 +8,15 @@
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import yaml from 'js-yaml'
-import { adressKern, entdoppleBelege, type DubCheck } from './dub-confirmed.ts'
-import { belegSeitenKern, notizSeite, ohneKanalSprache } from './kanal-titel.ts'
+import { adressKern, entdoppleBelege, ladeHandbelege, type DubCheck } from './dub-confirmed.ts'
+import { belegSeitenKern, notizSeite } from './kanal-titel.ts'
 import { ROOT } from './util.ts'
 
 export const MERKLISTE = 'data/kanal-seiten.json'
 
-/** Nur das, was die Kanal-Erkennung liest: Titel, Adresse, gelesene Seite. Sortiert, damit die Datei ruhig bleibt. */
+/** Aus geladenen Belegen (nach `ladeHandbelege()`): die Kanal-Seiten ohne eigenes Ja, nur Titel, Adresse, gelesene Seite. Sortiert, damit die Datei ruhig bleibt. */
 export function merkEintraege(checks: DubCheck[]): DubCheck[] {
-  const kanal = checks.map(ohneKanalSprache).filter((c) => c.kanalOhneBeleg && c.url)
+  const kanal = checks.filter((c) => c.kanalOhneBeleg && c.dub !== true && c.url)
   const eintraege = kanal.map((c) => {
     const seite = notizSeite(c)
     return {
@@ -62,11 +61,10 @@ export function ergaenzeMerkliste(neu: DubCheck[], wurzel = ROOT): number {
   return einmal.length - bisher.length
 }
 
-/** Schreibt die Handbelege und merkt sich dabei alle Kanal-Seiten aus dem geschriebenen Text (holt bei einer fehlenden Merkliste alles nach). */
+/** Schreibt die Handbelege und merkt sich dabei alle Kanal-Seiten aus dem geschriebenen Text (aus dem geladenen Stand, also nach dem Verschmelzen; holt bei einer fehlenden Merkliste alles nach). */
 export function schreibeBelege(datei: string, text: string, melde: (text: string) => void, wurzel = ROOT): void {
   const geschrieben = entdoppleBelege(text, melde)
   writeFileSync(datei, geschrieben)
-  const roh = yaml.load(geschrieben)
-  const dazu = ergaenzeMerkliste(Array.isArray(roh) ? (roh as DubCheck[]) : [], wurzel)
+  const dazu = ergaenzeMerkliste(ladeHandbelege(), wurzel)
   if (dazu) melde(`${dazu} Kanal-Seite(n) in ${MERKLISTE} gemerkt`)
 }
