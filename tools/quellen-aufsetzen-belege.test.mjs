@@ -1,11 +1,11 @@
 /**
  * `quellen_aufsetzen` mit `data/dub-confirmed.yaml`: Der eigene Beleg des Laufs überlebt das Aufsetzen auf einen bewegten Fernstand,
  * und ein gescheitertes `dub-belege-vereinen` bricht laut ab (Prüfer 1578, A1: `|| true` ließ den Beleg still verloren gehen).
- * Mit erreichbarem node_modules (Wegwerf-Repo unter dem Repo) muss es gelingen, ohne (Wegwerf-Repo unter dem Temp-Ordner) laut scheitern.
+ * Mit js-yaml im Wegwerf-Repo muss es gelingen, ohne laut scheitern.
  * Aufruf: node tools/quellen-aufsetzen-belege.test.mjs
  */
 import { spawnSync } from 'node:child_process'
-import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -23,8 +23,8 @@ const bash = (cwd, befehl) => spawnSync('bash', ['-c', befehl], { cwd, encoding:
 const beleg = (id) => `- anilistId: ${id}\n  dub: true\n  checkedAt: '2026-10-0${id}'\n`
 
 /** Lauf mit Beleg 1 (Start) und 3 (eigen), Fernstand bekommt Beleg 2; liefert Rückgabewert, Fehlerausgabe und Kennungen. */
-function szenario(basis) {
-  const dir = mkdtempSync(join(basis, 'aufsetzen-belege-'))
+function szenario(mitYaml) {
+  const dir = mkdtempSync(join(tmpdir(), 'aufsetzen-belege-'))
   try {
     const sh = (cwd, befehl) => {
       const r = bash(cwd, befehl)
@@ -35,6 +35,7 @@ function szenario(basis) {
     mkdirSync(join(dir, 'lauf/data'), { recursive: true })
     for (const datei of ['quellen-liste.sh', 'quellen-aufsetzen.sh', 'health-vereinen.mjs', 'dub-belege-vereinen.mjs'])
       copyFileSync(join(wurzel, 'tools', datei), join(dir, 'lauf/tools', datei))
+    if (mitYaml) cpSync(join(wurzel, 'node_modules/js-yaml'), join(dir, 'lauf/node_modules/js-yaml'), { recursive: true })
     writeFileSync(join(dir, 'lauf/data/dub-confirmed.yaml'), '# Kopf\n\n' + beleg(1))
     sh(join(dir, 'lauf'), `git add -A && ${git} commit -q -m start && git push -q origin HEAD:main`)
     sh(join(dir, 'anderer'), 'git pull -q origin main')
@@ -50,11 +51,11 @@ function szenario(basis) {
   }
 }
 
-const mit = szenario(wurzel)
+const mit = szenario(true)
 pruefe('mit node_modules: Aufsetzen gelingt', mit.rc === '0', mit)
 pruefe('mit node_modules: Fernstand-Beleg und eigener Beleg stehen beide da', mit.ids === '1,2,3', mit.ids)
 
-const ohne = szenario(tmpdir())
+const ohne = szenario(false)
 pruefe('ohne node_modules: Aufsetzen bricht ab (Rückgabewert ungleich 0)', ohne.rc !== undefined && ohne.rc !== '0', ohne)
 pruefe('ohne node_modules: die Fehlermeldung nennt dub-belege-vereinen', /dub-belege-vereinen/.test(ohne.stderr), ohne.stderr)
 
