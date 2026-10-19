@@ -8,6 +8,7 @@
  */
 import worker from '../worker/src/index.ts'
 import { starteFaelligeLaeufe } from '../worker/src/wecker.ts'
+import { faelligeLaeufe } from '../shared/weckplan.ts'
 import type { Env } from '../worker/src/env.ts'
 import { fetchAttrappe, neueDatenbank, testEnv, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'
 import { festeUhr } from './feste-uhr.ts'
@@ -82,6 +83,11 @@ pruefe(
   gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2026-11-02T04:00:00.000Z'))), ['refresh-hourly.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']),
   '2.11. 04:00 UTC (1.11. in Los Angeles): Monatslauf startet',
 )
+// Monatstag ohne Nachholen: genau der Tag in UTC (2.11. 04:00 UTC = 1.11. in Los Angeles).
+const amZweiten = [{ workflow: 'x.yml', tagImMonat: 2 }]
+const amErsten = [{ workflow: 'x.yml', tagImMonat: 1 }]
+pruefe(gleich(faelligeLaeufe(new Date('2026-11-02T04:00:00.000Z'), amZweiten), ['x.yml']), 'tagImMonat 2 trifft den 2.11. UTC')
+pruefe(faelligeLaeufe(new Date('2026-11-02T04:00:00.000Z'), amErsten).length === 0, 'tagImMonat 1 trifft den 2.11. UTC nicht, auch wenn es lokal der 1.11. ist')
 // Jahreswechsel: 00:00 UTC am 1.1. ist die Stunde 0 (in Los Angeles noch der 31.12.); kein Tageslauf, nur der stündliche.
 pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2027-01-01T00:00:00.000Z'))), ['refresh-hourly.yml']), 'Jahreswechsel 00:00 UTC: nur der stündliche Lauf')
 // 00:30 Berlin (Sommerzeit) ist 22:30 UTC des Vortags: gezählt wird UTC.

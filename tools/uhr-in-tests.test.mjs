@@ -71,6 +71,10 @@ try {
   assert.deepEqual(funde('const echteUhr = Date.now\nconst t = echteUhr()\n'), ['a.test.ts:1'], 'Verweis auf Date.now ohne Aufruf zählt (die Aufrufstelle selbst nicht)')
   assert.deepEqual(funde('const x = [Date.now(), new Date()]\n'), ['a.test.ts:1', 'a.test.ts:1'], 'zwei Vorkommen in einer Zeile zählen zweimal')
 
+  assert.deepEqual(funde('const x = <b>{Date.now()}</b>\n', 'a.test.tsx'), ['a.test.tsx:1'], 'JSX in .tsx')
+  assert.deepEqual(funde('const x = <b>{Date.now()}</b>\n', 'a.test.jsx'), ['a.test.jsx:1'], 'JSX in .jsx')
+  assert.deepEqual(funde('function f<T>(x: T) { return Date.now() }\n', 'a.test.mts'), ['a.test.mts:1'], 'TypeScript in .mts')
+
   // Das zählt nicht.
   for (const form of [
     "new Date('2026-10-12T12:00:00Z')",
@@ -97,6 +101,8 @@ try {
   assert.deepEqual(funde('try {\n  go(Date.now()) // uhr-echt: letzte Anweisung im Block\n} finally {}\n'), [], 'Kommentar hinter der letzten Anweisung eines Blocks')
   assert.deepEqual(funde('const t = Date.now() // uhr-echt:\n'), ['a.test.ts:1'], 'ohne Grund zählt die Stelle')
   assert.deepEqual(funde('const t = Date.now() // uhr-echt:   \n'), ['a.test.ts:1'], 'Leerzeichen sind kein Grund')
+  assert.deepEqual(funde('const t = /* uhr-echt: Grund */ Date.now()\n'), [], 'Blockkommentar vor der Stelle')
+  assert.deepEqual(funde('const t = /* uhr-echt: Grund\n weiter */ Date.now()\n'), [], 'Blockkommentar über zwei Zeilen, Stelle in der letzten')
   assert.deepEqual(funde('const t = Date.now() /* uhr-echt: */\n'), ['a.test.ts:1'], 'leerer Blockkommentar')
   assert.deepEqual(funde('const t = [Date.now(), "uhr-echt: Grund"]\n'), ['a.test.ts:1'], 'im String gilt es nicht')
   assert.deepEqual(funde('const t = Date.now(), s = `uhr-echt: Grund`\n'), ['a.test.ts:1'], 'im Template gilt es nicht')
@@ -111,6 +117,10 @@ try {
       'b.test.mts': liste,
       'c.test.js': liste,
       'd.test.tsx': liste,
+      'e.test.cts': liste,
+      'f.test.jsx': liste,
+      'g.test.cjs': liste,
+      'h.test.mjs': liste,
       'pipeline/check-x.ts': liste,
       'pipeline/check-nicht-in-liste.ts': liste,
       'tools/check-logic-liste.txt': '# Kommentar\n\npipeline/check-x.ts\npipeline/gibt-es-nicht.ts\n',
@@ -118,7 +128,7 @@ try {
     { 'neu.test.ts': liste, 'node_modules/x/e.test.ts': liste, '_wt-fremd/f.test.ts': liste, '.claude/worktrees/w/g.test.ts': liste },
   )
   const antwort = lauf(wurzel, grenzen(99), '--liste')
-  assert.deepEqual(antwort.stdout.split('\n').filter(Boolean).sort(), ['a.test.ts:1', 'b.test.mts:1', 'c.test.js:1', 'd.test.tsx:1', 'pipeline/check-x.ts:1'], antwort.stderr)
+  assert.deepEqual(antwort.stdout.split('\n').filter(Boolean).sort(), ['a.test.ts:1', 'b.test.mts:1', 'c.test.js:1', 'd.test.tsx:1', 'e.test.cts:1', 'f.test.jsx:1', 'g.test.cjs:1', 'h.test.mjs:1', 'pipeline/check-x.ts:1'], antwort.stderr)
 
   // Grenze: an der Grenze grün, darunter grün, darüber rot, fehlendes Feld rot.
   const grund = { 'a.test.ts': 'const t = Date.now()\n', 'b.test.mjs': 'const t = 1\n' }
