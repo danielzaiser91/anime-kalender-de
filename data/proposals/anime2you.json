@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-19T05:02:58.404Z",
+  "scrapedAt": "2026-10-19T05:03:42.454Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
@@ -3464,7 +3464,7 @@
       "dub": "unklar",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-14"
+      "sammelGelesen": "2026-10-19"
     },
     {
       "articleTitle": "Netflix kündigt fünf Anime-Simulcasts für Herbst 2026 an",
@@ -3529,7 +3529,7 @@
           "datum": "2026-10-02"
         }
       ],
-      "sammelGelesen": "2026-10-13"
+      "sammelGelesen": "2026-10-19"
     },
     {
       "articleTitle": "»Die Königin der 1000 Jahre« erscheint als Blu-ray-Komplettbox",
@@ -3585,7 +3585,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-13"
+      "sammelGelesen": "2026-10-19"
     },
     {
       "articleTitle": "Vier Dezember-Neuheiten 2026 bei Anime Planet vorbestellbar",
@@ -3776,7 +3776,7 @@
           "datum": "2026-10-03"
         }
       ],
-      "sammelGelesen": "2026-10-13"
+      "sammelGelesen": "2026-10-19"
     },
     {
       "articleTitle": "Crunchyroll zeigt 13 Anime-Neustarts im Herbst 2026 auf Deutsch",
@@ -4153,8 +4153,32 @@
       "dates": [],
       "dub": "ja",
       "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-09"
+      "sammel": [
+        {
+          "titel": "Bleach",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Disney+"
+          ],
+          "folgen": 366,
+          "datum": "2026-09-06",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Classroom of the Elite",
+          "zusatz": "Staffel 1",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Disney+"
+          ],
+          "folgen": 12,
+          "datum": "2026-09-06",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-19"
     },
     {
       "articleTitle": "»A Silent Voice« erscheint als Steelbook-Edition auf Blu-ray",
@@ -6230,7 +6254,83 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Sweetness & Lightning",
+          "datum": "2026-08-03",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Prison School",
+          "datum": "2026-08-10",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Love & Lies",
+          "datum": "2026-08-17",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Immortality",
+          "zusatz": "Staffel 1 bis 4",
+          "datum": "2026-08-20",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 56
+        },
+        {
+          "titel": "Legend of Exorcism",
+          "zusatz": "Staffel 1 und 2",
+          "datum": "2026-08-20",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 26
+        },
+        {
+          "titel": "Der Held ohne Klasse",
+          "datum": "2026-08-21",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "The Seven Deadly Sins",
+          "zusatz": "Staffel 1",
+          "datum": "2026-08-24",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 24
+        }
+      ],
+      "sammelGelesen": "2026-10-19"
     },
     {
       "articleTitle": "»Miss Kobayashi’s Dragon Maid«-Film erscheint auf Blu-ray + Design",
