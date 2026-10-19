@@ -10,7 +10,8 @@
 set -uo pipefail
 
 WURZEL="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-ARBEIT="$(mktemp -d)"
+# Unter dem Repo, damit die kopierten Werkzeuge js-yaml finden (dub-belege-vereinen); ohne scheitert das Aufsetzen jetzt laut.
+ARBEIT="$(mktemp -d "$WURZEL/.test-commit-data-XXXXXX")"
 trap 'rm -rf "$ARBEIT"' EXIT
 FEHLER=0
 # Keine CRLF-Warnungen der Windows-Git-Voreinstellung im Testprotokoll.
