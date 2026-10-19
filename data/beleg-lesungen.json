@@ -4945,7 +4945,7 @@
     ]
   },
   "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026": {
-    "zuletzt": "2026-10-18",
+    "zuletzt": "2026-10-19",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -4977,7 +4977,7 @@
         }
       },
       {
-        "am": "2026-10-18",
+        "am": "2026-10-19",
         "hash": "5f0c54e1191716f2",
         "hf": 2,
         "veroeffentlicht": "2026-09-15",
@@ -4986,7 +4986,7 @@
     ]
   },
   "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026": {
-    "zuletzt": "2026-10-18",
+    "zuletzt": "2026-10-19",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -5033,7 +5033,7 @@
         "text": "www.crunchyroll.com/717e6c808bc62a57/2026-10-05-ceb63ca006b57854.txt.gz"
       },
       {
-        "am": "2026-10-18",
+        "am": "2026-10-19",
         "hash": "bdc0357ca4971e5b",
         "hf": 2,
         "veroeffentlicht": "2026-09-15",
@@ -8109,7 +8109,7 @@
     ]
   },
   "https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855": {
-    "zuletzt": "2026-10-05",
+    "zuletzt": "2026-10-19",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -8117,6 +8117,15 @@
         "qs": "ok",
         "bild": "www.disneyplus.com/8ce399f3cd624faa/2026-10-05-3b871d02f7599af1.webp",
         "text": "www.disneyplus.com/8ce399f3cd624faa/2026-10-05-3b871d02f7599af1.txt.gz"
+      },
+      {
+        "am": "2026-10-19",
+        "hash": "d704e334c14780c0",
+        "hf": 2,
+        "qs": "ok",
+        "bildfassung": 2,
+        "bild": "www.disneyplus.com/8ce399f3cd624faa/2026-10-19-d704e334c14780c0.webp",
+        "text": "www.disneyplus.com/8ce399f3cd624faa/2026-10-19-d704e334c14780c0.txt.gz"
       }
     ]
   },
@@ -11499,7 +11508,7 @@
     ]
   },
   "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/": {
-    "zuletzt": "2026-10-18",
+    "zuletzt": "2026-10-19",
     "lesungen": [
       {
         "am": "2026-10-15",
@@ -11513,7 +11522,7 @@
         "text": "www.anime2you.de/f1f980e7b2a412e2/2026-10-15-6753be06401986ea.txt.gz"
       },
       {
-        "am": "2026-10-18",
+        "am": "2026-10-19",
         "hash": "6753be06401986ea",
         "hf": 2,
         "veroeffentlicht": "2026-10-13",
@@ -11591,7 +11600,7 @@
     ]
   },
   "https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/": {
-    "zuletzt": "2026-10-18",
+    "zuletzt": "2026-10-19",
     "lesungen": [
       {
         "am": "2026-10-16",
@@ -11632,7 +11641,7 @@
     ]
   },
   "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/": {
-    "zuletzt": "2026-10-18",
+    "zuletzt": "2026-10-19",
     "lesungen": [
       {
         "am": "2026-10-18",
@@ -11658,11 +11667,37 @@
         },
         "bild": "www.anime2you.de/0c83265024df8476/2026-10-18-608f7c75f65227e5.webp",
         "text": "www.anime2you.de/0c83265024df8476/2026-10-18-608f7c75f65227e5.txt.gz"
+      },
+      {
+        "am": "2026-10-19",
+        "hash": "151731f338d44b8c",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-16",
+        "aktualisiert": "2026-10-17",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 2,
+        "markierung": [
+          0.038461538461538464,
+          0.7505016615028975,
+          0.8942307692307693,
+          0.2166214502432055
+        ],
+        "markierungen": {
+          "145728": [
+            0.038461538461538464,
+            0.7505016615028975,
+            0.8942307692307693,
+            0.2166214502432055
+          ]
+        },
+        "bild": "www.anime2you.de/0c83265024df8476/2026-10-19-151731f338d44b8c.webp",
+        "text": "www.anime2you.de/0c83265024df8476/2026-10-19-151731f338d44b8c.txt.gz"
       }
     ]
   },
   "https://www.anime2you.de/news/1061704/eureka-seven-blu-ray-komplettbox/": {
-    "zuletzt": "2026-10-18",
+    "zuletzt": "2026-10-19",
     "lesungen": [
       {
         "am": "2026-10-18",
@@ -11680,6 +11715,45 @@
         ],
         "bild": "www.anime2you.de/ff5f36e952e21d64/2026-10-18-e8b2bfefed8d785b.webp",
         "text": "www.anime2you.de/ff5f36e952e21d64/2026-10-18-e8b2bfefed8d785b.txt.gz"
+      },
+      {
+        "am": "2026-10-19",
+        "hash": "760e56c6f812dd3e",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-17",
+        "aktualisiert": "2026-10-18",
+        "qs": "ok",
+        "bildfassung": 2,
+        "markierung": [
+          0.038461538461538464,
+          0.7221268683401273,
+          0.8942307692307693,
+          0.24125724093542159
+        ],
+        "bild": "www.anime2you.de/ff5f36e952e21d64/2026-10-19-760e56c6f812dd3e.webp",
+        "text": "www.anime2you.de/ff5f36e952e21d64/2026-10-19-760e56c6f812dd3e.txt.gz"
+      }
+    ]
+  },
+  "https://www.anime2you.de/news/1061686/isekai-onsen-paradise-blu-ray-komplettbox/": {
+    "zuletzt": "2026-10-19",
+    "lesungen": [
+      {
+        "am": "2026-10-19",
+        "hash": "d99fbb327f43d93b",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-18",
+        "aktualisiert": "2026-10-18",
+        "qs": "ok",
+        "bildfassung": 2,
+        "markierung": [
+          0.038461538461538464,
+          0.6819173281842237,
+          0.8942307692307693,
+          0.28146678109132517
+        ],
+        "bild": "www.anime2you.de/2213cec57f01939a/2026-10-19-d99fbb327f43d93b.webp",
+        "text": "www.anime2you.de/2213cec57f01939a/2026-10-19-d99fbb327f43d93b.txt.gz"
       }
     ]
   }

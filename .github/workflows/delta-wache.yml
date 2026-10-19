@@ -83,11 +83,13 @@ jobs:
       - name: Delta der letzten 24 Stunden
         id: delta
         continue-on-error: true
+        shell: bash
         run: node tools/delta-pruefen.mjs --tage 1 | tee delta.txt
 
       - name: Briefkasten — kommt Daniels Arbeit an?
         id: kasten
         continue-on-error: true
+        shell: bash
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: node tools/briefkasten-wache.mjs | tee briefkasten.txt
@@ -97,16 +99,14 @@ jobs:
       - name: Zugänge und Kontingent
         id: zugaenge
         continue-on-error: true
+        shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node tools/zugangs-waechter.mjs | tee zugaenge.txt
 
-      # **Der Exit-Code kommt aus `steps.*.outcome`, nicht aus der Pipe.**
-      #
-      # `node … | tee` gibt den Rückgabewert von `tee` zurück, und der gelingt
-      # immer — derselbe Fehler wie `git push | tail` am 29.08.2026, der drei
-      # Commits eine halbe Stunde lang verschluckt hat. GitHub merkt sich das
-      # Ergebnis des Schritts trotzdem; das ist die verlässliche Quelle.
+      # **Der Exit-Code kommt aus `steps.*.outcome`.** Ohne `shell: bash` gibt `node … | tee` den Rückgabewert
+      # von `tee` zurück (Standard-Shell ohne pipefail): Seit 03.09.2026 war jeder Befund hier „success“ und
+      # die Wache schrieb „unauffällig“ (18.10.2026). `tools/delta-wache-schritte.test.mjs` hält das fest.
       - name: Ergebnis in die Wache-Datei schreiben
         run: |
           LAGE=ok
