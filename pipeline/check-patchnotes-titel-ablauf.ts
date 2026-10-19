@@ -43,6 +43,16 @@ interface Fall {
   event?: string
   /** Der Check läuft in einem flachen Klon (nur der Kopf), die Basis muss er nachladen wie in der CI. */
   flach?: boolean
+  /** Änderungen, die main nach der Basis bekommt (das `base.sha` des Ereignisses bleibt veraltet auf der Basis). */
+  main?: Dateien
+  /** Kopf ist ein einfacher Commit statt des Merge-Commits der CI. */
+  linear?: boolean
+}
+
+function mainWeiter(ordner: string, dateien: Dateien): void {
+  schreibe(ordner, dateien)
+  git(ordner, 'add', '-A')
+  git(ordner, 'commit', '-q', '-m', 'main weiter')
 }
 
 /** Klon mit nur dem Kopf-Commit; der Ursprung gibt jede Kennung heraus (lokal per Datei-Adresse). */
@@ -57,15 +67,20 @@ function flacherKlon(ursprung: string): string {
 function lauf(fall: Fall): { status: number | null; ausgabe: string } {
   const ordner = mkdtempSync(join(wurzel, 'patchnotes-titel-'))
   try {
-    git(ordner, 'init', '-q')
+    git(ordner, 'init', '-q', '-b', 'main')
     schreibe(ordner, fall.basis)
     git(ordner, 'add', '-A')
     git(ordner, 'commit', '-q', '-m', 'basis')
     const basis = git(ordner, 'rev-parse', 'HEAD')
+    git(ordner, 'checkout', '-q', '-b', 'pr')
     schreibe(ordner, fall.kopf)
     for (const weg of fall.loesche ?? []) rmSync(join(ordner, weg))
     git(ordner, 'add', '-A')
     git(ordner, 'commit', '-q', '--allow-empty', '-m', 'kopf')
+    git(ordner, 'checkout', '-q', 'main')
+    if (fall.main) mainWeiter(ordner, fall.main)
+    if (!fall.linear) git(ordner, 'merge', '-q', '--no-ff', '-m', 'Merge pr into main', 'pr')
+    else git(ordner, 'checkout', '-q', 'pr')
     const arbeit = fall.flach ? flacherKlon(ordner) : ordner
     const ereignis = join(ordner, '..', `${basis}.json`)
     writeFileSync(ereignis, JSON.stringify({ pull_request: { base: { sha: basis } } }))
@@ -109,6 +124,13 @@ function faelle(): void {
   pruefe('Leere titles.json der Basis: Exit 1 (kein stilles Grün)', leer.status === 1, leer.ausgabe)
   const cartoon = lauf({ basis: { ...bestand(), 'public/data/cartoons.json': JSON.stringify([{ id: -1, titleEn: 'Marvel Zombies Show', titleRomaji: 'Zombie Hero: Marvel' }]) }, kopf: note('neu', 'bei Zombie Hero') })
   pruefe('Cartoons der Basis werden mitgeprüft: Exit 1', cartoon.status === 1, cartoon.ausgabe)
+  const alt = { ...bestand(), ...note('alt', 'bei Overgeared') }
+  const fremd = lauf({ basis: alt, main: note('fremd', 'bei Tempal'), kopf: { 'README.md': 'x' } })
+  pruefe('Veraltetes base.sha: fremder „Tempal“-Eintrag von main zählt nicht, Exit 0', fremd.status === 0 && /: 0 neue oder/.test(fremd.ausgabe), fremd.ausgabe)
+  const fremdUndEigen = lauf({ basis: alt, main: note('fremd', 'bei Tempal'), kopf: note('eigen', 'bei Tempal') })
+  pruefe('Veraltetes base.sha, eigener Eintrag: Exit 1, nur „eigen“ gemeldet', fremdUndEigen.status === 1 && fremdUndEigen.ausgabe.includes('eigen: nennt „Tempal“') && !fremdUndEigen.ausgabe.includes('fremd: nennt'), fremdUndEigen.ausgabe)
+  const linear = lauf({ basis: alt, kopf: note('neu', 'bei Overgeared'), linear: true })
+  pruefe('Kopf ohne Merge-Commit: Exit 1, keine Basis geraten', linear.status === 1 && linear.ausgabe.includes('kein Merge-Commit'), linear.ausgabe)
   const ohnePr = lauf({ basis: bestand(), kopf: note('neu', 'bei Tempal'), event: 'push' })
   pruefe('Außerhalb des PR-Ereignisses: Exit 0, nur Gegenproben', ohnePr.status === 0 && ohnePr.ausgabe.includes('nur im PR-Ereignis'), ohnePr.ausgabe)
 }

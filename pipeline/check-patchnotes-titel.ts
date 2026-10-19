@@ -5,7 +5,7 @@
  * Prüft nur Namen, die als englischer/Romaji-Name eines Titels erkennbar sind (keine Heuristik über beliebige Wörter).
  */
 import { execFileSync } from 'node:child_process'
-import { readFileSync } from 'node:fs'
+import { ladeBasis } from '../tools/pr-basis.mjs'
 import { abweichendeTitel, titelMeldungen, type TitelNamen } from './lib/patchnotes-titel.ts'
 import { basisTitel, geaenderteEintraege, type Git } from './lib/patchnotes-titel-pr.ts'
 
@@ -74,12 +74,7 @@ function gegenprobenAnzeigename(): void {
 /** Die im PR neuen oder geänderten Einträge gegen die Titel der Basis; die Basis kommt aus dem Ereignis der Action und wird bei Bedarf nachgeladen. */
 function pruefeGegenBasis(): void {
   const git: Git = (...args) => execFileSync('git', args, { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] })
-  const basis = (JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH as string, 'utf8')) as { pull_request: { base: { sha: string } } }).pull_request.base.sha
-  try {
-    git('cat-file', '-e', `${basis}^{commit}`)
-  } catch {
-    git('fetch', '--no-tags', '--depth=1', 'origin', basis)
-  }
+  const basis = ladeBasis(git)
   const titel = basisTitel(basis, git)
   pruefe('Basis: titles.json und cartoons.json sind gelesen', titel.length > 0)
   const eintraege = geaenderteEintraege(basis, git)
