@@ -12,7 +12,8 @@ name: PR-Prüfer
 on:
   pull_request_target:
     branches: [main]
-    types: [opened, synchronize, reopened, ready_for_review]
+    # Ohne `reopened`: Wiederöffnen (tools/pr-nachrechnen.mjs) rechnet nur die Kette nach, der Kopf und sein Urteil bleiben.
+    types: [opened, synchronize, ready_for_review]
 
 # checks: read für den Schritt „Check-Stand des Kopfes“ (Check-Runs des Kopfes; das Ruleset braucht nur Metadaten).
 permissions:
