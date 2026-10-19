@@ -3360,7 +3360,7 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   pruefe('Kommentare und Reihenfolge bleiben stehen',
     entdoppleBelege('# Kopf\n\n- a: 1\n') === '# Kopf\n\n- a: 1\n')
   pruefe('fetch-pruefungen ruft den Riegel vor dem Schreiben',
-    /entdoppleBelege\(neu, warn\)/.test(abholung))
+    /schreibeBelege\(p, neu, warn\)/.test(abholung) && /entdoppleBelege\(text, melde\)/.test(readFileSync('pipeline/lib/kanal-merkliste.ts', 'utf8')))
   /* 22.09.2026: Haikyu!! TO THE TOP — Netflix-Staffel 4 ohne Zahl in unseren Titeln blieb liegen. */
   pruefe(
     'eine Netflix-Staffel ohne Nummer in unserer Reihe wird über Netflix\' Aufteilung verteilt',
