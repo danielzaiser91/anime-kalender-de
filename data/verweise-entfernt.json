@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-19T05:09:04.966Z",
+  "stand": "2026-10-19T06:08:12.525Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4710,6 +4710,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 114622,
+      "titel": "Dorohedoro: Teuflische Anekdoten",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GT00371893/",
+      "seriesId": null,
+      "grund": "die Reihe führt 2 Staffeln, keine als OVA und keine andere mit 1 Folge(n) — das Werk steht unter dieser Adresse nicht",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-19",
+      "letzterWeg": false
+    },
+    {
       "titleId": 133124,
       "titel": "Free! the Final Stroke: The Second Volume",
       "plattform": "crunchyroll",
@@ -5400,18 +5411,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-19",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 11743,
-      "titel": "A Certain Magical Index: The Miracle of Endymion",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/gp/video/detail/B0D169XWP1",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-19",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 11763,
@@ -6500,7 +6500,18 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-19",
-      "letzterWeg": false
+      "letzterWeg": true
+    },
+    {
+      "titleId": 104252,
+      "titel": "Demon Lord, Retry!",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B0D7N1J8PV",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-19",
+      "letzterWeg": true
     },
     {
       "titleId": 104276,
@@ -6534,6 +6545,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-19",
       "letzterWeg": true
+    },
+    {
+      "titleId": 105228,
+      "titel": "Dorohedoro",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GT00371893/dorohedoro",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-19",
+      "letzterWeg": false
     },
     {
       "titleId": 105334,
@@ -8071,6 +8093,28 @@
       "url": "https://www.netflix.com/title/81788312",
       "seriesId": null,
       "grund": "der Anbieter führt 12 + 13 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-19",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 97940,
+      "titel": "Black Clover",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/series/GRE50KV36/black-clover",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-19",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 195604,
+      "titel": "Black Clover: Staffel 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/series/GRE50KV36/black-clover",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-19",
       "letzterWeg": true
