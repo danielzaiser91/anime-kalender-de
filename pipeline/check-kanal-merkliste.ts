@@ -30,6 +30,8 @@ interface Fall {
   zweiteQuelle?: boolean
   /** Ein jüngerer Beleg derselben Adresse ohne Kanal-Warnung hat das Ja bestätigt (so wird es geladen: Ja bleibt). */
   echtesJa?: boolean
+  /** Nach dem Zurückstellen bleibt ein Ja einer anderen Seite hinter derselben Adresse stehen; es deckt die Kanal-Seite nicht. */
+  andereSeite?: string
   erwartet: boolean
 }
 const faelle: Fall[] = [
@@ -37,6 +39,7 @@ const faelle: Fall[] = [
   { id: 9202, name: 'zweite Kanal-Seite eines anderen Titels', seite: 'B0MERKBBBB', kanal: true, erwartet: false },
   { id: 9203, name: 'Kanal-Seite mit zweiter Quelle: Deutsch zählt', seite: 'B0MERKCCCC', kanal: true, zweiteQuelle: true, erwartet: true },
   { id: 9206, name: 'Kanal-Ja später durch echtes Ja bestätigt: nie in der Merkliste', seite: 'B0MERKEEEE', kanal: true, echtesJa: true, erwartet: true },
+  { id: 9207, name: 'Ja einer anderen Seite hinter derselben Adresse deckt die Kanal-Seite nicht', seite: 'B0MERKFFFF', kanal: true, andereSeite: 'B0MERKGGGG', erwartet: false },
   { id: 9204, name: 'Titel ohne Kanal-Beleg: Deutsch zählt', seite: 'B0MERKDDDD', kanal: false, erwartet: true },
 ]
 
@@ -56,7 +59,14 @@ function belege(f: Fall, mitKanal: boolean, spaeteZweite = false): string {
   checkedAt: '2026-10-03'
   note: "Tonspuren: Deutsch — Amazon-Seite ${f.seite}: alle 4 Folgen geprüft"
 ` : ''
-  return `${kanal}${echt}
+  const anders = !mitKanal && f.andereSeite ? `- anilistId: ${f.id}
+  platform: primevideo
+  url: ${dp(f.seite)}
+  dub: true
+  checkedAt: '2026-10-03'
+  note: "Tonspuren: Deutsch — Amazon-Seite ${f.andereSeite}: alle 4 Folgen geprüft"
+` : ''
+  return `${kanal}${echt}${anders}
 - anilistId: ${f.id}
   platform: primevideo
   url: ${dp('B0FREMDEND')}
@@ -124,7 +134,7 @@ try {
   if (melde.filter((t) => t.includes('gemerkt')).length !== 2) fehler.push(`Merkliste angelegt/ergänzt: ${melde.filter((t) => t.includes('gemerkt')).join(' | ')}`)
   if (!existsSync(join(kulisse, MERKLISTE))) fehler.push('Merkliste fehlt nach dem Schreiben')
   const eintraege = JSON.parse(listeA) as { anilistId: number }[]
-  if (eintraege.length !== 3) fehler.push(`Merkliste hält ${eintraege.length} Einträge, erwartet 3`)
+  if (eintraege.length !== 4) fehler.push(`Merkliste hält ${eintraege.length} Einträge, erwartet 4`)
 
   for (const f of faelle) {
     const [a, b, c] = [welten.A.get(f.id), welten.B.get(f.id), welten.C.get(f.id)]

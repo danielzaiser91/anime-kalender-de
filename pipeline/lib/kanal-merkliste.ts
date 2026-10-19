@@ -8,7 +8,7 @@
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { adressKern, entdoppleBelege, ladeHandbelege, type DubCheck } from './dub-confirmed.ts'
+import { entdoppleBelege, ladeHandbelege, type DubCheck } from './dub-confirmed.ts'
 import { belegSeitenKern, notizSeite } from './kanal-titel.ts'
 import { ROOT } from './util.ts'
 
@@ -34,7 +34,7 @@ export function merkEintraege(checks: DubCheck[]): DubCheck[] {
 /** Die Handbelege und, wo kein Handbeleg dieselbe Seite oder Adresse des Titels nennt, die Einträge der Merkliste. */
 export function mitMerkliste(checks: DubCheck[], merkliste: DubCheck[]): DubCheck[] {
   const gedeckt = (m: DubCheck): boolean =>
-    checks.some((c) => c.anilistId === m.anilistId && (belegSeitenKern(c) === belegSeitenKern(m) || adressKern(c.url) === adressKern(m.url)))
+    checks.some((c) => c.anilistId === m.anilistId && belegSeitenKern(c) === belegSeitenKern(m))
   return [...checks, ...merkliste.filter((m) => !gedeckt(m))]
 }
 
