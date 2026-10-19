@@ -203,7 +203,6 @@ tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
 tools/feste-uhr.test.ts
 tools/hover-cover.test.ts
-tools/mutationslaeufer.test.mjs
 tools/quarantaene-pruefungen.test.ts
 tools/quittung-nach-commit-waechter.mjs
 tools/sammler-pruefschritt-waechter.mjs
