@@ -25,23 +25,32 @@
  * verlorenen Belegen — beides sieht in einer Zahl gleich aus. Deshalb steht in
  * `auffaellig` im Klartext, was zu prüfen wäre.
  *
+ * **Verworfene Läufe zählen nicht (19.10.2026).** Die Zeile entsteht vor der Entscheidung von `commit-data.sh`. Wird der Bau
+ * danach nicht ausgeliefert oder ohne Titel neu gebaut, markieren `--verwerfen` bzw. `--ersetzen` sie mit `verworfen: true`;
+ * Vergleich und Wache überspringen sie (`pipeline/lib/historie-zeilen.ts`).
+ *
  * ## Aufruf
  *
- *   npx tsx pipeline/bestand-historie.ts [--lauf <name>]
+ *   npx tsx pipeline/bestand-historie.ts [--lauf <name>] [--verwerfen | --ersetzen]
  *
  * Läuft nach `data:build`, liest nur den ausgelieferten Datensatz und schreibt
- * eine Zeile an.
+ * eine Zeile an. `--verwerfen` markiert nur die letzte Zeile des laufenden Laufs,
+ * `--ersetzen` markiert sie und misst den Bestand neu.
  */
-import { appendFileSync, existsSync, readFileSync } from 'node:fs'
+import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
-import { findeAuffaelliges, messen, type Kennzahlen } from './lib/bestand-delta.ts'
+import { findeAuffaelliges, kanalTitelMenge, messen, type Kennzahlen } from './lib/bestand-delta.ts'
+import { letzteGeltende, letzteVerwerfen } from './lib/historie-zeilen.ts'
+import { ladeHandbelege } from './lib/dub-confirmed.ts'
+import { ROOT } from './lib/util.ts'
 
-const ROOT = resolve(import.meta.dirname, '..')
 const DATEI = resolve(ROOT, 'data/bestand-historie.jsonl')
 
 const args = process.argv.slice(2)
 const laufName = args[args.indexOf('--lauf') + 1] ?? process.env.GITHUB_WORKFLOW ?? 'lokal'
+/** Nur im Actions-Lauf gesetzt; ohne sie gilt jede letzte Zeile als die des eigenen Laufs. */
+const laufId = process.env.GITHUB_RUN_ID
 
 function lies<T>(pfad: string, vorgabe: T): T {
   const p = resolve(ROOT, pfad)
@@ -60,51 +69,56 @@ function messenAusDateien(): Kennzahlen {
     releases: lies<unknown[]>('public/data/releases.json', []),
     termine: lies<unknown[]>('public/data/events.json', []),
     entfernt: lies<{ verweise?: unknown[] }>('data/verweise-entfernt.json', {}),
+    kanal: kanalTitelMenge(ladeHandbelege()),
   })
 }
 
-function letzteZeile(): (Kennzahlen & { zeitpunkt: string }) | null {
-  if (!existsSync(DATEI)) return null
-  const zeilen = readFileSync(DATEI, 'utf8').trimEnd().split('\n').filter(Boolean)
-  if (!zeilen.length) return null
-  try {
-    return JSON.parse(zeilen[zeilen.length - 1]!)
-  } catch {
-    return null
+const dateiText = () => (existsSync(DATEI) ? readFileSync(DATEI, 'utf8') : '')
+
+/** Markiert die letzte Zeile des laufenden Laufs als verworfen; sonst bleibt die Datei, wie sie ist. */
+function verwirfLetzte(): void {
+  const text = dateiText()
+  const neu = letzteVerwerfen(text, laufId)
+  if (neu !== text) writeFileSync(DATEI, neu)
+  console.log(neu !== text ? '[historie] letzte Zeile als verworfen markiert' : '[historie] keine Zeile dieses Laufs zu verwerfen')
+}
+
+if (args.includes('--verwerfen') || args.includes('--ersetzen')) verwirfLetzte()
+
+if (!args.includes('--verwerfen')) {
+  const jetzt = messenAusDateien()
+  const vorher = letzteGeltende(dateiText()) as (Kennzahlen & { zeitpunkt: string }) | null
+  const { auffaellig, erklaert } = findeAuffaelliges(jetzt, vorher)
+
+  const zeile = {
+    zeitpunkt: new Date().toISOString(),
+    lauf: laufName,
+    laufId,
+    ...jetzt,
+    delta: vorher
+      ? {
+          titel: jetzt.titel - vorher.titel,
+          verweise: jetzt.verweise - vorher.verweise,
+          mitUrteil: jetzt.mitUrteil - vorher.mitUrteil,
+          ohneUrteil: jetzt.ohneUrteil - vorher.ohneUrteil,
+          titelMitSynchro: jetzt.titelMitSynchro - vorher.titelMitSynchro,
+          releases: jetzt.releases - vorher.releases,
+          termine: jetzt.termine - vorher.termine,
+        }
+      : null,
+    auffaellig: auffaellig.length ? auffaellig : undefined,
+    erklaert: erklaert.length ? erklaert : undefined,
   }
-}
 
-const jetzt = messenAusDateien()
-const vorher = letzteZeile()
-const auffaellig = findeAuffaelliges(jetzt, vorher)
+  appendFileSync(DATEI, JSON.stringify(zeile) + '\n')
 
-const zeile = {
-  zeitpunkt: new Date().toISOString(),
-  lauf: laufName,
-  ...jetzt,
-  delta: vorher
-    ? {
-        titel: jetzt.titel - vorher.titel,
-        verweise: jetzt.verweise - vorher.verweise,
-        mitUrteil: jetzt.mitUrteil - vorher.mitUrteil,
-        ohneUrteil: jetzt.ohneUrteil - vorher.ohneUrteil,
-        titelMitSynchro: jetzt.titelMitSynchro - vorher.titelMitSynchro,
-        releases: jetzt.releases - vorher.releases,
-        termine: jetzt.termine - vorher.termine,
-      }
-    : null,
-  auffaellig: auffaellig.length ? auffaellig : undefined,
-}
-
-appendFileSync(DATEI, JSON.stringify(zeile) + '\n')
-
-const d = zeile.delta
-console.log(
-  `[historie] ${jetzt.titel} Titel, ${jetzt.mitUrteil} Urteile, ${jetzt.ohneUrteil} offen` +
-    (d
-      ? ` — Delta: Titel ${d.titel >= 0 ? '+' : ''}${d.titel}, Urteile ${d.mitUrteil >= 0 ? '+' : ''}${d.mitUrteil}, offen ${d.ohneUrteil >= 0 ? '+' : ''}${d.ohneUrteil}`
-      : ' — erste Zeile'),
-)
-if (auffaellig.length) {
-  console.log(`[historie] ⚠  ${auffaellig.join('; ')}`)
+  const d = zeile.delta
+  console.log(
+    `[historie] ${jetzt.titel} Titel, ${jetzt.mitUrteil} Urteile, ${jetzt.ohneUrteil} offen` +
+      (d
+        ? ` — Delta: Titel ${d.titel >= 0 ? '+' : ''}${d.titel}, Urteile ${d.mitUrteil >= 0 ? '+' : ''}${d.mitUrteil}, offen ${d.ohneUrteil >= 0 ? '+' : ''}${d.ohneUrteil}`
+        : ' — erste Zeile'),
+  )
+  if (erklaert.length) console.log(`[historie] ℹ  erklärt: ${erklaert.join('; ')}`)
+  if (auffaellig.length) console.log(`[historie] ⚠  ${auffaellig.join('; ')}`)
 }
