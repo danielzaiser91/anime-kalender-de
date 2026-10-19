@@ -1,7 +1,7 @@
 import { readJson, log } from '../lib/util.ts'
 import { type WatchLink, type FolgenFenster, type Title, type Release } from '../../shared/types.ts'
 import { amazonAdresseRichten } from '../lib/amazon-adresse.ts'
-import { adressKern } from '../lib/dub-confirmed.ts'
+import { richtePrimeWege } from './13-1-prime-richten.ts'
 import { richteTerminAdressen } from './13-1-termin-adressen.ts'
 import { providerName } from '../../shared/mappings.ts'
 
@@ -184,18 +184,9 @@ export function schreibeSynopsenUndReichereAn({ allTitles, releases, kanalJeAdre
     }
     if (joynFenster) log(`${joynFenster} Joyn-Weg(e) mit Abruffenstern aus dem ProSieben-MAXX-Programm`)
   }
-  let gerichtet = 0
+  let gerichtet = richtePrimeWege(allTitles, kanalJeAdresse)
   let kanalBenannt = 0
   for (const t of allTitles) {
-    for (const s of t.streams ?? []) {
-      if (s.platform !== 'primevideo') continue
-      const neu = amazonAdresseRichten(s.url)
-      if (neu !== s.url) gerichtet++
-      s.url = neu
-      /* Hier, hinter allen Quellen, trifft der Kanal auch Wege, deren Adresse spät entsteht. */
-      const kanal = kanalJeAdresse.get(adressKern(s.url))
-      if (kanal) s.kanal = kanal
-    }
     /*
       **Und die Bezugswege zum Ansehen ebenso** (21.09.2026). JustWatchs „Amazon Prime
       (Aniverse)" und Verwandte standen unter `/dp/` — bei „The Legend of Hei" eine 404-Seite,
