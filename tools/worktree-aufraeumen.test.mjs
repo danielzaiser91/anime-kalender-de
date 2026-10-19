@@ -473,8 +473,7 @@ try {
   symlinkSync(fremdNm, join(tiefe('_wt-nb-sechs', 6), 'node_modules'), 'junction')
   mkdirSync(tiefe('_wt-nb-tief', 7), { recursive: true })
   symlinkSync(fremdNm, join(tiefe('_wt-nb-tief', 7), 'node_modules'), 'junction')
-  const spaet = () => Date.now() + 3 * 3600_000
-  const nbListe = H.abbau(haupt, { ...welt, jetzt: spaet }, false)
+  const nbListe = H.abbau(haupt, welt, false)
   assert.deepEqual(['_wt-nb-weg', '_wt-nb-datei', '_wt-nb-git', '_wt-nb.log', '_wt-nb-link', '_wt-nb-tief', '_wt-nb-sechs'].map((n) => lose(nbListe, n).aktion), ['weg', 'behalten', 'behalten', 'behalten', 'behalten', 'behalten', 'weg'])
   assert.deepEqual(['_wt-nb-datei', '_wt-nb-git', '_wt-nb.log', '_wt-nb-link', '_wt-nb-tief'].map((n) => lose(nbListe, n).grund), ['inhalt', 'inhalt', 'kein-ordner', 'kein-ordner', 'inhalt'])
   assert.ok(nbListe.lose.every((o) => basename(o.pfad).startsWith('_wt-')), 'nur _wt-*-Namen')
@@ -482,12 +481,12 @@ try {
   assert.equal(existsSync(nachbar('_wt-nb-weg')), true, '--liste ändert nichts')
   // Haupt-Bestand fehlt: Abbruch, nichts wird gelöst.
   renameSync(join(haupt, 'node_modules'), join(haupt, 'node_modules-weg'))
-  const ohneNm = H.abbau(haupt, { ...welt, jetzt: spaet }, true)
+  const ohneNm = H.abbau(haupt, welt, true)
   assert.ok(ohneNm.fehler.some((f) => f.startsWith('Abbruch, Haupt-Bestand fehlt: node_modules') && f.includes('_wt-nb-weg')), 'Abbruch gemeldet')
   assert.equal(lstatSync(nachbar('_wt-nb-weg', 'node_modules')).isSymbolicLink(), true, 'Link bleibt, wenn der Haupt-Bestand fehlt')
   renameSync(join(haupt, 'node_modules-weg'), join(haupt, 'node_modules'))
   renameSync(join(haupt, 'data', 'cache'), join(haupt, 'data', 'cache-weg'))
-  const ohneCache = H.abbau(haupt, { ...welt, jetzt: spaet }, true)
+  const ohneCache = H.abbau(haupt, welt, true)
   assert.ok(ohneCache.fehler.some((f) => f.startsWith('Abbruch, Haupt-Bestand fehlt: data/cache') && f.includes('_wt-nb-weg')))
   assert.equal(lstatSync(nachbar('_wt-nb-weg', 'node_modules')).isSymbolicLink(), true)
   renameSync(join(haupt, 'data', 'cache-weg'), join(haupt, 'data', 'cache'))
@@ -497,7 +496,7 @@ try {
   // Inhalt neben einer Verknüpfung (nach der Planung dazugekommen): kein Link wird angefasst.
   assert.throws(() => H.raeumeLosen(nachbar('_wt-nb-datei'), haupt), /Inhalt/)
   assert.equal(lstatSync(nachbar('_wt-nb-datei', 'node_modules')).isSymbolicLink(), true, 'Link neben echter Datei bleibt')
-  const nbLauf = H.abbau(haupt, { ...welt, jetzt: spaet }, true)
+  const nbLauf = H.abbau(haupt, welt, true)
   assert.equal(existsSync(nachbar('_wt-nb-weg')), false, 'Nachbar-Ordner samt Links und leeren Ordnern weg')
   for (const bleibt of ['_wt-nb-datei', '_wt-nb-git', '_wt-nb.log', '_wt-nb-link', '_wt-nb-reg']) assert.equal(existsSync(nachbar(bleibt)), true, `${bleibt} bleibt`)
   assert.equal(readFileSync(nachbar('_wt-nb-datei', 'echt.txt'), 'utf8'), 'e')
