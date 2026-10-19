@@ -8,6 +8,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { PATCHNOTES_ORDNER } from './lib/patchnotes.ts'
 
 const SKRIPT = resolve(import.meta.dirname, 'check-patchnotes-titel.ts')
 const wurzel = process.argv[2] ?? tmpdir()
@@ -79,14 +80,15 @@ function lauf(fall: Fall): { status: number | null; ausgabe: string } {
 }
 
 const bestand = (titel: unknown[] = TITEL): Dateien => ({ 'public/data/titles.json': JSON.stringify(titel), 'public/data/cartoons.json': '[]' })
-const note = (name: string, untertitel: string): Dateien => ({ [`data/patchnotes/${name}.yaml`]: eintrag(untertitel) })
+const pfad = (name: string): string => `${PATCHNOTES_ORDNER}/${name}.yaml`
+const note = (name: string, untertitel: string): Dateien => ({ [pfad(name)]: eintrag(untertitel) })
 
 function faelle(): void {
   const sauber = lauf({ basis: { ...bestand(), ...note('alt', 'bei Overgeared') }, kopf: note('neu', 'bei Overgeared') })
   pruefe('Neuer sauberer Eintrag: Exit 0, Ergebniszeile', sauber.status === 0 && /✓ Patch-Notes-Titel: 1 neue/.test(sauber.ausgabe), sauber.ausgabe)
   const rot = lauf({ basis: { ...bestand(), ...note('alt', 'bei Overgeared') }, kopf: note('neu', 'bei Tempal') })
   pruefe('Neuer Eintrag mit „Tempal“: Exit 1 und Meldung', rot.status === 1 && rot.ausgabe.includes('nennt „Tempal“'), rot.ausgabe)
-  const imText = lauf({ basis: { ...bestand(), ...note('alt', 'bei Overgeared') }, kopf: { 'data/patchnotes/neu.yaml': eintrag('sauber').replace('Folgenliste', 'bei Tempal') } })
+  const imText = lauf({ basis: { ...bestand(), ...note('alt', 'bei Overgeared') }, kopf: { [pfad('neu')]: eintrag('sauber').replace('Folgenliste', 'bei Tempal') } })
   pruefe('Name im Feld text: Exit 1, Meldung beginnt mit dem Dateinamen', imText.status === 1 && imText.ausgabe.includes('neu: nennt „Tempal“'), imText.ausgabe)
   const flach = lauf({ basis: { ...bestand(), ...note('alt', 'bei Overgeared') }, kopf: note('neu', 'bei Tempal'), flach: true })
   pruefe('Flacher Klon: die Basis wird nachgeladen, Exit 1', flach.status === 1 && flach.ausgabe.includes('nennt „Tempal“'), flach.ausgabe)
@@ -94,11 +96,11 @@ function faelle(): void {
   pruefe('Geänderter Eintrag mit „Tempal“: Exit 1', geaendert.status === 1, geaendert.ausgabe)
   const altlast = lauf({ basis: { ...bestand(), ...note('alt', 'bei Tempal') }, kopf: { 'README.md': 'x' } })
   pruefe('Unveränderte Altlast „Tempal“: Exit 0, 0 Einträge', altlast.status === 0 && /: 0 neue oder/.test(altlast.ausgabe), altlast.ausgabe)
-  const geloescht = lauf({ basis: { ...bestand(), ...note('alt', 'bei Tempal') }, kopf: {}, loesche: ['data/patchnotes/alt.yaml'] })
+  const geloescht = lauf({ basis: { ...bestand(), ...note('alt', 'bei Tempal') }, kopf: {}, loesche: [pfad('alt')] })
   pruefe('Gelöschter Eintrag zählt nicht: Exit 0', geloescht.status === 0, geloescht.ausgabe)
   const nurBasis = lauf({ basis: bestand(), kopf: { ...note('neu', 'bei Tempal'), ...bestand([{ id: 1, titleDe: 'Tempal' }]) } })
   pruefe('titles.json des Kopfes zählt nicht, nur die der Basis: Exit 1', nurBasis.status === 1, nurBasis.ausgabe)
-  const tief = lauf({ basis: bestand(), kopf: { 'data/patchnotes/ordner/tief.yaml': eintrag('bei Tempal') } })
+  const tief = lauf({ basis: bestand(), kopf: { [pfad('ordner/tief')]: eintrag('bei Tempal') } })
   pruefe('Datei in einem Unterordner gehört nicht zu den Einträgen: Exit 0', tief.status === 0, tief.ausgabe)
   const fuell = Array.from({ length: 20000 }, (_, i) => ({ id: 1000 + i, titleDe: `Füllung ${i} mit einem langen Namen zum Auffüllen` }))
   const gross = lauf({ basis: bestand([...TITEL, ...fuell]), kopf: note('neu', 'bei Tempal') })
