@@ -120,4 +120,4 @@ if (fehler.length) {
   console.error(`check-meldungs-auffaelligkeiten: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-meldungs-auffaelligkeiten: weniger Folgen kein Befund; Befund bleibt, solange er zutrifft (Lauf 2: 2 offen, keine Warnung), erledigter fällt weg (Lauf 3).')
+console.log('check-meldungs-auffaelligkeiten: weniger Folgen kein Befund; Befund bleibt, solange er zutrifft (Lauf 2: 2 offen, keine Warnung), erledigter fällt weg (Lauf 3), genau ein neuer Befund warnt mit „1 neue … (3 offen)“ (Lauf 4).')
