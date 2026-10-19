@@ -8,7 +8,7 @@
  */
 import { execFileSync, spawnSync } from 'node:child_process'
 import assert from 'node:assert/strict'
-import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, utimesSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -36,11 +36,35 @@ export function unterschiede(vorher, nachher) {
   return [...new Set([...vorher.keys(), ...nachher.keys()])].filter((d) => vorher.get(d) !== nachher.get(d)).sort()
 }
 
+/** Ohne `kulisse` läuft der Prozess ohne `AK_ROOT` in der Umgebung, so wie `check:logic` die Prüfungen startet. */
 function laufe(skript, kulisse) {
-  const r = spawnSync(process.execPath, [TSX, skript], { cwd: WURZEL, env: { ...process.env, AK_ROOT: kulisse }, encoding: 'utf8' })
+  const env = { ...process.env }
+  delete env.AK_ROOT
+  if (kulisse) env.AK_ROOT = kulisse
+  const r = spawnSync(process.execPath, [TSX, skript], { cwd: WURZEL, env, encoding: 'utf8' })
   return { code: r.status ?? -1, aus: `${r.stdout}${r.stderr}` }
 }
 
+/** Der Vergleich sieht eine Datei, die mit gleichem Inhalt neu geschrieben wurde (nur die Änderungszeit ändert sich). */
+function pruefeVergleich() {
+  const dir = mkdtempSync(join(tmpdir(), 'akroot-vergleich-'))
+  try {
+    execFileSync('git', ['init', '-q'], { cwd: dir })
+    writeFileSync(join(dir, 'a.txt'), 'gleich')
+    const vorher = repoStand(dir)
+    assert.deepEqual(unterschiede(vorher, repoStand(dir)), [], 'Vergleich: ohne Änderung kein Unterschied')
+    writeFileSync(join(dir, 'a.txt'), 'gleich')
+    const spaeter = new Date(Date.now() + 5000)
+    utimesSync(join(dir, 'a.txt'), spaeter, spaeter)
+    assert.deepEqual(unterschiede(vorher, repoStand(dir)), ['a.txt'], 'Vergleich: gleicher Inhalt, neue Änderungszeit muss auffallen')
+    writeFileSync(join(dir, 'b.txt'), 'neu')
+    assert.deepEqual(unterschiede(vorher, repoStand(dir)), ['a.txt', 'b.txt'], 'Vergleich: neue Datei muss auffallen')
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+}
+
+pruefeVergleich()
 const kulisse = mkdtempSync(join(tmpdir(), 'akroot-schreibziel-'))
 mkdirSync(join(kulisse, 'data'))
 writeFileSync(join(kulisse, 'data', 'kino-ankuendigungen.yaml'), '[]')
@@ -52,20 +76,27 @@ try {
   for (const ziel of ['data/meldungen-an-claude.jsonl', 'daniel-zum-abarbeiten/listen/23-nur-originalton.md', 'daniel-zum-abarbeiten/listen/22-belege-ohne-fundstelle.md']) {
     assert.ok(existsSync(join(kulisse, ziel)), `Sonde: ${ziel} fehlt in der Kulisse`)
   }
+  const meldungen = readFileSync(join(kulisse, 'data', 'meldungen-an-claude.jsonl'), 'utf8').trim().split('\n')
+  assert.equal(meldungen.length, 3, `Sonde: je Schreiber eine Meldung erwartet (der Zweitlauf vergleicht gegen die Kulisse), nicht ${meldungen.length}`)
   const { voicesDir } = JSON.parse(sonde.aus.trim().split('\n').at(-1))
   assert.ok(voicesDir.startsWith(kulisse), `Sonde: Stimmen-Ordner liegt nicht in der Kulisse: ${voicesDir}`)
   console.log('akroot-schreibziel: Sonde schreibt nur in die Kulisse')
 
+  // Jede Prüfung, die AK_ROOT nennt, setzt ihre Kulisse selbst. Der Prozess startet ohne AK_ROOT: sonst verdeckt die Umgebung
+  // Module, die vor dem eigenen Setzen laden und die Repo-Wurzel merken.
   const checks = readdirSync(join(WURZEL, 'pipeline'))
-    .filter((f) => /^check-.*\.ts$/.test(f) && readFileSync(join(WURZEL, 'pipeline', f), 'utf8').match(/AK_ROOT(: | =)/))
+    .filter((f) => /^check-.*\.ts$/.test(f) && readFileSync(join(WURZEL, 'pipeline', f), 'utf8').includes('AK_ROOT'))
     .sort()
-  assert.ok(checks.length >= 11, `nur ${checks.length} Prüfungen mit eigener Kulisse gefunden`)
+  assert.ok(checks.length > 0, 'keine Prüfung mit Kulisse gefunden')
+  const gelaufen = []
   for (const f of checks) {
+    gelaufen.push(f)
     const davor = repoStand(WURZEL)
-    const lauf = laufe(join(WURZEL, 'pipeline', f), kulisse)
+    const lauf = laufe(join(WURZEL, 'pipeline', f))
     assert.equal(lauf.code, 0, `${f}: ${lauf.aus.slice(-600)}`)
     assert.deepEqual(unterschiede(davor, repoStand(WURZEL)), [], `${f} schreibt ins Repo`)
   }
+  assert.deepEqual(gelaufen, checks, 'nicht jede Prüfung mit Kulisse ist gelaufen')
   console.log(`akroot-schreibziel: ${checks.length} Prüfungen mit Kulisse lassen den Repo-Baum unberührt`)
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
