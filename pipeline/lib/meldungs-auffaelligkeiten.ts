@@ -47,14 +47,25 @@ export function momentaufnahme(neu: string[], bisher: Auffaelligkeit[], heute: s
   return [...bleibt, ...[...new Set(neu)].filter((text) => !bekannt.has(text)).map((text) => ({ am: heute, text }))]
 }
 
-export function warnungsText(anzahl: number): string {
-  return `${anzahl} Meldung(en) auffällig, siehe data/meldungs-auffaelligkeiten.json`
+/** Einträge von `jetzt`, die vorher nicht in der Datei standen. Nur sie lösen die Warnung aus; offene Altbefunde bleiben still in der Liste. */
+export function neueBefunde(bisher: Auffaelligkeit[], jetzt: Auffaelligkeit[]): Auffaelligkeit[] {
+  const bekannt = new Set(bisher.map((x) => x.text))
+  return jetzt.filter((x) => !bekannt.has(x.text))
 }
 
-/** Schreibt die Momentaufnahme (auch leer: nichts trifft mehr zu) und gibt sie zurück. */
-export function schreibeAuffaelligkeiten(datei: string, neu: string[], heute: string, offen: (text: string) => boolean): Auffaelligkeit[] {
+export function warnungsText(neu: number, offen: number): string {
+  return `${neu} neue Meldung(en) auffällig (${offen} offen), siehe data/meldungs-auffaelligkeiten.json`
+}
+
+/** Schreibt die Momentaufnahme (auch leer: nichts trifft mehr zu); `neue` sind die Einträge, die vorher nicht in der Datei standen. */
+export function schreibeAuffaelligkeiten(
+  datei: string,
+  neu: string[],
+  heute: string,
+  offen: (text: string) => boolean,
+): { jetzt: Auffaelligkeit[]; neue: Auffaelligkeit[] } {
   const bisher = existsSync(datei) ? (JSON.parse(readFileSync(datei, 'utf8')) as Auffaelligkeit[]) : []
   const jetzt = momentaufnahme(neu, bisher, heute, offen)
   writeFileSync(datei, JSON.stringify(jetzt, null, 2) + '\n')
-  return jetzt
+  return { jetzt, neue: neueBefunde(bisher, jetzt) }
 }

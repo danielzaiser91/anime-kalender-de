@@ -10,7 +10,7 @@ import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { folgenzahlIstBefund, momentaufnahme, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
+import { folgenzahlIstBefund, momentaufnahme, neueBefunde, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
@@ -50,7 +50,11 @@ pruefe(JSON.stringify(eintraege) === JSON.stringify([{ am: '2026-01-01', text: '
 pruefe(momentaufnahme(['x', 'x'], [], '2026-10-19', () => false).length === 1, 'derselbe neue Text steht doppelt in der Datei')
 pruefe(momentaufnahme([], alt, '2026-10-19', () => false).length === 0, 'ohne offenen Befund bleibt die Datei nicht leer')
 pruefe(momentaufnahme([], alt, '2026-10-19', () => true).length === 2, 'ein offener Befund fällt ohne neue Meldung weg')
-pruefe(warnungsText(3).startsWith('3 Meldung(en) auffällig'), 'Warnungstext zählt nicht')
+pruefe(warnungsText(1, 3).startsWith('1 neue Meldung(en) auffällig (3 offen)'), 'Warnungstext nennt neue und offene nicht')
+const nb = neueBefunde(alt, momentaufnahme(['bleibt', 'neu'], alt, '2026-10-19', (t) => t === 'bleibt'))
+pruefe(nb.length === 1 && nb[0]!.text === 'neu', `neue Befunde: ${JSON.stringify(nb)}`)
+pruefe(neueBefunde(alt, momentaufnahme([], alt, '2026-10-19', () => true)).length === 0, 'offene Altbefunde zählen als neu')
+pruefe(neueBefunde([], momentaufnahme(['a', 'b'], [], '2026-10-19', () => false)).length === 2, 'neue Befunde ohne Vorbestand fehlen')
 
 type Zeile = { pfad: string; inhalt: string }
 type Befund = { am: string; text: string }
@@ -88,7 +92,7 @@ pruefe(b1.some((b) => b.text.includes('Titel 3 (Gti-Titel 3) hat 12')), 'Titelna
 pruefe(b1.some((b) => b.text.includes('Titel 4 (Gti-Titel 4) ist Staffel 1')), 'Titelname fehlt im Staffel-Befund')
 pruefe(!b1.some((b) => b.text.includes('alter Befund')), 'alter, unlesbarer Eintrag blieb stehen')
 pruefe(b1.length > 0 && b1.every((b) => b.am >= '2026-10-19'), `Lauf 1: neue Einträge tragen nicht den heutigen Tag: ${JSON.stringify(b1)}`)
-pruefe(r1.warnung?.includes('DATEN_WARNUNG=2 Meldung(en) auffällig') === true, `Lauf 1, Warnung: ${r1.warnung}`)
+pruefe(r1.warnung?.includes('DATEN_WARNUNG=2 neue Meldung(en) auffällig (2 offen)') === true, `Lauf 1, Warnung: ${r1.warnung}`)
 pruefeAbhaken(1, r1, [900001, 900002, 900003])
 
 const r2 = laufe(2)
@@ -97,7 +101,7 @@ pruefe(
   r2.befunde?.length === 2 && r2.befunde.every((b) => b.am === '2026-10-01') && r2.befunde[0]!.text.includes('Titel 3 (Gti-Titel 3) hat 12'),
   `Lauf 2: offene Befunde samt Datum bleiben bei nur harmlosen Meldungen: ${JSON.stringify(r2.befunde)}`,
 )
-pruefe(r2.warnung?.includes('DATEN_WARNUNG=2 Meldung(en) auffällig') === true, `Lauf 2, Warnung zählt die offenen Befunde: ${r2.warnung}`)
+pruefe(r2.warnung === undefined, `Lauf 2: nur alte offene Befunde lösen keine Warnung aus: ${r2.warnung}`)
 pruefeAbhaken(2, r2, [900004])
 
 const r3 = laufe(3)
@@ -110,4 +114,4 @@ if (fehler.length) {
   console.error(`check-meldungs-auffaelligkeiten: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-meldungs-auffaelligkeiten: weniger Folgen kein Befund; Befund bleibt, solange er zutrifft (Lauf 2: 2 offen), erledigter fällt weg (Lauf 3).')
+console.log('check-meldungs-auffaelligkeiten: weniger Folgen kein Befund; Befund bleibt, solange er zutrifft (Lauf 2: 2 offen, keine Warnung), erledigter fällt weg (Lauf 3).')

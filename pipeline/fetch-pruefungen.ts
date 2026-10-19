@@ -1332,10 +1332,10 @@ if (!TROCKEN) {
     return reihe ? staffelNummern(reihe).get(id) : undefined
   }
   const offen = (text: string): boolean => trifftNochZu(text, liste, staffelNr)
-  const jetzt = schreibeAuffaelligkeiten(resolve(ROOT, 'data/meldungs-auffaelligkeiten.json'), auffaellig, heute, offen)
-  if (process.env.GITHUB_ENV && jetzt.length) {
+  const { jetzt, neue } = schreibeAuffaelligkeiten(resolve(ROOT, 'data/meldungs-auffaelligkeiten.json'), auffaellig, heute, offen)
+  if (process.env.GITHUB_ENV && neue.length) {
     const alt = process.env.DATEN_WARNUNG ? process.env.DATEN_WARNUNG + ' · ' : ''
-    appendFileSync(process.env.GITHUB_ENV, `DATEN_WARNUNG=${alt}${warnungsText(jetzt.length)}\n`)
+    appendFileSync(process.env.GITHUB_ENV, `DATEN_WARNUNG=${alt}${warnungsText(neue.length, jetzt.length)}\n`)
   }
 }
 if (TROCKEN) {
