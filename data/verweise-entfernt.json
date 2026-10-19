@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-19T10:44:58.164Z",
+  "stand": "2026-10-19T11:16:05.880Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -6551,6 +6551,17 @@
       "titel": "Dorohedoro",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/GT00371893/dorohedoro",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-19",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 105228,
+      "titel": "Dorohedoro",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1375-dorohedoro",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
