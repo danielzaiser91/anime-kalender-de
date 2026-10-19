@@ -91,11 +91,11 @@ try {
   ]
   const mit = mitLesetag(release(902, []), quellen, tag)
   pruefe('mitLesetag: nur die API-Quelle bekommt den Lesetag, die Erstsichtung bleibt', mit[0]!.gelesenAm === undefined && mit[1]!.gelesenAm === '2026-10-19' && mit[1]!.gesehenAm === '2026-10-01', mit)
-  pruefe('mitLesetag: die API-Quelle sagt das bestätigte Datum, die andere nichts', mit[1]!.sagt === '2026-10-29' && mit[0]!.sagt === undefined, mit)
+  pruefe('mitLesetag: die API-Quelle trägt das bestätigte Datum, die andere nicht; kein sagt', mit[1]!.bestaetigt === '2026-10-29' && mit[0]!.bestaetigt === undefined && mit[1]!.sagt === undefined, mit)
 
   console.log('\nLesetag aus der Historie, wenn der heutige Abruf das Datum nicht mehr zeigt (Prüfer 1598 R4)')
   const ohneTag: Quelle[] = [{ url: KALENDER, name: 'ADN API', gesehenAm: '2026-10-01' }]
-  const hist = (sagt: string | undefined, gelesenAm: string | undefined, url = KALENDER): Quelle[] => [{ url, name: 'ADN API', gesehenAm: '2026-10-01', sagt, gelesenAm }]
+  const hist = (bestaetigt: string | undefined, gelesenAm: string | undefined, url = KALENDER): Quelle[] => [{ url, name: 'ADN API', gesehenAm: '2026-10-01', bestaetigt, gelesenAm }]
   const behalten = (h: Quelle[], termin: string | undefined, neu = ohneTag) => behalteLesetag(neu, h, termin)[0]!.gelesenAm
   pruefe('dasselbe Datum bestätigt: der alte Lesetag bleibt', behalten(hist('2026-10-29', '2026-10-19'), '2026-10-29') === '2026-10-19')
   pruefe('anderes Datum bestätigt: kein Lesetag', behalten(hist('2026-10-22', '2026-10-19'), '2026-10-29') === undefined)
@@ -104,8 +104,12 @@ try {
   pruefe('andere Adresse in der Historie: keiner', behalten(hist('2026-10-29', '2026-10-19', adnKatalogUrl(902)), '2026-10-29') === undefined)
   const heutig: Quelle[] = [{ ...ohneTag[0]!, gelesenAm: '2026-10-20' }]
   pruefe('der heutige Lesetag schlägt die Historie', behalten(hist('2026-10-29', '2026-10-19'), '2026-10-29', heutig) === '2026-10-20')
-  const zwei = behalteLesetag([quellen[0]!, ohneTag[0]!], [...hist('2026-10-29', '2026-10-19'), { ...quellen[0]!, gelesenAm: '2026-10-18', sagt: '2026-10-29' }], '2026-10-29')
+  const zwei = behalteLesetag([quellen[0]!, ohneTag[0]!], [...hist('2026-10-29', '2026-10-19'), { ...quellen[0]!, gelesenAm: '2026-10-18', bestaetigt: '2026-10-29' }], '2026-10-29')
   pruefe('jede Quelle findet ihren eigenen Eintrag', zwei[0]!.gelesenAm === '2026-10-18' && zwei[1]!.gelesenAm === '2026-10-19', zwei)
+  /* So stehen 125 ADN-Quellen im Bestand (19.10.2026): `sagt` aus der Zeit, als quellenPflegen unseren Termin eintrug. */
+  const zirkel: Quelle[] = [{ ...hist('2026-10-22', '2026-10-19')[0]!, sagt: '2026-10-29' }]
+  pruefe('altes `sagt` gleich dem Termin, bestätigt war ein anderes Datum: kein Lesetag', behalten(zirkel, '2026-10-29') === undefined, zirkel)
+  pruefe('behaltener Lesetag trägt sein Datum weiter', behalteLesetag(ohneTag, hist('2026-10-29', '2026-10-19'), '2026-10-29')[0]!.bestaetigt === '2026-10-29')
 
   console.log('\nVerdrahtung: quellenPflegen auf einer Kulisse')
   /* 904 und 914 tragen Folgen: aus ihnen baut `ergaenzeAdnTitel` (07-adn) die Termine, deren Adresse unten geprüft wird. */
@@ -132,7 +136,7 @@ try {
   quellenPflegen([kal, kuratiert, kat, nachbar, ...gebaut])
   const api = (r: Release | undefined) => r?.quellen?.find((q) => q.stand === 'aktuell')
   pruefe('kuratierter Termin, dessen Datum nicht im Kalender steht: kein Lesetag, kein `sagt`', Boolean(api(kuratiert)) && api(kuratiert)?.gelesenAm === undefined && api(kuratiert)?.sagt === undefined, kuratiert.quellen)
-  pruefe('bestätigtes Datum: die API-Quelle sagt es', api(kal)?.sagt === '2026-10-29' && api(kat)?.sagt === '2026-10-29', [kal.quellen, kat.quellen])
+  pruefe('bestätigtes Datum: die API-Quelle trägt es, ohne `sagt`', api(kal)?.bestaetigt === '2026-10-29' && api(kat)?.bestaetigt === '2026-10-29' && api(kal)?.sagt === undefined, [kal.quellen, kat.quellen])
   pruefe('Kalender-Termin: Erstsichtung 01.10. bleibt, Lesetag 19.10.', api(kal)?.gesehenAm === '2026-10-01' && api(kal)?.gelesenAm === '2026-10-19', kal.quellen)
   pruefe('Katalog-Termin: Lesetag aus dem Serienabruf', api(kat)?.gelesenAm === '2026-10-15', kat.quellen)
   pruefe('Katalog-Termin ohne jüngeren Serienabruf: Lesetag aus dem Katalogabruf', api(nachbar)?.gelesenAm === '2026-10-12', nachbar.quellen)
@@ -162,14 +166,11 @@ try {
   quellenPflegen([kal3])
   pruefe('gescheiterter Abruf (adn.json fehlt): Lesetag vom 19.10. bleibt', api(kal3)?.gelesenAm === '2026-10-19', kal3.quellen)
 
-  console.log('\nAdresswechsel: die alte API-Quelle wird nach ihrem bestätigten Datum eingeordnet (Prüfer 1598 R5)')
+  console.log('\nAdresswechsel: der Lesetag gibt der alten API-Quelle keine Aussage (`sagt`), sie gilt nicht als widerlegt (Prüfer 1598 R5)')
   const kalAlt = (r: Release) => r.quellen?.find((q) => q.url === KALENDER)
-  const gewechselt = release(902, [adnKatalogUrl(902)])
+  const gewechselt = plan(release(902, [adnKatalogUrl(902)]), { firstEpisodeDate: '2026-11-05' })
   quellenPflegen([gewechselt])
-  pruefe('gleiches Datum: vermutlich überholt, nicht widerlegt', kalAlt(gewechselt)?.stand === 'vermutlich-ueberholt' && kalAlt(gewechselt)?.grund === undefined, gewechselt.quellen)
-  const gewechseltVerschoben = plan(release(902, [adnKatalogUrl(902)]), { firstEpisodeDate: '2026-11-05' })
-  quellenPflegen([gewechseltVerschoben])
-  pruefe('anderes Datum: überholt, Termin verschoben', kalAlt(gewechseltVerschoben)?.stand === 'ueberholt' && kalAlt(gewechseltVerschoben)?.grund === 'Termin verschoben auf: 2026-11-05', gewechseltVerschoben.quellen)
+  pruefe('neue Adresse, anderes Datum: alte Quelle vermutlich überholt, ohne Grund', kalAlt(gewechselt)?.stand === 'vermutlich-ueberholt' && kalAlt(gewechselt)?.grund === undefined && kalAlt(gewechselt)?.gelesenAm === '2026-10-19', gewechselt.quellen)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }

@@ -388,7 +388,6 @@ export function quellenPflegen(releases: Release[]): void {
      * hier eine vollwertige Herkunftsangabe — sonst hätten ausgerechnet die von
      * Hand geprüften Termine die schlechtere Belegkette als die automatischen.
      * **Kein `sagt`:** Unser Termin als Aussage der Quelle war ein Zirkelschluss.
-     * Nur `mitLesetag` setzt eins: dort hat der ADN-Abruf das Datum selbst gezeigt (`datumImAbruf`).
      */
     const roh: Quelle[] =
       release.quellen ??

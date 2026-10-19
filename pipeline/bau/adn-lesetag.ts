@@ -58,23 +58,23 @@ export function ladeAdnLesetage(): Lesetag {
   return adnLesetage(readJson('data/adn.json', leer), readJson('data/adn-catalog.json', leer), readJson('data/adn-katalog-stand.json', {}))
 }
 
-/** Hängt jeder Quelle mit Lesetag diesen an, dazu das Datum, das der Abruf bestätigt hat (`sagt`); die anderen bleiben, wie sie sind. */
+/** Hängt jeder Quelle mit Lesetag diesen an, dazu das Datum, das der Abruf bestätigt hat; die anderen bleiben, wie sie sind. */
 export function mitLesetag(release: Release, quellen: Quelle[], lesetag: Lesetag): Quelle[] {
   return quellen.map((q) => {
     const am = lesetag(release, q.url)
-    return am ? { ...q, gelesenAm: am, sagt: release.schedule.firstEpisodeDate } : q
+    return am ? { ...q, gelesenAm: am, bestaetigt: release.schedule.firstEpisodeDate } : q
   })
 }
 
 /**
  * Bestätigt der heutige Abruf das Datum nicht mehr (der Kalender reicht 45 Tage zurück, `fetch-adn.ts`; ein Abruf kann scheitern),
  * bleibt der Lesetag des letzten Abrufs, der es bestätigt hat: Der Beleg nennt diesen Tag, seine Aussage bleibt wahr. Nur, wenn jener
- * Abruf dasselbe Datum bestätigte (`sagt` in der Historie) — sonst verlöre eine ältere Meldung ihren Beleg (Prüfer 1598 R4).
+ * Abruf dasselbe Datum bestätigte (`bestaetigt`) — sonst verlöre eine ältere Meldung ihren Beleg (Prüfer 1598 R4).
  */
 export function behalteLesetag(neu: Quelle[], historie: Quelle[], termin: string | undefined): Quelle[] {
   return neu.map((q) => {
     if (q.gelesenAm) return q
     const alt = historie.find((h) => h.url === q.url)
-    return termin && alt?.gelesenAm && alt.sagt === termin ? { ...q, gelesenAm: alt.gelesenAm } : q
+    return termin && alt?.gelesenAm && alt.bestaetigt === termin ? { ...q, gelesenAm: alt.gelesenAm, bestaetigt: termin } : q
   })
 }
