@@ -88,9 +88,11 @@ pipeline/check-invarianten.ts
 pipeline/check-ja-hat-weg.ts
 pipeline/check-jw-ablauf.ts
 pipeline/check-jw-auswahl.ts
+pipeline/check-jw-schlange.ts
 pipeline/check-jw-seite.ts
 pipeline/check-jw-staffeln.ts
 pipeline/check-jw-vertrauen.ts
+pipeline/check-jw-wiedervorlage.ts
 pipeline/check-kachel-anbieter.ts
 pipeline/check-kachel-buendel.ts
 pipeline/check-kachel-favorit-render.ts
