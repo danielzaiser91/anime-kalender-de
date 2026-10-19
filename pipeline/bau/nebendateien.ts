@@ -21,7 +21,7 @@ import { eigenesJa, zaehltAlsDeutscherTermin } from '../lib/news.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
 import { reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
-import { ladeAdnLesetage, mitLesetag } from './adn-lesetag.ts'
+import { behalteLesetag, ladeAdnLesetage, mitLesetag } from './adn-lesetag.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
 import { setzeStaffeln, staffelnAusBelegen } from './cartoon-staffeln.ts'
@@ -397,7 +397,7 @@ export function quellenPflegen(releases: Release[]): void {
         gesehenAm: heute,
         stand: 'aktuell' as const,
       }))
-    const neu = mitLesetag(release, roh, lesetag)
+    const neu = behalteLesetag(mitLesetag(release, roh, lesetag), historie[release.slug] ?? [], termin)
 
     const aktuelleAdressen = new Set(neu.map((q) => q.url))
     const alt = (historie[release.slug] ?? []).map((q) => {

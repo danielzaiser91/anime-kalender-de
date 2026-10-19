@@ -52,7 +52,7 @@ const release = (showId: number, sources: string[]): Release =>
 
 try {
   const { adnKatalogUrl, adnKatalogShow } = await import('./bau/grundlagen.ts')
-  const { adnLesetage, mitLesetag } = await import('./bau/adn-lesetag.ts')
+  const { adnLesetage, behalteLesetag, mitLesetag } = await import('./bau/adn-lesetag.ts')
 
   console.log('\nADN-Adresse: Kalender oder Folgenliste der Serie')
   pruefe('Katalog-Adresse und Serienkennung', adnKatalogShow(adnKatalogUrl(1318)) === 1318, adnKatalogUrl(1318))
@@ -91,6 +91,21 @@ try {
   ]
   const mit = mitLesetag(release(902, []), quellen, tag)
   pruefe('mitLesetag: nur die API-Quelle bekommt den Lesetag, die Erstsichtung bleibt', mit[0]!.gelesenAm === undefined && mit[1]!.gelesenAm === '2026-10-19' && mit[1]!.gesehenAm === '2026-10-01', mit)
+  pruefe('mitLesetag: die API-Quelle sagt das bestätigte Datum, die andere nichts', mit[1]!.sagt === '2026-10-29' && mit[0]!.sagt === undefined, mit)
+
+  console.log('\nLesetag aus der Historie, wenn der heutige Abruf das Datum nicht mehr zeigt (Prüfer 1598 R4)')
+  const ohneTag: Quelle[] = [{ url: KALENDER, name: 'ADN API', gesehenAm: '2026-10-01' }]
+  const hist = (sagt: string | undefined, gelesenAm: string | undefined, url = KALENDER): Quelle[] => [{ url, name: 'ADN API', gesehenAm: '2026-10-01', sagt, gelesenAm }]
+  const behalten = (h: Quelle[], termin: string | undefined, neu = ohneTag) => behalteLesetag(neu, h, termin)[0]!.gelesenAm
+  pruefe('dasselbe Datum bestätigt: der alte Lesetag bleibt', behalten(hist('2026-10-29', '2026-10-19'), '2026-10-29') === '2026-10-19')
+  pruefe('anderes Datum bestätigt: kein Lesetag', behalten(hist('2026-10-22', '2026-10-19'), '2026-10-29') === undefined)
+  pruefe('Historie ohne Lesetag oder ohne bestätigtes Datum: keiner', behalten(hist('2026-10-29', undefined), '2026-10-29') === undefined && behalten(hist(undefined, '2026-10-19'), '2026-10-29') === undefined)
+  pruefe('Termin ohne Datum: keiner', behalten(hist(undefined, '2026-10-19'), undefined) === undefined)
+  pruefe('andere Adresse in der Historie: keiner', behalten(hist('2026-10-29', '2026-10-19', adnKatalogUrl(902)), '2026-10-29') === undefined)
+  const heutig: Quelle[] = [{ ...ohneTag[0]!, gelesenAm: '2026-10-20' }]
+  pruefe('der heutige Lesetag schlägt die Historie', behalten(hist('2026-10-29', '2026-10-19'), '2026-10-29', heutig) === '2026-10-20')
+  const zwei = behalteLesetag([quellen[0]!, ohneTag[0]!], [...hist('2026-10-29', '2026-10-19'), { ...quellen[0]!, gelesenAm: '2026-10-18', sagt: '2026-10-29' }], '2026-10-29')
+  pruefe('jede Quelle findet ihren eigenen Eintrag', zwei[0]!.gelesenAm === '2026-10-18' && zwei[1]!.gelesenAm === '2026-10-19', zwei)
 
   console.log('\nVerdrahtung: quellenPflegen auf einer Kulisse')
   /* 904 und 914 tragen Folgen: aus ihnen baut `ergaenzeAdnTitel` (07-adn) die Termine, deren Adresse unten geprüft wird. */
@@ -126,6 +141,25 @@ try {
   const ausKatalog = gebaut.find((r) => r.titleId === 914)
   pruefe('Serie aus dem Kalender: Kalender-Adresse, Lesetag des Kalenderabrufs', ausKalender?.sources.join() === KALENDER && api(ausKalender)?.gelesenAm === '2026-10-19', ausKalender?.quellen)
   pruefe('Serie nur im Katalog: Adresse ihrer Folgenliste, Lesetag des Katalogabrufs (Prüfer 1598 A2)', ausKatalog?.sources.join() === adnKatalogUrl(914) && api(ausKatalog)?.gelesenAm === '2026-10-12', ausKatalog?.quellen)
+
+  console.log('\nFolgelauf: am nächsten Tag ist der 29.10. aus dem Kalender gefallen, Serie 913 aus dem Katalog (Prüfer 1598 R4)')
+  const morgen = daten('2026-10-20T04:09:00Z', 901, 903)
+  morgen.shows.push({ ...show(902), episodes: [{ date: '2026-11-05', time: '09:00', url: '' }] })
+  writeFileSync(join(wurzel, 'data', 'adn.json'), JSON.stringify(morgen))
+  writeFileSync(join(wurzel, 'data', 'adn-catalog.json'), JSON.stringify(daten('2026-10-20T08:00:00Z', 911, 912)))
+  const kal2 = release(902, [KALENDER])
+  const nachbar2 = release(913, [adnKatalogUrl(913)])
+  const verschoben = plan(release(912, [adnKatalogUrl(912)]), { firstEpisodeDate: '2026-11-05' })
+  const neuBestaetigt = release(911, [adnKatalogUrl(911)])
+  quellenPflegen([kal2, nachbar2, verschoben, neuBestaetigt])
+  pruefe('Kalender-Termin: Lesetag vom 19.10. bleibt (Datum nicht mehr im Fenster)', api(kal2)?.gelesenAm === '2026-10-19', kal2.quellen)
+  pruefe('Katalog-Termin, Serie nicht mehr im Abruf: Lesetag vom 12.10. bleibt', api(nachbar2)?.gelesenAm === '2026-10-12', nachbar2.quellen)
+  pruefe('Termin auf ein Datum verschoben, das kein Abruf bestätigt: kein Lesetag', Boolean(api(verschoben)) && api(verschoben)?.gelesenAm === undefined, verschoben.quellen)
+  pruefe('Datum heute bestätigt: der heutige Lesetag', api(neuBestaetigt)?.gelesenAm === '2026-10-20', neuBestaetigt.quellen)
+  rmSync(join(wurzel, 'data', 'adn.json'))
+  const kal3 = release(902, [KALENDER])
+  quellenPflegen([kal3])
+  pruefe('gescheiterter Abruf (adn.json fehlt): Lesetag vom 19.10. bleibt', api(kal3)?.gelesenAm === '2026-10-19', kal3.quellen)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
