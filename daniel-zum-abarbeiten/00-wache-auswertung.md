@@ -5,6 +5,17 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 19.10.2026, 16:45 — Wache-Befund (Lauf 39271183576, Issue #1601)
+
+**Was läuft korrekt.** Die Wache hat gemessen, was sie soll: `data/bestand-historie.jsonl` zeigt ab 18.10. 20:08 Uhr stündlich abwechselnd mitUrteil 1999 und 2036, primevideo-Wege 622 und 663, titelMitSynchro 1491 und 1498. Alle Quellen-Wecker liegen in ihrer Frist.
+
+**Wo ist Verbesserungspotenzial?** Die Wache meldet jede Stunde einzeln „37 verloren" und „4 zurück", obwohl es dasselbe Pendeln ist; ein Hinweis „wechselt zwischen zwei Ständen seit …" würde den Befund in eine Zeile fassen. Der Zeitraum-Vergleich der Datei (Urteile -36) stützt sich auf den letzten committeten Stand und zeigt damit den Zustand des letzten Laufs, nicht einen Trend.
+
+**Wo sind echte Risiken und Lücken?** Welcher der beiden Stände live steht, entscheidet der zuletzt gelaufene Bau. Committet ist der niedrige Stand (Bau 14:38: 2000 Urteile, 1490 Titel mit Synchro; Vergleich der `titles.json` von 04:23 und 14:38: 1498 → 1490 Titel mit Deutsch-Stream, 15 Prime-Streams weg, 23 neu, einzelne in anderer Adressform, z. B. Titel 936 von `…/detail/B01HSH3W1G` auf die `gti`-Adresse). Das Gegenstück „Wege kommen und gehen" prüft kein Riegel: `pruefeErgebnis` kennt nur absolute Schwellen, keinen Vergleich zweier Läufe.
+
+**Was läuft komplett falsch?** Ursache ungeklärt, nicht behauptet: Ohne Cache und Meldungskopie lässt sich der Wechsel hier nicht nachstellen. Verdächtig sind die Läufe vom 18.10. abends, die verworfen wurden (u. a. #1595 Cartoon-Stichprobe) und deren Abrufe zurückgenommen wurden — #1585 (`tools/commit-data.sh`, `BAU_LAUF_BEHALTEN`) und #1589 (Prime-Meldung legt keinen Weg zu verneinter Adresse an) sind inzwischen auf `main`; der nächste stündliche Lauf zeigt, ob das Pendeln endet. Kein Code geändert.
+
+
 ## 19.10.2026, 11:06 — Claude-Lauf, Befund
 
 **Was läuft korrekt.** Zugänge und Kontingente sind bis auf den Bestandsbau unauffällig: refresh-hourly, refresh-data, refresh-weekly, daten-auf-abruf, anisearch-katalog, d1-verbrauch, claude-anime2you-extraktion, claude-verpasst-recherche und claude-daten-merge liegen alle innerhalb ihrer Frist (04). „Claude — Daten-PR zusammenführen" lief in diesem Fenster 40-mal erfolgreich, ohne den main-Fehlschlag gegen 10:02–10:03 Uhr, der in den Urteilen vom 14. bis 17.10. (10) wiederholt gemeldet wurde — das Muster bleibt weiterhin aus. Das im Urteil vom 18.10. (10) als vorrangig genannte Issue #1464 steht nicht mehr unter den offenen Issues (08), vermutlich gemergt. „Claude — roten Datenlauf untersuchen" lief 24-mal erfolgreich (01) — zahlengleich mit den 24 Fehlschlägen von „Bestand — zusammenführen und bauen" im selben Fenster (01); die automatische Ursachenermittlung zu den roten Läufen läuft also weiterhin mit.

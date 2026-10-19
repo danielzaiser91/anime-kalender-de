@@ -46,6 +46,9 @@ const vorpruefZeile = sh.split('\n').find((z) => z.startsWith('node tools/pr-vor
 pruefe('pr-einreichen.sh ruft die Vorprüfung vor dem Push auf', sh.indexOf(vorpruefZeile) > 0 && sh.indexOf(vorpruefZeile) < sh.indexOf('git push'))
 pruefe('pr-einreichen.sh bricht bei roter Vorprüfung ab', /\|\| \{[^}]*exit 1/.test(vorpruefZeile))
 pruefe('pr-einreichen.sh nimmt bei vorhandenem PR dessen Beschreibung', /gh pr view "\$ZWEIG" --json body/.test(sh))
+const ausfuehrbar = sh.replace(/\\\n/g, ' ').split('\n').filter((z) => !/^\s*(#|echo\b|printf\b)/.test(z)).join('\n')
+pruefe('pr-einreichen.sh führt kein gh pr merge aus', !/gh\s+pr\s+merge/.test(ausfuehrbar))
+pruefe('pr-einreichen.sh schaltet keinen Auto-Merge ein', !/--auto|enablePullRequestAutoMerge/.test(ausfuehrbar))
 
 if (fehler.length) {
   console.error(`pr-vorpruefung.test: ${fehler.length} Fehler`)

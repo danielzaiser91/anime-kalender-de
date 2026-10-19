@@ -19,6 +19,10 @@ on:
 permissions:
   contents: read
 
+# Ortszeit wie Daniels Rechner (Windows, Berlin): Tests mit UTC-Annahme fallen sonst erst lokal auf (19.10.2026).
+env:
+  TZ: Europe/Berlin
+
 concurrency:
   group: pr-pruefung-${{ github.event.pull_request.number }}
   cancel-in-progress: true
