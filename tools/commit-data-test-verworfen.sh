@@ -89,9 +89,9 @@ fetch_ziele_lesen() {
     done
   done < <(node "$WURZEL/tools/fetch-schreibziele.mjs" "$@")
 }
-# Erkennungsprobe: `let` und ein berechneter Pfad bleiben `?`, `const`, Text und eingebundenes Modul werden aufgelöst.
+# Erkennungsprobe: `let` und ein berechneter Pfad bleiben `?`, `const`, Text und eingebundenes Modul werden aufgelöst (alle Formen: tools/fetch-schreibziele.test.mjs).
 mkdir -p "$ARBEIT/scan"
-printf '%s\n' "import './mod.ts'" "const A = 'data/tmdb.json'" "let B = 'data/curated-ids.json'" \
+printf '%s\n' "import './mod.ts'" "import { writeFileSync } from 'node:fs'" "const A = 'data/tmdb.json'" "let B = 'data/curated-ids.json'" \
   "writeJson(A, 1)" "writeJson(B, 1)" "writeFileSync(ziel(), '')" > "$ARBEIT/scan/fetch.ts"
 echo "writeJson('data/anisearch-cover.json', 1)" > "$ARBEIT/scan/mod.ts"
 fetch_ziele_lesen "$ARBEIT/scan/fetch.ts"
