@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-19T16:48:33.182Z",
+ "erzeugtAm": "2026-10-19T22:13:59.604Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 854,
+   "gemeldet": 853,
    "gesamt": 900,
-   "offen": 46,
+   "offen": 47,
    "ohneSeite": 21,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -128,6 +128,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/0O59G87GV5BELGUFJKLQQAGHP4",
      "titel": "Granblue Fantasy: The Animation"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5482d2e9-157c-411c-b5c3-7f3210286c90",
+     "titel": "A Silent Voice"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVBLNC3X",
@@ -389,9 +393,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 774,
+   "gemeldet": 773,
    "gesamt": 898,
-   "offen": 124,
+   "offen": 125,
    "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -402,6 +406,10 @@
     {
      "url": "https://www.netflix.com/title/81272431",
      "titel": "Numberblocks"
+    },
+    {
+     "url": "https://www.netflix.com/title/81744227",
+     "titel": "Cyberpunk: Edgerunners 2"
     },
     {
      "url": "https://www.netflix.com/title/81684733",
