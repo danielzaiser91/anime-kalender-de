@@ -5,9 +5,9 @@
 import assert from 'node:assert/strict'
 import { execFileSync, spawn, spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, utimesSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, renameSync, rmSync, symlinkSync, utimesSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { basename, join } from 'node:path'
 
 const hooks = join(import.meta.dirname, 'claude-global', 'hooks')
 const req = createRequire(import.meta.url)
@@ -333,7 +333,12 @@ try {
   assert.deepEqual(umbenennungen, [[join(wurzel, 'x'), `${join(wurzel, 'x')}-p`], [`${join(wurzel, 'x')}-p`, join(wurzel, 'x')]], 'hin und zurück')
   assert.equal(H.ordnerFrei(join(wurzel, 'x'), ebusy), false)
   let zaehler = 0
-  assert.equal(H.ordnerFrei(join(wurzel, 'x'), () => { if (++zaehler === 2) ebusy() }), false, 'Zurückbenennen scheitert')
+  const pausen = []
+  assert.throws(() => H.ordnerFrei(join(wurzel, 'x'), () => { if (++zaehler >= 2) ebusy() }, (ms) => pausen.push(ms)), /Zurückbenennen scheitert.*x-p/, 'Zurückbenennen scheitert endgültig: laut')
+  assert.equal(zaehler, 4, 'ein Hinweg, drei Rückversuche')
+  assert.equal(pausen.length, 2, 'zwischen den Rückversuchen wird gewartet')
+  zaehler = 0
+  assert.equal(H.ordnerFrei(join(wurzel, 'x'), () => { if (++zaehler === 2) ebusy() }, () => {}), true, 'zweiter Rückversuch gelingt')
   neu('_wt-benutzt', 'b-benutzt', true)
   symlinkSync(fremdNm, join(haupt, '_wt-benutzt', 'node_modules'), 'junction')
   prs.push(erledigt('b-benutzt', '_wt-benutzt'))
@@ -344,7 +349,8 @@ try {
   assert.equal(entfernt.some((p) => p.endsWith('_wt-benutzt')), false, 'git worktree remove nicht aufgerufen')
   assert.ok(g(haupt, 'worktree', 'list').includes('_wt-benutzt'), 'Registrierung bleibt')
   if (process.platform === 'win32') {
-    // Windows: echter Kindprozess mit cwd im Worktree hält den Ordner; die Standardprobe (fs.renameSync) muss das sehen.
+    // Nur unter win32 beweisbar: Linux/macOS benennen einen Ordner mit fremdem cwd ohne Fehler um, ein Gegenstück gibt es dort nicht.
+    // Windows: echter Kindprozess mit cwd im Worktree hält den Ordner; die Standardprobe (fs.renameSync) muss das sehen. Auf Linux belegt nur A7 oben (ebusy-Attrappe) den Ablauf.
     const kind = spawn(process.execPath, ['-e', 'setInterval(() => {}, 1000)'], { cwd: join(haupt, '_wt-benutzt'), stdio: 'ignore', windowsHide: true })
     try {
       await new Promise((ok) => setTimeout(ok, 1500))
@@ -361,6 +367,47 @@ try {
   assert.equal(existsSync(join(haupt, '_wt-benutzt')), false, 'ohne Benutzung wird abgebaut')
   assert.deepEqual(frei.fehler.filter((f) => f.includes('_wt-benutzt')), [])
   assert.equal(readFileSync(join(fremdNm, 'paket.txt'), 'utf8'), 'p')
+
+  // A1: Hin klappt, Zurückbenennen scheitert endgültig → Fehlerzeile, Registrierung bleibt, kein prune; ein späterer Lauf benennt zurück.
+  neu('_wt-rueck', 'b-rueck', true)
+  prs.push(erledigt('b-rueck', '_wt-rueck'))
+  const nurHin = (von, nach) => { if (nach.endsWith('-p')) renameSync(von, nach); else ebusy() }
+  const rueck = H.abbau(haupt, { ...welt, frei: (p) => H.ordnerFrei(p, nurHin, () => {}) }, true)
+  assert.equal(rueck.fehler.filter((f) => f.startsWith('Zurückbenennen scheitert') && f.includes('_wt-rueck')).length, 1, 'Fehler laut')
+  assert.ok(rueck.fehler.some((f) => f.startsWith('prune übersprungen')), 'prune ausgesetzt, gemeldet')
+  assert.ok(g(haupt, 'worktree', 'list').includes('_wt-rueck'), 'Registrierung bleibt')
+  assert.equal(existsSync(join(haupt, '_wt-rueck-p', 'neu.txt')), true, 'Dateien liegen als -p')
+  // Eigener Vollzug mit Attrappen: ohne Fehler beim Zurückbenennen läuft prune weiter (Gegenprobe zum Aussetzen).
+  const pruneSpur = { worktrees: [], lose: [], fehler: [], entfernt: 0 }
+  H.vollziehe(haupt, welt, pruneSpur)
+  assert.equal(pruneSpur.fehler.length, 0, 'ohne Rückbenennfehler: prune läuft')
+  // Der nächste Lauf: -p wird zurückbenannt (und der gemergte Worktree dann regulär abgebaut).
+  assert.deepEqual(H.heileProbeOrdner(haupt, new Set([L.norm(join(haupt, '_wt-rueck'))]), renameSync).map((p) => basename(p)), ['_wt-rueck'])
+  assert.equal(existsSync(join(haupt, '_wt-rueck', 'neu.txt')), true, 'wieder unter dem Namen')
+  neu('_wt-rueck2', 'b-rueck2', true)
+  prs.push(erledigt('b-rueck2', '_wt-rueck2'))
+  renameSync(join(haupt, '_wt-rueck2'), join(haupt, '_wt-rueck2-p'))
+  for (const n of ['_wt-ohne-registrierung-p', '_wt-beides', '_wt-beides-p']) { mkdirSync(join(haupt, n)); writeFileSync(join(haupt, n, 'x.txt'), 'x') }
+  const heilLauf = H.abbau(haupt, welt, true)
+  assert.equal(existsSync(join(haupt, '_wt-rueck2-p')), false, 'Lauf heilt liegengebliebenes -p')
+  assert.equal(existsSync(join(haupt, '_wt-ohne-registrierung-p')), true, 'ohne Registrierung bleibt es')
+  assert.equal(existsSync(join(haupt, '_wt-beides-p')), true, 'ist der Zielname belegt, bleibt es')
+  assert.deepEqual(heilLauf.fehler.filter((f) => f.includes('_wt-rueck2')), [])
+  // Nur Namen auf -p werden zurückbenannt, auch wenn der gekürzte Name registriert und frei ist.
+  const stray = join(wurzel, 'stray')
+  mkdirSync(join(stray, '_wt-qxy'), { recursive: true })
+  assert.deepEqual(H.heileProbeOrdner(stray, new Set([L.norm(join(stray, '_wt-q'))]), renameSync), [])
+  assert.equal(existsSync(join(stray, '_wt-qxy')), true)
+  mkdirSync(join(stray, '_wt-q-p'))
+  assert.equal(H.heileProbeOrdner(stray, new Set([L.norm(join(stray, '_wt-q'))]), renameSync).length, 1, 'Gegenprobe: -p wird zurückbenannt')
+  mkdirSync(join(stray, '_wt-b'))
+  mkdirSync(join(stray, '_wt-b-p'))
+  const versucht = []
+  H.heileProbeOrdner(stray, new Set([L.norm(join(stray, '_wt-b'))]), (von) => versucht.push(von))
+  assert.deepEqual(versucht, [], 'Zielname belegt: nicht einmal versucht')
+  rmSync(join(haupt, '_wt-ohne-registrierung-p'), { recursive: true })
+  rmSync(join(haupt, '_wt-beides'), { recursive: true })
+  rmSync(join(haupt, '_wt-beides-p'), { recursive: true })
 
   // Lose Reste aus Verknüpfungen einen Ordner tief (data/cache) gehen weg, echter Cache im selben Aufbau nicht; die Wächterzeile zählt sie mit.
   const vorher = H.zaehleWt(haupt)
@@ -432,6 +479,21 @@ try {
   assert.equal(H.nimmSperre(sperre, Date.now()), false, 'zweiter Abbau gesperrt (Besitzer lebt)')
   writeFileSync(sperre, JSON.stringify({ pid: 2147483646, zeit: Date.now() }))
   assert.equal(H.nimmSperre(sperre, Date.now()), true, 'verwaiste Sperre wird übernommen')
+  rmSync(sperre)
+  // A3: Zwei Starter sehen dieselbe verwaiste Sperre; der zweite übernimmt zwischen Lesen und Übernehmen des ersten. Nur einer läuft.
+  const verwaist = JSON.stringify({ pid: 2147483646, zeit: Date.now() })
+  writeFileSync(sperre, verwaist)
+  let zweiter = null
+  const erster = H.nimmSperre(sperre, Date.now(), () => { zweiter = H.nimmSperre(sperre, Date.now()) })
+  assert.deepEqual([erster, zweiter], [false, true], 'genau einer übernimmt')
+  assert.equal(JSON.parse(readFileSync(sperre, 'utf8')).pid, process.pid, 'die Sperre des Gewinners bleibt unversehrt')
+  assert.deepEqual(readdirSync(wurzel).filter((n) => n.startsWith('abbau.lock.')), [], 'keine Reste')
+  rmSync(sperre)
+  writeFileSync(sperre, verwaist)
+  assert.equal(H.nimmSperre(sperre, Date.now(), () => rmSync(sperre)), false, 'Sperre inzwischen weg (anderer Starter fertig): nicht übernehmen')
+  assert.equal(existsSync(sperre), false, 'und nichts hinterlassen')
+  writeFileSync(sperre, verwaist)
+  assert.equal(H.nimmSperre(sperre, Date.now(), () => {}), true, 'ohne Rennen übernimmt der einzelne Starter')
   rmSync(sperre)
 
   const aufrufe = []

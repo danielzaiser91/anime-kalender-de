@@ -16,6 +16,8 @@ const HAUPT = process.env.WT_HAUPT ?? 'C:/code/ai/anime-kalender-de'
 const REGISTER = process.env.WT_REGISTER ?? 'C:/code/ai/__assets/tools/prozess-register.mjs'
 const SPERRE = process.env.WT_SPERRE ?? 'C:/code/ai/__assets/prozesse/worktree-aufraeumen.lock'
 const FRIST_MIN = 30
+const RUECK_VERSUCHE = 3
+const RUECK_PAUSE_MS = 200
 /** Felder der PR-Liste: das Erledigt-Zeichen braucht Kopf und Abschlusszeit. */
 const PR_FELDER = 'headRefName,headRefOid,state,mergedAt,closedAt'
 
@@ -87,11 +89,27 @@ function loeseVerknuepfungen(pfad) {
  * Probeweise umbenennen und zurück: unter Windows scheitert das (EPERM/EBUSY), solange ein Prozess dort sein cwd oder eine offene Datei hat.
  * Nur so wird ein halb gelöschter Worktree vermieden. `umbenennen` ist für den Test ersetzbar.
  */
-function ordnerFrei(pfad, umbenennen = fs.renameSync) {
+function ordnerFrei(pfad, umbenennen = fs.renameSync, warte = schlafe) {
   const probe = `${pfad}-p`
   try { umbenennen(pfad, probe) } catch { return false }
-  try { umbenennen(probe, pfad) } catch { return false }
-  return true
+  for (let versuch = 1; versuch <= RUECK_VERSUCHE; versuch++) {
+    try { umbenennen(probe, pfad); return true } catch {}
+    if (versuch < RUECK_VERSUCHE) warte(RUECK_PAUSE_MS)
+  }
+  throw new Error(`Zurückbenennen scheitert: ${pfad} liegt als ${probe}`)
+}
+
+function schlafe(ms) { Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms) }
+
+/** Ein früherer Lauf ließ `_wt-x-p` liegen (Rückbenennen scheiterte): zurückbenennen, sobald `_wt-x` fehlt, aber noch registriert ist. */
+function heileProbeOrdner(haupt, registriert, umbenennen = fs.renameSync) {
+  const geheilt = []
+  for (const n of fs.readdirSync(haupt).filter((x) => /^_wt-.+-p$/.test(x))) {
+    const ziel = path.join(haupt, n.slice(0, -2))
+    if (!registriert.has(L.norm(ziel)) || fs.existsSync(ziel)) continue
+    try { umbenennen(path.join(haupt, n), ziel); geheilt.push(ziel) } catch {}
+  }
+  return geheilt
 }
 
 /** Gesammelte Eingaben der echten Welt; im Test ersetzt. */
@@ -130,6 +148,7 @@ function abbau(haupt, welt, los) {
   const bericht = { worktrees: [], lose: [], entfernt: 0, fehler: [] }
   const ctx = { haupt, jetzt: welt.jetzt(), prs: welt.prs(), cacheLeer: welt.cacheLeer, sauber: welt.sauber }
   const alle = L.leseWorktrees(git(haupt, 'worktree', 'list', '--porcelain'))
+  if (los) heileProbeOrdner(haupt, new Set(alle.map((w) => L.norm(w.pfad))))
   for (const w of alle) {
     const existiert = fs.existsSync(w.pfad)
     const entscheidung = L.entscheide({ ...w, existiert, juengsteAenderungMs: existiert ? juengsteAenderung(w.pfad, haupt) : 0, kopfZeitMs: existiert ? kopfZeit(w.pfad, haupt) : 0 }, ctx)
@@ -142,7 +161,14 @@ function abbau(haupt, welt, los) {
 
 /** Ein Worktree: erneut prüfen (ein Agent kann nach der Planung geschrieben haben), Verknüpfungen lösen, entfernen, Rest melden. */
 function entferneWorktree(welt, w, bericht) {
-  if (!welt.frei(w.pfad)) { bericht.fehler.push(`In Benutzung: ${w.pfad}`); return }
+  let frei = false
+  try { frei = welt.frei(w.pfad) } catch (e) {
+    // Der Ordner heißt noch `-p`: die Registrierung muss bleiben, sonst verliert git den Worktree.
+    bericht.fehler.push(e.message)
+    bericht.pruneAus = true
+    return
+  }
+  if (!frei) { bericht.fehler.push(`In Benutzung: ${w.pfad}`); return }
   if (welt.sauber(w.pfad) !== true) { bericht.fehler.push(`Geändert nach der Prüfung: ${w.pfad}`); return }
   if (!welt.loese(w.pfad)) { bericht.fehler.push(`Verknüpfung bleibt: ${w.pfad}`); return }
   try { welt.entferne(w.pfad) } catch { bericht.fehler.push(`Entfernen scheitert: ${w.pfad}`); return }
@@ -161,12 +187,16 @@ function vollziehe(haupt, welt, bericht) {
       bericht.entfernt++
     } catch { bericht.fehler.push(`Ordner nicht leer: ${o.pfad}`) }
   }
-  git(haupt, 'worktree', 'prune')
+  if (bericht.pruneAus) bericht.fehler.push('prune übersprungen (Ordner nicht zurückbenannt)')
+  else git(haupt, 'worktree', 'prune')
 }
 
 const lebt = (pid) => { try { process.kill(pid, 0); return true } catch { return false } }
+function liesRoh(datei) {
+  try { return fs.readFileSync(datei, 'utf8') } catch { return null }
+}
 function liesSperre(datei) {
-  try { return JSON.parse(fs.readFileSync(datei, 'utf8')) } catch { return null }
+  try { return JSON.parse(liesRoh(datei)) } catch { return null }
 }
 
 /** Eine unlesbare Sperrdatei, die älter ist als jede Abbaufrist, zählt als verwaist (sonst bliebe der Abbau für immer gesperrt). */
@@ -174,13 +204,29 @@ function unlesbarUndAlt(datei, jetzt) {
   try { return jetzt - fs.statSync(datei).mtimeMs > L.SPERRE_MAX_MS ? { pid: 0, zeit: 0 } : null } catch { return null }
 }
 
-/** Nimmt die Sperre (atomar); false, wenn ein anderer Abbau läuft. Eine verwaiste Sperre wird übernommen. */
-function nimmSperre(datei, jetzt) {
+/**
+ * Übernimmt eine verwaiste Sperre durch Umbenennen (nur ein Starter gewinnt). Hat ein anderer Starter sie schon ersetzt, steht unter dem Namen
+ * dessen frische Sperre: sie wird zurückgelegt und der Aufruf scheitert.
+ */
+function uebernimmAlte(datei, roh) {
+  const beiseite = `${datei}.uebernommen-${process.pid}`
+  try { fs.renameSync(datei, beiseite) } catch { return false }
+  const nun = liesRoh(beiseite) ?? ''
+  fs.rmSync(beiseite, { force: true })
+  if (nun === (roh ?? '')) return true
+  try { fs.writeFileSync(datei, nun, { flag: 'wx' }) } catch {}
+  return false
+}
+
+/** Nimmt die Sperre (atomar); false, wenn ein anderer Abbau läuft. Eine verwaiste Sperre wird übernommen. `zwischen` läuft zwischen Lesen und Übernehmen (Test). */
+function nimmSperre(datei, jetzt, zwischen = () => {}) {
   fs.mkdirSync(path.dirname(datei), { recursive: true })
+  const roh = liesRoh(datei)
   const alt = liesSperre(datei) ?? unlesbarUndAlt(datei, jetzt)
   if (!L.sperreFrei(alt, jetzt, lebt)) return false
+  zwischen()
   try {
-    if (alt) fs.rmSync(datei, { force: true })
+    if (alt && !uebernimmAlte(datei, roh)) return false
     fs.writeFileSync(datei, JSON.stringify({ pid: process.pid, zeit: jetzt }), { flag: 'wx' })
   } catch {
     return false
@@ -253,4 +299,4 @@ function main() {
 
 if (require.main === module) process.exit(main())
 
-module.exports = { PR_FELDER, abbauImVordergrund, vollziehe, abbau, hook, starteAbbau, ausloeser, nimmSperre, echteWelt, juengsteAenderung, loeseVerknuepfungen, verknuepfungen, ordnerFrei, kopfZeit, zaehleWt }
+module.exports = { PR_FELDER, abbauImVordergrund, vollziehe, abbau, hook, starteAbbau, ausloeser, nimmSperre, echteWelt, juengsteAenderung, loeseVerknuepfungen, verknuepfungen, ordnerFrei, heileProbeOrdner, kopfZeit, zaehleWt }
