@@ -8,6 +8,9 @@ import { findeFehlstarts } from './start-pruefung-wacht.mjs'
 
 const falsch = 'if (import.meta.url === `' + 'file:///' + '${process.argv[1].replace(/a/g, "b")}`) await main()'
 const falschLeer = 'x = `' + 'file:///' + '${ process.argv[1] }`'
+const falschPlus = "if (import.meta.url === '" + 'file:///' + "' + process.argv[1]) await main()"
+const falschPlusDoppelt = 'const u = "' + 'file:///' + '"+process.argv[1]'
+assert.deepEqual(findeFehlstarts({ 'p.mjs': falschPlus, 'q.mjs': falschPlusDoppelt }), ['p.mjs', 'q.mjs'], 'Verkettung mit + wird erkannt')
 const richtig = 'if (import.meta.url === pathToFileURL(process.argv[1]).href) await main()'
 const andere = 'const u = `file:///${wurzel}/x`'
 

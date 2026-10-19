@@ -9,7 +9,7 @@ import { copyFileSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, unlinkSync, 
 import os from 'node:os'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { ansichtErgebnis, bewerte, fehlendeZeilen, main, saalFehler, sammleFehler } from './kachel-ecken-messen.mjs'
+import { ansichtErgebnis, bewerte, fehlendeZeilen, kandidatenWochen, main, messwocheAbbruch, saalFehler, sammleFehler, tagePlus, waehleMesswoche } from './kachel-ecken-messen.mjs'
 
 const LEISTE = [200, 20, 20]
 const COVER = [70, 90, 130]
@@ -113,6 +113,33 @@ assert.equal(wocheOhneSaal.zeile, 'hell/woche: 5 Kacheln (0 Saal), 1 Fehler', 'F
 const monat = ansichtErgebnis('hell', 'monat', ohneSaal)
 assert.deepEqual(monat.fehler, [], 'Monat braucht keinen Saal')
 assert.equal(monat.zeile, 'hell/monat: 5 Kacheln, 0 Fehler', 'Monat ohne Saalangabe')
+
+// Messwoche aus den Daten statt fester Tag: Montage ab der Woche des Datenstands, erste Woche mit Saal; ohne Saal in allen Wochen ein Fehler.
+assert.equal(tagePlus('2026-12-30', 3), '2027-01-02', 'Jahreswechsel')
+assert.equal(tagePlus('2026-10-26', -1), '2026-10-25', 'zurück')
+assert.deepEqual(kandidatenWochen('2026-10-21T23:30:00.000Z', 3), ['2026-10-19', '2026-10-26', '2026-11-02'], 'Mittwoch: Montag derselben Woche')
+assert.equal(kandidatenWochen('2026-10-25T10:00:00.000Z', 1)[0], '2026-10-19', 'Sonntag gehört zur Woche davor')
+assert.equal(kandidatenWochen('2026-10-26T00:10:00.000Z', 1)[0], '2026-10-26', 'Montag ist sein eigener Montag')
+assert.equal(kandidatenWochen('2026-10-19T11:16:01.165Z').length, 9, 'Standard: 9 Wochen')
+const saalProWoche = { '2026-10-19': 0, '2026-10-26': 0, '2026-11-02': 2, '2026-11-09': 5 }
+const gefragt = []
+const zaehle = async (d) => {
+  gefragt.push(d)
+  return saalProWoche[d] ?? 0
+}
+const woche3 = await waehleMesswoche(Object.keys(saalProWoche), zaehle)
+assert.deepEqual(woche3, { datum: '2026-11-02', saal: 2 }, 'erste Woche mit Saal, nicht die letzte und nicht die erste')
+assert.deepEqual(gefragt, ['2026-10-19', '2026-10-26', '2026-11-02'], 'danach wird nicht weitergesucht')
+const keine = await waehleMesswoche(['2026-10-19', '2026-10-26'], async () => 0)
+assert.match(keine.fehler, /keine der 2 Wochen ab 2026-10-19 hat 1 Kino-Saal-Kacheln/, 'keine Woche mit Saal: laut rot')
+assert.equal(keine.datum, undefined, 'ohne Saal keine Messwoche')
+// Fehlt die Messwoche, endet der Lauf mit Exit 1 (Ergebnis wie von messeAlles geliefert).
+process.argv.push('--dist', 'dist')
+assert.equal(messwocheAbbruch(woche3), null, 'mit Messwoche kein Abbruch')
+assert.deepEqual(await waehleMesswoche(['2026-10-19', '2026-10-26'], async (d) => (d === '2026-10-26' ? 1 : 0)), { datum: '2026-10-26', saal: 1 }, 'genau ein Saal genügt')
+assert.match(messwocheAbbruch(keine)[0].fehler[0], /keine der 2 Wochen/, 'Abbruch trägt den Fehlertext der Wahl')
+const keineWoche = async () => messwocheAbbruch(keine)
+assert.equal(await (async () => { const l = console.error; console.error = () => {}; try { return await main(keineWoche) } finally { console.error = l } })(), 1, 'keine Messwoche: Exit 1')
 
 // `ansichtErgebnis` reicht die Fehler von `bewerte` durch (Leiste einer mittleren Kachel mit Favorit 1 px tiefer) und zählt sie in der Zeile.
 const tieferMit = { ohne: ohneSaal.ohne, mit: { ...mitSaalLauf.mit, kacheln: mitSaalLauf.mit.kacheln.map((k, i) => (i === 2 ? { ...k, unten: k.unten + 1 } : k)) } }

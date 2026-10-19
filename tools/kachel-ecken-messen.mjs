@@ -6,7 +6,7 @@
  *  - Leiste: Unterkante gleich mit und ohne Favorit (Rechteck);
  *  - Ecke: der Pixel in der unteren linken und rechten Ecke der Leiste hat Leistenfarbe, nicht Seitengrund oder Gold (rund = Lücke);
  *  - unter der Leiste: die Pixel 1 bis 4 px darunter (1 = die Zeile gleich unter der letzten Leistenzeile) sind mit Favorit dieselben wie ohne (kein Ringrest darunter);
- *  - die Woche hat Kino-Saal-Kacheln (sonst bliebe deren Rand ungemessen).
+ *  - gemessen wird die erste Woche ab dem Datenstand (dist/data/meta.json) mit Kino-Saal-Kacheln; gibt es unter 9 Wochen keine, endet der Lauf rot.
  * Ohne Server: `page.route()` liefert `dist/` (vorher `npm run build`); `--dist <ordner>` misst einen anderen Bau (Vorher-Bilder).
  * Aufruf: `node tools/kachel-ecken-messen.mjs [--dist <ordner>] [--bilder <ordner>]`.
  */
@@ -26,8 +26,8 @@ const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/cs
 const COVER_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="300"><rect width="200" height="300" fill="#4a5a80"/></svg>'
 const THEMEN = ['dunkel', 'hell']
 const ANSICHTEN = ['woche', 'monat', 'fenster', 'handy']
-/** Eine Woche mit Kino-Saal (Termine am 27.10.; gemessen 17.10.2026); in der Woche vom 19.10. gibt es keinen. */
-const DATUM = '2026-10-26'
+/** So viele Wochen ab dem Datenstand werden nach einer Woche mit Kino-Saal abgesucht; die erste mit Saal wird gemessen (kein fester Tag: die Daten wechseln täglich). */
+const WOCHEN_SUCHE = 9
 const SELEKTOR = {
   woche: '.ak-breit-cover, div[class~="aspect-[2/3]"]',
   monat: 'button[class*="w-[22px]"][class*="overflow-hidden"]',
@@ -46,7 +46,7 @@ const TOLERANZ = 48
 const MIN_FAVORITEN = 5
 /** Pixel je Kachel (`stellen`). */
 const ANZAHL = 12
-/** Mindestzahl Kino-Saal-Kacheln in der Woche (26.10.2026: 1). */
+/** Mindestzahl Kino-Saal-Kacheln in der gewählten Woche (die Wahl nimmt nur Wochen mit mindestens so vielen). */
 const MIN_SAAL = 1
 /** Stellen unter der Leiste: [Index in `stellen`, Abstand in px unter der letzten Leistenzeile]. */
 const UNTER = [[11, 1], [4, 2], [5, 3], [6, 4]]
@@ -115,11 +115,58 @@ async function ladeAnsicht(seite, ansicht, datum) {
   await seite.waitForTimeout(2500)
 }
 
+/** Tag `iso` (JJJJ-MM-TT) plus `tage` Tage, ohne Zeitzonenrechnung (UTC-Kalender). */
+export function tagePlus(iso, tage) {
+  const d = new Date(`${iso}T00:00:00Z`)
+  d.setUTCDate(d.getUTCDate() + tage)
+  return d.toISOString().slice(0, 10)
+}
+
+/** Montage der `anzahl` Wochen ab der Woche des Datenstands `erzeugt` (ISO-Zeitstempel aus `meta.json`; wechselt mit dem Bau, nicht mit der Uhr). */
+export function kandidatenWochen(erzeugt, anzahl = WOCHEN_SUCHE) {
+  const tag = erzeugt.slice(0, 10)
+  const wochentag = new Date(`${tag}T00:00:00Z`).getUTCDay()
+  const montag = tagePlus(tag, -((wochentag + 6) % 7))
+  return Array.from({ length: anzahl }, (_, i) => tagePlus(montag, 7 * i))
+}
+
+/** Erste Woche aus `kandidaten` mit mindestens `MIN_SAAL` Saal-Kacheln (`saalZahl(datum)` zählt); gibt es keine, steht ein Fehlertext da (nie still überspringen). */
+export async function waehleMesswoche(kandidaten, saalZahl) {
+  for (const datum of kandidaten) {
+    const saal = await saalZahl(datum)
+    if (saal >= MIN_SAAL) return { datum, saal }
+  }
+  return { fehler: `Messwoche: keine der ${kandidaten.length} Wochen ab ${kandidaten[0]} hat ${MIN_SAAL} Kino-Saal-Kacheln, deren Unterkante bliebe ungemessen` }
+}
+
+/** Ergebnisse, mit denen der Lauf ohne Messwoche rot endet (`null`, wenn eine gewählt ist). */
+export function messwocheAbbruch(woche) {
+  return woche.fehler ? [{ fehler: [woche.fehler], zeile: 'Messwoche: keine' }] : null
+}
+
+/** Wählt die Messwoche aus den Daten des gebauten dist/ (Datenstand aus `data/meta.json`); Saal-Kacheln zählt die Woche in der App. */
+async function findeMesswoche(browser) {
+  let erzeugt
+  try {
+    erzeugt = JSON.parse(await readFile(path.join(DIST, 'data', 'meta.json'), 'utf8')).generatedAt
+  } catch (e) {
+    return { fehler: `Messwoche: data/meta.json in ${DIST} nicht lesbar (${e.message})` }
+  }
+  const seite = await neueSeite(browser, 'dunkel', [])
+  const saalZahl = async (datum) => {
+    await ladeAnsicht(seite, 'woche', datum)
+    return (await seite.evaluate(messeKacheln, { selektor: SELEKTOR.woche, monat: false, ausschnitt: false })).filter((k) => k.saal).length
+  }
+  const woche = await waehleMesswoche(kandidatenWochen(erzeugt), saalZahl)
+  await seite.context().close()
+  return woche
+}
+
 /** Die Kennungen der Titel auf zwei Wochen: Stern jeder Wochen-Kachel klicken und lesen, was gemerkt wurde (die App-Kennung steht nicht in `titles.json`). */
-async function sammleKennungen(browser) {
+async function sammleKennungen(browser, datum0) {
   const seite = await neueSeite(browser, 'dunkel', [])
   const ids = []
-  for (const datum of [DATUM, '2026-11-02', '2026-11-09']) {
+  for (const datum of [datum0, tagePlus(datum0, 7), tagePlus(datum0, 14)]) {
     await ladeAnsicht(seite, 'woche', datum)
     await seite.evaluate(() => document.querySelectorAll('button[aria-label="Als Favorit merken"]').forEach((b) => b.click()))
     await seite.waitForTimeout(500)
@@ -131,8 +178,8 @@ async function sammleKennungen(browser) {
 }
 
 /** Eine Ansicht laden und messen: Rechtecke der Leisten und die Pixel an den geprüften Stellen. */
-async function messeAnsicht(seite, ansicht) {
-  await ladeAnsicht(seite, ansicht, DATUM)
+async function messeAnsicht(seite, ansicht, datum) {
+  await ladeAnsicht(seite, ansicht, datum)
   return messeSichtbare(seite, ansicht)
 }
 
@@ -150,8 +197,8 @@ async function messeSichtbare(seite, ansicht) {
 }
 
 /** Zeigt nacheinander auf die Monats-Cover `indizes` und misst jedes Mal das Cover der Tageszeile im Fenster. */
-async function messeFenster(seite, indizes) {
-  await ladeAnsicht(seite, 'monat', DATUM)
+async function messeFenster(seite, indizes, datum) {
+  await ladeAnsicht(seite, 'monat', datum)
   const gesamt = { kacheln: [], farben: [] }
   for (const i of indizes) {
     await seite.locator(`${SELEKTOR.monat}:visible`).nth(i).hover()
@@ -164,8 +211,8 @@ async function messeFenster(seite, indizes) {
 }
 
 /** Am Handy (360 px, Touch): Tippt nacheinander die ersten Tage des Monats an und misst jedes Mal die Tageszeilen. */
-async function messeHandy(seite) {
-  await ladeAnsicht(seite, 'monat', DATUM)
+async function messeHandy(seite, datum) {
+  await ladeAnsicht(seite, 'monat', datum)
   const gesamt = { kacheln: [], farben: [] }
   for (let i = 0; i < TAGE_HANDY; i++) {
     await seite.locator(TAG_KNOPF).nth(i).click()
@@ -181,11 +228,11 @@ async function messeHandy(seite) {
 }
 
 /** Die Tageszeile am Handy, ohne und mit Favoriten (die Kennungen stammen vom Desktop, am Handy fände `sammleKennungen` keine). */
-async function pruefeHandy(browser, thema, ids) {
+async function pruefeHandy(browser, thema, ids, datum) {
   const lauf = {}
   for (const [art, favoriten] of [['mit', ids], ['ohne', []]]) {
     const seite = await neueSeite(browser, thema, favoriten, true)
-    lauf[art] = await messeHandy(seite)
+    lauf[art] = await messeHandy(seite, datum)
     await seite.context().close()
   }
   const f = bewerte(`${thema}/handy`, lauf.ohne, lauf.mit, MIN_HANDY)
@@ -193,12 +240,12 @@ async function pruefeHandy(browser, thema, ids) {
 }
 
 /** Das Fenster mit der Tageszeile: dieselben Monats-Cover ohne und mit Favoriten anzeigen und vergleichen. */
-async function pruefeFenster(browser, thema, ids, kachelnMit) {
+async function pruefeFenster(browser, thema, ids, kachelnMit, datum) {
   const indizes = kachelnMit.flatMap((k, i) => (k.favorit ? [i] : [])).slice(0, MAX_FENSTER)
   const lauf = {}
   for (const [art, favoriten] of [['mit', ids], ['ohne', []]]) {
     const seite = await neueSeite(browser, thema, favoriten)
-    lauf[art] = await messeFenster(seite, indizes)
+    lauf[art] = await messeFenster(seite, indizes, datum)
     await seite.context().close()
   }
   const f = bewerte(`${thema}/fenster`, lauf.ohne, lauf.mit, indizes.length)
@@ -305,7 +352,15 @@ function zeigeArten(fehler) {
 async function messeAlles() {
   if (BILDER) await mkdir(BILDER, { recursive: true })
   const browser = await chromium.launch()
-  const ids = await sammleKennungen(browser)
+  const woche = await findeMesswoche(browser)
+  const abbruch = messwocheAbbruch(woche)
+  if (abbruch) {
+    await browser.close()
+    return abbruch
+  }
+  const datum = woche.datum
+  console.log(`Messwoche ${datum} (${woche.saal} Saal)`)
+  const ids = await sammleKennungen(browser, datum)
   const gemessen = []
   const melde = (ergebnis) => {
     console.log(ergebnis.zeile)
@@ -316,14 +371,14 @@ async function messeAlles() {
       const lauf = {}
       for (const [art, favoriten] of [['mit', ids], ['ohne', []]]) {
         const seite = await neueSeite(browser, thema, favoriten)
-        lauf[art] = await messeAnsicht(seite, ansicht)
+        lauf[art] = await messeAnsicht(seite, ansicht, datum)
         if (BILDER) await bildVonKachel(seite, ansicht, path.join(BILDER, `kachel-ecken-${ansicht}-${thema}-${art}-favorit.png`), lauf.mit.kacheln)
         await seite.context().close()
       }
       melde(ansichtErgebnis(thema, ansicht, lauf))
-      if (ansicht === 'monat') melde(await pruefeFenster(browser, thema, ids, lauf.mit.kacheln))
+      if (ansicht === 'monat') melde(await pruefeFenster(browser, thema, ids, lauf.mit.kacheln, datum))
     }
-    melde(await pruefeHandy(browser, thema, ids))
+    melde(await pruefeHandy(browser, thema, ids, datum))
   }
   await browser.close()
   return gemessen

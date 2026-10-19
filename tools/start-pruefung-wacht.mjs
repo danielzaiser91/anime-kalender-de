@@ -9,7 +9,7 @@ import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
-const MUSTER = /file:\/\/\/\$\{\s*process\.argv\[1\]/
+const MUSTER = /file:\/\/\/(?:\$\{\s*|['"`]\s*\+\s*)process\.argv\[1\]/
 
 /** Pfade der Dateien (aus `texte`: Pfad → Inhalt), die das verbotene Muster enthalten. */
 export function findeFehlstarts(texte) {
