@@ -8,7 +8,7 @@
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { entdoppleBelege, ladeHandbelege, type DubCheck } from './dub-confirmed.ts'
+import { entdoppleBelege, ladeHandbelege, loadDubChecks, type DubCheck } from './dub-confirmed.ts'
 import { belegSeitenKern, notizSeite } from './kanal-titel.ts'
 import { ROOT } from './util.ts'
 
@@ -49,6 +49,11 @@ const wissen = new WeakMap<DubCheck[], DubCheck[]>()
 export function kanalWissen(checks: DubCheck[]): DubCheck[] {
   if (!wissen.has(checks)) wissen.set(checks, mitMerkliste(checks, ladeMerkliste()))
   return wissen.get(checks)!
+}
+
+/** Die eine Quelle des Kanal-Wissens für jeden Leser des Baus (Stufe 3, Wächter D-25..D-27, Wegwahl, Rohfolgen): alle Handbelege samt Merkliste. */
+export function ladeKanalWissen(): DubCheck[] {
+  return kanalWissen(loadDubChecks())
 }
 
 /** Hängt die Kanal-Belege aus `neu` an die Merkliste, jeden einmal. Ohne Neues bleibt die Datei unberührt. */

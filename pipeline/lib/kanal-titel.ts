@@ -30,9 +30,13 @@ export function ohneKanalSprache(c: DubCheck): DubCheck {
 /** Schlüssel „Titel|Adresskern": eine Seite kann mehreren Titeln gehören, betroffen ist nur der Titel mit dem Kanal-Beleg. */
 export const kanalSchluessel = (titelId: number, url: string | undefined): string => `${titelId}|${adressKern(url)}`
 
-/** Die Schlüssel (Titel und Amazon-Adresse), deren deutsche Tonspur nur Amazons Angabe auf einem Kanal-Titel ist. */
+/**
+ * Die Schlüssel (Titel und Amazon-Adresse), deren deutsche Tonspur nur Amazons Angabe auf einem Kanal-Titel ist, dazu je Eintrag die gelesene Seite:
+ * Ein Weg aus den Rohfolgen trägt die Seite als Adresse, und die kann von der Adresse des Belegs abweichen (153 von 673 Merklisten-Einträgen, 19.10.2026).
+ */
 export function kanalAdressenOhneBeleg(checks: DubCheck[]): Set<string> {
-  return new Set(checks.filter((c) => c.kanalOhneBeleg && c.dub !== true && c.url).map((c) => kanalSchluessel(c.anilistId, c.url)))
+  const kanal = checks.filter((c) => c.kanalOhneBeleg && c.dub !== true && c.url)
+  return new Set(kanal.flatMap((c) => [kanalSchluessel(c.anilistId, c.url), `${c.anilistId}|${belegSeitenKern(c)}`]))
 }
 
 /** Wie `kanalAdressenOhneBeleg`, aber nur Seiten ohne jede eigene Aussage zu genau dieser Adresse (weder Ja noch Nein noch „nicht verfügbar“). */
