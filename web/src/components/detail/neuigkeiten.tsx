@@ -90,7 +90,7 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
  * Anbieter. Eine Meldung ohne eigenes Release („neu auf Deutsch") nimmt das Release ihres Teils
  * beim genannten Anbieter.
  */
-function quelleFuer(z: Zeile, data: Dataset): { url: string; name: string } | undefined {
+export function quelleFuer(z: Zeile, data: Dataset): { url: string; name: string } | undefined {
   /*
     **Eine abgelöste Meldung zeigt ihre *damalige* Quelle** (01.10.2026). Vorher löste das Panel sie
     über das **geltende** Release auf — die durchgestrichene 01.10.-Meldung bekam so den

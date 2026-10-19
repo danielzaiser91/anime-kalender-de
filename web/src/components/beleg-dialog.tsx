@@ -9,7 +9,7 @@ import { quellenLabel } from './news-belege.tsx'
 import { Ladeanzeige } from './ui.tsx'
 
 /** **Das Beleg-Bild** an einer Quelle; öffentlich lesbar (Daniel, 04.10.2026). Der archivierte Text (HTML) bleibt privat (Daniel, 05.10.2026). */
-const WORKER = import.meta.env.VITE_NEWSLETTER_API ?? ''
+const WORKER = import.meta.env?.VITE_NEWSLETTER_API ?? ''
 
 /**
  * **Ein Knopf je Meldung statt Hostnamen-Links** (Daniel, 05.10.2026): „Quelle"/„Quellen" öffnet das Beleg-Fenster mit einem Reiter je
@@ -160,7 +160,7 @@ function useBelegBild(bild: string | undefined): { url?: string; fehler?: string
 }
 
 /** Eine Quelle: Erklärung, Originaladresse und — wo gesichert — das Bild mit der Fundstelle. */
-function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
+export function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
   const bild = WORKER ? beleg.bild : undefined
   const original = belegLink(beleg)
   const { url, fehler } = useBelegBild(bild)
