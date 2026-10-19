@@ -46,6 +46,7 @@ pipeline/check-bild-und-synchro.ts
 pipeline/check-bookworm-dublette.ts
 pipeline/check-cartoon-aufnahme-bau.ts
 pipeline/check-cartoon-aufnahme.ts
+pipeline/check-cartoon-belege-bau.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
@@ -88,11 +89,14 @@ pipeline/check-herkunftsland.ts
 pipeline/check-ics-folgen.ts
 pipeline/check-install-stellen.ts
 pipeline/check-invarianten.ts
+pipeline/check-ja-hat-weg.ts
 pipeline/check-jw-ablauf.ts
 pipeline/check-jw-auswahl.ts
+pipeline/check-jw-schlange.ts
 pipeline/check-jw-seite.ts
 pipeline/check-jw-staffeln.ts
 pipeline/check-jw-vertrauen.ts
+pipeline/check-jw-wiedervorlage.ts
 pipeline/check-kachel-anbieter.ts
 pipeline/check-kachel-buendel.ts
 pipeline/check-kachel-favorit-render.ts
@@ -133,6 +137,8 @@ pipeline/check-offizielle-news.ts
 pipeline/check-og-termin.ts
 pipeline/check-panel-chips.ts
 pipeline/check-paramount.ts
+pipeline/check-patchnotes-titel-ablauf.ts
+pipeline/check-patchnotes-titel.ts
 pipeline/check-patchnotes.ts
 pipeline/check-pille-nur-untertitel.ts
 pipeline/check-poster-karte-saal.ts
@@ -211,6 +217,7 @@ tools/hover-cover.test.ts
 tools/quarantaene-pruefungen.test.ts
 tools/quittung-nach-commit-waechter.mjs
 tools/sammler-pruefschritt-waechter.mjs
+tools/start-pruefung-wacht.mjs
 tools/uhr-in-tests.mjs
 tools/web-hosting.test.ts
 tools/workflow-abbruch-waechter.mjs
