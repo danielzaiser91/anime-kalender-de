@@ -121,6 +121,45 @@ pruefe('main liest die Schlange nur mit offen.length und offen.slice(0, limit)',
 const mutiert = offenZugriffe(abruf.replace('offen.slice(0, limit)', 'offen.reverse().slice(0, limit)'))
 pruefe('Selbsttest: offen.reverse().slice(…) fällt auf', mutiert.some((z) => !erlaubt.includes(z)), mutiert)
 
+/* Bindung und Verwendung: genau eine `const offen = warteschlange(…)`, und `offen.slice(0, limit)` ist direkt das Ziel der Schleife. */
+function offenBindung(quelltext: string): { istConst: boolean; aufruf: string }[] {
+  const datei = ts.createSourceFile('x.ts', quelltext, ts.ScriptTarget.Latest, true)
+  const rumpf = datei.statements.find((s): s is ts.FunctionDeclaration => ts.isFunctionDeclaration(s) && s.name?.text === 'main')
+  const gefunden: { istConst: boolean; aufruf: string }[] = []
+  const besuche = (n: ts.Node): void => {
+    if (ts.isVariableDeclaration(n) && ts.isIdentifier(n.name) && n.name.text === 'offen') {
+      const i = n.initializer
+      const aufruf = i && ts.isCallExpression(i) && ts.isIdentifier(i.expression) ? i.expression.text : '?'
+      gefunden.push({ istConst: (n.parent.flags & ts.NodeFlags.Const) !== 0, aufruf })
+    }
+    ts.forEachChild(n, besuche)
+  }
+  if (rumpf) besuche(rumpf)
+  return gefunden
+}
+function sliceIstSchleifenZiel(quelltext: string): boolean[] {
+  const datei = ts.createSourceFile('x.ts', quelltext, ts.ScriptTarget.Latest, true)
+  const treffer: boolean[] = []
+  const besuche = (n: ts.Node): void => {
+    if (ts.isCallExpression(n) && n.getText(datei) === 'offen.slice(0, limit)') treffer.push(ts.isForOfStatement(n.parent) && n.parent.expression === n)
+    ts.forEachChild(n, besuche)
+  }
+  besuche(datei)
+  return treffer
+}
+const bindung = offenBindung(abruf)
+pruefe('main bindet offen genau einmal: const offen = warteschlange(…)', bindung.length === 1 && bindung[0]!.istConst && bindung[0]!.aufruf === 'warteschlange', bindung)
+const umweg = offenBindung(abruf.replace('const offen = warteschlange({', 'const offen0 = warteschlange({').replace('t.id)) })', 't.id)) }); const offen = offen0.filter((t) => t.id > 0)'))
+pruefe('Selbsttest: offen aus .filter(…) statt warteschlange(…) fällt auf', umweg.length === 1 && umweg[0]!.aufruf === '?', umweg)
+const veraenderlich = offenBindung(abruf.replace('const offen = warteschlange({', 'let offen = warteschlange({'))
+pruefe('Selbsttest: let offen fällt auf', veraenderlich.length === 1 && !veraenderlich[0]!.istConst, veraenderlich)
+const ziel = sliceIstSchleifenZiel(abruf)
+pruefe('offen.slice(0, limit) steht genau einmal, direkt als Ziel der for…of-Schleife', ziel.length === 1 && ziel[0] === true, ziel)
+for (const nach of ['.filter((t) => t.id > 0)', '.reverse()']) {
+  const z = sliceIstSchleifenZiel(abruf.replace('offen.slice(0, limit)', `offen.slice(0, limit)${nach}`))
+  pruefe(`Selbsttest: offen.slice(0, limit)${nach} fällt auf`, z.length === 1 && z[0] === false, z)
+}
+
 if (fehler) {
   console.error(`${fehler} Fehler`)
   process.exit(1)

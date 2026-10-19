@@ -67,6 +67,9 @@ const juenger = titel(9, [weg(9, { dub: true })], { tmdbId: 109 })
 const dringendBestand = { '1': bestand['1'], '9': bestand['9'], '11': befund('2026-09-12', 11, ['de']), '12': befund('2026-09-12', 12, ['de']) }
 const ohneWeg = titel(11, [], { tmdbId: 111 })
 const nurTmdb = titel(12, [weg(12, { dub: true })], { tmdbId: 112, watchLinks: [{ url: 'https://www.crunchyroll.com/x' }, { url: 'https://www.themoviedb.org/movie/5/watch' }, { url: 'https://example.org/y' }] })
+const ohneStreamsMitLinks = titel(13, [], { tmdbId: 113, watchLinks: [{ url: 'https://www.crunchyroll.com/x' }, { url: 'https://www.netflix.com/title/1' }, { url: 'https://example.org/y' }] })
+const bestand13 = { ...dringendBestand, '13': befund('2026-09-12', 13, ['de']) }
+pruefe('Titel ohne streams, aber mit Anbieter-Links (kein TMDB), ist nicht dringend: steht nicht vor dem älteren ohne Anlass', ids(lauf([aelter, ohneStreamsMitLinks, juenger], bestand13)) === '1,13,9', ids(lauf([aelter, ohneStreamsMitLinks, juenger], bestand13)))
 pruefe('Titel ganz ohne Weg ist dringend: steht vor dem älteren ohne Anlass', ids(lauf([aelter, ohneWeg, juenger], dringendBestand)) === '11,1,9', ids(lauf([aelter, ohneWeg, juenger], dringendBestand)))
 pruefe('Weg nur auf die TMDB-Übersicht ist dringend: steht vor dem älteren ohne Anlass', ids(lauf([aelter, nurTmdb, juenger], dringendBestand)) === '12,1,9', ids(lauf([aelter, nurTmdb, juenger], dringendBestand)))
 
