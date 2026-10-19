@@ -37,6 +37,7 @@ import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { log, warn } from './lib/util.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
+import { kanalOffenAusMeldungen } from './lib/kanal-offen-meldungen.ts'
 import { handpruefungSchreiben, jwFrisch, type Handpruefung } from './lib/jw-handpruefung.ts'
 
 const ROOT = resolve(import.meta.dirname, '..')
@@ -120,22 +121,13 @@ const kanalOffen = belege.filter(
   so ein Fall. Die Kanäle kennt sie nicht, verglichen wird dann über alle
   Angebote.
 */
-const zugeordnet = JSON.parse(readFileSync(resolve(ROOT, 'data/prime-zugeordnet.json'), 'utf8')) as Record<
-  string,
-  { titleId?: number; plattform?: string; folgen?: { sprachen?: string[] }[] }
->
 const titelName = new Map(
   (JSON.parse(readFileSync(resolve(ROOT, 'public/data/titles.json'), 'utf8')) as { id: number; titleDe?: string; titleEn?: string }[]).map(
     (t) => [t.id, t.titleDe ?? t.titleEn],
   ),
 )
-for (const [url, z] of Object.entries(zugeordnet)) {
-  const folgen = z.folgen ?? []
-  if (z.plattform !== 'primevideo' || z.titleId == null || z.titleId < 0 || !folgen.length) continue
-  if (folgen.some((f) => !f.sprachen?.length || f.sprachen.includes('Deutsch'))) continue
-  if (belege.some((x) => x.anilistId === z.titleId && (x.platform ?? 'primevideo') === 'primevideo')) continue
-  kanalOffen.push({ anilistId: z.titleId, title: titelName.get(z.titleId), platform: 'primevideo', url })
-}
+const hatPrimeBeleg = (id: number) => belege.some((x) => x.anilistId === id && (x.platform ?? 'primevideo') === 'primevideo')
+kanalOffen.push(...kanalOffenAusMeldungen(hatPrimeBeleg, titelName))
 
 log(`${kanalOffen.length} Kanal-Meldungen ohne Urteil.`)
 

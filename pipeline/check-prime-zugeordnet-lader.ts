@@ -3,7 +3,7 @@
  * (`data/prime-seiten-von-hand.json`) zählt dort für keinen Leser** (19.10.2026, PR 1612 R4).
  * Anlass: Der Zuordner schreibt die Datei per `{...bisher, ...zugeordnet}`; eine wieder angelegte Zeile B0GVJFZD1W→20605 wäre in
  * `09-3` gesperrt, in `09-7` (geteilte Seiten) aber weiter gezählt worden. Fährt den echten Zuordner-Abschluss und `09-7` gegen eine Kulisse
- * (`AK_ROOT`). Läuft in `check:logic`. `09-3` deckt `check-prime-seiten-sperre.ts`; `11-6`/`cartoon-jw-seite` lesen über dieselbe Funktion (Lücke: ohne eigenen Fall).
+ * (`AK_ROOT`). Läuft in `check:logic`. `09-3` deckt `check-prime-seiten-sperre.ts`; `11-6`/`cartoon-jw-seite` lesen über dieselbe Funktion (Lücke: ohne eigenen Fall). Kanal-Gegenprobe: `kanalOffenAusMeldungen`; `fetch-rohfolgen`/`fetch-folgen-zuordnung` lesen ebenfalls über `leseZugeordnet` (ohne eigenen Fall).
  */
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -63,6 +63,17 @@ try {
   const bereich = (id: number) => titles.get(id)!.streams[0]!.dubRanges?.length ?? 0
   if (bereich(GESPERRT) !== 0) fehler.push(`09-7 zählte die gesperrte Meldung für ${GESPERRT}: ${bereich(GESPERRT)} Bereich(e)`)
   if (bereich(FREI) === 0) fehler.push(`Kontrolle: 09-7 setzte für ${FREI} keinen Bereich`)
+
+  // Leseweg Kanal-Gegenprobe: Meldungen ohne Deutsch; die gesperrte darf keinen Titel zur Prüfliste machen.
+  const ohneDeutsch = (titleId: number, asin: string) => ({ ...meldung(titleId, asin), folgen: [{ unsere: 1, sprachen: ['Japanisch'] }] })
+  const { kanalOffenAusMeldungen } = await import('./lib/kanal-offen-meldungen.ts')
+  const offen = kanalOffenAusMeldungen(() => false, new Map(), {
+    [`${gp(SPERRE)}#4`]: ohneDeutsch(GESPERRT, 'B0NEUNEU01'),
+    [`${gp('B0ZWISCHEN1')}`]: { ...ohneDeutsch(FREI, 'B0NEUNEU02'), seite: 'B0ZWISCHEN1' },
+  })
+  const offenIds = offen.map((o) => o.anilistId)
+  if (offenIds.includes(GESPERRT)) fehler.push(`Kanal-Gegenprobe zählte die gesperrte Meldung für ${GESPERRT}`)
+  if (!offenIds.includes(FREI)) fehler.push(`Kontrolle: Kanal-Gegenprobe ließ die freie Meldung für ${FREI} aus`)
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }
@@ -70,4 +81,4 @@ if (fehler.length) {
   console.error(`FEHL check-prime-zugeordnet-lader:\n  ${fehler.join('\n  ')}`)
   process.exit(1)
 }
-console.log('check-prime-zugeordnet-lader: 4 Fälle ok.')
+console.log('check-prime-zugeordnet-lader: 6 Fälle ok.')
