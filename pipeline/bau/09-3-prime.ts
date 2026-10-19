@@ -2,6 +2,7 @@ import { readJson, log } from '../lib/util.ts'
 import { type PlatformId, type Title } from '../../shared/types.ts'
 import { dubKey, adressGleich, adressKern, type DubCheck } from '../lib/dub-confirmed.ts'
 import { amazonAdresseRichten, amazonTitelAdresse } from '../lib/amazon-adresse.ts'
+import { adresseFremdBelegt, adresseVerneint } from '../lib/prime-meldung-riegel.ts'
 import { rohDeutsch } from '../lib/kanal-titel.ts'
 import { germanizeUrl } from '../../shared/mappings.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
@@ -168,12 +169,7 @@ export function uebernehmePrimeUndCrVorschlaege({
         einem Handbeleg. Übersprungen statt umgebogen — welche Seite die
         richtige ist, sagt die Rohfolge nicht.
       */
-      const fremdBelegt = (adresse: string | null): boolean =>
-        Boolean(adresse) &&
-        alleChecks.some(
-          (c) =>
-            c.platform === plattform && c.url && c.anilistId !== eintrag.titleId && adressGleich(c.url, adresse ?? undefined),
-        )
+      const fremdBelegt = (adresse: string | null): boolean => adresseFremdBelegt(alleChecks, eintrag.titleId, plattform, adresse)
       /* Seit Migration 030 kennt die Rohfolge die gemeldete Seite — dann gilt die Meldung ihr. */
       if (fremdBelegt(seite) && plattform === 'primevideo' && eintrag.seite) {
         seite = amazonTitelAdresse(eintrag.seite)
@@ -259,21 +255,8 @@ export function uebernehmePrimeUndCrVorschlaege({
           bei den Handbelegen eine Runde später.
         */
         if (lautPruefungTot(seite)) continue
-        /*
-          **Und keine Adresse, die ein Handbeleg als weg oder ohne Deutsch führt.** Der Riegel oben
-          (`beleg`) kennt je Titel nur den zusammengeführten Beleg mit einer Adresse; hat ein Titel
-          mehrere Nein-Belege, legte eine Meldung zu einer der anderen Seiten den Weg neu an, den
-          die Bereinigung davor entfernt hatte (Date A Live, Lauf 39249344862 vom 19.10.2026).
-        */
-        const verneint = alleChecks.some(
-          (c) =>
-            c.anilistId === eintrag.titleId &&
-            c.platform === plattform &&
-            c.url &&
-            adressGleich(c.url, seite) &&
-            (c.available === false || c.dub === false),
-        )
-        if (verneint) continue
+        /* Kein Weg zu einer Adresse, die irgendein Handbeleg verneint — `checks` kennt je Titel nur den letzten (Date A Live, 19.10.2026). */
+        if (adresseVerneint(alleChecks, eintrag.titleId, plattform, seite)) continue
         title.streams.push({ platform: plattform, url: seite, dub: belegt || undefined })
         ausRoh++
       }
