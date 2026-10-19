@@ -11,6 +11,7 @@ verworfen_start() {
   echo '{"alt":1}' > "$1/data/anbieter-staffeln.json"
   echo '{"alt":1}' > "$1/data/tmdb-titles.json"
   echo '{"alt":1}' > "$1/data/tmdb.json"
+  echo '{"alt":1}' > "$1/data/kennungen.json"
 }
 # Der Lauf ändert alles davon und legt neue Dateien an (auch in einem Ordner aus QUELLEN).
 verworfen_lauf() {
@@ -22,7 +23,9 @@ verworfen_lauf() {
   echo '{"neu":1}' > "$1/data/tmdb.json"
   echo '{"neu":1}' > "$1/data/curated-ids.json"
   echo '{"lauf":1}' > "$1/data/bestand-historie.jsonl"
+  # Umbenennung im Index (staged): ohne status.renames=false stünde dort „alt -> neu“ in einer Zeile.
   mkdir -p "$1/data/anisearch-raw"
+  [ "${UMBENENNEN:-nein}" = ja ] && git -C "$1" mv data/kennungen.json data/anisearch-raw/umbenannt.json
   echo '{"neu":1}' > "$1/data/anisearch-raw/neu.json"
 }
 # Inhalt einer Datei im Fernstand, „fehlt“ ohne sie.
@@ -31,17 +34,17 @@ fern_oder_fehlt() { git -C "$ORIGIN" cat-file -e "main:$1" 2> /dev/null && fern 
 # Stand aller Testdateien im Fernstand, eine Zeile.
 verworfen_stand() {
   local p
-  for p in extension/offene-amazon.js public/data/pruefstand.json data/anbieter-staffeln.json data/tmdb-titles.json data/tmdb.json data/curated-ids.json data/bestand-historie.jsonl data/anisearch-raw/neu.json; do
+  for p in extension/offene-amazon.js public/data/pruefstand.json data/anbieter-staffeln.json data/tmdb-titles.json data/tmdb.json data/curated-ids.json data/bestand-historie.jsonl data/anisearch-raw/neu.json data/kennungen.json data/anisearch-raw/umbenannt.json; do
     printf '%s=%s ' "${p##*/}" "$(fern_oder_fehlt "$p")"
   done
 }
-ZURUECK='offene-amazon.js=alt pruefstand.json={"alt":1} anbieter-staffeln.json={"alt":1} tmdb-titles.json={"alt":1} tmdb.json={"neu":1} curated-ids.json={"neu":1} bestand-historie.jsonl=fehlt neu.json=fehlt '
-UEBERNOMMEN='offene-amazon.js=neu pruefstand.json={"neu":1} anbieter-staffeln.json={"neu":1} tmdb-titles.json={"neu":1} tmdb.json={"neu":1} curated-ids.json={"neu":1} bestand-historie.jsonl={"lauf":1} neu.json={"neu":1} '
+ZURUECK='offene-amazon.js=alt pruefstand.json={"alt":1} anbieter-staffeln.json={"alt":1} tmdb-titles.json={"alt":1} tmdb.json={"neu":1} curated-ids.json={"neu":1} bestand-historie.jsonl=fehlt neu.json=fehlt kennungen.json={"alt":1} umbenannt.json=fehlt '
+UEBERNOMMEN='offene-amazon.js=neu pruefstand.json={"neu":1} anbieter-staffeln.json={"neu":1} tmdb-titles.json={"neu":1} tmdb.json={"neu":1} curated-ids.json={"neu":1} bestand-historie.jsonl={"lauf":1} neu.json={"neu":1} kennungen.json={"alt":1} umbenannt.json=fehlt '
 
 for bewegung in bewegt unbewegt; do
   echo "Bau-Lauf verworfen (Fernstand $bewegung): alles aus dem Lauf geht zurück, nur die Abrufe von data:fetch bleiben"
   mkdir -p "$ARBEIT/verworfen-$bewegung"
-  UNBEWEGT="$([ "$bewegung" = unbewegt ] && echo ja || echo nein)" START_EXTRA=verworfen_start LAUF_EXTRA=verworfen_lauf \
+  UMBENENNEN=ja UNBEWEGT="$([ "$bewegung" = unbewegt ] && echo ja || echo nein)" START_EXTRA=verworfen_start LAUF_EXTRA=verworfen_lauf \
     szenario "verworfen-$bewegung" FAKE_BESTAND=fail BAU_LAUF=1 GITHUB_ENV="$ARBEIT/verworfen-$bewegung/env.txt"
   pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
   pruefe "Stand im Fernstand" "$ZURUECK" "$(verworfen_stand)"
@@ -71,9 +74,10 @@ szenario warnzeichen FAKE_BESTAND=warnzeichen BAU_LAUF=1 GITHUB_ENV="$ARBEIT/war
 pruefe "Warnung beginnt mit dem Fehler" ja "$(grep -q '^DATEN_WARNUNG=.*Bestand nicht übernommen: *✗ Netflix-Liste enthält Cartoon-Adressen — 89 ⚠ Hinweis eins ⚠ Hinweis zwei *· ' "$ARBEIT/warnzeichen/env.txt" && echo ja || echo nein)"
 
 echo "Zeilen mit mehreren Marken stehen genau einmal im Grund"
-for fall in doppelt-a doppelt-b; do
+for fall in doppelt-a doppelt-b doppelt-c; do
   mkdir -p "$ARBEIT/$fall"
   szenario "$fall" FAKE_BESTAND="$fall" BAU_LAUF=1 GITHUB_ENV="$ARBEIT/$fall/env.txt"
 done
 pruefe "FEHLER:, ✖, ⚠" ja "$(grep -q '^DATEN_WARNUNG=Bestand nicht übernommen: FEHLER: a ✗ ⚠ ✖ b ⚠ ⚠ c *· ' "$ARBEIT/doppelt-a/env.txt" && echo ja || echo nein)"
 pruefe "✗ mit ⚠, dann ⚠" ja "$(grep -q '^DATEN_WARNUNG=Bestand nicht übernommen: ✗ b ⚠ ⚠ c *· ' "$ARBEIT/doppelt-b/env.txt" && echo ja || echo nein)"
+pruefe "FEHLER: mit ⚠, dann ⚠" ja "$(grep -q '^DATEN_WARNUNG=Bestand nicht übernommen: FEHLER: d ⚠ ⚠ c *· ' "$ARBEIT/doppelt-c/env.txt" && echo ja || echo nein)"

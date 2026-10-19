@@ -64,6 +64,7 @@ case "$2" in
     # Zeilen mit mehreren Marken: jede steht genau einmal im Grund.
     [ "${FAKE_BESTAND:-ok}" = doppelt-a ] && { printf 'FEHLER: a ✗ ⚠\n✖ b ⚠\n⚠ c\n'; exit 1; }
     [ "${FAKE_BESTAND:-ok}" = doppelt-b ] && { printf '✗ b ⚠\n⚠ c\n'; exit 1; }
+    [ "${FAKE_BESTAND:-ok}" = doppelt-c ] && { printf 'FEHLER: d ⚠\n⚠ c\n'; exit 1; }
     # FAKE_ROT: Gruppen roter Titel ("11 22,33"), je Titel eine Marke; rot ist die erste Gruppe, die noch nicht zurückgestellt ist.
     # FAKE_ROT_NACH_PAUSE: rote Titel, sobald der Fernstand in der Pause bewegt wurde (Versuch 2).
     grep -qs pause fremd.txt && FAKE_ROT="${FAKE_ROT_NACH_PAUSE-$FAKE_ROT}"
