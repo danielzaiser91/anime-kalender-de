@@ -14,13 +14,15 @@
  *
  * Verglichen wird Block für Block, Zeichen für Zeichen: Was im Fernstand
  * steht, bleibt unangetastet; was nur im Arbeitsstand steht, kommt dahinter.
- * Mehrfacheinträge bleiben erhalten — welcher Beleg gilt, entscheidet der Bau
- * über `checkedAt`, nicht diese Datei.
+ * Bereits vorhandene Mehrfacheinträge im Fernstand bleiben; ergänzt wird nichts,
+ * was inhaltlich schon dasteht (sonst schlägt `check:logic` „kein Beleg zweimal
+ * in der Datei" an, Lauf 39241977425).
  *
  * Aufruf: node tools/dub-belege-vereinen.mjs <fernstand.yaml> <arbeitsstand.yaml>
  * Geschrieben wird der **erste** Pfad.
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import yaml from 'js-yaml'
 
 const [fern, arbeit] = process.argv.slice(2)
 if (!fern || !arbeit) {
@@ -39,8 +41,22 @@ const bloecke = (text) =>
     .filter((b) => b.trim())
 
 const fernText = readFileSync(fern, 'utf8')
-const da = new Set(bloecke(fernText))
-const fehlend = bloecke(readFileSync(arbeit, 'utf8')).filter((b) => !da.has(b))
+// Verglichen wird der Inhalt, nicht der Text: Kommentarzeilen zwischen Blöcken
+// kleben am Block davor und machen sonst aus einem Beleg einen „neuen".
+const inhalt = (b) => {
+  try {
+    return JSON.stringify(yaml.load(b))
+  } catch {
+    return b
+  }
+}
+const da = new Set(bloecke(fernText).map(inhalt))
+const fehlend = bloecke(readFileSync(arbeit, 'utf8')).filter((b) => {
+  const k = inhalt(b)
+  if (da.has(k)) return false
+  da.add(k) // auch im Arbeitsstand selbst nicht doppelt ergänzen
+  return true
+})
 
 if (!fehlend.length) {
   console.log('Keine zusätzlichen Belege im Arbeitsstand.')
