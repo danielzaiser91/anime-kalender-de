@@ -15,8 +15,8 @@
  * Verglichen wird Block für Block nach Inhalt (geparster Beleg, dieselbe Form
  * wie die Zusicherung in check-logic): Was im Fernstand steht, bleibt
  * unangetastet; was nur im Arbeitsstand steht, kommt dahinter, jeder Beleg
- * höchstens einmal. Textvergleich reichte nicht: Ein Kommentar hinter dem
- * Block („# --- Aus dem Browser gemeldet …") gehört zum Block, und derselbe
+ * höchstens einmal. Textvergleich reichte nicht: Kommentarzeilen am Block
+ * („# --- Aus dem Browser gemeldet …") ließen denselben Beleg doppelt entstehen, und derselbe
  * Beleg mit und ohne diese Zeile landete doppelt in der Datei (19.10.2026).
  * Mehrfacheinträge bleiben erhalten — welcher Beleg gilt, entscheidet der Bau
  * über `checkedAt`, nicht diese Datei.
@@ -37,11 +37,28 @@ if (!existsSync(fern) || !existsSync(arbeit)) {
   process.exit(0)
 }
 
-const bloecke = (text) =>
-  text
-    .split(/\n(?=- anilistId: )/)
-    .map((b) => b.replace(/\s+$/, ''))
-    .filter((b) => b.trim())
+/*
+  Ein Block ist ein Beleg samt den Kommentarzeilen davor: der Abschnittskopf „# --- Aus dem Browser gemeldet …“
+  gehört zum Beleg dahinter (`tools/poc-urteil/beobachtungen.mjs` liest ihn) und kommt mit ihm. Reine Kommentarblöcke
+  am Dateiende zählen nicht.
+*/
+const bloecke = (text) => {
+  const liste = []
+  let aktuell = []
+  let imBeleg = false
+  for (const zeile of text.split('\n')) {
+    const beginntBeleg = zeile.startsWith('- anilistId: ')
+    if (imBeleg && (beginntBeleg || zeile.startsWith('#'))) {
+      liste.push(aktuell)
+      aktuell = []
+      imBeleg = false
+    }
+    if (beginntBeleg) imBeleg = true
+    aktuell.push(zeile)
+  }
+  liste.push(aktuell)
+  return liste.map((z) => z.join('\n').replace(/\s+$/, '')).filter((b) => /^- /m.test(b))
+}
 
 /* Inhalt des Belegs; ein Block, der nicht lesbar ist, gilt nach seinem Text. */
 const inhalt = (block) => {
