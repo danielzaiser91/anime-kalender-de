@@ -4,7 +4,9 @@
  */
 import { readFileSync } from 'node:fs'
 import type { StreamLink } from '../shared/types.ts'
-import { richtePrimeWeg } from './bau/13-1-prime-richten.ts'
+import type { Title } from '../shared/types.ts'
+import { unbedingteAufrufe } from './lib/unbedingte-aufrufe.ts'
+import { richtePrimeWeg, richtePrimeWege } from './bau/13-1-prime-richten.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, ist?: unknown): void {
@@ -34,12 +36,37 @@ const andere = weg({ seite: 'https://www.amazon.de/dp/B0AAAAAAAA' })
 richtePrimeWeg(andere, kanaele)
 pruefe('Fremde ASIN: kein Kanal', andere.kanal === undefined, andere)
 
-const eigener = weg({ url: 'https://www.amazon.de/dp/B0D3XZ42T9', seite: 'https://www.amazon.de/dp/B0AAAAAAAA' })
-richtePrimeWeg(eigener, kanaele)
-pruefe('Kanal über `url` hat Vorrang vor `seite`', eigener.kanal === 'aniverse', eigener)
+const zweiKanaele = new Map<string, string | undefined>([
+  ['amazon:b0d3xz42t9', 'aniverse'],
+  ['amazon:b0bbbbbbbb', 'crunchyroll'],
+])
+const eigener = weg({ url: 'https://www.amazon.de/dp/B0D3XZ42T9', seite: 'https://www.amazon.de/dp/B0BBBBBBBB' })
+richtePrimeWeg(eigener, zweiKanaele)
+pruefe('Kanal über `url` hat Vorrang vor dem anderen Kanal von `seite`', eigener.kanal === 'aniverse', eigener)
 
+const behalten = weg({ kanal: 'Alt', seite: 'https://www.amazon.de/dp/B0AAAAAAAA' })
+richtePrimeWeg(behalten, kanaele)
+pruefe('Vorhandener Kanal bleibt, wenn die Map nichts findet', behalten.kanal === 'Alt', behalten)
+
+const leerEintrag = weg({ kanal: 'Alt', seite: 'https://www.amazon.de/dp/B0D3XZ42T9' })
+richtePrimeWeg(leerEintrag, new Map([['amazon:b0d3xz42t9', undefined]]))
+pruefe('Map-Eintrag ohne Kanal löscht den vorhandenen nicht', leerEintrag.kanal === 'Alt', leerEintrag)
+
+const titel = [
+  { id: 1, streams: [weg({ seite: 'https://www.amazon.de/dp/B0D3XZ42T9' }), { platform: 'netflix', url: 'https://www.amazon.de/dp/B0D3XZ42T9', seite: 'https://www.amazon.de/dp/B0D3XZ42T9' }] },
+  { id: 2 },
+  { id: 3, streams: [weg({ url: 'https://www.amazon.de/dp/B0CCCCCCCC' })] },
+] as unknown as Title[]
+const anzahl = richtePrimeWege(titel, kanaele)
+pruefe('richtePrimeWege: zählt nur Prime-Wege (2 Adressen in 1, 1 in 3)', anzahl === 2, anzahl)
+pruefe('richtePrimeWege: Prime-Weg gerichtet, Kanal gesetzt', titel[0]!.streams![0]!.seite === 'https://www.amazon.de/gp/video/detail/B0D3XZ42T9' && titel[0]!.streams![0]!.kanal === 'aniverse', titel[0])
+pruefe('richtePrimeWege: Netflix-Weg unberührt', titel[0]!.streams![1]!.url === 'https://www.amazon.de/dp/B0D3XZ42T9', titel[0]!.streams![1])
+pruefe('richtePrimeWege: Titel ohne Wege geht durch, späterer Titel wird gerichtet', titel[2]!.streams![0]!.url === 'https://www.amazon.de/gp/video/detail/B0CCCCCCCC', titel[2])
+
+/* Der Bau ruft es unbedingt auf (geparst: `0 &&`, `if (…) continue` davor und ein leeres Argument würden auffallen). */
 const quelle = readFileSync(new URL('./bau/13-1-anreichern.ts', import.meta.url), 'utf8')
-pruefe('13-1-anreichern ruft richtePrimeWeg(s, kanalJeAdresse) für jeden Prime-Weg', quelle.includes('gerichtet += richtePrimeWeg(s, kanalJeAdresse)'))
+const aufruf = unbedingteAufrufe(quelle, 'schreibeSynopsenUndReichereAn').find((a) => a.name === 'richtePrimeWege')
+pruefe('13-1-anreichern ruft richtePrimeWege(allTitles, kanalJeAdresse) unbedingt auf', aufruf?.args.join('|') === 'allTitles|kanalJeAdresse', aufruf)
 
 if (fehler) process.exit(1)
 console.log('check-prime-seite-richten: ok')

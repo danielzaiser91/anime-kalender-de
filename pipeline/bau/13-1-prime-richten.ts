@@ -1,4 +1,4 @@
-import type { StreamLink } from '../../shared/types.ts'
+import type { StreamLink, Title } from '../../shared/types.ts'
 import { adressKern } from '../lib/dub-confirmed.ts'
 import { amazonAdresseRichten } from '../lib/amazon-adresse.ts'
 
@@ -26,5 +26,16 @@ export function richtePrimeWeg(s: StreamLink, kanalJeAdresse: Map<string, string
   /* Hier, hinter allen Quellen, trifft der Kanal auch Wege, deren Adresse spät entsteht. */
   const kanal = kanalJeAdresse.get(adressKern(s.url)) ?? kanalJeAdresse.get(adressKern(s.seite))
   if (kanal) s.kanal = kanal
+  return gerichtet
+}
+
+/** Alle Prime-Wege aller Titel; gibt die Zahl der geänderten Adressen zurück. */
+export function richtePrimeWege(titel: Title[], kanalJeAdresse: Map<string, string | undefined>): number {
+  let gerichtet = 0
+  for (const t of titel) {
+    for (const s of t.streams ?? []) {
+      if (s.platform === 'primevideo') gerichtet += richtePrimeWeg(s, kanalJeAdresse)
+    }
+  }
   return gerichtet
 }
