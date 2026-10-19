@@ -1,5 +1,5 @@
 // Vorlader für pipeline/check-meldungs-auffaelligkeiten.ts, Szenario in AUFFAELLIGKEITEN_LAUF. Lauf 1: drei Meldungen (Titel 1: 6 von 24 Folgen =
-// Normalfall, Titel 3: 40 von 12 = Befund, Titel 4: Staffel-Widerspruch), alte Datei mit unlesbarem Eintrag. Lauf 2: nur eine harmlose
+// Normalfall, Titel 3: 40 von 12 = Befund, Titel 4: Staffel-Widerspruch), alte Datei mit unlesbarem Eintrag und einem noch offenen Altbefund (Titel 2). Lauf 2: nur eine harmlose
 // Meldung, die Datei hält zwei noch zutreffende Befunde (älteres Datum). Lauf 3: harmlose Meldung, die Datei hält einen erledigten Befund.
 // Schreibzugriffe gehen nicht auf die Platte, sondern als JSON-Zeilen an die Datei in AUFFAELLIGKEITEN_LOG (Pfad, Inhalt).
 import fs from 'node:fs'
@@ -16,7 +16,10 @@ const bestandDatei = /(?:^|[\\/])public[\\/]data[\\/](titles|franchises|cartoons
 const befundDatei = /(?:^|[\\/])data[\\/]meldungs-auffaelligkeiten\.json$/
 const am = '2026-10-01'
 const alteDateien = {
-  1: [{ am: '2026-01-01', text: 'Meldung 1: alter Befund, den der Lauf nicht mehr erzeugt' }],
+  1: [
+    { am: '2026-01-01', text: 'Meldung 1: alter Befund, den der Lauf nicht mehr erzeugt' },
+    { am, text: 'Meldung 6: 40 Folgen gemeldet, Titel 2 (Gti-Titel 2) hat 12 (X)' },
+  ],
   2: [
     { am, text: 'Meldung 900002: 40 Folgen gemeldet, Titel 3 (Gti-Titel 3) hat 12 (0TESTGTI3)' },
     { am, text: 'Meldung 900003: Titel 4 (Gti-Titel 4) ist Staffel 1, die Seite 0TESTGTI4 Staffel 2' },

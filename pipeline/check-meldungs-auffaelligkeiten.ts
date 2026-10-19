@@ -87,12 +87,12 @@ function pruefeAbhaken(nr: number, r: Ergebnis, kennungen: number[]): void {
 const r1 = laufe(1)
 pruefe(r1.status === 0, `Lauf 1 endete mit ${r1.status}: ${r1.fehler}`)
 const b1 = r1.befunde ?? []
-pruefe(b1.length === 2, `Lauf 1: ${b1.length} Befunde statt 2 (${JSON.stringify(b1)})`)
+pruefe(b1.length === 3, `Lauf 1: ${b1.length} Befunde statt 3 (Altbefund + 2 neue) (${JSON.stringify(b1)})`)
 pruefe(b1.some((b) => b.text.includes('Titel 3 (Gti-Titel 3) hat 12')), 'Titelname fehlt im Folgen-Befund')
 pruefe(b1.some((b) => b.text.includes('Titel 4 (Gti-Titel 4) ist Staffel 1')), 'Titelname fehlt im Staffel-Befund')
 pruefe(!b1.some((b) => b.text.includes('alter Befund')), 'alter, unlesbarer Eintrag blieb stehen')
-pruefe(b1.length > 0 && b1.every((b) => b.am >= '2026-10-19'), `Lauf 1: neue Einträge tragen nicht den heutigen Tag: ${JSON.stringify(b1)}`)
-pruefe(r1.warnung?.includes('DATEN_WARNUNG=2 neue Meldung(en) auffällig (2 offen)') === true, `Lauf 1, Warnung: ${r1.warnung}`)
+pruefe(b1.length > 0 && b1.filter((b) => b.am !== '2026-10-01').every((b) => b.am >= '2026-10-19'), `Lauf 1: neue Einträge tragen nicht den heutigen Tag: ${JSON.stringify(b1)}`)
+pruefe(r1.warnung?.includes('DATEN_WARNUNG=2 neue Meldung(en) auffällig (3 offen)') === true, `Lauf 1, Warnung: ${r1.warnung}`)
 pruefeAbhaken(1, r1, [900001, 900002, 900003])
 
 const r2 = laufe(2)
