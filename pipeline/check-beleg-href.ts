@@ -3,7 +3,8 @@
  * auf eine API-Adresse). Jeder `href` mit nicht festem Wert in `web/src` steht mit Grund in `ERLAUBT`; ein neuer löst den Fehler aus
  * und verlangt die Entscheidung: `belegLink`/`istLink` nutzen oder mit Begründung eintragen. Ein Eintrag, den es nicht mehr gibt, ist ebenfalls ein Fehler.
  */
-import { readdirSync, readFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { findeHrefs } from './lib/href-scan.ts'
@@ -28,7 +29,11 @@ const ERLAUBT: Record<string, Record<string, string>> = {
   'web/src/components/detail/kino.tsx': { suche: 'Kino-Suchseite, selbst gebaut', kinoheld: 'Kinoheld-Seite, selbst gebaut' },
   'web/src/components/detail/merken.tsx': { 'googleCalendarUrl(ev, {}, wochenserie(kuenftige))': 'selbst gebaute Kalenderadresse' },
   'web/src/components/detail/pille.tsx': { 'url || undefined': 'Anbieter-Adresse (platformUrl/Weg), keine Beleg-Quelle' },
-  'web/src/components/detail/termin-zeile.tsx': { href: 'Anbieter-Adresse der Zeile (platformUrl/buyUrl)', 'tvText.programm': 'tv.de-Programmseite' },
+  'web/src/components/detail/hilfen.tsx': { url: 'blob:-Adresse der ICS-Datei aus URL.createObjectURL (downloadIcs), keine Adresse aus den Daten' },
+  'web/src/components/detail/termin-zeile.tsx': {
+    href: 'Parameter von ProgrammLink; einziger Aufrufer übergibt tvText.programm (tv.de-Programmseite, Eintrag daneben)',
+    'tvText.programm': 'tv.de-Programmseite',
+  },
   'web/src/components/detail/vermerk.tsx': {
     'm.quelle.url': 'Nachrichtenartikel (anime2you u. a.), keine Termin-Quelle',
     anbieterUrl: 'Anbieter-Adresse des Vermerks',
@@ -53,35 +58,62 @@ console.log('\nScanner: Fälle')
   pruefe('Objekt-Eigenschaft href (createElement) und Kurzform werden gemeldet', stellen('h("a", { href: b.url }); h("a", { href })', 'x.ts').join() === 'b.url,href')
   pruefe('Eigenschaft als Zeichenkette ("href") wird gemeldet', stellen('h("a", { "href": b.url })', 'x.ts').join() === 'b.url')
   pruefe('ein Attribut ohne Wert wird nicht gemeldet, ein anderes Attribut auch nicht', stellen('const a = <a data-href={b.url} download/>').length === 0)
+  /* Umgehungen aus Prüfer 1598 A4. */
+  pruefe('Zuweisung a.href = … und a["href"] = … werden gemeldet, eine feste nicht', stellen('a.href = q.url; a["href"] = q.seite; b.href = "https://x.de/"', 'x.ts').join() === 'q.url,q.seite')
+  pruefe('Vorlage mit Leerzeichen am Anfang wird gemeldet', stellen('const a = <a href={` ${q.url}`}/>').join() === '` ${q.url}`')
+  pruefe('Vorlage ohne vollständigen Host wird gemeldet', stellen('const a = <a href={`https://${q.host}/x`}/><a href={`https://x.de${q.pfad}`}/>').length === 2)
+  pruefe('Vorlage mit „//“ am Anfang (fremder Host) wird gemeldet, ein eigener Pfad nicht', stellen('const a = <a href={`//${q.host}`}/><a href={`/titel/${q.slug}`}/>').join() === '`//${q.host}`')
+  pruefe('berechneter Schlüssel [\'href\'] wird gemeldet', stellen("h('a', { ['href']: q.url })", 'x.ts').join() === 'q.url')
+  pruefe('setAttribute(\'href\', …) wird gemeldet, ein anderes Attribut nicht, ein berechneter Name als „?“', stellen("a.setAttribute('href', q.url); a.setAttribute('aria-hidden', q.x); a.setAttribute(n, q.y)", 'x.ts').join() === "q.url,?a.setAttribute(n, q.y)")
+  pruefe('.ts-Datei: <T>x ist eine Typzusicherung, kein JSX', stellen('h("a", { href: <string>q.url })', 'x.ts').join() === '<string>q.url', stellen('h("a", { href: <string>q.url })', 'x.ts'))
 }
 
-/** Gefundene Ausdrücke je Datei gegen die Liste: `neu` = ohne Eintrag, `weg` = Eintrag ohne Fundstelle. */
-function abweichungen(gefunden: Map<string, Set<string>>, erlaubt: Record<string, Record<string, string>>): { neu: string[]; weg: string[] } {
-  const neu = [...gefunden].flatMap(([d, as]) => [...as].filter((a) => !(a in (erlaubt[d] ?? {}))).map((a) => `${d}: ${a}`))
+/** Gefundene Ausdrücke je Datei (mit Anzahl) gegen die Liste: `neu` = ohne Eintrag oder öfter als einmal, `weg` = Eintrag ohne Fundstelle. */
+function abweichungen(gefunden: Map<string, Map<string, number>>, erlaubt: Record<string, Record<string, string>>): { neu: string[]; weg: string[] } {
+  const neu = [...gefunden].flatMap(([d, as]) =>
+    [...as].filter(([a, n]) => !(a in (erlaubt[d] ?? {})) || n > 1).map(([a, n]) => `${d}: ${a}${n > 1 ? ` (${n}×, je Eintrag 1×)` : ''}`),
+  )
   const weg = Object.entries(erlaubt).flatMap(([d, as]) => Object.keys(as).filter((a) => !gefunden.get(d)?.has(a)).map((a) => `${d}: ${a}`))
   return { neu, weg }
 }
 
 console.log('\nVergleich mit der Liste: Fälle')
 {
-  const gefunden = new Map([['a.tsx', new Set(['x', 'y'])]])
+  const gefunden = new Map([['a.tsx', new Map([['x', 1], ['y', 1]])]])
   const a = abweichungen(gefunden, { 'a.tsx': { x: 'g', z: 'g' } })
   pruefe('ein Ausdruck ohne Eintrag ist `neu`, einer ohne Fundstelle `weg`', a.neu.join() === 'a.tsx: y' && a.weg.join() === 'a.tsx: z', a)
   pruefe('eine Datei ohne Liste: alles ist `neu`', abweichungen(gefunden, {}).neu.length === 2)
   pruefe('deckungsgleich: keine Abweichung', abweichungen(gefunden, { 'a.tsx': { x: 'g', y: 'g' } }).neu.length === 0)
+  const zweimal = abweichungen(new Map([['a.tsx', new Map([['x', 2]])]]), { 'a.tsx': { x: 'g' } })
+  pruefe('zwei Fundstellen desselben Ausdrucks, einer erlaubt: `neu` (Prüfer 1598 A5a)', zweimal.neu.join() === 'a.tsx: x (2×, je Eintrag 1×)', zweimal)
 }
 
 function dateien(ordner: string): string[] {
   return readdirSync(ordner, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? dateien(join(ordner, e.name)) : /\.tsx?$/.test(e.name) ? [join(ordner, e.name)] : []))
 }
 
+console.log('\nDateiauswahl: .ts und .tsx, auch in Unterordnern')
+{
+  const ordner = mkdtempSync(join(tmpdir(), 'beleg-href-'))
+  try {
+    mkdirSync(join(ordner, 'lib'))
+    for (const d of ['lib/a.ts', 'b.tsx', 'c.css', 'd.d.json']) writeFileSync(join(ordner, d), '')
+    const namen = dateien(ordner).map((d) => relative(ordner, d).replaceAll('\\', '/')).sort()
+    pruefe('lib/a.ts und b.tsx, nichts sonst (Prüfer 1598 A5c)', namen.join() === 'b.tsx,lib/a.ts', namen)
+  } finally {
+    rmSync(ordner, { recursive: true, force: true })
+  }
+}
+
 console.log('\nweb/src: jeder href mit nicht festem Wert ist entschieden')
 {
   const wurzel = fileURLToPath(new URL('..', import.meta.url))
-  const gefunden = new Map<string, Set<string>>()
+  const gefunden = new Map<string, Map<string, number>>()
   for (const d of dateien(join(wurzel, 'web/src'))) {
     const stellen = findeHrefs(readFileSync(d, 'utf8'), d)
-    if (stellen.length) gefunden.set(relative(wurzel, d).replaceAll('\\', '/'), new Set(stellen.map((s) => s.ausdruck)))
+    const anzahl = new Map<string, number>()
+    for (const s of stellen) anzahl.set(s.ausdruck, (anzahl.get(s.ausdruck) ?? 0) + 1)
+    if (stellen.length) gefunden.set(relative(wurzel, d).replaceAll('\\', '/'), anzahl)
   }
   const { neu, weg } = abweichungen(gefunden, ERLAUBT)
   pruefe('kein neuer href ohne Eintrag in ERLAUBT', neu.length === 0, neu)
