@@ -151,9 +151,9 @@ const leseKinder = (pfad) => fs.readdirSync(pfad).map((n) => leseEintrag(path.jo
 
 /** Bewertung eines losen `_wt-*`-Eintrags: nur ein echter Ordner kommt in Frage (Dateien wie `_wt-x.log` und Verknüpfungen bleiben). */
 function bewerteLosenPfad(pfad, haupt, jetzt) {
-  const l = fs.lstatSync(pfad)
-  if (l.isSymbolicLink() || !l.isDirectory()) return { aktion: 'behalten', grund: 'kein-ordner' }
   try {
+    const l = fs.lstatSync(pfad)
+    if (l.isSymbolicLink() || !l.isDirectory()) return { aktion: 'behalten', grund: 'kein-ordner' }
     const eintraege = leseKinder(pfad)
     return L.bewerteLosen({ eintraege, jetzt, juengsteAenderungMs: juengsteAenderung(pfad, haupt) })
   } catch { return { aktion: 'behalten', grund: 'unlesbar' } }
@@ -341,4 +341,4 @@ function main() {
 
 if (require.main === module) process.exit(main())
 
-module.exports = { PR_FELDER, abbauImVordergrund, vollziehe, abbau, hook, starteAbbau, ausloeser, nimmSperre, echteWelt, juengsteAenderung, loeseVerknuepfungen, verknuepfungen, ordnerFrei, heileProbeOrdner, kopfZeit, zaehleWt, raeumeLosen, fehlendeBestaende }
+module.exports = { PR_FELDER, abbauImVordergrund, vollziehe, abbau, hook, starteAbbau, ausloeser, nimmSperre, echteWelt, juengsteAenderung, loeseVerknuepfungen, verknuepfungen, ordnerFrei, heileProbeOrdner, kopfZeit, zaehleWt, raeumeLosen, fehlendeBestaende, bewerteLosenPfad }
