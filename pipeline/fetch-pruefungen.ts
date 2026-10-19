@@ -36,7 +36,7 @@ import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
 import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
 import { ladePruefTitel } from './lib/pruef-titel.ts'
-import { folgenzahlIstBefund, schreibeAuffaelligkeiten, titelMitName, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
+import { folgenzahlIstBefund, schreibeAuffaelligkeiten, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
 import { ladeMeldungen, legeAbhakenAb } from './lib/meldungen-stapel.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
@@ -1326,8 +1326,13 @@ log(
 for (const o of offenGeblieben) warn(o)
 for (const a of auffaellig) warn(`Auffällig: ${a}`)
 if (!TROCKEN) {
-  /* Momentaufnahme (19.10.2026): Einträge fallen weg, sobald der Lauf sie nicht mehr erzeugt. */
-  const jetzt = schreibeAuffaelligkeiten(resolve(ROOT, 'data/meldungs-auffaelligkeiten.json'), auffaellig, heute)
+  /* Momentaufnahme (19.10.2026): ein Eintrag bleibt, solange sein Befund am geladenen Bestand zutrifft, auch nach dem Abhaken der Meldung. */
+  const staffelNr = (id: number): number | undefined => {
+    const reihe = reiheVon.get(id)
+    return reihe ? staffelNummern(reihe).get(id) : undefined
+  }
+  const offen = (text: string): boolean => trifftNochZu(text, liste, staffelNr)
+  const jetzt = schreibeAuffaelligkeiten(resolve(ROOT, 'data/meldungs-auffaelligkeiten.json'), auffaellig, heute, offen)
   if (process.env.GITHUB_ENV && jetzt.length) {
     const alt = process.env.DATEN_WARNUNG ? process.env.DATEN_WARNUNG + ' · ' : ''
     appendFileSync(process.env.GITHUB_ENV, `DATEN_WARNUNG=${alt}${warnungsText(jetzt.length)}\n`)
