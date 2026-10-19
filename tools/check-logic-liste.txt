@@ -143,6 +143,7 @@ pipeline/check-prime-kanal.ts
 pipeline/check-prime-nein-beleg.ts
 pipeline/check-prime-pille.ts
 pipeline/check-prime-seite-richten.ts
+pipeline/check-prime-seiten-sperre.ts
 pipeline/check-prime-teilseiten.ts
 pipeline/check-quarantaene.ts
 pipeline/check-reihen-namen-rein.ts
@@ -188,7 +189,6 @@ pipeline/check-tv-schaetzung.ts
 pipeline/check-tv-sichtungen-vor-start.ts
 pipeline/check-urteil-art.ts
 pipeline/check-urteil-fremde-adresse.ts
-pipeline/check-prime-seiten-sperre.ts
 pipeline/check-urteil-spaet.ts
 pipeline/check-verpasst-verdrahtung.ts
 pipeline/check-verweis-ziel.ts
