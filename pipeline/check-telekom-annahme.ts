@@ -102,6 +102,9 @@ const zwilling = (wege: WatchLink[], format = 'MOVIE') => {
   pruefe('Zwilling mit Nein: keine Übernahme', zwilling([magenta({ dubRanges: nein }), videoload()]).n === 0)
   pruefe('Zwilling ohne Angabe: keine Übernahme', zwilling([magenta({ dubRanges: undefined }), videoload()]).n === 0)
   pruefe('eigene Angabe von Videoload bleibt', zwilling([magenta(), videoload(undefined, { dubRanges: nein })]).n === 0)
+  pruefe('Zwilling mit gemischten Bereichen (Deutsch und Nein): keine Übernahme', zwilling([magenta({ dubRanges: [...deutsch, ...nein] }), videoload()]).n === 0)
+  pruefe('Messung eines fremden Anbieters mit der Kennung zählt nicht als Zwilling', zwilling([weg('maxdome', { url: GN, dubRanges: deutsch }), videoload()]).n === 0)
+  pruefe('nur Videoload-Wege übernehmen (anderer Anbieter ohne Angabe bleibt leer)', zwilling([magenta(), weg('Apple TV', { url: GN.replace('magenta.tv', 'videoload.de') })]).n === 0)
   pruefe('Wert wird kopiert, nicht geteilt', z.t.watchLinks![1].dubRanges !== z.t.watchLinks![0].dubRanges)
 }
 console.log('\nWächter „Annahme, obwohl gemessen“:')
