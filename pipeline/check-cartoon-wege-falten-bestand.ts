@@ -1,6 +1,6 @@
 /**
  * Bestandsteil zum Falten der Cartoon-Wege: Das Panel (`sortiereNachZugang`) zeigt für Om Nom Stories nicht mehr 56 Pillen,
- * und Jack behält seine drei Netflix-Pillen mit je eigenem Haken. Die Zeilen selbst (`streamZeilen`, Aufrufer von `teilAngaben`)
+ * und Jacks Bücher bleiben getrennte Pillen mit je eigenem Haken; an jedem Cartoon gehen beim Falten keine Folgen verloren. Die Zeilen selbst (`streamZeilen`, Aufrufer von `teilAngaben`)
  * stehen einmal je Angabe da: Jack „Fg. 2–11 · Staffel 2", nie zusätzlich „Flg. 2–11". Fängt die Aufrufer, die
  * `check-cartoon-wege-falten.ts` nicht sieht. Läuft in `check:bestand`.
  */
@@ -11,7 +11,8 @@ import { folgenAuskunft } from '../web/src/components/detail/folgen-angabe.ts'
 import { translate } from '../web/src/lib/i18n.tsx'
 import { todayIso } from '../shared/time.ts'
 import { readJson } from './lib/util.ts'
-import type { Release, Title } from '../shared/types.ts'
+import { falteTeilwege } from '../web/src/components/detail/wege-falten.ts'
+import type { Release, StreamLink, Title } from '../shared/types.ts'
 
 const OM_NOM = -57480
 const JACK = -92684
@@ -46,7 +47,33 @@ function zeilenTexte(title: Title): { name: string; unten: string; titel: string
   }) as ReactElement<{ name: string; unten?: string; titel?: string }>[]
   return zeilen.filter((z) => z.props.name !== undefined).map((z) => ({ name: z.props.name, unten: z.props.unten ?? '', titel: z.props.titel ?? '' }))
 }
-const vorkommen = (text: string, muster: RegExp) => text.match(muster)?.length ?? 0
+/** Die Folgen, die die Teilwege eines Titels je Weg (Anbieter und Adresse) abdecken. */
+function abgedeckt(wege: StreamLink[]): Map<string, Set<number>> {
+  const je = new Map<string, Set<number>>()
+  for (const w of wege) {
+    if (!w.teilBereich) continue
+    const menge = je.get(`${w.platform}|${w.url}`) ?? new Set<number>()
+    for (let f = w.teilBereich.von; f <= w.teilBereich.bis; f++) menge.add(f)
+    je.set(`${w.platform}|${w.url}`, menge)
+  }
+  return je
+}
+
+/** Eigenschaften der Faltung an jedem Cartoon: nichts geht verloren, nichts Faltbares bleibt getrennt, jede Pille hat einen Weg. */
+function pruefeAlleCartoons(): void {
+  for (const t of cartoons) {
+    const gezeigt = sortiereNachZugang({ title: t }).flatMap((g) => g.plattformen)
+    const roh = abgedeckt(t.streams ?? [])
+    const gefaltet = abgedeckt(gezeigt)
+    for (const [weg, folgen] of roh) {
+      const zeigt = gefaltet.get(weg)
+      pruefe(zeigt?.size === folgen.size && [...folgen].every((f) => zeigt.has(f)), `${t.id} ${weg}: Folgen ${folgen.size} im Datensatz, ${zeigt?.size ?? 0} in den Pillen`)
+    }
+    pruefe(gezeigt.every((s) => !s.teilBereich || Boolean(s.url)), `${t.id}: gefaltete Pille ohne Weg`)
+    pruefe(falteTeilwege(gezeigt).length === gezeigt.length, `${t.id}: zwei Pillen, die zusammengehören`)
+  }
+}
+const vorkommen =(text: string, muster: RegExp) => text.match(muster)?.length ?? 0
 
 const om = pillen(OM_NOM)
 if (om.length === 0) {
@@ -56,11 +83,10 @@ if (om.length === 0) {
     fehler++
     console.error(`FEHLER: Om Nom Stories zeigt ${om.length} Pillen (höchstens ${MAX_PILLEN_OM_NOM})`)
   }
+  pruefeAlleCartoons()
   const jack = pillen(JACK).filter((s) => s.platform === 'netflix')
-  if (jack.length !== 3 || jack.some((s) => !s.dub)) {
-    fehler++
-    console.error(`FEHLER: Jack zeigt ${jack.length} Netflix-Pillen mit Haken, erwartet 3`)
-  }
+  // Eigenschaft statt Zahl: Jacks Bücher haben je einen eigenen Beleg, also bleiben sie getrennte Pillen mit Haken (Anzahl wechselt mit den Daten).
+  pruefe(jack.length >= 1 && jack.every((s) => s.dub), `Jack: ${jack.length} Netflix-Pillen, nicht jede mit Haken`)
 
   // Die Zeilen: Staffel und Folgen stehen je Pille genau einmal.
   const omZeilen = zeilenTexte(cartoons.find((x) => x.id === OM_NOM)!).filter((z) => z.unten.includes('Flg.'))
@@ -73,7 +99,7 @@ if (om.length === 0) {
     pruefe(z.titel.includes('Dieser Eintrag umfasst dort die Folge'), `Om Nom ${z.name}: Tooltip nennt den Ausschnitt nicht: „${z.titel}“`)
   }
   const jackZeilen = zeilenTexte(cartoons.find((x) => x.id === JACK)!).filter((z) => z.name === 'Netflix')
-  pruefe(jackZeilen.length === 3, `Jack: ${jackZeilen.length} Netflix-Zeilen, erwartet 3`)
+  pruefe(jackZeilen.length === jack.length, `Jack: ${jackZeilen.length} Netflix-Zeilen für ${jack.length} Netflix-Pillen`)
   for (const z of jackZeilen) {
     pruefe(vorkommen(z.unten, /Fg\./g) === 1 && !z.unten.includes('Flg.'), `Jack: Folgen nicht genau einmal in „${z.unten}“`)
     pruefe(/Staffel \d/.test(z.unten), `Jack: keine Staffelangabe in „${z.unten}“`)
