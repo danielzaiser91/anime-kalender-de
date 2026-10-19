@@ -47,5 +47,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_TOKEN_SCHREIBEN: ${{ steps.app.outputs.token }}
-          PUSH_ZEIT: ${{ github.event.head_commit.timestamp }}
-        run: node tools/pr-nachrechnen.mjs "$PUSH_ZEIT"
+        run: node tools/pr-nachrechnen.mjs

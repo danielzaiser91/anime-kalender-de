@@ -19,7 +19,7 @@ const SECRET_WERT = { 'app-id': '${{ secrets.DATEN_APP_ID }}', 'app-key': '${{ s
  *  - `checkout`: nur `actions/checkout` mit `token` (direkter Push auf main; der ganze Job ist Code von main und gilt als vertraut).
  *  - `daten-pr-mergen`: nur `bash tools/daten-pr-mergen.sh` (mergt nur App-PRs ohne Marke „[Prüfung rot]“).
  *  - `quellen-pr`: nur `tools/quellen-pr.sh` mit fester Nachricht, davor die Anmeldung für den Zweig-Push.
- *  - `pr-neustart`: nur `node tools/pr-nachrechnen.mjs "$PUSH_ZEIT"` (schließt und öffnet offene PR neu); das App-Token steht nur in GH_TOKEN_SCHREIBEN, GH_TOKEN bleibt das Lese-Token.
+ *  - `pr-neustart`: nur `node tools/pr-nachrechnen.mjs` (schließt und öffnet offene PR neu); das App-Token steht nur in GH_TOKEN_SCHREIBEN, GH_TOKEN bleibt das Lese-Token.
  */
 export const TOKEN_JOBS = {
   'bestand-bauen.yml': { bauen: 'checkout' },
@@ -79,8 +79,8 @@ function pruefeSecrets(datei, doc) {
   return fehler
 }
 
-const NEUSTART_RUN = 'node tools/pr-nachrechnen.mjs "$PUSH_ZEIT"'
-const NEUSTART_ENV = { GH_TOKEN: '${{ github.token }}', PUSH_ZEIT: '${{ github.event.head_commit.timestamp }}' }
+const NEUSTART_RUN = 'node tools/pr-nachrechnen.mjs'
+const NEUSTART_ENV = { GH_TOKEN: '${{ github.token }}' }
 
 /** Form des Weitergabe-Schritts der Art `pr-neustart`: feste env (Lese-Token github.token, App-Token nur in GH_TOKEN_SCHREIBEN) und feste Zeile. */
 function neustartFehler(s, ausdruck) {

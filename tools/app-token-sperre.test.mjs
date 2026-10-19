@@ -186,7 +186,7 @@ erwarte('andere Aktion holt ein Token',(s) => { s.aktionen.einrichten.runs.steps
 erwarteOk('gh pr merge mit GITHUB_TOKEN in einem neuen Workflow', (s) => { s.workflows['neu.yml'] = { jobs: { a: { steps: [{ env: { GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }, run: ARRAY_FORM }] } } } })
 // pr-neustart (19.10.2026): feste Zeile und feste env; das App-Token nur in GH_TOKEN_SCHREIBEN.
 const NEUSTART = ['pr-nachrechnen.yml', 'nachrechnen', 'Veraltete Ketten neu anstoßen']
-erwarte('pr-neustart: anderes Skript', (s) => { schritt(s, ...NEUSTART).run = 'node tools/anders.mjs "$PUSH_ZEIT"' }, /Job nachrechnen.*\(pr-neustart\): run genau/)
+erwarte('pr-neustart: anderes Skript', (s) => { schritt(s, ...NEUSTART).run = 'node tools/anders.mjs' }, /Job nachrechnen.*\(pr-neustart\): run genau/)
 erwarte('pr-neustart: Zeile danach', (s) => { schritt(s, ...NEUSTART).run += '\ngh pr merge 5' }, /Job nachrechnen.*run genau/)
 erwarte('pr-neustart: App-Token als GH_TOKEN', (s) => { schritt(s, ...NEUSTART).env.GH_TOKEN = TOKEN }, /Job nachrechnen.*env genau/)
 erwarte('pr-neustart: weitere env', (s) => { schritt(s, ...NEUSTART).env.NODE_OPTIONS = '--require x' }, /Job nachrechnen.*env genau/)

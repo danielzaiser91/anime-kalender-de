@@ -1,6 +1,8 @@
 /** Tests für tools/pr-nachrechnen.mjs und .github/workflows/pr-nachrechnen.yml: wer wird neu angestoßen, mit welchem Token, wie der Workflow verdrahtet ist. */
 import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parse } from 'yaml'
 import { ausfuehren, nachrechnen, veraltete } from './pr-nachrechnen.mjs'
@@ -124,10 +126,14 @@ function kulisse({ schliesseFehler = new Set(), oeffneFehlerBei = new Map() } = 
   pruefe('ausfuehren gibt 1 zurück, wenn ein PR scheitert', ausfuehren(PUSH, kaputt, { lesen: 'L', schreiben: 'S' }, () => {}) === 1)
 }
 
-// Aufruf als eigener Prozess: ohne oder mit falschem Zeitpunkt Exit 2.
-for (const args of [[], ['kein-datum']]) {
-  const r = spawnSync(process.execPath, [new URL('./pr-nachrechnen.mjs', import.meta.url).pathname.replace(/^\/(\w:)/, '$1'), ...args], { encoding: 'utf8', windowsHide: true })
-  pruefe(`Aufruf mit ${JSON.stringify(args)} -> Exit 2`, r.status === 2, r.status)
+// Aufruf als eigener Prozess ohne gh im PATH: scheitert geschlossen (Exit ungleich 0), nie still grün.
+{
+  const leer = fs.mkdtempSync(path.join(os.tmpdir(), 'pr-nachrechnen-'))
+  const env = { ...process.env }
+  env[Object.keys(env).find((s) => s.toUpperCase() === 'PATH') ?? 'PATH'] = leer
+  const r = spawnSync(process.execPath, [fileURLToPath(new URL('./pr-nachrechnen.mjs', import.meta.url))], { encoding: 'utf8', windowsHide: true, env })
+  fs.rmSync(leer, { recursive: true, force: true })
+  pruefe('Aufruf ohne gh -> Exit ungleich 0', r.status !== 0 && r.status !== null, r.status)
 }
 
 // Workflow: Form des geparsten Dokuments.
@@ -137,7 +143,7 @@ const schritt = job.steps.at(-1)
 pruefe('Trigger: nur push auf main, Daten-Pushes ausgenommen', JSON.stringify(Object.keys(wf.on)) === '["push"]' && wf.on.push.branches.join() === 'main' && wf.on.push['paths-ignore'].includes('public/data/**'), wf.on)
 pruefe('genau ein Job, Rechte nur lesen', Object.keys(wf.jobs).join() === 'nachrechnen' && JSON.stringify(wf.permissions) === '{"contents":"read","pull-requests":"read","actions":"read"}', wf.permissions)
 pruefe('Nebenläufigkeit bricht nicht ab', wf.concurrency['cancel-in-progress'] === false)
-pruefe('letzter Schritt ruft das Skript mit dem Push-Zeitpunkt', schritt.run === 'node tools/pr-nachrechnen.mjs "$PUSH_ZEIT"' && schritt.env.PUSH_ZEIT === '${{ github.event.head_commit.timestamp }}', schritt)
+pruefe('letzter Schritt ruft das Skript ohne Argument (Zeitpunkt = Start des Laufs, nicht Commit-Zeit)', schritt.run === 'node tools/pr-nachrechnen.mjs' && Object.keys(schritt.env).sort().join() === 'GH_TOKEN,GH_TOKEN_SCHREIBEN', schritt)
 pruefe('Schreib-Token kommt aus dem App-Token, Lese-Token aus github.token',
   schritt.env.GH_TOKEN_SCHREIBEN === '${{ steps.app.outputs.token }}' && schritt.env.GH_TOKEN === '${{ github.token }}')
 const app = job.steps.find((s) => s.id === 'app')

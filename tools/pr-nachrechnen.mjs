@@ -3,7 +3,8 @@
  * Grund: Die Kette läuft auf `refs/pull/N/merge`, also gegen main zum Zeitpunkt des Starts. Kommt danach ein anderer PR auf main,
  * bleibt der Check grün, obwohl repoweite Grenzwerte (uhr-in-tests, check:umfang, Design-Klassen) inzwischen überschritten sind.
  * Ein Neustart des Laufs (`gh run rerun`) nutzt denselben Merge-Commit; erst Schließen und Öffnen des PR (`reopened`) baut ihn neu.
- * Aufruf (Workflow `pr-nachrechnen.yml`): node tools/pr-nachrechnen.mjs <push-zeitpunkt-iso>
+ * Aufruf (Workflow `pr-nachrechnen.yml`): node tools/pr-nachrechnen.mjs. Maßgebend ist der Start des Laufs, nicht die Commit-Zeit des Push
+ * (die kann älter sein: eine Kette zwischen Commit und Push gälte sonst als frisch); ein Lauf nach dem Push kostet höchstens einen unnötigen Neustart.
  * Umgebung: GH_TOKEN (lesen), GH_TOKEN_SCHREIBEN (schließen/öffnen; nur ein App-Token löst die Kette aus, GITHUB_TOKEN nicht).
  */
 import { execFileSync } from 'node:child_process'
@@ -88,11 +89,6 @@ export function ausfuehren(pushZeit, gh, { lesen, schreiben }, melde) {
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const pushZeit = process.argv[2]
-  if (!pushZeit || Number.isNaN(Date.parse(pushZeit))) {
-    console.error('Aufruf: node tools/pr-nachrechnen.mjs <push-zeitpunkt-iso>')
-    process.exit(2)
-  }
   const tokens = { lesen: process.env.GH_TOKEN, schreiben: process.env.GH_TOKEN_SCHREIBEN }
-  process.exit(ausfuehren(new Date(pushZeit).toISOString(), gh, tokens, (t) => console.log(t)))
+  process.exit(ausfuehren(new Date().toISOString(), gh, tokens, (t) => console.log(t)))
 }
