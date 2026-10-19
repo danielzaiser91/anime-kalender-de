@@ -201,4 +201,4 @@ try {
 }
 execFileSync('bash', ['tools/pr-einreichen.sh', nachricht.split('\n')[0]], { cwd: wurzel, stdio: 'inherit' })
 if (vorher !== 'HEAD') lauf(`git switch -q ${vorher}`)
-console.log('Als Pull Request eingereicht — GitHub mergt nach der Freigabe selbst, danach zeigt die Status-App die Titel.')
+console.log('Als Pull Request eingereicht — Merge nach Freigabe und `node tools/pr-nachrechnen.mjs <PR>` von Hand, danach zeigt die Status-App die Titel.')
