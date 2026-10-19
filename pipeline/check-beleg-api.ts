@@ -103,7 +103,7 @@ console.log('\nADN-Endpunkt: nur die ganze Adresse zählt (Prüfer 1598 B27)')
 {
   const beleg = (url: string) => adnApiBeleg(release(), url, '2026-10-17')
   pruefe('Kalender und Katalog-Serie werden erkannt', beleg(API)?.name === 'ADN-Kalender' && beleg('https://gw.api.animationdigitalnetwork.com/video/show/1318')?.name === 'ADN-Katalog')
-  for (const url of [`https://x.de/?u=${API}`, `x${API}`, `${API}/x`, `${API}?date=1`, API.replace('https', 'http'), API.replace('gw.api', 'api'), API.replace('/calendar', '/show/abc')])
+  for (const url of [`https://x.de/?u=${API}`, `x${API}`, `${API}/x`, `${API}?date=1`, API.replace('https', 'http'), API.replace('gw.api', 'api'), API.replace('/calendar', '/show/abc'), API.replace('/calendar', '/show/'), API.toUpperCase(), ` ${API}`, `${API} `])
     pruefe(`fremde oder angehängte Adresse ergibt keinen Beleg: ${url}`, beleg(url) === undefined)
 }
 
