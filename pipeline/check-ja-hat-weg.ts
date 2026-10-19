@@ -78,6 +78,8 @@ erwarte('Cartoon: durch Nein derselben Adresse aufgehobenes Ja verlangt nichts',
 erwarte('Cartoon: Ausnahme mit Grund nimmt den Titel aus', anbieterOffen([], imKanal, new Map([[-7, 'Grund']])), [])
 erwarte('Cartoon: Titel ohne Ja verlangt nichts', jaOhneAnbieterWeg([titel(-8)], imKanal), [])
 erwarte('Cartoon: Ausnahme bei bestehendem Cartoon-Verstoß ist nicht überholt', ueberholteAusnahmen([], [titel(-7)], imKanal, new Map([[-7, 'Grund']])), [])
+erwarte('Cartoon: Ja ohne Adresse, Weg eines anderen Anbieters genügt nicht', anbieterOffen([{ platform: 'netflix', url: 'https://www.netflix.com/title/1', dub: true }], [jaPrime(-7, undefined)]), ['-7 Titel -7 (primevideo)'])
+erwarte('Bestandsmeldung: Cartoon-Ausnahme mit Grund ist grün, nicht überholt', bestandsFehler([], [titel(-7)], imKanal, new Map([[-7, 'Grund']])), [])
 erwarte('Bestandsmeldung: Cartoon ohne Weg des Anbieters nennt Titel und Anbieter', bestandsFehler([], [titel(-7)], imKanal, new Map()), ['✖ 1 Fälle: gemessenes Ja ohne Weg (Cartoons: ohne deutschen Weg des Anbieters):', '    -7 Titel -7 (primevideo)'])
 /* Der Bestandslauf als eigener Prozess: Exit-Code und Ergebniszeile auf einer Kulisse mit dem Hazbin-Fall. */
 const wurzel = mkdtempSync(join(tmpdir(), 'ja-hat-weg-'))
