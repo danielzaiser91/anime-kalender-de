@@ -14,6 +14,7 @@ appendFileSync(process.env.STAND_PRS_ATTRAPPE_LOG, `${richtig ? 'richtig' : 'fal
 if (!richtig) process.exit(1)
 
 const ci = (sha, wort) => ({ author: { login: 'github-actions' }, body: `**Prüfer-Review** für ${sha} - Urteil: **${wort}**\n\nText` })
+const agent = (sha) => ({ author: { login: 'danielzaiser91' }, body: `Prüfer Runde 1: freigeben\n\nKopf ${sha}` })
 const pr = (number, title, sha, rollup, kommentare) => ({
   number,
   title,
@@ -26,8 +27,12 @@ const pr = (number, title, sha, rollup, kommentare) => ({
 })
 const offen = [
   pr(901001, 'fix(bau): Erster offener PR', 'aaaaaaaaa', 'FAILURE', [ci('aaaaaaaaa', 'aendern')]),
-  pr(901002, 'feat(web): Zweiter offener PR', 'bbbbbbbbb', 'SUCCESS', [ci('bbbbbbbbb', 'ok')]),
+  pr(901002, 'feat(web): Zweiter offener PR', 'bbbbbbbbb', 'SUCCESS', [ci('bbbbbbbbb', 'ok'), agent('bbbbbbbbb')]),
   pr(901003, 'test: Dritter offener PR', 'ccccccccc', 'PENDING', []),
 ]
-const gemergt = [{ number: 900999, title: 'fix: Längst gemergt', url: 'https://github.com/danielzaiser91/anime-kalender-de/pull/900999', mergedAt: '2020-01-01T00:00:00Z' }]
-process.stdout.write(JSON.stringify({ data: { repository: { offen: { nodes: offen }, gemergt: { nodes: gemergt } } } }))
+const gemergt = [{ number: 900999, title: 'fix: Längst gemergt', url: 'https://github.com/danielzaiser91/anime-kalender-de/pull/900999', mergedAt: '2020-01-01T00:00:00Z', updatedAt: '2020-01-01T00:00:00Z' }]
+const repository = {
+  offen: { pageInfo: { hasNextPage: false }, nodes: offen },
+  gemergt: { pageInfo: { hasNextPage: false, endCursor: 'x' }, nodes: gemergt },
+}
+process.stdout.write(JSON.stringify({ data: { repository } }))
