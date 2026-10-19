@@ -152,6 +152,9 @@ jobs:
           exit 1
       - name: Datensatz bauen (ohne Commit)
         run: npm run data:build
+      # Gemessenes Ja ⇒ mindestens ein Weg, am frisch gebauten Datensatz (18.10.2026: Hazbin Hotel und fünf weitere Cartoons).
+      - name: Gemessenes Ja hat einen Weg
+        run: npx tsx pipeline/check-ja-hat-weg-bestand.ts
 
   # Aussehen (wie aussehen-pruefen.yml), nur bei Änderungen an der Oberfläche; sonst endet jeder Teil nach der Pfadprüfung grün.
   # Drei parallele Teile statt einer Kette (16.10.2026): die längste Kette wächst durch die Trefferprobe sonst um ≈ 130 s. Jeder Teil
