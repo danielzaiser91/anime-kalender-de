@@ -83,7 +83,20 @@ assert.deepEqual(sollKlein, { 'jw-deutsch': 42, 'jw-ohne-deutsch': 50 }, 'Soll a
 const kleineWahl = waehleStichprobe(poolListe)
 pruefeInvarianten(kleineWahl, 'geschrumpfter Pool', sollKlein)
 assert.throws(() => pruefeInvarianten(kleineWahl, 'geschrumpfter Pool'), /genau 50 in jw-deutsch/, 'ohne Pool-Soll bliebe es rot (alte Fassung)')
-const gleicheAdresse = [0, 1, 2].map((i) => ({ id: -i, plattform: 'netflix', url: 'u1', richtung: 'jw-deutsch' }))
+/* Eine Gruppe verliert alle Wege: Soll 0, Auswahl leer in dieser Gruppe, die andere bleibt voll. */
+const nurOhne = kandidaten(cartoons, jw).filter((k) => k.richtung === 'jw-ohne-deutsch')
+assert.deepEqual(sollAusPool(nurOhne), { 'jw-deutsch': 0, 'jw-ohne-deutsch': 50 }, 'leere Gruppe: Soll 0')
+pruefeInvarianten(waehleStichprobe(nurOhne), 'leere Gruppe', sollAusPool(nurOhne))
+/* Zwei Titel, eine Adresse, JustWatch urteilt verschieden: die Adresse zählt einmal (wie in der Auswahl), nicht in beiden Gruppen. */
+const geteilteUrl = ADRESSE.disneyplus(777)
+const quer = kandidaten(
+  [{ id: -7001, titleEn: 'A', streams: [{ platform: 'disneyplus', url: geteilteUrl }] }, { id: -7002, titleEn: 'B', streams: [{ platform: 'disneyplus', url: geteilteUrl }] }],
+  { '-7001': { angebote: [{ anbieter: 'Disney Plus', art: 'FLATRATE', audio: ['de'] }] }, '-7002': { angebote: [] } },
+)
+const sollQuer = sollAusPool(quer)
+assert.equal(sollQuer['jw-deutsch'] + sollQuer['jw-ohne-deutsch'], 1, 'quer geteilte Adresse zählt einmal')
+pruefeInvarianten(waehleStichprobe(quer), 'quer geteilte Adresse', sollQuer)
+const gleicheAdresse =[0, 1, 2].map((i) => ({ id: -i, plattform: 'netflix', url: 'u1', richtung: 'jw-deutsch' }))
 assert.equal(sollAusPool(gleicheAdresse)['jw-deutsch'], 1, 'Pool zählt Adressen, nicht Titel')
 assert.throws(() => pruefeInvarianten(kleineWahl.slice(1), 'Verlust', sollKlein), /genau/, 'ein verlorener Eintrag fällt auf')
 

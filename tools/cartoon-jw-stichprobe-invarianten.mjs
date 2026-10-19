@@ -1,5 +1,5 @@
 /**
- * Gemeinsame Invarianten der Cartoon-Stichprobe (genau 50 je Gruppe, keine Doppelten, Aussage je Eintrag); genutzt von
+ * Gemeinsame Invarianten der Cartoon-Stichprobe (je Gruppe `soll` Wege: fest 50 in Datei und erfundener Welt, min(50, Pool) im Bestand; keine Doppelten, Aussage je Eintrag); genutzt von
  * `cartoon-jw-stichprobe.test.mjs` (erfundene Welt, eingefrorene Datei) und `cartoon-jw-stichprobe-bestand-pruefen.mjs` (echter Bestand).
  */
 import assert from 'node:assert/strict'
@@ -10,11 +10,21 @@ const ohneDoppelte = (liste, schluessel) => new Set(liste.map(schluessel)).size 
 
 const SOLL_VOLL = { 'jw-deutsch': 50, 'jw-ohne-deutsch': 50 }
 
-/** Sollzahl je Gruppe im Bestand: min(50, eindeutige Adressen im Pool), gezählt aus den Kandidaten selbst (nicht über `waehleStichprobe`). */
+/** Eindeutige Adressen je Gruppe, gezählt aus den Kandidaten selbst (nicht über `waehleStichprobe`); eine Adresse zählt einmal, in der Gruppe ihres niedrigsten Schlüssels. */
+export function adressenJeGruppe(kandidatenListe) {
+  const gruppeJeAdresse = new Map()
+  for (const k of [...kandidatenListe].sort((a, b) => (a.sort < b.sort ? -1 : 1))) {
+    const adresse = `${k.plattform}|${k.url}`
+    if (!gruppeJeAdresse.has(adresse)) gruppeJeAdresse.set(adresse, k.richtung)
+  }
+  const zahl = { 'jw-deutsch': 0, 'jw-ohne-deutsch': 0 }
+  for (const richtung of gruppeJeAdresse.values()) zahl[richtung]++
+  return zahl
+}
+
+/** Sollzahl je Gruppe im Bestand: min(50, Adressen im Pool). */
 export function sollAusPool(kandidatenListe) {
-  const adressen = { 'jw-deutsch': new Set(), 'jw-ohne-deutsch': new Set() }
-  for (const k of kandidatenListe) adressen[k.richtung].add(`${k.plattform}|${k.url}`)
-  return Object.fromEntries(Object.entries(adressen).map(([richtung, menge]) => [richtung, Math.min(50, menge.size)]))
+  return Object.fromEntries(Object.entries(adressenJeGruppe(kandidatenListe)).map(([richtung, n]) => [richtung, Math.min(50, n)]))
 }
 
 /** `soll`: erwartete Zahl je Gruppe; im Bestand ist es min(50, Pool), weil jedes Urteil den Pool verkleinert. */
