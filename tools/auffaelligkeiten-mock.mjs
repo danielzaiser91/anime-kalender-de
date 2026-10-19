@@ -1,6 +1,7 @@
 // Vorlader für pipeline/check-meldungs-auffaelligkeiten.ts, Szenario in AUFFAELLIGKEITEN_LAUF. Lauf 1: drei Meldungen (Titel 1: 6 von 24 Folgen =
 // Normalfall, Titel 3: 40 von 12 = Befund, Titel 4: Staffel-Widerspruch), alte Datei mit unlesbarem Eintrag und einem noch offenen Altbefund (Titel 2). Lauf 2: nur eine harmlose
 // Meldung, die Datei hält zwei noch zutreffende Befunde (älteres Datum). Lauf 3: harmlose Meldung, die Datei hält einen erledigten Befund.
+// Lauf 4: genau ein neuer Befund (Titel 3) neben zwei offenen Altbefunden.
 // Schreibzugriffe gehen nicht auf die Platte, sondern als JSON-Zeilen an die Datei in AUFFAELLIGKEITEN_LOG (Pfad, Inhalt).
 import fs from 'node:fs'
 import { syncBuiltinESMExports } from 'node:module'
@@ -25,6 +26,10 @@ const alteDateien = {
     { am, text: 'Meldung 900003: Titel 4 (Gti-Titel 4) ist Staffel 1, die Seite 0TESTGTI4 Staffel 2' },
   ],
   3: [{ am, text: 'Meldung 5: 30 Folgen gemeldet, Titel 1 (Gti-Titel 1) hat 12 (X)' }],
+  4: [
+    { am, text: 'Meldung 6: 40 Folgen gemeldet, Titel 2 (Gti-Titel 2) hat 12 (X)' },
+    { am, text: 'Meldung 900003: Titel 4 (Gti-Titel 4) ist Staffel 1, die Seite 0TESTGTI4 Staffel 2' },
+  ],
 }
 const lauf = Number(process.env.AUFFAELLIGKEITEN_LAUF)
 const alt = alteDateien[lauf]
@@ -67,7 +72,7 @@ const zeile = (id, titelNr, folgen, staffel = 1, titelId = null) => ({
 
 globalThis.fetch = async (url, opt) => {
   if (String(url).includes('/pruefung') && !(opt && opt.method === 'POST')) {
-    const pruefungen = lauf === 1 ? [zeile(900001, 1, 6), zeile(900002, 3, 40), zeile(900003, 4, 12, 2, 4)] : [zeile(900004, 1, 6)]
+    const pruefungen = lauf === 1 ? [zeile(900001, 1, 6), zeile(900002, 3, 40), zeile(900003, 4, 12, 2, 4)] : lauf === 4 ? [zeile(900002, 3, 40)] : [zeile(900004, 1, 6)]
     return new Response(JSON.stringify({ pruefungen }), { status: 200, headers: { 'content-type': 'application/json' } })
   }
   /* Jeder andere Abruf bleibt im Prozess (kein Netz) und steht im Log. */

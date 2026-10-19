@@ -110,6 +110,12 @@ pruefe(r3.befunde !== null && r3.befunde.length === 0, `Lauf 3: erledigter Befun
 pruefe(r3.warnung === undefined, `Lauf 3: ohne offenen Befund keine Warnung: ${r3.warnung}`)
 pruefeAbhaken(3, r3, [900004])
 
+const r4 = laufe(4)
+pruefe(r4.status === 0, `Lauf 4 endete mit ${r4.status}: ${r4.fehler}`)
+pruefe(r4.befunde?.length === 3, `Lauf 4: ${r4.befunde?.length} Befunde statt 3 (2 alte + 1 neuer): ${JSON.stringify(r4.befunde)}`)
+pruefe(r4.warnung?.includes('DATEN_WARNUNG=1 neue Meldung(en) auffällig (3 offen)') === true, `Lauf 4, genau ein neuer Befund: ${r4.warnung}`)
+pruefeAbhaken(4, r4, [900002])
+
 if (fehler.length) {
   console.error(`check-meldungs-auffaelligkeiten: ${fehler.join('; ')}`)
   process.exit(1)
