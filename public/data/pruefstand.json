@@ -1,13 +1,13 @@
 {
- "erzeugtAm": "2026-10-18T20:09:01.902Z",
+ "erzeugtAm": "2026-10-19T08:10:01.822Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 654,
-   "gesamt": 939,
-   "offen": 285,
-   "ohneSeite": 28,
+   "gemeldet": 651,
+   "gesamt": 940,
+   "offen": 289,
+   "ohneSeite": 31,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -15,10 +15,13 @@
     "https://www.amazon.de/s?k=Es%20war%20einmal%20%E2%80%A6%20Amerika&i=instant-video",
     "https://www.amazon.de/s?k=Es%20war%20einmal%20%E2%80%A6%20Die%20Entdeckung%20unserer%20Welt&i=instant-video",
     "https://www.amazon.de/s?k=Miraculous%3A%20Geschichten%20von%20Ladybug%20und%20Cat%20Noir&i=instant-video",
+    "https://www.amazon.de/s?k=Rick%20and%20Morty%3A%20The%20Anime&i=instant-video",
+    "https://www.amazon.de/s?k=Vampire%20Hunter%20D%3A%20Bloodlust&i=instant-video",
     "https://www.amazon.de/s?k=Operation%3A%20Nussknacker%20-%20Auf%20die%20N%C3%BCsse%2C%20fertig%2C%20los!&i=instant-video",
     "https://www.amazon.de/s?k=Sam%3A%20Ein%20fast%20perfekter%20Held&i=instant-video",
     "https://www.amazon.de/s?k=The%20Birth%20of%20Kitaro%3A%20Das%20Geheimnis%20von%20GeGeGe&i=instant-video",
     "https://www.amazon.de/s?k=Es%20war%20einmal%20%E2%80%A6%20Entdecker%20und%20Erfinder&i=instant-video",
+    "https://www.amazon.de/s?k=Isekai%20Onsen%20Paradise&i=instant-video",
     "https://www.amazon.de/s?k=Tayo%20und%20die%20kleinen%20Zauberer&i=instant-video",
     "https://www.amazon.de/s?k=Ab%20durch%20den%20Dschungel&i=instant-video",
     "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video",
@@ -294,6 +297,10 @@
      "titel": "Pompo: The Cinéphile"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0B6RXJ888",
+     "titel": "The Saint’s Magic Power Is Omnipotent (The Saint's Magic Power is Omnipotent)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0D8T3T4S9",
      "titel": "My Hero Academia: World Heroes’ Mission (My Hero Academia: World Heroes' Mission)"
     },
@@ -492,6 +499,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CGH5WTP4",
      "titel": "Golden Kamuy 2 (Golden Kamuy Season 2)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0G1ZD14D3",
+     "titel": "JoJo’s Bizarre Adventure: Golden Wind (JoJo's Bizarre Adventure: Golden Wind)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHP5RVPL",
@@ -720,6 +731,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B09ZJW8HGH",
      "titel": "Kuroko’s Basketball: 2nd Season (Kuroko's Basketball 2)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0CHN14W48",
+     "titel": "Free! Iwatobi Swim Club (Free! -Iwatobi Swim Club-)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B072NZYH6X",
@@ -1251,7 +1266,7 @@
     "B0GDGLLYLS": 24,
     "B0FJ7GC6S6": 10,
     "B0DJWXLZ55": 12,
-    "B0HKFFGQ7F": 2,
+    "B0HKFFGQ7F": 3,
     "B0FN41VKQ5": 12,
     "B0DQ6SDQL2": 12,
     "B0H1QXQL33": 12,
@@ -1263,10 +1278,10 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 685,
-   "gesamt": 863,
-   "offen": 178,
-   "ohneSeite": 18,
+   "gemeldet": 676,
+   "gesamt": 859,
+   "offen": 183,
+   "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
     {
@@ -1316,6 +1331,10 @@
     {
      "url": "https://www.netflix.com/title/81712068",
      "titel": "Die Tagebücher der Apothekerin"
+    },
+    {
+     "url": "https://www.netflix.com/title/83189604",
+     "titel": "Dragon Ball Super: Beerus"
     },
     {
      "url": "https://www.netflix.com/title/81783938",
@@ -1744,6 +1763,20 @@
      "hinweis": "Staffeln unklar: TMDB zählt 22 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
+     "url": "https://www.netflix.com/title/81035124",
+     "titel": "True: Terrific Tales",
+     "staffeln": [
+      1
+     ]
+    },
+    {
+     "url": "https://www.netflix.com/title/81063145",
+     "titel": "Word Party Songs",
+     "staffeln": [
+      1
+     ]
+    },
+    {
      "url": "https://www.netflix.com/title/81221345",
      "titel": "Rhyme Time Town",
      "hinweis": "Staffeln unklar: TMDB zählt 39 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -1762,6 +1795,13 @@
      "url": "https://www.netflix.com/title/81397437",
      "titel": "Rainbow High",
      "hinweis": "Staffeln unklar: TMDB zählt 98 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.netflix.com/title/81056491",
+     "titel": "True Tunes",
+     "staffeln": [
+      1
+     ]
     },
     {
      "url": "https://www.netflix.com/title/81691739",
@@ -1865,12 +1905,20 @@
      "titel": "Princess Power"
     },
     {
+     "url": "https://www.netflix.com/title/80237347",
+     "titel": "Go! Go! Cory Carson"
+    },
+    {
      "url": "https://www.netflix.com/title/81033141",
      "titel": "Mighty Express"
     },
     {
      "url": "https://www.netflix.com/title/81047300",
      "titel": "Ein Lustiges Hundeleben"
+    },
+    {
+     "url": "https://www.netflix.com/title/81050118",
+     "titel": "LEGO Friends - Freundinnen auf Mission"
     },
     {
      "url": "https://www.netflix.com/title/81092963",
@@ -1946,10 +1994,10 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 173,
-   "gesamt": 352,
-   "offen": 179,
-   "ohneSeite": 23,
+   "gemeldet": 171,
+   "gesamt": 340,
+   "offen": 169,
+   "ohneSeite": 21,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
     {
@@ -1961,11 +2009,6 @@
      "url": "https://www.disneyplus.com/browse/entity-4249e544-b4cd-4f3d-bb68-31967428ce13",
      "titel": "Willkommen im Haus der Eulen",
      "hinweis": "Staffeln unklar: TMDB zählt 43 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-133d6369-075f-44ab-ae24-d4781a291d3b",
-     "titel": "Spider-Man",
-     "hinweis": "Staffeln unklar: TMDB zählt 57 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-27cceaed-30a3-4922-8a7e-36393f00658a",
@@ -2008,9 +2051,17 @@
      "seit": "2026-08-26"
     },
     {
+     "url": "https://www.disneyplus.com/browse/entity-14f5d468-38b2-4d4b-97ed-649e6c3ba4c8",
+     "titel": "Gachiakuta"
+    },
+    {
      "url": "https://www.disneyplus.com/de-de/series/ishura/hQ0p1WPHHQmZ",
      "titel": "Ishura",
      "seit": "2026-09-17"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-81a4b821-1dbe-4ecc-9e01-57a7941982c3",
+     "titel": "A Sign of Affection"
     },
     {
      "url": "https://www.disneyplus.com/de-de/series/undead-unluck/6yBbjezPBwNW",
@@ -2053,11 +2104,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 100 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-508455db-79c2-4aad-8c35-4173b3214770",
-     "titel": "Arielle",
-     "hinweis": "Staffeln unklar: TMDB zählt 77 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-8dc91ed4-cdca-4fab-9723-d3d42f382d34",
      "titel": "X-Men '97",
      "hinweis": "Staffeln unklar: TMDB zählt 19 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -2086,11 +2132,6 @@
      "url": "https://www.disneyplus.com/browse/entity-72e27eeb-100d-47eb-b1dd-82f4b7ebfeaf",
      "titel": "Me & Mickey",
      "hinweis": "Staffeln unklar: TMDB zählt 120 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-1d2914e7-7a77-47d4-a9eb-706e78f6ad92",
-     "titel": "Alice in der Wunderland-Bäckerei",
-     "hinweis": "Staffeln unklar: TMDB zählt 98 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-939e4a8f-e1f7-48e5-9426-1f34e0bab1e1",
@@ -2123,19 +2164,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-b2cc4a87-ce26-4993-895d-6a725388fd45",
-     "titel": "Amphibia",
-     "hinweis": "Staffeln unklar: TMDB zählt 106 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-3c3e5e4a-38dd-4125-a478-d16c406022bd",
      "titel": "Vampirina: Ghoul Girls Rock!",
      "hinweis": "Staffeln unklar: TMDB zählt 15 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-9c643e72-0ba4-47d2-8090-d5423f8a7967",
-     "titel": "Big City Greens",
-     "hinweis": "Staffeln unklar: TMDB zählt 222 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-76df5563-b3fe-488d-89f9-09808373a01b",
@@ -2158,11 +2189,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 147 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-00d5fca8-cb17-477d-aad8-a8e3e9763122",
-     "titel": "Baymax – Robowabohu in Serie",
-     "hinweis": "Staffeln unklar: TMDB zählt 65 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-9deca978-0d17-451d-9c8b-673133716a7c",
      "titel": "PJ Masks: Music Videos",
      "hinweis": "Staffeln unklar: TMDB zählt 43 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -2176,11 +2202,6 @@
      "url": "https://www.disneyplus.com/browse/entity-d772d3ad-b8d8-4f85-a6a7-ede8452db70b",
      "titel": "Star gegen die Mächte des Bösen",
      "hinweis": "Staffeln unklar: TMDB zählt 140 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-038234f8-c7e7-4195-84cf-67401129cf2d",
-     "titel": "Bing",
-     "hinweis": "Staffeln unklar: TMDB zählt 105 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-2ea0b596-0c9a-4fa6-b13c-bdb2357994f8",

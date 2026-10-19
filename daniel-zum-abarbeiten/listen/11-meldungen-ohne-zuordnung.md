@@ -9,7 +9,7 @@ Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:
 gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er
 nicht, gehört die Zeile gestrichen.
 
-Stand: 2026-10-18
+Stand: 2026-10-19
 
 ## Was hier zu tun ist
 
@@ -180,8 +180,16 @@ nicht. Vier Fälle, vier Handgriffe:
 | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.1e743af8-5cb1-4ccc-85a2-8a8f7bb8afd3 | Peppa Wutz (Peppa Pig) | dub | — | Titel von Hand suchen |
 | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.1e743af8-5cb1-4ccc-85a2-8a8f7bb8afd3 | Peppa Wutz (Peppa Pig) | dub | — | Titel von Hand suchen |
 | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.1e743af8-5cb1-4ccc-85a2-8a8f7bb8afd3 | Peppa Wutz (Peppa Pig) | dub | — | Titel von Hand suchen |
+| netflix | https://www.netflix.com/title/80237347 | Tut Tut Cory Flitzer — Folgentitel widersprechen sich — Staffel 6 des Anbieters: nur 1 von 18 Titeln liegen im selben Block (Versatz 45) | dub | [Go! Go! Cory Carson](https://anilist.co/anime/-97266) | Meldung des Blocks prüfen |
+| netflix | https://www.netflix.com/title/80237347 | Tut Tut Cory Flitzer — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Go! Go! Cory Carson](https://anilist.co/anime/-97266) | Staffelaufteilung der Seite prüfen |
+| netflix | https://www.netflix.com/title/80237347 | Tut Tut Cory Flitzer — Folgentitel widersprechen sich — Staffel 3 des Anbieters: nur 2 von 7 Titeln liegen im selben Block (Versatz 14) | dub | [Go! Go! Cory Carson](https://anilist.co/anime/-97266) | Meldung des Blocks prüfen |
+| netflix | https://www.netflix.com/title/80237347 | Tut Tut Cory Flitzer — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Go! Go! Cory Carson](https://anilist.co/anime/-97266) | Staffelaufteilung der Seite prüfen |
 | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.1e743af8-5cb1-4ccc-85a2-8a8f7bb8afd3 | Peppa Wutz (Peppa Pig) | dub | — | Titel von Hand suchen |
 | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.1e743af8-5cb1-4ccc-85a2-8a8f7bb8afd3 | Peppa Wutz (Peppa Pig) | dub | — | Titel von Hand suchen |
+| netflix | https://www.netflix.com/title/80240068 | Solar Opposites — Folgentitel widersprechen sich — Staffel 2 des Anbieters: nur 7 von 9 Titeln liegen im selben Block (Versatz 8) | dub | [Solar Opposites](https://anilist.co/anime/-97645) | Meldung des Blocks prüfen |
+| netflix | https://www.netflix.com/title/80240068 | Solar Opposites — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Solar Opposites](https://anilist.co/anime/-97645) | Staffelaufteilung der Seite prüfen |
+| netflix | https://www.netflix.com/title/80240068 | Solar Opposites — Folgentitel widersprechen sich — Staffel 3 des Anbieters: nur 7 von 12 Titeln liegen im selben Block (Versatz 16) | dub | [Solar Opposites](https://anilist.co/anime/-97645) | Meldung des Blocks prüfen |
+| netflix | https://www.netflix.com/title/80240068 | Solar Opposites — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Solar Opposites](https://anilist.co/anime/-97645) | Staffelaufteilung der Seite prüfen |
 | netflix | https://www.netflix.com/title/80240923 | Kleider-Geschichten — Folgentitel widersprechen sich — Staffel 1 des Anbieters: nur 1 von 8 Titeln liegen im selben Block (Versatz 0) | dub | [Worn Stories](https://anilist.co/anime/-120008) | Meldung des Blocks prüfen |
 | netflix | https://www.netflix.com/title/80240923 | Kleider-Geschichten — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Worn Stories](https://anilist.co/anime/-120008) | Staffelaufteilung der Seite prüfen |
 | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.1e743af8-5cb1-4ccc-85a2-8a8f7bb8afd3 | Peppa Wutz (Peppa Pig) | dub | — | Titel von Hand suchen |
@@ -200,8 +208,14 @@ nicht. Vier Fälle, vier Handgriffe:
 | netflix | https://www.netflix.com/title/81014532 | Die tierischen Fälle von Kit und Sam — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Die tierischen Fälle von Kit und Sam](https://anilist.co/anime/-195407) | Staffelaufteilung der Seite prüfen |
 | netflix | https://www.netflix.com/title/81014532 | Die tierischen Fälle von Kit und Sam — Folgentitel widersprechen sich — Staffel 1 des Anbieters: nur 1 von 12 Titeln liegen im selben Block (Versatz 0) | dub | [Die tierischen Fälle von Kit und Sam](https://anilist.co/anime/-195407) | Meldung des Blocks prüfen |
 | netflix | https://www.netflix.com/title/81014532 | Die tierischen Fälle von Kit und Sam — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Die tierischen Fälle von Kit und Sam](https://anilist.co/anime/-195407) | Staffelaufteilung der Seite prüfen |
+| netflix | https://www.netflix.com/title/81033141 | Mighty Express — Folgentitel widersprechen sich — Staffel 7 des Anbieters: nur 2 von 6 Titeln liegen im selben Block (Versatz 53) | dub | [Mighty Express](https://anilist.co/anime/-110317) | Meldung des Blocks prüfen |
+| netflix | https://www.netflix.com/title/81033141 | Mighty Express — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Mighty Express](https://anilist.co/anime/-110317) | Staffelaufteilung der Seite prüfen |
+| netflix | https://www.netflix.com/title/81033141 | Mighty Express — Folgentitel widersprechen sich — Staffel 4 des Anbieters: nur 1 von 4 Titeln liegen im selben Block (Versatz 30) | dub | [Mighty Express](https://anilist.co/anime/-110317) | Meldung des Blocks prüfen |
+| netflix | https://www.netflix.com/title/81033141 | Mighty Express — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Mighty Express](https://anilist.co/anime/-110317) | Staffelaufteilung der Seite prüfen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0F3GCF61R | Future Boy Conan — Staffel 2 in der Reihe nicht zu bestimmen | weg | [Future Boy Conan](https://anilist.co/anime/302) | Seite B0C9SYFPRY als Verweis an den Titel von Staffel 2 eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0F3GCF61R | Future Boy Conan — Staffel 3 in der Reihe nicht zu bestimmen | weg | [Future Boy Conan](https://anilist.co/anime/302) | Seite B0CH8BD664 als Verweis an den Titel von Staffel 3 eintragen |
+| netflix | https://www.netflix.com/title/81035124 | True: Magische Märchen — Folgentitel widersprechen sich — Staffel 1 des Anbieters: nur 1 von 8 Titeln liegen im selben Block (Versatz 0) | dub | [True: Terrific Tales](https://anilist.co/anime/-103407) | Meldung des Blocks prüfen |
+| netflix | https://www.netflix.com/title/81035124 | True: Magische Märchen — keine Folge der Meldung fällt in die Zielstaffeln | dub | [True: Terrific Tales](https://anilist.co/anime/-103407) | Staffelaufteilung der Seite prüfen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0CGS3NC7T | Haikyu!! — Staffel 2 in der Reihe nicht zu bestimmen | dub | [Haikyu!!](https://anilist.co/anime/20464) | Seite B0CJDJVP2S als Verweis an den Titel von Staffel 2 eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0CGS3NC7T | Haikyu!! — Staffel 3 in der Reihe nicht zu bestimmen | dub | [Haikyu!!](https://anilist.co/anime/20464) | Seite B0CJJFKZ3S als Verweis an den Titel von Staffel 3 eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0CGS3NC7T | Haikyu!! — Staffel 4 in der Reihe nicht zu bestimmen | dub | [Haikyu!!](https://anilist.co/anime/20464) | Seite B0CGLYLYFZ als Verweis an den Titel von Staffel 4 eintragen |
@@ -212,6 +226,10 @@ nicht. Vier Fälle, vier Handgriffe:
 | netflix | https://www.netflix.com/title/81047300 | Ein lustiges Hundeleben — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Ein Lustiges Hundeleben](https://anilist.co/anime/-117162) | Staffelaufteilung der Seite prüfen |
 | netflix | https://www.netflix.com/title/81047300 | Ein lustiges Hundeleben — Folgentitel widersprechen sich — Staffel 2 des Anbieters: nur 2 von 9 Titeln liegen im selben Block (Versatz 16) | dub | [Ein Lustiges Hundeleben](https://anilist.co/anime/-117162) | Meldung des Blocks prüfen |
 | netflix | https://www.netflix.com/title/81047300 | Ein lustiges Hundeleben — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Ein Lustiges Hundeleben](https://anilist.co/anime/-117162) | Staffelaufteilung der Seite prüfen |
+| netflix | https://www.netflix.com/title/81056491 | Muntere Melodien mit True — Folgentitel widersprechen sich — Staffel 1 des Anbieters: nur 1 von 8 Titeln liegen im selben Block (Versatz 0) | dub | [True Tunes](https://anilist.co/anime/-91089) | Meldung des Blocks prüfen |
+| netflix | https://www.netflix.com/title/81056491 | Muntere Melodien mit True — keine Folge der Meldung fällt in die Zielstaffeln | dub | [True Tunes](https://anilist.co/anime/-91089) | Staffelaufteilung der Seite prüfen |
+| netflix | https://www.netflix.com/title/81063145 | Wortparty: Singt alle mit! — Folgentitel widersprechen sich — Staffel 1 des Anbieters: nur 1 von 8 Titeln liegen im selben Block (Versatz 0) | dub | [Word Party Songs](https://anilist.co/anime/-106528) | Meldung des Blocks prüfen |
+| netflix | https://www.netflix.com/title/81063145 | Wortparty: Singt alle mit! — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Word Party Songs](https://anilist.co/anime/-106528) | Staffelaufteilung der Seite prüfen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0FW2J99HL | InuYasha — Staffel 3 in der Reihe nicht zu bestimmen | dub | [InuYasha](https://anilist.co/anime/249) | Seite B0D65FKW9Z als Verweis an den Titel von Staffel 3 eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0FW2J99HL | InuYasha — Staffel 4 in der Reihe nicht zu bestimmen | dub | [InuYasha](https://anilist.co/anime/249) | Seite B0D5293PDZ als Verweis an den Titel von Staffel 4 eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0FW2J99HL | InuYasha — Staffel 5 in der Reihe nicht zu bestimmen | dub | [InuYasha](https://anilist.co/anime/249) | Seite B0CVGSFPWY als Verweis an den Titel von Staffel 5 eintragen |
