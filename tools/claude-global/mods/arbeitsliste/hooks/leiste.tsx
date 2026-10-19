@@ -22,11 +22,12 @@ export type LeisteStand = {
 }
 
 // Gefüllt = an, leer = aus.
+// Gefüllter Ring statt Punkt (Daniel, 19.10.2026): an und aus gleich groß, nur die Füllung unterscheidet.
 function ball(ui: any, key: string, an: boolean, themenfarbe: string) {
   const { Text } = ui
   return (
     <Text key={key} color={themenfarbe}>
-      {an ? '●' : '○'}
+      {an ? '◉' : '○'}
     </Text>
   )
 }
