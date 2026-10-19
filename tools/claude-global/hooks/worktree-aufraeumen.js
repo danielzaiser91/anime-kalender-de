@@ -101,13 +101,22 @@ function ordnerFrei(pfad, umbenennen = fs.renameSync, warte = schlafe) {
 
 function schlafe(ms) { Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms) }
 
-/** Ein früherer Lauf ließ `_wt-x-p` liegen (Rückbenennen scheiterte): zurückbenennen, sobald `_wt-x` fehlt, aber noch registriert ist. */
-function heileProbeOrdner(haupt, registriert, umbenennen = fs.renameSync) {
+/**
+ * Ein früherer Lauf ließ `<pfad>-p` neben einem registrierten Worktree liegen (Rückbenennen scheiterte), egal ob in `haupt` oder daneben:
+ * zurückbenennen, solange `<pfad>` fehlt. Scheitert das, Fehlerzeile und kein prune, sonst löst git die Registrierung.
+ */
+function heileProbeOrdner(worktrees, bericht, umbenennen = fs.renameSync) {
   const geheilt = []
-  for (const n of fs.readdirSync(haupt).filter((x) => /^_wt-.+-p$/.test(x))) {
-    const ziel = path.join(haupt, n.slice(0, -2))
-    if (!registriert.has(L.norm(ziel)) || fs.existsSync(ziel)) continue
-    try { umbenennen(path.join(haupt, n), ziel); geheilt.push(ziel) } catch {}
+  for (const w of worktrees) {
+    const probe = `${w.pfad}-p`
+    if (fs.existsSync(w.pfad) || !fs.existsSync(probe)) continue
+    try {
+      umbenennen(probe, w.pfad)
+      geheilt.push(w.pfad)
+    } catch {
+      bericht.fehler.push(`Heilung scheitert: ${w.pfad} liegt als ${probe}`)
+      bericht.pruneAus = true
+    }
   }
   return geheilt
 }
@@ -121,6 +130,7 @@ function echteWelt(haupt) {
     entferne: (pfad) => { git(haupt, 'worktree', 'remove', pfad) },
     loese: loeseVerknuepfungen,
     frei: ordnerFrei,
+    umbenennen: fs.renameSync,
     jetzt: () => Date.now(),
   }
 }
@@ -148,7 +158,7 @@ function abbau(haupt, welt, los) {
   const bericht = { worktrees: [], lose: [], entfernt: 0, fehler: [] }
   const ctx = { haupt, jetzt: welt.jetzt(), prs: welt.prs(), cacheLeer: welt.cacheLeer, sauber: welt.sauber }
   const alle = L.leseWorktrees(git(haupt, 'worktree', 'list', '--porcelain'))
-  if (los) heileProbeOrdner(haupt, new Set(alle.map((w) => L.norm(w.pfad))))
+  if (los) heileProbeOrdner(alle, bericht, welt.umbenennen)
   for (const w of alle) {
     const existiert = fs.existsSync(w.pfad)
     const entscheidung = L.entscheide({ ...w, existiert, juengsteAenderungMs: existiert ? juengsteAenderung(w.pfad, haupt) : 0, kopfZeitMs: existiert ? kopfZeit(w.pfad, haupt) : 0 }, ctx)
