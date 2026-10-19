@@ -647,6 +647,11 @@ Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `
   "PostToolUse": [ { "matcher": "Bash", "hooks": [ { "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/worktree-aufraeumen.js"], "timeout": 15 } ] } ]
   ```
   (Beide gehören als zusätzliche Elemente in die vorhandenen Listen `hooks.SessionStart` und `hooks.PostToolUse`, nicht als Ersatz.)
+- **PR-Zeilen in `stand.md` schreibt ein Hook (seit 19.10.2026, Daniel: „kein manuelles eintragen per hauptsitzung mehr“)** — `tools/claude-global/hooks/stand-prs.js` (Test `tools/stand-prs-hook.test.mjs`, gh-Attrappe `tools/stand-prs-gh-attrappe.mjs`). Er hält unter „## In Arbeit“ einen Block zwischen `<!-- pr-zeilen … -->` und `<!-- /pr-zeilen -->`: je offenem PR eine Zeile (Kurztitel, Entwurf, Konflikt, jüngstes CI-Urteil samt „älterer Kopf“, Checks; bereite zuerst), dazu die in den letzten 24 h gemergten ohne `chore(data):` als `[klein]`. Eingerückte Notizen unter einer PR-Zeile wandern mit; alles außerhalb des Blocks bleibt, die Änderungszeit der Datei auch (`daniel-dateien.js` misst daran die Pflege). Eine GraphQL-Abfrage (≈ 2–3 s), async: sofort nach `gh pr create|merge|close|ready|reopen|edit`, sonst nach gh-pr/run-Befehlen und Prompts höchstens alle 5 min; Ergebnis des letzten Laufs in `~/.claude/hooks/state/stand-prs.json`, von Hand `node ~/.claude/hooks/stand-prs.js --jetzt`. Verworfen: Workflow schreibt `stand.md` (unversioniert), Mod fragt GitHub selbst (jede Anzeige ein Abruf, nichts für den Hook `daniel-dateien.js`), nur ein Werkzeug für Agenten (hängt an Disziplin). Einrichten: `einrichten.mjs`, dann in `~/.claude/settings.json` ergänzen (Handarbeit, zusätzliche Elemente):
+  ```json
+  "PostToolUse": [ { "matcher": "Bash", "hooks": [ { "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/stand-prs.js"], "timeout": 60, "async": true } ] } ],
+  "UserPromptSubmit": [ { "hooks": [ { "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/stand-prs.js"], "timeout": 60, "async": true } ] } ]
+  ```
 
 ### Wissen nach Thema (Verweisliste)
 
