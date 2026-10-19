@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { PointerEvent, ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { coverBild } from '../../lib/cover.ts'
+import { sichtbareBreite } from '../../lib/sichtbare-breite.ts'
 import { VORSCHAU_BREITE, VORSCHAU_FRIST_MS, VORSCHAU_HOEHE, vorschauLage, zeigtVorschau, type VorschauLage } from '../../lib/hover-cover.ts'
 
 /**
@@ -52,7 +53,7 @@ export function useHoverCover(cover: string | undefined): {
         const x = e.clientX
         window.clearTimeout(frist.current)
         setWartet(true)
-        frist.current = window.setTimeout(() => setLage(vorschauLage(zeile, x, { breite: window.innerWidth, hoehe: window.innerHeight })), VORSCHAU_FRIST_MS)
+        frist.current = window.setTimeout(() => setLage(vorschauLage(zeile, x, { breite: sichtbareBreite(), hoehe: window.innerHeight })), VORSCHAU_FRIST_MS)
       },
       onPointerLeave: weg,
       /* Ein Klick öffnet das Panel — die Vorschau hat ihren Zweck erfüllt. */

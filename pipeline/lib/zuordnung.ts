@@ -54,6 +54,10 @@ export function schluesselAdresse(url: string): string {
   */
   const amazon = /^amazon\.de\/(?:dp|gp\/video\/detail)\/([a-z0-9]{10,26})(?:\/|$)/.exec(ohne)?.[1]
   if (amazon) return `amazon.de/gp/video/detail/${amazon}`
+  /* Eine gti-Adresse ist erst mit ihrer Kennung eine Seite (wie `adressKern`): ohne sie teilten sich alle `watch.amazon.de/detail`
+     einen Schlüssel, und eine Meldung ohne `titel_id` traf jeden Titel mit gti-Weg (nachgespielt 18.10.2026: 22.916 Belege auf 109 gti-Adressen). */
+  const gti = /[?&]gti=(amzn1\.dv\.gti\.[0-9a-f-]{36})/i.exec(url)?.[1]
+  if (gti) return `${ohne}?gti=${gti.toLowerCase()}`
   /* Amazon schreibt das Leerzeichen mal als %20, mal als + — beides derselbe Begriff. */
   const begriff = /[?&]k=([^&#]+)/.exec(url)?.[1]?.replace(/\+/g, ' ')
   return begriff && /\/s$/.test(ohne) ? `${ohne}?k=${decodeURIComponent(begriff).toLowerCase()}` : ohne

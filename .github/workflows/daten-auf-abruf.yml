@@ -151,6 +151,7 @@ jobs:
         run: npm run data:anisearch-robots
 
       - name: Lauf ausführen
+        id: lauf
         env:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
@@ -163,6 +164,8 @@ jobs:
           set -euo pipefail
           LAUF='${{ inputs.lauf || (github.event.schedule == '0 0 * * *' && 'data:anisearch-artikel') || (github.event.schedule == '0 2 * * *' && 'data:anisearch-sprecher') || (github.event.schedule == '0 4 * * *' && 'data:anisearch') || 'data:toggo' }}'
           GRENZE='${{ inputs.grenze || (github.event_name == 'schedule' && '1100') || '300' }}'
+          # Der Lauf steht in der Nachricht des Pull Requests, sie ist Teil des Fund-Schlüssels: Ein roter TOGGO-Fund löst so keinen roten aniSearch-Fund ab (tools/quellen-pr.sh).
+          echo "name=$LAUF" >> "$GITHUB_OUTPUT"
           # Nicht jeder Lauf kennt --limit; die, die es nicht tun, bekommen es nicht.
           case "$LAUF" in
             data:anisearch)
@@ -189,7 +192,7 @@ jobs:
         if: always()
         uses: ./.github/actions/einreichen
         with:
-          nachricht: 'chore(data): Lauf auf Abruf'
+          nachricht: "chore(data): Lauf auf Abruf (${{ steps.lauf.outputs.name || 'unbekannt' }})"
           fund: lauf
           app-id: ${{ secrets.DATEN_APP_ID }}
           app-key: ${{ secrets.DATEN_APP_KEY }}

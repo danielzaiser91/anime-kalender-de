@@ -9,7 +9,8 @@ import { OUT, kinoFeld, mitAnkuendigung } from './grundlagen.ts'
 import { mitLaufzeit } from '../lib/anisearch-felder.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
-import { englischAusSynonymen } from '../lib/anisearch-titel.ts'
+import { ohneZurueckgestellte } from '../lib/quarantaene.ts'
+import { katalogNamen, ladeAnisearchTitel } from './katalog-namen.ts'
 import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { coverFuer } from './cover-regel.ts'
 import { bewertungNachRegel, mitProduktFeldern } from './produkt-regel.ts'
@@ -18,7 +19,7 @@ import { ohneGesperrte } from './sperre.ts'
 import { ersterDeutscherTermin } from '../../shared/tv-signale.ts'
 import { eigenesJa, zaehltAlsDeutscherTermin } from '../lib/news.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
-import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
+import { reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
@@ -259,7 +260,8 @@ export function schreibeOhneSynchro(
   deutscheReihe: Map<number, string> = new Map(),
   geschuetzt: Set<number> = new Set(),
 ): void {
-  const eintraege = ladeKatalogEintraege()
+  // Zurückgestellt heißt: auch nicht hinter dem Schalter (`11-9-quarantaene.ts`).
+  const eintraege = ohneZurueckgestellte(ladeKatalogEintraege())
   if (!eintraege.length) {
     /**
      * Kein Katalog — dann bleibt die zuletzt gebaute Datei **stehen**.
@@ -285,101 +287,20 @@ export function schreibeOhneSynchro(
    * bei achtzehntausend Titeln rund 900 KB. `loadOhneSynchro` setzt sie beim
    * Laden, sodass der Rest der Anwendung sie wie gewohnt vorfindet.
    */
-  /**
-   * **Deutsche Titel kommen von aniSearch, nicht von AniList.**
-   *
-   * AniList führt keine. „Ein Landei aus dem Dorf vor dem letzten Dungeon sucht
-   * das Abenteuer in der Stadt" stand deshalb nur unter seinem englischen Namen
-   * hier, und Daniel fand ihn am 31.08.2026 nicht — obwohl Prime ihn genau so
-   * anzeigt. Sein Urteil: „anilist ist müll, die bessere quelle ist anisearch."
-   *
-   * `pipeline/fetch-anisearch-titel.ts` holt sie über die Kennung aus
-   * `data/anime-ids.json`; die Begründung für aniSearch statt TMDB steht dort
-   * und in `status.md`.
-   */
-  /*
-    **`quelle` entscheidet, ob der Name als deutscher gelten darf.**
-
-    Die `<h1>` einer aniSearch-Seite trägt keine Sprachkennzeichnung. Bei einem
-    Titel mit deutscher Veröffentlichung steht dort meistens der deutsche Name
-    — deshalb hat das lange getragen. Bei einem ohne steht dort der japanische,
-    und dann behauptet `titleDe` etwas Falsches: „Tensei Kizoku, Kantei Skill de
-    Nariagaru Dai 3 Ki" stand so im Katalog, während aniSearch unter „Synonyme"
-    „…: Staffel 3" führt.
-
-    `ueberschrift` heißt deshalb: Name unbekannter Sprache. Er wird nicht zu
-    `titleDe` — `titleRomaji` sagt ohnehin dasselbe, und die Oberfläche fällt
-    von selbst darauf zurück.
-
-    **Ein Eintrag ohne `quelle` behält sein `titleDe`.** Er stammt aus einem
-    Lauf vor dem 08.09.2026, seine Sprache ist weder belegt noch widerlegt, und
-    ein Lauf löscht keine Metadaten. Fällig ist er trotzdem: `faellig()` in
-    `fetch-anisearch-titel.ts` holt ihn erneut, und danach entscheidet die
-    Herkunft.
-  */
-  const ausAnisearch = readJson<
-    Record<
-      string,
-      { titel?: string; quelle?: string; anisearchId?: number; englisch?: string; synonyme?: string[] }
-    >
-  >('data/anisearch-titel.json', {})
+  const ausAnisearch = ladeAnisearchTitel()
   const kennungen = anisearchKennungen([...eintraege.map((e) => ({ id: e.id, mal: e.mal ?? undefined })), ...verschoben.map((t) => ({ id: t.id, mal: t.malId }))])
   const dubletten = anisearchDublettenAbziehen(bekannt, verschoben, geschuetzt, eintraege, kennungen)
   const reihe = anisearchKatalogReihen(reihenFuerKatalog(eintraege, bekannt), eintraege, bekannt, verschoben, kennungen, dubletten)
   const ohne = eintraege
     .filter((e) => !bekannt.has(e.id) && !dubletten.katalogWeg.has(e.id))
     .map((e) => {
-      const [romaji, englisch, japanisch] = e.t
-      const eintrag = ausAnisearch[String(e.id)]
-      /*
-        **Belegt heißt: aus dem Sprachblock oder den Synonymen.** Ein Eintrag
-        ohne `quelle` stammt aus einem Lauf vor dem 08.09.2026 und galt bis zum
-        12.09.2026 als deutsch — 1.001 Katalogtitel trugen so einen Namen, den
-        niemand als deutsch belegt hatte, davon 335 zu chinesischen Originalen.
-        Auf der Seite stand deshalb „Guimi Zhi Zhu: Tebie Pian - Liewu", während
-        der englische Titel „Lord of Mysteries Specials" danebenlag (Daniel,
-        12.09.2026: „why 2 of these titles have chinese titles").
-
-        Sie fallen jetzt auf Englisch zurück, bis `fetch-anisearch-titel.ts` sie
-        erneut geholt und ihre Herkunft vermerkt hat.
-      */
-      const belegt = eintrag?.quelle === 'sprachblock' || eintrag?.quelle === 'synonym'
-      /*
-        **Und wo aniSearch schweigt, fragt der Bau die Reihe.** Für den
-        Apothekerin-Film kennt aniSearch keinen deutschen Namen; AniList führt
-        ihn unter `synonyms`, und der belegte Reihenname macht ihn erkennbar.
-      */
-      /*
-        **Zwei Synonymlisten, dieselbe Regel.**
-
-        AniList führt für den Apothekerin-Film genau ein Synonym, und das ist
-        englisch („The Apothecary Diaries Movie"). aniSearch führt den deutschen
-        Namen — aber nicht im Sprachblock, sondern unter den Synonymen, wo er
-        zwischen der französischen und der spanischen Fassung steht.
-
-        Gefragt werden deshalb beide Listen, aniSearch zuerst: Sie ist die
-        Quelle, die deutsche Titel überhaupt kennt.
-      */
-      const reihenName = deutscheReihe.get(reihe.get(e.id) ?? e.id)
-      const deutsch =
-        (belegt ? eintrag?.titel : undefined) ??
-        deutschAusSynonymen(eintrag?.synonyme, reihenName) ??
-        deutschAusSynonymen(e.synonyme, reihenName)
+      const namen = katalogNamen(e, ausAnisearch[String(e.id)], deutscheReihe.get(reihe.get(e.id) ?? e.id))
       return {
         id: e.id, malId: e.mal,
-        titleRomaji: romaji ?? undefined,
-        /*
-          AniList führt bei chinesischen Produktionen oft keinen englischen
-          Namen. Zwei Aushilfen, in dieser Reihenfolge: aniSearchs Sprachblock
-          „Englisch", und AniLists eigene Synonymliste (`latein`) — dort steht
-          für „Guimi Zhi Zhu: Wu Mian Ren Pian" ein „Lord of the Mysteries 2".
-        */
-        titleEn: englisch ?? eintrag?.englisch ?? englischAusSynonymen(eintrag?.synonyme) ?? e.latein ?? undefined,
-        /* Nur, wenn er wirklich etwas Neues sagt — sonst steht dieselbe Zeichenkette zweimal. */
-        titleDe: deutsch && deutsch !== englisch && deutsch !== romaji ? deutsch : undefined,
+        ...namen,
         /* Die Kennung geht mit, sonst führt der aniSearch-Verweis ins Leere; zugeordnet wird sie in `anisearch-kennung.ts`. */
         anisearchId: kennungen.get(e.id),
-        titleNative: japanisch ?? undefined,
+        titleNative: e.t[2] ?? undefined,
         format: e.format ?? undefined,
         episodes: e.folgen ?? undefined,
         jpYear: e.jahr ?? undefined,

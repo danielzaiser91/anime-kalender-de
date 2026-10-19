@@ -57,6 +57,10 @@ export function urteilSchliesstSpaeteLuecken(
       if (!urteilDarfBelegen(title.id, stream, kanal, gekennzeichnet)) continue
       stream.dub = true
       if (stream.herkunft === 'termin') delete stream.herkunft
+      /* Das gemessene Urteil schlägt den JustWatch-Hinweis; beides zugleich verbietet check-jw-vertrauen-bestand. */
+      delete stream.dubQuelle
+      delete stream.dubStand
+      delete stream.dubHintOnly
       ausUrteil++
     }
   }

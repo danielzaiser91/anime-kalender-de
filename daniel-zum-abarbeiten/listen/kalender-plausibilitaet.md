@@ -1,15 +1,16 @@
 # Kalender-Plausibilität: Treffer je Regel
 
-Stand 2026-10-16 (Bestand vom 16.10., 12:21 UTC) · **27 Treffer**, von Hand geprüft: 5 je Regel mit Treffern, alle echt.
+Stand 2026-10-18 (Zahlen am Bestand des 18.10.; Handproben vom 16.10., Regel 6 am 18.10.) · **sechs Regeln, 29 Treffer**, von Hand geprüft: 5 je Regel mit Treffern, alle echt.
 Neu erzeugen: `npm run check:kalender-plausibilitaet -- --liste`. Die Zahlen dürfen nur sinken (`tools/kalender-plausibilitaet-grenzen.json`).
 
 | Regel | Treffer | Handprobe |
 |---|---|---|
 | 1. erschienen, aber „Ohne bekannten Termin“ | 0 | 21 Titel ohne Termin gegengeprüft: keiner hat Beobachtung, JustWatch oder Messung |
 | 2. Ende belegt, trotzdem „≈“ oder geschätzter Termin | 0 | Fall vom 13.10. ist behoben |
-| 3. „Sprache offen“ trotz gemessenem Deutsch | 10 | 5/5 echt |
+| 3. „Sprache offen“ trotz gemessenem Deutsch | 4 (am 16.10.: 10) | 5/5 echt |
 | 4. Ereignis ohne News | 2 | 2/2 echt |
 | 5. Termin ohne Quelle | 15 | 5/5 echt |
+| 6. Prime-Streaming-Termin verlinkt nur eine Amazon-Suche (`primeOhneTitelseite`, seit PR 1483) | 8 (nach PR 1483: 6) | 8/8 gezählt: Tank Chair und Sieben Ritter bekommen mit dem PR eine Titelseite, offen sind Yu-Gi-Oh S1, Demon Slayer (3) und Kuroko Movie 2 und 3; Disc-Suche zählt nicht |
 
 ## 3. „Sprache offen“ trotz gemessenem Deutsch (10)
 

@@ -9,7 +9,7 @@
  * (PID, was läuft, von wo) und seit wann (Uhrzeit und „vor N min“): Prüfer warteten am 12.10.2026 10–15 min, ohne zu wissen, worauf.
  */
 import { execFileSync } from 'node:child_process'
-import { readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { basename, join } from 'node:path'
 
@@ -17,10 +17,10 @@ import { basename, join } from 'node:path'
 function prozessName(pid) {
   try {
     if (process.platform === 'win32') {
-      const aus = execFileSync('tasklist', ['/FI', `PID eq ${pid}`, '/FO', 'CSV', '/NH'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
+      const aus = execFileSync('tasklist', ['/FI', `PID eq ${pid}`, '/FO', 'CSV', '/NH'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], windowsHide: true })
       return /^"([^"]+)"/.exec(aus)?.[1].toLowerCase() ?? null
     }
-    const comm = execFileSync('ps', ['-p', String(pid), '-o', 'comm='], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
+    const comm = execFileSync('ps', ['-p', String(pid), '-o', 'comm='], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], windowsHide: true })
     return basename(comm.trim()).toLowerCase() || null
   } catch {
     return null
@@ -39,6 +39,43 @@ export function lebt(pid, exe, nameVon = prozessName) {
   }
   const name = exe ? nameVon(pid) : null
   return !name || name === exe
+}
+
+/** WMI-Zeit (`20261018193512.123456+120`: Ortszeit, Versatz in Minuten) als ms seit 1970, NaN bei anderem Format. */
+function wmiZeit(text) {
+  const m = /^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)\.(\d{3})\d*([+-]\d+)$/.exec(text)
+  if (!m) return NaN
+  const [jahr, monat, tag, std, min, sek, ms, versatz] = m.slice(1).map(Number)
+  return Date.UTC(jahr, monat - 1, tag, std, min, sek, ms) - versatz * 60_000
+}
+
+/** Rohausgabe „PID CreationDate“ je Kindprozess von `pid` (WMI über cscript, Windows). */
+function fragKinder(pid) {
+  const skript = join(import.meta.dirname, 'prozess-kinder.vbs')
+  return execFileSync('cscript', ['//nologo', skript, String(pid)], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], windowsHide: true, timeout: 20_000 })
+}
+
+/**
+ * Lebt ein Kind von `pid`, das nach `seit` gestartet wurde? Ältere Kinder gehören einem früheren Träger derselben PID
+ * (Windows vergibt PIDs wieder und lässt Waisen ihre Eltern-PID). Scheitert die Abfrage, zählt das als nein (mit Warnung).
+ */
+export function hatJungeKinder(pid, seit, frage = fragKinder) {
+  try {
+    return frage(pid).split(/\r?\n/).some((zeile) => wmiZeit(zeile.split(' ')[1] ?? '') >= Date.parse(seit))
+  } catch (e) {
+    console.warn(`Kinder-Suche (WMI) für PID ${pid} fehlgeschlagen, zählt als nein: ${String(e.message).split('\n')[0]}`)
+    return false
+  }
+}
+
+/**
+ * Läuft das Kind des Halters (`schwer.mjs`) noch? Unter Windows ist das Kind die Shell; sie stirbt mit dem hart beendeten
+ * Halter (libuv-Job), der eigentliche Lauf darunter lebt weiter und trägt ihre PID als Eltern-PID.
+ */
+export function kindLaeuft(sperre, frage = fragKinder) {
+  if (!sperre.kind) return false
+  if (lebt(sperre.kind, sperre.kindExe)) return true
+  return process.platform === 'win32' && hatJungeKinder(sperre.kind, sperre.seit, frage)
 }
 
 function lies(datei) {
@@ -82,13 +119,27 @@ export function nimmSperre(name, wer = standardWer()) {
       if (e.code !== 'EEXIST') throw e
     }
     const alt = lies(datei)
-    if (alt && lebt(alt.pid, alt.exe)) {
+    if (alt && (lebt(alt.pid, alt.exe) || kindLaeuft(alt))) {
       return `${name} läuft schon (${beschreibeHalter(alt)}) — warten oder die Sperre ${datei} nur löschen, wenn der Prozess nicht echt läuft.`
     }
     console.warn(`${name}: verwaiste Sperre${alt ? ` (PID ${alt.pid}, seit ${alt.seit}, tot)` : ' (unlesbar)'} übernommen.`)
     if (JSON.stringify(lies(datei)) === JSON.stringify(alt)) rmSync(datei, { force: true })
   }
   return `${name}: Sperre ${datei} wurde gleichzeitig neu vergeben — später erneut versuchen.`
+}
+
+/**
+ * Trägt das Kind des Halters (`schwer.mjs`) in die eigene Sperre ein: Wurde der Halter hart beendet, gilt die Sperre weiter,
+ * solange das Kind lebt (sonst liefe es ohne Sperre neben dem nächsten schweren Lauf). `kindExe`: Programmname des Kindes,
+ * damit eine wiederverwendete PID nicht als lebend gilt.
+ */
+export function vermerkeKind(name, kind, kindExe) {
+  const datei = join(tmpdir(), `${name}.sperre`)
+  const sperre = lies(datei)
+  if (sperre?.pid !== process.pid) return
+  const entwurf = `${datei}.kind-${process.pid}` // atomar ersetzen: ein halb geschriebenes Lesen gälte als verwaist
+  writeFileSync(entwurf, JSON.stringify({ ...sperre, kind, kindExe }))
+  renameSync(entwurf, datei)
 }
 
 /** Für den Aufruf am Skriptanfang: bei Absage Meldung und Exit 3. */
