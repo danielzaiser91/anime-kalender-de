@@ -63,7 +63,9 @@ type Ergebnis = { befunde: Befund[] | null; warnung: string | undefined; abrufe:
 function laufe(nr: number): Ergebnis {
   const ordner = mkdtempSync(join(tmpdir(), 'auffaelligkeiten-'))
   const log = join(ordner, 'schreiben.jsonl')
-  const env = { ...process.env, LAUF_TOKEN: 'test', AUFFAELLIGKEITEN_LOG: log, AUFFAELLIGKEITEN_LAUF: String(nr), GITHUB_ENV: join(ordner, 'github-env.txt') }
+  // Im Bau-Lauf ist DATEN_WARNUNG schon gesetzt; fetch-pruefungen hängt an und der Text träfe nicht mehr.
+  const { DATEN_WARNUNG: _geerbt, ...umgebung } = process.env
+  const env = { ...umgebung, LAUF_TOKEN: 'test', AUFFAELLIGKEITEN_LOG: log, AUFFAELLIGKEITEN_LAUF: String(nr), GITHUB_ENV: join(ordner, 'github-env.txt') }
   const lauf = spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'pipeline/fetch-pruefungen.ts')], { cwd: wurzel, encoding: 'utf8', env })
   const zeilen = readFileSync(log, 'utf8').split('\n').filter(Boolean).map((z) => JSON.parse(z) as Zeile)
   rmSync(ordner, { recursive: true, force: true })
