@@ -22,6 +22,8 @@ const ctxBasis = { haupt: 'C:/x/haupt', jetzt: JETZT, prs: [], cacheLeer: () => 
 const wt = (extra = {}) => ({ pfad: 'C:/x/haupt/_wt-a', zweig: 'z', kopf: 'k', existiert: true, juengsteAenderungMs: JETZT - SCHON - 1, kopfZeitMs: JETZT - PR_SCHON - 1, ...extra })
 const e = (w, c = {}) => L.entscheide(w, { ...ctxBasis, ...c })
 const iso = (ms) => new Date(ms).toISOString()
+// Dateizeiten und Sperren des Dateisystems sind echte Zeit, die Entscheidungslogik oben läuft mit fester JETZT.
+const uhr = () => Date.now() // uhr-echt: Zeitstempel echter Dateien und Sperren, keine Tagesgrenze im Ergebnis
 const pr = (state, extra = {}) => ({ headRefName: 'z', headRefOid: 'k', state, mergedAt: iso(JETZT - PR_SCHON), closedAt: null, ...extra })
 const mit = (...prs) => ({ prs })
 
@@ -140,7 +142,7 @@ try {
 
   // HEAD-Zeit des Worktrees setzen (Reflog-Datei im Verwaltungsordner); ohne Angabe 30 h zurück, also vor jedem Abschluss dieser Tests.
   const kopfDatei = (name) => join(haupt, '.git', 'worktrees', name, 'logs', 'HEAD')
-  const setzeKopfZeit = (name, vorH = 30) => utimesSync(kopfDatei(name), new Date(Date.now() - vorH * 3600_000), new Date(Date.now() - vorH * 3600_000))
+  const setzeKopfZeit = (name, vorH = 30) => utimesSync(kopfDatei(name), new Date(uhr() - vorH * 3600_000), new Date(uhr() - vorH * 3600_000))
   const neu = (name, zweig, mitCommit = false) => {
     g(haupt, 'worktree', 'add', '-b', zweig, join(haupt, name), c1)
     if (mitCommit) {
@@ -195,7 +197,7 @@ try {
   writeFileSync(join(haupt, '_wt-lose-inhalt-und-junction', 'x.txt'), 'x')
 
   // Abschluss vor 22 h: nach „jetzt + 3 h“ sind es 25 h (über der Schonfrist), mit echter Uhr 22 h (darunter).
-  const vor22h = new Date(Date.now() - 22 * 3600_000).toISOString()
+  const vor22h = new Date(uhr() - 22 * 3600_000).toISOString()
   const oid = (name) => g(join(haupt, name), 'rev-parse', 'HEAD')
   const erledigt = (zweig, name, state = 'MERGED', kopf = oid(name)) => ({ headRefName: zweig, headRefOid: kopf, state, mergedAt: state === 'MERGED' ? vor22h : null, closedAt: state === 'CLOSED' ? vor22h : null })
   const prs = [
@@ -211,7 +213,7 @@ try {
     erledigt('b-cache', '_wt-cache'),
     erledigt('b-worker', '_wt-worker'),
   ]
-  let jetzt = Date.now() + 3 * 3600_000
+  let jetzt = uhr() + 3 * 3600_000
   const entfernt = []
   // Die echten Adapter (status, worktree remove) laufen gegen das Attrappen-Repo; nur gh und die Uhr sind ersetzt.
   const echt = H.echteWelt(haupt)
@@ -245,7 +247,7 @@ try {
   assert.equal(lose(liste, '_wt-weg-ordner'), undefined, 'registrierter Worktree ist kein loser Ordner')
 
   // Frisch (jetzt = echte Zeit): nichts wird angefasst.
-  jetzt = Date.now()
+  jetzt = uhr()
   const frisch = H.abbau(haupt, welt, true)
   assert.equal(frisch.entfernt, 0, 'alles unter 2 h bleibt')
   assert.equal(grund(frisch, '_wt-gemergt').grund, 'jung')
@@ -253,7 +255,7 @@ try {
   assert.equal(existsSync(join(haupt, '_wt-lose-leer')), true)
 
   // Abbau.
-  jetzt = Date.now() + 3 * 3600_000
+  jetzt = uhr() + 3 * 3600_000
   const b = H.abbau(haupt, welt, true)
   assert.deepEqual(b.fehler, [])
   assert.deepEqual(entfernt.map((p) => p.replace(/^.*\/(_wt-[^/]+)$/, '$1')).sort(), ['_wt-geschlossen', '_wt-gemergt', '_wt-pruefer', '_wt-worker', '_wt-junction'].sort())
@@ -438,7 +440,7 @@ try {
   mkdirSync(join(haupt, '_wt-lose-echtcache', 'data', 'cache'), { recursive: true })
   writeFileSync(join(haupt, '_wt-lose-echtcache', 'data', 'cache', 'k.json'), '{}')
   assert.equal(H.zaehleWt(haupt), vorher + 2, 'lose Ordner zählen mit')
-  const loseListe = H.abbau(haupt, { ...welt, jetzt: () => Date.now() + 3 * 3600_000 }, true)
+  const loseListe = H.abbau(haupt, { ...welt, jetzt: () => uhr() + 3 * 3600_000 }, true)
   assert.equal(existsSync(join(haupt, '_wt-lose-datacache')), false, 'Reste weg')
   assert.equal(readFileSync(join(fremdCache, 'roh.json'), 'utf8'), '{}', 'Ziel der Junction unberührt')
   assert.equal(readFileSync(join(fremdNm, 'paket.txt'), 'utf8'), 'p')
@@ -451,8 +453,8 @@ try {
   console.log = () => {}
   try {
     let gefragt = 0
-    const spaeh = { ...welt, jetzt: () => Date.now(), prs: () => { gefragt++; return prs } }
-    writeFileSync(vSperre, JSON.stringify({ pid: process.pid, zeit: Date.now() }))
+    const spaeh = { ...welt, jetzt: () => uhr(), prs: () => { gefragt++; return prs } }
+    writeFileSync(vSperre, JSON.stringify({ pid: process.pid, zeit: uhr() }))
     assert.equal(H.abbauImVordergrund(true, { haupt, sperre: vSperre, welt: spaeh }), 0)
     assert.equal(gefragt, 0, 'gesperrt: kein Abbau')
     rmSync(vSperre)
@@ -465,13 +467,13 @@ try {
     H.abbauImVordergrund(false, { haupt, sperre: vSperre, welt: { ...spaeh, prs: () => { waehrend = existsSync(vSperre); return prs } } })
     assert.equal(waehrend, false, 'Liste braucht keine Sperre')
     // H1: die Sperre eines anderen Besitzers bleibt stehen; eine unlesbare Sperre wird nicht überschrieben.
-    H.abbauImVordergrund(true, { haupt, sperre: vSperre, welt: { ...spaeh, prs: () => { writeFileSync(vSperre, JSON.stringify({ pid: process.pid + 1, zeit: Date.now() })); return prs } } })
+    H.abbauImVordergrund(true, { haupt, sperre: vSperre, welt: { ...spaeh, prs: () => { writeFileSync(vSperre, JSON.stringify({ pid: process.pid + 1, zeit: uhr() })); return prs } } })
     assert.equal(existsSync(vSperre), true, 'fremde Sperre bleibt')
     writeFileSync(vSperre, 'kaputt')
-    assert.equal(H.nimmSperre(vSperre, Date.now()), false)
+    assert.equal(H.nimmSperre(vSperre, uhr()), false)
     assert.equal(readFileSync(vSperre, 'utf8'), 'kaputt')
     utimesSync(vSperre, 1000, 1000)
-    assert.equal(H.nimmSperre(vSperre, Date.now()), true, 'unlesbar und alt: übernommen')
+    assert.equal(H.nimmSperre(vSperre, uhr()), true, 'unlesbar und alt: übernommen')
     rmSync(vSperre)
   } finally {
     console.log = stumm
@@ -496,25 +498,25 @@ try {
 
   // ---- Sperre und Start --------------------------------------------------------------------------------------------------------------
   const sperre = join(wurzel, 'abbau.lock')
-  assert.equal(H.nimmSperre(sperre, Date.now()), true)
-  assert.equal(H.nimmSperre(sperre, Date.now()), false, 'zweiter Abbau gesperrt (Besitzer lebt)')
-  writeFileSync(sperre, JSON.stringify({ pid: 2147483646, zeit: Date.now() }))
-  assert.equal(H.nimmSperre(sperre, Date.now()), true, 'verwaiste Sperre wird übernommen')
+  assert.equal(H.nimmSperre(sperre, uhr()), true)
+  assert.equal(H.nimmSperre(sperre, uhr()), false, 'zweiter Abbau gesperrt (Besitzer lebt)')
+  writeFileSync(sperre, JSON.stringify({ pid: 2147483646, zeit: uhr() }))
+  assert.equal(H.nimmSperre(sperre, uhr()), true, 'verwaiste Sperre wird übernommen')
   rmSync(sperre)
   // A3: Zwei Starter sehen dieselbe verwaiste Sperre; der zweite übernimmt zwischen Lesen und Übernehmen des ersten. Nur einer läuft.
-  const verwaist = JSON.stringify({ pid: 2147483646, zeit: Date.now() })
+  const verwaist = JSON.stringify({ pid: 2147483646, zeit: uhr() })
   writeFileSync(sperre, verwaist)
   let zweiter = null
-  const erster = H.nimmSperre(sperre, Date.now(), () => { zweiter = H.nimmSperre(sperre, Date.now()) })
+  const erster = H.nimmSperre(sperre, uhr(), () => { zweiter = H.nimmSperre(sperre, uhr()) })
   assert.deepEqual([erster, zweiter], [false, true], 'genau einer übernimmt')
   assert.equal(JSON.parse(readFileSync(sperre, 'utf8')).pid, process.pid, 'die Sperre des Gewinners bleibt unversehrt')
   assert.deepEqual(readdirSync(wurzel).filter((n) => n.startsWith('abbau.lock.')), [], 'keine Reste')
   rmSync(sperre)
   writeFileSync(sperre, verwaist)
-  assert.equal(H.nimmSperre(sperre, Date.now(), () => rmSync(sperre)), false, 'Sperre inzwischen weg (anderer Starter fertig): nicht übernehmen')
+  assert.equal(H.nimmSperre(sperre, uhr(), () => rmSync(sperre)), false, 'Sperre inzwischen weg (anderer Starter fertig): nicht übernehmen')
   assert.equal(existsSync(sperre), false, 'und nichts hinterlassen')
   writeFileSync(sperre, verwaist)
-  assert.equal(H.nimmSperre(sperre, Date.now(), () => {}), true, 'ohne Rennen übernimmt der einzelne Starter')
+  assert.equal(H.nimmSperre(sperre, uhr(), () => {}), true, 'ohne Rennen übernimmt der einzelne Starter')
   rmSync(sperre)
 
   const aufrufe = []
@@ -529,7 +531,7 @@ try {
   assert.equal(aufrufe[0].args[aufrufe[0].args.indexOf('--frist-min') + 1], '30', 'mit Frist')
   assert.equal(aufrufe[0].args.at(-1), '--abbau')
   assert.equal(H.starteAbbau({ ...startOpt, spawn: () => ({ status: 1 }) }), 'startfehler')
-  writeFileSync(sperre, JSON.stringify({ pid: process.pid, zeit: Date.now() }))
+  writeFileSync(sperre, JSON.stringify({ pid: process.pid, zeit: uhr() }))
   assert.equal(H.starteAbbau(startOpt), 'laeuft-schon')
   assert.equal(aufrufe.length, 1, 'bei Sperre kein Start')
   rmSync(sperre)

@@ -21,6 +21,12 @@ const stumm = console.log
 console.log = () => {}
 console.error = () => {}
 
+/**
+ * Eine Zone weit hinter UTC (Sommer -7 h, Winter -8 h), damit auch ein Rechner und ein CI-Lauf mit TZ=UTC lokale Stunde, Wochentag
+ * und Monatstag von denen in UTC unterscheiden: `getHours`, `getDay`, `getDate` statt der UTC-Fassung werden rot.
+ */
+process.env.TZ = 'America/Los_Angeles'
+
 /** Die Echtzeit des Tests: Dienstag 10:30 UTC, in keiner der geprüften Wecker-Stunden. */
 festeUhr('2026-10-20T10:30:00Z')
 
@@ -71,7 +77,12 @@ pruefe(
   'Montag 05:00 UTC: Wochenlauf statt Tageslauf',
 )
 pruefe((await nach(() => starteFaelligeLaeufe(env(undefined), MONTAG_VIER))).length === 0, 'ohne Token startet nichts')
-// Jahreswechsel: 31.12. 23:59:59.999 UTC ist noch Stunde 23, 00:00 am 1.1. die Stunde 0; kein Tageslauf, nur der stündliche.
+// Monatslauf ab dem 2. (UTC): 2.11. 04:00 UTC ist in Los Angeles noch der 1.11., gezählt wird UTC.
+pruefe(
+  gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2026-11-02T04:00:00.000Z'))), ['refresh-hourly.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']),
+  '2.11. 04:00 UTC (1.11. in Los Angeles): Monatslauf startet',
+)
+// Jahreswechsel: 00:00 UTC am 1.1. ist die Stunde 0 (in Los Angeles noch der 31.12.); kein Tageslauf, nur der stündliche.
 pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2027-01-01T00:00:00.000Z'))), ['refresh-hourly.yml']), 'Jahreswechsel 00:00 UTC: nur der stündliche Lauf')
 // 00:30 Berlin (Sommerzeit) ist 22:30 UTC des Vortags: gezählt wird UTC.
 pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), new Date('2026-10-19T22:30:00.000Z'))), ['refresh-hourly.yml']), '00:30 Berlin = 22:30 UTC: nur der stündliche Lauf')
