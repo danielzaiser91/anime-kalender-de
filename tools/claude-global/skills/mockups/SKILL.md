@@ -21,7 +21,7 @@ Nach dem Umbau wird „Nachher" zur echten Komponente; das Bild muss dem Mockup-
 
 ## Auftragsvorlage für Fable-Entwürfe (Fable entwirft, Sonnet setzt um)
 
-Ein Entwurfsauftrag nennt, was Fable nicht erraten kann, und verlangt als Ergebnis eine Bühnen-Datei, keinen HTML-Text:
+Ein Entwurfsauftrag nennt, was Fable nicht erraten kann, und verlangt als Ergebnis eine Bühnen-Datei, keinen HTML-Text (Ausnahme: neue Ansichten ohne Gegenstück in der App, z. B. Empfehlungen R3/R4 19.10.2026, entstehen als eigenständiges HTML unter `mockups/`):
 
 ```
 Ziel: <ein Satz, welches Problem des Besuchers gelöst wird>
