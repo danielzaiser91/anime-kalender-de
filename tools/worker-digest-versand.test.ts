@@ -30,6 +30,8 @@ const GRENZE = 50
 /** Donnerstag 07:00 Berlin (Sommerzeit): Tagesdigest fällig, kein Wochendigest. */
 const JETZT = new Date('2026-10-15T05:00:00Z')
 const TAG = '2026-10-15'
+/** Montag 07:00 Berlin (Sommerzeit): Sendestunde mit fälliger Wochenübersicht der Überwachung, der schärfste Fall für den stündlichen Aufruf. */
+const MONTAG_SENDESTUNDE = new Date('2026-10-19T05:00:00Z')
 
 const zahl = (db: DatabaseSync, sql: string) => Number((db.prepare(sql).get() as { n: number }).n)
 const gesendet = () => zaehler.stapel.flat()
@@ -148,32 +150,55 @@ async function monitorSpeicher(db: DatabaseSync) {
 }
 
 /** Führt einen Cron-Aufruf aus und wartet auf alles, was er an `waitUntil` gibt. */
-async function cron(db: DatabaseSync, ausdruck: string) {
+async function cron(db: DatabaseSync, ausdruck: string, zeit: Date, sendeStunde = berlinParts(zeit).hour) {
   const offen: Promise<unknown>[] = []
   const ctx = { waitUntil: (p: Promise<unknown>) => offen.push(p), passThroughOnException: () => {} } as unknown as ExecutionContext
   zaehlerZurueck()
-  await worker.scheduled({ cron: ausdruck, scheduledTime: Date.now(), noRetry: () => {} }, testEnv(db, berlinParts(new Date()).hour), ctx)
+  await worker.scheduled({ cron: ausdruck, scheduledTime: zeit.getTime(), noRetry: () => {} }, testEnv(db, sendeStunde), ctx)
   await Promise.allSettled(offen)
 }
 
 /** Wecker-Spitze (3 statt 2 Abläufe je Stunde, je 2 Aufrufe) und ein, zwei Push-Abos brauchen Luft unter der Grenze. */
 const PUFFER_STUENDLICH = 5
 
-async function triggerGetrennt() {
-  zeige('Cron-Trigger:')
+/** Montags zur Sendestunde geht die Wochenübersicht der Überwachung an MONITOR_EMAIL, aber kein Digest an Abonnenten. */
+async function montagsStatusmail() {
+  zeige('Montag zur Sendestunde:')
+  fetchAttrappe(berlinParts(MONTAG_SENDESTUNDE).iso)
   const db = neueDatenbank()
   abonnenten(db, 50)
-  await cron(db, '0 * * * *')
+  await cron(db, '0 * * * *', MONTAG_SENDESTUNDE)
+  pruefe(zaehler.stapel.length === 0 && zaehler.einzelmails === 1, 'stündlicher Aufruf am Montag zur Sendestunde: nur die Wochenübersicht, kein Digest')
+  pruefe(zahl(db, "SELECT COUNT(*) n FROM send_log WHERE run_key LIKE 'daily:%'") === 0, 'stündlicher Aufruf am Montag: kein Digest-Eintrag im send_log')
+
+  const ausserhalb = neueDatenbank()
+  abonnenten(ausserhalb, 50)
+  const sendeStunde = berlinParts(MONTAG_SENDESTUNDE).hour
+  await cron(ausserhalb, '0 * * * *', MONTAG_SENDESTUNDE, sendeStunde + 3)
+  pruefe(zaehler.stapel.length === 0 && zaehler.einzelmails === 0, 'stündlicher Aufruf am Montag außerhalb der Sendestunde: keine Mail')
+}
+
+async function triggerGetrennt() {
+  zeige('Cron-Trigger:')
+  fetchAttrappe(TAG)
+  const db = neueDatenbank()
+  abonnenten(db, 50)
+  await cron(db, '0 * * * *', JETZT)
   pruefe(zaehler.stapel.length === 0 && zaehler.einzelmails === 0, 'stündlicher Aufruf zur Sendestunde verschickt keinen Digest')
   pruefe(zahl(db, 'SELECT COUNT(*) n FROM site_status') === SITES.length, `stündlicher Aufruf: Monitor schreibt alle ${SITES.length} Seiten`)
   pruefe(unteraufrufe() + PUFFER_STUENDLICH < GRENZE, `stündlicher Aufruf: ${unteraufrufe()} + ${PUFFER_STUENDLICH} Puffer < ${GRENZE}`)
 
   const leer = neueDatenbank()
   abonnenten(leer, 50)
-  await cron(leer, DIGEST_CRON)
+  await cron(leer, DIGEST_CRON, JETZT)
   pruefe(gesendet().length === 50, 'Digest-Trigger verschickt den Digest an alle 50')
   pruefe(zahl(leer, 'SELECT COUNT(*) n FROM site_status') === 0 && zaehler.objekt === 0, 'Digest-Trigger lässt Monitor und Schnellmesser aus')
   pruefe(unteraufrufe() < GRENZE, `Digest-Trigger: ${unteraufrufe()} Unteraufrufe < ${GRENZE}`)
+
+  const falscheStunde = neueDatenbank()
+  abonnenten(falscheStunde, 50)
+  await cron(falscheStunde, DIGEST_CRON, JETZT, berlinParts(JETZT).hour + 1)
+  pruefe(gesendet().length === 0, 'Digest-Trigger außerhalb der Sendestunde verschickt nichts')
 }
 
 /** wrangler.toml muss beide Ausdrücke wörtlich tragen, und die UTC-Stunden des Digests decken die Sendestunde in Sommer- und Winterzeit. */
@@ -195,8 +220,8 @@ fetchAttrappe(TAG)
 await grenzeJeAbonnentenzahl(db)
 await fehlerfaelle(db)
 await monitorSpeicher(neueDatenbank())
-fetchAttrappe(berlinParts(new Date()).iso)
 await triggerGetrennt()
+await montagsStatusmail()
 wranglerTrigger()
 
 if (fehler) {
