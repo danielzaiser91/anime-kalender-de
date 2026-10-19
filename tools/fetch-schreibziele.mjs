@@ -4,7 +4,7 @@
  * Ein Ziel, das sich so nicht auflösen lässt, steht als `?` mit Fundort in der Liste — die Vollständigkeitsprobe
  * (`tools/commit-data-test-verworfen.sh`) scheitert dann, statt es zu übersehen.
  *
- * Aufruf: node tools/fetch-schreibziele.mjs   → je Ziel eine Zeile `pfad<TAB>datei:zeile`
+ * Aufruf: node tools/fetch-schreibziele.mjs [start.ts]   → je Ziel eine Zeile `pfad<TAB>datei:zeile`
  */
 import { readFileSync } from 'node:fs'
 import { dirname, relative, resolve } from 'node:path'
@@ -48,10 +48,10 @@ function untersuche(datei) {
   return { ziele, module }
 }
 
-/** Alle Schreibziele von `pipeline/fetch.ts` samt der Module, die es (auch mittelbar) relativ einbindet. */
-function fetchSchreibziele() {
+/** Alle Schreibziele von `start` samt der Module, die es (auch mittelbar) relativ einbindet. */
+function fetchSchreibziele(start) {
   const gesehen = new Set()
-  const offen = [resolve(WURZEL, 'pipeline/fetch.ts')]
+  const offen = [resolve(start)]
   const ziele = []
   while (offen.length) {
     const datei = offen.pop()
@@ -64,4 +64,5 @@ function fetchSchreibziele() {
   return ziele
 }
 
-for (const z of fetchSchreibziele()) console.log(`${z.pfad}\t${z.ort}`)
+// Ein anderer Startpunkt (Argument) dient nur der Erkennungsprobe in commit-data-test-verworfen.sh.
+for (const z of fetchSchreibziele(process.argv[2] ?? resolve(WURZEL, 'pipeline/fetch.ts'))) console.log(`${z.pfad}\t${z.ort}`)

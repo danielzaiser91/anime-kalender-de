@@ -77,13 +77,28 @@ pruefe "Stand im Fernstand" "$ZURUECK" "$(verworfen_stand)"
 
 echo "Vollständig: jede Datei, die data:fetch im Repo schreibt (tools/fetch-schreibziele.mjs), bleibt im verworfenen Lauf"
 mapfile -t ALLE_QUELLEN < <(source "$WURZEL/tools/quellen-liste.sh" && printf '%s\n' "${QUELLEN[@]}")
-FETCH_ZIELE=()
-while IFS=$'\t' read -r pfad ort; do
-  [ "$pfad" = "?" ] && pruefe "Schreibziel an $ort ist ein fester Pfad" ja nein
-  for q in "${ALLE_QUELLEN[@]}"; do
-    case "$pfad" in "$q" | "$q"/*) FETCH_ZIELE+=("$pfad") && break ;; esac
-  done
-done < <(node "$WURZEL/tools/fetch-schreibziele.mjs")
+# Füllt FETCH_ZIELE (Ziele unter QUELLEN) und UNAUFGELOEST (Ziele ohne festen Pfad) aus dem Scanner, Argument: Startdatei.
+fetch_ziele_lesen() {
+  local pfad ort q
+  FETCH_ZIELE=()
+  UNAUFGELOEST=0
+  while IFS=$'\t' read -r pfad ort; do
+    [ "$pfad" = "?" ] && UNAUFGELOEST=$((UNAUFGELOEST + 1)) && echo "  Schreibziel ohne festen Pfad: $ort"
+    for q in "${ALLE_QUELLEN[@]}"; do
+      case "$pfad" in "$q" | "$q"/*) FETCH_ZIELE+=("$pfad") && break ;; esac
+    done
+  done < <(node "$WURZEL/tools/fetch-schreibziele.mjs" "$@")
+}
+# Erkennungsprobe: `let` und ein berechneter Pfad bleiben `?`, `const`, Text und eingebundenes Modul werden aufgelöst.
+mkdir -p "$ARBEIT/scan"
+printf '%s\n' "import './mod.ts'" "const A = 'data/tmdb.json'" "let B = 'data/curated-ids.json'" \
+  "writeJson(A, 1)" "writeJson(B, 1)" "writeFileSync(ziel(), '')" > "$ARBEIT/scan/fetch.ts"
+echo "writeJson('data/anisearch-cover.json', 1)" > "$ARBEIT/scan/mod.ts"
+fetch_ziele_lesen "$ARBEIT/scan/fetch.ts"
+pruefe "Probe: let und berechneter Pfad sind unaufgelöst" 2 "$UNAUFGELOEST"
+pruefe "Probe: const und eingebundenes Modul erkannt" "data/anisearch-cover.json data/tmdb.json" "$(printf '%s\n' "${FETCH_ZIELE[@]}" | sort | tr '\n' ' ' | sed 's/ $//')"
+fetch_ziele_lesen
+pruefe "jedes Schreibziel von fetch.ts ist ein fester Pfad" 0 "$UNAUFGELOEST"
 pruefe "erkannt: fester Text, const und eingebundenes Modul" 3 "$(printf '%s\n' "${FETCH_ZIELE[@]}" | grep -cxF -e data/curated-ids.json -e data/tmdb.json -e data/anisearch-cover.json)"
 fetch_ziele_schreiben() {
   local p
