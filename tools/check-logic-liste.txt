@@ -42,6 +42,7 @@ pipeline/check-bild-und-synchro.ts
 pipeline/check-bookworm-dublette.ts
 pipeline/check-cartoon-aufnahme-bau.ts
 pipeline/check-cartoon-aufnahme.ts
+pipeline/check-cartoon-belege-bau.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
@@ -84,6 +85,7 @@ pipeline/check-herkunftsland.ts
 pipeline/check-ics-folgen.ts
 pipeline/check-install-stellen.ts
 pipeline/check-invarianten.ts
+pipeline/check-ja-hat-weg.ts
 pipeline/check-jw-ablauf.ts
 pipeline/check-jw-auswahl.ts
 pipeline/check-jw-seite.ts

@@ -19,6 +19,7 @@ pipeline/check-folgenflaggen-bestand.ts
 pipeline/check-folgenzahl-kennzeichnung-bestand.ts
 pipeline/check-handlung-eigen-bestand.ts
 pipeline/check-herkunftsland-bestand.ts
+pipeline/check-ja-hat-weg-bestand.ts
 pipeline/check-jw-vertrauen-bestand.ts
 pipeline/check-kachel-buendel-bestand.ts
 pipeline/check-kalender-plausibilitaet-bestand.ts
