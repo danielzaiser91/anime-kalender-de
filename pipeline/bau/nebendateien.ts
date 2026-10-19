@@ -4,7 +4,7 @@ import { plattformAusAdresse } from '../../shared/adresse-passt.ts'
 import { hatAufnahmeBeleg } from '../lib/cartoon-aufnahme.ts'
 import { type CartoonEintrag, type JwAngebotTon, alsTitel, jwTonAnbieter, plattformVon, tonAnbieterNamen } from '../lib/cartoons.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
-import { type PlatformId, type Title, type Release, type Quelle } from '../../shared/types.ts'
+import { type Title, type Release, type Quelle } from '../../shared/types.ts'
 import { OUT, kinoFeld, mitAnkuendigung } from './grundlagen.ts'
 import { mitLaufzeit } from '../lib/anisearch-felder.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
@@ -25,6 +25,7 @@ import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
 import { setzeStaffeln, staffelnAusBelegen } from './cartoon-staffeln.ts'
 import { verteileWege } from './cartoon-wege.ts'
+import { wendeCartoonBelegeAn } from './cartoon-belege.ts'
 import { kennzeichneCartoonJwSeiten } from './cartoon-jw-seite.ts'
 import type { Staffel } from '../lib/jw-staffeln.ts'
 import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-titel.ts'
@@ -181,28 +182,7 @@ export function schreibeCartoons(): void {
   }
   if (jwAdressen) log(`${jwAdressen} Cartoon-Verweise mit Adresse von JustWatch`)
   const belege = loadDubChecks().filter((b) => b.anilistId < 0)
-  const nachId = new Map(titel.map((t) => [t.id, t]))
-  let belegt = 0
-  for (const b of belege) {
-    const t = nachId.get(b.anilistId)
-    if (!t) continue
-    if (b.available === false || b.dub === false) {
-      t.streams = t.streams.filter((s) => s.platform !== b.platform)
-      continue
-    }
-    if (b.dub !== true && !b.url) continue
-    let s = t.streams.find((x) => x.platform === b.platform)
-    if (!s) {
-      s = { platform: b.platform as PlatformId, url: '' }
-      t.streams.push(s)
-    }
-    if (b.url) s.url = b.url
-    if (b.dub === true) {
-      s.dub = true
-      if (b.dubRanges?.length) s.dubRanges = b.dubRanges
-      belegt++
-    }
-  }
+  const belegt = wendeCartoonBelegeAn(titel, belege)
   if (belegt) log(`${belegt} Cartoon-Verweise mit Handbeleg`)
   setzeTonHinweise(titel, jw, belege)
   const ungeprueft = setzeStaffeln(titel, roh, jw, staffelnAusBelegen(belege))

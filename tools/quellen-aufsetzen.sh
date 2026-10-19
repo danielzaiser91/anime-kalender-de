@@ -58,7 +58,10 @@ quellen_aufsetzen() {
       case "$datei" in
         data/dub-confirmed.yaml)
           if [ -e "$datei" ]; then
-            node tools/dub-belege-vereinen.mjs "$datei" "$rettung/files/$datei" || true
+            node tools/dub-belege-vereinen.mjs "$datei" "$rettung/files/$datei" || {
+              echo "FEHLER: dub-belege-vereinen ist gescheitert — eigene Belege wären verloren." >&2
+              return 1
+            }
           else
             cp "$rettung/files/$datei" "$datei"
           fi

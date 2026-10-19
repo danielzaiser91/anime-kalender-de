@@ -1,15 +1,47 @@
 {
-  "scrapedAt": "2026-10-19T05:03:42.454Z",
+  "scrapedAt": "2026-10-19T13:02:47.436Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
+    "schon in einem Rubrik-Feed gelesen": 6,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
-    "schon in einem Rubrik-Feed gelesen": 7,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt",
+      "articleUrl": "https://www.anime2you.de/news/1058725/zehn-lord-of-mysteries-minifiguren/",
+      "publishedAt": "2026-10-19",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-05",
+          "context": "Erste Bilder der Produkte findet ihr unten in diesem Artikel. Release im Mai 2027 Die neue »Blind Box«-Kollektion zu »Lord of Mysteries« umf"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Fünf Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "articleUrl": "https://www.anime2you.de/news/1062255/akiba-pass-isekai-onsen-paradise-und-mehr/",
+      "publishedAt": "2026-10-19",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-28",
+          "context": "xen der Anime-Klassiker »Lady Oscar« und »Eureka Seven«, die beide am 28. Januar 2027 durch KSM Anime erscheinen. Am selben Tag […] Der Be"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "»Lady Oscar« erscheint in einer neuen Blu-ray-Komplettbox",
       "articleUrl": "https://www.anime2you.de/news/1061740/lady-oscar-neue-blu-ray-komplettbox/",
