@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-19T14:35:18.419Z",
+ "erzeugtAm": "2026-10-19T16:48:33.182Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -780,10 +780,10 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 172,
-   "gesamt": 337,
+   "gemeldet": 173,
+   "gesamt": 338,
    "offen": 165,
-   "ohneSeite": 21,
+   "ohneSeite": 20,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
     {
