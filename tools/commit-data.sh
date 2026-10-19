@@ -185,9 +185,10 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   }
   # Verworfener Bau-Lauf: Jeder Schritt vor diesem (bestand-bauen.yml) schreibt aus dem verworfenen Stand — Meldungen, Bau,
   # Prüflisten, Prüfstand, Historie — oder aus Briefkästen, die erst nach dem Commit geleert werden. Nur `data:fetch` holt
-  # Eigenes (pipeline/fetch.ts); das bleibt, alles andere geht auf HEAD zurück. Bis 18.10.2026 nur Belege und Stempel,
+  # Eigenes (pipeline/fetch.ts, mit `holeAnisearchCover`); das bleibt, alles andere geht auf HEAD zurück. Bis 18.10.2026 nur Belege und Stempel,
   # die Listen daraus kamen trotzdem ins Repo (Lauf 39161629649: 95 Wiedervorlagen fehlten in Prüfliste und Prüfstand).
-  BAU_LAUF_BEHALTEN=(data/tmdb.json data/curated-ids.json)
+  # Vollständig gegen die Schreibziele von fetch.ts: tools/fetch-schreibziele.mjs, Probe in tools/commit-data-test-verworfen.sh.
+  BAU_LAUF_BEHALTEN=(data/tmdb.json data/curated-ids.json data/anisearch-cover.json)
   bau_lauf_zuruecknehmen() {
     local zeile datei
     while IFS= read -r zeile; do
@@ -196,6 +197,8 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       if git cat-file -e "HEAD:$datei" 2>/dev/null; then
         git checkout HEAD -- "$datei"
       else
+        # Auch aus dem Index: eine vorher gestagte neue Datei käme sonst mit dem Commit nach main.
+        git rm -q --cached --ignore-unmatch -- "$datei"
         rm -f "$datei"
       fi
     done < <(git -c status.renames=false status --porcelain -uall -- "${QUELLEN[@]}")
