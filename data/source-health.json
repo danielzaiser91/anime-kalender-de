@@ -5,14 +5,15 @@
     "lastCount": 12
   },
   "anime2you": {
-    "lastOk": "2026-10-19T09:03:35.995Z",
-    "lastRun": "2026-10-19T09:03:35.995Z",
+    "lastOk": "2026-10-19T10:03:33.505Z",
+    "lastRun": "2026-10-19T10:03:33.505Z",
     "lastCount": 49
   },
   "crunchyroll": {
     "lastOk": "2026-10-19T09:03:12.322Z",
-    "lastRun": "2026-10-19T09:03:12.322Z",
-    "lastCount": 12
+    "lastRun": "2026-10-19T10:03:10.716Z",
+    "lastCount": 0,
+    "lastError": "keine Kachel im Kalender gefunden"
   },
   "anisearch": {
     "lastOk": "2026-10-19T06:01:45.785Z",
@@ -145,8 +146,8 @@
     "lastCount": 15
   },
   "tv-programm": {
-    "lastOk": "2026-10-19T09:03:38.571Z",
-    "lastRun": "2026-10-19T09:03:38.571Z",
+    "lastOk": "2026-10-19T10:03:36.029Z",
+    "lastRun": "2026-10-19T10:03:36.029Z",
     "lastCount": 282
   },
   "tv-de": {
@@ -180,8 +181,8 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-10-19T09:03:20.029Z",
-    "lastRun": "2026-10-19T09:03:20.029Z",
+    "lastOk": "2026-10-19T10:03:17.474Z",
+    "lastRun": "2026-10-19T10:03:17.474Z",
     "lastCount": 58
   },
   "adn-news": {
@@ -190,8 +191,8 @@
     "lastCount": 75
   },
   "messbelege": {
-    "lastOk": "2026-10-19T09:03:37.400Z",
-    "lastRun": "2026-10-19T09:03:37.400Z",
+    "lastOk": "2026-10-19T10:03:34.741Z",
+    "lastRun": "2026-10-19T10:03:34.741Z",
     "lastCount": 0
   },
   "beleg-lesungen": {
