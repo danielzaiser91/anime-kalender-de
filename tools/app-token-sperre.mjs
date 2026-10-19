@@ -8,8 +8,6 @@
  *  2. In einem Token-Job gibt genau ein Schritt das Token weiter (jede Nennung von `steps.<id>` zählt, auch in Job-Outputs), in fester Form je Art.
  *  3. In der Aktion `einreichen` sieht nur der Schritt `pr` das Token, und er ruft genau `tools/quellen-pr.sh`; keine andere Aktion holt ein App-Token.
  */
-import { isDeepStrictEqual } from 'node:util'
-
 const APP_SCHRITT = 'actions/create-github-app-token@v3'
 const EINREICHEN = '.github/actions/einreichen'
 const SECRET_WERT = { 'app-id': '${{ secrets.DATEN_APP_ID }}', 'app-key': '${{ secrets.DATEN_APP_KEY }}', 'private-key': '${{ secrets.DATEN_APP_KEY }}' }
@@ -19,7 +17,6 @@ const SECRET_WERT = { 'app-id': '${{ secrets.DATEN_APP_ID }}', 'app-key': '${{ s
  *  - `checkout`: nur `actions/checkout` mit `token` (direkter Push auf main; der ganze Job ist Code von main und gilt als vertraut).
  *  - `daten-pr-mergen`: nur `bash tools/daten-pr-mergen.sh` (mergt nur App-PRs ohne Marke „[Prüfung rot]“).
  *  - `quellen-pr`: nur `tools/quellen-pr.sh` mit fester Nachricht, davor die Anmeldung für den Zweig-Push.
- *  - `pr-neustart`: nur `node tools/pr-nachrechnen.mjs` (schließt und öffnet offene PR neu); das App-Token steht nur in GH_TOKEN_SCHREIBEN, GH_TOKEN bleibt das Lese-Token.
  */
 export const TOKEN_JOBS = {
   'bestand-bauen.yml': { bauen: 'checkout' },
@@ -28,7 +25,6 @@ export const TOKEN_JOBS = {
   'claude-anime2you-extraktion.yml': { lesen: 'quellen-pr' },
   'claude-verpasst-recherche.yml': { recherchieren: 'quellen-pr' },
   'claude-wache-urteil.yml': { urteilen: 'quellen-pr' },
-  'pr-nachrechnen.yml': { nachrechnen: 'pr-neustart' },
 }
 
 const MERGEN_RUNS = ['bash tools/daten-pr-mergen.sh $NUMMERN', 'bash tools/daten-pr-mergen.sh ${NUMMERN//,/ }']
@@ -79,21 +75,8 @@ function pruefeSecrets(datei, doc) {
   return fehler
 }
 
-const NEUSTART_RUN = 'node tools/pr-nachrechnen.mjs'
-const NEUSTART_ENV = { GH_TOKEN: '${{ github.token }}' }
-
-/** Form des Weitergabe-Schritts der Art `pr-neustart`: feste env (Lese-Token github.token, App-Token nur in GH_TOKEN_SCHREIBEN) und feste Zeile. */
-function neustartFehler(s, ausdruck) {
-  const fehler = []
-  if (Object.keys(s).some((k) => !RUN_SCHLUESSEL.includes(k))) fehler.push(`nur die Schlüssel ${RUN_SCHLUESSEL.join(', ')}`)
-  if (!isDeepStrictEqual(s.env, { ...NEUSTART_ENV, GH_TOKEN_SCHREIBEN: ausdruck })) fehler.push(`env genau ${Object.keys(NEUSTART_ENV).join(', ')} und GH_TOKEN_SCHREIBEN ${ausdruck}`)
-  if (String(s.run ?? '').trim() !== NEUSTART_RUN) fehler.push(`run genau ${NEUSTART_RUN}`)
-  return fehler
-}
-
 /** Prüft die Form des einen Weitergabe-Schritts je Art; `ausdruck` ist `${{ steps.<id>.outputs.token }}`. */
 function formFehler(art, s, ausdruck) {
-  if (art === 'pr-neustart') return neustartFehler(s, ausdruck)
   if (art === 'checkout') {
     const ok = s.uses === 'actions/checkout@v4' && s.env === undefined && Object.keys(s.with ?? {}).every((k) => ['ref', 'token'].includes(k)) && s.with?.token === ausdruck
     return ok ? [] : ['nur actions/checkout@v4 mit with.token (und ref)']

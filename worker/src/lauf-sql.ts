@@ -76,7 +76,6 @@ export const LAUF_ARTEN = [
   'Crunchyroll — Weiche aus der Cloud messen',
   'PR-Prüfkette',
   'PR-Prüfer',
-  'PR-Kette nachrechnen',
   'Cache ablegen (für lokale Bauten)',
 ]
 
