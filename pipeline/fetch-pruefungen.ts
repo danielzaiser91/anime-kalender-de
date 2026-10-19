@@ -29,7 +29,7 @@ import {
 } from './lib/folgenbereiche.ts'
 import { ergaenzeUmEntfernte, mitEntfernten, staffelnMitAdresse } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
-import { adressKern, entdoppleBelege, loadDubChecks, neueBelegBloecke } from './lib/dub-confirmed.ts'
+import { adressKern, loadDubChecks, neueBelegBloecke, schreibeBelege } from './lib/dub-confirmed.ts'
 import { kanalJaAdressKerne, kanalOhneAussage } from './lib/kanal-titel.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
@@ -1302,7 +1302,7 @@ if (zeilen.length && !TROCKEN) {
       `Die erzeugten Zeilen ergeben kein gültiges YAML — nichts geschrieben. ${(e as Error).message}`,
     )
   }
-  if (neueZeilen.some((z) => z.startsWith('- '))) writeFileSync(p, entdoppleBelege(neu, warn))
+  if (neueZeilen.some((z) => z.startsWith('- '))) schreibeBelege(p, neu, warn)
 }
 
 if (!TROCKEN) schreibeMeldungenListe(ohneZuordnung, liste, heute)

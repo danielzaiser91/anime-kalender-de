@@ -105,6 +105,7 @@ pipeline/check-kanal-abgehakt.ts
 pipeline/check-kanal-aussortieren.ts
 pipeline/check-kanal-erbt.ts
 pipeline/check-kanal-je-seite.ts
+pipeline/check-kanal-merkliste.ts
 pipeline/check-kanal-messung.ts
 pipeline/check-kanal-verlust.ts
 pipeline/check-katalog-eingefroren.ts

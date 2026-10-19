@@ -21,6 +21,7 @@ import { warn } from './util.ts'
 import { loadCurated } from './curated.ts'
 import { dubChecksAusTerminen } from './dub-aus-terminen.ts'
 import { ohneKanalSprache } from './kanal-titel.ts'
+export { schreibeBelege } from './kanal-merkliste.ts'
 
 export interface DubCheck {
   anilistId: number
