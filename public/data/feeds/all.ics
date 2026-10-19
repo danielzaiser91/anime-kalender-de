@@ -50,41 +50,41 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-12#30@anime-kalender-de
+UID:auto-10012621-tv-super-rtl@2026-10-12#7@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T075000Z
 DTEND:20261012T082000Z
-SUMMARY:Super Wings – Folge 30/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/18191/
 CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-12#28@anime-kalender-de
+UID:auto-10012621-tv-super-rtl@2026-10-12#8@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T080000Z
 DTEND:20261012T083000Z
-SUMMARY:Super Wings – Folge 28/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/18191/
 CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-12#30@anime-kalender-de
+UID:auto-10012621-tv-toggo-plus@2026-10-12#7@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T085000Z
 DTEND:20261012T092000Z
-SUMMARY:Super Wings – Folge 30/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/18191/
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-12#28@anime-kalender-de
+UID:auto-10012621-tv-toggo-plus@2026-10-12#8@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T090000Z
 DTEND:20261012T093000Z
-SUMMARY:Super Wings – Folge 28/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/18191/
 CATEGORIES:TOGGO plus
@@ -184,7 +184,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T191500Z
 DTEND:20261012T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 13/17
+SUMMARY:Pokémon Reisen: Die Serie – Folge 13/18
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -220,41 +220,41 @@ DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
 CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-13#38@anime-kalender-de
+UID:auto-10012621-tv-super-rtl@2026-10-13#9@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T075000Z
 DTEND:20261013T082000Z
-SUMMARY:Super Wings – Folge 38/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/18191/
 CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-13#29@anime-kalender-de
+UID:auto-10012621-tv-super-rtl@2026-10-13#10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T080000Z
 DTEND:20261013T083000Z
-SUMMARY:Super Wings – Folge 29/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/18191/
 CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-13#38@anime-kalender-de
+UID:auto-10012621-tv-toggo-plus@2026-10-13#9@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T085000Z
 DTEND:20261013T092000Z
-SUMMARY:Super Wings – Folge 38/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/18191/
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-13#29@anime-kalender-de
+UID:auto-10012621-tv-toggo-plus@2026-10-13#10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T090000Z
 DTEND:20261013T093000Z
-SUMMARY:Super Wings – Folge 29/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/18191/
 CATEGORIES:TOGGO plus
@@ -344,7 +344,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T191500Z
 DTEND:20261013T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 14/17
+SUMMARY:Pokémon Reisen: Die Serie – Folge 14/18
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -362,41 +362,41 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-14#34@anime-kalender-de
+UID:auto-10012621-tv-super-rtl@2026-10-14#11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T075000Z
 DTEND:20261014T082000Z
-SUMMARY:Super Wings – Folge 34/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/18191/
 CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-14#37@anime-kalender-de
+UID:auto-10012621-tv-super-rtl@2026-10-14#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T080000Z
 DTEND:20261014T083000Z
-SUMMARY:Super Wings – Folge 37/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/18191/
 CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-14#34@anime-kalender-de
+UID:auto-10012621-tv-toggo-plus@2026-10-14#11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T085000Z
 DTEND:20261014T092000Z
-SUMMARY:Super Wings – Folge 34/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/18191/
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-14#37@anime-kalender-de
+UID:auto-10012621-tv-toggo-plus@2026-10-14#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T090000Z
 DTEND:20261014T093000Z
-SUMMARY:Super Wings – Folge 37/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/18191/
 CATEGORIES:TOGGO plus
@@ -516,7 +516,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T191500Z
 DTEND:20261014T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 15/17
+SUMMARY:Pokémon Reisen: Die Serie – Folge 15/18
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -534,41 +534,41 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-15#35@anime-kalender-de
+UID:auto-10012621-tv-super-rtl@2026-10-15#13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T075000Z
 DTEND:20261015T082000Z
-SUMMARY:Super Wings – Folge 35/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/18191/
 CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-15#36@anime-kalender-de
+UID:auto-10012621-tv-super-rtl@2026-10-15#14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T080000Z
 DTEND:20261015T083000Z
-SUMMARY:Super Wings – Folge 36/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/18191/
 CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-15#35@anime-kalender-de
+UID:auto-10012621-tv-toggo-plus@2026-10-15#13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T085000Z
 DTEND:20261015T092000Z
-SUMMARY:Super Wings – Folge 35/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/18191/
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-15#36@anime-kalender-de
+UID:auto-10012621-tv-toggo-plus@2026-10-15#14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T090000Z
 DTEND:20261015T093000Z
-SUMMARY:Super Wings – Folge 36/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/18191/
 CATEGORIES:TOGGO plus
@@ -658,7 +658,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T191500Z
 DTEND:20261015T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 16/17
+SUMMARY:Pokémon Reisen: Die Serie – Folge 16/18
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -695,11 +695,11 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Film\nUhrzeit noch nicht b
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-16#39@anime-kalender-de
+UID:auto-10012621-tv-super-rtl@2026-10-16#15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T075000Z
 DTEND:20261016T082000Z
-SUMMARY:Super Wings – Folge 39/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/18191/
 CATEGORIES:Super RTL
@@ -717,21 +717,21 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-16#40@anime-kalender-de
+UID:auto-10012621-tv-super-rtl@2026-10-16#16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T080000Z
 DTEND:20261016T083000Z
-SUMMARY:Super Wings – Folge 40/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/18191/
 CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-16#39@anime-kalender-de
+UID:auto-10012621-tv-toggo-plus@2026-10-16#15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T085000Z
 DTEND:20261016T092000Z
-SUMMARY:Super Wings – Folge 39/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/18191/
 CATEGORIES:TOGGO plus
@@ -748,11 +748,11 @@ DESCRIPTION:Plattform: Paramount+\nRelease-Art: Wöchentlich (Simuldub)\nUh
 CATEGORIES:Paramount+
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-16#40@anime-kalender-de
+UID:auto-10012621-tv-toggo-plus@2026-10-16#16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T090000Z
 DTEND:20261016T093000Z
-SUMMARY:Super Wings – Folge 40/40
+SUMMARY:Super Wings
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/18191/
 CATEGORIES:TOGGO plus
@@ -865,7 +865,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T191500Z
 DTEND:20261016T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 17/17
+SUMMARY:Pokémon Reisen: Die Serie – Folge 17/18
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -950,6 +950,16 @@ SUMMARY:Yashahime: Princess Half-Demon – Staffel 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12763/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-165159-rtlplus-staffel-3@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261016
+DTEND;VALUE=DATE:20261017
+SUMMARY:Beyblade X Staffel 3 – Folge 121/121
+DESCRIPTION:Plattform: RTL+\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit 
+ noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/15075/
+CATEGORIES:RTL+
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-17#15@anime-kalender-de
@@ -1195,6 +1205,36 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-10012621-tv-super-rtl@2026-10-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T075000Z
+DTEND:20261019T082000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/18191/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-toggo-plus@2026-10-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T085000Z
+DTEND:20261019T092000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/18191/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-10-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T140500Z
+DTEND:20261019T143500Z
+SUMMARY:Pokémon Horizonte – Folge 12/131
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T144500Z
@@ -1203,6 +1243,16 @@ SUMMARY:Yashahime: Princess Half-Demon
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/11570/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-10-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T150500Z
+DTEND:20261019T153500Z
+SUMMARY:Pokémon Horizonte – Folge 12/131
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-19#32@anime-kalender-de
@@ -1263,6 +1313,16 @@ SUMMARY:Hell’s Paradise – Folge 5/8
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T191500Z
+DTEND:20261019T194500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 18/18
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-128893-tv-prosieben-fun@2026-10-19#6@anime-kalender-de
@@ -1377,6 +1437,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-10-21#16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261021T140000Z
+DTEND:20261021T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 16–1
+ 7/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16757/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T144500Z
@@ -1446,18 +1517,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
   oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
  6348/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GRGG9798R@2026-10-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261022T140000Z
-DTEND:20261022T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 16/19
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 6757/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1765,10 +1824,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261024T093000Z
 DTEND:20261024T100000Z
 SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 23/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 5570/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/15570/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1790,10 +1847,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261024T160000Z
 DTEND:20261024T163000Z
 SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 6797/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16797/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1857,10 +1912,8 @@ DTSTART:20261025T150000Z
 DTEND:20261025T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 4/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 6547/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1882,10 +1935,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261025T153000Z
 DTEND:20261025T160000Z
 SUMMARY:Overgeared Staffel 1 – Folge 5/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 7645/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -2043,6 +2094,18 @@ DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nOmU: Originalton mit deutsc
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-10-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261028T150000Z
+DTEND:20261028T153000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 18/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
+  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
+ 6757/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1318@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261029T080000Z
@@ -2052,18 +2115,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
  em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
  s://anime-kalender.de/t/4943/
 CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GRGG9798R@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T150000Z
-DTEND:20261029T153000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 17/19
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 6757/
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-30@anime-kalender-de
@@ -2306,11 +2357,11 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GRGG9798R@2026-11-05@anime-kalender-de
+UID:cr-GRGG9798R@2026-11-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261105T150000Z
-DTEND:20261105T153000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 18/19
+DTSTART:20261104T150000Z
+DTEND:20261104T153000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 19/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
   oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
@@ -2678,18 +2729,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  mus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/
  t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GRGG9798R@2026-11-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261112T150000Z
-DTEND:20261112T153000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 19/19
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 6757/
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-12@anime-kalender-de
@@ -3165,6 +3204,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  mus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/
  t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:good-luck-girl-vol-1-2026-11-20@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Good Luck Girl! – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/5901/
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:sailor-moon-r-2026-11-06@2026-11-20@anime-kalender-de
@@ -5049,6 +5098,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:spice-and-wolf-2024-vol4@2027-01-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 4 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:jujutsu-kaisen-hidden-inventory-premature-death-blu-ray@2027-01-15@anim
  e-kalender-de
 DTSTAMP:20200101T000000Z
@@ -5452,11 +5511,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:good-luck-girl-vol-1-2026-11-20@2027-02-05@anime-kalender-de
+UID:good-luck-girl-vol-2-2027-02-05@2027-02-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270205
 DTEND;VALUE=DATE:20270206
-SUMMARY:Good Luck Girl! – Vol. 1 (Disc)
+SUMMARY:Good Luck Girl! – Vol. 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/5901/
 CATEGORIES:DVD / Blu-ray
@@ -5650,16 +5709,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:spice-and-wolf-2024-vol4@2027-02-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270219
-DTEND;VALUE=DATE:20270220
-SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 4 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270222T175000Z
@@ -5780,16 +5829,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:good-luck-girl-vol-2-2027-02-05@2027-03-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270305
-DTEND;VALUE=DATE:20270306
-SUMMARY:Good Luck Girl! – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/5901/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:afro-samurai-steelbook@2027-03-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270305
@@ -5797,6 +5836,16 @@ DTEND;VALUE=DATE:20270306
 SUMMARY:Afro Samurai + Afro Samurai Resurrection (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1140/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:kaiju-no8-s2-komplettbox@2027-03-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270305
+DTEND;VALUE=DATE:20270306
+SUMMARY:Kaiju No. 8 – Staffel 2 – Komplettbox (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16005/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -5949,16 +5998,6 @@ DTEND;VALUE=DATE:20270508
 SUMMARY:Jujutsu Kaisen (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/10969/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:kaiju-no8-s2-komplettbox@2027-05-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270507
-DTEND;VALUE=DATE:20270508
-SUMMARY:Kaiju No. 8 – Staffel 2 – Komplettbox (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16005/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
