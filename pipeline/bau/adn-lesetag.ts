@@ -5,7 +5,7 @@
  */
 import type { Quelle, Release } from '../../shared/types.ts'
 import { toIsoDate } from '../../shared/time.ts'
-import type { AdnData } from '../lib/adn.ts'
+import type { AdnData, AdnShow } from '../lib/adn.ts'
 import { readJson } from '../lib/util.ts'
 import { ADN_CALENDAR_URL, adnKatalogShow } from './grundlagen.ts'
 
@@ -23,19 +23,30 @@ function tagVon(iso: string | undefined): string | undefined {
 }
 
 /**
+ * Stammt das Datum des Termins aus diesem Abruf? Nur dann darf der Beleg es als Messung zeigen: ein kuratierter Termin mit
+ * Kalender-Adresse kann sein Datum aus einem Artikel haben (Prüfer 1598 R3). Die Uhrzeit zählt mit, wenn der Beleg sie zeigt.
+ */
+function datumImAbruf(show: AdnShow | undefined, release: Release): boolean {
+  const s = release.schedule
+  const zeit = s?.time && !s.estimated ? s.time : undefined
+  return Boolean(show?.episodes.some((e) => e.date === s?.firstEpisodeDate && (!zeit || e.time === zeit)))
+}
+
+/**
  * Kalender: der Abruf von `adn.json`, nur für Serien, die darin stehen. Katalog: der jüngere von Serienabruf (`adn-katalog-stand.json`)
- * und Katalogdatei (`--refresh` holt alle Serien neu, ohne den Serienstand zu setzen). Sonst kein Tag — dann zeigt der Beleg keine Messung.
+ * und Katalogdatei (`--refresh` holt alle Serien neu, ohne den Serienstand zu setzen). Beide nur, wenn das Datum des Termins im Abruf
+ * steht (`datumImAbruf`). Sonst kein Tag — dann zeigt der Beleg keine Messung.
  */
 export function adnLesetage(kalender: AdnData, katalog: AdnData, stand: Record<string, string>): Lesetag {
-  const imKalender = new Set(kalender.shows.map((s) => s.showId))
-  const imKatalog = new Set(katalog.shows.map((s) => s.showId))
+  const imKalender = new Map(kalender.shows.map((s) => [s.showId, s]))
+  const imKatalog = new Map(katalog.shows.map((s) => [s.showId, s]))
   return (release, url) => {
     if (url === ADN_CALENDAR_URL) {
       const show = showVon(release)
-      return show !== undefined && imKalender.has(show) ? tagVon(kalender.scrapedAt) : undefined
+      return show !== undefined && datumImAbruf(imKalender.get(show), release) ? tagVon(kalender.scrapedAt) : undefined
     }
     const show = adnKatalogShow(url)
-    if (show === undefined || !imKatalog.has(show)) return undefined
+    if (show === undefined || !datumImAbruf(imKatalog.get(show), release)) return undefined
     const tage = [tagVon(stand[String(show)]), tagVon(katalog.scrapedAt)].filter((t): t is string => Boolean(t))
     return tage.sort().at(-1)
   }

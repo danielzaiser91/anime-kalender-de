@@ -25,7 +25,8 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 }
 
 const KALENDER = 'https://gw.api.animationdigitalnetwork.com/video/calendar'
-const show = (showId: number): AdnShow => ({ showId, title: `Erfunden ${showId}`, url: '', episodes: [], batch: true })
+/** Jede erfundene Serie führt eine Folge am Datum der Termine unten (29.10., 09:00) und eine Woche davor. */
+const show = (showId: number): AdnShow => ({ showId, title: `Erfunden ${showId}`, url: '', episodes: [{ date: '2026-10-22', time: '09:00', url: '' }, { date: '2026-10-29', time: '09:00', url: '' }], batch: true })
 const daten = (scrapedAt: string, ...ids: number[]) => ({ scrapedAt, window: { from: '', to: '' }, shows: ids.map(show) })
 const mitFolge = (showId: number, title: string, date: string): AdnShow => ({
   ...show(showId),
@@ -73,6 +74,17 @@ try {
   const ohneFolge = { ...release(902, []), platformUrl: undefined } as Release
   pruefe('Termin ohne Folgen-Adresse: kein Tag', tag(ohneFolge, KALENDER) === undefined)
 
+  console.log('\nLesetag nur, wenn das Datum des Termins im Abruf steht (Prüfer 1598 R3)')
+  const plan = (r: Release, s: Partial<Release['schedule']>) => ({ ...r, schedule: { ...r.schedule, ...s } }) as Release
+  const anderer = (id: number) => plan(release(id, []), { firstEpisodeDate: '2026-11-05' })
+  pruefe('Kalender-Serie, Termin mit anderem Datum (etwa aus einem Artikel): kein Tag', tag(anderer(902), KALENDER) === undefined, tag(anderer(902), KALENDER))
+  pruefe('Katalog-Serie, Termin mit anderem Datum: kein Tag', tag(anderer(912), adnKatalogUrl(912)) === undefined, tag(anderer(912), adnKatalogUrl(912)))
+  const ohneDatum = plan(release(902, []), { firstEpisodeDate: undefined })
+  pruefe('Termin ohne Datum: kein Tag', tag(ohneDatum, KALENDER) === undefined && tag(ohneDatum, adnKatalogUrl(912)) === undefined)
+  pruefe('gezeigte Uhrzeit wie im Abruf: Tag', tag(plan(release(902, []), { time: '09:00' }), KALENDER) === '2026-10-19')
+  pruefe('gezeigte Uhrzeit anders als im Abruf: kein Tag', tag(plan(release(902, []), { time: '18:00' }), KALENDER) === undefined && tag(plan(release(912, []), { time: '18:00' }), adnKatalogUrl(912)) === undefined)
+  pruefe('geschätzte Uhrzeit steht nicht im Beleg und zählt nicht', tag(plan(release(902, []), { time: '18:00', estimated: true }), KALENDER) === '2026-10-19')
+
   const quellen: Quelle[] = [
     { url: 'https://www.anime2you.de/news/1/x/', name: 'anime2you.de', gesehenAm: '2026-10-01' },
     { url: KALENDER, name: 'ADN API', gesehenAm: '2026-10-01' },
@@ -99,9 +111,12 @@ try {
   const { ergaenzeAdnTitel } = await import('./bau/07-adn.ts')
   const { titles, titleByName } = titelZu([[904, 'Erfunden Kalender'], [914, 'Erfunden Katalog']])
   const gebaut: Release[] = []
-  ergaenzeAdnTitel({ titles, releases: gebaut, titleByName, seenSlugs: new Set() })
-  quellenPflegen([kal, kat, nachbar, ...gebaut])
+  ergaenzeAdnTitel({ titles, releases: gebaut, titleByName, seenSlugs: new Set([kal, kat, nachbar].map((r) => r.slug)) })
+  /* Wie die kuratierten Bleach-Filme: Kalender-Adresse in `sources`, Datum aber aus der Handdatei. */
+  const kuratiert = { ...plan(release(903, [KALENDER]), { firstEpisodeDate: '2026-11-05' }), slug: 'erfunden-903-adn' } as Release
+  quellenPflegen([kal, kuratiert, kat, nachbar, ...gebaut])
   const api = (r: Release | undefined) => r?.quellen?.find((q) => q.stand === 'aktuell')
+  pruefe('kuratierter Termin, dessen Datum nicht im Kalender steht: kein Lesetag', Boolean(api(kuratiert)) && api(kuratiert)?.gelesenAm === undefined, kuratiert.quellen)
   pruefe('Kalender-Termin: Erstsichtung 01.10. bleibt, Lesetag 19.10.', api(kal)?.gesehenAm === '2026-10-01' && api(kal)?.gelesenAm === '2026-10-19', kal.quellen)
   pruefe('Katalog-Termin: Lesetag aus dem Serienabruf', api(kat)?.gelesenAm === '2026-10-15', kat.quellen)
   pruefe('Katalog-Termin ohne jüngeren Serienabruf: Lesetag aus dem Katalogabruf', api(nachbar)?.gelesenAm === '2026-10-12', nachbar.quellen)
