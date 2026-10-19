@@ -4,6 +4,7 @@ import { FSK_COLORS, PLATFORMS, RELEASE_TYPES, anbieterName } from '@shared/type
 import type { Fsk, PlatformId, ReleaseStatus, ReleaseType } from '@shared/types.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { plakettenStil } from '../lib/kontrast.ts'
+import { sichtbareBreite } from '../lib/sichtbare-breite.ts'
 import { TIPPFLAECHE, TREFFER_24, TREFFER_24_MIN } from './detail/tippziel.ts'
 import { PILLE_JA, PILLE_NEIN } from './filter/pille-zustand.ts'
 import { fokusZeigtBlase, useEinzigeBlase } from './tooltip-einzeln.ts'
@@ -643,7 +644,7 @@ export function Tooltip({
     // Waagrecht mittig über dem Anker, aber nie über den Fensterrand hinaus.
     const left = Math.min(
       Math.max(a.left + a.width / 2 - b.width / 2, rand),
-      Math.max(rand, window.innerWidth - b.width - rand),
+      Math.max(rand, sichtbareBreite() - b.width - rand),
     )
     // Senkrecht bevorzugt auf der gewünschten Seite — und **immer im Bild** (Daniel, 29.09.2026:
     // „wird außerhalb des sichtbaren bereichs weiter unten angezeigt … das ist ein bug").

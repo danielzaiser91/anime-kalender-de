@@ -10,7 +10,7 @@
  */
 import { appendFileSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
-import { schluesselAusProtokoll, markerFuer, offenesIssue, laufNummern, offenePrs } from './untersucher-logik.mjs'
+import { schluesselAusProtokoll, markerFuer, offenesIssue, laufNummern, offenePrs, liegengebliebenePrs, PR_FRIST_MS } from './untersucher-logik.mjs'
 
 const [lauf, ...optionen] = process.argv.slice(2)
 const trocken = optionen.includes('--trocken')
@@ -60,15 +60,18 @@ if (!vorhanden) {
 
 const issue = ghJson('issue', 'view', String(vorhanden), '--repo', repo, '--json', 'body,comments')
 const laeufe = laufNummern([issue.body, ...issue.comments.map((c) => c.body)])
-const prs = ghJson('pr', 'list', '--repo', repo, '--state', 'open', '--limit', '100', '--json', 'number,title,body')
-const offen = offenePrs(prs, vorhanden, laeufe)
+const prs = ghJson('pr', 'list', '--repo', repo, '--state', 'open', '--limit', '100', '--json', 'number,title,body,createdAt')
+const offen = offenePrs(prs, vorhanden, laeufe, Date.now())
+const liegen = liegengebliebenePrs(prs, vorhanden, laeufe, Date.now())
 const kommentar = `Derselbe Fehler (Schlüssel ${schluessel}) im Lauf ${lauf}: ${laufUrl}`
 kommentiere('issue', vorhanden, kommentar)
-for (const pr of offen) kommentiere('pr', pr, kommentar)
+for (const pr of [...offen, ...liegen]) kommentiere('pr', pr, kommentar)
 
 if (offen.length) {
-  melde({ schluessel, issue: vorhanden, claude: 'nein', hinweis: '' })
+  const grund = `Kein Untersucher: PR #${offen.join(', #')} behandelt den Fehler schon, der Bau ist weiter rot.`
+  melde({ schluessel, issue: vorhanden, claude: 'nein', hinweis: '', grund })
 } else {
-  const hinweis = `Für diesen Fehler steht schon das Issue #${vorhanden} (Schlüssel ${schluessel}, kein offener Pull Request); lege kein weiteres Issue an, schreibe deinen Befund als Kommentar in #${vorhanden} und nenne es im Pull Request als „Behebt #${vorhanden}“.`
+  const alt = liegen.length ? `PR #${liegen.join(', #')} steht seit über ${PR_FRIST_MS / 3600000} Stunden offen und hat den Bau nicht repariert; prüfe, ob er die Ursache trifft, und führe ihn sonst mit eigener Reparatur weiter` : 'kein offener Pull Request'
+  const hinweis = `Für diesen Fehler steht schon das Issue #${vorhanden} (Schlüssel ${schluessel}, ${alt}); lege kein weiteres Issue an, schreibe deinen Befund als Kommentar in #${vorhanden} und nenne es im Pull Request als „Behebt #${vorhanden}“.`
   melde({ schluessel, issue: vorhanden, claude: 'ja', hinweis })
 }

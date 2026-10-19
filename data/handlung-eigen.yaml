@@ -109,19 +109,6 @@
     - name: aniSearch
       url: https://www.anisearch.de/anime/20864
 
-- id: 206814 # Dragon Ball Super: Beerus (2026, TV)
-  umfang: titel
-  lizenz: CC BY-SA 4.0
-  text: >-
-    Überarbeitete Neufassung der Anime-Serie „Dragon Ball Super“, die Toei Animation zum 70-jährigen Bestehen des Studios herstellt: Die Erzählung ist neu aufgebaut, die Animation aktualisiert. Start in Japan war am 11. Oktober 2026 bei Fuji Television. Die ursprüngliche Serie beginnt damit, dass der Zerstörungsgott Beerus nach Jahrzehnten aus dem Schlaf erwacht und mit seinem Lehrmeister Whis nach einem Super-Saiyajin-Gott sucht.
-  quellen:
-    - name: Wikipedia (EN)
-      url: https://en.wikipedia.org/wiki/Dragon_Ball_Super:_Beerus
-    - name: Wikipedia (DE)
-      url: https://de.wikipedia.org/wiki/Dragon_Ball_Super
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/21566
-
 - id: 102501 # Shaolin Wuzang (2006, TV, 26 Folgen)
   umfang: titel
   lizenz: CC BY-SA 4.0

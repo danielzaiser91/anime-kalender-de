@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { loadJson } from '../../lib/data.ts'
 import { Tooltip } from '../ui.tsx'
 import { DeFlaggeZeichen } from '../de-flagge.tsx'
+import { folgeIstDeutsch } from './stream-bereiche.ts'
 
 /**
  * **Die Folgenliste im Antwortkasten** (Daniel, 04.10.2026): Ein Pfeil klappt sie auf, der Kasten wächst mit,
@@ -55,7 +56,7 @@ export function useFolgenZaehlung(titleId: number): [number, number] | undefined
 }
 
 /** `laufzeitImKopf`: Die Laufzeit steht schon im Kopf des Panels — dann nicht noch einmal (mit anderem Wert) im Kasten. */
-export function FolgenBereich({ titleId, erschienen, laufzeitImKopf }: { titleId: number; erschienen?: number; laufzeitImKopf?: boolean }) {
+export function FolgenBereich({ titleId, wege, erschienen, laufzeitImKopf }: { titleId: number; wege: { from: number; to: number }[]; erschienen?: number; laufzeitImKopf?: boolean }) {
   const [gibtEs, setGibtEs] = useState(false)
   const [offen, setOffen] = useState(false)
   const [liste, setListe] = useState<Liste>()
@@ -84,7 +85,7 @@ export function FolgenBereich({ titleId, erschienen, laufzeitImKopf }: { titleId
   const pakete = folgen ? Math.ceil(folgen.length / PAKET) : 0
   const sichtbar = folgen?.slice(paket * PAKET, paket * PAKET + PAKET) ?? []
   const ohneTitel = folgen !== undefined && folgen.length > 0 && folgen.every(([, titel]) => !titel)
-  const deutsch = (nr: number) => liste?.de.some(([von, bis]) => nr >= von && nr <= bis) ?? false
+  const deutsch = (nr: number) => folgeIstDeutsch(nr, liste?.de ?? [], wege)
   return (
     <div className="mt-2 border-t border-slate-300 pt-1.5 text-t4 text-slate-700 dark:border-white/10 dark:text-slate-200">
       <button type="button" onClick={() => setOffen((o) => !o)} aria-expanded={offen} className="flex min-h-11 w-full cursor-pointer items-center gap-1.5 text-left text-t3 font-semibold">

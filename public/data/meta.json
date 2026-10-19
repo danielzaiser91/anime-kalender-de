@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-17T19:05:54.204Z",
+  "generatedAt": "2026-10-19T04:27:46.696Z",
   "titleCount": 2922,
-  "belegtCount": 2585,
-  "releaseCount": 787,
-  "eventCount": 3898,
+  "belegtCount": 2586,
+  "releaseCount": 790,
+  "eventCount": 3912,
   "genres": [
     "Action",
     "Adventure",
@@ -263,7 +263,7 @@
     2016,
     2015
   ],
-  "patchnotesStand": "2026-10-17",
+  "patchnotesStand": "2026-10-18",
   "attribution": [
     "Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0",
     "Metadaten: AniList (https://anilist.co)",

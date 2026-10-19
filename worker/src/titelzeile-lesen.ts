@@ -71,19 +71,25 @@ export async function allePruefungen(env: Env, nach: number): Promise<Seite> {
 const OFFEN_SPALTEN = `id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
                 serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung, titel_id, folge`
 
-/** Die offenen Meldungen für den Bau: die ältesten 500, aus `pruefung` und den Titelzeilen zusammen. */
+/**
+ * Fenster der offenen Meldungen je Bau (18.10.2026: 500 → 5000, wie `SEITE`). Mit 500 füllten 499 liegende Meldungen auf 38
+ * Adressen das Fenster vom 12. bis 16.10.2026, und keine neue kam mehr an; 5000 Zeilen sind gemessen 4,5 MB Antwort.
+ */
+export const OFFEN_FENSTER = 5000
+
+/** Die offenen Meldungen für den Bau: die ältesten `OFFEN_FENSTER`, aus `pruefung` und den Titelzeilen zusammen. */
 export async function offenePruefungen(env: Env, plattform: string | null): Promise<unknown[]> {
   const je = plattform ? ' AND plattform = ?1' : ''
   const binde = (sql: string) => (plattform ? env.DB.prepare(sql).bind(plattform) : env.DB.prepare(sql))
   const { results: alt } = await binde(
-    `SELECT ${OFFEN_SPALTEN} FROM pruefung WHERE uebernommen = 0${je} AND ${NICHT_VERDRAENGT} ORDER BY gemeldet_am LIMIT 500`,
+    `SELECT ${OFFEN_SPALTEN} FROM pruefung WHERE uebernommen = 0${je} AND ${NICHT_VERDRAENGT} ORDER BY gemeldet_am LIMIT ${OFFEN_FENSTER}`,
   ).all<{ gemeldet_am: string }>()
   const { results: titel } = await binde(
     `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz,
             NULL AS teil_von, NULL AS teil_bis, gemeldet_am, NULL AS seiten_kennung, titel_id, folge
-       FROM pruefung_titel WHERE offen_meldung > 0 AND uebernommen = 0${je} ORDER BY gemeldet_am LIMIT 500`,
+       FROM pruefung_titel WHERE offen_meldung > 0 AND uebernommen = 0${je} ORDER BY gemeldet_am LIMIT ${OFFEN_FENSTER}`,
   ).all<{ gemeldet_am: string }>()
-  return [...(alt ?? []), ...(titel ?? [])].sort((a, b) => (a.gemeldet_am < b.gemeldet_am ? -1 : a.gemeldet_am > b.gemeldet_am ? 1 : 0)).slice(0, 500)
+  return [...(alt ?? []), ...(titel ?? [])].sort((a, b) => (a.gemeldet_am < b.gemeldet_am ? -1 : a.gemeldet_am > b.gemeldet_am ? 1 : 0)).slice(0, OFFEN_FENSTER)
 }
 
 type Folge = { plattform: string; url: string; folge_nr: number | null; staffel: number | null }

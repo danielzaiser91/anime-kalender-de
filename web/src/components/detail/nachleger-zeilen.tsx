@@ -9,8 +9,9 @@ import type { berechneAntwort } from './antwort-berechnen.ts'
 const MIT_NACHLEGERN = ['fertig', 'laeuft', 'teilweise']
 
 /** Die Zeilen unter dem Antwortkasten-Kopf, direkt über der Folgenliste (`folgen`-Platz des Kastens). */
-export function FolgenMitNachlegern({ titleId, antwort, releases, today, laufzeitImKopf }: {
+export function FolgenMitNachlegern({ titleId, wege, antwort, releases, today, laufzeitImKopf }: {
   titleId: number
+  wege: { from: number; to: number }[]
   laufzeitImKopf?: boolean
   antwort: ReturnType<typeof berechneAntwort>
   releases: Release[]
@@ -24,7 +25,7 @@ export function FolgenMitNachlegern({ titleId, antwort, releases, today, laufzei
           {nachlegerText(n)}
         </p>
       ))}
-      <FolgenBereich titleId={titleId} erschienen={erschieneneFuerFolgenliste(antwort)} laufzeitImKopf={laufzeitImKopf} />
+      <FolgenBereich titleId={titleId} wege={wege} erschienen={erschieneneFuerFolgenliste(antwort)} laufzeitImKopf={laufzeitImKopf} />
     </>
   )
 }
