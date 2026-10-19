@@ -102,6 +102,12 @@ async function pruefeSchreibweg(): Promise<void> {
   const andererTitel = { anilistId: 9332, platform: 'primevideo', url: dp('B0ADRESSEB'), note: 'Amazon-Seite B0GEMEINSAM — ACHTUNG: Kanal-Titel', dub: true } as never
   const gesamt = mitMerkliste([andererTitel], [fremd])
   pruefe('Merkliste: der Handbeleg eines fremden Titels derselben Seite deckt den Eintrag nicht', gesamt.length === 2, gesamt)
+  const eigene = { anilistId: 9331, platform: 'primevideo', url: dp('B0ADRESSEA'), note: 'Amazon-Seite B0GEMEINSAM: Tonspuren English' } as never
+  const nein = { ...(eigene as object), dub: false } as never
+  pruefe('Merkliste: eine Messung derselben Seite ohne Aussage deckt den Eintrag nicht', mitMerkliste([eigene], [fremd]).length === 2, mitMerkliste([eigene], [fremd]))
+  pruefe('Merkliste: ein Nein derselben Seite deckt den Eintrag', mitMerkliste([nein], [fremd]).length === 1, mitMerkliste([nein], [fremd]))
+  const nichtDa = { ...(eigene as object), available: false } as never
+  pruefe('Merkliste: ein „nicht verfügbar“ derselben Seite deckt den Eintrag', mitMerkliste([nichtDa], [fremd]).length === 1, mitMerkliste([nichtDa], [fremd]))
 }
 
 try {

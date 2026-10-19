@@ -31,10 +31,13 @@ export function merkEintraege(checks: DubCheck[]): DubCheck[] {
   return eintraege.sort((a, b) => a.anilistId - b.anilistId || (a.note ?? '').localeCompare(b.note ?? '') || (a.url ?? '').localeCompare(b.url ?? ''))
 }
 
-/** Die Handbelege und, wo kein Handbeleg dieselbe Seite oder Adresse des Titels nennt, die Einträge der Merkliste. */
+/**
+ * Die Handbelege und, wo kein Handbeleg mit eigener Aussage (`dub` oder `available`) dieselbe Seite des Titels nennt, die Einträge der Merkliste.
+ * Eine Messung ohne Aussage deckt nicht: Im vollen Bau (V2, 19.10.2026) hielt sie die Kanal-Seite von Railgun S offen für das Urteil aus Stufe 3.
+ */
 export function mitMerkliste(checks: DubCheck[], merkliste: DubCheck[]): DubCheck[] {
   const gedeckt = (m: DubCheck): boolean =>
-    checks.some((c) => c.anilistId === m.anilistId && belegSeitenKern(c) === belegSeitenKern(m))
+    checks.some((c) => c.anilistId === m.anilistId && (c.dub !== undefined || c.available !== undefined) && belegSeitenKern(c) === belegSeitenKern(m))
   return [...checks, ...merkliste.filter((m) => !gedeckt(m))]
 }
 
