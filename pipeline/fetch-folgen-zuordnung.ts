@@ -15,7 +15,6 @@
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
-import { leseZugeordnet } from './lib/prime-meldung-riegel.ts'
 import { abrufMitStempel } from './lib/abruf-stempel.ts'
 import { adressIndex, ankerAdresse, ordneFolgenZu, type Beobachtung, type FolgenZuordnung } from './lib/folgen-je-folge.ts'
 import { namenIndex, namensKern, titelZuordnen } from './fetch-tv-programm.ts'
@@ -90,7 +89,7 @@ async function main() {
   const titel = new Map((Array.isArray(roh) ? roh : roh.titles).map((t) => [t.id, t]))
   /* Frühere Zuordnungen: der heutige Einleser (je Adresse) und die Belege. */
   const frueher: [string, number][] = Object.entries(
-    leseZugeordnet<{ titleId: number }>(),
+    readJson<Record<string, { titleId?: number }>>('data/prime-zugeordnet.json', {}),
   ).flatMap(([url, x]) => (x.titleId ? [[url, x.titleId] as [string, number]] : []))
   for (const b of (yaml.load(readFileSync('data/dub-confirmed.yaml', 'utf8')) as { anilistId?: number; url?: string }[]) ?? []) {
     if (b.anilistId && b.url) frueher.push([b.url, b.anilistId])

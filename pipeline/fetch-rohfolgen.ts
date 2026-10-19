@@ -18,7 +18,6 @@
  */
 import { resolve } from 'node:path'
 import { log, readJson, ROOT, warn } from './lib/util.ts'
-import { leseZugeordnet } from './lib/prime-meldung-riegel.ts'
 import { recordSource } from './lib/health.ts'
 import { schliesseRohfolgenAb, type Offen } from './lib/rohfolgen-abschluss.ts'
 import { sortiereKanalGruppenAus, type ZugeordneteSeiten } from './lib/kanal-aussortieren.ts'
@@ -774,7 +773,7 @@ async function main(): Promise<void> {
 
   const bearbeitet = new Set(erledigt)
   const offeneGruppen = [...cartoonLauf.uebrig.values()].filter((liste) => !liste.every((f) => bearbeitet.has(f.id)))
-  const bisherZugeordnet = leseZugeordnet<ZugeordneteSeiten[string]>()
+  const bisherZugeordnet = readJson<ZugeordneteSeiten>('data/prime-zugeordnet.json', {})
   const kanalWeg = sortiereKanalGruppenAus(offeneGruppen, ladeHandbelege(), bisherZugeordnet)
   schliesseRohfolgenAb({
     kanalWeg,
