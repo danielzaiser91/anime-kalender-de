@@ -109,6 +109,12 @@ const schreibend = (aufrufe) => aufrufe.filter((a) => a.startsWith('pr close') |
   const code = nachrechnen(7, k.gh, k.melde, k.warte)
   pruefe('veraltet, Merge-Commit schon neu gerechnet -> einmal öffnen genügt', code === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7' && k.gewartet.length === 0, k.aufrufe)
 }
+// Echter Anlass (PR 1602): direkt nach dem Wiederöffnen ist merge_commit_sha leer; leer heißt „noch nicht neu“, nie „neu“.
+for (const [name, folge, warten] of [['leer nach dem Öffnen', [M_ALT, '', '', M_NEU], 2], ['leer schon vorher', ['', M_NEU], 0]]) {
+  const k = kulisse(antworten({ mainSha: MAIN, mergeShas: folge }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe(`Merge-Commit ${name} -> 1, wartet ${warten}×, öffnet zweimal`, code === 1 && k.gewartet.length === warten && schreibend(k.aufrufe).length === 4 && !k.aufrufe.some((a) => a.includes('commits/ ')), { code, a: k.aufrufe, m: k.meldungen })
+}
 // Takt und Frist wie in docs/wissen/betrieb.md beschrieben (alle 2 s, höchstens 60 s; gemessen war der Ref nach wenigen Sekunden neu).
 pruefe('Warten: alle 2 s, höchstens 60 s', REF_ABSTAND_MS === 2000 && REF_PRUEFUNGEN * REF_ABSTAND_MS === 60000, { REF_ABSTAND_MS, REF_PRUEFUNGEN })
 // Grenze relativ zu REF_PRUEFUNGEN: neu gerechnet bei der letzten erlaubten Prüfung -> 1; eine Prüfung später -> Fehler, kein zweites Öffnen.
@@ -203,7 +209,7 @@ function prozess(daten, argv) {
 {
   // Ein Warten im echten Prozess: der Startblock reicht schlafe durch (fehlt es, scheitert der Aufruf mit Exit 2).
   const start = performance.now() // uhr-echt: belegt, dass der Startblock das echte Warten durchreicht
-  const r = prozess(antworten({ mainSha: MAIN, mergeShas: [M_ALT, M_ALT, M_NEU] }), ['7'])
+  const r = prozess(antworten({ mainSha: MAIN, mergeShas: [M_ALT, '', M_NEU] }), ['7'])
   const dauer = performance.now() - start
   const args = r.aufrufe.map(([, a]) => a.join(' '))
   pruefe('Prozess: Merge-Commit erst nach einem Warten neu -> Exit 1, zweimal geöffnet, wartet REF_ABSTAND_MS', r.status === 1 && schreibend(args).length === 4 && dauer >= REF_ABSTAND_MS, { status: r.status, aus: r.aus, dauer })

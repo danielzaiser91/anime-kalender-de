@@ -60,9 +60,13 @@ function wiederoeffnen(gh, nummer) {
   oeffneMitWiederholung(gh, nummer)
 }
 
-/** Erster Elternteil des Merge-Commits, den GitHub gerade für den PR hält (`merge_commit_sha`, derselbe wie `refs/pull/N/merge`). */
+/**
+ * Erster Elternteil des Merge-Commits, den GitHub gerade für den PR hält (`merge_commit_sha`, derselbe wie `refs/pull/N/merge`);
+ * null, solange GitHub ihn neu rechnet (direkt nach dem Wiederöffnen leer, gemessen 19.10.2026 an PR 1602).
+ */
 function mergeBasis(gh, nummer) {
   const sha = gh(['api', `repos/{owner}/{repo}/pulls/${nummer}`, '--jq', '.merge_commit_sha']).trim()
+  if (sha === '') return null
   return gh(['api', `repos/{owner}/{repo}/commits/${sha}`, '--jq', '.parents[0].sha']).trim()
 }
 
@@ -74,7 +78,9 @@ export function anstossen(gh, nummer, main, warte) {
   const vorher = mergeBasis(gh, nummer)
   if (vorher === main) return wiederoeffnen(gh, nummer)
   wiederoeffnen(gh, nummer)
-  for (let i = 0; mergeBasis(gh, nummer) === vorher; i++) {
+  for (let i = 0; ; i++) {
+    const neu = mergeBasis(gh, nummer)
+    if (neu !== null && neu !== vorher) break
     if (i >= REF_PRUEFUNGEN) throw new Error(`PR ${nummer}: Merge-Commit nicht neu gerechnet, die Kette läuft noch gegen ${kurz(vorher)}`)
     warte(REF_ABSTAND_MS)
   }
