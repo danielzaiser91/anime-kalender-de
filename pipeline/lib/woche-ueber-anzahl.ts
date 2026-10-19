@@ -9,13 +9,14 @@ import type { CrunchyrollEntry } from './crunchyroll.ts'
 import { warn } from './util.ts'
 
 /** Der Eintrag ohne die Wochenprogramm-Folgen über `schedule.episodeCount`; unverändert, wenn die Zahl nicht belegt ist. */
-export function ohneWocheUeberAnzahl(slot: CrunchyrollEntry, schedule: { episodeCount?: number; episodeCountAssumed?: boolean }, name: string): CrunchyrollEntry {
+export function ohneWocheUeberAnzahl(slot: CrunchyrollEntry, schedule: { episodeCount?: number; episodeCountAssumed?: boolean; firstEpisodeNumber?: number }, name: string): CrunchyrollEntry {
   const zahl = schedule.episodeCount
   const beob = slot.observations ?? []
   const zaehltAbEins = beob.some((o) => o.quelle !== 'woche' && o.episode === 1)
   if (!zahl || schedule.episodeCountAssumed || !zaehltAbEins) return slot
-  const ueber = beob.filter((o) => o.quelle === 'woche' && (o.episode ?? 0) > zahl)
+  const letzte = (schedule.firstEpisodeNumber ?? 1) + zahl - 1
+  const ueber = beob.filter((o) => o.quelle === 'woche' && (o.episode ?? 0) > letzte)
   if (!ueber.length) return slot
-  warn(`"${name}": Wochenprogramm nennt Folge ${ueber.map((o) => o.episode).join(', ')} über der belegten Zahl ${zahl} — nicht übernommen`)
+  warn(`"${name}": Wochenprogramm nennt Folge ${ueber.map((o) => o.episode).join(', ')} über der letzten belegten Folge ${letzte} — nicht übernommen`)
   return { ...slot, observations: beob.filter((o) => !ueber.includes(o)) }
 }

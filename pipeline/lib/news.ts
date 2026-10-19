@@ -155,6 +155,8 @@ function terminMeldungen(
   for (const r of releases) {
     const t = nachId.get(r.titleId)
     if (!t) continue
+    /* Ohne belegte Synchro (`sprache` omu/offen) steht der Start weder im Kalender noch in einer Meldung oder im Newsletter; die Originalton-Meldung kommt aus `news-omu.ts`. */
+    if (r.sprache) continue
     /* Ein widerlegter, behaupteter deutscher Termin wird zurückgezogen, nicht erneut angekündigt (02.10.2026). */
     if (r.widerlegt?.gemeldet) continue
     const quelle = quelleVonRelease(r)

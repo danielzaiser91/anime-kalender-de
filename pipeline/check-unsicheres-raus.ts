@@ -3,14 +3,16 @@
  * (Beerus, `sprache` omu/offen) und keine Wochenprogramm-Folge über der belegten Folgenzahl (Villainess F12).
  * Läuft in `check:logic`; erfundene Releases, kein Netz.
  */
-import type { Release, ReleaseEvent } from '../shared/types.ts'
+import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
+import { ergaenzeCrSimuldubs } from './bau/06-cr-simuldubs.ts'
+import { baueNews } from './lib/news.ts'
 import { expandEvents, merkbareTermine } from '../shared/logic.ts'
 import { fuegeTermineEin } from './bau/13-7-angebot-termine.ts'
 import { observedEpisodes } from './bau/titel-hilfen.ts'
 import { wocheAnhaengen, type CrunchyrollEntry } from './lib/crunchyroll.ts'
 import { beobachtetOhneTermin, hebeFolgenzahlAufBeobachtung } from './lib/folge-ueber-anzahl.ts'
 import { pruefeInvarianten } from './lib/invarianten.ts'
-import { mitBelegterSynchro, termineOhneBelegteSynchro } from './lib/ohne-synchro-beleg.ts'
+import { katalogReleasesOhneTermin, mitBelegterSynchro, termineOhneBelegteSynchro } from './lib/ohne-synchro-beleg.ts'
 import { ohneWocheUeberAnzahl } from './lib/woche-ueber-anzahl.ts'
 
 let fehler = 0
@@ -87,6 +89,52 @@ aufbau(grenze, 13, '2026-10-25')
 pruefe('Folge 13 entfällt auch, Zahl 12 belegt lässt 12 zu', observedEpisodes(ohneWocheUeberAnzahl(grenze, { episodeCount: 12 }, 'x'))[13] === undefined && observedEpisodes(ohneWocheUeberAnzahl(grenze, { episodeCount: 13 }, 'x'))[13] !== undefined)
 const fortsetzung: CrunchyrollEntry = { ...crSlot(0), observations: [{ date: '2026-09-27', episode: 13 }, { date: '2026-10-04', episode: 14 }, { date: '2026-10-11', episode: 15, quelle: 'woche' }] }
 pruefe('Zählung beginnt nicht bei 1 (Fortsetzung): nichts wird verworfen', ohneWocheUeberAnzahl(fortsetzung, { episodeCount: 12 }, 'x') === fortsetzung)
+
+/* --- Auflagen Runde 2 --- */
+const angebot = (slug: string, extra: Partial<Release> = {}) => release(slug, 900010, { dateMeaning: 'available-from', ...extra })
+const katalog = katalogReleasesOhneTermin([angebot('mit-sprache', { sprache: 'omu' }), angebot('ohne-sprache'), angebot('widerlegt', { widerlegt: {} as Release['widerlegt'] })], [])
+pruefe('A1: Katalog-Release mit sprache ohne Termin ist kein Fund, ohne sprache schon', katalog.ohneTermin.join() === 'ohne-sprache' && katalog.katalog.length === 1, katalog.ohneTermin)
+pruefe('A1: mit Termin ist es kein Fund', katalogReleasesOhneTermin([angebot('ohne-sprache')], expandEvents(angebot('ohne-sprache'))).ohneTermin.length === 0)
+
+const tage = (n: number) => new Date(Date.now() + n * 86400000).toISOString().slice(0, 10)
+const titel = { id: 900020, titleEn: 'Fixture Titel', titleRomaji: 'Fixture Titel', streams: [], episodes: 3 } as unknown as Title
+const meldungenFuer = (r: Release) => baueNews([titel], [r], [], [], { zuerst: {} }).flatMap((e) => e.meldungen).filter((m) => m.release === r.slug)
+const startIn3 = { firstEpisodeDate: tage(3), time: '18:00', episodeCount: 3 } as Release['schedule']
+pruefe('A2: Ausgangslage, ein deutsches Release bekommt eine Ankündigung', meldungenFuer(release('news-deutsch', 900020, { schedule: startIn3 })).length > 0)
+pruefe('A2: omu erzeugt keine Ankündigung', meldungenFuer(release('news-omu', 900020, { sprache: 'omu', schedule: startIn3 })).length === 0)
+pruefe('A2: offen erzeugt keine Ankündigung', meldungenFuer(release('news-offen', 900020, { sprache: 'offen', schedule: startIn3 })).length === 0)
+pruefe('A2: Kino mit sprache erzeugt keine Meldung', meldungenFuer(release('news-kino', 900020, { platform: 'kino', releaseType: 'movie', sprache: 'omu', schedule: startIn3 })).length === 0)
+
+const ohneTermin = release('beobachtet-sprache', 900021, { sprache: 'omu', schedule: { firstEpisodeDate: '2026-10-18', time: '18:00', episodeCount: 3, observed: { 1: '2026-10-18', 2: '2026-10-25' } } as Release['schedule'] })
+pruefe('A5: beobachtet ohne Termin schweigt bei sprache', beobachtetOhneTermin([ohneTermin], []).length === 0)
+pruefe('A5: dasselbe ohne sprache wird gemeldet', beobachtetOhneTermin([{ ...ohneTermin, sprache: undefined }], []).length === 2)
+
+pruefe('A5: widerlegt schweigt ebenfalls', beobachtetOhneTermin([{ ...ohneTermin, sprache: undefined, widerlegt: {} as Release['widerlegt'] }], []).length === 0)
+pruefe('A1: nur „Im Angebot seit“ zählt zum Katalog', katalogReleasesOhneTermin([release('kein-angebot', 900011)], []).katalog.length === 0)
+
+const ab13 = crSlot(14)
+aufbau(ab13, 15, '2026-11-08')
+pruefe('A4: Folgen 13–24 (firstEpisodeNumber 13, Zahl 12): Wochenprogramm-Folge 15 bleibt', observedEpisodes(ohneWocheUeberAnzahl(ab13, { episodeCount: 12, firstEpisodeNumber: 13 }, 'x'))[15] !== undefined)
+pruefe('A4: … Folge 15 entfällt ohne firstEpisodeNumber (Zahl 12 ab 1 reicht bis 12)', observedEpisodes(ohneWocheUeberAnzahl(ab13, { episodeCount: 12 }, 'x'))[15] === undefined)
+const ab13Zu = crSlot(14)
+aufbau(ab13Zu, 25, '2026-11-08')
+pruefe('A4: … Folge 25 liegt über der letzten (24) und entfällt', observedEpisodes(ohneWocheUeberAnzahl(ab13Zu, { episodeCount: 12, firstEpisodeNumber: 13 }, 'x'))[25] === undefined)
+const nurWoche: CrunchyrollEntry = { ...crSlot(0), observations: [{ date: '2026-08-02', episode: 1, quelle: 'woche' }, { date: '2026-10-18', episode: 12, quelle: 'woche' }] }
+pruefe('A4/M13: Folge 1 nur aus dem Wochenprogramm belegt die Zählung ab 1 nicht — nichts wird verworfen', ohneWocheUeberAnzahl(nurWoche, { episodeCount: 11 }, 'x') === nurWoche)
+
+/* A3: der Auto-Pfad (06) kappt wie der kuratierte. */
+const autoBeob = crSlot(11)
+aufbau(autoBeob, 12, '2026-10-18')
+const autoSlot = { ...autoBeob, earliest: autoBeob.observations![0], seriesUrl: 'https://example.org/serie/GT1' } as unknown as CrunchyrollEntry
+const autoTitel = { id: 900030, episodes: 11, jpYear: 2026, streams: [], titleEn: 'Auto Titel' } as unknown as Title
+function autoBau(): Release {
+  const releases: Release[] = []
+  ergaenzeCrSimuldubs({ crunchyroll: { german: { k: autoSlot } } as never, usedCrKeys: new Set(), titleForCalendarName: () => autoTitel, titleFromSeries: () => autoTitel, titelAusKatalog: () => undefined, seenSlugs: new Set(), releases, anisearchEpisodes: () => ({ count: 11, estimated: false }), crKalenderBis: '2026-10-25', unverified: [] })
+  return releases[0]!
+}
+const auto = autoBau()
+pruefe('A3: Auto-Pfad übernimmt Wochenprogramm-Folge 12 über belegter Zahl 11 nicht', auto.schedule.observed?.[12] === undefined && auto.schedule.observed?.[11] === '2026-10-11', auto.schedule.observed)
+pruefe('A3: … Zahl bleibt 11, kein Termin 12', hebeFolgenzahlAufBeobachtung([auto]).length === 0 && auto.schedule.episodeCount === 11 && !expandEvents(auto).some((e) => e.episode === 12))
 
 if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)

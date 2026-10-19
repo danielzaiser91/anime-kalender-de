@@ -19,17 +19,17 @@ export function flatMapArgumente(quelltext: string): string[] {
   return namen
 }
 
-/** Wie oft `observedEpisodes(ohneWocheUeberAnzahl(...))` im Quelltext steht. */
-export function gekappteBeobachtungen(quelltext: string): number {
+/** Die Argumente (als Text) jedes Aufrufs `observedEpisodes(ohneWocheUeberAnzahl(...))` im Quelltext. */
+export function gekappteBeobachtungen(quelltext: string): string[] {
   const datei = ts.createSourceFile('x.ts', quelltext, ts.ScriptTarget.Latest, true)
-  let zahl = 0
+  const aufrufe: string[] = []
   const besuche = (n: ts.Node): void => {
     const arg = ts.isCallExpression(n) && n.expression.getText(datei) === 'observedEpisodes' ? n.arguments[0] : undefined
-    if (arg && ts.isCallExpression(arg) && arg.expression.getText(datei) === 'ohneWocheUeberAnzahl') zahl++
+    if (arg && ts.isCallExpression(arg) && arg.expression.getText(datei) === 'ohneWocheUeberAnzahl') aufrufe.push(arg.arguments.map((a) => a.getText(datei)).join(','))
     ts.forEachChild(n, besuche)
   }
   besuche(datei)
-  return zahl
+  return aufrufe
 }
 
 let fehler = 0
@@ -46,8 +46,15 @@ pruefe('Sonde: expandEvents wird erkannt', flatMapArgumente(quelle.replace('flat
 pruefe('Sonde: ohne Aufruf keiner gezählt', flatMapArgumente(quelle.replace('flatMap(kalenderTermine)', 'map(kalenderTermine)')).filter((a) => a === 'kalenderTermine').length === 0)
 
 const bau05 = readFileSync(new URL('./bau/05-releases.ts', import.meta.url), 'utf8')
-pruefe('05-releases: observedEpisodes bekommt den gekappten Eintrag, genau einmal', gekappteBeobachtungen(bau05) === 1, gekappteBeobachtungen(bau05))
-pruefe('Sonde: ohne Kappung erkannt', gekappteBeobachtungen(bau05.replace('observedEpisodes(ohneWocheUeberAnzahl(slot, schedule, entry.slug))', 'observedEpisodes(slot)')) === 0)
+const kappung05 = 'observedEpisodes(ohneWocheUeberAnzahl(slot, schedule, entry.slug))'
+pruefe('05-releases: observedEpisodes bekommt den gekappten Eintrag mit Eintrag, Plan und Namen, genau einmal', gekappteBeobachtungen(bau05).join('|') === 'slot,schedule,entry.slug', gekappteBeobachtungen(bau05))
+pruefe('Sonde: ohne Kappung erkannt', bau05.includes(kappung05) && gekappteBeobachtungen(bau05.replace(kappung05, 'observedEpisodes(slot)')).length === 0)
+pruefe('Sonde: falsches Argument erkannt', gekappteBeobachtungen(bau05.replace(kappung05, 'observedEpisodes(ohneWocheUeberAnzahl(slot, {}, entry.slug))')).join('|') !== 'slot,schedule,entry.slug')
+
+const bau06 = readFileSync(new URL('./bau/06-cr-simuldubs.ts', import.meta.url), 'utf8')
+const kappung06 = 'observedEpisodes(ohneWocheUeberAnzahl(slot, { episodeCount: episodeCountAssumed ? undefined : episodeCount }, name))'
+pruefe('06-cr-simuldubs: observedEpisodes bekommt den gekappten Eintrag mit belegter Zahl, genau einmal', gekappteBeobachtungen(bau06).join('|') === 'slot,{ episodeCount: episodeCountAssumed ? undefined : episodeCount },name', gekappteBeobachtungen(bau06))
+pruefe('Sonde 06: ohne Kappung erkannt', bau06.includes(kappung06) && gekappteBeobachtungen(bau06.replace(kappung06, 'observedEpisodes(slot)')).length === 0)
 
 if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
