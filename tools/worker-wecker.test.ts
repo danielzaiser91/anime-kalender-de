@@ -84,8 +84,8 @@ pruefe(
   '2.11. 04:00 UTC (1.11. in Los Angeles): Monatslauf startet',
 )
 // Monatstag ohne Nachholen: genau der Tag in UTC (2.11. 04:00 UTC = 1.11. in Los Angeles).
-const amZweiten = [{ workflow: 'x.yml', tagImMonat: 2 }]
-const amErsten = [{ workflow: 'x.yml', tagImMonat: 1 }]
+const amZweiten = [{ workflow: 'x.yml', tagImMonat: 2, abstandMin: 30 }]
+const amErsten = [{ workflow: 'x.yml', tagImMonat: 1, abstandMin: 30 }]
 pruefe(gleich(faelligeLaeufe(new Date('2026-11-02T04:00:00.000Z'), amZweiten), ['x.yml']), 'tagImMonat 2 trifft den 2.11. UTC')
 pruefe(faelligeLaeufe(new Date('2026-11-02T04:00:00.000Z'), amErsten).length === 0, 'tagImMonat 1 trifft den 2.11. UTC nicht, auch wenn es lokal der 1.11. ist')
 // Jahreswechsel: 00:00 UTC am 1.1. ist die Stunde 0 (in Los Angeles noch der 31.12.); kein Tageslauf, nur der stündliche.
