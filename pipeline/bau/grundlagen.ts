@@ -116,7 +116,7 @@ export const mitAnkuendigung = <T extends { id: number }>(t: T): T =>
   ANKUENDIGUNGEN.has(t.id) ? { ...t, ankuendigung: ANKUENDIGUNGEN.get(t.id) } : t
 
 /** Deutsche Sprechrollen, eine Datei je Titel — gefüllt von `data:voices`. */
-export const VOICES_DIR = `${OUT}/voices`
+export const VOICES_DIR = resolve(ROOT, OUT, 'voices')
 
 export const CR_CALENDAR_URL = 'https://www.crunchyroll.com/de/simulcastcalendar'
 
