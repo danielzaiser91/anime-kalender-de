@@ -102,8 +102,8 @@ export function uebernehmePrimeUndCrVorschlaege({
       /*
         **Ein Handbeleg gilt seiner Adresse, nicht der ganzen Plattform.**
 
-        Der Riegel stand hier als `checks.has(<titel>|primevideo)` — je Titel
-        und Anbieter gibt es genau einen zusammengeführten Beleg, also sperrte
+        Der Riegel stand hier als `checks.has(<titel>|primevideo)` — `checks`
+        hält je Titel und Anbieter den letzten Beleg, also sperrte
         eine geprüfte Ausgabe jede Meldung zur zweiten. Genau den Fall
         beschreibt der Kommentar unten seit dem 30.08.2026: „My First
         Girlfriend is a Gal" läuft bei Prime als Kauftitel mit elf Folgen (KAZÉ,
@@ -112,8 +112,9 @@ export function uebernehmePrimeUndCrVorschlaege({
         Kauftitel vom 01.09. lief deshalb ins Leere und lag am 05.09.2026 noch
         unverwertet im Briefkasten.
 
-        **Was der Riegel schützen soll, bleibt geschützt:** Ein Beleg **ohne**
-        Adresse ist eine Aussage über den Anbieter — er sperrt weiter alles.
+        **Was der Riegel schützen soll, bleibt geschützt:** Ein letzter Beleg **ohne**
+        Adresse ist eine Aussage über den Anbieter — er sperrt weiter alles; ein früherer
+        Nein ohne Adresse sperrt nichts (wie `check:handbelege`, Fall 900010 im Check).
         Einer **mit** Adresse sperrt genau diese Adresse. Ein Nein zur einen
         Ausgabe ist kein Nein zur anderen; sie haben verschiedene Verlage,
         verschiedene Preise und verschiedene Tonspuren.
@@ -180,6 +181,8 @@ export function uebernehmePrimeUndCrVorschlaege({
       }
       const belegt = rohDeutsch(eintrag.folgen, eintrag.titleId, plattform === 'primevideo' ? { seite: eintrag.seite, url: gemeldeteAdresse } : null, alleChecks)
       if (belegt === undefined) continue
+      /* Kein Schreibzweig für eine Adresse, die irgendein Handbeleg verneint — `checks` kennt je Titel nur den letzten (Date A Live, 19.10.2026). */
+      if (adresseVerneint(alleChecks, eintrag.titleId, plattform, seite)) continue
 
       /**
        * **Zwei Ausgaben desselben Titels sind zwei Wege, keine Dublette.**
@@ -255,8 +258,6 @@ export function uebernehmePrimeUndCrVorschlaege({
           bei den Handbelegen eine Runde später.
         */
         if (lautPruefungTot(seite)) continue
-        /* Kein Weg zu einer Adresse, die irgendein Handbeleg verneint — `checks` kennt je Titel nur den letzten (Date A Live, 19.10.2026). */
-        if (adresseVerneint(alleChecks, eintrag.titleId, plattform, seite)) continue
         title.streams.push({ platform: plattform, url: seite, dub: belegt || undefined })
         ausRoh++
       }
