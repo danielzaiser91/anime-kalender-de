@@ -7,7 +7,8 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import type { Quelle, Release } from '../shared/types.ts'
+import type { Quelle, Release, Title } from '../shared/types.ts'
+import { normalizeTitle } from './lib/crunchyroll.ts'
 import type { AdnShow } from './lib/adn.ts'
 
 const wurzel = mkdtempSync(join(tmpdir(), 'adn-lesetag-'))
@@ -26,6 +27,16 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 const KALENDER = 'https://gw.api.animationdigitalnetwork.com/video/calendar'
 const show = (showId: number): AdnShow => ({ showId, title: `Erfunden ${showId}`, url: '', episodes: [], batch: true })
 const daten = (scrapedAt: string, ...ids: number[]) => ({ scrapedAt, window: { from: '', to: '' }, shows: ids.map(show) })
+const mitFolge = (showId: number, title: string, date: string): AdnShow => ({
+  ...show(showId),
+  title,
+  episodes: [{ date, time: '09:00', episode: 1, url: `https://animationdigitalnetwork.com/de/video/${showId}-erfunden/9${showId}-folge-1` }],
+})
+/** Je Serie ein Titel gleichen Namens (Kennung = Serienkennung), damit 07-adn die Serie zuordnet. */
+function titelZu(paare: [number, string][]): { titles: Map<number, Title>; titleByName: Map<string, Title> } {
+  const liste = paare.map(([id, name]) => ({ id, franchiseId: id, titleRomaji: name, titleEn: name, episodes: 1, keywords: [], genres: [], streams: [] }) as unknown as Title)
+  return { titles: new Map(liste.map((t) => [t.id, t])), titleByName: new Map(liste.map((t) => [normalizeTitle(t.titleRomaji!), t])) }
+}
 const release = (showId: number, sources: string[]): Release =>
   ({
     slug: `adn-${showId}`,
@@ -69,8 +80,13 @@ try {
   pruefe('mitLesetag: nur die API-Quelle bekommt den Lesetag, die Erstsichtung bleibt', mit[0]!.gelesenAm === undefined && mit[1]!.gelesenAm === '2026-10-19' && mit[1]!.gesehenAm === '2026-10-01', mit)
 
   console.log('\nVerdrahtung: quellenPflegen auf einer Kulisse')
-  writeFileSync(join(wurzel, 'data', 'adn.json'), JSON.stringify(daten('2026-10-19T04:09:00Z', 901, 902, 903)))
-  writeFileSync(join(wurzel, 'data', 'adn-catalog.json'), JSON.stringify(daten('2026-10-12T08:00:00Z', 911, 912, 913)))
+  /* 904 und 914 tragen Folgen: aus ihnen baut `ergaenzeAdnTitel` (07-adn) die Termine, deren Adresse unten geprüft wird. */
+  const kalender = daten('2026-10-19T04:09:00Z', 901, 902, 903)
+  const katalog = daten('2026-10-12T08:00:00Z', 911, 912, 913)
+  kalender.shows.push(mitFolge(904, 'Erfunden Kalender', '2026-10-29'))
+  katalog.shows.push({ ...mitFolge(914, 'Erfunden Katalog', '2026-09-01'), fromCatalog: true })
+  writeFileSync(join(wurzel, 'data', 'adn.json'), JSON.stringify(kalender))
+  writeFileSync(join(wurzel, 'data', 'adn-catalog.json'), JSON.stringify(katalog))
   writeFileSync(join(wurzel, 'data', 'adn-katalog-stand.json'), JSON.stringify({ '912': '2026-10-15T09:00:00Z' }))
   /* Erste Sichtung am 01.10.: so steht es für 104 Kalender-Termine im Bestand (Messung 19.10.2026). */
   const alt = { url: KALENDER, name: 'ADN API', gesehenAm: '2026-10-01', stand: 'aktuell' }
@@ -79,11 +95,21 @@ try {
   const kal = release(902, [KALENDER])
   const kat = release(912, [adnKatalogUrl(912)])
   const nachbar = release(913, [adnKatalogUrl(913)])
-  quellenPflegen([kal, kat, nachbar])
-  const api = (r: Release) => r.quellen?.find((q) => q.stand === 'aktuell')
+  const { ergaenzeAdnTitel } = await import('./bau/07-adn.ts')
+  const { titles, titleByName } = titelZu([[904, 'Erfunden Kalender'], [914, 'Erfunden Katalog']])
+  const gebaut: Release[] = []
+  ergaenzeAdnTitel({ titles, releases: gebaut, titleByName, seenSlugs: new Set() })
+  quellenPflegen([kal, kat, nachbar, ...gebaut])
+  const api = (r: Release | undefined) => r?.quellen?.find((q) => q.stand === 'aktuell')
   pruefe('Kalender-Termin: Erstsichtung 01.10. bleibt, Lesetag 19.10.', api(kal)?.gesehenAm === '2026-10-01' && api(kal)?.gelesenAm === '2026-10-19', kal.quellen)
   pruefe('Katalog-Termin: Lesetag aus dem Serienabruf', api(kat)?.gelesenAm === '2026-10-15', kat.quellen)
   pruefe('Katalog-Termin ohne jüngeren Serienabruf: Lesetag aus dem Katalogabruf', api(nachbar)?.gelesenAm === '2026-10-12', nachbar.quellen)
+
+  console.log('\nBau: 07-adn wählt die Adresse, quellenPflegen den Lesetag')
+  const ausKalender = gebaut.find((r) => r.titleId === 904)
+  const ausKatalog = gebaut.find((r) => r.titleId === 914)
+  pruefe('Serie aus dem Kalender: Kalender-Adresse, Lesetag des Kalenderabrufs', ausKalender?.sources.join() === KALENDER && api(ausKalender)?.gelesenAm === '2026-10-19', ausKalender?.quellen)
+  pruefe('Serie nur im Katalog: Adresse ihrer Folgenliste, Lesetag des Katalogabrufs (Prüfer 1598 A2)', ausKatalog?.sources.join() === adnKatalogUrl(914) && api(ausKatalog)?.gelesenAm === '2026-10-12', ausKatalog?.quellen)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
