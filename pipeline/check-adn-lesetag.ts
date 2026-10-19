@@ -131,7 +131,8 @@ try {
   const kuratiert = { ...plan(release(903, [KALENDER]), { firstEpisodeDate: '2026-11-05' }), slug: 'erfunden-903-adn' } as Release
   quellenPflegen([kal, kuratiert, kat, nachbar, ...gebaut])
   const api = (r: Release | undefined) => r?.quellen?.find((q) => q.stand === 'aktuell')
-  pruefe('kuratierter Termin, dessen Datum nicht im Kalender steht: kein Lesetag', Boolean(api(kuratiert)) && api(kuratiert)?.gelesenAm === undefined, kuratiert.quellen)
+  pruefe('kuratierter Termin, dessen Datum nicht im Kalender steht: kein Lesetag, kein `sagt`', Boolean(api(kuratiert)) && api(kuratiert)?.gelesenAm === undefined && api(kuratiert)?.sagt === undefined, kuratiert.quellen)
+  pruefe('bestätigtes Datum: die API-Quelle sagt es', api(kal)?.sagt === '2026-10-29' && api(kat)?.sagt === '2026-10-29', [kal.quellen, kat.quellen])
   pruefe('Kalender-Termin: Erstsichtung 01.10. bleibt, Lesetag 19.10.', api(kal)?.gesehenAm === '2026-10-01' && api(kal)?.gelesenAm === '2026-10-19', kal.quellen)
   pruefe('Katalog-Termin: Lesetag aus dem Serienabruf', api(kat)?.gelesenAm === '2026-10-15', kat.quellen)
   pruefe('Katalog-Termin ohne jüngeren Serienabruf: Lesetag aus dem Katalogabruf', api(nachbar)?.gelesenAm === '2026-10-12', nachbar.quellen)
@@ -160,6 +161,15 @@ try {
   const kal3 = release(902, [KALENDER])
   quellenPflegen([kal3])
   pruefe('gescheiterter Abruf (adn.json fehlt): Lesetag vom 19.10. bleibt', api(kal3)?.gelesenAm === '2026-10-19', kal3.quellen)
+
+  console.log('\nAdresswechsel: die alte API-Quelle wird nach ihrem bestätigten Datum eingeordnet (Prüfer 1598 R5)')
+  const kalAlt = (r: Release) => r.quellen?.find((q) => q.url === KALENDER)
+  const gewechselt = release(902, [adnKatalogUrl(902)])
+  quellenPflegen([gewechselt])
+  pruefe('gleiches Datum: vermutlich überholt, nicht widerlegt', kalAlt(gewechselt)?.stand === 'vermutlich-ueberholt' && kalAlt(gewechselt)?.grund === undefined, gewechselt.quellen)
+  const gewechseltVerschoben = plan(release(902, [adnKatalogUrl(902)]), { firstEpisodeDate: '2026-11-05' })
+  quellenPflegen([gewechseltVerschoben])
+  pruefe('anderes Datum: überholt, Termin verschoben', kalAlt(gewechseltVerschoben)?.stand === 'ueberholt' && kalAlt(gewechseltVerschoben)?.grund === 'Termin verschoben auf: 2026-11-05', gewechseltVerschoben.quellen)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
