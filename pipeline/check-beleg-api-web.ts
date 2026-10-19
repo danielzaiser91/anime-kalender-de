@@ -7,6 +7,8 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import type { NewsBeleg, Release } from '../shared/types.ts'
 import { BelegAnsicht } from '../web/src/components/beleg-dialog.tsx'
+import { AbgeloestHinweis } from '../web/src/components/news-abgeloest.tsx'
+import { VerlaufZeilen } from '../web/src/components/news-verlauf.tsx'
 import { quelleFuer } from '../web/src/components/detail/neuigkeiten.tsx'
 import { terminQuellenJeHost } from '../web/src/components/Quellenuebersicht.tsx'
 
@@ -34,6 +36,26 @@ const messung = { am: '2026-10-17', quelle: 'ADN-Kalender', zeilen: ['Titel: Mad
   pruefe('API-Beleg ohne Serienseite: kein Knopf, keine Adresse', !ohne.includes('Originalseite') && !ohne.includes('<a ') && !ohne.includes('gw.api'), ohne)
   const gewoehnlich = html({ url: ARTIKEL, name: 'news.animationdigitalnetwork.com' })
   pruefe('gewöhnlicher Beleg: Knopf auf seine eigene Adresse', gewoehnlich.includes(`href="${ARTIKEL}"`), gewoehnlich)
+}
+
+console.log('\nVerlauf überholter Stände (VerlaufZeilen)')
+{
+  const verlauf = (belege: NewsBeleg[]) =>
+    renderToStaticMarkup(createElement(VerlaufZeilen, { staende: [{ am: '2026-10-10', ueberholtAm: '2026-10-12', m: { art: 'angekuendigt', platform: 'adn', datum: '2026-10-29', belege } as never }] }))
+  const mit = verlauf([{ url: API, name: 'ADN-Kalender', messung, seite: SERIE }])
+  pruefe('überholter Stand mit API-Beleg und Serienseite: Link auf die Serienseite, API-Adresse nirgends', mit.includes(`href="${SERIE}"`) && !mit.includes('gw.api'), mit)
+  const ohne = verlauf([{ url: API, name: 'ADN-Kalender', messung }])
+  pruefe('überholter Stand mit API-Beleg ohne Serienseite: nur der Name, kein Link', ohne.includes('ADN-Kalender') && !ohne.includes('<a ') && !ohne.includes('gw.api'), ohne)
+  const gewoehnlich = verlauf([{ url: ARTIKEL, name: 'news.animationdigitalnetwork.com' }])
+  pruefe('überholter Stand mit gewöhnlichem Beleg: Link auf dessen Adresse', gewoehnlich.includes(`href="${ARTIKEL}"`), gewoehnlich)
+}
+
+console.log('\nAbgelöste Meldung (AbgeloestHinweis)')
+{
+  const hinweis = (quelle: string) => renderToStaticMarkup(createElement(AbgeloestHinweis, { m: { art: 'angekuendigt', ersetzt: { datum: '2026-10-10', quelle } } as never }))
+  const api = hinweis(API)
+  pruefe('abgelöst durch eine API-Adresse: Text ohne Link', !api.includes('<a ') && !api.includes('gw.api'), api)
+  pruefe('abgelöst durch eine Seite: Link auf sie', hinweis(ARTIKEL).includes(`href="${ARTIKEL}"`))
 }
 
 console.log('\nPanel: Quelle des Termins (quelleFuer)')
