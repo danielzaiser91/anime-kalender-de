@@ -7,9 +7,9 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 17 Wege, nur Hinweis: 1.
+Flagge „Deutsch“: 15 Wege, nur Hinweis: 0.
 
-JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 11, Mehrteiler 6.
+JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 10, Mehrteiler 5.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
@@ -204,7 +204,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Citrus (97832) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.e5000fa2-169c-4c9b-8f0f-713ee60d9ee6 | nein |
 | Death March to the Parallel World Rhapsody (97907) | Crunchyroll | crunchyroll:GZ7UVJNGW | ja |
 | Death March to the Parallel World Rhapsody (97907) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.d2a8f9c6-efec-4a29-babf-1826e48db86f | nein |
-| Boruto: Naruto Next Generations (97938) | RTL+ Max Amazon Channel | amazon:amzn1.dv.gti.b5d3c3dc-c873-4c1a-b447-d60787667197 | nein |
+| Boruto: Naruto Next Generations (97938) | RTL+ Max Amazon Channel | amazon:amzn1.dv.gti.b5d3c3dc-c873-4c1a-b447-d60787667197 | ja |
 | Sengoku Night Blood (98603) | Amazon Prime Video | amazon:amzn1.dv.gti.e8b54397-be77-422a-a907-cd5436ad4fe3 | ja |
 | Das Land der Juwelen (98707) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.d6a43d1e-936e-4443-a719-cc30976c3ea7 | ja |
 | Darling in the Franxx (99423) | Crunchyroll | crunchyroll:G7PU4Q05V | ja |
@@ -287,21 +287,21 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 <!-- cartoons:start -->
 ## Cartoons
 
-Flagge „Deutsch“: 9 Wege, nur Hinweis: 0.
+Flagge „Deutsch“: 2 Wege, nur Hinweis: 0.
 
-JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): Mehrteiler 3, mehrere Staffeln 149, Staffeln unbekannt 1.
+JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): Mehrteiler 2, mehrere Staffeln 141, Staffeln unbekannt 1.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
 | disneyplus | 53 | 0 | 0.0 % | Flagge |
-| primevideo | 9 | 0 | 0.0 % | Flagge |
+| primevideo | 14 | 0 | 0.0 % | Flagge |
 
 ### Widersprüche (0)
 
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (56)
+### Kandidaten für neue Wege (57)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -338,6 +338,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | 100 Prozent Wolf - Die Legende des Mondsteins (-120161) | RTL+ Max Amazon Channel | amazon:amzn1.dv.gti.eda7de62-f24b-4e5e-942e-b1d7bac03037 | nein |
 | Onyx Equinox (-99777) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.3c467fa5-a8ee-4f6b-845d-9b9735dc446f | nein |
 | Adventure Time: Ferne Länder (-94810) | HBO Max Amazon Channel | amazon:amzn1.dv.gti.1e7f3228-c946-482d-ac94-86791c2935ac | nein |
+| Talking Tom Heroes: Suddenly Super (-208313) | Amazon Prime Video | amazon:amzn1.dv.gti.0eba6d76-ed99-baa1-9625-01b9104cea8f | ja |
 | Kingdom Force (-114771) | RTL+ Max Amazon Channel | amazon:amzn1.dv.gti.fe9bc35c-5c3b-43b8-b7c4-2dc953153f8e | nein |
 | Kingdom Force (-114771) | Amazon Video | amazon:amzn1.dv.gti.a75e2168-5776-427e-a9d6-f278e781cb44 | nein |
 | Steven Universe Future (-94280) | HBO Max Amazon Channel | amazon:amzn1.dv.gti.c9b04bfe-d640-470a-a1b7-3e701be51fc6 | nein |
