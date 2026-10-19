@@ -18,13 +18,14 @@ const skript = join(tools, 'pr-bestand-vergleich.mjs')
 
 // Der Schritt sieht dieselben Prüfungen wie check:bestand im Bestandsbau.
 const pkg = JSON.parse(readFileSync(join(wurzel, 'package.json'), 'utf8'))
-assert.equal(pkg.scripts['check:bestand'], 'npm run check:bestand-rest && npm run check:bestand-liste')
+assert.ok(pkg.scripts['check:bestand'].endsWith(' && npm run check:bestand-liste'))
 assert.equal(pkg.scripts['check:bestand-liste'], 'node tools/check-logic-alle.mjs tools/check-bestand-liste.txt check:bestand')
 assert.ok(restSkripte(pkg).length >= 10)
+assert.ok(!restSkripte(pkg).includes('check:bestand-liste'))
 assert.throws(
   () =>
     restSkripte({
-      scripts: { 'check:bestand-rest': 'npm run a && node b.mjs' },
+      scripts: { 'check:bestand': 'npm run a && node b.mjs' },
     }),
   /kein „npm run/,
 )
@@ -79,7 +80,7 @@ writeFileSync('aus/rot.txt', existsSync('bau-rot.txt') ? readFileSync('bau-rot.t
 )
 const restKette = ['r1', 'r2', 'r3'].map((r) => `npm run check:${r}`).join(' && ')
 const scripts = {
-  'check:bestand-rest': restKette,
+  'check:bestand': `${restKette} && npm run check:bestand-liste`,
   'data:build': 'node bau.mjs',
 }
 for (const r of ['r1', 'r2', 'r3']) scripts[`check:${r}`] = `node rest.mjs check:${r}`

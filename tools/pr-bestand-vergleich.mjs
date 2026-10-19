@@ -1,6 +1,6 @@
 /**
  * Schritt „Bestandsprüfungen auf der Bauausgabe“ im Job PR-Datenbau (pr-pruefung.yml, 17.10.2026): fährt jede Prüfung aus
- * `check:bestand` einzeln auf dem gerade gebauten Bestand, ohne Abbruch beim ersten Fehler (`check:bestand-rest` Skript für Skript,
+ * `check:bestand` einzeln auf dem gerade gebauten Bestand, ohne Abbruch beim ersten Fehler (die Skripte von `check:bestand` einzeln,
  * `tools/check-bestand-liste.txt` mit `--alle`). Rot wird der Schritt nur, wenn eine Prüfung auch auf der Basis grün ist:
  * Ist auf dem PR-Bau etwas rot, baut der Schritt die Basis (`<basis-ref>`, in der Kette `HEAD^1` = Spitze von main im Merge-Ref)
  * mit demselben Cache in einem eigenen Worktree und fährt dort genau die roten Prüfungen. Was dort auch rot ist, ist geerbt (Warnung).
@@ -20,15 +20,18 @@ const GANZE_LISTE = 'check:bestand-liste'
 /** Was der Basis-Worktree vom Arbeitsbaum teilt: Abhängigkeiten und den Cache, auf dem auch der PR gebaut hat. */
 const GETEILT = ['node_modules', 'data/cache']
 
-/** Einzelprüfungen von `check:bestand-rest` (Kette aus `npm run <skript>`, mit `&&` verbunden). */
+/** Einzelprüfungen von `check:bestand` ohne die Liste (Kette aus `npm run <skript>`, mit `&&` verbunden); gilt auch für die Basis. */
 export function restSkripte(pkg) {
-  const kette = pkg.scripts?.['check:bestand-rest']
-  if (!kette) throw new Error('package.json: check:bestand-rest fehlt')
-  return kette.split('&&').map((teil) => {
-    const m = /^npm run (\S+)$/.exec(teil.trim())
-    if (!m) throw new Error(`check:bestand-rest: „${teil.trim()}“ ist kein „npm run <skript>“`)
-    return m[1]
-  })
+  const kette = pkg.scripts?.['check:bestand']
+  if (!kette) throw new Error('package.json: check:bestand fehlt')
+  return kette
+    .split('&&')
+    .map((teil) => {
+      const m = /^npm run (\S+)$/.exec(teil.trim())
+      if (!m) throw new Error(`check:bestand: „${teil.trim()}“ ist kein „npm run <skript>“`)
+      return m[1]
+    })
+    .filter((skript) => skript !== GANZE_LISTE)
 }
 
 /** Zeilen der Liste; Kommentare und Leerzeilen stören nicht: sie stehen nie unter den roten, und check-logic-alle überspringt sie. */
