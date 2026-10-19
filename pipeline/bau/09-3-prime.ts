@@ -259,6 +259,21 @@ export function uebernehmePrimeUndCrVorschlaege({
           bei den Handbelegen eine Runde später.
         */
         if (lautPruefungTot(seite)) continue
+        /*
+          **Und keine Adresse, die ein Handbeleg als weg oder ohne Deutsch führt.** Der Riegel oben
+          (`beleg`) kennt je Titel nur den zusammengeführten Beleg mit einer Adresse; hat ein Titel
+          mehrere Nein-Belege, legte eine Meldung zu einer der anderen Seiten den Weg neu an, den
+          die Bereinigung davor entfernt hatte (Date A Live, Lauf 39249344862 vom 19.10.2026).
+        */
+        const verneint = alleChecks.some(
+          (c) =>
+            c.anilistId === eintrag.titleId &&
+            c.platform === plattform &&
+            c.url &&
+            adressGleich(c.url, seite) &&
+            (c.available === false || c.dub === false),
+        )
+        if (verneint) continue
         title.streams.push({ platform: plattform, url: seite, dub: belegt || undefined })
         ausRoh++
       }
