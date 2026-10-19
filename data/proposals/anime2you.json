@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-10-19T13:02:47.436Z",
+  "scrapedAt": "2026-10-19T17:02:51.581Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 6,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
+    "schon in einem Rubrik-Feed gelesen": 7,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 4
   },
@@ -37,6 +37,21 @@
         {
           "iso": "2027-01-28",
           "context": "xen der Anime-Klassiker »Lady Oscar« und »Eureka Seven«, die beide am 28. Januar 2027 durch KSM Anime erscheinen. Am selben Tag […] Der Be"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Elf neue Merchandise-Produkte zu »Apothecary Diaries« angekündigt",
+      "articleUrl": "https://www.anime2you.de/news/1061032/apothecary-diaries-elf-merchandise-produkte/",
+      "publishedAt": "2026-10-19",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-05",
+          "context": "P vorbestellt werden können. Wir fassen die Details zusammen. Release im Mai 2027 Zur neuen »The Apothecary Diaries«-Kollektion zählen ein E"
         }
       ],
       "dub": "unklar",
