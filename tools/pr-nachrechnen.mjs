@@ -2,7 +2,8 @@
  * Rechnet die PR-Prüfkette eines PR nach, bevor er gemergt wird (19.10.2026, Befund Prüfer 1576; Ansatz 1597 R2).
  * Grund: Die Kette läuft auf `refs/pull/N/merge`, also gegen main zum Zeitpunkt ihres Starts. GitHub baut diesen Merge-Commit
  * nicht neu, wenn main weiterkommt (gemessen 19.10.2026: 1597 blieb über 30 min auf der alten Basis), ein grüner Check kann also
- * gegen einen main gerechnet sein, den es nicht mehr gibt. `gh run rerun` nutzt denselben Merge-Commit; erst `reopened` baut ihn neu.
+ * gegen einen main gerechnet sein, den es nicht mehr gibt. `gh run rerun` nutzt denselben Merge-Commit; erst `reopened` baut ihn neu,
+ * und zwar nach dem Ereignis: dessen Lauf nimmt noch den alten Merge-Commit (gemessen 19.10.2026 an PR 1602), daher `anstossen`.
  *
  * Aufruf (Dirigent, vor jedem Merge): node tools/pr-nachrechnen.mjs <PR>
  *   Exit 0: der neueste Kettenlauf zum Kopf rechnete gegen den jetzigen main-HEAD.
@@ -17,6 +18,9 @@ export const KETTE = 'pr-pruefung.yml'
 /** Kleiner Job der Kette mit Checkout ohne eigenes `ref` (prüft `pr-nachrechnen.test.mjs` an der YAML). */
 export const JOB = 'Kette – Workflows'
 const OEFFNEN_VERSUCHE = 3
+/** Warten auf den neu gerechneten Merge-Commit nach dem ersten Wiederöffnen (gemessen 19.10.2026: nach wenigen Sekunden da). */
+export const REF_PRUEFUNGEN = 30
+export const REF_ABSTAND_MS = 2000
 
 /** Basis (erster Elternteil des Merge-Commits) aus dem Job-Log, nur wenn die Zeile zum Kopf gehört; sonst null. */
 export function basisAusLog(log, kopf) {
@@ -51,6 +55,32 @@ function oeffneMitWiederholung(gh, nummer) {
   }
 }
 
+function wiederoeffnen(gh, nummer) {
+  gh(['pr', 'close', String(nummer)])
+  oeffneMitWiederholung(gh, nummer)
+}
+
+/** Erster Elternteil des Merge-Commits, den GitHub gerade für den PR hält (`merge_commit_sha`, derselbe wie `refs/pull/N/merge`). */
+function mergeBasis(gh, nummer) {
+  const sha = gh(['api', `repos/{owner}/{repo}/pulls/${nummer}`, '--jq', '.merge_commit_sha']).trim()
+  return gh(['api', `repos/{owner}/{repo}/commits/${sha}`, '--jq', '.parents[0].sha']).trim()
+}
+
+/**
+ * Startet die Kette gegen den neuen main. Der Lauf zu `reopened` nimmt den Merge-Commit, der beim Öffnen galt; ist der veraltet,
+ * öffnet das erste Wiederöffnen nur, damit GitHub ihn neu rechnet, das zweite startet die Kette (den ersten Lauf bricht die Concurrency ab).
+ */
+export function anstossen(gh, nummer, main, warte) {
+  const vorher = mergeBasis(gh, nummer)
+  if (vorher === main) return wiederoeffnen(gh, nummer)
+  wiederoeffnen(gh, nummer)
+  for (let i = 0; mergeBasis(gh, nummer) === vorher; i++) {
+    if (i >= REF_PRUEFUNGEN) throw new Error(`PR ${nummer}: Merge-Commit nicht neu gerechnet, die Kette läuft noch gegen ${kurz(vorher)}`)
+    warte(REF_ABSTAND_MS)
+  }
+  wiederoeffnen(gh, nummer)
+}
+
 /** Liest Basis des neuesten Kettenlaufs; Rückgabe { basis } oder { grund } (dann ist nichts zu entscheiden). */
 function basisDesLaufs(gh, pr) {
   const laeufe = JSON.parse(gh(['run', 'list', '--workflow', KETTE, '--event', 'pull_request', '--branch', pr.headRefName, '--limit', '20', '--json', 'databaseId,headSha,createdAt']))
@@ -64,8 +94,8 @@ function basisDesLaufs(gh, pr) {
   return { basis }
 }
 
-/** Ablauf für einen PR; `gh(args)` ist eingespeist, `melde` schreibt eine Zeile. Rückgabe: Exit-Code (siehe Kopf). */
-export function nachrechnen(nummer, gh, melde) {
+/** Ablauf für einen PR; `gh(args)` und `warte(ms)` sind eingespeist, `melde` schreibt eine Zeile. Rückgabe: Exit-Code (siehe Kopf). */
+export function nachrechnen(nummer, gh, melde, warte) {
   const pr = JSON.parse(gh(['pr', 'view', String(nummer), '--json', 'number,state,mergeable,headRefOid,headRefName']))
   const halt = hindernis(pr)
   if (halt !== null) {
@@ -82,8 +112,7 @@ export function nachrechnen(nummer, gh, melde) {
     melde(`PR ${nummer}: aktuell, die Kette rechnete gegen main ${kurz(main)}`)
     return 0
   }
-  gh(['pr', 'close', String(nummer)])
-  oeffneMitWiederholung(gh, nummer)
+  anstossen(gh, nummer, main, warte)
   melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}), geschlossen und wieder geöffnet; Kette abwarten, dann erneut aufrufen`)
   return 1
 }
@@ -92,14 +121,19 @@ export function gh(args) {
   return execFileSync('gh', args, { encoding: 'utf8', windowsHide: true, maxBuffer: 64 * 1024 * 1024 })
 }
 
+/** Wartet synchron (das Werkzeug ist durchgehend synchron); Rückgabe von Atomics.wait, nach Ablauf 'timed-out'. */
+export function schlafe(ms) {
+  return Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms)
+}
+
 /** Startlogik: Argument prüfen, Fehler als Exit 2 (nie still grün). */
-export function main(argv, ausfuehrer, melde) {
+export function main(argv, ausfuehrer, melde, warte) {
   if (argv.length !== 1 || !/^\d+$/.test(argv[0])) {
     melde('Aufruf: node tools/pr-nachrechnen.mjs <PR-Nummer>')
     return 2
   }
   try {
-    return nachrechnen(Number(argv[0]), ausfuehrer, melde)
+    return nachrechnen(Number(argv[0]), ausfuehrer, melde, warte)
   } catch (e) {
     melde(`pr-nachrechnen: FEHLER ${e.message}`)
     return 2
@@ -107,5 +141,5 @@ export function main(argv, ausfuehrer, melde) {
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  process.exit(main(process.argv.slice(2), gh, (t) => console.log(t)))
+  process.exit(main(process.argv.slice(2), gh, (t) => console.log(t), schlafe))
 }

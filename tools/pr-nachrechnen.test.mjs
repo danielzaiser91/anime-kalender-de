@@ -8,7 +8,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { parse } from 'yaml'
-import { JOB, KETTE, basisAusLog, hindernis, main, nachrechnen, neuesterLauf } from './pr-nachrechnen.mjs'
+import { JOB, KETTE, REF_ABSTAND_MS, REF_PRUEFUNGEN, basisAusLog, hindernis, main, nachrechnen, neuesterLauf, schlafe } from './pr-nachrechnen.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -51,9 +51,15 @@ pruefe('hindernis: Konflikt (reopened startet dann keine Kette)', /Konflikt/.tes
 pruefe('hindernis: Mergebarkeit unbekannt', /noch nicht berechnet \(UNKNOWN\)/.test(hindernis({ ...offen, mergeable: 'UNKNOWN' })))
 
 // Kulisse: Antworten je genauer Argumentliste; drei Läufe, drei Jobs, der richtige jeweils in der Mitte.
+// Merge-Commit des PR: M_ALT (Basis BASIS) beim ersten Lesen, nach dem ersten Wiederöffnen M_NEU (Basis MAIN), wie an PR 1602 gemessen.
 const PR = { number: 7, state: 'OPEN', mergeable: 'MERGEABLE', headRefOid: KOPF, headRefName: 'fix/x' }
-function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTES_LOG } = {}) {
+const M_ALT = 'a1'.padEnd(40, '1')
+const M_NEU = 'b2'.padEnd(40, '2')
+function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTES_LOG, mergeShas = [M_ALT, M_NEU] } = {}) {
   return {
+    [`api repos/{owner}/{repo}/pulls/${nr} --jq .merge_commit_sha`]: { aus: mergeShas.map((s) => `${s}\n`) },
+    [`api repos/{owner}/{repo}/commits/${M_ALT} --jq .parents[0].sha`]: { aus: `${BASIS}\n` },
+    [`api repos/{owner}/{repo}/commits/${M_NEU} --jq .parents[0].sha`]: { aus: `${MAIN}\n` },
     [`pr view ${nr} --json number,state,mergeable,headRefOid,headRefName`]: { aus: JSON.stringify(pr) },
     [`run list --workflow ${KETTE} --event pull_request --branch fix/x --limit 20 --json databaseId,headSha,createdAt`]: {
       aus: JSON.stringify(laeufe ?? [lauf(KOPF, '2026-10-19T10:00:00Z', 11), lauf(KOPF, '2026-10-19T12:00:00Z', 12), lauf(KOPF, '2026-10-19T11:00:00Z', 13)]),
@@ -68,6 +74,7 @@ function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTE
 function kulisse(daten, { reopenFehler = 0 } = {}) {
   const aufrufe = []
   const meldungen = []
+  const gewartet = []
   let rest = reopenFehler
   const gh = (args) => {
     const schluessel = args.join(' ')
@@ -75,35 +82,58 @@ function kulisse(daten, { reopenFehler = 0 } = {}) {
     if (schluessel === 'pr reopen 7' && rest-- > 0) throw new Error('auf')
     const a = daten[schluessel]
     if (a === undefined || a.fehler !== undefined) throw new Error(a?.fehler ?? `HTTP 404: ${schluessel}`)
-    return a.aus
+    const n = aufrufe.filter((x) => x === schluessel).length
+    return Array.isArray(a.aus) ? a.aus[Math.min(n, a.aus.length) - 1] : a.aus
   }
-  return { gh, aufrufe, meldungen, melde: (t) => meldungen.push(t) }
+  return { gh, aufrufe, meldungen, gewartet, melde: (t) => meldungen.push(t), warte: (ms) => gewartet.push(ms) }
 }
 const schreibend = (aufrufe) => aufrufe.filter((a) => a.startsWith('pr close') || a.startsWith('pr reopen'))
 
 {
   const k = kulisse(antworten())
-  const code = nachrechnen(7, k.gh, k.melde)
+  const code = nachrechnen(7, k.gh, k.melde, k.warte)
   pruefe('aktuell (Basis = main) -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, k.aufrufe)
   pruefe('aktuell: Meldung nennt main', k.meldungen.join() === 'PR 7: aktuell, die Kette rechnete gegen main 7a466acc8', k.meldungen)
   pruefe('liest Log des Jobs aus dem neuesten Lauf (12, Job 92)', k.aufrufe.includes('run view 12 --json jobs') && k.aufrufe.includes('api repos/{owner}/{repo}/actions/jobs/92/logs'), k.aufrufe)
 }
 {
   const k = kulisse(antworten({ mainSha: MAIN }))
-  const code = nachrechnen(7, k.gh, k.melde)
-  pruefe('veraltet -> 1, erst schließen, dann öffnen', code === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7', k.aufrufe)
+  const code = nachrechnen(7, k.gh, k.melde, k.warte)
+  const ref = `api repos/{owner}/{repo}/pulls/7 --jq .merge_commit_sha`
+  const folge = k.aufrufe.filter((a) => a === ref || schreibend([a]).length > 0)
+  pruefe('veraltet, Merge-Commit alt -> 1, öffnen, neu gerechneten Merge-Commit abwarten, erneut öffnen', code === 1 && folge.join() === [ref, 'pr close 7', 'pr reopen 7', ref, 'pr close 7', 'pr reopen 7'].join() && k.gewartet.length === 0, k.aufrufe)
   pruefe('veraltet: Meldung nennt beide Stände', /NICHT AKTUELL \(Kette gegen 7a466acc8, main ist c0ffee000\)/.test(k.meldungen.join()), k.meldungen)
 }
+{
+  const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [M_NEU] }))
+  const code = nachrechnen(7, k.gh, k.melde, k.warte)
+  pruefe('veraltet, Merge-Commit schon neu gerechnet -> einmal öffnen genügt', code === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7' && k.gewartet.length === 0, k.aufrufe)
+}
+// Takt und Frist wie in docs/wissen/betrieb.md beschrieben (alle 2 s, höchstens 60 s; gemessen war der Ref nach wenigen Sekunden neu).
+pruefe('Warten: alle 2 s, höchstens 60 s', REF_ABSTAND_MS === 2000 && REF_PRUEFUNGEN * REF_ABSTAND_MS === 60000, { REF_ABSTAND_MS, REF_PRUEFUNGEN })
+// Grenze relativ zu REF_PRUEFUNGEN: neu gerechnet bei der letzten erlaubten Prüfung -> 1; eine Prüfung später -> Fehler, kein zweites Öffnen.
+for (const [alt, ok] of [[3, true], [REF_PRUEFUNGEN + 1, true], [REF_PRUEFUNGEN + 2, false]]) {
+  const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [...Array(alt).fill(M_ALT), M_NEU] }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  const gewartet = k.gewartet.join() === Array(Math.min(alt - 1, REF_PRUEFUNGEN)).fill(REF_ABSTAND_MS).join()
+  const erwartet = ok ? 'pr close 7,pr reopen 7,pr close 7,pr reopen 7' : 'pr close 7,pr reopen 7'
+  const meldung = ok || /FEHLER PR 7: Merge-Commit nicht neu gerechnet, die Kette läuft noch gegen 7a466acc8/.test(k.meldungen.join())
+  pruefe(`Merge-Commit ${alt}× alt gelesen -> ${ok ? 1 : 2}`, code === (ok ? 1 : 2) && gewartet && schreibend(k.aufrufe).join() === erwartet && meldung, { code, w: k.gewartet.length, m: k.meldungen })
+}
+{
+  const start = performance.now() // uhr-echt: misst, dass schlafe wirklich wartet
+  pruefe('schlafe wartet wirklich (Atomics.wait läuft ab, mindestens die Frist)', schlafe(50) === 'timed-out' && performance.now() - start >= 50)
+}
 for (const [n, erwartet] of [[1, 'pr close 7,pr reopen 7,pr reopen 7'], [2, 'pr close 7,pr reopen 7,pr reopen 7,pr reopen 7']]) {
-  const k = kulisse(antworten({ mainSha: MAIN }), { reopenFehler: n })
-  const code = nachrechnen(7, k.gh, k.melde)
+  const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [M_NEU] }), { reopenFehler: n })
+  const code = nachrechnen(7, k.gh, k.melde, k.warte)
   pruefe(`Öffnen scheitert ${n}× -> weiterer Versuch, Ergebnis 1`, code === 1 && schreibend(k.aufrufe).join() === erwartet, k.aufrufe)
 }
 {
-  const k = kulisse(antworten({ mainSha: MAIN }), { reopenFehler: 3 })
+  const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [M_NEU] }), { reopenFehler: 3 })
   let meldung = ''
   try {
-    nachrechnen(7, k.gh, k.melde)
+    nachrechnen(7, k.gh, k.melde, k.warte)
   } catch (e) {
     meldung = e.message
   }
@@ -113,7 +143,7 @@ for (const [n, erwartet] of [[1, 'pr close 7,pr reopen 7,pr reopen 7'], [2, 'pr 
   const daten = antworten({ mainSha: MAIN })
   daten['pr close 7'] = { fehler: '403' }
   const k = kulisse(daten)
-  const code = main(['7'], k.gh, k.melde)
+  const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe('Schließen scheitert -> 2, kein Öffnen', code === 2 && !k.aufrufe.includes('pr reopen 7') && /FEHLER 403/.test(k.meldungen.join()), { a: k.aufrufe, m: k.meldungen })
 }
 
@@ -128,17 +158,17 @@ const UNKLAR = [
 ]
 for (const [name, daten, muster] of UNKLAR) {
   const k = kulisse(daten)
-  const code = nachrechnen(7, k.gh, k.melde)
+  const code = nachrechnen(7, k.gh, k.melde, k.warte)
   pruefe(`${name} -> 2, nichts angestoßen`, code === 2 && schreibend(k.aufrufe).length === 0 && muster.test(k.meldungen.join()), { code, a: k.aufrufe, m: k.meldungen })
 }
 
 for (const argv of [[], ['abc'], ['7', '8'], ['7x']]) {
   const k = kulisse(antworten())
-  pruefe(`Aufruf ${JSON.stringify(argv)} -> 2 mit Hinweis, kein gh`, main(argv, k.gh, k.melde) === 2 && k.aufrufe.length === 0 && /^Aufruf:/.test(k.meldungen[0]), k.meldungen)
+  pruefe(`Aufruf ${JSON.stringify(argv)} -> 2 mit Hinweis, kein gh`, main(argv, k.gh, k.melde, k.warte) === 2 && k.aufrufe.length === 0 && /^Aufruf:/.test(k.meldungen[0]), k.meldungen)
 }
 {
   const k = kulisse(antworten())
-  pruefe('main reicht die Nummer durch: aktuell -> 0', main(['7'], k.gh, k.melde) === 0 && k.aufrufe[0].startsWith('pr view 7 '), k.aufrufe)
+  pruefe('main reicht die Nummer durch: aktuell -> 0', main(['7'], k.gh, k.melde, k.warte) === 0 && k.aufrufe[0].startsWith('pr view 7 '), k.aufrufe)
 }
 
 // Startlogik als eigener Prozess: echte argv, echtes gh() mit ersetztem execFileSync, echter Exit-Code.
@@ -163,12 +193,20 @@ function prozess(daten, argv) {
 {
   const r = prozess(antworten({ mainSha: MAIN }), ['7'])
   const args = r.aufrufe.map(([, a]) => a.join(' '))
-  pruefe('Prozess: veraltet -> Exit 1, schließt und öffnet 7', r.status === 1 && args.slice(-2).join() === 'pr close 7,pr reopen 7', { status: r.status, args })
+  pruefe('Prozess: veraltet -> Exit 1, schließt und öffnet 7 zweimal', r.status === 1 && schreibend(args).join() === 'pr close 7,pr reopen 7,pr close 7,pr reopen 7', { status: r.status, args })
 }
 {
   const r = prozess(antworten({ nr: 1602, pr: { ...PR, number: 1602 }, mainSha: MAIN }), ['1602'])
   const args = r.aufrufe.map(([, a]) => a.join(' '))
   pruefe('Prozess: Nummer aus argv (1602) reicht bis zum Schließen', r.status === 1 && args[0].startsWith('pr view 1602 ') && args.slice(-2).join() === 'pr close 1602,pr reopen 1602', { status: r.status, args })
+}
+{
+  // Ein Warten im echten Prozess: der Startblock reicht schlafe durch (fehlt es, scheitert der Aufruf mit Exit 2).
+  const start = performance.now() // uhr-echt: belegt, dass der Startblock das echte Warten durchreicht
+  const r = prozess(antworten({ mainSha: MAIN, mergeShas: [M_ALT, M_ALT, M_NEU] }), ['7'])
+  const dauer = performance.now() - start
+  const args = r.aufrufe.map(([, a]) => a.join(' '))
+  pruefe('Prozess: Merge-Commit erst nach einem Warten neu -> Exit 1, zweimal geöffnet, wartet REF_ABSTAND_MS', r.status === 1 && schreibend(args).length === 4 && dauer >= REF_ABSTAND_MS, { status: r.status, aus: r.aus, dauer })
 }
 {
   const daten = antworten({ mainSha: MAIN })
