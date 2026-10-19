@@ -20,7 +20,7 @@ function nameVon(n: ts.PropertyName | ts.JsxAttributeName): string | undefined {
  * Fester Anfang, der das Ziel festlegt: Sprungmarke, Pfad der eigenen Seite (nicht „//“, das wäre ein fremder Host), `mailto:` oder
  * Schema mit vollständigem Host (danach `/`, `?` oder `#`). Ein Leerzeichen am Anfang schneidet der Browser ab — es zählt nicht als fest.
  */
-const FESTER_ANFANG = /^(?:#|\/(?!\/)|mailto:|https?:\/\/[^/?#\s]+[/?#])/
+const FESTER_ANFANG = /^(?:#|\/(?!\/)|mailto:|https?:\/\/[^/?#]+[/?#])/
 
 /** Ein Ausdruck, der schon im Quelltext feststeht (Zeichenkette oder Vorlage mit festem Anfang). */
 function istFest(e: ts.Expression): boolean {

@@ -34,6 +34,7 @@ pruefe('Crunchyroll-Serie', belegTyp('https://www.crunchyroll.com/series/GXXX/x'
 pruefe('ADN-Kalender-Endpunkt', belegTyp('https://gw.api.animationdigitalnetwork.com/video/calendar?date=2026-10-10') === 'kalender')
 pruefe('ADN-Folgenliste einer Katalog-Serie', belegTyp('https://gw.api.animationdigitalnetwork.com/video/show/1318') === 'katalog')
 pruefe('ADN-Folgenliste mit Zusatzpfad bleibt Kalender (nur die genaue Form zählt)', belegTyp('https://gw.api.animationdigitalnetwork.com/video/show/1318/x') === 'kalender')
+pruefe('Folgenliste unter fremdem Vorpfad bleibt Kalender', belegTyp('https://gw.api.animationdigitalnetwork.com/x/video/show/1318') === 'kalender')
 pruefe('Feed', belegTyp('https://www.anime2you.de/feed/') === 'feed')
 pruefe('Netflix-Titelseite', belegTyp('https://www.netflix.com/title/82647303') === 'katalog')
 const SIMULCAST_ARTIKEL = [

@@ -144,6 +144,7 @@ console.log('\nDie Kette des Baus (baueNews → belegeFuerAlle → entdoppeleUnd
   const gemischt = belegeFuerAlle([eintragMit([{ url: API, name: 'ADN API' }, { url: ARTIKEL, name: 'x' }])], {})
   pruefe('Meldung mit leerem API-Beleg und Artikel: nur der Artikel bleibt', gemischt[0]?.meldungen[0]?.belege?.map((b) => b.url).join() === ARTIKEL, gemischt)
   pruefe('apiBelegMitInhalt: Seite ja, API ohne Messung nein, API mit Messung ja', apiBelegMitInhalt({ url: ARTIKEL, name: 'x' }) && !apiBelegMitInhalt({ url: API, name: 'x' }) && apiBelegMitInhalt({ url: API, name: 'x', messung: { am: 'a', quelle: 'q', zeilen: ['z'] } }))
+  pruefe('apiBelegMitInhalt: API mit Messung ohne Zeilen nein', !apiBelegMitInhalt({ url: API, name: 'x', messung: { am: 'a', quelle: 'q', zeilen: [] } }))
   let geworfen = false
   try {
     entdoppeleUndMelde([eintragMit([{ url: API, name: 'ADN API' }])])

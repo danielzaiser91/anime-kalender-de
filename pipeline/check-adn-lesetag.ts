@@ -56,6 +56,7 @@ try {
   console.log('\nADN-Adresse: Kalender oder Folgenliste der Serie')
   pruefe('Katalog-Adresse und Serienkennung', adnKatalogShow(adnKatalogUrl(1318)) === 1318, adnKatalogUrl(1318))
   pruefe('Kalender und Zusatzpfad sind keine Katalog-Adresse', adnKatalogShow(KALENDER) === undefined && adnKatalogShow(`${adnKatalogUrl(1318)}/x`) === undefined)
+  pruefe('Katalog-Adresse hinter fremdem Anfang ist keine', adnKatalogShow(`https://x.de/?u=${adnKatalogUrl(1318)}`) === undefined)
 
   console.log('\nLesetag je Endpunkt')
   /* 23:30 UTC ist in Berlin schon der nächste Tag. */

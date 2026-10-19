@@ -60,11 +60,14 @@ console.log('\nScanner: Fälle')
   pruefe('ein Attribut ohne Wert wird nicht gemeldet, ein anderes Attribut auch nicht', stellen('const a = <a data-href={b.url} download/>').length === 0)
   /* Umgehungen aus Prüfer 1598 A4. */
   pruefe('Zuweisung a.href = … und a["href"] = … werden gemeldet, eine feste nicht', stellen('a.href = q.url; a["href"] = q.seite; b.href = "https://x.de/"', 'x.ts').join() === 'q.url,q.seite')
+  pruefe('Zuweisung an ein anderes Feld und ein Vergleich mit href sind kein Befund', stellen('a["title"] = q.x; a.title = q.y; if (a.href === q.z) f()', 'x.ts').length === 0)
   pruefe('Vorlage mit Leerzeichen am Anfang wird gemeldet', stellen('const a = <a href={` ${q.url}`}/>').join() === '` ${q.url}`')
-  pruefe('Vorlage ohne vollständigen Host wird gemeldet', stellen('const a = <a href={`https://${q.host}/x`}/><a href={`https://x.de${q.pfad}`}/>').length === 2)
+  /* „https:///…“ liest der Browser als „https://…“: der Host käme aus den Daten. */
+  pruefe('Vorlage ohne vollständigen Host wird gemeldet', stellen('const a = <a href={`https://${q.host}/x`}/><a href={`https://x.de${q.pfad}`}/><a href={`https:///${q.host}`}/>').length === 3)
   pruefe('Vorlage mit „//“ am Anfang (fremder Host) wird gemeldet, ein eigener Pfad nicht', stellen('const a = <a href={`//${q.host}`}/><a href={`/titel/${q.slug}`}/>').join() === '`//${q.host}`')
   pruefe('berechneter Schlüssel [\'href\'] wird gemeldet', stellen("h('a', { ['href']: q.url })", 'x.ts').join() === 'q.url')
   pruefe('setAttribute(\'href\', …) wird gemeldet, ein anderes Attribut nicht, ein berechneter Name als „?“', stellen("a.setAttribute('href', q.url); a.setAttribute('aria-hidden', q.x); a.setAttribute(n, q.y)", 'x.ts').join() === "q.url,?a.setAttribute(n, q.y)")
+  pruefe('setAttribute(\'HREF\', …) wird gemeldet (Attributnamen ohne Groß/klein)', stellen("a.setAttribute('HREF', q.url)", 'x.ts').join() === 'q.url')
   pruefe('.ts-Datei: <T>x ist eine Typzusicherung, kein JSX', stellen('h("a", { href: <string>q.url })', 'x.ts').join() === '<string>q.url', stellen('h("a", { href: <string>q.url })', 'x.ts'))
 }
 
@@ -97,7 +100,7 @@ console.log('\nDateiauswahl: .ts und .tsx, auch in Unterordnern')
   const ordner = mkdtempSync(join(tmpdir(), 'beleg-href-'))
   try {
     mkdirSync(join(ordner, 'lib'))
-    for (const d of ['lib/a.ts', 'b.tsx', 'c.css', 'd.d.json']) writeFileSync(join(ordner, d), '')
+    for (const d of ['lib/a.ts', 'b.tsx', 'c.css', 'd.d.json', 'e.tsx.snap']) writeFileSync(join(ordner, d), '')
     const namen = dateien(ordner).map((d) => relative(ordner, d).replaceAll('\\', '/')).sort()
     pruefe('lib/a.ts und b.tsx, nichts sonst (Prüfer 1598 A5c)', namen.join() === 'b.tsx,lib/a.ts', namen)
   } finally {
