@@ -37,7 +37,7 @@ export function trifftNochZu(
   const staffel = /: Titel (-?\d+)(?: \(.*?\))? ist Staffel (\d+), die Seite .* Staffel (\d+)$/.exec(text)
   if (!staffel) return false
   const nr = staffelNr(Number(staffel[1]))
-  return nr !== undefined && nr === Number(staffel[2]) && nr !== Number(staffel[3])
+  return nr === Number(staffel[2]) && nr !== Number(staffel[3])
 }
 
 /** Momentaufnahme: offene Befunde bleiben samt Datum, neue kommen mit `heute` dazu, erledigte fallen weg. */

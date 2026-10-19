@@ -40,11 +40,14 @@ pruefe(trifftNochZu('Meldung 1: 40 Folgen gemeldet, Titel -4 hat 12 (X)', liste,
 const staffelText = 'Meldung 1: Titel 3 (Name) ist Staffel 1, die Seite https://x/y Staffel 2'
 pruefe(trifftNochZu(staffelText, liste, staffel), 'Staffel-Widerspruch trifft noch zu')
 pruefe(!trifftNochZu(staffelText, liste, () => 2), 'Staffel-Widerspruch trifft nach geänderter Staffelnummer noch zu')
+pruefe(!trifftNochZu(staffelText, liste, () => 3), 'Staffel-Widerspruch trifft bei Nummer 3 statt 1 noch zu')
+pruefe(!trifftNochZu('Meldung 1: Titel 3 ist Staffel 1, die Seite X Staffel 1', liste, staffel), 'Staffel 1 gegen Staffel 1 ist ein Widerspruch')
 pruefe(!trifftNochZu(staffelText, liste, () => undefined), 'Staffel-Widerspruch trifft ohne Reihe noch zu')
 pruefe(!trifftNochZu('Meldung 1: etwas anderes', liste, staffel), 'unlesbarer Text gilt als offen')
 const alt = [{ am: '2026-01-01', text: 'bleibt' }, { am: '2026-01-01', text: 'fällt weg' }]
 const eintraege = momentaufnahme(['bleibt', 'bleibt', 'neu'], alt, '2026-10-19', (t) => t === 'bleibt')
 pruefe(JSON.stringify(eintraege) === JSON.stringify([{ am: '2026-01-01', text: 'bleibt' }, { am: '2026-10-19', text: 'neu' }]), `Momentaufnahme: ${JSON.stringify(eintraege)}`)
+pruefe(momentaufnahme(['x', 'x'], [], '2026-10-19', () => false).length === 1, 'derselbe neue Text steht doppelt in der Datei')
 pruefe(momentaufnahme([], alt, '2026-10-19', () => false).length === 0, 'ohne offenen Befund bleibt die Datei nicht leer')
 pruefe(momentaufnahme([], alt, '2026-10-19', () => true).length === 2, 'ein offener Befund fällt ohne neue Meldung weg')
 pruefe(warnungsText(3).startsWith('3 Meldung(en) auffällig'), 'Warnungstext zählt nicht')
