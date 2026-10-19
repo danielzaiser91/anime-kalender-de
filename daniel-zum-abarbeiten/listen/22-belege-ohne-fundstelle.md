@@ -1,4 +1,4 @@
-# Belege ohne Fundstelle (101)
+# Belege ohne Fundstelle (102)
 
 Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artikel den Titel und den Termin? Wenn nein, ist der Beleg hinfällig und der Termin braucht eine andere Quelle.
 
@@ -32,6 +32,7 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/ (gelesen 2026-10-18) — Hands off: Sawaranaide Kotesashi-kun! (187331), Trinity Seven Movie - Tenkuu Toshokan to Shinku no Maou (103631), Your Forma (167142)
 - https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/ (gelesen 2026-10-18) — Shingeki no Kyojin (16498)
 - https://news.animationdigitalnetwork.com/de/2026/10/05/school-babysitters-die-besondere-kita-im-stream-bei-adn/ (gelesen 2026-10-05) — Assassination Classroom (20755), Assassination Classroom Second Season (21170)
+- https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855 (gelesen 2026-10-19) — kein Titel zugeordnet
 - https://www.joyn.de/filme/appleseed-alpha-bpr7vttruhwc (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/serien/detektiv-conan (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/serien/dr-stone (gelesen 2026-10-13) — kein Titel zugeordnet
@@ -102,4 +103,4 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1057673/crunchyroll-zeigt-red-riding-hood/ (gelesen 2026-10-15) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/ (gelesen 2026-10-18) — Snowball Earth (196144)
 - https://www.disneyplus.com/de-de/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855 (gelesen 2026-10-17) — kein Titel zugeordnet
-- https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/ (gelesen 2026-10-18) — Good Luck Girl! – Vol. 1 (13535), Kaiju No. 8 – Staffel 2 – Komplettbox (178754)
+- https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/ (gelesen 2026-10-19) — Good Luck Girl! – Vol. 1 (13535), Kaiju No. 8 – Staffel 2 – Komplettbox (178754)

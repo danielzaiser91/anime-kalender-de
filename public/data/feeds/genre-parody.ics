@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Parody
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-GNVHKN933@2026-10-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261011T140000Z
-DTEND:20261011T143000Z
-SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
- Love You Staffel 3 – Folge 36/36
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17148/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:trapped-in-a-dating-sim-s2@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T153000Z
@@ -34,16 +23,6 @@ DTEND;VALUE=DATE:20261017
 SUMMARY:My Next Life as a Villainess – Staffel 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/11725/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:good-luck-girl-vol-1-2026-11-20@2026-11-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261120
-DTEND;VALUE=DATE:20261121
-SUMMARY:Good Luck Girl! – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/5901/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -68,10 +47,20 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:good-luck-girl-vol-2-2027-02-05@2027-02-05@anime-kalender-de
+UID:good-luck-girl-vol-1-2026-11-20@2027-02-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270205
 DTEND;VALUE=DATE:20270206
+SUMMARY:Good Luck Girl! – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/5901/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:good-luck-girl-vol-2-2027-02-05@2027-03-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270305
+DTEND;VALUE=DATE:20270306
 SUMMARY:Good Luck Girl! – Vol. 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/5901/
