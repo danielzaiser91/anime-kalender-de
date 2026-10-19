@@ -7,21 +7,21 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 14 Wege, nur Hinweis: 1.
+Flagge „Deutsch“: 12 Wege, nur Hinweis: 1.
 
 JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 11, Mehrteiler 6.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
 | crunchyroll | 1 | 0 | 0.0 % | Flagge |
-| primevideo | 10 | 0 | 0.0 % | Flagge |
+| primevideo | 8 | 0 | 0.0 % | Flagge |
 
 ### Widersprüche (0)
 
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (258)
+### Kandidaten für neue Wege (260)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -170,6 +170,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Dimension W (21256) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.d3f206fd-967f-4eb9-a069-3aa253f5f5f4 | ja |
 | Servamp (21269) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.3b96e295-4a31-4814-8472-dba8d439e98f | nein |
 | Comet Lucifer (21275) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.34b4f4c4-41c0-38b2-097b-0719a62ea462 | ja |
+| Kuroko’s Basketball The Movie: Last Game (21377) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.825e4512-d027-4c55-be66-c85fe4895240 | ja |
 | Alderamin on the Sky (21410) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.482c244a-099f-4fee-a483-3b45a6324c9e | ja |
 | Kiznaiver (21421) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.afc4839d-e573-4ad4-8331-9160e32cb450 | ja |
 | Hybrid × Heart Magias Academy Ataraxia (21378) | Crunchyroll | crunchyroll:GQJUGKKDE | ja |
@@ -268,6 +269,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Insomniacs after School (143653) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.eefa45cc-f921-4804-83e6-f259301a5dbb | ja |
 | Bibliophile Princess (144533) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.c440fb64-cb84-49ad-8134-eea3e6b13015 | ja |
 | I’ve Somehow Gotten Stronger When I Improved My Farm-Related Skills (145815) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.b8512336-9f32-41be-a161-33c8e306f8af | ja |
+| Break of Dawn (146489) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.824c7919-b495-4813-8565-f9e3a9475123 | ja |
 | Onimai: Ab sofort Schwester! (147864) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.d63967e9-249d-4945-b801-9f06f4d1f086 | ja |
 | The Dreaming Boy Is a Realist (157397) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.579071e8-8048-42d9-babd-a1b24b492c4c | ja |
 | Ghost Cat Anzu (158641) | Amazon Prime Video | amazon:amzn1.dv.gti.45fb7e7b-9935-4bb7-abc3-5b6a4d04aa37 | ja |
