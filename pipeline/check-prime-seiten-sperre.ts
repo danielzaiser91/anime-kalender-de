@@ -27,7 +27,7 @@ const faelle = [
 const fehler: string[] = []
 try {
   schreibe('data/dub-confirmed.yaml', '[]\n')
-  schreibe('data/prime-seiten-von-hand.json', JSON.stringify([{ titleId: 900021, seite: SPERRE }, { titleId: 900123, seite: SPERRE }]))
+  schreibe('data/prime-seiten-von-hand.json', JSON.stringify([{ titleId: 900021, seite: SPERRE }]))
   const zugeordnet: Record<string, unknown> = {}
   for (const f of faelle) {
     zugeordnet[f.schluessel] = {

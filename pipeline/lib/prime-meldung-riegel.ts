@@ -31,6 +31,11 @@ export function seiteGesperrt(sperren: SeitenSperre[], titleId: number, seite: s
   return !!seite && sperren.some((s) => s.titleId === titleId && s.seite === seite)
 }
 
+/** Der eine Zugang zu `data/prime-zugeordnet.json`: Meldungen ohne die von Hand gesperrten Seiten, für jeden Leser und den Zuordner-Schreibweg. */
+export function leseZugeordnet<T extends { titleId: number; seite?: string | null }>(roh?: Record<string, T>): Record<string, T> {
+  return Object.fromEntries(ohneGesperrteSeiten(roh ?? readJson<Record<string, T>>('data/prime-zugeordnet.json', {})))
+}
+
 /** Die Meldungen aus `prime-zugeordnet.json` ohne die von Hand gesperrten Seiten (`data/prime-seiten-von-hand.json`). */
 export function ohneGesperrteSeiten<T extends { titleId: number; seite?: string | null }>(roh: Record<string, T>): [string, T][] {
   const sperren = readJson<SeitenSperre[]>('data/prime-seiten-von-hand.json', [])
