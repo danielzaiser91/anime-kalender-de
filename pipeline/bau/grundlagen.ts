@@ -135,6 +135,17 @@ export const CR_CALENDAR_URL = 'https://www.crunchyroll.com/de/simulcastcalendar
  */
 export const ADN_CALENDAR_URL = 'https://gw.api.animationdigitalnetwork.com/video/calendar'
 
+/** Serien, die nur der Katalog-Lauf kennt, kommen aus ihrer Folgenliste (`fetch-adn.ts`, `ladeSerie`), nicht aus dem Kalender. */
+export function adnKatalogUrl(showId: number): string {
+  return `https://gw.api.animationdigitalnetwork.com/video/show/${showId}`
+}
+
+/** Die Serienkennung einer Katalog-Adresse (`adnKatalogUrl`), sonst `undefined`. */
+export function adnKatalogShow(url: string): number | undefined {
+  const m = /^https:\/\/gw\.api\.animationdigitalnetwork\.com\/video\/show\/(\d+)$/.exec(url)
+  return m ? Number(m[1]) : undefined
+}
+
 /** Wie lange ein belegtes Nein eine Ergänzung aus aniSearch sperrt. */
 export const NEIN_GILT_TAGE = 28
 

@@ -8,11 +8,11 @@
     },
     "shared": {
       "funktionen": 237,
-      "dateien": 151,
+      "dateien": 127,
       "ketten": 37
     },
     "web/src": {
-      "funktionen": 4038,
+      "funktionen": 4026,
       "dateien": 374,
       "ketten": 41
     },

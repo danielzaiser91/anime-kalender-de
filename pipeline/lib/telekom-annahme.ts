@@ -20,9 +20,54 @@ export function magentaOhneDeutsch(angebote: JwAngebot[]): boolean {
   return angebote.some((a) => /^magentatv$/i.test(a.anbieter ?? '') && (a.audio?.length ?? 0) > 0 && !a.audio?.includes('de'))
 }
 
-/** Setzt die Annahme an den Telekom-Wegen ohne eigene Angabe; gibt die Zahl der gesetzten Wege zurück. */
+/** Gracenote-Kennung (`GN_…`) aus der Adresse eines Telekom-Wegs. */
+export function gnKennung(url: string): string | undefined {
+  if (!/magenta\.tv\/|videoload\.de\//i.test(url)) return undefined
+  return /\/(GN_[A-Z0-9_]+)/i.exec(url)?.[1]?.toUpperCase()
+}
+
+const gemessenDeutsch = (w: WatchLink): boolean => !w.dubAbgeleitet && Boolean(w.dubRanges?.length) && w.dubRanges!.every((r) => r.dub)
+
+/**
+ * Videoload führt JustWatch nicht, der MagentaTV-Weg mit derselben Gracenote-Kennung ist derselbe Katalogeintrag (19.10.2026,
+ * „Your Name“). Hat dieser Zwilling bei einem Film gemessenes Deutsch, übernimmt der Videoload-Weg es als Messung statt der
+ * Annahme. Serien nicht (JustWatch-Ton gilt dort nur je Staffel, Regel 07.09.2026).
+ */
+export function uebernehmeZwilling(title: Title): number {
+  if (title.format !== 'MOVIE') return 0
+  const wege = title.watchLinks ?? []
+  let n = 0
+  for (const w of wege) {
+    if (w.name !== 'Videoload' || w.dubRanges?.length) continue
+    const gn = gnKennung(w.url)
+    const zwilling = gn ? wege.find((z) => z.name === 'MagentaTV' && gemessenDeutsch(z) && gnKennung(z.url) === gn) : undefined
+    if (!zwilling) continue
+    w.dubRanges = zwilling.dubRanges!.map((r) => ({ ...r }))
+    n++
+  }
+  return n
+}
+
+/** Wächter (Bestand): Ein Telekom-Weg trägt die Annahme, obwohl ein MagentaTV-Zwilling mit gleicher Kennung gemessenes Deutsch hat. */
+export function zwillingFehler(titles: Iterable<Title>): string[] {
+  const fehler: string[] = []
+  for (const t of titles) {
+    const wege = t.watchLinks ?? []
+    for (const w of wege) {
+      if (w.dubAbgeleitet !== 'telekom-annahme') continue
+      const gn = gnKennung(w.url)
+      if (gn && wege.some((z) => z !== w && z.name === 'MagentaTV' && gemessenDeutsch(z) && gnKennung(z.url) === gn)) {
+        fehler.push(`Anime ${t.id}: „${w.name}" nimmt Deutsch an, obwohl der MagentaTV-Zwilling ${gn} es gemessen hat`)
+      }
+    }
+  }
+  return fehler
+}
+
+/** Setzt die Annahme an den Telekom-Wegen ohne eigene Angabe (vorher übernimmt Videoload die Messung des Zwillings); gibt die Zahl der gesetzten Wege zurück. */
 export function setzeTelekomAnnahme(title: Title, angebote: JwAngebot[]): number {
   if (magentaOhneDeutsch(angebote)) return 0
+  uebernehmeZwilling(title)
   let gesetzt = 0
   for (const w of title.watchLinks ?? []) {
     if (!istTelekomShop(w) || w.dubRanges?.length) continue
