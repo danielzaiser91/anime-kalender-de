@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-18. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-19. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-29 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+30 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -14,9 +14,9 @@ Stand: 2026-10-18. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-10 (Monat) | primevideo, aniverse | ✅ zugesagt | [Neue Anime-Katalogtitel im Oktober 2026 bei aniverse](https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/) |
 | 2026-10 (Monat) | adn | ❌ nur Originalton | [ADN nimmt »86 EIGHTY-SIX« in sein Programm auf](https://www.anime2you.de/news/1052781/86-eighty-six-bald-auf-adn/) |
 | 2026-10-30, 2026-10 (Monat) | crunchyroll | – unklar | [Crunchyroll bald nicht mehr auf Nintendo Switch verfügbar](https://www.anime2you.de/news/1044861/crunchyroll-bald-nicht-mehr-auf-nintendo-switch/) |
-| 2026-10-18 | ? | – unklar | [TV-Guide: Anime im deutschen Fernsehen in KW 42/2026](https://www.anime2you.de/news/1060030/anime-tv-programm-42-2026/) |
-| 2026-10-18 | crunchyroll, netflix, adn | ❌ nur Originalton | [Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast](https://www.anime2you.de/news/1056092/dragon-ball-super-beerus-simulcast/) |
+| 2026-10-25 | ? | – unklar | [TV-Guide: Anime im deutschen Fernsehen in KW 43/2026](https://www.anime2you.de/news/1062070/anime-tv-programm-43-2026/) |
 | 2026-10-31 | primevideo | ✅ zugesagt | [Drei Anime-Serien verlassen bald den Prime-Video-Katalog](https://www.anime2you.de/news/1056183/prime-video-entfernt-naruto-und-mehr/) |
+| 2026-11-09, 2026-11 (Monat) | ? | – unklar | [ProSieben FUN wiederholt »Magical Girl Special Ops Asuka«](https://www.anime2you.de/news/1062104/prosieben-fun-magical-girl-special-ops-asuka-wiederholung/) |
 | 2026-11-05, 2026-11 (Monat) | ? | – unklar | [ProSieben MAXX wiederholt »Whole Cake Island«-Arc von »One Piece«](https://www.anime2you.de/news/1059541/prosieben-maxx-whole-cake-island-arc-one-piece/) |
 | 2026-11-26, 2026-11 (Monat) | netflix | ⚠️ offen | [Netflix-Termin des Thriller-Anime »Fool Night« + Teaser](https://www.anime2you.de/news/1043399/fool-night-netflix-termin/) |
 | 2026-11-03, 2026-11 (Monat) | netflix | – unklar | [Netflix kündigt neuen Original-Anime »Bass X Machina« an + Teaser](https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/) |
@@ -35,62 +35,63 @@ Stand: 2026-10-18. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-04 (Monat) | ? | – unklar | [Start von »Walking Home with You« steht fest + Visual](https://www.anime2you.de/news/1058153/start-von-walking-home-with-you/) |
 | 2027-04 (Monat) | ? | – unklar | [Start von »The Case Files of Biblia Bookstore« + Teaser](https://www.anime2you.de/news/1057109/start-von-the-case-files-of-biblia-bookstor/) |
 | 2027-05-07, 2027-04-30 | kino | – unklar | [Nintendo verschiebt »The Legend of Zelda«-Film erneut + Bilder](https://www.anime2you.de/news/1010428/the-legend-of-zelda-film-erneut-verschoben/) |
+| 2027-05 (Monat) | ? | – unklar | [Neue Plüschfigur der »Frieren«-Protagonistin angekündigt](https://www.anime2you.de/news/1061247/frieren-protagonistin-sakami-plueschfigur/) |
 | 2027-05 (Monat) | ? | – unklar | [Zwei neue Acrylanhänger zu »Detektiv Conan« angekündigt](https://www.anime2you.de/news/1061186/zwei-detektiv-conan-acrylanhaenger/) |
 | 2027-05 (Monat) | ? | – unklar | [»Fairy Tail« erhält neue Anhänger, Tragetasche und XXL-Mauspad](https://www.anime2you.de/news/1061130/neues-fairy-tail-merchandise/) |
 
-Dazu 50 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 52 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 12 |
-| adn-catalog | 5.9 Tage her | 109 |
+| adn-catalog | 7.0 Tage her | 109 |
 | adn-news | 0.1 Tage her | 75 |
-| anilist-voices | 6.0 Tage her | 3 |
-| anime-offline-database | 6.0 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 102 |
-| anisearch | 0.9 Tage her | 14822 |
-| anisearch-cover-eigen | 6.5 Tage her | 1874 |
-| anisearch-dubs | 1.0 Tage her | 11920 |
-| anisearch-eintraege | 6.0 Tage her | 400 |
-| anisearch-folgen | 6.0 Tage her | 1958 |
-| anisearch-slugs | 6.0 Tage her | 14846 |
-| anisearch-zuordnung | 1.0 Tage her | 18473 |
-| ann-voices | 6.0 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 43 |
-| cartoon-folgen | 6.0 Tage her | 150 |
-| cartoon-reihen | 1.0 Tage her | 1 |
-| cartoons | 1.0 Tage her | 1 |
-| cinestar | 6.0 Tage her | 1 |
-| cr-einzelwerke | 24.7 Tage her | 0 |
-| cr-filmbloecke | 24.7 Tage her | 0 |
-| crunchyroll | 0.0 Tage her | 20 |
+| anilist-voices | 7.0 Tage her | 3 |
+| anime-offline-database | 7.0 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 103 |
+| anisearch | 0.0 Tage her | 14823 |
+| anisearch-cover-eigen | 7.5 Tage her | 1874 |
+| anisearch-dubs | 0.0 Tage her | 11921 |
+| anisearch-eintraege | 7.0 Tage her | 400 |
+| anisearch-folgen | 7.0 Tage her | 1958 |
+| anisearch-slugs | 7.0 Tage her | 14846 |
+| anisearch-zuordnung | 0.0 Tage her | 18475 |
+| ann-voices | 7.0 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 8 |
+| cartoon-folgen | 7.0 Tage her | 150 |
+| cartoon-reihen | 0.0 Tage her | 1 |
+| cartoons | 0.0 Tage her | 2 |
+| cinestar | 0.0 Tage her | 1 |
+| cr-einzelwerke | 25.7 Tage her | 0 |
+| cr-filmbloecke | 25.7 Tage her | 0 |
+| crunchyroll | 0.0 Tage her | 21 |
 | crunchyroll-dub | 0.0 Tage her | 1133 |
-| crunchyroll-neu | 0.0 Tage her | 134 |
-| crunchyroll-offene | 5.9 Tage her | 14 |
+| crunchyroll-neu | 0.0 Tage her | 140 |
+| crunchyroll-offene | 7.0 Tage her | 14 |
 | crunchyroll-woche | 0.0 Tage her | 65 |
-| fsk | 12.6 Tage her | 3 |
-| justwatch-audio | 5.9 Tage her | 792 |
-| kinoheld | 6.0 Tage her | 1 |
-| kitsu-folgen | 6.0 Tage her | 23 |
-| link-check | 12.6 Tage her | 287 |
+| fsk | 13.6 Tage her | 3 |
+| justwatch-audio | 7.0 Tage her | 792 |
+| kinoheld | 0.0 Tage her | 0 |
+| kitsu-folgen | 7.0 Tage her | 23 |
+| link-check | 13.6 Tage her | 287 |
 | messbelege | 0.0 Tage her | 0 |
-| motn | 9.7 Tage her | 1943 |
-| motn-changes | 0.0 Tage her | 3 |
-| rohfolgen | 1.3 Tage her | 0 |
-| rtlplus-folgen | 6.0 Tage her | 3 |
-| tmdb-banner | 6.0 Tage her | 82 |
-| tmdb-folgen | 6.0 Tage her | 883 |
-| tmdb-kino | 6.0 Tage her | 3 |
-| tmdb-poster | 6.0 Tage her | 72 |
-| tmdb-titles | 6.0 Tage her | 248 |
+| motn | 10.7 Tage her | 1943 |
+| motn-changes | 0.0 Tage her | 12 |
+| rohfolgen | 0.4 Tage her | 0 |
+| rtlplus-folgen | 7.0 Tage her | 3 |
+| tmdb-banner | 7.0 Tage her | 82 |
+| tmdb-folgen | 7.0 Tage her | 883 |
+| tmdb-kino | 7.0 Tage her | 3 |
+| tmdb-poster | 7.0 Tage her | 72 |
+| tmdb-titles | 7.0 Tage her | 248 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 1.0 Tage her | 0 |
-| tv-de | 0.2 Tage her | 67 |
-| tv-programm | 0.0 Tage her | 248 |
+| trailer | 0.0 Tage her | 0 |
+| tv-de | 0.2 Tage her | 73 |
+| tv-programm | 0.0 Tage her | 270 |
 | vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 6.0 Tage her | 4788 |
-| wikidata-titel | 6.0 Tage her | 15 |
+| wikidata-imdb | 0.0 Tage her | 5192 |
+| wikidata-titel | 0.0 Tage her | 15 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 6.0 Tage her | 1 |
+| youtube-check | 0.0 Tage her | 0 |

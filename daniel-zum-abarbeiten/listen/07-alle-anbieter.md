@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-18 · **26 offene Verweise** in **21 Zeilen**.
+Stand 2026-10-19 · **26 offene Verweise** in **21 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -43,14 +43,14 @@ Synchro und zweiter ohne, Zeile 4 tot.
 |---|---|---|---|
 | 1 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
 | 2 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() · [Swordsmith Village Arc](https://www.amazon.de/gp/video/detail/B0FD7YTKWK) · [Hashira Training Arc](https://www.amazon.de/gp/video/detail/B0CYGQ9WSF) |
-| 3 | 2026-10-09 | Gachiakuta | [Hauptserie]() |
+| 3 | 2026-10-09 | Gachiakuta | [Hauptserie](https://www.disneyplus.com/browse/entity-14f5d468-38b2-4d4b-97ed-649e6c3ba4c8) |
 | 4 | 2026-10-07 | The Detective Is Already Dead | [Staffel 2]() |
 | 5 | 2026-10-06 | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
 | 6 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie]() |
 | 7 | 2026-09-28 | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
 | 8 | 2026-09-28 | Jujutsu Kaisen | [0]() |
 | 9 | 2026-09-26 | A Wild Last Boss Appeared! | [Staffel 2]() |
-| 10 | 2026-09-20 | A Sign of Affection | [Hauptserie]() |
+| 10 | 2026-09-20 | A Sign of Affection | [Hauptserie](https://www.disneyplus.com/browse/entity-81a4b821-1dbe-4ecc-9e01-57a7941982c3) |
 | 11 | 2026-09-17 | Danganronpa | [Hauptserie](https://www.amazon.de/gp/video/detail/B0CHK728W1) |
 | 12 | 2026-09-17 | Samurai Girls | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DP5DZW86) · [2: Samurai Bride](https://www.amazon.de/gp/video/detail/B0DND4SB6V) |
 | 13 | 2026-09-13 | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |

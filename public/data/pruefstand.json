@@ -1,13 +1,13 @@
 {
- "erzeugtAm": "2026-10-18T21:11:27.872Z",
+ "erzeugtAm": "2026-10-19T09:28:23.137Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 548,
-   "gesamt": 944,
-   "offen": 396,
-   "ohneSeite": 28,
+   "gemeldet": 545,
+   "gesamt": 945,
+   "offen": 400,
+   "ohneSeite": 31,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -15,10 +15,13 @@
     "https://www.amazon.de/s?k=Es%20war%20einmal%20%E2%80%A6%20Amerika&i=instant-video",
     "https://www.amazon.de/s?k=Es%20war%20einmal%20%E2%80%A6%20Die%20Entdeckung%20unserer%20Welt&i=instant-video",
     "https://www.amazon.de/s?k=Miraculous%3A%20Geschichten%20von%20Ladybug%20und%20Cat%20Noir&i=instant-video",
+    "https://www.amazon.de/s?k=Rick%20and%20Morty%3A%20The%20Anime&i=instant-video",
+    "https://www.amazon.de/s?k=Vampire%20Hunter%20D%3A%20Bloodlust&i=instant-video",
     "https://www.amazon.de/s?k=Operation%3A%20Nussknacker%20-%20Auf%20die%20N%C3%BCsse%2C%20fertig%2C%20los!&i=instant-video",
     "https://www.amazon.de/s?k=Sam%3A%20Ein%20fast%20perfekter%20Held&i=instant-video",
     "https://www.amazon.de/s?k=The%20Birth%20of%20Kitaro%3A%20Das%20Geheimnis%20von%20GeGeGe&i=instant-video",
     "https://www.amazon.de/s?k=Es%20war%20einmal%20%E2%80%A6%20Entdecker%20und%20Erfinder&i=instant-video",
+    "https://www.amazon.de/s?k=Isekai%20Onsen%20Paradise&i=instant-video",
     "https://www.amazon.de/s?k=Tayo%20und%20die%20kleinen%20Zauberer&i=instant-video",
     "https://www.amazon.de/s?k=Ab%20durch%20den%20Dschungel&i=instant-video",
     "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video",
@@ -202,7 +205,7 @@
      "titel": "Shangri-La Frontier: Staffel 2 (Shangri-La Frontier Season 2)"
     },
     {
-     "url": "https://www.amazon.de/dp/B0CV5Z8JPZ",
+     "url": "https://www.amazon.de/gp/video/detail/B0CV5Z8JPZ",
      "titel": "Girls und Panzer: Das Finale – Teil 4 (Girls und Panzer das Finale - Part 4)"
     },
     {
@@ -214,7 +217,7 @@
      "titel": "Goblin Slayer 2 (GOBLIN SLAYER II)"
     },
     {
-     "url": "https://www.amazon.de/dp/B0CWYCLT9J",
+     "url": "https://www.amazon.de/gp/video/detail/B0CWYCLT9J",
      "titel": "Digimon Adventure 02: The Beginning (Digimon Adventure 02 The Beginning)"
     },
     {
@@ -222,7 +225,7 @@
      "titel": "Edens Zero: Season 2 (EDENS ZERO Season 2)"
     },
     {
-     "url": "https://www.amazon.de/dp/B0D3XZ42T9",
+     "url": "https://www.amazon.de/gp/video/detail/B0D3XZ42T9",
      "titel": "Blue Giant"
     },
     {
@@ -342,7 +345,7 @@
      "titel": "Golden Kamuy 4 (Golden Kamuy Season 4)"
     },
     {
-     "url": "https://www.amazon.de/dp/B0D4JLN98Z",
+     "url": "https://www.amazon.de/gp/video/detail/B0D4JLN98Z",
      "titel": "Lonely Castle in the Mirror"
     },
     {
@@ -364,6 +367,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0B3R11S2P",
      "titel": "Pompo: The Cinéphile"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0B6RXJ888",
+     "titel": "The Saint’s Magic Power Is Omnipotent (The Saint's Magic Power is Omnipotent)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHLH4NR6",
@@ -478,7 +485,7 @@
      "titel": "Saga of Tanya the Evil: The Movie (Saga of Tanya the Evil - the Movie -)"
     },
     {
-     "url": "https://www.amazon.de/dp/B0GYMPR92B",
+     "url": "https://www.amazon.de/gp/video/detail/B0GYMPR92B",
      "titel": "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Arrow of the Orion (Is It Wrong to Try to Pick Up Girls in a Dungeon?: Arrow of the Orion)"
     },
     {
@@ -626,7 +633,7 @@
      "titel": "Dragon Ball Super: Broly"
     },
     {
-     "url": "https://www.amazon.de/dp/B07Y51SXZC",
+     "url": "https://www.amazon.de/gp/video/detail/B07Y51SXZC",
      "titel": "K: Seven Stories Movie 2 - Side:Blue - Like Sirius (K: SEVEN STORIES \"SIDE:BLUE - Sirius - \")"
     },
     {
@@ -674,6 +681,10 @@
      "titel": "Golden Kamuy 2 (Golden Kamuy Season 2)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0G1ZD14D3",
+     "titel": "JoJo’s Bizarre Adventure: Golden Wind (JoJo's Bizarre Adventure: Golden Wind)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0CHP5RVPL",
      "titel": "Beyblade Burst"
     },
@@ -706,7 +717,7 @@
      "titel": "No Game No Life Zero (No Game, No Life Zero)"
     },
     {
-     "url": "https://www.amazon.de/dp/B0HC1T87MV",
+     "url": "https://www.amazon.de/gp/video/detail/B0HC1T87MV",
      "titel": "Girls und Panzer - Das Finale: Teil 1 (Girls und Panzer das Finale - Part 1)"
     },
     {
@@ -810,7 +821,7 @@
      "titel": "Food Wars! The Second Plate"
     },
     {
-     "url": "https://www.amazon.de/dp/B0GWRWSVQH",
+     "url": "https://www.amazon.de/gp/video/detail/B0GWRWSVQH",
      "titel": "Digimon Adventure tri. Chapter 3: Confession"
     },
     {
@@ -870,7 +881,7 @@
      "titel": "Shomin Sample"
     },
     {
-     "url": "https://www.amazon.de/dp/B0D4JCY1MR",
+     "url": "https://www.amazon.de/gp/video/detail/B0D4JCY1MR",
      "titel": "Digimon Adventure tri. Chapter 1: Reunion"
     },
     {
@@ -1010,6 +1021,10 @@
      "titel": "Kuroko’s Basketball: 2nd Season (Kuroko's Basketball 2)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0CHN14W48",
+     "titel": "Free! Iwatobi Swim Club (Free! -Iwatobi Swim Club-)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B072NZYH6X",
      "titel": "Pororo: The Racing Adventure"
     },
@@ -1022,11 +1037,11 @@
      "titel": "Code Geass: Akito the Exiled - The Wyvern Arrives"
     },
     {
-     "url": "https://www.amazon.de/dp/B0FVGKW3GH",
+     "url": "https://www.amazon.de/gp/video/detail/B0FVGKW3GH",
      "titel": "Detektiv Conan: Die 15 Minuten der Stille (Detective Conan: Quarter of Silence)"
     },
     {
-     "url": "https://www.amazon.de/dp/B0GQJFL1XG",
+     "url": "https://www.amazon.de/gp/video/detail/B0GQJFL1XG",
      "titel": "Blood-C: The Last Dark"
     },
     {
@@ -1194,7 +1209,7 @@
      "titel": "The Familiar of Zero: Rondo of Princesses - Der verführerische Strand (The Familiar of Zero: \"Rondo\" of Princesses - Seductive Beach)"
     },
     {
-     "url": "https://www.amazon.de/dp/B0CBYFC4VN",
+     "url": "https://www.amazon.de/gp/video/detail/B0CBYFC4VN",
      "titel": "Detektiv Conan: Das 14. Ziel (Detective Conan: The Fourteenth Target)"
     },
     {
@@ -1246,7 +1261,7 @@
      "titel": "Tekkonkinkreet"
     },
     {
-     "url": "https://www.amazon.de/dp/B0G2T3JPQ8",
+     "url": "https://www.amazon.de/gp/video/detail/B0G2T3JPQ8",
      "titel": "Das Mädchen, das durch die Zeit sprang (The Girl Who Leapt Through Time)"
     },
     {
@@ -1254,7 +1269,7 @@
      "titel": "Mushi-Shi"
     },
     {
-     "url": "https://www.amazon.de/dp/B0CBJ7B4LP",
+     "url": "https://www.amazon.de/gp/video/detail/B0CBJ7B4LP",
      "titel": "Detektiv Conan: Der tickende Wolkenkratzer (Detective Conan: The Time-Bombed Skyscraper)"
     },
     {
@@ -1278,7 +1293,7 @@
      "titel": "Peace Maker Kurogane (Peacemaker)"
     },
     {
-     "url": "https://www.amazon.de/dp/B0FV7Z1617",
+     "url": "https://www.amazon.de/gp/video/detail/B0FV7Z1617",
      "titel": "InuYasha: Der Film - Die Schwerter, die die Welt unterwerfen (InuYasha the Movie 3: Swords of an Honorable Ruler)"
     },
     {
@@ -1286,7 +1301,7 @@
      "titel": "Naruto: Die Geheimmission - Rettet das Dorf Takigakure (Naruto: The Lost Story - Mission: Protect the Waterfall Village)"
     },
     {
-     "url": "https://www.amazon.de/dp/B0FXS96LSG",
+     "url": "https://www.amazon.de/gp/video/detail/B0FXS96LSG",
      "titel": "InuYasha: Der Film - Das Traumschloss im Inneren der Spiegel (InuYasha the Movie 2: The Castle Beyond the Looking Glass)"
     },
     {
@@ -1294,11 +1309,11 @@
      "titel": "Detektiv Conan: Das Phantom der Baker Street (Detective Conan: The Phantom of Baker Street)"
     },
     {
-     "url": "https://www.amazon.de/dp/B0B8TR93HR",
+     "url": "https://www.amazon.de/gp/video/detail/B0B8TR93HR",
      "titel": "Cowboy Bebop: Der Film (Cowboy Bebop: The Movie - Knockin' on Heaven's Door)"
     },
     {
-     "url": "https://www.amazon.de/dp/B0FWZ4L2B2",
+     "url": "https://www.amazon.de/gp/video/detail/B0FWZ4L2B2",
      "titel": "InuYasha: Der Film - Gefühle, die die Zeit überwinden (InuYasha the Movie: Affections Touching Across Time)"
     },
     {
@@ -1366,7 +1381,7 @@
      "titel": "Z wie Zorro (The Legend of Zorro)"
     },
     {
-     "url": "https://www.amazon.de/dp/B0DWFDNY3N",
+     "url": "https://www.amazon.de/gp/video/detail/B0DWFDNY3N",
      "titel": "Ghost in the Shell"
     },
     {
@@ -1688,7 +1703,7 @@
     "B0GDGLLYLS": 24,
     "B0FJ7GC6S6": 10,
     "B0DJWXLZ55": 12,
-    "B0HKFFGQ7F": 2,
+    "B0HKFFGQ7F": 3,
     "B0FN41VKQ5": 12,
     "B0DQ6SDQL2": 12,
     "B0H1QXQL33": 12,
@@ -1700,10 +1715,10 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 502,
+   "gemeldet": 501,
    "gesamt": 820,
-   "offen": 318,
-   "ohneSeite": 18,
+   "offen": 319,
+   "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
     {
@@ -1808,6 +1823,10 @@
     {
      "url": "https://www.netflix.com/title/81712068",
      "titel": "Die Tagebücher der Apothekerin"
+    },
+    {
+     "url": "https://www.netflix.com/title/83189604",
+     "titel": "Dragon Ball Super: Beerus"
     },
     {
      "url": "https://www.netflix.com/title/81783938",

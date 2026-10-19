@@ -1,47 +1,47 @@
 {
-  "stand": "2026-10-18",
+  "stand": "2026-10-19",
   "deckung": {
-    "titel": 20619,
-    "mitSeite": 16291,
-    "ohneSeite": 8,
-    "ohneAnisearchKennung": 3045,
-    "ohneReferenz": 1275,
+    "titel": 20655,
+    "mitSeite": 16295,
+    "ohneSeite": 30,
+    "ohneAnisearchKennung": 3059,
+    "ohneReferenz": 1271,
     "seitenImArchiv": 17493,
     "kanten": 18579
   },
   "gesamt": {
-    "titel": 16291,
-    "gleich": 13988,
+    "titel": 16295,
+    "gleich": 13984,
     "fehlen": 902,
-    "zusaetzlich": 1284,
+    "zusaetzlich": 1292,
     "gemischt": 117
   },
   "hauptbestand": {
     "titel": 2876,
-    "gleich": 2311,
+    "gleich": 2308,
     "fehlen": 328,
-    "zusaetzlich": 221,
+    "zusaetzlich": 224,
     "gemischt": 16
   },
   "haelfteA": {
-    "titel": 7434,
-    "gleich": 6307,
+    "titel": 7438,
+    "gleich": 6308,
     "fehlen": 314,
-    "zusaetzlich": 703,
+    "zusaetzlich": 706,
     "gemischt": 110
   },
   "haelfteB": {
     "titel": 8857,
-    "gleich": 7681,
+    "gleich": 7676,
     "fehlen": 588,
-    "zusaetzlich": 581,
+    "zusaetzlich": 586,
     "gemischt": 7
   },
   "cluster": {
-    "einzel": 5727,
-    "gleich": 2453,
+    "einzel": 5731,
+    "gleich": 2452,
     "zerlegt": 102,
-    "verschmilzt": 103,
+    "verschmilzt": 104,
     "gemischt": 10
   },
   "beispiele": {
