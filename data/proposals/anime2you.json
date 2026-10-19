@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-10-19T11:02:54.579Z",
+  "scrapedAt": "2026-10-19T13:02:47.436Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
+    "schon in einem Rubrik-Feed gelesen": 6,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
-    "schon in einem Rubrik-Feed gelesen": 5,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -20,6 +20,23 @@
         {
           "month": "2027-05",
           "context": "Erste Bilder der Produkte findet ihr unten in diesem Artikel. Release im Mai 2027 Die neue »Blind Box«-Kollektion zu »Lord of Mysteries« umf"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Fünf Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "articleUrl": "https://www.anime2you.de/news/1062255/akiba-pass-isekai-onsen-paradise-und-mehr/",
+      "publishedAt": "2026-10-19",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-28",
+          "context": "xen der Anime-Klassiker »Lady Oscar« und »Eureka Seven«, die beide am 28. Januar 2027 durch KSM Anime erscheinen. Am selben Tag […] Der Be"
         }
       ],
       "dub": "unklar",
