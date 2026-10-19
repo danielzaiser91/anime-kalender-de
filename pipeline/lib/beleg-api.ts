@@ -16,15 +16,24 @@ export function adnSerienseite(release: Release): string | undefined {
   return url.replace(/(\/video\/[^/]+)\/\d+-[^/]*$/, '$1')
 }
 
-/** Was der Kalender zum Termin sagte, Zeile für Zeile — nur Gemessenes (Titel, Folge, Datum, Sprache). */
+/**
+ * Die Folgenzeile: Nummern nur, wenn der Termin sie trägt (`firstEpisodeNumber`; ADN-Blöcke beginnen nicht immer bei Folge 1),
+ * sonst die gezählten Folgen; eine angenommene Zahl steht nicht da.
+ */
+function folgenZeile(s: Release['schedule'] | undefined): string[] {
+  const anzahl = s?.episodeCountAssumed ? undefined : s?.episodeCount
+  const von = s?.firstEpisodeNumber
+  if (von !== undefined) return [anzahl && anzahl > 1 ? `Folge ${von} bis ${von + anzahl - 1}` : `Folge ${von}`]
+  if (!anzahl) return []
+  return [anzahl === 1 ? '1 Folge' : `${anzahl} Folgen`]
+}
+
+/** Was der Kalender zum Termin sagte, Zeile für Zeile — nur, was der Termin trägt: Serie, Folgen, Datum, Sprache (der Kalender führt nur deutsche Folgen). */
 export function kalenderZeilen(release: Release): string[] {
   const s = release.schedule
-  const von = s?.firstEpisodeNumber ?? 1
-  const anzahl = s?.episodeCountAssumed ? undefined : s?.episodeCount
-  const folge = anzahl && anzahl > 1 ? `Folge ${von} bis ${von + anzahl - 1}` : `Folge ${von}`
   return [
-    `Titel: ${release.name}`,
-    folge,
+    `Serie: ${release.name}`,
+    ...folgenZeile(s),
     ...(s?.firstEpisodeDate ? [`Datum: ${formatDate(s.firstEpisodeDate)}${s.time && !s.estimated ? `, ${s.time} Uhr` : ''}`] : []),
     'Sprache: Deutsch',
   ]
