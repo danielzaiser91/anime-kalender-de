@@ -205,5 +205,6 @@ tools/hover-cover.test.ts
 tools/quarantaene-pruefungen.test.ts
 tools/quittung-nach-commit-waechter.mjs
 tools/sammler-pruefschritt-waechter.mjs
+tools/uhr-in-tests.mjs
 tools/web-hosting.test.ts
 tools/workflow-abbruch-waechter.mjs
