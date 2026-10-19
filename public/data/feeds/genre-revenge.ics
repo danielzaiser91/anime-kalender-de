@@ -56,6 +56,26 @@ DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
 CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-10-26#7@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T204500Z
+DTEND:20261026T211500Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-10-26#8@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T211000Z
+DTEND:20261026T214000Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
 UID:banana-fish-vol2@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261106

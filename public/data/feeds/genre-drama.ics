@@ -611,6 +611,46 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-26#43@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T172500Z
+DTEND:20261026T175500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-26#44@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T175000Z
+DTEND:20261026T182000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-10-26#7@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T204500Z
+DTEND:20261026T211500Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-10-26#8@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T211000Z
+DTEND:20261026T214000Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
 UID:rascal-dear-friend-kino@2026-10-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261027
