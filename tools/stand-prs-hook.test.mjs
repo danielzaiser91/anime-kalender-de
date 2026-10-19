@@ -103,7 +103,8 @@ assert.deepEqual(h.agentUrteil(pr(1, { kommentare: [mensch('Prüfer Runde 3: aen
 assert.deepEqual(h.agentUrteil(pr(1, { kommentare: [mensch('Prüfer Runde 4: freigeben [ausnahme]\n\n- `git diff 0123456..abcdef1` stimmt')] })), { runde: '4', wort: 'freigeben', alt: false }, 'ohne „Kopf“: nennt den Kopf')
 assert.deepEqual(h.agentUrteil(pr(1, { kommentare: [mensch('Prüfer Runde 1: freigeben\n\nalles gut')] })), { runde: '1', wort: 'freigeben', alt: true }, 'ohne Kopfangabe nie aktuell')
 assert.deepEqual(h.agentUrteil(pr(1, { kommentare: [mensch('Prüfer Runde 1: freigeben\n\nKopf 0123456ab, vorher abcdef123')] })), { runde: '1', wort: 'freigeben', alt: true }, 'erste Kopfangabe zählt')
-for (const fremd of ['Prüfer Runde 1, Nachtrag zur Bilanz: x', 'Dirigent: Prüfer Runde 1: freigeben', '## Nachtrag (Prüfer Runde 1: freigeben)', 'Prüfer Runde 1: freigegeben']) {
+assert.deepEqual(h.agentUrteil(pr(1, { kommentare: [mensch('Prüfer Runde 2: freigeben\n\nKopf `0123456ab`, vorher abcdef123')] })), { runde: '2', wort: 'freigeben', alt: true }, 'Kopf in Backticks')
+for (const fremd of ['Prüfer Runde 1, Nachtrag zur Bilanz: x', 'Dirigent: Prüfer Runde 1: freigeben', '## Nachtrag (Prüfer Runde 1: freigeben)', 'Prüfer Runde 1: freigegeben', 'Prüfer: freigebende Stelle fehlt']) {
   assert.equal(h.agentUrteil(pr(1, { kommentare: [mensch(`${fremd}\n\nKopf abcdef123`)] })), null, fremd)
 }
 
@@ -160,8 +161,9 @@ const merge = [
   gemergt(901012, iso(JETZT - MIN), 'chore(data): Sendezeiten gesammelt'),
   gemergt(901013, iso(JETZT - 2 * MIN)),
   gemergt(901014, null),
+  gemergt(901015, iso(JETZT - 3 * MIN), 'chore(wache): Wache durchgesehen'),
 ]
-assert.deepEqual(h.reihen({ offen: offenListe, gemergt: merge }, JETZT).map((r) => r.nummer), [901002, 901004, 901003, 901001, 901013, 901011])
+assert.deepEqual(h.reihen({ offen: offenListe, gemergt: merge }, JETZT).map((r) => r.nummer), [901002, 901004, 901003, 901001, 901013, 901015, 901011], 'nur chore(data) fällt')
 assert.ok(h.reihen({ offen: offenListe, gemergt: merge }, JETZT).every((r) => h.hookNummer(r.zeile) === r.nummer))
 
 // --- holePrs gegen den Nachbau: Vollständigkeit ---

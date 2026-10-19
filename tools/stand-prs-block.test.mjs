@@ -45,10 +45,21 @@ const kaputt = {
   'ZU mit Leerzeichen davor': T(AUF, ` ${ZU}`),
   'AUF mit anderem Text': T('<!-- pr-zeilen -->', ZU),
   'Block überspannt Überschrift': T(AUF, '## In Arbeit', ZU),
+  'beide Marken verändert': T(`${AUF} `, ` ${ZU}`),
 }
-for (const [name, zeilen] of Object.entries(kaputt)) assert.ok(b.markerLage(zeilen).fehler, name)
-assert.match(b.markerLage(kaputt['zwei AUF']).fehler, /^2× Anfangs-, 1× Endmarke$/)
-assert.match(b.markerLage(kaputt['ZU vor AUF']).fehler, /Endmarke vor/)
+const meldung = {
+  'AUF ohne ZU': '1× Anfangs-, 0× Endmarke',
+  'ZU ohne AUF': '0× Anfangs-, 1× Endmarke',
+  'zwei AUF': '2× Anfangs-, 1× Endmarke',
+  'zwei Blöcke': '2× Anfangs-, 2× Endmarke',
+  'ZU vor AUF': 'Endmarke vor der Anfangsmarke',
+  'AUF mit Leerzeichen dahinter': 'Marke weicht vom Wortlaut ab',
+  'ZU mit Leerzeichen davor': 'Marke weicht vom Wortlaut ab',
+  'AUF mit anderem Text': 'Marke weicht vom Wortlaut ab',
+  'Block überspannt Überschrift': 'Block überspannt eine Überschrift „## “',
+  'beide Marken verändert': 'Marke weicht vom Wortlaut ab',
+}
+for (const [name, zeilen] of Object.entries(kaputt)) assert.deepEqual(b.markerLage(zeilen), { fehler: meldung[name] }, name)
 assert.deepEqual(b.markerLage(T(AUF, '### Gruppe', ZU)), { auf: 0, zu: 2 }, 'Unterüberschrift ist kein Abschnitt')
 
 // --- ersetzeBlock: kaputte Marken schreiben nichts (Text bleibt, Fehler kommt zurück) ---
@@ -97,6 +108,10 @@ assert.ok(!fall2.includes(gemergt(901003)), 'die eigene Zeile des ausgeschiedene
 const fall3 = behaeltAlles('Gruppe mit Notiz im Block', block('### Gruppe', '  - Notiz unter Gruppe', offen(901001)), R(901001))
 assert.ok(fall3.includes(`${ZU}\n### Gruppe\n  - Notiz unter Gruppe\n`))
 behaeltAlles('Fortsetzung ohne Einrückung', block(offen(901001), '  - Notiz', 'Fortsetzungsabsatz'), R(901001))
+const fall4 = behaeltAlles('Handzeile mit Unterpunkt nach PR-Zeile', block(offen(901001), '- Hand', '  - Unterpunkt von Hand'), R(901001))
+assert.ok(fall4.includes(`${AUF}\n${offen(901001)}\n${ZU}\n- Hand\n  - Unterpunkt von Hand\n`), 'Unterpunkt bleibt bei der Handzeile')
+const fall5 = behaeltAlles('Leerzeile zwischen PR-Zeile und Notiz', block(offen(901001), '', '  - Notiz'), R(901002, 901001))
+assert.ok(fall5.includes(`${offen(901002)}\n${offen(901001)}\n  - Notiz\n${ZU}`), 'Notiz bleibt beim PR, Leerzeile fällt')
 behaeltAlles('eingerückt direkt nach AUF', block('  - lose Notiz', offen(901001)), R(901001))
 behaeltAlles('Handzeile in Zeilenform', block(`- **Wichtig** — Daniel muss X — ${L(901001)}`), R(901001))
 behaeltAlles('doppelte Notizzeile', block(offen(901001), '  - gleich', offen(901001), '  - gleich'), [])
@@ -111,4 +126,4 @@ assert.equal(veraltet, ['## In Arbeit', AUF, H, offen(901001), '  - Notiz', ZU, 
 assert.equal(b.ersetzeBlock(veraltet, null, H).text, veraltet, 'Hinweis nicht doppelt')
 assert.equal(b.ersetzeBlock(veraltet, R(901001)).text, ['## In Arbeit', AUF, offen(901001), '  - Notiz', ZU, '- Hand', '', '## Als Nächstes', '- y'].join('\n'), 'Erfolg: Hinweis weg')
 
-console.log('stand-prs-block.test: ok (Zeilenform, Marken: 9 kaputte Lagen, Einfügen, Ersetzen, 8 Fälle ohne Zeilenverlust über zwei Läufe, Hinweiszeile)')
+console.log('stand-prs-block.test: ok (Zeilenform, Marken: 10 kaputte Lagen, Einfügen, Ersetzen, 10 Fälle ohne Zeilenverlust über zwei Läufe, Hinweiszeile)')
