@@ -92,7 +92,7 @@ import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../sha
 import { bereicheGekuerzt, bereicheKurz, dubBild, dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { riegelGreift } from './lib/youtube-riegel.ts'
 import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
-import { belegeUeberFolgenzahl, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
+import { belegSchluessel, belegeUeberFolgenzahl,entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-frist.ts'
 import { germanizeUrl, netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold, googleCalendarUrl, wochenserie } from '../shared/ics.ts'
@@ -3345,7 +3345,8 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   pruefe('neue Belege: vorhandene und doppelte fallen, der Rest bleibt', neu.length === 2, neu)
   pruefe('fetch-pruefungen nutzt diesen Abgleich', /neueBelegBloecke\(alt, zeilen\)/.test(abholung))
   /* Haikyu!!-Summenseite, 20.10.2026: das Prüfdatum zählt beim Abgleich nicht, die Folgenspanne schon. */
-  const altMitDatum = '- a: 1\n  from: 1\n  to: 13\n  checkedAt: "2026-10-13"\n'
+  pruefe('Belegschlüssel: Nicht-Objekte bleiben unverändert', belegSchluessel(5) === '5' && belegSchluessel(null) === 'null')
+  const altMitDatum ='- a: 1\n  from: 1\n  to: 13\n  checkedAt: "2026-10-13"\n'
   const gleicheMeldung = neueBelegBloecke(altMitDatum, ['- a: 1', '  from: 1', '  to: 13', '  checkedAt: "2026-10-18"']).neu
   pruefe('neue Belege: gleiche Meldung mit anderem checkedAt wird nicht angehängt', gleicheMeldung.length === 0, gleicheMeldung)
   const andereSpanne = neueBelegBloecke(altMitDatum, ['- a: 1', '  from: 1', '  to: 25', '  checkedAt: "2026-10-13"']).neu
@@ -3354,7 +3355,8 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
     { anilistId: 1, platform: 'netflix', url: 'u1', dubRanges: [{ to: 12 }] },
     { anilistId: 2, platform: 'primevideo', url: 'https://x/B0', dubRanges: [{ to: 3 }, { to: 14 }, { to: 2 }] },
     { anilistId: 3, dubRanges: [{ to: 13 }] },
-    { anilistId: 4, platform: 'netflix', url: 'u4', dubRanges: [{ to: 5 }] },
+    { anilistId: 4, platform: 'netflix', url: 'u4', dubRanges: [{ to: 5 }, {}] },
+    { anilistId: 7, platform: 'netflix', url: 'u7', dubRanges: [{ to: 150 }] },
     { anilistId: 5, platform: 'netflix', url: 'u5', dubRanges: [{ to: 9 }] },
     { anilistId: 6, platform: 'netflix', url: 'u6' },
   ]
