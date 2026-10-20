@@ -21,6 +21,9 @@ const URL_C = 'https://www.crunchyroll.com/de/series/GTESTC/c'
 const URL_D = 'https://www.crunchyroll.com/series/GTESTD/d'
 const URL_E = 'https://www.crunchyroll.com/de/series/GTESTE/e'
 const URL_F = 'https://www.crunchyroll.com/de/series/GTESTF/f'
+const URL_G = 'https://www.crunchyroll.com/de/series/GTESTG/g'
+const URL_H = 'https://www.crunchyroll.com/de/series/GTESTH/h'
+const URL_I = 'https://www.crunchyroll.com/de/series/GTESTI/i'
 const folge = (nummer: number, verfuegbarAb?: string) => ({ nummer, guid: `G${nummer}`, verfuegbarAb })
 const staffel = (name: string, deutscheFolgen: ReturnType<typeof folge>[]) => ({ name, folgen: 12, kacheln: 12, deutsch: 1, fremd: 0, deutscheFolgen })
 const serie = (url: string, deutscheFolgen: ReturnType<typeof folge>[]) => ({
@@ -35,6 +38,10 @@ const crDub = {
     serie(URL_A, [folge(5, '2026-10-01T15:00:00Z'), folge(1, '2026-10-18T15:00:00Z'), folge(2, '2026-10-25T15:00:00Z'), folge(3, '2026-10-26T15:00:00Z'), folge(9, undefined)]),
     serie(URL_B, [folge(4, '2026-10-17T23:00:00Z')]),
     serie(URL_C, []),
+    /* G: Folgen 1 bis 5 deutsch nach der Widerlegung; H: nur Folge 4; I: nur Folge 1. */
+    serie(URL_G, [1, 2, 3, 4, 5].map((n) => folge(n, '2026-10-20T15:00:00Z'))),
+    serie(URL_H, [folge(4, '2026-10-20T15:00:00Z')]),
+    serie(URL_I, [folge(1, '2026-10-20T15:00:00Z')]),
     { ...serie(URL_D, [folge(1, '2026-10-20T15:00:00Z')]), katalog: 'ja' },
     /* E: Staffel 3 ohne deutsche Folge, die Schwesterstaffeln 2 und 4 mit Folge 1 deutsch nach der Widerlegung. */
     { ...serie(URL_E, []), staffeln: [staffel('Staffel 2', [folge(1, '2026-10-19T15:00:00Z')]), staffel('Staffel 3', []), staffel('Staffel 4', [folge(1, '2026-10-25T15:00:00Z')])] },
@@ -82,7 +89,17 @@ console.log('\nWiderlegung und deutsche Folgen danach:')
   loeseGeteilteWegeVonWiderlegten([release(900009, '2026-10-18')], ohneZahl, crDub)
   const ohneZahlWeg = ohneZahl.get(900009)!.streams[0]
   pruefe('Folgenzahl unbekannt: kein Bereich ins Blaue, Weg gelöst', ohneZahlWeg.dub === undefined && !ohneZahlWeg.dubRanges, ohneZahlWeg)
-  const ohneDatum = deutscheBereicheSeit(crDub, URL_A, '2026-10-01', 3)
+  const gekappt = reihe(900010, URL_G, 2)
+  loeseGeteilteWegeVonWiderlegten([release(900010, '2026-10-18')], gekappt, crDub)
+  pruefe('Folgenzahl 2, Katalog 1 bis 5: Bereich genau 1 bis 2', JSON.stringify(gekappt.get(900010)!.streams[0].dubRanges) === ranges(1, 2), gekappt.get(900010)!.streams[0])
+  const jenseits = reihe(900011, URL_H, 3)
+  loeseGeteilteWegeVonWiderlegten([release(900011, '2026-10-18')], jenseits, crDub)
+  const jenseitsWeg = jenseits.get(900011)!.streams[0]
+  pruefe('Folgenzahl 3, Katalog nur Folge 4: kein Bereich, Weg gelöst', jenseitsWeg.dub === undefined && !jenseitsWeg.dubRanges, jenseitsWeg)
+  const eine = reihe(900012, URL_I, 1)
+  loeseGeteilteWegeVonWiderlegten([release(900012, '2026-10-18')], eine, crDub)
+  pruefe('Folgenzahl 1, Katalog Folge 1: Bereich 1 bis 1', JSON.stringify(eine.get(900012)!.streams[0].dubRanges) === ranges(1, 1), eine.get(900012)!.streams[0])
+  const ohneDatum =deutscheBereicheSeit(crDub, URL_A, '2026-10-01', 3)
   pruefe('Folge ohne Datum zählt nicht, Lücken trennen Bereiche', JSON.stringify(ohneDatum.map((b) => [b.from, b.to])) === JSON.stringify([[1, 3], [5, 5]]), ohneDatum)
   const zweiReihe = reihe(900002, URL_A)
   const zwei = zweiReihe.get(900002)!
