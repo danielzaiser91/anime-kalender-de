@@ -178,6 +178,8 @@ pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
 pipeline/check-sammelartikel.ts
+pipeline/check-sammler-lesezugriffe-faelle.ts
+pipeline/check-sammler-lesezugriffe.ts
 pipeline/check-schwester-shop.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-sprache-netz.ts
@@ -217,6 +219,8 @@ pipeline/check-vorfaelle-ablauf.ts
 pipeline/check-weg-adresse-bezugsweg.ts
 pipeline/check-wege-aus-terminen.ts
 pipeline/check-werk-doppelt.ts
+pipeline/check-widerlegung-de-folgen-bau.ts
+pipeline/check-widerlegung-de-folgen.ts
 pipeline/check-woche-beleg.ts
 pipeline/check-wochen-datei.ts
 pipeline/check-wochenprogramm-sendetag.ts
