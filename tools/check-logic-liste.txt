@@ -105,11 +105,14 @@ pipeline/check-kachel-favorit.ts
 pipeline/check-kachel-im-angebot.ts
 pipeline/check-kachel-katalog.ts
 pipeline/check-kalender-filter.ts
+pipeline/check-kalender-plausibilitaet-kanal.ts
 pipeline/check-kalender-plausibilitaet.ts
 pipeline/check-kanal-abgehakt.ts
 pipeline/check-kanal-aussortieren.ts
 pipeline/check-kanal-erbt.ts
 pipeline/check-kanal-je-seite.ts
+pipeline/check-kanal-leser.ts
+pipeline/check-kanal-merkliste.ts
 pipeline/check-kanal-messung.ts
 pipeline/check-kanal-verlust.ts
 pipeline/check-katalog-eingefroren.ts
@@ -121,6 +124,7 @@ pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
 pipeline/check-mal-teilung.ts
 pipeline/check-meldung-gti.ts
+pipeline/check-meldung-summenseite.ts
 pipeline/check-meldungs-auffaelligkeiten.ts
 pipeline/check-minuten-takt.ts
 pipeline/check-motn-reihe.ts
@@ -130,6 +134,7 @@ pipeline/check-nein-handbeleg-cr.ts
 pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts
 pipeline/check-neuigkeiten-panel.ts
+pipeline/check-news-einfrieren.ts
 pipeline/check-news-offiziell.ts
 pipeline/check-news-rhythmus.ts
 pipeline/check-news-staffel-zuordnung.ts
@@ -150,6 +155,7 @@ pipeline/check-prime-nein-beleg.ts
 pipeline/check-prime-pille.ts
 pipeline/check-prime-seite-richten.ts
 pipeline/check-prime-seiten-sperre.ts
+pipeline/check-prime-teilseiten-kanal.ts
 pipeline/check-prime-teilseiten.ts
 pipeline/check-prime-zugeordnet-jw.ts
 pipeline/check-prime-zugeordnet-lader.ts
@@ -217,6 +223,7 @@ pipeline/check-zuordner-ablauf.ts
 pipeline/check-zuordner-luecken.ts
 pipeline/check-zweitanbieter.ts
 tools/anime2you-luecken.test.ts
+tools/apt-fremdquelle.mjs
 tools/check-patchnotes-pflicht.mjs
 tools/design-klassen.mjs
 tools/design-kontrast.mjs
