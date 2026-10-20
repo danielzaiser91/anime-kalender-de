@@ -152,8 +152,8 @@ pipeline/check-prime-seiten-sperre.ts
 pipeline/check-prime-teilseiten.ts
 pipeline/check-prime-zugeordnet-jw.ts
 pipeline/check-prime-zugeordnet-lader.ts
-pipeline/check-prime-zugeordnet-leser.ts
 pipeline/check-prime-zugeordnet-leser-faelle.ts
+pipeline/check-prime-zugeordnet-leser.ts
 pipeline/check-quarantaene.ts
 pipeline/check-reihen-namen-rein.ts
 pipeline/check-reihen-namen.ts
