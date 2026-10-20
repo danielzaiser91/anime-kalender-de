@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup: Reihen-Box als Cover-Karussell</title>
+<style>
+  /* Tokens aus web/src/styles.css (Stand 20.10.2026), nur die hier gebrauchten. */
+  [data-thema="dunkel"] {
+    --ak-grund: #0d0f14; --ak-flaeche: #151922; --ak-flaeche-2: #1b202a; --ak-flaeche-3: #222733;
+    --ak-rand: #2c3240; --ak-linie: #232833; --ak-text: #f2f1ee; --ak-leise: #9aa0ab; --ak-sehr-leise: #828894;
+    --ak-akzent: #ff5a36; --ak-akzent-text: #ff7a5c; --ak-fokus: #ff9e85;
+    --ak-favorit: #f5c542; --ak-favorit-text: #f5c542;
+    --ak-fehler: #fb7185; --ak-fehler-text: #fda4af; --ak-fehler-grund: color-mix(in srgb, var(--ak-fehler) 12%, var(--ak-flaeche));
+    --ak-info: #60a5fa; --ak-info-text: #93c5fd; --ak-info-grund: color-mix(in srgb, var(--ak-info) 12%, var(--ak-flaeche));
+    --cover-a: 38%; --cover-b: 22%;
+    color-scheme: dark;
+  }
+  [data-thema="hell"] {
+    --ak-grund: #f5f4f0; --ak-flaeche: #ffffff; --ak-flaeche-2: #ebe9e3; --ak-flaeche-3: #e4e1da;
+    --ak-rand: #d6d3cb; --ak-linie: #e2dfd8; --ak-text: #15171c; --ak-leise: #555b66; --ak-sehr-leise: #636974;
+    --ak-akzent: #f54b27; --ak-akzent-text: #b8321a; --ak-fokus: #b8321a;
+    --ak-favorit: #f5c542; --ak-favorit-text: #8a6300;
+    --ak-fehler: #e11d48; --ak-fehler-text: #a8002c; --ak-fehler-grund: color-mix(in srgb, var(--ak-fehler) 10%, var(--ak-flaeche));
+    --ak-info: #2563eb; --ak-info-text: #1d4ed8; --ak-info-grund: color-mix(in srgb, var(--ak-info) 10%, var(--ak-flaeche));
+    --cover-a: 70%; --cover-b: 52%;
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px; font: 15px/20px system-ui, -apple-system, "Segoe UI", sans-serif; background: #e8e6e0; color: #15171c; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  .hinweis { font-size: 13px; line-height: 18px; color: #555b66; max-width: 70ch; margin: 0 0 20px; }
+  .hinweis code { font-size: 12px; }
+  .raster { display: grid; grid-template-columns: 375px 512px; gap: 24px; align-items: start; }
+  .zelle > h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #636974; margin: 0 0 6px; }
+
+  /* Das Panel: `max-w-lg` (512 px) mit `p-4`; auf dem Handy volle Breite 375 px. */
+  .panel { background: var(--ak-flaeche); color: var(--ak-text); padding: 16px; border: 1px solid var(--ak-rand); border-radius: 8px; display: flex; flex-direction: column; gap: 12px; }
+  .panel-kopf { display: flex; gap: 12px; align-items: center; color: var(--ak-leise); font-size: 13px; }
+  .panel-kopf .titelbild { width: 56px; aspect-ratio: 2/3; border-radius: 6px; background: linear-gradient(160deg, hsl(210 18% var(--cover-a)), hsl(210 20% var(--cover-b))); }
+  .panel-kopf strong { display: block; color: var(--ak-text); font-size: 18px; line-height: 24px; }
+
+  /* Die Reihen-Karte (PanelKarte, Akzent „info“) — unverändert bis auf den Inhalt. */
+  .karte { border: 1px solid var(--ak-rand); border-left: 3px solid var(--ak-info); border-radius: 12px; padding: 10px 12px 12px; background: var(--ak-flaeche); }
+  .karte-kopf { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 15px; }
+  .karte-kopf .symbol { color: var(--ak-info-text); }
+  .karte-kopf .zaehler { margin-left: auto; font-size: 11px; line-height: 16px; padding: 0 7px; border-radius: 999px; background: var(--ak-info-grund); color: var(--ak-info-text); font-weight: 600; }
+  .karte-stand { margin: 0 0 8px 30px; font-size: 11px; line-height: 16px; color: var(--ak-leise); }
+
+  /* Kopf bei langen Reihen (≥ 15 Teile): Suche + Schalter „n ohne Synchro“. Die Reiter entfallen. */
+  .reihen-kopf { display: flex; align-items: center; gap: 8px; height: 44px; margin-bottom: 4px; }
+  .reihen-kopf input { flex: 1; min-width: 0; height: 44px; border: 1px solid var(--ak-rand); border-radius: 8px; background: transparent; color: inherit; padding: 0 12px; font: inherit; }
+  .schalter { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ak-leise); white-space: nowrap; min-height: 44px; cursor: pointer; }
+  .schalter i { width: 24px; height: 14px; border-radius: 999px; background: var(--ak-info); position: relative; }
+  .schalter i::after { content: ""; position: absolute; top: 2px; left: 12px; width: 10px; height: 10px; border-radius: 50%; background: #fff; }
+
+  /* Eine Zeile je Gruppe: Überschrift links, Pfeile rechts (nur mit Maus), darunter die Spur. */
+  .gruppe + .gruppe { margin-top: 6px; }
+  .gruppe-kopf { display: flex; align-items: center; gap: 8px; min-height: 32px; }
+  .gruppe-kopf h4 { margin: 0; font-size: 11px; line-height: 16px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ak-sehr-leise); }
+  .gruppe-kopf h4::after { content: ""; display: block; }
+  .linie { flex: 1; height: 1px; background: var(--ak-linie); }
+  .pfeile { display: flex; gap: 2px; }
+  .pfeile[hidden] { display: none; }
+  .pfeil { width: 44px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: var(--ak-text); font-size: 22px; line-height: 1; cursor: pointer; }
+  .pfeil:hover:not(:disabled) { background: var(--ak-flaeche-2); }
+  .pfeil:disabled { opacity: .3; cursor: default; }
+  [data-geraet="handy"] .pfeile { display: none; } /* steht für `@media (hover: none)` */
+
+  /* `position: relative`, damit `offsetLeft` der Karten an der Spur hängt (Startposition auf der gewählten Staffel). */
+  .spur { position: relative; display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+          scrollbar-width: none; padding: 4px; margin: -4px; scroll-padding-inline: 4px; }
+  .spur::-webkit-scrollbar { display: none; }
+  @media (prefers-reduced-motion: no-preference) { .spur { scroll-behavior: smooth; } }
+
+  /* Ein Teil: Cover 120 × 180 (2:3), darunter Name und Angaben. Breite fest, damit nichts springt. */
+  .teil { flex: 0 0 120px; scroll-snap-align: start; display: flex; flex-direction: column; gap: 4px; padding: 0; border: 0; background: none;
+          color: inherit; text-align: left; font: inherit; cursor: pointer; border-radius: 8px; }
+  .teil:focus-visible { outline: 2px solid var(--ak-fokus); outline-offset: 2px; }
+  .cover { position: relative; display: block; width: 120px; aspect-ratio: 2 / 3; border-radius: 8px; overflow: hidden;
+           background: linear-gradient(160deg, hsl(var(--h, 220) 18% var(--cover-a)), hsl(var(--h, 220) 20% var(--cover-b)));
+           box-shadow: 0 0 0 1px color-mix(in srgb, var(--ak-rand) 70%, transparent) inset; }
+  .teil:hover .cover { box-shadow: 0 0 0 1px var(--ak-leise) inset; }
+  .name { font-size: 13px; line-height: 18px; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .meta { font-size: 11px; line-height: 16px; color: var(--ak-leise); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* Zustände am Cover: gewählt = Akzentrahmen + Name in Akzentfarbe; gemerkt = Stern; ohne Synchro = Marke + gedämpft; künftig = gestrichelt. */
+  .teil[aria-selected="true"] .cover { box-shadow: 0 0 0 2px var(--ak-akzent) inset, 0 0 0 1px var(--ak-flaeche); outline: 2px solid var(--ak-akzent); outline-offset: 0; }
+  .teil[aria-selected="true"] .name { color: var(--ak-akzent-text); font-weight: 600; }
+  .teil.ist-ohne .cover { opacity: .55; }
+  .teil.ist-ohne .name { opacity: .75; }
+  .teil.ist-kuenftig .cover { outline: 1px dashed var(--ak-leise); outline-offset: -1px; opacity: .7; }
+  .stern, .marke { position: absolute; top: 6px; font-size: 11px; line-height: 16px; padding: 0 5px; border-radius: 6px; font-weight: 700; }
+  .stern { left: 6px; color: var(--ak-favorit); background: rgba(0 0 0 / .55); }
+  .marke { right: 6px; }
+  .marke-ohne { border: 1px solid color-mix(in srgb, var(--ak-fehler) 50%, transparent); background: var(--ak-fehler-grund); color: var(--ak-fehler-text); }
+  .marke-geplant { border: 1px solid color-mix(in srgb, var(--ak-info) 50%, transparent); background: var(--ak-info-grund); color: var(--ak-info-text); text-transform: uppercase; letter-spacing: .08em; }
+
+  .laden { font-size: 11px; color: var(--ak-sehr-leise); margin-top: 8px; }
+</style>
+</head>
+<body>
+<h1>Reihen-Box als Cover-Karussell</h1>
+<p class="hinweis">
+  Eine Zeile je Gruppe (Hauptserie, Filme, Specials), Cover 120 × 180 statt 24 × 36. Handy: Wischen mit Einrasten (<code>scroll-snap</code>), keine Pfeile.
+  Desktop: Pfeile rechts in der Gruppenzeile springen um so viele Cover, wie ganz in die Spur passen (2 auf dem Handy, 3 im Panel); am Anfang und Ende
+  sind sie ausgegraut, bei Gruppen ohne Überlauf fehlen sie ganz. Tastatur: Tab zu jedem Teil, Pfeiltasten links/rechts innerhalb einer Zeile.
+  Graue Flächen stehen für die Cover. Fälle: Cyberpunk: Edgerunners (2 Staffeln), Attack on Titan (26 Teile, Schalter „ohne Synchro“ an), Gantz (Filme = genau ein Eintrag;
+  die Marke „Geplant“ an Gantz:O ist nur zur Anschauung, der Film ist von 2016).
+</p>
+
+<template id="panel">
+  <div class="panel">
+    <div class="panel-kopf"><span class="titelbild"></span><span><strong>Cyberpunk: Edgerunners</strong>Detail-Panel (verkürzt)</span></div>
+
+    <section class="karte" aria-label="Reihe">
+      <div class="karte-kopf"><span class="symbol">⧉</span>Reihe<span class="zaehler">2</span></div>
+      <p class="karte-stand">Staffel 2 von 2</p>
+      <section class="gruppe">
+        <div class="gruppe-kopf"><h4 id="e-haupt">Hauptserie</h4><span class="linie"></span>
+          <div class="pfeile"><button type="button" class="pfeil" data-richtung="-1" aria-label="Vorherige Teile">‹</button><button type="button" class="pfeil" data-richtung="1" aria-label="Weitere Teile">›</button></div>
+        </div>
+        <div class="spur" role="tablist" aria-labelledby="e-haupt">
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:50"></span><span class="name">Staffel 1</span><span class="meta">ONA · 2022 · 10 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="true" class="teil"><span class="cover" style="--h:330"><span class="stern" aria-label="Gemerkt">★</span></span><span class="name">Staffel 2</span><span class="meta">ONA · 2026 · 10 Fg.</span></button>
+        </div>
+      </section>
+    </section>
+
+    <div class="panel-kopf"><span class="titelbild"></span><span><strong>Attack on Titan</strong>Detail-Panel (verkürzt)</span></div>
+    <section class="karte" aria-label="Reihe">
+      <div class="karte-kopf"><span class="symbol">⧉</span>Reihe<span class="zaehler">26</span></div>
+      <p class="karte-stand">Staffel 3 von 6 · 5 Filme · 15 Specials</p>
+      <div class="reihen-kopf"><input type="search" placeholder="In der Reihe suchen" aria-label="In der Reihe suchen"><label class="schalter"><input type="checkbox" checked hidden><i aria-hidden="true"></i>11 ohne Synchro</label></div>
+
+      <section class="gruppe">
+        <div class="gruppe-kopf"><h4 id="a-haupt">Hauptserie</h4><span class="linie"></span>
+          <div class="pfeile"><button type="button" class="pfeil" data-richtung="-1" aria-label="Vorherige Teile">‹</button><button type="button" class="pfeil" data-richtung="1" aria-label="Weitere Teile">›</button></div>
+        </div>
+        <div class="spur" role="tablist" aria-labelledby="a-haupt">
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:20"><span class="stern" aria-label="Gemerkt">★</span></span><span class="name">Staffel 1</span><span class="meta">2013 · 25 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:140"></span><span class="name">Staffel 2</span><span class="meta">2017 · 12 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="true" class="teil"><span class="cover" style="--h:200"></span><span class="name">Staffel 3</span><span class="meta">2018 · 12 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:260"></span><span class="name">Staffel 3 – Teil 2</span><span class="meta">2019 · 10 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:0"></span><span class="name">Staffel 4 – Final Season</span><span class="meta">2021 · 16 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:300"></span><span class="name">Staffel 4 – Final Season Part 2</span><span class="meta">2022 · 12 Fg.</span></button>
+        </div>
+      </section>
+
+      <section class="gruppe">
+        <div class="gruppe-kopf"><h4 id="a-filme">Filme</h4><span class="linie"></span>
+          <div class="pfeile"><button type="button" class="pfeil" data-richtung="-1" aria-label="Vorherige Teile">‹</button><button type="button" class="pfeil" data-richtung="1" aria-label="Weitere Teile">›</button></div>
+        </div>
+        <div class="spur" role="tablist" aria-labelledby="a-filme">
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:10"></span><span class="name">Part I: Crimson Bow and Arrow</span><span class="meta">Film · 2014</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:30"></span><span class="name">Movie Teil 2: Flügel der Freiheit</span><span class="meta">Film · 2015</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:60"></span><span class="name">Movie Teil 3: Gebrüll des Erwachens</span><span class="meta">Film · 2018</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil ist-ohne"><span class="cover" style="--h:90"><span class="marke marke-ohne" title="Ohne belegte deutsche Synchro">🇩🇪 ✕</span></span><span class="name">~Chronicle~</span><span class="meta">Film · 2020</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:120"></span><span class="name">The Last Attack</span><span class="meta">Film · 2024</span></button>
+        </div>
+      </section>
+
+      <section class="gruppe">
+        <div class="gruppe-kopf"><h4 id="a-spec">Specials</h4><span class="linie"></span>
+          <div class="pfeile"><button type="button" class="pfeil" data-richtung="-1" aria-label="Vorherige Teile">‹</button><button type="button" class="pfeil" data-richtung="1" aria-label="Weitere Teile">›</button></div>
+        </div>
+        <div class="spur" role="tablist" aria-labelledby="a-spec">
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:160"></span><span class="name">OAD</span><span class="meta">OVA · 2013 · 3 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil ist-ohne"><span class="cover" style="--h:180"><span class="marke marke-ohne" title="Ohne belegte deutsche Synchro">🇩🇪 ✕</span></span><span class="name">Die Minifiguren-Show: „Flieg! Trainingskorps“</span><span class="meta">Special · 2013 · 9 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil ist-ohne"><span class="cover" style="--h:210"><span class="marke marke-ohne" title="Ohne belegte deutsche Synchro">🇩🇪 ✕</span></span><span class="name">Since That Day</span><span class="meta">Special · 2013</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:240"></span><span class="name">Entscheidung ohne Reue</span><span class="meta">OVA · 2015 · 2 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil ist-ohne"><span class="cover" style="--h:270"><span class="marke marke-ohne" title="Ohne belegte deutsche Synchro">🇩🇪 ✕</span></span><span class="name">Junior High</span><span class="meta">2015 · 12 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:290"><span class="stern" aria-label="Gemerkt">★</span></span><span class="name">Lost Girls</span><span class="meta">OVA · 2017 · 3 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil ist-ohne"><span class="cover" style="--h:310"><span class="marke marke-ohne" title="Ohne belegte deutsche Synchro">🇩🇪 ✕</span></span><span class="name">Attack on Skytree</span><span class="meta">Special · 2017</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil ist-ohne"><span class="cover" style="--h:340"><span class="marke marke-ohne" title="Ohne belegte deutsche Synchro">🇩🇪 ✕</span></span><span class="name">Season 3 Special</span><span class="meta">Special · 2018 · 4 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil ist-ohne"><span class="cover" style="--h:5"><span class="marke marke-ohne" title="Ohne belegte deutsche Synchro">🇩🇪 ✕</span></span><span class="name">10-pun de Oitsukeru</span><span class="meta">ONA · 2018</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil ist-ohne"><span class="cover" style="--h:45"><span class="marke marke-ohne" title="Ohne belegte deutsche Synchro">🇩🇪 ✕</span></span><span class="name">Season 3 Picture Drama</span><span class="meta">Special · 2019 · 3 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil ist-ohne"><span class="cover" style="--h:75"><span class="marke marke-ohne" title="Ohne belegte deutsche Synchro">🇩🇪 ✕</span></span><span class="name">15-pun de Oitsukeru</span><span class="meta">ONA · 2020</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil ist-ohne"><span class="cover" style="--h:105"><span class="marke marke-ohne" title="Ohne belegte deutsche Synchro">🇩🇪 ✕</span></span><span class="name">Final Season Mini-Clips</span><span class="meta">Special · 2021 · 2 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil ist-ohne"><span class="cover" style="--h:135"><span class="marke marke-ohne" title="Ohne belegte deutsche Synchro">🇩🇪 ✕</span></span><span class="name">20-pun de Oitsukeru</span><span class="meta">ONA · 2021</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:165"></span><span class="name">Final Season – The Final Chapters</span><span class="meta">Special · 2023</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil ist-ohne"><span class="cover" style="--h:195"><span class="marke marke-ohne" title="Ohne belegte deutsche Synchro">🇩🇪 ✕</span></span><span class="name">Final Chapters Special 2</span><span class="meta">Special · 2023</span></button>
+        </div>
+      </section>
+    </section>
+
+    <div class="panel-kopf"><span class="titelbild"></span><span><strong>Gantz</strong>Detail-Panel (verkürzt)</span></div>
+    <section class="karte" aria-label="Reihe">
+      <div class="karte-kopf"><span class="symbol">⧉</span>Reihe<span class="zaehler">3</span></div>
+      <p class="karte-stand">Staffel 1 von 2 · 1 Film</p>
+      <section class="gruppe">
+        <div class="gruppe-kopf"><h4 id="g-haupt">Hauptserie</h4><span class="linie"></span>
+          <div class="pfeile"><button type="button" class="pfeil" data-richtung="-1" aria-label="Vorherige Teile">‹</button><button type="button" class="pfeil" data-richtung="1" aria-label="Weitere Teile">›</button></div>
+        </div>
+        <div class="spur" role="tablist" aria-labelledby="g-haupt">
+          <button type="button" role="tab" aria-selected="true" class="teil"><span class="cover" style="--h:100"></span><span class="name">Staffel 1</span><span class="meta">2004 · 13 Fg.</span></button>
+          <button type="button" role="tab" aria-selected="false" class="teil"><span class="cover" style="--h:130"></span><span class="name">Second Stage</span><span class="meta">2004 · 13 Fg.</span></button>
+        </div>
+      </section>
+      <section class="gruppe">
+        <div class="gruppe-kopf"><h4 id="g-filme">Filme</h4><span class="linie"></span>
+          <div class="pfeile"><button type="button" class="pfeil" data-richtung="-1" aria-label="Vorherige Teile">‹</button><button type="button" class="pfeil" data-richtung="1" aria-label="Weitere Teile">›</button></div>
+        </div>
+        <div class="spur" role="tablist" aria-labelledby="g-filme">
+          <button type="button" role="tab" aria-selected="false" class="teil ist-kuenftig"><span class="cover" style="--h:160"><span class="marke marke-geplant" title="Original noch nicht erschienen">Geplant</span></span><span class="name">Gantz:O</span><span class="meta">Film · ab 2027</span></button>
+        </div>
+      </section>
+    </section>
+  </div>
+</template>
+
+<div class="raster" id="raster"></div>
+
+<script>
+  /* Vier Zellen aus einer Vorlage: hell/dunkel × Handy (375)/Panel (512). */
+  const vorlage = document.getElementById('panel')
+  const raster = document.getElementById('raster')
+  for (const thema of ['hell', 'dunkel']) {
+    for (const [geraet, breite] of [['handy', 375], ['desktop', 512]]) {
+      const zelle = document.createElement('div')
+      zelle.className = 'zelle'
+      zelle.innerHTML = `<h2>${thema} · ${geraet} ${breite} px</h2>`
+      const huelle = document.createElement('div')
+      huelle.dataset.thema = thema
+      huelle.dataset.geraet = geraet
+      huelle.style.width = breite + 'px'
+      huelle.append(vorlage.content.cloneNode(true))
+      /* Die geklonten Kennungen wären doppelt; je Zelle eigene Suffixe für aria-labelledby. */
+      for (const h of huelle.querySelectorAll('h4[id]')) {
+        const spur = h.closest('.gruppe').querySelector('.spur')
+        h.id = `${h.id}-${thema}-${geraet}`
+        spur.setAttribute('aria-labelledby', h.id)
+      }
+      zelle.append(huelle)
+      raster.append(zelle)
+    }
+  }
+
+  /* Pfeile: Sprung um ganze Cover (so viele, wie in die Spur passen); Zustand nach Scroll und Größenänderung. */
+  for (const gruppe of document.querySelectorAll('.gruppe')) {
+    const spur = gruppe.querySelector('.spur')
+    const pfeile = gruppe.querySelector('.pfeile')
+    const [zurueck, weiter] = pfeile.querySelectorAll('.pfeil')
+    const zustand = () => {
+      const ueberlauf = spur.scrollWidth > spur.clientWidth + 1
+      pfeile.hidden = !ueberlauf
+      zurueck.disabled = spur.scrollLeft <= 1
+      weiter.disabled = spur.scrollLeft + spur.clientWidth >= spur.scrollWidth - 1
+    }
+    const schritt = () => {
+      const karte = spur.querySelector('.teil')
+      const breite = karte.offsetWidth + 8
+      return Math.max(1, Math.floor(spur.clientWidth / breite)) * breite
+    }
+    for (const pfeil of [zurueck, weiter]) {
+      pfeil.addEventListener('click', () => spur.scrollBy({ left: Number(pfeil.dataset.richtung) * schritt() }))
+    }
+    let angefragt = false
+    spur.addEventListener('scroll', () => {
+      if (angefragt) return
+      angefragt = true
+      requestAnimationFrame(() => { angefragt = false; zustand() })
+    }, { passive: true })
+    new ResizeObserver(zustand).observe(spur)
+    /* Pfeiltasten wandern innerhalb der Zeile; der Fokus zieht die Spur mit (Browser-Standard). */
+    spur.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return
+      const teile = [...spur.querySelectorAll('.teil')]
+      const i = teile.indexOf(document.activeElement)
+      if (i < 0) return
+      e.preventDefault()
+      teile[Math.min(teile.length - 1, Math.max(0, i + (e.key === 'ArrowRight' ? 1 : -1)))].focus()
+    })
+    /* Beim Öffnen steht die gewählte Staffel im Bild: scrollLeft statt scrollIntoView, damit das Panel nicht mitscrollt. */
+    const gewaehlt = spur.querySelector('[aria-selected="true"]')
+    if (gewaehlt) spur.scrollLeft = Math.floor(gewaehlt.offsetLeft / schritt()) * schritt()
+    zustand()
+  }
+</script>
+</body>
+</html>
