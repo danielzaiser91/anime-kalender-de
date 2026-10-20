@@ -7,6 +7,7 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import type { FranchiseMember, Title } from '../shared/types.ts'
 import { useLang } from '../web/src/lib/i18n.tsx'
+import { Tooltip } from '../web/src/components/ui.tsx'
 import { ReihenCover, type CoverProps } from '../web/src/components/detail/reihen-cover.tsx'
 import { ReihenListe } from '../web/src/components/detail/reihen-liste.tsx'
 import { PfeilPaar } from '../web/src/components/detail/reihen-spur.tsx'
@@ -130,6 +131,41 @@ pruefe('kurzer Name: keine Tooltip-Hülle', !kurzMarkup.includes(MARKE_TOOLTIP))
 pruefe('ohne Merken kein Stern', !kurzMarkup.includes('★'))
 const gemerktMarkup = renderToStaticMarkup(createElement(() => ReihenCover(kartenProps(teil(900003, 'Kurz'), { gemerkt: true }))))
 pruefe('gemerkt: Stern', gemerktMarkup.includes('★'))
+
+/* Der Tooltip trägt den vollen Namen, nicht den gekürzten (Elementbaum der Karte). */
+type Knoten = { type?: unknown; props?: { text?: unknown; children?: unknown } }
+function tooltipText(knoten: unknown): unknown {
+  if (Array.isArray(knoten)) return knoten.map(tooltipText).find((x) => x !== undefined)
+  const k = knoten as Knoten | null
+  if (!k || typeof k !== 'object' || !k.props) return undefined
+  if (k.type === Tooltip) return k.props.text
+  return tooltipText(k.props.children)
+}
+const langProps = kartenProps(lang, { namen: { voll: 'Der volle Name des Teils', rest: 'Staffel 4 Der lange Untertitel der Staffel', kurz: 'Staffel 4 Der lange Untertitel der Staffel' } })
+gleich('Tooltip-Text ist der volle Name', tooltipText(ReihenCover(langProps)), 'Der volle Name des Teils')
+gleich('kurzer Name: kein Tooltip-Knoten', tooltipText(ReihenCover(kartenProps(teil(900003, 'Kurz')))), undefined)
+
+/* Während des Wechsels (`gesperrt`) sind die Karten aus; sonst nicht. */
+const tabKnopf = (html: string) => html.match(/<button[^>]*role="tab"[^>]*>/)?.[0] ?? ''
+const kartenHtml = (mehr: Partial<CoverProps>, m = teil(900003, 'Kurz')) => renderToStaticMarkup(createElement(() => ReihenCover(kartenProps(m, mehr))))
+pruefe('gesperrt: Karte aus', tabKnopf(kartenHtml({ gesperrt: true })).includes('disabled=""'))
+pruefe('nicht gesperrt: Karte an', !tabKnopf(kartenHtml({ gesperrt: false })).includes('disabled=""'))
+
+/* „Ohne Synchro“ gilt nur für Erschienenes; ein kommender Teil trägt kein ✕ und ist nicht gedämpft. */
+const ohneSynchro = teil(900004, 'Ohne', { ohneSynchro: true })
+pruefe('erschienen ohne Synchro: Marke', kartenHtml({ offen: false }, ohneSynchro).includes('🇩🇪 ✕'))
+pruefe('erschienen ohne Synchro: gedämpft', kartenHtml({ offen: false }, ohneSynchro).includes('opacity-55'))
+pruefe('kommend ohne Synchro: keine Marke', !kartenHtml({ offen: true }, ohneSynchro).includes('🇩🇪 ✕'))
+pruefe('kommend ohne Synchro: nicht gedämpft', !kartenHtml({ offen: true }, ohneSynchro).includes('opacity-55'))
+pruefe('mit Synchro: weder Marke noch gedämpft', !kartenHtml({}, teil(900005, 'Mit')).includes('🇩🇪 ✕'))
+
+/* Bilder: ohne IntersectionObserver stehen sie sofort da, mit Beobachter erst nach dem Sichtbarwerden; ohne Cover nie. */
+const mitBild = teil(900006, 'Bild', { cover: 'https://ak.test/cover/medium/x.jpg' })
+pruefe('ohne Beobachter: Bild sofort', kartenHtml({}, mitBild).includes('<img'))
+pruefe('ohne Cover: kein Bild', !kartenHtml({}, teil(900007, 'Leer')).includes('<img'))
+globalThis.IntersectionObserver = class {} as unknown as typeof IntersectionObserver
+pruefe('mit Beobachter, noch nicht sichtbar: kein Bild', !kartenHtml({}, mitBild).includes('<img'))
+Reflect.deleteProperty(globalThis, 'IntersectionObserver')
 
 /* Pfeile: ohne Überlauf fehlen beide; sichtbar sind sie je nach Ende ausgegraut. */
 const paar = (z: ReturnType<typeof pfeilZustand>) => renderToStaticMarkup(createElement(PfeilPaar, { zustand: z, spurId: 's', t, springe: () => {} }))
