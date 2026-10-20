@@ -28,6 +28,12 @@ const SOLL_AKTION = {
       { name: 'Abhängigkeiten installieren', if: "steps.nm.outputs.cache-hit != 'true'", shell: 'bash', run: 'npm ci' },
       { name: 'Browser-Cache', if: "inputs.playwright == 'true'", id: 'pw', uses: 'actions/cache@v4', with: { path: '~/.cache/ms-playwright', key: PW_SCHLUESSEL } },
       {
+        name: 'Microsoft-Paketquelle entfernen',
+        if: "inputs.playwright == 'true'",
+        shell: 'bash',
+        run: 'sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -f || true',
+      },
+      {
         name: 'Chromium installieren',
         if: "inputs.playwright == 'true' && steps.pw.outputs.cache-hit != 'true'",
         shell: 'bash',
