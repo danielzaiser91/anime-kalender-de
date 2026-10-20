@@ -17,4 +17,14 @@ export interface DataMeta {
   providers: string[]
   years: number[]; patchnotesStand?: string // Letzteres: jüngster Patch-Notes-Tag (Ungelesen-Punkt)
   attribution: string[]
+  /** Vom Bestandsbau zurückgestellte Titel samt ihren Releases (`tools/quarantaene.mjs`); fehlt ohne Quarantäne. */
+  quarantaene?: ZurueckgestellterTitel[]
+}
+
+/** Ein Titel, dessen Daten eine Prüfung verletzt haben: Er fehlt in diesem Datensatz, bis ein Bau ihn sauber liefert. */
+export interface ZurueckgestellterTitel {
+  titleId: number
+  pruefung: string
+  grund: string
+  releases: string[]
 }

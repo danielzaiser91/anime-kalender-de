@@ -59,6 +59,7 @@ import { pruefeVerwaiste } from './lib/handbeleg-verwaist.ts'
 import { bezugswegeTrotzNein } from './lib/handbeleg-bezugswege.ts'
 import type { Release, Title } from '../shared/types.ts'
 import { erstausgabeTrotzNein } from './bau/erstausgabe-markieren.ts'
+import { mitZurueckgestellten } from './lib/quarantaene.ts'
 
 /*
   Seit dem 11.10.2026 verteilt `bau/cartoon-wege.ts` einen Cartoon-Weg auf Staffeln (ein Weg je Staffel, gleiche Adresse).
@@ -238,7 +239,8 @@ if (fehler.length) {
 /* Hinter dem Toggle liegt verschoben, nicht gelöscht: ein Titel in `ohne-synchro.json` ist bekannt. */
 const hinterToggle = readJson<{ id: number }[]>(resolve(ROOT, 'public/data/ohne-synchro.json'), [])
 /* Eine Kennung ins Leere macht den Lauf rot (Eyeshield 2049, 24.08.2026); im Vergleichsbau nur Warnung. */
-pruefeVerwaiste(loadDubChecks(), new Set([...titel, ...hinterToggle].map((t) => t.id)))
+/* Zurückgestellt (Quarantäne, `meta.quarantaene`) ist ebenfalls bekannt: der Handbeleg bleibt und greift beim nächsten sauberen Bau. */
+pruefeVerwaiste(loadDubChecks(), mitZurueckgestellten(new Set([...titel, ...hinterToggle].map((t) => t.id))))
 
 log('✓ Jede eindeutige Handprüfung steht so im Datensatz, wie sie geprüft wurde.')
 

@@ -8,6 +8,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { ROOT } from './lib/util.ts'
+import { zurueckgestellt } from './lib/quarantaene.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -23,7 +24,8 @@ console.log('\nBelegstärke: Treffer-Datei gegen den Datensatz')
   const jahr = new Map(dateien.flat().map((t) => [t.id, t.jpYear]))
   /* 2331: Odysseus 31 — deutsche Fassung 1988, AniList-Titel 1981 (von Hand zugeordnet). */
   const AUSNAHMEN = new Set([2331])
-  const fehlend = liste.filter((e) => !jahr.has(e.anilistId)).map((e) => e.anilistId)
+  const zurueck = zurueckgestellt().ids // zurückgestellt (Quarantäne), nicht verloren
+  const fehlend = liste.filter((e) => !jahr.has(e.anilistId) && !zurueck.has(e.anilistId)).map((e) => e.anilistId)
   const weit = liste.filter((e) => {
     const j = jahr.get(e.anilistId)
     return j && !AUSNAHMEN.has(e.anilistId) && Math.abs(j - Number(e.liste.slice(-4))) > 2

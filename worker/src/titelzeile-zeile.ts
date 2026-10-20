@@ -3,8 +3,7 @@
  * Version: Kopf von `titelzeile-speichern.ts`.
  */
 import { type Env } from './env.ts'
-import { jetztIso } from './werte.ts'
-import { lies, zaehleOffene, type TitelDaten } from './titelzeile-format.ts'
+import { juengsteMeldung, lies, zaehleOffene, type TitelDaten } from './titelzeile-format.ts'
 
 export type Zeile = { nr: number; version: number; daten: string }
 
@@ -24,13 +23,13 @@ export function aktualisierung(env: Env, zeile: Zeile & { url: string; plattform
   const offen = zaehleOffene(neu)
   return env.DB.prepare(
     'UPDATE titel_zeile SET daten = ?3, version = version + 1, gemeldet_am = ?4, offen_meldung = ?6, offen_rohfolge = ?7 WHERE url = ?1 AND plattform = ?2 AND version = ?5',
-  ).bind(zeile.url, zeile.plattform, JSON.stringify(neu), jetztIso(), zeile.version, offen.meldung, offen.rohfolge)
+  ).bind(zeile.url, zeile.plattform, JSON.stringify(neu), juengsteMeldung(neu), zeile.version, offen.meldung, offen.rohfolge)
 }
 
 /** Schreibt gegen die gelesene Version; `false`, wenn jemand dazwischen geschrieben (oder dieselbe Nummer vergeben) hat. */
 async function schreibe(env: Env, url: string, plattform: string, zeile: Zeile | null, neu: TitelDaten): Promise<boolean> {
   const text = JSON.stringify(neu)
-  const am = jetztIso()
+  const am = juengsteMeldung(neu)
   const offen = zaehleOffene(neu)
   const r = zeile
     ? await aktualisierung(env, { url, plattform, ...zeile }, neu).run()

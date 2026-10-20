@@ -3,19 +3,15 @@
   "vorkommen": {
     "erschienenOhneTermin": 0,
     "schaetzungNachEnde": 0,
-    "spracheOffenTrotzMeldung": 4,
+    "spracheOffenTrotzMeldung": 0,
     "ereignisOhneNews": 2,
-    "terminOhneBeleg": 15
+    "terminOhneBeleg": 15,
+    "primeOhneTitelseite": 5
   },
   "bekannt": {
     "erschienenOhneTermin": [],
     "schaetzungNachEnde": [],
-    "spracheOffenTrotzMeldung": [
-      "10015342|netflix",
-      "10015835|netflix",
-      "10020607|netflix",
-      "10021027|netflix"
-    ],
+    "spracheOffenTrotzMeldung": [],
     "ereignisOhneNews": [
       "ghost-in-the-shell-2026@2026-07-07",
       "vom-landei-zum-schwertheiligen-2@2026-07-08"
@@ -36,6 +32,13 @@
       "anisearch-206914-primevideo",
       "anisearch-207141-netflix",
       "anisearch-210032-netflix"
+    ],
+    "primeOhneTitelseite": [
+      "demon-slayer-entertainment-district-arc-primevideo",
+      "demon-slayer-mugen-train-arc-primevideo",
+      "kuroko-winter-cup-movie-2-primevideo",
+      "kuroko-winter-cup-movie-3-primevideo",
+      "yu-gi-oh-s1-primevideo"
     ]
   }
 }

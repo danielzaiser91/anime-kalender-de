@@ -68,6 +68,11 @@ export function uebersetzeDatei(name: string, daten: unknown, ak: AkVon): unknow
     }
     case 'meldungen.json':
       return liste(daten, (m) => ({ ...m, titleId: num(m.titleId, ak) }))
+    /* Pool für „Was gucke ich als Nächstes?“: Einstiege tragen die Titelkennung, `reihe` führt Kennung → Kennung des Einstiegs. */
+    case 'empfehlung.json': {
+      const e = daten as { einstiege: unknown; reihe: Record<string, number> }
+      return { ...e, einstiege: liste(e.einstiege, (k) => ({ ...k, id: num(k.id, ak) })), reihe: schluessel(e.reihe, ak, (v) => num(v, ak)) }
+    }
     case 'neu-mit-synchro.json':
       return liste(daten, (n) => ({ ...n, ...titel(n, ak) }))
     case 'news.json':

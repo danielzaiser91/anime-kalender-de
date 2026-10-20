@@ -35,7 +35,7 @@ Neues = eigene Funktion/Modul (nicht in Funktion > 80 oder Datei > 800 Zeilen an
 npm run check:vor-commit
 ```
 
-Prüfer nach Risiko: `node tools/pr-stufe.mjs <PR>` (Stufe 0 ohne eigenen Prüfer-Agent, der CI-Prüfer prüft schlank; Details im Volltext). Nach Generatorlauf **alles** stagen. Vor dem Push zusätzlich `check:ansichten`/`check:panel` (bei `web/src`) und `check:handbelege` (bei geänderten Belegen). Jedes `tsc` mit `--noEmit`. Mess-/Versuchsläufe enden mit Exit 0.
+Agenten fahren `check:vor-commit` nicht lokal, die PR-Prüfkette tut es (F40, 19.10.2026; lokal nur berührte Tests und `tsc --noEmit`, Ablauf in `~/.claude/agents/bauer.md`). Prüfer nach Risiko: `node tools/pr-stufe.mjs <PR>` (Stufe 0 ohne eigenen Prüfer-Agent, der CI-Prüfer prüft schlank; Details im Volltext). Nach Generatorlauf **alles** stagen. Lokal zusätzlich nur `check:handbelege` (bei geänderten Belegen); `check:ansichten`/`check:panel` laufen in der Kette als PR-Aussehen. Jedes `tsc` mit `--noEmit`. Mess-/Versuchsläufe enden mit Exit 0.
 
 ## Wissen nach Thema (`grep -n "^## " docs/wissen/<datei>.md`)
 

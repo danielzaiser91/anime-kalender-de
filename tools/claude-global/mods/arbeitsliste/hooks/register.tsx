@@ -53,6 +53,9 @@ const RUHE_MARKER = 'C:/Users/ih/.claude/ruhemodus.txt'
 // Ruhemodus aus der Markerdatei: „sanft“ (Laufende enden, keine neuen) oder „hart“ (Standard, auch bei leerer Datei).
 type Ruhe = 'hart' | 'sanft' | null
 const ruhe = atom({ plugin: 'arbeitsliste', key: 'ruhe' } as const, null as Ruhe)
+// Sparmodus (Daniel, 19.10.2026): solange die Markerdatei existiert, nur Sonnet mittel und Haiku als Subagenten.
+const SPAR_MARKER = 'C:/Users/ih/.claude/sparmodus.txt'
+const spar = atom({ plugin: 'arbeitsliste', key: 'spar' } as const, false)
 const lecks = atom({ plugin: 'arbeitsliste', key: 'lecks' } as const, null as Lecks | null)
 const offen = atom({ plugin: 'arbeitsliste', key: 'offen' } as const, null as number | null)
 // Kennungen der ausgeklappten Bereiche („weitere“) und Gruppen (Kleinigkeiten).
@@ -95,6 +98,15 @@ async function lieseRuhe($: EngineInterface): Promise<Ruhe> {
     return inhalt === 'sanft' ? 'sanft' : 'hart'
   } catch {
     return null
+  }
+}
+
+async function lieseSpar($: EngineInterface): Promise<boolean> {
+  try {
+    await $.fs.read(SPAR_MARKER)
+    return true
+  } catch {
+    return false
   }
 }
 
@@ -164,6 +176,7 @@ async function ermittleLeiste($: EngineInterface): Promise<LeistenDaten> {
     jetzt: von.jetzt.length,
     autonomBis: bis ? uhrzeit(bis) : null,
     ruhe: await read($, ruhe),
+    spar: await read($, spar),
     lecks: await read($, lecks),
   }
 }
@@ -214,6 +227,8 @@ async function aktualisiere($: EngineInterface): Promise<void> {
   if (!gleich(await read($, autonomBis), bis)) await update($, autonomBis, () => bis)
   const istRuhe = await lieseRuhe($)
   if ((await read($, ruhe)) !== istRuhe) await update($, ruhe, () => istRuhe)
+  const istSpar = await lieseSpar($)
+  if ((await read($, spar)) !== istSpar) await update($, spar, () => istSpar)
   await aktualisiereLecks($)
   let neu: Liste | null = null
   let neuVon: DanielTodo | null = null
@@ -305,6 +320,7 @@ type PaneDaten = {
   l: Liste
   bis: string | null
   still: Ruhe
+  sparen: boolean
   auf: number | null
   ausgeklappt: string[]
   jetztMs: number
@@ -321,6 +337,7 @@ async function lesePaneDaten($: EngineInterface): Promise<PaneDaten> {
   const l = await read($, liste)
   const bis = await read($, autonomBis)
   const still = await read($, ruhe)
+  const sparen = await read($, spar)
   const auf = await read($, offen)
   await read($, faellig)
   await read($, minute)
@@ -331,7 +348,7 @@ async function lesePaneDaten($: EngineInterface): Promise<PaneDaten> {
   const pipeListe = await read($, pipeline)
   const von = teile(await read($, vonDir), new Date())
   const top = await read($, topPrios)
-  return { l, bis, still, auf, ausgeklappt, jetztMs, regelListe, liveListe, pipeListe, von, agenten: agentenListe, top }
+  return { l, bis, still, sparen, auf, ausgeklappt, jetztMs, regelListe, liveListe, pipeListe, von, agenten: agentenListe, top }
 }
 
 // Grundbausteine des Panes: Breite, Kürzen, Kürzungsschnitte, Titel, Punkt, Aufklapp-Zeilen.
@@ -439,6 +456,12 @@ function paneRuhe(a: Ansicht, d: PaneDaten) {
   const { Text } = a
   if (!d.still) return null
   return <Text color="warning">{d.still === 'sanft' ? '🔇 Ruhemodus sanft: Laufende enden, dann höchstens 1 Agent (Prüfer zählen nicht)' : '🔇 Ruhemodus hart: höchstens 1 Agent (Prüfer zählen nicht)'}</Text>
+}
+
+function paneSpar(a: Ansicht, d: PaneDaten) {
+  const { Text } = a
+  if (!d.sparen) return null
+  return <Text color="suggestion">● Sparmodus: nur Sonnet mittel und Haiku als Subagenten</Text>
 }
 
 function paneLive(a: Ansicht, d: PaneDaten) {
@@ -659,6 +682,7 @@ async function zeichnePane($: EngineInterface, e: any) {
       {topPriosKasten($.ui.resolve(e), d.top, prioUmfeld($, e, d, a.oeffne))}
       {paneAutonom(a, d)}
       {paneRuhe(a, d)}
+      {paneSpar(a, d)}
       {paneLive(a, d)}
       {paneJetzt(a, d)}
       {paneSpaeter(a, d)}

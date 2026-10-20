@@ -7,7 +7,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { QUOTEN, ZIEL, jwAussage, kandidaten, waehleStichprobe } from './cartoon-jw-stichprobe.mjs'
-import { pruefeInvarianten } from './cartoon-jw-stichprobe-invarianten.mjs'
+import { pruefeInvarianten, sollAusPool } from './cartoon-jw-stichprobe-invarianten.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 
@@ -72,6 +72,33 @@ pruefeInvarianten(viele, 'mit Ausschlüssen')
 /* Fehlt es einem Anbieter an Wegen, füllen die übrigen der Gruppe auf — die Summe bleibt 50. */
 const knapp = cartoons.filter((c) => c.streams[0].platform !== 'disneyplus' || Number(c.id) % 2 === 0).slice(0, 400)
 pruefeInvarianten(waehleStichprobe(kandidaten(knapp, jw)), 'knapper Anbieter')
+
+/* Schrumpft der Pool durch Urteile (19.10.2026: 42 statt 50 Wege), gilt min(50, Pool); eine verlorene Auswahl bleibt rot. */
+const deutsch = cartoons.filter((c) => jw[String(c.id)].angebote[0].audio.includes('de'))
+const geurteilt = new Set(deutsch.slice(0, deutsch.length - 42).map((c) => c.id))
+const geschrumpft = cartoons.map((c) => (geurteilt.has(c.id) ? { ...c, streams: [{ ...c.streams[0], dub: true }] } : c))
+const poolListe = kandidaten(geschrumpft, jw)
+const sollKlein = sollAusPool(poolListe)
+assert.deepEqual(sollKlein, { 'jw-deutsch': 42, 'jw-ohne-deutsch': 50 }, 'Soll aus dem Pool')
+const kleineWahl = waehleStichprobe(poolListe)
+pruefeInvarianten(kleineWahl, 'geschrumpfter Pool', sollKlein)
+assert.throws(() => pruefeInvarianten(kleineWahl, 'geschrumpfter Pool'), /genau 50 in jw-deutsch/, 'ohne Pool-Soll bliebe es rot (alte Fassung)')
+/* Eine Gruppe verliert alle Wege: Soll 0, Auswahl leer in dieser Gruppe, die andere bleibt voll. */
+const nurOhne = kandidaten(cartoons, jw).filter((k) => k.richtung === 'jw-ohne-deutsch')
+assert.deepEqual(sollAusPool(nurOhne), { 'jw-deutsch': 0, 'jw-ohne-deutsch': 50 }, 'leere Gruppe: Soll 0')
+pruefeInvarianten(waehleStichprobe(nurOhne), 'leere Gruppe', sollAusPool(nurOhne))
+/* Zwei Titel, eine Adresse, JustWatch urteilt verschieden: die Adresse zählt einmal (wie in der Auswahl), nicht in beiden Gruppen. */
+const geteilteUrl = ADRESSE.disneyplus(777)
+const quer = kandidaten(
+  [{ id: -7001, titleEn: 'A', streams: [{ platform: 'disneyplus', url: geteilteUrl }] }, { id: -7002, titleEn: 'B', streams: [{ platform: 'disneyplus', url: geteilteUrl }] }],
+  { '-7001': { angebote: [{ anbieter: 'Disney Plus', art: 'FLATRATE', audio: ['de'] }] }, '-7002': { angebote: [] } },
+)
+const sollQuer = sollAusPool(quer)
+assert.equal(sollQuer['jw-deutsch'] + sollQuer['jw-ohne-deutsch'], 1, 'quer geteilte Adresse zählt einmal')
+pruefeInvarianten(waehleStichprobe(quer), 'quer geteilte Adresse', sollQuer)
+const gleicheAdresse =[0, 1, 2].map((i) => ({ id: -i, plattform: 'netflix', url: 'u1', richtung: 'jw-deutsch' }))
+assert.equal(sollAusPool(gleicheAdresse)['jw-deutsch'], 1, 'Pool zählt Adressen, nicht Titel')
+assert.throws(() => pruefeInvarianten(kleineWahl.slice(1), 'Verlust', sollKlein), /genau/, 'ein verlorener Eintrag fällt auf')
 
 /* Neuer Titel mit hohem Schlüssel mischt die übrigen nicht um. */
 const spaeter = waehleStichprobe(kandidaten([...cartoons, { id: -9100, titleEn: 'Neu', streams: [{ platform: 'netflix', url: ADRESSE.netflix(9100) }] }], { ...jw, '-9100': { angebote: [] } }))

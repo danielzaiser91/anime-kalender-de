@@ -3360,7 +3360,7 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   pruefe('Kommentare und Reihenfolge bleiben stehen',
     entdoppleBelege('# Kopf\n\n- a: 1\n') === '# Kopf\n\n- a: 1\n')
   pruefe('fetch-pruefungen ruft den Riegel vor dem Schreiben',
-    /entdoppleBelege\(neu, warn\)/.test(abholung))
+    /schreibeBelege\(p, neu, warn\)/.test(abholung) && /entdoppleBelege\(text, melde\)/.test(readFileSync('pipeline/lib/dub-confirmed.ts', 'utf8')))
   /* 22.09.2026: Haikyu!! TO THE TOP — Netflix-Staffel 4 ohne Zahl in unseren Titeln blieb liegen. */
   pruefe(
     'eine Netflix-Staffel ohne Nummer in unserer Reihe wird über Netflix\' Aufteilung verteilt',
@@ -3543,7 +3543,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     '… sondern vergleicht die Adresse des Belegs',
-    /if \(beleg && \(!beleg\.url \|\| adressGleich\(beleg\.url, seite \?\? undefined\)\)\) continue/.test(bau),
+    /if \(beleg \? !beleg\.url \|\| adressGleich\(beleg\.url, seite \?\? undefined\) : kanalAdresseGemerkt\(/.test(bau),
     'der Adressvergleich fehlt',
   )
   pruefe(
@@ -3596,8 +3596,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   pruefe(
     'die Zuordnungen werden mit dem alten Stand zusammengeführt',
-    /const bisher = readJson<typeof zugeordnet>\('data\/prime-zugeordnet\.json', \{\}\)/.test(roh) &&
-      /writeJson\('data\/prime-zugeordnet\.json', \{ \.\.\.bisher, \.\.\.zugeordnet \}\)/.test(roh),
+    /const bisher = leseZugeordnet<\(typeof zugeordnet\)\[string\]>\(\)/.test(roh) &&
+      /writeJson\('data\/prime-zugeordnet\.json', leseZugeordnet\(\{ \.\.\.bisher, \.\.\.zugeordnet \}\)\)/.test(roh),
     'die Datei wird wieder überschrieben — jede Zuordnung hält dann einen Bau',
   )
 
@@ -3875,7 +3875,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     man hört auf hinzusehen, und die echte Störung geht darin unter.
   */
   {
-    const wache = readFileSync('pipeline/bestand-historie.ts', 'utf8')
+    const wache = readFileSync('pipeline/lib/bestand-delta.ts', 'utf8')
     pruefe(
       'die Wache rechnet begründet entfernte Verweise heraus',
       wache.includes('entferntProtokolliert') && wache.includes('wegUnerklaert'),
@@ -4369,7 +4369,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'eine Prime-Zuordnung überspringt Adressen, die ein Handbeleg einem anderen Titel zuschreibt',
-    bau.includes('c.platform === plattform && c.url && c.anilistId !== eintrag.titleId') &&
+    bau.includes('adresseFremdBelegt(kanalWissen(alleChecks), eintrag.titleId, plattform, adresse)') &&
       bau.includes('seite = amazonTitelAdresse(eintrag.seite)') &&
       workerQuelltext().includes('AND seiten_kennung IS ?3'),
     'sonst trägt Vinland Saga Staffel 2 die Seite von Staffel 1 mit „DE ✓" (17.09.2026)',
