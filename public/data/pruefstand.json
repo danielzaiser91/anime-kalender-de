@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-20T15:57:16.200Z",
+ "erzeugtAm": "2026-10-20T22:08:43.059Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -402,8 +402,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 773,
-   "gesamt": 898,
-   "offen": 125,
+   "gesamt": 899,
+   "offen": 126,
    "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -430,6 +430,13 @@
     {
      "url": "https://www.netflix.com/title/81783938",
      "titel": "Der Herr der Ringe: Die Schlacht der Rohirrim"
+    },
+    {
+     "url": "https://www.netflix.com/title/81943491",
+     "titel": "Dragon Ball Daima",
+     "staffeln": [
+      1
+     ]
     },
     {
      "url": "https://www.netflix.com/title/81947352",

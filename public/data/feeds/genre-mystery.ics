@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Mystery
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261013T160000Z
-DTEND:20261013T163000Z
-SUMMARY:Detektiv Conan – Folge 153/162
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T160000Z
