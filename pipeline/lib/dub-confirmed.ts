@@ -310,12 +310,6 @@ export function dubKey(anilistId: number, platform: string): string {
   return `${anilistId}|${platform}`
 }
 
-/** Die Adresse einer Ausgabe; Such-, Start- und Länderseiten (`istSammelKern`) sind keine, sie zählen wie eine fehlende Adresse. */
-function ausgabeKern(url: string | undefined): string {
-  const kern = adressKern(url)
-  return istSammelKern(kern) ? '' : kern
-}
-
 /**
  * Schlüssel aller Handbelege, die einen Weg verneinen (`available: false` oder `dub: false`), ausgewertet je Adresse (`adressKern`):
  * Ein Ja derselben Adresse (`dub: true` oder ein deutscher Bereich) hebt das Nein auf, außer die verschmolzene Zeile trägt selbst
@@ -324,23 +318,27 @@ function ausgabeKern(url: string | undefined): string {
  * Das Nein gilt der ganzen Plattform (`dubKey`), wenn es keine Adresse trägt oder die Plattform keine Ausgabe mit Ja führt: Eine neue Adresse
  * kann dieselbe Ausgabe in anderer Schreibweise sein (JustWatch-gti statt ASIN). Erst eine belegte zweite Ausgabe (ein Ja mit eigener Adresse) beschränkt es auf seine Adresse
  * (`dubKey|adressKern`; Digimon 552 bei Prime: B0CGRJGJX1 ja, Crunchyroll-Kanal B0CHHNJJW3 nein). Abgefragt wird mit `wegVerneint`.
- * Widersprechen sich Ja und Nein derselben Adresse, gilt das jüngere (`juengstesUrteil`, gesetzt von `verschmelze`); Such-, Start- und Länderseiten (`istSammelKern`) zählen wie eine fehlende Adresse.
+ * Widersprechen sich Ja und Nein derselben Adresse, gilt das jüngere (`juengstesUrteil`, gesetzt von `verschmelze`).
+ * Such-, Start- und Länderseiten (`istSammelKern`) sind keine Ausgabe: Ihr Ja belegt keine zweite, ihr Nein gilt der ganzen Plattform
+ * und entfällt, sobald der Titel dort ein Ja an echter Adresse hat (eine Suche, die ihn nicht zeigt, widerlegt die Seite nicht; Jormungand: Perfect Order, 13331).
  */
 export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil'>[]): Set<string> {
-  const adressen = new Map<string, { titel: string; kern: string; nein: boolean; ja: boolean }>()
+  const adressen = new Map<string, { titel: string; kern: string; sammel: boolean; nein: boolean; ja: boolean }>()
   for (const c of checks) {
     const titel = dubKey(c.anilistId, c.platform)
-    const kern = ausgabeKern(c.url)
-    const a = adressen.get(`${titel}|${kern}`) ?? { titel, kern, nein: false, ja: false }
+    const roh = adressKern(c.url)
+    const sammel = istSammelKern(roh)
+    const kern = sammel ? '' : roh
+    const a = adressen.get(`${titel}|${roh}`) ?? { titel, kern, sammel, nein: false, ja: false }
     /* Haben zwei Zeilen derselben Adresse verschiedene Daten, gilt das Urteil der jüngeren (`verschmelze`). */
     a.nein ||= c.juengstesUrteil ? c.juengstesUrteil === 'nein' : c.dub === false || c.available === false
     a.ja ||= c.juengstesUrteil ? c.juengstesUrteil === 'ja' : c.available !== false && (c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub)))
-    adressen.set(`${titel}|${kern}`, a)
+    adressen.set(`${titel}|${roh}`, a)
   }
   const mitJa = new Set([...adressen.values()].filter((a) => a.ja && a.kern).map((a) => a.titel))
   const nein = new Set<string>()
   for (const a of adressen.values()) {
-    if (!a.nein || (a.ja && a.kern)) continue
+    if (!a.nein || (a.ja && a.kern) || (a.sammel && mitJa.has(a.titel))) continue
     nein.add(a.kern && mitJa.has(a.titel) ? `${a.titel}|${a.kern}` : a.titel)
   }
   return nein

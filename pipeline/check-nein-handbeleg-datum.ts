@@ -77,11 +77,20 @@ try {
   const ASIN = prime('B0DNCGXVNT')
   /* Anlassfall 13331 Jormungand: Ja an B0DNCGXVNT (30.08.), Nein an der Prime-Suche (19.09.). */
   const jormungand = [beleg(20, ASIN, '2026-08-30', '  dub: true\n'), beleg(20, SUCHE, '2026-09-19', '  available: false\n')]
-  pruefe('Nein an der Suche neben einem Ja an echter Adresse: es sperrt die Plattform, nicht nur „amazon.de/s“', sperrt(jormungand, 20, FREMD))
-  pruefe('… die Suche selbst bleibt gesperrt', sperrt(jormungand, 20, SUCHE))
+  pruefe('Nein an der Suche neben einem Ja an echter Adresse: es widerlegt die Seite nicht, kein Nein', !sperrt(jormungand, 20, FREMD) && !sperrt(jormungand, 20, ASIN))
+  pruefe('Nein an der Suche allein: es sperrt die Plattform, nicht nur „amazon.de/s“', sperrt([beleg(24, SUCHE, '2026-09-19', '  available: false\n')], 24, FREMD))
+  pruefe('Nein an der Suche, Ja ohne Adresse daneben: das Ja belegt keine Ausgabe, die Plattform bleibt gesperrt', sperrt([beleg(25, SUCHE, '2026-09-19', '  available: false\n'), `- anilistId: 25\n  platform: primevideo\n  checkedAt: '2026-09-20'\n  dub: true\n`], 25, FREMD))
   pruefe('Nein an echter Adresse, Ja an der Suche: das Ja belegt keine zweite Ausgabe, das Nein sperrt die Plattform', sperrt([beleg(21, ASIN, '2026-09-01', '  dub: false\n'), beleg(21, SUCHE, '2026-09-10', '  dub: true\n')], 21, FREMD))
-  pruefe('Nein an der Startseite crunchyroll.com neben Ja an echter Adresse: Plattform gesperrt', sperrt([beleg(22, ASIN, '2026-08-30', '  dub: true\n'), beleg(22, 'https://www.crunchyroll.com/', '2026-09-19', '  dub: false\n')], 22, FREMD))
+  pruefe('Nein an der Startseite crunchyroll.com neben Ja an echter Adresse: kein Nein', !sperrt([beleg(22, ASIN, '2026-08-30', '  dub: true\n'), beleg(22, 'https://www.crunchyroll.com/', '2026-09-19', '  dub: false\n')], 22, FREMD))
   pruefe('Nein an echter Adresse neben Ja an echter Adresse bleibt auf seine beschränkt', !sperrt([beleg(23, ASIN, '2026-08-30', '  dub: true\n'), beleg(23, prime('B0ANDERESNE'), '2026-09-19', '  dub: false\n')], 23, FREMD))
+
+  const ohneUrl = (id: number, urteil: string) => `- anilistId: ${id}\n  platform: primevideo\n  checkedAt: '2026-09-25'\n${urteil}`
+  pruefe('Nein an der Suche und Nein ohne Adresse neben Ja an echter Adresse: das Nein ohne Adresse sperrt die Plattform', sperrt([beleg(26, ASIN, '2026-08-30', '  dub: true\n'), beleg(26, SUCHE, '2026-09-19', '  available: false\n'), ohneUrl(26, '  available: false\n')], 26, FREMD))
+  /* Rohzeilen ohne Verschmelzung (kein `ladeHandbelege`): Ja trägt an Sammeladresse und ohne Adresse nichts, das Nein bleibt. */
+  const roh = (url: string | undefined, rest: object) => ({ anilistId: 27, platform: 'primevideo' as const, url, ...rest })
+  pruefe('Ja und Nein beide ohne Adresse: das Nein gilt', wegVerneint(neinHandbelege([roh(undefined, { dub: true }), roh(undefined, { available: false })]), 27, 'primevideo', FREMD))
+  pruefe('Ja und Nein beide an derselben Suche: das Nein gilt', wegVerneint(neinHandbelege([roh(SUCHE, { dub: true }), roh(SUCHE, { available: false })]), 27, 'primevideo', FREMD))
+  pruefe('… in umgekehrter Reihenfolge ebenso', wegVerneint(neinHandbelege([roh(SUCHE, { available: false }), roh(SUCHE, { dub: true })]), 27, 'primevideo', FREMD))
 
   console.log('\nistSammelKern:')
   const sammel = ['amazon.de/s', 'amazon.de/s/ref=nb_sb_noss', 'crunchyroll.com', 'crunchyroll.com/de', 'crunchyroll.com/de-de', 'netflix.com/search', 'anbieter.de/suche']
