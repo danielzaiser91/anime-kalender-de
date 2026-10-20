@@ -25,8 +25,8 @@
 import { readFileSync } from 'node:fs'
 import type { PlatformId, Title } from '../shared/types.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
-import { recordSource } from './lib/health.ts'
-import { fortschritt, passtInsBudget, pauseMitStand, waehleArbeit, ZEITBUDGET_SEKUNDEN } from './lib/link-check-gesundheit.ts'
+import { readSourceHealth, recordSource } from './lib/health.ts'
+import { fortschritt, drosselNachVorlauf, passtInsBudget, pauseMitStand, waehleArbeit, ZEITBUDGET_SEKUNDEN } from './lib/link-check-gesundheit.ts'
 import { pruefbare } from './lib/pruefbare-adresse.ts'
 
 const DATEI = 'data/link-check.json'
@@ -326,7 +326,7 @@ async function main(): Promise<void> {
     Tausend, und die neuen stehen hinten.
   */
   const AMAZON = /(^|\.)amazon\./i
-  const arbeit = waehleArbeit(offen, (u) => bestand[u]?.geprueftAm, vorrang, LIMIT, (u) => AMAZON.test(new URL(u).hostname))
+  const arbeit = waehleArbeit(offen, (u) => bestand[u]?.geprueftAm, vorrang, LIMIT, (u) => AMAZON.test(new URL(u).hostname), drosselNachVorlauf(readSourceHealth()['link-check']?.gesperrt))
   log(`Verweise: ${adressen.size} bekannt, ${offen.length} fällig, ${arbeit.length} in diesem Lauf.`)
 
   /**
@@ -464,7 +464,7 @@ async function main(): Promise<void> {
   if (!geprueft && offen.length) warn('Nichts geprüft, obwohl etwas fällig war — Aufruf prüfen.')
   /* Nichts faellig ist der Normalfall, sobald alle Adressen geprueft sind —
      kein Grund, den Lauf als stumm zu melden (29.08.2026). */
-  recordSource('link-check', geprueft, undefined, undefined, true)
+  recordSource('link-check', geprueft, undefined, undefined, true, sperren > 0)
 }
 
 main().catch((err) => {

@@ -5,7 +5,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { GEDROSSELT_JE_LAUF, passtInsBudget, waehleArbeit, ZEITBUDGET_SEKUNDEN } from '../pipeline/lib/link-check-gesundheit.ts'
+import { drosselNachVorlauf, GEDROSSELT_JE_LAUF, passtInsBudget, waehleArbeit, ZEITBUDGET_SEKUNDEN } from '../pipeline/lib/link-check-gesundheit.ts'
 
 /* Erwartete Werte fest eingetragen: 45 min Grenze, 25 % Puffer = 33,75 min. */
 assert.equal(ZEITBUDGET_SEKUNDEN, 2025, 'Budget = 75 % von 45 min')
@@ -38,6 +38,9 @@ assert.deepEqual(waehleArbeit(['a1', 'a2', 'a3', 'n1', 'n2'], (u) => amStand[u],
 assert.deepEqual(waehleArbeit(['a1', 'a2', 'a3', 'n1', 'n2'], (u) => amStand[u], new Set(), 4, istA, 1), ['a1', 'n1', 'n2'], 'Drossel 1')
 assert.deepEqual(waehleArbeit(['a1', 'a2', 'a3', 'n1', 'n2'], (u) => amStand[u], new Set(), 4), ['a1', 'a2', 'a3', 'n1'], 'ohne Drossel hungern n2')
 assert.equal(GEDROSSELT_JE_LAUF, 60, 'Standarddrossel')
+assert.equal(drosselNachVorlauf(true), 60, 'Vorlauf gesperrt: Drossel 60')
+assert.equal(drosselNachVorlauf(false), Number.POSITIVE_INFINITY, 'Vorlauf frei: keine Drossel')
+assert.equal(drosselNachVorlauf(undefined), Number.POSITIVE_INFINITY, 'kein Vorlauf bekannt: keine Drossel')
 
 /* --- Prozess: Amazon sperrt; ohne Budget für die 60-min-Pause geht der Lauf weiter ohne Amazon und endet --- */
 const wurzel = resolve(import.meta.dirname, '..')
@@ -59,9 +62,10 @@ assert.equal(lauf.status, 0, `Lauf endet (kein Warten in der 60-min-Pause):\n${a
 assert.ok(!ausgabe.includes('min Pause'), `keine Pause, die das Budget sprengt:\n${ausgabe}`)
 assert.ok(ausgabe.includes('weiter ohne Amazon'), `Amazon wird übersprungen:\n${ausgabe}`)
 assert.ok(ausgabe.includes('5 Amazon-Adressen wegen der Sperre übersprungen'), `5 von 25 Amazon-Adressen übersprungen (Sperre nach 20):\n${ausgabe}`)
-const gesundheit = JSON.parse(readFileSync(join(tmp, 'data', 'source-health.json'), 'utf8')) as Record<string, { lastOk?: string; lastCount: number }>
+const gesundheit = JSON.parse(readFileSync(join(tmp, 'data', 'source-health.json'), 'utf8')) as Record<string, { lastOk?: string; lastCount: number; gesperrt?: boolean }>
 assert.ok(gesundheit['link-check']?.lastOk, 'nach Amazon-Skip steht der Stempel „ok“ (gewollt)')
 assert.equal(gesundheit['link-check'].lastCount, 21, '1 Netflix- plus 20 Amazon-Abrufe geprüft')
+assert.equal(gesundheit['link-check'].gesperrt, true, 'Sperre im Lauf: Zustand für den Folgelauf abgelegt')
 /* Budget aufgebraucht (1 ms): es beginnt nichts Neues, alles bleibt fällig. */
 const knapp = spawnSync(
   process.execPath,
@@ -105,14 +109,17 @@ for (let i = 0; i < 70; i++) bestand3[amazonUrl(i)] = { status: 'unklar', geprue
 for (let i = 0; i < 10; i++) bestand3[netflixUrl(i)] = { status: 200, geprueftAm: '2000-06-01' }
 for (let i = 10; i < 20; i++) bestand3[netflixUrl(i)] = { status: 200, geprueftAm: '2000-07-01' }
 writeFileSync(join(tmp3, 'data', 'link-check.json'), JSON.stringify(bestand3))
+/* Der Vorlauf hat gesperrt: nur dann gilt die Drossel. */
+writeFileSync(join(tmp3, 'data', 'source-health.json'), JSON.stringify({ 'link-check': { lastOk: '2000-01-01T00:00:00.000Z', lastRun: '2000-01-01T00:00:00.000Z', lastCount: 5, gesperrt: true } }))
 const stub3 = join(tmp3, 'fetch-stub.mjs')
 writeFileSync(stub3, `globalThis.fetch = async (u) => String(u).includes('netflix') ? new Response('', { status: 404 }) : new Response('<html></html>', { status: 200 })\n`)
-const lauf3 = (): void => {
-  spawnSync(
+const lauf3 = (): string => {
+  const r = spawnSync(
     process.execPath,
     ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub3).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1', '--limit', '70', '--zeitbudget', '0', '--sperrpause', '0.01'],
     { cwd: tmp3, env: { ...process.env, AK_ROOT: tmp3 }, windowsHide: true, encoding: 'utf8', timeout: 60_000 },
   )
+  return `${r.stdout}${r.stderr}`
 }
 const netflixGeprueft = (): number => {
   const stand = JSON.parse(readFileSync(join(tmp3, 'data', 'link-check.json'), 'utf8')) as Record<string, { status: unknown }>
@@ -124,5 +131,31 @@ assert.equal(netflixGeprueft(), 10, 'Lauf 1: alle 10 Netflix-Adressen kommen dra
 writeFileSync(join(tmp3, 'public', 'data', 'titles.json'), JSON.stringify([...Array(20).keys()].map((i) => ({ streams: [{ platform: 'netflix', url: netflixUrl(i) }] })).concat([...Array(70).keys()].map((i) => ({ streams: [{ platform: 'primevideo', url: amazonUrl(i) }] })))))
 lauf3()
 assert.equal(netflixGeprueft(), 20, 'Lauf 2: auch die zweiten 10 Netflix-Adressen kommen dran')
+/* Nur noch die 70 Amazon-Adressen sind fällig: der Zustand des Vorlaufs entscheidet über die Drossel. */
+const setzeVorlauf = (gesperrt: boolean): void =>
+  writeFileSync(join(tmp3, 'data', 'source-health.json'), JSON.stringify({ 'link-check': { lastOk: '2000-01-01T00:00:00.000Z', lastRun: '2000-01-01T00:00:00.000Z', lastCount: 5, gesperrt } }))
+setzeVorlauf(true)
+assert.ok(lauf3().includes('70 fällig, 60 in diesem Lauf'), 'Vorlauf gesperrt: Amazon auf 60 gedrosselt')
+setzeVorlauf(false)
+const frei = lauf3()
+assert.ok(frei.includes('70 fällig, 70 in diesem Lauf'), `Vorlauf frei: keine Drossel:\n${frei}`)
+/* Lauf ohne Sperre (nur Netflix fällig) löscht den Zustand des Vorlaufs. */
+writeFileSync(join(tmp3, 'data', 'link-check.json'), JSON.stringify({ ...bestand3, ...Object.fromEntries([...Array(70).keys()].map((i) => [amazonUrl(i), { status: 404, geprueftAm: '2999-12-31' }])) }))
+setzeVorlauf(true)
+lauf3()
+const nachFrei = JSON.parse(readFileSync(join(tmp3, 'data', 'source-health.json'), 'utf8')) as Record<string, { gesperrt?: boolean }>
+assert.equal(nachFrei['link-check'].gesperrt, false, 'Lauf ohne Sperre: Zustand zurückgesetzt')
 rmSync(tmp3, { recursive: true, force: true })
+
+/* Ein Zwischenstand (recordSource ohne Zustand) lässt den abgelegten Zustand stehen. */
+const tmp4 = mkdtempSync(join(tmpdir(), 'link-zustand-'))
+mkdirSync(join(tmp4, 'data'))
+writeFileSync(join(tmp4, 'data', 'source-health.json'), JSON.stringify({ 'link-check': { lastRun: '2000-01-01T00:00:00.000Z', lastCount: 1, gesperrt: true } }))
+const skript = join(tmp4, 'zwischen.mts')
+writeFileSync(skript, `import { recordSource } from ${JSON.stringify(pathToFileURL(join(wurzel, 'pipeline/lib/health.ts')).href)}\nrecordSource('link-check', 3)\n`)
+const zw = spawnSync(process.execPath, ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, skript], { cwd: tmp4, env: { ...process.env, AK_ROOT: tmp4 }, windowsHide: true, encoding: 'utf8', timeout: 60_000 })
+const nachZwischen = JSON.parse(readFileSync(join(tmp4, 'data', 'source-health.json'), 'utf8')) as Record<string, { gesperrt?: boolean; lastCount: number }>
+assert.equal(nachZwischen['link-check'].lastCount, 3, `Zwischenstand geschrieben: ${zw.stderr}`)
+assert.equal(nachZwischen['link-check'].gesperrt, true, 'Zwischenstand lässt den Zustand des Vorlaufs stehen')
+rmSync(tmp4, { recursive: true, force: true })
 console.log('link-check-zeitbudget.test: grün (Budget-Grenze, Auswahl mit Rotation, Lauf ohne 60-min-Pause)')

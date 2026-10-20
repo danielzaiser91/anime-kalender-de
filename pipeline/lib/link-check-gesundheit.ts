@@ -66,6 +66,11 @@ export function passtInsBudget(startMs: number, jetztMs: number, budgetSekunden:
  */
 export const GEDROSSELT_JE_LAUF = 60
 
+/** Drossel nur, wenn der Vorlauf eine Sperre erlebt hat; sonst bleibt Amazon bis zum Limit ungedrosselt. */
+export function drosselNachVorlauf(vorlaufGesperrt: boolean | undefined): number {
+  return vorlaufGesperrt ? GEDROSSELT_JE_LAUF : Number.POSITIVE_INFINITY
+}
+
 export function waehleArbeit(
   offen: string[],
   geprueftAm: (url: string) => string | undefined,
