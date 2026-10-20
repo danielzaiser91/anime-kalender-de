@@ -4,7 +4,6 @@
  * dass die tägliche Beleg-Lesung den Wanderartikel nicht überschreibt. Das Foto selbst prüft `check-woche-bild.ts`.
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-woche-beleg.ts`
  */
-import { readFileSync } from 'node:fs'
 import { BELEG_SCHLUESSEL } from '../shared/beleg-schluessel.ts'
 import type { Release } from '../shared/types.ts'
 import type { VermerkMitAnkuendigung } from '../shared/woche-beleg-typ.ts'
@@ -45,8 +44,8 @@ console.log('\nWochenprogramm-Belege: welche Zeilen ein Bild brauchen')
   const geaendert = fortschreiben(mitBild, [zeile({ zeit: '19:50' })], ARTIKEL, '2026-10-16T12:00:00.000Z')
   pruefe('geänderte Uhrzeit: neue Zeile mit neuem Bild, die alte bleibt', geaendert.offen.join() === zeilenSchluessel(zeile({ zeit: '19:50' })) && Boolean(geaendert.belege[k]?.bild), geaendert.offen)
   const alt = { [k]: { ...r.belege[k]!, datum: '2026-09-24' }, b: { ...r.belege[k]!, datum: '2026-09-25' } }
-  const datei = JSON.parse(readFileSync(new URL('../data/crunchyroll-woche-belege.json', import.meta.url), 'utf8')) as WocheBelege
-  pruefe('die Liste im Repo: jeder Schlüssel ist der der Zeile (die Vormerkung für Tomb Raider King F12 findet ihre Zeile wieder)', Object.entries(datei).every(([s, b]) => s === zeilenSchluessel(b)) && Boolean(datei[k]), Object.keys(datei))
+  const kulisse = fortschreiben(vorgemerkt, [zeile(), zeile({ von: 13, bis: 13, datum: '2026-10-21' })], ARTIKEL, '2026-10-15T12:00:00.000Z').belege
+  pruefe('die fortgeschriebene Liste: jeder Schlüssel ist der der Zeile (die Vormerkung für Tomb Raider King F12 findet ihre Zeile wieder)', Object.entries(kulisse).every(([s, b]) => s === zeilenSchluessel(b)) && Object.keys(kulisse).length === 2 && Boolean(kulisse[k]), Object.keys(kulisse))
   pruefe('nach 21 Tagen fällt eine Zeile heraus, am 21. Tag nicht', Object.keys(fortschreiben(alt, [], ARTIKEL, '2026-10-16T12:00:00.000Z').belege).join() === 'b')
 }
 
