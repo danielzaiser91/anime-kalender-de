@@ -47,7 +47,7 @@ const faelle: Fall[] = [
   { id: 9207, name: 'Ja einer anderen Seite hinter derselben Adresse deckt die Kanal-Seite nicht', seite: 'B0MERKFFFF', kanal: true, andereSeite: 'B0MERKGGGG', erwartet: false },
   { id: 9208, name: 'Seite ohne Kanal unter einer Kanal-Adresse: die Merkliste hält sie wie der Handbeleg auf (Clannad)', seite: 'B0MERKHHHH', adresse: 'B0MERKIIII', kanalSeite: 'B0MERKJJJJ', kanal: true, erwartet: false },
   { id: 9209, name: 'Eintrag der Liste zu einer anderen Adresse desselben Titels hält diese Gruppe nicht auf', seite: 'B0MERKKKKK', adresse: 'B0MERKLLLL', gruppeAn: 'B0MERKKKKK', kanalSeite: 'B0MERKLLLL', kanal: true, erwartet: true },
-  { id: 9210, name: 'Eintrag der Liste eines anderen Titels unter derselben Adresse hält diese Gruppe nicht auf', seite: 'B0MERKMMMM', adresse: 'B0MERKIIII', kanal: false, erwartet: true },
+  { id: 9210, name: 'Adresse im Eintrag der Liste eines anderen Titels: die Gruppe wird nicht angelegt (fremd belegt)', seite: 'B0MERKIIII', adresse: 'B0MERKIIII', kanal: false, erwartet: false },
   { id: 9204, name: 'Titel ohne Kanal-Beleg: Deutsch zählt', seite: 'B0MERKDDDD', kanal: false, erwartet: true },
 ]
 

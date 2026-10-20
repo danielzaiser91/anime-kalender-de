@@ -171,7 +171,7 @@ export function uebernehmePrimeUndCrVorschlaege({
         einem Handbeleg. Übersprungen statt umgebogen — welche Seite die
         richtige ist, sagt die Rohfolge nicht.
       */
-      const fremdBelegt = (adresse: string | null): boolean => adresseFremdBelegt(alleChecks, eintrag.titleId, plattform, adresse)
+      const fremdBelegt = (adresse: string | null): boolean => adresseFremdBelegt(kanalWissen(alleChecks), eintrag.titleId, plattform, adresse)
       /* Seit Migration 030 kennt die Rohfolge die gemeldete Seite — dann gilt die Meldung ihr. */
       if (fremdBelegt(seite) && plattform === 'primevideo' && eintrag.seite) {
         seite = amazonTitelAdresse(eintrag.seite)
