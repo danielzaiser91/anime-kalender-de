@@ -11,7 +11,6 @@ export const TEXTE_ZEILEN = {
   'detail.legendeJustwatch': '„laut JustWatch“: deutsche Tonspur dort gelistet, von uns nicht je Folge geprüft.',
   'detail.legendeSchwester': '„laut Schwester-Shop“: Ein Schwester-Shop (maxdome, MagentaTV, Videoload) führt den Titel auf Deutsch.',
   'detail.legendeAnnahme': '„Deutsch angenommen“: Der Telekom-Katalog (Videoload, MagentaTV) gilt als deutsch; belegt ist die Tonspur dort nicht.',
-  'detail.legendeOmu': '„nur Untertitel“: bisher Originalton mit deutschen Untertiteln.',
   'detail.legendeOffen': '„Sprache offen“: Deutsch ist bei diesem Anbieter nicht belegt.',
   'detail.legendeGeschaetzt': '„≈“: Zahl des Werks, beim Anbieter nicht einzeln belegt.',
   'antwort.filmSynchronisiert': 'Deutsch synchronisiert',
