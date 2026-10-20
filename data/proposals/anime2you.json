@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-10-19T17:02:51.581Z",
+  "scrapedAt": "2026-10-20T05:02:58.998Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
     "schon in einem Rubrik-Feed gelesen": 7,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 4
   },
@@ -36,11 +36,16 @@
       "dates": [
         {
           "iso": "2027-01-28",
-          "context": "xen der Anime-Klassiker »Lady Oscar« und »Eureka Seven«, die beide am 28. Januar 2027 durch KSM Anime erscheinen. Am selben Tag […] Der Be"
+          "context": "en der Anime-Klassiker »Lady Oscar« und »Eureka Seven« , die beide am 28. Januar 2027 durch KSM Anime erscheinen. Am selben Tag veröffentlic"
+        },
+        {
+          "iso": "2026-12-11",
+          "context": "dise« sowie den Anime-Film »Die letzte Blüte« auf Blu-ray. Bereits am 11. Dezember 2026 bringt polyband anime das 16. Volume der Comedy-Seri"
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "volltextGelesen": "2026-10-20"
     },
     {
       "articleTitle": "Elf neue Merchandise-Produkte zu »Apothecary Diaries« angekündigt",
@@ -56,6 +61,56 @@
       ],
       "dub": "unklar",
       "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Crunchyroll nimmt drei Anime-Neuzugänge ins Programm + Synchro",
+      "articleUrl": "https://www.anime2you.de/news/1062283/crunchyroll-your-letter-und-mehr/",
+      "publishedAt": "2026-10-19",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "zeiten": [
+        {
+          "tag": "Sonntag",
+          "zeit": "17:00",
+          "satz": "ffel 3 (Synchro) »Dreamland« – Episode 1 »Your Letter« »As a Reincarnated Aristocrat« – Staffel 3 (Synchro) Episoden: 1 verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Sonntag um 17:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "19:00",
+          "satz": "am mit seinen Verbündeten muss er alles daransetzen, seine Heimat zu verteidigen. »Dreamland« – Episode 1 Episode: 1 verfügbar Sprache: Englisch, Französisch (UT) Simulcast: Jeden Samstag um 19:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        }
+      ],
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "As a Reincarnated Aristocrat",
+          "zusatz": "Staffel 3",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-10-17",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Your Letter",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-10-19",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-20"
     },
     {
       "articleTitle": "»Lady Oscar« erscheint in einer neuen Blu-ray-Komplettbox",
@@ -273,10 +328,6 @@
       "category": "allgemein",
       "platforms": [],
       "dates": [
-        {
-          "iso": "2026-10-19",
-          "context": "Parts (Folge 49 in der Gesamtzählung) wird nach einer Verschiebung am 19. Oktober 2026 im japanischen Fernsehen ausgestrahlt und bei […] D"
-        },
         {
           "month": "2026-10",
           "context": "Blood War« veröffentlicht. Das Video findet ihr weiter unten. Finale im Oktober 2026 Die neunte Episode des vierten Parts (Folge 49 in der"
@@ -589,7 +640,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-17"
+      "sammelGelesen": "2026-10-20"
     },
     {
       "articleTitle": "»Black Clover« stellt neuen Crunchyroll-Bestwert für 2026 auf",
@@ -1126,7 +1177,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-17"
+      "sammelGelesen": "2026-10-20"
     },
     {
       "articleTitle": "AniMoon startet Online-Rabattaktion zur Frankfurter Buchmesse 2026",
@@ -1406,7 +1457,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-17"
+      "sammelGelesen": "2026-10-20"
     },
     {
       "articleTitle": "Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027",
@@ -1539,7 +1590,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-17"
+      "sammelGelesen": "2026-10-20"
     },
     {
       "articleTitle": "Anime-Drama »A New Dawn« erscheint auf Blu-ray + Design",
@@ -3255,7 +3306,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-17"
+      "sammelGelesen": "2026-10-20"
     },
     {
       "articleTitle": "Netflix enthüllt neuen Teaser zu »Cyberpunk: Edgerunners II«",

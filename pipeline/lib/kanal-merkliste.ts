@@ -8,7 +8,7 @@
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { entdoppleBelege, ladeHandbelege, loadDubChecks, type DubCheck } from './dub-confirmed.ts'
+import type { DubCheck } from './dub-confirmed.ts'
 import { belegSeitenKern, notizSeite } from './kanal-titel.ts'
 import { ROOT } from './util.ts'
 
@@ -46,19 +46,6 @@ export function ladeMerkliste(wurzel = ROOT): DubCheck[] {
   return existsSync(datei) ? (JSON.parse(readFileSync(datei, 'utf8')) as DubCheck[]) : []
 }
 
-const wissen = new WeakMap<DubCheck[], DubCheck[]>()
-
-/** Was der Bau über Kanal-Seiten weiß: die Belegliste samt Merkliste, einmal je Belegliste (`rohDeutsch()` merkt sich seine Mengen je Liste). */
-export function kanalWissen(checks: DubCheck[]): DubCheck[] {
-  if (!wissen.has(checks)) wissen.set(checks, mitMerkliste(checks, ladeMerkliste()))
-  return wissen.get(checks)!
-}
-
-/** Die eine Quelle des Kanal-Wissens für jeden Leser des Baus (Stufe 3, Wächter D-25..D-27, Wegwahl, Rohfolgen): alle Handbelege samt Merkliste. */
-export function ladeKanalWissen(): DubCheck[] {
-  return kanalWissen(loadDubChecks())
-}
-
 /** Hängt die Kanal-Belege aus `neu` an die Merkliste, jeden einmal. Ohne Neues bleibt die Datei unberührt. */
 export function ergaenzeMerkliste(neu: DubCheck[], wurzel = ROOT): number {
   const bisher = ladeMerkliste(wurzel)
@@ -67,12 +54,4 @@ export function ergaenzeMerkliste(neu: DubCheck[], wurzel = ROOT): number {
   if (einmal.length === bisher.length) return 0
   writeFileSync(resolve(wurzel, MERKLISTE), '[\n' + einmal.map((e) => JSON.stringify(e)).join(',\n') + '\n]\n')
   return einmal.length - bisher.length
-}
-
-/** Schreibt die Handbelege und merkt sich dabei alle Kanal-Seiten aus dem geschriebenen Text (aus dem geladenen Stand, also nach dem Verschmelzen; holt bei einer fehlenden Merkliste alles nach). */
-export function schreibeBelege(datei: string, text: string, melde: (text: string) => void, wurzel = ROOT): void {
-  const geschrieben = entdoppleBelege(text, melde)
-  writeFileSync(datei, geschrieben)
-  const dazu = ergaenzeMerkliste(ladeHandbelege(), wurzel)
-  if (dazu) melde(`${dazu} Kanal-Seite(n) in ${MERKLISTE} gemerkt`)
 }

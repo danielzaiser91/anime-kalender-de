@@ -110,7 +110,7 @@ const schreibend = (aufrufe) => aufrufe.filter((a) => a.startsWith('pr close') |
   pruefe('veraltet, Merge-Commit schon neu gerechnet -> einmal öffnen genügt', code === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7' && k.gewartet.length === 0, k.aufrufe)
 }
 // Echter Anlass (PR 1602): direkt nach dem Wiederöffnen ist merge_commit_sha leer; leer heißt „noch nicht neu“, nie „neu“.
-for (const [name, folge, warten] of [['leer nach dem Öffnen', [M_ALT, '', '', M_NEU], 2], ['leer schon vorher', ['', M_NEU], 0]]) {
+for (const [name, folge, warten] of [['leer nach dem Öffnen', [M_ALT, '', '', M_NEU], 2]]) {
   const k = kulisse(antworten({ mainSha: MAIN, mergeShas: folge }))
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe(`Merge-Commit ${name} -> 1, wartet ${warten}×, öffnet zweimal`, code === 1 && k.gewartet.length === warten && schreibend(k.aufrufe).length === 4 && !k.aufrufe.some((a) => a.includes('commits/ ')), { code, a: k.aufrufe, m: k.meldungen })
@@ -151,6 +151,24 @@ for (const [n, erwartet] of [[1, 'pr close 7,pr reopen 7,pr reopen 7'], [2, 'pr 
   const k = kulisse(daten)
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe('Schließen scheitert -> 2, kein Öffnen', code === 2 && !k.aufrufe.includes('pr reopen 7') && /FEHLER 403/.test(k.meldungen.join()), { a: k.aufrufe, m: k.meldungen })
+}
+
+// 1597 R2, Befund 2: leerer Test-Merge vor dem Anstoß -> klare Meldung, Exit 2, nichts geschlossen, kein Absturz.
+{
+  const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [''] }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  const m = k.meldungen.join()
+  pruefe('Test-Merge leer vor dem Anstoß -> 2, nichts geschlossen, klare Meldung', code === 2 && schreibend(k.aufrufe).length === 0 && /Test-Merge noch nicht berechnet, gleich erneut aufrufen/.test(m) && !/Cannot read/.test(m), { code, a: k.aufrufe, m })
+}
+// 1597 R2, Befund 1: Fehler nach dem Schließen sagen „SCHON ANGESTOSSEN“, Fehler davor nicht.
+for (const [name, daten, opt, angestossen] of [
+  ['Öffnen scheitert 3×', antworten({ mainSha: MAIN, mergeShas: [M_NEU] }), { reopenFehler: 3 }, true],
+  ['Merge-Commit nie neu', antworten({ mainSha: MAIN, mergeShas: Array(REF_PRUEFUNGEN + 3).fill(M_ALT) }), {}, true],
+  ['Schließen scheitert', { ...antworten({ mainSha: MAIN }), 'pr close 7': { fehler: '403' } }, {}, false],
+]) {
+  const k = kulisse(daten, opt)
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe(`${name} -> 2, Meldung ${angestossen ? 'nennt' : 'verschweigt'} den Anstoß`, code === 2 && /SCHON ANGESTOSSEN/.test(k.meldungen.join()) === angestossen, { code, m: k.meldungen })
 }
 
 /** Fälle, die nichts anstoßen: Exit 2, Meldung, kein Schreibaufruf. */

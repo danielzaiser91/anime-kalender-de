@@ -11,7 +11,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { todayIso } from '../shared/time.ts'
-import { ladeKanalWissen } from './lib/kanal-merkliste.ts'
+import { ladeKanalWissen } from './lib/kanal-wissen.ts'
 import { kanalAdressenOhneBeleg } from './lib/kanal-titel.ts'
 import { plausibilitaet, REGELN } from './lib/kalender-plausibilitaet.ts'
 import { festschreiben, meldeNeueTreffer, ueberschreitungen, zeile, type Grenzen, type TrefferJeRegel } from './lib/kalender-plausibilitaet-grenzen.ts'

@@ -1,7 +1,7 @@
 import { todayIso } from '../../shared/time.ts'
 import type { Release, Title } from '../../shared/types.ts'
 import { adressGleich, adressKern, type DubCheck } from '../lib/dub-confirmed.ts'
-import { ladeKanalWissen } from '../lib/kanal-merkliste.ts'
+import { ladeKanalWissen } from '../lib/kanal-wissen.ts'
 import { bestandVorher } from '../lib/bestand-vorher.ts'
 import { kanalTitelOhneBeleg, kanalWegEntfernt, kanalWegVerloren } from '../lib/invarianten-kanal.ts'
 import { kanalAdressenOhneAussage, kanalAdressenOhneBeleg } from '../lib/kanal-titel.ts'

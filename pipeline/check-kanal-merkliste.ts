@@ -32,6 +32,9 @@ interface Fall {
   echtesJa?: boolean
   /** Nach dem Zurückstellen bleibt ein Ja einer anderen Seite hinter derselben Adresse stehen; es deckt die Kanal-Seite nicht. */
   andereSeite?: string
+  /** Die Kanal-Adresse des Belegs, wenn sie von der gelesenen Seite abweicht (`kanalSeite` steht in der Notiz); der Titel hat keinen weiteren Beleg (Clannad). */
+  adresse?: string
+  kanalSeite?: string
   erwartet: boolean
 }
 const faelle: Fall[] = [
@@ -40,6 +43,7 @@ const faelle: Fall[] = [
   { id: 9203, name: 'Kanal-Seite mit zweiter Quelle: Deutsch zählt', seite: 'B0MERKCCCC', kanal: true, zweiteQuelle: true, erwartet: true },
   { id: 9206, name: 'Kanal-Ja später durch echtes Ja bestätigt: nie in der Merkliste', seite: 'B0MERKEEEE', kanal: true, echtesJa: true, erwartet: true },
   { id: 9207, name: 'Ja einer anderen Seite hinter derselben Adresse deckt die Kanal-Seite nicht', seite: 'B0MERKFFFF', kanal: true, andereSeite: 'B0MERKGGGG', erwartet: false },
+  { id: 9208, name: 'Seite ohne Kanal unter einer Kanal-Adresse: die Merkliste hält sie wie der Handbeleg auf (Clannad)', seite: 'B0MERKHHHH', adresse: 'B0MERKIIII', kanalSeite: 'B0MERKJJJJ', kanal: true, erwartet: false },
   { id: 9204, name: 'Titel ohne Kanal-Beleg: Deutsch zählt', seite: 'B0MERKDDDD', kanal: false, erwartet: true },
 ]
 
@@ -47,10 +51,10 @@ const faelle: Fall[] = [
 function belege(f: Fall, mitKanal: boolean, spaeteZweite = false): string {
   const kanal = !mitKanal ? '' : `- anilistId: ${f.id}
   platform: primevideo
-  url: ${dp(f.seite)}
+  url: ${dp(f.adresse ?? f.seite)}
   dub: true
   checkedAt: '2026-10-01'${spaeteZweite && f.zweiteQuelle ? '\n  zweiteQuelle: JustWatch' : ''}
-  note: "Tonspuren: Deutsch — Amazon-Seite ${f.seite}: alle 4 Folgen geprüft, ${KANAL}"
+  note: "Tonspuren: Deutsch — Amazon-Seite ${f.kanalSeite ?? f.seite}: alle 4 Folgen geprüft, ${KANAL}"
 `
   const echt = mitKanal && f.echtesJa ? `- anilistId: ${f.id}
   platform: primevideo
@@ -66,6 +70,7 @@ function belege(f: Fall, mitKanal: boolean, spaeteZweite = false): string {
   checkedAt: '2026-10-03'
   note: "Tonspuren: Deutsch — Amazon-Seite ${f.andereSeite}: alle 4 Folgen geprüft"
 ` : ''
+  if (f.adresse) return kanal
   return `${kanal}${echt}${anders}
 - anilistId: ${f.id}
   platform: primevideo
@@ -111,13 +116,14 @@ const fehler: string[] = []
 try {
   mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
   const zugeordnet: Record<string, unknown> = {}
-  for (const f of faelle) zugeordnet[`${dp(f.seite)}#${f.id}`] = { titleId: f.id, plattform: 'primevideo', asin: 'B0EPISODE01', seite: f.seite, folgen }
+  for (const f of faelle) zugeordnet[`${dp(f.adresse ?? f.seite)}#${f.id}`] = { titleId: f.id, plattform: 'primevideo', asin: 'B0EPISODE01', seite: f.seite, folgen }
   schreibe('data/prime-zugeordnet.json', JSON.stringify(zugeordnet))
   const yamlKanal = faelle.map((f) => belege(f, f.kanal)).join('')
   const yamlA = faelle.map((f) => belege(f, f.kanal, true)).join('')
   const yamlOhne = faelle.map((f) => belege(f, false)).join('')
 
-  const { schreibeBelege, MERKLISTE } = await import('./lib/kanal-merkliste.ts')
+  const { schreibeBelege } = await import('./lib/dub-confirmed.ts')
+  const { MERKLISTE } = await import('./lib/kanal-merkliste.ts')
   const melde: string[] = []
   schreibeBelege(join(kulisse, 'data/dub-confirmed.yaml'), yamlKanal, (t) => melde.push(t))
   const listeA = readFileSync(join(kulisse, MERKLISTE), 'utf8')
@@ -134,7 +140,7 @@ try {
   if (melde.filter((t) => t.includes('gemerkt')).length !== 2) fehler.push(`Merkliste angelegt/ergänzt: ${melde.filter((t) => t.includes('gemerkt')).join(' | ')}`)
   if (!existsSync(join(kulisse, MERKLISTE))) fehler.push('Merkliste fehlt nach dem Schreiben')
   const eintraege = JSON.parse(listeA) as { anilistId: number }[]
-  if (eintraege.length !== 4) fehler.push(`Merkliste hält ${eintraege.length} Einträge, erwartet 4`)
+  if (eintraege.length !== 5) fehler.push(`Merkliste hält ${eintraege.length} Einträge, erwartet 5`)
 
   for (const f of faelle) {
     const [a, b, c] = [welten.A.get(f.id), welten.B.get(f.id), welten.C.get(f.id)]

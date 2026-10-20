@@ -9,7 +9,7 @@
  * `data/dub-confirmed.yaml` ist der Weg, aus einem Fragezeichen ein Häkchen zu
  * machen — durch tatsächliches Nachsehen, nicht durch Vermutung.
  */
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { vereinigeBereiche, vereinigeGleichzeitige } from './dub-bereiche.ts'
@@ -21,7 +21,7 @@ import { warn } from './util.ts'
 import { loadCurated } from './curated.ts'
 import { dubChecksAusTerminen } from './dub-aus-terminen.ts'
 import { ohneKanalSprache } from './kanal-titel.ts'
-export { schreibeBelege } from './kanal-merkliste.ts'
+import { ergaenzeMerkliste, MERKLISTE } from './kanal-merkliste.ts'
 
 export interface DubCheck {
   anilistId: number
@@ -407,4 +407,11 @@ export function entdoppleBelege(text: string, melde?: (text: string) => void): s
   const schwanz = /\n+$/.exec(text)?.[0] ?? ''
   if (entfernt && melde) melde(`${entfernt} Beleg(e) standen doppelt — nicht geschrieben`)
   return raus.join('\n').replace(/\n+$/, '') + schwanz
+}
+
+/** Schreibt die Handbelege durch den Riegel `entdoppleBelege` und merkt dabei alle Kanal-Seiten (aus dem geladenen Stand, also nach dem Verschmelzen; holt bei einer fehlenden Merkliste alles nach). */
+export function schreibeBelege(datei: string, text: string, melde: (text: string) => void): void {
+  writeFileSync(datei, entdoppleBelege(text, melde))
+  const dazu = ergaenzeMerkliste(ladeHandbelege())
+  if (dazu) melde(`${dazu} Kanal-Seite(n) in ${MERKLISTE} gemerkt`)
 }

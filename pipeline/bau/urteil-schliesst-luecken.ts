@@ -1,6 +1,6 @@
 import type { Release, Title } from '../../shared/types.ts'
 import { readJson, log } from '../lib/util.ts'
-import { ladeKanalWissen } from '../lib/kanal-merkliste.ts'
+import { ladeKanalWissen } from '../lib/kanal-wissen.ts'
 import { kanalAdressenOhneBeleg, kanalSchluessel } from '../lib/kanal-titel.ts'
 import { alleTermineGekennzeichnet } from '../lib/pruefung.ts'
 import { urteilDarfBelegen } from '../lib/urteil-weg.ts'

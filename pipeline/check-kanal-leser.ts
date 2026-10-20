@@ -79,7 +79,8 @@ async function pruefeWegwahl(): Promise<void> {
 }
 
 async function pruefeSchreibweg(): Promise<void> {
-  const { schreibeBelege, mitMerkliste, MERKLISTE } = await import('./lib/kanal-merkliste.ts')
+  const { schreibeBelege } = await import('./lib/dub-confirmed.ts')
+  const { mitMerkliste, MERKLISTE } = await import('./lib/kanal-merkliste.ts')
   const datei = join(kulisse, 'data/dub-confirmed.yaml')
   const block = (id: number, url: string, seite: string) => `- anilistId: ${id}
   platform: primevideo

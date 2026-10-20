@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Magic
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T144500Z
-DTEND:20261012T151500Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T144500Z
@@ -286,6 +276,16 @@ UID:auto-118399-tv-prosieben-maxx@2026-10-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261026T154500Z
 DTEND:20261026T161500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T154000Z
+DTEND:20261027T161000Z
 SUMMARY:Yashahime: Princess Half-Demon
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/11570/

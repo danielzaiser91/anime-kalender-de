@@ -7,6 +7,7 @@ pipeline/check-adn-anisearch.ts
 pipeline/check-adn-film.ts
 pipeline/check-adn-kuratiert-ton.ts
 pipeline/check-adn-kuratiert.ts
+pipeline/check-adn-lesetag.ts
 pipeline/check-adn-neuzugaenge.ts
 pipeline/check-adn-sprache-offen.ts
 pipeline/check-adn-titelliste-abruf.ts
@@ -35,7 +36,10 @@ pipeline/check-antwort-jetzt.ts
 pipeline/check-ausgeblieben-text.ts
 pipeline/check-auto-disc-handeintrag.ts
 pipeline/check-beleg-anbieter.ts
+pipeline/check-beleg-api-web.ts
+pipeline/check-beleg-api.ts
 pipeline/check-beleg-bis-anker.ts
+pipeline/check-beleg-href.ts
 pipeline/check-beleg-stoerung.ts
 pipeline/check-belegstaerke.ts
 pipeline/check-bild-und-synchro.ts
@@ -100,6 +104,7 @@ pipeline/check-kachel-favorit.ts
 pipeline/check-kachel-im-angebot.ts
 pipeline/check-kachel-katalog.ts
 pipeline/check-kalender-filter.ts
+pipeline/check-kalender-plausibilitaet-kanal.ts
 pipeline/check-kalender-plausibilitaet.ts
 pipeline/check-kanal-abgehakt.ts
 pipeline/check-kanal-aussortieren.ts
@@ -118,6 +123,7 @@ pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
 pipeline/check-mal-teilung.ts
 pipeline/check-meldung-gti.ts
+pipeline/check-meldungs-auffaelligkeiten.ts
 pipeline/check-minuten-takt.ts
 pipeline/check-motn-reihe.ts
 pipeline/check-nein-handbeleg-abschluss.ts

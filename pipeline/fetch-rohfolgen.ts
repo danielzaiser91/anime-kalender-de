@@ -22,7 +22,7 @@ import { recordSource } from './lib/health.ts'
 import { schliesseRohfolgenAb, type Offen } from './lib/rohfolgen-abschluss.ts'
 import { sortiereKanalGruppenAus, type ZugeordneteSeiten } from './lib/kanal-aussortieren.ts'
 import { ladeHandbelege } from './lib/dub-confirmed.ts'
-import { kanalWissen } from './lib/kanal-merkliste.ts'
+import { kanalWissen } from './lib/kanal-wissen.ts'
 import { ohneDoppelte } from './lib/rohfolgen-doppelte.ts'
 import {
   animeZugehoerigkeit,
