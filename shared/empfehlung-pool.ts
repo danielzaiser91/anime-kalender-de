@@ -61,7 +61,7 @@ export function einstiegeJeReihe(pool: Title[]): Map<number, Title> {
 export function ersterTeil(teile: FranchiseMember[]): FranchiseMember | undefined {
   const staffeln = hauptstaffeln(teile)
   const kandidaten = staffeln.length ? staffeln : teile.filter((m) => !m.beiwerk && !m.eigenesWerk && m.format !== 'SPECIAL')
-  const sortiert = kandidaten.slice().sort((a, b) => ausstrahlungsZeit(a).localeCompare(ausstrahlungsZeit(b)) || a.id - b.id)
+  const sortiert = kandidaten.slice().sort((a, b) => ausstrahlungsZeit(a).localeCompare(ausstrahlungsZeit(b)))
   return sortiert[0]
 }
 
