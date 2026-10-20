@@ -24,9 +24,7 @@ import { mitBelegstaerke } from '../lib/belegstaerke.ts'
 import { ergaenzeEigeneHandlungen } from './handlung-eigen-einbinden.ts'
 import { ergaenzeDeutscheFolgenzahl } from './deutsche-folgenzahl-einbinden.ts'
 import { jwNeinAnSeite, kanalErbtVomAnbieter } from './kanal-erbt-anbieter.ts'
-import { urteilJaJeWeg, urteilSchliesstSpaeteLuecken } from './urteil-schliesst-luecken.ts'
-import { kanalAdressenOhneBeleg } from '../lib/kanal-titel.ts'
-import { loadDubChecks } from '../lib/dub-confirmed.ts'
+import { schliesseSpaeteLuecken } from './urteil-schliesst-luecken.ts'
 import { log } from '../lib/util.ts'
 
 export function schreibeDatensatz({
@@ -62,7 +60,7 @@ export function schreibeDatensatz({
     kanalJeAdresse,
   })
 
-  const spaet = urteilSchliesstSpaeteLuecken(allTitles, releases, urteilJaJeWeg(), kanalAdressenOhneBeleg(loadDubChecks()))
+  const spaet = schliesseSpaeteLuecken(allTitles, releases)
   if (spaet) log(`${spaet} spät entstandene Weg(e) über das Urteil aus Stufe 3 belegt`)
 
   const geerbt = kanalErbtVomAnbieter(allTitles, jwNeinAnSeite())
