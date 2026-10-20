@@ -42,3 +42,17 @@ export function fortschritt(geprueft: number, von: number, tot: number, bestand:
   sichere()
   meldeLinkCheckZwischenstand(bestand, tag, melde)
 }
+
+/** Zählt einen Befund dieses Laufs: unbrauchbar (404/region) und, getrennt davon, echte Auskunft. */
+export function zaehleBefund(zaehler: { tot: number; auskuenfte: number }, status: unknown): void {
+  if (status === 404 || status === 'region') zaehler.tot++
+  if (istAuskunft(status)) zaehler.auskuenfte++
+}
+
+/**
+ * Argumente der Schlusszeile (nach dem Namen) des Laufs: gezählt wird, was in diesem Lauf echte Auskunft war (`istAuskunft`), nicht jede
+ * geprüfte Adresse. Nichts fällig (0 geprüft) ist Normalfall; geprüft ohne eine Auskunft ist Misserfolg.
+ */
+export function linkCheckEnde(geprueft: number, auskuenfte: number): [number, string | undefined, undefined, boolean] {
+  return [auskuenfte, geprueft && !auskuenfte ? 'nur Nichtauskünfte' : undefined, undefined, geprueft === 0]
+}
