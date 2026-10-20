@@ -3348,9 +3348,11 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   pruefe('fetch-pruefungen nutzt diesen Abgleich', /neueBelegBloecke\(alt, zeilen\)/.test(abholung))
   /* Haikyu!!-Summenseite, 20.10.2026: das Prüfdatum zählt beim Abgleich nicht, die Folgenspanne schon. */
   const bereich = (von: number, bis: number) => ({ von, bis, dub: true, belegt: Array.from({ length: bis - von + 1 }, (_, i) => von + i) })
-  const gekappt = begrenzeAufFolgenzahl([bereich(1, 3), bereich(4, 13)], 12)
+  const gekappt = begrenzeAufFolgenzahl([bereich(1, 3), bereich(4, 15)], 12)
   pruefe('Kappung: Bereich über der Folgenzahl endet bei ihr, belegt ohne fremde Folgen', gekappt.length === 2 && gekappt[1]!.bis === 12 && gekappt[1]!.belegt.at(-1) === 12 && gekappt[1]!.belegt.length === 9, gekappt)
-  pruefe('Kappung: genau eine Folge drüber wird gekappt', begrenzeAufFolgenzahl([bereich(1, 13)], 12)[0]?.bis === 12)
+  const umZwei = [bereich(1, 14)]
+  pruefe('Kappung: Überschreitung um 1 und um 2 bleibt unverändert', begrenzeAufFolgenzahl(umZwei, 12) === umZwei && begrenzeAufFolgenzahl([bereich(1, 13)], 12)[0]?.bis === 13)
+  pruefe('Kappung: Überschreitung um genau 3 wird gekappt', begrenzeAufFolgenzahl([bereich(1, 15)], 12)[0]?.bis === 12)
   pruefe('Kappung: Bereich ab der Folge hinter der Zahl fällt weg, ab der letzten bleibt er', begrenzeAufFolgenzahl([bereich(1, 12), bereich(13, 25)], 12).length === 1 && begrenzeAufFolgenzahl([bereich(12, 25)], 12)[0]?.von === 12)
   const genau = bereich(1, 12)
   const genauListe = [genau]

@@ -65,12 +65,20 @@ export function bildeBereiche(meldungen: Folgenmeldung[]): {
 }
 
 /**
- * Kappt Bereiche auf die Folgenzahl des Titels: Eine Summenseite (Haikyu!! Staffel 4, 27 Folgen) zählt durch, für einen Titel allein
- * wäre „Folge 14–25" bei 13 Folgen eine Aussage über fremde Folgen. Ohne bekannte Folgenzahl bleibt alles stehen.
+ * Erst ab so vielen Folgen über der Folgenzahl des Titels wird gekappt. Die AniList-Zahl widerlegt keine Synchro-Folge: Eine Sonderfolge
+ * hinter der Staffel oder eine zu niedrige Zahl ergibt Überschreitungen um 1–2 (Messung 20.10.2026 an der Meldungskopie: 11 von 22 Titeln
+ * um höchstens 2), die bleiben stehen und laufen in den Bestandswächter. Eine Summenseite liegt weit darüber (12 und mehr).
+ */
+export const KAPPUNG_AB_UEBERSCHREITUNG = 3
+
+/**
+ * Kappt Bereiche auf die Folgenzahl des Titels, wenn sie sie um `KAPPUNG_AB_UEBERSCHREITUNG` oder mehr überschreiten: Eine Summenseite
+ * (Haikyu!! Staffel 4, 27 Folgen) zählt durch, für einen Titel allein wäre „Folge 14–25" bei 13 Folgen eine Aussage über fremde Folgen.
+ * Ohne bekannte Folgenzahl bleibt alles stehen.
  */
 export function begrenzeAufFolgenzahl(bereiche: Folgenbereich[], folgen: number | null | undefined): Folgenbereich[] {
   if (!folgen || folgen < 1) return bereiche
-  if (!bereiche.some((b) => b.bis > folgen)) return bereiche
+  if (!bereiche.some((b) => b.bis >= folgen + KAPPUNG_AB_UEBERSCHREITUNG)) return bereiche
   return bereiche
     .filter((b) => b.von <= folgen)
     .map((b) => (b.bis <= folgen ? b : { ...b, bis: folgen, belegt: b.belegt.filter((f) => f <= folgen) }))
