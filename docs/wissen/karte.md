@@ -80,7 +80,7 @@ Auslieferungsdateien (`public/data/`), gzip auf der Leitung, gemessen 02.10.2026
 | `ohne-synchro.json` (15.147) | 5,5 MB | 1,28 MB | Schalter „ohne Synchro" |
 | `synopses/N`, `disc/N` (32 Gruppen, `id % 32`), `voices/<id>` | klein | | Panel |
 
-**Erstaufruf ≈ 470 KB gzip** (Bündel + CSS + vier Startdateien) — nicht 142 KB wie `ARCHITEKTUR.md` (Stand 11.08.) behauptet.
+**Erstaufruf ≈ 327 KB gzip** (Stand 18.10.2026: Bündel, CSS, HTML, Wochendaten, zwei Startschriften; Wächter `tools/start-budget.mjs`, Grenze 330 KB). Am 02.10.2026 waren es noch ≈ 470 KB mit den vier vollen Startdateien; Aufschlüsselung in `ARCHITEKTUR.md`.
 
 ## 5. Oberfläche (Routen und Komponenten)
 
