@@ -42,3 +42,31 @@ export function fortschritt(geprueft: number, von: number, tot: number, bestand:
   sichere()
   meldeLinkCheckZwischenstand(bestand, tag, melde)
 }
+
+/**
+ * Zeitbudget des Wochenlaufs: Die Grenze des Schritts ist 45 min (`refresh-weekly.yml`); gemessen am 19.10.2026
+ * (Lauf 39202358845) rannte er hinein, weil die Sperr-Pause allein 60 min dauert. 75 % davon lassen den Lauf
+ * fertig werden und die Schlusszeile `recordSource` erreichen.
+ */
+export const ZEITBUDGET_SEKUNDEN = 2025
+
+/** Passt eine Wartezeit von `wartenMs` noch in das Budget? Ohne Budget (<= 0) immer. */
+export function passtInsBudget(startMs: number, jetztMs: number, budgetSekunden: number, wartenMs = 0): boolean {
+  if (budgetSekunden <= 0) return true
+  return jetztMs - startMs + wartenMs <= budgetSekunden * 1000
+}
+
+/**
+ * Reihenfolge und Umfang eines Laufs: Vorrang zuerst, dann nie Geprüftes und die ältesten Befunde.
+ * Was wegen des Limits nicht drankommt, bleibt fällig und rückt im nächsten Lauf nach vorn.
+ */
+export function waehleArbeit(
+  offen: string[],
+  geprueftAm: (url: string) => string | undefined,
+  vorrang: ReadonlySet<string>,
+  limit: number,
+): string[] {
+  const alter = (u: string) => geprueftAm(u) ?? ''
+  const sortiert = [...offen].sort((a, b) => Number(vorrang.has(b)) - Number(vorrang.has(a)) || alter(a).localeCompare(alter(b)))
+  return limit > 0 ? sortiert.slice(0, limit) : sortiert
+}
