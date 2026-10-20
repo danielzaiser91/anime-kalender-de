@@ -31,8 +31,8 @@ async function bau(verfuegbarAb: string | undefined): Promise<Title> {
   writeFileSync(join(wurzel, 'data', 'crunchyroll-woche.json'), JSON.stringify(woche))
   rmSync(join(wurzel, 'data', 'crunchyroll-dub.json'), { force: true })
   if (verfuegbarAb) writeFileSync(join(wurzel, 'data', 'crunchyroll-dub.json'), JSON.stringify(katalog(verfuegbarAb)))
-  const teil = (id: number, titleDe: string, jpYear: number, streams: unknown[]) => ({ id, franchiseId: 900097, format: 'TV', titleDe, jpYear, streams }) as unknown as Title
-  const titel = teil(900003, 'E: Staffel 3', 2026, [{ platform: 'crunchyroll', url: URL_E, dub: true, sharedWith: 3 }])
+  const teil = (id: number, titleDe: string, jpYear: number, streams: unknown[], episodes?: number) => ({ id, franchiseId: 900097, format: 'TV', titleDe, jpYear, episodes, streams }) as unknown as Title
+  const titel = teil(900003, 'E: Staffel 3', 2026, [{ platform: 'crunchyroll', url: URL_E, dub: true, sharedWith: 3 }], 12)
   const reihe = [teil(900097, 'E', 2023, []), teil(900096, 'E: Staffel 2', 2024, []), titel]
   const release = { slug: 'e-s3', titleId: 900003, platform: 'crunchyroll', schedule: { firstEpisodeDate: '2026-10-18', estimated: false } } as unknown as Release
   const { widerlegeDeutscheTermine } = await import('./bau/widerlegung-woche.ts')
