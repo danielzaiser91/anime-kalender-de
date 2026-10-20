@@ -88,6 +88,11 @@ pruefe('Übernahme: anderer Tag, andere Art, anderer Termin, anderer Titel treff
   eintragVor({ ...ausgeliefert, platform: 'adn' }),
   eintragVor({ ...ausgeliefert, release: 'r-9' }),
 ].every((e) => haltFelderFest(historie(), [lebend(anders)], [e])[0]!.hinweis === 'H2'))
+const doppelt = haltFelderFest(historie(), [lebend(anders)], [eintragVor({ ...ausgeliefert, hinweis: 'ERSTE' }), eintragVor({ ...ausgeliefert, hinweis: 'ZWEITE' })])[0]!
+pruefe('Übernahme: bei doppelter Kennung in news.json gilt die erste Zeile', doppelt.hinweis === 'ERSTE', doppelt)
+const hf = historie()
+haltFelderFest(hf, [lebend({ geschaetzt: false, jahre: 0, hinweis: '' })], [])
+pruefe('Festhalten: falsche Werte (false, 0, leer) zählen als Wert, nicht als fehlend', JSON.stringify(hf.felder?.[K]) === JSON.stringify({ hinweis: '', geschaetzt: false, jahre: 0 }), hf.felder)
 pruefe('Übernahme: ein vorhandener Eintrag geht vor dem ausgelieferten Stand', haltFelderFest(historie({ [K]: { hinweis: 'EINTRAG' } }), [lebend(anders)], [eintragVor(ausgeliefert)])[0]!.hinweis === 'EINTRAG')
 
 /* 5. Altern: 400-Tage-Grenze genau an, einen Tag drüber, deutlich drüber; Felder fallen mit ihrem Schlüssel heraus, Verwaiste ebenso. */
@@ -145,6 +150,10 @@ pruefe('Bau 2: geschaetzt true bleibt trotz belegtem Termin; Anbieter A bleibt',
 pruefe('Bau 2: eine neue Meldung nimmt den Stand von heute', von(b2, 'r-5')!.kanal === 'Anderer' && von(b2, 'r-5')!.hinweis === 'N2' && von(b2, 'r-5')!.jahre === 2099 - 2012, von(b2, 'r-5'))
 const b3 = bau(hb, { eins: alles, zwei: alles, drei: alles, tv: { sender: 'Sender A' }, neu: alles })
 pruefe('Bau 3 (zurück): Titel 1 und 5 weiter unverändert', FELDER.every((f) => von(b3, 'r-1')![f] === e1[f]) && von(b3, 'r-5')!.kanal === 'Anderer', b3)
+
+const hq = historie()
+const ohneQuelle = baueNews([titel(6, alles)], [{ ...release(6, alles), sources: [] } as Release], [], [], hq, [])
+pruefe('Eine Meldung ohne Quelle fällt weg und hinterlässt keinen Eintrag im Gedächtnis', ohneQuelle.length === 0 && Object.keys(hq.felder ?? {}).length === 0, { ohneQuelle, f: hq.felder })
 
 /* 6b. Terminverlauf: abgelöst (neuer Termin) und zurückgezogen (Release weg) behalten die Felder des Tages. */
 const hv = historie()
