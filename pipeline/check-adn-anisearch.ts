@@ -2,10 +2,12 @@
  * Zusicherungen zur Zuordnung ADN-Serie → aniSearch (13.10.2026, `lib/adn-anisearch.ts`) und zur Frist der Titelliste. Läuft in `check:logic`
  * ohne Cache und ohne Bestand; der Katalog `data/adn-catalog.json` und die Liste `data/adn-anisearch-offen.json` liegen im Repo.
  */
-import { readFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { wortIndex, type AsTitel } from './lib/anisearch-katalog-abgleich.ts'
 import { ordneAdnZuAnisearch, titellisteFrisch, TITELLISTE_MAX_TAGE, type AdnOffen } from './lib/adn-anisearch.ts'
-import { uebernimmOhneTitelliste } from './lib/adn-zuordnung-lauf.ts'
+import { ordneKatalogZuAnisearch, uebernimmOhneTitelliste } from './lib/adn-zuordnung-lauf.ts'
 import { besterTitel, nameTraegt } from './bau/adn-show-titel.ts'
 import type { AdnShow } from './lib/adn.ts'
 import type { Title } from '../shared/types.ts'
@@ -86,6 +88,22 @@ const zweiterLauf = uebernimmOhneTitelliste(katalogNeu, katalogAlt, ohneListe)
 pruefe('ohne Titelliste: ein zweiter Lauf ändert nichts', JSON.stringify(zweiterLauf) === JSON.stringify(ohneListe), zweiterLauf)
 pruefe('ohne Titelliste und ohne alte Liste: eine einzige Neue steht allein drin', uebernimmOhneTitelliste([serie(5)], [], []).length === 1)
 pruefe('leerer Katalog: leere Liste', uebernimmOhneTitelliste([], [], [altOffen(1)]).length === 0)
+
+// Der Aufrufer selbst (ordneKatalogZuAnisearch) in einem Wegwerf-Ordner: Titelliste fehlt -> Datei enthält die Neue; zweiter Lauf lässt sie unberührt.
+const wurzel = mkdtempSync(join(tmpdir(), 'adn-offen-'))
+const offenDatei = join(wurzel, 'offen.json')
+writeFileSync(offenDatei, JSON.stringify({ anzahl: 1, serien: [altOffen(12)] }))
+const liesOffen = () => (JSON.parse(readFileSync(offenDatei, 'utf8')) as { anzahl: number; serien: AdnOffen[] })
+const lauf = (shows: AdnShow[], tl?: Map<number, AsTitel>) => ordneKatalogZuAnisearch(shows, katalogAlt, { titelliste: async () => tl, offenDatei })
+await lauf([serie(887), serie(12), serie(30)])
+const nachLauf = liesOffen()
+pruefe('Aufrufer ohne Titelliste: die Datei nennt 12 und die neue 887 mit „titelliste-fehlt“, Anzahl 2', JSON.stringify(nachLauf.serien.map((o) => [o.showId, o.grund])) === '[[12,"mehrdeutig"],[887,"titelliste-fehlt"]]' && nachLauf.anzahl === 2, nachLauf)
+const bytes = readFileSync(offenDatei, 'utf8')
+await lauf([serie(887), serie(12), serie(30)])
+pruefe('Aufrufer ohne Titelliste: ein zweiter Lauf lässt die Datei byteweise gleich', readFileSync(offenDatei, 'utf8') === bytes)
+await lauf([serie(887, 1), serie(12, 2)], new Map())
+pruefe('Aufrufer mit Titelliste rechnet die Liste neu (ohne „titelliste-fehlt“)', !readFileSync(offenDatei, 'utf8').includes('titelliste-fehlt'), liesOffen())
+rmSync(wurzel, { recursive: true, force: true })
 
 // Der eingecheckte Katalog und die Liste der offenen passen zusammen: nichts fällt heraus, nichts ist doppelt, keine AniList-Kennung bleibt.
 const katalog = JSON.parse(readFileSync('data/adn-catalog.json', 'utf8')) as { shows: (AdnShow & { anilistId?: number })[] }
