@@ -63,6 +63,7 @@ pruefe('Vorlagentext mit Wurzel aus import.meta (Deklaration)', art('const root 
 pruefe('Kulisse allein über mkdtemp erkannt', art(`const k = mkdtempSync(prefix)\nreadFileSync(join(k, 'data/a.json'))`) === '')
 pruefe('Wurzel als Klammerzugriff: „?“', art(`readFileSync(join(optionen['wurzel'], 'data', 'a.json'))`) === 'data/a.json:?')
 pruefe('unbekannte Hilfsfunktion um den Pfad: „?“', art(`readFileSync(pfadVon('data/a.json'))`) === 'data/a.json:?')
+pruefe('Segmente als Vorlagentext ohne Platzhalter', art('readFileSync(join(ROOT, `data`, `a.json`))') === 'data/a.json:lesen')
 pruefe('Segment „data“ als Variable ist kein Segment', art(`readFileSync(join(ROOT, data, 'a.json'))`) === '')
 pruefe('Unterordner unter data/ ist nicht erfasst', art(`readFileSync(join(ROOT, 'data', 'unter', 'a.json'))`) === '')
 pruefe('join ohne Argumente stürzt nicht ab', art(`join()`) === '' && art('`${a}${b}`') === '')

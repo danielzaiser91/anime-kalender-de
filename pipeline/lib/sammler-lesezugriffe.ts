@@ -89,9 +89,9 @@ function verbraucher(knoten: ts.Node, decl: Map<string, string[]>): Urteil {
 /** `join(Wurzel, 'data', 'x.json')`: Dateiname direkt hinter dem Segment 'data'. */
 function segmentZiel(n: ts.CallExpression): string | undefined {
   const a = n.arguments
-  const i = a.findIndex((x) => ts.isStringLiteral(x) && x.text === 'data')
+  const i = a.findIndex((x) => ts.isStringLiteralLike(x) && x.text === 'data')
   const datei = i < 0 ? undefined : a[i + 1]
-  return datei && ts.isStringLiteral(datei) && DATEI_NAME.test(datei.text) ? datei.text : undefined
+  return datei && ts.isStringLiteralLike(datei) && DATEI_NAME.test(datei.text) ? datei.text : undefined
 }
 
 /** `` `${Wurzel}/data/x.json` ``: genau ein Platzhalter vorn, der Rest ein fester Pfad. */
