@@ -4,6 +4,7 @@ import { dubKey, adressGleich, adressKern, type DubCheck } from '../lib/dub-conf
 import { amazonAdresseRichten, amazonTitelAdresse } from '../lib/amazon-adresse.ts'
 import { adresseFremdBelegt, adresseVerneint, leseZugeordnet } from '../lib/prime-meldung-riegel.ts'
 import { rohDeutsch } from '../lib/kanal-titel.ts'
+import { kanalWissen } from '../lib/kanal-wissen.ts'
 import { germanizeUrl } from '../../shared/mappings.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 import { zugangsart, type Zugangsart } from '../../shared/zugangsart.ts'
@@ -176,7 +177,7 @@ export function uebernehmePrimeUndCrVorschlaege({
         fremdeAdresse++
         continue
       }
-      const belegt = rohDeutsch(eintrag.folgen, eintrag.titleId, plattform === 'primevideo' ? { seite: eintrag.seite, url: gemeldeteAdresse } : null, alleChecks)
+      const belegt = rohDeutsch(eintrag.folgen, eintrag.titleId, plattform === 'primevideo' ? { seite: eintrag.seite, url: gemeldeteAdresse } : null, kanalWissen(alleChecks))
       if (belegt === undefined) continue
       /* Kein Schreibzweig für eine Adresse, die irgendein Handbeleg verneint — `checks` kennt je Titel nur den letzten (Date A Live, 19.10.2026). */
       if (adresseVerneint(alleChecks, eintrag.titleId, plattform, seite)) continue
