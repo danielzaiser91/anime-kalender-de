@@ -127,7 +127,7 @@ test('Leiste: Ruhemodus sanft ohne Sanduhr, sobald höchstens 2 Agenten laufen',
 })
 
 test('Leiste: Ruhemodus sanft zählt Prüfer nicht — 2 Agenten und 2 Prüfer ohne Sanduhr', async ($, on) => {
-  starte(on, null, [], true, STAND, 'sanft', 4, null, 2)
+  starte(on, null, [], true, STAND, 'sanft', 4, 2)
   await $.session.start({ cwd: 'C:/x', surface: 'desktop', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'desktop' })
   const reihe = { s: '' }
@@ -156,28 +156,15 @@ test('Leiste: leere Markerdatei gilt als sanft, bei 3 Agenten steht die Sanduhr'
   await band.unmount()
 })
 
-const ZAEHLER = '{"seitBericht":3,"letzterBericht":{"zeit":"2026-10-11T11:00:00Z","leck":false,"waisen":0}}'
-
-test('Leiste: „Lecks n/5“ mit Urteil des letzten Berichts, ohne Zählerdatei nichts', async ($, on) => {
-  starte(on, null, [], true, MIT_DANIEL, false, 0, ZAEHLER)
-  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
-  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
-  const reihe = { s: '' }
-  zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s).toBe('Agents 0Arbeitsliste 4○○○Lecks 3/5 ✓')
-  expect(JSON.stringify(await band.drawn())).toContain('{"color":"success"},"children":["Lecks 3/5 ✓"]')
-  await band.unmount()
-})
-
 // Desktop zeichnet dieselben Textzeichen wie das Terminal: keine Bilder, die beim Neuzeichnen leer blinken.
 test('Leiste auf dem Desktop: Textzeichen statt Bilder, gefüllt = an, leer = aus, drei Farben', async ($, on) => {
   const bis = new Date(Date.now() + 3_600_000).toISOString()
-  starte(on, bis, [], true, STAND, false, 0, ZAEHLER)
+  starte(on, bis, [], true, STAND)
   await $.session.start({ cwd: 'C:/x', surface: 'desktop', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'desktop' })
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s).toBe('Agents 0Arbeitsliste 0◉○○Lecks 3/5 ✓')
+  expect(reihe.s).toBe('Agents 0Arbeitsliste 0◉○○')
   const baum = JSON.stringify(await band.drawn())
   expect(baum).not.toContain('"Svg"')
   expect(baum).toContain('{"color":"success"},"children":["◉"]')
@@ -694,7 +681,7 @@ test('Pane: leere Bereiche zeigen „nichts“ nur, solange sie offen sind', asy
 })
 
 test('Leiste: Sparmodus an ist der dritte Ball gefüllt, das Pane nennt ihn', async ($, on) => {
-  starte(on, null, [], true, STAND, false, 0, null, 0, true)
+  starte(on, null, [], true, STAND, false, 0, 0, true)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
   const reihe = { s: '' }

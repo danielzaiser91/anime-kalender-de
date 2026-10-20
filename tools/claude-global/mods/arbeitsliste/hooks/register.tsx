@@ -8,8 +8,6 @@ import type { Regel } from './regelmaessig'
 import { baueLeiste } from './leiste'
 import type { LeisteStand } from './leiste'
 import { LOG, MESS_MARKER, haengeAn, messDauer, messStart, unterschied } from './messung'
-import { LECKS_DATEI, zaehleLecks } from './lecks'
-import type { Lecks } from './lecks'
 import { kopierText } from './kopieren'
 import { agentenText, istPruefer } from './pruefer'
 import { bereichOffen, bereichsKennung, bereichsKopf, topPriosKasten } from './bereiche'
@@ -56,7 +54,6 @@ const ruhe = atom({ plugin: 'arbeitsliste', key: 'ruhe' } as const, null as Ruhe
 // Sparmodus (Daniel, 19.10.2026): solange die Markerdatei existiert, nur Sonnet mittel und Haiku als Subagenten.
 const SPAR_MARKER = 'C:/Users/ih/.claude/sparmodus.txt'
 const spar = atom({ plugin: 'arbeitsliste', key: 'spar' } as const, false)
-const lecks = atom({ plugin: 'arbeitsliste', key: 'lecks' } as const, null as Lecks | null)
 const offen = atom({ plugin: 'arbeitsliste', key: 'offen' } as const, null as number | null)
 // Kennungen der ausgeklappten Bereiche („weitere“) und Gruppen (Kleinigkeiten).
 const aufgeklappt = atom({ plugin: 'arbeitsliste', key: 'aufgeklappt' } as const, [] as string[])
@@ -130,17 +127,6 @@ async function laufendeAgenten($: EngineInterface): Promise<Agent[]> {
   }
 }
 
-// Zählerdatei der Prozess-Inventur: Atom nur bei geändertem Inhalt schreiben (kein Neuzeichnen ohne Änderung).
-async function aktualisiereLecks($: EngineInterface): Promise<void> {
-  let neu: Lecks | null = null
-  try {
-    neu = zaehleLecks((await $.fs.read(LECKS_DATEI)) as string)
-  } catch {
-    neu = null
-  }
-  if (!gleich(await read($, lecks), neu)) await update($, lecks, () => neu)
-}
-
 // Messung (messung.ts): Merkflag, vom Hintergrundtakt gesetzt, damit der Render nichts erwarten muss.
 let messungAn = false
 let protokollKette: Promise<void> = Promise.resolve()
@@ -177,7 +163,6 @@ async function ermittleLeiste($: EngineInterface): Promise<LeistenDaten> {
     autonomBis: bis ? uhrzeit(bis) : null,
     ruhe: await read($, ruhe),
     spar: await read($, spar),
-    lecks: await read($, lecks),
   }
 }
 
@@ -229,7 +214,6 @@ async function aktualisiere($: EngineInterface): Promise<void> {
   if ((await read($, ruhe)) !== istRuhe) await update($, ruhe, () => istRuhe)
   const istSpar = await lieseSpar($)
   if ((await read($, spar)) !== istSpar) await update($, spar, () => istSpar)
-  await aktualisiereLecks($)
   let neu: Liste | null = null
   let neuVon: DanielTodo | null = null
   let fehler: string | undefined
