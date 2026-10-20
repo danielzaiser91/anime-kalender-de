@@ -97,6 +97,20 @@ Disney+-Katalogaufnahmen als „Premiere" (DD-11); (5) acht News-Meldungen ohne 
 - **Bau-Korrektur:** `fuelleWegeAusJustwatch` (`11-wege-abschluss.ts`) entfernt die Serien-Wege ohne Staffel schon vor der JustWatch-Ergänzung (am Ende läuft die Entfernung weiter); Zusicherung `pipeline/check-cr-film-wege.ts`. Die Schlüssel 98662/98663 stehen noch in `detektiv-bekannt.json` und können raus, sobald der Bestandsbau den Bestand ohne den Fund gebaut hat.
 - **Danganronpa 14 statt 13:** Nicht aus unseren Daten klärbar. Die 14 steht nur im Anime2You-Artikel (Aniverse September 2026, „Staffel 1“, 14 Folgen); AniList, aniSearch (Folgenliste 8222), TMDB (Staffel 1) und alle aniSearch-Gesamtausgaben der FilmConfect (126624/126625: `enthalten … folgen: 13`) zählen 13, TMDB führt dazu 3 Specials (Staffel 0). Welche Folge Aniverse als vierzehnte zählt, steht nur auf der Anbieterseite (Prime/Aniverse; Abruf ausgeschlossen) — Handprobe auf der Prime-Seite von `B0CHK728W1` klärt es. Bis dahin bleibt die Zahl der Quelle am Release (wie bei Gantz).
 
+## Wochenwache 20.10.2026: 34 neue Funde (DD-02, DD-11, DD-16, DD-19)
+
+`npm run detektiv -- --nur DD-02,DD-11,DD-16,DD-19` (Bestand 20.10.2026); `--wache` meldete 34 Schlüssel.
+
+| Klasse | Funde | Beurteilung | Folge |
+|---|---|---|---|
+| DD-16 Amazon-Suche statt Produktseite | 25 | echte Lücke: Handeinträge ohne `buyUrl` (Rückfall B-09) | 23 aus der Übersichtstabelle der Anime2You-Amazon-Artikel belegt (`tools/amazon-tabelle.mjs`, Name und Tag/Monat müssen passen; 2 davon neue Funde, 21 ältere); die übrigen 23 neuen brauchen einen Artikel, der die Ausgabe verlinkt (Prüfliste) |
+| DD-16 kein Kaufweg | 3 | Eureka Seven, Isekai Onsen Paradise: neue automatische Meldungen, Artikel ohne Amazon-Link (Quelle fehlt); Dr. Stone: Dublette zu `dr-stone-science-future-part2` | Dublette: Artikel 1058419 als Quelle am Handeintrag, der Sammler markiert ihn beim nächsten Lauf als `alreadyCurated` |
+| DD-02 Folgen über Titel | 2 | Fehlalarm: Concrete Revolutio (beide Staffeln, 24), Zexal S2+S3 (49 + 48 = 97 von 146 Folgen laut Anime2You) | in `detektiv-bekannt.json` |
+| DD-11 „Premiere“ | 2 | Yu-Gi-Oh! Staffel 4 (Disney+): echter Fehler, Katalogaufnahme ohne `dateMeaning` — behoben; Venus Wars (2K-Remaster, Kino): Wiederaufführung, Sprachfassung offen | Venus Wars bleibt gemeldet (Quelle zur Fassung fehlt) |
+| DD-19 Termin ohne Weg | 2 | Snowball Earth (Prime-Kanal Crunchyroll), Trinity Seven (Aniverse-Kanal): ein Weg entsteht nur aus einer Messung | in `detektiv-bekannt.json`, wie Kamisama Kiss |
+
+**Ursache der größten Klasse:** Der Bau setzt für jede Disc ohne `buyUrl` die Amazon-Suche ein (`05-releases.ts`); Anime2You verlinkt die Produktseiten aber in der Übersichtstabelle der Artikel, und die Handeinträge übernahmen sie nicht. `tools/amazon-tabelle.mjs` liest die Tabelle (Name und Termin müssen übereinstimmen, Sonderausgaben bleiben außen, der Partner-Tag fällt weg); `tools/amazon-tabelle.test.mjs` prüft auch, dass keine `buyUrl` der Handdateien eine Abfrage trägt.
+
 ## Grenzen
 
 Keine Regel prüft gegen den Anbieter live; Zweitquellen sind die lokalen Abzüge aus `data/`, bis zu

@@ -173,6 +173,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "DVD & Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HC3RJNK1
   schedule: { firstEpisodeDate: "2026-10-02" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -183,6 +184,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Bundle Edition, DVD & Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HC3V8PJJ
   schedule: { firstEpisodeDate: "2026-10-02" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -193,6 +195,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Komplettbox, DVD & Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HC3HRVX4
   schedule: { firstEpisodeDate: "2026-10-02" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -203,6 +206,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HC3K2WWX
   schedule: { firstEpisodeDate: "2026-10-02" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -213,6 +217,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Bundle Edition, DVD & Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HC3NV74M
   schedule: { firstEpisodeDate: "2026-10-02" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -223,6 +228,7 @@
   releaseType: disc
   publisher: "AniMoon Publishing"
   edition: "DVD & Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HC3XJ6QC
   schedule: { firstEpisodeDate: "2026-10-02" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -244,6 +250,7 @@
   releaseType: disc
   publisher: "peppermint anime"
   edition: "Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0H8SNHDJL
   schedule: { firstEpisodeDate: "2026-10-02" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -267,6 +274,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HC3MMTBY
   schedule: { firstEpisodeDate: "2026-10-16" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/, https://www.anime2you.de/news/1035817/miss-kobayashis-dragon-maid-film-blu-ray-release/]
 
@@ -277,6 +285,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Bundle Edition, DVD & Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HC3K3KGW
   schedule: { firstEpisodeDate: "2026-10-16" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -287,6 +296,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Komplettbox, Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HC3BFBV8
   schedule: { firstEpisodeDate: "2026-10-16" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/, https://www.anime2you.de/news/1035798/rent-a-girlfriend-staffel-4-blu-ray-komplettbox/]
 
@@ -297,6 +307,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Bundle Edition, DVD"
+  buyUrl: https://www.amazon.de/dp/B0HC3GJ48D
   schedule: { firstEpisodeDate: "2026-10-16" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -308,6 +319,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Komplettbox, DVD & Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HC3RY2LQ
   schedule: { firstEpisodeDate: "2026-10-16" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -320,6 +332,7 @@
   releaseType: disc
   publisher: "AniMoon Publishing"
   edition: "Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HC3PK6SB
   schedule: { firstEpisodeDate: "2026-11-06" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -341,6 +354,7 @@
   releaseType: disc
   publisher: "AniMoon Publishing"
   edition: "DVD & Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HC3LKT9Y
   schedule: { firstEpisodeDate: "2026-11-20" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/, https://www.anime2you.de/news/1035764/bocchi-the-rock-deutscher-trailer/]
 
@@ -351,6 +365,7 @@
   releaseType: disc
   publisher: "AniMoon Publishing"
   edition: "DVD & Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HC3VGMRR
   schedule: { firstEpisodeDate: "2026-11-20" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -361,6 +376,7 @@
   releaseType: disc
   publisher: "peppermint anime"
   edition: "Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0H8SZ69GC
   schedule: { firstEpisodeDate: "2026-11-20" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -371,6 +387,7 @@
   releaseType: disc
   publisher: "peppermint anime"
   edition: "Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0H8SXCMPF
   schedule: { firstEpisodeDate: "2026-11-20" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -381,6 +398,7 @@
   releaseType: disc
   publisher: "polyband anime"
   edition: "DVD"
+  buyUrl: https://www.amazon.de/dp/B0HBHJZFTC
   schedule: { firstEpisodeDate: "2026-11-20" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -393,6 +411,7 @@
   releaseType: disc
   publisher: "AniMoon Publishing"
   edition: "Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HC3F4HP3
   schedule: { firstEpisodeDate: "2026-12-18" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
@@ -654,8 +673,9 @@
   publisher: "Crunchyroll"
   edition: "Komplettbox, Blu-ray"
   note: "Anime2You nennt „Staffel 4 – Part 2“; Zuordnung zu AniList „Part 2“ wie bei Part 1."
+  buyUrl: https://www.amazon.de/dp/B0HMCM92GY
   schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
-  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/, https://www.anime2you.de/news/1058419/dr-stone-science-future-part-2-disc-termin/, https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
 
 - slug: shield-hero-s4-vol2
   anilistId: 173780
@@ -664,8 +684,9 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HMC9X4T4
   schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
-  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/, https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
 
 - slug: apothecary-diaries-s2-vol2
   anilistId: 176301
