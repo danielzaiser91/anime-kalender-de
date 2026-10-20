@@ -21,6 +21,7 @@ import { warn } from './util.ts'
 import { loadCurated } from './curated.ts'
 import { dubChecksAusTerminen } from './dub-aus-terminen.ts'
 import { ohneKanalSprache } from './kanal-titel.ts'
+import { ergaenzeMerkliste, MERKLISTE } from './kanal-merkliste.ts'
 
 export interface DubCheck {
   anilistId: number
@@ -426,7 +427,9 @@ export function entdoppleBelege(text: string, melde?: (text: string) => void): s
   return raus.join('\n').replace(/\n+$/, '') + schwanz
 }
 
-/** Schreibt die Handbelege durch den Riegel `entdoppleBelege`; der eine Schreibweg für `fetch-pruefungen.ts`. */
+/** Schreibt die Handbelege durch den Riegel `entdoppleBelege` und merkt dabei alle Kanal-Seiten (aus dem geladenen Stand, also nach dem Verschmelzen; holt bei einer fehlenden Merkliste alles nach). */
 export function schreibeBelege(datei: string, text: string, melde: (text: string) => void): void {
   writeFileSync(datei, entdoppleBelege(text, melde))
+  const dazu = ergaenzeMerkliste(ladeHandbelege())
+  if (dazu) melde(`${dazu} Kanal-Seite(n) in ${MERKLISTE} gemerkt`)
 }

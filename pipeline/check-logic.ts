@@ -3584,7 +3584,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     '… sondern vergleicht die Adresse des Belegs',
-    /if \(beleg && \(!beleg\.url \|\| adressGleich\(beleg\.url, seite \?\? undefined\)\)\) continue/.test(bau),
+    /if \(beleg \? !beleg\.url \|\| adressGleich\(beleg\.url, seite \?\? undefined\) : kanalAdresseGemerkt\(/.test(bau),
     'der Adressvergleich fehlt',
   )
   pruefe(
@@ -4410,7 +4410,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'eine Prime-Zuordnung überspringt Adressen, die ein Handbeleg einem anderen Titel zuschreibt',
-    bau.includes('adresseFremdBelegt(alleChecks, eintrag.titleId, plattform, adresse)') &&
+    bau.includes('adresseFremdBelegt(kanalWissen(alleChecks), eintrag.titleId, plattform, adresse)') &&
       bau.includes('seite = amazonTitelAdresse(eintrag.seite)') &&
       workerQuelltext().includes('AND seiten_kennung IS ?3'),
     'sonst trägt Vinland Saga Staffel 2 die Seite von Staffel 1 mit „DE ✓" (17.09.2026)',

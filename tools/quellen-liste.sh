@@ -144,6 +144,8 @@ QUELLEN=(
   daniel-zum-abarbeiten/listen/20-justwatch-handpruefung.md
   data/prime-unzugeordnet.json
   data/prime-kanal-aussortiert.json
+  # Kanal-Seiten, die der Bau auch kennt, wenn ihr Handbeleg zurückgestellt ist (19.10.2026, #1601); schreibt fetch-pruefungen.ts.
+  data/kanal-seiten.json
   data/cr-vorschlaege.json
   data/adn-vorschlaege.json
   data/anime-ids.json
