@@ -81,7 +81,7 @@ function verbraucher(knoten: ts.Node, decl: Map<string, string[]>): Urteil {
   if (name === 'fileURLToPath') return verbraucher(p, decl)
   const erstes = p.arguments[0]!
   /* join/resolve: das Literal selbst als erstes Argument ist relativ zu cwd; sonst entscheidet die Wurzel. */
-  if (PFAD_BAUER.has(name)) return erstes === knoten ? verbraucher(p, decl) : mitWurzel(wurzelArt(erstes, decl), p, decl)
+  if (PFAD_BAUER.has(name)) return mitWurzel(wurzelArt(erstes, decl), p, decl)
   /* Hilfsfunktion mit Wurzel vor dem Pfad: nur eine erkannte Wurzel entscheidet. */
   return erstes === knoten ? '?' : mitWurzel(wurzelArt(erstes, decl), p, decl)
 }
@@ -89,14 +89,14 @@ function verbraucher(knoten: ts.Node, decl: Map<string, string[]>): Urteil {
 /** `join(Wurzel, 'data', 'x.json')`: Dateiname direkt hinter dem Segment 'data'. */
 function segmentZiel(n: ts.CallExpression): string | undefined {
   const a = n.arguments
-  const i = a.findIndex((x, k) => ts.isStringLiteral(x) && x.text === 'data' && k + 1 < a.length)
+  const i = a.findIndex((x) => ts.isStringLiteral(x) && x.text === 'data')
   const datei = i < 0 ? undefined : a[i + 1]
   return datei && ts.isStringLiteral(datei) && DATEI_NAME.test(datei.text) ? datei.text : undefined
 }
 
 /** `` `${Wurzel}/data/x.json` ``: genau ein Platzhalter vorn, der Rest ein fester Pfad. */
 function vorlageZiel(n: ts.TemplateExpression): string | undefined {
-  const rest = n.templateSpans.length === 1 && n.head.text === '' ? VORLAGE_ENDE.exec(n.templateSpans[0]!.literal.text) : null
+  const rest = n.templateSpans.length === 1 ? VORLAGE_ENDE.exec(n.templateSpans[0]!.literal.text) : null
   return rest?.[1]
 }
 
@@ -111,7 +111,7 @@ export function findeLesezugriffe(pfad: string, text: string): Lesefund[] {
   }
   const besuche = (n: ts.Node): void => {
     if (ts.isStringLiteral(n) || ts.isNoSubstitutionTemplateLiteral(n)) melde(PFAD_ZIEL.exec(n.text)?.[1], () => verbraucher(n, decl))
-    if (ts.isTemplateExpression(n)) melde(vorlageZiel(n), () => mitWurzel(wurzelArt(n.templateSpans[0]!.expression, decl), n, decl))
+    if (ts.isTemplateExpression(n)) melde(vorlageZiel(n), () => mitWurzel(n.head.text === '' ? wurzelArt(n.templateSpans[0]!.expression, decl) : '?', n, decl))
     if (ts.isCallExpression(n) && PFAD_BAUER.has(aufrufName(n.expression) ?? '')) melde(segmentZiel(n), () => mitWurzel(wurzelArt(n.arguments[0]!, decl), n, decl))
     ts.forEachChild(n, besuche)
   }
