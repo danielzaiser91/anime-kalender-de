@@ -204,6 +204,7 @@ console.log('\nBauphase (Warnungen, Abbruch, Verdrahtung):')
   schreibe(gross)
   lauf()
   pruefe(`mehr als ${MAX_GZIP_BYTES} Byte gzip: Warnung, Bau läuft weiter, Datei geschrieben`, !beendet && warnungen.some((w) => w.includes('über der Grenze')) && lies().einstiege.length === 4000, warnungen)
+  pruefe(`Bestandsprüfung: mehr als ${MAX_GZIP_BYTES} Byte gzip ist Fehler`, bestandsFehler(baueEmpfehlung(gross, {}), gross, {}).some((f) => f.includes('über der Grenze')))
   warnungen = []
   schreibe([titel({ id: 103, coverImage: undefined })])
   lauf()
