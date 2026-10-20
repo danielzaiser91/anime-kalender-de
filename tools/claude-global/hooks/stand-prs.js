@@ -171,10 +171,6 @@ function berlin(zeit) {
   return `${teile.day}.${teile.month}. ${teile.hour}:${teile.minute}`
 }
 
-function gemergtZeile(pr) {
-  return `- [klein] **${kurztitel(pr.title).titel}** — gemergt ${berlin(pr.mergedAt)} — ${verweis(pr)}`
-}
-
 /** Sammelzeile der in 24 h gemergten PRs (Nummer 0); der letzte Zeitpunkt zeigt, ob der Hook noch mitläuft. */
 function sammelZeile(frisch) {
   return `- [klein] **Gemergt in 24 h: ${frisch.length}** — zuletzt ${berlin(Date.parse(frisch[0].mergedAt))} — [alle](${B.GEMERGT_LISTE})`
@@ -292,7 +288,7 @@ function ausgabe(r) {
   return meldungen.length ? `${JSON.stringify({ systemMessage: meldungen.join('\n') })}\n` : ''
 }
 
-module.exports = { ...B, GH_WINDOWS, ABFRAGE, SEITE, ghAufruf, holePrs, kurztitel, ciUrteil, agentUrteil, zustand, bereit, offeneZeile, gemergtZeile, berlin, sammelZeile, reihen, hinweisZeile, sperre, aktualisiere, sollLaufen, lauf, ausgabe }
+module.exports = { ...B, GH_WINDOWS, ABFRAGE, SEITE, ghAufruf, holePrs, kurztitel, ciUrteil, agentUrteil, zustand, bereit, offeneZeile, berlin, sammelZeile, reihen, hinweisZeile, sperre, aktualisiere, sollLaufen, lauf, ausgabe }
 
 if (require.main === module) {
   if (process.argv.includes('--jetzt')) {

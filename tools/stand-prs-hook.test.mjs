@@ -147,8 +147,6 @@ assert.equal(h.hookNummer(h.offeneZeile(pr(901001, { title: '[Prüfung rot] x', 
 assert.equal(h.berlin('2026-10-19T22:30:00Z'), '20.10. 00:30', 'Berliner Tag, nicht UTC')
 assert.equal(h.berlin('2026-12-31T23:05:00Z'), '01.01. 00:05', 'Jahreswechsel, Winterzeit')
 assert.equal(h.berlin(Date.parse('2026-07-01T10:00:00Z')), '01.07. 12:00', 'Sommerzeit, Zahl als Zeit')
-assert.equal(h.gemergtZeile(gemergt(901009, '2026-10-19T13:35:44Z', 'fix: Netflix')), `- [klein] **Netflix** — gemergt 19.10. 15:35 — [PR 901009](${ADR}901009)`)
-assert.equal(h.hookNummer(h.gemergtZeile(gemergt(901009, '2026-10-19T13:35:44Z'))), 901009)
 assert.equal(h.hinweisZeile(JETZT, 'gh: 502'), '- **PR-Liste veraltet** — Stand 20.10. 00:30; Abruf scheitert: gh: 502')
 assert.equal(h.hinweisZeile(0, 'x'), '- **PR-Liste veraltet** — Stand unbekannt; Abruf scheitert: x')
 
