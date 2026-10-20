@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-10-19T04:08:43.209Z",
+  "scrapedAt": "2026-10-19T05:25:22.661Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
       "seriesId": "GYK541EPR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -15,7 +15,7 @@
           "folgen": 13,
           "kacheln": 13,
           "deutsch": 0,
-          "fremd": 0,
+          "fremd": 13,
           "deutscheFassung": false
         }
       ]
@@ -126,11 +126,11 @@
       "seriesId": "GY8VJW08Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Alderamin on the Sky",
+          "name": "Alderamin on the Sky: Season 1",
           "staffelId": "GRZXQ70ZY",
           "folgen": 13,
           "kacheln": 13,
@@ -145,16 +145,25 @@
       "seriesId": "GRP8DNZ1R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "ALDNOAH.ZERO (English Dub)",
+          "name": "Aldnoah.Zero: Season 1 (English Dub)",
           "staffelId": "G69PC25X5",
-          "folgen": 24,
-          "kacheln": 24,
+          "folgen": 12,
+          "kacheln": 12,
           "deutsch": 0,
-          "fremd": 24,
+          "fremd": 12,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Aldnoah.Zero: Season 2 (English Dub)",
+          "staffelId": "GR49C70ZQ",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12,
           "deutscheFassung": false
         }
       ]
@@ -164,7 +173,7 @@
       "seriesId": "GRVDN485R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -172,7 +181,7 @@
       "seriesId": "GR19X2G26",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -180,7 +189,7 @@
       "seriesId": "GR09X52WR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -188,7 +197,7 @@
       "seriesId": "GRZXDKNVY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -196,7 +205,7 @@
       "seriesId": "GYMGPXKVY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -707,15 +716,16 @@
       "seriesId": "GRDQNE7GY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
+      "geprueftAm": "2026-10-19",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/blue-exorcist",
       "seriesId": "G649PJ0JY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-12",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -739,74 +749,74 @@
             {
               "nummer": 1,
               "guid": "G14U413G8",
-              "verfuegbarAb": "2024-02-03T21:30:00Z",
-              "laufend": 1
+              "laufend": 1,
+              "verfuegbarAb": "2024-02-03T21:30:00Z"
             },
             {
               "nummer": 2,
               "guid": "GEVUZDG73",
-              "verfuegbarAb": "2024-02-10T21:30:00Z",
-              "laufend": 2
+              "laufend": 2,
+              "verfuegbarAb": "2024-02-10T21:30:00Z"
             },
             {
               "nummer": 3,
               "guid": "G9DUEM12J",
-              "verfuegbarAb": "2024-02-17T21:30:00Z",
-              "laufend": 3
+              "laufend": 3,
+              "verfuegbarAb": "2024-02-17T21:30:00Z"
             },
             {
               "nummer": 4,
               "guid": "GQJUG3P3K",
-              "verfuegbarAb": "2024-02-24T21:30:00Z",
-              "laufend": 4
+              "laufend": 4,
+              "verfuegbarAb": "2024-02-24T21:30:00Z"
             },
             {
               "nummer": 5,
               "guid": "GD9UV3JP2",
-              "verfuegbarAb": "2024-03-02T21:30:00Z",
-              "laufend": 5
+              "laufend": 5,
+              "verfuegbarAb": "2024-03-02T21:30:00Z"
             },
             {
               "nummer": 6,
               "guid": "GK9U3KJZ8",
-              "verfuegbarAb": "2024-03-09T21:30:00Z",
-              "laufend": 6
+              "laufend": 6,
+              "verfuegbarAb": "2024-03-09T21:30:00Z"
             },
             {
               "nummer": 7,
               "guid": "G9DUEM30V",
-              "verfuegbarAb": "2024-03-16T20:30:00Z",
-              "laufend": 7
+              "laufend": 7,
+              "verfuegbarAb": "2024-03-16T20:30:00Z"
             },
             {
               "nummer": 8,
               "guid": "GVWU0749N",
-              "verfuegbarAb": "2024-03-23T20:30:00Z",
-              "laufend": 8
+              "laufend": 8,
+              "verfuegbarAb": "2024-03-23T20:30:00Z"
             },
             {
               "nummer": 9,
               "guid": "GQJUG33D0",
-              "verfuegbarAb": "2024-03-30T20:30:00Z",
-              "laufend": 9
+              "laufend": 9,
+              "verfuegbarAb": "2024-03-30T20:30:00Z"
             },
             {
               "nummer": 10,
               "guid": "GZ7UVGQQK",
-              "verfuegbarAb": "2024-04-06T20:30:00Z",
-              "laufend": 10
+              "laufend": 10,
+              "verfuegbarAb": "2024-04-06T20:30:00Z"
             },
             {
               "nummer": 11,
               "guid": "GX9UQE48G",
-              "verfuegbarAb": "2024-04-13T20:30:00Z",
-              "laufend": 11
+              "laufend": 11,
+              "verfuegbarAb": "2024-04-13T20:30:00Z"
             },
             {
               "nummer": 12,
               "guid": "G7PU4742G",
-              "verfuegbarAb": "2024-04-20T20:30:00Z",
-              "laufend": 12
+              "laufend": 12,
+              "verfuegbarAb": "2024-04-20T20:30:00Z"
             }
           ]
         },
@@ -822,74 +832,74 @@
             {
               "nummer": 1,
               "guid": "GMKUE9KWX",
-              "verfuegbarAb": "2024-10-26T22:00:00Z",
-              "laufend": 1
+              "laufend": 1,
+              "verfuegbarAb": "2024-10-26T22:00:00Z"
             },
             {
               "nummer": 2,
               "guid": "G0DUMG83W",
-              "verfuegbarAb": "2024-11-02T22:00:00Z",
-              "laufend": 2
+              "laufend": 2,
+              "verfuegbarAb": "2024-11-02T22:00:00Z"
             },
             {
               "nummer": 3,
               "guid": "GMKUE9G4M",
-              "verfuegbarAb": "2024-11-09T23:00:00Z",
-              "laufend": 3
+              "laufend": 3,
+              "verfuegbarAb": "2024-11-09T23:00:00Z"
             },
             {
               "nummer": 4,
               "guid": "GEVUWJXK4",
-              "verfuegbarAb": "2024-11-16T23:00:00Z",
-              "laufend": 4
+              "laufend": 4,
+              "verfuegbarAb": "2024-11-16T23:00:00Z"
             },
             {
               "nummer": 5,
               "guid": "GK9UGVKQK",
-              "verfuegbarAb": "2024-11-23T23:00:00Z",
-              "laufend": 5
+              "laufend": 5,
+              "verfuegbarAb": "2024-11-23T23:00:00Z"
             },
             {
               "nummer": 6,
               "guid": "G0DUMG2EE",
-              "verfuegbarAb": "2024-11-30T23:00:00Z",
-              "laufend": 6
+              "laufend": 6,
+              "verfuegbarAb": "2024-11-30T23:00:00Z"
             },
             {
               "nummer": 7,
               "guid": "GZ7UD3QEZ",
-              "verfuegbarAb": "2024-12-07T23:00:00Z",
-              "laufend": 7
+              "laufend": 7,
+              "verfuegbarAb": "2024-12-07T23:00:00Z"
             },
             {
               "nummer": 8,
               "guid": "GWDU7M3VE",
-              "verfuegbarAb": "2024-12-14T23:00:00Z",
-              "laufend": 8
+              "laufend": 8,
+              "verfuegbarAb": "2024-12-14T23:00:00Z"
             },
             {
               "nummer": 9,
               "guid": "G0DUMWNQX",
-              "verfuegbarAb": "2024-12-21T23:00:00Z",
-              "laufend": 9
+              "laufend": 9,
+              "verfuegbarAb": "2024-12-21T23:00:00Z"
             },
             {
               "nummer": 10,
               "guid": "GQJUM0GQZ",
-              "verfuegbarAb": "2024-12-28T23:00:00Z",
-              "laufend": 10
+              "laufend": 10,
+              "verfuegbarAb": "2024-12-28T23:00:00Z"
             },
             {
               "nummer": 11,
               "guid": "GWDU7MNVV",
-              "verfuegbarAb": "2025-01-18T23:00:00Z",
-              "laufend": 11
+              "laufend": 11,
+              "verfuegbarAb": "2025-01-18T23:00:00Z"
             },
             {
               "nummer": 12,
               "guid": "GG1UX574M",
-              "verfuegbarAb": "2025-01-25T23:00:00Z",
-              "laufend": 12
+              "laufend": 12,
+              "verfuegbarAb": "2025-01-25T23:00:00Z"
             }
           ]
         },
@@ -905,74 +915,74 @@
             {
               "nummer": 1,
               "guid": "GEVUW35XG",
-              "verfuegbarAb": "2025-01-25T23:00:00Z",
-              "laufend": 1
+              "laufend": 1,
+              "verfuegbarAb": "2025-01-25T23:00:00Z"
             },
             {
               "nummer": 2,
               "guid": "G14UVJ3GP",
-              "verfuegbarAb": "2025-02-01T23:00:00Z",
-              "laufend": 2
+              "laufend": 2,
+              "verfuegbarAb": "2025-02-01T23:00:00Z"
             },
             {
               "nummer": 3,
               "guid": "GEVUW3840",
-              "verfuegbarAb": "2025-02-08T23:00:00Z",
-              "laufend": 3
+              "laufend": 3,
+              "verfuegbarAb": "2025-02-08T23:00:00Z"
             },
             {
               "nummer": 4,
               "guid": "G0DUMW0Z2",
-              "verfuegbarAb": "2025-02-15T23:00:00Z",
-              "laufend": 4
+              "laufend": 4,
+              "verfuegbarAb": "2025-02-15T23:00:00Z"
             },
             {
               "nummer": 5,
               "guid": "G31UVEQKW",
-              "verfuegbarAb": "2025-02-22T23:00:00Z",
-              "laufend": 5
+              "laufend": 5,
+              "verfuegbarAb": "2025-02-22T23:00:00Z"
             },
             {
               "nummer": 6,
               "guid": "GPWU8J1EJ",
-              "verfuegbarAb": "2025-03-01T23:00:00Z",
-              "laufend": 6
+              "laufend": 6,
+              "verfuegbarAb": "2025-03-01T23:00:00Z"
             },
             {
               "nummer": 7,
               "guid": "GPWU8J4KD",
-              "verfuegbarAb": "2025-03-08T23:00:00Z",
-              "laufend": 7
+              "laufend": 7,
+              "verfuegbarAb": "2025-03-08T23:00:00Z"
             },
             {
               "nummer": 8,
               "guid": "GQJUM0J22",
-              "verfuegbarAb": "2025-03-15T22:00:00Z",
-              "laufend": 8
+              "laufend": 8,
+              "verfuegbarAb": "2025-03-15T22:00:00Z"
             },
             {
               "nummer": 9,
               "guid": "G9DU9N87D",
-              "verfuegbarAb": "2025-03-22T22:00:00Z",
-              "laufend": 9
+              "laufend": 9,
+              "verfuegbarAb": "2025-03-22T22:00:00Z"
             },
             {
               "nummer": 10,
               "guid": "GX9U3M0VJ",
-              "verfuegbarAb": "2025-03-29T22:00:00Z",
-              "laufend": 10
+              "laufend": 10,
+              "verfuegbarAb": "2025-03-29T22:00:00Z"
             },
             {
               "nummer": 11,
               "guid": "GN7UNKV1N",
-              "verfuegbarAb": "2025-04-05T22:00:00Z",
-              "laufend": 11
+              "laufend": 11,
+              "verfuegbarAb": "2025-04-05T22:00:00Z"
             },
             {
               "nummer": 12,
               "guid": "GG1UX5J59",
-              "verfuegbarAb": "2025-04-12T22:00:00Z",
-              "laufend": 12
+              "laufend": 12,
+              "verfuegbarAb": "2025-04-12T22:00:00Z"
             }
           ]
         }
@@ -983,7 +993,7 @@
       "seriesId": "GYZXDQQ36",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -991,7 +1001,7 @@
       "seriesId": "GR5VXQ8PR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -1004,7 +1014,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs 2",
+          "name": "Bungo Stray Dogs Season 2",
           "staffelId": "GRE5K9ZP6",
           "folgen": 13,
           "kacheln": 13,
@@ -1013,16 +1023,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs - DEAD APPLE",
-          "staffelId": "GYW448N26",
-          "folgen": 1,
-          "kacheln": 1,
-          "deutsch": 0,
-          "fremd": 1,
-          "deutscheFassung": false
-        },
-        {
-          "name": "Bungo Stray Dogs 4",
+          "name": "Bungo Stray Dogs Season 4",
           "staffelId": "G6E5CQ4V3",
           "folgen": 13,
           "kacheln": 13,
@@ -1031,7 +1032,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs 5",
+          "name": "Bungo Stray Dogs Season 5",
           "staffelId": "G619CP0N3",
           "folgen": 11,
           "kacheln": 11,
@@ -1046,15 +1047,16 @@
       "seriesId": "GYNVQ5PZR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
+      "geprueftAm": "2026-10-19",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/cardcaptor-sakura-clear-card",
       "seriesId": "G6JQXP48R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -1062,14 +1064,1192 @@
       "seriesId": "G6JQVM3ER",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
-      "deutschImAngebot": false,
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": true,
       "staffeln": [
         {
-          "name": "Detective Conan",
+          "name": "1996 (1-42) (German Dub)",
+          "staffelId": "GYNQCJ720",
+          "folgen": 42,
+          "kacheln": 42,
+          "deutsch": 42,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GEVUZ2KPE",
+              "laufend": 1,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G7PU4Z05J",
+              "laufend": 2,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G9DUEQ7X5",
+              "laufend": 3,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GX9UQG9DW",
+              "laufend": 4,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G4VUQJZ35",
+              "laufend": 5,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G14U402XQ",
+              "laufend": 6,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GJWU2G8J7",
+              "laufend": 7,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GK9U30Q83",
+              "laufend": 8,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GMKUX7W5E",
+              "laufend": 9,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GVWU05JP1",
+              "laufend": 10,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GMKUX7WWV",
+              "laufend": 11,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G2XU0WJ5Z",
+              "laufend": 12,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "G8WUN8E2D",
+              "laufend": 13,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GD9UVJD2W",
+              "laufend": 14,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "G50UZ9WE7",
+              "laufend": 15,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "G9DUEQ7D5",
+              "laufend": 16,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "G14U402EQ",
+              "laufend": 17,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GJWU2G8X7",
+              "laufend": 18,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "GK9U30Q43",
+              "laufend": 19,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GWDU8WGK0",
+              "laufend": 20,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GEVUZ2KG5",
+              "laufend": 21,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "G9DUEQ7PD",
+              "laufend": 22,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "G4VUQJZXZ",
+              "laufend": 23,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GN7UD9G7E",
+              "laufend": 24,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 26,
+              "guid": "GMKUX7W4V",
+              "laufend": 25,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 27,
+              "guid": "GPWUK4E5V",
+              "laufend": 26,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 28,
+              "guid": "G8WUN8EE3",
+              "laufend": 27,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 29,
+              "guid": "GD9UVJDDG",
+              "laufend": 28,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 30,
+              "guid": "G50UZ9WWM",
+              "laufend": 29,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 31,
+              "guid": "GG1U2Q00P",
+              "laufend": 30,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 32,
+              "guid": "G7PU4Z005",
+              "laufend": 31,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 33,
+              "guid": "G9DUEQ77D",
+              "laufend": 32,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 34,
+              "guid": "G14U4022W",
+              "laufend": 33,
+              "verfuegbarAb": "2022-09-08T16:00:00Z"
+            },
+            {
+              "nummer": 35,
+              "guid": "G4VUQ9ZDK",
+              "laufend": 34,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 36,
+              "guid": "G14U4D25J",
+              "laufend": 35,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 37,
+              "guid": "GJWU238K1",
+              "laufend": 36,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 38,
+              "guid": "GN7UDEG0D",
+              "laufend": 37,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 39,
+              "guid": "GK9U3JQWG",
+              "laufend": 38,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 40,
+              "guid": "GMKUX2W00",
+              "laufend": 39,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 41,
+              "guid": "GVWU0EJ1G",
+              "laufend": 40,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 42,
+              "guid": "G8WUNXE52",
+              "laufend": 41,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 43,
+              "guid": "GD9UVKD7D",
+              "laufend": 42,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "1997 (43-85) (German Dub)",
+          "staffelId": "G6X0XQ0EY",
+          "folgen": 43,
+          "kacheln": 43,
+          "deutsch": 43,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 44,
+              "guid": "GG1U29018",
+              "laufend": 1,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 45,
+              "guid": "G0DUNP4Z8",
+              "laufend": 2,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 46,
+              "guid": "G9DUEJ74M",
+              "laufend": 3,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 47,
+              "guid": "GX9UQX92E",
+              "laufend": 4,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 48,
+              "guid": "G14U4D2ZJ",
+              "laufend": 5,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 49,
+              "guid": "GN7UDEG3D",
+              "laufend": 6,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 50,
+              "guid": "GMKUX2WD0",
+              "laufend": 7,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 51,
+              "guid": "G31UX1QJ5",
+              "laufend": 8,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 52,
+              "guid": "GPWUK7E2W",
+              "laufend": 9,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 53,
+              "guid": "GEVUZMK1N",
+              "laufend": 10,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 55,
+              "guid": "GD9UVKD0D",
+              "laufend": 11,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 56,
+              "guid": "G50UZPW39",
+              "laufend": 12,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 57,
+              "guid": "GG1U290P8",
+              "laufend": 13,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 58,
+              "guid": "G0DUNP4E8",
+              "laufend": 14,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 59,
+              "guid": "G7PU4E0NM",
+              "laufend": 15,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 60,
+              "guid": "GX9UQX98E",
+              "laufend": 16,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 61,
+              "guid": "G4VUQ9ZGK",
+              "laufend": 17,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 62,
+              "guid": "GJWU238P1",
+              "laufend": 18,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 63,
+              "guid": "GK9U3JQ9G",
+              "laufend": 19,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 64,
+              "guid": "GMKUX2WN0",
+              "laufend": 20,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 65,
+              "guid": "G31UX1Q55",
+              "laufend": 21,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 66,
+              "guid": "GG1U28N9W",
+              "laufend": 22,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 67,
+              "guid": "G8WUNXEK2",
+              "laufend": 23,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 68,
+              "guid": "GD9UVKD1D",
+              "laufend": 24,
+              "verfuegbarAb": "2022-12-01T18:00:00Z"
+            },
+            {
+              "nummer": 69,
+              "guid": "GG1U2GZD0",
+              "laufend": 25,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 70,
+              "guid": "G0DUN8J95",
+              "laufend": 26,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 71,
+              "guid": "GEVUZEN82",
+              "laufend": 27,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 72,
+              "guid": "G7PU49JWE",
+              "laufend": 28,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 73,
+              "guid": "G9DUE3GD8",
+              "laufend": 29,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 74,
+              "guid": "GX9UQ0ZK0",
+              "laufend": 30,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 75,
+              "guid": "GJWU2VEJ0",
+              "laufend": 31,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 76,
+              "guid": "GN7UD4VWM",
+              "laufend": 32,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 77,
+              "guid": "G50UZ514N",
+              "laufend": 33,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 78,
+              "guid": "GVWU042WV",
+              "laufend": 34,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 80,
+              "guid": "G7PU49JVN",
+              "laufend": 35,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 81,
+              "guid": "G4VUQ28X3",
+              "laufend": 36,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 82,
+              "guid": "G14U4MGEX",
+              "laufend": 37,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 83,
+              "guid": "GJWU2VEXX",
+              "laufend": 38,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 84,
+              "guid": "GN7UD4V7G",
+              "laufend": 39,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 85,
+              "guid": "GMKUXVG47",
+              "laufend": 40,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 86,
+              "guid": "GPWUKGD5G",
+              "laufend": 41,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 87,
+              "guid": "G2XU0QD3D",
+              "laufend": 42,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 88,
+              "guid": "GZ7UV41XE",
+              "laufend": 43,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "1998 (86-128) (German Dub)",
+          "staffelId": "G6Q4CZ4KQ",
+          "folgen": 43,
+          "kacheln": 43,
+          "deutsch": 43,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 89,
+              "guid": "G50UZ51WN",
+              "laufend": 1,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 90,
+              "guid": "GWDU8DQG3",
+              "laufend": 2,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 91,
+              "guid": "G0DUN8J4M",
+              "laufend": 3,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 92,
+              "guid": "GEVUZENK0",
+              "laufend": 4,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 93,
+              "guid": "G9DUE3G7K",
+              "laufend": 5,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 94,
+              "guid": "G4VUQ28Z3",
+              "laufend": 6,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 95,
+              "guid": "GJWU2VE8X",
+              "laufend": 7,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 96,
+              "guid": "GK9U3XDQ5",
+              "laufend": 8,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 97,
+              "guid": "GPWUKGDEG",
+              "laufend": 9,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 98,
+              "guid": "G2XU0QDJD",
+              "laufend": 10,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 99,
+              "guid": "G31UXZ2W7",
+              "laufend": 11,
+              "verfuegbarAb": "2023-12-19T19:00:00Z"
+            },
+            {
+              "nummer": 103,
+              "guid": "G2XU0G0GN",
+              "laufend": 12,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 104,
+              "guid": "G8WUN1N15",
+              "laufend": 13,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 105,
+              "guid": "GZ7UVEVE5",
+              "laufend": 14,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 106,
+              "guid": "GD9UV3V31",
+              "laufend": 15,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 112,
+              "guid": "GJWU20209",
+              "laufend": 16,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 107,
+              "guid": "GQJUG3G34",
+              "laufend": 17,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 113,
+              "guid": "GMKUXPX19",
+              "laufend": 18,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 108,
+              "guid": "GWDU8J8JP",
+              "laufend": 19,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 114,
+              "guid": "G31UX4XN2",
+              "laufend": 20,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 109,
+              "guid": "G0DUNKNK4",
+              "laufend": 21,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 115,
+              "guid": "GPWUKVK9K",
+              "laufend": 22,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 110,
+              "guid": "GX9UQWQW5",
+              "laufend": 23,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 116,
+              "guid": "G8WUN1NJ5",
+              "laufend": 24,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 111,
+              "guid": "G4VUQVQV2",
+              "laufend": 25,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 117,
+              "guid": "GQJUG3G54",
+              "laufend": 26,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 118,
+              "guid": "GWDU8J82P",
+              "laufend": 27,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 119,
+              "guid": "G0DUNKN24",
+              "laufend": 28,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 120,
+              "guid": "GEVUZDZ74",
+              "laufend": 29,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 121,
+              "guid": "G7PU4147Z",
+              "laufend": 30,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 122,
+              "guid": "GX9UQWQE5",
+              "laufend": 31,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 123,
+              "guid": "GN7UD1DM1",
+              "laufend": 32,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 124,
+              "guid": "GMKUXPE99",
+              "laufend": 33,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 126,
+              "guid": "GPWUKV8NK",
+              "laufend": 34,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 127,
+              "guid": "G2XU0GNXN",
+              "laufend": 35,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 128,
+              "guid": "GZ7UVEDQ5",
+              "laufend": 36,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 129,
+              "guid": "GQJUG3MN4",
+              "laufend": 37,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 130,
+              "guid": "GWDU8J7VP",
+              "laufend": 38,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 131,
+              "guid": "G0DUNKMG4",
+              "laufend": 39,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 132,
+              "guid": "G7PU413PZ",
+              "laufend": 40,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 133,
+              "guid": "GX9UQW315",
+              "laufend": 41,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 134,
+              "guid": "G14U41VQG",
+              "laufend": 42,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 135,
+              "guid": "GJWU20QN9",
+              "laufend": 43,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "1999 (129-173) (German Dub)",
+          "staffelId": "G65VCDJQX",
+          "folgen": 43,
+          "kacheln": 43,
+          "deutsch": 43,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 136,
+              "guid": "GN7UD1NX1",
+              "laufend": 1,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 140,
+              "guid": "G0DUNKMWN",
+              "laufend": 2,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 141,
+              "guid": "GEVUZDW3W",
+              "laufend": 3,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 142,
+              "guid": "G9DUEM9NV",
+              "laufend": 4,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 143,
+              "guid": "G4VUQVW0P",
+              "laufend": 5,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 144,
+              "guid": "GJWU20Q7J",
+              "laufend": 6,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 145,
+              "guid": "GK9U3KG2Q",
+              "laufend": 7,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 146,
+              "guid": "GVWU078X5",
+              "laufend": 8,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 147,
+              "guid": "GPWUKV8JP",
+              "laufend": 9,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 148,
+              "guid": "G8WUN17V0",
+              "laufend": 10,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 149,
+              "guid": "GD9UV3EZ3",
+              "laufend": 11,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 150,
+              "guid": "G50UZVMDK",
+              "laufend": 12,
+              "verfuegbarAb": "2023-12-26T19:00:00Z"
+            },
+            {
+              "nummer": 151,
+              "guid": "G50UZVM27",
+              "laufend": 13,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 152,
+              "guid": "GWDU8J79W",
+              "laufend": 14,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 153,
+              "guid": "GG1U2NXM9",
+              "laufend": 15,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 154,
+              "guid": "G0DUNKM37",
+              "laufend": 16,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 155,
+              "guid": "G7PU4135J",
+              "laufend": 17,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 156,
+              "guid": "GX9UQW3DW",
+              "laufend": 18,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 157,
+              "guid": "G4VUQVW35",
+              "laufend": 19,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 158,
+              "guid": "GK9U3KG83",
+              "laufend": 20,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 159,
+              "guid": "GWDU8J7P0",
+              "laufend": 21,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 160,
+              "guid": "G0DUNKM9V",
+              "laufend": 22,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 161,
+              "guid": "G7PU413W5",
+              "laufend": 23,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 162,
+              "guid": "G9DUEM9DD",
+              "laufend": 24,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 163,
+              "guid": "G14U41VXW",
+              "laufend": 25,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 164,
+              "guid": "GN7UD1NWE",
+              "laufend": 26,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 165,
+              "guid": "GMKUXPE5V",
+              "laufend": 27,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 166,
+              "guid": "G31UX4V7W",
+              "laufend": 28,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 167,
+              "guid": "GPWUKV80V",
+              "laufend": 29,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 168,
+              "guid": "G8WUN17W3",
+              "laufend": 30,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 169,
+              "guid": "GD9UV3EWG",
+              "laufend": 31,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 170,
+              "guid": "GQJUG3M9G",
+              "laufend": 32,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 171,
+              "guid": "G0DUNKM0V",
+              "laufend": 33,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 172,
+              "guid": "G7PU413V5",
+              "laufend": 34,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 174,
+              "guid": "G4VUQVWXZ",
+              "laufend": 35,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 175,
+              "guid": "G14U41VEW",
+              "laufend": 36,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 176,
+              "guid": "GN7UD1N7E",
+              "laufend": 37,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 177,
+              "guid": "GMKUXPE4V",
+              "laufend": 38,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 178,
+              "guid": "G31UX4V3W",
+              "laufend": 39,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 179,
+              "guid": "G2XU0GN37",
+              "laufend": 40,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 180,
+              "guid": "G8WUN17E3",
+              "laufend": 41,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 181,
+              "guid": "GQJUG3M7G",
+              "laufend": 42,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            },
+            {
+              "nummer": 182,
+              "guid": "G50UZVMWM",
+              "laufend": 43,
+              "verfuegbarAb": "2024-01-02T19:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "2014 (754-762)",
           "staffelId": "GYNQPWMGY",
-          "folgen": 33,
-          "kacheln": 33,
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "2015 (763-803)",
+          "staffelId": "GYWEC3N1J",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "2016 (804-844)",
+          "staffelId": "GYGGCV78J",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "2017 (845-886)",
+          "staffelId": "GR09CXQ8G",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "2018 (887-926)",
+          "staffelId": "GYE5CQ5E3",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "2019 (927-964)",
+          "staffelId": "GR75CDK9D",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "2020 (965-992)",
+          "staffelId": "GR9PC2W3E",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "2021 (993-1032)",
+          "staffelId": "G6X0C4N03",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "2022 (1033-1067)",
+          "staffelId": "GR49C7P2D",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "2023 (1068-1108)",
+          "staffelId": "GY2PCVZ49",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "2024 (1109-1147)",
+          "staffelId": "G68VCP9GQ",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "2025 (1148-1186)",
+          "staffelId": "GYZXCMN2W",
+          "folgen": 9,
+          "kacheln": 9,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "2026 (1187-Current)",
+          "staffelId": "G6P8CXZGV",
+          "folgen": 32,
+          "kacheln": 32,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
@@ -1245,7 +2425,7 @@
       "seriesId": "GYGG99WDY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -1724,7 +2904,7 @@
       "seriesId": "G64PVJGWR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -1732,7 +2912,7 @@
       "seriesId": "GYVNXMVP6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -1905,7 +3085,7 @@
       "seriesId": "GRZXD528Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -2017,7 +3197,7 @@
       "seriesId": "GRGG58V1R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -2036,7 +3216,7 @@
       "seriesId": "G6NQX5GZ6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -2044,7 +3224,7 @@
       "seriesId": "GY19X1M9R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -2052,7 +3232,7 @@
       "seriesId": "GG5H5XQ35",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -2070,17 +3250,190 @@
       "url": "http://www.crunchyroll.com/de/durarara",
       "seriesId": "G619XVNEY",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Durarara!!: Season 1 (German Dub)",
+          "staffelId": "GYE5CQGZZ",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G50UZ794E",
+              "laufend": 1,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GWDU85WKK",
+              "laufend": 2,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GG1U23QE0",
+              "laufend": 3,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G0DUN5105",
+              "laufend": 4,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G7PU4XZVE",
+              "laufend": 5,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G4VUQEJX8",
+              "laufend": 6,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G14U4W0E9",
+              "laufend": 7,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GK9U350QV",
+              "laufend": 8,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GVWU0Q5J2",
+              "laufend": 9,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G31UX0DQX",
+              "laufend": 10,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G8WUN48EQ",
+              "laufend": 11,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GD9UVPJD4",
+              "laufend": 12,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G50UZ79WE",
+              "laufend": 13,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GWDU85WGK",
+              "laufend": 14,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GEVUZ42K2",
+              "laufend": 15,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "G7PU4XZ0E",
+              "laufend": 16,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "G4VUQEJZ8",
+              "laufend": 17,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GJWU25G80",
+              "laufend": 18,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GN7UDP9GM",
+              "laufend": 19,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "GMKUX878M",
+              "laufend": 20,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GVWU0Q5Q2",
+              "laufend": 21,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "G31UX0D0X",
+              "laufend": 22,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "G8WUN484Q",
+              "laufend": 23,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "GQJUGP1PD",
+              "laufend": 24,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "OVAs (German Dub)",
+          "staffelId": "GS00389413DEDE",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 25,
+              "guid": "GWDU85W5K",
+              "laufend": 2,
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "url": "http://www.crunchyroll.com/de/erased",
       "seriesId": "GYGG92K7Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -2088,7 +3441,7 @@
       "seriesId": "GRQ40V31Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -2096,11 +3449,11 @@
       "seriesId": "GRE5KGN36",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Eyeshield 21 Season 1",
+          "name": "Eyeshield 21: Season 1",
           "staffelId": "G675KXENR",
           "folgen": 51,
           "kacheln": 51,
@@ -2109,7 +3462,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Eyeshield 21 Season 2",
+          "name": "Eyeshield 21: Season 2",
           "staffelId": "G649M5G0Y",
           "folgen": 49,
           "kacheln": 49,
@@ -2118,7 +3471,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Eyeshield 21 Season 3",
+          "name": "Eyeshield 21: Season 3",
           "staffelId": "GYX03PEKR",
           "folgen": 45,
           "kacheln": 45,
@@ -3836,7 +5189,7 @@
       "seriesId": "GYNQ3N8ZY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -3844,7 +5197,7 @@
       "seriesId": "GRJQ04Z3Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -4407,7 +5760,7 @@
       "seriesId": "GR2PQ9K0R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -4415,7 +5768,7 @@
       "seriesId": "GRGGPG93R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -4516,7 +5869,7 @@
       "seriesId": "GR5V1JKGR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -4535,7 +5888,7 @@
       "seriesId": "G6MG10376",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -4543,7 +5896,7 @@
       "seriesId": "G6P8918Q6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -4551,7 +5904,7 @@
       "seriesId": "GRVN7ZW3Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -4570,11 +5923,11 @@
       "seriesId": "GYQ4MKDZ6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Gintama Season 1 (Eps 1-49)",
+          "name": "Gintama Part 1 (1-49)",
           "staffelId": "GY5VEK7GY",
           "folgen": 49,
           "kacheln": 49,
@@ -4583,7 +5936,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Gintama Season 1 (Eps 50-99)",
+          "name": "Gintama Part 2 (50-99)",
           "staffelId": "GYQ4MQ496",
           "folgen": 50,
           "kacheln": 50,
@@ -4592,7 +5945,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Gintama Season 1 (Eps 100-150)",
+          "name": "Gintama Part 3 (100-150)",
           "staffelId": "GY5VEXXDY",
           "folgen": 51,
           "kacheln": 51,
@@ -4601,7 +5954,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Gintama Season 1 (Eps 151-201)",
+          "name": "Gintama Part 4 (151-201)",
           "staffelId": "G609QG3W6",
           "folgen": 51,
           "kacheln": 51,
@@ -4610,7 +5963,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Gintama Season 2 (Eps 202-252)",
+          "name": "Gintama' (202-252)",
           "staffelId": "G69PJMKVY",
           "folgen": 53,
           "kacheln": 53,
@@ -4619,28 +5972,64 @@
           "deutscheFassung": false
         },
         {
-          "name": "Gintama Season 2 (253-265)",
+          "name": "Gintama: Enchosen (253-265)",
           "staffelId": "GYNQ1X99Y",
-          "folgen": 25,
-          "kacheln": 25,
+          "folgen": 14,
+          "kacheln": 14,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
         },
         {
-          "name": "Gintama Season 3 (Eps 266-316)",
+          "name": "Gintama¨8 (266-316)",
           "staffelId": "G62PWWX56",
-          "folgen": 52,
-          "kacheln": 52,
+          "folgen": 51,
+          "kacheln": 51,
           "deutsch": 0,
           "fremd": 51,
           "deutscheFassung": false
         },
         {
-          "name": "Gintama Season 4",
+          "name": "Gintama. (317-328)",
           "staffelId": "GRDQM1D1Y",
-          "folgen": 51,
-          "kacheln": 51,
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Gintama. Porori-hen (329-341)",
+          "staffelId": "GYZXC3JEX",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Gintama. Shirogane no Tamashii-hen (342-367)",
+          "staffelId": "GS00363379JAJP",
+          "folgen": 26,
+          "kacheln": 26,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Gintama Classic: OVA Season 1",
+          "staffelId": "GS00363216JAJP",
+          "folgen": 11,
+          "kacheln": 11,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Extras",
+          "staffelId": "GS00377829JAJP",
+          "folgen": 1,
+          "kacheln": 1,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
@@ -4652,7 +6041,7 @@
       "seriesId": "GR3VK50W6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -4660,7 +6049,7 @@
       "seriesId": "GRDQNDVZY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -4668,7 +6057,7 @@
       "seriesId": "GR19N7DV6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -5122,15 +6511,26 @@
       "seriesId": "GRVN4W13Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "GRANBLUE FANTASY: The Animation",
+          "staffelId": "GR24JGV76",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "http://www.crunchyroll.com/de/gurren-lagann",
       "seriesId": "GR097JN7R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -6102,7 +7502,7 @@
       "seriesId": "GR79PWJ16",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -6121,7 +7521,7 @@
       "seriesId": "GRE51QMX6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -6129,7 +7529,7 @@
       "seriesId": "GJ0H7Q5X9",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -7994,11 +9394,11 @@
       "seriesId": "GY8VXP2JY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "JOKER GAME",
+          "name": "JOKER GAME: Season 1",
           "staffelId": "GRZXDV39Y",
           "folgen": 12,
           "kacheln": 12,
@@ -8013,7 +9413,7 @@
       "seriesId": "G6K51X9GY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -8032,7 +9432,7 @@
       "seriesId": "G68V4NDJ6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -8051,11 +9451,11 @@
       "seriesId": "GYJQVX726",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "KanColle",
+          "name": "KanColle - Kantai Collection",
           "staffelId": "GRNQPN08R",
           "folgen": 12,
           "kacheln": 12,
@@ -8255,7 +9655,7 @@
       "seriesId": "GY5VEEK5Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -8460,7 +9860,7 @@
       "seriesId": "GY5VGNM0Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -8479,11 +9879,11 @@
       "seriesId": "G65VXM1P6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-17",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": true,
       "staffeln": [
         {
-          "name": "Küss ihn, nicht mich!",
+          "name": "Kiss Him, Not Me",
           "staffelId": "GYWE2N8MY",
           "folgen": 12,
           "kacheln": 12,
@@ -8494,74 +9894,74 @@
             {
               "nummer": 1,
               "guid": "GD9UV2JZQ",
-              "verfuegbarAb": "2021-07-28T16:00:00Z",
-              "laufend": 1
+              "laufend": 1,
+              "verfuegbarAb": "2016-10-08T05:00:00Z"
             },
             {
               "nummer": 2,
               "guid": "GQJUGE103",
-              "verfuegbarAb": "2021-07-28T16:00:00Z",
-              "laufend": 2
+              "laufend": 2,
+              "verfuegbarAb": "2016-10-15T05:00:00Z"
             },
             {
               "nummer": 3,
               "guid": "G50UZE9N0",
-              "verfuegbarAb": "2021-07-28T16:00:00Z",
-              "laufend": 3
+              "laufend": 3,
+              "verfuegbarAb": "2016-10-20T16:00:00Z"
             },
             {
               "nummer": 4,
               "guid": "GG1U2DQV5",
-              "verfuegbarAb": "2021-07-28T16:00:00Z",
-              "laufend": 4
+              "laufend": 4,
+              "verfuegbarAb": "2016-10-29T05:00:00Z"
             },
             {
               "nummer": 5,
               "guid": "G0DUN91XX",
-              "verfuegbarAb": "2021-07-28T16:00:00Z",
-              "laufend": 5
+              "laufend": 5,
+              "verfuegbarAb": "2016-11-05T05:00:00Z"
             },
             {
               "nummer": 6,
               "guid": "G9DUEDQ24",
-              "verfuegbarAb": "2021-07-28T16:00:00Z",
-              "laufend": 6
+              "laufend": 6,
+              "verfuegbarAb": "2016-11-12T05:00:00Z"
             },
             {
               "nummer": 7,
               "guid": "G14U4X0P8",
-              "verfuegbarAb": "2021-07-28T16:00:00Z",
-              "laufend": 7
+              "laufend": 7,
+              "verfuegbarAb": "2016-11-17T17:00:00Z"
             },
             {
               "nummer": 8,
               "guid": "GN7UDW9JW",
-              "verfuegbarAb": "2021-07-28T16:00:00Z",
-              "laufend": 8
+              "laufend": 8,
+              "verfuegbarAb": "2016-11-24T17:00:00Z"
             },
             {
               "nummer": 9,
               "guid": "G50UZE9DW",
-              "verfuegbarAb": "2021-07-28T16:00:00Z",
-              "laufend": 9
+              "laufend": 9,
+              "verfuegbarAb": "2016-12-01T17:00:00Z"
             },
             {
               "nummer": 10,
               "guid": "GG1U2DQVQ",
-              "verfuegbarAb": "2021-07-28T16:00:00Z",
-              "laufend": 10
+              "laufend": 10,
+              "verfuegbarAb": "2016-12-08T17:00:00Z"
             },
             {
               "nummer": 11,
               "guid": "GEVUZ82Q9",
-              "verfuegbarAb": "2021-07-28T16:00:00Z",
-              "laufend": 11
+              "laufend": 11,
+              "verfuegbarAb": "2016-12-15T17:00:00Z"
             },
             {
               "nummer": 12,
               "guid": "G9DUEDQ2G",
-              "verfuegbarAb": "2021-07-28T16:00:00Z",
-              "laufend": 12
+              "laufend": 12,
+              "verfuegbarAb": "2016-12-22T17:00:00Z"
             }
           ]
         }
@@ -8572,7 +9972,7 @@
       "seriesId": "GYNQPV08Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -8580,7 +9980,7 @@
       "seriesId": "GYX08020R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -8789,7 +10189,7 @@
       "seriesId": "GYWEK9KNY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -8797,24 +10197,123 @@
       "seriesId": "G62P48X56",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/love-chunibyo-other-delusions-heart-throb-",
       "seriesId": "GYJQV73V6",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Love, Chunibyo, and Other Delusions: Season 2: Heart Throb (German Dub)",
+          "staffelId": "GYP8CXW2Q",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GG1U2M5E0",
+              "laufend": 1,
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G0DUN3W05",
+              "laufend": 2,
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G7PU452VE",
+              "laufend": 3,
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GX9UQDM70",
+              "laufend": 4,
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G14U43JE9",
+              "laufend": 5,
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GN7UDZK7M",
+              "laufend": 6,
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GMKUXZMWM",
+              "laufend": 7,
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G31UXPEQX",
+              "laufend": 8,
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G2XU021J9",
+              "laufend": 9,
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GD9UVNZD4",
+              "laufend": 10,
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GQJUGD07D",
+              "laufend": 11,
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GWDU89MGK",
+              "laufend": 12,
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G0DUN3W45",
+              "laufend": 13,
+              "verfuegbarAb": "2020-11-24T17:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Love, Chunibyo, and Other Delusions: Season 2: Heart Throb",
+          "staffelId": "GR2PCVZM5",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "http://www.crunchyroll.com/de/love-live-sunshine",
       "seriesId": "G3KHEVPWE",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -9091,8 +10590,19 @@
       "seriesId": "GY09XN14Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Magi: The Kingdom of Magic",
+          "staffelId": "GY5VP5NKY",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "http://www.crunchyroll.com/de/magical-girl-raising-project",
@@ -9467,7 +10977,7 @@
       "seriesId": "GR4PVJ1WY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -9486,7 +10996,7 @@
       "seriesId": "G6497Z43Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-05",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -9680,13 +11190,13 @@
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
-              "nummer": 14,
+              "nummer": 1,
               "guid": "G6KEE8N96",
               "laufend": 1,
               "verfuegbarAb": "2022-01-19T07:59:00Z"
             },
             {
-              "nummer": 13,
+              "nummer": 2,
               "guid": "GD9UVJ22E",
               "laufend": 2,
               "verfuegbarAb": "2022-01-19T07:59:00Z"
@@ -9700,7 +11210,7 @@
       "seriesId": "G6497Z43Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-05",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -9894,13 +11404,13 @@
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
-              "nummer": 14,
+              "nummer": 1,
               "guid": "G6KEE8N96",
               "laufend": 1,
               "verfuegbarAb": "2022-01-19T07:59:00Z"
             },
             {
-              "nummer": 13,
+              "nummer": 2,
               "guid": "GD9UVJ22E",
               "laufend": 2,
               "verfuegbarAb": "2022-01-19T07:59:00Z"
@@ -10229,7 +11739,7 @@
       "seriesId": "G675N15MR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -11459,7 +12969,7 @@
       "seriesId": "GRNQJ57XR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -11467,24 +12977,34 @@
       "seriesId": "G609E9EW6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Netsuzou Trap -NTR-",
+          "staffelId": "GRE5Z5Z86",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "http://www.crunchyroll.com/de/nisekoi",
       "seriesId": "GR19NK216",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/nyanko-days",
       "seriesId": "G6P83KDJ6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -11503,7 +13023,7 @@
       "seriesId": "GRMG8ZQZR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -11599,8 +13119,8 @@
         {
           "name": "Marineford (459-516)",
           "staffelId": "GYP8PM4KY",
-          "folgen": 57,
-          "kacheln": 57,
+          "folgen": 58,
+          "kacheln": 58,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
@@ -11678,7 +13198,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "HEROINES",
+          "name": "One Piece HEROINES Special",
           "staffelId": "GS00380777JAJP",
           "folgen": 1,
           "kacheln": 1,
@@ -11689,8 +13209,8 @@
         {
           "name": "Elbaph (1156-current)",
           "staffelId": "GS00376439JAJP",
-          "folgen": 19,
-          "kacheln": 19,
+          "folgen": 25,
+          "kacheln": 25,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
@@ -11702,17 +13222,16 @@
       "seriesId": "G69PZ5PDY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/pale-cocoon",
       "seriesId": "GYNVHNP0X",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/pandorahearts",
@@ -11890,7 +13409,7 @@
       "seriesId": "GRGGP17PR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -12206,7 +13725,7 @@
       "seriesId": "G6X0J185Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -12225,7 +13744,7 @@
       "seriesId": "GR49MWD06",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -12233,7 +13752,7 @@
       "seriesId": "G6QWDD096",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -12249,18 +13768,9 @@
           "name": "Magia Record: Puella Magi Madoka Magica Side Story Season 2 -The Eve of Awakening-",
           "staffelId": "GYMGC3Z37",
           "folgen": 9,
-          "kacheln": 9,
+          "kacheln": 13,
           "deutsch": 0,
           "fremd": 8,
-          "deutscheFassung": false
-        },
-        {
-          "name": "Magia Record: Puella Magi Madoka Magica Side Story Final Season -Dawn of a Shallow Dream-",
-          "staffelId": "GR9PC2DQD",
-          "folgen": 4,
-          "kacheln": 4,
-          "deutsch": 0,
-          "fremd": 4,
           "deutscheFassung": false
         }
       ]
@@ -12363,20 +13873,38 @@
       "seriesId": "GRNQ13VQR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "REBORN! Season 1 (1-33)",
+          "name": "Daily Life arc",
           "staffelId": "GYK5PJEER",
-          "folgen": 33,
-          "kacheln": 33,
+          "folgen": 19,
+          "kacheln": 19,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
         },
         {
-          "name": "REBORN! Season 2 (34-65)",
+          "name": "Kokuyo arc",
+          "staffelId": "GS00363433JAJP",
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Daily Life 2 arc",
+          "staffelId": "GS00363434JAJP",
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Varia arc",
           "staffelId": "GYWEXK2MY",
           "folgen": 32,
           "kacheln": 32,
@@ -12385,7 +13913,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "REBORN! Season 3 (66-73)",
+          "name": "Daily Life 3 arc",
           "staffelId": "G65VE9QP6",
           "folgen": 8,
           "kacheln": 8,
@@ -12394,7 +13922,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "REBORN! Season 4 (74-101)",
+          "name": "Future Part 1 arc",
           "staffelId": "G67524W0R",
           "folgen": 28,
           "kacheln": 28,
@@ -12403,7 +13931,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "REBORN! Season 5 (102-140)",
+          "name": "Future Part 2 arc",
           "staffelId": "GR8VJQZ5R",
           "folgen": 39,
           "kacheln": 39,
@@ -12412,7 +13940,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "REBORN! Season 6 (141-153)",
+          "name": "Arcobaleno Trials Arc",
           "staffelId": "GYZXQKMX6",
           "folgen": 13,
           "kacheln": 13,
@@ -12421,7 +13949,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "REBORN! Season 7 (154-177)",
+          "name": "Choice Arc",
           "staffelId": "GY5VE9MDY",
           "folgen": 24,
           "kacheln": 24,
@@ -12430,7 +13958,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "REBORN! Season 8 (178-189)",
+          "name": "Primo Family Arc",
           "staffelId": "GY19539ER",
           "folgen": 12,
           "kacheln": 12,
@@ -12439,10 +13967,19 @@
           "deutscheFassung": false
         },
         {
-          "name": "REBORN! Season 9 (190-204)",
+          "name": "Future Arc: Final Battle Arc",
           "staffelId": "G65VE3KE6",
-          "folgen": 15,
-          "kacheln": 15,
+          "folgen": 14,
+          "kacheln": 14,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "OVA 1",
+          "staffelId": "GS00391285JAJP",
+          "folgen": 1,
+          "kacheln": 1,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
@@ -13217,13 +14754,13 @@
       "seriesId": "G6P8DM3Q6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
           "name": "Saekano -How to Raise a Boring Girlfriend-",
           "staffelId": "GR2P1G07R",
-          "folgen": 13,
+          "folgen": 12,
           "kacheln": 13,
           "deutsch": 0,
           "fremd": 0,
@@ -13438,7 +14975,7 @@
       "seriesId": "GYX019NPR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -13446,14 +14983,14 @@
       "seriesId": "G63V729XY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Samurai Warriors",
+          "name": "Samurai Warriors: Season 1",
           "staffelId": "G6P8DK0Q6",
-          "folgen": 13,
-          "kacheln": 13,
+          "folgen": 12,
+          "kacheln": 12,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
@@ -13465,7 +15002,7 @@
       "seriesId": "G62P4MG76",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -13577,7 +15114,7 @@
       "seriesId": "G65VGXVQ6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -13586,7 +15123,7 @@
           "folgen": 12,
           "kacheln": 12,
           "deutsch": 0,
-          "fremd": 0,
+          "fremd": 12,
           "deutscheFassung": false
         }
       ]
@@ -16108,7 +17645,7 @@
       "seriesId": "GY8VXQX8Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -16116,7 +17653,7 @@
       "seriesId": "GRVNPEQWY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -16124,20 +17661,11 @@
       "seriesId": "GRMGDGZVR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "The Irregular at Magic High School: Reminiscence Arc",
-          "staffelId": "GRZXCM70M",
-          "folgen": 2,
-          "kacheln": 2,
-          "deutsch": 0,
-          "fremd": 2,
-          "deutscheFassung": false
-        },
-        {
-          "name": "The Irregular at Magic High School Staffel 3",
+          "name": "Season 03",
           "staffelId": "GRDQCG5VZ",
           "folgen": 13,
           "kacheln": 13,
@@ -16152,7 +17680,7 @@
       "seriesId": "G68VXG3G6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -16171,7 +17699,7 @@
       "seriesId": "G67570P3R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -16179,7 +17707,7 @@
       "seriesId": "GY5VEEK5Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -16198,7 +17726,7 @@
       "seriesId": "G60914JM6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -16206,24 +17734,6 @@
           "staffelId": "GRE51D996",
           "folgen": 12,
           "kacheln": 12,
-          "deutsch": 0,
-          "fremd": 0,
-          "deutscheFassung": false
-        },
-        {
-          "name": "TRINITY SEVEN: ETERNITY LIBRARY & ALCHEMIC GIRL",
-          "staffelId": "GYMGQNQ5Y",
-          "folgen": 1,
-          "kacheln": 1,
-          "deutsch": 0,
-          "fremd": 0,
-          "deutscheFassung": false
-        },
-        {
-          "name": "TRINITY SEVEN HEAVENS LIBRARY & CRIMSON LORD",
-          "staffelId": "G60X0M3PR",
-          "folgen": 1,
-          "kacheln": 1,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
@@ -16235,7 +17745,7 @@
       "seriesId": "G63VK38ZY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -16243,11 +17753,11 @@
       "seriesId": "G1XHJVWXG",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "The Reincarnation Of The Strongest Exorcist In Another World",
+          "name": "The Reincarnation of the Strongest Exorcist in Another World: Season 1",
           "staffelId": "G675CDXGD",
           "folgen": 13,
           "kacheln": 13,
@@ -16467,7 +17977,7 @@
       "seriesId": "GMTE00192514",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -16475,7 +17985,7 @@
       "seriesId": "G63V7KN9Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -16483,21 +17993,21 @@
       "seriesId": "G6P8DV7V6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Yu-Gi-Oh! Season 1 (Subtitled)",
+          "name": "Yu-Gi-Oh! Duel Monsters: Season 1",
           "staffelId": "GR9P35GV6",
-          "folgen": 224,
-          "kacheln": 224,
+          "folgen": 49,
+          "kacheln": 49,
           "deutsch": 0,
           "fremd": 49,
           "deutscheFassung": false
         },
         {
-          "name": "Staffel 2",
-          "staffelId": "G6P8DVPK6",
+          "name": "Yu-Gi-Oh! Duel Monsters: Season 2",
+          "staffelId": "GRW43P73Y",
           "folgen": 48,
           "kacheln": 48,
           "deutsch": 0,
@@ -16505,8 +18015,8 @@
           "deutscheFassung": false
         },
         {
-          "name": "Staffel 3",
-          "staffelId": "G6MGDMMV6",
+          "name": "Yu-Gi-Oh! Duel Monsters: Season 3",
+          "staffelId": "GS00115359JAJP",
           "folgen": 47,
           "kacheln": 47,
           "deutsch": 0,
@@ -16514,8 +18024,8 @@
           "deutscheFassung": false
         },
         {
-          "name": "Staffel 4",
-          "staffelId": "G6491J8WY",
+          "name": "Yu-Gi-Oh! Duel Monsters: Season 4",
+          "staffelId": "GS00115360JAJP",
           "folgen": 40,
           "kacheln": 40,
           "deutsch": 0,
@@ -16523,12 +18033,21 @@
           "deutscheFassung": false
         },
         {
-          "name": "Staffel 5",
-          "staffelId": "GYWEZV50Y",
-          "folgen": 52,
-          "kacheln": 52,
+          "name": "Yu-Gi-Oh! Duel Monsters: Season 5",
+          "staffelId": "GS00115361JAJP",
+          "folgen": 40,
+          "kacheln": 40,
           "deutsch": 0,
-          "fremd": 52,
+          "fremd": 40,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Staffel 6",
+          "staffelId": "GS00389376ENUS",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12,
           "deutscheFassung": false
         }
       ]
@@ -16538,11 +18057,11 @@
       "seriesId": "G62P107J6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Yu-Gi-Oh! 5D's Season 1 (Subtitled)",
+          "name": "Yu-Gi-Oh! 5D's: Season 1",
           "staffelId": "G6JQV810R",
           "folgen": 64,
           "kacheln": 64,
@@ -16551,12 +18070,12 @@
           "deutscheFassung": false
         },
         {
-          "name": "Yu-Gi-Oh! 5D's Season 2 (Subtitled)",
+          "name": "Yu-Gi-Oh! 5D's: Season 2",
           "staffelId": "GY2P1D2KY",
           "folgen": 90,
           "kacheln": 90,
           "deutsch": 0,
-          "fremd": 7,
+          "fremd": 58,
           "deutscheFassung": false
         }
       ]
@@ -16566,20 +18085,56 @@
       "seriesId": "GY8V1ED9Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Yu-Gi-Oh! GX (Subtitled)",
+          "name": "Season 1 (Original Japanese Version)",
           "staffelId": "GRJQVGPVY",
-          "folgen": 180,
-          "kacheln": 180,
+          "folgen": 52,
+          "kacheln": 52,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 2 (Original Japanese Version)",
+          "staffelId": "GS00116619JAJP",
+          "folgen": 52,
+          "kacheln": 52,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 3 (Original Japanese Version)",
+          "staffelId": "GS00116620JAJP",
+          "folgen": 52,
+          "kacheln": 52,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 4 (Original Japanese Version)",
+          "staffelId": "GS00390252JAJP",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 1 (English Dub Version) (English Dub)",
+          "staffelId": "GRZX2843Y",
+          "folgen": 52,
+          "kacheln": 52,
           "deutsch": 0,
           "fremd": 52,
           "deutscheFassung": false
         },
         {
-          "name": "Yu-Gi-Oh! GX Season 2",
+          "name": "Season 2 (English Dub Version) (English Dub)",
           "staffelId": "GYGG4Q0WY",
           "folgen": 52,
           "kacheln": 52,
@@ -16588,7 +18143,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Yu-Gi-Oh! GX Season 3",
+          "name": "Season 3 (English Dub Version) (English Dub)",
           "staffelId": "G6X01PZ5Y",
           "folgen": 51,
           "kacheln": 51,
@@ -16696,7 +18251,7 @@
       "seriesId": "G63VM99QY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -16704,7 +18259,7 @@
       "seriesId": "GXJHM3P19",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -16723,7 +18278,7 @@
       "seriesId": "GRE5KE7P6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -16907,7 +18462,7 @@
       "seriesId": "G24H1N5JG",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -16915,7 +18470,7 @@
       "seriesId": "G4PH0WXD1",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -17109,7 +18664,7 @@
       "seriesId": "G6QWDD096",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -17125,18 +18680,9 @@
           "name": "Magia Record: Puella Magi Madoka Magica Side Story Season 2 -The Eve of Awakening-",
           "staffelId": "GYMGC3Z37",
           "folgen": 9,
-          "kacheln": 9,
+          "kacheln": 13,
           "deutsch": 0,
           "fremd": 8,
-          "deutscheFassung": false
-        },
-        {
-          "name": "Magia Record: Puella Magi Madoka Magica Side Story Final Season -Dawn of a Shallow Dream-",
-          "staffelId": "GR9PC2DQD",
-          "folgen": 4,
-          "kacheln": 4,
-          "deutsch": 0,
-          "fremd": 4,
           "deutscheFassung": false
         }
       ]
@@ -17572,7 +19118,7 @@
       "seriesId": "G6WEK0026",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -18689,7 +20235,7 @@
       "seriesId": "GMTE00350182",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-28",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -18962,7 +20508,7 @@
       "seriesId": "GQWH0M9N8",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-05",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -19641,7 +21187,7 @@
       "seriesId": "GR75Z5KKY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -19649,7 +21195,7 @@
       "seriesId": "GRGGJWD2R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -19657,20 +21203,11 @@
       "seriesId": "GRMGDGZVR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "The Irregular at Magic High School: Reminiscence Arc",
-          "staffelId": "GRZXCM70M",
-          "folgen": 2,
-          "kacheln": 2,
-          "deutsch": 0,
-          "fremd": 2,
-          "deutscheFassung": false
-        },
-        {
-          "name": "The Irregular at Magic High School Staffel 3",
+          "name": "Season 03",
           "staffelId": "GRDQCG5VZ",
           "folgen": 13,
           "kacheln": 13,
@@ -19685,7 +21222,7 @@
       "seriesId": "GRW4DXNEY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -21468,9 +23005,8 @@
       "seriesId": "G6DQN4K8R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "404 - Seite nicht gefunden"
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/armed-girls-machiavellism/episode-13-799297?ssid=385722",
@@ -21575,21 +23111,20 @@
       "url": "https://www.crunchyroll.com/atom-the-beginning",
       "seriesId": "GVDHX8JD2",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/beautiful-bones-sakurakos-investigation-",
       "seriesId": "G6WE21DG6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-17",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": true,
       "staffeln": [
         {
-          "name": "Beautiful Bones -Sakurako's Investigation-",
+          "name": "Beautiful Bones - Sakurako's Investigation: Season 1",
           "staffelId": "G6GG98116",
           "folgen": 12,
           "kacheln": 12,
@@ -21600,74 +23135,74 @@
             {
               "nummer": 1,
               "guid": "GJWU2JQ0M",
-              "verfuegbarAb": "2021-04-28T16:00:00Z",
-              "laufend": 1
+              "laufend": 1,
+              "verfuegbarAb": "2015-10-07T17:00:00Z"
             },
             {
               "nummer": 2,
               "guid": "GN7UDWN1W",
-              "verfuegbarAb": "2021-04-28T16:00:00Z",
-              "laufend": 2
+              "laufend": 2,
+              "verfuegbarAb": "2015-10-14T17:00:00Z"
             },
             {
               "nummer": 3,
               "guid": "G50UZEMVW",
-              "verfuegbarAb": "2021-04-28T16:00:00Z",
-              "laufend": 3
+              "laufend": 3,
+              "verfuegbarAb": "2015-10-21T17:00:00Z"
             },
             {
               "nummer": 4,
               "guid": "GWDU8P7J5",
-              "verfuegbarAb": "2021-04-28T16:00:00Z",
-              "laufend": 4
+              "laufend": 4,
+              "verfuegbarAb": "2015-10-28T17:00:00Z"
             },
             {
               "nummer": 5,
               "guid": "G0DUN9MKP",
-              "verfuegbarAb": "2021-04-28T16:00:00Z",
-              "laufend": 5
+              "laufend": 5,
+              "verfuegbarAb": "2015-11-04T17:00:00Z"
             },
             {
               "nummer": 6,
               "guid": "G7PU4W319",
-              "verfuegbarAb": "2021-04-28T16:00:00Z",
-              "laufend": 6
+              "laufend": 6,
+              "verfuegbarAb": "2015-11-11T17:00:00Z"
             },
             {
               "nummer": 7,
               "guid": "G9DUED9MG",
-              "verfuegbarAb": "2021-04-28T16:00:00Z",
-              "laufend": 7
+              "laufend": 7,
+              "verfuegbarAb": "2015-11-18T17:00:00Z"
             },
             {
               "nummer": 8,
               "guid": "G4VUQMWVV",
-              "verfuegbarAb": "2021-04-28T16:00:00Z",
-              "laufend": 8
+              "laufend": 8,
+              "verfuegbarAb": "2015-11-25T17:00:00Z"
             },
             {
               "nummer": 9,
               "guid": "GN7UDWNMK",
-              "verfuegbarAb": "2021-04-28T16:00:00Z",
-              "laufend": 9
+              "laufend": 9,
+              "verfuegbarAb": "2015-12-02T17:00:00Z"
             },
             {
               "nummer": 10,
               "guid": "GMKUX5E1X",
-              "verfuegbarAb": "2021-04-28T16:00:00Z",
-              "laufend": 10
+              "laufend": 10,
+              "verfuegbarAb": "2015-12-09T17:00:00Z"
             },
             {
               "nummer": 11,
               "guid": "G31UX7VN8",
-              "verfuegbarAb": "2021-04-28T16:00:00Z",
-              "laufend": 11
+              "laufend": 11,
+              "verfuegbarAb": "2015-12-16T17:00:00Z"
             },
             {
               "nummer": 12,
               "guid": "G2XU05N7M",
-              "verfuegbarAb": "2021-04-28T16:00:00Z",
-              "laufend": 12
+              "laufend": 12,
+              "verfuegbarAb": "2015-12-24T07:59:00Z"
             }
           ]
         }
@@ -21676,10 +23211,9 @@
     {
       "url": "https://www.crunchyroll.com/beauty-water/beauty-water-unbekannt-859030",
       "quelle": "api",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden",
-      "katalog": "us"
+      "fehler": "404 - Seite nicht gefunden"
     },
     {
       "url": "https://www.crunchyroll.com/brave-story/brave-story-unbekannt-821310?ssid=422329",
@@ -21816,30 +23350,29 @@
       "url": "https://www.crunchyroll.com/corpse-party-tortured-souls",
       "seriesId": "GZJH3DN8K",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/91-days",
       "seriesId": "GRE5K3NQ6",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "https://www.crunchyroll.com/de/Strike-Witches",
       "seriesId": "GYEXXWD36",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Strike Witches 2",
+          "name": "Strike Witches: Season 2",
           "staffelId": "GY8DD340Y",
           "folgen": 12,
           "kacheln": 12,
@@ -21848,7 +23381,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Strike Witches: Road to Berlin",
+          "name": "Strike Witches: Season 3: Road to Berlin",
           "staffelId": "GRDV0913R",
           "folgen": 12,
           "kacheln": 12,
@@ -21863,11 +23396,11 @@
       "seriesId": "GRVNZK5PY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "A Certain Magical Index III",
+          "name": "A Certain Magical Index: Season 3",
           "staffelId": "GRG5V5J4R",
           "folgen": 26,
           "kacheln": 26,
@@ -21882,11 +23415,11 @@
       "seriesId": "GRVNZK5PY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "A Certain Magical Index III",
+          "name": "A Certain Magical Index: Season 3",
           "staffelId": "GRG5V5J4R",
           "folgen": 26,
           "kacheln": 26,
@@ -21901,11 +23434,11 @@
       "seriesId": "G649J4XPY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "A Certain Scientific Railgun T",
+          "name": "A Certain Scientific Railgun: Season 3: T",
           "staffelId": "GYG5EE9WY",
           "folgen": 25,
           "kacheln": 25,
@@ -21920,24 +23453,23 @@
       "seriesId": "GYG5NDJDY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/aachi-ssipak",
       "seriesId": "GY8VXXP4Y",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "404 - Seite nicht gefunden",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/aesthetica-of-a-rogue-hero",
       "seriesId": "GRP8ZQP1R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -21945,7 +23477,7 @@
       "seriesId": "G5PHNMW59",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -21954,16 +23486,7 @@
           "folgen": 5,
           "kacheln": 5,
           "deutsch": 0,
-          "fremd": 5,
-          "deutscheFassung": false
-        },
-        {
-          "name": "Afro Samurai: Resurrection",
-          "staffelId": "GY8VCPEPN",
-          "folgen": 1,
-          "kacheln": 1,
-          "deutsch": 0,
-          "fremd": 1,
+          "fremd": 0,
           "deutscheFassung": false
         }
       ]
@@ -21973,7 +23496,7 @@
       "seriesId": "GRQWJWPGR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -21981,7 +23504,7 @@
       "seriesId": "GKEH2G440",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -21989,11 +23512,11 @@
       "seriesId": "GRWE8K5MR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "And you thought there is never a girl online?",
+          "name": "And you thought there is never a girl online?: Season 1",
           "staffelId": "GRGGZKW4R",
           "folgen": 12,
           "kacheln": 12,
@@ -22008,7 +23531,7 @@
       "seriesId": "GY49PW7QR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -22181,7 +23704,7 @@
       "seriesId": "G5PHNMW9N",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -22190,7 +23713,7 @@
           "folgen": 13,
           "kacheln": 13,
           "deutsch": 0,
-          "fremd": 0,
+          "fremd": 13,
           "deutscheFassung": false
         }
       ]
@@ -22200,14 +23723,14 @@
       "seriesId": "GT00378122",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
           "name": "Staffel 1",
           "staffelId": "GS00378140JAJP",
-          "folgen": 8,
-          "kacheln": 8,
+          "folgen": 12,
+          "kacheln": 12,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
@@ -22219,7 +23742,7 @@
       "seriesId": "GR9PXZ3J6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -22227,7 +23750,7 @@
       "seriesId": "GDKHZEDPM",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -22246,24 +23769,23 @@
       "seriesId": "GRE59JGX6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/assassins-pride",
       "seriesId": "G60X4P8GR",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/astra-lost-in-space",
       "seriesId": "GMEHMEWZM",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -22774,49 +24296,94 @@
       "seriesId": "G69PXP1EY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Kizumonogatari",
+          "staffelId": "GRMGC3VWD",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Orokamonogatari",
+          "staffelId": "G6K5CN14M",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Nademonogatari",
+          "staffelId": "GS00363303JAJP",
+          "folgen": 5,
+          "kacheln": 5,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Wazamonogatari",
+          "staffelId": "GS00363304JAJP",
+          "folgen": 3,
+          "kacheln": 3,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Shinobumonogatari",
+          "staffelId": "GS00363305JAJP",
+          "folgen": 6,
+          "kacheln": 6,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/de/basilisk",
       "seriesId": "G65V1GV06",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/bayonetta-bloody-fate",
       "seriesId": "GRGGZD4WR",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "404 - Seite nicht gefunden",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/big-fish-begonia",
       "seriesId": "GQWH0MP82",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/bikini-warriors",
       "seriesId": "GG5H5X0K0",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/black-blood-brothers",
       "seriesId": "GYX05GE8R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -23000,7 +24567,7 @@
       "seriesId": "GYWEQW20Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -23019,7 +24586,7 @@
       "seriesId": "GYWEQW20Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -23037,10 +24604,9 @@
       "url": "https://www.crunchyroll.com/de/black-jack-the-movie",
       "seriesId": "GRK5Z4P96",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "404 - Seite nicht gefunden",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/blackfox",
@@ -23176,7 +24742,7 @@
       "seriesId": "GYJ0J3M06",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -23184,7 +24750,7 @@
       "seriesId": "GR5VXQ8PR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -23197,7 +24763,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs 2",
+          "name": "Bungo Stray Dogs Season 2",
           "staffelId": "GRE5K9ZP6",
           "folgen": 13,
           "kacheln": 13,
@@ -23206,16 +24772,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs - DEAD APPLE",
-          "staffelId": "GYW448N26",
-          "folgen": 1,
-          "kacheln": 1,
-          "deutsch": 0,
-          "fremd": 1,
-          "deutscheFassung": false
-        },
-        {
-          "name": "Bungo Stray Dogs 4",
+          "name": "Bungo Stray Dogs Season 4",
           "staffelId": "G6E5CQ4V3",
           "folgen": 13,
           "kacheln": 13,
@@ -23224,7 +24781,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs 5",
+          "name": "Bungo Stray Dogs Season 5",
           "staffelId": "G619CP0N3",
           "folgen": 11,
           "kacheln": 11,
@@ -23287,7 +24844,7 @@
       "seriesId": "GRK5VPPW6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -23295,7 +24852,7 @@
       "seriesId": "GP5HJ85ED",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -23322,17 +24879,16 @@
       "url": "https://www.crunchyroll.com/de/cardcaptor-sakura-the-movie-2-the-sealed-card",
       "seriesId": "GY1XKZ37Y",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "404 - Seite nicht gefunden",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/case-file-n221-kabukicho",
       "seriesId": "GG5H5X35K",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -23860,33 +25416,51 @@
       "seriesId": "GYZX2XE46",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Chaika -The Coffin Princess-",
+          "staffelId": "GYDQDQWD6",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Chaika -The Coffin Princess- Avenging Battle",
+          "staffelId": "GRGG4GQ2R",
+          "folgen": 10,
+          "kacheln": 10,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/de/chaos-dragon",
       "seriesId": "G69PZV9VY",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/chobits",
       "seriesId": "G9VHN97K8",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/chrono-crusade",
       "seriesId": "GYGGXP7EY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -23894,7 +25468,7 @@
       "seriesId": "G6P5M4156",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -24279,10 +25853,9 @@
       "url": "https://www.crunchyroll.com/de/claymore",
       "seriesId": "GRMEKVG8Y",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/code-geass",
@@ -24714,7 +26287,7 @@
       "seriesId": "GJ0H7Q8W3",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -24722,7 +26295,7 @@
       "seriesId": "G4PH0WZ5E",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -24730,7 +26303,7 @@
       "seriesId": "GKEH2GQJ5",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -24738,7 +26311,7 @@
       "seriesId": "GYX0DW78R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -24746,7 +26319,7 @@
       "seriesId": "G6QWGNN76",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -24754,7 +26327,7 @@
       "seriesId": "GR3V5EK46",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -24762,7 +26335,7 @@
       "seriesId": "GR75N43MY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -24770,11 +26343,11 @@
       "seriesId": "G61X24PZ6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Darwin's Game: Season 1",
+          "name": "Season 1",
           "staffelId": "GYJ0GW4D6",
           "folgen": 11,
           "kacheln": 11,
@@ -24789,7 +26362,7 @@
       "seriesId": "GYEX5E1G6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -24797,17 +26370,16 @@
       "seriesId": "GRX02EZ06",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/death-parade",
       "seriesId": "G6GGXKNE6",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/deca-dence",
@@ -25000,7 +26572,7 @@
       "seriesId": "GXJHM37KD",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -25462,7 +27034,7 @@
       "seriesId": "GYVNPX3D6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -25470,33 +27042,89 @@
       "seriesId": "G609GE8M6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "D.Gray-man",
+          "staffelId": "GY494K98R",
+          "folgen": 26,
+          "kacheln": 26,
+          "deutsch": 0,
+          "fremd": 26,
+          "deutscheFassung": false
+        },
+        {
+          "name": "D.Gray-man (Season 1-2)",
+          "staffelId": "GRE5KZ396",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 0,
+          "fremd": 25,
+          "deutscheFassung": false
+        },
+        {
+          "name": "D.Gray-man (Season 3-4)",
+          "staffelId": "G679P23KY",
+          "folgen": 26,
+          "kacheln": 26,
+          "deutsch": 0,
+          "fremd": 26,
+          "deutscheFassung": false
+        },
+        {
+          "name": "D.Gray-man (Season 3-4)",
+          "staffelId": "GS00003782JAJP",
+          "folgen": 26,
+          "kacheln": 26,
+          "deutsch": 0,
+          "fremd": 26,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/de/digimon-adventure",
       "seriesId": "GVDHX83V7",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Digimon Adventure",
+          "staffelId": "GRJQC1442",
+          "folgen": 54,
+          "kacheln": 54,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Digimon Adventure 02",
+          "staffelId": "GYJQC1490",
+          "folgen": 50,
+          "kacheln": 50,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/de/digimon-adventure-02",
       "seriesId": "GR1XHVEZQ",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/digimon-adventure-tri",
       "seriesId": "G6NQX5GZ6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -25597,7 +27225,7 @@
       "seriesId": "GYZXDZGX6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -25697,10 +27325,20 @@
       "url": "https://www.crunchyroll.com/de/domestic-girlfriend",
       "seriesId": "G679D84KY",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Domestic Girlfriend",
+          "staffelId": "G69V985JY",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 11,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/de/dont-toy-with-me-miss-nagatoro",
@@ -25882,10 +27520,9 @@
       "url": "https://www.crunchyroll.com/de/donten-laughing-under-the-clouds-gaiden",
       "seriesId": "G5PHNM77K",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/dr-stone",
@@ -26536,7 +28173,7 @@
       "seriesId": "GG5H5XQ35",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -26555,7 +28192,7 @@
       "seriesId": "GG5H5XQ35",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -26574,7 +28211,7 @@
       "seriesId": "GG5H5XQ35",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -26593,13 +28230,13 @@
       "seriesId": "GYXM79M56",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "DRAGON QUEST The Adventure of Dai",
+          "name": "Dragon Quest: The Adventure of Dai",
           "staffelId": "G64G2VG8R",
-          "folgen": 101,
+          "folgen": 100,
           "kacheln": 101,
           "deutsch": 0,
           "fremd": 0,
@@ -26612,7 +28249,7 @@
       "seriesId": "G63V7VN4Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -26631,7 +28268,7 @@
       "seriesId": "GY8DDD58Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -26639,7 +28276,7 @@
       "seriesId": "G4PH0WEZP",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -26647,31 +28284,29 @@
       "seriesId": "GYW4455K6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/en-gb/fategrand-order-absolute-demonic-front-babylonia",
       "quelle": "api",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden",
-      "katalog": "us"
+      "fehler": "404 - Seite nicht gefunden"
     },
     {
       "url": "https://www.crunchyroll.com/de/en-gb/tokyo-ghoul",
       "quelle": "api",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden",
-      "katalog": "us"
+      "fehler": "404 - Seite nicht gefunden"
     },
     {
       "url": "https://www.crunchyroll.com/de/ergo-proxy",
       "seriesId": "GYQ42D876",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -28424,8 +30059,19 @@
       "seriesId": "GR24JZ886",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Fate/Grand Order Absolute Demonic Front: Babylonia",
+          "staffelId": "GY8DP8E9Y",
+          "folgen": 21,
+          "kacheln": 22,
+          "deutsch": 0,
+          "fremd": 21,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/de/fire-force",
@@ -29356,21 +31002,20 @@
       "url": "https://www.crunchyroll.com/de/fr/series/GZJH3D8V3/perfect-blue",
       "seriesId": "GZJH3D8V3",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "404 - Seite nicht gefunden",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/free-iwatobi-swim-club",
       "seriesId": "GRDQV2VWY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-07",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": true,
       "staffeln": [
         {
-          "name": "Free! - Iwatobi Swim Club",
+          "name": "Free! -Iwatobi Swim Club-",
           "staffelId": "G6K5KZX9Y",
           "folgen": 14,
           "kacheln": 14,
@@ -29379,7 +31024,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Free! Eternal Summer",
+          "name": "Free! -Eternal Summer-",
           "staffelId": "GY2P59WEY",
           "folgen": 15,
           "kacheln": 15,
@@ -29399,74 +31044,74 @@
             {
               "nummer": 1,
               "guid": "GYPPXZKGY",
-              "verfuegbarAb": "2022-06-15T11:00:00Z",
-              "laufend": 1
+              "laufend": 1,
+              "verfuegbarAb": "2018-07-12T06:59:00Z"
             },
             {
               "nummer": 2,
               "guid": "G6DVN21G6",
-              "verfuegbarAb": "2022-06-15T11:00:00Z",
-              "laufend": 2
+              "laufend": 2,
+              "verfuegbarAb": "2018-07-19T06:59:00Z"
             },
             {
               "nummer": 3,
               "guid": "GR8MXK98R",
-              "verfuegbarAb": "2022-06-15T11:00:00Z",
-              "laufend": 3
+              "laufend": 3,
+              "verfuegbarAb": "2018-07-26T06:59:00Z"
             },
             {
               "nummer": 4,
               "guid": "GY5JX15DY",
-              "verfuegbarAb": "2022-06-15T11:00:00Z",
-              "laufend": 4
+              "laufend": 4,
+              "verfuegbarAb": "2018-08-02T06:59:00Z"
             },
             {
               "nummer": 5,
               "guid": "GRGV9Z3ER",
-              "verfuegbarAb": "2022-06-15T11:00:00Z",
-              "laufend": 5
+              "laufend": 5,
+              "verfuegbarAb": "2018-08-09T06:59:00Z"
             },
             {
               "nummer": 6,
               "guid": "G69XM9GDR",
-              "verfuegbarAb": "2022-06-15T11:00:00Z",
-              "laufend": 6
+              "laufend": 6,
+              "verfuegbarAb": "2018-08-16T06:59:00Z"
             },
             {
               "nummer": 7,
               "guid": "GREMKZNN6",
-              "verfuegbarAb": "2022-06-15T11:00:00Z",
-              "laufend": 7
+              "laufend": 7,
+              "verfuegbarAb": "2018-08-23T06:59:00Z"
             },
             {
               "nummer": 8,
               "guid": "G64GMW2PR",
-              "verfuegbarAb": "2022-06-15T11:00:00Z",
-              "laufend": 8
+              "laufend": 8,
+              "verfuegbarAb": "2018-08-30T06:59:00Z"
             },
             {
               "nummer": 9,
               "guid": "G6JK147VR",
-              "verfuegbarAb": "2022-06-15T11:00:00Z",
-              "laufend": 9
+              "laufend": 9,
+              "verfuegbarAb": "2018-09-06T06:59:00Z"
             },
             {
               "nummer": 10,
               "guid": "GK9U35X2N",
-              "verfuegbarAb": "2022-06-15T11:00:00Z",
-              "laufend": 10
+              "laufend": 10,
+              "verfuegbarAb": "2018-09-13T06:59:00Z"
             },
             {
               "nummer": 11,
               "guid": "GVWU0Q9X8",
-              "verfuegbarAb": "2022-06-15T11:00:00Z",
-              "laufend": 11
+              "laufend": 11,
+              "verfuegbarAb": "2018-09-20T06:59:00Z"
             },
             {
               "nummer": 12,
               "guid": "G6KKX1DP6",
-              "verfuegbarAb": "2022-06-15T11:00:00Z",
-              "laufend": 12
+              "laufend": 12,
+              "verfuegbarAb": "2018-09-27T06:59:00Z"
             }
           ]
         }
@@ -29477,7 +31122,7 @@
       "seriesId": "GRDQE71GY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -29847,17 +31492,16 @@
       "seriesId": "G6VN78NXR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/fullmetal-alchemist-the-conqueror-of-shamballa",
       "seriesId": "G65VQD2D6",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "404 - Seite nicht gefunden",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/fushigi-yugi-ova",
@@ -29883,12 +31527,11 @@
       "seriesId": "G68DVV2G6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
-      "namensWiderspruch": "ein Staffelname nennt die deutsche Fassung, versions führt kein de-DE",
       "staffeln": [
         {
-          "name": "Pandora in the Crimson Shell (German Europe)",
+          "name": "Pandora in the Crimson Shell: Season 1",
           "staffelId": "G6JQC14XZ",
           "folgen": 12,
           "kacheln": 12,
@@ -30033,7 +31676,7 @@
       "seriesId": "G9VHN9P7W",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -30052,7 +31695,7 @@
       "seriesId": "G6VDMN306",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -30506,7 +32149,7 @@
       "seriesId": "GYJQGMNX6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -30514,7 +32157,7 @@
       "seriesId": "GYG5GW91Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -30522,24 +32165,23 @@
       "seriesId": "GZJH3D0N5",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/gungrave",
       "seriesId": "GY197VD9R",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/gunslinger-girl",
       "seriesId": "GYZX14J96",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -30547,11 +32189,11 @@
       "seriesId": "GR9P7JMV6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Guyver: The Bioboosted Armor",
+          "name": "Guyver: The Bioboosted Armor: Season 1",
           "staffelId": "G6X0P43MY",
           "folgen": 26,
           "kacheln": 26,
@@ -30566,17 +32208,16 @@
       "seriesId": "GYX0PN4MR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/haikara-san-here-comes-miss-modern",
       "seriesId": "G79H23XN2",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar.",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/haikyu",
@@ -34315,7 +35956,7 @@
       "seriesId": "GR9PVW336",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -34323,7 +35964,7 @@
       "seriesId": "GR75391ZY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -34331,7 +35972,7 @@
       "seriesId": "GR79V3VN6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -34339,7 +35980,7 @@
       "seriesId": "G649DPXQY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -34347,7 +35988,7 @@
       "seriesId": "GYWEQ4Q3Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -34547,14 +36188,23 @@
       "seriesId": "G4PH0WXEM",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
           "name": "Higurashi: When They Cry - GOU",
           "staffelId": "G6MGC355V",
-          "folgen": 24,
-          "kacheln": 24,
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Higurashi: When They Cry - GOU",
+          "staffelId": "GS00096403JAJP",
+          "folgen": 12,
+          "kacheln": 12,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
@@ -34763,11 +36413,11 @@
       "seriesId": "G1XHJV3MV",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "How a Realist Hero Rebuilt the Kingdom",
+          "name": "Rebuilt Kingdom: Season 1",
           "staffelId": "GYVNC2VXE",
           "folgen": 26,
           "kacheln": 26,
@@ -35048,7 +36698,7 @@
       "seriesId": "G6P585256",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -35056,7 +36706,7 @@
       "seriesId": "G79H230GE",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -35280,7 +36930,7 @@
       "seriesId": "G6Q9GGE26",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-05",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -35549,8 +37199,19 @@
       "seriesId": "G9VHN9PDW",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Infinite Dendrogram",
+          "staffelId": "GR19CP37G",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 0,
+          "fremd": 13,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/de/inuyasha-the-movie-2-the-castle-beyond-the-looking-glass",
@@ -35665,15 +37326,26 @@
       "seriesId": "G6DQN9KGR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Is It Wrong to Try to Pick Up Girls in a Dungeon? V",
+          "staffelId": "GYMGC3VM3",
+          "folgen": 15,
+          "kacheln": 15,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/de/is-this-a-zombie",
       "seriesId": "G6NQ3DZX6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
@@ -35681,7 +37353,7 @@
       "seriesId": "GR8DN7N7R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -36772,7 +38444,7 @@
       "seriesId": "GRDV0019R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-05",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -37184,7 +38856,7 @@
     {
       "url": "https://www.crunchyroll.com/de/jungle-emperor-leo",
       "quelle": "api",
-      "geprueftAm": "2026-09-07",
+      "geprueftAm": "2026-10-19",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -37192,7 +38864,7 @@
       "seriesId": "G68V4NDJ6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -37395,8 +39067,19 @@
       "seriesId": "G68D2DQW6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Jyu-Oh-Sei",
+          "staffelId": "GYZJ3JKXR",
+          "folgen": 11,
+          "kacheln": 11,
+          "deutsch": 0,
+          "fremd": 11,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://www.crunchyroll.com/de/k",
@@ -164143,7 +165826,7 @@
       "seriesId": "GRE5K3NQ6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
       "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
@@ -164152,7 +165835,7 @@
       "seriesId": "G649GP1JY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
       "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
@@ -164161,16 +165844,15 @@
       "seriesId": "GRNQP873R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/cardcaptor-sakura-the-movie",
       "seriesId": "GRWE20Z3R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
       "fehler": "404 - Seite nicht gefunden"
     },
@@ -164179,7 +165861,7 @@
       "seriesId": "GYDQN15K6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
       "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
@@ -164188,7 +165870,7 @@
       "seriesId": "GYK5X1NGR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
       "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
@@ -164197,7 +165879,7 @@
       "seriesId": "G6758GW4R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
       "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
@@ -164206,7 +165888,7 @@
       "seriesId": "GRDQV79DY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
       "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
@@ -164215,7 +165897,7 @@
       "seriesId": "GRGG9PN7R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
       "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
@@ -164224,24 +165906,34 @@
       "seriesId": "G649G581Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Gingitsune: Messenger Fox of the Gods",
+          "staffelId": "GR19Q2806",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "http://www.crunchyroll.com/de/girls-und-panzer",
       "seriesId": "GRQ49W9GY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
       "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/hamatora",
       "quelle": "api",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
-      "geprueftAm": "2026-08-22",
       "fehler": "404 - Seite nicht gefunden"
     },
     {
@@ -164249,9 +165941,8 @@
       "seriesId": "GYZX4KPG6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/how-not-to-summon-a-demon-lord",
@@ -164431,15 +166122,14 @@
       "seriesId": "GRNQ1PDZR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/kite-liberator",
       "quelle": "api",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
-      "geprueftAm": "2026-08-22",
       "fehler": "404 - Seite nicht gefunden"
     },
     {
@@ -164447,47 +166137,43 @@
       "seriesId": "GYMGPQ3ZY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/little-nemo-adventures-in-slumberland",
       "seriesId": "GR2P4GW2R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
-      "nichtVerfuegbar": true,
-      "fehler": "404 - Seite nicht gefunden"
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/love-chunibyo-other-delusions",
       "seriesId": "G6K5399GY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/motto-to-love-ru",
       "seriesId": "GYNQXV3XY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/my-teen-romantic-comedy-snafu",
       "seriesId": "GYNQJ8GXY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "My Teen Romantic Comedy SNAFU",
+          "name": "My Teen Romantic Comedy SNAFU: Season 1",
           "staffelId": "G6K5KNQPY",
           "folgen": 13,
           "kacheln": 13,
@@ -164496,7 +166182,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "My Teen Romantic Comedy SNAFU TOO!",
+          "name": "My Teen Romantic Comedy SNAFU: Season 2: TOO!",
           "staffelId": "G6751MXZR",
           "folgen": 13,
           "kacheln": 13,
@@ -164505,7 +166191,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "My Teen Romantic Comedy SNAFU Climax!",
+          "name": "My Teen Romantic Comedy SNAFU: Season 3: Climax!",
           "staffelId": "GR4PZ7PWY",
           "folgen": 12,
           "kacheln": 12,
@@ -164520,81 +166206,72 @@
       "seriesId": "GRX0M3356",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/ookami",
       "seriesId": "GRVN3JJ0Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/orange",
       "seriesId": "GRVNXW75Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/relife",
       "seriesId": "GY5VE008Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/rokka",
       "seriesId": "GRVNEXKXY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/samurai-pizza-cats",
       "seriesId": "GYE5KDZPR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/school-live",
       "seriesId": "G609GQ4P6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/shamanic-princess",
       "seriesId": "GYDQV3D96",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/sherlock-hound",
       "seriesId": "GYX0JEW3R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/sin-the-movie",
@@ -164607,9 +166284,8 @@
       "seriesId": "GY759JK36",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/sound-euphonium",
@@ -164748,11 +166424,11 @@
       "seriesId": "GRNQPEGWR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Terra Formars",
+          "name": "Terra Formars: Season 1",
           "staffelId": "GYK53WQ7R",
           "folgen": 14,
           "kacheln": 14,
@@ -164761,7 +166437,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "TERRAFORMARS (Unzensiert)",
+          "name": "Season 01 (Uncensored Version)",
           "staffelId": "GY8V18EWY",
           "folgen": 13,
           "kacheln": 13,
@@ -164774,8 +166450,8 @@
     {
       "url": "http://www.crunchyroll.com/de/the-knight-in-the-area",
       "quelle": "api",
+      "geprueftAm": "2026-10-19",
       "nichtVerfuegbar": true,
-      "geprueftAm": "2026-08-26",
       "fehler": "404 - Seite nicht gefunden"
     },
     {
@@ -164783,96 +166459,98 @@
       "seriesId": "G619QQK7Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/to-love-ru",
       "seriesId": "GY2PE557Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/to-love-ru-darkness",
       "seriesId": "GRZXD91VY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/toradora",
       "seriesId": "G6P8PXJW6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/triage-x",
       "seriesId": "GY190XZER",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/tsukigakirei",
       "seriesId": "G6X0QPK8Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/twocar",
       "seriesId": "GY2PQNPMY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/world-conquest-zvezda-plot ",
       "seriesId": "GRZX4G03Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/yuuna-and-the-haunted-hot-springs",
       "seriesId": "G68DV8D46",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "nichtVerfuegbar": true,
-      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+      "geprueftAm": "2026-10-19",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://beta.crunchyroll.com/de/series/G6DQN9KGR/is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon",
       "seriesId": "G6DQN9KGR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-26",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Is It Wrong to Try to Pick Up Girls in a Dungeon? V",
+          "staffelId": "GYMGC3VM3",
+          "folgen": 15,
+          "kacheln": 15,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     },
     {
       "url": "https://crunchyroll.com/de/series/GT00371630/daemons-of-the-shadow-realm",
       "seriesId": "GT00371630",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-11",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -166544,7 +168222,7 @@
       "seriesId": "GYK541EPR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -166553,7 +168231,7 @@
           "folgen": 13,
           "kacheln": 13,
           "deutsch": 0,
-          "fremd": 0,
+          "fremd": 13,
           "deutscheFassung": false
         }
       ]
@@ -166563,7 +168241,7 @@
       "seriesId": "GR5VXQ8PR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -166576,7 +168254,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs 2",
+          "name": "Bungo Stray Dogs Season 2",
           "staffelId": "GRE5K9ZP6",
           "folgen": 13,
           "kacheln": 13,
@@ -166585,16 +168263,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs - DEAD APPLE",
-          "staffelId": "GYW448N26",
-          "folgen": 1,
-          "kacheln": 1,
-          "deutsch": 0,
-          "fremd": 1,
-          "deutscheFassung": false
-        },
-        {
-          "name": "Bungo Stray Dogs 4",
+          "name": "Bungo Stray Dogs Season 4",
           "staffelId": "G6E5CQ4V3",
           "folgen": 13,
           "kacheln": 13,
@@ -166603,7 +168272,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs 5",
+          "name": "Bungo Stray Dogs Season 5",
           "staffelId": "G619CP0N3",
           "folgen": 11,
           "kacheln": 11,
@@ -166618,7 +168287,7 @@
       "seriesId": "GR5VXQ8PR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -166631,7 +168300,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs 2",
+          "name": "Bungo Stray Dogs Season 2",
           "staffelId": "GRE5K9ZP6",
           "folgen": 13,
           "kacheln": 13,
@@ -166640,16 +168309,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs - DEAD APPLE",
-          "staffelId": "GYW448N26",
-          "folgen": 1,
-          "kacheln": 1,
-          "deutsch": 0,
-          "fremd": 1,
-          "deutscheFassung": false
-        },
-        {
-          "name": "Bungo Stray Dogs 4",
+          "name": "Bungo Stray Dogs Season 4",
           "staffelId": "G6E5CQ4V3",
           "folgen": 13,
           "kacheln": 13,
@@ -166658,7 +168318,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs 5",
+          "name": "Bungo Stray Dogs Season 5",
           "staffelId": "G619CP0N3",
           "folgen": 11,
           "kacheln": 11,
@@ -166673,7 +168333,7 @@
       "seriesId": "GR5VXQ8PR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -166686,7 +168346,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs 2",
+          "name": "Bungo Stray Dogs Season 2",
           "staffelId": "GRE5K9ZP6",
           "folgen": 13,
           "kacheln": 13,
@@ -166695,16 +168355,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs - DEAD APPLE",
-          "staffelId": "GYW448N26",
-          "folgen": 1,
-          "kacheln": 1,
-          "deutsch": 0,
-          "fremd": 1,
-          "deutscheFassung": false
-        },
-        {
-          "name": "Bungo Stray Dogs 4",
+          "name": "Bungo Stray Dogs Season 4",
           "staffelId": "G6E5CQ4V3",
           "folgen": 13,
           "kacheln": 13,
@@ -166713,7 +168364,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs 5",
+          "name": "Bungo Stray Dogs Season 5",
           "staffelId": "G619CP0N3",
           "folgen": 11,
           "kacheln": 11,
@@ -166728,7 +168379,7 @@
       "seriesId": "GR5VXQ8PR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -166741,7 +168392,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs 2",
+          "name": "Bungo Stray Dogs Season 2",
           "staffelId": "GRE5K9ZP6",
           "folgen": 13,
           "kacheln": 13,
@@ -166750,16 +168401,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs - DEAD APPLE",
-          "staffelId": "GYW448N26",
-          "folgen": 1,
-          "kacheln": 1,
-          "deutsch": 0,
-          "fremd": 1,
-          "deutscheFassung": false
-        },
-        {
-          "name": "Bungo Stray Dogs 4",
+          "name": "Bungo Stray Dogs Season 4",
           "staffelId": "G6E5CQ4V3",
           "folgen": 13,
           "kacheln": 13,
@@ -166768,7 +168410,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Bungo Stray Dogs 5",
+          "name": "Bungo Stray Dogs Season 5",
           "staffelId": "G619CP0N3",
           "folgen": 11,
           "kacheln": 11,
@@ -166783,7 +168425,7 @@
       "seriesId": "G63V7VN4Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -166802,11 +168444,11 @@
       "seriesId": "GR5V1JKGR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Gamers!: Season 1",
+          "name": "GAMERS!",
           "staffelId": "G6WE8MZJ6",
           "folgen": 12,
           "kacheln": 12,
@@ -166821,11 +168463,11 @@
       "seriesId": "GR9P7JMV6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Guyver: The Bioboosted Armor",
+          "name": "Guyver: The Bioboosted Armor: Season 1",
           "staffelId": "G6X0P43MY",
           "folgen": 26,
           "kacheln": 26,
@@ -166856,7 +168498,7 @@
       "seriesId": "GR79PWJ16",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -166875,11 +168517,11 @@
       "seriesId": "GY8VXP2JY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "JOKER GAME",
+          "name": "JOKER GAME: Season 1",
           "staffelId": "GRZXDV39Y",
           "folgen": 12,
           "kacheln": 12,
@@ -166894,7 +168536,7 @@
       "seriesId": "G6K51X9GY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -166913,7 +168555,7 @@
       "seriesId": "G68V4NDJ6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -166932,7 +168574,7 @@
       "seriesId": "G68V4NDJ6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -166951,7 +168593,7 @@
       "seriesId": "GY5VGNM0Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -166968,7 +168610,7 @@
     {
       "url": "http://www.crunchyroll.com/mobile-suit-gundam-wing-endless-waltz/mobile-suit-gundam-wing-endless-waltz-gundam-wing-endless-waltz-732801",
       "quelle": "api",
-      "geprueftAm": "2026-09-07",
+      "geprueftAm": "2026-10-19",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
@@ -166976,7 +168618,7 @@
       "seriesId": "G675N15MR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -166995,11 +168637,11 @@
       "seriesId": "G6P83KDJ6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Nyanko Days: Season 1",
+          "name": "Nyanko Days",
           "staffelId": "GR2P031JR",
           "folgen": 12,
           "kacheln": 12,
@@ -167014,13 +168656,13 @@
       "seriesId": "G6P8DM3Q6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
           "name": "Saekano -How to Raise a Boring Girlfriend-",
           "staffelId": "GR2P1G07R",
-          "folgen": 13,
+          "folgen": 12,
           "kacheln": 13,
           "deutsch": 0,
           "fremd": 0,
@@ -167033,14 +168675,14 @@
       "seriesId": "G63V729XY",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "Samurai Warriors",
+          "name": "Samurai Warriors: Season 1",
           "staffelId": "G6P8DK0Q6",
-          "folgen": 13,
-          "kacheln": 13,
+          "folgen": 12,
+          "kacheln": 12,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
@@ -167052,7 +168694,7 @@
       "seriesId": "G68VXG3G6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -167071,7 +168713,7 @@
       "seriesId": "G60914JM6",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -167079,24 +168721,6 @@
           "staffelId": "GRE51D996",
           "folgen": 12,
           "kacheln": 12,
-          "deutsch": 0,
-          "fremd": 0,
-          "deutscheFassung": false
-        },
-        {
-          "name": "TRINITY SEVEN: ETERNITY LIBRARY & ALCHEMIC GIRL",
-          "staffelId": "GYMGQNQ5Y",
-          "folgen": 1,
-          "kacheln": 1,
-          "deutsch": 0,
-          "fremd": 0,
-          "deutscheFassung": false
-        },
-        {
-          "name": "TRINITY SEVEN HEAVENS LIBRARY & CRIMSON LORD",
-          "staffelId": "G60X0M3PR",
-          "folgen": 1,
-          "kacheln": 1,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
@@ -167108,7 +168732,7 @@
       "seriesId": "G675QE8JR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -167121,7 +168745,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Tsugumomo2",
+          "name": "Tsugumomo 2",
           "staffelId": "GRJ0GM22Y",
           "folgen": 12,
           "kacheln": 12,
@@ -167130,7 +168754,7 @@
           "deutscheFassung": false
         },
         {
-          "name": "Tsugumomo2 OVA",
+          "name": "OVA",
           "staffelId": "G64G21VJR",
           "folgen": 1,
           "kacheln": 1,
@@ -167173,7 +168797,7 @@
       "seriesId": "G5PHNMW59",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -167182,16 +168806,7 @@
           "folgen": 5,
           "kacheln": 5,
           "deutsch": 0,
-          "fremd": 5,
-          "deutscheFassung": false
-        },
-        {
-          "name": "Afro Samurai: Resurrection",
-          "staffelId": "GY8VCPEPN",
-          "folgen": 1,
-          "kacheln": 1,
-          "deutsch": 0,
-          "fremd": 1,
+          "fremd": 0,
           "deutscheFassung": false
         }
       ]
@@ -167201,11 +168816,11 @@
       "seriesId": "GRWE8K5MR",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
-          "name": "And you thought there is never a girl online?",
+          "name": "And you thought there is never a girl online?: Season 1",
           "staffelId": "GRGGZKW4R",
           "folgen": 12,
           "kacheln": 12,
@@ -167220,7 +168835,7 @@
       "seriesId": "G5PHNMW9N",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -167229,7 +168844,7 @@
           "folgen": 13,
           "kacheln": 13,
           "deutsch": 0,
-          "fremd": 0,
+          "fremd": 13,
           "deutscheFassung": false
         }
       ]
@@ -167338,7 +168953,7 @@
       "seriesId": "GDKHZEDPM",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -167357,7 +168972,7 @@
       "seriesId": "GYWEQW20Y",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -167376,7 +168991,7 @@
       "seriesId": "GXJHM3P19",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -167395,7 +169010,7 @@
       "seriesId": "GP5HJ85ED",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-06",
+      "geprueftAm": "2026-10-19",
       "deutschImAngebot": false,
       "staffeln": [
         {
@@ -182298,6 +183913,142 @@
           ]
         }
       ]
+    },
+    {
+      "url": "http://www.crunchyroll.com/de/boruto-naruto-next-generations",
+      "seriesId": "GR75Q020Y",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-10-19",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "staffelId": "GR9PW7J46",
+          "folgen": 26,
+          "kacheln": 26,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 2",
+          "staffelId": "GS00363307JAJP",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 3",
+          "staffelId": "GS00363308JAJP",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 4",
+          "staffelId": "GS00363309JAJP",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 5",
+          "staffelId": "GS00363310JAJP",
+          "folgen": 26,
+          "kacheln": 26,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 6",
+          "staffelId": "GS00363311JAJP",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 7",
+          "staffelId": "GS00363312JAJP",
+          "folgen": 30,
+          "kacheln": 30,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 8",
+          "staffelId": "GS00363313JAJP",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 9",
+          "staffelId": "GS00363314JAJP",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 10",
+          "staffelId": "GS00363315JAJP",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 11",
+          "staffelId": "GS00363316JAJP",
+          "folgen": 26,
+          "kacheln": 26,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Season 12",
+          "staffelId": "GS00363317JAJP",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
+    },
+    {
+      "url": "http://www.crunchyroll.com/de/naruto",
+      "quelle": "api",
+      "geprueftAm": "2026-10-19",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    {
+      "url": "http://www.crunchyroll.com/de/naruto-shippuden",
+      "quelle": "api",
+      "geprueftAm": "2026-10-19",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    {
+      "url": "http://www.crunchyroll.com/de/naruto-spin-off-rock-lee-his-ninja-pals",
+      "quelle": "api",
+      "geprueftAm": "2026-10-19",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     }
   ]
 }
