@@ -15917,7 +15917,6 @@
   "primevideo:B0CXMG28KN": {
     "grund": "offen",
     "kandidaten": [
-      20605,
       100240,
       102351
     ],
@@ -16040,9 +16039,9 @@
   "primevideo:B0D5KJQTZD": {
     "grund": "offen",
     "kandidaten": [
-      20605,
       100240,
-      102351
+      102351,
+      20605
     ],
     "gesehen": "2026-10-13T16:00:28Z"
   },
@@ -91394,7 +91393,6 @@
   "primevideo:B0GVGVGZN8": {
     "grund": "offen",
     "kandidaten": [
-      20605,
       100240,
       102351
     ],
