@@ -5,7 +5,7 @@ import { randomBytes } from 'node:crypto'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { bewerte, GRENZE, messe, startDateien } from './start-budget.mjs'
+import { bewerte, GRENZE, messe, startDateien, startSchriften } from './start-budget.mjs'
 
 // Je Gruppe drei Kandidaten, der geprüfte in der Mitte (Bundler legt mehrere Skripte, Vorab-Chunks und Stylesheets an).
 const html = (teil = '["meta","woche"]') => `<html><head>
@@ -84,6 +84,9 @@ form('<link rel="modulepreload" crossorigin href="/assets/vendor-D.js">', '<link
 form('<link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />', '<link rel="icon" href="/icons/icon.svg" type="image/svg+xml" /><script src="/assets/legacy.js"></script>', ['index.html', 'assets/legacy.js', ...IMMER.slice(1)])
 form('<link rel="stylesheet" crossorigin href="/assets/index-G.css">', '<link rel="stylesheet" href="/assets/index-G.css?v=7">', IMMER)
 form('<link rel="stylesheet" crossorigin href="/assets/index-G.css">', '<link REL="Stylesheet" href="/assets/index-G.css">', IMMER)
+// Tag in Großbuchstaben (HTML ist so gültig) wird gelesen.
+form('<script type="module" crossorigin src="/assets/index-B.js"></script>', '<SCRIPT TYPE="module" SRC="/assets/index-B.js"></SCRIPT>', IMMER)
+form('<link rel="modulepreload" crossorigin href="/assets/vendor-D.js">', '<LINK REL="modulepreload" HREF="/assets/vendor-D.js">', IMMER)
 // Alles, was weder gezählt noch ausgenommen ist, ergibt einen Fehler statt stillem Auslassen.
 for (const fremd of ['<link rel="prefetch" href="/assets/x.js">', '<link rel="dns-prefetch" href="/x">', '<link href="/assets/x.js">', '<link rel="modulepreload">', '<script src="https://cdn.beispiel.de/x.js"></script>', '<link rel="stylesheet" href="//cdn.beispiel.de/x.css">']) {
   assert.ok(startDateien(html().replace('</head>', `${fremd}</head>`)).fehler, fremd)
@@ -96,6 +99,17 @@ for (let i = 0; i < 20000; i++) zeilen += `zeile ${i}\n`
 writeFileSync(join(dist, 'assets', 'komprimierbar.js'), zeilen)
 assert.deepEqual(messe(dist, ['assets/komprimierbar.js']).zeilen, [{ pfad: 'assets/komprimierbar.js', bytes: 47266 }])
 aufraeumen(dist)
+
+// Startschrift per Dateinamen-Anfang: eine Schrift, die den Namen nur enthält, ist nicht die Startschrift.
+{
+  const lookalike = face('assets/x-manrope-latin-wght-normal-Y.woff2') + face('assets/unbounded-latin-700-normal-Y.woff2').replace('unbounded', 'zunbounded')
+  const d = kulisse({}, html(), { F: cssF, G: lookalike + cssG, H: cssH })
+  writeFileSync(join(d, 'assets', 'index-F.css'), cssF)
+  writeFileSync(join(d, 'assets', 'index-G.css'), lookalike + cssG)
+  writeFileSync(join(d, 'assets', 'index-H.css'), cssH)
+  assert.deepEqual(startSchriften(d, ['assets/index-F.css', 'assets/index-G.css', 'assets/index-H.css']), { pfade: [MANROPE, UNBOUNDED], fehlt: [] })
+  aufraeumen(d)
+}
 
 // Unter der Grenze: Exit 0, Zeile mit Summe und Luft; die Summe zählt genau die Startdateien, Schriften roh als eigener Summand.
 dist = kulisse(alle)
