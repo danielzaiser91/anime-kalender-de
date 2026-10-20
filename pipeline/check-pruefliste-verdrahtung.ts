@@ -13,9 +13,8 @@ import type { DataMeta, Title } from '../shared/types.ts'
 const URL_MIT = 'https://www.crunchyroll.com/de/series/GTESTMIT/mit'
 const URL_OHNE = 'https://www.crunchyroll.com/de/series/GTESTOHNE/ohne'
 const REPO = join(import.meta.dirname, '..')
-const PRUEFLISTE = 'data/cr-teilseiten-pruefliste.json'
-/** Leere Dateien, die die Phasen beim Laden ohne Rückfall lesen. */
-const STUBS = ['data/offizielle-meldungen.yaml', 'data/ankuendigungen.yaml', 'data/ohne-synchro-von-hand.yaml', 'data/anisearch-ids-hand.yaml', 'data/folgen-hinweise.yaml', 'data/fanservice-urteil.yaml', 'data/synchron-forum-treffer.yaml', 'data/kino-ankuendigungen.yaml']
+/** Leere Dateien in data/, die die Phasen beim Laden ohne Rückfall lesen. */
+const STUBS = ['offizielle-meldungen.yaml', 'ankuendigungen.yaml', 'ohne-synchro-von-hand.yaml', 'anisearch-ids-hand.yaml', 'folgen-hinweise.yaml', 'fanservice-urteil.yaml', 'synchron-forum-treffer.yaml', 'kino-ankuendigungen.yaml']
 
 const start = process.cwd()
 const wurzel = mkdtempSync(join(tmpdir(), 'pruefliste-verdrahtung-'))
@@ -39,10 +38,11 @@ try {
   process.chdir(wurzel) // Phase 13-6 startet tools/kennungen-erzeugen.mjs mit relativen Pfaden
   const mitBereich = titel(900010, [{ platform: 'crunchyroll', url: URL_MIT, dub: true, dubRanges: [{ from: 1, to: 1, dub: true }] }])
   const ohneBereich = titel(900011, [{ platform: 'crunchyroll', url: URL_OHNE, dub: true }])
+  const { PRUEFLISTE } = await import('./bau/09-7-cr-teilseiten.ts')
   const liste = [zeile(900010, URL_MIT), zeile(900011, URL_OHNE), zeile(900999, URL_OHNE)]
   writeFileSync(join(wurzel, PRUEFLISTE), JSON.stringify(liste))
   mkdirSync(join(wurzel, 'data', 'curated'), { recursive: true })
-  for (const d of STUBS) writeFileSync(join(wurzel, d), '')
+  for (const d of STUBS) writeFileSync(join(wurzel, 'data', d), '')
 
   const { schreibeDatensatz } = await import('./bau/13-schreiben.ts')
   schreibeDatensatz({
