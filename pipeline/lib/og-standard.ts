@@ -8,34 +8,32 @@
  */
 import { createHash } from 'node:crypto'
 import { OG_FASSUNG } from './og-fassung.ts'
-import type { KartenDaten } from './og-karte.ts'
+
 
 /** Belegte Titel (`belegtCount`), auf Hunderter abgerundet: Ein neuer Titel soll nicht jedes Mal ein neues Bild (und einen Commit) auslösen. */
 export function titelzahlText(belegtCount: number): string {
   const rund = Math.floor(belegtCount / 100) * 100
-  return `über ${rund.toLocaleString('de-DE')} mit Synchro`
+  return `über ${rund.toLocaleString('de-DE')} Anime, Woche für Woche`
+}
+
+export interface StandardDaten {
+  claim: string
+  liste: string[]
 }
 
 /**
- * Keine Plattform-Chips: „Streaming, Disc, Kino, TV" nennt schon, wo die Termine stehen; eine
- * Rangliste einzelner Anbieter würde das wiederholen und mit jedem Datenlauf wandern.
+ * Die Aussagen des Standardbilds. Keine Plattformen und kein Datum: „Streaming, Disc, Kino und TV"
+ * nennt schon, wo die Termine stehen, und eine Wochenleiste würde die Kennung jede Woche ändern.
  */
-export function standardKarte(belegtCount: number): KartenDaten {
+export function standardKarte(belegtCount: number): StandardDaten {
   return {
-    title: 'Anime-Kalender DE',
-    subtitle: 'Alles mit deutscher Synchro, Woche für Woche',
-    lines: [
-      { label: 'Anime', value: titelzahlText(belegtCount) },
-      { label: 'Termine', value: 'Streaming, Disc, Kino, TV' },
-      { label: 'Abo', value: 'Kalender und Newsletter' },
-    ],
-    badges: [],
-    accent: '#ff5a36',
+    claim: 'Alles mit deutscher Synchro',
+    liste: [titelzahlText(belegtCount), 'Streaming, Disc, Kino und TV', 'Kalender-Abo und Newsletter'],
   }
 }
 
 /** Fingerabdruck aller Eingaben des Bilds samt Gestaltungsfassung. */
-export function standardKennung(karte: KartenDaten): string {
+export function standardKennung(karte: StandardDaten): string {
   return createHash('sha1').update(OG_FASSUNG).update(JSON.stringify(karte)).digest('hex').slice(0, 8)
 }
 
