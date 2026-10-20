@@ -8600,7 +8600,6 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   /* Die vier Dubletten: Handbindung, AniList-Titel im Bestand → die aniSearch-Zeile entfällt, der AniList-Titel übernimmt die Erstausgabe; ohne ihn bleibt die Zeile. */
   const dubletten = [[204011, 21084], [206814, 21566], [212503, 21575], [213457, 21751]] as const
   const ohne = new Map<number, Title>()
-  setzeMarkenFuerPruefung({ 204011: 'p', 212503: 'p' })
   ergaenzeAnisearchTitel(ohne, new Map(), new Map())
   pruefe('MAL-Dublette: fehlt der AniList-Titel, bleibt die aniSearch-Zeile (kein Werk geht verloren)', dubletten.every(([, as]) => ohne.has(10_000_000 + as)))
   const mit = new Map<number, Title>(dubletten.map(([al]) => [al, { id: al, streams: [] } as unknown as Title]))
@@ -8616,7 +8615,6 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   )
   /* Hyouken II (aniSearch: Dub geplant): weder die aniSearch-Zeile noch der AniList-Titel trägt seit 11.10.2026 eine deutsche Erstausgabe aus dem Block (Psyren ist oben geprüft). */
   pruefe('MAL-Dublette: Hyouken II übernimmt keine Erstausgabe aus dem Block mit Marke Geplant', !ohne.get(10_021_575)?.deErstausgabe && !mit.get(212503)!.deErstausgabe)
-  setzeMarkenFuerPruefung(undefined)
   /* Der Auto-Termin von Beerus und Fool Night behält seinen Slug; ein vorhandener Release derselben Plattform verdrängt ihn, statt einen zweiten Termin zu bilden. */
   const meldung = (titleId: number, name: string, plattform: string, kontext: string) =>
     ({ articleTitle: `Termin von »${name}«`, articleUrl: 'https://www.anime2you.de/news/1/', category: 'streaming', platforms: [plattform], titleId, dates: [{ iso: '2026-10-11', context: kontext }] }) as unknown as Parameters<typeof releasesAus>[0][number]
