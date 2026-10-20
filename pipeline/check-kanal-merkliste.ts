@@ -35,6 +35,8 @@ interface Fall {
   /** Die Kanal-Adresse des Belegs, wenn sie von der gelesenen Seite abweicht (`kanalSeite` steht in der Notiz); der Titel hat keinen weiteren Beleg (Clannad). */
   adresse?: string
   kanalSeite?: string
+  /** Adresse der Rohfolgen-Gruppe, wenn sie von der des Belegs abweicht (dann ist der Eintrag der Liste nicht ihrer). */
+  gruppeAn?: string
   erwartet: boolean
 }
 const faelle: Fall[] = [
@@ -44,6 +46,8 @@ const faelle: Fall[] = [
   { id: 9206, name: 'Kanal-Ja später durch echtes Ja bestätigt: nie in der Merkliste', seite: 'B0MERKEEEE', kanal: true, echtesJa: true, erwartet: true },
   { id: 9207, name: 'Ja einer anderen Seite hinter derselben Adresse deckt die Kanal-Seite nicht', seite: 'B0MERKFFFF', kanal: true, andereSeite: 'B0MERKGGGG', erwartet: false },
   { id: 9208, name: 'Seite ohne Kanal unter einer Kanal-Adresse: die Merkliste hält sie wie der Handbeleg auf (Clannad)', seite: 'B0MERKHHHH', adresse: 'B0MERKIIII', kanalSeite: 'B0MERKJJJJ', kanal: true, erwartet: false },
+  { id: 9209, name: 'Eintrag der Liste zu einer anderen Adresse desselben Titels hält diese Gruppe nicht auf', seite: 'B0MERKKKKK', adresse: 'B0MERKLLLL', gruppeAn: 'B0MERKKKKK', kanalSeite: 'B0MERKLLLL', kanal: true, erwartet: true },
+  { id: 9210, name: 'Eintrag der Liste eines anderen Titels unter derselben Adresse hält diese Gruppe nicht auf', seite: 'B0MERKMMMM', adresse: 'B0MERKIIII', kanal: false, erwartet: true },
   { id: 9204, name: 'Titel ohne Kanal-Beleg: Deutsch zählt', seite: 'B0MERKDDDD', kanal: false, erwartet: true },
 ]
 
@@ -116,7 +120,7 @@ const fehler: string[] = []
 try {
   mkdirSync(join(kulisse, 'data/curated'), { recursive: true })
   const zugeordnet: Record<string, unknown> = {}
-  for (const f of faelle) zugeordnet[`${dp(f.adresse ?? f.seite)}#${f.id}`] = { titleId: f.id, plattform: 'primevideo', asin: 'B0EPISODE01', seite: f.seite, folgen }
+  for (const f of faelle) zugeordnet[`${dp(f.gruppeAn ?? f.adresse ?? f.seite)}#${f.id}`] = { titleId: f.id, plattform: 'primevideo', asin: 'B0EPISODE01', seite: f.seite, folgen }
   schreibe('data/prime-zugeordnet.json', JSON.stringify(zugeordnet))
   const yamlKanal = faelle.map((f) => belege(f, f.kanal)).join('')
   const yamlA = faelle.map((f) => belege(f, f.kanal, true)).join('')
@@ -140,7 +144,7 @@ try {
   if (melde.filter((t) => t.includes('gemerkt')).length !== 2) fehler.push(`Merkliste angelegt/ergänzt: ${melde.filter((t) => t.includes('gemerkt')).join(' | ')}`)
   if (!existsSync(join(kulisse, MERKLISTE))) fehler.push('Merkliste fehlt nach dem Schreiben')
   const eintraege = JSON.parse(listeA) as { anilistId: number }[]
-  if (eintraege.length !== 5) fehler.push(`Merkliste hält ${eintraege.length} Einträge, erwartet 5`)
+  if (eintraege.length !== 6) fehler.push(`Merkliste hält ${eintraege.length} Einträge, erwartet 6`)
 
   for (const f of faelle) {
     const [a, b, c] = [welten.A.get(f.id), welten.B.get(f.id), welten.C.get(f.id)]
