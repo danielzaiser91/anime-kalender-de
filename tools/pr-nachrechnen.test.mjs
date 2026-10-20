@@ -8,7 +8,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { parse } from 'yaml'
-import { JOB, KETTE, REF_ABSTAND_MS, REF_PRUEFUNGEN, basisAusLog, hindernis, main, nachrechnen, neuesterLauf, schlafe } from './pr-nachrechnen.mjs'
+import { COMPARE_GRENZE, JOB, KETTE, REF_ABSTAND_MS, REF_PRUEFUNGEN, basisAusLog, datenpfadAusnahme, hindernis, main, nachrechnen, neuesterLauf, schlafe } from './pr-nachrechnen.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -55,8 +55,12 @@ pruefe('hindernis: Mergebarkeit unbekannt', /noch nicht berechnet \(UNKNOWN\)/.t
 const PR = { number: 7, state: 'OPEN', mergeable: 'MERGEABLE', headRefOid: KOPF, headRefName: 'fix/x' }
 const M_ALT = 'a1'.padEnd(40, '1')
 const M_NEU = 'b2'.padEnd(40, '2')
-function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTES_LOG, mergeShas = [M_ALT, M_NEU] } = {}) {
+const JQ_VERGLEICH = '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)]}'
+const vergleich = (dateien, status = 'ahead', anzahl = dateien.length) => JSON.stringify({ status, anzahl, dateien })
+function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTES_LOG, mergeShas = [M_ALT, M_NEU], mainDateien = ['tools/x.mjs'], prDateien = 'src/a.ts\n' } = {}) {
   return {
+    [`api repos/{owner}/{repo}/compare/${BASIS}...${mainSha} --jq ${JQ_VERGLEICH}`]: { aus: Array.isArray(mainDateien) ? vergleich(mainDateien) : mainDateien.roh },
+    [`api repos/{owner}/{repo}/pulls/${nr}/files --paginate --jq .[] | .filename, (.previous_filename // empty)`]: { aus: prDateien },
     [`api repos/{owner}/{repo}/pulls/${nr} --jq .merge_commit_sha`]: { aus: mergeShas.map((s) => `${s}\n`) },
     [`api repos/{owner}/{repo}/commits/${M_ALT} --jq .parents[0].sha`]: { aus: `${BASIS}\n` },
     [`api repos/{owner}/{repo}/commits/${M_NEU} --jq .parents[0].sha`]: { aus: `${MAIN}\n` },
@@ -115,6 +119,57 @@ for (const [name, folge, warten] of [['leer nach dem Öffnen', [M_ALT, '', '', M
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe(`Merge-Commit ${name} -> 1, wartet ${warten}×, öffnet zweimal`, code === 1 && k.gewartet.length === warten && schreibend(k.aufrufe).length === 4 && !k.aufrufe.some((a) => a.includes('commits/ ')), { code, a: k.aufrufe, m: k.meldungen })
 }
+// F55 (20.10.2026): main nur unter public/data/ und data/cache/ bewegt, PR berührt sie nicht -> Kette gilt weiter (Exit 0).
+const DATEN_MAIN = ['public/data/titles.json', 'data/cache/anilist.json', 'public/data/news.json']
+{
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe('nur Daten bewegt -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe })
+  pruefe('nur Daten bewegt: Meldung nennt beide Stände und die Pfade', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Daten bewegt (public/data/, data/cache/)', k.meldungen)
+  pruefe('nur Daten bewegt: liest Vergleich und PR-Dateien', k.aufrufe.some((a) => a.includes('/compare/')) && k.aufrufe.some((a) => a.includes('/pulls/7/files')), k.aufrufe)
+}
+{
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: [] }))
+  pruefe('main ohne Dateiänderung (leerer Vergleich) -> 0', main(['7'], k.gh, k.melde, k.warte) === 0 && schreibend(k.aufrufe).length === 0, k.aufrufe)
+}
+// Alles andere zählt: je Pfad ein Fall, einzeln und neben Datenpfaden (Datenpfad zuerst und zuletzt, der Fremde in der Mitte).
+for (const fremd of ['tools/umfang-grenzen.json', 'extension/pruefstand.json', 'data/dub-confirmed.yaml', 'public/og/a.png', 'pipeline/build.ts', 'public/data-x/a.json', 'data/cache-x/a.json', 'xpublic/data/a.json', 'data/curated/a.yaml', 'public/index.html']) {
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['public/data/titles.json', fremd, 'data/cache/a.json'] }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe(`main bewegte auch ${fremd} -> 1, neu angestoßen`, code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
+}
+for (const [name, prDateien] of [['public/data', 'src/a.ts\npublic/data/titles.json\ntools/b.mjs\n'], ['data/cache', 'data/cache/x.json\n'], ['nur eine Datei', 'public/data/x.json']]) {
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN, prDateien }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe(`PR berührt ${name} -> 1, neu angestoßen`, code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
+}
+for (const [name, roh, erwartet] of [
+  ['diverged', vergleich(DATEN_MAIN, 'diverged'), 1],
+  ['behind', vergleich(DATEN_MAIN, 'behind'), 1],
+  ['identical', vergleich(DATEN_MAIN, 'identical'), 1],
+  ['genau an der Compare-Grenze', vergleich(DATEN_MAIN, 'ahead', COMPARE_GRENZE), 1],
+  ['eine unter der Compare-Grenze', vergleich(DATEN_MAIN, 'ahead', COMPARE_GRENZE - 1), 0],
+]) {
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh } }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe(`Vergleich ${name} -> ${erwartet}`, code === erwartet && schreibend(k.aufrufe).length === (erwartet === 1 ? 4 : 0), { code, m: k.meldungen })
+}
+pruefe('Compare-Grenze ist 300 (Grenze der GitHub-API)', COMPARE_GRENZE === 300)
+// Abruffehler und Unsinn: Exit 2, nichts angestoßen, nie still 0.
+for (const [name, aendere] of [
+  ['Vergleich nicht abrufbar', (d) => { delete d[`api repos/{owner}/{repo}/compare/${BASIS}...${MAIN} --jq ${JQ_VERGLEICH}`] }],
+  ['PR-Dateien nicht abrufbar', (d) => { delete d['api repos/{owner}/{repo}/pulls/7/files --paginate --jq .[] | .filename, (.previous_filename // empty)'] }],
+  ['Vergleich kein JSON', (d) => { d[`api repos/{owner}/{repo}/compare/${BASIS}...${MAIN} --jq ${JQ_VERGLEICH}`] = { aus: '' } }],
+]) {
+  const daten = antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN })
+  aendere(daten)
+  const k = kulisse(daten)
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe(`${name} -> 2, nichts angestoßen`, code === 2 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen })
+}
+// Reine Entscheidung, unabhängig von gh.
+pruefe('Ausnahme: Umbenennung aus Datenpfad heraus ist ein Fremdpfad der PR-Seite', datenpfadAusnahme({ status: 'ahead', anzahl: 2, dateien: ['public/data/a.json'] }, ['neu.json', 'data/cache/alt.json']) !== null)
+pruefe('Ausnahme: genau eine Datenpfad-Datei im Vergleich -> null', datenpfadAusnahme({ status: 'ahead', anzahl: 1, dateien: ['data/cache/a.json'] }, ['x.ts']) === null)
 // Takt und Frist wie in docs/wissen/betrieb.md beschrieben (alle 2 s, höchstens 60 s; gemessen war der Ref nach wenigen Sekunden neu).
 pruefe('Warten: alle 2 s, höchstens 60 s', REF_ABSTAND_MS === 2000 && REF_PRUEFUNGEN * REF_ABSTAND_MS === 60000, { REF_ABSTAND_MS, REF_PRUEFUNGEN })
 // Grenze relativ zu REF_PRUEFUNGEN: neu gerechnet bei der letzten erlaubten Prüfung -> 1; eine Prüfung später -> Fehler, kein zweites Öffnen.
@@ -237,6 +292,15 @@ function prozess(daten, argv) {
   daten['pr reopen 7'] = { fehler: 'kaputt' }
   const r = prozess(daten, ['7'])
   pruefe('Prozess: bleibt geschlossen -> Exit 2, Meldung', r.status === 2 && /BLEIBT GESCHLOSSEN/.test(r.aus), r)
+}
+{
+  const r = prozess(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN }), ['7'])
+  const args = r.aufrufe.map(([, a]) => a.join(' '))
+  pruefe('Prozess: nur Daten bewegt -> Exit 0, Zeile auf stdout, nichts geschlossen', r.status === 0 && /seitdem nur Daten bewegt/.test(r.aus) && schreibend(args).length === 0, { status: r.status, aus: r.aus, args })
+}
+{
+  const r = prozess(antworten({ mainSha: MAIN, mainDateien: [...DATEN_MAIN, 'tools/umfang-grenzen.json'] }), ['7'])
+  pruefe('Prozess: auch umfang-grenzen.json bewegt -> Exit 1', r.status === 1, r)
 }
 {
   const r = prozess(antworten(), [])
