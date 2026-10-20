@@ -392,6 +392,8 @@ const TEXTE = {
   // Nur noch als Beschriftung des Karussells für Screenreader — sichtbar steht
   // dort nichts mehr: Ein Karussell aus Covern erklärt sich selbst.
   'detail.seriesParts': 'Teile dieser Reihe',
+  'detail.reiheZurueck': 'Vorherige Teile',
+  'detail.reiheWeiter': 'Weitere Teile',
   // Zwei Termine, keiner belegbar — beide anzeigen statt einen zu verschweigen
   // (Daniels Regel, 13.08.2026).
   'detail.disputedDate': 'Eine andere Quelle nennt:',

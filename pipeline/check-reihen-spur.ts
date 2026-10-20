@@ -1,0 +1,199 @@
+/**
+ * Zusicherungen für die Reihen-Box als Cover-Karussell (Daniel, 20.10.2026, F54): Sprungweite, Pfeile, Startposition, Tooltip bei langem Namen,
+ * Klick auf ein Cover (Panel scrollt nach oben) und die Zustände ohne Daten (Reihe mit einem Teil, Suche ohne Treffer, nur Teile ohne Synchro).
+ * Gerendert wird mit `renderToStaticMarkup`; der Klick läuft über den echten `onClick` der Karte. Aufruf: `npm run check:logic`.
+ */
+import { createElement } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+import type { FranchiseMember, Title } from '../shared/types.ts'
+import { useLang } from '../web/src/lib/i18n.tsx'
+import { ReihenCover, type CoverProps } from '../web/src/components/detail/reihen-cover.tsx'
+import { ReihenListe } from '../web/src/components/detail/reihen-liste.tsx'
+import { PfeilPaar } from '../web/src/components/detail/reihen-spur.tsx'
+import {
+  brauchtTooltip,
+  coverDichte,
+  nachbarKarte,
+  panelNachOben,
+  pfeilZustand,
+  sprungWeite,
+  startPosition,
+} from '../web/src/components/detail/reihen-spur-regeln.ts'
+
+let verletzt = 0
+function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
+  if (ok) return void console.log(`  ✓ ${name}`)
+  verletzt++
+  console.error(`  ✖ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
+}
+const gleich = (name: string, ist: unknown, soll: unknown) => pruefe(name, JSON.stringify(ist) === JSON.stringify(soll), ist)
+
+const { t } = useLang()
+
+/* Sprungweite: so viele ganze Karten (120 + 8 Lücke), wie hineinpassen, mindestens eine. Handy 319 px → 2, Panel 456 px → 3. */
+gleich('Handy: 319 px = 2 Karten', sprungWeite(319), 256)
+gleich('Panel: 456 px = 3 Karten', sprungWeite(456), 384)
+gleich('genau 3 Karten: 384 px', sprungWeite(384), 384)
+gleich('knapp unter 3 Karten: 383 px = 2', sprungWeite(383), 256)
+gleich('schmaler als eine Karte: mindestens eine', sprungWeite(100), 128)
+gleich('Breite 0: mindestens eine', sprungWeite(0), 128)
+
+/* Pfeile: ohne Überlauf fehlen sie (Toleranz 1 px), am Anfang ist „zurück“ aus, am Ende „weiter“. */
+gleich('kein Überlauf: versteckt', pfeilZustand(0, 300, 300).versteckt, true)
+gleich('Überlauf 1 px: noch versteckt', pfeilZustand(0, 300, 301).versteckt, true)
+gleich('Überlauf 2 px: sichtbar', pfeilZustand(0, 300, 302).versteckt, false)
+gleich('Anfang: zurück aus, weiter an', pfeilZustand(0, 300, 700), { versteckt: false, zurueckAus: true, weiterAus: false })
+gleich('Mitte: beide an', pfeilZustand(50, 300, 700), { versteckt: false, zurueckAus: false, weiterAus: false })
+gleich('1 px vom Ende: weiter aus', pfeilZustand(399, 300, 700).weiterAus, true)
+gleich('2 px vom Ende: weiter an', pfeilZustand(398, 300, 700).weiterAus, false)
+gleich('Ende: zurück an, weiter aus', pfeilZustand(400, 300, 700), { versteckt: false, zurueckAus: false, weiterAus: true })
+gleich('1 px vom Anfang: zurück aus', pfeilZustand(1, 300, 700).zurueckAus, true)
+gleich('2 px vom Anfang: zurück an', pfeilZustand(2, 300, 700).zurueckAus, false)
+
+/* Startposition: die Sprungkante, die den gewählten Teil enthält. */
+gleich('Teil am Anfang', startPosition(0, 256), 0)
+gleich('Teil knapp vor der ersten Kante', startPosition(255, 256), 0)
+gleich('Teil auf der ersten Kante', startPosition(256, 256), 256)
+gleich('Teil weit hinten', startPosition(700, 256), 512)
+
+/* Tooltip ab 29 Zeichen; Pfeiltasten bleiben an den Enden stehen. */
+pruefe('28 Zeichen: kein Tooltip', !brauchtTooltip('x'.repeat(28)))
+pruefe('29 Zeichen: Tooltip', brauchtTooltip('x'.repeat(29)))
+gleich('Pfeil rechts aus der Mitte', nachbarKarte(1, 3, 'ArrowRight'), 2)
+gleich('Pfeil rechts am Ende bleibt', nachbarKarte(2, 3, 'ArrowRight'), 2)
+gleich('Pfeil links aus der Mitte', nachbarKarte(2, 3, 'ArrowLeft'), 1)
+gleich('Pfeil links am Anfang bleibt', nachbarKarte(0, 3, 'ArrowLeft'), 0)
+gleich('andere Taste ändert nichts', nachbarKarte(1, 3, 'Enter'), undefined)
+gleich('Datensparen: Dichte 1', coverDichte(true, 1.5), 1)
+gleich('sonst Dichte der Kacheln', coverDichte(false, 1.5), 1.5)
+
+/* Panel scrollt nach oben — der Container `data-panel="titel"`, nicht die Seite; ohne Panel passiert nichts. */
+const panel = { scrollTop: 480 }
+const abfragen: string[] = []
+panelNachOben({ closest: (a) => (abfragen.push(a), panel) })
+gleich('Panel steht oben', panel.scrollTop, 0)
+gleich('gesucht wird das Detail-Panel', abfragen, ['[data-panel="titel"]'])
+panelNachOben({ closest: () => null })
+pruefe('ohne Panel kein Fehler', true)
+
+/* Die Karte: Klick scrollt das Panel nach oben und wählt den Teil; der gewählte Teil tut nichts. */
+const teil = (id: number, name: string, mehr: Partial<FranchiseMember> = {}): FranchiseMember =>
+  ({ id, name, format: 'TV', jpYear: 2020, episodes: 12, ...mehr }) as FranchiseMember
+const kartenProps = (m: FranchiseMember, mehr: Partial<CoverProps> = {}): CoverProps => ({
+  m,
+  t,
+  offen: false,
+  gewaehlt: false,
+  gemerkt: false,
+  nr: undefined,
+  namen: { voll: m.name, rest: m.name, kurz: m.name },
+  angaben: '2020 · 12 Fg.',
+  gesperrt: false,
+  onWaehlen: () => {},
+  ...mehr,
+})
+function klick(gewaehlt: boolean): { scrollTop: number; gewaehlt: number[]; reihenfolge: string[] } {
+  const panelKlick = { scrollTop: 480 }
+  const protokoll = { scrollTop: 480, gewaehlt: [] as number[], reihenfolge: [] as string[] }
+  const element = ReihenCover(
+    kartenProps(teil(900001, 'Kurz'), {
+      gewaehlt,
+      onWaehlen: (id) => {
+        protokoll.gewaehlt.push(id)
+        protokoll.reihenfolge.push(`wählen bei Scroll ${panelKlick.scrollTop}`)
+      },
+    }),
+  )
+  const onClick = (element.props as { onClick: (e: unknown) => void }).onClick
+  onClick({ currentTarget: { closest: () => panelKlick } })
+  protokoll.scrollTop = panelKlick.scrollTop
+  return protokoll
+}
+const geklickt = klick(false)
+gleich('Klick: Panel steht oben', geklickt.scrollTop, 0)
+gleich('Klick: der Teil wird gewählt', geklickt.gewaehlt, [900001])
+gleich('Klick: erst nach oben, dann wählen', geklickt.reihenfolge, ['wählen bei Scroll 0'])
+const gewaehltKlick = klick(true)
+gleich('gewählter Teil: kein Scrollen', gewaehltKlick.scrollTop, 480)
+gleich('gewählter Teil: keine Wahl', gewaehltKlick.gewaehlt, [])
+
+/* Langer Name: der Tooltip trägt den vollen Namen; kurzer Name und kein Name ohne Tooltip. */
+const MARKE_TOOLTIP = 'relative inline-flex items-center w-full min-w-0'
+const lang = teil(900002, 'Reihe Staffel 4 Der lange Untertitel der Staffel')
+const langMarkup = renderToStaticMarkup(
+  createElement(() => ReihenCover(kartenProps(lang, { namen: { voll: lang.name, rest: 'Staffel 4 Der lange Untertitel der Staffel', kurz: 'Staffel 4 Der lange Untertitel der Staffel' } }))),
+)
+pruefe('langer Name: Tooltip-Hülle', langMarkup.includes(MARKE_TOOLTIP))
+pruefe('langer Name: voller Name im Text lesbar', langMarkup.includes('Staffel 4 Der lange Untertitel der Staffel'))
+const kurzMarkup = renderToStaticMarkup(createElement(() => ReihenCover(kartenProps(teil(900003, 'Kurz')))))
+pruefe('kurzer Name: keine Tooltip-Hülle', !kurzMarkup.includes(MARKE_TOOLTIP))
+pruefe('ohne Merken kein Stern', !kurzMarkup.includes('★'))
+const gemerktMarkup = renderToStaticMarkup(createElement(() => ReihenCover(kartenProps(teil(900003, 'Kurz'), { gemerkt: true }))))
+pruefe('gemerkt: Stern', gemerktMarkup.includes('★'))
+
+/* Pfeile: ohne Überlauf fehlen beide; sichtbar sind sie je nach Ende ausgegraut. */
+const paar = (z: ReturnType<typeof pfeilZustand>) => renderToStaticMarkup(createElement(PfeilPaar, { zustand: z, spurId: 's', t, springe: () => {} }))
+const knoepfe = (html: string) => html.match(/<button[^>]*>/g) ?? []
+gleich('ohne Überlauf: keine Pfeile', paar(pfeilZustand(0, 300, 300)), '')
+const anfang = knoepfe(paar(pfeilZustand(0, 300, 700)))
+gleich('Anfang: zwei Pfeile', anfang.length, 2)
+pruefe('Anfang: „Vorherige Teile“ ausgegraut', /aria-label="Vorherige Teile"[^>]*disabled=""/.test(anfang[0] ?? ''), anfang[0])
+pruefe('Anfang: „Weitere Teile“ aktiv', /aria-label="Weitere Teile"/.test(anfang[1] ?? '') && !(anfang[1] ?? '').includes('disabled=""'), anfang[1])
+const ende = knoepfe(paar(pfeilZustand(400, 300, 700)))
+pruefe('Ende: „Vorherige Teile“ aktiv', !(ende[0] ?? '').includes('disabled=""'), ende[0])
+pruefe('Ende: „Weitere Teile“ ausgegraut', /aria-label="Weitere Teile"[^>]*disabled=""/.test(ende[1] ?? ''), ende[1])
+
+/* Die Liste: Gruppen als Zeilen; Zustände ohne Daten. */
+const reihe: FranchiseMember[] = [
+  teil(900011, 'Reihe', { jpYear: 2019 }),
+  teil(900012, 'Reihe Staffel 2', { jpYear: 2020 }),
+  teil(900013, 'Reihe Staffel 3', { jpYear: 2021 }),
+  teil(900014, 'Reihe: Der Film', { jpYear: 2022, format: 'MOVIE', episodes: 1 }),
+  teil(900015, 'Reihe Special', { jpYear: 2021, format: 'SPECIAL', episodes: 1, beiwerk: true }),
+]
+const titel = (id: number) => ({ id }) as Title
+function liste(teile: FranchiseMember[], gewaehlt: number, mehr: { suche?: string; ohneOffen?: boolean } = {}): string {
+  return renderToStaticMarkup(
+    createElement(ReihenListe, {
+      reihenTeile: teile,
+      t,
+      reihenName: 'Reihe',
+      title: titel(gewaehlt),
+      favorites: new Set<number>(),
+      wechselt: false,
+      wechsleZu: () => {},
+      reiheOhneOffen: mehr.ohneOffen ? 1 : null,
+      reihenSchluessel: 1,
+      reiheSuche: { reihe: 1, text: mehr.suche ?? '' },
+      setReiheOhneOffen: () => {},
+      setReiheSuche: () => {},
+    }),
+  )
+}
+const zaehle = (html: string, muster: string) => html.split(muster).length - 1
+const voll = liste(reihe, 900012)
+gleich('drei Gruppen = drei Zeilen', zaehle(voll, 'role="tablist"'), 3)
+gleich('fünf Teile = fünf Karten', zaehle(voll, 'role="tab"'), 5)
+gleich('genau ein gewählter Teil', zaehle(voll, 'aria-selected="true"'), 1)
+pruefe('Zeilen tragen die Überschrift als Beschriftung', zaehle(voll, 'aria-labelledby=') === 3)
+pruefe('keine Reiter mehr', !voll.includes('min-h-11 cursor-pointer rounded-full'))
+pruefe('Pfeile erscheinen erst nach der Messung', !voll.includes('Weitere Teile'))
+const einTeil = liste([reihe[0]!], 900011)
+gleich('Reihe mit einem Teil: nichts', einTeil, '')
+const nurFilm = liste([reihe[3]!, teil(900016, 'Reihe: Film 2', { format: 'MOVIE', jpYear: 2023 })], 900014)
+gleich('Reihe aus zwei Filmen: eine Zeile', zaehle(nurFilm, 'role="tablist"'), 1)
+gleich('Reihe aus zwei Filmen: zwei Karten', zaehle(nurFilm, 'role="tab"'), 2)
+pruefe('Reihe aus zwei Filmen: keine Pfeile', !nurFilm.includes('Weitere Teile'))
+const keinTreffer = liste(reihe, 900012, { suche: 'zzzz' })
+gleich('Suche ohne Treffer: keine Zeile', zaehle(keinTreffer, 'role="tablist"'), 0)
+const alleOhne = liste([teil(900021, 'Reihe', { ohneSynchro: true }), teil(900022, 'Reihe Staffel 2', { ohneSynchro: true }), teil(900023, 'Reihe Staffel 3', { ohneSynchro: true })], 900099)
+gleich('nur Teile ohne Synchro, keiner gewählt: keine Zeile', zaehle(alleOhne, 'role="tablist"'), 0)
+pruefe('nur Teile ohne Synchro: Hinweis auf den Schalter', alleOhne.includes('Schalter'), alleOhne.slice(0, 200))
+const alleOhneOffen = liste([teil(900021, 'Reihe', { ohneSynchro: true }), teil(900022, 'Reihe Staffel 2', { ohneSynchro: true })], 900099, { ohneOffen: true })
+gleich('Schalter an: beide Teile da', zaehle(alleOhneOffen, 'role="tab"'), 2)
+
+if (verletzt > 0) {
+  console.error(`\n${verletzt} Prüfung(en) verletzt`)
+  process.exit(1)
+}
+console.log('\ncheck-reihen-spur: Sprung, Pfeile, Start, Tooltip, Klick, Zustände ohne Daten ✓')

@@ -211,12 +211,11 @@ export function DetailPanel({
    */
   const [wechselt, setWechselt] = useState(false)
   /*
-    **Lange Reihen brauchen Reiter, Suche und einen Aufklapper** (Daniel, 17.09.2026, Pokémon
+    **Lange Reihen brauchen Suche und einen Aufklapper** (die Reiter wichen am 20.10.2026 den Zeilen je Gruppe) (Daniel, 17.09.2026, Pokémon
     mit 112 Teilen: „sehr schwer dort für nutzer gesuchte titel der reihe zu finden").
     Der Zustand gilt je Reihe und fällt beim Wechsel der Reihe zurück.
   */
   const reihenSchluessel = reihenTeile[0]?.id ?? 0
-  const [reiheReiter, setReiheReiter] = useState<{ reihe: number; titel: string } | null>(null)
   const [reiheSuche, setReiheSuche] = useState<{ reihe: number; text: string }>({ reihe: 0, text: '' })
   const [reiheOhneOffen, setReiheOhneOffen] = useState<number | null>(null)
 
@@ -546,10 +545,8 @@ export function DetailPanel({
               reiheOhneOffen={reiheOhneOffen}
               reihenSchluessel={reihenSchluessel}
               reiheSuche={reiheSuche}
-              reiheReiter={reiheReiter}
               setReiheOhneOffen={setReiheOhneOffen}
               setReiheSuche={setReiheSuche}
-              setReiheReiter={setReiheReiter}
             />
             }
           />
