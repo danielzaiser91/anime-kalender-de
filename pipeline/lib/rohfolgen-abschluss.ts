@@ -2,7 +2,7 @@
  * Der Schluss von `fetch-rohfolgen.ts`: Prüflisten schreiben, die abzuhakenden Kennungen merken, dann zählen.
  * Ausgelagert (16.10.2026), damit der Zuordner nicht weiter wächst; Inhalt und Reihenfolge unverändert.
  */
-import { log, readJson, writeJson } from './util.ts'
+import { log, writeJson } from './util.ts'
 import { merkeZumQuittieren, ROHFOLGEN_ABHAKEN } from './spaeter-quittieren.ts'
 import { recordSource } from './health.ts'
 import { verschiebeKanalGruppen, type KanalAussortiert } from './kanal-aussortieren.ts'
@@ -68,7 +68,7 @@ export function schliesseRohfolgenAb({
     nichts findet, darf nicht löschen, was ein früherer gefunden hat.
   */
   erledigt.push(...verschiebeKanalGruppen(kanalWeg, offen))
-  const bisher = readJson<typeof zugeordnet>('data/prime-zugeordnet.json', {})
+  const bisher = leseZugeordnet<(typeof zugeordnet)[string]>()
   writeJson('data/prime-zugeordnet.json', leseZugeordnet({ ...bisher, ...zugeordnet }))
   writeJson('data/prime-unzugeordnet.json', offen)
 

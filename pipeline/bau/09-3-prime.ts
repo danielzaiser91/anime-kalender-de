@@ -4,6 +4,7 @@ import { dubKey, adressGleich, adressKern, type DubCheck } from '../lib/dub-conf
 import { amazonAdresseRichten, amazonTitelAdresse } from '../lib/amazon-adresse.ts'
 import { adresseFremdBelegt, adresseVerneint, leseZugeordnet } from '../lib/prime-meldung-riegel.ts'
 import { rohDeutsch } from '../lib/kanal-titel.ts'
+import { kanalWissen } from '../lib/kanal-wissen.ts'
 import { germanizeUrl } from '../../shared/mappings.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 import { zugangsart, type Zugangsart } from '../../shared/zugangsart.ts'
@@ -76,9 +77,7 @@ export function uebernehmePrimeUndCrVorschlaege({
    * Verweis ist nicht dasselbe wie ein Titel ohne geprüften Verweis").
    */
   {
-    const roh = readJson<
-      Record<
-        string,
+    const meldungen = leseZugeordnet<
         {
           titleId: number
           asin: string | null
@@ -88,15 +87,14 @@ export function uebernehmePrimeUndCrVorschlaege({
           plattform: string
           folgen: { unsere: number | null; sprachen: string[] }[]
         }
-      >
-    >('data/prime-zugeordnet.json', {})
+    >()
     let ausRoh = 0
     let adressen = 0
     /** Meldungen, die einen dritten Prime-Verweis angelegt hätten — siehe unten. */
     let uebersprungen = 0
     /** Zuordnungen, deren Adresse ein Handbeleg einem anderen Titel zuschreibt. */
     let fremdeAdresse = 0
-    for (const [schluessel, eintrag] of Object.entries(leseZugeordnet(roh))) {
+    for (const [schluessel, eintrag] of Object.entries(meldungen)) {
       const title = titles.get(eintrag.titleId)
       if (!title) continue
       /*
@@ -179,7 +177,7 @@ export function uebernehmePrimeUndCrVorschlaege({
         fremdeAdresse++
         continue
       }
-      const belegt = rohDeutsch(eintrag.folgen, eintrag.titleId, plattform === 'primevideo' ? { seite: eintrag.seite, url: gemeldeteAdresse } : null, alleChecks)
+      const belegt = rohDeutsch(eintrag.folgen, eintrag.titleId, plattform === 'primevideo' ? { seite: eintrag.seite, url: gemeldeteAdresse } : null, kanalWissen(alleChecks))
       if (belegt === undefined) continue
       /* Kein Schreibzweig für eine Adresse, die irgendein Handbeleg verneint — `checks` kennt je Titel nur den letzten (Date A Live, 19.10.2026). */
       if (adresseVerneint(alleChecks, eintrag.titleId, plattform, seite)) continue

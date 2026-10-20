@@ -9,7 +9,7 @@
  * `data/dub-confirmed.yaml` ist der Weg, aus einem Fragezeichen ein Häkchen zu
  * machen — durch tatsächliches Nachsehen, nicht durch Vermutung.
  */
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { vereinigeBereiche, vereinigeGleichzeitige } from './dub-bereiche.ts'
@@ -424,4 +424,9 @@ export function entdoppleBelege(text: string, melde?: (text: string) => void): s
   const schwanz = /\n+$/.exec(text)?.[0] ?? ''
   if (entfernt && melde) melde(`${entfernt} Beleg(e) standen doppelt — nicht geschrieben`)
   return raus.join('\n').replace(/\n+$/, '') + schwanz
+}
+
+/** Schreibt die Handbelege durch den Riegel `entdoppleBelege`; der eine Schreibweg für `fetch-pruefungen.ts`. */
+export function schreibeBelege(datei: string, text: string, melde: (text: string) => void): void {
+  writeFileSync(datei, entdoppleBelege(text, melde))
 }

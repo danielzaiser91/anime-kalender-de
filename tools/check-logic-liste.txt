@@ -67,6 +67,7 @@ pipeline/check-disney-gesamtnummer.ts
 pipeline/check-dub-aus-terminen.ts
 pipeline/check-dub-bereiche.ts
 pipeline/check-dub-durchgehende-zaehlung.ts
+pipeline/check-empfehlung.ts
 pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
 pipeline/check-erstausgabe.ts
@@ -152,6 +153,8 @@ pipeline/check-prime-seiten-sperre.ts
 pipeline/check-prime-teilseiten.ts
 pipeline/check-prime-zugeordnet-jw.ts
 pipeline/check-prime-zugeordnet-lader.ts
+pipeline/check-prime-zugeordnet-leser-faelle.ts
+pipeline/check-prime-zugeordnet-leser.ts
 pipeline/check-quarantaene.ts
 pipeline/check-reihen-namen-rein.ts
 pipeline/check-reihen-namen.ts
