@@ -51,7 +51,7 @@ function verbraucher(knoten: ts.Node): 'lesen' | 'nein' | '?' {
   }
   /* Hilfsfunktion mit Wurzel-Parameter vor dem Pfad (Aufruf mit Wurzel-Variable als erstem Argument): eine Kulisse, solange die Wurzel nicht der Repo-Ordner ist. */
   const erstes = p.arguments[0]
-  return erstes !== knoten && ts.isIdentifier(erstes!) && !istEchteWurzel(erstes) ? 'nein' : '?'
+  return ts.isIdentifier(erstes!) && !istEchteWurzel(erstes!) ? 'nein' : '?'
 }
 
 export function findeLesezugriffe(pfad: string, text: string): Lesefund[] {

@@ -48,6 +48,8 @@ pruefe('new URL gegen einen fremden Ort ist keine Repo-Datei', art(`readFileSync
 pruefe('ein anderer Aufruf als Wurzel ist eine Kulisse', art(`readFileSync(join(process.cwdx(), 'data/a.json'), 'utf8')`) === '')
 pruefe('Wurzel-Hilfsfunktion mit fremder Wurzel ist eine Kulisse', art(`lies(kulisse, 'data/a.json')`) === '')
 console.log('\nScanner: Umgehungen werden Lesen oder „?“, nie still ignoriert')
+pruefe('Hilfsfunktion mit der echten Wurzel (ROOT) vor dem Pfad: „?“', art(`lies(ROOT, 'data/a.json')`) === 'data/a.json:?')
+pruefe('Hilfsfunktion mit einem Ausdruck als Wurzel (nicht nur Name): „?“', art(`lies(optionen.wurzel, 'data/a.json')`) === 'data/a.json:?')
 pruefe('Namensraum-Import', art(`import * as fs from 'node:fs'\nfs.readFileSync('data/a.json', 'utf8')`) === 'data/a.json:lesen')
 pruefe('Alias-Import', art(`import { readFileSync as r } from 'node:fs'\nr('data/a.json', 'utf8')`) === 'data/a.json:?')
 pruefe('fs/promises', art(`import { readFile } from 'node:fs/promises'\nawait readFile('data/a.json', 'utf8')`) === 'data/a.json:lesen')
@@ -74,6 +76,7 @@ for (const z of ['data/crunchyroll-woche-belege.json', 'data/crunchyroll-woche.j
   pruefe(`${z}: rot, auch mit Eintrag`, fehler(funde(['pipeline/a.ts', z]), [zul('pipeline/a.ts', z)]).length === 2, fehler(funde(['pipeline/a.ts', z]), [zul('pipeline/a.ts', z)]))
 }
 pruefe('Handdateien (YAML, -von-hand.json) brauchen keinen Eintrag', fehler(funde(['pipeline/a.ts', 'data/dub-confirmed.yaml']), []).length === 0 && fehler(funde(['pipeline/a.ts', 'data/prime-seiten-von-hand.json']), []).length === 0)
+pruefe('.yml ist eine Handdatei, .yaml.json (Endung nur am Ende) nicht', fehler(funde(['pipeline/a.ts', 'data/a.yml']), []).length === 0 && fehler(funde(['pipeline/a.ts', 'data/a.yaml.json']), []).length === 1)
 pruefe('eine ähnlich benannte Sammlerdatei ist keine Handdatei', fehler(funde(['pipeline/a.ts', 'data/von-hand-liste.json']), []).length === 1)
 
 console.log('\nLauf gegen eine Kulisse (Quelle und Ziel aus dem Wurzel-Argument)')
@@ -93,7 +96,10 @@ const w7 = legeKulisseAn({ ...basis, 'tools/z.test.mjs': `readFileSync('data/e.j
 pruefe('Lesen in einem .test.mjs unter tools/: rot', lauf(w7).fehler.length === 1 && lauf(w7).fehler[0]!.includes('tools/z.test.mjs'), lauf(w7).fehler)
 const w5 =legeKulisseAn({ ...basis, 'pipeline/check-c.ts': `readJson('data/e.json', {})` })
 pruefe('Prüfung außerhalb der Liste (läuft nicht in check:logic): nicht gezählt', lauf(w5).fehler.length === 0)
-const w6 = legeKulisseAn({ ...basis, 'pipeline/check-sammler-lesezugriffe-faelle.ts': `readJson('data/e.json', {})`, 'tools/check-logic-liste.txt': LISTE_TXT + 'pipeline/check-sammler-lesezugriffe-faelle.ts\n' })
+const w8 = legeKulisseAn({ ...basis, 'pipeline/check-b.ts': `const DATEI = 'data/b.json'` })
+pruefe('Pfad in einer Konstante einer Prüfung der Liste („?“): rot', lauf(w8).fehler.length === 1 && lauf(w8).fehler[0]!.includes('data/b.json'), lauf(w8).fehler)
+const selbst = { 'pipeline/check-sammler-lesezugriffe-faelle.ts': `readJson('data/e.json', {})`, 'pipeline/check-sammler-lesezugriffe.ts': `readJson('data/f.json', {})` }
+const w6 = legeKulisseAn({ ...basis, ...selbst, 'tools/check-logic-liste.txt': LISTE_TXT + 'pipeline/check-sammler-lesezugriffe-faelle.ts\npipeline/check-sammler-lesezugriffe.ts\n' })
 pruefe('der Wächter und seine Fälle werden nicht mitgescannt', lauf(w6).fehler.length === 0)
 const skript = join(import.meta.dirname, 'check-sammler-lesezugriffe.ts')
 const starte = (w: string) => spawnSync(process.execPath, ['--import', 'tsx', skript, w], { encoding: 'utf8', windowsHide: true })
@@ -101,7 +107,7 @@ const rot = starte(w3)
 const gruen = starte(w1)
 pruefe('Prozess: Exitcode 1 bei Verstoß, Meldung auf stderr', rot.status === 1 && rot.stderr.includes('Zeitfenster'), [rot.status, rot.stderr])
 pruefe('Prozess: Exitcode 0 und Ergebniszeile bei sauberer Kulisse', gruen.status === 0 && gruen.stdout.startsWith('check-sammler-lesezugriffe: 1 Lesezugriffe begründet'), [gruen.status, gruen.stdout, gruen.stderr])
-for (const w of [w1, w2, w3, w4, w5, w6, w7]) rmSync(w, { recursive: true, force: true })
+for (const w of [w1, w2, w3, w4, w5, w6, w7, w8]) rmSync(w, { recursive: true, force: true })
 
 if (verletzt) {
   console.error(`\n${verletzt} von ${faelle} Zusicherungen verletzt.`)
