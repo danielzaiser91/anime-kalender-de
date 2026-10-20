@@ -39,6 +39,7 @@ import type { NewsEintrag } from '../shared/types.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen, staffelStaende } from '../shared/titles.ts'
 import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
 import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
+import { setzeMarkenFuerPruefung } from './lib/anisearch-marke.ts'
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { loescheAbgelaufenes, SQL_RATE_LIMIT_LOESCHEN, SQL_UNBESTAETIGT_LOESCHEN } from '../worker/src/loeschfristen.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
@@ -8577,11 +8578,13 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
 /* aniSearch „vertont" (d) oder „abgebrochen" (c) ist ein Synchro-Beleg: der Titel bleibt trotz Streams ohne eigenen Beleg im Hauptbestand; „geplant" (p) nicht. */
 {
   const ohneBelegAls = (id: number) => ausgestrahltOhneBeleg({ id, jpYear: 2026, streams: [{ platform: 'netflix' } as never] } as unknown as Title)
-  const dubs = JSON.parse(readFileSync('data/anisearch-dubs.json', 'utf8')) as Record<string, string>
+  const dubs: Record<string, string> = { 900101: 'd', 900102: 'c', 900103: 'p', 900104: '-' }
+  setzeMarkenFuerPruefung(dubs)
   const mit = (k: string) => Number(Object.keys(dubs).find((id) => dubs[id] === k))
   pruefe('aniSearch vertont (d): kein Verschieben hinter den Toggle', !ohneBelegAls(mit('d')))
   pruefe('aniSearch abgebrochen (c): kein Verschieben hinter den Toggle', !ohneBelegAls(mit('c')))
   pruefe('aniSearch nur geplant (p) oder ohne Deutsch (-): bleibt ohne Beleg', ohneBelegAls(mit('p')) && ohneBelegAls(mit('-')))
+  setzeMarkenFuerPruefung(undefined)
 }
 /* Gleiche MAL-Kennung bei einem aniSearch- und einem AniList-Titel: Dublette, außer sie ist in MAL_AUSNAHMEN begründet (Befund 08.10.2026, 4 Dubletten). */
 {
@@ -8597,6 +8600,7 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   /* Die vier Dubletten: Handbindung, AniList-Titel im Bestand → die aniSearch-Zeile entfällt, der AniList-Titel übernimmt die Erstausgabe; ohne ihn bleibt die Zeile. */
   const dubletten = [[204011, 21084], [206814, 21566], [212503, 21575], [213457, 21751]] as const
   const ohne = new Map<number, Title>()
+  setzeMarkenFuerPruefung({ 204011: 'p', 212503: 'p' })
   ergaenzeAnisearchTitel(ohne, new Map(), new Map())
   pruefe('MAL-Dublette: fehlt der AniList-Titel, bleibt die aniSearch-Zeile (kein Werk geht verloren)', dubletten.every(([, as]) => ohne.has(10_000_000 + as)))
   const mit = new Map<number, Title>(dubletten.map(([al]) => [al, { id: al, streams: [] } as unknown as Title]))
@@ -8612,6 +8616,7 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   )
   /* Hyouken II (aniSearch: Dub geplant): weder die aniSearch-Zeile noch der AniList-Titel trägt seit 11.10.2026 eine deutsche Erstausgabe aus dem Block (Psyren ist oben geprüft). */
   pruefe('MAL-Dublette: Hyouken II übernimmt keine Erstausgabe aus dem Block mit Marke Geplant', !ohne.get(10_021_575)?.deErstausgabe && !mit.get(212503)!.deErstausgabe)
+  setzeMarkenFuerPruefung(undefined)
   /* Der Auto-Termin von Beerus und Fool Night behält seinen Slug; ein vorhandener Release derselben Plattform verdrängt ihn, statt einen zweiten Termin zu bilden. */
   const meldung = (titleId: number, name: string, plattform: string, kontext: string) =>
     ({ articleTitle: `Termin von »${name}«`, articleUrl: 'https://www.anime2you.de/news/1/', category: 'streaming', platforms: [plattform], titleId, dates: [{ iso: '2026-10-11', context: kontext }] }) as unknown as Parameters<typeof releasesAus>[0][number]
