@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-10-20T16:02:48.860Z",
+  "scrapedAt": "2026-10-20T17:02:44.839Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
+    "schon in einem Rubrik-Feed gelesen": 6,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
-    "schon in einem Rubrik-Feed gelesen": 5,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -37,6 +37,16 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zwei Anime-Neuzugänge ab sofort kostenlos bei JustWatch TV verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1062508/justwatch-tv-neon-genesis-evangelion-und-mehr/",
+      "publishedAt": "2026-10-20",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [],
+      "dub": "ja",
       "alreadyCurated": false
     },
     {
