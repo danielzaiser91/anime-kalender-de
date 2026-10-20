@@ -1,3 +1,4 @@
 kategorie: bugfix
-text: Anbieter-Linie sitzt auch bei Favoriten ganz unten
-untertitel: Cover unten ohne runde Ecken
+highlight: true
+text: Anbieter-Linie der Kacheln schließt unten bündig ab
+untertitel: Keine Lücke an den Ecken, auch mit goldenem Favoriten-Rand
