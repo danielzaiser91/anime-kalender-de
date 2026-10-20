@@ -7683,7 +7683,7 @@ pruefe(
   const wegeTitel = new Map<number, Title>([[195516, geteilt(195516, 'G3KHEVDJ7')], [196010, geteilt(196010, 'GTEIL')], [196011, titel(196011, 'GEIGEN', true)]])
   const offen = rel('teil-offen', 196010, '2026-10-02', true)
   const eigen = { ...rel('eigen', 196011, '2026-10-02', true), widerlegt: apo.widerlegt }
-  const geloest = loeseGeteilteWegeVonWiderlegten([apo, offen, eigen], wegeTitel)
+  const geloest = loeseGeteilteWegeVonWiderlegten([apo, offen, eigen], wegeTitel, { scrapedAt: '', serien: [] })
   pruefe(
     'Widerlegt: der geteilte Weg der Apothekerin S3 zeigt kein „DE ✓" mehr',
     geloest === 1 && wegeTitel.get(195516)!.streams[0].dub === undefined &&
@@ -7692,7 +7692,7 @@ pruefe(
   )
   const vorher = new Map<number, Title>([[195516, geteilt(195516, 'G3KHEVDJ7')]])
   const meldetVorher = geteilteWegeTrotzWiderlegung([apo], vorher).length
-  loeseGeteilteWegeVonWiderlegten([apo], vorher)
+  loeseGeteilteWegeVonWiderlegten([apo], vorher, { scrapedAt: '', serien: [] })
   pruefe(
     'Widerlegt: die Bauprüfung meldet einen geteilten Weg mit „deutsch" — und schweigt nach dem Lösen',
     meldetVorher === 1 && geteilteWegeTrotzWiderlegung([apo], vorher).length === 0,

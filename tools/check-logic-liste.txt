@@ -121,6 +121,7 @@ pipeline/check-katalog-eingefroren.ts
 pipeline/check-katalog-release.ts
 pipeline/check-kino-zuletzt.ts
 pipeline/check-leerer-kasten.ts
+pipeline/check-link-leere-adresse.ts
 pipeline/check-logic.ts
 pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
@@ -164,6 +165,7 @@ pipeline/check-prime-zugeordnet-lader.ts
 pipeline/check-prime-zugeordnet-leser-faelle.ts
 pipeline/check-prime-zugeordnet-leser.ts
 pipeline/check-quarantaene.ts
+pipeline/check-quellen-schreiber.ts
 pipeline/check-reihen-namen-rein.ts
 pipeline/check-reihen-namen.ts
 pipeline/check-reihen-teilname.ts
@@ -176,6 +178,8 @@ pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
 pipeline/check-sammelartikel.ts
+pipeline/check-sammler-lesezugriffe-faelle.ts
+pipeline/check-sammler-lesezugriffe.ts
 pipeline/check-schwester-shop.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-sprache-netz.ts
@@ -215,6 +219,8 @@ pipeline/check-vorfaelle-ablauf.ts
 pipeline/check-weg-adresse-bezugsweg.ts
 pipeline/check-wege-aus-terminen.ts
 pipeline/check-werk-doppelt.ts
+pipeline/check-widerlegung-de-folgen-bau.ts
+pipeline/check-widerlegung-de-folgen.ts
 pipeline/check-woche-beleg.ts
 pipeline/check-wochen-datei.ts
 pipeline/check-wochenprogramm-sendetag.ts
@@ -231,6 +237,7 @@ tools/dienst-fetch.test.ts
 tools/feste-uhr.test.ts
 tools/hover-cover.test.ts
 tools/quarantaene-pruefungen.test.ts
+tools/quellen-gesundheit.test.ts
 tools/quittung-nach-commit-waechter.mjs
 tools/sammler-pruefschritt-waechter.mjs
 tools/start-pruefung-wacht.mjs

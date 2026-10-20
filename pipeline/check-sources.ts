@@ -119,9 +119,8 @@ const FRISTEN: Record<string, number> = {
   'motn-changes': 33,
   /* Wöchentlich, 150 Titel je Lauf gegen 90 Tage Wiedervorlage. */
   'anisearch-folgen': 9,
-  // Wöchentlich. Eine Freigabe wird erst kurz vor dem Kinostart erteilt —
-  // in ruhigen Wochen belegt der Lauf nichts Neues, und das ist kein Ausfall.
-  fsk: 9,
+  // Nur auf Abruf (daten-auf-abruf.yml, ohne Zeitplan): Stille ist Normalfall, erst ein Monat ohne Lauf fällt auf.
+  'anisearch-cover-eigen': 30,
   // Wöchentlich. Anime laufen im Kino als Sondervorstellung — in vielen
   // Wochen gibt es keinen einzigen, und das ist kein Ausfall.
   cinestar: 9,
