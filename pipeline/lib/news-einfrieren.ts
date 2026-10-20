@@ -20,6 +20,16 @@ export function haltWeitererFest<T extends { art: string; weiterer?: boolean }>(
   return ohne as T
 }
 
+/**
+ * Meldungen aus dem Terminverlauf (abgelöst/zurückgezogen) entstehen nicht in `terminMeldungen`, tragen aber denselben Schlüssel
+ * `angekuendigt:release:datum`: Hier gilt der festgehaltene Wert, ohne einen neuen anzulegen.
+ */
+export function traegtFestgehaltenesWeiterer<T extends { art: string; release?: string; datum?: string; weiterer?: boolean }>(fest: Record<string, boolean> | undefined, m: T): T {
+  if (m.art !== 'angekuendigt' || !m.release || !m.datum) return m
+  if (fest?.[`angekuendigt:${m.release}:${m.datum}`] !== true || m.weiterer === true) return m
+  return { ...m, weiterer: true }
+}
+
 /** Das Gedächtnis altert mit `zuerst`: Schlüssel älter als `ab` fallen heraus, ihre festgehaltenen Flags mit. */
 export function vergissAlte(historie: NewsHistorie, ab: string): void {
   for (const [k, v] of Object.entries(historie.zuerst)) {

@@ -24,6 +24,7 @@
  * Liegt in einer eigenen Datei, weil `baueNews` die Längengrenze reißt.
  */
 import { addDays } from '../../shared/time.ts'
+import { traegtFestgehaltenesWeiterer } from './news-einfrieren.ts'
 import { GRUND_NUR_ORIGINALTON } from '../../shared/news-typen.ts'
 import type { NewsArt, NewsEintrag, NewsMeldung, PlatformId, Title } from '../../shared/types.ts'
 
@@ -55,6 +56,8 @@ export interface TerminGedaechtnis {
   termine?: Record<string, TerminVerlauf[]>
   /** Release → abgelöste Fassungen, in Reihenfolge des Ablösens. */
   vergangen?: Record<string, TerminVerlauf[]>
+  /** Festgehaltenes `weiterer` je Meldungsschlüssel (`news-einfrieren.ts`). */
+  weiterer?: Record<string, boolean>
 }
 
 /** Eine terminierte Meldung mit ihrem Schlüssel — die Form, mit der `baueNews` arbeitet. */
@@ -160,7 +163,7 @@ export function pflegeTerminverlauf({
     if (verlauf[release]) continue
     verlauf[release] = neue.map((n) => ausMeldung(n, name, wurzel))
   }
-  return verlaufsKette({ vergangen, verlauf, jetztProRelease, nachId, grenze, heute, nurOriginalton })
+  return verlaufsKette({ vergangen, verlauf, jetztProRelease, nachId, grenze, heute, nurOriginalton }).map((m) => traegtFestgehaltenesWeiterer(historie.weiterer, m))
 }
 
 /**

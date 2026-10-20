@@ -329,6 +329,10 @@
       "am": "2026-10-14",
       "vorschlaege": 0
     },
+    "1060454": {
+      "am": "2026-10-20",
+      "vorschlaege": 1
+    },
     "1060481": {
       "am": "2026-10-19",
       "vorschlaege": 0
@@ -404,6 +408,10 @@
       "am": "2026-10-17",
       "vorschlaege": 9
     },
+    "1061032": {
+      "am": "2026-10-20",
+      "vorschlaege": 2
+    },
     "1061050": {
       "am": "2026-10-17",
       "vorschlaege": 0,
@@ -433,9 +441,17 @@
       "am": "2026-10-18",
       "vorschlaege": 0
     },
+    "1061369": {
+      "am": "2026-10-20",
+      "vorschlaege": 0
+    },
     "1061447": {
       "am": "2026-10-18",
       "vorschlaege": 0
+    },
+    "1061491": {
+      "am": "2026-10-20",
+      "vorschlaege": 1
     },
     "1061538": {
       "am": "2026-10-19",
@@ -492,6 +508,19 @@
       "am": "2026-10-18",
       "vorschlaege": 1
     },
+    "1061872": {
+      "am": "2026-10-20",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1061918": {
+      "am": "2026-10-20",
+      "vorschlaege": 1
+    },
+    "1061995": {
+      "am": "2026-10-20",
+      "vorschlaege": 0
+    },
     "1062067": {
       "am": "2026-10-19",
       "vorschlaege": 0,
@@ -512,6 +541,14 @@
     "1062104": {
       "am": "2026-10-19",
       "vorschlaege": 2
+    },
+    "1062255": {
+      "am": "2026-10-20",
+      "vorschlaege": 5
+    },
+    "1062283": {
+      "am": "2026-10-20",
+      "vorschlaege": 4
     }
   },
   "vorschlaege": [
@@ -4736,6 +4773,270 @@
       "quelle": "https://www.anime2you.de/news/1061247/frieren-protagonistin-sakami-plueschfigur/",
       "veroeffentlicht": "2026-10-18",
       "gelesenAm": "2026-10-19"
+    },
+    {
+      "titel": "Re:ZERO",
+      "zitat": "Die dritte Staffel erscheint seit September 2026 auf DVD und Blu-ray.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1061491",
+      "artikel": "Vier Plüschfiguren zum Isekai-Anime »Re:ZERO« vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1061491/vier-re-zero-plueschfiguren/",
+      "veroeffentlicht": "2026-10-20",
+      "gelesenAm": "2026-10-20"
+    },
+    {
+      "titel": "As a Reincarnated Aristocrat",
+      "zitat": "»As a Reincarnated Aristocrat« – Staffel 3 (Synchro) Episoden: 1 verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Sonntag um 17:00 Uhr",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": "17:00",
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": "Jeden Sonntag",
+      "folgen": "1",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1062283",
+      "artikel": "Crunchyroll nimmt drei Anime-Neuzugänge ins Programm + Synchro",
+      "quelle": "https://www.anime2you.de/news/1062283/crunchyroll-your-letter-und-mehr/",
+      "veroeffentlicht": "2026-10-19",
+      "gelesenAm": "2026-10-20"
+    },
+    {
+      "titel": "As a Reincarnated Aristocrat",
+      "zitat": "»As a Reincarnated Aristocrat« – Staffel 3 (Synchro) Episoden: 1 verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Sonntag um 17:00 Uhr",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": "17:00",
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": "Jeden Sonntag",
+      "folgen": "1",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1062283",
+      "artikel": "Crunchyroll nimmt drei Anime-Neuzugänge ins Programm + Synchro",
+      "quelle": "https://www.anime2you.de/news/1062283/crunchyroll-your-letter-und-mehr/",
+      "veroeffentlicht": "2026-10-19",
+      "gelesenAm": "2026-10-20"
+    },
+    {
+      "titel": "Your Letter",
+      "zitat": "»Your Letter« Laufzeit: 96 Minuten Sprache: Koreanisch (UT)",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1062283",
+      "artikel": "Crunchyroll nimmt drei Anime-Neuzugänge ins Programm + Synchro",
+      "quelle": "https://www.anime2you.de/news/1062283/crunchyroll-your-letter-und-mehr/",
+      "veroeffentlicht": "2026-10-19",
+      "gelesenAm": "2026-10-20"
+    },
+    {
+      "titel": "Your Letter",
+      "zitat": "»Your Letter« Laufzeit: 96 Minuten Sprache: Koreanisch (UT)",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1062283",
+      "artikel": "Crunchyroll nimmt drei Anime-Neuzugänge ins Programm + Synchro",
+      "quelle": "https://www.anime2you.de/news/1062283/crunchyroll-your-letter-und-mehr/",
+      "veroeffentlicht": "2026-10-19",
+      "gelesenAm": "2026-10-20"
+    },
+    {
+      "titel": "My Dress-Up Darling",
+      "zitat": "Die zwölfteilige erste Staffel ist ab Dezember 2026 in einer Steelbook-Komplettbox auf Blu-ray erhältlich.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1060454",
+      "artikel": "Neue Minifigur von Marin aus »My Dress-Up Darling« angekündigt",
+      "quelle": "https://www.anime2you.de/news/1060454/my-dress-up-darling-hello-good-smile-marin-figur/",
+      "veroeffentlicht": "2026-10-19",
+      "gelesenAm": "2026-10-20"
+    },
+    {
+      "titel": "THE ONE PIECE",
+      "zitat": "Die Veröffentlichung der siebenteiligen ersten Staffel von »THE ONE PIECE« mit einer Gesamtlaufzeit von rund 300 Minuten ist für Februar 2027 bei Netflix vorgesehen.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "7",
+      "unsicher": "Ein konkreter Termin steht bislang allerdings noch nicht fest.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1061918",
+      "artikel": "»One Piece«-Reboot erreicht wichtigen Produktionsmeilenstein",
+      "quelle": "https://www.anime2you.de/news/1061918/one-piece-reboot-wichtiger-produktionsmeilenstein/",
+      "veroeffentlicht": "2026-10-19",
+      "gelesenAm": "2026-10-20"
+    },
+    {
+      "titel": "Lady Oscar",
+      "zitat": "Zu den aktuellen Disc-Neuheiten gehören die Blu-ray-Komplettboxen der Anime-Klassiker »Lady Oscar« und »Eureka Seven«, die beide am 28. Januar 2027 durch KSM Anime erscheinen.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-28",
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [],
+      "artikelId": "1062255",
+      "artikel": "Fünf Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1062255/akiba-pass-isekai-onsen-paradise-und-mehr/",
+      "veroeffentlicht": "2026-10-19",
+      "gelesenAm": "2026-10-20"
+    },
+    {
+      "titel": "Eureka Seven",
+      "zitat": "Zu den aktuellen Disc-Neuheiten gehören die Blu-ray-Komplettboxen der Anime-Klassiker »Lady Oscar« und »Eureka Seven«, die beide am 28. Januar 2027 durch KSM Anime erscheinen.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-28",
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [],
+      "artikelId": "1062255",
+      "artikel": "Fünf Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1062255/akiba-pass-isekai-onsen-paradise-und-mehr/",
+      "veroeffentlicht": "2026-10-19",
+      "gelesenAm": "2026-10-20"
+    },
+    {
+      "titel": "Isekai Onsen Paradise",
+      "zitat": "Zu den aktuellen Disc-Neuheiten gehören die Blu-ray-Komplettboxen der Anime-Klassiker »Lady Oscar« und »Eureka Seven«, die beide am 28. Januar 2027 durch KSM Anime erscheinen. Am selben Tag veröffentlicht der Publisher die Fantasy-Serie »Isekai Onsen Paradise« sowie den Anime-Film »Die letzte Blüte« auf Blu-ray.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-28",
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [],
+      "artikelId": "1062255",
+      "artikel": "Fünf Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1062255/akiba-pass-isekai-onsen-paradise-und-mehr/",
+      "veroeffentlicht": "2026-10-19",
+      "gelesenAm": "2026-10-20"
+    },
+    {
+      "titel": "Die letzte Blüte",
+      "zitat": "Zu den aktuellen Disc-Neuheiten gehören die Blu-ray-Komplettboxen der Anime-Klassiker »Lady Oscar« und »Eureka Seven«, die beide am 28. Januar 2027 durch KSM Anime erscheinen. Am selben Tag veröffentlicht der Publisher die Fantasy-Serie »Isekai Onsen Paradise« sowie den Anime-Film »Die letzte Blüte« auf Blu-ray.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-28",
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [],
+      "artikelId": "1062255",
+      "artikel": "Fünf Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1062255/akiba-pass-isekai-onsen-paradise-und-mehr/",
+      "veroeffentlicht": "2026-10-19",
+      "gelesenAm": "2026-10-20"
+    },
+    {
+      "titel": "Shin Chan",
+      "zitat": "Bereits am 11. Dezember 2026 bringt polyband anime das 16. Volume der Comedy-Serie »Shin Chan«, das 18 weitere Episoden mit der aus dem Fernsehen bekannten deutschen Synchronisation beinhaltet, als DVD in den Handel.",
+      "art": "disc",
+      "sprache": "deutsch",
+      "plattform": "disc",
+      "datum": "2026-12-11",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "18",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1062255",
+      "artikel": "Fünf Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1062255/akiba-pass-isekai-onsen-paradise-und-mehr/",
+      "veroeffentlicht": "2026-10-19",
+      "gelesenAm": "2026-10-20"
     }
   ]
 }

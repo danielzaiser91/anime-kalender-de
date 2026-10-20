@@ -26,6 +26,7 @@ import { readFileSync } from 'node:fs'
 import type { PlatformId, Title } from '../shared/types.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { fortschritt, pauseMitStand } from './lib/link-check-gesundheit.ts'
 import { pruefbare } from './lib/pruefbare-adresse.ts'
 
 const DATEI = 'data/link-check.json'
@@ -223,11 +224,22 @@ async function pruefeEinmal(url: string): Promise<Befund> {
   }
 }
 
+/** Zwischenstand und Schlusszeile schreiben gleich: neu einlesen, nur Neueres aus der Datei übernehmen (siehe Kommentar am Schluss von main). */
+function schreibeBestand(bestand: Bestand): void {
+  const inzwischen = readJson<Bestand>(DATEI, {})
+  for (const [url, b] of Object.entries(inzwischen)) {
+    const eigen = bestand[url]
+    if (!eigen || (b.geprueftAm ?? '') > (eigen.geprueftAm ?? '')) bestand[url] = b
+  }
+  writeJson(DATEI, bestand)
+}
+
 async function main(): Promise<void> {
   const roh = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as unknown
   const titles = (Array.isArray(roh) ? roh : Object.values(roh as object).find(Array.isArray)) as Title[]
 
   const bestand = readJson<Bestand>(DATEI, {})
+  const sichere = () => schreibeBestand(bestand)
 
   /**
    * Vereinigung aus Datensatz und allem, was je geprüft wurde.
@@ -418,7 +430,7 @@ async function main(): Promise<void> {
           warn(
             `Amazon sperrt (Sperre ${sperren} von ${MAX_SPERREN}) — ${SPERR_PAUSE / 60000} min Pause, ${wieder.length} Adressen kommen danach erneut dran.`,
           )
-          await sleep(SPERR_PAUSE)
+          await pauseMitStand(SPERR_PAUSE, bestand, sleep, sichere)
         }
         inFolgeUnklar = 0
         unklarFolge = []
@@ -429,7 +441,7 @@ async function main(): Promise<void> {
     }
     /* Gezählt wird, was dieser Lauf gefunden hat — nicht, was schon dastand. */
     if (neu.status === 404 || neu.status === 'region') tot++
-    if (++geprueft % 100 === 0) log(`  ${geprueft}/${arbeit.length} — ${tot} unbrauchbar`)
+    fortschritt(++geprueft, arbeit.length, tot, bestand, log, sichere)
     await sleep(Math.round(PAUSE * (0.7 + Math.random() * 0.6)))
   }
 
@@ -442,12 +454,7 @@ async function main(): Promise<void> {
     innerhalb einer Datei. Was inzwischen dazukam, bleibt stehen; nur dieser
     Lauf hat neuere Auskünfte über die Adressen, die er selbst gefragt hat.
   */
-  const inzwischen = readJson<Bestand>(DATEI, {})
-  for (const [url, b] of Object.entries(inzwischen)) {
-    const eigen = bestand[url]
-    if (!eigen || (b.geprueftAm ?? '') > (eigen.geprueftAm ?? '')) bestand[url] = b
-  }
-  writeJson(DATEI, bestand)
+  sichere()
   const gesamtTot = Object.values(bestand).filter((b) => b.status === 404 || b.status === 'region').length
   log(`Verweise: ${geprueft} geprüft, ${tot} davon unbrauchbar. Im Bestand insgesamt ${gesamtTot} unbrauchbar.`)
   if (uebersprungen) log(`${uebersprungen} Amazon-Adressen wegen der Sperre übersprungen — sie bleiben fällig.`)
