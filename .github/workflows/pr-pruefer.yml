@@ -255,11 +255,7 @@ jobs:
             belegt keine Zuordnung.
             Auflagen früherer Runden (20.10.2026): Führe jede Auflage aus früheren Prüfer-Kommentaren ("Prüfer Runde N",
             auch eigene) im Protokoll einzeln auf, jeweils als erledigt (mit Beleg im Diff oder Nachtrag), verworfen
-            (mit Grund) oder offen. Ein "ok" bei einer offenen Auflage ist nicht erlaubt. Ausnahme, eng: Fehlt nur
-            die CI-Ergebniszeile eines Schritts, den die laufende Kette des geprüften Kopfs erst liefert (Kette
-            noch nicht abgeschlossen), gilt sie nicht als offene Auflage und ist allein kein Grund für "aendern";
-            nenne sie im Protokoll als "ausstehend (Kette läuft)". Fehlt sie bei abgeschlossener Kette oder ist
-            der Schritt rot, bleibt es "aendern".
+            (mit Grund) oder offen. Ein "ok" bei einer offenen Auflage ist nicht erlaubt.
 
             Schreibe zwei Dateien:
             1. ${{ runner.temp }}/pruefer/protokoll.md — deutsch, höchstens 25 Zeilen: Urteil, Befunde mit Datei und
