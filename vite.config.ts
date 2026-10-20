@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath, URL } from 'node:url'
-import { eigeneKennungen } from './tools/vite-kennungen.ts'
+import { eigeneKennungen, uebersetzteKopie } from './tools/vite-kennungen.ts'
 import { datenKennung } from './tools/daten-kennung.ts'
 import { NACH_DEM_BAU_UMGESCHRIEBEN, dateiKennungen, schreibeDateienInMeta } from './tools/daten-kennungen.ts'
 import { vorladeSkript } from './tools/vite-vorladen.ts'
@@ -41,9 +41,10 @@ const appVersion = (process.env.GITHUB_SHA ?? `lokal-${Date.now()}`).slice(0, 12
 
 /**
  * Inhalts-Kennung je Datendatei bzw. Datenordner: nur geänderte Dateien bekommen eine neue Adresse (`web/src/lib/daten-adresse.ts`);
- * `buildId` bleibt Ersatz für nicht erfasste Dateien. Salz ist `data/kennungen.json`, mit der der Bau `dist/data` umschreibt.
+ * `buildId` bleibt Ersatz für nicht erfasste Dateien. Gehasht wird die übersetzte Kopie, nicht `public/data`: Sie ist, was `dist/data` ausliefert.
  */
-const kennungen = dateiKennungen(fileURLToPath(new URL('./public/data', import.meta.url)), readFileSync('data/kennungen.json', 'utf8'), NACH_DEM_BAU_UMGESCHRIEBEN)
+const uebersetzt = uebersetzteKopie()
+const kennungen = dateiKennungen(uebersetzt, NACH_DEM_BAU_UMGESCHRIEBEN)
 
 /** Die beiden nach `vite build` umgeschriebenen Dateien wechseln mit jedem Deploy die Adresse (Inhalt vorab nicht bekannt). */
 const adressKennungen = { ...kennungen, 'meta.json': appVersion, 'patchnotes.json': appVersion }
@@ -94,7 +95,7 @@ export default defineConfig({
     __DATEI_KENNUNGEN__: JSON.stringify(adressKennungen),
     __APP_VERSION__: JSON.stringify(appVersion),
   },
-  plugins: [react(), tailwindcss(), datenVorladen(), eigeneKennungen(), versionDatei()],
+  plugins: [react(), tailwindcss(), datenVorladen(), eigeneKennungen(uebersetzt), versionDatei()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./web/src', import.meta.url)),

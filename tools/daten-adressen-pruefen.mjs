@@ -2,8 +2,8 @@
 /**
  * Prüft am gebauten `dist/`, dass die Datenadressen die Inhalts-Kennung der Datei tragen (`tools/daten-kennungen.ts`):
  * `meta.json` nennt `dateien`, die Vorlade-Links im HTML tragen genau diese Kennungen (meta und patchnotes: die Code-Version),
- * und das Bündel kennt sie, aus denen `loadJson()` seine Adressen baut. `dateien` wird aus `public/data` und `data/kennungen.json` neu gerechnet.
- * Aufruf: node tools/daten-adressen-pruefen.mjs [--dist <ordner>] [--daten <ordner>] [--salz <datei>]
+ * und das Bündel kennt sie, aus denen `loadJson()` seine Adressen baut. `dateien` wird am ausgelieferten `dist/data` neu gerechnet.
+ * Aufruf: node tools/daten-adressen-pruefen.mjs [--dist <ordner>]
  */
 import { readdirSync, readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
@@ -11,16 +11,15 @@ import { NACH_DEM_BAU_UMGESCHRIEBEN, dateiKennungen } from './daten-kennungen.ts
 
 const arg = (name, vorgabe) => resolve(process.argv.includes(name) ? process.argv[process.argv.indexOf(name) + 1] : vorgabe)
 const dist = arg('--dist', join(import.meta.dirname, '..', 'dist'))
-const daten = arg('--daten', join(import.meta.dirname, '..', 'public', 'data'))
-const salz = arg('--salz', join(import.meta.dirname, '..', 'data', 'kennungen.json'))
 const lies = (pfad) => readFileSync(join(dist, pfad), 'utf8')
 const fehler = []
 
 const dateien = JSON.parse(lies('data/meta.json')).dateien ?? {}
 const version = JSON.parse(lies('version.json')).v
 const eintraege = Object.entries(dateien)
-const soll = dateiKennungen(daten, readFileSync(salz, 'utf8'), NACH_DEM_BAU_UMGESCHRIEBEN)
-for (const name of new Set([...Object.keys(soll), ...Object.keys(dateien)])) if (soll[name] !== dateien[name]) fehler.push(`dateien["${name}"] = ${dateien[name]}, aus dem Inhalt von ${daten} folgt ${soll[name]}`)
+const datenOrdner = join(dist, 'data')
+const soll = dateiKennungen(datenOrdner, NACH_DEM_BAU_UMGESCHRIEBEN)
+for (const name of new Set([...Object.keys(soll), ...Object.keys(dateien)])) if (soll[name] !== dateien[name]) fehler.push(`dateien["${name}"] = ${dateien[name]}, aus dem Inhalt von ${datenOrdner} folgt ${soll[name]}`)
 if (eintraege.length === 0) fehler.push('data/meta.json trägt kein `dateien`')
 for (const [name, kennung] of eintraege) if (!/^[0-9a-f]{8}$/.test(kennung)) fehler.push(`dateien["${name}"] = ${kennung} ist kein 8-stelliger Hash`)
 for (const name of ['meta.json', 'patchnotes.json']) if (name in dateien) fehler.push(`${name} wird nach dem Kopieren umgeschrieben und darf keinen Inhalts-Hash tragen`)

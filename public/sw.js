@@ -161,7 +161,7 @@ async function cacheFirst(request, cacheName) {
 /**
  * Wie viele Datendateien höchstens liegen bleiben.
  *
- * Seit die Adressen eine Build-Kennung tragen, hinterlässt jeder Deploy einen
+ * Seit die Adressen eine Inhalts-Kennung tragen, hinterlässt jede geänderte Datei einen
  * neuen Satz Einträge. Ohne Obergrenze läge nach fünfzig Deploys fünfzigmal
  * derselbe Datensatz im Speicher.
  */
@@ -175,7 +175,7 @@ const DATA_MAX = 80
  *
  *  - **Gleiche Kennung** heißt: exakt dieselbe Datei wie beim letzten Mal. Sie
  *    kann sich nicht geändert haben, also wird sofort geantwortet, ohne Netz.
- *  - **Neue Kennung** heißt: neuer Deploy. Der Cache kennt die Adresse nicht,
+ *  - **Neue Kennung** heißt: geänderter Inhalt der Datei. Der Cache kennt die Adresse nicht,
  *    es geht ans Netz — genau einmal, danach ist auch sie schnell.
  *  - **Offline** wird die Kennung ignoriert (`ignoreSearch`) und die letzte
  *    bekannte Fassung genommen. Lieber Termine von vorgestern als eine leere
@@ -225,7 +225,7 @@ async function networkFirst(request, cacheName) {
        * nachfragen, ob die Kopie noch stimmt". Ohne das antwortet der
        * HTTP-Cache des Browsers zehn Minuten lang (GitHub Pages setzt
        * `max-age=600`) mit dem alten HTML — und altes HTML verweist auf das
-       * alte Bündel, das wiederum die alte Build-Kennung trägt. Die ganze
+       * alte Bündel, das wiederum die alten Dateikennungen trägt. Die ganze
        * Kette hinge dann an einer Datei, die niemand nachgefragt hat.
        *
        * Die Antwort ist meist ein 304 und damit fast kostenlos.

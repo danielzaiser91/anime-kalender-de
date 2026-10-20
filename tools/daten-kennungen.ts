@@ -13,18 +13,19 @@ function dateienUnter(ordner: string, vorsatz = ''): string[] {
 /**
  * Inhalts-Kennung je Datendatei: jede `*.json` direkt in `ordner` einzeln (`titles.json`), jeder Unterordner als Ganzes (`voices/`).
  * `ausgenommen`: Dateien, die der Bau nach dem Kopieren noch umschreibt (`patchnotes.json`, `meta.json`); ihr Inhalt in `public/data` sagt nichts über die ausgelieferte Fassung.
- * `salz` geht in jeden Hash ein: Der Bau schreibt `dist/data` mit `data/kennungen.json` um, eine Änderung dort ändert die ausgelieferten Dateien, nicht `public/data`.
+ * `ordner` ist die ausgelieferte (übersetzte) Fassung, nicht `public/data`: So hängt die Kennung am Inhalt, den der Browser bekommt,
+ * und eine neue Zeile in `data/kennungen.json` ändert nur die Dateien, deren Übersetzung sich ändert.
  * Ein Unterordner trägt einen Hash, weil `voices/` und `folgen/` je Tausende Dateien haben — einzeln sprengten sie `meta.json`.
  */
-export function dateiKennungen(ordner: string, salz = '', ausgenommen: string[] = []): Record<string, string> {
+export function dateiKennungen(ordner: string, ausgenommen: string[] = []): Record<string, string> {
   const ergebnis: Record<string, string> = {}
   for (const e of readdirSync(ordner, { withFileTypes: true }).sort((a, b) => (a.name < b.name ? -1 : 1))) {
     if (e.isDirectory()) {
-      const hash = createHash('sha256').update(salz)
+      const hash = createHash('sha256')
       for (const pfad of dateienUnter(ordner, `${e.name}/`)) hash.update(pfad).update(readFileSync(join(ordner, pfad)))
       ergebnis[`${e.name}/`] = kurz(hash)
     } else if (e.name.endsWith('.json') && !ausgenommen.includes(e.name)) {
-      ergebnis[e.name] = kurz(createHash('sha256').update(salz).update(readFileSync(join(ordner, e.name))))
+      ergebnis[e.name] = kurz(createHash('sha256').update(readFileSync(join(ordner, e.name))))
     }
   }
   return ergebnis
