@@ -70,7 +70,7 @@ async function pruefeAufSeite(seite: Page, f: Fall): Promise<boolean> {
 }
 
 const browser = await chromium.launch()
-let fehler = await faelleDurchlaufen(faelle, (f) => pruefeFall(browser, f))
+let fehler = await faelleDurchlaufen(faelle, (f) => pruefeFall(browser, f), console.log)
 await browser.close()
 /* Kinoheld sucht zuerst „Veröffentlichung“, andere Seiten nur ihre eigenen Begriffe. */
 const sb = [stuetzbegriffe('https://www.kinoheld.de/film/x', ['A']), stuetzbegriffe('https://kinoheld.de/film/x', ['A']), stuetzbegriffe('https://www.joyn.de/serien/x', ['A'])]
