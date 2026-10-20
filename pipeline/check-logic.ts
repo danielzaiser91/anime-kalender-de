@@ -3596,7 +3596,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   pruefe(
     'die Zuordnungen werden mit dem alten Stand zusammengeführt',
-    /const bisher = readJson<typeof zugeordnet>\('data\/prime-zugeordnet\.json', \{\}\)/.test(roh) &&
+    /const bisher = leseZugeordnet<\(typeof zugeordnet\)\[string\]>\(\)/.test(roh) &&
       /writeJson\('data\/prime-zugeordnet\.json', leseZugeordnet\(\{ \.\.\.bisher, \.\.\.zugeordnet \}\)\)/.test(roh),
     'die Datei wird wieder überschrieben — jede Zuordnung hält dann einen Bau',
   )
