@@ -49,6 +49,9 @@ const mk = (id: number) => ({ id, streams: [{ platform: 'crunchyroll', url: 'htt
 const titles = new Map([114622, 106169, 20919, 5].map((id) => [id, mk(id)])) as never
 belegeEinzelwerke(titles, [dorohedoro, persona, organTeil, { ...mitArt(organTeil, 'movie_listing'), id: 5 }])
 const dub = (id: number) => (titles as Map<number, ReturnType<typeof mk> & { streams: { dub?: boolean }[] }>).get(id)!.streams[0].dub
+const vorbelegt = new Map([[7, { id: 7, streams: [{ platform: 'crunchyroll', dub: false }] }]]) as never
+belegeEinzelwerke(vorbelegt, [{ ...mitArt(organTeil, 'movie_listing'), id: 7 }])
+pruefe('Lauf: bereits gesetztes dub: false bleibt', (vorbelegt as Map<number, { streams: { dub?: boolean }[] }>).get(7)!.streams[0].dub === false)
 pruefe('Lauf: Dorohedoro bleibt offen', dub(114622) === undefined, dub(114622))
 pruefe('Lauf: Persona 5 bleibt offen', dub(106169) === undefined, dub(106169))
 pruefe('Lauf: Genocidal Organ nur Titel, ohne Art bleibt offen (Altdaten)', dub(20919) === undefined, dub(20919))
