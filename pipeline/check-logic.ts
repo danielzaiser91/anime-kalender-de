@@ -80,6 +80,7 @@ import {
   type AdnRohVideo,
 } from './lib/adn-sprachen.ts'
 import {
+  begrenzeAufFolgenzahl,
   beschreibeBereiche,
   bildeBereiche,
   ordneFolgeZu,
@@ -3346,6 +3347,14 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   pruefe('neue Belege: vorhandene und doppelte fallen, der Rest bleibt', neu.length === 2, neu)
   pruefe('fetch-pruefungen nutzt diesen Abgleich', /neueBelegBloecke\(alt, zeilen\)/.test(abholung))
   /* Haikyu!!-Summenseite, 20.10.2026: das Prüfdatum zählt beim Abgleich nicht, die Folgenspanne schon. */
+  const bereich = (von: number, bis: number) => ({ von, bis, dub: true, belegt: Array.from({ length: bis - von + 1 }, (_, i) => von + i) })
+  const gekappt = begrenzeAufFolgenzahl([bereich(1, 3), bereich(4, 13)], 12)
+  pruefe('Kappung: Bereich über der Folgenzahl endet bei ihr, belegt ohne fremde Folgen', gekappt.length === 2 && gekappt[1]!.bis === 12 && gekappt[1]!.belegt.at(-1) === 12 && gekappt[1]!.belegt.length === 9, gekappt)
+  pruefe('Kappung: genau eine Folge drüber wird gekappt', begrenzeAufFolgenzahl([bereich(1, 13)], 12)[0]?.bis === 12)
+  pruefe('Kappung: Bereich ab der Folge hinter der Zahl fällt weg, ab der letzten bleibt er', begrenzeAufFolgenzahl([bereich(1, 12), bereich(13, 25)], 12).length === 1 && begrenzeAufFolgenzahl([bereich(12, 25)], 12)[0]?.von === 12)
+  pruefe('Kappung: bis genau gleich der Folgenzahl bleibt unverändert', begrenzeAufFolgenzahl([bereich(1, 12)], 12)[0]?.bis === 12)
+  const ohneZahl = [bereich(1, 25)]
+  pruefe('Kappung: ohne bekannte Folgenzahl bleibt alles', begrenzeAufFolgenzahl(ohneZahl, 0) === ohneZahl && begrenzeAufFolgenzahl(ohneZahl, undefined) === ohneZahl && begrenzeAufFolgenzahl(ohneZahl, null) === ohneZahl)
   const nichtDa = nichtGefuehrtZeilen(7, 'Titel "X"', 'netflix', '2026-10-20', 2)
   const nichtDaSoll = ['', '- anilistId: 7', '  title: "Titel \\"X\\""', '  platform: netflix', '  available: false', "  checkedAt: '2026-10-20'", '  note: "Der Anbieter führt unter dieser Adresse nur 2 Staffel(n); diese ist nicht darunter"']
   pruefe('Beleg „Anbieter führt die Staffel nicht": Zeilen wie bisher', JSON.stringify(nichtDa) === JSON.stringify(nichtDaSoll), nichtDa)

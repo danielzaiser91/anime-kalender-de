@@ -22,6 +22,7 @@ import { amazonTitelAdresse, echteAmazonAdresse } from './lib/amazon-adresse.js'
 import { resolve } from 'node:path'
 import {
   beschreibeBereiche,
+  begrenzeAufFolgenzahl,
   bildeBereiche,
   ordneNachStaffelliste,
   verteileAufStaffeln,
@@ -1083,6 +1084,10 @@ for (const gruppe of jeAdresse.values()) {
       // melden. Schweigen ist hier die richtige Antwort.
       if (!eigene.length) continue
     }
+    /* Summenseite (Haikyu!! Staffel 4, 20.10.2026): Bereiche über die Folgenzahl des Titels hinaus gehören anderen Titeln. */
+    const gekappt = begrenzeAufFolgenzahl(eigene, t?.episodes)
+    if (eigene.length && !gekappt.length) continue
+    eigene = gekappt
 
     /**
      * **Ein Eintrag ohne Aussage darf gar nicht erst entstehen.**
