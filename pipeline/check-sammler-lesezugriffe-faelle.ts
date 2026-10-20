@@ -102,6 +102,7 @@ pruefe('Namensraum-Import: m.dubsNachTitel()[123]', art(`import * as m from './l
 pruefe('Namensraum: Klammerzugriff m[\'deutschMarke\'](123): „?“', art(`import * as m from './lib/anisearch-marke.ts'\nm['deutschMarke'](123)`) === `${DUBS}:?`)
 pruefe('Namensraum weitergereicht: „?“', art(`import * as m from './lib/anisearch-marke.ts'\nsonst(m)`) === `${DUBS}:?`)
 pruefe('Name als Wert weitergereicht (every(deutschMarke)): „?“', art(`${MARKE}[1, 2].every(deutschMarke)`) === `${DUBS}:?`)
+pruefe('Helfer-Name als Argument einer Funktion (ohne Aufruf): „?“', art(`${MARKE}Object.entries(dubsNachTitel)`) === `${DUBS}:?`)
 pruefe('Name einer Variablen zugewiesen: „?“', art(`${MARKE}const f = deutschMarke\nf(123)`) === `${DUBS}:?`)
 pruefe('Import ohne Endung und mit .js', art(`import { deutschMarke } from './lib/anisearch-marke'\ndeutschMarke(1)`) === `${DUBS}:lesen` && art(`import { deutschMarke } from './lib/anisearch-marke.js'\ndeutschMarke(1)`) === `${DUBS}:lesen`)
 pruefe('Re-Export des Moduls: „?“', art(`export { deutschMarke } from './lib/anisearch-marke.ts'`) === `${DUBS}:?`)
