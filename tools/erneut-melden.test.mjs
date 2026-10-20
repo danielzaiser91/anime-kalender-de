@@ -35,7 +35,7 @@ datei('tools/verdacht.mjs', 'export const verdachtsfaelle = () => []\n')
 datei('tools/extension-offene-liste.mjs', `import { readFileSync, writeFileSync } from 'node:fs'\nwriteFileSync('extension/offene-netflix.js', process.env.AK_LEER ? '' : 'liste ' + readFileSync('data/erneut-melden.yaml', 'utf8'))\n`)
 datei('tools/extension-offene-amazon.mjs', '')
 datei('tools/extension-offene-disney.mjs', '')
-datei('tools/pruefstand.mjs', '')
+datei('tools/pruefstand.mjs', `import { appendFileSync } from 'node:fs'\nappendFileSync(process.env.AK_SONDE + '/pruefstand.txt', process.cwd() + '\\n')\n`)
 datei('tools/vor-commit-attrappe.mjs', `import { appendFileSync } from 'node:fs'\nappendFileSync(process.env.AK_SONDE + '/vorcommit.txt', process.cwd() + '\\n')\nprocess.exit(process.env.AK_VC_ROT ? 1 : 0)\n`)
 datei('tools/pr-attrappe.mjs', `import { execFileSync } from 'node:child_process'\nimport { writeFileSync } from 'node:fs'\nconst g = (...a) => execFileSync('git', a, { encoding: 'utf8' }).trim()\nwriteFileSync(process.env.AK_SONDE + '/pr.txt', [process.cwd(), g('rev-parse', '--abbrev-ref', 'HEAD'), process.argv[2], g('show', '--name-only', '--format=', 'HEAD')].join('\\n'))\n`)
 datei('tools/pr-einreichen.sh', '#!/usr/bin/env bash\nexec node tools/pr-attrappe.mjs "$@"\n')
@@ -58,6 +58,7 @@ const yamlVorher = readFileSync(join(haupt, 'data', 'erneut-melden.yaml'), 'utf8
 const lauf = (args, umgebung = {}) => {
   rmSync(join(sonde, 'pr.txt'), { force: true })
   rmSync(join(sonde, 'vorcommit.txt'), { force: true })
+  rmSync(join(sonde, 'pruefstand.txt'), { force: true })
   const env = { ...process.env, AK_SONDE: sonde, GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t', ...umgebung }
   return spawnSync(process.execPath, ['tools/erneut-melden.mjs', ...args], { cwd: haupt, env, encoding: 'utf8' })
 }
@@ -85,6 +86,7 @@ try {
   const pr = readFileSync(join(sonde, 'pr.txt'), 'utf8').split('\n')
   imArbeitsbaum(pr[0], 'Erfolg (PR)')
   imArbeitsbaum(readFileSync(join(sonde, 'vorcommit.txt'), 'utf8'), 'Erfolg (check:vor-commit)')
+  imArbeitsbaum(readFileSync(join(sonde, 'pruefstand.txt'), 'utf8'), 'Erfolg (pruefstand)')
   assert.match(pr[1], /^erneut-melden\/\d{14}$/, 'Erfolg: Zweig erneut-melden/<Stempel>')
   assert.match(pr[2], /^Prüfliste: Testtitel \(netflix\) erneut melden$/, 'Erfolg: PR-Titel')
   assert.deepEqual(pr.slice(3).sort(), ['data/erneut-melden.yaml', 'extension/offene-netflix.js'], 'Erfolg: Commit enthält YAML und Liste')
@@ -107,6 +109,16 @@ try {
   hauptUnberuehrt('FEHL')
   aufgeraeumt('FEHL')
 
+  /* 3b. Wie 3, aber mit nicht committeter Änderung im Hauptordner: die Rücknahme darf sie nicht verwerfen. */
+  const lokal = join(haupt, 'extension', 'offene-netflix.js')
+  writeFileSync(lokal, 'lokale Änderung\n')
+  const fehl2 = lauf(['900001'], { AK_LEER: '1' })
+  assert.equal(fehl2.status, 1, 'FEHL mit lokaler Änderung: Exit 1')
+  assert.equal(readFileSync(lokal, 'utf8'), 'lokale Änderung\n', 'FEHL mit lokaler Änderung: Hauptordner-Datei bleibt erhalten')
+  git(haupt, 'checkout', '-q', '--', 'extension/offene-netflix.js')
+  hauptUnberuehrt('FEHL mit lokaler Änderung')
+  aufgeraeumt('FEHL mit lokaler Änderung')
+
   /* 4. check:vor-commit rot: kein Commit-Versuch bis zum PR, aufgeräumt. */
   const rot = lauf(['900001'], { AK_VC_ROT: '1' })
   assert.notEqual(rot.status, 0, 'vor-commit rot: Exit ungleich 0')
@@ -124,4 +136,4 @@ try {
   unlinkSync(join(haupt, 'node_modules'))
   rmSync(wurzel, { recursive: true, force: true })
 }
-console.log('erneut-melden (Prozess): alle Fälle grün (Erfolg im Arbeitsbaum, Wurf, process.exit(1), check:vor-commit rot, ohne Kennung)')
+console.log('erneut-melden (Prozess): alle Fälle grün (Erfolg im Arbeitsbaum, Wurf, process.exit(1), FEHL mit lokaler Änderung, check:vor-commit rot, pruefstand im Arbeitsbaum, ohne Kennung)')
