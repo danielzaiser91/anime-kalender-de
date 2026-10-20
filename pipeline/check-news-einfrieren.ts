@@ -65,6 +65,10 @@ pruefe('Bau 2 (Wege getauscht): kein Umsprung an Titel 1, 2 und 3', JSON.stringi
 const dritter = bau(hb, [[cr], [], [cr]])
 pruefe('Bau 3 (wieder zurück): weiter kein Umsprung', JSON.stringify(dritter) === JSON.stringify(erster), dritter)
 
+const alterBau = historie({ 'angekuendigt:alt:1': '2000-01-01', 'angekuendigt:neu:1': '2099-01-01' }, { 'angekuendigt:alt:1': true, 'angekuendigt:neu:1': true })
+bau(alterBau, [[cr], [], [cr]])
+pruefe('Bau altert das Gedächtnis: 400 Tage alter Schlüssel samt Flag weg, junger bleibt', alterBau.weiterer?.['angekuendigt:alt:1'] === undefined && alterBau.weiterer?.['angekuendigt:neu:1'] === true, alterBau)
+
 /* 4. Säen: erster Stand zählt, Festgehaltenes bleibt, Fremdes (nicht im Gedächtnis) wird nicht angelegt; zweiter Lauf tut nichts. */
 const stand1 = [eintrag(termin({ weiterer: true }), termin({ release: 'r-9', weiterer: true }), termin({ release: 'r-7' }))]
 const stand2 = [eintrag(termin(), termin({ release: 'r-9' }), termin({ release: 'r-7', weiterer: true }))]
@@ -97,6 +101,8 @@ const w = einfrierFehler(bestand, historie({}, { [K]: false, 'angekuendigt:r-9:2
 pruefe('Wächter: nur der gekippte Fall ist Fehler (false festgehalten, true ausgeliefert), der gekippte andere Weg ebenso', w.fehler.length === 2 && w.fehler[0]!.includes(K) && w.fehler[1]!.includes('r-4'), w)
 pruefe('Wächter: fehlender Eintrag ist Lücke, kein Fehler', w.luecken.length === 1 && w.luecken[0]!.includes('r-6'), w)
 const ok = einfrierFehler(bestand, historie({}, { [K]: true, 'angekuendigt:r-9:2099-01-01': true, 'angekuendigt:r-4:2099-01-01': false, 'angekuendigt:r-6:2099-01-01': false }))
+const ohneDatum = einfrierFehler([eintrag(termin({ datum: undefined, weiterer: true }))], historie({}, { 'angekuendigt:r-1:undefined': false }))
+pruefe('Wächter: Meldung ohne Datum hat keinen Schlüssel und wird übergangen', ohneDatum.fehler.length === 0 && ohneDatum.luecken.length === 0, ohneDatum)
 pruefe('Wächter: alles gleich ist grün', ok.fehler.length === 0 && ok.luecken.length === 0, ok)
 
 /* 6. Der Läufer end-to-end in einem Wegwerf-Repo: Quelle, Gedächtnis und news.json als Parameter (AK_ROOT, GIT_EXE). */
