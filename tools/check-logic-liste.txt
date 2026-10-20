@@ -236,6 +236,7 @@ tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
 tools/feste-uhr.test.ts
 tools/hover-cover.test.ts
+tools/link-check-ende.test.ts
 tools/quarantaene-pruefungen.test.ts
 tools/quellen-gesundheit.test.ts
 tools/quittung-nach-commit-waechter.mjs

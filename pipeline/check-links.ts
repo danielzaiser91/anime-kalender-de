@@ -26,7 +26,7 @@ import { readFileSync } from 'node:fs'
 import type { PlatformId, Title } from '../shared/types.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
-import { fortschritt, pauseMitStand } from './lib/link-check-gesundheit.ts'
+import { fortschritt, linkCheckEnde, pauseMitStand, zaehleBefund } from './lib/link-check-gesundheit.ts'
 import { pruefbare } from './lib/pruefbare-adresse.ts'
 
 const DATEI = 'data/link-check.json'
@@ -383,7 +383,7 @@ async function main(): Promise<void> {
   let inFolgeUnklar = 0
   let amazonGesperrt = false
   let uebersprungen = 0
-  let tot = 0
+  const zaehler = { tot: 0, auskuenfte: 0 }
   let geprueft = 0
   /* Messgröße für die Sperrschwelle: nur Amazon zählt, denn nur Amazon sperrt. */
   let amazonAbrufe = 0
@@ -440,8 +440,8 @@ async function main(): Promise<void> {
       unklarFolge = []
     }
     /* Gezählt wird, was dieser Lauf gefunden hat — nicht, was schon dastand. */
-    if (neu.status === 404 || neu.status === 'region') tot++
-    fortschritt(++geprueft, arbeit.length, tot, bestand, log, sichere)
+    zaehleBefund(zaehler, neu.status)
+    fortschritt(++geprueft, arbeit.length, zaehler.tot,bestand, log, sichere)
     await sleep(Math.round(PAUSE * (0.7 + Math.random() * 0.6)))
   }
 
@@ -456,12 +456,12 @@ async function main(): Promise<void> {
   */
   sichere()
   const gesamtTot = Object.values(bestand).filter((b) => b.status === 404 || b.status === 'region').length
-  log(`Verweise: ${geprueft} geprüft, ${tot} davon unbrauchbar. Im Bestand insgesamt ${gesamtTot} unbrauchbar.`)
+  log(`Verweise: ${geprueft} geprüft, ${zaehler.tot} davon unbrauchbar. Im Bestand insgesamt ${gesamtTot} unbrauchbar.`)
   if (uebersprungen) log(`${uebersprungen} Amazon-Adressen wegen der Sperre übersprungen — sie bleiben fällig.`)
   if (!geprueft && offen.length) warn('Nichts geprüft, obwohl etwas fällig war — Aufruf prüfen.')
   /* Nichts faellig ist der Normalfall, sobald alle Adressen geprueft sind —
      kein Grund, den Lauf als stumm zu melden (29.08.2026). */
-  recordSource('link-check', geprueft, undefined, undefined, true)
+  recordSource('link-check', ...linkCheckEnde(geprueft, zaehler.auskuenfte))
 }
 
 main().catch((err) => {
