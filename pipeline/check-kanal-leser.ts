@@ -111,6 +111,18 @@ async function pruefeSchreibweg(): Promise<void> {
   pruefe('Merkliste: ein „nicht verfügbar“ derselben Seite deckt den Eintrag', mitMerkliste([nichtDa], [fremd]).length === 1, mitMerkliste([nichtDa], [fremd]))
 }
 
+/** `kanalAdresseGemerkt` (Prime-Phase): Titel, Anbieter und Kanal-Merkmal müssen alle zutreffen. */
+async function pruefeAdresseGemerkt(): Promise<void> {
+  const { kanalAdresseGemerkt } = await import('./lib/kanal-wissen.ts')
+  const kanal = { anilistId: 9341, platform: 'netflix', url: dp('B0ADRESSEG'), checkedAt: '', note: 'Amazon-Seite B0ADRESSEG — ACHTUNG: Kanal-Titel', kanalOhneBeleg: true } as never
+  const ohneMerkmal = { anilistId: 9342, platform: 'primevideo', url: dp('B0ADRESSEH'), checkedAt: '', note: 'Amazon-Seite B0ADRESSEH: Tonspuren English' } as never
+  const checks = [kanal, ohneMerkmal]
+  pruefe('Adresse gemerkt: Titel, Anbieter und Adresse gleich, mit Kanal-Merkmal', kanalAdresseGemerkt(checks, 9341, 'netflix', dp('B0ADRESSEG')), checks)
+  pruefe('Adresse gemerkt: derselbe Titel mit Weg eines anderen Anbieters unter derselben Adresse nicht', !kanalAdresseGemerkt(checks, 9341, 'primevideo', dp('B0ADRESSEG')), checks)
+  pruefe('Adresse gemerkt: ein Eintrag ohne Kanal-Merkmal nicht', !kanalAdresseGemerkt(checks, 9342, 'primevideo', dp('B0ADRESSEH')), checks)
+  pruefe('Adresse gemerkt: ein anderer Titel unter derselben Adresse nicht', !kanalAdresseGemerkt(checks, 9343, 'netflix', dp('B0ADRESSEG')), checks)
+}
+
 try {
   schreibe('data/dub-confirmed.yaml', [9301, 9302, 9303].map(fremdesNein).join(''))
   schreibe('data/kanal-seiten.json', JSON.stringify(LISTE))
@@ -122,6 +134,7 @@ try {
   await pruefeWaechter()
   await pruefeWegwahl()
   await pruefeSchreibweg()
+  await pruefeAdresseGemerkt()
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }
