@@ -7,13 +7,12 @@
  */
 import sharp from 'sharp'
 import type { OverlayOptions } from 'sharp'
-import { pangoFamilie, schriftDatei, SCHRIFTEN, type Schrift } from './og-schriften.ts'
+import { eineZeile, markup, text, TEXT_W } from './og-text.ts'
 
 export const W = 1200
 export const H = 630
 const COVER_W = 420
 const X = COVER_W + 50
-const TEXT_W = W - X - 50
 
 const GRUND = '#0d0f14'
 const TEXT = '#f2f1ee'
@@ -27,30 +26,6 @@ export interface KartenDaten {
   badges: { text: string; color: string }[]
   /** Farbe des Streifens unter dem Cover — der Anbieter. */
   accent: string
-}
-
-function markup(text: string): string {
-  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-}
-
-/** Ein Textblock als Bild; `breite` bricht um, `hoehe` ist die Obergrenze der Messung. */
-async function text(inhalt: string, schrift: Schrift, groesse: number, farbe: string, breite = TEXT_W) {
-  const s = SCHRIFTEN[schrift]
-  /* Das Gewicht steht im Markup: Pango kennt jede Familie nur einmal, der Schnitt kommt über `weight`. */
-  const bild = await sharp({
-    text: {
-      text: `<span foreground="${farbe}" weight="${s.gewicht}">${inhalt}</span>`,
-      font: `${pangoFamilie(schrift)} ${groesse}`,
-      fontfile: schriftDatei(schrift),
-      width: breite,
-      rgba: true,
-      dpi: 72,
-      wrap: 'word',
-    },
-  })
-    .png()
-    .toBuffer({ resolveWithObject: true })
-  return { input: bild.data, hoehe: bild.info.height, breite: bild.info.width }
 }
 
 /**
@@ -69,17 +44,6 @@ async function titel(t: string) {
     if (block.hoehe <= 40 * 1.3 * 3) return block
   }
   return text(markup(t), 'titel', 40, TEXT)
-}
-
-/** Genau eine Zeile: Was nicht passt, wird am Wortende gekürzt und bekommt „…". */
-async function eineZeile(inhalt: string, schrift: Schrift, groesse: number, farbe: string, breite = TEXT_W) {
-  const woerter = inhalt.split(/\s+/)
-  let block = await text(markup(inhalt), schrift, groesse, farbe, breite)
-  while (block.hoehe > groesse * 1.8 && woerter.length > 1) {
-    woerter.pop()
-    block = await text(`${markup(woerter.join(' ').replace(/[,;:·–-]$/, ''))} …`, schrift, groesse, farbe, breite)
-  }
-  return block
 }
 
 /** Chips wie auf der Seite: Punkt in der Farbe, Text hell auf dunkler Fläche. */
