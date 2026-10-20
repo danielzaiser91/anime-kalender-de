@@ -5,7 +5,7 @@
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-widerlegung-de-folgen-bau.ts`
  */
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { Release, Title } from '../shared/types.ts'
@@ -41,6 +41,22 @@ async function bau(verfuegbarAb: string | undefined, folgen: number | null = 12)
   return titel
 }
 
+/** Phase 09-7 legt die Prüfliste vor der Widerlegung an: ein Weg, der danach einen Bereich bekam, fliegt hier von der Liste. */
+async function pruefeListe(mitBereich: Title, ohneBereich: Title): Promise<void> {
+  const { bereinigePruefliste } = await import('./bau/pruefliste-bereinigen.ts')
+  const { PRUEFLISTE } = await import('./bau/09-7-cr-teilseiten.ts')
+  const fremder = { id: 900050, streams: [] } as unknown as Title
+  const zeile = (titleId: number, url: string) => ({ titleId, titel: 'E', url, grund: 'g' })
+  const lies = () => (JSON.parse(readFileSync(join(wurzel, PRUEFLISTE), 'utf8')) as { titleId: number; url: string }[]).map((p) => `${p.titleId}|${p.url}`)
+  const liste = [zeile(900003, URL_E), zeile(900003, `${URL_E}/andere`), zeile(900050, URL_E)]
+  writeFileSync(join(wurzel, PRUEFLISTE), JSON.stringify(liste))
+  bereinigePruefliste([mitBereich, fremder])
+  pruefe('Prüfliste: der Weg mit Bereich fällt weg, andere Adresse und anderer Titel bleiben', JSON.stringify(lies()) === JSON.stringify([`900003|${URL_E}/andere`, `900050|${URL_E}`]), lies())
+  writeFileSync(join(wurzel, PRUEFLISTE), JSON.stringify(liste))
+  bereinigePruefliste([ohneBereich, fremder])
+  pruefe('Prüfliste: ohne Bereich bleibt jede Zeile', lies().length === 3, lies())
+}
+
 console.log('\nWiderlegung und deutsche Folgen, Verdrahtung im Bau:')
 const wurzel = mkdtempSync(join(tmpdir(), 'wid-de-folgen-'))
 process.env.AK_ROOT = wurzel
@@ -51,6 +67,7 @@ try {
   pruefe('Folgenzahl offen (Reincarnated Aristocrat S3): Weg bleibt mit genau Folge 1', offen.streams[0].dub === true && JSON.stringify(offen.streams[0].dubRanges) === JSON.stringify([{ from: 1, to: 1, dub: true }]), offen.streams[0])
   const ohne = await bau(undefined)
   pruefe('ohne Katalogdatei: der Bau löst den Weg', ohne.streams[0].dub === undefined, ohne.streams[0])
+  await pruefeListe(offen, ohne)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
