@@ -54,6 +54,7 @@ pipeline/check-cartoon-wege-falten.ts
 pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
 pipeline/check-cover-quelle.ts
+pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
 pipeline/check-cr-ja-deckung.ts
 pipeline/check-cr-komplettabwurf.ts
