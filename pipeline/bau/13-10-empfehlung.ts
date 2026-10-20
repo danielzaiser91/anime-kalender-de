@@ -34,3 +34,10 @@ export function schreibeEmpfehlung(): void {
   writeJson(`${OUT}/empfehlung.json`, datei)
   log(`empfehlung.json: ${datei.einstiege.length} Einstiege aus ${datei.pool} Titeln, ${gzipGroesse(datei)} Byte gzip`)
 }
+
+/** Alles, was die Bestandsprüfung rot macht: Widersprüche, Hinweise, und eine Datei, die vom Neubau aus den Titeln und Reihen abweicht. */
+export function bestandsFehler(datei: EmpfehlungsDatei, titles: Title[], franchises: Franchises): string[] {
+  const fehler = [...pruefeEmpfehlung(datei, titles), ...hinweiseEmpfehlung(datei, titles)]
+  if (JSON.stringify(datei) !== JSON.stringify(baueEmpfehlung(titles, franchises))) fehler.push('empfehlung.json weicht vom Neubau aus titles.json und franchises.json ab')
+  return fehler
+}
