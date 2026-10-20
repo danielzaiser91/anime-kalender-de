@@ -96,6 +96,10 @@ console.log('\nWiderlegung und deutsche Folgen danach:')
   eigenerWeg.streams[0].dubRanges = [{ from: 1, to: 5, dub: true }]
   const gelost = loeseGeteilteWegeVonWiderlegten([release(900005, '2026-10-18')], eigeneBereiche, crDub)
   pruefe('Weg mit eigenen Bereichen bleibt unangetastet', gelost === 0 && eigenerWeg.streams[0].dub === true && JSON.stringify(eigenerWeg.streams[0].dubRanges) === ranges(1, 5), eigenerWeg.streams[0])
+  const ungeteilt = reihe(900006, URL_C)
+  ungeteilt.get(900006)!.streams[0].sharedWith = 1
+  const geloest = loeseGeteilteWegeVonWiderlegten([release(900006, '2026-10-18')], ungeteilt, crDub)
+  pruefe('Weg nur dieses Titels (nicht geteilt) bleibt: die Widerlegung gilt dem Termin', geloest === 0 && ungeteilt.get(900006)!.streams[0].dub === true, ungeteilt.get(900006)!.streams[0])
 }
 
 if (verletzt) {
