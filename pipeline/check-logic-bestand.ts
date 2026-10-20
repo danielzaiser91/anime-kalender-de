@@ -219,10 +219,12 @@ console.log('\nHandbelege gegen den Bestand')
       (t) => [t.id, t.episodes ?? 0],
     ),
   )
-  const drueber = (liste as { anilistId?: number; dubRanges?: { to?: number }[] }[]).filter((b) => {
+  /* Jeder Treffer nennt Titel, Plattform, Adresse und bis-Folge/Folgenzahl, damit eine Überschreitung ohne Suche zuzuordnen ist (20.10.2026). */
+  const drueber = (liste as { anilistId?: number; platform?: string; url?: string; dubRanges?: { to?: number }[] }[]).flatMap((b) => {
     const n = folgenJeTitel.get(b.anilistId ?? -1) ?? 0
-    return n > 0 && (b.dubRanges ?? []).some((r) => (r.to ?? 0) > n)
-  }).length
+    const bis = Math.max(0, ...(b.dubRanges ?? []).map((r) => r.to ?? 0))
+    return n > 0 && bis > n ? [`${b.anilistId} ${b.platform ?? '?'} ${b.url ?? 'ohne Adresse'}: bis Folge ${bis} bei ${n}`] : []
+  })
   /*
     15.09.2026: Die Netflix-Belege von FGO Babylonia (1–22 bei 21 Folgen) und
     Shiboyugi (1–12 bei 11) über die Folgentitel zugeordnet — Netflix-Folge 1
@@ -238,7 +240,7 @@ console.log('\nHandbelege gegen den Bestand')
     — ein Messwert von heute ist hier keine Invariante (CLAUDE.md, „Eine
     Prüfung, die rot wird, weil die Arbeit erledigt ist").
   */
-  pruefe('Handbelege: höchstens 8 nennen Folgen über der Folgenzahl ihres Titels', drueber <= 8, `${drueber}`)
+  pruefe('Handbelege: höchstens 8 nennen Folgen über der Folgenzahl ihres Titels', drueber.length <= 8, drueber)
   /*
     **Ein Prime-Beleg ab Amazons Staffel 2 hängt nicht am Reihenkopf, wenn die
     Reihe genau eine Staffel mit dieser Nummer führt.** Am 16.09.2026 stand
