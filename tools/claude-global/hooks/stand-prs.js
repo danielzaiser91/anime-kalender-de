@@ -284,7 +284,7 @@ function lauf(input, { env = process.env, gh = ghAufruf, jetzt = Date.now() } = 
 
 /** Hook-Ausgabe: still, außer die Sitzung soll es erfahren (async-Hook: systemMessage erreicht sie beim nächsten Zug). */
 function ausgabe(r) {
-  const meldungen = [r.laut ? `stand-prs.js: ${r.ergebnis} (stand.md, Abschnitt „In Arbeit“)` : '', r.warnung ? `stand.md, Abschnitt „In Arbeit“: ${r.warnung}` : ''].filter(Boolean)
+  const meldungen = [r.laut ? `stand-prs.js: ${r.ergebnis} (stand.md, Abschnitt „In Arbeit“)` : '', r.warnung ? `stand.md: ${r.warnung}` : ''].filter(Boolean)
   return meldungen.length ? `${JSON.stringify({ systemMessage: meldungen.join('\n') })}\n` : ''
 }
 
