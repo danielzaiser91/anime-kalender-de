@@ -1,5 +1,5 @@
 {
-  "geholtAm": "2026-10-12T05:05:54.141Z",
+  "geholtAm": "2026-10-19T05:07:02.983Z",
   "titel": {
     "16870": {
       "programm": "the-last-naruto-the-movie-p_226250",
@@ -27,6 +27,13 @@
       "programm": "beyblade-x-p_9519",
       "videos": [
         {
+          "video": "konflikt-im-x-c_2133559",
+          "titel": "Konflikt im X",
+          "ab": "2026-10-09",
+          "staffel": 3,
+          "folge": 20
+        },
+        {
           "video": "an-den-ort-c_2130576",
           "titel": "An Den Ort",
           "ab": "2026-10-02",
@@ -34,18 +41,18 @@
           "folge": 19
         },
         {
+          "video": "das-ziel-des-drachen-c_2142003",
+          "titel": "Das Ziel des Drachen",
+          "ab": "2026-10-16",
+          "staffel": 3,
+          "folge": 21
+        },
+        {
           "video": "motiv-zu-motiv-c_2121373",
           "titel": "Motiv zu Motiv",
           "ab": "2026-09-25",
           "staffel": 3,
           "folge": 18
-        },
-        {
-          "video": "konflikt-im-x-c_2133559",
-          "titel": "Konflikt im X",
-          "ab": "2026-10-09",
-          "staffel": 3,
-          "folge": 20
         },
         {
           "video": "wachsende-kraft-c_2111739",
@@ -1679,6 +1686,13 @@
           "staffel": 3,
           "dt": "Konflikt im X",
           "ab": "2026-10-09"
+        },
+        {
+          "nr": 121,
+          "st": 21,
+          "staffel": 3,
+          "dt": "Das Ziel des Drachen",
+          "ab": "2026-10-16"
         }
       ]
     }

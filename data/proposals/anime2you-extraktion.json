@@ -132,6 +132,10 @@
       "am": "2026-10-11",
       "vorschlaege": 0
     },
+    "1058725": {
+      "am": "2026-10-19",
+      "vorschlaege": 1
+    },
     "1058742": {
       "am": "2026-10-11",
       "vorschlaege": 0
@@ -147,6 +151,10 @@
     "1058843": {
       "am": "2026-10-11",
       "vorschlaege": 3
+    },
+    "1058913": {
+      "am": "2026-10-19",
+      "vorschlaege": 0
     },
     "1058951": {
       "am": "2026-10-11",
@@ -321,6 +329,10 @@
       "am": "2026-10-14",
       "vorschlaege": 0
     },
+    "1060481": {
+      "am": "2026-10-19",
+      "vorschlaege": 0
+    },
     "1060605": {
       "am": "2026-10-15",
       "vorschlaege": 3
@@ -413,12 +425,20 @@
       "am": "2026-10-18",
       "vorschlaege": 1
     },
+    "1061247": {
+      "am": "2026-10-19",
+      "vorschlaege": 1
+    },
     "1061320": {
       "am": "2026-10-18",
       "vorschlaege": 0
     },
     "1061447": {
       "am": "2026-10-18",
+      "vorschlaege": 0
+    },
+    "1061538": {
+      "am": "2026-10-19",
       "vorschlaege": 0
     },
     "1061578": {
@@ -471,6 +491,27 @@
     "1061843": {
       "am": "2026-10-18",
       "vorschlaege": 1
+    },
+    "1062067": {
+      "am": "2026-10-19",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1062070": {
+      "am": "2026-10-19",
+      "vorschlaege": 5
+    },
+    "1062079": {
+      "am": "2026-10-19",
+      "vorschlaege": 0
+    },
+    "1062088": {
+      "am": "2026-10-19",
+      "vorschlaege": 2
+    },
+    "1062104": {
+      "am": "2026-10-19",
+      "vorschlaege": 2
     }
   },
   "vorschlaege": [
@@ -4464,6 +4505,237 @@
       "quelle": "https://www.anime2you.de/news/1061835/reborn-as-a-space-mercenary-episodenanzahl/",
       "veroeffentlicht": "2026-10-17",
       "gelesenAm": "2026-10-18"
+    },
+    {
+      "titel": "Lord of Mysteries",
+      "zitat": "Die erste Staffel von »Lord of Mysteries« steht bei Crunchyroll zur Verfügung und erscheint zudem im November 2026 auf Blu-ray.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1058725",
+      "artikel": "Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1058725/zehn-lord-of-mysteries-minifiguren/",
+      "veroeffentlicht": "2026-10-19",
+      "gelesenAm": "2026-10-19"
+    },
+    {
+      "titel": "Hell’s Paradise",
+      "zitat": "Pay-TV-Premiere Hell’s Paradise ProSieben FUN · Folge 5-6 · Montag um 20:55 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "20:55",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": "5-6",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062070",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 43/2026",
+      "quelle": "https://www.anime2you.de/news/1062070/anime-tv-programm-43-2026/",
+      "veroeffentlicht": "2026-10-18",
+      "gelesenAm": "2026-10-19"
+    },
+    {
+      "titel": "Dororo",
+      "zitat": "Pay-TV-Premiere Dororo ProSieben FUN · Folge 5-6 · Montag um 21:45 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "21:45",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": "5-6",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062070",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 43/2026",
+      "quelle": "https://www.anime2you.de/news/1062070/anime-tv-programm-43-2026/",
+      "veroeffentlicht": "2026-10-18",
+      "gelesenAm": "2026-10-19"
+    },
+    {
+      "titel": "Pokémon Horizonte: Gute Aussichten",
+      "zitat": "Neue Folge Pokémon Horizonte: Gute Aussichten TOGGO · Folge 43 · Samstag um 13:00 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "13:00",
+      "anbieter": null,
+      "sender": "TOGGO",
+      "wochentage": "Samstag",
+      "folgen": "43",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062070",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 43/2026",
+      "quelle": "https://www.anime2you.de/news/1062070/anime-tv-programm-43-2026/",
+      "veroeffentlicht": "2026-10-18",
+      "gelesenAm": "2026-10-19"
+    },
+    {
+      "titel": "Beyblade X",
+      "zitat": "Neue Folge Beyblade X TOGGO plus · Folge 121 · Samstag um 20:45 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "20:45",
+      "anbieter": null,
+      "sender": "TOGGO plus",
+      "wochentage": "Samstag",
+      "folgen": "121",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062070",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 43/2026",
+      "quelle": "https://www.anime2you.de/news/1062070/anime-tv-programm-43-2026/",
+      "veroeffentlicht": "2026-10-18",
+      "gelesenAm": "2026-10-19"
+    },
+    {
+      "titel": "Anime Night",
+      "zitat": "Hinweis Programmänderung Die »Anime Night« am Freitagabend auf ProSieben MAXX pausiert aufgrund eines Specials zur »Rocky«-Filmreihe.",
+      "art": "pause",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "Freitagabend",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062070",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 43/2026",
+      "quelle": "https://www.anime2you.de/news/1062070/anime-tv-programm-43-2026/",
+      "veroeffentlicht": "2026-10-18",
+      "gelesenAm": "2026-10-19"
+    },
+    {
+      "titel": "Magical Girl Special Ops Asuka",
+      "zitat": "»Magical Girl Special Ops Asuka« startet demzufolge am 9. November 2026 und läuft fortan jeden Montag ab 22:35 Uhr in Doppelfolgen auf ProSieben FUN. Alle Episoden stehen zudem in der Mediathek auf Joyn zur Verfügung.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": "2026-11-09",
+      "uhrzeit": "22:35",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "jeden Montag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Montag",
+      "warnungen": [],
+      "artikelId": "1062104",
+      "artikel": "ProSieben FUN wiederholt »Magical Girl Special Ops Asuka«",
+      "quelle": "https://www.anime2you.de/news/1062104/prosieben-fun-magical-girl-special-ops-asuka-wiederholung/",
+      "veroeffentlicht": "2026-10-18",
+      "gelesenAm": "2026-10-19"
+    },
+    {
+      "titel": "Magical Girl Special Ops Asuka",
+      "zitat": "Durch Einträge im Programmplan von ProSieben FUN wurde bekannt, dass der Pay-TV-Sender die Fantasy-Serie »Magical Girl Special Ops Asuka« in wenigen Wochen erneut mit deutscher Vertonung ausstrahlen wird.",
+      "art": "sprachfassung",
+      "sprache": "deutsch",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062104",
+      "artikel": "ProSieben FUN wiederholt »Magical Girl Special Ops Asuka«",
+      "quelle": "https://www.anime2you.de/news/1062104/prosieben-fun-magical-girl-special-ops-asuka-wiederholung/",
+      "veroeffentlicht": "2026-10-18",
+      "gelesenAm": "2026-10-19"
+    },
+    {
+      "titel": "The Detective is Already Dead",
+      "zitat": "Die zweite »The Detective is Already Dead«-Staffel umfasst insgesamt 13 Episoden, die seit dem 7. Oktober 2026 im Originalton mit Untertiteln auf Crunchyroll veröffentlicht werden.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-07",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "13",
+      "unsicher": null,
+      "wochentag": "Mittwoch",
+      "warnungen": [],
+      "artikelId": "1062088",
+      "artikel": "Episodenanzahl der zweiten »The Detective is Already Dead«-Staffel",
+      "quelle": "https://www.anime2you.de/news/1062088/the-detective-is-already-dead-staffel-2-episodenanzahl/",
+      "veroeffentlicht": "2026-10-18",
+      "gelesenAm": "2026-10-19"
+    },
+    {
+      "titel": "The Detective is Already Dead",
+      "zitat": "Eine deutsche Synchronisation startet zu einem späterem Zeitpunkt.",
+      "art": "sprachfassung",
+      "sprache": "deutsch",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062088",
+      "artikel": "Episodenanzahl der zweiten »The Detective is Already Dead«-Staffel",
+      "quelle": "https://www.anime2you.de/news/1062088/the-detective-is-already-dead-staffel-2-episodenanzahl/",
+      "veroeffentlicht": "2026-10-18",
+      "gelesenAm": "2026-10-19"
+    },
+    {
+      "titel": "Frieren: Beyond Journey’s End",
+      "zitat": "Eine dritte Staffel startet im Oktober 2027.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1061247",
+      "artikel": "Neue Plüschfigur der »Frieren«-Protagonistin angekündigt",
+      "quelle": "https://www.anime2you.de/news/1061247/frieren-protagonistin-sakami-plueschfigur/",
+      "veroeffentlicht": "2026-10-18",
+      "gelesenAm": "2026-10-19"
     }
   ]
 }

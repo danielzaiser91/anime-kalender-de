@@ -97,10 +97,14 @@ function ladeJson(datei) {
   return Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
 }
 
+/** Die Quellen der Auswahl: Cartoons und JustWatch-Tonangaben aus den Live-Dateien. */
+export function ladeBestand() {
+  return { cartoons: ladeJson('public/data/cartoons.json'), jw: JSON.parse(readFileSync(resolve(WURZEL, 'data/justwatch-audio.json'), 'utf8')) }
+}
+
 /** Der Inhalt der eingefrorenen Datei, gerechnet aus dem heutigen Bestand. */
 export function stichprobeDatei(heute = new Date().toISOString().slice(0, 10)) {
-  const cartoons = ladeJson('public/data/cartoons.json')
-  const jw = JSON.parse(readFileSync(resolve(WURZEL, 'data/justwatch-audio.json'), 'utf8'))
+  const { cartoons, jw } = ladeBestand()
   return { seed: SEED, erzeugt: heute, quoten: QUOTEN, eintraege: waehleStichprobe(kandidaten(cartoons, jw)) }
 }
 

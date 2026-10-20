@@ -4,7 +4,7 @@ import { plattformAusAdresse } from '../../shared/adresse-passt.ts'
 import { hatAufnahmeBeleg } from '../lib/cartoon-aufnahme.ts'
 import { type CartoonEintrag, type JwAngebotTon, alsTitel, jwTonAnbieter, plattformVon, tonAnbieterNamen } from '../lib/cartoons.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
-import { type PlatformId, type Title, type Release, type Quelle } from '../../shared/types.ts'
+import { type Title, type Release, type Quelle } from '../../shared/types.ts'
 import { OUT, kinoFeld, mitAnkuendigung } from './grundlagen.ts'
 import { mitLaufzeit } from '../lib/anisearch-felder.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
@@ -21,10 +21,12 @@ import { eigenesJa, zaehltAlsDeutscherTermin } from '../lib/news.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
 import { reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
+import { behalteLesetag, ladeAdnLesetage, mitLesetag, ohneFehlzuordnung } from './adn-lesetag.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
 import { setzeStaffeln, staffelnAusBelegen } from './cartoon-staffeln.ts'
 import { verteileWege } from './cartoon-wege.ts'
+import { wendeCartoonBelegeAn } from './cartoon-belege.ts'
 import { kennzeichneCartoonJwSeiten } from './cartoon-jw-seite.ts'
 import type { Staffel } from '../lib/jw-staffeln.ts'
 import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-titel.ts'
@@ -181,28 +183,7 @@ export function schreibeCartoons(): void {
   }
   if (jwAdressen) log(`${jwAdressen} Cartoon-Verweise mit Adresse von JustWatch`)
   const belege = loadDubChecks().filter((b) => b.anilistId < 0)
-  const nachId = new Map(titel.map((t) => [t.id, t]))
-  let belegt = 0
-  for (const b of belege) {
-    const t = nachId.get(b.anilistId)
-    if (!t) continue
-    if (b.available === false || b.dub === false) {
-      t.streams = t.streams.filter((s) => s.platform !== b.platform)
-      continue
-    }
-    if (b.dub !== true && !b.url) continue
-    let s = t.streams.find((x) => x.platform === b.platform)
-    if (!s) {
-      s = { platform: b.platform as PlatformId, url: '' }
-      t.streams.push(s)
-    }
-    if (b.url) s.url = b.url
-    if (b.dub === true) {
-      s.dub = true
-      if (b.dubRanges?.length) s.dubRanges = b.dubRanges
-      belegt++
-    }
-  }
+  const belegt = wendeCartoonBelegeAn(titel, belege)
   if (belegt) log(`${belegt} Cartoon-Verweise mit Handbeleg`)
   setzeTonHinweise(titel, jw, belege)
   const ungeprueft = setzeStaffeln(titel, roh, jw, staffelnAusBelegen(belege))
@@ -398,6 +379,7 @@ export function quellenPflegen(releases: Release[]): void {
   const historie = readJson<Record<string, Quelle[]>>(QUELLEN_HISTORIE, {})
   const lesungen = readJson<BelegGedaechtnis>('data/beleg-lesungen.json', {})
   const heute = todayIso()
+  const lesetag = ladeAdnLesetage()
 
   for (const release of releases) {
     const termin = release.schedule.firstEpisodeDate
@@ -407,7 +389,7 @@ export function quellenPflegen(releases: Release[]): void {
      * Hand geprüften Termine die schlechtere Belegkette als die automatischen.
      * **Kein `sagt`:** Unser Termin als Aussage der Quelle war ein Zirkelschluss.
      */
-    const neu: Quelle[] =
+    const roh: Quelle[] =
       release.quellen ??
       release.sources.map((url) => ({
         url,
@@ -415,9 +397,10 @@ export function quellenPflegen(releases: Release[]): void {
         gesehenAm: heute,
         stand: 'aktuell' as const,
       }))
+    const neu = behalteLesetag(mitLesetag(release, roh, lesetag), historie[release.slug] ?? [], termin)
 
     const aktuelleAdressen = new Set(neu.map((q) => q.url))
-    const alt = (historie[release.slug] ?? []).map((q) => {
+    const alt = ohneFehlzuordnung(historie[release.slug] ?? [], neu).map((q) => {
       if (aktuelleAdressen.has(q.url)) return q
       /**
        * Die Quelle steht nicht mehr hinter dem geltenden Termin. Ob sie

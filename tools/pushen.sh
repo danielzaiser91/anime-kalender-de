@@ -3,8 +3,8 @@
 # Prüfen, dann pushen — nie in anderer Reihenfolge (07.10.2026: zweimal ein Stand gepusht, obwohl `check:vor-commit` oder `check:logic` rot war,
 # weil die Befehle mit `;` statt `&&` verkettet waren und nur das Ende der Ausgabe gelesen wurde).
 #
-# Seit dem 11.10.2026 geht nichts mehr direkt nach main (Ruleset `main-pruefweg`): Der Stand wird als Pull Request eingereicht, GitHub mergt selbst
-# (`tools/pr-einreichen.sh`, Auto-Merge nach der Freigabe des PR-Prüfers).
+# Seit dem 11.10.2026 geht nichts mehr direkt nach main (Ruleset `main-pruefweg`): Der Stand wird als Pull Request eingereicht, danach
+# mergt der Dirigent nach Prüfer-Freigabe und `pr-nachrechnen.mjs` (`tools/pr-einreichen.sh` schaltet keinen Auto-Merge mehr ein, seit 19.10.2026).
 #
 # Aufruf: bash tools/pushen.sh            (hart: Prüfkette, dann fetch, rebase, Pull Request; der Deploy wartet auf seine Prüfungen)
 #         bash tools/pushen.sh --schlank  (kleine Oberflächenänderung, lokal vollständig geprüft: nur Typprüfung und Umfang, der Deploy läuft gleich nach dem Bau,

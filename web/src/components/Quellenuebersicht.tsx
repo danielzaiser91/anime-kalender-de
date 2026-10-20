@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { Release, Title } from '@shared/types.ts'
+import { istLink } from '@shared/quelle.ts'
 import { useLang } from '../lib/i18n.tsx'
 
 /**
@@ -37,19 +38,7 @@ export function Quellenuebersicht({ title, releases, asZiel }: { title: Title; r
     „anime2you.de, anime2you.de" las sich wie ein Fehler statt wie zwei Belege
     (15.08.2026). Die Zahl dahinter sagt, wie viele es sind.
   */
-  const terminQuellen = useMemo(() => {
-    const je = new Map<string, { url: string; anzahl: number }>()
-    for (const r of releases) {
-      const liste = [...(r.quellen ?? r.sources.map((url) => ({ url, name: hostVon(url) }))), ...originalQuelle(r)]
-      for (const q of liste) {
-        const host = q.name || hostVon(q.url)
-        const da = je.get(host)
-        if (da) da.anzahl++
-        else je.set(host, { url: q.url, anzahl: 1 })
-      }
-    }
-    return [...je.entries()].map(([host, wert]) => ({ host, ...wert }))
-  }, [releases])
+  const terminQuellen = useMemo(() => terminQuellenJeHost(releases), [releases])
 
   const zeilen = useMemo(() => {
     const raus: { name: string; url?: string; speist: string; anzahl?: number }[] = [
@@ -183,6 +172,21 @@ const ANZEIGENAME: Record<string, string> = {
 }
 
 const NAME_ORIGINAL = 'TMDB'
+
+/** Je Host ein Eintrag mit Zahl der Belege; `url` nur, wenn sie ein Besucher öffnen kann (keine API-Adresse). */
+export function terminQuellenJeHost(releases: Release[]): { host: string; url?: string; anzahl: number }[] {
+  const je = new Map<string, { url?: string; anzahl: number }>()
+  for (const r of releases) {
+    const liste = [...(r.quellen ?? r.sources.map((url) => ({ url, name: hostVon(url) }))), ...originalQuelle(r)]
+    for (const q of liste) {
+      const host = q.name || hostVon(q.url)
+      const da = je.get(host)
+      if (da) da.anzahl++
+      else je.set(host, { url: istLink(q.url) ? q.url : undefined, anzahl: 1 })
+    }
+  }
+  return [...je.entries()].map(([host, wert]) => ({ host, ...wert }))
+}
 
 /** Die Seite der Originaltermine, auf denen geschätzte Folgen beruhen: Grundlage, kein Beleg (`schedule.nachOriginalQuelle`). */
 function originalQuelle(r: Release): { url: string; name: string }[] {

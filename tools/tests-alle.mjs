@@ -16,7 +16,7 @@ const tools = dirname(fileURLToPath(import.meta.url))
 const wurzel = join(tools, '..')
 const tests = readdirSync(tools).filter((f) => f.endsWith('.test.mjs')).sort()
 const alle = process.argv.includes('--alle')
-const LANGSAM = ['quellen-pr.test.mjs', 'quellen-pr-pruefung.test.mjs', 'bash-an-angehaengtes-log.test.mjs', 'commit-data.test.mjs']
+const LANGSAM = ['quellen-pr.test.mjs', 'quellen-pr-pruefung.test.mjs', 'bash-an-angehaengtes-log.test.mjs', 'commit-data.test.mjs', 'akroot-schreibziel.test.mjs']
 
 const auftraege = tests.map((test) => ({ befehl: process.execPath, args: [join(tools, test)], cwd: wurzel, env: sperreUmgebung() }))
 const { rote, gelaufen, veraendert } = await laufePool(auftraege, {

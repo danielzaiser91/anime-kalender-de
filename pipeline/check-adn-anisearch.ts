@@ -2,9 +2,12 @@
  * Zusicherungen zur Zuordnung ADN-Serie → aniSearch (13.10.2026, `lib/adn-anisearch.ts`) und zur Frist der Titelliste. Läuft in `check:logic`
  * ohne Cache und ohne Bestand; der Katalog `data/adn-catalog.json` und die Liste `data/adn-anisearch-offen.json` liegen im Repo.
  */
-import { readFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { wortIndex, type AsTitel } from './lib/anisearch-katalog-abgleich.ts'
 import { ordneAdnZuAnisearch, titellisteFrisch, TITELLISTE_MAX_TAGE, type AdnOffen } from './lib/adn-anisearch.ts'
+import { ordneKatalogZuAnisearch, uebernimmOhneTitelliste } from './lib/adn-zuordnung-lauf.ts'
 import { besterTitel, nameTraegt } from './bau/adn-show-titel.ts'
 import type { AdnShow } from './lib/adn.ts'
 import type { Title } from '../shared/types.ts'
@@ -68,6 +71,39 @@ pruefe('Titelliste gilt am letzten Tag der Frist noch', titellisteFrisch(geholt,
 pruefe('Titelliste gilt eine Millisekunde nach der Frist nicht mehr', !titellisteFrisch(geholt, start + TITELLISTE_MAX_TAGE * tag + 1))
 pruefe('ohne Zeitstempel gilt die Titelliste nicht', !titellisteFrisch(undefined, start))
 pruefe('die Frist beträgt höchstens eine Woche', TITELLISTE_MAX_TAGE <= 7, TITELLISTE_MAX_TAGE)
+
+// Titelliste fehlt: neue Serien kommen als offen in die Liste, bekannte bleiben, Zugeordnete und Erledigte fallen heraus.
+const serie = (showId: number, anisearchId?: number): AdnShow => ({ showId, title: `Serie ${showId}`, originalTitle: `Original ${showId}`, anisearchId, episodes: [], batch: false, url: '' }) as AdnShow
+const altOffen = (showId: number): AdnOffen => ({ showId, title: `Serie ${showId}`, grund: 'mehrdeutig', kandidaten: [] })
+const katalogNeu = [serie(887), serie(7), serie(12), serie(30), serie(500)]
+const katalogAlt = [serie(12), serie(30, 4711), serie(500, 4712)]
+const ohneListe = uebernimmOhneTitelliste(katalogNeu, katalogAlt, [altOffen(12), altOffen(500)])
+pruefe('ohne Titelliste: die neue Serie steht als offen mit Grund „titelliste-fehlt“', ohneListe.find((o) => o.showId === 887)?.grund === 'titelliste-fehlt', ohneListe)
+pruefe('ohne Titelliste: der Eintrag trägt Namen der Serie und keine Kandidaten', JSON.stringify(ohneListe.find((o) => o.showId === 887)) === JSON.stringify({ showId: 887, title: 'Serie 887', originalTitle: 'Original 887', grund: 'titelliste-fehlt', kandidaten: [] }), ohneListe)
+pruefe('ohne Titelliste: ein vorhandener Eintrag bleibt unverändert (Grund „mehrdeutig“)', ohneListe.find((o) => o.showId === 12)?.grund === 'mehrdeutig', ohneListe)
+pruefe('ohne Titelliste: eine Serie mit Kennung aus der Vorwoche behält sie und steht nicht in der Liste', katalogNeu[3]!.anisearchId === 4711 && !ohneListe.some((o) => o.showId === 30), ohneListe)
+pruefe('ohne Titelliste: ein erledigter Eintrag (Serie hat jetzt Kennung) fällt aus der Liste', !ohneListe.some((o) => o.showId === 500), ohneListe)
+pruefe('ohne Titelliste: die Liste ist nach Serienkennung sortiert, ohne Doppelte', JSON.stringify(ohneListe.map((o) => o.showId)) === '[7,12,887]', ohneListe)
+const zweiterLauf = uebernimmOhneTitelliste(katalogNeu, katalogAlt, ohneListe)
+pruefe('ohne Titelliste: ein zweiter Lauf ändert nichts', JSON.stringify(zweiterLauf) === JSON.stringify(ohneListe), zweiterLauf)
+pruefe('ohne Titelliste und ohne alte Liste: eine einzige Neue steht allein drin', uebernimmOhneTitelliste([serie(5)], [], []).length === 1)
+pruefe('leerer Katalog: leere Liste', uebernimmOhneTitelliste([], [], [altOffen(1)]).length === 0)
+
+// Der Aufrufer selbst (ordneKatalogZuAnisearch) in einem Wegwerf-Ordner: Titelliste fehlt -> Datei enthält die Neue; zweiter Lauf lässt sie unberührt.
+const wurzel = mkdtempSync(join(tmpdir(), 'adn-offen-'))
+const offenDatei = join(wurzel, 'offen.json')
+writeFileSync(offenDatei, JSON.stringify({ anzahl: 1, serien: [altOffen(12)] }))
+const liesOffen = () => (JSON.parse(readFileSync(offenDatei, 'utf8')) as { anzahl: number; serien: AdnOffen[] })
+const lauf = (shows: AdnShow[], tl?: Map<number, AsTitel>) => ordneKatalogZuAnisearch(shows, katalogAlt, { titelliste: async () => tl, offenDatei })
+await lauf([serie(887), serie(12), serie(30)])
+const nachLauf = liesOffen()
+pruefe('Aufrufer ohne Titelliste: die Datei nennt 12 und die neue 887 mit „titelliste-fehlt“, Anzahl 2', JSON.stringify(nachLauf.serien.map((o) => [o.showId, o.grund])) === '[[12,"mehrdeutig"],[887,"titelliste-fehlt"]]' && nachLauf.anzahl === 2, nachLauf)
+const bytes = readFileSync(offenDatei, 'utf8')
+await lauf([serie(887), serie(12), serie(30)])
+pruefe('Aufrufer ohne Titelliste: ein zweiter Lauf lässt die Datei byteweise gleich', readFileSync(offenDatei, 'utf8') === bytes)
+await lauf([serie(887, 1), serie(12, 2)], new Map())
+pruefe('Aufrufer mit Titelliste rechnet die Liste neu (ohne „titelliste-fehlt“)', !readFileSync(offenDatei, 'utf8').includes('titelliste-fehlt'), liesOffen())
+rmSync(wurzel, { recursive: true, force: true })
 
 // Der eingecheckte Katalog und die Liste der offenen passen zusammen: nichts fällt heraus, nichts ist doppelt, keine AniList-Kennung bleibt.
 const katalog = JSON.parse(readFileSync('data/adn-catalog.json', 'utf8')) as { shows: (AdnShow & { anilistId?: number })[] }

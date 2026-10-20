@@ -18,7 +18,7 @@
  *     → public/data/pruefstand.json (Status-App) → Commit, Pull Request, Deploy
  *
  * Das Skript fährt alle vier, prüft danach, dass jeder neue Eintrag in seiner Liste **und** im
- * Prüfstand steht, und reicht einen Pull Request ein (Auto-Merge, seit 11.10.2026). `--pruefen` hält dieselbe Kette in `check:vor-commit` fest: Wer
+ * Prüfstand steht, und reicht einen Pull Request ein (seit 11.10.2026; gemergt wird von Hand nach `pr-nachrechnen.mjs`). `--pruefen` hält dieselbe Kette in `check:vor-commit` fest: Wer
  * die YAML-Datei von Hand ändert und die Listen vergisst, bekommt einen roten Lauf statt einer
  * stillen Lücke.
  */
@@ -172,7 +172,7 @@ if (fehlt) process.exit(1)
 if (ohnePush) process.exit(0)
 
 lauf('npm run check:vor-commit')
-/* Direkt nach main geht seit dem 11.10.2026 nichts mehr (Ruleset `main-pruefweg`): eigener Zweig, Pull Request, Auto-Merge. */
+/* Direkt nach main geht seit dem 11.10.2026 nichts mehr (Ruleset `main-pruefweg`): eigener Zweig, Pull Request (ohne Auto-Merge). */
 const vorher = execSync('git rev-parse --abbrev-ref HEAD', { cwd: wurzel, encoding: 'utf8' }).trim()
 lauf(`git switch -q -c erneut-melden/${new Date().toISOString().replace(/[-:TZ.]/g, '').slice(0, 14)}`)
 lauf(`git add ${DATEIEN.join(' ')}`)
@@ -201,4 +201,4 @@ try {
 }
 execFileSync('bash', ['tools/pr-einreichen.sh', nachricht.split('\n')[0]], { cwd: wurzel, stdio: 'inherit' })
 if (vorher !== 'HEAD') lauf(`git switch -q ${vorher}`)
-console.log('Als Pull Request eingereicht — GitHub mergt nach der Freigabe selbst, danach zeigt die Status-App die Titel.')
+console.log('Als Pull Request eingereicht — Merge nach Freigabe und `node tools/pr-nachrechnen.mjs <PR>` von Hand, danach zeigt die Status-App die Titel.')

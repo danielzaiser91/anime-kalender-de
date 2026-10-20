@@ -46,7 +46,7 @@ import { istUnplausibel } from './lib/justwatch-plausibel.ts'
 import { todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
 import { STAFFELN_ABFRAGE, staffelnVon, type Staffel, type StaffelRoh } from './lib/jw-staffeln.ts'
-import { staffelnFehlen, vertrauensBefundAlt } from './lib/jw-wiedervorlage.ts'
+import { warteschlange } from './lib/jw-schlange.ts'
 
 const ENDPUNKT = 'https://apis.justwatch.com/graphql'
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -124,21 +124,6 @@ interface JwKnoten {
       }[]
     | null
   seasons?: StaffelRoh[] | null
-}
-
-/**
- * Altersangabe nachholen (08.10.2026): Treffer aus der Zeit vor dem Feld haben keine `altersangabe`;
- * für Titel ohne FSK werden sie vorgezogen — dieselbe Abfrage, nur früher als die 28-Tage-Frist.
- */
-function alterNachholen(t: Title, bestand: Record<string, Befund>): boolean {
-  const e = bestand[String(t.id)]
-  return t.fsk === undefined && Boolean(e?.jwId && !e.ohneTreffer && e.altersangabe === undefined)
-}
-
-/** Was vor der 28-Tage-Frist wieder an die Reihe kommt: Altersangabe, Staffelangaben, Befunde hinter „Deutsch laut JustWatch". */
-function vorgezogen(t: Title, bestand: Record<string, Befund>): boolean {
-  const e = bestand[String(t.id)]
-  return alterNachholen(t, bestand) || staffelnFehlen(e) || vertrauensBefundAlt(t, e, todayIso())
 }
 
 function angeboteVon(offers: JwKnoten['offers']): Angebot[] {
@@ -238,55 +223,7 @@ async function main(): Promise<void> {
     Sprachurteil, Titel ganz ohne Weg (243 im Hauptbestand, 07.09.2026) und Wege, die nur auf die TMDB-Übersicht
     zeigen statt zum Anbieter (1.187 auf 364 Titeln, 16.09.2026).
   */
-  const dringend = (t: Title) =>
-    (t.streams ?? []).some((s) => s.dub === undefined) ||
-    (!(t.streams ?? []).length && !(t.watchLinks ?? []).length) ||
-    (t.watchLinks ?? []).some((w) => /themoviedb.org/.test(w.url ?? ''))
-  /*
-    **Eine berichtigte TMDB-Zuordnung macht den alten Befund wertlos.** Gesucht wird
-    gegen die Kennung; stand dort gestern ein anderer Film, sagt das Ergebnis nichts
-    über diesen. Solche Titel gehen sofort wieder in die Schlange, ohne die Frist
-    abzuwarten (17.09.2026).
-  */
-  const kennungGewechselt = (t: Title) => {
-    const e = bestand[String(t.id)]
-    const jetzt = (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
-    return Boolean(e?.tmdbId && jetzt && e.tmdbId !== jetzt)
-  }
-  /*
-    **Ein Fehlschlag ohne gespeicherte Kennung ist nicht beweiskräftig** (23.09.2026).
-
-    Seit dem 17.09.2026 schreibt jeder „ohne Treffer" die Kennung mit, gegen die gesucht
-    wurde — die Wechselprüfung darüber erkennt einen berichtigten Titel daran. Ältere
-    Fehlschläge haben dieses Feld nicht, und genau dort steckte der Fall: „Dragon Ball Super"
-    kam als „ohne Treffer" zurück, weil die Kennung auf die für 2026 angekündigte
-    Beerus-Serie zeigte. Mit der berichtigten Kennung hätte er trotzdem 28 Tage gewartet.
-
-    Solche Befunde werden deshalb **fällig**, aber nicht **dringend**: Es sind 638 Stück, und
-    die Schlange soll dadurch nicht vor den echten Wechseln stehen. Der Zweig erledigt sich
-    von selbst, sobald jeder Befund seine Kennung trägt.
-  */
-  const fehlschlagOhneKennung = (t: Title) => {
-    const e = bestand[String(t.id)]
-    const jetzt = (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
-    return Boolean(e?.ohneTreffer && !e.tmdbId && jetzt)
-  }
-  const offen = titles
-    .filter((t) => (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId)
-    .filter(
-      (t) =>
-        (bestand[String(t.id)]?.geprueftAm ?? '') < grenze ||
-        kennungGewechselt(t) ||
-        fehlschlagOhneKennung(t) ||
-        vorgezogen(t, bestand),
-    )
-    .sort(
-      (a, b) =>
-        Number(kennungGewechselt(b)) - Number(kennungGewechselt(a)) ||
-        Number(vorgezogen(b, bestand)) - Number(vorgezogen(a, bestand)) ||
-        Number(dringend(b)) - Number(dringend(a)) ||
-        (bestand[String(a.id)]?.geprueftAm ?? '').localeCompare(bestand[String(b.id)]?.geprueftAm ?? ''),
-    )
+  const offen = warteschlange({ titles, bestand, tmdb, grenze, heute: todayIso(), cartoonIds: new Set(cartoons.map((t) => t.id)) })
 
   if (!offen.length) {
     log('JustWatch: keine offenen Verweise zur Wiedervorlage.')
