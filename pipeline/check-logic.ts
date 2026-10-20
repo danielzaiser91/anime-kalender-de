@@ -92,6 +92,7 @@ import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../sha
 import { bereicheGekuerzt, bereicheKurz, dubBild, dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { riegelGreift } from './lib/youtube-riegel.ts'
 import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
+import { nichtGefuehrtZeilen } from './lib/beleg-nicht-gefuehrt.ts'
 import { belegSchluessel, belegeUeberFolgenzahl,entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-frist.ts'
 import { germanizeUrl, netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
@@ -3345,6 +3346,10 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   pruefe('neue Belege: vorhandene und doppelte fallen, der Rest bleibt', neu.length === 2, neu)
   pruefe('fetch-pruefungen nutzt diesen Abgleich', /neueBelegBloecke\(alt, zeilen\)/.test(abholung))
   /* Haikyu!!-Summenseite, 20.10.2026: das Prüfdatum zählt beim Abgleich nicht, die Folgenspanne schon. */
+  const nichtDa = nichtGefuehrtZeilen(7, 'Titel "X"', 'netflix', '2026-10-20', 2)
+  const nichtDaSoll = ['', '- anilistId: 7', '  title: "Titel \\"X\\""', '  platform: netflix', '  available: false', "  checkedAt: '2026-10-20'", '  note: "Der Anbieter führt unter dieser Adresse nur 2 Staffel(n); diese ist nicht darunter"']
+  pruefe('Beleg „Anbieter führt die Staffel nicht": Zeilen wie bisher', JSON.stringify(nichtDa) === JSON.stringify(nichtDaSoll), nichtDa)
+  pruefe('Beleg „Anbieter führt die Staffel nicht": ohne Titelname keine title-Zeile', !nichtGefuehrtZeilen(7, undefined, 'netflix', 'd', 1).some((z) => z.startsWith('  title:')))
   pruefe('Belegschlüssel: Nicht-Objekte bleiben unverändert', belegSchluessel(5) === '5' && belegSchluessel(null) === 'null')
   const altMitDatum ='- a: 1\n  from: 1\n  to: 13\n  checkedAt: "2026-10-13"\n'
   const gleicheMeldung = neueBelegBloecke(altMitDatum, ['- a: 1', '  from: 1', '  to: 13', '  checkedAt: "2026-10-18"']).neu

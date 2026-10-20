@@ -65,6 +65,17 @@ export function bildeBereiche(meldungen: Folgenmeldung[]): {
 }
 
 /**
+ * Kappt Bereiche auf die Folgenzahl des Titels: Eine Summenseite (Haikyu!! Staffel 4, 27 Folgen) zählt durch, für einen Titel allein
+ * wäre „Folge 14–25" bei 13 Folgen eine Aussage über fremde Folgen. Ohne bekannte Folgenzahl bleibt alles stehen.
+ */
+export function begrenzeAufFolgenzahl(bereiche: Folgenbereich[], folgen: number | null | undefined): Folgenbereich[] {
+  if (!folgen || folgen < 1) return bereiche
+  return bereiche
+    .filter((b) => b.von <= folgen)
+    .map((b) => (b.bis <= folgen ? b : { ...b, bis: folgen, belegt: b.belegt.filter((f) => f <= folgen) }))
+}
+
+/**
  * Die Bereiche als ein Satz, den ein Mensch lesen kann.
  *
  * Die Lücken werden benannt, nicht verschwiegen: „4–5 ungeprüft" ist eine
