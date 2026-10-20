@@ -437,7 +437,12 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
 ## Link-Vorschau im Poster-Stil (27.09.2026)
 
 `pipeline/build-og.ts` zeichnet die 1200×630-Bilder jetzt wie die Seite (`lib/og-karte.ts`): Cover
-links, Anbieter-Chips, Titel in Unbounded, Eckdaten als Raster, Wortmarke. Zu wissen:
+links, Anbieter-Chips, Titel in Unbounded, Eckdaten als Raster, Wortmarke. **Seit 20.10.2026 (Fassung
+`kino-1`, Daniels Wahl F8):** Layout „Kino" — Cover als Plakat rechts und unscharf als Hintergrund,
+links Marke „Block AK" (`lib/og-marke.ts`) mit Wortmarke, Titel, Datumsmarke (`terminKopf` in
+`lib/og-termin.ts`) mit Folgen daneben, Chips unten; das Standardbild (`lib/og-standard-bild.ts`) trägt
+Glut, Wasserzeichen und drei Aussagen, ohne Datum in der Kennung. Der Raster-Absatz oben und die
+Schriften darunter stimmen weiter; Raster, Genres und Label entfielen. Zu wissen:
 
 - **Schriften:** Pango (in sharp) liest weder WOFF noch eine eigene fontconfig-Datei — beides fällt
   lautlos auf eine Ersatzschrift zurück. `lib/og-schriften.ts` packt die WOFF aus `@fontsource` in
