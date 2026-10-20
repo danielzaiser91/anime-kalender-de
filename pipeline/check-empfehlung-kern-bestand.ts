@@ -7,7 +7,7 @@ import { readFileSync } from 'node:fs'
 import type { EmpfehlungsDatei } from '../shared/empfehlung-pool.ts'
 import { antworteSitzung, DUELLE_START, naechstesPaar, neueSitzung, neuerZustand, vorschlaege, zurueck, type Antwort, type Sitzung } from '../shared/empfehlung-kern.ts'
 import { baueKontext } from '../shared/empfehlung-vektor.ts'
-import { baueProfil, PROFILE, spiele } from './lib/empfehlung-simulation.ts'
+import { brauchbareProfile, MIN_KERN, spiele } from './lib/empfehlung-simulation.ts'
 
 const datei = JSON.parse(readFileSync(new URL('../public/data/empfehlung.json', import.meta.url), 'utf8')) as EmpfehlungsDatei
 const k = baueKontext(datei)
@@ -19,11 +19,18 @@ const MIN_TREFFERQUOTE_6 = 0.5
 /** Zufallsvorschläge treffen zu 6–15 % (17.2), Zufall plus Zählen (A0) nach 4 Duellen zu 26 %: darunter lernt der Kern nicht. */
 const ZUFALL_OBERGRENZE = 0.3
 
+/** Die Profile hängen an Schlagwortnamen; wird eines umbenannt oder selten, ist das ein Hinweis, kein Fehler des Kerns. Unter 3 Profilen misst die Wache nichts Belastbares. */
+const { profile, uebersprungen } = brauchbareProfile(k)
+for (const u of uebersprungen) console.warn(`  ! Profil ${u} hat weniger als ${MIN_KERN} Kerntitel und wird übersprungen (Schlagwort umbenannt?)`)
+if (profile.length < 3) {
+  console.error(`  ✖ nur ${profile.length} von 5 Profilen mit mindestens ${MIN_KERN} Kerntiteln: Simulation nicht belastbar, Profile in pipeline/lib/empfehlung-simulation.ts an die Schlagwörter anpassen`)
+  process.exit(1)
+}
+
 const quote = (duelle: number, neutral = 0.1): number => {
   let summe = 0
   let n = 0
-  for (const name of Object.keys(PROFILE)) {
-    const profil = baueProfil(k, name)
+  for (const profil of profile) {
     for (let s = 1; s <= LAEUFE; s++) {
       summe += spiele(k, profil, s, duelle, neutral).treffer / 5
       n++
@@ -45,8 +52,7 @@ if (q6neutral < 0.4) fehler.push(`Trefferquote nach 6 Duellen bei 30 % „kann n
 const restNach = (duelle: number): number => {
   let summe = 0
   let n = 0
-  for (const name of Object.keys(PROFILE)) {
-    const profil = baueProfil(k, name)
+  for (const profil of profile) {
     for (let s = 1; s <= 20; s++, n++) summe += spiele(k, profil, s, duelle).zustand.rest.length
   }
   return summe / n
@@ -91,7 +97,7 @@ if (vorschlagsFehler) fehler.push(`${vorschlagsFehler} Vorschlagslisten ohne fü
 for (const f of fehler) console.error(`  ✖ ${f}`)
 if (fehler.length) process.exit(1)
 console.log(
-  `Empfehlung (Kern, Bestand): ${datei.einstiege.length} Einstiege, Trefferquote ${(q4 * 100).toFixed(0)} / ${(q6 * 100).toFixed(0)} / ${(q12 * 100).toFixed(0)} % nach 4 / 6 / 12 Duellen ` +
+  `Empfehlung (Kern, Bestand): ${datei.einstiege.length} Einstiege, ${profile.length} Profile, Trefferquote ${(q4 * 100).toFixed(0)} / ${(q6 * 100).toFixed(0)} / ${(q12 * 100).toFixed(0)} % nach 4 / 6 / 12 Duellen ` +
     `(30 % unentschieden nach 6: ${(q6neutral * 100).toFixed(0)} %), Restmenge nach 2/4/6 Duellen ${rest.map((r) => r.toFixed(0)).join('/')}, ` +
     `200 Läufe ohne Teil-2-Duell, ohne wiederkehrendes Verworfenes, Zurück exakt`,
 )

@@ -1,6 +1,6 @@
 import type { EmpfehlungsDatei, Kandidat } from '../../shared/empfehlung-pool.ts'
 import { antworte, naechstesPaar, neuerZustand, vorschlaege, type Antwort, type Zustand } from '../../shared/empfehlung-kern.ts'
-import { baueKontext, cos, zufall, type Kontext } from '../../shared/empfehlung-vektor.ts'
+import { cos, zufall, type Kontext } from '../../shared/empfehlung-vektor.ts'
 
 /** Künstliche Nutzer mit fester Grundwahrheit (Spezifikation 17.3): Kernmenge = Titel, die dem Profil entsprechen. */
 type Hat = (x: string) => boolean
@@ -59,17 +59,14 @@ export function spiele(k: Kontext, p: Profil, startwert: number, duelle: number,
   return { zustand: z, paare, treffer }
 }
 
-/** Mittlere Trefferquote (von 5) über alle Profile und `laeufe` Läufe je Profil. */
-export function trefferquote(datei: EmpfehlungsDatei, duelle: number, laeufe: number, neutral = 0.1): number {
-  const k = baueKontext(datei)
-  let summe = 0
-  let n = 0
-  for (const name of Object.keys(PROFILE)) {
-    const profil = baueProfil(k, name)
-    for (let s = 1; s <= laeufe; s++) {
-      summe += spiele(k, profil, s, duelle, neutral).treffer / 5
-      n++
-    }
+/** Profile mit weniger Titeln in der Kernmenge sind keine Messlatte mehr (Schlagwort umbenannt oder selten geworden). */
+export const MIN_KERN = 10
+
+/** Die Profile mit genug Kerntiteln und die Namen der übersprungenen; der Wächter meldet beides statt falsch Alarm zu schlagen. */
+export function brauchbareProfile(k: Kontext): { profile: Profil[]; uebersprungen: string[] } {
+  const alle = Object.keys(PROFILE).map((name) => baueProfil(k, name))
+  return {
+    profile: alle.filter((p) => p.kern.filter(Boolean).length >= MIN_KERN),
+    uebersprungen: alle.filter((p) => p.kern.filter(Boolean).length < MIN_KERN).map((p) => `${p.name} (${p.kern.filter(Boolean).length})`),
   }
-  return summe / n
 }

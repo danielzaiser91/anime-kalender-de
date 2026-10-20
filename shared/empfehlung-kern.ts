@@ -70,7 +70,7 @@ function richtungsAbstand(k: Kontext, a: number, b: number, vorher: [number, num
 }
 
 /** Anteil der Restmenge, der näher an `a` als an `b` liegt. */
-function teilung(k: Kontext, rest: number[], a: number, b: number): number {
+export function teilung(k: Kontext, rest: number[], a: number, b: number): number {
   let naeher = 0
   for (const t of rest) if (cos(k, t, a) >= cos(k, t, b)) naeher++
   return naeher / rest.length

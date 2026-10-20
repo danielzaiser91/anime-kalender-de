@@ -5,10 +5,11 @@
  */
 import type { EmpfehlungsDatei, Kandidat } from '../shared/empfehlung-pool.ts'
 import {
-  antworte, antworteSitzung, DUELLE_MAX, DUELLE_START, fortschritt, istFertig, naechstesPaar, neueSitzung, neuerZustand, SCHRITTE_MAX,
+  antworte, antworteSitzung, DUELLE_MAX, DUELLE_START, fortschritt, istFertig, naechstesPaar, neueSitzung, neuerZustand, SCHRITTE_MAX, teilung,
   UNTERGRENZE_REST, VORSCHLAEGE, vorschlaege, zurueck, type Antwort, type Zustand,
 } from '../shared/empfehlung-kern.ts'
 import { baueKontext, cos, zufall } from '../shared/empfehlung-vektor.ts'
+import { brauchbareProfile, PROFILE } from './lib/empfehlung-simulation.ts'
 
 /** Erwartete Werte fest im Test (nicht aus dem Kern importiert): sonst zöge eine Änderung der Konstante den Test mit. */
 const START = 6
@@ -295,6 +296,10 @@ console.log('\nEmpfehlung, Grenzfälle der Eingrenzung (Gleichstand, Untergrenze
   }
   pruefe('Gleichstand zählt zum Sieger: Gruppe Z (gleich nah an beiden) bleibt in der Restmenge', gleichstandOk)
   pruefe('unter der Untergrenze: die zwölf nächsten, Gleichstand nach niedrigster Nummer (8 vom Sieger + 4 niedrigste der anderen)', auffuellenOk)
+  const nah = (rest: number[], a: number, b: number): number => teilung(kz, rest, a, b)
+  pruefe('Teilung: Anteil der Restmenge, der a mindestens so nah liegt wie b (X gegen Y: 8 + 8 Z im Gleichstand von 24 = 2/3)', Math.abs(nah(zahlen(24, 0), 0, 8) - 16 / 24) < 1e-12, nah(zahlen(24, 0), 0, 8))
+  pruefe('Teilung: X gegen Y ohne Z: 1/2', nah(zahlen(16, 0), 0, 8) === 0.5)
+  pruefe('Teilung: zwei Titel nahe a, einer nahe b: 2/3', Math.abs(nah([0, 1, 8], 0, 8) - 2 / 3) < 1e-12)
   const lang = baueKontext(kulisse())
   let genau = 0
   let abweichung = 0
@@ -311,6 +316,20 @@ console.log('\nEmpfehlung, Grenzfälle der Eingrenzung (Gleichstand, Untergrenze
   }
   pruefe('Restmenge nach einem Duell: genau die dem Sieger näheren, oder zwölf; 725 Zustände', abweichung === 0, abweichung)
   pruefe('darunter Zustände, in denen genau zwölf näher liegen (Randfall der Untergrenze)', genau > 0, genau)
+}
+
+console.log('\nEmpfehlung, Profile der Simulation (Wache gegen Datendrift):')
+{
+  const mitIsekaiKomoedie = (n: number): EmpfehlungsDatei => ({
+    ...mini(Array.from({ length: n }, () => ({ g: [0, 1] })), ['Isekai', 'Comedy'], []),
+  })
+  const g10 = brauchbareProfile(baueKontext(mitIsekaiKomoedie(10)))
+  const g9 = brauchbareProfile(baueKontext(mitIsekaiKomoedie(9)))
+  pruefe('Profil mit genau 10 Kerntiteln bleibt', g10.profile.map((p) => p.name).includes('Isekai-Komödie') && !g10.uebersprungen.some((u) => u.startsWith('Isekai-Komödie')))
+  pruefe('Profil mit 9 Kerntiteln wird übersprungen und mit Zahl genannt', !g9.profile.map((p) => p.name).includes('Isekai-Komödie') && g9.uebersprungen.includes('Isekai-Komödie (9)'), g9.uebersprungen)
+  const leer = brauchbareProfile(baueKontext(mini([])))
+  pruefe('Datei ohne passende Schlagwörter: kein Profil, alle fünf übersprungen (kein Absturz)', leer.profile.length === 0 && leer.uebersprungen.length === 5, leer.uebersprungen)
+  pruefe('Profilmenge fest: fünf Profile', Object.keys(PROFILE).length === 5)
 }
 
 console.log('\nEmpfehlung, Zufall, Abzüge und Rangfolge (Gegenproben):')
