@@ -19,7 +19,30 @@ export function ladeBasis(git) {
   try {
     git('cat-file', '-e', `${basis}^{commit}`)
   } catch {
-    git('fetch', '--no-tags', '--depth=1', 'origin', basis)
+    holeBasis(git, basis)
   }
   return basis
+}
+
+/** Parallele Wächter laden dieselbe Basis; hält einer `shallow.lock`, wartet der andere und prüft, ob der Commit inzwischen da ist. */
+export function holeBasis(git, basis, versuche = 5, warteMs = 1000) {
+  for (let versuch = 1; ; versuch++) {
+    try {
+      git('fetch', '--no-tags', '--depth=1', 'origin', basis)
+      return
+    } catch (fehler) {
+      if (istVorhanden(git, basis)) return
+      if (versuch >= versuche) throw fehler
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, warteMs * versuch)
+    }
+  }
+}
+
+function istVorhanden(git, basis) {
+  try {
+    git('cat-file', '-e', `${basis}^{commit}`)
+    return true
+  } catch {
+    return false
+  }
 }
