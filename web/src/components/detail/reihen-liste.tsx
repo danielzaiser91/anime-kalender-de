@@ -1,10 +1,10 @@
 import { type FranchiseMember, type Title } from '@shared/types.ts'
-import { hauptstaffeln, nachJahrUndId, staffelBeschriftungen, staffelStaende, eindeutschenStaffel } from '@shared/titles.ts'
+import { hauptstaffeln, nachJahrUndId, staffelBeschriftungen, staffelStaende } from '@shared/titles.ts'
 import { coverBild } from '../../lib/cover.ts'
-import { FORMAT_DE } from '@shared/mappings.ts'
+import { angabenZeile, kuenftig as istKuenftig, teilNamen } from './reihen-teil.ts'
 import { Fragment } from 'react'
 import { SynchroMarke } from './reihen-marke.tsx'
-import { istEingeklappt, kurzName, zeileInListeSichtbar } from './reihen-regeln.ts'
+import { istEingeklappt, zeileInListeSichtbar } from './reihen-regeln.ts'
 import { OhneSynchroSchalter, ReihenKopf } from './reihen-kopf.tsx'
 import { ZeilenName } from './zeilen-name.tsx'
 import { ReihenKarte } from './reihen-karte.tsx'
@@ -35,40 +35,8 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
           {/* Seit dem 09.10.2026 eine Karte unter dem Antwortkasten: bis 8 Teile ohne Innen-Scroll, darüber fünf Zeilen sichtbar (22rem = Kopf + fünf Zeilen, Reihenliste 10.10.2026). */}
           <div data-reihe-liste className={['relative overflow-y-auto p-0.5', reihenTeile.length > 8 ? 'max-h-[22rem]' : ''].join(' ')}>
             {(() => {
-              /*
-                **Künftig ist, was nach diesem Jahr anfängt.** Ein Titel aus
-                2027 ist angekündigt, einer aus 2023 gelaufen — unabhängig
-                davon, ob wir für ihn eine deutsche Fassung kennen. Fehlt das
-                Jahr, gilt der Teil als erschienen: Ein Eintrag ohne
-                Ausstrahlungsjahr ist fast immer ein alter.
-              */
               const jahr = new Date().getFullYear()
-              /*
-                **Künftig ist, was noch keine deutsche Fassung hat und
-                frühestens dieses Jahr anfängt.**
-
-                Das Jahr allein genügt nicht: „Staffel 3 — Teil 1" beginnt am
-                02.10.2026 und stand mit `jpYear > jahr` bei den erschienenen.
-                Ein Tagesdatum führt die Reihe nicht mit — aber
-                `ohneSynchro` sagt genau das, worum es hier geht: Für diesen
-                Teil gibt es hier noch nichts zu sehen.
-
-                Ein Titel aus einem späteren Jahr ist immer künftig, auch wenn
-                wir schon eine Fassung kennen.
-              */
-              /*
-                **AniList sagt es selbst, wo wir bisher gerechnet haben.**
-
-                Der Jahresvergleich ist eine Ableitung und irrt am
-                Jahreswechsel in beide Richtungen. `NOT_YET_RELEASED` ist
-                dagegen eine Auskunft — für „Lord of the Mysteries 2" steht
-                dort 2027 und genau dieser Status. Der Vergleich bleibt als Rückfall für
-                Einträge ohne Status.
-              */
-              const kuenftig = (m: FranchiseMember) =>
-                m.jpStatus === 'NOT_YET_RELEASED' ||
-                (m.jpStatus !== 'FINISHED' &&
-                  ((m.jpYear ?? 0) > jahr || (Boolean(m.ohneSynchro) && (m.jpYear ?? 0) >= jahr)))
+              const kuenftig = (m: FranchiseMember) => istKuenftig(m, jahr)
               /*
                 **Vier Gruppen mit Überschrift, nicht zwei Töpfe.**
 
@@ -157,35 +125,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                 const gemerkt = favorites.has(m.id)
                 /* `offen` heißt hier „noch nicht erschienen" — dort ist eine fehlende Synchro kein Befund. */
                 const ohneDe = Boolean(m.ohneSynchro) && !offen
-                /*
-                  **Gezeigt wird der unterscheidende Teil, nicht der ganze
-                  Name.** Der Reihenname steht zwei Zeilen höher; ihn hier
-                  sechsmal zu wiederholen füllt die Breite, die gerade erst
-                  gewonnen wurde. Bleibt nach dem Abzug nichts übrig, steht
-                  der volle Name da — bei der ersten Staffel ist das der
-                  Normalfall.
-                */
-                const voll = eindeutschenStaffel(m.name)
-                let rest = voll.toLowerCase().startsWith(reihenName.toLowerCase())
-                  ? voll.slice(reihenName.length).replace(/^[\s:–—-]+/, '').trim()
-                  : voll
-                /*
-                  **Trägt der Name einen fremden Reihennamen, zählt trotzdem
-                  nur die Staffelangabe.**
-
-                  „Kusuriya no Hitorigoto Staffel 3 Teil 2" beginnt nicht mit
-                  unserem Reihennamen, weil für diesen Teil kein deutscher
-                  Titel existiert — der Abzug oben greift dann nicht, und in
-                  der Liste stand der volle japanische Name (Daniel,
-                  03.09.2026). Einen deutschen Namen können wir nicht
-                  erfinden; die Staffelangabe reicht aber, denn welche Reihe
-                  gemeint ist, steht zwei Zeilen höher.
-                */
-                /* Nur bei einer Hauptstaffel: Beim Beiwerk gehört der fremde Reihenname dazu, er unterscheidet den Eintrag von der Hauptserie. */
-                const staffelTeil = /(?:^|\s)(Staffel\s+\d+(?:\s*[-–—]?\s*Teil\s+\d+)?)\s*$/i.exec(rest)
-                if (istHauptstaffel(m) && staffelTeil && rest === voll && rest !== staffelTeil[1]) rest = staffelTeil[1]!
-                /* Und die erste Staffel heißt „Staffel 1", ein Teil „Staffel 1 - Teil 2". */
-                const kurz = (istHauptstaffel(m) && staffelLabel.get(m.id)) || kurzName(rest, voll)
+                const { voll, rest, kurz } = teilNamen(m, reihenName, istHauptstaffel(m), staffelLabel.get(m.id))
                 const beschriftung = <ZeilenName nr={nummern.get(m.id)} rest={rest} voll={voll} kurz={kurz} />
                 return (
                   <button
@@ -266,64 +206,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                       {/* Rechts, damit der Titel den ganzen übrigen Platz bekommt —
                           „2026 · 12 Fg." ist immer kurz, ein Titel selten. */}
                       <span className="ml-auto shrink-0 text-t5 text-slate-500 dark:text-slate-400">
-                        {[
-                          m.format && m.format !== 'TV' ? (FORMAT_DE[m.format] ?? m.format) : '',
-                          /*
-                            **Der Termin schlägt das Jahr — wo es einen gibt.**
-
-                            Bei „Lord of Mysteries" stand hinter drei von vier
-                            Teilen nur das Format: kein Jahr, kein Datum.
-                            AniList kennt für die Specials den
-                            19.06.2026; seit dem 12.09.2026 holt der
-                            Katalogabruf `startDate` mit.
-
-                            Angezeigt wird so genau, wie die Quelle ist:
-                            „2026", „06.2026" oder „19.06.2026".
-                          */
-                          (() => {
-                            /*
-                              **Was noch aussteht, sagt es mit einem Wort.**
-                              Eine gestrichelte Linie allein hat Daniel am
-                              12.09.2026 nicht genügt; „ab 2027" beantwortet
-                              die Frage, ohne eine Zeile zu kosten.
-                            */
-                            /*
-                              **Hier steht der deutsche Termin oder gar
-                              keiner.**
-
-                              Ein japanisches Datum stand hier neben dem
-                              deutschen im Kasten darüber, und niemand sah
-                              den Unterschied. Das ist dieselbe Trennlinie wie überall in
-                              diesem Projekt: Die Seite beantwortet eine
-                              deutsche Frage. Ein japanisches Datum an
-                              dieser Stelle sieht aus wie eine Antwort
-                              darauf und ist keine.
-
-                              `jpStart` bleibt im Datensatz — die Reihe
-                              wird danach sortiert.
-                            */
-                            /*
-                              **In der Reihenliste steht das japanische Erscheinungsjahr**.
-                              Die Liste ordnet die Teile einer Reihe
-                              zeitlich ein — dafür ist das Jahr des Anime die stabile Angabe.
-                              Vorher stand hier der deutsche Termin, und bei Dragon Ball Z war
-                              das der Disc-Kauftermin 20.11.2026 zwischen „1986" und „1996".
-
-                              Ein kommender Teil behält sein „ab", denn dort ist der deutsche
-                              Termin die Auskunft, auf die jemand wartet.
-                            */
-                            if (offen && m.deStart) {
-                              const [jahr, monat, tag] = m.deStart.split('-')
-                              if (tag) return `ab ${tag}.${monat}.${jahr}`
-                              if (monat) return `ab ${monat}.${jahr}`
-                              return `ab ${jahr}`
-                            }
-                            return m.jpYear ? String(m.jpYear) : m.deStart ? m.deStart.slice(0, 4) : ''
-                          })(),
-                          m.episodes && m.episodes > 1 ? t('detail.folgenKurz', { n: m.episodes }) : '',
-                        ]
-                          .filter(Boolean)
-                          .join(' · ')}
+                        {angabenZeile(m, offen, t)}
                       </span>
                     </span>
                     {gemerkt && (
