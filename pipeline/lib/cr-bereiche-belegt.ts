@@ -9,7 +9,7 @@ export function belegteFolgen(crDub: CrDubData, url: string | undefined, staffel
   return new Set(deutscheBereicheSeit(crDub, url, '', staffel).flatMap(folgenVon))
 }
 
-/** Jeder Bereich ist deutsch (`dub`), nicht leer, beginnt bei 1 oder später, und jede seiner Folgen ist belegt. */
+/** Jeder Bereich ist deutsch (`dub`), nicht leer und jede seiner Folgen ist belegt. */
 export function bereicheBelegt(bereiche: { from: number; to: number; dub?: boolean }[], belegt: Set<number>): boolean {
-  return bereiche.every((r) => r.dub === true && r.from >= 1 && r.to >= r.from && folgenVon(r).every((n) => belegt.has(n)))
+  return bereiche.every((r) => r.dub === true && r.to >= r.from && folgenVon(r).every((n) => belegt.has(n)))
 }
