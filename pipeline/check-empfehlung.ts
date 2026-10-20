@@ -153,7 +153,7 @@ console.log('\nBauphase (Warnungen, Abbruch, Verdrahtung):')
   const wurzel = mkdtempSync(join(tmpdir(), 'empfehlung-'))
   mkdirSync(join(wurzel, 'public', 'data'), { recursive: true })
   process.env.AK_ROOT = wurzel
-  const { schreibeEmpfehlung, hinweiseEmpfehlung, bestandsFehler } = await import('./bau/13-10-empfehlung.ts')
+  const { schreibeEmpfehlung, hinweiseEmpfehlung, bestandsFehler, kennungenOhneTitel } = await import('./bau/13-10-empfehlung.ts')
   const bestandTitel = [titel({ id: 301, franchiseId: 300, jpYear: 2012 }), titel({ id: 302 })]
   const bestandReihen = { 300: [glied(300, '2010-01'), glied(301, '2012-01')] } as unknown as Franchises
   const bestand = baueEmpfehlung(bestandTitel, bestandReihen)
@@ -161,7 +161,14 @@ console.log('\nBauphase (Warnungen, Abbruch, Verdrahtung):')
   const veraltet = { ...bestand, einstiege: bestand.einstiege.map((k) => (k.id === 301 ? { ...k, ab: undefined, duell: true as const } : k)) }
   pruefe('Bestandsprüfung: gültige, aber vom Neubau abweichende Datei wird gemeldet', bestandsFehler(veraltet, bestandTitel, bestandReihen).some((f) => f.includes('weicht vom Neubau')), bestandsFehler(veraltet, bestandTitel, bestandReihen))
   pruefe('Bestandsprüfung: Widerspruch wird gemeldet', bestandsFehler({ ...bestand, pool: 9 }, bestandTitel, bestandReihen).some((f) => f.includes('pool 9')))
-  pruefe('Bestandsprüfung: fehlendes Cover wird gemeldet', bestandsFehler(bestand, [titel({ id: 301, franchiseId: 300, jpYear: 2012, coverImage: undefined }), bestandTitel[1]!], bestandReihen).some((f) => f.includes('Cover')))
+  pruefe('Bestandsprüfung: fehlendes Cover ist kein Fehler (nur Warnung)', bestandsFehler(bestand, [titel({ id: 301, franchiseId: 300, jpYear: 2012, coverImage: undefined }), bestandTitel[1]!], bestandReihen).length === 0)
+  const reiheTitel = [titel({ id: 10, franchiseId: 10, jpYear: 2010 }), titel({ id: 12, franchiseId: 10, jpYear: 2012 }), titel({ id: 20 })]
+  const reiheDatei = baueEmpfehlung(reiheTitel, {})
+  const plus = (id: number) => id + 1000
+  const ohne = (ids: number[]) => kennungenOhneTitel(reiheDatei, reiheTitel.filter((x) => !ids.includes(x.id)), plus)
+  pruefe('Kennungen: alle haben einen Titel, keine Meldung', ohne([]).length === 0, ohne([]))
+  pruefe('Kennungen: Reihen-Schlüssel ohne Titel wird gemeldet (genau 1)', ohne([12]).length === 1 && ohne([12])[0]!.includes('1012'), ohne([12]))
+  pruefe('Kennungen: Einstieg ohne Titel (Einstieg und Reihen-Wert) wird gemeldet', ohne([10]).length === 2 && ohne([10]).every((f) => f.includes('1010')), ohne([10]))
   const ohneCover = [titel({ id: 92, coverImage: undefined })]
   pruefe('Einstieg ohne Cover wird als Hinweis gemeldet', hinweiseEmpfehlung(baueEmpfehlung(ohneCover, {}), ohneCover).some((f) => f.includes('92') && f.includes('Cover')))
   pruefe('Einstieg mit Cover: kein Hinweis', hinweiseEmpfehlung(baueEmpfehlung([titel({ id: 91 })], {}), [titel({ id: 91 })]).length === 0)
