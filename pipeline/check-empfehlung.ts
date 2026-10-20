@@ -118,7 +118,6 @@ console.log('\nPrüfung:')
   const titles = [titel({ id: 91 }), titel({ id: 92, coverImage: undefined })]
   const gut = baueEmpfehlung([titles[0]!], {})
   pruefe('sauberer Bau: kein Widerspruch', pruefeEmpfehlung(gut, [titles[0]!]).length === 0, pruefeEmpfehlung(gut, [titles[0]!]))
-  pruefe('Einstieg ohne Cover wird gemeldet', pruefeEmpfehlung(baueEmpfehlung(titles, {}), titles).some((f) => f.includes('92') && f.includes('Cover')))
   pruefe('falsche Poolzahl wird gemeldet', pruefeEmpfehlung({ ...gut, pool: 5 }, [titles[0]!]).length > 0)
   pruefe('fehlender Einstieg wird gemeldet', pruefeEmpfehlung({ ...gut, einstiege: [] }, [titles[0]!]).length > 0)
   pruefe('ab bei duell wird gemeldet', pruefeEmpfehlung({ ...gut, einstiege: [{ ...gut.einstiege[0]!, duell: true, ab: 2 }] }, [titles[0]!]).length > 0)
@@ -138,12 +137,15 @@ console.log('\nPrüfung:')
   pruefe('Verweis auf einen Teil, der kein Einstieg ist, wird gemeldet', pruefeEmpfehlung({ ...baueEmpfehlung(drei, {}), reihe: { '94': 96, '96': 93 } }, drei).some((f) => f.includes('reihe[94]')))
 }
 
-console.log('\nBauphase (Größenwächter, Verdrahtung):')
+console.log('\nBauphase (Warnungen, Abbruch, Verdrahtung):')
 {
   const wurzel = mkdtempSync(join(tmpdir(), 'empfehlung-'))
   mkdirSync(join(wurzel, 'public', 'data'), { recursive: true })
   process.env.AK_ROOT = wurzel
-  const { schreibeEmpfehlung } = await import('./bau/13-10-empfehlung.ts')
+  const { schreibeEmpfehlung, hinweiseEmpfehlung } = await import('./bau/13-10-empfehlung.ts')
+  const ohneCover = [titel({ id: 92, coverImage: undefined })]
+  pruefe('Einstieg ohne Cover wird als Hinweis gemeldet', hinweiseEmpfehlung(baueEmpfehlung(ohneCover, {}), ohneCover).some((f) => f.includes('92') && f.includes('Cover')))
+  pruefe('Einstieg mit Cover: kein Hinweis', hinweiseEmpfehlung(baueEmpfehlung([titel({ id: 91 })], {}), [titel({ id: 91 })]).length === 0)
   const schreibe = (titles: Title[]) => writeFileSync(join(wurzel, 'public', 'data', 'titles.json'), JSON.stringify(titles))
   const lies = () => JSON.parse(readFileSync(join(wurzel, 'public', 'data', 'empfehlung.json'), 'utf8')) as ReturnType<typeof baueEmpfehlung>
   const echtesExit = process.exit
@@ -170,13 +172,25 @@ console.log('\nBauphase (Größenwächter, Verdrahtung):')
   // Viele verschiedene Namen und Genres: dicht gepackt weit über 40 KB gzip.
   const zufall = (i: number) => Math.imul(i + 1, 2654435761).toString(36) + Math.imul(i + 7, 40503).toString(36)
   const gross = Array.from({ length: 4000 }, (_, i) => titel({ id: 1000 + i, titleDe: `${zufall(i)} ${zufall(i * 3)} ${zufall(i * 7)}`, genres: [zufall(i), zufall(i + 1)], keywords: [zufall(i + 2)] }))
-  writeFileSync(join(wurzel, 'public', 'data', 'empfehlung.json'), '{}')
+  const echtesWarn = console.warn
+  let warnungen: string[] = []
+  console.warn = (...a: unknown[]) => void warnungen.push(a.join(' '))
   schreibe(gross)
   lauf()
-  pruefe(`mehr als ${MAX_GZIP_BYTES} Byte gzip: Bau bricht ab, Datei bleibt unangetastet`, beendet && readFileSync(join(wurzel, 'public', 'data', 'empfehlung.json'), 'utf8') === '{}')
+  pruefe(`mehr als ${MAX_GZIP_BYTES} Byte gzip: Warnung, Bau läuft weiter, Datei geschrieben`, !beendet && warnungen.some((w) => w.includes('über der Grenze')) && lies().einstiege.length === 4000, warnungen)
+  warnungen = []
   schreibe([titel({ id: 103, coverImage: undefined })])
   lauf()
-  pruefe('Widerspruch (Einstieg ohne Cover): Bau bricht ab', beendet)
+  pruefe('Einstieg ohne Cover: Warnung, Bau läuft weiter, Datei geschrieben', !beendet && warnungen.some((w) => w.includes('103') && w.includes('Cover')) && lies().einstiege[0]?.id === 103, warnungen)
+  warnungen = []
+  schreibe([titel({ id: 104 })])
+  lauf()
+  pruefe('sauberer Bestand: keine Warnung', !beendet && warnungen.length === 0, warnungen)
+  writeFileSync(join(wurzel, 'public', 'data', 'empfehlung.json'), '{}')
+  schreibe([titel({ id: 105, franchiseId: 1 }), titel({ id: 105, franchiseId: 2 })])
+  lauf()
+  pruefe('Widerspruch in der Datei (Kennung doppelt): Bau bricht ab, Datei bleibt unangetastet', beendet && readFileSync(join(wurzel, 'public', 'data', 'empfehlung.json'), 'utf8') === '{}')
+  console.warn = echtesWarn
   process.exit = echtesExit
 
   /* Der Aufrufer: `liefereAus` in build.ts ruft schreibeEmpfehlung() unbedingt auf der obersten Ebene seines Rumpfs. */

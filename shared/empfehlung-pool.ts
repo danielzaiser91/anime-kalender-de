@@ -151,7 +151,6 @@ export function pruefeEmpfehlung(d: EmpfehlungsDatei, titles: Title[]): string[]
   for (const k of d.einstiege) {
     const t = nachId.get(k.id)
     if (!t || !imEmpfehlungsPool(t)) fehler.push(`Einstieg ${k.id} liegt nicht im Pool`)
-    else if (!t.coverImage) fehler.push(`Einstieg ${k.id} hat kein Cover`)
     if (k.ab !== undefined && (k.duell || k.ab < 2)) fehler.push(`Einstieg ${k.id}: ab ${k.ab} bei duell=${k.duell ?? false}`)
     if (k.g.some((i) => !d.genres[i]) || k.k.some((i) => !d.keywords[i])) fehler.push(`Einstieg ${k.id}: Index außerhalb der Wörterbücher`)
   }
