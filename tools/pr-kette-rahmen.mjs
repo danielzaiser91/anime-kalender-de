@@ -11,6 +11,8 @@ const EINRICHTEN = './.github/actions/kette-einrichten'
 const FRIST_MAX = 30
 const RUNNER = 'ubuntu-latest'
 const SOLL_PERMISSIONS = { contents: 'read' }
+/** Einzige erlaubte Workflow-env: Ortszeit wie Daniels Rechner, damit Berlin-Fehler (00:30 Berlin = 22:30 UTC) in der Kette auffallen. */
+const SOLL_ENV = { TZ: 'Europe/Berlin' }
 const SOLL_TRIGGER = { pull_request: { branches: ['main'], types: ['opened', 'synchronize', 'reopened', 'ready_for_review'] } }
 
 const NM_SCHLUESSEL = "nm-${{ runner.os }}-node22-${{ hashFiles('package.json', 'package-lock.json') }}"
@@ -25,6 +27,12 @@ const SOLL_AKTION = {
       { name: 'node_modules aus dem Cache', id: 'nm', uses: 'actions/cache@v4', with: { path: 'node_modules', key: NM_SCHLUESSEL } },
       { name: 'Abhängigkeiten installieren', if: "steps.nm.outputs.cache-hit != 'true'", shell: 'bash', run: 'npm ci' },
       { name: 'Browser-Cache', if: "inputs.playwright == 'true'", id: 'pw', uses: 'actions/cache@v4', with: { path: '~/.cache/ms-playwright', key: PW_SCHLUESSEL } },
+      {
+        name: 'Microsoft-Paketquelle entfernen',
+        if: "inputs.playwright == 'true'",
+        shell: 'bash',
+        run: 'sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -fv || true',
+      },
       {
         name: 'Chromium installieren',
         if: "inputs.playwright == 'true' && steps.pw.outputs.cache-hit != 'true'",
@@ -77,6 +85,7 @@ export function pruefeSchrittfolge(id, steps) {
 export function pruefeRahmen(doc, pflichtJobs, aktion) {
   const fehler = []
   if (!isDeepStrictEqual(doc.permissions, SOLL_PERMISSIONS)) fehler.push('Workflow: permissions sind nicht exakt { contents: read }')
+  if (!isDeepStrictEqual(doc.env, SOLL_ENV)) fehler.push('Workflow: env ist nicht exakt { TZ: Europe/Berlin }')
   if (!isDeepStrictEqual(doc.on, SOLL_TRIGGER)) fehler.push('Workflow: on ist nicht exakt pull_request auf main mit den vier types')
   for (const [id, job] of pflichtJobs) {
     if (job['runs-on'] !== RUNNER) fehler.push(`Job "${id}": runs-on ist nicht ${RUNNER}`)

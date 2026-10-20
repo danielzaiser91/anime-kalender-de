@@ -12,7 +12,6 @@ import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { suchadressenInTemp } from './lib/suchadressen-temp.ts'
 import { behalteNurHandbelegteWege } from './lib/handbeleg-weg.ts'
 import { loadDubChecks, verschmelze, type DubCheck } from './lib/dub-confirmed.ts'
-import { readJson } from './lib/util.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 
@@ -33,11 +32,16 @@ const weg = (url: string, rest: Partial<StreamLink> = {}): StreamLink => ({ plat
 const titel = (id: number, streams: StreamLink[]): Title => ({ id, episodes: 1, streams, keywords: [], genres: [] }) as unknown as Title
 const ja = (rest: Partial<DubCheck> = {}): DubCheck => ({ anilistId: OVA, platform: 'crunchyroll', url: URL_BELEG, dub: true, checkedAt: '2026-10-13', ...rest })
 
-console.log('\nUS-Nein über die Serienkennung (09-4-1), echte Daten:')
+console.log('\nUS-Nein über die Serienkennung (09-4-1), eigene Kulisse (kein Sammlerstand):')
+/** Die Serie steht im US-Katalog als nicht verfügbar; der Sammler darf sie im echten Bestand umsetzen, der Fall bleibt. */
+const usNeinKatalog = {
+  scrapedAt: '',
+  serien: [{ url: URL_BELEG, seriesId: SERIE, katalog: 'us', nichtVerfuegbar: true }],
+} as unknown as CrDubData
 function zuordnen(titel_: Title[]): void {
   ordneCrSerienZu({
     titles: new Map(titel_.map((t) => [t.id, t])),
-    crDub: readJson<CrDubData>('data/crunchyroll-dub.json', { scrapedAt: '', serien: [] }),
+    crDub: usNeinKatalog,
     usNeinWiderlegt: () => false,
     verweiseEntfernt: [],
   })

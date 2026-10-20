@@ -267073,7 +267073,7 @@
         "nr": 13
       }
     ],
-    "geholtAm": "2026-10-12T05:07:53.632Z"
+    "geholtAm": "2026-10-19T05:05:05.558Z"
   },
   "13776": {
     "anisearchId": 13776,
@@ -277098,6 +277098,90 @@
     ],
     "geholtAm": "2026-09-01T17:37:36.979Z"
   },
+  "14517": {
+    "anisearchId": 14517,
+    "folgen": [
+      {
+        "nr": 1,
+        "minuten": 23,
+        "de": "Die neue Generation",
+        "en": "New Generation!"
+      },
+      {
+        "nr": 2,
+        "minuten": 23,
+        "de": "Angriff der Dominator",
+        "en": "The Dominators Attack!"
+      },
+      {
+        "nr": 3,
+        "minuten": 23,
+        "de": "Am Abgrund",
+        "en": "The Fateful Tag-Team Battle!"
+      },
+      {
+        "nr": 4,
+        "minuten": 23,
+        "de": "Der Wheeler der Wildnis",
+        "en": "The Wheeler of the Wilderness"
+      },
+      {
+        "nr": 5,
+        "minuten": 23,
+        "de": "Unerwartet starker Gegner",
+        "en": "Race! The Beywheelz Grand Prix!"
+      },
+      {
+        "nr": 6,
+        "minuten": 23,
+        "de": "Eins zu Null für Estrella",
+        "en": "Judgment Bey Begins!"
+      },
+      {
+        "nr": 7,
+        "minuten": 23,
+        "de": "Das Gesetz der Dominator",
+        "en": "The Law of the Dominators"
+      },
+      {
+        "nr": 8,
+        "minuten": 23,
+        "de": "Rache auf dem Eis",
+        "en": "Avenger on the Ice"
+      },
+      {
+        "nr": 9,
+        "minuten": 23,
+        "de": "Zurück ins Spiel",
+        "en": "The Phoenix vs. The White Dragon"
+      },
+      {
+        "nr": 10,
+        "minuten": 23,
+        "de": "Der Spirit eines Wheelers",
+        "en": "Fierce Fight! A Battle of the Spirit"
+      },
+      {
+        "nr": 11,
+        "minuten": 23,
+        "de": "Die schockierende Wahrheit",
+        "en": "The Shocking Truth"
+      },
+      {
+        "nr": 12,
+        "minuten": 23,
+        "de": "Wheeler-Freundschaft",
+        "en": "The Wheeler Bond"
+      },
+      {
+        "nr": 13,
+        "minuten": 23,
+        "de": "Eine neue Welt",
+        "en": "A New World"
+      }
+    ],
+    "geholtAm": "2026-10-19T05:07:31.122Z"
+  },
   "14518": {
     "anisearchId": 14518,
     "folgen": [
@@ -283222,6 +283306,15 @@
       }
     ],
     "geholtAm": "2026-09-01T20:48:35.842Z"
+  },
+  "14868": {
+    "anisearchId": 14868,
+    "folgen": [
+      {
+        "nr": 1
+      }
+    ],
+    "geholtAm": "2026-10-19T05:01:51.216Z"
   },
   "14872": {
     "anisearchId": 14872,
@@ -297639,7 +297732,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:14:38.237Z"
+    "geholtAm": "2026-10-19T05:08:47.389Z"
   },
   "16224": {
     "anisearchId": 16224,
@@ -303729,7 +303822,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:05:04.970Z"
+    "geholtAm": "2026-10-19T05:02:19.024Z"
   },
   "16884": {
     "anisearchId": 16884,
@@ -304654,7 +304747,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:13:37.577Z"
+    "geholtAm": "2026-10-19T05:07:44.914Z"
   },
   "16976": {
     "anisearchId": 16976,
@@ -310213,6 +310306,168 @@
     ],
     "geholtAm": "2026-09-01T17:29:17.665Z"
   },
+  "17355": {
+    "anisearchId": 17355,
+    "folgen": [
+      {
+        "nr": 1,
+        "minuten": 11,
+        "de": "Die Langstrecken Tour Teil 1",
+        "en": "A Long Haul - Part 1"
+      },
+      {
+        "nr": 2,
+        "minuten": 11,
+        "de": "Die Langstrecken Tour Teil 2",
+        "en": "A Long Haul - Part 2"
+      },
+      {
+        "nr": 3,
+        "minuten": 11,
+        "de": "Diesel ist anders",
+        "en": "Diesel is Different"
+      },
+      {
+        "nr": 4,
+        "minuten": 11,
+        "de": "Meister Herb und das Hündchen",
+        "en": "Mr.Herb has Puppy Love"
+      },
+      {
+        "nr": 5,
+        "minuten": 11,
+        "de": "Fix und Lifts Musik-Battle",
+        "en": "Fix and Lift's Music Battle"
+      },
+      {
+        "nr": 6,
+        "minuten": 11,
+        "de": "Loco, der fabelhafte Güterzug",
+        "en": "Loco, the Fabulous Freight Train"
+      },
+      {
+        "nr": 7,
+        "minuten": 11,
+        "de": "Chi Chi, der Frechdachs",
+        "en": "Troublemaker Chichi"
+      },
+      {
+        "nr": 8,
+        "minuten": 11,
+        "de": "Willkommen, Jenny",
+        "en": "Welcome, Jenny!"
+      },
+      {
+        "nr": 9,
+        "minuten": 11,
+        "de": "Danny und seine Freunde",
+        "en": "Danny and Friends"
+      },
+      {
+        "nr": 10,
+        "minuten": 11,
+        "de": "Oh, bitte Genie!",
+        "en": "Oh Please, Genie"
+      },
+      {
+        "nr": 11,
+        "minuten": 11,
+        "de": "Tut uns leid, Eric",
+        "en": "We're Sorry, Eric"
+      },
+      {
+        "nr": 12,
+        "minuten": 11,
+        "de": "Meister Herbs freier Tag",
+        "en": "Mr.Herb's Day Off"
+      },
+      {
+        "nr": 13,
+        "minuten": 11,
+        "de": "Ein besonderer Tag für Diesel",
+        "en": "A Special Day for Diesel"
+      },
+      {
+        "nr": 14,
+        "minuten": 11,
+        "de": "Manny und Berny sind Filmstars",
+        "en": "Manny and Berny are Movie Stars"
+      },
+      {
+        "nr": 15,
+        "minuten": 11,
+        "de": "Eric ist der Beste",
+        "en": "Eric is the Best"
+      },
+      {
+        "nr": 16,
+        "minuten": 11,
+        "de": "Jobtausch",
+        "en": "Swapping Jobs"
+      },
+      {
+        "nr": 17,
+        "minuten": 11,
+        "de": "Xingxings Geheimnis",
+        "en": "Xingxing's Secret"
+      },
+      {
+        "nr": 18,
+        "minuten": 11,
+        "de": "Diesel und Rogi!",
+        "en": "Diesel and Rogi"
+      },
+      {
+        "nr": 19,
+        "minuten": 11,
+        "de": "Titipo, der Zeitreisende",
+        "en": "Titipo the Time Traveler"
+      },
+      {
+        "nr": 20,
+        "minuten": 11,
+        "de": "Eine Überraschung für Teo",
+        "en": "A Gift for Teo"
+      },
+      {
+        "nr": 21,
+        "minuten": 11,
+        "de": "Setter ist krank",
+        "en": "Setter is Sick"
+      },
+      {
+        "nr": 22,
+        "minuten": 11,
+        "de": "Diesel und die Baby Autos",
+        "en": "Diesel and the Baby Cars"
+      },
+      {
+        "nr": 23,
+        "minuten": 11,
+        "de": "Enies neue Freundin",
+        "en": "Genie's New Friend"
+      },
+      {
+        "nr": 24,
+        "minuten": 11,
+        "de": "Waschanlage kaputt",
+        "en": "Train Wash on the Fritz"
+      },
+      {
+        "nr": 25,
+        "minuten": 11,
+        "de": "Diesels alte Wagen",
+        "en": "Diesel's Old Freight Cars"
+      },
+      {
+        "nr": 26,
+        "minuten": 11,
+        "de": "Ja! Du schaffst das, Titipo!",
+        "en": "You Can Do It, Titipo!"
+      }
+    ],
+    "geholtAm": "2026-10-19T05:02:05.114Z"
+  },
   "17364": {
     "anisearchId": 17364,
     "folgen": [
@@ -312310,7 +312565,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:10:08.537Z"
+    "geholtAm": "2026-10-19T05:02:25.965Z"
   },
   "17552": {
     "anisearchId": 17552,
@@ -329413,6 +329668,96 @@
     ],
     "geholtAm": "2026-09-01T18:29:41.899Z"
   },
+  "18892": {
+    "anisearchId": 18892,
+    "folgen": [
+      {
+        "nr": 1,
+        "datum": "2024-01-12",
+        "minuten": 4,
+        "en": "Fox Girl and Hot Spring Etiquette",
+        "ja": "Kitsune Shoujo to Onsen no Sahou (狐少女と温泉の作法)"
+      },
+      {
+        "nr": 2,
+        "datum": "2024-01-19",
+        "minuten": 4,
+        "en": "Elf Girl and the Breach of Etiquette",
+        "ja": "Elf no Musume to Sahou Ihan (エルフの娘と作法違反)"
+      },
+      {
+        "nr": 3,
+        "datum": "2024-01-26",
+        "minuten": 4,
+        "en": "People of the Forest and the Botanical Hot Spring",
+        "ja": "Mori no Tami to Moor Sen (森の民とモール泉)"
+      },
+      {
+        "nr": 4,
+        "datum": "2024-02-02",
+        "minuten": 4,
+        "en": "The Elf Chief and the Cursed Spring",
+        "ja": "Elf no Zokuchou to Noroi no Yu (エルフの族長と呪いの湯)"
+      },
+      {
+        "nr": 5,
+        "datum": "2024-02-09",
+        "minuten": 4,
+        "en": "Bless our Forest!",
+        "ja": "Warera ga Mori ni Shukufuku o (我らが森に祝福を)"
+      },
+      {
+        "nr": 6,
+        "datum": "2024-02-16",
+        "minuten": 4,
+        "en": "A Bright Idea and an Onsen’s Benefits",
+        "ja": "Myouan to Onsen no Kounou (妙案と温泉の効能)"
+      },
+      {
+        "nr": 7,
+        "datum": "2024-02-23",
+        "minuten": 4,
+        "en": "Dreams and Hot Spring Healing",
+        "ja": "Yume to Yuatari (夢と湯あたり)"
+      },
+      {
+        "nr": 8,
+        "datum": "2024-03-01",
+        "minuten": 4,
+        "en": "Remembering His Fall to Death",
+        "ja": "Korogeochita Hi no Omoide (転げ落ちた日の想い出)"
+      },
+      {
+        "nr": 9,
+        "datum": "2024-03-08",
+        "minuten": 4,
+        "en": "Komachi and the Leader of the 10 Clans",
+        "ja": "Senpai to Yuugen Juu Shizoku no Ou (先輩と有言十支族の王)"
+      },
+      {
+        "nr": 10,
+        "datum": "2024-03-15",
+        "minuten": 4,
+        "en": "The King’s Request and Kozo’s Desire",
+        "ja": "Ou no Tanomi to Kouzou no Omoi (王の頼みと好蔵の想い)"
+      },
+      {
+        "nr": 11,
+        "datum": "2024-03-22",
+        "minuten": 4,
+        "en": "Cursed Bloody Hot Spring and Mead",
+        "ja": "Norowareta Chi no Yu to Hachimitsushu (呪われた血の湯と蜂蜜酒)"
+      },
+      {
+        "nr": 12,
+        "datum": "2024-03-29",
+        "minuten": 4,
+        "en": "Mayudama’s Mountain Villa",
+        "ja": "Mayudama Sansou (繭玉山荘)"
+      }
+    ],
+    "geholtAm": "2026-10-19T05:07:24.172Z"
+  },
   "18894": {
     "anisearchId": 18894,
     "folgen": [
@@ -333092,7 +333437,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:13:44.317Z"
+    "geholtAm": "2026-10-19T05:07:51.833Z"
   },
   "19246": {
     "anisearchId": 19246,
@@ -333662,7 +334007,7 @@
         "nr": 10
       }
     ],
-    "geholtAm": "2026-10-12T05:05:25.254Z"
+    "geholtAm": "2026-10-19T05:02:32.906Z"
   },
   "19294": {
     "anisearchId": 19294,
@@ -334429,7 +334774,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:05:31.996Z"
+    "geholtAm": "2026-10-19T05:02:39.846Z"
   },
   "19373": {
     "anisearchId": 19373,
@@ -334961,7 +335306,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:13:51.067Z"
+    "geholtAm": "2026-10-19T05:07:58.780Z"
   },
   "19443": {
     "anisearchId": 19443,
@@ -335174,6 +335519,62 @@
       }
     ],
     "geholtAm": "2026-09-01T18:38:51.666Z"
+  },
+  "19445": {
+    "anisearchId": 19445,
+    "folgen": [
+      {
+        "nr": 1,
+        "minuten": 21,
+        "en": "Girl Who Manipulates Time"
+      },
+      {
+        "nr": 2,
+        "minuten": 17,
+        "en": "Fighting Mother"
+      },
+      {
+        "nr": 3,
+        "minuten": 20,
+        "en": "Alien Elle"
+      },
+      {
+        "nr": 4,
+        "minuten": 19,
+        "en": "Memories"
+      },
+      {
+        "nr": 5,
+        "minuten": 21,
+        "en": "Family"
+      },
+      {
+        "nr": 6,
+        "minuten": 20,
+        "en": "Free Will"
+      },
+      {
+        "nr": 7,
+        "minuten": 22,
+        "en": "When We Meet in Our Dreams"
+      },
+      {
+        "nr": 8,
+        "minuten": 20,
+        "en": "Feel, Don’t Think"
+      },
+      {
+        "nr": 9,
+        "minuten": 22,
+        "en": "Her Innermost Wish"
+      },
+      {
+        "nr": 10,
+        "minuten": 26,
+        "en": "A Pain in the Back"
+      }
+    ],
+    "geholtAm": "2026-10-19T05:07:38.093Z"
   },
   "19447": {
     "anisearchId": 19447,
@@ -337170,6 +337571,15 @@
     ],
     "geholtAm": "2026-09-01T18:41:26.571Z"
   },
+  "19566": {
+    "anisearchId": 19566,
+    "folgen": [
+      {
+        "nr": 1
+      }
+    ],
+    "geholtAm": "2026-10-19T05:01:58.158Z"
+  },
   "19568": {
     "anisearchId": 19568,
     "folgen": [
@@ -338492,7 +338902,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:05:52.236Z"
+    "geholtAm": "2026-10-19T05:02:46.794Z"
   },
   "19635": {
     "anisearchId": 19635,
@@ -338587,7 +338997,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:05:58.980Z"
+    "geholtAm": "2026-10-19T05:02:53.732Z"
   },
   "19638": {
     "anisearchId": 19638,
@@ -340342,7 +340752,7 @@
         "nr": 24
       }
     ],
-    "geholtAm": "2026-10-12T05:06:05.724Z"
+    "geholtAm": "2026-10-19T05:03:00.681Z"
   },
   "19779": {
     "anisearchId": 19779,
@@ -341688,7 +342098,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-05T14:44:18.644Z"
+    "geholtAm": "2026-10-19T05:03:07.624Z"
   },
   "20000": {
     "anisearchId": 20000,
@@ -341733,7 +342143,7 @@
         "nr": 10
       }
     ],
-    "geholtAm": "2026-10-12T05:06:19.209Z"
+    "geholtAm": "2026-10-19T05:03:14.569Z"
   },
   "20073": {
     "anisearchId": 20073,
@@ -342124,7 +342534,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:06:26.004Z"
+    "geholtAm": "2026-10-19T05:03:21.506Z"
   },
   "20183": {
     "anisearchId": 20183,
@@ -342460,7 +342870,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:06:32.744Z"
+    "geholtAm": "2026-10-19T05:03:28.449Z"
   },
   "20264": {
     "anisearchId": 20264,
@@ -342559,7 +342969,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:13:57.809Z"
+    "geholtAm": "2026-10-19T05:08:05.702Z"
   },
   "20293": {
     "anisearchId": 20293,
@@ -342920,7 +343330,7 @@
         "nr": 19
       }
     ],
-    "geholtAm": "2026-10-12T05:06:39.492Z"
+    "geholtAm": "2026-10-19T05:03:42.342Z"
   },
   "20372": {
     "anisearchId": 20372,
@@ -343064,7 +343474,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:06:46.229Z"
+    "geholtAm": "2026-10-19T05:03:49.282Z"
   },
   "20379": {
     "anisearchId": 20379,
@@ -343268,7 +343678,7 @@
         "nr": 3
       }
     ],
-    "geholtAm": "2026-10-12T05:08:40.851Z"
+    "geholtAm": "2026-10-19T05:07:03.492Z"
   },
   "20466": {
     "anisearchId": 20466,
@@ -343277,7 +343687,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:08:47.594Z"
+    "geholtAm": "2026-10-19T05:07:10.417Z"
   },
   "20494": {
     "anisearchId": 20494,
@@ -343804,7 +344214,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:14:04.553Z"
+    "geholtAm": "2026-10-19T05:08:12.657Z"
   },
   "20704": {
     "anisearchId": 20704,
@@ -343846,7 +344256,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:07:13.267Z"
+    "geholtAm": "2026-10-19T05:04:17.045Z"
   },
   "20705": {
     "anisearchId": 20705,
@@ -343882,7 +344292,7 @@
         "nr": 10
       }
     ],
-    "geholtAm": "2026-10-12T05:08:54.339Z"
+    "geholtAm": "2026-10-19T05:04:23.987Z"
   },
   "20716": {
     "anisearchId": 20716,
@@ -343924,7 +344334,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:07:06.464Z"
+    "geholtAm": "2026-10-19T05:04:10.105Z"
   },
   "20717": {
     "anisearchId": 20717,
@@ -344002,7 +344412,7 @@
         "nr": 24
       }
     ],
-    "geholtAm": "2026-10-12T05:07:20.010Z"
+    "geholtAm": "2026-10-19T05:04:30.931Z"
   },
   "20768": {
     "anisearchId": 20768,
@@ -344226,7 +344636,7 @@
         "nr": 6
       }
     ],
-    "geholtAm": "2026-10-12T05:14:11.269Z"
+    "geholtAm": "2026-10-19T05:08:19.581Z"
   },
   "20836": {
     "anisearchId": 20836,
@@ -344235,7 +344645,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:07:33.389Z"
+    "geholtAm": "2026-10-19T05:04:44.733Z"
   },
   "20852": {
     "anisearchId": 20852,
@@ -344472,7 +344882,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:14:18.013Z"
+    "geholtAm": "2026-10-19T05:08:26.546Z"
   },
   "20865": {
     "anisearchId": 20865,
@@ -344653,7 +345063,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:14:24.749Z"
+    "geholtAm": "2026-10-19T05:08:33.472Z"
   },
   "20885": {
     "anisearchId": 20885,
@@ -344665,7 +345075,7 @@
         "nr": 2
       }
     ],
-    "geholtAm": "2026-10-12T05:07:26.651Z"
+    "geholtAm": "2026-10-19T05:04:37.748Z"
   },
   "20893": {
     "anisearchId": 20893,
@@ -345098,7 +345508,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:13:30.924Z"
+    "geholtAm": "2026-10-19T05:08:54.364Z"
   },
   "20938": {
     "anisearchId": 20938,
@@ -345361,7 +345771,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:03:03.703Z"
+    "geholtAm": "2026-10-19T05:04:58.612Z"
   },
   "21004": {
     "anisearchId": 21004,
@@ -345370,7 +345780,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:08:00.386Z"
+    "geholtAm": "2026-10-19T05:05:12.499Z"
   },
   "21031": {
     "anisearchId": 21031,
@@ -345578,7 +345988,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:06:52.972Z"
+    "geholtAm": "2026-10-19T05:04:03.168Z"
   },
   "21070": {
     "anisearchId": 21070,
@@ -345587,7 +345997,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:02:43.480Z"
+    "geholtAm": "2026-10-19T05:03:35.393Z"
   },
   "21094": {
     "anisearchId": 21094,
@@ -345596,7 +346006,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:07:46.890Z"
+    "geholtAm": "2026-10-19T05:04:51.672Z"
   },
   "21117": {
     "anisearchId": 21117,
@@ -345638,7 +346048,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:14:31.498Z"
+    "geholtAm": "2026-10-19T05:05:26.390Z"
   },
   "21118": {
     "anisearchId": 21118,
@@ -345647,7 +346057,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:03:10.435Z"
+    "geholtAm": "2026-10-19T05:05:19.438Z"
   },
   "21171": {
     "anisearchId": 21171,
@@ -345689,7 +346099,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:08:07.130Z"
+    "geholtAm": "2026-10-19T05:05:33.328Z"
   },
   "21198": {
     "anisearchId": 21198,
@@ -345833,7 +346243,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:08:13.878Z"
+    "geholtAm": "2026-10-19T05:05:40.281Z"
   },
   "21226": {
     "anisearchId": 21226,
@@ -345875,7 +346285,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:08:20.616Z"
+    "geholtAm": "2026-10-19T05:05:47.218Z"
   },
   "21293": {
     "anisearchId": 21293,
@@ -345979,7 +346389,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:03:23.910Z"
+    "geholtAm": "2026-10-19T05:05:54.167Z"
   },
   "21327": {
     "anisearchId": 21327,
@@ -346024,7 +346434,7 @@
         "nr": 13
       }
     ],
-    "geholtAm": "2026-10-12T05:08:27.361Z"
+    "geholtAm": "2026-10-19T05:06:01.109Z"
   },
   "21332": {
     "anisearchId": 21332,
@@ -346066,7 +346476,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:03:30.654Z"
+    "geholtAm": "2026-10-19T05:06:08.056Z"
   },
   "21357": {
     "anisearchId": 21357,
@@ -346117,7 +346527,7 @@
         "nr": 13
       }
     ],
-    "geholtAm": "2026-10-12T05:03:44.133Z"
+    "geholtAm": "2026-10-19T05:06:21.922Z"
   },
   "21361": {
     "anisearchId": 21361,
@@ -346216,7 +346626,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:03:57.617Z"
+    "geholtAm": "2026-10-19T05:06:28.825Z"
   },
   "21505": {
     "anisearchId": 21505,
@@ -346234,7 +346644,49 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:08:34.102Z"
+    "geholtAm": "2026-10-19T05:06:35.770Z"
+  },
+  "21566": {
+    "anisearchId": 21566,
+    "folgen": [
+      {
+        "nr": 1
+      },
+      {
+        "nr": 2
+      },
+      {
+        "nr": 3
+      },
+      {
+        "nr": 4
+      },
+      {
+        "nr": 5
+      },
+      {
+        "nr": 6
+      },
+      {
+        "nr": 7
+      },
+      {
+        "nr": 8
+      },
+      {
+        "nr": 9
+      },
+      {
+        "nr": 10
+      },
+      {
+        "nr": 11
+      },
+      {
+        "nr": 12
+      }
+    ],
+    "geholtAm": "2026-10-19T05:02:12.067Z"
   },
   "21573": {
     "anisearchId": 21573,
@@ -346243,7 +346695,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-12T05:03:37.387Z"
+    "geholtAm": "2026-10-19T05:06:14.966Z"
   },
   "21575": {
     "anisearchId": 21575,
@@ -346285,7 +346737,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:10:15.285Z"
+    "geholtAm": "2026-10-19T05:08:40.458Z"
   },
   "21585": {
     "anisearchId": 21585,
@@ -346351,7 +346803,7 @@
         "nr": 20
       }
     ],
-    "geholtAm": "2026-10-12T05:04:04.352Z"
+    "geholtAm": "2026-10-19T05:06:42.679Z"
   },
   "21586": {
     "anisearchId": 21586,
@@ -346393,7 +346845,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:04:11.095Z"
+    "geholtAm": "2026-10-19T05:06:49.617Z"
   },
   "21717": {
     "anisearchId": 21717,
@@ -346489,7 +346941,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:04:58.229Z"
+    "geholtAm": "2026-10-19T05:07:17.239Z"
   },
   "21791": {
     "anisearchId": 21791,
@@ -346531,7 +346983,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:04:17.825Z"
+    "geholtAm": "2026-10-19T05:06:56.541Z"
   },
   "21925": {
     "anisearchId": 21925,
@@ -346599,6 +347051,6 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-12T05:02:50.222Z"
+    "geholtAm": "2026-10-19T05:03:56.227Z"
   }
 }

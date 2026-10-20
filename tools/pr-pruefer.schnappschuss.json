@@ -8,14 +8,14 @@
       "types": [
         "opened",
         "synchronize",
-        "reopened",
         "ready_for_review"
       ]
     }
   },
   "permissions": {
     "contents": "read",
-    "pull-requests": "write"
+    "pull-requests": "write",
+    "checks": "read"
   },
   "concurrency": {
     "group": "pr-pruefer-${{ github.event.pull_request.number }}",
@@ -108,13 +108,23 @@
           }
         },
         {
+          "name": "Check-Stand des Kopfes",
+          "id": "checks",
+          "if": "${{ !cancelled() }}",
+          "env": {
+            "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+          },
+          "run": "node tools/pr-checks-stand.mjs \"$HEAD_SHA\" 720 >> \"$GITHUB_OUTPUT\""
+        },
+        {
           "name": "Protokoll und Freigabe",
           "if": "always()",
           "env": {
             "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
-            "DIFF_ZUSTAND": "${{ steps.eingang.outputs.zustand }}"
+            "DIFF_ZUSTAND": "${{ steps.eingang.outputs.zustand }}",
+            "CHECKS": "${{ steps.checks.outputs.stand }}"
           },
-          "run": "set -u\nT=\"$RUNNER_TEMP/pruefer\"\nif [ ! -s \"$T/urteil.json\" ] || [ ! -s \"$T/protokoll.md\" ]; then\n  echo \"::error::Kein Urteil geschrieben (urteil.json oder protokoll.md fehlt/leer) - keine Freigabe. Inhalt von $T:\"\n  ls -la \"$T\" || true\n  exit 1\nfi\nurteil=$(node -e 'const u=JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\"));console.log(u.urteil+\" \"+u.sha)' \"$T/urteil.json\") || { echo \"::error::urteil.json unlesbar - keine Freigabe.\"; exit 1; }\nart=${urteil% *}; sha=${urteil#* }\nif [ \"$DIFF_ZUSTAND\" != \"ok\" ] && [ \"$art\" = \"ok\" ]; then\n  echo \"Diff unvollständig - Urteil ok wird zu aendern.\"\n  art=aendern\n  printf '\\n**Hinweis:** Diff leer, nicht abrufbar oder gekürzt, oder Commit-Liste fehlt - nicht vollständig geprüft, daher keine Freigabe.\\n' >> \"$T/protokoll.md\"\nfi\nif grep -qE 'gh[spuor]_[A-Za-z0-9]|github_pat_|x-access-token' \"$T/protokoll.md\" || grep -qF -- \"$GH_TOKEN\" \"$T/protokoll.md\"; then\n  echo \"Token-Muster im Protokoll - Protokoll verworfen, Urteil aendern.\"\n  art=aendern\n  printf 'Das Protokoll enthielt ein Token-Muster und wurde verworfen. Der Lauf ist als Fehlerfall zu behandeln (Prompt-Injektion vermutet).\\n' > \"$T/protokoll.md\"\nfi\naktuell=$(gh pr view \"$PR\" --repo \"$GITHUB_REPOSITORY\" --json headRefOid -q .headRefOid)\nif [ \"$sha\" != \"$HEAD_SHA\" ] || [ \"$aktuell\" != \"$HEAD_SHA\" ]; then\n  echo \"Stand $sha passt nicht zum aktuellen Head $aktuell - keine Freigabe.\"\n  exit 0\nfi\n{ echo \"**Prüfer-Review** für ${HEAD_SHA:0:9} - Urteil: **$art**\"; echo; cat \"$T/protokoll.md\"; } > \"$T/kommentar.md\"\ngh pr comment \"$PR\" --repo \"$GITHUB_REPOSITORY\" --body-file \"$T/kommentar.md\"\nif [ \"$art\" = \"ok\" ]; then\n  gh pr review \"$PR\" --repo \"$GITHUB_REPOSITORY\" --approve --body \"Prüfprotokoll steht als Kommentar (Stand ${HEAD_SHA:0:9}).\"\nelse\n  gh pr review \"$PR\" --repo \"$GITHUB_REPOSITORY\" --request-changes --body \"Befunde im Prüfprotokoll-Kommentar (Stand ${HEAD_SHA:0:9}).\"\nfi\n"
+          "run": "set -u\nT=\"$RUNNER_TEMP/pruefer\"\nif [ ! -s \"$T/urteil.json\" ] || [ ! -s \"$T/protokoll.md\" ]; then\n  echo \"::error::Kein Urteil geschrieben (urteil.json oder protokoll.md fehlt/leer) - keine Freigabe. Inhalt von $T:\"\n  ls -la \"$T\" || true\n  exit 1\nfi\nurteil=$(node -e 'const u=JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\"));console.log(u.urteil+\" \"+u.sha)' \"$T/urteil.json\") || { echo \"::error::urteil.json unlesbar - keine Freigabe.\"; exit 1; }\nart=${urteil% *}; sha=${urteil#* }\nif [ \"$DIFF_ZUSTAND\" != \"ok\" ] && [ \"$art\" = \"ok\" ]; then\n  echo \"Diff unvollständig - Urteil ok wird zu aendern.\"\n  art=aendern\n  printf '\\n**Hinweis:** Diff leer, nicht abrufbar oder gekürzt, oder Commit-Liste fehlt - nicht vollständig geprüft, daher keine Freigabe.\\n' >> \"$T/protokoll.md\"\nfi\nif grep -qE 'gh[spuor]_[A-Za-z0-9]|github_pat_|x-access-token' \"$T/protokoll.md\" || grep -qF -- \"$GH_TOKEN\" \"$T/protokoll.md\"; then\n  echo \"Token-Muster im Protokoll - Protokoll verworfen, Urteil aendern.\"\n  art=aendern\n  printf 'Das Protokoll enthielt ein Token-Muster und wurde verworfen. Der Lauf ist als Fehlerfall zu behandeln (Prompt-Injektion vermutet).\\n' > \"$T/protokoll.md\"\nfi\ntitel=\"$art\"\nif [ \"$art\" = \"ok\" ] && [ \"${CHECKS:-}\" != \"gruen\" ]; then\n  titel=\"ok, ${CHECKS:-Checks-Stand unbekannt}\"\nfi\naktuell=$(gh pr view \"$PR\" --repo \"$GITHUB_REPOSITORY\" --json headRefOid -q .headRefOid)\nif [ \"$sha\" != \"$HEAD_SHA\" ] || [ \"$aktuell\" != \"$HEAD_SHA\" ]; then\n  echo \"Stand $sha passt nicht zum aktuellen Head $aktuell - keine Freigabe.\"\n  exit 0\nfi\n{ echo \"**Prüfer-Review** für ${HEAD_SHA:0:9} - Urteil: **$titel**\"; echo; cat \"$T/protokoll.md\"; } > \"$T/kommentar.md\"\ngh pr comment \"$PR\" --repo \"$GITHUB_REPOSITORY\" --body-file \"$T/kommentar.md\"\nif [ \"$art\" = \"ok\" ]; then\n  gh pr review \"$PR\" --repo \"$GITHUB_REPOSITORY\" --approve --body \"Urteil: $titel. Prüfprotokoll steht als Kommentar (Stand ${HEAD_SHA:0:9}).\"\nelse\n  gh pr review \"$PR\" --repo \"$GITHUB_REPOSITORY\" --request-changes --body \"Befunde im Prüfprotokoll-Kommentar (Stand ${HEAD_SHA:0:9}).\"\nfi\n"
         }
       ]
     }

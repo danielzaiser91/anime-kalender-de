@@ -46,6 +46,8 @@ export interface NewsBeleg {
   erstGeprueftAm?: string; zuletztGeprueftAm?: string; bildAm?: string
   /** Eigene Messung statt Bild (Crunchyroll-Serienseiten lassen sich nicht fotografieren): was der Katalog am Tag `am` zu den Folgen der Meldung sagte. */
   messung?: { am: string; quelle: string; zeilen: string[] }
+  /** Öffentliche Seite zum Beleg, wenn `url` eine API-Adresse ist (ADN: Serienseite); „Originalseite“ führt hierhin. */
+  seite?: string
 }
 
 export interface NewsMeldung {

@@ -23,6 +23,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { laufePool } from './arbeiterpool.mjs'
+import { ohneBauVariablen } from './bau-umgebung.mjs'
 import { pruefeVollstaendig } from './check-logic-vollstaendig.mjs'
 import { sperreUmgebung } from './sperre-umgebung.mjs'
 
@@ -53,7 +54,7 @@ function ladeAusnahmen(dateien) {
 
 /** Umgebung einer Prüfung: mit Sperre, bei einer Ausnahme mit den erlaubten Pfaden und einer Spur-Datei. */
 function umgebung(ausnahme, spurDatei) {
-  if (!mitSperre) return process.env
+  if (!mitSperre) return ohneBauVariablen()
   return sperreUmgebung(ausnahme?.erlaubt.join(','), spurDatei)
 }
 
