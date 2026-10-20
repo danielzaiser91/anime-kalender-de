@@ -178,6 +178,7 @@ const knoepfe = (html: string) => html.match(/<button[^>]*>/g) ?? []
 gleich('ohne Überlauf: keine Pfeile', paar(pfeilZustand(0, 300, 300)), '')
 const anfang = knoepfe(paar(pfeilZustand(0, 300, 700)))
 gleich('Anfang: zwei Pfeile', anfang.length, 2)
+pruefe('Pfeile nur mit feinem Zeiger (Handy wischt)', /class="hidden [^"]*pointer-fine:flex"/.test(paar(pfeilZustand(0, 300, 700))), paar(pfeilZustand(0, 300, 700)).slice(0, 80))
 pruefe('Anfang: „Vorherige Teile“ ausgegraut', /aria-label="Vorherige Teile"[^>]*disabled=""/.test(anfang[0] ?? ''), anfang[0])
 pruefe('Anfang: „Weitere Teile“ aktiv', /aria-label="Weitere Teile"/.test(anfang[1] ?? '') && !(anfang[1] ?? '').includes('disabled=""'), anfang[1])
 const ende = knoepfe(paar(pfeilZustand(400, 300, 700)))
