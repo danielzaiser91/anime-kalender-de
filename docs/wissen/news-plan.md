@@ -134,3 +134,10 @@ Rechnung in `shared/takt.ts` (`taktTage`, `taktUnklar`), nur aus `schedule.obser
 - **Gedächtnis:** Schlüssel `takt:<slug>:<Tag>`, Tag = Tag der Folge; Verlauf und Obergrenze (56 Tage) wie bei Folgen/Verspätungen. Fällt eine Takt-Meldung später durch die Doppelungsregel weg (die Folgen-Meldung kommt nachträglich), zeigt der Verlauf sie als zurückgezogen.
 - **Panel:** In der Nebenzeile des „läuft“-Kastens steht „Takt unklar“ statt „Wöchentlich“, wenn einer der letzten drei Folgen-Tage abwich und die nächste Folge nur fortgeschrieben ist (`estimated`); das Finale-Datum bekommt „≈“. Kein neues Feld am Ereignis, der Kalender behält sein „≈“. Nicht für Fernsehen, Komplettabwürfe und angekündigte Rhythmen (Avatar). Nach drei regelmäßigen Folgen-Tagen trägt der Takt wieder.
 - Prüfung: `pipeline/check-takt.ts` (in `check:logic`).
+
+## Der Satz einer bestehenden Meldung kippt nicht (20.10.2026)
+
+- **Befund:** `weiterer` wurde bei jedem Bau aus den heutigen Wegen eines Titels neu abgeleitet (`terminMeldungen`). In 126 Ständen von `news.json` (04.–20.10.) wechselte es an 20 Meldungen 77-mal, 12 Meldungen gingen hin und her.
+- **Regel:** Der Wert vom ersten Bau, der die Meldung erzeugte, gilt (`news-historie.json`, Feld `weiterer`, Schlüssel `angekuendigt:<release>:<datum>`; `lib/news-einfrieren.ts`). Trägt der Beleg die Aussage nicht mehr, wird die Meldung nicht mehr erzeugt, aber nie umgeschrieben. Bestehende Meldungen wurden einmalig aus ihrem ersten Stand in der git-Historie gesät (`pipeline/news-einfrieren-saeen.ts`).
+- **Wächter:** `check-news-einfrieren.ts` (check:logic, Fixture mit drei Titeln und getauschten Wegen über drei Bauten) und `check-news-einfrieren-bestand.ts` (check:bestand, `news.json` gegen das Festgehaltene).
+- **Offen:** Weitere abgeleitete Felder wechseln ebenfalls (`jahre`, `discSeitText`, `ausgabe`, `omu`, `teil`, `hinweis`, `geschaetzt`); sie sind nicht eingefroren, weil mehrere davon nachträglich eingeführt wurden und die Meldungen bewusst nachgerüstet bekamen.

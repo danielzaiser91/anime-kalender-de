@@ -119,11 +119,13 @@ pipeline/check-katalog-eingefroren.ts
 pipeline/check-katalog-release.ts
 pipeline/check-kino-zuletzt.ts
 pipeline/check-leerer-kasten.ts
+pipeline/check-link-leere-adresse.ts
 pipeline/check-logic.ts
 pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
 pipeline/check-mal-teilung.ts
 pipeline/check-meldung-gti.ts
+pipeline/check-meldung-summenseite.ts
 pipeline/check-meldungs-auffaelligkeiten.ts
 pipeline/check-minuten-takt.ts
 pipeline/check-motn-reihe.ts
@@ -133,6 +135,7 @@ pipeline/check-nein-handbeleg-cr.ts
 pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts
 pipeline/check-neuigkeiten-panel.ts
+pipeline/check-news-einfrieren.ts
 pipeline/check-news-offiziell.ts
 pipeline/check-news-rhythmus.ts
 pipeline/check-news-staffel-zuordnung.ts
@@ -220,6 +223,7 @@ pipeline/check-zuordner-ablauf.ts
 pipeline/check-zuordner-luecken.ts
 pipeline/check-zweitanbieter.ts
 tools/anime2you-luecken.test.ts
+tools/apt-fremdquelle.mjs
 tools/check-patchnotes-pflicht.mjs
 tools/design-klassen.mjs
 tools/design-kontrast.mjs
