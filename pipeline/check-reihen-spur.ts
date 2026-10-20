@@ -19,6 +19,7 @@ import {
   PANEL_KENNUNG,
   panelNachOben,
   setzeStart,
+  springeSpur,
   sprungZiel,
   pfeilZustand,
   sprungWeite,
@@ -202,6 +203,27 @@ pruefe('Anfang: „Weitere Teile“ aktiv', /aria-label="Weitere Teile"/.test(an
 const ende = knoepfe(paar(pfeilZustand(400, 300, 700)))
 pruefe('Ende: „Vorherige Teile“ aktiv', !(ende[0] ?? '').includes('disabled=""'), ende[0])
 pruefe('Ende: „Weitere Teile“ ausgegraut', /aria-label="Weitere Teile"[^>]*disabled=""/.test(ende[1] ?? ''), ende[1])
+
+/* Pfeilklick: der Knopf ruft `springe` mit seiner Richtung; `springeSpur` scrollt die Spur um die Sprungweite, `matchMedia` bestimmt das Gleiten. */
+const gerufen: number[] = []
+const pfeile = PfeilPaar({ zustand: pfeilZustand(0, 300, 700), spurId: 's', t, springe: (r) => gerufen.push(r) })
+const knoepfeProps = (pfeile?.props.children ?? []) as { props: { onClick: () => void } }[]
+gleich('Pfeilpaar: zwei Knöpfe', knoepfeProps.length, 2)
+knoepfeProps[0]?.props.onClick()
+gleich('Zurück-Knopf ruft springe(-1)', gerufen, [-1])
+knoepfeProps[1]?.props.onClick()
+gleich('Weiter-Knopf ruft springe(1)', gerufen, [-1, 1])
+const scrollSonde = (clientWidth: number, richtung: 1 | -1, weniger: boolean, abfragen: string[] = []) => {
+  const aufrufe: ScrollToOptions[] = []
+  const mm = (a: string) => (abfragen.push(a), { matches: weniger })
+  springeSpur({ clientWidth, scrollBy: (z) => aufrufe.push(z) }, richtung, mm)
+  return aufrufe
+}
+const abgefragt: string[] = []
+gleich('Spur zurück: scrollBy -256 bei 319 px', scrollSonde(319, -1, false, abgefragt), [{ left: -256, behavior: 'smooth' }])
+gleich('Spur weiter: scrollBy 384 bei 456 px', scrollSonde(456, 1, false), [{ left: 384, behavior: 'smooth' }])
+gleich('Spur mit weniger Bewegung: auto', scrollSonde(319, 1, true), [{ left: 256, behavior: 'auto' }])
+gleich('Spur fragt „weniger Bewegung“ ab', abgefragt, ['(prefers-reduced-motion: reduce)'])
 
 /* Die Liste: Gruppen als Zeilen; Zustände ohne Daten. */
 const reihe: FranchiseMember[] = [

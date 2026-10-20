@@ -1,6 +1,6 @@
 import { useCallback, useId, useLayoutEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import type { Translate } from '../../lib/i18n.tsx'
-import { nachbarKarte, pfeilZustand, setzeStart, sprungZiel } from './reihen-spur-regeln.ts'
+import { nachbarKarte, pfeilZustand, setzeStart, springeSpur } from './reihen-spur-regeln.ts'
 
 /** Vor der ersten Messung gelten die Pfeile als überflüssig — sie erscheinen erst, wenn wirklich etwas überläuft. */
 const OHNE_MESSUNG = { versteckt: true, zurueckAus: true, weiterAus: false }
@@ -86,7 +86,7 @@ export function ReihenSpur({ titel, gewaehltId, erste, t, children }: { titel: s
   const springe = (richtung: 1 | -1) => {
     const el = spur.current
     if (!el) return
-    el.scrollBy(sprungZiel(richtung, el.clientWidth, matchMedia('(prefers-reduced-motion: reduce)').matches))
+    springeSpur(el, richtung, matchMedia)
   }
   return (
     <div className={erste ? '' : 'mt-1.5'}>

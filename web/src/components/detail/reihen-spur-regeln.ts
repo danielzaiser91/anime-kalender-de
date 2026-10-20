@@ -74,3 +74,12 @@ export function sprungZiel(richtung: 1 | -1, clientWidth: number, wenigerBewegun
 export function setzeStart(spur: { clientWidth: number; scrollLeft: number }, gewaehlt: { offsetLeft: number } | null | undefined): void {
   if (gewaehlt) spur.scrollLeft = startPosition(gewaehlt.offsetLeft, sprungWeite(spur.clientWidth))
 }
+
+/** Pfeilklick: scrollt die Spur um eine Sprungweite; `weniger` ist `matchMedia`, damit der Test die Abfrage unterschieben kann. */
+export function springeSpur(
+  spur: { clientWidth: number; scrollBy: (ziel: ScrollToOptions) => void },
+  richtung: 1 | -1,
+  weniger: (abfrage: string) => { matches: boolean },
+): void {
+  spur.scrollBy(sprungZiel(richtung, spur.clientWidth, weniger('(prefers-reduced-motion: reduce)').matches))
+}
