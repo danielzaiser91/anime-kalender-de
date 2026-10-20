@@ -253,6 +253,11 @@ jobs:
             Befund. Ein Test, der unter einem Betriebssystem übersprungen wird, belegt dort nichts. Eine Bilanz neuer
             Zuordnungen braucht je Ziel einen inhaltlichen Abgleich (z. B. Folgentitel gegen die Quelle), Zählen allein
             belegt keine Zuordnung.
+            Auflagen früherer Runden (20.10.2026): Führe jede Auflage aus früheren Prüfer-Kommentaren ("Prüfer Runde N",
+            auch eigene) im Protokoll einzeln auf, jeweils als erledigt (mit Beleg im Diff oder Nachtrag), verworfen
+            (mit Grund) oder offen. Ein "ok" bei einer offenen Auflage ist nicht erlaubt. Fehlt nur eine CI-Ergebniszeile,
+            die die noch laufende Kette erst liefert, ist das allein kein Grund für "aendern"; nenne sie dann als
+            ausstehend im Protokoll.
 
             Schreibe zwei Dateien:
             1. ${{ runner.temp }}/pruefer/protokoll.md — deutsch, höchstens 25 Zeilen: Urteil, Befunde mit Datei und
