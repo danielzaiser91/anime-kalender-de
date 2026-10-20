@@ -35,7 +35,7 @@ pruefe('Der Bau reicht entry.note genau einmal an das Release weiter', notizDurc
 pruefe('Ohne Durchreichen erkannt: Eigenschaft entfernt', notizDurchgereicht(bau.replace('note: entry.note,', 'note: undefined,')) === 0)
 pruefe('Ohne Durchreichen erkannt: falscher Feldname', notizDurchgereicht(bau.replace('note: entry.note,', 'notiz: entry.note,')) === 0)
 pruefe('Zwei Eigenschaften werden beide gezählt', notizDurchgereicht(bau.replace('note: entry.note,', 'note: entry.note, note: entry.note,')) === 2)
-
+pruefe('Ohne Durchreichen erkannt: anderes Feld', notizDurchgereicht(bau.replace('note: entry.note,', 'note: entry.herkunft,')) === 0)
 
 /* Die Notiz eines kuratierten Eintrags ist ein Satz Text: die Bestandsprüfung gegen eigene Kulissen (die Villainess-Zeile der echten Datei ist nicht Teil davon). */
 const kuratiert = (zeilen: string) => laufeInKulisse('check-folge-zwoelf-hinweis-bestand.ts', { 'data/curated/kulisse.yaml': `- slug: kulisse-a\n${zeilen}- slug: kulisse-b\n  note: "Ein Satz."\n` })
