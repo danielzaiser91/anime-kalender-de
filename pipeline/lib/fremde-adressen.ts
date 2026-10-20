@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { schluesselAdresse } from './zuordnung.ts'
+import { leseZugeordnet } from './prime-meldung-riegel.ts'
 
 type MitStreams = { id: number; streams?: { url?: string; seite?: string }[] }
 
@@ -30,7 +31,8 @@ export function fremdeAdressen(wurzel: string, bestand: Set<number>): (url: stri
   }
   for (const datei of ['public/data/cartoons.json', 'public/data/ohne-synchro.json'])
     for (const t of json(datei) as MitStreams[]) for (const s of t.streams ?? []) [s.url, s.seite].forEach(dazu)
-  for (const [url, z] of Object.entries(json('data/prime-zugeordnet.json') as Record<string, { titleId?: number }>))
+  // Meldungen liest leseZugeordnet aus ROOT; der Aufrufer übergibt ROOT (Probe: check-urteil-fremde-adresse über AK_ROOT).
+  for (const [url, z] of Object.entries(leseZugeordnet<{ titleId: number }>()))
     if (z.titleId && !bestand.has(z.titleId)) dazu(url)
   const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) as { anilistId?: number; url?: string }[]
   for (const b of belege ?? []) {
