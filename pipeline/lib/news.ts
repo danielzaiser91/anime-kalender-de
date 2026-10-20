@@ -43,6 +43,7 @@ import { rhythmusMeldung } from './news-rhythmus.ts'
 import { ohneDoppelteTakte, taktMeldungen } from './news-takt.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
 import { haltWeitererFest, vergissAlte } from './news-einfrieren.ts'
+import { haltFelderFest, type FesteFelder } from './news-felder-fest.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
 const FENSTER_TAGE = 120
@@ -62,6 +63,8 @@ export interface NewsHistorie extends TerminGedaechtnis {
   anbieter?: Record<string, string>
   /** Meldungsschlüssel (`angekuendigt`) → `weiterer` vom Bau, der die Meldung erzeugte (`news-einfrieren.ts`). */
   weiterer?: Record<string, boolean>
+  /** Meldungsschlüssel → Anbieter, Kanal, Einordnung vom Bau, der die Meldung auslieferte (`news-felder-fest.ts`). */
+  felder?: Record<string, FesteFelder>
 }
 
 /**
@@ -481,7 +484,7 @@ export function baueNews(
 
   datiert = ohneDoppelteTakte(ohneDoppelteFolgen(verschmelzeGleicheQuelle(datiert)))
   datiert.push(...pflegeTerminverlauf({ datiert, nachId, historie, vorherige, name, wurzel: wurzelVon, grenze, heute, nurOriginalton }))
-  datiert = bereinigeNews(ohneKuenstlicheAnkuendigung(datiert))
+  datiert = haltFelderFest(historie, bereinigeNews(ohneKuenstlicheAnkuendigung(datiert)), vorherige)
 
   const gruppen = new Map<string, { am: string; wurzel: number; teile: typeof datiert }>()
   for (const m of datiert) {

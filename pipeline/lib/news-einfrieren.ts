@@ -38,6 +38,9 @@ export function vergissAlte(historie: NewsHistorie, ab: string): void {
   for (const k of Object.keys(historie.weiterer ?? {})) {
     if (!(k in historie.zuerst)) delete historie.weiterer![k]
   }
+  for (const k of Object.keys(historie.felder ?? {})) {
+    if (!(k in historie.zuerst)) delete historie.felder![k]
+  }
 }
 
 /** Schlüssel der Terminmeldung, wie `terminMeldungen` ihn bildet (`art:release:datum`). */
