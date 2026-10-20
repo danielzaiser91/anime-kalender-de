@@ -23,6 +23,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { recordSource } from './lib/health.ts'
+import { katalogTrefferPasst } from './lib/cr-einzelwerk-urteil.ts'
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36'
 const titles = JSON.parse(readFileSync('public/data/titles.json', 'utf8'))
@@ -52,7 +53,6 @@ const tok = await fetch('https://beta-api.crunchyroll.com/auth/v1/token', {
 if (tok.country !== 'DE') { console.error('Nicht aus Deutschland — Abbruch.'); process.exit(1) }
 console.log('Token für', tok.country)
 
-const norm = (s) => (s ?? '').toLowerCase().replace(/[^a-z0-9]/g, '')
 const funde = []
 for (const o of offen) {
   const namen = [...new Set([o.titel, o.en, o.romaji].filter(Boolean))]
@@ -83,11 +83,9 @@ for (const o of offen) {
           die Trefferliste ist also eingegrenzt; und sechs Zeichen schließen
           Allerweltswörter aus.
         */
-        const exakt = namen.some((n2) => norm(it.title) === norm(n2))
-        const teil =
-          norm(it.title).length >= 6 && namen.some((n2) => norm(n2).includes(norm(it.title)))
-        if (!exakt && !teil) continue
-        treffer = { id: it.id, typ: gruppe.type ?? it.type, titel: it.title, meta: it.movie_listing_metadata ?? it.series_metadata ?? it.movie_metadata ?? {} }
+        const { passt, exakt } = katalogTrefferPasst(it, namen)
+        if (!passt) continue
+        treffer = { id: it.id, typ: gruppe.type ?? it.type, art: it.type, exakt, titel: it.title, meta: it.movie_listing_metadata ?? it.series_metadata ?? it.movie_metadata ?? {} }
         break
       }
       if (treffer) break
@@ -95,7 +93,7 @@ for (const o of offen) {
     if (treffer) break
   }
   const audio = treffer ? (treffer.meta.audio_locales ?? (treffer.meta.audio_locale ? [treffer.meta.audio_locale] : [])) : []
-  funde.push({ ...o, treffer: treffer ? { id: treffer.id, typ: treffer.typ, titel: treffer.titel, audio } : null })
+  funde.push({ ...o, treffer: treffer ? { id: treffer.id, typ: treffer.typ, art: treffer.art, exakt: treffer.exakt, titel: treffer.titel, audio } : null })
   const zeichen = !treffer ? '—' : audio.includes('de-DE') ? 'DE' : audio.length ? audio.join(',').slice(0, 24) : '?'
   console.log(`  ${(o.format ?? '?').padEnd(7)} ${(o.titel ?? '').slice(0, 44).padEnd(46)} ${zeichen}`)
 }
