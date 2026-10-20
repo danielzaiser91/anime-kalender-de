@@ -6,7 +6,8 @@
  * `pipeline/fixtures/cartoon-folgen-probe.json` (Auszug aus `data/cartoon-folgen.json` (TMDB) und `data/anisearch-folgen.json`,
  * Stand 11.10.2026); die Meldungen daraus mit anderer Schreibweise nachgebaut. Die Prüfung läuft ohne die große Datei.
  */
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
+import { regeln } from '../tools/pruef-bestand.mjs'
 import { readJson } from './lib/util.ts'
 import { ordneBlockZu, folgenZuTitel, unsereFolgen, type CartoonFolge, type UnsereFolge } from './lib/episodentitel-block.ts'
 import { blockUrteile, folgenlisteVon, nummerUeberBlock, probelisten, type BlockEingang } from './lib/titel-bloecke.ts'
@@ -103,13 +104,46 @@ function pruefeVerteilung(): void {
   pruefe('Titel aus zwei Blöcken in einer Staffel: nichts zugeordnet, Grund für die Prüfliste', folgenVon(streit).length === 0 && streit.zuPruefen.length === 1, streit.zuPruefen)
 }
 
-/** Die Liste der Erweiterung kennt Cartoons; Avatar steht nur darin, solange er ungeprüft ist (seit dem Handbeleg vom 11.10.2026 nicht mehr), dann als ein Eintrag -246 mit 61 Folgen. */
+type NetflixListe = Record<string, { vertrauen?: string; staffeln: Array<{ id?: number; folgen: number }> }>
+
+/**
+ * Adressen, die nicht zum Schalter `erweitert` passen (`tools/extension-offene-liste.mjs`): eingeschaltet trägt jeder Eintrag
+ * ohne Anbieter-Staffeln (`data/anbieter-staffeln.json`) die Angaben aus `eintragsInfo`; ausgeschaltet trägt keiner sie, und
+ * kein Cartoon (Kennung negativ) steht darin. Eine Eigenschaft statt einer Mindestzahl: Die Liste führt nur offene Titel und darf leer werden.
+ */
+function listenModusFehler(liste: NetflixListe, erweitert: boolean, struktur: Record<string, { staffeln?: unknown[] }>): string[] {
+  return Object.entries(liste)
+    .filter(([id, e]) =>
+      erweitert
+        ? !struktur[id]?.staffeln?.length && e.vertrauen === undefined
+        : e.vertrauen !== undefined || e.staffeln.some((s) => (s.id ?? 0) < 0),
+    )
+    .map(([id]) => id)
+}
+
+/** Die Fälle von `listenModusFehler` an einer kleinen Liste: drei Adressen, die mittlere ist die geprüfte. */
+function pruefeListenModus(): void {
+  const cartoon = { vertrauen: 'ungeprueft', staffeln: [{ id: -9, folgen: 3 }] }
+  const anime = { staffeln: [{ folgen: 12 }, { id: 5, folgen: 12 }] }
+  const anbieter = { '2': { staffeln: [{}] } }
+  pruefe('eingeschaltet, alle Cartoons beantwortet (leere Liste): stimmig', listenModusFehler({}, true, {}).length === 0)
+  pruefe('eingeschaltet, Eintrag mit Angaben und einer mit Anbieter-Staffeln: stimmig', listenModusFehler({ '1': cartoon, '2': anime, '3': cartoon }, true, anbieter).length === 0)
+  pruefe('eingeschaltet, Eintrag ohne Angaben: beim Erzeugen ausgeschaltet', listenModusFehler({ '1': cartoon, '2': anime, '3': cartoon }, true, {}).join() === '2')
+  pruefe('ausgeschaltet, Hauptbestand ohne Angaben: stimmig', listenModusFehler({ '1': anime, '2': anime, '3': anime }, false, anbieter).length === 0)
+  pruefe('ausgeschaltet, Cartoon ohne Angaben: beim Erzeugen eingeschaltet', listenModusFehler({ '1': anime, '2': { staffeln: [{ id: 5, folgen: 12 }, { id: -9, folgen: 3 }, { id: 6, folgen: 12 }] }, '3': anime }, false, anbieter).join() === '2')
+  pruefe('ausgeschaltet, Eintrag mit Angaben: beim Erzeugen eingeschaltet', listenModusFehler({ '1': anime, '2': { ...anime, vertrauen: 'hoch' }, '3': anime }, false, {}).join() === '2')
+}
+
+/** Die Liste der Erweiterung passt zum Schalter `erweitert`; Avatar steht nur darin, solange er ungeprüft ist (seit dem Handbeleg vom 11.10.2026 nicht mehr), dann als ein Eintrag -246 mit 61 Folgen. */
 function pruefeErweiterungsliste(): void {
-  console.log('\nErweiterung: Cartoons stehen in der Liste der Netflix-Adressen')
+  console.log('\nErweiterung: die Liste der Netflix-Adressen passt zum Schalter der Prüfliste')
+  pruefeListenModus()
   const text = readFileSync('extension/offene-netflix.js', 'utf8').replace(/^globalThis\.AK_OFFENE_TITEL = /, '')
-  const liste = JSON.parse(text) as Record<string, { staffeln: Array<{ id?: number; folgen: number }> }>
-  const cartoons = Object.values(liste).filter(e => e.staffeln.some(s => (s.id ?? 0) < 0)).length
-  pruefe('Netflix-Liste enthält Cartoon-Adressen (Prüfliste eingeschaltet)', cartoons >= 100, cartoons)
+  const liste = JSON.parse(text) as NetflixListe
+  const struktur = existsSync('data/anbieter-staffeln.json') ? JSON.parse(readFileSync('data/anbieter-staffeln.json', 'utf8')) : {}
+  const { erweitert } = regeln(process.cwd())
+  const unpassend = listenModusFehler(liste, erweitert, struktur)
+  pruefe(`Netflix-Liste passt zur Prüfliste (erweitert: ${erweitert})`, unpassend.length === 0, unpassend.slice(0, 5))
   const avatar = liste['70142405']
   pruefe('Avatar (Netflix 70142405): fehlt (geprüft) oder ein Eintrag -246 mit 61 Folgen', !avatar || (avatar.staffeln.length === 1 && avatar.staffeln[0]!.id === -246 && avatar.staffeln[0]!.folgen === 61), avatar)
 }

@@ -8,7 +8,7 @@ import {
 import { readJson, log, warn } from '../lib/util.ts'
 import { normalizeTitle } from '../lib/crunchyroll.ts'
 import { adnSlug, adnBlockName, fskFromAdnAge, adnHinweis, werkTitel } from './titel-hilfen.ts'
-import { ADN_CALENDAR_URL } from './grundlagen.ts'
+import { ADN_CALENDAR_URL, adnKatalogUrl } from './grundlagen.ts'
 import { todayIso } from '../../shared/time.ts'
 import { artikelJeShow, type AdnNews } from '../lib/adn-news.ts'
 import { ergaenzeTeilnamen } from './adn-teilnamen.ts'
@@ -277,7 +277,7 @@ function ergaenzeAdnTitelAusDaten({ titles, releases, titleByName, seenSlugs }: 
             lastEpisodeDate: letzte.date,
           },
           year: Number(first.date.slice(0, 4)),
-          sources: [...(artikel ? [artikel.url] : []), ADN_CALENDAR_URL],
+          sources: [...(artikel ? [artikel.url] : []), show.fromCatalog ? adnKatalogUrl(show.showId) : ADN_CALENDAR_URL],
         })
         /*
           **Ein ADN-Termin belegt die Synchro — also gehört ein ADN-Verweis dazu.** Der Termin

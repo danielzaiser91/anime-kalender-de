@@ -15,17 +15,24 @@ const attrappe = {
 const bestandDatei = /(?:^|[\\/])public[\\/]data[\\/](titles|franchises|cartoons)\.json$/
 const belegDatei = /(?:^|[\\/])data[\\/]dub-confirmed\.yaml$/
 
+/* Die Merkliste der Kanal-Seiten (`data/kanal-seiten.json`) liegt wie die Belegdatei in einer Wegwerfdatei (KANAL_MOCK_MERKLISTE). */
+const merkDatei = /(?:^|[\\/])data[\\/]kanal-seiten\.json$/
+const ziel = (p) => (belegDatei.test(p) ? process.env.KANAL_MOCK_YAML : merkDatei.test(p) ? process.env.KANAL_MOCK_MERKLISTE : null)
+
 const echteLesung = fs.readFileSync
 fs.readFileSync = (p, ...rest) => {
   if (typeof p !== 'string') return echteLesung(p, ...rest)
   const bestand = bestandDatei.exec(p)
   if (bestand) return JSON.stringify(attrappe[bestand[1]])
-  return belegDatei.test(p) ? echteLesung(process.env.KANAL_MOCK_YAML, ...rest) : echteLesung(p, ...rest)
+  return echteLesung(ziel(p) ?? p, ...rest)
 }
 const echteSchreibung = fs.writeFileSync
 fs.writeFileSync = (p, ...rest) => {
-  if (typeof p === 'string' && belegDatei.test(p)) echteSchreibung(process.env.KANAL_MOCK_YAML, ...rest)
+  const datei = typeof p === 'string' ? ziel(p) : null
+  if (datei) echteSchreibung(datei, ...rest)
 }
+const echtesExists = fs.existsSync
+fs.existsSync = (p) => echtesExists(typeof p === 'string' ? (ziel(p) ?? p) : p)
 fs.appendFileSync = () => {}
 fs.rmSync = () => {}
 fs.mkdirSync = () => {}

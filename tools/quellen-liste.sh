@@ -113,6 +113,10 @@ QUELLEN=(
   # ist der Schlüssel, um eine Meldung später einer unserer Staffeln
   # zuzuordnen, auch wenn der Anbieter anders einteilt.
   data/anbieter-staffeln.json
+  # Stempel der jüngsten Übernahme (18.10.2026), liest tools/briefkasten-wache.mjs.
+  data/meldungen-uebernahme.json
+  # Beim Eingrenzen zurückgestellte Meldungen mit Grund (18.10.2026), liest tools/briefkasten-wache.mjs.
+  data/meldungen-zurueckgestellt.json
   data/tmdb.json
   # Deutsche Handlung, FSK und Anbieter je Titel. Fehlte hier bis zum
   # 21.08.2026 — der Abruf lief allerdings auch in keinem Workflow.
@@ -140,6 +144,8 @@ QUELLEN=(
   daniel-zum-abarbeiten/listen/20-justwatch-handpruefung.md
   data/prime-unzugeordnet.json
   data/prime-kanal-aussortiert.json
+  # Kanal-Seiten, die der Bau auch kennt, wenn ihr Handbeleg zurückgestellt ist (19.10.2026, #1601); schreibt fetch-pruefungen.ts.
+  data/kanal-seiten.json
   data/cr-vorschlaege.json
   data/adn-vorschlaege.json
   data/anime-ids.json

@@ -106,7 +106,7 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
     /*
       **Die Reihenfolge bleibt aufsteigend — daran hängt der Datenlauf.**
 
-      `LIMIT 500` schneidet ab, und die Pipeline arbeitet die ältesten zuerst ab.
+      `OFFEN_FENSTER` (bis 18.10.2026 `LIMIT 500`) schneidet ab, und die Pipeline arbeitet die ältesten zuerst ab.
       Umgestellt auf absteigend hätte sie bei 562 Meldungen die ältesten 62 nie
       gesehen. Der Deckel ist für sie richtig; er ist nur keine Zählung.
 
@@ -116,7 +116,7 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
     */
     /*
       **`?alle=1&nach=<id>`: jede Meldung, auch übernommene — für Stufe 3** (22.09.2026). Das Urteil
-      je Folge wird aus allen Beobachtungen neu gerechnet, nicht aus den 500 offenen. Seitenweise wie
+      je Folge wird aus allen Beobachtungen neu gerechnet, nicht aus dem Fenster der offenen. Seitenweise wie
       bei den Rohfolgen; gemessen am 22.09.2026: 4.467 Zeilen, eine Seite.
     */
     /* In R2 zwischengespeichert (`export-speicher.ts`, 05.10.2026): Der Edge-Cache half nicht, jeder Bau holte alle Seiten neu (4,5 Mio. Zeilen an einem Tag). */

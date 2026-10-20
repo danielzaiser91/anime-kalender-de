@@ -19,8 +19,6 @@ import { FundstellenZeichen, TrefferName } from '../Suchtreffer.tsx'
 
 const KNOPF_GRUND = 'flex items-center gap-0.5 rounded-full bg-[rgba(13,15,20,.72)] px-0.5 text-[#f2f1ee]'
 const ERST_BEIM_ZEIGEN = 'transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:hover)]:opacity-0'
-/** Die Anbieterleiste einer breiten Kachel deckt deren Ring unten ab: 2 px ohne, 3 px mit Favoriten-Rand. */
-const RAND_LEISTE = ['-inset-x-0.5 -bottom-0.5 h-1.5', '-inset-x-[3px] -bottom-[3px] h-[7px]'] as const
 
 export interface PosterKarteProps {
   event: ReleaseEvent
@@ -134,7 +132,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
     <div className="relative">
     <div
       className={[
-        'relative overflow-hidden rounded-xl bg-ak-flaeche-2',
+        'ak-ring-oben-leiste relative overflow-hidden rounded-t-xl bg-ak-flaeche-2',
         /* Breit: so hoch wie die schmalen Nachbarn — zwei Spalten minus Lücke, mal 3/4. */
         zwei ? 'ak-breit-cover h-0' : 'aspect-[2/3]',
         p.favorite ? 'ring-3' : p.breit ? 'ring-2' : '',
@@ -158,7 +156,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
           {p.event.name}
         </span>
       )}
-      {rand.innen && <span className={`pointer-events-none absolute inset-0 rounded-xl border border-ak-grund inset-ring-2 ${rand.innen}`} />}
+      {rand.innen && <span className={`pointer-events-none absolute inset-0 rounded-t-xl border border-ak-grund inset-ring-2 ${rand.innen}`} />}
       <span className={['absolute flex flex-wrap items-center gap-1.5', p.saal ? SAAL_MARKEN : 'top-2 left-2'].join(' ')}>
         {(!p.anbieter || zeitGemeinsam(p.anbieter)) && <ZeitMarke event={p.event} t={t} angabe={p.zeitAngabe} />}
         {p.art && <ArtFahne art={p.art} termine={(p.anbieter ?? [p.buendel ?? [p.event]]).flat()} />}
@@ -167,11 +165,11 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
       <CoverAktionen {...p} saal={p.saal} />
     </div>
     {/*
-      **Die Anbieterleiste liegt über dem Rand, nicht darunter** (Daniel, 04.10.2026): Der Ring von Staffelstart und -finale sitzt außerhalb der Kachel; die Leiste
-      reicht bei einer Kachel mit Ring deshalb zwei Pixel darüber hinaus und deckt ihn unten ab, links, oben und rechts bleibt er stehen.
+      **Die Anbieterleiste schließt das Cover unten ab, mit oder ohne Ring** (Daniel, 04.10. und 17.10.2026): Der Ring endet über der Leiste
+      (`ak-ring-oben-leiste` schneidet ihn 1 px über der Unterkante ab, Begründung in `styles.css`), die unteren Ecken sind eckig; sonst bliebe dort eine Lücke zwischen Ring und Leiste.
     */}
     <span
-      className={['pointer-events-none absolute rounded-b-xl', p.breit ? RAND_LEISTE[p.favorite ? 1 : 0] : 'inset-x-0 bottom-0 h-1'].join(' ')}
+      className="pointer-events-none absolute inset-x-0 bottom-0 h-1"
       style={{ background: farbe }}
     />
     </div>

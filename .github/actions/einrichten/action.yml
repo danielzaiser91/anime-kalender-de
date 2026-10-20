@@ -52,6 +52,11 @@ runs:
         key: anilist-cache-${{ github.run_id }}
         restore-keys: anilist-cache-
 
+    - name: Microsoft-Paketquelle entfernen
+      if: inputs.playwright == 'true'
+      shell: bash
+      run: sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -fv || true
+
     - name: Browser installieren
       if: inputs.playwright == 'true'
       shell: bash

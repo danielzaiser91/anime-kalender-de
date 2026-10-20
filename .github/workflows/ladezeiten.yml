@@ -43,6 +43,9 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
+      - name: Microsoft-Paketquelle entfernen
+        run: sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -fv || true
+
       - name: Chromium holen
         if: steps.chromium.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium

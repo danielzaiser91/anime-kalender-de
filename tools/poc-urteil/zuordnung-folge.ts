@@ -24,6 +24,7 @@ import {
   type TmdbFolge,
 } from '../../shared/folgen-zuordnung.ts'
 import type { Title } from '../../shared/types.ts'
+import { leseZugeordnet } from '../../pipeline/lib/prime-meldung-riegel.ts'
 
 interface Zeile {
   id: number
@@ -84,7 +85,7 @@ for (const t of titel.values()) {
   damals trägt die Adresse von damals. `prime-zugeordnet.json` (Einleser) und `dub-confirmed.yaml`
   (Belege) halten fest, welchem Titel sie seinerzeit gehörte.
 */
-for (const [url, x] of Object.entries(lies<Record<string, { titleId?: number }>>('data/prime-zugeordnet.json', {}))) {
+for (const [url, x] of Object.entries(leseZugeordnet<{ titleId: number }>())) {
   if (!x.titleId) continue
   const k = kern(url)
   if (!k) continue

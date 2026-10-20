@@ -8,8 +8,11 @@ import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 
-/** Umgebungsvariablen, die das Ergebnis von `pipeline/build.ts` ändern (`REIHEN_QUELLE`: Reihenweg, `SITE_URL`: Adressen in Feeds und ICS). */
-export const BAU_UMGEBUNG = ['REIHEN_QUELLE', 'SITE_URL']
+/**
+ * Umgebungsvariablen, die das Ergebnis von `pipeline/build.ts` ändern (`REIHEN_QUELLE`: Reihenweg, `SITE_URL`: Adressen in Feeds und ICS,
+ * `BAU_QUARANTAENE`: zurückgestellte Titel — der Name trägt den Pfad der Liste, nicht ihren Inhalt).
+ */
+export const BAU_UMGEBUNG = ['REIHEN_QUELLE', 'SITE_URL', 'BAU_QUARANTAENE']
 
 export const KATALOG_DATEI = 'data/cache/anilist-katalog.json'
 

@@ -6,10 +6,13 @@
 import type { Release } from '../shared/types.ts'
 import { katalogBelegBestandFehler, ladeKatalogBelegEintraege } from './lib/katalog-belege.ts'
 import { readJson } from './lib/util.ts'
+import { zurueckgestellt } from './lib/quarantaene.ts'
 
 const eintraege = ladeKatalogBelegEintraege()
 const releases = readJson<Release[]>('public/data/releases.json', [])
-const fehler = katalogBelegBestandFehler(eintraege, releases)
+// Releases zurückgestellter Titel (Quarantäne) fehlen absichtlich; `meta.quarantaene` nennt sie.
+const zurueck = zurueckgestellt().releases
+const fehler = katalogBelegBestandFehler(eintraege.filter((e) => !zurueck.has(e.slug)), releases)
 console.log('\nHanddatei Katalog-Release gegen den gebauten Bestand:')
 if (releases.length === 0 || eintraege.length === 0) fehler.push('releases.json oder Handdatei leer')
 for (const f of fehler) console.error(`  ✖ ${f}`)
