@@ -22,12 +22,14 @@ const faelle = [
   { id: 900021, name: 'gesperrte Seite dieses Titels: kein Weg', schluessel: `${gp('B0CONTAIN1')}#2`, seite: SPERRE, erwartet: 0 },
   { id: 900022, name: 'Kontrolle: dieselbe Seite bei einem anderen Titel', schluessel: `${gp('B0CONTAIN2')}#2`, seite: SPERRE, erwartet: 1 },
   { id: 900021 + 100, name: 'Kontrolle: andere Seite desselben Titels', schluessel: `${gp('B0CONTAIN3')}#2`, seite: FREI, erwartet: 1 },
+  { id: 900023, name: 'gesperrter Container im Schlüssel, Teilseite anders', schluessel: `${gp(SPERRE)}#4`, seite: FREI, erwartet: 0 },
+  { id: 900024, name: 'Kontrolle: derselbe Container bei einem anderen Titel', schluessel: `${gp(SPERRE)}#5`, seite: FREI, erwartet: 1 },
 ]
 
 const fehler: string[] = []
 try {
   schreibe('data/dub-confirmed.yaml', '[]\n')
-  schreibe('data/prime-seiten-von-hand.json', JSON.stringify([{ titleId: 900021, seite: SPERRE }]))
+  schreibe('data/prime-seiten-von-hand.json', JSON.stringify([{ titleId: 900021, seite: SPERRE }, { titleId: 900023, seite: SPERRE }]))
   const zugeordnet: Record<string, unknown> = {}
   for (const f of faelle) {
     zugeordnet[f.schluessel] = {

@@ -39,5 +39,12 @@ export function leseZugeordnet<T extends { titleId: number; seite?: string | nul
 /** Die Meldungen aus `prime-zugeordnet.json` ohne die von Hand gesperrten Seiten (`data/prime-seiten-von-hand.json`). */
 export function ohneGesperrteSeiten<T extends { titleId: number; seite?: string | null }>(roh: Record<string, T>): [string, T][] {
   const sperren = readJson<SeitenSperre[]>('data/prime-seiten-von-hand.json', [])
-  return Object.entries(roh).filter(([, e]) => !seiteGesperrt(sperren, e.titleId, e.seite))
+  return Object.entries(roh).filter(
+    ([schluessel, e]) => !seiteGesperrt(sperren, e.titleId, e.seite) && !seiteGesperrt(sperren, e.titleId, asinAusSchluessel(schluessel)),
+  )
+}
+
+/** Die Seitenkennung im Schlüssel einer Meldung (`…/B0D188KVH4#4`): auch ein Container, dessen Teilseite anders heißt, ist sperrbar. */
+function asinAusSchluessel(schluessel: string): string | undefined {
+  return /\/(?:dp|gp\/video\/detail)\/([A-Za-z0-9]{10})/.exec(schluessel)?.[1]
 }
