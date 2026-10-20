@@ -23,9 +23,14 @@ export const AUSNAHMEN: Record<string, string> = {
 const CODE = /\.(ts|tsx|mjs|cjs|js)$/
 const istPruefdatei = (pfad: string) => /^check-|\.test\./.test(basename(pfad))
 
+/** TSX nur für .tsx: sonst läse der Parser `<T>(x) =>` oder `<any>x` als JSX und verschluckte den Rest der Datei (JS-Art tut dasselbe, daher TS auch für .mjs/.js). */
+function scriptArt(pfad: string): ts.ScriptKind {
+  return pfad.endsWith('.tsx') ? ts.ScriptKind.TSX : ts.ScriptKind.TS
+}
+
 /** Die Zeichenketten-Texte einer Quelle, in denen der Dateiname vorkommt. */
 export function nenntDatei(pfad: string, text: string): string[] {
-  const art = /\.(mjs|cjs|js)$/.test(pfad) ? ts.ScriptKind.JS : ts.ScriptKind.TSX
+  const art = scriptArt(pfad)
   const baum = ts.createSourceFile(pfad, text, ts.ScriptTarget.Latest, true, art)
   const funde: string[] = []
   const gehe = (k: ts.Node): void => {
