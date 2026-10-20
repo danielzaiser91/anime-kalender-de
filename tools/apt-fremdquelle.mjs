@@ -45,7 +45,7 @@ export function pruefeAlle(wurzel) {
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const fehler = pruefeAlle(resolve(import.meta.dirname, '..'))
+  const fehler = pruefeAlle(resolve(process.argv[2] ?? resolve(import.meta.dirname, '..')))
   fehler.forEach((f) => console.error(f))
   console.log(`apt-fremdquelle: ${fehler.length} Verstöße`)
   process.exit(fehler.length ? 1 : 0)

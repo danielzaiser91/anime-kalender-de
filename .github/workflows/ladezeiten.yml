@@ -44,7 +44,7 @@ jobs:
           key: playwright-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Microsoft-Paketquelle entfernen
-        run: sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -f || true
+        run: sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -fv || true
 
       - name: Chromium holen
         if: steps.chromium.outputs.cache-hit != 'true'

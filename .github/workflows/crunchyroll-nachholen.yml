@@ -117,7 +117,7 @@ jobs:
       - run: npm ci
 
       - name: Microsoft-Paketquelle entfernen
-        run: sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -f || true
+        run: sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -fv || true
 
       - name: Browser installieren
         run: npx playwright install --with-deps chromium

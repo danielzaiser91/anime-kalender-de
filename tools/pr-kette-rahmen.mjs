@@ -31,7 +31,7 @@ const SOLL_AKTION = {
         name: 'Microsoft-Paketquelle entfernen',
         if: "inputs.playwright == 'true'",
         shell: 'bash',
-        run: 'sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -f || true',
+        run: 'sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -fv || true',
       },
       {
         name: 'Chromium installieren',
