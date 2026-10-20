@@ -182,7 +182,8 @@ export function loeseGeteilteWegeVonWiderlegten(releases: Release[], titles: Map
     const staffel = titel && staffelDesTitels(titel, titles.values())
     for (const s of titel?.streams ?? []) {
       if (s.platform !== plattform || s.dub !== true || (s.sharedWith ?? 0) < 2 || s.dubRanges?.length) continue
-      const bereiche = staffel ? deutscheBereicheSeit(crDub, s.url, spaetester, staffel) : []
+      // Bereiche nur gegen eine bekannte Folgenzahl (check-cr-teilseiten-bestand); ohne sie bleibt die Sprache offen.
+      const bereiche = staffel && titel?.episodes ? deutscheBereicheSeit(crDub, s.url, spaetester, staffel).filter((b) => b.from <= titel.episodes!).map((b) => ({ ...b, to: Math.min(b.to, titel.episodes!) })) : []
       if (bereiche.length) {
         s.dubRanges = bereiche
         continue
