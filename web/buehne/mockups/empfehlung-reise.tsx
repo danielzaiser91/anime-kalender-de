@@ -1,5 +1,6 @@
 import { anzeigeName } from '@shared/titles.ts'
 import { useDatensatz } from '../ausschnitte/datensatz.ts'
+import type { Dataset } from '../../src/lib/data.ts'
 import type { Fall } from '../faelle.ts'
 import { mockup, type Entwurf } from '../register.ts'
 import { waehleVorschlaege } from './empfehlung-reise-wahl.ts'
@@ -17,7 +18,11 @@ const Einleitung: Entwurf = () => (
 
 const Vorschlaege: Entwurf = ({ fall }: { fall: Fall }) => {
   const data = useDatensatz()
-  if (!data) return null
+  return data ? <VorschlaegeAnsicht fall={fall} data={data} /> : null
+}
+
+/** Die Vorschläge samt Datensatz (getrennt vom Laden, damit ein Render-Test sie ohne Browser sieht). */
+export function VorschlaegeAnsicht({ fall, data }: { fall: Fall; data: Pick<Dataset, 'titles' | 'titleById'> }) {
   const ids = waehleVorschlaege(data.titles.map((t) => t.id), fall.nutzer, 5)
   const gemerkt = new Set(fall.nutzer?.merkliste ?? [])
   return (

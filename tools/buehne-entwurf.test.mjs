@@ -28,6 +28,7 @@ assert.equal(waehleEntwurf(def, ''), undefined)
 assert.equal(waehleEntwurf({ ...def, vorher: heute }, ''), heute)
 assert.equal(waehleEntwurf({ ...def, vorher: heute }, 'A'), a)
 assert.equal(waehleEntwurf(def, 'C'), undefined)
+assert.equal(waehleEntwurf({ ...def, vorher: heute }, 'C'), undefined)
 assert.equal(waehleEntwurf(def, 'Z'), undefined)
 assert.equal(waehleEntwurf(undefined, 'A'), undefined)
 
