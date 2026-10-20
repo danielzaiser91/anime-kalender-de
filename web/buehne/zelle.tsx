@@ -22,7 +22,7 @@ function Zelle({ werte, fall }: { werte: URLSearchParams; fall: Fall }) {
   return (
     <>
       {variante?.stil && <style>{variante.stil}</style>}
-      <Ausschnitt fall={fall} ersatz={variante?.ersatz ?? {}} />
+      <Ausschnitt fall={fall} ersatz={variante?.ersatz ?? {}} mockup={def.name} variante={werte.get('v') ?? ''} />
     </>
   )
 }

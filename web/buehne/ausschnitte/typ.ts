@@ -5,4 +5,7 @@ import type { Fall } from '../faelle.ts'
 export interface AusschnittEigenschaften {
   fall: Fall
   ersatz: Partial<Ersatz>
+  /** Das Mockup und seine Variante (leer = Vorher), für Ausschnitte mit eigenen Entwürfen. */
+  mockup: string
+  variante: string
 }

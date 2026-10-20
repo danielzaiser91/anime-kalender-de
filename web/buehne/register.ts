@@ -1,5 +1,10 @@
+import type { ComponentType } from 'react'
 import type { AusschnittName } from './ausschnitte/index.ts'
 import type { Ersatz } from './ersatz.tsx'
+import type { Fall } from './faelle.ts'
+
+/** Eine eigenständige Ansicht des Ausschnitts `entwurf`: bekommt den Fall (bei Nutzer-Fällen samt `nutzer`). */
+export type Entwurf = ComponentType<{ fall: Fall }>
 
 export interface Variante {
   /** Bauteile, die gegenüber dem echten Panel ausgetauscht werden. */
@@ -7,6 +12,8 @@ export interface Variante {
   notiz?: string
   /** Stylesheet, das die Zelle über die echte App legt — für Gestaltungs-Mockups, die keine Bauteile tauschen (13.10.2026). */
   stil?: string
+  /** Nur Ausschnitt `entwurf`: der Entwurf dieser Variante, wo die App kein Bauteil zum Tauschen hat. */
+  entwurf?: Entwurf
 }
 
 export interface MockupDef {
@@ -17,6 +24,8 @@ export interface MockupDef {
   varianten: Record<string, Variante>
   /** Wählbare Uhrzeiten (Beschriftung → ISO mit Berliner Versatz); ohne Angabe gilt `faelle.heute`. */
   zeiten?: Record<string, string>
+  /** Nur Ausschnitt `entwurf`: was die heutige Seite an dieser Stelle zeigt; fehlt es, steht dort „Neu“. */
+  vorher?: Entwurf
 }
 
 const register = new Map<string, MockupDef>()

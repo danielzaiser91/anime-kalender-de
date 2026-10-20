@@ -1,4 +1,5 @@
 import faelleAdresse from './faelle.json?url'
+import { NUTZER_FAELLE, nutzerAus, type Nutzer } from './nutzer-faelle.ts'
 
 /** Die eingefrorenen Fälle (`faelle.json`, geschrieben von `tools/buehne-faelle.mjs`) und der umgebogene `fetch`. */
 export interface Fall {
@@ -8,6 +9,8 @@ export interface Fall {
   disc: Record<string, unknown>
   sprecher: Record<string, unknown>
   folgen: Record<string, unknown>
+  /** Nur bei Nutzer-Fällen (`nutzer-faelle.ts`). */
+  nutzer?: Nutzer
   [datei: string]: unknown
 }
 
@@ -39,10 +42,20 @@ function gesamtbestand(faelle: Fall[]): Fall {
   return summe
 }
 
+/** Nutzer-Fälle tragen den Gesamtbestand und dazu den Zustand des Besuchers. */
+function ergaenzeNutzerFaelle(faelle: Record<string, Fall>): void {
+  const alle = faelle[ALLE]!
+  const kennungen = (alle['titles.json'] as { id: number }[]).map((t) => t.id)
+  for (const [kennung, spec] of Object.entries(NUTZER_FAELLE)) {
+    faelle[kennung] = { ...alle, name: spec.name, nutzer: nutzerAus(kennungen, spec) }
+  }
+}
+
 export async function ladeFaelle(): Promise<FaelleDatei> {
   const antwort = await fetch(new URL(faelleAdresse, document.baseURI))
   const datei = (await antwort.json()) as FaelleDatei
   datei.faelle[ALLE] = gesamtbestand(Object.values(datei.faelle))
+  ergaenzeNutzerFaelle(datei.faelle)
   return datei
 }
 
