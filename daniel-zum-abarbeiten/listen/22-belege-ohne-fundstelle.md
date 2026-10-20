@@ -1,4 +1,4 @@
-# Belege ohne Fundstelle (102)
+# Belege ohne Fundstelle (109)
 
 Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artikel den Titel und den Termin? Wenn nein, ist der Beleg hinfällig und der Termin braucht eine andere Quelle.
 
@@ -34,27 +34,27 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://news.animationdigitalnetwork.com/de/2026/10/05/school-babysitters-die-besondere-kita-im-stream-bei-adn/ (gelesen 2026-10-05) — Assassination Classroom (20755), Assassination Classroom Second Season (21170)
 - https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855 (gelesen 2026-10-19) — kein Titel zugeordnet
 - https://www.joyn.de/filme/appleseed-alpha-bpr7vttruhwc (gelesen 2026-10-13) — kein Titel zugeordnet
-- https://www.joyn.de/serien/detektiv-conan (gelesen 2026-10-13) — kein Titel zugeordnet
+- https://www.joyn.de/serien/detektiv-conan (gelesen 2026-10-20) — kein Titel zugeordnet
 - https://www.joyn.de/serien/dr-stone (gelesen 2026-10-13) — kein Titel zugeordnet
-- https://www.joyn.de/serien/dragon-ball-super-dpp50bwivlve (gelesen 2026-10-13) — kein Titel zugeordnet
+- https://www.joyn.de/serien/dragon-ball-super-dpp50bwivlve (gelesen 2026-10-20) — kein Titel zugeordnet
 - https://www.joyn.de/serien/eyeshield-21 (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/serien/frieren-nach-dem-ende-der-reise (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/serien/fruits-basket (gelesen 2026-10-13) — kein Titel zugeordnet
-- https://www.joyn.de/serien/gachiakuta (gelesen 2026-10-13) — kein Titel zugeordnet
+- https://www.joyn.de/serien/gachiakuta (gelesen 2026-10-20) — kein Titel zugeordnet
 - https://www.joyn.de/serien/higurashi-when-they-cry-gou (gelesen 2026-10-15) — kein Titel zugeordnet
-- https://www.joyn.de/serien/yashahime (gelesen 2026-10-13) — kein Titel zugeordnet
+- https://www.joyn.de/serien/yashahime (gelesen 2026-10-20) — kein Titel zugeordnet
 - https://www.joyn.de/serien/kaiju-no-8 (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/serien/log-horizon (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/serien/mob-psycho-100 (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/serien/my-hero-academia (gelesen 2026-10-13) — kein Titel zugeordnet
-- https://www.joyn.de/serien/naruto (gelesen 2026-10-13) — kein Titel zugeordnet
-- https://www.joyn.de/serien/naruto-shippuden-dp9lg5cqfaaj (gelesen 2026-10-13) — kein Titel zugeordnet
+- https://www.joyn.de/serien/naruto (gelesen 2026-10-20) — kein Titel zugeordnet
+- https://www.joyn.de/serien/naruto-shippuden-dp9lg5cqfaaj (gelesen 2026-10-20) — kein Titel zugeordnet
 - https://www.joyn.de/filme/naruto-shippuden-the-movie-bonds (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/filme/naruto-shippuden-the-movie-die-erben-des-willens-des-feuers (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/serien/boruto-dp7adnkxkcfc (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/serien/perrine (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/serien/reincarnated-as-a-sword (gelesen 2026-10-13) — kein Titel zugeordnet
-- https://www.joyn.de/serien/solo-leveling (gelesen 2026-10-13) — kein Titel zugeordnet
+- https://www.joyn.de/serien/solo-leveling (gelesen 2026-10-20) — kein Titel zugeordnet
 - https://www.joyn.de/serien/terror-in-tokio (gelesen 2026-10-15) — kein Titel zugeordnet
 - https://www.joyn.de/serien/the-promised-neverland (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/serien/the-quintessential-quintuplets (gelesen 2026-10-13) — kein Titel zugeordnet
@@ -91,16 +91,23 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1059541/ (gelesen 2026-10-14) — Shin Samurai-den YAIBA (177476)
 - https://www.anime2you.de/news/1057488/crunchyroll-reborn-as-a-space-mercenary-und-mehr/ (gelesen 2026-10-14) — Mezametara Saikyou Soubi to Uchuusen-mochi datta node, Ikkodate Mezashite Youhei to shite Jiyuu ni Ikitai (186541)
 - https://www.anime2you.de/news/1050718/crunchyroll-19-neue-herbst-2026-simulcasts/ (gelesen 2026-10-14) — Yasei no Last Boss ga Arawareta! 2nd Season (204389)
-- https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/ (gelesen 2026-10-14) — Yu☆Gi☆Oh! Duel Monsters GX (482), Youkoso Jitsuryoku Shijou Shugi no Kyoushitsu e (98659), The God of High School (116006), The Rising of the Shield Hero (99263)
+- https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/ (gelesen 2026-10-14) — Youkoso Jitsuryoku Shijou Shugi no Kyoushitsu e (98659), Yu☆Gi☆Oh! Duel Monsters GX (482), The God of High School (116006), The Rising of the Shield Hero (99263)
 - https://www.anime2you.de/news/1059957/sss-class-revival-hunter-neuer-teaser/ (gelesen 2026-10-14) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1044124/jujutsu-kaisen-staffel-1-steelbook-edition/ (gelesen 2026-10-14) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1058606/crunchyroll-the-boxer-und-mehr/ (gelesen 2026-10-14) — kein Titel zugeordnet
 - https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/ (gelesen 2026-10-18) — Bleach: The Movie - Memories of Nobody (1686)
 - https://www.anime2you.de/news/1052617/netflix-bride-of-the-barrier-master-simulcast/ (gelesen 2026-10-14) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1049988/disney-plus-the-god-of-high-school-und-mehr/ (gelesen 2026-10-15) — Beyblade X – Staffel 2 - Teil 2 (165159)
-- https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/ (gelesen 2026-10-15) — Snowball Earth (196144)
+- https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/ (gelesen 2026-10-20) — Snowball Earth (196144)
 - https://www.anime2you.de/news/1058501/starttermin-von-magical-buffs/ (gelesen 2026-10-18) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1057673/crunchyroll-zeigt-red-riding-hood/ (gelesen 2026-10-15) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/ (gelesen 2026-10-18) — Snowball Earth (196144)
 - https://www.disneyplus.com/de-de/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855 (gelesen 2026-10-17) — kein Titel zugeordnet
-- https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/ (gelesen 2026-10-19) — Good Luck Girl! – Vol. 1 (13535), Kaiju No. 8 – Staffel 2 – Komplettbox (178754)
+- https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/ (gelesen 2026-10-20) — Good Luck Girl! – Vol. 1 (13535), Kaiju No. 8 – Staffel 2 – Komplettbox (178754)
+- https://www.anime2you.de/news/1047034/disney-plus-classroom-of-the-elite-und-mehr/ (gelesen 2026-10-20) — Bleach (269)
+- https://www.joyn.de/serien/dororo (gelesen 2026-10-20) — kein Titel zugeordnet
+- https://www.joyn.de/serien/hells-paradise (gelesen 2026-10-20) — kein Titel zugeordnet
+- https://www.joyn.de/filme/naruto-shippuden-the-movie-the-lost-tower (gelesen 2026-10-20) — kein Titel zugeordnet
+- https://www.joyn.de/filme/naruto-shippuden-the-movie-blood-prison (gelesen 2026-10-20) — kein Titel zugeordnet
+- https://www.joyn.de/filme/the-last-naruto-the-movie (gelesen 2026-10-20) — kein Titel zugeordnet
+- https://www.joyn.de/filme/boruto-naruto-the-movie (gelesen 2026-10-20) — kein Titel zugeordnet
