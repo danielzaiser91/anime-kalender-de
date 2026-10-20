@@ -58,6 +58,8 @@ pipeline/check-cr-film-wege.ts
 pipeline/check-cr-ja-deckung.ts
 pipeline/check-cr-komplettabwurf.ts
 pipeline/check-cr-teilseiten.ts
+pipeline/check-datei-kennungen.ts
+pipeline/check-daten-adressen.ts
 pipeline/check-daten-kennung.ts
 pipeline/check-db-relevanz.ts
 pipeline/check-detektiv-funde.ts
