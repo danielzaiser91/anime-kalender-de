@@ -43,9 +43,8 @@ export function schreiberNamen(text: string): string[] {
   return namen
 }
 
-/** Namen mit Frist, die kein Schreiber bedient. Ein '?'-Schreiber lässt nichts durchfallen (im Zweifel nicht rot). */
+/** Namen mit Frist, die kein Schreiber mit festem Namen bedient ('?' bedient keinen: der Wächter zählt sie getrennt und wird rot). */
 export function ohneSchreiber(fristen: string[], schreiber: string[]): string[] {
-  if (schreiber.includes('?')) return []
   const da = new Set(schreiber)
   return fristen.filter((n) => !da.has(n))
 }

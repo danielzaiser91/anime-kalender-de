@@ -25,9 +25,11 @@ function main(): number {
   const fristen = fristNamen(readFileSync(join(ROOT, 'pipeline/check-sources.ts'), 'utf8'))
   const schreiber = ORDNER.flatMap(quelldateien).flatMap((d) => schreiberNamen(readFileSync(join(ROOT, d), 'utf8')))
   const fehlt = ohneSchreiber(fristen, schreiber)
-  console.log(`check-quellen-schreiber: ${fristen.length} Fristen, ${schreiber.length} Schreiber, ${fehlt.length} ohne Schreiber${fehlt.length ? `: ${fehlt.join(', ')}` : ''}`)
+  const unklar = schreiber.filter((n) => n === '?').length
+  console.log(`check-quellen-schreiber: ${fristen.length} Fristen, ${schreiber.length} Schreiber (${unklar} mit unlesbarem Namen), ${fehlt.length} ohne Schreiber${fehlt.length ? `: ${fehlt.join(', ')}` : ''}`)
   if (fehlt.length) console.error('Frist ohne Schreiber: Quelle eingestellt? Dann aus FRISTEN austragen.')
-  return fehlt.length ? 1 : 0
+  if (unklar) console.error('recordSource mit Name als Variable: Name als Zeichenkette schreiben, sonst prüft der Wächter blind.')
+  return fehlt.length || unklar ? 1 : 0
 }
 
 process.exit(main())

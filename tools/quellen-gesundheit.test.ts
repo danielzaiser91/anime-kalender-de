@@ -1,6 +1,6 @@
 // Zusicherung: Quellen-Gesundheit (Wächter Frist↔Schreiber, link-check-Zwischenstand, Abbruch in der Amazon-Pause).
 import assert from 'node:assert/strict'
-import { spawn } from 'node:child_process'
+import { spawn, spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
@@ -35,8 +35,32 @@ assert.deepEqual(schreiberNamen('recordSource(`fest`, 1)'), ['fest'], 'Vorlage o
 
 assert.deepEqual(ohneSchreiber(['a-b', 'c', 'd'], ['a-b', 'd']), ['c'], 'Frist ohne Schreiber wird genannt')
 assert.deepEqual(ohneSchreiber(['a'], ['a']), [], 'alle bedient')
-assert.deepEqual(ohneSchreiber(['a', 'b'], ['a', '?']), [], 'ein „?“-Schreiber: im Zweifel nicht rot')
+assert.deepEqual(ohneSchreiber(['a', 'b'], ['a', '?']), ['b'], 'ein „?“-Schreiber bedient keine Frist')
 assert.deepEqual(ohneSchreiber(['a', 'b'], []), ['a', 'b'], 'ohne Schreiber alle')
+
+/* --- Wächter als eigener Prozess gegen eine Kulisse (AK_ROOT) --- */
+function waechter(quelle: string): { status: number | null; aus: string } {
+  const kulisse = mkdtempSync(join(tmpdir(), 'quellen-waechter-'))
+  for (const d of ['pipeline', 'tools', 'shared', 'worker/src']) mkdirSync(join(kulisse, d), { recursive: true })
+  writeFileSync(join(kulisse, 'pipeline', 'check-sources.ts'), "const FRISTEN: Record<string, number> = { 'a': 9, 'b': 9 }\n")
+  writeFileSync(join(kulisse, 'pipeline', 'x.ts'), quelle)
+  const r = spawnSync(process.execPath, ['--import', pathToFileURL(resolve(import.meta.dirname, '..', 'node_modules/tsx/dist/esm/index.mjs')).href, resolve(import.meta.dirname, '..', 'pipeline/check-quellen-schreiber.ts')], {
+    env: { ...process.env, AK_ROOT: kulisse },
+    encoding: 'utf8',
+    windowsHide: true,
+  })
+  rmSync(kulisse, { recursive: true, force: true })
+  return { status: r.status, aus: `${r.stdout}${r.stderr}` }
+}
+const gruen = waechter("recordSource('a', 1)\nrecordSource('b', 1)\n")
+assert.equal(gruen.status, 0, `alle bedient: grün\n${gruen.aus}`)
+assert.ok(gruen.aus.includes('2 Fristen, 2 Schreiber (0 mit unlesbarem Namen), 0 ohne Schreiber'), 'Ergebniszeile mit Zahlen')
+const fehlt = waechter("recordSource('a', 1)\n")
+assert.equal(fehlt.status, 1, 'Frist b ohne Schreiber: rot')
+assert.ok(fehlt.aus.includes('1 ohne Schreiber: b'), 'nennt die Quelle')
+const blind = waechter("recordSource('a', 1)\nrecordSource('b', 1)\nrecordSource(name, 1)\n")
+assert.equal(blind.status, 1, 'ein Name als Variable: rot, nicht still grün')
+assert.ok(blind.aus.includes('(1 mit unlesbarem Namen)'), 'Zahl der unlesbaren Namen steht in der Zeile')
 
 /* --- Zwischenstand: nur echte Auskünfte von heute zählen --- */
 function lauf(bestand: Parameters<typeof meldeLinkCheckZwischenstand>[0]) {
