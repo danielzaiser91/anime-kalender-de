@@ -7,15 +7,15 @@
 const OHNE_TABELLE = ['meta.json', 'patchnotes.json']
 
 /** Erwartete Kennung zu einem Pfad unter `/data/` (`titles-core.json`, `voices/1.json`), `undefined` wenn keine Regel greift. */
-export function erwarteteKennung(datei, dateien, version) {
+export function erwarteteKennung(datei: string, dateien: Record<string, string>, version: string): string | undefined {
   if (OHNE_TABELLE.includes(datei)) return version
   const ordner = datei.includes('/') ? `${datei.split('/')[0]}/` : ''
   return dateien[datei] ?? dateien[ordner]
 }
 
 /** `anfragen`: URLs der Datenabrufe in Reihenfolge; `vorgeladen`: href aller Vorlade-Links. Rückgabe: Liste der Verstöße. */
-export function bewerteAnfragen(anfragen, vorgeladen, dateien, version) {
-  const fehler = []
+export function bewerteAnfragen(anfragen: string[], vorgeladen: string[], dateien: Record<string, string>, version: string): string[] {
+  const fehler: string[] = []
   for (const roh of anfragen) {
     const url = new URL(roh)
     const datei = url.pathname.replace(/^.*?\/data\//, '')

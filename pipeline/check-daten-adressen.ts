@@ -3,7 +3,7 @@ import { appendFileSync, cpSync, mkdirSync, mkdtempSync, writeFileSync } from 'n
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { NACH_DEM_BAU_UMGESCHRIEBEN, dateiKennungen } from '../tools/daten-kennungen.ts'
-import { bewerteAnfragen } from '../tools/daten-adressen-bewerten.mjs'
+import { bewerteAnfragen } from '../tools/daten-adressen-bewerten.ts'
 
 /** Zusicherung: `tools/daten-adressen-pruefen.mjs` besteht ein stimmiges `dist/` und scheitert (Exit 1) an jedem Bruch zwischen Inhalt, meta.json, Vorladen und Bündel. */
 const wurzel = mkdtempSync(join(tmpdir(), 'adressen-'))

@@ -2,7 +2,7 @@
 /**
  * Laufzeitprobe der Datenadressen: lädt das gebaute `dist/` in Chromium (wie `install-zustaende-pruefen.mjs`: `page.route()` liefert aus `dist/`)
  * und prüft die echten Anfragen an `/data/*.json` beim Start, im vollen Pfad (`#/datenbank`) und im Wochen-Pfad (`#/woche`),
- * gegen `dist/data/meta.json` (Regeln: `tools/daten-adressen-bewerten.mjs`). Fängt, was Text-Prüfungen nicht sehen:
+ * gegen `dist/data/meta.json` (Regeln: `tools/daten-adressen-bewerten.ts`). Fängt, was Text-Prüfungen nicht sehen:
  * ein Vorlade-Skript oder `loadJson()`, das die Tabelle umgeht.
  * Aufruf: node tools/daten-adressen-browser.mjs [--dist <ordner>]   (nach `npm run build`)
  */
@@ -10,7 +10,7 @@ import { chromium } from 'playwright'
 import { existsSync, readFileSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
-import { bewerteAnfragen } from './daten-adressen-bewerten.mjs'
+import { bewerteAnfragen } from './daten-adressen-bewerten.ts'
 
 const arg = (name) => (process.argv.includes(name) ? process.argv[process.argv.indexOf(name) + 1] : undefined)
 const DIST = path.resolve(arg('--dist') ?? path.join(import.meta.dirname, '..', 'dist'))
