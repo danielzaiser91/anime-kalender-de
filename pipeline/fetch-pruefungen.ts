@@ -15,12 +15,14 @@
  * Aufruf: npm run data:pruefungen
  */
 import { appendFileSync, existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { nichtGefuehrtZeilen } from './lib/beleg-nicht-gefuehrt.ts'
 import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
 import yaml from 'js-yaml'
 import { amazonTitelAdresse, echteAmazonAdresse } from './lib/amazon-adresse.js'
 import { resolve } from 'node:path'
 import {
   beschreibeBereiche,
+  begrenzeAufFolgenzahl,
   bildeBereiche,
   ordneNachStaffelliste,
   verteileAufStaffeln,
@@ -1063,15 +1065,8 @@ for (const gruppe of jeAdresse.values()) {
     if (nichtGefuehrt.has(id)) {
       // Der Anbieter führt diese Staffel nicht — dann ist der Verweis falsch,
       // und über den deutschen Ton ist damit nichts gesagt.
-      zeilen.push('')
-      zeilen.push(`- anilistId: ${id}`)
-      if (t?.titleDe || t?.titleEn) zeilen.push(`  title: ${JSON.stringify(t.titleDe ?? t.titleEn)}`)
-      zeilen.push(`  platform: ${p.plattform}`)
-      zeilen.push('  available: false')
-      zeilen.push(`  checkedAt: '${berlinDatum(p.gemeldet_am)}'`)
-      zeilen.push(
-        `  note: ${JSON.stringify(`Der Anbieter führt unter dieser Adresse nur ${anbieterStaffeln!.length} Staffel(n); diese ist nicht darunter`)}`,
-      )
+      const name = t?.titleDe || t?.titleEn ? (t.titleDe ?? t.titleEn) : undefined
+      zeilen.push(...nichtGefuehrtZeilen(id, name, p.plattform, berlinDatum(p.gemeldet_am), anbieterStaffeln!.length))
       uebernommen++
       geschrieben++
       continue
@@ -1089,6 +1084,11 @@ for (const gruppe of jeAdresse.values()) {
       // melden. Schweigen ist hier die richtige Antwort.
       if (!eigene.length) continue
     }
+    /* Summenseite (Haikyu!! Staffel 4, 20.10.2026): Bereiche über die Folgenzahl des Titels hinaus gehören anderen Titeln. */
+    const gekappt = begrenzeAufFolgenzahl(eigene, t?.episodes)
+    if (gekappt !== eigene) warn(`Titel ${id}: ${beschreibeBereiche(eigene)} über der Folgenzahl ${t?.episodes} — ${gekappt.length ? 'gekappt' : 'verworfen'}`)
+    if (gekappt !== eigene && !gekappt.length) continue
+    eigene = gekappt
 
     /**
      * **Ein Eintrag ohne Aussage darf gar nicht erst entstehen.**

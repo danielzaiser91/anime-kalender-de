@@ -80,6 +80,7 @@ import {
   type AdnRohVideo,
 } from './lib/adn-sprachen.ts'
 import {
+  begrenzeAufFolgenzahl,
   beschreibeBereiche,
   bildeBereiche,
   ordneFolgeZu,
@@ -92,7 +93,8 @@ import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../sha
 import { bereicheGekuerzt, bereicheKurz, dubBild, dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { riegelGreift } from './lib/youtube-riegel.ts'
 import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
-import { entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
+import { nichtGefuehrtZeilen } from './lib/beleg-nicht-gefuehrt.ts'
+import { belegSchluessel, belegeUeberFolgenzahl, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-frist.ts'
 import { germanizeUrl, netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold, googleCalendarUrl, wochenserie } from '../shared/ics.ts'
@@ -3344,6 +3346,45 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   const { neu } = neueBelegBloecke('- a: 1\n', ['- a: 1', '- b: 2', '  c: x', '- b: 2', '  c: "x"', '- d: 3'])
   pruefe('neue Belege: vorhandene und doppelte fallen, der Rest bleibt', neu.length === 2, neu)
   pruefe('fetch-pruefungen nutzt diesen Abgleich', /neueBelegBloecke\(alt, zeilen\)/.test(abholung))
+  /* Haikyu!!-Summenseite, 20.10.2026: das Prüfdatum zählt beim Abgleich nicht, die Folgenspanne schon. */
+  const bereich = (von: number, bis: number) => ({ von, bis, dub: true, belegt: Array.from({ length: bis - von + 1 }, (_, i) => von + i) })
+  const gekappt = begrenzeAufFolgenzahl([bereich(1, 3), bereich(4, 15)], 12)
+  pruefe('Kappung: Bereich über der Folgenzahl endet bei ihr, belegt ohne fremde Folgen', gekappt.length === 2 && gekappt[1]!.bis === 12 && gekappt[1]!.belegt.at(-1) === 12 && gekappt[1]!.belegt.length === 9, gekappt)
+  const umZwei = [bereich(1, 14)]
+  pruefe('Kappung: Überschreitung um 1 und um 2 bleibt unverändert', begrenzeAufFolgenzahl(umZwei, 12) === umZwei && begrenzeAufFolgenzahl([bereich(1, 13)], 12)[0]?.bis === 13)
+  pruefe('Kappung: Überschreitung um genau 3 wird gekappt', begrenzeAufFolgenzahl([bereich(1, 15)], 12)[0]?.bis === 12)
+  pruefe('Kappung: Bereich ab der Folge hinter der Zahl fällt weg, ab der letzten bleibt er', begrenzeAufFolgenzahl([bereich(1, 12), bereich(13, 25)], 12).length === 1 && begrenzeAufFolgenzahl([bereich(12, 25)], 12)[0]?.von === 12)
+  const genau = bereich(1, 12)
+  const genauListe = [genau]
+  pruefe('Kappung: bis genau gleich der Folgenzahl bleibt unverändert', begrenzeAufFolgenzahl(genauListe, 12) === genauListe)
+  pruefe('Kappung: eine negative Folgenzahl gilt als unbekannt', begrenzeAufFolgenzahl([genau], -1)[0] === genau)
+  const ohneZahl = [bereich(1, 25)]
+  pruefe('Kappung: ohne bekannte Folgenzahl bleibt alles', begrenzeAufFolgenzahl(ohneZahl, 0) === ohneZahl && begrenzeAufFolgenzahl(ohneZahl, undefined) === ohneZahl && begrenzeAufFolgenzahl(ohneZahl, null) === ohneZahl)
+  const nichtDa = nichtGefuehrtZeilen(7, 'Titel "X"', 'netflix', '2026-10-20', 2)
+  const nichtDaSoll = ['', '- anilistId: 7', '  title: "Titel \\"X\\""', '  platform: netflix', '  available: false', "  checkedAt: '2026-10-20'", '  note: "Der Anbieter führt unter dieser Adresse nur 2 Staffel(n); diese ist nicht darunter"']
+  pruefe('Beleg „Anbieter führt die Staffel nicht": Zeilen wie bisher', JSON.stringify(nichtDa) === JSON.stringify(nichtDaSoll), nichtDa)
+  pruefe('Beleg „Anbieter führt die Staffel nicht": ohne Titelname keine title-Zeile', !nichtGefuehrtZeilen(7, undefined, 'netflix', 'd', 1).some((z) => z.startsWith('  title:')))
+  pruefe('Belegschlüssel: Nicht-Objekte bleiben unverändert', belegSchluessel(5) === '5' && belegSchluessel(null) === 'null')
+  const altMitDatum = '- a: 1\n  from: 1\n  to: 13\n  checkedAt: "2026-10-13"\n'
+  const gleicheMeldung = neueBelegBloecke(altMitDatum, ['- a: 1', '  from: 1', '  to: 13', '  checkedAt: "2026-10-18"']).neu
+  pruefe('neue Belege: gleiche Meldung mit anderem checkedAt wird nicht angehängt', gleicheMeldung.length === 0, gleicheMeldung)
+  const andereSpanne = neueBelegBloecke(altMitDatum, ['- a: 1', '  from: 1', '  to: 25', '  checkedAt: "2026-10-13"']).neu
+  pruefe('neue Belege: andere Folgenspanne wird angehängt', andereSpanne.length === 1, andereSpanne)
+  const kandidaten = [
+    { anilistId: 1, platform: 'netflix', url: 'u1', dubRanges: [{ to: 12 }] },
+    { anilistId: 2, platform: 'primevideo', url: 'https://x/B0', dubRanges: [{ to: 3 }, { to: 14 }, { to: 2 }] },
+    { anilistId: 3, dubRanges: [{ to: 13 }] },
+    { anilistId: 4, platform: 'netflix', url: 'u4', dubRanges: [{ to: 5 }, {}] },
+    { anilistId: 7, platform: 'netflix', url: 'u7', dubRanges: [{ to: 150 }] },
+    { anilistId: 5, platform: 'netflix', url: 'u5', dubRanges: [{ to: 9 }] },
+    { anilistId: 6, platform: 'netflix', url: 'u6' },
+  ]
+  const folgen = new Map([[1, 12], [2, 13], [3, 12], [4, 12], [5, 0]])
+  const ueber = belegeUeberFolgenzahl(kandidaten, folgen)
+  pruefe('Handbelege über der Folgenzahl: genau die Überschreitungen, mit Titel, Plattform, Adresse und Zahlen',
+    JSON.stringify(ueber) === JSON.stringify(['2 primevideo https://x/B0: bis Folge 14 bei 13', '3 ? ohne Adresse: bis Folge 13 bei 12']), ueber)
+  const zweiMalNeu = neueBelegBloecke('', ['- b: 2', '  checkedAt: x', '- b: 2', '  checkedAt: y']).neu
+  pruefe('neue Belege: zwei neue Meldungen mit nur anderem checkedAt werden einmal angehängt', zweiMalNeu.length === 1, zweiMalNeu)
   /*
     28.09.2026: Der Abgleich oben kann eine Dopplung übersehen — ein Block, der sich **allein**
     nicht lesen lässt, wird dort übernommen, steht in der fertigen Datei aber als eigener
