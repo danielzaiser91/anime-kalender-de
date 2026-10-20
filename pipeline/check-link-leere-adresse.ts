@@ -16,8 +16,8 @@ const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
 const gueltig = 'https://www.joyn.de/serien/frisch-geprueft'
 const gueltigHttp = 'http://www.joyn.de/serien/frisch-http'
-const heute = new Date().toISOString().slice(0, 10)
-const frisch = { status: 200, geprueftAm: heute }
+// Fernes Datum: check-links vergleicht Strings, der Weg gilt so ohne Uhr im Test als frisch.
+const frisch = { status: 200, geprueftAm: '2999-12-31' }
 
 const kulisse = mkdtempSync(join(tmpdir(), 'ak-link-leer-'))
 let fehler = 0
