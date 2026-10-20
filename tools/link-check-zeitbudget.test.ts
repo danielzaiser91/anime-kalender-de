@@ -64,7 +64,7 @@ assert.ok(ausgabe.includes('weiter ohne Amazon'), `Amazon wird übersprungen:\n$
 assert.ok(ausgabe.includes('5 Amazon-Adressen wegen der Sperre übersprungen'), `5 von 25 Amazon-Adressen übersprungen (Sperre nach 20):\n${ausgabe}`)
 const gesundheit = JSON.parse(readFileSync(join(tmp, 'data', 'source-health.json'), 'utf8')) as Record<string, { lastOk?: string; lastCount: number; gesperrt?: boolean }>
 assert.ok(gesundheit['link-check']?.lastOk, 'nach Amazon-Skip steht der Stempel „ok“ (gewollt)')
-assert.equal(gesundheit['link-check'].lastCount, 21, '1 Netflix- plus 20 Amazon-Abrufe geprüft')
+assert.equal(gesundheit['link-check'].lastCount, 1, 'nur die Netflix-Auskunft zählt, 20 unklare Amazon-Abrufe nicht (#1684)')
 assert.equal(gesundheit['link-check'].gesperrt, true, 'Sperre im Lauf: Zustand für den Folgelauf abgelegt')
 /* Budget aufgebraucht (1 ms): es beginnt nichts Neues, alles bleibt fällig. */
 const knapp = spawnSync(

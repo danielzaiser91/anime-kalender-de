@@ -85,3 +85,17 @@ export function waehleArbeit(
   const zugelassen = sortiert.filter((u) => !gedrosselt(u) || ++drossel <= maxGedrosselt)
   return limit > 0 ? zugelassen.slice(0, limit) : zugelassen
 }
+
+/** Zählt einen Befund dieses Laufs: unbrauchbar (404/region) und, getrennt davon, echte Auskunft. */
+export function zaehleBefund(zaehler: { tot: number; auskuenfte: number }, status: unknown): void {
+  if (status === 404 || status === 'region') zaehler.tot++
+  if (istAuskunft(status)) zaehler.auskuenfte++
+}
+
+/**
+ * Argumente der Schlusszeile (nach dem Namen) des Laufs: gezählt wird, was in diesem Lauf echte Auskunft war (`istAuskunft`), nicht jede
+ * geprüfte Adresse. Nichts fällig (0 geprüft) ist Normalfall; geprüft ohne eine Auskunft ist Misserfolg.
+ */
+export function linkCheckEnde(geprueft: number, auskuenfte: number, gesperrt: boolean): [number, string | undefined, undefined, boolean, boolean] {
+  return [auskuenfte, geprueft && !auskuenfte ? 'nur Nichtauskünfte' : undefined, undefined, geprueft === 0, gesperrt]
+}
