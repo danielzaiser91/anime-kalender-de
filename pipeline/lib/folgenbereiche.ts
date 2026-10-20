@@ -70,6 +70,7 @@ export function bildeBereiche(meldungen: Folgenmeldung[]): {
  */
 export function begrenzeAufFolgenzahl(bereiche: Folgenbereich[], folgen: number | null | undefined): Folgenbereich[] {
   if (!folgen || folgen < 1) return bereiche
+  if (!bereiche.some((b) => b.bis > folgen)) return bereiche
   return bereiche
     .filter((b) => b.von <= folgen)
     .map((b) => (b.bis <= folgen ? b : { ...b, bis: folgen, belegt: b.belegt.filter((f) => f <= folgen) }))

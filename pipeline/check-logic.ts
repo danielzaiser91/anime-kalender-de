@@ -94,7 +94,7 @@ import { bereicheGekuerzt, bereicheKurz, dubBild, dubGrenze, folgenOhneAnbieter 
 import { riegelGreift } from './lib/youtube-riegel.ts'
 import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
 import { nichtGefuehrtZeilen } from './lib/beleg-nicht-gefuehrt.ts'
-import { belegSchluessel, belegeUeberFolgenzahl,entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
+import { belegSchluessel, belegeUeberFolgenzahl, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-frist.ts'
 import { germanizeUrl, netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold, googleCalendarUrl, wochenserie } from '../shared/ics.ts'
@@ -3353,7 +3353,8 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   pruefe('Kappung: genau eine Folge drüber wird gekappt', begrenzeAufFolgenzahl([bereich(1, 13)], 12)[0]?.bis === 12)
   pruefe('Kappung: Bereich ab der Folge hinter der Zahl fällt weg, ab der letzten bleibt er', begrenzeAufFolgenzahl([bereich(1, 12), bereich(13, 25)], 12).length === 1 && begrenzeAufFolgenzahl([bereich(12, 25)], 12)[0]?.von === 12)
   const genau = bereich(1, 12)
-  pruefe('Kappung: bis genau gleich der Folgenzahl bleibt unverändert', begrenzeAufFolgenzahl([genau], 12)[0] === genau)
+  const genauListe = [genau]
+  pruefe('Kappung: bis genau gleich der Folgenzahl bleibt unverändert', begrenzeAufFolgenzahl(genauListe, 12) === genauListe)
   pruefe('Kappung: eine negative Folgenzahl gilt als unbekannt', begrenzeAufFolgenzahl([genau], -1)[0] === genau)
   const ohneZahl = [bereich(1, 25)]
   pruefe('Kappung: ohne bekannte Folgenzahl bleibt alles', begrenzeAufFolgenzahl(ohneZahl, 0) === ohneZahl && begrenzeAufFolgenzahl(ohneZahl, undefined) === ohneZahl && begrenzeAufFolgenzahl(ohneZahl, null) === ohneZahl)
@@ -3362,7 +3363,7 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   pruefe('Beleg „Anbieter führt die Staffel nicht": Zeilen wie bisher', JSON.stringify(nichtDa) === JSON.stringify(nichtDaSoll), nichtDa)
   pruefe('Beleg „Anbieter führt die Staffel nicht": ohne Titelname keine title-Zeile', !nichtGefuehrtZeilen(7, undefined, 'netflix', 'd', 1).some((z) => z.startsWith('  title:')))
   pruefe('Belegschlüssel: Nicht-Objekte bleiben unverändert', belegSchluessel(5) === '5' && belegSchluessel(null) === 'null')
-  const altMitDatum ='- a: 1\n  from: 1\n  to: 13\n  checkedAt: "2026-10-13"\n'
+  const altMitDatum = '- a: 1\n  from: 1\n  to: 13\n  checkedAt: "2026-10-13"\n'
   const gleicheMeldung = neueBelegBloecke(altMitDatum, ['- a: 1', '  from: 1', '  to: 13', '  checkedAt: "2026-10-18"']).neu
   pruefe('neue Belege: gleiche Meldung mit anderem checkedAt wird nicht angehängt', gleicheMeldung.length === 0, gleicheMeldung)
   const andereSpanne = neueBelegBloecke(altMitDatum, ['- a: 1', '  from: 1', '  to: 25', '  checkedAt: "2026-10-13"']).neu
