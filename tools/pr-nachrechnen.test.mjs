@@ -120,7 +120,7 @@ for (const [name, folge, warten] of [['leer nach dem Öffnen', [M_ALT, '', '', M
   pruefe(`Merge-Commit ${name} -> 1, wartet ${warten}×, öffnet zweimal`, code === 1 && k.gewartet.length === warten && schreibend(k.aufrufe).length === 4 && !k.aufrufe.some((a) => a.includes('commits/ ')), { code, a: k.aufrufe, m: k.meldungen })
 }
 // F55 (20.10.2026): main nur unter public/data/ und data/cache/ bewegt, PR berührt sie nicht -> Kette gilt weiter (Exit 0).
-const DATEN_MAIN = ['public/data/titles.json', 'data/cache/anilist.json', 'public/data/news.json']
+const DATEN_MAIN = ['public/data/titles.json', 'data/cache/anilist', 'public/data/news.json']
 {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN }))
   const code = main(['7'], k.gh, k.melde, k.warte)
@@ -134,11 +134,11 @@ const DATEN_MAIN = ['public/data/titles.json', 'data/cache/anilist.json', 'publi
 }
 // Alles andere zählt: je Pfad ein Fall, einzeln und neben Datenpfaden (Datenpfad zuerst und zuletzt, der Fremde in der Mitte).
 for (const fremd of ['tools/umfang-grenzen.json', 'extension/pruefstand.json', 'data/dub-confirmed.yaml', 'public/og/a.png', 'pipeline/build.ts', 'public/data-x/a.json', 'data/cache-x/a.json', 'xpublic/data/a.json', 'data/curated/a.yaml', 'public/index.html']) {
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['public/data/titles.json', fremd, 'data/cache/a.json'] }))
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['public/data/titles.json', fremd, 'data/cache/a'] }))
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe(`main bewegte auch ${fremd} -> 1, neu angestoßen`, code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
 }
-for (const [name, prDateien] of [['public/data', 'src/a.ts\npublic/data/titles.json\ntools/b.mjs\n'], ['data/cache', 'data/cache/x.json\n'], ['nur eine Datei', 'public/data/x.json']]) {
+for (const [name, prDateien] of [['public/data', 'src/a.ts\npublic/data/titles.json\ntools/b.mjs\n'], ['data/cache', 'data/cache/x\n'], ['nur eine Datei', 'public/data/x.json']]) {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN, prDateien }))
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe(`PR berührt ${name} -> 1, neu angestoßen`, code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
@@ -168,8 +168,8 @@ for (const [name, aendere] of [
   pruefe(`${name} -> 2, nichts angestoßen`, code === 2 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen })
 }
 // Reine Entscheidung, unabhängig von gh.
-pruefe('Ausnahme: Umbenennung aus Datenpfad heraus ist ein Fremdpfad der PR-Seite', datenpfadAusnahme({ status: 'ahead', anzahl: 2, dateien: ['public/data/a.json'] }, ['neu.json', 'data/cache/alt.json']) !== null)
-pruefe('Ausnahme: genau eine Datenpfad-Datei im Vergleich -> null', datenpfadAusnahme({ status: 'ahead', anzahl: 1, dateien: ['data/cache/a.json'] }, ['x.ts']) === null)
+pruefe('Ausnahme: Umbenennung aus Datenpfad heraus ist ein Fremdpfad der PR-Seite', datenpfadAusnahme({ status: 'ahead', anzahl: 2, dateien: ['public/data/a.json'] }, ['neu.json', 'data/cache/alt']) !== null)
+pruefe('Ausnahme: genau eine Datenpfad-Datei im Vergleich -> null', datenpfadAusnahme({ status: 'ahead', anzahl: 1, dateien: ['data/cache/a'] }, ['x.ts']) === null)
 // Takt und Frist wie in docs/wissen/betrieb.md beschrieben (alle 2 s, höchstens 60 s; gemessen war der Ref nach wenigen Sekunden neu).
 pruefe('Warten: alle 2 s, höchstens 60 s', REF_ABSTAND_MS === 2000 && REF_PRUEFUNGEN * REF_ABSTAND_MS === 60000, { REF_ABSTAND_MS, REF_PRUEFUNGEN })
 // Grenze relativ zu REF_PRUEFUNGEN: neu gerechnet bei der letzten erlaubten Prüfung -> 1; eine Prüfung später -> Fehler, kein zweites Öffnen.
