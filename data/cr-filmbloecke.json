@@ -190,7 +190,7 @@
     "romaji": "Gyakusatsu Kikan",
     "format": "MOVIE",
     "jahr": 2017,
-    "url": "https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444",
+    "url": "https://www.crunchyroll.com/watch/GPWUKQZMQ",
     "treffer": null
   },
   {
@@ -454,6 +454,16 @@
     }
   },
   {
+    "id": 106169,
+    "titel": "Persona 5 the Animation: Dunkle Sonne",
+    "en": "PERSONA5 the Animation: Dark Sun...",
+    "romaji": "PERSONA5 the Animation: Dark Sun...",
+    "format": "SPECIAL",
+    "jahr": 2018,
+    "url": "https://www.crunchyroll.com/de/persona5-the-animation/persona5-the-animation-dark-sun-780776",
+    "treffer": null
+  },
+  {
     "id": 107203,
     "en": "Free! the Final Stroke: The First Volume",
     "romaji": "Free!: the Final Stroke - Zenpen",
@@ -490,6 +500,26 @@
     "treffer": null
   },
   {
+    "id": 114622,
+    "titel": "Dorohedoro: Teuflische Anekdoten",
+    "romaji": "Dorohedoro: Ma no Omake",
+    "format": "OVA",
+    "jahr": 2020,
+    "url": "https://www.crunchyroll.com/watch/GE00375247JAJP/devilish-anecdotes--disparity-of-the-masks--a-shop-for-you--the-spring-of-the-underling--the-tale-of-the-invisible-gyoza-fairy--the-devils-dance--ohba-memories-in-the-night-breeze",
+    "treffer": {
+      "serienId": "GT00371893",
+      "blockId": "GE00375247FRFR",
+      "blockTitel": "Folge „Teuflische Anekdoten / Grundverschiedene Masken / Ein Laden für dich / Der Aufstieg der Untergebenen / Das Märchen vom unsichtbaren Gyoza-Wichtel / Der Tanz der Teufel / Ohba-Erinnerungen im Nachtwind\" in Dorohedoro",
+      "audio": [
+        "ja-JP",
+        "fr-FR",
+        "en-US",
+        "es-419",
+        "pt-BR"
+      ]
+    }
+  },
+  {
     "id": 127371,
     "titel": "Tonikawa: Over the Moon for You - Social Media",
     "en": "TONIKAWA: Over The Moon For You ~SNS~",
@@ -508,6 +538,32 @@
         "fr-FR",
         "es-419",
         "en-US"
+      ]
+    }
+  },
+  {
+    "id": 131573,
+    "titel": "Jujutsu Kaisen 0",
+    "en": "JUJUTSU KAISEN 0",
+    "romaji": "Jujutsu Kaisen 0",
+    "format": "MOVIE",
+    "jahr": 2021,
+    "url": "https://www.crunchyroll.com/jujutsu-kaisen/jujutsu-kaisen-0-german-dub-unknown-868375",
+    "treffer": {
+      "serienId": "GMTE00194450",
+      "blockId": "GK9U3JQ35",
+      "blockTitel": "Folge „JUJUTSU KAISEN 0\" in JUJUTSU KAISEN 0",
+      "audio": [
+        "ja-JP",
+        "es-419",
+        "pt-BR",
+        "fr-FR",
+        "de-DE",
+        "ru-RU",
+        "it-IT",
+        "es-ES",
+        "en-US",
+        "pl-PL"
       ]
     }
   },

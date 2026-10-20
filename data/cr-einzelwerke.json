@@ -1,1 +1,156 @@
-[]
+[
+  {
+    "id": 20919,
+    "titel": "Project Itoh: Genocidal Organ",
+    "en": "Genocidal Organ",
+    "romaji": "Gyakusatsu Kikan",
+    "format": "MOVIE",
+    "folgen": 1,
+    "url": "https://www.crunchyroll.com/watch/GPWUKQZMQ",
+    "treffer": {
+      "id": "GW4HM7NZX",
+      "typ": "top_results",
+      "titel": "Genocidal Organ",
+      "audio": [
+        "de-DE",
+        "ja-JP"
+      ]
+    }
+  },
+  {
+    "id": 21428,
+    "titel": "Grimgar, Ashes and Illusions",
+    "en": "Grimgar of Fantasy and Ash",
+    "romaji": "Hai to Gensou no Grimgar",
+    "format": "TV",
+    "folgen": 12,
+    "url": "https://www.crunchyroll.com/watch/G4VUQEP24",
+    "treffer": null
+  },
+  {
+    "id": 105228,
+    "titel": "Dorohedoro",
+    "en": "Dorohedoro",
+    "romaji": "Dorohedoro",
+    "format": "TV",
+    "folgen": 12,
+    "url": "https://www.crunchyroll.com/series/GT00371893/dorohedoro",
+    "treffer": {
+      "id": "GT00371893",
+      "typ": "top_results",
+      "titel": "Dorohedoro",
+      "audio": [
+        "es-419",
+        "ja-JP",
+        "pt-BR",
+        "it-IT",
+        "en-US",
+        "fr-FR",
+        "de-DE"
+      ]
+    }
+  },
+  {
+    "id": 107068,
+    "titel": "Karakai Jozu no Takagi-san: Staffel 2",
+    "en": "Teasing Master Takagi-san Season 2",
+    "romaji": "Karakai Jouzu no Takagi-san 2",
+    "format": "TV",
+    "folgen": 12,
+    "url": "https://www.crunchyroll.com/watch/GEVUZE9V9",
+    "treffer": null
+  },
+  {
+    "id": 114622,
+    "titel": "Dorohedoro: Teuflische Anekdoten",
+    "romaji": "Dorohedoro: Ma no Omake",
+    "format": "OVA",
+    "folgen": 1,
+    "url": "https://www.crunchyroll.com/watch/GE00375247JAJP/devilish-anecdotes--disparity-of-the-masks--a-shop-for-you--the-spring-of-the-underling--the-tale-of-the-invisible-gyoza-fairy--the-devils-dance--ohba-memories-in-the-night-breeze",
+    "treffer": {
+      "id": "GT00371893",
+      "typ": "top_results",
+      "titel": "Dorohedoro",
+      "audio": [
+        "es-419",
+        "ja-JP",
+        "pt-BR",
+        "it-IT",
+        "en-US",
+        "fr-FR",
+        "de-DE"
+      ]
+    }
+  },
+  {
+    "id": 131573,
+    "titel": "Jujutsu Kaisen 0",
+    "en": "JUJUTSU KAISEN 0",
+    "romaji": "Jujutsu Kaisen 0",
+    "format": "MOVIE",
+    "folgen": 1,
+    "url": "https://www.crunchyroll.com/jujutsu-kaisen/jujutsu-kaisen-0-german-dub-unknown-868375",
+    "treffer": {
+      "id": "GMTE00194450",
+      "typ": "top_results",
+      "titel": "JUJUTSU KAISEN 0",
+      "audio": [
+        "es-419",
+        "pt-BR",
+        "it-IT",
+        "pl-PL",
+        "ja-JP",
+        "de-DE",
+        "fr-FR",
+        "es-ES",
+        "ru-RU",
+        "en-US"
+      ]
+    }
+  },
+  {
+    "id": 104243,
+    "titel": "Angels of Death (Episoden 13-16)",
+    "en": "Angels of Death (ONA)",
+    "romaji": "Satsuriku no Tenshi (ONA)",
+    "format": "ONA",
+    "folgen": 4,
+    "url": "https://www.crunchyroll.com/de/angels-of-death",
+    "treffer": null
+  },
+  {
+    "id": 106169,
+    "titel": "Persona 5 the Animation: Dunkle Sonne",
+    "en": "PERSONA5 the Animation: Dark Sun...",
+    "romaji": "PERSONA5 the Animation: Dark Sun...",
+    "format": "SPECIAL",
+    "folgen": 1,
+    "url": "https://www.crunchyroll.com/de/persona5-the-animation/persona5-the-animation-dark-sun-780776",
+    "treffer": {
+      "id": "G6VDWKM76",
+      "typ": "top_results",
+      "titel": "PERSONA5 the Animation",
+      "audio": [
+        "de-DE",
+        "ja-JP",
+        "en-US"
+      ]
+    }
+  },
+  {
+    "id": 206814,
+    "titel": "Dragon Ball Super: Beerus",
+    "en": "Dragon Ball Super: Beerus",
+    "romaji": "Dragon Ball Super: Beerus",
+    "format": "TV",
+    "url": "https://www.crunchyroll.com/de/series/GT00389311/dragon-ball-super-beerus",
+    "treffer": {
+      "id": "GT00389311",
+      "typ": "top_results",
+      "titel": "Dragon Ball Super: Beerus",
+      "audio": [
+        "ja-JP"
+      ]
+    }
+  }
+]
