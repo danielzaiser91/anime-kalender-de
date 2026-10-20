@@ -157,6 +157,11 @@ pruefe('die Bindung ist const und die vorletzte Anweisung von useRoute', liste !
 pruefe('die Rückgabe ist die letzte Anweisung von useRoute', letzte !== undefined && ts.isReturnStatement(letzte) && letzte.expression?.getText() === '[route, navigate, ersetze]', letzte?.getText())
 const liesAufrufe = aufrufeIn('useRoute', 'liesAdresse')
 pruefe('onChange ruft liesAdresse als ganzen Rumpf auf', liesAufrufe.length === 1 && ts.isArrowFunction(liesAufrufe[0]!.parent) && liesAufrufe[0]!.arguments.map((a) => a.getText()).join('|') === 'browser()|setRoute', liesAufrufe.map((a) => a.parent.getText()))
+/* Verdecken: jede Deklaration gleichen Namens in useRoute (auch im useEffect-Rumpf) erhöht die Zählung und macht sie rot. */
+const browserZahl = bezeichnerIn('useRoute', 'browser').length
+const liesZahl = bezeichnerIn('useRoute', 'liesAdresse').length
+pruefe('browser kommt in useRoute genau zweimal vor (Argument, onChange), nie deklariert', browserZahl === 2, browserZahl)
+pruefe('liesAdresse kommt in useRoute genau einmal vor (Aufruf), nie deklariert', liesZahl === 1, liesZahl)
 
 console.log('\nvorliebenNachfuehren (über navigate):')
 const speicher = new Map<string, string>()
