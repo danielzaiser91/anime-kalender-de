@@ -45,20 +45,19 @@ function bindungen(quelle: ts.SourceFile, melde: (z: string) => void): Bindungen
   return b
 }
 
-/** Urteil über einen Aufruf: der Schlüssel muss fest im Quelltext stehen, sonst „?“. */
-function urteilAufruf(name: HelferName, aufruf: ts.CallExpression): Lesefund['art'] | undefined {
+/** Urteil über einen Aufruf: der Schlüssel muss fest im Quelltext stehen, sonst „?“ (auch die ganze Karte: das Lesen der ganzen Datei gehört begründet). */
+function urteilAufruf(name: HelferName, aufruf: ts.CallExpression): Lesefund['art'] {
   if (!HELFER[name].einzeln) return istFest(aufruf.arguments[0]) ? 'lesen' : '?'
   const p = aufruf.parent
   if (ts.isElementAccessExpression(p) && p.expression === aufruf) return istFest(p.argumentExpression) ? 'lesen' : '?'
-  return undefined
+  return '?'
 }
 
 /** Aufruf eines erkannten Helfers: `knoten` ist der Name (oder `ns.name`), `n.parent` der Aufruf. */
 function pruefeStelle(name: HelferName, knoten: ts.Node, melde: (z: string, a: Lesefund['art']) => void): void {
   const p = knoten.parent
   if (ts.isCallExpression(p) && p.expression === knoten) {
-    const u = urteilAufruf(name, p)
-    if (u) melde(HELFER[name].ziel, u)
+    melde(HELFER[name].ziel, urteilAufruf(name, p))
     return
   }
   if (ts.isImportSpecifier(p) || ts.isExportSpecifier(p)) return
