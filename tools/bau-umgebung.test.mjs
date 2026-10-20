@@ -13,10 +13,12 @@ import { BAU_VARIABLEN, ohneBauVariablen } from './bau-umgebung.mjs'
 const WURZEL = resolve(import.meta.dirname, '..')
 const ordner = mkdtempSync(join(tmpdir(), 'bau-umgebung-'))
 const posix = (p) => p.replace(/\\/g, '/')
+// Fest eingetragen statt aus dem Modul gelesen: sonst wäre die geprüfte Liste ihr eigenes Orakel (Prüfer 1647).
+const ERWARTET = ['BAU_BEGINN', 'BAU_LAUF', 'DATEN_WARNUNG', 'LAUF_SCHRITTE', 'LAUF_TOKEN', 'LAUF_ZIEL', 'LAUF_ZWECK', 'MELDER', 'MELDUNGEN_SICHERN']
 
 /** Prüfung und ihr Kindprozess melden Exit 1, sobald eine Bau-Variable dasitzt oder die fremde Variable fehlt. */
 function schreibeListe() {
-  const namen = JSON.stringify(BAU_VARIABLEN)
+  const namen = JSON.stringify(ERWARTET)
   const pruefung = `const gesetzt = ${namen}.filter((n) => n in process.env)
 if (gesetzt.length) { console.error('Bau-Variablen: ' + gesetzt.join(',')); process.exit(1) }
 if (process.env.FREMDE_VARIABLE !== 'bleibt') { console.error('fremde Variable fehlt'); process.exit(1) }
@@ -35,14 +37,15 @@ process.exit(r.status ?? 1)
 
 function lauf(liste, name, bauVariablen) {
   const env = { ...process.env, FREMDE_VARIABLE: 'bleibt', BESTAND_AUSNAHMEN: join(ordner, 'keine.json') }
-  for (const n of BAU_VARIABLEN) delete env[n]
+  for (const n of ERWARTET) delete env[n]
   Object.assign(env, bauVariablen)
   const r = spawnSync(process.execPath, [join(WURZEL, 'tools/check-logic-alle.mjs'), liste, name], { cwd: WURZEL, encoding: 'utf8', env })
   return { status: r.status, text: `${r.stdout}\n${r.stderr}` }
 }
 
 try {
-  const alle = Object.fromEntries(BAU_VARIABLEN.map((n) => [n, '1']))
+  assert.deepEqual([...BAU_VARIABLEN].sort(), ERWARTET, 'Liste der Bau-Variablen wie erwartet')
+  const alle = Object.fromEntries(ERWARTET.map((n) => [n, '1']))
   const liste = schreibeListe()
   for (const name of ['check:logic', 'check:bestand-liste']) {
     const gesetzt = lauf(liste, name, alle)
