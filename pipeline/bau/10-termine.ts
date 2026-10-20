@@ -15,6 +15,7 @@ import { widerlegeDeutscheTermine } from './widerlegung-woche.ts'
 import { anisearchNurKatalog } from './anisearch-titel.ts'
 import { ausgestrahltOhneBeleg, keineSynchroLautAnisearch, ohneSynchroVonHand } from './ohne-beleg.ts'
 import { urteilSchliesstLuecken } from './urteil-schliesst-luecken.ts'
+import { ohneOmuTermine } from './omu-ohne-termin.ts'
 
 /**
  * **Die zwei Auskünfte an den Termin schreiben** (28.09.2026, `shared/tv-signale.ts`).
@@ -162,7 +163,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
   if (verschoben.length) log(`${verschoben.length} Titel hinter den Toggle verschoben: japanische Ausstrahlung steht noch aus oder keine deutsche Fassung belegt`)
   schreibeTvAuskunft(events, releases, titles)
   schreibeKostenlosAuskunft(events, titles)
-  return { events, mitStimmen, verschoben }
+  return { events: ohneOmuTermine(events, titles), mitStimmen, verschoben }
 }
 
 /**
