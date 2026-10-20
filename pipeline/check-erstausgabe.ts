@@ -3,6 +3,7 @@
  * kein Anbieter früher), heißt „Erstveröffentlichung“ und nicht „Neu bei X“. Ein später dazugekommener Anbieter bleibt „Neu bei“.
  * Aufruf: `npm run check:logic`.
  */
+import { NEIN_ID } from './lib/kulisse-erstausgabe.ts'
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { expandEvents } from '../shared/logic.ts'
 import { ERSTAUSGABE_HINWEIS, eventDescription, eventSummary } from '../shared/ics.ts'
@@ -188,10 +189,9 @@ console.log('\nAufrufer im Bau: die Marke steht, bevor die Termine entstehen:')
 
 console.log('\nAufrufer im Bau ohne eingesetzte Werte: der Standard liest die echten Nein-Handbelege (Prüfer 15.10.2026):')
 {
-  /* Titel 98320 hat bei Prime einen Nein-Handbeleg („nur Untertitel“) in data/dub-confirmed.yaml; 987654 hat keinen. */
-  const NEIN_ID = 98320
+  /* Kulisse (AK_ROOT, `lib/kulisse-erstausgabe.ts`): NEIN_ID hat bei Prime einen Nein-Handbeleg in der Form der echten Datei; 987654 hat keinen. */
   const OHNE_NEIN_ID = 987654
-  pruefe('Voraussetzung: der Handbeleg zu 98320 bei Prime steht in den Daten', neinHandbelege(loadDubChecks()).has('98320|primevideo'))
+  pruefe('Voraussetzung: der Handbeleg der Kulisse zu NEIN_ID bei Prime wird gelesen', neinHandbelege(loadDubChecks()).has(`${NEIN_ID}|primevideo`))
   const titles = new Map([[NEIN_ID, titel({}, NEIN_ID)], [OHNE_NEIN_ID, titel({}, OHNE_NEIN_ID)]])
   const prime = (id: number, o: Partial<Release> = {}) => katalog({ slug: `anisearch-${id}-primevideo`, titleId: id, ...o })
   const gesehen: (true | undefined)[] = []
