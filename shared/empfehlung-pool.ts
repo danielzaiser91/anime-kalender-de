@@ -94,7 +94,7 @@ function anbieter(t: Title): Kandidat['p'] {
 /** `duell`: Teil 1 der Reihe liegt im Pool (oder die Reihe kennt keinen anderen); sonst `ab`: die Staffelnummer des Einstiegs, soweit zählbar. */
 function reihenMerkmal(t: Title, teile: FranchiseMember[], poolIds: Set<number>, kopf: Title | undefined): Pick<Kandidat, 'duell' | 'ab'> {
   const erster = ersterTeil(teile)
-  if (!erster || erster.id === t.id || poolIds.has(erster.id) || ausstrahlungsZeit(t) <= ausstrahlungsZeit(erster)) return { duell: true }
+  if (!erster || poolIds.has(erster.id) || ausstrahlungsZeit(t) <= ausstrahlungsZeit(erster)) return { duell: true }
   const nr = staffelNummer(t, teile, kopf)
   return nr && nr >= 2 ? { ab: nr } : {}
 }

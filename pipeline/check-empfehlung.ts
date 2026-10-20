@@ -64,6 +64,34 @@ console.log('\nEinstieg je Reihe:')
   pruefe('Film vor der ersten Staffel: er ist Teil 1 und ein Duellpaar', vorlaeufer.duell === true, vorlaeufer)
 }
 
+console.log('\nTeil 1 der Reihe (Grenzfälle):')
+{
+  const film = (id: number, jpStart: string, extra: Record<string, unknown> = {}) => glied(id, jpStart, { format: 'MOVIE', ...extra })
+  const einzeln = (t: Rohtitel, teile: unknown[]) => baueEmpfehlung([titel({ franchiseId: 100, format: 'MOVIE', ...t })], { 100: teile } as unknown as Franchises).einstiege[0]!
+  const nurFilme = einzeln({ id: 102, jpStart: '2005-01' }, [film(101, '2003-01'), film(102, '2005-01')])
+  pruefe('Reihe nur aus Filmen, früherer Film ohne Synchro: kein Duellpaar', !nurFilme.duell, nurFilme)
+  const special = einzeln({ id: 102, jpStart: '2005-01' }, [glied(101, '2001-01', { format: 'SPECIAL' }), film(102, '2005-01')])
+  pruefe('ein früheres Special ist nicht Teil 1', special.duell === true, special)
+  const beiwerk = einzeln({ id: 102, jpStart: '2005-01' }, [film(101, '2001-01', { beiwerk: true }), film(102, '2005-01')])
+  pruefe('früheres Beiwerk ist nicht Teil 1', beiwerk.duell === true, beiwerk)
+  const eigenes = einzeln({ id: 102, jpStart: '2005-01' }, [film(101, '2001-01', { eigenesWerk: true }), film(102, '2005-01')])
+  pruefe('eine frühere eigene Serie ist nicht Teil 1', eigenes.duell === true, eigenes)
+  const spaeterKennung = einzeln({ id: 101, jpStart: '2005-01' }, [film(102, '2005-01'), film(101, '2005-01')])
+  pruefe('gleicher Starttag, der Einstieg hat die kleinere Kennung: Duellpaar', spaeterKennung.duell === true, spaeterKennung)
+  const gleichZeit = einzeln({ id: 103, jpStart: '2005-01' }, [film(101, '2005-01'), film(103, '2005-01')])
+  pruefe('Teil 1 mit gleichem Starttag wie der Einstieg zählt als gleichzeitig: Duellpaar', gleichZeit.duell === true, gleichZeit)
+  const imPool = baueEmpfehlung(
+    [titel({ id: 121, franchiseId: 120, jpStart: '2010-09', jpYear: 2010 }), titel({ id: 125, franchiseId: 120, jpStart: '2010-01', jpYear: 2010 })],
+    { 120: [glied(121, '2010-09'), glied(125, '2010-01')] } as unknown as Franchises,
+  ).einstiege[0]!
+  pruefe('Teil 1 liegt im Pool, auch wenn die Einstiegsregel (Jahr, Kennung) einen anderen wählt: Duellpaar', imPool.id === 121 && imPool.duell === true, imPool)
+  const nummer1 = baueEmpfehlung(
+    [titel({ id: 131, franchiseId: 130, jpYear: 2010, jpStart: '2010-01' })],
+    { 130: [glied(130, '2009-01'), glied(131, '2010-01', { staffelQuelle: 1 }), glied(132, '2011-01')] } as unknown as Franchises,
+  ).einstiege[0]!
+  pruefe('Staffelnummer 1 beim Nicht-Teil-1 wird nicht als „ab“ ausgegeben', !nummer1.duell && nummer1.ab === undefined, nummer1)
+}
+
 console.log('\nFelder:')
 {
   const t = titel({
@@ -80,6 +108,8 @@ console.log('\nFelder:')
   pruefe('Genres und Schlagwörter als Indizes in gemeinsamen Wörterbüchern', d.genres.join() === 'Action,Drama,Comedy' && a.g.join() === '0,1' && b.g.join() === '1,2' && d.keywords.join() === 'Magie,Schule' && b.k.join() === '0,1', d)
   pruefe('Anbieter mit Synchro, doppelte Wege einmal, dub=false nicht', JSON.stringify(a.p) === '[["netflix","abo"],["primevideo"]]', a.p)
   pruefe('Trailer-Marke nur mit Video', a.trailer === true && b.trailer === undefined)
+  const leer = baueEmpfehlung([titel({ id: 83, trailer: {} as Title['trailer'] })], {}).einstiege[0]!
+  pruefe('Trailer-Eintrag ohne Video bekommt keine Marke', leer.trailer === undefined)
   pruefe('Name wie auf der Seite, kein Bild in der Datei', a.n === 'T81' && !JSON.stringify(d).includes('c.jpg'))
 }
 
@@ -92,11 +122,20 @@ console.log('\nPrüfung:')
   pruefe('falsche Poolzahl wird gemeldet', pruefeEmpfehlung({ ...gut, pool: 5 }, [titles[0]!]).length > 0)
   pruefe('fehlender Einstieg wird gemeldet', pruefeEmpfehlung({ ...gut, einstiege: [] }, [titles[0]!]).length > 0)
   pruefe('ab bei duell wird gemeldet', pruefeEmpfehlung({ ...gut, einstiege: [{ ...gut.einstiege[0]!, duell: true, ab: 2 }] }, [titles[0]!]).length > 0)
-  pruefe('ab kleiner 2 wird gemeldet', pruefeEmpfehlung({ ...gut, einstiege: [{ ...gut.einstiege[0]!, ab: 1 }] }, [titles[0]!]).length > 0)
+  const { duell: _duell, ...ohneDuell } = gut.einstiege[0]!
+  pruefe('ab ohne duell, aber kleiner 2: wird gemeldet', pruefeEmpfehlung({ ...gut, einstiege: [{ ...ohneDuell, ab: 1 }] }, [titles[0]!]).length > 0)
+  pruefe('ab 2 ohne duell ist in Ordnung', pruefeEmpfehlung({ ...gut, einstiege: [{ ...ohneDuell, ab: 2 }] }, [titles[0]!]).length === 0)
+  pruefe('Schlagwort-Index außerhalb des Wörterbuchs wird gemeldet', pruefeEmpfehlung({ ...gut, einstiege: [{ ...gut.einstiege[0]!, k: [9] }] }, [titles[0]!]).length > 0)
+  const poolZwei = [titel({ id: 96 }), titel({ id: 97 })]
+  const zweiEinstiege = baueEmpfehlung(poolZwei, {})
+  pruefe('doppelte Kennung unter den Einstiegen wird gemeldet', pruefeEmpfehlung({ ...zweiEinstiege, einstiege: [zweiEinstiege.einstiege[0]!, zweiEinstiege.einstiege[0]!] }, poolZwei).some((f) => f.includes('doppelt')))
+  pruefe('Einstieg, der nicht (mehr) im Pool liegt, wird gemeldet', pruefeEmpfehlung(gut, [titel({ id: 91, score: 10 })]).some((f) => f.includes('nicht im Pool')))
   pruefe('Index außerhalb des Wörterbuchs wird gemeldet', pruefeEmpfehlung({ ...gut, einstiege: [{ ...gut.einstiege[0]!, g: [3] }] }, [titles[0]!]).length > 0)
   const zwei = [titel({ id: 93, franchiseId: 93, jpYear: 2000 }), titel({ id: 94, franchiseId: 93, jpYear: 2001 }), titel({ id: 95 })]
   const d = baueEmpfehlung(zwei, {})
   pruefe('Verweis auf eine fremde Reihe wird gemeldet', pruefeEmpfehlung({ ...d, reihe: { '94': 95 } }, zwei).some((f) => f.includes('reihe[94]')))
+  const drei = [...zwei, titel({ id: 96, franchiseId: 93, jpYear: 2002 })]
+  pruefe('Verweis auf einen Teil, der kein Einstieg ist, wird gemeldet', pruefeEmpfehlung({ ...baueEmpfehlung(drei, {}), reihe: { '94': 96, '96': 93 } }, drei).some((f) => f.includes('reihe[94]')))
 }
 
 console.log('\nBauphase (Größenwächter, Verdrahtung):')
