@@ -6,6 +6,7 @@
 import { ladeAkVon, uebersetzeDatei } from './lib/ausgabe-kennung.ts'
 import { readdirSync, readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
+import { belegeUeberFolgenzahl } from './lib/dub-confirmed.ts'
 import { malDubletten } from './lib/mal-dubletten.ts'
 import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
@@ -220,11 +221,7 @@ console.log('\nHandbelege gegen den Bestand')
     ),
   )
   /* Jeder Treffer nennt Titel, Plattform, Adresse und bis-Folge/Folgenzahl, damit eine Überschreitung ohne Suche zuzuordnen ist (20.10.2026). */
-  const drueber = (liste as { anilistId?: number; platform?: string; url?: string; dubRanges?: { to?: number }[] }[]).flatMap((b) => {
-    const n = folgenJeTitel.get(b.anilistId ?? -1) ?? 0
-    const bis = Math.max(0, ...(b.dubRanges ?? []).map((r) => r.to ?? 0))
-    return n > 0 && bis > n ? [`${b.anilistId} ${b.platform ?? '?'} ${b.url ?? 'ohne Adresse'}: bis Folge ${bis} bei ${n}`] : []
-  })
+  const drueber = belegeUeberFolgenzahl(liste as Parameters<typeof belegeUeberFolgenzahl>[0], folgenJeTitel)
   /*
     15.09.2026: Die Netflix-Belege von FGO Babylonia (1–22 bei 21 Folgen) und
     Shiboyugi (1–12 bei 11) über die Folgentitel zugeordnet — Netflix-Folge 1

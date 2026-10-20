@@ -92,7 +92,7 @@ import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../sha
 import { bereicheGekuerzt, bereicheKurz, dubBild, dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { riegelGreift } from './lib/youtube-riegel.ts'
 import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
-import { entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
+import { belegeUeberFolgenzahl, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-frist.ts'
 import { germanizeUrl, netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold, googleCalendarUrl, wochenserie } from '../shared/ics.ts'
@@ -3344,6 +3344,26 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   const { neu } = neueBelegBloecke('- a: 1\n', ['- a: 1', '- b: 2', '  c: x', '- b: 2', '  c: "x"', '- d: 3'])
   pruefe('neue Belege: vorhandene und doppelte fallen, der Rest bleibt', neu.length === 2, neu)
   pruefe('fetch-pruefungen nutzt diesen Abgleich', /neueBelegBloecke\(alt, zeilen\)/.test(abholung))
+  /* Haikyu!!-Summenseite, 20.10.2026: das Prüfdatum zählt beim Abgleich nicht, die Folgenspanne schon. */
+  const altMitDatum = '- a: 1\n  from: 1\n  to: 13\n  checkedAt: "2026-10-13"\n'
+  const gleicheMeldung = neueBelegBloecke(altMitDatum, ['- a: 1', '  from: 1', '  to: 13', '  checkedAt: "2026-10-18"']).neu
+  pruefe('neue Belege: gleiche Meldung mit anderem checkedAt wird nicht angehängt', gleicheMeldung.length === 0, gleicheMeldung)
+  const andereSpanne = neueBelegBloecke(altMitDatum, ['- a: 1', '  from: 1', '  to: 25', '  checkedAt: "2026-10-13"']).neu
+  pruefe('neue Belege: andere Folgenspanne wird angehängt', andereSpanne.length === 1, andereSpanne)
+  const kandidaten = [
+    { anilistId: 1, platform: 'netflix', url: 'u1', dubRanges: [{ to: 12 }] },
+    { anilistId: 2, platform: 'primevideo', url: 'https://x/B0', dubRanges: [{ to: 3 }, { to: 14 }, { to: 2 }] },
+    { anilistId: 3, dubRanges: [{ to: 13 }] },
+    { anilistId: 4, platform: 'netflix', url: 'u4', dubRanges: [{ to: 5 }] },
+    { anilistId: 5, platform: 'netflix', url: 'u5', dubRanges: [{ to: 9 }] },
+    { anilistId: 6, platform: 'netflix', url: 'u6' },
+  ]
+  const folgen = new Map([[1, 12], [2, 13], [3, 12], [4, 12], [5, 0]])
+  const ueber = belegeUeberFolgenzahl(kandidaten, folgen)
+  pruefe('Handbelege über der Folgenzahl: genau die Überschreitungen, mit Titel, Plattform, Adresse und Zahlen',
+    JSON.stringify(ueber) === JSON.stringify(['2 primevideo https://x/B0: bis Folge 14 bei 13', '3 ? ohne Adresse: bis Folge 13 bei 12']), ueber)
+  const zweiMalNeu = neueBelegBloecke('', ['- b: 2', '  checkedAt: x', '- b: 2', '  checkedAt: y']).neu
+  pruefe('neue Belege: zwei neue Meldungen mit nur anderem checkedAt werden einmal angehängt', zweiMalNeu.length === 1, zweiMalNeu)
   /*
     28.09.2026: Der Abgleich oben kann eine Dopplung übersehen — ein Block, der sich **allein**
     nicht lesen lässt, wird dort übernommen, steht in der fertigen Datei aber als eigener

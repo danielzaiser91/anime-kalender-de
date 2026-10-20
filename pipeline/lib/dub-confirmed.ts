@@ -321,6 +321,24 @@ export function wegVerneint(nein: ReadonlySet<string>, anilistId: number, platfo
   return nein.has(titel) || nein.has(`${titel}|${adressKern(url)}`)
 }
 
+type BelegFolgen = { anilistId?: number; platform?: string; url?: string; dubRanges?: { to?: number }[] }
+
+/** Belege, deren höchste dubRanges-Folge die Folgenzahl ihres Titels übersteigt, je als Zeile mit Titel, Plattform, Adresse und Zahlen. */
+export function belegeUeberFolgenzahl(liste: BelegFolgen[], folgenJeTitel: ReadonlyMap<number, number>): string[] {
+  return liste.flatMap((b) => {
+    const n = folgenJeTitel.get(b.anilistId ?? -1) ?? 0
+    const bis = Math.max(0, ...(b.dubRanges ?? []).map((r) => r.to ?? 0))
+    return n > 0 && bis > n ? [`${b.anilistId} ${b.platform ?? '?'} ${b.url ?? 'ohne Adresse'}: bis Folge ${bis} bei ${n}`] : []
+  })
+}
+
+/** Vergleichsschlüssel eines Belegs: das Prüfdatum zählt nicht, sonst hängt jede Wiederholmeldung mit neuem Datum denselben Beleg erneut an. */
+export function belegSchluessel(eintrag: unknown): string {
+  if (eintrag === null || typeof eintrag !== 'object') return JSON.stringify(eintrag)
+  const { checkedAt: _checkedAt, ...rest } = eintrag as Record<string, unknown>
+  return JSON.stringify(rest)
+}
+
 /**
  * Teilt neu erzeugte YAML-Zeilen in Belege und liefert nur die, die weder in `alt` noch weiter
  * vorn unter den neuen stehen. Verglichen wird das gelesene Objekt, nicht der Text: Kommentare
@@ -328,7 +346,7 @@ export function wegVerneint(nein: ReadonlySet<string>, anilistId: number, platfo
  * der Datei" hält sonst den ganzen Abruf zurück.
  */
 export function neueBelegBloecke(alt: string, zeilen: string[]): { bloecke: string[][]; neu: string[][] } {
-  const vorhanden = new Set(((yaml.load(alt) as unknown[] | null) ?? []).map((b) => JSON.stringify(b)))
+  const vorhanden = new Set(((yaml.load(alt) as unknown[] | null) ?? []).map((b) => belegSchluessel(b)))
   const bloecke: string[][] = []
   for (const z of zeilen) {
     if (z.startsWith('- ')) bloecke.push([z])
@@ -336,7 +354,7 @@ export function neueBelegBloecke(alt: string, zeilen: string[]): { bloecke: stri
   }
   const neu = bloecke.filter((b) => {
     try {
-      const eintrag = JSON.stringify((yaml.load(b.join('\n')) as unknown[] | null)?.[0])
+      const eintrag = belegSchluessel((yaml.load(b.join('\n')) as unknown[] | null)?.[0])
       if (vorhanden.has(eintrag)) return false
       vorhanden.add(eintrag)
       return true
