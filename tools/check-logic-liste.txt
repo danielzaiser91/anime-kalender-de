@@ -105,11 +105,14 @@ pipeline/check-kachel-favorit.ts
 pipeline/check-kachel-im-angebot.ts
 pipeline/check-kachel-katalog.ts
 pipeline/check-kalender-filter.ts
+pipeline/check-kalender-plausibilitaet-kanal.ts
 pipeline/check-kalender-plausibilitaet.ts
 pipeline/check-kanal-abgehakt.ts
 pipeline/check-kanal-aussortieren.ts
 pipeline/check-kanal-erbt.ts
 pipeline/check-kanal-je-seite.ts
+pipeline/check-kanal-leser.ts
+pipeline/check-kanal-merkliste.ts
 pipeline/check-kanal-messung.ts
 pipeline/check-kanal-verlust.ts
 pipeline/check-katalog-eingefroren.ts
@@ -150,6 +153,7 @@ pipeline/check-prime-nein-beleg.ts
 pipeline/check-prime-pille.ts
 pipeline/check-prime-seite-richten.ts
 pipeline/check-prime-seiten-sperre.ts
+pipeline/check-prime-teilseiten-kanal.ts
 pipeline/check-prime-teilseiten.ts
 pipeline/check-prime-zugeordnet-jw.ts
 pipeline/check-prime-zugeordnet-lader.ts
