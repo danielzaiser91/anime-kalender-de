@@ -39,6 +39,7 @@ pipeline/check-schwester-shop-bestand.ts
 pipeline/check-staffel-von-hand-bestand.ts
 pipeline/check-telekom-annahme-bestand.ts
 pipeline/check-tmdb-ablauf-bestand.ts
+pipeline/check-tmdb-hauptserie-bestand.ts
 pipeline/check-wochen-datei-bestand.ts
 pipeline/check-zaehlung-synchro.ts
 tools/cartoon-jw-stichprobe-bestand-pruefen.mjs
