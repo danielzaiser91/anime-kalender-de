@@ -16,13 +16,14 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { einzureihen, vergleiche, zaehle } from './kanal-nachmessung.mjs'
+import { leseZugeordnet } from '../pipeline/lib/prime-meldung-riegel.ts'
 
 const wurzel = resolve(import.meta.dirname, '..')
 const arg = (name, vorgabe) => process.argv.find((a) => a.startsWith(`--${name}=`))?.slice(name.length + 3) ?? vorgabe
 const seit = arg('seit', '2026-10-13')
 
 const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
-const zugeordnet = JSON.parse(readFileSync(resolve(wurzel, 'data/prime-zugeordnet.json'), 'utf8'))
+const zugeordnet = leseZugeordnet()
 const titelRoh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
 const titelListe = Array.isArray(titelRoh) ? titelRoh : titelRoh.titles
 const name = new Map(titelListe.map((t) => [t.id, t.titleDe ?? t.titleEn ?? t.titleRomaji]))

@@ -17,6 +17,7 @@
  */
 import { appendFileSync, mkdirSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
+import { ROOT } from './util.ts'
 
 const ZIEL = 'data/meldungen-an-claude.jsonl'
 
@@ -27,7 +28,7 @@ export function meldeAnClaude(
   datei?: string,
 ): void {
   try {
-    const pfad = resolve(process.cwd(), ZIEL)
+    const pfad = resolve(ROOT, ZIEL)
     mkdirSync(dirname(pfad), { recursive: true })
     appendFileSync(
       pfad,

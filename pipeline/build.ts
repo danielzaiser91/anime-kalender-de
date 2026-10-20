@@ -20,6 +20,7 @@ import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { stelleZurueck, vermerkeQuarantaene } from './bau/11-9-quarantaene.ts'
 import { baueMeta } from './bau/12-meta.ts'
 import { schreibeDatensatzGemessen } from './bau/anisearch-reihen-abweichungen.ts'
+import { schreibeEmpfehlung } from './bau/13-10-empfehlung.ts'
 import { schreibeAboFeeds } from './bau/14-ics.ts'
 import { entferneVomKalender } from './bau/sperre.ts'
 import { type EntfernterVerweis } from './bau/grundlagen.ts'
@@ -124,6 +125,7 @@ function liefereAus({ synchro, quarantaene, ...rest }: Auslieferung): void {
     meta,
   })
   schreibeAboFeeds({ newsFuerRss, events, platforms, allTitles, genres, meta, keywords })
+  schreibeEmpfehlung()
 }
 
 merkeBestandVorher()

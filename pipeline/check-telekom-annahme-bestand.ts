@@ -6,7 +6,7 @@
  */
 import { existsSync } from 'node:fs'
 import { readJson } from './lib/util.ts'
-import { telekomFehler } from './lib/telekom-annahme.ts'
+import { telekomFehler, zwillingFehler } from './lib/telekom-annahme.ts'
 import { schwesterFehler } from './lib/schwester-shop.ts'
 import { meldeVerletzte } from './lib/quarantaene.ts'
 import type { Title } from '../shared/types.ts'
@@ -37,5 +37,7 @@ const schwesterRot = meldeVerletzte(titel, 'telekom-annahme', 'freenet-Kennzeich
 pruefe('Bestand: freenet-Kennzeichnung weiter zulässig', schwesterRot.length === 0, schwesterFehler(titel)[0])
 const nurAnnahme = meldeVerletzte(titel, 'telekom-annahme', 'Deutsch-Antwort hängt allein an der Annahme', (t) => angenommen(t).length > 0 && !anderswoDeutsch(t))
 pruefe('Bestand: kein Titel hängt mit seiner Deutsch-Antwort allein an der Annahme', nurAnnahme.length === 0, nurAnnahme.map((t) => t.id).slice(0, 5).join(','))
+const ersetzbar = meldeVerletzte(titel, 'telekom-annahme', 'Annahme, obwohl der MagentaTV-Zwilling gemessen hat', (t) => zwillingFehler([t]).length > 0)
+pruefe('Bestand: keine Annahme, wo der MagentaTV-Zwilling (gleiche Gracenote-Kennung) gemessenes Deutsch hat', ersetzbar.length === 0, zwillingFehler(titel)[0])
 console.log(`  ${titel.filter((t) => angenommen(t).length).length} Titel mit Telekom-Annahme`)
 if (fehler) process.exit(1)

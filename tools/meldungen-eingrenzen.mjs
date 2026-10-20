@@ -22,7 +22,7 @@ const repo = join(dirname(fileURLToPath(import.meta.url)), '..')
 /** `AK_ROOT`: Arbeitsordner einer Kulisse im Test; tsx kommt immer aus diesem Repo. */
 const wurzel = process.env.AK_ROOT ?? repo
 const tsx = createRequire(join(repo, 'package.json')).resolve('tsx/cli')
-/** Was `fetch-pruefungen.ts` schreibt; vor jedem Versuch auf den Stand des Commits zurück. */
+/** Was `fetch-pruefungen.ts` schreibt; vor jedem Versuch auf den Stand des Commits zurück. Nicht dabei, mit Absicht: `data/kanal-seiten.json` (die Merkliste soll das Zurückstellen überleben). */
 export const ARBEITSDATEIEN = [
   'data/dub-confirmed.yaml',
   'data/anbieter-staffeln.json',

@@ -56,7 +56,7 @@ const SAMMEL_ZEILEN = [
   `echo "$NEEDS" | jq -e 'all(.[]; .result == "success")' > /dev/null`,
 ].join('\n')
 const SAMMEL_ENV = { NEEDS: '${{ toJSON(needs) }}' }
-const WORKFLOW_SCHLUESSEL = ['name', 'on', 'permissions', 'concurrency', 'jobs']
+const WORKFLOW_SCHLUESSEL = ['name', 'on', 'permissions', 'env', 'concurrency', 'jobs']
 const JOB_SCHLUESSEL = ['name', 'if', 'runs-on', 'timeout-minutes', 'steps']
 const SAMMEL_JOB_SCHLUESSEL = [...JOB_SCHLUESSEL, 'needs']
 const SCHRITT_SCHLUESSEL = ['name', 'uses', 'with', 'run', 'env']
