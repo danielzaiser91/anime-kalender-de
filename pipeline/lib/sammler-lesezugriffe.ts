@@ -7,6 +7,7 @@
  * als echt, wenn sie auf `import.meta`, `process.cwd()`, `ROOT` oder `WURZEL` zurückgeht; alles andere (Parameter, Import) ist „?“.
  */
 import ts from 'typescript'
+import { findeHelferZugriffe } from './sammler-lesezugriffe-helfer.ts'
 
 export interface Lesefund {
   ziel: string
@@ -116,5 +117,5 @@ export function findeLesezugriffe(pfad: string, text: string): Lesefund[] {
     ts.forEachChild(n, besuche)
   }
   besuche(quelle)
-  return funde
+  return [...funde, ...findeHelferZugriffe(quelle)]
 }
