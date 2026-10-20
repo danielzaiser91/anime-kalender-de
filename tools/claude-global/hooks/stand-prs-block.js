@@ -5,6 +5,9 @@ const AUF = '<!-- pr-zeilen: automatisch aus GitHub (Hook stand-prs.js); eigene 
 const ZU = '<!-- /pr-zeilen -->'
 const ADR = 'https://github.com/danielzaiser91/anime-kalender-de/pull/'
 const HINWEIS = '- **PR-Liste veraltet** — '
+const GEMERGT_LISTE = 'https://github.com/danielzaiser91/anime-kalender-de/pulls?q=is%3Apr+is%3Amerged'
+// Sammelzeile der in 24 h gemergten PRs; zählt als Reihe mit Nummer 0 (kein einzelner PR).
+const SAMMEL = /^- \[klein\] \*\*Gemergt in 24 h: \d+\*\* — zuletzt \d\d\.\d\d\. \d\d:\d\d — \[alle\]\((\S+)\)$/
 
 // Mitte einer eigenen Zeile: offener PR („… CI x · Prüfer y[ · Checks z]“) oder gemergter („gemergt 19.10. 16:27“).
 const MITTE_OFFEN = /(?:^| · )CI [^·]+ · Prüfer [^·]+(?: · Checks (?:grün|rot|laufen))?$/
@@ -12,6 +15,8 @@ const MITTE_GEMERGT = /^gemergt \d\d\.\d\d\. \d\d:\d\d$/
 
 /** PR-Nummer einer Zeile in genau der Form, die der Hook schreibt; null für jede andere Zeile. */
 function hookNummer(zeile) {
+  const sammel = SAMMEL.exec(zeile)
+  if (sammel) return sammel[1] === GEMERGT_LISTE ? 0 : null
   const t = /^- (?:\[klein\] )?\*\*.*\*\* — (.+) — \[PR (\d+)\]\((\S+)\)$/.exec(zeile)
   if (!t || t[3] !== `${ADR}${t[2]}`) return null
   return MITTE_OFFEN.test(t[1]) || MITTE_GEMERGT.test(t[1]) ? Number(t[2]) : null
@@ -95,4 +100,4 @@ function ersetzeBlock(text, reihen, hinweis = '') {
   return { text: [...zeilen.slice(0, ende), ...neu, ...zeilen.slice(ende)].join('\n') }
 }
 
-module.exports = { AUF, ZU, ADR, HINWEIS, hookNummer, markerLage, zerlege, baue, ersetzeBlock }
+module.exports = { AUF, ZU, ADR, HINWEIS, GEMERGT_LISTE, hookNummer, markerLage, zerlege, baue, ersetzeBlock }

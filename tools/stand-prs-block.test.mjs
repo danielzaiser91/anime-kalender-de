@@ -30,6 +30,13 @@ assert.equal(b.hookNummer(`${offen(901001)} ergänzt`), null, 'Text hinter dem V
 assert.equal(b.hookNummer(`- [klein] **x** — gemergt gestern — ${L(901002)}`), null)
 assert.equal(b.hookNummer(offen(901001, 'CI ok · Prüfer offen · Checks blau')), null)
 
+const SAMMEL = (n = 3, url = b.GEMERGT_LISTE) => `- [klein] **Gemergt in 24 h: ${n}** — zuletzt 20.10. 00:28 — [alle](${url})`
+assert.equal(b.hookNummer(SAMMEL()), 0, 'Sammelzeile ist die Reihe 0')
+assert.equal(b.hookNummer(SAMMEL(1)), 0)
+assert.equal(b.hookNummer(SAMMEL(3, 'https://example.org/pulls')), null, 'fremde Adresse')
+assert.equal(b.hookNummer(SAMMEL().replace('Gemergt in 24 h: 3', 'Gemergt in 24 h: x')), null, 'ohne Zahl')
+assert.equal(b.hookNummer(`  ${SAMMEL()}`), null, 'eingerückt ist Notiz')
+
 // --- markerLage ---
 const T = (...z) => z
 assert.deepEqual(b.markerLage(T('a', 'b')), {})
@@ -118,6 +125,18 @@ behaeltAlles('doppelte Notizzeile', block(offen(901001), '  - gleich', offen(901
 const leerBlock = behaeltAlles('Block leer, PR geht', block(offen(901001)), [])
 assert.ok(leerBlock.includes(`${AUF}\n${ZU}\n\n## Als`), 'ohne PRs bleibt ein leerer Block')
 
+// --- Sammelzeile: wird ersetzt (nie doppelt), überlebt einen gescheiterten Abruf, alte Einzelzeilen fallen weg ---
+const mitSammel = block(SAMMEL(5), offen(901001))
+const sammelNeu = b.ersetzeBlock(mitSammel, [{ nummer: 901001, zeile: offen(901001) }, { nummer: 0, zeile: SAMMEL(6) }]).text
+assert.ok(sammelNeu.includes([AUF, offen(901001), SAMMEL(6), ZU].join('\n')), 'neue Zahl ersetzt die alte')
+assert.equal(sammelNeu.split('Gemergt in 24 h').length, 2, 'genau eine Sammelzeile')
+const gescheitert = b.ersetzeBlock(mitSammel, null).text
+assert.ok(gescheitert.includes([AUF, SAMMEL(5), offen(901001), ZU].join('\n')), 'Abruffehler behält die Sammelzeile')
+const reihenNeu = [{ nummer: 901001, zeile: offen(901001) }, { nummer: 0, zeile: SAMMEL(2) }]
+const migriert = b.ersetzeBlock(block(offen(901001), gemergt(901003), gemergt(901004)), reihenNeu).text
+assert.ok(migriert.includes([AUF, offen(901001), SAMMEL(2), ZU, '', '## Als'].join('\n')), 'alte Einzelzeilen werden zur Sammelzeile, nichts bleibt zurück')
+assert.equal(b.ersetzeBlock(migriert, reihenNeu).text, migriert, 'zweiter Lauf ändert nichts')
+
 // --- Hinweiszeile: reihen null behält die alten Reihen samt Notizen, die Zeile entsteht neu und verschwindet wieder ---
 const H = '- **PR-Liste veraltet** — Stand 19.10. 16:27; Abruf scheitert: gh: HTTP 502'
 const altBlock = block(offen(901001), '  - Notiz', '- Hand')
@@ -126,4 +145,4 @@ assert.equal(veraltet, ['## In Arbeit', AUF, H, offen(901001), '  - Notiz', ZU, 
 assert.equal(b.ersetzeBlock(veraltet, null, H).text, veraltet, 'Hinweis nicht doppelt')
 assert.equal(b.ersetzeBlock(veraltet, R(901001)).text, ['## In Arbeit', AUF, offen(901001), '  - Notiz', ZU, '- Hand', '', '## Als Nächstes', '- y'].join('\n'), 'Erfolg: Hinweis weg')
 
-console.log('stand-prs-block.test: ok (Zeilenform, Marken: 10 kaputte Lagen, Einfügen, Ersetzen, 10 Fälle ohne Zeilenverlust über zwei Läufe, Hinweiszeile)')
+console.log('stand-prs-block.test: ok (Zeilenform, Marken: 10 kaputte Lagen, Einfügen, Ersetzen, 10 Fälle ohne Zeilenverlust über zwei Läufe, Hinweiszeile, Sammelzeile)')
