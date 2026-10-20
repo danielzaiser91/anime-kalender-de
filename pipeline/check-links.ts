@@ -26,6 +26,7 @@ import { readFileSync } from 'node:fs'
 import type { PlatformId, Title } from '../shared/types.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { fortschritt, pauseMitStand } from './lib/link-check-gesundheit.ts'
 
 const DATEI = 'data/link-check.json'
 
@@ -417,7 +418,7 @@ async function main(): Promise<void> {
           warn(
             `Amazon sperrt (Sperre ${sperren} von ${MAX_SPERREN}) — ${SPERR_PAUSE / 60000} min Pause, ${wieder.length} Adressen kommen danach erneut dran.`,
           )
-          await sleep(SPERR_PAUSE)
+          await pauseMitStand(SPERR_PAUSE, bestand, sleep)
         }
         inFolgeUnklar = 0
         unklarFolge = []
@@ -428,7 +429,7 @@ async function main(): Promise<void> {
     }
     /* Gezählt wird, was dieser Lauf gefunden hat — nicht, was schon dastand. */
     if (neu.status === 404 || neu.status === 'region') tot++
-    if (++geprueft % 100 === 0) log(`  ${geprueft}/${arbeit.length} — ${tot} unbrauchbar`)
+    fortschritt(++geprueft, arbeit.length, tot, bestand, log)
     await sleep(Math.round(PAUSE * (0.7 + Math.random() * 0.6)))
   }
 
