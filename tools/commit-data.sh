@@ -162,6 +162,12 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   bestand_pruefen() {
     npm run check:bestand > "$TEMP_LAUF/bestand-pruefung.txt" 2>&1 && npm run check:logic >> "$TEMP_LAUF/bestand-pruefung.txt" 2>&1
   }
+  # Die Historie-Zeile dieses Laufs (Schritt „Delta am Bestand festhalten“) misst den Bau vor der Quarantäne. Ausgeliefert wird ein
+  # anderer Bestand: Zeile verwerfen (`verworfen: true`, die Wache überspringt sie) und neu messen (19.10.2026: Pendeln gegen Stände,
+  # die nie live waren). Ein verworfener Bau-Lauf ohne Auslieferung nimmt die Zeile mit `bau_lauf_zuruecknehmen` zurück.
+  historie_neu_messen() {
+    npm run data:historie -- --ersetzen || echo "::warning::Die Historie-Zeile dieses Laufs ließ sich nicht neu messen."
+  }
   # Titel-Quarantäne (18.10.2026, tools/quarantaene.mjs): Tragen die roten Prüfungen Titel-Kennungen, wird ohne genau diese
   # Titel neu gebaut und erneut geprüft, bis es grün ist oder das Gate sperrt (keine neue Kennung, Cartoon, mehr als drei).
   # Nur im Bau-Lauf; der Neubau sieht denselben Vorstand (public/data von HEAD) wie der erste.
@@ -179,7 +185,10 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       if ! { npm run data:vorschlaege && npm run data:dub-checks && npm run data:extension-liste && npm run data:start-liste; }; then
         echo "::warning::Die Arbeitslisten sind nach der Quarantäne nicht neu entstanden."
       fi
-      bestand_pruefen && return 0
+      if bestand_pruefen; then
+        historie_neu_messen
+        return 0
+      fi
     done
     return 1
   }
