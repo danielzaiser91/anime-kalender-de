@@ -35,14 +35,28 @@ function schreibeOffen(offen: AdnOffen[]): void {
 }
 
 /**
- * Setzt `anisearchId` an die Serien. Ohne Titelliste bleibt, was `bisher` (Katalog der Vorwoche) schon hatte: ein Lauf ohne Cache darf
- * keine Zuordnung löschen.
+ * Ohne Titelliste bleibt, was `bisher` (Katalog der Vorwoche) schon hatte: ein Lauf ohne Cache darf keine Zuordnung löschen. Eine Serie,
+ * die danach keine Kennung hat und nicht in der Liste der offenen steht (neu im Katalog), kommt mit Grund `titelliste-fehlt` hinein,
+ * statt stumm durchzufallen; der nächste Lauf mit Titelliste rechnet die Liste neu.
  */
+export function uebernimmOhneTitelliste(shows: AdnShow[], bisher: AdnShow[], offenAlt: AdnOffen[]): AdnOffen[] {
+  for (const s of shows) s.anisearchId = bisher.find((b) => b.showId === s.showId)?.anisearchId
+  const ohne = shows.filter((s) => !s.anisearchId)
+  const bekannt = new Set(offenAlt.map((o) => o.showId))
+  const neue: AdnOffen[] = ohne
+    .filter((s) => !bekannt.has(s.showId))
+    .map((s) => ({ showId: s.showId, title: s.title, originalTitle: s.originalTitle, grund: 'titelliste-fehlt', kandidaten: [] }))
+  const ohneIds = new Set(ohne.map((s) => s.showId))
+  return [...offenAlt.filter((o) => ohneIds.has(o.showId)), ...neue].sort((x, y) => x.showId - y.showId)
+}
+
+/** Setzt `anisearchId` an die Serien und schreibt die Liste der offenen. */
 export async function ordneKatalogZuAnisearch(shows: AdnShow[], bisher: AdnShow[]): Promise<void> {
   const titel = await holeTitelliste(readJson<Zwischenspeicher>(TITELLISTE, {}), anisearchToken())
   if (!titel) {
-    warn('ADN-Zuordnung: keine aniSearch-Titelliste — die bisherigen Zuordnungen bleiben stehen.')
-    for (const s of shows) s.anisearchId = bisher.find((b) => b.showId === s.showId)?.anisearchId
+    warn('ADN-Zuordnung: keine aniSearch-Titelliste — die bisherigen Zuordnungen bleiben stehen, neue Serien stehen als offen (titelliste-fehlt).')
+    const alt = readJson<{ serien?: AdnOffen[] }>(OFFEN_DATEI, {}).serien ?? []
+    schreibeOffen(uebernimmOhneTitelliste(shows, bisher, alt))
     return
   }
   const { zuordnung, offen } = ordneAdnZuAnisearch(shows, titel, wortIndex([...titel.values()]))
