@@ -1,5 +1,5 @@
 import faelleAdresse from './faelle.json?url'
-import { ladeVon, type FaelleDatei, type Fall } from './faelle-bau.ts'
+import { ladeFaelleAus, type FaelleDatei, type Fall } from './faelle-bau.ts'
 
 export { ALLE, type FaelleDatei, type Fall } from './faelle-bau.ts'
 
@@ -8,7 +8,7 @@ const PLATZHALTER = 'https://platzhalter.invalid/'
 const GRUPPEN = 32
 
 export async function ladeFaelle(): Promise<FaelleDatei> {
-  return ladeVon(async () => (await (await fetch(new URL(faelleAdresse, document.baseURI))).json()) as FaelleDatei)
+  return ladeFaelleAus(new URL(faelleAdresse, document.baseURI))
 }
 
 function gruppeVon(quelle: Record<string, unknown>, nummer: number): Record<string, unknown> {

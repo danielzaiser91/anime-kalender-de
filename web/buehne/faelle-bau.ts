@@ -53,7 +53,8 @@ export function baueFaelle(datei: FaelleDatei): FaelleDatei {
   return datei
 }
 
-/** `holen` liefert die rohe Datei (im Browser per `fetch`, im Test aus dem Speicher). */
-export async function ladeVon(holen: () => Promise<FaelleDatei>): Promise<FaelleDatei> {
-  return baueFaelle(await holen())
+/** Holt die rohe Datei von `adresse` (`abruf` ist im Test eine Attrappe) und baut die Fälle. */
+export async function ladeFaelleAus(adresse: URL, abruf: typeof fetch = fetch): Promise<FaelleDatei> {
+  const antwort = await abruf(adresse)
+  return baueFaelle((await antwort.json()) as FaelleDatei)
 }

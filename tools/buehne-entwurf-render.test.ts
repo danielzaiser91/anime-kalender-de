@@ -10,7 +10,7 @@ import { EIGENE_AUSSCHNITTE } from '../web/buehne/ausschnitte/eigene.ts'
 import { EntwurfAnsicht } from '../web/buehne/ausschnitte/entwurf.tsx'
 import type { Title } from '../shared/types.ts'
 import type { AusschnittEigenschaften } from '../web/buehne/ausschnitte/typ.ts'
-import { baueFaelle, ladeVon, type FaelleDatei, type Fall } from '../web/buehne/faelle-bau.ts'
+import { baueFaelle, ladeFaelleAus, type FaelleDatei, type Fall } from '../web/buehne/faelle-bau.ts'
 import { mockup, mockupMit } from '../web/buehne/register.ts'
 import { ZelleInhalt } from '../web/buehne/zelle-inhalt.tsx'
 import { VorschlaegeAnsicht } from '../web/buehne/mockups/empfehlung-reise.tsx'
@@ -28,7 +28,13 @@ const roh = (): FaelleDatei => ({
     c: { name: 'C', titleId: 17, synopsen: {}, disc: {}, sprecher: {}, folgen: {}, 'titles.json': [17, 18, 19].map(titel) },
   },
 })
-const fertig = await ladeVon(async () => roh())
+const abgerufen: string[] = []
+const attrappe = (async (adresse: URL) => {
+  abgerufen.push(adresse.href)
+  return new Response(JSON.stringify(roh()))
+}) as unknown as typeof fetch
+const fertig = await ladeFaelleAus(new URL('https://buehne.invalid/faelle.json'), attrappe)
+assert.deepEqual(abgerufen, ['https://buehne.invalid/faelle.json'])
 assert.deepEqual(Object.keys(fertig.faelle), ['a', 'b', 'c', 'alle', 'nutzer-neu', 'nutzer-aktiv'])
 assert.equal((fertig.faelle.alle!['titles.json'] as unknown[]).length, 10)
 assert.equal(fertig.faelle['nutzer-neu']!.name, 'Nutzer: neu (nichts gemerkt)')
