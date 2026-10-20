@@ -21,7 +21,7 @@ const URL_E = 'https://www.crunchyroll.com/de/series/GTESTE/e'
 
 function katalog(verfuegbarAb: string): unknown {
   const deutscheFolgen = [{ nummer: 1, guid: 'G1', verfuegbarAb }]
-  const staffeln = [{ name: 'S', folgen: 12, kacheln: 12, deutsch: 1, fremd: 0, deutscheFolgen }]
+  const staffeln = [{ name: 'Staffel 3', folgen: 12, kacheln: 12, deutsch: 1, fremd: 0, deutscheFolgen }]
   return { scrapedAt: '', serien: [{ url: URL_E, katalog: 'de', geprueftAm: '2026-10-19', staffeln }] }
 }
 
@@ -31,10 +31,12 @@ async function bau(verfuegbarAb: string | undefined): Promise<Title> {
   writeFileSync(join(wurzel, 'data', 'crunchyroll-woche.json'), JSON.stringify(woche))
   rmSync(join(wurzel, 'data', 'crunchyroll-dub.json'), { force: true })
   if (verfuegbarAb) writeFileSync(join(wurzel, 'data', 'crunchyroll-dub.json'), JSON.stringify(katalog(verfuegbarAb)))
-  const titel = { id: 900003, titleDe: 'E', streams: [{ platform: 'crunchyroll', url: URL_E, dub: true, sharedWith: 3 }] } as unknown as Title
+  const teil = (id: number, titleDe: string, jpYear: number, streams: unknown[]) => ({ id, franchiseId: 900097, format: 'TV', titleDe, jpYear, streams }) as unknown as Title
+  const titel = teil(900003, 'E: Staffel 3', 2026, [{ platform: 'crunchyroll', url: URL_E, dub: true, sharedWith: 3 }])
+  const reihe = [teil(900097, 'E', 2023, []), teil(900096, 'E: Staffel 2', 2024, []), titel]
   const release = { slug: 'e-s3', titleId: 900003, platform: 'crunchyroll', schedule: { firstEpisodeDate: '2026-10-18', estimated: false } } as unknown as Release
   const { widerlegeDeutscheTermine } = await import('./bau/widerlegung-woche.ts')
-  widerlegeDeutscheTermine([release], new Map([[900003, titel]]))
+  widerlegeDeutscheTermine([release], new Map(reihe.map((t) => [t.id, t])))
   pruefe('Kulisse: der Termin ist widerlegt', release.widerlegt?.am === '2026-10-18', release.widerlegt)
   return titel
 }

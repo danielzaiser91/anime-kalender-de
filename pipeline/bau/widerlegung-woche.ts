@@ -26,6 +26,7 @@ import { crunchyrollSeriesId } from '../lib/crunchyroll.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
 import { addDays } from '../../shared/time.ts'
 import type { Release, Title } from '../../shared/types.ts'
+import { staffelDesTitels } from './widerlegung-staffel.ts'
 
 /** Eine Zeile der Wochenvorschau, soweit sie hier zählt. */
 export interface WochenZeile {
@@ -132,10 +133,17 @@ export function sammleWiderlegungen(
   return { anzahl, gedaechtnis: neu }
 }
 
-/** Die deutschen Folgen der Serie unter `url`, die der Katalog am Tag `ab` oder später führt, als zusammenhängende Bereiche. */
-export function deutscheBereicheSeit(crDub: CrDubData, url: string | undefined, ab: string): { from: number; to: number; dub: boolean }[] {
+/** „Staffel 3“ / „Season 3“ am Ende des Staffelnamens im Katalog. */
+const STAFFEL_IM_NAMEN = /(?:staffel|season)\s+(\d+)\s*$/i
+
+/**
+ * Die deutschen Folgen **der Staffel Nr. `staffel`** der Serie unter `url`, die der Katalog am Tag `ab` oder später führt,
+ * als zusammenhängende Bereiche. Folgennummern zählen je Staffel neu: Schwesterstaffeln zählen nicht mit.
+ */
+export function deutscheBereicheSeit(crDub: CrDubData, url: string | undefined, ab: string, staffel: number): { from: number; to: number; dub: boolean }[] {
   const serie = crDub.serien.find((e) => e.katalog === 'de' && e.url === url)
   const nummern = (serie?.staffeln ?? [])
+    .filter((st) => Number(STAFFEL_IM_NAMEN.exec(st.name)?.[1]) === staffel)
     .flatMap((st) => st.deutscheFolgen ?? [])
     .filter((f) => f.verfuegbarAb !== undefined && f.verfuegbarAb.slice(0, 10) >= ab)
     .map((f) => f.nummer)
@@ -169,10 +177,12 @@ export function loeseGeteilteWegeVonWiderlegten(releases: Release[], titles: Map
   for (const [k, liste] of jeTitelPlattform) {
     if (!liste.every((r) => r.widerlegt)) continue
     const [id, plattform] = k.split('|')
+    const titel = titles.get(Number(id))
     const spaetester = liste.map((r) => r.widerlegt!.am).sort().at(-1)!
-    for (const s of titles.get(Number(id))?.streams ?? []) {
+    const staffel = titel && staffelDesTitels(titel, titles.values())
+    for (const s of titel?.streams ?? []) {
       if (s.platform !== plattform || s.dub !== true || (s.sharedWith ?? 0) < 2 || s.dubRanges?.length) continue
-      const bereiche = deutscheBereicheSeit(crDub, s.url, spaetester)
+      const bereiche = staffel ? deutscheBereicheSeit(crDub, s.url, spaetester, staffel) : []
       if (bereiche.length) {
         s.dubRanges = bereiche
         continue
