@@ -2,6 +2,9 @@
 export const KARTEN_BREITE = 120
 export const KARTEN_LUECKE = 8
 
+/** Cover-Dichte 2: AniList `medium` (230 px) bzw. TMDB w342 — bei 120 CSS-Pixeln auf Handys scharf; die Kachel-Dichte 1,5 lieferte `small` (100 px) hochgezogen. */
+export const COVER_DICHTE = 2
+
 /** Ab so vielen Zeichen bricht der Name unter dem Cover nach zwei Zeilen ab (13 px in 120 px Breite); dann trägt der Tooltip den vollen Namen. */
 const NAME_ZEICHEN_ZWEI_ZEILEN = 28
 

@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import type { FranchiseMember } from '@shared/types.ts'
 import type { StaffelNummer } from '@shared/titles.ts'
-import { coverBild, KACHEL_DICHTE } from '../../lib/cover.ts'
+import { coverBild } from '../../lib/cover.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import { Tooltip } from '../ui.tsx'
 import { SynchroMarke } from './reihen-marke.tsx'
 import { staffelKurz, zeilenZusatz } from './reihen-regeln.ts'
-import { brauchtTooltip, coverDichte, KARTEN_BREITE, panelNachOben } from './reihen-spur-regeln.ts'
+import { brauchtTooltip, COVER_DICHTE, coverDichte, KARTEN_BREITE, panelNachOben } from './reihen-spur-regeln.ts'
 import { ZeilenName } from './zeilen-name.tsx'
 
 /** Der Name, wie er unter dem Cover steht (ohne Auszeichnung) — daran misst sich, ob er abgeschnitten wird. */
@@ -72,7 +72,7 @@ function CoverFlaeche({ m, t, offen, gemerkt, gewaehlt, ohneDe }: Pick<CoverProp
     >
       {m.cover && sichtbar && (
         <img
-          {...coverBild(m.cover, KARTEN_BREITE, `${KARTEN_BREITE}px`, coverDichte(sparenAn(), KACHEL_DICHTE))}
+          {...coverBild(m.cover, KARTEN_BREITE, `${KARTEN_BREITE}px`, coverDichte(sparenAn(), COVER_DICHTE))}
           width={KARTEN_BREITE}
           height={180}
           alt=""

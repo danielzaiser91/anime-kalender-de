@@ -13,6 +13,7 @@ import { ReihenListe } from '../web/src/components/detail/reihen-liste.tsx'
 import { PfeilPaar } from '../web/src/components/detail/reihen-spur.tsx'
 import {
   brauchtTooltip,
+  COVER_DICHTE,
   coverDichte,
   nachbarKarte,
   panelNachOben,
@@ -66,6 +67,7 @@ gleich('Pfeil rechts am Ende bleibt', nachbarKarte(2, 3, 'ArrowRight'), 2)
 gleich('Pfeil links aus der Mitte', nachbarKarte(2, 3, 'ArrowLeft'), 1)
 gleich('Pfeil links am Anfang bleibt', nachbarKarte(0, 3, 'ArrowLeft'), 0)
 gleich('andere Taste ändert nichts', nachbarKarte(1, 3, 'Enter'), undefined)
+gleich('Cover-Dichte 2', COVER_DICHTE, 2)
 gleich('Datensparen: Dichte 1', coverDichte(true, 1.5), 1)
 gleich('sonst Dichte der Kacheln', coverDichte(false, 1.5), 1.5)
 gleich('Pfeilsprung gleitet', sprungVerhalten(false), 'smooth')

@@ -20,11 +20,11 @@ function PfeilKnopf({ richtung, label, aus, spurId, onClick }: { richtung: '‹'
   )
 }
 
-/** Rechts im Gruppenkopf; ohne Überlauf fehlen beide, auf Touch-Geräten (`hover: none`) wischt man stattdessen. */
+/** Rechts im Gruppenkopf; ohne Überlauf fehlen beide, ohne feinen Zeiger (`pointer: fine`, Handy) wischt man stattdessen. */
 export function PfeilPaar({ zustand, spurId, t, springe }: { zustand: typeof OHNE_MESSUNG; spurId: string; t: Translate; springe: (richtung: 1 | -1) => void }) {
   if (zustand.versteckt) return null
   return (
-    <div className="flex gap-0.5 [@media(hover:none)]:hidden">
+    <div className="hidden gap-0.5 pointer-fine:flex">
       <PfeilKnopf richtung="‹" label={t('detail.reiheZurueck')} aus={zustand.zurueckAus} spurId={spurId} onClick={() => springe(-1)} />
       <PfeilKnopf richtung="›" label={t('detail.reiheWeiter')} aus={zustand.weiterAus} spurId={spurId} onClick={() => springe(1)} />
     </div>
