@@ -2,7 +2,7 @@ import { readJson, log } from '../lib/util.ts'
 import { type PlatformId, type Title } from '../../shared/types.ts'
 import { dubKey, adressGleich, adressKern, type DubCheck } from '../lib/dub-confirmed.ts'
 import { amazonAdresseRichten, amazonTitelAdresse } from '../lib/amazon-adresse.ts'
-import { adresseFremdBelegt, adresseVerneint } from '../lib/prime-meldung-riegel.ts'
+import { adresseFremdBelegt, adresseVerneint, leseZugeordnet } from '../lib/prime-meldung-riegel.ts'
 import { rohDeutsch } from '../lib/kanal-titel.ts'
 import { kanalAdresseGemerkt, kanalWissen } from '../lib/kanal-wissen.ts'
 import { germanizeUrl } from '../../shared/mappings.ts'
@@ -77,9 +77,7 @@ export function uebernehmePrimeUndCrVorschlaege({
    * Verweis ist nicht dasselbe wie ein Titel ohne geprüften Verweis").
    */
   {
-    const roh = readJson<
-      Record<
-        string,
+    const meldungen = leseZugeordnet<
         {
           titleId: number
           asin: string | null
@@ -89,15 +87,14 @@ export function uebernehmePrimeUndCrVorschlaege({
           plattform: string
           folgen: { unsere: number | null; sprachen: string[] }[]
         }
-      >
-    >('data/prime-zugeordnet.json', {})
+    >()
     let ausRoh = 0
     let adressen = 0
     /** Meldungen, die einen dritten Prime-Verweis angelegt hätten — siehe unten. */
     let uebersprungen = 0
     /** Zuordnungen, deren Adresse ein Handbeleg einem anderen Titel zuschreibt. */
     let fremdeAdresse = 0
-    for (const [schluessel, eintrag] of Object.entries(roh)) {
+    for (const [schluessel, eintrag] of Object.entries(meldungen)) {
       const title = titles.get(eintrag.titleId)
       if (!title) continue
       /*
