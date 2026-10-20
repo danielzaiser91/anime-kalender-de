@@ -50,3 +50,11 @@ export function panelNachOben(von: { closest: (auswahl: string) => { scrollTop: 
 export function coverDichte(sparen: boolean, kachelDichte: number): number {
   return sparen ? 1 : kachelDichte
 }
+
+/**
+ * Nur der Pfeilsprung gleitet, und nicht bei „weniger Bewegung". Kein CSS `scroll-behavior: smooth` an der Spur: Es ließe auch die Startposition
+ * und jedes `scrollIntoView` (Trefferprobe der Kette) gleiten, die Messung liefe dann mitten in der Bewegung.
+ */
+export function sprungVerhalten(wenigerBewegung: boolean): 'auto' | 'smooth' {
+  return wenigerBewegung ? 'auto' : 'smooth'
+}

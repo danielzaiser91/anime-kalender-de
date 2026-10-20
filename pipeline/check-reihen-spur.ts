@@ -18,6 +18,7 @@ import {
   panelNachOben,
   pfeilZustand,
   sprungWeite,
+  sprungVerhalten,
   startPosition,
 } from '../web/src/components/detail/reihen-spur-regeln.ts'
 
@@ -67,6 +68,8 @@ gleich('Pfeil links am Anfang bleibt', nachbarKarte(0, 3, 'ArrowLeft'), 0)
 gleich('andere Taste ändert nichts', nachbarKarte(1, 3, 'Enter'), undefined)
 gleich('Datensparen: Dichte 1', coverDichte(true, 1.5), 1)
 gleich('sonst Dichte der Kacheln', coverDichte(false, 1.5), 1.5)
+gleich('Pfeilsprung gleitet', sprungVerhalten(false), 'smooth')
+gleich('weniger Bewegung: springt', sprungVerhalten(true), 'auto')
 
 /* Panel scrollt nach oben — der Container `data-panel="titel"`, nicht die Seite; ohne Panel passiert nichts. */
 const panel = { scrollTop: 480 }

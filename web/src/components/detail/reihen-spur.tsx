@@ -1,6 +1,6 @@
 import { useCallback, useId, useLayoutEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import type { Translate } from '../../lib/i18n.tsx'
-import { nachbarKarte, pfeilZustand, sprungWeite, startPosition } from './reihen-spur-regeln.ts'
+import { nachbarKarte, pfeilZustand, sprungVerhalten, sprungWeite, startPosition } from './reihen-spur-regeln.ts'
 
 /** Vor der ersten Messung gelten die Pfeile als überflüssig — sie erscheinen erst, wenn wirklich etwas überläuft. */
 const OHNE_MESSUNG = { versteckt: true, zurueckAus: true, weiterAus: false }
@@ -85,7 +85,11 @@ export function ReihenSpur({ titel, gewaehltId, erste, t, children }: { titel: s
     if (!el || !gewaehlt) return
     el.scrollLeft = startPosition(gewaehlt.offsetLeft, sprungWeite(el.clientWidth))
   }, [gewaehltId])
-  const springe = (richtung: 1 | -1) => spur.current?.scrollBy({ left: richtung * sprungWeite(spur.current.clientWidth) })
+  const springe = (richtung: 1 | -1) => {
+    const el = spur.current
+    if (!el) return
+    el.scrollBy({ left: richtung * sprungWeite(el.clientWidth), behavior: sprungVerhalten(matchMedia('(prefers-reduced-motion: reduce)').matches) })
+  }
   return (
     <div className={erste ? '' : 'mt-1.5'}>
       <div className="flex min-h-8 items-center gap-2">
@@ -101,7 +105,7 @@ export function ReihenSpur({ titel, gewaehltId, erste, t, children }: { titel: s
         role="tablist"
         aria-labelledby={`${kennung}-titel`}
         onKeyDown={pfeiltaste}
-        className="relative -m-1 flex snap-x snap-mandatory gap-2 overflow-x-auto overscroll-x-contain scroll-px-1 p-1 [scrollbar-width:none] motion-safe:scroll-smooth [&::-webkit-scrollbar]:hidden"
+        className="relative -m-1 flex snap-x snap-mandatory gap-2 overflow-x-auto overscroll-x-contain scroll-px-1 p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {children}
       </div>
