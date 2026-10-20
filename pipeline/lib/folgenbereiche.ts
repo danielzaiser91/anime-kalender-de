@@ -66,7 +66,7 @@ export function bildeBereiche(meldungen: Folgenmeldung[]): {
 
 /**
  * Erst ab so vielen Folgen über der Folgenzahl des Titels wird gekappt. Die AniList-Zahl widerlegt keine Synchro-Folge: Eine Sonderfolge
- * hinter der Staffel oder eine zu niedrige Zahl ergibt Überschreitungen um 1–2 (Messung 20.10.2026 an der Meldungskopie: 11 von 22 Titeln
+ * hinter der Staffel oder eine zu niedrige Zahl ergibt Überschreitungen um 1–2 (Messung 20.10.2026 an der Meldungskopie: 14 von 24 Gruppen
  * um höchstens 2), die bleiben stehen und laufen in den Bestandswächter. Eine Summenseite liegt weit darüber (12 und mehr).
  */
 export const KAPPUNG_AB_UEBERSCHREITUNG = 3
