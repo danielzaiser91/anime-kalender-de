@@ -82,6 +82,8 @@ form('<script type="module" crossorigin src="/assets/index-B.js"></script>', '<s
 form('<script type="module" crossorigin src="/assets/index-B.js"></script>', '<script src="/assets/index-B.js"></script>', IMMER)
 form('<link rel="modulepreload" crossorigin href="/assets/vendor-D.js">', '<link rel="preload" as="font" href="/assets/vendor-D.js">', IMMER)
 form('<link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />', '<link rel="icon" href="/icons/icon.svg" type="image/svg+xml" /><script src="/assets/legacy.js"></script>', ['index.html', 'assets/legacy.js', ...IMMER.slice(1)])
+form('<link rel="stylesheet" crossorigin href="/assets/index-G.css">', '<link rel="stylesheet" href="/assets/index-G.css?v=7">', IMMER)
+form('<link rel="stylesheet" crossorigin href="/assets/index-G.css">', '<link REL="Stylesheet" href="/assets/index-G.css">', IMMER)
 // Alles, was weder gezählt noch ausgenommen ist, ergibt einen Fehler statt stillem Auslassen.
 for (const fremd of ['<link rel="prefetch" href="/assets/x.js">', '<link rel="dns-prefetch" href="/x">', '<link href="/assets/x.js">', '<link rel="modulepreload">', '<script src="https://cdn.beispiel.de/x.js"></script>', '<link rel="stylesheet" href="//cdn.beispiel.de/x.css">']) {
   assert.ok(startDateien(html().replace('</head>', `${fremd}</head>`)).fehler, fremd)
