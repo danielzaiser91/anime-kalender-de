@@ -271,7 +271,9 @@ jobs:
                Ursache. Rate nicht — zitiere die Zeile, an der es bricht.
                Schreibst du die Ursache einem Pull Request oder Commit zu,
                muss der `headSha` des Laufs ihn enthalten
-               (`git merge-base --is-ancestor <commit> <headSha>`); sonst
+               (`git merge-base --is-ancestor <commit> <headSha>`; der Checkout
+               ist nur 50 Commits tief, fehlt ein Stand, erst
+               `git fetch --depth=300 origin <headSha>`); sonst
                machst du die Zuschreibung nicht (Issue 1674: die Ursache lag
                in einem Commit, der erst nach dem genannten Lauf gemergt wurde).
             2. Entscheide, ob es ein Fehler im Code ist oder eine fremde Quelle,
