@@ -253,8 +253,8 @@
     "episode": 16,
     "erwartetAm": "2026-09-30T14:00:00.000Z",
     "bemerktAm": "2026-09-30T19:31:05.657Z",
-    "erschienenAm": null,
-    "verzugStunden": null,
+    "erschienenAm": "2026-10-21T14:00:00.000Z",
+    "verzugStunden": 504,
     "folgenVerfuegbar": 25,
     "tagGeschaetzt": true,
     "neuErwartet": null,
@@ -268,6 +268,12 @@
       "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-09-30",
       "bild": "www.crunchyroll.com/simulcastcalendar/2026-09-30/2026-10-03-21-52.jpg",
       "html": "www.crunchyroll.com/simulcastcalendar/2026-09-30/2026-10-03-21-52.html.gz"
+    },
+    "nachgereichtBeleg": {
+      "am": "2026-10-20T22:03:13.664Z",
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-21",
+      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-21/2026-10-20-22-03.jpg",
+      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-21/2026-10-20-22-03.html.gz"
     }
   },
   {
@@ -370,8 +376,8 @@
     "episode": 17,
     "erwartetAm": "2026-10-07T14:00:00.000Z",
     "bemerktAm": "2026-10-13T23:02:09.968Z",
-    "erschienenAm": null,
-    "verzugStunden": null,
+    "erschienenAm": "2026-10-21T14:00:00.000Z",
+    "verzugStunden": 336,
     "folgenVerfuegbar": 25,
     "tagGeschaetzt": true,
     "neuErwartet": null,
@@ -385,7 +391,13 @@
       "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-07/2026-10-13-23-02.jpg",
       "html": "www.crunchyroll.com/simulcastcalendar/2026-10-07/2026-10-13-23-02.html.gz"
     },
-    "rechercheAm": "2026-10-20T11:03:13.862Z"
+    "rechercheAm": "2026-10-20T11:03:13.862Z",
+    "nachgereichtBeleg": {
+      "am": "2026-10-20T22:03:13.664Z",
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-21",
+      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-21/2026-10-20-22-03.jpg",
+      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-21/2026-10-20-22-03.html.gz"
+    }
   },
   {
     "id": "tomb-raider-king@2026-10-14",
@@ -402,7 +414,7 @@
     "tagGeschaetzt": true,
     "neuErwartet": null,
     "recherche": null,
-    "geprueftAm": "2026-10-20T21:02:27.274Z",
+    "geprueftAm": "2026-10-20T22:02:52.761Z",
     "messbeleg": {
       "am": "2026-10-14T18:02:45.913Z",
       "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-14",
