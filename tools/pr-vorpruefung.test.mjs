@@ -1,6 +1,6 @@
 /** Tests für tools/pr-vorpruefung.mjs: Gegenproben der mechanischen Prüfer-Regeln. */
 import { readFileSync } from 'node:fs'
-import { existiertIn, genanntePfade, istErwaehnt, vorpruefe } from './pr-vorpruefung.mjs'
+import { existiertIn, genanntePfade, istErwaehnt, listenRot, vorpruefe } from './pr-vorpruefung.mjs'
 
 const fehler = []
 const pruefe = (name, ok) => {
@@ -49,6 +49,16 @@ pruefe('pr-einreichen.sh nimmt bei vorhandenem PR dessen Beschreibung', /gh pr v
 const ausfuehrbar = sh.replace(/\\\n/g, ' ').split('\n').filter((z) => !/^\s*(#|echo\b|printf\b)/.test(z)).join('\n')
 pruefe('pr-einreichen.sh führt kein gh pr merge aus', !/gh\s+pr\s+merge/.test(ausfuehrbar))
 pruefe('pr-einreichen.sh schaltet keinen Auto-Merge ein', !/--auto|enablePullRequestAutoMerge/.test(ausfuehrbar))
+
+const listeRot = (text, namen = ['l.txt']) => listenRot((n) => (n === 'l.txt' ? text : null), namen)
+pruefe('Liste: „-“ vor „.“ ist sortiert (Anlass 1613 R4)', listeRot('# k\na/x-y.ts\na/x.ts\n').length === 0)
+pruefe('Liste: „.“ vor „-“ → rot', listeRot('a/x.ts\na/x-y.ts\n').length === 1)
+pruefe('Liste: Kommentar- und Leerzeilen zählen nicht', listeRot('# z\n\na/b.ts\n# a\na/c.ts\n').length === 0)
+pruefe('Liste: Dublette → rot, Meldung nennt Eintrag', listeRot('a/b.ts\na/b.ts\n').join().includes('a/b.ts steht mehrfach'))
+pruefe('Liste: Dublette und Unordnung ergeben zwei Meldungen', listeRot('b.ts\na.ts\na.ts\n').length === 2)
+pruefe('Liste: fehlende Datei (null) ist kein Fehler', listenRot(() => null).length === 0)
+pruefe('Liste: zweite Liste wird auch geprüft', listenRot((n) => (n === 'zwei.txt' ? 'b\na\n' : 'a\nb\n'), ['eins.txt', 'zwei.txt']).join().includes('zwei.txt'))
+pruefe('Liste: echte Listen im Repo sind in Ordnung', listenRot((n) => readFileSync(new URL(`../${n}`, import.meta.url), 'utf8')).length === 0)
 
 if (fehler.length) {
   console.error(`pr-vorpruefung.test: ${fehler.length} Fehler`)

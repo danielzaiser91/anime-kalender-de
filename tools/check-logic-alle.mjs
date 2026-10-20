@@ -25,7 +25,13 @@ import { fileURLToPath } from 'node:url'
 import { laufePool } from './arbeiterpool.mjs'
 import { ohneBauVariablen } from './bau-umgebung.mjs'
 import { pruefeVollstaendig } from './check-logic-vollstaendig.mjs'
+import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
 import { sperreUmgebung } from './sperre-umgebung.mjs'
+
+if (process.argv.includes('--help') || process.argv.includes('-h')) {
+  console.log('Aufruf: node tools/check-logic-alle.mjs [liste] [name] [--alle]\n  liste: Prüfliste (Standard tools/check-logic-liste.txt), name: Anzeigename (Standard check:logic), --alle: auch nach einem Fehler weiterlaufen.')
+  process.exit(0)
+}
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wurzel = join(tools, '..')
@@ -66,10 +72,7 @@ function pruefeAusnahmeGenutzt(ausnahme, spurDatei) {
   return null
 }
 
-const dateien = readFileSync(resolve(wurzel, listeArg), 'utf8')
-  .split(/\r?\n/)
-  .map((z) => z.trim())
-  .filter((z) => z && !z.startsWith('#'))
+const dateien = listenEintraege(readFileSync(resolve(wurzel, listeArg), 'utf8'))
 
 if (dateien.length === 0) {
   console.error(`${name}: ${listeArg} enthält keine Prüfung.`)
@@ -82,15 +85,9 @@ if (mitSperre) {
   if (unverdrahtet.length) process.exit(1)
 }
 
-const unsortiert = dateien.find((d, i) => i > 0 && d < dateien[i - 1])
-if (unsortiert) {
-  console.error(`${name}: ${listeArg} muss alphabetisch sortiert sein (${unsortiert} steht zu früh).`)
-  process.exit(1)
-}
-
-const doppelt = dateien.find((d, i) => dateien.indexOf(d) !== i)
-if (doppelt) {
-  console.error(`${name}: ${doppelt} steht mehrfach in ${listeArg}: eine Zeile streichen.`)
+const listenProbleme = listenFehler(dateien, listeArg)
+if (listenProbleme.length) {
+  for (const p of listenProbleme) console.error(`${name}: ${p}`)
   process.exit(1)
 }
 
