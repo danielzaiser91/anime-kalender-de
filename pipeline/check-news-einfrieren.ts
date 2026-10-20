@@ -2,13 +2,9 @@
  * Zusicherungen: Eine bestehende Meldung behält `weiterer` vom Bau, der sie erzeugte (20.10.2026, `lib/news-einfrieren.ts`).
  * Läuft in `check:logic`. Erfundene Titel mit festen Daten, kein Netz, keine Uhr.
  */
-import { execFileSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
-import { tmpdir } from 'node:os'
-import { join } from 'node:path'
 import type { NewsEintrag, NewsMeldung, Release, StreamLink, Title } from '../shared/types.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
-import { einfrierFehler, haltWeitererFest, saeeWeiterer, setzeWeitererEin, vergissAlte } from './lib/news-einfrieren.ts'
+import { einfrierFehler, haltWeitererFest, vergissAlte } from './lib/news-einfrieren.ts'
 
 let fehler = 0
 let faelle = 0
@@ -44,6 +40,9 @@ pruefe('Zwei Schlüssel ohne Verwechslung', haltWeitererFest(historie({}, { [K]:
 const alt = historie({ 'angekuendigt:a:1': '2025-01-01', 'angekuendigt:b:1': '2026-10-01' }, { 'angekuendigt:a:1': true, 'angekuendigt:b:1': false, 'angekuendigt:c:1': true })
 vergissAlte(alt, '2026-01-01')
 pruefe('Alt: zuerst und Flag fallen heraus, Verwaiste ebenso', JSON.stringify(alt) === JSON.stringify({ zuerst: { 'angekuendigt:b:1': '2026-10-01' }, weiterer: { 'angekuendigt:b:1': false } }), alt)
+const grenze = historie({ 'a:1': '2025-12-31', 'b:1': '2026-01-01', 'c:1': '2026-01-02' }, { 'a:1': true, 'b:1': false, 'c:1': true })
+vergissAlte(grenze, '2026-01-01')
+pruefe('Alt: genau an der Grenze bleibt, einen Tag davor fällt weg, einen Tag danach bleibt', JSON.stringify(Object.keys(grenze.zuerst)) === JSON.stringify(['b:1', 'c:1']) && JSON.stringify(grenze.weiterer) === JSON.stringify({ 'b:1': false, 'c:1': true }), grenze)
 const ohneFeld = historie({ x: '2026-10-01' })
 vergissAlte(ohneFeld, '2026-01-01')
 pruefe('Alt: Gedächtnis ohne Feld bleibt ohne Feld', ohneFeld.weiterer === undefined)
@@ -86,33 +85,7 @@ verlaufBau(hf, [[]], '2099-01-01')
 const abgeloestOhne = verlaufBau(hf, [[cr]], '2099-02-01')
 pruefe('Terminverlauf: festgehaltenes false bekommt auch am abgelösten Stand kein weiterer', abgeloestOhne.find((m) => m.datum === '2099-01-01')?.ersetzt !== undefined && abgeloestOhne.find((m) => m.datum === '2099-01-01')?.weiterer === undefined, abgeloestOhne)
 
-/* 4. Säen: erster Stand zählt, Festgehaltenes bleibt, Fremdes (nicht im Gedächtnis) wird nicht angelegt; zweiter Lauf tut nichts. */
-const stand1 = [eintrag(termin({ weiterer: true }), termin({ release: 'r-9', weiterer: true }), termin({ release: 'r-7' }))]
-const stand2 = [eintrag(termin(), termin({ release: 'r-9' }), termin({ release: 'r-7', weiterer: true }))]
-const jetzt = [eintrag(termin(), termin({ release: 'r-9' }), termin({ release: 'r-7', weiterer: true }), termin({ release: 'r-8', weiterer: true }), termin({ release: 'r-5' }))]
-const hs = historie(
-  { [K]: 'x', 'angekuendigt:r-9:2099-01-01': 'x', 'angekuendigt:r-7:2099-01-01': 'x', 'angekuendigt:r-8:2099-01-01': 'x' },
-  { 'angekuendigt:r-9:2099-01-01': false },
-)
-const n1 = saeeWeiterer(hs, [stand1, stand2], jetzt)
-pruefe(
-  'Säen: erster Stand, Vorhandenes bleibt, Meldung ohne Stand nimmt den heutigen Wert, Schlüssel ohne zuerst fehlt',
-  n1 === 3 && JSON.stringify(hs.weiterer) === JSON.stringify({ 'angekuendigt:r-9:2099-01-01': false, [K]: true, 'angekuendigt:r-7:2099-01-01': false, 'angekuendigt:r-8:2099-01-01': true }),
-  { n1, w: hs.weiterer },
-)
-pruefe('Säen: zweiter Lauf legt nichts mehr an', saeeWeiterer(hs, [stand1, stand2], jetzt) === 0)
-const hl = historie({ [K]: 'x' })
-pruefe('Säen: leere Historie nimmt den heutigen Wert', saeeWeiterer(hl, [], [eintrag(termin({ weiterer: true }))]) === 1 && hl.weiterer?.[K] === true)
-
-/* 5. news.json angleichen: Reihenfolge wie im Bau (nach geschaetzt/belege), Entfernen, zweiter Lauf, Fremdes unberührt. */
-const roh = [eintrag(termin({ quelle: 'q', belege: [], geschaetzt: true, hinweis: 'h' } as Partial<NewsMeldung>), termin({ release: 'r-9', weiterer: true }), { art: 'neu', platform: 'joyn' } as NewsMeldung)]
-const fest = { [K]: true, 'angekuendigt:r-9:2099-01-01': false }
-const g1 = setzeWeitererEin(roh, fest)
-pruefe('Angleichen: true eingefügt hinter geschaetzt, vor hinweis', Object.keys(roh[0]!.meldungen[0]!).join() === 'art,platform,release,datum,quelle,belege,geschaetzt,weiterer,hinweis', Object.keys(roh[0]!.meldungen[0]!))
-pruefe('Angleichen: false entfernt das Feld, andere Art bleibt', g1 === 2 && !('weiterer' in roh[0]!.meldungen[1]!) && roh[0]!.meldungen[2]!.art === 'neu', g1)
-pruefe('Angleichen: zweiter Lauf ändert nichts', setzeWeitererEin(roh, fest) === 0)
-
-/* 5b. Bestandswächter: Umsprung, Lücke, passender Fall; Gegenprobe mit zweiter Meldung gleicher Serienadresse. */
+/* 4. Bestandswächter: Umsprung, Lücke, passender Fall; Gegenprobe mit zweiter Meldung gleicher Serienadresse. */
 const bestand = [eintrag(termin({ weiterer: true }), termin({ release: 'r-9', weiterer: true }), termin({ release: 'r-4' }), termin({ release: 'r-6', platform: 'adn' }))]
 const w = einfrierFehler(bestand, historie({}, { [K]: false, 'angekuendigt:r-9:2099-01-01': true, 'angekuendigt:r-4:2099-01-01': true }))
 pruefe('Wächter: nur der gekippte Fall ist Fehler (false festgehalten, true ausgeliefert), der gekippte andere Weg ebenso', w.fehler.length === 2 && w.fehler[0]!.includes(K) && w.fehler[1]!.includes('r-4'), w)
@@ -121,32 +94,6 @@ const ok = einfrierFehler(bestand, historie({}, { [K]: true, 'angekuendigt:r-9:2
 const ohneDatum = einfrierFehler([eintrag(termin({ datum: undefined, weiterer: true }))], historie({}, { 'angekuendigt:r-1:undefined': false }))
 pruefe('Wächter: Meldung ohne Datum hat keinen Schlüssel und wird übergangen', ohneDatum.fehler.length === 0 && ohneDatum.luecken.length === 0, ohneDatum)
 pruefe('Wächter: alles gleich ist grün', ok.fehler.length === 0 && ok.luecken.length === 0, ok)
-
-/* 6. Der Läufer end-to-end in einem Wegwerf-Repo: Quelle, Gedächtnis und news.json als Parameter (AK_ROOT, GIT_EXE). */
-const wurzel = mkdtempSync(join(tmpdir(), 'news-einfrieren-'))
-try {
-  const git = (...a: string[]): void => void execFileSync(process.env.GIT_EXE ?? 'git', ['-c', 'user.name=t', '-c', 'user.email=t@t', ...a], { cwd: wurzel, windowsHide: true, stdio: 'pipe' })
-  git('init', '-q')
-  mkdirSync(join(wurzel, 'public', 'data'), { recursive: true })
-  mkdirSync(join(wurzel, 'data'), { recursive: true })
-  const schreibe = (pfad: string, daten: unknown): void => writeFileSync(join(wurzel, pfad), JSON.stringify(daten))
-  schreibe('public/data/news.json', stand1)
-  git('add', '.')
-  git('commit', '-q', '-m', 'eins')
-  schreibe('public/data/news.json', stand2)
-  git('add', '.')
-  git('commit', '-q', '-m', 'zwei')
-  schreibe('data/news-historie.json', { zuerst: { [K]: 'x', 'angekuendigt:r-9:2099-01-01': 'x' } })
-  const lauf = (): string =>
-    execFileSync(process.execPath, ['--import', 'tsx', 'pipeline/news-einfrieren-saeen.ts', '--ref', 'HEAD'], { env: { ...process.env, AK_ROOT: wurzel }, encoding: 'utf8', windowsHide: true })
-  const aus = lauf()
-  const h = JSON.parse(readFileSync(join(wurzel, 'data', 'news-historie.json'), 'utf8')) as NewsHistorie
-  const nj = JSON.parse(readFileSync(join(wurzel, 'public', 'data', 'news.json'), 'utf8')) as NewsEintrag[]
-  pruefe('Läufer: Gedächtnis hat den ersten Stand, news.json ist angeglichen', h.weiterer?.[K] === true && h.weiterer['angekuendigt:r-9:2099-01-01'] === true && nj[0]!.meldungen[0]!.weiterer === true, { h: h.weiterer, aus })
-  pruefe('Läufer: zweiter Lauf meldet nichts Neues', /0 Schlüssel festgehalten, 0 Meldungen/.test(lauf()))
-} finally {
-  rmSync(wurzel, { recursive: true, force: true })
-}
 
 console.log(`check-news-einfrieren: ${faelle} Zusicherungen, ${fehler} Fehler`)
 process.exit(fehler ? 1 : 0)
