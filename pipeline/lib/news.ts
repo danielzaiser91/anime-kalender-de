@@ -42,6 +42,7 @@ import { titelNachSerienId, waehleStaffel } from './news-cr-zuordnung.ts'
 import { rhythmusMeldung } from './news-rhythmus.ts'
 import { ohneDoppelteTakte, taktMeldungen } from './news-takt.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
+import { haltWeitererFest, vergissAlte } from './news-einfrieren.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
 const FENSTER_TAGE = 120
@@ -59,6 +60,8 @@ export interface NewsHistorie extends TerminGedaechtnis {
    * sonst stünden an einem Tag zweitausend „neue" Anbieter auf der Seite.
    */
   anbieter?: Record<string, string>
+  /** Meldungsschlüssel (`angekuendigt`) → `weiterer` vom Bau, der die Meldung erzeugte (`news-einfrieren.ts`). */
+  weiterer?: Record<string, boolean>
 }
 
 /**
@@ -450,13 +453,11 @@ export function baueNews(
     const zuerst = historie.zuerst[schluessel] ?? (fallback > heute ? heute : fallback)
     historie.zuerst[schluessel] = zuerst
     if (zuerst < fensterBeginn(r.art, heute, grenze)) continue
-    datiert.push({ ...rest, am: zuerst, schluessel })
+    datiert.push(haltWeitererFest(historie, schluessel, { ...rest, am: zuerst, schluessel }))
   }
 
   /* Alte Schlüssel aus dem Gedächtnis werfen — sonst wächst es ohne Ende. */
-  for (const [k, v] of Object.entries(historie.zuerst)) {
-    if (v < addDays(heute, -400)) delete historie.zuerst[k]
-  }
+  vergissAlte(historie, addDays(heute, -400))
 
   /*
     **Dieselbe Schreibweise wie überall sonst.** Ohne die Eindeutschung stand im
