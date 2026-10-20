@@ -217,6 +217,8 @@ pipeline/check-vorfaelle-ablauf.ts
 pipeline/check-weg-adresse-bezugsweg.ts
 pipeline/check-wege-aus-terminen.ts
 pipeline/check-werk-doppelt.ts
+pipeline/check-widerlegung-de-folgen-bau.ts
+pipeline/check-widerlegung-de-folgen.ts
 pipeline/check-woche-beleg.ts
 pipeline/check-wochen-datei.ts
 pipeline/check-wochenprogramm-sendetag.ts
