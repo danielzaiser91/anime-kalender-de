@@ -1,8 +1,8 @@
 {
   "stand": "2026-10-20",
   "bestand": {
-    "inReihen": 3033,
-    "reihen": 819,
+    "inReihen": 3024,
+    "reihen": 816,
     "pruefliste": [
       {
         "art": "verschmilzt",
@@ -1552,7 +1552,7 @@
     ]
   },
   "katalog": {
-    "inReihen": 12023,
+    "inReihen": 12024,
     "reihen": 3071,
     "pruefliste": [
       {
@@ -2632,7 +2632,7 @@
           {
             "id": 113970,
             "name": "Love Live! Nijigasaki Gakuen School Idol Doukoukai",
-            "titel": 5
+            "titel": 6
           },
           {
             "id": 154785,
@@ -5321,7 +5321,7 @@
           {
             "id": 113970,
             "name": "Love Live! Nijigasaki Gakuen School Idol Doukoukai",
-            "titel": 5
+            "titel": 6
           }
         ],
         "alleinstehende": [],
