@@ -25,14 +25,14 @@ function katalog(verfuegbarAb: string): unknown {
   return { scrapedAt: '', serien: [{ url: URL_E, katalog: 'de', geprueftAm: '2026-10-19', staffeln }] }
 }
 
-async function bau(verfuegbarAb: string | undefined): Promise<Title> {
+async function bau(verfuegbarAb: string | undefined, folgen: number | undefined = 12): Promise<Title> {
   mkdirSync(join(wurzel, 'data'), { recursive: true })
   const woche = { wocheAb: '2026-10-12', eintraege: [{ seriesId: 'GTESTE', titel: 'E', sprache: 'ja', datum: '2026-10-18' }] }
   writeFileSync(join(wurzel, 'data', 'crunchyroll-woche.json'), JSON.stringify(woche))
   rmSync(join(wurzel, 'data', 'crunchyroll-dub.json'), { force: true })
   if (verfuegbarAb) writeFileSync(join(wurzel, 'data', 'crunchyroll-dub.json'), JSON.stringify(katalog(verfuegbarAb)))
   const teil = (id: number, titleDe: string, jpYear: number, streams: unknown[], episodes?: number) => ({ id, franchiseId: 900097, format: 'TV', titleDe, jpYear, episodes, streams }) as unknown as Title
-  const titel = teil(900003, 'E: Staffel 3', 2026, [{ platform: 'crunchyroll', url: URL_E, dub: true, sharedWith: 3 }], 12)
+  const titel = teil(900003, 'E: Staffel 3', 2026, [{ platform: 'crunchyroll', url: URL_E, dub: true, sharedWith: 3 }], folgen)
   const reihe = [teil(900097, 'E', 2023, []), teil(900096, 'E: Staffel 2', 2024, []), titel]
   const release = { slug: 'e-s3', titleId: 900003, platform: 'crunchyroll', schedule: { firstEpisodeDate: '2026-10-18', estimated: false } } as unknown as Release
   const { widerlegeDeutscheTermine } = await import('./bau/widerlegung-woche.ts')
@@ -47,6 +47,8 @@ process.env.AK_ROOT = wurzel
 try {
   const mit = await bau('2026-10-18T15:00:00Z')
   pruefe('Katalog mit deutscher Folge ab dem Tag: der Bau lässt den Weg stehen', mit.streams[0].dub === true && mit.streams[0].dubRanges?.length === 1, mit.streams[0])
+  const offen = await bau('2026-10-18T15:00:00Z', 0)
+  pruefe('Folgenzahl offen (Reincarnated Aristocrat S3): Weg bleibt mit genau Folge 1', offen.streams[0].dub === true && JSON.stringify(offen.streams[0].dubRanges) === JSON.stringify([{ from: 1, to: 1, dub: true }]), offen.streams[0])
   const ohne = await bau(undefined)
   pruefe('ohne Katalogdatei: der Bau löst den Weg', ohne.streams[0].dub === undefined, ohne.streams[0])
 } finally {
