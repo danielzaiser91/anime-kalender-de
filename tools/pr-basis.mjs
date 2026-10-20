@@ -23,3 +23,16 @@ export function ladeBasis(git) {
   }
   return basis
 }
+
+/**
+ * Lädt die Basis einmal, bevor Wächter parallel laufen: gleichzeitige `git fetch --depth=1` streiten sonst um `shallow.lock`.
+ * Nur im PR-Ereignis; ohne Merge-Commit oder bei Abruffehler bleibt es beim Abruf im Wächter (der dann selbst meldet).
+ */
+export function vorladeBasis(git, env) {
+  if (env.GITHUB_EVENT_NAME !== 'pull_request') return null
+  try {
+    return ladeBasis(git)
+  } catch {
+    return null
+  }
+}
