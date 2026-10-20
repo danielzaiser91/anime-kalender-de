@@ -11,7 +11,6 @@
   { "datei": "pipeline/check-logic.ts", "liest": "data/prime-zugeordnet.json", "grund": "zählt nur die Größe der Zuordnung (mindestens eine), kein fester Schlüssel" },
   { "datei": "pipeline/check-logic.ts", "liest": "data/anisearch.json", "grund": "Quellen der Kurations-Dateien gegen die aniSearch-Kennung des Titels: Eigenschaft über alle Einträge" },
   { "datei": "pipeline/check-logic.ts", "liest": "data/termine-verpasst.json", "grund": "Eigenschaft (keine Folge doppelt); Vermerke werden nie gelöscht, nur gestrichen markiert" },
-  { "datei": "pipeline/check-logic.ts", "liest": "data/anisearch-dubs.json", "grund": "sucht je Marke d/c/p/- irgendeinen Eintrag; 20.10.2026 gezählt: d 2634, - 9190, c 58, p 40 (Restrisiko p: Zugang laufend)" },
   { "datei": "pipeline/check-logic.ts", "liest": "data/anisearch-eintraege.json", "grund": "aniSearch-Eintragsbestand wächst nur (8276 Einträge am 20.10.2026); die Kennungen der MAL-Ausnahmen bleiben darin" },
   { "datei": "pipeline/check-logic.ts", "liest": "data/kennungen.json", "grund": "Kennungsregister: eine vergebene ak bleibt, die vier Dubletten-Zeilen und ihre Nachfolger stehen dauerhaft darin" },
   { "datei": "pipeline/check-luecken-staffel0.ts", "liest": "data/tmdb-staffel0.json", "grund": "nur nicht leer und ladeStaffel0 reicht die Schlüssel durch, kein fester Schlüssel" },

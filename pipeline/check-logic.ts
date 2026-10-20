@@ -39,6 +39,7 @@ import type { NewsEintrag } from '../shared/types.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen, staffelStaende } from '../shared/titles.ts'
 import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
 import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
+import { setzeMarkenFuerPruefung } from './lib/anisearch-marke.ts'
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { loescheAbgelaufenes, SQL_RATE_LIMIT_LOESCHEN, SQL_UNBESTAETIGT_LOESCHEN } from '../worker/src/loeschfristen.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
@@ -8577,11 +8578,13 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
 /* aniSearch „vertont" (d) oder „abgebrochen" (c) ist ein Synchro-Beleg: der Titel bleibt trotz Streams ohne eigenen Beleg im Hauptbestand; „geplant" (p) nicht. */
 {
   const ohneBelegAls = (id: number) => ausgestrahltOhneBeleg({ id, jpYear: 2026, streams: [{ platform: 'netflix' } as never] } as unknown as Title)
-  const dubs = JSON.parse(readFileSync('data/anisearch-dubs.json', 'utf8')) as Record<string, string>
+  const dubs: Record<string, string> = { 900101: 'd', 900102: 'c', 900103: 'p', 900104: '-' }
+  setzeMarkenFuerPruefung(dubs)
   const mit = (k: string) => Number(Object.keys(dubs).find((id) => dubs[id] === k))
   pruefe('aniSearch vertont (d): kein Verschieben hinter den Toggle', !ohneBelegAls(mit('d')))
   pruefe('aniSearch abgebrochen (c): kein Verschieben hinter den Toggle', !ohneBelegAls(mit('c')))
   pruefe('aniSearch nur geplant (p) oder ohne Deutsch (-): bleibt ohne Beleg', ohneBelegAls(mit('p')) && ohneBelegAls(mit('-')))
+  setzeMarkenFuerPruefung(undefined)
 }
 /* Gleiche MAL-Kennung bei einem aniSearch- und einem AniList-Titel: Dublette, außer sie ist in MAL_AUSNAHMEN begründet (Befund 08.10.2026, 4 Dubletten). */
 {

@@ -32,6 +32,11 @@ export function dubsNachTitel(): Record<string, string> {
   return (dubs = { ...ergaenzt, ...readJson<Record<string, string>>('data/anisearch-dubs.json', {}) })
 }
 
+/** Nur für Prüfungen: ersetzt die Marken durch eigene Daten (`undefined` stellt die Sammlerdateien wieder her). */
+export function setzeMarkenFuerPruefung(marken: Record<string, string> | undefined): void {
+  dubs = marken
+}
+
 /** Die Marke eines Titels; `undefined`, wo aniSearch zu ihm nichts liefert. */
 export const deutschMarke = (titelId: number): string | undefined => dubsNachTitel()[String(titelId)]
 
