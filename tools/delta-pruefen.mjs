@@ -12,6 +12,7 @@
  * ohne Delta ist die Regel und sagt nichts.
  */
 import { existsSync, readFileSync } from 'node:fs'
+import { ereignisse } from '../pipeline/lib/bestand-pendel.ts'
 
 const DATEI = 'data/bestand-historie.jsonl'
 const args = process.argv.slice(2)
@@ -53,8 +54,16 @@ const vz = (n) => (n > 0 ? `+${n}` : String(n))
 
 console.log(`${jung.length} Läufe in den letzten ${TAGE} Tagen (${zeilen.length} insgesamt)\n`)
 
+/* Pendeln zwischen zwei Ständen ist ein Befund; die Zeile danach zählt netto gegen den Stand davor (pipeline/lib/bestand-pendel.ts). */
+const sichtbar = ereignisse(zeilen).filter((e) => Date.parse(e.art === 'pendel' ? e.zeitpunkt : e.zeile.zeitpunkt) >= grenze)
 let gezeigt = 0
-for (const z of jung) {
+for (const e of sichtbar) {
+  if (e.art === 'pendel') {
+    gezeigt++
+    console.log(`${' '.repeat(12)}${e.laufend ? '⚠' : 'ℹ'}  ${e.text}`)
+    continue
+  }
+  const z = e.zeile
   const d = z.delta
   const still = d && Object.values(d).every((v) => v === 0)
   if (still && !ALLES) continue
@@ -65,8 +74,8 @@ for (const z of jung) {
         .map(([k, v]) => `${k} ${vz(v)}`)
     : ['erste Zeile']
   console.log(`${zeit(z.zeitpunkt)}  ${(z.lauf ?? '?').slice(0, 22).padEnd(24)} ${teile.join(', ') || 'nichts'}`)
-  if (z.erklaert?.length) console.log(`${' '.repeat(12)}ℹ  erklärt, nicht rot: ${z.erklaert.join('; ')}`)
-  if (z.auffaellig?.length) console.log(`${' '.repeat(12)}⚠  ${z.auffaellig.join('; ')}`)
+  if (e.erklaert.length) console.log(`${' '.repeat(12)}ℹ  erklärt, nicht rot: ${e.erklaert.join('; ')}`)
+  if (e.auffaellig.length) console.log(`${' '.repeat(12)}⚠  ${e.netto ? 'netto gegen den Stand vor dem Pendeln: ' : ''}${e.auffaellig.join('; ')}`)
 }
 if (!gezeigt) console.log('Keiner dieser Läufe hat etwas verändert.')
 
@@ -83,7 +92,7 @@ if (erste !== letzte) {
   )
 }
 
-const auffaellige = jung.filter((z) => z.auffaellig?.length)
+const auffaellige = sichtbar.filter((e) => (e.art === 'pendel' ? e.laufend : e.auffaellig.length))
 if (auffaellige.length) {
   console.log('')
   console.log(`⚠  ${auffaellige.length} Lauf/Läufe mit Auffälligkeiten — siehe oben.`)
