@@ -82,6 +82,11 @@ assert.equal(eins.n, 1, 'genau eine Auskunft zählt')
 assert.equal(eins.aufrufe[0][2], undefined, 'eine Auskunft ist Erfolg')
 const nurUnklar = lauf({ u1: { status: 'unklar', geprueftAm: '2026-10-19' } })
 assert.deepEqual(nurUnklar.aufrufe[0], ['link-check', 0, 'bisher nur Nichtauskünfte', undefined, false], 'nur Nichtauskünfte: Fehlertext, kein Erfolg')
+const nurTimeout = lauf({ u1: { status: 'timeout', geprueftAm: '2026-10-19' }, u2: { status: 'fehler', geprueftAm: '2026-10-19' }, u3: { status: 'unklar', geprueftAm: '2026-10-19' } })
+assert.equal(nurTimeout.n, 0, 'timeout, fehler und unklar sind keine Auskunft')
+assert.deepEqual(nurTimeout.aufrufe[0], ['link-check', 0, 'bisher nur Nichtauskünfte', undefined, false], 'ohne Auskunft Fehlertext')
+const abwehr = lauf({ u1: { status: 403, geprueftAm: '2026-10-19' }, u2: { status: 429, geprueftAm: '2026-10-19' }, u3: { status: 404, geprueftAm: '2026-10-19' }, u4: { status: 'region', geprueftAm: '2026-10-19' } })
+assert.equal(abwehr.n, 2, '403/429 sind Abwehr; 404 und region sind Auskunft')
 
 /* Fortschritt und Pause mit festem Tag (letztes Argument). */
 const TAG = '2026-10-19'
@@ -130,4 +135,29 @@ assert.ok(eintrag, 'link-check ist eingetragen')
 assert.equal(eintrag.lastCount, 2, 'gezählt werden die zwei Netflix-Auskünfte, nicht die 20 Nichtauskünfte')
 assert.ok(eintrag.lastOk, 'mit echten Auskünften ist lastOk gesetzt')
 rmSync(tmp, { recursive: true, force: true })
+
+/* --- 100er-Takt im echten Lauf: 150 Adressen, ab der 101. hängt die Attrappe; nach Adresse 100 muss der Stand stehen --- */
+const tmp2 = mkdtempSync(join(tmpdir(), 'quellen-gesundheit-'))
+mkdirSync(join(tmp2, 'public', 'data'), { recursive: true })
+const viele = Array.from({ length: 150 }, (_, i) => ({ streams: [{ platform: 'netflix', url: `https://www.netflix.com/title/${i}` }] }))
+writeFileSync(join(tmp2, 'public', 'data', 'titles.json'), JSON.stringify(viele))
+const stub2 = join(tmp2, 'fetch-stub.mjs')
+writeFileSync(stub2, `const gesehen = new Set()\nglobalThis.fetch = async (u) => {\n  gesehen.add(String(u))\n  if (gesehen.size > 100) return new Promise(() => {})\n  return new Response('', { status: 200 })\n}\n`)
+const child2 = spawn(
+  process.execPath,
+  ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub2).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1'],
+  { cwd: tmp2, env: { ...process.env, AK_ROOT: tmp2 }, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] },
+)
+let ausgabe2 = ''
+child2.stdout.on('data', (d) => (ausgabe2 += d))
+child2.stderr.on('data', (d) => (ausgabe2 += d))
+const beendet2 = new Promise<void>((res) => child2.on('exit', () => res()))
+const gesundheit2 = join(tmp2, 'data', 'source-health.json')
+for (let i = 0; i < 600 && !existsSync(gesundheit2) && child2.exitCode === null; i++) await new Promise((r) => setTimeout(r, 100))
+child2.kill()
+await beendet2
+assert.ok(existsSync(gesundheit2), `nach Adresse 100 steht eine Gesundheit:\n${ausgabe2}`)
+const eintrag2 = (JSON.parse(readFileSync(gesundheit2, 'utf8')) as Record<string, { lastCount: number }>)['link-check']
+assert.equal(eintrag2.lastCount, 100, 'Zwischenstand nach genau 100 Auskünften')
+rmSync(tmp2, { recursive: true, force: true })
 console.log('quellen-gesundheit.test: grün (Leser, Zwischenstand, Abbruch in der Pause)')

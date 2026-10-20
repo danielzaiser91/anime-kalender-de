@@ -1,5 +1,11 @@
 import { recordSource } from './health.ts'
 
+/** Positivliste: HTTP-Status außer 403/429 (Abwehr, beweist nichts) und Amazons Regionssatz; `unklar`, `timeout`, `fehler` zählen nicht. */
+export function istAuskunft(status: unknown): boolean {
+  if (status === 'region') return true
+  return typeof status === 'number' && status !== 403 && status !== 429
+}
+
 /**
  * Zwischenstand der Quellen-Gesundheit für `check-links.ts`.
  *
@@ -13,7 +19,7 @@ export function meldeLinkCheckZwischenstand(
   heute: string,
   melde: typeof recordSource = recordSource,
 ): number {
-  const auskuenfte = Object.values(bestand).filter((b) => b.geprueftAm === heute && b.status !== 'unklar').length
+  const auskuenfte = Object.values(bestand).filter((b) => b.geprueftAm === heute && istAuskunft(b.status)).length
   melde('link-check', auskuenfte, auskuenfte ? undefined : 'bisher nur Nichtauskünfte', undefined, false)
   return auskuenfte
 }
