@@ -1,6 +1,6 @@
 import type { Release, Title } from '../../shared/types.ts'
 import { readJson, log } from '../lib/util.ts'
-import { loadDubChecks } from '../lib/dub-confirmed.ts'
+import { ladeKanalWissen } from '../lib/kanal-wissen.ts'
 import { kanalAdressenOhneBeleg, kanalSchluessel } from '../lib/kanal-titel.ts'
 import { alleTermineGekennzeichnet } from '../lib/pruefung.ts'
 import { urteilDarfBelegen } from '../lib/urteil-weg.ts'
@@ -22,7 +22,7 @@ import { urteilDarfBelegen } from '../lib/urteil-weg.ts'
 export function urteilSchliesstLuecken(titles: Map<number, Title>): void {
   const jaJeWeg = urteilJaJeWeg()
   /* Auch das Urteil beruht auf Amazons Sprachangabe; auf einem Kanal-Titel ist sie kein Beleg (`lib/kanal-titel.ts`). */
-  const kanal = kanalAdressenOhneBeleg(loadDubChecks())
+  const kanal = kanalAdressenOhneBeleg(ladeKanalWissen())
   let ausUrteil = 0
   for (const title of titles.values()) {
     for (const stream of title.streams ?? []) {
@@ -77,4 +77,9 @@ export function urteilJaJeWeg(): Set<string> {
     if (id && plattform) jaJeWeg.add(`${id}|${plattform}`)
   }
   return jaJeWeg
+}
+
+/** Schritt 13: das Urteil an den spät entstandenen Wegen, mit dem Kanal-Wissen des Baus (Handbelege samt Merkliste). */
+export function schliesseSpaeteLuecken(titles: Iterable<Title>, releases: Release[]): number {
+  return urteilSchliesstSpaeteLuecken(titles, releases, urteilJaJeWeg(), kanalAdressenOhneBeleg(ladeKanalWissen()))
 }
