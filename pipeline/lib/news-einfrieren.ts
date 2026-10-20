@@ -91,7 +91,7 @@ export function setzeWeitererEin(eintraege: NewsEintrag[], fest: Record<string, 
   return geaendert
 }
 
-/** Bestandswächter: jede Terminmeldung in `news.json` trägt das festgehaltene `weiterer` (`fehler`); ohne Eintrag (`luecken`) hat der Bau keinen angelegt, etwa bei Meldungen aus dem Terminverlauf. */
+/** Bestandswächter: jede Terminmeldung in `news.json` trägt das festgehaltene `weiterer` (`fehler`); ohne Eintrag (`luecken`) hat der Bau keinen angelegt. Meldungen aus dem Terminverlauf tragen den Wert seit #1670 und sind keine Lücken mehr (Bestand 20.10.2026: 0). */
 export function einfrierFehler(eintraege: NewsEintrag[], historie: NewsHistorie): { fehler: string[]; luecken: string[] } {
   const fehler: string[] = []
   const luecken: string[] = []
