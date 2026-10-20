@@ -8,9 +8,8 @@ import { akUmleitung } from './lib/ak-umleitung.ts'
 import { TippzieleSchalter } from './components/tippziele.tsx'
 import { pruefeVersionBeimLaden } from './lib/aktualisierung.ts'
 /* Selbst gehostet statt über Google Fonts: Ein Abruf dort übermittelt die IP-Adresse (DSGVO). */
-import '@fontsource/unbounded/500.css'
-import '@fontsource/unbounded/700.css'
 import '@fontsource-variable/manrope'
+import './fonts.css'
 import './styles.css'
 
 // Theme-Wahl vor dem ersten Rendern anwenden, damit es nicht kurz aufblitzt.

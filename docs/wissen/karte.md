@@ -80,7 +80,7 @@ Auslieferungsdateien (`public/data/`), gzip auf der Leitung, gemessen 02.10.2026
 | `ohne-synchro.json` (15.147) | 5,5 MB | 1,28 MB | Schalter „ohne Synchro" |
 | `synopses/N`, `disc/N` (32 Gruppen, `id % 32`), `voices/<id>` | klein | | Panel |
 
-**Erstaufruf ≈ 327 KB gzip** (Stand 18.10.2026: Bündel, CSS, HTML, Wochendaten, zwei Startschriften; Wächter `tools/start-budget.mjs`, Grenze 330 KB). Am 02.10.2026 waren es noch ≈ 470 KB mit den vier vollen Startdateien; Aufschlüsselung in `ARCHITEKTUR.md`.
+**Erstaufruf ≈ 305 KB gzip** (Stand 20.10.2026, Anzeigeschrift als Teilmenge `tools/schriften-teilmenge.py`: Bündel, CSS, HTML, Wochendaten, zwei Startschriften; Wächter `tools/start-budget.mjs`, Grenze 310 KB). Am 02.10.2026 waren es noch ≈ 470 KB mit den vier vollen Startdateien; Aufschlüsselung in `ARCHITEKTUR.md`.
 
 ## 5. Oberfläche (Routen und Komponenten)
 
@@ -102,7 +102,7 @@ OG-Tags, `build-share-pages.ts`) bzw. `/t/<titel-slug>/`. Alte Adressen `#/agend
 | Statische Seiten, Newsletter-Formular, Abo | `StaticViews.tsx` (1.282 Z.) |
 | Texte (i18n de/en) | `lib/i18n.tsx`, `i18n-kalender.ts`, `i18n-seiten.ts` |
 | Favoriten, Push, Newsletter-Abgleich | `lib/favorites.ts`, `push.ts`, `push-nachfuehren.ts`, `newsletterSync.ts` |
-| Laden der Daten, Caches | `lib/data.ts`; Service Worker `public/sw.js`; `__BUILD_ID__` aus `vite.config.ts` |
+| Laden der Daten, Caches | `lib/data.ts`; Service Worker `public/sw.js`; `__DATEI_KENNUNGEN__` (Inhalts-Hash je Datei, `tools/daten-kennungen.ts`) und `__BUILD_ID__` (Ersatz) aus `vite.config.ts` |
 | Farben, Schriften | `web/src/styles.css` (`--ak-*`, Tailwind `bg-ak-grund`); Rollen, Zustände, Kontrast: [design-regeln.md](design-regeln.md) (13.10.2026); Schriften selbst gehostet (`@fontsource`) |
 
 Oberflächenregeln, die man kennt, bevor man Text schreibt: keine Information zweimal; `note` (für Besucher) vs. `herkunft` (für uns);

@@ -1,15 +1,44 @@
 {
-  "scrapedAt": "2026-10-20T05:02:58.998Z",
+  "scrapedAt": "2026-10-20T16:02:48.860Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 7,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
+    "schon in einem Rubrik-Feed gelesen": 5,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1062229/netflix-dragon-ball-super-beerus-und-mehr/",
+      "publishedAt": "2026-10-20",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1062497/der-held-ohne-klasse-auf-netflix/",
+      "publishedAt": "2026-10-20",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-01",
+          "context": "tlosen« bald in sein Programm aufnehmen wird. Wir fassen zusammen. Ab 1. November 2026 »Der Held ohne Klasse: Der Aufstieg eines Talentlosen"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt",
       "articleUrl": "https://www.anime2you.de/news/1058725/zehn-lord-of-mysteries-minifiguren/",
@@ -720,7 +749,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 42/2026",

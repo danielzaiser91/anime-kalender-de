@@ -58,6 +58,8 @@ pipeline/check-cr-film-wege.ts
 pipeline/check-cr-ja-deckung.ts
 pipeline/check-cr-komplettabwurf.ts
 pipeline/check-cr-teilseiten.ts
+pipeline/check-datei-kennungen.ts
+pipeline/check-daten-adressen.ts
 pipeline/check-daten-kennung.ts
 pipeline/check-db-relevanz.ts
 pipeline/check-detektiv-funde.ts
@@ -236,6 +238,7 @@ tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
 tools/feste-uhr.test.ts
 tools/hover-cover.test.ts
+tools/link-check-ende.test.ts
 tools/quarantaene-pruefungen.test.ts
 tools/quellen-gesundheit.test.ts
 tools/quittung-nach-commit-waechter.mjs

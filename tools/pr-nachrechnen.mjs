@@ -6,7 +6,8 @@
  * und zwar nach dem Ereignis: dessen Lauf nimmt noch den alten Merge-Commit (gemessen 19.10.2026 an PR 1602), daher `anstossen`.
  *
  * Aufruf (Dirigent, vor jedem Merge): node tools/pr-nachrechnen.mjs <PR>
- *   Exit 0: der neueste Kettenlauf zum Kopf rechnete gegen den jetzigen main-HEAD.
+ *   Exit 0: der neueste Kettenlauf zum Kopf rechnete gegen den jetzigen main-HEAD, oder main bewegte sich seit dem Lauf nur unter
+ *           `public/data/` und `data/cache/` und der PR berührt diese Pfade nicht (F55, 20.10.2026; `datenpfadAusnahme`).
  *   Exit 1: nicht aktuell; der PR wurde geschlossen und wieder geöffnet, die Kette läuft neu (der Prüfer hört nicht auf `reopened`).
  *   Exit 2: nichts angestoßen (Konflikt, Mergebarkeit oder Test-Merge noch nicht berechnet, kein Lauf, Basis nicht lesbar, Fehler);
  *           die Meldung sagt, warum. Scheitert es erst nach dem Schließen, steht „SCHON ANGESTOSSEN“ in der Meldung.
@@ -42,6 +43,30 @@ export function hindernis(pr) {
   if (pr.mergeable === 'CONFLICTING') return `PR ${pr.number} hat einen Konflikt mit main: erst main hineinmergen, das startet die Kette neu`
   if (pr.mergeable !== 'MERGEABLE') return `PR ${pr.number}: Mergebarkeit noch nicht berechnet (${pr.mergeable}), gleich erneut aufrufen`
   return null
+}
+
+/** Pfade, deren Bewegung auf main die Kette nicht entwertet (F55, Daniel 20.10.2026). Alles andere (Code, tools/umfang-grenzen.json, extension/, data/dub-confirmed.yaml, public/og/) zählt. */
+export const DATENPFADE = ['public/data/', 'data/cache/']
+/** Compare liefert höchstens 300 Dateien; bei so vielen ist die Liste evtl. abgeschnitten, also keine Ausnahme. */
+export const COMPARE_GRENZE = 300
+
+const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p))
+
+/** null = Ausnahme gilt (main bewegte nur Datenpfade, der PR keinen); sonst der Grund, warum nicht. */
+export function datenpfadAusnahme(vergleich, prDateien) {
+  if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
+  if (vergleich.anzahl >= COMPARE_GRENZE) return `Vergleich mit ${vergleich.anzahl} Dateien evtl. abgeschnitten`
+  const fremd = vergleich.dateien.find((d) => !istDatenpfad(d))
+  if (fremd !== undefined) return `main bewegte ${fremd}`
+  const beruehrt = prDateien.find(istDatenpfad)
+  if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
+  return null
+}
+
+function datenpfadGrund(gh, nummer, basis, main) {
+  const vergleich = JSON.parse(gh(['api', `repos/{owner}/{repo}/compare/${basis}...${main}`, '--jq', '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)]}']))
+  const pr = gh(['api', `repos/{owner}/{repo}/pulls/${nummer}/files`, '--paginate', '--jq', '.[] | .filename, (.previous_filename // empty)'])
+  return datenpfadAusnahme(vergleich, pr.split(/\r?\n/).filter(Boolean))
 }
 
 const kurz = (sha) => sha.slice(0, 9)
@@ -130,6 +155,10 @@ export function nachrechnen(nummer, gh, melde, warte) {
   const main = gh(['api', 'repos/{owner}/{repo}/git/ref/heads/main', '--jq', '.object.sha']).trim()
   if (basis === main) {
     melde(`PR ${nummer}: aktuell, die Kette rechnete gegen main ${kurz(main)}`)
+    return 0
+  }
+  if (datenpfadGrund(gh, nummer, basis, main) === null) {
+    melde(`PR ${nummer}: aktuell, Kette gegen ${kurz(basis)}, main ist ${kurz(main)}, seitdem nur Daten bewegt (${DATENPFADE.join(', ')})`)
     return 0
   }
   anstossen(gh, nummer, main, warte)
