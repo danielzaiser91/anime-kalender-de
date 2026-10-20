@@ -47,6 +47,8 @@ export function fortschritt(geprueft: number, von: number, tot: number, bestand:
  * Zeitbudget des Wochenlaufs: Die Grenze des Schritts ist 45 min (`refresh-weekly.yml`); gemessen am 19.10.2026
  * (Lauf 39202358845) rannte er hinein, weil die Sperr-Pause allein 60 min dauert. 75 % davon lassen den Lauf
  * fertig werden und die Schlusszeile `recordSource` erreichen.
+ * Ein Amazon-Skip nach Sperre gilt trotzdem als „ok“ (gewollt, 20.10.2026): der Lauf hat alle anderen Hosts geprüft; die
+ * übersprungenen Adressen nennt die Logzeile „Amazon-Adressen wegen der Sperre übersprungen“.
  */
 export const ZEITBUDGET_SEKUNDEN = 2025
 
@@ -59,14 +61,22 @@ export function passtInsBudget(startMs: number, jetztMs: number, budgetSekunden:
 /**
  * Reihenfolge und Umfang eines Laufs: Vorrang zuerst, dann nie Geprüftes und die ältesten Befunde.
  * Was wegen des Limits nicht drankommt, bleibt fällig und rückt im nächsten Lauf nach vorn.
+ * Der gesperrte Host (Amazon) bekommt höchstens `GEDROSSELT_JE_LAUF` Plätze: seine Nichtauskünfte behalten ihr
+ * altes Datum und stünden sonst jede Woche vorn, bis das Limit nur noch aus übersprungenen Adressen besteht.
  */
+export const GEDROSSELT_JE_LAUF = 60
+
 export function waehleArbeit(
   offen: string[],
   geprueftAm: (url: string) => string | undefined,
   vorrang: ReadonlySet<string>,
   limit: number,
+  gedrosselt: (url: string) => boolean = () => false,
+  maxGedrosselt = GEDROSSELT_JE_LAUF,
 ): string[] {
   const alter = (u: string) => geprueftAm(u) ?? ''
   const sortiert = [...offen].sort((a, b) => Number(vorrang.has(b)) - Number(vorrang.has(a)) || alter(a).localeCompare(alter(b)))
-  return limit > 0 ? sortiert.slice(0, limit) : sortiert
+  let drossel = 0
+  const zugelassen = sortiert.filter((u) => !gedrosselt(u) || ++drossel <= maxGedrosselt)
+  return limit > 0 ? zugelassen.slice(0, limit) : zugelassen
 }

@@ -5,7 +5,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { passtInsBudget, waehleArbeit, ZEITBUDGET_SEKUNDEN } from '../pipeline/lib/link-check-gesundheit.ts'
+import { GEDROSSELT_JE_LAUF, passtInsBudget, waehleArbeit, ZEITBUDGET_SEKUNDEN } from '../pipeline/lib/link-check-gesundheit.ts'
 
 /* Erwartete Werte fest eingetragen: 45 min Grenze, 25 % Puffer = 33,75 min. */
 assert.equal(ZEITBUDGET_SEKUNDEN, 2025, 'Budget = 75 % von 45 min')
@@ -31,6 +31,13 @@ const lauf1 = waehleArbeit(offen, alter, new Set(), 2)
 const rest = offen.filter((u) => !lauf1.includes(u))
 assert.deepEqual(waehleArbeit(rest, alter, new Set(), 2), ['c', 'd'], 'zweiter Lauf nimmt die nächsten, nichts bleibt hinten')
 assert.deepEqual(offen, ['a', 'b', 'c', 'd', 'e'], 'Eingabe bleibt unverändert')
+/* Gedrosselter Host: ältere Amazon-Adressen belegen höchstens 2 Plätze, der Rest geht an andere. */
+const amStand: Record<string, string> = { a1: '2000-01-01', a2: '2000-01-02', a3: '2000-01-03', n1: '2000-06-01', n2: '2000-06-02' }
+const istA = (u: string) => u.startsWith('a')
+assert.deepEqual(waehleArbeit(['a1', 'a2', 'a3', 'n1', 'n2'], (u) => amStand[u], new Set(), 4, istA, 2), ['a1', 'a2', 'n1', 'n2'], 'Drossel 2 lässt Platz für n1 und n2')
+assert.deepEqual(waehleArbeit(['a1', 'a2', 'a3', 'n1', 'n2'], (u) => amStand[u], new Set(), 4, istA, 1), ['a1', 'n1', 'n2'], 'Drossel 1')
+assert.deepEqual(waehleArbeit(['a1', 'a2', 'a3', 'n1', 'n2'], (u) => amStand[u], new Set(), 4), ['a1', 'a2', 'a3', 'n1'], 'ohne Drossel hungern n2')
+assert.equal(GEDROSSELT_JE_LAUF, 60, 'Standarddrossel')
 
 /* --- Prozess: Amazon sperrt; ohne Budget für die 60-min-Pause geht der Lauf weiter ohne Amazon und endet --- */
 const wurzel = resolve(import.meta.dirname, '..')
@@ -51,6 +58,10 @@ const ausgabe = `${lauf.stdout}${lauf.stderr}`
 assert.equal(lauf.status, 0, `Lauf endet (kein Warten in der 60-min-Pause):\n${ausgabe}`)
 assert.ok(!ausgabe.includes('min Pause'), `keine Pause, die das Budget sprengt:\n${ausgabe}`)
 assert.ok(ausgabe.includes('weiter ohne Amazon'), `Amazon wird übersprungen:\n${ausgabe}`)
+assert.ok(ausgabe.includes('5 Amazon-Adressen wegen der Sperre übersprungen'), `5 von 25 Amazon-Adressen übersprungen (Sperre nach 20):\n${ausgabe}`)
+const gesundheit = JSON.parse(readFileSync(join(tmp, 'data', 'source-health.json'), 'utf8')) as Record<string, { lastOk?: string; lastCount: number }>
+assert.ok(gesundheit['link-check']?.lastOk, 'nach Amazon-Skip steht der Stempel „ok“ (gewollt)')
+assert.equal(gesundheit['link-check'].lastCount, 21, '1 Netflix- plus 20 Amazon-Abrufe geprüft')
 /* Budget aufgebraucht (1 ms): es beginnt nichts Neues, alles bleibt fällig. */
 const knapp = spawnSync(
   process.execPath,
@@ -82,4 +93,36 @@ assert.equal(nach[dreiUrl]?.status, 404, 'Nie-Geprüftes kommt dran')
 assert.equal(nach[zwei].status, 404, 'ältester Befund kommt dran')
 assert.equal(nach[eins].geprueftAm, '2000-06-01', 'der jüngere Befund bleibt für den nächsten Lauf')
 rmSync(tmp2, { recursive: true, force: true })
+
+/* Aushungern (PR-Prüfer A1): 70 alte Amazon-Nichtauskünfte vor 10 Netflix-Adressen, Limit 70, zwei Läufe hintereinander. */
+const tmp3 = mkdtempSync(join(tmpdir(), 'link-hunger-'))
+mkdirSync(join(tmp3, 'public', 'data'), { recursive: true })
+mkdirSync(join(tmp3, 'data'))
+const amazonUrl = (i: number) => `https://www.amazon.de/gp/video/detail/B${i}`
+const netflixUrl = (i: number) => `https://www.netflix.com/title/${i}`
+const bestand3: Record<string, { status: unknown; geprueftAm: string }> = {}
+for (let i = 0; i < 70; i++) bestand3[amazonUrl(i)] = { status: 'unklar', geprueftAm: '2000-01-01' }
+for (let i = 0; i < 10; i++) bestand3[netflixUrl(i)] = { status: 200, geprueftAm: '2000-06-01' }
+for (let i = 10; i < 20; i++) bestand3[netflixUrl(i)] = { status: 200, geprueftAm: '2000-07-01' }
+writeFileSync(join(tmp3, 'data', 'link-check.json'), JSON.stringify(bestand3))
+const stub3 = join(tmp3, 'fetch-stub.mjs')
+writeFileSync(stub3, `globalThis.fetch = async (u) => String(u).includes('netflix') ? new Response('', { status: 404 }) : new Response('<html></html>', { status: 200 })\n`)
+const lauf3 = (): void => {
+  spawnSync(
+    process.execPath,
+    ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub3).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1', '--limit', '70', '--zeitbudget', '0', '--sperrpause', '0.01'],
+    { cwd: tmp3, env: { ...process.env, AK_ROOT: tmp3 }, windowsHide: true, encoding: 'utf8', timeout: 60_000 },
+  )
+}
+const netflixGeprueft = (): number => {
+  const stand = JSON.parse(readFileSync(join(tmp3, 'data', 'link-check.json'), 'utf8')) as Record<string, { status: unknown }>
+  return Object.keys(stand).filter((u) => u.includes('netflix') && stand[u].status === 404).length
+}
+writeFileSync(join(tmp3, 'public', 'data', 'titles.json'), JSON.stringify([...Array(10).keys()].map((i) => ({ streams: [{ platform: 'netflix', url: netflixUrl(i) }] })).concat([...Array(70).keys()].map((i) => ({ streams: [{ platform: 'primevideo', url: amazonUrl(i) }] })))))
+lauf3()
+assert.equal(netflixGeprueft(), 10, 'Lauf 1: alle 10 Netflix-Adressen kommen dran, obwohl 70 ältere Amazon-Adressen fällig sind')
+writeFileSync(join(tmp3, 'public', 'data', 'titles.json'), JSON.stringify([...Array(20).keys()].map((i) => ({ streams: [{ platform: 'netflix', url: netflixUrl(i) }] })).concat([...Array(70).keys()].map((i) => ({ streams: [{ platform: 'primevideo', url: amazonUrl(i) }] })))))
+lauf3()
+assert.equal(netflixGeprueft(), 20, 'Lauf 2: auch die zweiten 10 Netflix-Adressen kommen dran')
+rmSync(tmp3, { recursive: true, force: true })
 console.log('link-check-zeitbudget.test: grün (Budget-Grenze, Auswahl mit Rotation, Lauf ohne 60-min-Pause)')

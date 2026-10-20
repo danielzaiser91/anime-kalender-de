@@ -325,7 +325,8 @@ async function main(): Promise<void> {
     Adressen sonst nie erreichen — der wöchentliche Lauf prüft 400 von mehreren
     Tausend, und die neuen stehen hinten.
   */
-  const arbeit = waehleArbeit(offen, (u) => bestand[u]?.geprueftAm, vorrang, LIMIT)
+  const AMAZON = /(^|\.)amazon\./i
+  const arbeit = waehleArbeit(offen, (u) => bestand[u]?.geprueftAm, vorrang, LIMIT, (u) => AMAZON.test(new URL(u).hostname))
   log(`Verweise: ${adressen.size} bekannt, ${offen.length} fällig, ${arbeit.length} in diesem Lauf.`)
 
   /**
@@ -355,7 +356,6 @@ async function main(): Promise<void> {
    * übersprungen; sie bleiben fällig.
    */
   const SPERR_SCHWELLE = 20
-  const AMAZON = /(^|\.)amazon\./i
   /**
    * **Die Sperre wird ausgesessen, nicht umgangen** (20.09.2026).
    *
