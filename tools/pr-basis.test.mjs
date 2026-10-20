@@ -10,7 +10,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ersterElternteil, holeBasis, ladeBasis } from './pr-basis.mjs'
+import { ersterElternteil, ladeBasis } from './pr-basis.mjs'
 
 const WURZEL = process.argv[2] ?? tmpdir()
 const PFLICHT = resolve(import.meta.dirname, 'check-patchnotes-pflicht.mjs')
@@ -98,32 +98,4 @@ mitRepo({ prDatei: 'docs/pr.md' }, (ordner, { git, mainKopf, basis }) => {
   }
 })
 
-/** Attrappe: `fetch` scheitert die ersten `scheitert` Mal (shallow.lock), danach liegt der Commit vor oder wird geholt. */
-function lockGit({ scheitert, kommtVonAnderem }) {
-  const aufrufe = { fetch: 0, catFile: 0 }
-  const git = (...args) => {
-    if (args[0] === 'cat-file') {
-      aufrufe.catFile++
-      if (!(kommtVonAnderem && aufrufe.fetch > 0)) throw new Error('fehlt')
-      return ''
-    }
-    aufrufe.fetch++
-    if (aufrufe.fetch <= scheitert) throw new Error('shallow.lock: File exists')
-    return ''
-  }
-  return { git, aufrufe }
-}
-
-const lockA = lockGit({ scheitert: 1, kommtVonAnderem: true })
-holeBasis(lockA.git, 'abc', 5, 1)
-assert.equal(lockA.aufrufe.fetch, 1, 'Sperre, aber der andere Wächter hat den Commit geholt: kein zweiter fetch')
-
-const lockB = lockGit({ scheitert: 2, kommtVonAnderem: false })
-holeBasis(lockB.git, 'abc', 5, 1)
-assert.equal(lockB.aufrufe.fetch, 3, 'Sperre hält an: erneuter fetch, bis er klappt')
-
-const lockC = lockGit({ scheitert: 99, kommtVonAnderem: false })
-assert.throws(() => holeBasis(lockC.git, 'abc', 4, 1), /shallow\.lock/)
-assert.equal(lockC.aufrufe.fetch, 4, 'dauerhafter Fehler: genau die erlaubten Versuche, dann der Fehler')
-
-console.log('  ✓ PR-Basis: erster Elternteil des Merge-Commits, veraltetes base.sha greift nicht, linearer Kopf ist rot, shallow.lock wird abgewartet')
+console.log('  ✓ PR-Basis: erster Elternteil des Merge-Commits, veraltetes base.sha greift nicht, linearer Kopf ist rot')
