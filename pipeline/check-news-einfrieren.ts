@@ -69,6 +69,23 @@ const alterBau = historie({ 'angekuendigt:alt:1': '2000-01-01', 'angekuendigt:ne
 bau(alterBau, [[cr], [], [cr]])
 pruefe('Bau altert das Gedächtnis: 400 Tage alter Schlüssel samt Flag weg, junger bleibt', alterBau.weiterer?.['angekuendigt:alt:1'] === undefined && alterBau.weiterer?.['angekuendigt:neu:1'] === true, alterBau)
 
+/* 3b. Meldungen aus dem Terminverlauf (abgelöst, zurückgezogen) tragen dasselbe festgehaltene weiterer (Bestandsbau 20.10.2026: 8 Fehler). */
+const verlaufBau = (h: NewsHistorie, wege: StreamLink[][], datum: string | undefined): NewsMeldung[] => {
+  const rel = datum ? [{ ...release(1), schedule: { firstEpisodeDate: datum } } as Release] : []
+  return baueNews(wege.map((s, i) => titel(i + 1, s)), rel, [], [], h).flatMap((x) => x.meldungen.filter((m) => m.art === 'angekuendigt'))
+}
+const hv = historie()
+verlaufBau(hv, [[cr]], '2099-01-01')
+const abgeloest = verlaufBau(hv, [[cr]], '2099-02-01')
+pruefe('Terminverlauf: abgelöste Meldung behält weiterer vom Tag der Meldung', abgeloest.find((m) => m.datum === '2099-01-01')?.ersetzt !== undefined && abgeloest.find((m) => m.datum === '2099-01-01')?.weiterer === true, abgeloest)
+pruefe('Terminverlauf: die aktuelle Meldung bleibt weiterer', abgeloest.find((m) => m.datum === '2099-02-01')?.weiterer === true, abgeloest)
+const zurueck = verlaufBau(hv, [[cr]], undefined)
+pruefe('Terminverlauf: zurückgezogene Meldung behält weiterer', zurueck.length === 2 && zurueck.some((m) => m.zurueckgezogen !== undefined) && zurueck.every((m) => m.weiterer === true), zurueck)
+const hf = historie()
+verlaufBau(hf, [[]], '2099-01-01')
+const abgeloestOhne = verlaufBau(hf, [[cr]], '2099-02-01')
+pruefe('Terminverlauf: festgehaltenes false bekommt auch am abgelösten Stand kein weiterer', abgeloestOhne.find((m) => m.datum === '2099-01-01')?.ersetzt !== undefined && abgeloestOhne.find((m) => m.datum === '2099-01-01')?.weiterer === undefined, abgeloestOhne)
+
 /* 4. Säen: erster Stand zählt, Festgehaltenes bleibt, Fremdes (nicht im Gedächtnis) wird nicht angelegt; zweiter Lauf tut nichts. */
 const stand1 = [eintrag(termin({ weiterer: true }), termin({ release: 'r-9', weiterer: true }), termin({ release: 'r-7' }))]
 const stand2 = [eintrag(termin(), termin({ release: 'r-9' }), termin({ release: 'r-7', weiterer: true }))]
