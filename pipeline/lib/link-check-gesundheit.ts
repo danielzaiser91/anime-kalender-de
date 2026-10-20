@@ -28,15 +28,17 @@ type Bestand = Parameters<typeof meldeLinkCheckZwischenstand>[0]
 
 const heute = () => new Date().toISOString().slice(0, 10)
 
-/** Vor der Sperr-Pause: Stand melden, dann warten (die Zeitgrenze kann in der Pause zuschlagen). */
-export async function pauseMitStand(ms: number, bestand: Bestand, warte: (ms: number) => Promise<void>, melde: typeof recordSource = recordSource, tag = heute()): Promise<void> {
+/** Vor der Sperr-Pause: Befunde sichern, Stand melden, dann warten (die Zeitgrenze kann in der Pause zuschlagen). */
+export async function pauseMitStand(ms: number, bestand: Bestand, warte: (ms: number) => Promise<void>, sichere: () => void, melde: typeof recordSource = recordSource, tag = heute()): Promise<void> {
+  sichere()
   meldeLinkCheckZwischenstand(bestand, tag, melde)
   await warte(ms)
 }
 
-/** Fortschrittszeile alle 100 Adressen samt Zwischenstand. */
-export function fortschritt(geprueft: number, von: number, tot: number, bestand: Bestand, log: (s: string) => void, melde: typeof recordSource = recordSource, tag = heute()): void {
+/** Fortschrittszeile alle 100 Adressen samt Zwischenstand und gesicherten Befunden. */
+export function fortschritt(geprueft: number, von: number, tot: number, bestand: Bestand, log: (s: string) => void, sichere: () => void, melde: typeof recordSource = recordSource, tag = heute()): void {
   if (geprueft % 100 !== 0) return
   log(`  ${geprueft}/${von} — ${tot} unbrauchbar`)
+  sichere()
   meldeLinkCheckZwischenstand(bestand, tag, melde)
 }
