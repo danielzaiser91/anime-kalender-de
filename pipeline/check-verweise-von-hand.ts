@@ -54,13 +54,18 @@ try {
 
   console.log('\nHandverweise: die Bestandsprüfung gegen eigene Kulissen')
   const bestand = (yamlText: string | undefined) => laufeInKulisse('check-verweise-von-hand-bestand.ts', yamlText === undefined ? {} : { 'data/verweise-von-hand.yaml': yamlText })
+  /** Rot heißt: Exit 1 und die Meldung nennt den zweiten Eintrag (ein Absturz an anderer Stelle zählt nicht). */
+  const rot2 = (text: string) => {
+    const r = bestand(text)
+    return r.code === 1 && r.aus.includes('Nr. 2')
+  }
   const gut = '- anilistId: 900001\n  platform: primevideo\n  url: https://www.amazon.de/gp/video/detail/B0KULISSE01\n'
   pruefe('vollständiger Eintrag: grün', bestand(gut).code === 0, bestand(gut).aus)
   pruefe('keine Datei: grün', bestand(undefined).code === 0)
-  pruefe('Eintrag ohne Adresse: rot', bestand(gut + '- anilistId: 900002\n  platform: primevideo\n').code === 1)
-  pruefe('Eintrag ohne Kennung: rot', bestand(gut + '- platform: primevideo\n  url: https://x.example/a\n').code === 1)
-  pruefe('Eintrag ohne Anbieter: rot', bestand(gut + '- anilistId: 900002\n  url: https://x.example/a\n').code === 1)
-  pruefe('Adresse ohne https: rot', bestand(gut + '- anilistId: 900002\n  platform: primevideo\n  url: http://x.example/a\n').code === 1)
+  pruefe('Eintrag ohne Adresse: rot', rot2(gut + '- anilistId: 900002\n  platform: primevideo\n'))
+  pruefe('Eintrag ohne Kennung: rot', rot2(gut + '- platform: primevideo\n  url: https://x.example/a\n'))
+  pruefe('Eintrag ohne Anbieter: rot', rot2(gut + '- anilistId: 900002\n  url: https://x.example/a\n'))
+  pruefe('Adresse ohne https: rot', rot2(gut + '- anilistId: 900002\n  platform: primevideo\n  url: http://x.example/a\n'))
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }

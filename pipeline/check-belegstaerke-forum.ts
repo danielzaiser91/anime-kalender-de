@@ -51,6 +51,8 @@ try {
   const signale: Belegsignale = { ...leer, forum: forumTitel(echt) }
   pruefe('mit aniSearch-Marke und Forum-Treffer: high (belegt), nicht normal', belegstaerke(titel({ id: NEIN_CR, ...anisearch }), signale) === 'high')
   pruefe('ohne Forum-Treffer bleibt dieselbe Marke bei normal', belegstaerke(titel({ id: NEIN_CR, ...anisearch }), leer) === 'normal')
+  schreibe('data/synchron-forum-treffer.yaml', '# leer\n')
+  pruefe('leere Treffer-Datei: keine Treffer', forumTitel(echt).size === 0)
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }
