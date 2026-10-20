@@ -66,7 +66,7 @@ for (const e of sichtbar) {
   const z = e.zeile
   const d = z.delta
   const still = d && Object.values(d).every((v) => v === 0)
-  if (still && !ALLES) continue
+  if (still && !ALLES && !e.auffaellig.length) continue
   gezeigt++
   const teile = d
     ? Object.entries(d)

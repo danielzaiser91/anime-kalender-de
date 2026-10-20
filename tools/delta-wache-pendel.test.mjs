@@ -100,6 +100,24 @@ const mit = (z, muster) => z.filter((l) => muster.test(l))
   assert.equal(mit(n.zeilen, /⚠/).length, 2, 'eine Befundzeile plus die Schlusszeile "N Lauf/Läufe"')
 }
 
+// --- Zeile nach dem Pendeln bleibt auf dem Pendelstand (delta 0) und ist trotzdem sichtbar rot ------------------------------
+{
+  const still = { titel: 0, verweise: 0, mitUrteil: 0, ohneUrteil: 0, titelMitSynchro: 0, releases: 0, termine: 0 }
+  const zeilen = folge(120, 100, 60, 100, 60, 60)
+  zeilen[5].delta = still
+  const w = wache(zeilen.map((z) => JSON.stringify(z)).join('\n') + '\n', '2026-10-19T12:00:00Z')
+  assert.equal(w.code, 1, w.zeilen.join('\n'))
+  assert.equal(mit(w.zeilen, /netto gegen den Stand vor dem Pendeln: 60 Urteile verloren/).length, 1, 'Exit 1 hat eine Zeile, die ihn erklärt')
+
+  // Gewollt: eine eigene Auffälligkeit mitten im Pendeln erscheint nicht einzeln; ein beendetes A,B,A ist nur eine Info-Zeile.
+  const mitten = folge(100, 100, 60, 100, 100)
+  mitten[2].auffaellig = ['crunchyroll: 1 Synchro-Belege weniger']
+  const m = wache(mitten.map((z) => JSON.stringify(z)).join('\n') + '\n', '2026-10-19T12:00:00Z')
+  assert.equal(mit(m.zeilen, /crunchyroll/).length, 0)
+  assert.equal(m.code, 0)
+  assert.equal(mit(m.zeilen, /ℹ\s+pendelte von/).length, 1)
+}
+
 // --- Gegenfälle ---------------------------------------------------------------------------------------------------------
 {
   // Einmaliger echter Verlust bleibt gemeldet (eigene Auffälligkeit der Zeile, kein Pendeln).

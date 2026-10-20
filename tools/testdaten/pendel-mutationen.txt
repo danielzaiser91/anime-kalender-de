@@ -47,6 +47,8 @@ Date.parse(e.art === 'pendel' ? e.zeitpunkt : e.zeile.zeitpunkt) >= grenze ⟶ D
 Date.parse(e.art === 'pendel' ? e.zeitpunkt : e.zeile.zeitpunkt) >= grenze ⟶ Date.parse(e.art === 'pendel' ? e.zeile : e.zeile.zeitpunkt) >= grenze
 if (e.erklaert.length) ⟶ if (false)
 if (e.auffaellig.length) ⟶ if (false)
+if (still && !ALLES && !e.auffaellig.length) ⟶ if (still && !ALLES)
+if (still && !ALLES && !e.auffaellig.length) ⟶ if (still && !ALLES && e.auffaellig.length)
 ereignisse(zeilen).filter ⟶ zeilen.map((zeile) => ({ art: 'zeile', zeile, auffaellig: zeile.auffaellig ?? [], erklaert: zeile.erklaert ?? [], netto: false })).filter
 ## tools/wache-tagebuch.mjs
 if (befund && alt.some ⟶ if (alt.some
