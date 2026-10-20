@@ -96,6 +96,11 @@ console.log('\nWiderlegung und deutsche Folgen danach:')
   eigenerWeg.streams[0].dubRanges = [{ from: 1, to: 5, dub: true }]
   const gelost = loeseGeteilteWegeVonWiderlegten([release(900005, '2026-10-18')], eigeneBereiche, crDub)
   pruefe('Weg mit eigenen Bereichen bleibt unangetastet', gelost === 0 && eigenerWeg.streams[0].dub === true && JSON.stringify(eigenerWeg.streams[0].dubRanges) === ranges(1, 5), eigenerWeg.streams[0])
+  const cour = reihe(900007, URL_F)
+  const cour2 = { ...cour.get(900007)!, id: 900008, titleDe: 'Reihe: Staffel 3 Teil 2', streams: [{ platform: 'crunchyroll', url: URL_F, dub: true, sharedWith: 3 }] } as unknown as Title
+  cour.set(900008, cour2)
+  loeseGeteilteWegeVonWiderlegten([release(900008, '2026-10-18')], cour, crDub)
+  pruefe('Titel nur Teil einer Staffel (Cour 2): Staffelnummer trägt die Folgen nicht, Weg gelöst', cour2.streams[0].dub === undefined && !cour2.streams[0].dubRanges, cour2.streams[0])
   const ungeteilt = reihe(900006, URL_C)
   ungeteilt.get(900006)!.streams[0].sharedWith = 1
   const geloest = loeseGeteilteWegeVonWiderlegten([release(900006, '2026-10-18')], ungeteilt, crDub)
