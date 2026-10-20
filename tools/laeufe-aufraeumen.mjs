@@ -40,6 +40,12 @@ async function stillstandMelden() {
 }
 
 /**
+ * Der Untersucher läuft nur nach rotem Bau, spätere Läufe sind `skipped`; sein "grün danach" misst der Bau selbst
+ * (20.10.2026: Warnung "PR deckt den Fehler ab" stand nach grünem Bau weiter).
+ */
+const GRUEN_MISST_AN = { 'Claude — roten Datenlauf untersuchen': 'bestand-bauen.yml' }
+
+/**
  * Jüngster erfolgreicher Lauf je Workflow, einzeln gefragt: Die letzten 60 Läufe aller Workflows reichten am 18.10.2026
  * nur eine Stunde zurück, jeder seltenere Workflow galt so als rot. Ein Name ohne GitHub-Workflow fehlt in der Map.
  */
@@ -47,7 +53,7 @@ function letzterGruenJe(namen) {
   const gruen = new Map()
   for (const name of namen) {
     try {
-      const [lauf] = JSON.parse(gh('run', 'list', '--repo', REPO, '--workflow', name, '--status', 'success', '--limit', '1', '--json', 'createdAt'))
+      const [lauf] = JSON.parse(gh('run', 'list', '--repo', REPO, '--workflow', GRUEN_MISST_AN[name] ?? name, '--status', 'success', '--limit', '1', '--json', 'createdAt'))
       if (lauf) gruen.set(name, lauf.createdAt)
     } catch {}
   }

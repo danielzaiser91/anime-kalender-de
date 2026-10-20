@@ -88,7 +88,7 @@ const FEHLERZEIT = '2026-10-18T09:00:00Z'
 // Rote App-Läufe (A2): der passende in der Mitte, sein Workflow steht nicht im Verlauf.
 const appLauf = (lauf_id, workflow, zustand, gemeldet_am) => ({ lauf_id, workflow, zustand, gemeldet_am })
 const appRot = [appLauf(71, 'Andere', 'fehler', '2026-10-18T10:00:00Z'), appLauf(72, 'Nachzügler', 'fehler', '2026-10-18T11:00:00Z'), appLauf(73, 'Nachzügler', 'warnung', '2026-10-18T13:00:00Z')]
-const rotAntwort = JSON.stringify({ laeufe: appRot, verlauf: { Bestand: [eintrag('ok', '2026-10-18T08:00:00Z'), eintrag('fehler', FEHLERZEIT)], Sammler: [eintrag('ok', FEHLERZEIT)] } })
+const rotAntwort = JSON.stringify({ laeufe: appRot, verlauf: { Bestand: [eintrag('ok', '2026-10-18T08:00:00Z'), eintrag('fehler', FEHLERZEIT)], Sammler: [eintrag('ok', FEHLERZEIT)], 'Claude — roten Datenlauf untersuchen': [eintrag('warnung', FEHLERZEIT)] } })
 const STUNDE = 3_600_000
 const mitCommitVor = (stunden, gruenAm = '2026-10-17T00:00:00Z', ghWirftFuer = '') => {
   const datum = new Date(Date.now() - stunden * STUNDE).toISOString()
@@ -98,6 +98,7 @@ const mitCommitVor = (stunden, gruenAm = '2026-10-17T00:00:00Z', ghWirftFuer = '
     { workflowName: 'Bestand', conclusion: 'success', createdAt: gruenAm },
     { workflowName: 'Bestand', conclusion: 'failure', createdAt: '2026-10-18T23:30:00Z' },
     { workflowName: 'Nachzügler', conclusion: 'success', createdAt: '2026-10-18T12:00:00Z' },
+    { workflowName: 'bestand-bauen.yml', conclusion: 'success', createdAt: gruenAm },
   ])
   const stub =
     'import cp from "node:child_process";import {syncBuiltinESMExports} from "node:module";' +
@@ -109,6 +110,10 @@ const rot = mitCommitVor(20)
 assert.equal(rot.status, 0)
 assert.match(rot.stdout, /^ROT im Verlauf: Bestand — letzter Lauf fehler am 2026-10-18T09:00:00Z \(vor -?[\d.]+ h, kein grüner Lauf danach\)$/m)
 assert.doesNotMatch(rot.stdout, /ROT im Verlauf: Sammler/)
+// Untersucher-Warnung: nur der grüne Bestandsbau danach hebt sie auf (der Untersucher selbst hat keine grünen Läufe).
+assert.match(rot.stdout, /^ROT im Verlauf: Claude — roten Datenlauf untersuchen /m)
+assert.doesNotMatch(mitCommitVor(20, '2026-10-18T09:30:00Z').stdout, /Claude — roten/)
+assert.match(mitCommitVor(20, '2026-10-18T09:30:00Z', 'bestand-bauen.yml').stdout, /^ROT im Verlauf: Claude — roten /m)
 // Grüner Lauf nach dem Fehler: keine ROT-Zeile (Gegenprobe gegen `gh run list`).
 assert.doesNotMatch(mitCommitVor(20, '2026-10-18T09:30:00Z').stdout, /ROT im Verlauf/)
 // gh-Ausfall für einen Workflow (A1): der grüne Lauf danach ist unbekannt, die Zeile bleibt.
