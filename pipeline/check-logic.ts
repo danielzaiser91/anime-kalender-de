@@ -3543,7 +3543,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     '… sondern vergleicht die Adresse des Belegs',
-    /if \(beleg && \(!beleg\.url \|\| adressGleich\(beleg\.url, seite \?\? undefined\)\)\) continue/.test(bau),
+    /if \(beleg \? !beleg\.url \|\| adressGleich\(beleg\.url, seite \?\? undefined\) : kanalAdresseGemerkt\(/.test(bau),
     'der Adressvergleich fehlt',
   )
   pruefe(
@@ -3875,7 +3875,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     man hört auf hinzusehen, und die echte Störung geht darin unter.
   */
   {
-    const wache = readFileSync('pipeline/bestand-historie.ts', 'utf8')
+    const wache = readFileSync('pipeline/lib/bestand-delta.ts', 'utf8')
     pruefe(
       'die Wache rechnet begründet entfernte Verweise heraus',
       wache.includes('entferntProtokolliert') && wache.includes('wegUnerklaert'),
