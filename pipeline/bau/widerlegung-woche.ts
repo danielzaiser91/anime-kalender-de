@@ -23,6 +23,7 @@
  */
 import { readJson, writeJson, log } from '../lib/util.ts'
 import { crunchyrollSeriesId } from '../lib/crunchyroll.ts'
+import type { CrDubData } from '../lib/crunchyroll-dub.ts'
 import { addDays } from '../../shared/time.ts'
 import type { Release, Title } from '../../shared/types.ts'
 
@@ -131,13 +132,34 @@ export function sammleWiderlegungen(
   return { anzahl, gedaechtnis: neu }
 }
 
+/** Die deutschen Folgen der Serie unter `url`, die der Katalog am Tag `ab` oder später führt, als zusammenhängende Bereiche. */
+export function deutscheBereicheSeit(crDub: CrDubData, url: string | undefined, ab: string): { from: number; to: number; dub: boolean }[] {
+  const serie = crDub.serien.find((e) => e.katalog === 'de' && e.url === url)
+  const nummern = (serie?.staffeln ?? [])
+    .flatMap((st) => st.deutscheFolgen ?? [])
+    .filter((f) => f.verfuegbarAb !== undefined && f.verfuegbarAb.slice(0, 10) >= ab)
+    .map((f) => f.nummer)
+    .filter((n): n is number => Number.isInteger(n) && (n as number) > 0)
+  const bereiche: { from: number; to: number; dub: boolean }[] = []
+  for (const n of [...new Set(nummern)].sort((a, b) => a - b)) {
+    const letzter = bereiche.at(-1)
+    if (letzter && letzter.to === n - 1) letzter.to = n
+    else bereiche.push({ from: n, to: n, dub: true })
+  }
+  return bereiche
+}
+
 /**
  * Ein geteilter Reihen-Weg belegt kein Deutsch für eine Staffel, deren deutsche
  * Termine auf diesem Anbieter **alle** widerlegt sind. Das `dub: true` gehört dann
  * den Schwesterstaffeln (die Serienkennung ist ein Franchise); für diese Staffel
  * bleibt die Sprache offen, statt an der Pille „DE ✓" neben „widerlegt" zu stehen.
+ *
+ * Führt der Crunchyroll-Katalog (`crDub`) für den Weg aber deutsche Folgen ab dem Tag der
+ * Widerlegung oder später, ist die Widerlegung veraltet (Reincarnated Aristocrat S3, Folge 1
+ * deutsch ab 18.10.2026): Der Weg bleibt und trägt genau diese Folgen als `dubRanges`.
  */
-export function loeseGeteilteWegeVonWiderlegten(releases: Release[], titles: Map<number, Title>): number {
+export function loeseGeteilteWegeVonWiderlegten(releases: Release[], titles: Map<number, Title>, crDub: CrDubData): number {
   const jeTitelPlattform = new Map<string, Release[]>()
   for (const r of releases) {
     const k = `${r.titleId}|${r.platform}`
@@ -147,8 +169,14 @@ export function loeseGeteilteWegeVonWiderlegten(releases: Release[], titles: Map
   for (const [k, liste] of jeTitelPlattform) {
     if (!liste.every((r) => r.widerlegt)) continue
     const [id, plattform] = k.split('|')
+    const spaetester = liste.map((r) => r.widerlegt!.am).sort().at(-1)!
     for (const s of titles.get(Number(id))?.streams ?? []) {
       if (s.platform !== plattform || s.dub !== true || (s.sharedWith ?? 0) < 2 || s.dubRanges?.length) continue
+      const bereiche = deutscheBereicheSeit(crDub, s.url, spaetester)
+      if (bereiche.length) {
+        s.dubRanges = bereiche
+        continue
+      }
       delete s.dub
       geloest++
     }
@@ -170,7 +198,8 @@ export function widerlegeDeutscheTermine(releases: Release[], titles: Map<number
     const gemerkt = neu[r.slug]
     if (gemerkt) r.widerlegt = gemerkt
   }
-  loeseGeteilteWegeVonWiderlegten(releases, titles)
+  const crDub = readJson<CrDubData>('data/crunchyroll-dub.json', { scrapedAt: '', serien: [] })
+  loeseGeteilteWegeVonWiderlegten(releases, titles, crDub)
   writeJson(DATEI, neu, true)
   log(`${anzahl} deutsche Termin(e) durch das Wochenprogramm neu widerlegt, ${Object.keys(neu).length} im Gedächtnis`)
   return anzahl
