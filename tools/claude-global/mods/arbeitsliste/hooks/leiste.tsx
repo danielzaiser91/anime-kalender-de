@@ -11,7 +11,7 @@ export type LeisteStand = {
   jetzt: number
   // Endzeit „23:30“ des autonomen Modus, null = aus.
   autonomBis: string | null
-  // „hart“: höchstens 1 Agent sofort; „sanft“: Laufende enden, die Sanduhr steht, bis höchstens 1 übrig ist.
+  // „hart“: höchstens 2 Agenten sofort; „sanft“ (Standard): Laufende enden, die Sanduhr steht, bis höchstens 2 übrig sind.
   ruhe: 'hart' | 'sanft' | null
   // Sparmodus (Daniel, 19.10.2026): nur günstige Subagenten, solange die Markerdatei existiert.
   spar: boolean
@@ -32,7 +32,7 @@ function ball(ui: any, key: string, an: boolean, themenfarbe: string) {
   )
 }
 
-// Sanduhr neben dem Ruhe-Ball (Daniel, 11.10.2026): Ruhemodus sanft wartet, bis höchstens 1 Agent läuft; Prüfer zählen nicht (14.10.2026).
+// Sanduhr neben dem Ruhe-Ball (Daniel, 11.10.2026): Ruhemodus sanft wartet, bis höchstens 2 Agenten laufen; Prüfer zählen nicht (14.10.2026).
 function sanduhr(ui: any) {
   const { Text } = ui
   return (
@@ -59,7 +59,7 @@ export function baueLeiste(ui: any, s: LeisteStand) {
       <Button key="oeffnen" plain label={`Arbeitsliste ${s.jetzt}`} onPress={s.oeffneListe} />
       {ball(ui, 'ball-autonom', !!s.autonomBis, 'success')}
       {ball(ui, 'ball-ruhe', !!s.ruhe, 'warning')}
-      {s.ruhe === 'sanft' && s.agenten > 1 ? sanduhr(ui) : null}
+      {s.ruhe === 'sanft' && s.agenten > 2 ? sanduhr(ui) : null}
       {ball(ui, 'ball-spar', s.spar, 'suggestion')}
       {s.lecks ? lecksAnzeige(ui, s.lecks) : null}
     </Box>

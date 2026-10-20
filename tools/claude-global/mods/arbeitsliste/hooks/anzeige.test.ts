@@ -106,7 +106,7 @@ test('Leiste: Ruhemodus an ist der zweite Ball gefüllt, der erste leer', async 
 })
 
 
-test('Leiste: Ruhemodus sanft zeigt die Sanduhr, solange mehr als 1 Agent läuft', async ($, on) => {
+test('Leiste: Ruhemodus sanft zeigt die Sanduhr, solange mehr als 2 Agenten laufen', async ($, on) => {
   starte(on, null, [], true, STAND, 'sanft', 3)
   await $.session.start({ cwd: 'C:/x', surface: 'desktop', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'desktop' })
@@ -116,33 +116,43 @@ test('Leiste: Ruhemodus sanft zeigt die Sanduhr, solange mehr als 1 Agent läuft
   await band.unmount()
 })
 
-test('Leiste: Ruhemodus sanft ohne Sanduhr, sobald höchstens 1 Agent läuft', async ($, on) => {
-  starte(on, null, [], true, STAND, 'sanft', 1)
+test('Leiste: Ruhemodus sanft ohne Sanduhr, sobald höchstens 2 Agenten laufen', async ($, on) => {
+  starte(on, null, [], true, STAND, 'sanft', 2)
   await $.session.start({ cwd: 'C:/x', surface: 'desktop', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'desktop' })
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s).toBe('Agents 1Arbeitsliste 0○◉○')
+  expect(reihe.s).toBe('Agents 2Arbeitsliste 0○◉○')
   await band.unmount()
 })
 
-test('Leiste: Ruhemodus sanft zählt Prüfer nicht — 1 Agent und 2 Prüfer ohne Sanduhr', async ($, on) => {
-  starte(on, null, [], true, STAND, 'sanft', 3, null, 2)
+test('Leiste: Ruhemodus sanft zählt Prüfer nicht — 2 Agenten und 2 Prüfer ohne Sanduhr', async ($, on) => {
+  starte(on, null, [], true, STAND, 'sanft', 4, null, 2)
   await $.session.start({ cwd: 'C:/x', surface: 'desktop', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'desktop' })
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s).toBe('Agents 1+2Arbeitsliste 0○◉○')
+  expect(reihe.s).toBe('Agents 2+2Arbeitsliste 0○◉○')
   await band.unmount()
 })
 
-test('Leiste: Markerdatei „hart“ oder leer heißt Ruhemodus hart', async ($, on) => {
+test('Leiste: Markerdatei „hart“ zeigt keine Sanduhr', async ($, on) => {
   starte(on, null, [], true, STAND, 'hart', 3)
   await $.session.start({ cwd: 'C:/x', surface: 'desktop', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'desktop' })
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
   expect(reihe.s).toBe('Agents 3Arbeitsliste 0○◉○')
+  await band.unmount()
+})
+
+test('Leiste: leere Markerdatei gilt als sanft, bei 3 Agenten steht die Sanduhr', async ($, on) => {
+  starte(on, null, [], true, STAND, true, 3)
+  await $.session.start({ cwd: 'C:/x', surface: 'desktop', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'desktop' })
+  const reihe = { s: '' }
+  zeilen(await band.drawn(), [], reihe)
+  expect(reihe.s).toBe('Agents 3Arbeitsliste 0○◉⧗○')
   await band.unmount()
 })
 

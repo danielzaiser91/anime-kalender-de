@@ -48,9 +48,9 @@ const regeln = atom({ plugin: 'arbeitsliste', key: 'regeln' } as const, [] as Re
 // Minute der letzten Neuzeichnung: der Countdown „in 13 h 45 min“ ändert sich nur beim Minutenwechsel.
 const minute = atom({ plugin: 'arbeitsliste', key: 'minute' } as const, 0)
 const autonomBis = atom({ plugin: 'arbeitsliste', key: 'autonomBis' } as const, null as string | null)
-// Ruhemodus (Daniel, 10.10.2026): solange die Markerdatei existiert, höchstens ein Agent.
+// Ruhemodus (Daniel, 10.10.2026): solange die Markerdatei existiert, höchstens zwei Agenten.
 const RUHE_MARKER = 'C:/Users/ih/.claude/ruhemodus.txt'
-// Ruhemodus aus der Markerdatei: „sanft“ (Laufende enden, keine neuen) oder „hart“ (Standard, auch bei leerer Datei).
+// Ruhemodus aus der Markerdatei: „hart“ (sofort höchstens 2) oder „sanft“ (Laufende enden, keine neuen; Standard seit 20.10.2026, auch bei leerer Datei).
 type Ruhe = 'hart' | 'sanft' | null
 const ruhe = atom({ plugin: 'arbeitsliste', key: 'ruhe' } as const, null as Ruhe)
 // Sparmodus (Daniel, 19.10.2026): solange die Markerdatei existiert, nur Sonnet mittel und Haiku als Subagenten.
@@ -95,7 +95,7 @@ async function lieseAutonomBis($: EngineInterface): Promise<string | null> {
 async function lieseRuhe($: EngineInterface): Promise<Ruhe> {
   try {
     const inhalt = ((await $.fs.read(RUHE_MARKER)) as string).trim().toLowerCase()
-    return inhalt === 'sanft' ? 'sanft' : 'hart'
+    return inhalt === 'hart' ? 'hart' : 'sanft'
   } catch {
     return null
   }
@@ -455,7 +455,7 @@ function paneAutonom(a: Ansicht, d: PaneDaten) {
 function paneRuhe(a: Ansicht, d: PaneDaten) {
   const { Text } = a
   if (!d.still) return null
-  return <Text color="warning">{d.still === 'sanft' ? '🔇 Ruhemodus sanft: Laufende enden, dann höchstens 1 Agent (Prüfer zählen nicht)' : '🔇 Ruhemodus hart: höchstens 1 Agent (Prüfer zählen nicht)'}</Text>
+  return <Text color="warning">{d.still === 'sanft' ? '🔇 Ruhemodus sanft: Laufende enden, dann höchstens 2 Agenten (Prüfer zählen nicht)' : '🔇 Ruhemodus hart: höchstens 2 Agenten (Prüfer zählen nicht)'}</Text>
 }
 
 function paneSpar(a: Ansicht, d: PaneDaten) {
