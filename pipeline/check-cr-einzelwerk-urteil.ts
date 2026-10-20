@@ -33,6 +33,7 @@ pruefe('Altdaten: exakter Name (Normalisierung) ist Ja', einzelwerkBelegt({ ...e
 pruefe('ohne de-DE kein Ja', !einzelwerkBelegt(mitArt({ ...organ, treffer: { titel: 'Genocidal Organ', audio: ['ja-JP'] } }, 'movie_listing')))
 pruefe('ohne Treffer kein Ja', !einzelwerkBelegt({ titel: 'X', treffer: null }))
 
+pruefe('nicht-lateinischer Titel, Serie, de-DE: kein Ja', !einzelwerkBelegt({ titel: '進撃', treffer: { titel: '進撃の巨人', art: 'series', audio: DE } }))
 console.log('Sammler-Abgleich (katalogTrefferPasst)')
 const namen = (e: { titel: string; en?: string; romaji?: string }) => [e.titel, e.en, e.romaji].filter(Boolean) as string[]
 pruefe('Serie "Dorohedoro": kein Treffer', !katalogTrefferPasst({ title: 'Dorohedoro', type: 'series' }, namen(dorohedoro)).passt)
@@ -44,6 +45,7 @@ pruefe('Film-Teil-Abgleich: Treffer, nicht exakt', teilFilm.passt && !teilFilm.e
 pruefe('Serie mit exaktem Namen: Treffer', katalogTrefferPasst({ title: 'Dorohedoro', type: 'series' }, ['Dorohedoro']).passt)
 pruefe('Teil unter sechs Zeichen: kein Treffer', !katalogTrefferPasst({ title: 'Prelu', type: 'movie_listing' }, ['Fruits Basket Prelu x']).passt)
 
+pruefe('nicht-lateinischer Titel: kein exakter Treffer im Sammler', !katalogTrefferPasst({ title: '進撃', type: 'series' }, ['進撃']).passt)
 console.log('Bau-Lauf (belegeEinzelwerke)')
 const mk = (id: number) => ({ id, streams: [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/x' }] })
 const titles = new Map([114622, 106169, 20919, 5].map((id) => [id, mk(id)])) as never

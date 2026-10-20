@@ -12,7 +12,7 @@ const norm = (s: string | undefined) => (s ?? '').toLowerCase().replace(/[^a-z0-
 
 /** Sammler: passt der Katalogeintrag zu einem unserer Namen? `exakt` oder Teil-Abgleich (nie gegen eine Serie). */
 export function katalogTrefferPasst(it: { title?: string; type?: string }, namen: string[]): { passt: boolean; exakt: boolean } {
-  const exakt = namen.some((n) => norm(it.title) === norm(n))
+  const exakt = norm(it.title) !== '' && namen.some((n) => norm(it.title) === norm(n))
   const teil = it.type !== 'series' && norm(it.title).length >= 6 && namen.some((n) => norm(n).includes(norm(it.title)))
   return { passt: exakt || teil, exakt }
 }
@@ -30,7 +30,7 @@ export function katalogTrefferPasst(it: { title?: string; type?: string }, namen
 export function einzelwerkBelegt(eintrag: EinzelwerkEintrag): boolean {
   const t = eintrag.treffer
   if (!t?.audio?.includes('de-DE')) return false
-  const exakt = [eintrag.titel, eintrag.en, eintrag.romaji].some((n) => n && norm(n) === norm(t.titel))
+  const exakt = [eintrag.titel, eintrag.en, eintrag.romaji].some((n) => norm(n) !== '' && norm(n) === norm(t.titel))
   if (exakt) return true
   return t.art !== undefined && t.art !== 'series'
 }
