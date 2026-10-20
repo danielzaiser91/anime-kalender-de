@@ -7,17 +7,12 @@ import { readFileSync } from 'node:fs'
 import type { EmpfehlungsDatei } from '../shared/empfehlung-pool.ts'
 import { antworteSitzung, DUELLE_START, naechstesPaar, neueSitzung, neuerZustand, vorschlaege, zurueck, type Antwort, type Sitzung } from '../shared/empfehlung-kern.ts'
 import { baueKontext } from '../shared/empfehlung-vektor.ts'
-import { brauchbareProfile, MIN_KERN, spiele } from './lib/empfehlung-simulation.ts'
+import { brauchbareProfile, MIN_KERN, schwellenFehler, spiele } from './lib/empfehlung-simulation.ts'
 
 const datei = JSON.parse(readFileSync(new URL('../public/data/empfehlung.json', import.meta.url), 'utf8')) as EmpfehlungsDatei
 const k = baueKontext(datei)
 const fehler: string[] = []
 const LAEUFE = 60
-
-/** Spezifikation 17.3: 54 % nach 6 Duellen (300 Läufe, neutral 10 %, 711 Einstiege); die Untergrenze lässt ±3 Punkte Streuung zu. */
-const MIN_TREFFERQUOTE_6 = 0.5
-/** Zufallsvorschläge treffen zu 6–15 % (17.2), Zufall plus Zählen (A0) nach 4 Duellen zu 26 %: darunter lernt der Kern nicht. */
-const ZUFALL_OBERGRENZE = 0.3
 
 /** Die Profile hängen an Schlagwortnamen; wird eines umbenannt oder selten, ist das ein Hinweis, kein Fehler des Kerns. Unter 3 Profilen misst die Wache nichts Belastbares. */
 const { profile, uebersprungen } = brauchbareProfile(k)
@@ -43,10 +38,6 @@ const q4 = quote(4)
 const q6 = quote(DUELLE_START)
 const q12 = quote(12)
 const q6neutral = quote(DUELLE_START, 0.3)
-if (q6 < MIN_TREFFERQUOTE_6) fehler.push(`Trefferquote nach 6 Duellen ${(q6 * 100).toFixed(1)} % < ${MIN_TREFFERQUOTE_6 * 100} % (Spezifikation 17.3: 54 %)`)
-if (!(q4 < q6 && q6 < q12)) fehler.push(`Trefferquote steigt nicht mit den Duellen: 4 ${q4.toFixed(3)} · 6 ${q6.toFixed(3)} · 12 ${q12.toFixed(3)}`)
-if (q4 <= ZUFALL_OBERGRENZE) fehler.push(`Trefferquote nach 4 Duellen ${q4.toFixed(3)} liegt im Bereich des Zufalls`)
-if (q6neutral < 0.4) fehler.push(`Trefferquote nach 6 Duellen bei 30 % „kann nicht“ ${(q6neutral * 100).toFixed(1)} % < 40 % (Spezifikation 17.3: 46 %)`)
 
 /** Restmenge nach 2 / 4 / 6 gewerteten Duellen, Mittel über Profile und Läufe (Spezifikation 17.3 zählt gezeigte Duelle mit 10 % neutral: 236–249 / 69–79 / 22–26, hier alle gewertet, daher kleiner). */
 const restNach = (duelle: number): number => {
@@ -58,7 +49,7 @@ const restNach = (duelle: number): number => {
   return summe / n
 }
 const rest = [2, 4, DUELLE_START].map(restNach)
-if (!(rest[0] > 120 && rest[0] < 400 && rest[1] > 35 && rest[1] < 140 && rest[2] > 12 && rest[2] < 50)) fehler.push(`Restmenge nach 2/4/6 Duellen ${rest.map((r) => r.toFixed(0)).join('/')} außerhalb 120–400 / 35–140 / 12–50`)
+fehler.push(...schwellenFehler({ q4, q6, q12, q6neutral, rest }))
 
 const ohneTeil1 = new Set(datei.einstiege.map((e, i) => (e.duell ? -1 : i)).filter((i) => i >= 0))
 let teil2 = 0

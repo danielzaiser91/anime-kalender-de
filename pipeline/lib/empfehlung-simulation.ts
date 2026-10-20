@@ -70,3 +70,29 @@ export function brauchbareProfile(k: Kontext): { profile: Profil[]; uebersprunge
     uebersprungen: alle.filter((p) => p.kern.filter(Boolean).length < MIN_KERN).map((p) => `${p.name} (${p.kern.filter(Boolean).length})`),
   }
 }
+
+export interface Messwerte {
+  q4: number
+  q6: number
+  q12: number
+  /** Trefferquote nach 6 gewerteten Duellen bei 30 % „kann nicht“. */
+  q6neutral: number
+  /** Restmenge nach 2 / 4 / 6 gewerteten Duellen. */
+  rest: number[]
+}
+
+/**
+ * Schwellen der Bestandswache. Spezifikation 17.3: 54 % nach 6 Duellen (300 Läufe, 10 % neutral), Streuung ±3 Punkte, Tagesdrift
+ * (5 % der Einstiege zufällig fort) 54–59 %, also Untergrenze 50 %. Zufall plus Zählen (A0) trifft nach 4 Duellen 26 %: darunter
+ * lernt der Kern nicht. Restmenge hier mit lauter gewerteten Duellen (186 / 52 / 16 am 20.10.2026), Bänder weit gesteckt.
+ */
+export function schwellenFehler(m: Messwerte): string[] {
+  const fehler: string[] = []
+  if (m.q6 < 0.5) fehler.push(`Trefferquote nach 6 Duellen ${(m.q6 * 100).toFixed(1)} % < 50 % (Spezifikation 17.3: 54 %)`)
+  if (!(m.q4 < m.q6 && m.q6 < m.q12)) fehler.push(`Trefferquote steigt nicht mit den Duellen: 4 ${m.q4.toFixed(3)} · 6 ${m.q6.toFixed(3)} · 12 ${m.q12.toFixed(3)}`)
+  if (m.q4 <= 0.3) fehler.push(`Trefferquote nach 4 Duellen ${m.q4.toFixed(3)} liegt im Bereich des Zufalls`)
+  if (m.q6neutral < 0.4) fehler.push(`Trefferquote nach 6 Duellen bei 30 % „kann nicht“ ${(m.q6neutral * 100).toFixed(1)} % < 40 % (Spezifikation 17.3: 46 %)`)
+  const [r2, r4, r6] = m.rest
+  if (!(r2 > 120 && r2 < 400 && r4 > 35 && r4 < 140 && r6 > 12 && r6 < 50)) fehler.push(`Restmenge nach 2/4/6 Duellen ${m.rest.map((r) => r.toFixed(0)).join('/')} außerhalb 120–400 / 35–140 / 12–50`)
+  return fehler
+}

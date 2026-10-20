@@ -9,7 +9,7 @@ import {
   UNTERGRENZE_REST, VORSCHLAEGE, vorschlaege, zurueck, type Antwort, type Zustand,
 } from '../shared/empfehlung-kern.ts'
 import { baueKontext, cos, zufall } from '../shared/empfehlung-vektor.ts'
-import { brauchbareProfile, PROFILE } from './lib/empfehlung-simulation.ts'
+import { brauchbareProfile, PROFILE, schwellenFehler, type Messwerte } from './lib/empfehlung-simulation.ts'
 
 /** Erwartete Werte fest im Test (nicht aus dem Kern importiert): sonst zöge eine Änderung der Konstante den Test mit. */
 const START = 6
@@ -330,6 +330,20 @@ console.log('\nEmpfehlung, Profile der Simulation (Wache gegen Datendrift):')
   const leer = brauchbareProfile(baueKontext(mini([])))
   pruefe('Datei ohne passende Schlagwörter: kein Profil, alle fünf übersprungen (kein Absturz)', leer.profile.length === 0 && leer.uebersprungen.length === 5, leer.uebersprungen)
   pruefe('Profilmenge fest: fünf Profile', Object.keys(PROFILE).length === 5)
+  const gut: Messwerte = { q4: 0.43, q6: 0.55, q12: 0.61, q6neutral: 0.58, rest: [186, 52, 16] }
+  const mit = (m: Partial<Messwerte>): string[] => schwellenFehler({ ...gut, ...m })
+  const restMit = (i: number, w: number): string[] => mit({ rest: gut.rest.map((r, j) => (j === i ? w : r)) })
+  pruefe('Schwellen: die Werte vom 20.10.2026 sind in Ordnung', mit({}).length === 0, mit({}))
+  pruefe('Schwelle nach 6 Duellen: 50 % gilt, 49,9 % nicht', mit({ q6: 0.5 }).length === 0 && mit({ q6: 0.499 }).length === 1)
+  pruefe('Schwelle nach 4 Duellen: 30 % ist Zufallsbereich, 30,1 % nicht', mit({ q4: 0.3 }).length === 1 && mit({ q4: 0.301 }).length === 0)
+  pruefe('Anstieg: gleiche Quote nach 6 und 12 Duellen ist ein Fehler', mit({ q12: 0.55 }).length === 1 && mit({ q12: 0.551 }).length === 0)
+  pruefe('Anstieg: gleiche Quote nach 4 und 6 Duellen ist ein Fehler', mit({ q4: 0.55 }).length === 1)
+  pruefe('Schwelle bei 30 % neutral: 40 % gilt, 39,9 % nicht', mit({ q6neutral: 0.4 }).length === 0 && mit({ q6neutral: 0.399 }).length === 1)
+  const grenzen = [[0, 120, 400], [1, 35, 140], [2, 12, 50]] as const
+  for (const [i, unten, oben] of grenzen) {
+    pruefe(`Restmenge nach ${[2, 4, 6][i]} Duellen: ${unten} und ${oben} sind schon außerhalb, ${unten + 1} und ${oben - 1} nicht`, restMit(i, unten).length === 1 && restMit(i, oben).length === 1 && restMit(i, unten + 1).length === 0 && restMit(i, oben - 1).length === 0)
+  }
+  pruefe('mehrere Verstöße ergeben mehrere Meldungen', mit({ q6: 0.4, q6neutral: 0.3 }).length >= 2)
 }
 
 console.log('\nEmpfehlung, Zufall, Abzüge und Rangfolge (Gegenproben):')
