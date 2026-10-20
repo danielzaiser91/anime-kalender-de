@@ -94,15 +94,18 @@ const heuteBefund = { status: 200, geprueftAm: TAG }
 const zeilen: string[] = []
 const gemeldet: unknown[][] = []
 const spion = (...a: unknown[]) => void gemeldet.push(a)
-fortschritt(99, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), spion, TAG)
-fortschritt(101, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), spion, TAG)
-assert.equal(zeilen.length + gemeldet.length, 0, 'bei 99 und 101 weder Zeile noch Meldung')
-fortschritt(100, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), spion, TAG)
+let gesichert = 0
+const sichere = () => void gesichert++
+fortschritt(99, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), sichere, spion, TAG)
+fortschritt(101, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), sichere, spion, TAG)
+assert.equal(zeilen.length + gemeldet.length + gesichert, 0, 'bei 99 und 101 weder Zeile noch Meldung noch Sicherung')
+fortschritt(100, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), sichere, spion, TAG)
+assert.equal(gesichert, 1, 'bei 100 werden die Befunde gesichert')
 assert.deepEqual(zeilen, ['  100/300 — 4 unbrauchbar'], 'bei 100 die Fortschrittszeile mit den übergebenen Zahlen')
 assert.deepEqual(gemeldet[0], ['link-check', 1, undefined, undefined, false], 'bei 100 der Zwischenstand')
 const reihenfolge: string[] = []
-await pauseMitStand(7, { u: heuteBefund }, async (ms) => void reihenfolge.push(`warte ${ms}`), (...a: unknown[]) => void reihenfolge.push(`melde ${a[1]}`), TAG)
-assert.deepEqual(reihenfolge, ['melde 1', 'warte 7'], 'erst melden, dann warten')
+await pauseMitStand(7, { u: heuteBefund }, async (ms) => void reihenfolge.push(`warte ${ms}`), () => void reihenfolge.push('sichere'), (...a: unknown[]) => void reihenfolge.push(`melde ${a[1]}`), TAG)
+assert.deepEqual(reihenfolge, ['sichere', 'melde 1', 'warte 7'], 'erst sichern und melden, dann warten')
 
 /* --- Abbruch in der Amazon-Pause: der echte Lauf wird getötet, die Gesundheit muss stehen --- */
 const wurzel = resolve(import.meta.dirname, '..')
@@ -111,6 +114,10 @@ mkdirSync(join(tmp, 'public', 'data'), { recursive: true })
 const titel = [{ streams: [{ platform: 'netflix', url: 'https://www.netflix.com/title/1' }, { platform: 'netflix', url: 'https://www.netflix.com/title/2' }] }]
 for (let i = 0; i < 25; i++) titel.push({ streams: [{ platform: 'primevideo', url: `https://www.amazon.de/gp/video/detail/B${i}` }] })
 writeFileSync(join(tmp, 'public', 'data', 'titles.json'), JSON.stringify(titel))
+/* Ein alter, in diesem Lauf nicht neu geprüfter Befund darf im Zwischenstand nicht fehlen. */
+mkdirSync(join(tmp, 'data'), { recursive: true })
+const ALT = 'https://www.disneyplus.com/alt'
+writeFileSync(join(tmp, 'data', 'link-check.json'), JSON.stringify({ [ALT]: { status: 404, geprueftAm: '2999-12-31' } }))
 /* Netflix antwortet 404 (echte Auskunft), Amazon liefert 200 ohne Produktseite (unklar → Sperre nach 20). */
 const stub = join(tmp, 'fetch-stub.mjs')
 writeFileSync(stub, `globalThis.fetch = async (u) => String(u).includes('netflix') ? new Response('', { status: 404 }) : new Response('<html></html>', { status: 200 })\n`)
@@ -134,6 +141,13 @@ const eintrag = (JSON.parse(readFileSync(gesundheit, 'utf8')) as Record<string, 
 assert.ok(eintrag, 'link-check ist eingetragen')
 assert.equal(eintrag.lastCount, 2, 'gezählt werden die zwei Netflix-Auskünfte, nicht die 20 Nichtauskünfte')
 assert.ok(eintrag.lastOk, 'mit echten Auskünften ist lastOk gesetzt')
+const zwischen = JSON.parse(readFileSync(join(tmp, 'data', 'link-check.json'), 'utf8')) as Record<string, { status: unknown; geprueftAm?: string }>
+const adressen = Object.keys(zwischen).sort()
+const erwartet = [ALT, 'https://www.netflix.com/title/1', 'https://www.netflix.com/title/2', ...Array.from({ length: 20 }, (_, i) => `https://www.amazon.de/gp/video/detail/B${i}`)].sort()
+assert.deepEqual(adressen, erwartet, 'nach Abbruch stehen die 22 Befunde vor der Pause plus der alte Befund')
+assert.equal(zwischen[ALT].geprueftAm, '2999-12-31', 'alter Befund unverändert')
+assert.equal(zwischen['https://www.netflix.com/title/1'].status, 404, 'Netflix-Befund steht')
+assert.equal(zwischen['https://www.amazon.de/gp/video/detail/B0'].status, 'unklar', 'Amazon-Nichtauskunft steht')
 rmSync(tmp, { recursive: true, force: true })
 
 /* --- 100er-Takt im echten Lauf: 150 Adressen, ab der 101. hängt die Attrappe; nach Adresse 100 muss der Stand stehen --- */
@@ -159,5 +173,7 @@ await beendet2
 assert.ok(existsSync(gesundheit2), `nach Adresse 100 steht eine Gesundheit:\n${ausgabe2}`)
 const eintrag2 = (JSON.parse(readFileSync(gesundheit2, 'utf8')) as Record<string, { lastCount: number }>)['link-check']
 assert.equal(eintrag2.lastCount, 100, 'Zwischenstand nach genau 100 Auskünften')
+const befunde2 = JSON.parse(readFileSync(join(tmp2, 'data', 'link-check.json'), 'utf8')) as Record<string, unknown>
+assert.equal(Object.keys(befunde2).length, 100, 'nach Adresse 100 stehen genau 100 Befunde in link-check.json')
 rmSync(tmp2, { recursive: true, force: true })
 console.log('quellen-gesundheit.test: grün (Leser, Zwischenstand, Abbruch in der Pause)')
