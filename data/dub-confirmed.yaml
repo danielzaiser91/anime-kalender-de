@@ -31674,7 +31674,7 @@
   kanalMessung: ja
   checkedAt: '2026-10-13'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D36DMW2Y: alle 26 Folgen geprüft, Abos: animedigitalde, zugang=abo, gti=amzn1.dv.gti.813ff4bd-0229-4b33-aa3f-943e80907aed — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-# Summenseite: Prime zählt Haikyu!! Staffel 4 durch (1–13 TO THE TOP, 14–25 Part 2, 26–27 An Land vs. in der Luft). Der Ton der Folgen 14–25 gehört deshalb an 113538 (Folge 1–12), nicht an 106625; 26–27 trägt die Quelle nicht.
+# Summenseite: Prime zählt Haikyu!! Staffel 4 durch (1–13 TO THE TOP, 14–25 Part 2, 26–27 An Land vs. in der Luft). Der Ton der Folgen 14–25 gehört an 113538 (Folge 1–12), nicht an 106625; 26–27 trägt die Quelle nicht. Ein eigener Prime-Beleg für 113538 auf dieser Adresse ist bewusst nicht angelegt: Eine zweite Zeile mit derselben Seite wirft 106625s Meldungen als „fremde Adresse“ aus dem Bau und hängt 106625 die Haikyu!!-Seite B0D36DMW2Y an (Bau-Vergleich 20.10.2026).
 - anilistId: 106625
   title: "Haikyu!! To the Top"
   platform: primevideo
@@ -31688,19 +31688,6 @@
   kanalMessung: ja
   checkedAt: '2026-10-13'
   note: "Folgen 1–13 mit deutschem Ton — Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D2NL5GYX: alle 27 Folgen geprüft, Abos: animedigitalde, zugang=abo, gti=amzn1.dv.gti.bb2bf86a-9566-4072-b0d0-69a11f6eafb1 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 113538
-  title: "Haikyu!! To the Top Cour 2"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0D2NL5GYX
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-  kanalMessung: ja
-  checkedAt: '2026-10-13'
-  note: "Folgen 1–12 mit deutschem Ton (Prime-Folgen 14–25 der Summenseite, auf Part 2 umgerechnet) — Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D2NL5GYX: alle 27 Folgen geprüft, Abos: animedigitalde, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 - anilistId: -204684
   title: "Oddballs: Die seltsamen Abenteuer von James & Max"
   platform: netflix
