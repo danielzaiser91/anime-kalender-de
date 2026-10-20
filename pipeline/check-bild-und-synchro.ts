@@ -85,6 +85,7 @@ const dubs: Record<string, string> = { 900101: 'd', 900102: 'c', 900103: 'p', 90
 setzeMarkenFuerPruefung(dubs)
 const idMit = (kz: string) => Number(Object.keys(dubs).find((k) => dubs[k] === kz))
 pruefe('Dub-Liste d: ohne Sprachblock entsteht trotzdem eine Synchro-Marke', mitDubKennzeichen(idMit('d'), undefined)?.synchro === true)
+pruefe('Dub-Liste d: vertont heißt nicht Teilsynchro', mitDubKennzeichen(idMit('d'), undefined)?.teil === undefined)
 pruefe('Dub-Liste c: Synchro und Teilmarke', mitDubKennzeichen(idMit('c'), undefined)?.teil === true)
 pruefe('Dub-Liste -: der Termin bleibt, wie er ist', mitDubKennzeichen(idMit('-'), undefined) === undefined)
 /* Dragon Hatchling: der deutsche Block wiederholt den Japan-Zeitraum, die Marke steht auf „Geplant“. */
