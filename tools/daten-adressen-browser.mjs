@@ -17,8 +17,9 @@ const DIST = path.resolve(arg('--dist') ?? path.join(import.meta.dirname, '..', 
 const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.webmanifest': 'application/manifest+json' }
 const EIN_PUNKT = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64')
 
-async function start(browser, hash) {
+async function start(browser, hash, zeit) {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 780 }, serviceWorkers: 'block' })
+  await ctx.clock.setFixedTime(zeit)
   const anfragen = []
   await ctx.route('**/*', async (route) => {
     const url = new URL(route.request().url())
@@ -45,17 +46,17 @@ async function main() {
   }
   const dateien = JSON.parse(readFileSync(path.join(DIST, 'data', 'meta.json'), 'utf8')).dateien ?? {}
   const version = JSON.parse(readFileSync(path.join(DIST, 'version.json'), 'utf8')).v
+  // Feste Uhr mitten in der Woche von woche.json: so wählt das Vorlade-Skript den Wochen-Pfad an jedem Tag, die Probe schaltet sich nie ab.
+  const woche = JSON.parse(readFileSync(path.join(DIST, 'data', 'woche.json'), 'utf8'))
+  const zeit = new Date(`${woche.von}T12:00:00Z`)
   const browser = await chromium.launch()
   const fehler = []
   const zeilen = []
   for (const [name, hash, erwartetWoche] of [['voll', '#/datenbank', false], ['Woche', '#/woche', true]]) {
-    const r = await start(browser, hash)
+    const r = await start(browser, hash, zeit)
     zeilen.push(`${name}: ${r.anfragen.length} Datenabrufe, ${r.vorgeladen.length} vorgeladen`)
     if (!erwartetWoche && r.wochenpfad) fehler.push(`${name}: Wochen-Pfad statt der vollen Dateien`)
-    if (erwartetWoche && !r.wochenpfad) {
-      zeilen.push('Wochen-Pfad übersprungen (woche.json deckt das heutige Datum nicht ab)')
-      continue
-    }
+    if (erwartetWoche && !r.wochenpfad) fehler.push(`${name}: Wochen-Pfad nicht gewählt, die Probe hätte nichts gemessen`)
     for (const f of bewerteAnfragen(r.anfragen, r.vorgeladen, dateien, version)) fehler.push(`${name}: ${f}`)
   }
   await browser.close()
