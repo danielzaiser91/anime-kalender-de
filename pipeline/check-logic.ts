@@ -3352,7 +3352,9 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   pruefe('Kappung: Bereich über der Folgenzahl endet bei ihr, belegt ohne fremde Folgen', gekappt.length === 2 && gekappt[1]!.bis === 12 && gekappt[1]!.belegt.at(-1) === 12 && gekappt[1]!.belegt.length === 9, gekappt)
   pruefe('Kappung: genau eine Folge drüber wird gekappt', begrenzeAufFolgenzahl([bereich(1, 13)], 12)[0]?.bis === 12)
   pruefe('Kappung: Bereich ab der Folge hinter der Zahl fällt weg, ab der letzten bleibt er', begrenzeAufFolgenzahl([bereich(1, 12), bereich(13, 25)], 12).length === 1 && begrenzeAufFolgenzahl([bereich(12, 25)], 12)[0]?.von === 12)
-  pruefe('Kappung: bis genau gleich der Folgenzahl bleibt unverändert', begrenzeAufFolgenzahl([bereich(1, 12)], 12)[0]?.bis === 12)
+  const genau = bereich(1, 12)
+  pruefe('Kappung: bis genau gleich der Folgenzahl bleibt unverändert', begrenzeAufFolgenzahl([genau], 12)[0] === genau)
+  pruefe('Kappung: eine negative Folgenzahl gilt als unbekannt', begrenzeAufFolgenzahl([genau], -1)[0] === genau)
   const ohneZahl = [bereich(1, 25)]
   pruefe('Kappung: ohne bekannte Folgenzahl bleibt alles', begrenzeAufFolgenzahl(ohneZahl, 0) === ohneZahl && begrenzeAufFolgenzahl(ohneZahl, undefined) === ohneZahl && begrenzeAufFolgenzahl(ohneZahl, null) === ohneZahl)
   const nichtDa = nichtGefuehrtZeilen(7, 'Titel "X"', 'netflix', '2026-10-20', 2)
