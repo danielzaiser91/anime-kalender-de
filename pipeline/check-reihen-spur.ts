@@ -16,7 +16,10 @@ import {
   COVER_DICHTE,
   coverDichte,
   nachbarKarte,
+  PANEL_KENNUNG,
   panelNachOben,
+  setzeStart,
+  sprungZiel,
   pfeilZustand,
   sprungWeite,
   sprungVerhalten,
@@ -73,12 +76,27 @@ gleich('sonst Dichte der Kacheln', coverDichte(false, 1.5), 1.5)
 gleich('Pfeilsprung gleitet', sprungVerhalten(false), 'smooth')
 gleich('weniger Bewegung: springt', sprungVerhalten(true), 'auto')
 
+/* Pfeilsprung: Richtung bestimmt das Vorzeichen, „weniger Bewegung“ das Verhalten (Handy 319 px = 256, Panel 456 px = 384: verschiedene Werte). */
+gleich('weiter, Panel 456 px', sprungZiel(1, 456, false), { left: 384, behavior: 'smooth' })
+gleich('zurück: negatives left', sprungZiel(-1, 319, false), { left: -256, behavior: 'smooth' })
+gleich('weniger Bewegung: auto', sprungZiel(1, 319, true), { left: 256, behavior: 'auto' })
+
+/* Start: Spur steht an der Sprungkante des gewählten Teils (offsetLeft 700, 319 px breit → Kante 512); ohne gewählte Karte unverändert. */
+const startSpur = { clientWidth: 319, scrollLeft: 77 }
+setzeStart(startSpur, { offsetLeft: 700 })
+gleich('Start bei offsetLeft 700 = 512', startSpur.scrollLeft, 512)
+setzeStart(startSpur, null)
+gleich('ohne gewählte Karte bleibt die Spur', startSpur.scrollLeft, 512)
+setzeStart(startSpur, { offsetLeft: 0 })
+gleich('Start bei offsetLeft 0 = 0', startSpur.scrollLeft, 0)
+
 /* Panel scrollt nach oben — der Container `data-panel="titel"`, nicht die Seite; ohne Panel passiert nichts. */
 const panel = { scrollTop: 480 }
 const abfragen: string[] = []
 panelNachOben({ closest: (a) => (abfragen.push(a), panel) })
 gleich('Panel steht oben', panel.scrollTop, 0)
 gleich('gesucht wird das Detail-Panel', abfragen, ['[data-panel="titel"]'])
+gleich('Panel-Kennung wie in tools/ansicht-adressen.mjs', PANEL_KENNUNG, 'titel')
 panelNachOben({ closest: () => null })
 pruefe('ohne Panel kein Fehler', true)
 

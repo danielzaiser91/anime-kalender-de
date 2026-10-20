@@ -1,6 +1,6 @@
 import { useCallback, useId, useLayoutEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import type { Translate } from '../../lib/i18n.tsx'
-import { nachbarKarte, pfeilZustand, sprungVerhalten, sprungWeite, startPosition } from './reihen-spur-regeln.ts'
+import { nachbarKarte, pfeilZustand, setzeStart, sprungZiel } from './reihen-spur-regeln.ts'
 
 /** Vor der ersten Messung gelten die Pfeile als überflüssig — sie erscheinen erst, wenn wirklich etwas überläuft. */
 const OHNE_MESSUNG = { versteckt: true, zurueckAus: true, weiterAus: false }
@@ -81,14 +81,12 @@ export function ReihenSpur({ titel, gewaehltId, erste, t, children }: { titel: s
   const zustand = useSpurMessung(spur)
   useLayoutEffect(() => {
     const el = spur.current
-    const gewaehlt = el?.querySelector<HTMLElement>('[aria-selected="true"]')
-    if (!el || !gewaehlt) return
-    el.scrollLeft = startPosition(gewaehlt.offsetLeft, sprungWeite(el.clientWidth))
+    if (el) setzeStart(el, el.querySelector<HTMLElement>('[aria-selected="true"]'))
   }, [gewaehltId])
   const springe = (richtung: 1 | -1) => {
     const el = spur.current
     if (!el) return
-    el.scrollBy({ left: richtung * sprungWeite(el.clientWidth), behavior: sprungVerhalten(matchMedia('(prefers-reduced-motion: reduce)').matches) })
+    el.scrollBy(sprungZiel(richtung, el.clientWidth, matchMedia('(prefers-reduced-motion: reduce)').matches))
   }
   return (
     <div className={erste ? '' : 'mt-1.5'}>

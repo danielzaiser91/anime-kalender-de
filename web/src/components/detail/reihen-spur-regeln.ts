@@ -40,12 +40,15 @@ export function nachbarKarte(index: number, anzahl: number, taste: string): numb
   return undefined
 }
 
+/** Kennung des scrollenden Panel-Containers (`data-panel`); DetailPanel setzt sie, `panelNachOben` sucht sie — eine Quelle, sonst läuft die Suche still ins Leere. */
+export const PANEL_KENNUNG = 'titel'
+
 /**
  * Nach dem Klick auf ein Cover beginnt das Panel wieder oben: Dort scrollt der Panel-Container (`data-panel="titel"`, `fixed inset-y-0 overflow-y-auto`),
  * auf dem Handy wie am Desktop, nicht die Seite. Kein `scrollIntoView` — das scrollte das Panel vor (09.10.2026).
  */
 export function panelNachOben(von: { closest: (auswahl: string) => { scrollTop: number } | null }): void {
-  const panel = von.closest('[data-panel="titel"]')
+  const panel = von.closest(`[data-panel="${PANEL_KENNUNG}"]`)
   if (panel) panel.scrollTop = 0
 }
 
@@ -60,4 +63,14 @@ export function coverDichte(sparen: boolean, kachelDichte: number): number {
  */
 export function sprungVerhalten(wenigerBewegung: boolean): 'auto' | 'smooth' {
   return wenigerBewegung ? 'auto' : 'smooth'
+}
+
+/** Ziel eines Pfeilklicks: `richtung` -1 springt zurück, +1 weiter, um `sprungWeite`. */
+export function sprungZiel(richtung: 1 | -1, clientWidth: number, wenigerBewegung: boolean): ScrollToOptions {
+  return { left: richtung * sprungWeite(clientWidth), behavior: sprungVerhalten(wenigerBewegung) }
+}
+
+/** Setzt die Spur beim Öffnen und beim Wechsel des Teils an die Sprungkante des gewählten Teils; ohne gewählte Karte bleibt sie stehen. */
+export function setzeStart(spur: { clientWidth: number; scrollLeft: number }, gewaehlt: { offsetLeft: number } | null | undefined): void {
+  if (gewaehlt) spur.scrollLeft = startPosition(gewaehlt.offsetLeft, sprungWeite(spur.clientWidth))
 }
