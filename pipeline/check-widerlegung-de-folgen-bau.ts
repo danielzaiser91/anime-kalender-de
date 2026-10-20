@@ -45,7 +45,7 @@ async function bau(verfuegbarAb: string | undefined, folgen: number | null = 12)
 async function pruefeListe(mitBereich: Title, ohneBereich: Title): Promise<void> {
   const { bereinigePruefliste } = await import('./bau/pruefliste-bereinigen.ts')
   const { PRUEFLISTE } = await import('./bau/09-7-cr-teilseiten.ts')
-  const fremder = { id: 900050, streams: [] } as unknown as Title
+  const fremder = { id: 900050, streams: [{ platform: 'netflix', url: URL_E, dubRanges: [{ from: 1, to: 1, dub: true }] }] } as unknown as Title
   const zeile = (titleId: number, url: string) => ({ titleId, titel: 'E', url, grund: 'g' })
   const lies = () => (JSON.parse(readFileSync(join(wurzel, PRUEFLISTE), 'utf8')) as { titleId: number; url: string }[]).map((p) => `${p.titleId}|${p.url}`)
   const liste = [zeile(900003, URL_E), zeile(900003, `${URL_E}/andere`), zeile(900050, URL_E)]
