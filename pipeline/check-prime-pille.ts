@@ -3,15 +3,12 @@
  * „Prime Video · 1 Fg." nicht klickbar, Crunchyroll zeigte 2 Fg.). Läuft in `check:logic`.
  * Nachgestellte Artikelzeilen und erfundene Titel; kein Netz.
  */
-import { readFileSync } from 'node:fs'
-import yaml from 'js-yaml'
 import type { Release, Title } from '../shared/types.ts'
 import { expandEvents, istErschienen } from '../shared/logic.ts'
 import { amazonAdresseRichten } from './lib/amazon-adresse.ts'
 import { adresseDesWegs, richteTerminAdressen } from './bau/13-1-termin-adressen.ts'
 import { releasesAus } from './lib/meldungen.ts'
 import { kanalDesEintrags, leseSammelartikel, vorschlaegeAusSammelartikel } from './lib/sammelartikel.ts'
-import { ergaenzeVerweiseVonHand } from './lib/verweise-von-hand.ts'
 import { pillenZiel, primeSuchAdresse } from '../web/src/components/detail/pillen-ziel.ts'
 
 let fehler = 0
@@ -97,17 +94,6 @@ const direkt = pillenZiel(pille('primevideo', { platformUrl: 'https://www.amazon
 pruefe('Mit Adresse bleibt sie, ohne Hinweis', direkt.ziel === 'https://www.amazon.de/gp/video/detail/B0TEST' && direkt.hinweis === undefined, direkt)
 pruefe('Kaufadresse geht vor', pillenZiel(pille('primevideo', { buyUrl: 'https://shop/x' }), 'X', uebersetze).ziel === 'https://shop/x')
 pruefe('ADN ohne Adresse: kein Ziel', pillenZiel(pille('adn'), 'X', uebersetze).ziel === undefined)
-
-/* Der Handverweis: Reborn as a Space Mercenary (186541) hat seine Prime-Seite samt Kanal. */
-const handIds = (yaml.load(readFileSync('data/verweise-von-hand.yaml', 'utf8')) as { anilistId: number }[]).map((e) => e.anilistId)
-const wege = new Map<number, Title>(handIds.map((id) => [id, { id, streams: [] } as unknown as Title]))
-ergaenzeVerweiseVonHand(wege)
-const weg = wege.get(186541)!.streams[0]
-pruefe(
-  'Reborn as a Space Mercenary: Prime-Seite B0HKFFGQ7F als Crunchyroll-Kanal',
-  weg?.platform === 'primevideo' && weg.url === 'https://www.amazon.de/gp/video/detail/B0HKFFGQ7F' && weg.kanal === 'Crunchyroll',
-  weg,
-)
 
 /* Prime-Adressen: Abfrage und ref fallen weg, die Kennung im Pfad bleibt (Daniel, 11.10.2026). */
 const asin = 'https://www.amazon.de/gp/video/detail/B0HKFFGQ7F'
