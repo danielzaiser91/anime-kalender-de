@@ -2,7 +2,9 @@ import { readJson, log } from '../lib/util.ts'
 import { type PlatformId, type Title } from '../../shared/types.ts'
 import { dubKey, adressGleich, adressKern, type DubCheck } from '../lib/dub-confirmed.ts'
 import { amazonAdresseRichten, amazonTitelAdresse } from '../lib/amazon-adresse.ts'
+import { adresseFremdBelegt, adresseVerneint, leseZugeordnet } from '../lib/prime-meldung-riegel.ts'
 import { rohDeutsch } from '../lib/kanal-titel.ts'
+import { kanalAdresseGemerkt, kanalWissen } from '../lib/kanal-wissen.ts'
 import { germanizeUrl } from '../../shared/mappings.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 import { zugangsart, type Zugangsart } from '../../shared/zugangsart.ts'
@@ -75,9 +77,7 @@ export function uebernehmePrimeUndCrVorschlaege({
    * Verweis ist nicht dasselbe wie ein Titel ohne geprüften Verweis").
    */
   {
-    const roh = readJson<
-      Record<
-        string,
+    const meldungen = leseZugeordnet<
         {
           titleId: number
           asin: string | null
@@ -87,22 +87,21 @@ export function uebernehmePrimeUndCrVorschlaege({
           plattform: string
           folgen: { unsere: number | null; sprachen: string[] }[]
         }
-      >
-    >('data/prime-zugeordnet.json', {})
+    >()
     let ausRoh = 0
     let adressen = 0
     /** Meldungen, die einen dritten Prime-Verweis angelegt hätten — siehe unten. */
     let uebersprungen = 0
     /** Zuordnungen, deren Adresse ein Handbeleg einem anderen Titel zuschreibt. */
     let fremdeAdresse = 0
-    for (const [schluessel, eintrag] of Object.entries(roh)) {
+    for (const [schluessel, eintrag] of Object.entries(meldungen)) {
       const title = titles.get(eintrag.titleId)
       if (!title) continue
       /*
         **Ein Handbeleg gilt seiner Adresse, nicht der ganzen Plattform.**
 
-        Der Riegel stand hier als `checks.has(<titel>|primevideo)` — je Titel
-        und Anbieter gibt es genau einen zusammengeführten Beleg, also sperrte
+        Der Riegel stand hier als `checks.has(<titel>|primevideo)` — `checks`
+        hält je Titel und Anbieter den letzten Beleg, also sperrte
         eine geprüfte Ausgabe jede Meldung zur zweiten. Genau den Fall
         beschreibt der Kommentar unten seit dem 30.08.2026: „My First
         Girlfriend is a Gal" läuft bei Prime als Kauftitel mit elf Folgen (KAZÉ,
@@ -111,8 +110,9 @@ export function uebernehmePrimeUndCrVorschlaege({
         Kauftitel vom 01.09. lief deshalb ins Leere und lag am 05.09.2026 noch
         unverwertet im Briefkasten.
 
-        **Was der Riegel schützen soll, bleibt geschützt:** Ein Beleg **ohne**
-        Adresse ist eine Aussage über den Anbieter — er sperrt weiter alles.
+        **Was der Riegel schützen soll, bleibt geschützt:** Ein letzter Beleg **ohne**
+        Adresse ist eine Aussage über den Anbieter — er sperrt weiter alles; ein früherer
+        Nein ohne Adresse sperrt nichts (wie `check:handbelege`, Fall 900010 im Check).
         Einer **mit** Adresse sperrt genau diese Adresse. Ein Nein zur einen
         Ausgabe ist kein Nein zur anderen; sie haben verschiedene Verlage,
         verschiedene Preise und verschiedene Tonspuren.
@@ -155,7 +155,7 @@ export function uebernehmePrimeUndCrVorschlaege({
             : eintrag.asin
               ? amazonTitelAdresse(eintrag.asin)
               : null
-      if (beleg && (!beleg.url || adressGleich(beleg.url, seite ?? undefined))) continue
+      if (beleg ? !beleg.url || adressGleich(beleg.url, seite ?? undefined) : kanalAdresseGemerkt(alleChecks, eintrag.titleId, plattform, seite)) continue
       /*
         **Gehört die Adresse laut Handbeleg einem anderen Titel, gilt die Meldung nicht ihr.**
 
@@ -168,12 +168,7 @@ export function uebernehmePrimeUndCrVorschlaege({
         einem Handbeleg. Übersprungen statt umgebogen — welche Seite die
         richtige ist, sagt die Rohfolge nicht.
       */
-      const fremdBelegt = (adresse: string | null): boolean =>
-        Boolean(adresse) &&
-        alleChecks.some(
-          (c) =>
-            c.platform === plattform && c.url && c.anilistId !== eintrag.titleId && adressGleich(c.url, adresse ?? undefined),
-        )
+      const fremdBelegt = (adresse: string | null): boolean => adresseFremdBelegt(kanalWissen(alleChecks), eintrag.titleId, plattform, adresse)
       /* Seit Migration 030 kennt die Rohfolge die gemeldete Seite — dann gilt die Meldung ihr. */
       if (fremdBelegt(seite) && plattform === 'primevideo' && eintrag.seite) {
         seite = amazonTitelAdresse(eintrag.seite)
@@ -182,8 +177,10 @@ export function uebernehmePrimeUndCrVorschlaege({
         fremdeAdresse++
         continue
       }
-      const belegt = rohDeutsch(eintrag.folgen, eintrag.titleId, plattform === 'primevideo' ? { seite: eintrag.seite, url: gemeldeteAdresse } : null, alleChecks)
+      const belegt = rohDeutsch(eintrag.folgen, eintrag.titleId, plattform === 'primevideo' ? { seite: eintrag.seite, url: gemeldeteAdresse } : null, kanalWissen(alleChecks))
       if (belegt === undefined) continue
+      /* Kein Schreibzweig für eine Adresse, die irgendein Handbeleg verneint — `checks` kennt je Titel nur den letzten (Date A Live, 19.10.2026). */
+      if (adresseVerneint(alleChecks, eintrag.titleId, plattform, seite)) continue
 
       /**
        * **Zwei Ausgaben desselben Titels sind zwei Wege, keine Dublette.**

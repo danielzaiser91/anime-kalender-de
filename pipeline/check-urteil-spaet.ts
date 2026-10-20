@@ -98,17 +98,17 @@ try {
   const schreiben = readFileSync(new URL('./bau/13-schreiben.ts', import.meta.url), 'utf8')
   const aufrufe = unbedingteAufrufe(schreiben, 'schreibeDatensatz')
   const stelle = (name: string): number => aufrufe.find((x) => x.name === name)?.stelle ?? -1
-  const spaet = aufrufe.find((x) => x.name === 'urteilSchliesstSpaeteLuecken')
+  const spaet = aufrufe.find((x) => x.name === 'schliesseSpaeteLuecken')
   pruefe(
-    '13-schreiben ruft urteilSchliesstSpaeteLuecken(allTitles, releases, urteilJaJeWeg(), kanalAdressenOhneBeleg(loadDubChecks())) unbedingt auf',
-    spaet?.args.join('|') === 'allTitles|releases|urteilJaJeWeg()|kanalAdressenOhneBeleg(loadDubChecks())',
+    '13-schreiben ruft schliesseSpaeteLuecken(allTitles, releases) unbedingt auf',
+    spaet?.args.join('|') === 'allTitles|releases',
     spaet,
   )
   pruefe(
     '13-schreiben: nach dem Anreichern, vor Kanal-Erbe und Auslieferung',
     stelle('schreibeSynopsenUndReichereAn') >= 0 &&
-      stelle('urteilSchliesstSpaeteLuecken') > stelle('schreibeSynopsenUndReichereAn') &&
-      stelle('urteilSchliesstSpaeteLuecken') < stelle('kanalErbtVomAnbieter') &&
+      stelle('schliesseSpaeteLuecken') > stelle('schreibeSynopsenUndReichereAn') &&
+      stelle('schliesseSpaeteLuecken') < stelle('kanalErbtVomAnbieter') &&
       stelle('kanalErbtVomAnbieter') < stelle('baueAuslieferung'),
     aufrufe.map((x) => `${x.stelle}:${x.name}`),
   )

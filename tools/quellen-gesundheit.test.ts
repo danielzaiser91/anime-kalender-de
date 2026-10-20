@@ -1,0 +1,163 @@
+// Zusicherung: Quellen-Gesundheit (Wächter Frist↔Schreiber, link-check-Zwischenstand, Abbruch in der Amazon-Pause).
+import assert from 'node:assert/strict'
+import { spawn, spawnSync } from 'node:child_process'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join, resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
+import { fristNamen, ohneSchreiber, schreiberNamen } from '../pipeline/lib/quellen-schreiber.ts'
+import { fortschritt, meldeLinkCheckZwischenstand, pauseMitStand } from '../pipeline/lib/link-check-gesundheit.ts'
+
+/* --- Syntaxbaum-Leser --- */
+const fristen = fristNamen(`
+  // FRISTEN = { 'kommentar': 1 }
+  const ANDERE = { 'nein': 1 }
+  const FRISTEN: Record<string, number> = { 'a-b': 9, c: 4, 'd': 21 }
+`)
+assert.deepEqual(fristen, ['a-b', 'c', 'd'], 'Schlüssel nur aus FRISTEN, in Anführungszeichen oder bloß')
+assert.deepEqual(fristNamen('const x = 1'), [], 'ohne FRISTEN leer')
+
+const schreiber = schreiberNamen(`
+  // recordSource('im-kommentar', 1)
+  const s = "recordSource('im-text', 1)"
+  recordSource('a-b', 3)
+  recordSource(
+    'd',
+    0,
+    'Fehler',
+  )
+  health.recordSource('c', 1)
+`)
+assert.deepEqual(schreiber, ['a-b', 'd'], 'nur echte Aufrufe, auch mehrzeilig; Kommentar, Text und Methode zählen nicht')
+assert.deepEqual(schreiberNamen('recordSource(name, 1)'), ['?'], 'Variable als Name ist „?“')
+assert.deepEqual(schreiberNamen('recordSource(`x-${n}`, 1)'), ['?'], 'Vorlage mit Platzhalter ist „?“')
+assert.deepEqual(schreiberNamen('recordSource(`fest`, 1)'), ['fest'], 'Vorlage ohne Platzhalter ist ein Name')
+
+assert.deepEqual(ohneSchreiber(['a-b', 'c', 'd'], ['a-b', 'd']), ['c'], 'Frist ohne Schreiber wird genannt')
+assert.deepEqual(ohneSchreiber(['a'], ['a']), [], 'alle bedient')
+assert.deepEqual(ohneSchreiber(['a', 'b'], ['a', '?']), ['b'], 'ein „?“-Schreiber bedient keine Frist')
+assert.deepEqual(ohneSchreiber(['a', 'b'], []), ['a', 'b'], 'ohne Schreiber alle')
+
+/* --- Wächter als eigener Prozess gegen eine Kulisse (AK_ROOT) --- */
+function waechter(quelle: string): { status: number | null; aus: string } {
+  const kulisse = mkdtempSync(join(tmpdir(), 'quellen-waechter-'))
+  for (const d of ['pipeline', 'tools', 'shared', 'worker/src']) mkdirSync(join(kulisse, d), { recursive: true })
+  writeFileSync(join(kulisse, 'pipeline', 'check-sources.ts'), "const FRISTEN: Record<string, number> = { 'a': 9, 'b': 9 }\n")
+  writeFileSync(join(kulisse, 'pipeline', 'x.ts'), quelle)
+  const r = spawnSync(process.execPath, ['--import', pathToFileURL(resolve(import.meta.dirname, '..', 'node_modules/tsx/dist/esm/index.mjs')).href, resolve(import.meta.dirname, '..', 'pipeline/check-quellen-schreiber.ts')], {
+    env: { ...process.env, AK_ROOT: kulisse },
+    encoding: 'utf8',
+    windowsHide: true,
+  })
+  rmSync(kulisse, { recursive: true, force: true })
+  return { status: r.status, aus: `${r.stdout}${r.stderr}` }
+}
+const gruen = waechter("recordSource('a', 1)\nrecordSource('b', 1)\n")
+assert.equal(gruen.status, 0, `alle bedient: grün\n${gruen.aus}`)
+assert.ok(gruen.aus.includes('2 Fristen, 2 Schreiber (0 mit unlesbarem Namen), 0 ohne Schreiber'), 'Ergebniszeile mit Zahlen')
+const fehlt = waechter("recordSource('a', 1)\n")
+assert.equal(fehlt.status, 1, 'Frist b ohne Schreiber: rot')
+assert.ok(fehlt.aus.includes('1 ohne Schreiber: b'), 'nennt die Quelle')
+const blind = waechter("recordSource('a', 1)\nrecordSource('b', 1)\nrecordSource(name, 1)\n")
+assert.equal(blind.status, 1, 'ein Name als Variable: rot, nicht still grün')
+assert.ok(blind.aus.includes('(1 mit unlesbarem Namen)'), 'Zahl der unlesbaren Namen steht in der Zeile')
+
+/* --- Zwischenstand: nur echte Auskünfte von heute zählen --- */
+function lauf(bestand: Parameters<typeof meldeLinkCheckZwischenstand>[0]) {
+  const aufrufe: unknown[][] = []
+  const n = meldeLinkCheckZwischenstand(bestand, '2026-10-19', (...a: unknown[]) => void aufrufe.push(a))
+  return { n, aufrufe }
+}
+const gemischt = lauf({
+  'u1': { status: 404, geprueftAm: '2026-10-19' },
+  'u2': { status: 'unklar', geprueftAm: '2026-10-19' },
+  'u3': { status: 200, geprueftAm: '2026-10-19' },
+  'u4': { status: 200, geprueftAm: '2026-10-18' },
+  'u5': { status: 'region' },
+})
+assert.equal(gemischt.n, 2, 'zählt nur heutige Nicht-unklar-Befunde')
+assert.deepEqual(gemischt.aufrufe[0], ['link-check', 2, undefined, undefined, false], 'Zahl ohne Fehler, leerIstOk aus')
+const eins = lauf({ u1: { status: 200, geprueftAm: '2026-10-19' } })
+assert.equal(eins.n, 1, 'genau eine Auskunft zählt')
+assert.equal(eins.aufrufe[0][2], undefined, 'eine Auskunft ist Erfolg')
+const nurUnklar = lauf({ u1: { status: 'unklar', geprueftAm: '2026-10-19' } })
+assert.deepEqual(nurUnklar.aufrufe[0], ['link-check', 0, 'bisher nur Nichtauskünfte', undefined, false], 'nur Nichtauskünfte: Fehlertext, kein Erfolg')
+const nurTimeout = lauf({ u1: { status: 'timeout', geprueftAm: '2026-10-19' }, u2: { status: 'fehler', geprueftAm: '2026-10-19' }, u3: { status: 'unklar', geprueftAm: '2026-10-19' } })
+assert.equal(nurTimeout.n, 0, 'timeout, fehler und unklar sind keine Auskunft')
+assert.deepEqual(nurTimeout.aufrufe[0], ['link-check', 0, 'bisher nur Nichtauskünfte', undefined, false], 'ohne Auskunft Fehlertext')
+const abwehr = lauf({ u1: { status: 403, geprueftAm: '2026-10-19' }, u2: { status: 429, geprueftAm: '2026-10-19' }, u3: { status: 404, geprueftAm: '2026-10-19' }, u4: { status: 'region', geprueftAm: '2026-10-19' } })
+assert.equal(abwehr.n, 2, '403/429 sind Abwehr; 404 und region sind Auskunft')
+
+/* Fortschritt und Pause mit festem Tag (letztes Argument). */
+const TAG = '2026-10-19'
+const heuteBefund = { status: 200, geprueftAm: TAG }
+const zeilen: string[] = []
+const gemeldet: unknown[][] = []
+const spion = (...a: unknown[]) => void gemeldet.push(a)
+fortschritt(99, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), spion, TAG)
+fortschritt(101, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), spion, TAG)
+assert.equal(zeilen.length + gemeldet.length, 0, 'bei 99 und 101 weder Zeile noch Meldung')
+fortschritt(100, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), spion, TAG)
+assert.deepEqual(zeilen, ['  100/300 — 4 unbrauchbar'], 'bei 100 die Fortschrittszeile mit den übergebenen Zahlen')
+assert.deepEqual(gemeldet[0], ['link-check', 1, undefined, undefined, false], 'bei 100 der Zwischenstand')
+const reihenfolge: string[] = []
+await pauseMitStand(7, { u: heuteBefund }, async (ms) => void reihenfolge.push(`warte ${ms}`), (...a: unknown[]) => void reihenfolge.push(`melde ${a[1]}`), TAG)
+assert.deepEqual(reihenfolge, ['melde 1', 'warte 7'], 'erst melden, dann warten')
+
+/* --- Abbruch in der Amazon-Pause: der echte Lauf wird getötet, die Gesundheit muss stehen --- */
+const wurzel = resolve(import.meta.dirname, '..')
+const tmp = mkdtempSync(join(tmpdir(), 'quellen-gesundheit-'))
+mkdirSync(join(tmp, 'public', 'data'), { recursive: true })
+const titel = [{ streams: [{ platform: 'netflix', url: 'https://www.netflix.com/title/1' }, { platform: 'netflix', url: 'https://www.netflix.com/title/2' }] }]
+for (let i = 0; i < 25; i++) titel.push({ streams: [{ platform: 'primevideo', url: `https://www.amazon.de/gp/video/detail/B${i}` }] })
+writeFileSync(join(tmp, 'public', 'data', 'titles.json'), JSON.stringify(titel))
+/* Netflix antwortet 404 (echte Auskunft), Amazon liefert 200 ohne Produktseite (unklar → Sperre nach 20). */
+const stub = join(tmp, 'fetch-stub.mjs')
+writeFileSync(stub, `globalThis.fetch = async (u) => String(u).includes('netflix') ? new Response('', { status: 404 }) : new Response('<html></html>', { status: 200 })\n`)
+const child = spawn(
+  process.execPath,
+  ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1', '--sperrpause', '3600'],
+  { cwd: tmp, env: { ...process.env, AK_ROOT: tmp }, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] },
+)
+let ausgabe = ''
+child.stdout.on('data', (d) => (ausgabe += d))
+child.stderr.on('data', (d) => (ausgabe += d))
+const beendet = new Promise<void>((res) => child.on('exit', () => res()))
+for (let i = 0; i < 600 && !ausgabe.includes('min Pause') && child.exitCode === null; i++) await new Promise((r) => setTimeout(r, 100))
+const inDerPause = ausgabe.includes('min Pause')
+child.kill()
+await beendet
+assert.ok(inDerPause, `Lauf kam nicht in die Pause:\n${ausgabe}`)
+const gesundheit = join(tmp, 'data', 'source-health.json')
+assert.ok(existsSync(gesundheit), 'nach Abbruch in der Pause steht eine Gesundheit')
+const eintrag = (JSON.parse(readFileSync(gesundheit, 'utf8')) as Record<string, { lastOk?: string; lastCount: number }>)['link-check']
+assert.ok(eintrag, 'link-check ist eingetragen')
+assert.equal(eintrag.lastCount, 2, 'gezählt werden die zwei Netflix-Auskünfte, nicht die 20 Nichtauskünfte')
+assert.ok(eintrag.lastOk, 'mit echten Auskünften ist lastOk gesetzt')
+rmSync(tmp, { recursive: true, force: true })
+
+/* --- 100er-Takt im echten Lauf: 150 Adressen, ab der 101. hängt die Attrappe; nach Adresse 100 muss der Stand stehen --- */
+const tmp2 = mkdtempSync(join(tmpdir(), 'quellen-gesundheit-'))
+mkdirSync(join(tmp2, 'public', 'data'), { recursive: true })
+const viele = Array.from({ length: 150 }, (_, i) => ({ streams: [{ platform: 'netflix', url: `https://www.netflix.com/title/${i}` }] }))
+writeFileSync(join(tmp2, 'public', 'data', 'titles.json'), JSON.stringify(viele))
+const stub2 = join(tmp2, 'fetch-stub.mjs')
+writeFileSync(stub2, `const gesehen = new Set()\nglobalThis.fetch = async (u) => {\n  gesehen.add(String(u))\n  if (gesehen.size > 100) return new Promise(() => {})\n  return new Response('', { status: 200 })\n}\n`)
+const child2 = spawn(
+  process.execPath,
+  ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub2).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1'],
+  { cwd: tmp2, env: { ...process.env, AK_ROOT: tmp2 }, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] },
+)
+let ausgabe2 = ''
+child2.stdout.on('data', (d) => (ausgabe2 += d))
+child2.stderr.on('data', (d) => (ausgabe2 += d))
+const beendet2 = new Promise<void>((res) => child2.on('exit', () => res()))
+const gesundheit2 = join(tmp2, 'data', 'source-health.json')
+for (let i = 0; i < 600 && !existsSync(gesundheit2) && child2.exitCode === null; i++) await new Promise((r) => setTimeout(r, 100))
+child2.kill()
+await beendet2
+assert.ok(existsSync(gesundheit2), `nach Adresse 100 steht eine Gesundheit:\n${ausgabe2}`)
+const eintrag2 = (JSON.parse(readFileSync(gesundheit2, 'utf8')) as Record<string, { lastCount: number }>)['link-check']
+assert.equal(eintrag2.lastCount, 100, 'Zwischenstand nach genau 100 Auskünften')
+rmSync(tmp2, { recursive: true, force: true })
+console.log('quellen-gesundheit.test: grün (Leser, Zwischenstand, Abbruch in der Pause)')

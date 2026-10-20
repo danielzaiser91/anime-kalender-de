@@ -43,7 +43,7 @@ const git = (...args) => {
   return r.stdout.trim()
 }
 
-for (const t of ['check-logic-alle', 'arbeiterpool', 'git-stand-wache', 'check-logic-vollstaendig', 'sperre-umgebung']) {
+for (const t of ['check-logic-alle', 'arbeiterpool', 'git-stand-wache', 'check-logic-vollstaendig', 'sperre-umgebung', 'bau-umgebung']) {
   schreibe(`tools/${t}.mjs`, '')
   copyFileSync(join(tools, `${t}.mjs`), join(k, `tools/${t}.mjs`))
 }
@@ -78,13 +78,17 @@ mkdirSync('aus', { recursive: true })
 writeFileSync('aus/rot.txt', existsSync('bau-rot.txt') ? readFileSync('bau-rot.txt', 'utf8') : '')
 `,
 )
-const restKette = ['r1', 'r2', 'r3'].map((r) => `npm run check:${r}`).join(' && ')
-const scripts = {
-  'check:bestand': `${restKette} && npm run check:bestand-liste`,
-  'data:build': 'node bau.mjs',
+/** package.json der Kulisse mit den gegebenen Rest-Skripten (der PR-Commit kann eines mehr haben als die Basis). */
+function paket(rest) {
+  const scripts = {
+    'check:bestand': `${rest.map((r) => `npm run check:${r}`).join(' && ')} && npm run check:bestand-liste`,
+    'data:build': 'node bau.mjs',
+  }
+  for (const r of rest) scripts[`check:${r}`] = `node rest.mjs check:${r}`
+  return JSON.stringify({ name: 'k', private: true, type: 'module', scripts })
 }
-for (const r of ['r1', 'r2', 'r3']) scripts[`check:${r}`] = `node rest.mjs check:${r}`
-schreibe('package.json', JSON.stringify({ name: 'k', private: true, type: 'module', scripts }))
+const REST = ['r1', 'r2', 'r3']
+schreibe('package.json', paket(REST))
 schreibe('.gitignore', 'node_modules\naus/\ndata/cache/\nist-pr\n')
 schreibe('ist-pr', '')
 schreibe(`${CACHE}/marke.txt`, 'bleibt')
@@ -94,7 +98,8 @@ const LISTE = ['pruef/a.mjs', 'pruef/b.mjs', 'pruef/c.mjs']
 git('init', '-q', '-b', 'main')
 
 /** Ein Basis-Commit (bauRot: was der Basisbau rot macht) und darauf der PR-Stand (prListe, prRot = Ausgabe des PR-Baus). */
-function fall({ bauRot = [], kaputt = false, cacheRot = [], prListe = LISTE, prRot = [], schreibt = [] }) {
+function fall({ bauRot = [], kaputt = false, cacheRot = [], prListe = LISTE, prRot = [], schreibt = [], restNeu = [] }) {
+  schreibe('package.json', paket(REST))
   schreibe('tools/check-bestand-liste.txt', `# Kulisse\n${LISTE.join('\n')}\n`)
   schreibe('bau-rot.txt', bauRot.join('\n'))
   if (kaputt) schreibe('bau-kaputt', '')
@@ -103,6 +108,7 @@ function fall({ bauRot = [], kaputt = false, cacheRot = [], prListe = LISTE, prR
   const basis = git('rev-parse', 'HEAD')
   rmSync(join(k, 'bau-kaputt'), { force: true })
   schreibe('tools/check-bestand-liste.txt', `${prListe.join('\n')}\n`)
+  schreibe('package.json', paket([...REST, ...restNeu]))
   git('add', '-A')
   git('commit', '-q', '--allow-empty', '-m', 'pr')
   schreibe('aus/rot.txt', prRot.join('\n'))
@@ -195,6 +201,13 @@ try {
   assert.equal(e.status, 1, e.aus)
   assert.deepEqual(e.basis, ['pruef/c.mjs'])
   assert.match(e.aus, /::error::.*grün sind: check:bestand-liste\n/)
+
+  // A1 (PR 1386, R3): ein rotes Rest-Skript, das es nur im PR gibt, ist neu; die Basis fährt es nicht (sonst „Missing script“ = geerbt).
+  e = fall({ restNeu: ['r4'], bauRot: ['check:r4'], prRot: ['check:r4'] })
+  assert.equal(e.status, 1, e.aus)
+  assert.deepEqual(e.basis, [], 'check:r4 gibt es auf der Basis nicht')
+  assert.match(e.aus, /::error::.*grün sind: check:r4\n/)
+  assert.doesNotMatch(e.aus, /::warning::check:r4/)
 } finally {
   unlinkSync(join(k, 'node_modules'))
   rmSync(k, { recursive: true, force: true })

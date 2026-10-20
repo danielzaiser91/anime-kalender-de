@@ -1,14 +1,14 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-19. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-20. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-30 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+32 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
-| 2026-10-19, 2026-10 (Monat) | ? | – unklar | [Neuer Trailer zum Finale von »Bleach: Thousand-Year Blood War«](https://www.anime2you.de/news/1061640/bleach-thousand-year-blood-war-finale-trailer/) |
+| 2026-10 (Monat) | ? | – unklar | [Neuer Trailer zum Finale von »Bleach: Thousand-Year Blood War«](https://www.anime2you.de/news/1061640/bleach-thousand-year-blood-war-finale-trailer/) |
 | 2026-10 (Monat) | netflix | ✅ zugesagt | [Deutscher Synchro-Trailer zu »Cyberpunk: Edgerunners II« + Visual](https://www.anime2you.de/news/1060922/cyberpunk-edgerunners-2-synchro-trailer/) |
 | 2026-10-20, 2026-10 (Monat) | netflix | – unklar | [Netflix enthüllt neuen Sneak-Peek-Teaser zu »Cyberpunk: Edgerunners II«](https://www.anime2you.de/news/1058410/netflix-cyberpunk-edgerunners-ii-neuer-sneak-peek-teaser/) |
 | 2026-10 (Monat) | primevideo, aniverse | ✅ zugesagt | [Neue Anime-Katalogtitel im Oktober 2026 bei aniverse](https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/) |
@@ -35,63 +35,65 @@ Stand: 2026-10-19. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-04 (Monat) | ? | – unklar | [Start von »Walking Home with You« steht fest + Visual](https://www.anime2you.de/news/1058153/start-von-walking-home-with-you/) |
 | 2027-04 (Monat) | ? | – unklar | [Start von »The Case Files of Biblia Bookstore« + Teaser](https://www.anime2you.de/news/1057109/start-von-the-case-files-of-biblia-bookstor/) |
 | 2027-05-07, 2027-04-30 | kino | – unklar | [Nintendo verschiebt »The Legend of Zelda«-Film erneut + Bilder](https://www.anime2you.de/news/1010428/the-legend-of-zelda-film-erneut-verschoben/) |
+| 2027-05 (Monat) | ? | – unklar | [Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt](https://www.anime2you.de/news/1058725/zehn-lord-of-mysteries-minifiguren/) |
+| 2027-05 (Monat) | ? | – unklar | [Elf neue Merchandise-Produkte zu »Apothecary Diaries« angekündigt](https://www.anime2you.de/news/1061032/apothecary-diaries-elf-merchandise-produkte/) |
 | 2027-05 (Monat) | ? | – unklar | [Neue Plüschfigur der »Frieren«-Protagonistin angekündigt](https://www.anime2you.de/news/1061247/frieren-protagonistin-sakami-plueschfigur/) |
 | 2027-05 (Monat) | ? | – unklar | [Zwei neue Acrylanhänger zu »Detektiv Conan« angekündigt](https://www.anime2you.de/news/1061186/zwei-detektiv-conan-acrylanhaenger/) |
 | 2027-05 (Monat) | ? | – unklar | [»Fairy Tail« erhält neue Anhänger, Tragetasche und XXL-Mauspad](https://www.anime2you.de/news/1061130/neues-fairy-tail-merchandise/) |
 
-Dazu 52 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 53 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 12 |
-| adn-catalog | 7.0 Tage her | 109 |
+| adn-catalog | 7.9 Tage her | 109 |
 | adn-news | 0.1 Tage her | 75 |
-| anilist-voices | 7.0 Tage her | 3 |
-| anime-offline-database | 7.0 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 103 |
-| anisearch | 0.0 Tage her | 14823 |
-| anisearch-cover-eigen | 7.5 Tage her | 1874 |
-| anisearch-dubs | 0.0 Tage her | 11921 |
-| anisearch-eintraege | 7.0 Tage her | 400 |
-| anisearch-folgen | 7.0 Tage her | 1958 |
-| anisearch-slugs | 7.0 Tage her | 14846 |
-| anisearch-zuordnung | 0.0 Tage her | 18475 |
-| ann-voices | 7.0 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 8 |
-| cartoon-folgen | 7.0 Tage her | 150 |
-| cartoon-reihen | 0.0 Tage her | 1 |
-| cartoons | 0.0 Tage her | 2 |
-| cinestar | 0.0 Tage her | 1 |
-| cr-einzelwerke | 25.7 Tage her | 0 |
-| cr-filmbloecke | 25.7 Tage her | 0 |
+| anilist-voices | 1.0 Tage her | 0 |
+| anime-offline-database | 1.0 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 102 |
+| anisearch | 0.9 Tage her | 1 |
+| anisearch-cover-eigen | 8.5 Tage her | 1874 |
+| anisearch-dubs | 1.0 Tage her | 11921 |
+| anisearch-eintraege | 1.0 Tage her | 400 |
+| anisearch-folgen | 1.0 Tage her | 515 |
+| anisearch-slugs | 1.0 Tage her | 14859 |
+| anisearch-zuordnung | 1.0 Tage her | 18475 |
+| ann-voices | 1.0 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 46 |
+| cartoon-folgen | 1.0 Tage her | 300 |
+| cartoon-reihen | 1.0 Tage her | 1 |
+| cartoons | 1.0 Tage her | 2 |
+| cinestar | 1.0 Tage her | 1 |
+| cr-einzelwerke | 26.7 Tage her | 0 |
+| cr-filmbloecke | 26.7 Tage her | 0 |
 | crunchyroll | 0.0 Tage her | 21 |
-| crunchyroll-dub | 0.0 Tage her | 1133 |
+| crunchyroll-dub | 1.0 Tage her | 1133 |
 | crunchyroll-neu | 0.0 Tage her | 140 |
-| crunchyroll-offene | 7.0 Tage her | 14 |
-| crunchyroll-woche | 0.0 Tage her | 65 |
-| fsk | 13.6 Tage her | 3 |
-| justwatch-audio | 7.0 Tage her | 792 |
-| kinoheld | 0.0 Tage her | 0 |
-| kitsu-folgen | 7.0 Tage her | 23 |
-| link-check | 13.6 Tage her | 287 |
-| messbelege | 0.0 Tage her | 0 |
-| motn | 10.7 Tage her | 1943 |
-| motn-changes | 0.0 Tage her | 12 |
-| rohfolgen | 0.4 Tage her | 0 |
-| rtlplus-folgen | 7.0 Tage her | 3 |
-| tmdb-banner | 7.0 Tage her | 82 |
-| tmdb-folgen | 7.0 Tage her | 883 |
-| tmdb-kino | 7.0 Tage her | 3 |
-| tmdb-poster | 7.0 Tage her | 72 |
-| tmdb-titles | 7.0 Tage her | 248 |
+| crunchyroll-offene | 0.9 Tage her | 14 |
+| crunchyroll-woche | 0.1 Tage her | 59 |
+| fsk | 14.6 Tage her | 3 |
+| justwatch-audio | 0.5 Tage her | 293 |
+| kinoheld | 1.0 Tage her | 0 |
+| kitsu-folgen | 1.0 Tage her | 1 |
+| link-check | 14.6 Tage her | 287 |
+| messbelege | 0.1 Tage her | 0 |
+| motn | 11.7 Tage her | 1943 |
+| motn-changes | 0.0 Tage her | 57 |
+| rohfolgen | 0.6 Tage her | 0 |
+| rtlplus-folgen | 1.0 Tage her | 3 |
+| tmdb-banner | 1.0 Tage her | 6 |
+| tmdb-folgen | 1.0 Tage her | 878 |
+| tmdb-kino | 1.0 Tage her | 3 |
+| tmdb-poster | 1.0 Tage her | 372 |
+| tmdb-titles | 1.0 Tage her | 400 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 0.0 Tage her | 0 |
-| tv-de | 0.2 Tage her | 73 |
-| tv-programm | 0.0 Tage her | 270 |
+| trailer | 1.0 Tage her | 0 |
+| tv-de | 0.2 Tage her | 65 |
+| tv-programm | 0.1 Tage her | 286 |
 | vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 0.0 Tage her | 5192 |
-| wikidata-titel | 0.0 Tage her | 15 |
+| wikidata-imdb | 1.0 Tage her | 5192 |
+| wikidata-titel | 1.0 Tage her | 15 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 0.0 Tage her | 0 |
+| youtube-check | 1.0 Tage her | 0 |

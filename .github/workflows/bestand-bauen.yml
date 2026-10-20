@@ -313,9 +313,9 @@ jobs:
         run: bash "$MELDER" schritt "Vorschaubilder"
 
       # Hier sitzt die Zusicherung über den gebauten Bestand (`check:bestand` in
-      # commit-data.sh). Sie macht den Lauf rot, nachdem die Quellen committet sind — das ist der Sinn dieses Laufs
-      # (11.10.2026: Als sie ihn nur gelb färbte, blieben die Erzeugnisse sechs Stunden unausgeliefert). `BAU_LAUF` nimmt
-      # zusätzlich alle neuen Meldungen samt Übernahme-Stempel zurück; sie bleiben im Briefkasten. Was eine einzelne Meldung
+      # commit-data.sh). Sie macht den Lauf rot (11.10.2026: Als sie ihn nur gelb färbte, blieben die Erzeugnisse sechs
+      # Stunden unausgeliefert). `BAU_LAUF` nimmt dann alles aus diesem Lauf zurück außer den Abrufen von `data:fetch`
+      # (`bau_lauf_zuruecknehmen`): Meldungen, Stempel, Listen und Bestand bleiben auf HEAD, die Meldungen im Briefkasten. Was eine einzelne Meldung
       # auslöst, hat „Neue Handbelege prüfen“ schon eingegrenzt; hier bleibt nur, was erst der gebaute Bestand zeigt.
       - name: Änderungen committen
         env:

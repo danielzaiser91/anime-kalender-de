@@ -202,7 +202,13 @@ jobs:
               zusammenführen und bauen" beim nächsten planmäßigen Lauf,
               spätestens eine Stunde später.
 
-      # Gemergt wird mit dem Token der App anime-kalender-daten: Nur sie umgeht das Ruleset `main-pruefweg` (11.10.2026). Was Claude offen ließ, ist weiter im Konflikt und bleibt stehen.
+      # Die Action druckt nur Init und Ergebnis; was Claude getan hat (und warum ein PR im Konflikt blieb), steht sonst nirgends (Lauf 39397639406).
+      - name: Ablauf von Claude zeigen
+        if: always()
+        continue-on-error: true
+        run: node tools/claude-ablauf-zeigen.mjs "$RUNNER_TEMP/claude-execution-output.json"
+
+      # Gemergt wird mit dem Token der App anime-kalender-daten: Nur sie umgeht das Ruleset `main-pruefweg` (11.10.2026). Was Claude offen ließ, ist weiter im Konflikt: `daten-pr-mergen.sh` färbt den Lauf dann rot.
       - name: App-Token holen
         id: app
         uses: actions/create-github-app-token@v3

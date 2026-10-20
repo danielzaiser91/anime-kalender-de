@@ -29,6 +29,8 @@ interface Fall {
   andereAdresse: boolean
   /** Art des Belegs zur Seite: Kanal-Warnung (Vorgabe), ohne Warnung, oder Kanal mit zweiter Quelle (dann zählt sein Ja). */
   beleg?: 'ohneKanal' | 'zweiteQuelle'
+  /** Der Kanal-Beleg steht nur in der Merkliste `data/kanal-seiten.json`, nicht in der YAML (Handbeleg zurückgestellt). */
+  nurMerkliste?: boolean
   /** Gruppe kommt erst im zweiten Lauf. */
   spaeter?: boolean
   erwartet: 'aussortiert' | 'offen' | 'zugeordnet'
@@ -53,6 +55,7 @@ const faelle: Fall[] = [
   { titel: 814, name: 'schon zugeordnete Gruppe wird nicht aussortiert', seiten: fuenf('B0KANAL814'), deutsch: 0, belegSeite: 'B0KANAL814', andereAdresse: true, erwartet: 'zugeordnet' },
   { titel: 817, name: 'Gegenprobe B0F9FWKDXT: ADN-Staffeln gemischt in Amazon-Staffel 1, Deutsch stimmt (Daniel 16.10.2026)', seiten: fuenf('B0F9FWKDXT'), deutsch: 5, belegSeite: 'B0F9FWKDXT', andereAdresse: true, erwartet: 'offen' },
   { titel: 818, name: 'Gegenprobe Akudama Drive B0H348BY3J: Deutsch, in Prime enthalten, kein Kanal mit 18 Folgen (Daniel 16.10.2026)', seiten: fuenf('B0H348BY3J'), deutsch: 5, belegSeite: 'B0H348BY3J', andereAdresse: true, erwartet: 'offen' },
+  { titel: 819, name: 'der Kanal-Beleg steht nur in der Merkliste (Handbeleg im Lauf zurückgestellt)', seiten: fuenf('B0KANAL819'), deutsch: 0, belegSeite: 'B0KANAL819', andereAdresse: true, nurMerkliste: true, erwartet: 'aussortiert' },
   { titel: 815, name: 'zweiter Lauf: weitere Gruppe', seiten: fuenf('B0KANAL815'), deutsch: 0, belegSeite: 'B0KANAL815', andereAdresse: true, spaeter: true, erwartet: 'aussortiert' },
 ]
 
@@ -90,6 +93,7 @@ ${extra}`
 
 /** Der Beleg zur Seite der Gruppe: Kanal-Nein (Vorgabe), ohne Kanal-Warnung oder mit zweiter Quelle (dann zählt sein Ja). */
 function belegZurSeite(f: Fall): string {
+  if (f.nurMerkliste) return ''
   if (f.beleg === 'ohneKanal') return beleg(f.titel, gruppenUrl(f), false, `Tonspuren: Japanisch — Amazon-Seite ${f.belegSeite}: Kauf ohne Deutsch`)
   if (f.beleg === 'zweiteQuelle') return beleg(f.titel, gruppenUrl(f), true, NOTIZ(f.belegSeite!), '  zweiteQuelle: JustWatch\n')
   return beleg(f.titel, gruppenUrl(f), false, NOTIZ(f.belegSeite!))
@@ -120,6 +124,7 @@ function schreibeKulisse(kulisse: string): void {
   schreibe('data/tmdb-folgen.json', JSON.stringify({ 814: { tmdbId: 1, folgen: [1, 2, 3, 4, 5].map((e) => ({ s: 1, e, titel: `Folge ${e} von 814`, datum: '2020-04-01', minuten: null })) } }))
   schreibe('public/data/cartoons.json', '[]')
   schreibe('data/dub-confirmed.yaml', handbelege())
+  schreibe('data/kanal-seiten.json', JSON.stringify(faelle.filter((f) => f.nurMerkliste).map((f) => ({ anilistId: f.titel, platform: 'primevideo', url: gruppenUrl(f), checkedAt: '', note: NOTIZ(f.belegSeite!), kanalOhneBeleg: true }))))
   const netflixDeutsch = [`https://www.netflix.com/title/806#0`, { titleId: 806, plattform: 'netflix', asin: null, seite: null, folgen: [{ unsere: 1, sprachen: ['Deutsch'] }] }]
   schreibe('data/prime-zugeordnet.json', JSON.stringify(Object.fromEntries([zugeordnet(807, 'B0ZUGEORD807'), zugeordnet(808, 'B0KANAL808B'), zugeordnet(813, 'B0KANAL813'), netflixDeutsch])))
 }

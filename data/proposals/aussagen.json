@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-10-19",
+  "stand": "2026-10-20",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -10563,6 +10563,131 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 345
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1062283/crunchyroll-your-letter-und-mehr/|As a Reincarnated Aristocrat|Staffel 3|start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-20",
+      "fingerabdruck": "0d6f9c318433",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1062283/crunchyroll-your-letter-und-mehr/",
+          "veroeffentlicht": "2026-10-19",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "As a Reincarnated Aristocrat",
+        "zusatz": "Staffel 3",
+        "art": "start",
+        "plattformen": [
+          "primevideo",
+          "crunchyroll"
+        ],
+        "datum": "2026-10-19",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "woechentlich": true,
+        "zeit": "17:00",
+        "konfidenz": 0.8,
+        "gruende": [
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»As a Reincarnated Aristocrat« – Staffel 3 (Synchro)\n»As a Reincarnated Aristocrat« – Staffel 3 (Synchro)\nEpisoden: 1 verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Sonntag um 17:00 Uhr\nStream: Prime Video, Crunchyroll",
+        "offen": {
+          "grund": "Japan-Start passt nicht zum genannten Tag 2026-10-19 (As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 3: 2026-09-27)",
+          "kandidaten": [
+            {
+              "id": 185756,
+              "name": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 3",
+              "jpStart": "2026-09-27"
+            }
+          ]
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 270
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1062283/crunchyroll-your-letter-und-mehr/|Dreamland|Episode 1|start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-20",
+      "fingerabdruck": "db9be30bb012",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1062283/crunchyroll-your-letter-und-mehr/",
+          "veroeffentlicht": "2026-10-19",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Dreamland",
+        "zusatz": "Episode 1",
+        "art": "start",
+        "plattformen": [
+          "primevideo",
+          "crunchyroll"
+        ],
+        "datum": "2026-10-19",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "nein",
+        "woechentlich": true,
+        "zeit": "19:00",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Englisch, Französisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Dreamland« – Episode 1\nSprache: Englisch, Französisch (UT)\nSimulcast: Jeden Samstag um 19:00 Uhr\nStream: Prime Video, Crunchyroll",
+        "offen": {
+          "grund": "Japan-Start passt nicht zum genannten Tag 2026-10-19 (DREAMLAND: 2018-01-01)",
+          "kandidaten": [
+            {
+              "id": 114466,
+              "name": "DREAMLAND",
+              "jpStart": "2018-01-01"
+            }
+          ]
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 310
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1062283/crunchyroll-your-letter-und-mehr/|Your Letter||start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-20",
+      "fingerabdruck": "2c89b42d86c9",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1062283/crunchyroll-your-letter-und-mehr/",
+          "veroeffentlicht": "2026-10-19",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Your Letter",
+        "art": "start",
+        "plattformen": [
+          "primevideo",
+          "crunchyroll"
+        ],
+        "datum": "2026-10-19",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "nein",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Koreanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Your Letter«\nLaufzeit: 96 Minuten\nSprache: Koreanisch (UT)\nStream: Prime Video, Crunchyroll",
+        "offen": {
+          "grund": "kein Titel mit diesem Namen",
+          "kandidaten": []
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 326
       }
     }
   ]
