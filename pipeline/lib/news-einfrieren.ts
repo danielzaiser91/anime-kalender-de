@@ -20,6 +20,14 @@ export function haltWeitererFest<T extends { art: string; weiterer?: boolean }>(
   return ohne as T
 }
 
+/**
+ * Abgelöste und zurückgezogene Terminmeldungen kommen aus dem Verlauf (`verlaufsKette`), nicht aus `terminMeldungen`, und tragen `weiterer` nicht mit.
+ * Der festgehaltene Wert gilt für sie genauso, sonst verlöre der nächste Bau, was die Saat gesetzt hat (Lauf 39409099512).
+ */
+export function traegeWeitererNach<T extends { art: string; release?: string; datum?: string; weiterer?: boolean }>(historie: NewsHistorie, meldungen: T[]): T[] {
+  return meldungen.map((m) => (m.art === 'angekuendigt' && m.release && m.datum && !m.weiterer && historie.weiterer?.[`angekuendigt:${m.release}:${m.datum}`] ? { ...m, weiterer: true } : m))
+}
+
 /** Das Gedächtnis altert mit `zuerst`: Schlüssel älter als `ab` fallen heraus, ihre festgehaltenen Flags mit. */
 export function vergissAlte(historie: NewsHistorie, ab: string): void {
   for (const [k, v] of Object.entries(historie.zuerst)) {

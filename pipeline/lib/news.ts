@@ -42,7 +42,7 @@ import { titelNachSerienId, waehleStaffel } from './news-cr-zuordnung.ts'
 import { rhythmusMeldung } from './news-rhythmus.ts'
 import { ohneDoppelteTakte, taktMeldungen } from './news-takt.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
-import { haltWeitererFest, vergissAlte } from './news-einfrieren.ts'
+import { haltWeitererFest, traegeWeitererNach, vergissAlte } from './news-einfrieren.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
 const FENSTER_TAGE = 120
@@ -480,7 +480,7 @@ export function baueNews(
   for (const t of titles) if (wurzelVon(t) === t.id) kopfTitel.set(t.id, t)
 
   datiert = ohneDoppelteTakte(ohneDoppelteFolgen(verschmelzeGleicheQuelle(datiert)))
-  datiert.push(...pflegeTerminverlauf({ datiert, nachId, historie, vorherige, name, wurzel: wurzelVon, grenze, heute, nurOriginalton }))
+  datiert.push(...traegeWeitererNach(historie, pflegeTerminverlauf({ datiert, nachId, historie, vorherige, name, wurzel: wurzelVon, grenze, heute, nurOriginalton })))
   datiert = bereinigeNews(ohneKuenstlicheAnkuendigung(datiert))
 
   const gruppen = new Map<string, { am: string; wurzel: number; teile: typeof datiert }>()

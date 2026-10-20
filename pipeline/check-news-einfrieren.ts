@@ -8,7 +8,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { NewsEintrag, NewsMeldung, Release, StreamLink, Title } from '../shared/types.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
-import { einfrierFehler, haltWeitererFest, saeeWeiterer, setzeWeitererEin, vergissAlte } from './lib/news-einfrieren.ts'
+import { einfrierFehler, haltWeitererFest, saeeWeiterer, setzeWeitererEin, traegeWeitererNach, vergissAlte } from './lib/news-einfrieren.ts'
 
 let fehler = 0
 let faelle = 0
@@ -94,6 +94,11 @@ const g1 = setzeWeitererEin(roh, fest)
 pruefe('Angleichen: true eingefügt hinter geschaetzt, vor hinweis', Object.keys(roh[0]!.meldungen[0]!).join() === 'art,platform,release,datum,quelle,belege,geschaetzt,weiterer,hinweis', Object.keys(roh[0]!.meldungen[0]!))
 pruefe('Angleichen: false entfernt das Feld, andere Art bleibt', g1 === 2 && !('weiterer' in roh[0]!.meldungen[1]!) && roh[0]!.meldungen[2]!.art === 'neu', g1)
 pruefe('Angleichen: zweiter Lauf ändert nichts', setzeWeitererEin(roh, fest) === 0)
+
+/* 5a. Verlaufs-Meldungen (abgelöst/zurückgezogen) bekommen den festgehaltenen Wert nachgetragen, nur bei true und nur für Termine. */
+const verl = [termin({ zurueckgezogen: { grund: 'g' } } as Partial<NewsMeldung>), termin({ release: 'r-2' }), { art: 'neu', platform: 'joyn', release: 'r-1', datum: '2099-01-01' } as NewsMeldung]
+const nach = traegeWeitererNach(historie({}, { [K]: true, 'angekuendigt:r-2:2099-01-01': false }), verl)
+pruefe('Verlauf: festgehaltenes true wird nachgetragen, false und andere Arten bleiben', nach[0]!.weiterer === true && !('weiterer' in nach[1]!) && nach[2] === verl[2], nach)
 
 /* 5b. Bestandswächter: Umsprung, Lücke, passender Fall; Gegenprobe mit zweiter Meldung gleicher Serienadresse. */
 const bestand = [eintrag(termin({ weiterer: true }), termin({ release: 'r-9', weiterer: true }), termin({ release: 'r-4' }), termin({ release: 'r-6', platform: 'adn' }))]
