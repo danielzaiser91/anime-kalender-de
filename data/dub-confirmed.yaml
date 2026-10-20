@@ -7778,13 +7778,6 @@
   dub: true
   checkedAt: '2026-08-25'
   note: "Tonspuren: Deutsch — Amazon-Seite B07F9K4QFL: alle 51 Folgen geprüft, Abos: aniversede, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 20605
-  title: "Tokyo Ghoul"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0D188KVH4
-  dub: true
-  checkedAt: '2026-08-25'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D188KVH4: alle 24 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 - anilistId: 20552
   title: "Yu-Gi-Oh! Arc-V"
   platform: primevideo
@@ -33413,22 +33406,6 @@
   kanalMessung: nein
   checkedAt: '2026-10-13'
   note: "Tonspuren: 日本語 — Amazon-Seite B0F39ZGHQ8: alle 17 Folgen geprüft, Abos: aniversede, FVOD, zugang=abo, gti=amzn1.dv.gti.1986ab7e-ec69-4665-ae39-09b83d40887b — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 20605
-  title: "Tokyo Ghoul"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0D188KVH4
-  dub: true
-  kanalMessung: ja
-  checkedAt: '2026-10-13'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D188KVH4: alle 24 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.dfb28ef6-45cb-4253-bbb3-c7932638b2b1 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 20605
-  title: "Tokyo Ghoul"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0D188KVH4
-  dub: true
-  kanalMessung: ja
-  checkedAt: '2026-10-13'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GVJFZD1W: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.b576a306-51b7-45d2-8fc0-c8162d2907fb — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 - anilistId: -105034
   title: "Rhyme Time Town"
   platform: netflix
@@ -33441,13 +33418,6 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   checkedAt: '2026-10-13'
   note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, ja|Japanisch, yue|Kantonesisch, ko|Koreanisch, hr|Kroatisch, zh-TW|Mandarin (Guoyu), nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — Gemessen in der Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Der Schneeaffen-Garten / Back mit uns! / Wir suchen Lenny"
-- anilistId: 20605
-  title: "Tokyo Ghoul"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0D188KVH4
-  dub: true
-  checkedAt: '2026-10-13'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0D83P6X34: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.df2c72f7-ac17-4e9d-8f03-3476aae5733e"
 - anilistId: -235997
   title: "Dee und ihre Freunde in Oz"
   platform: netflix
