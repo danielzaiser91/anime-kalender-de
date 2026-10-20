@@ -149,7 +149,10 @@ pipeline/check-prime-kanal.ts
 pipeline/check-prime-nein-beleg.ts
 pipeline/check-prime-pille.ts
 pipeline/check-prime-seite-richten.ts
+pipeline/check-prime-seiten-sperre.ts
 pipeline/check-prime-teilseiten.ts
+pipeline/check-prime-zugeordnet-jw.ts
+pipeline/check-prime-zugeordnet-lader.ts
 pipeline/check-quarantaene.ts
 pipeline/check-reihen-namen-rein.ts
 pipeline/check-reihen-namen.ts

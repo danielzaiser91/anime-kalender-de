@@ -2,7 +2,7 @@ import { readJson, log } from '../lib/util.ts'
 import { type PlatformId, type Title } from '../../shared/types.ts'
 import { dubKey, adressGleich, adressKern, type DubCheck } from '../lib/dub-confirmed.ts'
 import { amazonAdresseRichten, amazonTitelAdresse } from '../lib/amazon-adresse.ts'
-import { adresseFremdBelegt, adresseVerneint } from '../lib/prime-meldung-riegel.ts'
+import { adresseFremdBelegt, adresseVerneint, leseZugeordnet } from '../lib/prime-meldung-riegel.ts'
 import { rohDeutsch } from '../lib/kanal-titel.ts'
 import { germanizeUrl } from '../../shared/mappings.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
@@ -96,7 +96,7 @@ export function uebernehmePrimeUndCrVorschlaege({
     let uebersprungen = 0
     /** Zuordnungen, deren Adresse ein Handbeleg einem anderen Titel zuschreibt. */
     let fremdeAdresse = 0
-    for (const [schluessel, eintrag] of Object.entries(roh)) {
+    for (const [schluessel, eintrag] of Object.entries(leseZugeordnet(roh))) {
       const title = titles.get(eintrag.titleId)
       if (!title) continue
       /*
