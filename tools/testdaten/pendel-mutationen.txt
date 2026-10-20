@@ -11,9 +11,6 @@ nah(k[n], k[n - 2]) && !nah(k[n], k[n - 1]) ⟶ nah(k[n], k[n - 2]) && true
 nah(k[n], k[n - 2]) && !nah(k[n], k[n - 1]) ⟶ nah(k[n], k[n - 1]) && !nah(k[n], k[n - 2])
 let i = 2 ⟶ let i = 3
 let i = 2 ⟶ let i = 1
-while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1)) bis++ ⟶ while (false) bis++
-while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1)) bis++ ⟶ while (bis + 1 < zeilen.length) bis++
-while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1)) bis++ ⟶ while (bis + 1 <= zeilen.length && kehrtZurueck(bis + 1)) bis++
 wechsel: bis - von, ⟶ wechsel: bis - von + 1,
 wechsel: bis - von, ⟶ wechsel: bis,
 davor: von - 1 ⟶ davor: von
@@ -37,6 +34,14 @@ pendelte von ${uhr(zeilen[p.von].zeitpunkt)} bis ${uhr(zeilen[p.bis].zeitpunkt)}
 auffaellig: strs(zeilen[i].auffaellig), erklaert: strs(zeilen[i].erklaert), netto: false ⟶ auffaellig: [], erklaert: [], netto: false
 auffaellig: strs(zeilen[i].auffaellig), erklaert: strs(zeilen[i].erklaert), netto: false ⟶ auffaellig: strs(zeilen[i].auffaellig), erklaert: [], netto: false
 const pendel = findePendel(zeilen) ⟶ const pendel = []
+while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1) && amAnfang(bis + 1)) bis++ ⟶ while (false) bis++
+while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1) && amAnfang(bis + 1)) bis++ ⟶ while (bis + 1 < zeilen.length) bis++
+while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1) && amAnfang(bis + 1)) bis++ ⟶ while (bis + 1 <= zeilen.length && kehrtZurueck(bis + 1) && amAnfang(bis + 1)) bis++
+while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1) && amAnfang(bis + 1)) bis++ ⟶ while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1)) bis++
+while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1) && amAnfang(bis + 1)) bis++ ⟶ while (bis + 1 < zeilen.length && amAnfang(bis + 1)) bis++
+nah(k[n], k[von + ((n - von) % 2)]) ⟶ nah(k[n], k[von + ((n - von + 1) % 2)])
+nah(k[n], k[von + ((n - von) % 2)]) ⟶ nah(k[n], k[von])
+nah(k[n], k[von + ((n - von) % 2)]) ⟶ nah(k[n], k[n - 2])
 ## tools/delta-pruefen.mjs
 ${e.laufend ? '⚠' : 'ℹ'} ⟶ ${'⚠'}
 ${e.laufend ? '⚠' : 'ℹ'} ⟶ ${'ℹ'}
@@ -51,9 +56,16 @@ if (still && !ALLES && !e.auffaellig.length) ⟶ if (still && !ALLES)
 if (still && !ALLES && !e.auffaellig.length) ⟶ if (still && !ALLES && e.auffaellig.length)
 ereignisse(zeilen).filter ⟶ zeilen.map((zeile) => ({ art: 'zeile', zeile, auffaellig: zeile.auffaellig ?? [], erklaert: zeile.erklaert ?? [], netto: false })).filter
 ## tools/wache-tagebuch.mjs
-if (befund && alt.some ⟶ if (alt.some
-if (befund && alt.some ⟶ if (false && alt.some
-if (befund && alt.some ⟶ if (true && alt.some
+if (befund && reiheSeitRuhe(alt).some ⟶ if (reiheSeitRuhe(alt).some
+if (befund && reiheSeitRuhe(alt).some ⟶ if (false && reiheSeitRuhe(alt).some
+if (befund && reiheSeitRuhe(alt).some ⟶ if (true && reiheSeitRuhe(alt).some
+if (befund && reiheSeitRuhe(alt).some ⟶ if (befund && alt.some
+ruhe < 0 ? alt : alt.slice(0, ruhe) ⟶ alt
+ruhe < 0 ? alt : alt.slice(0, ruhe) ⟶ ruhe < 0 ? alt : alt.slice(0, ruhe + 1)
+ruhe < 0 ? alt : alt.slice(0, ruhe) ⟶ ruhe < 0 ? [] : alt.slice(0, ruhe)
+ruhe < 0 ? alt : alt.slice(0, ruhe) ⟶ ruhe < 0 ? alt : alt.slice(0, ruhe - 1)
+.at(-1) === 'unauffällig' ⟶ .at(0) === 'unauffällig'
+.at(-1) === 'unauffällig' ⟶ .at(-1) !== 'unauffällig'
 .slice(2, -1) ⟶ .slice(1, -1)
 .slice(2, -1) ⟶ .slice(3, -1)
 .slice(2, -1) ⟶ .slice(2, -2)

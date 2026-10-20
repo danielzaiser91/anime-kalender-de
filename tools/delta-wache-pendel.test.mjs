@@ -177,6 +177,16 @@ const mit = (z, muster) => z.filter((l) => muster.test(l))
   // Ein Pendel endet, die nächste Rückkehr beginnt nicht in dessen letzter Zeile.
   assert.deepEqual(findePendel(folge(100, 60, 100, 60, 100, 200, 100)).map((p) => [p.von, p.bis]), [[0, 4]])
 
+  // Drift (je Zyklus -5) ist kein einziges Pendeln: es bricht ab, sobald ein Stand mehr als die Toleranz von seinem Anfangsstand abweicht.
+  const drift = folge(2000, 2000, 2036, 1995, 2031, 1990, 2026, 1985, 2021, 1980)
+  assert.deepEqual(findePendel(drift).map((p) => [p.von, p.bis]), [[1, 4], [5, 8]])
+  // Genau an der Grenze (Abweichung 5 vom Anfangsstand) bleibt es ein Pendeln.
+  assert.deepEqual(findePendel(folge(2000, 2036, 1995, 2031, 1995, 2031)).map((p) => [p.von, p.bis]), [[0, 5]])
+  assert.deepEqual(findePendel(folge(2000, 2036, 1995, 2031, 1994, 2031)).map((p) => [p.von, p.bis]), [[0, 3]])
+
+  // Die Schwingung endet, sobald der Nachbar nur noch 5 entfernt ist, auch wenn der Stand nahe am Anfangsstand liegt.
+  assert.deepEqual(findePendel(folge(100, 106, 100, 103)).map((p) => [p.von, p.bis]), [[0, 2]])
+
   // Zwei Pendel hintereinander überlappen nicht.
   const zwei = findePendel(folge(100, 60, 100, 60, 100, 200, 140, 200, 140, 200))
   assert.deepEqual(zwei.map((p) => [p.von, p.bis]), [[0, 4], [5, 9]])
@@ -192,6 +202,9 @@ const mit = (z, muster) => z.filter((l) => muster.test(l))
   const alt = [z('19.10.2026 11:00', '2922 / 2036 / 211', 'Urteile -37', 'netto'), z('19.10.2026 10:00', '2922 / 1999 / 246', '—', 'andere')]
   const gleich = z('20.10.2026 09:20', '2922 / 2036 / 211', 'Urteile -37', 'netto')
   assert.deepEqual(tagebuchZeilen(gleich, alt, true), alt, 'gleicher Wortlaut an anderer Stelle: nicht erneut')
+const ok = z('19.10.2026 09:00', '2922 / 2036 / 211', 'Urteile -37', 'unauffällig')
+  assert.deepEqual(tagebuchZeilen(gleich, [ok, ok, gleich], true), [gleich, ok, ok, gleich], 'nach unauffälligen Läufen kehrt derselbe Befund wieder: angehängt')
+  assert.deepEqual(tagebuchZeilen(gleich, [gleich, ok], true), [gleich, ok], 'Befund direkt davor, unauffällige Zeile älter: nicht erneut')
   const andere = z('20.10.2026 09:20', '2922 / 2036 / 211', 'Urteile -37', 'netto; neu')
   assert.deepEqual(tagebuchZeilen(andere, alt, true), [andere, ...alt], 'anderer Befund: angehängt')
   assert.deepEqual(tagebuchZeilen(gleich, alt, false), [gleich, ...alt], 'unauffällige Zeile wird immer angehängt')
@@ -218,6 +231,8 @@ const mit = (z, muster) => z.filter((l) => muster.test(l))
     assert.equal(lauf('ok').status, 0)
     assert.equal(lauf('ok').status, 0)
     assert.equal(zaehle(), 4, 'unauffällige Läufe werden jedes Mal angehängt')
+    assert.equal(lauf().status, 0)
+    assert.equal(zaehle(), 5,'derselbe Befund nach unauffälligen Läufen kehrt wieder: neue Zeile')
   } finally {
     rmSync(ordner, { recursive: true, force: true })
   }

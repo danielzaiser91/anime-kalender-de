@@ -27,7 +27,8 @@ const standText = (z: HistorieZeile) => `${zahl(z, 'mitUrteil')} Urteile, ${zahl
 export const TOLERANZ = 5
 const nah = (a: number, b: number) => Math.abs(a - b) <= TOLERANZ
 
-/** Läufe von mindestens drei Zeilen A,B,A,B…, in denen jede Zeile (bis auf die Toleranz) den Stand der übernächsten wiederholt und sich vom Nachbarn abhebt. */
+/** Läufe von mindestens drei Zeilen A,B,A,B…, in denen jede Zeile (bis auf die Toleranz) den Stand der übernächsten wiederholt und sich vom Nachbarn abhebt.
+ * Beide Stände bleiben innerhalb der Toleranz ihres Anfangsstands; wandern sie weiter (je Zyklus -5), ist das eine Drift, kein Pendeln. */
 export function findePendel(zeilen: HistorieZeile[]): Pendel[] {
   const k = zeilen.map((z) => Number(z.mitUrteil))
   const kehrtZurueck = (n: number) => nah(k[n], k[n - 2]) && !nah(k[n], k[n - 1])
@@ -40,7 +41,8 @@ export function findePendel(zeilen: HistorieZeile[]): Pendel[] {
     }
     const von = i - 2
     let bis = i
-    while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1)) bis++
+    const amAnfang = (n: number) => nah(k[n], k[von + ((n - von) % 2)])
+    while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1) && amAnfang(bis + 1)) bis++
     gefunden.push({ von, bis, wechsel: bis - von, davor: von - 1 })
     i = bis + 3
   }
