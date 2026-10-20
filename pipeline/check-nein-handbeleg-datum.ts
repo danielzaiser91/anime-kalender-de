@@ -55,6 +55,18 @@ try {
   pruefe('Ja (Bereich), Nein, dann ein zweites Nein: Nein gilt weiter', sperrt([jaBereich(9, '2026-09-01'), nein(9, '2026-09-10'), nein(9, '2026-09-20')], 9, FREMD))
   pruefe('Ja (Bereich), Nein, dann wieder Ja (Bereich): kein Nein', !sperrt([jaBereich(10, '2026-09-01'), nein(10, '2026-09-10'), jaBereich(10, '2026-09-20')], 10, FREMD))
   pruefe('Nein, Ja, dann Zeile nur mit Notiz: kein Nein', !sperrt([nein(11, '2026-09-01'), ja(11, '2026-09-10'), notiz(11, '2026-09-20')], 11, FREMD))
+  /* Gleicher Tag: kein Urteil „gewinnt“, es zählt der Feldvergleich in Dateireihenfolge (hier bleibt „nicht verfügbar“ stehen). */
+  pruefe('Nein und Ja am selben Tag, Nein zuerst: das Nein gilt (available: false bleibt)', sperrt([weg(15, '2026-09-10'), ja(15, '2026-09-10')], 15, FREMD))
+  pruefe('Ja (Bereich), Nein, dann Ja am Tag des Nein: kein Nein (das Urteil des Nein-Tages gilt nicht mehr)', !sperrt([jaBereich(16, '2026-09-01'), nein(16, '2026-09-10'), ja(16, '2026-09-10')], 16, FREMD))
+  pruefe('Ja (Bereich), Nein vom 10.09., Ja (Bereich) vom 05.09., Datei in dieser Reihenfolge: das Nein bleibt das jüngste', sperrt([jaBereich(17, '2026-09-01'), nein(17, '2026-09-10'), jaBereich(17, '2026-09-05')], 17, FREMD))
+  /* Ohne Adresse sperrt ein Nein die Plattform: auch dort entscheidet das Datum. */
+  const ohne = (id: number, d: string, urteil: string) => `- anilistId: ${id}\n  platform: primevideo\n  checkedAt: '${d}'\n${urteil}`
+  pruefe('ohne Adresse: älteres Ja, jüngeres Nein: Nein gilt', sperrt([ohne(18, '2026-09-01', '  dub: true\n'), ohne(18, '2026-09-10', '  available: false\n')], 18, FREMD))
+  pruefe('ohne Adresse: älteres Nein, jüngeres Ja: kein Nein', !sperrt([ohne(19, '2026-09-01', '  available: false\n'), ohne(19, '2026-09-10', '  dub: true\n')], 19, FREMD))
+  /* Ein jüngeres „nicht verfügbar“ löst auch ein Ja ab, das selbst schon ein Nein abgelöst hat. */
+  pruefe('Nein, Ja, dann „nicht verfügbar“: Nein gilt', sperrt([nein(21, '2026-09-01'), ja(21, '2026-09-05'), weg(21, '2026-09-10')], 21, FREMD))
+  const jaUndWeg = beleg(22, A, '2026-09-10', '  dub: true\n  available: false\n')
+  pruefe('Nein, Ja, dann eine Zeile mit dub: true und available: false: Nein gilt', sperrt([nein(22, '2026-09-01'), ja(22, '2026-09-05'), jaUndWeg], 22, FREMD))
   /* Mehrere Staffeln einer Serie: Zeilen anderer Titel und anderer Adressen bleiben unberührt. */
   const zwei = [jaBereich(12, '2026-09-01'), nein(12, '2026-09-10'), beleg(13, A, '2026-09-10', '  dub: true\n')]
   pruefe('anderer Titel mit derselben Adresse und Ja: kein Nein', !sperrt(zwei, 13, FREMD))
