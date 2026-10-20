@@ -4,7 +4,7 @@ import { dubKey, adressGleich, adressKern, type DubCheck } from '../lib/dub-conf
 import { amazonAdresseRichten, amazonTitelAdresse } from '../lib/amazon-adresse.ts'
 import { adresseFremdBelegt, adresseVerneint, leseZugeordnet } from '../lib/prime-meldung-riegel.ts'
 import { rohDeutsch } from '../lib/kanal-titel.ts'
-import { kanalWissen } from '../lib/kanal-wissen.ts'
+import { kanalAdresseGemerkt, kanalWissen } from '../lib/kanal-wissen.ts'
 import { germanizeUrl } from '../../shared/mappings.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 import { zugangsart, type Zugangsart } from '../../shared/zugangsart.ts'
@@ -155,7 +155,7 @@ export function uebernehmePrimeUndCrVorschlaege({
             : eintrag.asin
               ? amazonTitelAdresse(eintrag.asin)
               : null
-      if (beleg && (!beleg.url || adressGleich(beleg.url, seite ?? undefined))) continue
+      if (beleg ? !beleg.url || adressGleich(beleg.url, seite ?? undefined) : kanalAdresseGemerkt(alleChecks, eintrag.titleId, plattform, seite)) continue
       /*
         **Gehört die Adresse laut Handbeleg einem anderen Titel, gilt die Meldung nicht ihr.**
 
@@ -168,7 +168,7 @@ export function uebernehmePrimeUndCrVorschlaege({
         einem Handbeleg. Übersprungen statt umgebogen — welche Seite die
         richtige ist, sagt die Rohfolge nicht.
       */
-      const fremdBelegt = (adresse: string | null): boolean => adresseFremdBelegt(alleChecks, eintrag.titleId, plattform, adresse)
+      const fremdBelegt = (adresse: string | null): boolean => adresseFremdBelegt(kanalWissen(alleChecks), eintrag.titleId, plattform, adresse)
       /* Seit Migration 030 kennt die Rohfolge die gemeldete Seite — dann gilt die Meldung ihr. */
       if (fremdBelegt(seite) && plattform === 'primevideo' && eintrag.seite) {
         seite = amazonTitelAdresse(eintrag.seite)
