@@ -27,8 +27,8 @@ if (titel.join() !== '1,3') fehler.push(`Belege für Titel ${titel.join(', ') ||
 if (!notizen[0]?.startsWith('  note: "Folgen 1–13 mit deutschem Ton')) fehler.push(`Notiz von Titel 1: ${notizen[0] ?? 'keine'}`)
 if (!notizen[1]?.startsWith('  note: "Tonspuren: Deutsch')) fehler.push(`Notiz von Titel 3: ${notizen[1] ?? 'keine'}`)
 const meldungen = lauf.stderr.split('\n').filter((z) => z.includes('über der Folgenzahl'))
-if (!meldungen.some((z) => z.includes('Titel 1:') && z.endsWith('gekappt'))) fehler.push('keine Warnung „gekappt“ für Titel 1')
-if (!meldungen.some((z) => z.includes('Titel 2:') && z.endsWith('verworfen'))) fehler.push('keine Warnung „verworfen“ für Titel 2')
+if (!meldungen.some((z) => z.includes('Titel 1: Folgen 1–25 ') && z.includes('Folgenzahl 13 ') && z.endsWith('gekappt'))) fehler.push('keine Warnung „gekappt“ für Titel 1')
+if (!meldungen.some((z) => z.includes('Titel 2: Folgen 14–25 ') && z.includes('Folgenzahl 12 ') && z.endsWith('verworfen'))) fehler.push('keine Warnung „verworfen“ für Titel 2')
 if (meldungen.length !== 2) fehler.push(`${meldungen.length} Kappungs-Warnungen statt 2`)
 if (beleg.some((z) => /dubRanges|to: 25/.test(z))) fehler.push('Beleg nennt Folgen über der Folgenzahl')
 if (fehler.length) {

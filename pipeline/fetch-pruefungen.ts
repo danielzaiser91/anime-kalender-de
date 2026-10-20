@@ -1086,7 +1086,7 @@ for (const gruppe of jeAdresse.values()) {
     }
     /* Summenseite (Haikyu!! Staffel 4, 20.10.2026): Bereiche über die Folgenzahl des Titels hinaus gehören anderen Titeln. */
     const gekappt = begrenzeAufFolgenzahl(eigene, t?.episodes)
-    if (gekappt !== eigene) warn(`Titel ${id}: Folgen ${beschreibeBereiche(eigene)} über der Folgenzahl ${t?.episodes} — ${gekappt.length ? 'gekappt' : 'verworfen'}`)
+    if (gekappt !== eigene) warn(`Titel ${id}: ${beschreibeBereiche(eigene)} über der Folgenzahl ${t?.episodes} — ${gekappt.length ? 'gekappt' : 'verworfen'}`)
     if (gekappt !== eigene && !gekappt.length) continue
     eigene = gekappt
 
