@@ -8,6 +8,7 @@ import { join } from 'node:path'
 import ts from 'typescript'
 import { baueEmpfehlung, imEmpfehlungsPool, MAX_GZIP_BYTES, pruefeEmpfehlung } from '../shared/empfehlung-pool.ts'
 import type { Franchises } from '../shared/franchise-typ.ts'
+import { uebersetzeDatei } from './lib/ausgabe-kennung.ts'
 import type { Title } from '../shared/types.ts'
 
 let verletzt = 0
@@ -90,6 +91,16 @@ console.log('\nTeil 1 der Reihe (Grenzfälle):')
     { 130: [glied(130, '2009-01'), glied(131, '2010-01', { staffelQuelle: 1 }), glied(132, '2011-01')] } as unknown as Franchises,
   ).einstiege[0]!
   pruefe('Staffelnummer 1 beim Nicht-Teil-1 wird nicht als „ab“ ausgegeben', !nummer1.duell && nummer1.ab === undefined, nummer1)
+}
+
+console.log('\nAusgabe-Kennung (Seite, Worker und Erweiterung kennen nur `ak`):')
+{
+  const titles = [titel({ id: 10, franchiseId: 10, jpYear: 2010 }), titel({ id: 12, franchiseId: 10, jpYear: 2012 }), titel({ id: 20 })]
+  const d = baueEmpfehlung(titles, {})
+  const aus = uebersetzeDatei('empfehlung.json', d, (id) => id + 1000) as typeof d
+  pruefe('Einstiege tragen die übersetzte Kennung', aus.einstiege.map((k) => k.id).join() === '1010,1020', aus.einstiege.map((k) => k.id))
+  pruefe('reihe: Schlüssel und Wert übersetzt', JSON.stringify(aus.reihe) === '{"1012":1010}', aus.reihe)
+  pruefe('übrige Felder bleiben unverändert', aus.pool === 3 && aus.genres === d.genres && aus.einstiege[0]!.n === d.einstiege[0]!.n && aus.einstiege[0]!.duell === true)
 }
 
 console.log('\nFelder:')
