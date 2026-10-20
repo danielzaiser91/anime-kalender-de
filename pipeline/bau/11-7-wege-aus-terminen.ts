@@ -53,7 +53,8 @@ function tonAusBeleg(beleg: DubCheck | undefined): Pick<StreamLink, 'dub' | 'dub
  * `streams: []` — kein Anbieter-Chip im Panel, und die Prüfliste, die nur über Wege mit Adresse
  * läuft, kannte den Titel nicht. Der Weg entsteht hier, ganz am Ende des Wege-Abschlusses:
  * Anbieter aus dem Termin, Adresse nur, wenn der Termin eine Titelseite nennt (keine Suche, keine
- * tote), sonst `url: ''` wie bei den Cartoons. `dub` bleibt offen — ein Termin ist kein Tonbeleg.
+ * tote), sonst `url: ''` (Weg ohne Adresse, nur der Anbieter ist bekannt; wie bei den Cartoons, am 18.10.2026
+ * 24 Wege bei Disney+, Prime, Netflix, Joyn, RTL+). `dub` bleibt offen — ein Termin ist kein Tonbeleg.
  * Was schon einen Weg zum Anbieter hat oder bewusst entfernt wurde, bleibt unberührt.
  *
  * **Ein Handbeleg gilt vor dem Termin** (11.10.2026: Seit diese Ergänzung läuft, gaben drei Handprüfungen dem Datensatz recht nicht mehr, und der
