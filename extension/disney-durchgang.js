@@ -78,7 +78,7 @@
     const url = lauf.aktuell
     lauf.meldet = true
     schreiben(lauf)
-    Promise.resolve(meldeGebiet(url)).then((ok) => {
+    Promise.resolve(meldeGebiet(url)).catch(() => false).then((ok) => {
       const jetztLauf = lesen()
       if (jetztLauf?.aktuell !== url) return
       if (!ok) return nichtDa(jetztLauf, 'nicht in deinem Gebiet verfügbar (Meldung kam nicht an)')
@@ -166,7 +166,7 @@
         /* Eine Seite, die vor dem Öffnen des Ziels geladen wurde, läuft bis zum Seitenwechsel weiter: ihr Zustand gehört dem Titel davor. */
         const z = seitenStart >= lauf.seiteSeit ? zustand() : {}
         /* Disney+ sagt es selbst („nicht in deinem Gebiet verfügbar", Dialog mit „OK"): kein Warten auf die Schonzeit der Startseite. */
-        if (z.gebiet && seit > 1000) return lauf.meldet ? undefined : gebietMelden({ lauf, meldeGebiet, lesen, schreiben, zurueck, nichtDa, abhaken })
+        if (z.gebiet && seit > 1000 && !lauf.meldet) return gebietMelden({ lauf, meldeGebiet, lesen, schreiben, zurueck, nichtDa, abhaken })
         /* Disney+ leitet einen nicht verfügbaren Titel auf die Startseite um (Dialog „Je nach Standort …"). */
         if (z.startseite && seit > ANKOMMEN_MS) return nichtDa(lauf, 'nicht verfügbar (Startseite)')
         /* Eine andere Titelseite heißt: Daniel hat übernommen — der Lauf zieht ihm den Tab nicht weg. */

@@ -320,6 +320,33 @@ async function gebietRaender() {
   lauf.takt()
   await tick()
   pruefe('Fabrik ohne Gebiets-Weg: gilt als „Meldung kam nicht an", nicht als gemeldet', endeOhne?.gebiet.length === 0 && endeOhne.uebersprungen[0]?.grund === 'nicht in deinem Gebiet verfügbar (Meldung kam nicht an)', endeOhne)
+
+  /* Prüfer zu PR 1735: Ablehnung und Schweigen dürfen den Lauf nicht anhalten. */
+  const abgelehnt = welt([A, B])
+  abgelehnt.gebietAntwort = Promise.reject(new Error('chrome.storage.sync.get wirft'))
+  abgelehnt.lauf.starten()
+  abgelehnt.zustand = dialog
+  abgelehnt.uhr += 5000
+  abgelehnt.lauf.takt()
+  await tick()
+  pruefe('Meldung wirft: A wird übersprungen, der Lauf geht zu B', abgelehnt.geoeffnet.at(-1) === B.url && abgelehnt.dauerMap.size === 1, abgelehnt.geoeffnet)
+  abgelehnt.lauf.beenden()
+  pruefe('… mit Grund „Meldung kam nicht an", nicht als gemeldet gezählt', abgelehnt.ende.gebiet.length === 0 && abgelehnt.ende.uebersprungen[0]?.grund === 'nicht in deinem Gebiet verfügbar (Meldung kam nicht an)', abgelehnt.ende)
+
+  const stumm = welt([A, B])
+  stumm.gebietAntwort = new Promise(() => {})
+  stumm.lauf.starten()
+  stumm.zustand = { startseite: false, kennung: null, eintragUrl: null, gebiet: true }
+  stumm.uhr += 5000
+  stumm.lauf.takt()
+  await tick()
+  pruefe('Antwort bleibt aus: der Lauf wartet zunächst', stumm.geoeffnet.length === 1, stumm.geoeffnet)
+  stumm.uhr += 3 * 60 * 1000
+  stumm.lauf.takt()
+  await tick()
+  pruefe('… nach drei Minuten geht der Lauf weiter, A steht unter „übersprungen"', stumm.geoeffnet.at(-1) === B.url && stumm.lauf.laeuft(), stumm.geoeffnet)
+  stumm.lauf.beenden()
+  pruefe('… mit Grund „kein Ergebnis nach 3 Minuten", nicht als gemeldet gezählt', stumm.ende.uebersprungen[0]?.grund === 'kein Ergebnis nach 3 Minuten' && stumm.ende.gebiet.length === 0, stumm.ende)
 }
 
 const tick = () => new Promise((fertig) => setImmediate(fertig))
