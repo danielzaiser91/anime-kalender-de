@@ -96,6 +96,7 @@ pruefe('ohne Kennung', !adresseIstOmu('https://www.akibapass.tv/products/yaiba-s
 pruefe('„-sub“ zählt nicht', !adresseIstOmu('https://x.de/serie/foo-sub-season-1'))
 pruefe('„omu“ als Wortanfang (omurice) bleibt offen', !adresseIstOmu('https://x.de/serie/omurice-s1') && !adresseIstOmu('https://x.de/serie/foo-omurice'))
 pruefe('„omu“ vor Punkt oder Schrägstrich', adresseIstOmu('https://x.de/serie/foo-omu.html') && adresseIstOmu('https://x.de/serie/omu/s1'))
+pruefe('„omu“ als Wortende (komu) bleibt offen', !adresseIstOmu('https://x.de/serie/komu') && !adresseIstOmu('https://x.de/serie/foo-komu/s1'))
 pruefe('„omu“ im Wort (komunikation)', !adresseIstOmu('https://x.de/serie/komuna'))
 pruefe('Kennung nur im Host zählt nicht', !adresseIstOmu('https://omu.example.org/serie/foo'))
 pruefe('keine Adresse / kaputte Adresse', !adresseIstOmu(undefined) && !adresseIstOmu('kein link'))
