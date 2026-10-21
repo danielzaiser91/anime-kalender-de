@@ -39,6 +39,19 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   keine Uhrzeit, veröffentlicht Anime aber um 17:00 JST = 08:00 UTC (Tudum zu Steel Ball Run;
   Daniel sah Folge 2 um 09:35 noch nicht, um 10:11 schon). `expandEvents` setzt diese Zeit dort,
   wo keine belegt ist, als `timeEstimated` — angezeigt mit „≈", ohne Countdown.
+  **Zweite Ausnahme (18.10.2026, F39): Regeltermin aus einer eigenen Sichtung.** Fehlte eine Folge zu `notSeen`
+  und war zu `seen` da, darf `schedule.time` ein Wert im Fenster sein und gilt als Regeltermin für **alle**
+  Folgen der Serie (auch vergangene). Das Fenster steht als Beleg in `schedule.timeSighting` (`notSeen`, `seen`,
+  `date`, `source`). **Fenster unter 60 min: belegt, kein `timeEstimated`; ab 60 min: `timeEstimated` (≈).**
+  Beobachtet man später an einer Folge eine andere Zeit, steht sie als Abweichung in `schedule.zeiten`
+  (Folge → Uhrzeit) und schlägt den Regeltermin. Es gibt keinen eigenen Leser: alle Stellen lesen wie bisher
+  `schedule.time`/`zeiten`. `data:validate` (`pipeline/lib/sichtungsfenster.ts`) verlangt `schedule.time` im
+  Fenster, vollständige Angaben, ein Datum nicht vor der ersten Folge und nicht in der Zukunft und das
+  `timeEstimated`, das die Fensterbreite vorgibt; das Bau-Log hat die Zeile „N Regeltermin aus Sichtung: …".
+  **Jede kuratierte `time` + `timeEstimated` braucht eine benannte Ausnahme:** `timeSighting` oder einen
+  Eintrag in `FESTGELEGTE_ZEITEN` (Altfall Avatar 11:00, Paramount+: Daniel sah F4–6 um 11:42 schon da,
+  Fenster fehlt, Befund offen, am 23.10. messen; Frist `bis` 25.10.2026: danach Fehler in PR-CI und lokal,
+  im Deploy nur Warnung auf der Konsole, damit er nicht an der Frist stirbt).
 - **Abgeleitetes kennzeichnen.** Datum aus dem Simulcast-Start übernommen statt aus einer
   Dub-Ankündigung? Dann `estimated: true`. Folgenzahl geraten? Setzt die Pipeline selbst als
   `episodeCountAssumed`. Beides erscheint im UI als `≈`.
