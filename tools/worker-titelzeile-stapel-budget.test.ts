@@ -80,7 +80,7 @@ console.log('Zusammenstöße: Wiederholungen reißen das Budget nicht')
   h.vorUpdate = () => db.exec('UPDATE titel_zeile SET version = version + 1')
   const z = zaehlend(env as never)
   const e = await stapel(env, Array.from({ length: 10 }, (_, i) => folge(i, 2)))
-  pruefe(z.n <= 50, `Abfragen ${z.n} unter der Grenze 50`)
+  pruefe(z.n <= 46, `Abfragen ${z.n} im Budget (44 für den Stapel, dazu der Zähler des Aufrufs)`)
   pruefe(e.length === 10 && e.every((x) => x.ok || x.status === 503), `jede Meldung antwortet ok oder 503 (${JSON.stringify(e.map((x) => x.status ?? 'ok'))})`)
   pruefe(e.some(budget503), 'mindestens eine Gruppe scheitert am Budget des Stapels')
 }
@@ -98,7 +98,7 @@ console.log('Gemischter Stapel mit Zusammenstößen: Titelzeilen und bisheriger 
   pruefe(e.length === 10, `10 Ergebnisse (${e.length})`)
   pruefe(e.slice(0, 5).every((x) => !x.ok && x.status === 503), 'die Titelzeilen scheitern an den Zusammenstößen mit 503')
   pruefe(e.slice(5).every(budget503), `der Rest findet das Budget verbraucht (${JSON.stringify(e.slice(5).map((x) => x.grund ?? 'ok'))})`)
-  pruefe(z.n <= 50, `Abfragen ${z.n} unter der Grenze 50`)
+  pruefe(z.n <= 46, `Abfragen ${z.n} im Budget (44 für den Stapel, dazu der Zähler des Aufrufs)`)
 }
 
 console.log('Gemischter Stapel ohne Zusammenstöße: alles angenommen, unter der Grenze')
@@ -107,7 +107,7 @@ console.log('Gemischter Stapel ohne Zusammenstöße: alles angenommen, unter der
   const z = zaehlend(env as never)
   const e = await stapel(env, [...Array.from({ length: 5 }, (_, i) => folge(i, 1)), ...Array.from({ length: 5 }, (_, i) => adn(i))])
   pruefe(e.length === 10 && e.every((x) => x.ok), `alle zehn angenommen (${JSON.stringify(e.map((x) => x.status ?? 'ok'))})`)
-  pruefe(z.n <= 50, `Abfragen ${z.n} unter der Grenze 50`)
+  pruefe(z.n <= 46, `Abfragen ${z.n} im Budget (44 für den Stapel, dazu der Zähler des Aufrufs)`)
 }
 
 console.log('Ein Stapel mit nur einem Titel braucht wenige Abfragen')

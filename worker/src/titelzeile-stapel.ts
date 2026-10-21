@@ -24,9 +24,6 @@ import { kopfAusMeldung, leereDaten, type Eintrag, type TitelDaten } from './tit
 type Glied = { i: number; daten: Record<string, unknown>; ab: Abgeleitet }
 type Gruppe = { url: string; plattform: string; glieder: Glied[] }
 
-/** Eine Gruppe braucht mindestens so viele Abfragen: lesen, Altzeilen suchen, schreiben. */
-const ABFRAGEN_JE_GRUPPE = 3
-
 const BUDGET_GRUND = 'Subrequest-Budget des Stapels überschritten'
 
 class BudgetErreicht extends Error {}
@@ -34,7 +31,8 @@ class BudgetErreicht extends Error {}
 /**
  * Ergebnis je Stapel-Index für die Meldungen, die in einer Titelzeile stehen; die übrigen gehen den bisherigen Weg.
  * Die D1-Abfragen zählen zum Budget des Stapels (`ANFRAGEN_BUDGET`, 21.10.2026): `abfragen` ist, was verbraucht ist, der
- * Rest des Budgets gehört den übrigen Meldungen. Eine Gruppe, die nicht mehr hineinpasst, bekommt 503 und wird neu geschickt.
+ * Rest des Budgets gehört den übrigen Meldungen. Reißt eine Gruppe das Budget (Wiederholungen nach Zusammenstößen), bekommt
+ * sie 503 und wird neu geschickt; die folgenden Gruppen scheitern an ihrer ersten Abfrage ebenso.
  */
 export async function titelzeilenImStapel(env: Env, stapel: unknown[]): Promise<{ ergebnisse: Map<number, StapelErgebnis>; abfragen: number }> {
   const ergebnisse = new Map<number, StapelErgebnis>()
@@ -46,10 +44,6 @@ export async function titelzeilenImStapel(env: Env, stapel: unknown[]): Promise<
   let bau: Promise<string | null> | undefined
   const listenbauAm = () => (bau ??= holeListenbauAm(env))
   for (const g of gruppen(env, stapel)) {
-    if (abfragen + ABFRAGEN_JE_GRUPPE > ANFRAGEN_BUDGET) {
-      for (const m of g.glieder) ergebnisse.set(m.i, abgelehnt(m, { status: 503, grund: BUDGET_GRUND }))
-      continue
-    }
     try {
       for (const [i, r] of await gruppeSpeichern(mitBudget, g, listenbauAm)) ergebnisse.set(i, r)
     } catch (e) {
