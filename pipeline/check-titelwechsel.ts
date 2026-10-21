@@ -125,7 +125,13 @@ function ruft(code: string, name: string): string[][] {
   return treffer
 }
 const aufrufe = ruft(quelle, 'useTitelwechsel')
-gleich('DetailPanel ruft useTitelwechsel genau einmal mit titleId und title', [aufrufe.length, aufrufe[0]?.slice(0, 2)], [1, ['titleId', 'title']])
+gleich(
+  'DetailPanel ruft useTitelwechsel genau einmal mit titleId, title und „hat Termine“',
+  [aufrufe.length, aufrufe[0]],
+  [1, ['titleId', 'title', '(data.releasesByTitle.get(titleId)?.length ?? 0) > 0']],
+)
+const hookQuelle = readFileSync(new URL('../web/src/components/detail/titelwechsel.ts', import.meta.url), 'utf8')
+gleich('der Hook behält die Teilen-Adresse des Titels (zog aus DetailPanel um)', ruft(hookQuelle, 'useTeilenAdresse'), [['title']])
 gleich('kein zweiter Weg im Panel setzt den Tab-Titel', /document\.title\s*=/.test(quelle), false)
 
 if (verletzt) {
