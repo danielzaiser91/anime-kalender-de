@@ -3,7 +3,7 @@ import { expandEvents, istErschienen, istAusgeblieben, titleStatus } from '@shar
 import { dubAbdeckung } from '@shared/dub-grenze.ts'
 import { type Title, type Release } from '@shared/types.ts'
 import { ausgebliebenBis } from './antwort-kasten.tsx'
-import { belegteBereiche, zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, gesamtGeschaetzt, angekuendigteLaenge, fertigAntwort } from './antwort-regeln.ts'
+import { belegteBereiche, zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, deutschBegonnen, gesamtGeschaetzt, angekuendigteLaenge, fertigAntwort } from './antwort-regeln.ts'
 import { filmTermine } from './film-termine.ts'
 import { restUndBlock } from './antwort-block.ts'
 import { jpErschienen, KINO_LAND } from './kino.tsx'
@@ -237,7 +237,7 @@ export function berechneAntwort({ title, releases, today, jetzt = new Date() }: 
   if (kuenftig.length > 0) {
     const n = kuenftig[0]!
     /* Ein abgeschlossenes, vollständig deutsches Werk bleibt „fertig" (`antwort-regeln.ts`). */
-    if (istBelegtAbgeschlossen(hatSynchro, vollstaendig, abgeschlossenFuerKasten, alleEvents, jetzt)) {
+    if (istBelegtAbgeschlossen(hatSynchro && deutschBegonnen(title, raus, today), vollstaendig, abgeschlossenFuerKasten, alleEvents, jetzt)) {
       return fertigAntwort(raus || gesamt, gesamt, vereint.size, alleEvents)
     }
     /*

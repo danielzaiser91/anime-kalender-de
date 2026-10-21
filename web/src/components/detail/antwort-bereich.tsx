@@ -14,7 +14,7 @@ import { angebotSeitZeileVon } from './kasten-hinweise.ts'
 import { KinoZuletzt } from './kino-zuletzt.tsx'
 import type { sortiereNachZugang } from './wege-sortieren.ts'
 
-export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, terminReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, kaufausgabeZeile, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
+export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, terminReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
   antwort: ReturnType<typeof berechneAntwort>
   sortiertNachZugang: ReturnType<typeof sortiereNachZugang>
   streamReleases: Release[]
@@ -26,7 +26,6 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
   wegeHinweis: string | undefined
   tvVorbei: TvZuletzt[]
   kastenNotiz: Release | undefined
-  kaufausgabeZeile: string | undefined
   folgenLuecke: string | null
   verbindung: NewsletterVerbindung
   favorites: Set<number>
@@ -53,6 +52,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
             ])
           }
           antwort={antwort}
+          releases={releases}
           ohneSprachbeleg={alleOhneSprachbeleg(sortiertNachZugang, title, releases)}
           legende={legendeDerZeilen({ sortiert: sortiertNachZugang, title, releases, folgenAngabeFuer, t })}
           terminPillen={terminPillen(terminReleases, title, releases, today, folgenAngabeFuer)}
@@ -64,7 +64,6 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
           folgen={<FolgenMitNachlegern titleId={title.id} wege={deutscheBereicheDerWege(title)} antwort={antwort} releases={releases} today={today} laufzeitImKopf={Boolean(title.runtimeMin)} />}
           schnitt={kastenNotiz?.schnitt}
           angebotSeit={angebotSeitZeileVon(title, t)}
-          kaufausgabe={kaufausgabeZeile}
           hinweis={
             folgenLuecke ? (
               <p className="mt-1 text-t4 text-slate-500 dark:text-slate-400">

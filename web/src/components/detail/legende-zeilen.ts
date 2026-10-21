@@ -1,5 +1,6 @@
 import type { Release, StreamLink, Title } from '@shared/types.ts'
 import { streamNurOmu } from '@shared/ankuendigung.ts'
+import { adresseIstOmu } from '@shared/omu-adresse.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import { istToggo } from './pillen.tsx'
 import { legendeFuer, statusArt, type DubStatusArt } from './pille.tsx'
@@ -14,7 +15,7 @@ type Kaufweg = Wege[number]['streamWege'][number]
 export function streamStatus(title: Title, s: StreamLink, releases: Release[]): DubStatusArt {
   const art = statusArt(s.dub, s.dubQuelle === 'justwatch' ? s.dubStand : undefined)
   if (art === 'justwatch' && !s.dubHintOnly) return 'jwDeutsch'
-  return art === 'offen' && streamNurOmu(title, s, releases) ? 'omu' : art
+  return art === 'offen' && (streamNurOmu(title, s, releases) || adresseIstOmu(s.url)) ? 'omu' : art
 }
 
 /** Weder belegt noch von JustWatch gemeldet: die Zeile steht unter „Weitere Anbieter“ und trägt keinen Sprachbeleg. */
@@ -30,7 +31,8 @@ export function streamWegStatus(g: Kaufweg, title: Title): DubStatusArt {
   if (istAnnahme(e)) return 'annahme'
   const art = statusArt(istToggo(e.url) || e.dubRanges?.some((r) => r.dub) || (title.streams ?? []).find((x) => x.url === e.url)?.dub)
   /* Abgeleitet, nie belegt: Ein Beleg am Weg geht vor, und „schwester“ zählt nirgends als Haken. */
-  return art === 'offen' && e.dubAbgeleitet ? 'schwester' : art
+  if (art === 'offen' && e.dubAbgeleitet) return 'schwester'
+  return art === 'offen' && adresseIstOmu(e.url) ? 'omu' : art
 }
 
 /**
