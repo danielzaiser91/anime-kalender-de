@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-19T11:16:01.165Z",
+  "generatedAt": "2026-10-21T13:16:10.744Z",
   "titleCount": 2922,
-  "belegtCount": 2582,
-  "releaseCount": 788,
-  "eventCount": 3916,
+  "belegtCount": 2590,
+  "releaseCount": 787,
+  "eventCount": 3946,
   "genres": [
     "Action",
     "Adventure",
@@ -187,8 +187,8 @@
     "Apple TV",
     "freenet meinVOD",
     "MagentaTV",
-    "Amazon Prime (Aniverse)",
     "Videoload",
+    "Amazon Prime (Aniverse)",
     "Ausgabe bei aniSearch",
     "Akibapass",
     "Rakuten TV",
@@ -264,7 +264,7 @@
     2016,
     2015
   ],
-  "patchnotesStand": "2026-10-18",
+  "patchnotesStand": "2026-10-21",
   "attribution": [
     "Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0",
     "Metadaten: AniList (https://anilist.co)",

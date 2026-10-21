@@ -87,7 +87,7 @@ function pruefe(input, { gh = ghAufruf, warne = (t) => process.stderr.write(`${t
   }
   const n = zaehleUrteile(kommentare)
   if (n < GRENZE) return null
-  return `R4 gibt es nicht (Daniel 18.10.2026). Dirigent entscheidet: Teilmerge mit Folgeauftrag oder neuer Schnitt. PR ${pr.nummer} hat schon ${n} Prüfer-Urteile. Ausnahme nur mit [runde-ausnahme: <Grund>] im Auftrag.`
+  return `R4 gibt es nicht (Daniel 18.10.2026). PR ${pr.nummer} hat schon ${n} Prüfer-Urteile. Erlaubt: enge Schlussrunde auf den letzten Commit mit [runde-ausnahme: <Grund>] im Prüferauftrag; Teilmerge nur mit Prüfer-Urteil, keine Selbstfreigabe.`
 }
 
 /** Text für stdout: deny-JSON oder leer. Ungültige Eingabe lässt durch. */

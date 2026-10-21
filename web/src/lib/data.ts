@@ -1,4 +1,5 @@
 import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
+import { datenAdresse } from './daten-adresse.ts'
 import { SYNOPSIS_GROUPS, type DiscAusgabe } from '@shared/types.ts'
 import type { WochenDatei } from '@shared/wochen-datei.ts'
 import type { DataMeta, Franchises, Meldung, NewsEintrag, Release, ReleaseEvent, Title } from '@shared/types.ts'
@@ -22,9 +23,11 @@ export interface Dataset {
  */
 declare const __BUILD_ID__: string | undefined
 const BUILD_ID = typeof __BUILD_ID__ === 'string' ? __BUILD_ID__ : 'dev'
+declare const __DATEI_KENNUNGEN__: Record<string, string> | undefined
+const KENNUNGEN = typeof __DATEI_KENNUNGEN__ === 'object' ? __DATEI_KENNUNGEN__ : {}
 
 /**
- * Adresse einer Datendatei — mit Build-Kennung.
+ * Adresse einer Datendatei — mit der Inhalts-Kennung der Datei (`daten-adresse.ts`).
  *
  * Ohne sie blieb nach einem Deploy die alte Fassung stehen, und nur ein hartes
  * Neuladen half. Die Kennung macht daraus eine neue Adresse; für Browser-Cache
@@ -35,7 +38,7 @@ const BUILD_ID = typeof __BUILD_ID__ === 'string' ? __BUILD_ID__ : 'dev'
  * bekannte Fassung zurück, egal welche Kennung die trägt.
  */
 function url(path: string): string {
-  return `${import.meta.env.BASE_URL}data/${path}?v=${BUILD_ID}`
+  return datenAdresse(import.meta.env.BASE_URL, path, KENNUNGEN, BUILD_ID)
 }
 
 export async function loadJson<T>(path: string): Promise<T> {

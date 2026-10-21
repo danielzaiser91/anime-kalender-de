@@ -35,6 +35,12 @@ runs:
         path: ~/.cache/ms-playwright
         key: pw-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
+    # `playwright install(-deps)` ruft `apt-get update`; die vorinstallierte Microsoft-Quelle antwortete am 20.10.2026 mit 403 und riss die Kette ohne Codefehler. Chromium braucht sie nicht.
+    - name: Microsoft-Paketquelle entfernen
+      if: inputs.playwright == 'true'
+      shell: bash
+      run: sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -fv || true
+
     # Ohne Cache-Treffer lädt `install` den Browser samt Systempaketen; mit Treffer fehlen nur die Systempakete.
     - name: Chromium installieren
       if: inputs.playwright == 'true' && steps.pw.outputs.cache-hit != 'true'

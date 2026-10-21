@@ -8,6 +8,7 @@
  * Die Reihenfolge der Rubriken und die Einordnung eines Termins stehen in `mail-sorten.ts` —
  * dort ohne HTML, damit man die Regeln lesen kann.
  */
+import { titelAdresse } from '../../shared/teilen.ts'
 import { SPRACHE_HINWEIS, SPRACHE_MARKE } from '../../shared/ics.ts'
 import { ankuendigungsWort, tagIstAngekuendigt } from '../../shared/news-typen.ts'
 import { toIsoDate } from '../../shared/time.ts'
@@ -44,7 +45,7 @@ export function escapeHtml(value: string): string {
  * Wochenansicht — der Hash sagt ihr nur, welcher Tag gemeint ist.
  */
 export function calendarUrl(ctx: RowContext, ev: ReleaseEvent): string {
-  return `${ctx.siteUrl.replace(/\/$/, '')}/t/${ev.titleId}/#/woche?d=${ev.date}&t=${ev.titleId}`
+  return `${ctx.siteUrl.replace(/\/$/, '')}/${titelAdresse(ev.titleId, ev.titleId, ev.date)}`
 }
 
 /** Der kleine Link am Ende einer Zeile: führt zur Titelseite im Kalender. */

@@ -6,46 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Gore
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-12#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T185500Z
-DTEND:20261012T192500Z
-SUMMARY:Hell’s Paradise – Folge 3/8
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-12#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T192000Z
-DTEND:20261012T195000Z
-SUMMARY:Hell’s Paradise – Folge 4/8
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-12#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T194500Z
-DTEND:20261012T201500Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-12#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T201000Z
-DTEND:20261012T204000Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T140000Z

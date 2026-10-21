@@ -1,17 +1,15 @@
 {
- "erzeugtAm": "2026-10-19T11:16:40.193Z",
+ "erzeugtAm": "2026-10-21T01:29:25.616Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 739,
-   "gesamt": 942,
-   "offen": 203,
-   "ohneSeite": 31,
+   "gemeldet": 859,
+   "gesamt": 899,
+   "offen": 40,
+   "ohneSeite": 18,
    "suchAdressen": [
-    "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
-    "https://www.amazon.de/s?k=Reporter%20Blues&i=instant-video",
     "https://www.amazon.de/s?k=Es%20war%20einmal%20%E2%80%A6%20Amerika&i=instant-video",
     "https://www.amazon.de/s?k=Es%20war%20einmal%20%E2%80%A6%20Die%20Entdeckung%20unserer%20Welt&i=instant-video",
     "https://www.amazon.de/s?k=Miraculous%3A%20Geschichten%20von%20Ladybug%20und%20Cat%20Noir&i=instant-video",
@@ -19,82 +17,22 @@
     "https://www.amazon.de/s?k=Vampire%20Hunter%20D%3A%20Bloodlust&i=instant-video",
     "https://www.amazon.de/s?k=Operation%3A%20Nussknacker%20-%20Auf%20die%20N%C3%BCsse%2C%20fertig%2C%20los!&i=instant-video",
     "https://www.amazon.de/s?k=Sam%3A%20Ein%20fast%20perfekter%20Held&i=instant-video",
-    "https://www.amazon.de/s?k=The%20Birth%20of%20Kitaro%3A%20Das%20Geheimnis%20von%20GeGeGe&i=instant-video",
     "https://www.amazon.de/s?k=Es%20war%20einmal%20%E2%80%A6%20Entdecker%20und%20Erfinder&i=instant-video",
     "https://www.amazon.de/s?k=Isekai%20Onsen%20Paradise&i=instant-video",
     "https://www.amazon.de/s?k=Tayo%20und%20die%20kleinen%20Zauberer&i=instant-video",
-    "https://www.amazon.de/s?k=Ab%20durch%20den%20Dschungel&i=instant-video",
     "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video",
     "https://www.amazon.de/s?k=Prinz%20Ribbit%3A%20Ein%20Frosch%20auf%20Umwegen!&i=instant-video",
-    "https://www.amazon.de/s?k=Die%20Dinos%20sind%20los&i=instant-video",
     "https://www.amazon.de/s?k=Operation%20Nussknacker%202%3A%20Voll%20auf%20die%20N%C3%BCsse&i=instant-video",
     "https://www.amazon.de/s?k=Happy%20Fish%202%3A%20Hai-Alarm%20im%20Hochwasser&i=instant-video",
     "https://www.amazon.de/s?k=Gans%20im%20Gl%C3%BCck&i=instant-video",
-    "https://www.amazon.de/s?k=Ab%20ins%20Meer%3A%20Auf%20der%20Suche%20nach%20der%20verlorenen%20Perle&i=instant-video",
     "https://www.amazon.de/s?k=Outback%3A%20Jetzt%20wird%E2%80%99s%20richtig%20wild!&i=instant-video",
-    "https://www.amazon.de/s?k=Die%20Boonies%3A%20Eine%20b%C3%A4renstarke%20Zeitreise&i=instant-video",
-    "https://www.amazon.de/s?k=Boonie%20Bears%3A%20Ein%20tierisches%20Abenteuer&i=instant-video",
-    "https://www.amazon.de/s?k=Super%20Wings%3A%20Maximum%20Speed&i=instant-video",
-    "https://www.amazon.de/s?k=Bernard%20B%C3%A4r%3A%20Mission%20Mars&i=instant-video",
-    "https://www.amazon.de/s?k=Bernard%20B%C3%A4r%3A%20Eine%20tierische%20Verschw%C3%B6rung&i=instant-video",
-    "https://www.amazon.de/s?k=Der%20K%C3%B6nig%20der%20K%C3%B6nige&i=instant-video",
-    "https://www.amazon.de/s?k=Dragonkeeper&i=instant-video",
-    "https://www.amazon.de/s?k=Manga%20Love%20Story%3A%20Step%20Up%20Love%20Story&i=instant-video"
+    "https://www.amazon.de/s?k=Super%20Wings%3A%20Maximum%20Speed&i=instant-video"
    ],
-   "ziel": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8944b97e-0dac-4af6-9343-fd9014786a6a",
+   "ziel": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
    "ziele": [
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8944b97e-0dac-4af6-9343-fd9014786a6a",
-     "titel": "The Legend of Vox Machina",
-     "hinweis": "Staffeln unklar: TMDB zählt 48 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d6baec2d-d9eb-b71e-a5da-194cd8bf1e4f",
-     "titel": "Phungus & Mowld",
-     "hinweis": "Staffeln unklar: TMDB zählt 3 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6cb73598-111c-d762-dfc8-229e070d9d7e",
-     "titel": "Sherazade – Geschichten aus 1001 Nacht (Sherazade: The Untold Stories)",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.74b1c880-2dbf-11c6-4e87-795cae20636c",
-     "titel": "Troy the Train of Car City",
-     "hinweis": "Staffeln unklar: TMDB zählt 27 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.f10e9a74-91a4-4392-96e2-7090feb92faa",
-     "titel": "PJ Masks – Pyjamahelden (PJ Masks)",
-     "hinweis": "Staffeln unklar: TMDB zählt 257 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c9bcf7ab-b647-4ca9-beb7-ff647c8ec60b",
-     "titel": "Sonic Boom",
-     "hinweis": "Staffeln unklar: TMDB zählt 104 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.71fb4585-caa0-4165-97f9-80e54b5609bd",
-     "titel": "Zoés Zauberschrank (Chloe's Closet)",
-     "hinweis": "Staffeln unklar: TMDB zählt 104 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.726498af-04fb-4249-a0a0-362953271aca",
-     "titel": "Supa Strikas",
-     "hinweis": "Staffeln unklar: TMDB zählt 91 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.b0ba4692-9abe-9f51-5050-73fd2997613c",
-     "titel": "Simon's Cat",
-     "hinweis": "Staffeln unklar: TMDB zählt 147 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
      "titel": "2.5 Dimensional Seduction (2.5-jigen no Ririsa 2nd Season)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0H7YCRTJN",
-     "titel": "Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2 (Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Season 2)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GVN98MKW",
@@ -105,28 +43,12 @@
      "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0F18LDC9W",
-     "titel": "Reincarnated as a Dragon Hatchling"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DRVH7MBP",
-     "titel": "Promise of Wizard"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0DMKS6Y12",
      "titel": "From Bureaucrat to Villainess: Dad’s Been Reincarnated! (From Bureaucrat to Villainess: Dad's Been Reincarnated!)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0F2G6NRW2",
-     "titel": "Beheneko: Ich bin ein mächtiger Behemoth und lebe als Kätzchen bei einer Elfe (Beheneko: The Elf-Girl's Cat is Secretly an S-Ranked Monster!)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0DX1Y1FFR",
      "titel": "Yaiba: Samurai Legend"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DPLRJNLG",
-     "titel": "Kakushite! Makina-san!! (Kakushite! Makina-san!)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DJKGJQ7K",
@@ -141,68 +63,12 @@
      "titel": "Nukitashi: Welcome to Love Island! (Nukitashi THE ANIMATION)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0D516QSYS",
-     "titel": "Wind Breaker"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CYFKT276",
-     "titel": "Wind Breaker"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CYQJ79R8",
      "titel": "Girls Band Cry"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0CYGQ9WSF",
-     "titel": "Demon Slayer: Kimetsu no Yaiba - Hashira Training Arc (Demon Slayer: Kimetsu no Yaiba Hashira Training Arc)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0FSCGZ9SG",
      "titel": "Dragon Ball Daima"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DHT9HQHK",
-     "titel": "Dan Da Dan"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D3KKR2ZW",
-     "titel": "My Deer Friend Nokotan"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D4YZTX2S",
-     "titel": "Shangri-La Frontier: Staffel 2 (Shangri-La Frontier Season 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FD7YTKWK",
-     "titel": "Demon Slayer: Kimetsu no Yaiba - Swordsmith Village Arc (Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B8TKRWGR",
-     "titel": "My Life as Inukai-san’s Dog"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FM8SL11C",
-     "titel": "Kubo Won’t Let Me Be Invisible (Kubo Won't Let Me Be Invisible)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CV2F6K15",
-     "titel": "Giant Beasts of Ars"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FBGJHHXK",
-     "titel": "The Most Heretical Last Boss Queen: From Villainess to Savior"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CJ1VR18Y",
-     "titel": "The Eminence in Shadow: 2nd Season (The Eminence in Shadow Season 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GXPFJJZK",
-     "titel": "Captain Tsubasa: Staffel 2 - Die Junioren (Captain Tsubasa: Junior Youth Arc)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CWLDW55W",
-     "titel": "The Quintessential Quintuplets Movie"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0BZWFR7H1",
@@ -217,40 +83,8 @@
      "titel": "Mob Psycho 100 III"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0CJRDG5R6",
-     "titel": "Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CJYLSY3D",
      "titel": "Golden Kamuy 4 (Golden Kamuy Season 4)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CV3GMKGM",
-     "titel": "Vermeil in Gold"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B6RXJ888",
-     "titel": "The Saint’s Magic Power Is Omnipotent (The Saint's Magic Power is Omnipotent)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D8T3T4S9",
-     "titel": "My Hero Academia: World Heroes’ Mission (My Hero Academia: World Heroes' Mission)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B083F5275T",
-     "titel": "Pet"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CP7P8QCY",
-     "titel": "Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense. (BOFURI: I Don't Want to Get Hurt, so I'll Max Out My Defense.)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D2NL5GYX",
-     "titel": "Haikyu!! To the Top"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CVHGSMMX",
-     "titel": "Deca-Dence"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B09192P17W",
@@ -265,86 +99,6 @@
      "titel": "Dragon Quest: The Adventure of Dai"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0FZ7WGYCB",
-     "titel": "Promare"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DMB2MKZX",
-     "titel": "Date a Live III"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DMKK6DWD",
-     "titel": "Arifureta: From Commonplace to World’s Strongest (Arifureta: From Commonplace to World's Strongest)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0C55SJB1W",
-     "titel": "Vinland Saga"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B09G7W1XRG",
-     "titel": "Seven Days War"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0HFKQ7R7T",
-     "titel": "Trinity Seven: Heavens Library & Crimson Lord"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0G29XKNY3",
-     "titel": "Ride Your Wave"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DG119HH6",
-     "titel": "Wonderland: Das Königreich im Keller (The Wonderland)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0869M8QCJ",
-     "titel": "Psycho-Pass 3"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DPLC3MW8",
-     "titel": "My Hero Academia: The Movie - Heroes Rising (My Hero Academia: Heroes Rising)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FDC33SZ3",
-     "titel": "Human Lost"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CZSMKH71",
-     "titel": "How Heavy Are the Dumbbells You Lift? Gnadenlose Trainingsstunde (How Heavy Are the Dumbbells You Lift?: Silverman Gym Intense Training Course)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D83P6X34",
-     "titel": "Tokyo Ghoul"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B08YDPJY7V",
-     "titel": "Detektiv Conan: Zero der Vollstrecker (Detective Conan: Zero the Enforcer)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0C6X941NR",
-     "titel": "Megalo Box (Megalobox)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0C9FR5F8C",
-     "titel": "Attack on Titan Movie Teil 3: Gebrüll des Erwachens (Attack on Titan: The Roar of Awakening)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FV86Y4H1",
-     "titel": "My Hero Academia: Two Heroes"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B088TJWLG4",
-     "titel": "Penguin Highway"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CW5WH6XZ",
-     "titel": "Tokyo Ghoul:re (Tokyo Ghoul:re 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0G1ZD14D3",
-     "titel": "JoJo’s Bizarre Adventure: Golden Wind (JoJo's Bizarre Adventure: Golden Wind)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CHP5RVPL",
      "titel": "Beyblade Burst"
     },
@@ -353,68 +107,12 @@
      "titel": "Granblue Fantasy: The Animation"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B07KL1ZV6B",
-     "titel": "The Irregular at Magic High School: The Movie - The Girl Who Summons the Stars (The Irregular at Magic High School The Movie: The Girl Who Summons the Stars)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B07PT38YPQ",
-     "titel": "Trinity Seven: Eternity Library & Alchemic Girl (Trinity Seven: Eternal Library & Alchemic Girl)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B088G1L7V1",
-     "titel": "Knight’s & Magic (Knight's & Magic)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B8SRKFGN",
-     "titel": "Overlord (Movies) (Overlord: The Undead King)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B07JFST3RN",
-     "titel": "Mary und die Blume der Hexen (Mary and The Witch's Flower)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B07ZWW42ZZ",
-     "titel": "Boruto: Naruto Next Generations"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0C941RR12",
-     "titel": "Starship Troopers: Traitor of Mars"
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5482d2e9-157c-411c-b5c3-7f3210286c90",
+     "titel": "A Silent Voice"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVBLNC3X",
      "titel": "Die rothaarige Schneeprinzessin: Staffel 2 (Snow White with the Red Hair Season 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0BZMDLZJP",
-     "titel": "Phantasy Star Online 2: The Animation (Phantasy Star Online 2 The Animation)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0825L839L",
-     "titel": "Bungo Stray Dogs"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FQP23X45",
-     "titel": "Sinbad: The Magic Lamp and the Moving Islands"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0F9FWKDXT",
-     "titel": "JoJo’s Bizarre Adventure: Diamond Is Unbreakable (JoJo's Bizarre Adventure: Diamond is Unbreakable)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GXK7RJFW",
-     "titel": "JoJo’s Bizarre Adventure: Diamond Is Unbreakable (JoJo's Bizarre Adventure: Diamond is Unbreakable)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B07L1CMH2D",
-     "titel": "Haikyu!! Karasuno vs. Shiratorizawa (HAIKYU!! 3rd Season)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B01KD0WDK6",
-     "titel": "Kingsglaive: Final Fantasy XV (Kingsglaive Final Fantasy XV)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B06XBNVZ7L",
-     "titel": "Seoul Station"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GX7VDJK3",
@@ -423,10 +121,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0FWXSTJ3K",
      "titel": "Psycho-Pass: The Movie"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B7D54NPQ",
-     "titel": "Samurai Warriors SP: Die Legende der Sanada (Sengoku Musou Special: Sanada's Chapter)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CGYJ482P",
@@ -445,36 +139,8 @@
      "titel": "Tokyo Ghoul √A"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0D4K9PV2F",
-     "titel": "Haikyu!! Zweite Staffel (HAIKYU!! 2nd Season)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DML22FHP",
-     "titel": "Date a Live II"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GYL7L9VX",
-     "titel": "Yu-Gi-Oh! Arc-V"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B08CGK5645",
-     "titel": "Yu-Gi-Oh! Arc-V"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0GMY84XLR",
      "titel": "Wanna Be the Strongest in the World!"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DND4SB6V",
-     "titel": "Samurai Girls 2: Samurai Bride (Samurai Bride)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0C7LZCS5H",
-     "titel": "Date a Live"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CHK728W1",
-     "titel": "Danganronpa (Danganronpa: The Animation)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B09ZJW8HGH",
@@ -485,88 +151,12 @@
      "titel": "Free! Iwatobi Swim Club (Free! -Iwatobi Swim Club-)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B013CUQPNU",
-     "titel": "Freddy Frog: Ein ganz normaler Held (Frog Kingdom)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DNCF1M3N",
-     "titel": "Jormungand"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B00G0PC16U",
-     "titel": "Onigamiden: Legend of the Millennium Dragon (Legend of the Millennium Dragon)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B01ASXCBV4",
-     "titel": "Pokémon: Der Film - Weiß: Victini und Zekrom (Pokémon the Movie: White—Victini and Zekrom)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B01EKI0SQ8",
-     "titel": "Yu-Gi-Oh! Zexal"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6b0f25fd-4994-4c67-bd57-228fde6cef40",
-     "titel": "Haganai: I Don’t Have Many Friends (Haganai)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B01ASYLFJW",
-     "titel": "Pokémon: Der Film - Schwarz: Victini und Reshiram (Pokémon the Movie: Black—Victini and Reshiram)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CPST368C",
-     "titel": "Yu-Gi-Oh!: Bonds Beyond Time (Yu-Gi-Oh! 3D: Bonds Beyond Time)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0DMWSJ7B9",
      "titel": "Maid-sama (Maid-Sama!)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B08V14MGSB",
-     "titel": "Demon King Daimao"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B091FT1NCC",
-     "titel": "Bakuman."
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DP5DZW86",
-     "titel": "Samurai Girls"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0FRB2TRSF",
      "titel": "Bakemonogatari"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0916V7VFR",
-     "titel": "Lupin III. vs Detektiv Conan: The Special (Lupin the 3rd Vs Detective Conan)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B01LZHQI1P",
-     "titel": "Yuna & Stitch Staffel 2 (Stitch! ~The Mischievous Alien's Great Adventure~)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B08FNPM83G",
-     "titel": "Rosario + Vampire"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CHDFY1LD",
-     "titel": "The Familiar of Zero 3: “Rondo” of Princesses (The Familiar of Zero: \"Rondo\" of Princesses)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B09C53B6BQ",
-     "titel": "Rosario + Vampire Capu2"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B01M0SP5H8",
-     "titel": "Yuna & Stitch (Stitch!)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B084DBMYFX",
-     "titel": "Naruto Shippuden (Naruto: Shippuden)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B8PXXV17",
-     "titel": "The Familiar of Zero 2: Knight of the Twin Moons (The Familiar of Zero: Knight of the Twin Moons)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CW5RP53F",
@@ -575,58 +165,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B09JTSD79F",
      "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B07FBFRPXP",
-     "titel": "Yu-Gi-Oh! GX"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B07F9K4QFL",
-     "titel": "Yu-Gi-Oh! GX"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FLDDPRVL",
-     "titel": "Yu-Gi-Oh! Der Film (Yu-Gi-Oh! The Movie: Pyramid of Light)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D59HJGBZ",
-     "titel": "Peace Maker Kurogane (Peacemaker)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DK9XXZYV",
-     "titel": "Naruto: Die Geheimmission - Rettet das Dorf Takigakure (Naruto: The Lost Story - Mission: Protect the Waterfall Village)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0751KL252",
-     "titel": "Detektiv Conan: Das Phantom der Baker Street (Detective Conan: The Phantom of Baker Street)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B00H39Z6Q4",
-     "titel": "Robotic Angel (Metropolis)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DNC57YWT",
-     "titel": "Super Kickers 2006 (Captain Tsubasa)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0C7GQSHYT",
-     "titel": "Yu-Gi-Oh!"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B07FB4D9KM",
-     "titel": "Yu-Gi-Oh!"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B074ZRCX91",
-     "titel": "Detektiv Conan: Der Killer in ihren Augen (Detective Conan: Captured in Her Eyes)"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.70a9f6b2-e01c-dfe3-ef0c-dc0ae2d750a5",
-     "titel": "Digimon (Digimon: Digital Monsters)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CHL1TMC2",
-     "titel": "Detektiv Conan: Der Magier des letzten Jahrhunderts (Detective Conan: The Last Wizard of the Century)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GYDLTDD8",
@@ -641,137 +179,11 @@
      "titel": "Detektiv Conan (Detective Conan)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0FWXB2BKG",
-     "titel": "Lupin III.: Der Schatz des Harimao (Lupin the 3rd: The Pursuit of Harimao's Treasure)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CK5BDPM8",
-     "titel": "Lupin III: Der Höllentrip (Lupin the 3rd: Voyage to Danger)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
      "titel": "Shin-chan (Shin Chan)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DMHSFLGQ",
-     "titel": "Georgie (Lady Georgie)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B088K17QGJ",
-     "titel": "Es war einmal … der Weltraum (Once Upon a Time... Space)"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.1ad7d08f-1403-43ef-bce4-cd0b47c1c80e",
-     "titel": "Secret Level",
-     "hinweis": "Staffeln unklar: TMDB zählt 15 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.7a7dac4b-df26-4863-80bb-6903c78acf7f",
-     "titel": "Sausage Party: Foodtopia",
-     "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.997a9b32-1ceb-4c36-8b93-52198e2a75af",
-     "titel": "Rubble & Crew",
-     "hinweis": "Staffeln unklar: TMDB zählt 162 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a81b91a6-cbf2-4089-9bdc-e17f02f54023",
-     "titel": "Thomas the Tank Engine and Friends",
-     "hinweis": "Staffeln unklar: TMDB zählt 4 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.f4322013-3038-4236-8e69-4be5ff3902d4",
-     "titel": "The Boys - Diabolical (The Boys Presents: Diabolical)",
-     "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.39645b53-62a2-44f6-9765-aecfd64d47a2",
-     "titel": "Thomas & seine Freunde - Alle Maschinen los (Thomas & Friends: All Engines Go!)",
-     "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.740f567b-5708-4b3e-86b2-0529c5105e2a",
-     "titel": "VIP Pets Club",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eba6d76-ed99-baa1-9625-01b9104cea8f",
-     "titel": "Talking Tom Heroes: Suddenly Super",
-     "hinweis": "Staffeln unklar: TMDB zählt 78 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.65f1c706-b9da-4bec-8ff4-1050d7cdcd89",
-     "titel": "Sherwood",
-     "hinweis": "Staffeln unklar: TMDB zählt 10 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.17896d5b-2907-4703-989d-f9ed1ec1da1a",
-     "titel": "Undone",
-     "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.ae3ff17b-4de5-4638-8882-f5f40ab74bcd",
-     "titel": "She-Ra und die Rebellen-Prinzessinnen (She-Ra and the Princesses of Power)",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.44b69da7-d905-017f-c691-54059237c2a9",
-     "titel": "Sylvanian Families",
-     "hinweis": "Staffeln unklar: TMDB zählt 62 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.73e94ed9-65e7-478f-a1d7-1940b52ceda8",
-     "titel": "Splash and Bubbles",
-     "hinweis": "Staffeln unklar: TMDB zählt 78 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.4eb94cf9-eb45-16c7-3e83-e618caafde9b",
-     "titel": "Zack & Quack",
-     "hinweis": "Staffeln unklar: TMDB zählt 78 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.52a52322-0b3d-4a00-b09b-e294df9c7bad",
-     "titel": "Tumble Leaf",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d8a9f6b8-a840-12c4-23e8-ba31e87dc924",
-     "titel": "Wendy",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.b4b6ed81-9ca3-af1e-264d-131b6d3f38b1",
-     "titel": "Superbuch (Superbook)",
-     "hinweis": "Staffeln unklar: TMDB zählt 68 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.84a9f6d4-7e11-7b4f-b3be-3bed0667cf96",
-     "titel": "Summ, summ, super! (The Hive)",
-     "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.745efd5c-a350-4c81-89c5-a9d09abba684",
-     "titel": "Wayside",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.7cb82c8c-11cc-fc25-f90f-58e49d041bba",
-     "titel": "Team Galaxy",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d1db02ca-2142-4ab9-a187-232f74c14666",
-     "titel": "Tutenstein",
-     "hinweis": "Staffeln unklar: TMDB zählt 39 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.01cb826d-d2a1-4099-9c09-e9d5d1c3891c",
-     "titel": "Stargate: Infinity (Stargate Infinity)",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     }
    ],
-   "naechster": "The Legend of Vox Machina",
+   "naechster": "2.5 Dimensional Seduction (2.5-jigen no Ririsa 2nd Season)",
    "bekannt": {
     "B0DGGZSKRM": 13,
     "B0FKZM9J6V": 25,
@@ -842,6 +254,7 @@
     "B0GZ5Q2Z5F": 12,
     "B0DHCNTKCR": 12,
     "B0883CSMBB": 13,
+    "B0FW93J46S": 24,
     "B0CHKG67BC": 12,
     "B0DN482ZYY": 13,
     "B0DNG8BDW3": 12,
@@ -851,6 +264,7 @@
     "0GZZW2CDSPJY95EL7FSWFDN6V2": 13,
     "B0GXK7RJFW": 39,
     "B0CH8YTK4T": 12,
+    "B0CHH61FPJ": 13,
     "B0F5J5JTSL": 10,
     "B0CH9ZGF93": 13,
     "0O7N0W14A4OMCE7NS7M57PFOI1": 12,
@@ -900,6 +314,7 @@
     "B0B6GH3ZK4": 20,
     "B0D58K5WH5": 24,
     "B0CJJKGFGW": 24,
+    "B0B8Q3TSS9": 24,
     "B0BZWFR7H1": 24,
     "B0CJLB4CMP": 25,
     "B0CJYLSY3D": 13,
@@ -913,6 +328,7 @@
     "B08KYJSFPC": 12,
     "B0DZ2ZDJNV": 28,
     "B0DHVD768H": 14,
+    "B0CYFKT276": 13,
     "B0D516QSYS": 13,
     "B0D8FH5NC6": 13,
     "B0FX17N29N": 13,
@@ -922,7 +338,7 @@
     "B0H8NJSHG8": 12,
     "B0DMGBPB65": 12,
     "B0DQTBWY5K": 13,
-    "B0D4YZTX2S": 25,
+    "B0DCNKVZ43": 25,
     "0LT5I796GDNEXFC0NA9A653MJR": 24,
     "B0FZLQTT9W": 13,
     "B0GZD5N2GP": 10,
@@ -946,20 +362,15 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 743,
-   "gesamt": 885,
-   "offen": 142,
+   "gemeldet": 775,
+   "gesamt": 891,
+   "offen": 116,
    "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
     {
      "url": "https://www.netflix.com/title/81608820",
      "titel": "Cosmo & Wanda – Ein neuer Wunsch"
-    },
-    {
-     "url": "https://www.netflix.com/title/82116613",
-     "titel": "Monkey Wrench",
-     "hinweis": "Staffeln unklar: TMDB zählt 6 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/81272431",
@@ -970,48 +381,19 @@
      "titel": "Oshi no Ko: Mein Star"
     },
     {
-     "url": "https://www.netflix.com/title/81712068",
-     "titel": "Die Tagebücher der Apothekerin"
-    },
-    {
-     "url": "https://www.netflix.com/title/83189604",
-     "titel": "Dragon Ball Super: Beerus"
-    },
-    {
-     "url": "https://www.netflix.com/title/81783938",
-     "titel": "Der Herr der Ringe: Die Schlacht der Rohirrim"
-    },
-    {
-     "url": "https://www.netflix.com/title/81947352",
-     "titel": "One Piece Fan Letter"
-    },
-    {
-     "url": "https://www.netflix.com/title/81659233",
-     "titel": "Bakugan"
+     "url": "https://www.netflix.com/title/81943491",
+     "titel": "Dragon Ball Daima",
+     "staffeln": [
+      1
+     ]
     },
     {
      "url": "https://www.netflix.com/title/81642888",
      "titel": "Urusei Yatsura"
     },
     {
-     "url": "https://www.netflix.com/title/81717895",
-     "titel": "The Quintessential Quintuplets Movie"
-    },
-    {
      "url": "https://www.netflix.com/title/70302573",
      "titel": "Sword Art Online"
-    },
-    {
-     "url": "https://www.netflix.com/title/81218604",
-     "titel": "Banana Fish"
-    },
-    {
-     "url": "https://www.netflix.com/title/80186475",
-     "titel": "Pokémon: Die TV-Serie - Sonne & Mond"
-    },
-    {
-     "url": "https://www.netflix.com/title/80075178",
-     "titel": "AnoHana: Die Blume, die wir an jenem Tag sahen"
     },
     {
      "url": "https://www.netflix.com/title/70205010",
@@ -1028,45 +410,11 @@
      ]
     },
     {
-     "url": "https://www.netflix.com/title/70177034",
-     "titel": "Yu-Gi-Oh!"
-    },
-    {
      "url": "https://www.netflix.com/title/80243876",
      "titel": "Berserk",
      "staffeln": [
       1
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81658840",
-     "titel": "Ricky Gervais Alley Cats",
-     "hinweis": "Staffeln unklar: TMDB zählt 6 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/81666277",
-     "titel": "Dang!",
-     "hinweis": "Staffeln unklar: TMDB zählt 8 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/81677608",
-     "titel": "Strip Law - Die Gesetze von Las Vegas",
-     "hinweis": "Staffeln unklar: TMDB zählt 10 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/81772673",
-     "titel": "Mating Season",
-     "hinweis": "Staffeln unklar: TMDB zählt 10 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/81969131",
-     "titel": "LEGO One Piece",
-     "hinweis": "Staffeln unklar: TMDB zählt 2 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/82705687",
-     "titel": "Unicorn Academy: Enthüllte Geheimnisse",
-     "hinweis": "Staffeln unklar: TMDB zählt 20 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/81306317",
@@ -1076,39 +424,15 @@
      ]
     },
     {
-     "url": "https://www.netflix.com/title/81674500",
-     "titel": "Haunted Hotel",
-     "hinweis": "Staffeln unklar: TMDB zählt 18 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/81686879",
-     "titel": "Long Story Short",
-     "hinweis": "Staffeln unklar: TMDB zählt 10 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/82174859",
-     "titel": "KPop Demon Hunters Lyric Videos",
-     "hinweis": "Staffeln unklar: TMDB zählt 7 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/81936702",
-     "titel": "Die Abenteuer der Teenage Mutant Ninja Turtles",
-     "hinweis": "Staffeln unklar: TMDB zählt 24 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/81699703",
-     "titel": "Vida the Vet",
-     "hinweis": "Staffeln unklar: TMDB zählt 104 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/81700960",
-     "titel": "LEGO Friends: Das nächste Kapitel",
-     "hinweis": "Staffeln unklar: TMDB zählt 53 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+     "titel": "Die Abenteuer der Teenage Mutant Ninja Turtles"
     },
     {
      "url": "https://www.netflix.com/title/81936142",
      "titel": "Der unglaubliche digitale Zirkus",
-     "hinweis": "Staffeln unklar: TMDB zählt 9 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+     "staffeln": [
+      1
+     ]
     },
     {
      "url": "https://www.netflix.com/title/80115119",
@@ -1137,36 +461,6 @@
      ]
     },
     {
-     "url": "https://www.netflix.com/title/81637392",
-     "titel": "Little Angel",
-     "hinweis": "Staffeln unklar: TMDB zählt 24 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/81687083",
-     "titel": "Transformers: EarthSpark",
-     "hinweis": "Staffeln unklar: TMDB zählt 40 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/81687176",
-     "titel": "Hier kommen die Batwheels",
-     "hinweis": "Staffeln unklar: TMDB zählt 93 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/81728020",
-     "titel": "Monster High",
-     "hinweis": "Staffeln unklar: TMDB zählt 79 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/81937398",
-     "titel": "Pantheon",
-     "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/82145299",
-     "titel": "CoComelon JJ's Animal Time",
-     "hinweis": "Staffeln unklar: TMDB zählt 60 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/80222892",
      "titel": "I Heart Arlo",
      "staffeln": [
@@ -1192,11 +486,6 @@
      "titel": "Die Oktonauten auf dem Festland"
     },
     {
-     "url": "https://www.netflix.com/title/82134844",
-     "titel": "The Freak Brothers",
-     "hinweis": "Staffeln unklar: TMDB zählt 22 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/81035124",
      "titel": "True: Terrific Tales",
      "staffeln": [
@@ -1216,11 +505,6 @@
      "staffeln": [
       1
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81691739",
-     "titel": "Lukas, die Spinne",
-     "hinweis": "Staffeln unklar: TMDB zählt 50 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/81186971",
@@ -1367,8 +651,16 @@
      "titel": "Emily Erdbeer"
     },
     {
-     "url": "https://www.netflix.com/title/81637333",
-     "titel": "Die Mega-Monster-Wheelies"
+     "url": "https://www.netflix.com/title/81700960",
+     "titel": "LEGO Friends: Das nächste Kapitel"
+    },
+    {
+     "url": "https://www.netflix.com/title/81728020",
+     "titel": "Monster High"
+    },
+    {
+     "url": "https://www.netflix.com/title/81937398",
+     "titel": "Pantheon"
     }
    ],
    "naechster": "Cosmo & Wanda – Ein neuer Wunsch",
@@ -1432,10 +724,10 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 171,
-   "gesamt": 340,
-   "offen": 169,
-   "ohneSeite": 21,
+   "gemeldet": 175,
+   "gesamt": 338,
+   "offen": 163,
+   "ohneSeite": 20,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
     {
@@ -1474,11 +766,6 @@
      "seit": "2026-10-15"
     },
     {
-     "url": "https://www.disneyplus.com/de-de/browse/entity-79a3e335-2acc-408e-a942-1b0bac47d952",
-     "titel": "Though I Am an Inept Villainess",
-     "seit": "2026-10-09"
-    },
-    {
      "url": "https://www.disneyplus.com/de-de/browse/entity-5973d358-1997-47d0-942d-e85b455ed9db",
      "titel": "Fire Force: Staffel 3",
      "seit": "2026-08-26"
@@ -1486,24 +773,6 @@
     {
      "url": "https://www.disneyplus.com/de-de/browse/entity-54a25fcf-a472-4d40-9968-13e2957e5abf",
      "titel": "One-Punch Man: Staffel 3",
-     "seit": "2026-08-26"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-14f5d468-38b2-4d4b-97ed-649e6c3ba4c8",
-     "titel": "Gachiakuta"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/ishura/hQ0p1WPHHQmZ",
-     "titel": "Ishura",
-     "seit": "2026-09-17"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-81a4b821-1dbe-4ecc-9e01-57a7941982c3",
-     "titel": "A Sign of Affection"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/undead-unluck/6yBbjezPBwNW",
-     "titel": "Undead Unluck",
      "seit": "2026-08-26"
     },
     {
@@ -1519,11 +788,6 @@
     {
      "url": "https://www.disneyplus.com/de-de/series/aoashi/27OVvACG0ySD",
      "titel": "Aoashi",
-     "seit": "2026-08-26"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/spyfamily/fet1h9jqmrAM",
-     "titel": "Spy × Family",
      "seit": "2026-08-26"
     },
     {
@@ -1713,6 +977,7 @@
     "6g48QKlgQdWK": 51,
     "870b9187-690d-4a9e-8704-b48564b31322": 49,
     "ef04e263-4751-486c-9001-616f2adf09ba": 59,
+    "cfb90125-8678-4327-a1b8-e608f293eccd": 39,
     "ceb1fd76-acbe-4269-a1f3-532614807772": 131,
     "1b84d641-1bb3-422d-be4c-8e24c7b547cc": 25,
     "b042544d-cd7d-40c6-9be4-db79666a1b51": 23,
@@ -1723,6 +988,7 @@
     "0e46c665-5191-407f-8dc5-e22a0095578c": 100,
     "4XHzb6tQBRtd": 12,
     "7I31jGPKAwz5": 13,
+    "14f5d468-38b2-4d4b-97ed-649e6c3ba4c8": 12,
     "eb5b776f-8162-491a-9aca-c1e9b56729e5": 12,
     "8019edc8-5f73-4c70-88eb-02ea35f724d4": 12,
     "0113d236-c3a2-4098-a663-bdb5979bfb74": 12,
@@ -1737,19 +1003,15 @@
    "name": "Suchadressen",
    "plattform": "suchadressen",
    "gemeldet": 0,
-   "gesamt": 3,
-   "offen": 3,
+   "gesamt": 2,
+   "offen": 2,
    "titel": 0,
-   "ohneSeite": 3,
+   "ohneSeite": 2,
    "ziel": "https://netflix.com",
    "ziele": [
     {
      "url": "https://netflix.com",
      "titel": "Meine ganz besondere Hochzeit: Special"
-    },
-    {
-     "url": "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
-     "titel": "Assassination Classroom: Our Time - The Movie"
     },
     {
      "url": "https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video",

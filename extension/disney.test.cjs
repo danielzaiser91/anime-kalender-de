@@ -186,13 +186,16 @@ pruefe('ein zweiter Abruf derselben Staffel verdoppelt nichts', folgen.size === 
       return q.slice(von, q.indexOf('\n  }\n', von) + 5)
     }
     const antwort = { gemeldet: ['https://x/übernommen'], adressen: ['https://x/im-briefkasten'], eintraege: [] }
+    const wegKontext = {}
+    wegKontext.globalThis = wegKontext
+    require('node:vm').runInNewContext(readFileSync(__dirname + '/disney-weg.js', 'utf8'), wegKontext)
     const kontext = {
       briefkasten: new Map(),
       gemeldeteAdressen: new Set(),
       erneutBeantwortet: new Set(),
       wartetAufUebernahme: new Set(),
       offeneEintraege: () => [],
-      globalThis: { AK_DISNEY_NETZ: { frischGemeldet: async () => new Set() } },
+      globalThis: { AK_DISNEY_NETZ: { frischGemeldet: async () => new Set() }, AK_DISNEY_WEG: wegKontext.AK_DISNEY_WEG },
       liste: {},
       WORKER: 'w',
       fetch: async () => ({ ok: true, json: async () => antwort }),
@@ -245,6 +248,7 @@ pruefe('ein zweiter Abruf derselben Staffel verdoppelt nichts', folgen.size === 
     kontext.globalThis = kontext
     const vm = require('node:vm')
     vm.runInNewContext(readFileSync(__dirname + '/disney-netz.js', 'utf8'), kontext)
+    vm.runInNewContext(readFileSync(__dirname + '/disney-weg.js', 'utf8'), kontext)
     vm.runInNewContext(
       schnitt('function istErledigt(') +
         schnitt('function offeneEintraege(') +

@@ -162,6 +162,12 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   bestand_pruefen() {
     npm run check:bestand > "$TEMP_LAUF/bestand-pruefung.txt" 2>&1 && npm run check:logic >> "$TEMP_LAUF/bestand-pruefung.txt" 2>&1
   }
+  # Die Historie-Zeile dieses Laufs (Schritt „Delta am Bestand festhalten“) misst den Bau vor der Quarantäne. Ausgeliefert wird ein
+  # anderer Bestand: Zeile verwerfen (`verworfen: true`, die Wache überspringt sie) und neu messen (19.10.2026: Pendeln gegen Stände,
+  # die nie live waren). Ein verworfener Bau-Lauf ohne Auslieferung nimmt die Zeile mit `bau_lauf_zuruecknehmen` zurück.
+  historie_neu_messen() {
+    npm run data:historie -- --ersetzen || echo "::warning::Die Historie-Zeile dieses Laufs ließ sich nicht neu messen."
+  }
   # Titel-Quarantäne (18.10.2026, tools/quarantaene.mjs): Tragen die roten Prüfungen Titel-Kennungen, wird ohne genau diese
   # Titel neu gebaut und erneut geprüft, bis es grün ist oder das Gate sperrt (keine neue Kennung, Cartoon, mehr als drei).
   # Nur im Bau-Lauf; der Neubau sieht denselben Vorstand (public/data von HEAD) wie der erste.
@@ -179,15 +185,19 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       if ! { npm run data:vorschlaege && npm run data:dub-checks && npm run data:extension-liste && npm run data:start-liste; }; then
         echo "::warning::Die Arbeitslisten sind nach der Quarantäne nicht neu entstanden."
       fi
-      bestand_pruefen && return 0
+      if bestand_pruefen; then
+        historie_neu_messen
+        return 0
+      fi
     done
     return 1
   }
   # Verworfener Bau-Lauf: Jeder Schritt vor diesem (bestand-bauen.yml) schreibt aus dem verworfenen Stand — Meldungen, Bau,
   # Prüflisten, Prüfstand, Historie — oder aus Briefkästen, die erst nach dem Commit geleert werden. Nur `data:fetch` holt
-  # Eigenes (pipeline/fetch.ts); das bleibt, alles andere geht auf HEAD zurück. Bis 18.10.2026 nur Belege und Stempel,
+  # Eigenes (pipeline/fetch.ts, mit `holeAnisearchCover`); das bleibt, alles andere geht auf HEAD zurück. Bis 18.10.2026 nur Belege und Stempel,
   # die Listen daraus kamen trotzdem ins Repo (Lauf 39161629649: 95 Wiedervorlagen fehlten in Prüfliste und Prüfstand).
-  BAU_LAUF_BEHALTEN=(data/tmdb.json data/curated-ids.json)
+  # Vollständig gegen die Schreibziele von fetch.ts: tools/fetch-schreibziele.mjs, Probe in tools/commit-data-test-verworfen.sh.
+  BAU_LAUF_BEHALTEN=(data/tmdb.json data/curated-ids.json data/anisearch-cover.json)
   bau_lauf_zuruecknehmen() {
     local zeile datei
     while IFS= read -r zeile; do
@@ -196,6 +206,8 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       if git cat-file -e "HEAD:$datei" 2>/dev/null; then
         git checkout HEAD -- "$datei"
       else
+        # Auch aus dem Index: eine vorher gestagte neue Datei käme sonst mit dem Commit nach main.
+        git rm -q --cached --ignore-unmatch -- "$datei"
         rm -f "$datei"
       fi
     done < <(git -c status.renames=false status --porcelain -uall -- "${QUELLEN[@]}")
@@ -307,6 +319,11 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   # Dasselbe für die echte Uhr in Tests (tools/uhr-in-tests.mjs).
   if node tools/uhr-in-tests.mjs --festschreiben > /dev/null 2>&1; then
     hinzu tools/uhr-in-tests-grenzen.json
+  fi
+
+  # Dasselbe für „heute“ als UTC-Tag (tools/heute-utc.mjs).
+  if node tools/heute-utc.mjs --festschreiben > /dev/null 2>&1; then
+    hinzu tools/heute-utc-grenzen.json
   fi
 
   # Dasselbe für die Treffer der Kalender-Plausibilität (pipeline/lib/kalender-plausibilitaet.ts): gesunkene Zahlen übernehmen.

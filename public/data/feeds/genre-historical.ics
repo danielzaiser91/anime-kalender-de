@@ -6,66 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Historical
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T144500Z
-DTEND:20261012T151500Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-12#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T185500Z
-DTEND:20261012T192500Z
-SUMMARY:Hell’s Paradise – Folge 3/8
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-12#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T192000Z
-DTEND:20261012T195000Z
-SUMMARY:Hell’s Paradise – Folge 4/8
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-12#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T194500Z
-DTEND:20261012T201500Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-12#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T201000Z
-DTEND:20261012T204000Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-10-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261013T144500Z
-DTEND:20261013T151500Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T133000Z
@@ -318,6 +258,26 @@ SUMMARY:Dororo
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/9059/
 CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T154000Z
+DTEND:20261027T161000Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261028T154500Z
+DTEND:20261028T161500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-30@anime-kalender-de

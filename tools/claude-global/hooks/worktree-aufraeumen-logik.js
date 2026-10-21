@@ -64,7 +64,7 @@ function entscheide(w, ctx) {
 
 /**
  * Loser `_wt-*`-Ordner ohne Git-Registrierung. eintraege: [{ name, istVerknuepfung }] (lstat, Verknüpfung nicht verfolgt).
- * Weg nur: leer, oder nur Verknüpfungen (Junctions `node_modules`/`cache`), auch einen Ordner tief (`data/cache`, `worker/node_modules`).
+ * Weg nur: leer, oder nur Verknüpfungen (Junctions/Symlinks, jeder Name) und leere Ordner, beliebig tief.
  * Alles andere wird nur aufgelistet. Eintrag mit `kinder` (Namen und Verknüpfungs-Flags) = echter Unterordner.
  */
 function bewerteLosen(ordner) {
@@ -75,9 +75,8 @@ function bewerteLosen(ordner) {
   return { aktion: 'behalten', grund: 'inhalt' }
 }
 
-const JUNCTION_NAMEN = ['node_modules', 'cache']
-const istJunction = (x) => x.istVerknuepfung === true && JUNCTION_NAMEN.includes(x.name)
-const nurVerknuepfung = (x) => (x.kinder ? x.kinder.length > 0 && x.kinder.every(istJunction) : istJunction(x))
+/** Rest: eine Verknüpfung (jeder Name) oder ein Ordner, in dem nur Reste oder nichts liegen; echte Dateien nie. */
+const nurVerknuepfung = (x) => (x.kinder ? x.kinder.every(nurVerknuepfung) : x.istVerknuepfung === true)
 
 /** Löst der Bash-Befehl einen PR-Merge aus? Zu großzügiges Erkennen kostet nur einen unnötigen (gesperrten) Abbaulauf. */
 function istMerge(befehl) {
@@ -96,4 +95,4 @@ function warnzeile(anzahl) {
   return anzahl > WARN_AB ? `Worktree-Wächter: ${anzahl} Worktrees (Grenze ${WARN_AB}); Abbau läuft im Hintergrund, Rest: node ~/.claude/hooks/worktree-aufraeumen.js --liste` : null
 }
 
-module.exports = { SCHONFRIST_MS, SCHONFRIST_PR_MS, WARN_AB, SPERRE_MAX_MS, leseWorktrees, bewertePr, entscheide, bewerteLosen, istMerge, sperreFrei, warnzeile, istWtName, norm }
+module.exports = { SCHONFRIST_MS, SCHONFRIST_PR_MS, WARN_AB, SPERRE_MAX_MS, leseWorktrees, bewertePr, entscheide, bewerteLosen, nurVerknuepfung, istMerge, sperreFrei, warnzeile, istWtName, norm }

@@ -6,68 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Post-Apocalyptic
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-GT00371869@2026-10-12#1@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T153000Z
-DTEND:20261012T160000Z
-SUMMARY:SNOWBALL EARTH Staffel 1 – Folge 1–13/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16948/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-12#23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T162500Z
-DTEND:20261012T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-12#24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T165000Z
-DTEND:20261012T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-13#25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261013T162500Z
-DTEND:20261013T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-13#26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261013T165000Z
-DTEND:20261013T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-196144-primevideo@2026-10-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261013
-DTEND;VALUE=DATE:20261014
-SUMMARY:Snowball Earth
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
-  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
-  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
- anime-kalender.de/t/16948/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-14#27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T162500Z
@@ -264,6 +202,46 @@ UID:auto-21-tv-prosieben-maxx@2026-10-26#44@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261026T175000Z
 DTEND:20261026T182000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-27#45@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T172500Z
+DTEND:20261027T175500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-27#46@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T175000Z
+DTEND:20261027T182000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-28#47@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261028T172500Z
+DTEND:20261028T175500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-28#48@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261028T175000Z
+DTEND:20261028T182000Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
@@ -901,16 +879,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
  g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
  ://anime-kalender.de/t/16761/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-172019-disc@2027-01-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270115
-DTEND;VALUE=DATE:20270116
-SUMMARY:Dr. Stone: Science Future (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15604/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

@@ -5,7 +5,7 @@
 import assert from 'node:assert/strict'
 import { execFileSync, spawn, spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
-import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, renameSync, rmSync, symlinkSync, utimesSync, writeFileSync } from 'node:fs'
+import { existsSync, lstatSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, renameSync, rmSync, symlinkSync, unlinkSync, utimesSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { basename, join } from 'node:path'
 
@@ -84,7 +84,7 @@ const losEintrag = (eintraege, alter = SCHON) => L.bewerteLosen({ eintraege, jet
 assert.deepEqual(losEintrag([]), { aktion: 'weg', grund: 'leer' })
 assert.deepEqual(losEintrag([{ name: 'node_modules', istVerknuepfung: true }]), { aktion: 'weg', grund: 'nur-junction' })
 assert.equal(losEintrag([{ name: 'node_modules', istVerknuepfung: false }]).aktion, 'behalten', 'echter node_modules-Ordner bleibt')
-assert.equal(losEintrag([{ name: 'andere', istVerknuepfung: true }]).aktion, 'behalten')
+assert.equal(losEintrag([{ name: 'andere', istVerknuepfung: true }]).aktion, 'weg', 'Verknüpfung mit jedem Namen')
 // Reste aus Verknüpfungen, auch einen Ordner tief (data/cache, worker/node_modules): weg; jeder echte Eintrag daneben hält sie zurück.
 const link = (name) => ({ name, istVerknuepfung: true })
 const ordner = (name, ...kinder) => ({ name, istVerknuepfung: false, kinder })
@@ -92,8 +92,9 @@ assert.deepEqual(losEintrag([ordner('data', link('cache'))]), { aktion: 'weg', g
 assert.equal(losEintrag([ordner('data', link('cache')), link('node_modules'), ordner('worker', link('node_modules'))]).aktion, 'weg')
 assert.equal(losEintrag([ordner('data', { name: 'cache', istVerknuepfung: false })]).aktion, 'behalten', 'echter Cache im Unterordner')
 assert.equal(losEintrag([ordner('data', link('cache'), { name: 'a.txt', istVerknuepfung: false })]).aktion, 'behalten', 'echte Datei neben der Verknüpfung')
-assert.equal(losEintrag([ordner('data', link('fremd'))]).aktion, 'behalten', 'Verknüpfung mit unbekanntem Namen')
-assert.equal(losEintrag([ordner('data')]).aktion, 'behalten', 'leerer Unterordner ist ein Befund, kein Rest')
+assert.equal(losEintrag([ordner('data', link('fremd'))]).aktion, 'weg', 'Verknüpfung mit unbekanntem Namen')
+assert.equal(losEintrag([ordner('data', ordner('leer'))]).aktion, 'weg', 'leere Ordner sind Rest')
+assert.equal(losEintrag([ordner('data', ordner('x', ordner('y', { name: 'f.txt', istVerknuepfung: false })))]).aktion, 'behalten', 'echte Datei tief unten')
 assert.equal(losEintrag([ordner('data', link('cache')), { name: 'x.txt', istVerknuepfung: false }]).aktion, 'behalten', 'echte Datei im Kopf')
 assert.equal(losEintrag([{ name: 'node_modules', istVerknuepfung: true }, { name: 'x', istVerknuepfung: false }]).aktion, 'behalten')
 assert.equal(losEintrag([], SCHON - 1).grund, 'jung')
@@ -167,6 +168,10 @@ try {
   mkdirSync(fremdNm)
   writeFileSync(join(fremdNm, 'paket.txt'), 'p')
   mkdirSync(fremdCache)
+  mkdirSync(join(haupt, 'node_modules'))
+  writeFileSync(join(haupt, 'node_modules', 'haupt.txt'), 'h')
+  mkdirSync(join(haupt, 'data', 'cache'), { recursive: true })
+  writeFileSync(join(haupt, 'data', 'cache', 'haupt.json'), '{}')
   writeFileSync(join(fremdCache, 'roh.json'), '{}')
   symlinkSync(fremdNm, join(haupt, '_wt-junction', 'node_modules'), 'junction')
   symlinkSync(fremdCache, join(haupt, '_wt-junction', 'data', 'cache'), 'junction')
@@ -446,6 +451,66 @@ try {
   assert.equal(readFileSync(join(fremdNm, 'paket.txt'), 'utf8'), 'p')
   assert.equal(readFileSync(join(haupt, '_wt-lose-echtcache', 'data', 'cache', 'k.json'), 'utf8'), '{}', 'echter Cache bleibt')
   assert.equal(lose(loseListe, '_wt-lose-echtcache').grund, 'inhalt')
+
+  // Verwaiste Ordner NEBEN dem Hauptordner (wie C:/code/ai/_wt-*): nur Verknüpfungen (jeder Name) und leere Ordner gehen weg, alles andere bleibt.
+  const nachbar = (...teile) => join(wurzel, ...teile)
+  mkdirSync(nachbar('_wt-nb-weg', 'data'), { recursive: true })
+  mkdirSync(nachbar('_wt-nb-weg', 'leer', 'tief'), { recursive: true })
+  symlinkSync(fremdNm, nachbar('_wt-nb-weg', 'node_modules'), 'junction')
+  symlinkSync(fremdCache, nachbar('_wt-nb-weg', 'data', 'cache'), 'junction')
+  symlinkSync(fremdCache, nachbar('_wt-nb-weg', 'anderer-name'), 'junction')
+  mkdirSync(nachbar('_wt-nb-datei'))
+  symlinkSync(fremdNm, nachbar('_wt-nb-datei', 'node_modules'), 'junction')
+  writeFileSync(nachbar('_wt-nb-datei', 'echt.txt'), 'e')
+  mkdirSync(nachbar('_wt-nb-git'))
+  symlinkSync(fremdNm, nachbar('_wt-nb-git', 'node_modules'), 'junction')
+  writeFileSync(nachbar('_wt-nb-git', '.git'), 'gitdir: x\n')
+  writeFileSync(nachbar('_wt-nb.log'), 'log')
+  symlinkSync(fremdNm, nachbar('_wt-nb-link'), 'junction')
+  g(haupt, 'worktree', 'add', '-b', 'b-nb-reg', nachbar('_wt-nb-reg'), c1)
+  symlinkSync(fremdNm, nachbar('_wt-nb-reg', 'node_modules'), 'junction')
+  // Tiefe: sechs Ordner übereinander mit Verknüpfung darunter sind noch Rest, bei sieben zählt der nicht mehr gelesene Ordner als Inhalt.
+  const tiefe = (name, n) => Array.from({ length: n }, (_, i) => String.fromCharCode(97 + i)).reduce((pfad, d) => join(pfad, d), nachbar(name))
+  mkdirSync(tiefe('_wt-nb-sechs', 6), { recursive: true })
+  symlinkSync(fremdNm, join(tiefe('_wt-nb-sechs', 6), 'node_modules'), 'junction')
+  mkdirSync(tiefe('_wt-nb-tief', 7), { recursive: true })
+  symlinkSync(fremdNm, join(tiefe('_wt-nb-tief', 7), 'node_modules'), 'junction')
+  const nbListe = H.abbau(haupt, welt, false)
+  assert.deepEqual(['_wt-nb-weg', '_wt-nb-datei', '_wt-nb-git', '_wt-nb.log', '_wt-nb-link', '_wt-nb-tief', '_wt-nb-sechs'].map((n) => lose(nbListe, n).aktion), ['weg', 'behalten', 'behalten', 'behalten', 'behalten', 'behalten', 'weg'])
+  assert.deepEqual(['_wt-nb-datei', '_wt-nb-git', '_wt-nb.log', '_wt-nb-link', '_wt-nb-tief'].map((n) => lose(nbListe, n).grund), ['inhalt', 'inhalt', 'kein-ordner', 'kein-ordner', 'inhalt'])
+  assert.ok(nbListe.lose.every((o) => basename(o.pfad).startsWith('_wt-')), 'nur _wt-*-Namen')
+  assert.equal(lose(nbListe, '_wt-nb-reg'), undefined, 'registrierter Worktree daneben ist kein loser Ordner')
+  assert.equal(existsSync(nachbar('_wt-nb-weg')), true, '--liste ändert nichts')
+  // Haupt-Bestand fehlt: Abbruch, nichts wird gelöst.
+  renameSync(join(haupt, 'node_modules'), join(haupt, 'node_modules-weg'))
+  const ohneNm = H.abbau(haupt, welt, true)
+  assert.ok(ohneNm.fehler.some((f) => f.startsWith('Abbruch, Haupt-Bestand fehlt: node_modules') && f.includes('_wt-nb-weg')), 'Abbruch gemeldet')
+  assert.equal(lstatSync(nachbar('_wt-nb-weg', 'node_modules')).isSymbolicLink(), true, 'Link bleibt, wenn der Haupt-Bestand fehlt')
+  renameSync(join(haupt, 'node_modules-weg'), join(haupt, 'node_modules'))
+  renameSync(join(haupt, 'data', 'cache'), join(haupt, 'data', 'cache-weg'))
+  const ohneCache = H.abbau(haupt, welt, true)
+  assert.ok(ohneCache.fehler.some((f) => f.startsWith('Abbruch, Haupt-Bestand fehlt: data/cache') && f.includes('_wt-nb-weg')))
+  assert.equal(lstatSync(nachbar('_wt-nb-weg', 'node_modules')).isSymbolicLink(), true)
+  renameSync(join(haupt, 'data', 'cache-weg'), join(haupt, 'data', 'cache'))
+  // Verschwindet der Haupt-Bestand erst durch das Lösen, bricht der Lauf ab und meldet es.
+  assert.throws(() => H.raeumeLosen(nachbar('_wt-nb-weg'), haupt, (p) => { unlinkSync(p); if (p.endsWith('node_modules')) renameSync(join(haupt, 'node_modules'), join(haupt, 'node_modules-weg')) }), /Haupt-Bestand fehlt/)
+  renameSync(join(haupt, 'node_modules-weg'), join(haupt, 'node_modules'))
+  // Inhalt neben einer Verknüpfung (nach der Planung dazugekommen): kein Link wird angefasst.
+  assert.throws(() => H.raeumeLosen(nachbar('_wt-nb-datei'), haupt), /Inhalt/)
+  assert.equal(lstatSync(nachbar('_wt-nb-datei', 'node_modules')).isSymbolicLink(), true, 'Link neben echter Datei bleibt')
+  const nbLauf = H.abbau(haupt, welt, true)
+  assert.equal(existsSync(nachbar('_wt-nb-weg')), false, 'Nachbar-Ordner samt Links und leeren Ordnern weg')
+  for (const bleibt of ['_wt-nb-datei', '_wt-nb-git', '_wt-nb.log', '_wt-nb-link', '_wt-nb-reg']) assert.equal(existsSync(nachbar(bleibt)), true, `${bleibt} bleibt`)
+  assert.equal(readFileSync(nachbar('_wt-nb-datei', 'echt.txt'), 'utf8'), 'e')
+  assert.equal(readFileSync(join(fremdNm, 'paket.txt'), 'utf8'), 'p', 'Ziel der Links bleibt voll')
+  assert.equal(readFileSync(join(fremdCache, 'roh.json'), 'utf8'), '{}')
+  assert.equal(readFileSync(join(haupt, 'node_modules', 'haupt.txt'), 'utf8'), 'h', 'Haupt-node_modules unberührt')
+  assert.equal(readFileSync(join(haupt, 'data', 'cache', 'haupt.json'), 'utf8'), '{}', 'Haupt-data/cache unberührt')
+  assert.equal(nbLauf.entfernt, 1, 'genau _wt-nb-sechs (_wt-nb-weg räumte der Attrappen-Lauf davor ab)')
+  assert.equal(existsSync(nachbar('_wt-nb-sechs')), false)
+  // Aufräumen der Nachbar-Reste (Links einzeln lösen, nie rekursiv durch einen Link).
+  for (const p of [['_wt-nb-datei', 'node_modules'], ['_wt-nb-git', 'node_modules'], ['_wt-nb-link'], ['_wt-nb-reg', 'node_modules'], ]) unlinkSync(nachbar(...p))
+  unlinkSync(join(tiefe('_wt-nb-tief', 7), 'node_modules'))
 
   // Sperre im Vordergrundlauf: gehalten → nichts läuft; frei → während des Laufs gehalten, danach (auch bei Fehler) freigegeben.
   const vSperre = join(wurzel, 'vordergrund.lock')

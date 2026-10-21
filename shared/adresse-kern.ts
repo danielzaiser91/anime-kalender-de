@@ -38,3 +38,15 @@ export function adressGleich(a: string | undefined, b: string | undefined): bool
   const ka = adressKern(a)
   return Boolean(ka) && ka === adressKern(b)
 }
+
+/**
+ * Ist der Kern (`adressKern`) keine Ausgabe, sondern eine Such-, Start- oder Länderseite (`amazon.de/s`, `crunchyroll.com`, `anbieter.de/de`)?
+ * Sie zeigt auf keinen Titel, taugt also weder als Adresse eines Nein noch als zweite Ausgabe eines Ja.
+ */
+export function istSammelKern(kern: string): boolean {
+  const host = '[^/:]+\\.[^/:]+'
+  const nurHost = new RegExp(`^${host}$`)
+  const land = new RegExp(`^${host}/(de|en|fr|es|it|pt)(-[a-z]{2})?$`)
+  const suche = new RegExp(`^${host}/(s|search|suche)(/|$)`)
+  return nurHost.test(kern) || land.test(kern) || suche.test(kern)
+}

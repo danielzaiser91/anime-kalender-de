@@ -6,120 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Supernatural
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:bleach-diamonddust-rebellion-adn@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T070000Z
-DTEND:20261012T073000Z
-SUMMARY:Bleach: The DiamondDust Rebellion (neu bei ADN)
-DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nIm Angebot seit diesem Tag 
- – nicht der Erscheinungstag der deutschen Fassung.\nDetails: https://ani
- me-kalender.de/t/2398/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:bleach-fade-to-black-adn@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T070000Z
-DTEND:20261012T073000Z
-SUMMARY:Bleach: Fade to Black (neu bei ADN)
-DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nIm Angebot seit diesem Tag 
- – nicht der Erscheinungstag der deutschen Fassung.\nDetails: https://ani
- me-kalender.de/t/3282/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:bleach-hell-verse-adn@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T070000Z
-DTEND:20261012T073000Z
-SUMMARY:Bleach: The Hell Verse (neu bei ADN)
-DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nIm Angebot seit diesem Tag 
- – nicht der Erscheinungstag der deutschen Fassung.\nDetails: https://ani
- me-kalender.de/t/4477/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-197@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T070000Z
-DTEND:20261012T073000Z
-SUMMARY:Bleach: Memories of Nobody - Movie 1 (neu bei ADN)
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
- em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
- s://anime-kalender.de/t/1451/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T151000Z
-DTEND:20261012T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-12#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T185500Z
-DTEND:20261012T192500Z
-SUMMARY:Hell’s Paradise – Folge 3/8
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-12#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T192000Z
-DTEND:20261012T195000Z
-SUMMARY:Hell’s Paradise – Folge 4/8
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-12#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T194500Z
-DTEND:20261012T201500Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-12#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T201000Z
-DTEND:20261012T204000Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-13#25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261013T151000Z
-DTEND:20261013T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-13#26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261013T153500Z
-DTEND:20261013T160500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T151000Z
@@ -494,15 +380,44 @@ DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
 CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
-UID:rascal-dear-friend-kino@2026-10-27@anime-kalender-de
+UID:auto-223-tv-prosieben-maxx@2026-10-27#44@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261027
-DTEND;VALUE=DATE:20261028
-SUMMARY:Rascal Does Not Dream of a Dear Friend (OmU)
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nOmU: Originalton mit deutsc
- hen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht bestätigt.\
- nDetails: https://anime-kalender.de/t/17068/
-CATEGORIES:Kino
+DTSTART:20261027T160500Z
+DTEND:20261027T163500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-27#45@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T163000Z
+DTEND:20261027T170000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-28#46@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261028T161000Z
+DTEND:20261028T164000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-28#47@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261028T163500Z
+DTEND:20261028T170500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-30@anime-kalender-de

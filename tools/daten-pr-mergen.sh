@@ -3,7 +3,7 @@
 # Daten-Pull-Requests mit dem App-Token mergen (Squash). Aufruf: bash tools/daten-pr-mergen.sh <Nummer>...
 #
 # `--admin` ist der Bypass der App im Ruleset `main-pruefweg`: Ohne das Flag weigert sich `gh` schon, sobald der Pull Request auf eine Freigabe wartet.
-# Ein Pull Request, der sich nicht mergen lässt, macht den Lauf rot (Ausgang 1) — still offen bleiben darf er nicht.
+# Ein Pull Request, der sich nicht mergen lässt oder nicht MERGEABLE ist (Konflikt nach dem Auflösen), macht den Lauf rot (Ausgang 1) — still offen bleiben darf er nicht (20.10.2026: grüner Lauf, PR 1556 blieb im Konflikt).
 set -uo pipefail
 
 # Die App mergt am Ruleset vorbei, also nur, was sie selbst eingereicht hat: eigener Autor, kein Fork, nur Pfade der Quellenliste.
@@ -31,6 +31,12 @@ fremd_grund() {
 
 fehler=0
 for nr in "$@"; do
+  # Fremder Autor (Mensch, lokaler Lauf): nicht Sache der App, den Lauf rot zu machen — der Pull Request geht den normalen Prüfweg (Kette, CI-Prüfer).
+  autor="$(gh pr view "$nr" --json author -q .author.login)"
+  if [ "$autor" != "$APP_AUTOR" ]; then
+    echo "::warning::Pull Request $nr übersprungen: Autor ist $autor, nicht $APP_AUTOR (Zweig besser ohne daten/-Präfix benennen)."
+    continue
+  fi
   zustand=UNKNOWN
   for _ in 1 2 3 4 5 6 7 8 9 10; do
     zustand="$(gh pr view "$nr" --json mergeable -q .mergeable)"
@@ -38,7 +44,8 @@ for nr in "$@"; do
     sleep 3
   done
   if [ "$zustand" != MERGEABLE ]; then
-    echo "::notice::Pull Request $nr bleibt offen ($zustand)."
+    echo "::error::Pull Request $nr bleibt offen ($zustand): der Lauf hat ihn nicht konfliktfrei bekommen."
+    fehler=1
     continue
   fi
   # Marke aus `tools/quellen-pr.sh`: Die Datenprüfungen waren auf diesem Stand rot, erst ein Mensch löst sie.

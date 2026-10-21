@@ -46,7 +46,9 @@ const lauf = (kommentare, prompt = 'Prüfe PR 1400 in danielzaiser91/anime-kalen
 assert.equal(lauf([STUFE, CI, NACHTRAG]).grund, null, '0 Urteile')
 assert.equal(lauf([STUFE, AGENT(1), CI, NACHTRAG, AGENT_R(2), CI]).grund, null, '2 Urteile lassen durch (Runde 3 ist erlaubt)')
 const drei = lauf([STUFE, AGENT(1), CI, NACHTRAG, AGENT_R(2), NACHTRAG, AGENT(3), CI]).grund
-assert.match(drei, /^R4 gibt es nicht \(Daniel 18\.10\.2026\)\. Dirigent entscheidet: Teilmerge mit Folgeauftrag oder neuer Schnitt\./, '3 Urteile sperren')
+assert.match(drei, /^R4 gibt es nicht \(Daniel 18\.10\.2026\)\. PR \d+ hat schon 3 Prüfer-Urteile\./, '3 Urteile sperren')
+assert.match(drei, /enge Schlussrunde.*\[runde-ausnahme: <Grund>\].*keine Selbstfreigabe/, 'Meldung nennt den erlaubten Weg')
+assert.doesNotMatch(drei, /Dirigent entscheidet/, 'kein verleitender Satz')
 assert.ok(lauf(runden(AGENT(1), AGENT(2), AGENT(3), AGENT(4), AGENT(5))).grund, '5 Urteile sperren')
 // CI-Urteile und Nachträge zählen nicht, auch wenn es viele sind.
 assert.equal(lauf([CI, NACHTRAG, CI, CI, NACHTRAG, CI, NACHTRAG, AGENT(1)]).grund, null, 'CI-Urteile zählen nicht')

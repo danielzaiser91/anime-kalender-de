@@ -3,7 +3,7 @@
 //   PostToolUse(Bash) nach erfolgreichem `gh pr merge`  und  SessionStart (dort zusätzlich die Wächterzeile bei > 20 Worktrees).
 // Entfernt wird nur: sauberer Worktree, HEAD seit vor dem Abschluss unbewegt, Ordner frei (Probe-Umbenennen), keine Änderung in den letzten 2 h, Kopf == headRefOid eines gemergten/geschlossenen PR seit mindestens 24 h (Lesen hinterlässt kein Lebenszeichen), kein offener PR, kein echter data/cache.
 // Zweige bleiben. Verknüpfungen (node_modules, data/cache) werden vor dem Entfernen einzeln gelöst, nie rekursiv. Lose `_wt-*`-Ordner:
-// leer oder nur node_modules-Junction → weg, sonst nur aufgelistet.
+// im Hauptordner und daneben: nur Verknüpfungen und leere Ordner → weg (Verknüpfung per unlink, vorher/nachher Haupt-node_modules und data/cache da), sonst nur aufgelistet.
 // Von Hand:  node worktree-aufraeumen.js --liste   (zeigt Entscheidungen, ändert nichts)   |   --abbau (Abbau im Vordergrund)
 // Einträge in ~/.claude/settings.json: siehe docs/wissen/projektregeln-im-detail.md, Punkt „Worktrees räumen sich selbst ab“.
 const { execFileSync, spawnSync } = require('node:child_process')
@@ -135,22 +135,56 @@ function echteWelt(haupt) {
   }
 }
 
-/** Eintrag eines losen Ordners (lstat); echte Unterordner bringen ihre Kinder mit. */
-function leseEintrag(p) {
+/** Tiefer als das gilt ein echter Ordner als Inhalt (ohne weiter zu lesen). */
+const MAX_TIEFE = 6
+
+/** Eintrag eines losen Ordners (lstat, Verknüpfungen nie verfolgt); echte Unterordner bringen ihre Kinder mit. */
+function leseEintrag(p, tiefe = 0) {
   const name = path.basename(p)
   const l = fs.lstatSync(p)
-  if (l.isSymbolicLink() || !l.isDirectory()) return { name, istVerknuepfung: l.isSymbolicLink() }
-  return { name, istVerknuepfung: false, kinder: fs.readdirSync(p).map((n) => ({ name: n, istVerknuepfung: fs.lstatSync(path.join(p, n)).isSymbolicLink() })) }
+  if (l.isSymbolicLink() || !l.isDirectory() || tiefe >= MAX_TIEFE) return { name, istVerknuepfung: l.isSymbolicLink() }
+  return { name, istVerknuepfung: false, kinder: fs.readdirSync(p).map((n) => leseEintrag(path.join(p, n), tiefe + 1)) }
 }
 
-/** Lose `_wt-*`-Ordner unter `haupt` ohne Git-Registrierung, mit Bewertung. */
+/** Einträge unter einem losen Ordner. */
+const leseKinder = (pfad) => fs.readdirSync(pfad).map((n) => leseEintrag(path.join(pfad, n)))
+
+/** Bewertung eines losen `_wt-*`-Eintrags: nur ein echter Ordner kommt in Frage (Dateien wie `_wt-x.log` und Verknüpfungen bleiben). */
+function bewerteLosenPfad(pfad, haupt, jetzt) {
+  try {
+    const l = fs.lstatSync(pfad)
+    if (l.isSymbolicLink() || !l.isDirectory()) return { aktion: 'behalten', grund: 'kein-ordner' }
+    const eintraege = leseKinder(pfad)
+    return L.bewerteLosen({ eintraege, jetzt, juengsteAenderungMs: juengsteAenderung(pfad, haupt) })
+  } catch { return { aktion: 'behalten', grund: 'unlesbar' } }
+}
+
+/** Lose `_wt-*`-Ordner ohne Git-Registrierung im Hauptordner und daneben (dort liegen die meisten Worktrees), mit Bewertung. */
 function loseOrdner(haupt, registriert, jetzt) {
-  return fs.readdirSync(haupt).filter((n) => n.startsWith('_wt-') && !registriert.has(L.norm(`${haupt}/${n}`))).map((name) => {
-    const pfad = path.join(haupt, name)
-    let eintraege = []
-    try { eintraege = fs.readdirSync(pfad).map((n) => leseEintrag(path.join(pfad, n))) } catch { return { pfad, aktion: 'behalten', grund: 'unlesbar' } }
-    return { pfad, ...L.bewerteLosen({ eintraege, jetzt, juengsteAenderungMs: juengsteAenderung(pfad, haupt) }) }
-  })
+  const orte = [haupt, path.dirname(haupt)]
+  return orte.flatMap((ort) => fs.readdirSync(ort)
+    .filter((n) => n.startsWith('_wt-') && !registriert.has(L.norm(`${ort}/${n}`)))
+    .map((name) => ({ pfad: path.join(ort, name), ...bewerteLosenPfad(path.join(ort, name), haupt, jetzt) })))
+}
+
+/** Fehlende Haupt-Bestände (`node_modules`, `data/cache`): dann darf keine Verknüpfung mehr gelöst werden. */
+function fehlendeBestaende(haupt) {
+  return ['node_modules', 'data/cache'].filter((p) => !fs.existsSync(path.join(haupt, p)))
+}
+
+/** Löst einen losen Ordner von unten: Verknüpfungen per unlink (nie rekursiv, nie ein Link verfolgt), dann leere Ordner. Wirft bei Inhalt oder fehlendem Haupt-Bestand. */
+function raeumeLosen(pfad, haupt, unlink = fs.unlinkSync) {
+  if (!L.nurVerknuepfung({ kinder: leseKinder(pfad) })) throw new Error('Inhalt')
+  const loesen = (p) => {
+    const fehlt = fehlendeBestaende(haupt)
+    if (fehlt.length) throw new Error(`Abbruch, Haupt-Bestand fehlt: ${fehlt.join(', ')}`)
+    if (fs.lstatSync(p).isSymbolicLink()) { unlink(p); return }
+    for (const n of fs.readdirSync(p)) loesen(path.join(p, n))
+    fs.rmdirSync(p)
+  }
+  loesen(pfad)
+  const fehlt = fehlendeBestaende(haupt)
+  if (fehlt.length) throw new Error(`Haupt-Bestand fehlt nach dem Lösen: ${fehlt.join(', ')}`)
 }
 
 /** Planen und (mit `los`) ausführen. Rückgabe: { worktrees: [{pfad, zweig, aktion, grund}], lose: [...] , entfernt, fehler }. */
@@ -190,12 +224,10 @@ function entferneWorktree(welt, w, bericht) {
 function vollziehe(haupt, welt, bericht) {
   for (const w of bericht.worktrees.filter((x) => x.aktion === 'weg')) entferneWorktree(welt, w, bericht)
   for (const o of bericht.lose.filter((x) => x.aktion === 'weg')) {
-    if (!welt.loese(o.pfad)) { bericht.fehler.push(`Verknüpfung bleibt: ${o.pfad}`); continue }
     try {
-      for (const n of fs.readdirSync(o.pfad)) fs.rmdirSync(path.join(o.pfad, n))
-      fs.rmdirSync(o.pfad)
+      raeumeLosen(o.pfad, haupt)
       bericht.entfernt++
-    } catch { bericht.fehler.push(`Ordner nicht leer: ${o.pfad}`) }
+    } catch (e) { bericht.fehler.push(`${e.message}: ${o.pfad}`) }
   }
   if (bericht.pruneAus) bericht.fehler.push('prune übersprungen (Ordner nicht zurückbenannt)')
   else git(haupt, 'worktree', 'prune')
@@ -309,4 +341,4 @@ function main() {
 
 if (require.main === module) process.exit(main())
 
-module.exports = { PR_FELDER, abbauImVordergrund, vollziehe, abbau, hook, starteAbbau, ausloeser, nimmSperre, echteWelt, juengsteAenderung, loeseVerknuepfungen, verknuepfungen, ordnerFrei, heileProbeOrdner, kopfZeit, zaehleWt }
+module.exports = { PR_FELDER, abbauImVordergrund, vollziehe, abbau, hook, starteAbbau, ausloeser, nimmSperre, echteWelt, juengsteAenderung, loeseVerknuepfungen, verknuepfungen, ordnerFrei, heileProbeOrdner, kopfZeit, zaehleWt, raeumeLosen, fehlendeBestaende, bewerteLosenPfad }
