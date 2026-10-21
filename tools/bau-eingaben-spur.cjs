@@ -187,7 +187,7 @@ function ohneFs(fd) {
     return args
   })
   const sqlite = (name) => {
-    if (/^(node:)?sqlite$/.test(String(name))) schreibe(fd, 'nativ\tsqlite')
+    if (/^node:sqlite$/.test(String(name))) schreibe(fd, 'nativ\tsqlite')
   }
   process.getBuiltinModule = huelle(process.getBuiltinModule, (args) => {
     sqlite(args[0])

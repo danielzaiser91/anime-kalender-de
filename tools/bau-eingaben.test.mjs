@@ -110,6 +110,7 @@ const fremdeStarts = [
   start({ datei: '/usr/bin/nodex', argv: [], cwd: '.', kennung: '7-0-1' }),
   'dlopen\t/r/node_modules/sharp/build/sharp.node',
   'dlopen\t/r/node_modules/@swc/core-linux-x64-gnu/swc.linux-x64-gnu.node',
+  'dlopen\t/r/node_modules/@napi-rs/canvas.linux-x64-gnu.node',
   'dlopen\t/r/xnode_modules/lightningcss-linux-x64-gnu/lightningcss.linux-x64-gnu.node',
   'dlopen\t/r/node_modules/@rollup/rollup-linux-x64-gnu/rollup.node',
   'dlopen\t/r/node_modules/lightningcss-linux-x64-gnu/lightningcss.linux-x64-gnu.node.x',
