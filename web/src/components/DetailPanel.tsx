@@ -11,7 +11,7 @@ import {
 } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
-import { useTeilenAdresse } from './detail/teilen-adresse.ts'
+import { useTitelwechsel } from './detail/titelwechsel.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 import { useTvVorbei } from './detail/tv-vorbei.tsx'
@@ -29,6 +29,7 @@ import { EckdatenAbschnitt } from './detail/abschnitte.tsx'
 import { HandlungAbschnitt } from './detail/abschnitte.tsx'
 import { TermineAbschnitt } from './detail/abschnitte.tsx'
 import { ReihenListe } from './detail/reihen-liste.tsx'
+import { PANEL_KENNUNG } from './detail/reihen-spur-regeln.ts'
 import { AntwortBereichOderNichts } from './detail/kasten-leer.tsx'
 import { UnterDerAntwort } from './detail/unter-der-antwort.tsx'
 import { PanelBuehne } from './detail/buehne.tsx'
@@ -73,7 +74,7 @@ export function DetailPanel({
     () => titelMitTerminBereichen(titelRoh, data.releasesByTitle.get(titleId) ?? []),
     [titelRoh, data, titleId],
   )
-  useTeilenAdresse(title)
+  useTitelwechsel(titleId, title, (data.releasesByTitle.get(titleId)?.length ?? 0) > 0)
   /**
    * Der leere Rückfall braucht ein `useMemo`, sonst ist er bei jedem Durchlauf
    * ein neues Array — und jeder Hook, der `releases` als Abhängigkeit führt,
@@ -211,12 +212,11 @@ export function DetailPanel({
    */
   const [wechselt, setWechselt] = useState(false)
   /*
-    **Lange Reihen brauchen Reiter, Suche und einen Aufklapper** (Daniel, 17.09.2026, Pokémon
+    **Lange Reihen brauchen Suche und einen Aufklapper** (die Reiter wichen am 20.10.2026 den Zeilen je Gruppe) (Daniel, 17.09.2026, Pokémon
     mit 112 Teilen: „sehr schwer dort für nutzer gesuchte titel der reihe zu finden").
     Der Zustand gilt je Reihe und fällt beim Wechsel der Reihe zurück.
   */
   const reihenSchluessel = reihenTeile[0]?.id ?? 0
-  const [reiheReiter, setReiheReiter] = useState<{ reihe: number; titel: string } | null>(null)
   const [reiheSuche, setReiheSuche] = useState<{ reihe: number; text: string }>({ reihe: 0, text: '' })
   const [reiheOhneOffen, setReiheOhneOffen] = useState<number | null>(null)
 
@@ -465,7 +465,7 @@ export function DetailPanel({
         */
         className="animate-slide-in text-t3 fixed inset-y-0 right-0 z-40 flex w-full max-w-lg flex-col overflow-y-auto pointer-fine:overscroll-contain border-l border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
         role="dialog"
-        data-panel="titel"
+        data-panel={PANEL_KENNUNG}
         aria-label={anzeigeName(title)}
       >
         {/* Kopf (Bild, Name, Knöpfe) steht in `detail/buehne.tsx`; der Kasten beginnt darunter. */}
@@ -546,10 +546,8 @@ export function DetailPanel({
               reiheOhneOffen={reiheOhneOffen}
               reihenSchluessel={reihenSchluessel}
               reiheSuche={reiheSuche}
-              reiheReiter={reiheReiter}
               setReiheOhneOffen={setReiheOhneOffen}
               setReiheSuche={setReiheSuche}
-              setReiheReiter={setReiheReiter}
             />
             }
           />

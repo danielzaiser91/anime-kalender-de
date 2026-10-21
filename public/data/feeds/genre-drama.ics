@@ -6,153 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Drama
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-GT00384006@2026-10-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261011T140000Z
-DTEND:20261011T143000Z
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 2/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16547/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-186541-primevideo@2026-10-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261011T140000Z
-DTEND:20261011T143000Z
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 2/13
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 6547/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:though-i-am-an-inept-villainess@2026-10-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261011T154500Z
-DTEND:20261011T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 11/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16711/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-11#1@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261011T164500Z
-DTEND:20261011T171500Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-11#2@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261011T171000Z
-DTEND:20261011T174000Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:bleach-diamonddust-rebellion-adn@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T070000Z
-DTEND:20261012T073000Z
-SUMMARY:Bleach: The DiamondDust Rebellion (neu bei ADN)
-DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nIm Angebot seit diesem Tag 
- – nicht der Erscheinungstag der deutschen Fassung.\nDetails: https://ani
- me-kalender.de/t/2398/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:bleach-fade-to-black-adn@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T070000Z
-DTEND:20261012T073000Z
-SUMMARY:Bleach: Fade to Black (neu bei ADN)
-DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nIm Angebot seit diesem Tag 
- – nicht der Erscheinungstag der deutschen Fassung.\nDetails: https://ani
- me-kalender.de/t/3282/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-197@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T070000Z
-DTEND:20261012T073000Z
-SUMMARY:Bleach: Memories of Nobody - Movie 1 (neu bei ADN)
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
- em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
- s://anime-kalender.de/t/1451/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-12#23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T162500Z
-DTEND:20261012T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-12#24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T165000Z
-DTEND:20261012T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-12#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T194500Z
-DTEND:20261012T201500Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-12#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T201000Z
-DTEND:20261012T204000Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-13#25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261013T162500Z
-DTEND:20261013T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-13#26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261013T165000Z
-DTEND:20261013T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T140000Z
@@ -356,31 +209,10 @@ UID:mushoku-tensei-s3@2026-10-18#13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261018T150000Z
 DTEND:20261018T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 13/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 6011/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-10-18#14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T150000Z
-DTEND:20261018T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 14/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 13–
+ 14/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16011/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:though-i-am-an-inept-villainess@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T154500Z
-DTEND:20261018T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 12/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16711/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -455,6 +287,17 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-10-21#16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261021T140000Z
+DTEND:20261021T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 16–1
+ 7/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16757/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-21#37@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T162500Z
@@ -473,18 +316,6 @@ SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GRGG9798R@2026-10-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261022T140000Z
-DTEND:20261022T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 16/19
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 6757/
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-22#39@anime-kalender-de
@@ -608,10 +439,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261024T093000Z
 DTEND:20261024T100000Z
 SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 23/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 5570/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/15570/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -620,10 +449,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261024T160000Z
 DTEND:20261024T163000Z
 SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 6797/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16797/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -645,10 +472,8 @@ DTSTART:20261025T150000Z
 DTEND:20261025T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 4/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 6547/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -675,15 +500,96 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
-UID:rascal-dear-friend-kino@2026-10-27@anime-kalender-de
+UID:auto-21-tv-prosieben-maxx@2026-10-26#43@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261027
-DTEND;VALUE=DATE:20261028
-SUMMARY:Rascal Does Not Dream of a Dear Friend (OmU)
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nOmU: Originalton mit deutsc
- hen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht bestätigt.\
- nDetails: https://anime-kalender.de/t/17068/
-CATEGORIES:Kino
+DTSTART:20261026T172500Z
+DTEND:20261026T175500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-26#44@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T175000Z
+DTEND:20261026T182000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-10-26#7@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T204500Z
+DTEND:20261026T211500Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-10-26#8@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T211000Z
+DTEND:20261026T214000Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-27#45@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T172500Z
+DTEND:20261027T175500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-27#46@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T175000Z
+DTEND:20261027T182000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-10-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261028T150000Z
+DTEND:20261028T153000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 18/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
+  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
+ 6757/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-28#47@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261028T172500Z
+DTEND:20261028T175500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-28#48@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261028T175000Z
+DTEND:20261028T182000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:adn-1318@2026-10-29@anime-kalender-de
@@ -695,18 +601,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
  em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
  s://anime-kalender.de/t/4943/
 CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GRGG9798R@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261029T150000Z
-DTEND:20261029T153000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 17/19
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 6757/
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-30@anime-kalender-de
@@ -731,6 +625,26 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
  r Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/15957
  /
 CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:virgin-road-vol1@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:Virgin Road – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12466/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:nukitashi-vol1@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:Nukitashi – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15668/
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:dan-da-dan-s2-vol2-exklusiv@2026-10-30@anime-kalender-de
@@ -793,11 +707,11 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GRGG9798R@2026-11-05@anime-kalender-de
+UID:cr-GRGG9798R@2026-11-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261105T150000Z
-DTEND:20261105T153000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 18/19
+DTSTART:20261104T150000Z
+DTEND:20261104T153000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 19/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
   oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
@@ -861,11 +775,11 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:my-love-story-with-yamada-kun-vol2@2026-11-06@anime-kalender-de
+UID:my-love-story-with-yamada-kun-vol1@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261106
 DTEND;VALUE=DATE:20261107
-SUMMARY:My Love Story with Yamada-kun at Lv999 – Vol. 2 (Disc)
+SUMMARY:My Love Story with Yamada-kun at Lv999 – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14576/
 CATEGORIES:DVD / Blu-ray
@@ -961,18 +875,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  mus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/
  t/12/
 CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GRGG9798R@2026-11-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261112T150000Z
-DTEND:20261112T153000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 19/19
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 6757/
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-12@anime-kalender-de
@@ -1161,6 +1063,26 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  mus oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/
  t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:inazuma-eleven-s1-box@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Inazuma Eleven – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/3427/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:girls-band-cry-vol2@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Girls Band Cry – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15059/
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:anne-shirley-vol2@2026-11-20@anime-kalender-de
@@ -1465,16 +1387,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:my-love-story-with-yamada-kun-vol3@2026-12-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261204
-DTEND;VALUE=DATE:20261205
-SUMMARY:My Love Story with Yamada-kun at Lv999 – Vol. 3 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14576/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:apothecary-diaries-s2-vol1@2026-12-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261204
@@ -1482,16 +1394,6 @@ DTEND;VALUE=DATE:20261205
 SUMMARY:Die Tagebücher der Apothekerin – Staffel 2 – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15778/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-166477-disc@2026-12-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261204
-DTEND;VALUE=DATE:20261205
-SUMMARY:The Café Terrace and Its Goddesses (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15195/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -1730,6 +1632,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
  g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
  ://anime-kalender.de/t/488/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:my-love-story-with-yamada-kun-vol2@2026-12-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+SUMMARY:My Love Story with Yamada-kun at Lv999 – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14576/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -2063,6 +1975,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:my-love-story-with-yamada-kun-vol3@2027-01-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:My Love Story with Yamada-kun at Lv999 – Vol. 3 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14576/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:jujutsu-kaisen-hidden-inventory-premature-death-blu-ray@2027-01-15@anim
  e-kalender-de
 DTSTAMP:20200101T000000Z
@@ -2096,6 +2018,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
  g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
  ://anime-kalender.de/t/14999/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-166477-disc@2027-01-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:The Café Terrace and Its Goddesses (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15195/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

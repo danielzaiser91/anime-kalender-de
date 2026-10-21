@@ -1,149 +1,124 @@
 /**
- * Das Vorschaubild im Poster-Stil der Seite (27.09.2026): dunkler Grund, Cover links in voller
- * Höhe, rechts Anbieter-Chips, Titel in Unbounded, die Eckdaten als Raster, unten die Wortmarke.
+ * Das Vorschaubild im Kino-Stil (Daniel, 14.10.2026): das Cover als Plakat rechts und unscharf noch
+ * einmal als Hintergrund, links Marke, Titel, der Termin als orange Datumsmarke, die Chips unten.
+ * Ohne Cover bleiben Glut und Wasserzeichen der Marke (wie im Standardbild).
  *
- * Jeder Text ist eine eigene Ebene aus sharps Texteingabe (Pango mit `fontfile`) — SVG-Text
- * hätte nur die Systemschriften (siehe `og-schriften.ts`).
+ * Jeder Text ist eine eigene Ebene (`og-text.ts`); Marke und Wortmarke stehen in `og-lockup.ts`.
  */
 import sharp from 'sharp'
 import type { OverlayOptions } from 'sharp'
-import { pangoFamilie, schriftDatei, SCHRIFTEN, type Schrift } from './og-schriften.ts'
+import { lockup } from './og-lockup.ts'
+import { MARKE_INNEN, MARKE_KACHEL } from './og-marke.ts'
+import { eineZeile, markup, text } from './og-text.ts'
 
 export const W = 1200
 export const H = 630
-const COVER_W = 420
-const X = COVER_W + 50
-const TEXT_W = W - X - 50
+const X = 70
+const POSTER = { x: 800, y: 60, w: 340, h: 510, r: 18 }
+const TEXT_BREITE = 680
 
-const GRUND = '#0d0f14'
-const TEXT = '#f2f1ee'
-const LEISE = '#9aa0ab'
-const AKZENT = '#ff5a36'
+export const GRUND = '#0d0f14'
+export const TEXT = '#f2f1ee'
+export const LEISE = '#9aa0ab'
+export const AKZENT = '#ff5a36'
 
 export interface KartenDaten {
   title: string
-  subtitle?: string
-  lines: { label: string; value: string }[]
-  badges: { text: string; color: string }[]
-  /** Farbe des Streifens unter dem Cover — der Anbieter. */
-  accent: string
-}
-
-function markup(text: string): string {
-  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-}
-
-/** Ein Textblock als Bild; `breite` bricht um, `hoehe` ist die Obergrenze der Messung. */
-async function text(inhalt: string, schrift: Schrift, groesse: number, farbe: string, breite = TEXT_W) {
-  const s = SCHRIFTEN[schrift]
-  /* Das Gewicht steht im Markup: Pango kennt jede Familie nur einmal, der Schnitt kommt über `weight`. */
-  const bild = await sharp({
-    text: {
-      text: `<span foreground="${farbe}" weight="${s.gewicht}">${inhalt}</span>`,
-      font: `${pangoFamilie(schrift)} ${groesse}`,
-      fontfile: schriftDatei(schrift),
-      width: breite,
-      rgba: true,
-      dpi: 72,
-      wrap: 'word',
-    },
-  })
-    .png()
-    .toBuffer({ resolveWithObject: true })
-  return { input: bild.data, hoehe: bild.info.height, breite: bild.info.width }
+  /** Datumsmarke („Fr, 16.10."), daneben `folge`, darunter `fakt` (leer = keine Zeile). */
+  datum: string
+  folge: string
+  fakt: string
+  /** `akzent`: Chip im Akzent statt im Grau (Läuft). */
+  badges: { text: string; color: string; akzent?: boolean }[]
 }
 
 /**
- * Der Titel so groß wie möglich, höchstens drei Zeilen: erst 56 px, dann kleiner; passt er auch
+ * Der Titel so groß wie möglich, höchstens zwei Zeilen: erst 62 px, dann kleiner; passt er auch
  * bei 38 px nicht, wird er am Wortende gekürzt.
  */
 async function titel(t: string) {
-  for (const groesse of [56, 48, 40]) {
-    const block = await text(markup(t), 'titel', groesse, TEXT)
-    if (block.hoehe <= groesse * 1.3 * (groesse >= 48 ? 2 : 3)) return block
+  const passt = (hoehe: number, groesse: number) => hoehe <= groesse * 1.3 * 2
+  for (const groesse of [62, 52, 44, 38]) {
+    const block = await text(markup(t), 'titel', groesse, TEXT, TEXT_BREITE)
+    if (passt(block.hoehe, groesse)) return block
   }
   const woerter = t.split(/\s+/)
   while (woerter.length > 1) {
     woerter.pop()
-    const block = await text(`${markup(woerter.join(' '))} …`, 'titel', 40, TEXT)
-    if (block.hoehe <= 40 * 1.3 * 3) return block
+    const block = await text(`${markup(woerter.join(' '))} …`, 'titel', 38, TEXT, TEXT_BREITE)
+    if (passt(block.hoehe, 38)) return block
   }
-  return text(markup(t), 'titel', 40, TEXT)
+  return text(markup(t), 'titel', 38, TEXT, TEXT_BREITE)
 }
 
-/** Genau eine Zeile: Was nicht passt, wird am Wortende gekürzt und bekommt „…". */
-async function eineZeile(inhalt: string, schrift: Schrift, groesse: number, farbe: string, breite = TEXT_W) {
-  const woerter = inhalt.split(/\s+/)
-  let block = await text(markup(inhalt), schrift, groesse, farbe, breite)
-  while (block.hoehe > groesse * 1.8 && woerter.length > 1) {
-    woerter.pop()
-    block = await text(`${markup(woerter.join(' ').replace(/[,;:·–-]$/, ''))} …`, schrift, groesse, farbe, breite)
-  }
-  return block
-}
-
-/** Chips wie auf der Seite: Punkt in der Farbe, Text hell auf dunkler Fläche. */
-async function chips(badges: KartenDaten['badges'], y: number): Promise<OverlayOptions[]> {
+/** Chips wie auf der Seite: Punkt in der Farbe, Text hell auf dunkler Fläche; `bis` ist die rechte Grenze. */
+async function chips(badges: KartenDaten['badges'], y: number, bis: number): Promise<OverlayOptions[]> {
   const ebenen: OverlayOptions[] = []
   let x = X
   for (const b of badges) {
-    const t = await text(markup(b.text), 'fett', 20, TEXT, 400)
-    const breite = t.breite + 52
-    if (x + breite > W - 50) break
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${breite}" height="40"><rect x="1" y="1" width="${breite - 2}" height="38" rx="19" fill="#1b202a" stroke="#2c3240"/><circle cx="21" cy="20" r="6" fill="${b.color}"/></svg>`
-    ebenen.push({ input: Buffer.from(svg), top: y, left: x }, { input: t.input, top: y + Math.round((40 - t.hoehe) / 2), left: x + 36 })
-    x += breite + 10
+    const t = await text(markup(b.text), 'fett', 24, b.akzent ? '#ff7a5c' : TEXT, 400)
+    const breite = t.breite + 48
+    if (x + breite > bis) break
+    const rand = b.akzent ? AKZENT : '#2c3240'
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${breite}" height="48"><rect x="1" y="1" width="${breite - 2}" height="46" rx="23" fill="#1b202a" stroke="${rand}" stroke-width="2"/><circle cx="28" cy="24" r="6" fill="${b.color}"/></svg>`
+    ebenen.push({ input: Buffer.from(svg), top: y, left: x }, { input: t.input, top: y + Math.round((48 - t.hoehe) / 2), left: x + 40 })
+    x += breite + 12
   }
   return ebenen
 }
 
-/** Die Eckdaten als Raster aus zwei Spalten: Beschriftung klein und leise, Wert groß. */
-async function raster(lines: KartenDaten['lines'], y: number): Promise<OverlayOptions[]> {
-  const ebenen: OverlayOptions[] = []
-  const spalte = Math.floor(TEXT_W / 2)
-  /* Höchstens fünf: die sechste Zelle unten rechts gehört der Wortmarke. */
-  for (const [i, l] of lines.slice(0, 5).entries()) {
-    const x = X + (i % 2) * spalte
-    const top = y + Math.floor(i / 2) * 66
-    const label = await text(markup(l.label.toUpperCase()), 'fett', 15, LEISE, spalte - 20)
-    const wert = await eineZeile(l.value, 'halbfett', 26, TEXT, spalte - 20)
-    ebenen.push({ input: label.input, top, left: x }, { input: wert.input, top: top + 22, left: x })
+/** Datumsmarke in der Akzentfarbe, daneben die Folgen; liefert die Ebenen. */
+async function datumZeile(datum: string, folge: string, y: number): Promise<OverlayOptions[]> {
+  const marke = await text(markup(datum), 'fett', 40, GRUND, 400)
+  const breite = marke.breite + 48
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${breite}" height="72"><rect width="${breite}" height="72" rx="14" fill="${AKZENT}"/></svg>`
+  const ebenen: OverlayOptions[] = [
+    { input: Buffer.from(svg), top: y, left: X },
+    { input: marke.input, top: y + Math.round((72 - marke.hoehe) / 2), left: X + 24 },
+  ]
+  if (folge) {
+    const t = await eineZeile(folge, 'halbfett', 36, TEXT, TEXT_BREITE - breite - 20)
+    ebenen.push({ input: t.input, top: y + Math.round((72 - t.hoehe) / 2), left: X + breite + 20 })
   }
   return ebenen
 }
 
-/** Die Wortmarke unten rechts: „anime·kalender" mit dem Punkt im Akzent. */
-async function wortmarke(): Promise<OverlayOptions> {
-  const marke = await text(`anime<span foreground="${AKZENT}">·</span>kalender`, 'marke', 26, TEXT, 400)
-  return { input: marke.input, top: H - 40 - marke.hoehe, left: W - 50 - marke.breite }
+/** Glut unten links und die Marke als Wasserzeichen rechts: der Grund ohne Cover und für das Standardbild. */
+export function glutEbenen(): OverlayOptions[] {
+  /* Eine Ebene in Bildgröße: sharp legt nichts über den Rand hinaus (Glut und Zeichen ragen aus dem Bild). */
+  const grund = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><defs><radialGradient id="g" gradientUnits="userSpaceOnUse" cx="250" cy="550" r="350"><stop offset="0" stop-color="${AKZENT}" stop-opacity="0.42"/><stop offset="1" stop-color="${AKZENT}" stop-opacity="0"/></radialGradient></defs><rect width="${W}" height="${H}" fill="url(#g)"/><g opacity="0.1" transform="translate(720 -40) scale(${620 / 64})"><rect width="64" height="64" rx="14" fill="${MARKE_KACHEL}"/>${MARKE_INNEN}</g></svg>`
+  return [{ input: Buffer.from(grund), top: 0, left: 0 }]
 }
 
-async function coverEbenen(cover: Buffer | undefined, farbe: string): Promise<OverlayOptions[]> {
-  if (!cover) {
-    /* Ohne Cover: eine Fläche mit dem Logo, damit die Karte nicht halb leer wirkt. */
-    const logo = `<svg xmlns="http://www.w3.org/2000/svg" width="${COVER_W}" height="${H}"><rect width="${COVER_W}" height="${H}" fill="#151922"/><g transform="translate(${(COVER_W - 200) / 2} ${(H - 200) / 2}) scale(0.39)"><rect width="512" height="512" rx="102" fill="#1b2130"/><rect x="41" y="101" width="430" height="370" rx="95" fill="#e6e9f0"/><rect x="41" y="101" width="430" height="96" rx="95" fill="#38bdf8"/><rect x="41" y="168" width="430" height="37" fill="#38bdf8"/><rect x="144" y="67" width="34" height="69" rx="17" fill="#e6e9f0"/><rect x="333" y="67" width="34" height="69" rx="17" fill="#e6e9f0"/><path d="M213 268 351 342 213 416Z" fill="#0f1420"/></g><rect y="${H - 10}" width="${COVER_W}" height="10" fill="${farbe}"/></svg>`
-    return [{ input: Buffer.from(logo), top: 0, left: 0 }]
-  }
-  const bild = await sharp(cover).resize(COVER_W, H, { fit: 'cover', position: 'attention' }).png().toBuffer()
-  const verlauf = `<svg xmlns="http://www.w3.org/2000/svg" width="${COVER_W}" height="${H}"><defs><linearGradient id="v" x1="0" x2="1"><stop offset="0.8" stop-color="${GRUND}" stop-opacity="0"/><stop offset="1" stop-color="${GRUND}" stop-opacity="1"/></linearGradient></defs><rect width="${COVER_W}" height="${H}" fill="url(#v)"/><rect y="${H - 10}" width="${COVER_W}" height="10" fill="${farbe}"/></svg>`
-  return [{ input: bild, top: 0, left: 0 }, { input: Buffer.from(verlauf), top: 0, left: 0 }]
+/** Cover unscharf als Hintergrund, abgedunkelt nach links, dazu das Plakat mit Schatten und Rand. */
+async function coverEbenen(cover: Buffer): Promise<OverlayOptions[]> {
+  const hintergrund = await sharp(cover).resize(W, H, { fit: 'cover', position: 'attention' }).blur(44).modulate({ saturation: 1.2 }).png().toBuffer()
+  const dunkel = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><defs><linearGradient id="d" x1="0" x2="1"><stop offset="0" stop-color="${GRUND}" stop-opacity="1"/><stop offset="0.55" stop-color="${GRUND}" stop-opacity="0.86"/><stop offset="1" stop-color="${GRUND}" stop-opacity="0.35"/></linearGradient></defs><rect width="${W}" height="${H}" fill="${GRUND}" fill-opacity="0.45"/><rect width="${W}" height="${H}" fill="url(#d)"/></svg>`
+  const { x, y, w, h, r } = POSTER
+  const schatten = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><defs><filter id="s" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="40"/></filter></defs><rect x="${x}" y="${y + 30}" width="${w}" height="${h}" rx="${r}" fill="#000" fill-opacity="0.6" filter="url(#s)"/></svg>`
+  const maske = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect width="${w}" height="${h}" rx="${r}"/></svg>`)
+  const plakat = await sharp(cover).resize(w, h, { fit: 'cover', position: 'attention' }).composite([{ input: maske, blend: 'dest-in' }]).png().toBuffer()
+  const rand = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect x="1.5" y="1.5" width="${w - 3}" height="${h - 3}" rx="${r - 1}" fill="none" stroke="#fff" stroke-opacity="0.14" stroke-width="3"/></svg>`
+  return [
+    { input: hintergrund, top: 0, left: 0 },
+    { input: Buffer.from(dunkel), top: 0, left: 0 },
+    { input: Buffer.from(schatten), top: 0, left: 0 },
+    { input: plakat, top: y, left: x },
+    { input: Buffer.from(rand), top: y, left: x },
+  ]
 }
 
 export async function zeichneKarte(daten: KartenDaten, cover: Buffer | undefined, datei: string): Promise<void> {
-  const ebenen: OverlayOptions[] = [...(await coverEbenen(cover, daten.accent))]
-  let y = 52
-  ebenen.push(...(await chips(daten.badges, y)))
-  y += daten.badges.length ? 40 + 26 : 0
+  const ebenen: OverlayOptions[] = cover ? await coverEbenen(cover) : glutEbenen()
+  ebenen.push(...(await lockup(X, 56, 46, 30)))
   const t = await titel(daten.title)
-  ebenen.push({ input: t.input, top: y, left: X })
-  y += t.hoehe + 8
-  if (daten.subtitle) {
-    const u = await eineZeile(daten.subtitle, 'text', 24, LEISE)
-    ebenen.push({ input: u.input, top: y, left: X })
-    y += 32
+  ebenen.push({ input: t.input, top: 160, left: X })
+  if (daten.datum) ebenen.push(...(await datumZeile(daten.datum, daten.folge, 362)))
+  if (daten.fakt) {
+    const fakt = await eineZeile(daten.fakt, 'halbfett', 30, LEISE, TEXT_BREITE)
+    ebenen.push({ input: fakt.input, top: 454, left: X })
   }
-  ebenen.push(...(await raster(daten.lines, y + 26)))
-  ebenen.push(await wortmarke())
+  ebenen.push(...(await chips(daten.badges, 534, cover ? POSTER.x - 15 : W - 50)))
   await sharp({ create: { width: W, height: H, channels: 4, background: GRUND } })
     .composite(ebenen)
     .jpeg({ quality: 82, mozjpeg: true })

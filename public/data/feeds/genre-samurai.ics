@@ -6,126 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Samurai
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-11#1@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261011T155500Z
-DTEND:20261011T162500Z
-SUMMARY:Hell’s Paradise – Folge 1/6
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-11#2@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261011T162000Z
-DTEND:20261011T165000Z
-SUMMARY:Hell’s Paradise – Folge 2/6
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-11#1@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261011T164500Z
-DTEND:20261011T171500Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-11#2@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261011T171000Z
-DTEND:20261011T174000Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-12#23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T162500Z
-DTEND:20261012T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-12#24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T165000Z
-DTEND:20261012T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-12#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T185500Z
-DTEND:20261012T192500Z
-SUMMARY:Hell’s Paradise – Folge 3/6
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-12#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T192000Z
-DTEND:20261012T195000Z
-SUMMARY:Hell’s Paradise – Folge 4/6
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-12#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T194500Z
-DTEND:20261012T201500Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-12#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T201000Z
-DTEND:20261012T204000Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-13#25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261013T162500Z
-DTEND:20261013T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-13#26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261013T165000Z
-DTEND:20261013T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-14#27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T162500Z
@@ -210,7 +90,7 @@ UID:auto-128893-tv-prosieben-fun@2026-10-19#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T185500Z
 DTEND:20261019T192500Z
-SUMMARY:Hell’s Paradise – Folge 5/6
+SUMMARY:Hell’s Paradise – Folge 5/8
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
@@ -220,7 +100,7 @@ UID:auto-128893-tv-prosieben-fun@2026-10-19#6@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T192000Z
 DTEND:20261019T195000Z
-SUMMARY:Hell’s Paradise – Folge 6/6
+SUMMARY:Hell’s Paradise – Folge 6/8
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
@@ -320,6 +200,106 @@ UID:auto-21-tv-prosieben-maxx@2026-10-23#42@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261023T165000Z
 DTEND:20261023T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-26#43@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T172500Z
+DTEND:20261026T175500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-26#44@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T175000Z
+DTEND:20261026T182000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-10-26#7@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T195500Z
+DTEND:20261026T202500Z
+SUMMARY:Hell’s Paradise – Folge 7/8
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-10-26#8@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T202000Z
+DTEND:20261026T205000Z
+SUMMARY:Hell’s Paradise – Folge 8/8
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-10-26#7@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T204500Z
+DTEND:20261026T211500Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-10-26#8@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T211000Z
+DTEND:20261026T214000Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-27#45@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T172500Z
+DTEND:20261027T175500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-27#46@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T175000Z
+DTEND:20261027T182000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-28#47@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261028T172500Z
+DTEND:20261028T175500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-28#48@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261028T175000Z
+DTEND:20261028T182000Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/

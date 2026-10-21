@@ -4949,7 +4949,7 @@ async function speicherSchreiben(werte) {
       Antwort des Workers bleibt die ältere Rechnung darunter der Rückfall.
     */
     const url = liste[asinEintrag]?.url
-    if (standZiele && url) return !standZiele.has(url) || frischGemeldet.has(url)
+    if (standZiele && url) return !standZiele.has(url) || frischGemeldet.has(url) || globalThis.akPrimeBruecke(erledigt[asinEintrag]?.zeit, Date.now())
     /*
       **Auch hier entscheidet der Briefkasten, nicht der Rechner.**
 
@@ -5589,7 +5589,7 @@ async function speicherSchreiben(werte) {
         Auftrag fertig.
       */
       if (standZiele && suchliste?.[url]) {
-        if (standZiele.has(url) && !frischGemeldet.has(url)) return false
+        if (standZiele.has(url) && !frischGemeldet.has(url) && !globalThis.akPrimeBruecke(suchErledigt[url], Date.now())) return false
         const erwartetStand = erwartungZu(url)
         if (erwartetStand && briefkastenSeiten) {
           return erwartetStand.every((k) => briefkastenSeiten.has(String(k)))
@@ -5688,7 +5688,7 @@ async function speicherSchreiben(werte) {
       Der lokale Eintrag überbrückt die Sekunden bis zur nächsten Antwort des
       Briefkastens; danach ist dessen Liste maßgeblich.
     */
-    suchErledigt = { ...suchErledigt, [url]: new Date().toISOString().slice(0, 10) }
+    suchErledigt = { ...suchErledigt, [url]: globalThis.akPrimeVermerk(Date.now()) }
     if (briefkastenAdressen) briefkastenAdressen.add(url)
     await speicherSchreiben({ amazonSuche: suchErledigt })
     /* Und gleich nachfragen, damit der gemeinsame Stand stimmt. */
@@ -10647,7 +10647,7 @@ async function speicherSchreiben(werte) {
          */
         bisher.serie = seitenTitel() ?? eintrag.titel ?? bisher.serie
         /* Wann abgehakt — der Briefkasten mistet danach aus, siehe briefkastenHolen. */
-        bisher.zeit = new Date().toISOString().slice(0, 10)
+        bisher.zeit = globalThis.akPrimeVermerk(Date.now())
         erledigt = { ...zusammen, [listenId]: bisher }
         gemeldeteStaffel = nr
         // Abwarten: Der naechste Klick liest hier gleich wieder, und ohne das

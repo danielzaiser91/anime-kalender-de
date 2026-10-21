@@ -5,6 +5,7 @@
  */
 import { zahlOderNull, jetztIso, fehlerLog } from './werte.ts'
 import { type Env } from './env.ts'
+import { istD1Abweisung } from './d1-limit.ts'
 import { meldungsHash, normalisiert } from './pruefung-unveraendert.ts'
 import { ladeRohfolgen, loescheRohfolgen, rohfolgenAbgleich } from './rohfolgen-abgleich.ts'
 
@@ -52,8 +53,10 @@ export async function speichereRohfolgen(env: Env, daten: Meldung, url: string, 
   try {
     await env.DB.batch(einfuegen.map((i) => einfuegeAnweisung(env, zeilen[i]!, jetzt)))
   } catch (e) {
-    /* Die Meldung selbst ist schon gespeichert — ein Fehler hier darf sie
-       nicht mitreißen. Ohne Rohfolgen ist der Befund weniger wert, aber gültig. */
+    /* Ein dauerhafter Fehler hier darf die Meldung nicht mitreißen. Ohne Rohfolgen ist der Befund
+       weniger wert, aber gültig. Weist D1 nur gerade ab (Export, Tageslimit), scheitert die Meldung
+       und der nächste Klick schreibt beides (`speichereDaten`). */
+    if (istD1Abweisung(e)) throw e
     fehlerLog('prime_folge', e)
   }
 }

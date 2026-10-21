@@ -58,3 +58,14 @@ globalThis.akMeldungenNeuLaden = (reihe, jetzt = Date.now(), frist = 120000) => 
   meldungenGeladenUm.set(reihe, jetzt)
   return true
 }
+
+/*
+  „nichts da" aus der Übersicht oder von /browse: Der Titel gilt sofort als gemeldet. Ohne den Vermerk
+  blieb die Zeile stehen, bis der nächste Stand den Briefkasten kannte — `fertig()` liest bei vorhandenem
+  Stand nur ihn, nicht `erledigt.tot` (Daniel, 21.10.2026: drei Titel nach „nichts da" noch offen).
+  Der Vermerk steht vor dem Speichern, denn dessen Änderung zeichnet den Dialog neu.
+*/
+globalThis.akNetflixTotGemeldet = async (id, frisch, merkeTot) => {
+  frisch.add(String(id))
+  await merkeTot(id)
+}

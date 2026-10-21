@@ -60,6 +60,11 @@ case "$2" in
     [ "${FAKE_BESTAND:-ok}" = fail ] && { echo "✗ Handbeleg ohne Titel"; exit 1; }
     [ "${FAKE_BESTAND:-ok}" = fehler ] && { echo "FEHLER: Cover fehlt bei Titel 7"; exit 1; }
     [ "${FAKE_BESTAND:-ok}" = gemischt ] && { printf '⚠ Hinweis eins\n⚠ Hinweis zwei\n⚠ Hinweis drei\nFEHLER: Cover fehlt bei Titel 9\n'; exit 1; }
+    [ "${FAKE_BESTAND:-ok}" = warnzeichen ] && { printf '⚠ Hinweis eins\n⚠ Hinweis zwei\n⚠ Hinweis drei\n  ✗ Netflix-Liste enthält Cartoon-Adressen — 89\n'; exit 1; }
+    # Zeilen mit mehreren Marken: jede steht genau einmal im Grund.
+    [ "${FAKE_BESTAND:-ok}" = doppelt-a ] && { printf 'FEHLER: a ✗ ⚠\n✖ b ⚠\n⚠ c\n'; exit 1; }
+    [ "${FAKE_BESTAND:-ok}" = doppelt-b ] && { printf '✗ b ⚠\n⚠ c\n'; exit 1; }
+    [ "${FAKE_BESTAND:-ok}" = doppelt-c ] && { printf 'FEHLER: d ⚠\n⚠ c\n'; exit 1; }
     # FAKE_ROT: Gruppen roter Titel ("11 22,33"), je Titel eine Marke; rot ist die erste Gruppe, die noch nicht zurückgestellt ist.
     # FAKE_ROT_NACH_PAUSE: rote Titel, sobald der Fernstand in der Pause bewegt wurde (Versuch 2).
     grep -qs pause fremd.txt && FAKE_ROT="${FAKE_ROT_NACH_PAUSE-$FAKE_ROT}"
@@ -118,6 +123,8 @@ szenario() {
   for datei in commit-data.sh quellen-liste.sh quellen-aufsetzen.sh health-vereinen.mjs dub-belege-vereinen.mjs quarantaene.mjs; do
     cp "$WURZEL/tools/$datei" "$d/start/tools/$datei"
   done
+  # js-yaml für dub-belege-vereinen: ohne scheitert quellen_aufsetzen jetzt laut.
+  mkdir -p "$d/start/node_modules" && cp -r "$WURZEL/node_modules/js-yaml" "$d/start/node_modules/"
   echo '{"v":1}' > "$d/start/data/anisearch.json"
   mkdir -p "$d/start/public/data"
   echo '{"stand":"alt"}' > "$d/start/public/data/stand.json"
@@ -127,6 +134,8 @@ szenario() {
     echo '{}' > "$d/start/public/data/titles.json"
     echo bild > "$d/start/public/og/a.txt"
   fi
+  # START_EXTRA / LAUF_EXTRA: Funktion, die weitere Dateien in den Startstand bzw. den Lauf legt (Argument: Ordner).
+  "${START_EXTRA:-:}" "$d/start"
   git -C "$d/start" add -A
   git -C "$d/start" -c user.name=t -c user.email=t@t commit -q -m start
   git -C "$d/start" push -q origin HEAD:main
@@ -142,6 +151,7 @@ szenario() {
     echo '{"v":2,"von":"lauf"}' > "$d/lauf/data/anisearch.json"
     echo '{"zuletzt":"neu"}' > "$d/lauf/data/meldungen-uebernahme.json"
   fi
+  "${LAUF_EXTRA:-:}" "$d/lauf"
   [ "${OHNE_TITLES:-nein}" = ja ] && rm "$d/lauf/public/data/titles.json"
   local pause=""
   if [ "${ERSTEN_ABLEHNEN:-nein}" = ja ]; then
@@ -235,6 +245,7 @@ pruefe "Versuch 2 gepusht" ja "$(grep -q '^Gepusht (Versuch 2)' "$ARBEIT/neuvers
 pruefe "Exit 0 (die Warnung aus Versuch 1 gilt nicht mehr)" 0 "$CODE"
 
 source "$WURZEL/tools/commit-data-test-quarantaene.sh"
+source "$WURZEL/tools/commit-data-test-verworfen.sh"
 
 echo "Gleichzeitige Läufe teilen sich keine festen Pfade (Wackeln unter Last, 14.10.2026)"
 pruefe "kein fester /tmp-Pfad in commit-data.sh" 0 "$(grep -c "/tmp/" "$WURZEL/tools/commit-data.sh" || true)"

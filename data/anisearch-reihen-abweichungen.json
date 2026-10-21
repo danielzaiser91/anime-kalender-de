@@ -1,47 +1,47 @@
 {
-  "stand": "2026-10-18",
+  "stand": "2026-10-21",
   "deckung": {
-    "titel": 20619,
-    "mitSeite": 16291,
+    "titel": 20656,
+    "mitSeite": 16320,
     "ohneSeite": 8,
-    "ohneAnisearchKennung": 3045,
-    "ohneReferenz": 1275,
-    "seitenImArchiv": 17493,
-    "kanten": 18579
+    "ohneAnisearchKennung": 3057,
+    "ohneReferenz": 1271,
+    "seitenImArchiv": 17518,
+    "kanten": 18592
   },
   "gesamt": {
-    "titel": 16291,
-    "gleich": 13988,
+    "titel": 16320,
+    "gleich": 14007,
     "fehlen": 902,
-    "zusaetzlich": 1284,
+    "zusaetzlich": 1294,
     "gemischt": 117
   },
   "hauptbestand": {
     "titel": 2876,
-    "gleich": 2311,
+    "gleich": 2308,
     "fehlen": 328,
-    "zusaetzlich": 221,
+    "zusaetzlich": 224,
     "gemischt": 16
   },
   "haelfteA": {
-    "titel": 7434,
-    "gleich": 6307,
+    "titel": 7453,
+    "gleich": 6322,
     "fehlen": 314,
-    "zusaetzlich": 703,
+    "zusaetzlich": 707,
     "gemischt": 110
   },
   "haelfteB": {
-    "titel": 8857,
-    "gleich": 7681,
+    "titel": 8867,
+    "gleich": 7685,
     "fehlen": 588,
-    "zusaetzlich": 581,
+    "zusaetzlich": 587,
     "gemischt": 7
   },
   "cluster": {
-    "einzel": 5727,
+    "einzel": 5743,
     "gleich": 2453,
     "zerlegt": 102,
-    "verschmilzt": 103,
+    "verschmilzt": 104,
     "gemischt": 10
   },
   "beispiele": {
@@ -205,7 +205,7 @@
       {
         "id": 223,
         "name": "Dragon Ball",
-        "titel": 46,
+        "titel": 47,
         "referenz": 2,
         "anisearch": 1
       },
@@ -240,7 +240,7 @@
       {
         "id": 15051,
         "name": "Love Live! School idol project",
-        "titel": 32,
+        "titel": 33,
         "referenz": 6,
         "anisearch": 1
       },

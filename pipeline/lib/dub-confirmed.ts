@@ -9,18 +9,19 @@
  * `data/dub-confirmed.yaml` ist der Weg, aus einem Fragezeichen ein Häkchen zu
  * machen — durch tatsächliches Nachsehen, nicht durch Vermutung.
  */
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { vereinigeBereiche, vereinigeGleichzeitige } from './dub-bereiche.ts'
 import { ROOT } from './util.ts'
-import { adressKern, adressGleich } from '../../shared/adresse-kern.ts'
+import { adressKern, adressGleich, istSammelKern } from '../../shared/adresse-kern.ts'
 import { PLATFORMS, type PlatformId } from '../../shared/types.ts'
 import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
 import { warn } from './util.ts'
 import { loadCurated } from './curated.ts'
 import { dubChecksAusTerminen } from './dub-aus-terminen.ts'
 import { ohneKanalSprache } from './kanal-titel.ts'
+import { ergaenzeMerkliste, MERKLISTE } from './kanal-merkliste.ts'
 
 export interface DubCheck {
   anilistId: number
@@ -63,6 +64,8 @@ export interface DubCheck {
    * dazwischen ist gefolgert, und zwar nur zwischen **gleichen** Befunden.
    */
   dubRanges?: Array<{ from: number; to: number; dub: boolean; checked?: number[] }>
+  /** Nur in verschmolzenen Zeilen (`verschmelze`), nie in der Datei: das Urteil der jüngeren von zwei widersprüchlichen Zeilen derselben Adresse. */
+  juengstesUrteil?: 'ja' | 'nein'
   /**
    * **Welchen Teil der Anbieter-Liste dieser Eintrag meint.**
    *
@@ -280,7 +283,27 @@ export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
     const gleichAlt = (a.checkedAt ?? '') === (b.checkedAt ?? '')
     verschmolzen.dubRanges = (gleichAlt ? vereinigeGleichzeitige : vereinigeBereiche)(alt.dubRanges, neu.dubRanges)
   }
+  delete verschmolzen.juengstesUrteil
+  const urteil = juengeresUrteil(alt, neu)
+  if (urteil) verschmolzen.juengstesUrteil = urteil
   return verschmolzen
+}
+
+type Urteil = Pick<DubCheck, 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil'>
+
+/** Das Urteil einer Zeile: Nein (`dub: false`, `available: false`), Ja (`dub: true` oder deutscher Bereich, sofern verfügbar) oder keins. */
+function urteilVon(c: Urteil): 'ja' | 'nein' | undefined {
+  if (c.juengstesUrteil) return c.juengstesUrteil
+  const nein = c.dub === false || c.available === false
+  const ja = c.available !== false && (c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub)))
+  if (nein === ja) return undefined
+  return nein ? 'nein' : 'ja'
+}
+
+/** Das Urteil der jüngeren Zeile, solange die Daten verschieden sind (hat sie keins, gilt das der älteren weiter); bei Gleichstand keins: Ja und Nein bleiben nebeneinander. */
+function juengeresUrteil(alt: DubCheck, neu: DubCheck): 'ja' | 'nein' | undefined {
+  if ((alt.checkedAt ?? '') === (neu.checkedAt ?? '')) return undefined
+  return urteilVon(neu) ?? alt.juengstesUrteil
 }
 
 export function dubKey(anilistId: number, platform: string): string {
@@ -289,26 +312,33 @@ export function dubKey(anilistId: number, platform: string): string {
 
 /**
  * Schlüssel aller Handbelege, die einen Weg verneinen (`available: false` oder `dub: false`), ausgewertet je Adresse (`adressKern`):
- * Ein Ja derselben Adresse (`dub: true` oder ein deutscher Bereich) hebt das Nein auf, ein Ja einer anderen Adresse nicht; ohne Adresse ist
+ * Ein Ja derselben Adresse (`dub: true` oder ein deutscher Bereich) hebt das Nein auf, außer die verschmolzene Zeile trägt selbst
+ * `available: false` (jüngeres „nicht verfügbar“ zum selben Ja, `verschmelze`; wie in `handbelegteJaWege` gilt dann das Nein), ein Ja einer anderen Adresse nicht; ohne Adresse ist
  * „dieselbe" nicht belegt, Ja und Nein bleiben dann uneindeutig und das Nein gilt (Kuroko's Basketball 3, 20725, bei Netflix: altes Ja, jüngeres „nicht verfügbar").
  * Das Nein gilt der ganzen Plattform (`dubKey`), wenn es keine Adresse trägt oder die Plattform keine Ausgabe mit Ja führt: Eine neue Adresse
  * kann dieselbe Ausgabe in anderer Schreibweise sein (JustWatch-gti statt ASIN). Erst eine belegte zweite Ausgabe (ein Ja mit eigener Adresse) beschränkt es auf seine Adresse
  * (`dubKey|adressKern`; Digimon 552 bei Prime: B0CGRJGJX1 ja, Crunchyroll-Kanal B0CHHNJJW3 nein). Abgefragt wird mit `wegVerneint`.
+ * Widersprechen sich Ja und Nein derselben Adresse, gilt das jüngere (`juengstesUrteil`, gesetzt von `verschmelze`).
+ * Such-, Start- und Länderseiten (`istSammelKern`) sind keine Ausgabe: Ihr Ja belegt keine zweite, ihr Nein gilt der ganzen Plattform
+ * und entfällt, sobald der Titel dort ein Ja an echter Adresse hat (eine Suche, die ihn nicht zeigt, widerlegt die Seite nicht; Jormungand: Perfect Order, 13331).
  */
-export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges'>[]): Set<string> {
-  const adressen = new Map<string, { titel: string; kern: string; nein: boolean; ja: boolean }>()
+export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil'>[]): Set<string> {
+  const adressen = new Map<string, { titel: string; kern: string; sammel: boolean; nein: boolean; ja: boolean }>()
   for (const c of checks) {
     const titel = dubKey(c.anilistId, c.platform)
-    const kern = adressKern(c.url)
-    const a = adressen.get(`${titel}|${kern}`) ?? { titel, kern, nein: false, ja: false }
-    a.nein ||= c.dub === false || c.available === false
-    a.ja ||= c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub))
-    adressen.set(`${titel}|${kern}`, a)
+    const roh = adressKern(c.url)
+    const sammel = istSammelKern(roh)
+    const kern = sammel ? '' : roh
+    const a = adressen.get(`${titel}|${roh}`) ?? { titel, kern, sammel, nein: false, ja: false }
+    /* Haben zwei Zeilen derselben Adresse verschiedene Daten, gilt das Urteil der jüngeren (`verschmelze`). */
+    a.nein ||= c.juengstesUrteil ? c.juengstesUrteil === 'nein' : c.dub === false || c.available === false
+    a.ja ||= c.juengstesUrteil ? c.juengstesUrteil === 'ja' : c.available !== false && (c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub)))
+    adressen.set(`${titel}|${roh}`, a)
   }
   const mitJa = new Set([...adressen.values()].filter((a) => a.ja && a.kern).map((a) => a.titel))
   const nein = new Set<string>()
   for (const a of adressen.values()) {
-    if (!a.nein || (a.ja && a.kern)) continue
+    if (!a.nein || (a.ja && a.kern) || (a.sammel && mitJa.has(a.titel))) continue
     nein.add(a.kern && mitJa.has(a.titel) ? `${a.titel}|${a.kern}` : a.titel)
   }
   return nein
@@ -320,6 +350,24 @@ export function wegVerneint(nein: ReadonlySet<string>, anilistId: number, platfo
   return nein.has(titel) || nein.has(`${titel}|${adressKern(url)}`)
 }
 
+type BelegFolgen = { anilistId?: number; platform?: string; url?: string; dubRanges?: { to?: number }[] }
+
+/** Belege, deren höchste dubRanges-Folge die Folgenzahl ihres Titels übersteigt, je als Zeile mit Titel, Plattform, Adresse und Zahlen. */
+export function belegeUeberFolgenzahl(liste: BelegFolgen[], folgenJeTitel: ReadonlyMap<number, number>): string[] {
+  return liste.flatMap((b) => {
+    const n = folgenJeTitel.get(b.anilistId ?? -1) ?? 0
+    const bis = Math.max(0, ...(b.dubRanges ?? []).map((r) => r.to ?? 0))
+    return n > 0 && bis > n ? [`${b.anilistId} ${b.platform ?? '?'} ${b.url ?? 'ohne Adresse'}: bis Folge ${bis} bei ${n}`] : []
+  })
+}
+
+/** Vergleichsschlüssel eines Belegs: das Prüfdatum zählt nicht, sonst hängt jede Wiederholmeldung mit neuem Datum denselben Beleg erneut an. */
+export function belegSchluessel(eintrag: unknown): string {
+  if (eintrag === null || typeof eintrag !== 'object') return JSON.stringify(eintrag)
+  const { checkedAt: _checkedAt, ...rest } = eintrag as Record<string, unknown>
+  return JSON.stringify(rest)
+}
+
 /**
  * Teilt neu erzeugte YAML-Zeilen in Belege und liefert nur die, die weder in `alt` noch weiter
  * vorn unter den neuen stehen. Verglichen wird das gelesene Objekt, nicht der Text: Kommentare
@@ -327,7 +375,7 @@ export function wegVerneint(nein: ReadonlySet<string>, anilistId: number, platfo
  * der Datei" hält sonst den ganzen Abruf zurück.
  */
 export function neueBelegBloecke(alt: string, zeilen: string[]): { bloecke: string[][]; neu: string[][] } {
-  const vorhanden = new Set(((yaml.load(alt) as unknown[] | null) ?? []).map((b) => JSON.stringify(b)))
+  const vorhanden = new Set(((yaml.load(alt) as unknown[] | null) ?? []).map((b) => belegSchluessel(b)))
   const bloecke: string[][] = []
   for (const z of zeilen) {
     if (z.startsWith('- ')) bloecke.push([z])
@@ -335,7 +383,7 @@ export function neueBelegBloecke(alt: string, zeilen: string[]): { bloecke: stri
   }
   const neu = bloecke.filter((b) => {
     try {
-      const eintrag = JSON.stringify((yaml.load(b.join('\n')) as unknown[] | null)?.[0])
+      const eintrag = belegSchluessel((yaml.load(b.join('\n')) as unknown[] | null)?.[0])
       if (vorhanden.has(eintrag)) return false
       vorhanden.add(eintrag)
       return true
@@ -405,4 +453,11 @@ export function entdoppleBelege(text: string, melde?: (text: string) => void): s
   const schwanz = /\n+$/.exec(text)?.[0] ?? ''
   if (entfernt && melde) melde(`${entfernt} Beleg(e) standen doppelt — nicht geschrieben`)
   return raus.join('\n').replace(/\n+$/, '') + schwanz
+}
+
+/** Schreibt die Handbelege durch den Riegel `entdoppleBelege` und merkt dabei alle Kanal-Seiten (aus dem geladenen Stand, also nach dem Verschmelzen; holt bei einer fehlenden Merkliste alles nach). */
+export function schreibeBelege(datei: string, text: string, melde: (text: string) => void): void {
+  writeFileSync(datei, entdoppleBelege(text, melde))
+  const dazu = ergaenzeMerkliste(ladeHandbelege())
+  if (dazu) melde(`${dazu} Kanal-Seite(n) in ${MERKLISTE} gemerkt`)
 }
