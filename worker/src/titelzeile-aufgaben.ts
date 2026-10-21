@@ -7,25 +7,11 @@
  */
 import { type Env } from './env.ts'
 import { AM, ausId, FASSUNG, lies, MELDUNG_UEBERNOMMEN, NUMMER, ROHFOLGE_UEBERNOMMEN, STAFFEL, TITEL_ID_AB, type Eintrag, type TitelDaten } from './titelzeile-format.ts'
-import { aendereTitelzeile, aktualisierung, type Zeile } from './titelzeile-zeile.ts'
+import { adressen, JE_STAPEL } from './titelzeile-buendel.ts'
+import { aendereTitelzeile, aktualisierung } from './titelzeile-zeile.ts'
 
 /** Ids, die zu Titelzeilen gehören. */
 export const sindTitelIds = (ids: number[]) => ids.filter((id) => id >= TITEL_ID_AB)
-
-type Gelesen = Zeile & { url: string; plattform: string }
-
-/**
- * Die Zeile zu jeder Titelnummer, in einer Abfrage über den Index `titel_zeile_nr`. Die Nummern reisen als ein
- * JSON-Wert: D1 bindet höchstens 100 Werte, mit einem `?` je Nummer scheiterte jedes Abhaken ab 101 Titeln
- * („too many SQL variables“, HTTP 500 in jedem Bestandsbau bis 16.10.2026).
- */
-async function adressen(env: Env, nummern: number[]): Promise<Gelesen[]> {
-  if (!nummern.length) return []
-  const { results } = await env.DB.prepare('SELECT nr, url, plattform, version, daten FROM titel_zeile WHERE nr IN (SELECT value FROM json_each(?1))')
-    .bind(JSON.stringify(nummern))
-    .all<Gelesen>()
-  return results ?? []
-}
 
 /** Die Ids je Titelnummer, getrennt nach Staffel, Nummer und Fassung. */
 function jeTitel(ids: number[]): Map<number, { staffel: number; nummer: number; fassung: number }[]> {
@@ -47,8 +33,6 @@ const trifft = (e: Eintrag, f: { staffel: number; nummer: number; fassung: numbe
   mit 93 Anweisungen in einem Stapel ging am 19.09.2026 durch). Ein Titel, den jemand zwischen Lesen und Schreiben
   geändert hat, bleibt offen (Versionsprüfung) und kommt mit dem nächsten Bau wieder.
 */
-const JE_STAPEL = 100
-
 async function aendereFolgen(env: Env, ids: number[], aendere: (e: Eintrag) => Eintrag | null): Promise<void> {
   const je = jeTitel(ids)
   const anweisungen: D1PreparedStatement[] = []
