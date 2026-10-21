@@ -14,13 +14,14 @@
  * Aufruf: npm run data:tmdb   [-- --force] [-- --limit 200]
  */
 import type { Fsk, PlatformId, Title } from '../shared/types.ts'
-import { loadEnv, fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
-import { readOffers, type TmdbOffer } from './lib/tmdb.ts'
+import { loadEnv, log, readJson, warn, writeJson } from './lib/util.ts'
+import type { TmdbOffer } from './lib/tmdb.ts'
 import { recordSource } from './lib/health.ts'
 import { findeGeteilteHauptserien, streicheZuordnungen } from './lib/tmdb-hauptserie.ts'
 import { inhaltsStand, streicheAbgelaufenes, STREICH_TAGE } from './lib/tmdb-ablauf.ts'
-import { waehleBesten, type Bester, type SearchHit } from './lib/tmdb-titel-treffer.ts'
-import { kinoFehlt, kinostartsDe, type ReleaseDatesAntwort } from './lib/tmdb-kino-zuletzt.ts'
+import { lookup } from './lib/tmdb-titel-lookup.ts'
+import { uebernimmVonHand } from './lib/tmdb-von-hand.ts'
+import { kinoFehlt } from './lib/tmdb-kino-zuletzt.ts'
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 
@@ -44,7 +45,6 @@ const LIMIT = Number(args[args.indexOf('--limit') + 1]) || Infinity
  * sie mit `--limit 400` in einem Rutsch.
  */
 const ALTER_TAGE = Number(args[args.indexOf('--alter') + 1]) || 60
-const BASE = 'https://api.themoviedb.org/3'
 const CACHE_PATH = 'data/tmdb-titles.json'
 
 export interface TmdbTitle {
@@ -85,147 +85,6 @@ export interface TmdbTitle {
   fetchedAt?: string
   /** Wann der TMDB-Inhalt zuletzt von TMDB kam (`lib/tmdb-ablauf.ts`); ein Fehltreffer setzt nur `fetchedAt`. */
   inhaltAm?: string
-}
-
-const FSK_VALUES: Fsk[] = [0, 6, 12, 16, 18]
-
-function parseFsk(raw: string | undefined): Fsk | undefined {
-  if (!raw) return undefined
-  const n = Number(raw.replace(/[^\d]/g, ''))
-  return FSK_VALUES.includes(n as Fsk) ? (n as Fsk) : undefined
-}
-
-function providerToPlatform(name: string): PlatformId | undefined {
-  const n = name.toLowerCase()
-  if (n.includes('crunchyroll')) return 'crunchyroll'
-  if (n.includes('netflix')) return 'netflix'
-  if (n.includes('disney')) return 'disneyplus'
-  if (n.includes('amazon') || n.includes('prime video')) return 'primevideo'
-  if (n.includes('animation digital network') || n === 'adn') return 'adn'
-  if (n.includes('wow')) return 'wow'
-  if (n.includes('joyn')) return 'joyn'
-  if (n.includes('rtl')) return 'rtlplus'
-  if (n.includes('aniverse')) return 'aniverse'
-  return undefined
-}
-
-async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
-  const isMovie = title.format === 'MOVIE'
-  const kind = isMovie ? 'movie' : 'tv'
-  /*
-    **Vier Schreibweisen statt zwei.**
-
-    Am 28.08.2026 gemessen: 1.247 von 2.753 Titeln findet TMDB nicht, darunter
-    392 Serien, für die wir einen Verweis führen. Gesucht wurde bis dahin nur
-    mit dem englischen und dem Romaji-Titel.
-
-    TMDB führt zu jedem Eintrag auch `original_name` — bei Anime ist das der
-    **japanische** Titel, und den haben wir als `titleNative`. Der deutsche
-    Titel kommt dazu, weil TMDB deutsche Ausgaben unter ihrem hiesigen Namen
-    kennt („Die Rückkehr der Zauberer" findet man nicht als „Mahoutsukai").
-
-    Die Reihenfolge bleibt: Was zuerst trifft, gewinnt, und Englisch ist die
-    Schreibweise, unter der TMDB Anime am ehesten führt.
-  */
-  const candidates = [title.titleEn, title.titleRomaji, title.titleDe, title.titleNative].filter(
-    Boolean,
-  ) as string[]
-  if (!candidates.length) return { miss: true }
-
-  let best: Bester | undefined
-
-  for (const query of candidates) {
-    const url =
-      `${BASE}/search/${kind}?api_key=${apiKey}&language=de-DE&include_adult=false` +
-      `&query=${encodeURIComponent(query)}`
-    let results: SearchHit[]
-    try {
-      results = (await fetchJson<{ results: SearchHit[] }>(url)).results ?? []
-    } catch (err) {
-      warn(`Suche fehlgeschlagen für "${query}": ${(err as Error).message}`)
-      continue
-    }
-    await sleep(40)
-
-    best = waehleBesten(best, query, results, title.jpYear)
-  }
-
-  if (!best) return { miss: true }
-
-  const out: TmdbTitle = { tmdbId: best.hit.id, kind }
-
-  try {
-    const detail = await fetchJson<{
-      overview?: string
-      name?: string
-      title?: string
-      first_air_date?: string
-      release_date?: string
-      genres?: { id: number }[]
-    }>(
-      `${BASE}/${kind}/${best.hit.id}?api_key=${apiKey}&language=de-DE`,
-    )
-    // TMDB liefert bei fehlender Übersetzung ein leeres Feld statt Englisch.
-    if (detail.overview && detail.overview.trim().length > 40) out.overviewDe = detail.overview.trim()
-    /* Serien tragen `first_air_date`, Filme `release_date` — beide als Jahr. */
-    const datum = detail.first_air_date || detail.release_date
-    const jahr = Number((datum ?? '').slice(0, 4))
-    if (Number.isFinite(jahr) && jahr > 1900) out.jahr = jahr
-    /*
-      **Der deutsche Titel kommt aus derselben Antwort — er wurde nur nie gelesen.**
-
-      194 Titel im Bestand haben keinen deutschen Namen; `titleDe` kommt bisher
-      allein aus aniSearch. TMDB antwortet auf `language=de-DE` mit dem deutschen
-      Namen, wenn es einen gibt, und sonst mit dem Originaltitel.
-
-      Genau deshalb wird er hier nur mitgeschrieben, nicht gesetzt: Ob er sich
-      vom Originaltitel unterscheidet, entscheidet der Bau — er kennt beide.
-    */
-    const nameDe = (detail.name ?? detail.title ?? "").trim()
-    if (nameDe) out.nameDe = nameDe
-    await sleep(40)
-
-    if (isMovie) {
-      const rel = await fetchJson<ReleaseDatesAntwort>(`${BASE}/movie/${best.hit.id}/release_dates?api_key=${apiKey}`)
-      const de = rel.results?.find((r) => r.iso_3166_1 === 'DE')
-      out.fsk = parseFsk(de?.release_dates?.find((r) => r.certification)?.certification)
-      out.kinoDe = kinostartsDe(rel)
-    } else {
-      const ratings = await fetchJson<{ results: { iso_3166_1: string; rating: string }[] }>(
-        `${BASE}/tv/${best.hit.id}/content_ratings?api_key=${apiKey}`,
-      )
-      out.fsk = parseFsk(ratings.results?.find((r) => r.iso_3166_1 === 'DE')?.rating)
-    }
-    await sleep(40)
-
-    const wp = await fetchJson<{
-      results: Record<
-        string,
-        {
-          link?: string
-          flatrate?: { provider_name: string }[]
-          rent?: { provider_name: string }[]
-          buy?: { provider_name: string }[]
-        }
-      >
-    }>(`${BASE}/${kind}/${best.hit.id}/watch/providers?api_key=${apiKey}`)
-    const de = wp.results?.DE
-    if (de) {
-      out.justwatchUrl = de.link
-      // Die ganze Liste behalten, nicht nur die Dienste mit eigener Plattform.
-      const offers = readOffers(de)
-      if (offers.length) out.offers = offers
-      const platforms = [
-        ...new Set(offers.map((o) => providerToPlatform(o.name)).filter(Boolean)),
-      ] as PlatformId[]
-      if (platforms.length) out.providers = platforms
-    }
-    await sleep(40)
-  } catch (err) {
-    warn(`Details fehlgeschlagen für TMDB ${best.hit.id}: ${(err as Error).message}`)
-  }
-
-  return out
 }
 
 /*
@@ -281,14 +140,7 @@ async function main(): Promise<void> {
   const vonHand = yaml.load(readFileSync('data/tmdb-von-hand.yaml', 'utf8')) as
     | { anilistId: number; tmdbId: number; kind?: 'tv' | 'movie' }[]
     | null
-  let gesetzt = 0
-  for (const e of vonHand ?? []) {
-    if (!e?.anilistId || !e.tmdbId) continue
-    const alt = cache[e.anilistId]
-    if (alt?.tmdbId === e.tmdbId) continue
-    cache[e.anilistId] = { ...alt, tmdbId: e.tmdbId, kind: e.kind ?? alt?.kind ?? 'tv', fetchedAt: new Date().toISOString() }
-    gesetzt++
-  }
+  const gesetzt = uebernimmVonHand(cache, vonHand ?? [], new Date().toISOString())
   if (gesetzt) {
     writeJson(CACHE_PATH, cache)
     log(`${gesetzt} Kennung(en) aus data/tmdb-von-hand.yaml gesetzt`)
