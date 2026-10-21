@@ -125,7 +125,7 @@ const DATEN_MAIN = ['public/data/titles.json', 'data/cache/ordner/anilist', 'pub
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN }))
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe('nur Daten bewegt -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe })
-  pruefe('nur Daten bewegt: Meldung nennt beide Stände und die Pfade', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Daten bewegt (public/data/, data/cache/)', k.meldungen)
+  pruefe('nur Daten bewegt: Meldung nennt beide Stände und die Pfade', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Daten bewegt (public/data/, data/cache/, 54 Bot-Dateien ohne Leser)', k.meldungen)
   pruefe('nur Daten bewegt: liest Vergleich und PR-Dateien', k.aufrufe.some((a) => a.includes('/compare/')) && k.aufrufe.some((a) => a.includes('/pulls/7/files')), k.aufrufe)
 }
 {
@@ -133,6 +133,23 @@ const DATEN_MAIN = ['public/data/titles.json', 'data/cache/ordner/anilist', 'pub
   pruefe('main ohne Dateiänderung (leerer Vergleich) -> 0', main(['7'], k.gh, k.melde, k.warte) === 0 && schreibend(k.aufrufe).length === 0, k.aufrufe)
 }
 // Alles andere zählt: je Pfad ein Fall, einzeln und neben Datenpfaden (Datenpfad zuerst und zuletzt, der Fremde in der Mitte).
+// 21.10.2026: Bot-Berichte und Sammler-Ausgaben ohne Leser in der Kette (Liste und Einzelfälle: pr-nachrechnen-bot-pfade.test.mjs).
+{
+  const bot = ['daniel-zum-abarbeiten/00-START-HIER.md', 'daniel-zum-abarbeiten/listen/12-verpasste-termine.md', 'data/source-health.json']
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: bot }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe('nur Bot-Berichte bewegt -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe })
+}
+{
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['daniel-zum-abarbeiten/00-START-HIER.md', 'shared/logic.ts'] }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe('Bot-Bericht und shared/logic.ts bewegt -> 1, neu angestoßen', code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
+}
+{
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['daniel-zum-abarbeiten/00-START-HIER.md'], prDateien: 'daniel-zum-abarbeiten/00-START-HIER.md\n' }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe('PR berührt selbst einen Bot-Bericht -> 1, neu angestoßen', code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
+}
 for (const fremd of ['tools/umfang-grenzen.json', 'extension/pruefstand.json', 'data/dub-confirmed.yaml', 'public/og/a.png', 'pipeline/build.ts', 'public/data-x/a.json', 'data/cache-x/a.json', 'xpublic/data/a.json', 'data/curated/a.yaml', 'public/index.html']) {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['public/data/titles.json', fremd, 'data/cache/ordner/a'] }))
   const code = main(['7'], k.gh, k.melde, k.warte)
