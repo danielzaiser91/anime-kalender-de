@@ -3,10 +3,12 @@
  * `datenpfadAusnahme`. Die Liste steht hier fest eingetragen (nicht aus dem Modul gelesen); der Wächter am Ende sucht Leser im Bau.
  */
 import fs from 'node:fs'
+import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { datenpfadAusnahme } from './pr-nachrechnen.mjs'
 import { BOT_DATEIEN_OHNE_LESER } from './pr-nachrechnen-bot-pfade.mjs'
+import { bauDateien, leserImBau } from './pr-nachrechnen-bot-pfade-leser.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -94,28 +96,53 @@ const GELESEN = [
 ]
 for (const datei of GELESEN) pruefe(`gelesen/ausgeschlossen: ${datei} -> keine Ausnahme`, ausnahme([datei]) === `main bewegte ${datei}`)
 
-// Wächter: kein Schritt des Baus nennt eine Datei der Liste im Code (Kommentare zählen nicht). Einzige bekannte Stelle: nebendateien.ts schreibt 18-suchadressen.md.
+// Wächter gegen Leser im Datenbau (pr-nachrechnen-bot-pfade-leser.mjs). Bekannt sind zwei Stellen, die den Namen nur nennen:
+// nebendateien.ts schreibt 18-suchadressen.md; lib/health.ts schreibt source-health.json und wird vom Bau nur über adn-news.ts erreicht (Import von artikelJeShow).
 const wurzel = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
-const dateien = (ordner) => fs.readdirSync(path.join(wurzel, ordner), { recursive: true, withFileTypes: true })
-  .filter((e) => e.isFile() && /\.(ts|tsx|mjs)$/.test(e.name))
-  .map((e) => path.join(e.parentPath, e.name))
-const gelesenVomBau = ['pipeline/bau', 'shared', 'web/src'].flatMap(dateien).concat(['pipeline/build.ts', 'pipeline/validate.ts'].map((f) => path.join(wurzel, f)))
-const BEKANNT = new Set(['pipeline/bau/nebendateien.ts|daniel-zum-abarbeiten/listen/18-suchadressen.md'])
-const treffer = []
-for (const datei of gelesenVomBau) {
-  const rel = path.relative(wurzel, datei).split(path.sep).join('/')
-  const code = fs.readFileSync(datei, 'utf8').split('\n').filter((z) => !/^\s*(\/\/|\*|\/\*)/.test(z)).join('\n')
-  for (const eintrag of ERWARTET) {
-    const name = eintrag.split('/').pop()
-    if (code.includes(name) && !BEKANNT.has(`${rel}|${eintrag}`)) treffer.push(`${rel}: ${name}`)
+const BEKANNT = new Set(['pipeline/bau/nebendateien.ts|daniel-zum-abarbeiten/listen/18-suchadressen.md', 'pipeline/lib/health.ts|data/source-health.json'])
+const bau = bauDateien(wurzel)
+pruefe('Wächter: kein Bau-Schritt nennt eine Datei der Liste (sonst ist sie gelesen und gehört gestrichen)', leserImBau(wurzel, ERWARTET, BEKANNT).length === 0, leserImBau(wurzel, ERWARTET, BEKANNT))
+pruefe('Wächter: sieht den Bau samt lib (nicht leer gelaufen)', bau.length > 300 && bau.includes('pipeline/lib/health.ts') && bau.includes('pipeline/bau/nebendateien.ts'), bau.length)
+pruefe('Wächter: sieht beide bekannten Stellen', leserImBau(wurzel, ERWARTET, new Set()).sort().join() === [...BEKANNT].sort().join(), leserImBau(wurzel, ERWARTET, new Set()))
+const importiertHealth = bau.filter((d) => /from '(\.\/|\.\.\/lib\/)health\.ts'/.test(fs.readFileSync(path.join(wurzel, d), 'utf8')))
+pruefe('Ausnahme health.ts: im Bau importiert nur adn-news.ts sie', importiertHealth.join() === 'pipeline/lib/adn-news.ts', importiertHealth)
+const adnImporte = bau.flatMap((d) => fs.readFileSync(path.join(wurzel, d), 'utf8').split('\n').filter((z) => /from '.*\/adn-news\.ts'/.test(z)).map((z) => `${d}: ${z.trim()}`))
+pruefe('Ausnahme health.ts: adn-news.ts nutzt der Bau nur für artikelJeShow', adnImporte.join() === "pipeline/bau/07-adn.ts: import { artikelJeShow, type AdnNews } from '../lib/adn-news.ts'", adnImporte)
+
+// Fixture-Wurzeln: der Wächter muss einen Leser in lib, im Bau, in shared und in web/src finden, aber weder Kommentare noch Dateien außerhalb der Hülle.
+function fixture(dateien) {
+  const ort = fs.mkdtempSync(path.join(os.tmpdir(), 'bot-pfade-'))
+  for (const [name, inhalt] of Object.entries(dateien)) {
+    fs.mkdirSync(path.dirname(path.join(ort, name)), { recursive: true })
+    fs.writeFileSync(path.join(ort, name), inhalt)
   }
+  return ort
 }
-pruefe('Wächter: kein Bau-Schritt nennt eine Datei der Liste (sonst ist sie gelesen und gehört gestrichen)', treffer.length === 0, treffer)
-pruefe('Wächter: sieht die Bau-Dateien (nicht leer gelaufen)', gelesenVomBau.length > 100, gelesenVomBau.length)
-pruefe('Wächter: sieht die bekannte Stelle', fs.readFileSync(path.join(wurzel, 'pipeline/bau/nebendateien.ts'), 'utf8').includes('18-suchadressen.md'))
+const BASIS = { 'pipeline/build.ts': "import { a } from './lib/a.ts'\n", 'pipeline/validate.ts': '', 'pipeline/check-ja-hat-weg-bestand.ts': '', 'pipeline/lib/a.ts': 'export const a = 1\n' }
+const EINTRAEGE = ['data/wiedervorlage.json', 'daniel-zum-abarbeiten/listen/07-adn.md']
+for (const [name, extra, erwartet] of [
+  ['ohne Leser', {}, []],
+  ['Leser in lib (von build.ts importiert)', { 'pipeline/lib/a.ts': "export const a = readFileSync('data/wiedervorlage.json')\n" }, ['pipeline/lib/a.ts|data/wiedervorlage.json']],
+  ['Leser in lib über Zwischenschritt (zwei Importe tief)', { 'pipeline/lib/a.ts': "import './b.ts'\n", 'pipeline/lib/b.ts': "export const b = '07-adn.md'\n" }, ['pipeline/lib/b.ts|daniel-zum-abarbeiten/listen/07-adn.md']],
+  ['Leser in pipeline/bau (von build.ts importiert)', { 'pipeline/build.ts': "import './bau/x.ts'\n", 'pipeline/bau/x.ts': "const f = 'data/wiedervorlage.json'\n" }, ['pipeline/bau/x.ts|data/wiedervorlage.json']],
+  ['Leser in validate.ts', { 'pipeline/validate.ts': "const f = 'wiedervorlage.json'\n" }, ['pipeline/validate.ts|data/wiedervorlage.json']],
+  ['Leser in check-ja-hat-weg-bestand.ts', { 'pipeline/check-ja-hat-weg-bestand.ts': "const f = 'wiedervorlage.json'\n" }, ['pipeline/check-ja-hat-weg-bestand.ts|data/wiedervorlage.json']],
+  ['Leser in shared', { 'shared/x.ts': "export const f = 'wiedervorlage.json'\n" }, ['shared/x.ts|data/wiedervorlage.json']],
+  ['Leser in web/src', { 'web/src/x.tsx': "export const f = 'wiedervorlage.json'\n" }, ['web/src/x.tsx|data/wiedervorlage.json']],
+  ['nur im Kommentar', { 'pipeline/lib/a.ts': "// liest wiedervorlage.json\n/* wiedervorlage.json */\n * wiedervorlage.json\n" }, []],
+  ['Datei außerhalb der Hülle (Sammler)', { 'pipeline/fetch-x.ts': "const f = 'wiedervorlage.json'\n" }, []],
+  ['lib-Datei, die niemand importiert', { 'pipeline/lib/lose.ts': "const f = 'wiedervorlage.json'\n" }, []],
+  ['bekannte Stelle bleibt still', { 'pipeline/lib/a.ts': "const f = 'wiedervorlage.json'\n" }, []],
+]) {
+  const ort = fixture({ ...BASIS, ...extra })
+  const bekannt = name === 'bekannte Stelle bleibt still' ? new Set(['pipeline/lib/a.ts|data/wiedervorlage.json']) : new Set()
+  const treffer = leserImBau(ort, EINTRAEGE, bekannt)
+  fs.rmSync(ort, { recursive: true, force: true })
+  pruefe(`Wächter-Fixture: ${name}`, JSON.stringify(treffer) === JSON.stringify(erwartet), treffer)
+}
 
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-bot-pfade.test: ${fehler.length} rot`)
   process.exit(1)
 }
-console.log(`pr-nachrechnen-bot-pfade.test: grün (${ERWARTET.length} Bot-Dateien ohne Leser, ${GELESEN.length} gelesene/ausgeschlossene bleiben draußen, ${gelesenVomBau.length} Bau-Dateien durchsucht)`)
+console.log(`pr-nachrechnen-bot-pfade.test: grün (${ERWARTET.length} Bot-Dateien ohne Leser, ${GELESEN.length} gelesene/ausgeschlossene bleiben draußen, ${bau.length} Bau-Dateien durchsucht, 12 Wächter-Fixtures)`)
