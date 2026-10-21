@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-21 · **16 offene Verweise** in **14 Zeilen**,
+Stand 2026-10-21 · **15 offene Verweise** in **13 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,7 +31,7 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 14
+## Paket 1 — Zeilen 1 bis 13
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
@@ -48,4 +48,3 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 11 | Disney+ | Jujutsu Kaisen | [0]() |
 | 12 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
 | 13 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
-| 14 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |

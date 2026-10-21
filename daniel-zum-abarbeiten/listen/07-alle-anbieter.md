@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-21 · **16 offene Verweise** in **14 Zeilen**.
+Stand 2026-10-21 · **15 offene Verweise** in **13 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -34,7 +34,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | Offen je Anbieter | Verweise |
 |---|---|
 | [Prime Video](07-primevideo.md) | 8 |
-| [Netflix](07-netflix.md) | 5 |
+| [Netflix](07-netflix.md) | 4 |
 | [Disney+](07-disneyplus.md) | 3 |
 
 ## Zu prüfen
@@ -52,9 +52,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 9 | 2026-09-13 | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
 | 10 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
 | 11 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 12 | 2024-12-13 | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
-| 13 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
-| 14 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
+| 12 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
+| 13 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 

@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-20T22:07:44.268Z",
+  "stand": "2026-10-21T01:28:30.064Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4732,17 +4732,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 481,
-      "titel": "Yu-Gi-Oh!",
-      "plattform": "netflix",
-      "url": "https://www.netflix.com/title/70177034",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-21",
-      "letzterWeg": false
-    },
-    {
       "titleId": 482,
       "titel": "Yu-Gi-Oh! GX",
       "plattform": "crunchyroll",
@@ -5942,17 +5931,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 97634,
-      "titel": "Pokémon: Die TV-Serie - Sonne & Mond",
-      "plattform": "netflix",
-      "url": "https://www.netflix.com/title/80186475",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-21",
-      "letzterWeg": false
-    },
-    {
       "titleId": 97673,
       "titel": "Nyanko Days",
       "plattform": "crunchyroll",
@@ -6833,17 +6811,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 123802,
-      "titel": "The Saint’s Magic Power Is Omnipotent",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0DHYH7HJ6",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-21",
-      "letzterWeg": false
-    },
-    {
       "titleId": 145564,
       "titel": "Abenteuer auf dem Eis",
       "plattform": "youtube",
@@ -6925,17 +6892,6 @@
       "titel": "Higurashi: When They Cry Sotsu",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/higurashi-when-they-cry-gou",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-21",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 131520,
-      "titel": "The Quintessential Quintuplets Movie",
-      "plattform": "netflix",
-      "url": "https://www.netflix.com/title/81717895",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -7528,17 +7484,6 @@
     {
       "titleId": 177509,
       "titel": "Kakushite! Makina-san!!",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0DPLRJNLG",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-21",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 177509,
-      "titel": "Kakushite! Makina-san!!",
       "plattform": "adn",
       "url": "https://animationdigitalnetwork.com/de/video/1284-kakushite-makina-san",
       "seriesId": null,
@@ -7738,7 +7683,7 @@
       "titleId": 187941,
       "titel": "Reincarnated as a Dragon Hatchling",
       "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0F18LDC9W",
+      "url": "https://www.amazon.de/gp/video/detail/B0F18LDC9W",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -7856,17 +7801,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 177166,
-      "titel": "Bakugan",
-      "plattform": "netflix",
-      "url": "https://www.netflix.com/title/81659233",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-21",
-      "letzterWeg": true
-    },
-    {
       "titleId": 185515,
       "titel": "2.5 Dimensional Seduction",
       "plattform": "primevideo",
@@ -7876,6 +7810,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-21",
       "letzterWeg": true
+    },
+    {
+      "titleId": 206814,
+      "titel": "Dragon Ball Super: Beerus",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/83189604",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-21",
+      "letzterWeg": false
     },
     {
       "titleId": 102883,
@@ -7983,6 +7928,72 @@
       "url": "https://www.netflix.com/title/81788312",
       "seriesId": null,
       "grund": "der Anbieter führt 12 + 13 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-21",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 481,
+      "titel": "Yu-Gi-Oh!",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/70177034",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-21",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 97634,
+      "titel": "Pokémon: Die TV-Serie - Sonne & Mond",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/80186475",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-21",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 123802,
+      "titel": "The Saint’s Magic Power Is Omnipotent",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0DHYH7HJ6",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-21",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 131520,
+      "titel": "The Quintessential Quintuplets Movie",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81717895",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-21",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 177509,
+      "titel": "Kakushite! Makina-san!!",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0DPLRJNLG",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-21",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 177166,
+      "titel": "Bakugan",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81659233",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-21",
       "letzterWeg": true

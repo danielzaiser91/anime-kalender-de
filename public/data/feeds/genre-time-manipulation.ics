@@ -124,18 +124,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:madoka-walpurgisnacht-rising-kino@2026-11-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261124
-DTEND;VALUE=DATE:20261125
-SUMMARY:Puella Magi Madoka Magica the Movie – Walpurgisnacht: Rising (OmU
- )
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nOmU: Originalton mit deutsc
- hen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht bestätigt.\
- nDetails: https://anime-kalender.de/t/12975/
-CATEGORIES:Kino
-END:VEVENT
-BEGIN:VEVENT
 UID:please-put-them-on-takamine-vol2@2026-12-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261218
