@@ -94,7 +94,7 @@ try {
   pruefe('Kein Widerspruch zu Terminen mit Sprachkennzeichnung', widerspruch.length === 0, widerspruch)
   pruefe('Zweiter Lauf belegt nichts mehr', urteilSchliesstSpaeteLuecken(titles, releases, jaWege, kanal) === 0)
 
-  /* Verdrahtung: unbedingt, mit allen Wegen, nach dem Anreichern (setzt `kanal`) und vor dem Kanal-Erbe und der Auslieferung. */
+  /* Verdrahtung: unbedingt, mit allen Wegen, nach dem Anreichern (setzt `kanal`) und vor dem Kanal-Erbe (tonDerKanalWege) und der Auslieferung. */
   const schreiben = readFileSync(new URL('./bau/13-schreiben.ts', import.meta.url), 'utf8')
   const aufrufe = unbedingteAufrufe(schreiben, 'schreibeDatensatz')
   const stelle = (name: string): number => aufrufe.find((x) => x.name === name)?.stelle ?? -1
@@ -105,11 +105,11 @@ try {
     spaet,
   )
   pruefe(
-    '13-schreiben: nach dem Anreichern, vor Kanal-Erbe und Auslieferung',
+    '13-schreiben: nach dem Anreichern, vor Kanal-Wege (Erbe) und Auslieferung',
     stelle('schreibeSynopsenUndReichereAn') >= 0 &&
       stelle('schliesseSpaeteLuecken') > stelle('schreibeSynopsenUndReichereAn') &&
-      stelle('schliesseSpaeteLuecken') < stelle('kanalErbtVomAnbieter') &&
-      stelle('kanalErbtVomAnbieter') < stelle('baueAuslieferung'),
+      stelle('schliesseSpaeteLuecken') < stelle('tonDerKanalWege') &&
+      stelle('tonDerKanalWege') < stelle('baueAuslieferung'),
     aufrufe.map((x) => `${x.stelle}:${x.name}`),
   )
 } finally {
