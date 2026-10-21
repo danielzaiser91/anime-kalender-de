@@ -90,3 +90,44 @@
   geprueftAm: '2026-10-06'
   grund: Die Folgen dieser Staffel stehen bei TMDB unter der Serie ohne Staffelzusatz (Basisname); Kennung aus search/tv, für die Folgentitel (Bau-Stufe 3).
 
+
+# Genre-Nachtrag vom 21.10.2026 (`pipeline/fetch-tmdb-genre.ts`, CI-Lauf 39538680410): Die Titelsuche verlangt jetzt das Genre Animation
+# (Anlass: „Kakegurui" trug die Realserie TMDB 76409). Diese vier sind echte Anime, die TMDB ohne Genre Animation führt; die Auskunft
+# (Originalname, Land, Datum, Genres) stammt aus `/tv/<Kennung>` am selben Tag.
+
+- anilistId: 6127
+  tmdbId: 216714
+  kind: tv
+  titel: 'Toradora!: SOS! Hurray for Foodies'
+  geprueftAm: '2026-10-21'
+  grund: TMDB 216714 „とらドラ! SOS!", ja/JP, 2009-02-25, Genres 35 (Komödie) — das Special; kein Genre Animation gesetzt.
+
+- anilistId: 9332
+  tmdbId: 295900
+  kind: tv
+  titel: .hack//Quantum
+  geprueftAm: '2026-10-21'
+  grund: TMDB 295900 „.hack//Quantum", ja/JP, 2011-01-28, Genres 10765/10759 (Sci-Fi/Fantasy, Action) — die OVA; kein Genre Animation gesetzt.
+
+- anilistId: 166703
+  tmdbId: 229906
+  kind: tv
+  titel: 'GUNDAM: Requiem for Vengeance'
+  geprueftAm: '2026-10-21'
+  grund: TMDB 229906 „機動戦士ガンダム 復讐のレクイエム", ja/JP, 2024-10-17, Genres 10768/10765 (Krieg/Sci-Fi) — die Netflix-Serie; kein Genre Animation gesetzt.
+
+- anilistId: 183423
+  tmdbId: 334601
+  kind: tv
+  titel: 'One Piece Log: Fish-Man Island Saga'
+  geprueftAm: '2026-10-21'
+  grund: TMDB 334601 „SPECIAL EDITED VERSION『ONE PIECE』魚人島編", ja/JP, 2024-11-03, Genre 10759 (Action) — die Neuschnitt-Folgen; kein Genre Animation gesetzt.
+
+# Kakegurui ×× (AniList 100876) ist Staffel 2 derselben TMDB-Serie wie Kakegurui (AniList 98314, TMDB 72305, Anime 2017). Das Jahr 2019 liegt zwei
+# Jahre neben dem Serienstart, die Titelsuche verwirft es; bis dahin trug es die Realserie 76409.
+- anilistId: 100876
+  tmdbId: 72305
+  kind: tv
+  titel: Kakegurui xx
+  geprueftAm: '2026-10-21'
+  grund: Zweite Staffel der TMDB-Serie 72305 (Anime, Genre Animation laut Titelsuche); die Kennung teilt es mit 98314, das die Suche selbst gefunden hat.
