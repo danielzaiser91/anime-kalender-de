@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-21T01:28:30.064Z",
+  "stand": "2026-10-21T02:38:40.899Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -5513,17 +5513,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 20919,
-      "titel": "Project Itoh: Genocidal Organ",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-21",
-      "letzterWeg": true
-    },
-    {
       "titleId": 20677,
       "titel": "DRAMAtical Murder",
       "plattform": "crunchyroll",
@@ -6391,17 +6380,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-21",
       "letzterWeg": true
-    },
-    {
-      "titleId": 105228,
-      "titel": "Dorohedoro",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GT00371893/dorohedoro",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-21",
-      "letzterWeg": false
     },
     {
       "titleId": 105228,

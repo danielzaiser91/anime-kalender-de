@@ -7,7 +7,7 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 57 Wege, nur Hinweis: 0.
+Flagge „Deutsch“: 56 Wege, nur Hinweis: 0.
 
 JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 15, Mehrteiler 6.
 
@@ -22,7 +22,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (414)
+### Kandidaten für neue Wege (415)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -133,6 +133,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Invaders of the Rokujyoma!? (20638) | Crunchyroll | crunchyroll:G7PU41250 | nein |
 | Invaders of the Rokujyoma!? (20638) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.3f2d4d3d-83bb-4ec8-ac12-0fe4b1360c13 | ja |
 | Shigatsu wa Kimi no Uso: Sekunden in Moll (20665) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.a729fccc-6004-45ec-b831-817046dcff5f | nein |
+| Project Itoh: Genocidal Organ (20919) | Crunchyroll | crunchyroll:GPWUKQZMQ | ja |
 | Project Itoh: Genocidal Organ (20919) | Amazon Video | amazon:amzn1.dv.gti.78b91eef-2e25-9512-4024-a8c43ad3e1f9 | nein |
 | Terror in Tokio (20661) | ProSieben Fun Amazon Channel | amazon:amzn1.dv.gti.59cfb2b8-d360-4a1e-a5aa-6fe11b12c051 | ja |
 | Strike Witches: Operation Victory Arrow (20650) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.de665b73-d5cd-4eb1-8c80-9a1eb06cd54e | ja |
