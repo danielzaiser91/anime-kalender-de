@@ -19,14 +19,14 @@
  */
 import { execFileSync, spawn } from "node:child_process"
 import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs"
-import { join, resolve } from "node:path"
+import { join, posix, resolve, win32 } from "node:path"
 import { pathToFileURL } from "node:url"
 
 export function normalisierePfad(pfad, cwd, plattform = process.platform) {
   let p = pfad
   const bash = /^\/([a-zA-Z])(\/.*)?$/.exec(p)
   if (plattform === "win32" && bash) p = `${bash[1].toUpperCase()}:${bash[2] ?? "/"}`
-  return resolve(cwd, p)
+  return (plattform === "win32" ? win32 : posix).resolve(cwd, p)
 }
 
 function alleVorkommen(text, suche) {
