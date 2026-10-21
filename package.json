@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build:schlank": "vite build && tsx pipeline/patchnotes-ausliefern.ts && node tools/daten-adressen-pruefen.mjs && tsx pipeline/build-share-pages.ts && tsx pipeline/check-teilseiten.ts && node tools/start-budget.mjs && tsx tools/dateibudget.ts",
-    "build": "npm run check:umfang && npm run check:hooks && npm run check:folgen && tsc -b --noEmit && vite build && tsx pipeline/patchnotes-ausliefern.ts && node tools/daten-adressen-pruefen.mjs && tsx pipeline/build-share-pages.ts && tsx pipeline/check-teilseiten.ts && node tools/start-budget.mjs && tsx tools/dateibudget.ts",
+    "build": "npm run check:umfang && npm run check:hooks && npm run check:folgen && tsc -b --noEmit && node tools/bau-eingaben.mjs \"vite build && tsx pipeline/patchnotes-ausliefern.ts && node tools/daten-adressen-pruefen.mjs && tsx pipeline/build-share-pages.ts && tsx pipeline/check-teilseiten.ts && node tools/start-budget.mjs && tsx tools/dateibudget.ts\"",
     "preview": "npm run build && wrangler dev --config wrangler.web.jsonc",
     "data:fetch": "tsx pipeline/fetch.ts",
     "data:crunchyroll": "tsx pipeline/scrape-crunchyroll.ts --weeks 8",
