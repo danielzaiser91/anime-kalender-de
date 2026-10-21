@@ -6,7 +6,7 @@
  *  - Leiste: Unterkante gleich mit und ohne Favorit (Rechteck);
  *  - Ecke: der Pixel in der unteren linken und rechten Ecke der Leiste hat Leistenfarbe, nicht Seitengrund oder Gold (rund = Lücke);
  *  - unter der Leiste: die Pixel 1 bis 4 px darunter (1 = die Zeile gleich unter der letzten Leistenzeile) sind mit Favorit dieselben wie ohne (kein Ringrest darunter);
- *  - gemessen wird die erste Woche ab dem Datenstand (dist/data/meta.json) mit Kino-Saal-Kacheln; gibt es unter 9 Wochen keine, endet der Lauf rot.
+ *  - gemessen wird die erste Woche ab dem Datenstand (dist/data/meta.json) mit Kino-Saal-Kacheln; die Antwort auf events.json bekommt je Woche einen Kulissen-Kinotermin (saalKulisse), der Datensatz muss also keinen Kinofilm haben; zählt die App trotzdem keinen Saal, endet der Lauf rot.
  * Ohne Server: `page.route()` liefert `dist/` (vorher `npm run build`); `--dist <ordner>` misst einen anderen Bau (Vorher-Bilder).
  * Aufruf: `node tools/kachel-ecken-messen.mjs [--dist <ordner>] [--bilder <ordner>]`.
  */
@@ -57,7 +57,29 @@ async function antworte(route) {
   if (url.hostname !== 'ak.test') return route.fulfill({ status: 200, contentType: 'image/svg+xml', body: COVER_SVG })
   const datei = path.join(DIST, url.pathname === '/' ? '/index.html' : url.pathname)
   if (!datei.startsWith(DIST) || !existsSync(datei)) return route.fulfill({ status: 404, body: '' })
-  return route.fulfill({ status: 200, contentType: TYPEN[path.extname(datei)] ?? 'application/octet-stream', body: await readFile(datei) })
+  const inhalt = await readFile(datei)
+  const body = kulisseWochen.length ? kulisseAntwort(path.basename(datei), inhalt, kulisseWochen) : inhalt
+  return route.fulfill({ status: 200, contentType: TYPEN[path.extname(datei)] ?? 'application/octet-stream', body })
+}
+
+/** Montage der Wochen, in die die Saal-Kulisse je einen Kinotermin legt (setzt `messeAlles` aus dem Datenstand). */
+let kulisseWochen = []
+
+/** Legt in jede Woche `wochen` (Montage) einen Kinotermin, den ein vorhandener Termin als Vorlage liefert: Der echte Datensatz hat nicht immer Kino in den nächsten Wochen (21.10.2026: keiner bis Januar). */
+export function saalKulisse(events, wochen) {
+  const vorlage = events.find((e) => !e.staffelstart && e.releaseType !== 'movie') ?? events[0]
+  if (!vorlage) return events
+  const saele = wochen.map((montag, i) => {
+    const { staffelstart, episode, episodeCount, time, ...rest } = vorlage
+    const date = tagePlus(montag, 2)
+    return { ...rest, platform: 'kino', releaseType: 'movie', date, id: `${vorlage.releaseSlug}@kulisse-${i}-${date}` }
+  })
+  return [...events, ...saele]
+}
+
+/** Antwort auf `data/events.json` mit Saal-Kulisse; alles andere unverändert (die Ansichten lesen die Kino-Kacheln aus events.json, ohne woche.json-Zweig bleibt der Lauf grün). */
+export function kulisseAntwort(datei, inhalt, wochen) {
+  return datei === 'events.json' ? JSON.stringify(saalKulisse(JSON.parse(inhalt), wochen)) : inhalt
 }
 
 /** Rechteck der Cover und ihrer Leisten (Seitenkoordinaten). Läuft im Browser. */
@@ -155,6 +177,7 @@ async function findeMesswoche(browser) {
   } catch (e) {
     return { fehler: `Messwoche: data/meta.json in ${DIST} nicht lesbar (${e.message})` }
   }
+  kulisseWochen = kandidatenWochen(erzeugt)
   const seite = await neueSeite(browser, 'dunkel', [])
   const saalZahl = async (datum) => {
     await ladeAnsicht(seite, 'woche', datum)
