@@ -15,7 +15,7 @@ import { DatabaseSync } from 'node:sqlite'
 import { handlePruefung } from '../worker/src/pruefung.ts'
 import { PRUEFUNG_ID_AB } from '../worker/src/rohfolgen-seiten.ts'
 import { eintragsId, type Eintrag } from '../worker/src/titelzeile-format.ts'
-import { lies, neueDatenbank, post, zahl } from './worker-titelzeile-hilfe.ts'
+import { lies, loesche, neueDatenbank, post, zahl } from './worker-titelzeile-hilfe.ts'
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -212,6 +212,55 @@ console.log('Fenster der offenen Meldungen: die ältesten 5000 aus beiden Quelle
   pruefe(offenListe.length === 5_000, `10.003 offen, geliefert ${offenListe.length}`)
   pruefe(am.every((t, i) => i === 0 || am[i - 1]! < t) && am[0] === zeit(2), 'die ältesten zuerst, aufsteigend')
   pruefe(am.at(-1) === zeit(5_001), `die jüngeren 5.003 fallen weg, aus beiden Quellen (${am.at(-1)})`)
+}
+
+console.log('Wiederöffnen und Löschen in Disney+-Größe: 215 Titel, unter den 50 Abfragen, Zusammenstoß wird wiederholt')
+{
+  const DISNEY = 215
+  const baue = () => {
+    const db = neueDatenbank()
+    const titel = db.prepare("INSERT INTO titel_zeile (url, plattform, nr, daten, gemeldet_am, offen_meldung, offen_rohfolge) VALUES (?, 'disneyplus', ?, ?, ?, 0, 0)")
+    const ids: number[] = []
+    for (let nr = 1; nr <= DISNEY; nr++) {
+      const f = [1, 2].map((n) => [1, n, `F${n}`, `t${nr}-${n}`, ['de'], 'ja', 'ja', 'gemessen', null, AM, 1, 0, null, 0] as Eintrag)
+      for (const e of f) ids.push(eintragsId(nr, e)!)
+      titel.run(`https://www.disneyplus.com/series/${nr}`, nr, JSON.stringify({ s: null, t: 'T', st: null, f }), AM)
+    }
+    const env = { LAUF_TOKEN: 't', SITE_URL: 'https://attrappe.test/', DB: d1(db), BELEGE: belege } as never
+    return { db, ids, env }
+  }
+  const uebernommen = (db: DatabaseSync) =>
+    (db.prepare('SELECT daten FROM titel_zeile').all() as { daten: string }[]).filter((r) => (JSON.parse(r.daten).f as Eintrag[]).some((e) => e[10] === 1)).length
+  const wieder = { reoeffnen: { plattform: 'disneyplus', seit: '2026-10-01T00:00:00.000Z' } }
+
+  const a = baue()
+  pruefe(uebernommen(a.db) === DISNEY, `Ausgang: ${uebernommen(a.db)} Titel mit übernommenen Meldungen`)
+  const r1 = await aufruf(a.env, wieder)
+  pruefe(r1.status === 200 && ((await r1.json()) as { reoeffnet: number }).reoeffnet === DISNEY * 2, 'Wiederöffnen zählt alle 430 Folgen')
+  pruefe(uebernommen(a.db) === 0, `danach ist keine Meldung mehr übernommen (${uebernommen(a.db)})`)
+  pruefe(z.abfragen <= 10, `Wiederöffnen braucht ${z.abfragen} Abfragen für ${DISNEY} Titel (Grenze 50, gebündelt höchstens 10)`)
+  await aufruf(a.env, wieder)
+  pruefe(z.geschrieben === 0, `Wiederholung schreibt nichts (${z.geschrieben})`)
+
+  const b = baue()
+  let einmal = true
+  z.dazwischen = () => {
+    if (!einmal) return
+    einmal = false
+    b.db.exec("UPDATE titel_zeile SET version = version + 1 WHERE nr = 100")
+  }
+  await aufruf(b.env, wieder)
+  z.dazwischen = null
+  pruefe(uebernommen(b.db) === 0, `ein Zusammenstoß mitten im Stapel wird wiederholt, nichts bleibt übernommen (${uebernommen(b.db)})`)
+  pruefe(z.abfragen <= 12, `mit einer Wiederholung ${z.abfragen} Abfragen`)
+
+  const c = baue()
+  uhr += 2 * 60_000
+  z.abfragen = 0
+  const r3 = await handlePruefung(loesche({ ids: c.ids }), c.env)
+  pruefe(r3.status === 200 && ((await r3.json()) as { geloescht: number }).geloescht === DISNEY * 2, 'Löschen nach Ids zählt alle 430 Folgen')
+  pruefe(zahl(c.db, "SELECT COUNT(*) AS n FROM titel_zeile WHERE offen_meldung = 0 AND daten LIKE '%[[%'") === 0, 'alle Folgen sind entfernt')
+  pruefe(z.abfragen <= 10, `Löschen braucht ${z.abfragen} Abfragen für ${DISNEY} Titel`)
 }
 
 if (fehler) {

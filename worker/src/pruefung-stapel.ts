@@ -33,8 +33,9 @@ export function anfragenJeMeldung(meldung: unknown): number {
 export async function verarbeiteStapel(
   stapel: unknown[],
   einzeln: (meldung: unknown) => Promise<StapelErgebnis>,
+  schonVerbraucht = 0,
 ): Promise<StapelErgebnis[]> {
-  let verbraucht = 0
+  let verbraucht = schonVerbraucht
   const ergebnisse = await Promise.all(
     stapel.map(async (meldung): Promise<StapelErgebnis> => {
       verbraucht += anfragenJeMeldung(meldung)
