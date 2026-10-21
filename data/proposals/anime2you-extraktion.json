@@ -517,6 +517,10 @@
       "am": "2026-10-20",
       "vorschlaege": 1
     },
+    "1061963": {
+      "am": "2026-10-21",
+      "vorschlaege": 0
+    },
     "1061995": {
       "am": "2026-10-20",
       "vorschlaege": 0
@@ -542,6 +546,10 @@
       "am": "2026-10-19",
       "vorschlaege": 2
     },
+    "1062229": {
+      "am": "2026-10-21",
+      "vorschlaege": 2
+    },
     "1062255": {
       "am": "2026-10-20",
       "vorschlaege": 5
@@ -549,6 +557,51 @@
     "1062283": {
       "am": "2026-10-20",
       "vorschlaege": 4
+    },
+    "1062293": {
+      "am": "2026-10-21",
+      "vorschlaege": 1
+    },
+    "1062310": {
+      "am": "2026-10-21",
+      "vorschlaege": 1
+    },
+    "1062322": {
+      "am": "2026-10-21",
+      "vorschlaege": 1
+    },
+    "1062338": {
+      "am": "2026-10-21",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1062428": {
+      "am": "2026-10-21",
+      "vorschlaege": 1
+    },
+    "1062497": {
+      "am": "2026-10-21",
+      "vorschlaege": 2
+    },
+    "1062508": {
+      "am": "2026-10-21",
+      "vorschlaege": 2
+    },
+    "1062528": {
+      "am": "2026-10-21",
+      "vorschlaege": 0
+    },
+    "1062564": {
+      "am": "2026-10-21",
+      "vorschlaege": 0
+    },
+    "1062575": {
+      "am": "2026-10-21",
+      "vorschlaege": 0
+    },
+    "1062604": {
+      "am": "2026-10-21",
+      "vorschlaege": 3
     }
   },
   "vorschlaege": [
@@ -5037,6 +5090,283 @@
       "quelle": "https://www.anime2you.de/news/1062255/akiba-pass-isekai-onsen-paradise-und-mehr/",
       "veroeffentlicht": "2026-10-19",
       "gelesenAm": "2026-10-20"
+    },
+    {
+      "titel": "Spice and Wolf: Merchant Meets the Wise Wolf",
+      "zitat": "Das erste Blu-ray-Volume, das die ersten sechs Episoden auf Deutsch und Japanisch beinhaltet, erscheint nach aktuellem Stand am 6. November 2026.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2026-11-06",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "1–6",
+      "unsicher": "Termin laut Artikel vorläufig (\"nach aktuellem Stand\").",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1062604",
+      "artikel": "Blu-ray-Design von »Spice and Wolf: Merchant Meets the Wise Wolf« + Extras",
+      "quelle": "https://www.anime2you.de/news/1062604/spice-and-wolf-merchant-meets-the-wise-wolf-blu-ray-design/",
+      "veroeffentlicht": "2026-10-21",
+      "gelesenAm": "2026-10-21"
+    },
+    {
+      "titel": "Spice and Wolf: Merchant Meets the Wise Wolf",
+      "zitat": "Das zweite Volume folgt voraussichtlich im Dezember 2026, während das dritte und vierte Volume im Frühjahr 2027 in den Handel kommen sollen.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1062604",
+      "artikel": "Blu-ray-Design von »Spice and Wolf: Merchant Meets the Wise Wolf« + Extras",
+      "quelle": "https://www.anime2you.de/news/1062604/spice-and-wolf-merchant-meets-the-wise-wolf-blu-ray-design/",
+      "veroeffentlicht": "2026-10-21",
+      "gelesenAm": "2026-10-21"
+    },
+    {
+      "titel": "Spice and Wolf: Merchant Meets the Wise Wolf",
+      "zitat": "Eine zweite Staffel befindet sich bereits in Arbeit und startet nach aktueller Planung im Laufe des nächsten Jahres.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062604",
+      "artikel": "Blu-ray-Design von »Spice and Wolf: Merchant Meets the Wise Wolf« + Extras",
+      "quelle": "https://www.anime2you.de/news/1062604/spice-and-wolf-merchant-meets-the-wise-wolf-blu-ray-design/",
+      "veroeffentlicht": "2026-10-21",
+      "gelesenAm": "2026-10-21"
+    },
+    {
+      "titel": "Re:ZERO – Starting Life in Another World",
+      "zitat": "Die dritte Staffel erscheint seit September 2026 auf DVD und Blu-ray.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062428",
+      "artikel": "Neue Figur zeigt Emilia aus »Re:ZERO« im Hochzeitskleid",
+      "quelle": "https://www.anime2you.de/news/1062428/re-zero-emilia-hochzeitskleid-figur/",
+      "veroeffentlicht": "2026-10-21",
+      "gelesenAm": "2026-10-21"
+    },
+    {
+      "titel": "Your Name.",
+      "zitat": "»Your Name.« Laufzeit: 106 Minuten Sprache: Deutsch Stream: JustWatch TV",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "JustWatch TV",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062508",
+      "artikel": "Zwei Anime-Neuzugänge ab sofort kostenlos bei JustWatch TV verfügbar",
+      "quelle": "https://www.anime2you.de/news/1062508/justwatch-tv-neon-genesis-evangelion-und-mehr/",
+      "veroeffentlicht": "2026-10-20",
+      "gelesenAm": "2026-10-21"
+    },
+    {
+      "titel": "Neon Genesis Evangelion",
+      "zitat": "»Neon Genesis Evangelion« Episoden: 26 (komplett) Sprache: Deutsch Stream: JustWatch TV",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "JustWatch TV",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "26",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062508",
+      "artikel": "Zwei Anime-Neuzugänge ab sofort kostenlos bei JustWatch TV verfügbar",
+      "quelle": "https://www.anime2you.de/news/1062508/justwatch-tv-neon-genesis-evangelion-und-mehr/",
+      "veroeffentlicht": "2026-10-20",
+      "gelesenAm": "2026-10-21"
+    },
+    {
+      "titel": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
+      "zitat": "»Der Held ohne Klasse: Der Aufstieg eines Talentlosen« (Hero Without a Class: Who Even Needs Skills?!) ist nach aktueller Planung ab dem 1. November 2026 auf Netflix verfügbar.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "netflix",
+      "datum": "2026-11-01",
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Starttermin laut Artikel vorläufig (\"nach aktueller Planung\"); Details zu den Sprachfassungen auf Netflix stehen noch aus.",
+      "wochentag": "Sonntag",
+      "warnungen": [],
+      "artikelId": "1062497",
+      "artikel": "Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm",
+      "quelle": "https://www.anime2you.de/news/1062497/der-held-ohne-klasse-auf-netflix/",
+      "veroeffentlicht": "2026-10-20",
+      "gelesenAm": "2026-10-21"
+    },
+    {
+      "titel": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
+      "zitat": "ADN bietet die Serie bereits vollständig mit deutscher und japanischer Vertonung an.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "adn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "ADN",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062497",
+      "artikel": "Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm",
+      "quelle": "https://www.anime2you.de/news/1062497/der-held-ohne-klasse-auf-netflix/",
+      "veroeffentlicht": "2026-10-20",
+      "gelesenAm": "2026-10-21"
+    },
+    {
+      "titel": "Magical Explorer",
+      "zitat": "»Magical Explorer« umfasst demnach insgesamt 13 Episoden, die seit dem 3. Oktober 2026 im japanischen Fernsehen ausgestrahlt und im Originalton mit deutschen Untertiteln bei Crunchyroll im Simulcast gezeigt werden.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-03",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "13",
+      "unsicher": null,
+      "wochentag": "Samstag",
+      "warnungen": [],
+      "artikelId": "1062322",
+      "artikel": "Episodenanzahl des Fantasy-Anime »Magical Explorer«",
+      "quelle": "https://www.anime2you.de/news/1062322/magical-explorer-episodenanzahl/",
+      "veroeffentlicht": "2026-10-20",
+      "gelesenAm": "2026-10-21"
+    },
+    {
+      "titel": "Cyberpunk: Edgerunners II",
+      "zitat": "»Cyberpunk: Edgerunners II« Episoden: 10 (komplett) Sprache: Deutsch, Japanisch (UT) Stream: Netflix",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "10",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062229",
+      "artikel": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
+      "quelle": "https://www.anime2you.de/news/1062229/netflix-dragon-ball-super-beerus-und-mehr/",
+      "veroeffentlicht": "2026-10-20",
+      "gelesenAm": "2026-10-21"
+    },
+    {
+      "titel": "Dragon Ball Super: Beerus",
+      "zitat": "»Dragon Ball Super: Beerus« – Episode 1 Episoden: 1 verfügbar Simulcast: Jeden Sonntag eine neue Episode Sprache: Japanisch (UT) Stream: Netflix",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": "Jeden Sonntag",
+      "folgen": "1",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062229",
+      "artikel": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
+      "quelle": "https://www.anime2you.de/news/1062229/netflix-dragon-ball-super-beerus-und-mehr/",
+      "veroeffentlicht": "2026-10-20",
+      "gelesenAm": "2026-10-21"
+    },
+    {
+      "titel": "Akatsuki no Yona – Prinzessin der Morgendämmerung",
+      "zitat": "Der Streaming-Channel aniverse bietet alle Episoden auf Abruf an, während der Publisher KSM Anime die Serie mit deutscher Synchronisation sowie im japanischen Originalton mit deutschen Untertiteln auf DVD und Blu-ray in den Handel brachte.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1062293",
+      "artikel": "Neue Details zur Fortsetzung des »Akatsuki no Yona«-Anime",
+      "quelle": "https://www.anime2you.de/news/1062293/akatsuki-no-yona-fortsetzung-neue-details/",
+      "veroeffentlicht": "2026-10-20",
+      "gelesenAm": "2026-10-21"
+    },
+    {
+      "titel": "Romelia War Chronicle",
+      "zitat": "»Romelia War Chronicle« umfasst demzufolge 24 Episoden, die seit dem 3. Oktober 2026 jeden Samstag um 15:00 Uhr im japanischen Originalton mit deutschen Untertiteln bei Crunchyroll im Simulcast zu sehen sind.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-03",
+      "uhrzeit": "15:00",
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": "jeden Samstag",
+      "folgen": "24",
+      "unsicher": null,
+      "wochentag": "Samstag",
+      "warnungen": [],
+      "artikelId": "1062310",
+      "artikel": "Episodenanzahl von »Romelia War Chronicle« steht fest",
+      "quelle": "https://www.anime2you.de/news/1062310/romelia-war-chronicle-episodenanzahl/",
+      "veroeffentlicht": "2026-10-20",
+      "gelesenAm": "2026-10-21"
     }
   ]
 }
