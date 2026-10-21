@@ -157,12 +157,13 @@ export function nachrechnen(nummer, gh, melde, warte) {
     melde(`PR ${nummer}: aktuell, die Kette rechnete gegen main ${kurz(main)}`)
     return 0
   }
-  if (datenpfadGrund(gh, nummer, basis, main) === null) {
+  const abgelehnt = datenpfadGrund(gh, nummer, basis, main)
+  if (abgelehnt === null) {
     melde(`PR ${nummer}: aktuell, Kette gegen ${kurz(basis)}, main ist ${kurz(main)}, seitdem nur Daten bewegt (${DATENPFADE.join(', ')})`)
     return 0
   }
   anstossen(gh, nummer, main, warte)
-  melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}), geschlossen und wieder geöffnet; Kette abwarten, dann erneut aufrufen`)
+  melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${abgelehnt}), geschlossen und wieder geöffnet; Kette abwarten, dann erneut aufrufen`)
   return 1
 }
 
