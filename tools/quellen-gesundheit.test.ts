@@ -123,19 +123,21 @@ const stub = join(tmp, 'fetch-stub.mjs')
 writeFileSync(stub, `globalThis.fetch = async (u) => String(u).includes('netflix') ? new Response('', { status: 404 }) : new Response('<html></html>', { status: 200 })\n`)
 const child = spawn(
   process.execPath,
-  ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1', '--sperrpause', '3600'],
+  ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1', '--sperrpause', '3600', '--zeitbudget', '0'],
   { cwd: tmp, env: { ...process.env, AK_ROOT: tmp }, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] },
 )
 let ausgabe = ''
 child.stdout.on('data', (d) => (ausgabe += d))
 child.stderr.on('data', (d) => (ausgabe += d))
 const beendet = new Promise<void>((res) => child.on('exit', () => res()))
-for (let i = 0; i < 600 && !ausgabe.includes('min Pause') && child.exitCode === null; i++) await new Promise((r) => setTimeout(r, 100))
+/* Die Pause-Zeile erscheint vor dem Sichern: erst töten, wenn auch die Gesundheit geschrieben ist,
+   sonst trifft der Abbruch die Lücke dazwischen (Kette 1713, 21.10.2026). */
+const gesundheit = join(tmp, 'data', 'source-health.json')
+for (let i = 0; i < 600 && !(ausgabe.includes('min Pause') && existsSync(gesundheit)) && child.exitCode === null; i++) await new Promise((r) => setTimeout(r, 100))
 const inDerPause = ausgabe.includes('min Pause')
 child.kill()
 await beendet
 assert.ok(inDerPause, `Lauf kam nicht in die Pause:\n${ausgabe}`)
-const gesundheit = join(tmp, 'data', 'source-health.json')
 assert.ok(existsSync(gesundheit), 'nach Abbruch in der Pause steht eine Gesundheit')
 const eintrag = (JSON.parse(readFileSync(gesundheit, 'utf8')) as Record<string, { lastOk?: string; lastCount: number }>)['link-check']
 assert.ok(eintrag, 'link-check ist eingetragen')

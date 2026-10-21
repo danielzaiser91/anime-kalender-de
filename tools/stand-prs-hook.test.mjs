@@ -147,8 +147,6 @@ assert.equal(h.hookNummer(h.offeneZeile(pr(901001, { title: '[Prüfung rot] x', 
 assert.equal(h.berlin('2026-10-19T22:30:00Z'), '20.10. 00:30', 'Berliner Tag, nicht UTC')
 assert.equal(h.berlin('2026-12-31T23:05:00Z'), '01.01. 00:05', 'Jahreswechsel, Winterzeit')
 assert.equal(h.berlin(Date.parse('2026-07-01T10:00:00Z')), '01.07. 12:00', 'Sommerzeit, Zahl als Zeit')
-assert.equal(h.gemergtZeile(gemergt(901009, '2026-10-19T13:35:44Z', 'fix: Netflix')), `- [klein] **Netflix** — gemergt 19.10. 15:35 — [PR 901009](${ADR}901009)`)
-assert.equal(h.hookNummer(h.gemergtZeile(gemergt(901009, '2026-10-19T13:35:44Z'))), 901009)
 assert.equal(h.hinweisZeile(JETZT, 'gh: 502'), '- **PR-Liste veraltet** — Stand 20.10. 00:30; Abruf scheitert: gh: 502')
 assert.equal(h.hinweisZeile(0, 'x'), '- **PR-Liste veraltet** — Stand unbekannt; Abruf scheitert: x')
 
@@ -244,7 +242,7 @@ try {
   const zustand = () => JSON.parse(readFileSync(zustandDatei, 'utf8'))
   const lies = () => readFileSync(datei, 'utf8')
   const ALT = Date.parse('2026-10-01T08:00:00Z')
-  writeFileSync(datei, '# Stand\r\n## In Arbeit (Stand 31.12.2999 00:00)\r\n- ▶ **Hand** — bleibt\r\n\r\n## Als Nächstes\r\n- x\r\n')
+  writeFileSync(datei, '# Stand\r\n## In Arbeit (Stand 31.12.2999 00:00)\r\n- ▶ **Hand** — bleibt\r\n\r\n## Als Nächstes\r\n- 🔵 x\r\n')
   utimesSync(datei, new Date(ALT), new Date(ALT))
   const daten = { offen: [pr(901001, { kommentare: [] }), pr(901002)], gemergt: [gemergt(901009, iso(JETZT - MIN))] }
   const jetztLauf = (gh, t) => h.lauf({ jetzt: true }, { env, gh, jetzt: t })
@@ -264,11 +262,11 @@ try {
   assert.ok(existsSync(`${datei}.pr-sperre`), 'fremde Sperre bleibt')
   assert.deepEqual(jetztLauf(ghNachbau(daten), JETZT + 2 * MIN), { ergebnis: 'unverändert', erfolg: true }, 'verwaiste Sperre übernommen')
   const mitHandzeile = (args) => {
-    writeFileSync(datei, lies().replace('- x\r\n', '- x\r\n- **Während der Abfrage**\r\n'))
+    writeFileSync(datei, lies().replace('- 🔵 x\r\n', '- 🔵 x\r\n- 🔵 **Während der Abfrage**\r\n'))
     return ghNachbau({ ...daten, offen: [pr(901003)] })(args)
   }
   assert.equal(jetztLauf(mitHandzeile, JETZT + 3 * MIN).ergebnis, 'geschrieben (2 Zeilen)')
-  assert.ok(lies().includes('- **Während der Abfrage**\r\n') && lies().includes('[PR 901003]') && !lies().includes('[PR 901001]'))
+  assert.ok(lies().includes('- 🔵 **Während der Abfrage**\r\n') && lies().includes('[PR 901003]') && !lies().includes('[PR 901001]'))
 
   // Abruffehler: still bis VERALTET nach dem letzten Erfolg, danach Hinweiszeile und laut; Erfolg räumt sie weg.
   const kaputt = () => {

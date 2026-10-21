@@ -201,7 +201,7 @@ const limitAntwort = async (r: Response) => {
 {
   const db = neueDatenbank()
   const env = umgebung(db, { gelesen: 0, fehler: (sql, art) => (art === 'all' && /FROM prime_folge/.test(sql) ? LIMIT_LESEN : null) })
-  pruefe(await limitAntwort(await handlePruefung(post({ ...folge(1), plattform: 'primevideo' }), env)), 'Limit beim Laden der Rohfolgen (Prime) (dort gefangen, die Meldung ist gespeichert) -> 429')
+  pruefe(await limitAntwort(await handlePruefung(post({ ...folge(1), plattform: 'primevideo' }), env)), 'Limit beim Laden der Rohfolgen (Prime) (scheitert vor der Meldungszeile, der nächste Klick schreibt beides) -> 429')
 }
 {
   const db = neueDatenbank()

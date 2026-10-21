@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-20. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-21. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-32 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+33 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -21,6 +21,7 @@ Stand: 2026-10-20. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-26, 2026-11 (Monat) | netflix | ⚠️ offen | [Netflix-Termin des Thriller-Anime »Fool Night« + Teaser](https://www.anime2you.de/news/1043399/fool-night-netflix-termin/) |
 | 2026-11-03, 2026-11 (Monat) | netflix | – unklar | [Netflix kündigt neuen Original-Anime »Bass X Machina« an + Teaser](https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/) |
 | 2026-11-03, 2026-11-05, 2026-11 (Monat) | kino | – unklar | [Deutscher Kinostart von »Godzilla Minus Zero« steht fest + Teaser](https://www.anime2you.de/news/1033172/godzilla-minus-zero-deutscher-kinostart/) |
+| 2026-11-01 | netflix | – unklar | [Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm](https://www.anime2you.de/news/1062497/der-held-ohne-klasse-auf-netflix/) |
 | 2027-01 (Monat) | ? | – unklar | [Start von »The True Saint Was Banished« steht fest + Teaser](https://www.anime2you.de/news/1056952/start-von-the-true-saint-was-banished/) |
 | 2027-01-26, 2027-01 (Monat) | crunchyroll, kino | ✅ zugesagt | [Crunchyroll bringt »Witch on the Holy Night« ins Kino + Trailer](https://www.anime2you.de/news/1048494/crunchyroll-witch-on-the-holy-night-kinostart/) |
 | 2027-01 (Monat) | ? | – unklar | [»SSS-Class Revival Hunter« erhält eine Anime-Adaption + Simulcast](https://www.anime2you.de/news/1048438/sss-class-revival-hunter-erhaelt-anime/) |
@@ -41,59 +42,58 @@ Stand: 2026-10-20. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-05 (Monat) | ? | – unklar | [Zwei neue Acrylanhänger zu »Detektiv Conan« angekündigt](https://www.anime2you.de/news/1061186/zwei-detektiv-conan-acrylanhaenger/) |
 | 2027-05 (Monat) | ? | – unklar | [»Fairy Tail« erhält neue Anhänger, Tragetasche und XXL-Mauspad](https://www.anime2you.de/news/1061130/neues-fairy-tail-merchandise/) |
 
-Dazu 53 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 52 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 12 |
-| adn-catalog | 7.9 Tage her | 109 |
+| adn-catalog | 8.9 Tage her | 109 |
 | adn-news | 0.1 Tage her | 75 |
-| anilist-voices | 1.0 Tage her | 0 |
-| anime-offline-database | 1.0 Tage her | 8876 |
+| anilist-voices | 2.0 Tage her | 0 |
+| anime-offline-database | 2.0 Tage her | 8876 |
 | anime2you | 0.0 Tage her | 102 |
-| anisearch | 0.9 Tage her | 1 |
-| anisearch-cover-eigen | 8.5 Tage her | 1874 |
-| anisearch-dubs | 1.0 Tage her | 11921 |
-| anisearch-eintraege | 1.0 Tage her | 400 |
-| anisearch-folgen | 1.0 Tage her | 515 |
-| anisearch-slugs | 1.0 Tage her | 14859 |
-| anisearch-zuordnung | 1.0 Tage her | 18475 |
-| ann-voices | 1.0 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 46 |
-| cartoon-folgen | 1.0 Tage her | 300 |
-| cartoon-reihen | 1.0 Tage her | 1 |
-| cartoons | 1.0 Tage her | 2 |
-| cinestar | 1.0 Tage her | 1 |
-| cr-einzelwerke | 26.7 Tage her | 0 |
-| cr-filmbloecke | 26.7 Tage her | 0 |
+| anisearch | 0.9 Tage her | 37 |
+| anisearch-cover-eigen | 9.5 Tage her | 1874 |
+| anisearch-dubs | 1.0 Tage her | 11922 |
+| anisearch-eintraege | 2.0 Tage her | 400 |
+| anisearch-folgen | 2.0 Tage her | 515 |
+| anisearch-slugs | 2.0 Tage her | 14859 |
+| anisearch-zuordnung | 1.0 Tage her | 18477 |
+| ann-voices | 2.0 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 55 |
+| cartoon-folgen | 2.0 Tage her | 300 |
+| cartoon-reihen | 1.0 Tage her | 0 |
+| cartoons | 1.0 Tage her | 0 |
+| cinestar | 2.0 Tage her | 1 |
+| cr-einzelwerke | 0.6 Tage her | 6 |
+| cr-filmbloecke | 0.6 Tage her | 2 |
 | crunchyroll | 0.0 Tage her | 21 |
-| crunchyroll-dub | 1.0 Tage her | 1133 |
+| crunchyroll-dub | 2.0 Tage her | 1137 |
 | crunchyroll-neu | 0.0 Tage her | 140 |
-| crunchyroll-offene | 0.9 Tage her | 14 |
+| crunchyroll-offene | 1.9 Tage her | 14 |
 | crunchyroll-woche | 0.1 Tage her | 59 |
-| fsk | 14.6 Tage her | 3 |
-| justwatch-audio | 0.5 Tage her | 293 |
-| kinoheld | 1.0 Tage her | 0 |
-| kitsu-folgen | 1.0 Tage her | 1 |
-| link-check | 14.6 Tage her | 287 |
-| messbelege | 0.1 Tage her | 0 |
-| motn | 11.7 Tage her | 1943 |
-| motn-changes | 0.0 Tage her | 57 |
-| rohfolgen | 0.6 Tage her | 0 |
-| rtlplus-folgen | 1.0 Tage her | 3 |
-| tmdb-banner | 1.0 Tage her | 6 |
-| tmdb-folgen | 1.0 Tage her | 878 |
-| tmdb-kino | 1.0 Tage her | 3 |
-| tmdb-poster | 1.0 Tage her | 372 |
-| tmdb-titles | 1.0 Tage her | 400 |
+| justwatch-audio | 1.5 Tage her | 293 |
+| kinoheld | 2.0 Tage her | 0 |
+| kitsu-folgen | 2.0 Tage her | 1 |
+| link-check | 15.6 Tage her | 287 |
+| messbelege | 0.0 Tage her | 0 |
+| motn | 12.7 Tage her | 1943 |
+| motn-changes | 0.0 Tage her | 3 |
+| rohfolgen | 0.1 Tage her | 0 |
+| rtlplus-folgen | 2.0 Tage her | 3 |
+| tmdb-banner | 2.0 Tage her | 6 |
+| tmdb-folgen | 2.0 Tage her | 878 |
+| tmdb-kino | 2.0 Tage her | 3 |
+| tmdb-poster | 2.0 Tage her | 372 |
+| tmdb-titles | 2.0 Tage her | 400 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 1.0 Tage her | 0 |
-| tv-de | 0.2 Tage her | 65 |
-| tv-programm | 0.1 Tage her | 286 |
+| trailer | 1.0 Tage her | 5 |
+| tv-de | 0.2 Tage her | 69 |
+| tv-programm | 0.0 Tage her | 287 |
 | vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 1.0 Tage her | 5192 |
-| wikidata-titel | 1.0 Tage her | 15 |
+| wikidata-imdb | 2.0 Tage her | 5192 |
+| wikidata-titel | 2.0 Tage her | 15 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 1.0 Tage her | 0 |
+| youtube-check | 2.0 Tage her | 0 |

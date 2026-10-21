@@ -94,6 +94,16 @@ esac
   pruefe('zweiter Lauf über die Token-Adresse endet mit Erfolg', r2.status === 0, r2.out.slice(-600))
   const remote = sh(lauf, 'git config --get remote.origin.url').out.trim()
   pruefe('nach dem Lauf steht das Token nicht mehr in .git/config', !readFileSync(join(lauf, '.git/config'), 'utf8').includes('geheim') && remote === 'https://github.com/x/y.git', remote)
+
+  // Lokaler Aufruf ohne Lauf-Kennung (Daniels Rechner): kein `daten/`-Zweig, den Kette und CI-Prüfer überspringen.
+  sh(lauf, `git remote set-url origin "${posix(ursprung)}"`)
+  writeFileSync(join(lauf, 'data/cinestar.json'), '{"neu":"lokal"}')
+  const r3 = sh(lauf, `env -u GITHUB_RUN_ID PATH="${posix(bin)}:$PATH" QUELLEN_PRUEFBEFEHL=true bash tools/quellen-pr.sh "chore(data): Test 3"`, {})
+  pruefe('lokaler Aufruf endet mit Erfolg', r3.status === 0, r3.out.slice(-600))
+  const lokal = sh(ursprung, 'git branch --list "fix/lokal-*"').out.trim()
+  pruefe('lokaler Aufruf legt einen Zweig fix/lokal-… an', /fix\/lokal-\d{8}-\d{4}/.test(lokal), lokal)
+  const daten = sh(ursprung, 'git branch --list "daten/*"').out
+  pruefe('lokaler Aufruf legt keinen daten/-Zweig an', !/daten\/lokal/.test(daten), daten)
 } finally {
   rmSync(dir, { recursive: true, force: true })
 }

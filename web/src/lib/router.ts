@@ -234,7 +234,7 @@ export function titelAusPfad(pathname: string): number | undefined {
 }
 
 /** Füllt den offenen Titel aus dem Pfad, wenn der Hash keinen nennt. */
-function mitPfad(route: AppRoute, pathname: string): AppRoute {
+export function mitPfad(route: AppRoute, pathname: string): AppRoute {
   return route.title ? route : { ...route, title: titelAusPfad(pathname) }
 }
 
@@ -245,13 +245,14 @@ function mitPfad(route: AppRoute, pathname: string): AppRoute {
  */
 const KALENDER_FILTER_PARAM = /[?&](q|conf|sicher|wo|frei|ohne|staffeln|x?(p|anb|rt|st|fsk|y|g|kw|sp))=/
 
-function hashAufraeumen(neu: AppRoute, hash: string): void {
+export function hashAufraeumen(neu: AppRoute, umg: Umgebung): void {
+  const { ort, verlauf } = umg
   if (
-    ALTE_ANSICHTEN[hash.replace(/^#\/?/, '').split('?')[0]] ||
-    /[?&]r=/.test(hash) ||
-    (istKalender(neu.view) && KALENDER_FILTER_PARAM.test(hash))
+    ALTE_ANSICHTEN[ort.hash.replace(/^#\/?/, '').split('?')[0]] ||
+    /[?&]r=/.test(ort.hash) ||
+    (istKalender(neu.view) && KALENDER_FILTER_PARAM.test(ort.hash))
   )
-    history.replaceState(history.state, '', window.location.pathname + window.location.search + buildHash(neu))
+    verlauf.replaceState(verlauf.state, '', ort.pathname + ort.search + adressHash(neu, ort.pathname))
 }
 
 /**
@@ -269,19 +270,52 @@ function hashAufraeumen(neu: AppRoute, hash: string): void {
  * genau diesen Pfad in die Adresse — ohne Neuladen, die App läuft weiter.
  * Wer die Adresse dann kopiert, teilt automatisch die Fassung mit Vorschau.
  */
-export function syncSharePath(titelSlug?: string): void {
-  const base = import.meta.env.BASE_URL.replace(/\/$/, '')
-  const target = zielPfad(titelSlug)
-  if (window.location.pathname === target) return
+export function syncSharePath(titelSlug?: string, umg: Umgebung = browser()): void {
+  const ziel = seitenAdresseFuer(umg.base, umg.ort, titelSlug)
+  if (ziel) umg.verlauf.replaceState(umg.verlauf.state, '', ziel)
+}
+
+/** Adressleiste und Verlauf des Browsers, einsetzbar für Tests (`base` ohne Schrägstrich am Ende). */
+export interface Umgebung {
+  ort: { pathname: string; search: string; hash: string }
+  verlauf: Pick<History, 'state' | 'replaceState' | 'pushState' | 'back'>
+  base: string
+}
+
+const browser = (): Umgebung => ({ ort: window.location, verlauf: history, base: import.meta.env.BASE_URL.replace(/\/$/, '') })
+
+/** Die Adresse, die in die Leiste soll — oder nichts, wenn sie schon stimmt oder die Seite nicht zum Muster passt. */
+export function seitenAdresseFuer(base: string, ort: { pathname: string; search: string; hash: string }, titelSlug?: string): string | undefined {
   // Nur innerhalb der eigenen Seite umschreiben. Läuft die App aus einem
   // Unterverzeichnis, das nicht zum Muster passt, bleibt der Pfad unangetastet.
-  if (!window.location.pathname.startsWith(`${base}/`)) return
-  history.replaceState(history.state, '', target + window.location.search + window.location.hash)
+  if (!ort.pathname.startsWith(`${base}/`)) return undefined
+  const ziel = titelAdresseNeu(zielPfad(titelSlug, base), ort.search, ort.hash, titelSlug)
+  return ort.pathname + ort.search + ort.hash === ziel ? undefined : ziel
+}
+
+/** Der Hash ohne `t=`: Eine Kennung im Pfad steht nicht noch einmal im Hash (alte Links `#/…?t=<id>` werden so umgeschrieben). */
+export function hashOhneTitel(hash: string): string {
+  const [pfad, query] = hash.split('?')
+  if (!query) return hash
+  const params = new URLSearchParams(query)
+  params.delete('t')
+  const rest = params.toString()
+  return rest ? `${pfad}?${rest}` : (pfad ?? '')
+}
+
+/** Die Adresse zu einem Titel-Pfad: Ist der Pfad die reine Kennung (`/t/15957/`), fällt `t=` aus dem Hash. */
+export function titelAdresseNeu(pfad: string, search: string, hash: string, titelSlug?: string): string {
+  return pfad + search + (titelSlug && /^\d+$/.test(titelSlug) ? hashOhneTitel(hash) : hash)
+}
+
+/** Der Hash fürs Schreiben: Trägt der Pfad den offenen Titel schon, steht er nicht zusätzlich im Hash. */
+export function adressHash(route: AppRoute, pathname = window.location.pathname): string {
+  const hash = buildHash(route)
+  return route.title && titelAusPfad(pathname) === route.title ? hashOhneTitel(hash) : hash
 }
 
 /** Der Pfad zum geöffneten Titel: `/t/<ak>/`. */
-function zielPfad(titelSlug?: string): string {
-  const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+function zielPfad(titelSlug?: string, base = import.meta.env.BASE_URL.replace(/\/$/, '')): string {
   return titelSlug ? `${base}/t/${encodeURIComponent(titelSlug)}/` : `${base}/`
 }
 
@@ -293,9 +327,9 @@ const panelOffen = (r: Pick<AppRoute, 'title'>) => Boolean(r.title)
  * Verlaufseintrag an. Deshalb bekommt das Öffnen einen eigenen Eintrag (`state.panel`); Zurück nimmt
  * ihn weg, und das ✕ geht denselben Schritt, statt einen zweiten Eintrag zu stapeln.
  */
-function panelVerlauf(route: AppRoute, next: Partial<AppRoute>, merged: AppRoute): 'zurueck' | 'eintrag' | undefined {
+function panelVerlauf(route: AppRoute, next: Partial<AppRoute>, merged: AppRoute, state: { panel?: boolean } | null): 'zurueck' | 'eintrag' | undefined {
   const nurPanel = Object.keys(next).every((k) => k === 'title' || k === 'disc')
-  if (panelOffen(route) && !panelOffen(merged) && nurPanel && history.state?.panel) return 'zurueck'
+  if (panelOffen(route) && !panelOffen(merged) && nurPanel && state?.panel) return 'zurueck'
   if (!panelOffen(route) && panelOffen(merged)) return 'eintrag'
   return undefined
 }
@@ -306,6 +340,34 @@ function panelUnterlegen(route: AppRoute): void {
   const url = window.location.pathname + window.location.search + window.location.hash
   history.replaceState(null, '', zielPfad(undefined) + window.location.search + buildHash({ ...route, title: undefined, disc: undefined }))
   history.pushState({ panel: true, tief: true }, '', url)
+}
+
+/** Ein Navigationsschritt auf der Adressleiste: Panel öffnen/schließen, Ansicht wechseln. */
+export function navigiere(route: AppRoute, next: Partial<AppRoute>, merged: AppRoute, umg: Umgebung, setRoute: (r: AppRoute) => void): void {
+  const { ort, verlauf: hist, base } = umg
+  const art = panelVerlauf(route, next, merged, hist.state)
+  /* Ein geteilter Link (Newsletter) hat kein Vorher in der App: ✕ und Klick daneben ersetzen die Adresse, statt zurückzugehen (Daniel, 07.10.2026). */
+  if (art === 'zurueck' && hist.state?.tief) {
+    hist.replaceState(null, '', zielPfad(undefined, base) + ort.search + adressHash(merged, ort.pathname))
+    return setRoute(merged)
+  }
+  if (art === 'zurueck') return hist.back()
+  const hash = adressHash(merged, ort.pathname)
+  if (art === 'eintrag') {
+    hist.pushState({ panel: true }, '', zielPfad(undefined, base) + ort.search + hash)
+    return setRoute(merged)
+  }
+  /* Der Pfad `/t/<ak>/` des offenen Titels schreibt das Panel selbst; hier nur das Zurücksetzen beim Schließen. */
+  if (!merged.title) syncSharePath(undefined, umg)
+  if (hash !== ort.hash) ort.hash = hash
+  else setRoute(merged)
+}
+
+/** Schalter umlegen: die Adresse wird ersetzt (kein Verlaufseintrag, kein `hashchange`). */
+export function ersetzeAdresse(merged: AppRoute, umg: Umgebung, setRoute: (r: AppRoute) => void): void {
+  const { ort, verlauf } = umg
+  verlauf.replaceState(verlauf.state, '', ort.pathname + ort.search + adressHash(merged, ort.pathname))
+  setRoute(merged)
 }
 
 /**
@@ -321,11 +383,7 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void, (next:
   const setRoute = useCallback((neu: AppRoute) => setzeRoute((alt) => mitStabilenFiltern(alt, neu)), [])
 
   useEffect(() => {
-    const onChange = () => {
-      const neu = mitPfad(parseHash(window.location.hash), window.location.pathname)
-      hashAufraeumen(neu, window.location.hash)
-      setRoute(neu)
-    }
+    const onChange = () => liesAdresse(browser(), setRoute)
     onChange()
     panelUnterlegen(mitPfad(parseHash(window.location.hash), window.location.pathname))
     /*
@@ -346,36 +404,27 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void, (next:
     if (!route.title) syncSharePath()
   }, [route.title])
 
+  const { navigate, ersetze } = schreiber(route, setRoute, browser)
+  return [route, navigate, ersetze]
+}
+
+/** Die Route aus der Adressleiste lesen, die Adresse dabei aufräumen und die Route setzen. */
+export function liesAdresse(umg: Umgebung, setRoute: (r: AppRoute) => void): void {
+  const neu = mitPfad(parseHash(umg.ort.hash), umg.ort.pathname)
+  hashAufraeumen(neu, umg)
+  setRoute(neu)
+}
+
+/** Die beiden Schreibwege einer Route: `navigate` legt einen Schritt an, `ersetze` legt Schalter um (kein Verlaufseintrag, kein `hashchange`). */
+export function schreiber(route: AppRoute, setRoute: (r: AppRoute) => void, umgebung: () => Umgebung) {
   const navigate = (next: Partial<AppRoute>) => {
     const merged: AppRoute = { ...route, ...next }
     /* Die Filter der Datenbank gehen nicht in den Kalender mit, die des Kalenders nicht in die Datenbank (`App.tsx`). */
     if (istKalender(merged.view)) merged.filters = kalenderBasis(merged.filters)
     /* Ändert sich ein Schnellfilter, wird er zur Vorliebe — vor dem Adresswechsel, den `parseHash` danach liest. */
     vorliebenNachfuehren(route.filters, merged.filters)
-    const verlauf = panelVerlauf(route, next, merged)
-    /* Ein geteilter Link (Newsletter) hat kein Vorher in der App: ✕ und Klick daneben ersetzen die Adresse, statt zurückzugehen (Daniel, 07.10.2026). */
-    if (verlauf === 'zurueck' && history.state?.tief) {
-      history.replaceState(null, '', zielPfad(undefined) + window.location.search + buildHash(merged))
-      return setRoute(merged)
-    }
-    if (verlauf === 'zurueck') return history.back()
-    const hash = buildHash(merged)
-    if (verlauf === 'eintrag') {
-      history.pushState({ panel: true }, '', zielPfad() + window.location.search + hash)
-      return setRoute(merged)
-    }
-    /* Der Pfad `/t/<ak>/` des offenen Titels schreibt das Panel selbst; hier nur das Zurücksetzen beim Schließen. */
-    if (!merged.title) syncSharePath()
-    if (hash !== window.location.hash) window.location.hash = hash
-    else setRoute(merged)
+    navigiere(route, next, merged, umgebung(), setRoute)
   }
-
-  /** Schalter umlegen: die Adresse wird ersetzt (kein Verlaufseintrag, kein `hashchange`), die übrigen Parameter bleiben. */
-  const ersetze = (next: Partial<AppRoute>) => {
-    const merged: AppRoute = { ...route, ...next }
-    history.replaceState(history.state, '', window.location.pathname + window.location.search + buildHash(merged))
-    setRoute(merged)
-  }
-
-  return [route, navigate, ersetze]
+  const ersetze = (next: Partial<AppRoute>) => ersetzeAdresse({ ...route, ...next }, umgebung(), setRoute)
+  return { navigate, ersetze }
 }

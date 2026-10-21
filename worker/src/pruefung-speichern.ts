@@ -227,14 +227,13 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
   if (unveraendert) {
     return antwort({ ok: true, befund, unveraendert: true })
   }
-  await loescheOffene(env, offene, { url, folgeNr, staffelNr, seitenKennung })
-
   /* Netflix und Disney+: die eine Rohfolge steht in der Zeile der Meldung (Migration 054), `prime_folge` bleibt leer. */
   const rohfolge = await rohfolgeFuerMeldung(daten, url, seitenKennung)
+  /* Rohfolgen vor der Zeile, deren Hash den nächsten Klick „unveraendert“ macht (sonst Verlust bei D1-Export, 16.10.2026). */
+  if (rohfolge === null) await speichereRohfolgen(env, daten, url, seitenKennung)
+  await loescheOffene(env, offene, { url, folgeNr, staffelNr, seitenKennung })
   const roh = rohfolgeFuerZeile(offene, { url, folgeNr, staffelNr, seitenKennung }, rohfolge)
   await fuegePruefungEin(env, daten, url, { befund, vorhanden, tonDe, art, staffelNr, seitenKennung, hash, ...roh })
-
-  if (rohfolge === null) await speichereRohfolgen(env, daten, url, seitenKennung)
 
   /*
     Bis zum 24.09.2026 zählte hier jede Meldung alle offenen Meldungen nach (`COUNT(*) … WHERE
