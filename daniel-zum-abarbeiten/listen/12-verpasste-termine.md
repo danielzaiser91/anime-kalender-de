@@ -10,8 +10,8 @@ einmal täglich im Netz (Anbieter-News, Social Media, Anime2You) und schreibt `r
 `rechercheQuelle`, `rechercheAm` und — nur mit Quelle, die den Tag nennt — `neuErwartet`.
 Nach zwei Wochen wöchentlich, nach zwei Monaten nicht mehr. Von Hand eintragen geht weiterhin.
 
-Stand: 2026-10-21 13:02 · 1 offen, 14 nachgeholt
+Stand: 2026-10-21 14:02 · 1 offen, 14 nachgeholt
 
 | Titel | Folge | erwartet | beim Anbieter | Kalender gelesen | Anime2You | Recherche | fällig |
 |---|---|---|---|---|---|---|---|
-| Tomb Raider King | 12 | 2026-10-14 17:25 | 11 Folgen | 2026-10-21 13:02 | keine Meldung | nichts gefunden (2026-10-21) | nein |
+| Tomb Raider King | 12 | 2026-10-14 17:25 | 11 Folgen | 2026-10-21 14:02 | keine Meldung | nichts gefunden (2026-10-21) | nein |
