@@ -43,6 +43,7 @@ pipeline/check-beleg-api.ts
 pipeline/check-beleg-bis-anker.ts
 pipeline/check-beleg-href.ts
 pipeline/check-beleg-stoerung.ts
+pipeline/check-belegstaerke-forum.ts
 pipeline/check-belegstaerke.ts
 pipeline/check-bild-und-synchro.ts
 pipeline/check-bookworm-dublette.ts
@@ -225,6 +226,7 @@ pipeline/check-urteil-spaet.ts
 pipeline/check-verpasst-verdrahtung.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts
+pipeline/check-verweise-von-hand.ts
 pipeline/check-vorfaelle-ablauf.ts
 pipeline/check-weg-adresse-bezugsweg.ts
 pipeline/check-wege-aus-terminen.ts
