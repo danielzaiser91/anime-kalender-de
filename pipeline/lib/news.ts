@@ -43,6 +43,7 @@ import { rhythmusMeldung } from './news-rhythmus.ts'
 import { ohneDoppelteTakte, taktMeldungen } from './news-takt.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
 import { haltWeitererFest, vergissAlte } from './news-einfrieren.ts'
+import { premiereBelegtTv } from '../../shared/premiere.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
 const FENSTER_TAGE = 120
@@ -196,6 +197,7 @@ function terminMeldungen(
         titel: t,
         platform: r.platform, ...(r.platform === 'tv' && r.sender ? { anbieter: r.sender } : {}),
         ...(r.kanal ? { kanal: r.kanal } : {}),
+        ...(art === 'angekuendigt' && premiereBelegtTv(r) ? { premiere: true } : {}),
         datum,
         release: r.slug,
         ...(art === 'disc' && ausgabeKurz(r.edition) ? { ausgabe: ausgabeKurz(r.edition) } : {}),

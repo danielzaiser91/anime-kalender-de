@@ -2,7 +2,7 @@ import { AntwortKasten } from './antwort-kasten.tsx'
 import { FolgenMitNachlegern } from './nachleger-zeilen.tsx'
 import { deutscheBereicheDerWege } from './stream-bereiche.ts'
 import type { StreamLink, Release, Title, DiscAusgabe } from '@shared/types.ts'
-import { alleOhneSprachbeleg, legendeDerZeilen, zeilenGruppen } from './legende-zeilen.ts'
+import { alleNurUntertitel, alleOhneSprachbeleg, legendeDerZeilen, zeilenGruppen } from './legende-zeilen.ts'
 import type { TvZuletzt } from '../../lib/tv-zuletzt.ts'
 import { tvVorbeiGruppen } from './tv-vorbei.tsx'
 import type { Translate } from '../../lib/i18n.tsx'
@@ -53,7 +53,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
           }
           antwort={antwort}
           releases={releases}
-          ohneSprachbeleg={alleOhneSprachbeleg(sortiertNachZugang, title, releases)}
+          ohneSprachbeleg={alleNurUntertitel(sortiertNachZugang, title, releases) ? 'omu' : alleOhneSprachbeleg(sortiertNachZugang, title, releases)}
           legende={legendeDerZeilen({ sortiert: sortiertNachZugang, title, releases, folgenAngabeFuer, t })}
           terminPillen={terminPillen(terminReleases, title, releases, today, folgenAngabeFuer)}
           title={title}

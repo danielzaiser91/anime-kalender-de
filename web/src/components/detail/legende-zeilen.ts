@@ -55,7 +55,13 @@ export function alleOhneSprachbeleg(sortiert: Wege, title: Title, releases: Rele
   return arten.length > 0 && arten.every(ohneBeleg)
 }
 
-/** Die Legende unter den Stream-Zeilen: erklärt „laut JustWatch“, „Sprache offen“ und „≈“, wo sie vorkommen. */
+/** Alle Stream-Zeilen tragen nur Untertitel (OmU): Der Kopf sagt „nur Untertitel“ statt „Sprache offen“. */
+export function alleNurUntertitel(sortiert: Wege, title: Title, releases: Release[]): boolean {
+  const arten = [...sortiert.flatMap((x) => x.plattformen.map((s) => streamStatus(title, s, releases))), ...sortiert.flatMap((x) => x.streamWege.map((g) => streamWegStatus(g, title)))]
+  return arten.length > 0 && arten.every((a) => a === 'omu')
+}
+
+/** Die Legende unter den Stream-Zeilen: erklärt „laut JustWatch“ und „≈“, wo sie vorkommen. */
 export function legendeDerZeilen({ sortiert, title, releases, folgenAngabeFuer, t }: {
   sortiert: Wege
   title: Title

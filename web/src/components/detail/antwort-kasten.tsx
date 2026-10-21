@@ -128,7 +128,7 @@ export function AntwortKasten({
   /** Erklärt die Zustände der Anbieterzeilen (Stream-Seite) — nur, was dort wirklich vorkommt. */
   legende?: string
   /** Alle Stream-Zeilen ohne Sprachbeleg: Die Überschrift „Auf Deutsch …“ entfällt. */
-  ohneSprachbeleg?: boolean
+  ohneSprachbeleg?: boolean | 'omu'
   /** Die Termine des Titels — gebraucht für den frühesten deutschen Start (`de-seit.ts`). */
   releases?: Release[]
   antwort: Antwort
@@ -619,7 +619,7 @@ export function AntwortKasten({
     zaehl = ''
   }
   /* Keine Zeile mit Sprachbeleg: „Auf Deutsch …“ wäre eine Behauptung, die keine Zeile darunter trägt. */
-  if (ohneSprachbeleg && (antwort.art === 'fertig' || antwort.art === 'film')) haupt = T('antwort.sprachOffen')
+  if (ohneSprachbeleg && (antwort.art === 'fertig' || antwort.art === 'film')) haupt = T(ohneSprachbeleg === 'omu' ? 'antwort.nurUntertitel' : 'antwort.sprachOffen')
 
   return (
     /*

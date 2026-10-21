@@ -52,6 +52,7 @@ const TEXTE = {
   'news.folgen': 'Folgen {von}–{bis} auf Deutsch bei {anbieter}',
   'news.angekuendigt': 'Start am {datum} bei {anbieter}',
   'news.angekuendigtTv': 'Im TV{sender} am {tag}, den {datum}',
+  'news.angekuendigtTvPremiere': 'Deutsche TV-Premiere{sender} am {tag}, den {datum}',
   'news.omuAngekuendigt': 'Start {wann} bei {anbieter} mit Untertiteln, deutsche Synchro angekündigt',
   'news.omuOffen': 'Start {wann} bei {anbieter} mit Untertiteln, keine deutsche Synchro angekündigt',
   'news.kurz.omu': 'OmU ab {datum} · {anbieter}',
