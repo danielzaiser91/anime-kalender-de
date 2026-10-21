@@ -208,6 +208,23 @@ async function gegenprobe() {
   pruefe(j.error === 'ausnahme Error', `anderer Fehler: Grund wie bisher (${j.error})`)
   pruefe(istD1Export(EXPORT()) && !istD1Export(ANDERER()) && !istD1Export(undefined), 'istD1Export erkennt nur die Export-Meldung')
   pruefe(!istD1Tageslimit(EXPORT()), 'Export ist kein Tageslimit (Retry-After nicht bis Mitternacht)')
+  /* Gegenproben mit fast gleichem Text: nur der Wortlaut des laufenden Exports zählt. */
+  pruefe(!istD1Export(new Error('D1_ERROR: cannot export this table')), 'istD1Export: "export" allein genügt nicht')
+  pruefe(!istD1Export(new Error('D1_ERROR: long-running query timed out')), 'istD1Export: "long-running" allein genügt nicht')
+  pruefe(EXPORT_PAUSE_SEKUNDEN === 30, `Pause 30 s wie gemessen, fest eingetragen (${EXPORT_PAUSE_SEKUNDEN})`)
+}
+
+/** Einzelmeldung bei laufendem Export (der Fall vom 16.10.2026): 503 und eine Protokollzeile mit der Kennung der Seite. */
+async function protokollzeileBeiExport() {
+  const s: Stoerung = { schritt: 0, fehler: EXPORT }
+  const { env } = await mitAlterFassung(s)
+  s.ab = 0
+  protokoll.length = 0
+  const r = await sende('/pruefung', meldung('ja'), env)
+  pruefe(r.status === 503, `Einzelmeldung bei Export: 503 (${r.status})`)
+  const zeilen = protokoll.filter((z) => z.includes('meldung_abgelehnt')).map((z) => JSON.parse(z) as { kennung?: string; status?: number })
+  pruefe(zeilen.length === 1 && zeilen[0]!.kennung === 'B00LDDJYB4', `Einzelmeldung bei Export: Protokollzeile mit Kennung (${protokoll.join(' | ')})`)
+  pruefe(zeilen[0]?.status === 503, `Einzelmeldung bei Export: Protokollzeile Status 503 (${zeilen[0]?.status})`)
 }
 
 /** Andere schreibende Routen laufen über dasselbe Auffangnetz: `/lauf` (Sammler) und `/status`. */
@@ -272,6 +289,7 @@ await jederSchritt()
 await tageslimitJederSchritt()
 await andererFehlerJederSchritt()
 await gegenprobe()
+await protokollzeileBeiExport()
 await andereRouten()
 await stapel()
 kennungImProtokoll()
