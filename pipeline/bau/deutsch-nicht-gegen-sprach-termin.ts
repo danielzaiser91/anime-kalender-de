@@ -12,6 +12,11 @@ function istKanalWeg(s: StreamLink, titel: Title): boolean {
   return (titel.watchLinks ?? []).some((w) => w.kind === 'stream' && kanalImNamen(w.name) !== undefined && adressKern(w.url) === adressKern(s.url))
 }
 
+/** Ein Hand-Ja schützt den Weg seiner Adresse; ohne Adresse im Beleg den ganzen Anbieter des Titels (Digimon 552: Adress-Granularität). */
+function handSchluessel(anilistId: number, platform: string, url?: string): string {
+  return `${anilistId}|${platform}|${url ? adressKern(url) : ''}`
+}
+
 /**
  * **Ein Kanal-Weg trägt kein „deutsch", wenn alle Termine seines Anbieters eine Sprachkennzeichnung tragen** (`sprache`: omu/offen; 16.10.2026,
  * Demon Slayer Hashira Training und Swordsmith Village, Prime). Sein Ja ist abgeleitet — vom Anbieter geerbt (`kanalErbtVomAnbieter`) oder aus
@@ -20,12 +25,13 @@ function istKanalWeg(s: StreamLink, titel: Title): boolean {
  */
 export function nimmKanalJaGegenSprachTermin(titles: Iterable<Title>, releases: Release[], checks: DubCheck[]): number {
   const gekennzeichnet = alleTermineGekennzeichnet(releases)
-  const handJa = new Set(checks.filter((c) => c.dub === true).map((c) => `${c.anilistId}|${c.platform}`))
+  const handJa = new Set(checks.filter((c) => c.dub === true && !c.kanalOhneBeleg).map((c) => handSchluessel(c.anilistId, c.platform, c.url)))
   let genommen = 0
   for (const t of titles) {
     for (const s of t.streams ?? []) {
       const k = `${t.id}|${s.platform}`
-      if (s.dub !== true || !gekennzeichnet.has(k) || handJa.has(k) || !istKanalWeg(s, t)) continue
+      const geschuetzt = handJa.has(handSchluessel(t.id, s.platform)) || handJa.has(handSchluessel(t.id, s.platform, s.url))
+      if (s.dub !== true || !gekennzeichnet.has(k) || geschuetzt || !istKanalWeg(s, t)) continue
       delete s.dub
       delete s.dubRanges
       geerbteWege.delete(s)

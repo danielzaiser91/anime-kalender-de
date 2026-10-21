@@ -93,6 +93,18 @@ const hashiraTermine = [termin(166240, 'offen'), termin(166240, 'offen')]
   const nein = rohWeg(166240, 'B0CYGQ9WSF', DE, { kanal: 'Crunchyroll' })
   nimmKanalJaGegenSprachTermin([titel(166240, [nein])], hashiraTermine, [checks[0]!, checks[2]!])
   pruefe('Ein Hand-Nein oder ein Hand-Ja eines anderen Titels schützt nichts', nein.dub === undefined, nein)
+  const ander = rohWeg(166240, 'B0CYGQ9WSF', DE, { kanal: 'Crunchyroll' })
+  const adresse = [{ anilistId: 166240, platform: 'primevideo', url: seite('B0HG7S7624'), dub: true }] as DubCheck[]
+  nimmKanalJaGegenSprachTermin([titel(166240, [ander])], hashiraTermine, adresse)
+  pruefe('Ein Hand-Ja an einer anderen Adresse desselben Titels schützt nichts (166240, B0HG7S7624)', ander.dub === undefined, ander)
+  const kanalBeleg = [{ anilistId: 166240, platform: 'primevideo', url: seite('B0CYGQ9WSF'), dub: true, kanalOhneBeleg: true }] as DubCheck[]
+  const ohneBeleg = rohWeg(166240, 'B0CYGQ9WSF', DE, { kanal: 'Crunchyroll' })
+  nimmKanalJaGegenSprachTermin([titel(166240, [ohneBeleg])], hashiraTermine, kanalBeleg)
+  pruefe('Ein Kanal-Titel-Beleg (kanalOhneBeleg) ist kein Hand-Ja', ohneBeleg.dub === undefined, ohneBeleg)
+  const ganz = [{ anilistId: 166240, platform: 'primevideo', dub: true }] as DubCheck[]
+  const ohneUrl = rohWeg(166240, 'B0CYGQ9WSF', DE, { kanal: 'Crunchyroll' })
+  nimmKanalJaGegenSprachTermin([titel(166240, [ohneUrl])], hashiraTermine, ganz)
+  pruefe('Ein Hand-Ja ohne Adresse schützt den Anbieter des Titels', ohneUrl.dub === true, ohneUrl)
 }
 {
   const prime = rohWeg(10, 'B0ZEHN0001', DE, { kanal: 'Crunchyroll' })
@@ -117,11 +129,12 @@ const hashiraTermine = [termin(166240, 'offen'), termin(166240, 'offen')]
   pruefe('Mehrere Titel: alle drei betroffenen Wege, die übrigen bleiben', n === 3 && mitte.dub === undefined && zweiter.dub === undefined && netflix.dub === true && hinten.dub === undefined && vorn.dub === true, { n, vorn, mitte, hinten })
 }
 {
-  /* Der Bau reicht die echten Handbelege durch: der letzte Prime-Hand-Ja aus `data/dub-confirmed.yaml` schützt seinen Kanal-Weg. */
-  const hand = ladeHandbelege().filter((c) => c.platform === 'primevideo' && c.dub === true).at(-1)!
-  const prime = rohWeg(hand.anilistId, 'B0HANDJA01', DE, { kanal: 'Crunchyroll' })
-  tonDerKanalWege([titel(hand.anilistId, [prime])], [termin(hand.anilistId, 'offen')], () => false)
-  pruefe('tonDerKanalWege nimmt die Handbelege des Baus (letzter Prime-Hand-Ja bleibt)', prime.dub === true, hand)
+  /* Der Bau reicht die echten Handbelege durch: der letzte Prime-Hand-Ja mit Adresse aus `data/dub-confirmed.yaml` schützt den Weg an dieser Adresse, nicht den Nachbarn. */
+  const hand = ladeHandbelege().filter((c) => c.platform === 'primevideo' && c.dub === true && !c.kanalOhneBeleg && c.url).at(-1)!
+  const prime = rohWeg(hand.anilistId, 'B0HANDJA01', DE, { kanal: 'Crunchyroll', url: hand.url })
+  const nachbar = rohWeg(hand.anilistId, 'B0HANDJA02', DE, { kanal: 'Crunchyroll' })
+  tonDerKanalWege([titel(hand.anilistId, [prime, nachbar])], [termin(hand.anilistId, 'offen')], () => false)
+  pruefe('tonDerKanalWege nimmt die Handbelege des Baus (Hand-Ja bleibt an seiner Adresse, der Nachbarweg fällt)', prime.dub === true && nachbar.dub === undefined, { hand, prime, nachbar })
 }
 {
   const prime = rohWeg(13, 'B0DREIZEHN', ['Japanisch'], { kanal: 'Crunchyroll' })
