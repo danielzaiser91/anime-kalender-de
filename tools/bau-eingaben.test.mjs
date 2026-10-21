@@ -109,6 +109,7 @@ const fremdeStarts = [
   // Ein Hüllprogramm, das selbst liest und Node startet: Das Kind schreibt die Kennung, der Name bleibt fremd.
   start({ datei: '/usr/bin/nodex', argv: [], cwd: '.', kennung: '7-0-1' }),
   'dlopen\t/r/node_modules/sharp/build/sharp.node',
+  'dlopen\t/r/node_modules/@swc/core-linux-x64-gnu/swc.linux-x64-gnu.node',
   'dlopen\t/r/xnode_modules/lightningcss-linux-x64-gnu/lightningcss.linux-x64-gnu.node',
   'dlopen\t/r/node_modules/@rollup/rollup-linux-x64-gnu/rollup.node',
   'dlopen\t/r/node_modules/lightningcss-linux-x64-gnu/lightningcss.linux-x64-gnu.node.x',
@@ -202,7 +203,21 @@ const SONDEN_R2 = [
   "    const ausgenommen = { base: resolve('data'), pattern: '**/*', negated: true }",
   "    new (scanner())({ sources: [ausgenommen, { base: resolve(p), pattern: '**/*', negated: false }, ausgenommen] }).scan()",
   '  }',
-  "  if (art === 'D') new (scanner())({ sources: [] }).scanFiles([{ file: resolve(p), extension: 'json' }])",
+  "  if (art === 'D') new (scanner())({ sources: [] }).scanFiles(['web/a.txt', p, 'web.txt'].map((f) => ({ file: resolve(f), extension: 'json' })))",
+  // R5: Tailwind-Form der Quelle (base = Ordner der CSS-Datei, pattern = roher @source-Text); Lesen in Node selbst (loadEnvFile, node:sqlite).
+  "  if (art === 'Tf') new (scanner())({ sources: [{ base: resolve('web'), pattern: `../${p}`, negated: false }] }).scan()",
+  "  if (art === 'Le') process.loadEnvFile(p)",
+  "  if (art === 'Sq') try { new (await import('node:sqlite')).DatabaseSync(p) } catch {}",
+  "  if (art === 'Sr') try { new (createRequire(import.meta.url)('node:sqlite').DatabaseSync)(p) } catch {}",
+  "  if (art === 'Sg') try { new (process.getBuiltinModule('node:sqlite').DatabaseSync)(p) } catch {}",
+  // R5: zwei Starter - ein echtes Node-Kind (Kennung) und ein Fremdprogramm namens node im Kind bzw. im Haupt-Thread nach einem Worker.
+  "  if (art === 'Ip') execFileSync(process.execPath, ['lies.mjs', `If:${p}`])",
+  "  if (art === 'If') try { execFileSync(FALSCH, ['x', p], still) } catch {}",
+  "  if (art === 'It') {",
+  "    await new Promise((fertig) => new Worker('./lies.mjs', { argv: ['Iw:web.txt'] }).on('exit', fertig))",
+  "    try { execFileSync(FALSCH, ['x', p], still) } catch {}",
+  '  }',
+  "  if (art === 'Iw') execFileSync(process.execPath, ['lies.mjs', 'web.txt'])",
   // Native Module: lightningcss bündelt nativ (jeder Aufruf unerklärt), ein natives Modul außerhalb der gemessenen.
   "  if (art === 'lb') try { lightningcss().bundle({ filename: resolve(p) }) } catch {}",
   "  if (art === 'la') try { await lightningcss().bundleAsync({ filename: resolve(p) }) } catch {}",
@@ -341,17 +356,18 @@ for (const weg of ['C', 'Y', 'y', 'V', 'W', 'L', 'N']) {
 }
 // Sonden R4 (Prüfer R3, Auflagen 2 bis 4): eigene NODE_OPTIONS ohne Vorlader, Tailwind-Scanner (Ordner und scanFiles); je freier Weg ohne,
 // derselbe Weg zu einer Eingabe mit Abdruck.
-for (const [weg, frei, eingabe] of [['O', 'data/frei.json', 'data/kennungen.json'], ['T', 'data', 'web'], ['D', 'data/frei.json', 'data/kennungen.json']]) {
+for (const [weg, frei, eingabe] of [['O', 'data/frei.json', 'data/kennungen.json'], ['T', 'data', 'web'], ['Tf', 'data', 'web'], ['D', 'data/frei.json', 'data/kennungen.json']]) {
   assert.deepEqual(bau(`node lies.mjs ${weg}:${frei}`).version, OHNE, `${weg}: freier Pfad, kein Abdruck`)
   assert.equal(bau(`node lies.mjs ${weg}:${eingabe}`).version.abdruck, A, `${weg}: nur Eingabe, Abdruck steht`)
 }
-for (const weg of ['lb', 'la', 'nf']) {
+const NATIVE_WEGE = { lb: /nativ bundle(,|$)/, la: /nativ bundleAsync/, nf: /dlopen [^,]*falsch\/fremd\.node/, Le: /nativ loadEnvFile/, Sq: /nativ sqlite/, Sr: /nativ sqlite/, Sg: /nativ sqlite/ }
+for (const [weg, muster] of Object.entries(NATIVE_WEGE)) {
   const ergebnis = bau(`node lies.mjs ${weg}:web/a.txt`)
   assert.deepEqual([ergebnis.exit, ergebnis.version], [0, OHNE], `${weg}: natives Lesen, kein Abdruck`)
-  assert.match(ergebnis.meldungen.join('\n'), weg === 'nf' ? /dlopen [^,]*falsch\/fremd\.node/ : new RegExp(`nativ ${weg === 'lb' ? 'bundle' : 'bundleAsync'}`), weg)
+  assert.match(ergebnis.meldungen.join('\n'), muster, weg)
 }
 // Fremdprogramm namens node, direkt und als `execPath` von fork: schreibt keine Kennung, der Start steht mit seinem Pfad in der Warnung.
-for (const weg of ['M', 'B']) {
+for (const weg of ['M', 'B', 'Ip', 'It']) {
   const ergebnis = bau(`node lies.mjs ${weg}:data/kennungen.json`)
   assert.deepEqual([ergebnis.exit, ergebnis.version], [0, OHNE], `${weg}: Node ohne Spur-Datei, kein Abdruck`)
   assert.match(ergebnis.meldungen.join('\n'), /"datei":"[^"]*falsch(\\\\|\/)node(\.exe)?"/, `${weg}: Pfad des Fremdprogramms in der Warnung`)

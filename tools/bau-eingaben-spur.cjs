@@ -12,6 +12,7 @@ const { promisify } = require('node:util')
 const { fileURLToPath } = require('node:url')
 const childProcess = require('node:child_process')
 const workerThreads = require('node:worker_threads')
+const { registerHooks } = require('node:module')
 
 const ORDNER = process.env.BAU_SPUR
 const VORLADER = `--require ${__filename.replace(/\\/g, '/')}`
@@ -134,6 +135,13 @@ function reicheWeiter(fd) {
   }
 }
 
+/** Fester Anfang eines Glob-Musters (bis zum ersten Segment mit Platzhalter), z. B. `../../data/*.html` → `../../data`. */
+const festerAnfang = (muster) => {
+  const segmente = String(muster ?? '').split(/[\\/]/)
+  const bis = segmente.findIndex((s) => /[*?[\]{}()!]/.test(s))
+  return (bis === -1 ? segmente : segmente.slice(0, bis)).join('/')
+}
+
 /** Tailwind (oxide) durchsucht Ordner nativ: Jede Quelle des `Scanner` zählt wie ein ganz kopierter Ordner, jede Datei von `scanFiles` als gelesen. */
 function scanner(Scanner, fd) {
   const scanFiles = Scanner.prototype.scanFiles
@@ -143,7 +151,11 @@ function scanner(Scanner, fd) {
   }
   return new Proxy(Scanner, {
     construct(ziel, args, neu) {
-      for (const quelle of args[0]?.sources ?? []) if (!quelle.negated) merke(fd, 'scanner', quelle.base)
+      for (const quelle of args[0]?.sources ?? []) {
+        if (quelle.negated) continue
+        merke(fd, 'scanner', quelle.base)
+        if (typeof quelle.base === 'string') merke(fd, 'scanner', path.resolve(quelle.base, festerAnfang(quelle.pattern)))
+      }
       return Reflect.construct(ziel, args, neu)
     },
   })
@@ -168,11 +180,34 @@ function nativ(fd) {
   }
 }
 
+/** `process.loadEnvFile` und `node:sqlite` (Zugriff auf Dateien in Node selbst, nicht über fs): jede Nutzung steht als `nativ` in der Spur. */
+function ohneFs(fd) {
+  process.loadEnvFile = huelle(process.loadEnvFile, (args) => {
+    schreibe(fd, 'nativ\tloadEnvFile')
+    return args
+  })
+  const sqlite = (name) => {
+    if (/^(node:)?sqlite$/.test(String(name))) schreibe(fd, 'nativ\tsqlite')
+  }
+  process.getBuiltinModule = huelle(process.getBuiltinModule, (args) => {
+    sqlite(args[0])
+    return args
+  })
+  if (typeof registerHooks !== 'function') return
+  registerHooks({
+    resolve(angefragt, kontext, weiter) {
+      sqlite(angefragt)
+      return weiter(angefragt, kontext)
+    },
+  })
+}
+
 if (ORDNER) {
   const fd = openSync(path.join(ORDNER, `${process.pid}-${workerThreads.threadId}.txt`), 'a')
   writeSync(fd, 'beginn\n')
   if (process.env.BAU_SPUR_START) writeSync(fd, `kennung\t${process.env.BAU_SPUR_START}\n`)
   nativ(fd)
+  ohneFs(fd)
   umhuelle(fs, '', fd)
   umhuelle(fs.promises, 'promises.', fd)
   reicheWeiter(fd)
