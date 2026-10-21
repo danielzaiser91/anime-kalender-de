@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 #
-# Den aktuellen Zweig als Pull Request einreichen und Auto-Merge einschalten.
+# Den aktuellen Zweig als Pull Request einreichen (kein Auto-Merge).
 #
 # Seit dem 11.10.2026 schützt das Ruleset `main-pruefweg` den Hauptzweig: Direkt-Pushes sind nur der Daten-App erlaubt. Alles andere geht als Pull
-# Request, GitHub mergt selbst (Squash), sobald die Freigabe des PR-Prüfers da ist. Kein `--admin`.
+# Request. Seit 19.10.2026 mergt nichts von selbst: erst `node tools/pr-nachrechnen.mjs <PR>` (Exit 0), dann `gh pr merge <PR> --squash`. Kein `--admin`.
 #
 # Aufruf: bash tools/pr-einreichen.sh "<Titel>" ["<Text für die Squash-Nachricht>"]
-# Der Text landet in der Squash-Nachricht; `deploy.yml` liest dort `[schlank]`.
+# Der Text gehört beim Merge als --body in die Squash-Nachricht (das Skript druckt den Befehl); `deploy.yml` liest dort `[schlank]`.
 set -euo pipefail
 
 TITEL="${1:?Titel fehlt}"
@@ -31,4 +31,13 @@ git push -q -u origin "$ZWEIG"
 if ! gh pr view "$ZWEIG" --json number -q .number > /dev/null 2>&1; then
   gh pr create --base main --head "$ZWEIG" --title "$TITEL" --body "${TEXT:-$TITEL}"
 fi
-gh pr merge "$ZWEIG" --auto --squash --delete-branch --body "$TEXT"
+PR_URL="$(gh pr view "$ZWEIG" --json url -q .url)"
+PR_NR="$(gh pr view "$ZWEIG" --json number -q .number)"
+echo "PR eingereicht: $PR_URL"
+echo "Nächster Schritt (kein Auto-Merge): node tools/pr-nachrechnen.mjs $PR_NR, bei Exit 0 dann:"
+if [ -n "$TEXT" ]; then
+  printf '  gh pr merge %s --squash --delete-branch --body %q
+' "$PR_NR" "$TEXT"
+else
+  echo "  gh pr merge $PR_NR --squash --delete-branch"
+fi

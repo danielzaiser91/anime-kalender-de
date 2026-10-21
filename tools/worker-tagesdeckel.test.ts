@@ -17,6 +17,11 @@ import { berechnePruefstand } from '../worker/src/pruefung-stand.ts'
 import { DECKEL_ZEILEN, utcTag } from '../worker/src/tagesdeckel.ts'
 import { sekundenBisMitternachtUtc } from '../worker/src/d1-limit.ts'
 import { PRUEFUNG_ID_AB } from '../worker/src/rohfolgen-seiten.ts'
+import { festeUhr } from './feste-uhr.ts'
+
+/** Feste Uhr für Test und Worker: kein Lauf hängt am UTC-Tageswechsel (K6). */
+const FEST = new Date('2026-10-12T12:00:00Z')
+festeUhr(FEST.toISOString())
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -119,7 +124,7 @@ console.log('Tagesdeckel')
 }
 {
   const db = neueDatenbank()
-  db.prepare('INSERT INTO schreib_tag (tag, zeilen) VALUES (?, ?)').run(utcTag(new Date()), DECKEL_ZEILEN)
+  db.prepare('INSERT INTO schreib_tag (tag, zeilen) VALUES (?, ?)').run(utcTag(FEST), DECKEL_ZEILEN)
   const z = { geschrieben: 0 }
   const env = umgebung(db, z)
   const r = await handlePruefung(post(folge(1)), env)

@@ -202,8 +202,11 @@ export function baueTitelzeilen(pruefung: PruefZeile[], prime: RohZeile[]): Map<
  * `hatAltzeilen`): Ihr Stand ist dann so alt wie der Export oder jünger (Worker seither), nur Nachzügler aus der Zeit
  * zwischen Export und Einfügen sind jünger. Eingesetzt wird wie im Worker (`setzeEin`: neue Fassung bei geändertem Inhalt).
  * `null`: nichts zu schreiben.
+ * `gemeldet_am` = jüngste Folge (seit 17.10.2026); eine reine Kopfänderung des Workers hebt es nicht. Vor dem nächsten
+ * Einspielen den Kopfvergleich prüfen.
  */
 export function fuehreZusammen(vorhanden: Vorhanden, gebaut: Gebaut): TitelDaten | null {
+  /* Kopffelder gegen die jüngste Folge der Titelzeile, nicht gegen ihr letztes Schreiben (siehe oben). */
   const juengerAls = (am: string) => am > vorhanden.gemeldet_am
   const kopf = {
     s: juengerAls(gebaut.kopfAm.s) ? gebaut.daten.s : null,

@@ -18,7 +18,8 @@ if (modus === 'halte') {
 } else if (modus === 'versuche') {
   nurEinmalGleichzeitig(name)
 } else if (modus === 'warte-kurz') {
-  await wartAufSperre(name, 1_000, 200)
+  // Frist großzügig: unter Last braucht schon der erste Durchlauf (tasklist je Ticket) über 1 s, dann gäbe der Wartende vor der ersten Meldung auf.
+  await wartAufSperre(name, 8_000, 200)
 } else if (modus === 'warte-lang') {
   await wartAufSperre(name, 20_000, 200)
 } else {

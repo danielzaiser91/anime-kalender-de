@@ -1,20 +1,51 @@
 /**
  * Zusicherung: Ein Handbeleg „deutsch“ mit Adresse trägt seinen Weg bis in den Datensatz (14.10.2026, Durarara!! Tenka Taihei).
  * Zwei Stellen warfen ihn heraus: das „nicht mehr verfügbar“ des US-Katalogs über die Serienkennung (`09-4-1`) und das Leeren der Wege
- * aller Titel nur bei aniSearch (`11-wege-abschluss`). Geprüft werden beide Phasen samt Aufrufer und den echten Handbelegen.
+ * aller Titel nur bei aniSearch (`11-wege-abschluss`). Geprüft werden beide Phasen samt Aufrufer an fester Kulisse (kein Echtdatenstand; die echten Handbelege prüft check:handbelege).
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-handbeleg-weg.ts`
  */
+import { spawnSync } from 'node:child_process'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { StreamLink, Title } from '../shared/types.ts'
 import type { CrDubData } from './lib/crunchyroll-dub.ts'
 import { ordneCrSerienZu } from './bau/09-4-1-serien.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { suchadressenInTemp } from './lib/suchadressen-temp.ts'
 import { behalteNurHandbelegteWege } from './lib/handbeleg-weg.ts'
-import { loadDubChecks, verschmelze, type DubCheck } from './lib/dub-confirmed.ts'
-import { readJson } from './lib/util.ts'
+import { verschmelze, type DubCheck } from './lib/dub-confirmed.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { addDays, todayIso } from '../shared/time.ts'
+
+/**
+ * Ohne `AK_ROOT` startet die Prüfung sich selbst gegen eine Kulisse mit genau einem Handbeleg: `ordneCrSerienZu` liest
+ * `data/dub-confirmed.yaml` selbst, der Sammlerstand der echten Datei soll den Fall nicht kippen.
+ */
+const KULISSEN_BELEG = [
+  '- anilistId: 10006986',
+  '  platform: crunchyroll',
+  '  url: https://www.crunchyroll.com/series/G619XVNEY/durarara',
+  '  dub: true',
+  "  checkedAt: '2026-10-13'",
+  '',
+].join('\n')
+function startInKulisse(): never {
+  const kulisse = mkdtempSync(join(tmpdir(), 'handbeleg-weg-'))
+  mkdirSync(join(kulisse, 'data', 'curated'), { recursive: true })
+  writeFileSync(join(kulisse, 'data', 'kino-ankuendigungen.yaml'), '')
+  writeFileSync(join(kulisse, 'data', 'dub-confirmed.yaml'), KULISSEN_BELEG)
+  const r = spawnSync(process.execPath, ['--import', 'tsx', fileURLToPath(import.meta.url)], {
+    env: { ...process.env, AK_ROOT: kulisse },
+    stdio: 'inherit',
+    windowsHide: true,
+  })
+  rmSync(kulisse, { recursive: true, force: true })
+  process.exit(r.status ?? 1)
+}
+if (!process.env.AK_ROOT) startInKulisse()
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -25,19 +56,23 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 
 const OVA = 10006986
 const SERIE = 'G619XVNEY'
-const beleg = loadDubChecks().find((c) => c.anilistId === OVA && c.platform === 'crunchyroll' && c.dub === true && c.url)
-const URL_BELEG = beleg?.url ?? ''
-pruefe('Vorbedingung: der Handbeleg „deutsch“ mit Adresse steht in dub-confirmed.yaml', Boolean(URL_BELEG), beleg)
+/** Feste Kulisse statt Echtdaten (Adresse wie im Handbeleg, 14.10.2026): ein Sammler-PR darf dub-confirmed.yaml bewegen, ohne den Fall zu kippen. */
+const URL_BELEG = 'https://www.crunchyroll.com/series/G619XVNEY/durarara'
 
 const weg = (url: string, rest: Partial<StreamLink> = {}): StreamLink => ({ platform: 'crunchyroll', url, ...rest }) as StreamLink
 const titel = (id: number, streams: StreamLink[]): Title => ({ id, episodes: 1, streams, keywords: [], genres: [] }) as unknown as Title
 const ja = (rest: Partial<DubCheck> = {}): DubCheck => ({ anilistId: OVA, platform: 'crunchyroll', url: URL_BELEG, dub: true, checkedAt: '2026-10-13', ...rest })
 
-console.log('\nUS-Nein über die Serienkennung (09-4-1), echte Daten:')
+console.log('\nUS-Nein über die Serienkennung (09-4-1), eigene Kulisse (kein Sammlerstand):')
+/** Die Serie steht im US-Katalog als nicht verfügbar; der Sammler darf sie im echten Bestand umsetzen, der Fall bleibt. */
+const usNeinKatalog = {
+  scrapedAt: '',
+  serien: [{ url: URL_BELEG, seriesId: SERIE, katalog: 'us', nichtVerfuegbar: true }],
+} as unknown as CrDubData
 function zuordnen(titel_: Title[]): void {
   ordneCrSerienZu({
     titles: new Map(titel_.map((t) => [t.id, t])),
-    crDub: readJson<CrDubData>('data/crunchyroll-dub.json', { scrapedAt: '', serien: [] }),
+    crDub: usNeinKatalog,
     usNeinWiderlegt: () => false,
     verweiseEntfernt: [],
   })

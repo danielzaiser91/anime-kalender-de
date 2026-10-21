@@ -128,6 +128,10 @@ function repo() {
   still.cwd = ordner
   const [e2] = await fange([still], { alle: true, wurzel: ordner })
   assert.deepEqual(e2.veraendert, [], 'eine schon vorher geänderte Datei bleibt ohne Meldung, wenn der Lauf sie nicht anfasst')
+  const vertieft = knoten(`require('node:child_process').execFileSync('git', ['config', 'core.abbrev', '12'])`)
+  vertieft.cwd = ordner
+  const [e7] = await fange([vertieft], { alle: true, wurzel: ordner })
+  assert.deepEqual(e7.veraendert, [], 'längere Hash-Abkürzung (flacher Klon vertieft) ändert keinen Dateistand')
   assert.deepEqual(veraenderte(gitStand(tmpdir()), gitStand(tmpdir())), [], 'kein Git-Arbeitsbaum: keine Meldung')
   console.log('  ✓ Wächter meldet geschriebene getrackte Dateien, sonst nichts')
 }

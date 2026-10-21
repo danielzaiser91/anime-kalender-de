@@ -3,7 +3,7 @@ import { expandEvents, istErschienen, istAusgeblieben, titleStatus } from '@shar
 import { dubAbdeckung } from '@shared/dub-grenze.ts'
 import { type Title, type Release } from '@shared/types.ts'
 import { ausgebliebenBis } from './antwort-kasten.tsx'
-import { belegteBereiche, zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, gesamtGeschaetzt, fertigAntwort } from './antwort-regeln.ts'
+import { belegteBereiche, zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, gesamtGeschaetzt, angekuendigteLaenge, fertigAntwort } from './antwort-regeln.ts'
 import { filmTermine } from './film-termine.ts'
 import { restUndBlock } from './antwort-block.ts'
 import { jpErschienen, KINO_LAND } from './kino.tsx'
@@ -141,7 +141,7 @@ export function berechneAntwort({ title, releases, today, jetzt = new Date() }: 
     teile.length > 1 && teile[0]!.von === 1 && teile.every((x, i) => i === 0 || x.von === teile[i - 1]!.bis + 1)
   const ausReleases = aneinander ? teile[teile.length - 1]!.bis : 0
   const gesamt =
-    Math.max(title.episodes ?? 0, ausReleases) ||
+    Math.max(title.episodes ?? 0, ausReleases, angekuendigteLaenge(title, fuerKopf)) ||
     (nurWochen && alleEvents.length > 1 ? alleEvents.length : undefined)
   /*
     **„Alle N Folgen" nur, wenn alle N belegt sind.**

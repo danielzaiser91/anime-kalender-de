@@ -22,3 +22,17 @@ export function liegengeblieben(fehlend, meldungen, jetzt, stunden) {
   const aelteste = aeltesteJeAdresse(meldungen)
   return fehlend.filter((u) => aelteste.has(u) && aelteste.get(u) < grenze)
 }
+
+/**
+ * Übernahme-Stau (18.10.2026): Vom 11. bis 18.10. kam keine Meldung im Datensatz an, und kein Lauf wurde rot. Befund, wenn die
+ * jüngste Übernahme (`zuletzt` aus `data/meldungen-uebernahme.json`) älter als `stunden` ist und eine zuzuordnende Meldung
+ * (Adresse in `fehlend`, also nicht in der Liste) seit mehr als `stunden` wartet. Liegende Meldungen stehen in der Liste und
+ * zählen nicht; ohne Stempel kein Befund. Rückgabe: Alter der Übernahme in Stunden und Zahl der Wartenden, sonst null.
+ */
+export function uebernahmeStau(zuletzt, fehlend, meldungen, jetzt, stunden) {
+  const grenze = jetzt - stunden * 36e5
+  if (!zuletzt || Date.parse(zuletzt) >= grenze) return null
+  const offen = new Set(fehlend)
+  const wartend = meldungen.filter((m) => offen.has(m.url) && Date.parse(m.gemeldet_am) < grenze)
+  return wartend.length ? { stunden: Math.floor((jetzt - Date.parse(zuletzt)) / 36e5), wartend: wartend.length } : null
+}

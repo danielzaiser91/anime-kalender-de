@@ -39,6 +39,7 @@ import type { NewsEintrag } from '../shared/types.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen, staffelStaende } from '../shared/titles.ts'
 import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
 import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
+import { setzeMarkenFuerPruefung } from './lib/anisearch-marke.ts'
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { loescheAbgelaufenes, SQL_RATE_LIMIT_LOESCHEN, SQL_UNBESTAETIGT_LOESCHEN } from '../worker/src/loeschfristen.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
@@ -80,6 +81,7 @@ import {
   type AdnRohVideo,
 } from './lib/adn-sprachen.ts'
 import {
+  begrenzeAufFolgenzahl,
   beschreibeBereiche,
   bildeBereiche,
   ordneFolgeZu,
@@ -92,7 +94,8 @@ import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../sha
 import { bereicheGekuerzt, bereicheKurz, dubBild, dubGrenze, folgenOhneAnbieter } from '../shared/dub-grenze.ts'
 import { riegelGreift } from './lib/youtube-riegel.ts'
 import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
-import { entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
+import { nichtGefuehrtZeilen } from './lib/beleg-nicht-gefuehrt.ts'
+import { belegSchluessel, belegeUeberFolgenzahl, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-frist.ts'
 import { germanizeUrl, netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold, googleCalendarUrl, wochenserie } from '../shared/ics.ts'
@@ -3344,6 +3347,45 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   const { neu } = neueBelegBloecke('- a: 1\n', ['- a: 1', '- b: 2', '  c: x', '- b: 2', '  c: "x"', '- d: 3'])
   pruefe('neue Belege: vorhandene und doppelte fallen, der Rest bleibt', neu.length === 2, neu)
   pruefe('fetch-pruefungen nutzt diesen Abgleich', /neueBelegBloecke\(alt, zeilen\)/.test(abholung))
+  /* Haikyu!!-Summenseite, 20.10.2026: das Prüfdatum zählt beim Abgleich nicht, die Folgenspanne schon. */
+  const bereich = (von: number, bis: number) => ({ von, bis, dub: true, belegt: Array.from({ length: bis - von + 1 }, (_, i) => von + i) })
+  const gekappt = begrenzeAufFolgenzahl([bereich(1, 3), bereich(4, 15)], 12)
+  pruefe('Kappung: Bereich über der Folgenzahl endet bei ihr, belegt ohne fremde Folgen', gekappt.length === 2 && gekappt[1]!.bis === 12 && gekappt[1]!.belegt.at(-1) === 12 && gekappt[1]!.belegt.length === 9, gekappt)
+  const umZwei = [bereich(1, 14)]
+  pruefe('Kappung: Überschreitung um 1 und um 2 bleibt unverändert', begrenzeAufFolgenzahl(umZwei, 12) === umZwei && begrenzeAufFolgenzahl([bereich(1, 13)], 12)[0]?.bis === 13)
+  pruefe('Kappung: Überschreitung um genau 3 wird gekappt', begrenzeAufFolgenzahl([bereich(1, 15)], 12)[0]?.bis === 12)
+  pruefe('Kappung: Bereich ab der Folge hinter der Zahl fällt weg, ab der letzten bleibt er', begrenzeAufFolgenzahl([bereich(1, 12), bereich(13, 25)], 12).length === 1 && begrenzeAufFolgenzahl([bereich(12, 25)], 12)[0]?.von === 12)
+  const genau = bereich(1, 12)
+  const genauListe = [genau]
+  pruefe('Kappung: bis genau gleich der Folgenzahl bleibt unverändert', begrenzeAufFolgenzahl(genauListe, 12) === genauListe)
+  pruefe('Kappung: eine negative Folgenzahl gilt als unbekannt', begrenzeAufFolgenzahl([genau], -1)[0] === genau)
+  const ohneZahl = [bereich(1, 25)]
+  pruefe('Kappung: ohne bekannte Folgenzahl bleibt alles', begrenzeAufFolgenzahl(ohneZahl, 0) === ohneZahl && begrenzeAufFolgenzahl(ohneZahl, undefined) === ohneZahl && begrenzeAufFolgenzahl(ohneZahl, null) === ohneZahl)
+  const nichtDa = nichtGefuehrtZeilen(7, 'Titel "X"', 'netflix', '2026-10-20', 2)
+  const nichtDaSoll = ['', '- anilistId: 7', '  title: "Titel \\"X\\""', '  platform: netflix', '  available: false', "  checkedAt: '2026-10-20'", '  note: "Der Anbieter führt unter dieser Adresse nur 2 Staffel(n); diese ist nicht darunter"']
+  pruefe('Beleg „Anbieter führt die Staffel nicht": Zeilen wie bisher', JSON.stringify(nichtDa) === JSON.stringify(nichtDaSoll), nichtDa)
+  pruefe('Beleg „Anbieter führt die Staffel nicht": ohne Titelname keine title-Zeile', !nichtGefuehrtZeilen(7, undefined, 'netflix', 'd', 1).some((z) => z.startsWith('  title:')))
+  pruefe('Belegschlüssel: Nicht-Objekte bleiben unverändert', belegSchluessel(5) === '5' && belegSchluessel(null) === 'null')
+  const altMitDatum = '- a: 1\n  from: 1\n  to: 13\n  checkedAt: "2026-10-13"\n'
+  const gleicheMeldung = neueBelegBloecke(altMitDatum, ['- a: 1', '  from: 1', '  to: 13', '  checkedAt: "2026-10-18"']).neu
+  pruefe('neue Belege: gleiche Meldung mit anderem checkedAt wird nicht angehängt', gleicheMeldung.length === 0, gleicheMeldung)
+  const andereSpanne = neueBelegBloecke(altMitDatum, ['- a: 1', '  from: 1', '  to: 25', '  checkedAt: "2026-10-13"']).neu
+  pruefe('neue Belege: andere Folgenspanne wird angehängt', andereSpanne.length === 1, andereSpanne)
+  const kandidaten = [
+    { anilistId: 1, platform: 'netflix', url: 'u1', dubRanges: [{ to: 12 }] },
+    { anilistId: 2, platform: 'primevideo', url: 'https://x/B0', dubRanges: [{ to: 3 }, { to: 14 }, { to: 2 }] },
+    { anilistId: 3, dubRanges: [{ to: 13 }] },
+    { anilistId: 4, platform: 'netflix', url: 'u4', dubRanges: [{ to: 5 }, {}] },
+    { anilistId: 7, platform: 'netflix', url: 'u7', dubRanges: [{ to: 150 }] },
+    { anilistId: 5, platform: 'netflix', url: 'u5', dubRanges: [{ to: 9 }] },
+    { anilistId: 6, platform: 'netflix', url: 'u6' },
+  ]
+  const folgen = new Map([[1, 12], [2, 13], [3, 12], [4, 12], [5, 0]])
+  const ueber = belegeUeberFolgenzahl(kandidaten, folgen)
+  pruefe('Handbelege über der Folgenzahl: genau die Überschreitungen, mit Titel, Plattform, Adresse und Zahlen',
+    JSON.stringify(ueber) === JSON.stringify(['2 primevideo https://x/B0: bis Folge 14 bei 13', '3 ? ohne Adresse: bis Folge 13 bei 12']), ueber)
+  const zweiMalNeu = neueBelegBloecke('', ['- b: 2', '  checkedAt: x', '- b: 2', '  checkedAt: y']).neu
+  pruefe('neue Belege: zwei neue Meldungen mit nur anderem checkedAt werden einmal angehängt', zweiMalNeu.length === 1, zweiMalNeu)
   /*
     28.09.2026: Der Abgleich oben kann eine Dopplung übersehen — ein Block, der sich **allein**
     nicht lesen lässt, wird dort übernommen, steht in der fertigen Datei aber als eigener
@@ -3360,7 +3402,7 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   pruefe('Kommentare und Reihenfolge bleiben stehen',
     entdoppleBelege('# Kopf\n\n- a: 1\n') === '# Kopf\n\n- a: 1\n')
   pruefe('fetch-pruefungen ruft den Riegel vor dem Schreiben',
-    /entdoppleBelege\(neu, warn\)/.test(abholung))
+    /schreibeBelege\(p, neu, warn\)/.test(abholung) && /entdoppleBelege\(text, melde\)/.test(readFileSync('pipeline/lib/dub-confirmed.ts', 'utf8')))
   /* 22.09.2026: Haikyu!! TO THE TOP — Netflix-Staffel 4 ohne Zahl in unseren Titeln blieb liegen. */
   pruefe(
     'eine Netflix-Staffel ohne Nummer in unserer Reihe wird über Netflix\' Aufteilung verteilt',
@@ -3543,7 +3585,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     '… sondern vergleicht die Adresse des Belegs',
-    /if \(beleg && \(!beleg\.url \|\| adressGleich\(beleg\.url, seite \?\? undefined\)\)\) continue/.test(bau),
+    /if \(beleg \? !beleg\.url \|\| adressGleich\(beleg\.url, seite \?\? undefined\) : kanalAdresseGemerkt\(/.test(bau),
     'der Adressvergleich fehlt',
   )
   pruefe(
@@ -3596,8 +3638,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   pruefe(
     'die Zuordnungen werden mit dem alten Stand zusammengeführt',
-    /const bisher = readJson<typeof zugeordnet>\('data\/prime-zugeordnet\.json', \{\}\)/.test(roh) &&
-      /writeJson\('data\/prime-zugeordnet\.json', \{ \.\.\.bisher, \.\.\.zugeordnet \}\)/.test(roh),
+    /const bisher = leseZugeordnet<\(typeof zugeordnet\)\[string\]>\(\)/.test(roh) &&
+      /writeJson\('data\/prime-zugeordnet\.json', leseZugeordnet\(\{ \.\.\.bisher, \.\.\.zugeordnet \}\)\)/.test(roh),
     'die Datei wird wieder überschrieben — jede Zuordnung hält dann einen Bau',
   )
 
@@ -3791,7 +3833,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     hier vermieden werden soll.
   */
   {
-    const seiten = readFileSync('pipeline/build-share-pages.ts', 'utf8')
+    const seiten = readFileSync('pipeline/build-share-pages.ts', 'utf8') + readFileSync('pipeline/lib/termin-seite.ts', 'utf8')
     /*
       **Strukturierte Daten sind das Signal, das Google direkt versteht.**
 
@@ -3875,7 +3917,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     man hört auf hinzusehen, und die echte Störung geht darin unter.
   */
   {
-    const wache = readFileSync('pipeline/bestand-historie.ts', 'utf8')
+    const wache = readFileSync('pipeline/lib/bestand-delta.ts', 'utf8')
     pruefe(
       'die Wache rechnet begründet entfernte Verweise heraus',
       wache.includes('entferntProtokolliert') && wache.includes('wegUnerklaert'),
@@ -4369,7 +4411,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'eine Prime-Zuordnung überspringt Adressen, die ein Handbeleg einem anderen Titel zuschreibt',
-    bau.includes('c.platform === plattform && c.url && c.anilistId !== eintrag.titleId') &&
+    bau.includes('adresseFremdBelegt(kanalWissen(alleChecks), eintrag.titleId, plattform, adresse)') &&
       bau.includes('seite = amazonTitelAdresse(eintrag.seite)') &&
       workerQuelltext().includes('AND seiten_kennung IS ?3'),
     'sonst trägt Vinland Saga Staffel 2 die Seite von Staffel 1 mit „DE ✓" (17.09.2026)',
@@ -6304,7 +6346,7 @@ pruefe(
   )
   pruefe(
     'das Thema-Zeichen ist farblich vom Zahnrad zu unterscheiden',
-    headerQuelle.includes('text-ak-finale') && headerQuelle.includes('text-ak-info'),
+    headerQuelle.includes('text-ak-favorit') && headerQuelle.includes('text-ak-info'),
     'Sonne und Einstellungen sahen gleich aus (Daniel, 29.09.2026)',
   )
   /*
@@ -7642,7 +7684,7 @@ pruefe(
   const wegeTitel = new Map<number, Title>([[195516, geteilt(195516, 'G3KHEVDJ7')], [196010, geteilt(196010, 'GTEIL')], [196011, titel(196011, 'GEIGEN', true)]])
   const offen = rel('teil-offen', 196010, '2026-10-02', true)
   const eigen = { ...rel('eigen', 196011, '2026-10-02', true), widerlegt: apo.widerlegt }
-  const geloest = loeseGeteilteWegeVonWiderlegten([apo, offen, eigen], wegeTitel)
+  const geloest = loeseGeteilteWegeVonWiderlegten([apo, offen, eigen], wegeTitel, { scrapedAt: '', serien: [] })
   pruefe(
     'Widerlegt: der geteilte Weg der Apothekerin S3 zeigt kein „DE ✓" mehr',
     geloest === 1 && wegeTitel.get(195516)!.streams[0].dub === undefined &&
@@ -7651,7 +7693,7 @@ pruefe(
   )
   const vorher = new Map<number, Title>([[195516, geteilt(195516, 'G3KHEVDJ7')]])
   const meldetVorher = geteilteWegeTrotzWiderlegung([apo], vorher).length
-  loeseGeteilteWegeVonWiderlegten([apo], vorher)
+  loeseGeteilteWegeVonWiderlegten([apo], vorher, { scrapedAt: '', serien: [] })
   pruefe(
     'Widerlegt: die Bauprüfung meldet einen geteilten Weg mit „deutsch" — und schweigt nach dem Lösen',
     meldetVorher === 1 && geteilteWegeTrotzWiderlegung([apo], vorher).length === 0,
@@ -8536,11 +8578,13 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
 /* aniSearch „vertont" (d) oder „abgebrochen" (c) ist ein Synchro-Beleg: der Titel bleibt trotz Streams ohne eigenen Beleg im Hauptbestand; „geplant" (p) nicht. */
 {
   const ohneBelegAls = (id: number) => ausgestrahltOhneBeleg({ id, jpYear: 2026, streams: [{ platform: 'netflix' } as never] } as unknown as Title)
-  const dubs = JSON.parse(readFileSync('data/anisearch-dubs.json', 'utf8')) as Record<string, string>
+  const dubs: Record<string, string> = { 900101: 'd', 900102: 'c', 900103: 'p', 900104: '-' }
+  setzeMarkenFuerPruefung(dubs)
   const mit = (k: string) => Number(Object.keys(dubs).find((id) => dubs[id] === k))
   pruefe('aniSearch vertont (d): kein Verschieben hinter den Toggle', !ohneBelegAls(mit('d')))
   pruefe('aniSearch abgebrochen (c): kein Verschieben hinter den Toggle', !ohneBelegAls(mit('c')))
   pruefe('aniSearch nur geplant (p) oder ohne Deutsch (-): bleibt ohne Beleg', ohneBelegAls(mit('p')) && ohneBelegAls(mit('-')))
+  setzeMarkenFuerPruefung(undefined)
 }
 /* Gleiche MAL-Kennung bei einem aniSearch- und einem AniList-Titel: Dublette, außer sie ist in MAL_AUSNAHMEN begründet (Befund 08.10.2026, 4 Dubletten). */
 {

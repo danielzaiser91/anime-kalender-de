@@ -1,3 +1,5 @@
+import { datenAdresse } from '../web/src/lib/daten-adresse.ts'
+
 /**
  * Das Vorladen der Startdaten im `<head>` (Vite-Plugin `daten-vorladen`, Begründung in `vite.config.ts`).
  *
@@ -10,11 +12,14 @@
 const VOLL = ['meta', 'titles-core', 'releases', 'events']
 const WOCHE = ['meta', 'woche']
 
-export function vorladeSkript(opt: { base: string; buildId: string; woche?: { von: string; bis: string } }): string {
-  const { base, buildId, woche } = opt
+type VorladeOptionen = { base: string; kennungen: Record<string, string>; ersatz: string; woche?: { von: string; bis: string } }
+
+export function vorladeSkript(opt: VorladeOptionen): string {
+  const { base, kennungen, ersatz, woche } = opt
+  const adressen = Object.fromEntries([...VOLL, ...WOCHE].map((n) => [n, datenAdresse(base, `${n}.json`, kennungen, ersatz)]))
   return `<script>
       (function () {
-        var voll = ${JSON.stringify(VOLL)}, teil = ${JSON.stringify(WOCHE)}, nimm = voll;
+        var A = ${JSON.stringify(adressen)}, voll = ${JSON.stringify(VOLL)}, teil = ${JSON.stringify(WOCHE)}, nimm = voll;
         try {
           var W = ${JSON.stringify(woche ?? null)};
           var h = location.hash.replace(/^#\\/?/, '').split('?'), q = new URLSearchParams(h[1] || '');
@@ -24,7 +29,7 @@ export function vorladeSkript(opt: { base: string; buildId: string; woche?: { vo
         window.__akWoche = nimm === teil;
         nimm.forEach(function (n) {
           var l = document.createElement('link');
-          l.rel = 'preload'; l.as = 'fetch'; l.crossOrigin = 'anonymous'; l.href = '${base}data/' + n + '.json?v=${buildId}';
+          l.rel = 'preload'; l.as = 'fetch'; l.crossOrigin = 'anonymous'; l.href = A[n];
           document.head.appendChild(l);
         });
       })();

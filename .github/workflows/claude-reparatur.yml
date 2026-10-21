@@ -297,4 +297,13 @@ jobs:
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"
+          UNTERSUCHER: ${{ steps.dedupe.outputs.claude }}
+          GRUND: ${{ steps.dedupe.outputs.grund }}
+          STATUS: ${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}
+        # Ein Lauf, der nichts untersucht hat, meldet nicht `ok` (18.10.2026: elf Stunden `ok` bei rotem Bau).
+        run: |
+          if [ "$STATUS" = ok ] && [ "$UNTERSUCHER" = nein ]; then
+            bash "$MELDER" warnung "$GRUND"
+          else
+            bash "$MELDER" "$STATUS"
+          fi

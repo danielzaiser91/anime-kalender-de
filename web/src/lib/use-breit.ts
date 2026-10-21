@@ -18,5 +18,5 @@ function abonnieren(melden: () => void): () => void {
  * das spart dort DOM und Rechenzeit beim Umschalten (12.10.2026).
  */
 export function useAbSm(): boolean {
-  return useSyncExternalStore(abonnieren, () => abfrage().matches)
+  return useSyncExternalStore(abonnieren, () => abfrage().matches, () => true)
 }

@@ -25,6 +25,8 @@ try {
 
   // Jede Umgebungsvariable des Baus ändert den Namen, verschiedene Werte verschiedene Namen.
   const ohne = ablageName(sha, basis, undefined, {})
+  // Ein Bau mit zurückgestellten Titeln (Quarantäne) ist ein anderer Bau.
+  assert.notEqual(ablageName(sha, basis, undefined, { BAU_QUARANTAENE: '/x/q.json' }), ohne)
   for (const name of BAU_UMGEBUNG) {
     const eins = ablageName(sha, basis, undefined, { [name]: 'eins' })
     const zwei = ablageName(sha, basis, undefined, { [name]: 'zwei' })

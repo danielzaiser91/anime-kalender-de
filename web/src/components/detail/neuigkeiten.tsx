@@ -90,7 +90,7 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
  * Anbieter. Eine Meldung ohne eigenes Release („neu auf Deutsch") nimmt das Release ihres Teils
  * beim genannten Anbieter.
  */
-function quelleFuer(z: Zeile, data: Dataset): { url: string; name: string } | undefined {
+export function quelleFuer(z: Zeile, data: Dataset): { url: string; name: string } | undefined {
   /*
     **Eine abgelöste Meldung zeigt ihre *damalige* Quelle** (01.10.2026). Vorher löste das Panel sie
     über das **geltende** Release auf — die durchgestrichene 01.10.-Meldung bekam so den
@@ -102,9 +102,10 @@ function quelleFuer(z: Zeile, data: Dataset): { url: string; name: string } | un
     ? data.releaseBySlug.get(z.m.release)
     : data.releases.find((r) => r.titleId === z.teilId && r.platform === z.m.platform)
   if (!release) return anbieterSeite(z, data)
-  const beleg = [...(release.quellen ?? [])].sort((a, b) => b.gesehenAm.localeCompare(a.gesehenAm))[0]
+  const beleg = [...(release.quellen ?? [])].filter((q) => istLink(q.url)).sort((a, b) => b.gesehenAm.localeCompare(a.gesehenAm))[0]
   if (beleg) return { url: beleg.url, name: beleg.name }
-  if (release.sources[0]) return { url: release.sources[0], name: hostVon(release.sources[0]) }
+  const quelle = release.sources.find(istLink)
+  if (quelle) return { url: quelle, name: hostVon(quelle) }
   if (release.platformUrl) return { url: release.platformUrl, name: PLATFORMS[release.platform]?.name ?? release.platform }
   return anbieterSeite(z, data)
 }

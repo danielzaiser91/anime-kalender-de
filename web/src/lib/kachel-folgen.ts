@@ -5,15 +5,24 @@ import { istStaffelfinale, istStaffelstart } from '@shared/tv-signale.ts'
 /** Was eine Kachel an Auszeichnung trägt: Katalog-Release schlägt Staffelstart, der schlägt das Finale. */
 export type KartenArt = 'start' | 'finale' | 'katalog' | 'katalogVermutlich' | 'imAngebot' | 'erstausgabe'
 
-/** Ring um das Cover, Farbe der Fahne und Texte (`kal.*`) je Auszeichnung — Woche und Monat teilen sie. */
+/** Ring um das Cover (`ring`, `innen` für den Doppelrand eines Favoriten), Farbe der Fahne und Texte (`kal.*`) je Auszeichnung — Woche und Monat teilen sie. */
 export const ART_STIL = {
-  start: { ring: 'ring-ak-akzent', fahne: 'bg-ak-akzent', name: 'kal.start', hinweis: 'kal.startHinweis' },
-  finale: { ring: 'ring-ak-finale', fahne: 'bg-ak-finale', name: 'kal.finale', hinweis: 'kal.finaleHinweis' },
-  katalog: { ring: 'ring-ak-katalog', fahne: 'bg-ak-katalog', name: 'kal.katalog', hinweis: 'kal.katalogHinweis' },
-  katalogVermutlich: { ring: 'ring-ak-katalog', fahne: 'bg-ak-katalog', name: 'kal.katalogVermutlich', hinweis: 'kal.katalogVermutlichHinweis' },
-  imAngebot: { ring: 'ring-transparent', fahne: 'bg-ak-marke', name: 'kal.imAngebot', hinweis: 'kal.imAngebotHinweis' },
-  erstausgabe: { ring: 'ring-transparent', fahne: 'bg-ak-akzent', name: 'kal.erstausgabe', hinweis: 'kal.erstausgabeHinweis' },
+  start: { ring: 'ring-ak-akzent', innen: 'inset-ring-ak-akzent', fahne: 'bg-ak-akzent', name: 'kal.start', hinweis: 'kal.startHinweis' },
+  finale: { ring: 'ring-ak-finale', innen: 'inset-ring-ak-finale', fahne: 'bg-ak-finale', name: 'kal.finale', hinweis: 'kal.finaleHinweis' },
+  katalog: { ring: 'ring-ak-katalog', innen: 'inset-ring-ak-katalog', fahne: 'bg-ak-katalog', name: 'kal.katalog', hinweis: 'kal.katalogHinweis' },
+  katalogVermutlich: { ring: 'ring-ak-katalog', innen: 'inset-ring-ak-katalog', fahne: 'bg-ak-katalog', name: 'kal.katalogVermutlich', hinweis: 'kal.katalogVermutlichHinweis' },
+  imAngebot: { ring: 'ring-transparent', innen: '', fahne: 'bg-ak-marke', name: 'kal.imAngebot', hinweis: 'kal.imAngebotHinweis' },
+  erstausgabe: { ring: 'ring-transparent', innen: '', fahne: 'bg-ak-akzent', name: 'kal.erstausgabe', hinweis: 'kal.erstausgabeHinweis' },
 } as const
+
+/**
+ * Rand einer Kachel (Woche und Monat). Favorit: Gold außen, wo sonst der Art-Ring säße; trägt die Kachel eine Auszeichnung,
+ * liegt deren Farbe als Innenring darin (Doppelrand, dazwischen 1 px Grundfarbe als Rand des Innenrings). So bleibt das Maß gleich, und der Rand ragt nicht weiter in die Nachbarn.
+ */
+export function randKlassen(art: KartenArt | undefined, favorit: boolean): { aussen: string; innen: string } {
+  if (!favorit) return { aussen: art ? ART_STIL[art].ring : '', innen: '' }
+  return { aussen: 'ring-ak-favorit-rand', innen: art ? ART_STIL[art].innen : '' }
+}
 
 /** Zwei Spalten breit nur Staffelstart, -finale und Katalog-Release; „Neu bei …“ und „Erstveröffentlichung“ sind Fahnen an der schmalen Kachel. */
 export function istBreit(art: KartenArt | undefined): boolean {

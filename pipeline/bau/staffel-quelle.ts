@@ -13,7 +13,10 @@
  *
  * Liegt in einer eigenen Datei, weil `13-4-zusatzdateien.ts` die Längengrenze reißt.
  */
-import { readJson } from '../lib/util.ts'
+import { existsSync, readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import yaml from 'js-yaml'
+import { ROOT, readJson } from '../lib/util.ts'
 
 /** Die Staffelnummer, die ein deutscher Quelltitel nennt — sonst nichts. */
 export function staffelNummerAusQuelle(deutscherTitel: string): number | undefined {
@@ -35,4 +38,28 @@ export function staffelQuellenAusAnisearch(): Map<number, number> {
     if (nr) map.set(Number(id), nr)
   }
   return map
+}
+
+export type StaffelVonHand = { anilistId: number; staffel: number; quelle: string; belegtAm: string; titel?: string; grund?: string }
+
+/** Liest `data/staffel-von-hand.yaml` (leer, wenn es die Datei nicht gibt). */
+export function staffelEintraegeVonHand(datei = resolve(ROOT, 'data/staffel-von-hand.yaml')): StaffelVonHand[] {
+  return existsSync(datei) ? ((yaml.load(readFileSync(datei, 'utf8')) as StaffelVonHand[] | null) ?? []) : []
+}
+
+/** Titel-Kennung → Staffelnummer: aniSearch-Sprachblock, dann Handeinträge (Hand schlägt Ableitung). */
+export function alleStaffelQuellen(eintraege = staffelEintraegeVonHand()): Map<number, number> {
+  const map = staffelQuellenAusAnisearch()
+  for (const e of eintraege) map.set(e.anilistId, e.staffel)
+  return map
+}
+
+/** Was an einem Handeintrag fehlt oder nicht stimmt (leer = in Ordnung). */
+export function fehlerImHandeintrag(e: StaffelVonHand, reihenIds: Set<number>): string[] {
+  return [
+    !(Number.isInteger(e.staffel) && e.staffel >= 2) && 'Staffel ab 2 als Zahl',
+    !/^https:\/\//.test(e.quelle ?? '') && 'Quelle als Adresse',
+    !/^\d{4}-\d{2}-\d{2}$/.test(e.belegtAm ?? '') && 'Tag der Lesung',
+    !reihenIds.has(e.anilistId) && 'Kennung steht in keiner Reihe',
+  ].filter((f): f is string => Boolean(f))
 }

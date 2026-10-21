@@ -29,11 +29,23 @@
 
 set -euo pipefail
 
+# Die Anmeldung der Claude-Läufe legt das App-Token in die Remote-Adresse (`.git/config`); bei jedem Ende wieder heraus, sonst sähen es die späteren Schritte des Jobs.
+token_abmelden() {
+  local url
+  url="$(git config --get remote.origin.url)"
+  case "$url" in *x-access-token:*) git remote set-url origin "${url/x-access-token:*@/}" ;; esac
+}
+trap token_abmelden EXIT
+
 NACHRICHT="${1:?Commit-Nachricht fehlt}"
 
 source "$(dirname "${BASH_SOURCE[0]}")/quellen-liste.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/quellen-aufsetzen.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/quellen-pruefen.sh"
 
+# `tools/daten-pr-mergen.sh` und `claude-daten-merge.yml` überspringen Titel mit dieser Marke.
+MARKE_ROT="[Prüfung rot]"
+LABEL_ROT="pruefung-rot"
 BOT_NAME="github-actions[bot]"
 BOT_MAIL="41898282+github-actions[bot]@users.noreply.github.com"
 
@@ -46,7 +58,12 @@ melde() {
 
 # Ein Zweigname je Lauf. Der Lauf-Bezeichner steckt drin, damit ein offen
 # gebliebener Pull Request später zuzuordnen ist.
-ZWEIG="daten/${GITHUB_RUN_ID:-lokal}-$(date -u +%Y%m%d-%H%M)"
+# Nur Läufe der App heißen `daten/…` (Kette und CI-Prüfer überspringen den Präfix, der Daten-Merge nimmt nur ihren Autor); ein lokaler Aufruf nimmt `fix/`.
+if [ -n "${GITHUB_RUN_ID:-}" ]; then
+  ZWEIG="daten/${GITHUB_RUN_ID}-$(date -u +%Y%m%d-%H%M)"
+else
+  ZWEIG="fix/lokal-$(date -u +%Y%m%d-%H%M)"
+fi
 melde "zweig=$ZWEIG"
 
 # **Ein fehlender Pfad darf nicht die ganze Einreichung kosten.**
@@ -135,11 +152,38 @@ if [ "$PUSH_OK" != 1 ]; then
   exit 1
 fi
 
-# `gh pr create` und `gh pr merge` brauchen GH_TOKEN in der Umgebung; die Workflows reichen das Token der App
-# anime-kalender-daten durch (Bypass im Ruleset `main-pruefweg`, 11.10.2026).
-PR="$(gh pr create --base main --head "$ZWEIG" \
-  --title "$NACHRICHT" \
-  --body "Automatisch eingereicht von **${GITHUB_WORKFLOW:-lokal}** (Lauf ${GITHUB_RUN_ID:-—}).
+# **Vor dem Einreichen prüfen (17.10.2026):** Ein Fund, der die Datenprüfungen (`check:logic`) bricht, darf nicht still auf `main` landen — und nicht still verloren gehen.
+# Rot: Der Pull Request entsteht trotzdem, mit Titelpräfix, Label und dem Grund im Text; gemergt wird er nicht (ein Mensch löst, `tools/daten-pr-mergen.sh`).
+PRUEF_ROT=0
+PRUEF_GRUND="$(quellen_pruefen)" || PRUEF_ROT=1
+# Ist `main` selbst rot, zählen nur die Fehler, die erst der Fund bringt: sonst bliebe jeder Sammler-PR markiert liegen, und nach der Reparatur löste ihn nichts.
+if [ "$PRUEF_ROT" = 1 ]; then
+  NEUE_FEHLER="$(quellen_neue_fehler "$PRUEF_GRUND")"
+  if [ -n "$NEUE_FEHLER" ]; then
+    PRUEF_GRUND="$NEUE_FEHLER"
+  else
+    PRUEF_ROT=0
+    echo "::warning title=main ist schon rot::Die Datenprüfung ist auf main bereits aus denselben Gründen rot; der Fund bringt keine neuen Fehler und wird wie bisher eingereicht."
+  fi
+fi
+TITEL="$NACHRICHT"
+# Fund-Schlüssel: Ein Workflow hat mehrere Einreicher (refresh-weekly: sieben Jobs), ein neuer roter PR löst nur denselben Fund ab (`tools/rote-sammler-prs.mjs`).
+SCHLUESSEL="${GITHUB_WORKFLOW:-lokal}/${GITHUB_JOB:-lokal}/$NACHRICHT"
+BODY="Automatisch eingereicht von **${GITHUB_WORKFLOW:-lokal}** (Lauf ${GITHUB_RUN_ID:-—}).
+<!-- fund-schluessel: $SCHLUESSEL -->"
+if [ "$PRUEF_ROT" = 1 ]; then
+  TITEL="$MARKE_ROT $NACHRICHT"
+  BODY="$BODY
+
+**$MARKE_ROT** Die Datenprüfungen (\`npm run check:logic\`) sind auf diesem Stand rot. Der Sammler hat den Fund eingereicht, aber nicht gemergt:
+
+\`\`\`
+$(printf '%s\n' "$PRUEF_GRUND" | head -20)
+\`\`\`
+
+Beheben, dann den Titelpräfix mit \`gh pr edit <Nr> --title\` entfernen und \`tools/daten-pr-mergen.sh <Nr>\` laufen lassen."
+fi
+BODY="$BODY
 
 Enthält ausschließlich Quellen aus \`data/\` und die daraus erzeugten
 Arbeitslisten — keine Erzeugnisse unter \`public/data\`. Die baut der Lauf
@@ -147,11 +191,31 @@ Arbeitslisten — keine Erzeugnisse unter \`public/data\`. Die baut der Lauf
 
 Fügt sich der Zweig sauber ein, mergt der Sammel-Lauf ihn selbst. Steht dieser
 Pull Request noch offen, gab es einen Konflikt — dann übernimmt
-*Claude — Daten-PR zusammenführen*." \
-  2>&1 | tail -1)"
+*Claude — Daten-PR zusammenführen*."
+
+# `gh pr create` und `gh pr merge` brauchen GH_TOKEN in der Umgebung; die Workflows reichen das Token der App
+# anime-kalender-daten durch (Bypass im Ruleset `main-pruefweg`, 11.10.2026).
+PR="$(gh pr create --base main --head "$ZWEIG" --title "$TITEL" --body "$BODY" 2>&1 | tail -1)"
 NUMMER="$(printf '%s' "$PR" | grep -oE '[0-9]+$' || true)"
 melde "pr=$NUMMER"
 echo "Pull Request: $PR"
+
+if [ "$PRUEF_ROT" = 1 ]; then
+  # Das Label ist eine Zugabe: Fehlt es oder schlägt das Anlegen fehl, bleibt der Titelpräfix als Markierung.
+  gh label create "$LABEL_ROT" --color B60205 --description "Datenprüfung rot, nicht gemergt" --force >/dev/null 2>&1 || true
+  gh pr edit "$ZWEIG" --add-label "$LABEL_ROT" >/dev/null 2>&1 || true
+  # Grenze: Je Fund liegt höchstens ein roter PR offen; die älteren löst der neue ab (ihr Zweig bleibt erhalten, derselbe Job holt auf frischem main alles neu).
+  if ! ALTE="$(gh pr list --state open --limit 100 --json number,title,body | node "$(dirname "${BASH_SOURCE[0]}")/rote-sammler-prs.mjs" nummern "$SCHLUESSEL" "$NUMMER")"; then
+    ALTE=""
+    echo "::warning title=Ältere rote PRs nicht abgelöst::Die Liste offener Pull Requests war nicht lesbar; ältere rote PRs desselben Funds bleiben offen."
+  fi
+  for alt in $ALTE; do
+    gh pr close "$alt" --comment "Abgelöst durch #$NUMMER (neuerer roter Fund desselben Jobs). Der Zweig bleibt erhalten." >/dev/null 2>&1 || true
+  done
+  echo "::warning title=Datenprüfung rot::Pull Request $NUMMER ist eingereicht, aber nicht gemergt: $(printf '%s' "$PRUEF_GRUND" | tr '\n' ' ' | cut -c1-300)"
+  melde "gemerged=false"
+  exit 0
+fi
 
 # GitHub berechnet die Mergebarkeit asynchron. Direkt nach dem Anlegen steht
 # dort „UNKNOWN"; wer das als Konflikt liest, stößt bei jedem Lauf einen

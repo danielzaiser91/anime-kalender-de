@@ -11,10 +11,10 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { todayIso } from '../shared/time.ts'
-import { loadDubChecks } from './lib/dub-confirmed.ts'
+import { ladeKanalWissen } from './lib/kanal-wissen.ts'
 import { kanalAdressenOhneBeleg } from './lib/kanal-titel.ts'
 import { plausibilitaet, REGELN } from './lib/kalender-plausibilitaet.ts'
-import { festschreiben, ueberschreitungen, zeile, type Grenzen, type TrefferJeRegel } from './lib/kalender-plausibilitaet-grenzen.ts'
+import { festschreiben, meldeNeueTreffer, ueberschreitungen, zeile, type Grenzen, type TrefferJeRegel } from './lib/kalender-plausibilitaet-grenzen.ts'
 import { ROOT } from './lib/util.ts'
 
 const GRENZEN = resolve(ROOT, 'tools/kalender-plausibilitaet-grenzen.json')
@@ -27,7 +27,7 @@ function laden(): TrefferJeRegel {
     events: json('public/data/events.json'),
     news: json('public/data/news.json'),
     urteile: json('data/urteile.json'),
-    kanal: kanalAdressenOhneBeleg(loadDubChecks()),
+    kanal: kanalAdressenOhneBeleg(ladeKanalWissen()),
     heute: todayIso(),
   })
 }
@@ -49,6 +49,7 @@ function pruefen(treffer: TrefferJeRegel, grenzen: Grenzen): number {
   }
   const fehler = ueberschreitungen(treffer, grenzen)
   for (const f of fehler) console.error(`  FEHLER: ${f}`)
+  meldeNeueTreffer(treffer, grenzen)
   if (fehler.length) console.error('\nDie Grenzen werden nicht angehoben: Daten oder Bau korrigieren. Alle Treffer: npm run check:kalender-plausibilitaet -- --liste')
   return fehler.length ? 1 : 0
 }

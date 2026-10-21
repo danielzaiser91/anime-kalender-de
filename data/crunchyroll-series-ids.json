@@ -1,5 +1,5 @@
 {
-  "aufgeloestAm": "2026-10-16T04:10:53.102Z",
+  "aufgeloestAm": "2026-10-19T05:25:22.685Z",
   "adressen": {
     "http://www.crunchyroll.com/de/a-place-further-than-the-universe": {
       "seriesId": "GYK541EPR",
@@ -2870,8 +2870,8 @@
       "geprueftAm": "2026-09-06"
     },
     "https://www.crunchyroll.com/de/jungle-emperor-leo": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GRMGZJ1GR/jungle-emperor-leo",
-      "geprueftAm": "2026-09-07",
+      "ziel": "https://www.crunchyroll.com/de/jungle-emperor-leo?__cf_chl_rt_tk=7zFQUiEe3r.PQzXVsyXvNLqtaMnJ1_vPbEpaoQUiVpg-1792387515-1.0.1.1-IvlteZiEfnz5a9F3qr9CFR3DCnXv9xhXSr24DuuY2Kc",
+      "geprueftAm": "2026-10-19",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/de/origin-spirits-of-the-past": {
@@ -3504,8 +3504,8 @@
       "geprueftAm": "2026-09-06"
     },
     "http://www.crunchyroll.com/mobile-suit-gundam-wing-endless-waltz/mobile-suit-gundam-wing-endless-waltz-gundam-wing-endless-waltz-732801": {
-      "ziel": "https://www.crunchyroll.com/de/watch/G71F4DJ24/endless-waltz",
-      "geprueftAm": "2026-09-07",
+      "ziel": "https://www.crunchyroll.com/mobile-suit-gundam-wing-endless-waltz/mobile-suit-gundam-wing-endless-waltz-gundam-wing-endless-waltz-732801?__cf_chl_rt_tk=sfq2Z_EX1nbcV8tX2wnrKhzyIcxw56ssWjoHtiQ8ChA-1792386934-1.0.1.1-01LyivEmjCjuN33z3ApOkbr7mVHAOPoJpihli8_7z1U",
+      "geprueftAm": "2026-10-19",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "http://www.crunchyroll.com/my-first-girlfriend-is-a-gal/episode-1-my-first-time-begging-for-it-742283": {
@@ -4002,6 +4002,26 @@
       "seriesId": "GMTE00119156",
       "ziel": "https://www.crunchyroll.com/watch/GMEE00119156DEDE?__cf_chl_rt_tk=7nI9pWARzwgXgyQLNMYM_b4x9MEjZA5e_C6lkW5KF5g-1791782015-1.0.1.1-iKC33skV_VPdN5WObAwglM6cCsM9byBy4bQU.ErndHI",
       "geprueftAm": "2026-10-12"
+    },
+    "http://www.crunchyroll.com/de/boruto-naruto-next-generations": {
+      "seriesId": "GR75Q020Y",
+      "ziel": "https://www.crunchyroll.com/de/series/GR75Q020Y/boruto-naruto-next-generations",
+      "geprueftAm": "2026-10-19"
+    },
+    "http://www.crunchyroll.com/de/naruto": {
+      "ziel": "https://www.crunchyroll.com/de/naruto?__cf_chl_rt_tk=lfIMwThvJQyoQ5GtBhvw3Fl2TDEwGTQDXaTl7IlxZFQ-1792386632-1.0.1.1-W7ixxGZZYTSzqZULZEFIg1SwI0QaFf4WJF.Y4EKcuXs",
+      "geprueftAm": "2026-10-19",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "http://www.crunchyroll.com/de/naruto-shippuden": {
+      "ziel": "https://www.crunchyroll.com/de/naruto-shippuden?__cf_chl_rt_tk=3iZNjCMYqkbAXMgtqrnSShC2pGqEewoqbvtkF8uqZDA-1792386637-1.0.1.1-5gB.VlWs1CafR7ElAs62Me3mzd77d3Ve2TbwOGtnSlM",
+      "geprueftAm": "2026-10-19",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "http://www.crunchyroll.com/de/naruto-spin-off-rock-lee-his-ninja-pals": {
+      "ziel": "https://www.crunchyroll.com/de/naruto-spin-off-rock-lee-his-ninja-pals?__cf_chl_rt_tk=2cAxAV24dx2rFMCdUg1Es6WEqrlhq9YLMCCkH0Oc_Q4-1792386643-1.0.1.1-h7r.EWeAGgy6ZaA9X6wSU6EkzIGiNPDMK1VeEe5I_xI",
+      "geprueftAm": "2026-10-19",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     }
   }
 }

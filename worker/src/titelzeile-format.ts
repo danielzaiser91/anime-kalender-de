@@ -93,6 +93,15 @@ export function zaehleOffene(daten: TitelDaten): { meldung: number; rohfolge: nu
   }
 }
 
+/**
+ * `titel_zeile.gemeldet_am`: die jüngste Meldung unter den Folgen, nicht der Zeitpunkt des Schreibens (17.10.2026). Abhaken
+ * schrieb sonst „jetzt“ hinein, und `staffelnSeit` packte jeden abgehakten Titel mit `json_each` aus (Ø 13.268 Lesezeilen
+ * je `?stand=1`); dieselbe Regel wie in `pruefung`, wo Abhaken `gemeldet_am` nicht anfasst.
+ */
+export function juengsteMeldung(daten: TitelDaten): string {
+  return daten.f.reduce((am, e) => (e[AM] > am ? e[AM] : am), '')
+}
+
 export function leereDaten(): TitelDaten {
   return { s: null, t: null, st: null, f: [] }
 }
