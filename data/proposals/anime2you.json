@@ -1,15 +1,47 @@
 {
-  "scrapedAt": "2026-10-21T05:02:54.230Z",
+  "scrapedAt": "2026-10-21T11:02:48.470Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 6,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
+    "schon in einem Rubrik-Feed gelesen": 7,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "Blu-ray-Design von »Spice and Wolf: Merchant Meets the Wise Wolf« + Extras",
+      "articleUrl": "https://www.anime2you.de/news/1062604/spice-and-wolf-merchant-meets-the-wise-wolf-blu-ray-design/",
+      "publishedAt": "2026-10-21",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "neues Produktbild findet ihr weiter unten in diesem Artikel. Release ab November 2026 Das erste Blu-ray-Volume, das die ersten sechs Episod"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Start von »ELECEED« nach Verschiebung steht fest + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1062575/start-von-eleceed-nach-verschiebung/",
+      "publishedAt": "2026-10-21",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-04",
+          "context": "eue Details zur kommenden Serie verkündet. Wir fassen zusammen. Start im April 2027 »ELECEED« wird demzufolge nach einer Verschiebung ab Apr"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
       "articleUrl": "https://www.anime2you.de/news/1062229/netflix-dragon-ball-super-beerus-und-mehr/",
