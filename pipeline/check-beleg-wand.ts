@@ -3,7 +3,8 @@
  * Banner und Wände in verschiedener Bauart verschwinden, eine Wand, die sich nicht entfernen lässt, ergibt kein Bild (Daniel, 05.10.2026).
  * Aufruf: npx tsx pipeline/check-beleg-wand.ts   (Exit 1 bei Verstoß)
  */
-import { chromium } from 'playwright'
+import { chromium, type Browser, type Page } from 'playwright'
+import { faelleDurchlaufen } from './lib/screenshot-wiederholen.ts'
 import { belegAusschnitt, istEinfarbig, stuetzbegriffe } from './lib/beleg-bild.ts'
 import { warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
 
@@ -37,10 +38,19 @@ const faelle: { name: string; html: string; erwartet: 'bild' | 'wand' | 'leer'; 
   },
 ]
 
-const browser = await chromium.launch()
-let fehler = 0
-for (const f of faelle) {
+type Fall = (typeof faelle)[number]
+
+/** Ein Fall auf frischer Seite; die Seite wird auch bei einem Fehler geschlossen, damit die Wiederholung neu beginnt. */
+async function pruefeFall(browser: Browser, f: Fall): Promise<boolean> {
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
+  try {
+    return await pruefeAufSeite(seite, f)
+  } finally {
+    await seite.close()
+  }
+}
+
+async function pruefeAufSeite(seite: Page, f: Fall): Promise<boolean> {
   const dokument = `<!doctype html><html><body style="margin:0;${f.name.startsWith('einfarbig') ? 'background:#000' : ''}">${f.html}</body></html>`
   if (f.url) {
     await seite.route(f.url, (r) => r.fulfill({ contentType: 'text/html; charset=utf-8', body: dokument }))
@@ -56,9 +66,11 @@ for (const f of faelle) {
   const markeTief = f.markeAbAnteil === undefined || (marke?.[1] ?? 0) >= f.markeAbAnteil
   const ok = f.erwartet === 'bild' ? bild && !uebrig && markeOk && markeDa && markeTief : f.erwartet === 'leer' ? b === 'leer' : !bild
   console.log(ok ? '✓' : '✗', f.name, bild ? 'Bild' : String(b), uebrig ? '(Sperre noch im Dokument)' : '')
-  if (!ok) fehler++
-  await seite.close()
+  return ok
 }
+
+const browser = await chromium.launch()
+let fehler = await faelleDurchlaufen(faelle, (f) => pruefeFall(browser, f), console.log)
 await browser.close()
 /* Kinoheld sucht zuerst „Veröffentlichung“, andere Seiten nur ihre eigenen Begriffe. */
 const sb = [stuetzbegriffe('https://www.kinoheld.de/film/x', ['A']), stuetzbegriffe('https://kinoheld.de/film/x', ['A']), stuetzbegriffe('https://www.joyn.de/serien/x', ['A'])]

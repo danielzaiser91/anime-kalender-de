@@ -190,6 +190,7 @@ pipeline/check-sammelartikel.ts
 pipeline/check-sammler-lesezugriffe-faelle.ts
 pipeline/check-sammler-lesezugriffe.ts
 pipeline/check-schwester-shop.ts
+pipeline/check-screenshot-wiederholen.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-sprache-netz.ts
 pipeline/check-sprache-termin.ts
