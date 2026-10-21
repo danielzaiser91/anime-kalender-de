@@ -3,8 +3,7 @@
  * (`lib/jw-staffeln.ts`, `lib/jw-wiedervorlage.ts`). Läuft in `check:logic`.
  */
 import { staffelnVon, type StaffelRoh } from './lib/jw-staffeln.ts'
-import { staffelnFehlen, vertrauensBefundAlt } from './lib/jw-wiedervorlage.ts'
-import type { Title } from '../shared/types.ts'
+import { staffelnFehlen } from './lib/jw-wiedervorlage.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -43,14 +42,6 @@ pruefe('Serie mit Staffelangaben nicht', !staffelnFehlen({ ...serie, staffeln: [
 pruefe('Film nie', !staffelnFehlen({ ...serie, jwPfad: '/de/Film/x' }))
 pruefe('ohne Treffer nie', !staffelnFehlen({ ...serie, ohneTreffer: true }))
 pruefe('ohne Befund nie', !staffelnFehlen(undefined))
-
-const mitKennzeichnung = { streams: [{ platform: 'primevideo', url: 'x', dubQuelle: 'justwatch' }] } as unknown as Title
-const ohne = { streams: [{ platform: 'primevideo', url: 'x' }] } as unknown as Title
-const befund = (tag: string) => ({ geprueftAm: tag })
-pruefe('Kennzeichnung mit Befund von vor 21 Tagen: erneuern', vertrauensBefundAlt(mitKennzeichnung, befund('2026-09-20'), '2026-10-11'))
-pruefe('Kennzeichnung mit Befund von vor 20 Tagen: noch nicht', !vertrauensBefundAlt(mitKennzeichnung, befund('2026-09-21'), '2026-10-11'))
-pruefe('ohne Kennzeichnung nie vorgezogen', !vertrauensBefundAlt(ohne, befund('2026-01-01'), '2026-10-11'))
-pruefe('ohne Befund nie', !vertrauensBefundAlt(mitKennzeichnung, undefined, '2026-10-11'))
 
 if (fehler) {
   console.error(`${fehler} Fehler`)

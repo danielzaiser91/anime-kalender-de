@@ -19,13 +19,13 @@ const pruefe = (bedingung: boolean, text: string) => {
 }
 const kennung = (n: number) => standardKennung(standardKarte(n))
 
-pruefe(titelzahlText(2546) === 'über 2.500 mit Synchro', `2546 -> „${titelzahlText(2546)}"`)
+pruefe(titelzahlText(2546) === 'über 2.500 Anime, Woche für Woche', `2546 -> „${titelzahlText(2546)}"`)
 pruefe(titelzahlText(2500) === titelzahlText(2599), 'Spanne 2500..2599 gleicher Text')
-pruefe(titelzahlText(2600) === 'über 2.600 mit Synchro', '2600 -> über 2.600')
+pruefe(titelzahlText(2600) === 'über 2.600 Anime, Woche für Woche', '2600 -> über 2.600')
 
 pruefe(kennung(2546) === kennung(2599), 'Neue Titel innerhalb der Hunderter ändern die Kennung nicht (kein Commit je Titel)')
 pruefe(kennung(2599) !== kennung(2600), 'Die nächste Hunderterschwelle ändert die Kennung (Bild spätestens dann neu)')
-pruefe(standardKarte(2546).badges.length === 0, 'Keine Plattform-Chips (Termine-Zeile nennt das Wo schon)')
+pruefe(standardKarte(2546).liste.length === 3, 'Drei Aussagen, keine Plattform-Rangliste (Termine-Zeile nennt das Wo schon)')
 
 pruefe(mussNeuZeichnen(true, kennung(2450), kennung(2546), false), 'Alte Kennung -> neu zeichnen (ohne den Fix blieb es beim vorhandenen Bild)')
 pruefe(!mussNeuZeichnen(true, `${kennung(2546)}\n`, kennung(2546), false), 'Gleiche Kennung -> nicht neu zeichnen')

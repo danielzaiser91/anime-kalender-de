@@ -14,13 +14,15 @@
  *
  * Aufruf: npm run data:pruefungen
  */
-import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { appendFileSync, existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { nichtGefuehrtZeilen } from './lib/beleg-nicht-gefuehrt.ts'
 import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
 import yaml from 'js-yaml'
 import { amazonTitelAdresse, echteAmazonAdresse } from './lib/amazon-adresse.js'
 import { resolve } from 'node:path'
 import {
   beschreibeBereiche,
+  begrenzeAufFolgenzahl,
   bildeBereiche,
   ordneNachStaffelliste,
   verteileAufStaffeln,
@@ -29,15 +31,17 @@ import {
 } from './lib/folgenbereiche.ts'
 import { ergaenzeUmEntfernte, mitEntfernten, staffelnMitAdresse } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
-import { adressKern, entdoppleBelege, loadDubChecks, neueBelegBloecke } from './lib/dub-confirmed.ts'
+import { adressKern, loadDubChecks, neueBelegBloecke, schreibeBelege } from './lib/dub-confirmed.ts'
 import { kanalJaAdressKerne, kanalOhneAussage } from './lib/kanal-titel.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
 import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
 import { ladePruefTitel } from './lib/pruef-titel.ts'
-import { merkeZumQuittieren, PRUEFUNGEN_ABHAKEN, quittiereGemerkte } from './lib/spaeter-quittieren.ts'
+import { OFFEN, PRUEFUNGEN_ABHAKEN, quittiereGemerkte } from './lib/spaeter-quittieren.ts'
 import { schalterOderAbbruch } from './lib/schalter.ts'
+import { folgenzahlIstBefund, schreibeAuffaelligkeiten, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
+import { ladeMeldungen, legeAbhakenAb } from './lib/meldungen-stapel.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN
@@ -105,7 +109,7 @@ if (process.argv.includes('--nur-abhaken')) {
   process.exit(0)
 }
 
-const antwort = await fetch(`${WORKER}/pruefung?token=${encodeURIComponent(TOKEN)}`)
+const antwort = await ladeMeldungen(`${WORKER}/pruefung?token=${encodeURIComponent(TOKEN)}`)
 if (!antwort.ok) {
   warn(`Prüfungen nicht abrufbar: HTTP ${antwort.status}`)
   /*
@@ -774,7 +778,7 @@ for (const gruppe of jeAdresse.values()) {
       for (const tid of ausMeldung) {
         const n = nummern.get(tid)
         if (n != null && n !== staffelNr) {
-          auffaellig.push(`Meldung ${gruppe.map((x) => x.id).join(',')}: Titel ${tid} ist Staffel ${n}, die Seite ${p.seiten_kennung ?? p.url} Staffel ${staffelNr}`)
+          auffaellig.push(`Meldung ${gruppe.map((x) => x.id).join(',')}: ${titelMitName(tid, liste)} ist Staffel ${n}, die Seite ${p.seiten_kennung ?? p.url} Staffel ${staffelNr}`)
         }
       }
       const schonRichtig = ziel.length > 0 && ids.every((id) => ziel.includes(id))
@@ -842,20 +846,9 @@ for (const gruppe of jeAdresse.values()) {
       ...gruppe.map((x) => (typeof x.folgen === 'number' && Number.isFinite(x.folgen) ? x.folgen : 0)),
       gruppe.filter((x) => x.folge_nr != null).length,
     )
-    /*
-      **Weniger Folgen als der Titel ist bei Netflix kein Befund** (24.09.2026). Der Melde-Durchgang
-      prüft je Netflix-Staffel; Naruto (220) meldete 26, Shippuden (500) 21, Boruto (293) 15 — jede
-      Nacht als „auffällig" gelb in der Statusanzeige, obwohl genau das der Ablauf ist. Mehr
-      Folgen als der Titel bleibt verdächtig (falsche Zuordnung), bei allen Anbietern.
-    */
-    const zuWenig = gemeldet < (t?.episodes ?? 0)
-    if (
-      t?.episodes &&
-      gemeldet > 1 &&
-      !(zuWenig && p.plattform === 'netflix') &&
-      Math.abs(gemeldet - t.episodes) > Math.max(2, t.episodes * 0.25)
-    ) {
-      auffaellig.push(`Meldung ${gruppe.map((x) => x.id).join(',')}: ${gemeldet} Folgen gemeldet, Titel ${t.id} hat ${t.episodes} (${p.seiten_kennung ?? p.url})`)
+    /* Weniger Folgen als der Titel ist bei keinem Anbieter ein Befund (Netflix 24.09., alle 19.10.2026): die Seite zeigt eine Staffel. */
+    if (t && folgenzahlIstBefund(gemeldet, t.episodes)) {
+      auffaellig.push(`Meldung ${gruppe.map((x) => x.id).join(',')}: ${gemeldet} Folgen gemeldet, ${titelMitName(t.id, liste)} hat ${t.episodes} (${p.seiten_kennung ?? p.url})`)
     }
   }
 
@@ -1063,15 +1056,8 @@ for (const gruppe of jeAdresse.values()) {
     if (nichtGefuehrt.has(id)) {
       // Der Anbieter führt diese Staffel nicht — dann ist der Verweis falsch,
       // und über den deutschen Ton ist damit nichts gesagt.
-      zeilen.push('')
-      zeilen.push(`- anilistId: ${id}`)
-      if (t?.titleDe || t?.titleEn) zeilen.push(`  title: ${JSON.stringify(t.titleDe ?? t.titleEn)}`)
-      zeilen.push(`  platform: ${p.plattform}`)
-      zeilen.push('  available: false')
-      zeilen.push(`  checkedAt: '${berlinDatum(p.gemeldet_am)}'`)
-      zeilen.push(
-        `  note: ${JSON.stringify(`Der Anbieter führt unter dieser Adresse nur ${anbieterStaffeln!.length} Staffel(n); diese ist nicht darunter`)}`,
-      )
+      const name = t?.titleDe || t?.titleEn ? (t.titleDe ?? t.titleEn) : undefined
+      zeilen.push(...nichtGefuehrtZeilen(id, name, p.plattform, berlinDatum(p.gemeldet_am), anbieterStaffeln!.length))
       uebernommen++
       geschrieben++
       continue
@@ -1089,6 +1075,11 @@ for (const gruppe of jeAdresse.values()) {
       // melden. Schweigen ist hier die richtige Antwort.
       if (!eigene.length) continue
     }
+    /* Summenseite (Haikyu!! Staffel 4, 20.10.2026): Bereiche über die Folgenzahl des Titels hinaus gehören anderen Titeln. */
+    const gekappt = begrenzeAufFolgenzahl(eigene, t?.episodes)
+    if (gekappt !== eigene) warn(`Titel ${id}: ${beschreibeBereiche(eigene)} über der Folgenzahl ${t?.episodes} — ${gekappt.length ? 'gekappt' : 'verworfen'}`)
+    if (gekappt !== eigene && !gekappt.length) continue
+    eigene = gekappt
 
     /**
      * **Ein Eintrag ohne Aussage darf gar nicht erst entstehen.**
@@ -1122,24 +1113,12 @@ for (const gruppe of jeAdresse.values()) {
     if (ohneAussage) {
       ausgelassenKanal++
       /*
-        **Ausgelassen heißt abgehakt — sonst liest sie jeder Lauf wieder.**
-
-        `geschrieben` bleibt hier null, und ganz unten hakt nur ab, wer etwas
-        geschrieben hat. Eine Kanal-Meldung ohne Aussage blieb damit für immer
-        im Briefkasten liegen: Am 05.09.2026 lagen dort **16 Meldungen auf 13
-        Adressen**, die älteste (`B09MDQX4CW`) seit Wochen — jeder Lauf holte
-        sie, ließ sie aus, ließ sie liegen. Die Wache zählte sie als Rückstand,
-        und niemand konnte etwas damit anfangen.
-
-        **Die Entscheidung ist endgültig, deshalb darf sie abgehakt werden.**
-        Sie hängt an drei Dingen, von denen keines sich zurückdreht: Der Titel
-        ist ein Kanal-Angebot (Amazons Sprachangabe belegt dort nichts, siehe
-        `CLAUDE.md`), unser Datensatz kennt die Adresse bereits, und die Meldung
-        trägt keinen Folgenbefund. Morgen käme dasselbe heraus.
-
-        **Nicht abgehakt wird, was nur heute nicht zuzuordnen ist.** Eine
-        Meldung ohne Titel steht in `11-meldungen-ohne-zuordnung.md` und bleibt
-        liegen — dort kann der nächste Bestand die Antwort bringen.
+        **Ausgelassen heißt abgehakt — sonst liest sie jeder Lauf wieder** (05.09.2026: 16 Meldungen lagen wochenlang). Die
+        Entscheidung ist endgültig: Kanal-Angebot (Amazons Sprachangabe belegt nichts), Adresse bekannt, kein Folgenbefund.
+        Abgehakt wird im Bestandslauf erst nach dem Commit (`--abhaken-spaeter`, Schritt „Meldungen abhaken“). Was nur heute
+        nicht zuzuordnen ist, bleibt liegen (`11-meldungen-ohne-zuordnung.md`) und belegt einen Platz im Fenster des
+        Briefkastens (`OFFEN_FENSTER`, 18.10.2026: 5000); eine Meldung, an der die Handbeleg-Prüfung scheitert, stellt
+        `tools/meldungen-eingrenzen.mjs` allein zurück; bleibt die Übernahme ganz aus, meldet es `tools/briefkasten-wache.mjs`.
       */
       for (const x of gruppe) erledigteIds.add(x.id)
       continue
@@ -1304,7 +1283,7 @@ if (zeilen.length && !TROCKEN) {
       `Die erzeugten Zeilen ergeben kein gültiges YAML — nichts geschrieben. ${(e as Error).message}`,
     )
   }
-  if (neueZeilen.some((z) => z.startsWith('- '))) writeFileSync(p, entdoppleBelege(neu, warn))
+  if (neueZeilen.some((z) => z.startsWith('- '))) schreibeBelege(p, neu, warn)
 }
 
 if (!TROCKEN) schreibeMeldungenListe(ohneZuordnung, liste, heute)
@@ -1337,19 +1316,17 @@ log(
 )
 for (const o of offenGeblieben) warn(o)
 for (const a of auffaellig) warn(`Auffällig: ${a}`)
-if (auffaellig.length && !TROCKEN) {
-  const datei = resolve(ROOT, 'data/meldungs-auffaelligkeiten.json')
-  const grenze = new Date(Date.now() - 60 * 864e5).toISOString().slice(0, 10)
-  const bisher = existsSync(datei) ? (JSON.parse(readFileSync(datei, 'utf8')) as { am: string; text: string }[]) : []
-  /* Jeder Befund einmal: Der Lauf sah dieselbe Meldung sonst bei jedem Durchgang neu (81 Einträge, viele doppelt). */
-  const schon = new Set(bisher.map((x) => x.text))
-  const dazu = [...new Set(auffaellig)].filter((text) => !schon.has(text)).map((text) => ({ am: heute, text }))
-  const neu = [...bisher.filter((x) => x.am >= grenze), ...dazu]
-  writeFileSync(datei, JSON.stringify(neu, null, 2) + '\n')
-  /* Gelb wird die Statusanzeige nur für einen neuen Befund — ein bekannter steht schon in der Datei. */
-  if (process.env.GITHUB_ENV && dazu.length) {
+if (!TROCKEN) {
+  /* Momentaufnahme (19.10.2026): ein Eintrag bleibt, solange sein Befund am geladenen Bestand zutrifft, auch nach dem Abhaken der Meldung. */
+  const staffelNr = (id: number): number | undefined => {
+    const reihe = reiheVon.get(id)
+    return reihe ? staffelNummern(reihe).get(id) : undefined
+  }
+  const offen = (text: string): boolean => trifftNochZu(text, liste, staffelNr)
+  const { jetzt, neue } = schreibeAuffaelligkeiten(resolve(ROOT, 'data/meldungs-auffaelligkeiten.json'), auffaellig, heute, offen)
+  if (process.env.GITHUB_ENV && neue.length) {
     const alt = process.env.DATEN_WARNUNG ? process.env.DATEN_WARNUNG + ' · ' : ''
-    appendFileSync(process.env.GITHUB_ENV, `DATEN_WARNUNG=${alt}${dazu.length} Meldung(en) auffällig, siehe data/meldungs-auffaelligkeiten.json\n`)
+    appendFileSync(process.env.GITHUB_ENV, `DATEN_WARNUNG=${alt}${warnungsText(neue.length, jetzt.length)}\n`)
   }
 }
 if (TROCKEN) {
@@ -1358,7 +1335,7 @@ if (TROCKEN) {
   process.exit(0)
 }
 if (erledigteIds.size) {
-  merkeZumQuittieren(PRUEFUNGEN_ABHAKEN, [...erledigteIds])
+  legeAbhakenAb(resolve(ROOT, OFFEN, PRUEFUNGEN_ABHAKEN), erledigteIds)
   log(`${erledigteIds.size} Meldungen werden nach dem Commit abgehakt`)
 }
 if (offenGeblieben.length) {

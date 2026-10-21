@@ -3,12 +3,13 @@
  * Abhak-Schritt) muss rot sein, jede Verschiebung eines Quittungsschritts vor den Commit ebenso, der heutige Stand grün.
  */
 import assert from 'node:assert/strict'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { spawnSync } from 'node:child_process'
+import { mkdirSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { parse } from 'yaml'
 import { aufrufe } from './quittung-aufrufe.mjs'
-import { FEST, pruefeAlle, pruefeFest, pruefeJob, pruefeMerkerPfade, pruefeWorkflow } from './quittung-nach-commit-waechter.mjs'
+import { CACHE_AUFRAEUMEN, FEST, pruefeAlle, pruefeCacheAufraeumen, pruefeFest, pruefeJob, pruefeMerkerPfade, pruefeWorkflow } from './quittung-nach-commit-waechter.mjs'
 
 const s = (run, name = run) => ({ name, run })
 const BAU = s('npm run data:build')
@@ -58,7 +59,32 @@ assert.ok(pruefeFest([BAU, { ...fest[0], run: 'true' }, CHECK, ...fest]).length 
 // Die Festlegung greift nur für den Job „bauen" in bestand-bauen.yml.
 const doc = (job, schritte) => ({ jobs: { vorab: { steps: [CHECK] }, [job]: { steps: schritte } } })
 assert.match(pruefeWorkflow('bestand-bauen.yml', doc('bauen', GUT)).join('|'), /Änderungen committen" fehlt/)
-assert.deepEqual(pruefeWorkflow('bestand-bauen.yml', doc('bauen', [BAU, ...fest])), [])
+const RESTORE = { name: 'AniList-Cache wiederverwenden', uses: 'actions/cache/restore@v4' }
+const AUFRAEUMEN = structuredClone(CACHE_AUFRAEUMEN)
+// Der Schritt räumt wirklich beide Ordner (der Text steht fest hier, nicht aus dem Modul) und lässt Fremdes in data/cache stehen.
+assert.equal(AUFRAEUMEN.run, 'rm -rf data/cache/quittung-offen data/cache/quittung-frei')
+{
+  const wurzel = mkdtempSync(join(tmpdir(), 'merker-aufraeumen-'))
+  for (const d of ['quittung-offen', 'quittung-frei', 'anilist']) mkdirSync(join(wurzel, 'data/cache', d), { recursive: true })
+  for (const d of ['quittung-offen', 'quittung-frei', 'anilist']) writeFileSync(join(wurzel, 'data/cache', d, 'x.json'), '[1]')
+  const r = spawnSync('bash', ['--noprofile', '--norc', '-eo', 'pipefail', '-c', AUFRAEUMEN.run], { cwd: wurzel, encoding: 'utf8' })
+  assert.equal(r.status, 0, r.stderr)
+  assert.deepEqual(readdirSync(join(wurzel, 'data/cache')), ['anilist'])
+  rmSync(wurzel, { recursive: true, force: true })
+}
+assert.deepEqual(pruefeWorkflow('bestand-bauen.yml', doc('bauen', [RESTORE, AUFRAEUMEN, BAU, ...fest])), [])
+
+// Aufräumschritt nach dem Cache-Restore: fehlt, verschoben, geändert oder ohne Restore: je rot (Bauer 1426, Prüfer R1).
+assert.deepEqual(pruefeCacheAufraeumen([RESTORE, AUFRAEUMEN, BAU]), [])
+assert.equal(pruefeCacheAufraeumen([RESTORE, BAU]).length, 1)
+assert.equal(pruefeCacheAufraeumen([RESTORE, BAU, AUFRAEUMEN]).length, 1)
+assert.equal(pruefeCacheAufraeumen([AUFRAEUMEN, RESTORE, BAU]).length, 1)
+assert.equal(pruefeCacheAufraeumen([RESTORE, { ...AUFRAEUMEN, run: 'rm -rf data/cache/quittung-offen' }]).length, 1)
+assert.equal(pruefeCacheAufraeumen([RESTORE, { ...AUFRAEUMEN, run: 'true' }]).length, 1)
+assert.equal(pruefeCacheAufraeumen([RESTORE, { ...AUFRAEUMEN, if: 'always()' }]).length, 1)
+assert.equal(pruefeCacheAufraeumen([RESTORE, { ...AUFRAEUMEN, 'continue-on-error': true }]).length, 1)
+assert.match(pruefeCacheAufraeumen([AUFRAEUMEN, BAU]).join('|'), /AniList-Cache wiederverwenden" fehlt/)
+assert.equal(pruefeWorkflow('bestand-bauen.yml', doc('bauen', [RESTORE, BAU, ...fest])).length, 1)
 assert.deepEqual(pruefeWorkflow('anderer.yml', doc('bauen', GUT)), [])
 assert.match(pruefeWorkflow('bestand-bauen.yml', doc('anders', GUT)).join('|'), /Job „bauen" fehlt/)
 

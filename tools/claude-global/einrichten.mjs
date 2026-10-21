@@ -10,6 +10,8 @@
  *   wird rekursiv nach `~/.claude/mods/arbeitsliste/` kopiert. Hier wird sie gepflegt; prüfen mit
  *   `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1 claude plugin test` im Mod-Ordner. Nicht im Repo und am
  *   Ziel unberührt bleiben `messung.log` (Laufzeit) und `.claude-plugin/types/` (erzeugt Claude Code).
+ * - `hooks/*.js` wird nach `~/.claude/hooks/` kopiert (der Eintrag in `~/.claude/settings.json` bleibt Handarbeit). Die
+ *   `hooks/package.json` (commonjs) bleibt im Repo: Am Ziel sind `.js`-Hooks ohnehin CommonJS.
  * Eine abweichende Fassung am Ziel wird vorher als `.bak` gesichert.
  *
  * Aufruf:
@@ -50,6 +52,7 @@ const zeilen = [
   ...readdirSync(join(QUELLE, 'rules')).map((datei) => kopiere(join('rules', datei))),
   ...readdirSync(join(QUELLE, 'skills')).map((name) => kopiere(join('skills', name, 'SKILL.md'))),
   ...dateienUnter(join('mods', 'arbeitsliste')).map(kopiere),
+  ...readdirSync(join(QUELLE, 'hooks')).filter((datei) => datei.endsWith('.js')).map((datei) => kopiere(join('hooks', datei))),
 ]
 console.log(zeilen.join('\n'))
 if (NUR_PRUEFEN && zeilen.some((z) => z.startsWith('FEHLT'))) process.exit(1)

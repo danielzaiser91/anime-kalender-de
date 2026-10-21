@@ -3,6 +3,7 @@ import { type Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
 import { type DubCheck } from '../lib/dub-confirmed.ts'
 import { primeHakenOhneBeleg, primeTitelMitBeleg, type MeldungEintrag, type UrteilEintrag } from '../lib/haken-beleg.ts'
+import { leseZugeordnet } from '../lib/prime-meldung-riegel.ts'
 import { type JwBefund } from '../lib/jw-vertrauen.ts'
 import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 import { kennzeichneJwSeiten, type JwSeitenErgebnis } from './jw-seite-ton.ts'
@@ -20,7 +21,7 @@ export function kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleCh
   alleChecks: DubCheck[]
 }) {
   const urteile = readJson<Record<string, UrteilEintrag>>('data/urteile.json', {})
-  const meldungen = readJson<Record<string, MeldungEintrag>>('data/prime-zugeordnet.json', {})
+  const meldungen = leseZugeordnet<MeldungEintrag>()
   const ergebnis = kennzeichneJwSeiten({
     titel: [...titles.values()],
     befunde: readJson<Record<string, JwBefund>>('data/justwatch-audio.json', {}),

@@ -21,6 +21,7 @@
  */
 import { fehlerLog } from './werte.ts'
 import { type Env } from './env.ts'
+import { istD1Abweisung } from './d1-limit.ts'
 
 export type Rohfolge = {
   id: number
@@ -113,6 +114,8 @@ export async function ladeRohfolgen(
     }
     return vorhandene
   } catch (e) {
+    /* Abweisung durch D1 (Export, Tageslimit): ohne die vorhandenen Zeilen entstünden Dubletten, also scheitern. */
+    if (istD1Abweisung(e)) throw e
     fehlerLog('prime_folge laden', e)
     return []
   }
@@ -129,6 +132,7 @@ export async function loescheRohfolgen(env: Env, ids: number[]): Promise<void> {
   try {
     await env.DB.batch(stapel)
   } catch (e) {
+    if (istD1Abweisung(e)) throw e
     fehlerLog('prime_folge aufraeumen', e)
   }
 }

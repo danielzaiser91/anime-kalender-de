@@ -1,6 +1,7 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { createPortal } from 'react-dom'
+import { sichtbareBreite } from '../../lib/sichtbare-breite.ts'
 
 /**
  * Eine schwebende Karte an einem Auslöser: beim Zeigen (`zeigen`), per Klick (`klick`) oder beides.
@@ -125,7 +126,7 @@ function useKartenPosition(
     const rand = 8
     const luft = 6
     const decke = (document.querySelector('header')?.getBoundingClientRect().bottom ?? 0) + rand
-    const left = Math.min(Math.max(a.left, rand), Math.max(rand, window.innerWidth - b.width - rand))
+    const left = Math.min(Math.max(a.left, rand), Math.max(rand, sichtbareBreite() - b.width - rand))
     /* Die Steuerleiste dockt unten an und verdeckt, was unter ihr läge. */
     const boden = document.querySelector('[data-steuerleiste] > *')?.getBoundingClientRect().top ?? window.innerHeight
     const platzUnten = boden - rand - (a.bottom + luft)

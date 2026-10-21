@@ -34,3 +34,47 @@ export function terminZeilen(release: Release, events: ReturnType<typeof expandE
   }
   return zeilen
 }
+
+export interface TerminKopf {
+  /** „Fr, 16.10." — das Jahr steht nur, wenn es nicht das laufende ist. */
+  datum: string
+  /** Neben der Datumsmarke: die Folgen des Termins; leer, wenn das Datum keine Folgen trägt. */
+  folge: string
+  /** Eine Zeile darunter: was das Datum bedeutet (Katalog, Erstveröffentlichung) und die Uhrzeit eines künftigen Termins. */
+  fakt: string
+}
+
+function datumKurz(iso: string, heute: string): string {
+  const tag = formatDate(iso)
+  return `${weekdayName(iso, true)}, ${iso.slice(0, 4) === heute.slice(0, 4) ? tag.slice(0, 6) : tag}`
+}
+
+/** „Folge 7 von 13", „Folgen 4–6 von 13"; Nummern aus dem Termin, die Zahl mit ≈, wenn sie angenommen ist. */
+function folgenText(release: Release, events: ReturnType<typeof expandEvents>, kommend: ReleaseEvent): string {
+  if (kommend.episode == null || release.releaseType !== 'weekly') return ''
+  const bis = folgenblockBis(events, kommend)
+  const von = bis ? `Folgen ${kommend.episode}–${bis}` : `Folge ${kommend.episode}`
+  const gesamt = release.schedule.episodeCount
+  if (!gesamt) return von
+  return `${von} von ${release.schedule.episodeCountAssumed ? '≈' : ''}${gesamt}`
+}
+
+/** Was das Datum ohne künftigen Termin bedeutet; „Im Angebot seit" ≠ „erschienen am" (`dateMeaning`). */
+function datumBedeutung(release: Release, kommend: boolean): string {
+  if (release.erstausgabe) return 'Erstveröffentlichung'
+  if (release.dateMeaning === 'available-from') return kommend ? 'im Angebot ab diesem Tag' : 'im Angebot seit diesem Tag'
+  if (kommend) return ''
+  return release.releaseType === 'weekly' ? 'erste Folge' : 'erschienen'
+}
+
+/** Die Eckdaten des Vorschaubilds in der Darstellung „Datum groß": dieselben Aussagen wie `terminZeilen`, anders verteilt. */
+export function terminKopf(release: Release, events: ReturnType<typeof expandEvents>, today: string): TerminKopf | undefined {
+  const kommend = events.find((e) => e.date >= today)
+  const termin = kommend ?? events[0]
+  if (!termin) return undefined
+  const datum = datumKurz(termin.date, today)
+  if (!kommend) return { datum, folge: '', fakt: datumBedeutung(release, false) }
+  const zeit = kommend.time ? `${kommend.timeEstimated ? '≈ ' : ''}${kommend.time} Uhr` : release.releaseType === 'disc' ? 'im Handel' : 'Uhrzeit noch offen'
+  const folge = folgenText(release, events, kommend)
+  return { datum, folge, fakt: folge ? zeit : [datumBedeutung(release, true), zeit].filter(Boolean).join(' · ') }
+}

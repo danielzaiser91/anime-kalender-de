@@ -260,19 +260,23 @@ export function geteilteWegeTrotzWiderlegung(releases: Release[], titles: Map<nu
   return fehler
 }
 
+/** Die Schlüssel `titleId|platform`, deren Termine **alle** eine Sprachkennzeichnung (`sprache`: omu/offen) tragen. */
+export function alleTermineGekennzeichnet(releases: Release[]): Set<string> {
+  const alle = new Map<string, boolean>()
+  for (const r of releases) {
+    const k = `${r.titleId}|${r.platform}`
+    alle.set(k, (alle.get(k) ?? true) && Boolean(r.sprache))
+  }
+  return new Set([...alle].filter(([, gekennzeichnet]) => gekennzeichnet).map(([k]) => k))
+}
+
 /**
  * Ein Stream trägt kein „deutsch", wenn alle Termine seines Anbieters eine Sprachkennzeichnung (`sprache`: omu/offen) haben:
  * Ein solcher Termin belegt keine Synchro (Beerus und Fool Night, Netflix, 13.10.2026).
  */
 export function deutschNurAusSpracheTermin(releases: Release[], titles: Map<number, Title>): string[] {
-  const alleGekennzeichnet = new Map<string, boolean>()
-  for (const r of releases) {
-    const k = `${r.titleId}|${r.platform}`
-    alleGekennzeichnet.set(k, (alleGekennzeichnet.get(k) ?? true) && Boolean(r.sprache))
-  }
   const fehler: string[] = []
-  for (const [k, gekennzeichnet] of alleGekennzeichnet) {
-    if (!gekennzeichnet) continue
+  for (const k of alleTermineGekennzeichnet(releases)) {
     const [id, plattform] = k.split('|')
     const weg = titles.get(Number(id))?.streams.find((s) => s.platform === plattform && s.dub === true)
     if (weg) fehler.push(`Anime ${id}: alle Termine auf ${plattform} tragen eine Sprachkennzeichnung, der Weg trägt trotzdem „deutsch"`)

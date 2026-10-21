@@ -8,6 +8,7 @@ import { todayIso } from '../../shared/time.ts'
 import type { Title } from '../../shared/types.ts'
 import type { DubCheck } from '../lib/dub-confirmed.ts'
 import type { MeldungEintrag, UrteilEintrag } from '../lib/haken-beleg.ts'
+import { leseZugeordnet } from '../lib/prime-meldung-riegel.ts'
 import type { JwBefund } from '../lib/jw-vertrauen.ts'
 import { kennzeichneJwSeiten } from './jw-seite-ton.ts'
 import { messungAusBelegen, neinAdressenAus } from './jw-seite-messung.ts'
@@ -16,7 +17,7 @@ import { logJwSeiten } from './11-6-jw-vertrauen.ts'
 
 export function kennzeichneCartoonJwSeiten(titel: Title[], belege: DubCheck[]): void {
   const urteile = readJson<Record<string, UrteilEintrag>>('data/urteile.json', {})
-  const meldungen = readJson<Record<string, MeldungEintrag>>('data/prime-zugeordnet.json', {})
+  const meldungen = leseZugeordnet<MeldungEintrag>()
   const ergebnis = kennzeichneJwSeiten({
     titel,
     befunde: readJson<Record<string, JwBefund>>('data/justwatch-audio.json', {}),

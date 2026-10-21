@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-10-17T08:02:24.727Z",
+  "scrapedAt": "2026-10-21T13:02:37.327Z",
   "window": {
-    "from": "2026-10-05",
-    "to": "2026-10-25"
+    "from": "2026-10-12",
+    "to": "2026-11-01"
   },
   "german": {
     "marriagetoxin s1": {
@@ -431,7 +431,8 @@
         "2026-09-05",
         "2026-09-12",
         "2026-09-26",
-        "2026-10-03"
+        "2026-10-03",
+        "2026-10-17"
       ],
       "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
       "seriesId": "G6793XKZY",
@@ -504,6 +505,10 @@
         {
           "date": "2026-10-03",
           "episode": 21
+        },
+        {
+          "date": "2026-10-17",
+          "episode": 22
         }
       ],
       "earliest": {
@@ -1651,7 +1656,8 @@
         "2026-09-19",
         "2026-09-26",
         "2026-10-03",
-        "2026-10-10"
+        "2026-10-10",
+        "2026-10-17"
       ],
       "rawTitle": "Jaadugar: A Witch in Mongolia Staffel 1 (Deutsch)",
       "seriesId": "GT00378078",
@@ -1692,6 +1698,10 @@
         {
           "date": "2026-10-10",
           "episode": 9
+        },
+        {
+          "date": "2026-10-17",
+          "episode": 10
         }
       ],
       "earliest": {
@@ -1708,7 +1718,8 @@
         "2026-08-23",
         "2026-08-30",
         "2026-09-06",
-        "2026-10-04"
+        "2026-10-04",
+        "2026-10-18"
       ],
       "rawTitle": "You and I Are Polar Opposites Staffel 2 (Deutsch)",
       "seriesId": "GT00365624",
@@ -1733,6 +1744,10 @@
         {
           "date": "2026-10-04",
           "episode": 11
+        },
+        {
+          "date": "2026-10-18",
+          "episode": 12
         }
       ],
       "earliest": {
@@ -1749,7 +1764,8 @@
         "2026-08-23",
         "2026-09-06",
         "2026-09-20",
-        "2026-10-04"
+        "2026-10-04",
+        "2026-10-18"
       ],
       "rawTitle": "Mushoku Tensei: Jobless Reincarnation Season 3 (Deutsch)",
       "seriesId": "G24H1N3MP",
@@ -1774,6 +1790,10 @@
         {
           "date": "2026-10-04",
           "episode": 12
+        },
+        {
+          "date": "2026-10-18",
+          "episode": 14
         }
       ],
       "earliest": {
@@ -1845,7 +1865,8 @@
       "dates": [
         "2026-09-27",
         "2026-10-04",
-        "2026-10-11"
+        "2026-10-11",
+        "2026-10-18"
       ],
       "rawTitle": "Overgeared Staffel 1 (Deutsch)",
       "seriesId": "GT00384004",
@@ -1862,6 +1883,10 @@
         {
           "date": "2026-10-11",
           "episode": 3
+        },
+        {
+          "date": "2026-10-18",
+          "episode": 4
         }
       ],
       "earliest": {
@@ -1875,7 +1900,8 @@
       "weekday": 6,
       "dates": [
         "2026-10-04",
-        "2026-10-11"
+        "2026-10-11",
+        "2026-10-18"
       ],
       "rawTitle": "Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship! Staffel 1 (Deutsch)",
       "seriesId": "GT00384006",
@@ -1888,6 +1914,10 @@
         {
           "date": "2026-10-11",
           "episode": 2
+        },
+        {
+          "date": "2026-10-18",
+          "episode": 3
         }
       ],
       "earliest": {
@@ -1916,109 +1946,30 @@
         "episode": 13
       },
       "weeklyConfirmed": false
+    },
+    "as a reincarnated aristocrat i ll use my appraisal skill to rise in the world s3": {
+      "time": "17:00",
+      "weekday": 6,
+      "dates": [
+        "2026-10-18"
+      ],
+      "rawTitle": "As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World Staffel 3 (Deutsch)",
+      "seriesId": "GG5H5XQMD",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world",
+      "observations": [
+        {
+          "date": "2026-10-18",
+          "episode": 1
+        }
+      ],
+      "earliest": {
+        "date": "2026-10-18",
+        "episode": 1
+      },
+      "weeklyConfirmed": false
     }
   },
   "slots": [
-    {
-      "key": "saga of tanya the evil s2",
-      "rawTitle": "Saga of Tanya the Evil Staffel 2 (Deutsch)",
-      "seriesId": "GR9P57W96",
-      "seriesUrl": "https://www.crunchyroll.com/de/series/GR9P57W96/saga-of-tanya-the-evil",
-      "date": "2026-10-07",
-      "time": "15:30",
-      "episode": 11,
-      "german": true
-    },
-    {
-      "key": "trapped in a dating sim the world of otome games is tough for mobs s2",
-      "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
-      "seriesId": "G0XHWM0D3",
-      "seriesUrl": "https://www.crunchyroll.com/de/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
-      "date": "2026-10-07",
-      "time": "17:30",
-      "episode": 11,
-      "german": true
-    },
-    {
-      "key": "hana kimi s2",
-      "rawTitle": "Hana-Kimi Staffel 2 (Deutsch)",
-      "seriesId": "GT00365568",
-      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00365568/hana-kimi",
-      "date": "2026-10-07",
-      "time": "18:00",
-      "episode": 13,
-      "german": true
-    },
-    {
-      "key": "tomb raider king s1",
-      "rawTitle": "Tomb Raider King Staffel 1 (Deutsch)",
-      "seriesId": "GT00378123",
-      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00378123/tomb-raider-king",
-      "date": "2026-10-07",
-      "time": "19:25",
-      "episode": 11,
-      "german": true
-    },
-    {
-      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
-      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
-      "seriesId": "GYZJ43JMR",
-      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
-      "date": "2026-10-09",
-      "time": "17:00",
-      "episode": 23,
-      "german": true
-    },
-    {
-      "key": "jaadugar a witch in mongolia s1",
-      "rawTitle": "Jaadugar: A Witch in Mongolia Staffel 1 (Deutsch)",
-      "seriesId": "GT00378078",
-      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00378078/jaadugar-a-witch-in-mongolia",
-      "date": "2026-10-10",
-      "time": "18:00",
-      "episode": 9,
-      "german": true
-    },
-    {
-      "key": "the 100 girlfriends who really really really really really love you s3",
-      "rawTitle": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 3 (Deutsch)",
-      "seriesId": "GNVHKN933",
-      "seriesUrl": "https://www.crunchyroll.com/de/series/GNVHKN933/the-100-girlfriends-who-really-really-really-really-really-love-you",
-      "date": "2026-10-11",
-      "time": "16:00",
-      "episode": 36,
-      "german": true
-    },
-    {
-      "key": "reborn as a space mercenary i woke up piloting the strongest starship s1",
-      "rawTitle": "Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship! Staffel 1 (Deutsch)",
-      "seriesId": "GT00384006",
-      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00384006/reborn-as-a-space-mercenary-i-woke-up-piloting-the-strongest-starship",
-      "date": "2026-10-11",
-      "time": "16:00",
-      "episode": 2,
-      "german": true
-    },
-    {
-      "key": "overgeared s1",
-      "rawTitle": "Overgeared Staffel 1 (Deutsch)",
-      "seriesId": "GT00384004",
-      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00384004/overgeared",
-      "date": "2026-10-11",
-      "time": "16:30",
-      "episode": 3,
-      "german": true
-    },
-    {
-      "key": "though i am an inept villainess s1",
-      "rawTitle": "Though I Am an Inept Villainess Staffel 1 (Deutsch)",
-      "seriesId": "GT00371881",
-      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371881/though-i-am-an-inept-villainess",
-      "date": "2026-10-11",
-      "time": "17:45",
-      "episode": 11,
-      "german": true
-    },
     {
       "key": "snowball earth s1",
       "rawTitle": "SNOWBALL EARTH Season 1 (Deutsch)",
@@ -2077,6 +2028,76 @@
       "date": "2026-10-16",
       "time": "17:00",
       "episode": 24,
+      "german": true
+    },
+    {
+      "key": "ascendance of a bookworm s4",
+      "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
+      "seriesId": "G6793XKZY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "date": "2026-10-17",
+      "time": "11:30",
+      "episode": 22,
+      "german": true
+    },
+    {
+      "key": "jaadugar a witch in mongolia s1",
+      "rawTitle": "Jaadugar: A Witch in Mongolia Staffel 1 (Deutsch)",
+      "seriesId": "GT00378078",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00378078/jaadugar-a-witch-in-mongolia",
+      "date": "2026-10-17",
+      "time": "18:00",
+      "episode": 10,
+      "german": true
+    },
+    {
+      "key": "you and i are polar opposites s2",
+      "rawTitle": "You and I Are Polar Opposites Staffel 2 (Deutsch)",
+      "seriesId": "GT00365624",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00365624/you-and-i-are-polar-opposites",
+      "date": "2026-10-18",
+      "time": "10:30",
+      "episode": 12,
+      "german": true
+    },
+    {
+      "key": "reborn as a space mercenary i woke up piloting the strongest starship s1",
+      "rawTitle": "Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship! Staffel 1 (Deutsch)",
+      "seriesId": "GT00384006",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00384006/reborn-as-a-space-mercenary-i-woke-up-piloting-the-strongest-starship",
+      "date": "2026-10-18",
+      "time": "16:00",
+      "episode": 3,
+      "german": true
+    },
+    {
+      "key": "overgeared s1",
+      "rawTitle": "Overgeared Staffel 1 (Deutsch)",
+      "seriesId": "GT00384004",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00384004/overgeared",
+      "date": "2026-10-18",
+      "time": "16:30",
+      "episode": 4,
+      "german": true
+    },
+    {
+      "key": "mushoku tensei jobless reincarnation s3",
+      "rawTitle": "Mushoku Tensei: Jobless Reincarnation Season 3 (Deutsch)",
+      "seriesId": "G24H1N3MP",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G24H1N3MP/mushoku-tensei-jobless-reincarnation",
+      "date": "2026-10-18",
+      "time": "17:00",
+      "episode": 14,
+      "german": true
+    },
+    {
+      "key": "as a reincarnated aristocrat i ll use my appraisal skill to rise in the world s3",
+      "rawTitle": "As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World Staffel 3 (Deutsch)",
+      "seriesId": "GG5H5XQMD",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world",
+      "date": "2026-10-18",
+      "time": "17:00",
+      "episode": 1,
       "german": true
     }
   ]

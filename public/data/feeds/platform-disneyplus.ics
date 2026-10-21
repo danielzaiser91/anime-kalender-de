@@ -6,18 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – disneyplus
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus@2026-10-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261009T170000Z
-DTEND:20261009T173000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 2/13
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
- ätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus ode
- r Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/15957
- /
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-196144-disneyplus@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261014

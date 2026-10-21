@@ -12,14 +12,19 @@ import { uebersetzeVerzeichnis } from '../pipeline/lib/ausgabe-kennung.ts'
 const KENNUNGEN = 'data/kennungen.json'
 const MARKE = '.eigene-kennungen'
 
-export function eigeneKennungen(): Plugin {
+/** Übersetzte Kopie von `public/data` (die Fassung, die `dist/data` bekommt): Dev-Server liefert sie aus, die Inhalts-Kennungen werden an ihr gerechnet. */
+export function uebersetzteKopie(wurzel = process.cwd()): string {
+  const kopie = join(wurzel, 'node_modules/.cache/ak-data')
+  rmSync(kopie, { recursive: true, force: true })
+  cpSync(join(wurzel, 'public/data'), kopie, { recursive: true })
+  uebersetzeVerzeichnis(kopie, join(wurzel, KENNUNGEN))
+  return kopie
+}
+
+export function eigeneKennungen(kopie: string): Plugin {
   return {
     name: 'eigene-kennungen',
     configureServer(server) {
-      const kopie = join(process.cwd(), 'node_modules/.cache/ak-data')
-      rmSync(kopie, { recursive: true, force: true })
-      cpSync(join(process.cwd(), 'public/data'), kopie, { recursive: true })
-      uebersetzeVerzeichnis(kopie, join(process.cwd(), KENNUNGEN))
       server.middlewares.use('/data', (req, res, next) => {
         const pfad = normalize(join(kopie, decodeURIComponent((req.url ?? '').split('?')[0]!)))
         if (!pfad.startsWith(kopie) || !existsSync(pfad) || extname(pfad) !== '.json') return next()

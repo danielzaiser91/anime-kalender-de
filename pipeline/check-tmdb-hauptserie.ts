@@ -3,7 +3,7 @@
  * Aufruf: `npm run check:logic`.
  */
 import { findeGeteilteHauptserien, streicheZuordnungen, type TitelKurz, type TmdbEintrag } from './lib/tmdb-hauptserie.ts'
-import { readJson } from './lib/util.ts'
+import { laufeInKulisse } from './lib/kulisse-lauf.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -46,19 +46,19 @@ pruefe('Film-Kennung bleibt (Movie sucht nur unter /movie)', suche([tv(1, 'Show'
 pruefe('echte TV-Serie ohne Geschwister bleibt', suche([tv(1, 'Show')], { 1: serie(5, 'Show') }).length === 0)
 pruefe('Gegenprobe: dasselbe Special mit fremdem Namen und fremder Folgenzahl fällt', suche([tv(1, 'Show'), kurz(9, 'SPECIAL', 'Anders')], show).length === 1)
 
-console.log('\nTMDB-Hauptserie: der Bestand (data/tmdb-titles.json)')
-const bestand = readJson<Record<string, TmdbEintrag>>('data/tmdb-titles.json', {})
-for (const id of [10010005, 10013612, 10014281]) pruefe(`aniSearch-Special ${id} trägt keine TMDB-Kennung`, !bestand[id]?.tmdbId, bestand[id])
-
-console.log('\nTMDB-Hauptserie: Banner und Folgen hängen an der Kennung (12.10.2026: 45 gestrichene Kennungen führten sie weiter)')
-const banner = readJson<Record<string, unknown>>('data/tmdb-banner.json', {})
-const folgen = readJson<Record<string, { tmdbId?: number }>>('data/tmdb-folgen.json', {})
-/* Ein Titel mit Staffel-0-Zuordnung (`tmdb-staffel0.json`) trägt keine Serienkennung, aber das Standbild seiner Folge. */
-const staffel0 = readJson<Record<string, unknown>>('data/tmdb-staffel0.json', {})
-const bannerOhneKennung = Object.keys(banner).filter((id) => !bestand[id]?.tmdbId && !(id in staffel0))
-const folgenAndere = Object.keys(folgen).filter((id) => folgen[id]!.tmdbId !== bestand[id]?.tmdbId)
-pruefe('kein Hintergrundbild (tmdb-banner.json) ohne Kennung in tmdb-titles.json oder Zuordnung in tmdb-staffel0.json', bannerOhneKennung.length === 0, bannerOhneKennung)
-pruefe('keine Folgenliste (tmdb-folgen.json) einer anderen Kennung als in tmdb-titles.json', folgenAndere.length === 0, folgenAndere)
+console.log('\nTMDB-Hauptserie: die Bestandsprüfung gegen eigene Kulissen (Kennungen aus der Kulisse, nie aus dem Sammlerstand)')
+const datei = (o: object) => JSON.stringify(o)
+const sauber = { 'data/tmdb-titles.json': datei({ 10010005: { miss: true }, 10013612: { miss: true }, 10014281: { miss: true }, 7: { tmdbId: 5 } }), 'data/tmdb-banner.json': datei({ 7: 'b.jpg' }), 'data/tmdb-folgen.json': datei({ 7: { tmdbId: 5 } }) }
+const bestandLauf = (aenderung: Record<string, string>) => laufeInKulisse('check-tmdb-hauptserie-bestand.ts', { ...sauber, ...aenderung })
+const titelDatei = (zusatz: object) => ({ 'data/tmdb-titles.json': datei({ ...JSON.parse(sauber['data/tmdb-titles.json']), ...zusatz }) })
+pruefe('Kulisse sauber: Bestandsprüfung grün', bestandLauf({}).code === 0, bestandLauf({}).aus)
+for (const id of [10010005, 10013612, 10014281]) {
+  pruefe(`Special ${id} mit TMDB-Kennung: rot`, bestandLauf(titelDatei({ [id]: { tmdbId: 5 } })).code === 1)
+}
+pruefe('Hintergrundbild ohne Kennung: rot', bestandLauf({ 'data/tmdb-banner.json': datei({ 7: 'b.jpg', 8: 'x.jpg' }) }).code === 1)
+pruefe('Hintergrundbild mit Staffel-0-Zuordnung statt Kennung: grün', bestandLauf({ 'data/tmdb-banner.json': datei({ 7: 'b.jpg', 8: 'x.jpg' }), 'data/tmdb-staffel0.json': datei({ 8: {} }) }).code === 0)
+pruefe('Folgenliste einer anderen Kennung: rot', bestandLauf({ 'data/tmdb-folgen.json': datei({ 7: { tmdbId: 6 } }) }).code === 1)
+pruefe('Folgenliste ohne Eintrag in tmdb-titles.json: rot', bestandLauf({ 'data/tmdb-folgen.json': datei({ 7: { tmdbId: 5 }, 9: { tmdbId: 5 } }) }).code === 1)
 
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)

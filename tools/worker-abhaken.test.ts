@@ -15,7 +15,7 @@ import { DatabaseSync } from 'node:sqlite'
 import { handlePruefung } from '../worker/src/pruefung.ts'
 import { PRUEFUNG_ID_AB } from '../worker/src/rohfolgen-seiten.ts'
 import { eintragsId, type Eintrag } from '../worker/src/titelzeile-format.ts'
-import { neueDatenbank, post, zahl } from './worker-titelzeile-hilfe.ts'
+import { lies, neueDatenbank, post, zahl } from './worker-titelzeile-hilfe.ts'
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -193,6 +193,25 @@ console.log('Versionskonflikt: Ein Titel, der zwischen Lesen und Schreiben geän
   pruefe(JSON.parse(t100.daten).t === 'Fremd' && t100.o === 3, 'die fremde Änderung bleibt erhalten, nichts überschrieben')
   await aufruf(env, { rohfolgenUebernommen: ids })
   pruefe(offen(db) === '0/0/0' && z.geschrieben === 1, `der nächste Bau hakt ihn ab (${offen(db)}, ${z.geschrieben} Zeile)`)
+}
+
+console.log('Fenster der offenen Meldungen: die ältesten 5000 aus beiden Quellen (vorher 500, 12.–16.10.2026 verstopft)')
+{
+  const db = neueDatenbank()
+  const env = { LAUF_TOKEN: 't', SITE_URL: 'https://attrappe.test/', DB: d1(db), BELEGE: belege } as never
+  const zeit = (s: number) => new Date(Date.parse('2026-10-01T00:00:00Z') + s * 1000).toISOString()
+  /* Jede Quelle über dem Fenster (sonst überlebt `DESC`) und verzahnt: Altzeilen zu geraden, Folgen der Titelzeile zu ungeraden Sekunden. */
+  const alt = db.prepare("INSERT INTO pruefung (id, plattform, url, befund, gemeldet_am, folge_nr) VALUES (?, 'netflix', ?, 'dub', ?, 1)")
+  for (let i = 1; i <= 5_002; i++) alt.run(900_000 + i, `https://www.netflix.com/title/8${i}`, zeit(2 * i))
+  const f = Array.from({ length: 5_001 }, (_, i) => [1, i + 1, `F${i + 1}`, `g${i}`, ['de'], 'ja', 'ja', 'gemessen', null, zeit(2 * i + 3), 0, 1, null, 0] as Eintrag)
+  const titelzeile = "INSERT INTO titel_zeile (url, plattform, nr, daten, gemeldet_am, offen_meldung, offen_rohfolge) VALUES ('https://www.netflix.com/title/7', 'netflix', 1, ?, ?, 5001, 0)"
+  db.prepare(titelzeile).run(JSON.stringify({ s: null, t: 'T', st: null, f }), zeit(10_003))
+  z.abfragen = 0
+  const offenListe = (await lies(env, '')).pruefungen as { id: number; gemeldet_am: string }[]
+  const am = offenListe.map((p) => p.gemeldet_am)
+  pruefe(offenListe.length === 5_000, `10.003 offen, geliefert ${offenListe.length}`)
+  pruefe(am.every((t, i) => i === 0 || am[i - 1]! < t) && am[0] === zeit(2), 'die ältesten zuerst, aufsteigend')
+  pruefe(am.at(-1) === zeit(5_001), `die jüngeren 5.003 fallen weg, aus beiden Quellen (${am.at(-1)})`)
 }
 
 if (fehler) {

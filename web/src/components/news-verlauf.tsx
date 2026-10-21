@@ -2,7 +2,7 @@ import type { Stand } from '../lib/news-verlauf.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { datumKurz, newsSatz } from '../lib/news-text.ts'
 import { quellenLabel } from './news-belege.tsx'
-import { hostVon, istLink } from '@shared/quelle.ts'
+import { belegLink, hostVon, istLink } from '@shared/quelle.ts'
 
 /**
  * **Der Verlauf unter der geltenden Meldung** (Entwurf B): kleine Zeitleiste, die überholten Stände
@@ -21,11 +21,16 @@ export function VerlaufZeilen({ staende }: { staende: Stand[] }) {
             <span className="tabular-nums">{datumKurz(s.am)}</span>
             {s.ueberholtAm && <span> · {t('news.ueberholtAm', { datum: datumKurz(s.ueberholtAm) })}</span>}
             <span className="block line-through">{newsSatz(s.m)}</span>
-            {belege.map((b) => (
-              <a key={b.url} href={b.url} target="_blank" rel="noopener noreferrer" className="mr-2 underline decoration-dotted underline-offset-2 hover:text-ak-text">
-                {quellenLabel(b as never)} ↗
-              </a>
-            ))}
+            {belege.map((b) => {
+              const ziel = belegLink(b)
+              return ziel ? (
+                <a key={b.url} href={ziel} target="_blank" rel="noopener noreferrer" className="mr-2 underline decoration-dotted underline-offset-2 hover:text-ak-text">
+                  {quellenLabel(b as never)} ↗
+                </a>
+              ) : (
+                <span key={b.url} className="mr-2">{quellenLabel(b as never)}</span>
+              )
+            })}
           </li>
         )
       })}

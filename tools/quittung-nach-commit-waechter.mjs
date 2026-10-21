@@ -109,13 +109,23 @@ export function pruefeMerkerPfade(ort, schritte) {
   )
 }
 
+/** Der Cache bringt keine Merker mit: Direkt nach seiner Wiederherstellung räumt dieser Schritt beide Ordner (sonst gäbe `commit-data.sh` sie nach dem Commit frei). */
+export const CACHE_AUFRAEUMEN = { name: 'Quittungs-Merker aus dem Cache verwerfen', run: 'rm -rf data/cache/quittung-offen data/cache/quittung-frei' }
+
+export function pruefeCacheAufraeumen(schritte) {
+  const restore = schritte.findIndex((s) => s?.name === 'AniList-Cache wiederverwenden')
+  if (restore < 0) return ['bestand-bauen.yml: Schritt „AniList-Cache wiederverwenden" fehlt']
+  if (isDeepStrictEqual(schritte[restore + 1], CACHE_AUFRAEUMEN)) return []
+  return [`bestand-bauen.yml: direkt nach dem Cache-Restore fehlt ${JSON.stringify(CACHE_AUFRAEUMEN)}`]
+}
+
 export function pruefeWorkflow(datei, doc) {
   const fehler = []
   for (const [job, inhalt] of Object.entries(doc?.jobs ?? {})) {
     const schritte = inhalt?.steps ?? []
     fehler.push(...pruefeJob(`${datei} → ${job}`, schritte))
     fehler.push(...pruefeMerkerPfade(`${datei} → ${job}`, schritte))
-    if (datei === 'bestand-bauen.yml' && job === 'bauen') fehler.push(...pruefeFest(schritte))
+    if (datei === 'bestand-bauen.yml' && job === 'bauen') fehler.push(...pruefeFest(schritte), ...pruefeCacheAufraeumen(schritte))
   }
   if (datei === 'bestand-bauen.yml' && !doc?.jobs?.bauen) fehler.push('bestand-bauen.yml: Job „bauen" fehlt')
   return fehler
