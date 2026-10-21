@@ -103,7 +103,14 @@ export function planeMutant(m, originale, cwd) {
 }
 
 function beendeBaum(kind) {
-  if (process.platform !== "win32") return kind.kill("SIGKILL")
+  if (process.platform !== "win32") {
+    try {
+      process.kill(-kind.pid, "SIGKILL")
+    } catch {
+      kind.kill("SIGKILL")
+    }
+    return
+  }
   try {
     execFileSync("taskkill", ["/F", "/T", "/PID", String(kind.pid)], { stdio: "ignore", windowsHide: true })
   } catch {
@@ -114,7 +121,7 @@ function beendeBaum(kind) {
 export function laufTest(befehl, cwd, timeoutSek) {
   return new Promise((fertig) => {
     let ausgabe = ""
-    const kind = spawn(befehl, { cwd, shell: true, stdio: ["ignore", "pipe", "pipe"], windowsHide: true })
+    const kind = spawn(befehl, { cwd, shell: true, detached: process.platform !== "win32", stdio: ["ignore", "pipe", "pipe"], windowsHide: true })
     const sammle = (d) => {
       ausgabe = (ausgabe + d).slice(-4000)
     }
