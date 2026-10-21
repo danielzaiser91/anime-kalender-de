@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-21T13:02:37.327Z",
+  "scrapedAt": "2026-10-21T14:02:46.558Z",
   "window": {
     "from": "2026-10-12",
     "to": "2026-11-01"
@@ -1532,7 +1532,7 @@
     },
     "re zero starting life in another world s4": {
       "time": "16:00",
-      "weekday": 3,
+      "weekday": 2,
       "dates": [
         "2026-05-27",
         "2026-06-03",
@@ -1540,7 +1540,8 @@
         "2026-06-17",
         "2026-09-09",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-21"
       ],
       "rawTitle": "Re:ZERO -Starting Life in Another World- Staffel 4 (Deutsch)",
       "seriesId": "GRGG9798R",
@@ -1573,6 +1574,10 @@
         {
           "date": "2026-10-15",
           "episode": 15
+        },
+        {
+          "date": "2026-10-21",
+          "episode": 17
         }
       ],
       "earliest": {
@@ -2098,6 +2103,16 @@
       "date": "2026-10-18",
       "time": "17:00",
       "episode": 1,
+      "german": true
+    },
+    {
+      "key": "re zero starting life in another world s4",
+      "rawTitle": "Re:ZERO -Starting Life in Another World- Staffel 4 (Deutsch)",
+      "seriesId": "GRGG9798R",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRGG9798R/rezero--starting-life-in-another-world-",
+      "date": "2026-10-21",
+      "time": "16:00",
+      "episode": 17,
       "german": true
     }
   ]
