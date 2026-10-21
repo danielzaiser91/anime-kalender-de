@@ -1017,6 +1017,7 @@
     offene: () => offeneEintraege().filter((e) => !istErledigt(e)),
     zustand: () => ({ kennung: kennung(location.href), eintragUrl: eintrag?.url ?? null, startseite: /\/home\/?$/.test(location.pathname) }),
     melden,
+    meldeGebiet: (url) => meldeWeg(offeneEintraege().find((e) => e.url === url) ?? { url }),
     merkeZiel,
     zeigeEnde: (info) =>
       zeigePruefung(
