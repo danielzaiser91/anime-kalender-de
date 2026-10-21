@@ -7,7 +7,7 @@
  * eigene Antwort lokal (Adresse → Zeitpunkt) und rechnet sie gegen `seit`: nur eine Antwort nach
  * der Wiedervorlage beantwortet sie. Nach 30 Tagen fragt die Liste wieder (Disney+ kann den Titel aufnehmen).
  */
-(() => {
+{
   const SCHLUESSEL = 'ak-disney-weg'
   const FRIST_MS = 30 * 24 * 60 * 60 * 1000
 
@@ -43,6 +43,9 @@
   }
 
   globalThis.akDisneyWeg = weg
-  if (typeof localStorage === 'undefined') return
-  globalThis.AK_DISNEY_WEG = weg({ dauer: localStorage, jetzt: () => Date.now() })
-})()
+  /* Ohne localStorage (Ladeprobe, gesperrter Speicher) gilt die Antwort nur bis zum Neuladen. */
+  const ram = new Map()
+  const imRam = { getItem: (k) => ram.get(k) ?? null, setItem: (k, v) => ram.set(k, v) }
+  const dauer = typeof localStorage === 'undefined' ? imRam : localStorage
+  globalThis.AK_DISNEY_WEG = weg({ dauer, jetzt: () => Date.now() })
+}

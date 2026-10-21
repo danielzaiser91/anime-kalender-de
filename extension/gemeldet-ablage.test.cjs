@@ -48,6 +48,7 @@ const seite = (speicher, uhr, zusatz = {}) => {
   }
   k.globalThis = k
   vm.runInNewContext(lies('disney-netz.js'), k)
+  vm.runInNewContext(lies('disney-weg.js'), k)
   return k
 }
 
