@@ -243,6 +243,7 @@ tools/design-klassen.mjs
 tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
 tools/feste-uhr.test.ts
+tools/heute-utc.mjs
 tools/hover-cover.test.ts
 tools/link-check-ende.test.ts
 tools/quarantaene-pruefungen.test.ts
