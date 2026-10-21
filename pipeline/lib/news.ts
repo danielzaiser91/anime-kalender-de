@@ -153,18 +153,18 @@ export function belegeVonRelease(r: Release): NewsBeleg[] | undefined {
   return nachUrl.size ? [...nachUrl.values()] : undefined
 }
 
-/**
- * **Die Termine als Meldungen** — angekündigt, auf Disc, im Kino, verschoben.
- *
- * Am 29.09.2026 aus `baueNews` herausgelöst (Längengrenze); dabei trägt jede Meldung ihre
- * **Quelle** — die Stelle, an der wir den Termin gelesen haben.
- */
 /** Die Marke „Deutsche TV-Premiere“ nur, wenn der Handbeleg unter den Belegen der Meldung selbst steht (Meldung = Aussage zu ihrem Tag). */
 function premiereSteht(r: Release): boolean {
   const quelle = r.premiere?.quelle
   return premiereBelegtTv(r) && !!quelle && (belegeVonRelease(r) ?? []).some((b) => b.url === quelle)
 }
 
+/**
+ * **Die Termine als Meldungen** — angekündigt, auf Disc, im Kino, verschoben.
+ *
+ * Am 29.09.2026 aus `baueNews` herausgelöst (Längengrenze); dabei trägt jede Meldung ihre
+ * **Quelle** — die Stelle, an der wir den Termin gelesen haben.
+ */
 function terminMeldungen(
   releases: Release[],
   nachId: Map<number, Title>,
@@ -455,7 +455,7 @@ export function baueNews(
   }
 
   /* 3. Termine: angekündigt, auf Disc, im Kino — und die, die niemand eingehalten hat. */
-  roh.push(...haltPremiereFest(historie, terminMeldungen(releases, nachId, heute)),...omuMeldungen([...titles, ...omuTitel], releases), ...offizielleMeldungen(titles, offizielle))
+  roh.push(...haltPremiereFest(historie, terminMeldungen(releases, nachId, heute)), ...omuMeldungen([...titles, ...omuTitel], releases), ...offizielleMeldungen(titles, offizielle))
   /* Das Datum: beim ersten Mal gemerkt, danach unverändert. */
   let datiert: DatiertNews[] = []
   for (const r of roh) {
