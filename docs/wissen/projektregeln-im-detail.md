@@ -393,7 +393,10 @@ bleiben englisch (`releaseType`, `firstEpisodeDate`), damit sie zu den Fremd-API
   wird nie gespeichert, sondern immer gegen das heutige Datum gerechnet.
 - Zeitzonen laufen ausschließlich über `shared/time.ts`. Alle Datumsangaben im Datensatz sind
   Ortszeit Europe/Berlin; die Umrechnung nach UTC für ICS und Google Calendar passiert dort
-  über `Intl`, damit die Sommerzeit stimmt.
+  über `Intl`, damit die Sommerzeit stimmt. „Heute“ ist `todayIso()`, nie
+  `new Date().toISOString().slice(0, 10)` (UTC, zwischen 0 und 2 Uhr Berliner Zeit der Vortag);
+  der Wächter `tools/heute-utc.mjs` (in `check:logic`, Grenze `tools/heute-utc-grenzen.json`, Grundstand
+  21.10.2026: 66 Stellen) lässt die Zahl nur sinken.
 
 ## Newsletter
 
