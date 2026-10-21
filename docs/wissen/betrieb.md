@@ -1850,6 +1850,16 @@ Häufigster Fehlschlag des Deploys aus dem geprüften Build: Zwischen Kettenlauf
 
 **Wächter:** `tools/worker-abhaken.test.ts` (in `check:worker`): 3.000 Ids, 200 Titelzeilen, D1-Attrappe mit 100 Bindungen und 50 Abfragen; rot bei Status ≠ 200, mehr als 50 Abfragen, Schreibzeilen in der Wiederholung oder fehlender Marke nach Teilerfolg.
 
+## Titelzeilen: Wiederöffnen, Löschen und Stapel unter 50 Abfragen (21.10.2026)
+
+**Grenze (Cloudflare, Workers Limits, 21.10.2026 abgerufen):** „A subrequest is any request a Worker makes using the Fetch API or to Cloudflare services like R2, KV, or D1“; 50 je Aufruf in der freien Stufe. D1-Abfragen zählen also; ein `batch` zählt als eine (gemessen 19.09.2026).
+
+**Gemessen (Attrappe mit 50er-Grenze, 215 Disney+-Titel, vor dem Fix):** `reoeffnen` brauchte 1 + 2 je Titel und brach nach der 50. Abfrage ab (nur 24 von 215 Titeln wieder geöffnet); Löschen nach Ids (`loescheTitelFolgen`) ebenso. Ein Netflix-Anbieter mit rund 1.000 Titeln wäre bei 2.000 Abfragen gelandet. Abhaken war schon gebündelt (16.10.).
+
+**Fix:** `titelzeile-buendel.ts` (`aendereGebuendelt`): ein Lesen, die `UPDATE`s im `batch` (100 je Stapel), Zusammenstöße der Versionsprüfung in der nächsten Runde (höchstens `VERSUCHE`). 215 Titel: 5 Abfragen (Wiederöffnen), 4 (Löschen). Löschen nach Adresse und Nummern bleibt einzeln (eine Adresse, wenige Zeilen).
+
+**Stapel:** Die D1-Abfragen von `titelzeilenImStapel` zählen zum `ANFRAGEN_BUDGET` (44); der Rest des Stapels (`verarbeiteStapel`) bekommt nur noch, was übrig ist. Eine Gruppe, die nicht mehr hineinpasst oder durch Zusammenstöße das Budget reißt, antwortet 503 „Subrequest-Budget des Stapels überschritten“ (die Erweiterung schickt neu). Ohne Zusammenstöße waren es höchstens 30 Abfragen (zehn Gruppen zu je 3); gerissen wurde die Grenze nur mit Wiederholungen. Wächter: `tools/worker-abhaken.test.ts` (Wiederöffnen/Löschen), `tools/worker-titelzeile-stapel-budget.test.ts` (Stapel), beide in `check:worker`.
+
 ## Wecker-Wache zählt einen roten Start nicht als erledigt (16.10.2026)
 
 Die Wache (`wecker-wache.yml`) wiederholte einen roten Lauf erst nach der vollen Frist (30 h), weil jeder nicht abgebrochene Start zählte. Jetzt entscheidet `tools/wecker-wache-entscheid.mjs`: Ist der neueste Start rot (failure, timed_out, startup_failure; nie cancelled, nie skipped — Abbrüche sind gewollt und zählen als Start), der letzte Erfolg älter als die Frist und der rote Start älter als 6 h, wird einmal nachgeholt; höchstens zwei Starts seit dem letzten Erfolg, danach schweigt die Wache bis zur vollen Frist (kein Dauerfeuer bei dauerhaft rotem Lauf). `meldungskopie.yml` fehlte am 16.10. um 03 UTC, weil ein Handlauf (15.10. 12:00, rot) den Mindestabstand von 20 h sperrte (jetzt 13 h) und der Worker nach PR 1244 vermutlich noch nicht neu ausgeliefert war. **Eine Änderung an `shared/weckplan.ts` wirkt erst nach `cd worker && npx wrangler deploy --config wrangler.toml`.**
