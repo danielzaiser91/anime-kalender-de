@@ -43,6 +43,7 @@ pipeline/check-beleg-api.ts
 pipeline/check-beleg-bis-anker.ts
 pipeline/check-beleg-href.ts
 pipeline/check-beleg-stoerung.ts
+pipeline/check-belegstaerke-forum.ts
 pipeline/check-belegstaerke.ts
 pipeline/check-bild-und-synchro.ts
 pipeline/check-bookworm-dublette.ts
@@ -140,6 +141,7 @@ pipeline/check-motn-reihe.ts
 pipeline/check-nein-handbeleg-abschluss.ts
 pipeline/check-nein-handbeleg-aufrufer.ts
 pipeline/check-nein-handbeleg-cr.ts
+pipeline/check-nein-handbeleg-datum.ts
 pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts
 pipeline/check-neuigkeiten-panel.ts
@@ -190,6 +192,7 @@ pipeline/check-sammelartikel.ts
 pipeline/check-sammler-lesezugriffe-faelle.ts
 pipeline/check-sammler-lesezugriffe.ts
 pipeline/check-schwester-shop.ts
+pipeline/check-screenshot-wiederholen.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-sprache-netz.ts
 pipeline/check-sprache-termin.ts
@@ -224,6 +227,7 @@ pipeline/check-urteil-spaet.ts
 pipeline/check-verpasst-verdrahtung.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts
+pipeline/check-verweise-von-hand.ts
 pipeline/check-vorfaelle-ablauf.ts
 pipeline/check-weg-adresse-bezugsweg.ts
 pipeline/check-wege-aus-terminen.ts
@@ -247,6 +251,7 @@ tools/feste-uhr.test.ts
 tools/heute-utc.mjs
 tools/hover-cover.test.ts
 tools/link-check-ende.test.ts
+tools/link-check-zeitbudget.test.ts
 tools/quarantaene-pruefungen.test.ts
 tools/quellen-gesundheit.test.ts
 tools/quittung-nach-commit-waechter.mjs
