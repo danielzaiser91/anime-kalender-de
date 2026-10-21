@@ -19,6 +19,7 @@ import { readOffers, type TmdbOffer } from './lib/tmdb.ts'
 import { recordSource } from './lib/health.ts'
 import { findeGeteilteHauptserien, streicheZuordnungen } from './lib/tmdb-hauptserie.ts'
 import { inhaltsStand, streicheAbgelaufenes, STREICH_TAGE } from './lib/tmdb-ablauf.ts'
+import { waehleBesten, type Bester, type SearchHit } from './lib/tmdb-titel-treffer.ts'
 import { kinoFehlt, kinostartsDe, type ReleaseDatesAntwort } from './lib/tmdb-kino-zuletzt.ts'
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
@@ -76,6 +77,8 @@ export interface TmdbTitle {
   justwatchUrl?: string
   /** Alle deutschen Kinostarts des Films (Typ 2/3, `JJJJ-MM-TT`); leer, wenn TMDB keinen führt. Nur Filme. */
   kinoDe?: string[]
+  /** TMDB-Genres des Treffers (16 = Animation); ohne sie ist die Zuordnung ungeprüft (`fetch-tmdb-genre.ts`, `check-tmdb-genre.ts`). */
+  genreIds?: number[]
   /** Nichts gefunden. Kein Dauerzustand: Nach `--alter` Tagen wird erneut gesucht. */
   miss?: true
   /** Wann dieser Eintrag zuletzt von TMDB geholt wurde (ISO-Datum). */
@@ -106,50 +109,6 @@ function providerToPlatform(name: string): PlatformId | undefined {
   return undefined
 }
 
-/** Vergleichsform: Kleinschreibung, ohne Satzzeichen, ohne Füllwörter. */
-function normalize(value: string): string {
-  return value
-    .toLowerCase()
-    .replace(/[:!?,.'"„“”–—_-]/g, ' ')
-    .replace(/\b(the|a|an|der|die|das|season|staffel|part|cour)\b/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-}
-
-/**
- * Ähnlichkeit über gemeinsame Wörter. Reicht hier: Es geht nur darum, einen
- * offensichtlich falschen Treffer zu erkennen, nicht um Feinabstufungen.
- */
-function similarity(a: string, b: string): number {
-  const wordsA = new Set(normalize(a).split(' ').filter((w) => w.length > 2))
-  const wordsB = new Set(normalize(b).split(' ').filter((w) => w.length > 2))
-  if (!wordsA.size || !wordsB.size) return 0
-  let shared = 0
-  for (const word of wordsA) if (wordsB.has(word)) shared++
-  /*
-    **Geteilt wird durch den längeren Titel** (17.09.2026). Vorher stand hier
-    `Math.min`, und damit passte jeder kurze Titel zu 100 % in einen längeren
-    fremden: „Your Name." bekam die Kennung von „Call Me by Your Name" (Daniel,
-    mit Bild — die Apple-TV-Pille führte auf den falschen Film, die Handlung war
-    die falsche, und JustWatch fand den Titel nicht mehr, weil die Kennung nicht
-    passte). Ein Titel muss den anderen **ausfüllen**, nicht nur in ihm vorkommen.
-  */
-  return shared / Math.max(wordsA.size, wordsB.size)
-}
-
-interface SearchHit {
-  id: number
-  name?: string
-  title?: string
-  original_name?: string
-  original_title?: string
-  first_air_date?: string
-  release_date?: string
-  /** Wie bekannt der Eintrag ist — der Unterschied zwischen dem Werk und einer leeren Karteileiche. */
-  popularity?: number
-  vote_count?: number
-}
-
 async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
   const isMovie = title.format === 'MOVIE'
   const kind = isMovie ? 'movie' : 'tv'
@@ -173,7 +132,7 @@ async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
   ) as string[]
   if (!candidates.length) return { miss: true }
 
-  let best: { hit: SearchHit; score: number; gewicht: number } | undefined
+  let best: Bester | undefined
 
   for (const query of candidates) {
     const url =
@@ -188,24 +147,7 @@ async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
     }
     await sleep(40)
 
-    for (const hit of results.slice(0, 5)) {
-      const hitYear = Number((hit.first_air_date ?? hit.release_date ?? '').slice(0, 4))
-      // Jahr muss passen — dieselbe Serie in einem anderen Jahr ist eine andere Staffel.
-      if (title.jpYear && hitYear && Math.abs(hitYear - title.jpYear) > 1) continue
-      const names = [hit.name, hit.title, hit.original_name, hit.original_title].filter(Boolean) as string[]
-      const score = Math.max(...names.map((n) => similarity(query, n)), 0)
-      /*
-        **Bei gleichem Namen entscheidet, welcher Eintrag das Werk ist** (17.09.2026).
-        TMDB führt zu „Your Name" einen leeren Eintrag ohne Datum und ohne eine einzige
-        Stimme (553301) neben dem Film mit 12.992 Stimmen (372058). Die Suche nahm den
-        ersten mit passendem Namen und brach ab; jetzt werden alle Schreibweisen geprüft,
-        und bei gleichem Namen gewinnt der bekanntere.
-      */
-      const gewicht = (hit.vote_count ?? 0) + (hit.popularity ?? 0)
-      if (score < 0.75) continue
-      if (!best || score > best.score || (score === best.score && gewicht > best.gewicht))
-        best = { hit, score, gewicht }
-    }
+    best = waehleBesten(best, query, results, title.jpYear)
   }
 
   if (!best) return { miss: true }
@@ -219,6 +161,7 @@ async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
       title?: string
       first_air_date?: string
       release_date?: string
+      genres?: { id: number }[]
     }>(
       `${BASE}/${kind}/${best.hit.id}?api_key=${apiKey}&language=de-DE`,
     )
