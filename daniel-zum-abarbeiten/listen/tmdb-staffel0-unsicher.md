@@ -1,6 +1,6 @@
 # TMDB-Staffel 0: unsichere Treffer
 
-Erzeugt von `pipeline/lib/tmdb-staffel0-abruf.ts` (im Plakat-Lauf). 150 Titel sind zugeordnet (`data/tmdb-staffel0.json`), 114 unsicher (diese Liste), 0 ohne Zuordnung, weil zwei Titel dieselbe Folge träfen.
+Erzeugt von `pipeline/lib/tmdb-staffel0-abruf.ts` (im Plakat-Lauf). 151 Titel sind zugeordnet (`data/tmdb-staffel0.json`), 114 unsicher (diese Liste), 0 ohne Zuordnung, weil zwei Titel dieselbe Folge träfen.
 Sicher heißt: Datum höchstens ±1 Tag, Name der Folge gleich (englisch oder japanisch), Länge gleich, einziger Treffer. Die Spalte „Tage“ ist TMDB minus unser japanischer Start.
 
 | Titel | Start | TMDB | Werte | Grund |
