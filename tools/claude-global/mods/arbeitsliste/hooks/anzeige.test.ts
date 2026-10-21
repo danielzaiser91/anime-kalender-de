@@ -45,10 +45,11 @@ test('Leiste: zwei Knöpfe mit Zahlen, zwei leere Bälle, eine Zeile', async ($,
   expect((await band.find({ key: 'oeffnen' }))?.props.label).toBe('Arbeitsliste 4')
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s).toBe('Agents 3Arbeitsliste 4○○')
+  expect(reihe.s).toBe('Agents 3Arbeitsliste 4○○○')
   const baum = JSON.stringify(await band.drawn())
   expect(baum).toContain('{"color":"success"},"children":["○"]')
   expect(baum).toContain('{"color":"warning"},"children":["○"]')
+  expect(baum).toContain('{"color":"suggestion"},"children":["○"]')
   await band.unmount()
 })
 
@@ -80,7 +81,7 @@ test('Autonomer Modus an: Endzeit in Statuszeile und Leiste, kein Now-Eintrag', 
   const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s).toBe('Agents 0Arbeitsliste 0●○')
+  expect(reihe.s).toBe('Agents 0Arbeitsliste 0◉○○')
   await band.unmount()
 })
 
@@ -100,76 +101,73 @@ test('Leiste: Ruhemodus an ist der zweite Ball gefüllt, der erste leer', async 
   const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s.endsWith('○●')).toBe(true)
+  expect(reihe.s.endsWith('○◉○')).toBe(true)
   await band.unmount()
 })
 
 
-test('Leiste: Ruhemodus sanft zeigt die Sanduhr, solange mehr als 1 Agent läuft', async ($, on) => {
+test('Leiste: Ruhemodus sanft zeigt die Sanduhr, solange mehr als 2 Agenten laufen', async ($, on) => {
   starte(on, null, [], true, STAND, 'sanft', 3)
   await $.session.start({ cwd: 'C:/x', surface: 'desktop', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'desktop' })
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s).toBe('Agents 3Arbeitsliste 0○●⧗')
+  expect(reihe.s).toBe('Agents 3Arbeitsliste 0○◉⧗○')
   await band.unmount()
 })
 
-test('Leiste: Ruhemodus sanft ohne Sanduhr, sobald höchstens 1 Agent läuft', async ($, on) => {
-  starte(on, null, [], true, STAND, 'sanft', 1)
+test('Leiste: Ruhemodus sanft ohne Sanduhr, sobald höchstens 2 Agenten laufen', async ($, on) => {
+  starte(on, null, [], true, STAND, 'sanft', 2)
   await $.session.start({ cwd: 'C:/x', surface: 'desktop', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'desktop' })
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s).toBe('Agents 1Arbeitsliste 0○●')
+  expect(reihe.s).toBe('Agents 2Arbeitsliste 0○◉○')
   await band.unmount()
 })
 
-test('Leiste: Ruhemodus sanft zählt Prüfer nicht — 1 Agent und 2 Prüfer ohne Sanduhr', async ($, on) => {
-  starte(on, null, [], true, STAND, 'sanft', 3, null, 2)
+test('Leiste: Ruhemodus sanft zählt Prüfer nicht — 2 Agenten und 2 Prüfer ohne Sanduhr', async ($, on) => {
+  starte(on, null, [], true, STAND, 'sanft', 4, 2)
   await $.session.start({ cwd: 'C:/x', surface: 'desktop', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'desktop' })
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s).toBe('Agents 1+2Arbeitsliste 0○●')
+  expect(reihe.s).toBe('Agents 2+2Arbeitsliste 0○◉○')
   await band.unmount()
 })
 
-test('Leiste: Markerdatei „hart“ oder leer heißt Ruhemodus hart', async ($, on) => {
+test('Leiste: Markerdatei „hart“ zeigt keine Sanduhr', async ($, on) => {
   starte(on, null, [], true, STAND, 'hart', 3)
   await $.session.start({ cwd: 'C:/x', surface: 'desktop', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'desktop' })
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s).toBe('Agents 3Arbeitsliste 0○●')
+  expect(reihe.s).toBe('Agents 3Arbeitsliste 0○◉○')
   await band.unmount()
 })
 
-const ZAEHLER = '{"seitBericht":3,"letzterBericht":{"zeit":"2026-10-11T11:00:00Z","leck":false,"waisen":0}}'
-
-test('Leiste: „Lecks n/5“ mit Urteil des letzten Berichts, ohne Zählerdatei nichts', async ($, on) => {
-  starte(on, null, [], true, MIT_DANIEL, false, 0, ZAEHLER)
-  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
-  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
-  const reihe = { s: '' }
-  zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s).toBe('Agents 0Arbeitsliste 4○○Lecks 3/5 ✓')
-  expect(JSON.stringify(await band.drawn())).toContain('{"color":"success"},"children":["Lecks 3/5 ✓"]')
-  await band.unmount()
-})
-
-// Desktop zeichnet dieselben Textzeichen wie das Terminal: keine Bilder, die beim Neuzeichnen leer blinken.
-test('Leiste auf dem Desktop: Textzeichen statt Bilder, gefüllt = an, leer = aus, zwei Farben', async ($, on) => {
-  const bis = new Date(Date.now() + 3_600_000).toISOString()
-  starte(on, bis, [], true, STAND, false, 0, ZAEHLER)
+test('Leiste: leere Markerdatei gilt als sanft, bei 3 Agenten steht die Sanduhr', async ($, on) => {
+  starte(on, null, [], true, STAND, true, 3)
   await $.session.start({ cwd: 'C:/x', surface: 'desktop', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'desktop' })
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s).toBe('Agents 0Arbeitsliste 0●○Lecks 3/5 ✓')
+  expect(reihe.s).toBe('Agents 3Arbeitsliste 0○◉⧗○')
+  await band.unmount()
+})
+
+// Desktop zeichnet dieselben Textzeichen wie das Terminal: keine Bilder, die beim Neuzeichnen leer blinken.
+test('Leiste auf dem Desktop: Textzeichen statt Bilder, gefüllt = an, leer = aus, drei Farben', async ($, on) => {
+  const bis = new Date(Date.now() + 3_600_000).toISOString()
+  starte(on, bis, [], true, STAND)
+  await $.session.start({ cwd: 'C:/x', surface: 'desktop', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'desktop' })
+  const reihe = { s: '' }
+  zeilen(await band.drawn(), [], reihe)
+  expect(reihe.s).toBe('Agents 0Arbeitsliste 0◉○○')
   const baum = JSON.stringify(await band.drawn())
   expect(baum).not.toContain('"Svg"')
-  expect(baum).toContain('{"color":"success"},"children":["●"]')
+  expect(baum).toContain('{"color":"success"},"children":["◉"]')
   expect(baum).toContain('{"color":"warning"},"children":["○"]')
   await band.unmount()
 })
@@ -679,5 +677,19 @@ test('Pane: leere Bereiche zeigen „nichts“ nur, solange sie offen sind', asy
   expect(await nichts()).toBe(0)
   await oeffneAlle(pane)
   expect(await nichts()).toBe(3)
+  await pane.unmount()
+})
+
+test('Leiste: Sparmodus an ist der dritte Ball gefüllt, das Pane nennt ihn', async ($, on) => {
+  starte(on, null, [], true, STAND, false, 0, 0, true)
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  const reihe = { s: '' }
+  zeilen(await band.drawn(), [], reihe)
+  expect(reihe.s).toBe('Agents 0Arbeitsliste 0○○◉')
+  await band.unmount()
+  const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
+  await oeffneAlle(pane)
+  expect(zeilen(await pane.drawn())).toContain('● Sparmodus: nur Sonnet mittel und Haiku als Subagenten')
   await pane.unmount()
 })

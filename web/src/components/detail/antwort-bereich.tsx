@@ -1,5 +1,6 @@
 import { AntwortKasten } from './antwort-kasten.tsx'
 import { FolgenMitNachlegern } from './nachleger-zeilen.tsx'
+import { deutscheBereicheDerWege } from './stream-bereiche.ts'
 import type { StreamLink, Release, Title, DiscAusgabe } from '@shared/types.ts'
 import { alleOhneSprachbeleg, legendeDerZeilen, zeilenGruppen } from './legende-zeilen.ts'
 import type { TvZuletzt } from '../../lib/tv-zuletzt.ts'
@@ -60,7 +61,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
           today={today}
           wegeHinweis={wegeHinweis}
           notiz={kastenNotiz?.note}
-          folgen={<FolgenMitNachlegern titleId={title.id} antwort={antwort} releases={releases} today={today} laufzeitImKopf={Boolean(title.runtimeMin)} />}
+          folgen={<FolgenMitNachlegern titleId={title.id} wege={deutscheBereicheDerWege(title)} antwort={antwort} releases={releases} today={today} laufzeitImKopf={Boolean(title.runtimeMin)} />}
           schnitt={kastenNotiz?.schnitt}
           angebotSeit={angebotSeitZeileVon(title, t)}
           kaufausgabe={kaufausgabeZeile}
@@ -78,7 +79,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                     : t('detail.noDubWatchOpen')}
                 </p>
                 {favorites.has(title.id) && (
-                  <p className="mt-1 text-t4 font-semibold text-ak-finale-text">
+                  <p className="mt-1 text-t4 font-semibold text-ak-favorit-text">
                     {t('detail.noDubWatched')}
                   </p>
                 )}

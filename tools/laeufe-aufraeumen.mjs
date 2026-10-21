@@ -20,7 +20,8 @@
  *   LAUF_TOKEN=… node tools/laeufe-aufraeumen.mjs [--auch-github] [--trocken]
  */
 import { execFileSync } from 'node:child_process'
-import { holeLaeufe } from './laeufe-abruf.mjs'
+import { holeLaeufe, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
+import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
 
 const WORKER = 'https://newsletter.animekalender.workers.dev/lauf'
 const REPO = 'danielzaiser91/anime-kalender-de'
@@ -31,8 +32,39 @@ const TOKEN = process.env.LAUF_TOKEN
 
 const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 })
 
+async function stillstandMelden() {
+  const am = await letzteDatenAenderung(fetch, REPO)
+  if (!am) return console.log('STILLSTAND? Letzte Änderung von public/data nicht lesbar')
+  const s = stillstand(am, Date.now())
+  if (s.zuLang) console.log(`STILLSTAND: public/data seit ${s.stunden.toFixed(1)} h unverändert (Grenze ${STILLSTAND_GRENZE_STUNDEN} h, letzter Commit ${am})`)
+}
+
+/**
+ * Der Untersucher läuft nur nach rotem Bau, spätere Läufe sind `skipped`; sein "grün danach" misst der Bau selbst
+ * (20.10.2026: Warnung "PR deckt den Fehler ab" stand nach grünem Bau weiter).
+ */
+const GRUEN_MISST_AN = { 'Claude — roten Datenlauf untersuchen': 'bestand-bauen.yml' }
+
+/**
+ * Jüngster erfolgreicher Lauf je Workflow, einzeln gefragt: Die letzten 60 Läufe aller Workflows reichten am 18.10.2026
+ * nur eine Stunde zurück, jeder seltenere Workflow galt so als rot. Ein Name ohne GitHub-Workflow fehlt in der Map.
+ */
+function letzterGruenJe(namen) {
+  const gruen = new Map()
+  for (const name of namen) {
+    try {
+      const [lauf] = JSON.parse(gh('run', 'list', '--repo', REPO, '--workflow', GRUEN_MISST_AN[name] ?? name, '--status', 'success', '--limit', '1', '--json', 'createdAt'))
+      if (lauf) gruen.set(name, lauf.createdAt)
+    } catch {}
+  }
+  return gruen
+}
+
 async function main() {
-  const { liste, meldung } = await holeLaeufe(fetch, WORKER)
+  // Ein roter Sammler-Fund lässt den Lauf grün; er bleibt als PR liegen und muss hier auffallen (tools/rote-sammler-prs.mjs).
+  meldeRoteSammlerPrs()
+  await stillstandMelden()
+  const { liste, verlauf, meldung } = await holeLaeufe(fetch, WORKER)
   if (meldung) {
     console.error(meldung)
     process.exitCode = TROCKEN ? 0 : 1
@@ -40,18 +72,13 @@ async function main() {
   }
   const rote = liste.filter((l) => l.zustand === 'fehler' || l.zustand === 'warnung')
   console.log(`${liste.length} Läufe in der App, ${rote.length} rot`)
-  if (!rote.length) return
-
+  // Rote Läufe stehen seit 28.09.2026 nur im Verlauf, nicht in `liste` (18.10.2026: elf Stunden Stillstand bei „0 rot“).
   // Je Workflow der jüngste erfolgreiche Lauf — der Prüfstein für „überholt".
-  const roh = JSON.parse(
-    gh('run', 'list', '--repo', REPO, '--limit', '60', '--json', 'workflowName,conclusion,createdAt'),
-  )
-  const letzterGruen = new Map()
-  for (const r of roh) {
-    if (r.conclusion !== 'success') continue
-    const bisher = letzterGruen.get(r.workflowName)
-    if (!bisher || r.createdAt > bisher) letzterGruen.set(r.workflowName, r.createdAt)
+  const letzterGruen = letzterGruenJe(new Set([...roteArten(verlauf).map((r) => r.art), ...rote.map((l) => l.workflow)]))
+  for (const r of roteArten(verlauf, letzterGruen)) {
+    console.log(`ROT im Verlauf: ${r.art} — letzter Lauf ${r.zustand} am ${r.am} (vor ${r.stunden.toFixed(1)} h, kein grüner Lauf danach)`)
   }
+  if (!rote.length) return
 
   let abgenommen = 0
   let gelassen = 0

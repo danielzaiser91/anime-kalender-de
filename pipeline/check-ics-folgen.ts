@@ -48,7 +48,22 @@ function gegenfaelle(): void {
   pruefe('Reihenfolge: ein Eintrag steht, wo sein erster Termin stand', gemischt.map((g) => g.uid.split('@')[0]).join() === 'a1,m,a2', gemischt)
 }
 
+/** Die Beschreibung des ersten Eintrags (Faltungen aufgelöst). */
+function beschreibung(e: ReleaseEvent): string {
+  return /DESCRIPTION:(.*)\r\n[A-Z]/.exec(buildIcs([e]).replace(/\r\n /g, ''))?.[1] ?? ''
+}
+
+function releaseArt(): void {
+  console.log('\nRelease-Art: „Simuldub“ nur ohne gesetzte Sprache (Beerus, omu):')
+  pruefe('ohne Sprache: „Wöchentlich (Simuldub)“', beschreibung(ev(1)).includes('Release-Art: Wöchentlich (Simuldub)'), beschreibung(ev(1)))
+  for (const sprache of ['omu', 'offen'] as const) {
+    const b = beschreibung(ev(1, { sprache }))
+    pruefe(`Sprache ${sprache}: Kurzform „Wöchentlich“, kein „Simuldub“`, b.includes('Release-Art: Wöchentlich\\n') && !b.includes('Simuldub'), b)
+  }
+}
+
 fall()
 gegenfaelle()
+releaseArt()
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(verletzt ? 1 : 0)

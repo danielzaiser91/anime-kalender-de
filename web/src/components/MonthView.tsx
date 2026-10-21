@@ -7,7 +7,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { useAbSm } from '../lib/use-breit.ts'
 import { coverBild } from '../lib/cover.ts'
 import { istStaffelstart } from '../lib/staffelstart.ts'
-import { ART_STIL, anbieterNamenDerKachel, artName, kartenArt, termineDerKachel, type KartenArt } from '../lib/kachel-folgen.ts'
+import { ART_STIL, anbieterNamenDerKachel, artName, kartenArt, randKlassen, termineDerKachel, type KartenArt } from '../lib/kachel-folgen.ts'
 import { tageDerWoche, type Tag } from './WeekView.tsx'
 import { buendeleKacheln } from '../lib/buendel.ts'
 import { anbieterVerlauf, eigenstaendigBeiAnbietern, kanalAnbieterVon, vereineAnbieter, zeitGemeinsam, type AnbieterKachel } from '../lib/anbieter-kachel.ts'
@@ -24,6 +24,8 @@ export interface MonatProps {
   events: ReleaseEvent[]
   anchorDate: string
   hidden: Set<number>
+  /** Titel-IDs der Favoriten: ihre Cover und Punkte tragen den goldenen Rand. */
+  favorites?: Set<number>
   onOpen: (slug: string, date: string) => void
   /** Tag in der Woche zeigen (springt dort zu diesem Tag). */
   onPickDay: (date: string) => void
@@ -183,7 +185,7 @@ function ZelleHandy({ tag, stream, tv, p, heute, t }: ZellProps) {
 }
 
 /** Am Handy ein Punkt je Streaming-Termin in der Anbieterfarbe statt 22 px großer Cover (kein Bild geladen); die Titel nennt der Knopf per aria-label und die Tagesliste. */
-function PunkteReihe({ stream, p }: { stream: ReleaseEvent[]; p: MonatProps }) {
+export function PunkteReihe({ stream, p }: { stream: ReleaseEvent[]; p: MonatProps }) {
   const zeigen = stream.length > PUNKTE_MAX ? stream.slice(0, PUNKTE_MAX - 1) : stream
   const mehr = stream.length - zeigen.length
   return (
@@ -193,6 +195,7 @@ function PunkteReihe({ stream, p }: { stream: ReleaseEvent[]; p: MonatProps }) {
           key={ev.id}
           data-monatspunkt
           data-art={p.arten?.get(ev.id)}
+          data-favorit={p.favorites?.has(ev.titleId) ? '' : undefined}
           className="ak-punkt block size-2.5 rounded-full"
           style={{ '--punkt': PLATFORMS[ev.platform]?.color, background: farbleiste(ev, p) } as CSSProperties}
         />
@@ -240,10 +243,12 @@ function farbleiste(ev: ReleaseEvent, p: MonatProps): string {
 }
 
 /** Ein Cover ohne Text: Zeigen nennt die Einzelheiten, ein Klick öffnet das Panel. */
-function CoverKnopf({ ev, p }: { ev: ReleaseEvent; p: MonatProps }) {
+export function CoverKnopf({ ev, p }: { ev: ReleaseEvent; p: MonatProps }) {
   const { t } = useLang()
   const cover = p.data.titleById.get(ev.titleId)?.coverImage
+  const favorit = !!p.favorites?.has(ev.titleId)
   const a = p.arten?.get(ev.id)
+  const rand = randKlassen(a, favorit)
   return (
     <Schwebe art="zeigen" breite={300} inhalt={<TerminZeile ev={ev} p={p} gross />}>
       <button
@@ -251,11 +256,13 @@ function CoverKnopf({ ev, p }: { ev: ReleaseEvent; p: MonatProps }) {
         onClick={() => p.onOpen(ev.releaseSlug, ev.date)}
         aria-label={`${ev.name} — ${(p.mehrere?.get(ev.id) ?? [p.buendel?.get(ev.id) ?? [ev]]).map((b) => anbieterUndFolge(b[0]!, t, b)).join('; ')}`}
         className={[
-          'relative block h-8 w-[22px] shrink-0 cursor-pointer overflow-hidden rounded-[5px] bg-ak-flaeche-2 transition hover:scale-105 sm:h-14 sm:w-[38px] sm:rounded-md',
-          a ? `ring-2 ${ART_STIL[a].ring}` : '',
+          'ak-ring-oben relative block h-8 w-[22px] shrink-0 cursor-pointer overflow-hidden rounded-t-[5px] bg-ak-flaeche-2 transition hover:scale-105 focus-visible:-outline-offset-2 sm:h-14 sm:w-[38px] sm:rounded-t-md',
+          a || favorit ? 'ring-2' : '',
+          rand.aussen,
         ].join(' ')}
       >
         {cover && <img {...coverBild(cover, 38)} alt="" loading="lazy" className="size-full object-cover" />}
+        {rand.innen && <span className={`pointer-events-none absolute inset-0 rounded-t-[5px] border border-ak-flaeche inset-ring-2 sm:rounded-t-md ${rand.innen}`} />}
         <span className="absolute inset-x-0 bottom-0 h-[3px]" style={{ background: farbleiste(ev, p) }} />
       </button>
     </Schwebe>
@@ -319,9 +326,10 @@ function TvInhalt({ tag, p }: { tag: Tag; p: MonatProps }) {
 }
 
 /** Eine Zeile mit Cover, Zeit, Titel und „Anbieter · Folge" — in der Hover-Karte groß. */
-function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?: boolean }) {
+export function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?: boolean }) {
   const { t } = useLang()
   const cover = p.data.titleById.get(ev.titleId)?.coverImage
+  const favorit = !!p.favorites?.has(ev.titleId)
   const a = p.arten?.get(ev.id)
   const kachel = p.mehrere?.get(ev.id)
   return (
@@ -331,8 +339,10 @@ function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?
       onClick={() => p.onOpen(ev.releaseSlug, ev.date)}
       className="grid w-full cursor-pointer grid-cols-[auto_minmax(0,1fr)] items-center gap-2.5 rounded-xl p-1.5 text-left transition hover:bg-ak-flaeche-2"
     >
-      <span className={`relative block overflow-hidden rounded-md bg-ak-flaeche-2 ${gross ? 'h-24 w-16' : 'h-14 w-10'}`}>
-        {cover && <img {...coverBild(cover, gross ? 64 : 40)} alt="" loading="lazy" className="size-full object-cover" />}
+      <span className={`relative block ${gross ? 'h-24 w-16' : 'h-14 w-10'}`}>
+        <span className={`ak-ring-oben-leiste absolute inset-0 overflow-hidden rounded-t-md bg-ak-flaeche-2 ${favorit ? 'ring-2 ring-ak-favorit-rand' : ''}`}>
+          {cover && <img {...coverBild(cover, gross ? 64 : 40)} alt="" loading="lazy" className="size-full object-cover" />}
+        </span>
         <span className="absolute inset-x-0 bottom-0 h-[3px]" style={{ background: farbleiste(ev, p) }} />
       </span>
       <span className="flex min-w-0 flex-col items-start gap-1">

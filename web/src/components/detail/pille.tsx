@@ -101,7 +101,6 @@ export function legendeFuer(arten: Iterable<DubStatusArt>, geschaetzt: boolean, 
     da.has('justwatch') ? t('detail.legendeJustwatch') : '',
     da.has('schwester') ? t('detail.legendeSchwester') : '',
     da.has('annahme') ? t('detail.legendeAnnahme') : '',
-    da.has('omu') ? t('detail.legendeOmu') : '',
     da.has('offen') ? t('detail.legendeOffen') : '',
     geschaetzt ? t('detail.legendeGeschaetzt') : '',
   ].filter(Boolean)

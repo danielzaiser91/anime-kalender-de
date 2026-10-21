@@ -18,7 +18,7 @@
  *     → public/data/pruefstand.json (Status-App) → Commit, Pull Request, Deploy
  *
  * Das Skript fährt alle vier, prüft danach, dass jeder neue Eintrag in seiner Liste **und** im
- * Prüfstand steht, und reicht einen Pull Request ein (Auto-Merge, seit 11.10.2026). `--pruefen` hält dieselbe Kette in `check:vor-commit` fest: Wer
+ * Prüfstand steht, und reicht einen Pull Request ein (seit 11.10.2026; gemergt wird von Hand nach `pr-nachrechnen.mjs`). `--pruefen` hält dieselbe Kette in `check:vor-commit` fest: Wer
  * die YAML-Datei von Hand ändert und die Listen vergisst, bekommt einen roten Lauf statt einer
  * stillen Lücke.
  */
@@ -28,8 +28,20 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
 import { verdachtsfaelle } from './verdacht.mjs'
+import { legeWorktreeAn } from './erneut-melden-worktree.mjs'
 
-const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+const haupt = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+const args = process.argv.slice(2)
+const grundIdx = args.indexOf('--grund')
+const grund = grundIdx >= 0 ? args[grundIdx + 1] : 'erneut melden'
+const ohnePush = args.includes('--ohne-push')
+const nurNeu = args.includes('--neu-erzeugen')
+const kennungen = args.filter((a, i) => !a.startsWith('--') && !(grundIdx >= 0 && i === grundIdx + 1))
+/* Wer einreicht, arbeitet in einem eigenen Arbeitsbaum auf origin/main; der Hauptordner bleibt unberührt (Anlass 20.10.2026). */
+const einreichen = !args.includes('--pruefen') && !ohnePush && (nurNeu || kennungen.length > 0)
+const arbeitsbaum = einreichen ? legeWorktreeAn(haupt, new Date().toISOString().replace(/[-:TZ.]/g, '').slice(0, 14)) : null
+if (arbeitsbaum) process.on('exit', arbeitsbaum.aufraeumen)
+const wurzel = arbeitsbaum ? arbeitsbaum.pfad : haupt
 const YAML = 'data/erneut-melden.yaml'
 const ANBIETER = {
   netflix: { liste: 'extension/offene-netflix.js', erzeuger: 'tools/extension-offene-liste.mjs' },
@@ -108,13 +120,6 @@ function erzeugen() {
   lauf('node tools/pruefstand.mjs')
 }
 
-const args = process.argv.slice(2)
-const grundIdx = args.indexOf('--grund')
-const grund = grundIdx >= 0 ? args[grundIdx + 1] : 'erneut melden'
-const ohnePush = args.includes('--ohne-push')
-const nurNeu = args.includes('--neu-erzeugen')
-const kennungen = args.filter((a, i) => !a.startsWith('--') && !(grundIdx >= 0 && i === grundIdx + 1))
-
 const neu = []
 for (const k of nurNeu ? [] : kennungen) {
   const [idText, plattform] = k.split(':')
@@ -172,9 +177,7 @@ if (fehlt) process.exit(1)
 if (ohnePush) process.exit(0)
 
 lauf('npm run check:vor-commit')
-/* Direkt nach main geht seit dem 11.10.2026 nichts mehr (Ruleset `main-pruefweg`): eigener Zweig, Pull Request, Auto-Merge. */
-const vorher = execSync('git rev-parse --abbrev-ref HEAD', { cwd: wurzel, encoding: 'utf8' }).trim()
-lauf(`git switch -q -c erneut-melden/${new Date().toISOString().replace(/[-:TZ.]/g, '').slice(0, 14)}`)
+/* Direkt nach main geht seit dem 11.10.2026 nichts mehr (Ruleset `main-pruefweg`): eigener Zweig (im Arbeitsbaum angelegt), Pull Request (ohne Auto-Merge). */
 lauf(`git add ${DATEIEN.join(' ')}`)
 const nachricht = `Prüfliste: ${neu.map((n) => `${name(n.id)} (${n.plattform})`).join(', ')} erneut melden\n\nGrund: ${grund}. Erzeugt von tools/erneut-melden.mjs.`
 execSync('git commit -q -F -', { cwd: wurzel, input: nachricht, stdio: ['pipe', 'inherit', 'inherit'] })
@@ -200,5 +203,4 @@ try {
   console.log(`Konflikt mit einem Bestandslauf gelöst: ${konflikte.join(', ')} neu erzeugt.`)
 }
 execFileSync('bash', ['tools/pr-einreichen.sh', nachricht.split('\n')[0]], { cwd: wurzel, stdio: 'inherit' })
-if (vorher !== 'HEAD') lauf(`git switch -q ${vorher}`)
-console.log('Als Pull Request eingereicht — GitHub mergt nach der Freigabe selbst, danach zeigt die Status-App die Titel.')
+console.log('Als Pull Request eingereicht — Merge nach Freigabe und `node tools/pr-nachrechnen.mjs <PR>` von Hand, danach zeigt die Status-App die Titel.')

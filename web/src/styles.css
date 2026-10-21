@@ -40,6 +40,9 @@
   --color-ak-tv: var(--ak-tv);
   --color-ak-tv-grund: var(--ak-tv-grund);
   --color-ak-tv-rand: var(--ak-tv-rand);
+  --color-ak-favorit: var(--ak-favorit);
+  --color-ak-favorit-text: var(--ak-favorit-text);
+  --color-ak-favorit-rand: var(--ak-favorit-rand);
   --color-ak-finale: var(--ak-finale);
   --color-ak-finale-text: var(--ak-finale-text);
   --color-ak-katalog: var(--ak-katalog);
@@ -86,8 +89,12 @@ html.dark {
   --ak-tv: #3cc7b4;
   --ak-tv-grund: #121821;
   --ak-tv-rand: #1f2a2f;
-  --ak-finale: #f5c542;
-  --ak-finale-text: #f5c542;
+  --ak-favorit: #f5c542;
+  --ak-favorit-text: #f5c542;
+  --ak-favorit-rand: #f5c542;
+  /* Staffelfinale: Gelbgrün (Farbton ~98°), 35° neben Favorit-Gold und 60° neben dem Smaragd von „gut“ (17.10.2026). */
+  --ak-finale: #86d93a;
+  --ak-finale-text: #86d93a;
   --ak-katalog: #a78bfa;
   --ak-katalog-text: #a78bfa;
   --ak-marke: #cbd5e1;
@@ -151,8 +158,12 @@ html:not(.dark) {
   --ak-tv: #0b7568;
   --ak-tv-grund: #eaf4f2;
   --ak-tv-rand: #c7e1dc;
-  --ak-finale: #f5c542;
-  --ak-finale-text: #8a6300;
+  --ak-favorit: #f5c542;
+  --ak-favorit-text: #8a6300;
+  /* Rand der Kachel hell: 3,3:1 gegen den Seitengrund (#f5c542 hat dort 1,47:1); weiter klar Gold (Farbton ~43°), 55° neben dem Finale-Grün (17.10.2026). */
+  --ak-favorit-rand: #b07d00;
+  --ak-finale: #4a9a12;
+  --ak-finale-text: #356f0c;
   --ak-katalog: #8b6cf0;
   --ak-katalog-text: #5b3fc4;
   --ak-marke: #cbd5e1;
@@ -189,6 +200,14 @@ html,
 body,
 #root {
   height: 100%;
+}
+
+/*
+  Der Platz der Bildlaufleiste bleibt auch bei `overflow: hidden` (Panel, Dialoge, Kino) reserviert; sonst springt die Seite um die Leistenbreite.
+  Überlagernde Leisten (Telefone, Emulation mit `isMobile`) brauchen keinen Platz, die Regel kostet dort 0 px.
+*/
+html {
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -396,24 +415,46 @@ html:not(.dark) .ak-punkt {
 }
 .ak-punkt[data-art] {
   margin: 2px;
-  outline: 2px solid var(--ak-akzent);
+  --art: var(--ak-akzent);
+  outline: 2px solid var(--art);
   outline-offset: 1px;
 }
 .ak-punkt[data-art='finale'] {
-  outline-color: var(--ak-finale-text);
+  --art: var(--ak-finale-text);
 }
 .ak-punkt[data-art='katalog'],
 .ak-punkt[data-art='katalogVermutlich'] {
-  outline-color: var(--ak-katalog-text);
+  --art: var(--ak-katalog-text);
 }
 /* Im Angebot (kein Erscheinungstag): schlichter Punkt ohne Ring, damit er nicht wie ein Staffelstart aussieht. */
 .ak-punkt[data-art='imAngebot'] {
   margin: 0;
   outline: none;
 }
+/*
+  Favorit (17.10.2026): goldener Ring. Ohne Auszeichnung sitzt er ohne Rand, damit der Punkt nicht wächst; mit Auszeichnung
+  liegt deren Farbe als 1-px-Innenring darin, dann 1 px Fuge in der Flächenfarbe der Zelle, außen Gold.
+*/
+.ak-punkt[data-favorit] {
+  outline: 1.5px solid var(--ak-favorit-rand);
+  outline-offset: 0;
+}
+.ak-punkt[data-favorit][data-art]:not([data-art='imAngebot']) {
+  outline: 2px solid var(--ak-favorit-rand);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px var(--art), 0 0 0 2px var(--ak-flaeche);
+}
 /* Katalog-Release: Ring und leises Leuchten in der Farbe der Fahne heben ihn von Start und Finale ab; ersetzt den Ring der Klasse `ring-2`, weil beide `box-shadow` setzen. */
 .ak-katalog-glanz {
   box-shadow: 0 0 0 2px var(--ak-katalog), 0 0 18px -2px var(--ak-katalog);
+}
+/* Cover mit Anbieterleiste: Ring und Glanz enden an der Unterkante, sonst läge unter der Leiste ein Streifen Goldrand und schöbe sie bei Favoriten nach oben. */
+.ak-ring-oben {
+  clip-path: inset(-20px -20px 0 -20px);
+}
+/* Woche und Tageszeile: Die Leiste ist ein Geschwister und auf ganze Pixel gerundet, das Cover hat eine gebrochene Unterkante; clip-path rundet nicht und ließe eine halbe Ringzeile unter der Leiste. 1 px höher schneiden: die Leiste (Woche 4 px, Tageszeile 3 px) deckt es. */
+.ak-ring-oben-leiste {
+  clip-path: inset(-20px -20px 1px -20px);
 }
 .ak-vorbei .ak-titel {
   color: var(--ak-leise);

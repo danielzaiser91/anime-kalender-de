@@ -58,13 +58,14 @@ jobs:
           # `mergeable` steht direkt nach dem Anlegen auf UNKNOWN. Hier ist das
           # kein Problem: Dieser Lauf startet erst, wenn der Sammler fertig ist,
           # und der hat die Berechnung bereits abgewartet.
-          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable,author,isCrossRepository \
-            --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.author.login == "app/anime-kalender-daten" and .isCrossRepository == false) | select(.mergeable != "MERGEABLE")]' > /tmp/offen.json
+          # Titel mit „[Prüfung rot]“ (Datenprüfung des Sammlers rot, tools/quellen-pr.sh) bleiben beiden Listen fern: erst beheben, dann Marke entfernen.
+          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable,author,isCrossRepository,title \
+            --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.title | startswith("[Prüfung rot]") | not) | select(.author.login == "app/anime-kalender-daten" and .isCrossRepository == false) | select(.mergeable != "MERGEABLE")]' > /tmp/offen.json
           ANZAHL="$(jq 'length' /tmp/offen.json)"
           NUMMERN="$(jq -r '[.[].number] | join(", ")' /tmp/offen.json)"
           # Mergebar und trotzdem offen: der Merge des Sammlers ist gescheitert (Bypass, Rennen um main) — der Job `nachholen` holt ihn nach.
-          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable \
-            --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.mergeable == "MERGEABLE") | .number] | join(" ")' > /tmp/mergebar.txt
+          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable,title \
+            --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.title | startswith("[Prüfung rot]") | not) | select(.mergeable == "MERGEABLE") | .number] | join(" ")' > /tmp/mergebar.txt
           echo "mergebar=$(cat /tmp/mergebar.txt)" >> "$GITHUB_OUTPUT"
           echo "offen=$ANZAHL" >> "$GITHUB_OUTPUT"
           echo "nummern=$NUMMERN" >> "$GITHUB_OUTPUT"
@@ -201,7 +202,13 @@ jobs:
               zusammenführen und bauen" beim nächsten planmäßigen Lauf,
               spätestens eine Stunde später.
 
-      # Gemergt wird mit dem Token der App anime-kalender-daten: Nur sie umgeht das Ruleset `main-pruefweg` (11.10.2026). Was Claude offen ließ, ist weiter im Konflikt und bleibt stehen.
+      # Die Action druckt nur Init und Ergebnis; was Claude getan hat (und warum ein PR im Konflikt blieb), steht sonst nirgends (Lauf 39397639406).
+      - name: Ablauf von Claude zeigen
+        if: always()
+        continue-on-error: true
+        run: node tools/claude-ablauf-zeigen.mjs "$RUNNER_TEMP/claude-execution-output.json"
+
+      # Gemergt wird mit dem Token der App anime-kalender-daten: Nur sie umgeht das Ruleset `main-pruefweg` (11.10.2026). Was Claude offen ließ, ist weiter im Konflikt: `daten-pr-mergen.sh` färbt den Lauf dann rot.
       - name: App-Token holen
         id: app
         uses: actions/create-github-app-token@v3

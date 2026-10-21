@@ -32,7 +32,7 @@ Das ist der Kern, und der häufigste Denkfehler:
 
 | | Was es ist | Heute | Grenze | Wer es merkt |
 |---|---|---|---|---|
-| **Ladelast** | was ein Besucher wirklich herunterlädt | **142 KB** (gzip) | gefühlt ab ~1 MB | jeder Besucher, sofort |
+| **Ladelast** | was ein Besucher wirklich herunterlädt | **≈ 305 KB** (gzip, Start; Stand 20.10.2026, Wächter `tools/start-budget.mjs`, Grenze 310 KB, Ziel 300 KB) | gefühlt ab ~1 MB | jeder Besucher, sofort |
 | **Veröffentlichte Seite** | Inhalt von `dist/` | 20 MB | **1 GB** (GitHub Pages) | niemand, bis es reißt |
 | **Repo** | alles inkl. Rohdaten und Historie | 108 MB (`.git` 64 MB gepackt) | ~1 GB empfohlen | nur wer klont |
 
@@ -43,14 +43,19 @@ nachdenkt, muss auf die erste Zeile schauen, nicht auf die dritte.
 
 ### Was der Erstaufruf tatsächlich kostet
 
-| Datei | roh | über die Leitung |
-|---|---|---|
-| `index-*.js` (App) | 302 KB | 94 KB |
-| `titles-core.json` | 117 KB | 27 KB |
-| `events.json` | 118 KB | 9 KB |
-| `releases.json` | 66 KB | 9 KB |
-| `meta.json` | 8 KB | 3 KB |
-| **Summe** | | **≈ 142 KB** |
+| Datei | über die Leitung |
+|---|---|
+| `index.html` | 3,7 KB |
+| `index-*.js` (App) | 210,7 KB |
+| `index-*.css` | 25,7 KB |
+| `meta.json` | 2,2 KB |
+| `woche.json` (Wochenansicht) | 40,0 KB |
+| Schriften (`manrope-latin`, `unbounded-700-de` Teilmenge, woff2) | 34,1 KB |
+| **Summe** | **≈ 327 KB** |
+
+Gezählt wird, was der Wächter `tools/start-budget.mjs` misst (Stand 18.10.2026). Ohne Bedienung lädt die Seite danach innerhalb von
+etwa 6 s die vollen Dateien nach (`titles-core`, `releases`, `events` ≈ 337 KB, `planeNachladen`; dazu der Precache des Service Workers):
+nicht im Wächter, offen als Folgeauftrag. Alle Zahlen: Playwright-Messung gegen `dist`, 360 und 1280 px.
 
 Nachgeladen wird nur, wer es anfordert:
 
@@ -59,7 +64,7 @@ Nachgeladen wird nur, wer es anfordert:
 - Cover-Bilder direkt von AniList, nicht von uns
 
 Diese Trennung ist die wichtigste Architekturentscheidung des Projekts und der Grund, warum
-der Kalender trotz 2.753 Titeln in 142 KB startet.
+der Kalender trotz 2.753 Titeln in rund 327 KB startet.
 
 ## Wo wir an den Grenzen stehen
 
@@ -68,7 +73,7 @@ Quelle: [GitHub Pages limits](https://docs.github.com/en/pages/getting-started-w
 | Grenze | Wert | Heute | Abstand |
 |---|---|---|---|
 | Veröffentlichte Seite | 1 GB | 20 MB | **50-fach** |
-| Bandbreite | 100 GB/Monat | ~142 KB je Aufruf | reicht für **~700.000 Aufrufe/Monat** |
+| Bandbreite | 100 GB/Monat | ~327 KB je Aufruf (Start) | reicht für **~300.000 Aufrufe/Monat** |
 | Builds pro Stunde | 10 (entfällt bei eigenem Actions-Workflow — den haben wir) | 3 Läufe/Tag | greift nicht |
 | Deploy-Dauer | 10 Minuten | ~2 Minuten | 5-fach |
 | Datei | 100 MB | größte: 2,6 MB | 38-fach |

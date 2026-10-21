@@ -20,58 +20,19 @@ export function OhneSynchroSchalter({ t, zahl, ohneOffen, onChange }: { t: Trans
   )
 }
 
-/**
- * Kopf der Reihenliste (klebt oben im Scrollbereich): Suche mit Schalter, darunter die Reiter.
- * Feste Höhe (4,5 rem), damit Liste und Kopf nicht springen, wenn Reiter oder Schalter wechseln.
- */
-export function ReihenKopf({ t, suche, onSuche, schalter, reiterZeile, reiter, aktiv, onReiter }: {
-  t: Translate
-  suche: string
-  onSuche: (text: string) => void
-  schalter: ReactNode
-  reiterZeile: boolean
-  reiter: { titel: string; anzahl: number }[] | null
-  aktiv: string | undefined
-  onReiter: (titel: string) => void
-}) {
+/** Kopf der Reihenliste bei langen Reihen: Suche mit Schalter, eine feste Zeile von 44 px, damit nichts springt, wenn der Schalter wechselt. */
+export function ReihenKopf({ t, suche, onSuche, schalter }: { t: Translate; suche: string; onSuche: (text: string) => void; schalter: ReactNode }) {
   return (
-    <div className="sticky -top-2 z-10 -mx-2 -mt-2 mb-1 flex flex-col gap-1.5 bg-white/95 px-2 pb-1.5 pt-2 dark:bg-slate-900/95">
-      <div className="flex h-11 items-center gap-2">
-        <input
-          type="search"
-          value={suche}
-          onChange={(e) => onSuche(e.target.value)}
-          placeholder={t('detail.reiheSuche')}
-          aria-label={t('detail.reiheSuche')}
-          className="h-11 min-w-0 flex-1 rounded-lg border border-slate-300 bg-transparent px-3 text-t3 dark:border-white/10"
-        />
-        {schalter}
-      </div>
-      {reiterZeile && (
-        <div className="flex h-11 items-center gap-1 overflow-x-auto whitespace-nowrap [scrollbar-width:none]">
-          {reiter && (
-            <div role="tablist" className="flex gap-1">
-              {reiter.map((g) => (
-                <button
-                  key={g.titel}
-                  type="button"
-                  role="tab"
-                  aria-selected={g.titel === aktiv}
-                  onClick={() => onReiter(g.titel)}
-                  className={[
-                    'min-h-11 cursor-pointer rounded-full px-3 text-t4 transition',
-                    g.titel === aktiv
-                      ? 'bg-sky-500/20 font-semibold text-sky-700 dark:text-sky-200'
-                      : 'text-slate-600 hover:bg-ak-flaeche-2 dark:text-slate-300',
-                  ].join(' ')}
-                >
-                  {g.titel} <span className="tabular-nums">{g.anzahl}</span>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+    <div className="mb-1 flex h-11 items-center gap-2">
+      <input
+        type="search"
+        value={suche}
+        onChange={(e) => onSuche(e.target.value)}
+        placeholder={t('detail.reiheSuche')}
+        aria-label={t('detail.reiheSuche')}
+        className="h-11 min-w-0 flex-1 rounded-lg border border-ak-rand bg-transparent px-3 text-t3"
+      />
+      {schalter}
     </div>
   )
 }

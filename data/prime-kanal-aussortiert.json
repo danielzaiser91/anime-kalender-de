@@ -390,5 +390,91 @@
         "sprachen": "[\"English\"]"
       }
     ]
+  },
+  "https://watch.amazon.de/detail?gti=amzn1.dv.gti.ec42c902-df70-4ac2-b114-31d74f2f96ba#B0F3TCT3TG#26649": {
+    "titleId": 21699,
+    "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.ec42c902-df70-4ac2-b114-31d74f2f96ba",
+    "seite": "B0F3TCT3TG",
+    "andereAdresse": "https://www.amazon.de/gp/video/detail/B0F5J5JTSL",
+    "folgen": [
+      {
+        "id": 26649,
+        "nummer": 1,
+        "titel": "Ein Segen für diese strahlende Zukunft!",
+        "sprachen": "[\"English\",\"日本語\"]"
+      },
+      {
+        "id": 26650,
+        "nummer": 2,
+        "titel": "Ein Lächeln für das nicht lächelnde Mädchen",
+        "sprachen": "[\"English\",\"日本語\"]"
+      },
+      {
+        "id": 26651,
+        "nummer": 3,
+        "titel": "Eine Umerziehung für dieses kluge Mädchen!",
+        "sprachen": "[\"English\",\"日本語\"]"
+      },
+      {
+        "id": 26652,
+        "nummer": 4,
+        "titel": "Eine göttliche Strafe für diesen hübschen Gentleman-Dieb!",
+        "sprachen": "[\"English\",\"日本語\"]"
+      },
+      {
+        "id": 26653,
+        "nummer": 5,
+        "titel": "Einen schlechten Freund für diese wohlbehütete Prinzessin!",
+        "sprachen": "[\"English\",\"日本語\"]"
+      },
+      {
+        "id": 26654,
+        "nummer": 6,
+        "titel": "Ein Lebewohl für diesen wunderbaren Lebensstil!",
+        "sprachen": "[\"English\",\"日本語\"]"
+      },
+      {
+        "id": 26655,
+        "nummer": 7,
+        "titel": "Eine Rast für diesen aufstrebenden Abenteurer!",
+        "sprachen": "[\"English\",\"日本語\"]"
+      },
+      {
+        "id": 26656,
+        "nummer": 8,
+        "titel": "Einen ewigen Schlaf für den Meister dieses Sees!",
+        "sprachen": "[\"English\",\"日本語\"]"
+      },
+      {
+        "id": 26657,
+        "nummer": 9,
+        "titel": "Eine Standpauke für die Ausreißerin!",
+        "sprachen": "[\"English\",\"日本語\"]"
+      },
+      {
+        "id": 26658,
+        "nummer": 10,
+        "titel": "Einen Segen für diese egoistische Braut!",
+        "sprachen": "[\"English\",\"日本語\"]"
+      },
+      {
+        "id": 26659,
+        "nummer": 11,
+        "titel": "Einen Segen für diesen unveränderlichen Alltag!",
+        "sprachen": "[\"English\",\"日本語\"]"
+      },
+      {
+        "id": 26660,
+        "nummer": 12,
+        "titel": "Achtung, Fälschung!",
+        "sprachen": "[\"日本語\"]"
+      },
+      {
+        "id": 26661,
+        "nummer": 13,
+        "titel": "Red Stream Explosion!",
+        "sprachen": "[\"日本語\"]"
+      }
+    ]
   }
 }

@@ -437,7 +437,12 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
 ## Link-Vorschau im Poster-Stil (27.09.2026)
 
 `pipeline/build-og.ts` zeichnet die 1200×630-Bilder jetzt wie die Seite (`lib/og-karte.ts`): Cover
-links, Anbieter-Chips, Titel in Unbounded, Eckdaten als Raster, Wortmarke. Zu wissen:
+links, Anbieter-Chips, Titel in Unbounded, Eckdaten als Raster, Wortmarke. **Seit 20.10.2026 (Fassung
+`kino-1`, Daniels Wahl F8):** Layout „Kino" — Cover als Plakat rechts und unscharf als Hintergrund,
+links Marke „Block AK" (`lib/og-marke.ts`) mit Wortmarke, Titel, Datumsmarke (`terminKopf` in
+`lib/og-termin.ts`) mit Folgen daneben, Chips unten; das Standardbild (`lib/og-standard-bild.ts`) trägt
+Glut, Wasserzeichen und drei Aussagen, ohne Datum in der Kennung. Der Raster-Absatz oben und die
+Schriften darunter stimmen weiter; Raster, Genres und Label entfielen. Zu wissen:
 
 - **Schriften:** Pango (in sharp) liest weder WOFF noch eine eigene fontconfig-Datei — beides fällt
   lautlos auf eine Ersatzschrift zurück. `lib/og-schriften.ts` packt die WOFF aus `@fontsource` in
@@ -1089,3 +1094,11 @@ Entschieden (Daniel, 14.10.2026, F7): „Seiten gewinnen“ gilt auch im Katalog
 Lehre: Ein Genre-Riegel (Animation) trennt nicht Serie von Webvideo. „The Orange SMP“ (Minecraft-Fanprojekt, TMDB 329249) kam über den Lauf „angekündigt“ ohne `watch_region`. Seit 16.10.2026 braucht ein Cartoon ohne deutschen Anbieter ein Netzwerk, das kein Webkanal ist, oder ein Studio (`pipeline/lib/cartoon-aufnahme.ts`); der Eintrag bleibt in `data/cartoons.json`, nur `schreibeCartoons` blendet ihn aus. Wächter: `check-cartoon-aufnahme.ts` (check:logic), `check-cartoon-aufnahme-bestand.ts` (check:bestand). Gemessen 16.10.2026: 11 von 924 Cartoons betroffen.
 
 Restlücke (16.10.2026): Ein Netzwerk gilt als Beleg, auch wenn es ein Fan-Kanal ist („Ian Channel (US)“ bei „The Sister Hand and Twilight Sparkle Show“), und ein Studio auch, wenn es eine Einzelperson ist („JS Productions“ bei „Battle for the Apps Server!“). Beides lässt sich aus den TMDB-Feldern nicht belegen; erst `type`/`production_countries` aus TMDB könnten helfen. Das Studio „Independent“ (HaneKage) zählt seit dem Nachtrag nicht als Studio. Ablauftest des Baus: `check-cartoon-aufnahme-bau.ts` (check:logic, Kulisse über `AK_ROOT`).
+
+## `empfehlung.json`: Pool für „Was gucke ich als Nächstes?“ (20.10.2026)
+
+**Bau.** `bau/13-10-empfehlung.ts` (Aufruf in `liefereAus`, `build.ts`) leitet die Datei nach der Auslieferung aus `titles.json` und `franchises.json` ab (Logik in `shared/empfehlung-pool.ts`). Pool: Stream mit `dub === true`, nicht gesperrt, Bewertung ≥ 60 oder keine (20.10.2026: 1.357 Titel). Pro Reihe (`franchiseId`) bleibt der früheste Pool-Teil (`jpYear`, dann `id`) als Einstieg (711), mit Genres/Schlagwörtern als Indizes, FSK, Bewertung, Anbietern mit Synchro und Trailer-Marke; `reihe` führt jede andere Pool-Kennung auf ihren Einstieg. **Kein Cover, kein Banner** in der Datei (66 von 78 KB waren Bild-Adressen): der Client leitet sie aus `titles.json` ab oder lädt sie nur für gezeigte Titel.
+**Flags.** `duell`: Teil 1 der Reihe (früheste Staffel laut `franchises.json`, auch ohne Synchro) liegt im Pool; nur solche Titel bilden ein Duellpaar. `ab`: Staffelnummer des Einstiegs (`staffelStaende`), wenn Teil 1 fehlt („Beginnt mit Staffel n“); bei Film oder Einzelstaffel steht keine Nummer. 20.10.2026: 643 `duell`, 39 `ab`, 29 ohne beides (Spezifikation 17.1 zählte 665/46 nach „frühester Teil in `titles.json`“; hier zählt `franchises.json` mit, daher strenger).
+**Wächter.** `pruefeEmpfehlung` (Widerspruch bricht den Bau ab); fehlendes Cover ist im Bau und im Bestand nur eine Warnung (`coverHinweise`, sonst rollte ein neuer Titel ohne Cover den Tagesbau zurück); das Überschreiten der Grenze von 40 KB gzip (20.10.2026: 32,5 KB) ist im Bau eine Warnung, in der Bestandsprüfung ein Fehler. Tests `pipeline/check-empfehlung.ts`, Bestand `pipeline/check-empfehlung-bestand.ts`.
+
+**Rechenkern (PR 2 von 4, 20.10.2026).** `shared/empfehlung-kern.ts` und `shared/empfehlung-vektor.ts` rechnen die Duelle ohne DOM und ohne Node: Merkmalsvektor je Einstieg (Genres und Schlagwörter mit mindestens 5 Einstiegen, dazu Film, Jahrfünft, FSK, Länge mit halbem Gewicht), Paarwahl (40 Zufallspaare, bestes nach Abstand und Teilung nahe 50:50, nur Einstiege mit `duell`), Eingrenzung (wer dem Sieger näher liegt, nie unter 12), „Kann mich nicht entscheiden“ (Menge bleibt, nächstes Paar quer zum übersprungenen), fünf Vorschläge mit Verworfenen und Zurück. Der Zustand ist reine Daten (JSON), das Paar eine Funktion von Zustand und Startwert, `Sitzung` hält den Verlauf für Zurück. Prüfung: `pipeline/check-empfehlung-kern.ts` (erfundene Datei, `check:logic`) und `check-empfehlung-kern-bestand.ts` (Simulation an der echten Datei, `check:bestand`; 20.10.2026: Treffer 43 / 55 / 61 % nach 4 / 6 / 12 Duellen, Spezifikation 17.3: 42 / 54 / 59).

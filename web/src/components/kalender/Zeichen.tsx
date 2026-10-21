@@ -119,17 +119,18 @@ export const KreuzZeichen = ({ groesse }: Z) => (
   </Strich>
 )
 
-/** Das Kalender-Symbol aus dem Favicon (`public/icons/icon.svg`) — das Wiedererkennungszeichen im Kopf. */
+/** Die Marke „Block AK" aus dem Favicon (`public/icons/icon.svg`, Zeichnung in `pipeline/lib/og-marke.ts`) — das Wiedererkennungszeichen im Kopf. */
 export function LogoZeichen({ groesse = 32, className = '' }: Z & { className?: string }) {
   return (
-    <svg viewBox="0 0 512 512" width={groesse} height={groesse} aria-hidden="true" className={`shrink-0 ${className}`}>
-      <rect width="512" height="512" rx="102" fill="#1b2130" />
-      <rect x="41" y="101" width="430" height="370" rx="95" fill="#e6e9f0" />
-      <rect x="41" y="101" width="430" height="96" rx="95" fill="#38bdf8" />
-      <rect x="41" y="168" width="430" height="37" fill="#38bdf8" />
-      <rect x="144" y="67" width="34" height="69" rx="17" fill="#e6e9f0" />
-      <rect x="333" y="67" width="34" height="69" rx="17" fill="#e6e9f0" />
-      <path d="M213 268 351 342 213 416Z" fill="#0f1420" />
+    <svg viewBox="0 0 64 64" width={groesse} height={groesse} aria-hidden="true" fill="#0d0f14" className={`shrink-0 ${className}`}>
+      <rect width="64" height="64" rx="14" />
+      <rect x="8" y="14" width="48" height="42" rx="8" fill="#ff5a36" />
+      <rect x="8" y="24" width="48" height="4" />
+      <rect x="18" y="8" width="4" height="12" rx="2" />
+      <rect x="42" y="8" width="4" height="12" rx="2" />
+      <path d="M10 52 L18.5 31 H23.5 L32 52 H27 L25 47 H17 L15 52 Z M21 37 L23.4 43 H18.6 Z" fillRule="evenodd" />
+      <rect x="35" y="31" width="5" height="21" />
+      <path d="M40 43 L50 31 M40 41 L50 52" fill="none" stroke="#0d0f14" strokeWidth="5" strokeLinecap="butt" />
     </svg>
   )
 }

@@ -20,6 +20,8 @@ export function anbieterVon(url: string): string {
 const FEED = /\.(?:xml|rss|atom)$|\/feed\/?$/i
 const KALENDER = /calendar|kalender|\/schedule|programm/i
 const ARTIKEL = /\/(?:news|article|artikel|blog|presse?|press)\b|\/\d{4}\/\d{1,2}\//i
+/** ADN: die Folgenliste einer Serie aus dem Katalog-Lauf (`/video/show/<id>`); jede andere Adresse dort ist der Kalender. */
+const ADN_SERIE = /^\/video\/show\/\d+$/
 const KATALOG = /\/(?:series|watch|anime|title|serien|filme|film|browse|dp|gp\/video)\b/i
 
 /**
@@ -37,7 +39,7 @@ export function belegTyp(url: string): BelegTyp {
     /* unlesbar: der Pfad ist die ganze Zeichenkette */
   }
   if (FEED.test(pfad)) return 'feed'
-  if (host.startsWith('gw.api.')) return 'kalender'
+  if (host.startsWith('gw.api.')) return ADN_SERIE.test(pfad) ? 'katalog' : 'kalender'
   if (host.startsWith('news.') || ARTIKEL.test(pfad)) return 'artikel'
   if (KALENDER.test(pfad)) return 'kalender'
   return KATALOG.test(pfad) ? 'katalog' : 'seite'

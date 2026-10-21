@@ -154,6 +154,9 @@
   anilistId: 212799
   titleDe: "Die sieben Ritter des Königreichs der Marronniers"
   platform: primevideo
+  # Titelseite B0HG69RT1Y: Handbeleg vom 06.10./10.10.2026 (`data/dub-confirmed.yaml`, anilistId 212799) und `seite` in `data/prime-zugeordnet.json`.
+  # Der zweite Weg des Titels, B0HG9LF2QH, ist die Folgen-ASIN derselben Seite; mit zwei Wegen übernahm `adresseDesWegs` keine Adresse.
+  platformUrl: https://www.amazon.de/dp/B0HG69RT1Y
   releaseType: weekly
   schedule:
     firstEpisodeDate: "2026-10-03"
@@ -175,6 +178,8 @@
   anilistId: 209499
   titleDe: "Tank Chair"
   platform: primevideo
+  # Titelseite von Daniel (Sichtung Netflix/Prime 18.10.2026), ASIN B0HKCYH1C6; vorher nur der Rückfall auf die Amazon-Suche (`pickPlatformUrl`).
+  platformUrl: https://www.amazon.de/dp/B0HKCYH1C6
   releaseType: weekly
   schedule:
     firstEpisodeDate: "2026-10-04"
@@ -414,10 +419,34 @@
   anilistId: 206814
   platform: netflix
   releaseType: weekly
-  schedule: { firstEpisodeDate: "2026-10-18" }
+  # Daniel, Sichtung Netflix/Prime 18.10.2026: Folge 1 am 18.10. ohne deutsche Synchro; Netflix nennt Folge 2 für den 25.10.2026.
+  schedule:
+    firstEpisodeDate: "2026-10-18"
+    observed:
+      1: "2026-10-18"
+      2: "2026-10-25"
   sprache: omu
-  note: "Netflix startet am 18.10.2026, neue Folgen wöchentlich, laut Anime2You 1052708 mit japanischem Ton und Untertiteln („Sprache: Japanisch (UT)“). Kein Nachweis einer deutschen Synchro bekannt."
+  note: "Netflix startet am 18.10.2026, neue Folgen wöchentlich, laut Anime2You 1052708 mit japanischem Ton und Untertiteln („Sprache: Japanisch (UT)“). Folge 1 hat laut Daniels Sichtung (Netflix, 18.10.2026) keine deutsche Synchro; Folge 2 nennt Netflix für den 25.10.2026."
   sources:
     - https://www.anime2you.de/news/1060009/dragon-ball-super-beerus-simulcast-gestartet/
     - https://www.anime2you.de/news/1058843/dragon-ball-super-beerus-bricht-netflix-rekord/
     - https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
+
+# Daniel, Sichtung Netflix/Prime 18.10.2026: Blue Box Staffel 2 bei Netflix. Netflix zählt durchlaufend (Staffel 1 hat 25 Folgen), Folge 28 ist Folge 3 der Staffel;
+# sie lief am 18.10.2026 um 10:31 mit deutscher Synchro (spätestens 10:31, die Uhrzeit des Starts ist nicht bekannt, deshalb keine `time`). Folge 29 (Folge 4) nennt Netflix mit
+# „Verfügbar ab 25. Oktober": Wochentakt belegt. Der Slug ist der des automatischen Termins, der Eintrag ersetzt ihn (wie `auto-153288-disc`).
+- slug: auto-189123-netflix
+  anilistId: 189123
+  titleDe: "Blue Box: Staffel 2"
+  platform: netflix
+  platformUrl: https://www.netflix.com/title/81663323
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-10-04"
+    episodeCount: 12
+    episodeCountAssumed: true
+    observed:
+      3: "2026-10-18"
+      4: "2026-10-25"
+  sources:
+    - https://www.anime2you.de/news/1057429/netflix-blue-box-staffel-2-und-mehr/

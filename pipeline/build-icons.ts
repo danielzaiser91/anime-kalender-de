@@ -16,42 +16,28 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import sharp from 'sharp'
+import { MARKE_INNEN, MARKE_KACHEL } from './lib/og-marke.ts'
 import { ROOT, log } from './lib/util.ts'
 
 const OUT = resolve(ROOT, 'public/icons')
 
-/** Markenfarben, identisch zur Oberfläche. */
-const BG = '#0f1420'
-const ACCENT = '#38bdf8'
-const PAPER = '#e6e9f0'
-
 /**
- * Das Motiv: ein Kalenderblatt, dessen unterste Reihe zur Abspieltaste wird.
+ * Das Motiv: die Marke „Block AK" (`lib/og-marke.ts`) auf der Kachel.
  *
- * `inset` schiebt die Zeichnung nach innen. Für die maskable-Fassung braucht
- * es davon reichlich: Android schneidet bis zu 20 % vom Rand weg.
+ * `inset` schiebt die Zeichnung nach innen. Das Raster der Marke hat selbst 12 % Rand, deshalb
+ * wirkt nur ein Teil des Wertes (`INSET_ANTEIL`). Für die maskable-Fassung bleibt reichlich Luft:
+ * Android schneidet bis zu 20 % vom Rand weg.
  */
+const INSET_ANTEIL = 0.6
+
 function icon(size: number, inset: number, rounded: boolean): Buffer {
   const s = size
-  const pad = s * inset
+  const pad = s * inset * INSET_ANTEIL
   const w = s - pad * 2
-  const r = rounded ? w * 0.22 : 0
-  // Kalenderblatt
-  const top = pad + w * 0.14
-  const bodyH = w - w * 0.14
-  const ringY = pad + w * 0.06
 
   return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}">
-  <rect width="${s}" height="${s}" ${rounded ? `rx="${s * 0.2}"` : ''} fill="${BG}"/>
-  <rect x="${pad}" y="${top}" width="${w}" height="${bodyH}" rx="${r}" fill="${PAPER}"/>
-  <rect x="${pad}" y="${top}" width="${w}" height="${bodyH * 0.26}" rx="${r}" fill="${ACCENT}"/>
-  <rect x="${pad}" y="${top + bodyH * 0.18}" width="${w}" height="${bodyH * 0.1}" fill="${ACCENT}"/>
-  <rect x="${pad + w * 0.24}" y="${ringY}" width="${w * 0.08}" height="${w * 0.16}" rx="${w * 0.04}" fill="${PAPER}"/>
-  <rect x="${pad + w * 0.68}" y="${ringY}" width="${w * 0.08}" height="${w * 0.16}" rx="${w * 0.04}" fill="${PAPER}"/>
-  <path d="M ${pad + w * 0.4} ${top + bodyH * 0.45}
-           L ${pad + w * 0.72} ${top + bodyH * 0.65}
-           L ${pad + w * 0.4} ${top + bodyH * 0.85} Z"
-        fill="${BG}"/>
+  <rect width="${s}" height="${s}" ${rounded ? `rx="${s * 0.2}"` : ''} fill="${MARKE_KACHEL}"/>
+  <g transform="translate(${pad} ${pad}) scale(${w / 64})">${MARKE_INNEN}</g>
 </svg>`)
 }
 

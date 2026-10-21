@@ -13,6 +13,11 @@ import { mitEingang } from '../worker/src/auffangnetz.ts'
 import { BUCHEN_AB, GEDECKELT, istFrei, mitLesedeckel, ungebuchtFuerTest } from '../worker/src/lesedeckel.ts'
 import { DECKEL_LESEN, RIEGEL_LESEN_JE_ANFRAGE, utcTag, zaehlendeDb } from '../worker/src/tagesdeckel.ts'
 import { type Env } from '../worker/src/env.ts'
+import { festeUhr } from './feste-uhr.ts'
+
+/** Feste Uhr für Test und Worker: kein Lauf hängt am UTC-Tageswechsel (K6). */
+const FEST = new Date('2026-10-12T12:00:00Z')
+festeUhr(FEST.toISOString())
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -90,9 +95,9 @@ const belege = {
 const umgebung = (db: DatabaseSync, spur: Spur, mitR2 = false) =>
   ({ LAUF_TOKEN: 't', DEBUG_TOKEN: 'd', SITE_URL: 'https://attrappe.test/', TITELZEILE_PLATTFORMEN: '', BELEGE: mitR2 ? belege : undefined, DB: d1(db, spur) }) as unknown as Env
 
-const gelesenHeute = (db: DatabaseSync) => Number((db.prepare('SELECT gelesen FROM schreib_tag WHERE tag = ?').get(utcTag(new Date())) as { gelesen: number } | undefined)?.gelesen ?? 0)
+const gelesenHeute = (db: DatabaseSync) => Number((db.prepare('SELECT gelesen FROM schreib_tag WHERE tag = ?').get(utcTag(FEST)) as { gelesen: number } | undefined)?.gelesen ?? 0)
 const setzeHeute = (db: DatabaseSync, gelesen: number) =>
-  db.prepare('INSERT INTO schreib_tag (tag, zeilen, gelesen) VALUES (?, 0, ?) ON CONFLICT(tag) DO UPDATE SET gelesen = ?').run(utcTag(new Date()), gelesen, gelesen)
+  db.prepare('INSERT INTO schreib_tag (tag, zeilen, gelesen) VALUES (?, 0, ?) ON CONFLICT(tag) DO UPDATE SET gelesen = ?').run(utcTag(FEST), gelesen, gelesen)
 const anfrage = (pfad: string, init?: RequestInit) => new Request(`https://worker.test${pfad}`, init)
 /** Ganzer Eingang (Auffangnetz + Lese-Deckel) vor der Prüfungs-Route, wie `fetch` in index.ts. */
 const eingang = (r: Request, env: Env) => mitEingang(r, env, { 'Access-Control-Allow-Origin': 'https://site.test' }, (e) => handlePruefung(r, e))

@@ -1,5 +1,6 @@
 import { type Release } from '@shared/types.ts'
 import { useLang } from '../../lib/i18n.tsx'
+import { sichtbareBreite } from '../../lib/sichtbare-breite.ts'
 import { useState, useRef, useEffect } from 'react'
 import { merkbareTermine } from '@shared/logic.ts'
 import { Tooltip } from '../ui.tsx'
@@ -73,7 +74,7 @@ export function MerkenKnopf({
               return
             }
             const r = knopf.current?.getBoundingClientRect()
-            if (r) setPos({ top: r.bottom + 4, right: Math.max(8, window.innerWidth - r.right) })
+            if (r) setPos({ top: r.bottom + 4, right: Math.max(8, sichtbareBreite() - r.right) })
             setMerkenOffen(true)
           }}
           aria-expanded={merkenOffen}

@@ -1,22 +1,22 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-16. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-20. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-25 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+32 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
+| 2026-10 (Monat) | ? | – unklar | [Neuer Trailer zum Finale von »Bleach: Thousand-Year Blood War«](https://www.anime2you.de/news/1061640/bleach-thousand-year-blood-war-finale-trailer/) |
 | 2026-10 (Monat) | netflix | ✅ zugesagt | [Deutscher Synchro-Trailer zu »Cyberpunk: Edgerunners II« + Visual](https://www.anime2you.de/news/1060922/cyberpunk-edgerunners-2-synchro-trailer/) |
 | 2026-10-20, 2026-10 (Monat) | netflix | – unklar | [Netflix enthüllt neuen Sneak-Peek-Teaser zu »Cyberpunk: Edgerunners II«](https://www.anime2you.de/news/1058410/netflix-cyberpunk-edgerunners-ii-neuer-sneak-peek-teaser/) |
 | 2026-10 (Monat) | primevideo, aniverse | ✅ zugesagt | [Neue Anime-Katalogtitel im Oktober 2026 bei aniverse](https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/) |
 | 2026-10 (Monat) | adn | ❌ nur Originalton | [ADN nimmt »86 EIGHTY-SIX« in sein Programm auf](https://www.anime2you.de/news/1052781/86-eighty-six-bald-auf-adn/) |
 | 2026-10-30, 2026-10 (Monat) | crunchyroll | – unklar | [Crunchyroll bald nicht mehr auf Nintendo Switch verfügbar](https://www.anime2you.de/news/1044861/crunchyroll-bald-nicht-mehr-auf-nintendo-switch/) |
-| 2026-10-17 | crunchyroll, adn | – unklar | [Termin der Fantasy-Serie »Dreamland« auf ADN und Crunchyroll + Trailer](https://www.anime2you.de/news/1044897/termin-von-dreamland-trailer/) |
-| 2026-10-18 | ? | – unklar | [TV-Guide: Anime im deutschen Fernsehen in KW 42/2026](https://www.anime2you.de/news/1060030/anime-tv-programm-42-2026/) |
-| 2026-10-18 | crunchyroll, netflix, adn | ❌ nur Originalton | [Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast](https://www.anime2you.de/news/1056092/dragon-ball-super-beerus-simulcast/) |
+| 2026-10-25 | ? | – unklar | [TV-Guide: Anime im deutschen Fernsehen in KW 43/2026](https://www.anime2you.de/news/1062070/anime-tv-programm-43-2026/) |
 | 2026-10-31 | primevideo | ✅ zugesagt | [Drei Anime-Serien verlassen bald den Prime-Video-Katalog](https://www.anime2you.de/news/1056183/prime-video-entfernt-naruto-und-mehr/) |
+| 2026-11-09, 2026-11 (Monat) | ? | – unklar | [ProSieben FUN wiederholt »Magical Girl Special Ops Asuka«](https://www.anime2you.de/news/1062104/prosieben-fun-magical-girl-special-ops-asuka-wiederholung/) |
 | 2026-11-05, 2026-11 (Monat) | ? | – unklar | [ProSieben MAXX wiederholt »Whole Cake Island«-Arc von »One Piece«](https://www.anime2you.de/news/1059541/prosieben-maxx-whole-cake-island-arc-one-piece/) |
 | 2026-11-26, 2026-11 (Monat) | netflix | ⚠️ offen | [Netflix-Termin des Thriller-Anime »Fool Night« + Teaser](https://www.anime2you.de/news/1043399/fool-night-netflix-termin/) |
 | 2026-11-03, 2026-11 (Monat) | netflix | – unklar | [Netflix kündigt neuen Original-Anime »Bass X Machina« an + Teaser](https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/) |
@@ -26,67 +26,74 @@ Stand: 2026-10-16. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-01 (Monat) | ? | – unklar | [»SSS-Class Revival Hunter« erhält eine Anime-Adaption + Simulcast](https://www.anime2you.de/news/1048438/sss-class-revival-hunter-erhaelt-anime/) |
 | 2027-01 (Monat) | netflix | – unklar | [Neuer Netflix-Teaser zur zweiten »Sakamoto Days«-Staffel + Visual](https://www.anime2you.de/news/1043270/sakamoto-days-staffel-2-neuer-teaser/) |
 | 2027-01-07 | ? | – unklar | [Konkreter Termin von »Are You a Landmine, Chihara-san?« + Visual](https://www.anime2you.de/news/1060902/are-you-a-landmine-chihara-san-termin/) |
+| 2027-01-09 | ? | – unklar | [Starttermin von »Wound and Bandage« steht fest + Teaser](https://www.anime2you.de/news/1061578/starttermin-von-wound-and-bandage/) |
 | 2027-02 (Monat) | netflix | – unklar | [Netflix enthüllt neues Visual zur ersten Staffel von »THE ONE PIECE«](https://www.anime2you.de/news/1043291/the-one-piece-staffel-1-neues-visual/) |
 | 2027-03-31, 2027-03 (Monat) | ? | – unklar | [Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027](https://www.anime2you.de/news/1057381/tapas-bestaetigt-abschaltung-fuer-maerz-2027/) |
 | 2027-03-01 | netflix | – unklar | [Netflix startet große Werbeoffensive in 15 weiteren Ländern](https://www.anime2you.de/news/1055001/netflix-startet-grosse-werbeoffensive/) |
+| 2027-04 (Monat) | ? | – unklar | [Neue »Apothecary Diaries«-Plüschfigur von Jinshi vorgestellt](https://www.anime2you.de/news/1056535/apothecary-diaries-plueschfigur-jinshi/) |
 | 2027-04 (Monat) | crunchyroll | – unklar | [Action-Anime »The Vermilion Mask« erhält einen zweiten Teil](https://www.anime2you.de/news/1058275/the-vermilion-mask-erhaelt-zweiten-teil/) |
 | 2027-04 (Monat) | ? | – unklar | [Start von »Walking Home with You« steht fest + Visual](https://www.anime2you.de/news/1058153/start-von-walking-home-with-you/) |
 | 2027-04 (Monat) | ? | – unklar | [Start von »The Case Files of Biblia Bookstore« + Teaser](https://www.anime2you.de/news/1057109/start-von-the-case-files-of-biblia-bookstor/) |
 | 2027-05-07, 2027-04-30 | kino | – unklar | [Nintendo verschiebt »The Legend of Zelda«-Film erneut + Bilder](https://www.anime2you.de/news/1010428/the-legend-of-zelda-film-erneut-verschoben/) |
+| 2027-05 (Monat) | ? | – unklar | [Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt](https://www.anime2you.de/news/1058725/zehn-lord-of-mysteries-minifiguren/) |
+| 2027-05 (Monat) | ? | – unklar | [Elf neue Merchandise-Produkte zu »Apothecary Diaries« angekündigt](https://www.anime2you.de/news/1061032/apothecary-diaries-elf-merchandise-produkte/) |
+| 2027-05 (Monat) | ? | – unklar | [Neue Plüschfigur der »Frieren«-Protagonistin angekündigt](https://www.anime2you.de/news/1061247/frieren-protagonistin-sakami-plueschfigur/) |
+| 2027-05 (Monat) | ? | – unklar | [Zwei neue Acrylanhänger zu »Detektiv Conan« angekündigt](https://www.anime2you.de/news/1061186/zwei-detektiv-conan-acrylanhaenger/) |
+| 2027-05 (Monat) | ? | – unklar | [»Fairy Tail« erhält neue Anhänger, Tragetasche und XXL-Mauspad](https://www.anime2you.de/news/1061130/neues-fairy-tail-merchandise/) |
 
-Dazu 47 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 53 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 0.0 Tage her | 9 |
-| adn-catalog | 3.9 Tage her | 109 |
+| adn | 0.0 Tage her | 12 |
+| adn-catalog | 7.9 Tage her | 109 |
 | adn-news | 0.1 Tage her | 75 |
-| anilist-voices | 4.0 Tage her | 3 |
-| anime-offline-database | 4.0 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 100 |
-| anisearch | 0.9 Tage her | 2 |
-| anisearch-cover-eigen | 4.5 Tage her | 1874 |
-| anisearch-dubs | 4.0 Tage her | 11910 |
-| anisearch-eintraege | 4.0 Tage her | 400 |
-| anisearch-folgen | 4.0 Tage her | 1958 |
-| anisearch-slugs | 4.0 Tage her | 14846 |
-| anisearch-zuordnung | 1.0 Tage her | 18466 |
-| ann-voices | 4.0 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 57 |
-| cartoon-folgen | 4.0 Tage her | 150 |
-| cartoon-reihen | 1.0 Tage her | 0 |
-| cartoons | 1.0 Tage her | 1 |
-| cinestar | 4.0 Tage her | 1 |
-| cr-einzelwerke | 22.7 Tage her | 0 |
-| cr-filmbloecke | 22.7 Tage her | 0 |
-| crunchyroll | 0.0 Tage her | 20 |
-| crunchyroll-dub | 0.0 Tage her | 1133 |
-| crunchyroll-neu | 0.0 Tage her | 131 |
-| crunchyroll-offene | 3.9 Tage her | 14 |
-| crunchyroll-woche | 0.1 Tage her | 65 |
-| fsk | 10.6 Tage her | 3 |
-| justwatch-audio | 3.9 Tage her | 792 |
-| kinoheld | 4.0 Tage her | 1 |
-| kitsu-folgen | 4.0 Tage her | 23 |
-| link-check | 10.6 Tage her | 287 |
+| anilist-voices | 1.0 Tage her | 0 |
+| anime-offline-database | 1.0 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 102 |
+| anisearch | 0.9 Tage her | 1 |
+| anisearch-cover-eigen | 8.5 Tage her | 1874 |
+| anisearch-dubs | 1.0 Tage her | 11921 |
+| anisearch-eintraege | 1.0 Tage her | 400 |
+| anisearch-folgen | 1.0 Tage her | 515 |
+| anisearch-slugs | 1.0 Tage her | 14859 |
+| anisearch-zuordnung | 1.0 Tage her | 18475 |
+| ann-voices | 1.0 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 46 |
+| cartoon-folgen | 1.0 Tage her | 300 |
+| cartoon-reihen | 1.0 Tage her | 1 |
+| cartoons | 1.0 Tage her | 2 |
+| cinestar | 1.0 Tage her | 1 |
+| cr-einzelwerke | 26.7 Tage her | 0 |
+| cr-filmbloecke | 26.7 Tage her | 0 |
+| crunchyroll | 0.0 Tage her | 21 |
+| crunchyroll-dub | 1.0 Tage her | 1133 |
+| crunchyroll-neu | 0.0 Tage her | 140 |
+| crunchyroll-offene | 0.9 Tage her | 14 |
+| crunchyroll-woche | 0.1 Tage her | 59 |
+| fsk | 14.6 Tage her | 3 |
+| justwatch-audio | 0.5 Tage her | 293 |
+| kinoheld | 1.0 Tage her | 0 |
+| kitsu-folgen | 1.0 Tage her | 1 |
+| link-check | 14.6 Tage her | 287 |
 | messbelege | 0.1 Tage her | 0 |
-| motn | 7.7 Tage her | 1943 |
-| motn-changes | 0.0 Tage her | 2 |
-| rohfolgen | 0.2 Tage her | 0 |
-| rtlplus-folgen | 4.0 Tage her | 3 |
-| tmdb-banner | 4.0 Tage her | 82 |
-| tmdb-folgen | 4.0 Tage her | 883 |
-| tmdb-kino | 4.0 Tage her | 3 |
-| tmdb-poster | 4.0 Tage her | 72 |
-| tmdb-titles | 4.0 Tage her | 248 |
+| motn | 11.7 Tage her | 1943 |
+| motn-changes | 0.0 Tage her | 57 |
+| rohfolgen | 0.6 Tage her | 0 |
+| rtlplus-folgen | 1.0 Tage her | 3 |
+| tmdb-banner | 1.0 Tage her | 6 |
+| tmdb-folgen | 1.0 Tage her | 878 |
+| tmdb-kino | 1.0 Tage her | 3 |
+| tmdb-poster | 1.0 Tage her | 372 |
+| tmdb-titles | 1.0 Tage her | 400 |
 | toggo | 0.0 Tage her | 22 |
 | trailer | 1.0 Tage her | 0 |
-| tv-de | 0.2 Tage her | 60 |
-| tv-programm | 0.1 Tage her | 289 |
+| tv-de | 0.2 Tage her | 65 |
+| tv-programm | 0.1 Tage her | 286 |
 | vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 4.0 Tage her | 4788 |
-| wikidata-titel | 4.0 Tage her | 15 |
+| wikidata-imdb | 1.0 Tage her | 5192 |
+| wikidata-titel | 1.0 Tage her | 15 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 4.0 Tage her | 1 |
+| youtube-check | 1.0 Tage her | 0 |

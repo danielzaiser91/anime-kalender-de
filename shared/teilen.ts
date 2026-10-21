@@ -15,3 +15,20 @@ export function teilbarerSlug(titel: { slug?: string; ohneSynchro?: boolean } | 
 export function cartoonMitSynchroBeleg(titel: { streams?: Array<{ dub?: boolean }> }): boolean {
   return (titel.streams ?? []).some((s) => s.dub === true)
 }
+
+/**
+ * Der Hash einer Titelseite. Steht die Kennung schon im Pfad `/t/<ak>/`, kommt sie nicht noch einmal als `t=` hinein;
+ * ein Namens-Pfad (`/t/<name>-<id>/`) trägt sie nicht, und `titelAusPfad` liest keine negative Kennung (Cartoons): beide brauchen `t=`.
+ */
+export function titelHash(ak: number, adresse: string | number, datum?: string): string {
+  const params = new URLSearchParams()
+  if (datum) params.set('d', datum)
+  if (ak < 0 || String(adresse) !== String(ak)) params.set('t', String(ak))
+  const query = params.toString()
+  return `#/woche${query ? `?${query}` : ''}`
+}
+
+/** Pfad und Hash der Titelseite, relativ zur Wurzel der Seite. */
+export function titelAdresse(ak: number, adresse: string | number, datum?: string): string {
+  return `${teilenPfad(adresse)}${titelHash(ak, adresse, datum)}`
+}

@@ -29,7 +29,14 @@ try {
   const unsortiert = lauf(['pipeline/check-b.ts', 'pipeline/check-a.ts'])
   assert.equal(unsortiert.status, 1, 'Unsortierte Liste muss abbrechen')
   assert.match(unsortiert.text, /alphabetisch sortiert/, 'Unsortiert wird als solches benannt')
-  console.log('check-logic-liste.test: ok')
+  const punktVorStrich = lauf(['pipeline/check-a.ts', 'pipeline/check-a-b.ts'])
+  assert.equal(punktVorStrich.status, 1, '„.“ vor „-“ ist unsortiert (Code-Reihenfolge)')
+  assert.match(punktVorStrich.text, /check-a-b\.ts steht zu früh/, 'der zu früh stehende Eintrag wird genannt')
+  const hilfe = spawnSync(process.execPath, [join(WURZEL, 'tools/check-logic-alle.mjs'), '--help'], { cwd: WURZEL, encoding: 'utf8', timeout: 20000 })
+  assert.equal(hilfe.status, 0, '--help endet mit 0')
+  assert.match(hilfe.stdout, /^Aufruf:/, '--help druckt nur die Hilfe')
+  assert.doesNotMatch(`${hilfe.stdout}${hilfe.stderr}`, /check:logic: /, '--help startet keinen Lauf')
+  console.log('check-logic-liste.test: ok (Sortierfälle, --help)')
 } finally {
   rmSync(ordner, { recursive: true, force: true })
 }
