@@ -4,7 +4,10 @@
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-anisearch-folgen-kennung.ts`
  */
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { folgenListen } from './bau/08-news-tv.ts'
+import { pruefeFolgenlistenVerdrahtung } from './lib/folgenlisten-verdrahtung.ts'
 import type { Title } from '../shared/types.ts'
 
 let verletzt = 0
@@ -56,6 +59,28 @@ pruefe('Alle Titel des Baus (mit MAL) gehen an die Kennungssuche', gesehen.lengt
 dateien['data/anisearch-folgen.json'] = { '15611': { folgen: [folge(1, 'Eigen')] } }
 const echt = folgenListen(new Map([titel(10_015_611)]), { lies })
 pruefe('Reiner aniSearch-Titel bekommt seine Folgen über die echte Kennungssuche', echt['10015611']?.folgen[0]?.dt === 'Eigen', echt)
+
+/* Echte Dateien, ohne Kulisse: der Aufruf im Bau (`folgenListen(titles)`) liest sie selbst. Drei Titel, der geprüfte (21852) in der Mitte; Kennung nur über den Titel (17.10.2026: 10072, 1119, 12083). */
+const reell = folgenListen(new Map([titel(13709, 13709), titel(21852, 31711), titel(98874, 34428)]))
+pruefe('Echte Dateien: Titel 21852 bekommt die Folgen von aniSearch 10072', reell['21852']?.url === 'https://www.anisearch.de/anime/10072/episodes' && (reell['21852']?.folgen.length ?? 0) > 0, reell['21852']?.url)
+pruefe('Echte Dateien: Nachbarn 13709 (1119) und 98874 (12083) ebenso', reell['13709']?.url?.endsWith('/1119/episodes') === true && reell['98874']?.url?.endsWith('/12083/episodes') === true, [reell['13709']?.url, reell['98874']?.url])
+
+/* Verdrahtung im Bau: der Syntaxbaum von `ergaenzeTermineAusNewsUndTv` zeigt `folgenListen(titles)` und die Übergabe an alle drei Aufrufer. */
+const bauText = readFileSync(fileURLToPath(new URL('./bau/08-news-tv.ts', import.meta.url)), 'utf8')
+const bauFehler = pruefeFolgenlistenVerdrahtung(bauText)
+pruefe('Bau: Folgenlisten aus folgenListen(titles) an alle drei Aufrufer', bauFehler.length === 0, bauFehler)
+const mutanten: [string, string, string][] = [
+  ['leere Titelkarte', 'folgenListen(titles)', 'folgenListen(new Map())'],
+  ['Bindung umbenannt', 'const tvFolgenListen = ', 'const tvFolgen = '],
+  ['Argument fehlt bei sendungNeuZuordnen', 'sendungNeuZuordnen(tvProgramm, titles, tvFolgenListen)', 'sendungNeuZuordnen(tvProgramm, titles)'],
+  ['Argument fehlt bei releasesAusTvProgramm', 'releases, tvFolgenListen)', 'releases)'],
+  ['falsches Argument bei sendungenAnhaengen', 'addDays(todayIso(), -1), tvFolgenListen)', 'addDays(todayIso(), -1), tvZugeordnet)'],
+  ['Aufruf sendungenAnhaengen weg', 'sendungenAnhaengen(releases', 'void (releases'],
+]
+for (const [name, alt, neu] of mutanten) {
+  const mutiert = bauText.replace(alt, () => neu)
+  pruefe(`Wächter erkennt Mutation: ${name}`, mutiert !== bauText && pruefeFolgenlistenVerdrahtung(mutiert).length > 0)
+}
 
 if (verletzt) {
   console.error(`\n${verletzt} Prüfung(en) verletzt`)
