@@ -62,8 +62,43 @@ try {
     'new Date(Date.now()).toISOString().slice(0, 10)',
     'new Date()\n    .toISOString()\n    .slice(0, 10)',
     '(new Date()).toISOString().slice(0, 10)',
+    '(new Date()).toISOString().split("T")[0]',
+    '(new Date(Date.now())).toISOString().substring(0, 10)',
+    'new Date().toJSON().slice(0, 10)',
+    'new Date().toISOString().substr(0, 10)',
+    "new Date().toISOString().split('T').shift()",
+    "new Date().toISOString().split('T').at(0)",
+    "new Date().toISOString().split('T').slice(0)[0]",
+    'new Date().toISOString().split(/T/)[0]',
+    "new Date()['toISOString']().slice(0, 10)",
+    "new Date().toISOString()['slice'](0, 10)",
+    'new globalThis.Date().toISOString().slice(0, 10)',
+    'new window.Date().toISOString().slice(0, 10)',
+    '(new Date().toISOString() as string).slice(0, 10)',
+    'new Date()!.toISOString().slice(0, 10)',
+    'new Date().toISOString().split("T")[0] as string',
   ]) {
     assert.deepEqual(funde(`const x = 1\nconst t = ${form}\n`), ['pipeline/a.ts:2'], `zählt: ${JSON.stringify(form)}`)
+  }
+  // Destrukturierung und Namen, die „jetzt“ oder dessen ISO-Text tragen: gezählt wird die Stelle der Teilung/des Schnitts.
+  for (const [quelle, zeile] of [
+    ["const [tag] = new Date().toISOString().split('T')", 1],
+    ["const [tag, rest] = new Date().toISOString().split(/T/)", 1],
+    ["const [tag] = new Date().toISOString().split('T').slice(0)", 1],
+    ['const jetzt = new Date()\nconst tag = jetzt.toISOString().slice(0, 10)', 2],
+    ['let jetzt = new Date()\nconst tag = jetzt.toJSON().slice(0, 10)', 2],
+    ['const jetzt = new Date(Date.now())\nconst tag = jetzt.toISOString().slice(0, 10)', 2],
+    ['const jetzt = new Date()\nconst [tag] = jetzt.toISOString().split("T")', 2],
+    ['const jetzt = (new Date())\nconst tag = jetzt.toISOString().slice(0, 10)', 2],
+    ['const iso = new Date().toISOString()\nconst tag = iso.slice(0, 10)', 2],
+    ["const jetzt = new Date()\nconst iso = jetzt.toISOString()\nconst tag = iso.split('T')[0]", 3],
+    ['function f() {\n  const jetzt = new Date()\n  return jetzt.toISOString().slice(0, 10)\n}', 3],
+    ['const f = (jetzt: Date = new Date()) => jetzt.toISOString().slice(0, 10)', 1],
+    ['function f(jetzt = new Date()) {\n  return jetzt.toISOString().substring(0, 10)\n}', 2],
+    ['const jetzt = new Date()\nif (x) {\n  const t = jetzt.toISOString().slice(0, 10)\n}', 3],
+    ['const jetzt = new Date()\nconst a = () => jetzt.toISOString().slice(0, 10)', 2],
+  ]) {
+    assert.deepEqual(funde(`${quelle}\n`), [`pipeline/a.ts:${zeile}`], `zählt: ${JSON.stringify(quelle)}`)
   }
   assert.deepEqual(funde('const x = [new Date().toISOString().slice(0, 10), new Date().toISOString().slice(0, 10)]\n'), ['pipeline/a.ts:1', 'pipeline/a.ts:1'], 'zwei Vorkommen in einer Zeile')
 
@@ -98,8 +133,56 @@ try {
     '`${1} new Date().toISOString().slice(0, 10)`',
     '/* new Date().toISOString().slice(0, 10) */ 1',
     'todayIso()',
+    'new Date().toJSON().slice(0, 9)',
+    'new Date().toJSON().slice(1, 10)',
+    'new Date().toISOString().substr(0, 9)',
+    'new Date().toISOString().substr(1, 10)',
+    'new Date().toISOString().substr(0)',
+    "new Date().toISOString().split('T').shift(1)",
+    "new Date().toISOString().split('T').at(1)",
+    "new Date().toISOString().split('T').at()",
+    "new Date().toISOString().split('T').slice(1)[0]",
+    "new Date().toISOString().split('T').slice(0, 1)[0]",
+    "new Date().toISOString().split('T', 1)[0]",
+    "new Date().toISOString().split('T').pop()",
+    'new Date().toISOString().split(/T/)[1]',
+    'new Date().toISOString().split(/T+/)[0]',
+    "new Date().toISOString().split('t')[0]",
+    "new Date()['toLocaleString']().slice(0, 10)",
+    "new Date()[x]().slice(0, 10)",
+    "new Date(x)['toISOString']().slice(0, 10)",
+    'new globalThis.Datum().toISOString().slice(0, 10)',
+    'new foo.Date().toISOString().slice(0, 10)',
+    'new globalThis.x.Date().toISOString().slice(0, 10)',
+    '(new Date(x).toISOString() as string).slice(0, 10)',
+    'new Date(Date.now(), 1).toJSON().slice(0, 10)',
   ]) {
     assert.deepEqual(funde(`const t = ${form}\n`), [], `zählt nicht: ${JSON.stringify(form)}`)
+  }
+  // Namen zählen nur mit „jetzt“ aus ihrer Deklaration, im Bereich der Deklaration und mit der passenden Art.
+  for (const quelle of [
+    'const jetzt = new Date(x)\nconst tag = jetzt.toISOString().slice(0, 10)',
+    'const jetzt = new Date(Date.now() - 1)\nconst tag = jetzt.toISOString().slice(0, 10)',
+    'const jetzt = zeit()\nconst tag = jetzt.toISOString().slice(0, 10)',
+    'const tag = jetzt.toISOString().slice(0, 10)',
+    'const jetzt = new Date()\nconst tag = andere.toISOString().slice(0, 10)',
+    '{\n  const jetzt = new Date()\n}\nconst tag = jetzt.toISOString().slice(0, 10)',
+    'function f() {\n  const jetzt = new Date()\n}\nfunction g(jetzt: Date) {\n  return jetzt.toISOString().slice(0, 10)\n}',
+    'function f(jetzt: Date) {\n  return jetzt.toISOString().slice(0, 10)\n}',
+    'const iso = new Date(x).toISOString()\nconst tag = iso.slice(0, 10)',
+    'const iso = new Date().toISOString()\nconst tag = iso.slice(0, 9)',
+    'const iso = new Date().toISOString()\nconst tag = iso.toISOString().slice(0, 10)',
+    'const jetzt = new Date()\nconst tag = jetzt.slice(0, 10)',
+    "const [, t] = new Date().toISOString().split('T')",
+    "const [...r] = new Date().toISOString().split('T')",
+    "const [t] = new Date(x).toISOString().split('T')",
+    "const [t] = new Date().toISOString().split('-')",
+    "const { t } = new Date().toISOString().split('T')",
+    'const [t] = zeit()',
+    'const [t] = new Date().toISOString().split("T").slice(1)',
+    'const jetzt = new Date()\nconst tag = jetzt.getTime()',
+  ]) {
+    assert.deepEqual(funde(`${quelle}\n`), [], `zählt nicht: ${JSON.stringify(quelle)}`)
   }
   assert.deepEqual(funde('// new Date().toISOString().slice(0, 10)\nconst t = 1\n'), [], 'Zeilenkommentar')
 

@@ -396,7 +396,7 @@ bleiben englisch (`releaseType`, `firstEpisodeDate`), damit sie zu den Fremd-API
   über `Intl`, damit die Sommerzeit stimmt. „Heute“ ist `todayIso()`, nie
   `new Date().toISOString().slice(0, 10)` (UTC, zwischen 0 und 2 Uhr Berliner Zeit der Vortag);
   der Wächter `tools/heute-utc.mjs` (in `check:logic`, Grenze `tools/heute-utc-grenzen.json`, Grundstand
-  21.10.2026: 62 Stellen) lässt die Zahl nur sinken.
+  21.10.2026: 66 Stellen) lässt die Zahl nur sinken.
 
 ## Newsletter
 
