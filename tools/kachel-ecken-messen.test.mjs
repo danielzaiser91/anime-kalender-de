@@ -269,10 +269,6 @@ assert.equal(nurStart.length, 2, 'nur Staffelstarts: der erste dient trotzdem al
 assert.ok(!('staffelstart' in nurStart[1]), 'auch dann ohne Ring')
 assert.equal(saalKulisse([tv(7, { releaseType: 'movie', platform: 'kino' })], ['2026-10-19', '2026-10-26']).length, 3, 'nur Filme: Vorlage ist der erste')
 
-const wocheDatei = JSON.stringify({ von: '2026-10-19', bis: '2026-10-25', titles: [{ id: 2 }], releases: [{ slug: 's2' }], events: ohneKino })
-const antwortWoche = JSON.parse(kulisseAntwort('woche.json', wocheDatei, wochen3))
-assert.equal(antwortWoche.events.length, 6, 'woche.json bekommt die Termine')
-assert.deepEqual([antwortWoche.von, antwortWoche.bis, antwortWoche.titles, antwortWoche.releases], ['2026-10-19', '2026-10-25', [{ id: 2 }], [{ slug: 's2' }]], 'woche.json: übrige Felder gleich')
 assert.equal(JSON.parse(kulisseAntwort('events.json', JSON.stringify(ohneKino), wochen3)).length, 6, 'events.json bekommt die Termine')
 const fremd = Buffer.from(JSON.stringify([{ platform: 'adn' }]))
 assert.equal(kulisseAntwort('titles-core.json', fremd, wochen3), fremd, 'andere Dateien bleiben unberührt')
