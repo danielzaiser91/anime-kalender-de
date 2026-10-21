@@ -4,24 +4,14 @@ Was der Browser-Erweiterung aufgefallen ist, seit dieser Lauf zuletzt gelesen ha
 Bis zum 10.09.2026 stand das in der Browserkonsole — also an einer Stelle, die
 niemand liest: Daniel schaut dort nicht hin, und der Agent kommt gar nicht daran.
 
-Stand: 2026-10-21 01:21 · 2 Vorfall/Vorfälle
+Stand: 2026-10-21 14:11 · 1 Vorfall/Vorfälle
 
 **Ein Vorfall ist nicht zwingend ein Fehler.** „Keine Tonspur gelesen" ist ein
 vorgesehener Fall — interessant wird er erst durch seine Häufigkeit.
 
-## stoerung — 1×
-
-Netflix hat den Durchlauf abgebrochen. `M7…` meint die Wiedergabe (zu viele Streams, Netz), `E1…`/`UI…`/`NSES-…` den Titel selbst.
+## wochenprogramm — 1×
 
 | Wann | Plattform | Reihe | Folge | Was | Version |
 |---|---|---|---|---|---|
-| 2026-10-21 00:59 | netflix | 81717895 | 1 | Netflix meldet E103 — Durchlauf abgebrochen | 4.31.8 |
-
-## ohne_tonspur — 1×
-
-Der Player lieferte binnen zwanzig Sekunden keine Tonspur. Die Folge bleibt offen und kommt beim nächsten Durchlauf wieder dran — **das ist vorgesehen**. Häufen sich diese Fälle, ist die Frist zu knapp.
-
-| Wann | Plattform | Reihe | Folge | Was | Version |
-|---|---|---|---|---|---|
-| 2026-10-21 00:59 | netflix | 81717895 | 1 | Folge 1 lieferte binnen zwanzig Sekunden keine Tonspur — bleibt offen | 4.31.8 |
+| 2026-10-21 14:02 | crunchyroll | GRGG9798R | 16 | Wochenprogramm: Re:ZERO Staffel 4 Folge 16–17 am 2026-10-21 — nicht übernommen (Kalender: zuletzt Folge 17 am 2026-10-21) | — |
 

@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-21T01:29:25.616Z",
+ "erzeugtAm": "2026-10-21T14:15:14.836Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 859,
+   "gemeldet": 860,
    "gesamt": 899,
-   "offen": 40,
+   "offen": 39,
    "ohneSeite": 18,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -133,10 +133,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHP76DFK",
      "titel": "Shomin Sample"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DCXV5GMB",
-     "titel": "Tokyo Ghoul √A"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GMY84XLR",
@@ -363,8 +359,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 775,
-   "gesamt": 891,
-   "offen": 116,
+   "gesamt": 890,
+   "offen": 115,
    "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -379,13 +375,6 @@
     {
      "url": "https://www.netflix.com/title/81684733",
      "titel": "Oshi no Ko: Mein Star"
-    },
-    {
-     "url": "https://www.netflix.com/title/81943491",
-     "titel": "Dragon Ball Daima",
-     "staffeln": [
-      1
-     ]
     },
     {
      "url": "https://www.netflix.com/title/81642888",
