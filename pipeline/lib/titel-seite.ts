@@ -6,9 +6,12 @@ import { PLATFORMS, type Release, type Title } from '../../shared/types.ts'
 import { GENRE_DE } from '../../shared/mappings.ts'
 import { teilenPfad, titelAdresse, titelHash } from '../../shared/teilen.ts'
 import { synchroBelegt } from '../../shared/titles.ts'
+import { seitenTitel } from '../../shared/seiten-titel.ts'
 import { andereNamen, titelJsonLd } from './titel-namen.ts'
 import { standardBildAdresse } from './og-standard.ts'
 import type { Umfeld } from './titel-umfeld.ts'
+
+export { seitenTitel }
 
 export const SITE = (process.env.SITE_URL ?? 'https://anime-kalender.de/').replace(
   /\/?$/,
@@ -56,19 +59,6 @@ export function termineUeberschrift(t: Title | undefined): string {
 /** Schema.org-Sprache des Werks: `de` nur bei belegter deutscher Synchro, sonst kein Feld (Sprache der Seite sagt `<html lang>`). */
 export function sprachFeld(t: Title | undefined): { inLanguage?: 'de' } {
   return t && synchroBelegt(t) ? { inLanguage: 'de' } : {}
-}
-
-function aufzaehlung(teile: string[]): string {
-  return teile.length < 2 ? (teile[0] ?? '') : `${teile.slice(0, -1).join(', ')} und ${teile[teile.length - 1]}`
-}
-
-/** Der `<title>` einer Titelseite: „auf Deutsch“ nur bei belegter Synchro, Streaming und Termine nur, wo es sie gibt. */
-export function seitenTitel(name: string, t: Title | undefined, mitTermin: boolean): string {
-  const streaming = (t?.streams ?? []).some((s) => s.dub === true)
-  const termine = mitTermin ? ['Termine'] : []
-  if (!t || (!t.westlich && !synchroBelegt(t))) return `${name}: Stand der deutschen Synchro${mitTermin ? ' und Termine' : ''}`
-  if (t.westlich) return synchroBelegt(t) ? `${name} auf Deutsch: ${aufzaehlung(['Streaming', ...termine])}` : `${name}: Animationsserie und wo sie läuft`
-  return `${name} auf Deutsch: ${aufzaehlung(['Synchro', ...(streaming ? ['Streaming'] : []), ...termine])}`
 }
 
 function titelBeschreibung(t: Title): string {
