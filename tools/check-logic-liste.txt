@@ -141,6 +141,7 @@ pipeline/check-motn-reihe.ts
 pipeline/check-nein-handbeleg-abschluss.ts
 pipeline/check-nein-handbeleg-aufrufer.ts
 pipeline/check-nein-handbeleg-cr.ts
+pipeline/check-nein-handbeleg-datum.ts
 pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts
 pipeline/check-neuigkeiten-panel.ts
