@@ -176,6 +176,9 @@ try {
     'const [t] = zeit()',
     'const [t] = new Date().toISOString().split("T").slice(1)',
     'const jetzt = new Date()\nconst tag = jetzt.getTime()',
+    'function f(jetzt = new Date()) {}\nfunction g(jetzt: Date) {\n  return jetzt.toISOString().slice(0, 10)\n}',
+    "const t = new Date().toISOString().split('T').fill(0)[0]",
+    "const t = new Date().toISOString().split('T').at(0, 1)",
   ]) {
     assert.deepEqual(funde(`${quelle}\n`), [], `zählt nicht: ${JSON.stringify(quelle)}`)
   }
