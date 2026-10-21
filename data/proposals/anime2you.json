@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-10-21T14:03:06.514Z",
+  "scrapedAt": "2026-10-21T17:02:56.311Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 10,
+    "schon in einem Rubrik-Feed gelesen": 11,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 9,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -54,6 +54,23 @@
         {
           "month": "2026-12",
           "context": "en zu »Pokémon« angekündigt. Wir fassen nachfolgend zusammen. Release im Dezember 2026 Die acht neuen »Pokémon«-Boxen sind nach den einzelne"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix: Alle Anime-Neuzugänge im November 2026",
+      "articleUrl": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
+      "publishedAt": "2026-10-21",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "Netflix: Alle Anime-Neuzugänge im November 2026 Der Streaming-Dienst Netflix erweitert sein Anime-Pro"
         }
       ],
       "dub": "unklar",
