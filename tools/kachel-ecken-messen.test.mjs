@@ -264,7 +264,9 @@ assert.equal(new Set(mitKulisse.map((e) => e.id)).size, 6, 'Kennungen eindeutig'
 assert.ok(saele.every((e) => e.releaseSlug === 's2' && e.titleId === 2), 'Vorlage ist der erste Termin ohne Staffelstart (nicht der erste, nicht der letzte)')
 assert.ok(saele.every((e) => !('staffelstart' in e) && !('episode' in e) && !('episodeCount' in e) && !('time' in e)), 'kein Ring, keine Folge, keine Uhrzeit')
 assert.deepEqual(saalKulisse([], wochen3), [], 'leerer Datensatz bleibt leer')
-assert.equal(saalKulisse([tv(7, { staffelstart: true })], ['2026-10-19']).length, 2, 'nur Staffelstarts: der erste dient trotzdem als Vorlage')
+const nurStart = saalKulisse([tv(7, { staffelstart: true })], ['2026-10-19'])
+assert.equal(nurStart.length, 2, 'nur Staffelstarts: der erste dient trotzdem als Vorlage')
+assert.ok(!('staffelstart' in nurStart[1]), 'auch dann ohne Ring')
 assert.equal(saalKulisse([tv(7, { releaseType: 'movie', platform: 'kino' })], ['2026-10-19', '2026-10-26']).length, 3, 'nur Filme: Vorlage ist der erste')
 
 const wocheDatei = JSON.stringify({ von: '2026-10-19', bis: '2026-10-25', titles: [{ id: 2 }], releases: [{ slug: 's2' }], events: ohneKino })
