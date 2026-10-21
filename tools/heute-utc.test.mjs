@@ -10,6 +10,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { stellenInQuelle } from './heute-utc.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const werkzeug = join(tools, 'heute-utc.mjs')
@@ -42,14 +43,8 @@ const grenzen = (n) => {
   return datei
 }
 
-let zaehler = 0
-/** Fundstellen einer einzelnen Quelltext-Zeile (Grenze 99, damit nur --liste zählt). */
-const funde = (text, datei = 'pipeline/a.ts') => {
-  const wurzel = baum(`f${zaehler++}`, { [datei]: text })
-  const antwort = lauf(wurzel, grenzen(99), '--liste')
-  assert.equal(antwort.status, 0, antwort.stderr)
-  return antwort.stdout.split('\n').filter(Boolean)
-}
+/** Fundstellen eines Quelltexts (der Weg über Dateien und Prozess ist unten in „Reichweite“ und „Grenze“ geprüft). */
+const funde = (text, datei = 'pipeline/a.ts') => stellenInQuelle(datei, text)
 
 try {
   // Jede Form von „heute in UTC“ zählt genau einmal, mit der richtigen Zeile.
