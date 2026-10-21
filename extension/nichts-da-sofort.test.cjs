@@ -64,12 +64,14 @@ async function netflix() {
     const r = await vm.runInContext(`totMelden('${id}', 'Bakugan')`, eigen)
     const nachher = vm.runInContext(`fertig('${id}', { titel: 'x' })`, eigen)
     const anderer = vm.runInContext(`fertig('70243420', { titel: 'y' })`, eigen)
-    return { vorher, r, nachher, anderer }
+    const vermerkt = vm.runInContext(`JSON.stringify(erledigt['${id}'] ?? [])`, eigen)
+    return { vorher, r, nachher, anderer, vermerkt }
   }
   const gut = await lauf('81659233', antwort(200))
   pruefe('Netflix: vor der Meldung ist der Titel offen (Stand führt ihn)', gut.vorher === false, gut)
   pruefe('Netflix: „nichts da" angekommen → Titel nicht mehr offen', gut.r.ok === true && gut.nachher === true, gut)
   pruefe('Netflix: ein anderer Titel bleibt offen', gut.anderer === false, gut)
+  pruefe('Netflix: der Vermerk "tot" wird weiter gespeichert', gut.vermerkt === '["tot"]', gut)
   const fehl = await lauf('81659233', antwort(503))
   pruefe('Netflix: Antwort 503 → Meldung nicht ok, Titel bleibt offen', fehl.r.ok === false && fehl.nachher === false, fehl)
   const wirft = await lauf('81659233', async () => {
@@ -97,6 +99,8 @@ async function disney() {
   pruefe('Disney: merke(ok=true) gibt true zurück', w.merke('u1', true) === true)
   pruefe('Disney: danach gilt die Adresse', w.gilt('u1') === true)
   pruefe('Disney: eine andere Adresse nicht', w.gilt('u2') === false)
+  w.merke('u2', true)
+  pruefe('Disney: zweite Antwort löscht die erste nicht', w.gilt('u1') === true && w.gilt('u2') === true)
   pruefe('Disney: Wiedervorlage vor der Antwort → beantwortet', w.gilt('u1', '2026-08-26') === true)
   pruefe('Disney: Wiedervorlage nach der Antwort → wieder offen', w.gilt('u1', '2026-12-01') === false)
   pruefe('Disney: Wiedervorlage am selben Tag → beantwortet', w.gilt('u1', '2026-10-21') === true)
@@ -106,6 +110,7 @@ async function disney() {
   pruefe('Disney: nach 30 Tagen fragt die Liste wieder', w.gilt('u1') === false)
   pruefe('Disney: erledigt() nimmt die Antwort des Briefkastens', w.erledigt('u9', null, true) === true)
   pruefe('Disney: erledigt() ohne beides ist offen', w.erledigt('u9', null, false) === false)
+  jetzt = FEST
   dauer.setItem('ak-disney-weg', '{kaputt')
   pruefe('Disney: kaputter Speicher → offen, kein Absturz', w.gilt('u1') === false)
   const leer = fabrik({ dauer: speicherKulisse(), jetzt: () => FEST })
@@ -126,13 +131,13 @@ async function disney() {
 async function disneyDrinnen(fabrik) {
   const quelle = lies('disney.js')
   const code = [schneide(quelle, 'istErledigt', '  '), schneide(quelle, 'meldeWeg', '  ')].join('\n')
-  const lauf = async (fetchAntwort, eintrag) => {
+  const lauf = async (fetchAntwort, eintrag, bekannt = {}) => {
     const k = vm.createContext({
       console,
-      erneutBeantwortet: new Set(),
-      briefkasten: new Map(),
-      gemeldeteAdressen: new Set(),
-      wartetAufUebernahme: new Set(),
+      erneutBeantwortet: new Set(bekannt.erneut ?? []),
+      briefkasten: new Map((bekannt.briefkasten ?? []).map((u) => [u, []])),
+      gemeldeteAdressen: new Set(bekannt.gemeldet ?? []),
+      wartetAufUebernahme: new Set(bekannt.wartet ?? []),
       anbieterStaffeln: [],
       WORKER: 'https://w.example/pruefung',
       chrome: { storage: { sync: { get: async () => ({ token: 't' }) } } },
@@ -160,6 +165,16 @@ async function disneyDrinnen(fabrik) {
     throw new Error('offline')
   }, einfach)
   pruefe('Disney: Netz fällt aus → bleibt offen', d.ok === false && d.nachher === false, d)
+  const spaet = await lauf(antwort(200), { ...wiedervorlage, seit: '2026-12-01' })
+  pruefe('Disney: Wiedervorlage nach der Antwort → wieder offen', spaet.ok === true && spaet.nachher === false, spaet)
+  const antwortete = await lauf(antwort(503), wiedervorlage, { erneut: [wiedervorlage.url] })
+  pruefe('Disney: Wiedervorlage vom Briefkasten beantwortet → erledigt', antwortete.vorher === true, antwortete)
+  const nurBriefkasten = await lauf(antwort(503), einfach, { briefkasten: [einfach.url] })
+  pruefe('Disney: nur im Briefkasten → erledigt', nurBriefkasten.vorher === true, nurBriefkasten)
+  const nurGemeldet = await lauf(antwort(503), einfach, { gemeldet: [einfach.url] })
+  pruefe('Disney: nur in den gemeldeten Adressen → erledigt', nurGemeldet.vorher === true, nurGemeldet)
+  const nurWartet = await lauf(antwort(503), einfach, { wartet: [einfach.url] })
+  pruefe('Disney: nur wartend auf Übernahme → erledigt', nurWartet.vorher === true, nurWartet)
 }
 
 /* ---- Der Gebiets-Dialog von Disney+ als Erkennungsmerkmal ------------------------------------ */
