@@ -33,7 +33,7 @@ const tvTermin = (extra: object = {}): Release =>
     schedule: { firstEpisodeDate: '2026-11-05', time: '18:25', episodeCount: 24 },
     year: 2026,
     sources: [QUELLE],
-    quellen: [{ url: QUELLE, name: 'anime2you.de' }],
+    quellen: [{ url: QUELLE, name: 'Anime2You News' }],
     ...extra,
   }) as unknown as Release
 const discTermin = (extra: object = {}): Release =>
@@ -60,12 +60,17 @@ const tvAngabe = { text: 'Fg. 1 · Do 05.11. 18:25', premiere: true, zeit: 'Do 0
 console.log('\nTV-Pille:')
 const ankuendigung = zeile(tvTermin(), tvAngabe)
 pruefe('Ankündigung ohne Programm: Fernseh-Zeichen führt zur Quelle', links(ankuendigung).includes(QUELLE), links(ankuendigung))
-pruefe('… mit dem Namen der Quelle im Hinweis', ankuendigung.includes('Quelle des Termins: anime2you.de'))
+pruefe('… mit dem Namen der Quelle im Hinweis', ankuendigung.includes('Quelle des Termins: Anime2You News'))
 const mitProgramm = zeile(tvTermin(), { ...tvAngabe, programm: PROGRAMM })
 pruefe('mit Programm-Adresse: Fernseh-Zeichen führt ins Programm', links(mitProgramm).includes(PROGRAMM) && !links(mitProgramm).includes(QUELLE), links(mitProgramm))
 const nurSources = tvTermin({ quellen: undefined })
 pruefe('ohne `quellen` gilt die erste Adresse aus `sources`', tvQuelle(nurSources)?.url === QUELLE && tvQuelle(nurSources)?.name === 'anime2you.de', tvQuelle(nurSources))
 const ohneQuelle = zeile(tvTermin({ quellen: undefined, sources: [] }), tvAngabe)
+const ANDERE = 'https://www.example.org/anderswo'
+const beide = tvQuelle(tvTermin({ quellen: [{ url: QUELLE, name: 'anime2you.de' }], sources: [ANDERE] }))
+pruefe('`quellen` geht vor `sources`', beide?.url === QUELLE, beide)
+const ohneName = tvQuelle(tvTermin({ quellen: [{ url: QUELLE }] }))
+pruefe('eine Quelle ohne Namen heißt wie ihr Host', ohneName?.name === 'anime2you.de', ohneName)
 pruefe('keine Quelle, kein Fernseh-Zeichen', !ohneQuelle.includes('Quelle des Termins') && !ohneQuelle.includes('Im TV-Programm'), links(ohneQuelle))
 pruefe('eine Adresse ohne http(s) wird nicht verlinkt', tvQuelle(tvTermin({ quellen: [{ url: 'javascript:alert(1)', name: 'x' }], sources: ['ftp://x'] })) === undefined)
 pruefe('Tag und Uhrzeit tragen `text-ak-tv`', ankuendigung.includes('text-ak-tv">Do 05.11. 18:25'))
@@ -85,6 +90,8 @@ const gleich = (e: string): string | undefined => kurzeAusgabe(e)
 pruefe('„Komplettset Blu-ray · Komplettset“ → „Komplettset“', gleich('Komplettset Blu-ray · Komplettset') === 'Komplettset', gleich('Komplettset Blu-ray · Komplettset'))
 pruefe('„Standard & Limited Edition, Blu-ray“ → ohne Medium', gleich('Standard & Limited Edition, Blu-ray') === 'Standard & Limited Edition', gleich('Standard & Limited Edition, Blu-ray'))
 pruefe('zwei verschiedene Ausgaben bleiben beide', gleich('Vol. 1 · Vol. 2') === 'Vol. 1 · Vol. 2', gleich('Vol. 1 · Vol. 2'))
+pruefe('steht die kürzere Fassung vorn, bleibt die längere', gleich('Komplettset · Komplettset Limited Edition Blu-ray') === 'Komplettset Limited Edition', gleich('Komplettset · Komplettset Limited Edition Blu-ray'))
+pruefe('ein Medium am Ende nimmt sein „+“ mit', gleich('Limited Edition Blu-ray + DVD') === 'Limited Edition', gleich('Limited Edition Blu-ray + DVD'))
 pruefe('nur das Medium → nichts', gleich('Blu-ray') === undefined, gleich('Blu-ray'))
 pruefe('ohne Angabe → nichts', gleich('') === undefined)
 

@@ -12,7 +12,6 @@ function ohneMedium(teil: string): string {
     .replace(MEDIUM, ' ')
     .replace(/\s+/g, ' ')
     .replace(/\s+([,:;])/g, '$1')
-    .replace(/\s*\+\s*(?=[,:;]|$)/g, '')
     .replace(/^[\s,:;+&-]+|[\s,:;+&-]+$/g, '')
 }
 
