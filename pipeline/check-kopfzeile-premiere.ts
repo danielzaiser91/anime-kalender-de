@@ -24,6 +24,7 @@ import { legendeFuer } from '../web/src/components/detail/pille.tsx'
 import { translate } from '../web/src/lib/i18n.tsx'
 import { newsSatz } from '../web/src/lib/news-text.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
+import { vergissAlte } from './lib/news-einfrieren.ts'
 import { newsSatz as mailSatz } from '../worker/src/mail-abschnitte.ts'
 
 let verletzt = 0
@@ -180,6 +181,8 @@ const omuUndOffen = bereich(alt([omuWeg, offenWeg]), [ffTermin])
 pruefe('OmU und offen: „Sprache offen“ nur im Kopf, die OmU-Marke bleibt', zaehle(omuUndOffen, 'Sprache offen') === 1 && omuUndOffen.includes('nur Untertitel'), omuUndOffen)
 const belegtUndOffen = bereich(alt([{ ...cr, dubRanges: [{ from: 1, to: 12, dub: true }] }, offenWeg]), [ffTermin])
 pruefe('Kopf sagt Deutsch, ein Weg offen: die Marke „Sprache offen“ steht allein einmal', zaehle(belegtUndOffen, 'Sprache offen') === 1 && !belegtUndOffen.includes('Anbieter, Sprache offen'), belegtUndOffen)
+const laeuftOffen = bereich(alt([{ ...cr, dubRanges: [{ from: 1, to: 6, dub: true }] }, offenWeg]), [ffTermin])
+pruefe('Kein Kopf „Sprache offen“ (Art „teilweise“): die Marke an der Pille bleibt', zaehle(laeuftOffen, 'Sprache offen') === 1 && !laeuftOffen.includes('Anbieter, Sprache offen'), laeuftOffen)
 const frueher = titel({ episodes: 12, streams: [{ ...cr, dubRanges: [{ from: 1, to: 12, dub: true }] }], deErstausgabe: { von: '2026-03-01', synchro: false } })
 pruefe('Termine kommen an: früherer Stream blendet „seit“ aus', !bereich(frueher, [ffTermin]).includes('Auf Deutsch seit'), bereich(frueher, [ffTermin]))
 const spaeter = titel({ episodes: 12, streams: [{ ...cr, dubRanges: [{ from: 1, to: 12, dub: true }] }], deErstausgabe: { von: '2025-02-03', synchro: false } })
@@ -242,7 +245,13 @@ pruefe('Historie eines anderen Schlüssels schützt nicht', andere.some((s) => s
 const vergessen = { zuerst: {} } as NewsHistorie
 nachBau(tvTermin(fern), vergessen)
 pruefe('neue Meldung hinterlässt den Marken-Eintrag in der Historie', vergessen.premiere?.[SCHLUESSEL] === true, vergessen)
-const satzFremd =nachBau(tvTermin({ ...fern, premiere: { weg: 'tv', quelle: 'https://example.org/fremd' } }))
+const ohneMarkeHistorie = { zuerst: {} } as NewsHistorie
+nachBau(tvTermin({ ...fern, premiere: undefined }), ohneMarkeHistorie)
+pruefe('neue Meldung ohne Premiere-Beleg hinterlässt keinen Marken-Eintrag', ohneMarkeHistorie.premiere === undefined, ohneMarkeHistorie)
+const altesGedaechtnis = { zuerst: { a: '2025-01-01', b: '2026-10-01' }, premiere: { a: true, b: true } } as NewsHistorie
+vergissAlte(altesGedaechtnis, '2026-01-01')
+pruefe('Gedächtnis vergisst die Marke mit der alten Meldung, nicht die der jungen', JSON.stringify(altesGedaechtnis.premiere) === '{"b":true}', altesGedaechtnis.premiere)
+const satzFremd = nachBau(tvTermin({ ...fern, premiere: { weg: 'tv', quelle: 'https://example.org/fremd' } }))
 pruefe('Premiere-Beleg nicht unter den Belegen der Meldung: „Im TV bei …“', satzFremd.length > 0 && satzFremd.every((s) => s.startsWith('Im TV bei ')), satzFremd)
 const mailMeldung = { art: 'angekuendigt', platform: 'tv', anbieter: 'ProSieben MAXX', datum: '2026-11-05' }
 const mailPremiere = mailSatz({ ...mailMeldung, premiere: true } as never)
