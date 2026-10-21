@@ -31,8 +31,7 @@ export function urteile(comments) {
       const m = /\*\*Prüfer-Review\*\* für ([0-9a-f]{7,40})\b[\s\S]*?Urteil: \*\*(ok|aendern)\b/.exec(c.body)
       if (m) aus.push({ zeit: Date.parse(c.createdAt), quelle: 'bot', kopf: m[1], gut: m[2] === 'ok' })
     } else if (login === 'danielzaiser91') {
-      const erste = c.body.split('\n')[0]
-      const m = /^Prüfer(?!\p{L}).*?(?<!\p{L})(freigeben|ändern)(?!\p{L})/iu.exec(erste)
+      const m = /^Prüfer(?!\p{L}).*?(?<!\p{L})(freigeben|ändern)(?!\p{L})/iu.exec(c.body)
       if (m) aus.push({ zeit: Date.parse(c.createdAt), quelle: 'daniel', kopf: /Kopf ([0-9a-f]{7,40})/.exec(c.body)?.[1] ?? null, gut: m[1].toLowerCase() === 'freigeben' })
     }
   }
@@ -49,7 +48,7 @@ export function checkStand(rollup) {
   if (rollup.length === 0) return { art: 'offen' }
   const rote = rollup.filter((c) => ROT.has(c.conclusion) || ROT.has(c.state))
   if (rote.length > 0) return { art: 'rot', seit: Math.max(...rote.map((c) => Date.parse(c.completedAt ?? c.startedAt ?? 0) || 0)) }
-  const alleGruen = rollup.every((c) => (c.status === 'COMPLETED' && GRUEN.has(c.conclusion)) || c.state === 'SUCCESS')
+  const alleGruen = rollup.every((c) => GRUEN.has(c.conclusion) || c.state === 'SUCCESS')
   return { art: alleGruen ? 'gruen' : 'offen' }
 }
 

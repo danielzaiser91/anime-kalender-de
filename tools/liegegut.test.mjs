@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { geteilteEntscheidungen, liegegut, main, mainCommits, signaleEinzel, ueberholtTreffer, urteile } from './liegegut.mjs'
+import { geteilteEntscheidungen, liegegut, main, mainCommits, naechsterSchritt, signaleEinzel, ueberholtTreffer, urteile } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -136,8 +136,52 @@ console.log('liegegut: Signal 7 Überholt-Gegenprobe (Fälle 1437, 1371, 1386)')
   pruefe('Stamm: „Termine“ trifft „Terminen“', ueberholtTreffer('Kanal Termine', ['d.ts'], [{ hash: 'x', betreff: 'Kanal Terminen', dateien: ['d.ts'] }]).length === 1)
 }
 
+console.log('liegegut: Grenzen und Randfälle (Mutationsprobe 21.10.2026)')
+{
+  const minute = (stunden) => new Date(JETZT - stunden * 3600 * 1000 - 60000).toISOString()
+  const ae = (zeit) => ({ ...bot(0, KOPF, 'aendern'), createdAt: zeit })
+  pruefe('Ändern-Urteil 24 h und eine Minute → Signal 5', nummern(pr(30, { comments: [ae(minute(24))] }), 40).includes(5))
+  const unsortiert = urteile([daniel(1, 'Prüfer: ändern'), daniel(5, 'Prüfer: freigeben')])
+  pruefe('Urteile kommen nach Zeit sortiert (älteste zuerst)', unsortiert.map((u) => u.gut).join() === 'true,false', unsortiert)
+  pruefe('Daniel-Urteil nur aus der ersten Zeile', urteile([daniel(1, 'Prüfer Runde 1: Hinweis', 'freigeben')]).length === 0)
+  const gleich = signaleEinzel(pr(31, { comments: [{ ...daniel(0, 'Prüfer: ändern'), createdAt: new Date(JETZT - 30 * 3600 * 1000).toISOString() }] }), JETZT - 30 * 3600 * 1000, JETZT)
+  pruefe('Daniel-Urteil ohne Kopf zur Sekunde des Kopf-Commits gilt', gleich.map((s) => s.nr).join() === '5', gleich)
+  pruefe('CANCELLED ist weder grün noch rot', nummern(pr(32, { comments: [bot(20, KOPF, 'ok')], statusCheckRollup: [...GRUEN, { status: 'COMPLETED', conclusion: 'CANCELLED', completedAt: h(20) }] })).length === 0)
+  pruefe('StatusContext state SUCCESS zählt als grün', nummern(pr(33, { comments: [bot(20, KOPF, 'ok')], statusCheckRollup: [{ state: 'SUCCESS' }] })).includes(1))
+  pruefe('zweiter, jüngerer Fehlschlag (5 h) setzt die Rotzeit zurück', !nummern(pr(34, { statusCheckRollup: [{ status: 'COMPLETED', conclusion: 'FAILURE', completedAt: h(30) }, { status: 'COMPLETED', conclusion: 'FAILURE', completedAt: h(5) }] })).includes(4))
+  pruefe('StatusContext ohne completedAt: startedAt zählt (5 h → nicht rot lang genug)', !nummern(pr(35, { statusCheckRollup: [{ state: 'ERROR', startedAt: h(5) }] })).includes(4))
+  const widerspruch = signaleEinzel(pr(36, { comments: [bot(60, KOPF, 'ok'), bot(50, KOPF, 'aendern'), bot(40, KOPF, 'ok')] }), JETZT - 100 * 3600 * 1000, JETZT).find((s) => s.nr === 2)
+  pruefe('Signal 2 „seit“ ist das jüngste Urteil', widerspruch !== undefined && widerspruch.seit === JETZT - 40 * 3600 * 1000, widerspruch)
+  const stufe1 = signaleEinzel(pr(37, { comments: [bot(30, KOPF, 'aendern'), bot(20, KOPF, 'ok')] }), JETZT - 100 * 3600 * 1000, JETZT)
+  pruefe('Ändern, dann ok: Signal 5 entfällt, Signal 2 steht', stufe1.map((s) => s.nr).join() === '2', stufe1)
+  const nur = (titel, commitBetreff) => ueberholtTreffer(titel, ['d.ts'], [{ hash: 'x', betreff: commitBetreff, dateien: ['d.ts'] }]).length
+  pruefe('Wörter unter 5 Buchstaben zählen nicht (Kanal + kein + eine)', nur('Kanal erbt kein Deutsch', 'Kanal erbt kein Brot') === 0 && nur('Kanal erbt Deutsch', 'Kanal erbt Deutsch') === 1)
+  pruefe('Stamm 6: Terminal ≠ Terminen reicht zusammen mit Kanal', nur('Kanal Terminen', 'Kanal Terminal') === 1)
+  pruefe('Stamm nicht kürzer: Sendeplan ≠ Sendezeit', nur('Kanal Sendeplan', 'Kanal Sendezeit') === 0)
+  pruefe('Stamm nicht länger: Termine = Terminen', nur('Kanal Termine', 'Kanal Terminen') === 1)
+  pruefe('Füllwort statt zählt nicht (statt + Stempel allein ist kein Treffer)', nur('Stift statt Stempel', 'Rand statt Stempel') === 0)
+  pruefe('Füllwörter nicht, keine, sowie, wieder, schon, gegen zählen nicht', nur('nicht keine sowie wieder schon gegen', 'nicht keine sowie wieder schon gegen') === 0)
+  const zweiDateien = [{ hash: 'x', betreff: 'Kanal Deutsch', dateien: ['d.ts', 'fremd.ts'] }]
+  pruefe('Commit mit zwei Dateien, eine gemeinsam → Treffer', ueberholtTreffer('Kanal Deutsch', ['d.ts'], zweiDateien).length === 1)
+  const f = (titel) => pr(40, { title: titel, body: '' })
+  pruefe('F-Nummer nur im Titel zählt', geteilteEntscheidungen([f('Regel F39'), pr(41, { body: 'F39' })]).size === 2)
+}
+
+console.log('liegegut: nächster Schritt (Tabelle)')
+{
+  const t = [
+    [[1], [1], false, 'ÜBERHOLT?'], [[3], [1], false, 'ÜBERHOLT?'], [[5], [1], false, 'ÜBERHOLT?'], [[1], [], false, 'MERGEN'],
+    [[2], [1], true, 'DANIEL'], [[4], [1], false, 'NACHBESSERN'], [[6], [1], false, 'DANIEL'], [[2], [], true, 'DANIEL'],
+    [[2], [], false, 'NACHBESSERN'], [[3], [], false, 'NACHBESSERN'], [[1, 6], [], false, 'DANIEL'], [[2, 3], [], true, 'DANIEL'],
+  ]
+  for (const [n, treffer, botLetzt, soll] of t) {
+    const ist = naechsterSchritt(n, treffer.map(() => ({})), botLetzt)
+    pruefe(`Signale ${n} Treffer ${treffer.length} bot-zuletzt ${botLetzt} → ${soll}`, ist === soll, ist)
+  }
+}
+
 // Gesamtlauf mit eingespeistem gh/git: Anlassfälle, Reihenfolge der Schritte
-const GIT_LOG = ['\x01ad6d02998\tfix(bau): Urteil-Ja löscht die JustWatch-Kennzeichnung (#1441)', 'pipeline/bau/urteil-schliesst-luecken.ts', ''].join('\n')
+const GIT_LOG = ['\x01ad6d02998\tfix(bau): Urteil-Ja löscht die JustWatch-Kennzeichnung (#1441)', 'pipeline/bau/urteil-schliesst-luecken.ts', '\x0159d384028\tfix: Alle Staffeln meldet nur gemeldete Staffeln (#1688)', 'extension/melder.js', ''].join('\n')
 const LISTE = [
   pr(1676, { comments: [bot(20, KOPF, 'ok')], title: 'feat(x): Freigabe liegt' }),
   pr(1437, { mergeable: 'CONFLICTING', mergeStateStatus: 'DIRTY', comments: [bot(40, KOPF, 'ok')], title: 'fix(bau): spätes Urteil entfernt die JustWatch-Flagge am selben Weg' }),
@@ -146,13 +190,14 @@ const LISTE = [
   pr(1513, { comments: [daniel(60, 'Prüfer: freigeben'), bot(59, KOPF, 'aendern')], body: 'F39', title: 'Regel Uhrzeit' }),
   pr(1508, { comments: [daniel(2, 'Hinweis')], body: 'F39', title: 'data: Tank Chair' }),
   pr(1700, { isDraft: true, mergeable: 'CONFLICTING', comments: [daniel(90, 'Hinweis')] }),
+  pr(1390, { comments: [bot(30, KOPF, 'aendern')], title: 'feat(netflix): Meldung meldet die Staffel' }),
   pr(1701, { comments: [daniel(2, 'frisch')] }),
 ]
 const attrappeGh = (liste, aufrufe = []) => (args) => {
   aufrufe.push(args.join(' '))
   if (args[0] === 'pr') return JSON.stringify(liste)
   if (args[1].includes('/commits/')) return h(100)
-  if (args[1].endsWith('/files')) return args[1].includes('/1437/') ? 'pipeline/bau/urteil-schliesst-luecken.ts\n' : 'andere.ts\n'
+  if (args[1].endsWith('/files')) return args[1].includes('/1437/') ? 'pipeline/bau/urteil-schliesst-luecken.ts\n' : args[1].includes('/1390/') ? 'extension/melder.js\n' :'andere.ts\n'
   throw new Error(`unerwartet: ${args.join(' ')}`)
 }
 const attrappeGit = (log = GIT_LOG, aufrufe = []) => (args) => {
@@ -172,6 +217,9 @@ console.log('liegegut: Gesamtlauf mit Anlassfällen')
   pruefe('1397 → NACHBESSERN (Daniel ändern zuletzt)', /^PR 1397: NACHBESSERN – Signal 2/.test(nach(1397) ?? ''), nach(1397))
   pruefe('1513 → DANIEL (Bot zuletzt, F39)', /^PR 1513: DANIEL – Signal 2 .*; 5 .*; 6 Gleiche offene Entscheidung F39/.test(nach(1513) ?? ''), nach(1513))
   pruefe('1508 → DANIEL (nur F39 geteilt), ohne Gegenprobe', /^PR 1508: DANIEL – Signal 6 Gleiche offene Entscheidung F39 – seit \d\d\.\d\d\. [\d:]+$/.test(nach(1508) ?? ''), nach(1508))
+  pruefe('1390 nur Signal 5 mit Treffer → ÜBERHOLT? (Gegenprobe läuft auch für Signal 5)', /^PR 1390: ÜBERHOLT\? – Signal 5 .*Treffer 59d384028/.test(nach(1390) ?? ''), nach(1390))
+  pruefe('„seit“ 1508: Kopf-Commit (17.10. 11:00 Berlin)', (nach(1508) ?? '').endsWith('seit 17.10. 11:00'), nach(1508))
+  pruefe('„seit“ 1676: Kommentar (20.10. 19:00 Berlin)', (nach(1676) ?? '').includes('seit 20.10. 19:00;'), nach(1676))
   pruefe('Entwurf und frischer PR ohne Zeile', nach(1700) === undefined && nach(1701) === undefined)
   pruefe('Gegenprobe nur für Signale 1, 3, 5: 1508 (nur Signal 6) ruft die Dateiliste nicht ab', !gh.some((a) => a.includes('/pulls/1508/files')) && gh.some((a) => a.includes('/pulls/1437/files')))
   pruefe('git log mit origin/main, Beginn am PR-Datum und Dateinamen', git.length > 0 && git.every((a) => a === `log origin/main --since=${h(200)} --name-only --format=%x01%h%x09%s`), git)
@@ -187,7 +235,7 @@ console.log('liegegut: Nichtauskunft und Startlogik')
   pruefe('gh wirft → Exit 2', main(() => { throw new Error('HTTP 502') }, attrappeGit(), (t) => aus.push(t), JETZT) === 2 && /FEHLER HTTP 502/.test(aus.join()))
   const ok = []
   const code = main(attrappeGh(LISTE), attrappeGit(), (t) => ok.push(t), JETZT)
-  pruefe('Funde → Exit 0 und Schlusszeile mit Zahl', code === 0 && ok.at(-1) === 'liegegut: 6 auffällige PRs', ok.at(-1))
+  pruefe('Funde → Exit 0 und Schlusszeile mit Zahl', code === 0 && ok.at(-1) === 'liegegut: 7 auffällige PRs', ok.at(-1))
   const leer = []
   pruefe('ohne Funde → Exit 0, „0 auffällige PRs“', main(attrappeGh([pr(1, {})]), attrappeGit(), (t) => leer.push(t), JETZT) === 0 && leer.at(-1) === 'liegegut: 0 auffällige PRs')
 }
