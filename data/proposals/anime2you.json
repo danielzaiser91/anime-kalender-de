@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-10-20T17:02:44.839Z",
+  "scrapedAt": "2026-10-21T04:14:46.655Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 42,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 6,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
+    "schon in einem Rubrik-Feed gelesen": 34,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 47,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -20,7 +20,32 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Cyberpunk: Edgerunners II",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ],
+          "folgen": 10,
+          "datum": "2026-10-20",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Dragon Ball Super: Beerus",
+          "zusatz": "Episode 1",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ],
+          "datum": "2026-10-18",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-21"
     },
     {
       "articleTitle": "Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm",
@@ -47,7 +72,31 @@
       "platforms": [],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Neon Genesis Evangelion",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "JustWatch TV"
+          ],
+          "folgen": 26,
+          "datum": "2026-10-20",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Your Name.",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "JustWatch TV"
+          ],
+          "datum": "2026-10-20",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-21"
     },
     {
       "articleTitle": "Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt",
@@ -358,7 +407,54 @@
       "dates": [],
       "dub": "unklar",
       "pause": "verschoben",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "verschiebungen": [
+        {
+          "titel": "Afro Samurai (Komplettbox im limitierten Steelbook)",
+          "alt": "2027-03-05",
+          "neu": "2027-05-07"
+        },
+        {
+          "titel": "Kaiju No. 8 – Staffel 2 (Komplettbox)",
+          "alt": "2027-03-05",
+          "neu": "2027-05-07"
+        },
+        {
+          "titel": "Good Luck Girl! – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-11-20",
+          "neu": "2027-02-05"
+        },
+        {
+          "titel": "Good Luck Girl! – Vol. 2 (Limited Edition)",
+          "alt": "2027-02-05",
+          "neu": "2027-03-05"
+        },
+        {
+          "titel": "Sakamoto Days – Vol. 2 (Limited Edition)",
+          "alt": "2026-10-30",
+          "neu": "2026-12-11"
+        },
+        {
+          "titel": "Sakamoto Days – Vol. 3 (Limited Edition)",
+          "alt": "2026-11-13",
+          "neu": "2027-01-15"
+        },
+        {
+          "titel": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 4 (Limited Edition)",
+          "alt": "2027-01-15",
+          "neu": "2027-02-19"
+        },
+        {
+          "titel": "Virgin Road – Vol. 2 (Limited Edition)",
+          "alt": "2026-10-30",
+          "neu": "2026-12-04"
+        },
+        {
+          "titel": "Virgin Road – Vol. 3 (Limited Edition)",
+          "alt": "2026-11-20",
+          "neu": "2027-01-15"
+        }
+      ]
     },
     {
       "articleTitle": "Neuer Trailer zum Finale von »Bleach: Thousand-Year Blood War«",
@@ -533,7 +629,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-18"
+      "sammelGelesen": "2026-10-21"
     },
     {
       "articleTitle": "Design der 30th Anniversary Edition von »Detektiv Conan«",
@@ -833,7 +929,7 @@
           "folgen": 54
         }
       ],
-      "sammelGelesen": "2026-10-18"
+      "sammelGelesen": "2026-10-21"
     },
     {
       "articleTitle": "Erste »Kaiju No. 8«-Staffel erscheint im limitierten Steelbook + Design",
@@ -1048,58 +1144,6 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "zeiten": [
-        {
-          "tag": "Mittwoch",
-          "zeit": "19:15",
-          "satz": "Mage Enjoys a Second Lease on Life« »The World’s Strongest Witch« »A Returner’s Magic Should Be Special« – Staffel 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 19:15 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Dienstag",
-          "zeit": "16:30",
-          "satz": "ngenheit zurückkehrt, will er die Zukunft verändern und den Untergang verhindern. »Battle Spirits [Re] ZEKKAI NO KU« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 16:30 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Mittwoch",
-          "zeit": "19:00",
-          "satz": "en verfolgt wird, schließt er sich ihm an und begibt sich auf eine Reise, die Geschichte schreiben soll. »Dandivine« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 19:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Mittwoch",
-          "zeit": "17:15",
-          "satz": "Shijima landet im Cockpit des legendären Roboters und muss sich der neuen Bedrohung stellen. »Magic Knight Rayearth« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 17:15 Uhr Hinweis: Deutsche Synchronisation angek"
-        },
-        {
-          "tag": "Mittwoch",
-          "zeit": "15:00",
-          "satz": "phiro, die drei Mädchen als legendäre Magic Knights um Hilfe, um ihre Welt zu retten. »Sasaki and Peeps« – Staffel 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 15:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Dienstag",
-          "zeit": "16:45",
-          "satz": "ger Magier aus einer anderen Welt ist, der Sasaki mit besonderen Kräften ausstattet. »Super Psychic Policeman Chojo« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 16:45 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Dienstag",
-          "zeit": "15:30",
-          "satz": "uku für Recht und Ordnung und stellt sich den dortigen Verbrechern entgegen. »The Cold Sato-san is Only Sweet to Me« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 15:30 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Mittwoch",
-          "zeit": "15:30",
-          "satz": "Durch ihre gemeinsamen Interessen kommen sich die beiden langsam näher. »The Detective Is Already Dead« – Staffel 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 15:30 Uhr Hinweis: Deutsche Synchronisation angek"
-        },
-        {
-          "tag": "Dienstag",
-          "zeit": "17:30",
-          "satz": "wörung und zurück zu seiner verstorbenen Partnerin. »The Laid-Off Cheat-Granting Mage Enjoys a Second Lease on Life« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 17:30 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Mittwoch",
-          "zeit": "15:00",
-          "satz": "usgestoßene, mit denen er gegen Monster kämpft und nach einem Platz in der Welt sucht. »The World’s Strongest Witch« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 15:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        }
-      ],
       "alreadyCurated": false,
       "sammel": [
         {
@@ -1752,7 +1796,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-18"
+      "sammelGelesen": "2026-10-21"
     },
     {
       "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
@@ -2031,7 +2075,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-10-18"
+      "sammelGelesen": "2026-10-21"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -3098,7 +3142,7 @@
           "edition": ""
         }
       ],
-      "discGelesen": "2026-10-18"
+      "discGelesen": "2026-10-21"
     },
     {
       "articleTitle": "Design der limitierten Steelbook-Edition von »My Dress-Up Darling«",
@@ -3356,10 +3400,6 @@
         "netflix"
       ],
       "dates": [
-        {
-          "iso": "2026-10-20",
-          "context": "sem Artikel. Ab Oktober 2026 »Cyberpunk: Edgerunners II« erscheint am 20. Oktober 2026 weltweit bei Netflix und wird unter anderem mit deuts"
-        },
         {
           "month": "2026-10",
           "context": "veröffentlicht. Das Video findet ihr weiter unten in diesem Artikel. Ab Oktober 2026 »Cyberpunk: Edgerunners II« erscheint am 20. Oktober 2"
