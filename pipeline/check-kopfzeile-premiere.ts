@@ -13,6 +13,8 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { parse } from 'yaml'
 import type { Release, StreamLink, Title } from '../shared/types.ts'
 import { adresseIstOmu } from '../shared/omu-adresse.ts'
+import { AntwortBereich } from '../web/src/components/detail/antwort-bereich.tsx'
+import { sortiereNachZugang } from '../web/src/components/detail/wege-sortieren.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
 import { AntwortKasten } from '../web/src/components/detail/antwort-kasten.tsx'
 import { deutschBegonnen } from '../web/src/components/detail/antwort-regeln.ts'
@@ -22,6 +24,7 @@ import { legendeFuer } from '../web/src/components/detail/pille.tsx'
 import { translate } from '../web/src/lib/i18n.tsx'
 import { newsSatz } from '../web/src/lib/news-text.ts'
 import { baueNews } from './lib/news.ts'
+import { newsSatz as mailSatz } from '../worker/src/mail-abschnitte.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -128,6 +131,61 @@ pruefe('Gerendert: keine Kaufausgabe-Zeile', !ffKopf.includes('Kaufausgabe'))
 const fruehDe = titel({ episodes: 12, streams: [{ ...cr, dubRanges: [{ from: 1, to: 12, dub: true }] }], deErstausgabe: { von: '2020-01-01', synchro: false } })
 pruefe('Gerendert: eine echte frühere Erstausgabe bleibt sichtbar', kopf(fruehDe, [ffTermin]).includes('Auf Deutsch seit 01.01.2020'), kopf(fruehDe, [ffTermin]))
 
+console.log('\nGerendert über AntwortBereich (Verdrahtung):')
+const leer = { verbindung: { verbunden: false }, favorites: new Set(), folgenAngabeFuer: () => '', dubZeilen: () => [], releaseJePlattform: new Map() }
+function bereich(t: Title, rs: Release[]): string {
+  const antwort = berechneAntwort({ title: t, releases: rs, today: HEUTE, jetzt: JETZT })
+  const eingabe = {
+    ...leer,
+    antwort,
+    sortiertNachZugang: sortiereNachZugang({ title: t }),
+    streamReleases: [],
+    terminReleases: [],
+    title: t,
+    t: translate,
+    today: HEUTE,
+    wegeHinweis: undefined,
+    tvVorbei: [],
+    kastenNotiz: undefined,
+    folgenLuecke: null,
+    releases: rs,
+    discAusgaben: [],
+    discOffen: false,
+    setDiscOffen: () => undefined,
+    discReleases: [],
+  }
+  return text(renderToStaticMarkup(createElement(AntwortBereich, eingabe as never)))
+}
+const omuWeg = { platform: 'crunchyroll', url: akiba, zugang: 'abo' }
+const offenWeg = { platform: 'netflix', url: 'https://x.de/serie/foo', zugang: 'abo' }
+const alt = (streams: object[]): Title => titel({ episodes: 12, streams })
+pruefe('nur OmU-Wege: „Anbieter, nur Untertitel“', bereich(alt([omuWeg]), [ffTermin]).includes('Anbieter, nur Untertitel'), bereich(alt([omuWeg]), [ffTermin]))
+pruefe('OmU und offener Weg: „Anbieter, Sprache offen“', bereich(alt([omuWeg, offenWeg]), [ffTermin]).includes('Anbieter, Sprache offen'), bereich(alt([omuWeg, offenWeg]), [ffTermin]))
+pruefe('nur offener Weg: „Anbieter, Sprache offen“', bereich(alt([offenWeg]), [ffTermin]).includes('Anbieter, Sprache offen'))
+pruefe('Pille trägt „nur Untertitel“, nicht „Sprache offen“', bereich(alt([omuWeg]), [ffTermin]).includes('nur Untertitel') && !bereich(alt([omuWeg]), [ffTermin]).includes('Sprache offen'))
+const frueher = titel({ episodes: 12, streams: [{ ...cr, dubRanges: [{ from: 1, to: 12, dub: true }] }], deErstausgabe: { von: '2026-03-01', synchro: false } })
+pruefe('Termine kommen an: früherer Stream blendet „seit“ aus', !bereich(frueher, [ffTermin]).includes('Auf Deutsch seit'), bereich(frueher, [ffTermin]))
+const spaeter = titel({ episodes: 12, streams: [{ ...cr, dubRanges: [{ from: 1, to: 12, dub: true }] }], deErstausgabe: { von: '2025-02-03', synchro: false } })
+pruefe('Gegenprobe: späterer Stream lässt „seit“ stehen', bereich(spaeter, [ffTermin]).includes('Auf Deutsch seit 03.02.2025'), bereich(spaeter, [ffTermin]))
+const neuigkeit = titel({ episodes: 12, streams: [{ ...cr, dubRanges: [{ from: 1, to: 12, dub: true }] }], deErstausgabe: { von: '2020-01-01', synchro: true } })
+pruefe('Erstausgabe als Neuigkeit: keine „seit“-Zeile', !kopf(neuigkeit, [ffTermin]).includes('Auf Deutsch seit'), kopf(neuigkeit, [ffTermin]))
+const zukunftOhneStream = titel({ deErstausgabe: { von: '2026-11-06', synchro: true } })
+const zkKopf = kopf(zukunftOhneStream, [tvTermin()])
+pruefe('Erstausgabe in der Zukunft ist kein Beginn: „Erste Folge“ statt „Alle 24“', zkKopf.includes('Erste Folge') && !zkKopf.includes('Alle 24'), zkKopf)
+pruefe('Stream ohne Angabe zur Tonspur ist kein Beginn', !deutschBegonnen(titel({ streams: [{ platform: 'x', url: 'https://x/a' }] }), 0, HEUTE))
+pruefe('Zeitraum nach heute (Dezember) wird nicht unterdrückt', deSeitZeigen(erst('2026-12'), [], HEUTE))
+const zwei = [{ ...crTermin, schedule: { firstEpisodeDate: '2025-02-04' } }, { ...crTermin, slug: 'cr2', schedule: { firstEpisodeDate: '2025-05-01' } }] as unknown as Release[]
+pruefe('mehrere Termine des Anbieters: der früheste zählt', !deSeitZeigen({ ...erst('2025-03-01'), streams: [cr] } as never, zwei, HEUTE))
+pruefe('mehrere Termine, Reihenfolge egal', !deSeitZeigen({ ...erst('2025-03-01'), streams: [cr] } as never, [...zwei].reverse(), HEUTE))
+pruefe('Weg mit belegtem Deutsch bleibt „belegt“ trotz OmU-Adresse', streamWegStatus({ eintraege: [{ url: akiba, dubRanges: [{ from: 1, to: 2, dub: true }] }] } as never, titel()) === 'belegt')
+
+const film = (von: string): Title => titel({ format: 'MOVIE', episodes: 1, streams: [{ ...cr, dubRanges: undefined }], deErstausgabe: { von, synchro: false } })
+const filmKopf = kopf(film('2020-01-01'), [])
+pruefe('Film: früher Tag steht als „seit“', filmKopf.includes('Auf Deutsch seit 01.01.2020'), filmKopf)
+pruefe('Film: Tag nach heute steht nie als „seit“', !kopf(film('2026-11-06'), []).includes('Auf Deutsch seit'), kopf(film('2026-11-06'), []))
+const komplettPlusTv = berechneAntwort({ title: titel({ episodes: 12 }), releases: [ffTermin, tvTermin()], today: HEUTE, jetzt: JETZT })!
+pruefe('belegt abgeschlossen, Folgen erschienen, TV-Wiederholung folgt: bleibt „fertig“', komplettPlusTv.art === 'fertig', komplettPlusTv.art)
+
 console.log('\nLegende und Notizen:')
 pruefe('Legende „Sprache offen“ gibt es nicht mehr', legendeFuer(['offen'], false, translate as never) === undefined)
 pruefe('Marke der Pille heißt „Deutsch?“', translate('detail.statusOffen' as never) === 'Deutsch?')
@@ -153,6 +211,15 @@ const satzOhne = nachBau(tvTermin({ ...fern, premiere: undefined }))
 pruefe('ohne Handbeleg bleibt „Im TV bei …“', satzOhne.length > 0 && satzOhne.every((s) => s.startsWith('Im TV bei ProSieben MAXX am ')), satzOhne)
 const satzAnderer = nachBau(tvTermin({ ...fern, premiere: { weg: 'stream', quelle: 'https://example.org/a' } }))
 pruefe('Premiere auf anderem Weg (stream) ist keine TV-Premiere', satzAnderer.length > 0 && satzAnderer.every((s) => s.startsWith('Im TV bei ')), satzAnderer)
+const mailMeldung = { art: 'angekuendigt', platform: 'tv', anbieter: 'ProSieben MAXX', datum: '2026-11-05' }
+const mailPremiere = mailSatz({ ...mailMeldung, premiere: true } as never)
+pruefe('Mail: belegte Premiere heißt „Deutsche TV-Premiere“', mailPremiere.startsWith('Deutsche TV-Premiere bei ProSieben MAXX am Donnerstag, den '), mailPremiere)
+pruefe('Mail: ohne Marke bleibt „Im TV bei …“', mailSatz(mailMeldung as never).startsWith('Im TV bei ProSieben MAXX am Donnerstag'))
+const nachgetragen = tvTermin({ ...fern, nachtrag: { kurz: 'Probe', abschnitte: [] } })
+const nachtragMeldungen = baueNews([titel({ id: 900101 })], [nachgetragen], [], [], { zuerst: {} }).flatMap((e) => e.meldungen)
+pruefe('Nachtrag eines Premieren-Termins trägt die Marke nicht', nachtragMeldungen.some((m) => m.art === 'nachgetragen') && nachtragMeldungen.every((m) => !m.premiere), nachtragMeldungen)
+const alleMeldungen = baueNews([titel({ id: 900101 })], [tvTermin(fern)], [], [], { zuerst: {} }).flatMap((e) => e.meldungen)
+pruefe('Marke nur an der angekündigten Meldung', alleMeldungen.filter((m) => m.premiere).every((m) => m.art === 'angekuendigt') && alleMeldungen.some((m) => m.premiere === true), alleMeldungen)
 
 console.log(`\nKopfzeile/Premiere: ${verletzt ? `${verletzt} verletzt` : 'alle Prüfungen bestanden'}`)
 if (verletzt) process.exit(1)
