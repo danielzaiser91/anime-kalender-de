@@ -20,6 +20,9 @@ const WEGWERF_WURZEL = {
   'pipeline/check-sammelartikel.ts': ['data/proposals/aussagen.json', 'data/sammelartikel-stand.json'],
   'pipeline/check-termine-woche-lauf.ts': ['data/crunchyroll-woche-belege.json'],
   'pipeline/check-vorfaelle-ablauf.ts': ['daniel-zum-abarbeiten/listen/17-vorfaelle.md'],
+  'tools/bau-eingaben.test.mjs': ['data/bestand-historie.jsonl'],
+  'tools/delta-wache-historie.test.mjs': ['data/bestand-historie.jsonl'],
+  'tools/delta-wache-pendel.test.mjs': ['data/bestand-historie.jsonl'],
 }
 
 // Wächter, die das Lesen verbieten oder prüfen, nennen den Namen als Muster.
@@ -29,7 +32,9 @@ const VERBOTSLISTE = {
 }
 
 // nebendateien.ts schreibt 18-suchadressen.md; lib/health.ts schreibt source-health.json und wird vom Bau nur über adn-news.ts erreicht.
+// 13-2-auslieferung.ts nennt die Datei nur in einem Kommentar ohne Sternzeile.
 const SCHREIBER = {
+  'pipeline/bau/13-2-auslieferung.ts': ['data/bestand-historie.jsonl'],
   'pipeline/bau/nebendateien.ts': ['daniel-zum-abarbeiten/listen/18-suchadressen.md'],
   'pipeline/lib/health.ts': ['data/source-health.json'],
 }

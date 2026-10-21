@@ -28,7 +28,7 @@ function importe(wurzel, datei) {
   const ziele = []
   for (const m of text.matchAll(/['"`](\.{1,2}\/[^'"`\n]+)['"`]/g)) {
     const basis = path.posix.normalize(path.posix.join(path.posix.dirname(datei), m[1]))
-    ziele.push(...[basis, ...ENDUNGEN.map((ende) => basis + ende)].filter((k) => istCode(wurzel, k)))
+    ziele.push(basis, ...ENDUNGEN.map((ende) => basis + ende))
   }
   return ziele
 }
@@ -51,7 +51,7 @@ export function bauDateien(wurzel) {
 /** Prüfungen der Kette: Skripte der Logik-Liste, `tools/*.test.*` (nicht der eigene Test) und die Kette selbst (nur vorhandene Dateien). */
 export function kettenDateien(wurzel) {
   const liste = path.join(wurzel, 'tools/check-logic-liste.txt')
-  const ausListe = fs.existsSync(liste) ? fs.readFileSync(liste, 'utf8').split('\n').map((z) => z.trim()).filter((z) => z && !z.startsWith('#')) : []
+  const ausListe = fs.existsSync(liste) ? fs.readFileSync(liste, 'utf8').split('\n').map((z) => z.trim()) : []
   const tests = alleDateien(wurzel, 'tools').filter((d) => /^tools\/(?!pr-nachrechnen-bot-pfade)[^/]*\.test\.(ts|mjs)$/.test(d))
   const alle = [...new Set([...ausListe, ...tests, '.github/workflows/pr-pruefung.yml'])]
   return alle.filter((d) => fs.existsSync(path.join(wurzel, d)) && fs.statSync(path.join(wurzel, d)).isFile()).sort()
