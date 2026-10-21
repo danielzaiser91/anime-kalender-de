@@ -14,6 +14,7 @@
   { "datei": "pipeline/check-logic.ts", "liest": "data/termine-verpasst.json", "grund": "Eigenschaft (keine Folge doppelt); Vermerke werden nie gelöscht, nur gestrichen markiert" },
   { "datei": "pipeline/check-logic.ts", "liest": "data/anisearch-eintraege.json", "grund": "aniSearch-Eintragsbestand wächst nur (8276 Einträge am 20.10.2026); die Kennungen der MAL-Ausnahmen bleiben darin" },
   { "datei": "pipeline/check-logic.ts", "liest": "data/kennungen.json", "grund": "Kennungsregister: eine vergebene ak bleibt, die vier Dubletten-Zeilen und ihre Nachfolger stehen dauerhaft darin" },
+  { "datei": "pipeline/check-omu-ohne-termin.ts", "liest": "data/anisearch-dubs.json", "grund": "dynamischer Import nur für setzeMarkenFuerPruefung: setzt Testmarken in einer Kulisse (AK_ROOT), liest die Datei nicht" },
   { "datei": "pipeline/check-invarianten.ts", "liest": "data/anisearch-dubs.json", "grund": "ganze Karte als Eingabe der Auslieferungs-Invarianten (Eigenschaft über alle Titel), kein fester Schlüssel" },
   { "datei": "pipeline/check-invarianten.ts", "liest": "data/anisearch-dub-ids.json", "grund": "ganze Liste als Eingabe der Auslieferungs-Invarianten (Eigenschaft über alle Titel), kein fester Schlüssel" },
   { "datei": "pipeline/check-luecken-staffel0.ts", "liest": "data/tmdb-staffel0.json", "grund": "nur nicht leer und ladeStaffel0 reicht die Schlüssel durch, kein fester Schlüssel" },
