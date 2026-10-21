@@ -5,7 +5,7 @@ export const TEXTE_ZEILEN = {
   'detail.statusSchwester': 'laut Schwester-Shop',
   'detail.statusAnnahme': 'Deutsch angenommen',
   'detail.statusOmu': 'nur Untertitel',
-  'detail.statusOffen': 'Deutsch?',
+  'detail.statusOffen': 'Sprache offen',
   'detail.stand': 'Stand {datum}',
   'detail.pilleJustwatch': 'Deutsch laut JustWatch (Stand {datum})',
   'detail.legendeJustwatch': '„laut JustWatch“: deutsche Tonspur dort gelistet, von uns nicht je Folge geprüft.',

@@ -23,7 +23,7 @@ import { alleNurUntertitel, alleOhneSprachbeleg, streamStatus, streamWegStatus }
 import { legendeFuer } from '../web/src/components/detail/pille.tsx'
 import { translate } from '../web/src/lib/i18n.tsx'
 import { newsSatz } from '../web/src/lib/news-text.ts'
-import { baueNews } from './lib/news.ts'
+import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { newsSatz as mailSatz } from '../worker/src/mail-abschnitte.ts'
 
 let verletzt = 0
@@ -173,6 +173,13 @@ pruefe('nur OmU-Wege: „Anbieter, nur Untertitel“', bereich(alt([omuWeg]), [f
 pruefe('OmU und offener Weg: „Anbieter, Sprache offen“', bereich(alt([omuWeg, offenWeg]), [ffTermin]).includes('Anbieter, Sprache offen'), bereich(alt([omuWeg, offenWeg]), [ffTermin]))
 pruefe('nur offener Weg: „Anbieter, Sprache offen“', bereich(alt([offenWeg]), [ffTermin]).includes('Anbieter, Sprache offen'))
 pruefe('Pille trägt „nur Untertitel“, nicht „Sprache offen“', bereich(alt([omuWeg]), [ffTermin]).includes('nur Untertitel') && !bereich(alt([omuWeg]), [ffTermin]).includes('Sprache offen'))
+const zaehle = (html: string, wort: string): number => html.split(wort).length - 1
+const nurOffen = bereich(alt([offenWeg]), [ffTermin])
+pruefe('Kopf „Sprache offen“ und keine Marke daneben: genau einmal', zaehle(nurOffen, 'Sprache offen') === 1, nurOffen)
+const omuUndOffen = bereich(alt([omuWeg, offenWeg]), [ffTermin])
+pruefe('OmU und offen: „Sprache offen“ nur im Kopf, die OmU-Marke bleibt', zaehle(omuUndOffen, 'Sprache offen') === 1 && omuUndOffen.includes('nur Untertitel'), omuUndOffen)
+const belegtUndOffen = bereich(alt([{ ...cr, dubRanges: [{ from: 1, to: 12, dub: true }] }, offenWeg]), [ffTermin])
+pruefe('Kopf sagt Deutsch, ein Weg offen: die Marke „Sprache offen“ steht allein einmal', zaehle(belegtUndOffen, 'Sprache offen') === 1 && !belegtUndOffen.includes('Anbieter, Sprache offen'), belegtUndOffen)
 const frueher = titel({ episodes: 12, streams: [{ ...cr, dubRanges: [{ from: 1, to: 12, dub: true }] }], deErstausgabe: { von: '2026-03-01', synchro: false } })
 pruefe('Termine kommen an: früherer Stream blendet „seit“ aus', !bereich(frueher, [ffTermin]).includes('Auf Deutsch seit'), bereich(frueher, [ffTermin]))
 const spaeter = titel({ episodes: 12, streams: [{ ...cr, dubRanges: [{ from: 1, to: 12, dub: true }] }], deErstausgabe: { von: '2025-02-03', synchro: false } })
@@ -198,7 +205,7 @@ pruefe('belegt abgeschlossen, Folgen erschienen, TV-Wiederholung folgt: bleibt �
 
 console.log('\nLegende und Notizen:')
 pruefe('Legende „Sprache offen“ gibt es nicht mehr', legendeFuer(['offen'], false, translate as never) === undefined)
-pruefe('Marke der Pille heißt „Deutsch?“', translate('detail.statusOffen' as never) === 'Deutsch?')
+pruefe('Marke der Pille heißt wie der Kopf: „Sprache offen“', translate('detail.statusOffen' as never) === 'Sprache offen')
 const noten: string[] = []
 for (const f of readdirSync('data/curated').filter((x) => x.startsWith('tv-') && x.endsWith('.yaml'))) {
   const dok = parse(readFileSync(`data/curated/${f}`, 'utf8')) as unknown
@@ -209,8 +216,8 @@ for (const f of readdirSync('data/curated').filter((x) => x.startsWith('tv-') &&
 pruefe('keine TV-Notiz beginnt mit „Uhrzeit:“ (Herleitung gehört in den YAML-Kommentar)', noten.length === 0, noten)
 
 console.log('\nMeldung „Deutsche TV-Premiere“:')
-const nachBau = (r: Release): string[] =>
-  baueNews([titel({ id: 900101 })], [r], [], [], { zuerst: {} })
+const nachBau = (r: Release, historie: NewsHistorie = { zuerst: {} }): string[] =>
+  baueNews([titel({ id: 900101 })], [r], [], [], historie)
     .flatMap((e) => e.meldungen)
     .filter((m) => m.platform === 'tv')
     .map((m) => newsSatz(m))
@@ -221,7 +228,21 @@ const satzOhne = nachBau(tvTermin({ ...fern, premiere: undefined }))
 pruefe('ohne Handbeleg bleibt „Im TV bei …“', satzOhne.length > 0 && satzOhne.every((s) => s.startsWith('Im TV bei ProSieben MAXX am ')), satzOhne)
 const satzAnderer = nachBau(tvTermin({ ...fern, premiere: { weg: 'stream', quelle: 'https://example.org/a' } }))
 pruefe('Premiere auf anderem Weg (stream) ist keine TV-Premiere', satzAnderer.length > 0 && satzAnderer.every((s) => s.startsWith('Im TV bei ')), satzAnderer)
-const satzFremd = nachBau(tvTermin({ ...fern, premiere: { weg: 'tv', quelle: 'https://example.org/fremd' } }))
+const SCHLUESSEL = 'angekuendigt:probe-tv:2999-11-05'
+const alteHistorie = (): NewsHistorie => ({ zuerst: { [SCHLUESSEL]: '2026-10-10' } })
+const satzAlt = nachBau(tvTermin(fern), alteHistorie())
+pruefe('Meldung aus der Historie behält „Im TV bei …“ trotz Premiere-Beleg', satzAlt.length > 0 && satzAlt.every((s) => s.startsWith('Im TV bei ProSieben MAXX am ')), satzAlt)
+pruefe('Meldung aus der Historie: Text byte-gleich zur Meldung ohne Handbeleg', JSON.stringify(satzAlt) === JSON.stringify(nachBau(tvTermin({ ...fern, premiere: undefined }), alteHistorie())), satzAlt)
+const folge = { zuerst: {} } as NewsHistorie
+const ersterBau = nachBau(tvTermin(fern), folge)
+const zweiterBau = nachBau(tvTermin(fern), folge)
+pruefe('neue Meldung bekommt die Marke und behält sie im nächsten Bau', ersterBau.some((s) => s.startsWith('Deutsche TV-Premiere')) && JSON.stringify(zweiterBau) === JSON.stringify(ersterBau), [ersterBau, zweiterBau])
+const andere = nachBau(tvTermin({ ...fern, slug: 'andere-tv' }), alteHistorie())
+pruefe('Historie eines anderen Schlüssels schützt nicht', andere.some((s) => s.startsWith('Deutsche TV-Premiere')), andere)
+const vergessen = { zuerst: {} } as NewsHistorie
+nachBau(tvTermin(fern), vergessen)
+pruefe('neue Meldung hinterlässt den Marken-Eintrag in der Historie', vergessen.premiere?.[SCHLUESSEL] === true, vergessen)
+const satzFremd =nachBau(tvTermin({ ...fern, premiere: { weg: 'tv', quelle: 'https://example.org/fremd' } }))
 pruefe('Premiere-Beleg nicht unter den Belegen der Meldung: „Im TV bei …“', satzFremd.length > 0 && satzFremd.every((s) => s.startsWith('Im TV bei ')), satzFremd)
 const mailMeldung = { art: 'angekuendigt', platform: 'tv', anbieter: 'ProSieben MAXX', datum: '2026-11-05' }
 const mailPremiere = mailSatz({ ...mailMeldung, premiere: true } as never)

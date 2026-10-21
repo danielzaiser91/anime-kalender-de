@@ -42,7 +42,7 @@ import { titelNachSerienId, waehleStaffel } from './news-cr-zuordnung.ts'
 import { rhythmusMeldung } from './news-rhythmus.ts'
 import { ohneDoppelteTakte, taktMeldungen } from './news-takt.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
-import { haltWeitererFest, vergissAlte } from './news-einfrieren.ts'
+import { haltPremiereFest, haltWeitererFest, vergissAlte } from './news-einfrieren.ts'
 import { premiereBelegtTv } from '../../shared/premiere.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
@@ -63,6 +63,8 @@ export interface NewsHistorie extends TerminGedaechtnis {
   anbieter?: Record<string, string>
   /** Meldungsschlüssel (`angekuendigt`) → `weiterer` vom Bau, der die Meldung erzeugte (`news-einfrieren.ts`). */
   weiterer?: Record<string, boolean>
+  /** Meldungsschlüssel → `true`, wenn die Meldung beim ersten Bau schon „Deutsche TV-Premiere“ sagte; ältere Meldungen behalten ihren Text. */
+  premiere?: Record<string, true>
 }
 
 /**
@@ -453,7 +455,7 @@ export function baueNews(
   }
 
   /* 3. Termine: angekündigt, auf Disc, im Kino — und die, die niemand eingehalten hat. */
-  roh.push(...terminMeldungen(releases, nachId, heute), ...omuMeldungen([...titles, ...omuTitel], releases), ...offizielleMeldungen(titles, offizielle))
+  roh.push(...haltPremiereFest(historie, terminMeldungen(releases, nachId, heute)),...omuMeldungen([...titles, ...omuTitel], releases), ...offizielleMeldungen(titles, offizielle))
   /* Das Datum: beim ersten Mal gemerkt, danach unverändert. */
   let datiert: DatiertNews[] = []
   for (const r of roh) {
