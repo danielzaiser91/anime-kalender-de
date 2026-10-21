@@ -157,6 +157,12 @@ export function belegeVonRelease(r: Release): NewsBeleg[] | undefined {
  * Am 29.09.2026 aus `baueNews` herausgelöst (Längengrenze); dabei trägt jede Meldung ihre
  * **Quelle** — die Stelle, an der wir den Termin gelesen haben.
  */
+/** Die Marke „Deutsche TV-Premiere“ nur, wenn der Handbeleg unter den Belegen der Meldung selbst steht (Meldung = Aussage zu ihrem Tag). */
+function premiereSteht(r: Release): boolean {
+  const quelle = r.premiere?.quelle
+  return premiereBelegtTv(r) && !!quelle && (belegeVonRelease(r) ?? []).some((b) => b.url === quelle)
+}
+
 function terminMeldungen(
   releases: Release[],
   nachId: Map<number, Title>,
@@ -197,7 +203,7 @@ function terminMeldungen(
         titel: t,
         platform: r.platform, ...(r.platform === 'tv' && r.sender ? { anbieter: r.sender } : {}),
         ...(r.kanal ? { kanal: r.kanal } : {}),
-        ...(art === 'angekuendigt' && premiereBelegtTv(r) ? { premiere: true } : {}),
+        ...(art === 'angekuendigt' && premiereSteht(r) ? { premiere: true } : {}),
         datum,
         release: r.slug,
         ...(art === 'disc' && ausgabeKurz(r.edition) ? { ausgabe: ausgabeKurz(r.edition) } : {}),

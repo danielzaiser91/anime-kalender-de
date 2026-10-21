@@ -49,15 +49,23 @@ export function zeilenGruppen(sortiert: Wege, title: Title, releases: Release[])
   })
 }
 
+/** Die Statusart jeder Stream-Zeile (Pillen und Kaufwege), Grundlage der Kopf-Entscheidungen. */
+function zeilenArten(sortiert: Wege, title: Title, releases: Release[]): DubStatusArt[] {
+  return [
+    ...sortiert.flatMap((x) => x.plattformen.map((s) => streamStatus(title, s, releases))),
+    ...sortiert.flatMap((x) => x.streamWege.map((g) => streamWegStatus(g, title))),
+  ]
+}
+
 /** Gibt es Stream-Zeilen, und trägt keine einen Sprachbeleg? Dann steht kein „Auf Deutsch …“ über ihnen. */
 export function alleOhneSprachbeleg(sortiert: Wege, title: Title, releases: Release[]): boolean {
-  const arten = [...sortiert.flatMap((x) => x.plattformen.map((s) => streamStatus(title, s, releases))), ...sortiert.flatMap((x) => x.streamWege.map((g) => streamWegStatus(g, title)))]
+  const arten = zeilenArten(sortiert, title, releases)
   return arten.length > 0 && arten.every(ohneBeleg)
 }
 
 /** Alle Stream-Zeilen tragen nur Untertitel (OmU): Der Kopf sagt „nur Untertitel“ statt „Sprache offen“. */
 export function alleNurUntertitel(sortiert: Wege, title: Title, releases: Release[]): boolean {
-  const arten = [...sortiert.flatMap((x) => x.plattformen.map((s) => streamStatus(title, s, releases))), ...sortiert.flatMap((x) => x.streamWege.map((g) => streamWegStatus(g, title)))]
+  const arten = zeilenArten(sortiert, title, releases)
   return arten.length > 0 && arten.every((a) => a === 'omu')
 }
 
