@@ -250,6 +250,7 @@ tools/feste-uhr.test.ts
 tools/heute-utc.mjs
 tools/hover-cover.test.ts
 tools/link-check-ende.test.ts
+tools/link-check-zeitbudget.test.ts
 tools/quarantaene-pruefungen.test.ts
 tools/quellen-gesundheit.test.ts
 tools/quittung-nach-commit-waechter.mjs

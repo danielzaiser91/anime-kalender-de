@@ -123,7 +123,7 @@ const stub = join(tmp, 'fetch-stub.mjs')
 writeFileSync(stub, `globalThis.fetch = async (u) => String(u).includes('netflix') ? new Response('', { status: 404 }) : new Response('<html></html>', { status: 200 })\n`)
 const child = spawn(
   process.execPath,
-  ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1', '--sperrpause', '3600'],
+  ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1', '--sperrpause', '3600', '--zeitbudget', '0'],
   { cwd: tmp, env: { ...process.env, AK_ROOT: tmp }, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] },
 )
 let ausgabe = ''
