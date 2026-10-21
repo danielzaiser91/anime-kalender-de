@@ -408,8 +408,8 @@
     "episode": 12,
     "erwartetAm": "2026-10-14T17:25:00.000Z",
     "bemerktAm": "2026-10-14T18:02:41.716Z",
-    "erschienenAm": null,
-    "verzugStunden": null,
+    "erschienenAm": "2026-10-21T17:25:00.000Z",
+    "verzugStunden": 168,
     "folgenVerfuegbar": 11,
     "tagGeschaetzt": true,
     "neuErwartet": null,
@@ -434,6 +434,12 @@
         0.21861111111111112,
         0.09127789046653144
       ]
+    },
+    "nachgereichtBeleg": {
+      "am": "2026-10-21T18:02:57.438Z",
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-21",
+      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-21/2026-10-21-18-02.jpg",
+      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-21/2026-10-21-18-02.html.gz"
     }
   }
 ]
