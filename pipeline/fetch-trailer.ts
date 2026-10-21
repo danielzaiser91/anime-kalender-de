@@ -53,6 +53,7 @@
  */
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { todayIso } from '../shared/time.ts'
 
 /**
  * **Die Kanäle, in dieser Reihenfolge.**
@@ -172,7 +173,7 @@ function rang(videoTitel: string): number {
 }
 
 function heute(): string {
-  return new Date().toISOString().slice(0, 10)
+  return todayIso()
 }
 
 async function holeJson(url: string): Promise<unknown> {

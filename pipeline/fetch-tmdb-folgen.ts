@@ -27,6 +27,7 @@
 import { loadEnv, fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
+import { todayIso } from '../shared/time.ts'
 
 const args = process.argv.slice(2)
 const LIMIT = Number(args[args.indexOf('--limit') + 1]) || 400
@@ -139,7 +140,7 @@ async function main(): Promise<void> {
 
       bestand[String(t.id)] = {
         tmdbId: id, ...(serie.name ? { nameDe: serie.name } : {}),
-        geholtAm: new Date().toISOString().slice(0, 10),
+        geholtAm: todayIso(),
         staffeln: nummern.length,
         folgen,
       }

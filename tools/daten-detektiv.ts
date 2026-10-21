@@ -22,6 +22,7 @@ import { regelnQuellen } from './daten-detektiv/regeln-quellen.ts'
 import { regelnTermine } from './daten-detektiv/regeln-termine.ts'
 import { regelnTitel } from './daten-detektiv/regeln-titel.ts'
 import { festzuschreiben, ladeBekannt, neueFunde, schreibeBekannt } from './daten-detektiv/wache.ts'
+import { todayIso } from '../shared/time.ts'
 
 function argument(name: string): string | undefined {
   const i = process.argv.indexOf(name)
@@ -41,7 +42,7 @@ function wache(regeln: Regel[]): void {
 }
 
 function main(): void {
-  const heute = argument('--heute') ?? new Date().toISOString().slice(0, 10)
+  const heute = argument('--heute') ?? todayIso()
   const ziel = resolve(WURZEL, argument('--aus') ?? 'daniel-zum-abarbeiten')
   const nur = argument('--nur')?.split(',')
   const b = ladeBestand(heute)

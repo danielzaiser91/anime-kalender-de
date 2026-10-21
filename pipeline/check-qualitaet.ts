@@ -22,6 +22,7 @@
  */
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'
+import { todayIso } from '../shared/time.ts'
 
 interface Kennzahlen {
   gemessenAm: string
@@ -46,7 +47,7 @@ const HART: (keyof Kennzahlen)[] = ['dubFalseImBestand', 'doppelteAdressen', 've
 function main(): void {
   const titles = readJson<Title[]>('public/data/titles.json', [])
   const events = readJson<{ date?: string; titleId?: number }[]>('public/data/events.json', [])
-  const heute = new Date().toISOString().slice(0, 10)
+  const heute = todayIso()
   const ids = new Set(titles.map((t) => t.id))
 
   let verweise = 0

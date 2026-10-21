@@ -365,7 +365,7 @@ async function naechsteStaffel(page: Page, bisher: string): Promise<boolean> {
 }
 
 async function serieLesenSeitenanzeige(page: Page, url: string): Promise<CrSerie> {
-  const heute = new Date().toISOString().slice(0, 10)
+  const heute = todayIso()
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 })
 
   /**
@@ -850,7 +850,7 @@ async function main(): Promise<void> {
     if (bisher?.seriesId === eintrag.seriesId) continue
     kennungen.adressen[eintrag.url] = {
       seriesId: eintrag.seriesId,
-      geprueftAm: eintrag.gesuchtAm ?? new Date().toISOString().slice(0, 10),
+      geprueftAm: eintrag.gesuchtAm ?? todayIso(),
       ziel: 'aus der Suche im deutschen Katalog',
     }
     deUebernommen++

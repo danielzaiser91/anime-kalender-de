@@ -11,12 +11,13 @@
  */
 import { chromium } from 'playwright'
 import { writeFileSync } from 'node:fs'
+import { todayIso } from '../shared/time.ts'
 
 const OUT = (process.env.TEMP ?? '/tmp').replaceAll(String.fromCharCode(92), '/') + '/panel-stichprobe-'
 const hol = async (p) => (await fetch(`https://anime-kalender.de/data/${p}?x=${Date.now()}`)).json()
 const titles = await hol('titles.json')
 const releases = await hol('releases.json')
-const heute = new Date().toISOString().slice(0, 10)
+const heute = todayIso()
 const relJe = new Map()
 for (const r of releases) relJe.set(r.titleId, [...(relJe.get(r.titleId) ?? []), r])
 

@@ -25,6 +25,7 @@ import { riegelGreift } from './lib/youtube-riegel.ts'
 import type { Title } from '../shared/types.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { todayIso } from '../shared/time.ts'
 
 const KEY = process.env.YOUTUBE_API_KEY ?? ''
 const API = 'https://www.googleapis.com/youtube/v3'
@@ -59,7 +60,7 @@ interface Befund {
 
 type Bestand = Record<string, Befund>
 
-const heute = () => new Date().toISOString().slice(0, 10)
+const heute = () => todayIso()
 
 /**
  * Playlist, Einzelvideo — oder Kanal.

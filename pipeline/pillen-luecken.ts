@@ -12,9 +12,10 @@
 import { log, readJson, writeJson } from './lib/util.ts'
 import { folgenAuskunft } from '../web/src/components/detail/folgen-angabe.ts'
 import type { Release, Title } from '../shared/types.ts'
+import { todayIso } from '../shared/time.ts'
 
 const ANBIETER = ['netflix', 'primevideo', 'disneyplus']
-const heute = new Date().toISOString().slice(0, 10)
+const heute = todayIso()
 
 /** Ein Weg mit Haken, aber ohne Folgenzahl auf der Pille. */
 export interface PillenLuecke {

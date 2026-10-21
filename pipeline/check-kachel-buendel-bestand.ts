@@ -7,6 +7,7 @@ import { readFileSync } from 'node:fs'
 import type { Release, ReleaseEvent } from '../shared/types.ts'
 import { buendeleKacheln } from '../web/src/lib/buendel.ts'
 import { istStaffelstart } from '../web/src/lib/staffelstart.ts'
+import { todayIso } from '../shared/time.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -44,7 +45,7 @@ function bestandspruefung(): void {
     }
   }
   pruefe('keine zweite Kachel desselben Titels beim selben Anbieter am selben Tag', doppelt.length === 0, doppelt.slice(0, 10))
-  console.log(`  Info: ${mitZusatz} Kacheln tragen Zusatzfolgen (Stand ${new Date().toISOString().slice(0, 10)}).`)
+  console.log(`  Info: ${mitZusatz} Kacheln tragen Zusatzfolgen (Stand ${todayIso()}).`)
 }
 
 bestandspruefung()

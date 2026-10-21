@@ -67,6 +67,7 @@ import {
   ladeVdeHistorie,
   schreibeVdeHistorie,
 } from './adn-vde-historie.ts'
+import { todayIso } from '../../shared/time.ts'
 
 const ARCHIV_DIR = resolve(ROOT, 'data/adn-raw')
 
@@ -180,7 +181,7 @@ export function ladeAdnArchiv(optionen: { pflegen?: boolean } = {}): AdnArchiv {
    * ausdrücklich verworfene Rückschluss-Regel stehen in `adn-vde-historie.ts`.
    */
   const historie = ladeVdeHistorie()
-  const heute = new Date().toISOString().slice(0, 10)
+  const heute = todayIso()
   let neu = 0
   let wieder = 0
 

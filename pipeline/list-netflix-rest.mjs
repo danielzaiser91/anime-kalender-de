@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import { todayIso } from '../shared/time.ts'
 const motn = JSON.parse(fs.readFileSync('data/motn.json', 'utf8'))
 const titles = JSON.parse(fs.readFileSync('public/data/titles.json', 'utf8'))
 const liste = Array.isArray(titles) ? titles : titles.titles || Object.values(titles)
@@ -43,7 +44,7 @@ zeilen.sort((a, b) => b.folgen - a.folgen)
 const md = [
   '# Netflix: was kein Automat beantworten kann',
   '',
-  `Stand ${new Date().toISOString().slice(0, 10)} · **${zeilen.length} Titel**.`,
+  `Stand ${todayIso()} · **${zeilen.length} Titel**.`,
   '',
   'Netflix gibt seine Tonspuren nur an einen laufenden Player heraus — fünfmal gemessen,',
   'fünfmal bestätigt. Es gibt keinen Abruf, der das hier abnehmen könnte.',

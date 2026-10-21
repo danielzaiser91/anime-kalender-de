@@ -34,6 +34,7 @@ import { recordSource } from './lib/health.ts'
 import { bestesBild, type Bild } from './lib/cartoons.ts'
 import { tmdbStaffeln, type TmdbStaffelRoh } from './lib/cartoon-staffeln.ts'
 import type { CartoonStaffel } from '../shared/cartoon-staffeln-typ.ts'
+import { todayIso } from '../shared/time.ts'
 
 const TMDB = 'https://api.themoviedb.org/3'
 const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de)'
@@ -112,7 +113,7 @@ async function holeJson(url: string): Promise<unknown> {
  */
 async function kandidaten(schluessel: string): Promise<number[]> {
   const ids = new Set<number>()
-  const heute = new Date().toISOString().slice(0, 10)
+  const heute = todayIso()
 
   const laeufe = [
     {
@@ -209,7 +210,7 @@ async function einzelheiten(tmdbId: number, schluessel: string): Promise<Cartoon
     keywords: (j.keywords?.results ?? []).map((k) => k.name).filter((n): n is string => Boolean(n)),
     staffeln: tmdbStaffeln(j.seasons),
     stand: STAND,
-    geholtAm: new Date().toISOString().slice(0, 10),
+    geholtAm: todayIso(),
   }
 }
 

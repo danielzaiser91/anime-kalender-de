@@ -39,7 +39,7 @@ pruefe('die Reihenfolge ist die der deutschen Sortierung', gruppeOhne.every((g, 
 console.log('Cover für aniSearch-Titel (AniList über die MAL-Kennung)')
 /* Ausnahme mit Ablauf: Beide Titel hatten am 08.10.2026 kein Cover, bis der Abruf es holt; danach gilt die Regel ohne Ausnahme. */
 const koernOhneCover = new Map([[10021566, 'Dragon Ball Super: Beerus'], [10021751, 'Fool Night'], [10021575, 'Cover erst nach dem nächsten Bau'], [10021915, 'Jujutsu Kaisen: Shimetsu Kaiyuu - Kouhen (ohne Jahr, vom Abruf bisher übergangen)']])
-const ausnahmeGilt = new Date().toISOString().slice(0, 10) <= '2026-10-15'
+const ausnahmeGilt = todayIso() <= '2026-10-15'
 const kern = JSON.parse(readFileSync('public/data/titles-core.json', 'utf8')) as { id: number; coverImage?: string }[]
 const ohneCover = kern.filter((t) => !t.coverImage && !(ausnahmeGilt && koernOhneCover.has(t.id))).map((t) => t.id)
 pruefe('jeder Kern-Titel trägt ein Cover', ohneCover.length === 0, ohneCover)

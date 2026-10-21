@@ -60,6 +60,7 @@
 import { readJson, writeJson, log, sleep, warn } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
+import { todayIso } from '../shared/time.ts'
 
 const ZIEL = 'data/cinestar.json'
 const ABSTAND_MS = 1050
@@ -274,7 +275,7 @@ async function main(): Promise<void> {
   }
 
   /** Was schon gelaufen ist, hilft dem Kalender nicht mehr. */
-  const heute = new Date().toISOString().slice(0, 10)
+  const heute = todayIso()
   const ergebnis: Record<string, Sammlung> = {}
   for (const [k, v] of filme) {
     const kuenftig = Object.keys(v.tage).filter((t) => t >= heute)

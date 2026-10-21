@@ -11,6 +11,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { todayIso } from '../shared/time.ts'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const quelle = resolve(wurzel, 'data/rtlplus-befunde.json')
@@ -39,7 +40,7 @@ for (const [url, v] of Object.entries(befunde)) {
 const zeilen = [
   '# RTL+: Stand der Verweise',
   '',
-  `Stand: ${new Date().toISOString().slice(0, 10)}`,
+  `Stand: ${todayIso()}`,
   '',
   '**Die Tonspur sagt RTL+ nicht.** Der `TVSeries`-Block nach schema.org enthält Name,',
   'Beschreibung, Adresse und Bild — kein `audio`, kein `inLanguage` zur Fassung. Das',

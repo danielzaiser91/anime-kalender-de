@@ -19,6 +19,7 @@
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { todayIso } from '../shared/time.ts'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 
@@ -103,7 +104,7 @@ export function ladeBestand() {
 }
 
 /** Der Inhalt der eingefrorenen Datei, gerechnet aus dem heutigen Bestand. */
-export function stichprobeDatei(heute = new Date().toISOString().slice(0, 10)) {
+export function stichprobeDatei(heute = todayIso()) {
   const { cartoons, jw } = ladeBestand()
   return { seed: SEED, erzeugt: heute, quoten: QUOTEN, eintraege: waehleStichprobe(kandidaten(cartoons, jw)) }
 }

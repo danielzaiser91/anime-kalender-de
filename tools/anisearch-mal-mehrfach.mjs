@@ -9,6 +9,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { handKennungen } from '../pipeline/lib/hand-kennungen.ts'
 import { ergebenSichZusammen } from '../pipeline/lib/mal-teilung.ts'
+import { todayIso } from '../shared/time.ts'
 
 export const BASIS = 10_000_000
 export const LISTE = 'daniel-zum-abarbeiten/listen/anisearch-doppelte-kennung.md'
@@ -119,7 +120,7 @@ export function abschnittEinsetzen(datei, abschnitt) {
 if (process.argv[1]?.endsWith('anisearch-mal-mehrfach.mjs')) {
   const lies = (p) => JSON.parse(readFileSync(p, 'utf8'))
   const gruppen = findeMalMehrfach(lies('data/anisearch-eintraege.json'), lies('public/data/titles.json'), lies('public/data/ohne-synchro.json'), handKennungen())
-  const abschnitt = listeAlsMarkdown(gruppen, new Date().toISOString().slice(0, 10))
+  const abschnitt = listeAlsMarkdown(gruppen, todayIso())
   if (process.argv.includes('--schreiben')) writeFileSync(LISTE, abschnittEinsetzen(readFileSync(LISTE, 'utf8'), abschnitt))
   else console.log(abschnitt)
 }

@@ -76,7 +76,7 @@ function suchadressenZiele(): { md: string; json: string } {
 
 export function schreibeSuchadressen(offen: { id: number; titel: string; plattform: string; url: string }[]): void {
   const { md: ziel, json } = suchadressenZiele()
-  const stand = new Date().toISOString().slice(0, 10)
+  const stand = todayIso()
   if (!offen.length) {
     writeTextStand(ziel, [`# Suchadressen`, '', `_Stand ${stand}_`, '', 'Nichts offen — jeder Verweis führt auf eine Titelseite.', ''].join('\n'), STAND_ZEILE)
     /*

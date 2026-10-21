@@ -43,6 +43,7 @@ import {
   volltreffer,
 } from './lib/adn.ts'
 import type { Title } from '../shared/types.ts'
+import { todayIso } from '../shared/time.ts'
 
 /** Was die Quelle zuletzt über einen Verweis gesagt hat. */
 interface Stand {
@@ -76,7 +77,7 @@ interface Verdacht {
   erledigt?: string
 }
 
-const heute = new Date().toISOString().slice(0, 10)
+const heute = todayIso()
 const titles = readJson<Title[]>('public/data/titles.json', [])
 const motn = readJson<MotnDaten>('data/motn.json', MOTN_LEER)
 const staende = readJson<Stand[]>('data/motn-tonspur.json', [])

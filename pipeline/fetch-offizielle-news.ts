@@ -15,6 +15,7 @@ import { STAND_DATEI, VORSCHLAG_DATEI } from './lib/offiziell-pfade.ts'
 import { ladeSeiten, titelJeHost, type TitelJahre } from './lib/offiziell-seiten.ts'
 import type { Stand } from './lib/offiziell-stand.ts'
 import { fuehreZusammen, type Vorschlagsdatei } from './lib/offiziell-vorschlaege.ts'
+import { todayIso } from '../shared/time.ts'
 
 const wert = (name: string, vorgabe: string): string => (process.argv.includes(name) ? (process.argv[process.argv.indexOf(name) + 1] ?? vorgabe) : vorgabe)
 const hat = (name: string): boolean => process.argv.includes(name)
@@ -41,7 +42,7 @@ async function main(): Promise<void> {
   for (const z of ergebnis.zeilen) log(z)
   if (ergebnis.uebrig) warn(`Frist erreicht — ${ergebnis.uebrig} Hosts kommen beim nächsten Lauf dran.`)
   const datei = readJson<Vorschlagsdatei>(VORSCHLAG_DATEI, { vorschlaege: [] })
-  const zusammen = fuehreZusammen(datei.vorschlaege, ergebnis.neu, new Date().toISOString().slice(0, 10))
+  const zusammen = fuehreZusammen(datei.vorschlaege, ergebnis.neu, todayIso())
   log(`Summe: ${ergebnis.zeilen.length} Hosts, ${ergebnis.gelesen} Meldungen gelesen, ${ergebnis.neu.length} relevant, ${zusammen.length - datei.vorschlaege.length} neu in der Vorschlagsdatei`)
   writeJson(STAND_DATEI, ergebnis.stand, true)
   if (!hat('--trocken')) writeJson(VORSCHLAG_DATEI, { vorschlaege: zusammen }, true)

@@ -15,6 +15,7 @@
   Aufruf: node tools/poc-justwatch-amazon.mjs [--je 40]
 */
 import { readFileSync, writeFileSync } from 'node:fs'
+import { todayIso } from '../shared/time.ts'
 
 const je = Number(process.argv[process.argv.indexOf('--je') + 1]) || 40
 const lies = (p) => JSON.parse(readFileSync(p, 'utf8'))
@@ -89,7 +90,7 @@ for (const art of ['kauf', 'prime']) {
   }
 }
 
-writeFileSync('docs/poc-justwatch-amazon.md', `# PoC: JustWatch als Lebenszeichen für Amazon-Adressen (${new Date().toISOString().slice(0, 10)})
+writeFileSync('docs/poc-justwatch-amazon.md', `# PoC: JustWatch als Lebenszeichen für Amazon-Adressen (${todayIso()})
 
 Befund aus \`data/link-check.json\` (gemessen) gegen JustWatch (heute). „tot" darf nie „gleiche ASIN" treffen.
 

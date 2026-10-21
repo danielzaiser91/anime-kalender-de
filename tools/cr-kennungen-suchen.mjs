@@ -31,6 +31,7 @@
  * haben. `--trocken` schreibt nichts.
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { todayIso } from '../shared/time.ts'
 
 const ZIEL = 'data/crunchyroll-de-kennungen.json'
 const UA =
@@ -181,7 +182,7 @@ async function main() {
       unserTitel: o.titel,
       /* Die Adresse gehört dazu — über sie liest der Abruf die Kennung. */
       url: o.url,
-      gesuchtAm: new Date().toISOString().slice(0, 10),
+      gesuchtAm: todayIso(),
     }
     gefunden++
     if (beste.sprachen?.includes('de-DE')) mitDeutsch++
