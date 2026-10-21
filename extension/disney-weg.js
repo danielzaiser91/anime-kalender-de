@@ -42,6 +42,32 @@
     }
   }
 
+  /** Ein Titel, den Disney+ hier gar nicht führt; `true`, wenn die Meldung ankam und lokal vermerkt ist. */
+  globalThis.akDisneyWegSenden = async (e, { worker, anbieterStaffeln, weg: vermerk }) => {
+    const { token } = await chrome.storage.sync.get('token')
+    if (!token) return false
+    try {
+      const antwort = await fetch(worker, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+        body: JSON.stringify({
+          plattform: 'disneyplus',
+          url: e.url,
+          titelId: globalThis.AK_DISNEY_STAFFELN.titelIdFuer(e.staffeln, null, anbieterStaffeln),
+          /* Stufe 1 des Meldemodells: Verfügbarkeit und Sprache getrennt (22.09.2026). */
+          vorhanden: 'nein',
+          art: 'gemessen',
+          titel: e.titel,
+          serientitel: e.titel,
+          notiz: 'Disney+ meldet: nicht in deinem Gebiet verfügbar',
+        }),
+      })
+      return vermerk.merke(e.url, antwort.ok)
+    } catch {
+      return false
+    }
+  }
+
   globalThis.akDisneyWeg = weg
   /* Ohne localStorage (Ladeprobe, gesperrter Speicher) gilt die Antwort nur bis zum Neuladen. */
   const ram = new Map()

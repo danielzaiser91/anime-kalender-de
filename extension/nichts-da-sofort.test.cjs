@@ -144,6 +144,7 @@ async function disneyDrinnen(fabrik) {
       fetch: fetchAntwort,
     })
     k.globalThis = k
+    vm.runInContext(lies('disney-weg.js'), k)
     k.AK_DISNEY_WEG = fabrik({ dauer: speicherKulisse(), jetzt: () => FEST })
     k.AK_DISNEY_STAFFELN = { titelIdFuer: () => null }
     vm.runInContext(code, k)
