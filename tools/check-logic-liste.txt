@@ -214,6 +214,7 @@ pipeline/check-telekom-pille.ts
 pipeline/check-termine-observed-lauf.ts
 pipeline/check-termine-uebersicht.ts
 pipeline/check-termine-woche-lauf.ts
+pipeline/check-titelwechsel.ts
 pipeline/check-tmdb-ablauf.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
