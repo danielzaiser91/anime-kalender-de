@@ -6,7 +6,7 @@ import type { Translate } from '../../lib/i18n.tsx'
 import { Tooltip } from '../ui.tsx'
 import { SynchroMarke } from './reihen-marke.tsx'
 import { staffelKurz, zeilenZusatz } from './reihen-regeln.ts'
-import { brauchtTooltip, COVER_DICHTE, coverDichte, KARTEN_BREITE, panelNachOben } from './reihen-spur-regeln.ts'
+import { brauchtTooltip, COVER_DICHTE, coverDichte, KARTEN_BREITE } from './reihen-spur-regeln.ts'
 import { ZeilenName } from './zeilen-name.tsx'
 
 /** Der Name, wie er unter dem Cover steht (ohne Auszeichnung) — daran misst sich, ob er abgeschnitten wird. */
@@ -118,9 +118,8 @@ export function ReihenCover(p: CoverProps) {
       role="tab"
       aria-selected={gewaehlt}
       disabled={p.gesperrt}
-      onClick={(e) => {
+      onClick={() => {
         if (gewaehlt) return
-        panelNachOben(e.currentTarget)
         p.onWaehlen(m.id)
       }}
       className={[

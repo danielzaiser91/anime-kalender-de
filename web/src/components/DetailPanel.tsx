@@ -11,7 +11,7 @@ import {
 } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
-import { useTeilenAdresse } from './detail/teilen-adresse.ts'
+import { useTitelwechsel } from './detail/titelwechsel.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 import { useTvVorbei } from './detail/tv-vorbei.tsx'
@@ -74,7 +74,7 @@ export function DetailPanel({
     () => titelMitTerminBereichen(titelRoh, data.releasesByTitle.get(titleId) ?? []),
     [titelRoh, data, titleId],
   )
-  useTeilenAdresse(title)
+  useTitelwechsel(titleId, title, (data.releasesByTitle.get(titleId)?.length ?? 0) > 0)
   /**
    * Der leere Rückfall braucht ein `useMemo`, sonst ist er bei jedem Durchlauf
    * ein neues Array — und jeder Hook, der `releases` als Abhängigkeit führt,
