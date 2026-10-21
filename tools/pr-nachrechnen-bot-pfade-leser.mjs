@@ -1,9 +1,10 @@
 /**
  * Sucht Leser der Bot-Dateien ohne Leser (`pr-nachrechnen-bot-pfade.mjs`) im Code des Datenbaus der PR-Kette: Einstiege sind `pipeline/build.ts`
  * (data:build), `pipeline/validate.ts` (data:validate) und `pipeline/check-ja-hat-weg-bestand.ts`, dazu deren Import-Hülle (relative Importe mit
- * Literal, `pipeline/lib/` eingeschlossen) sowie `shared/` und `web/src/` ganz. Kommentarzeilen zählen nicht.
- * Grenzen: Prüfungen und Tests der Kette (`check-logic-liste.txt`, `tools/*.test.mjs`) lesen meist Wegwerf-Wurzeln und sind nicht Teil der Hülle
- * (Handmessung vom 21.10.2026, Tabelle in der PR-Beschreibung); eine Datei, deren Name erst zur Laufzeit zusammengesetzt wird, fällt nicht auf.
+ * Literal, `pipeline/lib/` eingeschlossen) sowie `shared/` und `web/src/` ganz, dazu die Prüfungen der Kette (`kettenDateien`: Skripte aus
+ * `check-logic-liste.txt`, `tools/*.test.*` außer dem eigenen Test, `pr-pruefung.yml`). Kommentarzeilen zählen nicht.
+ * Grenze: eine Datei, deren Name erst zur Laufzeit zusammengesetzt wird, fällt nicht auf. Prüfungen und Tests nennen Bot-Dateien oft nur als
+ * Wegwerf-Wurzel-Fall; solche Treffer stehen mit Grund in der Liste `BEKANNT` des Tests (Handdurchsicht vom 21.10.2026).
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -47,11 +48,20 @@ export function bauDateien(wurzel) {
   return [...gesehen].filter((d) => istCode(wurzel, d)).sort()
 }
 
-/** Treffer `Datei|Eintrag` für jeden Eintrag, dessen Dateiname in einer Bau-Datei außerhalb von Kommentarzeilen steht und nicht in `bekannt`. */
+/** Prüfungen der Kette: Skripte der Logik-Liste, `tools/*.test.*` (nicht der eigene Test) und die Kette selbst (nur vorhandene Dateien). */
+export function kettenDateien(wurzel) {
+  const liste = path.join(wurzel, 'tools/check-logic-liste.txt')
+  const ausListe = fs.existsSync(liste) ? fs.readFileSync(liste, 'utf8').split('\n').map((z) => z.trim()).filter((z) => z && !z.startsWith('#')) : []
+  const tests = alleDateien(wurzel, 'tools').filter((d) => /^tools\/(?!pr-nachrechnen-bot-pfade)[^/]*\.test\.(ts|mjs)$/.test(d))
+  const alle = [...new Set([...ausListe, ...tests, '.github/workflows/pr-pruefung.yml'])]
+  return alle.filter((d) => fs.existsSync(path.join(wurzel, d)) && fs.statSync(path.join(wurzel, d)).isFile()).sort()
+}
+
+/** Treffer `Datei|Eintrag` für jeden Eintrag, dessen Dateiname in einer Bau- oder Ketten-Datei außerhalb von Kommentarzeilen steht und nicht in `bekannt`. */
 export function leserImBau(wurzel, eintraege, bekannt) {
   const treffer = []
-  for (const datei of bauDateien(wurzel)) {
-    const code = fs.readFileSync(path.join(wurzel, datei), 'utf8').split('\n').filter((z) => !/^\s*(\/\/|\*|\/\*)/.test(z)).join('\n')
+  for (const datei of new Set([...bauDateien(wurzel), ...kettenDateien(wurzel)])) {
+    const code = fs.readFileSync(path.join(wurzel, datei), 'utf8').split('\n').filter((z) => !/^\s*(\/\/|\*|\/\*|#)/.test(z)).join('\n')
     for (const eintrag of eintraege) {
       if (code.includes(eintrag.split('/').pop()) && !bekannt.has(`${datei}|${eintrag}`)) treffer.push(`${datei}|${eintrag}`)
     }

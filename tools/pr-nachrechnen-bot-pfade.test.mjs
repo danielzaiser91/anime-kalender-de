@@ -8,7 +8,8 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { datenpfadAusnahme } from './pr-nachrechnen.mjs'
 import { BOT_DATEIEN_OHNE_LESER } from './pr-nachrechnen-bot-pfade.mjs'
-import { bauDateien, leserImBau } from './pr-nachrechnen-bot-pfade-leser.mjs'
+import { BEKANNT_TREFFER } from './pr-nachrechnen-bot-pfade-bekannt.mjs'
+import { bauDateien, kettenDateien, leserImBau } from './pr-nachrechnen-bot-pfade-leser.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -99,10 +100,14 @@ for (const datei of GELESEN) pruefe(`gelesen/ausgeschlossen: ${datei} -> keine A
 // Wächter gegen Leser im Datenbau (pr-nachrechnen-bot-pfade-leser.mjs). Bekannt sind zwei Stellen, die den Namen nur nennen:
 // nebendateien.ts schreibt 18-suchadressen.md; lib/health.ts schreibt source-health.json und wird vom Bau nur über adn-news.ts erreicht (Import von artikelJeShow).
 const wurzel = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
-const BEKANNT = new Set(['pipeline/bau/nebendateien.ts|daniel-zum-abarbeiten/listen/18-suchadressen.md', 'pipeline/lib/health.ts|data/source-health.json'])
+// Dazu die Prüfungen der Kette (kettenDateien): ihre Treffer (Wegwerf-Wurzeln, Verbotslisten) stehen mit Grund in pr-nachrechnen-bot-pfade-bekannt.mjs.
+const BEKANNT = BEKANNT_TREFFER
+pruefe('Wächter: 29 bekannte Treffer (2 Bau, 27 Kette), keine stille Vergrößerung der Liste', BEKANNT.size === 29, BEKANNT.size)
 const bau = bauDateien(wurzel)
+const kette = kettenDateien(wurzel)
+pruefe('Wächter: sieht die Kette (Logik-Liste, Tests, Kettenworkflow)', kette.includes('pipeline/check-sammelartikel.ts') && kette.includes('tools/briefkasten-wache.test.mjs') && kette.includes('.github/workflows/pr-pruefung.yml') && !kette.includes('tools/pr-nachrechnen-bot-pfade.test.mjs') && kette.length > 350, kette.length)
 pruefe('Wächter: kein Bau-Schritt nennt eine Datei der Liste (sonst ist sie gelesen und gehört gestrichen)', leserImBau(wurzel, ERWARTET, BEKANNT).length === 0, leserImBau(wurzel, ERWARTET, BEKANNT))
-pruefe('Wächter: sieht den Bau samt lib (nicht leer gelaufen)', bau.length > 300 && bau.includes('pipeline/lib/health.ts') && bau.includes('pipeline/bau/nebendateien.ts'), bau.length)
+pruefe('Wächter: sieht den Bau samt lib (nicht leer gelaufen)', bau.length >= 580 && bau.length <= 700 && bau.includes('pipeline/lib/health.ts') && bau.includes('pipeline/bau/nebendateien.ts'), bau.length)
 pruefe('Wächter: sieht beide bekannten Stellen', leserImBau(wurzel, ERWARTET, new Set()).sort().join() === [...BEKANNT].sort().join(), leserImBau(wurzel, ERWARTET, new Set()))
 const importiertHealth = bau.filter((d) => /from '(\.\/|\.\.\/lib\/)health\.ts'/.test(fs.readFileSync(path.join(wurzel, d), 'utf8')))
 pruefe('Ausnahme health.ts: im Bau importiert nur adn-news.ts sie', importiertHealth.join() === 'pipeline/lib/adn-news.ts', importiertHealth)
@@ -129,6 +134,17 @@ for (const [name, extra, erwartet] of [
   ['Leser in check-ja-hat-weg-bestand.ts', { 'pipeline/check-ja-hat-weg-bestand.ts': "const f = 'wiedervorlage.json'\n" }, ['pipeline/check-ja-hat-weg-bestand.ts|data/wiedervorlage.json']],
   ['Leser in shared', { 'shared/x.ts': "export const f = 'wiedervorlage.json'\n" }, ['shared/x.ts|data/wiedervorlage.json']],
   ['Leser in web/src', { 'web/src/x.tsx': "export const f = 'wiedervorlage.json'\n" }, ['web/src/x.tsx|data/wiedervorlage.json']],
+  ['verschachtelte Datei in shared/lib, von keinem Einstieg importiert', { 'shared/lib/x.ts': "export const f = 'wiedervorlage.json'\n" }, ['shared/lib/x.ts|data/wiedervorlage.json']],
+  ['verschachtelte Datei in web/src/lib, von keinem Einstieg importiert', { 'web/src/lib/x.tsx': "export const f = 'wiedervorlage.json'\n" }, ['web/src/lib/x.tsx|data/wiedervorlage.json']],
+  ['.mjs in shared', { 'shared/y.mjs': "export const f = 'wiedervorlage.json'\n" }, ['shared/y.mjs|data/wiedervorlage.json']],
+  ['Import in Backticks (import(`./lib/b.ts`))', { 'pipeline/build.ts': 'await import(`./lib/b.ts`)\n', 'pipeline/lib/b.ts': "const f = 'wiedervorlage.json'\n" }, ['pipeline/lib/b.ts|data/wiedervorlage.json']],
+  ['Leser in Skript der Logik-Liste', { 'tools/check-logic-liste.txt': '# Kopf\npipeline/check-x.ts\n', 'pipeline/check-x.ts': "readFileSync(join(ROOT, 'data/wiedervorlage.json'))\n" }, ['pipeline/check-x.ts|data/wiedervorlage.json']],
+  ['Leser in tools/*.test.mjs', { 'tools/x.test.mjs': "readFileSync('data/wiedervorlage.json')\n" }, ['tools/x.test.mjs|data/wiedervorlage.json']],
+  ['Leser in tools/*.test.ts', { 'tools/x.test.ts': "readFileSync('data/wiedervorlage.json')\n" }, ['tools/x.test.ts|data/wiedervorlage.json']],
+  ['Name in der Kette (pr-pruefung.yml)', { '.github/workflows/pr-pruefung.yml': 'run: cat data/wiedervorlage.json\n' }, ['.github/workflows/pr-pruefung.yml|data/wiedervorlage.json']],
+  ['yml: nur im #-Kommentar', { '.github/workflows/pr-pruefung.yml': '# data/wiedervorlage.json\n' }, []],
+  ['pipeline/check-*.ts ohne Eintrag in der Logik-Liste (läuft nicht in der Kette)', { 'pipeline/check-y.ts': "readFileSync('data/wiedervorlage.json')\n" }, []],
+  ['Leser in Workflow außerhalb der Kette', { '.github/workflows/bestand-bauen.yml': 'run: cat data/wiedervorlage.json\n' }, []],
   ['nur im Kommentar', { 'pipeline/lib/a.ts': "// liest wiedervorlage.json\n/* wiedervorlage.json */\n * wiedervorlage.json\n" }, []],
   ['Datei außerhalb der Hülle (Sammler)', { 'pipeline/fetch-x.ts': "const f = 'wiedervorlage.json'\n" }, []],
   ['Import ohne Dateiendung (./lib/c)', { 'pipeline/build.ts': "import './lib/c'\n", 'pipeline/lib/c.ts': "const f = 'wiedervorlage.json'\n" }, ['pipeline/lib/c.ts|data/wiedervorlage.json']],
@@ -155,4 +171,4 @@ if (fehler.length > 0) {
   console.error(`pr-nachrechnen-bot-pfade.test: ${fehler.length} rot`)
   process.exit(1)
 }
-console.log(`pr-nachrechnen-bot-pfade.test: grün (${ERWARTET.length} Bot-Dateien ohne Leser, ${GELESEN.length} gelesene/ausgeschlossene bleiben draußen, ${bau.length} Bau-Dateien durchsucht, 14 Wächter-Fixtures und 1 Hüllen-Fixture)`)
+console.log(`pr-nachrechnen-bot-pfade.test: grün (${ERWARTET.length} Bot-Dateien ohne Leser, ${GELESEN.length} gelesene/ausgeschlossene bleiben draußen, ${bau.length} Bau-Dateien durchsucht, 25 Wächter-Fixtures, 1 Hüllen-Fixture und ${BEKANNT.size} bekannte Treffer in ${kette.length} Ketten-Dateien)`)
