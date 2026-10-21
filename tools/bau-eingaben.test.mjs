@@ -130,7 +130,8 @@ const innerer = /node tools\/bau-eingaben\.mjs "([^"]*)"/.exec(paket)?.[1]
 assert.ok(befehlErlaubt(innerer), `Bau-Befehl in package.json: ${innerer}`)
 assert.equal(paket, `${VORWEG} && node tools/bau-eingaben.mjs "${innerer}"`, 'Bau-Befehl: Prüfungen vorweg, Spur bis zum Ende')
 assert.ok(befehlErlaubt('vite build && tsx pipeline/a-b.ts && tsx pipeline/c.ts'))
-for (const b of ['vite build && cat data/x', 'vite build; cat data/x', 'tsx pipeline/../x.ts', 'tsx pipeline/a.ts && node -e 1', 'vite build|cat', 'vite build --x', 'tsx pipeline/a.ts > data/x', '', undefined]) {
+assert.ok(befehlErlaubt('vite build && node tools/daten-adressen-pruefen.mjs && node tools/start-budget.mjs && tsx tools/dateibudget.ts'))
+for (const b of ['vite build && cat data/x', 'vite build; cat data/x', 'tsx pipeline/../x.ts', 'tsx pipeline/a.ts && node -e 1', 'node tools/daten-adressen-pruefen.mjs --x', 'node tools/anderes.mjs', 'vite build && node tools/daten-adressen-pruefen.mjs.x', 'vite build|cat', 'vite build --x', 'tsx pipeline/a.ts > data/x', '', undefined]) {
   assert.ok(!befehlErlaubt(b), `Befehl nicht erlaubt: ${b}`)
 }
 

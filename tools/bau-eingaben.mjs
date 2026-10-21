@@ -122,8 +122,10 @@ function kennungenAus(dateien) {
 }
 
 /** Befehle, die die Spur trägt: `vite build` und `tsx pipeline/<name>.ts`, mit `&&` verkettet — keine Shell-Programme, die außerhalb der Spur lesen. */
+const FESTE_SCHRITTE = new Set(['vite build', 'node tools/daten-adressen-pruefen.mjs', 'node tools/start-budget.mjs', 'tsx tools/dateibudget.ts'])
+
 export function befehlErlaubt(befehl) {
-  return typeof befehl === 'string' && befehl.split(' && ').every((teil) => teil === 'vite build' || /^tsx pipeline\/[\w-]+\.ts$/.test(teil))
+  return typeof befehl === 'string' && befehl.split(' && ').every((teil) => FESTE_SCHRITTE.has(teil) || /^tsx pipeline\/[\w-]+\.ts$/.test(teil))
 }
 
 /** Führt `befehl` mit Spur aus und ergänzt `abdruck` in `version.json`; Rückgabe: 1, wenn der Befehl scheitert (auch durch ein Signal), sonst 0. */

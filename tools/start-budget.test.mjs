@@ -175,7 +175,7 @@ console.log('start-budget.test: ok')
 // Verdrahtung: beide Bau-Skripte rufen den Wächter als eigenen Schritt auf, nach dem Web-Bau (vite build) und vor dem Dateibudget.
 const skripte = JSON.parse(readFileSync(join(import.meta.dirname, '..', 'package.json'), 'utf8')).scripts
 for (const name of ['build', 'build:schlank']) {
-  const schritte = skripte[name].split(' && ')
+  const schritte = skripte[name].replace(/node tools\/bau-eingaben\.mjs "([^"]*)"/, (_, innen) => innen).split(' && ')
   const i = schritte.indexOf('node tools/start-budget.mjs')
   assert.ok(i > schritte.indexOf('vite build'), `${name}: start-budget nach vite build`)
   assert.equal(schritte[i - 1], 'tsx pipeline/check-teilseiten.ts', `${name}: start-budget direkt nach check-teilseiten`)
