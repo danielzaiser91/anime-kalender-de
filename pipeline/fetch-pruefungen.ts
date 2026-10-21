@@ -14,7 +14,7 @@
  *
  * Aufruf: npm run data:pruefungen
  */
-import { appendFileSync, existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { nichtGefuehrtZeilen } from './lib/beleg-nicht-gefuehrt.ts'
 import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
 import yaml from 'js-yaml'
