@@ -94,6 +94,7 @@ export async function lookup(
     // TMDB liefert bei fehlender Übersetzung ein leeres Feld statt Englisch.
     if (detail.overview && detail.overview.trim().length > 40) out.overviewDe = detail.overview.trim()
     /* Serien tragen `first_air_date`, Filme `release_date` — beide als Jahr. */
+    out.genreIds = (detail.genres ?? []).map((g) => g.id)
     const datum = detail.first_air_date || detail.release_date
     const jahr = Number((datum ?? '').slice(0, 4))
     if (Number.isFinite(jahr) && jahr > 1900) out.jahr = jahr

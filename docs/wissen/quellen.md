@@ -3808,6 +3808,12 @@ Der Prüfer fand: `anisearch-dubs.json` zählt 36 Titel mit `p`, `anisearch-eint
 
 **Ein Leser:** `lib/anisearch-marke.ts` (`deutschMarke`, `dubsNachTitel`, `dubIdsNachAnisearch`); die Brücke steht in `anisearchBruecke()` (`lib/anisearch-katalog-ids.ts`), auch der Abruf nutzt sie. Wer die Marke eines Titels braucht, geht nicht mehr an die Dateien. Gegenproben: `pipeline/check-bild-und-synchro.ts` (die drei Dateien laufen nicht auseinander). Folge: Der nächste Abruf (`fetch.ts`, `ausAnisearchDubs`) holt die sieben Titel mit `d`/`p`, die noch hinter dem Toggle stehen (Annahme, nach dem Abruf nachzumessen).
 
+## TMDB-Zuordnung verlangt das Genre Animation (21.10.2026)
+
+Anlass: „Kakegurui" (AniList 98314) und „Kakegurui ××" (100876) trugen TMDB 76409, die **Realserie** von 2018 (Anime: 72305, 2017); das Jahr passte (±1), das Genre wurde nie geprüft. `pipeline/lib/tmdb-titel-treffer.ts` (`waehleBesten`) verwirft jetzt Treffer, deren `genre_ids` nicht leer sind und 16 (Animation) nicht enthalten (`keineAnimation`, `lib/tmdb-genre.ts`); eine leere oder fehlende Genreliste gilt als nicht widerlegt. `genreIds` stehen je Zuordnung in `data/tmdb-titles.json`. Bestandsprüfung `pipeline/check-tmdb-genre.ts` (in `check:logic`): keine Zuordnung mit bekanntem Genre ohne Animation, außer von Hand (`data/tmdb-von-hand.yaml`).
+
+Bestand am 21.10.2026 (`npm run data:tmdb-genre` auf Abruf, CI-Lauf 39538680410): 2092 von 2100 Zuordnungen gelesen, 8 ohne Antwort (TMDB 404, Kennung gelöscht), 14 ohne Animation. Davon vier echte Anime, die TMDB ohne Genre Animation führt (Toradora SOS, .hack//Quantum, Gundam Requiem for Vengeance, One Piece Log Fischmenschen-Insel; sie stehen jetzt in `tmdb-von-hand.yaml`), zwei, die TMDB doppelt führt (Taro, Mirai Nikki: die Suche findet jetzt den Anime-Eintrag), acht falsche Treffer (Realserien, Dokus, Reality). **Echte Anime ohne Genre 16 gehören in `tmdb-von-hand.yaml`**, nicht in eine Ausnahmeliste der Prüfung.
+
 ## TMDB-Staffel 0: Specials und OVAs über die Serie ihrer Reihe (14.10.2026)
 
 Anlass: 858 Titel des Hauptbestands ohne TMDB-Kennung (Lückenliste 14.10.2026: Banner fehlt bei 924, Cover HQ bei 945). Bei TMDB stehen Specials und OVAs oft nicht als eigenes Werk, sondern als Folge der **Staffel 0** der Hauptserie (Beispiel „Durarara!! World at Peace“ = `tv/42410` Staffel 0 Folge 2). Die Serie selbst darf der Titel nicht erben (`lib/tmdb-hauptserie.ts`: Anbieter, FSK, Handlung wären fremd); zugeordnet wird **genau eine Folge**, und nur ihre Bilder gehören dem Titel.

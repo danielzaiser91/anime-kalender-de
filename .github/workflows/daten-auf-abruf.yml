@@ -44,6 +44,8 @@ on:
           - data:cartoon-folgen
           - data:tmdb
           - data:tmdb-poster
+          # Genre je TMDB-Zuordnung nachtragen, Zuordnungen ohne Animation entfernen (21.10.2026, Kakegurui-Realserie); danach data:tmdb.
+          - data:tmdb-genre
           - data:kitsu-folgen
           - data:anisearch-dubs
           - data:anisearch-eintraege

@@ -1,3 +1,5 @@
+import { keineAnimation } from './tmdb-genre.ts'
+
 /** Vergleichsform: Kleinschreibung, ohne Satzzeichen, ohne Füllwörter. */
 function normalize(value: string): string {
   return value
@@ -37,11 +39,11 @@ export interface SearchHit {
   original_title?: string
   first_air_date?: string
   release_date?: string
+  genre_ids?: number[]
   /** Wie bekannt der Eintrag ist — der Unterschied zwischen dem Werk und einer leeren Karteileiche. */
   popularity?: number
   vote_count?: number
 }
-
 
 export interface Bester {
   hit: SearchHit
@@ -66,6 +68,8 @@ export function waehleBesten(bisher: Bester | undefined, query: string, results:
     const score = Math.max(...names.map((n) => similarity(query, n)), 0)
     const gewicht = (hit.vote_count ?? 0) + (hit.popularity ?? 0)
     if (score < 0.75) continue
+    /* Realserie gleichen Namens (Kakegurui 2018 neben dem Anime 2017): zählt nur mit Genre Animation. */
+    if (keineAnimation(hit.genre_ids)) continue
     if (!best || score > best.score || (score === best.score && gewicht > best.gewicht)) best = { hit, score, gewicht }
   }
   return best

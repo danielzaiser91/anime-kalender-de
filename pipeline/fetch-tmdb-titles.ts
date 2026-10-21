@@ -28,6 +28,8 @@ import yaml from 'js-yaml'
 const args = process.argv.slice(2)
 const FORCE = args.includes('--force')
 const LIMIT = Number(args[args.indexOf('--limit') + 1]) || Infinity
+/** Nur Titel ohne Eintrag suchen (die der Genre-Lauf entfernt hat); jeder vorhandene Eintrag bleibt unberührt. */
+const NUR_OHNE_EINTRAG = args.includes('--nur-ohne-eintrag')
 
 /**
  * Wiedervorlage nach Alter, nicht nach „schon mal geholt".
@@ -167,6 +169,7 @@ async function main(): Promise<void> {
     .filter((t) => {
       /* Was von Hand steht, wird nicht neu gesucht — sonst gewinnt der Fehltreffer wieder. */
       if (handIds.has(t.id)) return false
+      if (NUR_OHNE_EINTRAG) return !cache[t.id]
       if (FORCE || !cache[t.id] || kinoFehlt(cache[t.id]!)) return true
       const e = cache[t.id]!
       const frist = e.tmdbId ? grenze : new Date(Date.now() - 7 * 86400_000).toISOString()

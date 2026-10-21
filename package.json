@@ -113,6 +113,7 @@
     "data:tmdb-folgen": "tsx pipeline/fetch-tmdb-folgen.ts",
     "data:cartoon-folgen": "tsx pipeline/fetch-cartoon-folgen.ts",
     "data:tmdb-poster": "tsx pipeline/fetch-tmdb-poster.ts",
+    "data:tmdb-genre": "tsx pipeline/fetch-tmdb-genre.ts && tsx pipeline/fetch-tmdb-titles.ts --nur-ohne-eintrag",
     "data:lueckenlisten": "tsx pipeline/lueckenlisten.ts",
     "data:tmdb-katalog": "tsx pipeline/fetch-tmdb-katalog.ts",
     "data:kitsu-folgen": "tsx pipeline/fetch-kitsu-folgen.ts",
