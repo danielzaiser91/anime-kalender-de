@@ -3833,7 +3833,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     hier vermieden werden soll.
   */
   {
-    const seiten = readFileSync('pipeline/build-share-pages.ts', 'utf8')
+    const seiten = readFileSync('pipeline/build-share-pages.ts', 'utf8') + readFileSync('pipeline/lib/termin-seite.ts', 'utf8')
     /*
       **Strukturierte Daten sind das Signal, das Google direkt versteht.**
 
