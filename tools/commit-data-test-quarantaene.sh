@@ -19,6 +19,7 @@ echo "Quarantäne: Bau-Lauf ohne roten Titel bleibt grün ohne Warnung, die Kale
 bau_szenario q-sauber
 pruefe "Exit 0" 0 "$CODE"
 pruefe "kein Neubau ohne Titel" 0 "$(aufrufe q-sauber 'data:build  *q=ja')"
+pruefe "Historie-Zeile bleibt" 0 "$(aufrufe q-sauber 'data:historie')"
 pruefe "keine Warnung" nein "$(warnt q-sauber 'zurückgestellt')"
 pruefe "Kalender-Grenzen festgeschrieben" 1 "$(aufrufe q-sauber 'check:kalender-plausibilitaet -- --festschreiben')"
 
@@ -27,6 +28,7 @@ bau_szenario q-einer FAKE_ROT=22
 pruefe "Exit 0" 0 "$CODE"
 pruefe "ein Neubau ohne den Titel" 1 "$(aufrufe q-einer 'data:build  *q=ja')"
 pruefe "Arbeitslisten nach dem Neubau" 1 "$(aufrufe q-einer 'data:start-liste')"
+pruefe "Historie-Zeile des ersten Baus ersetzt (einmal)" 1 "$(aufrufe q-einer 'data:historie -- --ersetzen')"
 pruefe "Erzeugnis gepusht" ja "$(im_fernstand public/data/titles.json)"
 pruefe "meta.json nennt den Titel" "22 " "$(zurueckgestellt_im_fernstand)"
 pruefe "Warnung nennt Titel und Prüfung" ja "$(warnt q-einer '1 Titel zurückgestellt: 22 (probe)')"
@@ -39,6 +41,7 @@ bau_szenario q-zwei FAKE_ROT="22,33"
 pruefe "Exit 0" 0 "$CODE"
 pruefe "zwei Neubauten" 2 "$(aufrufe q-zwei 'data:build  *q=ja')"
 pruefe "meta.json nennt beide" "22 33 " "$(zurueckgestellt_im_fernstand)"
+pruefe "Historie-Zeile nur beim grünen Neubau ersetzt (nicht je Runde)" 1 "$(aufrufe q-zwei 'data:historie -- --ersetzen')"
 pruefe "Warnung nennt beide" ja "$(warnt q-zwei '2 Titel zurückgestellt: 22 (probe), 33 (probe)')"
 
 echo "Quarantäne: genau drei Titel auf einmal sind erlaubt"
@@ -50,6 +53,7 @@ echo "Quarantäne: Fehler ohne Kennung sperren wie bisher, ohne Neubau"
 bau_szenario q-ohne FAKE_BESTAND=fehler
 pruefe "Exit ≠ 0" ja "$(rot)"
 pruefe "kein Neubau ohne Titel" 0 "$(aufrufe q-ohne 'data:build  *q=ja')"
+pruefe "gesperrt: Historie nicht angefasst (der Bau-Lauf nimmt sie zurück)" 0 "$(aufrufe q-ohne 'data:historie')"
 pruefe "kein Erzeugnis gepusht" nein "$(im_fernstand public/data/titles.json)"
 pruefe "Warnung nennt die Sperre" ja "$(warnt q-ohne 'keine Quarantäne: die Fehler tragen keine neue Titel-Kennung')"
 

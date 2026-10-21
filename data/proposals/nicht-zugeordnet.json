@@ -1,6 +1,15 @@
 {
-  "stand": "2026-10-18",
+  "stand": "2026-10-21",
   "eintraege": [
+    {
+      "titel": "Cyberpunk: Edgerunners II",
+      "artikel": "https://www.anime2you.de/news/1062229/netflix-dragon-ball-super-beerus-und-mehr/",
+      "tag": "2026-10-20",
+      "anbieter": [
+        "netflix"
+      ],
+      "quelle": "Sammelartikel"
+    },
     {
       "titel": "Demon Slayer: Kimetsu no Yaiba – Infinity Castle I",
       "artikel": "https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/",
@@ -207,6 +216,42 @@
       "tag": "2026-09-02",
       "anbieter": [
         "disneyplus"
+      ],
+      "quelle": "Sammelartikel"
+    },
+    {
+      "titel": "Prison School",
+      "artikel": "https://www.anime2you.de/news/1035882/adn-neuzugaenge-im-august-2026/",
+      "tag": "2026-08-10",
+      "anbieter": [
+        "adn"
+      ],
+      "quelle": "Sammelartikel"
+    },
+    {
+      "titel": "Love & Lies",
+      "artikel": "https://www.anime2you.de/news/1035882/adn-neuzugaenge-im-august-2026/",
+      "tag": "2026-08-17",
+      "anbieter": [
+        "adn"
+      ],
+      "quelle": "Sammelartikel"
+    },
+    {
+      "titel": "Der Held ohne Klasse",
+      "artikel": "https://www.anime2you.de/news/1035882/adn-neuzugaenge-im-august-2026/",
+      "tag": "2026-08-21",
+      "anbieter": [
+        "adn"
+      ],
+      "quelle": "Sammelartikel"
+    },
+    {
+      "titel": "The Seven Deadly Sins",
+      "artikel": "https://www.anime2you.de/news/1035882/adn-neuzugaenge-im-august-2026/",
+      "tag": "2026-08-24",
+      "anbieter": [
+        "adn"
       ],
       "quelle": "Sammelartikel"
     }

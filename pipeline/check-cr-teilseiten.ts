@@ -6,6 +6,8 @@
  */
 import { bereicheImFenster, ordneSeiteZu, type CrPosition, type Fenster, type UnserTitel, type Urteil } from './lib/cr-teilseiten.ts'
 import { nurAusgelieferte } from './bau/pruefliste-bereinigen.ts'
+import { bereicheBelegt, belegteFolgen } from './lib/cr-bereiche-belegt.ts'
+import type { CrDubData } from './lib/crunchyroll-dub.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info: unknown = ''): void {
@@ -109,6 +111,23 @@ pruefe('Lücken in der deutschen Fassung bleiben Lücken', b === '1-1,3-4,6-6', 
 const eintrag = (titleId: number) => ({ titleId, titel: 'x', url: 'u', grund: 'g' })
 const bereinigt = nurAusgelieferte([eintrag(1), eintrag(10021915)], new Set([1])).map((p) => p.titleId).join()
 pruefe('Prüfliste: ein entfallener Titel wird gestrichen, ein vorhandener bleibt', bereinigt === '1', bereinigt)
+
+// 8. Ohne Folgenzahl gilt ein Bereich nur auf belegten deutschen Folgen (Reincarnated Aristocrat S3, 20.10.2026)
+const katalog = { scrapedAt: '', serien: [{ url: 'u', katalog: 'de', geprueftAm: '', staffeln: [{ name: 'Staffel 3', folgen: 5, kacheln: 5, deutsch: 3, fremd: 0, deutscheFolgen: [1, 2, 4].map((nummer) => ({ nummer, guid: `G${nummer}`, verfuegbarAb: '2026-10-18T15:00:00Z' })) }] }] } as unknown as CrDubData
+const belegt = belegteFolgen(katalog, 'u', 3)
+const ok = (...r: [number, number, boolean?][]) => bereicheBelegt(r.map(([from, to, dub]) => ({ from, to, dub: dub ?? true })), belegt)
+pruefe('Belegte Folgen: 1, 2 und 4 der Staffel 3', [...belegt].sort().join() === '1,2,4', [...belegt])
+pruefe('Bereich 1-2 auf belegten Folgen gilt', ok([1, 2]))
+pruefe('Bereich 4-4 (genau eine Folge) gilt', ok([4, 4]))
+pruefe('Bereich 1-4 über die Lücke 3 gilt nicht', !ok([1, 4]))
+pruefe('Bereich 4-5 über die höchste belegte Folge hinaus gilt nicht', !ok([4, 5]))
+pruefe('Bereich ab 0 gilt nicht', !ok([0, 1]))
+pruefe('Bereich ohne Ton (dub false) gilt nicht', !ok([1, 2, false]))
+pruefe('Umgekehrter Bereich gilt nicht', !ok([2, 1]))
+pruefe('Zwei Bereiche, einer unbelegt, gelten nicht', !ok([1, 2], [5, 5]))
+pruefe('Andere Staffel: nichts belegt', !bereicheBelegt([{ from: 1, to: 1, dub: true }], belegteFolgen(katalog, 'u', 2)))
+pruefe('Staffelnummer unbekannt: nichts belegt', belegteFolgen(katalog, 'u', undefined).size === 0)
+pruefe('Andere Adresse: nichts belegt', belegteFolgen(katalog, 'x', 3).size === 0)
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu den geteilten Crunchyroll-Seiten verletzt`)

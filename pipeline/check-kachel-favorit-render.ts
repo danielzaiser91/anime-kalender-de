@@ -75,16 +75,16 @@ for (const f of FAELLE) {
   const html = woche(f.art, f.favorit)
   const k = klassen(html, 'bg-ak-flaeche-2')
   const r = ringe(k)
-  pruefe(`Woche ${f.name}: Cover gefunden`, k.includes('rounded-xl'), k)
+  pruefe(`Woche ${f.name}: Cover gefunden`, k.includes('rounded-t-xl') && !k.includes('rounded-xl') && k.includes('ak-ring-oben-leiste') && !k.includes('ak-ring-oben'), k)
   pruefe(`Woche ${f.name}: Ringfarbe ${f.aussen || 'keine'}, genau eine`, r.farben.join() === f.aussen, r.farben)
   pruefe(`Woche ${f.name}: höchstens eine Ringbreite`, r.breiten.length <= 1, r.breiten)
   pruefe(`Woche ${f.name}: Favorit ring-3, sonst breit ring-2`, f.favorit ? r.breiten.join() === 'ring-3' : r.breiten.join() === (f.breit ? 'ring-2' : ''), r.breiten)
   const innen = klassen(html, 'inset-ring-2')
   pruefe(`Woche ${f.name}: Innenring ${f.innen || 'keiner'}`, f.innen ? innen.includes(f.innen) && innen.includes('border-ak-grund') && innen.includes('border') : innen.length === 0, innen)
   pruefe(`Woche ${f.name}: kein Katalog-Glanz am Favoriten`, !(f.favorit && k.includes('ak-katalog-glanz')), k)
-  const leiste = klassen(html, 'rounded-b-xl')
-  const soll = f.breit ? (f.favorit ? '-inset-x-[3px]' : '-inset-x-0.5') : 'inset-x-0'
-  pruefe(`Woche ${f.name}: Anbieterleiste ${soll}`, leiste.includes(soll), leiste)
+  /* Die Leiste sitzt immer an der Unterkante des Covers, eckig und ohne Überstand — sonst schöbe ein Favoriten-Rand sie hoch (Daniel, 17.10.2026). */
+  const leiste = klassen(html, 'h-1')
+  pruefe(`Woche ${f.name}: Anbieterleiste bündig und eckig`, leiste.join() === 'pointer-events-none,absolute,inset-x-0,bottom-0,h-1', leiste)
 }
 const katalog = klassen(woche('katalog', false), 'bg-ak-flaeche-2')
 pruefe('Woche Katalog ohne Favorit behält den Glanz', katalog.includes('ak-katalog-glanz'), katalog)
@@ -101,6 +101,7 @@ for (const f of FAELLE) {
   const html = renderToStaticMarkup(createElement(CoverKnopf, { ev: termin('netflix'), p: monatsProps(f.art, f.favorit) }))
   const k = klassen(html, 'overflow-hidden')
   const r = ringe(k)
+  pruefe(`Monat ${f.name}: untere Ecken eckig, Ring endet an der Leiste`, k.includes('rounded-t-[5px]') && !k.includes('rounded-[5px]') && k.includes('ak-ring-oben'), k)
   pruefe(`Monat ${f.name}: Ringfarbe ${f.aussen || 'keine'}, genau eine`, r.farben.join() === f.aussen, r.farben)
   pruefe(`Monat ${f.name}: ring-2 nur mit Art oder Favorit`, r.breiten.join() === (f.art || f.favorit ? 'ring-2' : ''), r.breiten)
   const innen = klassen(html, 'inset-ring-2')
@@ -112,6 +113,7 @@ for (const f of FAELLE) {
   const html = renderToStaticMarkup(createElement(TerminZeile, { ev: termin('netflix'), p: monatsProps(f.art, f.favorit) }))
   const k = klassen(html, 'overflow-hidden')
   const r = ringe(k)
+  pruefe(`Tagesliste ${f.name}: untere Ecken eckig, Ring endet an der Leiste`, k.includes('rounded-t-md') && !k.includes('rounded-md') && k.includes('ak-ring-oben-leiste') && !k.includes('ak-ring-oben'), k)
   pruefe(`Tagesliste ${f.name}: Favorit = goldener Ring, sonst keiner`, f.favorit ? r.farben.join() === 'ring-ak-favorit-rand' && r.breiten.join() === 'ring-2' : r.farben.length === 0 && r.breiten.length === 0, r)
 }
 

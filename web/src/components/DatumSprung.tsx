@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { formatDate, monthName, todayIso, weekdayIndex } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { sprungLage, type SprungLage } from '../lib/sprung-lage.ts'
+import { sichtbareBreite } from '../lib/sichtbare-breite.ts'
 import { Tooltip } from './ui.tsx'
 
 /**
@@ -67,7 +68,7 @@ export function DatumSprung({
   const oeffnen = () => {
     if (offen) return setOffen(false)
     const r = knopf.current?.getBoundingClientRect()
-    if (r) setPos(sprungLage(r, { breite: window.innerWidth, hoehe: window.innerHeight }))
+    if (r) setPos(sprungLage(r, { breite: sichtbareBreite(), hoehe: window.innerHeight }))
     setJahr(Number(date.slice(0, 4)))
     setMonat(null)
     setOffen(true)

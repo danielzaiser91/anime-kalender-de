@@ -12,7 +12,8 @@ name: PR-Prüfer
 on:
   pull_request_target:
     branches: [main]
-    types: [opened, synchronize, reopened, ready_for_review]
+    # Ohne `reopened`: Wiederöffnen (tools/pr-nachrechnen.mjs) rechnet nur die Kette nach, der Kopf und sein Urteil bleiben.
+    types: [opened, synchronize, ready_for_review]
 
 # checks: read für den Schritt „Check-Stand des Kopfes“ (Check-Runs des Kopfes; das Ruleset braucht nur Metadaten).
 permissions:
@@ -231,6 +232,13 @@ jobs:
             des Schritts zum überwachten Schritt zu.
             Eine Mutationsprobe an einem Ausschluss zählt nur, wenn die Testdaten ohne ihn ein anderes Ergebnis
             liefern.
+            Rand, Ring, Schatten oder Überlagerung an einer Kachel (17.10.2026, PR 1452): Verlange eine Pixelmessung
+            von Unterkante und Ecken, auch der Zeile direkt unter dem letzten sichtbaren Element, mit und ohne den
+            Zustand (Favorit, Art, Saal), in beiden Themen und bei 360 px; Klassenprüfungen und Maße allein
+            genügen nicht (gebrochene Maße: clip-path rundet nicht auf ganze Pixel, Leisten schon). Fehlt sie, "aendern".
+            Neuer Mess- oder Prüfschritt (17.10.2026, PR 1452): Er braucht eine Ergebniszeile im CI-Log des
+            geprüften Kopfs (z. B. "dunkel/woche: 14 Kacheln, 0 Fehler"), die der Nachtrag zitiert. Ein grüner
+            Schritt ohne solche Zeile hat nicht gemessen (Startprüfung nie wahr, Exit 0): "aendern".
             Toleranz in einer Zuordnung (±1 Jahr, ungefähre Folgenzahl): nur frei, wenn die Beschreibung die Fälle
             zählt, die allein durch sie hereinkommen, und jeden als richtig belegt.
             Benennt die Beschreibung eine Verdrahtung (Aufruf in build.ts oder einer Phase) selbst als ungetestet,
@@ -245,6 +253,19 @@ jobs:
             Befund. Ein Test, der unter einem Betriebssystem übersprungen wird, belegt dort nichts. Eine Bilanz neuer
             Zuordnungen braucht je Ziel einen inhaltlichen Abgleich (z. B. Folgentitel gegen die Quelle), Zählen allein
             belegt keine Zuordnung.
+            Schärfungen (20.10.2026): Geteilter Speicher (Sperre, Datei, Tab): spiele zwei Schreiber durch; ein
+            überschriebener Fremdeintrag ist blockierend. Bei CONFLICTING vergleichst du Signaturen auf main mit den
+            Aufrufen. Ein Test, der seine Soll-Werte aus dem geprüften Modul importiert, ist sein eigenes Orakel
+            (Befund). Ein neuer Wächter ohne Aufrufer in einem Tor ist ein Befund; eine Verdrahtung belegt nur ein Test,
+            der den Aufrufer laufen lässt. "Zählt nur echte Auskunft" braucht jeden Nichtauskunft-Status (timeout,
+            fehler, unklar, Sperre) als Datenfall. Mutationen nennst du mit Funktionsname und Muster als Anker, nie
+            mit Zeilennummer. Bei geänderten Aufrufseiten und onClick-Handlern verlangst du Mutationen auch dort
+            (Aufruf weg, falscher Wert); ein ungetesteter Handler ist ein Befund. Jede Behauptung über Projektregeln
+            ("laut Regel verboten") belegst du per Grep in CLAUDE.md oder docs, sonst nicht als Argument. Ein neuer
+            Workflow, der andere Workflows auslöst, braucht eine Kostenrechnung (Läufe je Tag mal Claude-Läufe). Die
+            Beschreibung bleibt unverändert: Korrekturen stehen als Kommentar unter "Nachträge" und gelten, verlange
+            keine Änderung ihres Kopfs. "Im Log nicht gefunden" sagst du nur mit Job-Kennung; ohne Lesezugriff auf das
+            Log schreibst du "nicht beurteilt".
 
             Schreibe zwei Dateien:
             1. ${{ runner.temp }}/pruefer/protokoll.md — deutsch, höchstens 25 Zeilen: Urteil, Befunde mit Datei und

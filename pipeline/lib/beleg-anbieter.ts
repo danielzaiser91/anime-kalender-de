@@ -12,6 +12,7 @@
  */
 import type { NewsBeleg, NewsEintrag, NewsMeldung } from '../../shared/types.ts'
 import { anbieterVon, belegTyp } from '../../shared/beleg-anbieter.ts'
+import { apiBelegFehler } from './beleg-api.ts'
 import { log } from './util.ts'
 
 export interface Entfallen {
@@ -126,6 +127,7 @@ export function belegFehler(vorher: NewsEintrag[], r: ReturnType<typeof entdoppe
     const schluessel = (m.belege ?? []).map((b) => `${anbieterVon(b.url)}|${belegTyp(b.url)}`)
     if (new Set(schluessel).size !== schluessel.length) fehler.push(`Belege: ${e.titel} (${e.am}) führt einen Anbieter und Typ doppelt`)
   }
+  fehler.push(...apiBelegFehler(r.eintraege))
   if (anzahl(vorher) - anzahl(r.eintraege) !== r.entfallen.length) fehler.push('Belege: gezählte und tatsächlich entfallene Belege weichen ab')
   if (r.entfallen.length > ANTEIL_MAX * Math.max(1, r.vorher)) fehler.push(`Belege: ${r.entfallen.length} von ${r.vorher} entfallen, mehr als ${ANTEIL_MAX * 100} %`)
   return fehler

@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-10-18T04:10:45.181Z",
+  "scrapedAt": "2026-10-21T04:11:23.360Z",
   "window": {
-    "from": "2026-09-03",
-    "to": "2027-01-01"
+    "from": "2026-09-06",
+    "to": "2027-01-04"
   },
   "shows": [
     {
@@ -734,34 +734,25 @@
       "batch": false
     },
     {
-      "showId": 1319,
-      "title": "Puella Magi Madoka Magica – Film 1: Beginnings",
-      "originalTitle": "Mahô Shôjo Madoka Magica the Movie Part I : Hajimari no Monogatari",
-      "age": "12+",
-      "url": "https://animationdigitalnetwork.com/de/video/1319",
-      "episodes": [
-        {
-          "date": "2026-10-20",
-          "time": "09:00",
-          "episode": 1,
-          "url": "https://animationdigitalnetwork.com/de/video/1319-puella-magi-madoka-magica-the-movie-part1-beginnings/29577-film-1",
-          "seasonReference": "puellamagimadokamagica_film",
-          "order": 1,
-          "type": "MOV",
-          "duration": 7880,
-          "title": "Puella Magi Madoka Magica – Film 1: Beginnings - Film 1",
-          "image": "https://image.animationdigitalnetwork.com/license/puellamagimadokamagica/film_0001/web/license_320x180.jpg"
-        }
-      ],
-      "batch": false
-    },
-    {
       "showId": 887,
       "title": "Dreamland",
       "originalTitle": "Dreamland",
       "age": "12+",
       "url": "https://animationdigitalnetwork.com/de/video/887",
       "episodes": [
+        {
+          "date": "2026-10-17",
+          "time": "19:00",
+          "episode": 1,
+          "url": "https://animationdigitalnetwork.com/de/video/887-dreamland/32720-folge-1",
+          "season": "1",
+          "seasonReference": "dreamland_tv",
+          "order": 6,
+          "type": "EPS",
+          "duration": 1380,
+          "title": "Terrence",
+          "image": "https://image.animationdigitalnetwork.com/license/dreamland/tv/web/eps1_320x180.jpg"
+        },
         {
           "date": "2026-10-24",
           "time": "19:00",
@@ -774,6 +765,41 @@
           "duration": 1380,
           "title": "Dreamland - Folge 2",
           "image": "https://image.animationdigitalnetwork.com/license/dreamland/tv_0002/web/license_320x180.jpg"
+        },
+        {
+          "date": "2026-10-31",
+          "time": "19:00",
+          "episode": 3,
+          "url": "https://animationdigitalnetwork.com/de/video/887-dreamland/32722-folge-3",
+          "season": "1",
+          "seasonReference": "dreamland_tv",
+          "order": 8,
+          "type": "EPS",
+          "duration": 1380,
+          "title": "Dreamland - Folge 3",
+          "image": "https://image.animationdigitalnetwork.com/license/dreamland/tv_0003/web/license_320x180.jpg"
+        }
+      ],
+      "batch": false
+    },
+    {
+      "showId": 1319,
+      "title": "Puella Magi Madoka Magica – Film 1: Beginnings",
+      "originalTitle": "Mahô Shôjo Madoka Magica the Movie Part I : Hajimari no Monogatari",
+      "age": "12+",
+      "url": "https://animationdigitalnetwork.com/de/video/1319",
+      "episodes": [
+        {
+          "date": "2026-10-29",
+          "time": "09:00",
+          "episode": 1,
+          "url": "https://animationdigitalnetwork.com/de/video/1319-puella-magi-madoka-magica-the-movie-part1-beginnings/29577-film-1",
+          "seasonReference": "puellamagimadokamagica_film",
+          "order": 1,
+          "type": "MOV",
+          "duration": 7880,
+          "title": "Puella Magi Madoka Magica – Film 1: Beginnings - Film 1",
+          "image": "https://image.animationdigitalnetwork.com/license/puellamagimadokamagica/film_0001/web/license_320x180.jpg"
         }
       ],
       "batch": false

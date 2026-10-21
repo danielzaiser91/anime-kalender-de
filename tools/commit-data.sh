@@ -155,11 +155,18 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   #
   # Die Quellen bleiben davon unberührt und werden committet. Sie sind der
   # teure Teil (fremde APIs, Ratenlimits), und an ihnen liegt es nicht.
+  # Ausnahme Bau-Lauf: Seine Quellen entstehen aus dem verworfenen Stand (bau_lauf_zuruecknehmen).
   BESTAND_KAPUTT=0
   QUARANTAENE_AKTIV=0
   # Beide Prüfketten in eine Datei; check:logic läuft nur nach grünem check:bestand.
   bestand_pruefen() {
     npm run check:bestand > "$TEMP_LAUF/bestand-pruefung.txt" 2>&1 && npm run check:logic >> "$TEMP_LAUF/bestand-pruefung.txt" 2>&1
+  }
+  # Die Historie-Zeile dieses Laufs (Schritt „Delta am Bestand festhalten“) misst den Bau vor der Quarantäne. Ausgeliefert wird ein
+  # anderer Bestand: Zeile verwerfen (`verworfen: true`, die Wache überspringt sie) und neu messen (19.10.2026: Pendeln gegen Stände,
+  # die nie live waren). Ein verworfener Bau-Lauf ohne Auslieferung nimmt die Zeile mit `bau_lauf_zuruecknehmen` zurück.
+  historie_neu_messen() {
+    npm run data:historie -- --ersetzen || echo "::warning::Die Historie-Zeile dieses Laufs ließ sich nicht neu messen."
   }
   # Titel-Quarantäne (18.10.2026, tools/quarantaene.mjs): Tragen die roten Prüfungen Titel-Kennungen, wird ohne genau diese
   # Titel neu gebaut und erneut geprüft, bis es grün ist oder das Gate sperrt (keine neue Kennung, Cartoon, mehr als drei).
@@ -178,13 +185,36 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       if ! { npm run data:vorschlaege && npm run data:dub-checks && npm run data:extension-liste && npm run data:start-liste; }; then
         echo "::warning::Die Arbeitslisten sind nach der Quarantäne nicht neu entstanden."
       fi
-      bestand_pruefen && return 0
+      if bestand_pruefen; then
+        historie_neu_messen
+        return 0
+      fi
     done
     return 1
   }
+  # Verworfener Bau-Lauf: Jeder Schritt vor diesem (bestand-bauen.yml) schreibt aus dem verworfenen Stand — Meldungen, Bau,
+  # Prüflisten, Prüfstand, Historie — oder aus Briefkästen, die erst nach dem Commit geleert werden. Nur `data:fetch` holt
+  # Eigenes (pipeline/fetch.ts, mit `holeAnisearchCover`); das bleibt, alles andere geht auf HEAD zurück. Bis 18.10.2026 nur Belege und Stempel,
+  # die Listen daraus kamen trotzdem ins Repo (Lauf 39161629649: 95 Wiedervorlagen fehlten in Prüfliste und Prüfstand).
+  # Vollständig gegen die Schreibziele von fetch.ts: tools/fetch-schreibziele.mjs, Probe in tools/commit-data-test-verworfen.sh.
+  BAU_LAUF_BEHALTEN=(data/tmdb.json data/curated-ids.json data/anisearch-cover.json)
+  bau_lauf_zuruecknehmen() {
+    local zeile datei
+    while IFS= read -r zeile; do
+      datei="${zeile:3}"
+      case " ${BAU_LAUF_BEHALTEN[*]} " in *" $datei "*) continue ;; esac
+      if git cat-file -e "HEAD:$datei" 2>/dev/null; then
+        git checkout HEAD -- "$datei"
+      else
+        # Auch aus dem Index: eine vorher gestagte neue Datei käme sonst mit dem Commit nach main.
+        git rm -q --cached --ignore-unmatch -- "$datei"
+        rm -f "$datei"
+      fi
+    done < <(git -c status.renames=false status --porcelain -uall -- "${QUELLEN[@]}")
+  }
   if [ "${AUFBAU_KAPUTT:-0}" != 1 ] && { [ "${NEU_GEBAUT:-0}" = 1 ] || [ "${BAU_LAUF:-0}" = 1 ]; }; then
     # Seit dem 17.09.2026 auch check:logic, und im Bau-Lauf (BAU_LAUF=1) werden
-    # die neuen Meldungen zurückgenommen: Sie bleiben im Briefkasten, die
+    # die neuen Meldungen samt allem daraus Erzeugten zurückgenommen (bau_lauf_zuruecknehmen): Sie bleiben im Briefkasten, die
     # Statusanzeige zeigt den Grund. Bis dahin gingen Belege, die eine
     # Zusicherung verletzen, als Quelle ins Repo und machten danach jeden
     # Deploy rot. Der Lauf endet rot, auch im Bau-Lauf (seit 11.10.2026:
@@ -201,15 +231,21 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       # `BAU_LAUF`-Behandlung darunter erreichte (21.09.2026, Lauf
       # 35566086288, ausgelöst von `check:handbelege`). `|| true` fängt außerdem
       # den Fall ab, in dem keines der drei Zeichen vorkommt.
-      # FEHLER:-Zeilen zuerst: Sonst füllen drei ⚠-Hinweise die drei Plätze, und der echte Fehler fehlt in der Meldung.
-      grund="$({ grep -E 'FEHLER:' "$TEMP_LAUF/bestand-pruefung.txt"; grep -E '✖|✗|⚠' "$TEMP_LAUF/bestand-pruefung.txt" | grep -v 'FEHLER:'; } | head -n 3 | tr -d '\"' | tr -s '[:space:]' ' ')" || true
+      # FEHLER:-Zeilen zuerst, dann ✖/✗, ⚠ zuletzt: Sonst füllen drei ⚠-Hinweise die drei Plätze, und der echte Fehler fehlt in der Meldung
+      # (18.10.2026, Lauf 39161629649: der ✗ aus check-episodentitel.ts stand hinter drei ⚠).
+      grund="$({
+        grep -E 'FEHLER:' "$TEMP_LAUF/bestand-pruefung.txt"
+        grep -E '✖|✗' "$TEMP_LAUF/bestand-pruefung.txt" | grep -v 'FEHLER:'
+        grep -E '⚠' "$TEMP_LAUF/bestand-pruefung.txt" | grep -Ev 'FEHLER:|✖|✗'
+      } | head -n 3 | tr -d '\"' | tr -s '[:space:]' ' ')" || true
       if [ -s "$TEMP_LAUF/quarantaene.txt" ]; then
         grund="$grund · $(tail -n 1 "$TEMP_LAUF/quarantaene.txt")"
       fi
-      echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon."
-      if [ "${BAU_LAUF:-0}" = 1 ]; then
-        git checkout -- data/dub-confirmed.yaml 2>/dev/null || true
-        git checkout -- data/meldungen-uebernahme.json 2>/dev/null || true
+      if [ "${BAU_LAUF:-0}" != 1 ]; then
+        echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon."
+      else
+        echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Aus dem Bau-Lauf wird nichts committet außer den Abrufen von data:fetch."
+        bau_lauf_zuruecknehmen
         rm -f data/cache/pruefungen-abhaken.json
         echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Bestand nicht übernommen: $grund" >> "${GITHUB_ENV:-/dev/null}"
       fi
@@ -278,6 +314,16 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   # Dasselbe für die alten Farbklassen in web/src (docs/wissen/design-regeln.md, Abschnitt 7).
   if node tools/design-klassen.mjs --festschreiben > /dev/null 2>&1; then
     hinzu tools/design-klassen-grenzen.json
+  fi
+
+  # Dasselbe für die echte Uhr in Tests (tools/uhr-in-tests.mjs).
+  if node tools/uhr-in-tests.mjs --festschreiben > /dev/null 2>&1; then
+    hinzu tools/uhr-in-tests-grenzen.json
+  fi
+
+  # Dasselbe für „heute“ als UTC-Tag (tools/heute-utc.mjs).
+  if node tools/heute-utc.mjs --festschreiben > /dev/null 2>&1; then
+    hinzu tools/heute-utc-grenzen.json
   fi
 
   # Dasselbe für die Treffer der Kalender-Plausibilität (pipeline/lib/kalender-plausibilitaet.ts): gesunkene Zahlen übernehmen.

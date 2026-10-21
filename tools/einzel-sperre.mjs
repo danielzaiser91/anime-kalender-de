@@ -57,12 +57,13 @@ function fragKinder(pid) {
 
 /**
  * Lebt ein Kind von `pid`, das nach `seit` gestartet wurde? Ältere Kinder gehören einem früheren Träger derselben PID
- * (Windows vergibt PIDs wieder und lässt Waisen ihre Eltern-PID). Scheitert die Abfrage, zählt das als nein.
+ * (Windows vergibt PIDs wieder und lässt Waisen ihre Eltern-PID). Scheitert die Abfrage, zählt das als nein (mit Warnung).
  */
 export function hatJungeKinder(pid, seit, frage = fragKinder) {
   try {
     return frage(pid).split(/\r?\n/).some((zeile) => wmiZeit(zeile.split(' ')[1] ?? '') >= Date.parse(seit))
-  } catch {
+  } catch (e) {
+    console.warn(`Kinder-Suche (WMI) für PID ${pid} fehlgeschlagen, zählt als nein: ${String(e.message).split('\n')[0]}`)
     return false
   }
 }

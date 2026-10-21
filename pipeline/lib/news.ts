@@ -31,7 +31,8 @@ import { bereinigeNews } from './news-bereinigen.ts'
 import { ausgabeKurz } from './news-ausgabe.ts'
 import { addDays, todayIso, toIsoDate } from '../../shared/time.ts'
 import { eindeutschenStaffel } from '../../shared/titles.ts'
-import { hostVon } from '../../shared/quelle.ts'
+import { hostVon, istApiAdresse } from '../../shared/quelle.ts'
+import { adnApiBeleg } from './beleg-api.ts'
 import { geerbteWege } from '../../shared/kanal-anbieter.ts'
 import { ohneDoppelteFolgen, verspaetungsMeldungen } from './news-verspaetung.ts'
 import { omuMeldungen } from './news-omu.ts'
@@ -41,6 +42,7 @@ import { titelNachSerienId, waehleStaffel } from './news-cr-zuordnung.ts'
 import { rhythmusMeldung } from './news-rhythmus.ts'
 import { ohneDoppelteTakte, taktMeldungen } from './news-takt.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
+import { haltWeitererFest, vergissAlte } from './news-einfrieren.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
 const FENSTER_TAGE = 120
@@ -58,6 +60,8 @@ export interface NewsHistorie extends TerminGedaechtnis {
    * sonst stünden an einem Tag zweitausend „neue" Anbieter auf der Seite.
    */
   anbieter?: Record<string, string>
+  /** Meldungsschlüssel (`angekuendigt`) → `weiterer` vom Bau, der die Meldung erzeugte (`news-einfrieren.ts`). */
+  weiterer?: Record<string, boolean>
 }
 
 /**
@@ -133,10 +137,16 @@ export function belegeVonRelease(r: Release): NewsBeleg[] | undefined {
   const nachUrl = new Map<string, NewsBeleg>()
   for (const q of r.quellen ?? []) {
     if (q.stand && q.stand !== 'aktuell') continue
+    if (istApiAdresse(q.url)) {
+      /* Eine API-Adresse zeigt ihre Messung statt einer Seite; ohne Lesetag (`gelesenAm`, nicht die Erstsichtung) bleibt nichts zu zeigen. */
+      const api = adnApiBeleg(r, q.url, q.gelesenAm)
+      if (api && !nachUrl.has(q.url)) nachUrl.set(q.url, api)
+      continue
+    }
     if (!nachUrl.has(q.url)) nachUrl.set(q.url, { url: q.url, name: q.name, veroeffentlichtAm: q.veroeffentlichtAm, aktualisiertAm: q.aktualisiertAm, ausgabeAm: q.ausgabeAm, bild: q.bild, ...(q.markierung ? { markierung: q.markierung } : {}) })
   }
   /* Kuratierte Termine tragen nackte Adressen in `sources` — sie sind ebenso Belege. */
-  for (const u of r.sources ?? []) if (!nachUrl.has(u)) nachUrl.set(u, { url: u, name: hostVon(u) })
+  for (const u of r.sources ?? []) if (!nachUrl.has(u) && !istApiAdresse(u)) nachUrl.set(u, { url: u, name: hostVon(u) })
   return nachUrl.size ? [...nachUrl.values()] : undefined
 }
 
@@ -443,13 +453,11 @@ export function baueNews(
     const zuerst = historie.zuerst[schluessel] ?? (fallback > heute ? heute : fallback)
     historie.zuerst[schluessel] = zuerst
     if (zuerst < fensterBeginn(r.art, heute, grenze)) continue
-    datiert.push({ ...rest, am: zuerst, schluessel })
+    datiert.push(haltWeitererFest(historie, schluessel, { ...rest, am: zuerst, schluessel }))
   }
 
   /* Alte Schlüssel aus dem Gedächtnis werfen — sonst wächst es ohne Ende. */
-  for (const [k, v] of Object.entries(historie.zuerst)) {
-    if (v < addDays(heute, -400)) delete historie.zuerst[k]
-  }
+  vergissAlte(historie, addDays(heute, -400))
 
   /*
     **Dieselbe Schreibweise wie überall sonst.** Ohne die Eindeutschung stand im

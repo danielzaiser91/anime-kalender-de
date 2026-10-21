@@ -58,7 +58,12 @@ melde() {
 
 # Ein Zweigname je Lauf. Der Lauf-Bezeichner steckt drin, damit ein offen
 # gebliebener Pull Request später zuzuordnen ist.
-ZWEIG="daten/${GITHUB_RUN_ID:-lokal}-$(date -u +%Y%m%d-%H%M)"
+# Nur Läufe der App heißen `daten/…` (Kette und CI-Prüfer überspringen den Präfix, der Daten-Merge nimmt nur ihren Autor); ein lokaler Aufruf nimmt `fix/`.
+if [ -n "${GITHUB_RUN_ID:-}" ]; then
+  ZWEIG="daten/${GITHUB_RUN_ID}-$(date -u +%Y%m%d-%H%M)"
+else
+  ZWEIG="fix/lokal-$(date -u +%Y%m%d-%H%M)"
+fi
 melde "zweig=$ZWEIG"
 
 # **Ein fehlender Pfad darf nicht die ganze Einreichung kosten.**
