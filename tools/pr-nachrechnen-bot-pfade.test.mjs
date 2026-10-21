@@ -131,6 +131,8 @@ for (const [name, extra, erwartet] of [
   ['Leser in web/src', { 'web/src/x.tsx': "export const f = 'wiedervorlage.json'\n" }, ['web/src/x.tsx|data/wiedervorlage.json']],
   ['nur im Kommentar', { 'pipeline/lib/a.ts': "// liest wiedervorlage.json\n/* wiedervorlage.json */\n * wiedervorlage.json\n" }, []],
   ['Datei außerhalb der Hülle (Sammler)', { 'pipeline/fetch-x.ts': "const f = 'wiedervorlage.json'\n" }, []],
+  ['Import ohne Dateiendung (./lib/c)', { 'pipeline/build.ts': "import './lib/c'\n", 'pipeline/lib/c.ts': "const f = 'wiedervorlage.json'\n" }, ['pipeline/lib/c.ts|data/wiedervorlage.json']],
+  ['Import mit Ordner (./lib/ord -> index.ts)', { 'pipeline/build.ts': "import './lib/ord'\n", 'pipeline/lib/ord/index.ts': "const f = 'wiedervorlage.json'\n" }, ['pipeline/lib/ord/index.ts|data/wiedervorlage.json']],
   ['lib-Datei, die niemand importiert', { 'pipeline/lib/lose.ts': "const f = 'wiedervorlage.json'\n" }, []],
   ['bekannte Stelle bleibt still', { 'pipeline/lib/a.ts': "const f = 'wiedervorlage.json'\n" }, []],
 ]) {
@@ -141,8 +143,16 @@ for (const [name, extra, erwartet] of [
   pruefe(`Wächter-Fixture: ${name}`, JSON.stringify(treffer) === JSON.stringify(erwartet), treffer)
 }
 
+// Fehlt ein Einstieg (hier validate.ts), läuft der Wächter durch und führt ihn nicht in der Hülle.
+{
+  const ort = fixture({ 'pipeline/build.ts': "import './lib/a.ts'\n", 'pipeline/lib/a.ts': 'export const a = 1\n', 'shared/s.ts': '' })
+  const hülle = bauDateien(ort)
+  fs.rmSync(ort, { recursive: true, force: true })
+  pruefe('Wächter-Fixture: fehlender Einstieg steht nicht in der Hülle', JSON.stringify(hülle) === JSON.stringify(['pipeline/build.ts', 'pipeline/lib/a.ts', 'shared/s.ts']), hülle)
+}
+
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-bot-pfade.test: ${fehler.length} rot`)
   process.exit(1)
 }
-console.log(`pr-nachrechnen-bot-pfade.test: grün (${ERWARTET.length} Bot-Dateien ohne Leser, ${GELESEN.length} gelesene/ausgeschlossene bleiben draußen, ${bau.length} Bau-Dateien durchsucht, 12 Wächter-Fixtures)`)
+console.log(`pr-nachrechnen-bot-pfade.test: grün (${ERWARTET.length} Bot-Dateien ohne Leser, ${GELESEN.length} gelesene/ausgeschlossene bleiben draußen, ${bau.length} Bau-Dateien durchsucht, 14 Wächter-Fixtures und 1 Hüllen-Fixture)`)
