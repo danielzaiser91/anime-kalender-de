@@ -1,14 +1,14 @@
+import { expandEvents } from '../../shared/logic.ts'
 import { type Release, type ReleaseEvent, type Title } from '../../shared/types.ts'
 import { log, readJson, writeJson } from '../lib/util.ts'
 import { OUT, mitAnkuendigung } from './grundlagen.ts'
 import { nachTagUndZeit } from './10-termine.ts'
 import { markiereErstausgabe } from './erstausgabe-markieren.ts'
-import { kalenderTermine } from '../lib/ohne-synchro-beleg.ts'
 import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
 
 /** Rechnet die Termine der Releases nach und sortiert sie in `events` ein; gibt die neuen zurück. */
 export function fuegeTermineEin(events: ReleaseEvent[], neue: Release[]): ReleaseEvent[] {
-  const termine = neue.flatMap(kalenderTermine)
+  const termine = neue.flatMap(expandEvents)
   events.push(...termine)
   events.sort(nachTagUndZeit)
   return termine

@@ -304,5 +304,23 @@
       0.21861111111111112,
       0.17945205479452056
     ]
+  },
+  "GG5H5XQMD|2|2|2026-10-25|17:00": {
+    "seriesId": "GG5H5XQMD",
+    "titel": "As a Reincarnated Aristocrat Staffel 3",
+    "von": 2,
+    "bis": 2,
+    "datum": "2026-10-25",
+    "zeit": "17:00",
+    "artikel": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+    "erstmalsAm": "2026-10-19T23:02:29.249Z",
+    "bild": "www.crunchyroll.com/wochenprogramm/gg5h5xqmd/2026-10-25-f2-2026-10-19-23-02.webp",
+    "bildAm": "2026-10-19T23:02:29.249Z",
+    "markierung": [
+      0.021111111111111112,
+      0.8661048689138576,
+      0.21861111111111112,
+      0.12265917602996254
+    ]
   }
 }

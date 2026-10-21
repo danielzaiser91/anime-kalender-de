@@ -1,9 +1,9 @@
 import { type ReleaseEvent, type Title, type Release } from '../../shared/types.ts'
+import { expandEvents } from '../../shared/logic.ts'
 import { istPremiere, istStaffelfinale, istStaffelstart } from '../../shared/tv-signale.ts'
 import { schreibeZweitanbieter } from '../../shared/zweitanbieter.ts'
 import { schreibeKatalogReleaseVonHand } from '../lib/katalog-belege.ts'
 import { log, warn } from '../lib/util.ts'
-import { kalenderTermine } from '../lib/ohne-synchro-beleg.ts'
 import { pruefeErgebnis } from '../lib/pruefung.ts'
 import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 import { schreibePremiereMitMeldung } from '../lib/premiere.ts'
@@ -15,6 +15,7 @@ import { widerlegeDeutscheTermine } from './widerlegung-woche.ts'
 import { anisearchNurKatalog } from './anisearch-titel.ts'
 import { ausgestrahltOhneBeleg, keineSynchroLautAnisearch, ohneSynchroVonHand } from './ohne-beleg.ts'
 import { urteilSchliesstLuecken } from './urteil-schliesst-luecken.ts'
+import { ohneOmuTermine } from './omu-ohne-termin.ts'
 
 /**
  * **Die zwei Auskünfte an den Termin schreiben** (28.09.2026, `shared/tv-signale.ts`).
@@ -81,7 +82,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
   /* Erst widerlegen, dann auffalten: Ein widerlegter Termin erzeugt kein Ereignis (02.10.2026). */
   widerlegeDeutscheTermine(releases, titles)
   const events: ReleaseEvent[] = releases
-    .flatMap(kalenderTermine)
+    .flatMap(expandEvents)
     .sort(nachTagUndZeit)
 
   urteilSchliesstLuecken(titles)
@@ -162,7 +163,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
   if (verschoben.length) log(`${verschoben.length} Titel hinter den Toggle verschoben: japanische Ausstrahlung steht noch aus oder keine deutsche Fassung belegt`)
   schreibeTvAuskunft(events, releases, titles)
   schreibeKostenlosAuskunft(events, titles)
-  return { events, mitStimmen, verschoben }
+  return { events: ohneOmuTermine(events, titles), mitStimmen, verschoben }
 }
 
 /**

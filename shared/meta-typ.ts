@@ -5,6 +5,8 @@ export interface DataMeta {
   titleCount: number
   /** Titel mit dubConfidence high/very-high; der Rest ist wahrscheinlich oder angekündigt. Fehlt vor dem ersten Bau damit. */
   belegtCount?: number
+  /** Inhalts-Kennung (sha256, 8 Zeichen) je Datendatei und Datenordner; nur in der ausgelieferten Fassung (`tools/daten-kennungen.ts`), nie im Repo. */
+  dateien?: Record<string, string>
   releaseCount: number
   eventCount: number
   genres: string[]

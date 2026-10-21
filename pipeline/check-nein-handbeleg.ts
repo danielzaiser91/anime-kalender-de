@@ -51,7 +51,15 @@ console.log('\nNein-Handbelege als Schlüsselmenge:')
   pruefe('Ja (dub: true) an derselben Adresse hebt das Nein auf', gleich.size === 0, [...gleich])
   const bereich = neinHandbelege([hand(14, 'netflix', { url: 'https://www.netflix.com/title/7', available: false }), hand(14, 'netflix', { url: 'https://www.netflix.com/title/7', dubRanges: [{ from: 1, to: 3, dub: true }] })])
   pruefe('ein deutscher Bereich (dubRanges) an derselben Adresse zählt als Ja', bereich.size === 0, [...bereich])
-  const ohneBeide = neinHandbelege([hand(15, 'netflix', { available: false }), hand(15, 'netflix', { dub: true })])
+  /* Verschmolzene Zeile (`verschmelze`): altes Ja, jüngeres „nicht verfügbar“ zur selben Adresse trägt beides und gilt als Nein. */
+  const verschmolzen = hand(17, 'primevideo', { url: prime('B0VERSCHM1'), dub: true, available: false })
+  const nurDiese = neinHandbelege([verschmolzen])
+  pruefe('Ja und „nicht verfügbar“ in einer Zeile: das Nein sperrt die Plattform', wegVerneint(nurDiese, 17, 'primevideo', JW_PRIME), [...nurDiese])
+  const nebenJa = neinHandbelege([verschmolzen, hand(17, 'primevideo', { url: prime('B0ANDERES1'), dub: true })])
+  pruefe('… neben einem Ja an anderer Adresse sperrt es nur die eigene Adresse', wegVerneint(nebenJa, 17, 'primevideo', verschmolzen.url) && !wegVerneint(nebenJa, 17, 'primevideo', JW_PRIME), [...nebenJa])
+  const bereichNein = neinHandbelege([hand(18, 'netflix', { url: 'https://www.netflix.com/title/9', available: false, dubRanges: [{ from: 1, to: 3, dub: true }] })])
+  pruefe('deutscher Bereich und „nicht verfügbar“ in einer Zeile: das Nein gilt', wegVerneint(bereichNein, 18, 'netflix', 'https://www.netflix.com/title/9'), [...bereichNein])
+  const ohneBeide =neinHandbelege([hand(15, 'netflix', { available: false }), hand(15, 'netflix', { dub: true })])
   pruefe('Ja und Nein ohne Adresse: dieselbe Ausgabe ist nicht belegt, das Nein gilt', wegVerneint(ohneBeide, 15, 'netflix', 'https://www.netflix.com/title/8'), [...ohneBeide])
 }
 

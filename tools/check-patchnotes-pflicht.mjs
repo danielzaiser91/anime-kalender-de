@@ -12,6 +12,7 @@
 import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import { ladeBasis } from './pr-basis.mjs'
 
 const ORDNER = 'data/patchnotes/'
 const EINTRAG = /^data\/patchnotes\/[^/]+\.yaml$/
@@ -77,20 +78,10 @@ function gegenproben() {
 
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
 
-function hatCommit(sha) {
-  try {
-    git('cat-file', '-e', `${sha}^{commit}`)
-    return true
-  } catch {
-    return false
-  }
-}
-
 /** Eingaben der Regel aus dem PR-Ereignis: geänderte und neu angelegte Dateien gegen die Basis, Beschreibung. */
 function ausEreignis() {
   const pr = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8')).pull_request
-  const basis = pr.base.sha
-  if (!hatCommit(basis)) git('fetch', '--no-tags', '--depth=1', 'origin', basis)
+  const basis = ladeBasis(git)
   const nameStatus = git('diff', '--name-status', '--no-renames', basis, 'HEAD')
   const dateien = nameStatus.split('\n').filter(Boolean).map((z) => z.split('\t')[1])
   return { dateien, neu: neueEintraege(nameStatus), beschreibung: pr.body ?? '', zweig: pr.head.ref }

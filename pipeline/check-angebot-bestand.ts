@@ -7,7 +7,6 @@
 import { readFileSync } from 'node:fs'
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { STICHTAG_AB } from './bau/angebot-stichtag.ts'
-import { katalogReleasesOhneTermin } from './lib/ohne-synchro-beleg.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -19,11 +18,10 @@ const lies = <T>(datei: string): T => JSON.parse(readFileSync(new URL(`../public
 
 console.log('\n„Im Angebot seit“ im Bestand:')
 {
-  const ereignisse = lies<ReleaseEvent[]>('events.json')
-  /* Releases mit `sprache` (omu/offen) haben bewusst keinen Termin (`lib/ohne-synchro-beleg.ts`). */
-  const { katalog: releases, ohneTermin } = katalogReleasesOhneTermin(lies<Release[]>('releases.json'), ereignisse)
-  const termine = new Map(ereignisse.map((e) => [e.releaseSlug, e]))
+  const releases = lies<Release[]>('releases.json').filter((r) => r.dateMeaning === 'available-from' && !r.widerlegt && r.schedule?.firstEpisodeDate)
+  const termine = new Map(lies<ReleaseEvent[]>('events.json').map((e) => [e.releaseSlug, e]))
   const kern = new Set(lies<Title[]>('titles-core.json').map((t) => t.id))
+  const ohneTermin = releases.filter((r) => !termine.has(r.slug)).map((r) => r.slug)
   pruefe(`alle ${releases.length} Katalog-Releases haben einen Termin`, releases.length > 0 && !ohneTermin.length, ohneTermin.slice(0, 5))
   const ohneMarke = releases.filter((r) => termine.has(r.slug) && !termine.get(r.slug)!.imAngebot && !termine.get(r.slug)!.erstausgabe).map((r) => r.slug)
   pruefe('jeder dieser Termine trägt „imAngebot“ oder „erstausgabe“', !ohneMarke.length, ohneMarke.slice(0, 5))

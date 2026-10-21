@@ -1,15 +1,237 @@
 {
-  "scrapedAt": "2026-10-19T05:03:42.454Z",
+  "scrapedAt": "2026-10-21T12:03:25.664Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 13,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
     "schon in einem Rubrik-Feed gelesen": 7,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "Blu-ray-Design von »Spice and Wolf: Merchant Meets the Wise Wolf« + Extras",
+      "articleUrl": "https://www.anime2you.de/news/1062604/spice-and-wolf-merchant-meets-the-wise-wolf-blu-ray-design/",
+      "publishedAt": "2026-10-21",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "neues Produktbild findet ihr weiter unten in diesem Artikel. Release ab November 2026 Das erste Blu-ray-Volume, das die ersten sechs Episod"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Start von »ELECEED« nach Verschiebung steht fest + Teaser",
+      "articleUrl": "https://www.anime2you.de/news/1062575/start-von-eleceed-nach-verschiebung/",
+      "publishedAt": "2026-10-21",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-04",
+          "context": "eue Details zur kommenden Serie verkündet. Wir fassen zusammen. Start im April 2027 »ELECEED« wird demzufolge nach einer Verschiebung ab Apr"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1062229/netflix-dragon-ball-super-beerus-und-mehr/",
+      "publishedAt": "2026-10-20",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Cyberpunk: Edgerunners II",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ],
+          "folgen": 10,
+          "datum": "2026-10-20",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Dragon Ball Super: Beerus",
+          "zusatz": "Episode 1",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ],
+          "datum": "2026-10-18",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-21"
+    },
+    {
+      "articleTitle": "Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1062497/der-held-ohne-klasse-auf-netflix/",
+      "publishedAt": "2026-10-20",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-01",
+          "context": "tlosen« bald in sein Programm aufnehmen wird. Wir fassen zusammen. Ab 1. November 2026 »Der Held ohne Klasse: Der Aufstieg eines Talentlosen"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zwei Anime-Neuzugänge ab sofort kostenlos bei JustWatch TV verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1062508/justwatch-tv-neon-genesis-evangelion-und-mehr/",
+      "publishedAt": "2026-10-20",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Neon Genesis Evangelion",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "JustWatch TV"
+          ],
+          "folgen": 26,
+          "datum": "2026-10-20",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Your Name.",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "JustWatch TV"
+          ],
+          "datum": "2026-10-20",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-21"
+    },
+    {
+      "articleTitle": "Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt",
+      "articleUrl": "https://www.anime2you.de/news/1058725/zehn-lord-of-mysteries-minifiguren/",
+      "publishedAt": "2026-10-19",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-05",
+          "context": "Erste Bilder der Produkte findet ihr unten in diesem Artikel. Release im Mai 2027 Die neue »Blind Box«-Kollektion zu »Lord of Mysteries« umf"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Fünf Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "articleUrl": "https://www.anime2you.de/news/1062255/akiba-pass-isekai-onsen-paradise-und-mehr/",
+      "publishedAt": "2026-10-19",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-28",
+          "context": "en der Anime-Klassiker »Lady Oscar« und »Eureka Seven« , die beide am 28. Januar 2027 durch KSM Anime erscheinen. Am selben Tag veröffentlic"
+        },
+        {
+          "iso": "2026-12-11",
+          "context": "dise« sowie den Anime-Film »Die letzte Blüte« auf Blu-ray. Bereits am 11. Dezember 2026 bringt polyband anime das 16. Volume der Comedy-Seri"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false,
+      "volltextGelesen": "2026-10-20"
+    },
+    {
+      "articleTitle": "Elf neue Merchandise-Produkte zu »Apothecary Diaries« angekündigt",
+      "articleUrl": "https://www.anime2you.de/news/1061032/apothecary-diaries-elf-merchandise-produkte/",
+      "publishedAt": "2026-10-19",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-05",
+          "context": "P vorbestellt werden können. Wir fassen die Details zusammen. Release im Mai 2027 Zur neuen »The Apothecary Diaries«-Kollektion zählen ein E"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Crunchyroll nimmt drei Anime-Neuzugänge ins Programm + Synchro",
+      "articleUrl": "https://www.anime2you.de/news/1062283/crunchyroll-your-letter-und-mehr/",
+      "publishedAt": "2026-10-19",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "zeiten": [
+        {
+          "tag": "Sonntag",
+          "zeit": "17:00",
+          "satz": "ffel 3 (Synchro) »Dreamland« – Episode 1 »Your Letter« »As a Reincarnated Aristocrat« – Staffel 3 (Synchro) Episoden: 1 verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Sonntag um 17:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "19:00",
+          "satz": "am mit seinen Verbündeten muss er alles daransetzen, seine Heimat zu verteidigen. »Dreamland« – Episode 1 Episode: 1 verfügbar Sprache: Englisch, Französisch (UT) Simulcast: Jeden Samstag um 19:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        }
+      ],
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "As a Reincarnated Aristocrat",
+          "zusatz": "Staffel 3",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-10-17",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Your Letter",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-10-19",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-20"
+    },
     {
       "articleTitle": "»Lady Oscar« erscheint in einer neuen Blu-ray-Komplettbox",
       "articleUrl": "https://www.anime2you.de/news/1061740/lady-oscar-neue-blu-ray-komplettbox/",
@@ -227,10 +449,6 @@
       "platforms": [],
       "dates": [
         {
-          "iso": "2026-10-19",
-          "context": "Parts (Folge 49 in der Gesamtzählung) wird nach einer Verschiebung am 19. Oktober 2026 im japanischen Fernsehen ausgestrahlt und bei […] D"
-        },
-        {
           "month": "2026-10",
           "context": "Blood War« veröffentlicht. Das Video findet ihr weiter unten. Finale im Oktober 2026 Die neunte Episode des vierten Parts (Folge 49 in der"
         }
@@ -396,7 +614,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-18"
+      "sammelGelesen": "2026-10-21"
     },
     {
       "articleTitle": "Design der 30th Anniversary Edition von »Detektiv Conan«",
@@ -542,7 +760,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-17"
+      "sammelGelesen": "2026-10-20"
     },
     {
       "articleTitle": "»Black Clover« stellt neuen Crunchyroll-Bestwert für 2026 auf",
@@ -622,7 +840,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 42/2026",
@@ -696,7 +914,7 @@
           "folgen": 54
         }
       ],
-      "sammelGelesen": "2026-10-18"
+      "sammelGelesen": "2026-10-21"
     },
     {
       "articleTitle": "Erste »Kaiju No. 8«-Staffel erscheint im limitierten Steelbook + Design",
@@ -911,58 +1129,6 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "zeiten": [
-        {
-          "tag": "Mittwoch",
-          "zeit": "19:15",
-          "satz": "Mage Enjoys a Second Lease on Life« »The World’s Strongest Witch« »A Returner’s Magic Should Be Special« – Staffel 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 19:15 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Dienstag",
-          "zeit": "16:30",
-          "satz": "ngenheit zurückkehrt, will er die Zukunft verändern und den Untergang verhindern. »Battle Spirits [Re] ZEKKAI NO KU« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 16:30 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Mittwoch",
-          "zeit": "19:00",
-          "satz": "en verfolgt wird, schließt er sich ihm an und begibt sich auf eine Reise, die Geschichte schreiben soll. »Dandivine« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 19:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Mittwoch",
-          "zeit": "17:15",
-          "satz": "Shijima landet im Cockpit des legendären Roboters und muss sich der neuen Bedrohung stellen. »Magic Knight Rayearth« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 17:15 Uhr Hinweis: Deutsche Synchronisation angek"
-        },
-        {
-          "tag": "Mittwoch",
-          "zeit": "15:00",
-          "satz": "phiro, die drei Mädchen als legendäre Magic Knights um Hilfe, um ihre Welt zu retten. »Sasaki and Peeps« – Staffel 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 15:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Dienstag",
-          "zeit": "16:45",
-          "satz": "ger Magier aus einer anderen Welt ist, der Sasaki mit besonderen Kräften ausstattet. »Super Psychic Policeman Chojo« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 16:45 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Dienstag",
-          "zeit": "15:30",
-          "satz": "uku für Recht und Ordnung und stellt sich den dortigen Verbrechern entgegen. »The Cold Sato-san is Only Sweet to Me« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 15:30 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Mittwoch",
-          "zeit": "15:30",
-          "satz": "Durch ihre gemeinsamen Interessen kommen sich die beiden langsam näher. »The Detective Is Already Dead« – Staffel 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 15:30 Uhr Hinweis: Deutsche Synchronisation angek"
-        },
-        {
-          "tag": "Dienstag",
-          "zeit": "17:30",
-          "satz": "wörung und zurück zu seiner verstorbenen Partnerin. »The Laid-Off Cheat-Granting Mage Enjoys a Second Lease on Life« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 17:30 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Mittwoch",
-          "zeit": "15:00",
-          "satz": "usgestoßene, mit denen er gegen Monster kämpft und nach einem Platz in der Welt sucht. »The World’s Strongest Witch« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 15:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        }
-      ],
       "alreadyCurated": false,
       "sammel": [
         {
@@ -1079,7 +1245,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-17"
+      "sammelGelesen": "2026-10-20"
     },
     {
       "articleTitle": "AniMoon startet Online-Rabattaktion zur Frankfurter Buchmesse 2026",
@@ -1359,7 +1525,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-17"
+      "sammelGelesen": "2026-10-20"
     },
     {
       "articleTitle": "Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027",
@@ -1492,7 +1658,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-17"
+      "sammelGelesen": "2026-10-20"
     },
     {
       "articleTitle": "Anime-Drama »A New Dawn« erscheint auf Blu-ray + Design",
@@ -1615,7 +1781,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-18"
+      "sammelGelesen": "2026-10-21"
     },
     {
       "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
@@ -1894,7 +2060,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-10-18"
+      "sammelGelesen": "2026-10-21"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -2961,7 +3127,7 @@
           "edition": ""
         }
       ],
-      "discGelesen": "2026-10-18"
+      "discGelesen": "2026-10-21"
     },
     {
       "articleTitle": "Design der limitierten Steelbook-Edition von »My Dress-Up Darling«",
@@ -3208,7 +3374,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-17"
+      "sammelGelesen": "2026-10-20"
     },
     {
       "articleTitle": "Netflix enthüllt neuen Teaser zu »Cyberpunk: Edgerunners II«",
@@ -3219,10 +3385,6 @@
         "netflix"
       ],
       "dates": [
-        {
-          "iso": "2026-10-20",
-          "context": "sem Artikel. Ab Oktober 2026 »Cyberpunk: Edgerunners II« erscheint am 20. Oktober 2026 weltweit bei Netflix und wird unter anderem mit deuts"
-        },
         {
           "month": "2026-10",
           "context": "veröffentlicht. Das Video findet ihr weiter unten in diesem Artikel. Ab Oktober 2026 »Cyberpunk: Edgerunners II« erscheint am 20. Oktober 2"

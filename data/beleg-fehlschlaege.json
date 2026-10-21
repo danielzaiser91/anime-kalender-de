@@ -1,27 +1,27 @@
 {
   "https://www.disneyplus.com/de-de/browse/entity-0113d236-c3a2-4098-a663-bdb5979bfb74": {
-    "am": "2026-10-16",
-    "anzahl": 3
+    "am": "2026-10-20",
+    "anzahl": 4
   },
   "https://www.disneyplus.com/browse/entity-484054dc-6486-477a-a31a-87163fbbb65a": {
-    "am": "2026-10-16",
-    "anzahl": 3
+    "am": "2026-10-21",
+    "anzahl": 4
   },
   "https://www.disneyplus.com/browse/entity-cdb8e29b-7fb0-4142-9966-3b1125246df0": {
     "am": "2026-10-17",
     "anzahl": 3
   },
   "https://www.disneyplus.com/browse/entity-1b84d641-1bb3-422d-be4c-8e24c7b547cc": {
-    "am": "2026-10-17",
-    "anzahl": 3
+    "am": "2026-10-21",
+    "anzahl": 4
   },
   "https://www.disneyplus.com/de-de/browse/entity-71bcb11f-763c-4609-8965-540eaf7fa795": {
     "am": "2026-10-19",
     "anzahl": 3
   },
   "https://www.disneyplus.com/de-de/browse/entity-cfb90125-8678-4327-a1b8-e608f293eccd": {
-    "am": "2026-10-18",
-    "anzahl": 2
+    "am": "2026-10-20",
+    "anzahl": 3
   },
   "https://www.disneyplus.com/de-de/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3": {
     "am": "2026-10-18",
@@ -37,6 +37,14 @@
   },
   "https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89": {
     "am": "2026-10-19",
+    "anzahl": 1
+  },
+  "https://www.disneyplus.com/browse/entity-1ad522c4-bd79-464f-b483-c2fa01aaca2e": {
+    "am": "2026-10-21",
+    "anzahl": 2
+  },
+  "https://www.disneyplus.com/browse/entity-81a4b821-1dbe-4ecc-9e01-57a7941982c3": {
+    "am": "2026-10-21",
     "anzahl": 1
   }
 }

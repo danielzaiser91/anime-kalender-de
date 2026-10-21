@@ -37,6 +37,7 @@ import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { log, warn } from './lib/util.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
+import { leseZugeordnet } from './lib/prime-meldung-riegel.ts'
 import { handpruefungSchreiben, jwFrisch, type Handpruefung } from './lib/jw-handpruefung.ts'
 
 const ROOT = resolve(import.meta.dirname, '..')
@@ -120,10 +121,7 @@ const kanalOffen = belege.filter(
   so ein Fall. Die Kanäle kennt sie nicht, verglichen wird dann über alle
   Angebote.
 */
-const zugeordnet = JSON.parse(readFileSync(resolve(ROOT, 'data/prime-zugeordnet.json'), 'utf8')) as Record<
-  string,
-  { titleId?: number; plattform?: string; folgen?: { sprachen?: string[] }[] }
->
+const zugeordnet = leseZugeordnet<{ titleId: number; plattform?: string; folgen?: { sprachen?: string[] }[] }>()
 const titelName = new Map(
   (JSON.parse(readFileSync(resolve(ROOT, 'public/data/titles.json'), 'utf8')) as { id: number; titleDe?: string; titleEn?: string }[]).map(
     (t) => [t.id, t.titleDe ?? t.titleEn],

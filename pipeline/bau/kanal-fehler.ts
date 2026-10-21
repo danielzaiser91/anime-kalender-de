@@ -1,6 +1,7 @@
 import { todayIso } from '../../shared/time.ts'
 import type { Release, Title } from '../../shared/types.ts'
-import { adressGleich, adressKern, loadDubChecks, type DubCheck } from '../lib/dub-confirmed.ts'
+import { adressGleich, adressKern, type DubCheck } from '../lib/dub-confirmed.ts'
+import { ladeKanalWissen } from '../lib/kanal-wissen.ts'
 import { bestandVorher } from '../lib/bestand-vorher.ts'
 import { kanalTitelOhneBeleg, kanalWegEntfernt, kanalWegVerloren } from '../lib/invarianten-kanal.ts'
 import { kanalAdressenOhneAussage, kanalAdressenOhneBeleg } from '../lib/kanal-titel.ts'
@@ -31,7 +32,7 @@ export function kanalFehler(titles: Iterable<Title>, releases: Release[]): strin
   const heute = todayIso()
   const alle = [...titles]
   const mitTermin = new Set(releases.filter((r) => r.platform === 'primevideo' && !terminBelegtNichts(r, heute)).map((r) => r.titleId))
-  const checks = loadDubChecks()
+  const checks = ladeKanalWissen()
   const entfernt = readJson<{ verweise?: Entfernt[] }>('data/verweise-entfernt.json', {}).verweise ?? []
   return [
     ...kanalTitelOhneBeleg(alle, kanalAdressenOhneBeleg(checks), (t) => mitTermin.has(t.id) || deutschLautAnisearch(t)),

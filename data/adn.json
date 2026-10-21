@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-10-19T04:09:41.448Z",
+  "scrapedAt": "2026-10-21T04:11:23.360Z",
   "window": {
-    "from": "2026-09-04",
-    "to": "2027-01-02"
+    "from": "2026-09-06",
+    "to": "2027-01-04"
   },
   "shows": [
     {
@@ -765,6 +765,19 @@
           "duration": 1380,
           "title": "Dreamland - Folge 2",
           "image": "https://image.animationdigitalnetwork.com/license/dreamland/tv_0002/web/license_320x180.jpg"
+        },
+        {
+          "date": "2026-10-31",
+          "time": "19:00",
+          "episode": 3,
+          "url": "https://animationdigitalnetwork.com/de/video/887-dreamland/32722-folge-3",
+          "season": "1",
+          "seasonReference": "dreamland_tv",
+          "order": 8,
+          "type": "EPS",
+          "duration": 1380,
+          "title": "Dreamland - Folge 3",
+          "image": "https://image.animationdigitalnetwork.com/license/dreamland/tv_0003/web/license_320x180.jpg"
         }
       ],
       "batch": false
@@ -777,7 +790,7 @@
       "url": "https://animationdigitalnetwork.com/de/video/1319",
       "episodes": [
         {
-          "date": "2026-10-20",
+          "date": "2026-10-29",
           "time": "09:00",
           "episode": 1,
           "url": "https://animationdigitalnetwork.com/de/video/1319-puella-magi-madoka-magica-the-movie-part1-beginnings/29577-film-1",

@@ -267,7 +267,7 @@ export function expandEvents(release: Release): ReleaseEvent[] {
  * eine laufende Serie bleiben die künftigen Folgen, solange eine aussteht.
  */
 export function merkbareTermine(release: Release, today: string): ReleaseEvent[] {
-  return expandEvents(release).filter((e) => e.date > today && !istAusgeblieben(e) && !e.sprache)
+  return expandEvents(release).filter((e) => e.date > today && !istAusgeblieben(e))
 }
 
 /** Eine Folgennummer darf erscheinen, wenn sie belegt ist — bei einer TV-Sichtung ohne Folgenliste ist sie nur unsere Zählung. */

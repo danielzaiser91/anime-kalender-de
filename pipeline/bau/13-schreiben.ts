@@ -12,7 +12,7 @@ import { schreibePatchnotes } from './13-9-patchnotes.ts'
 import { ergaenzeErstausgabeAngebot } from './13-7-erstausgabe-angebot.ts'
 import { ergaenzeAngebotTermine } from './13-7-angebot-termine.ts'
 import { schreibeZusatzdateien } from './13-4-zusatzdateien.ts'
-import { bereinigePruefliste, ausgelieferteKennungen } from './pruefliste-bereinigen.ts'
+import { bereinigePruefliste } from './pruefliste-bereinigen.ts'
 import { schreibeLueckenTitel } from './luecken-titel.ts'
 import { ordneCartoonsZuAnime } from './cartoon-zu-anime.ts'
 import { schreibeSprecherIndex } from './sprecher-index.ts'
@@ -23,10 +23,9 @@ import { schreibeSynopsenUndReichereAn } from './13-1-anreichern.ts'
 import { mitBelegstaerke } from '../lib/belegstaerke.ts'
 import { ergaenzeEigeneHandlungen } from './handlung-eigen-einbinden.ts'
 import { ergaenzeDeutscheFolgenzahl } from './deutsche-folgenzahl-einbinden.ts'
-import { jwNeinAnSeite, kanalErbtVomAnbieter } from './kanal-erbt-anbieter.ts'
-import { urteilJaJeWeg, urteilSchliesstSpaeteLuecken } from './urteil-schliesst-luecken.ts'
-import { kanalAdressenOhneBeleg } from '../lib/kanal-titel.ts'
-import { loadDubChecks } from '../lib/dub-confirmed.ts'
+import { jwNeinAnSeite } from './kanal-erbt-anbieter.ts'
+import { tonDerKanalWege } from './deutsch-nicht-gegen-sprach-termin.ts'
+import { schliesseSpaeteLuecken } from './urteil-schliesst-luecken.ts'
 import { log } from '../lib/util.ts'
 
 export function schreibeDatensatz({
@@ -62,11 +61,10 @@ export function schreibeDatensatz({
     kanalJeAdresse,
   })
 
-  const spaet = urteilSchliesstSpaeteLuecken(allTitles, releases, urteilJaJeWeg(), kanalAdressenOhneBeleg(loadDubChecks()))
+  const spaet = schliesseSpaeteLuecken(allTitles, releases)
   if (spaet) log(`${spaet} spät entstandene Weg(e) über das Urteil aus Stufe 3 belegt`)
 
-  const geerbt = kanalErbtVomAnbieter(allTitles, jwNeinAnSeite())
-  if (geerbt) log(`${geerbt} Prime-Kanal-Wege erben das Deutsch ihres Anbieters`)
+  tonDerKanalWege(allTitles, releases, jwNeinAnSeite())
 
   const { slim } = baueAuslieferung({
     allTitles: mitBelegstaerke(allTitles, releases),
@@ -91,7 +89,7 @@ export function schreibeDatensatz({
   schreibeKinoZuletzt(titles, tmdbTitles)
 
   schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige })
-  bereinigePruefliste(ausgelieferteKennungen(slim))
+  bereinigePruefliste(slim)
   schreibeLueckenTitel(slim, synopses)
   ordneCartoonsZuAnime()
   schreibeSprecherIndex({ ausgeliefert: new Set(slim.map((t) => t.id)) })

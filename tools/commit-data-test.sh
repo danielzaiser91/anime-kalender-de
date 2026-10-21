@@ -123,6 +123,8 @@ szenario() {
   for datei in commit-data.sh quellen-liste.sh quellen-aufsetzen.sh health-vereinen.mjs dub-belege-vereinen.mjs quarantaene.mjs; do
     cp "$WURZEL/tools/$datei" "$d/start/tools/$datei"
   done
+  # js-yaml für dub-belege-vereinen: ohne scheitert quellen_aufsetzen jetzt laut.
+  mkdir -p "$d/start/node_modules" && cp -r "$WURZEL/node_modules/js-yaml" "$d/start/node_modules/"
   echo '{"v":1}' > "$d/start/data/anisearch.json"
   mkdir -p "$d/start/public/data"
   echo '{"stand":"alt"}' > "$d/start/public/data/stand.json"

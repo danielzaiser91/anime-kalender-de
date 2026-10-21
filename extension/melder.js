@@ -4842,14 +4842,14 @@ function durchlaufKnopfZeigen() {
     deren Titel am häufigsten sichtbar war — in dieser Ansicht sind es alle.
   */
   if (alleStaffelnAnsicht()) {
-    const gruppen = folgenJeStaffel(DURCHLAUF.alleFolgen ?? []).size
     const offen = offeneGruppen().length
+    const fertig = globalThis.akAlleStaffelnFertig(folgenJeStaffel(DURCHLAUF.alleFolgen ?? []), MELDUNGEN.get(String(gemeinteReihe()))?.jeFolge, DURCHLAUF.gemeldet)
     DURCHLAUF.knopf.textContent = offen
-      ? `Alle Staffeln · ▶ ${offen * 2} Folgen prüfen (${offen} von ${gruppen} Staffeln offen)`
-      : `Alle Staffeln · ✓ ${gruppen} Staffeln gemeldet`
+      ? `Alle Staffeln · ▶ ${offen * 2} Folgen prüfen (${offen} von ${fertig.gruppen} Staffeln offen)`
+      : fertig.text
     DURCHLAUF.knopf.title = offen
       ? 'Prüft je offene Staffel die erste und die letzte Folge und meldet den Rest mit demselben Befund.'
-      : 'Alles gemeldet.'
+      : fertig.title
     DURCHLAUF.knopf.disabled = !offen
     DURCHLAUF.knopf.classList.toggle('ak-fertig', !offen)
     return
@@ -6145,7 +6145,7 @@ async function totMelden(id, titel) {
       const daten = await antwort.json().catch(() => ({}))
       return { ok: false, text: daten.error ?? `Fehler ${antwort.status}` }
     }
-    await merkeTot(id)
+    await globalThis.akNetflixTotGemeldet(id, frischGemeldetNetflix, merkeTot)
     return { ok: true, text: 'als tot gemeldet' }
   } catch (err) {
     return { ok: false, text: `Nicht erreichbar: ${err.message}` }

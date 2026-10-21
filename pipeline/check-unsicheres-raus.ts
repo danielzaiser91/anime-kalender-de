@@ -1,18 +1,13 @@
 /**
- * Zusicherung: **Unsicheres steht nicht im Kalender** (Daniel, 18.10.2026): kein Termin ohne belegte deutsche Synchro
- * (Beerus, `sprache` omu/offen) und keine Wochenprogramm-Folge über der belegten Folgenzahl (Villainess F12).
+ * Zusicherung: **Eine Wochenprogramm-Folge über der belegten Folgenzahl steht nicht im Kalender** (Daniel, 18.10.2026, Villainess F12).
  * Läuft in `check:logic`; erfundene Releases, kein Netz.
  */
-import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
+import type { Release, Title } from '../shared/types.ts'
 import { ergaenzeCrSimuldubs } from './bau/06-cr-simuldubs.ts'
-import { baueNews } from './lib/news.ts'
-import { expandEvents, merkbareTermine } from '../shared/logic.ts'
-import { fuegeTermineEin } from './bau/13-7-angebot-termine.ts'
+import { expandEvents } from '../shared/logic.ts'
 import { observedEpisodes } from './bau/titel-hilfen.ts'
 import { wocheAnhaengen, type CrunchyrollEntry } from './lib/crunchyroll.ts'
 import { beobachtetOhneTermin, hebeFolgenzahlAufBeobachtung } from './lib/folge-ueber-anzahl.ts'
-import { pruefeInvarianten } from './lib/invarianten.ts'
-import { katalogReleasesOhneTermin, mitBelegterSynchro, termineOhneBelegteSynchro } from './lib/ohne-synchro-beleg.ts'
 import { ohneWocheUeberAnzahl } from './lib/woche-ueber-anzahl.ts'
 
 let fehler = 0
@@ -34,30 +29,6 @@ function release(slug: string, titleId: number, extra: Partial<Release> = {}): R
     ...extra,
   } as Release
 }
-
-
-/* --- Teil 1: omu/offen --- */
-const omu = release('omu-x', 900001, { sprache: 'omu' })
-const offen = release('offen-y', 900002, { sprache: 'offen' })
-const deutsch = release('deutsch-z', 900003)
-pruefe('Ausgangslage: der Auffalter erzeugt Termine für alle drei', [omu, offen, deutsch].every((r) => expandEvents(r).length === 3))
-pruefe('mitBelegterSynchro: omu fällt', !mitBelegterSynchro(expandEvents(omu)[0]!))
-pruefe('mitBelegterSynchro: offen fällt', !mitBelegterSynchro(expandEvents(offen)[0]!))
-pruefe('mitBelegterSynchro: ohne Kennzeichnung bleibt', mitBelegterSynchro(expandEvents(deutsch)[0]!))
-
-
-const nachtrag: ReleaseEvent[] = []
-const neu = fuegeTermineEin(nachtrag, [omu, deutsch, offen])
-pruefe('Nachtrag (Angebot-Termine): omu/offen kommen nicht hinein', neu.length === 3 && nachtrag.length === 3 && nachtrag.every((e) => e.releaseSlug === 'deutsch-z'), nachtrag.map((e) => e.id))
-
-const roh = [...expandEvents(omu), ...expandEvents(offen), ...expandEvents(deutsch)]
-const befund = termineOhneBelegteSynchro(roh)
-pruefe('Wächter: sechs Funde für sechs omu/offen-Termine, deutsche nicht', befund.length === 6 && befund.every((f) => !f.includes('deutsch-z')), befund)
-pruefe('Wächter: nennt die Sprache', befund.some((f) => f.includes('„omu“')) && befund.some((f) => f.includes('„offen“')), befund)
-pruefe('Wächter: sauberer Bestand bleibt still', termineOhneBelegteSynchro(expandEvents(deutsch)).length === 0)
-const invarianten = pruefeInvarianten([omu, deutsch], [...expandEvents(omu), ...expandEvents(deutsch)], new Map())
-pruefe('Wächter hängt an der Endkontrolle (pruefeInvarianten)', invarianten.fehler.filter((f) => f.includes('ohne belegte Synchro')).length === 3, invarianten.fehler)
-pruefe('Merken/Kalenderknopf (merkbareTermine): omu und offen fehlen, deutsche bleiben', merkbareTermine(omu, '2026-10-01').length === 0 && merkbareTermine(offen, '2026-10-01').length === 0 && merkbareTermine(deutsch, '2026-10-01').length === 3)
 
 /* --- Teil 2: Wochenprogramm über der belegten Zahl --- */
 function crSlot(bisGemessen: number): CrunchyrollEntry {
@@ -90,28 +61,6 @@ pruefe('Folge 13 entfällt auch, Zahl 12 belegt lässt 12 zu', observedEpisodes(
 const fortsetzung: CrunchyrollEntry = { ...crSlot(0), observations: [{ date: '2026-09-27', episode: 13 }, { date: '2026-10-04', episode: 14 }, { date: '2026-10-11', episode: 15, quelle: 'woche' }] }
 pruefe('Zählung beginnt nicht bei 1 (Fortsetzung): nichts wird verworfen', ohneWocheUeberAnzahl(fortsetzung, { episodeCount: 12 }, 'x') === fortsetzung)
 
-/* --- Auflagen Runde 2 --- */
-const angebot = (slug: string, extra: Partial<Release> = {}) => release(slug, 900010, { dateMeaning: 'available-from', ...extra })
-const katalog = katalogReleasesOhneTermin([angebot('mit-sprache', { sprache: 'omu' }), angebot('ohne-sprache'), angebot('widerlegt', { widerlegt: {} as Release['widerlegt'] })], [])
-pruefe('A1: Katalog-Release mit sprache ohne Termin ist kein Fund, ohne sprache schon', katalog.ohneTermin.join() === 'ohne-sprache' && katalog.katalog.length === 1, katalog.ohneTermin)
-pruefe('A1: mit Termin ist es kein Fund', katalogReleasesOhneTermin([angebot('ohne-sprache')], expandEvents(angebot('ohne-sprache'))).ohneTermin.length === 0)
-
-const tage = (n: number) => new Date(Date.now() + n * 86400000).toISOString().slice(0, 10)
-const titel = { id: 900020, titleEn: 'Fixture Titel', titleRomaji: 'Fixture Titel', streams: [], episodes: 3 } as unknown as Title
-const meldungenFuer = (r: Release) => baueNews([titel], [r], [], [], { zuerst: {} }).flatMap((e) => e.meldungen).filter((m) => m.release === r.slug)
-const startIn3 = { firstEpisodeDate: tage(3), time: '18:00', episodeCount: 3 } as Release['schedule']
-pruefe('A2: Ausgangslage, ein deutsches Release bekommt eine Ankündigung', meldungenFuer(release('news-deutsch', 900020, { schedule: startIn3 })).length > 0)
-pruefe('A2: omu erzeugt keine Ankündigung', meldungenFuer(release('news-omu', 900020, { sprache: 'omu', schedule: startIn3 })).length === 0)
-pruefe('A2: offen erzeugt keine Ankündigung', meldungenFuer(release('news-offen', 900020, { sprache: 'offen', schedule: startIn3 })).length === 0)
-pruefe('A2: Kino mit sprache erzeugt keine Meldung', meldungenFuer(release('news-kino', 900020, { platform: 'kino', releaseType: 'movie', sprache: 'omu', schedule: startIn3 })).length === 0)
-
-const ohneTermin = release('beobachtet-sprache', 900021, { sprache: 'omu', schedule: { firstEpisodeDate: '2026-10-18', time: '18:00', episodeCount: 3, observed: { 1: '2026-10-18', 2: '2026-10-25' } } as Release['schedule'] })
-pruefe('A5: beobachtet ohne Termin schweigt bei sprache', beobachtetOhneTermin([ohneTermin], []).length === 0)
-pruefe('A5: dasselbe ohne sprache wird gemeldet', beobachtetOhneTermin([{ ...ohneTermin, sprache: undefined }], []).length === 2)
-
-pruefe('A5: widerlegt schweigt ebenfalls', beobachtetOhneTermin([{ ...ohneTermin, sprache: undefined, widerlegt: {} as Release['widerlegt'] }], []).length === 0)
-pruefe('A1: nur „Im Angebot seit“ zählt zum Katalog', katalogReleasesOhneTermin([release('kein-angebot', 900011)], []).katalog.length === 0)
-
 const ab13 = crSlot(14)
 aufbau(ab13, 15, '2026-11-08')
 pruefe('A4: Folgen 13–24 (firstEpisodeNumber 13, Zahl 12): Wochenprogramm-Folge 15 bleibt', observedEpisodes(ohneWocheUeberAnzahl(ab13, { episodeCount: 12, firstEpisodeNumber: 13 }, 'x'))[15] !== undefined)
@@ -140,4 +89,4 @@ if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
   process.exit(1)
 }
-console.log('Unsicheres raus: omu/offen-Termine und Wochenprogramm-Folgen über der Zahl stehen nicht im Kalender')
+console.log('Unsicheres raus: Wochenprogramm-Folgen über der Zahl stehen nicht im Kalender')

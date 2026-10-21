@@ -1,23 +1,9 @@
 /**
- * Zusicherung (Syntaxbaum): **`rolleTermineAus` faltet die Releases nur über `kalenderTermine` auf** (nicht über `expandEvents`).
+ * Zusicherung (Syntaxbaum): **05-releases und 06-cr-simuldubs übergeben `observedEpisodes` nur den gekappten Eintrag** (`ohneWocheUeberAnzahl`).
  * Der Bau selbst liest Bestandsdateien und läuft nicht in `check:logic`; deshalb wird sein Quelltext geprüft.
  */
 import { readFileSync } from 'node:fs'
 import ts from 'typescript'
-
-/** Namen, die als Argument von `.flatMap(...)` im Quelltext stehen. */
-export function flatMapArgumente(quelltext: string): string[] {
-  const datei = ts.createSourceFile('x.ts', quelltext, ts.ScriptTarget.Latest, true)
-  const namen: string[] = []
-  const besuche = (n: ts.Node): void => {
-    if (ts.isCallExpression(n) && ts.isPropertyAccessExpression(n.expression) && n.expression.name.text === 'flatMap') {
-      namen.push(n.arguments.map((a) => a.getText(datei)).join(','))
-    }
-    ts.forEachChild(n, besuche)
-  }
-  besuche(datei)
-  return namen
-}
 
 /** Die Argumente (als Text) jedes Aufrufs `observedEpisodes(ohneWocheUeberAnzahl(...))` im Quelltext. */
 export function gekappteBeobachtungen(quelltext: string): string[] {
@@ -39,12 +25,6 @@ function pruefe(name: string, ok: boolean, ist?: unknown): void {
   console.error(`FEHLER: ${name}`, ist === undefined ? '' : JSON.stringify(ist))
 }
 
-const quelle = readFileSync(new URL('./bau/10-termine.ts', import.meta.url), 'utf8')
-pruefe('10-termine: genau ein flatMap(kalenderTermine)', flatMapArgumente(quelle).filter((a) => a === 'kalenderTermine').length === 1, flatMapArgumente(quelle))
-pruefe('10-termine: kein flatMap(expandEvents)', !flatMapArgumente(quelle).includes('expandEvents'))
-pruefe('Sonde: expandEvents wird erkannt', flatMapArgumente(quelle.replace('flatMap(kalenderTermine)', 'flatMap(expandEvents)')).includes('expandEvents'))
-pruefe('Sonde: ohne Aufruf keiner gezählt', flatMapArgumente(quelle.replace('flatMap(kalenderTermine)', 'map(kalenderTermine)')).filter((a) => a === 'kalenderTermine').length === 0)
-
 const bau05 = readFileSync(new URL('./bau/05-releases.ts', import.meta.url), 'utf8')
 const kappung05 = 'observedEpisodes(ohneWocheUeberAnzahl(slot, schedule, entry.slug))'
 pruefe('05-releases: observedEpisodes bekommt den gekappten Eintrag mit Eintrag, Plan und Namen, genau einmal', gekappteBeobachtungen(bau05).join('|') === 'slot,schedule,entry.slug', gekappteBeobachtungen(bau05))
@@ -60,4 +40,4 @@ if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
   process.exit(1)
 }
-console.log('rolleTermineAus faltet über kalenderTermine auf')
+console.log('05-releases und 06-cr-simuldubs kappen die Beobachtungen über ohneWocheUeberAnzahl')

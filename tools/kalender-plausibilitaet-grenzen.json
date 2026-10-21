@@ -3,7 +3,7 @@
   "vorkommen": {
     "erschienenOhneTermin": 0,
     "schaetzungNachEnde": 0,
-    "spracheOffenTrotzMeldung": 3,
+    "spracheOffenTrotzMeldung": 0,
     "ereignisOhneNews": 2,
     "terminOhneBeleg": 15,
     "primeOhneTitelseite": 5
@@ -11,11 +11,7 @@
   "bekannt": {
     "erschienenOhneTermin": [],
     "schaetzungNachEnde": [],
-    "spracheOffenTrotzMeldung": [
-      "10015835|netflix",
-      "10020607|netflix",
-      "10021027|netflix"
-    ],
+    "spracheOffenTrotzMeldung": [],
     "ereignisOhneNews": [
       "ghost-in-the-shell-2026@2026-07-07",
       "vom-landei-zum-schwertheiligen-2@2026-07-08"

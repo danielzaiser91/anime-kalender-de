@@ -101,6 +101,8 @@ const HANDGEPFLEGT = new Set([
   'data/blocker-von-hand.yaml',
   'data/tmdb-von-hand.yaml',
   'data/adn-staffelzuordnung.yaml',
+  'data/prime-seiten-von-hand.json',
+  'data/synchron-forum-treffer.yaml',
 ])
 for (const datei of readdirSync(pipelineDir, { recursive: true })) {
   if (typeof datei !== 'string' || !/\.(ts|mjs|js)$/.test(datei)) continue

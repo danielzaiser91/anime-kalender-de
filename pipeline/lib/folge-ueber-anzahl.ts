@@ -67,7 +67,7 @@ export function beobachtetOhneTermin(releases: Release[], events: ReleaseEvent[]
   const vorhanden = new Set(events.map((e) => `${e.releaseSlug}#${e.episode}`))
   const fehler: string[] = []
   for (const r of releases) {
-    if (r.widerlegt || r.sprache || hoechsteBeobachtung(r) === undefined) continue
+    if (r.widerlegt || hoechsteBeobachtung(r) === undefined) continue
     for (const [nr, datum] of Object.entries(r.schedule.observed ?? {})) {
       if (!datum || Number(nr) < (r.schedule.firstEpisodeNumber ?? 1) || vorhanden.has(`${r.slug}#${nr}`)) continue
       fehler.push(`"${r.slug}": Folge ${nr} am ${datum} beobachtet (Folgenzahl ${r.schedule.episodeCount ?? 'offen'}), aber ohne Termin im Datensatz`)

@@ -2,8 +2,10 @@
  * **Belege, auf deren Seite die Aussage nicht zu finden war** (Daniel, 07.10.2026): Ein Bild ohne Fundstelle ist ein Indiz — vielleicht ein Beweis —, dass der Artikel den Titel
  * gar nicht nennt und der Beleg hinfällig ist. Die Liste wird von Hand geprüft; die Oberfläche zeigt solche Belege als ganze Seite mit Warnzeichen statt als Ausschnitt.
  */
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { meldeAnClaude } from './meldung.ts'
+import { ROOT, writeText } from './util.ts'
 import type { BelegGedaechtnis } from './beleg-lesung.ts'
 import type { Gruppe } from './beleg-suche.ts'
 import { BILD_FASSUNG } from './beleg-bild.ts'
@@ -28,7 +30,7 @@ export function schreibeOhneFundstelle(gedaechtnis: BelegGedaechtnis, gruppen: M
   const liste = ohneFundstelle(gedaechtnis, gruppen)
   const zeilen = liste.map((x) => `- ${x.url} (gelesen ${x.am}) — ${x.titel.join(', ') || 'kein Titel zugeordnet'}`)
   const neu = `# Belege ohne Fundstelle (${liste.length})\n\nDie Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artikel den Titel und den Termin? Wenn nein, ist der Beleg hinfällig und der Termin braucht eine andere Quelle.\n\n${zeilen.join('\n') || 'Keine.'}\n`
-  const geaendert = !existsSync(DATEI) || readFileSync(DATEI, 'utf8') !== neu
-  writeFileSync(DATEI, neu)
+  const geaendert = !existsSync(resolve(ROOT, DATEI)) || readFileSync(resolve(ROOT, DATEI), 'utf8') !== neu
+  writeText(DATEI, neu)
   if (liste.length && geaendert) meldeAnClaude('beleg-lesen', 'hinweis', `${liste.length} Belege ohne Fundstelle — von Hand prüfen`, DATEI)
 }

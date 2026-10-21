@@ -6,10 +6,10 @@
  * Läuft in `check:logic`.
  */
 import { readFileSync } from 'node:fs'
-import yaml from 'js-yaml'
 import ts from 'typescript'
 import type { Release } from '../shared/types.ts'
 import { kastenNotizVon } from '../web/src/components/detail/kasten-hinweise.ts'
+import { laufeInKulisse } from './lib/kulisse-lauf.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -37,11 +37,12 @@ pruefe('Ohne Durchreichen erkannt: falscher Feldname', notizDurchgereicht(bau.re
 pruefe('Zwei Eigenschaften werden beide gezählt', notizDurchgereicht(bau.replace('note: entry.note,', 'note: entry.note, note: entry.note,')) === 2)
 pruefe('Ohne Durchreichen erkannt: anderes Feld', notizDurchgereicht(bau.replace('note: entry.note,', 'note: entry.herkunft,')) === 0)
 
-/* Die Notiz des Eintrags, falls vorhanden, ist ein Satz Text (kein Objekt, keine Liste). */
-const kuratiert = yaml.load(readFileSync(new URL('../data/curated/streaming-sommer-2026.yaml', import.meta.url), 'utf8')) as { slug: string; note?: unknown }[]
-const eintrag = kuratiert.find((e) => e.slug === 'though-i-am-an-inept-villainess')
-pruefe('Villainess-Eintrag ist im kuratierten Bestand', eintrag !== undefined)
-pruefe('Eine vorhandene Notiz ist Text', eintrag?.note === undefined || typeof eintrag.note === 'string')
+/* Die Notiz eines kuratierten Eintrags ist ein Satz Text: die Bestandsprüfung gegen eigene Kulissen (die Villainess-Zeile der echten Datei ist nicht Teil davon). */
+const kuratiert = (zeilen: string) => laufeInKulisse('check-folge-zwoelf-hinweis-bestand.ts', { 'data/curated/kulisse.yaml': `- slug: kulisse-a\n${zeilen}- slug: kulisse-b\n  note: "Ein Satz."\n` })
+pruefe('Kulisse: Notiz als Text ist grün', kuratiert('  note: "Folge 12 gab es in Japan nicht."\n').code === 0)
+pruefe('Kulisse: Eintrag ohne Notiz ist grün (sie wird nicht verlangt)', kuratiert('').code === 0)
+pruefe('Kulisse: Notiz als Objekt ist rot', kuratiert('  note:\n    text: x\n').code === 1)
+pruefe('Kulisse: Notiz als Liste ist rot', kuratiert('  note:\n    - eins\n').code === 1)
 
 /* Der Kasten wählt die Notiz des Releases, dessen Termin gilt: Treffer in der Mitte, andere ohne Notiz oder mit anderem Termin. */
 const release = (slug: string, tag: string, note?: string) =>

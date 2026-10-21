@@ -1,8 +1,8 @@
 {
-  "stand": "2026-10-19",
+  "stand": "2026-10-21",
   "bestand": {
-    "inReihen": 3033,
-    "reihen": 819,
+    "inReihen": 3024,
+    "reihen": 816,
     "pruefliste": [
       {
         "art": "verschmilzt",
@@ -1552,8 +1552,8 @@
     ]
   },
   "katalog": {
-    "inReihen": 12024,
-    "reihen": 3071,
+    "inReihen": 12026,
+    "reihen": 3072,
     "pruefliste": [
       {
         "art": "verschmilzt",
