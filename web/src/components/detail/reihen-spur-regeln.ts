@@ -40,17 +40,8 @@ export function nachbarKarte(index: number, anzahl: number, taste: string): numb
   return undefined
 }
 
-/** Kennung des scrollenden Panel-Containers (`data-panel`); DetailPanel setzt sie, `panelNachOben` sucht sie — eine Quelle, sonst läuft die Suche still ins Leere. */
+/** Kennung des scrollenden Panel-Containers (`data-panel`); DetailPanel setzt sie, `useTitelwechsel` sucht sie — eine Quelle, sonst läuft die Suche still ins Leere. */
 export const PANEL_KENNUNG = 'titel'
-
-/**
- * Nach dem Klick auf ein Cover beginnt das Panel wieder oben: Dort scrollt der Panel-Container (`data-panel="titel"`, `fixed inset-y-0 overflow-y-auto`),
- * auf dem Handy wie am Desktop, nicht die Seite. Kein `scrollIntoView` — das scrollte das Panel vor (09.10.2026).
- */
-export function panelNachOben(von: { closest: (auswahl: string) => { scrollTop: number } | null }): void {
-  const panel = von.closest(`[data-panel="${PANEL_KENNUNG}"]`)
-  if (panel) panel.scrollTop = 0
-}
 
 /** Pixeldichte der Cover: bei „Datensparen" 1, sonst die der Kacheln. */
 export function coverDichte(sparen: boolean, kachelDichte: number): number {

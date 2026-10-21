@@ -321,6 +321,11 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     hinzu tools/uhr-in-tests-grenzen.json
   fi
 
+  # Dasselbe für „heute“ als UTC-Tag (tools/heute-utc.mjs).
+  if node tools/heute-utc.mjs --festschreiben > /dev/null 2>&1; then
+    hinzu tools/heute-utc-grenzen.json
+  fi
+
   # Dasselbe für die Treffer der Kalender-Plausibilität (pipeline/lib/kalender-plausibilitaet.ts): gesunkene Zahlen übernehmen.
   if [ "$QUARANTAENE_AKTIV" != 1 ] && npm run check:kalender-plausibilitaet -- --festschreiben > /dev/null 2>&1; then
     hinzu tools/kalender-plausibilitaet-grenzen.json

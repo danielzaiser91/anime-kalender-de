@@ -9,6 +9,7 @@
  * Aufruf: `npx tsx tools/worker-titelzeile-stapel-budget.test.ts`
  */
 import { handlePruefung } from '../worker/src/pruefung.ts'
+import { aendereGebuendelt } from '../worker/src/titelzeile-buendel.ts'
 import { neueDatenbank, post, umgebung, zahl, type Hilfe } from './worker-titelzeile-hilfe.ts'
 
 let fehler = 0
@@ -119,7 +120,32 @@ console.log('Ein Stapel mit nur einem Titel braucht wenige Abfragen')
   pruefe(e.length === 10 && e.every((x) => x.ok) && zahl(db, 'SELECT COUNT(*) AS n FROM titel_zeile') === 1, 'zehn Folgen eines Titels, eine Zeile')
   pruefe(z.n <= 8, `${z.n} Abfragen (lesen, Altzeilen suchen, schreiben, dazu Zähler des Aufrufs)`)
 }
-
+console.log('Dauerhafter Zusammenstoß bei 215 Titeln: die Wiederholungsrunden haben eine feste Obergrenze')
+{
+  const db = neueDatenbank()
+  const ablage = db.prepare("INSERT INTO titel_zeile (url, plattform, nr, daten, gemeldet_am) VALUES (?, 'netflix', ?, '{}', '2020-01-01')")
+  for (let i = 1; i <= 215; i++) ablage.run(titel(i), i)
+  const n = { abfragen: 0, batches: 0 }
+  const env = {
+    DB: {
+      prepare: (sql: string) => {
+        const a = (werte: unknown[]) => ({
+          bind: (...w: unknown[]) => a(w),
+          all: async () => (n.abfragen++, { results: db.prepare(sql).all(...(werte as never[])) }),
+        })
+        return a([])
+      },
+      batch: async (liste: unknown[]) => (n.abfragen++, n.batches++, liste.map(() => ({ meta: { changes: 0 } }))),
+    },
+  } as never
+  const alle = (db.prepare('SELECT nr, url, plattform, version, daten FROM titel_zeile').all() as { nr: number; url: string; plattform: string; version: number; daten: string }[])
+  const fertig = await aendereGebuendelt(env, alle, (alt) => ({ daten: alt, zaehl: 1 }))
+  pruefe(fertig.length === 0, `nichts geschrieben, nichts gezählt (${fertig.length})`)
+  /* 6 Runden zu je 3 Stapeln (215 Anweisungen) und einer Lesung der Zusammenstöße; Obergrenze fest eingetragen */
+  pruefe(n.abfragen <= 24, `höchstens 6 Runden: ${n.abfragen} Abfragen (Obergrenze 24)`)
+  pruefe(n.abfragen >= 24, `alle 6 Runden laufen, nicht weniger: ${n.abfragen} Abfragen`)
+  pruefe(n.batches === 18, `18 Stapel zu je höchstens 100 Anweisungen (${n.batches})`)
+}
 
 if (fehler) {
   console.log(`\n${fehler} Fehler`)

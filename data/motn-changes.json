@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 71
+    "2026-10": 75
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1048,7 +1048,7 @@
       "imdbId": "tt31804242",
       "tmdbId": "tv/248516",
       "dienst": "prime",
-      "am": "2026-10-06",
+      "am": "2026-10-20",
       "deutsch": false
     },
     "removed:1979:prime": {
@@ -4428,7 +4428,7 @@
       "imdbId": "tt10133370",
       "tmdbId": "tv/100604",
       "dienst": "prime",
-      "am": "2026-09-25",
+      "am": "2026-10-20",
       "deutsch": true
     },
     "removed:34920:prime": {
@@ -6328,7 +6328,7 @@
       "imdbId": "tt0920489",
       "tmdbId": "tv/37290",
       "dienst": "prime",
-      "am": "2026-10-12",
+      "am": "2026-10-20",
       "deutsch": true
     },
     "removed:13510:netflix": {
@@ -6738,7 +6738,7 @@
       "imdbId": "tt31719701",
       "tmdbId": "tv/261306",
       "dienst": "prime",
-      "am": "2026-10-12",
+      "am": "2026-10-20",
       "deutsch": false
     },
     "removed:62101:prime": {
@@ -8750,7 +8750,37 @@
       "dienst": "prime",
       "am": "2026-10-19",
       "deutsch": false
+    },
+    "new:16798:prime": {
+      "art": "new",
+      "titel": "Beyond the Walls",
+      "originalTitel": "Au-delà des murs",
+      "imdbId": "tt4999820",
+      "tmdbId": "tv/67979",
+      "dienst": "prime",
+      "am": "2026-10-21",
+      "deutsch": true
+    },
+    "new:6416386:prime": {
+      "art": "new",
+      "titel": "Undercover: Caught on Tape",
+      "originalTitel": "Undercover: Caught on Tape",
+      "imdbId": "tt17524192",
+      "tmdbId": "tv/243357",
+      "dienst": "prime",
+      "am": "2026-10-20",
+      "deutsch": true
+    },
+    "new:27067195:disney": {
+      "art": "new",
+      "titel": "Phony",
+      "originalTitel": "Phony",
+      "imdbId": "tt21952924",
+      "tmdbId": "tv/275139",
+      "dienst": "disney",
+      "am": "2026-10-20",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-10-20T04:13:37.600Z"
+  "fetchedAt": "2026-10-21T04:11:29.773Z"
 }

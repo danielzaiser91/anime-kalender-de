@@ -6558,6 +6558,18 @@
   ],
   "gemeldetAm": "2026-10-19"
  },
+ "81717895": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "Staffel 1",
+    "folgen": 1,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-10-21",
+  "nurFolgenzahl": true
+ },
  "81726714": {
   "staffeln": [
    {
@@ -6925,5 +6937,16 @@
    }
   ],
   "gemeldetAm": "2026-08-26"
+ },
+ "83189604": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 1,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-10-21"
  }
 }

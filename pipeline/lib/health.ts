@@ -21,6 +21,8 @@ export interface SourceState {
   lastCount: number
   /** Fehlermeldung des letzten erfolglosen Laufs. */
   lastError?: string
+  /** Nur `link-check`: Amazon hat im letzten Lauf gesperrt (steuert die Drossel des Folgelaufs). */
+  gesperrt?: boolean
 }
 
 export type SourceHealth = Record<string, SourceState>
@@ -73,6 +75,7 @@ export function recordSource(
   error?: string,
   gearbeitet?: number,
   leerIstOk?: boolean,
+  gesperrt?: boolean,
 ): void {
   const health = readJson<SourceHealth>(FILE, {})
   const now = new Date().toISOString()
@@ -83,6 +86,7 @@ export function recordSource(
     lastRun: now,
     lastCount: count,
     lastError: erfolgreich ? undefined : (error ?? previous?.lastError),
+    gesperrt: gesperrt ?? previous?.gesperrt,
   }
   writeJson(FILE, health, true)
 }
