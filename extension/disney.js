@@ -390,8 +390,8 @@
       zählte jede alte Meldung: Snowball Earth (Synchro läuft noch) und Yu-Gi-Oh! standen als
       „alles gemeldet“ da, und auf der Titelseite gab es nichts zu melden (26.09.2026).
     */
-    if (e.seit) return erneutBeantwortet.has(e.url)
-    return briefkasten.has(e.url) || gemeldeteAdressen.has(e.url) || wartetAufUebernahme.has(e.url)
+    if (e.seit) return globalThis.AK_DISNEY_WEG.erledigt(e.url, e.seit, erneutBeantwortet.has(e.url))
+    return globalThis.AK_DISNEY_WEG.erledigt(e.url, null, briefkasten.has(e.url) || gemeldeteAdressen.has(e.url) || wartetAufUebernahme.has(e.url))
   }
 
   function offeneEintraege() {
@@ -741,7 +741,7 @@
           notiz: 'Disney+ meldet: nicht in deinem Gebiet verfügbar',
         }),
       })
-      return antwort.ok
+      return globalThis.AK_DISNEY_WEG.merke(e.url, antwort.ok)
     } catch {
       return false
     }
