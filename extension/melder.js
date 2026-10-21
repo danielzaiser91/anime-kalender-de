@@ -6145,7 +6145,7 @@ async function totMelden(id, titel) {
       const daten = await antwort.json().catch(() => ({}))
       return { ok: false, text: daten.error ?? `Fehler ${antwort.status}` }
     }
-    await merkeTot(id)
+    await globalThis.akNetflixTotGemeldet(id, frischGemeldetNetflix, merkeTot)
     return { ok: true, text: 'als tot gemeldet' }
   } catch (err) {
     return { ok: false, text: `Nicht erreichbar: ${err.message}` }
