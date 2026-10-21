@@ -8,7 +8,7 @@ import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFile
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { abdruck, BAU_EINGABEN, bauMitSpur, befehlErlaubt, frei, PATCHNOTES_LOG, unerklaert } from './bau-eingaben.mjs'
+import { abdruck, abdruckAusGit, BAU_EINGABEN, bauMitSpur, befehlErlaubt, frei, PATCHNOTES_LOG, unerklaert } from './bau-eingaben.mjs'
 
 const WURZEL = join(dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -28,6 +28,15 @@ const A = abdruckMit(baum(...BASIS))
 assert.match(A, /^[0-9a-f]{40}$/)
 assert.notEqual(abdruckMit(baum(...BASIS), LOGTEXT.replace('@1760000000', '@1760090000')), A, 'Commit-Zeit einer Patch Note geändert')
 assert.notEqual(abdruckMit(baum(...BASIS), ''), A, 'Patch Note nicht mehr hinzugefügt')
+// Der Deploy kürzt jede git-Ausgabe (`.trim()`), der Bau nicht: das Zeilenende der Log-Ausgabe darf den Abdruck nicht verschieben (Prüfer R5).
+assert.equal(abdruckMit(baum(...BASIS), LOGTEXT.trim()), A, 'Log-Ausgabe ohne Zeilenende: gleicher Abdruck')
+assert.equal(abdruckMit(baum(...BASIS), `${LOGTEXT}\n`), A, 'Log-Ausgabe mit zwei Zeilenenden: gleicher Abdruck')
+const gitMit = (kuerzen) => (args) => {
+  const antwort = args[0] === 'rev-parse' ? 'false\n' : args[0] === 'ls-tree' ? baum(...BASIS) : LOGTEXT
+  return kuerzen ? antwort.trim() : antwort
+}
+assert.equal(abdruckAusGit(gitMit(false)), A, 'Bau (git roh): Abdruck')
+assert.equal(abdruckAusGit(gitMit(true)), A, 'Deploy (git gekürzt): derselbe Abdruck')
 assert.equal(abdruckMit(mitte(0, zeile('data/a.json', NEU))), A, 'freie Datei mit neuem Inhalt: gleicher Abdruck')
 assert.equal(abdruckMit(mitte(3, zeile('status.md', NEU))), A, 'Markdown der Wurzel mit neuem Inhalt: gleicher Abdruck')
 assert.equal(abdruckMit(mitte(5, zeile('data/z.json', NEU))), A, 'letzte freie Datei mit neuem Inhalt: gleicher Abdruck')

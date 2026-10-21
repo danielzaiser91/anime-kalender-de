@@ -37,7 +37,7 @@ export function abdruck(lsTree, patchnotesLog) {
     const pfad = eintrag.slice(eintrag.indexOf('\t') + 1)
     hash.update(frei(pfad) && !eingabe(pfad) ? `${eintrag.split(' ')[0]}\t${pfad}\0` : `${eintrag}\0`)
   }
-  hash.update(`\0${patchnotesLog}`)
+  hash.update(`\0${patchnotesLog.trim()}`)
   return hash.digest('hex')
 }
 
