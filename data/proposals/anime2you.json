@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-10-21T12:03:25.664Z",
+  "scrapedAt": "2026-10-21T14:03:06.514Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
+    "schon in einem Rubrik-Feed gelesen": 10,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
-    "schon in einem Rubrik-Feed gelesen": 7,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -37,6 +37,23 @@
         {
           "month": "2027-04",
           "context": "eue Details zur kommenden Serie verkündet. Wir fassen zusammen. Start im April 2027 »ELECEED« wird demzufolge nach einer Verschiebung ab Apr"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "25 »Pokémon«-Staffeln erscheinen in acht neuen DVD-Boxen",
+      "articleUrl": "https://www.anime2you.de/news/1062901/25-pokemon-staffeln-in-acht-neuen-dvd-boxen/",
+      "publishedAt": "2026-10-21",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-12",
+          "context": "en zu »Pokémon« angekündigt. Wir fassen nachfolgend zusammen. Release im Dezember 2026 Die acht neuen »Pokémon«-Boxen sind nach den einzelne"
         }
       ],
       "dub": "unklar",
