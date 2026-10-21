@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-21T00:10:21.623Z",
+ "erzeugtAm": "2026-10-21T00:59:14.584Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 851,
+   "gemeldet": 853,
    "gesamt": 900,
-   "offen": 49,
+   "offen": 47,
    "ohneSeite": 21,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -170,10 +170,6 @@
      "titel": "Tokyo Ghoul √A"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0CHZ951SV",
-     "titel": "Tokyo Ghoul"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0GMY84XLR",
      "titel": "Wanna Be the Strongest in the World!"
     },
@@ -200,10 +196,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B09JTSD79F",
      "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0H4LGN96W",
-     "titel": "Clannad"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GYDLTDD8",
@@ -799,9 +791,9 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 173,
+   "gemeldet": 175,
    "gesamt": 338,
-   "offen": 165,
+   "offen": 163,
    "ohneSeite": 20,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
@@ -849,14 +841,6 @@
      "url": "https://www.disneyplus.com/de-de/browse/entity-54a25fcf-a472-4d40-9968-13e2957e5abf",
      "titel": "One-Punch Man: Staffel 3",
      "seit": "2026-08-26"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-14f5d468-38b2-4d4b-97ed-649e6c3ba4c8",
-     "titel": "Gachiakuta"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-81a4b821-1dbe-4ecc-9e01-57a7941982c3",
-     "titel": "A Sign of Affection"
     },
     {
      "url": "https://www.disneyplus.com/de-de/series/the-rising-of-the-shield-hero-aka-tate-no-yuusha-no/4lgHH2jdAefe",
@@ -1071,6 +1055,7 @@
     "0e46c665-5191-407f-8dc5-e22a0095578c": 100,
     "4XHzb6tQBRtd": 12,
     "7I31jGPKAwz5": 13,
+    "14f5d468-38b2-4d4b-97ed-649e6c3ba4c8": 12,
     "eb5b776f-8162-491a-9aca-c1e9b56729e5": 12,
     "8019edc8-5f73-4c70-88eb-02ea35f724d4": 12,
     "0113d236-c3a2-4098-a663-bdb5979bfb74": 12,
