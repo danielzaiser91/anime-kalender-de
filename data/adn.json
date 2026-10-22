@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-10-21T04:11:23.360Z",
+  "scrapedAt": "2026-10-22T04:11:20.843Z",
   "window": {
-    "from": "2026-09-06",
-    "to": "2027-01-04"
+    "from": "2026-09-07",
+    "to": "2027-01-05"
   },
   "shows": [
     {
@@ -797,7 +797,7 @@
           "seasonReference": "puellamagimadokamagica_film",
           "order": 1,
           "type": "MOV",
-          "duration": 7880,
+          "duration": 7881,
           "title": "Puella Magi Madoka Magica – Film 1: Beginnings - Film 1",
           "image": "https://image.animationdigitalnetwork.com/license/puellamagimadokamagica/film_0001/web/license_320x180.jpg"
         }
@@ -819,7 +819,7 @@
           "seasonReference": "puellamagimadokamagica_film",
           "order": 1,
           "type": "MOV",
-          "duration": 6585,
+          "duration": 6586,
           "title": "Puella Magi Madoka Magica – Film 2: Eternal - Film 2",
           "image": "https://image.animationdigitalnetwork.com/license/puellamagimadokamagica/film_0002/web/license_320x180.jpg"
         }
