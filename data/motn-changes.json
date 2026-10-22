@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 75
+    "2026-10": 79
   },
   "gesehen": {
     "26341901:netflix": {
@@ -4708,7 +4708,7 @@
       "imdbId": "tt2261391",
       "tmdbId": "tv/44006",
       "dienst": "prime",
-      "am": "2026-10-14",
+      "am": "2026-10-22",
       "deutsch": true
     },
     "removed:4869:netflix": {
@@ -8780,7 +8780,37 @@
       "dienst": "disney",
       "am": "2026-10-20",
       "deutsch": false
+    },
+    "new:91675:prime": {
+      "art": "new",
+      "titel": "Peter Voss, der Millionendieb",
+      "originalTitel": "Peter Voss, der Millionendieb",
+      "imdbId": "tt0174414",
+      "tmdbId": "tv/63690",
+      "dienst": "prime",
+      "am": "2026-10-22",
+      "deutsch": true
+    },
+    "new:59576:prime": {
+      "art": "new",
+      "titel": "Le Chevalier de Maison Rouge",
+      "originalTitel": "Le Chevalier de Maison Rouge",
+      "imdbId": "tt0169422",
+      "tmdbId": "tv/75529",
+      "dienst": "prime",
+      "am": "2026-10-22",
+      "deutsch": true
+    },
+    "new:27066513:netflix": {
+      "art": "new",
+      "titel": "The New Stanford Prison Experiment",
+      "originalTitel": "The New Stanford Prison Experiment",
+      "imdbId": "tt46658083",
+      "tmdbId": "tv/335319",
+      "dienst": "netflix",
+      "am": "2026-10-21",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-10-21T04:11:29.773Z"
+  "fetchedAt": "2026-10-22T04:11:26.002Z"
 }
