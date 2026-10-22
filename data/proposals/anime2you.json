@@ -1,15 +1,32 @@
 {
-  "scrapedAt": "2026-10-22T05:03:44.093Z",
+  "scrapedAt": "2026-10-22T15:08:09.760Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "schon in einem Rubrik-Feed gelesen": 11,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 9,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 8,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "Crunchyroll zeigt »Bless« im Simulcast + Teaser",
+      "articleUrl": "https://www.anime2you.de/news/1062951/crunchyroll-zeigt-bless-im-simulcast/",
+      "publishedAt": "2026-10-22",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [
+        {
+          "month": "2027-01",
+          "context": "von »Bless« gesichert hat. Einen neuen Teaser findet ihr unten. Start im Januar 2027 »Bless« wird nach aktueller Planung ab Januar 2027 im j"
+        }
+      ],
+      "dub": "nein",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Blu-ray-Design von »Spice and Wolf: Merchant Meets the Wise Wolf« + Extras",
       "articleUrl": "https://www.anime2you.de/news/1062604/spice-and-wolf-merchant-meets-the-wise-wolf-blu-ray-design/",
