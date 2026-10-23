@@ -21,8 +21,7 @@
  * | Textdatei mit Tatsachenzahl in hinzugefügten Zeilen (Uhrzeit, Datum, Folgenzahl, ID ab 5 Ziffern) | 1 |
  * | mehrere CSS-Dateien, oder eine CSS über 30 Zeilen                           | 1       |
  * | Skill-Text: .claude/skills/**\/*.md (andere Dateien dort bleiben 2)           | 1       |
- * | tools/claude-global/**\/*.md (Regeln, Skills der globalen Claude-Konfiguration) | 0       |
- * | übrige Dateien unter tools/claude-global/ (Hooks, Mods, einrichten.mjs)     | 1       |
+ * | tools/claude-global/** (Regeln, Skills, Hooks, Mods; steuern Daniels Agenten) | 1       |
  * | Doku: *.md, docs, daniel-zum-abarbeiten, mockups                            | 0       |
  * | Text: data/patchnotes/*.yaml, web/src/**\/i18n*.ts(x)                       | 0       |
  * | eine einzelne *.css unter web/src oder extension, höchstens 30 Zeilen       | 0       |
@@ -47,8 +46,7 @@ const DOKU = /^([^/]+\.md|(docs|mockups|daniel-zum-abarbeiten)\/.+\.(md|png|svg|
 const DOKU_ANDERE_ENDUNG = /^(docs|mockups|daniel-zum-abarbeiten)\//
 // Skill-Texte steuern Agenten, ändern aber keinen Code: Stufe 1 (Prüfer liest den Diff), nie 0. Andere Dateien unter .claude/skills (Skripte) bleiben Stufe 2.
 const SKILL_TEXT = /^\.claude\/skills\/.+\.md$/
-// Daniels globale Claude-Konfiguration (wirkt nicht auf die Website): Texte 0, Code (bricht höchstens seine Sitzungen) 1.
-const CLAUDE_GLOBAL_TEXT = /^tools\/claude-global\/.+\.md$/
+// Daniels globale Claude-Konfiguration wirkt nicht auf die Website, steuert aber seine Agenten (wie Skill-Texte): immer Stufe 1.
 const CLAUDE_GLOBAL = /^tools\/claude-global\//
 const TEXT = /^(data\/patchnotes\/[^/]+\.yaml|web\/src\/(.*\/)?i18n[^/]*\.tsx?)$/
 const CSS = /^(web\/src|extension)\/.*\.css$/
@@ -126,7 +124,6 @@ function stufeNachPfad(d) {
 function stufeOhneModus(d, n) {
   if (RECHTSTEXT.test(d.pfad)) return [1, 'Rechtstext']
   if (DOKU.test(d.pfad)) return [0, 'Doku']
-  if (CLAUDE_GLOBAL_TEXT.test(d.pfad)) return [0, 'Doku der globalen Claude-Konfiguration']
   if (TEXT.test(d.pfad)) {
     const zahl = d.hinzu.some((z) => !/^\s*(date|datum)\s*:/i.test(z) && FAKTENZAHL.test(z))
     return zahl ? [1, 'Text mit Tatsachenzahl (Uhrzeit, Datum, Folgenzahl oder ID)'] : [0, 'Text']
@@ -135,7 +132,7 @@ function stufeOhneModus(d, n) {
   if (WEB_CODE.test(d.pfad) && !d.binaer && n <= GRENZE_KOMMENTAR && nurKommentare(d.hinzu) && nurKommentare(d.weg)) return [0, 'nur Kommentare']
   if (SKILL_TEXT.test(d.pfad)) return [1, 'Skill-Text']
   if (DOKU_ANDERE_ENDUNG.test(d.pfad)) return [1, 'Datei in docs/mockups mit anderer Endung']
-  if (CLAUDE_GLOBAL.test(d.pfad)) return [1, 'Hook, Mod oder Skript der globalen Claude-Konfiguration']
+  if (CLAUDE_GLOBAL.test(d.pfad)) return [1, 'globale Claude-Konfiguration (Regel, Skill, Hook, Mod)']
   if (STUFE_1.test(d.pfad)) return [1, 'UI-Logik, Handbeleg oder Datenwert']
   return [2, 'Pfad ohne Herabstufungsregel (Pipeline, Logik, Workflow, Worker, Schema oder unbekannt)']
 }
