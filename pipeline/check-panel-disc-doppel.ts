@@ -2,7 +2,7 @@
  * Zusicherungen (21.10.2026, Daniel, Your Forma und Saiyuki Reload: Zeroin):
  * (1) Die Einzelausgaben-Liste steht im Panel gleich unter dem Antwort-Kasten, nicht hinter Reihe und Handlung (Syntaxbaum), und
  *     zeigt jede Ausgabe, die der Zähler nennt.
- * (2) Ein Stream-Bezugsweg auf derselben Seite wie ein Verweis ist keine zweite Pille (Lauf durch `sortiereNachZugang`).
+ * (2) Ein Stream-Bezugsweg (der Helfer filtert nur die Stream-Liste; Kauf-Wege laufen an ihm vorbei) auf derselben Seite wie ein Verweis ist keine zweite Pille (Lauf durch `sortiereNachZugang`).
  * (3) Der Handbeleg „freenet meinVOD, Deutsch“ zu Your Forma steht in `data/watch-links.yaml`.
  * Aufruf: `npm run check:logic`.
  */
