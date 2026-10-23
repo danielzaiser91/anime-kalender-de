@@ -1,15 +1,74 @@
 {
-  "scrapedAt": "2026-10-21T14:03:06.514Z",
+  "scrapedAt": "2026-10-23T15:11:24.610Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 10,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "schon in einem Rubrik-Feed gelesen": 8,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
+      "articleUrl": "https://www.anime2you.de/news/1063292/prosieben-fun-zeigt-akame-ga-kill/",
+      "publishedAt": "2026-10-23",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-16",
+          "context": "uf. Wir fassen zusammen. Ab November 2026 »Akame ga KILL!« startet am 16. November 2026 um 20:55 Uhr auf ProSieben FUN. Zum Auftakt wird zun"
+        },
+        {
+          "iso": "2026-11-23",
+          "context": "t wird zunächst nur eine Episode ausgestrahlt, bevor die Serie ab dem 23. November 2026 jeden […] Der Beitrag ProSieben FUN zeigt »Akame g"
+        },
+        {
+          "month": "2026-11",
+          "context": "it deutscher Sprachfassung in sein Programm auf. Wir fassen zusammen. Ab November 2026 »Akame ga KILL!« startet am 16. November 2026 um 20:5"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "ProSieben MAXX wiederholt sechste »My Hero Academia«-Staffel",
+      "articleUrl": "https://www.anime2you.de/news/1063329/my-hero-academia-staffel-6-prosieben-maxx-wiederholung/",
+      "publishedAt": "2026-10-23",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-18",
+          "context": "b November 2026 Die sechste Staffel von »My Hero Academia« ist ab dem 18. November 2026 jeweils von Montag bis Freitag um 16:45 Uhr […] De"
+        },
+        {
+          "month": "2026-11",
+          "context": "her Sprachfassung ausstrahlen wird. Wir fassen zusammen. Wiederholung ab November 2026 Die sechste Staffel von »My Hero Academia« ist ab dem"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Crunchyroll zeigt »Bless« im Simulcast + Teaser",
+      "articleUrl": "https://www.anime2you.de/news/1062951/crunchyroll-zeigt-bless-im-simulcast/",
+      "publishedAt": "2026-10-22",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [
+        {
+          "month": "2027-01",
+          "context": "von »Bless« gesichert hat. Einen neuen Teaser findet ihr unten. Start im Januar 2027 »Bless« wird nach aktueller Planung ab Januar 2027 im j"
+        }
+      ],
+      "dub": "nein",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Blu-ray-Design von »Spice and Wolf: Merchant Meets the Wise Wolf« + Extras",
       "articleUrl": "https://www.anime2you.de/news/1062604/spice-and-wolf-merchant-meets-the-wise-wolf-blu-ray-design/",
@@ -58,6 +117,114 @@
       ],
       "dub": "unklar",
       "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix: Alle Anime-Neuzugänge im November 2026",
+      "articleUrl": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
+      "publishedAt": "2026-10-21",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "Netflix: Alle Anime-Neuzugänge im November 2026 Der Streaming-Dienst Netflix erweitert sein Anime-Pro"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
+          "datum": "2026-11-01",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Bass X Machina",
+          "datum": "2026-11-03",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Fool Night",
+          "datum": "2026-11-26",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "The Ramparts of Ice",
+          "zusatz": "Staffel 2",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "STEEL BALL RUN: JoJo’s Bizarre Adventure",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Tougen Anki",
+          "zusatz": "Staffel 2",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Das Band der Unterwelt",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Ranma 1/2",
+          "zusatz": "Staffel 3",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Blue Box",
+          "zusatz": "Staffel 2",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Dragon Ball Super: Beerus",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-10-22"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -247,7 +414,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-20"
+      "sammelGelesen": "2026-10-23"
     },
     {
       "articleTitle": "»Lady Oscar« erscheint in einer neuen Blu-ray-Komplettbox",
@@ -549,7 +716,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-19"
+      "sammelGelesen": "2026-10-22"
     },
     {
       "articleTitle": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
@@ -777,7 +944,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-20"
+      "sammelGelesen": "2026-10-23"
     },
     {
       "articleTitle": "»Black Clover« stellt neuen Crunchyroll-Bestwert für 2026 auf",
@@ -1262,7 +1429,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-20"
+      "sammelGelesen": "2026-10-23"
     },
     {
       "articleTitle": "AniMoon startet Online-Rabattaktion zur Frankfurter Buchmesse 2026",
@@ -1542,7 +1709,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-20"
+      "sammelGelesen": "2026-10-23"
     },
     {
       "articleTitle": "Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027",
@@ -1675,7 +1842,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-20"
+      "sammelGelesen": "2026-10-23"
     },
     {
       "articleTitle": "Anime-Drama »A New Dawn« erscheint auf Blu-ray + Design",
@@ -2192,7 +2359,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-18"
+      "sammelGelesen": "2026-10-22"
     },
     {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
@@ -2276,7 +2443,7 @@
           "datum": "2026-10-01"
         }
       ],
-      "sammelGelesen": "2026-10-18"
+      "sammelGelesen": "2026-10-22"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -2419,7 +2586,7 @@
           "datum": "2026-10-06"
         }
       ],
-      "sammelGelesen": "2026-10-19"
+      "sammelGelesen": "2026-10-22"
     },
     {
       "articleTitle": "Action-Anime »Rooster Fighter« bald auf Netflix verfügbar",
@@ -2481,7 +2648,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-10-19"
+      "sammelGelesen": "2026-10-22"
     },
     {
       "articleTitle": "ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an",
@@ -2739,7 +2906,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-19"
+      "sammelGelesen": "2026-10-23"
     },
     {
       "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
@@ -5460,7 +5627,7 @@
           "edition": "limited-edition steelbook"
         }
       ],
-      "discGelesen": "2026-10-19"
+      "discGelesen": "2026-10-22"
     },
     {
       "articleTitle": "»Afro Samurai« erscheint im limitierten Steelbook auf Blu-ray",

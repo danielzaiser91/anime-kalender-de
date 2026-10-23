@@ -69,7 +69,7 @@ pruefe('Legende nennt „Deutsch angenommen“', legendeFuer(['annahme'], false,
 console.log('\nAntwort-Kasten (Devil May Cry: Netflix belegt Folge 1, Videoload nimmt 1–12 an):')
 const netflix = { platform: 'Netflix', url: 'https://netflix/x', dub: true, dubRanges: [{ from: 1, to: 1, dub: true }] }
 const kasten = (wege: WatchLink[], streams: unknown[] = [netflix]) =>
-  berechneAntwort({ title: { ...titel(wege), streams } as unknown as Title, releases: [], today: '2026-10-13' })
+  berechneAntwort({ title: { ...titel(wege), streams } as unknown as Title, releases: [], today: '2026-10-13', jetzt: new Date('2026-10-13T12:00:00Z') })
 const mitAnnahme = kasten([weg('Videoload', { dubRanges: deutsch, dubAbgeleitet: 'telekom-annahme' })])
 const kastenBeleg = kasten([weg('Videoload', { dubRanges: deutsch })])
 pruefe('Kasten: die Annahme füllt die Folgen nicht auf', mitAnnahme?.art === 'teilweise', mitAnnahme)
