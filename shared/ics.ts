@@ -149,6 +149,8 @@ export function icsKopf(calendarName = 'Anime-Kalender DE'): string {
     'METHOD:PUBLISH',
     `X-WR-CALNAME:${esc(calendarName)}`,
     'X-WR-TIMEZONE:Europe/Berlin',
+    'REFRESH-INTERVAL;VALUE=DURATION:PT12H',
+    'X-PUBLISHED-TTL:PT12H',
   ]
   return lines.map(fold).join('\r\n') + '\r\n'
 }
