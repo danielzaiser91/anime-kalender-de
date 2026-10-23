@@ -35,15 +35,23 @@ export function wochentagVon(id: string): number {
 
 type Wochenabo = { id: string; last_sent_at: string | null; created_at: string }
 
+/** So viele Tage nach dem Eimer-Tag wird ein nicht versandtes Wochen-Abo noch nachgeholt; danach wartet es auf den nächsten Eimer-Tag. */
+const NACHHOL_TAGE = 2
+
 /**
- * Ob ein Wochen-Abo heute dran ist: sein Eimer-Tag ist erreicht und seit der letzten Mail sind es mindestens
- * 7 Tage. Wer am Eimer-Tag nicht drankam (Kappe, abgewiesener Stapel), ist an den Folgetagen weiter fällig.
+ * Ob ein Wochen-Abo heute dran ist: höchstens `NACHHOL_TAGE` nach seinem Eimer-Tag und seit der letzten Mail
+ * mindestens 7 Tage (nie zwei Mails in 7 Tagen, auch nicht beim Umzug vom alten Einheitstag). Wer am Eimer-Tag
+ * nicht drankam (Kappe, abgewiesener Stapel), ist an den Folgetagen weiter fällig. Ohne frühere Mail zählt
+ * jeder Tag ab dem ersten Eimer-Tag nach der Anmeldung.
  */
 export function wochenAboFaellig(sub: Wochenabo, iso: string): boolean {
-  const letzterEimerTag = addDays(iso, -((weekdayIndex(iso) - wochentagVon(sub.id) + 7) % 7))
-  if (!sub.last_sent_at) return sub.created_at.slice(0, 10) <= letzterEimerTag
-  const zuletzt = sub.last_sent_at.slice(0, 10)
-  return zuletzt < letzterEimerTag && addDays(zuletzt, 7) <= iso
+  const seitEimerTag = (weekdayIndex(iso) - wochentagVon(sub.id) + 7) % 7
+  if (!sub.last_sent_at) return sub.created_at.slice(0, 10) <= addDays(iso, -seitEimerTag)
+  const fruehestens = addDays(sub.last_sent_at.slice(0, 10), 7)
+  if (fruehestens > iso) return false
+  // Nachholen nur, wenn der Eimer-Tag selbst schon dran gewesen wäre; wer nach dem Umzug oder verspätet bedient
+  // wurde, wartet auf seinen nächsten Eimer-Tag (sonst bliebe er dauerhaft am verspäteten Tag hängen).
+  return seitEimerTag <= NACHHOL_TAGE && fruehestens <= addDays(iso, -seitEimerTag)
 }
 
 /** Tägliche Abos + größter Wochentags-Eimer (aktiv und unbestätigt): so viele Mails braucht der volle Versandtag. */

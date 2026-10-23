@@ -79,16 +79,20 @@ function faellig() {
   pruefe(wochenAboFaellig(sub('2026-05-27T05:00:00.000Z'), MI), 'vor genau 7 Tagen gesendet: fällig')
   pruefe(!wochenAboFaellig(sub('2026-05-28T05:00:00.000Z'), MI), 'vor 6 Tagen gesendet (alter Montagsversand wäre Do): nicht fällig, kein Doppelversand')
   pruefe(!wochenAboFaellig(sub('2026-06-01T05:00:00.000Z'), MI), 'Montag gesendet (alter Tag), Mittwoch: nicht fällig, 7-Tage-Abstand fehlt')
-  pruefe(wochenAboFaellig(sub('2026-06-01T05:00:00.000Z'), '2026-06-08'), 'Montag gesendet, nächster Montag: Eimer-Tag der Woche war Mi, 7 Tage um: fällig')
+  pruefe(!wochenAboFaellig(sub('2026-06-01T05:00:00.000Z'), '2026-06-08'), 'Montag gesendet (alter Tag), nächster Montag: Eimer-Tag liegt 5 Tage zurück, nicht fällig (kein Dauer-Montag)')
+  pruefe(wochenAboFaellig(sub('2026-06-01T05:00:00.000Z'), '2026-06-10'), 'Montag gesendet, übernächster Eimer-Tag (Mi): fällig, einmal verschoben')
   pruefe(!wochenAboFaellig(sub('2026-05-27T05:00:00.000Z'), '2026-06-02'), 'Eimer-Tag noch nicht erreicht: nicht fällig')
   pruefe(wochenAboFaellig(sub('2026-05-27T05:00:00.000Z'), '2026-06-04'), 'Eimer-Tag gestern verpasst: heute weiter fällig (Nachholung)')
+  pruefe(wochenAboFaellig(sub('2026-05-27T05:00:00.000Z'), '2026-06-05'), 'Eimer-Tag vor 2 Tagen verpasst: noch fällig')
+  pruefe(!wochenAboFaellig(sub('2026-05-27T05:00:00.000Z'), '2026-06-06'), 'Eimer-Tag vor 3 Tagen verpasst: wartet auf den nächsten')
+  pruefe(!wochenAboFaellig(sub('2026-06-05T05:00:00.000Z'), '2026-06-12'), 'Verspätet bedient (Fr statt Mi): nach 7 Tagen noch nicht wieder dran, wartet auf den Eimer-Tag')
+  pruefe(wochenAboFaellig(sub('2026-06-05T05:00:00.000Z'), '2026-06-17'), 'Verspätet bedient: am nächsten Eimer-Tag wieder dran')
 }
 
-async function verteilung() {
-  zeige('Wochen-Abos über zwei Wochen:')
+async function verteilung(n: number, zuletzt: string | null, titel: string) {
+  zeige(titel)
   const db = neueDatenbank()
-  const n = 420
-  for (let i = 0; i < n; i++) fuegeEin(db, `w${i}`, 'weekly')
+  for (let i = 0; i < n; i++) fuegeEin(db, `w${i}`, 'weekly', 'active', zuletzt)
   const tage: Record<string, string[]> = {}
   for (let t = 0; t < 14; t++) {
     const jetzt = tag(t)
@@ -101,12 +105,14 @@ async function verteilung() {
   }
   const proTag = Object.values(tage).map((l) => l.length)
   pruefe(Math.max(...proTag) <= 70, `kein Tag über 70 Digest-Mails (${proTag.join(',')})`)
-  pruefe(Math.max(...proTag.slice(0, 7)) < 420, 'in der ersten Woche geht nicht alles an einem Tag raus')
+  pruefe(Math.max(...proTag.slice(0, 7)) < n, 'in der ersten Woche geht nicht alles an einem Tag raus')
   const tageJeAdresse = new Map<string, number[]>()
-  Object.keys(tage).forEach((iso, t) => tage[iso].forEach((a) => tageJeAdresse.set(a, [...(tageJeAdresse.get(a) ?? []), t])))
+  const start = zuletzt ? [-7] : []
+  Object.keys(tage).forEach((iso, t) => tage[iso].forEach((a) => tageJeAdresse.set(a, [...(tageJeAdresse.get(a) ?? start), t])))
   const doppelt = [...tageJeAdresse.values()].filter((l) => l.some((x, i) => i > 0 && x - l[i - 1] < 7)).length
   pruefe(doppelt === 0, `kein Abo bekommt zwei Mails in 7 Tagen (${doppelt} Verstöße)`)
-  pruefe(tageJeAdresse.size >= n - 70, `nach zwei Wochen haben mindestens ${n - 70} der ${n} Abos eine Mail bekommen (${tageJeAdresse.size})`)
+  const mindestens = zuletzt ? n : n - 70
+  pruefe(tageJeAdresse.size >= mindestens, `nach zwei Wochen haben mindestens ${mindestens} der ${n} Abos eine Mail bekommen (${tageJeAdresse.size})`)
   const log = zahl(db, "SELECT COUNT(*) n FROM send_log WHERE run_key LIKE 'weekly:%'")
   pruefe(log === 14, `je Tag ein weekly-Eintrag im send_log (${log})`)
 }
@@ -238,11 +244,16 @@ async function anmeldung() {
   const ungueltig = await probe(taeglich(70), 'keine-mail')
   pruefe(ungueltig.status === 400, 'ungültige Adresse bei voller Kapazität: weiter 400 vom Handler')
   pruefe(belegung([{ id: 'x', frequency: 'daily' }]) === 1 && belegung([]) === 0, 'belegung: ein Abo = 1, leer = 0')
+  const db = neueDatenbank()
+  const health = await worker.fetch(new Request('https://w.example.invalid/health'), testEnv(db, 7), { waitUntil() {} } as unknown as ExecutionContext)
+  const stand = ((await health.json()) as { newsletter?: { platz: number; mailsHeute: number } }).newsletter
+  pruefe(stand?.platz === 70 && stand.mailsHeute === 0, '/health zeigt den Digest-Stand (Platz, Mails heute)')
 }
 
 hash()
 faellig()
-await verteilung()
+await verteilung(420, null, 'Wochen-Abos über zwei Wochen (Neustart ohne frühere Mail):')
+await verteilung(100, '2026-05-25T05:00:00.000Z', 'Umzug vom alten Montagsversand (100 Abos, alle am 25.05. bedient):')
 await kappen()
 await abgewiesen()
 await anmeldung()
