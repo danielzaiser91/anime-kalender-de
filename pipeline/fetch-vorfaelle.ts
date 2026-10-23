@@ -68,7 +68,7 @@ async function main(): Promise<void> {
     return
   }
 
-  const antwort = await fetch(`${WORKER}/vorfall?token=${encodeURIComponent(TOKEN)}`)
+  const antwort = await fetch(`${WORKER}/vorfall`, { headers: { Authorization: `Bearer ${TOKEN}` } })
   if (!antwort.ok) {
     warn(`Vorfälle nicht abrufbar: HTTP ${antwort.status}`)
     recordSource('vorfaelle', 0, `HTTP ${antwort.status}`)

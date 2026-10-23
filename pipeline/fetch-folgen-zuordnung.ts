@@ -36,7 +36,7 @@ async function holen(): Promise<Beobachtung[] | null> {
   const alle: Beobachtung[] = []
   let nach = 0
   for (;;) {
-    const r = await fetch(`${WORKER}/pruefung?rohfolgen=1&alle=1&nach=${nach}&token=${encodeURIComponent(TOKEN)}`)
+    const r = await fetch(`${WORKER}/pruefung?rohfolgen=1&alle=1&nach=${nach}`, { headers: { Authorization: `Bearer ${TOKEN}` } })
     /* Eine Störung ist keine Beobachtung: Ohne vollständigen Abruf wird nichts geschrieben. */
     if (!r.ok) {
       warn(`Worker antwortet ${r.status} — Lauf endet ohne zu schreiben.`)
@@ -53,7 +53,7 @@ async function holen(): Promise<Beobachtung[] | null> {
 async function namenHolen(): Promise<Map<string, string>> {
   const aus = new Map<string, string>()
   if (!TOKEN) return aus
-  const r = await fetch(`${WORKER}/pruefung?rohfolgen=1&namen=1&token=${encodeURIComponent(TOKEN)}`)
+  const r = await fetch(`${WORKER}/pruefung?rohfolgen=1&namen=1`, { headers: { Authorization: `Bearer ${TOKEN}` } })
   if (!r.ok) {
     warn(`Namen: Worker antwortet ${r.status} — ohne Namen weiter.`)
     return aus

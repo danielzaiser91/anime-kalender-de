@@ -118,7 +118,7 @@ if (process.argv.includes('--nur-abhaken')) {
   process.exit(0)
 }
 
-const antwort = await ladeMeldungen(`${WORKER}/pruefung?token=${encodeURIComponent(TOKEN)}`)
+const antwort = await ladeMeldungen(`${WORKER}/pruefung`, TOKEN)
 if (!antwort.ok) {
   warn(`Prüfungen nicht abrufbar: HTTP ${antwort.status}`)
   /*

@@ -135,9 +135,7 @@ async function main(): Promise<void> {
   let folgen: Rohfolge[] = []
   let nach = 0
   for (let seite = 0; seite < 20; seite++) {
-    const antwort = await fetch(
-      `${WORKER}/pruefung?rohfolgen=1&nach=${nach}&token=${encodeURIComponent(TOKEN)}`,
-    )
+    const antwort = await fetch(`${WORKER}/pruefung?rohfolgen=1&nach=${nach}`, { headers: { Authorization: `Bearer ${TOKEN}` } })
     if (!antwort.ok) {
       warn(`Rohfolgen nicht abrufbar: HTTP ${antwort.status}`)
       recordSource('rohfolgen', 0, `HTTP ${antwort.status}`)

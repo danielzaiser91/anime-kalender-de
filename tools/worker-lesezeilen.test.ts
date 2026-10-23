@@ -90,6 +90,14 @@ console.log('Rohfolgen: Serienname einmal je Adresse nachgeschlagen')
   pruefe(/SEARCH f USING INDEX prime_folge_offen \(id>\?\)/.test(plan(seitenAbfrage, 0)) && !/TEMP B-TREE/.test(plan(seitenAbfrage, 0)), `Plan: Teilindex in Kennungs-Reihenfolge, keine Sortierung (${plan(seitenAbfrage, 0)})`)
   const leer = (await handlePruefung(new Request('https://worker.test/pruefung?rohfolgen=1&token=t&nach=999'), env).then((r) => r.json())) as { folgen: unknown[] }
   pruefe(leer.folgen.length === 0, 'Seite ohne Zeilen: leere Liste, keine Abfrage mit leerer Adressliste')
+  const bearer = (token: string, suche: string) =>
+    handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&${suche}`, { headers: { Authorization: `Bearer ${token}` } }), env)
+  pruefe((await bearer('t', 'nach=0')).status === 200, 'Rohfolgen: Token im Kopf (Bearer) genügt')
+  pruefe((await bearer('falsch', 'nach=0')).status === 403, 'Rohfolgen: falscher Bearer: 403')
+  const ohne = await handlePruefung(new Request('https://worker.test/pruefung?rohfolgen=1&nach=0'), env)
+  pruefe(ohne.status === 403, 'Rohfolgen: ohne Token: 403')
+  const liste = await handlePruefung(new Request('https://worker.test/pruefung', { headers: { Authorization: 'Bearer t' } }), env)
+  pruefe(liste.status === 200, 'Meldungsliste: Bearer genügt')
 }
 
 console.log('Rohfolgen: Serienamen sechs Stunden im Speicher, offene Seiten zehn Minuten')

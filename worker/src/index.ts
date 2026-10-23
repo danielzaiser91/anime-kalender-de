@@ -43,6 +43,7 @@ import { handlePruefung } from './pruefung.ts'
 import { loadNews, weitereAusNews } from './news-quelle.ts'
 import { handleLauf } from './lauf.ts'
 import { handleCrZugang } from './cr-zugang.ts'
+import { tokenGleich, tokenMitUebergang } from './lauf-token.ts'
 import { EMAIL_RE, mitAnmeldeSchutz } from './anmelde-schutz.ts'
 import { digestStand, mitPlatzpruefung, wochenAboFaellig } from './newsletter-kapazitaet.ts'
 import { handleBeleg } from './beleg.ts'; import { loescheAbgelaufenes } from './loeschfristen.ts'; import { starteFaelligeLaeufe } from './wecker.ts'
@@ -1066,8 +1067,8 @@ export async function runMonitor(
  */
 async function handleLand(request: Request, env: Env): Promise<Response> {
   const kopf = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-  const token = request.headers.get('X-Lauf-Token') ?? new URL(request.url).searchParams.get('token') ?? ''
-  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) {
+  const token = tokenMitUebergang(request)
+  if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) {
     return new Response(JSON.stringify({ error: 'Nicht erlaubt' }), { status: 403, headers: kopf })
   }
 
@@ -1109,8 +1110,8 @@ async function handleNetzfund(request: Request, env: Env): Promise<Response> {
     new Response(JSON.stringify(body), { status, headers: offen })
 
   if (request.method === 'GET') {
-    const token = new URL(request.url).searchParams.get('token') ?? ''
-    if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+    const token = tokenMitUebergang(request)
+    if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
     const { results } = await env.DB.prepare(
       'SELECT id, url, reihe, laenge, felder, proben, gemeldet_am FROM netzfund ORDER BY gemeldet_am DESC LIMIT 200',
     ).all()
@@ -1119,7 +1120,7 @@ async function handleNetzfund(request: Request, env: Env): Promise<Response> {
 
   if (request.method !== 'POST') return antwort({ error: 'GET oder POST erwartet' }, 405)
   const token = request.headers.get('X-Lauf-Token') ?? ''
-  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+  if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
 
   let daten: Record<string, unknown>
   try {
@@ -1180,8 +1181,8 @@ async function handleVorfall(request: Request, env: Env): Promise<Response> {
     new Response(JSON.stringify(body), { status, headers: offen })
 
   if (request.method === 'GET') {
-    const token = new URL(request.url).searchParams.get('token') ?? ''
-    if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+    const token = tokenMitUebergang(request)
+    if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
     const { results } = await env.DB.prepare(
       `SELECT id, plattform, art, url, reihe, folge_nr, staffel, text, version, gemeldet_am
          FROM vorfall ORDER BY gemeldet_am DESC LIMIT 500`,
@@ -1196,7 +1197,7 @@ async function handleVorfall(request: Request, env: Env): Promise<Response> {
   */
   if (request.method === 'DELETE') {
     const token = request.headers.get('X-Lauf-Token') ?? ''
-    if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+    if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
     let ids: number[] = []
     try {
       const daten = (await request.json()) as { ids?: unknown }
@@ -1214,7 +1215,7 @@ async function handleVorfall(request: Request, env: Env): Promise<Response> {
 
   if (request.method !== 'POST') return antwort({ error: 'GET, POST oder DELETE erwartet' }, 405)
   const token = request.headers.get('X-Lauf-Token') ?? ''
-  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+  if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
 
   let daten: Record<string, unknown>
   try {
@@ -1380,8 +1381,8 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
         return handleRhythmus(request, env)
       case '/debug/digest': {
         // Versand von Hand auslösen. Nur mit dem Secret DEBUG_TOKEN; ohne Secret abgeschaltet.
-        const token = url.searchParams.get('token') ?? ''
-        if (!env.DEBUG_TOKEN || token !== env.DEBUG_TOKEN) {
+        const token = tokenMitUebergang(request)
+        if (!env.DEBUG_TOKEN || !tokenGleich(token, env.DEBUG_TOKEN)) {
           return json(env, { error: 'Nicht erlaubt' }, 403)
         }
         const frequency = url.searchParams.get('frequency') === 'weekly' ? 'weekly' : 'daily'
@@ -1395,8 +1396,8 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
         }
       }
       case '/debug/monitor': {
-        const token = url.searchParams.get('token') ?? ''
-        if (!env.DEBUG_TOKEN || token !== env.DEBUG_TOKEN) return json(env, { error: 'Nicht erlaubt' }, 403)
+        const token = tokenMitUebergang(request)
+        if (!env.DEBUG_TOKEN || !tokenGleich(token, env.DEBUG_TOKEN)) return json(env, { error: 'Nicht erlaubt' }, 403)
         const mode = url.searchParams.get('mail')
         try {
           const result = await runMonitor(

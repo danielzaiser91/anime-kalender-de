@@ -16,11 +16,11 @@ const skript = `
 const { ladeMeldungen, legeAbhakenAb } = await import(${JSON.stringify(MODUL)})
 const [ort, briefkasten, status] = process.argv.slice(1)
 const abrufe = []
-globalThis.fetch = async (u) => (abrufe.push(String(u)), new Response(briefkasten, { status: Number(status) }))
+globalThis.fetch = async (u, o) => (abrufe.push(String(u) + ' ' + o?.headers?.Authorization), new Response(briefkasten, { status: Number(status) }))
 const fall = async (env) => {
   for (const k of ['MELDUNGEN_ANTWORT', 'MELDUNGEN_SICHERN', 'MELDUNGEN_OHNE']) delete process.env[k]
   Object.assign(process.env, env)
-  const r = await ladeMeldungen('https://briefkasten/pruefung?token=t')
+  const r = await ladeMeldungen('https://briefkasten/pruefung', 'geheim')
   return { status: r.status, text: await r.text(), abrufe: abrufe.splice(0) }
 }
 const ergebnis = {
@@ -54,7 +54,7 @@ function lauf(status) {
 
 const vorher = Date.now()
 const ok = lauf(200)
-const ADRESSE = ['https://briefkasten/pruefung?token=t']
+const ADRESSE = ['https://briefkasten/pruefung Bearer geheim']
 assert.deepEqual(ok.direkt, { status: 200, text: BRIEFKASTEN, abrufe: ADRESSE }, 'ohne Schalter: Briefkasten unverändert')
 assert.deepEqual(ok.gesichert, { status: 200, text: BRIEFKASTEN, abrufe: ADRESSE }, 'SICHERN: Antwort unverändert weitergereicht')
 assert.equal(ok.dateien.gesichert, BRIEFKASTEN, 'SICHERN legt die Antwort ab')

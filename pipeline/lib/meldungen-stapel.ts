@@ -10,9 +10,9 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { ROOT } from './util.ts'
 
-export async function ladeMeldungen(adresse: string): Promise<Response> {
+export async function ladeMeldungen(adresse: string, token: string): Promise<Response> {
   const nachspiel = process.env.MELDUNGEN_ANTWORT
-  const antwort = nachspiel ? new Response(readFileSync(nachspiel, 'utf8')) : await fetch(adresse)
+  const antwort = nachspiel ? new Response(readFileSync(nachspiel, 'utf8')) : await fetch(adresse, { headers: { Authorization: `Bearer ${token}` } })
   const sichern = process.env.MELDUNGEN_SICHERN
   const ohneDatei = process.env.MELDUNGEN_OHNE
   if (!antwort.ok) return antwort

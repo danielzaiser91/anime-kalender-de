@@ -1,4 +1,5 @@
 import { type Env } from './env.ts'
+import { tokenGleich, tokenMitUebergang } from './lauf-token.ts'
 import { ausSpeicher } from './export-speicher.ts'
 import { zaehleOffenePruefungen, ZAEHLEN_SEKUNDEN } from './pruefung-zaehlen.ts'
 import { liefereRohfolgen } from './pruefung-rohfolgen.ts'
@@ -100,8 +101,8 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
 
     // Die Pipeline holt sich, was noch nicht übernommen wurde.
     const sucheP = new URL(request.url).searchParams
-    const token = sucheP.get('token') ?? ''
-    if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+    const token = tokenMitUebergang(request)
+    if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
 
     /*
       **Die Reihenfolge bleibt aufsteigend — daran hängt der Datenlauf.**
