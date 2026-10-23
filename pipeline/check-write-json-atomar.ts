@@ -3,9 +3,10 @@
  * lässt die alte Datei unverändert und hinterlässt keine tmp-Datei; die Bytes entsprechen dem alten Format.
  * Läuft in `check:logic`.
  */
+import { createRequire, syncBuiltinESMExports } from 'node:module'
 import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { writeJson } from './lib/util.ts'
 
 let fehler = 0
@@ -45,13 +46,29 @@ try {
   pruefe('Fehler vor dem Schreiben: alte Datei unverändert', readFileSync(alt, 'utf8') === '{"alt":1}')
   pruefe('Fehler vor dem Schreiben: keine tmp-Datei', readdirSync(ordner).every((n) => !n.endsWith('.tmp')))
 
-  // Besetzt ein Ordner den tmp-Namen, scheitert der Weg über tmp; direktes Schreiben ginge durch
-  const besetzt = join(ordner, 'besetzt.json')
-  writeFileSync(besetzt, '{"alt":2}')
-  mkdirSync(`${besetzt}.${process.pid}.tmp`)
-  pruefe('Schreibweg läuft über tmp-Datei', wirft(() => writeJson(besetzt, daten)))
-  pruefe('Besetzter tmp-Name: alte Datei unverändert', readFileSync(besetzt, 'utf8') === '{"alt":2}')
-  rmSync(`${besetzt}.${process.pid}.tmp`, { recursive: true })
+  // Abbruch zwischen tmp-Schreiben und rename: rename wird durch eine werfende Attrappe ersetzt
+  const abbruch = join(ordner, 'abbruch.json')
+  writeFileSync(abbruch, '{"alt":2}')
+  const fs = createRequire(import.meta.url)('node:fs')
+  const echt = fs.renameSync
+  const gesehen: string[][] = []
+  fs.renameSync = (von: string, nach: string) => {
+    gesehen.push([von, nach, readFileSync(von, 'utf8')])
+    throw new Error('Abbruch')
+  }
+  syncBuiltinESMExports()
+  try {
+    pruefe('Abbruch vor rename wirft', wirft(() => writeJson(abbruch, daten)))
+  } finally {
+    fs.renameSync = echt
+    syncBuiltinESMExports()
+  }
+  pruefe('Abbruch: rename sah eine volle tmp-Datei im selben Ordner', gesehen.length === 1 && gesehen[0][0] !== abbruch && dirname(gesehen[0][0]) === ordner && gesehen[0][1] === abbruch && gesehen[0][2] === JSON.stringify(daten))
+  pruefe('Abbruch: alte Datei unverändert', readFileSync(abbruch, 'utf8') === '{"alt":2}')
+  pruefe('Abbruch: tmp-Datei entfernt', readdirSync(ordner).every((n) => !n.endsWith('.tmp')))
+  writeJson(abbruch, daten)
+  writeJson(abbruch, daten)
+  pruefe('Zwei Läufe hintereinander schreiben den Inhalt', readFileSync(abbruch, 'utf8') === JSON.stringify(daten))
 
   // rename scheitert, wenn das Ziel ein nicht leerer Ordner ist: tmp ist dann schon geschrieben
   const ziel = join(ordner, 'ziel.json')
@@ -68,4 +85,4 @@ if (fehler > 0) {
   console.error(`check-write-json-atomar: ${fehler} Fehler`)
   process.exit(1)
 }
-console.log('check-write-json-atomar: 12 Zusicherungen ok')
+console.log('check-write-json-atomar: 15 Zusicherungen ok')

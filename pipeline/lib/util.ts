@@ -1,4 +1,5 @@
 import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
+import { randomUUID } from 'node:crypto'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -42,12 +43,10 @@ export function readJson<T>(path: string, fallback: T): T {
 export function writeJson(path: string, data: unknown, pretty = false): void {
   const full = resolve(ROOT, path)
   mkdirSync(dirname(full), { recursive: true })
-  schreibeAtomar(full, pretty ? JSON.stringify(data, null, 2) : JSON.stringify(data))
-}
-
-/** tmp-Datei im selben Ordner, dann rename: ein Abbruch hinterlässt nie eine halbe Zieldatei. */
-function schreibeAtomar(full: string, text: string): void {
-  const tmp = `${full}.${process.pid}.tmp`
+  const text = pretty ? JSON.stringify(data, null, 2) : JSON.stringify(data)
+  // Inline (nicht ausgelagert): `tools/fetch-schreibziele.mjs` überspringt nur die Rümpfe der Helfer selbst.
+  // tmp im selben Ordner, dann rename: ein Abbruch hinterlässt nie eine halbe Zieldatei; Zufallsanteil gegen Namensgleichheit.
+  const tmp = `${full}.${process.pid}-${randomUUID().slice(0, 8)}.tmp`
   try {
     writeFileSync(tmp, text, 'utf8')
     renameSync(tmp, full)
