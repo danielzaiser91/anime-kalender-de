@@ -234,55 +234,62 @@ export function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; dat
             */
             <ul className="grid grid-cols-2 gap-1.5">
               {vorschlaege.map((v) => (
-                <li key={v.title.id}>
-                  <button
-                    type="button"
-                    onClick={() => onOpenTitle(v.title.id)}
-                    /*
-                      Mindesthöhe 144 px, Name oben, Merkmale unten. Die Kachel wächst mit
-                      dem Text, damit Chips einen dreizeiligen Titel nie überdecken; das
-                      Cover bleibt 2:3, egal wie die Bilddatei geschnitten ist. Gleich
-                      hohe Poster (16.09.2026) sind dafür bewusst aufgegeben (16.10.2026).
-                    */
-                    className="flex min-h-36 w-full cursor-pointer items-stretch gap-2 rounded-lg p-1.5 text-left transition hover:bg-ak-flaeche-2"
-                  >
-                    {v.title.coverImage ? (
-                      <img
-                        {...coverBild(v.title.coverImage, 88)}
-                        alt=""
-                        loading="lazy"
-                        className="aspect-[2/3] w-[88px] shrink-0 self-start rounded-md object-cover shadow-sm"
-                      />
-                    ) : (
-                      <span className="aspect-[2/3] w-[88px] shrink-0 self-start rounded-md bg-slate-200 dark:bg-white/10" />
-                    )}
-                    {/* Name oben, Chips darunter im Fluss; die Kachel wächst, statt dass Chips den Titel überdecken. */}
-                    <span className="flex min-w-0 flex-1 flex-col justify-between gap-1 py-0.5">
-                      <span className="line-clamp-3 text-t3 font-semibold text-slate-700 dark:text-slate-200">
-                        {anzeigeName(v.title)}
-                      </span>
-                      <span className="flex flex-wrap gap-1">
-                        {[...new Set(v.gemeinsam)].map((m) => (
-                          <span
-                            key={m}
-                            className={
-                              m.startsWith('g:')
-                                ? 'rounded bg-sky-500/10 px-1.5 py-px text-t5 font-semibold text-sky-700 dark:bg-sky-400/15 dark:text-sky-300'
-                                : 'rounded bg-slate-500/10 px-1.5 py-px text-t5 text-slate-600 dark:bg-white/10 dark:text-slate-300'
-                            }
-                          >
-                            {merkmalName(m)}
-                          </span>
-                        ))}
-                      </span>
-                    </span>
-                  </button>
-                </li>
+                <AehnlicheKachel key={v.title.id} v={v} onOpenTitle={onOpenTitle} merkmalName={merkmalName} />
               ))}
             </ul>
           )}
         </div>
       )}
     </div>
+  )
+}
+
+/** Eine Kachel der ähnlichen Titel; die Vorschau des Covers gibt es nur mit der Maus. */
+export function AehnlicheKachel({ v, onOpenTitle, merkmalName }: { v: ReturnType<typeof aehnlicheTitel>[number]; onOpenTitle: (id: number) => void; merkmalName: (m: string) => string }) {
+  return (
+    <li>
+      <button
+        type="button"
+        onClick={() => onOpenTitle(v.title.id)}
+        /*
+          Mindesthöhe 144 px, Name oben, Merkmale unten. Die Kachel wächst mit
+          dem Text, damit Chips einen dreizeiligen Titel nie überdecken; das
+          Cover bleibt 2:3, egal wie die Bilddatei geschnitten ist. Gleich
+          hohe Poster (16.09.2026) sind dafür bewusst aufgegeben (16.10.2026).
+        */
+        className="flex min-h-36 w-full cursor-pointer items-stretch gap-2 rounded-lg p-1.5 text-left transition hover:bg-ak-flaeche-2"
+      >
+        {v.title.coverImage ? (
+          <img
+            {...coverBild(v.title.coverImage, 88)}
+            alt=""
+            loading="lazy"
+            className="aspect-[2/3] w-[88px] shrink-0 self-start rounded-md object-cover shadow-sm"
+          />
+        ) : (
+          <span className="aspect-[2/3] w-[88px] shrink-0 self-start rounded-md bg-slate-200 dark:bg-white/10" />
+        )}
+        {/* Name oben, Chips darunter im Fluss; die Kachel wächst, statt dass Chips den Titel überdecken. */}
+        <span className="flex min-w-0 flex-1 flex-col justify-between gap-1 py-0.5">
+          <span className="line-clamp-3 text-t3 font-semibold text-slate-700 dark:text-slate-200">
+            {anzeigeName(v.title)}
+          </span>
+          <span className="flex flex-wrap gap-1">
+            {[...new Set(v.gemeinsam)].map((m) => (
+              <span
+                key={m}
+                className={
+                  m.startsWith('g:')
+                    ? 'rounded bg-sky-500/10 px-1.5 py-px text-t5 font-semibold text-sky-700 dark:bg-sky-400/15 dark:text-sky-300'
+                    : 'rounded bg-slate-500/10 px-1.5 py-px text-t5 text-slate-600 dark:bg-white/10 dark:text-slate-300'
+                }
+              >
+                {merkmalName(m)}
+              </span>
+            ))}
+          </span>
+        </span>
+      </button>
+    </li>
   )
 }
