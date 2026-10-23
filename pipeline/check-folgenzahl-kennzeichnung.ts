@@ -62,7 +62,7 @@ pruefe('Belegte Bereiche decken den fortgeschriebenen Plan: kein „≈“', pil
 
 /* Der Antwortkasten sagt dasselbe wie die Pille: abgeleitet → „≈ N“ statt „Alle N“, belegt → unverändert (Cowboy Bebop, 11.10.2026). */
 function kastenFertig(title: Title, releases: Release[] = []) {
-  const a = berechneAntwort({ title, releases, today: HEUTE })
+  const a = berechneAntwort({ title, releases, today: HEUTE, jetzt: new Date(`${HEUTE}T12:00:00Z`) })
   return a?.art === 'fertig' ? a : undefined
 }
 const bebop = (s: StreamLink): Title => ({ ...beendet, streams: [s] }) as Title
