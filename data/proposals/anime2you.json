@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-23T19:06:17.614Z",
+  "scrapedAt": "2026-10-23T22:03:12.906Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
@@ -7,7 +7,7 @@
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
     "schon in einem Rubrik-Feed gelesen": 7,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
-    "Sprachhinweis älter als 45 Tage": 4
+    "Sprachhinweis älter als 45 Tage": 5
   },
   "proposals": [
     {
@@ -4420,19 +4420,6 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
-    },
-    {
-      "articleTitle": "KI-Streit: Synchronsprecher legen Beschwerde gegen Netflix beim Bundeskartellamt ein",
-      "articleUrl": "https://www.anime2you.de/news/1046663/synchronsprecher-bundeskartellamt-beschwerde-netflix/",
-      "publishedAt": "2026-09-08",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
       "alreadyCurated": false
     },
     {
