@@ -81,11 +81,13 @@ globalThis.akNetflixTotGemeldet = async (id, frisch, merkeTot) => {
  * wartend (Meldung für jede offene Staffel im Briefkasten, nie geöffnet), übersprungen (nach Grund).
  * Ohne Zählung ließ sich nicht sagen, ob der Durchgang jeden Titel erreicht hat.
  */
-globalThis.akNetflixEnde = (grund, uebersprungen, fertigeTitel, besucht, offeneTitel, wartet = globalThis.akNetflixWartet) => {
+globalThis.akNetflixEnde = (grund, uebersprungen, fertigeTitel, besucht, offeneTitel, wartet = globalThis.akNetflixWartet, melden = null) => {
   const nichtFertig = [...uebersprungen.keys()].filter((r) => !fertigeTitel.has(r))
   const wartend = Object.entries(offeneTitel).filter(([id, e]) => wartet.has(id) && !fertigeTitel.has(id) && (e?.staffeln ?? []).some((st) => st.offen)).length
   const zaehlung = { besucht, gemessen: fertigeTitel.size, wartend, uebersprungen: nichtFertig.length }
   globalThis.akProtokoll?.('durchgang-zaehlung', zaehlung)
+  /* Meldeweg `/vorfall` (vorhanden, ohne neues Schema): die Zählung steht als Text; der Vorfall-Abruf listet sie. */
+  void melden?.('durchgang-zaehlung', { text: JSON.stringify(zaehlung) })
   const text = ` · besucht ${besucht}, gemessen ${zaehlung.gemessen}, wartet auf Übernahme ${wartend}`
   return { grund, uebersprungen: nichtFertig, zaehlung, text }
 }
