@@ -168,18 +168,21 @@ async function netzfehler() {
   const db = neueDatenbank()
   const env = await umgebung(db)
   abos(db, 0)
-  for (const name of ['a1', 'netz', 'tot', 'b2']) {
+  for (const name of ['a1', 'netz', 'netz-alt', 'tot', 'b2']) {
     db.exec(`INSERT INTO push_abo (endpoint, favoriten, erstellt, zuletzt, gemeldet) VALUES ('https://fcm.googleapis.com/${name}', 'ak:1', '2026-10-01', '2026-10-23T08:30:00Z', 'alt')`)
   }
   db.exec("UPDATE push_abo SET favoriten = 'ak:1,77' WHERE endpoint LIKE '%/netz'")
+  db.exec("UPDATE push_abo SET offen = 'frueher', offen_ziel = 'frueherziel' WHERE endpoint LIKE '%/netz-alt'")
   nullen()
   const meldung = await pushVersand(env, JETZT, [EREIGNIS], istErschienen, [{ id: 77, name: 'Serie', anbieter: 'Netflix' }])
   const stand = (name: string) => zeilen(db, `SELECT zuletzt, offen, gemeldet FROM push_abo WHERE endpoint LIKE '%/${name}'`)[0]
-  pruefe(pushAbrufe.length === 4 && meldung.includes('2 Pushes, 1 erloschen'), `die übrigen Pushes laufen weiter (${meldung})`)
+  pruefe(pushAbrufe.length === 5 && meldung.includes('2 Pushes, 1 erloschen'), `die übrigen Pushes laufen weiter (${meldung})`)
   pruefe(stand('tot') === undefined, 'das erloschene Abo wird trotz des Fehlers gelöscht')
   pruefe(stand('a1')?.zuletzt === JETZT.toISOString() && stand('b2')?.zuletzt === JETZT.toISOString(), 'die gesendeten Abos haben den neuen Stand')
   const netz = stand('netz')
   pruefe(netz?.zuletzt === '2026-10-23T08:30:00Z' && netz.offen === null && netz.gemeldet === 'alt', 'das gescheiterte Abo behält den alten Stand, ohne offenen Text')
+  const alt = zeilen(db, "SELECT offen, offen_ziel FROM push_abo WHERE endpoint LIKE '%/netz-alt'")[0]
+  pruefe(alt?.offen === 'frueher' && alt.offen_ziel === 'frueherziel', 'ein früherer, noch nicht abgeholter Text überlebt den Netzfehler (Text und Ziel)')
   nullen()
   await lauf(env, new Date(JETZT.getTime() + 60_000))
   pruefe(pushAbrufe.some((u) => u.endsWith('/netz')), 'im nächsten Lauf ist das gescheiterte Abo wieder dran')

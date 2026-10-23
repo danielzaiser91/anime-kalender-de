@@ -80,6 +80,7 @@ pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
 pipeline/check-erstausgabe.ts
 pipeline/check-erwartet-wort.ts
+pipeline/check-favoriten-feed-faelle.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-folge-ueber-anzahl-bau.ts
 pipeline/check-folge-ueber-anzahl.ts

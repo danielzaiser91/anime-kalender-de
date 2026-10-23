@@ -75,6 +75,8 @@ interface AboZeile {
   favoriten: string
   zuletzt: string | null
   gemeldet: string
+  offen: string | null
+  offen_ziel: string | null
 }
 
 /** Was ein Abo in diesem Lauf bekommt: neuen Stand, bei Neuigkeiten dazu Text und Ziel. */
@@ -85,6 +87,8 @@ interface AboPlan {
   ziel: string | null
   vorherZuletzt: string | null
   vorherGemeldet: string
+  vorherOffen: string | null
+  vorherOffenZiel: string | null
 }
 
 const weiterSchluessel = (w: WeitererAnbieter) => `${w.id}:${w.anbieter}`
@@ -102,7 +106,7 @@ function planeAbo(
   const bekannt = new Set(gemeldet)
   const auchBei = weitere.filter((w) => favoriten.has(w.id) && !bekannt.has(weiterSchluessel(w)))
   const vermerkt = [...gemeldet, ...auchBei.map(weiterSchluessel)].slice(-200).join('\n')
-  const vorher = { vorherZuletzt: abo.zuletzt, vorherGemeldet: abo.gemeldet }
+  const vorher = { vorherZuletzt: abo.zuletzt, vorherGemeldet: abo.gemeldet, vorherOffen: abo.offen, vorherOffenZiel: abo.offen_ziel }
   /* Der erste Lauf eines Abos merkt sich nur den Zeitpunkt. */
   if (!abo.zuletzt) return { endpoint: abo.endpoint, gemeldet: vermerkt, text: null, ziel: null, ...vorher }
   const seit = new Date(abo.zuletzt)
@@ -124,13 +128,13 @@ async function schreibeStaende(db: D1Database, jetzt: Date, plaene: AboPlan[]): 
     .run()
 }
 
-/** Nimmt den Stand von Abos zurück, deren Push nicht abgerufen werden konnte: alter Zeitpunkt, alte Merkliste, kein offener Text. */
+/** Nimmt den Stand von Abos zurück, deren Push nicht abgerufen werden konnte: alter Zeitpunkt, alte Merkliste, der frühere (noch nicht abgeholte) Text. */
 async function setzeStaendeZurueck(db: D1Database, plaene: AboPlan[]): Promise<void> {
-  const zeilen = plaene.map((p) => ({ e: p.endpoint, z: p.vorherZuletzt, g: p.vorherGemeldet }))
+  const zeilen = plaene.map((p) => ({ e: p.endpoint, z: p.vorherZuletzt, g: p.vorherGemeldet, o: p.vorherOffen, t: p.vorherOffenZiel }))
   await db
     .prepare(
-      `UPDATE push_abo SET zuletzt = neu.z, gemeldet = neu.g, offen = NULL, offen_ziel = NULL
-       FROM (SELECT json_extract(value, '$.e') AS e, json_extract(value, '$.z') AS z, json_extract(value, '$.g') AS g FROM json_each(?1)) AS neu
+      `UPDATE push_abo SET zuletzt = neu.z, gemeldet = neu.g, offen = neu.o, offen_ziel = neu.t
+       FROM (SELECT json_extract(value, '$.e') AS e, json_extract(value, '$.z') AS z, json_extract(value, '$.g') AS g, json_extract(value, '$.o') AS o, json_extract(value, '$.t') AS t FROM json_each(?1)) AS neu
        WHERE push_abo.endpoint = neu.e`,
     )
     .bind(JSON.stringify(zeilen))
@@ -161,7 +165,7 @@ export async function pushVersand(
   istErschienen: (e: PushEreignis, zeit: Date) => boolean,
   weitere: WeitererAnbieter[] = [],
 ): Promise<string> {
-  const { results } = await env.DB.prepare('SELECT endpoint, favoriten, zuletzt, gemeldet FROM push_abo ORDER BY zuletzt ASC').all<AboZeile>()
+  const { results } = await env.DB.prepare('SELECT endpoint, favoriten, zuletzt, gemeldet, offen, offen_ziel FROM push_abo ORDER BY zuletzt ASC').all<AboZeile>()
   const abos = results ?? []
   if (!abos.length) return '0 Abos, 0 Pushes, 0 erloschen'
   const kennungen = await ladeKennungen(env)
