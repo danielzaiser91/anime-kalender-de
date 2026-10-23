@@ -4,6 +4,7 @@ import { beurteile, type CrDubData, type CrSerie } from '../lib/crunchyroll-dub.
 import { kennungAusZiel } from '../lib/crunchyroll-api.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { istHandbelegterJaWeg } from '../lib/handbeleg-weg.ts'
+import { deutschFuehrtSerie, istDeutscheAdresse } from '../lib/cr-us-nein-adresse.ts'
 
 /**
  * **Alle Titel, an denen diese Crunchyroll-Serie hängt — über die Adresse *und* die Kennung**
@@ -35,9 +36,11 @@ function betroffeneTitel(nachUrl: Map<string, Title[]>, serie: CrSerie): Title[]
  * Ausnahme (14.10.2026): Ein Handbeleg „deutsch“ mit genau dieser Adresse schlägt ein „nicht mehr verfügbar“ aus dem US-Katalog. Durarara!! Tenka Taihei
  * (Daniel sah die OVA bei Crunchyroll) fiel sonst über die Kennung der Serie heraus, die der US-Lauf vom 21.08. für tot hielt. Der deutsche Katalog entscheidet weiter.
  */
-function gehoertZurSerie(stream: Title['streams'][number], serie: CrSerie, titleId: number): boolean {
+function gehoertZurSerie(stream: Title['streams'][number], serie: CrSerie, titleId: number, deutschJa: Set<string>): boolean {
   const usNein = Boolean(serie.nichtVerfuegbar) && serie.katalog !== 'de'
   if (usNein && istHandbelegterJaWeg(titleId, stream.platform, stream.url)) return false
+  /* Das US-Nein trifft nur die US-Adresse, wo der deutsche Katalog die Serie führt. */
+  if (usNein && serie.seriesId && deutschJa.has(serie.seriesId) && istDeutscheAdresse(stream.url)) return false
   return (
     stream.platform === 'crunchyroll' &&
     (stream.url === serie.url ||
@@ -45,6 +48,19 @@ function gehoertZurSerie(stream: Title['streams'][number], serie: CrSerie, title
   )
 }
 
+/**
+ * Was entfernt wurde, und warum — der Datenbestand behält es.
+ *
+ * Daniel am 27.08.2026: „wenn du für tracking zwecke intern die links
+ * weiterhin benötigst kannst du sie im datenbestand bestehen lassen und
+ * entsprechend markieren. auf der webseite sichtbar für user sollten sie
+ * jedenfalls nicht werden."
+ *
+ * `data/` ist der Bestand, `public/data/` die Auslieferung. Die Trennung
+ * ist genau die gewünschte: Hier steht jeder entfernte Verweis mit Grund
+ * und Prüfdatum (`verweiseEntfernt`, auf Funktionsebene, auch spätere
+ * Entfernungen schreiben hinein), ausgeliefert wird er nicht.
+ */
 export function ordneCrSerienZu({ titles, crDub, usNeinWiderlegt, verweiseEntfernt }: {
   titles: Map<number, Title>
   crDub: CrDubData
@@ -60,23 +76,10 @@ export function ordneCrSerienZu({ titles, crDub, usNeinWiderlegt, verweiseEntfer
         nachUrl.set(stream.url, liste)
       }
     }
+    const deutschJa = deutschFuehrtSerie(crDub)
     let belegt = 0
     let verschwunden = 0
     let usNeinOffen = 0
-    /**
-     * Was entfernt wurde, und warum — der Datenbestand behält es.
-     *
-     * Daniel am 27.08.2026: „wenn du für tracking zwecke intern die links
-     * weiterhin benötigst kannst du sie im datenbestand bestehen lassen und
-     * entsprechend markieren. auf der webseite sichtbar für user sollten sie
-     * jedenfalls nicht werden."
-     *
-     * `data/` ist der Bestand, `public/data/` die Auslieferung. Die Trennung
-     * ist genau die gewünschte: Hier steht jeder entfernte Verweis mit Grund
-     * und Prüfdatum, ausgeliefert wird er nicht.
-     */
-    /* Die Liste steht weiter oben auf Funktionsebene — auch spätere
-       Entfernungen sollen hineinschreiben, nicht nur die dieses Blocks. */
     for (const serie of crDub.serien) {
       /**
        * „Leider sind die Videos dieser Serie nicht mehr verfügbar."
@@ -135,7 +138,7 @@ export function ordneCrSerienZu({ titles, crDub, usNeinWiderlegt, verweiseEntfer
       if (serie.nichtVerfuegbar || ohneBlock) {
         for (const title of betroffeneTitel(nachUrl, serie)) {
           const vorher = title.streams.length
-          title.streams = title.streams.filter((s) => !gehoertZurSerie(s, serie, title.id))
+          title.streams = title.streams.filter((s) => !gehoertZurSerie(s, serie, title.id, deutschJa))
           const weg = vorher - title.streams.length
           verschwunden += weg
           if (weg) {
