@@ -194,6 +194,7 @@ pipeline/check-sammler-lesezugriffe-faelle.ts
 pipeline/check-sammler-lesezugriffe.ts
 pipeline/check-schwester-shop.ts
 pipeline/check-screenshot-wiederholen.ts
+pipeline/check-seiten-ansicht.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-sichtung-folge.ts
 pipeline/check-sichtungsfenster.ts
@@ -239,6 +240,7 @@ pipeline/check-werk-doppelt.ts
 pipeline/check-widerlegung-de-folgen-bau.ts
 pipeline/check-widerlegung-de-folgen.ts
 pipeline/check-woche-beleg.ts
+pipeline/check-woche-groesse.ts
 pipeline/check-wochen-datei.ts
 pipeline/check-wochenprogramm-sendetag.ts
 pipeline/check-zaehlung.ts
