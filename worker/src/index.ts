@@ -882,7 +882,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
       workerUrl: env.WORKER_URL || '',
       siteUrl: env.SITE_URL,
     }
-    const faellige = frequency === 'weekly' ? (results ?? []).filter((s) => wochenAboFaellig(s, iso)) : (results ?? [])
+    const faellige = frequency === 'weekly' && !force ? (results ?? []).filter((s) => wochenAboFaellig(s, iso)) : (results ?? [])
     const posten = faellige.map((sub) => digestFuer(sub, kontext)).filter((p) => p !== null)
     const stand = await digestStand(env, now)
     const sent = await versendeDigest(env, posten.slice(0, stand.platz), now)

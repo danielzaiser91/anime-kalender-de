@@ -19,6 +19,7 @@ import {
 } from '../worker/src/newsletter-kapazitaet.ts'
 import { bucheMails } from '../worker/src/mail-zaehler.ts'
 import { verbuchen } from '../worker/src/tagesdeckel.ts'
+import { digestMail } from '../worker/src/templates.ts'
 import { berlinParts } from '../worker/src/werte.ts'
 import { fetchAttrappe, neueDatenbank, testEnv, zaehler, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'
 
@@ -262,11 +263,25 @@ async function anmeldung() {
   pruefe(stand?.platz === 70 && stand.mailsHeute === 0, '/health zeigt den Digest-Stand (Platz, Mails heute)')
 }
 
+async function mailTextUndForce() {
+  zeige('Wochenmail und manueller Lauf:')
+  const mail = digestMail([], 'weekly', 'https://anime-kalender.de/', 'https://anime-kalender.de/unsubscribe?token=x')
+  pruefe(!/montag/i.test(mail.html) && !/montag/i.test(mail.text), 'Wochenmail nennt keinen festen Wochentag')
+  pruefe(mail.text.includes('einmal pro Woche, morgens'), 'Wochenmail: „einmal pro Woche, morgens“')
+  const db = neueDatenbank()
+  for (let i = 0; i < 21; i++) fuegeEin(db, `m${i}`, 'weekly')
+  fetchAttrappe(MONTAG)
+  zaehlerZurueck()
+  await runDigest(testEnv(db, 7), tag(0), 'weekly')
+  pruefe(zaehler.stapel.flat().length === 21, 'force weekly: alle 21 Wochen-Abos, unabhängig vom Eimer-Tag')
+}
+
 hash()
 faellig()
 await verteilung(420, null, 'Wochen-Abos über zwei Wochen (Neustart ohne frühere Mail):')
 await verteilung(100, '2026-05-25T05:00:00.000Z', 'Umzug vom alten Montagsversand (100 Abos, alle am 25.05. bedient):')
 await kappen()
+await mailTextUndForce()
 await abgewiesen()
 await anmeldung()
 
