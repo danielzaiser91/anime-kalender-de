@@ -90,8 +90,11 @@ async function ipGrenze() {
   pruefe(mails === 5, 'IP: 5 Mails, keine sechste')
   pruefe((await anmelden(env, '2.2.2.2', 'b@x.test')).status === 200, 'IP: andere IP unberührt')
 
-  const spaeter = festeUhr(new Date(START + 61 * 60_000).toISOString())
-  pruefe((await anmelden(env, '1.1.1.1', 'a7@x.test')).status === 200, 'IP: nach über einer Stunde wieder frei')
+  festeUhr(new Date(START + 500).toISOString())
+  const knapp = await anmelden(env, '1.1.1.1', 'a6@x.test')
+  pruefe(knapp.headers.get('Retry-After') === '3600', 'IP: Retry-After wird aufgerundet (3599,5 s -> 3600)')
+  const spaeter = festeUhr(new Date(START + 60 * 60_000).toISOString())
+  pruefe((await anmelden(env, '1.1.1.1', 'a7@x.test')).status === 200, 'IP: genau nach einer Stunde wieder frei')
   spaeter()
   festeUhr(new Date(START).toISOString())
 }
@@ -105,6 +108,9 @@ async function adresseGrenze() {
   pruefe(mails === 1, 'Adresse: zweite Anmeldung in 15 min schickt keine Mail')
   pruefe(zweite.status === erste.status && (await zweite.text()) === (await erste.clone().text()), 'Adresse: gleiche Antwort wie die erste')
   pruefe(stand.geschrieben - vorher === 1, `Adresse: Treffer schreibt nur den IP-Zähler (gezählt: ${stand.geschrieben - vorher})`)
+  festeUhr(new Date(START + 10 * 60_000).toISOString())
+  await anmelden(env, '6.6.6.6', ' Dopp@X.test ')
+  pruefe(mails === 1, 'Adresse: nach 10 min und mit anderer Schreibweise weiter keine Mail')
   festeUhr(new Date(START + 16 * 60_000).toISOString())
   await anmelden(env, '5.5.5.5', 'dopp@x.test')
   pruefe(mails === 2, 'Adresse: nach 16 min wieder eine Mail')
@@ -137,9 +143,10 @@ async function nichtAuskunft() {
   }) as typeof fetch
   const r = await anmelden(env, '7.7.7.7', 'f@x.test')
   pruefe(r.status === 502, 'Versandfehler: weiter 502 wie bisher')
-  const ungueltig = await anmelden(env, '7.7.7.7', 'kaputt')
   const vorher = stand.geschrieben
-  pruefe(ungueltig.status === 400, 'ungültige Adresse: 400')
+  let ungueltig = await anmelden(env, '7.7.7.7', 'kaputt')
+  for (let i = 0; i < 6; i++) ungueltig = await anmelden(env, '7.7.7.7', 'kaputt')
+  pruefe(ungueltig.status === 400, 'ungültige Adresse: 400, auch nach 7 Versuchen kein 429')
   pruefe(stand.geschrieben === vorher, 'ungültige Adresse: 0 Zeilen')
   globalThis.fetch = (async () => {
     mails++
