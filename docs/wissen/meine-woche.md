@@ -13,7 +13,7 @@ persönlichen Ort statt dreier Abo-Seiten.
 |---|---|---|
 | Favoriten im Browser (`favorites`, Datum `favorites:seit`, „gesehen bis") | `web/src/lib/favorites.ts`, `gesehen.ts` | fertig |
 | Favoriten im Worker (Spiegel je Newsletter-Abo, `pref_token`) | `worker/src/favoriten-kennung.ts`, `POST /favorites` | fertig |
-| Persönlicher ICS-Feed nur mit Favoriten | `GET /feed/favoriten.ics?k=<feed_token>` (`StaticViews.tsx` → `FavoritenFeed`) | fertig, braucht Newsletter-Abo |
+| Persönlicher ICS-Feed nur mit Favoriten | `GET /feed/favoriten.ics?k=<feed_token>` (`StaticViews.tsx` → `FavoritenFeed`) | fertig, braucht Newsletter-Abo; schneidet `feeds/all.ics` (ab 7 Tage zurück) statt `events.json` zu parsen, Antwort 15 min im Edge-Cache (23.10.2026) |
 | Web-Push „gemerkte Folge erschienen" (stündlicher Cron, kein Konto) | `worker/src/push.ts`, Tabelle `push_abo` | fertig, PoC-Qualität |
 | Newsletter täglich 07:00 mit „★ Deine Favoriten" oben | `worker/src/mail-abschnitte.ts` | fertig |
 

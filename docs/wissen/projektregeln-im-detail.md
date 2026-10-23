@@ -417,6 +417,8 @@ Der Worker in `worker/` ist optional. Ohne gesetztes `VITE_NEWSLETTER_API` zeigt
 einen ehrlichen Hinweis statt eines kaputten Buttons. DSGVO-Pflichten (Double-Opt-in,
 Abmeldelink, Impressum, Datenschutzerklärung) sind kein Nice-to-have — nichts davon entfernen.
 
+**D1 und Website (Daniel, 23.10.2026):** Die Regel „keine D1“ gilt nur für die Website selbst. Der Newsletter-Worker darf D1 nutzen, auch auf Nutzerpfaden: Favoriten-Abgleich, Web-Push und der persönliche Kalender-Feed. Feed-Abrufe der Kalender-Apps lesen D1 trotzdem nicht bei jedem Mal (Edge-Cache 15 Minuten, `worker/src/favoriten-feed.ts`).
+
 ## Ein roter Lauf wird bemerkt, nicht gemeldet — und die Anzeige danach geleert
 
 Daniel am 07.09.2026, 15:50: „in status app sind 2 rote läufe (vor 3h+). wann
