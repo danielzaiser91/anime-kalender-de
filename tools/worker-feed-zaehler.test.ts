@@ -29,7 +29,7 @@ const pruefe = (bedingung: boolean, text: string) => {
 }
 console.warn = () => {}
 
-type Stapel = { geschrieben: number; stapel: number; scheitert: boolean }
+type Stapel = { geschrieben: number; stapel: number; scheitert: boolean; verzoegerung: number }
 
 function umgebung(db: DatabaseSync, z: Stapel): Env {
   const anweisung = (sql: string, werte: unknown[] = []) => ({
@@ -43,6 +43,7 @@ function umgebung(db: DatabaseSync, z: Stapel): Env {
       prepare: (sql: string) => anweisung(sql),
       batch: async (liste: ReturnType<typeof anweisung>[]) => {
         if (z.scheitert) throw new Error('D1_ERROR: no such table: feed_abrufe')
+        if (z.verzoegerung) await new Promise((fertig) => setTimeout(fertig, z.verzoegerung))
         z.stapel++
         for (const a of liste) z.geschrieben += Number((a.run() as { changes: number }).changes)
       },
@@ -54,7 +55,7 @@ function neueWelt() {
   const db = new DatabaseSync(':memory:')
   db.exec(readFileSync('worker/migrations/060-feed-abrufe.sql', 'utf8'))
   db.exec('CREATE TABLE subscribers (feed_token TEXT, status TEXT, favorites TEXT)')
-  const z: Stapel = { geschrieben: 0, stapel: 0, scheitert: false }
+  const z: Stapel = { geschrieben: 0, stapel: 0, scheitert: false, verzoegerung: 0 }
   return { db, z, env: umgebung(db, z), s: neuerSammler() }
 }
 
@@ -165,6 +166,30 @@ console.log('Mehrere Token, Schätzung:')
 }
 function utc(ms: number): string {
   return new Date(ms).toISOString().slice(0, 10)
+}
+
+console.log('Gleichzeitige Abrufe während eines Stapels (Prüfer 1856):')
+{
+  const w = neueWelt()
+  w.z.verzoegerung = 30
+  await viele(w, 499, T0, 1)
+  const spaeter = new Date(T0 + 60_000)
+  await Promise.all(Array.from({ length: 50 }, (_, i) => zaehleFeedAbruf(w.env, `p${i}`, spaeter, w.s)))
+  const gebucht = zeile(w.db, tag0, -1) ?? 0
+  pruefe(w.z.stapel === 1, `50 gleichzeitige Abrufe lösen genau einen Stapel aus (${w.z.stapel})`)
+  pruefe(gebucht + w.s.abrufe === 549, `nichts doppelt, nichts verloren: gebucht ${gebucht} + im Sammler ${w.s.abrufe} = 549`)
+  const f = neueWelt()
+  f.z.verzoegerung = 30
+  await viele(f, 499, T0, 1)
+  f.z.scheitert = true
+  await Promise.all(Array.from({ length: 20 }, (_, i) => zaehleFeedAbruf(f.env, `q${i}`, spaeter, f.s)))
+  pruefe(f.z.stapel === 0 && f.s.abrufe === 519, `Fehler bei gleichzeitigen Abrufen: alle 519 bleiben im Sammler (${f.s.abrufe})`)
+  const t = neueWelt()
+  t.z.verzoegerung = 30
+  await viele(t, 3, T0, 1)
+  const naechster = new Date(Date.parse('2026-10-13T00:10:00Z'))
+  await Promise.all(Array.from({ length: 10 }, (_, i) => zaehleFeedAbruf(t.env, `r${i}`, naechster, t.s)))
+  pruefe(zeile(t.db, tag0, -1) === 3 && t.s.abrufe === 10 && t.s.tag === '2026-10-13', `Tageswechsel mit Verzögerung: alter Tag 3, neuer Tag zählt alle 10 (${t.s.abrufe})`)
 }
 
 console.log('Rang und Schätzung (feste Werte, von Hand gerechnet):')

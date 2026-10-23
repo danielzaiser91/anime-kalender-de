@@ -6,7 +6,7 @@
  * kein Token liegt in der Datenbank). Gebucht wird gesammelt wie beim Lesedeckel: je Isolate laufen Abrufe und
  * angehobene Register auf, ein Upsert-Stapel schreibt sie ab `BUCHEN_AB` Abrufen oder nach `BUCHEN_NACH_MS`,
  * nie öfter als alle `MIN_ABSTAND_MS`.
- * Schreibzeilen je Stapel: 1 (Abrufe) + Zahl der angehobenen Register (höchstens 256), je Abruf also
+ * Schreibzeilen je Stapel: 1 (Abrufe) + Zahl der angehobenen Register (höchstens 256) plus ein DELETE alter Tage (höchstens 258), je Abruf also
  * deutlich unter 1. Ein Fehler beim Buchen bricht nie den Feed ab; das Gesammelte bleibt für den nächsten Versuch
  * (Tageswechsel: der alte Tag wird einmal versucht, dann verworfen).
  */
@@ -51,34 +51,51 @@ export function schaetzeTokens(register: ReadonlyMap<number, number>): number {
   return Math.round(roh <= 2.5 * REGISTER && leer > 0 ? REGISTER * Math.log(REGISTER / leer) : roh)
 }
 
-async function buche(env: Env, s: Sammler): Promise<void> {
+type Stand = { tag: string; abrufe: number; register: Map<number, number> }
+
+async function buche(env: Env, stand: Stand): Promise<void> {
   const upsertMax = `INSERT INTO feed_abrufe (tag, reg, wert) VALUES (?1, ?2, ?3)
     ON CONFLICT(tag, reg) DO UPDATE SET wert = max(wert, ?3)`
-  const alt = new Date(`${s.tag}T00:00:00Z`)
+  const alt = new Date(`${stand.tag}T00:00:00Z`)
   alt.setUTCDate(alt.getUTCDate() - AUFBEWAHREN_TAGE)
   await env.DB.batch([
     env.DB.prepare(
       `INSERT INTO feed_abrufe (tag, reg, wert) VALUES (?1, ?2, ?3)
        ON CONFLICT(tag, reg) DO UPDATE SET wert = wert + ?3`,
-    ).bind(s.tag, ABRUFE, s.abrufe),
-    ...[...s.register].map(([reg, rang]) => env.DB.prepare(upsertMax).bind(s.tag, reg, rang)),
+    ).bind(stand.tag, ABRUFE, stand.abrufe),
+    ...[...stand.register].map(([reg, rang]) => env.DB.prepare(upsertMax).bind(stand.tag, reg, rang)),
     env.DB.prepare('DELETE FROM feed_abrufe WHERE tag < ?1').bind(utcTag(alt)),
   ])
 }
 
-/** Bucht das Gesammelte; bei Fehler bleibt es stehen (begrenzt: ein Zähler und höchstens 256 Register). */
-async function leere(env: Env, s: Sammler, jetzt: number): Promise<void> {
-  if (s.abrufe === 0) return
-  try {
-    await buche(env, s)
-  } catch (e) {
-    console.warn('FEED-ZAEHLER: Buchen fehlgeschlagen', e)
-    s.zuletztGebucht = jetzt
-    return
-  }
+/**
+ * Entnimmt das Gesammelte sofort, vor jedem `await`: Ein Isolate bedient Anfragen nebenläufig, gleichzeitige
+ * Abrufe buchen so nichts doppelt und zählen während des Stapels in den frischen Sammler.
+ */
+function entnimm(s: Sammler, jetzt: number): Stand {
+  const stand = { tag: s.tag, abrufe: s.abrufe, register: new Map(s.register) }
   s.abrufe = 0
   s.register.clear()
   s.zuletztGebucht = jetzt
+  return stand
+}
+
+/** Bei Fehler wandert der Stand zurück in den Sammler (begrenzt: ein Zähler und höchstens 256 Register). */
+function gibZurueck(s: Sammler, stand: Stand): void {
+  s.abrufe += stand.abrufe
+  for (const [reg, rang] of stand.register) if (rang > (s.register.get(reg) ?? 0)) s.register.set(reg, rang)
+}
+
+/** Bucht den Stand; `false` bei Fehler. */
+async function versuche(env: Env, stand: Stand): Promise<boolean> {
+  if (stand.abrufe === 0) return true
+  try {
+    await buche(env, stand)
+    return true
+  } catch (e) {
+    console.warn('FEED-ZAEHLER: Buchen fehlgeschlagen', e)
+    return false
+  }
 }
 
 /** Zählt einen Feed-Abruf. Wirft nie: der Feed hat Vorrang vor der Zählung. */
@@ -87,17 +104,17 @@ export async function zaehleFeedAbruf(env: Env, token: string, jetzt: Date, s: S
     const tag = utcTag(jetzt)
     const ms = jetzt.getTime()
     if (s.tag !== tag) {
-      await leere(env, s, ms)
-      s.abrufe = 0 /* der alte Tag wurde einmal versucht, nie mit dem neuen vermischen */
-      s.register.clear()
+      const alterTag = entnimm(s, ms)
       s.tag = tag
-      s.zuletztGebucht = ms
+      await versuche(env, alterTag) /* einmal versucht, dann verworfen: nie mit dem neuen Tag vermischen */
     }
     const { reg, rang } = await registerUndRang(token)
     s.abrufe++
     if (rang > (s.register.get(reg) ?? 0)) s.register.set(reg, rang)
     const seit = ms - s.zuletztGebucht
-    if (seit >= MIN_ABSTAND_MS && (s.abrufe >= BUCHEN_AB || seit >= BUCHEN_NACH_MS)) await leere(env, s, ms)
+    if (seit < MIN_ABSTAND_MS || (s.abrufe < BUCHEN_AB && seit < BUCHEN_NACH_MS)) return
+    const stand = entnimm(s, ms)
+    if (!(await versuche(env, stand))) gibZurueck(s, stand)
   } catch (e) {
     console.warn('FEED-ZAEHLER aus', e)
   }
