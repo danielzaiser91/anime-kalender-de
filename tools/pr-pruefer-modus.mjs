@@ -25,6 +25,8 @@ const CI_URTEIL = /^\*\*Prüfer-Review\*\* für ([0-9a-f]{7,40}) - Urteil: \*\*(
 const MARKE = /^<!-- pruefer-modus: (voll|abnahme) -->$/
 // Gleiche Kopfzeile wie der Rundenzähler (tools/claude-global/hooks/pruefrunden.js): „Prüfer:“ oder „Prüfer Runde N:“.
 const AGENT_URTEIL = /^[\s*_#>]*Prüfer(?: Runde \d+)?:/
+// Ein Freigabe-Urteil des Agent-Prüfers hat keine Auflagen.
+const FREIGABE = /freigeben/i
 const MAX_QUELLEN = 6
 const MAX_ZEICHEN = 20000
 
@@ -42,7 +44,7 @@ function leseCi(k) {
 function leseAgent(k) {
   if (!VERTRAUT.has(k.author_association)) return null
   const body = String(k.body ?? '')
-  return AGENT_URTEIL.test(body) ? body : null
+  return AGENT_URTEIL.test(body) && !FREIGABE.test(body.split('\n')[0]) ? body : null
 }
 
 /**
@@ -54,8 +56,9 @@ export function bestimmeModus(kommentare, stufe) {
   const agent = kommentare.map(leseAgent).filter((t) => t !== null)
   const abnahmeAendern = ci.some((c) => c.modus === 'abnahme' && c.wort === 'aendern')
   const quellen = [
-    ...agent.map((text) => ({ quelle: 'Kommentar des Agent-Prüfers', text })),
+    // Die CI-Reviews zuerst: die Kappung auf MAX_QUELLEN schneidet dann nur überzählige Agent-Kommentare ab.
     ...ci.filter((c) => c.modus === 'voll' && c.wort === 'aendern').map((c) => ({ quelle: `CI-Review für ${c.kopf} (aendern)`, text: c.text })),
+    ...agent.map((text) => ({ quelle: 'Kommentar des Agent-Prüfers', text })),
   ]
   return {
     modus: quellen.length > 0 && ci.at(-1)?.wort === 'aendern' ? 'abnahme' : 'voll',

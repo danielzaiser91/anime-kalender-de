@@ -41,7 +41,7 @@ gleich('Fall 1: Abnahme mit beiden Quellen der Runde 1, frei bei Stufe 2', kurz(
   modus: 'abnahme',
   vorher: 'aaaaaaaaa',
   frei: true,
-  quellen: ['Kommentar des Agent-Prüfers', 'CI-Review für aaaaaaaaa (aendern)'],
+  quellen: ['CI-Review für aaaaaaaaa (aendern)', 'Kommentar des Agent-Prüfers'],
 })
 const text1 = auflagenText(fall1.auflagen, fall1.vorher)
 gleich('Fall 1: A1, A2, A3 stehen in der Auflagendatei, der Nachtrag nicht',
@@ -91,8 +91,10 @@ gleich('Kopf wird auf 9 Zeichen gekürzt', bestimmeModus([ci('0123456789abcdef',
 
 // Grenzen: höchstens 6 Quellen, je 20000 Zeichen.
 const viele = bestimmeModus([CI_R1, ...Array.from({ length: 8 }, (_, i) => agent(`Prüfer: ändern ${i}`))], '2')
-gleich('Höchstens 6 Quellen, die ersten bleiben', viele.auflagen.length === 6 && viele.auflagen[0].text.includes('ändern 0') && viele.auflagen[5].text.includes('ändern 5'), true)
-const lang = bestimmeModus([CI_R1, agent('Prüfer: ' + 'x'.repeat(30000))], '2').auflagen[0].text
+gleich('Höchstens 6 Quellen: die CI-Auflagen bleiben vorn, überzählige Agent-Kommentare fallen hinten weg', [viele.auflagen.length, viele.auflagen[0].quelle, viele.auflagen[1].text.includes('ändern 0'), viele.auflagen[5].text.includes('ändern 4')], [6, 'CI-Review für aaaaaaaaa (aendern)', true, true])
+gleich('Agent-Freigabe ist keine Auflagenquelle, auch nicht bei vielen Kommentaren', bestimmeModus([CI_R1, agent('Prüfer: freigeben'), agent('Prüfer Runde 2: Freigeben X')], '2').auflagen.length, 1)
+gleich('Agent-Kommentar „ändern“ mit Freigabe erst in Zeile 2 bleibt Auflage', bestimmeModus([CI_R1, agent('Prüfer: ändern\nspäter freigeben')], '2').auflagen.length, 2)
+const lang = bestimmeModus([CI_R1, agent('Prüfer: ' + 'x'.repeat(30000))], '2').auflagen[1].text
 gleich('Je Quelle höchstens 20000 Zeichen, der Anfang bleibt', [lang.length, lang.startsWith('Prüfer: x')], [20000, true])
 gleich('Ohne CI-Review ist der letzte Kopf leer', bestimmeModus([R1], '2').vorher, '')
 gleich('Ohne Kopf steht „(unbekannt)“ in der Datei', auflagenText([], '').includes('Letzter geprüfter Kopf: (unbekannt)'), true)
