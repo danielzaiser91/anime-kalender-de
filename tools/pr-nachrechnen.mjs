@@ -67,14 +67,17 @@ export function datenpfadAusnahme(vergleich, prDateien) {
 
 /** Autoren der Datenläufe auf main (gemessen 23.10.2026 an den letzten 40 Commits). */
 export const BOT_AUTOREN = ['anime-kalender-daten[bot]', 'github-actions[bot]']
-/** PR-Pfade, die Daten lesen oder prüfen; `data/patchnotes/` liest nur der Patch-Notes-Bau. */
-export const DATENLESER = ['data/', 'pipeline/', 'shared/', 'public/']
-const liestDaten = (datei) => DATENLESER.some((p) => datei.startsWith(p)) && !datei.startsWith('data/patchnotes/')
+/**
+ * PR-Pfade, die die Kette nie gegen Daten laufen lässt. Alles andere gilt als Leser: `web/` und `tools/` lesen `public/data` über
+ * `npm run build` und die Prüfskripte, `worker/`, `extension/` und `.github/` über ihre Tests (Prüfer #1860).
+ */
+export const OHNE_DATENLESER = ['docs/', 'daniel-zum-abarbeiten/', 'data/patchnotes/']
+const liestDaten = (datei) => !OHNE_DATENLESER.some((p) => datei.startsWith(p)) && !/^[^/]+\.md$/.test(datei)
 
 /**
  * Merge-Fluss C (23.10.2026): Ein Sprung nur aus Bot-Commits unter `data/` entwertet keinen PR, der keine Daten liest; der Bestandsbau
- * prüft nach dem Merge den ganzen Datensatz. Anlass: 3 von 5 Merges (1853, 1839, 1846) entwertete `data/crunchyroll-woche.json`, das die
- * Kette liest und darum nicht unter den Bot-Dateien ohne Leser steht. null = Ausnahme gilt, sonst der Grund.
+ * prüft nach dem Merge den ganzen Datensatz. Von 8 Entwertungen am 23.10. waren 2 reine Bot-Sprünge (beide bei 1842, der `tools/` las),
+ * 5 enthielten einen Menschen-Merge; die Meldung nennt darum den Autor. null = Ausnahme gilt, sonst der Grund.
  */
 export function botSprungAusnahme(vergleich, prDateien) {
   if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`

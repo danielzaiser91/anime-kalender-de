@@ -190,11 +190,11 @@ for (const [name, aendere] of [
 pruefe('Ausnahme: Umbenennung aus Datenpfad heraus ist ein Fremdpfad der PR-Seite', datenpfadAusnahme({ status: 'ahead', anzahl: 2, dateien: ['public/data/a.json'] }, ['neu.json', 'data/cache/ordner/alt']) !== null)
 pruefe('Ausnahme: genau eine Datenpfad-Datei im Vergleich -> null', datenpfadAusnahme({ status: 'ahead', anzahl: 1, dateien: ['data/cache/ordner/a'] }, ['x.ts']) === null)
 
-// Merge-Fluss C (23.10.2026): Bot-Sprung nur unter data/ entwertet keinen PR, der keine Daten liest. Anlass 1846: main bewegte nur
-// data/crunchyroll-woche.json (Bot), der PR nur worker/, tools/, package.json, .github/.
+// Merge-Fluss C (23.10.2026): Bot-Sprung nur unter data/ entwertet keinen PR, der keine Daten liest (nur Doku, Daniel-Dateien,
+// Patch Notes, Markdown im Wurzelordner).
 const BOTS = ['anime-kalender-daten[bot]', 'github-actions[bot]']
 const BOT_MAIN = ['data/crunchyroll-woche.json', 'public/data/titles.json', 'data/curated/tv-2026.yaml']
-const CODE_PR = 'worker/src/a.ts\npackage.json\ntools/t.test.ts\n.github/workflows/w.yml\ndata/patchnotes/neu.yaml\n'
+const CODE_PR = 'docs/wissen/a.md\ndaniel-zum-abarbeiten/stand.md\nCLAUDE.md\ndata/patchnotes/neu.yaml\n'
 pruefe('Bot-Autoren sind genau die zwei Datenläufe', JSON.stringify(BOT_AUTOREN) === JSON.stringify(BOTS), BOT_AUTOREN)
 {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: BOTS, prDateien: CODE_PR }))
@@ -202,7 +202,7 @@ pruefe('Bot-Autoren sind genau die zwei Datenläufe', JSON.stringify(BOT_AUTOREN
   pruefe('C: Bot-Sprung unter data/, Code-PR -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen })
   pruefe('C: Meldung nennt die Bot-Ausnahme', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Daten-Bots unter data/, der PR liest keine Daten', k.meldungen)
 }
-for (const leser of ['pipeline/build.ts', 'shared/logic.ts', 'data/curated/a.yaml', 'data/dub-confirmed.yaml', 'public/og/a.png']) {
+for (const leser of ['pipeline/build.ts', 'shared/logic.ts', 'data/curated/a.yaml', 'data/dub-confirmed.yaml', 'public/og/a.png', 'web/src/a.tsx', 'tools/check-pfade.mjs', 'tools/commit-data.sh', 'worker/src/a.ts', 'extension/a.js', '.github/workflows/w.yml', 'package.json', 'web/README.md', 'docsx/a.md']) {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: BOTS, prDateien: `${CODE_PR}${leser}\n` }))
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe(`C: PR liest Daten (${leser}) -> 1, Meldung nennt die Datei`, code === 1 && schreibend(k.aufrufe).length === 4 && k.meldungen.join().includes(`der PR liest Daten (${leser})`), { code, m: k.meldungen })
@@ -220,9 +220,9 @@ for (const fremd of ['tools/umfang-grenzen.json', 'extension/a.json', 'datax/a.j
 const botVergleich = (o) => ({ status: 'ahead', anzahl: 1, dateien: ['data/a.json'], commitsGesamt: 2, autoren: BOTS, ...o })
 pruefe('C: mehr Commits als geliefert (Liste abgeschnitten) -> Grund', botSprungAusnahme(botVergleich({ commitsGesamt: 3 }), ['worker/a.ts']) === 'Vergleich evtl. abgeschnitten')
 pruefe('C: genau an der Compare-Grenze -> Grund', botSprungAusnahme(botVergleich({ anzahl: 300 }), ['worker/a.ts']) === 'Vergleich evtl. abgeschnitten')
-pruefe('C: eine unter der Compare-Grenze -> null', botSprungAusnahme(botVergleich({ anzahl: 299 }), ['worker/a.ts']) === null)
+pruefe('C: eine unter der Compare-Grenze -> null', botSprungAusnahme(botVergleich({ anzahl: 299 }), ['docs/a.md']) === null)
 pruefe('C: diverged -> Grund', /diverged/.test(botSprungAusnahme(botVergleich({ status: 'diverged' }), ['worker/a.ts'])))
-pruefe('C: Umbenennung aus data/ heraus auf PR-Seite zählt als Leser', botSprungAusnahme(botVergleich(), ['worker/a.ts', 'data/alt.json']) === 'der PR liest Daten (data/alt.json)')
+pruefe('C: Umbenennung aus data/ heraus auf PR-Seite zählt als Leser', botSprungAusnahme(botVergleich(), ['docs/a.md', 'data/alt.json']) === 'der PR liest Daten (data/alt.json)')
 // Takt und Frist wie in docs/wissen/betrieb.md beschrieben (alle 2 s, höchstens 60 s; gemessen war der Ref nach wenigen Sekunden neu).
 pruefe('Warten: alle 2 s, höchstens 60 s', REF_ABSTAND_MS === 2000 && REF_PRUEFUNGEN * REF_ABSTAND_MS === 60000, { REF_ABSTAND_MS, REF_PRUEFUNGEN })
 // Grenze relativ zu REF_PRUEFUNGEN: neu gerechnet bei der letzten erlaubten Prüfung -> 1; eine Prüfung später -> Fehler, kein zweites Öffnen.
