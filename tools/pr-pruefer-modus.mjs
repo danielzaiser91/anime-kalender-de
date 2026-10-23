@@ -3,10 +3,12 @@
  *
  *   node tools/pr-pruefer-modus.mjs <PR> <stufe> <auflagen-datei>     (stdout: Zeilen für $GITHUB_OUTPUT)
  *
- * `voll`: noch kein CI-Review auf dem PR, also die erste Bewertung des bereiten PR. `abnahme`: es gibt schon ein CI-Review
- * („**Prüfer-Review** für <Kopf>“ von github-actions[bot], gleich auf welchem Kopf); dann prüft der CI-Prüfer nur noch die
- * Auflagen der ersten Runde (Datei <auflagen-datei>: Agent-Prüfer-Kommentare „Prüfer …:“ von Inhaber/Mitgliedern und
+ * `abnahme` nur, wenn das jüngste CI-Review („**Prüfer-Review** für <Kopf>“ von github-actions[bot], gleich auf welchem Kopf,
+ * auch dem aktuellen: Wiederholung nach einem Nachtrag) „aendern“ lautet und Auflagen vorliegen; dann prüft der CI-Prüfer nur
+ * noch die Auflagen der ersten Runde (Datei <auflagen-datei>: Agent-Prüfer-Kommentare „Prüfer …:“ von Inhaber/Mitgliedern und
  * die CI-Reviews mit Urteil aendern aus dem Modus voll) und meldet keine neuen Funde.
+ * Sonst `voll`: der erste bereite Kopf, aber auch jeder Kopf nach einem „ok“ (Review 1 oder Abnahme): neuer Inhalt nach einer
+ * Freigabe hat keine Auflagen, an denen er sich messen ließe, und wird wie bisher voll geprüft.
  * `aendern-frei=1`: Der Abnahme-Modus darf (noch) „aendern“ sagen, nur bei Prüfstufe 2 und nur einmal; danach
  * entscheidet der Dirigent (die Freigabe-Stufe in pr-pruefer.yml postet dann kein Review).
  * Fail-soft: Scheitert der Abruf, steht `modus=voll` und `aendern-frei=0` da, im Zweifel wird also voll geprüft.
@@ -56,7 +58,7 @@ export function bestimmeModus(kommentare, stufe) {
     ...ci.filter((c) => c.modus === 'voll' && c.wort === 'aendern').map((c) => ({ quelle: `CI-Review für ${c.kopf} (aendern)`, text: c.text })),
   ]
   return {
-    modus: ci.length > 0 ? 'abnahme' : 'voll',
+    modus: quellen.length > 0 && ci.at(-1)?.wort === 'aendern' ? 'abnahme' : 'voll',
     vorher: ci.at(-1)?.kopf ?? '',
     aenderFrei: String(stufe) === '2' && !abnahmeAendern,
     auflagen: quellen.slice(0, MAX_QUELLEN).map((q) => ({ quelle: q.quelle, text: q.text.slice(0, MAX_ZEICHEN) })),

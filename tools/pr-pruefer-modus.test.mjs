@@ -78,7 +78,12 @@ gleich('Stufe 2, nur Abnahme-ok bisher -> frei', bestimmeModus([CI_R1, abnahmeOk
 gleich('Stufe 2, nur voll-aendern (Runde 1) zählt nicht als Abnahme-aendern -> frei', bestimmeModus([CI_R1, ci('eeeeeeeee', 'aendern', 'voll')], '2').aenderFrei, true)
 // Auflagen: nur voll-aendern und Agent; Abnahme-Kommentare und ok nicht.
 gleich('Auflagen ohne Abnahme-Kommentare und ohne ok-Reviews', bestimmeModus([CI_R1, abnahmeAendern, abnahmeOk, ci('fffffffff', 'ok', 'voll')], '2').auflagen.map((a) => a.quelle), ['CI-Review für aaaaaaaaa (aendern)'])
-gleich('Früheres Review nur ok: Abnahme ohne Auflagen', kurz(bestimmeModus([ci('999999999', 'ok, Checks rot: X', 'voll')], '2')), { modus: 'abnahme', vorher: '999999999', frei: true, quellen: [] })
+gleich('Früheres Review nur ok: voll (neuer Inhalt nach einer Freigabe, keine Auflagen)', kurz(bestimmeModus([ci('999999999', 'ok, Checks rot: X', 'voll')], '2')), { modus: 'voll', vorher: '999999999', frei: true, quellen: [] })
+gleich('Review aendern, dann ok in der Abnahme, dann neuer Kopf: voll', bestimmeModus([CI_R1, R1, abnahmeOk], '2').modus, 'voll')
+gleich('Review ok in Runde 1, Agent-Auflage vorhanden: voll (jüngstes Review ist ok)', bestimmeModus([ci('999999999', 'ok', 'voll'), R1], '2').modus, 'voll')
+gleich('Review aendern ohne jede Auflagen-Quelle (fremder Kommentar): voll', bestimmeModus([fremdesCi], '2').modus, 'voll')
+gleich('Wiederholung auf demselben Kopf nach einem Nachtrag (jüngstes Review aendern): abnahme', bestimmeModus([CI_R1, NACHTRAG], '2').modus, 'abnahme')
+gleich('Abnahme-aendern, dann neuer Kopf: weiter abnahme', bestimmeModus([CI_R1, abnahmeAendern], '2').modus, 'abnahme')
 gleich('Ohne Auflagen steht der Hinweis in der Datei', auflagenText([], '999999999').includes('Keine Auflagen'), true)
 gleich('Letzter geprüfter Kopf ist der des jüngsten CI-Reviews', bestimmeModus([CI_R1, abnahmeOk], '2').vorher, 'ddddddddd')
 gleich('Kopf wird auf 9 Zeichen gekürzt', bestimmeModus([ci('0123456789abcdef', 'aendern', 'voll')], '2').vorher, '012345678')
