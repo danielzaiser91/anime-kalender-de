@@ -2,6 +2,7 @@ import type { Title } from '@shared/types.ts'
 import { anzeigeName } from '@shared/titles.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import { Button } from '../ui.tsx'
+import { PANEL_KENNUNG } from './reihen-spur-regeln.ts'
 
 /** Der Rahmen, solange der Titel fehlt: Ladehinweis oder „keine Metadaten“. */
 export function PanelLeer({ holt, t, onClose }: { holt: boolean; t: Translate; onClose: () => void }) {
@@ -56,7 +57,7 @@ export function PanelVersteckt({ title, t, onClose, onToggleHidden }: {
       <div
         className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-lg flex-col justify-center gap-4 border-l border-slate-200 bg-white p-6 text-center shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
         role="dialog"
-        data-panel="titel"
+        data-panel={PANEL_KENNUNG}
         aria-label={anzeigeName(title)}
       >
         <p className="text-t3 font-semibold italic text-slate-400 dark:text-slate-500">

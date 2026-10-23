@@ -1,4 +1,4 @@
-# Belege ohne Fundstelle (109)
+# Belege ohne Fundstelle (111)
 
 Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artikel den Titel und den Termin? Wenn nein, ist der Beleg hinfällig und der Termin braucht eine andere Quelle.
 
@@ -6,7 +6,7 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1032820/netflix-beelzebub-und-mehr/ (gelesen 2026-10-13) — Beelzebub (9513)
 - https://www.anime2you.de/news/1033802/netflix-anime-neu-im-august-2026/ (gelesen 2026-10-13) — The Ribbon Hero (211308)
 - https://www.anisearch.de/article/15034,the-quintessential-quintuplets-staffel-1-2-komplettset-sammelschuber (gelesen 2026-10-13) — The Quintessential Quintuplets (103572)
-- https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release (gelesen 2026-10-05) — Boruto: Naruto the Movie (21220), Naruto Shippuden: The Movie (2472)
+- https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release (gelesen 2026-10-23) — Boruto: Naruto the Movie (21220), Naruto Shippuden: The Movie (2472)
 - https://www.anisearch.de/article/216205 (gelesen 2026-10-05) — Boruto: Naruto the Movie (21220), Naruto Shippuden: The Movie (2472)
 - https://www.anime2you.de/news/1044447/miss-kobayashis-dragon-maid-steelbook-edition/ (gelesen 2026-10-16) — Kobayashi-san Chi no Maidragon S (107717)
 - https://www.anisearch.de/article/211704,the-ancient-magus-bride-staffel-2-gesamtausgabe-blu-ray (gelesen 2026-10-13) — The Ancient Magus’ Bride: Staffel 2 (154364)
@@ -19,7 +19,8 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1042244/animoon-crunchyroll-sechs-verschiebungen/ (gelesen 2026-10-17) — Strike Witches (Staffel 2) – Vol. 1 (6381), Black Butler: Emerald Witch Arc – Vol. 1 (179054)
 - https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/ (gelesen 2026-10-17) — Blue Exorcist: The Blue Night Saga – Vol. 1 (185880), Detektiv Conan – Box 9 (235), Log Horizon: Destruction of the Round Table (114862), Re:Zero - Starting Life in Another World: Staffel 3 (163134), Sailor Moon: Das Mädchen mit den Zauberkräften (530), Die Tagebücher der Apothekerin – Staffel 1 (161645), As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World (164702), Kaiju No. 8: Mission Recon – Der Film (179998), Master Detective Ron Kamonohashi – Staffel 2 – Vol. 1 (172355)
 - https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/ (gelesen 2026-10-17) — Black Butler: Emerald Witch Arc – Vol. 1 (179054), Blue Exorcist: The Blue Night Saga – Vol. 2 (185880), Chainsaw Man – Staffel 1 (127230), My Hero Academia – Staffel 6 (139630), Wind Breaker – Staffel 2 – Vol. 2 (178680), Zombie Land Saga – Staffel 1 + 2 (103871), My Love Story with Yamada-kun at Lv999 – Vol. 2 (154965), Girls Band Cry – Vol. 2 (164212), Otome Game no Hametsu Flag shika Nai Akuyaku Reijou ni Tensei shiteshimatta… X (120209), Vinland Saga – Staffel 2 (136430), Yashahime: Princess Half-Demon - The Second Act (131264), Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3 (145728), Banana Fish – Vol. 2 (100388), Bocchi the Rock! – Vol. 3 (130003), Anne Shirley: Anne mit den roten Haaren – Vol. 2 (184639), Call of the Night – Staffel 2 – Vol. 2 (175914), Shin Chan – Vol. 15 (966)
-- https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/ (gelesen 2026-10-15) — Vigilante: Boku no Hero Academia ILLEGALS (185736), Vigilante: Boku no Hero Academia ILLEGALS 2nd Season (195322), Watashi no Shiawase na Kekkon Tokubetsu-hen (190054), Niwatori Fighter (179813)
+- https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026 (gelesen 2026-10-23) — Black Clover – Staffel 2 (195604)
+- https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/ (gelesen 2026-10-22) — Vigilante: Boku no Hero Academia ILLEGALS (185736), Vigilante: Boku no Hero Academia ILLEGALS 2nd Season (195322), Watashi no Shiawase na Kekkon Tokubetsu-hen (190054), Niwatori Fighter (179813)
 - https://www.anime2you.de/news/1056867/disney-plus-tokyo-revengers-simulcast-und-mehr/ (gelesen 2026-10-17) — Honey Lemon Soda (175443)
 - https://tokyo-revengers-anime.com/news/archives/4935 (gelesen 2026-10-05) — Tokyo Revengers: War of the Three Titans Arc (178083)
 - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026 (gelesen 2026-10-18) — Mushoku Tensei: Jobless Reincarnation – Staffel 3 (178789), Saga of Tanya the Evil – Staffel 2 (135865), Gaikotsu Kishi-sama, Tadaima Isekai e Odekakechuu II (185542), Futsutsuka na Akujo de wa Gozaimasu ga: Suuguu Chouso Torikae Den (188139), Tomb Raider King (184356), Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2 (159309), You and I Are Polar Opposites – Staffel 2 (210031), Thunder 3 (207254)
@@ -62,10 +63,10 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.joyn.de/serien/tokyo-revengers (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.joyn.de/serien/welcome-to-demon-school-iruma-kun (gelesen 2026-10-13) — kein Titel zugeordnet
 - https://www.anisearch.de/article/15034 (gelesen 2026-10-15) — The Quintessential Quintuplets (103572)
-- https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/ (gelesen 2026-10-16) — Kobayashi-san Chi no Maidragon S (107717), Afro Samurai + Afro Samurai Resurrection (1292), Miss Kobayashi’s Dragon Maid – Staffel 1 (21776)
+- https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/ (gelesen 2026-10-23) — Kobayashi-san Chi no Maidragon S (107717), Afro Samurai + Afro Samurai Resurrection (1292), Miss Kobayashi’s Dragon Maid – Staffel 1 (21776)
 - https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/ (gelesen 2026-10-17) — Strike Witches (Staffel 2) – Vol. 1 (6381), The Café Terrace and Its Goddesses – Staffel 1 (154412), Inazuma Eleven – Staffel 1 (5231), Infinite Dendrogram – Vol. 2 (107420), Bitte zieh dich an, Takamine! – Vol. 1 (179965), My Love Story with Yamada-kun at Lv999 – Vol. 1 (154965), Sailor Moon: Das Mädchen mit den Zauberkräften (530), Girls Band Cry – Vol. 2 (164212), The Café Terrace and Its Goddesses Season 2 (166477)
-- https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/ (gelesen 2026-10-16) — Naruto Shippuden – Staffel 3 (1735), SPY x FAMILY (140960), Spy × Family (Cour 2) (142838), Spy × Family: Staffel 2 (158927)
-- https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/ (gelesen 2026-10-15) — BLEACH: The DiamondDust Rebellion - Mou Hitotsu no Hyourinmaru (2889), BLEACH: Fade to Black - Kimi no Na wo Yobu (4835), Bleach: The Movie - Hell Verse (8247), 86: Eighty Six (116589), 86: Eighty Six – Teil 2 (131586), Tensei Shitara Dragon no Tamago Datta: Saikyou Igai Mezasa Nee (187941)
+- https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/ (gelesen 2026-10-23) — Naruto Shippuden – Staffel 3 (1735), SPY x FAMILY (140960), Spy × Family (Cour 2) (142838), Spy × Family: Staffel 2 (158927)
+- https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/ (gelesen 2026-10-22) — BLEACH: The DiamondDust Rebellion - Mou Hitotsu no Hyourinmaru (2889), BLEACH: Fade to Black - Kimi no Na wo Yobu (4835), Bleach: The Movie - Hell Verse (8247), 86: Eighty Six (116589), 86: Eighty Six – Teil 2 (131586), Tensei Shitara Dragon no Tamago Datta: Saikyou Igai Mezasa Nee (187941)
 - https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/ (gelesen 2026-10-17) — Yu☆Gi☆Oh! Duel Monsters (481)
 - https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/ (gelesen 2026-10-17) — Summer Wars – Ultimate Edition (5681), Ame & Yuki – Die Wolfskinder – Ultimate Edition (12355), Das Mädchen, das durch die Zeit sprang – Ultimate Edition (2236), Der Junge und das Biest – Ultimate Edition (20981), I Want You To Show Me Your Panties With a Disgusted Face Returns (196840), DAN DA DAN (Staffel 2) – Vol. 2 (185660)
 - https://www.anime2you.de/news/1053546/madoka-magica-film-deutscher-kinostart/ (gelesen 2026-10-17) — Puella Magi Madoka Magica the Movie – Walpurgisnacht: Rising (133007)
@@ -74,29 +75,29 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1055887/ (gelesen 2026-10-17) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1054748/ (gelesen 2026-10-17) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1056092/dragon-ball-super-beerus-simulcast/ (gelesen 2026-10-18) — kein Titel zugeordnet
-- https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/ (gelesen 2026-10-14) — Beelzebub (9513)
-- https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/ (gelesen 2026-10-14) — Bishoujo Senshi Sailor Moon SuperS (1239), Bishoujo Senshi Sailor Moon R (740), Bishoujo Senshi Sailor Moon: Sailor Stars (996), Hanarokushou ga Akeru Hi ni (177132)
+- https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/ (gelesen 2026-10-21) — Beelzebub (9513)
+- https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/ (gelesen 2026-10-21) — Bishoujo Senshi Sailor Moon SuperS (1239), Bishoujo Senshi Sailor Moon R (740), Bishoujo Senshi Sailor Moon: Sailor Stars (996), Hanarokushou ga Akeru Hi ni (177132)
 - https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/ (gelesen 2026-10-14) — Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. presage flower) (20791), Fate/stay night [Heaven's Feel] – Gesamtausgabe (II. lost butterfly) (21718), Fate/stay night [Heaven's Feel] – Gesamtausgabe (III. spring song) (21719)
-- https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/ (gelesen 2026-10-14) — The Rising of the Shield Hero – Staffel 4 – Vol. 2 (173780), Air Gear – Komplett-Bundle (857), D.Gray-man – Komplett-Bundle (1482), Love Hina – Komplett-Bundle (189), Ouran High School Host Club – Komplett-Bundle (853), Shakugan no Shana – Staffel 1 und 2 – Komplett-Bundle (355)
-- https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/ (gelesen 2026-10-14) — Air Gear – Komplett-Bundle (857), D.Gray-man – Komplett-Bundle (1482), Love Hina – Komplett-Bundle (189), Ouran High School Host Club – Komplett-Bundle (853), Shakugan no Shana – Staffel 1 und 2 – Komplett-Bundle (355), Shin Chan – Vol. 9-12 (966), As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 2 (178434), Re:Zero - Starting Life in Another World: Staffel 3 (163134)
-- https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/ (gelesen 2026-10-14) — Pokémon: Die Anfänge – Staffel 1 und 2 (527), Pokémon: Schwarz und Weiß – Staffel 14 bis 16 (9107)
-- https://www.anime2you.de/news/1060073/apothecary-diaries-staffel-2-volume-2-termin/ (gelesen 2026-10-14) — Die Tagebücher der Apothekerin – Staffel 2 – Vol. 1 (176301)
+- https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/ (gelesen 2026-10-21) — The Rising of the Shield Hero – Staffel 4 – Vol. 2 (173780), Air Gear – Komplett-Bundle (857), D.Gray-man – Komplett-Bundle (1482), Love Hina – Komplett-Bundle (189), Ouran High School Host Club – Komplett-Bundle (853), Shakugan no Shana – Staffel 1 und 2 – Komplett-Bundle (355)
+- https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/ (gelesen 2026-10-21) — Dr. STONE: Science Future – Teil 2 (189117), Air Gear – Komplett-Bundle (857), D.Gray-man – Komplett-Bundle (1482), Love Hina – Komplett-Bundle (189), Ouran High School Host Club – Komplett-Bundle (853), Shakugan no Shana – Staffel 1 und 2 – Komplett-Bundle (355), Shin Chan – Vol. 9-12 (966), As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 2 (178434), Re:Zero - Starting Life in Another World: Staffel 3 (163134)
+- https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/ (gelesen 2026-10-21) — Pokémon: Die Anfänge – Staffel 1 und 2 (527), Pokémon: Schwarz und Weiß – Staffel 14 bis 16 (9107)
+- https://www.anime2you.de/news/1060073/apothecary-diaries-staffel-2-volume-2-termin/ (gelesen 2026-10-21) — Die Tagebücher der Apothekerin – Staffel 2 – Vol. 1 (176301)
 - https://www.anime2you.de/news/1053923/rtl-plus-dragon-ball-daima-und-mehr/ (gelesen 2026-10-14) — Dragon Ball DAIMA (170083)
-- https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/ (gelesen 2026-10-14) — Demon Slayer: Kimetsu no Yaiba - Entertainment District Arc (142329), Demon Slayer: Kimetsu no Yaiba - Hashira Training Arc (166240), Demon Slayer: Kimetsu no Yaiba - Mugen Train Arc (129874), Demon Slayer: Kimetsu no Yaiba - Swordsmith Village Arc (145139)
+- https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/ (gelesen 2026-10-21) — Demon Slayer: Kimetsu no Yaiba - Entertainment District Arc (142329), Demon Slayer: Kimetsu no Yaiba - Hashira Training Arc (166240), Demon Slayer: Kimetsu no Yaiba - Mugen Train Arc (129874), Demon Slayer: Kimetsu no Yaiba - Swordsmith Village Arc (145139)
 - https://www.anime2you.de/news/1044599/prime-video-yu-gi-oh-5ds-und-mehr/ (gelesen 2026-10-14) — Concrete Revolutio: Choujin Gensou (21249)
 - https://www.anime2you.de/news/1048315/prime-video-date-a-live-staffel-2-und-mehr/ (gelesen 2026-10-18) — Keishicho Tokumu-bu Tokushu Kyoaku-han Taisaku-Shitsu Dai-Nana-ka: Tokunana (108554), Yu-Gi-Oh! ZEXAL – Staffel 2 und 3 (15489)
-- https://www.anime2you.de/news/1053585/prime-video-ghost-cat-anzu-und-mehr/ (gelesen 2026-10-14) — Sarusuberi: Miss HOKUSAI (20709), Yu☆Gi☆Oh! Duel Monsters (481)
+- https://www.anime2you.de/news/1053585/prime-video-ghost-cat-anzu-und-mehr/ (gelesen 2026-10-21) — Sarusuberi: Miss HOKUSAI (20709), Yu☆Gi☆Oh! Duel Monsters (481)
 - https://www.anime2you.de/news/1045191/netflix-gintama-film-und-mehr/ (gelesen 2026-10-14) — Mobile Suit Gundam Hathaway: The Sorcery of Nymph Circe (113971)
-- https://www.anime2you.de/news/1051128/disney-plus-campfire-cooking-und-mehr/ (gelesen 2026-10-14) — One Piece – Staffel 4 bis 8 (21)
-- https://www.anime2you.de/news/1059541/ (gelesen 2026-10-14) — Shin Samurai-den YAIBA (177476)
-- https://www.anime2you.de/news/1057488/crunchyroll-reborn-as-a-space-mercenary-und-mehr/ (gelesen 2026-10-14) — Mezametara Saikyou Soubi to Uchuusen-mochi datta node, Ikkodate Mezashite Youhei to shite Jiyuu ni Ikitai (186541)
-- https://www.anime2you.de/news/1050718/crunchyroll-19-neue-herbst-2026-simulcasts/ (gelesen 2026-10-14) — Yasei no Last Boss ga Arawareta! 2nd Season (204389)
-- https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/ (gelesen 2026-10-14) — Youkoso Jitsuryoku Shijou Shugi no Kyoushitsu e (98659), Yu☆Gi☆Oh! Duel Monsters GX (482), The God of High School (116006), The Rising of the Shield Hero (99263)
-- https://www.anime2you.de/news/1059957/sss-class-revival-hunter-neuer-teaser/ (gelesen 2026-10-14) — kein Titel zugeordnet
-- https://www.anime2you.de/news/1044124/jujutsu-kaisen-staffel-1-steelbook-edition/ (gelesen 2026-10-14) — kein Titel zugeordnet
-- https://www.anime2you.de/news/1058606/crunchyroll-the-boxer-und-mehr/ (gelesen 2026-10-14) — kein Titel zugeordnet
+- https://www.anime2you.de/news/1051128/disney-plus-campfire-cooking-und-mehr/ (gelesen 2026-10-21) — One Piece – Staffel 4 bis 8 (21)
+- https://www.anime2you.de/news/1059541/ (gelesen 2026-10-21) — Shin Samurai-den YAIBA (177476)
+- https://www.anime2you.de/news/1057488/crunchyroll-reborn-as-a-space-mercenary-und-mehr/ (gelesen 2026-10-21) — Mezametara Saikyou Soubi to Uchuusen-mochi datta node, Ikkodate Mezashite Youhei to shite Jiyuu ni Ikitai (186541)
+- https://www.anime2you.de/news/1050718/crunchyroll-19-neue-herbst-2026-simulcasts/ (gelesen 2026-10-21) — Yasei no Last Boss ga Arawareta! 2nd Season (204389)
+- https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/ (gelesen 2026-10-21) — Youkoso Jitsuryoku Shijou Shugi no Kyoushitsu e (98659), Yu☆Gi☆Oh! Duel Monsters GX (482), The God of High School (116006), The Rising of the Shield Hero (99263)
+- https://www.anime2you.de/news/1059957/sss-class-revival-hunter-neuer-teaser/ (gelesen 2026-10-21) — kein Titel zugeordnet
+- https://www.anime2you.de/news/1044124/jujutsu-kaisen-staffel-1-steelbook-edition/ (gelesen 2026-10-21) — kein Titel zugeordnet
+- https://www.anime2you.de/news/1058606/crunchyroll-the-boxer-und-mehr/ (gelesen 2026-10-21) — kein Titel zugeordnet
 - https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/ (gelesen 2026-10-18) — Bleach: The Movie - Memories of Nobody (1686)
-- https://www.anime2you.de/news/1052617/netflix-bride-of-the-barrier-master-simulcast/ (gelesen 2026-10-14) — kein Titel zugeordnet
+- https://www.anime2you.de/news/1052617/netflix-bride-of-the-barrier-master-simulcast/ (gelesen 2026-10-21) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1049988/disney-plus-the-god-of-high-school-und-mehr/ (gelesen 2026-10-15) — Beyblade X – Staffel 2 - Teil 2 (165159)
 - https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/ (gelesen 2026-10-20) — Snowball Earth (196144)
 - https://www.anime2you.de/news/1058501/starttermin-von-magical-buffs/ (gelesen 2026-10-18) — kein Titel zugeordnet
@@ -111,3 +112,4 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.joyn.de/filme/naruto-shippuden-the-movie-blood-prison (gelesen 2026-10-20) — kein Titel zugeordnet
 - https://www.joyn.de/filme/the-last-naruto-the-movie (gelesen 2026-10-20) — kein Titel zugeordnet
 - https://www.joyn.de/filme/boruto-naruto-the-movie (gelesen 2026-10-20) — kein Titel zugeordnet
+- https://www.disneyplus.com/browse/entity-14f5d468-38b2-4d4b-97ed-649e6c3ba4c8 (gelesen 2026-10-21) — kein Titel zugeordnet

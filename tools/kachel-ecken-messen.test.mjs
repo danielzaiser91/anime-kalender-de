@@ -9,7 +9,7 @@ import { copyFileSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, unlinkSync, 
 import os from 'node:os'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { ansichtErgebnis, bewerte, fehlendeZeilen, kandidatenWochen, kennungsWochen, main, messeMitWahl, messwocheAbbruch, saalFehler, sammleFehler, tagePlus, waehleMesswoche } from './kachel-ecken-messen.mjs'
+import { ansichtErgebnis, bewerte, fehlendeZeilen, kandidatenWochen, kennungsWochen, kulisseAntwort, main, messeMitWahl, messwocheAbbruch, saalFehler, saalKulisse, sammleFehler, tagePlus, waehleMesswoche } from './kachel-ecken-messen.mjs'
 
 const LEISTE = [200, 20, 20]
 const COVER = [70, 90, 130]
@@ -250,5 +250,27 @@ try {
 } finally {
   rmSync(messDir, { recursive: true, force: true })
 }
+
+// Saal-Kulisse (21.10.2026): Der Datensatz hat keinen Kinofilm in den nächsten Wochen, die Messung bekommt ihren Saal trotzdem.
+const tv = (id, extra = {}) => ({ releaseSlug: `s${id}`, titleId: id, releaseType: 'weekly', platform: 'adn', name: `T${id}`, id: `s${id}@2026-10-19`, date: '2026-10-19', ...extra })
+const ohneKino = [tv(1, { staffelstart: true, episode: 1, time: '10:00' }), tv(2, { time: '11:00', episode: 5, episodeCount: 12 }), tv(3)]
+const wochen3 = ['2026-10-19', '2026-10-26', '2026-11-02']
+const mitKulisse = saalKulisse(ohneKino, wochen3)
+assert.deepEqual(mitKulisse.slice(0, 3), ohneKino, 'echte Termine bleiben unverändert und vorn')
+const saele = mitKulisse.slice(3)
+assert.deepEqual(saele.map((e) => e.date), ['2026-10-21', '2026-10-28', '2026-11-04'], 'je Woche ein Termin am Mittwoch')
+assert.ok(saele.every((e) => e.platform === 'kino' && e.releaseType === 'movie'), 'Kino-Film')
+assert.equal(new Set(mitKulisse.map((e) => e.id)).size, 6, 'Kennungen eindeutig')
+assert.ok(saele.every((e) => e.releaseSlug === 's2' && e.titleId === 2), 'Vorlage ist der erste Termin ohne Staffelstart (nicht der erste, nicht der letzte)')
+assert.ok(saele.every((e) => !('staffelstart' in e) && !('episode' in e) && !('episodeCount' in e) && !('time' in e)), 'kein Ring, keine Folge, keine Uhrzeit')
+assert.deepEqual(saalKulisse([], wochen3), [], 'leerer Datensatz bleibt leer')
+const nurStart = saalKulisse([tv(7, { staffelstart: true })], ['2026-10-19'])
+assert.equal(nurStart.length, 2, 'nur Staffelstarts: der erste dient trotzdem als Vorlage')
+assert.ok(!('staffelstart' in nurStart[1]), 'auch dann ohne Ring')
+assert.equal(saalKulisse([tv(7, { releaseType: 'movie', platform: 'kino' })], ['2026-10-19', '2026-10-26']).length, 3, 'nur Filme: Vorlage ist der erste')
+
+assert.equal(JSON.parse(kulisseAntwort('events.json', JSON.stringify(ohneKino), wochen3)).length, 6, 'events.json bekommt die Termine')
+const fremd = Buffer.from(JSON.stringify([{ platform: 'adn' }]))
+assert.equal(kulisseAntwort('titles-core.json', fremd, wochen3), fremd, 'andere Dateien bleiben unberührt')
 
 console.log('kachel-ecken-messen.test: ok')

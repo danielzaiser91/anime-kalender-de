@@ -41,7 +41,7 @@ pruefe('Staffel: Beginn und Folgenzahl treffen die zweite', waehleStaffel(staffe
 pruefe('Staffel: ein Special (Staffel 0) zählt nie', waehleStaffel(staffeln, '2005-10-01', 3) === undefined)
 pruefe('Staffel: gleiches Datum, aber andere Folgenzahl ist keine Staffel', waehleStaffel(staffeln, '2005-10-20', 49) === undefined)
 const alt = { id: 1, slug: 'x', titleRomaji: 'X', format: 'TV', episodes: 143, jpYear: 1989, jpStatus: 'FINISHED', streams: [], genres: [], keywords: [], studios: [], dubConfidence: 'low' } as unknown as Title
-const kopf = (erst: Title['deErstausgabe']) => berechneAntwort({ title: { ...alt, deErstausgabe: erst }, releases: [], today: '2026-10-07' })
+const kopf = (erst: Title['deErstausgabe']) => berechneAntwort({ title: { ...alt, deErstausgabe: erst }, releases: [], today: '2026-10-07', jetzt: new Date('2026-10-07T12:00:00Z') })
 const teil = kopf({ synchro: true, teil: true })
 console.log('Saison-Stufen')
 const T0 = '2026-10-07'
@@ -85,6 +85,7 @@ const dubs: Record<string, string> = { 900101: 'd', 900102: 'c', 900103: 'p', 90
 setzeMarkenFuerPruefung(dubs)
 const idMit = (kz: string) => Number(Object.keys(dubs).find((k) => dubs[k] === kz))
 pruefe('Dub-Liste d: ohne Sprachblock entsteht trotzdem eine Synchro-Marke', mitDubKennzeichen(idMit('d'), undefined)?.synchro === true)
+pruefe('Dub-Liste d: vertont heißt nicht Teilsynchro', mitDubKennzeichen(idMit('d'), undefined)?.teil === undefined)
 pruefe('Dub-Liste c: Synchro und Teilmarke', mitDubKennzeichen(idMit('c'), undefined)?.teil === true)
 pruefe('Dub-Liste -: der Termin bleibt, wie er ist', mitDubKennzeichen(idMit('-'), undefined) === undefined)
 /* Dragon Hatchling: der deutsche Block wiederholt den Japan-Zeitraum, die Marke steht auf „Geplant“. */

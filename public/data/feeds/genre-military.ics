@@ -5,36 +5,8 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Military
 X-WR-TIMEZONE:Europe/Berlin
-BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-10-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261014T133000Z
-DTEND:20261014T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/13080/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:steins-gate-0-2026-10-16@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261016
-DTEND;VALUE=DATE:20261017
-SUMMARY:Steins\;Gate 0 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/7628/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:dr-stone-science-future-part1@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261016
-DTEND;VALUE=DATE:20261017
-SUMMARY:Dr. STONE: Science Future – Teil 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15604/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
+REFRESH-INTERVAL;VALUE=DURATION:PT12H
+X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
 UID:strike-witches-s2-vol1@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z

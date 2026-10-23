@@ -8,8 +8,6 @@ import type { Regel } from './regelmaessig'
 import { baueLeiste } from './leiste'
 import type { LeisteStand } from './leiste'
 import { LOG, MESS_MARKER, haengeAn, messDauer, messStart, unterschied } from './messung'
-import { LECKS_DATEI, zaehleLecks } from './lecks'
-import type { Lecks } from './lecks'
 import { kopierText } from './kopieren'
 import { agentenText, istPruefer } from './pruefer'
 import { bereichOffen, bereichsKennung, bereichsKopf, topPriosKasten } from './bereiche'
@@ -48,15 +46,14 @@ const regeln = atom({ plugin: 'arbeitsliste', key: 'regeln' } as const, [] as Re
 // Minute der letzten Neuzeichnung: der Countdown „in 13 h 45 min“ ändert sich nur beim Minutenwechsel.
 const minute = atom({ plugin: 'arbeitsliste', key: 'minute' } as const, 0)
 const autonomBis = atom({ plugin: 'arbeitsliste', key: 'autonomBis' } as const, null as string | null)
-// Ruhemodus (Daniel, 10.10.2026): solange die Markerdatei existiert, höchstens ein Agent.
+// Ruhemodus (Daniel, 10.10.2026): solange die Markerdatei existiert, höchstens zwei Agenten.
 const RUHE_MARKER = 'C:/Users/ih/.claude/ruhemodus.txt'
-// Ruhemodus aus der Markerdatei: „sanft“ (Laufende enden, keine neuen) oder „hart“ (Standard, auch bei leerer Datei).
+// Ruhemodus aus der Markerdatei: „hart“ (sofort höchstens 2) oder „sanft“ (Laufende enden, keine neuen; Standard seit 20.10.2026, auch bei leerer Datei).
 type Ruhe = 'hart' | 'sanft' | null
 const ruhe = atom({ plugin: 'arbeitsliste', key: 'ruhe' } as const, null as Ruhe)
 // Sparmodus (Daniel, 19.10.2026): solange die Markerdatei existiert, nur Sonnet mittel und Haiku als Subagenten.
 const SPAR_MARKER = 'C:/Users/ih/.claude/sparmodus.txt'
 const spar = atom({ plugin: 'arbeitsliste', key: 'spar' } as const, false)
-const lecks = atom({ plugin: 'arbeitsliste', key: 'lecks' } as const, null as Lecks | null)
 const offen = atom({ plugin: 'arbeitsliste', key: 'offen' } as const, null as number | null)
 // Kennungen der ausgeklappten Bereiche („weitere“) und Gruppen (Kleinigkeiten).
 const aufgeklappt = atom({ plugin: 'arbeitsliste', key: 'aufgeklappt' } as const, [] as string[])
@@ -95,7 +92,7 @@ async function lieseAutonomBis($: EngineInterface): Promise<string | null> {
 async function lieseRuhe($: EngineInterface): Promise<Ruhe> {
   try {
     const inhalt = ((await $.fs.read(RUHE_MARKER)) as string).trim().toLowerCase()
-    return inhalt === 'sanft' ? 'sanft' : 'hart'
+    return inhalt === 'hart' ? 'hart' : 'sanft'
   } catch {
     return null
   }
@@ -128,17 +125,6 @@ async function laufendeAgenten($: EngineInterface): Promise<Agent[]> {
   } catch {
     return []
   }
-}
-
-// Zählerdatei der Prozess-Inventur: Atom nur bei geändertem Inhalt schreiben (kein Neuzeichnen ohne Änderung).
-async function aktualisiereLecks($: EngineInterface): Promise<void> {
-  let neu: Lecks | null = null
-  try {
-    neu = zaehleLecks((await $.fs.read(LECKS_DATEI)) as string)
-  } catch {
-    neu = null
-  }
-  if (!gleich(await read($, lecks), neu)) await update($, lecks, () => neu)
 }
 
 // Messung (messung.ts): Merkflag, vom Hintergrundtakt gesetzt, damit der Render nichts erwarten muss.
@@ -177,7 +163,6 @@ async function ermittleLeiste($: EngineInterface): Promise<LeistenDaten> {
     autonomBis: bis ? uhrzeit(bis) : null,
     ruhe: await read($, ruhe),
     spar: await read($, spar),
-    lecks: await read($, lecks),
   }
 }
 
@@ -229,7 +214,6 @@ async function aktualisiere($: EngineInterface): Promise<void> {
   if ((await read($, ruhe)) !== istRuhe) await update($, ruhe, () => istRuhe)
   const istSpar = await lieseSpar($)
   if ((await read($, spar)) !== istSpar) await update($, spar, () => istSpar)
-  await aktualisiereLecks($)
   let neu: Liste | null = null
   let neuVon: DanielTodo | null = null
   let fehler: string | undefined
@@ -455,7 +439,7 @@ function paneAutonom(a: Ansicht, d: PaneDaten) {
 function paneRuhe(a: Ansicht, d: PaneDaten) {
   const { Text } = a
   if (!d.still) return null
-  return <Text color="warning">{d.still === 'sanft' ? '🔇 Ruhemodus sanft: Laufende enden, dann höchstens 1 Agent (Prüfer zählen nicht)' : '🔇 Ruhemodus hart: höchstens 1 Agent (Prüfer zählen nicht)'}</Text>
+  return <Text color="warning">{d.still === 'sanft' ? '🔇 Ruhemodus sanft: Laufende enden, dann höchstens 2 Agenten (Prüfer zählen nicht)' : '🔇 Ruhemodus hart: höchstens 2 Agenten (Prüfer zählen nicht)'}</Text>
 }
 
 function paneSpar(a: Ansicht, d: PaneDaten) {

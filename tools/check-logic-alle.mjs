@@ -17,6 +17,7 @@
  * **Vollständigkeit (12.10.2026):** `check:logic` wird rot, wenn eine Prüfdatei in pipeline/ oder tools/ in keiner Prüfliste steht
  * (`tools/check-logic-vollstaendig.mjs`, bewusste Ausnahmen in `tools/check-logic-liste-ausnahmen.txt`).
  */
+import { execFileSync } from 'node:child_process'
 import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
@@ -26,6 +27,7 @@ import { laufePool } from './arbeiterpool.mjs'
 import { ohneBauVariablen } from './bau-umgebung.mjs'
 import { pruefeVollstaendig } from './check-logic-vollstaendig.mjs'
 import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
+import { vorladeBasis } from './pr-basis.mjs'
 import { sperreUmgebung } from './sperre-umgebung.mjs'
 
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
@@ -106,6 +108,10 @@ const auftraege = dateien.map((datei, i) => {
     nachher: () => (ausnahmen.has(datei) ? pruefeAusnahmeGenutzt(ausnahmen.get(datei), spurDatei) : null),
   }
 })
+
+const gitInWurzel = (...args) => execFileSync('git', args, { cwd: wurzel, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] })
+const geladeneBasis = vorladeBasis(gitInWurzel, process.env)
+if (geladeneBasis) console.log(`${name}: PR-Basis ${geladeneBasis.slice(0, 7)} vor den parallelen Prüfungen geladen.`)
 
 const { rote, gelaufen, veraendert } = await laufePool(auftraege, {
   wurzel,

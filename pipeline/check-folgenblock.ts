@@ -59,7 +59,7 @@ function woechentlich(vorbei: number): Record<number, string> {
 }
 
 function kopfVon(releases: Release[], t: Title = titel): { kopf: string; satz: string; neben: string; blockBis?: number; datum: string } | undefined {
-  const a = berechneAntwort({ title: t, releases, today: HEUTE })
+  const a = berechneAntwort({ title: t, releases, today: HEUTE, jetzt: new Date(`${HEUTE}T12:00:00Z`) })
   if (a?.art !== 'laeuft') return undefined
   const satz = terminSatz(a.komplett, 'in 3 Tagen', a.haupt.date, T, a.blockBis !== undefined)
   return { kopf: folgenKopf(a, T), satz, neben: laeuftNeben(a, T), blockBis: a.blockBis, datum: a.haupt.date }
