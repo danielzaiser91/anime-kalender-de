@@ -1807,6 +1807,12 @@ Offen: Push-Abos kosten im stündlichen Aufruf weiter je etwa zwei; rote Seiten 
 
 **Nachprüfen:** nach einem Tag `wrangler d1 insights` gegen `schreib_tag.gelesen` (an der Meldungskopie) halten; liegt der Zähler weit unter den Insights, ist der ungezählte Rest größer als die Reserve (seit 15.10.2026 2,0 Mio. bis zum Kontingent).
 
+## Feed-Abrufe zählen und ICS-Takt (`feed-zaehler.ts`, Migration 060, 23.10.2026)
+
+Kalenderkopf nennt `REFRESH-INTERVAL;VALUE=DURATION:PT12H` und `X-PUBLISHED-TTL:PT12H` (`shared/ics.ts`, gilt für alle gebauten Dateien und den Favoriten-Feed); vorher stand dort kein Takt. Welche App den Wert beachtet, ist nicht gemessen (A6 bleibt Annahme, bis der Zähler es zeigt).
+
+Zähler: `mitEingang` (`auffangnetz.ts`) zählt jede Anfrage an `/feed/favoriten.ics?k=…` vor Cache und Datenbank (auch unbekannte Adressen, auch spätere Edge-Cache-Treffer). Tabelle `feed_abrufe(tag, reg, wert)`: `reg = -1` summiert die Abrufe, `reg 0..255` sind Register eines HyperLogLog über den SHA-256 des Tokens (kein Token gespeichert, Fehler rund 6,5 %). Gebucht wird gesammelt je Isolate: ab 500 Abrufen oder nach 10 Minuten, nie öfter als alle 60 s; Schreibzeilen je Stapel = 1 (Abrufe) + angehobene Register (höchstens 256) + 1 (Buchung in `schreib_tag`, der Schreib-Deckel zählt den Zähler mit) und ein DELETE alter Tage. Ein Isolate schreibt höchstens 1000 Zeilen am Tag (`MAX_ZEILEN_TAG`, danach ist der Zähler bis 00:00 UTC aus) und wiederholt kein Register, das es heute schon geschrieben hat; Anfragen mit Zufalls-Token (404) kosten so je Isolate höchstens diese Grenze. Ablesen: `leseFeedAbrufe(env, tag)`; Zeilen älter als 30 Tage löscht der nächste Stapel. Fehlt die Tabelle oder ist D1 gesperrt, läuft der Feed unverändert weiter (Warnung im Log, ein Versuch je Minute).
+
 ## Seitenweise Titelzeilen-Leser: ab dem Titel der Marke, Abbruch nach `LIMIT` (Migration 058, 16.10.2026)
 
 **Anlass:** Insights am 16.10.2026 bis 10:40: `offenAusTitel` (`worker/src/rohfolgen-seiten.ts`) 26-mal Ø 26.568 gelesene Zeilen, `?alle=1` (`allePruefungen`) 10-mal Ø 28.665. Aufrufer: `bestand-bauen.yml` → `npm run data:rohfolgen` (`pipeline/fetch-rohfolgen.ts`, bis 20 Seiten à 5.000) → `?rohfolgen=1` (`worker/src/pruefung-rohfolgen.ts`); `alle=1` aus `fetch-folgen-zuordnung.ts` und `fetch-urteile.ts` → `alleAusTitel`. Alle drei hatten dieselbe Ursache.
