@@ -102,6 +102,9 @@ export function planeMutant(m, originale, cwd) {
   return { texte, diff }
 }
 
+// Laufende Testprozesse: ein Signal an den Läufer beendet sie vor dem Zurückspielen.
+const laufendeKinder = new Set()
+
 function beendeBaum(kind) {
   if (process.platform !== "win32") {
     try {
@@ -125,6 +128,7 @@ export function laufTest(befehl, cwd, timeoutSek) {
     const sammle = (d) => {
       ausgabe = (ausgabe + d).slice(-4000)
     }
+    laufendeKinder.add(kind)
     kind.stdout.on("data", sammle)
     kind.stderr.on("data", sammle)
     let abgelaufen = false
@@ -133,10 +137,12 @@ export function laufTest(befehl, cwd, timeoutSek) {
       beendeBaum(kind)
     }, timeoutSek * 1000)
     kind.on("close", (code) => {
+      laufendeKinder.delete(kind)
       clearTimeout(uhr)
       fertig({ gruen: !abgelaufen && code === 0, abgelaufen, code, ausgabe })
     })
     kind.on("error", (e) => {
+      laufendeKinder.delete(kind)
       clearTimeout(uhr)
       fertig({ gruen: false, abgelaufen: false, code: -1, ausgabe: String(e) })
     })
@@ -242,6 +248,7 @@ export async function main(argv) {
   }
   for (const sig of ["SIGINT", "SIGTERM", "SIGBREAK", "SIGHUP"]) {
     process.on(sig, () => {
+      for (const kind of laufendeKinder) beendeBaum(kind)
       zuruecksetzen()
       process.exit(130)
     })

@@ -1,7 +1,7 @@
 // Test für tools/mutationslaeufer.mjs. Aufruf: node tools/mutationslaeufer.test.mjs [läufer.mjs]
 // Wegwerf-Dateien unter os.tmpdir(); der Läufer ist als eigener Prozess aufgerufen (Exit-Code, Zurücksetzen).
 import assert from "node:assert/strict"
-import { spawnSync } from "node:child_process"
+import { spawn, spawnSync } from "node:child_process"
 import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
@@ -166,6 +166,37 @@ assert.match(leer.aus, /datei\/suche\/ersetze fehlen/)
 const nullZeit = lauf([mut[9]], ["--timeout", "0"])
 assert.equal(nullZeit.exit, 2)
 assert.match(nullZeit.aus, /^Aufruf:/m)
+
+// 10. SIGTERM mitten im Mutanten: Exit 130, Dateien bytegleich, keine Sicherungskopie, der Testprozess ist beendet.
+// Unter win32 gibt es kein abfangbares SIGTERM (Kind wird hart beendet), dort übersprungen.
+if (process.platform === "win32") {
+  console.log("mutationslaeufer.test: Signal-Fall übersprungen (win32)")
+} else {
+  const warte = (ms) => new Promise((fertig) => setTimeout(fertig, ms))
+  const hang = 'import { readFileSync, writeFileSync } from "node:fs"\nif (readFileSync("a.mjs", "utf8").includes("A = 0")) {\n  writeFileSync("hang.pid", String(process.pid))\n  setInterval(() => {}, 1000)\n}\n'
+  writeFileSync(join(ordner, "hang.mjs"), hang)
+  writeFileSync(join(ordner, "m-signal.json"), JSON.stringify([mut[9]]))
+  const args = [laeufer, join(ordner, "m-signal.json"), "--cwd", ordner, "--timeout", "60", "--test", `${knoten} hang.mjs`]
+  const kind = spawn(process.execPath, args, { stdio: "ignore" })
+  const ende = new Promise((fertig) => kind.on("close", (code, signal) => fertig({ code, signal })))
+  for (let i = 0; i < 100 && !existsSync(join(ordner, "hang.pid")); i++) await warte(100)
+  assert.ok(existsSync(join(ordner, "hang.pid")), "Mutant wurde nicht gestartet")
+  kind.kill("SIGTERM")
+  const erg = await ende
+  assert.deepEqual(erg, { code: 130, signal: null })
+  unversehrt()
+  const pid = Number(readFileSync(join(ordner, "hang.pid"), "utf8"))
+  let lebt = true
+  for (let i = 0; i < 30 && lebt; i++) {
+    try {
+      process.kill(pid, 0)
+      await warte(100)
+    } catch {
+      lebt = false
+    }
+  }
+  assert.ok(!lebt, "Testprozess läuft nach dem Signal weiter")
+}
 
 rmSync(ordner, { recursive: true, force: true })
 console.log("mutationslaeufer.test: ok")
