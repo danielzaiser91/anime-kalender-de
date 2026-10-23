@@ -135,7 +135,8 @@ async function tageskappe() {
 }
 
 async function nichtAuskunft() {
-  const { env, stand } = umgebung(neueDatenbank())
+  const db = neueDatenbank()
+  const { env, stand } = umgebung(db)
   mails = 0
   globalThis.fetch = (async () => {
     mails++
@@ -152,6 +153,12 @@ async function nichtAuskunft() {
     mails++
     return new Response('{}', { status: 200 })
   }) as typeof fetch
+  const mailsVorher = mails
+  const nochmal = await anmelden(env, '7.7.7.7', 'f@x.test')
+  pruefe(nochmal.status === 200 && mails === mailsVorher + 1, 'Versandfehler: Wiederholung derselben Adresse schickt die Mail')
+  const zeile = (key: string) => db.prepare('SELECT count FROM rate_limit WHERE key = ?1').get(key) as { count: number } | undefined
+  pruefe(zeile('subscribe-ip:7.7.7.7')?.count === 1, 'Versandfehler: IP-Zähler nur für die gelungene Anmeldung (1)')
+  pruefe(zeile('subscribe-tag')?.count === 1, 'Versandfehler: Tageszähler nur für die gelungene Mail (1)')
 }
 
 await ipGrenze()

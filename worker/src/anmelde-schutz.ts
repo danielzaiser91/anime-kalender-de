@@ -30,10 +30,21 @@ async function lies(env: Env, key: string, fensterMinuten: number, jetzt: number
   return rest > 0 ? { count: z.count, restSek: Math.ceil(rest / 1000) } : null
 }
 
+const schluessel = (ip: string, email: string) => ({
+  keyIp: `subscribe-ip:${ip}`,
+  keyAdresse: `subscribe-mail:${email}`,
+  keyTag: 'subscribe-tag',
+})
+
+/** Scheitert der Versand, zählt die Anmeldung nicht: Adresse frei, Tag und IP um eins zurück. */
+async function gibFrei(env: Env, ip: string, email: string): Promise<void> {
+  const { keyIp, keyAdresse, keyTag } = schluessel(ip, email)
+  await env.DB.prepare('DELETE FROM rate_limit WHERE key = ?1').bind(keyAdresse).run()
+  await env.DB.prepare('UPDATE rate_limit SET count = MAX(count - 1, 0) WHERE key IN (?1, ?2)').bind(keyIp, keyTag).run()
+}
+
 export async function pruefeAnmeldung(env: Env, ip: string, email: string, jetzt: number, buche: Buche): Promise<Urteil> {
-  const keyIp = `subscribe-ip:${ip}`
-  const keyAdresse = `subscribe-mail:${email}`
-  const keyTag = 'subscribe-tag'
+  const { keyIp, keyAdresse, keyTag } = schluessel(ip, email)
 
   const ipStand = await lies(env, keyIp, FENSTER_IP_MIN, jetzt)
   if (ipStand && ipStand.count >= GRENZE_IP) return { art: 'ip', text: TEXT_IP, retryAfter: ipStand.restSek }
@@ -69,7 +80,11 @@ export async function mitAnmeldeSchutz(
 
   const ip = request.headers.get('cf-connecting-ip') ?? ''
   const urteil = await pruefeAnmeldung(env, ip, email, Date.now(), buche)
-  if (urteil.art === 'senden') return handler(request, env)
+  if (urteil.art === 'senden') {
+    const antwort = await handler(request, env)
+    if (!antwort.ok) await gibFrei(env, ip, email)
+    return antwort
+  }
   if (urteil.art === 'adresse') {
     return new Response(JSON.stringify({ ok: true }), { headers: { 'Content-Type': 'application/json', ...kopf } })
   }
