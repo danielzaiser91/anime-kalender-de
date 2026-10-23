@@ -63,6 +63,8 @@ function ausschnitte() {
   pruefe(vergleiche([-284833]), 'Cartoon mit negativer Kennung')
   pruefe(vergleiche([42]), 'Titel ohne Termin')
   pruefe(schneideFeed('', new Set([1]), NAME) === buildIcs([], { calendarName: NAME }), 'leere Quelle: nur Rahmen')
+  const ohneKennung = ALLES.split('\r\n ').join('').split('/t/').join('/x/')
+  pruefe(schneideFeed(ohneKennung, new Set([12, 5, 7]), NAME) === buildIcs([], { calendarName: NAME }), 'Termin ohne erkennbare Titelkennung entfällt')
   const halb = ALLES.slice(0, ALLES.indexOf('END:VEVENT', ALLES.indexOf('END:VEVENT') + 1))
   pruefe(!schneideFeed(halb, new Set([12, 123, 5]), NAME).includes('Titel 5'), 'abgeschnittene Quelle: unvollständiger Termin entfällt')
 }
@@ -83,8 +85,9 @@ let allIcsStatus = 200
 
 function umgebung() {
   const db = neueDatenbank()
-  abonnenten(db, 1)
-  db.exec("UPDATE subscribers SET feed_token = 'tok1', favorites = 'ak:12,5'")
+  abonnenten(db, 2)
+  db.exec("UPDATE subscribers SET feed_token = 'tok1', favorites = 'ak:12,5' WHERE id = 'id0'")
+  db.exec("UPDATE subscribers SET feed_token = 'tok2', favorites = 'ak:7' WHERE id = 'id1'")
   fetchAttrappe('2026-10-23')
   const basis = globalThis.fetch
   globalThis.fetch = (async (e: RequestInfo | URL, init?: RequestInit) => {
@@ -112,9 +115,14 @@ async function handler() {
   const text = await erste.text()
   pruefe(erste.status === 200 && text === buildIcs(TERMINE.filter((e) => [12, 5].includes(e.titleId)), { siteUrl: SITE, calendarName: NAME }), 'Abruf liefert die Termine der Favoriten')
   pruefe(erste.headers.get('Content-Type') === 'text/calendar; charset=utf-8', 'Inhaltstyp text/calendar')
+  pruefe(erste.headers.get('Cache-Control') === 'public, max-age=900', 'Antwort für 15 Minuten haltbar')
+  const gehalten = [...cache.values()][0]
+  pruefe(cache.size === 1 && gehalten?.headers.get('Cache-Control') === 'public, max-age=900', 'Edge-Cache hält die Antwort 15 Minuten')
   const d1Vorher = zaehler.d1
   const zweite = await abruf(env, '?k=tok1')
   pruefe((await zweite.text()) === text && zaehler.d1 === d1Vorher && allIcsAbrufe === 1, 'zweiter Abruf aus dem Cache: keine D1-Abfrage, kein neuer Abruf von all.ics')
+  const andere = await (await abruf(env, '?k=tok2')).text()
+  pruefe(andere === buildIcs(TERMINE.filter((e) => e.titleId === 7), { siteUrl: SITE, calendarName: NAME }) && cache.size === 2, 'zweite Adresse bekommt ihre eigenen Termine, nicht die der ersten')
   pruefe((await abruf(env, '')).status === 400, 'ohne Adresse-Schlüssel: 400')
   const fremd = await abruf(env, '?k=unbekannt')
   const d1Fremd = zaehler.d1

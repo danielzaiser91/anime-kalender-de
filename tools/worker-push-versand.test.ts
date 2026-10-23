@@ -130,7 +130,35 @@ async function sonderfaelle() {
   pruefe(stapelAufrufe === 2, `zwei Stapel: Stände und Löschung (${stapelAufrufe})`)
 }
 
+async function gemischtUndWeitere() {
+  console.log('Abos ohne Neuigkeit hinter 8 mit Neuigkeit, Meldung „jetzt auch bei“:')
+  const db = neueDatenbank()
+  const env = await umgebung(db)
+  abos(db, 8)
+  for (let i = 0; i < 5; i++) {
+    db.exec(`INSERT INTO push_abo (endpoint, favoriten, erstellt, zuletzt, gemeldet) VALUES ('https://fcm.googleapis.com/ruhig${i}', 'ak:2', '2026-10-01', '2026-10-23T08:30:0${i}Z', '')`)
+  }
+  nullen()
+  await lauf(env)
+  const ruhig = `SELECT 1 FROM push_abo WHERE endpoint LIKE '%ruhig%' AND zuletzt = '${JETZT.toISOString()}'`
+  pruefe(zeilen(db, ruhig).length === 5, 'Abos ohne Neuigkeit werden auch nach dem 8. Push fortgeschrieben')
+  pruefe(zeilen(db, 'SELECT 1 FROM push_abo WHERE offen_ziel IS NOT NULL').length === 8, 'jedes der 8 Abos trägt Text und Ziel')
+  const weitere = [{ id: 77, name: 'Serie', anbieter: 'Netflix' }]
+  abos(db, 1, { favoriten: 'ak:77' })
+  nullen()
+  await pushVersand(env, JETZT, [], istErschienen, weitere)
+  const erste = zeilen(db, 'SELECT offen, gemeldet FROM push_abo')[0]!
+  pruefe(String(erste.offen).includes('Serie') && erste.gemeldet === '77:Netflix', 'neue Meldung „jetzt auch bei“ erreicht das Abo und wird vermerkt')
+  db.exec('UPDATE push_abo SET offen = NULL')
+  await pushVersand(env, JETZT, [], istErschienen, weitere)
+  pruefe(zeilen(db, 'SELECT offen FROM push_abo')[0]!.offen === null, 'dieselbe Meldung kommt kein zweites Mal')
+  abos(db, 1, { favoriten: 'ak:5' })
+  await pushVersand(env, JETZT, [], istErschienen, weitere)
+  pruefe(zeilen(db, 'SELECT offen FROM push_abo')[0]!.offen === null, 'Meldung zu einem fremden Titel erreicht das Abo nicht')
+}
+
 await vieleMitNeuigkeit()
+await gemischtUndWeitere()
 await folgeLaeufe()
 await ohneNeuigkeit()
 await sonderfaelle()
