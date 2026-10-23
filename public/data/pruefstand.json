@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-21T14:15:14.836Z",
+ "erzeugtAm": "2026-10-23T12:21:20.245Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 860,
+   "gemeldet": 855,
    "gesamt": 899,
-   "offen": 39,
+   "offen": 44,
    "ohneSeite": 18,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -33,6 +33,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
      "titel": "2.5 Dimensional Seduction (2.5-jigen no Ririsa 2nd Season)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0H7YCRTJN",
+     "titel": "Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2 (Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Season 2)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GVN98MKW",
@@ -71,6 +75,10 @@
      "titel": "Dragon Ball Daima"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0DMFV78H5",
+     "titel": "Saiyuki Reload: Zeroin"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0BZWFR7H1",
      "titel": "Bluelock (BLUE LOCK)"
     },
@@ -81,6 +89,14 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CJRZY5ND",
      "titel": "Mob Psycho 100 III"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0B6FVJXST",
+     "titel": "Call of the Night"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/0HGZCX1WR9YH6FJX0HXEO8182Y",
+     "titel": "Call of the Night"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CJYLSY3D",
@@ -97,6 +113,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CGQ64WRN",
      "titel": "Dragon Quest: The Adventure of Dai"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP",
+     "titel": "Babylon"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHP5RVPL",
@@ -358,9 +378,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 775,
+   "gemeldet": 774,
    "gesamt": 890,
-   "offen": 115,
+   "offen": 116,
    "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -550,6 +570,10 @@
     {
      "url": "https://www.netflix.com/title/80057609",
      "titel": "Kazoops!"
+    },
+    {
+     "url": "https://www.netflix.com/title/80063153",
+     "titel": "Kuroko’s Basketball: 1st Season"
     },
     {
      "url": "https://www.netflix.com/title/80115338",
