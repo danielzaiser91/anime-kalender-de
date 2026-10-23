@@ -701,6 +701,7 @@ const TEXTE = {
   'tv.premiereHinweis': 'Erstmals auf Deutsch, im TV. Nicht verpassen!',
   'tv.laeuft': 'Läuft',
   'tv.imProgramm': 'Im TV-Programm',
+  'tv.quelle': 'Quelle des Termins: {name}',
   // Der Anbieter führt den Titel, die Adresse kennt nur TMDB — der Klick landet dort (22.09.2026).
   'detail.ueberTmdb': '{name} (über TMDB)',
   'detail.dubUnknown': 'Der Anbieter macht dazu keine öffentliche Angabe.',
