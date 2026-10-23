@@ -6,6 +6,7 @@
  * Aufruf: `npx tsx pipeline/check-sw-cache-regeln.ts [pfad/zu/sw.js]`. Läuft in `check:logic`.
  */
 import fs from 'node:fs'
+import { pathToFileURL } from 'node:url'
 import vm from 'node:vm'
 import ts from 'typescript'
 
@@ -214,15 +215,25 @@ function pruefeSelbst(): string[] {
   return fehler
 }
 
+/** Der alte Fehler (Icons cache-first) muss die Kulisse rot färben, sonst prüft sie nichts. */
+async function pruefeLaufzeitSelbst(quelltext: string): Promise<string[]> {
+  const gut = 'staleWhileRevalidate(request, FEST, event)'
+  if (!quelltext.includes(gut)) return ['Selbstprüfung der Kulisse: Icon-Zweig nicht gefunden']
+  const alterStand = quelltext.split(gut).join('cacheFirst(request, MEDIA)')
+  const fehler = await pruefeLaufzeit(alterStand).catch((e: Error) => [`Laufzeit: ${e.message}`])
+  return fehler.length > 0 ? [] : ['Kulisse übersieht den alten Stand (Icons cache-first)']
+}
+
 async function main(): Promise<number> {
   const pfad = process.argv[2] ?? 'public/sw.js'
   const quelltext = fs.readFileSync(pfad, 'utf8')
   const laufzeit = await pruefeLaufzeit(quelltext).catch((e: Error) => [`Laufzeit: ${e.message}`])
-  const fehler = [...pruefeSelbst(), ...pruefeCacheFirst(quelltext), ...laufzeit]
+  const selbst = await pruefeLaufzeitSelbst(quelltext)
+  const fehler = [...pruefeSelbst(), ...selbst, ...pruefeCacheFirst(quelltext), ...laufzeit]
   for (const f of fehler) console.error(`FEHLER: ${f}`)
   if (fehler.length) return 1
-  console.log(`check-sw-cache-regeln: ok (${pfad}: cacheFirst nur /assets/ und Cover; Icons/og aus Kopie mit Auffrischung)`)
+  console.log(`check-sw-cache-regeln: ok (${pfad}: cacheFirst nur /assets/ und Cover; Icons/og aus Kopie mit Auffrischung; alter Stand rot)`)
   return 0
 }
 
-process.exit(await main())
+if (import.meta.url === pathToFileURL(process.argv[1]).href) process.exit(await main())
