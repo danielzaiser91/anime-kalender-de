@@ -41,7 +41,7 @@ async function digest(n: number, abweisen: boolean, anbieter = 'resend'): Promis
 
 pruefe((await digest(7, false)) === 7, 'Digest an 7 Abonnenten: Zähler 7')
 pruefe((await digest(3, false)) === 3, 'Digest an 3 Abonnenten: Zähler 3 (anderer Wert als 7)')
-pruefe((await digest(120, false)) === 120, 'zwei Stapel (100 + 20): Zähler 120')
+pruefe((await digest(120, false)) === 70, '120 Abonnenten: Digest-Kappe 70, Zähler 70')
 pruefe((await digest(7, true)) === 0, 'abgewiesener Stapel: Zähler 0')
 pruefe((await digest(7, false, 'console')) === 0, 'Anbieter console: Zähler 0')
 
