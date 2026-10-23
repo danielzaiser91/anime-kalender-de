@@ -179,26 +179,38 @@ jobs:
         run: npm run data:fetch
 
       # Die Meldungen aus der Erweiterung wandern hier in `dub-confirmed.yaml`
-      # — das ist Zusammenführen, nicht Sammeln. Scheitert der Bau danach,
-      # committet `commit-data.sh` die Datei trotzdem: Sie ist eine Quelle.
+      # — das ist Zusammenführen, nicht Sammeln. Die Antwort des Briefkastens
+      # bleibt liegen, damit der nächste Schritt sie ohne neuen Abruf nachspielen kann.
       - name: Meldungen aus der Erweiterung einarbeiten
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          MELDUNGEN_SICHERN: /tmp/meldungen-antwort.json
         run: npm run data:pruefungen -- --abhaken-spaeter
 
-      # Neue Handbelege werden geprüft, bevor sie in den Bau gehen (17.09.2026).
-      # Verletzt die Prüfung etwas, bleiben alle neuen draußen und im
-      # Briefkasten — der Lauf wird gelb statt rot, der Grund steht in der
-      # Statusanzeige. Vorher machten solche Belege jeden Deploy rot.
+      # Neue Handbelege werden geprüft, bevor sie in den Bau gehen (17.09.2026). Ist die Prüfung rot, sucht
+      # `meldungen-eingrenzen.mjs` die auslösenden Meldungen; nur sie bleiben im Briefkasten, der Rest wird übernommen
+      # (18.10.2026: eine Meldung hielt sieben Tage lang 10.556 andere auf). Findet es keine, bleiben wie bisher alle
+      # neuen draußen. Der Lauf wird in beiden Fällen gelb statt rot, Grund und Kennungen stehen in der Statusanzeige.
+      # Die Zurückgestellten führt `data/meldungen-zurueckgestellt.json` (Briefkasten-Wache, nächstes Eingrenzen); ist der ganze Stapel grün, ist sie leer.
       - name: Neue Handbelege prüfen
         run: |
           if git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi
-          if npm run check:logic > /tmp/logic.txt 2>&1 && npx tsx pipeline/check-logic-bestand.ts >> /tmp/logic.txt 2>&1; then exit 0; fi
-          grep '✖' /tmp/logic.txt || true
+          if npm run check:logic > /tmp/logic.txt 2>&1 && npx tsx pipeline/check-logic-bestand.ts >> /tmp/logic.txt 2>&1; then
+            echo '[]' > data/meldungen-zurueckgestellt.json
+            exit 0
+          fi
+          echo "::group::Protokoll der Prüfung (die Ursache steht nicht am Ende: parallele Prüfungen drucken danach weiter)"
+          cat /tmp/logic.txt
+          echo "::endgroup::"
+          grund="$(bash tools/pruefgrund.sh /tmp/logic.txt)"
+          if zurueck="$(node tools/meldungen-eingrenzen.mjs /tmp/logic.txt /tmp/meldungen-antwort.json)"; then
+            echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Meldungen zurückgestellt: $zurueck — $grund" >> "$GITHUB_ENV"
+            exit 0
+          fi
           git checkout -- data/dub-confirmed.yaml
           git checkout -- data/anbieter-staffeln.json 2>/dev/null || true
+          git checkout -- data/meldungen-uebernahme.json
           rm -f data/cache/pruefungen-abhaken.json
-          grund="$(grep -m 3 '✖' /tmp/logic.txt | tr -d '\"' | tr -s '[:space:]' ' ')"
           echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Neue Meldungen zurückgestellt: $grund" >> "$GITHUB_ENV"
 
       # Was der Erweiterung aufgefallen ist, ohne dass jemand die Konsole oeffnet.
@@ -266,7 +278,14 @@ jobs:
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:vorschlaege && npm run data:dub-checks && npm run data:extension-liste && npm run data:start-liste
+        run: |
+          for skript in data:vorschlaege data:dub-checks data:extension-liste data:start-liste; do
+            if ! npm run "$skript"; then
+              echo "::error::$skript ist gescheitert, die Arbeitslisten zählen gegen einen älteren Bestand."
+              echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Arbeitslisten nicht neu erzeugt: $skript" >> "$GITHUB_ENV"
+              exit 1
+            fi
+          done
 
       - name: Fortschritt — Arbeitslisten neu erzeugen
         continue-on-error: true
@@ -294,9 +313,10 @@ jobs:
         run: bash "$MELDER" schritt "Vorschaubilder"
 
       # Hier sitzt die Zusicherung über den gebauten Bestand (`check:bestand` in
-      # commit-data.sh). Sie macht den Lauf rot, nachdem die Quellen committet sind — das ist der Sinn dieses Laufs
-      # (11.10.2026: Als sie ihn nur gelb färbte, blieben die Erzeugnisse sechs Stunden unausgeliefert). `BAU_LAUF` nimmt
-      # zusätzlich die neuen Meldungen zurück; sie bleiben im Briefkasten.
+      # commit-data.sh). Sie macht den Lauf rot (11.10.2026: Als sie ihn nur gelb färbte, blieben die Erzeugnisse sechs
+      # Stunden unausgeliefert). `BAU_LAUF` nimmt dann alles aus diesem Lauf zurück außer den Abrufen von `data:fetch`
+      # (`bau_lauf_zuruecknehmen`): Meldungen, Stempel, Listen und Bestand bleiben auf HEAD, die Meldungen im Briefkasten. Was eine einzelne Meldung
+      # auslöst, hat „Neue Handbelege prüfen“ schon eingegrenzt; hier bleibt nur, was erst der gebaute Bestand zeigt.
       - name: Änderungen committen
         env:
           BAU_LAUF: '1'
@@ -308,6 +328,19 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:pruefungen -- --nur-abhaken
+
+      # Ebenso die zugeordneten Rohfolgen (17.10.2026): Am 16.10. hakte der Zuordner selbst ab, der Bau
+      # scheiterte danach, und 1.029 Adressen aus Daniels Prime-Durchgang kamen nie ins Repo.
+      # Wächter: tools/quittung-nach-commit-waechter.mjs.
+      - name: Rohfolgen abhaken
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:rohfolgen-abhaken
+
+      - name: Vorfälle löschen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:vorfaelle -- --nur-loeschen
 
       # Der Alarm für stumm gewordene Quellen. Er gehört hierher und nicht in
       # den Sammler: Ein Sammler, der eine Quelle nicht erreicht, macht weiter

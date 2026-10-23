@@ -13,6 +13,8 @@ import { erschieneneSpanne } from './folgen-spanne.ts'
 import { PROSIEBEN_MAXX_ROT, TOGGO_ORANGE } from './pillen.tsx'
 import { pillenZiel } from './pillen-ziel.ts'
 import { seitAbText } from './seit-datum.ts'
+import { kurzeAusgabe } from './disc-ausgabe.ts'
+import { tvQuelle } from './tv-quelle.ts'
 
 type TvText = ReturnType<typeof tvAngabe>
 
@@ -177,7 +179,7 @@ function Unterzeile({ text, zeit }: { text: string; zeit?: string }) {
     <>
       {text.split(zeit || KEIN_TRENNER).flatMap((teil, i) => [
         i ? (
-          <span key={`z${i}`} className="font-semibold text-sky-700 dark:text-sky-300">
+          <span key={`z${i}`} className="font-semibold text-ak-tv">
             {zeit}
           </span>
         ) : null,
@@ -205,14 +207,14 @@ function LaeuftZeile({ laeuft, t }: { laeuft: NonNullable<NonNullable<TvText>['l
 }
 
 /** Führt zur laufenden, sonst zur nächsten Sendung im tv.de-Programm; steht neben der Zeile, nicht darin. */
-function ProgrammLink({ href, t }: { href: string; t: Translate }) {
+function ProgrammLink({ href, hinweis }: { href: string; hinweis: string }) {
   return (
-    <Tooltip text={t('tv.imProgramm')} seite="oben" eigenerFokus className="shrink-0">
+    <Tooltip text={hinweis} seite="oben" eigenerFokus className="shrink-0">
       <a
         href={href}
         target="_blank"
         rel="noopener"
-        aria-label={t('tv.imProgramm')}
+        aria-label={hinweis}
         className="grid size-11 place-items-center rounded-full text-slate-500 transition hover:text-ak-text dark:text-slate-300"
       >
         <TvZeichen />
@@ -221,10 +223,23 @@ function ProgrammLink({ href, t }: { href: string; t: Translate }) {
   )
 }
 
+/** Bei einer Disc steht das Erscheinungsdatum in der Farbe der TV-Termine, damit es aus der Zeile herausspringt. */
+function discDatum(release: Release): string | undefined {
+  const datum = release.schedule?.firstEpisodeDate
+  return release.releaseType === 'disc' && datum ? formatDate(datum) : undefined
+}
+
+/** Das Fernseh-Zeichen führt ins Programm; gibt es noch keins, zur Quelle der Ankündigung. */
+export function programmZiel(release: Release, tvText: TvText | undefined, t: Translate): { href: string; hinweis: string } | undefined {
+  if (tvText?.programm) return { href: tvText.programm, hinweis: t('tv.imProgramm') }
+  const quelle = tvQuelle(release)
+  return quelle ? { href: quelle.url, hinweis: t('tv.quelle', { name: quelle.name }) } : undefined
+}
+
 function terminName(release: Release, titel: string | undefined, t: Translate, premiere: boolean): ReactNode {
   const medium = mediumAus(release.edition)
   return (
-    <span className="flex min-w-0 items-center gap-1.5">
+    <span className="flex min-w-0 flex-wrap items-center gap-x-1.5">
       {medium && <span className="shrink-0 rounded bg-black/10 px-1 py-px text-t5 uppercase tracking-[.08em] dark:bg-white/15">{medium}</span>}
       <span className="truncate">{kurzerNameVon(release, titel, t)}</span>
       {premiere && <PremiereFaehnchen release={release} />}
@@ -246,14 +261,15 @@ export function TerminZeile({ release, titel, today, tvText, deutsch }: {
   const tv = release.platform === 'tv'
   /* Eine Prime-Zeile ohne Adresse führt zur Suche; der Hinweis sagt es (#842). */
   const ziel = pillenZiel(release, titel, t)
-  const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
+  const zweite = [release.publisher, kurzeAusgabe(release.edition)].filter(Boolean).join(' · ')
   const text = [zweite, deutsch?.folgen || fortschrittVon(release, t), terminTeil(release, tvText, today, t)].filter(Boolean).join(' · ')
+  const tvLink = tv ? programmZiel(release, tvText, t) : undefined
   const unten = (
     <>
       {tvText?.laeuft && <LaeuftZeile laeuft={tvText.laeuft} t={t} />}
       <LangMitTooltip text={tvText?.text ?? ''}>
         <span className={`${tvText ? 'line-clamp-2' : ''} block`}>
-          <Unterzeile text={text} zeit={tvText?.zeit} />
+          <Unterzeile text={text} zeit={tvText?.zeit ?? discDatum(release)} />
         </span>
       </LangMitTooltip>
     </>
@@ -269,7 +285,7 @@ export function TerminZeile({ release, titel, today, tvText, deutsch }: {
       status={deutsch ? <DubStatus art="belegt" /> : undefined}
       aktion={
         <>
-          {tvText?.programm && <ProgrammLink href={tvText.programm} t={t} />}
+          {tvLink && <ProgrammLink href={tvLink.href} hinweis={tvLink.hinweis} />}
           <MerkenKnopf release={release} today={today} zeile />
         </>
       }

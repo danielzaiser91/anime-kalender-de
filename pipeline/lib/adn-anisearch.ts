@@ -36,7 +36,7 @@ export interface AdnKandidat {
   gleich: boolean
 }
 
-export type OffenGrund = 'kein-kandidat' | 'mehrdeutig' | 'vergeben'
+export type OffenGrund = 'kein-kandidat' | 'mehrdeutig' | 'vergeben' | 'titelliste-fehlt'
 
 export interface AdnOffen {
   showId: number

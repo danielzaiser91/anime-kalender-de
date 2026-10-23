@@ -11,13 +11,17 @@ import { resolve } from 'node:path'
 
 const quelle = (wurzel, datei) => readFileSync(resolve(wurzel, datei), 'utf8')
 
-/** Einträge `[name, titelId, asId]`, deren Titel bekannt ist: Anzahl der Paare und die mit abweichender Kennung. */
+/** Einträge `[name, titelId, asId]`, : Paare mit bekanntem Titel und die mit abweichender Kennung; ein unbekannter Titel darf keine tragen. */
 export function abweichungen(eintraege, titel) {
   const schlecht = []
   let paare = 0
   for (const [name, id, asId] of eintraege) {
     const t = titel.get(id)
-    if (!t) continue
+    if (!t) {
+      /* Cartoon oder sonst unbekannter Titel: keine aniSearch-Kennung; eine Zahl (auch negativ) ergäbe einen falschen Verweis. */
+      if (asId != null) schlecht.push(`${name} (Titel ${id} unbekannt: Liste ${asId}, erwartet null)`)
+      continue
+    }
     paare++
     if ((asId ?? null) !== (t.anisearchId ?? null)) schlecht.push(`${name} (Titel ${t.id}: Liste ${asId ?? 'null'}, Titel ${t.anisearchId ?? 'null'})`)
   }

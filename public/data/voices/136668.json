@@ -1,1 +1,77 @@
-{"titleId":136668,"updatedAt":"2026-10-12T09:06:31.786Z","roles":[{"character":"Sho Tenma","actor":"Konrad Bösherz","von":"anisearch"},{"character":"Jin Ryu","actor":"Tim Knauer","von":"anisearch"},{"character":"Leon Fierce","actor":"Julius Jellinek","von":"anisearch"},{"character":"Covey Horn","actor":"Tim Sander","von":"anisearch"},{"character":"Marche Ovis","actor":"Nadine Zaddam","von":"anisearch"},{"character":"Nicole Spears","actor":"Josefin Hagen","von":"anisearch"},{"character":"Ryan Gladstone","actor":"Rainer Fritzsche","von":"anisearch"},{"character":"Odin","actor":"Tilo Schmitz","von":"anisearch"},{"character":"Sting","actor":"Jan Makino","von":"anisearch"},{"character":"David","actor":"Michael Bauer","von":"anisearch"},{"character":"Gigante","actor":"Johannes Berenz","von":"anisearch"},{"character":"Lucy McClain","actor":"Nicole Hannak","von":"anisearch"}]}
+{
+ "titleId": 136668,
+ "updatedAt": "2026-10-19T05:23:24.290Z",
+ "roles": [
+  {
+   "character": "Sho Tenma",
+   "actor": "Konrad Bösherz",
+   "von": "anisearch"
+  },
+  {
+   "character": "Jin Ryu",
+   "actor": "Tim Knauer",
+   "von": "anisearch"
+  },
+  {
+   "character": "Leon Fierce",
+   "actor": "Julius Jellinek",
+   "von": "anisearch"
+  },
+  {
+   "character": "Covey Horn",
+   "actor": "Tim Sander",
+   "von": "anisearch"
+  },
+  {
+   "character": "Marche Ovis",
+   "actor": "Nadine Zaddam",
+   "von": "anisearch"
+  },
+  {
+   "character": "Nicole Spears",
+   "actor": "Josefin Hagen",
+   "von": "anisearch"
+  },
+  {
+   "character": "Ryan Gladstone",
+   "actor": "Rainer Fritzsche",
+   "von": "anisearch"
+  },
+  {
+   "character": "Odin",
+   "actor": "Tilo Schmitz",
+   "von": "anisearch"
+  },
+  {
+   "character": "Sting",
+   "actor": "Jan Makino",
+   "von": "anisearch"
+  },
+  {
+   "character": "David",
+   "actor": "Michael Bauer",
+   "von": "anisearch"
+  },
+  {
+   "character": "Gigante",
+   "actor": "Johannes Berenz",
+   "von": "anisearch"
+  },
+  {
+   "character": "Lucy McClain",
+   "actor": "Nicole Hannak",
+   "von": "anisearch"
+  },
+  {
+   "character": "Nicole Spears",
+   "actor": "Julia Meynen",
+   "von": "ann"
+  },
+  {
+   "character": "Odin",
+   "actor": "Michael Pan",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20487"
+}

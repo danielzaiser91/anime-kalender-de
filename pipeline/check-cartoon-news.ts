@@ -7,6 +7,7 @@ import { baueNews } from './lib/news.ts'
 import { CARTOON_NEWS_ARTEN, cartoonsAusReleases } from './bau/cartoon-kern.ts'
 import { readJson } from './lib/util.ts'
 import { istLink } from '../shared/quelle.ts'
+import { melde } from './lib/quarantaene.ts'
 import type { NewsEintrag, Release } from '../shared/types.ts'
 
 let fehler = 0
@@ -30,9 +31,18 @@ const eintraege: NewsEintrag[] = baueNews(cartoons, releases, neuMitSynchro, [],
 const meldungen = eintraege.flatMap((e) => e.meldungen.map((m) => ({ m, titelId: m.teilId ?? e.titelId })))
 const vonCartoons = meldungen.filter((x) => ids.has(x.titelId))
 
+/** Die Cartoon-Meldungen, an denen `verletzt` zutrifft; ihre Cartoons werden gemeldet (das Quarantäne-Gate sperrt bei Cartoons und nennt sie). */
+function verletzte(grund: string, verletzt: (x: (typeof vonCartoons)[number]) => boolean): typeof vonCartoons {
+  const rot = vonCartoons.filter(verletzt)
+  for (const id of new Set(rot.map((x) => x.titelId))) melde(id, 'cartoon-news', grund)
+  return rot
+}
+
 pruefe('Cartoons erzeugen Meldungen (sonst bliebe der Pfad unbelegt)', cartoons.length === 0 || vonCartoons.length > 0)
-pruefe('jede Cartoon-Meldung hat eine Quelle (Link)', vonCartoons.every((x) => istLink(x.m.quelle)), vonCartoons.filter((x) => !istLink(x.m.quelle)).map((x) => x.m.art))
-pruefe('jede Cartoon-Meldung hat Belege mit Adresse', vonCartoons.every((x) => (x.m.belege ?? []).length > 0 && (x.m.belege ?? []).every((b) => istLink(b.url))))
+const ohneQuelle = verletzte('Meldung ohne Quelle', (x) => !istLink(x.m.quelle))
+pruefe('jede Cartoon-Meldung hat eine Quelle (Link)', !ohneQuelle.length, ohneQuelle.map((x) => x.m.art))
+const ohneBelege = verletzte('Meldung ohne Belege mit Adresse', (x) => !((x.m.belege ?? []).length > 0 && (x.m.belege ?? []).every((b) => istLink(b.url))))
+pruefe('jede Cartoon-Meldung hat Belege mit Adresse', !ohneBelege.length, ohneBelege.map((x) => x.titelId))
 pruefe(
   'nur Termin-Arten: kein „neu mit Synchro", keine Folgen- oder Messmeldung',
   vonCartoons.every((x) => CARTOON_NEWS_ARTEN.has(x.m.art)),

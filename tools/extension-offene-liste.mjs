@@ -28,8 +28,8 @@ import { blockStand } from './extension-block.mjs'
 import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
 import { ausgeblendet, brauchtUrteil, eintragsInfo, ladeBestand, ladeCartoons, nachRang, wartet } from './pruef-bestand.mjs'
 
-// AK_WURZEL: Kulissentest (tools/pruefliste-asid.test.mjs) lässt den echten Lauf in einem Wegwerf-Ordner arbeiten.
-const wurzel = process.env.AK_WURZEL ?? resolve(dirname(fileURLToPath(import.meta.url)), '..')
+// AK_ROOT: Kulissentest (tools/pruefliste-asid.test.mjs) lässt den echten Lauf in einem Wegwerf-Ordner arbeiten.
+const wurzel = process.env.AK_ROOT ?? resolve(dirname(fileURLToPath(import.meta.url)), '..')
 /** Verweise, denen eine zweite Quelle widerspricht — sie gehören auf die Liste. */
 const verdaechtig = verdachtsfaelle(wurzel, 'netflix')
 const titel = [...ladeBestand(wurzel), ...ladeCartoons(wurzel)]

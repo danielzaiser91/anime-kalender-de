@@ -3,7 +3,7 @@
  * damit die Kachel selbst „Synchro offen“ sagt. Mit Sprachzusage (ADNs Kalender als Quelle, ADN-Weg mit `dub: true`, Handbeleg) bleibt er unberührt.
  */
 import { kennzeichneAdnNeuzugaengeOhneSprache } from './bau/adn-sprache-offen.ts'
-import { ADN_CALENDAR_URL } from './bau/grundlagen.ts'
+import { ADN_CALENDAR_URL, adnKatalogUrl } from './bau/grundlagen.ts'
 import type { DubCheck } from './lib/dub-confirmed.ts'
 import type { Release, Title } from '../shared/types.ts'
 
@@ -36,6 +36,10 @@ console.log('\nMit Sprachzusage:')
 {
   const kalender = termin({ sources: ['https://a/', ADN_CALENDAR_URL] })
   pruefe('Termin aus ADNs Kalender (nur vde) bleibt', lauf(kalender).length === 0 && kalender.sprache === undefined)
+  const katalog = termin({ sources: ['https://a/', adnKatalogUrl(1318)] })
+  pruefe('Termin aus ADNs Katalog-Folgenliste (nur vde) bleibt', lauf(katalog).length === 0 && katalog.sprache === undefined)
+  const fremdeApi = termin({ sources: ['https://gw.api.animationdigitalnetwork.com/video/show/1318/extra'] })
+  pruefe('eine andere ADN-API-Adresse ist keine Sprachzusage', lauf(fremdeApi).length === 1 && fremdeApi.sprache === 'offen')
   const weg = termin()
   lauf(weg, [titel(1, [{ platform: 'adn', url: 'https://x/', dub: true }])])
   pruefe('ADN-Weg mit dub: true bleibt', weg.sprache === undefined)

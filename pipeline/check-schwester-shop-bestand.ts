@@ -6,6 +6,7 @@
 import { existsSync } from 'node:fs'
 import { readJson } from './lib/util.ts'
 import { schwesterBelegtDeutsch, schwesterFehler } from './lib/schwester-shop.ts'
+import { meldeVerletzte } from './lib/quarantaene.ts'
 import type { Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -24,10 +25,15 @@ if (!existsSync(OUT)) {
 const titel = readJson<Title[]>(OUT, [])
 const freenet = (t: Title) => (t.watchLinks ?? []).filter((w) => /^freenet meinvod$/i.test(w.name))
 const mitBeleg = titel.filter((t) => freenet(t).length && schwesterBelegtDeutsch(t.watchLinks ?? []))
-pruefe('Bestand: keine Kennzeichnung ohne Schwester-Beleg, keine neben dubRanges', schwesterFehler(titel).length === 0, schwesterFehler(titel)[0])
+const falschGekennzeichnet = meldeVerletzte(titel, 'schwester-shop', 'Kennzeichnung ohne Schwester-Beleg oder neben dubRanges', (t) => schwesterFehler([t]).length > 0)
+pruefe('Bestand: keine Kennzeichnung ohne Schwester-Beleg, keine neben dubRanges', falschGekennzeichnet.length === 0, schwesterFehler(titel)[0])
+const ungekennzeichnet = meldeVerletzte(mitBeleg, 'schwester-shop', 'freenet-Weg mit Schwester-Beleg ungekennzeichnet', (t) =>
+  freenet(t).some((w) => !w.dubRanges?.length && w.dubAbgeleitet !== 'schwester-shop'),
+)
 pruefe(
   'Bestand: jeder freenet-Weg ohne eigene Angabe, dessen Schwester Deutsch belegt, ist gekennzeichnet',
-  mitBeleg.every((t) => freenet(t).every((w) => w.dubRanges?.length || w.dubAbgeleitet === 'schwester-shop')),
+  ungekennzeichnet.length === 0,
+  ungekennzeichnet.map((t) => t.id).join(', '),
 )
 console.log(`  ${titel.filter((t) => freenet(t).some((w) => w.dubAbgeleitet)).length} Titel mit „laut Schwester-Shop“ bei freenet`)
 if (fehler) process.exit(1)

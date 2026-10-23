@@ -25,50 +25,32 @@
  * verlorenen Belegen — beides sieht in einer Zahl gleich aus. Deshalb steht in
  * `auffaellig` im Klartext, was zu prüfen wäre.
  *
+ * **Verworfene Läufe zählen nicht (19.10.2026).** Die Zeile entsteht vor der Entscheidung von `commit-data.sh`. Wird der Bau
+ * danach nicht ausgeliefert oder ohne Titel neu gebaut, markieren `--verwerfen` bzw. `--ersetzen` sie mit `verworfen: true`;
+ * Vergleich und Wache überspringen sie (`pipeline/lib/historie-zeilen.ts`).
+ *
  * ## Aufruf
  *
- *   npx tsx pipeline/bestand-historie.ts [--lauf <name>]
+ *   npx tsx pipeline/bestand-historie.ts [--lauf <name>] [--verwerfen | --ersetzen]
  *
  * Läuft nach `data:build`, liest nur den ausgelieferten Datensatz und schreibt
- * eine Zeile an.
+ * eine Zeile an. `--verwerfen` markiert nur die letzte Zeile des laufenden Laufs,
+ * `--ersetzen` markiert sie und misst den Bestand neu.
  */
-import { appendFileSync, existsSync, readFileSync } from 'node:fs'
+import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
+import { findeAuffaelliges, kanalTitelMenge, messen, type Kennzahlen } from './lib/bestand-delta.ts'
+import { letzteGeltende, letzteVerwerfen } from './lib/historie-zeilen.ts'
+import { ladeHandbelege } from './lib/dub-confirmed.ts'
+import { ROOT } from './lib/util.ts'
 
-const ROOT = resolve(import.meta.dirname, '..')
 const DATEI = resolve(ROOT, 'data/bestand-historie.jsonl')
 
 const args = process.argv.slice(2)
 const laufName = args[args.indexOf('--lauf') + 1] ?? process.env.GITHUB_WORKFLOW ?? 'lokal'
-
-interface Kennzahlen {
-  titel: number
-  titelMitVerweis: number
-  verweise: number
-  mitUrteil: number
-  ohneUrteil: number
-  titelMitSynchro: number
-  /**
-   * Wie viele Verweise das Gedächtnis als **begründet entfernt** führt.
-   *
-   * Ohne diese Zahl kann die Wache „78 Verweise entfernt" nicht von „78
-   * Verweise verschwunden" unterscheiden — und meldete am 06.09.2026 einen
-   * Alarm für den Normalfall: Die aniSearch-Ergänzung hatte 123 Verweise
-   * angelegt und 78 davon im selben Lauf als belegtes Nein wieder entfernt.
-   *
-   * Eine Warnung, die zuverlässig zu Unrecht kommt, ist schlimmer als keine
-   * (CLAUDE.md, 16.08.2026): Man hört auf hinzusehen, und die echte Störung
-   * geht darin unter.
-   */
-  entferntProtokolliert: number
-  /** Dasselbe je Anbieter — damit die Aufschlüsselung ihre Erklärung mitbringt. */
-  entferntJeAnbieter?: Record<string, number>
-  releases: number
-  termine: number
-  /** Je Anbieter die Zahl der Verweise mit belegter Synchro. */
-  jeAnbieter: Record<string, number>
-}
+/** Nur im Actions-Lauf gesetzt; ohne sie gilt jede letzte Zeile als die des eigenen Laufs. */
+const laufId = process.env.GITHUB_RUN_ID
 
 function lies<T>(pfad: string, vorgabe: T): T {
   const p = resolve(ROOT, pfad)
@@ -80,187 +62,63 @@ function lies<T>(pfad: string, vorgabe: T): T {
   }
 }
 
-function messen(): Kennzahlen {
+function messenAusDateien(): Kennzahlen {
   const roh = lies<Title[] | Record<string, Title>>('public/data/titles.json', [])
-  const titel = Array.isArray(roh) ? roh : Object.values(roh)
-  const releases = lies<unknown[]>('public/data/releases.json', [])
-  const termine = lies<unknown[]>('public/data/events.json', [])
-
-  const jeAnbieter: Record<string, number> = {}
-  let verweise = 0
-  let mitUrteil = 0
-  let ohneUrteil = 0
-  let titelMitVerweis = 0
-  let titelMitSynchro = 0
-
-  for (const t of titel) {
-    const streams = t.streams ?? []
-    if (streams.length) titelMitVerweis++
-    let hat = false
-    for (const s of streams) {
-      verweise++
-      if (s.dub === true) {
-        mitUrteil++
-        hat = true
-        jeAnbieter[s.platform] = (jeAnbieter[s.platform] ?? 0) + 1
-      } else if (s.dub === false) mitUrteil++
-      else ohneUrteil++
-    }
-    if (hat) titelMitSynchro++
-  }
-
-  const entfernt = lies<{ verweise?: unknown[] }>('data/verweise-entfernt.json', {})
-
-  return {
-    titel: titel.length,
-    titelMitVerweis,
-    verweise,
-    mitUrteil,
-    ohneUrteil,
-    titelMitSynchro,
-    entferntProtokolliert: Array.isArray(entfernt.verweise) ? entfernt.verweise.length : 0,
-    /**
-     * **Dasselbe je Anbieter — sonst bleibt die Aufschlüsselung ohne Erklärung.**
-     *
-     * Die Gesamtzahl der Verweise ist seit dem 06.09.2026 gegen das Gedächtnis
-     * gerechnet: Was mit Grund entfernt wurde, gilt nicht als Verlust. Die
-     * Zeilen „crunchyroll: 6 Synchro-Belege weniger" liefen daran vorbei und
-     * standen weiter als Auffälligkeit da.
-     *
-     * Am 07.09.2026 meldete die Wache fünf solche Zeilen, und **alle fünf**
-     * gingen auf gewollte Entfernungen desselben Tages zurück: 16
-     * YouTube-Verweise ohne belegte Synchro, die FSK-18-Fassung von Date a
-     * Live, „7th Time Loop". Wer das am nächsten Morgen liest, sieht fünf
-     * Alarme und muss jeden einzeln nachschlagen.
-     */
-    entferntJeAnbieter: Array.isArray(entfernt.verweise)
-      ? (entfernt.verweise as { plattform?: string }[]).reduce<Record<string, number>>((n, e) => {
-          const p = e.plattform ?? 'unbekannt'
-          n[p] = (n[p] ?? 0) + 1
-          return n
-        }, {})
-      : {},
-    releases: Array.isArray(releases) ? releases.length : 0,
-    termine: Array.isArray(termine) ? termine.length : 0,
-    jeAnbieter,
-  }
+  return messen({
+    titel: Array.isArray(roh) ? roh : Object.values(roh),
+    releases: lies<unknown[]>('public/data/releases.json', []),
+    termine: lies<unknown[]>('public/data/events.json', []),
+    entfernt: lies<{ verweise?: unknown[] }>('data/verweise-entfernt.json', {}),
+    kanal: kanalTitelMenge(ladeHandbelege()),
+  })
 }
 
-function letzteZeile(): (Kennzahlen & { zeitpunkt: string }) | null {
-  if (!existsSync(DATEI)) return null
-  const zeilen = readFileSync(DATEI, 'utf8').trimEnd().split('\n').filter(Boolean)
-  if (!zeilen.length) return null
-  try {
-    return JSON.parse(zeilen[zeilen.length - 1]!)
-  } catch {
-    return null
-  }
+const dateiText = () => (existsSync(DATEI) ? readFileSync(DATEI, 'utf8') : '')
+
+/** Markiert die letzte Zeile des laufenden Laufs als verworfen; sonst bleibt die Datei, wie sie ist. */
+function verwirfLetzte(): void {
+  const text = dateiText()
+  const neu = letzteVerwerfen(text, laufId)
+  if (neu !== text) writeFileSync(DATEI, neu)
+  console.log(neu !== text ? '[historie] letzte Zeile als verworfen markiert' : '[historie] keine Zeile dieses Laufs zu verwerfen')
 }
 
-const jetzt = messen()
-const vorher = letzteZeile()
+if (args.includes('--verwerfen') || args.includes('--ersetzen')) verwirfLetzte()
 
-/**
- * Was auffällt, steht im Klartext dabei.
- *
- * Die Schwellen sind bewusst niedrig: Lieber eine Zeile zu viel in der Historie
- * als ein stiller Verlust. Wer sie liest, entscheidet — die Datei urteilt nicht.
- */
-const auffaellig: string[] = []
-if (vorher) {
-  const d = (feld: keyof Kennzahlen) => (jetzt[feld] as number) - (vorher[feld] as number)
+if (!args.includes('--verwerfen')) {
+  const jetzt = messenAusDateien()
+  const vorher = letzteGeltende(dateiText()) as (Kennzahlen & { zeitpunkt: string }) | null
+  const { auffaellig, erklaert } = findeAuffaelliges(jetzt, vorher)
 
-  if (d('titel') < 0) auffaellig.push(`${-d('titel')} Titel weniger`)
-  /*
-    Auch hier gegen das Gedächtnis gerechnet: Ein Urteil verschwindet in aller
-    Regel mit dem Verweis, an dem es hing — und wenn der mit Grund entfernt
-    wurde, ist nichts verloren. Am 07.09.2026 standen fünf solche Zeilen in der
-    Wache, alle fünf erklärt.
-  */
-  const urteilWeg = -d('mitUrteil')
-  const urteilRest = urteilWeg - Math.max(0, d('entferntProtokolliert'))
-  if (urteilRest > 0) {
-    auffaellig.push(
-      `${urteilRest} Urteile verloren` +
-        (urteilWeg > urteilRest ? ` (${urteilWeg - urteilRest} weitere sind begründet entfernt)` : ''),
-    )
+  const zeile = {
+    zeitpunkt: new Date().toISOString(),
+    lauf: laufName,
+    laufId,
+    ...jetzt,
+    delta: vorher
+      ? {
+          titel: jetzt.titel - vorher.titel,
+          verweise: jetzt.verweise - vorher.verweise,
+          mitUrteil: jetzt.mitUrteil - vorher.mitUrteil,
+          ohneUrteil: jetzt.ohneUrteil - vorher.ohneUrteil,
+          titelMitSynchro: jetzt.titelMitSynchro - vorher.titelMitSynchro,
+          releases: jetzt.releases - vorher.releases,
+          termine: jetzt.termine - vorher.termine,
+        }
+      : null,
+    auffaellig: auffaellig.length ? auffaellig : undefined,
+    erklaert: erklaert.length ? erklaert : undefined,
   }
-  if (d('titelMitSynchro') < 0) auffaellig.push(`${-d('titelMitSynchro')} Titel ohne Synchro-Beleg`)
-  if (d('termine') < -20) auffaellig.push(`${-d('termine')} Termine weniger`)
-  /*
-    Ein Verweis, der verschwindet, ist oft richtig — tote Adressen und belegte
-    Neins werden entfernt, und das Gedächtnis schreibt jeden davon mit. Gemeldet
-    wird deshalb nur, was **darüber hinaus** fehlt.
 
-    Am 06.09.2026 stand hier „78 Verweise entfernt" als Auffälligkeit, während
-    das Gedächtnis im selben Lauf um 78 Einträge wuchs — der Normalfall, als
-    Alarm ausgegeben. Wo die Zahlen zusammenpassen, ist nichts verlorengegangen;
-    bleibt ein Rest, steht genau der da.
-  */
-  const wegErklaert = Math.max(0, d('entferntProtokolliert'))
-  const wegUnerklaert = -d('verweise') - wegErklaert
-  if (wegUnerklaert > 50) {
-    auffaellig.push(
-      `${wegUnerklaert} Verweise ohne protokollierten Grund weg` +
-        (wegErklaert ? ` (${wegErklaert} weitere sind begründet entfernt)` : ''),
-    )
-  }
-  /*
-    **Je Anbieter dieselbe Rechnung wie oben.**
+  appendFileSync(DATEI, JSON.stringify(zeile) + '\n')
 
-    Was mit protokolliertem Grund entfernt wurde, ist kein Verlust — es ist die
-    Arbeit, für die es das Gedächtnis gibt. Gemeldet wird der Rest; passt alles
-    zusammen, steht die Zeile gar nicht erst da.
-  */
-  for (const [anbieter, zahl] of Object.entries(jetzt.jeAnbieter)) {
-    const alt = vorher.jeAnbieter?.[anbieter] ?? 0
-    if (zahl >= alt) continue
-    const weg = alt - zahl
-    const begruendet = Math.max(
-      0,
-      (jetzt.entferntJeAnbieter?.[anbieter] ?? 0) - (vorher.entferntJeAnbieter?.[anbieter] ?? 0),
-    )
-    const rest = weg - begruendet
-    if (rest <= 0) continue
-    auffaellig.push(
-      `${anbieter}: ${rest} Synchro-Belege weniger` +
-        (begruendet ? ` (${begruendet} weitere sind begründet entfernt)` : ''),
-    )
-  }
-  for (const [anbieter, alt] of Object.entries(vorher.jeAnbieter ?? {})) {
-    if (!(anbieter in jetzt.jeAnbieter) && alt > 0) {
-      auffaellig.push(`${anbieter}: alle ${alt} Synchro-Belege weg`)
-    }
-  }
-}
-
-const zeile = {
-  zeitpunkt: new Date().toISOString(),
-  lauf: laufName,
-  ...jetzt,
-  delta: vorher
-    ? {
-        titel: jetzt.titel - vorher.titel,
-        verweise: jetzt.verweise - vorher.verweise,
-        mitUrteil: jetzt.mitUrteil - vorher.mitUrteil,
-        ohneUrteil: jetzt.ohneUrteil - vorher.ohneUrteil,
-        titelMitSynchro: jetzt.titelMitSynchro - vorher.titelMitSynchro,
-        releases: jetzt.releases - vorher.releases,
-        termine: jetzt.termine - vorher.termine,
-      }
-    : null,
-  auffaellig: auffaellig.length ? auffaellig : undefined,
-}
-
-appendFileSync(DATEI, JSON.stringify(zeile) + '\n')
-
-const d = zeile.delta
-console.log(
-  `[historie] ${jetzt.titel} Titel, ${jetzt.mitUrteil} Urteile, ${jetzt.ohneUrteil} offen` +
-    (d
-      ? ` — Delta: Titel ${d.titel >= 0 ? '+' : ''}${d.titel}, Urteile ${d.mitUrteil >= 0 ? '+' : ''}${d.mitUrteil}, offen ${d.ohneUrteil >= 0 ? '+' : ''}${d.ohneUrteil}`
-      : ' — erste Zeile'),
-)
-if (auffaellig.length) {
-  console.log(`[historie] ⚠  ${auffaellig.join('; ')}`)
+  const d = zeile.delta
+  console.log(
+    `[historie] ${jetzt.titel} Titel, ${jetzt.mitUrteil} Urteile, ${jetzt.ohneUrteil} offen` +
+      (d
+        ? ` — Delta: Titel ${d.titel >= 0 ? '+' : ''}${d.titel}, Urteile ${d.mitUrteil >= 0 ? '+' : ''}${d.mitUrteil}, offen ${d.ohneUrteil >= 0 ? '+' : ''}${d.ohneUrteil}`
+        : ' — erste Zeile'),
+  )
+  if (erklaert.length) console.log(`[historie] ℹ  erklärt: ${erklaert.join('; ')}`)
+  if (auffaellig.length) console.log(`[historie] ⚠  ${auffaellig.join('; ')}`)
 }

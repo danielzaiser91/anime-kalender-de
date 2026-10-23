@@ -1,48 +1,48 @@
 {
-  "stand": "2026-10-15",
+  "stand": "2026-10-23",
   "deckung": {
-    "titel": 20617,
-    "mitSeite": 16248,
-    "ohneSeite": 8,
-    "ohneAnisearchKennung": 3044,
-    "ohneReferenz": 1317,
-    "seitenImArchiv": 17492,
-    "kanten": 18579
+    "titel": 20656,
+    "mitSeite": 16320,
+    "ohneSeite": 10,
+    "ohneAnisearchKennung": 3055,
+    "ohneReferenz": 1271,
+    "seitenImArchiv": 17518,
+    "kanten": 18592
   },
   "gesamt": {
-    "titel": 16248,
-    "gleich": 14008,
-    "fehlen": 846,
-    "zusaetzlich": 1352,
-    "gemischt": 42
+    "titel": 16320,
+    "gleich": 14007,
+    "fehlen": 902,
+    "zusaetzlich": 1294,
+    "gemischt": 117
   },
   "hauptbestand": {
-    "titel": 2873,
-    "gleich": 2312,
-    "fehlen": 324,
-    "zusaetzlich": 232,
-    "gemischt": 5
+    "titel": 2876,
+    "gleich": 2308,
+    "fehlen": 328,
+    "zusaetzlich": 224,
+    "gemischt": 16
   },
   "haelfteA": {
-    "titel": 7406,
-    "gleich": 6326,
-    "fehlen": 272,
-    "zusaetzlich": 772,
-    "gemischt": 36
+    "titel": 7453,
+    "gleich": 6322,
+    "fehlen": 314,
+    "zusaetzlich": 707,
+    "gemischt": 110
   },
   "haelfteB": {
-    "titel": 8842,
-    "gleich": 7682,
-    "fehlen": 574,
-    "zusaetzlich": 580,
-    "gemischt": 6
+    "titel": 8867,
+    "gleich": 7685,
+    "fehlen": 588,
+    "zusaetzlich": 587,
+    "gemischt": 7
   },
   "cluster": {
-    "einzel": 5729,
-    "gleich": 2458,
-    "zerlegt": 91,
-    "verschmilzt": 106,
-    "gemischt": 6
+    "einzel": 5743,
+    "gleich": 2453,
+    "zerlegt": 102,
+    "verschmilzt": 104,
+    "gemischt": 10
   },
   "beispiele": {
     "zerlegt": [
@@ -98,9 +98,9 @@
       {
         "id": 3202,
         "name": "Daisuki! Hello Kitty",
-        "titel": 18,
+        "titel": 20,
         "referenz": 1,
-        "anisearch": 12
+        "anisearch": 14
       },
       {
         "id": 20789,
@@ -189,13 +189,6 @@
     ],
     "verschmilzt": [
       {
-        "id": 80,
-        "name": "Kidou Senshi Gundam",
-        "titel": 89,
-        "referenz": 12,
-        "anisearch": 1
-      },
-      {
         "id": 356,
         "name": "Fate/stay night",
         "titel": 64,
@@ -212,7 +205,7 @@
       {
         "id": 223,
         "name": "Dragon Ball",
-        "titel": 46,
+        "titel": 47,
         "referenz": 2,
         "anisearch": 1
       },
@@ -247,7 +240,7 @@
       {
         "id": 15051,
         "name": "Love Live! School idol project",
-        "titel": 32,
+        "titel": 33,
         "referenz": 6,
         "anisearch": 1
       },
@@ -266,10 +259,10 @@
         "anisearch": 1
       },
       {
-        "id": 148972,
-        "name": "Xiong Chumo",
-        "titel": 24,
-        "referenz": 4,
+        "id": 518,
+        "name": "Mahou no Princess Minky Momo",
+        "titel": 23,
+        "referenz": 5,
         "anisearch": 1
       },
       {
@@ -277,13 +270,6 @@
         "name": "Tennis no Ouji-sama",
         "titel": 22,
         "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 518,
-        "name": "Mahou no Princess Minky Momo",
-        "titel": 22,
-        "referenz": 5,
         "anisearch": 1
       },
       {
@@ -327,13 +313,48 @@
         "titel": 19,
         "referenz": 2,
         "anisearch": 1
+      },
+      {
+        "id": 21288,
+        "name": "Monster Strike",
+        "titel": 19,
+        "referenz": 2,
+        "anisearch": 1
+      },
+      {
+        "id": 87435,
+        "name": "BanG Dream!",
+        "titel": 19,
+        "referenz": 4,
+        "anisearch": 1
       }
     ],
     "gemischt": [
       {
+        "id": 80,
+        "name": "Kidou Senshi Gundam",
+        "titel": 90,
+        "referenz": 12,
+        "anisearch": 2
+      },
+      {
+        "id": 148972,
+        "name": "Xiong Chumo",
+        "titel": 30,
+        "referenz": 4,
+        "anisearch": 7
+      },
+      {
         "id": 194,
         "name": "Macross Zero",
         "titel": 25,
+        "referenz": 2,
+        "anisearch": 2
+      },
+      {
+        "id": 8644,
+        "name": "Sylvanian Families",
+        "titel": 14,
         "referenz": 2,
         "anisearch": 2
       },
@@ -369,6 +390,13 @@
         "id": 206,
         "name": "Lodoss-tou Senki: Eiyuu Kishi Den",
         "titel": 6,
+        "referenz": 2,
+        "anisearch": 2
+      },
+      {
+        "id": 102004,
+        "name": "Onmyouji: Heian Monogatari",
+        "titel": 5,
         "referenz": 2,
         "anisearch": 2
       }

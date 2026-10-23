@@ -17,12 +17,15 @@ import { ergaenzeTermineAusNewsUndTv } from './bau/08-news-tv.ts'
 import { pruefeSynchroJePlattform } from './bau/09-synchro.ts'
 import { rolleTermineAusMitKomplettabwurf } from './bau/10-komplettabwurf.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
+import { stelleZurueck, vermerkeQuarantaene } from './bau/11-9-quarantaene.ts'
 import { baueMeta } from './bau/12-meta.ts'
 import { schreibeDatensatzGemessen } from './bau/anisearch-reihen-abweichungen.ts'
+import { schreibeEmpfehlung } from './bau/13-10-empfehlung.ts'
 import { schreibeAboFeeds } from './bau/14-ics.ts'
 import { entferneVomKalender } from './bau/sperre.ts'
 import { type EntfernterVerweis } from './bau/grundlagen.ts'
 import { merkeBestandVorher } from './lib/bestand-vorher.ts'
+import type { ZurueckgestellterTitel } from '../shared/meta-typ.ts'
 
 function main(): void {
   /**
@@ -83,17 +86,11 @@ function main(): void {
 
   // Alles, was Verweise ändert, muss vor `baueMeta` stehen — dort beginnt die Auslieferung.
   schliesseWegeAb({ ...synchro, titles, anisearch, releases, tmdbMehrdeutig, toteAdressen, verweiseEntfernt })
+  const quarantaene = stelleZurueck({ titles, releases, events })
 
-  const { allTitles, meta, platforms, genres, keywords } = baueMeta({
-    titles,
-    releases,
-    events,
-    motnBelege: synchro.motnBelege,
-  })
-  const { newsFuerRss } = schreibeDatensatzGemessen({
-    allTitles,
-    releases,
-    kanalJeAdresse: synchro.kanalJeAdresse,
+  liefereAus({
+    quarantaene,
+    synchro,
     anisearch,
     tmdbTitles,
     mitStimmen,
@@ -101,10 +98,34 @@ function main(): void {
     verweiseEntfernt,
     titles,
     jpStartAnzeige,
+    releases,
     events,
+  })
+}
+
+type Auslieferung = Omit<Parameters<typeof schreibeDatensatzGemessen>[0], 'allTitles' | 'meta' | 'kanalJeAdresse'> & {
+  synchro: Pick<ReturnType<typeof pruefeSynchroJePlattform>, 'kanalJeAdresse' | 'motnBelege'>
+  quarantaene: ZurueckgestellterTitel[]
+}
+
+/** Ab `baueMeta` beginnt die Auslieferung: Meta, Datensatz, Abo-Feeds. */
+function liefereAus({ synchro, quarantaene, ...rest }: Auslieferung): void {
+  const { titles, releases, events } = rest
+  const { allTitles, meta, platforms, genres, keywords } = baueMeta({
+    titles,
+    releases,
+    events,
+    motnBelege: synchro.motnBelege,
+  })
+  vermerkeQuarantaene(meta, quarantaene)
+  const { newsFuerRss } = schreibeDatensatzGemessen({
+    ...rest,
+    allTitles,
+    kanalJeAdresse: synchro.kanalJeAdresse,
     meta,
   })
   schreibeAboFeeds({ newsFuerRss, events, platforms, allTitles, genres, meta, keywords })
+  schreibeEmpfehlung()
 }
 
 merkeBestandVorher()

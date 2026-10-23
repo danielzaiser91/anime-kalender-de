@@ -1,5 +1,5 @@
 /**
- * Kulissentest: die echten Erzeuger der Prüflisten (Netflix und Prime) laufen in einem Wegwerf-Ordner (`AK_WURZEL`) auf
+ * Kulissentest: die echten Erzeuger der Prüflisten (Netflix und Prime) laufen in einem Wegwerf-Ordner (`AK_ROOT`) auf
  * festen Eingaben, danach prüft der Wächter (`tools/pruefliste-asid.mjs`) das Ergebnis. Je Auswahlstelle drei Kandidaten
  * mit verschiedener aniSearch-Kennung, der richtige in der Mitte.
  * Aufruf: node tools/pruefliste-asid.test.mjs
@@ -38,10 +38,17 @@ const TITEL = [
   titel(51, 5051, {}),
   titel(52, 5052, {}),
   titel(53, 5053, {}),
+  /* Ohne aniSearch-Kennung: die Liste trägt null, nie die Titel-id (je Auswahlstelle einer). */
+  titel(61, null, { streams: [netflix(444)] }),
+  titel(34, null, { streams: [suche('Fuenf')] }),
+  titel(44, null, {}),
+  titel(54, null, {}),
 ]
-const STAFFELN = { 222: { staffeln: [1, 2, 3].map((seq) => ({ seq, name: `S${seq}`, folgen: 20 })) } }
-const VORSCHLAEGE = [41, 42, 43].map((id) => ({ id, titel: `Vorschlag ${id}`, anbieter: ['primevideo'] }))
-const WIDERSPRUCH = { faelle: [51, 52, 53].map((id) => ({ art: 'andere-ausgabe', platform: 'primevideo', titleId: id, titel: `Kanal ${id}`, anbieter: 'Kanal' })) }
+/* Cartoons: negative Kennung, nie eine aniSearch-Kennung. */
+const CARTOONS = [titel(-61, null, { streams: [netflix(333)] }), titel(-62, null, { streams: [suche('Vier')] })]
+const STAFFELN = { 444: { staffeln: [1, 2].map((seq) => ({ seq, name: `S${seq}`, folgen: 20 })) }, 222: { staffeln: [1, 2, 3].map((seq) => ({ seq, name: `S${seq}`, folgen: 20 })) } }
+const VORSCHLAEGE = [41, 42, 43, 44].map((id) => ({ id, titel: `Vorschlag ${id}`, anbieter: ['primevideo'] }))
+const WIDERSPRUCH = { faelle: [51, 52, 53, 54].map((id) => ({ art: 'andere-ausgabe', platform: 'primevideo', titleId: id, titel: `Kanal ${id}`, anbieter: 'Kanal' })) }
 
 function schreibe(wurzel, pfad, inhalt) {
   const ziel = join(wurzel, pfad)
@@ -52,12 +59,13 @@ function schreibe(wurzel, pfad, inhalt) {
 function kulisse() {
   const wurzel = mkdtempSync(join(tmpdir(), 'asid-kulisse-'))
   schreibe(wurzel, 'public/data/titles.json', TITEL)
-  schreibe(wurzel, 'public/data/cartoons.json', [])
+  schreibe(wurzel, 'public/data/cartoons.json', CARTOONS)
   schreibe(wurzel, 'public/data/releases.json', [])
   schreibe(wurzel, 'data/anbieter-staffeln.json', STAFFELN)
   schreibe(wurzel, 'data/anbieter-vorschlaege.json', VORSCHLAEGE)
   schreibe(wurzel, 'data/kanal-widerspruch.json', WIDERSPRUCH)
   schreibe(wurzel, 'data/link-check.json', {})
+  schreibe(wurzel, 'data/pruefliste-regeln.json', { erweitert: true })
   mkdirSync(join(wurzel, 'extension'), { recursive: true })
   writeFileSync(join(wurzel, 'data/dub-confirmed.yaml'), '[]\n')
   return wurzel
@@ -65,7 +73,7 @@ function kulisse() {
 
 function erzeuge(wurzel) {
   for (const skript of ['extension-offene-liste.mjs', 'extension-offene-amazon.mjs']) {
-    const lauf = spawnSync(process.execPath, [resolve(tools, skript)], { env: { ...process.env, AK_WURZEL: wurzel }, encoding: 'utf8' })
+    const lauf = spawnSync(process.execPath, [resolve(tools, skript)], { env: { ...process.env, AK_ROOT: wurzel }, encoding: 'utf8' })
     assert.equal(lauf.status, 0, `${skript}: ${lauf.stderr}`)
   }
 }
@@ -74,9 +82,11 @@ const lies = (wurzel, datei) => readFileSync(join(wurzel, datei), 'utf8')
 const netflixListe = (wurzel) => JSON.parse(lies(wurzel, 'extension/offene-netflix.js').replace(/^[^{]*=\s*/, ''))
 const primeListe = (wurzel) => JSON.parse(lies(wurzel, 'public/data/prime-suche.json'))
 
-/* Ein Eintrag, dessen Titel der Bestand nicht kennt (Cartoon), ist kein Paar und kein Fehler. */
+/* Ein Eintrag, dessen Titel der Bestand nicht kennt (Cartoon), ist kein Paar; mit Kennung ist er ein Fehler. */
 const bekannt = new Map([[1, { id: 1, anisearchId: 7 }]])
-assert.deepEqual(abweichungen([['a', 99, 3], ['b', 1, 7]], bekannt), { paare: 1, schlecht: [] })
+assert.deepEqual(abweichungen([['a', 99, null], ['b', 1, 7]], bekannt), { paare: 1, schlecht: [] })
+assert.equal(abweichungen([['a', 99, 3]], bekannt).schlecht.length, 1)
+assert.equal(abweichungen([['a', -99, -99]], bekannt).schlecht.length, 1)
 
 const wurzel = kulisse()
 try {
@@ -89,13 +99,19 @@ try {
   assert.equal(nf['222'].laut, 'anbieter', 'Vorbedingung: Zählung des Anbieters ohne eigene Rechnung')
   assert.equal(nf['222'].staffeln[0].id, undefined, 'Vorbedingung: der Mehrkandidaten-Fall trägt keine Titel-id an der Staffel')
 
+  assert.equal(nf['444'].asTitel, 61, 'Netflix mit Anbieter-Zählung, Titel ohne Kennung')
+  assert.equal(nf['444'].asId, null)
+  assert.equal(nf['333']?.asTitel, -61, 'Vorbedingung: Netflix-Cartoon steht in der Liste')
+  assert.equal(nf['333'].asId, null, 'Cartoon trägt keine aniSearch-Kennung')
+
   const pr = primeListe(wurzel)
   const nachId = (id) => Object.values(pr).filter((e) => e.id === id)
   assert.deepEqual(nachId(10000032).map((e) => e.asId), [32], 'aniSearch-eigener Titel ohne Tabelleneintrag trägt seine Kennung')
   assert.deepEqual(nachId(31).map((e) => e.asId), [5031], 'Suchadresse im Titel')
   assert.deepEqual(nachId(42).map((e) => e.asId), [5042], 'Vorschlag')
   assert.deepEqual(nachId(52).map((e) => e.asId), [5052], 'zweite Ausgabe (Kanal-Widerspruch)')
-  assert.equal(Object.keys(pr).length, 9, 'Prime: neun Suchen aus drei Quellen')
+  for (const id of [34, 44, 54]) assert.deepEqual(nachId(id).map((e) => e.asId), [null], `Titel ${id} ohne Kennung: null`)
+  assert.equal(Object.keys(pr).length, 12, 'Prime: zwölf Suchen aus drei Quellen')
 
   assert.deepEqual(pruefeAsId(wurzel), [], 'Erzeugnis des echten Laufs besteht den Wächter')
 

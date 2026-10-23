@@ -1,0 +1,178 @@
+/**
+ * Fälle zum Wächter `check-sammler-lesezugriffe.ts` (20.10.2026): der Scanner gegen die Umgehungen (Namensraum, Alias, fs/promises,
+ * dynamischer Import, Zugriff über `globalThis[...]`, Re-Export), die Entscheidung über Liste, Gründe und Zeitfenster-Dateien,
+ * und der Lauf gegen eine Kulisse im Temp-Ordner samt Prozess-Exitcode. Aufruf: npm run check:logic oder `tsx pipeline/check-sammler-lesezugriffe-faelle.ts`
+ */
+import { spawnSync } from 'node:child_process'
+import { rmSync } from 'node:fs'
+import { join } from 'node:path'
+import { lauf, pruefeZugriffe, sammleFunde, type Zulassung } from './check-sammler-lesezugriffe.ts'
+import { findeLesezugriffe } from './lib/sammler-lesezugriffe.ts'
+import { legeKulisseAn } from './lib/sammler-lesezugriffe-kulisse.ts'
+
+let verletzt = 0
+let faelle = 0
+function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
+  faelle++
+  if (ok) return
+  verletzt++
+  console.error(`  ✖ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
+}
+
+const art = (text: string): string => findeLesezugriffe('x.ts', text).map((f) => `${f.ziel}:${f.art}`).join()
+const KULISSE = `const kulisse = mkdtempSync(join(tmpdir(), 'x'))\n`
+const IMP =`import { readFileSync, appendFileSync } from 'node:fs'\nimport { join, resolve } from 'node:path'\n`
+
+console.log('\nScanner: was als Lesen zählt')
+pruefe('readFileSync mit festem Pfad', art(`${IMP}readFileSync('data/a.json', 'utf8')`) === 'data/a.json:lesen')
+pruefe('readJson mit Typargument', art(`readJson<Record<string, unknown>>('data/a.json', {})`) === 'data/a.json:lesen')
+pruefe('new URL(…, import.meta.url) im Lesen', art(`readFileSync(new URL('../data/a.json', import.meta.url), 'utf8')`) === 'data/a.json:lesen')
+pruefe('resolve(ROOT, …) im Lesen', art(`${IMP}readJson(resolve(ROOT, 'data/a.json'), {})`) === 'data/a.json:lesen')
+pruefe('resolve(import.meta.dirname, …) im Lesen', art(`${IMP}readFileSync(resolve(import.meta.dirname, '../data/a.json'), 'utf8')`) === 'data/a.json:lesen')
+pruefe('resolve mit dem Pfad allein (ab cwd)', art(`${IMP}readFileSync(resolve('data/a.json'), 'utf8')`) === 'data/a.json:lesen')
+pruefe('existsSync zählt (die Datei muss da sein)', art(`existsSync('data/a.json')`) === 'data/a.json:lesen')
+pruefe('ladeAkVon (Leser der Kennungsdatei)', art(`ladeAkVon('data/kennungen.json')`) === 'data/kennungen.json:lesen')
+pruefe('WURZEL wie ROOT', art(`readJson(resolve(WURZEL, 'data/a.json'), {})`) === 'data/a.json:lesen')
+for (const endung of ['json', 'jsonl', 'yaml', 'yml', 'md', 'txt']) pruefe(`Endung .${endung}`, art(`readFileSync('data/a.${endung}')`) === `data/a.${endung}:lesen`)
+pruefe('Pfad mit ./ und ../../ davor', art(`readFileSync('./data/a.json')`) === 'data/a.json:lesen' && art(`readFileSync('../../data/a.json')`) === 'data/a.json:lesen')
+pruefe('Pfad als Vorlagentext ohne Platzhalter', art('readFileSync(`data/a.json`)') === 'data/a.json:lesen')
+pruefe('fileURLToPath um new URL bleibt ein Repo-Lesen', art(`readFileSync(fileURLToPath(new URL('../data/a.json', import.meta.url)), 'utf8')`) === 'data/a.json:lesen')
+pruefe('process.cwd() als Wurzel ist der Repo-Ordner', art(`readFileSync(join(process.cwd(), 'data/a.json'), 'utf8')`) === 'data/a.json:lesen')
+console.log('\nScanner: was nicht zählt')
+pruefe('join(kulisse, …) mit mkdtemp-Deklaration ist eine Kulisse', art(`${KULISSE}readFileSync(join(kulisse, 'data/a.json'), 'utf8')`) === '')
+pruefe('Kulisse über tmpdir und über legeKulisseAn erkannt', art(`const k = join(tmpdir(), 'x')\nreadFileSync(join(k, 'data/a.json'))`) === '' && art(`const k = legeKulisseAn({})\nreadFileSync(join(k, 'data/a.json'))`) === '')
+pruefe('Schreiben zählt nicht', art(`${IMP}appendFileSync('data/a.json', '{}')`) === '' && art(`schreibe(wurzel, 'data/a.json', {})`) === '')
+pruefe('public/data, data/curated und Pfade mit Platzhalter zählen nicht', art(`readFileSync('public/data/a.json')`) === '' && art(`readFileSync('data/curated/a.yaml')`) === '')
+for (const name of ['includes', 'indexOf', 'startsWith', 'endsWith']) pruefe(`Zeichenketten-Vergleich ${name} liest nichts`, art(`quelle.${name}('data/a.json')`) === '')
+pruefe('Schreiben mit anderen Namen zählt nicht', ['rmSync', 'unlinkSync', 'mkdirSync', 'copyFileSync'].every((n) => art(`${n}('data/a.json')`) === ''))
+pruefe('Hilfsfunktion schreibe mit dem Pfad als erstem Argument zählt nicht', art(`schreibe('data/a.json', {})`) === '')
+pruefe('new URL gegen einen fremden Ort ist keine Repo-Datei', art(`readFileSync(new URL('../data/a.json', 'file:///tmp/x/'), 'utf8')`) === '')
+pruefe('Wurzel-Hilfsfunktion mit deklarierter Kulisse zählt nicht', art(`${KULISSE}lies(kulisse, 'data/a.json')`) === '')
+pruefe('Schreiben mit Platzhalter-Pfad zählt nicht', art('appendFileSync(`${w}/data/a.json`, "")') === '')
+console.log('\nScanner: Wurzel nicht bestimmbar oder anders geschrieben (Segmente, Vorlagentext)')
+pruefe('Segmente einzeln: join(ROOT, data, Datei) (der Anlassfall ohne Schrägstrich)', art(`readFileSync(join(ROOT, 'data', 'crunchyroll-woche-belege.json'))`) === 'data/crunchyroll-woche-belege.json:lesen')
+pruefe('Segmente einzeln mit resolve und process.cwd()', art(`readJson(resolve(process.cwd(), 'data', 'a.json'), {})`) === 'data/a.json:lesen')
+pruefe('Segmente ab cwd: join(data, Datei)', art(`readFileSync(join('data', 'a.json'))`) === 'data/a.json:lesen')
+pruefe('Segmente mit deklarierter Kulisse zählen nicht', art(`${KULISSE}readFileSync(join(kulisse, 'data', 'a.json'))`) === '')
+pruefe('Segmente mit unbestimmbarer Wurzel: „?“', art(`readFileSync(join(optionen.wurzel, 'data', 'a.json'))`) === 'data/a.json:?')
+pruefe('Segmente nur als Datei ohne data davor zählen nicht', art(`readFileSync(join(ROOT, 'public', 'a.json'))`) === '')
+pruefe('Vorlagentext mit ROOT', art('readFileSync(`${ROOT}/data/a.json`)') === 'data/a.json:lesen')
+pruefe('Vorlagentext mit deklarierter Kulisse zählt nicht', art(`${KULISSE}readFileSync(\`\${kulisse}/data/a.json\`)`) === '')
+pruefe('Vorlagentext mit unbekannter Wurzel: „?“', art('readFileSync(`${w}/data/a.json`)') === 'data/a.json:?')
+pruefe('Vorlagentext mit Wurzel aus import.meta (Deklaration)', art('const root = resolve(import.meta.dirname, "..")\nreadFileSync(`${root}/data/a.json`)') === 'data/a.json:lesen')
+pruefe('Kulisse allein über mkdtemp erkannt', art(`const k = mkdtempSync(prefix)\nreadFileSync(join(k, 'data/a.json'))`) === '')
+pruefe('Wurzel als Klammerzugriff: „?“', art(`readFileSync(join(optionen['wurzel'], 'data', 'a.json'))`) === 'data/a.json:?')
+pruefe('unbekannte Hilfsfunktion um den Pfad: „?“', art(`readFileSync(pfadVon('data/a.json'))`) === 'data/a.json:?')
+pruefe('Segmente als Vorlagentext ohne Platzhalter', art('readFileSync(join(ROOT, `data`, `a.json`))') === 'data/a.json:lesen')
+pruefe('Segment „data“ als Variable ist kein Segment', art(`readFileSync(join(ROOT, data, 'a.json'))`) === '')
+pruefe('Unterordner unter data/ ist nicht erfasst', art(`readFileSync(join(ROOT, 'data', 'unter', 'a.json'))`) === '')
+pruefe('join ohne Argumente stürzt nicht ab', art(`join()`) === '' && art('`${a}${b}`') === '')
+pruefe('Vorlagentext mit Text vor dem Platzhalter: „?“, auch mit ROOT', art('readFileSync(`x/${ROOT}/data/a.json`)') === 'data/a.json:?')
+pruefe('Vorlagentext mit zwei Platzhaltern (Endung dynamisch) ist kein fester Pfad', art('readFileSync(`${ROOT}/data/a.json${s}`)') === '')
+pruefe('Wurzel aus einem Parameter bleibt „?“', art(`function f(wurzel: string) { return readFileSync(join(wurzel, 'data/a.json')) }`) === 'data/a.json:?')
+pruefe('Wurzel mit zwei Herkünften (Kulisse und echt) bleibt „?“', art(`${KULISSE}{ const kulisse = ROOT }\nreadFileSync(join(kulisse, 'data/a.json'))`) === 'data/a.json:?')
+pruefe('ein anderer Aufruf als Wurzel: „?“', art(`readFileSync(join(process.cwdx(), 'data/a.json'), 'utf8')`) === 'data/a.json:?')
+console.log('\nScanner: Umgehungen werden Lesen oder „?“, nie still ignoriert')
+pruefe('Hilfsfunktion mit der echten Wurzel (ROOT) vor dem Pfad: „?“', art(`lies(ROOT, 'data/a.json')`) === 'data/a.json:?')
+pruefe('Hilfsfunktion mit einem Ausdruck als Wurzel (nicht nur Name): „?“', art(`lies(optionen.wurzel, 'data/a.json')`) === 'data/a.json:?')
+pruefe('Namensraum-Import', art(`import * as fs from 'node:fs'\nfs.readFileSync('data/a.json', 'utf8')`) === 'data/a.json:lesen')
+pruefe('Alias-Import', art(`import { readFileSync as r } from 'node:fs'\nr('data/a.json', 'utf8')`) === 'data/a.json:?')
+pruefe('fs/promises', art(`import { readFile } from 'node:fs/promises'\nawait readFile('data/a.json', 'utf8')`) === 'data/a.json:lesen')
+pruefe('dynamischer Import', art(`const fs = await import('node:fs')\nfs.readFileSync('data/a.json', 'utf8')`) === 'data/a.json:lesen')
+pruefe('Zugriff über globalThis[...]', art(`globalThis['process'].binding('fs')['readFileSync']('data/a.json')`) === 'data/a.json:?')
+pruefe('Re-Export unter anderem Namen', art(`import { lies } from './fs-neu.ts'\nlies('data/a.json')`) === 'data/a.json:?')
+pruefe('Pfad in einer Konstante', art(`const DATEI = 'data/a.json'\nreadFileSync(DATEI)`) === 'data/a.json:?')
+pruefe('Pfad in einer Liste', art(`for (const p of ['data/a.json', 'data/b.json']) readFileSync(p)`) === 'data/a.json:?,data/b.json:?')
+pruefe('zwei Lesezugriffe derselben Datei: beide gefunden', art(`readFileSync('data/a.json')\nreadJson('data/a.json', {})`) === 'data/a.json:lesen,data/a.json:lesen')
+
+console.log('\nScanner: lazy ladende Helfer aus anisearch-marke.ts (mittelbares Lesen)')
+const MARKE = `import { deutschMarke, dubsNachTitel, dubIdsNachAnisearch } from './lib/anisearch-marke.ts'\n`
+const DUBS = 'data/anisearch-dubs.json'
+const DUB_IDS = 'data/anisearch-dub-ids.json'
+pruefe('deutschMarke mit Zahlenliteral: Lesen', art(`${MARKE}deutschMarke(204011)`) === `${DUBS}:lesen`)
+pruefe('deutschMarke mit Zeichenkette: Lesen', art(`${MARKE}deutschMarke('204011')`) === `${DUBS}:lesen`)
+pruefe('deutschMarke mit Variable: „?“', art(`${MARKE}deutschMarke(id)`) === `${DUBS}:?`)
+pruefe('dubsNachTitel() mit festem Schlüssel: Lesen, mit Zahl und mit Zeichenkette', art(`${MARKE}dubsNachTitel()[204011]`) === `${DUBS}:lesen` && art(`${MARKE}dubsNachTitel()['204011']`) === `${DUBS}:lesen`)
+pruefe('dubsNachTitel()[variable]: „?“', art(`${MARKE}dubsNachTitel()[id]`) === `${DUBS}:?`)
+pruefe('dubsNachTitel() als ganze Karte (Argument einer Funktion): „?“', art(`${MARKE}Object.entries(dubsNachTitel())`) === `${DUBS}:?`)
+pruefe('dubsNachTitel() an eine Variable gebunden, dann indiziert: „?“', art(`${MARKE}const k = dubsNachTitel()\nk[204011]`) === `${DUBS}:?`)
+pruefe('dubsNachTitel() destrukturiert: „?“', art(`${MARKE}const { 204011: m } = dubsNachTitel()`) === `${DUBS}:?`)
+pruefe('dubsNachTitel() mit Punktzugriff (.entries): „?“', art(`${MARKE}dubsNachTitel().x`) === `${DUBS}:?`)
+pruefe('dubIdsNachAnisearch() als ganze Karte: „?“ auf die Kennungsliste', art(`${MARKE}const ids = dubIdsNachAnisearch()`) === `${DUB_IDS}:?`)
+pruefe('dubsNachTitel()?.[Literal] (optionale Kette): Lesen', art(`${MARKE}dubsNachTitel()?.[204011]`) === `${DUBS}:lesen`)
+pruefe('dubIdsNachAnisearch()[Literal]: Lesen auf die Kennungsliste', art(`${MARKE}dubIdsNachAnisearch()[18892]`) === `${DUB_IDS}:lesen`)
+pruefe('Alias-Import', art(`import { deutschMarke as marke } from '../lib/anisearch-marke.ts'\nmarke(123)`) === `${DUBS}:lesen`)
+pruefe('Namensraum-Import: m.deutschMarke(123)', art(`import * as m from './lib/anisearch-marke.ts'\nm.deutschMarke(123)`) === `${DUBS}:lesen`)
+pruefe('Namensraum-Import: m.dubsNachTitel()[123]', art(`import * as m from './lib/anisearch-marke.ts'\nm.dubsNachTitel()[123]`) === `${DUBS}:lesen`)
+pruefe('Namensraum: Klammerzugriff m[\'deutschMarke\'](123): „?“', art(`import * as m from './lib/anisearch-marke.ts'\nm['deutschMarke'](123)`) === `${DUBS}:?`)
+pruefe('Namensraum weitergereicht: „?“', art(`import * as m from './lib/anisearch-marke.ts'\nsonst(m)`) === `${DUBS}:?`)
+pruefe('Name als Wert weitergereicht (every(deutschMarke)): „?“', art(`${MARKE}[1, 2].every(deutschMarke)`) === `${DUBS}:?`)
+pruefe('Helfer-Name als Argument einer Funktion (ohne Aufruf): „?“', art(`${MARKE}Object.entries(dubsNachTitel)`) === `${DUBS}:?`)
+pruefe('Name einer Variablen zugewiesen: „?“', art(`${MARKE}const f = deutschMarke\nf(123)`) === `${DUBS}:?`)
+pruefe('Import ohne Endung und mit .js', art(`import { deutschMarke } from './lib/anisearch-marke'\ndeutschMarke(1)`) === `${DUBS}:lesen` && art(`import { deutschMarke } from './lib/anisearch-marke.js'\ndeutschMarke(1)`) === `${DUBS}:lesen`)
+pruefe('Re-Export des Moduls: „?“', art(`export { deutschMarke } from './lib/anisearch-marke.ts'`) === `${DUBS}:?`)
+pruefe('dynamischer Import des Moduls: „?“', art(`const m = await import('./lib/anisearch-marke.ts')\nm.deutschMarke(1)`) === `${DUBS}:?`)
+pruefe('Standard-Import des Moduls: „?“', art(`import marke from './lib/anisearch-marke.ts'`) === `${DUBS}:?`)
+pruefe('ein gleichnamiger Helfer aus einem anderen Modul zählt nicht', art(`import { deutschMarke } from './anderswo.ts'\ndeutschMarke(123)`) === '')
+pruefe('nur setzeMarkenFuerPruefung importiert (Kulisse): nichts', art(`import { setzeMarkenFuerPruefung } from './lib/anisearch-marke.ts'\nsetzeMarkenFuerPruefung({})`) === '')
+pruefe('Helfer importiert, nie aufgerufen: nichts', art(MARKE) === '')
+pruefe('mehrere Aufrufe: je einer', art(`${MARKE}deutschMarke(1)\ndeutschMarke(2)`) === `${DUBS}:lesen,${DUBS}:lesen`)
+
+console.log('\nEntscheidung: Liste, Gründe, Zeitfenster')
+const gut = 'ganze Datei als Eingabe, kein fester Schlüssel'
+const zul = (datei: string, liest: string, grund = gut): Zulassung => ({ datei, liest, grund })
+const funde = (...paare: [string, string][]) => new Map(paare.map(([d, z]) => [d, new Set([z])]))
+const fehler = (f: Map<string, Set<string>>, l: Zulassung[]) => pruefeZugriffe(f, l)
+pruefe('gelisteter Zugriff mit Grund: grün', fehler(funde(['pipeline/a.ts', 'data/a.json']), [zul('pipeline/a.ts', 'data/a.json')]).length === 0)
+pruefe('Zugriff ohne Eintrag: rot', fehler(funde(['pipeline/a.ts', 'data/a.json']), []).length === 1)
+pruefe('gleiche Datei, zweite Prüfung ohne Eintrag: rot', fehler(new Map([['pipeline/a.ts', new Set(['data/a.json'])], ['pipeline/b.ts', new Set(['data/a.json'])]]), [zul('pipeline/a.ts', 'data/a.json')]).length === 1)
+pruefe('Eintrag ohne Zugriff (veraltet): rot', fehler(new Map(), [zul('pipeline/a.ts', 'data/a.json')]).length === 1)
+pruefe('Grund mit 19 Zeichen: rot, mit 20: grün', fehler(funde(['pipeline/a.ts', 'data/a.json']), [zul('pipeline/a.ts', 'data/a.json', 'x'.repeat(19))]).length === 1 && fehler(funde(['pipeline/a.ts', 'data/a.json']), [zul('pipeline/a.ts', 'data/a.json', 'x'.repeat(20))]).length === 0)
+pruefe('Grund nur aus Leerzeichen: rot', fehler(funde(['pipeline/a.ts', 'data/a.json']), [zul('pipeline/a.ts', 'data/a.json', ' '.repeat(30))]).length === 1)
+pruefe('leerer Grund: rot', fehler(funde(['pipeline/a.ts', 'data/a.json']), [zul('pipeline/a.ts', 'data/a.json', '')]).length === 1)
+for (const z of ['data/crunchyroll-woche-belege.json', 'data/crunchyroll-woche.json', 'data/crunchyroll.json']) {
+  pruefe(`${z}: rot, auch mit Eintrag`, fehler(funde(['pipeline/a.ts', z]), [zul('pipeline/a.ts', z)]).length === 2, fehler(funde(['pipeline/a.ts', z]), [zul('pipeline/a.ts', z)]))
+}
+pruefe('Handdateien (YAML, -von-hand.json) brauchen keinen Eintrag', fehler(funde(['pipeline/a.ts', 'data/dub-confirmed.yaml']), []).length === 0 && fehler(funde(['pipeline/a.ts', 'data/prime-seiten-von-hand.json']), []).length === 0)
+pruefe('.yml ist eine Handdatei, .yaml.json (Endung nur am Ende) nicht', fehler(funde(['pipeline/a.ts', 'data/a.yml']), []).length === 0 && fehler(funde(['pipeline/a.ts', 'data/a.yaml.json']), []).length === 1)
+pruefe('eine ähnlich benannte Sammlerdatei ist keine Handdatei', fehler(funde(['pipeline/a.ts', 'data/von-hand-liste.json']), []).length === 1)
+
+console.log('\nLauf gegen eine Kulisse (Quelle und Ziel aus dem Wurzel-Argument)')
+const LISTE_TXT = '# Kopf\npipeline/check-a.ts\npipeline/check-b.ts\ntools/x.test.ts\n'
+const gelistet = JSON.stringify([zul('pipeline/check-a.ts', 'data/a.json')])
+const basis = { 'tools/check-logic-liste.txt': LISTE_TXT, 'tools/sammler-lesezugriffe.json': gelistet, 'pipeline/check-a.ts': `readJson('data/a.json', {})`, 'pipeline/check-b.ts': `appendFileSync('data/b.json', '')`,'tools/x.test.ts': `join(kulisse, 'data/c.json')\nconst L = ['data/d.json']` }
+const w1 = legeKulisseAn(basis)
+pruefe('Kulisse grün: gelisteter Zugriff, Schreiben und Kulisse in tools/ stören nicht', lauf(w1).fehler.length === 0 && lauf(w1).zeile.includes('1 Lesezugriffe begründet in 1 Prüfungen'), lauf(w1))
+pruefe('sammleFunde: nur pipeline/check-a.ts, tools/ zählt nur echtes Lesen', [...sammleFunde(w1).keys()].join() === 'pipeline/check-a.ts')
+const w2 = legeKulisseAn({ ...basis, 'pipeline/check-b.ts': `readJson('data/b.json', {})` })
+pruefe('neuer fester Lesezugriff in einer Prüfung der Liste: rot', lauf(w2).fehler.length === 1 && lauf(w2).fehler[0]!.includes('pipeline/check-b.ts'), lauf(w2).fehler)
+const w3 = legeKulisseAn({ ...basis, 'pipeline/check-b.ts': `readFileSync(new URL('../data/crunchyroll-woche-belege.json', import.meta.url), 'utf8')` })
+pruefe('Lesen der Wochen-Belege (der Anlass) in einer Prüfung der Liste: rot', lauf(w3).fehler.some((f) => f.includes('Zeitfenster')), lauf(w3).fehler)
+const w4 = legeKulisseAn({ ...basis, 'tools/y.test.ts': `readFileSync('data/e.json', 'utf8')` })
+pruefe('Lesen in einem Test unter tools/ (nicht in der Liste): rot', lauf(w4).fehler.length === 1 && lauf(w4).fehler[0]!.includes('tools/y.test.ts'), lauf(w4).fehler)
+const w7 = legeKulisseAn({ ...basis, 'tools/z.test.mjs': `readFileSync('data/e.json', 'utf8')` })
+pruefe('Lesen in einem .test.mjs unter tools/: rot', lauf(w7).fehler.length === 1 && lauf(w7).fehler[0]!.includes('tools/z.test.mjs'), lauf(w7).fehler)
+const w9 = legeKulisseAn({ ...basis, 'pipeline/check-b.ts': `import { deutschMarke } from './lib/anisearch-marke.ts'\nconsole.log(deutschMarke(123))` })
+pruefe('mittelbares Lesen (deutschMarke(123)) in einer Prüfung der Liste: rot, mit Eintrag grün', lauf(w9).fehler.length === 1 && lauf(w9).fehler[0]!.includes('data/anisearch-dubs.json') && lauf(w9).fehler[0]!.includes('pipeline/check-b.ts'), lauf(w9).fehler)
+const w10 = legeKulisseAn({ ...basis, 'tools/sammler-lesezugriffe.json': JSON.stringify([zul('pipeline/check-a.ts', 'data/a.json'), zul('pipeline/check-b.ts', 'data/anisearch-dubs.json')]), 'pipeline/check-b.ts': `import { deutschMarke } from './lib/anisearch-marke.ts'\nconsole.log(deutschMarke(123))` })
+pruefe('mittelbares Lesen mit Eintrag und Grund: grün', lauf(w10).fehler.length === 0, lauf(w10).fehler)
+const w5 =legeKulisseAn({ ...basis, 'pipeline/check-c.ts': `readJson('data/e.json', {})` })
+pruefe('Prüfung außerhalb der Liste (läuft nicht in check:logic): nicht gezählt', lauf(w5).fehler.length === 0)
+const w8 = legeKulisseAn({ ...basis, 'pipeline/check-b.ts': `const DATEI = 'data/b.json'` })
+pruefe('Pfad in einer Konstante einer Prüfung der Liste („?“): rot', lauf(w8).fehler.length === 1 && lauf(w8).fehler[0]!.includes('data/b.json'), lauf(w8).fehler)
+const selbst = { 'pipeline/check-sammler-lesezugriffe-faelle.ts': `readJson('data/e.json', {})`, 'pipeline/check-sammler-lesezugriffe.ts': `readJson('data/f.json', {})` }
+const w6 = legeKulisseAn({ ...basis, ...selbst, 'tools/check-logic-liste.txt': LISTE_TXT + 'pipeline/check-sammler-lesezugriffe-faelle.ts\npipeline/check-sammler-lesezugriffe.ts\n' })
+pruefe('der Wächter und seine Fälle werden nicht mitgescannt', lauf(w6).fehler.length === 0)
+const skript = join(import.meta.dirname, 'check-sammler-lesezugriffe.ts')
+const starte = (w: string) => spawnSync(process.execPath, ['--import', 'tsx', skript, w], { encoding: 'utf8', windowsHide: true })
+const rot = starte(w3)
+const gruen = starte(w1)
+pruefe('Prozess: Exitcode 1 bei Verstoß, Meldung auf stderr', rot.status === 1 && rot.stderr.includes('Zeitfenster'), [rot.status, rot.stderr])
+pruefe('Prozess: Exitcode 0 und Ergebniszeile bei sauberer Kulisse', gruen.status === 0 && gruen.stdout.startsWith('check-sammler-lesezugriffe: 1 Lesezugriffe begründet'), [gruen.status, gruen.stdout, gruen.stderr])
+for (const w of [w1, w2, w3, w4, w5, w6, w7, w8, w9, w10]) rmSync(w, { recursive: true, force: true })
+
+if (verletzt) {
+  console.error(`\n${verletzt} von ${faelle} Zusicherungen verletzt.`)
+  process.exit(1)
+}
+console.log(`\ncheck-sammler-lesezugriffe-faelle: ${faelle} Zusicherungen erfüllt (Scanner, Entscheidung, Kulisse, Prozess).`)

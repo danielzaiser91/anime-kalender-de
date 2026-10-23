@@ -75,6 +75,8 @@ const zahl = (name: string, fallback: number) => {
  * gehört nicht diesem Skript allein.
  */
 const BUDGET = zahl('--budget', 120)
+/** Rest des Monatskontingents, den dieser Lauf nie anrührt: der Tageslauf (`fetch-motn-changes`, 4 je Tag) braucht ihn bis zum Reset. */
+const RESERVE = 130
 /** Ab wann eine gelesene Serie erneut drankommt. */
 const WIEDERVORLAGE_TAGE = zahl('--alter', 60)
 const NUR_KATALOG = args.includes('--nur-katalog')
@@ -119,7 +121,7 @@ type Antwort<T> =
   | { art: 'ende' }
 
 async function hole<T>(pfad: string, archivName: string): Promise<Antwort<T>> {
-  if (anfragen >= BUDGET) return { art: 'ende' }
+  if (anfragen >= BUDGET || uebrig <= RESERVE) return { art: 'ende' }
   anfragen++
   daten.verbrauch[monat] = (daten.verbrauch[monat] ?? 0) + 1
   const res = await fetch(`${BASIS}${pfad}`, {
@@ -217,7 +219,7 @@ async function nachTmdb(schluessel: string[]): Promise<number> {
 
   let gefunden = 0
   for (const key of warteschlange) {
-    if (anfragen >= BUDGET || uebrig <= 0) break
+    if (anfragen >= BUDGET || uebrig <= RESERVE) break
     const res = await hole<MotnShow>(
       `/shows/${key}?country=de&series_granularity=episode`,
       `tmdb-${key.replace('/', '-')}`,

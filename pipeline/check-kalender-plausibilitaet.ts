@@ -58,19 +58,25 @@ console.log('\nKalender-Plausibilität 2: belegtes Ende, trotzdem geschätzt')
 {
   const ende = { firstEpisodeDate: '2026-07-01', lastEpisodeDate: '2026-09-30', episodeCount: 12 }
   const b = {
-    titles: [titel(1), titel(2), titel(3), titel(4), titel(5)],
+    titles: [titel(1), titel(2), titel(3), titel(4), titel(5), titel(6), titel(7), titel(8), titel(9)],
     releases: [
       release(1, 'r1', { ...ende, episodeCountAssumed: true }),
       release(2, 'r2', ende),
       release(3, 'r3', { firstEpisodeDate: '2026-07-01', episodeCount: 12, observed: { 12: '2026-09-30' } }),
       release(4, 'r4', { ...ende, lastEpisodeDate: '2026-12-30', episodeCountAssumed: true }),
       release(5, 'r5', ende),
+      release(8, 'r8', { firstEpisodeDate: '2026-07-01', episodeCount: 12, episodeCountAssumed: false, observed: { 12: '2026-09-30' } }),
+      release(9, 'r9', { firstEpisodeDate: '2026-07-01', episodeCount: 12, observed: { 12: HEUTE } }),
+      release(6, 'r6', { firstEpisodeDate: '2026-07-01', episodeCount: 12, episodeCountAssumed: true, observed: { 12: HEUTE } }),
+      release(7, 'r7', { ...ende, observed: { 12: '2026-09-23' } }),
     ],
-    events: [ereignis(2, 'e2', '2026-10-07', { estimated: true }), ereignis(3, 'e3', '2026-09-30', { episodeCountAssumed: true }), ereignis(5, 'e5', '2026-09-23', { estimated: true })],
+    events: [ereignis(2, 'e2', '2026-10-07', { estimated: true }), ereignis(3, 'e3', '2026-09-30', { episodeCountAssumed: true }), ereignis(5, 'e5', '2026-09-23', { estimated: true }), ereignis(7, 'e7', '2026-09-27', { estimated: true }), ereignis(8, 'e8', '2026-09-30', { episodeCountAssumed: true }), ereignis(9, 'e9', HEUTE, { episodeCountAssumed: true })],
   }
   const ids = treffer('schaetzungNachEnde', b)
-  pruefe('„≈“ am Termin, geschätzter Termin danach, „≈“ am Ereignis nach beobachtetem Finale treffen', gleich(ids, [1, 2, 3]), ids)
+  pruefe('„≈“ am Termin, geschätzter Termin danach, „≈“ am Ereignis nach beobachtetem Finale treffen', gleich(ids, [1, 2, 3, 8, 9, 7]), ids)
   pruefe('Ende in der Zukunft und Schätzung vor dem Ende treffen nicht', !ids.includes(4) && !ids.includes(5), ids)
+  pruefe('Geschätzte Folgenzahl: die beobachtete „letzte“ Folge am Tag ist kein belegtes Ende', !ids.includes(6), ids)
+  pruefe('Ausdrücklich nicht geschätzt (false) und Finale genau am heutigen Tag zählen als belegtes Ende', ids.includes(8) && ids.includes(9), ids)
 }
 
 console.log('\nKalender-Plausibilität 3: „Sprache offen“ trotz gemessenem Deutsch')
@@ -89,6 +95,26 @@ console.log('\nKalender-Plausibilität 3: „Sprache offen“ trotz gemessenem D
   }
   const t = plausibilitaet({ releases: [], events: [], news: [], heute: HEUTE, ...b }).spracheOffenTrotzMeldung.map((x) => x.schluessel)
   pruefe('nur der offene Weg mit gemessenem Deutsch trifft', gleich(t as never, ['1|netflix'] as never), t)
+}
+{
+  /* Was der Bau nicht belegen darf (`urteilDarfBelegen`), trifft nicht: Kanal am Prime-Weg, alle Termine des Anbieters gekennzeichnet. */
+  const weg = (id: number, platform: string, extra = {}) => titel(id, { streams: [{ platform, url: `u${id}`, ...extra }] as never })
+  const titles = [
+    weg(20, 'netflix'),
+    titel(21, { streams: [{ platform: 'primevideo', url: 'u21', kanal: 'Aniverse' }, { platform: 'netflix', url: 'n21' }] as never }),
+    weg(22, 'netflix'),
+    weg(23, 'netflix'),
+    weg(24, 'netflix', { kanal: 'Aniverse' }),
+    weg(25, 'crunchyroll'),
+    weg(26, 'primevideo'),
+    /* 27: Kanal-Adresse nach der gti-Brücke nur in `seite` (Your Name 21519). */
+    weg(27, 'primevideo', { url: 'gti27', seite: 'k27' }),
+  ]
+  const termin = (titleId: number, platform: string, sprache?: string) => release(titleId, `r${titleId}${platform}${sprache}`, {}, { platform, sprache } as never)
+  const releases = [termin(22, 'netflix', 'offen'), termin(22, 'netflix', 'omu'), termin(23, 'netflix', 'offen'), termin(23, 'netflix'), termin(25, 'netflix', 'offen')]
+  const urteile = Object.fromEntries(titles.flatMap((x) => x.streams!.map((s) => [`${x.id}|${s.platform}|1`, urteil])))
+  const t = treffer('spracheOffenTrotzMeldung', { titles, releases, urteile, kanal: new Set([kanalSchluessel(27, 'k27')]) })
+  pruefe('Kanal am Prime-Weg (auch in `seite`) und lauter gekennzeichnete Termine treffen nicht, der Rest schon', gleich(t, [20, 21, 23, 24, 25, 26]), t)
 }
 
 console.log('\nKalender-Plausibilität 4: Ereignis ohne News')
@@ -126,6 +152,32 @@ console.log('\nKalender-Plausibilität 5: Termin ohne Quelle')
 {
   const ids = treffer('terminOhneBeleg', { titles: [titel(1), titel(2)], releases: [release(1, 'r1', {}, { sources: [] }), release(2, 'r2', {})] })
   pruefe('Termin ohne sources trifft, mit Quelle nicht', gleich(ids, [1]), ids)
+}
+
+console.log('\nKalender-Plausibilität 6: Prime-Termin nur mit Amazon-Suche')
+{
+  const such = 'https://www.amazon.de/s?k=Test&i=instant-video'
+  const seite = 'https://www.amazon.de/dp/B0HKCYH1C6'
+  const prime = (id: number, platformUrl?: string, extra: Partial<Release> = {}) => release(id, `p${id}`, {}, { platform: 'primevideo', releaseType: 'weekly', platformUrl, ...extra } as never)
+  const releases = [
+    prime(1, seite),
+    prime(2, such),
+    prime(3, undefined),
+    prime(4, such, { releaseType: 'disc' } as never),
+    prime(5, seite),
+    prime(6, 'https://www.amazon.de/gp/video/detail/B0HG69RT1Y'),
+    release(7, 'n7', {}, { platform: 'netflix', releaseType: 'weekly', platformUrl: 'https://www.netflix.com/search?q=x' } as never),
+    prime(8, such, { releaseType: 'movie' } as never),
+    prime(9, seite),
+    prime(10, 'https://www.amazon.de/s/ref=nb_sb_noss?k=Test'),
+    release(11, 'd11', {}, { platform: 'disneyplus', releaseType: 'weekly', platformUrl: 'https://www.disneyplus.com/search?q=x' } as never),
+    prime(12, seite),
+  ]
+  const ids = treffer('primeOhneTitelseite', { titles: [titel(2, { titleDe: 'Zwei' })], releases })
+  pruefe('Prime-Termine mit Suchadresse treffen (Serie und Film, beide Suchformen: /s?k= und /s/ref=…?k=)', gleich(ids, [2, 8, 10]), ids)
+  pruefe('Titelseite, fehlende Adresse, Disc-Suche und fremde Anbieter (Netflix, Disney+ mit Suchlink) treffen nicht', !ids.some((id) => [1, 3, 4, 5, 6, 7, 9, 11, 12].includes(id)), ids)
+  const text = plausibilitaet({ titles: [titel(2, { titleDe: 'Zwei' })], releases, events: [], news: [], urteile: {}, kanal: new Set(), heute: HEUTE }).primeOhneTitelseite[0]!
+  pruefe('der Treffer nennt Titel und Termin', text.schluessel === 'p2' && text.text.includes('Zwei') && text.text.includes('p2'), text)
 }
 
 console.log('\nKalender-Plausibilität: Wächter „Treffer dürfen nur sinken“ (Kulisse)')

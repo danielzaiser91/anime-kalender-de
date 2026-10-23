@@ -32,7 +32,7 @@ try {
   writeFileSync(join(probe, 'a', 'y.ts'), "export const k = 'border-red-500'\n")
   writeFileSync(join(probe, 'a', 'z.css'), '.a { color: var(--c); } /* rose-700 */\n')
   assert.equal(statusFunde(probe).length, 5, 'vier Farben in .tsx, .ts und .css werden gesehen')
-  writeFileSync(join(probe, 'a', 'x.tsx'), '<b className="text-ak-finale-text bg-ak-gut-grund text-ak-fehler-text">x</b>\n')
+  writeFileSync(join(probe, 'a', 'x.tsx'), '<b className="text-ak-favorit-text bg-ak-gut-grund text-ak-fehler-text">x</b>\n')
   writeFileSync(join(probe, 'a', 'y.ts'), "export const k = 'border-ak-fehler'\n")
   writeFileSync(join(probe, 'a', 'z.css'), '.a { color: var(--ak-gut); }\n')
   assert.equal(statusFunde(probe).length, 0, 'mit Tokens bleibt es grün')
@@ -63,7 +63,7 @@ assert.match(pilleDub, /belegt: 'bg-ak-gut text-ak-auf-gut'/, '✓ Deutsch in Gr
 assert.match(pilleDub, /offen: 'bg-ak-flaeche-2 text-ak-leise'/, 'Sprache offen ist Unsicherheit (leise), keine Warnung')
 
 const kopf = lies('components/Header.tsx')
-assert.match(kopf, /dunkel \? 'text-ak-finale' : 'text-ak-info'/, 'Themaknopf: Sonne Gold, Mond Info')
+assert.match(kopf, /dunkel \? 'text-ak-favorit' : 'text-ak-info'/, 'Themaknopf: Sonne Gold, Mond Info')
 
 const styles = lies('styles.css')
 assert.match(styles, /\.ak-immer-dunkel \{[^}]*--ak-fehler: #fb7185;[^}]*--ak-fehler-text: #fda4af;/, 'Beleg-Dialog hat die Dunkelfassung der Fehlerfarben')

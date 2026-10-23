@@ -35,8 +35,8 @@ import { createHash } from 'node:crypto'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-// AK_WURZEL: Kulissentest (tools/pruefliste-asid.test.mjs) lässt den echten Lauf in einem Wegwerf-Ordner arbeiten.
-const wurzel = process.env.AK_WURZEL ?? resolve(dirname(fileURLToPath(import.meta.url)), '..')
+// AK_ROOT: Kulissentest (tools/pruefliste-asid.test.mjs) lässt den echten Lauf in einem Wegwerf-Ordner arbeiten.
+const wurzel = process.env.AK_ROOT ?? resolve(dirname(fileURLToPath(import.meta.url)), '..')
 import { verdachtsFelder, verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
 import { ausgeblendet, brauchtUrteil, eintragsInfo, ladeBestand, ladeCartoons, nachRang, regeln, wartet } from './pruef-bestand.mjs'
 import { nachschlagVon } from './prime-nachschlag.mjs'

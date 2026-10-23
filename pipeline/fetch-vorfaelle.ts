@@ -21,12 +21,13 @@
  * `fetch-pruefungen.ts` mit seinem DELETE vermeidet. Was hier steht, ist also
  * immer der **neue** Stand seit dem letzten Lauf; die Datei sammelt nicht an.
  *
- * Aufruf: `npx tsx pipeline/fetch-vorfaelle.ts [--trocken]`
+ * Aufruf: `npx tsx pipeline/fetch-vorfaelle.ts [--trocken | --nur-loeschen]`
  */
 import { writeFileSync, mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { log, warn, ROOT } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { merkeZumQuittieren, quittiereGemerkte, VORFAELLE_LOESCHEN } from './lib/spaeter-quittieren.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN ?? ''
@@ -55,11 +56,17 @@ const ERKLAERUNG: Record<string, string> = {
     'Netflix hat den Durchlauf abgebrochen. `M7…` meint die Wiedergabe (zu viele Streams, Netz), `E1…`/`UI…`/`NSES-…` den Titel selbst.',
   melden_fehlgeschlagen: 'Die Meldung kam nicht beim Worker an — der Befund ist verloren.',
   ausnahme: 'Ein unerwarteter Fehler in der Erweiterung.',
+  'durchgang-zaehlung':
+    'Ende eines Netflix-Durchgangs: besucht, gemessen, wartet auf Übernahme, übersprungen. Misst er viele besuchte Titel nie, steht es hier.',
 }
 
 async function main(): Promise<void> {
   if (!TOKEN) {
     warn('LAUF_TOKEN fehlt — ohne das Token gibt der Worker die Vorfälle nicht heraus.')
+    return
+  }
+  if (process.argv.includes('--nur-loeschen')) {
+    await quittiereGemerkte({ datei: VORFAELLE_LOESCHEN, url: `${WORKER}/vorfall`, methode: 'DELETE', feld: 'ids', token: TOKEN })
     return
   }
 
@@ -136,16 +143,11 @@ async function main(): Promise<void> {
   log(`daniel-zum-abarbeiten/listen/17-vorfaelle.md geschrieben (${jeArt.size} Art(en)).`)
 
   /*
-    **Erst schreiben, dann löschen.** Bricht der Lauf zwischen beidem ab, ist
-    der Bericht da und die Zeilen bleiben — beim nächsten Mal stehen sie doppelt,
-    und das ist der harmlosere Fehler.
+    **Erst committen, dann löschen** (17.10.2026): Hier werden die Kennungen nur gemerkt; der Schritt
+    „Vorfälle löschen" nach „Änderungen committen" schickt sie ab (`--nur-loeschen`). Scheitert der Bau
+    dazwischen, bleiben die Zeilen im Worker und stehen beim nächsten Mal wieder im Bericht.
   */
-  const weg = await fetch(`${WORKER}/vorfall`, {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': TOKEN },
-    body: JSON.stringify({ ids: alle.map((v) => v.id) }),
-  })
-  if (!weg.ok) warn(`Vorfälle nicht gelöscht: HTTP ${weg.status} — sie tauchen beim nächsten Lauf erneut auf.`)
+  merkeZumQuittieren(VORFAELLE_LOESCHEN, alle.map((v) => v.id))
   recordSource('vorfaelle', alle.length, undefined, undefined, true)
 }
 
