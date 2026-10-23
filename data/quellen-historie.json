@@ -380,19 +380,19 @@
   ],
   "strike-witches-s2-vol1": [
     {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-09-25",
-      "stand": "aktuell"
-    },
-    {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-11-06",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-09-25",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-11-06"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -400,7 +400,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-11-06"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -408,7 +408,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-11-06"
     },
     {
       "url": "https://www.anime2you.de/news/1042244/animoon-crunchyroll-sechs-verschiebungen/",
@@ -416,24 +416,24 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-11",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-11-06"
     }
   ],
   "cafe-terrace-and-its-goddesses-s1-box": [
-    {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-10-02",
-      "stand": "aktuell"
-    },
     {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-11-20",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-10-02",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-20"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -441,7 +441,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-20"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -449,7 +449,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-20"
     }
   ],
   "case-study-of-vanitas-s1-vol2": [
@@ -463,19 +463,19 @@
   ],
   "virgin-road-vol1": [
     {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-09-25",
-      "stand": "aktuell"
-    },
-    {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-10-30",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-09-25",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -483,7 +483,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -491,7 +491,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1042244/animoon-crunchyroll-sechs-verschiebungen/",
@@ -499,7 +499,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-11",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     }
   ],
   "wind-breaker-s2-vol1": [
@@ -522,19 +522,19 @@
   ],
   "2-5-dimensional-seduction-vol4": [
     {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-09-25",
-      "stand": "aktuell"
-    },
-    {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-10-30",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-09-25",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -542,7 +542,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -550,24 +550,24 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     }
   ],
   "inazuma-eleven-s1-box": [
-    {
-      "url": "https://www.anime2you.de/news/1042244/animoon-crunchyroll-sechs-verschiebungen/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-09-25",
-      "stand": "aktuell"
-    },
     {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-11-20",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1042244/animoon-crunchyroll-sechs-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-09-25",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-11-20"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -575,7 +575,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-11-20"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -583,24 +583,24 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-11-20"
     }
   ],
   "infinite-dendrogram-vol2": [
-    {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-09-25",
-      "stand": "aktuell"
-    },
     {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-10-30",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-09-25",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -608,7 +608,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -616,7 +616,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     }
   ],
   "robin-hood-box": [
@@ -691,19 +691,19 @@
   ],
   "please-put-them-on-takamine-vol1": [
     {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-10-02",
-      "stand": "aktuell"
-    },
-    {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-11-20",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-10-02",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-20"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -711,7 +711,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-20"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -719,7 +719,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-20"
     }
   ],
   "demon-slayer-s1-steelbook": [
@@ -733,19 +733,19 @@
   ],
   "my-love-story-with-yamada-kun-vol1": [
     {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-10-02",
-      "stand": "aktuell"
-    },
-    {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-11-06",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-10-02",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-06"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -753,7 +753,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-06"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -761,24 +761,24 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-06"
     }
   ],
   "sakamoto-days-vol1": [
-    {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-09-25",
-      "stand": "aktuell"
-    },
     {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-10-30",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-09-25",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -786,7 +786,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -794,7 +794,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1042244/animoon-crunchyroll-sechs-verschiebungen/",
@@ -802,7 +802,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-11",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     }
   ],
   "tougen-anki-part1": [
@@ -850,19 +850,19 @@
   ],
   "nukitashi-vol1": [
     {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-09-25",
-      "stand": "aktuell"
-    },
-    {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-10-30",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-09-25",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
@@ -870,7 +870,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     },
     {
       "url": "https://www.anime2you.de/news/998432/nukitashi-keine-fsk-freigabe/",
@@ -878,7 +878,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-08-28",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-09-25"
+      "grund": "Termin verschoben auf: 2026-10-30"
     }
   ],
   "recovery-of-an-mmo-junkie-vol2": [
@@ -901,19 +901,19 @@
   ],
   "please-put-them-on-takamine-vol2": [
     {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-11-06",
-      "stand": "aktuell"
-    },
-    {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-12-18",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-11-06",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-11-06"
+      "grund": "Termin verschoben auf: 2026-12-18"
     },
     {
       "url": "https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/",
@@ -921,7 +921,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-16",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-11-06"
+      "grund": "Termin verschoben auf: 2026-12-18"
     }
   ],
   "im-standing-on-a-million-lives-s2-box": [
@@ -997,19 +997,19 @@
   ],
   "sailor-moon-s1-steelbook": [
     {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-10-18",
-      "stand": "aktuell"
-    },
-    {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-10-16",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-10-18",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-18"
+      "grund": "Termin verschoben auf: 2026-10-16"
     },
     {
       "url": "https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/",
@@ -1017,7 +1017,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-18"
+      "grund": "Termin verschoben auf: 2026-10-16"
     }
   ],
   "apothecary-diaries-s1-steelbook": [
@@ -1031,19 +1031,19 @@
   ],
   "bocchi-the-rock-vol1": [
     {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-10-02",
-      "stand": "aktuell"
-    },
-    {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-11-06",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-10-02",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-06"
     },
     {
       "url": "https://www.anime2you.de/news/1035764/bocchi-the-rock-deutscher-trailer/",
@@ -1051,7 +1051,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-09-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-06"
     }
   ],
   "yu-gi-oh-komplettbox-ksm": [
@@ -1171,19 +1171,19 @@
   ],
   "my-love-story-with-yamada-kun-vol2": [
     {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-11-06",
-      "stand": "aktuell"
-    },
-    {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-12-18",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-11-06",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-11-06"
+      "grund": "Termin verschoben auf: 2026-12-18"
     },
     {
       "url": "https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/",
@@ -1191,7 +1191,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-02",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-11-06"
+      "grund": "Termin verschoben auf: 2026-12-18"
     }
   ],
   "bocchi-the-rock-vol2": [
@@ -1213,19 +1213,19 @@
   ],
   "girls-band-cry-vol2": [
     {
-      "url": "https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
-      "sagt": "2026-10-02"
-    },
-    {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2026-11-20",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-10-02",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-10-02"
+      "grund": "Termin verschoben auf: 2026-11-20"
     }
   ],
   "dr-stone-science-future-part1": [
@@ -1362,19 +1362,19 @@
   ],
   "my-love-story-with-yamada-kun-vol3": [
     {
-      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-12-04",
-      "stand": "aktuell"
-    },
-    {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-03",
       "sagt": "2027-01-15",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1045437/30-crunchyroll-animoon-termine-verschoben/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-12-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-12-04"
+      "grund": "Termin verschoben auf: 2027-01-15"
     },
     {
       "url": "https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/",
@@ -1382,7 +1382,7 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2026-11-20",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-12-04"
+      "grund": "Termin verschoben auf: 2027-01-15"
     }
   ],
   "anne-shirley-vol2": [
@@ -1419,6 +1419,14 @@
       "gesehenAm": "2026-10-01",
       "sagt": "2027-01-15",
       "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-02-19",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-01-15"
     },
     {
       "url": "https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/",
@@ -1621,6 +1629,12 @@
     }
   ],
   "though-i-am-an-inept-villainess": [
+    {
+      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+      "name": "Crunchyroll News",
+      "gesehenAm": "2026-10-18",
+      "stand": "aktuell"
+    },
     {
       "url": "https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026",
       "name": "anisearch.de",
@@ -1914,11 +1928,12 @@
   ],
   "adn-1354": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1354",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-07-24"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-07-24"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/07/24/parasyte-the-maxim-bei-adn-der-sci-fi-horror-klassiker/",
@@ -1930,11 +1945,12 @@
   ],
   "adn-617": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/617",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-08-10"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-08-10"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/08/10/prison-school-bei-adn-der-ecchi-kultanime-ueber-die-haerteste-schule-aller-zeiten/",
@@ -1946,11 +1962,12 @@
   ],
   "adn-1415": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1415",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-08-17"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-08-17"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/08/17/love-lies-jetzt-im-stream-bei-adn-dystopisches-romance-drama/",
@@ -1962,29 +1979,32 @@
   ],
   "adn-684": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/684",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-09-05"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-09-05"
     }
   ],
   "adn-278": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/278",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-07-11"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-07-11"
     }
   ],
   "adn-1160-s1-20241003-171018": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1160",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-10-03"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-10-03"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/05/22/adn-animagic-live-synchro-mit-mayumi-tanaka/",
@@ -1996,11 +2016,12 @@
   ],
   "adn-1160-s1-20241003-185660": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1160",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-07-03"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-07-03"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/05/22/adn-animagic-live-synchro-mit-mayumi-tanaka/",
@@ -2012,11 +2033,12 @@
   ],
   "adn-190-s1-20260629": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/190",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-06-29"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-06-29"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/06/29/maedchen-mit-toedlichen-waffen-gunslinger-girl-jetzt-bei-adn/",
@@ -2028,11 +2050,12 @@
   ],
   "adn-190-s2-20260629": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/190",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-06-29"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-06-29"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/06/29/maedchen-mit-toedlichen-waffen-gunslinger-girl-jetzt-bei-adn/",
@@ -2044,20 +2067,22 @@
   ],
   "adn-1164": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1164",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-01-10"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-01-10"
     }
   ],
   "adn-329": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/329",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-04-24"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-04-24"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/04/24/eyeshield-21-ab-sofort-im-stream-bei-adn/",
@@ -2069,38 +2094,42 @@
   ],
   "adn-340": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/340",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-08-21"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-08-21"
     }
   ],
   "adn-1122": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1122",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-01-24"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-01-24"
     }
   ],
   "adn-662": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/662",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-07-15"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-07-15"
     }
   ],
   "adn-971-s1-20221013": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/971",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2022-10-13"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2022-10-13"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/07/30/urusei-yatsura-erscheint-mit-synchro-bei-adn/",
@@ -2112,11 +2141,12 @@
   ],
   "adn-971-s2-20240111": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/971",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-01-11"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-01-11"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/07/30/urusei-yatsura-erscheint-mit-synchro-bei-adn/",
@@ -2128,20 +2158,22 @@
   ],
   "adn-22": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/22",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-08-14"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-08-14"
     }
   ],
   "adn-427-s1-20251029": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/427",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-10-29"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-10-29"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/06/01/sailor-moon-sailor-stars-staffel-5-im-stream-bei-adn/",
@@ -2153,11 +2185,12 @@
   ],
   "adn-427-s2-20251126": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/427",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-11-26"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-11-26"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/06/01/sailor-moon-sailor-stars-staffel-5-im-stream-bei-adn/",
@@ -2169,11 +2202,12 @@
   ],
   "adn-427-s3-20251223": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/427",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-12-23"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-12-23"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/06/01/sailor-moon-sailor-stars-staffel-5-im-stream-bei-adn/",
@@ -2185,11 +2219,12 @@
   ],
   "adn-427-s4-20260401": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/427",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-04-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-04-01"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/06/01/sailor-moon-sailor-stars-staffel-5-im-stream-bei-adn/",
@@ -2201,11 +2236,12 @@
   ],
   "adn-427-s5-20260601": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/427",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-06-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-06-01"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/06/01/sailor-moon-sailor-stars-staffel-5-im-stream-bei-adn/",
@@ -2217,38 +2253,42 @@
   ],
   "adn-1060": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1060",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-11-26"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-11-26"
     }
   ],
   "adn-1197": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1197",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-06-06"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-06-06"
     }
   ],
   "adn-1168": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1168",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-03-31"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-03-31"
     }
   ],
   "adn-1233": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1233",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-09-26"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-09-26"
     }
   ],
   "adn-217": [
@@ -2262,83 +2302,92 @@
   ],
   "adn-1113-s1-20240725": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1113",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-07-25"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-07-25"
     }
   ],
   "adn-1113-s2-20240725": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1113",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-07-25"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-07-25"
     }
   ],
   "adn-1125": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1125",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-02-08"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-02-08"
     }
   ],
   "adn-461-s1-20231001": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/461",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-10-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-10-01"
     }
   ],
   "adn-461-s2-20231001": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/461",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-10-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-10-01"
     }
   ],
   "adn-461-s3-20231001": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/461",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-10-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-10-01"
     }
   ],
   "adn-461-s4-20231001-106625": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/461",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-10-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-10-01"
     }
   ],
   "adn-461-s4-20231001-113538": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/461",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-10-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-10-01"
     }
   ],
   "adn-442-s1-20250611": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/442",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-06-11"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-06-11"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/21/86-eighty-six-kommt-im-oktober-zu-adn/",
@@ -2350,11 +2399,12 @@
   ],
   "adn-442-s2-20250611": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/442",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-06-11"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-06-11"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/21/86-eighty-six-kommt-im-oktober-zu-adn/",
@@ -2366,11 +2416,12 @@
   ],
   "adn-442-s3-20250717-100182": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/442",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-07-17"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-07-17"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/21/86-eighty-six-kommt-im-oktober-zu-adn/",
@@ -2382,11 +2433,12 @@
   ],
   "adn-442-s3-20250717-108759": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/442",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-07-17"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-07-17"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/21/86-eighty-six-kommt-im-oktober-zu-adn/",
@@ -2398,11 +2450,12 @@
   ],
   "adn-442-s3-20250717-114308": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/442",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-07-17"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-07-17"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/21/86-eighty-six-kommt-im-oktober-zu-adn/",
@@ -2414,11 +2467,12 @@
   ],
   "adn-999": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/999",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-01-04"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-01-04"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/01/dragon-ball-super-beerus-kommt-in-den-simulcast-zu-adn/",
@@ -2430,11 +2484,12 @@
   ],
   "adn-1311": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1311",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-07-11"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-07-11"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/30/tougen-anki-start-von-staffel-2-im-simulcast-bei-adn/",
@@ -2446,38 +2501,42 @@
   ],
   "adn-1272": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1272",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-04-06"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-04-06"
     }
   ],
   "adn-1325": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1325",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-09-04"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-09-04"
     }
   ],
   "adn-1037-s1-20260213": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1037",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-02-13"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-02-13"
     }
   ],
   "adn-1037-s2-20260213": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1037",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-02-13"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-02-13"
     }
   ],
   "auto-171018-disc-2026-10-30": [
@@ -2526,20 +2585,22 @@
   ],
   "adn-1138": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1138",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-10-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-10-01"
     }
   ],
   "adn-1261": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1261",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-12-06"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-12-06"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/14/yu-gi-oh-neues-video-feiert-30-jaehriges-manga-jubilaeum/",
@@ -2551,11 +2612,12 @@
   ],
   "adn-1322": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1322",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-08-06"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-08-06"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/07/10/hyakko-ein-weiterer-anime-klassiker-im-stream-bei-adn/",
@@ -2567,56 +2629,62 @@
   ],
   "adn-655-s1-20240613": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/655",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-06-13"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-06-13"
     }
   ],
   "adn-655-s2-20240613": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/655",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-06-13"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-06-13"
     }
   ],
   "adn-1315": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1315",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-07-29"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-07-29"
     }
   ],
   "adn-347": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/347",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-10-15"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-10-15"
     }
   ],
   "adn-1201": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1201",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-06-13"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-06-13"
     }
   ],
   "adn-1391-s1-20260605-384": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1391",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-06-05"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-06-05"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/06/05/gantz-ausserirdischer-action-anime-im-stream-bei-adn/",
@@ -2628,11 +2696,12 @@
   ],
   "adn-1391-s1-20260605-395": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1391",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-06-05"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-06-05"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/06/05/gantz-ausserirdischer-action-anime-im-stream-bei-adn/",
@@ -2644,38 +2713,42 @@
   ],
   "adn-1134-s1-20231001": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1134",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-10-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-10-01"
     }
   ],
   "adn-1134-s2-20231001": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1134",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-10-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-10-01"
     }
   ],
   "adn-1134-s3-20231001": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1134",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-10-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-10-01"
     }
   ],
   "adn-918": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/918",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2022-08-24"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2022-08-24"
     }
   ],
   "adn-1185": [
@@ -2707,11 +2780,12 @@
   ],
   "adn-1333": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1333",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-10-03"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-10-03"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/04/27/my-gift-lvl-9999-jetzt-mit-deutscher-synchro-bei-adn/",
@@ -2723,56 +2797,62 @@
   ],
   "adn-1143": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1143",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-08-16"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-08-16"
     }
   ],
   "adn-1132": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1132",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-07-29"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-07-29"
     }
   ],
   "adn-654": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/654",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-07-18"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-07-18"
     }
   ],
   "adn-310": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/310",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-09-11"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-09-11"
     }
   ],
   "adn-1141-s1-20240510": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1141",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-05-10"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-05-10"
     }
   ],
   "adn-1141-s2-20240510": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1141",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-05-10"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-05-10"
     }
   ],
   "adn-1131": [
@@ -2786,11 +2866,12 @@
   ],
   "adn-1396": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1396",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-06-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-06-01"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/06/01/alice-im-wunderland-dive-in-wonderland-jetzt-im-stream-bei-adn/",
@@ -2811,20 +2892,22 @@
   ],
   "adn-1100": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1100",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-02-06"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-02-06"
     }
   ],
   "adn-405-s1-20250115": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/405",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-01-15"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-01-15"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/07/20/sci-fi-donghua-ringing-fate-kommt-zu-adn/",
@@ -2836,11 +2919,12 @@
   ],
   "adn-405-s2-20250115": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/405",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-01-15"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-01-15"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/07/20/sci-fi-donghua-ringing-fate-kommt-zu-adn/",
@@ -2852,11 +2936,12 @@
   ],
   "adn-1326": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1326",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-10-24"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-10-24"
     }
   ],
   "adn-1184": [
@@ -2888,29 +2973,32 @@
   ],
   "adn-1137": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1137",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-10-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-10-01"
     }
   ],
   "adn-1139-s1-20231001": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1139",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-10-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-10-01"
     }
   ],
   "adn-1139-s2-20231001": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1139",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-10-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-10-01"
     }
   ],
   "adn-561-sSaga 1 : East Blue-20190520": [
@@ -2924,11 +3012,12 @@
   ],
   "adn-1142": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1142",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-10-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-10-01"
     }
   ],
   "adn-561-ssaga-1-east-blue-20190520": [
@@ -2949,26 +3038,28 @@
   ],
   "adn-670": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/670",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-09-05"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-09-05"
     }
   ],
   "adn-344-s1-20150112": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/344",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-19",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2015-01-12"
+    },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/05/school-babysitters-die-besondere-kita-im-stream-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-05",
       "stand": "aktuell"
-    },
-    {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
-      "name": "ADN API",
-      "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
-      "sagt": "2015-01-12"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/10/undefeated-bahamut-chronicle-ecchi-mecha-anime-bei-adn/",
@@ -2980,17 +3071,18 @@
   ],
   "adn-344-s2-20160107": [
     {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/344",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-19",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2016-01-07"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/05/school-babysitters-die-besondere-kita-im-stream-bei-adn/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-05",
       "stand": "aktuell"
-    },
-    {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
-      "name": "ADN API",
-      "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
-      "sagt": "2016-01-07"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/10/undefeated-bahamut-chronicle-ecchi-mecha-anime-bei-adn/",
@@ -3002,65 +3094,72 @@
   ],
   "adn-1133": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1133",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-08-08"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-08-08"
     }
   ],
   "adn-1374": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1374",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-03-11"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-03-11"
     }
   ],
   "adn-336": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/336",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-03-04"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-03-04"
     }
   ],
   "adn-1140": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1140",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-07-03"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-07-03"
     }
   ],
   "adn-991": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/991",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-01-17"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-01-17"
     }
   ],
   "adn-1305": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1305",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-06-11"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-06-11"
     }
   ],
   "adn-1375": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1375",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-04-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-04-01"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/04/07/adn-nimmt-9-simulcasts-im-april-2026-ins-programm-auf/",
@@ -3090,11 +3189,12 @@
   ],
   "adn-1136": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1136",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-10-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-10-01"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/06/15/kenichi-the-mightiest-disciple-the-attack-of-darkness-bei-adn/",
@@ -3106,29 +3206,32 @@
   ],
   "adn-1309": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1309",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-06-11"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-06-11"
     }
   ],
   "adn-1329": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1329",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-09-23"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-09-23"
     }
   ],
   "adn-906": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/906",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2022-07-06"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2022-07-06"
     }
   ],
   "adn-1391": [
@@ -3142,68 +3245,83 @@
   ],
   "adn-907": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/907",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2022-07-06"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2022-07-06"
     }
   ],
   "adn-1106": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1106",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2024-01-21"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2024-01-21"
     }
   ],
   "adn-925": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/925",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2022-08-10"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2022-08-10"
     }
   ],
   "adn-923": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/923",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2022-08-10"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2022-08-10"
     }
   ],
   "adn-905": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/905",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2022-07-06"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2022-07-06"
     }
   ],
   "adn-920": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/920",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2022-08-10"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2022-08-10"
     }
   ],
   "adn-948": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/948",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2022-09-14"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2022-09-14"
     }
   ],
   "adn-561": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/561",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-19",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2019-05-20"
+    },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/04/warum-gibt-es-diese-woche-keine-neue-folge-one-piece/",
       "name": "news.animationdigitalnetwork.com",
@@ -3215,22 +3333,16 @@
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-12",
       "stand": "vermutlich-ueberholt"
-    },
-    {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
-      "name": "ADN API",
-      "gesehenAm": "2026-08-29",
-      "stand": "aktuell",
-      "sagt": "2019-05-20"
     }
   ],
   "adn-1294": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1294",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2025-05-16"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-05-16"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/05/20/weitere-donghua-aus-china-im-stream-bei-adn-verfuegbar/",
@@ -3288,11 +3400,12 @@
   ],
   "adn-587": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/587",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-08-24"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-08-24"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/08/24/the-seven-deadly-sins-streame-staffel-1-jetzt-bei-adn/",
@@ -3313,26 +3426,28 @@
   ],
   "adn-322": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/322",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-04-10"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-04-10"
     }
   ],
   "adn-1331": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1331",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-19",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2025-09-24"
+    },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/08/13/der-held-ohne-klasse-cast-alle-infos-zur-deutschen-synchro/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-13",
       "stand": "aktuell"
-    },
-    {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
-      "name": "ADN API",
-      "gesehenAm": "2026-08-24",
-      "stand": "aktuell",
-      "sagt": "2025-09-24"
     }
   ],
   "adn-427": [
@@ -3364,11 +3479,12 @@
   ],
   "adn-1383": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1383",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-04-11"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-04-11"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/08/25/kill-blue-auf-deutsch-bei-adn-cast-und-alle-infos/",
@@ -3380,11 +3496,12 @@
   ],
   "adn-1026": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/1026",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2023-04-05"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2023-04-05"
     }
   ],
   "auto-162670-disc": [
@@ -3434,11 +3551,12 @@
   ],
   "adn-634": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/634",
       "name": "ADN API",
-      "gesehenAm": "2026-10-01",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2026-09-01"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2026-09-01"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/09/01/hellsing-ultimate-vampir-anime-auf-deutsch-omu-bei-adn/",
@@ -3454,6 +3572,8 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-01",
       "stand": "aktuell",
+      "gelesenAm": "2026-10-23",
+      "bestaetigt": "2026-09-10",
       "sagt": "2026-09-10"
     },
     {
@@ -3470,6 +3590,8 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-01",
       "stand": "aktuell",
+      "gelesenAm": "2026-10-23",
+      "bestaetigt": "2026-09-17",
       "sagt": "2026-09-17"
     },
     {
@@ -3491,11 +3613,12 @@
   ],
   "adn-882": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/882",
       "name": "ADN API",
-      "gesehenAm": "2026-09-21",
+      "gesehenAm": "2026-10-19",
       "stand": "aktuell",
-      "sagt": "2022-07-06"
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2022-07-06"
     }
   ],
   "auto-1292-disc": [
@@ -3900,21 +4023,32 @@
       "url": "https://www.anisearch.de/article/216284,good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-02",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2026-11-20"
     },
     {
       "url": "https://www.anisearch.de/article/216284",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
       "stand": "vermutlich-ueberholt",
-      "sagt": "2026-11-20"
+      "sagt": "2026-11-20",
+      "grund": "Termin verschoben auf: 2027-02-05"
     },
     {
       "url": "good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber",
       "name": "good-luck-girl-vol-1-2-limited-steelcase-edition-blu-ray-sammelschuber",
       "gesehenAm": "2026-10-01",
       "stand": "vermutlich-ueberholt",
-      "sagt": "2026-11-20"
+      "sagt": "2026-11-20",
+      "grund": "Termin verschoben auf: 2027-02-05"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-02-05",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-11-20"
     }
   ],
   "good-luck-girl-vol-2-2027-02-05": [
@@ -3922,21 +4056,32 @@
       "url": "https://www.anisearch.de/article/216285,good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-02",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2027-02-05"
     },
     {
       "url": "https://www.anisearch.de/article/216285",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
       "stand": "vermutlich-ueberholt",
-      "sagt": "2027-02-05"
+      "sagt": "2027-02-05",
+      "grund": "Termin verschoben auf: 2027-03-05"
     },
     {
       "url": "good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray",
       "name": "good-luck-girl-vol-2-2-limited-steelcase-edition-blu-ray",
       "gesehenAm": "2026-10-01",
       "stand": "vermutlich-ueberholt",
-      "sagt": "2027-02-05"
+      "sagt": "2027-02-05",
+      "grund": "Termin verschoben auf: 2027-03-05"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-03-05",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-02-05"
     }
   ],
   "road-to-ninja-naruto-the-movie-2026-11-19": [
@@ -5014,19 +5159,19 @@
   ],
   "auto-166477-disc": [
     {
-      "url": "https://www.anime2you.de/news/1048218/cafe-terrace-and-its-goddesses-staffel-2-disc-termin/",
-      "name": "anime2you.de",
-      "gesehenAm": "2026-10-01",
-      "sagt": "2026-12-04",
-      "stand": "aktuell"
-    },
-    {
       "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-13",
       "sagt": "2027-01-15",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1048218/cafe-terrace-and-its-goddesses-staffel-2-disc-termin/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-01",
+      "sagt": "2026-12-04",
       "stand": "ueberholt",
-      "grund": "Termin verschoben auf: 2026-12-04"
+      "grund": "Termin verschoben auf: 2027-01-15"
     }
   ],
   "auto-143103-kino": [
@@ -5843,7 +5988,9 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-23",
+      "bestaetigt": "2026-10-12"
     },
     {
       "url": "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/",
@@ -5863,7 +6010,9 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-23",
+      "bestaetigt": "2026-10-12"
     },
     {
       "url": "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/",
@@ -5883,7 +6032,9 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-23",
+      "bestaetigt": "2026-10-12"
     },
     {
       "url": "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/",
@@ -5963,8 +6114,8 @@
       "url": "https://www.anime2you.de/news/1057429/netflix-blue-box-staffel-2-und-mehr/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-11",
-      "sagt": "2026-10-04",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2026-10-04"
     },
     {
       "url": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
@@ -6199,7 +6350,7 @@
       "url": "https://de.wikipedia.org/wiki/Super_Wings",
       "name": "de.wikipedia.org",
       "gesehenAm": "2026-10-08",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://plus.rtl.de/tv-programm",
@@ -6213,7 +6364,7 @@
       "url": "https://de.wikipedia.org/wiki/Super_Wings",
       "name": "de.wikipedia.org",
       "gesehenAm": "2026-10-08",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://plus.rtl.de/tv-programm",
@@ -6257,7 +6408,9 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-08",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-23",
+      "bestaetigt": "2026-10-12"
     }
   ],
   "adn-198": [
@@ -6394,11 +6547,18 @@
   ],
   "auto-98659-disneyplus": [
     {
+      "url": "https://www.anime2you.de/news/1047034/disney-plus-classroom-of-the-elite-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-19",
+      "sagt": "2026-09-06",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-09",
       "sagt": "2026-09-06",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     }
   ],
   "auto-116006-disneyplus": [
@@ -6467,6 +6627,18 @@
   ],
   "dr-stone-science-future-part2": [
     {
+      "url": "https://www.anime2you.de/news/1058419/dr-stone-science-future-part-2-disc-termin/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-20",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-20",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-10",
@@ -6474,6 +6646,12 @@
     }
   ],
   "shield-hero-s4-vol2": [
+    {
+      "url": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-20",
+      "stand": "aktuell"
+    },
     {
       "url": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
       "name": "anime2you.de",
@@ -6632,13 +6810,23 @@
       "url": "https://www.anime2you.de/news/1058332/kaiju-no-8-staffel-1-steelbook-edition/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-12",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2027-03-05"
     },
     {
       "url": "https://www.anime2you.de/news/1044367/kaiju-no-8-staffel-2-disc-release/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-12",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2027-03-05"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-05-07",
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-03-05"
     }
   ],
   "demon-slayer-entertainment-district-arc-primevideo": [
@@ -6728,18 +6916,22 @@
   ],
   "adn-904": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/904",
       "name": "ADN API",
-      "gesehenAm": "2026-10-13",
-      "stand": "aktuell"
+      "gesehenAm": "2026-10-19",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2022-07-06"
     }
   ],
   "adn-924": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/show/924",
       "name": "ADN API",
-      "gesehenAm": "2026-10-13",
-      "stand": "aktuell"
+      "gesehenAm": "2026-10-19",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-12",
+      "bestaetigt": "2022-08-10"
     }
   ],
   "as-a-reincarnated-aristocrat-s2-vol1": [
@@ -7167,6 +7359,115 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-16",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-23",
+      "bestaetigt": "2026-10-17"
+    }
+  ],
+  "manga-love-story-step-up-gesamtausgabe-ova": [
+    {
+      "url": "https://www.akibapassshop.de/products/26pol033-manga-love-story-gesamtausgabe-bluray",
+      "name": "akibapassshop.de",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-1319": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-23",
+      "bestaetigt": "2026-10-29"
+    }
+  ],
+  "adn-1320": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-23",
+      "bestaetigt": "2026-10-29"
+    }
+  ],
+  "adn-1321": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-23",
+      "bestaetigt": "2026-10-29"
+    }
+  ],
+  "adn-1318": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-17",
+      "stand": "aktuell",
+      "gelesenAm": "2026-10-23",
+      "bestaetigt": "2026-10-29"
+    }
+  ],
+  "auto-237-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1061704/eureka-seven-blu-ray-komplettbox/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-17",
+      "sagt": "2027-01-28",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-171019-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1061686/isekai-onsen-paradise-blu-ray-komplettbox/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-18",
+      "sagt": "2027-01-28",
+      "stand": "aktuell"
+    }
+  ],
+  "cr-GG5H5XQMD": [
+    {
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar",
+      "name": "crunchyroll.com",
+      "gesehenAm": "2026-10-18",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-269-disneyplus": [
+    {
+      "url": "https://www.anime2you.de/news/1047034/disney-plus-classroom-of-the-elite-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-19",
+      "sagt": "2026-09-06",
       "stand": "aktuell"
     }
   ]

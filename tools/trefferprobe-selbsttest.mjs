@@ -39,7 +39,7 @@ async function pruefeFall(seite, f) {
 }
 
 const browser = await chromium.launch()
-const seite = await browser.newPage({ viewport: { width: 360, height: 640 } })
+const seite = await browser.newPage({ viewport: { width: 360, height: 640 }, hasTouch: true, isMobile: true })
 const fehler = []
 for (const f of FAELLE) {
   const e = await pruefeFall(seite, f)

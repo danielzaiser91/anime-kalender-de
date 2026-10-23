@@ -28,7 +28,6 @@ const leer = {
   tvVorbei: [],
   wegeHinweis: undefined,
   kastenNotiz: undefined,
-  kaufausgabeZeile: undefined,
   folgenLuecke: null,
   folgenListe: false,
 }
@@ -51,7 +50,6 @@ const quellen: [string, Eingabe][] = [
   ['TV-Rückblick', mit({ tvVorbei: [{}] })],
   ['Wege-Hinweis', mit({ wegeHinweis: 'Satz' })],
   ['Notiz', mit({ kastenNotiz: {} })],
-  ['Kaufausgabe', mit({ kaufausgabeZeile: 'Blu-ray' })],
   ['Folgenlücke', mit({ folgenLuecke: '3' })],
   ['Folgenliste (folgen/<id>.json)', mit({ folgenListe: true })],
   ['Merken-Hinweis (ohneSynchro)', mitTitel({ ohneSynchro: true })],

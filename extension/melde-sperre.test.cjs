@@ -104,6 +104,10 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
   pruefe('ZAEHLEN_SEKUNDEN im Worker gefunden', sekunden > 0, sekunden)
   pruefe('FRIST_MS deckt das Cache-Alter von ?zaehlen=1 plus 5 min', k.AK_MELDE_SPERRE.FRIST_MS >= (sekunden + 300) * 1000,
     { FRIST_MS: k.AK_MELDE_SPERRE.FRIST_MS, sekunden })
+  /* Auflage E: der Cache des zaehlen-Zweigs endet an der Konstante, nicht an einer Zahl an der Aufrufstelle. */
+  const lesen = readFileSync(__dirname + '/../worker/src/pruefung-lesen.ts', 'utf8')
+  const zweig = /get\('zaehlen'\) === '1'\) return ausCache\(async \(\) => \{[\s\S]*?\}, ([^)]*)\)/.exec(lesen)
+  pruefe('zaehlen-Zweig in pruefung-lesen.ts endet mit ZAEHLEN_SEKUNDEN', zweig?.[1] === 'ZAEHLEN_SEKUNDEN', zweig?.[1])
   const m = new Map([['a|true', 0]])
   pruefe('nicht angekommen: spätestens ZAEHLEN_SEKUNDEN + 15 min danach wieder frei',
     k.AK_MELDE_SPERRE.zustand(m, 'a|true', (sekunden + 900) * 1000, false) === 'abgelaufen')

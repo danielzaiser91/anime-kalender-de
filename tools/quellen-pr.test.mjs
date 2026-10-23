@@ -54,7 +54,7 @@ esac
 
   mkdirSync(join(lauf, 'data'), { recursive: true })
   mkdirSync(join(lauf, 'tools'), { recursive: true })
-  for (const datei of ['quellen-liste.sh', 'quellen-aufsetzen.sh', 'quellen-pr.sh', 'health-vereinen.mjs', 'dub-belege-vereinen.mjs'])
+  for (const datei of ['quellen-liste.sh', 'quellen-aufsetzen.sh', 'quellen-pr.sh', 'quellen-pruefen.sh', 'health-vereinen.mjs', 'dub-belege-vereinen.mjs'])
     copyFileSync(join(wurzel, 'tools', datei), join(lauf, 'tools', datei))
   writeFileSync(join(lauf, 'data/anisearch.json'), '{"v":1}')
   sh(lauf, `git add -A && ${git} commit -q -m start && git push -q origin HEAD:main`)
@@ -70,7 +70,7 @@ esac
   writeFileSync(join(ursprung, 'ablehnen'), '')
   const ausgabeDatei = join(dir, 'ausgabe.txt')
   writeFileSync(ausgabeDatei, '')
-  const r = sh(lauf, `PATH="${posix(bin)}:$PATH" GITHUB_OUTPUT="${posix(ausgabeDatei)}" GITHUB_RUN_ID=77 bash tools/quellen-pr.sh "chore(data): Test"`, {})
+  const r = sh(lauf, `PATH="${posix(bin)}:$PATH" GITHUB_OUTPUT="${posix(ausgabeDatei)}" GITHUB_RUN_ID=77 QUELLEN_PRUEFBEFEHL=true bash tools/quellen-pr.sh "chore(data): Test"`, {})
   const knapp = r.out.split('\n').filter((z) => !z.includes('übersprungen (nicht vorhanden)')).join('\n').slice(-1800)
   pruefe('das Skript endet mit Erfolg', r.status === 0, `${r.status} ${knapp}`)
   pruefe('die abgelehnte erste Übertragung wird gemeldet und neu aufgesetzt', /Push abgelehnt \(Versuch 1 von 3\)/.test(r.out), r.out.slice(-400))
@@ -84,6 +84,26 @@ esac
   const dateien = sh(ursprung, `git diff --name-only main ${zweig}`).out.trim().split('\n').sort()
   pruefe('der Zweig trägt die eigene Änderung', inhalt === '{"v":2}', inhalt)
   pruefe('der Zweig liegt auf dem jüngsten main: nur die eigenen Dateien unterscheiden ihn', dateien.join(',') === 'data/anisearch.json,data/cinestar.json', dateien)
+
+  // Anmeldung der Claude-Läufe: Token in der Remote-Adresse; insteadOf (nur in der Umgebung, nicht in .git/config) lenkt sie auf den lokalen Ursprung.
+  const mitToken = 'https://x-access-token:geheim@github.com/x/y.git'
+  sh(lauf, `git remote set-url origin "${mitToken}"`)
+  pruefe('Vorbedingung: das Token steht in .git/config', readFileSync(join(lauf, '.git/config'), 'utf8').includes('geheim'))
+  const umlenken = { GIT_CONFIG_COUNT: '1', GIT_CONFIG_KEY_0: `url.${posix(ursprung)}.insteadOf`, GIT_CONFIG_VALUE_0: mitToken }
+  const r2 = sh(lauf, `PATH="${posix(bin)}:$PATH" GITHUB_RUN_ID=78 QUELLEN_PRUEFBEFEHL=true bash tools/quellen-pr.sh "chore(data): Test 2"`, umlenken)
+  pruefe('zweiter Lauf über die Token-Adresse endet mit Erfolg', r2.status === 0, r2.out.slice(-600))
+  const remote = sh(lauf, 'git config --get remote.origin.url').out.trim()
+  pruefe('nach dem Lauf steht das Token nicht mehr in .git/config', !readFileSync(join(lauf, '.git/config'), 'utf8').includes('geheim') && remote === 'https://github.com/x/y.git', remote)
+
+  // Lokaler Aufruf ohne Lauf-Kennung (Daniels Rechner): kein `daten/`-Zweig, den Kette und CI-Prüfer überspringen.
+  sh(lauf, `git remote set-url origin "${posix(ursprung)}"`)
+  writeFileSync(join(lauf, 'data/cinestar.json'), '{"neu":"lokal"}')
+  const r3 = sh(lauf, `env -u GITHUB_RUN_ID PATH="${posix(bin)}:$PATH" QUELLEN_PRUEFBEFEHL=true bash tools/quellen-pr.sh "chore(data): Test 3"`, {})
+  pruefe('lokaler Aufruf endet mit Erfolg', r3.status === 0, r3.out.slice(-600))
+  const lokal = sh(ursprung, 'git branch --list "fix/lokal-*"').out.trim()
+  pruefe('lokaler Aufruf legt einen Zweig fix/lokal-… an', /fix\/lokal-\d{8}-\d{4}/.test(lokal), lokal)
+  const daten = sh(ursprung, 'git branch --list "daten/*"').out
+  pruefe('lokaler Aufruf legt keinen daten/-Zweig an', !/daten\/lokal/.test(daten), daten)
 } finally {
   rmSync(dir, { recursive: true, force: true })
 }

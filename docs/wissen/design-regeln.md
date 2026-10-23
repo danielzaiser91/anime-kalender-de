@@ -41,7 +41,8 @@ Vorher/Nachher der ganzen App und des Filterfensters: Mockups `design-app` und `
 | Info | `ak-info`, `ak-info-text`, `ak-info-grund` | erklärende Marke ohne Handlungsbedarf: Nachtrag, Schnellfilter-Band, Neuigkeiten-Marken, „ab 11.10.“-Pille unter „Demnächst“ (nur eine Auskunft über den Start, kein Handlungsbedarf, deshalb Info statt Warnung) |
 | TV | `ak-tv`, `ak-tv-grund`, `ak-tv-rand` | nur lineares Fernsehen |
 | Katalog | `ak-katalog`, `ak-katalog-text` | nur Katalog-Release |
-| Finale | `ak-finale`, `ak-finale-text` | Staffelfinale, Favoriten-Stern **und** Disc-Punkt der Neuigkeiten (Gold; die Liste „Was sich getan hat“ färbt Disc ebenfalls gelb; als Punkt `ak-finale-text`, weil `ak-finale` hell nur 1,6:1 hat). Die übrigen Punkte der Neuigkeiten und die Chips der News tragen dieselbe Kennfarbe je Art (`web/src/components/news-farben.ts`): neu, Folgen, nachgereicht `ak-gut`; angekündigt, offiziell `ak-info`; Kino, Rhythmus `ak-akzent`; verspätet, nachgetragen `ak-leise` |
+| Favorit | `ak-favorit`, `ak-favorit-text`, `ak-favorit-rand` | Favoriten-Stern, Favoriten-Rand der Kachel (`ak-favorit-rand`: dunkel wie `ak-favorit`, hell #b07d00 für 3:1 gegen den Seitengrund, 17.10.2026) **und** Disc-Punkt der Neuigkeiten (Gold; die Liste „Was sich getan hat“ färbt Disc ebenfalls gelb; als Punkt `ak-favorit-text`, weil `ak-favorit` hell nur 1,6:1 hat). Die übrigen Punkte der Neuigkeiten und die Chips der News tragen dieselbe Kennfarbe je Art (`web/src/components/news-farben.ts`): neu, Folgen, nachgereicht `ak-gut`; angekündigt, offiziell `ak-info`; Kino, Rhythmus `ak-akzent`; verspätet, nachgetragen `ak-leise` |
+| Finale | `ak-finale`, `ak-finale-text` | Staffelfinale (Ring, Fahne, Punkt am Handy): Gelbgrün, Farbton ~98° — 35° neben Favorit-Gold, 60° neben dem Smaragd von `ak-gut` (17.10.2026) |
 | Neutrale Marke | `ak-marke` | Fahne „Neu bei <Anbieter>“ (ohne Kennfarbe, in beiden Themen gleich hell); Text darauf `#0d0f14` |
 | Heute | `ak-heute` | Grund der Heute-Spalte |
 
@@ -81,7 +82,12 @@ Zwei Bestandswerte verfehlten die Schwelle und wurden am 13.10.2026 korrigiert: 
 | info-text | flaeche | 4.5 | 9.8 (#93c5fd auf #151922) | 6.7 (#1d4ed8 auf #ffffff) |
 | info-text | info-grund | 4.5 | 8.0 (#93c5fd auf #1e2a3c) | 5.8 (#1d4ed8 auf #e9effd) |
 | tv | tv-grund | 4.5 | 8.5 (#3cc7b4 auf #121821) | 5.0 (#0b7568 auf #eaf4f2) |
-| finale-text | flaeche | 4.5 | 10.8 (#f5c542 auf #151922) | 5.4 (#8a6300 auf #ffffff) |
+| favorit-text | flaeche | 4.5 | 10.8 (#f5c542 auf #151922) | 5.4 (#8a6300 auf #ffffff) |
+| finale-text | flaeche | 4.5 | 10.0 (#86d93a auf #151922) | 6.1 (#356f0c auf #ffffff) |
+| finale | flaeche | 3 | 10.0 (#86d93a auf #151922) | 3.5 (#4a9a12 auf #ffffff) |
+| finale | grund | 3 | 11.0 (#86d93a auf #0d0f14) | 3.2 (#4a9a12 auf #f5f4f0) |
+| favorit-rand | grund | 3 | 11.8 (#f5c542 auf #0d0f14) | 3.3 (#b07d00 auf #f5f4f0) |
+| favorit-rand | flaeche | 3 | 10.8 (#f5c542 auf #151922) | 3.6 (#b07d00 auf #ffffff) |
 | katalog-text | flaeche | 4.5 | 6.5 (#a78bfa auf #151922) | 7.1 (#5b3fc4 auf #ffffff) |
 | akzent | grund | 3 | 6.2 (#ff5a36 auf #0d0f14) | 3.2 (#f54b27 auf #f5f4f0) |
 | akzent | flaeche | 3 | 5.7 (#ff5a36 auf #151922) | 3.5 (#f54b27 auf #ffffff) |
@@ -132,7 +138,7 @@ Pille, die er erzeugt, und ⊘ ist das zweite Merkmal.
 | Fehler | `ak-fehler-*`, Zeichen ✕ oder Wortlaut |
 | Erfolg, belegt | `ak-gut-*`, Zeichen ✓ |
 | Info, Nachtrag | `ak-info-*`, Wort („Nachtrag“, „Schnell“) |
-| TV, Katalog, Finale | Kennfarben wie bisher (`ak-tv`, `ak-katalog`, `ak-finale`), je genau eine Bedeutung |
+| TV, Katalog, Finale | Kennfarben (`ak-tv`, `ak-katalog`, `ak-finale`; Gold ist seit 17.10.2026 nur noch `ak-favorit`), je genau eine Bedeutung |
 | Kino | kein Rot als Kennfarbe (Rot ist Fehler/Ausschluss): Kino-Knopf ist ein Primär- oder Sekundärknopf, der Saal bleibt (`.ak-saal`) |
 
 ## 6. Inventur 13.10.2026 (vor der Umstellung) und Abweichungen
@@ -144,11 +150,11 @@ Bilder: Scratchpad `design-regeln/bilder/vorher-*` (Woche, Panel, Filter, Suche,
 
 | Bedeutung | heute | Regel |
 |---|---|---|
-| Gewählt (eins von n) | fünf Formen: Akzent-Füllung (Woche/Monat), Text-Füllung schwarz/weiß (News-Chips, Patch-Notes-Pillen, Stream/Disc), grüne Füllung (Klick-Modus), Akzent-Unterstrich (Navigation), grüner Rand (Filter-Pillen) | Akzent-Füllung; Navigation Unterstrich; Filter-Pillen grüner Rand (Mehrfachauswahl); Klick-Modus bleibt. Umgesetzt 14.10.2026 (Woche/Monat, News-Chips, Patch-Notes-Pillen, Stream/Disc, Saison-Reiter, Navigation); ebenfalls 14.10.2026: Datumssprung (Monat, Tag) und UND/ODER-Schalter; offen: Panel-Reiter in `reihen-kopf.tsx`/`folgen-bereich.tsx` (sky/slate, gehört zum Slate/Sky-Abbau) |
+| Gewählt (eins von n) | fünf Formen: Akzent-Füllung (Woche/Monat), Text-Füllung schwarz/weiß (News-Chips, Patch-Notes-Pillen, Stream/Disc), grüne Füllung (Klick-Modus), Akzent-Unterstrich (Navigation), grüner Rand (Filter-Pillen) | Akzent-Füllung; Navigation Unterstrich; Filter-Pillen grüner Rand (Mehrfachauswahl); Klick-Modus bleibt. Umgesetzt 14.10.2026 (Woche/Monat, News-Chips, Patch-Notes-Pillen, Stream/Disc, Saison-Reiter, Navigation); ebenfalls 14.10.2026: Datumssprung (Monat, Tag) und UND/ODER-Schalter; offen: Panel-Reiter in `folgen-bereich.tsx` (sky/slate, gehört zum Slate/Sky-Abbau; die Reiter der Reihenliste entfielen am 20.10.2026) |
 | Fokus | `ring-sky-400` in `ui.tsx` (= `#ff7a5c` in beiden Themen, hell 2,6:1 auf Weiß); Patch Notes eigener Outline; die meisten Knöpfe ohne eigene Regel (Browser-Standard) | ein Ring `ak-fokus`, überall |
 | Hover-Fläche | fünf Werte (`ak-flaeche-2`, `white/10`, `slate-100`, `slate-50`, `slate-900/60`) | `ak-flaeche-2`, auf Fläche 2 `ak-flaeche-3`. **Umgesetzt 14.10.2026** (`hover:bg-slate/white/sky`, `dark:hover:`, `hover:brightness` = 0; Pillen mit Anbieterfarbe nehmen `hover:bg-ak-flaeche-2`, Meldungs-Chips der News einen inneren Ring `ak-leise`) |
 | Hover-Rand | vier Werte (`ak-leise`, `slate-400`, `white/40`, `ak-akzent`) | `ak-leise`; Akzent nur bei Verweis-Chips im Panel. **Umgesetzt 14.10.2026**; Text bei Hover: `ak-text` (Links, Textknöpfe) |
-| Amber | vier Bedeutungen: Warnung/Hinweis, Favoriten-Stern, Bugfix, Sonne im Themaknopf | Warnung; Stern → `ak-finale-text`; Bugfix → `ak-warnung`; Sonne → `ak-finale`. **Umgesetzt 14.10.2026** (`amber-` in `web/src` = 0); „Sprache offen“, TBA und „ungeklärt“ sind `ak-leise`; Mond → `ak-info` |
+| Amber | vier Bedeutungen: Warnung/Hinweis, Favoriten-Stern, Bugfix, Sonne im Themaknopf | Warnung; Stern → `ak-favorit-text`; Bugfix → `ak-warnung`; Sonne → `ak-favorit`. **Umgesetzt 14.10.2026** (`amber-` in `web/src` = 0); „Sprache offen“, TBA und „ungeklärt“ sind `ak-leise`; Mond → `ak-info` |
 | Rot | `rose` (Ausschluss, Beleg-Dialog, Kino-Knopf) neben `red` (Fehler, Abo beenden) | `ak-fehler`; Kino-Knopf verliert das Rot. **Umgesetzt 14.10.2026** (`rose-`, `red-` = 0); Kino-Knopf ist Sekundärknopf, Kino-Punkt in den Neuigkeiten und Plakette auf dem Cover nehmen den Akzent |
 | Grün | Pille gewählt, ✓ Deutsch, Klick-Modus, Feature | `ak-gut` für alle (eine Bedeutung: „ja/belegt“). **Umgesetzt 14.10.2026** (`emerald-` = 0) |
 | Blau | Schnellfilter-Band, Nachtrag, Panel-Karte, Neuigkeiten-Marken | `ak-info`. **Umgesetzt 14.10.2026** (`blue-`, `indigo-`, `violet-`, `teal-` = 0): Violett (Nachtrag „Zusage“, „Geplant“, Stufe „angekündigt“, Karten Neuigkeiten/Reihe) ist Info, „angekündigt“ heißt überall Info; Violett bleibt allein `ak-katalog` |
@@ -164,11 +170,26 @@ Bilder: Scratchpad `design-regeln/bilder/vorher-*` (Woche, Panel, Filter, Suche,
   `Hex in .css`; außer `detail/pillen.tsx`, `filter/Flagge.tsx`, `de-flagge.tsx`; `styles.css` zählt nicht; nur gültige Längen 3, 4, 6, 8). Die
   Prüfung vergleicht mit `tools/design-klassen-grenzen.json`; Zahl über der Grenze = Exit 1 (in `check:logic`,
   Gegenprobe `tools/design-klassen.test.mjs`); `--liste` zeigt Datei:Zeile je Muster; `--festschreiben` senkt die Grenzen und läuft nur im
-  Bestandsbau (`tools/commit-data.sh`), nie in einem PR; ist die Grenzdatei unlesbar, bricht es mit Exit 1 ab. Startwerte 14.10.2026: `slate-` 564, `dark:` 419, `sky-` 91, `white/` 106, Hex 51 (`.tsx`) / 4 (`.ts`) / 4 (`.css`) u. a.
-  Wer eine Fläche auf Tokens umstellt, sieht die Zahl sinken; der Bestandsbau schreibt sie fest. Eine Grenze kommt in keinem PR hoch.
+  Bestandsbau (`tools/commit-data.sh`, nur 02 UTC), nie in einem PR; ist die Grenzdatei unlesbar, bricht es mit Exit 1 ab. Startwerte 14.10.2026: `slate-` 564, `dark:` 419, `sky-` 91, `white/` 106, Hex 51 (`.tsx`) / 4 (`.ts`) / 4 (`.css`) u. a.
+  Wer eine Fläche auf Tokens umstellt, sieht die Zahl sinken; der nächtliche Bestandsbau schreibt sie fest. Eine Grenze kommt in keinem PR hoch.
 - `tools/design-info.test.mjs`, `design-hover.test.mjs`, `design-deaktiviert.test.mjs` (14.10.2026, laufen über `check:workflows` → `tests-alle`) halten `blue-/indigo-/violet-/teal-`, die alten Hover-Paare und `opacity-30/40/50/60` in `web/src` bei null und prüfen, dass Chip und Punkt jeder Meldungsart (`news-farben.ts`) dieselbe Kennfarbe tragen; Helfer: `tools/design-quelle.mjs`. Dunkle Fenster (Beleg-Dialog, Trailer) tragen `.ak-immer-dunkel`; der Block setzt `ak-grund`, `ak-flaeche`, `ak-flaeche-2`, `ak-flaeche-3`, `ak-rand`, `ak-linie`, `ak-text`, `ak-leise`, `ak-sehr-leise`, `ak-akzent-text`, `ak-link`, `ak-fokus`, `ak-fehler`, `ak-fehler-text` auf die Werte von `html.dark`. `tools/design-immer-dunkel.test.mjs` (15.10.2026) streicht jede dieser Zeilen einzeln und setzt sie auf den hellen Wert (muss rot werden: Text-auf-Fläche-Rollen über die Kontrastrechnung in `design-kontrast.mjs`, `rand`/`linie`/`fokus`/`fehler`/`fehler-text` über die Gleichheit mit `html.dark`), prüft Ruhe/Hover der Pille (≥ 1,2:1) und dass `bg-ak-pille`/`hover:bg-ak-pille-hover` an jeder Pillen-Stelle einzeln stehen (`pille.tsx` zweimal plus Hover, `pillen.tsx`, `merken-optik.ts`). Das Kontrastmodell löst, was der Block setzt, gegen den Block auf und, was er nicht setzt, gegen das Hauptthema (so wie der Browser erbt).
 - `tools/design-status.test.mjs` (in `check:logic`) hält `amber-`, `emerald-`, `rose-`, `red-` in `web/src` bei null (die Grenzdatei sinkt erst im Bestandsbau) und prüft die Zuordnungen; `tools/ansicht-statusfarben.mjs` (aus `check:ansichten`, Rechner) misst im gebauten Filterfenster und in den Patch Notes, dass gewählt `--ak-gut`, ausgeschlossen `--ak-fehler`, Feature `--ak-gut-text`, Bugfix `--ak-warnung-text` tragen, hell und dunkel.
 - Bühne: `web/buehne/ausschnitte/design.tsx` (Rollen und Zustände), Mockups `web/buehne/mockups/design-regeln.tsx`; `Variante.stil` legt
   ein Nachher-Stylesheet über die echte App (`zelle.tsx`).
 - Umsetzung in kleinen PRs: `daniel-zum-abarbeiten/vorrat/design-01-…` bis `design-08-…` (Tokens zuerst ohne sichtbare Änderung, dann je Bereich).
 - Nach jeder Umstellung: `npm run check:ansichten` und `check:panel`, Screenshots beider Themen im PR.
+
+## 8. Kachel-Rand und Anbieter-Leiste (17.10.2026, Daniel)
+
+- Die Anbieter-Leiste schließt das Cover unten ab (Woche `PosterKarte`, Monat `CoverKnopf`): untere Ecken eckig, Leiste bündig an der Unterkante, ohne Überstand. Ring und Glanz enden darüber (`.ak-ring-oben`, `clip-path` schneidet unten ab; wo die Leiste ein Geschwister ist, Woche und Tageszeile: `.ak-ring-oben-leiste`, 1 px höher, weil die Leiste auf ganze Pixel rundet); die oberen Ecken bleiben rund. Der Goldrand eines Favoriten sitzt dadurch nie unter der Leiste und schiebt sie nicht nach oben.
+- Wächter: `tools/kachel-ecken-messen.mjs` (in `check:ansichten-desktop`) misst an Pixeln, beide Themen, Woche, Monat, das Fenster am Monats-Cover (Tageszeile) und die Tageszeile am Handy (360 px, `isMobile`), jede Kachel einmal ohne und einmal mit Favorit: gleiche Unterkante der Leiste (Woche 4 px, Tageszeile 3 px), Leistenfarbe in beiden unteren Ecken, nichts unter der Leiste. Vollständigkeitssperre: endet rot, wenn eine der 8 Ergebniszeilen `{dunkel,hell}/{woche,monat,fenster,handy}` fehlt (`fehlendeZeilen`). Dazu der Klassentest in `pipeline/check-kachel-favorit-render.ts`.
+- **Lehre:** „Maße unverändert“ (`getBoundingClientRect`) sagt nichts über einen Rand, der außerhalb der Box liegt (Ring als `box-shadow`) — #1432 maß nur Rechtecke, und niemand sah sich die Kante zwischen Rand und Leiste an. Ein Rand oder Overlay an einer Kachel wird an Pixeln der Unterkante geprüft, mit und ohne Zustand.
+
+## 9. Leistensprung beim Öffnen des Panels (18.10.2026)
+
+Panel, Beleg-Dialog und Filterfenster sperren die Seite mit `overflow: hidden` an `html`; mit klassischer Bildlaufleiste (Windows, 10 bis 17 px) verschwand sie dabei, die Wochenkacheln rückten und wurden breiter. Behoben mit `scrollbar-gutter: stable` auf `html` (`styles.css`, bedingungslos; überlagernde Leisten von Telefonen kosten 0 px, gemessen mit `hasTouch` + `isMobile` 1024 und 393 px. Ein Touch-Gerät mit klassischer Leiste springt so ebenfalls nicht mehr. Handy-Seiten der Werkzeuge (`ansicht-bild.mjs --handy`, `panel-messen.mjs`, `trefferprobe-selbsttest.mjs`) laufen mit `hasTouch` + `isMobile`, sonst reserviert Chromium im Handy-Fenster 10 px); `kino.tsx` sperrt am `body`, das deckt dieselbe Regel. Warum es durchging: Playwright startet Chromium headless mit `--hide-scrollbars`, jede Layoutprüfung sah eine Leiste von 0 px und damit nie einen Sprung. Wächter: `tools/panel-sprung.mjs` (in `check:panel`, mit `ignoreDefaultArgs: ['--hide-scrollbars']`, misst die Wurzelbox, nicht `clientWidth` — das zählt den reservierten Platz nicht mit). Neue Layoutprüfungen mit Breitenbezug brauchen denselben Schalter; außer `ansicht-filterfenster-rechner.mjs` und `panel-sprung.mjs` starten die übrigen 40 Playwright-Werkzeuge in `tools/` ohne ihn (Stand 18.10.2026; nur gemeldet, nicht umgebaut).
+
+## 10. Spuren und Karussells ohne CSS-`scroll-smooth` (20.10.2026)
+
+Eine wischbare Spur (`reihen-spur.tsx`) bekommt kein `scroll-behavior: smooth` im Stylesheet. Es ließe jedes `scrollLeft = …` (Startposition) und jedes `scrollIntoView` gleiten: Die Trefferprobe der Kette (`trefferprobe-browser.mjs`, `check:panel`) misst dann mitten in der Bewegung und meldet Karten als „verdeckt" (PR 1698: Fälle „liegt bei -3445/850 unter nichts"). Gleiten soll nur der Pfeilsprung, mit `scrollBy({ behavior })`, und nicht bei „weniger Bewegung" (`sprungVerhalten` in `reihen-spur-regeln.ts`). Pfeile erscheinen nur mit feinem Zeiger (`pointer-fine:`), am Handy wischt man.
+Pixelprobe der Cover-Zustände (gewählt, künftig, gemerkt): Bühne, Mockup `reihen-box` Variante B, `node tools/buehne-reihen-messen.mjs` (nach `npm run buehne:bauen`); kein Teil von `check:vor-commit`.

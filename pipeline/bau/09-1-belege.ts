@@ -3,6 +3,7 @@ import { type CrunchyrollEntry } from '../lib/crunchyroll.ts'
 import { log, readJson } from '../lib/util.ts'
 import { type Zugangsart } from '../../shared/zugangsart.ts'
 import { adressKern, adressGleich, loadDubChecks, type DubCheck, dubKey } from '../lib/dub-confirmed.ts'
+import { kanalWissen } from '../lib/kanal-wissen.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 import { ergaenzeVerweiseVonHand } from '../lib/verweise-von-hand.ts'
 import { kanalAusNotiz } from '../lib/amazon-adresse.ts'
@@ -347,7 +348,7 @@ export function sammleBelege({
       zwei Ausgaben, und ein Beleg für die eine sagt nichts über die andere. Das
       ist der Date-a-Live-Fall vom 07.09.2026.
     */
-    return belegOhneGenaueAdresse(liste, anzahlWege, alleChecks, titleId, url)
+    return belegOhneGenaueAdresse(liste, anzahlWege, kanalWissen(alleChecks), titleId, url)
   }
   /* Rückwärtsverträglich für die Stellen, die keine Adresse zur Hand haben. */
   /**

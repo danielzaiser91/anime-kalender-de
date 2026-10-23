@@ -3,15 +3,15 @@ import { expandEvents, istErschienen, istAusgeblieben, titleStatus } from '@shar
 import { dubAbdeckung } from '@shared/dub-grenze.ts'
 import { type Title, type Release } from '@shared/types.ts'
 import { ausgebliebenBis } from './antwort-kasten.tsx'
-import { belegteBereiche, zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, gesamtGeschaetzt, fertigAntwort } from './antwort-regeln.ts'
+import { belegteBereiche, zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, deutschBegonnen, gesamtGeschaetzt, angekuendigteLaenge, fertigAntwort } from './antwort-regeln.ts'
 import { filmTermine } from './film-termine.ts'
 import { restUndBlock } from './antwort-block.ts'
 import { jpErschienen, KINO_LAND } from './kino.tsx'
 
-/** `jetzt` ist die Uhr für „erschienen“ (`istErschienen`); Tests setzen sie fest, sonst gilt der Augenblick des Aufrufs. */
-type AntwortEingabe = { title: Title | undefined; releases: Release[]; today: string; jetzt?: Date }
+/** `jetzt` ist die Uhr für „erschienen“ (`istErschienen`); Pflicht, damit kein Test mit festem `today` an der echten Uhr hängt. */
+type AntwortEingabe = { title: Title | undefined; releases: Release[]; today: string; jetzt: Date }
 
-export function berechneAntwort({ title, releases, today, jetzt = new Date() }: AntwortEingabe) {
+export function berechneAntwort({ title, releases, today, jetzt }: AntwortEingabe) {
   if (!title) return undefined
 
   /*
@@ -141,7 +141,7 @@ export function berechneAntwort({ title, releases, today, jetzt = new Date() }: 
     teile.length > 1 && teile[0]!.von === 1 && teile.every((x, i) => i === 0 || x.von === teile[i - 1]!.bis + 1)
   const ausReleases = aneinander ? teile[teile.length - 1]!.bis : 0
   const gesamt =
-    Math.max(title.episodes ?? 0, ausReleases) ||
+    Math.max(title.episodes ?? 0, ausReleases, angekuendigteLaenge(title, fuerKopf)) ||
     (nurWochen && alleEvents.length > 1 ? alleEvents.length : undefined)
   /*
     **„Alle N Folgen" nur, wenn alle N belegt sind.**
@@ -237,7 +237,7 @@ export function berechneAntwort({ title, releases, today, jetzt = new Date() }: 
   if (kuenftig.length > 0) {
     const n = kuenftig[0]!
     /* Ein abgeschlossenes, vollständig deutsches Werk bleibt „fertig" (`antwort-regeln.ts`). */
-    if (istBelegtAbgeschlossen(hatSynchro, vollstaendig, abgeschlossenFuerKasten, alleEvents, jetzt)) {
+    if (istBelegtAbgeschlossen(hatSynchro && deutschBegonnen(title, raus, today), vollstaendig, abgeschlossenFuerKasten, alleEvents, jetzt)) {
       return fertigAntwort(raus || gesamt, gesamt, vereint.size, alleEvents)
     }
     /*

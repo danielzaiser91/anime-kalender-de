@@ -9,7 +9,7 @@ import {
   type FranchiseMember, type Release
 } from '../../shared/types.ts'
 import { nachAusstrahlung, unterscheidenderZusatz } from '../../shared/titles.ts'
-import { staffelQuellenAusAnisearch } from './staffel-quelle.ts'
+import { alleStaffelQuellen } from './staffel-quelle.ts'
 import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import { type SynopsisEintrag } from './13-1-anreichern.ts'
@@ -179,7 +179,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
 
   const ausKatalog = readJson<Title[]>(`${OUT}/ohne-synchro.json`, [])
   /* Die belegte deutsche Staffelangabe (aniSearch) steuert die Beschriftung, nicht den Titel. */
-  const staffelQuellen = staffelQuellenAusAnisearch()
+  const staffelQuellen = alleStaffelQuellen()
   const cartoons = cartoonsMitReihe()
   const imBestand = new Set([...slim, ...cartoons].map((t) => t.id))
   const fuerReihen = [...slim, ...cartoons, ...ausKatalog.filter((t) => !imBestand.has(t.id)).map((t) => ({ ...t, ohneSynchro: true }))]

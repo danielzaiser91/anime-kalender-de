@@ -37,8 +37,6 @@ declare module 'claude-code' {
       minute: number
       // Ruhemodus aus ruhemodus.txt: hart, sanft oder aus.
       ruhe: 'hart' | 'sanft' | null
-      // Prozess-Lecks aus der Inventur.
-      lecks: { n: number; urteil: string; tooltip: string } | null
     }
   }
 }

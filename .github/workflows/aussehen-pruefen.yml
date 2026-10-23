@@ -57,6 +57,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Microsoft-Paketquelle entfernen
+        run: sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -fv || true
+
       - name: Chromium holen
         run: npx playwright install --with-deps chromium
 

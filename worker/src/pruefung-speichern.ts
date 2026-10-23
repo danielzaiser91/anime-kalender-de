@@ -227,14 +227,13 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
   if (unveraendert) {
     return antwort({ ok: true, befund, unveraendert: true })
   }
-  await loescheOffene(env, offene, { url, folgeNr, staffelNr, seitenKennung })
-
   /* Netflix und Disney+: die eine Rohfolge steht in der Zeile der Meldung (Migration 054), `prime_folge` bleibt leer. */
   const rohfolge = await rohfolgeFuerMeldung(daten, url, seitenKennung)
+  /* Rohfolgen vor der Zeile, deren Hash den nächsten Klick „unveraendert“ macht (sonst Verlust bei D1-Export, 16.10.2026). */
+  if (rohfolge === null) await speichereRohfolgen(env, daten, url, seitenKennung)
+  await loescheOffene(env, offene, { url, folgeNr, staffelNr, seitenKennung })
   const roh = rohfolgeFuerZeile(offene, { url, folgeNr, staffelNr, seitenKennung }, rohfolge)
   await fuegePruefungEin(env, daten, url, { befund, vorhanden, tonDe, art, staffelNr, seitenKennung, hash, ...roh })
-
-  if (rohfolge === null) await speichereRohfolgen(env, daten, url, seitenKennung)
 
   /*
     Bis zum 24.09.2026 zählte hier jede Meldung alle offenen Meldungen nach (`COUNT(*) … WHERE
@@ -265,7 +264,7 @@ export type Kontext = {
 
 async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, stapel: unknown[]) {
   /* Folgen in Titelzeilen gebündelt je Titel (Begründung in titelzeile-stapel.ts), der Rest einzeln wie bisher. */
-  const inTitelzeile = await titelzeilenImStapel(env, stapel)
+  const { ergebnisse: inTitelzeile, abfragen } = await titelzeilenImStapel(env, stapel)
   const rest = stapel.filter((_, i) => !inTitelzeile.has(i))
   const mitUrl = rest.filter((m): m is Record<string, unknown> => typeof (m as { url?: unknown } | null)?.url === 'string')
   const offene = await ladeOffeneHashes(env, mitUrl.map(folgeVon))
@@ -276,7 +275,7 @@ async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, s
     const r = await speichereDaten({ request, antwort, token, env, ctx: undefined, offene, ohneTitelzeile: true }, einzeln as Record<string, unknown>)
     const inhalt = (await r.json().catch(() => ({}))) as { befund?: string; error?: string }
     return r.ok ? { ok: true, befund: inhalt.befund ?? null } : { ok: false, status: r.status, grund: inhalt.error ?? 'ohne Grund' }
-  })
+  }, abfragen)
   const ergebnisse = stapel.map((_, i) => inTitelzeile.get(i) ?? uebrige.shift()!)
   const erste = stapel[0] as Record<string, unknown>
   ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(erste?.plattform ?? 'unbekannt') }))

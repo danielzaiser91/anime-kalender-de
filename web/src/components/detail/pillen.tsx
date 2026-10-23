@@ -73,7 +73,7 @@ export function discPillen(
         type="button"
         onClick={umschalten}
         aria-expanded={offen}
-        className="inline-flex min-h-[52px] cursor-pointer items-center gap-2.5 rounded-full bg-ak-pille py-1.5 pl-3.5 pr-4 text-left text-ak-text shadow-[inset_0_0_0_1px_rgba(15,23,42,.12)] transition hover:bg-ak-pille-hover dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08)]"
+        className="inline-flex min-h-[52px] cursor-pointer items-center gap-2.5 rounded-xl bg-ak-pille py-1.5 pl-3.5 pr-4 text-left text-ak-text shadow-[inset_0_0_0_1px_rgba(15,23,42,.12)] transition hover:bg-ak-pille-hover dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08)]"
       >
         <span className="flex shrink-0 items-center">
           <DiscZeichen />

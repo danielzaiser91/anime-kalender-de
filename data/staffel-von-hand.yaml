@@ -1,0 +1,16 @@
+# Staffelnummern, die die deutsche Quelle nennt, ohne dass der aniSearch-Sprachblock sie im Titel trägt.
+#
+# Wirkung: Der Eintrag zählt im Reihenbau wie ein „Staffel N" im deutschen Titel (`staffelQuelle`, siehe
+# `pipeline/bau/staffel-quelle.ts`): eigene Staffel statt „Teil 2" der Staffel davor. Hand schlägt Ableitung.
+# Nur mit Quelle und Tag, an dem sie gelesen wurde; wer widerlegt, löscht den Eintrag im Commit.
+#
+# Felder: anilistId, staffel, titel (zum Wiederfinden), quelle (Adresse), belegtAm, grund.
+
+# aniSearch führt die zweite Hälfte als „Dai 2 Cour" (Englisch „2nd Cour"), der Deutsch-Block hat keinen Titel;
+# das Synonym „Staffel 2" sah Daniel am 18.10.2026 live auf der Seite. Teil 2 startet 01.2027, Teil 1 hat 11 Folgen.
+- anilistId: 217070
+  staffel: 2
+  titel: 'Though I Am an Inept Villainess Part 2'
+  quelle: 'https://www.anisearch.de/anime/21976,futsutsuka-na-akujo-de-wa-gozaimasu-ga-suuguu-chouso-torikae-den-dai-2-cour'
+  belegtAm: '2026-10-18'
+  grund: 'aniSearch-Synonym „Staffel 2"; „Teil 1" neben „Teil 2" wäre falsch, es sind zwei Staffeln'

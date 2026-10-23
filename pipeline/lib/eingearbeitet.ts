@@ -16,6 +16,7 @@ const DATEIEN = [
   'data/ohne-synchro-von-hand.yaml',
   'data/watch-links.yaml',
   'data/reihen-von-hand.yaml',
+  'data/staffel-von-hand.yaml',
   'data/dub-confirmed.yaml',
   'data/katalog-release-von-hand.yaml',
 ]

@@ -22,6 +22,7 @@
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { dirname } from 'node:path'
+import { tagebuchZeilen } from './wache-tagebuch.mjs'
 
 const [deltaDatei, kastenDatei, lage] = process.argv.slice(2)
 const ZIEL = 'daniel-zum-abarbeiten/00-wache.md'
@@ -163,7 +164,7 @@ Die letzten ${HOECHSTENS} Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
-${[zeile, ...alt].slice(0, HOECHSTENS).join('\n')}
+${tagebuchZeilen(zeile, alt, befund).slice(0, HOECHSTENS).join('\n')}
 `
 
 mkdirSync(dirname(ZIEL), { recursive: true })

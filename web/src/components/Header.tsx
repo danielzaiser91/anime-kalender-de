@@ -160,7 +160,7 @@ function ThemaKnopf() {
   */
   return (
     <button type="button" onClick={umschalten} aria-label={label} title={label} className={`${RUND} hidden md:flex`}>
-      <span className={dunkel ? 'text-ak-finale' : 'text-ak-info'}>
+      <span className={dunkel ? 'text-ak-favorit' : 'text-ak-info'}>
         {dunkel ? <SonnenZeichen /> : <MondZeichen />}
       </span>
     </button>

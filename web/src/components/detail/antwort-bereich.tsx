@@ -1,7 +1,8 @@
-import { AntwortKasten } from './antwort-kasten.tsx'
+import { AntwortKastenMitMarke } from './kasten-marke.tsx'
 import { FolgenMitNachlegern } from './nachleger-zeilen.tsx'
+import { deutscheBereicheDerWege } from './stream-bereiche.ts'
 import type { StreamLink, Release, Title, DiscAusgabe } from '@shared/types.ts'
-import { alleOhneSprachbeleg, legendeDerZeilen, zeilenGruppen } from './legende-zeilen.ts'
+import { alleNurUntertitel, alleOhneSprachbeleg, legendeDerZeilen, zeilenGruppen } from './legende-zeilen.ts'
 import type { TvZuletzt } from '../../lib/tv-zuletzt.ts'
 import { tvVorbeiGruppen } from './tv-vorbei.tsx'
 import type { Translate } from '../../lib/i18n.tsx'
@@ -13,7 +14,7 @@ import { angebotSeitZeileVon } from './kasten-hinweise.ts'
 import { KinoZuletzt } from './kino-zuletzt.tsx'
 import type { sortiereNachZugang } from './wege-sortieren.ts'
 
-export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, terminReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, kaufausgabeZeile, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
+export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, terminReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
   antwort: ReturnType<typeof berechneAntwort>
   sortiertNachZugang: ReturnType<typeof sortiereNachZugang>
   streamReleases: Release[]
@@ -25,7 +26,6 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
   wegeHinweis: string | undefined
   tvVorbei: TvZuletzt[]
   kastenNotiz: Release | undefined
-  kaufausgabeZeile: string | undefined
   folgenLuecke: string | null
   verbindung: NewsletterVerbindung
   favorites: Set<number>
@@ -43,7 +43,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
   return (
     <>
       {antwort && (
-        <AntwortKasten
+        <AntwortKastenMitMarke
           pillenGruppen={
             new Map([
               ...zeilenGruppen(sortiertNachZugang, title, releases),
@@ -52,7 +52,8 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
             ])
           }
           antwort={antwort}
-          ohneSprachbeleg={alleOhneSprachbeleg(sortiertNachZugang, title, releases)}
+          releases={releases}
+          ohneSprachbeleg={alleNurUntertitel(sortiertNachZugang, title, releases) ? 'omu' : alleOhneSprachbeleg(sortiertNachZugang, title, releases)}
           legende={legendeDerZeilen({ sortiert: sortiertNachZugang, title, releases, folgenAngabeFuer, t })}
           terminPillen={terminPillen(terminReleases, title, releases, today, folgenAngabeFuer)}
           title={title}
@@ -60,10 +61,9 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
           today={today}
           wegeHinweis={wegeHinweis}
           notiz={kastenNotiz?.note}
-          folgen={<FolgenMitNachlegern titleId={title.id} antwort={antwort} releases={releases} today={today} laufzeitImKopf={Boolean(title.runtimeMin)} />}
+          folgen={<FolgenMitNachlegern titleId={title.id} wege={deutscheBereicheDerWege(title)} antwort={antwort} releases={releases} today={today} laufzeitImKopf={Boolean(title.runtimeMin)} />}
           schnitt={kastenNotiz?.schnitt}
           angebotSeit={angebotSeitZeileVon(title, t)}
-          kaufausgabe={kaufausgabeZeile}
           hinweis={
             folgenLuecke ? (
               <p className="mt-1 text-t4 text-slate-500 dark:text-slate-400">
@@ -78,7 +78,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                     : t('detail.noDubWatchOpen')}
                 </p>
                 {favorites.has(title.id) && (
-                  <p className="mt-1 text-t4 font-semibold text-ak-finale-text">
+                  <p className="mt-1 text-t4 font-semibold text-ak-favorit-text">
                     {t('detail.noDubWatched')}
                   </p>
                 )}
