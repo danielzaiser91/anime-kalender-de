@@ -56,7 +56,11 @@ async function pruefeStaffeln(melder) {
   pruefe('Zählung geht ins Protokoll', gespur.length === 1 && gespur[0][0] === 'durchgang-zaehlung', gespur)
   const leer = g7.akNetflixEnde('x', new Map(), new Set(), 0, titel, new Set())
   pruefe('keine Auskunft vom Briefkasten: wartend 0', leer.zaehlung.wartend === 0, leer.zaehlung)
-  pruefe('melder.js ruft akNetflixEnde', melder.includes('akNetflixEnde(grund, selbstUebersprungen, fertigeTitel, selbstGezaehlt, offeneTitel)'))
+  const gemeldet = []
+  g7.akNetflixEnde('x', new Map([['9', 'zurueck']]), new Set(['1']), 3, titel, new Set(['2']), (art, d) => gemeldet.push([art, d]))
+  pruefe('Zählung geht als Vorfall an den Worker (genau ein Aufruf, Zahlen im Text)', gemeldet.length === 1 && gemeldet[0][0] === 'durchgang-zaehlung' && gemeldet[0][1].text === JSON.stringify({ besucht: 3, gemessen: 1, wartend: 1, uebersprungen: 1 }), gemeldet)
+  pruefe('ohne Melder (Nichtauskunft) kein Fehler', g7.akNetflixEnde('x', new Map(), new Set(), 0, titel, new Set()).zaehlung.besucht === 0)
+  pruefe('melder.js reicht vorfallMelden durch', melder.includes('selbstGezaehlt, offeneTitel, undefined, vorfallMelden)'))
 }
 
 async function pruefeAlles() {

@@ -1,5 +1,6 @@
 import { pushText, pushZiel, type PushEreignis, type WeitererAnbieter } from './push-text.ts'
 import { fehlerLog } from './werte.ts'
+import { istPushDienst } from './push-dienst.ts'
 import { ladeKennungen, leseFavoriten, type Kennungen } from './favoriten-kennung.ts'
 
 /**
@@ -49,12 +50,8 @@ async function vapidKopf(env: PushEnv, endpoint: string): Promise<string> {
 
 /** Schickt einen leeren Push. Gibt den Status des Push-Dienstes zurück (201 = angenommen). */
 export async function leererPush(env: PushEnv, endpoint: string): Promise<{ status: number; text: string }> {
-  const url = new URL(endpoint)
   /* Nur echte Push-Dienste — sonst wäre der Endpunkt ein offener Weiterleiter. */
-  const erlaubt = ['fcm.googleapis.com', 'updates.push.services.mozilla.com', 'web.push.apple.com', 'wns2-', 'notify.windows.com']
-  if (url.protocol !== 'https:' || !erlaubt.some((h) => url.hostname.includes(h))) {
-    return { status: 400, text: 'kein bekannter Push-Dienst' }
-  }
+  if (!istPushDienst(endpoint)) return { status: 400, text: 'kein bekannter Push-Dienst' }
   const res = await fetch(endpoint, {
     method: 'POST',
     headers: { Authorization: await vapidKopf(env, endpoint), TTL: '600', Urgency: 'normal', 'Content-Length': '0' },

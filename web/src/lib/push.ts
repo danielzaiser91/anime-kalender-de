@@ -6,8 +6,9 @@
 import { DIENST_PAUSE } from '@shared/dienst-pause.ts'
 import { dienstFetch } from './dienstFetch.ts'
 
-const WORKER = import.meta.env.VITE_NEWSLETTER_API ?? ''
+const WORKER = import.meta.env?.VITE_NEWSLETTER_API ?? ''
 const MERKER = 'pushAbo'
+const PUSH_VOLL = 'Alle Plätze für Benachrichtigungen sind gerade vergeben. Das Kalender-Abo erinnert dich trotzdem.'
 
 export const pushMoeglich = (): boolean =>
   typeof window !== 'undefined' && 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window && Boolean(WORKER)
@@ -34,6 +35,7 @@ async function senden(abo: PushSubscription, favoriten: number[] | null): Promis
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(favoriten ? { subscription: abo.toJSON(), favoriten, ak: 1 } : { subscription: abo.toJSON(), abmelden: true }),
   })
+  if (res.status === 507 && ((await res.json().catch(() => null)) as { code?: string } | null)?.code === 'push_voll') throw new Error(PUSH_VOLL)
   if (!res.ok) throw new Error('Der Dienst hat das Abo nicht angenommen.')
 }
 

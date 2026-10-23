@@ -60,7 +60,7 @@ pruefe('zeitFehler: Ausnahme gilt nur für ihren Slug', zeitFehler(plan({ time: 
 pruefe('zeitFehler: Zeit neben Sichtung meldet genau einen Fehler', zeitFehler(gut({ time: '16:30', timeEstimated: true }), HEUTE, 'x').length === 1)
 pruefe('zeitFehler: gültige Sichtung still', zeitFehler(gut(), HEUTE, 'x').length === 0)
 pruefe('zeitFehler: Ausnahme am letzten Tag still', zeitFehler(plan({ time: '11:00', timeEstimated: true }), FESTGELEGTE_ZEITEN[avatar]!.bis, avatar).length === 0)
-const tagDanach = '2026-10-26'
+const tagDanach = '2026-11-03'
 pruefe('zeitFehler: Ausnahme am Tag nach der Frist ein Fehler', /abgelaufen/.test(zeitFehler(plan({ time: '11:00', timeEstimated: true }), tagDanach, avatar).join()), zeitFehler(plan({ time: '11:00', timeEstimated: true }), tagDanach, avatar))
 pruefe('zeitFehler: abgelaufen, aber nicht streng (Deploy): still', zeitFehler(plan({ time: '11:00', timeEstimated: true }), tagDanach, avatar, false).length === 0)
 pruefe('Frist: lokal streng', fristStrengIn({}) === true)

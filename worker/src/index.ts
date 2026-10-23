@@ -33,7 +33,8 @@ import {
   type ReleaseLink,
 } from './templates.ts'
 import { Ereignisse, ereignisSenden } from './ereignisse.ts'
-import { leererPush, pushVersand } from './push.ts'
+import { pushVersand } from './push.ts'
+import { handlePushAbo, handlePushTest } from './push-abo.ts'
 import { istErschienen } from '../../shared/logic.ts'
 import { type Env } from './env.ts'
 import { digestFuer, type DigestKontext, type Reihen, type SubscriberRow } from './digest-inhalt.ts'
@@ -1307,49 +1308,12 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
       case '/push/schluessel':
         /* Der öffentliche VAPID-Schlüssel — der Client braucht ihn zum Abonnieren. */
         return json(env, { schluessel: env.VAPID_PUBLIC ?? null })
-      case '/push/test': {
-        /*
-          Zustell-PoC (18.09.2026): schickt genau einen leeren Push an das übergebene
-          Abo zurück. Kein Speichern, gedeckelt auf 20 Versuche je Stunde insgesamt.
-        */
+      case '/push/test':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
-        if (!(await imRahmen(env, 'push-test', 20, 60))) return json(env, { error: 'Zu viele Versuche, bitte später.' }, 429)
-        let body: { subscription?: { endpoint?: string } }
-        try {
-          body = await request.json()
-        } catch {
-          return json(env, { error: 'Ungültige Anfrage.' }, 400)
-        }
-        const endpoint = body.subscription?.endpoint ?? ''
-        if (!endpoint) return json(env, { error: 'Kein Abo übergeben.' }, 400)
-        const antwort = await leererPush(env, endpoint)
-        return json(env, { ok: antwort.status >= 200 && antwort.status < 300, ...antwort })
-      }
-      case '/push/abo': {
-        /* Abo anlegen oder Favoriten nachführen. Kein Konto: der Endpunkt ist der Schlüssel. */
+        return handlePushTest(request, env, imRahmen, (body, status) => json(env, body, status))
+      case '/push/abo':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
-        if (!(await imRahmen(env, 'push-abo', 300, 60))) return json(env, { error: 'Zu viele Anfragen.' }, 429)
-        let body: { subscription?: { endpoint?: string }; favoriten?: number[]; abmelden?: boolean; ak?: number }
-        try {
-          body = await request.json()
-        } catch {
-          return json(env, { error: 'Ungültige Anfrage.' }, 400)
-        }
-        const endpoint = body.subscription?.endpoint ?? ''
-        if (!/^https:\/\//.test(endpoint) || endpoint.length > 1000) return json(env, { error: 'Kein gültiges Abo.' }, 400)
-        if (body.abmelden) {
-          await env.DB.prepare('DELETE FROM push_abo WHERE endpoint = ?1').bind(endpoint).run()
-          return json(env, { ok: true, abgemeldet: true })
-        }
-        const favoriten = schreibeFavoriten(body.favoriten, body.ak)
-        await env.DB.prepare(
-          `INSERT INTO push_abo (endpoint, favoriten, erstellt) VALUES (?1, ?2, ?3)
-           ON CONFLICT(endpoint) DO UPDATE SET favoriten = excluded.favoriten`,
-        )
-          .bind(endpoint, favoriten, new Date().toISOString())
-          .run()
-        return json(env, { ok: true })
-      }
+        return handlePushAbo(request, env, imRahmen, (body, status) => json(env, body, status))
       case '/push/nachricht': {
         /* Der Service Worker holt beim Push den Text ab — einmal, danach ist er weg. */
         const endpoint = new URL(request.url).searchParams.get('endpoint') ?? ''
