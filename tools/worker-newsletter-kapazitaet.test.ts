@@ -14,6 +14,8 @@ import {
   MAIL_TAG_MAX,
   belegung,
   digestStand,
+  istVoll,
+  vergissBelegung,
   wochenAboFaellig,
   wochentagVon,
 } from '../worker/src/newsletter-kapazitaet.ts'
@@ -21,7 +23,7 @@ import { bucheMails } from '../worker/src/mail-zaehler.ts'
 import { verbuchen } from '../worker/src/tagesdeckel.ts'
 import { digestMail } from '../worker/src/templates.ts'
 import { berlinParts } from '../worker/src/werte.ts'
-import { fetchAttrappe, neueDatenbank, testEnv, zaehler, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'
+import { d1, fetchAttrappe, neueDatenbank, testEnv, zaehler, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'
 
 let fehler = 0
 const zeige = console.log
@@ -228,6 +230,7 @@ async function anmeldung() {
   zeige('Anmeldung bei voller Kapazität:')
   const probe = async (fuell: (db: DatabaseSync) => void, email = 'neu@example.invalid') => {
     const db = neueDatenbank()
+    vergissBelegung()
     fuell(db)
     fetchAttrappe(MONTAG)
     zaehlerZurueck()
@@ -276,6 +279,46 @@ async function mailTextUndForce() {
   pruefe(zaehler.stapel.flat().length === 21, 'force weekly: alle 21 Wochen-Abos, auch die vor 2 Tagen bedienten')
 }
 
+/** Abweisungen bei voller Kapazität kosten weder Zähler-Schreibzeilen noch je Anfrage eine Belegungsabfrage. */
+async function abweisungenKosten() {
+  zeige('Kosten der Abweisungen bei voller Kapazität:')
+  const db = neueDatenbank()
+  vergissBelegung()
+  for (let i = 0; i < 70; i++) fuegeEin(db, `d${i}`, 'daily')
+  const env = testEnv(db, 7)
+  fetchAttrappe(MONTAG)
+  zaehlerZurueck()
+  let abgewiesen = 0
+  for (let i = 0; i < 50; i++) {
+    const antwort = await worker.fetch(
+      new Request('https://w.example.invalid/subscribe', {
+        method: 'POST',
+        headers: { 'cf-connecting-ip': `10.0.0.${i}`, 'content-type': 'application/json' },
+        body: JSON.stringify({ email: `x${i}@example.invalid`, frequency: 'daily' }),
+      }),
+      env,
+      { waitUntil() {} } as unknown as ExecutionContext,
+    )
+    if (antwort.status === 503) abgewiesen++
+  }
+  const schreibend = zaehler.sql.filter((s) => /^\s*(INSERT|UPDATE|DELETE)/i.test(s))
+  const belegungen = zaehler.sql.filter((s) => s.includes('FROM subscribers WHERE status IN'))
+  pruefe(abgewiesen === 50, `50 Anfragen von 50 Adressen: alle 503 (${abgewiesen})`)
+  pruefe(schreibend.length === 0 && zahl(db, 'SELECT COUNT(*) n FROM rate_limit') === 0, `50 Abweisungen: 0 Schreibabfragen, 0 rate_limit-Zeilen (${schreibend.length})`)
+  pruefe(belegungen.length === 1, `50 Abweisungen: eine Belegungsabfrage (${belegungen.length})`)
+  pruefe(zaehler.einzelmails === 0 && zaehler.stapel.length === 0, '50 Abweisungen: keine Mail')
+
+  vergissBelegung()
+  const frisch = d1(db)
+  zaehlerZurueck()
+  await istVoll(frisch, 1_000)
+  await istVoll(frisch, 1_000 + 59_999)
+  pruefe(zaehler.sql.length === 1, 'Belegung gilt 59.999 ms nach dem Lesen weiter')
+  fuegeEin(db, 'plus', 'daily', 'active')
+  db.exec("DELETE FROM subscribers WHERE id IN ('d0','d1','d2')")
+  pruefe(!(await istVoll(frisch, 1_000 + 60_000)) && zaehler.sql.length === 2, 'nach 60.000 ms wird neu gelesen: 68 Plätze belegt, nicht mehr voll')
+}
+
 hash()
 faellig()
 await verteilung(420, null, 'Wochen-Abos über zwei Wochen (Neustart ohne frühere Mail):')
@@ -284,6 +327,7 @@ await kappen()
 await mailTextUndForce()
 await abgewiesen()
 await anmeldung()
+await abweisungenKosten()
 
 if (fehler) {
   zeige(`\n${fehler} Prüfung(en) rot.`)

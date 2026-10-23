@@ -1283,7 +1283,7 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
     switch (url.pathname) {
       case '/subscribe':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
-        return mitAnmeldeSchutz(request, env, mitPlatzpruefung(handleSubscribe, cors(env)), imRahmen, cors(env))
+        return mitPlatzpruefung(request, env, () => mitAnmeldeSchutz(request, env, handleSubscribe, imRahmen, cors(env)), cors(env))
       case '/confirm':
         return handleConfirm(request, env)
       case '/unsubscribe':

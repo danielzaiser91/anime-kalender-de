@@ -73,6 +73,24 @@ async function leseBelegung(db: D1Database): Promise<number> {
   return belegung(results ?? [])
 }
 
+/** Wie lange eine gelesene Belegung gilt: Die Prüfung läuft vor den Zählern von B2 und darf Abweisungen nichts kosten. */
+export const BELEGUNG_GUELTIG_MS = 60_000
+let merker: { bis: number; voll: boolean } | null = null
+
+/** Nur für Tests: vergisst die gemerkte Belegung. */
+export function vergissBelegung(): void {
+  merker = null
+}
+
+/** Ob alle Plätze vergeben sind; höchstens eine Abfrage je Isolate und `BELEGUNG_GUELTIG_MS`. */
+export async function istVoll(db: D1Database, jetzt: number): Promise<boolean> {
+  const alt = merker
+  if (alt && jetzt < alt.bis) return alt.voll
+  const voll = (await leseBelegung(db)) >= DIGEST_TAG_MAX
+  merker = { bis: jetzt + BELEGUNG_GUELTIG_MS, voll }
+  return voll
+}
+
 const alsAntwort = (kopf: Record<string, string>) =>
   new Response(JSON.stringify({ error: TEXT_VOLL, code: CODE_VOLL }), {
     status: 503,
@@ -80,21 +98,22 @@ const alsAntwort = (kopf: Record<string, string>) =>
   })
 
 /**
- * Legt die Platzprüfung um den Handler von `/subscribe`: bei voller Kapazität bekommt jede gültige Adresse 503
- * `newsletter_voll`, ohne Zeile und ohne Mail. Vorhandene und neue Adressen müssen gleich antworten, sonst verriete
- * der Status, wer abonniert ist. Einstellungen und Wiederherstellung laufen über eigene Wege und bleiben offen.
+ * Platzprüfung von `/subscribe`, **vor** den Zählern des Anmelde-Schutzes: bei voller Kapazität bekommt jede gültige
+ * Adresse 503 `newsletter_voll`, ohne Zeile, ohne Mail und ohne Buchung oder Rückgabe eines Zählers. Vorhandene und
+ * neue Adressen müssen gleich antworten, sonst verriete der Status, wer abonniert ist. Einstellungen und
+ * Wiederherstellung laufen über eigene Wege und bleiben offen.
  */
-export function mitPlatzpruefung(
-  handler: (request: Request, env: Env) => Promise<Response>,
+export async function mitPlatzpruefung(
+  request: Request,
+  env: Env,
+  weiter: () => Promise<Response>,
   kopf: Record<string, string>,
-): (request: Request, env: Env) => Promise<Response> {
-  return async (request, env) => {
-    const body = (await request.clone().json().catch(() => null)) as { email?: unknown } | null
-    const email = typeof body?.email === 'string' ? body.email.trim().toLowerCase() : ''
-    if (!EMAIL_RE.test(email)) return handler(request, env)
-    if ((await leseBelegung(env.DB)) >= DIGEST_TAG_MAX) return alsAntwort(kopf)
-    return handler(request, env)
-  }
+): Promise<Response> {
+  const body = (await request.clone().json().catch(() => null)) as { email?: unknown } | null
+  const email = typeof body?.email === 'string' ? body.email.trim().toLowerCase() : ''
+  if (!EMAIL_RE.test(email)) return weiter()
+  if (await istVoll(env.DB, Date.now())) return alsAntwort(kopf)
+  return weiter()
 }
 
 export type DigestStand = { digestHeute: number; mailsHeute: number; mailsMonat: number; platz: number }
