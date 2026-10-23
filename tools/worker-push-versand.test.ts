@@ -1,6 +1,6 @@
 /**
  * **Push-Versand unter dem Unteraufruf-Budget** (23.10.2026): der stündliche Aufruf braucht ohne Push 35 von 50 Unteraufrufen
- * (docs/wissen/betrieb.md). Vorher kostete jedes Abo mindestens einen weiteren, mit Push drei. Jetzt: alle Stände in einem Stapel,
+ * (docs/wissen/betrieb.md). Vorher kostete jedes Abo mindestens einen weiteren, mit Push drei. Jetzt: alle Stände in einer Anweisung (json_each),
  * höchstens 8 Pushes je Lauf, die übrigen Abos behalten ihren Stand und kommen im nächsten Lauf als Erste dran.
  *
  * Aufruf: `npx tsx tools/worker-push-versand.test.ts`
@@ -8,7 +8,7 @@
 import type { DatabaseSync } from 'node:sqlite'
 import { pushVersand } from '../worker/src/push.ts'
 import type { PushEreignis } from '../worker/src/push-text.ts'
-import { fetchAttrappe, neueDatenbank, testEnv, zaehler, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'
+import { fetchAttrappe, neueDatenbank, testEnv, unteraufrufe, zaehler, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -26,8 +26,6 @@ const EREIGNIS: PushEreignis = { titleId: 1, name: 'Test', date: '2026-10-23', t
 const istErschienen = (_e: PushEreignis, zeit: Date) => zeit.getTime() >= FOLGE.getTime()
 
 const pushAbrufe: string[] = []
-let stapelAufrufe = 0
-let stapelAnweisungen = 0
 
 async function umgebung(db: DatabaseSync) {
   fetchAttrappe('2026-10-23')
@@ -37,17 +35,12 @@ async function umgebung(db: DatabaseSync) {
     if (!url.startsWith('https://fcm.googleapis.com/')) return basis(e, init)
     zaehler.fetch++
     pushAbrufe.push(url)
+    if (url.includes('/netz')) throw new TypeError('fetch failed')
     return new Response('', { status: url.includes('/tot') ? 410 : url.includes('/weg') ? 404 : 201 })
   }) as typeof fetch
   const schluessel = (await crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify'])) as CryptoKeyPair
   const privat = JSON.stringify(await crypto.subtle.exportKey('jwk', schluessel.privateKey))
   const env = { ...testEnv(db, 7), VAPID_PRIVATE_JWK: privat, VAPID_PUBLIC: 'oeffentlich' }
-  const batch = env.DB.batch.bind(env.DB)
-  env.DB.batch = ((liste: unknown[]) => {
-    stapelAufrufe++
-    stapelAnweisungen += liste.length
-    return batch(liste as never)
-  }) as typeof env.DB.batch
   return env
 }
 
@@ -62,12 +55,9 @@ function abos(db: DatabaseSync, anzahl: number, o: { favoriten?: string; zuletzt
   }
 }
 
-const unteraufrufe = () => zaehler.fetch + (zaehler.d1 - stapelAnweisungen) + stapelAufrufe
 const nullen = () => {
   zaehlerZurueck()
   pushAbrufe.length = 0
-  stapelAufrufe = 0
-  stapelAnweisungen = 0
 }
 const zeilen = (db: DatabaseSync, sql: string) => db.prepare(sql).all() as Record<string, unknown>[]
 const lauf = (env: Awaited<ReturnType<typeof umgebung>>, jetzt = JETZT) => pushVersand(env, jetzt, [EREIGNIS], istErschienen)
@@ -109,7 +99,7 @@ async function ohneNeuigkeit() {
   nullen()
   const meldung = await lauf(env)
   pruefe(pushAbrufe.length === 0 && meldung.includes('0 aufgeschoben'), `kein Push, nichts aufgeschoben (${meldung})`)
-  pruefe(unteraufrufe() <= 5, `höchstens 5 Unteraufrufe bei 100 Abos (${unteraufrufe()})`)
+  pruefe(unteraufrufe() <= FREI, `höchstens ${FREI} Unteraufrufe bei 100 Abos (${unteraufrufe()})`)
   pruefe(zeilen(db, `SELECT 1 FROM push_abo WHERE zuletzt = '${JETZT.toISOString()}'`).length === 100, 'alle 100 Abos haben den neuen Stand')
 }
 
@@ -128,7 +118,8 @@ async function sonderfaelle() {
   nullen()
   const meldung = await lauf(env)
   pruefe(zeilen(db, 'SELECT endpoint FROM push_abo').length === 1 && meldung.includes('1 Pushes, 3 erloschen'), `404 und 410 löschen die 3 erloschenen Abos in einem Stapel, der angenommene Push zählt (${meldung})`)
-  pruefe(stapelAufrufe === 2, `zwei Stapel: Stände und Löschung (${stapelAufrufe})`)
+  const art = (vorsilbe: string) => zaehler.sql.filter((q) => q.startsWith(vorsilbe)).length
+  pruefe(art('UPDATE') === 1 && art('DELETE') === 1, `eine Anweisung für alle Stände, eine für alle Löschungen (${art('UPDATE')}, ${art('DELETE')})`)
 }
 
 async function gemischtUndWeitere() {
@@ -172,7 +163,29 @@ async function gemischtUndWeitere() {
   pruefe(zeilen(db, 'SELECT offen FROM push_abo')[0]!.offen === null, 'Meldung zu einem fremden Titel erreicht das Abo nicht')
 }
 
+async function netzfehler() {
+  console.log('Push-Abruf wirft (Netzfehler):')
+  const db = neueDatenbank()
+  const env = await umgebung(db)
+  abos(db, 0)
+  for (const name of ['a1', 'netz', 'tot', 'b2']) {
+    db.exec(`INSERT INTO push_abo (endpoint, favoriten, erstellt, zuletzt, gemeldet) VALUES ('https://fcm.googleapis.com/${name}', 'ak:1', '2026-10-01', '2026-10-23T08:30:00Z', 'alt')`)
+  }
+  nullen()
+  const meldung = await lauf(env)
+  const stand = (name: string) => zeilen(db, `SELECT zuletzt, offen, gemeldet FROM push_abo WHERE endpoint LIKE '%/${name}'`)[0]
+  pruefe(pushAbrufe.length === 4 && meldung.includes('2 Pushes, 1 erloschen'), `die übrigen Pushes laufen weiter (${meldung})`)
+  pruefe(stand('tot') === undefined, 'das erloschene Abo wird trotz des Fehlers gelöscht')
+  pruefe(stand('a1')?.zuletzt === JETZT.toISOString() && stand('b2')?.zuletzt === JETZT.toISOString(), 'die gesendeten Abos haben den neuen Stand')
+  const netz = stand('netz')
+  pruefe(netz?.zuletzt === '2026-10-23T08:30:00Z' && netz.offen === null && netz.gemeldet === 'alt', 'das gescheiterte Abo behält den alten Stand, ohne offenen Text')
+  nullen()
+  await lauf(env, new Date(JETZT.getTime() + 60_000))
+  pruefe(pushAbrufe.some((u) => u.endsWith('/netz')), 'im nächsten Lauf ist das gescheiterte Abo wieder dran')
+}
+
 await vieleMitNeuigkeit()
+await netzfehler()
 await gemischtUndWeitere()
 await folgeLaeufe()
 await ohneNeuigkeit()
