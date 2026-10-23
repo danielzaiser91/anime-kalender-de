@@ -106,7 +106,7 @@ const finaleTage = expandEvents(mitVermerk).filter((e) => e.episode === 12 && is
 pruefe('Staffelfinale nur am 21.10., nicht am ausgebliebenen 14.10.', finaleTage.join() === '2026-10-21', finaleTage.join())
 pruefe('beide Tage der Folge 12 stehen im Kalender', expandEvents(mitVermerk).filter((e) => e.episode === 12).length === 2)
 const neben = (r: Release) => {
-  const a = berechneAntwort({ title: { id: 184356, format: 'TV', episodes: 12 } as unknown as Title, releases: [r], today: '2026-10-15' })
+  const a = berechneAntwort({ title: { id: 184356, format: 'TV', episodes: 12 } as unknown as Title, releases: [r], today: '2026-10-15', jetzt: new Date('2026-10-15T12:00:00+02:00') })
   return a?.art === 'laeuft' ? laeuftNeben(a, T) : undefined
 }
 pruefe('geschätzter Ersatztermin: „erwartet statt … (geschätzt)“', neben(mitVermerk)?.includes('erwartet statt 14.10.2026 (geschätzt)') === true, neben(mitVermerk))
