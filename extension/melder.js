@@ -2418,7 +2418,7 @@ function laufBeenden(grund) {
     dass nichts mehr geschah.
   */
   if (grund !== 'von Hand') {
-    durchgangEnde = akNetflixEnde(grund, selbstUebersprungen, fertigeTitel, selbstGezaehlt, offeneTitel)
+    durchgangEnde = akNetflixEnde(grund, selbstUebersprungen, fertigeTitel, selbstGezaehlt, offeneTitel, undefined, vorfallMelden)
     durchgangEndeZeigen()
   }
 }
