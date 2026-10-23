@@ -71,6 +71,8 @@ jobs:
       - name: Kapazität messen
         id: kapazitaet
         continue-on-error: true
+        # `shell: bash` = `-o pipefail`: ohne reicht der Exit-Code von `tee` durch und der Wächter wäre nie rot.
+        shell: bash
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_ANALYTICS_TOKEN || secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: 567f5e28368c5bbcfeffad3e674b02ab

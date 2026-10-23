@@ -8,7 +8,9 @@ import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { GRENZE_ANFRAGEN, GRENZE_CRON_P99_MS, GRENZE_D1_GESCHRIEBEN, bewerteKapazitaet } from './kapazitaet-bewertung.mjs'
-import { berichtZeilen, messe } from './kapazitaet-messen.mjs'
+import { readFileSync } from 'node:fs'
+import { parse } from 'yaml'
+import { berichtZeilen, lauf, messe } from './kapazitaet-messen.mjs'
 
 /* Schwellen fest eingetragen, nicht aus dem Modul abgeleitet. */
 assert.equal(GRENZE_ANFRAGEN, 70_000)
@@ -94,14 +96,39 @@ assert.equal(n.tage[1].cronP99Ms, null)
 assert.equal(n.tage[1].anfragen, 1042)
 assert.equal(n.nichtLesbar.length, 1)
 assert.equal(bewerteKapazitaet(n.tage).befunde.length, 0)
-assert.match(berichtZeilen(n).join('\n'), /::warning::Kapazität: Datensatz nicht lesbar \(cron: unknown field/)
 
 /* ---- Prozess ohne Token: Exit 0 mit Hinweis ---- */
 const env = { ...process.env }
 delete env.CLOUDFLARE_API_TOKEN
 delete env.CLOUDFLARE_ACCOUNT_ID
-const lauf = spawnSync(process.execPath, [fileURLToPath(new URL('./kapazitaet-messen.mjs', import.meta.url))], { env, encoding: 'utf8', windowsHide: true })
-assert.equal(lauf.status, 0)
-assert.match(lauf.stdout, /übersprungen/)
+const prozess = spawnSync(process.execPath, [fileURLToPath(new URL('./kapazitaet-messen.mjs', import.meta.url))], { env, encoding: 'utf8', windowsHide: true })
+assert.equal(prozess.status, 0)
+assert.match(prozess.stdout, /übersprungen/)
 
-console.log('Kapazität: Schwellen (70.000 Anfragen, 70.000 D1-Schreibzeilen, Cron p99 8 ms), Messung und Prozess ok.')
+
+/* ---- lauf(): Exit-Code und Ausgabe ---- */
+const sammle = () => {
+  const zeilen = []
+  return { zeilen, ausgabe: (z) => zeilen.push(z) }
+}
+const gut = sammle()
+assert.equal(await lauf({ token: 'T', konto: 'K', jetzt: JETZT, tage: 2, holen: api().holen, ausgabe: gut.ausgabe }), 1, 'Cron p99 8,2 ms ist über 8 ms')
+assert.ok(gut.zeilen.some((z) => z.startsWith('::error::Kapazität: Cron-CPU p99')))
+const fehlt = sammle()
+assert.equal(await lauf({ token: 'T', konto: 'K', jetzt: JETZT, tage: 2, holen: api({ ohne: ['workersInvocationsScheduled'] }).holen, ausgabe: fehlt.ausgabe }), 1, 'nicht lesbarer Datensatz = rot')
+assert.ok(fehlt.zeilen.some((z) => /^::error::Kapazität: Datensatz nicht lesbar \(cron: unknown field/.test(z)))
+const ohneToken = sammle()
+assert.equal(await lauf({ token: '', konto: 'K', jetzt: JETZT, holen: () => assert.fail('kein Abruf ohne Token'), ausgabe: ohneToken.ausgabe }), 0)
+assert.equal(await lauf({ token: 'T', konto: '', jetzt: JETZT, holen: () => assert.fail('kein Abruf ohne Konto'), ausgabe: ohneToken.ausgabe }), 0)
+const ruhig = sammle()
+const ruhigeApi = async () => ({ ok: true, json: async () => ({ data: { viewer: { accounts: [{ x: [] }] } } }) })
+assert.equal(await lauf({ token: 'T', konto: 'K', jetzt: JETZT, tage: 2, holen: ruhigeApi, ausgabe: ruhig.ausgabe }), 0)
+assert.equal(ruhig.zeilen.at(-1), 'Kapazität: alles im Rahmen.')
+
+/* ---- Workflow: der Schritt läuft mit pipefail, sonst verschluckt `tee` den Exit-Code ---- */
+const wf = parse(readFileSync(fileURLToPath(new URL('../.github/workflows/d1-verbrauch.yml', import.meta.url)), 'utf8'))
+const schritt = wf.jobs.verbrauch.steps.find((s) => s.id === 'kapazitaet')
+assert.equal(schritt.shell, 'bash')
+assert.equal(schritt.run, 'node tools/kapazitaet-messen.mjs | tee kapazitaet.txt')
+assert.equal(schritt['continue-on-error'], true)
+console.log('Kapazität: lauf() rot bei Schwelle und bei nicht lesbarem Datensatz, grün ohne Befund, still ohne Token; Workflow-Schritt mit pipefail.')

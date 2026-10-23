@@ -8,7 +8,7 @@
  * **Annahmen, beim ersten CI-Lauf gegen das Dashboard zu prüfen:** `cpuTimeP50/P99` in Mikrosekunden;
  * Cron aus `workersInvocationsScheduled`, alle Aufrufe aus `workersInvocationsAdaptive`; HTTP allein gibt
  * es nicht getrennt. Je Gruppe (Skript, Status, Cron) gilt der größte Quantil-Wert. Ein Datensatz, der
- * nicht lesbar ist, wird als Warnzeile genannt (kein roter Lauf, kein stilles Schweigen).
+ * nicht lesbar ist, macht den Lauf rot (sonst bliebe die Messung täglich unbemerkt blind).
  *
  * Ohne `CLOUDFLARE_API_TOKEN` oder `CLOUDFLARE_ACCOUNT_ID` passiert nichts (Exit 0 mit Hinweis).
  * Aufruf: `node tools/kapazitaet-messen.mjs [--tage 7]`
@@ -93,7 +93,7 @@ export async function messe({ token, konto, jetzt, tage = 7, holen = fetch }) {
 const de = (n) => (n == null ? 'n/a' : n.toLocaleString('de-DE', { maximumFractionDigits: 1 }))
 
 /** Die Protokollzeilen eines Messergebnisses (je Tag eine, dazu die Skripte des letzten Tages). */
-export function berichtZeilen({ tage, nichtLesbar }) {
+export function berichtZeilen({ tage }) {
   const zeilen = ['Kapazität der letzten Tage (UTC, Tag = 00:00–24:00):']
   for (const t of tage) {
     zeilen.push(
@@ -104,26 +104,32 @@ export function berichtZeilen({ tage, nichtLesbar }) {
   }
   const letzter = tage.at(-1)
   for (const [name, n] of Object.entries(letzter?.jeSkript ?? {})) zeilen.push(`  Skript ${name}: ${de(n)} Anfragen am ${letzter.datum}`)
-  for (const m of nichtLesbar) zeilen.push(`::warning::Kapazität: Datensatz nicht lesbar (${m})`)
   return zeilen
+}
+
+/**
+ * Messung, Ausgabe und Exit-Code. Ein nicht lesbarer Datensatz ist rot (die Messung wäre sonst täglich blind,
+ * ohne dass es jemand sieht); fehlende Zugangsdaten sind der einzige stille Fall (Exit 0).
+ */
+export async function lauf({ token, konto, jetzt, tage = 7, holen = fetch, ausgabe = console.log }) {
+  if (!token || !konto) {
+    ausgabe('Kein CLOUDFLARE_API_TOKEN oder CLOUDFLARE_ACCOUNT_ID gesetzt — Kapazitätsmessung übersprungen.')
+    return 0
+  }
+  const messung = await messe({ token, konto, jetzt, tage, holen })
+  for (const z of berichtZeilen(messung)) ausgabe(z)
+  const { befunde, warnungen } = bewerteKapazitaet(messung.tage)
+  for (const m of messung.nichtLesbar) befunde.push(`Kapazität: Datensatz nicht lesbar (${m}) — Messung unvollständig, Token-Rechte und Feldnamen prüfen`)
+  for (const w of warnungen) ausgabe(`::warning::${w}`)
+  for (const b of befunde) ausgabe(`::error::${b}`)
+  ausgabe(befunde.length ? 'Kapazität: ÜBER einer Schwelle oder Messung unvollständig.' : 'Kapazität: alles im Rahmen.')
+  return befunde.length ? 1 : 0
 }
 
 async function main() {
   const args = process.argv.slice(2)
   const tage = Number(args.includes('--tage') ? args[args.indexOf('--tage') + 1] : 7) || 7
-  const token = process.env.CLOUDFLARE_API_TOKEN
-  const konto = process.env.CLOUDFLARE_ACCOUNT_ID
-  if (!token || !konto) {
-    console.log('Kein CLOUDFLARE_API_TOKEN oder CLOUDFLARE_ACCOUNT_ID gesetzt — Kapazitätsmessung übersprungen.')
-    return 0
-  }
-  const messung = await messe({ token, konto, jetzt: new Date(), tage })
-  for (const z of berichtZeilen(messung)) console.log(z)
-  const { befunde, warnungen } = bewerteKapazitaet(messung.tage)
-  for (const w of warnungen) console.log(`::warning::${w}`)
-  for (const b of befunde) console.log(`::error::${b}`)
-  console.log(befunde.length ? 'Kapazität: ÜBER einer Schwelle.' : 'Kapazität: alles im Rahmen.')
-  return befunde.length ? 1 : 0
+  return lauf({ token: process.env.CLOUDFLARE_API_TOKEN, konto: process.env.CLOUDFLARE_ACCOUNT_ID, jetzt: new Date(), tage })
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) process.exit(await main())
