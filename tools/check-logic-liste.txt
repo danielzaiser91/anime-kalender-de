@@ -194,6 +194,7 @@ pipeline/check-sammler-lesezugriffe-faelle.ts
 pipeline/check-sammler-lesezugriffe.ts
 pipeline/check-schwester-shop.ts
 pipeline/check-screenshot-wiederholen.ts
+pipeline/check-seiten-ansicht.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-sichtung-folge.ts
 pipeline/check-sichtungsfenster.ts

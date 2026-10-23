@@ -4,7 +4,7 @@ import { gzipSync } from 'node:zlib'
 const KB = 1024
 
 /**
- * Grenze für `woche.json` (gzip, 23.10.2026): Die Datei zählt voll zum Start-Budget (`tools/start-budget.mjs`, Grenze 300 KB, Ist 293,6 KB bei 33,7 KB Woche)
+ * Grenze für `woche.json` (gzip, 23.10.2026): Die Datei zählt voll zum Start-Budget (`tools/start-budget.mjs`, Grenze 300 KB, Ist 293,8 KB bei 33,7 KB Woche)
  * und schwankt mit dem Inhalt der Woche (+1,4 KB in einem Bau). Mit 38 KB bleibt der Bestandsbau rot, bevor ein Deploy am Budget scheitert.
  */
 export const WOCHE_GRENZE = 38 * KB
