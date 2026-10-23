@@ -1,15 +1,57 @@
 {
-  "scrapedAt": "2026-10-23T05:04:06.432Z",
+  "scrapedAt": "2026-10-23T15:11:24.610Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 9,
-    "schon in einem Rubrik-Feed gelesen": 11,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "schon in einem Rubrik-Feed gelesen": 8,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
+      "articleUrl": "https://www.anime2you.de/news/1063292/prosieben-fun-zeigt-akame-ga-kill/",
+      "publishedAt": "2026-10-23",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-16",
+          "context": "uf. Wir fassen zusammen. Ab November 2026 »Akame ga KILL!« startet am 16. November 2026 um 20:55 Uhr auf ProSieben FUN. Zum Auftakt wird zun"
+        },
+        {
+          "iso": "2026-11-23",
+          "context": "t wird zunächst nur eine Episode ausgestrahlt, bevor die Serie ab dem 23. November 2026 jeden […] Der Beitrag ProSieben FUN zeigt »Akame g"
+        },
+        {
+          "month": "2026-11",
+          "context": "it deutscher Sprachfassung in sein Programm auf. Wir fassen zusammen. Ab November 2026 »Akame ga KILL!« startet am 16. November 2026 um 20:5"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "ProSieben MAXX wiederholt sechste »My Hero Academia«-Staffel",
+      "articleUrl": "https://www.anime2you.de/news/1063329/my-hero-academia-staffel-6-prosieben-maxx-wiederholung/",
+      "publishedAt": "2026-10-23",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-18",
+          "context": "b November 2026 Die sechste Staffel von »My Hero Academia« ist ab dem 18. November 2026 jeweils von Montag bis Freitag um 16:45 Uhr […] De"
+        },
+        {
+          "month": "2026-11",
+          "context": "her Sprachfassung ausstrahlen wird. Wir fassen zusammen. Wiederholung ab November 2026 Die sechste Staffel von »My Hero Academia« ist ab dem"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Crunchyroll zeigt »Bless« im Simulcast + Teaser",
       "articleUrl": "https://www.anime2you.de/news/1062951/crunchyroll-zeigt-bless-im-simulcast/",
