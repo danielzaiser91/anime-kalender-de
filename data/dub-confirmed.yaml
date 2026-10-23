@@ -38962,3 +38962,37 @@
   kanalMessung: ja
   checkedAt: '2026-10-21'
   note: "Tonspuren: Deutsch — Amazon-Seite B0GXC6GGH6: alle 1 Folge geprüft, Abos: kinderweltde, zugang=abo_und_kauf, gti=amzn1.dv.gti.4323100f-0d5e-4bfe-ad18-84faf36f9689 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-21 ---
+
+- anilistId: 170083
+  title: "Dragon Ball Daima"
+  platform: netflix
+  url: https://www.netflix.com/title/81943491
+  dub: false
+  checkedAt: '2026-10-21'
+  note: "Folgen 1–20 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original] — Gemessen in der Randprobe — gemessen: Folge 1 und 20, dazwischen nicht geprüft — Folge 20: Maximum"
+
+- anilistId: 20850
+  title: "Tokyo Ghoul √A"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0D7N68Q5T
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0D7N68Q5T: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.834ee1bc-c7bc-4b4c-839c-ee8826498aed"
+
+- anilistId: 20850
+  title: "Tokyo Ghoul √A"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DCXV5GMB
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0D83P6X34: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.df2c72f7-ac17-4e9d-8f03-3476aae5733e"
+
+- anilistId: 20850
+  title: "Tokyo Ghoul √A"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CW5WH6XZ
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CW5WH6XZ: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.a77f6e73-559f-48d2-a23f-ae7495f4af5f"

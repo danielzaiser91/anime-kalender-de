@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-21T03:02:31.314Z",
+  "scrapedAt": "2026-10-21T20:02:22.931Z",
   "window": {
     "from": "2026-10-12",
     "to": "2026-11-01"
@@ -1290,7 +1290,7 @@
       "weeklyConfirmed": true
     },
     "tomb raider king s1": {
-      "time": "19:25",
+      "time": "19:15",
       "weekday": 2,
       "dates": [
         "2026-07-29",
@@ -1303,7 +1303,8 @@
         "2026-09-16",
         "2026-09-23",
         "2026-09-30",
-        "2026-10-07"
+        "2026-10-07",
+        "2026-10-21"
       ],
       "rawTitle": "Tomb Raider King Staffel 1 (Deutsch)",
       "seriesId": "GT00378123",
@@ -1352,6 +1353,10 @@
         {
           "date": "2026-10-07",
           "episode": 11
+        },
+        {
+          "date": "2026-10-21",
+          "episode": 12
         }
       ],
       "earliest": {
@@ -1532,7 +1537,7 @@
     },
     "re zero starting life in another world s4": {
       "time": "16:00",
-      "weekday": 3,
+      "weekday": 2,
       "dates": [
         "2026-05-27",
         "2026-06-03",
@@ -1540,7 +1545,8 @@
         "2026-06-17",
         "2026-09-09",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-21"
       ],
       "rawTitle": "Re:ZERO -Starting Life in Another World- Staffel 4 (Deutsch)",
       "seriesId": "GRGG9798R",
@@ -1573,6 +1579,10 @@
         {
           "date": "2026-10-15",
           "episode": 15
+        },
+        {
+          "date": "2026-10-21",
+          "episode": 17
         }
       ],
       "earliest": {
@@ -2098,6 +2108,26 @@
       "date": "2026-10-18",
       "time": "17:00",
       "episode": 1,
+      "german": true
+    },
+    {
+      "key": "re zero starting life in another world s4",
+      "rawTitle": "Re:ZERO -Starting Life in Another World- Staffel 4 (Deutsch)",
+      "seriesId": "GRGG9798R",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRGG9798R/rezero--starting-life-in-another-world-",
+      "date": "2026-10-21",
+      "time": "16:00",
+      "episode": 17,
+      "german": true
+    },
+    {
+      "key": "tomb raider king s1",
+      "rawTitle": "Tomb Raider King Staffel 1 (Deutsch)",
+      "seriesId": "GT00378123",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00378123/tomb-raider-king",
+      "date": "2026-10-21",
+      "time": "19:15",
+      "episode": 12,
       "german": true
     }
   ]

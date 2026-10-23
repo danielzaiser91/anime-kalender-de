@@ -42,6 +42,16 @@ async function verhalten() {
     mitAntwort(status)
     pruefe((await meldung()) === null, `Status ${status}: Antwort kommt beim Aufrufer an (404 löscht dort den Schlüssel, 503 nie)`)
   }
+  const voll = 'Alle Newsletter-Plätze sind gerade vergeben. Push-Mitteilungen und die Kalender-Dateien (.ics) erinnern dich trotzdem, ganz ohne Anmeldung.'
+  const mitKoerper = (status: number, koerper: string) => {
+    globalThis.fetch = (async () => new Response(koerper, { status })) as typeof fetch
+  }
+  mitKoerper(503, '{"error":"x","code":"newsletter_voll"}')
+  pruefe((await meldung()) === voll, '503 newsletter_voll: eigener Hinweis statt Pause')
+  mitKoerper(503, '{"error":"x","code":"anderes"}')
+  pruefe((await meldung()) === DIENST_PAUSE, '503 mit anderem Code: Pause')
+  mitKoerper(503, 'kein json')
+  pruefe((await meldung()) === DIENST_PAUSE, '503 ohne JSON: Pause')
   pruefe(!/failed to fetch|1101|D1/i.test(DIENST_PAUSE), 'Satz ohne Technik')
   pruefe(DIENST_PAUSE.length < 90, 'Satz kurz')
 }

@@ -5,179 +5,8 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Shounen
 X-WR-TIMEZONE:Europe/Berlin
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261014T151000Z
-DTEND:20261014T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261014T160000Z
-DTEND:20261014T163000Z
-SUMMARY:Detektiv Conan – Folge 154/163
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-14#27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261014T162500Z
-DTEND:20261014T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-14#28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261014T165000Z
-DTEND:20261014T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261015T151000Z
-DTEND:20261015T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261015T160000Z
-DTEND:20261015T163000Z
-SUMMARY:Detektiv Conan – Folge 155/163
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-15#29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261015T162500Z
-DTEND:20261015T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-15#30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261015T165500Z
-DTEND:20261015T172500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-11499-primevideo@2026-10-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261015
-DTEND;VALUE=DATE:20261016
-SUMMARY:Sankarea: Undying Love (neu bei Prime Video)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
- eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/5511/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-16#29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T151000Z
-DTEND:20261016T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-16#30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T153500Z
-DTEND:20261016T160500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T160000Z
-DTEND:20261016T163000Z
-SUMMARY:Detektiv Conan – Folge 156/163
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-16#31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T162500Z
-DTEND:20261016T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-16#32@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T165000Z
-DTEND:20261016T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T170000Z
-DTEND:20261016T173000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 3/13
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
- ätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus ode
- r Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/15957
- /
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
-UID:dr-stone-science-future-part1@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261016
-DTEND;VALUE=DATE:20261017
-SUMMARY:Dr. STONE: Science Future – Teil 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15604/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:rent-a-girlfriend-s4-box@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261016
-DTEND;VALUE=DATE:20261017
-SUMMARY:Rent-A-Girlfriend – Staffel 4 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16032/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
+REFRESH-INTERVAL;VALUE=DURATION:PT12H
+X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-17#15@anime-kalender-de
 DTSTAMP:20200101T000000Z
@@ -295,7 +124,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T160000Z
 DTEND:20261019T163000Z
-SUMMARY:Detektiv Conan – Folge 157/163
+SUMMARY:Detektiv Conan – Folge 157/165
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -385,7 +214,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261020T160000Z
 DTEND:20261020T163000Z
-SUMMARY:Detektiv Conan – Folge 158/163
+SUMMARY:Detektiv Conan – Folge 158/165
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -446,7 +275,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T160000Z
 DTEND:20261021T163000Z
-SUMMARY:Detektiv Conan – Folge 159/163
+SUMMARY:Detektiv Conan – Folge 159/165
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -496,7 +325,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261022T160000Z
 DTEND:20261022T163000Z
-SUMMARY:Detektiv Conan – Folge 160/163
+SUMMARY:Detektiv Conan – Folge 160/165
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -514,8 +343,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-22#40@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261022T165000Z
-DTEND:20261022T172000Z
+DTSTART:20261022T165500Z
+DTEND:20261022T172500Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
@@ -546,7 +375,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261023T160000Z
 DTEND:20261023T163000Z
-SUMMARY:Detektiv Conan – Folge 161/163
+SUMMARY:Detektiv Conan – Folge 161/165
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -692,7 +521,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261026T170000Z
 DTEND:20261026T173000Z
-SUMMARY:Detektiv Conan – Folge 162/163
+SUMMARY:Detektiv Conan – Folge 162/165
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -822,7 +651,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261028T170000Z
 DTEND:20261028T173000Z
-SUMMARY:Detektiv Conan – Folge 163/163
+SUMMARY:Detektiv Conan – Folge 163/165
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -848,6 +677,86 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-29#48@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261029T161000Z
+DTEND:20261029T164000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-29#49@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261029T163500Z
+DTEND:20261029T170500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-10-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261029T165500Z
+DTEND:20261029T172500Z
+SUMMARY:Detektiv Conan – Folge 164/165
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-29#49@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261029T172500Z
+DTEND:20261029T175500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-29#50@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261029T175000Z
+DTEND:20261029T182000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-30#50@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T160500Z
+DTEND:20261030T163500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-30#51@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T163000Z
+DTEND:20261030T170000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T165500Z
+DTEND:20261030T172500Z
+SUMMARY:Detektiv Conan – Folge 165/165
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:tokyo-revengers-s3-disneyplus@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T170000Z
@@ -858,6 +767,26 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
  r Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/15957
  /
 CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-30#51@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T172000Z
+DTEND:20261030T175000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-30#52@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T175000Z
+DTEND:20261030T182000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:2-5-dimensional-seduction-vol4@2026-10-30@anime-kalender-de

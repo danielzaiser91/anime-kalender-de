@@ -1,7 +1,7 @@
 import { createIdSet } from './idSet.ts'
 import { todayIso } from '@shared/time.ts'
 
-/** Gemerkte Titel. Liegen im Browser des Nutzers, nicht auf einem Server. */
+/** Gemerkte Titel. Liegen im Browser des Nutzers; auf den Server (D1) gehen sie nur mit Newsletter-Abo, Web-Push oder Kalender-Feed. */
 const favoritesSet = createIdSet('favorites')
 
 /**

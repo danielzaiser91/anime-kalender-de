@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react'
+import { createContext, useContext, type CSSProperties, type ReactNode } from 'react'
 import { Tooltip } from '../ui.tsx'
 import { useLang, type Translate } from '../../lib/i18n.tsx'
 
@@ -33,7 +33,7 @@ export function Pille({ name, farbe, url, unten, titel, icon, durchgestrichen, s
       target="_blank"
       rel="noreferrer noopener"
       style={farbe ? ({ '--marke': farbe } as CSSProperties) : undefined}
-      className={`relative inline-flex min-h-[52px] max-w-full items-center gap-2.5 rounded-full py-1.5 pl-3.5 pr-4 transition hover:bg-ak-pille-hover ${farbe ? PILLE_MARKE : PILLE_OHNE_MARKE}`}
+      className={`relative inline-flex min-h-[52px] min-w-0 max-w-full items-center gap-2.5 rounded-xl py-1.5 pl-3.5 pr-4 transition hover:bg-ak-pille-hover ${farbe ? PILLE_MARKE : PILLE_OHNE_MARKE}`}
     >
       {icon && (
         <span className="flex shrink-0 items-center" style={farbe ? { color: farbe } : undefined}>
@@ -82,9 +82,14 @@ const STATUS_KLASSE: Record<DubStatusArt, string> = {
 }
 const STATUS_TEXT = { belegt: 'detail.statusDeutsch', jwDeutsch: 'detail.statusDeutsch', justwatch: 'detail.statusJustwatch', schwester: 'detail.statusSchwester', annahme: 'detail.statusAnnahme', omu: 'detail.statusOmu', offen: 'detail.statusOffen' } as const
 
+/** Wahr, wenn der Kopf des Kastens „Sprache offen“ schon sagt (`kasten-marke.tsx`). */
+export const KopfSagtOffen = createContext(false)
+
 /** Die Blase an der Pille; ihr Ring hat die Farbe des Kastens (`--kasten`), damit sie wie ausgeschnitten wirkt. */
 export function DubStatus({ art }: { art: DubStatusArt }) {
   const { t } = useLang()
+  const kopfOffen = useContext(KopfSagtOffen)
+  if (art === 'offen' && kopfOffen) return null
   return (
     <span
       className={`absolute -right-0.5 -top-3.5 inline-flex h-5 items-center whitespace-nowrap rounded-full px-2 text-t5 font-bold ring-2 ring-[color:var(--kasten,transparent)] ${STATUS_KLASSE[art]}`}
@@ -101,7 +106,6 @@ export function legendeFuer(arten: Iterable<DubStatusArt>, geschaetzt: boolean, 
     da.has('justwatch') ? t('detail.legendeJustwatch') : '',
     da.has('schwester') ? t('detail.legendeSchwester') : '',
     da.has('annahme') ? t('detail.legendeAnnahme') : '',
-    da.has('offen') ? t('detail.legendeOffen') : '',
     geschaetzt ? t('detail.legendeGeschaetzt') : '',
   ].filter(Boolean)
   return saetze.length ? saetze.join(' ') : undefined
