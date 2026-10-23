@@ -81,6 +81,8 @@ console.log('\nUS-Nein trifft nur die US-Adresse (09-4-1):')
   pruefe('deutsche Adresse mit http bleibt', nurAdresse(http).length === 1, nurAdresse(http))
   pruefe('deutsche Adresse ohne www bleibt', nurAdresse(ohneWww).length === 1, nurAdresse(ohneWww))
   pruefe('Gegenprobe: eine andere Sprachfassung fällt', nurAdresse(andereSprache).length === 0, nurAdresse(andereSprache))
+  const usMitStaffeln = deJa({ katalog: 'us', url: `${US_ADRESSE}-zwei` })
+  pruefe('Gegenprobe: Staffeln im US-Katalog schützen den deutschen Weg nicht', uebrig([usNein, usMitStaffeln], [DE_ADRESSE])[0]!.length === 0)
   const ohneStaffelnFeld = { url: DE_ADRESSE, seriesId: ID, katalog: 'de' } as unknown as CrSerie
   pruefe('Gegenprobe: deutscher Satz ohne Staffel-Feld schützt nicht', uebrig([usNein, ohneStaffelnFeld], [DE_ADRESSE])[0]!.length === 0)
 }
