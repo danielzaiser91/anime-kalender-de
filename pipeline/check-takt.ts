@@ -160,7 +160,7 @@ pruefe('Verlauf Mushoku: „Zwei Folgen auf einmal“ fällt weg und zeigt ihren
 const panel = (observed: Record<string, string>, extra: Partial<Release> = {}) => {
   const r = release(observed, extra)
   r.schedule.firstEpisodeDate = observed['1']
-  const a = berechneAntwort({ title: { id: 1, format: 'TV', episodes: 20 } as unknown as Title, releases: [r], today: heute })
+  const a = berechneAntwort({ title: { id: 1, format: 'TV', episodes: 20 } as unknown as Title, releases: [r], today: heute, jetzt: new Date() })
   return a?.art === 'laeuft' ? { neben: laeuftNeben(a, T), unklar: a.taktUnklar, estimated: a.haupt.estimated } : undefined
 }
 const pr = panel({ '1': tag(-170), ...rezero, '16': tag(-1) })
@@ -174,7 +174,7 @@ const wochen = (slug: string, spaetestens: number, folgen = 20): Release => {
 }
 const mitte = { ...release({ '1': tag(-170), ...rezero, '16': tag(-1) }), slug: 'r-mitte' } as Release
 const dreiRel = (rs: Release[]) => {
-  const a = berechneAntwort({ title: { id: 1, format: 'TV', episodes: 20 } as unknown as Title, releases: rs, today: heute })
+  const a = berechneAntwort({ title: { id: 1, format: 'TV', episodes: 20 } as unknown as Title, releases: rs, today: heute, jetzt: new Date() })
   return a?.art === 'laeuft' ? { slug: a.haupt.releaseSlug, unklar: a.taktUnklar } : undefined
 }
 const ersterUndLetzter = dreiRel([wochen('r-vorn', -2, 4), mitte, wochen('r-hinten', -2, 4)])
@@ -189,7 +189,7 @@ const anders = panel({ '1': tag(-23), '2': tag(-22), '3': tag(-9) }, { platform:
 pruefe('Panel: Fernsehen bekommt kein „Takt unklar“', anders?.unklar !== true, anders)
 const abwurfRelease = release({ '1': tag(-23), '2': tag(-22) }, { releaseType: 'available-from', dateMeaning: 'available-from' })
 abwurfRelease.schedule = { ...abwurfRelease.schedule, firstEpisodeDate: tag(3), estimated: true }
-const abwurfAntwort = berechneAntwort({ title: { id: 1, format: 'TV', episodes: 20 } as unknown as Title, releases: [abwurfRelease], today: heute })
+const abwurfAntwort = berechneAntwort({ title: { id: 1, format: 'TV', episodes: 20 } as unknown as Title, releases: [abwurfRelease], today: heute, jetzt: new Date() })
 const abwurf = abwurfAntwort?.art === 'laeuft' ? abwurfAntwort : undefined
 pruefe('Panel: ein Komplettabwurf bekommt kein „Takt unklar“ (Kontrolle: Daten allein wären unklar, Termin ist fortgeschrieben)', abwurf !== undefined && abwurf.haupt.estimated === true && taktUnklar(abwurfRelease.schedule) && abwurf.taktUnklar !== true, abwurf?.haupt)
 const angek = panel({ '1': tag(-23), '2': tag(-22), '3': tag(-9) }, { rhythmus: { stand: heute } } as never)
