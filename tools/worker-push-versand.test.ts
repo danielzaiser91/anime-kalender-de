@@ -171,8 +171,9 @@ async function netzfehler() {
   for (const name of ['a1', 'netz', 'tot', 'b2']) {
     db.exec(`INSERT INTO push_abo (endpoint, favoriten, erstellt, zuletzt, gemeldet) VALUES ('https://fcm.googleapis.com/${name}', 'ak:1', '2026-10-01', '2026-10-23T08:30:00Z', 'alt')`)
   }
+  db.exec("UPDATE push_abo SET favoriten = 'ak:1,77' WHERE endpoint LIKE '%/netz'")
   nullen()
-  const meldung = await lauf(env)
+  const meldung = await pushVersand(env, JETZT, [EREIGNIS], istErschienen, [{ id: 77, name: 'Serie', anbieter: 'Netflix' }])
   const stand = (name: string) => zeilen(db, `SELECT zuletzt, offen, gemeldet FROM push_abo WHERE endpoint LIKE '%/${name}'`)[0]
   pruefe(pushAbrufe.length === 4 && meldung.includes('2 Pushes, 1 erloschen'), `die übrigen Pushes laufen weiter (${meldung})`)
   pruefe(stand('tot') === undefined, 'das erloschene Abo wird trotz des Fehlers gelöscht')
