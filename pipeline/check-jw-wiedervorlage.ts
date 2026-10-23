@@ -97,7 +97,7 @@ pruefe('Cartoon-Ausschluss trifft nur die Kennungen der Cartoons', [...imGemisch
 /* Verdrahtung im Abruf: main bildet die Schlange unbedingt aus den Titeln und dem Bestand. */
 const abruf = readFileSync('pipeline/fetch-justwatch-audio.ts', 'utf8')
 const aufruf = unbedingteAufrufe(abruf, 'main').filter((a) => a.name === 'warteschlange')
-pruefe('main ruft warteschlange({ titles, bestand, … }) unbedingt auf', aufruf.length === 1 && aufruf[0]!.args[0] === '{ titles, bestand, tmdb, grenze, heute: todayIso(), cartoonIds: new Set(cartoons.map((t) => t.id)) }', aufruf)
+pruefe('main ruft warteschlange({ titles, bestand, … }) unbedingt auf', aufruf.length === 1 && aufruf[0]!.args[0] === '{ titles, bestand, tmdb, grenze, heute: todayIso(), frisch: frischeAusTermine(), cartoonIds: new Set(cartoons.map((t) => t.id)) }', aufruf)
 
 /* `offen` (die Schlange) wird in main nur gelesen: `offen.length` und `offen.slice(0, limit)`, kein Umsortieren, kein Zweitzugriff. */
 function offenZugriffe(quelltext: string): string[] {
