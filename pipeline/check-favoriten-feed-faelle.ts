@@ -5,7 +5,7 @@
  */
 import { buildIcs } from '../shared/ics.ts'
 import type { ReleaseEvent } from '../shared/types.ts'
-import { MAX_MS, MAX_TERMINE, pruefeFeedBestand, type Befund } from './lib/feed-bestand.ts'
+import { pruefeFeedBestand, type Befund } from './lib/feed-bestand.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean): void {
@@ -46,18 +46,18 @@ const abweichung = rot(pruefeFeedBestand(verdreht, KLEIN, schnell))
 pruefe('Ausschnitt weicht von buildIcs ab: Gleichheitsfall rot', abweichung.some((n) => n.includes('gleich buildIcs (alle Titel')))
 pruefe('Abweichung bei einem Titel betrifft den Fall „terminreichster Titel“ nicht', !abweichung.some((n) => n.includes('terminreichste')))
 
-const genau = pruefeFeedBestand(bau(viele(MAX_TERMINE)), viele(MAX_TERMINE), schnell)
-pruefe(`genau ${MAX_TERMINE} Termine: Terminfall grün`, !rot(genau).some((n) => n.includes('Termine')))
-const ueber = pruefeFeedBestand(bau(viele(MAX_TERMINE + 1)), viele(MAX_TERMINE + 1), schnell)
-pruefe(`${MAX_TERMINE + 1} Termine: Terminfall rot`, rot(ueber).some((n) => n.includes('Termine')))
+const genau = pruefeFeedBestand(bau(viele(800)), viele(800), schnell)
+pruefe(`genau 800 Termine: Terminfall grün`, !rot(genau).some((n) => n.includes('Termine')))
+const ueber = pruefeFeedBestand(bau(viele(801)), viele(801), schnell)
+pruefe(`801 Termine: Terminfall rot`, rot(ueber).some((n) => n.includes('Termine')))
 
 const leer = pruefeFeedBestand(bau([]), [], schnell)
 pruefe('Feed ohne Termine: Terminfall rot', rot(leer).some((n) => n.includes('Termine')))
 
-const knapp = pruefeFeedBestand(bau(KLEIN), KLEIN, () => MAX_MS - 0.1)
-pruefe(`${MAX_MS - 0.1} ms: Zeitfall grün`, rot(knapp).length === 0)
-const zuLang = pruefeFeedBestand(bau(KLEIN), KLEIN, () => MAX_MS)
-pruefe(`${MAX_MS} ms: Zeitfall rot`, rot(zuLang).some((n) => n.includes('ms')))
+const knapp = pruefeFeedBestand(bau(KLEIN), KLEIN, () => 49.9)
+pruefe("49.9 ms: Zeitfall grün", rot(knapp).length === 0)
+const zuLang = pruefeFeedBestand(bau(KLEIN), KLEIN, () => 50)
+pruefe("50 ms: Zeitfall rot", rot(zuLang).some((n) => n.includes('ms')))
 
 console.log(fehler ? `\n${fehler} Rotfall(e) der Feed-Wächter nicht erkannt.` : '\nFavoriten-Feed (Wächterfälle): alle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
