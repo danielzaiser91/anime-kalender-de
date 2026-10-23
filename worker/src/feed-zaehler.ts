@@ -31,8 +31,11 @@ export const utcTag = (d: Date): string => d.toISOString().slice(0, 10)
 export async function registerUndRang(token: string): Promise<{ reg: number; rang: number }> {
   const b = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(token)))
   const w = ((b[1] << 24) | (b[2] << 16) | (b[3] << 8) | b[4]) >>> 0
-  return { reg: b[0], rang: w === 0 ? 33 : Math.clz32(w) + 1 }
+  return { reg: b[0], rang: rangVon(w) }
 }
+
+/** Rang = Stelle der ersten 1 in 32 Bit (1 bis 32), bei 0 gilt 33. */
+export const rangVon = (w: number): number => (w === 0 ? 33 : Math.clz32(w) + 1)
 
 /** Schätzung verschiedener Token aus den Registern (fehlende Register zählen 0). */
 export function schaetzeTokens(register: ReadonlyMap<number, number>): number {

@@ -7,15 +7,20 @@
 import { DatabaseSync } from 'node:sqlite'
 import { readFileSync } from 'node:fs'
 import {
-  BUCHEN_AB,
-  BUCHEN_NACH_MS,
-  MIN_ABSTAND_MS,
   leseFeedAbrufe,
+  rangVon,
+  schaetzeTokens,
+  zaehleWennFeed,
   neuerSammler,
   zaehleFeedAbruf,
 } from '../worker/src/feed-zaehler.ts'
 import { type Env } from '../worker/src/env.ts'
 import { festeUhr } from './feste-uhr.ts'
+
+/** Feste Werte statt der Konstanten des Moduls: 10 Minuten, 60 Sekunden, 500 Abrufe. */
+const BUCHEN_NACH_MS = 600_000
+const MIN_ABSTAND_MS = 60_000
+const BUCHEN_AB = 500
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -78,10 +83,15 @@ console.log('Schreibzeilen je Abruf:')
 console.log('Schwellen:')
 {
   const w = neueWelt()
-  await viele(w, BUCHEN_AB - 1, T0, 1)
-  pruefe(w.z.stapel === 0, `BUCHEN_AB - 1 Abrufe innerhalb von MIN_ABSTAND: nichts gebucht`)
+  await viele(w, BUCHEN_AB - 2, T0, 1)
   await zaehleFeedAbruf(w.env, 'x', new Date(T0 + MIN_ABSTAND_MS), w.s)
-  pruefe(w.z.stapel === 1 && zeile(w.db, tag0, -1) === BUCHEN_AB, `Abruf Nummer BUCHEN_AB nach MIN_ABSTAND bucht genau einmal (${zeile(w.db, tag0, -1)})`)
+  pruefe(w.z.stapel === 0, "499 Abrufe, der letzte genau MIN_ABSTAND nach dem Start: nichts gebucht")
+  await zaehleFeedAbruf(w.env, 'y', new Date(T0 + MIN_ABSTAND_MS), w.s)
+  pruefe(w.z.stapel === 1 && zeile(w.db, tag0, -1) === 500, `500. Abruf genau MIN_ABSTAND nach dem Start bucht einmal (${zeile(w.db, tag0, -1)})`)
+  const w0 = neueWelt()
+  await viele(w0, BUCHEN_AB - 1, T0, 1)
+  await zaehleFeedAbruf(w0.env, 'x', new Date(T0 + MIN_ABSTAND_MS - 1), w0.s)
+  pruefe(w0.z.stapel === 0, "500 Abrufe, aber 1 ms vor MIN_ABSTAND: nichts gebucht")
   const w2 = neueWelt()
   await zaehleFeedAbruf(w2.env, 'a', new Date(T0), w2.s)
   await zaehleFeedAbruf(w2.env, 'b', new Date(T0 + BUCHEN_NACH_MS - 1), w2.s)
@@ -110,15 +120,15 @@ console.log('Ein Token, zwei Läufe, Folgezeile ohne Änderung:')
 console.log('Tageswechsel und Aufräumen:')
 {
   const w = neueWelt()
-  w.db.prepare("INSERT INTO feed_abrufe VALUES ('2026-09-01', -1, 7), ('2026-10-01', -1, 9)").run()
+  w.db.prepare("INSERT INTO feed_abrufe VALUES ('2026-09-01', -1, 7), ('2026-09-11', -1, 8), ('2026-09-12', -1, 6), ('2026-10-01', -1, 9)").run()
   await viele(w, 4, T0, 1)
   const naechster = Date.parse('2026-10-13T00:30:00Z')
   await zaehleFeedAbruf(w.env, 'neu', new Date(naechster), w.s)
   pruefe(zeile(w.db, tag0, -1) === 4, `alter Tag wird beim Wechsel gebucht (${zeile(w.db, tag0, -1)})`)
+  pruefe(zeile(w.db, '2026-09-01', -1) === undefined && zeile(w.db, '2026-09-11', -1) === undefined && zeile(w.db, '2026-09-12', -1) === 6 && zeile(w.db, '2026-10-01', -1) === 9, 'älter als 30 Tage gelöscht (31 Tage weg, 30 bleiben), jünger bleibt')
   pruefe(w.s.abrufe === 1 && w.s.tag === '2026-10-13', 'neuer Tag fängt bei 1 an')
   await zaehleFeedAbruf(w.env, 'neu', new Date(naechster + BUCHEN_NACH_MS), w.s)
   pruefe(zeile(w.db, '2026-10-13', -1) === 2, 'neuer Tag eigene Zeile')
-  pruefe(zeile(w.db, '2026-09-01', -1) === undefined && zeile(w.db, '2026-10-01', -1) === 9, 'älter als 30 Tage gelöscht, jünger bleibt')
 }
 
 console.log('Nichtauskunft: Buchen scheitert (Tabelle fehlt, D1-Limit):')
@@ -157,7 +167,30 @@ function utc(ms: number): string {
   return new Date(ms).toISOString().slice(0, 10)
 }
 
-console.log('Verdrahtung: der Worker zählt jeden Abruf von /feed/favoriten.ics (auch unbekannte Adresse):')
+console.log('Rang und Schätzung (feste Werte, von Hand gerechnet):')
+{
+  pruefe(rangVon(0) === 33 && rangVon(1) === 32 && rangVon(0x80000000) === 1 && rangVon(0x00ff0000) === 9, 'rangVon: 0 -> 33, 1 -> 32, 2^31 -> 1, 0x00ff0000 -> 9')
+  const nur = (anzahl: number, wert: number) => new Map(Array.from({ length: anzahl }, (_, i) => [i, wert] as [number, number]))
+  pruefe(schaetzeTokens(new Map()) === 0, 'leer: 0 Token')
+  pruefe(schaetzeTokens(nur(255, 1)) === 1420, `255 Register belegt, eines leer: Linearzählung 256*ln(256) = 1420 (${schaetzeTokens(nur(255, 1))})`)
+  pruefe(schaetzeTokens(nur(256, 5)) === 5884, `alle 256 Register Rang 5: 0,71829*256*32 = 5884 (${schaetzeTokens(nur(256, 5))})`)
+}
+
+console.log('Nur Feed-Abrufe mit Adresse zählen:')
+{
+  const w = neueWelt()
+  const zaehle = (url: string) => zaehleWennFeed(new Request(url), w.env, new Date(T0), w.s)
+  await zaehle('https://worker.test/feed/favoriten.ics?k=abc')
+  await zaehle('https://worker.test/feed/favoriten.ics?k=%20abc%20')
+  pruefe(w.s.abrufe === 2 && w.s.register.size === 1, `Adresse mit Leerzeichen ist derselbe Token (${w.s.abrufe} Abrufe, ${w.s.register.size} Register)`)
+  await zaehle('https://worker.test/feed/favoriten.ics')
+  await zaehle('https://worker.test/feed/favoriten.ics?k=%20')
+  await zaehle('https://worker.test/feed/anderes.ics?k=abc')
+  await zaehle('https://worker.test/health?k=abc')
+  pruefe(w.s.abrufe === 2, `ohne Adresse, leere Adresse, anderer Pfad: nicht gezählt (${w.s.abrufe})`)
+}
+
+console.log('Verdrahtung:der Worker zählt jeden Abruf von /feed/favoriten.ics (auch unbekannte Adresse):')
 {
   const { default: worker } = await import('../worker/src/index.ts')
   const w = neueWelt()
