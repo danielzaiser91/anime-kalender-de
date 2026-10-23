@@ -162,6 +162,7 @@ assert.match(erledigtArgumente(['--erledigt', '12', '--notiz']).fehler, /--notiz
 assert.match(erledigtArgumente(['--erledigt', '12', '--notiz', '  ']).fehler, /--notiz/)
 assert.match(erledigtArgumente(['--erledigt', '12', '--notiz', '--trocken']).fehler, /--notiz/)
 assert.match(erledigtArgumente(['--erledigt']).fehler, /lauf_id/)
+assert.match(erledigtArgumente(['x', '--erledigt', '12']).fehler, /--notiz/)
 assert.match(erledigtArgumente(['--erledigt', '--notiz', 'x']).fehler, /lauf_id/)
 const reihe = [
   { lauf_id: 'a1', zustand: 'ok', gemeldet_am: T(1) },
@@ -180,10 +181,10 @@ assert.equal(roteArten({ W: [eintrag('warnung', T(1)), eintrag('erledigt', T(2))
 
 // Das ganze Werkzeug mit Kulisse: GET Übersicht, GET ?verlauf=<Art> (mit lauf_id), POST wird nur ausgegeben.
 const erledigtLauf = (args, token = 'T0K') => {
-  const uebersicht = JSON.stringify({ laeufe: [], verlauf: { 'Wöchentlich': [eintrag('ok', T(1)), eintrag('warnung', T(2))], Grün: [eintrag('ok', T(1))] } })
+  const uebersicht = JSON.stringify({ laeufe: [], verlauf: { Früh: [eintrag('fehler', T(5))], 'Wöchentlich': [eintrag('ok', T(1)), eintrag('warnung', T(2))], Grün: [eintrag('ok', T(1))] } })
   const art = JSON.stringify({ laeufe: [{ lauf_id: '901', zustand: 'warnung', gemeldet_am: T(2) }, { lauf_id: '900', zustand: 'ok', gemeldet_am: T(1) }] })
   const stub =
-    `globalThis.fetch=async(u,o)=>{u=String(u);if(o&&o.method==="POST"){console.log("POST "+o.headers["X-Lauf-Token"]+" "+o.body);return new Response("{}",{status:200})}` +
+    `globalThis.fetch=async(u,o)=>{u=String(u);if(o&&o.method==="POST"){console.log("POST "+o.headers["X-Lauf-Token"]+" "+o.body);return new Response("{}",{status:o.headers["X-Lauf-Token"]==="KAPUTT"?500:200})}` +
     `if(u.includes("api.github.com"))return new Response("[]",{status:500});` +
     `return new Response(u.includes("?verlauf=")?(u.includes(encodeURIComponent("Wöchentlich"))?${JSON.stringify(art)}:"{\\"laeufe\\":[]}"):${JSON.stringify(uebersicht)},{status:200})}`
   return spawnSync(process.execPath, ['--import', `data:text/javascript,${stub}`, werkzeug, ...args], {
@@ -207,12 +208,15 @@ for (const [args, token, muster] of [
   [['--erledigt', '900', ...NOTIZ], 'T0K', /Lauf 900 ist kein roter/],
   [['--erledigt', '901'], 'T0K', /braucht --notiz/],
   [['--erledigt', '901', '--trocken'], 'T0K', /braucht --notiz/],
-  [['--erledigt', '901', ...NOTIZ], '', /LAUF_TOKEN fehlt/],
-]) {
+  [['--erledigt', '901', ...NOTIZ], '', /LAUF_TOKEN fehlt/],]) {
   const r = erledigtLauf(args, token)
   assert.equal(r.status, 1, args.join(' '))
   assert.match(r.stderr, muster)
   assert.doesNotMatch(r.stdout, /POST/)
 }
+// Lehnt der Worker ab (500), endet das Werkzeug mit Exit 1 statt still mit 0.
+const abgelehnt = erledigtLauf(['--erledigt', '901', ...NOTIZ], 'KAPUTT')
+assert.equal(abgelehnt.status, 1)
+assert.match(abgelehnt.stderr, /Worker antwortete mit 500/)
 console.log('laeufe-abruf --erledigt: ok')
 console.log('laeufe-abruf: ok')
