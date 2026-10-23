@@ -374,8 +374,10 @@ async function fehlerFaelle() {
  */
 function gemischtStellen(s) {
   s.posts = []
+  s.vorfaelle = []
   const echt = s.env.fetch
   s.env.fetch = async (url, opt) => {
+    if (opt?.method === 'POST' && url.endsWith('/vorfall')) s.vorfaelle.push(JSON.parse(opt.body))
     if (opt?.method === 'POST' && !url.endsWith('/vorfall')) s.posts.push(JSON.parse(opt.body))
     return echt(url, opt)
   }
@@ -413,6 +415,9 @@ async function randvollFaelle() {
   await a.warte()
   const gemeldet = gemeldeteSprachen(a)
   pruefe('Sammeldurchgang: alle 15 Folgen liegen im Briefkasten', a.briefkasten.length === 15, a.briefkasten.length)
+  const zaehlungen = a.vorfaelle.filter((v) => v.art === 'durchgang-zaehlung')
+  const zahlen = zaehlungen[0] ? JSON.parse(zaehlungen[0].text) : null
+  pruefe('Durchgang-Ende: genau ein /vorfall durchgang-zaehlung, Text = JSON der Zahlen', zaehlungen.length === 1 && zahlen && ['besucht', 'gemessen', 'wartend', 'uebersprungen'].every((k) => Number.isFinite(zahlen[k])), a.vorfaelle)
   const groessen = a.posts.map((b) => b.stapel?.length ?? 0)
   pruefe('… in zwei Stapel-POSTs gesendet (8 mit Deutsch, 7 ohne), nicht 15 einzeln', groessen.length === 2 && groessen.includes(8) && groessen.includes(7), groessen)
   const notizen = a.posts.flatMap((b) => b.stapel ?? []).map((d) => d.notiz)
