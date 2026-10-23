@@ -42,9 +42,26 @@ const AUFRUFE = [
   'pr diff 7',
   'api repos/o/r/issues/7/comments --paginate -q .[] | select(.body | startswith("<!-- pr-stufe -->")) | .id',
   'pr comment 7 --repo o/r --body-file <datei>',
+  'api --paginate --slurp repos/o/r/issues/7/comments',
 ]
 const aufrufe = (gut.aufrufe ?? []).map((a) => a.replace(/--body-file \S+/, '--body-file <datei>'))
 pruefe('Ablauf: gh-Aufrufe genau die erwartete Liste (kein zusätzlicher Aufruf)', JSON.stringify(aufrufe) === JSON.stringify(AUFRUFE), { ist: aufrufe, soll: AUFRUFE })
+
+// Prüfmodus im echten Ablauf: erster bereiter Kopf (Agent-Kommentar „Prüfer: ändern“ des Inhabers, kein CI-Review) -> voll;
+// mit CI-Review aus dem Modus voll auf einem früheren Kopf -> Abnahme, Auflagen aus beiden Quellen, vorher = jener Kopf.
+pruefe('Prüfmodus: ohne CI-Review voll (Agent-Kommentar allein genügt nicht), frei bei Stufe 2', gut.ausgaben?.modus?.modus === 'voll' && gut.ausgaben?.modus?.['aendern-frei'] === '1' && gut.ausgaben?.modus?.vorher === '', gut.ausgaben?.modus)
+const ciR1 = { user: { login: 'github-actions[bot]' }, author_association: 'NONE', body: '**Prüfer-Review** für ' + 'a'.repeat(9) + ' - Urteil: **aendern**\n\nA1 Test fehlt\nA2 Mutation fehlt\n\n<!-- pruefer-modus: voll -->\n' }
+const mitCi = prDaten(7, KOPF)
+mitCi.kommentare = [[...mitCi.kommentare[0], ciR1], mitCi.kommentare[1]]
+const abnahme = laufeBisEingang(wf, { 7: mitCi })
+pruefe('Prüfmodus: CI-Review auf früherem Kopf -> abnahme, frei bei Stufe 2, vorher aaaaaaaaa',
+  abnahme.ausgaben?.modus?.modus === 'abnahme' && abnahme.ausgaben?.modus?.['aendern-frei'] === '1' && abnahme.ausgaben?.modus?.vorher === 'aaaaaaaaa', abnahme.ausgaben)
+pruefe('Prüfmodus: Auflagendatei liegt im Prüfordner mit beiden Quellen (Agent und CI)',
+  abnahme.auflagen?.includes('Kommentar des Agent-Prüfers') && abnahme.auflagen?.includes('A2 Mutation fehlt') && abnahme.auflagen?.includes('CI-Review für aaaaaaaaa'), abnahme.auflagen)
+pruefe('Prüfmodus: Sperre läuft im Abnahme-Lauf trotzdem durch (zustand=ok)', abnahme.ausgaben?.eingang?.zustand === 'ok', abnahme.ausgaben)
+const ohneApi = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), kommentare: undefined } })
+pruefe('Prüfmodus: Kommentar-Abruf scheitert -> voll, nicht frei (Schritt bricht den Lauf nicht ab)',
+  ohneApi.ausgaben?.modus?.modus === 'voll' && ohneApi.ausgaben?.modus?.['aendern-frei'] === '0', ohneApi.ausgaben ?? ohneApi.fehler)
 
 // Die Sperre greift: fehlt die Commit-Liste (API scheitert), ist der Zustand nicht ok, obwohl der Diff vollständig ist.
 const ohneCommits = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), commits: undefined } })
@@ -63,7 +80,19 @@ pruefe('Sperre: Liste endet nicht am Kopf -> zustand=unvollstaendig',
 // Sperre, Freigabe-env und -run deckt der Schnappschuss (pr-pruefer-freigabe.test.mjs) ab; hier bleibt der Prompt-Text.
 const schritte = wf.jobs.pruefen.steps
 const pruefer = schritte.filter((s) => String(s.uses ?? '').startsWith('anthropics/claude-code-action'))
-pruefe('Zwei Prüfer-Schritte', pruefer.length === 2, pruefer.map((s) => s.name))
+pruefe('Drei Prüfer-Schritte (Stufe 0, voll, Abnahme)', pruefer.length === 3, pruefer.map((s) => s.name))
+// Abnahme-Modus (21.10.2026): jeder Kopf läuft durch genau einen der drei Prüfer; der Modus-Schritt steht vor der Sperre.
+const bedingung = (name) => String(pruefer.find((s) => s.name === name)?.if ?? '')
+pruefe('Stufe 0 läuft nur außerhalb der Abnahme', bedingung('Prüfer (Stufe 0, schlank)') === "steps.stufe.outputs.stufe == '0' && steps.modus.outputs.modus != 'abnahme'", bedingung('Prüfer (Stufe 0, schlank)'))
+pruefe('Voller Prüfer läuft nur außerhalb der Abnahme', bedingung('Prüfer') === "steps.stufe.outputs.stufe != '0' && steps.modus.outputs.modus != 'abnahme'", bedingung('Prüfer'))
+pruefe('Abnahme-Prüfer läuft nur im Abnahme-Modus', bedingung('Prüfer (Abnahme)') === "steps.modus.outputs.modus == 'abnahme'", bedingung('Prüfer (Abnahme)'))
+const indexVon = (id) => schritte.findIndex((s) => s.id === id)
+pruefe('Reihenfolge: Prüfstufe, Prüfmodus, Sperre, dann die Prüfer', indexVon('stufe') < indexVon('modus') && indexVon('modus') < indexVon('eingang') && indexVon('eingang') < schritte.indexOf(pruefer[0]))
+const abnahmePrompt = String(pruefer.find((s) => s.name === 'Prüfer (Abnahme)')?.with?.prompt ?? '')
+pruefe('Abnahme-Prompt: Auflagenliste, keine neuen Funde, Regression nur mit Commit',
+  ['auflagen.md', 'Keine neuen Funde', 'Regression', 'nur die offenen Auflagen', 'Teilweise erfüllt zählt als nein'].every((t) => abnahmePrompt.includes(t)))
+const abnahmeWerkzeuge = String(pruefer.find((s) => s.name === 'Prüfer (Abnahme)')?.with?.claude_args ?? '')
+pruefe('Abnahme-Prüfer liest nur den Prüfordner (kein Repo, kein Grep)', !/Read\(\.\/|Grep|Glob/.test(abnahmeWerkzeuge) && abnahmeWerkzeuge.includes('Read(/${{ runner.temp }}/pruefer/**)'), abnahmeWerkzeuge)
 for (const s of pruefer) {
   pruefe(`${s.name}: Prompt liest den Zustand der Sperre, alles außer "ok" ist unvollständig`,
     String(s.with?.prompt ?? '').includes('Diff-Zustand: ${{ steps.eingang.outputs.zustand }}. Lautet er nicht "ok",'))
