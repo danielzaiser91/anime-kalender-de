@@ -169,6 +169,7 @@
     "bild:kachel": "node tools/kachel-titel-messen.mjs",
     "check:leiste": "node tools/melder-leiste-bild.mjs",
     "data:justwatch": "tsx pipeline/fetch-justwatch-audio.ts",
+    "data:justwatch-frisch": "tsx pipeline/fetch-justwatch-audio.ts --alter 100000 --limit 60",
     "data:justwatch-cartoons": "tsx pipeline/fetch-justwatch-audio.ts --nur-cartoons --limit 2000",
     "data:trailer": "tsx pipeline/fetch-trailer.ts",
     "data:cartoons": "tsx pipeline/fetch-cartoons.ts",
