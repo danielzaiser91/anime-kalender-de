@@ -6,6 +6,7 @@ import { eindeutschenStaffel, anzeigeName } from '@shared/titles.ts'
 import { type Voices, loadVoices, type Dataset, loadCartoons, loadAllTitles } from '../../lib/data.ts'
 import { aehnlicheTitel } from '@shared/aehnlich.ts'
 import { coverBild } from '../../lib/cover.ts'
+import { useHoverCover } from '../kalender/HoverCover.tsx'
 
 /**
  * Alle weiteren Schreibweisen eines Titels — eingeklappt, an einer Stelle.
@@ -246,11 +247,13 @@ export function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; dat
 
 /** Eine Kachel der ähnlichen Titel; die Vorschau des Covers gibt es nur mit der Maus. */
 export function AehnlicheKachel({ v, onOpenTitle, merkmalName }: { v: ReturnType<typeof aehnlicheTitel>[number]; onOpenTitle: (id: number) => void; merkmalName: (m: string) => string }) {
+  const { zeiger, vorschau } = useHoverCover(v.title.coverImage)
   return (
     <li>
       <button
         type="button"
         onClick={() => onOpenTitle(v.title.id)}
+        {...zeiger}
         /*
           Mindesthöhe 144 px, Name oben, Merkmale unten. Die Kachel wächst mit
           dem Text, damit Chips einen dreizeiligen Titel nie überdecken; das
@@ -290,6 +293,7 @@ export function AehnlicheKachel({ v, onOpenTitle, merkmalName }: { v: ReturnType
           </span>
         </span>
       </button>
+      {vorschau}
     </li>
   )
 }
