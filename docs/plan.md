@@ -82,7 +82,7 @@ Button „Bei <Plattform> ansehen", Button „Zu Google Calendar", Button „.ic
 - Anmeldeformular mit Frequenzwahl (täglich / wöchentlich) und optionalen Filtern
   (nur meine Plattformen / nur meine Genres)
 - **Double-Opt-in** (Bestätigungsmail), Abmeldelink in jeder Mail, Impressum + Datenschutz
-- Cron: täglich 07:00 „heute erscheint …", montags 07:00 „diese Woche erscheint …"
+- Cron: täglich 07:00 „heute erscheint …", 07:00 „diese Woche erscheint …" (je Abo an einem festen von 7 Versandtagen, seit 23.10.2026)
 
 ## 4. Architektur
 

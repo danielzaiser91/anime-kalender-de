@@ -88,6 +88,23 @@ function FehlerprotokollAbschnitt() {
   )
 }
 
+/** Push-Abschnitt als eigene Funktion, damit `DienstAbschnitte` nicht weiter wächst. */
+function PushAbschnitt() {
+  return (
+    <Abschnitt titel="Browser-Benachrichtigungen">
+      <p>
+        Schaltest du sie ein, bestätigst du zuerst die Browserabfrage. Dann speichert unser Dienst
+        (Cloudflare) die Push-Adresse deines Browsers und deine Favoriten und schickt dir eine
+        Nachricht, wenn eine gemerkte Folge erscheint. Sie wird über den Push-Dienst deines
+        Browserherstellers (etwa Google, Mozilla, Apple oder Microsoft) zugestellt. Rechtsgrundlage
+        ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Ausschalten löscht den Eintrag bei uns.
+        Beim Einschalten, Ausschalten und Testen legt der Dienst deine IP-Adresse zum
+        Missbrauchsschutz (Begrenzung der Anfragen) für bis zu zwei Stunden in der Datenbank ab.
+      </p>
+    </Abschnitt>
+  )
+}
+
 /** Was an unseren Dienst geht: Newsletter, Favoriten-Abgleich, Push. */
 function DienstAbschnitte() {
   return (
@@ -121,15 +138,7 @@ function DienstAbschnitte() {
         </p>
       </Abschnitt>
 
-      <Abschnitt titel="Browser-Benachrichtigungen">
-        <p>
-          Schaltest du sie ein, bestätigst du zuerst die Browserabfrage. Dann speichert unser Dienst
-          (Cloudflare) die Push-Adresse deines Browsers und deine Favoriten und schickt dir eine
-          Nachricht, wenn eine gemerkte Folge erscheint. Sie wird über den Push-Dienst deines
-          Browserherstellers (etwa Google, Mozilla, Apple oder Microsoft) zugestellt. Rechtsgrundlage
-          ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Ausschalten löscht den Eintrag bei uns.
-        </p>
-      </Abschnitt>
+      <PushAbschnitt />
 
       <Abschnitt titel="Keine Erfolgsmessung im Newsletter">
         <p>
@@ -143,8 +152,8 @@ function DienstAbschnitte() {
       <FehlerprotokollAbschnitt />
       <Abschnitt titel="Speicherdauer">
         <p>
-          Newsletter-Daten werden gespeichert, bis du dich abmeldest. Push-Daten bleiben, bis du die Benachrichtigungen ausschaltest
-          oder dein Browser das Abo beendet. Server-Logdaten des Hosters werden nach dessen Vorgaben
+          Newsletter-Daten werden gespeichert, bis du dich abmeldest. Push-Daten bleiben, bis du die Benachrichtigungen ausschaltest,
+          dein Browser das Abo beendet oder du 90 Tage nicht auf der Seite warst. Server-Logdaten des Hosters werden nach dessen Vorgaben
           gelöscht.
         </p>
       </Abschnitt>

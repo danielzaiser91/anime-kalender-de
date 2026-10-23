@@ -27,6 +27,7 @@ pipeline/check-anisearch-archiv-text.ts
 pipeline/check-anisearch-archiv.ts
 pipeline/check-anisearch-cover-eigen.ts
 pipeline/check-anisearch-dubletten.ts
+pipeline/check-anisearch-folgen-kennung.ts
 pipeline/check-anisearch-katalog-abgleich.ts
 pipeline/check-anisearch-kennung-mehrfach.ts
 pipeline/check-anisearch-marke-nachziehen.ts
@@ -80,6 +81,7 @@ pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
 pipeline/check-erstausgabe.ts
 pipeline/check-erwartet-wort.ts
+pipeline/check-favoriten-feed-faelle.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-folge-ueber-anzahl-bau.ts
 pipeline/check-folge-ueber-anzahl.ts
@@ -157,6 +159,7 @@ pipeline/check-offizielle-news.ts
 pipeline/check-og-termin.ts
 pipeline/check-omu-ohne-termin.ts
 pipeline/check-panel-chips.ts
+pipeline/check-panel-disc-doppel.ts
 pipeline/check-paramount.ts
 pipeline/check-patchnotes-titel-ablauf.ts
 pipeline/check-patchnotes-titel.ts
@@ -213,10 +216,12 @@ pipeline/check-stand-halten.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
 pipeline/check-such-chip.ts
+pipeline/check-sw-cache-regeln.ts
 pipeline/check-synchro-original.ts
 pipeline/check-takt.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
+pipeline/check-termin-pille.ts
 pipeline/check-termine-observed-lauf.ts
 pipeline/check-termine-uebersicht.ts
 pipeline/check-termine-woche-lauf.ts
@@ -231,6 +236,7 @@ pipeline/check-tv-sichtungen-vor-start.ts
 pipeline/check-urteil-art.ts
 pipeline/check-urteil-fremde-adresse.ts
 pipeline/check-urteil-spaet.ts
+pipeline/check-us-nein-adresse.ts
 pipeline/check-verpasst-verdrahtung.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts
@@ -267,4 +273,5 @@ tools/sammler-pruefschritt-waechter.mjs
 tools/start-pruefung-wacht.mjs
 tools/uhr-in-tests.mjs
 tools/web-hosting.test.ts
+tools/web-push-voll.test.ts
 tools/workflow-abbruch-waechter.mjs

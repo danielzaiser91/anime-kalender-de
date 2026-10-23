@@ -1,13 +1,13 @@
 {
-  "scrapedAt": "2026-10-23T15:11:24.610Z",
+  "scrapedAt": "2026-10-23T22:03:12.906Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
-    "schon in einem Rubrik-Feed gelesen": 8,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
-    "Sprachhinweis älter als 45 Tage": 4
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
+    "schon in einem Rubrik-Feed gelesen": 7,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "Sprachhinweis älter als 45 Tage": 5
   },
   "proposals": [
     {
@@ -50,6 +50,21 @@
         }
       ],
       "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "AniMoon startet neue Online-Rabattaktion zur MEX 2026",
+      "articleUrl": "https://www.anime2you.de/news/1063240/animoon-mex-berlin-2026-rabattaktion/",
+      "publishedAt": "2026-10-23",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-10-25",
+          "context": "die Details zusammen. 10 % Rabatt auf zahlreiche Artikel Vom 23. bis 25. Oktober 2026 erhalten Kunden mit dem Gutscheincode MEX26 einen Rab"
+        }
+      ],
+      "dub": "unklar",
       "alreadyCurated": false
     },
     {
@@ -4405,19 +4420,6 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
-    },
-    {
-      "articleTitle": "KI-Streit: Synchronsprecher legen Beschwerde gegen Netflix beim Bundeskartellamt ein",
-      "articleUrl": "https://www.anime2you.de/news/1046663/synchronsprecher-bundeskartellamt-beschwerde-netflix/",
-      "publishedAt": "2026-09-08",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
       "alreadyCurated": false
     },
     {

@@ -58,6 +58,8 @@ const ERKLAERUNG: Record<string, string> = {
     'Netflix hat den Durchlauf abgebrochen. `M7…` meint die Wiedergabe (zu viele Streams, Netz), `E1…`/`UI…`/`NSES-…` den Titel selbst.',
   melden_fehlgeschlagen: 'Die Meldung kam nicht beim Worker an — der Befund ist verloren.',
   ausnahme: 'Ein unerwarteter Fehler in der Erweiterung.',
+  'durchgang-zaehlung':
+    'Ende eines Netflix-Durchgangs: besucht, gemessen, wartet auf Übernahme, übersprungen. Misst er viele besuchte Titel nie, steht es hier.',
 }
 
 async function main(): Promise<void> {

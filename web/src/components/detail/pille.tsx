@@ -33,7 +33,7 @@ export function Pille({ name, farbe, url, unten, titel, icon, durchgestrichen, s
       target="_blank"
       rel="noreferrer noopener"
       style={farbe ? ({ '--marke': farbe } as CSSProperties) : undefined}
-      className={`relative inline-flex min-h-[52px] max-w-full items-center gap-2.5 rounded-full py-1.5 pl-3.5 pr-4 transition hover:bg-ak-pille-hover ${farbe ? PILLE_MARKE : PILLE_OHNE_MARKE}`}
+      className={`relative inline-flex min-h-[52px] min-w-0 max-w-full items-center gap-2.5 rounded-xl py-1.5 pl-3.5 pr-4 transition hover:bg-ak-pille-hover ${farbe ? PILLE_MARKE : PILLE_OHNE_MARKE}`}
     >
       {icon && (
         <span className="flex shrink-0 items-center" style={farbe ? { color: farbe } : undefined}>
