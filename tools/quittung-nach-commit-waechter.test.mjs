@@ -9,7 +9,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { parse } from 'yaml'
 import { aufrufe } from './quittung-aufrufe.mjs'
-import { CACHE_AUFRAEUMEN, FEST, pruefeAlle, pruefeCacheAufraeumen, pruefeFest, pruefeJob, pruefeMerkerPfade, pruefeWorkflow } from './quittung-nach-commit-waechter.mjs'
+import { CACHE_AUFRAEUMEN, FEST, pruefeAlle, pruefeCacheAufraeumen, pruefeFest, pruefeJob, pruefeMerkerPfade, pruefeWorkflow, pruefeZurueckrollen } from './quittung-nach-commit-waechter.mjs'
 
 const s = (run, name = run) => ({ name, run })
 const BAU = s('npm run data:build')
@@ -61,6 +61,10 @@ const doc = (job, schritte) => ({ jobs: { vorab: { steps: [CHECK] }, [job]: { st
 assert.match(pruefeWorkflow('bestand-bauen.yml', doc('bauen', GUT)).join('|'), /Änderungen committen" fehlt/)
 const RESTORE = { name: 'AniList-Cache wiederverwenden', uses: 'actions/cache/restore@v4' }
 const AUFRAEUMEN = structuredClone(CACHE_AUFRAEUMEN)
+const ROLLEN = {
+  name: 'Neue Handbelege prüfen',
+  run: ['git checkout -- data/meldungen-uebernahme.json', 'rm -f data/cache/quittung-offen/pruefungen-abhaken.json', 'echo "DATEN_WARNUNG=x"', ''].join('\n'),
+}
 // Der Schritt räumt wirklich beide Ordner (der Text steht fest hier, nicht aus dem Modul) und lässt Fremdes in data/cache stehen.
 assert.equal(AUFRAEUMEN.run, 'rm -rf data/cache/quittung-offen data/cache/quittung-frei')
 {
@@ -72,7 +76,7 @@ assert.equal(AUFRAEUMEN.run, 'rm -rf data/cache/quittung-offen data/cache/quittu
   assert.deepEqual(readdirSync(join(wurzel, 'data/cache')), ['anilist'])
   rmSync(wurzel, { recursive: true, force: true })
 }
-assert.deepEqual(pruefeWorkflow('bestand-bauen.yml', doc('bauen', [RESTORE, AUFRAEUMEN, BAU, ...fest])), [])
+assert.deepEqual(pruefeWorkflow('bestand-bauen.yml', doc('bauen', [RESTORE, AUFRAEUMEN, ROLLEN, BAU, ...fest])), [])
 
 // Aufräumschritt nach dem Cache-Restore: fehlt, verschoben, geändert oder ohne Restore: je rot (Bauer 1426, Prüfer R1).
 assert.deepEqual(pruefeCacheAufraeumen([RESTORE, AUFRAEUMEN, BAU]), [])
@@ -84,7 +88,7 @@ assert.equal(pruefeCacheAufraeumen([RESTORE, { ...AUFRAEUMEN, run: 'true' }]).le
 assert.equal(pruefeCacheAufraeumen([RESTORE, { ...AUFRAEUMEN, if: 'always()' }]).length, 1)
 assert.equal(pruefeCacheAufraeumen([RESTORE, { ...AUFRAEUMEN, 'continue-on-error': true }]).length, 1)
 assert.match(pruefeCacheAufraeumen([AUFRAEUMEN, BAU]).join('|'), /AniList-Cache wiederverwenden" fehlt/)
-assert.equal(pruefeWorkflow('bestand-bauen.yml', doc('bauen', [RESTORE, BAU, ...fest])).length, 1)
+assert.equal(pruefeWorkflow('bestand-bauen.yml', doc('bauen', [RESTORE, ROLLEN, BAU, ...fest])).length, 1)
 assert.deepEqual(pruefeWorkflow('anderer.yml', doc('bauen', GUT)), [])
 assert.match(pruefeWorkflow('bestand-bauen.yml', doc('anders', GUT)).join('|'), /Job „bauen" fehlt/)
 
@@ -170,6 +174,21 @@ const pfade = pruefeMerkerPfade('m', [
 ])
 assert.deepEqual(pfade.map((f) => f.match(/„(\w+)"/)[1]), ['alt', 'frei'])
 assert.match(pruefeWorkflow('x.yml', { jobs: { j: { steps: [s(`rm -f ${CACHE}/vorfaelle-loeschen.json`, 'w')] } } }).join('|'), /„w": Merker/)
+
+// Zurückrollen: der Merker-Löschbefehl steht unverschachtelt am Ende des Schritts (Überlebende der Prüferprobe 17.10.2026).
+const GIT = 'git checkout -- data/meldungen-uebernahme.json'
+const WARN = 'echo "DATEN_WARNUNG=x" >> "$GITHUB_ENV"'
+const rollen = (...zeilen) => [{ name: 'Neue Handbelege prüfen', run: `if x; then exit 0; fi\n${zeilen.join('\n')}\n` }]
+assert.deepEqual(pruefeZurueckrollen(rollen(GIT, `rm -f ${OK}`, WARN)), [])
+assert.equal(pruefeZurueckrollen(rollen(GIT, 'true', WARN)).length, 1)
+assert.equal(pruefeZurueckrollen(rollen(GIT, `echo ${OK}`, WARN)).length, 1)
+assert.equal(pruefeZurueckrollen(rollen(GIT, `rm -f ${OK}.bak`, WARN)).length, 1)
+assert.equal(pruefeZurueckrollen(rollen(GIT, `false && rm -f ${OK}`, WARN)).length, 1)
+assert.equal(pruefeZurueckrollen(rollen(GIT, `  rm -f ${OK}`, WARN)).length, 1)
+assert.equal(pruefeZurueckrollen(rollen(`rm -f ${OK}`, GIT, WARN)).length, 1)
+assert.equal(pruefeZurueckrollen(rollen(GIT, `rm -f ${OK}`)).length, 1)
+assert.match(pruefeZurueckrollen([]).join('|'), /fehlt/)
+assert.equal(pruefeMerkerPfade('m', [s(`rm -f "${OK}"`)]).length, 0)
 
 // pruefeAlle liest jede .yml und .yaml eines Ordners.
 const ordner = mkdtempSync(join(tmpdir(), 'quittung-waechter-'))

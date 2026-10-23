@@ -103,7 +103,7 @@ export function pruefeFest(schritte) {
  */
 export function pruefeMerkerPfade(ort, schritte) {
   return schritte.flatMap((s, i) =>
-    [...lauf(s).matchAll(/(\S*?)(rohfolgen-abhaken|vorfaelle-loeschen|pruefungen-abhaken)\.json/g)]
+    [...lauf(s).replaceAll(/["']/g, '').matchAll(/(\S*?)(rohfolgen-abhaken|vorfaelle-loeschen|pruefungen-abhaken)\.json/g)]
       .filter((m) => m[1] !== 'data/cache/quittung-offen/')
       .map((m) => `${ort}, Schritt ${i} „${s.name}": Merker ${m[0]} liegt unter data/cache/quittung-offen/`),
   )
@@ -119,13 +119,28 @@ export function pruefeCacheAufraeumen(schritte) {
   return [`bestand-bauen.yml: direkt nach dem Cache-Restore fehlt ${JSON.stringify(CACHE_AUFRAEUMEN)}`]
 }
 
+/**
+ * Werden neue Handbelege ganz zurückgerollt, löscht der Schritt „Neue Handbelege prüfen" als Ende seines Skripts den
+ * Meldungsmerker (Zeile unverschachtelt, unmittelbar nach dem Zurücksetzen der Übernahme); sonst gäbe `commit-data.sh`
+ * Meldungen frei, deren Belege nicht im Repo stehen.
+ */
+export const ZURUECKROLLEN_ENDE = ['git checkout -- data/meldungen-uebernahme.json', 'rm -f data/cache/quittung-offen/pruefungen-abhaken.json']
+
+export function pruefeZurueckrollen(schritte) {
+  const schritt = schritte.find((s) => s?.name === 'Neue Handbelege prüfen')
+  if (!schritt) return ['bestand-bauen.yml: Schritt „Neue Handbelege prüfen" fehlt']
+  const ende = String(schritt.run ?? '').split('\n').filter((z) => z.trim() !== '').slice(-3)
+  const ok = ende[0] === ZURUECKROLLEN_ENDE[0] && ende[1] === ZURUECKROLLEN_ENDE[1] && ende[2]?.startsWith('echo "DATEN_WARNUNG=')
+  return ok ? [] : [`bestand-bauen.yml: „Neue Handbelege prüfen" endet nicht mit ${ZURUECKROLLEN_ENDE.join(' / ')} (unverschachtelt)`]
+}
+
 export function pruefeWorkflow(datei, doc) {
   const fehler = []
   for (const [job, inhalt] of Object.entries(doc?.jobs ?? {})) {
     const schritte = inhalt?.steps ?? []
     fehler.push(...pruefeJob(`${datei} → ${job}`, schritte))
     fehler.push(...pruefeMerkerPfade(`${datei} → ${job}`, schritte))
-    if (datei === 'bestand-bauen.yml' && job === 'bauen') fehler.push(...pruefeFest(schritte), ...pruefeCacheAufraeumen(schritte))
+    if (datei === 'bestand-bauen.yml' && job === 'bauen') fehler.push(...pruefeFest(schritte), ...pruefeCacheAufraeumen(schritte), ...pruefeZurueckrollen(schritte))
   }
   if (datei === 'bestand-bauen.yml' && !doc?.jobs?.bauen) fehler.push('bestand-bauen.yml: Job „bauen" fehlt')
   return fehler
