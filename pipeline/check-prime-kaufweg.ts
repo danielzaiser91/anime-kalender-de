@@ -44,6 +44,7 @@ const urls = (s: StreamLink[]) => s.map((x) => `${x.platform}|${x.zugang}|${x.ur
 
 console.log('Kauf-Runde:')
 pruefe('Kauf mit deutschem Ton → Prime-Stream kauf', urls(lauf([angebot('Amazon Video', 'BUY', ['de', 'en'])])) === `primevideo|kauf|${URL_A}`)
+pruefe('der Weg trägt die Herkunft justwatch (meldet kein „neu“)', lauf([angebot('Amazon Video', 'BUY', ['de'])])[0]?.herkunft === 'justwatch')
 pruefe('Leihe → Prime-Stream kauf', urls(lauf([angebot('Amazon Video', 'RENT', ['de'])])) === `primevideo|kauf|${URL_A}`)
 pruefe('„Amazon Prime Video“ Kauf zählt', urls(lauf([angebot('Amazon Prime Video', 'BUY', ['de'])])) === `primevideo|kauf|${URL_A}`)
 pruefe('ohne deutschen Ton kein Weg', lauf([angebot('Amazon Video', 'BUY', ['ja', 'en'])]).length === 0)
@@ -104,15 +105,16 @@ console.log('Aufrufer mit der echten JustWatch-Datei:')
 console.log('News: ein neu aufgenommener Kauf-/Leihweg meldet kein „jetzt auch bei“:')
 {
   const cr = { platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/GKAUF/x', dub: true } as StreamLink
-  const prime = (zugang: StreamLink['zugang']) => ({ platform: 'primevideo', url: URL_A, dub: true, zugang }) as StreamLink
+  const prime = (herkunft: StreamLink['herkunft'], zugang: StreamLink['zugang'] = 'kauf') => ({ platform: 'primevideo', url: URL_A, dub: true, zugang, herkunft }) as StreamLink
   const mitStreams = (streams: StreamLink[]): Title[] => [{ id: 900050, franchiseId: 900050, slug: 'kauf', titleEn: 'Kauf', keywords: [], genres: [], streams }] as unknown as Title[]
-  const weitere = (zugang: StreamLink['zugang']): string[] => {
+  const weitere = (herkunft: StreamLink['herkunft'], zugang: StreamLink['zugang'] = 'kauf'): string[] => {
     const historie: NewsHistorie = { zuerst: {} }
     baueNews(mitStreams([cr]), [], [], [], historie)
-    return baueNews(mitStreams([cr, prime(zugang)]), [], [], [], historie).flatMap((e) => e.meldungen.filter((m) => m.weiterer).map((m) => `${m.platform}`))
+    return baueNews(mitStreams([cr, prime(herkunft, zugang)]), [], [], [], historie).flatMap((e) => e.meldungen.filter((m) => m.weiterer).map((m) => `${m.platform}`))
   }
-  pruefe('Prime-Kauf neben Crunchyroll meldet nichts', weitere('kauf').length === 0, weitere('kauf'))
-  pruefe('Gegenprobe: Prime-Abo meldet', weitere('abo').join() === 'primevideo', weitere('abo'))
+  pruefe('Prime-Kauf aus JustWatch neben Crunchyroll meldet nichts', weitere('justwatch').length === 0, weitere('justwatch'))
+  pruefe('Gegenprobe: derselbe Weg ohne Herkunft meldet', weitere(undefined).join() === 'primevideo', weitere(undefined))
+  pruefe('Gegenprobe: Prime-Abo aus JustWatch-Herkunft meldet nicht', weitere('justwatch', 'abo').length === 0)
 }
 
 console.log('Frische Titel:')

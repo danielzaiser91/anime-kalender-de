@@ -68,7 +68,7 @@ export function ergaenzeKaufWege({ titles, jw, handNein, primeNein, tmdbMehrdeut
         !wegVerneint(handNein, title.id, 'primevideo', x.url),
     )
     if (!a?.url) continue
-    title.streams = [...(title.streams ?? []), { platform: 'primevideo', url: stripAffiliate(a.url), zugang: 'kauf' } as StreamLink]
+    title.streams = [...(title.streams ?? []), { platform: 'primevideo', url: stripAffiliate(a.url), zugang: 'kauf', herkunft: 'justwatch' } as StreamLink]
     ergaenzt++
   }
   if (ergaenzt) log(`${ergaenzt} Prime-Kauf-/Leihweg(e) aus JustWatch ergänzt (deutsche Tonspur laut JustWatch, ohne eigenes Urteil)`)

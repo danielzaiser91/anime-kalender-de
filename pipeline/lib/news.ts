@@ -78,11 +78,11 @@ function anbieterMitDeutsch(t: Title): Set<PlatformId> {
 /**
  * Ein Ja, das „neu auf Deutsch“ melden darf. Ein Weg, den nur ein Handbeleg trägt (`herkunft: 'handbeleg'`), belegt das Angebot, nicht seinen
  * Beginn: Durarara!! Tenka Taihei ist seit 2022 deutsch bei Crunchyroll, die Meldung trüge den Tag der Aufnahme in den Bestand (14.10.2026).
- * Ein Kauf-/Leihweg (`zugang: 'kauf'`) kommt aus JustWatch in den Bestand, wann er entstand, weiß die Quelle nicht: ein Tag der Aufnahme wäre
- * eine falsche Aussage (Starship Troopers: Traitor of Mars, 23.10.2026).
+ * Ein Prime-Kauf-/Leihweg nur aus JustWatch (`herkunft: 'justwatch'`, `bau/11-2-4-kauf-wege.ts`) trägt kein Datum seines Beginns: der Tag der
+ * Aufnahme wäre eine falsche Aussage (Starship Troopers: Traitor of Mars, 23.10.2026).
  */
 function meldetNeu(s: StreamLink): boolean {
-  return eigenesJa(s) && s.herkunft !== 'handbeleg' && s.zugang !== 'kauf'
+  return eigenesJa(s) && s.herkunft !== 'handbeleg' && s.herkunft !== 'justwatch'
 }
 
 /** Ein belegtes Ja des Weges selbst; ein vom Anbieter geerbtes Ja (`geerbteWege`) zählt für Meldungen nicht. */
