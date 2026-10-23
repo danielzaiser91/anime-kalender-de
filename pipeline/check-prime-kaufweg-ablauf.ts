@@ -17,7 +17,8 @@ const angebote = (n: number) => [
   { anbieter: 'Amazon Video', art: 'BUY', audio: ['de', 'ja'], untertitel: [], url: `https://watch.amazon.de/detail?gti=amzn1.dv.gti.kaufweg${n}` },
 ]
 const befund = (n: number) => ({ geprueftAm: '2999-12-31', jwId: `tm${n}`, altersangabe: '16', angebote: angebote(n) })
-writeFileSync(join(wurzel, 'data', 'justwatch-audio.json'), JSON.stringify({ 900101: befund(1), 900102: befund(2), 900103: befund(3) }))
+writeFileSync(join(wurzel, 'data', 'justwatch-audio.json'), JSON.stringify({ 900101: befund(1), 900102: befund(2), 900103: befund(3), 900104: befund(4) }))
+writeFileSync(join(wurzel, 'data', 'verweise-entfernt.json'), JSON.stringify({ verweise: [{ titleId: 900104, plattform: 'primevideo', grund: 'belegtes Nein (Handprüfung)' }] }))
 writeFileSync(
   join(wurzel, 'data', 'dub-confirmed.yaml'),
   [
@@ -41,12 +42,13 @@ try {
   const { ergaenzeWegeAusJustwatch } = await import('./bau/11-2-justwatch.ts')
   const blu = { name: 'aniSearch', url: 'https://www.anisearch.de/article/1,x', kind: 'buy', zugang: 'kauf' }
   const titel = (id: number) => ({ id, streams: [], watchLinks: [blu], keywords: [], genres: [] }) as unknown as Title
-  const titles = new Map([900101, 900102, 900103].map((id) => [id, titel(id)] as [number, Title]))
+  const titles = new Map([900101, 900102, 900103, 900104].map((id) => [id, titel(id)] as [number, Title]))
   ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig: new Set(['900103']), toteAdressen: new Set() })
   const prime = (id: number) => ((titles.get(id)?.streams ?? []) as StreamLink[]).filter((s) => s.platform === 'primevideo' && s.zugang === 'kauf')
   pruefe('Titel mit Blu-ray-Zeile bekommt den Prime-Kauf', prime(900101).length === 1, titles.get(900101))
   pruefe('Nein-Handbeleg für Prime hält ihn zurück', prime(900102).length === 0, titles.get(900102))
   pruefe('mehrdeutige TMDB-Kennung hält ihn zurück', prime(900103).length === 0, titles.get(900103))
+  pruefe('belegtes Nein im Gedächtnis der entfernten Verweise hält ihn zurück', prime(900104).length === 0, titles.get(900104))
   pruefe('die Blu-ray-Zeile bleibt stehen', (titles.get(900101)?.watchLinks ?? []).some((w) => w.name === 'aniSearch'))
 } finally {
   rmSync(wurzel, { recursive: true, force: true })

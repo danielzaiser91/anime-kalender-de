@@ -7,11 +7,12 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { StreamLink, Title } from '../shared/types.ts'
-import { ergaenzeKaufWege, type JwKauf } from './bau/11-2-4-kauf-wege.ts'
+import { ergaenzeKaufWege, primeNeinTitel, type JwKauf } from './bau/11-2-4-kauf-wege.ts'
 import { ergaenzeWegeAusJustwatch } from './bau/11-2-justwatch.ts'
 import { frischFaellig, frischeTitel, ladeFrische } from './lib/jw-frische.ts'
 import { warteschlange } from './lib/jw-schlange.ts'
 import { dubKey } from './lib/dub-confirmed.ts'
+import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { readJson } from './lib/util.ts'
 
 let fehler = 0
@@ -28,11 +29,12 @@ const angebot = (anbieter: string, art: string, audio: string[] | undefined, url
 const aniSearchBlu = { name: 'aniSearch', url: 'https://www.anisearch.de/article/1,x', kind: 'buy', zugang: 'kauf' }
 
 /** Ein Lauf der Kauf-Runde über einen Titel; Rückgabe: seine Streams. */
-function lauf(angebote: JwKauf['angebote'], t: Title = titel(900001), extra: { handNein?: Set<string>; mehrdeutig?: string[]; tot?: string[]; ohneTreffer?: boolean } = {}): StreamLink[] {
+function lauf(angebote: JwKauf['angebote'], t: Title = titel(900001), extra: { handNein?: Set<string>; primeNein?: number[]; mehrdeutig?: string[]; tot?: string[]; ohneTreffer?: boolean; fremd?: JwKauf['angebote'] } = {}): StreamLink[] {
   ergaenzeKaufWege({
     titles: new Map([[t.id, t]]),
-    jw: { [String(t.id)]: { angebote, ...(extra.ohneTreffer ? { ohneTreffer: true } : {}) } },
+    jw: { [String(t.id)]: { angebote, ...(extra.ohneTreffer ? { ohneTreffer: true } : {}) }, ...(extra.fremd ? { '900777': { angebote: extra.fremd } } : {}) },
     handNein: extra.handNein ?? new Set(),
+    primeNein: new Set(extra.primeNein ?? []),
     tmdbMehrdeutig: new Set(extra.mehrdeutig ?? []),
     toteAdressen: new Set(extra.tot ?? []),
   })
@@ -62,6 +64,15 @@ pruefe('Befund ohne Treffer kein Weg', lauf([angebot('Amazon Video', 'BUY', ['de
 pruefe('Nein-Handbeleg an Prime hält ihn zurück', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001), { handNein: new Set([dubKey(900001, 'primevideo')]) }).length === 0)
 pruefe('Nein-Handbeleg eines anderen Titels nicht', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001), { handNein: new Set([dubKey(900002, 'primevideo')]) }).length === 1)
 pruefe('Nein-Handbeleg einer anderen Plattform nicht', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001), { handNein: new Set([dubKey(900001, 'netflix')]) }).length === 1)
+const GTI1 = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.11111111-2222-3333-4444-555555555555'
+const GTI2 = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.66666666-7777-8888-9999-000000000000'
+pruefe('belegtes Nein im Gedächtnis hält ihn zurück', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001), { primeNein: [900001] }).length === 0)
+pruefe('belegtes Nein eines anderen Titels nicht', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001), { primeNein: [900002] }).length === 1)
+pruefe('entfernter Prime-Verweis (Abgang) bleibt Abgang', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001, { entfernteStreams: [{ platform: 'primevideo', url: 'https://x/alt' }] })).length === 0)
+pruefe('entfernter Verweis einer anderen Plattform hält ihn nicht auf', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001, { entfernteStreams: [{ platform: 'netflix', url: 'https://x/alt' }] })).length === 1)
+pruefe('gti, die auch ein anderer Titel führt, gehört keinem', lauf([angebot('Amazon Video', 'BUY', ['de'], GTI1)], titel(900001), { fremd: [angebot('Amazon Video', 'RENT', ['de'], GTI1)] }).length === 0)
+pruefe('eine andere gti des anderen Titels stört nicht', urls(lauf([angebot('Amazon Video', 'BUY', ['de'], GTI1)], titel(900001), { fremd: [angebot('Amazon Video', 'RENT', ['de'], GTI2)] })) === `primevideo|kauf|${GTI1}`)
+pruefe('die geteilte gti überspringt nur dieses Angebot', urls(lauf([angebot('Amazon Video', 'BUY', ['de'], GTI1), angebot('Amazon Video', 'RENT', ['de'], GTI2)], titel(900001), { fremd: [angebot('Amazon Video', 'RENT', ['de'], GTI1)] })) === `primevideo|kauf|${GTI2}`)
 pruefe('vorhandener Prime-Weg (Abo) genügt', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001, { streams: [{ platform: 'primevideo', url: 'https://x/abo', zugang: 'abo' }] })).length === 1)
 pruefe('Netflix-Weg hält den Prime-Kauf nicht auf', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001, { streams: [{ platform: 'netflix', url: 'https://x/n' }] })).length === 2)
 pruefe('Blu-ray-Zeile (watchLinks) hält ihn nicht auf, bleibt aber stehen', (() => {
@@ -74,7 +85,7 @@ pruefe('nur ein Weg je Titel, auch bei Kauf und Leihe', lauf([angebot('Amazon Vi
 {
   const fremd = titel(900009, { streams: [{ platform: 'netflix', url: 'https://x/n' }] })
   const vorher = JSON.stringify(fremd)
-  ergaenzeKaufWege({ titles: new Map([[900009, fremd]]), jw: {}, handNein: new Set(), tmdbMehrdeutig: new Set(), toteAdressen: new Set() })
+  ergaenzeKaufWege({ titles: new Map([[900009, fremd]]), jw: {}, handNein: new Set(), primeNein: new Set(), tmdbMehrdeutig: new Set(), toteAdressen: new Set() })
   pruefe('Titel ohne JustWatch-Befund bleibt byte-gleich', JSON.stringify(fremd) === vorher)
 }
 
@@ -88,6 +99,20 @@ console.log('Aufrufer mit der echten JustWatch-Datei:')
   ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig: new Set(), toteAdressen: new Set() })
   const mit = [...titles.values()].filter((t) => (t.streams ?? []).some((s) => s.platform === 'primevideo' && s.zugang === 'kauf'))
   pruefe('ergaenzeWegeAusJustwatch legt bei Titeln mit Blu-ray-Zeile Prime-Kauf an (Aufrufer verdrahtet)', mit.length > ids.length / 2, { mit: mit.length, von: ids.length })
+}
+
+console.log('News: ein neu aufgenommener Kauf-/Leihweg meldet kein „jetzt auch bei“:')
+{
+  const cr = { platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/GKAUF/x', dub: true } as StreamLink
+  const prime = (zugang: StreamLink['zugang']) => ({ platform: 'primevideo', url: URL_A, dub: true, zugang }) as StreamLink
+  const mitStreams = (streams: StreamLink[]): Title[] => [{ id: 900050, franchiseId: 900050, slug: 'kauf', titleEn: 'Kauf', keywords: [], genres: [], streams }] as unknown as Title[]
+  const weitere = (zugang: StreamLink['zugang']): string[] => {
+    const historie: NewsHistorie = { zuerst: {} }
+    baueNews(mitStreams([cr]), [], [], [], historie)
+    return baueNews(mitStreams([cr, prime(zugang)]), [], [], [], historie).flatMap((e) => e.meldungen.filter((m) => m.weiterer).map((m) => `${m.platform}`))
+  }
+  pruefe('Prime-Kauf neben Crunchyroll meldet nichts', weitere('kauf').length === 0, weitere('kauf'))
+  pruefe('Gegenprobe: Prime-Abo meldet', weitere('abo').join() === 'primevideo', weitere('abo'))
 }
 
 console.log('Frische Titel:')
@@ -128,6 +153,20 @@ const termin = (titleId: number, platform: string, datum: string | undefined) =>
     const f = ladeFrische(datei, heute)
     pruefe('ladeFrische liest die übergebene Datei', f.has(11) && !f.has(12) && f.size === 1, [...f])
     pruefe('fehlende Datei: keiner frisch', ladeFrische(join(wurzel, 'gibtsnicht.json'), heute).size === 0)
+    const gedaechtnis = join(wurzel, 'verweise-entfernt.json')
+    writeFileSync(
+      gedaechtnis,
+      JSON.stringify({
+        verweise: [
+          { titleId: 31, plattform: 'primevideo', grund: 'belegtes Nein (Handprüfung)' },
+          { titleId: 32, plattform: 'netflix', grund: 'belegtes Nein (Handprüfung)' },
+          { titleId: 33, plattform: 'primevideo', grund: 'Link tot' },
+          { plattform: 'primevideo', grund: 'belegtes Nein ohne Titel' },
+        ],
+      }),
+    )
+    pruefe('primeNeinTitel: nur belegtes Nein bei Prime', [...primeNeinTitel(gedaechtnis)].join() === '31', [...primeNeinTitel(gedaechtnis)])
+    pruefe('primeNeinTitel: fehlende Datei, keiner', primeNeinTitel(join(wurzel, 'gibtsnicht.json')).size === 0)
   } finally {
     rmSync(wurzel, { recursive: true, force: true })
   }
