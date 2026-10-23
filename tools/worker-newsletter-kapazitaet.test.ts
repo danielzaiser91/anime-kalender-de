@@ -269,11 +269,11 @@ async function mailTextUndForce() {
   pruefe(!/montag/i.test(mail.html) && !/montag/i.test(mail.text), 'Wochenmail nennt keinen festen Wochentag')
   pruefe(mail.text.includes('einmal pro Woche, morgens'), 'Wochenmail: „einmal pro Woche, morgens“')
   const db = neueDatenbank()
-  for (let i = 0; i < 21; i++) fuegeEin(db, `m${i}`, 'weekly')
+  for (let i = 0; i < 21; i++) fuegeEin(db, `m${i}`, 'weekly', 'active', '2026-05-30T05:00:00.000Z')
   fetchAttrappe(MONTAG)
   zaehlerZurueck()
   await runDigest(testEnv(db, 7), tag(0), 'weekly')
-  pruefe(zaehler.stapel.flat().length === 21, 'force weekly: alle 21 Wochen-Abos, unabhängig vom Eimer-Tag')
+  pruefe(zaehler.stapel.flat().length === 21, 'force weekly: alle 21 Wochen-Abos, auch die vor 2 Tagen bedienten')
 }
 
 hash()
