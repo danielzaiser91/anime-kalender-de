@@ -37,7 +37,7 @@ async function umgebung(db: DatabaseSync) {
     if (!url.startsWith('https://fcm.googleapis.com/')) return basis(e, init)
     zaehler.fetch++
     pushAbrufe.push(url)
-    return new Response('', { status: url.includes('/tot') ? 410 : 201 })
+    return new Response('', { status: url.includes('/tot') ? 410 : url.includes('/weg') ? 404 : 201 })
   }) as typeof fetch
   const schluessel = (await crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify'])) as CryptoKeyPair
   const privat = JSON.stringify(await crypto.subtle.exportKey('jwk', schluessel.privateKey))
@@ -54,9 +54,9 @@ async function umgebung(db: DatabaseSync) {
 function abos(db: DatabaseSync, anzahl: number, o: { favoriten?: string; zuletzt?: string | null; vorsilbe?: string } = {}) {
   db.exec('DELETE FROM push_abo')
   const neu = db.prepare('INSERT INTO push_abo (endpoint, favoriten, erstellt, zuletzt, gemeldet) VALUES (?1, ?2, ?3, ?4, ?5)')
-  for (let i = 0; i < anzahl; i++) {
+  for (let i = anzahl - 1; i >= 0; i--) {
     const nummer = String(i).padStart(3, '0')
-    /* Älteste zuerst: die Reihenfolge der Abfrage ist die Reihenfolge der Nummern. */
+    /* Die älteste Nummer 000 wird als Letzte eingefügt: nur ORDER BY bringt sie nach vorn. */
     const zuletzt = o.zuletzt === undefined ? `2026-10-23T08:0${Math.floor(i / 60)}:${String(i % 60).padStart(2, '0')}Z` : o.zuletzt
     neu.run(`https://fcm.googleapis.com/${o.vorsilbe ?? ''}${nummer}`, o.favoriten ?? 'ak:1', '2026-10-01', zuletzt, '')
   }
@@ -122,11 +122,12 @@ async function sonderfaelle() {
   await lauf(env)
   pruefe(pushAbrufe.length === 0, 'Erstlauf eines Abos schickt nichts')
   pruefe(zeilen(db, `SELECT 1 FROM push_abo WHERE zuletzt = '${JETZT.toISOString()}'`).length === 3, 'Erstlauf merkt sich den Zeitpunkt')
-  abos(db, 3, { vorsilbe: 'tot' })
+  abos(db, 2, { vorsilbe: 'tot' })
+  db.exec(`INSERT INTO push_abo (endpoint, favoriten, erstellt, zuletzt, gemeldet) VALUES ('https://fcm.googleapis.com/weg', 'ak:1', '2026-10-01', '2026-10-23T08:20:00Z', '')`)
   db.exec(`INSERT INTO push_abo (endpoint, favoriten, erstellt, zuletzt, gemeldet) VALUES ('https://fcm.googleapis.com/lebt', 'ak:1', '2026-10-01', '2026-10-23T08:30:00Z', '')`)
   nullen()
   const meldung = await lauf(env)
-  pruefe(zeilen(db, 'SELECT endpoint FROM push_abo').length === 1 && meldung.includes('3 erloschen'), `410 löscht die 3 erloschenen Abos in einem Stapel (${meldung})`)
+  pruefe(zeilen(db, 'SELECT endpoint FROM push_abo').length === 1 && meldung.includes('1 Pushes, 3 erloschen'), `404 und 410 löschen die 3 erloschenen Abos in einem Stapel, der angenommene Push zählt (${meldung})`)
   pruefe(stapelAufrufe === 2, `zwei Stapel: Stände und Löschung (${stapelAufrufe})`)
 }
 
@@ -143,6 +144,10 @@ async function gemischtUndWeitere() {
   const ruhig = `SELECT 1 FROM push_abo WHERE endpoint LIKE '%ruhig%' AND zuletzt = '${JETZT.toISOString()}'`
   pruefe(zeilen(db, ruhig).length === 5, 'Abos ohne Neuigkeit werden auch nach dem 8. Push fortgeschrieben')
   pruefe(zeilen(db, 'SELECT 1 FROM push_abo WHERE offen_ziel IS NOT NULL').length === 8, 'jedes der 8 Abos trägt Text und Ziel')
+  db.exec(`UPDATE push_abo SET offen = 'alt', offen_ziel = 'altziel' WHERE endpoint LIKE '%ruhig0'`)
+  await lauf(env, new Date(JETZT.getTime() + 60_000))
+  const alt = zeilen(db, "SELECT offen, offen_ziel FROM push_abo WHERE endpoint LIKE '%ruhig0'")[0]!
+  pruefe(alt.offen === 'alt' && alt.offen_ziel === 'altziel', 'ein noch nicht abgeholter Text bleibt stehen, wenn nichts Neues kommt')
   const weitere = [{ id: 77, name: 'Serie', anbieter: 'Netflix' }]
   abos(db, 1, { favoriten: 'ak:77' })
   nullen()
@@ -152,6 +157,12 @@ async function gemischtUndWeitere() {
   db.exec('UPDATE push_abo SET offen = NULL')
   await pushVersand(env, JETZT, [], istErschienen, weitere)
   pruefe(zeilen(db, 'SELECT offen FROM push_abo')[0]!.offen === null, 'dieselbe Meldung kommt kein zweites Mal')
+  abos(db, 1, { favoriten: 'ak:77' })
+  const lang = Array.from({ length: 250 }, (_, i) => `${i}:X`).join(String.fromCharCode(10))
+  db.prepare('UPDATE push_abo SET gemeldet = ?1').run(lang)
+  await pushVersand(env, JETZT, [], istErschienen, weitere)
+  const vermerkt = String(zeilen(db, 'SELECT gemeldet FROM push_abo')[0]!.gemeldet).split(String.fromCharCode(10))
+  pruefe(vermerkt.length === 200 && vermerkt.at(-1) === '77:Netflix' && vermerkt[0] === '51:X', 'gemerkt werden die letzten 200 Meldungen')
   abos(db, 1, { favoriten: 'ak:5' })
   await pushVersand(env, JETZT, [], istErschienen, weitere)
   pruefe(zeilen(db, 'SELECT offen FROM push_abo')[0]!.offen === null, 'Meldung zu einem fremden Titel erreicht das Abo nicht')
