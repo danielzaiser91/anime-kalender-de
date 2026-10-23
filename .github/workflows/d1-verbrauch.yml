@@ -65,20 +65,33 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: 567f5e28368c5bbcfeffad3e674b02ab
         run: node tools/d1-verbrauch.mjs | tee verbrauch.txt
 
+      # **Kapazität (23.10.2026, B1):** Worker-Anfragen, CPU, Fehler und D1-Schreibzeilen der letzten
+      # 7 Tage (GraphQL-Analytics, derselbe Token). Rot ab 70 % von 100.000 Anfragen oder Schreibzeilen
+      # und bei Cron-CPU p99 über 8 ms. Schwellen: `tools/kapazitaet-bewertung.mjs`.
+      - name: Kapazität messen
+        id: kapazitaet
+        continue-on-error: true
+        # `shell: bash` = `-o pipefail`: ohne reicht der Exit-Code von `tee` durch und der Wächter wäre nie rot.
+        shell: bash
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_ANALYTICS_TOKEN || secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 567f5e28368c5bbcfeffad3e674b02ab
+        run: node tools/kapazitaet-messen.mjs | tee kapazitaet.txt
+
       # **Der Befund gehört in die Statusanzeige**, nicht nur in die Actions-Ansicht — dort sieht
       # Daniel die roten Läufe ohnehin. Dieselbe Meldung wie bei der Wache.
       - name: Befund melden
-        if: steps.pruefung.outcome != 'success'
+        if: steps.pruefung.outcome != 'success' || steps.kapazitaet.outcome != 'success'
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: |
-          ZAHL=$(grep -m1 'D1-Verbrauch der letzten' verbrauch.txt || echo 'Verbrauch unklar')
+          ZAHL=$(grep -m1 '^::error::Kapazität' kapazitaet.txt || grep -m1 'D1-Verbrauch der letzten' verbrauch.txt || echo 'Verbrauch unklar')
           if [ -n "$LAUF_TOKEN" ]; then
             printf '{"lauf_id":"%s","repo":"%s","workflow":"%s","zustand":"fehler","url":"%s","zweck":"%s","ziel":"%s","notiz":"%s"}' \
               "$GITHUB_RUN_ID" "$GITHUB_REPOSITORY" "$GITHUB_WORKFLOW" \
               "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
-              "Sieht täglich nach, wie viel die Datenbank liest" \
-              "Unter der Hälfte des Tageskontingents bleiben (2,5 Mio. Zeilen)" \
+              "Sieht täglich nach, wie viel Datenbank und Worker verbrauchen" \
+              "Unter den Schwellen bleiben (Datenbank 2,5 Mio. gelesen, Worker 70 % der Free-Stufe)" \
               "$ZAHL — Einzelheiten im Protokoll" > /tmp/befund.json
             curl -sS --max-time 10 -X POST "https://newsletter.animekalender.workers.dev/lauf" \
               -H "Content-Type: application/json" -H "X-Lauf-Token: $LAUF_TOKEN" \
@@ -87,7 +100,7 @@ jobs:
           fi
 
       - name: Rot werden, wenn etwas auffällt
-        if: steps.pruefung.outcome != 'success'
+        if: steps.pruefung.outcome != 'success' || steps.kapazitaet.outcome != 'success'
         run: |
-          echo "::error::Datenbankverbrauch über der Grenze — Einzelheiten oben im Protokoll."
+          echo "::error::Verbrauch über der Grenze — Einzelheiten oben im Protokoll."
           exit 1
