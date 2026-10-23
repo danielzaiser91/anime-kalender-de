@@ -119,6 +119,7 @@ function baueKulisse(quelltext: string, netz: (url: string) => string | null) {
       modi.push(init?.cache)
       const text = netz(url)
       if (text === null) throw new Error('offline')
+      if (text.startsWith('404:')) return new Response(text.slice(4), { status: 404 })
       return new Response(text)
     },
     URL,
@@ -143,9 +144,13 @@ async function holeAntwort(handler: Map<string, (e: unknown) => void>, url: stri
   }
   handler.get('fetch')!(event)
   const text = antwort ? await (await antwort).text() : '(nicht beantwortet)'
+  wartendeNachAntwort = warten.length
   await Promise.all(warten)
   return text
 }
+
+/** Wie viele `waitUntil` der letzte Aufruf von `holeAntwort` setzte: ohne sie darf der Browser den Worker vor der Auffrischung beenden. */
+let wartendeNachAntwort = 0
 
 async function pruefeLaufzeit(quelltext: string): Promise<string[]> {
   const fehler: string[] = []
@@ -158,8 +163,13 @@ async function pruefeLaufzeit(quelltext: string): Promise<string[]> {
     mit.kulisse.speicher.set('fest-v4', new Map([[url, 'alt']]))
     mit.kulisse.speicher.set('media-v4', new Map([[url, 'alt']]))
     soll(`${pfad} mit Kopie: Antwort`, await holeAntwort(mit.handler, url), 'alt')
+    soll(`${pfad} Auffrischung hängt an waitUntil`, wartendeNachAntwort, 1)
     soll(`${pfad} Abruf am HTTP-Cache vorbei`, mit.kulisse.modi.join(), 'no-cache')
     soll(`${pfad} mit Kopie: aufgefrischt`, mit.kulisse.speicher.get('fest-v4')?.get(url), 'neu')
+    const fehlerhaft = baueKulisse(quelltext, () => '404:kaputt')
+    fehlerhaft.kulisse.speicher.set('fest-v4', new Map([[url, 'alt']]))
+    await holeAntwort(fehlerhaft.handler, url)
+    soll(`${pfad} Netz 404: Kopie bleibt`, fehlerhaft.kulisse.speicher.get('fest-v4')?.get(url), 'alt')
     const ohne = baueKulisse(quelltext, () => 'neu')
     soll(`${pfad} ohne Kopie: Antwort`, await holeAntwort(ohne.handler, url), 'neu')
     soll(`${pfad} ohne Kopie: abgelegt`, ohne.kulisse.speicher.get('fest-v4')?.get(url), 'neu')
@@ -207,7 +217,8 @@ function pruefeSelbst(): string[] {
 async function main(): Promise<number> {
   const pfad = process.argv[2] ?? 'public/sw.js'
   const quelltext = fs.readFileSync(pfad, 'utf8')
-  const fehler = [...pruefeSelbst(), ...pruefeCacheFirst(quelltext), ...(await pruefeLaufzeit(quelltext))]
+  const laufzeit = await pruefeLaufzeit(quelltext).catch((e: Error) => [`Laufzeit: ${e.message}`])
+  const fehler = [...pruefeSelbst(), ...pruefeCacheFirst(quelltext), ...laufzeit]
   for (const f of fehler) console.error(`FEHLER: ${f}`)
   if (fehler.length) return 1
   console.log(`check-sw-cache-regeln: ok (${pfad}: cacheFirst nur /assets/ und Cover; Icons/og aus Kopie mit Auffrischung)`)

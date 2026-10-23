@@ -393,6 +393,13 @@ dieselbe Datei, egal was darin steht.
   eine Kennung darin wäre beim nächsten Deploy ein totes Abo.
 - **Offline ignoriert die Kennung** (`ignoreSearch` in `sw.js`) — lieber alte Termine als eine
   leere Seite.
+- **Feste Adressen ohne Hash nie cache-first (23.10.2026).** `/icons/` und `/og/` kamen aus `media-v4`
+  und blieben es: Das neue Logo (PR 1693, 14.10.) erreichte jeden Besucher von davor nie, Chrome zeigte weiter
+  das blaue Favicon. Jetzt liegen sie in `fest-v4` und laufen über stale-while-revalidate (Kopie sofort, Abruf
+  mit `no-cache` frischt auf). `cacheFirst` bleibt für `/assets/` und Cover; `pipeline/check-sw-cache-regeln.ts`
+  (in `check:logic`) prüft das im Syntaxbaum und lässt den echten Worker in einer Kulisse laufen. Browsermessung:
+  `node tools/sw-icon-messung.mjs <alter-sw.js> public/sw.js`. Ändert ein PR eine Datei unter `public/` ohne Hash im
+  Namen, gehört die Cache-Regel in `sw.js` zur Prüfung.
 - Jeder Cache im Service Worker hat eine Obergrenze. Ohne sie wächst er still: einmal 313 MB
   Cover (10.08.2026), einmal 400 KB Programmdateien je Deploy (12.08.2026).
 
