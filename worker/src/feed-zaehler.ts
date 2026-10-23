@@ -6,8 +6,10 @@
  * kein Token liegt in der Datenbank). Gebucht wird gesammelt wie beim Lesedeckel: je Isolate laufen Abrufe und
  * angehobene Register auf, ein Upsert-Stapel schreibt sie ab `BUCHEN_AB` Abrufen oder nach `BUCHEN_NACH_MS`,
  * nie öfter als alle `MIN_ABSTAND_MS`.
- * Schreibzeilen je Stapel: 1 (Abrufe) + Zahl der angehobenen Register (höchstens 256) plus ein DELETE alter Tage (höchstens 258), je Abruf also
- * deutlich unter 1. Ein Fehler beim Buchen bricht nie den Feed ab; das Gesammelte bleibt für den nächsten Versuch
+ * Schreibzeilen je Stapel: 1 (Abrufe) + angehobene Register (höchstens 256) + 1 (Buchung in `schreib_tag`, damit der
+ * Schreib-Deckel mitzählt) und ein DELETE alter Tage: höchstens 259, je Abruf also deutlich unter 1. Ein Isolate
+ * schreibt nie mehr als `MAX_ZEILEN_TAG` Zeilen am Tag (danach ist der Zähler bis 00:00 UTC aus) und wiederholt kein
+ * Register, das es schon geschrieben hat; Zufalls-Token verbrauchen so höchstens diese Grenze je Isolate. Ein Fehler beim Buchen bricht nie den Feed ab; das Gesammelte bleibt für den nächsten Versuch
  * (Tageswechsel: der alte Tag wird einmal versucht, dann verworfen).
  */
 import { type Env } from './env.ts'
@@ -20,9 +22,29 @@ export const REGISTER = 256
 const ABRUFE = -1
 const AUFBEWAHREN_TAGE = 30
 
-export type Sammler = { tag: string; abrufe: number; register: Map<number, number>; zuletztGebucht: number }
+/** Obergrenze der Schreibzeilen je Isolate und Tag: Zufalls-Token (404) dürfen das Kontingent nicht verbrauchen. */
+export const MAX_ZEILEN_TAG = 1000
 
-export const neuerSammler = (): Sammler => ({ tag: '', abrufe: 0, register: new Map(), zuletztGebucht: 0 })
+/** `gebucht`: Register, die dieser Isolate heute schon geschrieben hat (nur Anhebungen gehen erneut in einen Stapel). */
+export type Sammler = {
+  tag: string
+  abrufe: number
+  register: Map<number, number>
+  zuletztGebucht: number
+  gebucht: Map<number, number>
+  zeilen: number
+  aus: boolean
+}
+
+export const neuerSammler = (): Sammler => ({
+  tag: '',
+  abrufe: 0,
+  register: new Map(),
+  zuletztGebucht: 0,
+  gebucht: new Map(),
+  zeilen: 0,
+  aus: false,
+})
 const standard = neuerSammler()
 
 export const utcTag = (d: Date): string => d.toISOString().slice(0, 10)
@@ -53,6 +75,9 @@ export function schaetzeTokens(register: ReadonlyMap<number, number>): number {
 
 type Stand = { tag: string; abrufe: number; register: Map<number, number> }
 
+/** Schreibzeilen eines Stapels: Abrufe, Register und die Buchung im Schreib-Deckel (ohne das DELETE alter Tage). */
+const zeilenVon = (stand: Stand): number => stand.register.size + 2
+
 async function buche(env: Env, stand: Stand): Promise<void> {
   const upsertMax = `INSERT INTO feed_abrufe (tag, reg, wert) VALUES (?1, ?2, ?3)
     ON CONFLICT(tag, reg) DO UPDATE SET wert = max(wert, ?3)`
@@ -64,6 +89,11 @@ async function buche(env: Env, stand: Stand): Promise<void> {
        ON CONFLICT(tag, reg) DO UPDATE SET wert = wert + ?3`,
     ).bind(stand.tag, ABRUFE, stand.abrufe),
     ...[...stand.register].map(([reg, rang]) => env.DB.prepare(upsertMax).bind(stand.tag, reg, rang)),
+    /* Dieselbe Zeilenzahl im Tageszähler des Schreib-Deckels (tagesdeckel.ts), damit er den Zähler mitzählt. */
+    env.DB.prepare(
+      `INSERT INTO schreib_tag (tag, zeilen, gelesen) VALUES (?1, ?2, 0)
+       ON CONFLICT(tag) DO UPDATE SET zeilen = zeilen + ?2`,
+    ).bind(stand.tag, zeilenVon(stand)),
     env.DB.prepare('DELETE FROM feed_abrufe WHERE tag < ?1').bind(utcTag(alt)),
   ])
 }
@@ -98,6 +128,19 @@ async function versuche(env: Env, stand: Stand): Promise<boolean> {
   }
 }
 
+/** Bucht den Stand des laufenden Tages unter der Tagesgrenze der Schreibzeilen; am Limit ist der Zähler für den Tag aus. */
+async function buecheStand(env: Env, s: Sammler, stand: Stand): Promise<void> {
+  const zeilen = zeilenVon(stand)
+  if (s.zeilen + zeilen > MAX_ZEILEN_TAG) {
+    s.aus = true
+    console.warn(`FEED-ZAEHLER: Tagesgrenze von ${MAX_ZEILEN_TAG} Schreibzeilen erreicht, Zähler heute aus`)
+    return
+  }
+  if (!(await versuche(env, stand))) return gibZurueck(s, stand)
+  s.zeilen += zeilen
+  for (const [reg, rang] of stand.register) s.gebucht.set(reg, rang)
+}
+
 /** Zählt einen Feed-Abruf. Wirft nie: der Feed hat Vorrang vor der Zählung. */
 export async function zaehleFeedAbruf(env: Env, token: string, jetzt: Date, s: Sammler = standard): Promise<void> {
   try {
@@ -106,15 +149,18 @@ export async function zaehleFeedAbruf(env: Env, token: string, jetzt: Date, s: S
     if (s.tag !== tag) {
       const alterTag = entnimm(s, ms)
       s.tag = tag
+      s.gebucht = new Map()
+      s.zeilen = 0
+      s.aus = false
       await versuche(env, alterTag) /* einmal versucht, dann verworfen: nie mit dem neuen Tag vermischen */
     }
+    if (s.aus) return
     const { reg, rang } = await registerUndRang(token)
     s.abrufe++
-    if (rang > (s.register.get(reg) ?? 0)) s.register.set(reg, rang)
+    if (rang > Math.max(s.register.get(reg) ?? 0, s.gebucht.get(reg) ?? 0)) s.register.set(reg, rang)
     const seit = ms - s.zuletztGebucht
     if (seit < MIN_ABSTAND_MS || (s.abrufe < BUCHEN_AB && seit < BUCHEN_NACH_MS)) return
-    const stand = entnimm(s, ms)
-    if (!(await versuche(env, stand))) gibZurueck(s, stand)
+    await buecheStand(env, s, entnimm(s, ms))
   } catch (e) {
     console.warn('FEED-ZAEHLER aus', e)
   }

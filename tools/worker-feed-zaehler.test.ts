@@ -57,6 +57,8 @@ function umgebung(db: DatabaseSync, z: Stapel): Env {
 function neueWelt() {
   const db = new DatabaseSync(':memory:')
   db.exec(readFileSync('worker/migrations/060-feed-abrufe.sql', 'utf8'))
+  db.exec(readFileSync('worker/migrations/049-schreib-tag.sql', 'utf8'))
+  db.exec(readFileSync('worker/migrations/052-schreib-tag-gelesen.sql', 'utf8'))
   db.exec('CREATE TABLE subscribers (feed_token TEXT, status TEXT, favorites TEXT)')
   const z: Stapel = { geschrieben: 0, stapel: 0, scheitert: false, verzoegerung: 0 }
   return { db, z, env: umgebung(db, z), s: neuerSammler() }
@@ -194,6 +196,35 @@ console.log('Gleichzeitige Abrufe während eines Stapels (Prüfer 1856):')
   const naechster = new Date(Date.parse('2026-10-13T00:10:00Z'))
   await Promise.all(Array.from({ length: 10 }, (_, i) => zaehleFeedAbruf(t.env, `r${i}`, naechster, t.s)))
   pruefe(zeile(t.db, tag0, -1) === 3 && t.s.abrufe === 10 && t.s.tag === '2026-10-13', `Tageswechsel mit Verzögerung: alter Tag 3, neuer Tag zählt alle 10 (${t.s.abrufe})`)
+}
+
+console.log('Tagesgrenze der Schreibzeilen gegen Zufalls-Token (Prüfer 1856, 52585e7):')
+{
+  const w = neueWelt()
+  const start = Date.parse('2026-10-12T00:00:00Z')
+  /* 100.000 Abrufe mit lauter verschiedenen Token, alle 0,5 s: 13,9 Stunden, ein Tag */
+  for (let i = 0; i < 100_000; i++) await zaehleFeedAbruf(w.env, `zufall-${i}`, new Date(start + i * 500), w.s)
+  const schreibTag = (w.db.prepare('SELECT zeilen FROM schreib_tag WHERE tag = ?').get(tag0) as { zeilen: number }).zeilen
+  pruefe(w.z.geschrieben <= 1000, `100.000 Zufalls-Token schreiben höchstens 1000 Zeilen am Tag (${w.z.geschrieben})`)
+  pruefe(w.z.geschrieben > 900, `... und erreichen die Grenze (${w.z.geschrieben} > 900)`)
+  pruefe(w.s.aus, 'danach ist der Zähler für den Tag aus')
+  pruefe(schreibTag === w.z.geschrieben, `Schreib-Deckel zählt dieselben Zeilen mit (schreib_tag ${schreibTag}, geschrieben ${w.z.geschrieben})`)
+  const vorher = w.z.stapel
+  await zaehleFeedAbruf(w.env, 'noch-einer', new Date(start + 14 * 3_600_000), w.s)
+  pruefe(w.z.stapel === vorher, 'am Limit kein weiterer Stapel')
+  await zaehleFeedAbruf(w.env, 'neuer-tag', new Date(Date.parse('2026-10-13T00:00:01Z')), w.s)
+  pruefe(!w.s.aus && w.s.abrufe === 1 && w.s.zeilen === 0, 'am nächsten Tag zählt der Zähler wieder')
+}
+
+console.log('Schon geschriebene Register gehen nicht erneut in einen Stapel:')
+{
+  const w = neueWelt()
+  await viele(w, 3, T0, 1, () => 'immer-derselbe')
+  await zaehleFeedAbruf(w.env, 'immer-derselbe', new Date(T0 + BUCHEN_NACH_MS), w.s)
+  const nachErstem = w.z.geschrieben
+  pruefe(nachErstem === 3, `erster Stapel: Abrufe + 1 Register + schreib_tag = 3 Zeilen (${nachErstem})`)
+  await zaehleFeedAbruf(w.env, 'immer-derselbe', new Date(T0 + 2 * BUCHEN_NACH_MS), w.s)
+  pruefe(w.z.geschrieben - nachErstem === 2, `zweiter Stapel: nur Abrufe + schreib_tag (${w.z.geschrieben - nachErstem})`)
 }
 
 console.log('Rang und Schätzung (feste Werte, von Hand gerechnet):')
