@@ -3,17 +3,17 @@ import type { CrDubData } from './crunchyroll-dub.ts'
 /**
  * Ein „nicht mehr verfügbar“ aus dem US-Katalog trifft nur die US-Adresse (Auftrag 24.10.2026).
  *
- * Führt der deutsche Katalog dieselbe Serienkennung mit Staffeln, bleibt jeder Weg auf eine deutsche
- * Adresse (`/de/…`) stehen: Das US-Nein sagt nichts über Deutschland. Meldet ein deutscher Satz die
- * Serie als tot (nicht verfügbar oder ohne Staffel), entfernt ihn die Bau-Phase selbst, auch ohne diesen Schutz.
- * Gemessen am 24.10.2026: My Teen Romantic Comedy SNAFU: Climax verlor den Weg, obwohl der deutsche
- * Katalog die Serie mit drei Staffeln führt.
+ * Belegt der deutsche Katalog dieselbe Serienkennung mit mindestens einer deutschen Folge, bleibt jeder
+ * Weg auf eine deutsche Adresse (`/de/…`) stehen: Das US-Nein sagt nichts über die deutsche Tonspur.
+ * Ohne deutsche Folge (My Teen Romantic Comedy SNAFU: drei Staffeln, 0 deutsche Folgen, 24.10.2026)
+ * fehlt der Beleg, und der Weg fällt wie bisher. Meldet ein deutscher Satz die Serie als tot, entfernt
+ * ihn die Bau-Phase selbst, auch ohne diesen Schutz.
  */
 
-/** Kennungen, die der deutsche Katalog mit mindestens einer Staffel führt. */
-export function deutschFuehrtSerie(crDub: CrDubData): Set<string> {
+/** Kennungen, bei denen der deutsche Katalog in mindestens einer Staffel eine deutsche Folge zählt. */
+export function deutschBelegtSerie(crDub: CrDubData): Set<string> {
   const ids = crDub.serien
-    .filter((s) => s.katalog === 'de' && s.seriesId && (s.staffeln ?? []).length > 0)
+    .filter((s) => s.katalog === 'de' && s.seriesId && (s.staffeln ?? []).some((st) => st.deutsch > 0))
     .map((s) => s.seriesId as string)
   return new Set(ids)
 }

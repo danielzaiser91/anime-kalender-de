@@ -1,7 +1,7 @@
 /**
  * Zusicherung: Ein „nicht mehr verfügbar“ aus dem US-Katalog entfernt nur Wege auf die US-Adresse, nicht den
- * deutschen Weg, wenn der deutsche Katalog dieselbe Serienkennung mit Staffeln führt (24.10.2026, My Teen Romantic
- * Comedy SNAFU: Climax). Geprüft wird `ordneCrSerienZu` an fester Kulisse, ohne Echtdaten.
+ * deutschen Weg, wenn der deutsche Katalog dieselbe Serienkennung mit mindestens einer deutschen Folge belegt (24.10.2026;
+ * My Teen Romantic Comedy SNAFU: Climax hat 0 deutsche Folgen, dort bleibt es beim Entfernen). Geprüft wird `ordneCrSerienZu` an fester Kulisse, ohne Echtdaten.
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-us-nein-adresse.ts`
  */
@@ -42,7 +42,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 const ID = 'GTESTA001'
 const DE_ADRESSE = `https://www.crunchyroll.com/de/series/${ID}/testserie`
 const US_ADRESSE = `https://www.crunchyroll.com/series/${ID}/testserie`
-const staffeln = (n: number) => Array.from({ length: n }, (_, i) => ({ name: `S${i + 1}` }))
+const staffeln = (n: number, deutsch = 2) => Array.from({ length: n }, (_, i) => ({ name: `S${i + 1}`, folgen: 12, deutsch }))
 
 const usNein = { url: DE_ADRESSE, seriesId: ID, katalog: 'us', nichtVerfuegbar: true } as unknown as CrSerie
 const deJa = (rest: object = {}) => ({ url: DE_ADRESSE, seriesId: ID, katalog: 'de', staffeln: staffeln(3), ...rest }) as unknown as CrSerie
@@ -104,8 +104,16 @@ console.log('\nUS-Nein trifft nur die US-Adresse (09-4-1):')
   pruefe('Gegenprobe: deutscher Satz ohne Staffeln → der Weg fällt', de!.length === 0, de)
 }
 {
-  const [de] = uebrig([usNein, deJa({ staffeln: staffeln(1) })], [DE_ADRESSE])
-  pruefe('genau eine deutsche Staffel genügt', de!.length === 1, de)
+  const [de] = uebrig([usNein, deJa({ staffeln: staffeln(1, 1) })], [DE_ADRESSE])
+  pruefe('genau eine deutsche Folge genügt', de!.length === 1, de)
+}
+{
+  /* SNAFU im Bestand: drei Staffeln im deutschen Katalog, 0 deutsche Folgen → kein Beleg, der Weg fällt. */
+  const [de] = uebrig([usNein, deJa({ staffeln: staffeln(3, 0) })], [DE_ADRESSE])
+  pruefe('Gegenprobe: deutscher Satz mit Staffeln, aber 0 deutschen Folgen → der Weg fällt', de!.length === 0, de)
+  const gemischt = [...staffeln(2, 0), ...staffeln(1, 5)]
+  const [mit] = uebrig([usNein, deJa({ staffeln: gemischt })], [DE_ADRESSE])
+  pruefe('eine Staffel mit deutschen Folgen unter nullen genügt', mit!.length === 1, mit)
 }
 {
   const zweiterTot = deJa({ url: `${DE_ADRESSE}-zwei`, nichtVerfuegbar: true })

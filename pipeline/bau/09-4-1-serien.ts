@@ -4,7 +4,7 @@ import { beurteile, type CrDubData, type CrSerie } from '../lib/crunchyroll-dub.
 import { kennungAusZiel } from '../lib/crunchyroll-api.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { istHandbelegterJaWeg } from '../lib/handbeleg-weg.ts'
-import { deutschFuehrtSerie, istDeutscheAdresse } from '../lib/cr-us-nein-adresse.ts'
+import { deutschBelegtSerie, istDeutscheAdresse } from '../lib/cr-us-nein-adresse.ts'
 
 /**
  * **Alle Titel, an denen diese Crunchyroll-Serie hängt — über die Adresse *und* die Kennung**
@@ -76,7 +76,7 @@ export function ordneCrSerienZu({ titles, crDub, usNeinWiderlegt, verweiseEntfer
         nachUrl.set(stream.url, liste)
       }
     }
-    const deutschJa = deutschFuehrtSerie(crDub)
+    const deutschJa = deutschBelegtSerie(crDub)
     let belegt = 0
     let verschwunden = 0
     let usNeinOffen = 0
