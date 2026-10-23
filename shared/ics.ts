@@ -148,6 +148,8 @@ export function buildIcs(events: ReleaseEvent[], opts: IcsOptions = {}): string 
     'METHOD:PUBLISH',
     `X-WR-CALNAME:${esc(opts.calendarName ?? 'Anime-Kalender DE')}`,
     'X-WR-TIMEZONE:Europe/Berlin',
+    'REFRESH-INTERVAL;VALUE=DURATION:PT12H',
+    'X-PUBLISHED-TTL:PT12H',
   ]
   for (const { ev, bis } of fasseFolgenZusammen(events)) lines.push(...veventBody(ev, opts, bis))
   lines.push('END:VCALENDAR')
