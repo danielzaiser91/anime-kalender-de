@@ -80,9 +80,9 @@ const alsAntwort = (kopf: Record<string, string>) =>
   })
 
 /**
- * Legt die Platzprüfung um den Handler von `/subscribe`: eine neue Adresse bekommt bei voller Kapazität 503
- * `newsletter_voll`, ohne Zeile und ohne Mail. Vorhandene Adressen (Erneuerung, Einstellungen) und ungültige
- * Anfragen gehen unverändert durch.
+ * Legt die Platzprüfung um den Handler von `/subscribe`: bei voller Kapazität bekommt jede gültige Adresse 503
+ * `newsletter_voll`, ohne Zeile und ohne Mail. Vorhandene und neue Adressen müssen gleich antworten, sonst verriete
+ * der Status, wer abonniert ist. Einstellungen und Wiederherstellung laufen über eigene Wege und bleiben offen.
  */
 export function mitPlatzpruefung(
   handler: (request: Request, env: Env) => Promise<Response>,
@@ -92,8 +92,6 @@ export function mitPlatzpruefung(
     const body = (await request.clone().json().catch(() => null)) as { email?: unknown } | null
     const email = typeof body?.email === 'string' ? body.email.trim().toLowerCase() : ''
     if (!EMAIL_RE.test(email)) return handler(request, env)
-    const da = await env.DB.prepare('SELECT 1 AS da FROM subscribers WHERE email = ?1').bind(email).first()
-    if (da) return handler(request, env)
     if ((await leseBelegung(env.DB)) >= DIGEST_TAG_MAX) return alsAntwort(kopf)
     return handler(request, env)
   }
