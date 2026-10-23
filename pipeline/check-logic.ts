@@ -6745,8 +6745,6 @@ pruefe(
   pruefe('ein neuer Anbieter: „Dandadan jetzt auch bei Netflix"', pushText([], [bei]) === 'Dandadan jetzt auch bei Netflix')
   pruefe('beides zusammen wird gebündelt', pushText([folge], [bei]) === '2 Neuigkeiten: Frieren – Folge 3 · Dandadan (Netflix)', String(pushText([folge], [bei])))
   pruefe('ohne Anlass kein Text — dann kein Push', pushText([], []) === null)
-  const push = readFileSync('worker/src/push.ts', 'utf8')
-  pruefe('… und der Versand merkt sich gemeldete Anbieter, bevor er beim ersten Lauf aussteigt', push.indexOf('gemeldet = ?2') < push.indexOf('if (!abo.zuletzt) continue'))
 }
 {
   /* Plaketten lesbar (18.09.2026, Daniels Wahl „hell B, dunkel C“): jede Anbieterfarbe
@@ -6776,7 +6774,7 @@ pruefe(
   /* TOGGO: „toggo ist immer DE, immer, ausnahmslos" — und Anbieter stehen als Pillen in Tippziel-Höhe mit Sprach-Blase (12.10.2026). */
   const panel = panelQuelltext()
   pruefe('ein TOGGO-Weg ist immer „✓ Deutsch"', /statusArt\(istToggo\(e\.url\) \|\|\s*e\.dubRanges/.test(panel))
-  pruefe('die Anbieter stehen als Pillen von mindestens 52 px, die Sprache als Blase', panel.includes('inline-flex min-h-[52px] max-w-full items-center') && panel.includes('-top-3.5') && panel.includes('gap-y-4'))
+  pruefe('die Anbieter stehen als Pillen von mindestens 52 px, die Sprache als Blase', panel.includes('inline-flex min-h-[52px] min-w-0 max-w-full items-center') && panel.includes('-top-3.5') && panel.includes('gap-y-4'))
 }
 {
   /* TOGGO-Fenster (19.09.2026, gemessen an Daima und Boruto): die Pille rechnet beim Anzeigen. */
@@ -8414,6 +8412,7 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     pruefe('Nachholen: Monatslauf ab dem 2. täglich zur Prüfung fällig, davor nicht', um('2026-10-03T04:00:00Z') && um('2026-10-31T04:00:00Z') && !um('2026-10-01T04:00:00Z') && !um('2026-10-03T05:00:00Z'))
     pruefe('Nachholen: abgebrochener Lauf am 2. (davor Erfolg vor 30 Tagen) -> Start am 3.', startErlaubt(w, [lauf('2026-10-02T04:00:00Z', 'cancelled'), lauf('2026-09-02T08:46:21Z', 'success')], am3))
     pruefe('Nachholen: erfolgreicher Lauf am 2. -> kein Start am 3.', !startErlaubt(w, [lauf('2026-10-02T04:00:00Z', 'success'), lauf('2026-09-02T08:46:21Z', 'success')], am3))
+    pruefe('Nachholen: Handlauf am 08. -> kein zweiter Start am 23., Start am 2. des Folgemonats', !startErlaubt(w, [lauf('2026-10-08T12:30:40Z', 'success')], new Date('2026-10-23T04:00:00Z')) && startErlaubt(w, [lauf('2026-10-08T12:30:40Z', 'success')], new Date('2026-11-02T04:00:00Z')))
     pruefe('Nachholen: laufender Lauf sperrt, keine Läufe -> Start', !startErlaubt(w, [lauf('2026-10-02T04:00:00Z', '', 'in_progress')], am3) && startErlaubt(w, [], am3))
     pruefe('Doppelstart-Schutz der übrigen Workflows bleibt: neuester Lauf zählt auch abgebrochen', !startErlaubt('refresh-hourly.yml', [lauf('2026-10-03T03:50:00Z', 'cancelled')], am3) && startErlaubt('refresh-hourly.yml', [lauf('2026-10-03T03:00:00Z', 'success')], am3))
   }

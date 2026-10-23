@@ -31,8 +31,10 @@ const ERLAUBT: Record<string, Record<string, string>> = {
   'web/src/components/detail/pille.tsx': { 'url || undefined': 'Anbieter-Adresse (platformUrl/Weg), keine Beleg-Quelle' },
   'web/src/components/detail/hilfen.tsx': { url: 'blob:-Adresse der ICS-Datei aus URL.createObjectURL (downloadIcs), keine Adresse aus den Daten' },
   'web/src/components/detail/termin-zeile.tsx': {
-    href: 'Parameter von ProgrammLink; einziger Aufrufer übergibt tvText.programm (tv.de-Programmseite, Eintrag daneben)',
+    href: 'Parameter von ProgrammLink; einziger Aufrufer übergibt tvLink.href (Eintrag daneben)',
+    'tvLink.href': 'aus programmZiel: tvText.programm oder tvQuelle().url',
     'tvText.programm': 'tv.de-Programmseite',
+    'quelle.url': 'tvQuelle(): nur http(s) und parsbar (istLink), sonst keine Quelle',
   },
   'web/src/components/detail/vermerk.tsx': {
     'm.quelle.url': 'Nachrichtenartikel (anime2you u. a.), keine Termin-Quelle',

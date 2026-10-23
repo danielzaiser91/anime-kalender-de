@@ -17,8 +17,8 @@ import { handleVerlauf } from './verlauf.ts'
 import { ladeKennungen, leseFavoriten, schreibeFavoriten, zaehleFavoriten } from './favoriten-kennung.ts'
 import { anbieterName } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
-import { buildIcs } from '../../shared/ics.ts'
-import { sendMail } from './mail.ts'
+import { handleFavoritenFeed } from './favoriten-feed.ts'
+import { sendeUndZaehle, tagesstand } from './mail-zaehler.ts'
 import { checkAllSites, confirmOutages } from './monitor.ts'
 import { schreibeStaende, schreibeVerlauf } from './monitor-speicher.ts'
 import { ladeMesswerte } from './monitor-statistik.ts'
@@ -43,13 +43,14 @@ import { handlePruefung } from './pruefung.ts'
 import { loadNews, weitereAusNews } from './news-quelle.ts'
 import { handleLauf } from './lauf.ts'
 import { handleCrZugang } from './cr-zugang.ts'
+import { EMAIL_RE, mitAnmeldeSchutz } from './anmelde-schutz.ts'
+import { digestStand, mitPlatzpruefung, wochenAboFaellig } from './newsletter-kapazitaet.ts'
 import { handleBeleg } from './beleg.ts'; import { loescheAbgelaufenes } from './loeschfristen.ts'; import { starteFaelligeLaeufe } from './wecker.ts'
 
 export { Ereignisse }
 export { Schnellmesser } from './schnellmesser.ts'
 
 /** Kommagetrennte Zahlenliste aus der Datenbank in ein Set. */
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i
 
 function cors(env: Env): Record<string, string> {
   return {
@@ -160,7 +161,7 @@ async function handleSubscribe(request: Request, env: Env): Promise<Response> {
   const confirmUrl = `${baseUrl(request)}/confirm?token=${confirmToken}`
   const mail = confirmMail(confirmUrl, aenderungAmAktiven)
   try {
-    await sendMail(env, { to: email, ...mail })
+    await sendeUndZaehle(env, { to: email, ...mail })
   } catch (err) {
     fehlerLog('Versand der Bestätigungsmail fehlgeschlagen', err)
     return json(env, { error: 'Die Bestätigungsmail konnte nicht verschickt werden.' }, 502)
@@ -319,7 +320,7 @@ async function handleRestore(request: Request, env: Env): Promise<Response> {
 
   const url = `${baseUrl(request)}/restore/confirm?token=${token}`
   try {
-    await sendMail(env, { to: email, ...restoreMail(url) })
+    await sendeUndZaehle(env, { to: email, ...restoreMail(url) })
   } catch (err) {
     // Auch ein Fehlschlag beim Versand ändert die Antwort nicht — sonst
     // verriete die Fehlermeldung, dass es die Adresse gibt.
@@ -720,28 +721,6 @@ async function handleFeedToken(request: Request, env: Env): Promise<Response> {
   return json(env, { ok: true, feedToken: feed })
 }
 
-async function handleFavoritenFeed(request: Request, env: Env): Promise<Response> {
-  const k = (new URL(request.url).searchParams.get('k') ?? '').trim()
-  const text = (body: string, status: number) =>
-    new Response(body, { status, headers: { 'Content-Type': 'text/plain; charset=utf-8' } })
-  if (!k) return text('Die Adresse ist unvollständig.', 400)
-  const row = await env.DB.prepare("SELECT favorites FROM subscribers WHERE feed_token = ?1 AND status = 'active'")
-    .bind(k)
-    .first<{ favorites: string | null }>()
-  if (!row) return text('Zu dieser Adresse gibt es kein aktives Abo mehr.', 404)
-  const favoriten = leseFavoriten(row.favorites, await ladeKennungen(env))
-  const events = (await loadEvents(env)).filter((e) => favoriten.has(e.titleId))
-  const ics = buildIcs(events, { siteUrl: env.SITE_URL, calendarName: 'Anime-Kalender DE – Meine Favoriten' })
-  return new Response(ics, {
-    headers: {
-      'Content-Type': 'text/calendar; charset=utf-8',
-      'Content-Disposition': 'inline; filename="favoriten.ics"',
-      'Cache-Control': 'public, max-age=900',
-      ...cors(env),
-    },
-  })
-}
-
 async function loadEvents(env: Env): Promise<ReleaseEvent[]> {
   const url = new URL('data/events.json', env.SITE_URL).toString()
   let res: Response
@@ -854,7 +833,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
   if (force) due.push(force)
   else if (hour === sendHour) {
     due.push('daily')
-    if (weekdayIndex(iso) === 0) due.push('weekly')
+    due.push('weekly') // jeden Tag: welche Wochen-Abos dran sind, entscheidet wochenAboFaellig (Eimer-Tag)
   }
   if (!due.length) return `nichts zu tun (Berliner Stunde ${hour})`
 
@@ -883,8 +862,8 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
     const window = allEvents.filter((e) => e.date >= iso && e.date <= until)
 
     const { results } = await env.DB.prepare(
-      `SELECT id, email, frequency, platforms, favorites, franchise_hinweis, unsub_token, pref_token, last_sent_at FROM subscribers
-       WHERE status = 'active' AND frequency = ?1`,
+      `SELECT id, email, frequency, platforms, favorites, franchise_hinweis, unsub_token, pref_token, last_sent_at, created_at FROM subscribers
+       WHERE status = 'active' AND frequency = ?1 ORDER BY last_sent_at`,
     )
       .bind(frequency)
       .all<SubscriberRow>()
@@ -903,15 +882,18 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
       workerUrl: env.WORKER_URL || '',
       siteUrl: env.SITE_URL,
     }
-    const posten = (results ?? []).map((sub) => digestFuer(sub, kontext)).filter((p) => p !== null)
-    const sent = await versendeDigest(env, posten, now)
+    const faellige = frequency === 'weekly' && !force ? (results ?? []).filter((s) => wochenAboFaellig(s, iso)) : (results ?? [])
+    const posten = faellige.map((sub) => digestFuer(sub, kontext)).filter((p) => p !== null)
+    const stand = await digestStand(env, now)
+    const sent = await versendeDigest(env, posten.slice(0, stand.platz), now)
 
-    if (!force) {
+    // Nur Erfolg (oder nichts zu senden) schließt den Tag ab; Abgewiesenes geht am Folgetag raus.
+    if (!force && (sent > 0 || !posten.length)) {
       await env.DB.prepare('INSERT OR REPLACE INTO send_log (run_key, sent_at, recipients) VALUES (?1, ?2, ?3)')
         .bind(runKey, now.toISOString(), sent)
         .run()
     }
-    log.push(`${runKey}: ${sent} Mails, ${window.length} Termine im Fenster`)
+    log.push(`${runKey}: ${sent} von ${posten.length} Mails (Platz ${stand.platz}; heute Digest ${stand.digestHeute}, Mails ${stand.mailsHeute}, Monat ${stand.mailsMonat}), ${window.length} Termine im Fenster`)
   }
 
   return log.join('; ')
@@ -1026,7 +1008,7 @@ export async function runMonitor(
       // die Vorlage benennt das auch so.
       const report = confirmed.length ? confirmed : lines.slice(0, 1)
       const mail = outageMail(report, lines.length, env.SITE_URL, lines.length - confirmed.length)
-      await sendMail(env, { to, ...mail, fromName: BRAND.monitor.name })
+      await sendeUndZaehle(env, { to, ...mail, fromName: BRAND.monitor.name })
       if (!force) {
         await env.DB.prepare(
           'INSERT OR REPLACE INTO send_log (run_key, sent_at, recipients) VALUES (?1, ?2, 1)',
@@ -1054,7 +1036,7 @@ export async function runMonitor(
       log.push('Wochenübersicht diese Woche bereits verschickt')
     } else {
       const mail = weeklyStatusMail(lines, env.SITE_URL, await ladeMesswerte(env.DB, nowIso))
-      await sendMail(env, { to, ...mail, fromName: BRAND.monitor.name })
+      await sendeUndZaehle(env, { to, ...mail, fromName: BRAND.monitor.name })
       if (!force) {
         await env.DB.prepare(
           'INSERT OR REPLACE INTO send_log (run_key, sent_at, recipients) VALUES (?1, ?2, 1)',
@@ -1301,7 +1283,7 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
     switch (url.pathname) {
       case '/subscribe':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
-        return handleSubscribe(request, env)
+        return mitPlatzpruefung(request, env, () => mitAnmeldeSchutz(request, env, handleSubscribe, imRahmen, cors(env)), cors(env))
       case '/confirm':
         return handleConfirm(request, env)
       case '/unsubscribe':
@@ -1384,7 +1366,7 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
         return handleFeedToken(request, env)
       case '/feed/favoriten.ics':
-        return handleFavoritenFeed(request, env)
+        return handleFavoritenFeed(request, env, ctx, cors(env))
       case '/restore':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
         return handleRestore(request, env)
@@ -1469,7 +1451,7 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
         const count = await env.DB.prepare(
           "SELECT COUNT(*) AS n FROM subscribers WHERE status = 'active'",
         ).first<{ n: number }>()
-        return json(env, { ok: true, activeSubscribers: count?.n ?? 0 })
+        return json(env, { ok: true, activeSubscribers: count?.n ?? 0, heute: await tagesstand(env), newsletter: await digestStand(env, new Date()) })
       }
       default:
         return json(env, { error: 'Unbekannter Pfad' }, 404)

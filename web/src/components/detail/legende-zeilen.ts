@@ -1,5 +1,6 @@
 import type { Release, StreamLink, Title } from '@shared/types.ts'
 import { streamNurOmu } from '@shared/ankuendigung.ts'
+import { adresseIstOmu } from '@shared/omu-adresse.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import { istToggo } from './pillen.tsx'
 import { legendeFuer, statusArt, type DubStatusArt } from './pille.tsx'
@@ -14,7 +15,7 @@ type Kaufweg = Wege[number]['streamWege'][number]
 export function streamStatus(title: Title, s: StreamLink, releases: Release[]): DubStatusArt {
   const art = statusArt(s.dub, s.dubQuelle === 'justwatch' ? s.dubStand : undefined)
   if (art === 'justwatch' && !s.dubHintOnly) return 'jwDeutsch'
-  return art === 'offen' && streamNurOmu(title, s, releases) ? 'omu' : art
+  return art === 'offen' && (streamNurOmu(title, s, releases) || adresseIstOmu(s.url)) ? 'omu' : art
 }
 
 /** Weder belegt noch von JustWatch gemeldet: die Zeile steht unter „Weitere Anbieter“ und trägt keinen Sprachbeleg. */
@@ -30,7 +31,8 @@ export function streamWegStatus(g: Kaufweg, title: Title): DubStatusArt {
   if (istAnnahme(e)) return 'annahme'
   const art = statusArt(istToggo(e.url) || e.dubRanges?.some((r) => r.dub) || (title.streams ?? []).find((x) => x.url === e.url)?.dub)
   /* Abgeleitet, nie belegt: Ein Beleg am Weg geht vor, und „schwester“ zählt nirgends als Haken. */
-  return art === 'offen' && e.dubAbgeleitet ? 'schwester' : art
+  if (art === 'offen' && e.dubAbgeleitet) return 'schwester'
+  return art === 'offen' && adresseIstOmu(e.url) ? 'omu' : art
 }
 
 /**
@@ -47,13 +49,27 @@ export function zeilenGruppen(sortiert: Wege, title: Title, releases: Release[])
   })
 }
 
+/** Die Statusart jeder Stream-Zeile (Pillen und Kaufwege), Grundlage der Kopf-Entscheidungen. */
+function zeilenArten(sortiert: Wege, title: Title, releases: Release[]): DubStatusArt[] {
+  return [
+    ...sortiert.flatMap((x) => x.plattformen.map((s) => streamStatus(title, s, releases))),
+    ...sortiert.flatMap((x) => x.streamWege.map((g) => streamWegStatus(g, title))),
+  ]
+}
+
 /** Gibt es Stream-Zeilen, und trägt keine einen Sprachbeleg? Dann steht kein „Auf Deutsch …“ über ihnen. */
 export function alleOhneSprachbeleg(sortiert: Wege, title: Title, releases: Release[]): boolean {
-  const arten = [...sortiert.flatMap((x) => x.plattformen.map((s) => streamStatus(title, s, releases))), ...sortiert.flatMap((x) => x.streamWege.map((g) => streamWegStatus(g, title)))]
+  const arten = zeilenArten(sortiert, title, releases)
   return arten.length > 0 && arten.every(ohneBeleg)
 }
 
-/** Die Legende unter den Stream-Zeilen: erklärt „laut JustWatch“, „Sprache offen“ und „≈“, wo sie vorkommen. */
+/** Alle Stream-Zeilen tragen nur Untertitel (OmU): Der Kopf sagt „nur Untertitel“ statt „Sprache offen“. */
+export function alleNurUntertitel(sortiert: Wege, title: Title, releases: Release[]): boolean {
+  const arten = zeilenArten(sortiert, title, releases)
+  return arten.length > 0 && arten.every((a) => a === 'omu')
+}
+
+/** Die Legende unter den Stream-Zeilen: erklärt „laut JustWatch“ und „≈“, wo sie vorkommen. */
 export function legendeDerZeilen({ sortiert, title, releases, folgenAngabeFuer, t }: {
   sortiert: Wege
   title: Title

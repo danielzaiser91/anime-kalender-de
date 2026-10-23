@@ -4082,3 +4082,7 @@ Anlass: „Your Name“ (21519) zeigte bei Videoload „Deutsch angenommen“, o
 - **Nicht:** Serien (JustWatch-Ton gilt nur je Staffel, Regel 07.09.2026; Ansatz A2 bewusst nicht umgesetzt) und Wege ohne Kennung (themoviedb-Adresse); sie bleiben „Deutsch angenommen“.
 - **Wächter:** `check-telekom-annahme-bestand.ts` (`zwillingFehler`): Annahme neben gemessenem Zwilling gleicher Kennung ist rot (Soll 0).
 - **Legende:** „…gilt als deutsch; belegt ist die Tonspur dort nicht.“ (vorher „zu diesem Titel nennt er keine Tonspur“, in 147 Fällen falsch).
+
+## Streaming Availability API: ein Monatslauf je Monat, Reserve für den Tageslauf (23.10.2026)
+
+Am 23.10. um 04:01 UTC startete der Wecker `tonspuren-monatlich` ein drittes Mal im Oktober: `startErlaubt` prüfte bei `nachholen` nur den Abstand (14 Tage) zum Handlauf vom 08.10. Der Lauf verbrauchte 655 Anfragen in fünf Minuten, danach meldete die Quelle 209 von 1.000 übrig (Mails von Movie of the Night bei 50 % und 75 %). Seither sperrt ein nicht abgebrochener Lauf im selben UTC-Monat jeden weiteren Wecker-Start (`shared/weckplan.ts`), und `fetch-motn.ts` hört bei 130 Restanfragen auf (`RESERVE`), damit `fetch-motn-changes` (4 je Tag) bis zum Reset am Ersten auskommt. `motn-links.ts` ruft die API nicht.
