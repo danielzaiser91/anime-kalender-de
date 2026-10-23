@@ -1340,6 +1340,14 @@ Live nachsehen: `cd worker && npx wrangler tail newsletter --format json --searc
 
 Vergangene Logs (bis 3 Tage zurück) liest man per API: `POST https://api.cloudflare.com/client/v4/accounts/{account_id}/workers/observability/telemetry/query` mit dem Token „anime-kalender-deploy“, das seit 17.10.2026 00:03 das Recht „Workers Observability Read“ trägt (Wert in `my_secrets.md`, nie in Repo oder Log). So kam am 16.10.2026 die Ursache der 500 bei der Prime-Meldung ans Licht (Abschnitt „D1-Export weist Meldungen ab“).
 
+## Kapazitätsmessung: Anfragen, CPU, D1-Schreiben, Mails (23.10.2026)
+
+**Wo:** `tools/kapazitaet-messen.mjs` (Schwellen und Bewertung: `tools/kapazitaet-bewertung.mjs`, Test `tools/kapazitaet.test.mjs`) läuft als Schritt „Kapazität messen“ in `d1-verbrauch.yml` (täglich 07:50 UTC, gleicher Token). Es liest per GraphQL-Analytics die letzten 7 UTC-Tage: Worker-Anfragen (Konto und je Skript), Fehler, `exceededCpu`, CPU p50/p99 (alle Aufrufe und Cron getrennt), D1 gelesen/geschrieben. Rot (Statusanzeige wie bei d1-verbrauch) bei einem Tag über 70.000 Anfragen, über 70.000 geschriebenen D1-Zeilen oder Cron-CPU p99 über 8 ms; `exceededCpu` > 0 ist eine Warnzeile. Der schlimmste Tag des Fensters zählt. Die frühere Grundlast „58.000 Aufrufe/Tag“ (11.10.2026) gilt nicht mehr; maßgeblich ist die Tageszeile im Protokoll.
+
+**Vor dem ersten echten Wert prüfen:** Feldnamen der Datensätze (`workersInvocationsAdaptive`, `workersInvocationsScheduled`, `d1AnalyticsAdaptiveGroups`) und die Einheit der CPU-Quantile (Mikrosekunden angenommen) sind aus der Schemadoku, nicht an unserem Konto geprüft. Ein nicht lesbarer Datensatz erscheint als `::warning::Kapazität: Datensatz nicht lesbar`, nie als 0. Erster Lauf nach dem Merge: `gh workflow run d1-verbrauch.yml --repo danielzaiser91/anime-kalender-de`, Zahlen mit dem Cloudflare-Dashboard vergleichen. Reicht der Token nicht für Worker-Analytics, steht das im selben Warnzeilenformat.
+
+**Mails je Tag:** `worker/src/mail-zaehler.ts` addiert die vom Anbieter angenommenen Mails (Digest-Stapel: Zahl der angenommenen; Einzelmails: 1; Anbieter `console` und abgewiesener Versand: 0) in `schreib_tag.mails` (Migration 059, vor dem Worker-Deploy einspielen). `GET /health` liefert `heute: { tag, geschrieben, gelesen, mails }` (`null`, wenn der Zähler nicht lesbar ist). Eine Mail-Schwelle in der Messung folgt, sobald das Tageslimit des Anbieters belegt ist.
+
 ## D1-Schreibkontingent: Tagesdeckel, weniger Indexzeilen, Hash statt Wiederholung (11.10.2026)
 
 **Anlass:** Das Gratis-Kontingent von D1 (100.000 geschriebene Zeilen am UTC-Tag, je Konto, Newsletter-Worker und Ticket-Board teilen es) war am 11.10.2026 zwischen 18:00 und 18:39 MESZ durch einen „alle durchgehen"-Lauf (Disney+ 7.104 Folgen, dazu Netflix und Prime) auf rund 150.000 geschriebene Zeilen gestiegen; alle Schreibpfade waren bis 02:00 MESZ gesperrt. Jede Indexzeile zählt als geschriebene Zeile.

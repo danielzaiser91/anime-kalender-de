@@ -18,7 +18,7 @@ import { ladeKennungen, leseFavoriten, schreibeFavoriten, zaehleFavoriten } from
 import { anbieterName } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
 import { buildIcs } from '../../shared/ics.ts'
-import { sendMail } from './mail.ts'
+import { sendeUndZaehle, tagesstand } from './mail-zaehler.ts'
 import { checkAllSites, confirmOutages } from './monitor.ts'
 import { schreibeStaende, schreibeVerlauf } from './monitor-speicher.ts'
 import { ladeMesswerte } from './monitor-statistik.ts'
@@ -160,7 +160,7 @@ async function handleSubscribe(request: Request, env: Env): Promise<Response> {
   const confirmUrl = `${baseUrl(request)}/confirm?token=${confirmToken}`
   const mail = confirmMail(confirmUrl, aenderungAmAktiven)
   try {
-    await sendMail(env, { to: email, ...mail })
+    await sendeUndZaehle(env, { to: email, ...mail })
   } catch (err) {
     fehlerLog('Versand der Bestätigungsmail fehlgeschlagen', err)
     return json(env, { error: 'Die Bestätigungsmail konnte nicht verschickt werden.' }, 502)
@@ -319,7 +319,7 @@ async function handleRestore(request: Request, env: Env): Promise<Response> {
 
   const url = `${baseUrl(request)}/restore/confirm?token=${token}`
   try {
-    await sendMail(env, { to: email, ...restoreMail(url) })
+    await sendeUndZaehle(env, { to: email, ...restoreMail(url) })
   } catch (err) {
     // Auch ein Fehlschlag beim Versand ändert die Antwort nicht — sonst
     // verriete die Fehlermeldung, dass es die Adresse gibt.
@@ -1026,7 +1026,7 @@ export async function runMonitor(
       // die Vorlage benennt das auch so.
       const report = confirmed.length ? confirmed : lines.slice(0, 1)
       const mail = outageMail(report, lines.length, env.SITE_URL, lines.length - confirmed.length)
-      await sendMail(env, { to, ...mail, fromName: BRAND.monitor.name })
+      await sendeUndZaehle(env, { to, ...mail, fromName: BRAND.monitor.name })
       if (!force) {
         await env.DB.prepare(
           'INSERT OR REPLACE INTO send_log (run_key, sent_at, recipients) VALUES (?1, ?2, 1)',
@@ -1054,7 +1054,7 @@ export async function runMonitor(
       log.push('Wochenübersicht diese Woche bereits verschickt')
     } else {
       const mail = weeklyStatusMail(lines, env.SITE_URL, await ladeMesswerte(env.DB, nowIso))
-      await sendMail(env, { to, ...mail, fromName: BRAND.monitor.name })
+      await sendeUndZaehle(env, { to, ...mail, fromName: BRAND.monitor.name })
       if (!force) {
         await env.DB.prepare(
           'INSERT OR REPLACE INTO send_log (run_key, sent_at, recipients) VALUES (?1, ?2, 1)',
@@ -1469,7 +1469,7 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
         const count = await env.DB.prepare(
           "SELECT COUNT(*) AS n FROM subscribers WHERE status = 'active'",
         ).first<{ n: number }>()
-        return json(env, { ok: true, activeSubscribers: count?.n ?? 0 })
+        return json(env, { ok: true, activeSubscribers: count?.n ?? 0, heute: await tagesstand(env) })
       }
       default:
         return json(env, { error: 'Unbekannter Pfad' }, 404)
