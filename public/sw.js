@@ -146,6 +146,9 @@ async function trimCache(cache, max, nurPfad) {
  */
 const SHELL_MAX = 40
 
+/** Wie viele feste Adressen (Icons, Vorschaubilder) höchstens liegen bleiben; es sind rund zwanzig. */
+const FEST_MAX = 60
+
 /**
  * Aus dem Cache sofort, dazu Abruf und Auffrischung für den nächsten Besuch.
  * Für feste Adressen ohne Hash, deren Inhalt sich ändern darf; `no-cache` umgeht den HTTP-Cache.
@@ -154,7 +157,10 @@ async function staleWhileRevalidate(request, cacheName, event) {
   const cache = await caches.open(cacheName)
   const hit = await cache.match(request)
   const abruf = fetch(request, { cache: 'no-cache' }).then(async (response) => {
-    if (response.ok) await cache.put(request, response.clone())
+    if (response.ok) {
+      await cache.put(request, response.clone())
+      await trimCache(cache, FEST_MAX)
+    }
     return response
   })
   if (!hit) return abruf
