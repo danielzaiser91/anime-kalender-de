@@ -25,7 +25,7 @@ import { coverBild, KACHEL_DICHTE } from './lib/cover.ts'
 import { KalenderBereich } from './components/kalender/KalenderBereich.tsx'
 import { DatenbankBereich } from './components/DatenbankBereich.tsx'
 import { DetailPanel } from './components/DetailPanel.tsx'
-import { Footer } from './components/StaticViews.tsx'
+import { Footer } from './components/Footer.tsx'
 import { StartGeruest, WochenSkelett } from './components/StartGeruest.tsx'
 import { useErstesErgebnis } from './lib/erstes-ergebnis.ts'
 
