@@ -27,7 +27,10 @@ const pruefe = (bedingung: boolean, text: string) => {
   console.log(`  ${bedingung ? 'ok  ' : 'FEHL'} ${text}`)
   if (!bedingung) fehler++
 }
-console.warn = () => {}
+let warnungen = 0
+console.warn = () => {
+  warnungen++
+}
 
 type Stapel = { geschrieben: number; stapel: number; scheitert: boolean; verzoegerung: number }
 
@@ -42,8 +45,8 @@ function umgebung(db: DatabaseSync, z: Stapel): Env {
     DB: {
       prepare: (sql: string) => anweisung(sql),
       batch: async (liste: ReturnType<typeof anweisung>[]) => {
-        if (z.scheitert) throw new Error('D1_ERROR: no such table: feed_abrufe')
         if (z.verzoegerung) await new Promise((fertig) => setTimeout(fertig, z.verzoegerung))
+        if (z.scheitert) throw new Error('D1_ERROR: no such table: feed_abrufe')
         z.stapel++
         for (const a of liste) z.geschrieben += Number((a.run() as { changes: number }).changes)
       },
@@ -89,6 +92,7 @@ console.log('Schwellen:')
   pruefe(w.z.stapel === 0, "499 Abrufe, der letzte genau MIN_ABSTAND nach dem Start: nichts gebucht")
   await zaehleFeedAbruf(w.env, 'y', new Date(T0 + MIN_ABSTAND_MS), w.s)
   pruefe(w.z.stapel === 1 && zeile(w.db, tag0, -1) === 500, `500. Abruf genau MIN_ABSTAND nach dem Start bucht einmal (${zeile(w.db, tag0, -1)})`)
+pruefe(w.s.abrufe === 0 && w.s.register.size === 0 && warnungen === 0, 'Sammler nach dem Buchen leer, keine Warnung (auch beim ersten Abruf des Tages)')
   const w0 = neueWelt()
   await viele(w0, BUCHEN_AB - 1, T0, 1)
   await zaehleFeedAbruf(w0.env, 'x', new Date(T0 + MIN_ABSTAND_MS - 1), w0.s)
