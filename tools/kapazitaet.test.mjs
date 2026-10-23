@@ -59,7 +59,7 @@ function api({ ohne = [] } = {}) {
         { dimensions: { scriptName: 'newsletter', status: 'exceededCpu' }, sum: { requests: 2, errors: 2 }, quantiles: { cpuTimeP50: 9000, cpuTimeP99: 12000 } },
         { dimensions: { scriptName: 'board', status: 'success' }, sum: { requests: 40, errors: 0 }, quantiles: { cpuTimeP50: 1000, cpuTimeP99: 3000 } },
       ],
-      workersInvocationsScheduled: [{ dimensions: { scriptName: 'newsletter', cron: '0 * * * *', status: 'success' }, sum: { requests: 24, errors: 0 }, quantiles: { cpuTimeP50: 4000, cpuTimeP99: 8200 } }],
+      workersInvocationsScheduled: [1000, 2000, 3000, 4000, 8200].map((us) => ({ scriptName: 'newsletter', cron: '0 * * * *', status: 'success', cpuTimeUs: us })),
       d1AnalyticsAdaptiveGroups: [{ dimensions: { databaseId: 'x' }, sum: { rowsRead: 5000, rowsWritten: 321 } }],
     }[name]
     return { ok: true, json: async () => ({ data: { viewer: { accounts: [{ [name]: daten }] } } }) }
@@ -81,7 +81,7 @@ assert.deepEqual(t.jeSkript, { newsletter: 1002, board: 40 })
 assert.equal(t.fehler, 5)
 assert.equal(t.ueberCpu, 2, 'nur die Gruppe mit Status exceededCpu')
 assert.equal(t.cpuP99Ms, 12, 'Mikrosekunden → Millisekunden, größter Gruppenwert')
-assert.equal(t.cronP50Ms, 4)
+assert.equal(t.cronP50Ms, 3)
 assert.equal(t.cronP99Ms, 8.2, 'Cron getrennt von allen Aufrufen')
 assert.equal(t.gelesen, 5000)
 assert.equal(t.geschrieben, 321)

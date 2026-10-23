@@ -5,9 +5,11 @@
  * Aufrufen), D1 gelesen und geschrieben — aus der GraphQL-Analytics-API, mit dem Token von
  * `d1-verbrauch.yml` (`Account Analytics: Read`). Schwellen: `kapazitaet-bewertung.mjs`.
  *
- * **Annahmen, beim ersten CI-Lauf gegen das Dashboard zu prüfen:** `cpuTimeP50/P99` in Mikrosekunden;
- * Cron aus `workersInvocationsScheduled`, alle Aufrufe aus `workersInvocationsAdaptive`; HTTP allein gibt
- * es nicht getrennt. Je Gruppe (Skript, Status, Cron) gilt der größte Quantil-Wert. Ein Datensatz, der
+ * **Gemessen am echten Konto (CI-Lauf 23.10.2026):** `workersInvocationsAdaptive` (Anfragen, Fehler, Status, CPU-Quantile
+ * in Mikrosekunden, daher durch 1000) und `d1AnalyticsAdaptiveGroups` liefern; HTTP und Cron sind darin nicht
+ * getrennt (keine Dimension `eventType`). Cron-CPU kommt aus den Einzelereignissen von `workersInvocationsScheduled`
+ * (`cpuTimeUs`); dieser Datensatz war am 23.10.2026 leer, der Cron-Wert bleibt dann `n/a` und die 8-ms-Schwelle
+ * stumm. Ein Datensatz, der
  * nicht lesbar ist, macht den Lauf rot (sonst bliebe die Messung täglich unbemerkt blind).
  *
  * Ohne `CLOUDFLARE_API_TOKEN` oder `CLOUDFLARE_ACCOUNT_ID` passiert nichts (Exit 0 mit Hinweis).
@@ -24,7 +26,7 @@ const ENDE = '}}}'
 const AUFRUFE = (satz) => `(limit:1000,filter:{datetime_geq:$von,datetime_lt:$bis}){dimensions{${satz}} sum{requests errors} quantiles{cpuTimeP50 cpuTimeP99}}`
 export const ABFRAGEN = {
   alle: `${KOPF}workersInvocationsAdaptive${AUFRUFE('scriptName status')}${ENDE}`,
-  cron: `${KOPF}workersInvocationsScheduled${AUFRUFE('scriptName cron status')}${ENDE}`,
+  cron: `${KOPF}workersInvocationsScheduled(limit:1000,filter:{datetime_geq:$von,datetime_lt:$bis}){scriptName cron status cpuTimeUs}${ENDE}`,
   d1: `${KOPF}d1AnalyticsAdaptiveGroups(limit:100,filter:{date_geq:$tag,date_leq:$tag}){dimensions{databaseId} sum{rowsRead rowsWritten}}${ENDE}`,
 }
 
@@ -42,6 +44,11 @@ async function frage(holen, token, abfrage, variablen) {
 }
 
 const summe = (zeilen, feld) => zeilen.reduce((a, z) => a + (z.sum?.[feld] ?? 0), 0)
+/** Nearest-Rank-Quantil von `cpuTimeUs` (Einzelereignisse des Cron-Datensatzes) in Millisekunden. */
+const rang = (zeilen, q) => {
+  const s = zeilen.map((z) => (z.cpuTimeUs ?? 0) / 1000).sort((a, b) => a - b)
+  return s[Math.max(0, Math.ceil(q * s.length) - 1)]
+}
 const groesster = (zeilen, feld) => (zeilen.length ? Math.max(...zeilen.map((z) => (z.quantiles?.[feld] ?? 0) / 1000)) : null)
 
 /** Aus den Rohzeilen eines Tages die Kennzahlen; `null` heißt: nicht gemessen. */
@@ -59,8 +66,8 @@ export function tagesWerte(datum, { alle, cron, d1 }) {
     ueberCpu: alle ? summe(alle.filter((z) => z.dimensions?.status === 'exceededCpu'), 'requests') : null,
     cpuP50Ms: groesster(alle ?? [], 'cpuTimeP50'),
     cpuP99Ms: groesster(alle ?? [], 'cpuTimeP99'),
-    cronP50Ms: cron ? groesster(cron, 'cpuTimeP50') : null,
-    cronP99Ms: cron ? groesster(cron, 'cpuTimeP99') : null,
+    cronP50Ms: cron?.length ? rang(cron, 0.5) : null,
+    cronP99Ms: cron?.length ? rang(cron, 0.99) : null,
     gelesen: d1 ? summe(d1, 'rowsRead') : null,
     geschrieben: d1 ? summe(d1, 'rowsWritten') : null,
   }
