@@ -212,8 +212,32 @@ console.log('Tagesgrenze der Schreibzeilen gegen Zufalls-Token (Prüfer 1856, 52
   const vorher = w.z.stapel
   await zaehleFeedAbruf(w.env, 'noch-einer', new Date(start + 14 * 3_600_000), w.s)
   pruefe(w.z.stapel === vorher, 'am Limit kein weiterer Stapel')
+  const abrufeAmLimit = w.s.abrufe
+  const warnAmLimit = warnungen
+  await zaehleFeedAbruf(w.env, 'noch-einer', new Date(start + 15 * 3_600_000), w.s)
+  pruefe(w.s.abrufe === abrufeAmLimit && warnungen === warnAmLimit, 'am Limit weder gezählt noch erneut gewarnt')
   await zaehleFeedAbruf(w.env, 'neuer-tag', new Date(Date.parse('2026-10-13T00:00:01Z')), w.s)
   pruefe(!w.s.aus && w.s.abrufe === 1 && w.s.zeilen === 0, 'am nächsten Tag zählt der Zähler wieder')
+  await viele(w, 3, Date.parse('2026-10-13T00:00:01Z'), 1, () => 'zufall-0')
+  await zaehleFeedAbruf(w.env, 'zufall-0', new Date(Date.parse('2026-10-13T00:00:01Z') + BUCHEN_NACH_MS), w.s)
+  const neuerTag = await leseFeedAbrufe(w.env, '2026-10-13')
+  pruefe(neuerTag.abrufe === 5 && neuerTag.tokens === 2, `neuer Tag schreibt das Register erneut, auch wenn es gestern schon geschrieben war (${neuerTag.abrufe}, ${neuerTag.tokens})`)
+}
+
+console.log('Grenze auf den Punkt: 1000 Zeilen erlaubt, 1001 nicht')
+{
+  const w = neueWelt()
+  w.s.tag = tag0
+  w.s.zuletztGebucht = T0 - BUCHEN_NACH_MS
+  w.s.zeilen = 997
+  await zaehleFeedAbruf(w.env, 'a', new Date(T0), w.s)
+  pruefe(w.z.stapel === 1 && !w.s.aus && w.s.zeilen === 1000, `997 + 3 = 1000 wird gebucht (Stapel ${w.z.stapel}, Zeilen ${w.s.zeilen})`)
+  const g = neueWelt()
+  g.s.tag = tag0
+  g.s.zuletztGebucht = T0 - BUCHEN_NACH_MS
+  g.s.zeilen = 998
+  await zaehleFeedAbruf(g.env, 'a', new Date(T0), g.s)
+  pruefe(g.z.stapel === 0 && g.s.aus, '998 + 3 = 1001 wird nicht gebucht, der Zähler ist aus')
 }
 
 console.log('Schon geschriebene Register gehen nicht erneut in einen Stapel:')
