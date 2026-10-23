@@ -183,10 +183,11 @@ assert.equal(roteArten({ W: [eintrag('warnung', T(1)), eintrag('erledigt', T(2))
 const erledigtLauf = (args, token = 'T0K') => {
   const uebersicht = JSON.stringify({ laeufe: [], verlauf: { Früh: [eintrag('fehler', T(5))], 'Wöchentlich': [eintrag('ok', T(1)), eintrag('warnung', T(2))], Grün: [eintrag('ok', T(1))] } })
   const art = JSON.stringify({ laeufe: [{ lauf_id: '901', zustand: 'warnung', gemeldet_am: T(2) }, { lauf_id: '900', zustand: 'ok', gemeldet_am: T(1) }] })
+  const frueh = JSON.stringify({ laeufe: [{ lauf_id: '777', zustand: 'fehler', gemeldet_am: T(5) }] })
   const stub =
     `globalThis.fetch=async(u,o)=>{u=String(u);if(o&&o.method==="POST"){console.log("POST "+o.headers["X-Lauf-Token"]+" "+o.body);return new Response("{}",{status:o.headers["X-Lauf-Token"]==="KAPUTT"?500:200})}` +
     `if(u.includes("api.github.com"))return new Response("[]",{status:500});` +
-    `return new Response(u.includes("?verlauf=")?(u.includes(encodeURIComponent("Wöchentlich"))?${JSON.stringify(art)}:"{\\"laeufe\\":[]}"):${JSON.stringify(uebersicht)},{status:200})}`
+    `return new Response(u.includes("?verlauf=")?(u.includes(encodeURIComponent("Wöchentlich"))?${JSON.stringify(art)}:u.includes(encodeURIComponent("Früh"))?${JSON.stringify(frueh)}:"{\\"laeufe\\":[]}"):${JSON.stringify(uebersicht)},{status:200})}`
   return spawnSync(process.execPath, ['--import', `data:text/javascript,${stub}`, werkzeug, ...args], {
     encoding: 'utf8',
     env: { ...process.env, LAUF_TOKEN: token },
@@ -198,6 +199,7 @@ assert.equal(echt.status, 0, echt.stderr)
 assert.match(echt.stdout, /^erledigt 901 {2}Wöchentlich — warnung vom 2026-10-18T02:00:00Z: behoben durch #1690$/m)
 assert.match(echt.stdout, /^POST T0K \{"lauf_id":"901","zustand":"erledigt","notiz":"behoben durch #1690"\}$/m)
 assert.equal(echt.stdout.match(/^POST /gm).length, 1)
+assert.match(erledigtLauf(['--erledigt', '777', ...NOTIZ]).stdout, /^erledigt 777 {2}Früh — fehler /m)
 // trocken: anzeigen, nichts senden; falsche ID, grüner Eintrag, fehlende Notiz, fehlendes Token: Abbruch ohne POST.
 const trockenE = erledigtLauf(['--erledigt', '901', ...NOTIZ, '--trocken'])
 assert.equal(trockenE.status, 0)

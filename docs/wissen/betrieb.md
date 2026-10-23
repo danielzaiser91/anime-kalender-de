@@ -519,6 +519,8 @@ LAUF_TOKEN=… node tools/laeufe-aufraeumen.mjs [--auch-github]
 ```
 **Seit 18.10.2026 meldet es auch `ROT im Verlauf: <Art>`:** Die App-Liste führt seit 28.09. nur noch laufende Läufe, ein roter Lauf steht nur im `verlauf`; „0 rot“ allein sagte elf Stunden lang nichts (Bestandsbau rot seit 17.10. 22:07 UTC).
 
+**Geprüft und behoben, grüner Nachfolger kommt erst später (z. B. Wochenlauf)?** `LAUF_TOKEN=… node tools/laeufe-aufraeumen.mjs --erledigt <lauf_id> --notiz "behoben durch #N, Nachprüfung TT.MM."` (seit 23.10.2026; `--trocken` zeigt nur an) setzt genau diesen roten Verlaufseintrag auf `erledigt`; die ID steht in `…/lauf?verlauf=<Art>`, ohne Notiz oder bei einer ID, die kein roter Eintrag ist, bricht es ab. Ein späterer Fehler derselben Art ist wieder ROT.
+
 `ROT im Verlauf` nennt das Alter und erscheint nur, wenn kein grüner Lauf desselben Workflows (`gh run list`) danach kam; `abgebrochen` verdeckt einen Fehler nicht. Dazu `STILLSTAND: public/data seit N h unverändert`: letzter Commit auf `public/data` älter als 8 h (gesunde Nachtlücke gemessen 6,2 h am 17.10., Stillstand 17.10. 11,4 h); `STILLSTAND?` heißt, die GitHub-API war nicht lesbar (Rate-Limit, kein JSON).
 
 
