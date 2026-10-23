@@ -31,6 +31,12 @@ fremd_grund() {
 
 fehler=0
 for nr in "$@"; do
+  # Fremder Autor (Mensch, lokaler Lauf): nicht Sache der App, den Lauf rot zu machen — der Pull Request geht den normalen Prüfweg (Kette, CI-Prüfer).
+  autor="$(gh pr view "$nr" --json author -q .author.login)"
+  if [ "$autor" != "$APP_AUTOR" ]; then
+    echo "::warning::Pull Request $nr übersprungen: Autor ist $autor, nicht $APP_AUTOR (Zweig besser ohne daten/-Präfix benennen)."
+    continue
+  fi
   zustand=UNKNOWN
   for _ in 1 2 3 4 5 6 7 8 9 10; do
     zustand="$(gh pr view "$nr" --json mergeable -q .mergeable)"

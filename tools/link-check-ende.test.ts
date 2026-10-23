@@ -8,10 +8,10 @@ import { pathToFileURL } from 'node:url'
 import { linkCheckEnde, zaehleBefund } from '../pipeline/lib/link-check-gesundheit.ts'
 
 /* --- Funktion: nichts fällig, nur Nichtauskünfte, genau eine Auskunft, mehrere --- */
-assert.deepEqual(linkCheckEnde(0, 0), [0, undefined, undefined, true], 'nichts fällig: Normalfall')
-assert.deepEqual(linkCheckEnde(5, 0), [0, 'nur Nichtauskünfte', undefined, false], 'geprüft ohne Auskunft: Misserfolg')
-assert.deepEqual(linkCheckEnde(5, 1), [1, undefined, undefined, false], 'genau eine Auskunft: Erfolg')
-assert.deepEqual(linkCheckEnde(7, 3), [3, undefined, undefined, false], 'gezählt werden Auskünfte, nicht Geprüfte')
+assert.deepEqual(linkCheckEnde(0, 0, false), [0, undefined, undefined, true, false], 'nichts fällig: Normalfall')
+assert.deepEqual(linkCheckEnde(5, 0, true), [0, 'nur Nichtauskünfte', undefined, false, true], 'geprüft ohne Auskunft: Misserfolg')
+assert.deepEqual(linkCheckEnde(5, 1, true), [1, undefined, undefined, false, true], 'genau eine Auskunft: Erfolg')
+assert.deepEqual(linkCheckEnde(7, 3, false), [3, undefined, undefined, false, false], 'gezählt werden Auskünfte, nicht Geprüfte')
 
 /* tot (404/region) und Auskunft sind getrennte Zähler; 404 und region zählen für beide, 403 für keinen. */
 const z = { tot: 0, auskuenfte: 0 }

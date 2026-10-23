@@ -1,21 +1,21 @@
 # Kontrollmessung: Streaming Availability API
 
-Stand 2026-10-08. Erzeugt von `npm run data:motn:check`, **nicht von Hand pflegen**.
+Stand 2026-10-23. Erzeugt von `npm run data:motn:check`, **nicht von Hand pflegen**.
 
-Bestand: **1943 Serien** der Quelle, davon **808 Zuordnungen**
-zu unseren Einträgen. Davon ließen sich **531** gegen einen unabhängigen Beleg halten
+Bestand: **2034 Serien** der Quelle, davon **802 Zuordnungen**
+zu unseren Einträgen. Davon ließen sich **495** gegen einen unabhängigen Beleg halten
 (Handprüfung oder Crunchyroll-Serienseite).
 
 | | Zahl |
 |---|---|
-| bestätigt (wir ja, Quelle ja) | 190 |
-| **widersprochen** (wir nein, Quelle ja) | 1 |
-| Quelle schweigt (wir ja, Quelle führt es nicht) | 340 |
+| bestätigt (wir ja, Quelle ja) | 162 |
+| **widersprochen** (wir nein, Quelle ja) | 3 |
+| Quelle schweigt (wir ja, Quelle führt es nicht) | 330 |
 
 **Nur die mittlere Zeile ist ein Widerspruch.** Die untere ist der bekannte Verzug der Quelle:
 Sie belegt, was da ist, nie was fehlt (siehe `pipeline/lib/motn.ts`).
 
-**Wie belastbar die Null ist: 26 der 531 Vergleiche standen gegen ein belegtes *Nein*.**
+**Wie belastbar die Null ist: 30 der 495 Vergleiche standen gegen ein belegtes *Nein*.**
 Nur die können überhaupt ein Widerspruch werden — die übrigen messen, ob die Quelle eine
 bekannte Synchro auch kennt, nicht ob sie eine erfindet. Die Decke dafür liegt in unserem
 eigenen Bestand: Belegte Absagen gibt es kaum, und mehr Anfragen an die Quelle ändern das
@@ -26,12 +26,12 @@ das Gegenteil belegt haben" — nicht „sie tut es nie".
 
 | Anbieter | verglichen | bestätigt | widersprochen | Quelle schweigt |
 |---|---|---|---|---|
-| crunchyroll | 236 | 9 | 0 | 227 |
-| crunchyroll — Kanal `crunchyrollde` | 96 | 71 | 0 | 25 |
-| netflix | 87 | 46 | 0 | 41 |
-| primevideo | 82 | 49 | 1 | 32 |
-| disneyplus | 21 | 11 | 0 | 10 |
-| adn — Kanal `animedigitalde` | 9 | 4 | 0 | 5 |
+| crunchyroll | 258 | 10 | 0 | 248 |
+| netflix | 89 | 56 | 0 | 33 |
+| primevideo | 79 | 51 | 2 | 26 |
+| crunchyroll — Kanal `crunchyrollde` | 39 | 26 | 0 | 13 |
+| disneyplus | 24 | 17 | 0 | 7 |
+| adn — Kanal `animedigitalde` | 6 | 2 | 1 | 3 |
 
 **Crunchyroll ist hier der Prüfstein, nicht das Ziel.** Für 190 Serien wissen wir aus unserem
 eigenen Abruf, ob dort eine deutsche Tonspur liegt — für Netflix wissen wir es fast nirgends
@@ -53,10 +53,12 @@ fehlt bislang jede Trefferquote.
 | Titel | Anbieter | unsere Angabe | Herkunft | Folgen der Quelle |
 |---|---|---|---|---|
 | Date a Live IV | primevideo | keine Synchro | Handprüfung | 35–46 |
+| Dorohedoro | adn | keine Synchro | Handprüfung | 1–12 |
+| Ragna Crimson | primevideo | keine Synchro | Handprüfung | 1–24 |
 
 ## Deutscher Ton bei Netflix, aber keine Zuordnung
 
-**51 Serien** trägt die Quelle mit deutschem Netflix-Ton, ohne dass ein Beleg
+**53 Serien** trägt die Quelle mit deutschem Netflix-Ton, ohne dass ein Beleg
 daraus wird. Fast immer ist es die Folgenrechnung: Die Quelle nummeriert ihre Folgen nicht,
 zugeordnet wird über die **Position** in ihrer Liste, und die geht nur auf, wenn die Länge
 exakt zu unserer Staffelaufteilung passt. 26 Einträge für 25 Folgen heißen, dass irgendwo ein
@@ -69,18 +71,21 @@ Antwort.
 |---|---|---|---|---|---|
 | Pokémon Horizonte | Pokémon Horizons | 2023 | 148 | 147 | 89 |
 | The Seven Deadly Sins | The Seven Deadly Sins | 2014 | 96 | = | 76 |
+| Kuroko’s Basketball: Staffel 1 | Kuroko's Basketball | 2012 | 78 | = | 75 |
 | Shaman King (2021) | SHAMAN KING | 2021 | 52 | = | 52 |
 | Aggretsuko | Aggretsuko | 2018 | 50 | = | 50 |
 | Sword Art Online | Sword Art Online | 2012 | 96 | = | 49 |
 | Fire Force | Fire Force | 2019 | 73 | = | 48 |
 | Baki Hanma | Baki Hanma | 2021 | 39 | = | 39 |
+| Bastard!! Der Gott der Zerstörung | BASTARD‼ -Heavy Metal, Dark Fantasy- | 2022 | 39 | = | 39 |
 | Konosuba: God’s Blessing on This Wonderful World! | KONOSUBA - God's blessing on this wonderful world! | 2016 | 33 | 31 | 33 |
 | Naruto Shippuden | Naruto Shippūden | 2007 | 32 | 500 | 32 |
 | The Eminence in Shadow | The Eminence in Shadow | 2022 | 32 | = | 32 |
 | Frieren: Nach dem Ende der Reise | Frieren: Beyond Journey's End | 2023 | 39 | 38 | 28 |
 | Naruto | Naruto | 2002 | 52 | 220 | 26 |
 | Ajin: Demi-Human | Ajin | 2016 | 26 | = | 26 |
-| Blue Box | Blue Box | 2024 | 26 | = | 25 |
+| Es war einmal … das Leben | Once Upon a Time... Life | 1987 | 26 | = | 26 |
+| Shangri-La Frontier | Shangri-La Frontier | 2023 | 51 | = | 25 |
 | Witch Watch | Witch Watch | 2025 | 26 | 25 | 25 |
 | Fate/Stay Night: Unlimited Blade Works | Fate/stay night [Unlimited Blade Works] | 2014 | 25 | = | 25 |
 | Baki-Dou: The Invincible Samurai | BAKI-DOU: The Invincible Samurai | 2026 | 25 | = | 25 |
@@ -93,31 +98,39 @@ Antwort.
 | Fate/Grand Order Absolute Demonic Front: Babylonia | Fate/Grand Order Absolute Demonic Front: Babylonia | 2019 | 21 | = | 21 |
 | Great Pretender | Great Pretender | 2020 | 27 | = | 18 |
 | Altered Carbon: Resleeved | Altered Carbon | 2018 | 18 | = | 18 |
+| Devil May Cry | Devil May Cry | 2025 | 16 | = | 16 |
 | Boruto: Naruto Next Generations | Boruto: Naruto Next Generations | 2017 | 293 | = | 15 |
-| The Ramparts of Ice | The Ramparts of Ice | 2026 | 15 | = | 14 |
+| The Ramparts of Ice | The Ramparts of Ice | 2026 | 28 | = | 14 |
 | Rascal Does Not Dream of Bunny Girl Senpai | Rascal Does Not Dream of Bunny Girl Senpai | 2018 | 26 | = | 13 |
 | Baki | BAKI | 2018 | 39 | = | 13 |
 | The Misfit of Demon King Academy | The Misfit of Demon King Academy | 2020 | 37 | = | 13 |
 | Little Witch Academia (TV) | Little Witch Academia | 2017 | 25 | = | 13 |
-| The Dangers in My Heart | The Dangers in My Heart | 2023 | 25 | = | 12 |
 | BNA | BNA | 2020 | 12 | = | 12 |
-| Reincarnated as a Sword | Reincarnated as a Sword | 2022 | 13 | = | 12 |
+| Reincarnated as a Sword | Reincarnated as a Sword | 2022 | 24 | = | 12 |
 | Detektiv Conan: The Culprit Hanzawa | Case Closed: The Culprit Hanzawa | 2022 | 12 | = | 12 |
 | Konosuba: An Explosion on This Wonderful World! | KONOSUBA – An Explosion on This Wonderful World! | 2023 | 12 | = | 12 |
 | Junji Ito Maniac: Japanese Tales of the Macabre | Junji Ito Maniac: Japanese Tales of the Macabre | 2023 | 12 | = | 12 |
 | Dan Da Dan | Dan Da Dan | 2024 | 24 | = | 12 |
-| Ranma 1/2 (2024) | Ranma1/2 | 2024 | 25 | = | 12 |
+| Ranma 1/2 (2024) | Ranma1/2 | 2024 | 36 | = | 12 |
 | Shiboyugi: Das Phantom-Mädchen im Spiel des Todes | SHIBOYUGI: Playing Death Games to Put Food on the Table | 2026 | 12 | = | 12 |
-| Knights of the Zodiac: Saint Seiya Teil 2 | SAINT SEIYA: Knights of the Zodiac | 2019 | 48 | 36 | 12 |
-| Devilman Crybaby | Devilman Crybaby | 2018 | 10 | = | 10 |
+| Saint Seiya: Die Krieger des Zodiac – Teil 2 | SAINT SEIYA: Knights of the Zodiac | 2019 | 48 | 36 | 12 |
+| Pluto | PLUTO | 2023 | 8 | = | 8 |
 | Die Pokémon-Concierge | Pokémon Concierge | 2023 | 8 | = | 8 |
 | Rilakkumas Abenteuer im Vergnügungspark | Rilakkuma's Theme Park Adventure | 2022 | 8 | = | 8 |
 | The Disastrous Life of Saiki K.: Reawakened | The Disastrous Life of Saiki K.: Reawakened | 2019 | 6 | = | 6 |
 | Detektiv Conan: Zero’s Tea Time | Case Closed: Zero's Tea Time | 2022 | 7 | 6 | 6 |
 | Kakegurui Twin | KAKEGURUI TWIN | 2022 | 6 | = | 6 |
-| Mobile Suit Gundam: Requiem for Vengeance | Gundam: Requiem for Vengeance | 2024 | 6 | = | 6 |
 | Spriggan | SPRIGGAN | 2022 | 6 | = | 6 |
 | JoJo’s Bizarre Adventure | JoJo's Bizarre Adventure | 2012 | 228 | 202 | 3 |
+
+## Verzug bei laufenden Netflix-Staffeln
+
+Unsere jüngste **beobachtete** Folge gegen die jüngste, die die Quelle führt.
+
+| Release | unsere Folge | beobachtet am | Folge laut Quelle | Tage seit der Beobachtung |
+|---|---|---|---|---|
+| Das Band der Unterwelt | 15 | 2026-10-10 | 9 | 13 |
+| Blue Box: Staffel 2 | 4 | 2026-10-25 | — | -2 |
 
 ## Was diese Quelle liefern kann
 
