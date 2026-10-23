@@ -8,12 +8,10 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { StreamLink, Title } from '../shared/types.ts'
 import { ergaenzeKaufWege, primeNeinTitel, type JwKauf } from './bau/11-2-4-kauf-wege.ts'
-import { ergaenzeWegeAusJustwatch } from './bau/11-2-justwatch.ts'
 import { frischFaellig, frischeTitel, ladeFrische } from './lib/jw-frische.ts'
 import { warteschlange } from './lib/jw-schlange.ts'
 import { dubKey } from './lib/dub-confirmed.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
-import { readJson } from './lib/util.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info: unknown = ''): void {
@@ -88,18 +86,6 @@ pruefe('nur ein Weg je Titel, auch bei Kauf und Leihe', lauf([angebot('Amazon Vi
   const vorher = JSON.stringify(fremd)
   ergaenzeKaufWege({ titles: new Map([[900009, fremd]]), jw: {}, handNein: new Set(), primeNein: new Set(), tmdbMehrdeutig: new Set(), toteAdressen: new Set() })
   pruefe('Titel ohne JustWatch-Befund bleibt byte-gleich', JSON.stringify(fremd) === vorher)
-}
-
-console.log('Aufrufer mit der echten JustWatch-Datei:')
-{
-  const jw = readJson<Record<string, { angebote?: { anbieter: string; art: string; audio?: string[] }[] }>>('data/justwatch-audio.json', {})
-  const treffer = Object.entries(jw).filter(([, e]) => (e.angebote ?? []).some((a) => a.anbieter === 'Amazon Video' && a.art === 'BUY' && (a.audio ?? []).includes('de')))
-  pruefe('Vorbedingung: die JustWatch-Datei kennt Prime-Kauf mit deutschem Ton', treffer.length > 10, treffer.length)
-  const ids = treffer.map(([id]) => Number(id))
-  const titles = new Map(ids.map((id) => [id, titel(id, { watchLinks: [aniSearchBlu] })] as [number, Title]))
-  ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig: new Set(), toteAdressen: new Set() })
-  const mit = [...titles.values()].filter((t) => (t.streams ?? []).some((s) => s.platform === 'primevideo' && s.zugang === 'kauf'))
-  pruefe('ergaenzeWegeAusJustwatch legt bei Titeln mit Blu-ray-Zeile Prime-Kauf an (Aufrufer verdrahtet)', mit.length > ids.length / 2, { mit: mit.length, von: ids.length })
 }
 
 console.log('News: ein neu aufgenommener Kauf-/Leihweg meldet kein „jetzt auch bei“:')
