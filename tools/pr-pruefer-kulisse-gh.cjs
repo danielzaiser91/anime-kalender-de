@@ -27,6 +27,7 @@ function treffer(muster) {
 
 let pr
 if ((pr = treffer(`pr view (\\d+) --repo ${daten.repo} --json title,body,headRefName`))) ende(pr.view + '\n')
+if ((pr = treffer(`pr diff (\\d+)`)) && pr.diff !== undefined) ende(pr.diff)
 if ((pr = treffer(`pr comment (\\d+) --repo ${daten.repo} --body-file \\S+`))) ende('')
 if ((pr = treffer(`api --method GET --paginate ${r}/pulls/(\\d+)/files -f per_page=100`)) && abfrage === '.[]') {
   ende(pr.dateien.map((d) => JSON.stringify(d) + '\n').join(''))

@@ -59,6 +59,10 @@ pruefe('Prüfmodus: CI-Review auf früherem Kopf -> abnahme, frei bei Stufe 2, v
 pruefe('Prüfmodus: Auflagendatei liegt im Prüfordner mit beiden Quellen (Agent und CI)',
   abnahme.auflagen?.includes('Kommentar des Agent-Prüfers') && abnahme.auflagen?.includes('A2 Mutation fehlt') && abnahme.auflagen?.includes('CI-Review für aaaaaaaaa'), abnahme.auflagen)
 pruefe('Prüfmodus: Sperre läuft im Abnahme-Lauf trotzdem durch (zustand=ok)', abnahme.ausgaben?.eingang?.zustand === 'ok', abnahme.ausgaben)
+const dokuDiff = 'diff --git a/docs/a.md b/docs/a.md\n--- a/docs/a.md\n+++ b/docs/a.md\n@@ -1,3 +1,3 @@\n+z0\n+z1\n+z2\n'
+const abnahmeStufe0 = laufeBisEingang(wf, { 7: { ...mitCi, diff: dokuDiff } })
+pruefe('Prüfmodus: Abnahme bei Prüfstufe 0 (nur Doku) -> nicht frei zum Ändern, Stufe kommt aus dem Stufen-Schritt',
+  abnahmeStufe0.ausgaben?.stufe?.stufe === '0' && abnahmeStufe0.ausgaben?.modus?.modus === 'abnahme' && abnahmeStufe0.ausgaben?.modus?.['aendern-frei'] === '0', abnahmeStufe0.ausgaben)
 const ohneApi = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), kommentare: undefined } })
 pruefe('Prüfmodus: Kommentar-Abruf scheitert -> voll, nicht frei (Schritt bricht den Lauf nicht ab)',
   ohneApi.ausgaben?.modus?.modus === 'voll' && ohneApi.ausgaben?.modus?.['aendern-frei'] === '0', ohneApi.ausgaben ?? ohneApi.fehler)
