@@ -176,6 +176,7 @@ async function seite({ bekannt = null, pruefstandAm = '2026-10-10T16:32:13.472Z'
   const t = ladeSeite('/title/' + REIHE, {}, '', speicher)
   const env = t.umgebung
   env.fetch = async (url, opt) => {
+    if (String(url).endsWith('/vorfall')) return { ok: true, json: async () => ({ ok: true }) }
     if (opt?.method === 'POST' && !postOk) return { ok: false, json: async () => ({}) }
     if (opt?.method === 'POST') {
       const b = JSON.parse(opt.body)
@@ -375,7 +376,7 @@ function gemischtStellen(s) {
   s.posts = []
   const echt = s.env.fetch
   s.env.fetch = async (url, opt) => {
-    if (opt?.method === 'POST') s.posts.push(JSON.parse(opt.body))
+    if (opt?.method === 'POST' && !url.endsWith('/vorfall')) s.posts.push(JSON.parse(opt.body))
     return echt(url, opt)
   }
   s.env.history = {
@@ -435,7 +436,7 @@ async function randvollFaelle() {
   sammelnStellen(c)
   const echtC = c.env.fetch
   c.env.fetch = async (url, opt) => {
-    if (opt?.method !== 'POST') return echtC(url, opt)
+    if (opt?.method !== 'POST' || url.endsWith('/vorfall')) return echtC(url, opt)
     c.posts.push(JSON.parse(opt.body))
     const inhalt = { tageslimit: true, retryAfter: 3600 }
     return { ok: false, status: 429, clone: () => ({ json: async () => inhalt }), json: async () => inhalt }
@@ -469,7 +470,7 @@ async function annahmeFaelle() {
   s.posts = []
   const echt = s.env.fetch
   s.env.fetch = async (url, opt) => {
-    if (opt?.method === 'POST') s.posts.push(JSON.parse(opt.body))
+    if (opt?.method === 'POST' && !url.endsWith('/vorfall')) s.posts.push(JSON.parse(opt.body))
     return echt(url, opt)
   }
   await s.run('durchlaufStarten()')
@@ -489,7 +490,7 @@ async function annahmeFaelle() {
   c.posts = []
   const echtC = c.env.fetch
   c.env.fetch = async (url, opt) => {
-    if (opt?.method !== 'POST') return echtC(url, opt)
+    if (opt?.method !== 'POST' || url.endsWith('/vorfall')) return echtC(url, opt)
     c.posts.push(JSON.parse(opt.body))
     const inhalt = { tageslimit: true, retryAfter: 3600 }
     return { ok: false, status: 429, clone: () => ({ json: async () => inhalt }), json: async () => inhalt }
