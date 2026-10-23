@@ -13,6 +13,8 @@ const ANSICHTEN = [
   { name: 'Im Handel', plattform: 'disc', wahl: '[data-hover-zeile]:not([data-tv-zeile])' },
   { name: 'Im Fernsehen', plattform: 'tv', wahl: '[data-tv-zeile][data-hover-zeile]' },
 ]
+/** Zweitanbieter-Zeilen unter dem Raster (23.10.2026): gleiche Vorschau, aber nur Ereignisse mit `zweitanbieter` zählen; ohne solche Ereignisse übersprungen. */
+const ZWEITANBIETER = { name: 'Zweitanbieter-Zeilen', wahl: '[data-zweitanbieter] [data-hover-zeile]' }
 const FENSTER = { width: 1280, height: 900 }
 const REIHEN = 8
 /** Breite der Karte in CSS-Pixeln; bestimmt die Größenstufe des Bildes. */
@@ -33,7 +35,7 @@ function bildName(url) {
 /** Erwartete Cover-Links für eine Zeile: Titel der Ereignisse dieser Ansicht, deren Name im Zeilentext steht (längster Name gewinnt). */
 export function erwarteteCover(woche, plattform, zeilenText) {
   const cover = new Map(woche.titles.map((t) => [t.id, t.coverImage]))
-  const treffer = woche.events.filter((e) => e.platform === plattform && zeilenText.includes(e.name))
+  const treffer = woche.events.filter((e) => (!plattform || e.platform === plattform) && zeilenText.includes(e.name))
   const laengster = Math.max(0, ...treffer.map((e) => e.name.length))
   const ids = new Set(treffer.filter((e) => e.name.length === laengster).map((e) => e.titleId))
   return [...ids].map((id) => cover.get(id)).filter(Boolean)
@@ -170,7 +172,7 @@ async function messeRaender(seite, zeile, wahl) {
 
 /** Misst eine Ansicht; liefert die Befunde (leer = in Ordnung) und ob sie übersprungen wurde. */
 async function messeAnsicht(seite, ansicht, woche) {
-  const hatCover = woche.events.some((e) => e.platform === ansicht.plattform && woche.titles.some((t) => t.id === e.titleId && t.coverImage))
+  const hatCover = woche.events.some((e) => (!ansicht.plattform || e.platform === ansicht.plattform) && woche.titles.some((t) => t.id === e.titleId && t.coverImage))
   if (!hatCover) return { name: ansicht.name, uebersprungen: true, befunde: [] }
   const m = await ersteMitKarte(seite, ansicht.wahl)
   if (!m) return { name: ansicht.name, befunde: ['keine der ersten Zeilen bekam eine Vorschau (Zeilen fehlen oder tragen keinen Zeiger)'] }
@@ -250,6 +252,7 @@ export async function messeAnsichten(seite) {
   const woche = JSON.parse(readFileSync(new URL('../dist/data/woche.json', import.meta.url), 'utf8'))
   const ergebnisse = []
   for (const ansicht of ANSICHTEN) ergebnisse.push(await messeAnsicht(seite, ansicht, woche))
+  ergebnisse.push(await messeAnsicht(seite, ZWEITANBIETER, { ...woche, events: woche.events.filter((e) => e.zweitanbieter) }))
   ergebnisse.push(await messeSonderfaelle(seite, woche))
   return ergebnisse
 }
