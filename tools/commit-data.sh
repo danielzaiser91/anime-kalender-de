@@ -332,7 +332,11 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       hinzu tools/kalender-plausibilitaet-grenzen.json
     fi
   }
-  grenzen_festschreiben
+  # Nur in der Stunde 02 UTC (der Sendezeiten-Sammler löst jede Stunde einen Bau aus): Jeder Bau nach einem Merge schrieb
+  # die Grenzen, damit machte jeder Merge den nächsten offenen PR „nicht aktuell“ (21.10.2026).
+  if [ "${STUNDE_UTC:-$(date -u +%H)}" = 02 ]; then
+    grenzen_festschreiben
+  fi
 
   # Rot endet der Lauf, sobald Aufbau oder Bestand scheitern — nach dem Sichern der Quellen.
   LAUF_ROT=0

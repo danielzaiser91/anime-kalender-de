@@ -16,15 +16,20 @@ rot() { [ "$CODE" -ne 0 ] && echo ja || echo nein; }
 zurueckgestellt_im_fernstand() { git -C "$ORIGIN" show main:public/data/meta.json 2> /dev/null | grep -o '"titleId":[-0-9]*' | cut -d: -f2 | tr '\n' ' '; }
 
 echo "Quarantäne: Bau-Lauf ohne roten Titel bleibt grün ohne Warnung, die Kalender-Grenzen werden festgeschrieben"
-bau_szenario q-sauber
+bau_szenario q-sauber STUNDE_UTC=02
 pruefe "Exit 0" 0 "$CODE"
 pruefe "kein Neubau ohne Titel" 0 "$(aufrufe q-sauber 'data:build  *q=ja')"
 pruefe "Historie-Zeile bleibt" 0 "$(aufrufe q-sauber 'data:historie')"
 pruefe "keine Warnung" nein "$(warnt q-sauber 'zurückgestellt')"
 pruefe "Kalender-Grenzen festgeschrieben" 1 "$(aufrufe q-sauber 'check:kalender-plausibilitaet -- --festschreiben')"
 
+echo "Grenzen: ein Bau-Lauf am Tag schreibt keine Grenzen fest (sonst entwertet jeder Merge den nächsten offenen PR)"
+bau_szenario q-tag STUNDE_UTC=14
+pruefe "Exit 0" 0 "$CODE"
+pruefe "Kalender-Grenzen bleiben stehen" 0 "$(aufrufe q-tag 'check:kalender-plausibilitaet -- --festschreiben')"
+
 echo "Quarantäne: ein roter Titel mit Kennung wird zurückgestellt, der Rest geht aus, der Lauf ist gelb"
-bau_szenario q-einer FAKE_ROT=22
+bau_szenario q-einer FAKE_ROT=22 STUNDE_UTC=02
 pruefe "Exit 0" 0 "$CODE"
 pruefe "ein Neubau ohne den Titel" 1 "$(aufrufe q-einer 'data:build  *q=ja')"
 pruefe "Arbeitslisten nach dem Neubau" 1 "$(aufrufe q-einer 'data:start-liste')"
