@@ -11,8 +11,8 @@ export const BELEGT_UNTER_MINUTEN = 60
 /** Benannte Altausnahmen: festgelegte Uhrzeit (`time` + `timeEstimated`) ohne Sichtung, Slug → Beleg und letzter Gültigkeitstag. */
 export const FESTGELEGTE_ZEITEN: Record<string, { beleg: string; bis: string }> = {
   'avatar-die-sieben-haefen-paramountplus': {
-    beleg: 'Daniel sah F4–6 am 16.10.2026 um 11:42 schon da und legte 11:00 fest; Fenster fehlt, am 23.10. genauer messen',
-    bis: '2026-10-25',
+    beleg: 'Daniel sah F4–6 am 16.10.2026 um 11:42 schon da und legte 11:00 fest; Fenster fehlt; 23.10. ohne Sichtung, am 24.10.2026 bis nach den Folgen vom 30.10. verlängert',
+    bis: '2026-11-02',
   },
 }
 
