@@ -38,3 +38,4 @@
 {"am":"2026-10-20T11:19:20.260Z","quelle":"wache-woechentlich","schwere":"warnung","text":"Stumme Quellen (Frist überschritten): cr-einzelwerke seit 27 Tagen, cr-filmbloecke seit 27 Tagen, link-check seit 15 Tagen","datei2":"data/source-health.json"}
 {"am":"2026-10-21T04:10:26.523Z","quelle":"beleg-lesen","schwere":"hinweis","text":"110 Belege ohne Fundstelle — von Hand prüfen","datei2":"daniel-zum-abarbeiten/listen/22-belege-ohne-fundstelle.md"}
 {"am":"2026-10-22T04:10:07.180Z","quelle":"beleg-lesen","schwere":"hinweis","text":"110 Belege ohne Fundstelle — von Hand prüfen","datei2":"daniel-zum-abarbeiten/listen/22-belege-ohne-fundstelle.md"}
+{"am":"2026-10-23T04:10:55.834Z","quelle":"beleg-lesen","schwere":"hinweis","text":"111 Belege ohne Fundstelle — von Hand prüfen","datei2":"daniel-zum-abarbeiten/listen/22-belege-ohne-fundstelle.md"}

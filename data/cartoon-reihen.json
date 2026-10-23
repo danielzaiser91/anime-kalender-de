@@ -7532,6 +7532,13 @@
     "qid": null,
     "geholtAm": "2026-10-08"
   },
+  "308817": {
+    "qid": "Q3514509",
+    "geholtAm": "2026-10-23",
+    "label": "Talis und die tausend Aufgaben",
+    "rel": {},
+    "aussagenAm": "2026-10-23"
+  },
   "309792": {
     "qid": null,
     "geholtAm": "2026-10-08"
@@ -7665,6 +7672,10 @@
   "336478": {
     "qid": null,
     "geholtAm": "2026-10-08"
+  },
+  "336500": {
+    "qid": null,
+    "geholtAm": "2026-10-23"
   },
   "336773": {
     "qid": null,
