@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -42,7 +42,19 @@ export function readJson<T>(path: string, fallback: T): T {
 export function writeJson(path: string, data: unknown, pretty = false): void {
   const full = resolve(ROOT, path)
   mkdirSync(dirname(full), { recursive: true })
-  writeFileSync(full, pretty ? JSON.stringify(data, null, 2) : JSON.stringify(data), 'utf8')
+  schreibeAtomar(full, pretty ? JSON.stringify(data, null, 2) : JSON.stringify(data))
+}
+
+/** tmp-Datei im selben Ordner, dann rename: ein Abbruch hinterlässt nie eine halbe Zieldatei. */
+function schreibeAtomar(full: string, text: string): void {
+  const tmp = `${full}.${process.pid}.tmp`
+  try {
+    writeFileSync(tmp, text, 'utf8')
+    renameSync(tmp, full)
+  } catch (err) {
+    rmSync(tmp, { force: true })
+    throw err
+  }
 }
 
 /** Löscht den Inhalt eines Ordners, legt ihn bei Bedarf an. */
