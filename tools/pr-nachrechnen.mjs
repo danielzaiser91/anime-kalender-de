@@ -7,7 +7,8 @@
  *
  * Aufruf (Dirigent, vor jedem Merge): node tools/pr-nachrechnen.mjs <PR>
  *   Exit 0: der neueste Kettenlauf zum Kopf rechnete gegen den jetzigen main-HEAD, oder main bewegte sich seit dem Lauf nur unter
- *           `public/data/` und `data/cache/` und der PR berührt diese Pfade nicht (F55, 20.10.2026; `datenpfadAusnahme`).
+ *           `public/data/` und `data/cache/` und der PR berührt diese Pfade nicht (F55, 20.10.2026; `datenpfadAusnahme`), oder alle
+ *           Commits seitdem stammen von Daten-Bots und bewegen nur `data/`, und der PR liest keine Daten (Merge-Fluss C; `botSprungAusnahme`).
  *   Exit 1: nicht aktuell; der PR wurde geschlossen und wieder geöffnet, die Kette läuft neu (der Prüfer hört nicht auf `reopened`).
  *   Exit 2: nichts angestoßen (Konflikt, Mergebarkeit oder Test-Merge noch nicht berechnet, kein Lauf, Basis nicht lesbar, Fehler);
  *           die Meldung sagt, warum. Scheitert es erst nach dem Schließen, steht „SCHON ANGESTOSSEN“ in der Meldung.
@@ -64,10 +65,37 @@ export function datenpfadAusnahme(vergleich, prDateien) {
   return null
 }
 
+/** Autoren der Datenläufe auf main (gemessen 23.10.2026 an den letzten 40 Commits). */
+export const BOT_AUTOREN = ['anime-kalender-daten[bot]', 'github-actions[bot]']
+/** PR-Pfade, die Daten lesen oder prüfen; `data/patchnotes/` liest nur der Patch-Notes-Bau. */
+export const DATENLESER = ['data/', 'pipeline/', 'shared/', 'public/']
+const liestDaten = (datei) => DATENLESER.some((p) => datei.startsWith(p)) && !datei.startsWith('data/patchnotes/')
+
+/**
+ * Merge-Fluss C (23.10.2026): Ein Sprung nur aus Bot-Commits unter `data/` entwertet keinen PR, der keine Daten liest; der Bestandsbau
+ * prüft nach dem Merge den ganzen Datensatz. Anlass: 3 von 5 Merges (1853, 1839, 1846) entwertete `data/crunchyroll-woche.json`, das die
+ * Kette liest und darum nicht unter den Bot-Dateien ohne Leser steht. null = Ausnahme gilt, sonst der Grund.
+ */
+export function botSprungAusnahme(vergleich, prDateien) {
+  if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
+  if (vergleich.anzahl >= COMPARE_GRENZE || vergleich.commitsGesamt !== vergleich.autoren.length) return 'Vergleich evtl. abgeschnitten'
+  const mensch = vergleich.autoren.find((a) => !BOT_AUTOREN.includes(a))
+  if (mensch !== undefined) return `Commit von ${mensch}`
+  const fremd = vergleich.dateien.find((d) => !d.startsWith('data/') && !istDatenpfad(d))
+  if (fremd !== undefined) return `Bot bewegte ${fremd}`
+  const leser = prDateien.find(liestDaten)
+  return leser === undefined ? null : `der PR liest Daten (${leser})`
+}
+
+/** Rückgabe { ausnahme } (Kette gilt weiter, Text für die Meldung) oder { grund }. */
 function datenpfadGrund(gh, nummer, basis, main) {
-  const vergleich = JSON.parse(gh(['api', `repos/{owner}/{repo}/compare/${basis}...${main}`, '--jq', '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)]}']))
-  const pr = gh(['api', `repos/{owner}/{repo}/pulls/${nummer}/files`, '--paginate', '--jq', '.[] | .filename, (.previous_filename // empty)'])
-  return datenpfadAusnahme(vergleich, pr.split(/\r?\n/).filter(Boolean))
+  const vergleich = JSON.parse(gh(['api', `repos/{owner}/{repo}/compare/${basis}...${main}`, '--jq', '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)], commitsGesamt: .total_commits, autoren: [.commits[] | .author.login // .commit.author.name]}']))
+  const pr = gh(['api', `repos/{owner}/{repo}/pulls/${nummer}/files`, '--paginate', '--jq', '.[] | .filename, (.previous_filename // empty)']).split(/\r?\n/).filter(Boolean)
+  const daten = datenpfadAusnahme(vergleich, pr)
+  if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
+  const bot = botSprungAusnahme(vergleich, pr)
+  if (bot === null) return { ausnahme: 'nur Daten-Bots unter data/, der PR liest keine Daten' }
+  return { grund: `${daten}; ${bot}` }
 }
 
 const kurz = (sha) => sha.slice(0, 9)
@@ -158,13 +186,13 @@ export function nachrechnen(nummer, gh, melde, warte) {
     melde(`PR ${nummer}: aktuell, die Kette rechnete gegen main ${kurz(main)}`)
     return 0
   }
-  const abgelehnt = datenpfadGrund(gh, nummer, basis, main)
-  if (abgelehnt === null) {
-    melde(`PR ${nummer}: aktuell, Kette gegen ${kurz(basis)}, main ist ${kurz(main)}, seitdem nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)`)
+  const urteil = datenpfadGrund(gh, nummer, basis, main)
+  if (urteil.ausnahme !== undefined) {
+    melde(`PR ${nummer}: aktuell, Kette gegen ${kurz(basis)}, main ist ${kurz(main)}, seitdem ${urteil.ausnahme}`)
     return 0
   }
   anstossen(gh, nummer, main, warte)
-  melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${abgelehnt}), geschlossen und wieder geöffnet; Kette abwarten, dann erneut aufrufen`)
+  melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${urteil.grund}), geschlossen und wieder geöffnet; Kette abwarten, dann erneut aufrufen`)
   return 1
 }
 
