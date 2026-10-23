@@ -17,9 +17,14 @@ export function tokenAusKopf(request: Request): string {
  * Stand von main). Ablauf: bis 2026-11-07 oder sobald `wrangler tail` kein `?token=` an Prüf-Routen mehr zeigt —
  * dann diese Funktion löschen und die Aufrufer auf `tokenAusKopf` stellen.
  */
-export function tokenMitUebergang(request: Request): string {
-  return tokenAusKopf(request) || (new URL(request.url).searchParams.get('token') ?? '')
+export function tokenMitUebergang(request: Request, jetztMs: number = Date.now()): string {
+  const kopf = tokenAusKopf(request)
+  if (kopf || jetztMs >= Date.parse(UEBERGANG_BIS)) return kopf
+  return new URL(request.url).searchParams.get('token') ?? ''
 }
+
+/** Ab diesem Zeitpunkt (UTC) gilt `?token=` nicht mehr, auch wenn der Code noch steht. */
+export const UEBERGANG_BIS = '2026-11-07T00:00:00Z'
 
 /** Zeitkonstanter Vergleich; ein fehlendes Geheimnis (`undefined`/leer) stimmt nie. */
 export function tokenGleich(gegeben: string, erwartet: string | undefined): boolean {

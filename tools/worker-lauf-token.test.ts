@@ -5,7 +5,8 @@
  * Aufruf: `npx tsx tools/worker-lauf-token.test.ts`
  */
 import assert from 'node:assert/strict'
-import { tokenAusKopf, tokenGleich, tokenMitUebergang } from '../worker/src/lauf-token.ts'
+import { tokenAusKopf, tokenGleich, tokenMitUebergang, UEBERGANG_BIS } from '../worker/src/lauf-token.ts'
+import { adminAnfrage } from '../web/src/lib/admin-aufruf.ts'
 import { handleCrZugang } from '../worker/src/cr-zugang.ts'
 import { GEDECKELT, istFrei } from '../worker/src/lesedeckel.ts'
 import { type Env } from '../worker/src/env.ts'
@@ -55,5 +56,25 @@ assert.equal(deckel({ Authorization: 'Bearer debug-1' }), true)
 assert.equal(deckel({ Authorization: 'Bearer falsch' }), false)
 assert.equal(deckel({}, `?token=${GEHEIM}`), true, 'Query übergangsweise')
 assert.equal(deckel({}), false)
+
+/* Bearer mit zwei Leerzeichen: der Token wird getrimmt (trim-Mutant) */
+assert.equal(tokenAusKopf(anfrage('', { Authorization: 'Bearer  x' })), 'x')
+
+/* Ablauf des Query-Übergangs: Uhr eingespeist, davor Query ok, ab dem Zeitpunkt nicht mehr */
+const vorher = Date.parse(UEBERGANG_BIS) - 1
+assert.equal(UEBERGANG_BIS, '2026-11-07T00:00:00Z')
+assert.equal(tokenMitUebergang(anfrage('?token=q'), vorher), 'q', 'eine Millisekunde vor dem Ablauf')
+assert.equal(tokenMitUebergang(anfrage('?token=q'), vorher + 1), '', 'ab dem Ablauf gilt Query nicht mehr')
+assert.equal(tokenMitUebergang(anfrage('?token=q', { Authorization: 'Bearer h' }), vorher + 1), 'h', 'Kopf gilt weiter')
+
+/* Betreiber-Panel: Token im Kopf, nie in der Adresse */
+const aufrufe: { url: string; kopf: unknown }[] = []
+const attrappe = async (url: string, init?: RequestInit) => aufrufe.push({ url, kopf: init?.headers })
+for (const pfad of ['/debug/digest?frequency=daily', '/debug/monitor', '/status']) await attrappe(...adminAnfrage('https://w.test', pfad, 'geheim'))
+assert.deepEqual(aufrufe.map((a) => a.url), ['https://w.test/debug/digest?frequency=daily', 'https://w.test/debug/monitor', 'https://w.test/status'])
+assert.deepEqual(aufrufe[0]!.kopf, { Authorization: 'Bearer geheim' })
+assert.deepEqual(aufrufe[1]!.kopf, { Authorization: 'Bearer geheim' })
+assert.equal(aufrufe[2]!.kopf, undefined, 'öffentliche Pfade ohne Token')
+assert.ok(aufrufe.every((a) => !a.url.includes('geheim')), 'Token nie in der Adresse')
 
 console.log('worker-lauf-token.test: 3 Gruppen grün (Helfer, /cr-zugang, Lese-Deckel)')
