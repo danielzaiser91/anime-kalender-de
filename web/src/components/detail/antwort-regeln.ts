@@ -87,6 +87,17 @@ export function deutscherWochentaktLaeuft(events: ReleaseEvent[], jetzt: Date = 
 }
 
 /**
+ * **Hat die deutsche Fassung schon begonnen?** Ein Stream mit belegter Tonspur, eine erschienene deutsche Folge oder eine
+ * deutsche Erstausgabe mit Tagesdatum bis heute. Ohne eines davon ist ein künftiger Termin eine Premiere, kein Nachschlag
+ * (Yaiba: Sprecher belegt, erste TV-Folge am 05.11.2026 — der Kasten sagte „Alle 24 Folgen auf Deutsch“, 21.10.2026).
+ */
+export function deutschBegonnen(title: Title, erschieneneFolgen: number, heute: string): boolean {
+  if ((title.streams ?? []).some((s) => s.dub === true) || erschieneneFolgen > 0) return true
+  const von = title.deErstausgabe?.von
+  return Boolean(title.deErstausgabe?.synchro && von && /^\d{4}-\d{2}-\d{2}$/.test(von) && von <= heute)
+}
+
+/**
  * **Der Terminsatz im Kopf** — „erscheint am …" bzw. beim Komplettabwurf
  * „im Angebot ab …". Ausgelagert, damit `AntwortKasten` die Längengrenze hält.
  */

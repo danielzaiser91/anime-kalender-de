@@ -52,6 +52,7 @@ const TEXTE = {
   'news.folgen': 'Folgen {von}–{bis} auf Deutsch bei {anbieter}',
   'news.angekuendigt': 'Start am {datum} bei {anbieter}',
   'news.angekuendigtTv': 'Im TV{sender} am {tag}, den {datum}',
+  'news.angekuendigtTvPremiere': 'Deutsche TV-Premiere{sender} am {tag}, den {datum}',
   'news.omuAngekuendigt': 'Start {wann} bei {anbieter} mit Untertiteln, deutsche Synchro angekündigt',
   'news.omuOffen': 'Start {wann} bei {anbieter} mit Untertiteln, keine deutsche Synchro angekündigt',
   'news.kurz.omu': 'OmU ab {datum} · {anbieter}',
@@ -275,12 +276,6 @@ const TEXTE = {
   // Was er trug, steht im Antwort-Kasten darüber (Status in Worten), am Cover (FSK)
   // oder nirgends mehr („Erscheinungstermin: unbekannt" war eine Nicht-Auskunft).
   'antwort.imAngebotSeit': 'Bei {anbieter} im Angebot seit {datum}',
-  // „Kaufausgabe" statt „Disc": Der Termin gehört zu einer Blu-ray oder DVD, die man
-  // kauft — nicht zur deutschen Fassung selbst, die meist längst zu streamen ist.
-  'antwort.kaufausgabeAm': 'Neue Kaufausgabe am {datum} — {label}',
-  // Ohne Label endete die Zeile auf einem nackten Gedankenstrich („am 19.11.2026 — "),
-  // gemessen an „Mila Superstar" am 16.09.2026.
-  'antwort.kaufausgabeAmOhne': 'Neue Kaufausgabe am {datum}',
   'detail.linkStream': 'ansehen',
   'detail.linkBuy': 'kaufen oder leihen',
 

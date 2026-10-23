@@ -11,7 +11,9 @@ Nur der Wechsel von „deutsch" auf „nicht mehr genannt" zählt.
 Der Vergleichsmaßstab steht in `data/motn-tonspur.json`: je Verweis die zuletzt gesehene
 Aussage. Ohne Vorstand gibt es keinen Verdacht, nur einen ersten Eintrag.
 
-Stand: 2026-10-08 · 0 offen · 334 Verweise beobachtet
+Stand: 2026-10-23 · 2 offen · 416 Verweise beobachtet
 
 | Titel | Anbieter | Folgen | nannte Deutsch seit | Wechsel bemerkt | Verweis |
 |---|---|---|---|---|---|
+| Babylon | primevideo | 1–12 | 2026-08-31 | 2026-10-23 | https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP |
+| Call of the Night | primevideo | 1–13 | 2026-08-31 | 2026-10-23 | https://www.amazon.de/gp/video/detail/B0B6FVJXST |

@@ -56,13 +56,15 @@ export interface LaufStand {
 
 /**
  * Darf der Wecker diesen Workflow jetzt starten? Normal zählt der neueste Lauf (Schutz vor Doppelstarts). Bei `nachholen` zählt der neueste *nicht abgebrochene*
- * Lauf, und ein gerade laufender oder wartender Lauf sperrt — so holt der nächste Tag einen abgebrochenen Monatslauf nach, ein erfolgreicher wird nicht wiederholt.
+ * Lauf, und ein gerade laufender oder wartender Lauf sperrt — so holt der nächste Tag einen abgebrochenen Monatslauf nach, ein Lauf im selben Monat wird nicht wiederholt.
  * `null` im Altersfall (keine Läufe) heißt: starten.
  */
 export function startErlaubt(workflow: string, laeufe: LaufStand[], jetzt: Date, plan: Weckplan[] = WECKPLAN): boolean {
   const nachholen = plan.find((p) => p.workflow === workflow)?.nachholen === true
   if (nachholen && laeufe.some((l) => l.status === 'in_progress' || l.status === 'queued' || l.status === 'pending' || l.status === 'waiting')) return false
   const massgeblich = nachholen ? laeufe.find((l) => l.conclusion !== 'cancelled') : laeufe[0]
+  // Ein Monatslauf im laufenden Monat genügt: der Abstand allein startete am 23.10. einen zweiten (Handlauf 08.10. + 14 Tage) und leerte das Kontingent.
+  if (nachholen && massgeblich?.created_at?.slice(0, 7) === jetzt.toISOString().slice(0, 7)) return false
   const t = Date.parse(massgeblich?.created_at ?? '')
   return !Number.isFinite(t) || (jetzt.getTime() - t) / 60000 >= abstandMin(workflow, plan)
 }

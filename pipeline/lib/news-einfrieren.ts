@@ -21,6 +21,20 @@ export function haltWeitererFest<T extends { art: string; weiterer?: boolean }>(
 }
 
 /**
+ * Die Marke „Deutsche TV-Premiere“ (`premiere`) gilt nur für Meldungen, die dieser Bau neu erzeugt (22.10.2026, Entscheidung Dirigent):
+ * Eine Meldung, die schon in `zuerst` stand, behält ihren Text; eine neue merkt sich die Marke, damit spätere Bauten sie nicht kippen.
+ */
+export function haltPremiereFest<T extends { schluessel: string; premiere?: boolean }>(historie: NewsHistorie, meldungen: T[]): T[] {
+  return meldungen.map((m) => {
+    if (!m.premiere) return m
+    if (!(m.schluessel in historie.zuerst)) (historie.premiere ??= {})[m.schluessel] = true
+    if (historie.premiere?.[m.schluessel]) return m
+    const { premiere: _weg, ...ohne } = m
+    return ohne as T
+  })
+}
+
+/**
  * Meldungen aus dem Terminverlauf (abgelöst/zurückgezogen) entstehen nicht in `terminMeldungen`, tragen aber denselben Schlüssel
  * `angekuendigt:release:datum`: Hier gilt der festgehaltene Wert, ohne einen neuen anzulegen.
  */
@@ -37,6 +51,9 @@ export function vergissAlte(historie: NewsHistorie, ab: string): void {
   }
   for (const k of Object.keys(historie.weiterer ?? {})) {
     if (!(k in historie.zuerst)) delete historie.weiterer![k]
+  }
+  for (const k of Object.keys(historie.premiere ?? {})) {
+    if (!(k in historie.zuerst)) delete historie.premiere![k]
   }
 }
 

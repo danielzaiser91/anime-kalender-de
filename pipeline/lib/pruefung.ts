@@ -21,6 +21,7 @@ import { lastEpisodeDate } from '../../shared/logic.ts'
 import { addDays } from '../../shared/time.ts'
 import { premiereFehler } from './premiere.ts'
 import { beobachtetOhneTermin } from './folge-ueber-anzahl.ts'
+import { sichtungsZeilen } from './sichtungsfenster.ts'
 
 export interface Pruefergebnis {
   fehler: string[]
@@ -225,8 +226,8 @@ export function pruefeErgebnis(
       if (/themoviedb\.org/.test(w.url) && !w.ueberTmdb)
         fehler.push(`Anime ${t.id}: Bezugsweg „${w.name}" zeigt auf TMDB, ohne als „über TMDB" gekennzeichnet zu sein`)
 
-  fehler.push(...schlussFehler(releases, events, titles))
-  return { fehler, warnungen }
+  const schluss = schlussPruefung(releases, events, titles)
+  return { fehler: [...fehler, ...schluss.fehler], warnungen: [...warnungen, ...schluss.warnungen] }
 }
 
 /** Die Prüfungen am Ende von `pruefeErgebnis`, die nicht je Release laufen (eigene Funktion, damit jene nicht wächst). */
@@ -237,6 +238,11 @@ function schlussFehler(releases: Release[], events: ReleaseEvent[], titles: Map<
     ...premiereFehler(releases),
     ...beobachtetOhneTermin(releases, events),
   ]
+}
+
+/** Schluss-Fehler plus die Ergebniszeile der Sichtungen fürs Bau-Log (sie belegt, dass die Prüfung am echten Bestand lief). */
+function schlussPruefung(releases: Release[], events: ReleaseEvent[], titles: Map<number, Title>): Pruefergebnis {
+  return { fehler: schlussFehler(releases, events, titles), warnungen: sichtungsZeilen(releases) }
 }
 
 /**
