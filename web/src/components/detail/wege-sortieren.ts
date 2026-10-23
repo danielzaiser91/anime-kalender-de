@@ -2,6 +2,7 @@ import { type Zugangsart } from '@shared/zugangsart.ts'
 import { gruppiereKaufwege } from './pillen.tsx'
 import { type Title } from '@shared/types.ts'
 import { falteTeilwege } from './wege-falten.ts'
+import { bezugswegeOhneVerweisDoppel } from './weg-doppel.ts'
 
 /** Schlüssel einer Weg-Pille: Anbieter, Adresse und, wo ein Weg je Staffel geführt wird (Cartoons), sein Ausschnitt. */
 export function pillenSchluessel(s: { platform: string; url: string; teilBereich?: { von: number } }): string {
@@ -54,7 +55,7 @@ export function sortiereNachZugang({ title }: {
       Datenträger verschicken.
     */
     streamWege: gruppiereKaufwege(
-      (title?.watchLinks ?? []).filter((w) => w.kind === 'stream' && (w.zugang ?? 'abo') === art),
+      bezugswegeOhneVerweisDoppel(title).filter((w) => w.kind === 'stream' && (w.zugang ?? 'abo') === art),
     ),
     shops: gruppiereKaufwege([
       /**

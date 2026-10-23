@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-19T05:25:22.661Z",
+  "scrapedAt": "2026-10-22T04:10:22.658Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -14263,7 +14263,7 @@
       "seriesId": "GRGG9798R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-16",
+      "geprueftAm": "2026-10-22",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -14651,8 +14651,8 @@
           "staffelId": "GS00371932JAJP",
           "folgen": 19,
           "kacheln": 19,
-          "deutsch": 15,
-          "fremd": 3,
+          "deutsch": 17,
+          "fremd": 2,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
@@ -14744,6 +14744,18 @@
               "guid": "GE00345567DEDE",
               "laufend": 15,
               "verfuegbarAb": "2026-10-15T14:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GE00345570DEDE",
+              "laufend": 16,
+              "verfuegbarAb": "2026-10-21T14:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "GE00345573DEDE",
+              "laufend": 17,
+              "verfuegbarAb": "2026-10-21T14:00:00Z"
             }
           ]
         }
@@ -48814,7 +48826,7 @@
       "seriesId": "GRGG9798R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-16",
+      "geprueftAm": "2026-10-22",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -49202,8 +49214,8 @@
           "staffelId": "GS00371932JAJP",
           "folgen": 19,
           "kacheln": 19,
-          "deutsch": 15,
-          "fremd": 3,
+          "deutsch": 17,
+          "fremd": 2,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
@@ -49295,6 +49307,18 @@
               "guid": "GE00345567DEDE",
               "laufend": 15,
               "verfuegbarAb": "2026-10-15T14:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GE00345570DEDE",
+              "laufend": 16,
+              "verfuegbarAb": "2026-10-21T14:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "GE00345573DEDE",
+              "laufend": 17,
+              "verfuegbarAb": "2026-10-21T14:00:00Z"
             }
           ]
         }
@@ -49305,7 +49329,7 @@
       "seriesId": "GRGG9798R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-16",
+      "geprueftAm": "2026-10-22",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -49693,8 +49717,8 @@
           "staffelId": "GS00371932JAJP",
           "folgen": 19,
           "kacheln": 19,
-          "deutsch": 15,
-          "fremd": 3,
+          "deutsch": 17,
+          "fremd": 2,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
@@ -49786,6 +49810,18 @@
               "guid": "GE00345567DEDE",
               "laufend": 15,
               "verfuegbarAb": "2026-10-15T14:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GE00345570DEDE",
+              "laufend": 16,
+              "verfuegbarAb": "2026-10-21T14:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "GE00345573DEDE",
+              "laufend": 17,
+              "verfuegbarAb": "2026-10-21T14:00:00Z"
             }
           ]
         }
@@ -71636,7 +71672,7 @@
       "seriesId": "GRGG9798R",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-16",
+      "geprueftAm": "2026-10-22",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -72024,8 +72060,8 @@
           "staffelId": "GS00371932JAJP",
           "folgen": 19,
           "kacheln": 19,
-          "deutsch": 15,
-          "fremd": 3,
+          "deutsch": 17,
+          "fremd": 2,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
@@ -72117,6 +72153,18 @@
               "guid": "GE00345567DEDE",
               "laufend": 15,
               "verfuegbarAb": "2026-10-15T14:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "GE00345570DEDE",
+              "laufend": 16,
+              "verfuegbarAb": "2026-10-21T14:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "GE00345573DEDE",
+              "laufend": 17,
+              "verfuegbarAb": "2026-10-21T14:00:00Z"
             }
           ]
         }
@@ -75297,7 +75345,7 @@
       "seriesId": "GT00378123",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-10-08",
+      "geprueftAm": "2026-10-22",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -75305,7 +75353,7 @@
           "staffelId": "GS00378141KOKR",
           "folgen": 12,
           "kacheln": 12,
-          "deutsch": 11,
+          "deutsch": 12,
           "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -75374,6 +75422,12 @@
               "guid": "GE00378913DEDE",
               "laufend": 11,
               "verfuegbarAb": "2026-10-07T17:25:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GE00378914DEDE",
+              "laufend": 12,
+              "verfuegbarAb": "2026-10-21T17:15:00Z"
             }
           ]
         },

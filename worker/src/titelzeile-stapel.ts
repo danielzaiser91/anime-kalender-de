@@ -14,7 +14,8 @@
 import { type Env } from './env.ts'
 import { leiteAb, type Abgeleitet } from './pruefung-ableiten.ts'
 import { ablehnungLoggen, ausnahmeAls, type Ablehnung } from './pruefung-ablehnung.ts'
-import { type StapelErgebnis } from './pruefung-stapel.ts'
+import { ANFRAGEN_BUDGET, type StapelErgebnis } from './pruefung-stapel.ts'
+import { zaehlendeDb } from './tagesdeckel.ts'
 import { holeListenbauAm } from './pruefung-unveraendert.ts'
 import { eintragOderFehler, gehoertHierher, hatAltzeilen, setze } from './titelzeile-speichern.ts'
 import { aendereTitelzeile, ladeZeile } from './titelzeile-zeile.ts'
@@ -23,19 +24,34 @@ import { kopfAusMeldung, leereDaten, type Eintrag, type TitelDaten } from './tit
 type Glied = { i: number; daten: Record<string, unknown>; ab: Abgeleitet }
 type Gruppe = { url: string; plattform: string; glieder: Glied[] }
 
-/** Ergebnis je Stapel-Index für die Meldungen, die in einer Titelzeile stehen; die übrigen gehen den bisherigen Weg. */
-export async function titelzeilenImStapel(env: Env, stapel: unknown[]): Promise<Map<number, StapelErgebnis>> {
+const BUDGET_GRUND = 'Subrequest-Budget des Stapels überschritten'
+
+class BudgetErreicht extends Error {}
+
+/**
+ * Ergebnis je Stapel-Index für die Meldungen, die in einer Titelzeile stehen; die übrigen gehen den bisherigen Weg.
+ * Die D1-Abfragen zählen zum Budget des Stapels (`ANFRAGEN_BUDGET`, 21.10.2026): `abfragen` ist, was verbraucht ist, der
+ * Rest des Budgets gehört den übrigen Meldungen. Reißt eine Gruppe das Budget (Wiederholungen nach Zusammenstößen), bekommt
+ * sie 503 und wird neu geschickt; die folgenden Gruppen scheitern an ihrer ersten Abfrage ebenso.
+ */
+export async function titelzeilenImStapel(env: Env, stapel: unknown[]): Promise<{ ergebnisse: Map<number, StapelErgebnis>; abfragen: number }> {
   const ergebnisse = new Map<number, StapelErgebnis>()
+  let abfragen = 0
+  const gezaehlt = zaehlendeDb(env.DB, async () => {
+    if (++abfragen > ANFRAGEN_BUDGET) throw new BudgetErreicht(BUDGET_GRUND)
+  })
+  const mitBudget = { ...env, DB: gezaehlt.db }
   let bau: Promise<string | null> | undefined
   const listenbauAm = () => (bau ??= holeListenbauAm(env))
   for (const g of gruppen(env, stapel)) {
     try {
-      for (const [i, r] of await gruppeSpeichern(env, g, listenbauAm)) ergebnisse.set(i, r)
+      for (const [i, r] of await gruppeSpeichern(mitBudget, g, listenbauAm)) ergebnisse.set(i, r)
     } catch (e) {
-      for (const m of g.glieder) ergebnisse.set(m.i, abgelehnt(m, ausnahmeAls(e)))
+      const ablehnung = e instanceof BudgetErreicht ? { status: 503, grund: BUDGET_GRUND } : ausnahmeAls(e)
+      for (const m of g.glieder) ergebnisse.set(m.i, abgelehnt(m, ablehnung))
     }
   }
-  return ergebnisse
+  return { ergebnisse, abfragen }
 }
 
 /** Die Meldungen, die in eine Titelzeile gehören könnten, je Adresse und Anbieter. */

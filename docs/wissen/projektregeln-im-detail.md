@@ -39,6 +39,19 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   keine Uhrzeit, veröffentlicht Anime aber um 17:00 JST = 08:00 UTC (Tudum zu Steel Ball Run;
   Daniel sah Folge 2 um 09:35 noch nicht, um 10:11 schon). `expandEvents` setzt diese Zeit dort,
   wo keine belegt ist, als `timeEstimated` — angezeigt mit „≈", ohne Countdown.
+  **Zweite Ausnahme (18.10.2026, F39): Regeltermin aus einer eigenen Sichtung.** Fehlte eine Folge zu `notSeen`
+  und war zu `seen` da, darf `schedule.time` ein Wert im Fenster sein und gilt als Regeltermin für **alle**
+  Folgen der Serie (auch vergangene). Das Fenster steht als Beleg in `schedule.timeSighting` (`notSeen`, `seen`,
+  `date`, `source`). **Fenster unter 60 min: belegt, kein `timeEstimated`; ab 60 min: `timeEstimated` (≈).**
+  Beobachtet man später an einer Folge eine andere Zeit, steht sie als Abweichung in `schedule.zeiten`
+  (Folge → Uhrzeit) und schlägt den Regeltermin. Es gibt keinen eigenen Leser: alle Stellen lesen wie bisher
+  `schedule.time`/`zeiten`. `data:validate` (`pipeline/lib/sichtungsfenster.ts`) verlangt `schedule.time` im
+  Fenster, vollständige Angaben, ein Datum nicht vor der ersten Folge und nicht in der Zukunft und das
+  `timeEstimated`, das die Fensterbreite vorgibt; das Bau-Log hat die Zeile „N Regeltermin aus Sichtung: …".
+  **Jede kuratierte `time` + `timeEstimated` braucht eine benannte Ausnahme:** `timeSighting` oder einen
+  Eintrag in `FESTGELEGTE_ZEITEN` (Altfall Avatar 11:00, Paramount+: Daniel sah F4–6 um 11:42 schon da,
+  Fenster fehlt, Befund offen, 23.10. ohne Sichtung; Frist `bis` 02.11.2026 (nach den Folgen vom 30.10.): danach Fehler in PR-CI und lokal,
+  im Deploy nur Warnung auf der Konsole, damit er nicht an der Frist stirbt).
 - **Abgeleitetes kennzeichnen.** Datum aus dem Simulcast-Start übernommen statt aus einer
   Dub-Ankündigung? Dann `estimated: true`. Folgenzahl geraten? Setzt die Pipeline selbst als
   `episodeCountAssumed`. Beides erscheint im UI als `≈`.
@@ -404,6 +417,8 @@ Der Worker in `worker/` ist optional. Ohne gesetztes `VITE_NEWSLETTER_API` zeigt
 einen ehrlichen Hinweis statt eines kaputten Buttons. DSGVO-Pflichten (Double-Opt-in,
 Abmeldelink, Impressum, Datenschutzerklärung) sind kein Nice-to-have — nichts davon entfernen.
 
+**D1 und Website (Daniel, 23.10.2026):** Die Regel „keine D1“ gilt nur für die Website selbst. Der Newsletter-Worker darf D1 nutzen, auch auf Nutzerpfaden: Favoriten-Abgleich, Web-Push und der persönliche Kalender-Feed. Feed-Abrufe der Kalender-Apps lesen D1 trotzdem nicht bei jedem Mal (Edge-Cache 15 Minuten, `worker/src/favoriten-feed.ts`).
+
 ## Ein roter Lauf wird bemerkt, nicht gemeldet — und die Anzeige danach geleert
 
 Daniel am 07.09.2026, 15:50: „in status app sind 2 rote läufe (vor 3h+). wann
@@ -475,7 +490,7 @@ das sonst verfällt.
 ## Prüfung nach Risiko: Stufen 0, 1, 2 (Daniel, 10.10.2026)
 
 Anlass: „keine Prüfer-Agenten bei Kleinigkeiten“. `node tools/pr-stufe.mjs <PR>` (Tabelle und Tests: `tools/pr-stufe.mjs`, `tools/pr-stufe.test.mjs`) stuft mechanisch aus Pfaden und Zeilenzahl des Diffs ein, im Zweifel Stufe 2.
-Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten, Skill-Texte `.claude/skills/**/*.md` seit 12.10.2026): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar; bei Stufe 0 prüft der CI-Prüfer seit 12.10.2026 schlank (nur Diff, kleines Zugbudget) und gibt bei Ok frei, sonst Änderungswünsche.
+Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten, Skill-Texte `.claude/skills/**/*.md` seit 12.10.2026, alles unter `tools/claude-global/` seit 23.10.2026): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar; bei Stufe 0 prüft der CI-Prüfer seit 12.10.2026 schlank (nur Diff, kleines Zugbudget) und gibt bei Ok frei, sonst Änderungswünsche.
 
 ## Bilder für PR-Beschreibungen ohne Hook-Umgehung (14.10.2026)
 
@@ -639,7 +654,7 @@ Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `
 
 ### Codegestalt (Ergänzungen)
 
-- `check:umfang` (steckt in `build`) misst die Überlänge je Bereich — sie darf nur sinken, gesunkene Werte übernimmt `--festschreiben`, angehoben wird nie. **Festgeschrieben wird nur im Bestandsbau auf main (`tools/commit-data.sh`, seit 11.10.2026), nie in einem PR:** Fast jeder PR senkte dieselbe Zeile in `umfang-grenzen.json` um 1 und machte die übrigen offenen PRs DIRTY (28 Commits an der Datei in 3 Tagen). Der PR-Check bleibt gleich streng (Wachstum gegen die Datei ist rot); nur das Nachziehen der gesunkenen Zahl verschiebt sich bis zum nächsten Bestandsbau, bis dahin steht die gewonnene Überlänge anderen PRs zur Verfügung. `--liste` zeigt die größten Stellen. Zusätzlich zählt er „Ketten" (`tools/umfang-ketten.mjs`, Ausgangswert 10.10.2026 je Bereich in `umfang-grenzen.json`): Anweisungen, Typ-Felder und Objekt-Einträge, die in der Zeile ihres Vorgängers beginnen (`a(); b()`, `x?: A; y?: B`, mehrere `...`-Spreads in einer Zeile) — sonst ließe sich die 80/800-Zählung durch Anhängen an bestehende Zeilen umgehen; ein Eintrag je Zeile, `--ketten` zeigt die Fundstellen, Listen ganz in einer Zeile (`{ a, b }`) bleiben erlaubt.
+- `check:umfang` (steckt in `build`) misst die Überlänge je Bereich — sie darf nur sinken, gesunkene Werte übernimmt `--festschreiben`, angehoben wird nie. **Festgeschrieben wird nur im Bestandsbau auf main (`tools/commit-data.sh`, seit 11.10.2026), und dort seit 23.10.2026 nur in der Stunde 02 UTC, nie in einem PR:** Sonst machte jeder Bau nach einem Merge den nächsten offenen PR „nicht aktuell“ (21.10.2026). Fast jeder PR senkte dieselbe Zeile in `umfang-grenzen.json` um 1 und machte die übrigen offenen PRs DIRTY (28 Commits an der Datei in 3 Tagen). Der PR-Check bleibt gleich streng (Wachstum gegen die Datei ist rot); nur das Nachziehen der gesunkenen Zahl verschiebt sich bis zum nächsten Bestandsbau, bis dahin steht die gewonnene Überlänge anderen PRs zur Verfügung. `--liste` zeigt die größten Stellen. Zusätzlich zählt er „Ketten" (`tools/umfang-ketten.mjs`, Ausgangswert 10.10.2026 je Bereich in `umfang-grenzen.json`): Anweisungen, Typ-Felder und Objekt-Einträge, die in der Zeile ihres Vorgängers beginnen (`a(); b()`, `x?: A; y?: B`, mehrere `...`-Spreads in einer Zeile) — sonst ließe sich die 80/800-Zählung durch Anhängen an bestehende Zeilen umgehen; ein Eintrag je Zeile, `--ketten` zeigt die Fundstellen, Listen ganz in einer Zeile (`{ a, b }`) bleiben erlaubt.
 - Verschoben wird mit `tools/modul-umzug.mjs`, nicht von Hand. Vorgehen: Skill `zerlegen`. Bei reinen Kommentar-Umbauten `node tools/nur-kommentare.mjs` (Code ohne Kommentare gleich).
 - Wegwerfskripte gehören ins Scratchpad, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
 - Dieselben Regeln projektübergreifend: `tools/claude-global/` — auf jedem Rechner einmal `node tools/claude-global/einrichten.mjs` (prüfen: `--pruefen`).

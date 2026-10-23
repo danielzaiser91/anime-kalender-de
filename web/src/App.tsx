@@ -19,13 +19,13 @@ import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
 import { Header } from './components/Header.tsx'
 import { InstallDialog } from './components/InstallPrompt.tsx'
-import { SeitenAnsicht } from './components/SeitenAnsicht.tsx'
+import { SeitenAnsichtLazy } from './components/SeitenAnsichtLazy.tsx'
 import { cacheCoversForOffline } from './lib/pwa.ts'
 import { coverBild, KACHEL_DICHTE } from './lib/cover.ts'
 import { KalenderBereich } from './components/kalender/KalenderBereich.tsx'
 import { DatenbankBereich } from './components/DatenbankBereich.tsx'
 import { DetailPanel } from './components/DetailPanel.tsx'
-import { Footer } from './components/StaticViews.tsx'
+import { Footer } from './components/Footer.tsx'
 import { StartGeruest, WochenSkelett } from './components/StartGeruest.tsx'
 import { useErstesErgebnis } from './lib/erstes-ergebnis.ts'
 
@@ -242,7 +242,7 @@ export default function App() {
           />
         )}
 
-        <SeitenAnsicht route={route} ersetze={ersetze} data={data} favorites={favorites} oeffne={(id: number) => navigate({ title: id })} />
+        <SeitenAnsichtLazy route={route} ersetze={ersetze} data={data} favorites={favorites} oeffne={(id: number) => navigate({ title: id })} />
       </main>
 
       <Footer meta={data.meta} />

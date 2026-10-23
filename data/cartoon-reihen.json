@@ -6471,6 +6471,13 @@
     "qid": null,
     "geholtAm": "2026-10-08"
   },
+  "214087": {
+    "qid": "Q129261572",
+    "geholtAm": "2026-10-22",
+    "label": "Universal Basic Guys",
+    "rel": {},
+    "aussagenAm": "2026-10-22"
+  },
   "214875": {
     "qid": "Q116745346",
     "geholtAm": "2026-10-08",
@@ -6817,6 +6824,10 @@
   "228674": {
     "qid": null,
     "geholtAm": "2026-10-08"
+  },
+  "228696": {
+    "qid": null,
+    "geholtAm": "2026-10-22"
   },
   "228721": {
     "qid": "Q115656979",
@@ -7521,6 +7532,13 @@
     "qid": null,
     "geholtAm": "2026-10-08"
   },
+  "308817": {
+    "qid": "Q3514509",
+    "geholtAm": "2026-10-23",
+    "label": "Talis und die tausend Aufgaben",
+    "rel": {},
+    "aussagenAm": "2026-10-23"
+  },
   "309792": {
     "qid": null,
     "geholtAm": "2026-10-08"
@@ -7654,6 +7672,10 @@
   "336478": {
     "qid": null,
     "geholtAm": "2026-10-08"
+  },
+  "336500": {
+    "qid": null,
+    "geholtAm": "2026-10-23"
   },
   "336773": {
     "qid": null,
