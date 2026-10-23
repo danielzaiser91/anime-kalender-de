@@ -6,7 +6,7 @@
  * Aufruf: `npx tsx tools/worker-favoriten-feed.test.ts`
  */
 import worker from '../worker/src/index.ts'
-import { schneideFeed } from '../worker/src/favoriten-feed.ts'
+import { schneideFeed } from '../worker/src/favoriten-feed-schnitt.ts'
 import { buildIcs } from '../shared/ics.ts'
 import type { ReleaseEvent } from '../shared/types.ts'
 import { abonnenten, fetchAttrappe, neueDatenbank, testEnv, zaehler, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'

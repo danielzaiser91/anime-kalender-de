@@ -7,10 +7,10 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { buildIcs } from '../shared/ics.ts'
 import type { ReleaseEvent } from '../shared/types.ts'
-import { schneideFeed } from '../worker/src/favoriten-feed.ts'
+import { schneideFeed } from '../worker/src/favoriten-feed-schnitt.ts'
 import { ladeAkVon, uebersetzeDatei } from './lib/ausgabe-kennung.ts'
 
-/** Mehr Termine ab sieben Tage zurück sind ein Anlass, den Feed neu zu messen (23.10.2026: 493). */
+/** Mehr Termine ab sieben Tage zurück sind ein Anlass, den Feed neu zu messen (23.10.2026: 518). */
 const MAX_TERMINE = 800
 const MAX_MS = 10
 const NAME = 'Anime-Kalender DE – Meine Favoriten'
