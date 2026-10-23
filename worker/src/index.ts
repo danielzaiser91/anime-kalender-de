@@ -45,6 +45,7 @@ import { loadNews, weitereAusNews } from './news-quelle.ts'
 import { handleLauf } from './lauf.ts'
 import { handleCrZugang } from './cr-zugang.ts'
 import { EMAIL_RE, mitAnmeldeSchutz } from './anmelde-schutz.ts'
+import { digestStand, mitPlatzpruefung, wochenAboFaellig } from './newsletter-kapazitaet.ts'
 import { handleBeleg } from './beleg.ts'; import { loescheAbgelaufenes } from './loeschfristen.ts'; import { starteFaelligeLaeufe } from './wecker.ts'
 
 export { Ereignisse }
@@ -833,7 +834,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
   if (force) due.push(force)
   else if (hour === sendHour) {
     due.push('daily')
-    if (weekdayIndex(iso) === 0) due.push('weekly')
+    due.push('weekly') // jeden Tag: welche Wochen-Abos dran sind, entscheidet wochenAboFaellig (Eimer-Tag)
   }
   if (!due.length) return `nichts zu tun (Berliner Stunde ${hour})`
 
@@ -862,8 +863,8 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
     const window = allEvents.filter((e) => e.date >= iso && e.date <= until)
 
     const { results } = await env.DB.prepare(
-      `SELECT id, email, frequency, platforms, favorites, franchise_hinweis, unsub_token, pref_token, last_sent_at FROM subscribers
-       WHERE status = 'active' AND frequency = ?1`,
+      `SELECT id, email, frequency, platforms, favorites, franchise_hinweis, unsub_token, pref_token, last_sent_at, created_at FROM subscribers
+       WHERE status = 'active' AND frequency = ?1 ORDER BY last_sent_at`,
     )
       .bind(frequency)
       .all<SubscriberRow>()
@@ -882,15 +883,18 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
       workerUrl: env.WORKER_URL || '',
       siteUrl: env.SITE_URL,
     }
-    const posten = (results ?? []).map((sub) => digestFuer(sub, kontext)).filter((p) => p !== null)
-    const sent = await versendeDigest(env, posten, now)
+    const faellige = frequency === 'weekly' && !force ? (results ?? []).filter((s) => wochenAboFaellig(s, iso)) : (results ?? [])
+    const posten = faellige.map((sub) => digestFuer(sub, kontext)).filter((p) => p !== null)
+    const stand = await digestStand(env, now)
+    const sent = await versendeDigest(env, posten.slice(0, stand.platz), now)
 
-    if (!force) {
+    // Nur Erfolg (oder nichts zu senden) schließt den Tag ab; Abgewiesenes geht am Folgetag raus.
+    if (!force && (sent > 0 || !posten.length)) {
       await env.DB.prepare('INSERT OR REPLACE INTO send_log (run_key, sent_at, recipients) VALUES (?1, ?2, ?3)')
         .bind(runKey, now.toISOString(), sent)
         .run()
     }
-    log.push(`${runKey}: ${sent} Mails, ${window.length} Termine im Fenster`)
+    log.push(`${runKey}: ${sent} von ${posten.length} Mails (Platz ${stand.platz}; heute Digest ${stand.digestHeute}, Mails ${stand.mailsHeute}, Monat ${stand.mailsMonat}), ${window.length} Termine im Fenster`)
   }
 
   return log.join('; ')
@@ -1280,7 +1284,7 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
     switch (url.pathname) {
       case '/subscribe':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
-        return mitAnmeldeSchutz(request, env, handleSubscribe, imRahmen, cors(env))
+        return mitPlatzpruefung(request, env, () => mitAnmeldeSchutz(request, env, handleSubscribe, imRahmen, cors(env)), cors(env))
       case '/confirm':
         return handleConfirm(request, env)
       case '/unsubscribe':
@@ -1411,7 +1415,7 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
         const count = await env.DB.prepare(
           "SELECT COUNT(*) AS n FROM subscribers WHERE status = 'active'",
         ).first<{ n: number }>()
-        return json(env, { ok: true, activeSubscribers: count?.n ?? 0, heute: await tagesstand(env) })
+        return json(env, { ok: true, activeSubscribers: count?.n ?? 0, heute: await tagesstand(env), newsletter: await digestStand(env, new Date()) })
       }
       default:
         return json(env, { error: 'Unbekannter Pfad' }, 404)
