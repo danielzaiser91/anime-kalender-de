@@ -6745,8 +6745,6 @@ pruefe(
   pruefe('ein neuer Anbieter: „Dandadan jetzt auch bei Netflix"', pushText([], [bei]) === 'Dandadan jetzt auch bei Netflix')
   pruefe('beides zusammen wird gebündelt', pushText([folge], [bei]) === '2 Neuigkeiten: Frieren – Folge 3 · Dandadan (Netflix)', String(pushText([folge], [bei])))
   pruefe('ohne Anlass kein Text — dann kein Push', pushText([], []) === null)
-  const push = readFileSync('worker/src/push.ts', 'utf8')
-  pruefe('… und der Versand merkt sich gemeldete Anbieter, bevor er beim ersten Lauf aussteigt', push.indexOf('gemeldet = ?2') < push.indexOf('if (!abo.zuletzt) continue'))
 }
 {
   /* Plaketten lesbar (18.09.2026, Daniels Wahl „hell B, dunkel C“): jede Anbieterfarbe

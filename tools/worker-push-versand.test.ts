@@ -157,6 +157,10 @@ async function gemischtUndWeitere() {
   db.exec('UPDATE push_abo SET offen = NULL')
   await pushVersand(env, JETZT, [], istErschienen, weitere)
   pruefe(zeilen(db, 'SELECT offen FROM push_abo')[0]!.offen === null, 'dieselbe Meldung kommt kein zweites Mal')
+  abos(db, 1, { favoriten: 'ak:77', zuletzt: null })
+  await pushVersand(env, JETZT, [], istErschienen, weitere)
+  const erstlauf = zeilen(db, 'SELECT offen, gemeldet FROM push_abo')[0]!
+  pruefe(erstlauf.offen === null && erstlauf.gemeldet === '77:Netflix', 'Erstlauf vermerkt gemeldete Anbieter, schickt aber nichts')
   abos(db, 1, { favoriten: 'ak:77' })
   const lang = Array.from({ length: 250 }, (_, i) => `${i}:X`).join(String.fromCharCode(10))
   db.prepare('UPDATE push_abo SET gemeldet = ?1').run(lang)
