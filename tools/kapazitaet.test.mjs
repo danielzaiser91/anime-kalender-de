@@ -131,4 +131,14 @@ const schritt = wf.jobs.verbrauch.steps.find((s) => s.id === 'kapazitaet')
 assert.equal(schritt.shell, 'bash')
 assert.equal(schritt.run, 'node tools/kapazitaet-messen.mjs | tee kapazitaet.txt')
 assert.equal(schritt['continue-on-error'], true)
+/* Rot wird der Lauf nur durch die beiden Folgeschritte: beide hinter dem Messschritt und mit dessen Ergebnis in der Bedingung. */
+const schritte = wf.jobs.verbrauch.steps
+const pos = (id) => schritte.findIndex((s) => s.id === id)
+const melden = schritte.find((s) => s.name === 'Befund melden')
+const rotwerden = schritte.find((s) => s.name === 'Rot werden, wenn etwas auffällt')
+assert.ok(pos('pruefung') >= 0 && pos('kapazitaet') > pos('pruefung'))
+for (const folge of [melden, rotwerden]) {
+  assert.ok(schritte.indexOf(folge) > pos('kapazitaet'), `${folge.name} steht hinter dem Messschritt`)
+  assert.equal(folge.if, "steps.pruefung.outcome != 'success' || steps.kapazitaet.outcome != 'success'")
+}
 console.log('Kapazität: lauf() rot bei Schwelle und bei nicht lesbarem Datensatz, grün ohne Befund, still ohne Token; Workflow-Schritt mit pipefail.')
