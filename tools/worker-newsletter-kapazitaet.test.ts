@@ -9,7 +9,6 @@
 import type { DatabaseSync } from 'node:sqlite'
 import worker, { runDigest } from '../worker/src/index.ts'
 import {
-  
   DIGEST_TAG_MAX,
   MAIL_MONAT_MAX,
   MAIL_TAG_MAX,
@@ -18,6 +17,8 @@ import {
   wochenAboFaellig,
   wochentagVon,
 } from '../worker/src/newsletter-kapazitaet.ts'
+import { bucheMails } from '../worker/src/mail-zaehler.ts'
+import { verbuchen } from '../worker/src/tagesdeckel.ts'
 import { berlinParts } from '../worker/src/werte.ts'
 import { fetchAttrappe, neueDatenbank, testEnv, zaehler, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'
 
@@ -170,6 +171,16 @@ async function kappen() {
   const zeilen = reihenfolge.db.prepare('SELECT last_sent_at FROM subscribers WHERE last_sent_at LIKE ?1').all('2026-06-01%').length
   const alte = reihenfolge.db.prepare("SELECT COUNT(*) n FROM subscribers WHERE last_sent_at LIKE '2026-06-01%' AND id IN ('t0','t1','t2','t3','t4','t5','t6','t7','t8','t9')").get() as { n: number }
   pruefe(zeilen === 70 && Number(alte.n) === 0, 'Kappe schneidet bei den zuletzt Bedienten: wer nie oder am längsten nicht dran war, kommt zuerst')
+
+  const echt = neueDatenbank()
+  const echtEnv = testEnv(echt, 7)
+  await bucheMails(echtEnv, 2980, tag(0))
+  await verbuchen(echtEnv, '2026-06-02', { geschrieben: 1, gelesen: 1 })
+  await verbuchen(echtEnv, '2026-06-03', { geschrieben: 1, gelesen: 1 })
+  const ueberTage = await digestStand(echtEnv, tag(2))
+  pruefe(ueberTage.mailsMonat === 2980 && ueberTage.platz === 20, `Monatssumme überlebt die Buchungen der Folgetage (verbuchen, bucheMails): ${JSON.stringify(ueberTage)}`)
+  await verbuchen(echtEnv, '2026-07-01', { geschrieben: 1, gelesen: 1 })
+  pruefe(zahl(echt, "SELECT COUNT(*) n FROM schreib_tag WHERE tag < '2026-07-01'") === 0, 'ein neuer Monat räumt die Zeilen des alten')
 
   const kaputt = await lauf((db) => db.exec('DROP TABLE schreib_tag'))
   pruefe(kaputt.gesendet === 0, 'Zähler nicht lesbar: Digest heute gesperrt statt unbegrenzt')
