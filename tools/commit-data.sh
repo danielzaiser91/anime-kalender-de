@@ -307,23 +307,35 @@ for versuch in $(seq 1 "$VERSUCHE"); do
 
   # Gesunkene Umfangsgrenzen übernimmt nur dieser Lauf auf main, nie ein PR: Sonst ändert fast jeder PR dieselbe Zeile
   # in tools/umfang-grenzen.json und macht die übrigen offenen PRs DIRTY (11.10.2026). Scheitert es, bleibt alles beim Alten.
-  if node tools/umfang-pruefen.mjs --festschreiben > /dev/null 2>&1; then
-    hinzu tools/umfang-grenzen.json
-  fi
+  grenzen_festschreiben() {
+    if node tools/umfang-pruefen.mjs --festschreiben > /dev/null 2>&1; then
+      hinzu tools/umfang-grenzen.json
+    fi
 
-  # Dasselbe für die alten Farbklassen in web/src (docs/wissen/design-regeln.md, Abschnitt 7).
-  if node tools/design-klassen.mjs --festschreiben > /dev/null 2>&1; then
-    hinzu tools/design-klassen-grenzen.json
-  fi
+    # Dasselbe für die alten Farbklassen in web/src (docs/wissen/design-regeln.md, Abschnitt 7).
+    if node tools/design-klassen.mjs --festschreiben > /dev/null 2>&1; then
+      hinzu tools/design-klassen-grenzen.json
+    fi
 
-  # Dasselbe für die echte Uhr in Tests (tools/uhr-in-tests.mjs).
-  if node tools/uhr-in-tests.mjs --festschreiben > /dev/null 2>&1; then
-    hinzu tools/uhr-in-tests-grenzen.json
-  fi
+    # Dasselbe für die echte Uhr in Tests (tools/uhr-in-tests.mjs).
+    if node tools/uhr-in-tests.mjs --festschreiben > /dev/null 2>&1; then
+      hinzu tools/uhr-in-tests-grenzen.json
+    fi
 
-  # Dasselbe für die Treffer der Kalender-Plausibilität (pipeline/lib/kalender-plausibilitaet.ts): gesunkene Zahlen übernehmen.
-  if [ "$QUARANTAENE_AKTIV" != 1 ] && npm run check:kalender-plausibilitaet -- --festschreiben > /dev/null 2>&1; then
-    hinzu tools/kalender-plausibilitaet-grenzen.json
+    # Dasselbe für „heute“ als UTC-Tag (tools/heute-utc.mjs).
+    if node tools/heute-utc.mjs --festschreiben > /dev/null 2>&1; then
+      hinzu tools/heute-utc-grenzen.json
+    fi
+
+    # Dasselbe für die Treffer der Kalender-Plausibilität (pipeline/lib/kalender-plausibilitaet.ts): gesunkene Zahlen übernehmen.
+    if [ "$QUARANTAENE_AKTIV" != 1 ] && npm run check:kalender-plausibilitaet -- --festschreiben > /dev/null 2>&1; then
+      hinzu tools/kalender-plausibilitaet-grenzen.json
+    fi
+  }
+  # Nur in der Stunde 02 UTC (der Sendezeiten-Sammler löst jede Stunde einen Bau aus): Jeder Bau nach einem Merge schrieb
+  # die Grenzen, damit machte jeder Merge den nächsten offenen PR „nicht aktuell“ (21.10.2026).
+  if [ "${STUNDE_UTC:-$(date -u +%H)}" = 02 ]; then
+    grenzen_festschreiben
   fi
 
   # Rot endet der Lauf, sobald Aufbau oder Bestand scheitern — nach dem Sichern der Quellen.

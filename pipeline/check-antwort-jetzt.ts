@@ -52,7 +52,7 @@ const laeuft = berechneAntwort({ title: titel, releases: [wochenplan()], today: 
 pruefe('Uhr: offene Folgen und Zählung folgen `jetzt` (2 erschienen, Folge 3 ist die nächste)', laeuft?.art === 'laeuft' && laeuft.raus === 2 && laeuft.haupt.episode === 3, JSON.stringify(laeuft?.art))
 
 /* Synchro belegt, Staffel in Japan zu Ende, Wochentakt mittendrin: bleibt „läuft", solange Folgen ausstehen (`deutscherWochentaktLaeuft`). */
-const synchro = { ...titel, hasVoices: true, jpEnd: '2025-12-31' } as Title
+const synchro = { ...titel, hasVoices: true, jpEnd: '2025-12-31', streams: [{ platform: 'crunchyroll', url: 'https://www.example.org/cr', dub: true }] } as unknown as Title
 const mitSynchro = berechneAntwort({ title: synchro, releases: [wochenplan()], today: HEUTE, jetzt: JETZT })
 pruefe('Uhr: „fertig"-Urteil nutzt `jetzt` (Wochentakt mittendrin = läuft)', mitSynchro?.art === 'laeuft', mitSynchro?.art)
 

@@ -253,6 +253,19 @@ jobs:
             Befund. Ein Test, der unter einem Betriebssystem übersprungen wird, belegt dort nichts. Eine Bilanz neuer
             Zuordnungen braucht je Ziel einen inhaltlichen Abgleich (z. B. Folgentitel gegen die Quelle), Zählen allein
             belegt keine Zuordnung.
+            Schärfungen (20.10.2026): Geteilter Speicher (Sperre, Datei, Tab): spiele zwei Schreiber durch; ein
+            überschriebener Fremdeintrag ist blockierend. Bei CONFLICTING vergleichst du Signaturen auf main mit den
+            Aufrufen. Ein Test, der seine Soll-Werte aus dem geprüften Modul importiert, ist sein eigenes Orakel
+            (Befund). Ein neuer Wächter ohne Aufrufer in einem Tor ist ein Befund; eine Verdrahtung belegt nur ein Test,
+            der den Aufrufer laufen lässt. "Zählt nur echte Auskunft" braucht jeden Nichtauskunft-Status (timeout,
+            fehler, unklar, Sperre) als Datenfall. Mutationen nennst du mit Funktionsname und Muster als Anker, nie
+            mit Zeilennummer. Bei geänderten Aufrufseiten und onClick-Handlern verlangst du Mutationen auch dort
+            (Aufruf weg, falscher Wert); ein ungetesteter Handler ist ein Befund. Jede Behauptung über Projektregeln
+            ("laut Regel verboten") belegst du per Grep in CLAUDE.md oder docs, sonst nicht als Argument. Ein neuer
+            Workflow, der andere Workflows auslöst, braucht eine Kostenrechnung (Läufe je Tag mal Claude-Läufe). Die
+            Beschreibung bleibt unverändert: Korrekturen stehen als Kommentar unter "Nachträge" und gelten, verlange
+            keine Änderung ihres Kopfs. "Im Log nicht gefunden" sagst du nur mit Job-Kennung; ohne Lesezugriff auf das
+            Log schreibst du "nicht beurteilt".
             Auflagen früherer Runden (20.10.2026): Führe jede Auflage aus früheren Prüfer-Kommentaren ("Prüfer Runde N",
             auch eigene) im Protokoll einzeln auf, jeweils als erledigt (mit Beleg im Diff oder Nachtrag), verworfen
             (mit Grund) oder offen. Ein "ok" bei einer offenen Auflage ist nicht erlaubt.

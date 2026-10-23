@@ -16,6 +16,9 @@ pipeline/check-cr-ja-deckung-bestand.ts
 pipeline/check-cr-teilseiten-bestand.ts
 pipeline/check-deutsche-folgenzahl-bestand.ts
 pipeline/check-empfehlung-bestand.ts
+pipeline/check-empfehlung-kern-bestand.ts
+pipeline/check-favoriten-feed-bestand.ts
+pipeline/check-folge-zwoelf-hinweis-bestand.ts
 pipeline/check-folgenflaggen-bestand.ts
 pipeline/check-folgenzahl-kennzeichnung-bestand.ts
 pipeline/check-handlung-eigen-bestand.ts
@@ -38,6 +41,9 @@ pipeline/check-schwester-shop-bestand.ts
 pipeline/check-staffel-von-hand-bestand.ts
 pipeline/check-telekom-annahme-bestand.ts
 pipeline/check-tmdb-ablauf-bestand.ts
+pipeline/check-tmdb-hauptserie-bestand.ts
+pipeline/check-verweise-von-hand-bestand.ts
+pipeline/check-woche-groesse-bestand.ts
 pipeline/check-wochen-datei-bestand.ts
 pipeline/check-zaehlung-synchro.ts
 tools/cartoon-jw-stichprobe-bestand-pruefen.mjs

@@ -32,7 +32,7 @@ Das ist der Kern, und der häufigste Denkfehler:
 
 | | Was es ist | Heute | Grenze | Wer es merkt |
 |---|---|---|---|---|
-| **Ladelast** | was ein Besucher wirklich herunterlädt | **≈ 327 KB** (gzip, Start; Stand 18.10.2026, Wächter `tools/start-budget.mjs`, Grenze 330 KB, Ziel 300 KB) | gefühlt ab ~1 MB | jeder Besucher, sofort |
+| **Ladelast** | was ein Besucher wirklich herunterlädt | **≈ 294 KB** (gzip, Start; Stand 23.10.2026, Wächter `tools/start-budget.mjs`, Grenze 300 KB) | gefühlt ab ~1 MB | jeder Besucher, sofort |
 | **Veröffentlichte Seite** | Inhalt von `dist/` | 20 MB | **1 GB** (GitHub Pages) | niemand, bis es reißt |
 | **Repo** | alles inkl. Rohdaten und Historie | 108 MB (`.git` 64 MB gepackt) | ~1 GB empfohlen | nur wer klont |
 
@@ -50,7 +50,7 @@ nachdenkt, muss auf die erste Zeile schauen, nicht auf die dritte.
 | `index-*.css` | 25,7 KB |
 | `meta.json` | 2,2 KB |
 | `woche.json` (Wochenansicht) | 40,0 KB |
-| Schriften (`manrope-latin`, `unbounded-latin-700`, woff2) | 44,9 KB |
+| Schriften (`manrope-latin`, `unbounded-700-de` Teilmenge, woff2) | 34,1 KB |
 | **Summe** | **≈ 327 KB** |
 
 Gezählt wird, was der Wächter `tools/start-budget.mjs` misst (Stand 18.10.2026). Ohne Bedienung lädt die Seite danach innerhalb von

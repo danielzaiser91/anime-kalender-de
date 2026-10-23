@@ -1,13 +1,13 @@
 {
- "erzeugtAm": "2026-10-20T10:17:43.734Z",
+ "erzeugtAm": "2026-10-23T12:21:20.245Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 851,
-   "gesamt": 900,
-   "offen": 49,
-   "ohneSeite": 21,
+   "gemeldet": 855,
+   "gesamt": 899,
+   "offen": 44,
+   "ohneSeite": 18,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
     "https://www.amazon.de/s?k=Es%20war%20einmal%20%E2%80%A6%20Amerika&i=instant-video",
@@ -26,16 +26,17 @@
     "https://www.amazon.de/s?k=Happy%20Fish%202%3A%20Hai-Alarm%20im%20Hochwasser&i=instant-video",
     "https://www.amazon.de/s?k=Gans%20im%20Gl%C3%BCck&i=instant-video",
     "https://www.amazon.de/s?k=Outback%3A%20Jetzt%20wird%E2%80%99s%20richtig%20wild!&i=instant-video",
-    "https://www.amazon.de/s?k=Die%20Boonies%3A%20Eine%20b%C3%A4renstarke%20Zeitreise&i=instant-video",
-    "https://www.amazon.de/s?k=Super%20Wings%3A%20Maximum%20Speed&i=instant-video",
-    "https://www.amazon.de/s?k=Bernard%20B%C3%A4r%3A%20Mission%20Mars&i=instant-video",
-    "https://www.amazon.de/s?k=Bernard%20B%C3%A4r%3A%20Eine%20tierische%20Verschw%C3%B6rung&i=instant-video"
+    "https://www.amazon.de/s?k=Super%20Wings%3A%20Maximum%20Speed&i=instant-video"
    ],
    "ziel": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
    "ziele": [
     {
      "url": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
      "titel": "2.5 Dimensional Seduction (2.5-jigen no Ririsa 2nd Season)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0H7YCRTJN",
+     "titel": "Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2 (Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Season 2)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GVN98MKW",
@@ -46,20 +47,12 @@
      "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0F18LDC9W",
-     "titel": "Reincarnated as a Dragon Hatchling"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0DMKS6Y12",
      "titel": "From Bureaucrat to Villainess: Dad’s Been Reincarnated! (From Bureaucrat to Villainess: Dad's Been Reincarnated!)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DX1Y1FFR",
      "titel": "Yaiba: Samurai Legend"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DPLRJNLG",
-     "titel": "Kakushite! Makina-san!! (Kakushite! Makina-san!)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DJKGJQ7K",
@@ -82,6 +75,10 @@
      "titel": "Dragon Ball Daima"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0DMFV78H5",
+     "titel": "Saiyuki Reload: Zeroin"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0BZWFR7H1",
      "titel": "Bluelock (BLUE LOCK)"
     },
@@ -94,12 +91,16 @@
      "titel": "Mob Psycho 100 III"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0CJYLSY3D",
-     "titel": "Golden Kamuy 4 (Golden Kamuy Season 4)"
+     "url": "https://www.amazon.de/gp/video/detail/B0B6FVJXST",
+     "titel": "Call of the Night"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0B6RXJ888",
-     "titel": "The Saint’s Magic Power Is Omnipotent (The Saint's Magic Power is Omnipotent)"
+     "url": "https://www.amazon.de/gp/video/detail/0HGZCX1WR9YH6FJX0HXEO8182Y",
+     "titel": "Call of the Night"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0CJYLSY3D",
+     "titel": "Golden Kamuy 4 (Golden Kamuy Season 4)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B09192P17W",
@@ -114,8 +115,8 @@
      "titel": "Dragon Quest: The Adventure of Dai"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0G1ZD14D3",
-     "titel": "JoJo’s Bizarre Adventure: Golden Wind (JoJo's Bizarre Adventure: Golden Wind)"
+     "url": "https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP",
+     "titel": "Babylon"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHP5RVPL",
@@ -132,18 +133,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVBLNC3X",
      "titel": "Die rothaarige Schneeprinzessin: Staffel 2 (Snow White with the Red Hair Season 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0F9FWKDXT",
-     "titel": "JoJo’s Bizarre Adventure: Diamond Is Unbreakable (JoJo's Bizarre Adventure: Diamond is Unbreakable)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GXK7RJFW",
-     "titel": "JoJo’s Bizarre Adventure: Diamond Is Unbreakable (JoJo's Bizarre Adventure: Diamond is Unbreakable)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CH24VZJS",
-     "titel": "My Hero Academia"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GX7VDJK3",
@@ -164,14 +153,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHP76DFK",
      "titel": "Shomin Sample"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DCXV5GMB",
-     "titel": "Tokyo Ghoul √A"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CHZ951SV",
-     "titel": "Tokyo Ghoul"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GMY84XLR",
@@ -200,10 +181,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B09JTSD79F",
      "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0H4LGN96W",
-     "titel": "Clannad"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GYDLTDD8",
@@ -401,9 +378,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 773,
-   "gesamt": 898,
-   "offen": 125,
+   "gemeldet": 774,
+   "gesamt": 890,
+   "offen": 116,
    "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -416,52 +393,16 @@
      "titel": "Numberblocks"
     },
     {
-     "url": "https://www.netflix.com/title/81744227",
-     "titel": "Cyberpunk: Edgerunners 2"
-    },
-    {
      "url": "https://www.netflix.com/title/81684733",
      "titel": "Oshi no Ko: Mein Star"
-    },
-    {
-     "url": "https://www.netflix.com/title/83189604",
-     "titel": "Dragon Ball Super: Beerus"
-    },
-    {
-     "url": "https://www.netflix.com/title/81783938",
-     "titel": "Der Herr der Ringe: Die Schlacht der Rohirrim"
-    },
-    {
-     "url": "https://www.netflix.com/title/81947352",
-     "titel": "One Piece Fan Letter"
-    },
-    {
-     "url": "https://www.netflix.com/title/81659233",
-     "titel": "Bakugan"
     },
     {
      "url": "https://www.netflix.com/title/81642888",
      "titel": "Urusei Yatsura"
     },
     {
-     "url": "https://www.netflix.com/title/81717895",
-     "titel": "The Quintessential Quintuplets Movie"
-    },
-    {
      "url": "https://www.netflix.com/title/70302573",
      "titel": "Sword Art Online"
-    },
-    {
-     "url": "https://www.netflix.com/title/81218604",
-     "titel": "Banana Fish"
-    },
-    {
-     "url": "https://www.netflix.com/title/80186475",
-     "titel": "Pokémon: Die TV-Serie - Sonne & Mond"
-    },
-    {
-     "url": "https://www.netflix.com/title/80075178",
-     "titel": "AnoHana: Die Blume, die wir an jenem Tag sahen"
     },
     {
      "url": "https://www.netflix.com/title/70205010",
@@ -476,10 +417,6 @@
      "staffeln": [
       1
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/70177034",
-     "titel": "Yu-Gi-Oh!"
     },
     {
      "url": "https://www.netflix.com/title/80243876",
@@ -633,6 +570,10 @@
     {
      "url": "https://www.netflix.com/title/80057609",
      "titel": "Kazoops!"
+    },
+    {
+     "url": "https://www.netflix.com/title/80063153",
+     "titel": "Kuroko’s Basketball: 1st Season"
     },
     {
      "url": "https://www.netflix.com/title/80115338",
@@ -796,9 +737,9 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 173,
+   "gemeldet": 175,
    "gesamt": 338,
-   "offen": 165,
+   "offen": 163,
    "ohneSeite": 20,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
@@ -846,14 +787,6 @@
      "url": "https://www.disneyplus.com/de-de/browse/entity-54a25fcf-a472-4d40-9968-13e2957e5abf",
      "titel": "One-Punch Man: Staffel 3",
      "seit": "2026-08-26"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-14f5d468-38b2-4d4b-97ed-649e6c3ba4c8",
-     "titel": "Gachiakuta"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-81a4b821-1dbe-4ecc-9e01-57a7941982c3",
-     "titel": "A Sign of Affection"
     },
     {
      "url": "https://www.disneyplus.com/de-de/series/the-rising-of-the-shield-hero-aka-tate-no-yuusha-no/4lgHH2jdAefe",
@@ -1068,6 +1001,7 @@
     "0e46c665-5191-407f-8dc5-e22a0095578c": 100,
     "4XHzb6tQBRtd": 12,
     "7I31jGPKAwz5": 13,
+    "14f5d468-38b2-4d4b-97ed-649e6c3ba4c8": 12,
     "eb5b776f-8162-491a-9aca-c1e9b56729e5": 12,
     "8019edc8-5f73-4c70-88eb-02ea35f724d4": 12,
     "0113d236-c3a2-4098-a663-bdb5979bfb74": 12,

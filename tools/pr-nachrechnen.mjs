@@ -6,7 +6,9 @@
  * und zwar nach dem Ereignis: dessen Lauf nimmt noch den alten Merge-Commit (gemessen 19.10.2026 an PR 1602), daher `anstossen`.
  *
  * Aufruf (Dirigent, vor jedem Merge): node tools/pr-nachrechnen.mjs <PR>
- *   Exit 0: der neueste Kettenlauf zum Kopf rechnete gegen den jetzigen main-HEAD.
+ *   Exit 0: der neueste Kettenlauf zum Kopf rechnete gegen den jetzigen main-HEAD, oder main bewegte sich seit dem Lauf nur unter
+ *           `public/data/` und `data/cache/` und der PR berührt diese Pfade nicht (F55, 20.10.2026; `datenpfadAusnahme`), oder alle
+ *           Commits seitdem stammen von Daten-Bots und bewegen nur `data/`, und der PR liest keine Daten (Merge-Fluss C; `botSprungAusnahme`).
  *   Exit 1: nicht aktuell; der PR wurde geschlossen und wieder geöffnet, die Kette läuft neu (der Prüfer hört nicht auf `reopened`).
  *   Exit 2: nichts angestoßen (Konflikt, Mergebarkeit oder Test-Merge noch nicht berechnet, kein Lauf, Basis nicht lesbar, Fehler);
  *           die Meldung sagt, warum. Scheitert es erst nach dem Schließen, steht „SCHON ANGESTOSSEN“ in der Meldung.
@@ -14,6 +16,7 @@
  */
 import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
+import { BOT_DATEIEN_OHNE_LESER, istBotDatei } from './pr-nachrechnen-bot-pfade.mjs'
 
 export const KETTE = 'pr-pruefung.yml'
 /** Kleiner Job der Kette mit Checkout ohne eigenes `ref` (prüft `pr-nachrechnen.test.mjs` an der YAML). */
@@ -42,6 +45,60 @@ export function hindernis(pr) {
   if (pr.mergeable === 'CONFLICTING') return `PR ${pr.number} hat einen Konflikt mit main: erst main hineinmergen, das startet die Kette neu`
   if (pr.mergeable !== 'MERGEABLE') return `PR ${pr.number}: Mergebarkeit noch nicht berechnet (${pr.mergeable}), gleich erneut aufrufen`
   return null
+}
+
+/** Pfade, deren Bewegung auf main die Kette nicht entwertet (F55, Daniel 20.10.2026). Dazu die Bot-Dateien ohne Leser in der Kette (`pr-nachrechnen-bot-pfade.mjs`). Alles andere (Code, tools/umfang-grenzen.json, extension/, data/dub-confirmed.yaml, public/og/) zählt. */
+export const DATENPFADE = ['public/data/', 'data/cache/']
+/** Compare liefert höchstens 300 Dateien; bei so vielen ist die Liste evtl. abgeschnitten, also keine Ausnahme. */
+export const COMPARE_GRENZE = 300
+
+const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p)) || istBotDatei(datei)
+
+/** null = Ausnahme gilt (main bewegte nur Datenpfade, der PR keinen); sonst der Grund, warum nicht. */
+export function datenpfadAusnahme(vergleich, prDateien) {
+  if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
+  if (vergleich.anzahl >= COMPARE_GRENZE) return `Vergleich mit ${vergleich.anzahl} Dateien evtl. abgeschnitten`
+  const fremd = vergleich.dateien.find((d) => !istDatenpfad(d))
+  if (fremd !== undefined) return `main bewegte ${fremd}`
+  const beruehrt = prDateien.find(istDatenpfad)
+  if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
+  return null
+}
+
+/** Autoren der Datenläufe auf main (gemessen 23.10.2026 an den letzten 40 Commits). */
+export const BOT_AUTOREN = ['anime-kalender-daten[bot]', 'github-actions[bot]']
+/**
+ * PR-Pfade, die die Kette nie gegen Daten laufen lässt. Alles andere gilt als Leser: `web/` und `tools/` lesen `public/data` über
+ * `npm run build` und die Prüfskripte, `worker/`, `extension/` und `.github/` über ihre Tests (Prüfer #1860).
+ */
+export const OHNE_DATENLESER = ['docs/', 'daniel-zum-abarbeiten/', 'data/patchnotes/']
+const liestDaten = (datei) => !OHNE_DATENLESER.some((p) => datei.startsWith(p)) && !/^[^/]+\.md$/.test(datei)
+
+/**
+ * Merge-Fluss C (23.10.2026): Ein Sprung nur aus Bot-Commits unter `data/` entwertet keinen PR, der keine Daten liest; der Bestandsbau
+ * prüft nach dem Merge den ganzen Datensatz. Von 8 Entwertungen am 23.10. waren 2 reine Bot-Sprünge (beide bei 1842, der `tools/` las),
+ * 5 enthielten einen Menschen-Merge; die Meldung nennt darum den Autor. null = Ausnahme gilt, sonst der Grund.
+ */
+export function botSprungAusnahme(vergleich, prDateien) {
+  if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
+  if (vergleich.anzahl >= COMPARE_GRENZE || vergleich.commitsGesamt !== vergleich.autoren.length) return 'Vergleich evtl. abgeschnitten'
+  const mensch = vergleich.autoren.find((a) => !BOT_AUTOREN.includes(a))
+  if (mensch !== undefined) return `Commit von ${mensch}`
+  const fremd = vergleich.dateien.find((d) => !d.startsWith('data/') && !istDatenpfad(d))
+  if (fremd !== undefined) return `Bot bewegte ${fremd}`
+  const leser = prDateien.find(liestDaten)
+  return leser === undefined ? null : `der PR liest Daten (${leser})`
+}
+
+/** Rückgabe { ausnahme } (Kette gilt weiter, Text für die Meldung) oder { grund }. */
+function datenpfadGrund(gh, nummer, basis, main) {
+  const vergleich = JSON.parse(gh(['api', `repos/{owner}/{repo}/compare/${basis}...${main}`, '--jq', '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)], commitsGesamt: .total_commits, autoren: [.commits[] | .author.login // .commit.author.name]}']))
+  const pr = gh(['api', `repos/{owner}/{repo}/pulls/${nummer}/files`, '--paginate', '--jq', '.[] | .filename, (.previous_filename // empty)']).split(/\r?\n/).filter(Boolean)
+  const daten = datenpfadAusnahme(vergleich, pr)
+  if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
+  const bot = botSprungAusnahme(vergleich, pr)
+  if (bot === null) return { ausnahme: 'nur Daten-Bots unter data/, der PR liest keine Daten' }
+  return { grund: `${daten}; ${bot}` }
 }
 
 const kurz = (sha) => sha.slice(0, 9)
@@ -132,8 +189,13 @@ export function nachrechnen(nummer, gh, melde, warte) {
     melde(`PR ${nummer}: aktuell, die Kette rechnete gegen main ${kurz(main)}`)
     return 0
   }
+  const urteil = datenpfadGrund(gh, nummer, basis, main)
+  if (urteil.ausnahme !== undefined) {
+    melde(`PR ${nummer}: aktuell, Kette gegen ${kurz(basis)}, main ist ${kurz(main)}, seitdem ${urteil.ausnahme}`)
+    return 0
+  }
   anstossen(gh, nummer, main, warte)
-  melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}), geschlossen und wieder geöffnet; Kette abwarten, dann erneut aufrufen`)
+  melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${urteil.grund}), geschlossen und wieder geöffnet; Kette abwarten, dann erneut aufrufen`)
   return 1
 }
 

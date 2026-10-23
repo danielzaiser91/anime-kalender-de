@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
-import { holeLaeufe, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
+import { erledigtArgumente, findeRotenLauf, holeLaeufe, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
 
 const antwort = (status, text) => async () => new Response(text, { status })
 
@@ -88,7 +88,7 @@ const FEHLERZEIT = '2026-10-18T09:00:00Z'
 // Rote App-Läufe (A2): der passende in der Mitte, sein Workflow steht nicht im Verlauf.
 const appLauf = (lauf_id, workflow, zustand, gemeldet_am) => ({ lauf_id, workflow, zustand, gemeldet_am })
 const appRot = [appLauf(71, 'Andere', 'fehler', '2026-10-18T10:00:00Z'), appLauf(72, 'Nachzügler', 'fehler', '2026-10-18T11:00:00Z'), appLauf(73, 'Nachzügler', 'warnung', '2026-10-18T13:00:00Z')]
-const rotAntwort = JSON.stringify({ laeufe: appRot, verlauf: { Bestand: [eintrag('ok', '2026-10-18T08:00:00Z'), eintrag('fehler', FEHLERZEIT)], Sammler: [eintrag('ok', FEHLERZEIT)] } })
+const rotAntwort = JSON.stringify({ laeufe: appRot, verlauf: { Bestand: [eintrag('ok', '2026-10-18T08:00:00Z'), eintrag('fehler', FEHLERZEIT)], Sammler: [eintrag('ok', FEHLERZEIT)], 'Claude — roten Datenlauf untersuchen': [eintrag('warnung', FEHLERZEIT)] } })
 const STUNDE = 3_600_000
 const mitCommitVor = (stunden, gruenAm = '2026-10-17T00:00:00Z', ghWirftFuer = '') => {
   const datum = new Date(Date.now() - stunden * STUNDE).toISOString()
@@ -98,6 +98,7 @@ const mitCommitVor = (stunden, gruenAm = '2026-10-17T00:00:00Z', ghWirftFuer = '
     { workflowName: 'Bestand', conclusion: 'success', createdAt: gruenAm },
     { workflowName: 'Bestand', conclusion: 'failure', createdAt: '2026-10-18T23:30:00Z' },
     { workflowName: 'Nachzügler', conclusion: 'success', createdAt: '2026-10-18T12:00:00Z' },
+    { workflowName: 'bestand-bauen.yml', conclusion: 'success', createdAt: gruenAm },
   ])
   const stub =
     'import cp from "node:child_process";import {syncBuiltinESMExports} from "node:module";' +
@@ -109,6 +110,10 @@ const rot = mitCommitVor(20)
 assert.equal(rot.status, 0)
 assert.match(rot.stdout, /^ROT im Verlauf: Bestand — letzter Lauf fehler am 2026-10-18T09:00:00Z \(vor -?[\d.]+ h, kein grüner Lauf danach\)$/m)
 assert.doesNotMatch(rot.stdout, /ROT im Verlauf: Sammler/)
+// Untersucher-Warnung: nur der grüne Bestandsbau danach hebt sie auf (der Untersucher selbst hat keine grünen Läufe).
+assert.match(rot.stdout, /^ROT im Verlauf: Claude — roten Datenlauf untersuchen /m)
+assert.doesNotMatch(mitCommitVor(20, '2026-10-18T09:30:00Z').stdout, /Claude — roten/)
+assert.match(mitCommitVor(20, '2026-10-18T09:30:00Z', 'bestand-bauen.yml').stdout, /^ROT im Verlauf: Claude — roten /m)
 // Grüner Lauf nach dem Fehler: keine ROT-Zeile (Gegenprobe gegen `gh run list`).
 assert.doesNotMatch(mitCommitVor(20, '2026-10-18T09:30:00Z').stdout, /ROT im Verlauf/)
 // gh-Ausfall für einen Workflow (A1): der grüne Lauf danach ist unbekannt, die Zeile bleibt.
@@ -148,4 +153,72 @@ assert.equal(await letzteDatenAenderung(async () => new Response('<html>Bad gate
 assert.equal(await letzteDatenAenderung(async () => new Response('null'), 'o/r'), undefined)
 assert.equal(stillstand('kein Datum', jetzt).zuLang, true)
 
+
+// --erledigt: Argumente (Notiz Pflicht), Trefferwahl nur unter roten Einträgen, erledigter Eintrag zählt nicht mehr als ROT.
+assert.deepEqual(erledigtArgumente(['--trocken']), {})
+assert.deepEqual(erledigtArgumente(['--erledigt', '12', '--notiz', ' behoben ']), { laufId: '12', notiz: 'behoben' })
+assert.match(erledigtArgumente(['--erledigt', '12']).fehler, /--notiz/)
+assert.match(erledigtArgumente(['--erledigt', '12', '--notiz']).fehler, /--notiz/)
+assert.match(erledigtArgumente(['--erledigt', '12', '--notiz', '  ']).fehler, /--notiz/)
+assert.match(erledigtArgumente(['--erledigt', '12', '--notiz', '--trocken']).fehler, /--notiz/)
+assert.match(erledigtArgumente(['--erledigt']).fehler, /lauf_id/)
+assert.match(erledigtArgumente(['x', '--erledigt', '12']).fehler, /--notiz/)
+assert.match(erledigtArgumente(['--erledigt', '--notiz', 'x']).fehler, /lauf_id/)
+const reihe = [
+  { lauf_id: 'a1', zustand: 'ok', gemeldet_am: T(1) },
+  { lauf_id: 'b2', zustand: 'warnung', gemeldet_am: T(2) },
+  { lauf_id: 'c3', zustand: 'fehler', gemeldet_am: T(3) },
+]
+assert.equal(findeRotenLauf(reihe, 'b2').gemeldet_am, T(2))
+assert.equal(findeRotenLauf(reihe, 'c3').zustand, 'fehler')
+assert.equal(findeRotenLauf(reihe, 'a1'), undefined)
+assert.equal(findeRotenLauf(reihe, 'zz'), undefined)
+assert.equal(findeRotenLauf(reihe, 'c'), undefined)
+// Nach dem Abhaken steht der Eintrag als `erledigt` im Verlauf (Worker setzt nur Zustand, Notiz, Zeit): kein ROT mehr, ein späterer Fehler schon.
+assert.equal(roteArten({ W: [eintrag('warnung', T(1)), eintrag('erledigt', T(2))] }, new Map(), jetztRot).length, 0)
+assert.equal(roteArten({ W: [eintrag('erledigt', T(2)), eintrag('fehler', T(3))] }, new Map(), jetztRot).length, 1)
+assert.equal(roteArten({ W: [eintrag('warnung', T(1)), eintrag('erledigt', T(2)), eintrag('abgebrochen', T(3))] }, new Map(), jetztRot).length, 0)
+
+// Das ganze Werkzeug mit Kulisse: GET Übersicht, GET ?verlauf=<Art> (mit lauf_id), POST wird nur ausgegeben.
+const erledigtLauf = (args, token = 'T0K') => {
+  const uebersicht = JSON.stringify({ laeufe: [], verlauf: { Früh: [eintrag('fehler', T(5))], 'Wöchentlich': [eintrag('ok', T(1)), eintrag('warnung', T(2))], Grün: [eintrag('ok', T(1))] } })
+  const art = JSON.stringify({ laeufe: [{ lauf_id: '901', zustand: 'warnung', gemeldet_am: T(2) }, { lauf_id: '900', zustand: 'ok', gemeldet_am: T(1) }] })
+  const frueh = JSON.stringify({ laeufe: [{ lauf_id: '777', zustand: 'fehler', gemeldet_am: T(5) }] })
+  const stub =
+    `globalThis.fetch=async(u,o)=>{u=String(u);if(o&&o.method==="POST"){console.log("POST "+o.headers["X-Lauf-Token"]+" "+o.body);return new Response("{}",{status:o.headers["X-Lauf-Token"]==="KAPUTT"?500:200})}` +
+    `if(u.includes("api.github.com"))return new Response("[]",{status:500});` +
+    `return new Response(u.includes("?verlauf=")?(u.includes(encodeURIComponent("Wöchentlich"))?${JSON.stringify(art)}:u.includes(encodeURIComponent("Früh"))?${JSON.stringify(frueh)}:"{\\"laeufe\\":[]}"):${JSON.stringify(uebersicht)},{status:200})}`
+  return spawnSync(process.execPath, ['--import', `data:text/javascript,${stub}`, werkzeug, ...args], {
+    encoding: 'utf8',
+    env: { ...process.env, LAUF_TOKEN: token },
+  })
+}
+const NOTIZ = ['--notiz', 'behoben durch #1690']
+const echt = erledigtLauf(['--erledigt', '901', ...NOTIZ])
+assert.equal(echt.status, 0, echt.stderr)
+assert.match(echt.stdout, /^erledigt 901 {2}Wöchentlich — warnung vom 2026-10-18T02:00:00Z: behoben durch #1690$/m)
+assert.match(echt.stdout, /^POST T0K \{"lauf_id":"901","zustand":"erledigt","notiz":"behoben durch #1690"\}$/m)
+assert.equal(echt.stdout.match(/^POST /gm).length, 1)
+assert.match(erledigtLauf(['--erledigt', '777', ...NOTIZ]).stdout, /^erledigt 777 {2}Früh — fehler /m)
+// trocken: anzeigen, nichts senden; falsche ID, grüner Eintrag, fehlende Notiz, fehlendes Token: Abbruch ohne POST.
+const trockenE = erledigtLauf(['--erledigt', '901', ...NOTIZ, '--trocken'])
+assert.equal(trockenE.status, 0)
+assert.match(trockenE.stdout, /^erledigt 901 /m)
+assert.doesNotMatch(trockenE.stdout, /POST/)
+for (const [args, token, muster] of [
+  [['--erledigt', '999', ...NOTIZ], 'T0K', /Lauf 999 ist kein roter Verlaufseintrag/],
+  [['--erledigt', '900', ...NOTIZ], 'T0K', /Lauf 900 ist kein roter/],
+  [['--erledigt', '901'], 'T0K', /braucht --notiz/],
+  [['--erledigt', '901', '--trocken'], 'T0K', /braucht --notiz/],
+  [['--erledigt', '901', ...NOTIZ], '', /LAUF_TOKEN fehlt/],]) {
+  const r = erledigtLauf(args, token)
+  assert.equal(r.status, 1, args.join(' '))
+  assert.match(r.stderr, muster)
+  assert.doesNotMatch(r.stdout, /POST/)
+}
+// Lehnt der Worker ab (500), endet das Werkzeug mit Exit 1 statt still mit 0.
+const abgelehnt = erledigtLauf(['--erledigt', '901', ...NOTIZ], 'KAPUTT')
+assert.equal(abgelehnt.status, 1)
+assert.match(abgelehnt.stderr, /Worker antwortete mit 500/)
+console.log('laeufe-abruf --erledigt: ok')
 console.log('laeufe-abruf: ok')

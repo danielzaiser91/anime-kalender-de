@@ -19,6 +19,7 @@ export interface SubscriberRow {
    * Neuzugang schon gemeldet wurde. `null`, solange noch keine verschickt ist.
    */
   last_sent_at: string | null
+  created_at: string
 }
 
 /** Je Titel seine Reihe und sein Jahr — siehe `reihen.json` im Bau. */

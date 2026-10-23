@@ -94,15 +94,18 @@ const heuteBefund = { status: 200, geprueftAm: TAG }
 const zeilen: string[] = []
 const gemeldet: unknown[][] = []
 const spion = (...a: unknown[]) => void gemeldet.push(a)
-fortschritt(99, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), spion, TAG)
-fortschritt(101, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), spion, TAG)
-assert.equal(zeilen.length + gemeldet.length, 0, 'bei 99 und 101 weder Zeile noch Meldung')
-fortschritt(100, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), spion, TAG)
+let gesichert = 0
+const sichere = () => void gesichert++
+fortschritt(99, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), sichere, spion, TAG)
+fortschritt(101, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), sichere, spion, TAG)
+assert.equal(zeilen.length + gemeldet.length + gesichert, 0, 'bei 99 und 101 weder Zeile noch Meldung noch Sicherung')
+fortschritt(100, 300, 4, { u: heuteBefund }, (s) => zeilen.push(s), sichere, spion, TAG)
+assert.equal(gesichert, 1, 'bei 100 werden die Befunde gesichert')
 assert.deepEqual(zeilen, ['  100/300 — 4 unbrauchbar'], 'bei 100 die Fortschrittszeile mit den übergebenen Zahlen')
 assert.deepEqual(gemeldet[0], ['link-check', 1, undefined, undefined, false], 'bei 100 der Zwischenstand')
 const reihenfolge: string[] = []
-await pauseMitStand(7, { u: heuteBefund }, async (ms) => void reihenfolge.push(`warte ${ms}`), (...a: unknown[]) => void reihenfolge.push(`melde ${a[1]}`), TAG)
-assert.deepEqual(reihenfolge, ['melde 1', 'warte 7'], 'erst melden, dann warten')
+await pauseMitStand(7, { u: heuteBefund }, async (ms) => void reihenfolge.push(`warte ${ms}`), () => void reihenfolge.push('sichere'), (...a: unknown[]) => void reihenfolge.push(`melde ${a[1]}`), TAG)
+assert.deepEqual(reihenfolge, ['sichere', 'melde 1', 'warte 7'], 'erst sichern und melden, dann warten')
 
 /* --- Abbruch in der Amazon-Pause: der echte Lauf wird getötet, die Gesundheit muss stehen --- */
 const wurzel = resolve(import.meta.dirname, '..')
@@ -111,38 +114,60 @@ mkdirSync(join(tmp, 'public', 'data'), { recursive: true })
 const titel = [{ streams: [{ platform: 'netflix', url: 'https://www.netflix.com/title/1' }, { platform: 'netflix', url: 'https://www.netflix.com/title/2' }] }]
 for (let i = 0; i < 25; i++) titel.push({ streams: [{ platform: 'primevideo', url: `https://www.amazon.de/gp/video/detail/B${i}` }] })
 writeFileSync(join(tmp, 'public', 'data', 'titles.json'), JSON.stringify(titel))
+/* Ein alter, in diesem Lauf nicht neu geprüfter Befund darf im Zwischenstand nicht fehlen. */
+mkdirSync(join(tmp, 'data'), { recursive: true })
+const ALT = 'https://www.disneyplus.com/alt'
+writeFileSync(join(tmp, 'data', 'link-check.json'), JSON.stringify({ [ALT]: { status: 404, geprueftAm: '2999-12-31' } }))
 /* Netflix antwortet 404 (echte Auskunft), Amazon liefert 200 ohne Produktseite (unklar → Sperre nach 20). */
 const stub = join(tmp, 'fetch-stub.mjs')
 writeFileSync(stub, `globalThis.fetch = async (u) => String(u).includes('netflix') ? new Response('', { status: 404 }) : new Response('<html></html>', { status: 200 })\n`)
 const child = spawn(
   process.execPath,
-  ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1', '--sperrpause', '3600'],
+  ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1', '--sperrpause', '3600', '--zeitbudget', '0'],
   { cwd: tmp, env: { ...process.env, AK_ROOT: tmp }, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] },
 )
 let ausgabe = ''
 child.stdout.on('data', (d) => (ausgabe += d))
 child.stderr.on('data', (d) => (ausgabe += d))
 const beendet = new Promise<void>((res) => child.on('exit', () => res()))
-for (let i = 0; i < 600 && !ausgabe.includes('min Pause') && child.exitCode === null; i++) await new Promise((r) => setTimeout(r, 100))
+/* Die Pause-Zeile erscheint vor dem Sichern: erst töten, wenn auch die Gesundheit geschrieben ist,
+   sonst trifft der Abbruch die Lücke dazwischen (Kette 1713, 21.10.2026). */
+const gesundheit = join(tmp, 'data', 'source-health.json')
+for (let i = 0; i < 600 && !(ausgabe.includes('min Pause') && existsSync(gesundheit)) && child.exitCode === null; i++) await new Promise((r) => setTimeout(r, 100))
 const inDerPause = ausgabe.includes('min Pause')
 child.kill()
 await beendet
 assert.ok(inDerPause, `Lauf kam nicht in die Pause:\n${ausgabe}`)
-const gesundheit = join(tmp, 'data', 'source-health.json')
 assert.ok(existsSync(gesundheit), 'nach Abbruch in der Pause steht eine Gesundheit')
 const eintrag = (JSON.parse(readFileSync(gesundheit, 'utf8')) as Record<string, { lastOk?: string; lastCount: number }>)['link-check']
 assert.ok(eintrag, 'link-check ist eingetragen')
 assert.equal(eintrag.lastCount, 2, 'gezählt werden die zwei Netflix-Auskünfte, nicht die 20 Nichtauskünfte')
 assert.ok(eintrag.lastOk, 'mit echten Auskünften ist lastOk gesetzt')
+const zwischen = JSON.parse(readFileSync(join(tmp, 'data', 'link-check.json'), 'utf8')) as Record<string, { status: unknown; geprueftAm?: string }>
+const adressen = Object.keys(zwischen).sort()
+const erwartet = [ALT, 'https://www.netflix.com/title/1', 'https://www.netflix.com/title/2', ...Array.from({ length: 20 }, (_, i) => `https://www.amazon.de/gp/video/detail/B${i}`)].sort()
+assert.deepEqual(adressen, erwartet, 'nach Abbruch stehen die 22 Befunde vor der Pause plus der alte Befund')
+assert.equal(zwischen[ALT].geprueftAm, '2999-12-31', 'alter Befund unverändert')
+assert.equal(zwischen['https://www.netflix.com/title/1'].status, 404, 'Netflix-Befund steht')
+assert.equal(zwischen['https://www.amazon.de/gp/video/detail/B0'].status, 'unklar', 'Amazon-Nichtauskunft steht')
 rmSync(tmp, { recursive: true, force: true })
 
 /* --- 100er-Takt im echten Lauf: 150 Adressen, ab der 101. hängt die Attrappe; nach Adresse 100 muss der Stand stehen --- */
 const tmp2 = mkdtempSync(join(tmpdir(), 'quellen-gesundheit-'))
 mkdirSync(join(tmp2, 'public', 'data'), { recursive: true })
+mkdirSync(join(tmp2, 'data'))
 const viele = Array.from({ length: 150 }, (_, i) => ({ streams: [{ platform: 'netflix', url: `https://www.netflix.com/title/${i}` }] }))
 writeFileSync(join(tmp2, 'public', 'data', 'titles.json'), JSON.stringify(viele))
 const stub2 = join(tmp2, 'fetch-stub.mjs')
-writeFileSync(stub2, `const gesehen = new Set()\nglobalThis.fetch = async (u) => {\n  gesehen.add(String(u))\n  if (gesehen.size > 100) return new Promise(() => {})\n  return new Response('', { status: 200 })\n}\n`)
+/* Bei Abruf 50 schreibt die Attrappe wie ein zweiter Lauf: neuerer Eintrag für die 1. Adresse, älterer für die 2., dazu ein fremder. */
+const zweiterLauf = [
+  'if (gesehen.size === 50) {',
+  '  const a = [...gesehen]',
+  "  fs.writeFileSync('data/link-check.json', JSON.stringify({ [a[0]]: { status: 404, geprueftAm: '2999-12-31' }, [a[1]]: { status: 404, geprueftAm: '2000-01-01' }, 'https://fremd.example/x': { status: 404, geprueftAm: '2999-12-31' } }))",
+  "  fs.writeFileSync('seen.json', JSON.stringify(a.slice(0, 3)))",
+  '}',
+].join('\n')
+writeFileSync(stub2, `import fs from 'node:fs'\nconst gesehen = new Set()\nglobalThis.fetch = async (u) => {\n  gesehen.add(String(u))\n  ${zweiterLauf}\n  if (gesehen.size > 100) return new Promise(() => {})\n  return new Response('', { status: 200 })\n}\n`)
 const child2 = spawn(
   process.execPath,
   ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub2).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1'],
@@ -158,6 +183,36 @@ child2.kill()
 await beendet2
 assert.ok(existsSync(gesundheit2), `nach Adresse 100 steht eine Gesundheit:\n${ausgabe2}`)
 const eintrag2 = (JSON.parse(readFileSync(gesundheit2, 'utf8')) as Record<string, { lastCount: number }>)['link-check']
-assert.equal(eintrag2.lastCount, 100, 'Zwischenstand nach genau 100 Auskünften')
+assert.equal(eintrag2.lastCount, 99, 'Zwischenstand: 100 Auskünfte, eine durch den neueren Datei-Eintrag (Datum 2999) ersetzt')
+const befunde2 = JSON.parse(readFileSync(join(tmp2, 'data', 'link-check.json'), 'utf8')) as Record<string, unknown>
+assert.equal(Object.keys(befunde2).length, 101, 'nach Adresse 100 stehen 100 eigene Befunde plus der fremde')
+/* A1: Zusammenführung in schreibeBestand — neuere Datei-Einträge bleiben, eigene neuere bleiben, Fremdes bleibt. */
+const [neuerInDatei, aelterInDatei, nurEigen] = JSON.parse(readFileSync(join(tmp2, 'seen.json'), 'utf8')) as string[]
+const b2 = befunde2 as Record<string, { status: unknown; geprueftAm?: string }>
+assert.deepEqual(b2[neuerInDatei], { status: 404, geprueftAm: '2999-12-31' }, 'neuerer Eintrag aus der Datei bleibt')
+assert.equal(b2[aelterInDatei].status, 200, 'älterer Datei-Eintrag überschreibt den eigenen nicht')
+assert.notEqual(b2[aelterInDatei].geprueftAm, '2000-01-01', 'eigener Eintrag behält sein Datum')
+assert.equal(b2[nurEigen].status, 200, 'eigener Eintrag ohne Datei-Gegenstück bleibt')
+assert.equal(b2['https://fremd.example/x'].status, 404, 'fremder Eintrag aus der Datei bleibt')
 rmSync(tmp2, { recursive: true, force: true })
+/* --- A2: Lauf ohne Abbruch (< 100 Adressen, keine Sperre): die Schlussschreibung legt alle Befunde samt Altbefund ab --- */
+const tmp3 = mkdtempSync(join(tmpdir(), 'quellen-gesundheit-'))
+mkdirSync(join(tmp3, 'public', 'data'), { recursive: true })
+mkdirSync(join(tmp3, 'data'))
+const dreissig = Array.from({ length: 30 }, (_, i) => ({ streams: [{ platform: 'netflix', url: `https://www.netflix.com/title/${i}` }] }))
+writeFileSync(join(tmp3, 'public', 'data', 'titles.json'), JSON.stringify(dreissig))
+writeFileSync(join(tmp3, 'data', 'link-check.json'), JSON.stringify({ 'https://www.disneyplus.com/alt': { status: 404, geprueftAm: '2999-12-31' } }))
+const stub3 = join(tmp3, 'fetch-stub.mjs')
+writeFileSync(stub3, "globalThis.fetch = async () => new Response('', { status: 200 })\n")
+const voll = spawnSync(
+  process.execPath,
+  ['--import', pathToFileURL(join(wurzel, 'node_modules/tsx/dist/esm/index.mjs')).href, '--import', pathToFileURL(stub3).href, join(wurzel, 'pipeline/check-links.ts'), '--pause', '1'],
+  { cwd: tmp3, env: { ...process.env, AK_ROOT: tmp3 }, windowsHide: true, encoding: 'utf8' },
+)
+assert.equal(voll.status, 0, `Lauf ohne Abbruch endet mit 0:\n${voll.stdout}${voll.stderr}`)
+const befunde3 = JSON.parse(readFileSync(join(tmp3, 'data', 'link-check.json'), 'utf8')) as Record<string, { status: unknown }>
+assert.equal(Object.keys(befunde3).length, 31, 'nach dem Lauf: 30 Befunde plus Altbefund')
+assert.equal(befunde3['https://www.netflix.com/title/29'].status, 200, 'letzter Befund steht')
+assert.equal(befunde3['https://www.disneyplus.com/alt'].status, 404, 'Altbefund steht')
+rmSync(tmp3, { recursive: true, force: true })
 console.log('quellen-gesundheit.test: grün (Leser, Zwischenstand, Abbruch in der Pause)')
