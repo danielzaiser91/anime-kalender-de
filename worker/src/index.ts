@@ -17,7 +17,7 @@ import { handleVerlauf } from './verlauf.ts'
 import { ladeKennungen, leseFavoriten, schreibeFavoriten, zaehleFavoriten } from './favoriten-kennung.ts'
 import { anbieterName } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
-import { buildIcs } from '../../shared/ics.ts'
+import { handleFavoritenFeed } from './favoriten-feed.ts'
 import { sendeUndZaehle, tagesstand } from './mail-zaehler.ts'
 import { checkAllSites, confirmOutages } from './monitor.ts'
 import { schreibeStaende, schreibeVerlauf } from './monitor-speicher.ts'
@@ -720,28 +720,6 @@ async function handleFeedToken(request: Request, env: Env): Promise<Response> {
   return json(env, { ok: true, feedToken: feed })
 }
 
-async function handleFavoritenFeed(request: Request, env: Env): Promise<Response> {
-  const k = (new URL(request.url).searchParams.get('k') ?? '').trim()
-  const text = (body: string, status: number) =>
-    new Response(body, { status, headers: { 'Content-Type': 'text/plain; charset=utf-8' } })
-  if (!k) return text('Die Adresse ist unvollständig.', 400)
-  const row = await env.DB.prepare("SELECT favorites FROM subscribers WHERE feed_token = ?1 AND status = 'active'")
-    .bind(k)
-    .first<{ favorites: string | null }>()
-  if (!row) return text('Zu dieser Adresse gibt es kein aktives Abo mehr.', 404)
-  const favoriten = leseFavoriten(row.favorites, await ladeKennungen(env))
-  const events = (await loadEvents(env)).filter((e) => favoriten.has(e.titleId))
-  const ics = buildIcs(events, { siteUrl: env.SITE_URL, calendarName: 'Anime-Kalender DE – Meine Favoriten' })
-  return new Response(ics, {
-    headers: {
-      'Content-Type': 'text/calendar; charset=utf-8',
-      'Content-Disposition': 'inline; filename="favoriten.ics"',
-      'Cache-Control': 'public, max-age=900',
-      ...cors(env),
-    },
-  })
-}
-
 async function loadEvents(env: Env): Promise<ReleaseEvent[]> {
   const url = new URL('data/events.json', env.SITE_URL).toString()
   let res: Response
@@ -1384,7 +1362,7 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
         return handleFeedToken(request, env)
       case '/feed/favoriten.ics':
-        return handleFavoritenFeed(request, env)
+        return handleFavoritenFeed(request, env, ctx, cors(env))
       case '/restore':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
         return handleRestore(request, env)

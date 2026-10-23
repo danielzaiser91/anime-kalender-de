@@ -1,5 +1,6 @@
 import { pushText, pushZiel, type PushEreignis, type WeitererAnbieter } from './push-text.ts'
-import { ladeKennungen, leseFavoriten } from './favoriten-kennung.ts'
+import { fehlerLog } from './werte.ts'
+import { ladeKennungen, leseFavoriten, type Kennungen } from './favoriten-kennung.ts'
 
 /**
  * **Web-Push ohne Nutzlast — der Zustell-PoC** (18.09.2026, Plan in status.md).
@@ -62,6 +63,85 @@ export async function leererPush(env: PushEnv, endpoint: string): Promise<{ stat
 }
 
 /**
+ * So viele Pushes (Abrufe beim Push-Dienst) höchstens je stündlichem Aufruf (23.10.2026). Die Free-Stufe erlaubt 50 Unteraufrufe
+ * je Aufruf, der stündliche Cron braucht ohne Push schon 35 (`docs/wissen/betrieb.md`, Abschnitt „Worker-Cron“); dazu kommen
+ * Abfrage der Abos, Kennungen und zwei Stapel. Die übrigen Abos mit Neuigkeiten behalten ihren Stand (`zuletzt`) und bekommen
+ * ihren Push im nächsten Lauf, das am längsten wartende zuerst.
+ */
+export const PUSH_JE_LAUF = 8
+
+interface AboZeile {
+  endpoint: string
+  favoriten: string
+  zuletzt: string | null
+  gemeldet: string
+  offen: string | null
+  offen_ziel: string | null
+}
+
+/** Was ein Abo in diesem Lauf bekommt: neuen Stand, bei Neuigkeiten dazu Text und Ziel. */
+interface AboPlan {
+  endpoint: string
+  gemeldet: string
+  text: string | null
+  ziel: string | null
+  vorherZuletzt: string | null
+  vorherGemeldet: string
+  vorherOffen: string | null
+  vorherOffenZiel: string | null
+}
+
+const weiterSchluessel = (w: WeitererAnbieter) => `${w.id}:${w.anbieter}`
+
+function planeAbo(
+  abo: AboZeile,
+  kennungen: Kennungen,
+  jetzt: Date,
+  ereignisse: PushEreignis[],
+  istErschienen: (e: PushEreignis, zeit: Date) => boolean,
+  weitere: WeitererAnbieter[],
+): AboPlan {
+  const favoriten = leseFavoriten(abo.favoriten, kennungen)
+  const gemeldet = abo.gemeldet ? abo.gemeldet.split('\n') : []
+  const bekannt = new Set(gemeldet)
+  const auchBei = weitere.filter((w) => favoriten.has(w.id) && !bekannt.has(weiterSchluessel(w)))
+  const vermerkt = [...gemeldet, ...auchBei.map(weiterSchluessel)].slice(-200).join('\n')
+  const vorher = { vorherZuletzt: abo.zuletzt, vorherGemeldet: abo.gemeldet, vorherOffen: abo.offen, vorherOffenZiel: abo.offen_ziel }
+  /* Der erste Lauf eines Abos merkt sich nur den Zeitpunkt. */
+  if (!abo.zuletzt) return { endpoint: abo.endpoint, gemeldet: vermerkt, text: null, ziel: null, ...vorher }
+  const seit = new Date(abo.zuletzt)
+  const neu = ereignisse.filter((e) => favoriten.has(e.titleId) && istErschienen(e, jetzt) && !istErschienen(e, seit))
+  const text = pushText(neu, auchBei)
+  return { endpoint: abo.endpoint, gemeldet: vermerkt, text: text || null, ziel: text ? pushZiel(neu, auchBei) : null, ...vorher }
+}
+
+/** Alle Stände in einer Anweisung (`json_each` wie im Digest): ein Unteraufruf, egal wie viele Abos. */
+async function schreibeStaende(db: D1Database, jetzt: Date, plaene: AboPlan[]): Promise<void> {
+  const zeilen = plaene.map((p) => ({ e: p.endpoint, g: p.gemeldet, o: p.text, z: p.ziel }))
+  await db
+    .prepare(
+      `UPDATE push_abo SET zuletzt = ?1, gemeldet = neu.g, offen = COALESCE(neu.o, push_abo.offen), offen_ziel = COALESCE(neu.z, push_abo.offen_ziel)
+       FROM (SELECT json_extract(value, '$.e') AS e, json_extract(value, '$.g') AS g, json_extract(value, '$.o') AS o, json_extract(value, '$.z') AS z FROM json_each(?2)) AS neu
+       WHERE push_abo.endpoint = neu.e`,
+    )
+    .bind(jetzt.toISOString(), JSON.stringify(zeilen))
+    .run()
+}
+
+/** Nimmt den Stand von Abos zurück, deren Push nicht abgerufen werden konnte: alter Zeitpunkt, alte Merkliste, der frühere (noch nicht abgeholte) Text. */
+async function setzeStaendeZurueck(db: D1Database, plaene: AboPlan[]): Promise<void> {
+  const zeilen = plaene.map((p) => ({ e: p.endpoint, z: p.vorherZuletzt, g: p.vorherGemeldet, o: p.vorherOffen, t: p.vorherOffenZiel }))
+  await db
+    .prepare(
+      `UPDATE push_abo SET zuletzt = neu.z, gemeldet = neu.g, offen = neu.o, offen_ziel = neu.t
+       FROM (SELECT json_extract(value, '$.e') AS e, json_extract(value, '$.z') AS z, json_extract(value, '$.g') AS g, json_extract(value, '$.o') AS o, json_extract(value, '$.t') AS t FROM json_each(?1)) AS neu
+       WHERE push_abo.endpoint = neu.e`,
+    )
+    .bind(JSON.stringify(zeilen))
+    .run()
+}
+
+/**
  * **Der stündliche Versand** (18.09.2026, Zustellung am selben Tag in Edge belegt).
  *
  * Je Abo: Folgen der Favoriten, die seit dem letzten Lauf erschienen sind (`istErschienen`
@@ -74,6 +154,9 @@ export async function leererPush(env: PushEnv, endpoint: string): Promise<{ stat
  * deshalb merkt sich das Abo in `gemeldet`, was es schon bekommen hat — sonst käme
  * dieselbe Meldung einen Tag lang jede Stunde. Auch hier gilt: Was beim ersten Lauf
  * schon da war, wird nur vermerkt, nicht geschickt.
+ *
+ * Unteraufrufe (23.10.2026): alle Stände in einem Stapel, davor die Abfrage der Abos, danach höchstens ein Stapel für
+ * erloschene Abos; dazwischen ein Abruf je Push, höchstens `PUSH_JE_LAUF`. Unabhängig von der Zahl der Abos ohne Neuigkeit.
  */
 export async function pushVersand(
   env: PushEnv & { DB: D1Database },
@@ -82,38 +165,34 @@ export async function pushVersand(
   istErschienen: (e: PushEreignis, zeit: Date) => boolean,
   weitere: WeitererAnbieter[] = [],
 ): Promise<string> {
-  const { results } = await env.DB.prepare('SELECT endpoint, favoriten, zuletzt, gemeldet FROM push_abo').all<{
-    endpoint: string
-    favoriten: string
-    zuletzt: string | null
-    gemeldet: string
-  }>()
-  let gesendet = 0
-  let geloescht = 0
-  const schluessel = (w: WeitererAnbieter) => `${w.id}:${w.anbieter}`
-  for (const abo of results ?? []) {
-    const favoriten = leseFavoriten(abo.favoriten, await ladeKennungen(env))
-    const gemeldet = abo.gemeldet ? abo.gemeldet.split('\n') : []
-    const bekannt = new Set(gemeldet)
-    const auchBei = weitere.filter((w) => favoriten.has(w.id) && !bekannt.has(schluessel(w)))
-    const vermerkt = [...gemeldet, ...auchBei.map(schluessel)].slice(-200).join('\n')
-    await env.DB.prepare('UPDATE push_abo SET zuletzt = ?1, gemeldet = ?2 WHERE endpoint = ?3')
-      .bind(jetzt.toISOString(), vermerkt, abo.endpoint)
-      .run()
-    if (!abo.zuletzt) continue
-    const seit = new Date(abo.zuletzt)
-    const neu = ereignisse.filter((e) => favoriten.has(e.titleId) && istErschienen(e, jetzt) && !istErschienen(e, seit))
-    const text = pushText(neu, auchBei)
-    if (!text) continue
-    /* Text und Ziel gehören zusammen — der Service Worker holt beides in einem Zug ab. */
-    await env.DB.prepare('UPDATE push_abo SET offen = ?1, offen_ziel = ?2 WHERE endpoint = ?3')
-      .bind(text, pushZiel(neu, auchBei), abo.endpoint)
-      .run()
-    const antwort = await leererPush(env, abo.endpoint)
-    if (antwort.status === 404 || antwort.status === 410) {
-      await env.DB.prepare('DELETE FROM push_abo WHERE endpoint = ?1').bind(abo.endpoint).run()
-      geloescht++
-    } else if (antwort.status < 300) gesendet++
+  const { results } = await env.DB.prepare('SELECT endpoint, favoriten, zuletzt, gemeldet, offen, offen_ziel FROM push_abo ORDER BY zuletzt ASC').all<AboZeile>()
+  const abos = results ?? []
+  if (!abos.length) return '0 Abos, 0 Pushes, 0 erloschen'
+  const kennungen = await ladeKennungen(env)
+  const plaene: AboPlan[] = []
+  let aufgeschoben = 0
+  for (const abo of abos) {
+    const plan = planeAbo(abo, kennungen, jetzt, ereignisse, istErschienen, weitere)
+    if (plan.text && plaene.filter((p) => p.text).length >= PUSH_JE_LAUF) aufgeschoben++
+    else plaene.push(plan)
   }
-  return `${results?.length ?? 0} Abos, ${gesendet} Pushes, ${geloescht} erloschen`
+  /* Text und Ziel stehen vor dem Abruf: der Service Worker holt beides in einem Zug ab. */
+  await schreibeStaende(env.DB, jetzt, plaene)
+  const erloschen: string[] = []
+  const gescheitert: AboPlan[] = []
+  let gesendet = 0
+  for (const plan of plaene.filter((p) => p.text)) {
+    try {
+      const antwort = await leererPush(env, plan.endpoint)
+      if (antwort.status === 404 || antwort.status === 410) erloschen.push(plan.endpoint)
+      else if (antwort.status < 300) gesendet++
+    } catch (err) {
+      /* Netzfehler: dieses Abo behält seinen alten Stand und ist im nächsten Lauf wieder dran, die übrigen Pushes laufen weiter. */
+      fehlerLog('[push] Abruf fehlgeschlagen', err)
+      gescheitert.push(plan)
+    }
+  }
+  if (gescheitert.length) await setzeStaendeZurueck(env.DB, gescheitert)
+  if (erloschen.length) await env.DB.prepare('DELETE FROM push_abo WHERE endpoint IN (SELECT value FROM json_each(?1))').bind(JSON.stringify(erloschen)).run()
+  return `${abos.length} Abos, ${gesendet} Pushes, ${erloschen.length} erloschen, ${aufgeschoben} aufgeschoben`
 }
