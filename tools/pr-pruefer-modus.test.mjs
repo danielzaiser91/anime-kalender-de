@@ -86,7 +86,10 @@ gleich('Kopf wird auf 9 Zeichen gekürzt', bestimmeModus([ci('0123456789abcdef',
 // Grenzen: höchstens 6 Quellen, je 20000 Zeichen.
 const viele = bestimmeModus([CI_R1, ...Array.from({ length: 8 }, (_, i) => agent(`Prüfer: ändern ${i}`))], '2')
 gleich('Höchstens 6 Quellen, die ersten bleiben', viele.auflagen.length === 6 && viele.auflagen[0].text.includes('ändern 0') && viele.auflagen[5].text.includes('ändern 5'), true)
-gleich('Je Quelle höchstens 20000 Zeichen', bestimmeModus([CI_R1, agent('Prüfer: ' + 'x'.repeat(30000))], '2').auflagen[0].text.length, 20000)
+const lang = bestimmeModus([CI_R1, agent('Prüfer: ' + 'x'.repeat(30000))], '2').auflagen[0].text
+gleich('Je Quelle höchstens 20000 Zeichen, der Anfang bleibt', [lang.length, lang.startsWith('Prüfer: x')], [20000, true])
+gleich('Ohne CI-Review ist der letzte Kopf leer', bestimmeModus([R1], '2').vorher, '')
+gleich('Ohne Kopf steht „(unbekannt)“ in der Datei', auflagenText([], '').includes('Letzter geprüfter Kopf: (unbekannt)'), true)
 
 // main: Aufruf der API, Ausgabe, Datei; Abruffehler und Unsinn -> voll.
 const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'pr-modus-'))
@@ -99,7 +102,10 @@ try {
   }
   gleich('main: Ausgabezeilen', main('7', '2', datei, api, 'o/r'), 'modus=abnahme\naendern-frei=1\nvorher=aaaaaaaaa\n')
   gleich('main: genau ein API-Aufruf mit Seiten zusammengefasst', aufrufe, ['--paginate --slurp repos/o/r/issues/7/comments'])
-  gleich('main: Datei enthält die Auflagen', fs.readFileSync(datei, 'utf8').includes('A2 Mutation fehlt'), true)
+  const geschrieben = fs.readFileSync(datei, 'utf8')
+  gleich('main: Datei enthält die Auflagen und den letzten Kopf', [geschrieben.includes('A2 Mutation fehlt'), geschrieben.includes('Letzter geprüfter Kopf: aaaaaaaaa')], [true, true])
+  gleich('main: nur Nachtrag, kein CI-Review -> voll', main('7', '2', datei, () => [[NACHTRAG]], 'o/r'), 'modus=voll\naendern-frei=1\nvorher=\n')
+  gleich('main: Datei ohne Auflagen nennt den Hinweis', fs.readFileSync(datei, 'utf8').includes('Keine Auflagen'), true)
   gleich('main: Stufe 1 -> aendern-frei=0', main('7', '1', datei, api, 'o/r').includes('aendern-frei=0\n'), true)
   const stumm = console.error
   console.error = () => {}
@@ -113,6 +119,27 @@ try {
   // Prozess: Aufruf ohne Argumente endet mit 2 und schreibt nichts nach stdout.
   const lauf = spawnSync(process.execPath, [fileURLToPath(new URL('./pr-pruefer-modus.mjs', import.meta.url))], { encoding: 'utf8' })
   gleich('Prozess ohne Argumente: Exit 2, stdout leer', [lauf.status, lauf.stdout], [2, ''])
+
+  // Prozess mit gh als Programm (Kopie von node; `gh api …` lädt die Datei `api` im Arbeitsordner): echter Abruf-Weg von main.
+  const bin = path.join(ordner, 'bin')
+  fs.mkdirSync(bin)
+  if (process.platform === 'win32') fs.copyFileSync(process.execPath, path.join(bin, 'gh.exe'))
+  else fs.symlinkSync(process.execPath, path.join(bin, 'gh'))
+  const log = path.join(ordner, 'gh.log')
+  const attrappe = [
+    "const fs = require('node:fs')",
+    "fs.appendFileSync(process.env.GH_LOG, process.argv.slice(2).join(' ') + '\\n')",
+    "if (process.env.GH_FEHLER) { process.stderr.write('HTTP 502'); process.exit(1) }",
+    `process.stdout.write(${JSON.stringify(JSON.stringify([[CI_R1, R1], [NACHTRAG]]))})`,
+  ].join('\n')
+  fs.writeFileSync(path.join(ordner, 'api'), attrappe)
+  const skript = fileURLToPath(new URL('./pr-pruefer-modus.mjs', import.meta.url))
+  const env = (extra) => ({ ...process.env, PATH: bin + path.delimiter + process.env.PATH, GITHUB_REPOSITORY: 'o/r', GH_LOG: log, ...extra })
+  const gut = spawnSync(process.execPath, [skript, '7', '2', path.join(ordner, 'a.md')], { cwd: ordner, env: env({}), encoding: 'utf8' })
+  gleich('Prozess mit gh: Ausgabe, Exit 0, ein Abruf', [gut.status, gut.stdout, fs.readFileSync(log, 'utf8')], [0, 'modus=abnahme\naendern-frei=1\nvorher=aaaaaaaaa\n', '--paginate --slurp repos/o/r/issues/7/comments\n'])
+  gleich('Prozess mit gh: Auflagendatei geschrieben', fs.readFileSync(path.join(ordner, 'a.md'), 'utf8').includes('A3 Doku alt'), true)
+  const schlecht = spawnSync(process.execPath, [skript, '7', '2', path.join(ordner, 'b.md')], { cwd: ordner, env: env({ GH_FEHLER: '1' }), encoding: 'utf8' })
+  gleich('Prozess mit gh, Abruf scheitert: Exit 0, voll, Fehler auf stderr', [schlecht.status, schlecht.stdout, schlecht.stderr.includes('HTTP 502')], [0, 'modus=voll\naendern-frei=0\nvorher=\n', true])
 } finally {
   fs.rmSync(ordner, { recursive: true, force: true })
 }

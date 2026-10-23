@@ -38,7 +38,7 @@ function leseCi(k) {
 
 /** Agent-Prüfer-Kommentar (Inhaber, Mitglieder, Mitarbeiter) -> Text oder null. */
 function leseAgent(k) {
-  if (!VERTRAUT.has(k.author_association) || k.user?.login === CI_BOT) return null
+  if (!VERTRAUT.has(k.author_association)) return null
   const body = String(k.body ?? '')
   return AGENT_URTEIL.test(body) ? body : null
 }
@@ -49,10 +49,10 @@ function leseAgent(k) {
  */
 export function bestimmeModus(kommentare, stufe) {
   const ci = kommentare.map(leseCi).filter(Boolean)
-  const agent = kommentare.map((k) => [k, leseAgent(k)]).filter(([, t]) => t !== null)
+  const agent = kommentare.map(leseAgent).filter((t) => t !== null)
   const abnahmeAendern = ci.some((c) => c.modus === 'abnahme' && c.wort === 'aendern')
   const quellen = [
-    ...agent.map(([, text]) => ({ quelle: 'Kommentar des Agent-Prüfers', text })),
+    ...agent.map((text) => ({ quelle: 'Kommentar des Agent-Prüfers', text })),
     ...ci.filter((c) => c.modus === 'voll' && c.wort === 'aendern').map((c) => ({ quelle: `CI-Review für ${c.kopf} (aendern)`, text: c.text })),
   ]
   return {
