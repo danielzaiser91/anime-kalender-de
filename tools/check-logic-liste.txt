@@ -27,6 +27,7 @@ pipeline/check-anisearch-archiv-text.ts
 pipeline/check-anisearch-archiv.ts
 pipeline/check-anisearch-cover-eigen.ts
 pipeline/check-anisearch-dubletten.ts
+pipeline/check-anisearch-folgen-kennung.ts
 pipeline/check-anisearch-katalog-abgleich.ts
 pipeline/check-anisearch-kennung-mehrfach.ts
 pipeline/check-anisearch-marke-nachziehen.ts
