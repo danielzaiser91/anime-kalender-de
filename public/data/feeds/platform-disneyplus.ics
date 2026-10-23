@@ -5,30 +5,8 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – disneyplus
 X-WR-TIMEZONE:Europe/Berlin
-BEGIN:VEVENT
-UID:auto-196144-disneyplus@2026-10-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261014
-DTEND;VALUE=DATE:20261015
-SUMMARY:Snowball Earth
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, son
- dern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anim
- e-kalender.de/t/16948/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T170000Z
-DTEND:20261016T173000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 3/13
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
- ätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus ode
- r Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/15957
- /
-CATEGORIES:Disney+
-END:VEVENT
+REFRESH-INTERVAL;VALUE=DURATION:PT12H
+X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
 UID:tokyo-revengers-s3-disneyplus@2026-10-23@anime-kalender-de
 DTSTAMP:20200101T000000Z

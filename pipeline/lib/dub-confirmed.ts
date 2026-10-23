@@ -14,7 +14,7 @@ import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { vereinigeBereiche, vereinigeGleichzeitige } from './dub-bereiche.ts'
 import { ROOT } from './util.ts'
-import { adressKern, adressGleich } from '../../shared/adresse-kern.ts'
+import { adressKern, adressGleich, istSammelKern } from '../../shared/adresse-kern.ts'
 import { PLATFORMS, type PlatformId } from '../../shared/types.ts'
 import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
 import { warn } from './util.ts'
@@ -64,6 +64,8 @@ export interface DubCheck {
    * dazwischen ist gefolgert, und zwar nur zwischen **gleichen** Befunden.
    */
   dubRanges?: Array<{ from: number; to: number; dub: boolean; checked?: number[] }>
+  /** Nur in verschmolzenen Zeilen (`verschmelze`), nie in der Datei: das Urteil der jüngeren von zwei widersprüchlichen Zeilen derselben Adresse. */
+  juengstesUrteil?: 'ja' | 'nein'
   /**
    * **Welchen Teil der Anbieter-Liste dieser Eintrag meint.**
    *
@@ -281,7 +283,27 @@ export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
     const gleichAlt = (a.checkedAt ?? '') === (b.checkedAt ?? '')
     verschmolzen.dubRanges = (gleichAlt ? vereinigeGleichzeitige : vereinigeBereiche)(alt.dubRanges, neu.dubRanges)
   }
+  delete verschmolzen.juengstesUrteil
+  const urteil = juengeresUrteil(alt, neu)
+  if (urteil) verschmolzen.juengstesUrteil = urteil
   return verschmolzen
+}
+
+type Urteil = Pick<DubCheck, 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil'>
+
+/** Das Urteil einer Zeile: Nein (`dub: false`, `available: false`), Ja (`dub: true` oder deutscher Bereich, sofern verfügbar) oder keins. */
+function urteilVon(c: Urteil): 'ja' | 'nein' | undefined {
+  if (c.juengstesUrteil) return c.juengstesUrteil
+  const nein = c.dub === false || c.available === false
+  const ja = c.available !== false && (c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub)))
+  if (nein === ja) return undefined
+  return nein ? 'nein' : 'ja'
+}
+
+/** Das Urteil der jüngeren Zeile, solange die Daten verschieden sind (hat sie keins, gilt das der älteren weiter); bei Gleichstand keins: Ja und Nein bleiben nebeneinander. */
+function juengeresUrteil(alt: DubCheck, neu: DubCheck): 'ja' | 'nein' | undefined {
+  if ((alt.checkedAt ?? '') === (neu.checkedAt ?? '')) return undefined
+  return urteilVon(neu) ?? alt.juengstesUrteil
 }
 
 export function dubKey(anilistId: number, platform: string): string {
@@ -296,21 +318,27 @@ export function dubKey(anilistId: number, platform: string): string {
  * Das Nein gilt der ganzen Plattform (`dubKey`), wenn es keine Adresse trägt oder die Plattform keine Ausgabe mit Ja führt: Eine neue Adresse
  * kann dieselbe Ausgabe in anderer Schreibweise sein (JustWatch-gti statt ASIN). Erst eine belegte zweite Ausgabe (ein Ja mit eigener Adresse) beschränkt es auf seine Adresse
  * (`dubKey|adressKern`; Digimon 552 bei Prime: B0CGRJGJX1 ja, Crunchyroll-Kanal B0CHHNJJW3 nein). Abgefragt wird mit `wegVerneint`.
+ * Widersprechen sich Ja und Nein derselben Adresse, gilt das jüngere (`juengstesUrteil`, gesetzt von `verschmelze`).
+ * Such-, Start- und Länderseiten (`istSammelKern`) sind keine Ausgabe: Ihr Ja belegt keine zweite, ihr Nein gilt der ganzen Plattform
+ * und entfällt, sobald der Titel dort ein Ja an echter Adresse hat (eine Suche, die ihn nicht zeigt, widerlegt die Seite nicht; Jormungand: Perfect Order, 13331).
  */
-export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges'>[]): Set<string> {
-  const adressen = new Map<string, { titel: string; kern: string; nein: boolean; ja: boolean }>()
+export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil'>[]): Set<string> {
+  const adressen = new Map<string, { titel: string; kern: string; sammel: boolean; nein: boolean; ja: boolean }>()
   for (const c of checks) {
     const titel = dubKey(c.anilistId, c.platform)
-    const kern = adressKern(c.url)
-    const a = adressen.get(`${titel}|${kern}`) ?? { titel, kern, nein: false, ja: false }
-    a.nein ||= c.dub === false || c.available === false
-    a.ja ||= c.available !== false && (c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub)))
-    adressen.set(`${titel}|${kern}`, a)
+    const roh = adressKern(c.url)
+    const sammel = istSammelKern(roh)
+    const kern = sammel ? '' : roh
+    const a = adressen.get(`${titel}|${roh}`) ?? { titel, kern, sammel, nein: false, ja: false }
+    /* Haben zwei Zeilen derselben Adresse verschiedene Daten, gilt das Urteil der jüngeren (`verschmelze`). */
+    a.nein ||= c.juengstesUrteil ? c.juengstesUrteil === 'nein' : c.dub === false || c.available === false
+    a.ja ||= c.juengstesUrteil ? c.juengstesUrteil === 'ja' : c.available !== false && (c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub)))
+    adressen.set(`${titel}|${roh}`, a)
   }
   const mitJa = new Set([...adressen.values()].filter((a) => a.ja && a.kern).map((a) => a.titel))
   const nein = new Set<string>()
   for (const a of adressen.values()) {
-    if (!a.nein || (a.ja && a.kern)) continue
+    if (!a.nein || (a.ja && a.kern) || (a.sammel && mitJa.has(a.titel))) continue
     nein.add(a.kern && mitJa.has(a.titel) ? `${a.titel}|${a.kern}` : a.titel)
   }
   return nein

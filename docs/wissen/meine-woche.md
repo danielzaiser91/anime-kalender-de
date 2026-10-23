@@ -13,7 +13,7 @@ persönlichen Ort statt dreier Abo-Seiten.
 |---|---|---|
 | Favoriten im Browser (`favorites`, Datum `favorites:seit`, „gesehen bis") | `web/src/lib/favorites.ts`, `gesehen.ts` | fertig |
 | Favoriten im Worker (Spiegel je Newsletter-Abo, `pref_token`) | `worker/src/favoriten-kennung.ts`, `POST /favorites` | fertig |
-| Persönlicher ICS-Feed nur mit Favoriten | `GET /feed/favoriten.ics?k=<feed_token>` (`StaticViews.tsx` → `FavoritenFeed`) | fertig, braucht Newsletter-Abo |
+| Persönlicher ICS-Feed nur mit Favoriten | `GET /feed/favoriten.ics?k=<feed_token>` (`StaticViews.tsx` → `FavoritenFeed`) | fertig, braucht Newsletter-Abo; schneidet `feeds/all.ics` (ab 7 Tage zurück) statt `events.json` zu parsen, Antwort 15 min im Edge-Cache (23.10.2026) |
 | Web-Push „gemerkte Folge erschienen" (stündlicher Cron, kein Konto) | `worker/src/push.ts`, Tabelle `push_abo` | fertig, PoC-Qualität |
 | Newsletter täglich 07:00 mit „★ Deine Favoriten" oben | `worker/src/mail-abschnitte.ts` | fertig |
 
@@ -73,7 +73,8 @@ Newsletter) — eine Zeile, kein neues Schema.
   speichert Endpunkt + Favoritenliste, keine Adresse, kein Konto. Einwilligung ist die Browser-Abfrage
   (`Notification.requestPermission`) plus unser Schalter; das ist für Push der anerkannte Opt-in — ein
   Double-Opt-in per Mail gibt es hier nicht, weil es keine Mail gibt. Löschbar: Schalter aus → `abmelden`
-  → Zeile weg; ein toter Endpunkt (410) wird beim nächsten Versand gelöscht. Kein Tracking: Die Push-Nachricht
+  → Zeile weg; ein toter Endpunkt (410) wird beim nächsten Versand gelöscht, ein Abo ohne Erneuerung (die Seite meldet
+  sich bei jedem Start) nach 90 Tagen vom täglichen Löschlauf. Höchstens 350 Abos (B4, 24.10.2026), darüber 507 `push_voll` (503 fängt `dienstFetch` als Ausfall ab). Kein Tracking: Die Push-Nachricht
   trägt keine Nutzlast, der Service Worker holt den Text beim Worker ab; keine Öffnungsrate, kein Pixel.
 - **PWA-Erinnerung ohne Server** (Konzept, nicht gebaut): `Notification Triggers`/`showTrigger` sind in
   Chrome nie aus dem Origin-Trial gekommen; eine lokale Erinnerung ohne Push gibt es im Web nicht

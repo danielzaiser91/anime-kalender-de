@@ -5,30 +5,8 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Space
 X-WR-TIMEZONE:Europe/Berlin
-BEGIN:VEVENT
-UID:auto-196144-primevideo@2026-10-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261013
-DTEND;VALUE=DATE:20261014
-SUMMARY:Snowball Earth
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
-  nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\,
-  sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://
- anime-kalender.de/t/16948/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-196144-disneyplus@2026-10-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261014
-DTEND;VALUE=DATE:20261015
-SUMMARY:Snowball Earth
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, son
- dern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anim
- e-kalender.de/t/16948/
-CATEGORIES:Disney+
-END:VEVENT
+REFRESH-INTERVAL;VALUE=DURATION:PT12H
+X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z

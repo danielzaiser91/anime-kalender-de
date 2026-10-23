@@ -10,7 +10,7 @@ Gesamtüberblick aller **Animation mit deutscher Synchronfassung** (nicht nur ja
 
 ## Harte Grundsätze (Details im Volltext)
 
-- Kein Termin ohne `sources`; keine erfundenen Uhrzeiten (Ausnahme: Netflix-Eigenproduktion 08:00 UTC als `timeEstimated`); keine erfundene Folgenzahl.
+- Kein Termin ohne `sources`; keine erfundenen Uhrzeiten (Ausnahmen als `timeEstimated`: Netflix-Eigenproduktion 08:00 UTC; Regeltermin aus Sichtungsfenster (`timeSighting`, unter 60 min ohne ≈); Altfall in `FESTGELEGTE_ZEITEN`, sonst prüft `data:validate` jede `time` + `timeEstimated`); keine erfundene Folgenzahl.
 - Abgeleitetes kennzeichnen (`estimated`, `episodeCountAssumed`, „≈"); Wochentakt wird gemessen (`bestimmeRhythmus()`); belegtes Ende (`lastEpisodeDate`) schlägt Fortschreibung.
 - Plattform-Serienkennung = Franchise, keine Staffel (Zuordnung über Folgenzahl); ein Anime gehört genau einer Kennung. Namensabgleich: bester Treffer, nicht erster (`bewerteTreffer`).
 - Ein Vorfilter verschiebt, er löscht. „Früheste Beobachtung" ≠ erste Folge; „Im Angebot seit" ≠ „erschienen am". Anime auf AniList/aniSearch/MAL ist kein Cartoon (`cartoon-umzug.json`).
@@ -27,7 +27,7 @@ Gesamtüberblick aller **Animation mit deutscher Synchronfassung** (nicht nur ja
 
 ## Codegestalt und Oberfläche
 
-Neues = eigene Funktion/Modul (nicht in Funktion > 80 oder Datei > 800 Zeilen anbauen; `check:umfang` darf nur sinken). Daten als Parameter/Rückgabe. Vorher in `pipeline/lib/`, `shared/`, `web/src/lib/` suchen. Kommentare: Warum in 1–3 Zeilen. Umbau und Verhaltensänderung nie im selben Commit (`tools/bau-vergleich.mjs`, `panel-vergleich.mjs`, Skill `zerlegen`). Keine Information zweimal auf demselben Bildschirm. Klasse an html/body: CSS-Regeln nur mit Vorfahr; Fake-document-Tests sehen keine Stil-Kollision, der Prüfer prüft jede solche Klasse auf Kollision mit CSS-Regeln. Alte Farbklassen (`slate-`, `sky-`, `dark:`, Hex …) in `web/src` dürfen nur sinken (`tools/design-klassen.mjs`, in `check:logic`; seit 14.10.2026), neuer Code nimmt `ak-*`-Tokens.
+Neues = eigene Funktion/Modul (nicht in Funktion > 80 oder Datei > 800 Zeilen anbauen; `check:umfang` darf nur sinken). Daten als Parameter/Rückgabe. Vorher in `pipeline/lib/`, `shared/`, `web/src/lib/` suchen. Kommentare: Warum in 1–3 Zeilen. Umbau und Verhaltensänderung nie im selben Commit (`tools/bau-vergleich.mjs`, `panel-vergleich.mjs`, Skill `zerlegen`). Keine Information zweimal auf demselben Bildschirm. Klasse an html/body: CSS-Regeln nur mit Vorfahr; Fake-document-Tests sehen keine Stil-Kollision, der Prüfer prüft jede solche Klasse auf Kollision mit CSS-Regeln. Alte Farbklassen (`slate-`, `sky-`, `dark:`, Hex …) in `web/src` dürfen nur sinken (`tools/design-klassen.mjs`, in `check:logic`; seit 14.10.2026), neuer Code nimmt `ak-*`-Tokens. Mockups nur auf der Bühne (echte App), nie freistehendes HTML (Skill `mockups`).
 
 ## Vor dem Commit
 

@@ -116,7 +116,7 @@ DSGVO: **Double-Opt-in Pflicht**, Abmeldelink in jeder Mail, Impressum + Datensc
 | DB | Cloudflare D1 (SQLite, Free-Tier reicht um Größenordnungen) | Neon/Supabase Postgres |
 | Versand | Resend (3.000 Mails/Monat frei, **eigene Domain nötig**) | Brevo (300 Mails/Tag frei, verifizierte Absenderadresse reicht) |
 
-Cron: täglich 07:00 (Tages-Digest) und montags 07:00 (Wochen-Digest), Europe/Berlin.
+Cron: täglich 07:00 (Tages-Digest) und 07:00 Wochen-Digest, je Abo an einem festen von 7 Versandtagen (seit 23.10.2026, #1866), Europe/Berlin.
 
 ---
 

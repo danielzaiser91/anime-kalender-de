@@ -18,9 +18,12 @@
  *
  * Aufruf (LAUF_TOKEN steht in `my_secrets.md`):
  *   LAUF_TOKEN=… node tools/laeufe-aufraeumen.mjs [--auch-github] [--trocken]
+ *   LAUF_TOKEN=… node tools/laeufe-aufraeumen.mjs --erledigt <lauf_id> --notiz "<Text>" [--trocken]
+ *     setzt genau diesen roten Verlaufseintrag auf erledigt (geprüft und behoben, der grüne Nachfolger steht noch aus);
+ *     die Notiz ist Pflicht, die Lauf-ID steht in `<Worker>?verlauf=<Art>` (Feld lauf_id).
  */
 import { execFileSync } from 'node:child_process'
-import { holeLaeufe, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
+import { erledigtArgumente, findeRotenLauf, holeLaeufe, holeVerlauf, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
 import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
 
 const WORKER = 'https://newsletter.animekalender.workers.dev/lauf'
@@ -32,12 +35,49 @@ const TOKEN = process.env.LAUF_TOKEN
 
 const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 })
 
+/** Der eine vorhandene Schreibweg zum Worker: Zustand `erledigt` mit Notiz. */
+async function setzeErledigt(laufId, notiz) {
+  const antwort = await fetch(WORKER, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': TOKEN },
+    body: JSON.stringify({ lauf_id: laufId, zustand: 'erledigt', notiz }),
+  })
+  if (!antwort.ok) console.error(`  ✗ Worker antwortete mit ${antwort.status}`)
+  return antwort.ok
+}
+
+function fehlerAbbruch(text) {
+  console.error(text)
+  process.exitCode = 1
+}
+
+/** `--erledigt <lauf_id> --notiz …`: nur ein roter Verlaufseintrag mit genau dieser ID wird angefasst. */
+async function erledigen(laufId, notiz, verlauf) {
+  for (const { art } of roteArten(verlauf)) {
+    const abruf = await holeVerlauf(fetch, WORKER, art)
+    const treffer = findeRotenLauf(abruf.laeufe, laufId)
+    if (!treffer) continue
+    console.log(`erledigt ${laufId}  ${art} — ${treffer.zustand} vom ${treffer.gemeldet_am}: ${notiz}`)
+    if (TROCKEN) return console.log('(trocken, nichts gesendet)')
+    if (!TOKEN) return fehlerAbbruch('LAUF_TOKEN fehlt — ohne ihn nimmt der Worker nichts an.')
+    if (!(await setzeErledigt(laufId, notiz))) process.exitCode = 1
+    return
+  }
+  fehlerAbbruch(`Lauf ${laufId} ist kein roter Verlaufseintrag (fehler/warnung) — nichts geändert.`)
+}
+
 async function stillstandMelden() {
   const am = await letzteDatenAenderung(fetch, REPO)
   if (!am) return console.log('STILLSTAND? Letzte Änderung von public/data nicht lesbar')
   const s = stillstand(am, Date.now())
   if (s.zuLang) console.log(`STILLSTAND: public/data seit ${s.stunden.toFixed(1)} h unverändert (Grenze ${STILLSTAND_GRENZE_STUNDEN} h, letzter Commit ${am})`)
 }
+
+/**
+ * Der Untersucher läuft nur nach rotem Bau, spätere Läufe sind `skipped`; sein "grün danach" misst der Bau selbst
+ * (20.10.2026: Warnung "PR deckt den Fehler ab" stand nach grünem Bau weiter).
+ */
+const GRUEN_MISST_AN = { 'Claude — roten Datenlauf untersuchen': 'bestand-bauen.yml' }
 
 /**
  * Jüngster erfolgreicher Lauf je Workflow, einzeln gefragt: Die letzten 60 Läufe aller Workflows reichten am 18.10.2026
@@ -47,7 +87,7 @@ function letzterGruenJe(namen) {
   const gruen = new Map()
   for (const name of namen) {
     try {
-      const [lauf] = JSON.parse(gh('run', 'list', '--repo', REPO, '--workflow', name, '--status', 'success', '--limit', '1', '--json', 'createdAt'))
+      const [lauf] = JSON.parse(gh('run', 'list', '--repo', REPO, '--workflow', GRUEN_MISST_AN[name] ?? name, '--status', 'success', '--limit', '1', '--json', 'createdAt'))
       if (lauf) gruen.set(name, lauf.createdAt)
     } catch {}
   }
@@ -56,6 +96,8 @@ function letzterGruenJe(namen) {
 
 async function main() {
   // Ein roter Sammler-Fund lässt den Lauf grün; er bleibt als PR liegen und muss hier auffallen (tools/rote-sammler-prs.mjs).
+  const erledigt = erledigtArgumente(args)
+  if (erledigt.fehler) return fehlerAbbruch(erledigt.fehler)
   meldeRoteSammlerPrs()
   await stillstandMelden()
   const { liste, verlauf, meldung } = await holeLaeufe(fetch, WORKER)
@@ -64,6 +106,7 @@ async function main() {
     process.exitCode = TROCKEN ? 0 : 1
     return
   }
+  if (erledigt.laufId) return await erledigen(erledigt.laufId, erledigt.notiz, verlauf)
   const rote = liste.filter((l) => l.zustand === 'fehler' || l.zustand === 'warnung')
   console.log(`${liste.length} Läufe in der App, ${rote.length} rot`)
   // Rote Läufe stehen seit 28.09.2026 nur im Verlauf, nicht in `liste` (18.10.2026: elf Stunden Stillstand bei „0 rot“).
@@ -93,15 +136,7 @@ async function main() {
       console.error('LAUF_TOKEN fehlt — ohne ihn nimmt der Worker nichts an.')
       return
     }
-    const antwort = await fetch(WORKER, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': TOKEN },
-      body: JSON.stringify({ lauf_id: l.lauf_id, zustand: 'erledigt', notiz }),
-    })
-    if (!antwort.ok) {
-      console.error(`  ✗ Worker antwortete mit ${antwort.status}`)
-      continue
-    }
+    if (!(await setzeErledigt(l.lauf_id, notiz))) continue
     abgenommen++
     /*
       GitHub nur auf Ansage. Das Löschen ist endgültig, und was im Lauf stand,

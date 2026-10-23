@@ -8,10 +8,21 @@
  * Der Diff ist `git diff origin/main...HEAD` (nur Committetes). Exit 1 bei jedem roten Befund, Hinweise (gelb) brechen nicht ab.
  */
 import { execFileSync } from 'node:child_process'
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { basename } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { bewerte, neueEintraege } from './check-patchnotes-pflicht.mjs'
+import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
+
+const PRUEFLISTEN = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt']
+
+/** Sortierung und Dubletten der Prüflisten, gleiche Regel wie check:logic (tools/liste-pruefen.mjs); `lies` liefert den Text oder null. */
+export function listenRot(lies, listen = PRUEFLISTEN) {
+  return listen.flatMap((name) => {
+    const text = lies(name)
+    return text === null ? [] : listenFehler(listenEintraege(text), name)
+  })
+}
 
 // Pfade in Fließtext: mindestens ein Ordner, Endung; ohne Platzhalter (`*`, `<slug>`) und ohne URL-Anteile.
 const PFAD = /(?<![\w./@:-])((?:[\w.@-]+\/)+[\w.@-]*\w\.[a-z0-9]{1,5})(?![\w/])/gi
@@ -120,7 +131,8 @@ function main() {
     zweig,
     existiert: existiertIn(bekannt, existsSync),
   })
-  const rot = [...urteil.rot, ...umfangRot()]
+  const lies = (name) => (existsSync(name) ? readFileSync(name, 'utf8') : null)
+  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot()]
   for (const h of urteil.gelb) console.log(`  ! Hinweis: ${h}`)
   for (const r of rot) console.error(`  ✖ Vorprüfung: ${r}`)
   if (rot.length) {

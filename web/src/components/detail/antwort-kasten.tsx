@@ -13,6 +13,7 @@ import { gruppeVon as gruppeVonPille, sichtbareStreamPillen, type Gruppe } from 
 import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText, teilweiseNeben } from './antwort-regeln.ts'
 import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
+import { deSeitZeigen } from './de-seit.ts'
 import { ausgebliebenTerminText, kostenlosKopfVon } from './kasten-texte.ts'
 import { folgenKopf, laeuftNeben } from './antwort-block.ts'
 
@@ -110,13 +111,13 @@ export function AntwortKasten({
   notiz, folgen,
   schnitt,
   angebotSeit,
-  kaufausgabe,
   hinweis,
   pillenGruppen = new Map(),
   terminPillen = [],
   discZuerst = false,
   legende,
   ohneSprachbeleg,
+  releases = [],
 }: {
   /** Pillen mit Termin und Anbieter/Sender — sie stehen vor der ersten Folge statt der Streamwege. */
   terminPillen?: React.ReactNode[]
@@ -127,7 +128,9 @@ export function AntwortKasten({
   /** Erklärt die Zustände der Anbieterzeilen (Stream-Seite) — nur, was dort wirklich vorkommt. */
   legende?: string
   /** Alle Stream-Zeilen ohne Sprachbeleg: Die Überschrift „Auf Deutsch …“ entfällt. */
-  ohneSprachbeleg?: boolean
+  ohneSprachbeleg?: boolean | 'omu'
+  /** Die Termine des Titels — gebraucht für den frühesten deutschen Start (`de-seit.ts`). */
+  releases?: Release[]
   antwort: Antwort
   title: Title
   t: (k: never, v?: Record<string, string | number>) => string
@@ -181,15 +184,6 @@ export function AntwortKasten({
    * Block darunter ersatzlos entfallen ist.
    */
   angebotSeit?: string
-  /**
-   * **Die Kaufausgabe, wenn sie nicht die Hauptauskunft ist.**
-   *
-   * Steht ein Titel längst auf Deutsch zum Streamen und kommt nur noch eine
-   * Blu-ray, ist ihr Termin eine Nebensache — vorher war er die Überschrift
-   * („In 2 Tagen, 18.09.2026" über „Code Geass", das seit 2023 bei Crunchyroll
-   * liegt). Hier steht er als das, was er ist, mit Datum und Label.
-   */
-  kaufausgabe?: string
   /**
    * Der Merken-Hinweis für Titel ohne belegte Synchro — was der Stern bewirkt.
    *
@@ -275,6 +269,8 @@ export function AntwortKasten({
     ohne Auszeichnung im Text ist das nicht zu machen. Alle übrigen Zustände
     setzen weiterhin schlichte Zeichenketten, die als Knoten durchgehen.
   */
+  /* „Auf Deutsch seit …“ der Zustände fertig und Film: Neuigkeit, Zukunft oder eine frühere Pille ersetzen die Zeile (`de-seit.ts`). */
+  const deSeitNeben = !erstausgabeAlsNeuigkeit(title) && deSeitZeigen(title, releases, today) ? deSeitZeile(title, T) : ''
   let haupt: ReactNode
   let neben: string
   let anteil: number | undefined
@@ -416,7 +412,7 @@ export function AntwortKasten({
       Das Feld steht auch bei Titeln mit eigenem Termin (14.10.2026: 366 von 2.559
       Titeln mit Erstausgabe); die Pillen nennen ihr „seit“ dann nicht doppelt.
     */
-    neben = erstausgabeAlsNeuigkeit(title) ? '' : deSeitZeile(title, T)
+    neben = deSeitNeben
     nebenTitel = title.deErstausgabe
       ? T(deSeitQuelleSchluessel(title.deErstausgabe.quelle))
       : undefined
@@ -547,7 +543,7 @@ export function AntwortKasten({
       sucht sie: wann er den Film zu Hause sehen kann (Madoka, 17.09.2026).
     */
     neben = antwort.hatSynchro
-      ? (erstausgabeAlsNeuigkeit(title) ? '' : deSeitZeile(title, T))
+      ? deSeitNeben
       : antwort.imKino && !(title.streams ?? []).length
         ? T('antwort.filmDeStreamOffen')
         : antwort.ohneWeg
@@ -623,7 +619,7 @@ export function AntwortKasten({
     zaehl = ''
   }
   /* Keine Zeile mit Sprachbeleg: „Auf Deutsch …“ wäre eine Behauptung, die keine Zeile darunter trägt. */
-  if (ohneSprachbeleg && (antwort.art === 'fertig' || antwort.art === 'film')) haupt = T('antwort.sprachOffen')
+  if (ohneSprachbeleg && (antwort.art === 'fertig' || antwort.art === 'film')) haupt = T(ohneSprachbeleg === 'omu' ? 'antwort.nurUntertitel' : 'antwort.sprachOffen')
 
   return (
     /*
@@ -759,7 +755,6 @@ export function AntwortKasten({
 
       {zaehl && <p className="mt-1 text-t4 text-slate-500 dark:text-slate-400">{zaehl}</p>}
       {angebotSeit && <p className="mt-1 text-t4 text-slate-500 dark:text-slate-400">{angebotSeit}</p>}
-      {kaufausgabe && <p className="mt-1 text-t4 text-slate-500 dark:text-slate-400">{kaufausgabe}</p>}
       {hinweis}
       {antwort.art === 'laeuft' && antwort.vermerk && (
         <VermerkAuskunft
