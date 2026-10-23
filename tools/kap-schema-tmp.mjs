@@ -1,22 +1,22 @@
-const post = async (query) => {
+const post = async (query, variables) => {
   const r = await fetch('https://api.cloudflare.com/client/v4/graphql', {
     method: 'POST',
     headers: { Authorization: `Bearer ${process.env.CLOUDFLARE_API_TOKEN}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query }),
+    body: JSON.stringify({ query, variables }),
   })
   return r.json()
 }
-const typ = async (name) => (await post(`{__type(name:"${name}"){name fields{name type{name kind ofType{name}}}}}`)).data?.__type
-const konto = await typ('Account')
-const felder = (konto?.fields ?? []).filter((f) => /workersInvocations/i.test(f.name))
-for (const f of felder) {
-  const t = f.type.name ?? f.type.ofType?.name
-  console.log(`Account.${f.name}: ${t}`)
-  const eintrag = await typ(t)
-  console.log(`  ${(eintrag?.fields ?? []).map((x) => x.name).join(', ')}`)
-  for (const sub of ['dimensions', 'sum', 'quantiles']) {
-    const s = eintrag?.fields?.find((x) => x.name === sub)
-    const st = s && (s.type.name ?? s.type.ofType?.name)
-    if (st) console.log(`  ${sub} (${st}): ${((await typ(st))?.fields ?? []).map((x) => x.name).join(', ')}`)
-  }
+const bis = new Date().toISOString()
+const von = new Date(Date.now() - 86_400_000).toISOString()
+const probe = async (name, auswahl, filterFeld = 'datetime') => {
+  const q = `query($k:String!,$v:Time!,$b:Time!){viewer{accounts(filter:{accountTag:$k}){${name}(limit:1,filter:{${filterFeld}_geq:$v,${filterFeld}_lt:$b}){${auswahl}}}}}`
+  const a = await post(q, { k: process.env.CLOUDFLARE_ACCOUNT_ID, v: von, b: bis })
+  const ok = a.errors?.length ? `FEHLER ${a.errors[0].message.slice(0, 150)}` : `ok ${JSON.stringify(a.data?.viewer?.accounts?.[0]?.[name] ?? null).slice(0, 200)}`
+  console.log(`${name} {${auswahl}} -> ${ok}`)
+}
+for (const f of ['scriptName', 'cron', 'status', 'datetime', 'cpuTime', 'wallTime', 'cpuTimeUs', 'eventType', 'requests', 'errors', 'count', 'sum{requests}', 'quantiles{cpuTimeP99}', 'dimensions{scriptName}']) {
+  await probe('workersInvocationsScheduled', f)
+}
+for (const f of ['dimensions{eventType}', 'dimensions{cron}', 'dimensions{scriptName eventType status}', 'dimensions{trigger}']) {
+  await probe('workersInvocationsAdaptive', `${f} sum{requests}`)
 }
