@@ -1,6 +1,6 @@
 /**
  * Zusicherungen für die Reihen-Box als Cover-Karussell (Daniel, 20.10.2026, F54): Sprungweite, Pfeile, Startposition, Tooltip bei langem Namen,
- * Klick auf ein Cover (Panel scrollt nach oben) und die Zustände ohne Daten (Reihe mit einem Teil, Suche ohne Treffer, nur Teile ohne Synchro).
+ * Klick auf ein Cover (wählt den Teil) und die Zustände ohne Daten (Reihe mit einem Teil, Suche ohne Treffer, nur Teile ohne Synchro).
  * Gerendert wird mit `renderToStaticMarkup`; der Klick läuft über den echten `onClick` der Karte. Aufruf: `npm run check:logic`.
  */
 import { createElement } from 'react'
@@ -17,7 +17,6 @@ import {
   coverDichte,
   nachbarKarte,
   PANEL_KENNUNG,
-  panelNachOben,
   setzeStart,
   springeSpur,
   sprungZiel,
@@ -91,17 +90,10 @@ gleich('ohne gewählte Karte bleibt die Spur', startSpur.scrollLeft, 512)
 setzeStart(startSpur, { offsetLeft: 0 })
 gleich('Start bei offsetLeft 0 = 0', startSpur.scrollLeft, 0)
 
-/* Panel scrollt nach oben — der Container `data-panel="titel"`, nicht die Seite; ohne Panel passiert nichts. */
-const panel = { scrollTop: 480 }
-const abfragen: string[] = []
-panelNachOben({ closest: (a) => (abfragen.push(a), panel) })
-gleich('Panel steht oben', panel.scrollTop, 0)
-gleich('gesucht wird das Detail-Panel', abfragen, ['[data-panel="titel"]'])
+/* Die Panel-Kennung ist die Quelle für `useTitelwechsel` (Panel nach oben beim Titelwechsel, `pipeline/check-titelwechsel.ts`). */
 gleich('Panel-Kennung wie in tools/ansicht-adressen.mjs', PANEL_KENNUNG, 'titel')
-panelNachOben({ closest: () => null })
-pruefe('ohne Panel kein Fehler', true)
 
-/* Die Karte: Klick scrollt das Panel nach oben und wählt den Teil; der gewählte Teil tut nichts. */
+/* Die Karte: Klick wählt den Teil (das Hochscrollen macht der Titelwechsel im Panel); der gewählte Teil tut nichts. */
 const teil = (id: number, name: string, mehr: Partial<FranchiseMember> = {}): FranchiseMember =>
   ({ id, name, format: 'TV', jpYear: 2020, episodes: 12, ...mehr }) as FranchiseMember
 const kartenProps = (m: FranchiseMember, mehr: Partial<CoverProps> = {}): CoverProps => ({
@@ -117,30 +109,15 @@ const kartenProps = (m: FranchiseMember, mehr: Partial<CoverProps> = {}): CoverP
   onWaehlen: () => {},
   ...mehr,
 })
-function klick(gewaehlt: boolean): { scrollTop: number; gewaehlt: number[]; reihenfolge: string[] } {
-  const panelKlick = { scrollTop: 480 }
-  const protokoll = { scrollTop: 480, gewaehlt: [] as number[], reihenfolge: [] as string[] }
-  const element = ReihenCover(
-    kartenProps(teil(900001, 'Kurz'), {
-      gewaehlt,
-      onWaehlen: (id) => {
-        protokoll.gewaehlt.push(id)
-        protokoll.reihenfolge.push(`wählen bei Scroll ${panelKlick.scrollTop}`)
-      },
-    }),
-  )
-  const onClick = (element.props as { onClick: (e: unknown) => void }).onClick
-  onClick({ currentTarget: { closest: () => panelKlick } })
-  protokoll.scrollTop = panelKlick.scrollTop
-  return protokoll
+function klick(gewaehlt: boolean): number[] {
+  const gewaehlte: number[] = []
+  const element = ReihenCover(kartenProps(teil(900001, 'Kurz'), { gewaehlt, onWaehlen: (id) => gewaehlte.push(id) }))
+  const onClick = (element.props as { onClick: () => void }).onClick
+  onClick()
+  return gewaehlte
 }
-const geklickt = klick(false)
-gleich('Klick: Panel steht oben', geklickt.scrollTop, 0)
-gleich('Klick: der Teil wird gewählt', geklickt.gewaehlt, [900001])
-gleich('Klick: erst nach oben, dann wählen', geklickt.reihenfolge, ['wählen bei Scroll 0'])
-const gewaehltKlick = klick(true)
-gleich('gewählter Teil: kein Scrollen', gewaehltKlick.scrollTop, 480)
-gleich('gewählter Teil: keine Wahl', gewaehltKlick.gewaehlt, [])
+gleich('Klick: der Teil wird gewählt', klick(false), [900001])
+gleich('gewählter Teil: keine Wahl', klick(true), [])
 
 /* Langer Name: der Tooltip trägt den vollen Namen; kurzer Name und kein Name ohne Tooltip. */
 const MARKE_TOOLTIP = 'relative inline-flex items-center w-full min-w-0'

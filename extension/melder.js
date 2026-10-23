@@ -2418,7 +2418,7 @@ function laufBeenden(grund) {
     dass nichts mehr geschah.
   */
   if (grund !== 'von Hand') {
-    durchgangEnde = { grund, uebersprungen: [...selbstUebersprungen.keys()].filter((r) => !fertigeTitel.has(r)) }
+    durchgangEnde = akNetflixEnde(grund, selbstUebersprungen, fertigeTitel, selbstGezaehlt, offeneTitel, undefined, vorfallMelden)
     durchgangEndeZeigen()
   }
 }
@@ -2444,7 +2444,7 @@ function durchgangEndeZeigen() {
     el.textContent =
       (regulaer ? 'Durchgang fertig' : `Durchgang abgebrochen · ${durchgangEnde.grund}`) +
       (namen.length ? ` · übersprungen: ${namen.join(', ')}` : '') +
-      selbstUebersprungen.zurueckText()
+      (selbstUebersprungen.zurueckText() + durchgangEnde.text)
     el.title = durchgangEnde.grund
   } catch {
     /* Eine Anzeige darf den Takt nicht aufhalten. */
@@ -6145,7 +6145,7 @@ async function totMelden(id, titel) {
       const daten = await antwort.json().catch(() => ({}))
       return { ok: false, text: daten.error ?? `Fehler ${antwort.status}` }
     }
-    await merkeTot(id)
+    await globalThis.akNetflixTotGemeldet(id, frischGemeldetNetflix, merkeTot)
     return { ok: true, text: 'als tot gemeldet' }
   } catch (err) {
     return { ok: false, text: `Nicht erreichbar: ${err.message}` }

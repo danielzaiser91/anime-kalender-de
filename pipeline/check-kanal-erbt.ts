@@ -193,12 +193,22 @@ pruefe('Gegenprobe: dasselbe Ja als eigenes Ja des Kanal-Wegs belegt', belegt([k
 const schreiben = readFileSync(new URL('./bau/13-schreiben.ts', import.meta.url), 'utf8')
 const aufrufe = unbedingteAufrufe(schreiben, 'schreibeDatensatz')
 const stelle = (name: string): number => aufrufe.find((x) => x.name === name)?.stelle ?? -1
-const erbt = aufrufe.find((x) => x.name === 'kanalErbtVomAnbieter')
-pruefe('13-schreiben ruft kanalErbtVomAnbieter(allTitles, jwNeinAnSeite()) unbedingt auf', erbt?.args.join('|') === 'allTitles|jwNeinAnSeite()', erbt)
+/* Das Erbe läuft in `tonDerKanalWege` (vor der Sprach-Termin-Regel); 13-schreiben reicht JustWatchs Seiten-Nein hinein. */
+const ton = aufrufe.find((x) => x.name === 'tonDerKanalWege')
+pruefe('13-schreiben ruft tonDerKanalWege(allTitles, releases, jwNeinAnSeite()) unbedingt auf', ton?.args.join('|') === 'allTitles|releases|jwNeinAnSeite()', ton)
 pruefe(
-  '13-schreiben: kanalErbtVomAnbieter steht nach dem Anreichern und vor der Auslieferung',
-  stelle('schreibeSynopsenUndReichereAn') >= 0 && stelle('kanalErbtVomAnbieter') > stelle('schreibeSynopsenUndReichereAn') && stelle('kanalErbtVomAnbieter') < stelle('baueAuslieferung'),
+  '13-schreiben: tonDerKanalWege steht nach dem Anreichern und vor der Auslieferung',
+  stelle('schreibeSynopsenUndReichereAn') >= 0 && stelle('tonDerKanalWege') > stelle('schreibeSynopsenUndReichereAn') && stelle('tonDerKanalWege') < stelle('baueAuslieferung'),
   aufrufe.map((x) => `${x.stelle}:${x.name}`),
+)
+const tonQuelle = readFileSync(new URL('./bau/deutsch-nicht-gegen-sprach-termin.ts', import.meta.url), 'utf8')
+const tonAufrufe = unbedingteAufrufe(tonQuelle, 'tonDerKanalWege')
+const erbt = tonAufrufe.find((x) => x.name === 'kanalErbtVomAnbieter')
+pruefe('tonDerKanalWege reicht jwNein an kanalErbtVomAnbieter(allTitles, jwNein) weiter', erbt?.args.join('|') === 'allTitles|jwNein', erbt)
+pruefe(
+  'tonDerKanalWege: erst das Erbe, dann die Sprach-Termin-Regel',
+  erbt !== undefined && erbt.stelle < (tonAufrufe.find((x) => x.name === 'nimmKanalJaGegenSprachTermin')?.stelle ?? -1),
+  tonAufrufe.map((x) => `${x.stelle}:${x.name}`),
 )
 
 if (fehler) {

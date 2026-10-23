@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-21T00:09:35.643Z",
+  "generatedAt": "2026-10-23T23:28:08.644Z",
   "titleCount": 2922,
-  "belegtCount": 2586,
-  "releaseCount": 786,
-  "eventCount": 3952,
+  "belegtCount": 2591,
+  "releaseCount": 806,
+  "eventCount": 3990,
   "genres": [
     "Action",
     "Adventure",
@@ -214,13 +214,13 @@
     "Amazon (Blu-ray)",
     "Amazon (DVD)",
     "Amazon (Trilogie, 3 DVDs)",
-    "Animation Digital Network",
     "Hbo Max",
     "Netzkino",
     "Verleihshop (Leih-DVD)",
     "Videobuster (Leih-Disc)",
     "ZDF",
     "Amazon",
+    "Animation Digital Network",
     "Behind The Tree",
     "Paramount+",
     "Paramount+ über Apple TV",
@@ -264,7 +264,7 @@
     2016,
     2015
   ],
-  "patchnotesStand": "2026-10-20",
+  "patchnotesStand": "2026-10-23",
   "attribution": [
     "Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0",
     "Metadaten: AniList (https://anilist.co)",

@@ -7,32 +7,6 @@ import type { berechneAntwort } from './antwort-berechnen.ts'
 
 type Antwort = ReturnType<typeof berechneAntwort>
 
-/*
-  **Der Disc-Termin, den der Kopf nicht mehr trägt.**
-
-  Nur wenn die Antwort oben aus den Streams kommt (also kein Disc-Zustand
-  ist) und es wirklich eine künftige Kaufausgabe gibt. Sonst stünde die Zeile
-  neben einer Überschrift, die dasselbe Datum schon nennt.
-*/
-export function kaufausgabeZeileVon({ title, releases, today, antwort, t }: {
-  title: Title | undefined
-  releases: Release[]
-  today: string
-  antwort: Antwort
-  t: Translate
-}): string | undefined {
-  if (!title || antwort?.art === 'disc') return undefined
-  const naechste = releases
-    .filter((r) => r.releaseType === 'disc' && (r.schedule?.firstEpisodeDate ?? '') > today)
-    .sort((a, b) => (a.schedule?.firstEpisodeDate ?? '').localeCompare(b.schedule?.firstEpisodeDate ?? ''))[0]
-  if (!naechste?.schedule?.firstEpisodeDate) return undefined
-  const label = naechste.publisher ?? naechste.edition
-  const datum = formatDate(naechste.schedule.firstEpisodeDate)
-  return label
-    ? t('antwort.kaufausgabeAm', { datum, label })
-    : t('antwort.kaufausgabeAmOhne', { datum })
-}
-
 /* Nennt die Erstausgabe denselben Anbieter früher, ist das spätere Angebot keine
    Auskunft mehr („Auf Deutsch seit 28.12.2023 · Netflix, Inc." über „Bei Netflix im
    Angebot seit 08.03.2024", Pokémon-Concierge, Stichprobe 16.09.2026). */

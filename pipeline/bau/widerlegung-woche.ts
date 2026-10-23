@@ -158,6 +158,15 @@ export function deutscheBereicheSeit(crDub: CrDubData, url: string | undefined, 
 }
 
 /**
+ * Bereiche gegen die Folgenzahl der Staffel: mit Zahl gekappt (check-cr-teilseiten-bestand); ohne Zahl (laufende Staffel,
+ * AniList nennt keine) unverändert — sie bestehen nur aus Folgen, die der Katalog als deutsch führt, nie aus einer geschätzten Spanne.
+ */
+function bereicheInFolgenzahl<B extends { from: number; to: number }>(bereiche: B[], episodes: number | undefined): B[] {
+  if (!episodes) return bereiche
+  return bereiche.filter((b) => b.from <= episodes).map((b) => ({ ...b, to: Math.min(b.to, episodes) }))
+}
+
+/**
  * Ein geteilter Reihen-Weg belegt kein Deutsch für eine Staffel, deren deutsche
  * Termine auf diesem Anbieter **alle** widerlegt sind. Das `dub: true` gehört dann
  * den Schwesterstaffeln (die Serienkennung ist ein Franchise); für diese Staffel
@@ -182,8 +191,7 @@ export function loeseGeteilteWegeVonWiderlegten(releases: Release[], titles: Map
     const staffel = titel && staffelDesTitels(titel, titles.values())
     for (const s of titel?.streams ?? []) {
       if (s.platform !== plattform || s.dub !== true || (s.sharedWith ?? 0) < 2 || s.dubRanges?.length) continue
-      // Bereiche nur gegen eine bekannte Folgenzahl (check-cr-teilseiten-bestand); ohne sie bleibt die Sprache offen.
-      const bereiche = staffel && titel?.episodes ? deutscheBereicheSeit(crDub, s.url, spaetester, staffel).filter((b) => b.from <= titel.episodes!).map((b) => ({ ...b, to: Math.min(b.to, titel.episodes!) })) : []
+      const bereiche = staffel ? bereicheInFolgenzahl(deutscheBereicheSeit(crDub, s.url, spaetester, staffel), titel?.episodes) : []
       if (bereiche.length) {
         s.dubRanges = bereiche
         continue

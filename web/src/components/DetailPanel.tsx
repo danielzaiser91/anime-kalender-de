@@ -11,7 +11,7 @@ import {
 } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
-import { useTeilenAdresse } from './detail/teilen-adresse.ts'
+import { useTitelwechsel } from './detail/titelwechsel.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 import { useTvVorbei } from './detail/tv-vorbei.tsx'
@@ -38,7 +38,7 @@ import { SchlagworteAbschnitt } from './detail/Schlagworte.tsx'
 import { plotVon, eigenerAsZiel } from './detail/plot.ts'
 import { reihenTeileVon, useReihe } from './detail/reihen-daten.ts'
 import { reihenNameVon, teilNameVon } from './detail/reihen-namen.ts'
-import { kastenNotizVon, kaufausgabeZeileVon, wegeHinweisVon } from './detail/kasten-hinweise.ts'
+import { kastenNotizVon, wegeHinweisVon } from './detail/kasten-hinweise.ts'
 import { useErsatzHandlung } from './detail/ersatz-handlung.ts'
 import { PanelLeer, PanelVersteckt } from './detail/panel-huellen.tsx'
 
@@ -74,7 +74,7 @@ export function DetailPanel({
     () => titelMitTerminBereichen(titelRoh, data.releasesByTitle.get(titleId) ?? []),
     [titelRoh, data, titleId],
   )
-  useTeilenAdresse(title)
+  useTitelwechsel(titleId, title, (data.releasesByTitle.get(titleId)?.length ?? 0) > 0)
   /**
    * Der leere Rückfall braucht ein `useMemo`, sonst ist er bei jedem Durchlauf
    * ein neues Array — und jeder Hook, der `releases` als Abhängigkeit führt,
@@ -414,8 +414,6 @@ export function DetailPanel({
     // `today` steht in der Abhängigkeitsliste, weil `titleStatus` es benutzt.
   }, [title, releases, today, synopsis?.deFolgen])
 
-  const kaufausgabeZeile = useMemo(() => kaufausgabeZeileVon({ title, releases, today, antwort, t }), [title, releases, today, antwort, t])
-
   const wegeHinweis = wegeHinweisVon({ title, antwort, favorites, verbindung, releases, today, t })
 
   const tvVorbei = useTvVorbei(wegeHinweis, streamReleases, releases, today)
@@ -516,7 +514,6 @@ export function DetailPanel({
             wegeHinweis={wegeHinweis}
             tvVorbei={tvVorbei}
             kastenNotiz={kastenNotiz}
-            kaufausgabeZeile={kaufausgabeZeile}
             folgenLuecke={folgenLuecke}
             verbindung={verbindung}
             favorites={favorites}
@@ -530,6 +527,7 @@ export function DetailPanel({
             discReleases={discReleases}
             discZuerst={discZuerst}
           />
+          {discOffen && discAusgaben.length > 0 && <DiscEinzelListe ausgaben={discAusgaben} />}
           <UnterDerAntwort
             data={data}
             title={title}
@@ -551,7 +549,6 @@ export function DetailPanel({
             />
             }
           />
-          {discOffen && discAusgaben.length > 0 && <DiscEinzelListe ausgaben={discAusgaben} />}
           {/*
             „Wo läuft es" steht seit dem 24.08.2026 **vor** den Terminen.
 

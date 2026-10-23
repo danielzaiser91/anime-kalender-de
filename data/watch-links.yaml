@@ -388,3 +388,16 @@
       url: https://www.netflix.com/title/81054853
   sources:
     - https://www.netflix.com/title/81054853
+
+# Your Forma: freenet meinVOD nennt auf der Folgenseite „Sprache: Deutsch, Japanisch“ (Daniel, 21.10.2026, Folge 1). Die freenet-Seiten
+# lesen wir nicht (robots.txt), JustWatch nennt keine Tonspur, und kein Schwester-Shop führt den Titel — ohne diesen Handbeleg bliebe
+# „Sprache offen“. Belegt ist Folge 1. `buy` wird im Bau zum digitalen Stream-Weg (Kauf); der Name verhindert den JustWatch-Doppelweg.
+- anilistId: 167142
+  title: "Your Forma"
+  links:
+    - name: freenet meinVOD
+      url: https://shop.freenet-video.de/your-forma-s01-se45841187
+      kind: buy
+      dubRanges: [{ from: 1, to: 1, dub: true }]
+  sources:
+    - https://shop.freenet-video.de/your-forma-s01-se45841187

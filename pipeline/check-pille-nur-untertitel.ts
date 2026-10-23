@@ -34,7 +34,7 @@ const sortiert = [{ art: 'abo', plattformen: [weg('netflix')], streamWege: [] }]
 pruefe('nur-Untertitel-Zeile steht bei „Weitere Anbieter“', zeilenGruppen(sortiert, titel(), [termin('netflix', 'omu')])[0]?.[1] === 'offen')
 pruefe('nur-Untertitel-Zeile zählt als ohne Sprachbeleg', alleOhneSprachbeleg(sortiert, titel(), [termin('netflix', 'omu')]))
 const t = (k: string) => (TEXTE_ZEILEN as Record<string, string>)[k] ?? k
-pruefe('Legende nennt „nur Untertitel“ nur, wo es vorkommt', legendeFuer(['omu'], false, t)?.includes('nur Untertitel') === true && legendeFuer(['offen'], false, t)?.includes('nur Untertitel') !== true)
+pruefe('Legende wiederholt „nur Untertitel“ nicht (die Blase sagt es schon)', legendeFuer(['omu'], false, t) === undefined)
 
 console.log('\nTooltip:')
 pruefe('„noch nicht erschienen“ nur bei angekündigter Synchro', synchroAngekuendigt(titel({ platform: 'crunchyroll', synchro: 'angekuendigt' }), weg('crunchyroll')) && !synchroAngekuendigt(titel({ platform: 'crunchyroll', synchro: 'offen' }), weg('crunchyroll')) && !synchroAngekuendigt(titel(), weg('netflix')))
