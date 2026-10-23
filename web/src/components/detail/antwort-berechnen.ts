@@ -8,10 +8,10 @@ import { filmTermine } from './film-termine.ts'
 import { restUndBlock } from './antwort-block.ts'
 import { jpErschienen, KINO_LAND } from './kino.tsx'
 
-/** `jetzt` ist die Uhr für „erschienen“ (`istErschienen`); Tests setzen sie fest, sonst gilt der Augenblick des Aufrufs. */
-type AntwortEingabe = { title: Title | undefined; releases: Release[]; today: string; jetzt?: Date }
+/** `jetzt` ist die Uhr für „erschienen“ (`istErschienen`); Pflicht, damit kein Test mit festem `today` an der echten Uhr hängt. */
+type AntwortEingabe = { title: Title | undefined; releases: Release[]; today: string; jetzt: Date }
 
-export function berechneAntwort({ title, releases, today, jetzt = new Date() }: AntwortEingabe) {
+export function berechneAntwort({ title, releases, today, jetzt }: AntwortEingabe) {
   if (!title) return undefined
 
   /*

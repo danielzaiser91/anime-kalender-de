@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-10-21",
+  "stand": "2026-10-23",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -10848,6 +10848,392 @@
           "status": "ohne-zuordnung"
         },
         "inhaltZeichen": 293
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|Der Held ohne Klasse: Der Aufstieg eines Talentlosen||start|netflix",
+      "erstGesehen": "2026-10-22",
+      "fingerabdruck": "0a99bd4b3a75",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
+          "veroeffentlicht": "2026-10-21",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "datum": "2026-11-01",
+        "datumBedeutung": "genannt",
+        "deutsch": "nein",
+        "folgen": 12,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "1. November: »Der Held ohne Klasse: Der Aufstieg eines Talentlosen«\n1. November: »Der Held ohne Klasse: Der Aufstieg eines Talentlosen«\nEpisoden: 12 (komplett)\nSprache: unbekannt\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 169969,
+          "name": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 294
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|Bass X Machina||start|netflix",
+      "erstGesehen": "2026-10-22",
+      "fingerabdruck": "18a9770c4fb2",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
+          "veroeffentlicht": "2026-10-21",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Bass X Machina",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "datum": "2026-11-03",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "3. November: »Bass X Machina«\n3. November: »Bass X Machina«\nEpisoden: unbekannt\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
+        "offen": {
+          "grund": "kein Titel mit diesem Namen",
+          "kandidaten": []
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 262
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|Fool Night||start|netflix",
+      "erstGesehen": "2026-10-22",
+      "fingerabdruck": "4f820eee3f57",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
+          "veroeffentlicht": "2026-10-21",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Fool Night",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "datum": "2026-11-26",
+        "datumBedeutung": "genannt",
+        "deutsch": "nein",
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "26. November: »Fool Night«\n26. November: »Fool Night«\nEpisoden: unbekannt\nSprache: Japanisch (UT)\nHinweis: Deutsche Synchronisation noch nicht bestätigt\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 213457,
+          "name": "Fool Night",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "bekannt",
+          "release": {
+            "slug": "auto-10021751-netflix",
+            "firstEpisodeDate": "2026-11-26"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 310
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|The Ramparts of Ice|Staffel 2|start|netflix",
+      "erstGesehen": "2026-10-22",
+      "fingerabdruck": "a2ce74b68bbf",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
+          "veroeffentlicht": "2026-10-21",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "The Ramparts of Ice",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "deutsch": "ja",
+        "woechentlich": true,
+        "konfidenz": 0.6,
+        "gruende": [
+          "kein Tag genannt"
+        ],
+        "zitat": "Donnerstag: »The Ramparts of Ice« – Staffel 2 (Simulcast)\nDonnerstag: »The Ramparts of Ice« – Staffel 2 (Simulcast)\nSimulcast: Jeden Donnerstag\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 213805,
+          "name": "The Ramparts of Ice: Staffel 2",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "bekannt",
+          "release": {
+            "slug": "auto-213805-netflix",
+            "firstEpisodeDate": "2026-10-01"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 236
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|STEEL BALL RUN: JoJo’s Bizarre Adventure||start|netflix",
+      "erstGesehen": "2026-10-22",
+      "fingerabdruck": "9a5b258fa373",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
+          "veroeffentlicht": "2026-10-21",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "STEEL BALL RUN: JoJo’s Bizarre Adventure",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "deutsch": "ja",
+        "woechentlich": true,
+        "konfidenz": 0.6,
+        "gruende": [
+          "kein Tag genannt"
+        ],
+        "zitat": "Freitag: »STEEL BALL RUN: JoJo’s Bizarre Adventure« (Simulcast)\nFreitag: »STEEL BALL RUN: JoJo’s Bizarre Adventure« (Simulcast)\nSimulcast: Jeden Freitag\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 190327,
+          "name": "Steel Ball Run: Jojo’s Bizarre Adventure",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "bekannt",
+          "release": {
+            "slug": "steel-ball-run-1st-stage",
+            "firstEpisodeDate": "2026-03-19"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 215
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|Tougen Anki|Staffel 2|start|netflix",
+      "erstGesehen": "2026-10-22",
+      "fingerabdruck": "136072a1f5d9",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
+          "veroeffentlicht": "2026-10-21",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Tougen Anki",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "deutsch": "nein",
+        "woechentlich": true,
+        "konfidenz": 0.6,
+        "gruende": [
+          "kein Tag genannt"
+        ],
+        "zitat": "Freitag: »Tougen Anki« – Staffel 2 (Simulcast)\nFreitag: »Tougen Anki« – Staffel 2 (Simulcast)\nSimulcast: Jeden Freitag\nSprache: Japanisch (UT)\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 204650,
+          "name": "Tougen Anki Season 2",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "ankuendigung": {
+            "omuAb": "2026-10-02",
+            "synchro": "offen"
+          },
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 230
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|Das Band der Unterwelt||start|netflix",
+      "erstGesehen": "2026-10-22",
+      "fingerabdruck": "54254bcc3f32",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
+          "veroeffentlicht": "2026-10-21",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Das Band der Unterwelt",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "deutsch": "ja",
+        "woechentlich": true,
+        "konfidenz": 0.6,
+        "gruende": [
+          "kein Tag genannt"
+        ],
+        "zitat": "Samstag: »Das Band der Unterwelt« (wöchentlich)\nSamstag: »Das Band der Unterwelt« (wöchentlich)\nSprache: Deutsch, Japanisch (UT)\nHinweis: Jeweils drei Monate nach dem Simulcast auf Crunchyroll\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 195600,
+          "name": "Das Band der Unterwelt",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "bekannt",
+          "release": {
+            "slug": "das-band-der-unterwelt-netflix",
+            "firstEpisodeDate": "2026-09-19"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 194
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|Ranma 1/2|Staffel 3|start|netflix",
+      "erstGesehen": "2026-10-22",
+      "fingerabdruck": "1edf5f241e2d",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
+          "veroeffentlicht": "2026-10-21",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Ranma 1/2",
+        "zusatz": "Staffel 3",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "deutsch": "ja",
+        "woechentlich": true,
+        "konfidenz": 0.6,
+        "gruende": [
+          "kein Tag genannt"
+        ],
+        "zitat": "Samstag: »Ranma 1/2« – Staffel 3 (Simulcast)\nSamstag: »Ranma 1/2« – Staffel 3 (Simulcast)\nSimulcast: Jeden Samstag\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 209872,
+          "name": "Ranma 1/2: Staffel 3",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "bekannt",
+          "release": {
+            "slug": "ranma-s3-folge1-netflix",
+            "firstEpisodeDate": "2026-10-05"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 193
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|Blue Box|Staffel 2|start|netflix",
+      "erstGesehen": "2026-10-22",
+      "fingerabdruck": "73230c2014fa",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
+          "veroeffentlicht": "2026-10-21",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Blue Box",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "deutsch": "ja",
+        "woechentlich": true,
+        "konfidenz": 0.6,
+        "gruende": [
+          "kein Tag genannt"
+        ],
+        "zitat": "Sonntag: »Blue Box« – Staffel 2 (Simulcast)\nSonntag: »Blue Box« – Staffel 2 (Simulcast)\nSimulcast: Jeden Sonntag\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 189123,
+          "name": "Blue Box: Staffel 2",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "bekannt",
+          "release": {
+            "slug": "auto-189123-netflix",
+            "firstEpisodeDate": "2026-10-04"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 203
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|Dragon Ball Super: Beerus||start|netflix",
+      "erstGesehen": "2026-10-22",
+      "fingerabdruck": "a72c3afe795e",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
+          "veroeffentlicht": "2026-10-21",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Dragon Ball Super: Beerus",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "deutsch": "nein",
+        "woechentlich": true,
+        "konfidenz": 0.6,
+        "gruende": [
+          "kein Tag genannt"
+        ],
+        "zitat": "Sonntag: »Dragon Ball Super: Beerus« (Simulcast)\nSonntag: »Dragon Ball Super: Beerus« (Simulcast)\nSimulcast: Jeden Sonntag\nSprache: Japanisch (UT)\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 206814,
+          "name": "Dragon Ball Super: Beerus",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "bekannt",
+          "release": {
+            "slug": "dragon-ball-super-beerus-netflix",
+            "firstEpisodeDate": "2026-10-18"
+          },
+          "ankuendigung": {
+            "omuAb": "2026-10-11",
+            "synchro": "offen"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 202
       }
     }
   ]

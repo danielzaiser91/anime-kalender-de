@@ -264,7 +264,7 @@ export type Kontext = {
 
 async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, stapel: unknown[]) {
   /* Folgen in Titelzeilen gebündelt je Titel (Begründung in titelzeile-stapel.ts), der Rest einzeln wie bisher. */
-  const inTitelzeile = await titelzeilenImStapel(env, stapel)
+  const { ergebnisse: inTitelzeile, abfragen } = await titelzeilenImStapel(env, stapel)
   const rest = stapel.filter((_, i) => !inTitelzeile.has(i))
   const mitUrl = rest.filter((m): m is Record<string, unknown> => typeof (m as { url?: unknown } | null)?.url === 'string')
   const offene = await ladeOffeneHashes(env, mitUrl.map(folgeVon))
@@ -275,7 +275,7 @@ async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, s
     const r = await speichereDaten({ request, antwort, token, env, ctx: undefined, offene, ohneTitelzeile: true }, einzeln as Record<string, unknown>)
     const inhalt = (await r.json().catch(() => ({}))) as { befund?: string; error?: string }
     return r.ok ? { ok: true, befund: inhalt.befund ?? null } : { ok: false, status: r.status, grund: inhalt.error ?? 'ohne Grund' }
-  })
+  }, abfragen)
   const ergebnisse = stapel.map((_, i) => inTitelzeile.get(i) ?? uebrige.shift()!)
   const erste = stapel[0] as Record<string, unknown>
   ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(erste?.plattform ?? 'unbekannt') }))

@@ -1340,6 +1340,14 @@ Live nachsehen: `cd worker && npx wrangler tail newsletter --format json --searc
 
 Vergangene Logs (bis 3 Tage zurück) liest man per API: `POST https://api.cloudflare.com/client/v4/accounts/{account_id}/workers/observability/telemetry/query` mit dem Token „anime-kalender-deploy“, das seit 17.10.2026 00:03 das Recht „Workers Observability Read“ trägt (Wert in `my_secrets.md`, nie in Repo oder Log). So kam am 16.10.2026 die Ursache der 500 bei der Prime-Meldung ans Licht (Abschnitt „D1-Export weist Meldungen ab“).
 
+## Kapazitätsmessung: Anfragen, CPU, D1-Schreiben, Mails (23.10.2026)
+
+**Wo:** `tools/kapazitaet-messen.mjs` (Schwellen und Bewertung: `tools/kapazitaet-bewertung.mjs`, Test `tools/kapazitaet.test.mjs`) läuft als Schritt „Kapazität messen“ in `d1-verbrauch.yml` (täglich 07:50 UTC, gleicher Token). Es liest per GraphQL-Analytics die letzten 7 UTC-Tage: Worker-Anfragen (Konto und je Skript), Fehler, `exceededCpu`, CPU p50/p99 (alle Aufrufe und Cron getrennt), D1 gelesen/geschrieben. Rot (Statusanzeige wie bei d1-verbrauch) bei einem Tag über 70.000 Anfragen, über 70.000 geschriebenen D1-Zeilen oder Cron-CPU p99 über 8 ms (nur wenn der Cron-Datensatz Ereignisse liefert, am 23.10.2026 leer); `exceededCpu` > 0 ist eine Warnzeile. Der schlimmste Tag des Fensters zählt. Die frühere Grundlast „58.000 Aufrufe/Tag“ (11.10.2026) gilt nicht mehr; maßgeblich ist die Tageszeile im Protokoll.
+
+**Gemessen am echten Konto (CI-Lauf auf dem Zweig, 23.10.2026):** Der Analytics-Token reicht für Worker und D1. `workersInvocationsAdaptive` und `d1AnalyticsAdaptiveGroups` liefern; CPU-Quantile sind Mikrosekunden (Anzeige in ms). Letzte 7 Tage: nur 1.205–5.504 Anfragen am Tag (Skript `newsletter`), nicht 58.000; D1 geschrieben 3.655–18.989 Zeilen am Tag; CPU p99 aller Aufrufe 36–74 ms. HTTP und Cron lassen sich im Adaptive-Datensatz nicht trennen (keine Dimension `eventType`); `workersInvocationsScheduled` ist flach (`scriptName cron status datetime cpuTimeUs`) und war leer, der Cron-Wert steht dann auf `n/a`. Ein nicht lesbarer Datensatz macht den Lauf rot, er zählt nie als 0. Probelauf: `gh workflow run d1-verbrauch.yml --repo danielzaiser91/anime-kalender-de` (Kopf des Zweigs: `--ref <zweig>`).
+
+**Mails je Tag:** `worker/src/mail-zaehler.ts` addiert die vom Anbieter angenommenen Mails (Digest-Stapel: Zahl der angenommenen; Einzelmails: 1; Anbieter `console` und abgewiesener Versand: 0) in `schreib_tag.mails` (Migration 059, vor dem Worker-Deploy einspielen). `GET /health` liefert `heute: { tag, geschrieben, gelesen, mails }` (`null`, wenn der Zähler nicht lesbar ist). Eine Mail-Schwelle in der Messung folgt, sobald das Tageslimit des Anbieters belegt ist.
+
 ## D1-Schreibkontingent: Tagesdeckel, weniger Indexzeilen, Hash statt Wiederholung (11.10.2026)
 
 **Anlass:** Das Gratis-Kontingent von D1 (100.000 geschriebene Zeilen am UTC-Tag, je Konto, Newsletter-Worker und Ticket-Board teilen es) war am 11.10.2026 zwischen 18:00 und 18:39 MESZ durch einen „alle durchgehen"-Lauf (Disney+ 7.104 Folgen, dazu Netflix und Prime) auf rund 150.000 geschriebene Zeilen gestiegen; alle Schreibpfade waren bis 02:00 MESZ gesperrt. Jede Indexzeile zählt als geschriebene Zeile.
@@ -1799,6 +1807,12 @@ Offen: Push-Abos kosten im stündlichen Aufruf weiter je etwa zwei; rote Seiten 
 
 **Nachprüfen:** nach einem Tag `wrangler d1 insights` gegen `schreib_tag.gelesen` (an der Meldungskopie) halten; liegt der Zähler weit unter den Insights, ist der ungezählte Rest größer als die Reserve (seit 15.10.2026 2,0 Mio. bis zum Kontingent).
 
+## Feed-Abrufe zählen und ICS-Takt (`feed-zaehler.ts`, Migration 060, 23.10.2026)
+
+Kalenderkopf nennt `REFRESH-INTERVAL;VALUE=DURATION:PT12H` und `X-PUBLISHED-TTL:PT12H` (`shared/ics.ts`, gilt für alle gebauten Dateien und den Favoriten-Feed); vorher stand dort kein Takt. Welche App den Wert beachtet, ist nicht gemessen (A6 bleibt Annahme, bis der Zähler es zeigt).
+
+Zähler: `mitEingang` (`auffangnetz.ts`) zählt jede Anfrage an `/feed/favoriten.ics?k=…` vor Cache und Datenbank (auch unbekannte Adressen, auch spätere Edge-Cache-Treffer). Tabelle `feed_abrufe(tag, reg, wert)`: `reg = -1` summiert die Abrufe, `reg 0..255` sind Register eines HyperLogLog über den SHA-256 des Tokens (kein Token gespeichert, Fehler rund 6,5 %). Gebucht wird gesammelt je Isolate: ab 500 Abrufen oder nach 10 Minuten, nie öfter als alle 60 s; Schreibzeilen je Stapel = 1 (Abrufe) + angehobene Register (höchstens 256) + 1 (Buchung in `schreib_tag`, der Schreib-Deckel zählt den Zähler mit) und ein DELETE alter Tage. Ein Isolate schreibt höchstens 1000 Zeilen am Tag (`MAX_ZEILEN_TAG`, danach ist der Zähler bis 00:00 UTC aus) und wiederholt kein Register, das es heute schon geschrieben hat; Anfragen mit Zufalls-Token (404) kosten so je Isolate höchstens diese Grenze. Ablesen: `leseFeedAbrufe(env, tag)`; Zeilen älter als 30 Tage löscht der nächste Stapel. Fehlt die Tabelle oder ist D1 gesperrt, läuft der Feed unverändert weiter (Warnung im Log, ein Versuch je Minute).
+
 ## Seitenweise Titelzeilen-Leser: ab dem Titel der Marke, Abbruch nach `LIMIT` (Migration 058, 16.10.2026)
 
 **Anlass:** Insights am 16.10.2026 bis 10:40: `offenAusTitel` (`worker/src/rohfolgen-seiten.ts`) 26-mal Ø 26.568 gelesene Zeilen, `?alle=1` (`allePruefungen`) 10-mal Ø 28.665. Aufrufer: `bestand-bauen.yml` → `npm run data:rohfolgen` (`pipeline/fetch-rohfolgen.ts`, bis 20 Seiten à 5.000) → `?rohfolgen=1` (`worker/src/pruefung-rohfolgen.ts`); `alle=1` aus `fetch-folgen-zuordnung.ts` und `fetch-urteile.ts` → `alleAusTitel`. Alle drei hatten dieselbe Ursache.
@@ -1849,6 +1863,16 @@ Häufigster Fehlschlag des Deploys aus dem geprüften Build: Zwischen Kettenlauf
 **Ansätze (workerd, 2.100 Prime-Ids):** Untergrenze `= 0` in der alten Schleife: Wiederholung schreibfrei, aber 42 Abfragen allein für Prime, der Aufruf bricht weiter ab. `json_each` in einer Anweisung: 12.599 gelesene Zeilen beim ersten, 4.201 beim zweiten Mal. `batch` aus 50er-Anweisungen (gewählt): 4.200 und 4.200, je eine Abfrage des Aufrufs. Dass ein `batch` als eine Abfrage zählt, stützt sich auf die Prime-Meldung vom 19.09.2026 (93 Anweisungen in einem Stapel, `erweiterung.md`).
 
 **Wächter:** `tools/worker-abhaken.test.ts` (in `check:worker`): 3.000 Ids, 200 Titelzeilen, D1-Attrappe mit 100 Bindungen und 50 Abfragen; rot bei Status ≠ 200, mehr als 50 Abfragen, Schreibzeilen in der Wiederholung oder fehlender Marke nach Teilerfolg.
+
+## Titelzeilen: Wiederöffnen, Löschen und Stapel unter 50 Abfragen (21.10.2026)
+
+**Grenze (Cloudflare, Workers Limits, 21.10.2026 abgerufen):** „A subrequest is any request a Worker makes using the Fetch API or to Cloudflare services like R2, KV, or D1“; 50 je Aufruf in der freien Stufe. D1-Abfragen zählen also; ein `batch` zählt als eine (gemessen 19.09.2026).
+
+**Gemessen (Attrappe mit 50er-Grenze, 215 Disney+-Titel, vor dem Fix):** `reoeffnen` brauchte 1 + 2 je Titel und brach nach der 50. Abfrage ab (nur 24 von 215 Titeln wieder geöffnet); Löschen nach Ids (`loescheTitelFolgen`) ebenso. Ein Netflix-Anbieter mit rund 1.000 Titeln wäre bei 2.000 Abfragen gelandet. Abhaken war schon gebündelt (16.10.).
+
+**Fix:** `titelzeile-buendel.ts` (`aendereGebuendelt`): ein Lesen, die `UPDATE`s im `batch` (100 je Stapel), Zusammenstöße der Versionsprüfung in der nächsten Runde (höchstens `VERSUCHE`). 215 Titel: 5 Abfragen (Wiederöffnen), 4 (Löschen). Löschen nach Adresse und Nummern bleibt einzeln (eine Adresse, wenige Zeilen).
+
+**Stapel:** Die D1-Abfragen von `titelzeilenImStapel` zählen zum `ANFRAGEN_BUDGET` (44); der Rest des Stapels (`verarbeiteStapel`) bekommt nur noch, was übrig ist. Eine Gruppe, die nicht mehr hineinpasst oder durch Zusammenstöße das Budget reißt, antwortet 503 „Subrequest-Budget des Stapels überschritten“ (die Erweiterung schickt neu). Ohne Zusammenstöße waren es höchstens 30 Abfragen (zehn Gruppen zu je 3); gerissen wurde die Grenze nur mit Wiederholungen. Wächter: `tools/worker-abhaken.test.ts` (Wiederöffnen/Löschen), `tools/worker-titelzeile-stapel-budget.test.ts` (Stapel), beide in `check:worker`.
 
 ## Wecker-Wache zählt einen roten Start nicht als erledigt (16.10.2026)
 

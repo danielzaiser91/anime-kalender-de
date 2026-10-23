@@ -5,16 +5,8 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Military
 X-WR-TIMEZONE:Europe/Berlin
-BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-10-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261014T133000Z
-DTEND:20261014T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/13080/
-CATEGORIES:Crunchyroll
-END:VEVENT
+REFRESH-INTERVAL;VALUE=DURATION:PT12H
+X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
 UID:steins-gate-0-2026-10-16@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
