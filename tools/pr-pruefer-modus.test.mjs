@@ -84,6 +84,7 @@ gleich('Review ok in Runde 1, Agent-Auflage vorhanden: voll (jüngstes Review is
 gleich('Review aendern ohne jede Auflagen-Quelle (fremder Kommentar): voll', bestimmeModus([fremdesCi], '2').modus, 'voll')
 gleich('Wiederholung auf demselben Kopf nach einem Nachtrag (jüngstes Review aendern): abnahme', bestimmeModus([CI_R1, NACHTRAG], '2').modus, 'abnahme')
 gleich('Abnahme-aendern, dann neuer Kopf: weiter abnahme', bestimmeModus([CI_R1, abnahmeAendern], '2').modus, 'abnahme')
+gleich('Nur ein Abnahme-aendern ohne Quelle (Verlauf unvollständig): voll, es gibt nichts abzunehmen', bestimmeModus([abnahmeAendern], '2').modus, 'voll')
 gleich('Ohne Auflagen steht der Hinweis in der Datei', auflagenText([], '999999999').includes('Keine Auflagen'), true)
 gleich('Letzter geprüfter Kopf ist der des jüngsten CI-Reviews', bestimmeModus([CI_R1, abnahmeOk], '2').vorher, 'ddddddddd')
 gleich('Kopf wird auf 9 Zeichen gekürzt', bestimmeModus([ci('0123456789abcdef', 'aendern', 'voll')], '2').vorher, '012345678')
