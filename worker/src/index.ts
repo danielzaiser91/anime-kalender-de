@@ -43,13 +43,13 @@ import { handlePruefung } from './pruefung.ts'
 import { loadNews, weitereAusNews } from './news-quelle.ts'
 import { handleLauf } from './lauf.ts'
 import { handleCrZugang } from './cr-zugang.ts'
+import { EMAIL_RE, mitAnmeldeSchutz } from './anmelde-schutz.ts'
 import { handleBeleg } from './beleg.ts'; import { loescheAbgelaufenes } from './loeschfristen.ts'; import { starteFaelligeLaeufe } from './wecker.ts'
 
 export { Ereignisse }
 export { Schnellmesser } from './schnellmesser.ts'
 
 /** Kommagetrennte Zahlenliste aus der Datenbank in ein Set. */
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i
 
 function cors(env: Env): Record<string, string> {
   return {
@@ -1301,7 +1301,7 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
     switch (url.pathname) {
       case '/subscribe':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
-        return handleSubscribe(request, env)
+        return mitAnmeldeSchutz(request, env, handleSubscribe, imRahmen, cors(env))
       case '/confirm':
         return handleConfirm(request, env)
       case '/unsubscribe':
