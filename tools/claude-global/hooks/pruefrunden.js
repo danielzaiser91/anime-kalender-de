@@ -73,7 +73,7 @@ function zaehleUrteile(kommentare) {
 function leseStufe(kommentare) {
   const treffer = kommentare
     .filter((k) => k.author && k.author.login === 'github-actions')
-    .map((k) => STUFE_KOMMENTAR.exec(String(k.body ?? '')))
+    .map((k) => STUFE_KOMMENTAR.exec(String(k.body)))
     .filter(Boolean)
   return treffer.length ? Number(treffer.at(-1)[1]) : 2
 }
