@@ -76,10 +76,13 @@ console.log('\nUS-Nein trifft nur die US-Adresse (09-4-1):')
   const http = `http://www.crunchyroll.com/de/series/${ID}/testserie`
   const ohneWww = `https://crunchyroll.com/de/series/${ID}/testserie`
   const andereSprache = `https://www.crunchyroll.com/fr/series/${ID}/testserie`
-  const [h, o, s] = uebrig([usNein, deJa()], [http, ohneWww, andereSprache])
-  pruefe('deutsche Adresse mit http bleibt', h!.length === 1, h)
-  pruefe('deutsche Adresse ohne www bleibt', o!.length === 1, o)
-  pruefe('Gegenprobe: eine andere Sprachfassung fällt', s!.length === 0, s)
+  /* Ohne /series/ greift nur der Adressvergleich mit der Adresse des US-Satzes (so steht SNAFU im Bestand). */
+  const nurAdresse = (url: string) => uebrig([{ ...usNein, url } as CrSerie, deJa()], [url])[0]!
+  pruefe('deutsche Adresse mit http bleibt', nurAdresse(http).length === 1, nurAdresse(http))
+  pruefe('deutsche Adresse ohne www bleibt', nurAdresse(ohneWww).length === 1, nurAdresse(ohneWww))
+  pruefe('Gegenprobe: eine andere Sprachfassung fällt', nurAdresse(andereSprache).length === 0, nurAdresse(andereSprache))
+  const ohneStaffelnFeld = { url: DE_ADRESSE, seriesId: ID, katalog: 'de' } as unknown as CrSerie
+  pruefe('Gegenprobe: deutscher Satz ohne Staffel-Feld schützt nicht', uebrig([usNein, ohneStaffelnFeld], [DE_ADRESSE])[0]!.length === 0)
 }
 {
   const fremd = 'https://www.crunchyroll.com/de/series/GANDERE99/fremd'
