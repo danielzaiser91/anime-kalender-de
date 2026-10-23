@@ -7,12 +7,14 @@ import { providerToPlatform } from './titel-hilfen.ts'
 import { ergaenzeWegeOhneWeg, PHYSISCHE_SHOPS, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
 import { ergaenzeAboWege, type JwAbo } from './11-2-3-abo-wege.ts'
 
-export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen }: {
+type Runde = {
   titles: Map<number, Title>
   tmdbMehrdeutig: Set<string>
   toteAdressen: Set<string>
-}) {
-  /* Ein Nein-Handbeleg gilt für beide Runden, die Wege anlegen (Titel ohne Weg, Abo-Weg mit deutschem Ton). */
+}
+
+/* Ein Nein-Handbeleg gilt für alle Runden, die Wege anlegen (Titel ohne Weg, Abo-Weg mit deutschem Ton, Prime-Kauf). */
+function legeWegeAn({ titles, tmdbMehrdeutig, toteAdressen }: Runde) {
   const handNein = neinHandbelege(loadDubChecks())
   ergaenzeWegeOhneWeg({
     titles,
@@ -29,6 +31,10 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
     tmdbMehrdeutig,
     toteAdressen,
   })
+}
+
+export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen }: Runde) {
+  legeWegeAn({ titles, tmdbMehrdeutig, toteAdressen })
 
   /*
     **Ein Bezugsweg führt zum Anbieter, nicht zu einer Datenbank.**
