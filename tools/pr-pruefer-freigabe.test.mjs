@@ -54,9 +54,10 @@ esac
 `
 
 /** Die env des Schritts aus der YAML; nur die beiden bekannten Ausdrücke werden eingesetzt. */
-function werteEnv(zustand) {
+function werteEnv(zustand, checks) {
   const ausdruecke = {
     'steps.eingang.outputs.zustand': zustand,
+    'steps.checks.outputs.stand': checks,
     'secrets.GITHUB_TOKEN': TOKEN,
     'github.event.pull_request.number': '7',
     'github.event.pull_request.head.sha': KOPF,
@@ -90,7 +91,7 @@ function laufe(f) {
     Object.assign(env, {
       GITHUB_REPOSITORY: 'o/r',
       RUNNER_TEMP: temp,
-      ...werteEnv(f.zustand),
+      ...werteEnv(f.zustand, f.checks ?? 'gruen'),
       ATTRAPPE_LOG: log,
       ATTRAPPE_KOMMENTAR: kommentar,
       ATTRAPPE_AKTUELL: f.aktuell ?? KOPF,
@@ -112,7 +113,7 @@ const basis = { urteil: urteil('ok'), protokoll: 'Alles gut.\n', zustand: 'ok' }
 // Die gh-Aufrufe des guten Laufs, Wort für Wort: jeder zusätzliche Aufruf ist rot, auch wenn der Schritt grün endet.
 const ANSICHT = 'pr view 7 --repo o/r --json headRefOid -q .headRefOid'
 const KOMMENTAR = 'pr comment 7 --repo o/r --body-file <datei>'
-const APPROVE = 'pr review 7 --repo o/r --approve --body Prüfprotokoll steht als Kommentar (Stand ccccccccc).'
+const APPROVE = 'pr review 7 --repo o/r --approve --body Urteil: ok. Prüfprotokoll steht als Kommentar (Stand ccccccccc).'
 const AENDERN = 'pr review 7 --repo o/r --request-changes --body Befunde im Prüfprotokoll-Kommentar (Stand ccccccccc).'
 const FREIGABE = { status: 0, aufrufe: [ANSICHT, KOMMENTAR, APPROVE] }
 const ABLEHNUNG = { status: 0, aufrufe: [ANSICHT, KOMMENTAR, AENDERN] }
@@ -146,6 +147,31 @@ pruefe('Unvollständiger Diff: Kommentar nennt Urteil aendern und den Hinweis',
 const freigegeben = laufe(basis)
 pruefe('Freigabe: Kommentar nennt Urteil ok, ohne Hinweis',
   freigegeben.kommentar.includes('Urteil: **ok**') && !freigegeben.kommentar.includes('nicht vollständig geprüft'), freigegeben.kommentar)
+// Check-Stand des Kopfes: „ok“ ohne Zusatz nur bei gruen, sonst steht der Stand in der ersten Zeile und im Review.
+const ersteZeile = (r) => r.kommentar.split('\n')[0]
+const mitChecks = (checks, art = 'ok') => laufe({ ...basis, urteil: urteil(art), checks })
+const genehmigt = (titel) => [ANSICHT, KOMMENTAR,
+  `pr review 7 --repo o/r --approve --body Urteil: ${titel}. Prüfprotokoll steht als Kommentar (Stand ccccccccc).`]
+const checkFaelle = [
+  ['gruen', 'ok'],
+  ['Checks rot: Kette – Workflows, PR-Prüfkette', 'ok, Checks rot: Kette – Workflows, PR-Prüfkette'],
+  ['Checks laufen noch: PR-Prüfkette', 'ok, Checks laufen noch: PR-Prüfkette'],
+  ['Checks-Stand unbekannt: API: HTTP 502', 'ok, Checks-Stand unbekannt: API: HTTP 502'],
+  ['', 'ok, Checks-Stand unbekannt'],
+  ['gruen2', 'ok, gruen2'],
+]
+for (const [checks, titel] of checkFaelle) {
+  const r = mitChecks(checks)
+  pruefe(`Checks "${checks}", Urteil ok: erste Zeile "${titel}", Review nennt es`,
+    ersteZeile(r) === `**Prüfer-Review** für ccccccccc - Urteil: **${titel}**` && JSON.stringify(r.aufrufe) === JSON.stringify(genehmigt(titel)),
+    { erste: ersteZeile(r), aufrufe: r.aufrufe })
+}
+const aendernRot = mitChecks('Checks rot: Kette – Logik', 'aendern')
+pruefe('Checks rot, Urteil aendern: bleibt aendern ohne Zusatz',
+  ersteZeile(aendernRot) === '**Prüfer-Review** für ccccccccc - Urteil: **aendern**' && JSON.stringify(aendernRot.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe), aendernRot)
+const unvollRot = laufe({ ...basis, zustand: 'unvollstaendig', checks: 'Checks rot: X' })
+pruefe('Diff unvollständig und Checks rot: aendern', ersteZeile(unvollRot).endsWith('Urteil: **aendern**'), ersteZeile(unvollRot))
+
 const token = laufe({ ...basis, protokoll: 'x ghp_abcdef y\n' })
 pruefe('Token im Protokoll: Kommentar enthält das Token nicht', !token.kommentar.includes('ghp_abcdef') && token.kommentar.includes('verworfen'), token.kommentar)
 

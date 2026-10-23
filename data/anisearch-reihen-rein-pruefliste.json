@@ -1,8 +1,8 @@
 {
-  "stand": "2026-10-17",
+  "stand": "2026-10-23",
   "bestand": {
-    "inReihen": 3034,
-    "reihen": 819,
+    "inReihen": 3024,
+    "reihen": 816,
     "pruefliste": [
       {
         "art": "verschmilzt",
@@ -1552,8 +1552,8 @@
     ]
   },
   "katalog": {
-    "inReihen": 11998,
-    "reihen": 3066,
+    "inReihen": 12025,
+    "reihen": 3072,
     "pruefliste": [
       {
         "art": "verschmilzt",
@@ -2008,7 +2008,7 @@
           {
             "id": 20693,
             "name": "THE IDOLM@STER Cinderella Girls",
-            "titel": 10
+            "titel": 11
           }
         ],
         "alleinstehende": [],
@@ -2020,7 +2020,7 @@
           {
             "id": 20693,
             "name": "THE IDOLM@STER Cinderella Girls",
-            "titel": 10
+            "titel": 11
           },
           {
             "id": 146975,
@@ -2479,7 +2479,7 @@
           {
             "id": 356,
             "name": "Fate/stay night",
-            "titel": 58
+            "titel": 63
           },
           {
             "id": 159569,
@@ -2496,7 +2496,7 @@
           {
             "id": 104159,
             "name": "Azur Lane",
-            "titel": 13
+            "titel": 12
           },
           {
             "id": 114473,
@@ -2890,9 +2890,9 @@
             "titel": 26
           },
           {
-            "id": 139044,
-            "name": "Jongtama PV",
-            "titel": 7
+            "id": 143455,
+            "name": "Jongtama PONG☆",
+            "titel": 5
           }
         ],
         "alleinstehende": [],
@@ -2931,6 +2931,23 @@
         ],
         "alleinstehende": [],
         "beispiel": "GAMERA: Rebirth —?→ Yoru wa Neko to Issho × GAMERA: Rebirth"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 161645,
+            "name": "Kusuriya no Hitorigoto",
+            "titel": 6
+          },
+          {
+            "id": 170508,
+            "name": "Maomao no Hitorigoto",
+            "titel": 4
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Kusuriya no Hitorigoto —?→ Maomao no Hitorigoto"
       },
       {
         "art": "verschmilzt",
@@ -3839,7 +3856,7 @@
           {
             "id": 20693,
             "name": "THE IDOLM@STER Cinderella Girls",
-            "titel": 10
+            "titel": 11
           },
           {
             "id": 97765,
@@ -5333,7 +5350,7 @@
           {
             "id": 104159,
             "name": "Azur Lane",
-            "titel": 13
+            "titel": 12
           },
           {
             "id": 114473,
@@ -5571,7 +5588,7 @@
           {
             "id": 356,
             "name": "Fate/stay night",
-            "titel": 58
+            "titel": 63
           },
           {
             "id": 10012,
@@ -5843,7 +5860,7 @@
           {
             "id": 356,
             "name": "Fate/stay night",
-            "titel": 58
+            "titel": 63
           },
           {
             "id": 143103,
@@ -6001,7 +6018,7 @@
           {
             "id": 356,
             "name": "Fate/stay night",
-            "titel": 58
+            "titel": 63
           }
         ],
         "alleinstehende": [],
@@ -6693,7 +6710,7 @@
           {
             "id": 356,
             "name": "Fate/stay night",
-            "titel": 58
+            "titel": 63
           },
           {
             "id": 2593,
@@ -7106,7 +7123,7 @@
           {
             "id": 20693,
             "name": "THE IDOLM@STER Cinderella Girls",
-            "titel": 10
+            "titel": 11
           }
         ],
         "alleinstehende": [],

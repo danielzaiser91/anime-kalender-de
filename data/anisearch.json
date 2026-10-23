@@ -711626,6 +711626,26 @@
     },
     "fetchedAt": "2026-10-09T08:35:23.455Z"
   },
+  "148589": {
+    "anisearchId": 14409,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Mahou Shoujuu Sherbert",
+          "titleNative": "Mahō Shōjū Sherbert",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "synonyms": [
+        "Magical Beast Sherbert"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:02:19.688Z"
+  },
   "148638": {
     "anisearchId": 18292,
     "streams": [],
@@ -745111,6 +745131,39 @@
     },
     "fetchedAt": "2026-10-06T07:31:21.719Z"
   },
+  "161410": {
+    "anisearchId": 18206,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Lycoris Recoil (Shinsaku Animation)",
+          "titleNative": "リコリス・リコイル （新作アニメーション）",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "staff": [
+        {
+          "name": "Spider Lily",
+          "role": "Original Work"
+        }
+      ],
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/lycoris_recoil"
+        },
+        {
+          "name": "Lycoris Recoil",
+          "url": "https://lycoris-recoil.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:02:26.436Z"
+  },
   "161440": {
     "anisearchId": 18080,
     "streams": [
@@ -749746,6 +749799,46 @@
     },
     "fetchedAt": "2026-09-25T09:54:59.084Z"
   },
+  "163072": {
+    "anisearchId": 18486,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Special Kid Factory",
+          "titleNative": "スペシャルキッド・ファクトリー",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "studios": [
+        "NAZ Inc."
+      ],
+      "staff": [
+        {
+          "name": "Atsushi ITAGAKI",
+          "role": "Direction"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/skf_anime"
+        },
+        {
+          "name": "Specialkidfactory",
+          "url": "https://www.specialkidfactory.com/jp"
+        }
+      ],
+      "synonyms": [
+        "SKF"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:02:33.176Z"
+  },
   "163076": {
     "anisearchId": 18298,
     "descriptionDe": "Als Tochter eines reichen Adeligen ist der Lebensweg von Yumiella Dolkness bereits vorgezeichnet: Sie wird die Magierakademie besuchen und einen Mann heiraten, der die Nachfolge ihres Vaters antritt. Aufgrund ihrer dunklen Haare, die als böses Omen gelten, wird sie zwar gemieden, kann jedoch im Großen und Ganzen ein bequemes Leben führen. Doch im Alter von fünf Jahren wacht sie eines Morgens auf und stellt erschrocken fest, dass sie sich an ihr früheres Leben als junge Frau im modernen Japan erinnern kann! Daher weiß sie nun auch, dass sie der Endboss eines kampflastigen RPG-Otome-Games ist und ihr kein gutes Ende als Bösewicht bevorsteht.\n\nAlso beschließt Yumiella, Monster zu töten und aufzuleveln, um sich gegen ihr Schicksal aufzulehnen. Ihr Ziel ist es, weder der eigentlichen Heldin des Spiels noch den Love Interests zu nahezukommen und um jeden Preis ihren Aufstieg zum Dämonenlord zu verhindern. Doch von der gewünschten Anonymität kann sie sich bereits direkt zu Beginn ihrer Schulkarriere verabschieden, als sie bei einem öffentlichen Magietest erfährt, dass sie bereits Level 99 erreicht hat. Nun beginnt für Yumiella ein Wettlauf gegen die Zeit, bei dem es gilt, ihren Untergang abzuwenden, um sich den Traum eines friedlichen Lebens doch noch erfüllen zu können. \n\nQuelle: www.anisearch.de/anime/18298",
@@ -752456,6 +752549,34 @@
     },
     "fetchedAt": "2026-10-09T09:10:48.907Z"
   },
+  "163326": {
+    "anisearchId": 18326,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Cardcaptor Sakura: Clear Card-hen (Zokuhen)",
+          "titleNative": "カードキャプターさくら クリアカード編 （続編）",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Ccsakura Official",
+          "url": "https://ccsakura-official.com/anime/index5.html"
+        }
+      ],
+      "synonyms": [
+        "CCSCC (Sequel)",
+        "Cardcaptor Sakura: Clear Card Arc (Sequel)"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:01:32.477Z"
+  },
   "163327": {
     "anisearchId": 18327,
     "descriptionDe": "In den Sommerferien entscheidet Fuutarou, eine Pause von der Nachhilfe für die Nakano-Schwestern zu nehmen. Stattdessen möchte er sich intensiv auf seine eigenen Aufnahmeprüfungen konzentrieren.\n\nDer Film legt im weiteren Verlauf den Fokus auf Yotsuba, beleuchtet viele Ereignisse aus ihrer Perspektive und gewährt dabei tiefe Einblicke in ihre Gefühlswelt. \n\nQuelle: www.anisearch.de/anime/18327",
@@ -753609,6 +753730,27 @@
       ]
     },
     "fetchedAt": "2026-10-09T09:11:36.040Z"
+  },
+  "163991": {
+    "anisearchId": 18349,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Gosu",
+          "titleNative": "高手",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "adaptedFrom": "Manhwa",
+      "synonyms": [
+        "고수"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:02:39.927Z"
   },
   "164172": {
     "anisearchId": 18357,
@@ -756831,6 +756973,43 @@
     },
     "fetchedAt": "2026-10-06T07:35:11.791Z"
   },
+  "165831": {
+    "anisearchId": 12706,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Macross (Shin Series)",
+          "titleNative": "マクロス （新シリーズ）",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/macrossD"
+        },
+        {
+          "name": "X",
+          "url": "https://x.com/MACROSS_BIGWEST"
+        },
+        {
+          "name": "Macross",
+          "url": "https://macross.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:02:46.663Z"
+  },
   "165855": {
     "anisearchId": 18450,
     "descriptionDe": "Für Hotaru Hinase sind ihre Familie und ihre Freunde das allerwichtigste auf der Welt. Seit sie auf die Oberschule gewechselt hat, kommt es immer häufiger vor, dass ihre Freundinnen sich verlieben und hauptsächlich über Jungs reden. Obwohl Hotaru sie jedes Mal anfeuert, versteht sie nicht so recht, was die anderen Mädchen empfinden, denn sie selbst kann mit dem Begriff »Liebe« noch nichts anfangen.\n\nEines Tages beobachtet sie, wie Saki Hananoi, ein beliebter und sehr attraktiver Junge aus ihrer Stufe in einem Café vor den Augen aller Gäste von seiner Freundin abserviert wird. Kurze Zeit später findet sie ihn auf dem Nachhauseweg alleine im Schnee sitzen und beschließt, ihm zu helfen. Doch ihre nette Geste, ihm einen Schirm zu leihen, bleibt nicht ohne Folgen, denn von nun an sucht Hananoi ständig ihre Nähe und versucht Hotaru davon zu überzeugen, seine Freundin zu werden. Egal wie oft sie ihn abblitzen lässt, davon lässt er sich nicht unterkriegen und ist bereit, alles an sich zu verändern, um ihr zu gefallen.\n\nSchnell findet Hotaru heraus, dass der scheinbar perfekte Junge eine tiefe Einsamkeit verbirgt und seine Fixierung auf sie alles andere als gesund ist. Doch je mehr Zeit sie miteinander verbringen, umso besser gelingt es ihr, hinter Hananois Fassade zu blicken. Seine Gefühle für Hotaru sind keineswegs neu, denn sie haben sich in der Vergangenheit schon einmal gekannt, auch wenn sie sich zunächst nicht daran erinnert. Zum ersten Mal in ihrem Leben beginnt Hotaru zu verstehen, wovon ihre Freundinnen immer reden, auch wenn ihr gemeinsamer Weg steiniger zu werden droht als gedacht. \n\nQuelle: www.anisearch.de/anime/18450",
@@ -758434,6 +758613,40 @@
       ]
     },
     "fetchedAt": "2026-10-09T09:16:06.430Z"
+  },
+  "166416": {
+    "anisearchId": 22059,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Shen Wu Tianzun",
+          "titleNative": "Shen Wu Tian Zun",
+          "status": "Abgeschlossen",
+          "released": "27.07.2024 - 21.12.2024"
+        }
+      ],
+      "format": "Web",
+      "episodes": 24,
+      "runtimeMinutes": 18,
+      "season": "Sommer 2024",
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Iq",
+          "url": "https://www.iq.com/album/the-legend-of-sky-lord-3d-2024-14viihg3pl1?lang=en_us"
+        },
+        {
+          "name": "Iqiyi",
+          "url": "http://www.iqiyi.com/a_z0ninzd33p.html"
+        }
+      ],
+      "synonyms": [
+        "The Legend of Sky Lord"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:02:53.411Z"
   },
   "166419": {
     "anisearchId": 20806,
@@ -763974,6 +764187,34 @@
       ]
     },
     "fetchedAt": "2026-10-06T07:36:39.584Z"
+  },
+  "167992": {
+    "anisearchId": 18938,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Urahara (Kamide Ryouhei)",
+          "titleNative": "Urahara (Kamide Ryōhei)",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/URAHARAinfo"
+        },
+        {
+          "name": "Urahara",
+          "url": "https://urahara.net/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:03:00.148Z"
   },
   "168001": {
     "anisearchId": 20618,
@@ -774447,6 +774688,37 @@
     },
     "fetchedAt": "2026-09-25T09:59:30.655Z"
   },
+  "170816": {
+    "anisearchId": 18846,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ginga Eiyuu Densetsu: Die Neue These (Zokuhen)",
+          "titleNative": "Ginga Eiyū Densetsu: Die Neue These (Zokuhen)",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "adaptedFrom": "Novel",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/gineidenanime"
+        },
+        {
+          "name": "Gineiden Anime",
+          "url": "https://gineiden-anime.com/"
+        }
+      ],
+      "synonyms": [
+        "Legend of the Galactic Heroes: Die Neue These (Sequel)"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:01:39.216Z"
+  },
   "170822": {
     "anisearchId": 18804,
     "streams": [],
@@ -775638,6 +775910,37 @@
       ]
     },
     "fetchedAt": "2026-10-09T09:30:30.492Z"
+  },
+  "171017": {
+    "anisearchId": 19574,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ultraman: Darkness Heels",
+          "titleNative": "ウルトラマン ～DARKNESS HEELS～",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "adaptedFrom": "Live-Action",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/darkness_heels"
+        },
+        {
+          "name": "M 78",
+          "url": "https://m-78.jp/videoworks/darkness-heels/"
+        }
+      ],
+      "synonyms": [
+        "ウルトラマン ~ダークネスヒールズ~"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:01:45.965Z"
   },
   "171018": {
     "anisearchId": 18878,
@@ -777980,6 +778283,108 @@
       ]
     },
     "fetchedAt": "2026-09-24T09:41:38.977Z"
+  },
+  "171630": {
+    "anisearchId": 18939,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "The One Piece",
+          "status": "Zukünftig",
+          "released": "02.2027"
+        },
+        {
+          "language": "Englisch",
+          "title": "The One Piece",
+          "status": "Zukünftig",
+          "released": "02.2027",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "The One Piece",
+          "status": "Zukünftig",
+          "released": "02.2027",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "The One Piece",
+          "status": "Zukünftig",
+          "released": "02.2027",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "The One Piece",
+          "status": "Zukünftig",
+          "released": "02.2027",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "The One Piece",
+          "status": "Zukünftig",
+          "released": "02.2027",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "issues": [
+        "Laufzeit: nicht bestätigt"
+      ],
+      "format": "Web",
+      "episodes": 7,
+      "runtimeMinutes": 42,
+      "season": "Winter 2026/27",
+      "studios": [
+        "WIT STUDIO, Inc."
+      ],
+      "staff": [
+        {
+          "name": "Eiichirou ODA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Masashi KOIZUKA",
+          "role": "Direction"
+        },
+        {
+          "name": "Kyouji ASANO"
+        },
+        {
+          "name": "Takatoshi HONDA",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/theop_official"
+        },
+        {
+          "name": "Instagram",
+          "url": "https://www.instagram.com/theop_official/"
+        },
+        {
+          "name": "Witstudio",
+          "url": "https://www.witstudio.co.jp/works/the-one-piece"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:03:06.905Z"
   },
   "171637": {
     "anisearchId": 18930,
@@ -793718,6 +794123,31 @@
       ]
     },
     "fetchedAt": "2026-10-06T07:46:07.518Z"
+  },
+  "177636": {
+    "anisearchId": 19299,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ninja Skooler",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "studios": [
+        "Kinema Citrus Co., Ltd."
+      ],
+      "websites": [
+        {
+          "name": "Kinemacitrus",
+          "url": "https://kinemacitrus.biz/ninjaskooler/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:03:13.647Z"
   },
   "177637": {
     "anisearchId": 19300,
@@ -815196,6 +815626,75 @@
     },
     "fetchedAt": "2026-10-09T10:06:54.653Z"
   },
+  "184290": {
+    "anisearchId": 18371,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "4ju Aein",
+          "titleNative": "4주 애인",
+          "status": "Abgeschlossen",
+          "released": "04.04.2023"
+        },
+        {
+          "language": "Englisch",
+          "title": "4-Week Lovers",
+          "status": "Abgeschlossen",
+          "released": "?",
+          "publisher": [
+            "Rakuten Viki"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "4-Week Lovers",
+          "status": "Abgeschlossen",
+          "released": "?",
+          "publisher": [
+            "Rakuten Viki"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "4 semanas para enamorarte",
+          "status": "Abgeschlossen",
+          "released": "?",
+          "publisher": [
+            "Rakuten Viki"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "4 Semaines pour t’aimer",
+          "status": "Abgeschlossen",
+          "released": "?",
+          "publisher": [
+            "Rakuten Viki"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "4-Week Lovers",
+          "status": "Abgeschlossen",
+          "released": "?",
+          "publisher": [
+            "Rakuten Viki"
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 10,
+      "runtimeMinutes": 5,
+      "season": "Frühling 2023",
+      "adaptedFrom": "Manhwa",
+      "synonyms": [
+        "4 Week Lovers"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:03:20.394Z"
+  },
   "184291": {
     "anisearchId": 20504,
     "streams": [
@@ -823948,6 +824447,83 @@
     },
     "fetchedAt": "2026-10-09T10:16:08.704Z"
   },
+  "186007": {
+    "anisearchId": 20028,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ghost of Tsushima: Legends",
+          "titleNative": "ゴースト・オブ・ツシマ レジェンズ",
+          "status": "Zukünftig",
+          "released": "2028 - ?"
+        },
+        {
+          "language": "Englisch",
+          "title": "Ghost of Tsushima: Legends",
+          "status": "Zukünftig",
+          "released": "2028 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Ghost of Tsushima: Legends",
+          "status": "Zukünftig",
+          "released": "2028 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Ghost of Tsushima: Legends",
+          "status": "Zukünftig",
+          "released": "2028 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Ghost of Tsushima: Legends",
+          "status": "Zukünftig",
+          "released": "2028 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Ghost of Tsushima: Legends",
+          "status": "Zukünftig",
+          "released": "2028 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "Web",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "Kamikazedouga Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Takanobu MIZUNO",
+          "role": "Direction"
+        }
+      ],
+      "adaptedFrom": "Videospiel"
+    },
+    "fetchedAt": "2026-10-20T06:03:27.129Z"
+  },
   "186043": {
     "anisearchId": 20101,
     "descriptionDe": "Mariland steht Kopf: Zwei Nachbarläden, zwei Backträume – und ein Wettstreit, der größer wird, als irgendjemand ahnt. My Melody verzaubert die Bewohner mit feinen Kuchen aus ihrer eigenen kleinen Konditorei, während Kuromi verzweifelt versucht, ihre japanischen Süßigkeiten an den Kunden zu bringen. Doch der Erfolg bleibt aus – und so beschließt Kuromi, das Geheimnis hinter My Melodys Beliebtheit zu lüften. Die Entscheidung fällt schließlich in einem großen Backwettbewerb, zu dem der berühmte Konditor Pistachio anreist, um als Juror zu werten.\n\nAls jedoch in den Tiefen des Waldes ein seltsames Herz entdeckt wird, verändert sich die Stimmung im ganzen Land. Der Wettbewerb entpuppt sich als weit mehr als nur ein freundschaftliches Kräftemessen, und schon bald überschattet ein geheimnisvolles Ereignis die Rivalität der beiden … \n\nQuelle: www.anisearch.de/anime/20101",
@@ -824139,6 +824715,70 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:16:15.508Z"
+  },
+  "186057": {
+    "anisearchId": 20048,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Otome Game no Heroine de Saikyou Survival",
+          "titleNative": "Otome Game no Heroine de Saikyō Survival",
+          "status": "Zukünftig",
+          "released": "07.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Sommer 2027",
+      "studios": [
+        "Animation Studio Seven",
+        "Studio Clutch Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Biyori HARUNOHI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Tokihiro SASAKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Hiroyuki MISEKI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kohta YAMAMOTO"
+        },
+        {
+          "name": "Shun NARITA"
+        },
+        {
+          "name": "Yuuki FURUHASHI"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/otosaba_anime"
+        },
+        {
+          "name": "Otosaba Anime",
+          "url": "https://otosaba-anime.com/"
+        }
+      ],
+      "synonyms": [
+        "The Otome Heroine’s Fight for Survival"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:03:33.879Z"
   },
   "186083": {
     "anisearchId": 19887,
@@ -825705,6 +826345,60 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:17:43.467Z"
+  },
+  "186603": {
+    "anisearchId": 22060,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Love Live! Nijigasaki Gakuen School Idol Doukoukai Kanketsu-hen Saishuushou",
+          "titleNative": "Love Live! Nijigasaki Gakuen School Idol Dōkōkai Kanketsu-hen Saishūshō",
+          "status": "Zukünftig",
+          "released": "05.02.2027 - ?"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "season": "Winter 2026/27",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Hajime YATATE",
+          "role": "Original Work"
+        },
+        {
+          "name": "Tomoyuki KAWAMURA",
+          "role": "Direction"
+        },
+        {
+          "name": "Takumi YOKOTA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Naoki ENDOU",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/Nijigaku_movie"
+        },
+        {
+          "name": "Lovelive Anime",
+          "url": "https://www.lovelive-anime.jp/nijigasaki/movie/Chapter3/"
+        }
+      ],
+      "synonyms": [
+        "Love Live! Nijigasaki High School Idol Club Final Chapter Part 3"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:03:40.618Z"
   },
   "186621": {
     "anisearchId": 20171,
@@ -828705,6 +829399,41 @@
       ]
     },
     "fetchedAt": "2026-09-25T10:07:09.059Z"
+  },
+  "187361": {
+    "anisearchId": 19301,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Free Fire Daybreak",
+          "status": "Zukünftig",
+          "released": "04.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Frühling 2027",
+      "studios": [
+        "Candy Box Co., Ltd."
+      ],
+      "adaptedFrom": "Videospiel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/anime_freefire"
+        }
+      ],
+      "synonyms": [
+        "Garena Free Fire"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:03:47.367Z"
   },
   "187362": {
     "anisearchId": 20317,
@@ -841635,6 +842364,52 @@
     },
     "fetchedAt": "2026-10-10T18:04:32.873Z"
   },
+  "195448": {
+    "anisearchId": 20697,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Monogatari Series: Off & Monster Season (Shin Episode)",
+          "titleNative": "〈物語〉シリーズ オフ＆モンスターシーズン （新エピソード）",
+          "status": "Zukünftig",
+          "released": "12.2026"
+        }
+      ],
+      "format": "TV-Spezial",
+      "season": "Winter 2026/27",
+      "studios": [
+        "SHAFT Inc."
+      ],
+      "staff": [
+        {
+          "name": "Ishin NISHIO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Midori YOSHIZAWA",
+          "role": "Direction"
+        },
+        {
+          "name": "Akio WATANABE",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/nisioisin_anime"
+        },
+        {
+          "name": "Monogatari Series",
+          "url": "https://www.monogatari-series.com/oms/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:03:54.105Z"
+  },
   "195486": {
     "anisearchId": 20701,
     "streams": [],
@@ -842636,6 +843411,41 @@
       ]
     },
     "fetchedAt": "2026-10-07T04:02:03.417Z"
+  },
+  "195703": {
+    "anisearchId": 20744,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "99-kai Danzai Sareta Loop Reijou desu ga Konse wa “Chouzetsu Aisare Mode” desu tte!? Shin no Chikara ni Mezamete Hajimaru 100-kaime no Jinsei",
+          "titleNative": "99-kai Danzai Sareta Loop Reijō desu ga Konse wa “Chōzetsu Aisare Mode” desu tte!? Shin no Chikara ni Mezamete Hajimaru 100-kaime no Jinsei",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "staff": [
+        {
+          "name": "Yuuji YUUJI",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/99times_loop"
+        }
+      ],
+      "synonyms": [
+        "The 100th Time’s the Charm: She Was Executed 99 Times",
+        "So How Did She Unlock “Super Love” Mode?!",
+        "くくルプ"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:04:00.854Z"
   },
   "195734": {
     "anisearchId": 20745,
@@ -844078,6 +844888,52 @@
     },
     "fetchedAt": "2026-10-06T07:59:24.988Z"
   },
+  "196222": {
+    "anisearchId": 20777,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ore wa Subete o “Parry” Suru: Gyaku Kanchigai no Sekai Saikyou wa Boukensha no Yume o Miru Dai 2 Ki",
+          "titleNative": "Ore wa Subete o “Parry” Suru: Gyaku Kanchigai no Sekai Saikyō wa Bōkensha no Yume o Miru Dai 2 Ki",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "staff": [
+        {
+          "name": "Nabeshiki",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/parry_anime_pr"
+        },
+        {
+          "name": "Parry Anime",
+          "url": "https://parry-anime.com/"
+        }
+      ],
+      "synonyms": [
+        "I Parry Everything to Become the Greatest Adventure! 2nd Season",
+        "I Parry Everything: What Do You Mean I’m the Strongest? I’m Not Even an Adventurer Yet! Second Season",
+        "I Will Parry Everything to Become the Greatest Adventurer! 2",
+        "I Will “Parry” All: The World’s Strongest Man Wanna Be an Adventurer 2",
+        "I Parry Everything! Staffel 2"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:04:07.594Z"
+  },
   "196223": {
     "anisearchId": 20791,
     "streams": [],
@@ -844968,6 +845824,38 @@
       ]
     },
     "fetchedAt": "2026-10-06T07:59:31.750Z"
+  },
+  "197022": {
+    "anisearchId": 20811,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Akuyaku Reijou no Tsuihougo! Kyoukai Kaikaku Gohan de Yuuyuu Sister Kurashii",
+          "titleNative": "Akuyaku Reijō no Tsuihōgo! Kyōkai Kaikaku Gohan de Yūyū Sister Kurashī",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "staff": [
+        {
+          "name": "Tail YUZUHARA"
+        },
+        {
+          "name": "Tsumuji YOSHIMURA"
+        },
+        {
+          "name": "Yuu SHIRATANI"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "synonyms": [
+        "The Banished Villainess! Living the Leisurely Life of a Nun Making Revolutionary Church Food"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:04:14.340Z"
   },
   "197094": {
     "anisearchId": 20807,
@@ -847590,6 +848478,46 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:05:41.524Z"
+  },
+  "198663": {
+    "anisearchId": 21740,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kaiju Decode: Aidara no Yubiwa",
+          "titleNative": "怪獣デコード アイダラの指輪",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "staff": [
+        {
+          "name": "Toei Animation Co., Ltd."
+        },
+        {
+          "name": "Tsuburaya Productions Co., Ltd.",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/Kaiju_Decode"
+        },
+        {
+          "name": "Kaiju Decode",
+          "url": "https://www.kaiju-decode.com/"
+        }
+      ],
+      "synonyms": [
+        "Kaiju Decode: The Ring of Aidara"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:04:21.225Z"
   },
   "198690": {
     "anisearchId": 20104,
@@ -851371,6 +852299,41 @@
     },
     "fetchedAt": "2026-10-09T10:43:29.056Z"
   },
+  "199592": {
+    "anisearchId": 20955,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ikyou no Tsume Nuri Minarai",
+          "titleNative": "Ikyō no Tsume Nuri Minarai",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "studios": [
+        "ZERO-G, Inc."
+      ],
+      "staff": [
+        {
+          "name": "Marukawa",
+          "role": "Original Work"
+        },
+        {
+          "name": "Daiji IWANAGA",
+          "role": "Direction"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "Apprentice Nail Artist in a Foreign Land",
+        "Magic Nail Art"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:04:27.972Z"
+  },
   "199594": {
     "anisearchId": 20961,
     "streams": [],
@@ -852890,6 +853853,39 @@
     },
     "fetchedAt": "2026-10-06T08:02:00.631Z"
   },
+  "201140": {
+    "anisearchId": 20999,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ousama no Proposal",
+          "titleNative": "Ōsama no Proposal",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "staff": [
+        {
+          "name": "Koushi TACHIBANA",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/kingpropose"
+        }
+      ],
+      "synonyms": [
+        "King’s Proposal"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:04:34.716Z"
+  },
   "201151": {
     "anisearchId": 21055,
     "streams": [],
@@ -853939,6 +854935,51 @@
     },
     "fetchedAt": "2026-10-10T18:08:05.907Z"
   },
+  "202251": {
+    "anisearchId": 21009,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kanchigai no Atelier Meister: Eiyuu Party no Moto Zatsuyou Gakari ga, Jitsu wa Sentou Igai ga SSS Rank datta to Iu Yoku Aru Hanashi 2",
+          "titleNative": "Kanchigai no Atelier Meister: Eiyū Party no Moto Zatsuyō Gakari ga, Jitsu wa Sentō Igai ga SSS Rank datta to Iu Yoku Aru Hanashi 2",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "staff": [
+        {
+          "name": "Yousuke TOKINO",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/kanchigai_pr"
+        },
+        {
+          "name": "Kanchigai Pr",
+          "url": "https://kanchigai-pr.com/"
+        }
+      ],
+      "synonyms": [
+        "The Unaware Atelier Master 2",
+        "The Unaware Atelier Meister 2",
+        "The Unaware Atelier Meister: Season 2",
+        "The Unaware Atelier Meister: Staffel 2"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:01:52.706Z"
+  },
   "202252": {
     "anisearchId": 21014,
     "streams": [],
@@ -854299,6 +855340,33 @@
       ]
     },
     "fetchedAt": "2026-10-06T08:02:54.780Z"
+  },
+  "202385": {
+    "anisearchId": 21017,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Dai Kaijuu Gaea-Tima",
+          "titleNative": "Dai Kaijū Gaea-Tima",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "staff": [
+        {
+          "name": "KENT",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "Gaea-Tima the Gigantis"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:04:41.465Z"
   },
   "202386": {
     "anisearchId": 21037,
@@ -855468,6 +856536,41 @@
     },
     "fetchedAt": "2026-10-09T10:47:04.556Z"
   },
+  "203141": {
+    "anisearchId": 21050,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Everyday Host (Zokuhen)",
+          "titleNative": "えぶりでいホスト （続編）",
+          "status": "Zukünftig",
+          "released": "01.2027 - ?"
+        }
+      ],
+      "format": "Unbekannt",
+      "season": "Winter 2026/27",
+      "staff": [
+        {
+          "name": "Gotounimo",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/ebuhosu_anime"
+        },
+        {
+          "name": "TV Tokyo",
+          "url": "https://www.tv-tokyo.co.jp/anime/everydayhost/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:04:48.202Z"
+  },
   "203148": {
     "anisearchId": 21011,
     "streams": [],
@@ -855676,6 +856779,40 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:47:18.003Z"
+  },
+  "203448": {
+    "anisearchId": 21054,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "World Trigger Reboot",
+          "titleNative": "ワールドトリガー REBOOT",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "staff": [
+        {
+          "name": "Daisuke ASHIHARA",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/Anime_W_Trigger"
+        },
+        {
+          "name": "Toei Animation",
+          "url": "https://www.toei-anim.co.jp/tv/wt/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:04:54.953Z"
   },
   "203472": {
     "anisearchId": 21116,
@@ -855919,6 +857056,55 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:47:38.168Z"
+  },
+  "203651": {
+    "anisearchId": 21062,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Code Geass: Hoshi Oi no Aspar",
+          "titleNative": "コードギアス 星追いのアスパル",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "format": "Unbekannt",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "SUNRISE Inc.",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kazuya NOMURA",
+          "role": "Direction"
+        },
+        {
+          "name": "Rolua",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/GEASS_Aspal"
+        },
+        {
+          "name": "Geass",
+          "url": "https://geass.jp/aspal/"
+        }
+      ],
+      "synonyms": [
+        "Code Geass: Aspal the Star Chaser",
+        "Code Geass: Star Chaser Aspal"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:05:01.692Z"
   },
   "203710": {
     "anisearchId": 21028,
@@ -856679,6 +857865,46 @@
     },
     "fetchedAt": "2026-10-06T08:03:15.038Z"
   },
+  "204293": {
+    "anisearchId": 21103,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Akatsuki no Yona (Zokuhen)",
+          "titleNative": "暁のヨナ（続編）",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "staff": [
+        {
+          "name": "Mizuho KUSANAGI",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/yona_anime"
+        },
+        {
+          "name": "Marv",
+          "url": "https://www.marv.jp/special/yona/"
+        }
+      ],
+      "synonyms": [
+        "Yona of the Dawn (Sequel)",
+        "Akatsuki no Yona: Prinzessin der Morgendämmerung (Fortsetzung)",
+        "Yona",
+        "Princesse de l’Aube (suite)"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:05:08.443Z"
+  },
   "204324": {
     "anisearchId": 18726,
     "streams": [],
@@ -856712,6 +857938,47 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:08:40.204Z"
+  },
+  "204348": {
+    "anisearchId": 21110,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hyakushou Kizoku 4th Season",
+          "titleNative": "Hyakushō Kizoku 4th Season",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "staff": [
+        {
+          "name": "Hiromu ARAKAWA",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/anime_hyakusho"
+        }
+      ],
+      "synonyms": [
+        "Hyakusho Kizoku: The Farmer’s Days 4",
+        "Noble Farmer 4th Season",
+        "Aristocracia campesina 4",
+        "Nobles Paysans 4"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:05:15.178Z"
   },
   "204356": {
     "anisearchId": 21118,
@@ -856824,6 +858091,30 @@
     },
     "fetchedAt": "2026-10-10T17:01:01.945Z"
   },
+  "204357": {
+    "anisearchId": 21112,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Mr. Clice",
+          "titleNative": "ミスタークリス",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "staff": [
+        {
+          "name": "Osamu AKIMOTO",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga"
+    },
+    "fetchedAt": "2026-10-20T06:05:21.924Z"
+  },
   "204361": {
     "anisearchId": 21119,
     "streams": [],
@@ -856877,6 +858168,43 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:48:18.517Z"
+  },
+  "204362": {
+    "anisearchId": 21115,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kaijuu 8-gou: Kanketsu-hen",
+          "titleNative": "Kaijū 8-gō: Kanketsu-hen",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "staff": [
+        {
+          "name": "Naoya MATSUMOTO",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/KaijuNo8_O"
+        },
+        {
+          "name": "Kaiju No8",
+          "url": "https://kaiju-no8.net/"
+        }
+      ],
+      "synonyms": [
+        "Kaiju No. 8: Final Chapter"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:01:59.459Z"
   },
   "204363": {
     "anisearchId": 21111,
@@ -857107,6 +858435,62 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:08:47.058Z"
+  },
+  "204429": {
+    "anisearchId": 21123,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Chainsaw Man: Shikaku-hen",
+          "titleNative": "チェンソーマン 刺客篇",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "studios": [
+        "MAPPA Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Tatsuki FUJIMOTO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Tatsuya YOSHIHARA",
+          "role": "Direction"
+        },
+        {
+          "name": "Kazutaka SUGIYAMA",
+          "role": "Character Design"
+        },
+        {
+          "name": "agraph",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/CHAINSAWMAN_PR"
+        },
+        {
+          "name": "X",
+          "url": "https://x.com/Chainsaw_EN"
+        },
+        {
+          "name": "Chainsawman",
+          "url": "https://chainsawman.dog/assassin/"
+        }
+      ],
+      "synonyms": [
+        "Chainsaw Man: Assassins Arc"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:02:06.204Z"
   },
   "204431": {
     "anisearchId": 21925,
@@ -858958,6 +860342,28 @@
     },
     "fetchedAt": "2026-10-12T06:10:06.273Z"
   },
+  "205619": {
+    "anisearchId": 21159,
+    "descriptionDe": "Nichts wünschte sich Wisteria mehr, als endlich eine ebenbürtige Partnerin an der Seite ihrer großen Liebe, Lord Bright, zu sein. Doch das Schicksal fordert einen grausamen Preis: Als ihre jüngere Schwester Rosalie zur ewigen Wächterin über das Reich der Morgendämmerung bestimmt wird, ist es ausgerechnet Bright, der Wisteria anfleht, sich an ihrer Stelle zu opfern. Da sie über seltene magische Kräfte verfügt und als Einzige dem tödlichen Miasma trotzen kann, gibt sie seinem Drängen nach.\n\nWisteria lässt ihr altes Leben hinter sich und verschwindet mit dem heiligen Schwert Sartis in der Finsternis der Zwischenwelt. Zwei Jahrzehnte der Isolation vergehen, bis plötzlich die Stille gebrochen wird. Ein junger Krieger dringt in ihr Exil ein, erhebt Anspruch auf die legendäre Klinge und fordert Wisteria zum Kampf heraus. Sein Anblick lässt ihr Herz stocken – denn er gleicht dem Mann, für den sie einst alles aufgab, bis aufs Haar. Welches Geheimnis führt diesen Fremden zu ihr? \n\nQuelle: www.anisearch.de/anime/21159",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Koi Shita Hito wa, Imouto no Kawari ni Shinde Kure to Itta. Imouto to Kekkon Shita Kataomoi Aite ga Naze Imasara Watashi no Moto ni? To Omottara",
+          "titleNative": "Koi Shita Hito wa, Imōto no Kawari ni Shinde Kure to Itta. Imōto to Kekkon Shita Kataomoi Aite ga Naze Imasara Watashi no Moto ni? To Omottara",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "adaptedFrom": "Light Novel",
+      "synonyms": [
+        "The Person I Loved Asked Me to Die in My Sister’s Stead"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:05:28.662Z"
+  },
   "205772": {
     "anisearchId": 21208,
     "streams": [
@@ -859250,6 +860656,32 @@
       "broadcast": "Freitag 23:30 (JST)"
     },
     "fetchedAt": "2026-10-09T10:50:19.861Z"
+  },
+  "205962": {
+    "anisearchId": 21191,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Starlight Project",
+          "titleNative": "スタァライトプロジェクト",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "studios": [
+        "Kinema Citrus Co., Ltd."
+      ],
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/revuestarlight"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:05:35.406Z"
   },
   "205966": {
     "anisearchId": 21162,
@@ -860543,6 +861975,47 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:52:21.213Z"
+  },
+  "206812": {
+    "anisearchId": 21188,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Dragon Ball Super: Ginga Patrol",
+          "titleNative": "ドラゴンボール超 銀河パトロール",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "staff": [
+        {
+          "name": "Akira TORIYAMA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Akira TORIYAMA",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/DB_anime_info"
+        },
+        {
+          "name": "En Dragon Ball Official",
+          "url": "https://en.dragon-ball-official.com/news/01_3974.html"
+        }
+      ],
+      "synonyms": [
+        "Dragon Ball Super: The Galactic Patrol"
+      ]
+    },
+    "fetchedAt": "2026-10-20T06:02:12.951Z"
   },
   "206814": {
     "anisearchId": 21566,
@@ -877549,5 +879022,72 @@
       ]
     },
     "fetchedAt": "2026-10-15T06:00:59.666Z"
+  },
+  "218439": {
+    "anisearchId": 22058,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Shiawase Kanako no Koroshiya Seikatsu",
+          "titleNative": "幸せカナコの殺し屋生活",
+          "status": "Zukünftig",
+          "released": "04.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Frühling 2027",
+      "studios": [
+        "Drive Inc."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/kanako__anime"
+        },
+        {
+          "name": "Happy Kanako Anime",
+          "url": "https://happy-kanako-anime.jp/"
+        }
+      ],
+      "synonyms": [
+        "Happy Kanako’s Killer Life"
+      ]
+    },
+    "fetchedAt": "2026-10-18T06:01:33.988Z"
+  },
+  "218532": {
+    "anisearchId": 22024,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Maomao no Hitorigoto Dai 3 Ki",
+          "titleNative": "猫猫のひとりごと 第3期",
+          "status": "Laufend",
+          "released": "05.10.2026 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "Web",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Herbst 2026",
+      "adaptedFrom": "Light Novel",
+      "synonyms": [
+        "Maomao no Hitorigoto 3rd Season"
+      ]
+    },
+    "fetchedAt": "2026-10-19T06:01:39.618Z"
   }
 }

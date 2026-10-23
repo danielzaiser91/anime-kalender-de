@@ -1,7 +1,7 @@
 /**
  * `npm run check:logic`: führt die Prüfungen aus tools/check-logic-liste.txt mit tsx aus, bis zu 6 gleichzeitig (tools/arbeiterpool.mjs; Ausgabe je Prüfung gepuffert, in Listenreihenfolge).
  * Eine Datei je Zeile (Pfad ab Repo-Wurzel), `#` beginnt einen Kommentar. Nach dem ersten Fehler startet keine weitere Prüfung;
- * dessen Exit-Code ist der des Laufs. Mit `--alle` laufen alle durch, am Ende steht die Liste der roten
+ * dessen Exit-Code ist der des Laufs. Mit `--alle` — und in CI (`CI=true`, 17.10.2026: sonst blieben die Prüfungen hinter der ersten roten in fremden PRs ungeprüft) — laufen alle durch, am Ende steht die Liste der roten
  * (Exit 1). Eigene Datei statt einer Kette in package.json, damit zwei PRs,
  * die je einen Check ergänzen, nicht in derselben Zeile kollidieren; die Liste ist sortiert, damit sie auch
  * nicht an derselben Stelle (Listenende) einfügen.
@@ -17,15 +17,24 @@
  * **Vollständigkeit (12.10.2026):** `check:logic` wird rot, wenn eine Prüfdatei in pipeline/ oder tools/ in keiner Prüfliste steht
  * (`tools/check-logic-vollstaendig.mjs`, bewusste Ausnahmen in `tools/check-logic-liste-ausnahmen.txt`).
  */
+import { execFileSync } from 'node:child_process'
 import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { laufePool } from './arbeiterpool.mjs'
-import { holeHistorie } from './check-logic-historie.mjs'
+import { ohneBauVariablen } from './bau-umgebung.mjs'
+import { historieErgebnis } from './check-logic-historie.mjs'
 import { pruefeVollstaendig } from './check-logic-vollstaendig.mjs'
+import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
+import { vorladeBasis } from './pr-basis.mjs'
 import { sperreUmgebung } from './sperre-umgebung.mjs'
+
+if (process.argv.includes('--help') || process.argv.includes('-h')) {
+  console.log('Aufruf: node tools/check-logic-alle.mjs [liste] [name] [--alle]\n  liste: Prüfliste (Standard tools/check-logic-liste.txt), name: Anzeigename (Standard check:logic), --alle: auch nach einem Fehler weiterlaufen.')
+  process.exit(0)
+}
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wurzel = join(tools, '..')
@@ -54,7 +63,7 @@ function ladeAusnahmen(dateien) {
 
 /** Umgebung einer Prüfung: mit Sperre, bei einer Ausnahme mit den erlaubten Pfaden und einer Spur-Datei. */
 function umgebung(ausnahme, spurDatei) {
-  if (!mitSperre) return process.env
+  if (!mitSperre) return ohneBauVariablen()
   return sperreUmgebung(ausnahme?.erlaubt.join(','), spurDatei)
 }
 
@@ -66,10 +75,7 @@ function pruefeAusnahmeGenutzt(ausnahme, spurDatei) {
   return null
 }
 
-const dateien = readFileSync(resolve(wurzel, listeArg), 'utf8')
-  .split(/\r?\n/)
-  .map((z) => z.trim())
-  .filter((z) => z && !z.startsWith('#'))
+const dateien = listenEintraege(readFileSync(resolve(wurzel, listeArg), 'utf8'))
 
 if (dateien.length === 0) {
   console.error(`${name}: ${listeArg} enthält keine Prüfung.`)
@@ -82,22 +88,17 @@ if (mitSperre) {
   if (unverdrahtet.length) process.exit(1)
 }
 
-const historieWarnung = holeHistorie(wurzel)
-if (historieWarnung) console.warn(`${name}: ${historieWarnung}`)
+const historie = historieErgebnis(wurzel)
+if (historie.warnung) console.warn(`${name}: ${historie.warnung}`)
+else console.log(`${name}: ${historie.zeile}`)
 
-const unsortiert = dateien.find((d, i) => i > 0 && d < dateien[i - 1])
-if (unsortiert) {
-  console.error(`${name}: ${listeArg} muss alphabetisch sortiert sein (${unsortiert} steht zu früh).`)
+const listenProbleme = listenFehler(dateien, listeArg)
+if (listenProbleme.length) {
+  for (const p of listenProbleme) console.error(`${name}: ${p}`)
   process.exit(1)
 }
 
-const doppelt = dateien.find((d, i) => dateien.indexOf(d) !== i)
-if (doppelt) {
-  console.error(`${name}: ${doppelt} steht mehrfach in ${listeArg}: eine Zeile streichen.`)
-  process.exit(1)
-}
-
-const alle = process.argv.includes('--alle')
+const alle = process.argv.includes('--alle') || process.env.CI === 'true'
 const ausnahmen = ladeAusnahmen(dateien)
 const spurOrdner = mkdtempSync(join(tmpdir(), 'bestand-spur-'))
 
@@ -112,6 +113,10 @@ const auftraege = dateien.map((datei, i) => {
     nachher: () => (ausnahmen.has(datei) ? pruefeAusnahmeGenutzt(ausnahmen.get(datei), spurDatei) : null),
   }
 })
+
+const gitInWurzel = (...args) => execFileSync('git', args, { cwd: wurzel, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] })
+const geladeneBasis = vorladeBasis(gitInWurzel, process.env)
+if (geladeneBasis) console.log(`${name}: PR-Basis ${geladeneBasis.slice(0, 7)} vor den parallelen Prüfungen geladen.`)
 
 const { rote, gelaufen, veraendert } = await laufePool(auftraege, {
   wurzel,

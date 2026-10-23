@@ -55,9 +55,9 @@ pruefe(leseJsonc('// Kommentar\n{ "a": 1 }').a === 1, 'JSONC: Kommentarzeile fä
 // Ohne Wurzel-Config greift `wrangler` ohne --config nichts Falsches (die alte SPA-Config, 26.08.2026).
 for (const name of ['wrangler.json', 'wrangler.jsonc', 'wrangler.toml']) pruefe(!existsSync(join(wurzel, name)), `keine ${name} in der Wurzel`)
 
-// Verdrahtung: beide Bauketten enden mit dem Dateibudget.
+// Verdrahtung: beide Bauketten enden mit dem Dateibudget (bei `build` innerhalb der Spur `bau-eingaben.mjs`).
 const skripte = JSON.parse(readFileSync(join(wurzel, 'package.json'), 'utf8')).scripts as Record<string, string>
-for (const name of ['build', 'build:schlank']) pruefe(skripte[name].endsWith(' && tsx tools/dateibudget.ts'), `${name} endet mit tsx tools/dateibudget.ts`)
+for (const name of ['build', 'build:schlank']) pruefe(skripte[name].replace(/node tools\/bau-eingaben\.mjs "([^"]*)"/, (_, innen) => innen).endsWith(' && tsx tools/dateibudget.ts'), `${name} endet mit tsx tools/dateibudget.ts`)
 
 // Deploy nennt die Website-Config (ohne --config findet wrangler keine), und die Vite-Config lädt kein Cloudflare-Plugin mehr.
 pruefe(skripte.deploy.endsWith(' wrangler deploy --config wrangler.web.jsonc'), 'deploy nennt --config wrangler.web.jsonc')

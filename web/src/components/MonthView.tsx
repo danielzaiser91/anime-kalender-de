@@ -256,13 +256,13 @@ export function CoverKnopf({ ev, p }: { ev: ReleaseEvent; p: MonatProps }) {
         onClick={() => p.onOpen(ev.releaseSlug, ev.date)}
         aria-label={`${ev.name} — ${(p.mehrere?.get(ev.id) ?? [p.buendel?.get(ev.id) ?? [ev]]).map((b) => anbieterUndFolge(b[0]!, t, b)).join('; ')}`}
         className={[
-          'relative block h-8 w-[22px] shrink-0 cursor-pointer overflow-hidden rounded-[5px] bg-ak-flaeche-2 transition hover:scale-105 sm:h-14 sm:w-[38px] sm:rounded-md',
+          'ak-ring-oben relative block h-8 w-[22px] shrink-0 cursor-pointer overflow-hidden rounded-t-[5px] bg-ak-flaeche-2 transition hover:scale-105 focus-visible:-outline-offset-2 sm:h-14 sm:w-[38px] sm:rounded-t-md',
           a || favorit ? 'ring-2' : '',
           rand.aussen,
         ].join(' ')}
       >
         {cover && <img {...coverBild(cover, 38)} alt="" loading="lazy" className="size-full object-cover" />}
-        {rand.innen && <span className={`pointer-events-none absolute inset-0 rounded-[5px] border border-ak-flaeche inset-ring-2 sm:rounded-md ${rand.innen}`} />}
+        {rand.innen && <span className={`pointer-events-none absolute inset-0 rounded-t-[5px] border border-ak-flaeche inset-ring-2 sm:rounded-t-md ${rand.innen}`} />}
         <span className="absolute inset-x-0 bottom-0 h-[3px]" style={{ background: farbleiste(ev, p) }} />
       </button>
     </Schwebe>
@@ -339,8 +339,10 @@ export function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps;
       onClick={() => p.onOpen(ev.releaseSlug, ev.date)}
       className="grid w-full cursor-pointer grid-cols-[auto_minmax(0,1fr)] items-center gap-2.5 rounded-xl p-1.5 text-left transition hover:bg-ak-flaeche-2"
     >
-      <span className={`relative block overflow-hidden rounded-md bg-ak-flaeche-2 ${gross ? 'h-24 w-16' : 'h-14 w-10'} ${favorit ? 'ring-2 ring-ak-favorit-rand' : ''}`}>
-        {cover && <img {...coverBild(cover, gross ? 64 : 40)} alt="" loading="lazy" className="size-full object-cover" />}
+      <span className={`relative block ${gross ? 'h-24 w-16' : 'h-14 w-10'}`}>
+        <span className={`ak-ring-oben-leiste absolute inset-0 overflow-hidden rounded-t-md bg-ak-flaeche-2 ${favorit ? 'ring-2 ring-ak-favorit-rand' : ''}`}>
+          {cover && <img {...coverBild(cover, gross ? 64 : 40)} alt="" loading="lazy" className="size-full object-cover" />}
+        </span>
         <span className="absolute inset-x-0 bottom-0 h-[3px]" style={{ background: farbleiste(ev, p) }} />
       </span>
       <span className="flex min-w-0 flex-col items-start gap-1">

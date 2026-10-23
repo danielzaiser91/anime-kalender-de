@@ -376,3 +376,28 @@
     - https://www.anisearch.de/article/4074,ranma-1-2-set-box-1-3
     - https://de.wikipedia.org/wiki/Ranma_%C2%BD
     - https://www.zeichentrickserien.de/dvd/ranma-1-2.htm
+
+# Netflix führt Staffel 2 unter der Adresse von Staffel 1 (Daniel, 20.10.2026, Screenshot
+# „Alle Folgen anzeigen“: 2 Staffeln unter /title/81054853). Die Adresse 81744227 war die
+# Vorabseite aus der Ankündigung; sie antwortete am 05.10. noch mit 200 (link-check.json),
+# ist aber nicht die Seite, auf der die Erweiterung läuft.
+- anilistId: 195539
+  title: "Cyberpunk: Edgerunners 2"
+  streams:
+    - platform: netflix
+      url: https://www.netflix.com/title/81054853
+  sources:
+    - https://www.netflix.com/title/81054853
+
+# Your Forma: freenet meinVOD nennt auf der Folgenseite „Sprache: Deutsch, Japanisch“ (Daniel, 21.10.2026, Folge 1). Die freenet-Seiten
+# lesen wir nicht (robots.txt), JustWatch nennt keine Tonspur, und kein Schwester-Shop führt den Titel — ohne diesen Handbeleg bliebe
+# „Sprache offen“. Belegt ist Folge 1. `buy` wird im Bau zum digitalen Stream-Weg (Kauf); der Name verhindert den JustWatch-Doppelweg.
+- anilistId: 167142
+  title: "Your Forma"
+  links:
+    - name: freenet meinVOD
+      url: https://shop.freenet-video.de/your-forma-s01-se45841187
+      kind: buy
+      dubRanges: [{ from: 1, to: 1, dub: true }]
+  sources:
+    - https://shop.freenet-video.de/your-forma-s01-se45841187

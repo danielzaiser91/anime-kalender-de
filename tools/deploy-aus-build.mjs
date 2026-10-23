@@ -1,9 +1,10 @@
 /**
  * Deploy aus dem geprüften Build (16.10.2026): Der Deploy nach einem Squash-Merge baut nicht neu, wenn die PR-Prüfkette genau diesen
  * Quelltext schon gebaut und geprüft hat. Beweis ist der Git-Baum: `version.json` im Bau der PR-Prüfkette trägt `baum` (HEAD^{tree} der
- * Prüfung), und der gemergte Commit muss denselben Baum haben. Weicht er ab (main ist inzwischen weitergewandert), fehlt der Lauf,
- * ist der Lauf nicht grün, das Artefakt abgelaufen oder hat der PR unter `.github/` mehr als fremde Workflows geändert (`githubUnbedenklich`),
- * bleibt der Treffer aus und der Deploy baut wie bisher.
+ * Prüfung), und der gemergte Commit muss denselben Baum haben. Ist main inzwischen nur mit Dateien weitergewandert, die der Seitenbau nicht
+ * liest (Bestandsbau, Sammler unter `data/`), genügt der gleiche Abdruck (`abdruck` in `version.json`, tools/bau-eingaben.mjs, 17.10.2026).
+ * Weicht beides ab, fehlt der Lauf, ist der Lauf nicht grün, das Artefakt abgelaufen oder hat der PR unter `.github/` mehr als fremde
+ * Workflows geändert (`githubUnbedenklich`), bleibt der Treffer aus und der Deploy baut wie bisher.
  * Aufruf im Workflow `deploy.yml` (Job `herkunft`): schreibt bei Treffer `treffer=1` nach $GITHUB_OUTPUT und `artifact.tar` ins Arbeitsverzeichnis.
  */
 import { execFileSync } from 'node:child_process'
@@ -11,6 +12,7 @@ import { appendFileSync, copyFileSync, mkdtempSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { abdruckAusGit } from './bau-eingaben.mjs'
 
 const KETTE = 'pr-pruefung.yml'
 const SAMMEL = 'PR-Prüfkette'
@@ -38,6 +40,15 @@ export function baumPasst(versionJson, baum) {
   try {
     const gelesen = JSON.parse(versionJson).baum
     return gelesen.length === 40 && gelesen === baum
+  } catch {
+    return false
+  }
+}
+
+/** Stimmt der Abdruck aus `version.json` des Baus mit dem Abdruck des gemergten Stands (`git` wie `w.git`, tools/bau-eingaben.mjs) überein? Fehlt er oder scheitert Git: nein. */
+export function abdruckPasst(versionJson, git) {
+  try {
+    return JSON.parse(versionJson).abdruck === abdruckAusGit(git)
   } catch {
     return false
   }
@@ -102,9 +113,13 @@ export function holeBau({ repo, sha, ziel }, w = ECHT) {
   } catch {
     return { treffer: false, grund: `Artefakt von Lauf ${lauf.id} nicht abrufbar (abgelaufen?)` }
   }
-  if (!baumPasst(w.version(tar), baum)) return { treffer: false, grund: `Baum des Baus aus Lauf ${lauf.id} weicht ab (main ist weitergewandert)` }
+  const version = w.version(tar)
+  const nurDaten = !baumPasst(version, baum)
+  if (nurDaten && !abdruckPasst(version, w.git)) {
+    return { treffer: false, grund: `Baum und Abdruck des Baus aus Lauf ${lauf.id} weichen ab (main ist mit Code oder Bau-Eingaben weitergewandert)` }
+  }
   w.kopieren(tar, ziel)
-  return { treffer: true, grund: `PR #${pr.nummer}, Lauf ${lauf.id}` }
+  return { treffer: true, grund: `PR #${pr.nummer}, Lauf ${lauf.id}${nurDaten ? ', main seither nur mit Dateien weitergewandert, die der Bau nicht liest' : ''}` }
 }
 
 /** Aufrufweg des Workflows: holt den Bau, meldet das Ergebnis im Log und setzt bei Treffer (nur dann) den Job-Ausgang `treffer=1`. */

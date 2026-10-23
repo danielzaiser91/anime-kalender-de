@@ -164,10 +164,12 @@ export function rohfolgenSpanne(
 /**
  * Adresse → unsere Titel, aus `streams` samt geöffneter Seite (`seite`) — wie im Einleser. Eine
  * Prime-Suchadresse (`/s?k=…`) löst der Suchbegriff auf, wie `ausSuchadresse` in
- * `fetch-pruefungen.ts`: Name gleich nach `titelSchluessel`, nur eindeutig.
+ * `fetch-pruefungen.ts`: Name gleich nach `titelSchluessel`, nur eindeutig. Eine Adresse, die `istFremd` (`fremdeAdressen`) kennt,
+ * ergibt eine leere Liste: bekannt, aber keinem unserer Titel — auch nicht über den Suchbegriff.
  */
 export function adressIndex(
   titel: { id: number; titleDe?: string; titleEn?: string; titleRomaji?: string; streams?: { url: string; seite?: string }[] }[],
+  istFremd: (url: string) => boolean = () => false,
 ): (url: string) => number[] | undefined {
   const nachName = new Map<string, Set<number>>()
   for (const t of titel)
@@ -196,7 +198,7 @@ export function adressIndex(
         const liste = index.get(schluesselAdresse(u)) ?? []
         if (!liste.includes(t.id)) index.set(schluesselAdresse(u), [...liste, t.id])
       }
-  return (url) => index.get(schluesselAdresse(url)) ?? (url.includes('/s?k=') ? ausSuche(url) : undefined)
+  return (url) => index.get(schluesselAdresse(url)) ?? (istFremd(url) ? [] : url.includes('/s?k=') ? ausSuche(url) : undefined)
 }
 
 /** Ein Kandidat für die Staffel-Zuordnung — nur, was `staffelNummern()` braucht. */
@@ -318,6 +320,8 @@ export function titelDerMeldung(
   const ids = nachAdresse(m.url)
   if (ids?.length === 1) return ids[0]!
   if (ids && ids.length > 1) return kandidaten ? staffelTreffer(m, kandidaten(ids)) : null
+  /* Leer: Die Adresse führt ein Eintrag außerhalb von `titles.json` (`fremdeAdressen`), der Name entscheidet dann nicht. */
+  if (ids) return null
   const name = m.serientitel ?? m.titel
   if (!name || !nachName) return null
   const treffer = nachName(name)
@@ -355,7 +359,7 @@ function spaeteStaffel(
  * wird, wird gezählt, **welcher Anteil welchen Grund** hat: Die drei Gründe brauchen drei
  * verschiedene Antworten (eine Regel, eine Adressauflösung, oder gar keine).
  */
-export type MeldungOhneTitel = 'späte Staffel' | 'Adresse unbekannt' | 'Adresse mehrdeutig'
+export type MeldungOhneTitel = 'späte Staffel' | 'Adresse unbekannt' | 'Adresse außerhalb des Bestands' | 'Adresse mehrdeutig'
 
 export function meldungGrund(
   m: { titel_id: number | null; url: string; staffel?: number | null },
@@ -365,6 +369,6 @@ export function meldungGrund(
   /* Gezählt wird nur, was auch über die Reihe offen blieb (`spaeteStaffel`). */
   if (m.staffel != null && m.staffel !== 1) return 'späte Staffel'
   const ids = nachAdresse(m.url)
-  if (!ids?.length) return 'Adresse unbekannt'
-  return 'Adresse mehrdeutig'
+  if (!ids) return 'Adresse unbekannt'
+  return ids.length ? 'Adresse mehrdeutig' : 'Adresse außerhalb des Bestands'
 }

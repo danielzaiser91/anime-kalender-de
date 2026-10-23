@@ -13,6 +13,11 @@ import { handlePruefung } from '../worker/src/pruefung.ts'
 import { DECKEL_LESEN, DECKEL_ZEILEN, RIEGEL_LESEN_JE_ANFRAGE, mitTagesdeckel, utcTag } from '../worker/src/tagesdeckel.ts'
 import { istD1Tageslimit } from '../worker/src/d1-limit.ts'
 import { type Env } from '../worker/src/env.ts'
+import { festeUhr } from './feste-uhr.ts'
+
+/** Feste Uhr für Test und Worker: kein Lauf hängt am UTC-Tageswechsel (K6). */
+const FEST = new Date('2026-10-12T12:00:00Z')
+festeUhr(FEST.toISOString())
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -119,7 +124,7 @@ pruefe(DECKEL_LESEN > 0 && DECKEL_LESEN < 5_000_000, `DECKEL_LESEN liegt unter d
 {
   const db = neueDatenbank()
   const env = umgebung(db)
-  db.prepare('INSERT INTO schreib_tag (tag, zeilen, gelesen) VALUES (?, 0, ?)').run(utcTag(new Date()), DECKEL_LESEN - 1)
+  db.prepare('INSERT INTO schreib_tag (tag, zeilen, gelesen) VALUES (?, 0, ?)').run(utcTag(FEST), DECKEL_LESEN - 1)
   pruefe((await handlePruefung(post(folge(1)), env)).status === 200, 'knapp unter dem Lese-Deckel: Meldung wird gespeichert')
   db.prepare('UPDATE schreib_tag SET gelesen = ?').run(DECKEL_LESEN)
   const r = await handlePruefung(post(folge(2)), env)
@@ -136,7 +141,7 @@ pruefe(DECKEL_LESEN > 0 && DECKEL_LESEN < 5_000_000, `DECKEL_LESEN liegt unter d
 }
 {
   const db = neueDatenbank()
-  db.prepare('INSERT INTO schreib_tag (tag, zeilen, gelesen) VALUES (?, ?, 0)').run(utcTag(new Date()), DECKEL_ZEILEN)
+  db.prepare('INSERT INTO schreib_tag (tag, zeilen, gelesen) VALUES (?, ?, 0)').run(utcTag(FEST), DECKEL_ZEILEN)
   pruefe((await handlePruefung(post(folge(1)), umgebung(db))).status === 429, 'der Schreib-Deckel gilt weiter')
 }
 {
@@ -196,7 +201,7 @@ const limitAntwort = async (r: Response) => {
 {
   const db = neueDatenbank()
   const env = umgebung(db, { gelesen: 0, fehler: (sql, art) => (art === 'all' && /FROM prime_folge/.test(sql) ? LIMIT_LESEN : null) })
-  pruefe(await limitAntwort(await handlePruefung(post({ ...folge(1), plattform: 'primevideo' }), env)), 'Limit beim Laden der Rohfolgen (Prime) (dort gefangen, die Meldung ist gespeichert) -> 429')
+  pruefe(await limitAntwort(await handlePruefung(post({ ...folge(1), plattform: 'primevideo' }), env)), 'Limit beim Laden der Rohfolgen (Prime) (scheitert vor der Meldungszeile, der nächste Klick schreibt beides) -> 429')
 }
 {
   const db = neueDatenbank()
@@ -293,7 +298,7 @@ pruefe(RIEGEL_LESEN_JE_ANFRAGE > 1_200 && RIEGEL_LESEN_JE_ANFRAGE < 50_000, `Rie
   const amRiegel: string[] = []
   for (const [name, meldung] of wege) {
     const voll = neueDatenbank()
-    voll.prepare('INSERT INTO schreib_tag (tag, zeilen, gelesen) VALUES (?, 0, ?)').run(utcTag(new Date()), DECKEL_LESEN)
+    voll.prepare('INSERT INTO schreib_tag (tag, zeilen, gelesen) VALUES (?, 0, ?)').run(utcTag(FEST), DECKEL_LESEN)
     if ((await handlePruefung(post(meldung), umgebung(voll, { gelesen: 0 }, 'disneyplus,netflix'))).status !== 429) amDeckel.push(name)
     const db = neueDatenbank()
     const env = umgebung(db, { gelesen: 0, extra: () => RIEGEL_LESEN_JE_ANFRAGE + 1 }, 'disneyplus,netflix')

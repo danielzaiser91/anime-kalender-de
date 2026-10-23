@@ -190,7 +190,7 @@ function wacheLauf(liste: unknown[] | null, auffaellig = false, mitHistorie = tr
   const ordner = mkdtempSync(`${tmpdir()}/stempel-wache-`)
   try {
     if (liste) schreibe(ordner, 'public/data/patchnotes.json', JSON.stringify(liste))
-    const zeile = { zeitpunkt: new Date().toISOString(), lauf: 'x', delta: { titel: 0 }, titel: 1, mitUrteil: 1, ohneUrteil: 0, ...(auffaellig && { auffaellig: ['kaputt'] }) }
+    const zeile = { zeitpunkt: '2999-12-31T00:00:00.000Z', lauf: 'x', delta: { titel: 0 }, titel: 1, mitUrteil: 1, ohneUrteil: 0, ...(auffaellig && { auffaellig: ['kaputt'] }) }
     if (mitHistorie) schreibe(ordner, 'data/bestand-historie.jsonl', `${JSON.stringify(zeile)}\n`)
     const r = spawnSync(process.execPath, [`${wurzel}tools/delta-pruefen.mjs`], { cwd: ordner, encoding: 'utf8' })
     return { status: r.status, aus: `${r.stdout}${r.stderr}` }

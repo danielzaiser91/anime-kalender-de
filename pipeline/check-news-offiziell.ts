@@ -7,9 +7,11 @@
  * - Satz in Seite, Mail und Beleg-Fenster, Panel der Kachel.
  */
 import yaml from 'js-yaml'
-import { ROOT } from './lib/util.ts'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
-import { FENSTER_OFFIZIELL_TAGE, KATEGORIEN_OFFIZIELL, offiziellFehler, offizielleLaden, offizielleMeldungen, type OffizielleMeldung } from './lib/news-offiziell.ts'
+import { FENSTER_OFFIZIELL_TAGE, KATEGORIEN_OFFIZIELL, OFFIZIELL_DATEI, offiziellFehler, offizielleLaden, offizielleMeldungen, type OffizielleMeldung } from './lib/news-offiziell.ts'
 import { eintragAusVorschlag, eintragText } from './lib/news-offiziell-freigabe.ts'
 import { OFFIZIELL_SATZ } from '../shared/news-offiziell-satz.ts'
 import { addDays, todayIso } from '../shared/time.ts'
@@ -43,6 +45,26 @@ const meldung = (id: string, datum: string, mehr: Partial<OffizielleMeldung> = {
   freigabe: 'Test, 13.10.2026',
   ...mehr,
 })
+
+/** Lädt eine Datei im Format der Handdatei aus einer Wegwerf-Kulisse, nie aus dem Repo. */
+function ladenAusKulisse(text: string): OffizielleMeldung[] {
+  const wurzel = mkdtempSync(join(tmpdir(), 'news-offiziell-'))
+  try {
+    mkdirSync(join(wurzel, 'data'), { recursive: true })
+    writeFileSync(join(wurzel, OFFIZIELL_DATEI), text)
+    return offizielleLaden(wurzel)
+  } finally {
+    rmSync(wurzel, { recursive: true, force: true })
+  }
+}
+const fehlerBeimLaden = (text: string): string => {
+  try {
+    ladenAusKulisse(text)
+    return ''
+  } catch (err) {
+    return (err as Error).message
+  }
+}
 
 const neueHistorie = (): NewsHistorie => ({ zuerst: {} }) as NewsHistorie
 const bau = (titles: Title[], offizielle: OffizielleMeldung[], neu: { id: number; seit: string }[] = [], historie = neueHistorie()): NewsEintrag[] =>
@@ -100,8 +122,14 @@ function freigabe(): void {
   for (const [name, aus] of schlecht) pruefe(`Fehler: ${name}`, offiziellFehler({ ...ok, ...aus }).length === 1, offiziellFehler({ ...ok, ...aus }))
   pruefe('doppelte Kennung ist ein Fehler', offiziellFehler(ok, new Set(['h1'])).length === 1)
   pruefe('alle vier Kategorien sind gültig', KATEGORIEN_OFFIZIELL.every((k) => offiziellFehler({ ...ok, kategorie: k }).length === 0))
-  const echt = offizielleLaden(ROOT)
-  pruefe('die echte Datei data/offizielle-meldungen.yaml besteht die Prüfung und führt Snowball Earth', echt.some((e) => e.titleId === SNOWBALL && e.kategorie === 'staffel'), echt.map((e) => e.id))
+  const eintrag = (id: string, kategorie = 'staffel') =>
+    `  - id: ${id}\n    titleId: ${SNOWBALL}\n    kategorie: ${kategorie}\n    datum: "2026-06-27"\n    url: https://snowballearth.net/en/news/detail.html?d=${id}\n    titel: Season 2\n    sprache: en\n    freigabe: Test\n`
+  const echt = ladenAusKulisse(`eintraege:\n${eintrag('h1')}`)
+  pruefe('eine Kulissen-Datei im Format der Handdatei wird geladen und führt Snowball Earth (staffel)', echt.length === 1 && echt[0]!.titleId === SNOWBALL && echt[0]!.kategorie === 'staffel', echt)
+  const unbekannt = fehlerBeimLaden(`eintraege:\n${eintrag('h1', 'goodies')}`)
+  pruefe('ein fehlerhafter Handeintrag bricht das Laden ab und nennt die Nummer', unbekannt.includes('Eintrag 1') && unbekannt.includes('h1'), unbekannt)
+  const doppelt = fehlerBeimLaden(`eintraege:\n${eintrag('h1')}${eintrag('h1')}`)
+  pruefe('dieselbe Kennung zweimal bricht das Laden ab', doppelt.includes('Eintrag 2'), doppelt)
   const vorschlag = { id: 'x9', titel: 'Titel mit: Doppelpunkt "und" Anführungszeichen', datum: '2026-06-27', url: 'https://a.example/n/1?d=2&e=3', sprache: 'ja', titelIds: [5, 6] }
   let ohneKachel = ''
   try {

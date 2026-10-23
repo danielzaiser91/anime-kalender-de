@@ -1,6 +1,6 @@
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
-import { chmodSync, copyFileSync, existsSync, mkdirSync, mkdtempSync, rmdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { chmodSync, copyFileSync, existsSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { holeHistorie } from '../tools/check-logic-historie.mjs'
@@ -141,9 +141,9 @@ const kaputt = imFlachenKlon(umschreiben, (klon, origin) => {
 pruefe('Historie: ist der Anlagetag nicht lesbar (Objekt fehlt), meldet die Regel das statt „heute“ → Exit 1 mit dem Anlagetag-Text', kaputt.status === 1 && kaputt.aus.includes('Anlagetag eines umgeschriebenen'), kaputt)
 
 // Verdrahtung: der Runner holt die Historie vor den Prüfungen. Kulisse: flacher Klon mit den Runner-Dateien und einer Prüfung, die bei flachem Klon rot ist.
-const RUNNER = ['check-logic-alle', 'arbeiterpool', 'check-logic-vollstaendig', 'sperre-umgebung', 'git-stand-wache', 'check-logic-historie']
+const RUNNER = ['check-logic-alle', 'arbeiterpool', 'check-logic-vollstaendig', 'sperre-umgebung', 'git-stand-wache', 'check-logic-historie', 'bau-umgebung', 'liste-pruefen', 'pr-basis']
 const PRUEFUNG = "import { execFileSync } from 'node:child_process'\nconst flach = execFileSync('git', ['rev-parse', '--is-shallow-repository'], { encoding: 'utf8' }).trim()\nconsole.log('flach:', flach)\nprocess.exit(flach === 'true' ? 1 : 0)\n"
-function runnerLauf(mitSperre: boolean): { status: number | null; aus: string } {
+function runnerLauf(mitSperre: boolean, name = 'check:bestand'): { status: number | null; aus: string } {
   const runnerKulisse = mkdtempSync(`${tmpdir()}/stempel-flach-r-`)
   const runnerKlon = mkdtempSync(`${tmpdir()}/stempel-flach-rk-`)
   const aussen = mkdtempSync(`${tmpdir()}/stempel-flach-ra-`)
@@ -152,23 +152,27 @@ function runnerLauf(mitSperre: boolean): { status: number | null; aus: string } 
     gitIn(runnerKulisse, undefined, 'config', 'user.email', 'x@x')
     gitIn(runnerKulisse, undefined, 'config', 'user.name', 'x')
     mkdirSync(`${runnerKulisse}/tools`)
-    for (const datei of RUNNER) copyFileSync(`${wurzel}tools/${datei}.mjs`, `${runnerKulisse}/tools/${datei}.mjs`)
-    bucheIn(runnerKulisse, '2026-10-12', { 'package.json': '{"name":"kulisse","type":"module"}\n', 'tools/pruefung.mjs': PRUEFUNG, 'tools/liste.txt': 'tools/pruefung.mjs\n' })
+    for (const datei of [...RUNNER.map((d) => `${d}.mjs`), 'bestand-sperre.cjs']) copyFileSync(`${wurzel}tools/${datei}`, `${runnerKulisse}/tools/${datei}`)
+    bucheIn(runnerKulisse, '2026-10-12', { 'package.json': '{"name":"kulisse","type":"module","scripts":{}}\n', 'tools/pruefung.mjs': PRUEFUNG, 'tools/liste.txt': 'tools/pruefung.mjs\n' })
     bucheIn(runnerKulisse, '2026-10-13', { 'tools/zwei.txt': 'x\n' })
     bucheIn(runnerKulisse, '2026-10-14', { 'tools/drei.txt': 'x\n' })
     gitIn(runnerKlon, undefined, 'clone', '-q', '--depth=1', pathToFileURL(runnerKulisse).href, '.')
     writeFileSync(`${runnerKlon}/.git/info/exclude`, 'node_modules\n')
     symlinkSync(`${wurzel}node_modules`, `${runnerKlon}/node_modules`, 'junction')
     if (mitSperre) sperren(runnerKlon)
-    const r = spawnSync(process.execPath, [`${runnerKlon}/tools/check-logic-alle.mjs`, 'tools/liste.txt', 'check:bestand'], { cwd: aussen, encoding: 'utf8' })
+    const r = spawnSync(process.execPath, [`${runnerKlon}/tools/check-logic-alle.mjs`, 'tools/liste.txt', name], { cwd: aussen, encoding: 'utf8' })
     return { status: r.status, aus: `${r.stdout}${r.stderr}` }
   } finally {
-    if (existsSync(`${runnerKlon}/node_modules`)) rmdirSync(`${runnerKlon}/node_modules`)
+    if (existsSync(`${runnerKlon}/node_modules`)) unlinkSync(`${runnerKlon}/node_modules`)
     for (const o of [runnerKulisse, runnerKlon, aussen]) rmSync(o, { recursive: true, force: true })
   }
 }
 const runner = runnerLauf(false)
 pruefe('Runner: check-logic-alle holt die Historie vor den Prüfungen (Prüfung sieht keinen flachen Klon) → Exit 0', runner.status === 0 && runner.aus.includes('flach: false'), runner)
+pruefe('Runner: die Ergebniszeile nennt das Holen der Historie', runner.aus.includes('check:bestand: Historie geholt (flach → vollständig)'), runner)
+// Der Weg der CI heißt check:logic (mit Sperre): auch dort kommt die Historie vor dem Pool.
+const runnerLogic = runnerLauf(false, 'check:logic')
+pruefe('Runner als check:logic: Historie vor den Prüfungen, Ergebniszeile im Lauf → Exit 0', runnerLogic.status === 0 && runnerLogic.aus.includes('flach: false') && runnerLogic.aus.includes('check:logic: Historie geholt (flach → vollständig)'), runnerLogic)
 const runnerGesperrt = runnerLauf(true)
 pruefe('Runner: scheitert das Holen (Sperre), steht die Warnung mit Grund im Lauf und die Prüfung bleibt rot', runnerGesperrt.status === 1 && runnerGesperrt.aus.includes('Historie nicht geholt') && runnerGesperrt.aus.includes('flach: true'), runnerGesperrt)
 

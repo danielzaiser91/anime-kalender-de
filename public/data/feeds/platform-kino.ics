@@ -5,39 +5,8 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – kino
 X-WR-TIMEZONE:Europe/Berlin
-BEGIN:VEVENT
-UID:a-new-dawn-kino@2026-10-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261015
-DTEND;VALUE=DATE:20261016
-SUMMARY:A New Dawn
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nDetails: https://anime-kalender.de/t/15853/
-CATEGORIES:Kino
-END:VEVENT
-BEGIN:VEVENT
-UID:rascal-dear-friend-kino@2026-10-27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261027
-DTEND;VALUE=DATE:20261028
-SUMMARY:Rascal Does Not Dream of a Dear Friend (OmU)
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nOmU: Originalton mit deutsc
- hen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht bestätigt.\
- nDetails: https://anime-kalender.de/t/17068/
-CATEGORIES:Kino
-END:VEVENT
-BEGIN:VEVENT
-UID:madoka-walpurgisnacht-rising-kino@2026-11-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261124
-DTEND;VALUE=DATE:20261125
-SUMMARY:Puella Magi Madoka Magica the Movie – Walpurgisnacht: Rising (OmU
- )
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nOmU: Originalton mit deutsc
- hen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht bestätigt.\
- nDetails: https://anime-kalender.de/t/12975/
-CATEGORIES:Kino
-END:VEVENT
+REFRESH-INTERVAL;VALUE=DURATION:PT12H
+X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
 UID:auto-143103-kino@2027-01-26@anime-kalender-de
 DTSTAMP:20200101T000000Z

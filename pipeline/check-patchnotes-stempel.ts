@@ -1,6 +1,6 @@
 import { createRequire } from 'node:module'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { pathToFileURL } from 'node:url'
 import { auslieferbarePatchnotes } from '../shared/patchnotes.ts'
@@ -41,6 +41,8 @@ const echt = leseUeberarbeitetBis()
 pruefe('Stempel: die echte Datei im Ordner ist ein gültiger Tag', echt !== undefined, echt)
 // Nur Einträge mit eigenem `datum`: Die Datumsauflösung der übrigen braucht git und damit `git fetch` (Wettlauf um shallow.lock in check:logic, PR 1433).
 const echteMitDatum = lesePatchnotesDateien().map((d) => d.eintrag).filter((e) => e.datum !== undefined)
+const mitDatumInDatei = readdirSync('data/patchnotes').filter((n) => n.endsWith('.yaml') && /^datum:/m.test(readFileSync(`data/patchnotes/${n}`, 'utf8'))).length
+pruefe('Stempel: die geprüfte Liste enthält alle Dateien mit eigenem datum (gezählt am Dateitext, mindestens eine)', mitDatumInDatei > 0 && echteMitDatum.length === mitDatumInDatei, { liste: echteMitDatum.length, dateien: mitDatumInDatei })
 pruefe('Stempel: die echte Liste (Einträge mit datum) trägt Entwürfe genau hinter dem Stempel', auslieferbarePatchnotes(echteMitDatum, echt).every((n) => (n.entwurf === true) === (n.datum > (echt ?? ''))))
 
 function mitOrdner<T>(stempel: string | undefined, tun: (ordner: string) => T): T {

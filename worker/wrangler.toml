@@ -74,7 +74,7 @@ bucket_name = "anime-kalender-belege"
 # Dashboard und in `wrangler tail`. Kosten (developers.cloudflare.com/workers/observability/logs/workers-logs,
 # gelesen 11.10.2026): Free 200.000 Ereignisse am Tag, 3 Tage Aufbewahrung; Paid 20 Mio. im Monat
 # inklusive, 7 Tage. Die Aufruf-Logs sind aus: sie enthielten die volle Adresse samt Query
-# (Token, Push-Endpunkt) und kosteten bei rund 58.000 Aufrufen am Tag Ereignisse ohne Nutzen.
+# (Token, Push-Endpunkt) und kosteten bei vielen Aufrufen am Tag Ereignisse ohne Nutzen (Aufrufe/Tag: Messung `tools/kapazitaet-messen.mjs`, betrieb.md).
 [observability]
 enabled = true
 head_sampling_rate = 1

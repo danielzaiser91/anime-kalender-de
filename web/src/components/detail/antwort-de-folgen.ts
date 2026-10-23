@@ -15,7 +15,7 @@ export function berechneAntwortMitDeFolgen({ title, releases, today, deFolgen }:
   today: string
   deFolgen: DeFolgen | undefined
 }): Berechnet {
-  const antwort = berechneAntwort({ title, releases, today })
+  const antwort = berechneAntwort({ title, releases, today, jetzt: new Date() })
   if (!deFolgen || (antwort?.art !== 'fertig' && antwort?.art !== 'teilweise')) return antwort
   if (!antwort.gesamt || deFolgen.n >= antwort.gesamt) return antwort
   const teilweise = { art: 'teilweise' as const, raus: deFolgen.n, gesamt: antwort.gesamt, restBelegt: true, deFolgen }

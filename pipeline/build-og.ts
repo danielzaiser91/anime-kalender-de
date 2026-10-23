@@ -15,11 +15,11 @@ import { resolve } from 'node:path'
 import { PLATFORMS, RELEASE_TYPES, type Release, type Title } from '../shared/types.ts'
 import { expandEvents, releaseStatus } from '../shared/logic.ts'
 import { todayIso } from '../shared/time.ts'
-import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson, warn } from './lib/util.ts'
-import { zeichneKarte } from './lib/og-karte.ts'
+import { zeichneKarte, type KartenDaten } from './lib/og-karte.ts'
+import { zeichneStandard } from './lib/og-standard-bild.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
-import { terminZeilen } from './lib/og-termin.ts'
+import { terminKopf } from './lib/og-termin.ts'
 import { mussNeuZeichnen, standardKarte, standardKennung } from './lib/og-standard.ts'
 
 const OUT_DIR = resolve(ROOT, 'public/og')
@@ -68,7 +68,7 @@ async function standardBild(): Promise<void> {
   const kennung = standardKennung(karte)
   const abgelegt = existsSync(kennungDatei) ? readFileSync(kennungDatei, 'utf8') : undefined
   if (NUR ? !NUR.has('default') : !mussNeuZeichnen(existsSync(datei), abgelegt, kennung, FORCE)) return
-  await zeichneKarte(karte, undefined, datei)
+  await zeichneStandard(karte, datei)
   writeFileSync(kennungDatei, `${kennung}\n`)
   log('Standard-Vorschaubild geschrieben')
 }
@@ -96,52 +96,17 @@ async function main(): Promise<void> {
     const type = RELEASE_TYPES[release.releaseType]
     const status = releaseStatus(release, today)
 
-    const lines = terminZeilen(release, events, today)
-    if (release.releaseType === 'weekly' && release.schedule.episodeCount) {
-      /*
-        **„Folgen: x von y" ist eine Fortschrittsangabe — also zählt sie, was
-        raus ist, nicht was als nächstes kommt.**
+    const kopf = terminKopf(release, events, today) ?? { datum: '', folge: '', fakt: '' }
 
-        Hier stand `next?.episode ?? 1`: die Nummer der nächsten Folge. Bei einer
-        Staffel, die erst in vier Wochen anfängt, ergab das „1 von 12" — und
-        genau so wurde es gelesen: eine Folge sei schon da. Daniel am 04.09.2026
-        zum Vorschaubild von „Die Tagebücher der Apothekerin: Staffel 3 — Teil 1":
-        „url preview image says 1 of 12? fail". Die Zeile darüber sagt bereits,
-        wann Folge 1 kommt; darunter zu behaupten, sie sei erschienen, widerspricht
-        ihr im selben Bild.
-
-        Erschienen ist, was ein Datum bis heute hat. Ist noch nichts erschienen,
-        gibt es keinen Fortschritt zu melden — dann steht dort die Gesamtzahl.
-      */
-      const raus = events.filter((e) => e.date <= today).length
-      lines.push({
-        label: 'Folgen',
-        value: raus ? `${raus} von ${release.schedule.episodeCount}` : `${release.schedule.episodeCount} geplant`,
-      })
-    }
-    if (release.publisher) lines.push({ label: 'Label', value: release.publisher })
-    if (title?.genres.length) {
-      lines.push({
-        label: 'Genres',
-        value: title.genres.slice(0, 3).map((g) => GENRE_DE[g] ?? g).join(', '),
-      })
-    }
-
-    const badges = [
+    const badges: KartenDaten['badges'] = [
       { text: PLATFORMS[release.platform].name, color: PLATFORMS[release.platform].color },
       { text: type.short, color: type.color },
     ]
     if (release.fsk !== undefined) badges.push({ text: `FSK ${release.fsk}`, color: '#e2e8f0' })
-    if (status === 'airing') badges.push({ text: 'Läuft', color: '#34d399' })
+    if (status === 'airing') badges.push({ text: 'Läuft', color: '#ff5a36', akzent: true })
 
     await zeichneKarte(
-      {
-        title: release.name,
-        subtitle: title?.titleRomaji !== release.name ? title?.titleRomaji : undefined,
-        lines,
-        badges,
-        accent: type.color,
-      },
+      { title: release.name, ...kopf, badges },
       await loadCover(title?.coverImage),
       file,
     )

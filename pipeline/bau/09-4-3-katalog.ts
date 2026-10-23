@@ -1,5 +1,6 @@
 import { readJson, log } from '../lib/util.ts'
 import { kapitelImBlock, deutscheFolgenNachDemEnde, type CrDubData } from '../lib/crunchyroll-dub.ts'
+import { belegeEinzelwerke, type EinzelwerkEintrag } from '../lib/cr-einzelwerk-urteil.ts'
 import { type Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
@@ -28,17 +29,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
      * **Nur Ja, kein Nein.** Findet der Katalog den Film nicht, heißt das „hier
      * nicht geführt" — und daraus wird kein `dub: false` (CLAUDE.md).
      */
-    let einzeln = 0
-    for (const eintrag of readJson<
-      { id: number; treffer?: { audio?: string[] } | null }[]
-    >('data/cr-einzelwerke.json', [])) {
-      if (!eintrag.treffer?.audio?.includes('de-DE')) continue
-      const title = titles.get(eintrag.id)
-      const stream = title?.streams.find((s) => s.platform === 'crunchyroll')
-      if (!stream || stream.dub !== undefined) continue
-      stream.dub = true
-      einzeln++
-    }
+    const einzeln = belegeEinzelwerke(titles, readJson<({ id: number } & EinzelwerkEintrag)[]>('data/cr-einzelwerke.json', []))
     if (einzeln) log(`${einzeln} Filme/Specials über den deutschen Katalog belegt (Einzelwerk-Suche)`)
 
     /**

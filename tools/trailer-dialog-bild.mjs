@@ -77,7 +77,7 @@ if (!FAELLE.length) {
   process.exit(0)
 }
 
-const browser = await chromium.launch()
+const browser = await chromium.launch({ ignoreDefaultArgs: ['--hide-scrollbars'] })
 const seite = await browser.newPage({ viewportSize: { width: 1280, height: 900 } })
 
 await seite.route('**/*', async (route) => {
@@ -115,7 +115,7 @@ function messen() {
   const knopf = [...(d?.querySelectorAll('a') ?? [])].find((a) => /youtube/i.test(a.textContent ?? ''))
   const x = d?.querySelector('button[aria-label]')
   return {
-    breite: Math.round(((k?.width ?? 0) / window.innerWidth) * 100),
+    breite: Math.round(((k?.width ?? 0) / document.documentElement.getBoundingClientRect().width) * 100),
     hoehe: Math.round(((k?.height ?? 0) / window.innerHeight) * 100),
     ueberschrift: d?.querySelector('h2')?.textContent?.trim() ?? '',
     src: rahmen?.getAttribute('src') ?? '',
@@ -134,7 +134,7 @@ function messen() {
       nichts darüber, wo etwas anfängt.
     */
     linksFrei: Math.round(k?.left ?? 0),
-    rechtsFrei: Math.round(window.innerWidth - (k?.right ?? 0)),
+    rechtsFrei: Math.round(document.documentElement.getBoundingClientRect().width - (k?.right ?? 0)),
     obenFrei: Math.round(k?.top ?? 0),
   }
 }

@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import type { NewsBeleg } from '@shared/types.ts'
-import { hostVon } from '@shared/quelle.ts'
+import { belegLink, hostVon } from '@shared/quelle.ts'
 import { BELEG_TYP_LABEL, belegTyp } from '@shared/beleg-anbieter.ts'
 import { datumKurz } from '../lib/news-text.ts'
 import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
@@ -9,7 +9,7 @@ import { quellenLabel } from './news-belege.tsx'
 import { Ladeanzeige } from './ui.tsx'
 
 /** **Das Beleg-Bild** an einer Quelle; öffentlich lesbar (Daniel, 04.10.2026). Der archivierte Text (HTML) bleibt privat (Daniel, 05.10.2026). */
-const WORKER = import.meta.env.VITE_NEWSLETTER_API ?? ''
+const WORKER = import.meta.env?.VITE_NEWSLETTER_API ?? ''
 
 /**
  * **Ein Knopf je Meldung statt Hostnamen-Links** (Daniel, 05.10.2026): „Quelle"/„Quellen" öffnet das Beleg-Fenster mit einem Reiter je
@@ -160,8 +160,9 @@ function useBelegBild(bild: string | undefined): { url?: string; fehler?: string
 }
 
 /** Eine Quelle: Erklärung, Originaladresse und — wo gesichert — das Bild mit der Fundstelle. */
-function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
+export function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
   const bild = WORKER ? beleg.bild : undefined
+  const original = belegLink(beleg)
   const { url, fehler } = useBelegBild(bild)
   const [einpassen, setEinpassen] = useState(false)
   /* Mit Markierung öffnet das Bild gleich an der Fundstelle (Daniel, 11.10.2026); der Schalter nimmt die Marke zurück. */
@@ -197,9 +198,11 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
               {einpassen ? 'Volle Breite' : 'Einpassen'}
             </button>
           )}
-          <a href={beleg.url} target="_blank" rel="noopener noreferrer" className={`${BTN} border-ak-fehler font-semibold text-ak-fehler-text`}>
-            Originalseite bei {hostVon(beleg.url)} ↗
-          </a>
+          {original && (
+            <a href={original} target="_blank" rel="noopener noreferrer" className={`${BTN} border-ak-fehler font-semibold text-ak-fehler-text`}>
+              Originalseite bei {hostVon(original)} ↗
+            </a>
+          )}
         </div>
       </div>
       <div className={`min-h-0 flex-1 ${einpassen ? 'flex items-center justify-center p-3 md:p-6' : 'overflow-auto p-3 md:p-6'}`} onClick={zu}>
