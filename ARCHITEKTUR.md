@@ -32,7 +32,7 @@ Das ist der Kern, und der häufigste Denkfehler:
 
 | | Was es ist | Heute | Grenze | Wer es merkt |
 |---|---|---|---|---|
-| **Ladelast** | was ein Besucher wirklich herunterlädt | **≈ 305 KB** (gzip, Start; Stand 20.10.2026, Wächter `tools/start-budget.mjs`, Grenze 310 KB, Ziel 300 KB) | gefühlt ab ~1 MB | jeder Besucher, sofort |
+| **Ladelast** | was ein Besucher wirklich herunterlädt | **≈ 294 KB** (gzip, Start; Stand 23.10.2026, Wächter `tools/start-budget.mjs`, Grenze 300 KB) | gefühlt ab ~1 MB | jeder Besucher, sofort |
 | **Veröffentlichte Seite** | Inhalt von `dist/` | 20 MB | **1 GB** (GitHub Pages) | niemand, bis es reißt |
 | **Repo** | alles inkl. Rohdaten und Historie | 108 MB (`.git` 64 MB gepackt) | ~1 GB empfohlen | nur wer klont |
 
