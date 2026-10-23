@@ -51,6 +51,10 @@ jobs:
     runs-on: ubuntu-latest
     # Gemessen 13 bis 22 Minuten ohne aniSearch; 60 sind reichlich. Läuft es darüber hinaus, ist der nächste Lauf der bessere Weg — die Abrufe sind idempotent.
     timeout-minutes: 60
+    # Ein Schreiber an `data/justwatch-audio.json` zur Zeit: der Wochenlauf (Job `tmdb` in refresh-weekly.yml) trägt dieselbe Gruppe (`tools/justwatch-schreiber.test.mjs`).
+    concurrency:
+      group: justwatch-datei
+      cancel-in-progress: false
     outputs:
       fehler: ${{ steps.auswerten.outputs.fehler }}
     env:

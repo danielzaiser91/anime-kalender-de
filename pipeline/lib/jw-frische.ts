@@ -40,9 +40,12 @@ export function frischeTitel(termine: TerminKurz[], heute: string): Set<number> 
   return mit
 }
 
+/** Der digitale Amazon-Shop bei JustWatch; „Amazon DVD / Blu-ray“ und die Kanäle („… Amazon Channel“) sind etwas anderes (auch für den Kaufweg im Bau). */
+export const AMAZON_VIDEO_SHOP = /^amazon (prime )?video$/i
+
 /** Schon ein Kauf-/Leihangebot im digitalen Amazon-Shop gefunden: dann gibt es nichts mehr zu erwarten. */
 function hatPrimeKauf(e: BefundFrisch): boolean {
-  return (e.angebote ?? []).some((a) => /^amazon (prime )?video$/i.test(a.anbieter) && (a.art === 'BUY' || a.art === 'RENT'))
+  return (e.angebote ?? []).some((a) => AMAZON_VIDEO_SHOP.test(a.anbieter) && (a.art === 'BUY' || a.art === 'RENT'))
 }
 
 /** Ein frischer Titel, dessen Befund mindestens `FRISCH_ALTER_TAGE` alt ist und noch kein Prime-Kauf kennt. */

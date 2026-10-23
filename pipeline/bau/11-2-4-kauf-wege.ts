@@ -3,11 +3,9 @@ import { type StreamLink, type Title } from '../../shared/types.ts'
 import { stripAffiliate } from '../../shared/mappings.ts'
 import { wegVerneint } from '../lib/dub-confirmed.ts'
 import { gtiAus } from '../lib/amazon-gti.ts'
+import { AMAZON_VIDEO_SHOP } from '../lib/jw-frische.ts'
 
 export type JwKauf = { ohneTreffer?: boolean; angebote?: { anbieter: string; art: string; url?: string; audio?: string[] }[] }
-
-/** Der digitale Amazon-Shop bei JustWatch; „Amazon DVD / Blu-ray" und die Kanäle („… Amazon Channel") sind etwas anderes. */
-const AMAZON_VIDEO = /^amazon (prime )?video$/i
 
 /** Titel mit einem belegten Nein bei Prime im Gedächtnis der entfernten Verweise (`data/verweise-entfernt.json`, wie in `11-4-ausgaben.ts`). */
 export function primeNeinTitel(datei = 'data/verweise-entfernt.json'): Set<number> {
@@ -59,7 +57,7 @@ export function ergaenzeKaufWege({ titles, jw, handNein, primeNein, tmdbMehrdeut
     if ((title.entfernteStreams ?? []).some((s) => s.platform === 'primevideo')) continue
     const a = b.angebote.find(
       (x) =>
-        AMAZON_VIDEO.test(x.anbieter) &&
+        AMAZON_VIDEO_SHOP.test(x.anbieter) &&
         (x.art === 'BUY' || x.art === 'RENT') &&
         (x.audio ?? []).includes('de') &&
         x.url &&
