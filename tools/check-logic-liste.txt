@@ -214,6 +214,7 @@ pipeline/check-stand-halten.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
 pipeline/check-such-chip.ts
+pipeline/check-sw-cache-regeln.ts
 pipeline/check-synchro-original.ts
 pipeline/check-takt.ts
 pipeline/check-telekom-annahme.ts
