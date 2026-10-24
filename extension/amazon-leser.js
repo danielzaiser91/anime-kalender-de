@@ -317,6 +317,10 @@
       tokens: new Set(),
       geholt: new Set(),
       nachholenLaeuft: false,
+      /* Abschnitte, die nicht vollständig gelesen wurden — sie zählen als offen. */
+      unlesbar: new Set(),
+      versuche: new Map(),
+      abschnittLog: [],
     }
     diagnose.schluessel = `${zustand.pfad}|${zustand.staffel ?? ''}`
     diagnose.quelle = null
@@ -390,14 +394,100 @@
         ...(seite ? { seite } : {}),
         startAdresse,
         fuerAdresse: abrufAdresse,
-        abschnitte: { gesamt: z.tokens.size, offen: [...z.tokens].filter((t) => !z.geholt.has(t)).length },
+        abschnitte: {
+          gesamt: z.tokens.size,
+          offen: [...z.tokens].filter((t) => !z.geholt.has(t) || z.unlesbar.has(t)).length,
+          log: z.abschnittLog,
+        },
         ...zusatz,
       },
       '*',
     )
   }
 
-  /** Die übrigen Abschnitte über ihre Tokens — jeder genau einmal, nacheinander. */
+  /** Höchstens so oft wird ein Abschnitt abgerufen, der nichts Lesbares lieferte. */
+  const MAX_VERSUCHE = 3
+
+  /**
+   * **Was ein Abschnitt hergab — Zahlen statt Vermutung.**
+   *
+   * Dragon Quest: The Adventure of Dai (24.10.2026): fünf Abschnitte, `offen: 0`,
+   * aber 75 von 99 Folgen. Ein Abschnitt war als „geholt" abgehakt und trug nichts
+   * bei; warum, ließ sich aus der Diagnose nicht lesen. Jetzt steht je Abschnitt:
+   * Status, Folgen roh, neu gelesen, ohne Nummer, mit Nummernkollision.
+   *
+   * Eine Folge, deren Nummer schon eine **andere** Folge trägt, überschreibt sie nicht
+   * mehr still; der Abschnitt zählt als nicht vollständig gelesen.
+   */
+  function abschnittAuswerten(z, token, liste) {
+    const roh = Array.isArray(liste.episodes) ? liste.episodes : []
+    const folgen = roh.map(folgeAusDetail)
+    const mitNummer = folgen.filter(Boolean)
+    const kollisionen = mitNummer.filter((f) => {
+      const alt = z.folgen.get(f.nummer)
+      return alt && alt.kennung && f.kennung && alt.kennung !== f.kennung
+    })
+    const gueltig = mitNummer.filter((f) => !kollisionen.includes(f))
+    uebernehmen(z, gueltig)
+    const nummern = mitNummer.map((f) => f.nummer)
+    return {
+      roh: roh.length,
+      gelesen: gueltig.length,
+      ohneNummer: roh.length - mitNummer.length,
+      kollisionen: kollisionen.length,
+      von: nummern.length ? Math.min(...nummern) : null,
+      bis: nummern.length ? Math.max(...nummern) : null,
+    }
+  }
+
+  /** Ein Abschnitt, Antwort ausgewertet; `true`, wenn er vollständig gelesen ist. */
+  async function abschnittHolen(z, token) {
+    const widgets = JSON.stringify([{ widgetType: 'EpisodeList', widgetToken: token }])
+    const adresse =
+      '/gp/video/api/getDetailWidgets' +
+      `?titleID=${encodeURIComponent(z.titleID)}&widgets=${encodeURIComponent(widgets)}`
+    const eintrag = { token: token.slice(-8), status: null, zeichen: 0 }
+    z.abschnittLog.push(eintrag)
+    try {
+      const antwort = await nativFetch.call(window, adresse, {
+        credentials: 'include',
+        headers: { accept: 'application/json', 'x-requested-with': 'XMLHttpRequest' },
+      })
+      const text = antwort.ok ? await antwort.text() : ''
+      eintrag.status = antwort.status
+      eintrag.zeichen = text.length
+      diagnose.abrufe.push({ status: antwort.status, zeichen: text.length })
+      if (z !== zustand || !antwort.ok) return false
+      const liste = JSON.parse(text)?.widgets?.episodeList
+      if (!liste) return false
+      if (Number.isFinite(liste.episodeCount)) z.gesamt = liste.episodeCount
+      Object.assign(eintrag, abschnittAuswerten(z, token, liste))
+      for (const s of liste.actions?.episodePages ?? []) {
+        if (typeof s?.token === 'string' && s.token.length > 10) z.tokens.add(s.token)
+      }
+      /*
+        Absicht: Ein Abschnitt mit Folgen, von denen nicht alle gelesen wurden (Kollision, ohne Nummer),
+        gilt als abgerufen, aber offen: ein Neuversuch liefert dieselbe Antwort. Er bleibt in `offen`,
+        damit das Soll nicht aufs Gelesene fällt. Grenze: Liefert ein Abschnitt lesbar, aber zu wenig
+        Folgen (roh = gelesen < Erwartung), sieht der Leser das nicht.
+      */
+      const vollstaendig = eintrag.roh > 0 && eintrag.gelesen === eintrag.roh
+      if (!vollstaendig && eintrag.roh > 0) z.unlesbar.add(token)
+      return eintrag.roh > 0
+    } catch (err) {
+      fehler(err)
+      return false
+    }
+  }
+
+  /**
+   * Die übrigen Abschnitte über ihre Tokens — jeder genau einmal, nacheinander.
+   *
+   * **Ein Abschnitt ohne lesbare Antwort gilt nicht als geholt.** Bisher hakte
+   * `geholt.add()` ihn vor dem Abruf ab, und ein Fehlschlag blieb unbemerkt: der
+   * Knopf sah „kein Abschnitt offen" und hielt die Liste für vollständig. Jetzt
+   * wird er höchstens `MAX_VERSUCHE`-mal versucht und bleibt danach offen.
+   */
   async function nachholen(z) {
     if (z.nachholenLaeuft || !z.titleID) return
     z.nachholenLaeuft = true
@@ -406,33 +496,18 @@
         if (z !== zustand) return
         if (z.geholt.has(token)) continue
         if (z.geholt.size >= MAX_ABSCHNITTE) break
-        z.geholt.add(token)
-        const widgets = JSON.stringify([{ widgetType: 'EpisodeList', widgetToken: token }])
-        const adresse =
-          '/gp/video/api/getDetailWidgets' +
-          `?titleID=${encodeURIComponent(z.titleID)}&widgets=${encodeURIComponent(widgets)}`
-        try {
-          const antwort = await nativFetch.call(window, adresse, {
-            credentials: 'include',
-            headers: { accept: 'application/json', 'x-requested-with': 'XMLHttpRequest' },
-          })
-          const text = antwort.ok ? await antwort.text() : ''
-          diagnose.abrufe.push({ status: antwort.status, zeichen: text.length })
-          if (z !== zustand || !antwort.ok) continue
-          const liste = JSON.parse(text)?.widgets?.episodeList
-          if (!liste) continue
-          if (Number.isFinite(liste.episodeCount)) z.gesamt = liste.episodeCount
-          uebernehmen(z, (liste.episodes ?? []).map(folgeAusDetail))
-          for (const s of liste.actions?.episodePages ?? []) {
-            if (typeof s?.token === 'string' && s.token.length > 10) z.tokens.add(s.token)
-          }
-          senden(z)
-        } catch (err) {
-          /* Ein fehlgeschlagener Abschnitt bleibt offen — der Knopf meldet dann einen Ausschnitt. */
-          fehler(err)
-        }
+        const versuche = (z.versuche.get(token) ?? 0) + 1
+        z.versuche.set(token, versuche)
+        const lesbar = await abschnittHolen(z, token)
+        if (z !== zustand) return
+        /* Lesbar oder aufgegeben: nicht erneut. Sonst bleibt er für den nächsten Lauf offen. */
+        if (lesbar || versuche >= MAX_VERSUCHE) z.geholt.add(token)
+        if (!lesbar && versuche >= MAX_VERSUCHE) z.unlesbar.add(token)
+        senden(z)
         await warte(PAUSE_MS)
       }
+      const nochOffen = z.geholt.size < MAX_ABSCHNITTE && [...z.tokens].some((t) => !z.geholt.has(t))
+      if (nochOffen && z === zustand) setTimeout(() => void nachholen(z), PAUSE_MS * 5)
     } finally {
       z.nachholenLaeuft = false
     }
