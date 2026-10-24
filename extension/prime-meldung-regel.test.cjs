@@ -109,6 +109,17 @@ async function tabelle() {
     }
   }
   const kanal = await klick({ geladen: 75, gesamt: 99, kanal: true })
+  /*
+    Gesperrte Folgen zählen zum Gelesenen (A2): Alles gesperrt, alle Abschnitte gelesen → der Knopf bietet an.
+    Ohne `wegInRegion` im Aufruf fiele das Soll auf die Seitenzahl 48 und der Knopf bliebe gesperrt.
+    Der Klick ist hier nicht unterscheidbar: Er weist bei 0 gelesenen Folgen vorher ab (`keine Folge gelesen`),
+    so dass `geladen` allein im Aufruf dort dieselbe Entscheidung ergibt — das Abweisen wird unten festgehalten.
+  */
+  const alleGesperrt = { geladen: 0, gesperrt: 24, gesamt: 48, lautSeite: 48, abschnitte: { gesamt: 2, offen: 0 }, vollstaendig: true }
+  const gesperrtKnopf = knopfBietet(alleGesperrt)
+  pruefe('Band-Staffel, alles gesperrt (0 + 24 von 48), Abschnitte gelesen: Knopf bietet „melden"', gesperrtKnopf.bietet === true, gesperrtKnopf.knopf)
+  const gesperrtKlick = await klick(alleGesperrt)
+  pruefe('dasselbe im Klick: Abweisung „keine Folge gelesen" steht vor der Soll-Rechnung', gesperrtKlick.abgewiesen.length === 1 && gesperrtKlick.abgewiesen[0].grund === 'keine Folge gelesen', gesperrtKlick.abgewiesen)
   const laeuft = knopfBietet({ geladen: 75, gesamt: 99, vollstaendig: false })
   pruefe('Liste noch nicht vollständig: die Entscheidung greift am Knopf nicht (andere Sperre zuständig)', laeuft.knopf.textContent === '' && laeuft.bietet === true, laeuft.knopf)
   const mehr = kasten.akPrimeKeinDeutschSperre({ sollFolgen: 5, geladen: 7, gesperrt: 0, kanal: false })

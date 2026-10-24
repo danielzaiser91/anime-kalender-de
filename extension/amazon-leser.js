@@ -465,6 +465,12 @@
       for (const s of liste.actions?.episodePages ?? []) {
         if (typeof s?.token === 'string' && s.token.length > 10) z.tokens.add(s.token)
       }
+      /*
+        Absicht: Ein Abschnitt mit Folgen, von denen nicht alle gelesen wurden (Kollision, ohne Nummer),
+        gilt als abgerufen, aber offen: ein Neuversuch liefert dieselbe Antwort. Er bleibt in `offen`,
+        damit das Soll nicht aufs Gelesene fällt. Grenze: Liefert ein Abschnitt lesbar, aber zu wenig
+        Folgen (roh = gelesen < Erwartung), sieht der Leser das nicht.
+      */
       const vollstaendig = eintrag.roh > 0 && eintrag.gelesen === eintrag.roh
       if (!vollstaendig && eintrag.roh > 0) z.unlesbar.add(token)
       return eintrag.roh > 0

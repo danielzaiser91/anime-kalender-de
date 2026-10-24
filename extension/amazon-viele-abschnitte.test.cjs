@@ -51,7 +51,36 @@ const seiten = TOKENS.map((t) => `{"isSelected":false,"text":{"string":"Folgen"}
 const quelltext = `<html><body><script type="text/template">{"titleID":"B0CGQ64WRN","episodePages":[${seiten}]}</script></body></html>`
 
 /** `abschnitt4` bestimmt, was der vierte Abschnitt liefert: (versuch) => { status, text }. */
+/** Eine Attrappe-Uhr je Leser: Zeit steht, bis `laufe()` sie weiterstellt; der Test hängt nicht an echter Wartezeit. */
+function neueUhr() {
+  const uhr = { jetzt: 0, liste: [], nr: 0 }
+  uhr.plane = (fn, ms, wiederholt) => {
+    const id = ++uhr.nr
+    uhr.liste.push({ id, fn, ms, wiederholt, at: uhr.jetzt + ms })
+    return id
+  }
+  uhr.weg = (id) => {
+    uhr.liste = uhr.liste.filter((t) => t.id !== id)
+  }
+  return uhr
+}
+
+/** Virtuelle Zeit bis `ende` ms ablaufen lassen; zwischen den Zeitgebern laufen alle Promises durch. */
+async function laufe(leser, ende) {
+  const uhr = leser.uhr
+  for (;;) {
+    await new Promise((fertig) => setImmediate(fertig))
+    const faellig = uhr.liste.filter((t) => t.at <= ende).sort((a, b) => a.at - b.at)[0]
+    if (!faellig) return
+    uhr.jetzt = faellig.at
+    if (faellig.wiederholt) faellig.at += faellig.ms
+    else uhr.weg(faellig.id)
+    faellig.fn()
+  }
+}
+
 function starte(abschnitt4) {
+  const uhr = neueUhr()
   const nachrichten = []
   let versuche4 = 0
   const fenster = {
@@ -72,15 +101,16 @@ function starte(abschnitt4) {
       documentElement: { innerHTML: quelltext },
       getElementById: (id) => (id === 'dv-web-page-hydration-data' ? { textContent: block, firstChild: { length: block.length } } : null),
     },
-    setTimeout,
-    setInterval,
-    clearInterval,
+    setTimeout: (fn, ms = 0) => uhr.plane(fn, ms, false),
+    setInterval: (fn, ms = 0) => uhr.plane(fn, ms, true),
+    clearInterval: (id) => uhr.weg(id),
     console,
   }
   sandkasten.globalThis = sandkasten
   vm.createContext(sandkasten)
   vm.runInContext(readFileSync(__dirname + '/amazon-leser.js', 'utf8'), sandkasten)
   return {
+    uhr,
     nachrichten,
     versuche4: () => versuche4,
     letzter: () => nachrichten.filter((n) => n.marke === 'ak-amazon-folgen').at(-1) ?? {},
@@ -93,9 +123,15 @@ const gut = starte(() => ({ status: 200, text: antwortMit(bereich(73, 96)) }))
 const einmalFehler = starte((v) => (v === 1 ? { status: 503, text: '' } : { status: 200, text: antwortMit(bereich(73, 96)) }))
 const immerFehler = starte(() => ({ status: 503, text: '' }))
 const kollision = starte(() => ({ status: 200, text: antwortMit(bereich(1, 24, (n) => `B0ANDERE${String(n).padStart(3, '0')}`)) }))
+const teilKollision = starte(() => ({
+  status: 200,
+  text: antwortMit([...bereich(1, 12, (n) => `B0ANDERE${String(n).padStart(3, '0')}`), ...bereich(73, 84)]),
+}))
 const ohneNummer = starte(() => ({ status: 200, text: antwortMit(bereich(73, 96).map((f) => ({ titleID: f.titleID, detail: { title: f.detail.title } }))) }))
 
-setTimeout(() => {
+async function haupt() {
+  /* 60 s virtuell: reicht für alle Pausen und Neuversuche, kostet keine echte Zeit. */
+  for (const l of [gut, einmalFehler, immerFehler, kollision, teilKollision, ohneNummer]) await laufe(l, 60_000)
   const g = gut.letzter()
   pruefe('alle fünf Abschnitte: 99 Folgen gelesen', g.funde?.length === 99, g.funde?.length)
   pruefe('alle Abschnitte geholt: offen 0', g.abschnitte?.offen === 0, g.abschnitte)
@@ -121,6 +157,11 @@ setTimeout(() => {
   pruefe('Folgen ohne Nummer: 75 Folgen, Abschnitt offen', o.funde?.length === 75 && o.abschnitte?.offen === 1, [o.funde?.length, o.abschnitte])
   pruefe('Folgen ohne Nummer: der Log nennt 24 ohne Nummer', o.abschnitte?.log?.[3]?.ohneNummer === 24, o.abschnitte?.log?.[3])
 
+  const t = teilKollision.letzter()
+  pruefe('Teilkollision (12 von 24): die zwölf neuen Folgen 73–84 kommen an, 87 gelesen', t.funde?.length === 87 && t.funde.some((f) => f.nummer === 84), t.funde?.length)
+  pruefe('Teilkollision: der Abschnitt bleibt offen, der Log nennt 12 gelesen und 12 Kollisionen', t.abschnitte?.offen === 1 && t.abschnitte.log[3].gelesen === 12 && t.abschnitte.log[3].kollisionen === 12, t.abschnitte)
+  pruefe('Teilkollision: einmal abgerufen (eine feste Kollision ändert sich beim Neuversuch nicht)', teilKollision.versuche4() === 1, teilKollision.versuche4())
+
   console.log()
   if (fehler.length) {
     console.error(`${fehler.length} Zusicherung(en) verletzt.`)
@@ -128,4 +169,5 @@ setTimeout(() => {
   }
   console.log('Alle Zusicherungen erfüllt.')
   process.exit(0)
-}, 9000)
+}
+haupt()
