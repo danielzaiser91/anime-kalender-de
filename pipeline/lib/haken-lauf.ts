@@ -38,7 +38,7 @@ export function hakenLauf<P>(komponente: (props: P) => unknown): HakenLauf<P> {
         }
         return s.wert
       }
-      const effekt =(f: () => Aufraeumen, deps?: readonly unknown[]) => {
+      const effekt = (f: () => Aufraeumen, deps?: readonly unknown[]) => {
         const s = slot()
         if (gleicheDeps(s.deps, deps)) return
         effekte.push({ slot: s, f, deps })
