@@ -109,6 +109,8 @@ pruefe('genau die Hälfte der Wörter des kürzeren gilt, weniger nicht', mitVor
 pruefe('Wörter von vier Buchstaben zählen', mitVorhanden([[4, 'Hund Bär']])?.size === 6)
 const mitZahlen = (v: string) => tmdbFolgentitel(serie(), 'Beispiel Langläufer', { folgen: anthologie.map((f) => (f.e === 1 ? { ...f, titel: 'Wasserfall Teil 1 und 2' } : f)) }, bis(6), new Map([[1, v]]))
 pruefe('dieselben Zahlen in anderer Reihenfolge gelten, andere Zahlen nicht', mitZahlen('Wasserfall Teil 2 und 1')?.size === 6 && mitZahlen('Wasserfall Teil 1 und 3') === undefined)
+const stimmt = mitFremdTiteln(serie(), bis(6).map((nr) => ({ nr, ...(nr === 1 ? { de: 'Die Ursprünge' } : nr === 2 ? { de: 'Der Babysitter' } : {}) })), quellen(anthologie))
+pruefe('im Bau: passende aniSearch-Titel (Nr. 1, 2) bestätigen die Reihenfolge, der Rest wird gefüllt', stimmt?.[2].de === 'Der Gefallene' && stimmt[5].de === 'Super Man', stimmt)
 const vertauscht = mitFremdTiteln(serie(), bis(6).map((nr) => ({ nr, ...(nr === 1 ? { de: 'Der Babysitter' } : nr === 2 ? { de: 'Die Ursprünge' } : {}) })), quellen(anthologie))
 pruefe('im Bau: vertauschte aniSearch-Titel lassen alle anderen Nummern leer', vertauscht?.[0].de === 'Der Babysitter' && vertauscht.slice(2).every((f) => !f.de), vertauscht)
 
@@ -116,4 +118,4 @@ if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)
 }
-console.log('\nTMDB-Folgentitel ohne Folgenzahl: alle Zusicherungen erfüllt (58 Fälle).')
+console.log('\nTMDB-Folgentitel ohne Folgenzahl: alle Zusicherungen erfüllt (59 Fälle).')
