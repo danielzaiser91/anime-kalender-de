@@ -31,6 +31,9 @@ pruefe('Umleitung als eigene Reihe', findeDoppelteNetflixKennungen(ranma, { ...g
 const zwei = [titel(1, 7, '900001'), titel(2, 7, '900002')]
 const anfang = findeDoppelteNetflixKennungen(zwei, { '900001': liste(12, 12), '900002': liste(12, 12, 4) })
 pruefe('zwei Kennungen, eine Liste Anfang der anderen', anfang.length === 1, anfang)
+pruefe('Anfang gilt in beide Richtungen', findeDoppelteNetflixKennungen(zwei, { '900001': liste(12, 12, 4), '900002': liste(12, 12) }).length === 1)
+const durcheinander: StaffelListen = { '900001': { staffeln: [{ seq: 2, folgen: 12 }, { seq: 1, folgen: 10 }] }, '900002': liste(10, 12, 4) }
+pruefe('Staffeln werden nach seq geordnet', findeDoppelteNetflixKennungen(zwei, durcheinander).length === 1)
 pruefe('gleiche Listen mit zwei Staffeln', findeDoppelteNetflixKennungen(zwei, { '900001': liste(12, 12), '900002': liste(12, 12) }).length === 1)
 pruefe('Folgenzahl trennt', findeDoppelteNetflixKennungen(zwei, { '900001': liste(12, 12), '900002': liste(13, 12, 4) }).length === 0)
 pruefe('eine Staffel je Seite ist keine Doppelung (Sailor Moon)', findeDoppelteNetflixKennungen(zwei, { '900001': liste(2), '900002': liste(2) }).length === 0)
