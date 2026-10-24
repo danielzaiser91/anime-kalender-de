@@ -22,35 +22,12 @@ globalThis.akNetflixStaffelnGedeckt = (eintrag, paare) =>
   (eintrag?.staffeln ?? []).filter((st) => st.offen).every((st) => paare.some((p) => Number(p.staffel) === Number(st.nr)))
 
 /*
-  **Eine Definition für „Netflix-Titel erledigt" laut Worker-Stand** (24.10.2026). Daniel: Statusanzeige
-  „46 offen · 27 Titel · 19 ohne Kennung", Knopf „5". Der Worker zieht nur Meldungen seit dem Prüfstand-
-  Bau ab, die Erweiterung zusätzlich jede im Briefkasten gedeckte (`akNetflixWartet`) — dieselbe Frage,
-  zwei Regeln. Sie bleiben verschieden (Worker-Seite: `pruefung-stand-anbieter.ts`); der Knopf-Tooltip
-  zerlegt die Zahl des Stands darum vollständig, `fertig()` und die Zerlegung nutzen diese Funktion.
+  **Erledigt laut Worker-Stand** (24.10.2026): nicht mehr im Stand, in dieser Sitzung gemeldet oder im Briefkasten
+  gedeckt (`akNetflixWartet`). Der Worker nimmt gedeckte Ziele seitdem selbst aus `ziele` (`worker/src/pruefung-gedeckt.ts`,
+  gleiche Regel wie `akNetflixStaffelnGedeckt`); `tools/netflix-zahl-gleich.test.ts` hält beide Zahlen gleich.
 */
 globalThis.akNetflixErledigtLautStand = (id, standUrls, frisch, wartet) =>
   !standUrls.has(`https://www.netflix.com/title/${id}`) || frisch.has(String(id)) || wartet.has(String(id))
-
-/** Zerlegt die Titelzahl des Stands: offen (= Knopf), hier gemeldet (Einspielung steht aus), nicht in der Liste. */
-globalThis.akNetflixZaehlung = (standUrls, offene, frisch, wartet) => {
-  if (!standUrls) return null
-  const z = { imStand: standUrls.size, offen: 0, gemeldet: 0, ausserListe: 0 }
-  for (const url of standUrls) {
-    const id = String(url).split('/').pop()
-    if (offene[id] === undefined) z.ausserListe++
-    else if (globalThis.akNetflixErledigtLautStand(id, standUrls, frisch, wartet)) z.gemeldet++
-    else z.offen++
-  }
-  return z
-}
-
-/** Tooltip-Zeilen, die die Zahl der Statusanzeige erklären; leer ohne Stand. */
-globalThis.akNetflixZaehlText = (z, ohneKennung) => {
-  if (!z) return ''
-  const rest = z.ausserListe ? `, ${z.ausserListe} nicht in dieser Liste` : ''
-  const kennung = ohneKennung ? ` Dazu ${ohneKennung} Verweise ohne Kennung, die nur dort stehen.` : ''
-  return `\nStatusanzeige: ${z.imStand} Titel offen = ${z.offen} hier zu prüfen + ${z.gemeldet} hier schon gemeldet${rest}.${kennung}`
-}
 
 globalThis.akNetflixUebernahme = async (zieleUrls, offene, worker, netz = globalThis.AK_DISNEY_NETZ) => {
   try {

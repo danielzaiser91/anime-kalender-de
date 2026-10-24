@@ -2274,15 +2274,15 @@ function fertig(id, eintrag) {
  */
 const STAND = 'https://newsletter.animekalender.workers.dev/pruefung?stand=1'
 
-/** Verweise ohne Kennung laut Worker-Stand (nur die Statusanzeige zählt sie) — `null`, solange unbekannt. */
-let ohneKennungStand = null
+/** Was der Worker für Netflix als offen führt — `null`, solange unbekannt. */
+let offenLautStand = null
 
 async function standHolen() {
   try {
     const daten = await fetch(STAND, { cache: 'no-store' }).then((r) => r.json())
     const netflix = (daten.anbieter ?? []).find((a) => a.plattform === 'netflix')
     if (!netflix) return
-    ohneKennungStand = netflix.ohneSeite ?? 0
+    offenLautStand = netflix.offen
     /* Die offenen Adressen selbst — `fertig()` fragt sie (14.09.2026). */
     if (Array.isArray(netflix.ziele)) {
       standZieleNetflix = new Set(netflix.ziele.map((z) => z.url))
@@ -5304,8 +5304,9 @@ function uebersichtZeigen() {
       : 'Anime-Kalender ✓'
   /* Bericht und Ruhemodus stehen immer im Kasten, nicht nur mit der Melde-Leiste (29.09.2026). */
   netflixDebugZeile(netflixKasten())
-  /* Die Zahl der Statusanzeige steht hier erklärt statt am Knopf (24.10.2026). */
-  const nachStand = akNetflixZaehlText(akNetflixZaehlung(standZieleNetflix, offeneTitel, frischGemeldetNetflix, akNetflixWartet), ohneKennungStand)
+  /* Der Worker-Stand steht hier statt am Knopf: Er beantwortet eine andere
+     Frage — was ein Datenlauf schon eingespielt hat. */
+  const nachStand = offenLautStand === null ? '' : `\nIm Datensatz noch ohne Urteil: ${offenLautStand}`
   uebersichtKnopf.title =
     (!offeneAdressen
       ? `Alles gemeldet — ${gesamt} Staffeln, zum Nachsehen anklicken`

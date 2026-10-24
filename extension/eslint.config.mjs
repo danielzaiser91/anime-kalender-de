@@ -68,8 +68,6 @@ export default [
         akPrimeEndeText: 'readonly',
         akDurchgangSchutz: 'readonly',
         akNetflixErledigtLautStand: 'readonly',
-        akNetflixZaehlung: 'readonly',
-        akNetflixZaehlText: 'readonly',
         akNetflixUebernahme: 'readonly',
         akNetflixWartet: 'readonly',
         akNetflixEnde: 'readonly',

@@ -1,15 +1,16 @@
 /**
- * **Statusanzeige und Erweiterungsknopf zählen Netflix aus demselben Stand — und die Differenz ist erklärt** (24.10.2026).
+ * **Statusanzeige (Worker) und Erweiterungsknopf zählen Netflix gleich** (24.10.2026).
  *
- * Anlass: Statusanzeige „Netflix 46 offen · 27 Titel · 19 ohne Kennung", Knopf „Anime-Kalender 5". Der Worker
- * (`rechneAnbieter`) zieht nur Meldungen seit dem Prüfstand-Bau ab, die Erweiterung zusätzlich jede im Briefkasten
- * gedeckte Reihe (`akNetflixWartet`). Beide Zählungen laufen hier an denselben Daten; die Zerlegung des Knopf-Tooltips
- * (`akNetflixZaehlung`) muss die Titelzahl des Workers vollständig erklären, sonst ist der Test rot.
+ * Anlass: Statusanzeige „Netflix 46 offen · 27 Titel · 19 ohne Kennung“, Knopf „Anime-Kalender 5“. Der Worker zog nur
+ * Meldungen seit dem Prüfstand-Bau ab, die Erweiterung jede gedeckte Reihe (`akNetflixWartet`). Jetzt rechnet der Worker
+ * die Deckung (`pruefung-gedeckt.ts`). Beide Zählungen laufen hier an denselben Daten: `berechnePruefstand` (mit
+ * Attrappe) gegen `akNetflixUebernahme` + `akNetflixErledigtLautStand` aus der Erweiterung; Titelzahl und Knopfzahl müssen
+ * gleich sein, auch bei Nichtauskunft (Titelzeilen nicht lesbar / Netz weg).
  *
  * Aufruf: `npx tsx tools/netflix-zahl-gleich.test.ts`
  */
 import { readFileSync } from 'node:fs'
-import { rechneAnbieter, type Gemeldet } from '../worker/src/pruefung-stand-anbieter.ts'
+import { rechnePruefstand, type Anbieter, type Zeile } from './worker-pruefstand-attrappe.ts'
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -18,88 +19,102 @@ const pruefe = (bedingung: boolean, text: string) => {
 }
 
 const url = (id: number) => `https://www.netflix.com/title/${id}`
-const A = 900001 // offen, nie gemeldet
-const B = 900002 // vor dem Prüfstand gemeldet: Worker offen, Erweiterung wartet
-const C = 900003 // nach dem Prüfstand gemeldet: beide erledigt
-const D = 900004 // im Stand, nicht in der Liste der Erweiterung
-const E = 900005 // zweite offene Reihe wie A (mehr als ein Fall je Zweig)
+const ERZEUGT = '2026-10-11T16:00:00.000Z'
+const VOR = '2026-10-10T08:00:00Z'
+const NACH = '2026-10-12T08:00:00Z'
 
-const roh = {
+type Fall = { id: number; staffeln: number[]; seit?: string; meldungen: { staffel: number | null; am: string; nummer?: number | null }[]; nachPruefstand?: boolean }
+const A = 900001 // nie gemeldet
+const B = 900002 // jede offene Staffel vor dem Prüfstand gemeldet: gedeckt
+const C = 900003 // nach dem Prüfstand gemeldet (Briefkasten-Zeile): erledigt
+const E = 900005 // zwei offene Staffeln, nur eine gemeldet
+const F = 900006 // Wiedervorlage: Meldung älter als `seit`
+const G = 900007 // zwei offene Staffeln, beide gemeldet, die zweite genau am `seit` (Grenze zählt)
+const H = 900008 // nur eine Rohfolge ohne Nummer gemeldet: deckt nichts
+const J = 900009 // Meldung ohne Staffelangabe zählt als Staffel 1
+const faelle: Fall[] = [
+  { id: A, staffeln: [1], meldungen: [] },
+  { id: B, staffeln: [1], meldungen: [{ staffel: 1, am: VOR }] },
+  { id: C, staffeln: [1], meldungen: [{ staffel: 1, am: NACH }], nachPruefstand: true },
+  { id: E, staffeln: [1, 2], meldungen: [{ staffel: 1, am: VOR }] },
+  { id: F, staffeln: [1], seit: '2026-10-05T00:00:00Z', meldungen: [{ staffel: 1, am: '2026-10-01T00:00:00Z' }] },
+  { id: G, staffeln: [1, 2], seit: '2026-10-05T00:00:00Z', meldungen: [{ staffel: 1, am: VOR }, { staffel: 2, am: '2026-10-05T00:00:00Z' }] },
+  { id: H, staffeln: [1], meldungen: [{ staffel: 1, am: VOR, nummer: null }] },
+  { id: J, staffeln: [1], meldungen: [{ staffel: null, am: VOR }] },
+]
+
+const eintrag = (staffel: number | null, nummer: number | null, am: string) => {
+  const e: unknown[] = Array(16).fill(null)
+  e[0] = staffel
+  e[1] = nummer
+  e[9] = am
+  return e
+}
+const titelzeilen = faelle.map((f) => ({ url: url(f.id), daten: JSON.stringify({ s: null, t: null, st: null, f: f.meldungen.map((m, i) => eintrag(m.staffel, m.nummer === undefined ? i + 1 : m.nummer, m.am)) }) }))
+const briefkasten = Object.fromEntries(
+  faelle.map((f) => [url(f.id), { paare: f.meldungen.filter((m) => m.nummer !== null).map((m, i) => ({ nummer: i + 1, staffel: m.staffel ?? 1, am: m.am })) }]),
+)
+const anbieter: Anbieter = {
   name: 'Netflix',
   plattform: 'netflix',
-  offen: 5,
-  gesamt: 9,
-  gemeldet: 4,
-  ohneSeite: 19,
-  ziele: [A, B, C, D, E].map((id) => ({ url: url(id), titel: `T${id}` })),
+  offen: faelle.length,
+  gesamt: faelle.length,
+  gemeldet: 0,
+  ziele: faelle.map((f) => ({ url: url(f.id), titel: `T${f.id}`, staffeln: f.staffeln, seit: f.seit })),
 }
-const gemeldet: Gemeldet = {
-  unterwegs: new Map(),
-  seitPruefstand: new Map([['netflix', new Set([url(C)])]]),
-  staffeln: new Map(),
-  wartendeStaffeln: new Map(),
-}
-const worker = rechneAnbieter(roh, gemeldet)
+const zeilen: Zeile[] = faelle
+  .filter((f) => f.nachPruefstand)
+  .map((f) => ({ plattform: 'netflix', url: url(f.id), staffel: 1, uebernommen: 1, gemeldet_am: NACH }))
 
 const lade = (datei: string, g: Record<string, unknown>) => {
   const quelle = readFileSync(new URL(`../extension/${datei}`, import.meta.url), 'utf8')
   new Function('globalThis', 'fetch', quelle)(g, g.fetch)
 }
-const offene = Object.fromEntries([A, B, C, E].map((id) => [String(id), { staffeln: [{ nr: 1, offen: true }] }]))
-const briefkasten: Record<string, unknown> = { [url(B)]: { paare: [{ nummer: 1, staffel: 1, am: '2026-10-01T00:00:00Z' }] } }
+/** Die Reihen der Erweiterungsliste (`AK_OFFENE_TITEL`): dieselben Staffeln und Wiedervorlagen wie die Ziele. */
+const offene = Object.fromEntries(
+  faelle.map((f) => [String(f.id), { staffeln: f.staffeln.map((nr) => ({ nr, offen: true, seit: f.seit })) }]),
+)
 
-async function lauf(netzAus: boolean) {
+/** Der Knopf: Reihen der Liste, die `fertig()` laut Stand nicht als erledigt führt (Stand = `ziele` der Worker-Antwort). */
+async function knopfZahl(standUrls: string[], netzAus: boolean) {
   const g: Record<string, any> = {
     fetch: async (adresse: string) => {
       if (netzAus) throw new Error('kein Netz')
-      const u = decodeURIComponent(String(adresse).split('?gemeldet=')[1])
+      const u = decodeURIComponent(String(adresse).split('?gemeldet=')[1]!)
       return { ok: true, json: async () => briefkasten[u] ?? { paare: [] } }
     },
   }
   lade('disney-netz.js', g)
   lade('netflix-uebernahme.js', g)
-  const stand = new Set<string>(worker.ziele.map((z) => z.url))
-  const wartet = await g.akNetflixUebernahme(stand, offene, 'https://w.example/pruefung')
+  const stand = new Set<string>(standUrls)
+  const wartet: Set<string> = await g.akNetflixUebernahme(stand, offene, 'https://w.example/pruefung')
   const frisch = new Set<string>()
-  const z = g.akNetflixZaehlung(stand, offene, frisch, wartet)
-  /* Der Knopf zählt die Reihen der Liste, die `fertig()` nicht als erledigt führt — unabhängig von `akNetflixZaehlung` gerechnet. */
-  let knopf = 0
-  for (const id of Object.keys(offene)) if (stand.has(url(Number(id))) && !wartet.has(id) && !frisch.has(id)) knopf++
-  return { z, knopf, text: g.akNetflixZaehlText(z, 19) as string }
+  return Object.keys(offene).filter((id) => !g.akNetflixErledigtLautStand(id, stand, frisch, wartet)).length
 }
 
-pruefe(worker.titel === 4, `Worker zählt A, B, D, E als Titel (4), nicht C: ${worker.titel}`)
-pruefe(worker.ohneSeite === 19, `Worker reicht die 19 Verweise ohne Kennung durch: ${worker.ohneSeite}`)
+const worker = (await rechnePruefstand(zeilen, [anbieter], ERZEUGT, titelzeilen)).anbieter[0]!
+const standUrls = worker.ziele.map((z) => z.url)
+pruefe(worker.titel === 4, `Worker: A, E, F, H offen; B, G, J gedeckt, C nach dem Prüfstand gemeldet: ${worker.titel}`)
+pruefe(
+  JSON.stringify(standUrls) === JSON.stringify([A, E, F, H].map(url)),
+  `Worker-Ziele: A, E, F, H: ${standUrls.join(' ')}`,
+)
+const knopf = await knopfZahl(standUrls, false)
+pruefe(knopf === worker.titel, `Knopf = Titelzahl des Workers (${knopf} = ${worker.titel})`)
 
-const mit = await lauf(false)
-pruefe(mit.z.imStand === worker.titel, `Zerlegung nennt die Titelzahl des Workers: ${mit.z.imStand}`)
-pruefe(mit.knopf === 2 && mit.z.offen === 2, `Knopf zählt A und E: ${mit.knopf} / ${mit.z.offen}`)
-pruefe(mit.z.gemeldet === 1 && mit.z.ausserListe === 1, `B gemeldet, D nicht in der Liste: ${JSON.stringify(mit.z)}`)
-pruefe(mit.z.imStand === mit.z.offen + mit.z.gemeldet + mit.z.ausserListe, 'Summe der Teile = Titelzahl des Stands')
-pruefe(mit.z.offen === mit.knopf, 'Zerlegung und Knopf zählen dasselbe')
-pruefe(mit.text.includes('4 Titel offen = 2 hier zu prüfen + 1 hier schon gemeldet'), `Text nennt Zahl und Teile: ${mit.text}`)
-pruefe(mit.text.includes('1 nicht in dieser Liste') && mit.text.includes('19 Verweise ohne Kennung'), 'Text nennt Rest und Verweise ohne Kennung')
+/* Die Erweiterung allein, mit dem Stand von vorher (ohne Deckung): sie zöge B und G selbst ab — Beleg, dass die Regel dieselbe ist. */
+const alterStand = [A, B, E, F, G, H, J].map(url)
+pruefe((await knopfZahl(alterStand, false)) === 4, 'Erweiterungsregel auf altem Stand: ebenfalls 4 (A, E, F, H)')
 
-/* Nichtauskunft (Netz weg): nichts gilt als gemeldet, B zählt wieder offen — Worker-Zahl bleibt erklärt. */
-const aus = await lauf(true)
-pruefe(aus.z.gemeldet === 0 && aus.z.offen === 3, `ohne Auskunft: gemeldet 0, offen 3: ${JSON.stringify(aus.z)}`)
-pruefe(aus.z.imStand === aus.z.offen + aus.z.gemeldet + aus.z.ausserListe, 'ohne Auskunft: Summe stimmt')
-pruefe(aus.knopf === aus.z.offen, 'ohne Auskunft: Knopf = Zerlegung')
+/* Nichtauskunft: Titelzeilen nicht lesbar → der Worker deckt nichts ab; ohne Netz die Erweiterung ebenso. */
+const ohne = (await rechnePruefstand(zeilen, [anbieter], ERZEUGT, new Error('D1 weg'))).anbieter[0]!
+pruefe(ohne.titel === 7, `Nichtauskunft des Briefkastens: kein Ziel gedeckt (alle außer C): ${ohne.titel}`)
+const knopfOhne = await knopfZahl(ohne.ziele.map((z) => z.url), true)
+pruefe(knopfOhne === ohne.titel, `ohne Auskunft zählen beide gleich (${knopfOhne} = ${ohne.titel})`)
 
-/* Eigene Meldung dieser Sitzung (A) zählt hier sofort als gemeldet, der Worker kennt sie noch nicht. */
-const gF: Record<string, any> = {}
-lade('netflix-uebernahme.js', gF)
-const standF = new Set<string>(worker.ziele.map((z) => z.url))
-const zF = gF.akNetflixZaehlung(standF, offene, new Set([String(A)]), new Set([String(B)]))
-pruefe(zF.offen === 1 && zF.gemeldet === 2 && zF.imStand === 4, `frisch gemeldetes A: offen 1, gemeldet 2: ${JSON.stringify(zF)}`)
-
-/* Ohne Stand (Worker stumm): keine Zerlegung, kein Text. */
-const g0: Record<string, any> = {}
-lade('netflix-uebernahme.js', g0)
-pruefe(g0.akNetflixZaehlung(null, offene, new Set(), new Set()) === null && g0.akNetflixZaehlText(null, 19) === '', 'ohne Stand: leer')
-const g1: Record<string, any> = {}
-lade('netflix-uebernahme.js', g1)
-pruefe(!g1.akNetflixZaehlText({ imStand: 1, offen: 1, gemeldet: 0, ausserListe: 0 }, 0).includes('Verweise'), 'ohne Verweise ohne Kennung: kein Satz dazu')
+/* Genau eine offene Staffel mit genau einer Meldung deckt (1 Meldung, Staffel 1). */
+const nurB = (await rechnePruefstand([], [{ ...anbieter, ziele: anbieter.ziele.filter((z) => z.url === url(B)) }], ERZEUGT, titelzeilen)).anbieter[0]!
+pruefe(nurB.titel === 0, `genau eine Meldung deckt die eine offene Staffel: ${nurB.titel}`)
 
 console.log(fehler ? `netflix-zahl-gleich: ${fehler} Fehler` : 'netflix-zahl-gleich: alle Fälle ok')
 process.exit(fehler ? 1 : 0)
