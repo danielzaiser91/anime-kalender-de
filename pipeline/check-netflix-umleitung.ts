@@ -46,6 +46,8 @@ pruefe('Nicht-Netflix-Weg zählt nicht', findeDoppelteNetflixKennungen([{ id: 1,
 
 /* A2: die beiden Bau-Stellen, die Netflix-Adressen setzen, gehen durch die Umleitungstabelle. */
 const overlay = [{ streams: [{ platform: 'netflix', url: 'https://www.netflix.com/browse?jbv=81301833' }] }, { streams: [{ platform: 'netflix', url: 'https://www.netflix.com/browse?jbv=81301834' }] }]
+const fremdOverlay = [{ streams: [{ platform: 'primevideo', url: 'https://www.amazon.de/browse?jbv=81301833' }] }]
+pruefe('Overlay: Nicht-Netflix-Weg bleibt, nichts gezählt', berichtigeNetflixOverlay(fremdOverlay) === 0 && fremdOverlay[0]!.streams[0]!.url.includes('amazon'))
 pruefe('Overlay-Adresse: zwei umgeschrieben', berichtigeNetflixOverlay(overlay) === 2)
 pruefe('Overlay mit alter Kennung → neue', overlay[0]!.streams[0]!.url === netflix('81171925'), overlay[0]!.streams[0]!.url)
 pruefe('Overlay mit fremder Kennung bleibt', overlay[1]!.streams[0]!.url === netflix('81301834'), overlay[1]!.streams[0]!.url)
