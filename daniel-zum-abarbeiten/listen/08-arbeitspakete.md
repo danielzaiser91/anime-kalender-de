@@ -47,4 +47,4 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 10 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
 | 11 | Disney+ | Jujutsu Kaisen | [0]() |
 | 12 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
-| 13 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
+| 13 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door]() |

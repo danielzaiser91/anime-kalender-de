@@ -49,7 +49,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 6 | 2026-09-28 | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
 | 7 | 2026-09-28 | Jujutsu Kaisen | [0]() |
 | 8 | 2026-09-26 | A Wild Last Boss Appeared! | [Staffel 2]() |
-| 9 | 2026-09-13 | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
+| 9 | 2026-09-13 | Kuroko’s Basketball: | [Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door]() |
 | 10 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
 | 11 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
 | 12 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
