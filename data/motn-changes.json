@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 81
+    "2026-10": 83
   },
   "gesehen": {
     "26341901:netflix": {
@@ -8810,7 +8810,57 @@
       "dienst": "netflix",
       "am": "2026-10-21",
       "deutsch": false
+    },
+    "new:24333962:netflix": {
+      "art": "new",
+      "titel": "Juan Gabriel: I Must, I Can, I Will",
+      "originalTitel": "Juan Gabriel: Debo, puedo y quiero",
+      "imdbId": "tt28235034",
+      "tmdbId": "tv/283396",
+      "dienst": "netflix",
+      "am": "2026-10-24",
+      "deutsch": false
+    },
+    "new:27299962:netflix": {
+      "art": "new",
+      "titel": "LOST10",
+      "originalTitel": "LOST10",
+      "imdbId": "tt49276654",
+      "tmdbId": "tv/329490",
+      "dienst": "netflix",
+      "am": "2026-10-24",
+      "deutsch": false
+    },
+    "new:26598842:netflix": {
+      "art": "new",
+      "titel": "Did Someone Happen to Mention Me?",
+      "originalTitel": "俺のこと、なんか言ってた？",
+      "imdbId": "tt38337376",
+      "tmdbId": "tv/300527",
+      "dienst": "netflix",
+      "am": "2026-10-24",
+      "deutsch": false
+    },
+    "new:26635555:netflix": {
+      "art": "new",
+      "titel": "Fading Grandeur",
+      "originalTitel": "Grande de España",
+      "imdbId": "tt39387986",
+      "tmdbId": "tv/335535",
+      "dienst": "netflix",
+      "am": "2026-10-23",
+      "deutsch": false
+    },
+    "new:54303:disney": {
+      "art": "new",
+      "titel": "Die Kirche bleibt im Dorf",
+      "originalTitel": "Die Kirche bleibt im Dorf",
+      "imdbId": "tt2844130",
+      "tmdbId": "tv/60872",
+      "dienst": "disney",
+      "am": "2026-10-23",
+      "deutsch": true
     }
   },
-  "fetchedAt": "2026-10-23T04:11:59.177Z"
+  "fetchedAt": "2026-10-24T04:12:22.676Z"
 }
