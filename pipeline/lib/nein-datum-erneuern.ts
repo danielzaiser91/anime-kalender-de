@@ -38,7 +38,7 @@ function neueNein(zeilen: string[]): Map<string, string> {
   const von = anfaenge(zeilen)
   von.forEach((start, n) => {
     const b = lies(zeilen.slice(start, von[n + 1] ?? zeilen.length))
-    if (!b || !istNein(b) || !tag(b)) return
+    if (!b || !istNein(b)) return
     const k = belegSchluessel(b)
     if (tag(b) > (raus.get(k) ?? '')) raus.set(k, tag(b))
   })
@@ -64,7 +64,7 @@ export function erneuereNeinDatum(alt: string, zeilen: string[]): { text: string
   }
   let erneuert = 0
   gelesen.forEach((b, n) => {
-    const datum = b && istNein(b) ? neu.get(belegSchluessel(b)) : undefined
+    const datum = b ? neu.get(belegSchluessel(b)) : undefined
     if (!b || !datum || datum <= tag(b) || (ja.get(paar(b)) ?? '') >= tag(b)) return
     const { start, ende } = bloecke[n]!
     text.splice(start, ende - start, ...ersetzeDatum(text.slice(start, ende), datum))

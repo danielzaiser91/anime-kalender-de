@@ -64,6 +64,14 @@ try {
   const doppelt = erneuereNeinDatum(alt, neu(weg("'2026-09-01'"), weg("'2026-10-24'")))
   pruefe('zwei neue Messungen: die jüngste gewinnt', doppelt.text.includes("checkedAt: '2026-10-24'") && !doppelt.text.includes('2026-09-01'), doppelt)
 
+  const jungZuerst = erneuereNeinDatum(alt, neu(weg("'2026-10-24'"), weg("'2026-09-01'")))
+  pruefe('zwei neue Messungen, die jüngere zuerst: sie gewinnt', jungZuerst.text.includes("checkedAt: '2026-10-24'") && !jungZuerst.text.includes('2026-09-01'), jungZuerst)
+
+  /* „Ohne deutschen Ton“ (dub: false) ist ebenso ein Nein wie „nicht verfügbar“ (available: false). */
+  const ton = (datum: string) => ['- anilistId: 161476', '  platform: disneyplus', '  dub: false', `  checkedAt: '${datum}'`, '  note: "ohne deutschen Ton"']
+  const tonNeu = erneuereNeinDatum(datei(ton('2026-08-26')), neu(ton('2026-10-24')))
+  pruefe('dub: false wird wie available: false erneuert', tonNeu.erneuert === 1 && tonNeu.text.includes("'2026-10-24'"), tonNeu)
+
   /* Anführungszeichen und Einrückung des alten Belegs. */
   const dq = erneuereNeinDatum(datei(weg('"2026-08-26"')), neu(weg("'2026-10-24'")))
   pruefe('Datum in doppelten Anführungszeichen wird ersetzt, Einrückung bleibt', dq.text.includes("\n  checkedAt: '2026-10-24'\n"), dq)
@@ -82,6 +90,9 @@ try {
   pruefe('jüngeres Ja im Bestand: Nein nicht erneuert', erneuereNeinDatum(datei(weg("'2026-08-26'"), ja('2026-09-15')), neu(weg("'2026-10-24'"))).erneuert === 0)
   pruefe('gleich altes Ja im Bestand: Nein nicht erneuert', erneuereNeinDatum(datei(weg("'2026-08-26'"), ja('2026-08-26')), neu(weg("'2026-10-24'"))).erneuert === 0)
   pruefe('älteres Ja im Bestand: Nein wird erneuert', erneuereNeinDatum(datei(ja('2026-08-25'), weg("'2026-08-26'")), neu(weg("'2026-10-24'"))).erneuert === 1)
+  pruefe('mehrere Ja: das jüngste zählt, auch wenn ein älteres später in der Datei steht',
+    erneuereNeinDatum(datei(weg("'2026-08-26'"), ja('2026-09-15'), ja('2026-08-01')), neu(weg("'2026-10-24'"))).erneuert === 0)
+  pruefe('jüngeres Ja einer anderen Kennung am selben Anbieter stört nicht', erneuereNeinDatum(datei(weg("'2026-08-26'"), ja('2026-09-15', 5)), neu(weg("'2026-10-24'"))).erneuert === 1)
   pruefe('Ja eines anderen Anbieters stört nicht', erneuereNeinDatum(datei(weg("'2026-08-26'"), ja('2026-09-15', 149118, 'netflix')), neu(weg("'2026-10-24'"))).erneuert === 1)
 
   const ohneUrteil = ['- anilistId: 149118', '  platform: disneyplus', '  url: https://x/neu', "  checkedAt: '2026-09-15'"]
@@ -136,7 +147,7 @@ try {
     return { status: lauf.status, fehler: lauf.stderr.slice(-300), belege: zeilen.filter((s) => /dub-confirmed\.yaml$/.test(s.pfad)).map((s) => s.inhalt) }
   }
   const leer = abruf('leer')
-  pruefe('Abruf, leerer Bestand: das Nein wird wie bisher angehängt', leer.status === 0 && leer.belege.length === 1 && leer.belege[0]!.includes('Aus dem Browser gemeldet'), leer)
+  pruefe('Abruf, leerer Bestand: das Nein wird wie bisher angehängt', leer.status === 0 && leer.belege.length === 1 && /# --- Aus dem Browser gemeldet, abgeholt am \d{4}-\d{2}-\d{2} ---/.test(leer.belege[0]!), leer)
   const gleich = abruf('nein')
   pruefe('Abruf, dasselbe Nein vom 26.08.: Messdatum 24.10., kein neuer Block, keine Kopfzeile',
     gleich.status === 0 && gleich.belege.length === 1 && gleich.belege[0]!.includes("checkedAt: '2026-10-24'") && !gleich.belege[0]!.includes('2026-08-26') && !gleich.belege[0]!.includes('Aus dem Browser'), gleich)
