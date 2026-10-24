@@ -29,7 +29,18 @@ export function iconMaengel(text, ordner, name) {
     if (treffer[1] === undefined) mangel.push(`${name}: ${pfad} ohne ?v=`)
     else if (treffer[1] !== iconKennung(datei)) mangel.push(`${name}: ${pfad}?v=${treffer[1]} passt nicht zum Inhalt (${iconKennung(datei)})`)
   }
+  const erkannt = [...text.matchAll(ICON_ADRESSE)].length
+  const vorkommen = text.split('/icons/').length - 1
+  if (vorkommen !== erkannt) mangel.push(`${name}: ${vorkommen - erkannt} Icon-Adresse(n) in unbekannter Schreibweise (nicht in Anführungszeichen)`)
   return mangel
+}
+
+/** Mängel aller genannten Seiten unter `dist`; eine fehlende Seite ist selbst ein Mangel. */
+export function iconSeitenMaengel(dist, seiten) {
+  return seiten.flatMap((s) => {
+    const pfad = join(dist, s)
+    return existsSync(pfad) ? iconMaengel(readFileSync(pfad, 'utf8'), dist, s) : [`${s}: Datei fehlt`]
+  })
 }
 
 /** Vite-Plugin: versioniert die Icon-Adressen in `index.html` und, nach dem Bau, in den kopierten Dateien `manifest.webmanifest` und `404.html`. */

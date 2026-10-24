@@ -12,7 +12,7 @@ import { todayIso } from '../shared/time.ts'
 import { ROOT } from './lib/util.ts'
 import { erreichbar } from './lib/seiten-erreichbar.ts'
 import { SITE } from './lib/titel-seite.ts'
-import { iconMaengel } from '../tools/icon-kennung.mjs'
+import { iconSeitenMaengel } from '../tools/icon-kennung.mjs'
 
 const MAX_KLICKS = 3
 
@@ -115,7 +115,7 @@ function uebersichtMaengel(): string[] {
 function iconAdressMaengel(): string[] {
   const titelSeite = readdirSync(resolve(DIST, 't')).sort()[0]
   const seiten = ['index.html', 'termine/index.html', `t/${titelSeite}/index.html`, '404.html', 'manifest.webmanifest']
-  const mangel = seiten.flatMap((s) => iconMaengel(readFileSync(resolve(DIST, s), 'utf8'), DIST, s))
+  const mangel = iconSeitenMaengel(DIST, seiten)
   console.log(`[teilseiten] Icon-Adressen: ${seiten.length} Dateien geprüft, ${mangel.length} ohne passendes ?v=`)
   return mangel
 }

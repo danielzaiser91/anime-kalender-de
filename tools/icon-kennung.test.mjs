@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto'
 import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { iconKennung, iconKennungen, iconMaengel, versioniereIcons } from './icon-kennung.mjs'
+import { iconKennung, iconKennungen, iconMaengel, iconSeitenMaengel, versioniereIcons } from './icon-kennung.mjs'
 
 const wurzel = mkdtempSync(join(tmpdir(), 'icon-kennung-'))
 const pub = join(wurzel, 'public')
@@ -54,4 +54,15 @@ assert.equal(m.split(`icon-192.png?v=${hash('png192')}`).length, 3, 'beide Manif
 assert.deepEqual(iconMaengel(m, pub, 'm'), [])
 assert.ok(readFileSync(join(dist, '404.html'), 'utf8').includes('icon.svg?v='))
 console.log('  ✓ Plugin: index.html, Manifest (alle Stellen), 404.html')
+const dist2 = join(wurzel, 'dist2')
+mkdirSync(join(dist2, 'icons'), { recursive: true })
+writeFileSync(join(dist2, 'icons', 'icon.svg'), 'svg2')
+writeFileSync(join(dist2, 'gut.html'), `<link href="/icons/icon.svg?v=${hash('svg2')}">`)
+writeFileSync(join(dist2, 'alt.html'), '<link href="/icons/icon.svg">')
+writeFileSync(join(dist2, 'css.html'), `<style>a{background:url(/icons/icon.svg?v=${hash('svg2')})}</style>`)
+assert.deepEqual(iconSeitenMaengel(dist2, ['gut.html']), [])
+assert.equal(iconSeitenMaengel(dist2, ['gut.html', 'alt.html']).length, 1, 'Seite ohne ?v= wird gemeldet')
+assert.equal(iconSeitenMaengel(dist2, ['gut.html', 'weg.html']).length, 1, 'fehlende Seite ist ein Mangel')
+assert.equal(iconSeitenMaengel(dist2, ['css.html']).length, 1, 'unbekannte Schreibweise (url()) ist ein Mangel, nicht übersehen')
+console.log('  ✓ Seitenliste: fehlende Datei, ohne ?v=, url()-Schreibweise rot')
 console.log('icon-kennung.test: alle Fälle grün')
