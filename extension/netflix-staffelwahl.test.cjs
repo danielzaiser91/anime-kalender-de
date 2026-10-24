@@ -168,7 +168,7 @@ function ladeSeite(pfad) {
   const { umgebung } = baueUmgebung(pfad, '', {})
   const kontext = vm.createContext(umgebung)
   umgebung.__kontext = kontext
-  const dateien = ['box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-staffel.js', 'netflix-erinnern.js', 'netflix-zurueckgestellt.js', 'melder.js']
+  const dateien = ['box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-staffel.js', 'netflix-erinnern.js', 'netflix-zurueckgestellt.js', 'netflix-alle-staffeln.js', 'melder.js']
   for (const datei of dateien) vm.runInContext(readFileSync(__dirname + '/' + datei, 'utf8'), kontext, { filename: datei })
   return umgebung
 }

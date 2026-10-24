@@ -25,6 +25,8 @@
   { "datei": "pipeline/check-luecken-staffel0.ts", "liest": "data/tmdb-staffel0.json", "grund": "nur nicht leer und ladeStaffel0 reicht die Schlüssel durch, kein fester Schlüssel" },
   { "datei": "pipeline/check-nein-handbeleg-aufrufer.ts", "liest": "data/justwatch-audio.json", "grund": "ganze Datei als Eingabe der Aufrufer, Handbelege wählen die Ids; kein fester Schlüssel" },
   { "datei": "pipeline/check-nein-handbeleg-cr.ts", "liest": "data/cr-katalog-de.json", "grund": "sucht irgendeinen Eintrag mit einer Staffel und de-DE (Hunderte), keine feste Serie" },
+  { "datei": "pipeline/check-netflix-staffel-ablauf.ts", "liest": "data/prime-zugeordnet.json", "grund": "Kulisse: lies() liest den Wegwerf-Ordner des Tests, nicht das Repo" },
+  { "datei": "pipeline/check-netflix-staffel-ablauf.ts", "liest": "data/prime-unzugeordnet.json", "grund": "Kulisse: lies() liest den Wegwerf-Ordner des Tests, nicht das Repo" },
   { "datei": "pipeline/check-rohfolgen-ablauf.ts", "liest": "data/prime-zugeordnet.json", "grund": "Kulisse: lies() liest den Wegwerf-Ordner des Tests, nicht das Repo" },
   { "datei": "pipeline/check-rohfolgen-ablauf.ts", "liest": "data/prime-unzugeordnet.json", "grund": "Kulisse: lies() liest den Wegwerf-Ordner des Tests, nicht das Repo" },
   { "datei": "pipeline/check-tmdb-hauptserie.ts", "liest": "data/tmdb-titles.json", "grund": "feste Kennungen nur als Verneinung (trägt keine TMDB-Kennung), fehlt ein Eintrag, bleibt der Fall grün" },
