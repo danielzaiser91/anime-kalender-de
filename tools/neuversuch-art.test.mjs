@@ -1,4 +1,8 @@
 import assert from 'node:assert/strict'
+import { execFileSync } from 'node:child_process'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { neuversuchArt } from './neuversuch-art.mjs'
 import { BOT_DATEIEN_OHNE_LESER } from './pr-nachrechnen-bot-pfade.mjs'
 
@@ -32,5 +36,39 @@ assert.equal(neuversuchArt('L', 'B', 'N', () => { throw new Error('git kaputt') 
 faelle += 1
 assert.equal(neuversuchArt('L', 'B', 'N', (von) => { if (von === 'B') throw new Error('x'); return [BOT] }), 'code', 'Fehler beim zweiten Vergleich')
 faelle += 1
+// Echtes Git (Prüfer R1 A1): Eine Umbenennung Code → Datenpfad zeigt `git diff --name-only` ohne --no-renames nur mit dem neuen Pfad.
+function echtesRepo() {
+  const ordner = mkdtempSync(join(tmpdir(), 'neuversuch-art-'))
+  const git = (...args) => execFileSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', '-c', 'core.autocrlf=false', ...args], { cwd: ordner, encoding: 'utf8', windowsHide: true })
+  git('init', '-q', '-b', 'main')
+  const inhalt = Array.from({ length: 40 }, (_, i) => `const wert${i} = ${i}`).join('\n')
+  mkdirSync(join(ordner, 'pipeline'))
+  writeFileSync(join(ordner, 'pipeline/logik.ts'), inhalt)
+  git('add', '-A')
+  git('commit', '-q', '-m', 'start')
+  const start = git('rev-parse', 'HEAD').trim()
+  mkdirSync(join(ordner, 'public/data'), { recursive: true })
+  git('mv', 'pipeline/logik.ts', 'public/data/logik.json')
+  git('commit', '-q', '-m', 'umbenannt')
+  const umbenannt = git('rev-parse', 'HEAD').trim()
+  writeFileSync(join(ordner, 'public/data/neu.json'), '{}')
+  git('add', '-A')
+  git('commit', '-q', '-m', 'daten')
+  return { ordner, start, umbenannt, daten: git('rev-parse', 'HEAD').trim() }
+}
+
+const repo = echtesRepo()
+const vorher = process.cwd()
+process.chdir(repo.ordner)
+try {
+  assert.equal(neuversuchArt(repo.start, repo.start, repo.umbenannt), 'code', 'Umbenennung pipeline → Datenpfad ist Code-Bewegung')
+  assert.equal(neuversuchArt(repo.umbenannt, repo.umbenannt, repo.daten), 'daten', 'echtes Git: nur Datenpfad seit Logik und Bau = daten')
+  assert.equal(neuversuchArt('gibt-es-nicht', repo.umbenannt, repo.daten), 'code', 'echtes Git: unbekannte Basis = code')
+} finally {
+  process.chdir(vorher)
+  rmSync(repo.ordner, { recursive: true, force: true })
+}
+faelle += 3
+
 
 console.log(`neuversuch-art: ${faelle} Fälle grün.`)

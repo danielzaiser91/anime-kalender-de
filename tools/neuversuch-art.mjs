@@ -14,8 +14,13 @@ import { pathToFileURL } from 'node:url'
 import { istDatenpfad } from './pr-nachrechnen.mjs'
 import { istBotDatei } from './pr-nachrechnen-bot-pfade.mjs'
 
+/** Bot-Dateien, die `check:bestand` liest (Test `neuversuch-art-leser.test.mjs`): bei ihrer Bewegung muss `check:bestand` laufen, also nie `nichts`. */
+export const BESTAND_GELESEN = ['tools/kalender-plausibilitaet-grenzen.json']
+
+const istNichtsDatei = (datei) => istBotDatei(datei) && !BESTAND_GELESEN.some((p) => datei === p || datei.startsWith(`${p}/`))
+
 function geaendert(von, bis) {
-  const aus = execFileSync('git', ['diff', '--name-only', '-z', von, bis], { encoding: 'utf8', windowsHide: true, maxBuffer: 1 << 26 })
+  const aus = execFileSync('git', ['diff', '--name-only', '--no-renames', '-z', von, bis], { encoding: 'utf8', windowsHide: true, maxBuffer: 1 << 26 })
   return aus.split('\0').filter(Boolean)
 }
 
@@ -24,7 +29,7 @@ export function neuversuchArt(logikBasis, bauBasis, neu, diff = geaendert) {
     const seitLogik = diff(logikBasis, neu)
     if (!seitLogik.every(istDatenpfad)) return 'code'
     const seitBau = diff(bauBasis, neu)
-    return seitBau.every(istBotDatei) ? 'nichts' : 'daten'
+    return seitBau.every(istNichtsDatei) ? 'nichts' : 'daten'
   } catch {
     return 'code'
   }
