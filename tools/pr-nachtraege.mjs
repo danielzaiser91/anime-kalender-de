@@ -14,6 +14,11 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
 export const NACHTRAG = /^\s*(\*\*|#+ *)?(Nachtrag|Nachbesserung)/i
+// Frühere Prüferrunden: Agent-Kommentare „Prüfer Runde N“ und das CI-Protokoll (Bot), damit der Prüfer seine Auflagen einlösen kann.
+export const PRUEFER_RUNDE = /^\s*(\*\*|#+ *)?Prüfer Runde/i
+const CI_PROTOKOLL = /\*\*Prüfer-Review\*\* für/
+const CI_BOT = 'github-actions[bot]'
+const MAX_PRUEFER = 6000
 const AUTOR = /^[A-Za-z0-9][A-Za-z0-9-]*(\[bot\])?$/
 const VERTRAUT = new Set(['OWNER', 'MEMBER', 'COLLABORATOR'])
 const KOPF = '\n\n## Nachträge (gelten als Teil der Beschreibung, spätere gehen vor)'
@@ -26,7 +31,10 @@ const MAX_DATEIEN = 300
 /** Kommentare der GitHub-API -> Texte der Nachträge von Autor und Repo-Berechtigten, in Reihenfolge. */
 export function waehleNachtraege(kommentare, autor) {
   const zaehlt = (k) => k.user?.login === autor || VERTRAUT.has(k.author_association)
-  return kommentare.filter((k) => zaehlt(k) && NACHTRAG.test(k.body ?? '')).map((k) => k.body)
+  const runde = (k) => (zaehlt(k) && PRUEFER_RUNDE.test(k.body ?? '')) || (k.user?.login === CI_BOT && CI_PROTOKOLL.test(k.body ?? ''))
+  const nachtrag = (k) => zaehlt(k) && NACHTRAG.test(k.body ?? '')
+  const text = (k) => (nachtrag(k) ? k.body : k.body.slice(0, MAX_PRUEFER))
+  return kommentare.filter((k) => nachtrag(k) || runde(k)).map(text)
 }
 
 /** Beschreibung plus Nachträge; ohne Treffer genau der Eingabetext. */
