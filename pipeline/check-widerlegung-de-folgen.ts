@@ -137,6 +137,20 @@ console.log('\nWiderlegung und deutsche Folgen danach:')
   ungeteilt.get(900006)!.streams[0].sharedWith = 1
   const geloest = loeseGeteilteWegeVonWiderlegten([release(900006, '2026-10-18')], ungeteilt, crDub)
   pruefe('Weg nur dieses Titels (nicht geteilt) bleibt: die Widerlegung gilt dem Termin', geloest === 0 && ungeteilt.get(900006)!.streams[0].dub === true, ungeteilt.get(900006)!.streams[0])
+  /* Wegfilter (Prüfer 1654 R2): Ein Weg wird nur gelöst, wenn alle Termine des Titels auf seiner Plattform widerlegt sind, er dub: true trägt und geteilt ist. */
+  const teilweise = reihe(900016, URL_C)
+  const offenerTermin = { slug: 'r900016-offen', titleId: 900016, platform: 'crunchyroll' } as unknown as Release
+  const teilN = loeseGeteilteWegeVonWiderlegten([release(900016, '2026-10-18'), offenerTermin], teilweise, crDub)
+  pruefe('nur ein Teil der Termine widerlegt: Weg bleibt, nichts gelöst', teilN === 0 && teilweise.get(900016)!.streams[0].dub === true && !teilweise.get(900016)!.streams[0].dubRanges, teilweise.get(900016)!.streams[0])
+  const anderePlattform = reihe(900017, URL_C)
+  anderePlattform.get(900017)!.streams.push({ platform: 'netflix', url: 'https://www.netflix.com/title/900017', dub: true, sharedWith: 3 } as unknown as Title['streams'][number])
+  const fremdN = loeseGeteilteWegeVonWiderlegten([release(900017, '2026-10-18')], anderePlattform, crDub)
+  const netflixWeg = anderePlattform.get(900017)!.streams[1]
+  pruefe('Weg einer fremden Plattform bleibt unangetastet, nur der Crunchyroll-Weg wird gelöst', fremdN === 1 && netflixWeg.dub === true && anderePlattform.get(900017)!.streams[0].dub === undefined, anderePlattform.get(900017)!.streams)
+  const ohneDub = reihe(900018, URL_C)
+  ohneDub.get(900018)!.streams[0].dub = false
+  const ohneDubN = loeseGeteilteWegeVonWiderlegten([release(900018, '2026-10-18')], ohneDub, crDub)
+  pruefe('Weg mit dub: false bleibt unangetastet (kein Deutsch zu lösen)', ohneDubN === 0 && ohneDub.get(900018)!.streams[0].dub === false, ohneDub.get(900018)!.streams[0])
 }
 
 if (verletzt) {
