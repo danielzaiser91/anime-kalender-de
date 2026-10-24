@@ -55,6 +55,7 @@ const ruhe = atom({ plugin: 'arbeitsliste', key: 'ruhe' } as const, null as Ruhe
 const SPAR_MARKER = 'C:/Users/ih/.claude/sparmodus.txt'
 const spar = atom({ plugin: 'arbeitsliste', key: 'spar' } as const, false)
 const offen = atom({ plugin: 'arbeitsliste', key: 'offen' } as const, null as number | null)
+const agentenKnopf = atom({ plugin: 'arbeitsliste', key: 'agentenKnopf' } as const, 0)
 // Kennungen der ausgeklappten Bereiche („weitere“) und Gruppen (Kleinigkeiten).
 const aufgeklappt = atom({ plugin: 'arbeitsliste', key: 'aufgeklappt' } as const, [] as string[])
 
@@ -258,14 +259,10 @@ async function togglePane($: EngineInterface, id: string, title: string): Promis
   else await $.ui.open({ id, title, focus: true })
 }
 
-// Das Agents-Pane gehört savvy-progress; ein `$.ui.open` von hier legte ein eigenes, leeres Pane gleicher Kennung an
-// („arbeitsliste has not drawn in this pane“, 11.10.2026). Savvy schaltet es über seinen Befehl selbst.
+// Das Agents-Pane gehört savvy-progress; ein `$.ui.open` von hier legt ein eigenes, leeres Pane an (11.10.2026), und
+// `$.command.run` schreibt Befehl und Antwort in den Chat (24.10.2026). Savvy hört auf diesen Zähler und schaltet selbst.
 async function schalteSavvyPane($: EngineInterface): Promise<void> {
-  try {
-    await $.command.run({ command: 'agents-info' })
-  } catch {
-    // Savvy nicht geladen: kein Pane.
-  }
+  await update($, agentenKnopf, n => n + 1)
 }
 
 // Eine Pane-Zeile: fester Präfix, daneben ein umbrechender Inhalt mit hängendem Einzug.
