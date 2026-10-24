@@ -51,6 +51,10 @@ jobs:
     runs-on: ubuntu-latest
     # Gemessen 13 bis 22 Minuten ohne aniSearch; 60 sind reichlich. Läuft es darüber hinaus, ist der nächste Lauf der bessere Weg — die Abrufe sind idempotent.
     timeout-minutes: 60
+    # Ein Schreiber an `data/justwatch-audio.json` zur Zeit: der Wochenlauf (Job `tmdb` in refresh-weekly.yml) trägt dieselbe Gruppe (`tools/justwatch-schreiber.test.mjs`).
+    concurrency:
+      group: justwatch-datei
+      cancel-in-progress: false
     outputs:
       fehler: ${{ steps.auswerten.outputs.fehler }}
     env:
@@ -168,6 +172,16 @@ jobs:
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: bash tools/schritt.sh --zeit 10m "YouTube-Kaufangebote" -- npm run data:youtube:kauf -- --limit 30
+
+      # Prime-Kauf/Leihe erscheint mit Kinoende oder Disc-Start (All You Need Is Kill, 23.10.2026): Titel mit Kino-/Disc-Termin der letzten 90 Tage fragt JustWatch alle 3 Tage, bis ein Prime-Kauf bekannt ist (`lib/jw-frische.ts`, höchstens 60 Abrufe, eine Sekunde Abstand).
+      # Montags nicht: Der Wochenlauf (05:00) fragt JustWatch mit 800 Titeln, die frischen stehen dort vorn; zwei Läufe kurz hintereinander lösten am 23.09.2026 ein 429 aus.
+      - name: JustWatch — frische Kino- und Disc-Titel
+        run: |
+          if [ "$(date -u +%u)" = "1" ]; then
+            echo "Montag: der Wochenlauf fragt die frischen Titel mit."
+          else
+            bash tools/schritt.sh --zeit 10m "JustWatch frisch" -- npm run data:justwatch-frisch
+          fi
 
       - name: Quellen als Pull Request einreichen
         if: always()

@@ -4,6 +4,7 @@
 import type { Title } from '../../shared/types.ts'
 import type { JwBefund } from './jw-vertrauen.ts'
 import { titelMitJwFlagge, vorgezogen } from './jw-wiedervorlage.ts'
+import { frischFaellig } from './jw-frische.ts'
 
 export interface SchlangenEingabe {
   titles: Title[]
@@ -12,6 +13,8 @@ export interface SchlangenEingabe {
   /** Befunde mit `geprueftAm` vor diesem Tag (ISO) sind fällig. */
   grenze: string
   heute: string
+  /** Titel mit frischem Kino- oder Disc-Termin (`frischeTitel`): sie kommen vor der Frist wieder dran, solange kein Prime-Kauf bekannt ist. */
+  frisch?: ReadonlySet<number>
   /** Kennungen der Cartoons unter `titles` (ihre Serien-Wege bekommen im Bau keine Flagge). */
   cartoonIds: Set<number>
 }
@@ -29,7 +32,7 @@ export function dringend(t: Title): boolean {
  * Titel mit TMDB-Kennung, die fällig sind: Alter, berichtigte Kennung, Fehlschlag ohne gespeicherte Kennung oder Wiedervorlage.
  * Reihenfolge: berichtigte Kennung, vorgezogen, dringend (`dringend`), dann der älteste Befund zuerst.
  */
-export function warteschlange({ titles, bestand, tmdb, grenze, heute, cartoonIds }: SchlangenEingabe): Title[] {
+export function warteschlange({ titles, bestand, tmdb, grenze, heute, frisch = new Set(), cartoonIds }: SchlangenEingabe): Title[] {
   const mitFlagge = titelMitJwFlagge(titles, bestand, cartoonIds)
   const tmdbVon = (t: Title) => (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
   /*
@@ -60,7 +63,7 @@ export function warteschlange({ titles, bestand, tmdb, grenze, heute, cartoonIds
     const e = bestand[String(t.id)]
     return Boolean(e?.ohneTreffer && !e.tmdbId && tmdbVon(t))
   }
-  const vor = (t: Title) => vorgezogen(t, bestand, heute, mitFlagge)
+  const vor = (t: Title) => vorgezogen(t, bestand, heute, mitFlagge) || frischFaellig(t.id, bestand[String(t.id)], frisch, heute)
   return titles
     .filter((t) => tmdbVon(t))
     .filter((t) => (bestand[String(t.id)]?.geprueftAm ?? '') < grenze || kennungGewechselt(t) || fehlschlagOhneKennung(t) || vor(t))
