@@ -142,7 +142,7 @@
     "data:imdb": "tsx pipeline/fetch-wikidata-imdb.ts",
     "data:wikipedia-folgen": "tsx pipeline/fetch-wikipedia-folgen.ts",
     "check:panel": "node tools/schwer.mjs npm run check:panel-teile",
-    "check:panel-teile": "node tools/trefferprobe-selbsttest.mjs && node tools/panel-bild.mjs && node tools/panel-messen.mjs && node tools/panel-zurueck.mjs && node tools/panel-sprung.mjs && node tools/such-chip-messen.mjs && node tools/aehnlich-kacheln-bild.mjs",
+    "check:panel-teile": "node tools/trefferprobe-selbsttest.mjs && node tools/panel-bild.mjs && node tools/panel-messen.mjs && node tools/panel-zurueck.mjs && node tools/panel-sprung.mjs && node tools/panel-reihe-schalter.mjs && node tools/such-chip-messen.mjs && node tools/aehnlich-kacheln-bild.mjs",
     "panel:bilder": "node tools/panel-bild.mjs --docs && node tools/panel-messen.mjs --docs --echte-bilder",
     "buehne:faelle": "node tools/buehne-faelle.mjs",
     "buehne:bauen": "vite build --config vite.buehne.config.ts",
