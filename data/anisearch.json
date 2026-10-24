@@ -656902,6 +656902,10 @@
       {
         "provider": "crunchyroll",
         "url": "https://www.crunchyroll.com/series/GVDHX8DM5"
+      },
+      {
+        "provider": "adn-de",
+        "url": "https://animationdigitalnetwork.com/de/video/1423"
       }
     ],
     "info": {
@@ -657011,7 +657015,7 @@
         "86: Eighty Six - Part 2"
       ]
     },
-    "fetchedAt": "2026-09-23T17:47:29.789Z"
+    "fetchedAt": "2026-10-24T04:01:43.371Z"
   },
   "131598": {
     "anisearchId": 15923,
@@ -659167,7 +659171,7 @@
         "The Cuckoo’s Fiancée"
       ]
     },
-    "fetchedAt": "2026-09-23T17:47:35.993Z"
+    "fetchedAt": "2026-10-24T04:01:50.410Z"
   },
   "132055": {
     "anisearchId": 16169,
@@ -660430,7 +660434,7 @@
         "Sexy Cosplay Doll"
       ]
     },
-    "fetchedAt": "2026-09-23T17:47:42.180Z"
+    "fetchedAt": "2026-10-24T04:01:57.631Z"
   },
   "132444": {
     "anisearchId": 16393,
@@ -757463,7 +757467,7 @@
         "Beyblade Burst Staffel 7"
       ]
     },
-    "fetchedAt": "2026-09-23T17:47:17.421Z"
+    "fetchedAt": "2026-10-24T04:02:11.680Z"
   },
   "166093": {
     "anisearchId": 18503,
@@ -791596,7 +791600,7 @@
         "Bakugan: Revolution"
       ]
     },
-    "fetchedAt": "2026-09-23T17:47:23.590Z"
+    "fetchedAt": "2026-10-24T04:02:18.699Z"
   },
   "177175": {
     "anisearchId": 19243,
@@ -844433,6 +844437,10 @@
     "descriptionDe": "Im Jahre 2025 griff der erste intergalaktische Kaiju die Erde an – und das war nur der Anfang. Immer mehr dieser aus einer fremden Galaxie stammenden Ungeheuer stürmten auf den Planeten und ein Krieg um das Überleben der Menschheit entbrannte. Um dieser Bedrohung entgegenzutreten, hatten die verschiedenen Nationen ihre besten Leute und Technologien zusammengetragen. Am Ende wurde der jugendliche Tetsuo Yabusame als Pilot des riesigen Kampfroboters Yukio in den Weltraum zur alles entscheidenden Schlacht entsandt. Doch die Übermacht war schier überwältigend und der Krieg endete mit einer Niederlage der Menschen.\n\nTetsuo driftete seitdem acht Jahre lang im Kälteschlaf durch das All, bis seine Rettungskapsel schließlich wieder auf der Erde eintrifft. Die Welt, die er nun vorfindet, ist allerdings nicht diejenige, die er bisher kannte: Die Städte liegen in Trümmern und die Landschaft ist trotz des meteorologischen Sommers unter einer dicken Decke aus Eis und Schnee begraben. Sein letztes Versprechen an Yukio, eines Tages echte Freunde zu finden, hat er aber noch nicht aufgegeben. Daher macht er sich auf die Suche nach Antworten und Überlebenden. \n\nQuelle: www.anisearch.de/anime/20768",
     "streams": [
       {
+        "provider": "netflix",
+        "url": "https://www.netflix.com/title/82746480"
+      },
+      {
         "provider": "crunchyroll",
         "url": "https://www.crunchyroll.com/series/GT00371869/snowball-earth"
       },
@@ -844553,7 +844561,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-23T17:47:11.247Z"
+    "fetchedAt": "2026-10-24T04:02:04.658Z"
   },
   "196187": {
     "anisearchId": 20774,
