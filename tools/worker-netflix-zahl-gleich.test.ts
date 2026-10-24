@@ -122,6 +122,17 @@ pruefe(knopfOhne === ohne.titel, `ohne Auskunft zählen beide gleich (${knopfOhn
 const nurB = (await rechnePruefstand([], [{ ...anbieter, ziele: anbieter.ziele.filter((z) => z.url === url(B)) }], ERZEUGT, titelzeilen)).anbieter[0]!
 pruefe(nurB.titel === 0, `genau eine Meldung deckt die eine offene Staffel: ${nurB.titel}`)
 
+/* Geschlossene Staffel ohne Meldung: nur die offene Staffel 2 zählt; Staffel 1 (geschlossen) darf die Deckung nicht verhindern. */
+const GESCHLOSSEN = 900011
+const geschlossen = { staffeln: [{ nr: 1, offen: false }, { nr: 2, offen: true }] }
+const gg: Record<string, any> = {}
+lade('netflix-uebernahme.js', gg)
+const wGeschlossen: Anbieter = { ...anbieter, ziele: [{ url: url(GESCHLOSSEN), titel: 'TG', staffeln: [2] }] }
+const mitStaffel2 = [{ url: url(GESCHLOSSEN), daten: JSON.stringify({ s: null, t: null, st: null, f: [eintrag(2, 1, VOR)] }) }]
+const wG = (await rechnePruefstand([], [wGeschlossen], ERZEUGT, mitStaffel2)).anbieter[0]!
+pruefe(wG.titel === 0, `Worker: geschlossene Staffel 1 ohne Meldung, offene Staffel 2 gemeldet: gedeckt (${wG.titel})`)
+pruefe(gg.akNetflixStaffelnGedeckt(geschlossen, [{ staffel: 2 }]) === true, 'Erweiterung: geschlossene Staffel ohne Meldung verhindert die Deckung nicht')
+
 /*
   Alle Anbieter: die Hauptzahl der Statusanzeige ist `titel` (Titelseiten, die ein Erweiterungsknopf zählt); Suchadressen
   und Verweise ohne Kennung stehen getrennt in `ohneSeite`. Prime: Daniel 24.10.2026 Knopf 32, Pille 50 = 32 + 18.
