@@ -59,6 +59,7 @@ async function netflix() {
     eigen.globalThis = eigen
     eigen.akNetflixWartet = new Set()
     eigen.akNetflixTotGemeldet = kontext.akNetflixTotGemeldet
+    eigen.akNetflixErledigtLautStand = kontext.akNetflixErledigtLautStand
     vm.runInContext(code, eigen)
     const vorher = vm.runInContext(`fertig('${id}', { titel: 'x' })`, eigen)
     const r = await vm.runInContext(`totMelden('${id}', 'Bakugan')`, eigen)
