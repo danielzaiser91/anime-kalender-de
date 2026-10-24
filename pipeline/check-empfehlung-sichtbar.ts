@@ -82,9 +82,9 @@ const eingebautNavigate = eingebaut?.props.navigate as ((n: unknown) => void) | 
 eingebautNavigate?.({ view: 'empfehlung' })
 pruefe('Datenbank-Bereich baut den Knopf mit seinem navigate ein', JSON.stringify(dbZiele) === '[{"view":"empfehlung"}]', dbZiele)
 
-const zeile = finde(baumVon(() => EmpfehlungZeile()), (e) => e.type === 'button')
+const zeile = finde(baumVon(() => EmpfehlungZeile({ neuLaden: () => abgerufen.push('NEULADEN') })), (e) => e.type === 'button')
 zeile?.props.onClick?.()
-pruefe('Einstellungen-Zeile löscht alle drei Schlüssel', JSON.stringify(abgerufen) === '["empfehlung:gesehen","empfehlung:verworfen","empfehlung:anbieter"]', abgerufen)
+pruefe('Einstellungen-Zeile löscht alle drei Schlüssel, danach Neuladen', JSON.stringify(abgerufen) === '["empfehlung:gesehen","empfehlung:verworfen","empfehlung:anbieter","NEULADEN"]', abgerufen)
 
 console.log(`empfehlung-sichtbar: ${verletzt === 0 ? 'alle Zusicherungen erfüllt' : `${verletzt} verletzt`}`)
 process.exit(verletzt === 0 ? 0 : 1)
