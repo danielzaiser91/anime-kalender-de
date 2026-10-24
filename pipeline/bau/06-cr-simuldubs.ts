@@ -7,6 +7,7 @@ import {
   type CrunchyrollData,
 } from '../lib/crunchyroll.ts'
 import { CR_CALENDAR_URL } from './grundlagen.ts'
+import { ohneWocheUeberAnzahl } from '../lib/woche-ueber-anzahl.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 
 export function ergaenzeCrSimuldubs({
@@ -152,7 +153,7 @@ export function ergaenzeCrSimuldubs({
      * dabei nur eine, die nicht selbst geraten ist; die Untergrenze aus den
      * Beobachtungen wäre ein Zirkelschluss.
      */
-    const beobachtet = observedEpisodes(slot)
+    const beobachtet = observedEpisodes(ohneWocheUeberAnzahl(slot, { episodeCount: episodeCountAssumed ? undefined : episodeCount }, name))
     let note: string | undefined
     let firstEpisodeNumber: number | undefined
     const durchgezaehlt = durchlaufendeZaehlung(

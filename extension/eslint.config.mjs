@@ -24,6 +24,7 @@ export default [
         window: 'readonly',
         document: 'readonly',
         location: 'readonly',
+        HTMLMediaElement: 'readonly',
         history: 'readonly',
         console: 'readonly',
         fetch: 'readonly',

@@ -1,5 +1,5 @@
 /**
- * **Prime: regionsgesperrte Folgen sind gelesen, nicht offen** (4.31.14, 24.10.2026, Beyblade Burst S1).
+ * **Prime: regionsgesperrte Folgen sind gelesen, nicht offen** (4.31.15, 24.10.2026, Beyblade Burst S1).
  * Eine gesperrte Folge nennt keine Tonspur und kommt nie nach; sie darf weder „kein Deutsch“ noch
  * die Meldung aufhalten. Reine Entscheidungen, von `amazon.js` (Knopf und Klick) aufgerufen.
  */
