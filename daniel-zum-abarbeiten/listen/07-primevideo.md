@@ -14,5 +14,5 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | 3 | 2026-10-07 | The Detective Is Already Dead | [Staffel 2]() |
 | 4 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie]() |
 | 5 | 2026-09-26 | A Wild Last Boss Appeared! | [Staffel 2]() |
-| 6 | 2026-09-13 | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
+| 6 | 2026-09-13 | Kuroko’s Basketball: | [Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door]() |
 | 7 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
