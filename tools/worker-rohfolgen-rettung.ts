@@ -212,8 +212,8 @@ const lesen = (datei: string): Sammlung => (existsSync(datei) ? JSON.parse(readF
  * er die Datei weg (`merkeZumQuittieren`). Dynamisch geladen, weil das Modul `ROOT` beim ersten Import festlegt.
  */
 export async function abgehaktIn(kulisse: string) {
-  const { ROHFOLGEN_ABHAKEN } = await import('../pipeline/lib/spaeter-quittieren.ts')
-  const datei = join(kulisse, ROHFOLGEN_ABHAKEN)
+  const { OFFEN, ROHFOLGEN_ABHAKEN } = await import('../pipeline/lib/spaeter-quittieren.ts')
+  const datei = join(kulisse, OFFEN, ROHFOLGEN_ABHAKEN)
   return existsSync(datei) ? (JSON.parse(readFileSync(datei, 'utf8')) as number[]).length : 0
 }
 

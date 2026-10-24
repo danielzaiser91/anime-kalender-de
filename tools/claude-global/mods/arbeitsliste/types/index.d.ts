@@ -37,6 +37,10 @@ declare module 'claude-code' {
       minute: number
       // Ruhemodus aus ruhemodus.txt: hart, sanft oder aus.
       ruhe: 'hart' | 'sanft' | null
+      // Sparmodus aus sparmodus.txt: nur Sonnet mittel und Haiku als Subagenten.
+      spar: boolean
+      // Klickzähler des Agents-Knopfs: savvy-progress hört auf diesen Schreibvorgang und schaltet sein Pane (kein Slash-Befehl im Chat).
+      agentenKnopf: number
     }
   }
 }

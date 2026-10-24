@@ -57,6 +57,15 @@
           "run": "T=\"$RUNNER_TEMP/pruefer\"\nstufe=2\nif node tools/pr-stufe.mjs \"$PR\" > \"$T/stufe.json\"; then\n  stufe=$(node -e 'console.log(JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\")).stufe)' \"$T/stufe.json\") || stufe=2\nfi\necho \"stufe=$stufe\" >> \"$GITHUB_OUTPUT\"\n{\n  echo \"<!-- pr-stufe -->\"\n  echo \"**Prüfstufe $stufe** für ${HEAD_SHA:0:9}\"\n  echo\n  node -e 'const j=JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\"));console.log(j.begruendung.map(b=>\"- \"+b).join(\"\\n\"))' \"$T/stufe.json\" || true\n} > \"$T/stufe.md\"\ncat \"$T/stufe.md\" >> \"$GITHUB_STEP_SUMMARY\"\n# Ein Kommentar je PR: den mit der Marke aktualisieren, sonst neu anlegen.\nalt=$(gh api \"repos/$GITHUB_REPOSITORY/issues/$PR/comments\" --paginate -q '.[] | select(.body | startswith(\"<!-- pr-stufe -->\")) | .id' | head -1) || alt=\nif [ -n \"$alt\" ]; then\n  gh api -X PATCH \"repos/$GITHUB_REPOSITORY/issues/comments/$alt\" -F body=@\"$T/stufe.md\" > /dev/null\nelse\n  gh pr comment \"$PR\" --repo \"$GITHUB_REPOSITORY\" --body-file \"$T/stufe.md\"\nfi\n"
         },
         {
+          "name": "Prüfmodus",
+          "id": "modus",
+          "env": {
+            "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
+            "STUFE": "${{ steps.stufe.outputs.stufe }}"
+          },
+          "run": "node tools/pr-pruefer-modus.mjs \"$PR\" \"$STUFE\" \"$RUNNER_TEMP/pruefer/auflagen.md\" >> \"$GITHUB_OUTPUT\" || echo \"Prüfmodus nicht bestimmt, voll\""
+        },
+        {
           "name": "Prüfer-Eingang prüfen",
           "id": "eingang",
           "env": {
@@ -67,7 +76,7 @@
         },
         {
           "name": "Prüfer (Stufe 0, schlank)",
-          "if": "steps.stufe.outputs.stufe == '0'",
+          "if": "steps.stufe.outputs.stufe == '0' && steps.modus.outputs.modus != 'abnahme'",
           "uses": "anthropics/claude-code-action@v1",
           "with": {
             "claude_code_oauth_token": "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}",
@@ -87,7 +96,7 @@
         },
         {
           "name": "Prüfer",
-          "if": "steps.stufe.outputs.stufe != '0'",
+          "if": "steps.stufe.outputs.stufe != '0' && steps.modus.outputs.modus != 'abnahme'",
           "uses": "anthropics/claude-code-action@v1",
           "with": {
             "claude_code_oauth_token": "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}",
@@ -108,6 +117,27 @@
           }
         },
         {
+          "name": "Prüfer (Abnahme)",
+          "if": "steps.modus.outputs.modus == 'abnahme'",
+          "uses": "anthropics/claude-code-action@v1",
+          "with": {
+            "claude_code_oauth_token": "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}",
+            "github_token": "${{ secrets.GITHUB_TOKEN }}",
+            "allowed_bots": "claude,github-actions",
+            "settings": "{\"permissions\":{\"deny\":[\"Read(//proc/**)\",\"Read(//sys/**)\",\"Read(//run/**)\",\"Read(//etc/**)\",\"Read(./.git/**)\",\"Read(**/.git/**)\",\"Bash\"]}}\n",
+            "claude_args": "--max-turns 12\n--allowedTools \"Read(/${{ runner.temp }}/pruefer/**),Edit(/${{ runner.temp }}/pruefer/**)\"\n",
+            "prompt": {
+              "platzhalter": "<Prompt-Text: nicht Teil des Schnappschusses>",
+              "ausdruecke": [
+                "github.event.pull_request.head.sha",
+                "runner.temp",
+                "steps.eingang.outputs.zustand",
+                "steps.modus.outputs.vorher"
+              ]
+            }
+          }
+        },
+        {
           "name": "Check-Stand des Kopfes",
           "id": "checks",
           "if": "${{ !cancelled() }}",
@@ -122,9 +152,11 @@
           "env": {
             "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
             "DIFF_ZUSTAND": "${{ steps.eingang.outputs.zustand }}",
-            "CHECKS": "${{ steps.checks.outputs.stand }}"
+            "CHECKS": "${{ steps.checks.outputs.stand }}",
+            "MODUS": "${{ steps.modus.outputs.modus }}",
+            "AENDERN_FREI": "${{ steps.modus.outputs.aendern-frei }}"
           },
-          "run": "set -u\nT=\"$RUNNER_TEMP/pruefer\"\nif [ ! -s \"$T/urteil.json\" ] || [ ! -s \"$T/protokoll.md\" ]; then\n  echo \"::error::Kein Urteil geschrieben (urteil.json oder protokoll.md fehlt/leer) - keine Freigabe. Inhalt von $T:\"\n  ls -la \"$T\" || true\n  exit 1\nfi\nurteil=$(node -e 'const u=JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\"));console.log(u.urteil+\" \"+u.sha)' \"$T/urteil.json\") || { echo \"::error::urteil.json unlesbar - keine Freigabe.\"; exit 1; }\nart=${urteil% *}; sha=${urteil#* }\nif [ \"$DIFF_ZUSTAND\" != \"ok\" ] && [ \"$art\" = \"ok\" ]; then\n  echo \"Diff unvollständig - Urteil ok wird zu aendern.\"\n  art=aendern\n  printf '\\n**Hinweis:** Diff leer, nicht abrufbar oder gekürzt, oder Commit-Liste fehlt - nicht vollständig geprüft, daher keine Freigabe.\\n' >> \"$T/protokoll.md\"\nfi\nif grep -qE 'gh[spuor]_[A-Za-z0-9]|github_pat_|x-access-token' \"$T/protokoll.md\" || grep -qF -- \"$GH_TOKEN\" \"$T/protokoll.md\"; then\n  echo \"Token-Muster im Protokoll - Protokoll verworfen, Urteil aendern.\"\n  art=aendern\n  printf 'Das Protokoll enthielt ein Token-Muster und wurde verworfen. Der Lauf ist als Fehlerfall zu behandeln (Prompt-Injektion vermutet).\\n' > \"$T/protokoll.md\"\nfi\ntitel=\"$art\"\nif [ \"$art\" = \"ok\" ] && [ \"${CHECKS:-}\" != \"gruen\" ]; then\n  titel=\"ok, ${CHECKS:-Checks-Stand unbekannt}\"\nfi\naktuell=$(gh pr view \"$PR\" --repo \"$GITHUB_REPOSITORY\" --json headRefOid -q .headRefOid)\nif [ \"$sha\" != \"$HEAD_SHA\" ] || [ \"$aktuell\" != \"$HEAD_SHA\" ]; then\n  echo \"Stand $sha passt nicht zum aktuellen Head $aktuell - keine Freigabe.\"\n  exit 0\nfi\n{ echo \"**Prüfer-Review** für ${HEAD_SHA:0:9} - Urteil: **$titel**\"; echo; cat \"$T/protokoll.md\"; } > \"$T/kommentar.md\"\ngh pr comment \"$PR\" --repo \"$GITHUB_REPOSITORY\" --body-file \"$T/kommentar.md\"\nif [ \"$art\" = \"ok\" ]; then\n  gh pr review \"$PR\" --repo \"$GITHUB_REPOSITORY\" --approve --body \"Urteil: $titel. Prüfprotokoll steht als Kommentar (Stand ${HEAD_SHA:0:9}).\"\nelse\n  gh pr review \"$PR\" --repo \"$GITHUB_REPOSITORY\" --request-changes --body \"Befunde im Prüfprotokoll-Kommentar (Stand ${HEAD_SHA:0:9}).\"\nfi\n"
+          "run": "set -u\nT=\"$RUNNER_TEMP/pruefer\"\nif [ ! -s \"$T/urteil.json\" ] || [ ! -s \"$T/protokoll.md\" ]; then\n  echo \"::error::Kein Urteil geschrieben (urteil.json oder protokoll.md fehlt/leer) - keine Freigabe. Inhalt von $T:\"\n  ls -la \"$T\" || true\n  exit 1\nfi\nurteil=$(node -e 'const u=JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\"));console.log(u.urteil+\" \"+u.sha)' \"$T/urteil.json\") || { echo \"::error::urteil.json unlesbar - keine Freigabe.\"; exit 1; }\nart=${urteil% *}; sha=${urteil#* }\nif [ \"$DIFF_ZUSTAND\" != \"ok\" ] && [ \"$art\" = \"ok\" ]; then\n  echo \"Diff unvollständig - Urteil ok wird zu aendern.\"\n  art=aendern\n  printf '\\n**Hinweis:** Diff leer, nicht abrufbar oder gekürzt, oder Commit-Liste fehlt - nicht vollständig geprüft, daher keine Freigabe.\\n' >> \"$T/protokoll.md\"\nfi\nif grep -qE 'gh[spuor]_[A-Za-z0-9]|github_pat_|x-access-token' \"$T/protokoll.md\" || grep -qF -- \"$GH_TOKEN\" \"$T/protokoll.md\"; then\n  echo \"Token-Muster im Protokoll - Protokoll verworfen, Urteil aendern.\"\n  art=aendern\n  printf 'Das Protokoll enthielt ein Token-Muster und wurde verworfen. Der Lauf ist als Fehlerfall zu behandeln (Prompt-Injektion vermutet).\\n' > \"$T/protokoll.md\"\nfi\ntitel=\"$art\"\nif [ \"$art\" = \"ok\" ] && [ \"${CHECKS:-}\" != \"gruen\" ]; then\n  titel=\"ok, ${CHECKS:-Checks-Stand unbekannt}\"\nfi\n# Abnahme-Modus: \"aendern\" sperrt nur, solange es frei ist (Prüfstufe 2, einmal); sonst bleibt es bei einem Kommentar ohne Review, der Dirigent entscheidet.\nmodus=voll\nif [ \"${MODUS:-}\" = \"abnahme\" ]; then modus=abnahme; fi\noffen=0\nif [ \"$modus\" = \"abnahme\" ] && [ \"$art\" = \"aendern\" ] && [ \"${AENDERN_FREI:-0}\" != \"1\" ]; then\n  offen=1\n  titel=\"aendern, Auflagen offen: Dirigent entscheidet\"\nfi\naktuell=$(gh pr view \"$PR\" --repo \"$GITHUB_REPOSITORY\" --json headRefOid -q .headRefOid)\nif [ \"$sha\" != \"$HEAD_SHA\" ] || [ \"$aktuell\" != \"$HEAD_SHA\" ]; then\n  echo \"Stand $sha passt nicht zum aktuellen Head $aktuell - keine Freigabe.\"\n  exit 0\nfi\n{\n  echo \"**Prüfer-Review** für ${HEAD_SHA:0:9} - Urteil: **$titel**\"\n  echo\n  if [ \"$modus\" = \"abnahme\" ]; then echo \"Abnahme-Modus: nur die Auflagen der ersten Runde und Regressionen im Nachtrag, keine neuen Funde.\"; fi\n  cat \"$T/protokoll.md\"\n  printf '\\n<!-- pruefer-modus: %s -->\\n' \"$modus\"\n} > \"$T/kommentar.md\"\ngh pr comment \"$PR\" --repo \"$GITHUB_REPOSITORY\" --body-file \"$T/kommentar.md\"\nif [ \"$offen\" = \"1\" ]; then\n  echo \"Abnahme: Auflagen offen, kein Review (Dirigent entscheidet).\"\nelif [ \"$art\" = \"ok\" ]; then\n  gh pr review \"$PR\" --repo \"$GITHUB_REPOSITORY\" --approve --body \"Urteil: $titel. Prüfprotokoll steht als Kommentar (Stand ${HEAD_SHA:0:9}).\"\nelse\n  gh pr review \"$PR\" --repo \"$GITHUB_REPOSITORY\" --request-changes --body \"Befunde im Prüfprotokoll-Kommentar (Stand ${HEAD_SHA:0:9}).\"\nfi\n"
         }
       ]
     }

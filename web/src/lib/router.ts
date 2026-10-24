@@ -28,6 +28,7 @@ export type ViewId =
   | 'quellen'
   | 'impressum'
   | 'datenschutz'
+  | 'empfehlung'
 
 /** Alle Ansichten; die Navigation (Kalender · Datenbank · News) steht in `Header.tsx`. */
 export const VIEWS: { id: ViewId; label: string }[] = [
@@ -41,6 +42,7 @@ export const VIEWS: { id: ViewId; label: string }[] = [
   { id: 'quellen', label: 'Quellen' },
   { id: 'impressum', label: 'Impressum' },
   { id: 'datenschutz', label: 'Datenschutz' },
+  { id: 'empfehlung', label: 'Was gucken?' },
 ]
 
 /**

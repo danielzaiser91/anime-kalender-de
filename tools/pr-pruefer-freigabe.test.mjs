@@ -54,8 +54,10 @@ esac
 `
 
 /** Die env des Schritts aus der YAML; nur die beiden bekannten Ausdrücke werden eingesetzt. */
-function werteEnv(zustand, checks) {
+function werteEnv(zustand, checks, modus = '', frei = '') {
   const ausdruecke = {
+    'steps.modus.outputs.modus': modus,
+    'steps.modus.outputs.aendern-frei': frei,
     'steps.eingang.outputs.zustand': zustand,
     'steps.checks.outputs.stand': checks,
     'secrets.GITHUB_TOKEN': TOKEN,
@@ -91,7 +93,7 @@ function laufe(f) {
     Object.assign(env, {
       GITHUB_REPOSITORY: 'o/r',
       RUNNER_TEMP: temp,
-      ...werteEnv(f.zustand, f.checks ?? 'gruen'),
+      ...werteEnv(f.zustand, f.checks ?? 'gruen', f.modus, f.frei),
       ATTRAPPE_LOG: log,
       ATTRAPPE_KOMMENTAR: kommentar,
       ATTRAPPE_AKTUELL: f.aktuell ?? KOPF,
@@ -171,6 +173,36 @@ pruefe('Checks rot, Urteil aendern: bleibt aendern ohne Zusatz',
   ersteZeile(aendernRot) === '**Prüfer-Review** für ccccccccc - Urteil: **aendern**' && JSON.stringify(aendernRot.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe), aendernRot)
 const unvollRot = laufe({ ...basis, zustand: 'unvollstaendig', checks: 'Checks rot: X' })
 pruefe('Diff unvollständig und Checks rot: aendern', ersteZeile(unvollRot).endsWith('Urteil: **aendern**'), ersteZeile(unvollRot))
+
+// Abnahme-Modus (21.10.2026): „aendern“ sperrt nur, wenn es frei ist (Stufe 2, einmal); sonst Kommentar ohne Review.
+const marke = (r) => r.kommentar.trimEnd().split('\n').at(-1)
+const abnahme = (art, frei, extra = {}) => laufe({ ...basis, urteil: urteil(art), modus: 'abnahme', frei, ...extra })
+const OFFEN = '**Prüfer-Review** für ccccccccc - Urteil: **aendern, Auflagen offen: Dirigent entscheidet**'
+const nurKommentar = (r) => JSON.stringify(r.aufrufe) === JSON.stringify([ANSICHT, KOMMENTAR])
+const aOk = abnahme('ok', '0')
+pruefe('Abnahme, Urteil ok (auch ohne Freigabe zum Ändern): Approve, Marke abnahme, Hinweiszeile',
+  JSON.stringify(aOk.aufrufe) === JSON.stringify(FREIGABE.aufrufe) && marke(aOk) === '<!-- pruefer-modus: abnahme -->' && aOk.kommentar.includes('Abnahme-Modus: nur die Auflagen'), aOk)
+const aFrei = abnahme('aendern', '1')
+pruefe('Abnahme, aendern, frei (Stufe 2, erstes Mal): Änderungswunsch wie bisher',
+  JSON.stringify(aFrei.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && ersteZeile(aFrei) === '**Prüfer-Review** für ccccccccc - Urteil: **aendern**', aFrei)
+const aGesperrt = abnahme('aendern', '0')
+pruefe('Abnahme, aendern, nicht frei (Stufe < 2 oder schon einmal): nur Kommentar, kein Review, Titel nennt Dirigent',
+  nurKommentar(aGesperrt) && ersteZeile(aGesperrt) === OFFEN, aGesperrt)
+pruefe('Abnahme, aendern, Freigabe-Ausgabe leer (Modus-Schritt ohne Ausgabe): nur Kommentar', nurKommentar(abnahme('aendern', '')), abnahme('aendern', ''))
+pruefe('Abnahme, aendern, frei = 2 (kein exakter Wert 1): nur Kommentar', nurKommentar(abnahme('aendern', '2')))
+const aUnvoll = abnahme('ok', '0', { zustand: 'unvollstaendig' })
+pruefe('Abnahme, Diff unvollständig, nicht frei: kein Approve, nur Kommentar', nurKommentar(aUnvoll) && ersteZeile(aUnvoll) === OFFEN, aUnvoll)
+const aToken = abnahme('ok', '0', { protokoll: 'x ghp_abcdef y\n' })
+pruefe('Abnahme, Token im Protokoll, nicht frei: kein Approve', nurKommentar(aToken) && !aToken.kommentar.includes('ghp_abcdef'), aToken)
+const aChecks = abnahme('ok', '0', { checks: 'Checks rot: Kette' })
+pruefe('Abnahme, ok bei roten Checks: Approve mit Zusatz wie im Modus voll', ersteZeile(aChecks).endsWith('Urteil: **ok, Checks rot: Kette**') && JSON.stringify(aChecks.aufrufe) === JSON.stringify(genehmigt('ok, Checks rot: Kette')), aChecks)
+const vFrei = laufe({ ...basis, urteil: urteil('aendern'), modus: 'voll', frei: '0' })
+pruefe('Modus voll, aendern, nicht frei: bleibt Änderungswunsch (die Sperre gilt nur im Abnahme-Modus), Marke voll',
+  JSON.stringify(vFrei.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && marke(vFrei) === '<!-- pruefer-modus: voll -->' && !vFrei.kommentar.includes('Abnahme-Modus'), vFrei)
+const vLeer = laufe({ ...basis, urteil: urteil('aendern') })
+pruefe('Modus-Ausgabe fehlt ganz, aendern: Änderungswunsch (fail closed)', JSON.stringify(vLeer.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && marke(vLeer) === '<!-- pruefer-modus: voll -->', vLeer)
+const aAnderer = abnahme('aendern', '0', { urteil: urteil('aendern', ANDERER) })
+pruefe('Abnahme, Urteil für anderen Stand: nichts gepostet', JSON.stringify(aAnderer.aufrufe) === JSON.stringify(NICHTS.aufrufe), aAnderer)
 
 const token = laufe({ ...basis, protokoll: 'x ghp_abcdef y\n' })
 pruefe('Token im Protokoll: Kommentar enthält das Token nicht', !token.kommentar.includes('ghp_abcdef') && token.kommentar.includes('verworfen'), token.kommentar)

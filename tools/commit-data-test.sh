@@ -151,9 +151,18 @@ szenario() {
     echo '{"v":2,"von":"lauf"}' > "$d/lauf/data/anisearch.json"
     echo '{"zuletzt":"neu"}' > "$d/lauf/data/meldungen-uebernahme.json"
   fi
+  # Gemerkte Quittungen der Datenschritte (pipeline/lib/spaeter-quittieren.ts): frei erst nach grünem Commit.
+  LAUF="$d/lauf"
+  mkdir -p "$LAUF/data/cache/quittung-offen"
+  echo '[1]' > "$LAUF/data/cache/quittung-offen/rohfolgen-abhaken.json"
+  echo '[2]' > "$LAUF/data/cache/quittung-offen/pruefungen-abhaken.json"
   "${LAUF_EXTRA:-:}" "$d/lauf"
   [ "${OHNE_TITLES:-nein}" = ja ] && rm "$d/lauf/public/data/titles.json"
   local pause=""
+  if [ "${PUSH_SPERRE:-nein}" = ja ]; then
+    printf '#!/bin/sh\nexit 1\n' > "$ORIGIN/hooks/pre-receive"
+    chmod +x "$ORIGIN/hooks/pre-receive"
+  fi
   if [ "${ERSTEN_ABLEHNEN:-nein}" = ja ]; then
     printf '#!/bin/sh\nif [ ! -e schon-abgelehnt ]; then : > schon-abgelehnt; echo "abgelehnt (Test)" >&2; exit 1; fi\n' > "$ORIGIN/hooks/pre-receive"
     chmod +x "$ORIGIN/hooks/pre-receive"
@@ -163,6 +172,8 @@ szenario() {
   CODE=$?
 }
 
+frei() { [ -f "$LAUF/data/cache/quittung-frei/$1" ] && echo ja || echo nein; }
+offen() { [ -f "$LAUF/data/cache/quittung-offen/$1" ] && echo ja || echo nein; }
 im_fernstand() { git -C "$ORIGIN" cat-file -e "main:$1" 2>/dev/null && echo ja || echo nein; }
 quelle_gepusht() { git -C "$ORIGIN" show main:data/anisearch.json 2>/dev/null | grep -q '"von":"lauf"' && echo ja || echo nein; }
 stempel() { git -C "$ORIGIN" show main:data/meldungen-uebernahme.json 2>/dev/null | tr -d '\n'; }
@@ -172,17 +183,20 @@ szenario gruen FAKE_BAU=ok FAKE_BESTAND=ok
 pruefe "Exit 0" 0 "$CODE"
 pruefe "Quelle gepusht" ja "$(quelle_gepusht)"
 pruefe "Erzeugnis gepusht" ja "$(im_fernstand public/data/titles.json)"
+pruefe "Quittungen freigegeben" "ja ja nein" "$(frei rohfolgen-abhaken.json) $(frei pruefungen-abhaken.json) $(offen rohfolgen-abhaken.json)"
 pruefe "Übernahme-Stempel gepusht" '{"zuletzt":"neu"}' "$(stempel)"
 
 echo "data:build scheitert: rot, Quellen trotzdem gesichert, keine Erzeugnisse"
 szenario aufbau FAKE_BAU=fail
 pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+pruefe "Quittungen nicht freigegeben" "nein ja" "$(frei rohfolgen-abhaken.json) $(offen rohfolgen-abhaken.json)"
 pruefe "Quelle gepusht" ja "$(quelle_gepusht)"
 pruefe "kein Erzeugnis gepusht" nein "$(im_fernstand public/data/titles.json)"
 
 echo "check:bestand scheitert (Zusicherung, seit PR 866): rot, Quellen gesichert, keine Erzeugnisse"
 szenario bestand FAKE_BESTAND=fail
 pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+pruefe "Quittungen nicht freigegeben" "nein nein" "$(frei rohfolgen-abhaken.json) $(frei pruefungen-abhaken.json)"
 pruefe "Quelle gepusht" ja "$(quelle_gepusht)"
 pruefe "kein Erzeugnis gepusht" nein "$(im_fernstand public/data/titles.json)"
 
@@ -191,6 +205,7 @@ mkdir -p "$ARBEIT/warnung"
 szenario warnung FAKE_BESTAND=fehler BAU_LAUF=1 GITHUB_ENV="$ARBEIT/warnung/env.txt"
 pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
 pruefe "Warnung enthält den Grund" ja "$(grep -q '^DATEN_WARNUNG=.*FEHLER: Cover fehlt bei Titel 7' "$ARBEIT/warnung/env.txt" && echo ja || echo nein)"
+pruefe "verworfene Meldungen nicht mehr gemerkt, nichts frei" "nein nein ja" "$(offen pruefungen-abhaken.json) $(frei pruefungen-abhaken.json) $(offen rohfolgen-abhaken.json)"
 pruefe "Übernahme-Stempel zurückgenommen" '{"zuletzt":"alt"}' "$(stempel)"
 
 echo "Drei ⚠-Zeilen vor einer FEHLER:-Zeile: DATEN_WARNUNG nennt den Fehler zuerst"
@@ -201,12 +216,25 @@ pruefe "Warnung beginnt mit dem Fehler" ja "$(grep -q '^DATEN_WARNUNG=.*Bestand 
 echo "NUR_QUELLEN=1 (Abruf-Lauf, kein Bau): grün, nur Quellen"
 szenario abruf NUR_QUELLEN=1 FAKE_BAU=fail
 pruefe "Exit 0" 0 "$CODE"
+pruefe "Quittungen freigegeben" ja "$(frei rohfolgen-abhaken.json)"
 pruefe "Quelle gepusht" ja "$(quelle_gepusht)"
 pruefe "kein Erzeugnis gepusht" nein "$(im_fernstand public/data/titles.json)"
 
 echo "data:build scheitert und es gibt nichts zu committen: trotzdem rot"
 LAUF_AENDERT=nein szenario leer FAKE_BAU=fail
 pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+pruefe "Quittungen nicht freigegeben" "nein ja" "$(frei rohfolgen-abhaken.json) $(offen rohfolgen-abhaken.json)"
+
+echo "Nichts zu committen, grün: Quittungen freigegeben"
+LAUF_AENDERT=nein szenario leer-gruen NUR_QUELLEN=1
+pruefe "Exit 0" 0 "$CODE"
+pruefe "Keine Änderung erreicht" ja "$(grep -q 'Keine Änderung' "$LAUF/../log.txt" && echo ja || echo nein)"
+pruefe "Quittungen freigegeben" ja "$(frei rohfolgen-abhaken.json)"
+
+echo "Push abgelehnt: rot, Quittungen bleiben gesperrt"
+PUSH_SPERRE=ja szenario push-sperre FAKE_BAU=ok
+pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+pruefe "Quittungen nicht freigegeben" "nein ja" "$(frei rohfolgen-abhaken.json) $(offen rohfolgen-abhaken.json)"
 
 echo "data:extension-liste scheitert (18.10.2026): rot, Quellen und Erzeugnisse trotzdem gesichert"
 szenario liste FAKE_LISTE=fail

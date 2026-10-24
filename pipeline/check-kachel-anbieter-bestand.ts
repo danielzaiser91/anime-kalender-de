@@ -7,6 +7,7 @@ import { readFileSync } from 'node:fs'
 import type { ReleaseEvent } from '../shared/types.ts'
 import { buendeleKacheln } from '../web/src/lib/buendel.ts'
 import { eigenstaendigBeiAnbietern, vereineAnbieter } from '../web/src/lib/anbieter-kachel.ts'
+import { todayIso } from '../shared/time.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -37,7 +38,7 @@ function bestandspruefung(): void {
         if (a[0]![0]!.titleId === b[0]![0]!.titleId && ![...plattformen(a)].some((pl) => plattformen(b).has(pl))) doppelt.push(`${tag} ${a[0]![0]!.name}`)
   }
   pruefe('zwei Kacheln desselben Titels am Tag teilen sich einen Anbieter (sonst wären sie eine)', doppelt.length === 0, doppelt.slice(0, 5))
-  console.log(`  Info: ${zusammengelegt} Kacheln tragen mehrere Anbieter (Stand ${new Date().toISOString().slice(0, 10)}).`)
+  console.log(`  Info: ${zusammengelegt} Kacheln tragen mehrere Anbieter (Stand ${todayIso()}).`)
 }
 
 bestandspruefung()

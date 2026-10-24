@@ -1,2 +1,4 @@
 kategorie: bugfix
-text: Titelwechsel springt nach oben, Tab zeigt den Titel
+highlight: true
+text: Neuer Titel startet oben, Tab zeigt seinen Namen
+untertitel: "Im Detail-Panel, etwa nach Klick auf „Ähnliche Titel“"

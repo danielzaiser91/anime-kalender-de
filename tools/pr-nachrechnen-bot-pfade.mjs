@@ -46,7 +46,6 @@ export const BOT_DATEIEN_OHNE_LESER = [
   'data/meldungen-uebernahme.json',
   'data/meldungen-zurueckgestellt.json',
   'data/meldungs-auffaelligkeiten.json',
-  'data/motn-changes.json',
   'data/motn-raw',
   'data/pillen-luecken.json',
   'data/prime-kanal-aussortiert.json',

@@ -1360,8 +1360,7 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
         }
       }
       case '/debug/monitor': {
-        const token = tokenMitUebergang(request)
-        if (!env.DEBUG_TOKEN || !tokenGleich(token, env.DEBUG_TOKEN)) return json(env, { error: 'Nicht erlaubt' }, 403)
+        if (!env.DEBUG_TOKEN || !tokenGleich(tokenMitUebergang(request), env.DEBUG_TOKEN)) return json(env, { error: 'Nicht erlaubt' }, 403)
         const mode = url.searchParams.get('mail')
         try {
           const result = await runMonitor(

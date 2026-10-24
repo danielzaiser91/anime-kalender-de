@@ -4926,7 +4926,10 @@ async function speicherSchreiben(werte) {
   function nichtAngekommen(asinEintrag) {
     try {
       const url = liste[asinEintrag]?.url
-      return Boolean(url && briefkastenAdressen && !briefkastenAdressen.has(url))
+      const fehlt = Boolean(url && briefkastenAdressen && !briefkastenAdressen.has(url))
+      /* Nur ein Vermerk nach dem Prüfstand kann „nicht angekommen“ sein; ältere hat der Bau übernommen. */
+      const vermerk = erledigt[asinEintrag]
+      return fehlt && globalThis.akVermerkGilt(vermerk?.zeit ?? vermerk?.datum, globalThis.AK_OFFENE_AMAZON_ERZEUGT)
     } catch {
       return false
     }
@@ -5419,14 +5422,8 @@ async function speicherSchreiben(werte) {
       */
       try {
         const listeVom = String(globalThis.AK_OFFENE_AMAZON_ERZEUGT ?? '').slice(0, 10)
-        const bereinigt = {}
-        let entfernt = 0
-        for (const [id, wert] of Object.entries(erledigt)) {
-          const url = liste[id]?.url ?? null
-          const frisch = listeVom && String(wert?.zeit ?? wert?.datum ?? '').slice(0, 10) >= listeVom
-          if (!url || briefkastenAdressen.has(url) || frisch) bereinigt[id] = wert
-          else entfernt++
-        }
+        await globalThis.akGemeldetSeit(listeVom)
+        const { bereinigt, entfernt } = globalThis.akPrimeAufraeumen(erledigt, liste, briefkastenAdressen, listeVom)
         if (entfernt) {
           erledigt = bereinigt
           void speicherSchreiben({ amazonErledigt: erledigt })
@@ -7174,8 +7171,10 @@ async function speicherSchreiben(werte) {
   // Sperre nach angekommener Meldung (melde-sperre.js, Daniel 16.10.2026): am Befund, nicht an der Beschriftung.
   const meldeSperre = globalThis.AK_MELDE_SPERRE.fuer(knopf, {
     befund: () => `${location.pathname}|${staffelSchluessel()}|${deutschInFolgen()}`,
-    angekommen: () => !nichtAngekommen(listenId),
+    angekommen: () => globalThis.AK_MELDUNG_BELEGT(liste[listenId]?.url, asin, briefkastenAdressen, briefkastenSeiten),
     zeichneRoh: () => zeichnenRoh(),
+    lesen: speicherLesen,
+    schreiben: speicherSchreiben,
     standVergessen: () => {
       letzterStand = ''
     },
@@ -7209,14 +7208,11 @@ async function speicherSchreiben(werte) {
     }
 
     /*
-      **Der Takt beginnt ohne Marke — außer hier ist gerade gemeldet worden.**
-
-      Sonst setzt sie nur der Zweig „alles durch" wieder, und der greift nicht
-      bei jedem Titel; die Marke wäre zwei Sekunden nach der Meldung wieder weg.
-      Der Merker verschwindet mit dem Titel, denn er hängt am Pfad.
+      **Der Takt beginnt ohne Marke — außer dieser Befund ist gemeldet (Sperre) oder alles durch.**
+      Ohne die Sperre hier blendeten Zweige den Knopf aus und der Kasten blieb leer (06.09. und 16.10.2026).
     */
     {
-      const an = durchFuerPfad === location.pathname
+      const an = meldeSperre.gesperrt() || durchFuerPfad === location.pathname
       const wegweisung = weiterTextPfad === location.pathname ? weiterText : null
       gemeldetMarke(an, an ? (wegweisung ?? 'gemeldet ✓') : undefined)
     }
@@ -10656,8 +10652,8 @@ async function speicherSchreiben(werte) {
         /*
           **Die eigene Meldung zählt sofort, nicht erst beim nächsten Abruf.**
 
-          `nichtAngekommen()` fragt die geholte Briefkasten-Liste, und die ist
-          bis zu einer Minute alt. Direkt nach dem Melden stand die Adresse dort
+          `nichtAngekommen()` fragt die geholte Briefkasten-Liste, und die hält die
+          Edge bis zu zwei Stunden (ZAEHLEN_SEKUNDEN). Direkt nach dem Melden stand die Adresse dort
           noch nicht — der Knopf ging wieder auf „melden", als wäre nichts
           geschehen. Gemessen war die Meldung längst angekommen.
 

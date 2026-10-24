@@ -955,11 +955,11 @@ Standort, Altersfreigabe oder Abo. Entschieden wird sie mit zwei Griffen: die
 „Children of the Sea" war die Suche leer und die Freigabe stand auf 18, der
 höchsten Stufe; damit blieb nur die Region übrig.
 
-**Die Erweiterung meldet deshalb nichts davon von selbst.** Sie bietet auf einer
+**Die Erweiterung meldet deshalb nichts davon von selbst (Ausnahme seit 4.31.11: der Durchgang bei dem Hinweis, siehe unten).** Sie bietet auf einer
 Fehlerseite einen zweiten Versuch an; „nichts da" bleibt ein Klick von Hand. Auch der
 Durchgang (▶ alle durchgehen) meldet bei Startseiten-Umleitung oder dem Hinweis „nicht in
 deinem Gebiet verfügbar" nichts an den Worker: Er merkt den Titel nur lokal und öffnet ihn
-7 Tage lang nicht wieder (`erweiterung.md`, 4.30.9; Entscheidung 13.10.2026, Prüfer zu PR 1147).
+7 Tage lang nicht wieder (`erweiterung.md`, 4.30.9; Entscheidung 13.10.2026, Prüfer zu PR 1147). **Seit 4.31.11 (21.10.2026) meldet der Durchgang den Hinweis „nicht in deinem Gebiet verfügbar“ selbst** (Dirigent, Anlass sechs von Hand geprüfte Titel); Startseiten-Umleitung und Zeitablauf melden weiterhin nichts (`erweiterung.md`).
 
 ### Disney+ führt dieselbe Serie unter zwei Adressen
 
@@ -3251,6 +3251,8 @@ Spur durch den Bau (Ersatz-Cache-Bau, Zwischenstände je Phase): Der Weg steht n
 2. `schliesseWegeAb` (`11-wege-abschluss.ts`) leerte die Wege aller Titel nur bei aniSearch (Kennung ab 10 Mio.), damit keine erratenen Wege bleiben. Durarara!! Tenka Taihei ist so ein Titel. Jetzt bleibt der Weg, den ein Handbeleg „deutsch“ mit Adresse trägt, mit `herkunft: 'handbeleg'` (`behalteNurHandbelegteWege`).
 
 Bau-Vergleich (Ersatz-Cache, Basis `5f19fbc21`): Durarara!! Tenka Taihei bekommt den Crunchyroll-Weg; die beiden Heart-Throb-Titel (18671, 20889) tragen statt der alten kurzen Adresse die Adresse ihres Handbelegs (Daniel, 13.09.). Nicht angefasst, aber derselben Ursache (US-Nein über die Kennung, deutscher Katalog führt die Serie): Digimon (552), Digimon 02 (1313) und SNAFU Climax (108489) verlieren weiter die Adresse, die der Bau ihrer Kennung zuordnet (`data/verweise-entfernt.json`). Durarara!! (6746) behält seinen Weg `crunchyroll.com/durarara`; verloren geht nur `crunchyroll.com/de/durarara`, die Adresse mit der Kennung `G619XVNEY`. Durarara!! Specials (8408) steht seit dem 13.10. nicht mehr im Hauptbestand. Der zurückgeholte Weg trägt keine Meldung „neu auf Deutsch“ oder „jetzt auch bei“ (`meldetNeu` in `lib/news.ts`): Er belegt das Angebot, nicht seinen Beginn — die Folge ist laut `crunchyroll-dub.json` seit 2022 deutsch, die Meldung trüge den Aufnahmetag 07.10. Ein jüngeres `available: false` zur selben Adresse nimmt dem Ja den Weg. Zusicherung: `pipeline/check-handbeleg-weg.ts` (in `check:logic`).
+
+**Nachtrag 24.10.2026 – US-Nein trifft nur die US-Adresse (`lib/cr-us-nein-adresse.ts`).** Belegt der deutsche Katalog dieselbe Serienkennung mit mindestens einer deutschen Folge (`staffeln[].deutsch > 0`), behält ein Weg auf eine `/de/`-Adresse sein Leben, auch wenn ein US-Satz die Serie als „nicht verfügbar“ meldet; ein deutsches „nicht verfügbar“ oder eine Serie ohne Staffel entfernt weiter über dieselbe Kennung. Gemessen an `data/crunchyroll-dub.json` und den 707 Crunchyroll-Wegen aus `data/verweise-entfernt.json` (Stand 24.10.2026): von den fünf Titeln des Fundes (Durarara!!, Specials, Digimon, Digimon 02, SNAFU Climax) wäre heute nur SNAFU Climax betroffen, dessen deutscher Satz drei Staffeln mit 0 deutschen Folgen zählt (`ja-JP`): ohne deutschen Ton kein Beleg, der Weg fällt wie bisher. Die anderen vier tragen inzwischen deutsche Sätze statt eines US-Satzes. Heutige Wirkung auf den Bestand: keine; die Regel schützt künftige Fälle.
 
 ## Tokyo Revengers Staffel 3: Disney+-Start verpasst, falsche Crunchyroll-Zuordnung (04.10.2026)
 

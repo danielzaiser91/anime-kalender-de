@@ -262,7 +262,7 @@ try {
   assert.deepEqual(ziel[ANIME], gerettet[ANIME])
 
   // Abgehakt zählt die Quittier-Datei; ohne sie (nichts abzuhaken) ist es 0. Erst nach dem Lauf: das Modul legt ROOT fest.
-  schreibe('abhaken/data/cache/rohfolgen-abhaken.json', [5, 6, 8])
+  schreibe('abhaken/data/cache/quittung-offen/rohfolgen-abhaken.json', [5, 6, 8])
   assert.equal(await abgehaktIn(join(ordner, 'abhaken')), 3)
   assert.equal(await abgehaktIn(join(ordner, 'leer')), 0)
 
