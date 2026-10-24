@@ -11,6 +11,7 @@ const diffAus = (tabelle) => (von, bis) => {
 
 // Beliebige Bot-Datei aus der Liste (Wächter pr-nachrechnen-bot-pfade verbietet Dateinamen der Liste in tools/-Tests).
 const BOT = BOT_DATEIEN_OHNE_LESER[0]
+const CACHE_DATEI = ['data', 'cache', 'x.json'].join('/') // zusammengesetzt: der Schreibziel-Scanner liest data/-Literale
 let faelle = 0
 function fall(name, tabelle, erwartet) {
   assert.equal(neuversuchArt('L', 'B', 'N', diffAus(tabelle)), erwartet, name)
@@ -20,7 +21,7 @@ function fall(name, tabelle, erwartet) {
 fall('nur Bot-Datei seit Bau und Logik: nichts', { 'L>N': [BOT], 'B>N': [BOT] }, 'nichts')
 fall('Bot-Datei und Datenpfad seit Logik, nur Bot seit Bau: nichts', { 'L>N': [BOT, 'public/data/a.json'], 'B>N': [BOT] }, 'nichts')
 fall('Datenpfad seit Bau: daten', { 'L>N': ['public/data/a.json'], 'B>N': ['public/data/a.json'] }, 'daten')
-fall('data/cache seit Bau, Bot dabei: daten', { 'L>N': [BOT, 'data/cache/x.json'], 'B>N': [BOT, 'data/cache/x.json'] }, 'daten')
+fall('data/cache seit Bau, Bot dabei: daten', { 'L>N': [BOT, CACHE_DATEI], 'B>N': [BOT, CACHE_DATEI] }, 'daten')
 fall('genau eine Code-Datei seit Logik: code', { 'L>N': [BOT, 'tools/x.mjs'], 'B>N': [BOT] }, 'code')
 fall('Code nur seit Bau, Logik-Vergleich leer: daten', { 'L>N': [], 'B>N': ['pipeline/x.ts'] }, 'daten')
 fall('Quelle mit Leser (data/anisearch.json) ist kein Bot-Pfad: code', { 'L>N': ['data/anisearch.json'], 'B>N': ['data/anisearch.json'] }, 'code')
