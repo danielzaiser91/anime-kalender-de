@@ -235,6 +235,7 @@ pipeline/check-tv-sichtungen-vor-start.ts
 pipeline/check-urteil-art.ts
 pipeline/check-urteil-fremde-adresse.ts
 pipeline/check-urteil-spaet.ts
+pipeline/check-us-nein-adresse.ts
 pipeline/check-verpasst-verdrahtung.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts
@@ -249,6 +250,7 @@ pipeline/check-woche-beleg.ts
 pipeline/check-woche-groesse.ts
 pipeline/check-wochen-datei.ts
 pipeline/check-wochenprogramm-sendetag.ts
+pipeline/check-write-json-atomar.ts
 pipeline/check-zaehlung.ts
 pipeline/check-zuordner-ablauf.ts
 pipeline/check-zuordner-luecken.ts

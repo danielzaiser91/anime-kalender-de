@@ -27,7 +27,7 @@ pruefe('Fabrik ohne Browser erreichbar', typeof durchgang === 'function')
 function welt(offen, dauerMap = new Map()) {
   const m = new Map()
   const lager = (map) => ({ getItem: (k) => (map.has(k) ? map.get(k) : null), setItem: (k, v) => map.set(k, String(v)), removeItem: (k) => map.delete(k) })
-  const w = { uhr: 1_000_000, geoeffnet: [], gemeldet: 0, ende: null, offen, zustand: {}, dauerMap }
+  const w = { uhr: 1_000_000, geoeffnet: [], gemeldet: 0, ende: null, offen, zustand: {}, dauerMap, gebietGemeldet: [], gebietAntwort: true }
   w.seite = (seitenStart) => {
     w.lauf = durchgang({
       speicher: lager(m),
@@ -37,6 +37,10 @@ function welt(offen, dauerMap = new Map()) {
       offene: () => w.offen,
       oeffne: (e) => w.geoeffnet.push(e.url),
       melde: () => w.gemeldet++,
+      meldeGebiet: async (url) => {
+        w.gebietGemeldet.push(url)
+        return w.gebietAntwort
+      },
       ende: (info) => (w.ende = info),
       zustand: () => w.zustand,
     })
@@ -105,8 +109,9 @@ const quelle = (datei) => readFileSync(__dirname + '/' + datei, 'utf8')
 /** Die Verdrahtung: nichts geht an den Worker, die Seite meldet ihre Ladezeit, das Gedächtnis ist `localStorage`. */
 function verdrahtung() {
   const dg = quelle('disney-durchgang.js')
-  pruefe('Verdrahtung: der Durchgang kennt keinen Meldeweg zum Worker', !/meldeWeg|fetch\(|wegMelden/.test(dg))
-  pruefe('Verdrahtung: die Seite bietet dem Durchgang keinen „weg"-Weg an', !/^\s*meldeWeg:/m.test(quelle('disney.js')))
+  pruefe('Verdrahtung: der Durchgang spricht den Worker nicht selbst an', !/meldeWeg|fetch\(|wegMelden/.test(dg))
+  pruefe('Verdrahtung: die Seite bietet dem Durchgang nur den Gebiets-Weg an, keinen allgemeinen „weg"-Weg', !/^\s*meldeWeg:/m.test(quelle('disney.js')) && /^\s*meldeGebiet:/m.test(quelle('disney.js')))
+  pruefe('Verdrahtung: der Durchgang ruft den Gebiets-Weg der Seite', /meldeGebiet: \(url\) => seite\(\)\?\.meldeGebiet\(url\)/.test(dg))
   pruefe('Verdrahtung: Gedächtnis ist localStorage, Seitenstart ist die Ladezeit der Seite', /dauer: localStorage/.test(dg) && /seitenStart: Date\.now\(\)/.test(dg))
 }
 
@@ -129,7 +134,7 @@ function startseite() {
 }
 
 /* 13.10.2026: Dialog „nicht in deinem Gebiet verfügbar" auf /de-de/home — sofort weiter, nicht erst nach der Schonzeit der Startseite. */
-function gebiet() {
+async function gebiet() {
   const gesperrt = kontext.akDisneyGebietGesperrt
   pruefe('Hinweistext „nicht in deinem Gebiet verfügbar" wird erkannt', gesperrt('Dieser Inhalt ist zurzeit nicht in deinem Gebiet verfügbar.\nOK') === true)
   pruefe('Gegenprobe: normale Startseite und leerer Text nicht', gesperrt('Startseite\nNeu auf Disney+') === false && gesperrt(undefined) === false)
@@ -138,6 +143,7 @@ function gebiet() {
   w.zustand = { startseite: true, kennung: null, eintragUrl: null, gebiet: true }
   w.uhr += 5000
   w.lauf.takt()
+  await tick()
   pruefe('Gebiet gesperrt: schon im ersten Takt (5 s) weiter, ohne die 10 s der Startseite', w.geoeffnet.at(-1) === B.url, w.geoeffnet)
   w.zustand = { startseite: false, kennung: 'b', eintragUrl: B.url, gebiet: false }
   w.uhr += 20_000
@@ -155,8 +161,8 @@ function gebiet() {
 function zurueckgestellt() {
   const erster = welt([A, B])
   erster.lauf.starten()
-  erster.zustand = { startseite: true, kennung: null, eintragUrl: null, gebiet: true }
-  erster.uhr += 5000
+  erster.zustand = { startseite: true, kennung: null, eintragUrl: null, gebiet: false }
+  erster.uhr += 11_000
   erster.lauf.takt()
   const naechster = welt([A, B], erster.dauerMap)
   naechster.uhr = erster.uhr + TAG
@@ -176,7 +182,7 @@ function zurueckgestellt() {
 }
 
 /** Alte Seite: sie läuft bis zum Seitenwechsel weiter, ihr Zustand gehört nicht dem neuen Ziel. */
-function alteSeite() {
+async function alteSeite() {
   const w = welt([A, B])
   const t0 = w.uhr
   w.lauf.starten()
@@ -195,10 +201,11 @@ function alteSeite() {
   pruefe('… und nichts ist zurückgestellt', w.dauerMap.size === 0, [...w.dauerMap.keys()])
   w.seite(t0 + 10_500)
   w.zustand = { startseite: true, kennung: null, eintragUrl: null, gebiet: true }
+  pruefe('… und nichts wurde gemeldet', w.gebietGemeldet.length === 0, w.gebietGemeldet)
   w.uhr += 2000
   w.lauf.takt()
-  const b = w.ende?.uebersprungen.find((u) => u.url === B.url)
-  pruefe('Die neue Seite (nach dem Öffnen geladen) mit Hinweis: B wird zurückgestellt', b?.grund === 'nicht in deinem Gebiet verfügbar' && w.dauerMap.size === 1, w.ende)
+  await tick()
+  pruefe('Die neue Seite (nach dem Öffnen geladen) mit Hinweis: B wird gemeldet und zurückgestellt', w.gebietGemeldet.join() === B.url && w.ende?.gebiet.join() === B.url && w.dauerMap.size === 1, w.ende)
 }
 
 /** Hängen bleibt der Lauf nicht: Ohne neue Seite greift die Frist von drei Minuten. */
@@ -218,12 +225,140 @@ function frist() {
   pruefe('Nach drei Minuten ohne neue Seite: „kein Ergebnis nach 3 Minuten", Lauf geht weiter', w.ende?.uebersprungen[0]?.grund === 'kein Ergebnis nach 3 Minuten', w.ende)
 }
 
-function haupt() {
+/** Nur der Hinweistext meldet (Daniel, 21.10.2026); Startseite und Zeitablauf nie (Rooster Fighter, 13.10.2026). */
+async function gebietMeldung() {
+  const dialog = { startseite: true, kennung: null, eintragUrl: null, gebiet: true }
+  const w = welt([A, B])
+  w.lauf.starten()
+  w.zustand = dialog
+  w.uhr += 5000
+  w.lauf.takt()
+  w.lauf.takt()
+  await tick()
+  pruefe('Gebiets-Dialog: genau eine Meldung für A, auch bei zwei Takten', w.gebietGemeldet.join() === A.url, w.gebietGemeldet)
+  pruefe('… der Lauf geht zu B weiter und A ist zurückgestellt', w.lauf.laeuft() && w.geoeffnet.at(-1) === B.url && w.dauerMap.size === 1, w.geoeffnet)
+  w.lauf.beenden()
+  const text = kontext.akDisneyEndeText(w.ende, (u) => (u === A.url ? 'Aoashi' : u))
+  pruefe('… A steht getrennt gezählt unter „gebiet", nicht unter „übersprungen"', w.ende.gebiet.join() === A.url && w.ende.uebersprungen.length === 0, w.ende)
+  pruefe('… und die Endanzeige nennt ihn', /1 als „nicht in deinem Gebiet verfügbar“ gemeldet: Aoashi/.test(text), text)
+
+  const nein = welt([A, B])
+  nein.gebietAntwort = false
+  nein.lauf.starten()
+  nein.zustand = dialog
+  nein.uhr += 5000
+  nein.lauf.takt()
+  await tick()
+  nein.lauf.beenden()
+  pruefe('Meldung kam nicht an: übersprungen mit eigenem Grund, nicht als gebiet gezählt', nein.ende.gebiet.length === 0 && nein.ende.uebersprungen[0]?.grund === 'nicht in deinem Gebiet verfügbar (Meldung kam nicht an)', nein.ende)
+
+  const home = welt([A, B])
+  home.lauf.starten()
+  home.zustand = { startseite: true, kennung: null, eintragUrl: null, gebiet: false }
+  home.uhr += 11_000
+  home.lauf.takt()
+  await tick()
+  pruefe('Gegentest Rooster Fighter: Startseiten-Umleitung ohne Dialog meldet nichts', home.gebietGemeldet.length === 0 && home.geoeffnet.at(-1) === B.url, home.gebietGemeldet)
+
+  const still = welt([A, B])
+  still.lauf.starten()
+  still.zustand = { startseite: false, kennung: null, eintragUrl: null, gebiet: false }
+  still.uhr += 3 * 60 * 1000 + 1000
+  still.lauf.takt()
+  await tick()
+  pruefe('Gegentest: kein Ergebnis nach drei Minuten meldet nichts', still.gebietGemeldet.length === 0, still.gebietGemeldet)
+
+  const zwei = welt([A, B])
+  zwei.lauf.starten()
+  zwei.zustand = dialog
+  zwei.uhr += 5000
+  zwei.lauf.takt()
+  await tick()
+  zwei.uhr += 5000
+  zwei.lauf.takt()
+  await tick()
+  pruefe('Zwei Titel mit Dialog: beide gemeldet, in Reihenfolge', zwei.gebietGemeldet.join() === [A.url, B.url].join(), zwei.gebietGemeldet)
+  pruefe('… und das Ende zählt beide', zwei.ende?.gebiet.join() === [A.url, B.url].join(), zwei.ende)
+
+}
+
+/** Die Ränder der Gebiets-Meldung: späte Antwort, fehlender Weg. */
+async function gebietRaender() {
+  const dialog = { startseite: true, kennung: null, eintragUrl: null, gebiet: true }
+  /* Die Antwort kommt erst, nachdem Daniel den Lauf beendet hat: nichts wird danach weitergeschoben. */
+  const spaet = welt([A, B])
+  let antwortet
+  spaet.gebietAntwort = new Promise((fertig) => (antwortet = fertig))
+  spaet.lauf.starten()
+  spaet.zustand = dialog
+  spaet.uhr += 5000
+  spaet.lauf.takt()
+  spaet.lauf.beenden()
+  const geoeffnetVorher = spaet.geoeffnet.length
+  antwortet(true)
+  await tick()
+  pruefe('Antwort nach Ende des Laufs: kein weiterer Titel wird geöffnet, nichts gezählt', spaet.geoeffnet.length === geoeffnetVorher && spaet.ende.gebiet.length === 0 && !spaet.lauf.laeuft(), [spaet.geoeffnet, spaet.ende])
+
+  /* Ohne Gebiets-Weg der Seite (Fabrik ohne meldeGebiet) wird nichts als gemeldet gezählt. */
+  const ohne = welt([A, B])
+  const speicherOhne = new Map()
+  const lagerOhne = { getItem: (k) => speicherOhne.get(k) ?? null, setItem: (k, v) => speicherOhne.set(k, String(v)), removeItem: (k) => speicherOhne.delete(k) }
+  let endeOhne = null
+  const lauf = durchgang({
+    speicher: lagerOhne,
+    dauer: lagerOhne,
+    seitenStart: Infinity,
+    jetzt: () => ohne.uhr,
+    offene: () => [A],
+    oeffne: () => {},
+    melde: () => {},
+    ende: (info) => (endeOhne = info),
+    zustand: () => dialog,
+  })
+  lauf.starten()
+  ohne.uhr += 5000
+  lauf.takt()
+  await tick()
+  pruefe('Fabrik ohne Gebiets-Weg: gilt als „Meldung kam nicht an", nicht als gemeldet', endeOhne?.gebiet.length === 0 && endeOhne.uebersprungen[0]?.grund === 'nicht in deinem Gebiet verfügbar (Meldung kam nicht an)', endeOhne)
+
+  /* Prüfer zu PR 1735: Ablehnung und Schweigen dürfen den Lauf nicht anhalten. */
+  const abgelehnt = welt([A, B])
+  abgelehnt.gebietAntwort = Promise.reject(new Error('chrome.storage.sync.get wirft'))
+  abgelehnt.lauf.starten()
+  abgelehnt.zustand = dialog
+  abgelehnt.uhr += 5000
+  abgelehnt.lauf.takt()
+  await tick()
+  pruefe('Meldung wirft: A wird übersprungen, der Lauf geht zu B', abgelehnt.geoeffnet.at(-1) === B.url && abgelehnt.dauerMap.size === 1, abgelehnt.geoeffnet)
+  abgelehnt.lauf.beenden()
+  pruefe('… mit Grund „Meldung kam nicht an", nicht als gemeldet gezählt', abgelehnt.ende.gebiet.length === 0 && abgelehnt.ende.uebersprungen[0]?.grund === 'nicht in deinem Gebiet verfügbar (Meldung kam nicht an)', abgelehnt.ende)
+
+  const stumm = welt([A, B])
+  stumm.gebietAntwort = new Promise(() => {})
+  stumm.lauf.starten()
+  stumm.zustand = { startseite: false, kennung: null, eintragUrl: null, gebiet: true }
+  stumm.uhr += 5000
+  stumm.lauf.takt()
+  await tick()
+  pruefe('Antwort bleibt aus: der Lauf wartet zunächst', stumm.geoeffnet.length === 1, stumm.geoeffnet)
+  stumm.uhr += 3 * 60 * 1000
+  stumm.lauf.takt()
+  await tick()
+  pruefe('… nach drei Minuten geht der Lauf weiter, A steht unter „übersprungen"', stumm.geoeffnet.at(-1) === B.url && stumm.lauf.laeuft(), stumm.geoeffnet)
+  stumm.lauf.beenden()
+  pruefe('… mit Grund „kein Ergebnis nach 3 Minuten", nicht als gemeldet gezählt', stumm.ende.uebersprungen[0]?.grund === 'kein Ergebnis nach 3 Minuten' && stumm.ende.gebiet.length === 0, stumm.ende)
+}
+
+const tick = () => new Promise((fertig) => setImmediate(fertig))
+
+async function haupt() {
   verdrahtung()
   startseite()
-  gebiet()
+  await gebiet()
   zurueckgestellt()
-  alteSeite()
+  await alteSeite()
+  await gebietMeldung()
+  await gebietRaender()
   frist()
   if (fehler.length) {
     console.error(`\n${fehler.length} Zusicherung(en) verletzt.`)
