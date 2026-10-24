@@ -16,6 +16,12 @@ export function nimmWeg(menge: IdMenge, id: number): void {
   menge.write(neu)
 }
 
+/** Titel in eine Menge legen und die Galerie nachrücken lassen. */
+function markiere(menge: IdMenge, id: number, entferne: (id: number) => void): void {
+  fuegeHinzu(menge, id)
+  entferne(id)
+}
+
 export interface VorschlagAktionen {
   favorit: (id: number) => void
   gesehen: (id: number) => void
@@ -34,13 +40,7 @@ export function baueAktionen(teile: {
   return {
     favorit: teile.favorit,
     oeffne: teile.oeffne,
-    gesehen: (id) => {
-      fuegeHinzu(teile.gesehen, id)
-      teile.entferne(id)
-    },
-    nein: (id) => {
-      fuegeHinzu(teile.verworfen, id)
-      teile.entferne(id)
-    },
+    gesehen: (id) => markiere(teile.gesehen, id, teile.entferne),
+    nein: (id) => markiere(teile.verworfen, id, teile.entferne),
   }
 }
