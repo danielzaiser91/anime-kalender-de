@@ -38,6 +38,7 @@ pruefe('29 Tage alt, alles bekannt', !grundFaellig(bestand('2026-09-25', echt), 
 pruefe('30 Tage alt', grundFaellig(bestand('2026-09-24', echt), heute, 30))
 pruefe('englischer Titel fehlt im Eintrag', grundFaellig(bestand('2026-10-23', folge(1, 'x', null, { en: undefined })), heute, 30))
 pruefe('Frist ist Parameter', grundFaellig(bestand('2026-10-20', echt), heute, 4) && !grundFaellig(bestand('2026-10-21', echt), heute, 4))
+pruefe('Staffel 0 ohne englischen Titel macht nicht fällig', !grundFaellig(bestand('2026-10-23', folge(1, 'x', null, { s: 0, en: undefined })), heute, 30))
 
 console.log('\nTMDB-Folgen: Reihenfolge und Limit')
 const k = (id: string): { id: string } => ({ id })
@@ -52,6 +53,7 @@ const eingabe = [k('alt1'), k('alt2'), k('ruhig'), k('neu'), k('leer')]
 pruefe('frisch zuerst, dann Rest, ruhige fehlen', ids(waehleFaellige(eingabe, b, heute, 30, 10)) === 'neu,alt1,alt2,leer', ids(waehleFaellige(eingabe, b, heute, 30, 10)))
 pruefe('Limit 1 behält den frischen', ids(waehleFaellige(eingabe, b, heute, 30, 1)) === 'neu')
 pruefe('Limit 2', ids(waehleFaellige(eingabe, b, heute, 30, 2)) === 'neu,alt1')
+pruefe('Grundfrist des Aufrufs gilt auch in der Auswahl', ids(waehleFaellige([k('alt1'), k('ruhig')], b, heute, 60, 5)) === '')
 pruefe('frischer Titel mit Alter über Grundfrist erscheint einmal', ids(waehleFaellige([k('x')], { x: bestand('2026-09-01', folge(2, 'Folge 2', '2026-10-15')) }, heute, 30, 5)) === 'x')
 
 if (verletzt > 0) {
