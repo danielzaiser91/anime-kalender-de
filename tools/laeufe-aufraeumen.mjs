@@ -24,6 +24,7 @@
  */
 import { execFileSync } from 'node:child_process'
 import { erledigtArgumente, findeRotenLauf, holeLaeufe, holeVerlauf, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
+import { bestandRotText } from './bestand-rot-alarm.mjs'
 import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
 
 const WORKER = 'https://newsletter.animekalender.workers.dev/lauf'
@@ -100,6 +101,8 @@ async function main() {
   if (erledigt.fehler) return fehlerAbbruch(erledigt.fehler)
   meldeRoteSammlerPrs()
   await stillstandMelden()
+  const bestandRot = bestandRotText(gh, REPO, Date.now())
+  if (bestandRot.startsWith('ALARM')) console.log(bestandRot)
   const { liste, verlauf, meldung } = await holeLaeufe(fetch, WORKER)
   if (meldung) {
     console.error(meldung)
