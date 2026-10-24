@@ -141,14 +141,14 @@ function oeffneTitelzeilen(db: DatabaseSync, fenster: Fenster, adressen: Set<str
   return zaehler
 }
 
-/** `fetch` des Zuordners: Seiten aus der Kopie wie `GET /pruefung?rohfolgen=1`; alles andere (auch ein POST) wirft. */
+/** `fetch` des Zuordners: Seiten aus der Kopie wie `GET /pruefung?rohfolgen=1` mit Bearer-Kopf; alles andere (auch ein POST) wirft. */
 export function workerAusKopie(db: DatabaseSync, token: string) {
   const env = { LAUF_TOKEN: token, DB: d1(db, { geschrieben: 0 }) } as never
   const stand = { seiten: 0, geholt: 0 }
   const fetch = async (adresse: string | URL, optionen?: RequestInit) => {
     const url = new URL(String(adresse))
     if (url.pathname !== '/pruefung' || optionen?.method) throw new Error(`Rettung: unerwarteter Aufruf ${url.pathname}`)
-    if (url.searchParams.get('rohfolgen') !== '1' || url.searchParams.get('token') !== token) throw new Error(`Rettung: falsche Anfrage ${url.search}`)
+    if (url.searchParams.get('rohfolgen') !== '1' || new Headers(optionen?.headers).get('authorization') !== `Bearer ${token}`) throw new Error(`Rettung: falsche Anfrage ${url.search}`)
     stand.seiten++
     const { zeilen, weiter } = await offeneRohfolgen(env, Number(url.searchParams.get('nach') ?? 0))
     stand.geholt += zeilen.length

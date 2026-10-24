@@ -151,6 +151,26 @@ const namen = (zeilen: string): string[] => unbedingteAufrufe(rumpf(zeilen), 'f'
   pruefe('Nein-Adresse beim mittleren von drei Wegen: einmal gezählt', g.zaehlung.get('primevideo')?.widerspruch === 1, [...g.zaehlung])
 }
 
+// jw-seite-messung.ts: Netflix-Meldungen tragen eine Staffelmarke (`#s1`, `#0`); sie gilt der Seite ohne Marke
+{
+  const seite = 'https://www.netflix.com/title/70302573'
+  const s = weg('netflix', seite)
+  const meldung = (marke: string, id: number, sprache: string): [string, MeldungRoh] => [`${seite}${marke}`, { titleId: id, plattform: 'netflix', folgen: [{ sprachen: [sprache] }] }]
+  const m = messungAusBelegen([], {}, Object.fromEntries([meldung('', 21, 'Japanisch'), meldung('#s1', 22, 'Deutsch'), meldung('#0', 23, 'Japanisch'), meldung('#s12', 24, 'Deutsch')]))
+  pruefe('Netflix: Meldung ohne Marke trifft', m(titel(21, []), s)?.urteil === 'nein', m(titel(21, []), s))
+  pruefe('Netflix: Meldung mit #s1 trifft die Seite', m(titel(22, []), s)?.urteil === 'ja', m(titel(22, []), s))
+  pruefe('Netflix: Meldung mit #0 trifft die Seite', m(titel(23, []), s)?.urteil === 'nein', m(titel(23, []), s))
+  pruefe('Netflix: Meldung mit #s12 trifft die Seite', m(titel(24, []), s)?.urteil === 'ja', m(titel(24, []), s))
+  const andere = messungAusBelegen([], {}, { 'https://www.netflix.com/title/999#s1': { titleId: 25, plattform: 'netflix', folgen: [{ sprachen: ['Deutsch'] }] } })
+  pruefe('Netflix: Meldung einer anderen Seite mit Marke trifft nicht', andere(titel(25, []), s) === undefined, andere(titel(25, []), s))
+  const prime = weg('primevideo', 'https://www.amazon.de/dp/B0D188KVH4')
+  const pm = messungAusBelegen([], {}, { 'https://www.amazon.de/dp/B0D188KVH4#4': { titleId: 26, plattform: 'primevideo', folgen: [{ sprachen: ['Deutsch'] }] } })
+  const detail = 'https://www.amazon.de/gp/video/detail/B0FW2J99HL'
+  const dm = messungAusBelegen([], {}, { [`${detail}#3`]: { titleId: 27, plattform: 'primevideo', folgen: [{ sprachen: ['Deutsch'] }] } })
+  pruefe('Prime: Teilmarke #3 an einer Detailseite gilt der Teilseite, nicht der Seite (unverändert)', dm(titel(27, []), weg('primevideo', detail)) === undefined, dm(titel(27, []), weg('primevideo', detail)))
+  pruefe('Prime: Teilmarke #4 an einer dp-Seite bleibt unverändert (gilt der Teilseite, kein Treffer)', pm(titel(26, []), prime) === undefined, pm(titel(26, []), prime))
+}
+
 if (fehler) {
   console.error(`${fehler} Fehler`)
   process.exit(1)

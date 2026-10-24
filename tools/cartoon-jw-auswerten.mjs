@@ -108,7 +108,7 @@ export async function holeMeldungen(worker, token, fetchFn = fetch) {
   const alle = []
   let nach = 0
   for (;;) {
-    const r = await fetchFn(`${worker}/pruefung?alle=1&nach=${nach}&token=${encodeURIComponent(token)}`)
+    const r = await fetchFn(`${worker}/pruefung?alle=1&nach=${nach}`, { headers: { Authorization: `Bearer ${token}` } })
     if (!r.ok) throw new Error(`Worker antwortet ${r.status}`)
     const j = await r.json()
     alle.push(...(j.pruefungen ?? []))

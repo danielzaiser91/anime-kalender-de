@@ -1,0 +1,39 @@
+{
+  "_hinweis": "Nachgebaut nach Daniels Screenshots von netflix.com, 16.10.2026 (kein Abruf). menue = textContent der Einträge von [data-uia=dropdown-menu]; kopf = Text des Auswahlfelds; alter = Kästchen mit der Altersfreigabe neben der Überschrift. Folgenzahlen von Unicorn Academy Kapitel 2 und Kuroko nachempfunden.",
+  "dangers": {
+    "reihe": "81788312",
+    "menue": ["Staffel 1 (12 Folgen)", "Staffel 2 (13 Folgen)", "Alle Folgen anzeigen"],
+    "kopf": "Staffel 2",
+    "alter": "16"
+  },
+  "vinland": {
+    "reihe": "81249833",
+    "menue": ["Staffel 1 (24 Folgen)", "Staffel 2 (24 Folgen)", "Alle Folgen anzeigen"],
+    "kopf": "Staffel 2",
+    "alter": "16"
+  },
+  "unicorn": {
+    "reihe": "81238112",
+    "menue": ["Kapitel 1 (8 Folgen)", "Kapitel 2 (12 Folgen)", "Alle Folgen anzeigen"],
+    "kopf": "Kapitel 2",
+    "alter": "6"
+  },
+  "vier": {
+    "reihe": "80063153",
+    "menue": ["Staffel 1 (25 Folgen)", "Staffel 2 (13 Folgen)", "Staffel 3 (9 Folgen)", "Staffel 4 (7 Folgen)", "Alle Folgen anzeigen"],
+    "kopf": "Staffel 3",
+    "alter": "12"
+  },
+  "varianten": {
+    "menue": ["Teil 2 (12 Folgen)", "Volume 3 (10 Folgen)", "Season 2 (13 Episodes)", "Staffel 1 16 (12 Folgen)", "Golden Wind (39 Folgen)", "Phantom Blood/Battle Tendency(26 Folgen)", "Extras 8 Folgen"]
+  },
+  "ungleich": {
+    "reihe": "80000003",
+    "menue": ["Staffel 1 (24 Folgen)", "Staffel 2 (24 Folgen)", "Staffel 3 (10 Folgen)", "Alle Folgen anzeigen"]
+  },
+  "einstaffel": {
+    "reihe": "82719204",
+    "menue": [],
+    "kopf": null
+  }
+}
