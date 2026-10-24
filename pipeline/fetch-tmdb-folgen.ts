@@ -99,7 +99,6 @@ async function main(): Promise<void> {
     Titel mit Lücke im deutschen Folgenbereich ohne Eintrag holt `waehleAbrufe` zusätzlich, auch ohne Anbieter.
   */
   const alle = titles
-    .filter((t) => (t.episodes ?? 0) > 1)
     .map((t) => ({ t, id: String(t.id), tmdb: tmdbTitles[String(t.id)] }))
     .filter((x) => x.tmdb?.tmdbId && x.tmdb.kind !== 'movie')
 

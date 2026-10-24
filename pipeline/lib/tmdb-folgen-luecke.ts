@@ -43,7 +43,7 @@ export function waehleLuecke<T extends { id: string }>(
 
 export interface AbrufKandidat {
   id: string
-  t: { streams?: unknown[] }
+  t: { streams?: unknown[]; episodes?: number | null }
 }
 
 export interface AbrufWahl<T extends AbrufKandidat> {
@@ -60,8 +60,11 @@ export interface AbrufWahl<T extends AbrufKandidat> {
 
 /** Lückentitel zuerst (höchstens `LUECKE_LIMIT`, bei `nurLuecke` bis `limit`), danach die regulär Fälligen von Titeln mit Anbieter; insgesamt höchstens `limit`. */
 export function waehleAbrufe<T extends AbrufKandidat>(w: AbrufWahl<T>): T[] {
-  const luecke = waehleLuecke(w.alle, w.bestand, w.luecke, w.nurLuecke ? w.limit : Math.min(LUECKE_LIMIT, w.limit))
+  // Unbekannte Folgenzahl (laufende Langläufer wie Shin-chan) zählt für Lückentitel als Serie, regulär nicht.
+  const serien = w.alle.filter((k) => (k.t.episodes ?? 2) > 1)
+  const grenze = w.nurLuecke ? w.limit : Math.min(LUECKE_LIMIT, w.limit)
+  const luecke = waehleLuecke(serien, w.bestand, w.luecke, grenze)
   if (w.nurLuecke) return luecke
-  const mitAnbieter = w.alle.filter((k) => (k.t.streams ?? []).length > 0 && !luecke.includes(k))
+  const mitAnbieter = w.alle.filter((k) => (k.t.streams ?? []).length > 0 && (k.t.episodes ?? 0) > 1 && !luecke.includes(k))
   return [...luecke, ...waehleFaellige(mitAnbieter, w.bestand, w.heute, w.alterTage, w.limit)].slice(0, w.limit)
 }

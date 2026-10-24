@@ -15,7 +15,7 @@ const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
 const mock = pathToFileURL(join(wurzel, 'tools/tmdb-folgen-mock.mjs')).href
 
-const titel = (id: number, episodes: number, mitAnbieter: boolean) => ({
+const titel = (id: number, episodes: number | undefined, mitAnbieter: boolean) => ({
   id,
   titleDe: `Kulisse ${id}`,
   episodes,
@@ -24,10 +24,10 @@ const titel = (id: number, episodes: number, mitAnbieter: boolean) => ({
 // 900001 und 900009 (2 Folgen) Ziele; 900002 ohne Lücke; 900003 mit Eintrag; 900004 Film; 900005 ohne TMDB-Verweis; 900006 eine Folge;
 // 900007 mit Anbieter, ohne Lücke, nie geholt; 900008 mit Anbieter, ohne Lücke, vor 10 Tagen geholt.
 const katalog = [titel(900001, 12, false), titel(900002, 12, false), titel(900003, 12, false), titel(900004, 12, false),
-  titel(900005, 12, false), titel(900006, 1, false), titel(900007, 12, true), titel(900008, 12, true), titel(900009, 2, false)]
+  titel(900005, 12, false), titel(900006, 1, false), titel(900007, 12, true), titel(900008, 12, true), titel(900009, 2, false), titel(900010, undefined, false), titel(900011, undefined, true)]
 const mitLuecke = { f: [[1, 'Der Anfang'], [2, ''], [3, '']], de: [[1, 2]] }
 const ohneLuecke = { f: [[1, 'Der Anfang'], [2, '']], de: [[1, 1]] }
-const dateien: Record<number, unknown> = { 900001: mitLuecke, 900002: ohneLuecke, 900003: mitLuecke, 900004: mitLuecke, 900005: mitLuecke, 900006: mitLuecke, 900007: ohneLuecke, 900008: ohneLuecke, 900009: mitLuecke }
+const dateien: Record<number, unknown> = { 900001: mitLuecke, 900002: ohneLuecke, 900003: mitLuecke, 900004: mitLuecke, 900005: mitLuecke, 900006: mitLuecke, 900007: ohneLuecke, 900008: ohneLuecke, 900009: mitLuecke, 900010: mitLuecke, 900011: ohneLuecke }
 const tmdbTitles = Object.fromEntries(katalog.filter((t) => t.id !== 900005).map((t) => [String(t.id), { tmdbId: t.id - 899000, kind: t.id === 900004 ? 'movie' : 'tv' }]))
 const bestand = { 900003: { tmdbId: 1003, geholtAm: '2026-10-20', staffeln: 1, folgen: [{ s: 1, e: 1, titel: 'Der Anfang', en: 'Ep 1', datum: '2026-08-20', minuten: 24 }] }, 900008: { tmdbId: 1008, geholtAm: '2026-10-14', staffeln: 1, folgen: [] } }
 
@@ -57,10 +57,10 @@ function lauf(argumente: string[]): { abrufe: string; status: number | null; feh
 
 const fehler: string[] = []
 const faelle: [string, string[], string][] = [
-  ['--nur-luecke --limit 20', ['--nur-luecke', '--limit', '20'], '1001,1009'],
-  ['regulär --limit 5', ['--limit', '5'], '1001,1009,1007'],
+  ['--nur-luecke --limit 20', ['--nur-luecke', '--limit', '20'], '1001,1009,1010'],
+  ['regulär --limit 5', ['--limit', '5'], '1001,1009,1010,1007'],
   ['regulär --limit 1 (Riegel)', ['--limit', '1'], '1001'],
-  ['--alter 5 holt den 10 Tage alten Eintrag', ['--limit', '5', '--alter', '5'], '1001,1009,1007,1008'],
+  ['--alter 5 holt den 10 Tage alten Eintrag', ['--limit', '5', '--alter', '5'], '1001,1009,1010,1007,1008'],
 ]
 for (const [name, argumente, erwartet] of faelle) {
   const e = lauf(argumente)

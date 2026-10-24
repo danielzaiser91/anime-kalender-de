@@ -28,7 +28,8 @@ pruefe('echter Titel mit „Folge" im Text zählt nicht', dubLuecke(datei([[1, '
 pruefe('Titel nur aus Leerzeichen', dubLuecke(datei([[1, '  ']], [[1, 1]])) === 1)
 
 console.log('\nTMDB-Lücke: Auswahl')
-const k = (id: string): { id: string; t: { streams?: unknown[] } } => ({ id, t: { streams: id.startsWith('s') ? [{}] : [] } })
+const ke = (id: string, episodes: number | null): { id: string; t: { streams?: unknown[]; episodes?: number | null } } => ({ id, t: { streams: id.startsWith('s') ? [{}] : [], episodes } })
+const k = (id: string): ReturnType<typeof ke> => ke(id, 12)
 const ids = (l: { id: string }[]): string => l.map((x) => x.id).join(',')
 const luecken: Record<string, number> = { a: 1, b: 5, c: 0, d: 5, e: 2, sf: 3 }
 const l = (id: string): number => luecken[id] ?? 0
@@ -58,6 +59,13 @@ pruefe('Probelauf folgt dem eigenen Limit statt 128', alle(true, 129) === 129 &&
 pruefe('Probelauf Limit 400 bei 130 Titeln', alle(true, 400) === 130)
 pruefe('Probelauf nur Lücke',w(true, 10) === 'b,sf,a', w(true, 10))
 pruefe('Grundfrist des Aufrufs gilt: 60 Tage lassen den 53 Tage alten Eintrag draußen', w(false, 10, {}, 60) === 'b,sf,a,sy', w(false, 10, {}, 60))
+const folgen = (alle: ReturnType<typeof k>[], nurLuecke: boolean): string => ids(waehleAbrufe({ alle, bestand: {}, heute: '2026-10-24', alterTage: 30, limit: 10, nurLuecke, luecke: l }))
+pruefe('Unbekannte Folgenzahl: Lückentitel zählt', folgen([ke('a', null)], true) === 'a')
+pruefe('Eine Folge: kein Lückentitel', folgen([ke('a', 1)], true) === '')
+pruefe('Zwei Folgen: Lückentitel', folgen([ke('a', 2)], true) === 'a')
+pruefe('Unbekannte Folgenzahl: regulär nicht fällig', folgen([ke('sy', null)], false) === '')
+pruefe('Zwei Folgen: regulär fällig', folgen([ke('sy', 2)], false) === 'sy')
+pruefe('Eine Folge: regulär nicht fällig', folgen([ke('sy', 1)], false) === '')
 pruefe('Probelauf: Limit 1', w(true, 1) === 'b')
 pruefe('Probelauf: Titel mit Eintrag fehlt', w(true, 10, { b: alt }) === 'sf,a')
 
