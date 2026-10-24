@@ -8,7 +8,7 @@ import type { MotnDaten } from './lib/motn.ts'
 import type { Release, Title } from '../shared/types.ts'
 import { ergaenzeAngebotSeit } from './bau/13-3-angebot-seit.ts'
 import { STICHTAG_AB } from './bau/angebot-stichtag.ts'
-import type { MotnChanges } from './bau/angebot-feed.ts'
+import { tonspuren, type MotnChanges } from './bau/angebot-feed.ts'
 
 let verletzt = 0
 let faelle = 0
@@ -32,8 +32,8 @@ function titelMit(id: number, dienste: Show['dienste'], plattform = 'primevideo'
   tmdbZuTitel[String(id)] = { tmdbId: String(id), kind: 'tv' }
   titel.set(id, { id, titleEn: `T${id}`, format: 'TV', episodes: 12, streams: [{ platform: plattform, url: `https://x.example/${id}`, dub: true }] } as unknown as Title)
 }
-const meldung = (art: 'new' | 'removed', id: number, am: string, deutsch = true, dienst = 'prime') => {
-  gesehen[`${art}:${id}:${dienst}`] = { art, imdbId: `tt${id}`, dienst, am, deutsch }
+const meldung = (art: 'new' | 'removed', id: number, am: string, deutschBeiDienst = true, dienst = 'prime') => {
+  gesehen[`${art}:${id}:${dienst}`] = { art, imdbId: `tt${id}`, dienst, am, deutsch: true, deutschBeiDienst }
 }
 
 titelMit(1, {}) // Montag-Fall: motn.json kennt die Serie, aber noch keinen Prime-Stand
@@ -42,7 +42,7 @@ titelMit(2, {})
 meldung('new', 2, '2026-10-19')
 meldung('removed', 2, '2026-10-20') // später wieder entfernt
 titelMit(3, {})
-meldung('new', 3, '2026-10-19', false) // ohne deutsche Tonspur
+meldung('new', 3, '2026-10-19', false) // ohne deutsche Tonspur bei diesem Dienst, obwohl ein anderer Dienst deutschen Ton führt (deutsch: true)
 titelMit(4, { primevideo: { gelistet: [], deutsch: [], seit: '2026-09-01' } })
 meldung('new', 4, '2026-10-19') // jünger als belegtes seit
 titelMit(5, {})
@@ -50,7 +50,7 @@ meldung('removed', 5, '2026-10-19') // nur removed
 titelMit(6, {})
 meldung('removed', 6, '2026-08-01')
 meldung('new', 6, '2026-10-19') // zurück nach Entfernung
-gesehen['new:99:prime'] = { art: 'new', imdbId: 'tt99', dienst: 'prime', am: '2026-10-19', deutsch: true } // nicht in motn.json
+gesehen['new:99:prime'] = { art: 'new', imdbId: 'tt99', dienst: 'prime', am: '2026-10-19', deutsch: true, deutschBeiDienst: true } // nicht in motn.json
 titelMit(7, {}, 'netflix')
 meldung('new', 7, '2026-10-19', true, 'netflix')
 titelMit(8, {})
@@ -72,6 +72,8 @@ titelMit(12, {}) // Eintrag ohne Feld imdbId: Schlüssel zählt
 delete (archiv.tt12 as Partial<Show>).imdbId
 meldung('new', 12, '2026-10-14')
 
+titelMit(14, {}) // Meldung aus dem Altbestand ohne Feld deutschBeiDienst: nichts
+gesehen['new:14:prime'] = { art: 'new', imdbId: 'tt14', dienst: 'prime', am: '2026-10-19', deutsch: true }
 titelMit(13, {}, 'primevideo') // Welle schon im Monatsstand: STICHTAG_AB fremde Shows am selben Tag
 for (let i = 0; i < STICHTAG_AB; i++) archiv[`fremd-${i}`] = { imdbId: `ttf${i}`, dienste: { primevideo: { gelistet: [], deutsch: [], seit: '2026-10-13' } } }
 meldung('new', 13, '2026-10-13')
@@ -87,10 +89,11 @@ ergaenzeAngebotSeit({
 const seit = (id: number) => titel.get(id)!.angebotSeit
 
 console.log('\nIm Angebot seit aus dem Tagesfeed:')
-pruefe('new + deutsch: Termin am Meldetag (Prime, 19.10.)', seit(1)?.date === '2026-10-19' && seit(1)?.platform === 'primevideo' && releases.some((r) => r.slug === 'motn-1-primevideo' && r.schedule.firstEpisodeDate === '2026-10-19'), seit(1))
+pruefe('new + deutsch beim Dienst: Termin am Meldetag (Prime, 19.10.)', seit(1)?.date === '2026-10-19' && seit(1)?.platform === 'primevideo' && releases.some((r) => r.slug === 'motn-1-primevideo' && r.schedule.firstEpisodeDate === '2026-10-19'), seit(1))
 pruefe('Ausgeliefertes Slim trägt es ebenfalls', (slim.find((t) => t.id === 1) as Title).angebotSeit?.date === '2026-10-19')
 pruefe('spätere removed-Meldung: nichts', !seit(2), seit(2))
-pruefe('new ohne deutsche Tonspur: nichts', !seit(3), seit(3))
+pruefe('Deutsch nur bei einem anderen Dienst (deutsch: true, deutschBeiDienst: false): nichts', !seit(3), seit(3))
+pruefe('Altmeldung ohne deutschBeiDienst: nichts', !seit(14), seit(14))
 pruefe('belegtes seit aus motn.json bleibt', seit(4)?.date === '2026-09-01', seit(4))
 pruefe('nur removed: nichts', !seit(5), seit(5))
 pruefe('removed älter als new: new gilt', seit(6)?.date === '2026-10-19', seit(6))
@@ -102,6 +105,17 @@ pruefe('Welle im Monatsstand sperrt die Feed-Meldung', !seit(13) && !releases.so
 pruefe('removed am selben Tag wie new: nichts', !seit(10), seit(10))
 pruefe('removed eines anderen Dienstes sperrt nicht', seit(11)?.date === '2026-10-15', seit(11))
 pruefe('Serie ohne imdbId-Feld wird über den Schlüssel gefunden', seit(12)?.date === '2026-10-14', seit(12))
+
+const optionen = [
+  { service: { id: 'netflix' }, audios: [{ language: 'jpn' }, { language: 'deu' }] },
+  { service: { id: 'prime' }, audios: [{ language: 'jpn' }] },
+  { service: { id: 'disney' } },
+]
+pruefe('Erzeuger: deutscher Ton nur bei Netflix zählt für Netflix', tonspuren(optionen, 'netflix').deutschBeiDienst)
+pruefe('Erzeuger: derselbe Ton zählt nicht für Prime (Optionen ohne deu)', !tonspuren(optionen, 'prime').deutschBeiDienst)
+pruefe('Erzeuger: Dienst ohne audios und ohne Eintrag: nein', !tonspuren(optionen, 'disney').deutschBeiDienst && !tonspuren(optionen, 'crunchyroll').deutschBeiDienst)
+pruefe('Erzeuger: ohne Dienstkennung nie wahr', !tonspuren([{ audios: [{ language: 'deu' }] }], undefined).deutschBeiDienst)
+pruefe('Erzeuger: deutsch zählt jeden Dienst, leere Optionen nicht', tonspuren(optionen, 'prime').deutsch && !tonspuren([{ service: { id: 'prime' } }], 'prime').deutsch)
 
 if (verletzt) {
   console.error(`\n${verletzt} von ${faelle} Zusicherung(en) verletzt.`)

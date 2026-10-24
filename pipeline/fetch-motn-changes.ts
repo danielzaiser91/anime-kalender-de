@@ -42,6 +42,7 @@ import { gzipSync } from 'node:zlib'
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { ROOT, loadEnv, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { tonspuren } from './bau/angebot-feed.ts'
 
 loadEnv()
 
@@ -124,6 +125,8 @@ interface Bestand {
       dienst?: string
       am?: string
       deutsch?: boolean
+      /** Deutscher Ton bei genau diesem Dienst (`deutsch` zählt jeden Dienst in DE). */
+      deutschBeiDienst?: boolean
     }
   >
 }
@@ -251,13 +254,13 @@ async function main(): Promise<void> {
         const show = antwort.shows?.[c.showId]
         if (!show) continue
         const optionen = show.streamingOptions?.de ?? []
-        const deutsch = optionen.some((o) => (o.audios ?? []).some((a) => a.language === 'deu'))
+        const ton = tonspuren(optionen, c.service?.id)
         const schluessel = `${art}:${c.showId}:${c.service?.id ?? '?'}`
         if (!bestand.gesehen[schluessel]) {
           neue++
           if (art === 'removed') verschwunden++
         }
-        if (deutsch && art === 'new') mitDeutsch++
+        if (ton.deutsch && art === 'new') mitDeutsch++
         bestand.gesehen[schluessel] = {
           art,
           titel: show.title,
@@ -266,7 +269,7 @@ async function main(): Promise<void> {
           tmdbId: show.tmdbId,
           dienst: c.service?.id,
           am: c.timestamp ? new Date(c.timestamp * 1000).toISOString().slice(0, 10) : undefined,
-          deutsch,
+          ...ton,
         }
       }
 
