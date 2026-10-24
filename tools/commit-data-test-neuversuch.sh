@@ -41,3 +41,15 @@ pruefe "Bestand rot: Bau zweimal" 2 "$(aufrufe nv-bestand data:build)"
 pruefe "Bestand rot: check:bestand zweimal" 2 "$(aufrufe nv-bestand check:bestand)"
 ERSTEN_ABLEHNEN=ja VERSUCHE_N=2 PAUSE_DATEI=data/abruf-stempel.json szenario nv-logik FAKE_LOGIK=fail
 pruefe "Logik rot: check:logic zweimal" 2 "$(aufrufe nv-logik check:logic)"
+
+echo "Drei Versuche (Prüfer R1 A3): ein roter Versuch 2 darf nicht von einer Bot-Bewegung in Pause 2 überbrückt werden"
+ZWEI_ABLEHNEN=ja VERSUCHE_N=3 PAUSE_DATEI="public/data/fremd.json data/abruf-stempel.json" szenario nv3-bestand FAKE_BESTAND=fail-nur-2
+pruefe "3 Versuche, Bestand in Versuch 2 rot: Versuch 3 gepusht, Exit 0" "ja 0" "$(grep -q '^Gepusht (Versuch 3)' "$ARBEIT/nv3-bestand/log.txt" && echo ja || echo nein) $CODE"
+pruefe "3 Versuche, Bestand rot: Bau dreimal" 3 "$(aufrufe nv3-bestand data:build)"
+pruefe "3 Versuche, Bestand rot: check:bestand dreimal" 3 "$(aufrufe nv3-bestand check:bestand)"
+pruefe "3 Versuche, Bestand rot: check:logic in Versuch 1 und 3" 2 "$(aufrufe nv3-bestand check:logic)"
+ZWEI_ABLEHNEN=ja VERSUCHE_N=3 PAUSE_DATEI="public/data/fremd.json data/abruf-stempel.json" szenario nv3-bau FAKE_BAU=fail-nur-2
+pruefe "3 Versuche, Bau in Versuch 2 kaputt: Bau dreimal" 3 "$(aufrufe nv3-bau data:build)"
+pruefe "3 Versuche, Bau kaputt: check:bestand zweimal (Versuch 1 und 3)" 2 "$(aufrufe nv3-bau check:bestand)"
+ZWEI_ABLEHNEN=ja VERSUCHE_N=3 PAUSE_DATEI="fremd.txt data/abruf-stempel.json" bau_szenario nv3-quarantaene FAKE_ROT= FAKE_ROT_NACH_PAUSE=22
+pruefe "3 Versuche, Quarantäne in Versuch 2: Versuch 3 baut voll (Bau, Quarantäne-Neubau, Bau, Quarantäne-Neubau)" 5 "$(aufrufe nv3-quarantaene data:build)"

@@ -103,7 +103,6 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   case "$NEUVERSUCH_ART" in
     nichts) NEUVERSUCH_SCHNELL=1 ;;
     daten) LOGIK_UEBERSPRINGEN=1 ;;
-    *) LOGIK_BASIS="" ;;
   esac
 
   if [ "$(git rev-parse HEAD)" != "$FERN" ] && [ "$NEUVERSUCH_SCHNELL" = 1 ]; then

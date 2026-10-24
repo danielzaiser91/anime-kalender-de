@@ -14,11 +14,11 @@ neuversuch_klassifizieren() {
   case "$NEUVERSUCH_ART" in nichts | daten | code) ;; *) NEUVERSUCH_ART=code ;; esac
 }
 
-# War der eben abgelehnte Versuch vollständig grün? (Aufrufer: Flags dieses Versuchs.)
+# War der eben abgelehnte Versuch vollständig grün? (Aufrufer: Flags dieses Versuchs.) AUFBAU_KAPUTT und die Bau-Art brauchen keinen eigenen Term: Ohne gelaufene Prüfung (NUR_QUELLEN, Aufbau gescheitert) bleibt LOGIK_BASIS leer.
 neuversuch_gruen() {
-  [ "${AUFBAU_KAPUTT:-0}" = 0 ] && [ "${AUFBAU_GESCHEITERT:-0}" = 0 ] && [ "${BESTAND_KAPUTT:-0}" = 0 ] &&
+  [ "${AUFBAU_GESCHEITERT:-0}" = 0 ] && [ "${BESTAND_KAPUTT:-0}" = 0 ] &&
     [ "${LISTEN_GESCHEITERT:-0}" = 0 ] && [ "${QUARANTAENE_AKTIV:-0}" = 0 ] && [ -n "${LOGIK_BASIS:-}" ] &&
-    [ "${BAU_BASIS:-}" != "" ] && [ "${NEU_GEBAUT:-0}${BAU_LAUF:-0}" != 00 ]
+    [ -n "${BAU_BASIS:-}" ]
 }
 
 # Aufsetzen auf dem Fernstand und die gebauten Erzeugnisse behalten: gilt nur, wenn der Fernstand sie nicht berührt hat (Art `nichts`).
