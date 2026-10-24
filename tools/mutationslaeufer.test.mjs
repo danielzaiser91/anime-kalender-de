@@ -6,7 +6,7 @@ import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSy
 import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
-import { normalisierePfad, planeMutant } from "./mutationslaeufer.mjs"
+import { beiSignal, normalisierePfad, planeMutant, registriereSignale, SIGNALE } from "./mutationslaeufer.mjs"
 
 const hier = dirname(fileURLToPath(import.meta.url))
 const laeufer = process.argv[2] ?? join(hier, "mutationslaeufer.mjs")
@@ -166,6 +166,26 @@ assert.match(leer.aus, /datei\/suche\/ersetze fehlen/)
 const nullZeit = lauf([mut[9]], ["--timeout", "0"])
 assert.equal(nullZeit.exit, 2)
 assert.match(nullZeit.aus, /^Aufruf:/m)
+
+// 9b. Signal-Handler mit Attrappen (läuft auch unter win32): Reihenfolge, Exit 130, feste Signalliste.
+const spur = []
+const abh = {
+  kinder: new Set([{ pid: 1 }, { pid: 2 }]),
+  beendeBaum: (k) => spur.push(`baum${k.pid}`),
+  zuruecksetzen: () => spur.push("zurueck"),
+  exit: (code) => spur.push(`exit${code}`),
+}
+beiSignal(abh)
+assert.deepEqual(spur, ["baum1", "baum2", "zurueck", "exit130"])
+const angemeldet = new Map()
+registriereSignale({ on: (sig, fn) => angemeldet.set(sig, fn) }, abh)
+assert.deepEqual([...angemeldet.keys()], ["SIGINT", "SIGTERM", "SIGBREAK", "SIGHUP"])
+assert.deepEqual(SIGNALE, ["SIGINT", "SIGTERM", "SIGBREAK", "SIGHUP"])
+for (const fn of angemeldet.values()) {
+  spur.length = 0
+  fn()
+  assert.deepEqual(spur, ["baum1", "baum2", "zurueck", "exit130"])
+}
 
 // 10. SIGTERM mitten im Mutanten: Exit 130, Dateien bytegleich, keine Sicherungskopie, der Testprozess ist beendet.
 // Unter win32 gibt es kein abfangbares SIGTERM (Kind wird hart beendet), dort übersprungen.
