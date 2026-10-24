@@ -52,7 +52,7 @@ async function seite(vermerke, stand) {
     fetch: async (adresse) => {
       abrufe.push(String(adresse))
       if (String(adresse).includes('stand=1')) return { ok: stand !== null, json: async () => ({ pruefstandAm: stand }) }
-      return { ok: true, json: async () => ({ gemeldet: [], adressen: [], eintraege: [] }) }
+      return { ok: true, json: async () => ({ gemeldet: ['https://x/gemeldet'], adressen: [], eintraege: [] }) }
     },
   })
   k.globalThis = k
@@ -73,6 +73,7 @@ async function lauf() {
   pruefe('vor dem Abruf: ohne Prüfstandzeit gelten die Nachmittags-Vermerke (alter Stand, nur zum Vergleich)', s1.offen().length === 0, s1.offen())
   await vm.runInContext('briefkastenHolen()', s1.k)
   pruefe('nach dem Abruf: Vermerke vor dem Prüfstand gelten nicht mehr, beide Titel offen', JSON.stringify(s1.offen().sort()) === JSON.stringify([URL_OPM, URL_FIRE].sort()), s1.offen())
+  pruefe('die Antwort des Workers (gemeldet) wird weiter gelesen', vm.runInContext("gemeldeteAdressen.has('https://x/gemeldet')", s1.k), s1.abrufe)
   pruefe('der Abruf holt den Prüfstand selbst (einmal)', s1.abrufe.filter((a) => a.includes('stand=1')).length === 1, s1.abrufe)
 
   const nachm = { [URL_FIRE]: '2026-10-24T17:00:00.000Z', [URL_OPM]: '2026-10-24T15:30:14.000Z' }
