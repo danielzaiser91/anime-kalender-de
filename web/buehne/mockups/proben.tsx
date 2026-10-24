@@ -22,6 +22,6 @@ mockup({
   varianten: { A: { ersatz: {}, notiz: 'Probe ohne Änderung: der Fall „ohne Beleg“ zeigt den Kopf ohne Marke.' } },
 })
 
-probe('filter','Filterfenster und Chips')
+probe('filter', 'Filterfenster und Chips')
 probe('kachel', 'Kachelraster der Datenbank')
 probe('ganz', 'Ganze App')
