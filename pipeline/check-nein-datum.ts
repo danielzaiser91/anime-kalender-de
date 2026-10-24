@@ -9,7 +9,14 @@
  */
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { createRequire } from 'node:module'
+import { dirname, join } from 'node:path'
+import { spawnSync } from 'node:child_process'
+import { fileURLToPath, pathToFileURL } from 'node:url'
+
+const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
+const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
+const mock = pathToFileURL(join(wurzel, 'tools/nein-datum-mock.mjs')).href
 
 const kulisse = mkdtempSync(join(tmpdir(), 'nein-datum-'))
 process.env.AK_ROOT = kulisse
@@ -77,6 +84,9 @@ try {
   pruefe('älteres Ja im Bestand: Nein wird erneuert', erneuereNeinDatum(datei(ja('2026-08-25'), weg("'2026-08-26'")), neu(weg("'2026-10-24'"))).erneuert === 1)
   pruefe('Ja eines anderen Anbieters stört nicht', erneuereNeinDatum(datei(weg("'2026-08-26'"), ja('2026-09-15', 149118, 'netflix')), neu(weg("'2026-10-24'"))).erneuert === 1)
 
+  const ohneUrteil = ['- anilistId: 149118', '  platform: disneyplus', '  url: https://x/neu', "  checkedAt: '2026-09-15'"]
+  pruefe('jüngerer Beleg ohne Urteil (nur Adresse) stört nicht', erneuereNeinDatum(datei(weg("'2026-08-26'"), ohneUrteil), neu(weg("'2026-10-24'"))).erneuert === 1)
+
   /* Zwei Belege derselben Adresse (mit und ohne url): nur der wörtlich gleiche rückt vor. */
   const ohneUrl = weg("'2026-08-26'").filter((z) => !z.startsWith('  url:'))
   const paarAlt = datei(ohneUrl, weg("'2026-08-26'"))
@@ -112,6 +122,26 @@ try {
   writeFileSync(ziel, alt)
   haengeBelegeAn({ datei: ziel, zeilen: neu(weg("'2026-10-24'", { note: 'anderer Grund' })), heute: '2026-10-24', log: () => {}, warn: () => {} })
   pruefe('Läufer: anderes Nein wird wie bisher angehängt, altes Datum bleibt', readFileSync(ziel, 'utf8').includes('2026-08-26') && readFileSync(ziel, 'utf8').includes('anderer Grund'))
+
+  /* Der echte Abruf: fetch-pruefungen.ts als Prozess mit einer Disney+-Meldung „weg“ (Attrappe `tools/nein-datum-mock.mjs`). */
+  const abruf = (bestand: 'leer' | 'nein' | 'ja') => {
+    const { AK_ROOT: _kulisse, DATEN_WARNUNG: _warnung, ...umgebung } = process.env
+    const log = join(kulisse, `abruf-${bestand}.jsonl`)
+    const lauf = spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'pipeline/fetch-pruefungen.ts')], {
+      cwd: wurzel,
+      encoding: 'utf8',
+      env: { ...umgebung, LAUF_TOKEN: 'test', NEIN_DATUM_ALT: bestand, NEIN_DATUM_LOG: log, GITHUB_ENV: join(kulisse, 'github-env.txt') },
+    })
+    const zeilen = readFileSync(log, 'utf8').split('\n').filter(Boolean).map((z) => JSON.parse(z) as { pfad: string; inhalt: string })
+    return { status: lauf.status, fehler: lauf.stderr.slice(-300), belege: zeilen.filter((s) => /dub-confirmed\.yaml$/.test(s.pfad)).map((s) => s.inhalt) }
+  }
+  const leer = abruf('leer')
+  pruefe('Abruf, leerer Bestand: das Nein wird wie bisher angehängt', leer.status === 0 && leer.belege.length === 1 && leer.belege[0]!.includes('Aus dem Browser gemeldet'), leer)
+  const gleich = abruf('nein')
+  pruefe('Abruf, dasselbe Nein vom 26.08.: Messdatum 24.10., kein neuer Block, keine Kopfzeile',
+    gleich.status === 0 && gleich.belege.length === 1 && gleich.belege[0]!.includes("checkedAt: '2026-10-24'") && !gleich.belege[0]!.includes('2026-08-26') && !gleich.belege[0]!.includes('Aus dem Browser'), gleich)
+  const jungesJa = abruf('ja')
+  pruefe('Abruf, jüngeres Ja im Bestand: nichts geschrieben', jungesJa.status === 0 && jungesJa.belege.length === 0, jungesJa)
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }
@@ -119,4 +149,4 @@ if (fehler.length) {
   console.error(`FEHL check-nein-datum:\n  ${fehler.join('\n  ')}`)
   process.exit(1)
 }
-console.log(`check-nein-datum: ${faelle} Fälle ok (Erneuern, Ja-Schutz, kaputte Eingaben, Läufer).`)
+console.log(`check-nein-datum: ${faelle} Fälle ok (Erneuern, Ja-Schutz, kaputte Eingaben, Läufer, Abruf als Prozess).`)
