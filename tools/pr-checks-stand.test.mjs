@@ -154,9 +154,9 @@ const schritte = wf.jobs.pruefen.steps
 const checksSchritt = schritte.find((s) => s.id === 'checks')
 const freigabe = schritte.find((s) => s.name === 'Protokoll und Freigabe')
 pruefe('Freigabe liest CHECKS aus dem Check-Schritt', freigabe?.env?.CHECKS === '${{ steps.checks.outputs.stand }}', freigabe?.env)
-pruefe('Check-Schritt steht nach beiden Prüfern und direkt vor der Freigabe',
+pruefe('Check-Schritt steht nach allen drei Prüfern und direkt vor der Freigabe',
   schritte.indexOf(checksSchritt) === schritte.indexOf(freigabe) - 1
-  && schritte.filter((s, i) => String(s.uses ?? '').startsWith('anthropics/') && i < schritte.indexOf(checksSchritt)).length === 2)
+  && schritte.filter((s, i) => String(s.uses ?? '').startsWith('anthropics/') && i < schritte.indexOf(checksSchritt)).length === 3)
 const API = `const fs = require('node:fs')
 const a = process.argv.slice(2)
 fs.appendFileSync(process.env.ATTRAPPE_LOG, JSON.stringify(a) + '\\n')
