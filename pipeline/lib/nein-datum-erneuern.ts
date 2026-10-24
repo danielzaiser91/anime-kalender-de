@@ -11,12 +11,11 @@
  * auf und darf durch eine Datumsänderung nicht wieder obenauf liegen.
  */
 import yaml from 'js-yaml'
-import { belegSchluessel } from './dub-confirmed.ts'
+import { belegSchluessel, urteilVon } from './dub-confirmed.ts'
 
 type Beleg = Record<string, unknown>
 
 const istNein = (b: Beleg) => b.available === false || b.dub === false
-const hatUrteil = (b: Beleg) => b.dub !== undefined || b.available !== undefined
 const tag = (b: Beleg) => String(b.checkedAt ?? '').slice(0, 10)
 const paar = (b: Beleg) => `${b.anilistId}|${b.platform}`
 
@@ -33,16 +32,29 @@ function lies(zeilen: string[]): Beleg | null {
 }
 
 /** Je Schlüssel das jüngste Datum der neuen Nein-Belege. */
-function neueNein(zeilen: string[]): Map<string, string> {
+function neueNein(stapel: (Beleg | null)[]): Map<string, string> {
   const raus = new Map<string, string>()
-  const von = anfaenge(zeilen)
-  von.forEach((start, n) => {
-    const b = lies(zeilen.slice(start, von[n + 1] ?? zeilen.length))
-    if (!b || !istNein(b)) return
+  for (const b of stapel) {
+    if (!b || !istNein(b)) continue
     const k = belegSchluessel(b)
     if (tag(b) > (raus.get(k) ?? '')) raus.set(k, tag(b))
-  })
+  }
   return raus
+}
+
+/** Die gelesenen Belege eines Zeilenstapels, ein Eintrag je „- “-Block (`null` = unlesbar). */
+function leseBloecke(zeilen: string[]): (Beleg | null)[] {
+  const von = anfaenge(zeilen)
+  return von.map((start, n) => lies(zeilen.slice(start, von[n + 1] ?? zeilen.length)))
+}
+
+/** Das jüngste Ja (`urteilVon`, wie der Bau es rechnet) je Titel und Anbieter, aus Bestand und Stapel. */
+function juengsteJa(belege: (Beleg | null)[]): Map<string, string> {
+  const ja = new Map<string, string>()
+  for (const b of belege) {
+    if (b && urteilVon(b) === 'ja' && tag(b) > (ja.get(paar(b)) ?? '')) ja.set(paar(b), tag(b))
+  }
+  return ja
 }
 
 /** Setzt `checkedAt` im Block auf `datum`; Einrückung bleibt, Anführungszeichen werden einfach. */
@@ -51,17 +63,14 @@ function ersetzeDatum(block: string[], datum: string): string[] {
 }
 
 export function erneuereNeinDatum(alt: string, zeilen: string[]): { text: string; erneuert: number } {
-  const neu = neueNein(zeilen)
+  const stapel = leseBloecke(zeilen)
+  const neu = neueNein(stapel)
   if (!neu.size) return { text: alt, erneuert: 0 }
   const text = alt.split('\n')
   const von = anfaenge(text)
   const bloecke = von.map((start, n) => ({ start, ende: von[n + 1] ?? text.length }))
   const gelesen = bloecke.map((b) => lies(text.slice(b.start, b.ende)))
-  /* Das jüngste Ja (Urteil, kein Nein) je Titel und Anbieter. */
-  const ja = new Map<string, string>()
-  for (const b of gelesen) {
-    if (b && hatUrteil(b) && !istNein(b) && tag(b) > (ja.get(paar(b)) ?? '')) ja.set(paar(b), tag(b))
-  }
+  const ja = juengsteJa([...gelesen, ...stapel])
   let erneuert = 0
   gelesen.forEach((b, n) => {
     const datum = b ? neu.get(belegSchluessel(b)) : undefined

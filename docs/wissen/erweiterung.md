@@ -2508,14 +2508,16 @@ Daniel (Dragon Quest: Dai): Der Durchgang zählte Dai als „Fehler beim Melden�
 
 Daniel: „Es war einmal …“ stand nach dem Melden wieder in der Liste. **Ursache:** `briefkastenHolen` setzte `briefkastenSuchen` (Zählung, bis 2 h alt) vor dem Laden von `standZiele`. In dieser Lücke hielt `istGemeldet` die frische Suche für nicht geführt und `vermerkVerwerfen` löschte den Vermerk. **Fix:** ein Vermerk innerhalb der Brücke (`akPrimeBruecke`) wird nie verworfen, und `briefkastenSuchen`/`-Seiten`/`-Erwartungen` werden erst gemeinsam mit `standZiele` gesetzt. **Wächter:** `extension/prime-such-vermerk-luecke.test.cjs` lässt das echte `briefkastenHolen` mit angehaltener Stand-Antwort laufen und fragt in der Lücke `istGemeldet`.
 
-## Disney+: „nichts da?“ kam nach jedem Bau zurück (4.32.2, 24.10.2026)
+## Disney+: „nichts da?“ kam nach jedem Bau zurück (4.32.3, 24.10.2026)
 
 Daniel (Aoashi, Bleach, Chainsaw Man, Children of the Sea, Fire Force S3, One-Punch Man S3, Shield Hero S2): „alle durchgehen“ räumte die 7 Titel weg, nach dem nächsten Bau standen sie wieder da; Pille 7, Knopf 1. **Ursachen (zwei):**
 
 1. **Das Messdatum des Nein blieb stehen.** Die Antworten kamen an (Meldungskopie 24.10.: `titel_zeile` Fire Force, One-Punch, Shield Hero, Chainsaw 15:29–15:30 UTC, Aoashi 18:32; Worker-Zeilen übernommen). Der Bau verwirft aber einen Beleg, der bis auf `checkedAt` wörtlich vorhanden ist (`neueBelegBloecke`, Solo Leveling 15.09.). Das Nein vom 26.08. blieb also 26.08., die Wiedervorlage („Nein ist 28 Tage alt“, `shared/nein-wiedervorlage.ts`) blieb fällig, und der Worker zählt eine Antwort nur bis zum nächsten Prüfstand (`pruefstandAm`). **Fix:** `pipeline/lib/nein-datum-erneuern.ts` zieht das Datum des vorhandenen Nein-Belegs (`available: false` oder `dub: false`) nach, nie vor ein jüngeres oder gleich altes Ja, nie bei anderem Text/Adresse/Anbieter; angehängt wird nichts. Aufruf in `haengeBelegeAn` (`pipeline/lib/belege-anhaengen.ts`, aus `fetch-pruefungen.ts` ausgelagert). Wächter `pipeline/check-nein-datum.ts` (Fallliste und ein Abruf als Prozess, Attrappe `tools/nein-datum-mock.mjs`).
 2. **Die Erweiterung kannte die Prüfstandzeit nicht.** `akPruefstandAm` füllt nur `akGemeldetSeit`, das `frischGemeldet` je Adresse ruft, aber nicht, wenn die Adresse im Gedächtnis steht (30 min). Ohne Zeit galt der lokale Vermerk gegen das Eintragsdatum (26.08.) und damit immer: Knopf 1, Pille (Worker) 7. **Fix:** `briefkastenHolen` holt die Zeit selbst, parallel zum Abruf. Test `extension/disney-stand-memo.test.cjs`.
 
-Offen/Klasse: Prime-Kanal-Nein ohne Urteil (`kanalMessung`) erneuert kein Datum (kein Nein im Sinn von `juengsteNein`); `prime-such-bruecke.js` liest `akPruefstandAm` ebenfalls ohne eigenen Aufruf von `akGemeldetSeit`. Die 7-Tage-Rückstellung des Durchgangs (`ak-disney-zurueck`) schickt eine abgelaufene Antwort nicht neu.
+**Umdatierung (Entscheidung Dirigent, 24.10.2026):** Wird ein Nein (auch ein Handbeleg-Nein) von der Erweiterung wörtlich gleich noch einmal gemessen (Text, Adresse, Anbieter, Kennung gleich), trägt der vorhandene Beleg danach das Browser-Datum. Grund: Das Nein wurde neu gemessen; das alte Datum würde die Wiedervorlage weiter melden. Nicht beschränkt, nur festgehalten. Ja-Schutz rechnet mit `urteilVon` (`pipeline/lib/dub-confirmed.ts`), Ja-Belege im selben Stapel zählen mit.
+
+Offen/Klasse: Prime-Kanal-Nein ohne Urteil (`kanalMessung`) erneuert kein Datum (kein Nein im Sinn von `juengsteNein`). Die 7-Tage-Rückstellung des Durchgangs (`ak-disney-zurueck`) schickt eine abgelaufene Antwort nicht neu.
 
 ## Meldekasten nach der Meldung nie leer, Sperre übersteht das Neuladen (4.31.14, 16.10.2026)
 

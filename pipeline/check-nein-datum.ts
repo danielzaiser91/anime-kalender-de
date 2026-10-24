@@ -13,6 +13,8 @@ import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import yaml from 'js-yaml'
+import { neinWiedervorlage, type NeinBeleg } from '../shared/nein-wiedervorlage.ts'
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
@@ -71,6 +73,24 @@ try {
   const ton = (datum: string) => ['- anilistId: 161476', '  platform: disneyplus', '  dub: false', `  checkedAt: '${datum}'`, '  note: "ohne deutschen Ton"']
   const tonNeu = erneuereNeinDatum(datei(ton('2026-08-26')), neu(ton('2026-10-24')))
   pruefe('dub: false wird wie available: false erneuert', tonNeu.erneuert === 1 && tonNeu.text.includes("'2026-10-24'"), tonNeu)
+
+  /* Ja im Stapel: ein gleich junges Ja neben dem neuen Nein hebt es auf, ein älteres nicht. */
+  const stapelJa = erneuereNeinDatum(alt, neu(weg("'2026-10-24'"), ja('2026-10-24')))
+  pruefe('Stapel: Nein und Ja vom selben Tag — Bestand bleibt', stapelJa.erneuert === 0 && stapelJa.text === alt, stapelJa)
+  pruefe('Stapel: älteres Ja neben dem neuen Nein — erneuert', erneuereNeinDatum(alt, neu(weg("'2026-10-24'"), ja('2026-08-01'))).erneuert === 1)
+  pruefe('Stapel: Ja eines anderen Anbieters stört nicht', erneuereNeinDatum(alt, neu(weg("'2026-10-24'"), ja('2026-10-24', 149118, 'netflix'))).erneuert === 1)
+
+  /* Ja heißt wie im Bau (`urteilVon`): auch ein deutscher Bereich ohne `dub:`, nicht bei `available: false`. */
+  const bereich = (datum: string) => ['- anilistId: 149118', '  platform: disneyplus', '  dubRanges:', '    - from: 1', '      to: 3', '      dub: true', `  checkedAt: '${datum}'`]
+  pruefe('Ja nur über dubRanges (jünger) hebt das Nein auf', erneuereNeinDatum(datei(weg("'2026-08-26'"), bereich('2026-09-15')), neu(weg("'2026-10-24'"))).erneuert === 0)
+  pruefe('dubRanges ohne dub: true ist kein Ja', erneuereNeinDatum(datei(weg("'2026-08-26'"), bereich('2026-09-15').map((z) => z.replace('dub: true', 'dub: false'))), neu(weg("'2026-10-24'"))).erneuert === 1)
+
+  /* Kreislauf: nach dem Erneuern ist die Wiedervorlage weg, ein zweiter Lauf ändert nichts. */
+  const faelle = (text: string) => neinWiedervorlage(yaml.load(text) as NeinBeleg[], [], new Date('2026-10-24T20:00:00Z')).filter((f) => f.titleId === 149118)
+  const kreis = erneuereNeinDatum(alt, neu(weg("'2026-10-24'")))
+  pruefe('Kreislauf: vorher eine Wiedervorlage, nachher keine', faelle(alt).length === 1 && faelle(kreis.text).length === 0, [faelle(alt).length, faelle(kreis.text).length])
+  const nochmal = erneuereNeinDatum(kreis.text, neu(weg("'2026-10-24'")))
+  pruefe('Kreislauf: zweiter Lauf auf dem Ergebnis — Datei unverändert', nochmal.erneuert === 0 && nochmal.text === kreis.text)
 
   /* Anführungszeichen und Einrückung des alten Belegs. */
   const dq = erneuereNeinDatum(datei(weg('"2026-08-26"')), neu(weg("'2026-10-24'")))
