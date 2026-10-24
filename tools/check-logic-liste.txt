@@ -184,6 +184,7 @@ pipeline/check-prime-zugeordnet-leser.ts
 pipeline/check-pruefliste-verdrahtung.ts
 pipeline/check-quarantaene.ts
 pipeline/check-quellen-schreiber.ts
+pipeline/check-quittung-sperre.ts
 pipeline/check-reihen-namen-rein.ts
 pipeline/check-reihen-namen.ts
 pipeline/check-reihen-spur.ts
