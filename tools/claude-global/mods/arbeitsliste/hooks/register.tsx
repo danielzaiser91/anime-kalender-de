@@ -261,8 +261,12 @@ async function togglePane($: EngineInterface, id: string, title: string): Promis
 
 // Das Agents-Pane gehört savvy-progress; ein `$.ui.open` von hier legt ein eigenes, leeres Pane an (11.10.2026), und
 // `$.command.run` schreibt Befehl und Antwort in den Chat (24.10.2026). Savvy hört auf diesen Zähler und schaltet selbst.
+// Ändert sich danach nichts am Pane, hört savvy nicht (Hook fehlt): kurzer Hinweis statt stillem Nichts.
 async function schalteSavvyPane($: EngineInterface): Promise<void> {
+  const sichtbar = async () => (await $.ui.panes()).some(p => p.id === 'savvy-agents' && p.isShown)
+  const vorher = await sichtbar()
   await update($, agentenKnopf, n => n + 1)
+  if ((await sichtbar()) === vorher) $.ui.toast('Agents-Pane: savvy-progress reagiert nicht (Hook fehlt, einrichten.mjs --pruefen)')
 }
 
 // Eine Pane-Zeile: fester Präfix, daneben ein umbrechender Inhalt mit hängendem Einzug.
