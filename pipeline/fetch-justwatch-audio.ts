@@ -47,6 +47,7 @@ import { todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
 import { STAFFELN_ABFRAGE, staffelnVon, type Staffel, type StaffelRoh } from './lib/jw-staffeln.ts'
 import { warteschlange } from './lib/jw-schlange.ts'
+import { ladeFrische } from './lib/jw-frische.ts'
 
 const ENDPUNKT = 'https://apis.justwatch.com/graphql'
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -169,6 +170,11 @@ async function sucheUeberNamen(t: Title, erwartet: number | string): Promise<JwK
   return undefined
 }
 
+/** Titel mit frischem Kino- oder Disc-Termin aus den veröffentlichten Terminen (`jw-frische.ts`). */
+function frischeAusTermine(): Set<number> {
+  return ladeFrische('public/data/releases.json', todayIso())
+}
+
 async function main(): Promise<void> {
   const args = process.argv.slice(2)
   const zahl = (name: string, vorgabe: number): number => {
@@ -223,7 +229,7 @@ async function main(): Promise<void> {
     Sprachurteil, Titel ganz ohne Weg (243 im Hauptbestand, 07.09.2026) und Wege, die nur auf die TMDB-Übersicht
     zeigen statt zum Anbieter (1.187 auf 364 Titeln, 16.09.2026).
   */
-  const offen = warteschlange({ titles, bestand, tmdb, grenze, heute: todayIso(), cartoonIds: new Set(cartoons.map((t) => t.id)) })
+  const offen = warteschlange({ titles, bestand, tmdb, grenze, heute: todayIso(), frisch: frischeAusTermine(), cartoonIds: new Set(cartoons.map((t) => t.id)) })
 
   if (!offen.length) {
     log('JustWatch: keine offenen Verweise zur Wiedervorlage.')
