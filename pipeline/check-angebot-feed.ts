@@ -55,7 +55,7 @@ titelMit(7, {}, 'netflix')
 meldung('new', 7, '2026-10-19', true, 'netflix')
 titelMit(8, {})
 meldung('new', 8, '2026-10-18', true, 'unbekannt') // Dienst unbekannt
-titelMit(9, {}) // Stichtag: STICHTAG_AB Serien am selben Tag
+titelMit(9, {}) // viele Feed-Meldungen am selben Tag erzeugen keinen Stichtag (Barbapapas-Fall im Bauvergleich)
 meldung('new', 9, '2026-10-17')
 for (let i = 0; i < STICHTAG_AB - 1; i++) {
   titelMit(100 + i, {})
@@ -71,6 +71,10 @@ meldung('removed', 11, '2026-10-16', true, 'netflix')
 titelMit(12, {}) // Eintrag ohne Feld imdbId: Schlüssel zählt
 delete (archiv.tt12 as Partial<Show>).imdbId
 meldung('new', 12, '2026-10-14')
+
+titelMit(13, {}, 'primevideo') // Welle schon im Monatsstand: STICHTAG_AB fremde Shows am selben Tag
+for (let i = 0; i < STICHTAG_AB; i++) archiv[`fremd-${i}`] = { imdbId: `ttf${i}`, dienste: { primevideo: { gelistet: [], deutsch: [], seit: '2026-10-13' } } }
+meldung('new', 13, '2026-10-13')
 
 const slim = [...titel.values()].map((t) => ({ ...t }))
 const releases: Release[] = []
@@ -93,7 +97,8 @@ pruefe('removed älter als new: new gilt', seit(6)?.date === '2026-10-19', seit(
 pruefe('Serie nicht in motn.json: unberührt', !titel.has(99))
 pruefe('Netflix wird genauso gesetzt', seit(7)?.platform === 'netflix' && seit(7)?.date === '2026-10-19', seit(7))
 pruefe('unbekannter Dienst: nichts', !seit(8), seit(8))
-pruefe('Erfassungsstichtag aus dem Feed zählt als Welle', !seit(9) && !releases.some((r) => r.titleId === 9), seit(9))
+pruefe('viele Feed-Meldungen an einem Tag sind keine Welle', seit(9)?.date === '2026-10-17' && seit(100)?.date === '2026-10-17', seit(9))
+pruefe('Welle im Monatsstand sperrt die Feed-Meldung', !seit(13) && !releases.some((r) => r.titleId === 13), seit(13))
 pruefe('removed am selben Tag wie new: nichts', !seit(10), seit(10))
 pruefe('removed eines anderen Dienstes sperrt nicht', seit(11)?.date === '2026-10-15', seit(11))
 pruefe('Serie ohne imdbId-Feld wird über den Schlüssel gefunden', seit(12)?.date === '2026-10-14', seit(12))

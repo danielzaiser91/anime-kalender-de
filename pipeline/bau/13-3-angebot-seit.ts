@@ -75,13 +75,14 @@ function angebotRelease(title: Title, anbieter: PlatformId, seit: string): Relea
 export function ergaenzeAngebotSeit({ slim, releases, titles, quellen }: { slim: SlimTitel[]; releases: Release[]; titles: Map<number, Title>; quellen?: { motn: MotnDaten; tmdb: Record<string, TmdbKennung>; changes?: MotnChanges } }): void {
   const GRENZE = '2026-01-01'
   const changes = quellen?.changes ?? readJson<MotnChanges>('data/motn-changes.json', {})
-  const motnDaten = mitFeedSeit(quellen?.motn ?? readJson<MotnDaten>('data/motn.json', MOTN_LEER), changes)
+  const monatsstand = quellen?.motn ?? readJson<MotnDaten>('data/motn.json', MOTN_LEER)
+  const motnDaten = mitFeedSeit(monatsstand, changes)
   const tmdbFuerTermine = quellen?.tmdb ?? readJson<Record<string, TmdbKennung>>('data/tmdb-titles.json', {})
   const nachImdb = new Map(
     Object.entries(motnDaten.shows ?? {}).map(([k, v]) => [v.imdbId ?? k, v]),
   )
   const hatTermin = titelMitTermin(releases)
-  const stichtage = erfassungsStichtage(Object.values(motnDaten.shows ?? {}))
+  const stichtage = erfassungsStichtage(Object.values(monatsstand.shows ?? {}))
   let alsTermin = 0
   let nurAmTitel = 0
 
