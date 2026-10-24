@@ -13,7 +13,7 @@ import { pathToFileURL } from 'node:url'
 
 const WURZEL = process.argv[2] ?? tmpdir()
 const REPO = resolve(import.meta.dirname, '..')
-const KOPIEN = ['check-logic-alle.mjs', 'arbeiterpool.mjs', 'bau-umgebung.mjs', 'liste-pruefen.mjs', 'sperre-umgebung.mjs', 'check-logic-vollstaendig.mjs', 'bestand-sperre.cjs', 'git-stand-wache.mjs', 'pr-basis.mjs']
+const KOPIEN = ['check-logic-alle.mjs', 'arbeiterpool.mjs', 'bau-umgebung.mjs', 'liste-pruefen.mjs', 'sperre-umgebung.mjs', 'check-logic-vollstaendig.mjs', 'bestand-sperre.cjs', 'git-stand-wache.mjs', 'pr-basis.mjs', 'check-logic-historie.mjs']
 
 const gitIn = (ordner) => (...args) =>
   execFileSync('git', ['-c', 'core.autocrlf=false', '-c', 'user.name=t', '-c', 'user.email=t@t', ...args], { cwd: ordner, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }).trim()
@@ -105,17 +105,19 @@ fall('PR-Ereignis, zweiter Lauf im selben Klon', { erwartet: 'da', ereignis: 'pu
   assert.match(r.text, GELADEN)
 })
 
-fall('ohne Ereignis wird nichts geladen', { erwartet: 'fehlt' }, (r) => {
+// Seit PR 1433 holt der Läufer die ganze Historie eines flachen Klons (check-logic-historie.mjs): die Basis liegt dann ohnehin da.
+// Dass vorladeBasis selbst nichts lädt, belegt die fehlende Zeile „PR-Basis … geladen“.
+fall('ohne Ereignis wird nichts geladen', { erwartet: 'da' }, (r) => {
   assert.equal(r.status, 0, r.text)
   assert.doesNotMatch(r.text, GELADEN)
 })
 
-fall('Ereignis push: nichts geladen', { erwartet: 'fehlt', ereignis: 'push' }, (r) => {
+fall('Ereignis push: nichts geladen', { erwartet: 'da', ereignis: 'push' }, (r) => {
   assert.equal(r.status, 0, r.text)
   assert.doesNotMatch(r.text, GELADEN)
 })
 
-fall('linearer Kopf: still, Läufer grün', { erwartet: 'fehlt', linear: true, ereignis: 'pull_request' }, (r) => {
+fall('linearer Kopf: still, Läufer grün', { erwartet: 'da', linear: true, ereignis: 'pull_request' }, (r) => {
   assert.equal(r.status, 0, r.text)
   assert.doesNotMatch(r.text, GELADEN)
 })
