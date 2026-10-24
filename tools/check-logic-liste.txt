@@ -76,6 +76,8 @@ pipeline/check-disney-gesamtnummer.ts
 pipeline/check-dub-aus-terminen.ts
 pipeline/check-dub-bereiche.ts
 pipeline/check-dub-durchgehende-zaehlung.ts
+pipeline/check-empfehlung-ablauf.ts
+pipeline/check-empfehlung-ansicht.ts
 pipeline/check-empfehlung-kern.ts
 pipeline/check-empfehlung.ts
 pipeline/check-episodentitel.ts
@@ -188,6 +190,7 @@ pipeline/check-quellen-schreiber.ts
 pipeline/check-quittung-sperre.ts
 pipeline/check-reihen-namen-rein.ts
 pipeline/check-reihen-namen.ts
+pipeline/check-reihen-spur-hook.ts
 pipeline/check-reihen-spur.ts
 pipeline/check-reihen-teilname.ts
 pipeline/check-reihen-traeger-aufrufer.ts
