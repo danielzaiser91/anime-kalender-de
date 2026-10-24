@@ -5,6 +5,7 @@ import { todayIso } from '../../shared/time.ts'
 import { type SlimTitel } from './13-2-auslieferung.ts'
 import { erfassungsStichtage, stichtagSchluessel } from './angebot-stichtag.ts'
 import { titelMitTermin } from './titel-mit-termin.ts'
+import { mitFeedSeit, type MotnChanges } from './angebot-feed.ts'
 
 type TmdbKennung = { tmdbId?: string; kind?: string }
 type MotnShow = MotnDaten['shows'][string]
@@ -71,9 +72,10 @@ function angebotRelease(title: Title, anbieter: PlatformId, seit: string): Relea
  * aus 2024 und 2025 würden die Vergangenheitsansicht fluten, ohne jemandem zu
  * helfen. Ihr Datum steht trotzdem am Titel und damit im Panel.
  */
-export function ergaenzeAngebotSeit({ slim, releases, titles, quellen }: { slim: SlimTitel[]; releases: Release[]; titles: Map<number, Title>; quellen?: { motn: MotnDaten; tmdb: Record<string, TmdbKennung> } }): void {
+export function ergaenzeAngebotSeit({ slim, releases, titles, quellen }: { slim: SlimTitel[]; releases: Release[]; titles: Map<number, Title>; quellen?: { motn: MotnDaten; tmdb: Record<string, TmdbKennung>; changes?: MotnChanges } }): void {
   const GRENZE = '2026-01-01'
-  const motnDaten = quellen?.motn ?? readJson<MotnDaten>('data/motn.json', MOTN_LEER)
+  const changes = quellen?.changes ?? readJson<MotnChanges>('data/motn-changes.json', {})
+  const motnDaten = mitFeedSeit(quellen?.motn ?? readJson<MotnDaten>('data/motn.json', MOTN_LEER), changes)
   const tmdbFuerTermine = quellen?.tmdb ?? readJson<Record<string, TmdbKennung>>('data/tmdb-titles.json', {})
   const nachImdb = new Map(
     Object.entries(motnDaten.shows ?? {}).map(([k, v]) => [v.imdbId ?? k, v]),
