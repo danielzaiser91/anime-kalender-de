@@ -26,9 +26,31 @@ globalThis.akPruefstand = (() => {
   }
 })()
 
+/* Zuletzt gelesene Prüfstand-Zeit für Aufrufer ohne `await` (null bis zum ersten Abruf oder ohne Netz). */
+globalThis.akPruefstandAm = null
+
 /* Ohne Prüfstand-Zeit bleibt es beim alten, großzügigeren Maßstab des Eintrags. */
-globalThis.akGemeldetSeit = async (eintragSeit) =>
-  (await globalThis.akPruefstand())?.pruefstandAm ?? eintragSeit ?? null
+globalThis.akGemeldetSeit = async (eintragSeit) => {
+  globalThis.akPruefstandAm = (await globalThis.akPruefstand())?.pruefstandAm ?? null
+  return globalThis.akPruefstandAm ?? eintragSeit ?? null
+}
+
+/**
+ * **Die eine Regel „Maßstab = Prüfstandzeit“ für lokale Vermerke** (24.10.2026).
+ *
+ * Ein lokaler Vermerk (Prime „abgehakt“, Disney+ „nichts da“) belegt eine Meldung nur, wenn er jünger
+ * ist als der Prüfstand: Was davor gemeldet wurde, hat der Bau eingearbeitet; führt er den Titel
+ * trotzdem als offen, ist die alte Meldung kein Beleg mehr. Genauso rechnet der Worker
+ * (`pruefung-stand-anbieter.ts`: Meldung seit `pruefstandAm`). Ohne Prüfstand-Zeit gilt `eintragSeit`,
+ * ohne beides jeder Vermerk; ein Vermerk ohne Zeit nie. Ein reiner Tag (ältere Fassungen) wird als Tag verglichen.
+ */
+globalThis.akVermerkGilt = (zeit, eintragSeit) => {
+  const z = String(zeit ?? '')
+  if (!z) return false
+  const g = String(globalThis.akPruefstandAm ?? eintragSeit ?? '')
+  if (!g) return true
+  return z.length <= 10 || g.length <= 10 ? z.slice(0, 10) >= g.slice(0, 10) : z >= g
+}
 
 /*
   **Hat die Plattform mehr Folgen, als der Datensatz kennt?** (4.24.21, 10.10.2026)
