@@ -8857,7 +8857,7 @@ async function speicherSchreiben(werte) {
      * Ausschnitt entsteht nie ein Nein, ein Ja sehr wohl. Erst wenn gar nichts
      * gefunden wurde, ist der Hinweis die einzige Auskunft, die die Seite gibt.
      */
-    if (regionWeg && !deutsch) {
+    if (regionWeg && !deutsch && (!vollstaendig || gesperrteFolgen > 0)) {
       knopf.disabled = false
       knopf.dataset.tot = 'true'
       knopf.dataset.deutsch = 'false'

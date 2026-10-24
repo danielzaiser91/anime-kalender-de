@@ -10,7 +10,7 @@
 
   /** Ist jede Folge gelesen oder gesperrt? (27 lesbar + 24 gesperrt von 51) */
   globalThis.akPrimeMeldungVollstaendig = (sollFolgen, geladen, gesperrt) =>
-    !sollFolgen || geladen + gesperrt >= sollFolgen
+    geladen + gesperrt >= sollFolgen
 
   /** Regionsweg nur, wenn Folgen gesperrt sind und keine lesbare übrig bleibt; ohne Kenntnis der Seitentext. */
   globalThis.akPrimeStaffelRegionWeg = (gesperrt, offen, seitenTextRegionWeg) =>

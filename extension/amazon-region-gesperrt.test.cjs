@@ -47,6 +47,10 @@ pruefe('B: 24 gesperrt, 0 lesbar → regionWeg', staffelRegionWeg(24, 0, false) 
 pruefe('A: 24 gesperrt, 27 lesbar → nicht regionWeg', staffelRegionWeg(24, 27, true) === false)
 pruefe('Mahouka: 3 gesperrt, 10 lesbar → nicht regionWeg', staffelRegionWeg(3, 10, true) === false)
 pruefe('genau 1 gesperrt, 0 lesbar, Seitentext ohne Region → regionWeg', staffelRegionWeg(1, 0, false) === true)
+pruefe('5 lesbar, 0 gesperrt, Seitentext Region → nicht regionWeg', staffelRegionWeg(0, 5, true) === false)
+pruefe('0 gesperrt, 5 lesbar, Seitentext ohne Region → nicht regionWeg', staffelRegionWeg(0, 5, false) === false)
+pruefe('ohne Folgenzahl, nichts gelesen → vollständig (kein Sperrfall)', meldungVollstaendig(0, 0, 0) === true && meldungVollstaendig(0, 5, 0) === true)
+pruefe('Folgenzahl 51, nichts gelesen, nichts gesperrt → offen', meldungVollstaendig(51, 0, 0) === false)
 pruefe('1 lesbar, 0 gesperrt, Seitentext Region → nicht regionWeg', staffelRegionWeg(0, 1, true) === false)
 pruefe('nichts bekannt: Seitentext entscheidet (true)', staffelRegionWeg(0, 0, true) === true)
 pruefe('nichts bekannt: Seitentext entscheidet (false)', staffelRegionWeg(0, 0, false) === false)
@@ -54,11 +58,11 @@ pruefe('nichts bekannt: Seitentext entscheidet (false)', staffelRegionWeg(0, 0, 
 /* Verdrahtung: Knopf und Klick benutzen die Helfer und der Regionsknopf braucht keine Unvollständigkeit */
 pruefe('Klick: vollständig über meldungVollstaendig mit Sperrenzahl',
   /const vollstaendig = globalThis.akPrimeMeldungVollstaendig\(sollFolgen, geladen, gesperrtN\)/.test(quelle))
-pruefe('Knopf: Region-Zweig ohne !vollstaendig', /if \(regionWeg && !deutsch\) \{/.test(quelle))
+pruefe('Knopf: Region-Zweig bleibt an die Liste gebunden',
+  /if \(regionWeg && !deutsch && \(!vollstaendig \|\| gesperrteFolgen > 0\)\) \{/.test(quelle))
 pruefe('Knopf: wegInRegion zählt JSON-Sperren', /wegInRegion = globalThis.akPrimeGesperrteZahl\(gesehen\.gesperrt,/.test(quelle))
 pruefe('Knopf: regionWeg über staffelRegionWeg',
   /const regionWeg = globalThis.akPrimeStaffelRegionWeg\(gesperrteFolgen, offeneFolgen, lage\.regionWeg\)/.test(quelle))
-pruefe('Notiz nennt die gesperrten Folgen', /\$\{gesperrtN\} in der Region gesperrt/.test(quelle))
 
 /* --- Aufrufseiten, wirklich ausgeführt: der Quelltext der Stellen wird geschnitten und mit Attrappen gespielt --- */
 function stueck(von, bis) {
@@ -100,17 +104,17 @@ function klick({ tot = 'false', geladen, gesperrt, soll, deutsch = false, region
 
 /** Knopf: regionWeg aus Zählwerk, dann der Regionszweig. */
 const regionCode = stueck('const gesperrteFolgen = gesehen.gesperrt?.size ?? 0', '\n\n') + '\n'
-const zweigCode = stueck('if (regionWeg && !deutsch) {', '    /**\n     * Fehlende Folgen auf einer Seite')
-function knopfLage({ gesperrt, offen, deutsch, textRegionWeg = false }) {
+const zweigCode = stueck('if (regionWeg && !deutsch && (!vollstaendig || gesperrteFolgen > 0)) {', '    /**\n     * Fehlende Folgen auf einer Seite')
+function knopfLage({ gesperrt, offen, deutsch, textRegionWeg = false, vollstaendig = true }) {
   const knopf = { dataset: {}, textContent: '', disabled: true }
   const f = new Function(
-    'knopf', 'gesehen', 'lage', 'deutsch', 'globalThis',
+    'knopf', 'gesehen', 'lage', 'deutsch', 'vollstaendig', 'globalThis',
     `${regionCode}\n${zweigCode}\nreturn 'weiter'`,
   )
   const ergebnis = f(
     knopf,
     { gesperrt: gesperrt ? karte(gesperrt) : undefined, nummern: karte(offen) },
-    { regionWeg: textRegionWeg }, deutsch, kasten,
+    { regionWeg: textRegionWeg }, deutsch, vollstaendig, kasten,
   )
   return { ergebnis, tot: knopf.dataset.tot, text: knopf.textContent }
 }
@@ -121,6 +125,14 @@ function knopfLage({ gesperrt, offen, deutsch, textRegionWeg = false }) {
   pruefe('Knopf A: 24 gesperrt + 27 lesbar → Regionszweig greift nicht', a.ergebnis === 'weiter', a)
   const c = knopfLage({ gesperrt: 24, offen: 0, deutsch: true })
   pruefe('Knopf: alles gesperrt, aber Deutsch belegt → Regionszweig greift nicht', c.ergebnis === 'weiter', c)
+  /* Mahouka nur über den Kachelhinweis im Text (Zählwerk leer), Liste gilt als vollständig: kein Totmelden. */
+  const k = knopfLage({ gesperrt: 0, offen: 0, deutsch: false, textRegionWeg: true, vollstaendig: true })
+  pruefe('Knopf Mahouka-Kachelhinweis: nichts im Zählwerk, Text meldet Region, Liste vollständig → weiter', k.ergebnis === 'weiter' && k.tot === undefined, k)
+  /* Chaika S1: Seitentext meldet Region, Liste unvollständig → tot. */
+  const ch = knopfLage({ gesperrt: 0, offen: 0, deutsch: false, textRegionWeg: true, vollstaendig: false })
+  pruefe('Knopf Chaika: nichts im Zählwerk, Text meldet Region, Liste unvollständig → tot', ch.tot === 'true' && ch.ergebnis === undefined, ch)
+  const w = knopfLage({ gesperrt: 0, offen: 5, deutsch: false, textRegionWeg: true, vollstaendig: false })
+  pruefe('Knopf: 5 lesbar, Seitentext meldet Region, Liste unvollständig → weiter', w.ergebnis === 'weiter', w)
   const m = knopfLage({ gesperrt: 3, offen: 10, deutsch: false, textRegionWeg: true })
   pruefe('Knopf Mahouka: 3 gesperrt, 10 lesbar, Seitentext meldet Region → Regionszweig greift nicht', m.ergebnis === 'weiter', m)
 }
@@ -142,6 +154,17 @@ pruefe('Knopf: 27 gelesen + 24 gesperrt von 52 → „1 fehlen noch"',
   /— 1 fehlen noch$/.test(fehlenText({ geladen: 27, wegInRegion: 24, gesamt: 52, deutsch: true })), fehlenText({ geladen: 27, wegInRegion: 24, gesamt: 52, deutsch: true }))
 pruefe('Knopf: nichts gesperrt → „25 fehlen noch"',
   /— 25 fehlen noch$/.test(fehlenText({ geladen: 27, wegInRegion: 0, gesamt: 52, deutsch: true })))
+
+/** Notiz der Meldung: der Ausdruck aus `amazon.js` wird ausgewertet, nicht per Regex gesucht. */
+const notizAusdruck = stueck('(vollstaendig\n              ? geladen === 1 && !gesehen.gesamt', 'Rest ungeprüft`)') + 'Rest ungeprüft`)'
+function notiz({ vollstaendig, geladen, gesperrtN, gesamt }) {
+  const f = new Function('vollstaendig', 'geladen', 'gesperrtN', 'gesehen', `return ${notizAusdruck}`)
+  return f(vollstaendig, geladen, gesperrtN, { gesamt })
+}
+pruefe('Notiz: 27 gelesen, 24 gesperrt → nennt „24 in der Region gesperrt"', notiz({ vollstaendig: true, geladen: 27, gesperrtN: 24, gesamt: 51 }) === 'alle 27 Folgen geprüft, 24 in der Region gesperrt')
+pruefe('Notiz: genau 1 gesperrt → nennt „1 in der Region gesperrt"', notiz({ vollstaendig: true, geladen: 12, gesperrtN: 1, gesamt: 13 }) === 'alle 12 Folgen geprüft, 1 in der Region gesperrt')
+pruefe('Notiz: nichts gesperrt → kein Zusatz', notiz({ vollstaendig: true, geladen: 12, gesperrtN: 0, gesamt: 12 }) === 'alle 12 Folgen geprüft')
+pruefe('Notiz: unvollständig → „nur … geladen"', notiz({ vollstaendig: false, geladen: 5, gesperrtN: 2, gesamt: 12 }) === 'nur 5 von 12 Folgen geladen — Rest ungeprüft')
 
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) verletzt.`)
