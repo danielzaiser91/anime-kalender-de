@@ -78,10 +78,10 @@ interface Folge {
 
 /**
  * Die Liste aus aniSearch, wo sie keinen Titel hat, mit den Titeln aus Crunchyroll gefüllt; fehlt die Liste ganz, entsteht sie aus Crunchyroll
- * (mindestens zwei Folgen). Ein vorhandener Titel wird nie überschrieben.
+ * (mindestens zwei Folgen). Ein vorhandener Titel wird nie überschrieben; ein Titel, der dem englischen oder japanischen der Liste gleicht, gilt nicht als deutsch (TMDB-Folge 147: Text englisch, unter „de“).
  */
 export function mitCrTiteln(f: Folge[] | undefined, cr: Map<number, string> | undefined): Folge[] | undefined {
   if (!cr) return f
   if (!f || f.length < 2) return cr.size >= 2 ? [...cr].sort((a, b) => a[0] - b[0]).map(([nr, de]) => ({ nr, de })) : f
-  return f.map((x) => (x.de ?? x.en ?? x.ja ? x : cr.has(x.nr) ? { ...x, de: cr.get(x.nr) } : x))
+  return f.map((x) => (x.de || !cr.has(x.nr) || [x.en, x.ja].includes(cr.get(x.nr)) ? x : { ...x, de: cr.get(x.nr) }))
 }

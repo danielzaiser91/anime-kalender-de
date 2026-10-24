@@ -164,7 +164,7 @@ console.log('Folgentitel und Laufzeit aus Kitsu')
 const ova = { id: 7, episodes: 2 } as unknown as Title
 const kitsu = { k: 8338, f: [[1, 'Book of Murder Part 1', 58], [2, 'Book of Murder Part 2', 58]] as [number, string, number][] }
 const gefuellt = mitKitsuTiteln(ova, [{ nr: 1 }, { nr: 2 }], kitsu)
-pruefe('Kitsu füllt fehlende Titel und Minuten', gefuellt?.[0]?.en === 'Book of Murder Part 1' && gefuellt?.[1]?.minuten === 58, gefuellt)
+pruefe('Kitsu füllt fehlende Minuten, aber keinen (englischen) Titel', gefuellt?.[0]?.en === undefined && gefuellt?.[0]?.de === undefined && gefuellt?.[1]?.minuten === 58, gefuellt)
 const vorhanden = mitKitsuTiteln(ova, [{ nr: 1, de: 'Eigener Titel', minuten: 30 }, { nr: 2 }], kitsu)
 pruefe('ein vorhandener Titel und eine vorhandene Minutenzahl bleiben', vorhanden?.[0]?.de === 'Eigener Titel' && vorhanden?.[0]?.en === undefined && vorhanden?.[0]?.minuten === 30)
 pruefe('andere Folgenzahl: nichts wird übernommen', mitKitsuTiteln({ id: 8, episodes: 3 } as unknown as Title, [{ nr: 1 }, { nr: 2 }, { nr: 3 }], kitsu)?.every((x) => !x.en) === true)
