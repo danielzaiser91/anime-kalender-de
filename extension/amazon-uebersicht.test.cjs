@@ -271,7 +271,7 @@ function takten(takte, durchlaeufe = 5) {
 
 /* Wie im Manifest: `prime-stand.js` und `prime-such-bruecke.js` vor `amazon.js`, das beim Melden `akPrimeMeldungEintragen` und `akPrimeVermerk` aufruft. */
 function ladeSkripte(sandkasten) {
-  for (const datei of ['melde-sperre.js', 'pruefstand-zeit.js', 'prime-stand.js', 'prime-such-bruecke.js', 'amazon.js']) vm.runInContext(readFileSync(`${__dirname}/${datei}`, 'utf8'), sandkasten)
+  for (const datei of ['melde-sperre.js', 'pruefstand-zeit.js', 'prime-stand.js', 'prime-such-bruecke.js', 'prime-region.js', 'amazon.js']) vm.runInContext(readFileSync(`${__dirname}/${datei}`, 'utf8'), sandkasten)
 }
 
 function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite = true) {
