@@ -4,7 +4,7 @@ import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSy
 import { tmpdir } from 'node:os'
 import { pathToFileURL } from 'node:url'
 import { auslieferbarePatchnotes } from '../shared/patchnotes.ts'
-import { leseAuslieferbarePatchnotes, lesePatchnotesDateien, leseUeberarbeitetBis, STEMPEL_DATEI } from './lib/patchnotes.ts'
+import { leseAuslieferbarePatchnotes, lesePatchnotesDateien, leseUeberarbeitetBis, PATCHNOTES_ORDNER, STEMPEL_DATEI } from './lib/patchnotes.ts'
 import { tageVon } from '../web/src/lib/patchnotes-tage.ts'
 
 // Unabhängig vom Arbeitsordner (ein flacher Wegwerf-Klon hat kein node_modules).
@@ -41,7 +41,7 @@ const echt = leseUeberarbeitetBis()
 pruefe('Stempel: die echte Datei im Ordner ist ein gültiger Tag', echt !== undefined, echt)
 // Nur Einträge mit eigenem `datum`: Die Datumsauflösung der übrigen braucht git und damit `git fetch` (Wettlauf um shallow.lock in check:logic, PR 1433).
 const echteMitDatum = lesePatchnotesDateien().map((d) => d.eintrag).filter((e) => e.datum !== undefined)
-const mitDatumInDatei = !existsSync('data/patchnotes') ? 0 : readdirSync('data/patchnotes').filter((n) => n.endsWith('.yaml') && /^datum:/m.test(readFileSync(`data/patchnotes/${n}`, 'utf8'))).length
+const mitDatumInDatei = !existsSync(PATCHNOTES_ORDNER) ? 0 : readdirSync(PATCHNOTES_ORDNER).filter((n) => n.endsWith('.yaml') && /^datum:/m.test(readFileSync(`${PATCHNOTES_ORDNER}/${n}`, 'utf8'))).length
 pruefe('Stempel: die geprüfte Liste enthält alle Dateien mit eigenem datum (Anzahl gezählt am Dateitext)', echteMitDatum.length === mitDatumInDatei, { liste: echteMitDatum.length, dateien: mitDatumInDatei })
 pruefe('Stempel: die echte Liste (Einträge mit datum) trägt Entwürfe genau hinter dem Stempel', auslieferbarePatchnotes(echteMitDatum, echt).every((n) => (n.entwurf === true) === (n.datum > (echt ?? ''))))
 
