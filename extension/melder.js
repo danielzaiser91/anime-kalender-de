@@ -2705,8 +2705,7 @@ function rechnetInNetflixStaffeln(reihe) {
 /** Welche Staffel Netflix' Auswahlfeld gerade zeigt — die Zahl aus „Staffel 3" / „Teil 2", sonst null. */
 function angezeigteNetflixStaffel() {
   const knopf = document.querySelector('[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]')
-  const treffer = /(?:Staffel|Teil|Season)\s*(\d+)/i.exec(knopf?.textContent ?? '')
-  return treffer ? Number(treffer[1]) : null
+  return akNetflixStaffelNr(knopf?.textContent)
 }
 
 /** Im Auswahlfeld „Staffel N" anklicken. true, wenn der Eintrag da war und geklickt wurde. */
@@ -2726,8 +2725,7 @@ async function netflixStaffelWaehlen(ziel) {
       const treffer = eintraege.find((li) => {
         if (typeof ziel === 'function') return ziel((li.textContent ?? '').trim())
         if (typeof ziel === 'string') return (li.textContent ?? '').trim() === ziel
-        const t = /(?:Staffel|Teil|Season)\s*(\d+)/i.exec(li.textContent ?? '')
-        return t && Number(t[1]) === ziel
+        return akNetflixStaffelNr(li.textContent) === ziel
       })
       if (!treffer) {
         knopf.click()
@@ -2757,12 +2755,7 @@ async function netflixStaffelnImMenue() {
     eintraege = [...document.querySelectorAll('[data-uia="dropdown-menu"] li[data-uia="dropdown-menu-item"]')]
     if (!eintraege.length) await new Promise((r) => setTimeout(r, 100))
   }
-  const raus = eintraege.map((li) => {
-    const text = (li.textContent ?? '').trim()
-    const nr = /(?:Staffel|Teil|Season)\s*(\d+)/i.exec(text)
-    const folgen = /(\d+)\s*(?:Folgen|Folge|Episoden|Episode|Episodes)\b/i.exec(text)
-    return { text, nr: nr ? Number(nr[1]) : null, folgen: folgen ? Number(folgen[1]) : null }
-  })
+  const raus = akNetflixStaffelEintraege(eintraege.map((li) => li.textContent))
   if (!warOffen) knopf.click()
   /* „Alle Folgen anzeigen" ist keine Staffel — der Durchgang wechselt nur zwischen echten. */
   const staffeln = raus.filter((e) => !istAlleFolgenEintrag(e.text))
