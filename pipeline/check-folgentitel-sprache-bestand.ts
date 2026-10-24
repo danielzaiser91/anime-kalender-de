@@ -4,7 +4,7 @@
  * Liest den gebauten Bestand, deshalb `check:bestand`.
  */
 import { readFileSync, readdirSync } from 'node:fs'
-import { fremdtitelZahl, type FolgeQuelle } from './bau/folgentitel-zeilen.ts'
+import { fremdtitelZahl, istPlatzhalter, type FolgeQuelle } from './bau/folgentitel-zeilen.ts'
 
 const roh = JSON.parse(readFileSync('data/anisearch-folgen.json', 'utf8')) as Record<string, { folgen?: FolgeQuelle[] }>
 const zuordnung = JSON.parse(readFileSync('data/anisearch.json', 'utf8')) as Record<string, { anisearchId?: number }>
@@ -20,6 +20,9 @@ for (const datei of readdirSync('public/data/folgen').filter((f) => /^\d+\.json$
   listen++
   titel += liste.f.filter(([, t]) => t).length
   fremd += zahl
+  const platzhalter = liste.f.filter(([, t]) => t && istPlatzhalter(t)).length
+  fremd += platzhalter
+  if (platzhalter) console.error(`FEHLER: ${id}: ${platzhalter} Platzhalter („Ohne Titel", „Folge N") als Folgentitel`)
   if (zahl) console.error(`FEHLER: ${id}: ${zahl} Folgentitel aus englischer oder japanischer Quelle`)
 }
 

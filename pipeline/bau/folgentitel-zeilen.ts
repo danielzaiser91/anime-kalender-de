@@ -14,7 +14,8 @@ export type FolgenZeile = [nr: number, titel: string] | [nr: number, titel: stri
 
 /** Die Zeilen der Folgendatei; sind alle Folgen gleich lang (`einheitlich`), steht die Minutenzahl nicht je Zeile. */
 export function folgenZeilen(f: FolgeQuelle[], einheitlich: number | undefined): FolgenZeile[] {
-  return f.map((x) => (einheitlich ? [x.nr, x.de ?? ''] : [x.nr, x.de ?? '', x.minuten ?? 0]))
+  const titel = (x: FolgeQuelle) => (x.de && !istPlatzhalter(x.de) ? x.de : '')
+  return f.map((x) => (einheitlich ? [x.nr, titel(x)] : [x.nr, titel(x), x.minuten ?? 0]))
 }
 
 /** Zeilen, deren Titel dem englischen oder japanischen Titel der Quelle gleicht, ohne dass die Quelle einen deutschen Titel hat. Soll 0 sein. */
@@ -24,4 +25,11 @@ export function fremdtitelZahl(zeilen: readonly (readonly [number, string, ...un
     const q = jeNr.get(nr)
     return Boolean(titel) && Boolean(q) && !q!.de && (titel === q!.en || titel === q!.ja)
   }).length
+}
+
+const PLATZHALTER = /^(?:(?:folge|episode|episod|ep\.?)\s*\d+|ohne titel|untitled)$/i
+
+/** „Ohne Titel", „Untitled", „Folge 3" und „Episode 3" sind kein Titel (Flowers of Evil trug 13× „Ohne Titel" aus Crunchyroll). */
+export function istPlatzhalter(titel: string): boolean {
+  return PLATZHALTER.test(titel.trim())
 }
