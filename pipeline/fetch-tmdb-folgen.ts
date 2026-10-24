@@ -20,7 +20,9 @@
  * Folgen dazu, und eine Staffel, die einmal abgefragt wurde, wäre sonst für
  * immer eingefroren — derselbe Fehler, den `scrape-crunchyroll-dub.ts` und
  * `fetch-anisearch.ts` am 15.08.2026 gekostet haben. Vorgabe sind 30 Tage;
- * abgeschlossene Staffeln ändern sich nicht mehr, laufende schon.
+ * abgeschlossene Staffeln ändern sich nicht mehr, laufende schon. Laufende Serien mit einer
+ * erschienenen Folge ohne echten Titel kommen schon nach 7 Tagen wieder, vor den übrigen
+ * (`lib/tmdb-folgen-auswahl.ts`).
  *
  * Aufruf: `npx tsx pipeline/fetch-tmdb-folgen.ts [--limit N] [--alter TAGE]`
  */
@@ -28,6 +30,7 @@ import { loadEnv, fetchJson, log, readJson, sleep, warn, writeJson } from './lib
 import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
+import { waehleFaellige } from './lib/tmdb-folgen-auswahl.ts'
 
 const args = process.argv.slice(2)
 const LIMIT = Number(args[args.indexOf('--limit') + 1]) || 400
@@ -85,23 +88,18 @@ async function main(): Promise<void> {
   )
   const bestand = readJson<Record<string, Eintrag>>('data/tmdb-folgen.json', {})
 
-  const grenze = Date.now() - ALTER_TAGE * 86_400_000
-
   /*
     Nur Serien, und nur solche mit Verweis: Ein Titel ohne Anbieter braucht keine
     Zuordnungshilfe, und ein Film hat keine Folgenliste. Das hält die Zahl der
     Abrufe an der Sache statt am Katalog.
   */
-  const offen = titles
+  const kandidaten = titles
     .filter((t) => (t.streams ?? []).length > 0)
     .filter((t) => (t.episodes ?? 0) > 1)
-    .map((t) => ({ t, tmdb: tmdbTitles[String(t.id)] }))
+    .map((t) => ({ t, id: String(t.id), tmdb: tmdbTitles[String(t.id)] }))
     .filter((x) => x.tmdb?.tmdbId && x.tmdb.kind !== 'movie')
-    .filter((x) => {
-      const alt = bestand[String(x.t.id)]
-      return !alt || Date.parse(alt.geholtAm) < grenze || alt.folgen.some((f) => f.s >= 1 && f.en === undefined)
-    })
-    .slice(0, LIMIT)
+
+  const offen = waehleFaellige(kandidaten, bestand, todayIso(), ALTER_TAGE, LIMIT)
 
   log(`${offen.length} Titel mit Folgenbedarf (Grenze ${ALTER_TAGE} Tage, höchstens ${LIMIT})`)
 
