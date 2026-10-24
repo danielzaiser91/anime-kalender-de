@@ -22,6 +22,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { log } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'
+import { todayIso } from '../shared/time.ts'
 
 /** `globalThis.X = {…}` einlesen, ohne den Code auszuführen. */
 function ausListe(pfad: string): Record<string, unknown> {
@@ -168,7 +169,7 @@ const aufgaben = [
 const md: string[] = [
   '# Was zu tun ist',
   '',
-  `Stand: ${new Date().toISOString().slice(0, 10)} — **erzeugt aus dem ausgelieferten Datensatz**,`,
+  `Stand: ${todayIso()} — **erzeugt aus dem ausgelieferten Datensatz**,`,
   'nicht von Hand gepflegt. Wer hier eine Zahl ändert, ändert sie am',
   'falschen Ort; sie kommt beim nächsten Lauf zurück.',
   '',
