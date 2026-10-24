@@ -30,6 +30,7 @@ pipeline/check-kalender-plausibilitaet-bestand.ts
 pipeline/check-katalog-eingefroren-bestand.ts
 pipeline/check-katalog-release-bestand.ts
 pipeline/check-logic-bestand.ts
+pipeline/check-mal-dubletten-bestand.ts
 pipeline/check-nein-liste-bestand.ts
 pipeline/check-news-einfrieren-bestand.ts
 pipeline/check-news-offiziell-bestand.ts

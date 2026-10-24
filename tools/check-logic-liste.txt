@@ -136,6 +136,7 @@ pipeline/check-link-leere-adresse.ts
 pipeline/check-logic.ts
 pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
+pipeline/check-mal-dubletten.ts
 pipeline/check-mal-teilung.ts
 pipeline/check-meldung-gti.ts
 pipeline/check-meldung-summenseite.ts
