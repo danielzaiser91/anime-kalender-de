@@ -1,6 +1,6 @@
 /** Tests für tools/pr-vorpruefung.mjs: Gegenproben der mechanischen Prüfer-Regeln. */
 import { readFileSync } from 'node:fs'
-import { existiertIn, genanntePfade, istErwaehnt, listenRot, vorpruefe } from './pr-vorpruefung.mjs'
+import { existiertIn, genanntePfade, istErwaehnt, fundeImDiff, listenRot, vorpruefe } from './pr-vorpruefung.mjs'
 
 const fehler = []
 const pruefe = (name, ok) => {
@@ -59,6 +59,9 @@ pruefe('Liste: Dublette und Unordnung ergeben zwei Meldungen', listeRot('b.ts\na
 pruefe('Liste: fehlende Datei (null) ist kein Fehler', listenRot(() => null).length === 0)
 pruefe('Liste: zweite Liste wird auch geprüft', listenRot((n) => (n === 'zwei.txt' ? 'b\na\n' : 'a\nb\n'), ['eins.txt', 'zwei.txt']).join().includes('zwei.txt'))
 pruefe('Liste: echte Listen im Repo sind in Ordnung', listenRot((n) => readFileSync(new URL(`../${n}`, import.meta.url), 'utf8')).length === 0)
+const funde = 'tools/a.test.mjs:3\ntools/b.test.mjs:7\ntools/b.test.mjs.bak:2\n'
+pruefe('Uhr: nur Fundstellen der Diff-Dateien, ganze Pfade', fundeImDiff(funde, ['tools/b.test.mjs']).join() === 'tools/b.test.mjs:7')
+pruefe('Uhr: keine Diff-Datei mit Fund gibt nichts', fundeImDiff(funde, ['tools/c.test.mjs']).length === 0)
 
 if (fehler.length) {
   console.error(`pr-vorpruefung.test: ${fehler.length} Fehler`)
