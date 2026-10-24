@@ -13,6 +13,7 @@
  */
 import { existsSync, readFileSync } from 'node:fs'
 import { ereignisse } from '../pipeline/lib/bestand-pendel.ts'
+import { stempelWarnungAusDatei } from './patchnotes-stempel-alter.mjs'
 
 const DATEI = 'data/bestand-historie.jsonl'
 const args = process.argv.slice(2)
@@ -21,9 +22,12 @@ const ALLES = args.includes('--alles')
 /** `--jetzt <ISO>` setzt die Uhr (Tests); im Betrieb ungesetzt. */
 const JETZT = args.includes('--jetzt') ? Date.parse(args[args.indexOf('--jetzt') + 1]) : Date.now()
 
+const stempelWarnung = stempelWarnungAusDatei()
+if (stempelWarnung) console.log(`⚠  ${stempelWarnung}\n`)
+
 if (!existsSync(DATEI)) {
   console.log('Noch keine Historie — der erste Lauf legt sie an.')
-  process.exit(0)
+  process.exit(stempelWarnung ? 1 : 0)
 }
 
 const zeilen = readFileSync(DATEI, 'utf8')
@@ -96,5 +100,5 @@ const auffaellige = sichtbar.filter((e) => (e.art === 'pendel' ? e.laufend : e.a
 if (auffaellige.length) {
   console.log('')
   console.log(`⚠  ${auffaellige.length} Lauf/Läufe mit Auffälligkeiten — siehe oben.`)
-  process.exit(1)
 }
+if (auffaellige.length || stempelWarnung) process.exit(1)

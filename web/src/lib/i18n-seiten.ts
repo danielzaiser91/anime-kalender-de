@@ -250,6 +250,8 @@ export const TEXTE_SEITEN = {
   'db.ab': 'ab {datum}',
   // Was gucken? (Spezifikation 18, Daniels Wortlaut)
   'view.empfehlung': 'Was gucken?',
+  'empf.zuruecksetzen': 'Empfehlungen zurücksetzen',
+  'empf.zuDatenbankKnopf': 'Was gucken?',
   'empf.einstiegTitel': 'Zeig uns, was du magst.',
   'empf.einstiegText': 'Triff 6 Entscheidungen und wir ermitteln daraus deine Vorlieben – daraus werden 5 Vorschläge.',
   'empf.los': "Los geht's",
