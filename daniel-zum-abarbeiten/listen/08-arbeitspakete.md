@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-24 · **15 offene Verweise** in **13 Zeilen**,
+Stand 2026-10-24 · **18 offene Verweise** in **16 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,7 +31,7 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 13
+## Paket 1 — Zeilen 1 bis 16
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
@@ -43,8 +43,11 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 6 | Prime Video | The Detective Is Already Dead | [Staffel 2]() |
 | 7 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
 | 8 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
-| 9 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 10 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
-| 11 | Disney+ | Jujutsu Kaisen | [0]() |
-| 12 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
-| 13 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door]() |
+| 9 | Prime Video | NieR:Automata Ver1.1a | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f447a318-045f-4f1d-871d-f6ac4d53cf8a) |
+| 10 | Prime Video | Yunas Geisterhaus | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.31c2fcde-089d-47dd-bf2b-09bca0de572f) |
+| 11 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 12 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
+| 13 | Disney+ | Jujutsu Kaisen | [0]() |
+| 14 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
+| 15 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door]() |
+| 16 | Prime Video | Project Itoh: Genocidal Organ | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.78b91eef-2e25-9512-4024-a8c43ad3e1f9) |

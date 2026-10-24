@@ -57,7 +57,8 @@ pruefe('nichts bekannt: Seitentext entscheidet (false)', staffelRegionWeg(0, 0, 
 
 /* Verdrahtung: Knopf und Klick benutzen die Helfer und der Regionsknopf braucht keine Unvollständigkeit */
 pruefe('Klick: vollständig über meldungVollstaendig mit Sperrenzahl',
-  /const vollstaendig = globalThis.akPrimeMeldungVollstaendig\(sollFolgen, geladen, gesperrtN\)/.test(quelle))
+  /const vollstaendig = globalThis.akPrimeMeldungVollstaendig\(sollFolgen, geladen, gesperrtN\)/.test(quelle) &&
+  /akPrimeMeldungErlaubt\(\{ nichtAbrufbar, deutsch, \.\.\.keinDeutschDaten \}\)/.test(quelle))
 pruefe('Knopf: Region-Zweig bleibt an die Liste gebunden',
   /if \(regionWeg && !deutsch && \(!vollstaendig \|\| gesperrteFolgen > 0\)\) \{/.test(quelle))
 pruefe('Knopf: wegInRegion zählt JSON-Sperren', /wegInRegion = globalThis.akPrimeGesperrteZahl\(gesehen\.gesperrt,/.test(quelle))
@@ -77,13 +78,13 @@ const klickCode = stueck("const nichtAbrufbar = knopf.dataset.tot === 'true'", '
 function klick({ tot = 'false', geladen, gesperrt, soll, deutsch = false, regionDom = [] }) {
   const knopf = { dataset: { tot }, textContent: '', title: '' }
   const f = new Function(
-    'knopf', 'sprachenAusFolgen', 'geladeneFolgen', 'deutschInFolgen', 'gesehen', 'seitenLage', 'ueberKanal', 'setTimeout', 'zeichnen', 'globalThis',
+    'knopf', 'sprachenAusFolgen', 'geladeneFolgen', 'deutschInFolgen', 'gesehen', 'seitenLage', 'ueberKanal', 'setTimeout', 'zeichnen', 'abweisen', 'globalThis',
     `let letzterStand = ''\n${klickCode}\nreturn 'weiter'`,
   )
   const ergebnis = f(
     knopf, () => [], () => geladen, () => deutsch,
     { gesamt: soll, gesperrt: gesperrt ? karte(gesperrt) : undefined },
-    () => ({ folgenLautSeite: 0, regionFolgen: regionDom }), () => false, () => 0, () => {}, kasten,
+    () => ({ folgenLautSeite: 0, regionFolgen: regionDom }), () => false, () => 0, () => {}, () => {}, kasten,
   )
   return { ergebnis, text: knopf.textContent }
 }

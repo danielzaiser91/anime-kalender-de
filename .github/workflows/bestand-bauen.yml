@@ -316,6 +316,19 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Vorschaubilder"
 
+      # Die frisch erzeugten Listen für die Erweiterung (`offene-amazon.js`, `pruefstand.json` …) und die Wiedervorlagen werden geprüft,
+      # bevor sie auf main landen. Bis dahin liefen `check:extension` und `check:wiedervorlage` erst danach in Deploy und PR-Kette und
+      # machten einen schon committeten Stand rot (Prüftisch 19.10.2026). Rot hier: kein Commit, Lauf rot, Meldungen bleiben im Briefkasten.
+      # Gemessen 24.10.2026: zusammen etwa 16 s.
+      - name: Erweiterung und Wiedervorlagen gegen die neuen Listen prüfen
+        run: |
+          for pruefung in check:extension check:wiedervorlage; do
+            if ! npm run "$pruefung"; then
+              echo "::error::$pruefung ist rot gegen die frisch erzeugten Dateien, nichts wird committet."
+              exit 1
+            fi
+          done
+
       # Hier sitzt die Zusicherung über den gebauten Bestand (`check:bestand` in
       # commit-data.sh). Sie macht den Lauf rot (11.10.2026: Als sie ihn nur gelb färbte, blieben die Erzeugnisse sechs
       # Stunden unausgeliefert). `BAU_LAUF` nimmt dann alles aus diesem Lauf zurück außer den Abrufen von `data:fetch`

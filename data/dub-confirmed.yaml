@@ -39010,7 +39010,6 @@
   dub: false
   checkedAt: '2026-10-24'
   note: "Amazon-Seite B09192P17W: alle 3 Folgen geprüft, 24 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.9c6c7e4c-cd9b-49da-9403-059c9e1f79cc, regionsperre=laut Seite nicht mehr im Abo"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-10-24 ---
 
 - anilistId: 1889
@@ -39020,7 +39019,6 @@
   available: false
   checkedAt: '2026-10-24'
   note: "Amazon-Seite B09M19FLBJ: alle 0 Folgen geprüft, 5 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.cd1d5cbf-afea-4c0b-aa99-176cf2cb1f06, regionsperre=laut Seite nicht mehr im Abo"
-
 - anilistId: 10004750
   title: "Es war einmal … Amerika"
   platform: primevideo
@@ -39029,7 +39027,6 @@
   kanalMessung: ja
   checkedAt: '2026-10-24'
   note: "Tonspuren: Deutsch — Amazon-Seite B00IKSSO70: alle 26 Folgen geprüft, Abos: ardplusde, laut Adresse Staffel 4, zugang=abo_und_kauf, gti=amzn1.dv.gti.4ca9f6d9-8dbb-059e-1644-ae369a6d19ba — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 10005293
   title: "Es war einmal … Entdecker und Erfinder"
   platform: primevideo
@@ -39038,7 +39035,6 @@
   kanalMessung: ja
   checkedAt: '2026-10-24'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B00IKSHXG8: alle 26 Folgen geprüft, Abos: ardplusde, laut Adresse Staffel 5, zugang=abo_und_kauf, gti=amzn1.dv.gti.c2a9f6af-5937-52f1-6ed1-08648ae0af74 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 10005217
   title: "Es war einmal … Die Entdeckung unserer Welt"
   platform: primevideo
@@ -39047,7 +39043,6 @@
   kanalMessung: ja
   checkedAt: '2026-10-24'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B00IKSJP6O: alle 26 Folgen geprüft, Abos: ardplusde, laut Adresse Staffel 6, zugang=abo_und_kauf, gti=amzn1.dv.gti.54a9f6e0-b5a8-99e9-0830-8d8f65c68fc7 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 10013576
   title: "Gans im Glück"
   platform: primevideo
@@ -39055,3 +39050,33 @@
   dub: true
   checkedAt: '2026-10-24'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0FM8VQT13: alle 1 Folge geprüft, Abos: Prime, kixi, zugang=abo_und_kauf, gti=amzn1.dv.gti.9fa2394b-127b-4825-bf4d-74895ac1fb3a"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-24 ---
+
+- anilistId: 212799
+  title: "Die sieben Ritter des Königreichs der Marronniers"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0HG69RT1Y
+  dub: true
+  checkedAt: '2026-10-24'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil), Türkçe, हिन्दी, ไทย, 日本語, 日本語 [音声による説明] — Amazon-Seite B0HG69RT1Y: alle 4 Folgen geprüft, Abos: Prime, FVOD — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.82c84934-b1f4-4ef5-b753-c4358fc076e6"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-24 ---
+
+- anilistId: 21236
+  title: "Beyblade Burst"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CHP5RVPL
+  dub: false
+  checkedAt: '2026-10-24'
+  note: "Amazon-Seite B0CHP5RVPL: alle 27 Folgen geprüft, 24 in der Region gesperrt, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, gti=amzn1.dv.gti.4662220d-e1d8-4272-963b-a82bedf3aba2, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 209872
+  title: "Ranma 1/2: Staffel 3"
+  platform: netflix
+  url: https://www.netflix.com/title/81171925
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 4
+      dub: true
+      checked: [1, 2, 3, 4]
+  checkedAt: '2026-10-24'
+  note: "Folgen 1–4 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, hi|Hindi, id|Indonesisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch — Gemessen in der Randprobe — gemessen: Folge 25 und 28, dazwischen nicht geprüft — Folge 28: Teekampfzeremonie — Netflix: Staffel 3"
