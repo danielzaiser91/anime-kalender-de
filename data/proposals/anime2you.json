@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-10-24T16:03:11.211Z",
+  "scrapedAt": "2026-10-24T17:03:19.718Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 19,
-    "schon in einem Rubrik-Feed gelesen": 3,
+    "schon in einem Rubrik-Feed gelesen": 4,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -30,13 +30,12 @@
       "articleTitle": "Zwei Synchro-Neuzugänge ab sofort auf Crunchyroll verfügbar",
       "articleUrl": "https://www.anime2you.de/news/1063615/crunchyroll-apotheke-staffel-3-synchro-und-mehr/",
       "publishedAt": "2026-10-24",
-      "category": "allgemein",
+      "category": "streaming",
       "platforms": [
         "crunchyroll"
       ],
       "dates": [],
       "dub": "ja",
-      "hinweis": "sprache",
       "alreadyCurated": false
     },
     {
