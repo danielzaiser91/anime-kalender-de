@@ -14,6 +14,7 @@ import {
   type CrunchyrollEntry,
   type CrunchyrollData,
 } from '../lib/crunchyroll.ts'
+import { ohneWocheUeberAnzahl } from '../lib/woche-ueber-anzahl.ts'
 import { todayIso } from '../../shared/time.ts'
 import { amazonSearchUrl } from '../../shared/plattform-suche.ts'
 import { type TmdbInfo } from '../lib/tmdb.ts'
@@ -144,7 +145,7 @@ export function baueReleases({
         // Gesehene Einzeltermine gewinnen gegen jede Hochrechnung — und der
         // Mensch gegen den Kalender, der von einem Mehrfachstart nur eine
         // Kachel zeigt.
-        const seen = beobachtungenZusammenfuehren({ ...nachgereichteFolgen(verpasst), ...observedEpisodes(slot) }, entry.schedule.observed)
+        const seen = beobachtungenZusammenfuehren({ ...nachgereichteFolgen(verpasst), ...observedEpisodes(ohneWocheUeberAnzahl(slot, schedule, entry.slug)) }, entry.schedule.observed)
         if (seen) schedule.observed = seen
         /**
          * Dieselbe durchlaufende Zählung wie unten bei den automatisch

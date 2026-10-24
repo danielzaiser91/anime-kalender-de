@@ -46,6 +46,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { todayIso } from '../shared/time.ts'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const args = process.argv.slice(2)
@@ -131,7 +132,7 @@ for (const [i, karte] of arbeit.entries()) {
     if (!t) continue
     const url = `https://plus.rtl.de/${pfad}`
     if (bestand[String(t.id)]?.url === url) continue
-    bestand[String(t.id)] = { url, slug: pfad, titel: t.titleDe ?? t.titleEn ?? null, gefundenAm: new Date().toISOString().slice(0, 10) }
+    bestand[String(t.id)] = { url, slug: pfad, titel: t.titleDe ?? t.titleEn ?? null, gefundenAm: todayIso() }
     neu++
     console.log(`[rtlplus]   ${t.titleDe ?? t.titleEn} → ${url}`)
   }

@@ -141,6 +141,19 @@ const jetzt = () => Date.now()
   pruefe('Ohne Durchgang läuft kein Takt', u.uhren.size === 0)
 }
 
+/* 3b. Die Seitenwelt hat ein Video stumm gestellt, das hier nie ankam (play() abgelehnt); spielt es nach dem Durchgang, ist der Ton zurück. */
+{
+  const u = umgebung({ lauf: null })
+  kontext.akNetflixStummStarten(u.umg)
+  const marken = new Set(['data-ak-war-laut'])
+  const video = Object.assign(macheVideo(true), { hasAttribute: (n) => marken.has(n), removeAttribute: (n) => marken.delete(n) })
+  u.hoerer.play.f({ target: video })
+  pruefe('Nach dem Durchgang: von der Seitenwelt stumm gestelltes Video spielt wieder laut', video.muted === false && !marken.size)
+  const daniel = Object.assign(macheVideo(true), { hasAttribute: () => false, removeAttribute() {} })
+  u.hoerer.play.f({ target: daniel })
+  pruefe('Ohne Marke (Daniel hat stumm gestellt) bleibt es stumm', daniel.muted === true)
+}
+
 /* 4. Gegenprobe: Durchgang läuft, aber die Seite ist keine Abspielseite. */
 {
   const u = umgebung({ pfad: '/title/81234567', lauf: jetzt() })

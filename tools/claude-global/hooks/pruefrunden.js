@@ -1,20 +1,27 @@
-// PreToolUse(Agent): verweigert den Start eines Agent-Prüfers (subagent_type "pruefer"), wenn der PR schon GRENZE Urteile hat.
-// Daniel 18.10.2026: „höchstens 3 Prüfrunden“ war Vorsatz, PR 1427 und 1389 liefen bis Runde 9 bzw. 6 — jetzt greift es technisch.
+// PreToolUse(Agent): verweigert den Start eines Agent-Prüfers (subagent_type "pruefer"), wenn der PR schon die erlaubten Urteile hat.
+// Daniel 21.10.2026 04:09/04:20: eine Prüfrunde, nur bei Prüfstufe 2 eine zweite, letzte (vorher 18.10.: „höchstens 3“, PR 1427 und
+// 1389 liefen bis Runde 9 bzw. 6). Die Stufe steht im CI-Kommentar „<!-- pr-stufe --> **Prüfstufe N**“ (pr-pruefer.yml); fehlt er,
+// gilt Stufe 2 (eine Sperre aus Versehen ist schlimmer).
 // Ein Urteil des Agent-Prüfers ist ein PR-Kommentar, dessen erste Zeile mit „Prüfer:“ oder „Prüfer Runde N:“ beginnt (5 PRs gemessen:
 // 1427, 1442, 1454, 1389, 1433). Das CI-Urteil beginnt mit „**Prüfer-Review**“ und zählt nicht.
-// Ausweg: „[runde-ausnahme: <Grund>]“ im Auftrag (Grund ab 8 Zeichen, nicht der Platzhalter). Scheitert gh, fehlt die PR-Nummer oder nennt der Auftrag
+// Ausweg: „[runde-ausnahme: <Grund>]“ im Auftrag (Grund ab 8 Zeichen, nicht der Platzhalter); greift er wirklich (Urteile an der Grenze),
+// steht der Grund mit PR in ~/.claude/logs/pruefrunden-ausnahmen.jsonl, damit der Prüftisch sieht, wie oft er greift. Scheitert gh, fehlt die PR-Nummer oder nennt der Auftrag
 // mehrere Repos, läuft der Start durch (Sperre aus Versehen ist schlimmer).
 // Eintrag in ~/.claude/settings.json unter hooks.PreToolUse (timeout über den 20 s von gh, der Nachbar agenten-grenze hat 10):
 //   { "matcher": "Agent|Task", "hooks": [{ "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/pruefrunden.js"], "timeout": 30 }] }
 const fs = require('node:fs')
+const os = require('node:os')
+const path = require('node:path')
 const { execFileSync } = require('node:child_process')
 
-const GRENZE = 3
+const GRENZE_STUFE_2 = 2
+const GRENZE_SONST = 1
+const STUFE_KOMMENTAR = /^<!-- pr-stufe -->\s*\*\*Prüfstufe (\d)\*\*/
 const STANDARD_REPO = 'danielzaiser91/anime-kalender-de'
 const GH_WINDOWS = 'C:/Program Files/GitHub CLI/gh.exe'
 const URTEIL = /^[\s*_#>]*Prüfer(?: Runde \d+)?:/
 // Grund: mindestens 8 Zeichen und nicht der Platzhalter „<Grund>“ aus der Verweigerung.
-const AUSNAHME = /\[runde-ausnahme:\s*(?!<)\S[^\]]{6,}\S\]/
+const AUSNAHME = /\[runde-ausnahme:\s*(?!<)(\S[^\]]{6,}\S)\]/
 const PR_IM_AUFTRAG = /\bPR\s*#?(\d{2,5})\b|github\.com\/([\w.-]+\/[\w.-]+)\/pull\/(\d{1,5})\b/i
 const REPO_ADRESSEN = [
   /github\.com\/([\w.-]+\/[\w.-]+)\/pull\//g,
@@ -62,12 +69,37 @@ function zaehleUrteile(kommentare) {
   return n
 }
 
-/** Verweigerungstext oder null. `gh(args)` liefert stdout oder wirft; `warne(text)` schreibt nach stderr. */
-function pruefe(input, { gh = ghAufruf, warne = (t) => process.stderr.write(`${t}\n`) } = {}) {
+/** Prüfstufe aus dem jüngsten Stufen-Kommentar des CI (github-actions); ohne ihn 2. */
+function leseStufe(kommentare) {
+  const treffer = kommentare
+    .filter((k) => k.author && k.author.login === 'github-actions')
+    .map((k) => STUFE_KOMMENTAR.exec(String(k.body)))
+    .filter(Boolean)
+  return treffer.length ? Number(treffer.at(-1)[1]) : 2
+}
+
+/** Erlaubte Urteile des Agent-Prüfers: bei Stufe 2 zwei, sonst eines. */
+function grenzeFuer(stufe) {
+  return stufe === 2 ? GRENZE_STUFE_2 : GRENZE_SONST
+}
+
+// PRUEFRUNDEN_AUSNAHME_LOG: Ablage der Ausnahmen, nur für den Prozesstest. Ein Fehler beim Schreiben sperrt nie.
+function schreibeAusnahme(eintrag) {
+  try {
+    const datei = process.env.PRUEFRUNDEN_AUSNAHME_LOG || path.join(os.homedir(), '.claude', 'logs', 'pruefrunden-ausnahmen.jsonl')
+    fs.mkdirSync(path.dirname(datei), { recursive: true })
+    fs.appendFileSync(datei, `${JSON.stringify({ zeit: new Date().toISOString(), ...eintrag })}\n`)
+  } catch {}
+}
+
+/**
+ * Verweigerungstext oder null. `gh(args)` liefert stdout oder wirft; `warne(text)` schreibt nach stderr;
+ * `ausnahme(eintrag)` hält eine wirksame Ausnahme fest.
+ */
+function pruefe(input, { gh = ghAufruf, warne = (t) => process.stderr.write(`${t}\n`), ausnahme = schreibeAusnahme } = {}) {
   const ti = input.tool_input || {}
   if (ti.subagent_type !== 'pruefer') return null
   const prompt = String(ti.prompt || '')
-  if (AUSNAHME.test(prompt)) return null
   const pr = findePr(prompt)
   if (!pr) {
     warne('pruefrunden: keine PR-Nummer im Auftrag, Start nicht geprüft')
@@ -86,8 +118,14 @@ function pruefe(input, { gh = ghAufruf, warne = (t) => process.stderr.write(`${t
     return null
   }
   const n = zaehleUrteile(kommentare)
-  if (n < GRENZE) return null
-  return `R4 gibt es nicht (Daniel 18.10.2026). PR ${pr.nummer} hat schon ${n} Prüfer-Urteile. Erlaubt: enge Schlussrunde auf den letzten Commit mit [runde-ausnahme: <Grund>] im Prüferauftrag; Teilmerge nur mit Prüfer-Urteil, keine Selbstfreigabe.`
+  const stufe = leseStufe(kommentare)
+  if (n < grenzeFuer(stufe)) return null
+  const grund = AUSNAHME.exec(prompt)
+  if (grund) {
+    ausnahme({ pr: pr.nummer, repo: pr.repo, urteile: n, stufe, grund: grund[1] })
+    return null
+  }
+  return `Eine Prüfrunde (Stufe 2: zwei). PR ${pr.nummer} hat schon ${n} Prüfer-Urteil(e) bei Stufe ${stufe}. Nachbesserung nimmt der Dirigent gegen die Auflagenliste ab. Ausnahme nur mit [runde-ausnahme: <Grund>] im Prüferauftrag (wird protokolliert); Teilmerge nur mit Prüfer-Urteil, keine Selbstfreigabe.`
 }
 
 /** Text für stdout: deny-JSON oder leer. Ungültige Eingabe lässt durch. */
@@ -100,7 +138,7 @@ function antwort(stdinText, optionen) {
   return JSON.stringify({ hookSpecificOutput: { hookEventName: 'PreToolUse', permissionDecision: 'deny', permissionDecisionReason: grund } })
 }
 
-module.exports = { pruefe, antwort, findePr, zaehleUrteile, GRENZE }
+module.exports = { pruefe, antwort, findePr, zaehleUrteile, leseStufe, grenzeFuer }
 
 if (require.main === module) {
   let s = ''

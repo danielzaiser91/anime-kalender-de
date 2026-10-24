@@ -82,7 +82,7 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
 
   /* Änderung wird spätestens nach FRIST_MS sichtbar: kam die Meldung nicht an, geht der Knopf wieder auf. */
   S.sperren(m, 'c|true', uhr.t)
-  pruefe('nicht angekommen, vor der Frist: gesperrt (Briefkasten ist bis zu einer Minute alt)',
+  pruefe('nicht angekommen, vor der Frist: gesperrt (Briefkasten hält die Edge bis zu 2 h)',
     S.zustand(m, 'c|true', uhr.t + S.FRIST_MS - 1000, false) === 'gesperrt')
   pruefe('nicht angekommen, nach der Frist: abgelaufen (erneut melden erlaubt)',
     S.zustand(m, 'c|true', uhr.t + S.FRIST_MS + 1000, false) === 'abgelaufen')
@@ -94,6 +94,31 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
   pruefe('setzeKlick mit Handler: klickbar', !knopf.disabled && knopf.getAttribute('aria-disabled') === 'false' && knopf.onclick === klick)
   S.setzeKlick(knopf, null)
   pruefe('setzeKlick ohne Handler: gesperrt, aria-disabled', knopf.disabled && knopf.getAttribute('aria-disabled') === 'true' && knopf.onclick === null)
+}
+
+/* --- Frist und Briefkasten: „nicht da“ zählt erst nach dem Höchstalter des Edge-Caches (Prüfer, 1397, Auflage C) --- */
+{
+  const { k } = weltNeu()
+  const worker = readFileSync(__dirname + '/../worker/src/pruefung-zaehlen.ts', 'utf8')
+  const sekunden = Number(/export const ZAEHLEN_SEKUNDEN = (\d+)/.exec(worker)?.[1])
+  pruefe('ZAEHLEN_SEKUNDEN im Worker gefunden', sekunden > 0, sekunden)
+  pruefe('FRIST_MS deckt das Cache-Alter von ?zaehlen=1 plus 5 min', k.AK_MELDE_SPERRE.FRIST_MS >= (sekunden + 300) * 1000,
+    { FRIST_MS: k.AK_MELDE_SPERRE.FRIST_MS, sekunden })
+  /* Auflage E: der Cache des zaehlen-Zweigs endet an der Konstante, nicht an einer Zahl an der Aufrufstelle. */
+  const lesen = readFileSync(__dirname + '/../worker/src/pruefung-lesen.ts', 'utf8')
+  const zweig = /get\('zaehlen'\) === '1'\) return ausCache\(async \(\) => \{[\s\S]*?\}, ([^)]*)\)/.exec(lesen)
+  pruefe('zaehlen-Zweig in pruefung-lesen.ts endet mit ZAEHLEN_SEKUNDEN', zweig?.[1] === 'ZAEHLEN_SEKUNDEN', zweig?.[1])
+  const m = new Map([['a|true', 0]])
+  pruefe('nicht angekommen: spätestens ZAEHLEN_SEKUNDEN + 15 min danach wieder frei',
+    k.AK_MELDE_SPERRE.zustand(m, 'a|true', (sekunden + 900) * 1000, false) === 'abgelaufen')
+  /* Kennung nicht lesbar: mit Briefkasten-Antwort „nicht da“ (false), ohne sie unbekannt (null) — Auflage D. */
+  const wirft = () => { throw new Error('weg') }
+  const belegt = k.AK_MELDUNG_BELEGT
+  pruefe('Kennung wirft, Briefkasten ohne die Adresse: false',
+    belegt('u', wirft, new Set(['x', 'y']), new Set(['A'])) === false, belegt('u', wirft, new Set(['x', 'y']), new Set(['A'])))
+  pruefe('Kennung wirft, keine Briefkasten-Antwort: null', belegt('u', wirft, null, null) === null, belegt('u', wirft, null, null))
+  pruefe('Kennung lesbar, keine Briefkasten-Antwort: null', belegt('u', () => 'A', null, null) === null, belegt('u', () => 'A', null, null))
+  pruefe('Kennung wirft, Briefkasten führt die Adresse: true', belegt('u', wirft, new Set(['x', 'u', 'y']), null) === true)
 }
 
 /* --- Prime: die Verdrahtung aus amazon.js ---------------------------------- */
@@ -115,8 +140,13 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
     },
     deutschInFolgen: () => zustand.deutsch,
     staffelSchluessel: () => zustand.staffel,
-    nichtAngekommen: () => !zustand.angekommen,
+    liste: { B0STAFFEL1: { url: 'https://www.amazon.de/dp/B0STAFFEL1' } },
+    asin: () => null,
+    briefkastenAdressen: { has: () => zustand.angekommen },
+    briefkastenSeiten: null,
     letzterStand: 'x',
+    speicherLesen: async () => ({}),
+    speicherSchreiben: async () => true,
     /* Der Takt: beschriftet den Knopf aus „vielen Zweigen" und gibt ihn frei — wie die Zweige in amazon.js. */
     zeichnenRoh: () => {
       zustand.roh++
@@ -198,9 +228,12 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
   uhr.t += 60_000
   k.zeichnen()
   pruefe('nicht angekommen, nach 60 s: noch gesperrt', knopf.disabled)
-  uhr.t += 90_000
+  uhr.t += 2 * 3600_000 - 61_000
   k.zeichnen()
-  pruefe('nicht angekommen, nach 150 s: Knopf wieder frei (Frist)', !knopf.disabled && k.letzterStand === '')
+  pruefe('nicht angekommen, knapp 2 h (Briefkasten aus dem Edge-Cache): noch gesperrt', knopf.disabled)
+  uhr.t += k.AK_MELDE_SPERRE.FRIST_MS - 2 * 3600_000 + 2000
+  k.zeichnen()
+  pruefe('nicht angekommen, nach FRIST_MS: Knopf wieder frei (Frist)', !knopf.disabled && k.letzterStand === '')
 
   /* Hin und zurück (A → B → A): jeder schon gemeldete Befund bleibt gesperrt, der neue bleibt meldbar. */
   zustand.angekommen = true
@@ -264,7 +297,7 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
   zustand.angekommen = false
   k.zeichnen()
   pruefe('nicht angekommen: erste Meldung', meldeUndZeichne() === 1)
-  uhr.t += 150_000
+  uhr.t += k.AK_MELDE_SPERRE.FRIST_MS + 1000
   pruefe('… nach der Frist meldet schon der Klick, ohne Takt dazwischen', (() => {
     const vorher = meldungen
     klick()
@@ -282,7 +315,7 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
   pruefe('zwischen Abhaken und Vermerk steht nur Kommentar, nichts, was den Vermerk überspringt',
     erfolg > 0 && vermerk > erfolg && zwischen.replace(/\/\*[\s\S]*?\*\//g, '').trim() === '', zwischen)
   /* Die Marke „alles durch" (`gemeldetMarke(an, …)`) hängt an `durchFuerPfad`, nicht an einer Konstanten. */
-  pruefe('die Marke „alles durch" folgt dem Pfad-Merker', /const an = durchFuerPfad === location\.pathname\s+const wegweisung/.test(quelle))
+  pruefe('die Marke folgt der Sperre und dem Pfad-Merker', quelle.includes('const an = meldeSperre.gesperrt() || durchFuerPfad === location.pathname'))
   pruefe('genau ein Vermerk und kein zweiter Weg zur Marke', (quelle.match(/meldeSperre\.vermerken\(/g) ?? []).length === 1)
   pruefe('zeichnen() läuft über die Sperre', /function zeichnen\(\) \{\s*meldeSperre\.zeichnen\(\)\s*\}/.test(quelle))
 }

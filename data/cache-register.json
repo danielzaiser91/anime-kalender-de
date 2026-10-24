@@ -36,26 +36,19 @@
       "bauBraucht": false,
       "fehlt": "Nur der Trailer-Lauf liest ihn (eigener Zwischenstand); fehlt er, holt der Lauf den Kanal neu"
     },
-    "pruefungen-abhaken.json": {
-      "schreiber": "pipeline/fetch-pruefungen.ts (--abhaken-spaeter)",
-      "laeufe": ["bestand-bauen.yml (je Bauzyklus; wird dort gelöscht und neu geschrieben)"],
+    "quittung-offen": {
+      "schreiber": "pipeline/lib/spaeter-quittieren.ts (Merker von fetch-pruefungen, fetch-rohfolgen, fetch-vorfaelle)",
+      "laeufe": ["bestand-bauen.yml (je Bauzyklus; tools/commit-data.sh verschiebt nach grünem Commit nach quittung-frei)"],
       "intervall": "je Bauzyklus",
       "bauBraucht": false,
       "fehlt": "Kurzlebiger Merkzettel innerhalb eines Laufs; ohne ihn wird nichts abgehakt"
     },
-    "rohfolgen-abhaken.json": {
-      "schreiber": "pipeline/fetch-rohfolgen.ts (schliesseRohfolgenAb)",
-      "laeufe": ["bestand-bauen.yml (je Bauzyklus; „Rohfolgen abhaken“ nach dem Commit löscht ihn)"],
+    "quittung-frei": {
+      "schreiber": "tools/commit-data.sh (quittungen_freigeben)",
+      "laeufe": ["bestand-bauen.yml (je Bauzyklus; die Quittungsschritte nach dem Commit leeren ihn)"],
       "intervall": "je Bauzyklus",
       "bauBraucht": false,
-      "fehlt": "Kurzlebiger Merkzettel innerhalb eines Laufs; ohne ihn wird nichts abgehakt"
-    },
-    "vorfaelle-loeschen.json": {
-      "schreiber": "pipeline/fetch-vorfaelle.ts",
-      "laeufe": ["bestand-bauen.yml (je Bauzyklus; „Vorfälle löschen“ nach dem Commit löscht ihn)"],
-      "intervall": "je Bauzyklus",
-      "bauBraucht": false,
-      "fehlt": "Kurzlebiger Merkzettel innerhalb eines Laufs; ohne ihn wird nichts gelöscht"
+      "fehlt": "Vor dem grünen Commit leer; die Quittungsschritte schicken dann nichts ab"
     },
     "anisearch-titelliste.json": {
       "schreiber": "pipeline/fetch-anisearch-katalog-abgleich.ts (npm run data:anisearch-katalog-abgleich)",

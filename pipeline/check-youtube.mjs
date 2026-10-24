@@ -33,6 +33,7 @@ import { fileURLToPath } from 'node:url'
 // Die beiden Titel-Muster stehen an einer Stelle: Der Bericht braucht
 // dieselben, und zwei Fassungen liefen garantiert auseinander.
 import { DEUTSCHE_SPUR, ANDERE_FASSUNG } from './lib/titel-muster.mjs'
+import { todayIso } from '../shared/time.ts'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const args = process.argv.slice(2)
@@ -282,7 +283,7 @@ for (const [i, v] of arbeit.entries()) {
     console.log(`  ${i + 1}/${arbeit.length} ? ${v.titel.slice(0, 34)} — ${err.message}`)
     continue
   }
-  bestand[v.url] = { ...befund, anilistId: v.id, geprueftAm: new Date().toISOString().slice(0, 10) }
+  bestand[v.url] = { ...befund, anilistId: v.id, geprueftAm: todayIso() }
   gelesen++
   const zeichen = !befund.lebt
     ? '✕'
