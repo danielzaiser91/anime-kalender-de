@@ -35,6 +35,8 @@ echo "$2 ${3:-} ${4:-} q=${BAU_QUARANTAENE:+ja}" >> ../npm.txt
 case "$2" in
   data:build)
     [ "${FAKE_BAU:-ok}" = fail ] && { echo "✖ Titelschwund"; exit 1; }
+    # fail-nur-2: nur der zweite Aufruf scheitert (Neuversuch-Szenarien mit drei Versuchen).
+    [ "${FAKE_BAU:-ok}" = fail-nur-2 ] && [ "$(grep -c '^data:build' ../npm.txt)" = 2 ] && { echo "✖ Titelschwund (zweiter Bau)"; exit 1; }
     [ "${FAKE_BAU:-ok}" = neubau ] && [ -n "${BAU_QUARANTAENE:-}" ] && { echo "✖ Neubau"; exit 1; }
     # Vorstand des Baus: Inhalt der committeten stand.json und alle Dateien in public/data (der Neubau beginnt ohne Reste des ersten).
     echo "q=${BAU_QUARANTAENE:+ja} $(cat public/data/stand.json 2> /dev/null) $(ls public/data 2> /dev/null | tr '\n' ' ')" >> ../vorbau.txt
@@ -58,6 +60,7 @@ case "$2" in
     ;;
   check:bestand)
     [ "${FAKE_BESTAND:-ok}" = fail ] && { echo "✗ Handbeleg ohne Titel"; exit 1; }
+    [ "${FAKE_BESTAND:-ok}" = fail-nur-2 ] && [ "$(grep -c '^check:bestand' ../npm.txt)" = 2 ] && { echo "✗ Handbeleg ohne Titel (zweite Prüfung)"; exit 1; }
     [ "${FAKE_BESTAND:-ok}" = fehler ] && { echo "FEHLER: Cover fehlt bei Titel 7"; exit 1; }
     [ "${FAKE_BESTAND:-ok}" = gemischt ] && { printf '⚠ Hinweis eins\n⚠ Hinweis zwei\n⚠ Hinweis drei\nFEHLER: Cover fehlt bei Titel 9\n'; exit 1; }
     [ "${FAKE_BESTAND:-ok}" = warnzeichen ] && { printf '⚠ Hinweis eins\n⚠ Hinweis zwei\n⚠ Hinweis drei\n  ✗ Netflix-Liste enthält Cartoon-Adressen — 89\n'; exit 1; }
@@ -98,7 +101,13 @@ chmod +x "$ATTRAPPE/npm"
 cat > "$ATTRAPPE/sleep" <<'SKRIPT'
 #!/usr/bin/env bash
 if [ -n "${NACH_PAUSE:-}" ]; then
-  echo "pause" >> "$NACH_PAUSE/fremd.txt"
+  # PAUSE_DATEI nennt eine Datei oder eine Liste (Leerzeichen): die n-te Pause bewegt die n-te, danach bleibt es bei der letzten.
+  n=$(cat "$NACH_PAUSE.n" 2> /dev/null || echo 0)
+  echo $((n + 1)) > "$NACH_PAUSE.n"
+  read -ra pausen <<< "${PAUSE_DATEI:-fremd.txt}"
+  ziel="${pausen[$n]:-${pausen[${#pausen[@]}-1]}}"
+  mkdir -p "$(dirname "$NACH_PAUSE/$ziel")"
+  echo "pause" >> "$NACH_PAUSE/$ziel"
   git -C "$NACH_PAUSE" add -A
   git -C "$NACH_PAUSE" -c user.name=t -c user.email=t@t commit -q -m pause
   git -C "$NACH_PAUSE" push -q origin HEAD:main
@@ -120,7 +129,7 @@ szenario() {
   git init -q --bare -b main "$ORIGIN"
   git clone -q "$ORIGIN" "$d/start" 2>/dev/null
   mkdir -p "$d/start/tools" "$d/start/data"
-  for datei in commit-data.sh quellen-liste.sh quellen-aufsetzen.sh health-vereinen.mjs dub-belege-vereinen.mjs quarantaene.mjs; do
+  for datei in commit-data.sh quellen-liste.sh quellen-aufsetzen.sh health-vereinen.mjs dub-belege-vereinen.mjs quarantaene.mjs neuversuch.sh neuversuch-art.mjs pr-nachrechnen.mjs pr-nachrechnen-bot-pfade.mjs; do
     cp "$WURZEL/tools/$datei" "$d/start/tools/$datei"
   done
   # js-yaml für dub-belege-vereinen: ohne scheitert quellen_aufsetzen jetzt laut.
@@ -165,6 +174,13 @@ szenario() {
   fi
   if [ "${ERSTEN_ABLEHNEN:-nein}" = ja ]; then
     printf '#!/bin/sh\nif [ ! -e schon-abgelehnt ]; then : > schon-abgelehnt; echo "abgelehnt (Test)" >&2; exit 1; fi\n' > "$ORIGIN/hooks/pre-receive"
+    chmod +x "$ORIGIN/hooks/pre-receive"
+    pause="$d/anderer"
+  fi
+  # ZWEI_ABLEHNEN=ja: die ersten zwei Pushes scheitern (drei Versuche), in jeder Pause bewegt sich der Fernstand.
+  if [ "${ZWEI_ABLEHNEN:-nein}" = ja ]; then
+    # Nur Pushes des Bots zählen: die Pausen-Pushes des anderen Pushers (Autor t) gehen immer durch.
+    printf '#!/bin/sh\nread alt neu ref\n[ "$(git log -1 --format=%%an "$neu")" = "github-actions[bot]" ] || exit 0\nn=$(cat abgelehnt-n 2>/dev/null || echo 0)\nif [ "$n" -lt 2 ]; then echo $((n+1)) > abgelehnt-n; echo "abgelehnt (Test)" >&2; exit 1; fi\n' > "$ORIGIN/hooks/pre-receive"
     chmod +x "$ORIGIN/hooks/pre-receive"
     pause="$d/anderer"
   fi
@@ -274,6 +290,7 @@ pruefe "Exit 0 (die Warnung aus Versuch 1 gilt nicht mehr)" 0 "$CODE"
 
 source "$WURZEL/tools/commit-data-test-quarantaene.sh"
 source "$WURZEL/tools/commit-data-test-verworfen.sh"
+source "$WURZEL/tools/commit-data-test-neuversuch.sh"
 
 echo "Gleichzeitige Läufe teilen sich keine festen Pfade (Wackeln unter Last, 14.10.2026)"
 pruefe "kein fester /tmp-Pfad in commit-data.sh" 0 "$(grep -c "/tmp/" "$WURZEL/tools/commit-data.sh" || true)"

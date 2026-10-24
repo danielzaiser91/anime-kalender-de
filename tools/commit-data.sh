@@ -38,6 +38,7 @@ VERSUCHE="${2:-6}" # 3 genügten nicht, wenn Stündlich, Daten-PR und ein Mensch
 # braucht dieselbe, und zwei Fassungen laufen auseinander.
 source "$(dirname "${BASH_SOURCE[0]}")/quellen-liste.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/quellen-aufsetzen.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/neuversuch.sh"
 ERZEUGNISSE=(public/data public/og)
 
 # Erst nach einem gelungenen Commit (oder wenn es nichts zu committen gab) und nur bei grünem Ausgang dürfen die
@@ -85,15 +86,30 @@ if [ "$EIGENE" -gt 0 ]; then
   exit 1
 fi
 
+# Neuversuch-Verkürzung (tools/neuversuch.sh): Basis, auf der gebaut bzw. check:logic grün war, und ob der letzte Versuch ganz grün war.
+BAU_BASIS=""
+LOGIK_BASIS=""
+PRUEFUNG_GRUEN=0
 for versuch in $(seq 1 "$VERSUCHE"); do
   # Die Quarantäne-Liste gilt nur für den Bau dieses Versuchs; nach dem Neuaufsetzen zählt allein der neue Prüfstand.
   rm -f "$TEMP_LAUF/quarantaene.json" "$TEMP_LAUF/quarantaene.txt"
   # Ebenso die Warnung: die letzte Zeile in GITHUB_ENV gilt, ohne diese stünde nach einem grünen Versuch 2 der Text von Versuch 1.
   echo "DATEN_WARNUNG=${DATEN_WARNUNG:-}" >> "${GITHUB_ENV:-/dev/null}"
   git fetch origin main --quiet
+  FERN="$(git rev-parse origin/main)"
+  neuversuch_klassifizieren
+  LOGIK_UEBERSPRINGEN=0
+  NEUVERSUCH_SCHNELL=0
+  case "$NEUVERSUCH_ART" in
+    nichts) NEUVERSUCH_SCHNELL=1 ;;
+    daten) LOGIK_UEBERSPRINGEN=1 ;;
+  esac
 
-  if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
-    echo "Fernstand hat sich bewegt — Quellen retten und neu aufsetzen (Versuch $versuch)."
+  if [ "$(git rev-parse HEAD)" != "$FERN" ] && [ "$NEUVERSUCH_SCHNELL" = 1 ]; then
+    echo "Fernstand hat sich bewegt, nur Bot-Dateien ohne Leser — Bau und Prüfungen gelten weiter, nur neu aufsetzen (Versuch $versuch)."
+    erzeugnisse_behalten_aufsetzen
+  elif [ "$(git rev-parse HEAD)" != "$FERN" ]; then
+    echo "Fernstand hat sich bewegt — Quellen retten und neu aufsetzen (Versuch $versuch, Art $NEUVERSUCH_ART)."
 
     # Nur die eigenen Änderungen an den Quellen kommen zurück (`tools/quellen-aufsetzen.sh`, seit 05.10.2026) — die Lehren zu `cp -r`, zum fehlenden
     # Pfad und zu den zusammengeführten Dateien stehen dort.
@@ -173,8 +189,14 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   BESTAND_KAPUTT=0
   QUARANTAENE_AKTIV=0
   # Beide Prüfketten in eine Datei; check:logic läuft nur nach grünem check:bestand.
+  # Mit LOGIK_UEBERSPRINGEN=1 (seit der letzten grünen check:logic bewegten sich nur Datenpfade, neuversuch-art.mjs) entfällt allein check:logic.
   bestand_pruefen() {
-    npm run check:bestand > "$TEMP_LAUF/bestand-pruefung.txt" 2>&1 && npm run check:logic >> "$TEMP_LAUF/bestand-pruefung.txt" 2>&1
+    npm run check:bestand > "$TEMP_LAUF/bestand-pruefung.txt" 2>&1 || return 1
+    if [ "$LOGIK_UEBERSPRINGEN" = 1 ]; then
+      echo "check:logic übersprungen: seit $LOGIK_BASIS bewegten sich nur Datenpfade." >> "$TEMP_LAUF/bestand-pruefung.txt"
+      return 0
+    fi
+    npm run check:logic >> "$TEMP_LAUF/bestand-pruefung.txt" 2>&1 && LOGIK_BASIS="$FERN"
   }
   # Die Historie-Zeile dieses Laufs (Schritt „Delta am Bestand festhalten“) misst den Bau vor der Quarantäne. Ausgeliefert wird ein
   # anderer Bestand: Zeile verwerfen (`verworfen: true`, die Wache überspringt sie) und neu messen (19.10.2026: Pendeln gegen Stände,
@@ -226,7 +248,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       fi
     done < <(git -c status.renames=false status --porcelain -uall -- "${QUELLEN[@]}")
   }
-  if [ "${AUFBAU_KAPUTT:-0}" != 1 ] && { [ "${NEU_GEBAUT:-0}" = 1 ] || [ "${BAU_LAUF:-0}" = 1 ]; }; then
+  if [ "$NEUVERSUCH_SCHNELL" != 1 ] && [ "${AUFBAU_KAPUTT:-0}" != 1 ] && { [ "${NEU_GEBAUT:-0}" = 1 ] || [ "${BAU_LAUF:-0}" = 1 ]; }; then
     # Seit dem 17.09.2026 auch check:logic, und im Bau-Lauf (BAU_LAUF=1) werden
     # die neuen Meldungen samt allem daraus Erzeugten zurückgenommen (bau_lauf_zuruecknehmen): Sie bleiben im Briefkasten, die
     # Statusanzeige zeigt den Grund. Bis dahin gingen Belege, die eine
@@ -390,6 +412,8 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   # Den eigenen Commit zurücknehmen, die Dateien behalten — die nächste Runde
   # setzt ohnehin auf dem neuen Fernstand neu auf.
   git reset --soft HEAD~1
+  BAU_BASIS="$FERN"
+  if neuversuch_gruen; then PRUEFUNG_GRUEN=1; else PRUEFUNG_GRUEN=0; fi
   # Kurze, zufällige Pause: Zwei Läufe, die zugleich abgelehnt wurden, sollen nicht im Gleichschritt neu ansetzen.
   sleep $((5 + RANDOM % 16))
 done

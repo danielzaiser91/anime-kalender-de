@@ -52,7 +52,7 @@ export const DATENPFADE = ['public/data/', 'data/cache/']
 /** Compare liefert höchstens 300 Dateien; bei so vielen ist die Liste evtl. abgeschnitten, also keine Ausnahme. */
 export const COMPARE_GRENZE = 300
 
-const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p)) || istBotDatei(datei)
+export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p)) || istBotDatei(datei)
 
 /** null = Ausnahme gilt (main bewegte nur Datenpfade, der PR keinen); sonst der Grund, warum nicht. */
 export function datenpfadAusnahme(vergleich, prDateien) {
