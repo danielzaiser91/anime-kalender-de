@@ -17,6 +17,7 @@ const wurzel = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 const skripte = JSON.parse(fs.readFileSync(path.join(wurzel, 'package.json'), 'utf8')).scripts
 const lesen = (datei) => fs.readFileSync(path.join(wurzel, datei), 'utf8')
 const istDatei = (datei) => fs.existsSync(path.join(wurzel, datei)) && fs.statSync(path.join(wurzel, datei)).isFile()
+const istCode = (datei) => /\.(ts|tsx|mjs|cjs|mts)$/.test(datei) && istDatei(datei)
 
 /** Alle Code-Dateien, die `npm run <name>` ausführt (verschachtelte `npm run`, `tsx`/`node`-Ziele). */
 function skriptDateien(name, gesehen = new Set()) {
@@ -34,13 +35,13 @@ function bestandDateien() {
   const gesehen = new Set(offen)
   while (offen.length > 0) {
     const datei = offen.pop()
-    if (!istDatei(datei)) continue
+    if (!istCode(datei)) continue
     for (const ziel of importe(wurzel, datei).filter((z) => !gesehen.has(z))) {
       gesehen.add(ziel)
       offen.push(ziel)
     }
   }
-  return [...gesehen].filter((d) => /\.(ts|tsx|mjs|cjs|mts)$/.test(d) && istDatei(d)).sort()
+  return [...gesehen].filter(istCode).sort()
 }
 
 const dateien = bestandDateien()
