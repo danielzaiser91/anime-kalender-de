@@ -1,5 +1,5 @@
 /**
- * Zusicherungen zu `lib/tmdb-folgen-auswahl.ts`: laufende Serien mit titellosen, schon erschienenen Folgen kommen nach 7 Tagen wieder und zuerst.
+ * Zusicherungen zu `lib/tmdb-folgen-auswahl.ts`: laufende Serien mit titellosen, schon erschienenen Folgen kommen nach 6 Tagen wieder und zuerst.
  * Aufruf: `npm run check:logic`.
  */
 import { frischFaellig, grundFaellig, waehleFaellige, type BestandKurz, type FolgeKurz } from './lib/tmdb-folgen-auswahl.ts'
@@ -23,8 +23,8 @@ pruefe('fehlender Titel (null)', frischFaellig(bestand('2026-10-16', folge(2, nu
 pruefe('Titel nur aus Leerzeichen', frischFaellig(bestand('2026-10-16', folge(2, '  ', '2026-10-15')), heute))
 pruefe('ohne englischen Vergleich zählt ein echter Titel', !frischFaellig(bestand('2026-10-16', folge(2, 'Der Anfang', '2026-10-15', { en: undefined })), heute))
 pruefe('alle Titel echt: nicht fällig', !frischFaellig(bestand('2026-10-16', echt, folge(2, 'Das Ende', '2026-10-15')), heute))
-pruefe('Abruf genau 7 Tage alt: fällig', frischFaellig(bestand('2026-10-17', folge(2, 'Folge 2', '2026-10-15')), heute))
-pruefe('Abruf 6 Tage alt: nicht fällig', !frischFaellig(bestand('2026-10-18', folge(2, 'Folge 2', '2026-10-15')), heute))
+pruefe('Abruf genau 6 Tage alt: fällig', frischFaellig(bestand('2026-10-18', folge(2, 'Folge 2', '2026-10-15')), heute))
+pruefe('Abruf 5 Tage alt: nicht fällig', !frischFaellig(bestand('2026-10-19', folge(2, 'Folge 2', '2026-10-15')), heute))
 pruefe('Folge heute erschienen', frischFaellig(bestand('2026-10-16', folge(2, 'Folge 2', heute)), heute))
 pruefe('Folge noch nicht erschienen', !frischFaellig(bestand('2026-10-16', folge(2, 'Folge 2', '2026-10-25')), heute))
 pruefe('Folge ohne Datum', !frischFaellig(bestand('2026-10-16', folge(2, 'Folge 2', null)), heute))

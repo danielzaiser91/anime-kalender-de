@@ -1,8 +1,8 @@
 import { addDays, diffDays } from '../../shared/time.ts'
 import { PLATZHALTER } from '../bau/folgentitel-tmdb.ts'
 
-/** Abruf-Alter in Tagen, ab dem eine erschienene Folge ohne echten Titel den Eintrag fällig macht (statt der 30 Tage der Grundfrist). */
-export const FRISCH_TAGE = 7
+/** Abruf-Alter in Tagen, ab dem eine erschienene Folge ohne echten Titel den Eintrag fällig macht (statt der 30 Tage der Grundfrist). 6 statt 7: startet der Wochenlauf einen Tag früher, käme der Eintrag sonst erst nach 14 Tagen dran. */
+export const FRISCH_TAGE = 6
 
 /** Nur Folgen der letzten Wochen zählen: fehlt ein Titel länger, ist er bei TMDB dauerhaft englisch oder leer, und ein Wochenabruf brächte nichts (Messung 24.10.2026: sonst 368 von 817 Titeln jede Woche). */
 export const FENSTER_TAGE = 21
