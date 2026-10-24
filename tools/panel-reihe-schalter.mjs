@@ -59,7 +59,14 @@ export function pfeilFehler(spuren, wann) {
 async function main() {
   if (!distPruefen(WURZEL)) return
   const browser = await chromium.launch()
-  const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
+  try {
+    await pruefeSchalter(await browser.newPage({ viewport: { width: 1280, height: 900 } }))
+  } finally {
+    await browser.close()
+  }
+}
+
+async function pruefeSchalter(seite) {
   await seite.route('**/*', antwortAus(path.join(WURZEL, 'dist')))
   await seite.goto(`http://ak.test/#/datenbank?t=${TITEL}`, { waitUntil: 'networkidle' })
   await seite.locator('[data-reihe-liste] [role=tablist]').first().waitFor({ state: 'visible', timeout: 20_000 })
@@ -79,9 +86,9 @@ async function main() {
   await seite.getByText(SCHALTER).click()
   await seite.waitForTimeout(600)
   const aus = await messeSpuren(seite)
+  if (aus.length !== vorher.length) fehler.push(`Vorbedingung: nach dem Ausschalten ${aus.length} statt ${vorher.length} Spuren wie vorher`)
   if (aus.every((s) => s.ueberlaeuft)) fehler.push('Vorbedingung: nach dem Ausschalten läuft jede Spur über (Titel passt nicht mehr)')
   fehler.push(...pfeilFehler(aus, 'Schalter aus'))
-  await browser.close()
   console.log(`panel-reihe-schalter: Titel ${TITEL}, Spuren vorher ${JSON.stringify(vorher)}, an ${JSON.stringify(an)}, aus ${JSON.stringify(aus)}`)
   for (const f of fehler) console.error(`  ✕ ${f}`)
   console.log(fehler.length ? `panel-reihe-schalter: ${fehler.length} Verstöße` : 'panel-reihe-schalter: ok (Pfeile folgen dem Überlauf nach Schalter an, Scrollen, Schalter aus)')
