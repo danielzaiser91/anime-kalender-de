@@ -13,6 +13,7 @@ pipeline/check-adn-sprache-offen.ts
 pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-adressen-schreiben.ts
 pipeline/check-adressen.ts
+pipeline/check-angebot-feed.ts
 pipeline/check-angebot-seit-disc.ts
 pipeline/check-angebot-seit.ts
 pipeline/check-angebot-stichtag.ts
