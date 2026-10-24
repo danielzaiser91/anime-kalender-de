@@ -34,6 +34,12 @@ function echterTitel(f: TmdbFolge): string | undefined {
   return t
 }
 
+/** Unser Name (auch ohne angehängte Staffelzahl „… II", „… 3": TMDB führt die Staffeln unter dem Namen der ersten, Landei II, 06.10.2026) gleich dem TMDB-Namen. */
+function serieHeisstGleich(titel: Title, tmdbSerie: string | undefined): boolean {
+  const unser = [titel.titleDe, titel.titleEn, titel.titleRomaji].map(tmdbName).flatMap((n) => [n, n.replace(/(?:iii|ii|iv|[2-5])$/, '')])
+  return Boolean(tmdbSerie) && unser.includes(tmdbName(tmdbSerie))
+}
+
 /**
  * Titel je Folgennummer, nur wenn alles zusammenpasst: Format Serie mit mindestens sechs Folgen, Name gleich dem TMDB-Namen,
  * genau eine TMDB-Staffel mit unserer Folgenzahl und unserem Beginnjahr, Nummern 1:1. Sonst `undefined` — keine Nummer wird geraten.
@@ -41,10 +47,7 @@ function echterTitel(f: TmdbFolge): string | undefined {
  */
 export function tmdbFolgentitel(titel: Title, tmdbNameDe: string | undefined, eintrag: TmdbEintrag | undefined, nummern: number[]): Map<number, string> | undefined {
   if (!eintrag?.folgen || !FORMATE.has(titel.format ?? '') || !titel.episodes || titel.episodes < 6 || !titel.jpYear) return undefined
-  /* Auch ohne angehängte Staffelzahl („… II", „… 3"): TMDB führt die Staffeln unter dem Namen der ersten (Landei II, 06.10.2026). */
-  const unser = [titel.titleDe, titel.titleEn, titel.titleRomaji].map(tmdbName).flatMap((n) => [n, n.replace(/(?:iii|ii|iv|[2-5])$/, '')])
-  const tmdbSerie = eintrag.nameDe ?? tmdbNameDe
-  if (!tmdbSerie || !unser.includes(tmdbName(tmdbSerie))) return undefined
+  if (!serieHeisstGleich(titel, eintrag.nameDe ?? tmdbNameDe)) return undefined
   const jeStaffel = new Map<number, TmdbFolge[]>()
   for (const f of eintrag.folgen) if (f.s >= 1) jeStaffel.set(f.s, [...(jeStaffel.get(f.s) ?? []), f])
   const passend = [...jeStaffel.values()].filter((fs) => {
