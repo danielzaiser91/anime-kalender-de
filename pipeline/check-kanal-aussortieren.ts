@@ -134,7 +134,7 @@ function pruefeErgebnis(kulisse: string): string[] {
   const offen = new Set((lies(kulisse, 'data/prime-unzugeordnet.json') as { url: string }[]).map((o) => o.url))
   const weg = Object.values(lies(kulisse, 'data/prime-kanal-aussortiert.json') as Record<string, { titleId: number; andereAdresse: string; folgen: { id: number }[] }>)
   const zugeordnet = Object.values(lies(kulisse, 'data/prime-zugeordnet.json') as Record<string, { titleId: number }>)
-  const abgehakt = new Set(lies(kulisse, 'data/cache/rohfolgen-abhaken.json') as number[])
+  const abgehakt = new Set(lies(kulisse, 'data/cache/quittung-offen/rohfolgen-abhaken.json') as number[])
   for (const f of faelle.filter((x) => !x.spaeter)) {
     const eintrag = weg.find((w) => w.titleId === f.titel)
     const ids = f.seiten.map((_, i) => zeilenId(f, i))
