@@ -341,7 +341,7 @@ async function spieleEmpfehlung(browser, geraet, thema) {
   return fehler
 }
 
-const RESET_BREITEN = [390, 768, 1024, 1440]
+const RESET_BREITEN = [390, 768, 820, 1024, 1180, 1279, 1440]
 const RESET_SCHLUESSEL = ['empfehlung:gesehen', 'empfehlung:verworfen', 'empfehlung:anbieter']
 
 const IPAD_UA = 'Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
