@@ -20,7 +20,7 @@ export interface TmdbEintrag {
   tmdbId?: number
 }
 
-const PLATZHALTER = /^(episode|folge|episod|special|ova)\s*\d*$/i
+export const PLATZHALTER = /^(episode|folge|episod|special|ova)\s*\d*$/i
 const FORMATE = new Set(['TV', 'TV_SHORT', 'ONA'])
 
 /** Name ohne Staffelzusatz und Satzzeichen, zum Vergleich. */
