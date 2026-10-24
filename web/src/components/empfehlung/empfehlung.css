@@ -1,7 +1,9 @@
 /* Bewegung und Lagen der Ansicht „Was gucken?“; nur transform und opacity, Farben aus den ak-Tokens. */
 .empf [hidden] { display: none !important; }
 
-.empf-hg { position: absolute; inset: 0; overflow: hidden; background: var(--ak-grund); }
+.empf-hg { position: absolute; inset: 0; overflow: hidden; background: var(--ak-grund); z-index: 0; }
+/* Positionierte Lage liegt sonst über allem, was nicht positioniert ist (Überschriften, Texte). */
+.empf > section { position: relative; z-index: 1; }
 .empf-hg-lage {
   position: absolute; inset: -10%; background-size: cover; background-position: center;
   filter: blur(40px) saturate(1.4); opacity: 0; transition: opacity 800ms ease;

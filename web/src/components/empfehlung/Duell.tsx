@@ -83,14 +83,14 @@ export function Duell({ kontext, sitzung, ziel, titel, antworte, zurueck, schein
           <div className="h-full min-h-0 w-full md:flex md:justify-start"><Karte k={b} titel={titel?.get(b.id)} genres={genres(b)} status={status('B')} wahl={() => waehle('B')} /></div>
         </div>
         <p className="mt-2.5 text-[13px] text-ak-leise">{zahlen}</p>
-        <div className="mt-1.5 grid grid-cols-[auto_1fr_auto] items-center gap-2">
+        <div className="mt-1.5 grid grid-cols-[auto_1fr] items-center gap-2 min-[600px]:grid-cols-[auto_1fr_auto]">
           <button type="button" onClick={zurueck} className={`min-h-11 px-1 text-sm text-ak-leise ${sitzung.verlauf.length ? '' : 'invisible'}`}>
             {t('empf.zurueck')}
           </button>
           <button type="button" onClick={() => waehle('N')} className="min-h-11 justify-self-center rounded-xl border border-dashed border-ak-rand px-4.5 font-semibold text-ak-leise">
             {t('empf.egal')}
           </button>
-          <span className="invisible min-h-11 px-1 text-sm" aria-hidden>{t('empf.zurueck')}</span>
+          <span className="invisible hidden min-h-11 px-1 text-sm min-[600px]:inline" aria-hidden>{t('empf.zurueck')}</span>
         </div>
       </div>
     </section>
