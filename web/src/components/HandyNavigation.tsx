@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import type { ViewId } from '../lib/router.ts'
-import type { Bereich } from './Header.tsx'
+import type { Bereich } from '../lib/bereiche.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { KalenderZeichen, NewsZeichen, RasterZeichen, ZahnradZeichen } from './kalender/Zeichen.tsx'
 import { SaisonZeichen } from './saison-zeichen.tsx'

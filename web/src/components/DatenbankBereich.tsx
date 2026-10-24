@@ -45,7 +45,7 @@ export function DatenbankBereich(p: DatenbankBereichProps) {
   const herkunftZaehlung = useMemo(() => zaehleHerkunft(p.quelle), [p.quelle])
   const ansicht = (
     <>
-      <WasGuckenKnopf onClick={() => p.navigate({ view: 'empfehlung' })} />
+      <WasGuckenKnopf navigate={p.navigate} />
       {p.geladen ? (
         <SuchfundstellenContext.Provider value={p.titles.fundstellen}>
           <DatabaseView

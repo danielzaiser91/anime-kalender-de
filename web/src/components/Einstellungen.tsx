@@ -78,7 +78,7 @@ function ThemaZeile() {
 }
 
 /** Löscht, was „Was gucken?“ im Browser abgelegt hat; Favoriten und die Datenbank-Vorlieben bleiben. */
-function EmpfehlungZeile() {
+export function EmpfehlungZeile() {
   const { t } = useLang()
   const [erledigt, setErledigt] = useState(false)
   return (

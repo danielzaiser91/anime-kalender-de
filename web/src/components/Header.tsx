@@ -1,5 +1,7 @@
 import type { ViewId } from '../lib/router.ts'
-import { useLang, type TranslationKey } from '../lib/i18n.tsx'
+import { bereichVon } from '../lib/bereiche.ts'
+import { KopfNavigation, einfacherKlick } from './KopfNavigation.tsx'
+import { useLang } from '../lib/i18n.tsx'
 import { useThema } from '../lib/thema.ts'
 import { InstallButton } from './InstallPrompt.tsx'
 import { KopfSuchfeld, useKopfSuche } from './kopf-suche.tsx'
@@ -9,34 +11,7 @@ import { useMobil } from '../lib/use-mobil.ts'
 import { AboMenue } from './kalender/AboMenue.tsx'
 import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen } from './kalender/Zeichen.tsx'
 
-export type Bereich = 'kalender' | 'datenbank' | 'news' | 'saison' | 'empfehlung'
-
-/** Die Bereiche der Seite (am Handy ohne „Was gucken?“: dort führt der Knopf in der Datenbank hin). Woche und Monat sind beide „Kalender". */
-export const BEREICHE: { id: Bereich; ziel: ViewId }[] = [
-  { id: 'kalender', ziel: 'woche' },
-  { id: 'datenbank', ziel: 'datenbank' },
-  { id: 'news', ziel: 'news' },
-  { id: 'saison', ziel: 'saison' },
-  { id: 'empfehlung', ziel: 'empfehlung' },
-]
-
-export function bereichVon(view: ViewId): Bereich | undefined {
-  if (view === 'woche' || view === 'monat') return 'kalender'
-  if (view === 'datenbank' || view === 'news' || view === 'saison' || view === 'empfehlung') return view
-  return undefined
-}
-
 const RUND = 'flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
-
-/**
- * Nur der schlichte Linksklick geht durch die App. Mittlere Maustaste, Strg-,
- * Shift- und Meta-Klick sollen die echte Adresse öffnen — dafür steht am
- * Element ein `href` (Daniel, 01.10.2026: Logo und Reiter per mittlerer
- * Maustaste im neuen Tab).
- */
-function einfacherKlick(e: React.MouseEvent): boolean {
-  return e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey
-}
 
 /**
  * Die Kopfleiste der Poster-Gestaltung (26.09.2026): Logo, drei Bereiche, Suche, Abo-Knopf, Thema.
@@ -112,42 +87,6 @@ export function Header({
       )}
       <HandyNavigation aktiv={aktiv} onView={onView} kalender={kalender ? view : 'woche'} einstellungen={einstellungen} />
     </header>
-  )
-}
-
-/** Die drei Bereiche als Reiter (ab `md`); auf dem Handy stehen sie unten in `HandyNavigation`. */
-function KopfNavigation({ view, aktiv, onView, hrefFuer }: {
-  view: ViewId
-  aktiv: ReturnType<typeof bereichVon>
-  onView: (v: ViewId) => void
-  hrefFuer: (ziel: ViewId) => string
-}) {
-  const { t } = useLang()
-  return (
-    <nav aria-label={t('nav.bereich')} className="hidden gap-6 text-[15px] font-semibold md:flex">
-      {BEREICHE.map((b) => {
-        const ziel = b.id === 'kalender' && aktiv === 'kalender' ? view : b.ziel
-        return (
-          <a
-            key={b.id}
-            href={hrefFuer(ziel)}
-            onClick={(e) => {
-              if (einfacherKlick(e)) {
-                e.preventDefault()
-                onView(ziel)
-              }
-            }}
-            aria-current={aktiv === b.id ? 'page' : undefined}
-            className={[
-              'cursor-pointer border-b-2 py-2 transition',
-              aktiv === b.id ? 'border-ak-gewaehlt text-ak-text' : 'border-transparent text-ak-leise hover:text-ak-text',
-            ].join(' ')}
-          >
-            {t(b.id === 'kalender' ? 'nav.kalender' : (`view.${b.id}` as TranslationKey))}
-          </a>
-        )
-      })}
-    </nav>
   )
 }
 
