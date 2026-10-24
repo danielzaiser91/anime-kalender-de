@@ -482,7 +482,7 @@ export function digestMail(
   const rhythmus =
     frequency === 'daily'
       ? { name: 'tägliche Newsletter', wann: 'jeden Morgen', andere: 'wöchentlich' }
-      : { name: 'wöchentliche Newsletter', wann: 'jeden Montagmorgen', andere: 'täglich' }
+      : { name: 'wöchentliche Newsletter', wann: 'einmal pro Woche, morgens', andere: 'täglich' }
   const mine = events.filter((e) => favorites.has(e.titleId))
   const rest = events.filter((e) => !favorites.has(e.titleId))
   const neu = options.neuMitSynchro ?? []

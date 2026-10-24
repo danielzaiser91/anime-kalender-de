@@ -50,6 +50,7 @@ import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { handpruefungSchreiben, jwFrisch, type Handpruefung } from './lib/jw-handpruefung.ts'
 import { jahrPasst, reiheFuehrtEsNicht as reiheFuehrtEsNichtRein, type CrStaffel } from './lib/cr-reihe.ts'
+import { todayIso } from '../shared/time.ts'
 
 const DATEI = 'data/crunchyroll-offene.json'
 const UA =
@@ -82,7 +83,6 @@ interface Befund {
   geprueftAm: string
 }
 
-const heute = () => new Date().toISOString().slice(0, 10)
 
 /** Vergleichbare Form eines Titels: ohne Satzzeichen, klein, Wörter durch ein Leerzeichen. */
 const norm = (s: string | undefined | null): string =>
@@ -200,7 +200,7 @@ export async function main(): Promise<void> {
   const justwatch = readJson<
     Record<string, { erstAm?: string; geprueftAm?: string; jwPfad?: string; angebote?: { anbieter?: string; url?: string }[] }>
   >('data/justwatch-audio.json', {})
-  const heuteIso = new Date().toISOString().slice(0, 10)
+  const heuteIso = todayIso()
   /** Tot laut frischen JustWatch-Daten — erst Daniels Blick, dann entfernt (17.09.2026). */
   const zurHand: Handpruefung[] = []
   const zurHandpruefung = (werk: Title, url: string, grund: string, jwPfad?: string): Befund => {
@@ -213,7 +213,7 @@ export async function main(): Promise<void> {
       ...(jwPfad ? { jwPfad } : {}),
       seit: heuteIso,
     })
-    return { herkunft: 'offen', geprueftAm: heute(), grund: `zur Handprüfung: ${grund}` }
+    return { herkunft: 'offen', geprueftAm: todayIso(), grund: `zur Handprüfung: ${grund}` }
   }
   /**
    * **JustWatch nennt die Adresse, die unser Bestand nicht hat — mit Kennung.**
@@ -312,10 +312,10 @@ export async function main(): Promise<void> {
        */
       if (status === 404) {
         return eigeneVideoId
-          ? { herkunft: 'tot', geprueftAm: heute(), grund: `Videokennung ${videoId} gibt es nicht mehr` }
+          ? { herkunft: 'tot', geprueftAm: todayIso(), grund: `Videokennung ${videoId} gibt es nicht mehr` }
           : {
               herkunft: 'offen',
-              geprueftAm: heute(),
+              geprueftAm: todayIso(),
               grund: `die von JustWatch genannte Kennung ${videoId} gibt es nicht mehr`,
             }
       }
@@ -332,7 +332,7 @@ export async function main(): Promise<void> {
         | undefined
       const md = o?.episode_metadata
       if (md?.audio_locale === 'de-DE') {
-        return { herkunft: 'video', dub: true, titel: o?.title, seriesId: md.series_id, geprueftAm: heute() }
+        return { herkunft: 'video', dub: true, titel: o?.title, seriesId: md.series_id, geprueftAm: todayIso() }
       }
       /**
        * **Die Folge nennt ihre sämtlichen Fassungen selbst — und das ist ein
@@ -363,7 +363,7 @@ export async function main(): Promise<void> {
           titel: o?.title,
           seriesId: md?.series_id,
           audio: fassungen as string[],
-          geprueftAm: heute(),
+          geprueftAm: todayIso(),
           grund: `die Folge nennt ihre Fassungen selbst (${fassungen.join(', ')}) — kein Deutsch darunter`,
         }
       }
@@ -381,14 +381,14 @@ export async function main(): Promise<void> {
           titel: serie.titel,
           seriesId: md?.series_id,
           audio: serie.audio,
-          geprueftAm: heute(),
+          geprueftAm: todayIso(),
           grund: `Video ${md?.audio_locale ?? '—'}, Serie „${serie.titel}" ohne de-DE`,
         }
       }
       return {
         herkunft: 'offen',
         seriesId: md?.series_id,
-        geprueftAm: heute(),
+        geprueftAm: todayIso(),
         grund: serie
           ? `Video ${md?.audio_locale ?? '—'}, aber die Serie führt Deutsch — eine andere Fassung kann es geben`
           : `Video ${md?.audio_locale ?? '—'}, Serie ${md?.series_id ?? '?'} nicht im deutschen Katalog`,
@@ -471,7 +471,7 @@ export async function main(): Promise<void> {
           return zurHandpruefung(werk, url, `nicht im deutschen Katalog, JustWatch ohne Crunchyroll`, jwEintrag?.jwPfad)
         return {
           herkunft: 'tot',
-          geprueftAm: heute(),
+          geprueftAm: todayIso(),
           grund:
             `im deutschen Katalog nicht geführt, und JustWatch nennt ${anbieter.length} Anbieter ohne Crunchyroll ` +
             `(${[...new Set(anbieter)].slice(0, 3).join(', ')})`,
@@ -489,11 +489,11 @@ export async function main(): Promise<void> {
       if (/-unbekannt-\d+(?:[/?#]|$)/i.test(url)) {
         return {
           herkunft: 'tot',
-          geprueftAm: heute(),
+          geprueftAm: todayIso(),
           grund: 'Altadresse der Form „…-unbekannt-N" ohne Serienkennung; diese Seiten führen seit dem Umbau auf 404',
         }
       }
-      return { herkunft: 'offen', geprueftAm: heute(), grund: 'keine Kennung in der Adresse, kein sicherer Treffer' }
+      return { herkunft: 'offen', geprueftAm: todayIso(), grund: 'keine Kennung in der Adresse, kein sicherer Treffer' }
     }
     /*
       **Die Serie ist gefunden — das Werk ist damit noch nicht beurteilt.**
@@ -522,7 +522,7 @@ export async function main(): Promise<void> {
         seriesId: kandidat.id,
         titel: kandidat.titel,
         audio: kandidat.audio ?? [],
-        geprueftAm: heute(),
+        geprueftAm: todayIso(),
         grund: `Filmeintrag „${kandidat.titel}" im deutschen Katalog${deutschImFilm ? ' mit' : ' ohne'} de-DE`,
       }
     }
@@ -603,7 +603,7 @@ export async function main(): Promise<void> {
             seriesId: st.id,
             titel: st.titel,
             audio: st.audio,
-            geprueftAm: heute(),
+            geprueftAm: todayIso(),
             grund: `„${st.titel}" führt ${st.folgen} deutsche Folgen, mehr als die Hauptserie — das ${werk.format} steckt darin`,
           }
         }
@@ -617,14 +617,14 @@ export async function main(): Promise<void> {
             seriesId: st.id,
             titel: st.titel,
             audio: st.audio,
-            geprueftAm: heute(),
+            geprueftAm: todayIso(),
             grund: `Crunchyroll führt „${st.titel}" als eigene Staffel${deutsch ? ' mit' : ' ohne'} de-DE`,
           }
         }
       }
       const nichtDabei = await reiheFuehrtEsNicht(werk, kandidat, await holeStaffeln(kandidat.id))
       if (nichtDabei) {
-        return { herkunft: 'tot', seriesId: kandidat.id, titel: kandidat.titel, geprueftAm: heute(), grund: nichtDabei }
+        return { herkunft: 'tot', seriesId: kandidat.id, titel: kandidat.titel, geprueftAm: todayIso(), grund: nichtDabei }
       }
       const jwEintrag2 = justwatch[String(werk.id)]
       const anbieter2 = (jwEintrag2?.angebote ?? []).map((a) => String(a?.anbieter ?? ''))
@@ -635,7 +635,7 @@ export async function main(): Promise<void> {
           herkunft: 'tot',
           seriesId: kandidat.id,
           titel: kandidat.titel,
-          geprueftAm: heute(),
+          geprueftAm: todayIso(),
           grund:
             `die Adresse zeigt auf die Reihe „${kandidat.titel}", das ${werk.format} steht nicht im deutschen Katalog, ` +
             `und JustWatch nennt ${anbieter2.length} Anbieter ohne Crunchyroll (${[...new Set(anbieter2)].slice(0, 3).join(', ')})`,
@@ -645,7 +645,7 @@ export async function main(): Promise<void> {
         herkunft: 'offen',
         seriesId: kandidat.id,
         titel: kandidat.titel,
-        geprueftAm: heute(),
+        geprueftAm: todayIso(),
         grund: `„${kandidat.titel}" ist die Reihe, ${werk.format} ist eine eigene Ausgabe`,
       }
     }
@@ -673,7 +673,7 @@ export async function main(): Promise<void> {
         herkunft: 'offen',
         seriesId: kandidat.id,
         titel: kandidat.titel,
-        geprueftAm: heute(),
+        geprueftAm: todayIso(),
         grund: `„${kandidat.titel}" gibt keine Staffelliste heraus`,
       }
     }
@@ -773,7 +773,7 @@ export async function main(): Promise<void> {
        */
       const nichtDabei = nachName.length + nachZahl.length + nachSumme.length === 0 ? await reiheFuehrtEsNicht(werk, kandidat, staffeln) : undefined
       if (nichtDabei) {
-        return { herkunft: 'tot', seriesId: kandidat.id, titel: kandidat.titel, geprueftAm: heute(), grund: nichtDabei }
+        return { herkunft: 'tot', seriesId: kandidat.id, titel: kandidat.titel, geprueftAm: todayIso(), grund: nichtDabei }
       }
       const alleDeutsch = staffeln.length > 1 && staffeln.every((s) => s.audio.includes('de-DE'))
       const keineDeutsch = staffeln.length > 1 && staffeln.every((s) => !s.audio.includes('de-DE'))
@@ -784,7 +784,7 @@ export async function main(): Promise<void> {
           seriesId: kandidat.id,
           titel: kandidat.titel,
           audio: alleDeutsch ? ['de-DE'] : [],
-          geprueftAm: heute(),
+          geprueftAm: todayIso(),
           grund: `alle ${staffeln.length} Staffeln von „${kandidat.titel}" ${alleDeutsch ? 'führen' : 'führen kein'} Deutsch — die Zuordnung ändert daran nichts`,
         }
       }
@@ -792,7 +792,7 @@ export async function main(): Promise<void> {
         herkunft: 'offen',
         seriesId: kandidat.id,
         titel: kandidat.titel,
-        geprueftAm: heute(),
+        geprueftAm: todayIso(),
         grund:
           `kein eindeutiger Staffeltreffer (${werk.episodes ?? '?'} Fg.; ` +
           `${nachName.length} über den Namen, ${nachZahl.length} über die Zahl von ${staffeln.length})`,
@@ -805,7 +805,7 @@ export async function main(): Promise<void> {
       seriesId: kandidat.id,
       titel: treffer.titel,
       audio: treffer.audio,
-      geprueftAm: heute(),
+      geprueftAm: todayIso(),
       grund: `Staffel „${treffer.titel}" mit ${treffer.folgen ?? '?'} Folgen`,
     }
   }

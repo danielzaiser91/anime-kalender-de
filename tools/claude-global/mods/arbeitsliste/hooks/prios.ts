@@ -9,7 +9,7 @@ export type PrioStatus = { label: string; farbe: string }
 export const STATUS: Record<string, PrioStatus> = {
   queue: { label: 'QUEUE', farbe: 'inactive' },
   'arbeit-agent': { label: 'AGENT', farbe: 'suggestion' },
-  'arbeit-ich': { label: 'ICH', farbe: 'planMode' },
+  'arbeit-ich': { label: 'CLAUDE', farbe: 'planMode' },
   pipeline: { label: 'PIPELINE', farbe: 'merged' },
   live: { label: 'LIVE', farbe: 'success' },
   'wartet-daniel': { label: 'DANIEL', farbe: 'warning' },

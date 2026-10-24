@@ -203,7 +203,8 @@ export async function verbuchen(env: Env, tag: string, { geschrieben, gelesen }:
         `INSERT INTO schreib_tag (tag, zeilen, gelesen) VALUES (?1, ?2, ?3)
          ON CONFLICT(tag) DO UPDATE SET zeilen = zeilen + ?2, gelesen = gelesen + ?3`,
       ).bind(tag, geschrieben + 1, gelesen),
-      env.DB.prepare('DELETE FROM schreib_tag WHERE tag < ?1').bind(tag),
+      // Der Monat bleibt stehen: die Monatskappe der Mails (newsletter-kapazitaet.ts) summiert ihn.
+      env.DB.prepare('DELETE FROM schreib_tag WHERE tag < ?1').bind(`${tag.slice(0, 8)}01`),
     ])
   } catch (e) {
     zaehlerAus('buchen', e)

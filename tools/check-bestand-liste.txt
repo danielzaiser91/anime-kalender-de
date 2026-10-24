@@ -17,6 +17,7 @@ pipeline/check-cr-teilseiten-bestand.ts
 pipeline/check-deutsche-folgenzahl-bestand.ts
 pipeline/check-empfehlung-bestand.ts
 pipeline/check-empfehlung-kern-bestand.ts
+pipeline/check-favoriten-feed-bestand.ts
 pipeline/check-folge-zwoelf-hinweis-bestand.ts
 pipeline/check-folgenflaggen-bestand.ts
 pipeline/check-folgenzahl-kennzeichnung-bestand.ts
@@ -29,8 +30,10 @@ pipeline/check-kalender-plausibilitaet-bestand.ts
 pipeline/check-katalog-eingefroren-bestand.ts
 pipeline/check-katalog-release-bestand.ts
 pipeline/check-logic-bestand.ts
+pipeline/check-mal-dubletten-bestand.ts
 pipeline/check-nein-liste-bestand.ts
 pipeline/check-news-einfrieren-bestand.ts
+pipeline/check-news-felder-bestand.ts
 pipeline/check-news-offiziell-bestand.ts
 pipeline/check-prime-teilseiten-bestand.ts
 pipeline/check-reihen-namen-bestand.ts

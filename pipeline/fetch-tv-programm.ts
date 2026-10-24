@@ -29,6 +29,7 @@
 import type { Title } from '../shared/types.ts'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { todayIso } from '../shared/time.ts'
 
 const DATEI = 'data/tv-programm.json'
 const UA =
@@ -265,7 +266,7 @@ export async function main(): Promise<void> {
 
   const datei = readJson<{ sendungen?: Record<string, TvSendung>; tvdeGeholtAm?: string }>(DATEI, {})
   const bestand = datei.sendungen ?? {}
-  const heute = new Date().toISOString().slice(0, 10)
+  const heute = todayIso()
   let neu = 0
   for (const s of sendungen) {
     const titleId = titelZuordnen(s.titel, namen)

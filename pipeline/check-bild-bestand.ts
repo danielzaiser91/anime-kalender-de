@@ -5,7 +5,6 @@
  * Die reinen Logik-Zusicherungen stehen in `check-bild-und-synchro.ts`.
  */
 import { readFileSync } from 'node:fs'
-import { ANISEARCH_ID_BASIS } from './bau/anisearch-titel.ts'
 import type { SaisonDatei, SaisonKatalogTitel } from '../web/src/lib/saison.ts'
 import { ausblickGruppen } from '../web/src/lib/saison-ausblick.ts'
 import { todayIso } from '../shared/time.ts'
@@ -37,11 +36,8 @@ pruefe('mit Rang und ohne Rang ergibt dieselbe Reihenfolge', gruppeMit.every((g,
 pruefe('die Reihenfolge ist die der deutschen Sortierung', gruppeOhne.every((g, i) => i === 0 || kollator.compare(anzeigeName(gruppeOhne[i - 1]!.main), anzeigeName(g.main)) <= 0))
 
 console.log('Cover für aniSearch-Titel (AniList über die MAL-Kennung)')
-/* Ausnahme mit Ablauf: Beide Titel hatten am 08.10.2026 kein Cover, bis der Abruf es holt; danach gilt die Regel ohne Ausnahme. */
-const koernOhneCover = new Map([[10021566, 'Dragon Ball Super: Beerus'], [10021751, 'Fool Night'], [10021575, 'Cover erst nach dem nächsten Bau'], [10021915, 'Jujutsu Kaisen: Shimetsu Kaiyuu - Kouhen (ohne Jahr, vom Abruf bisher übergangen)']])
-const ausnahmeGilt = new Date().toISOString().slice(0, 10) <= '2026-10-15'
 const kern = JSON.parse(readFileSync('public/data/titles-core.json', 'utf8')) as { id: number; coverImage?: string }[]
-const ohneCover = kern.filter((t) => !t.coverImage && !(ausnahmeGilt && koernOhneCover.has(t.id))).map((t) => t.id)
+const ohneCover = kern.filter((t) => !t.coverImage).map((t) => t.id)
 pruefe('jeder Kern-Titel trägt ein Cover', ohneCover.length === 0, ohneCover)
 /* Alle ausgelieferten aniSearch-Titel: Steht die MAL-Kennung im Cover-Bestand, muss der Titel das Cover tragen (08.10.2026: der Bestand lag im Actions-Cache, der Bau sah ihn nicht). */
 const eintraege = JSON.parse(readFileSync('data/anisearch-eintraege.json', 'utf8')) as Record<string, { mal?: number }>
@@ -49,7 +45,6 @@ const coverBestand = JSON.parse(readFileSync('data/anisearch-cover.json', 'utf8'
 const alleTitel = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { anisearchId?: number; coverImage?: string; titleRomaji: string }[]
 const mitQuelleOhneCover = alleTitel
   .filter((t) => t.anisearchId && !t.coverImage && coverBestand[String(eintraege[String(t.anisearchId)]?.mal)])
-  .filter((t) => !(ausnahmeGilt && koernOhneCover.has(ANISEARCH_ID_BASIS + t.anisearchId!)))
   .map((t) => t.titleRomaji)
 pruefe('kein ausgelieferter Titel mit Cover-Quelle (MAL-Kennung im Cover-Bestand) ohne Cover', mitQuelleOhneCover.length === 0, mitQuelleOhneCover)
 

@@ -27,6 +27,29 @@ export async function holeLaeufe(abruf, url) {
   return { liste: Array.isArray(daten) ? daten : (daten.laeufe ?? []), verlauf: daten.verlauf ?? {} }
 }
 
+/** `--erledigt <id> --notiz <text>`: `{ laufId, notiz }`, `{}` ohne `--erledigt`, sonst `{ fehler }`. */
+export function erledigtArgumente(args) {
+  const i = args.indexOf('--erledigt')
+  if (i < 0) return {}
+  const laufId = args[i + 1]
+  if (!laufId || laufId.startsWith('--')) return { fehler: '--erledigt braucht eine lauf_id (steht in <Worker>?verlauf=<Art>).' }
+  const j = args.indexOf('--notiz')
+  const notiz = (args[j + 1] ?? '').trim()
+  if (j < 0 || !notiz || notiz.startsWith('--')) return { fehler: '--erledigt braucht --notiz "<Text>" (z. B. "behoben durch #1690, Nachprüfung 26.10.").' }
+  return { laufId, notiz }
+}
+
+/** Verlaufseinträge einer Lauf-Art (öffentlicher GET, mit `lauf_id`); `{ laeufe }` oder `{ meldung }`. */
+export async function holeVerlauf(abruf, url, art) {
+  const ergebnis = await holeLaeufe(abruf, `${url}?verlauf=${encodeURIComponent(art)}&n=50`)
+  return ergebnis.meldung ? { laeufe: [], meldung: ergebnis.meldung } : { laeufe: ergebnis.liste }
+}
+
+/** Der Eintrag mit genau dieser ID, nur wenn er rot ist (fehler/warnung); sonst `undefined`. */
+export function findeRotenLauf(eintraege, laufId) {
+  return eintraege.find((e) => String(e.lauf_id) === String(laufId) && (e.zustand === 'fehler' || e.zustand === 'warnung'))
+}
+
 /**
  * Lauf-Arten, deren letzter beendeter Lauf rot oder gelb endete. Die Liste `laeufe` führt seit 28.09.2026 nur noch, was
  * läuft (worker/src/lauf.ts); ein roter Lauf steht dort nie, nur im `verlauf` (je Art aufsteigend, neuester zuletzt).

@@ -28,6 +28,7 @@ import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { readSourceHealth, recordSource } from './lib/health.ts'
 import { fortschritt, drosselNachVorlauf, passtInsBudget, pauseMitStand, waehleArbeit, ZEITBUDGET_SEKUNDEN, linkCheckEnde, zaehleBefund } from './lib/link-check-gesundheit.ts'
 import { pruefbare } from './lib/pruefbare-adresse.ts'
+import { todayIso } from '../shared/time.ts'
 
 const DATEI = 'data/link-check.json'
 
@@ -84,7 +85,7 @@ interface Befund {
 
 type Bestand = Record<string, Befund>
 
-const heute = () => new Date().toISOString().slice(0, 10)
+const heute = () => todayIso()
 
 /**
  * Prime-Video-Seiten sagen „nicht verfügbar" mit HTTP **200**.

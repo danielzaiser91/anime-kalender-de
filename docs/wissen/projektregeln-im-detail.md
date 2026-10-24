@@ -50,7 +50,7 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   `timeEstimated`, das die Fensterbreite vorgibt; das Bau-Log hat die Zeile „N Regeltermin aus Sichtung: …".
   **Jede kuratierte `time` + `timeEstimated` braucht eine benannte Ausnahme:** `timeSighting` oder einen
   Eintrag in `FESTGELEGTE_ZEITEN` (Altfall Avatar 11:00, Paramount+: Daniel sah F4–6 um 11:42 schon da,
-  Fenster fehlt, Befund offen, am 23.10. messen; Frist `bis` 25.10.2026: danach Fehler in PR-CI und lokal,
+  Fenster fehlt, Befund offen, 23.10. ohne Sichtung; Frist `bis` 02.11.2026 (nach den Folgen vom 30.10.): danach Fehler in PR-CI und lokal,
   im Deploy nur Warnung auf der Konsole, damit er nicht an der Frist stirbt).
 - **Abgeleitetes kennzeichnen.** Datum aus dem Simulcast-Start übernommen statt aus einer
   Dub-Ankündigung? Dann `estimated: true`. Folgenzahl geraten? Setzt die Pipeline selbst als
@@ -417,6 +417,8 @@ Der Worker in `worker/` ist optional. Ohne gesetztes `VITE_NEWSLETTER_API` zeigt
 einen ehrlichen Hinweis statt eines kaputten Buttons. DSGVO-Pflichten (Double-Opt-in,
 Abmeldelink, Impressum, Datenschutzerklärung) sind kein Nice-to-have — nichts davon entfernen.
 
+**D1 und Website (Daniel, 23.10.2026):** Die Regel „keine D1“ gilt nur für die Website selbst. Der Newsletter-Worker darf D1 nutzen, auch auf Nutzerpfaden: Favoriten-Abgleich, Web-Push und der persönliche Kalender-Feed. Feed-Abrufe der Kalender-Apps lesen D1 trotzdem nicht bei jedem Mal (Edge-Cache 15 Minuten, `worker/src/favoriten-feed.ts`).
+
 ## Ein roter Lauf wird bemerkt, nicht gemeldet — und die Anzeige danach geleert
 
 Daniel am 07.09.2026, 15:50: „in status app sind 2 rote läufe (vor 3h+). wann
@@ -488,7 +490,7 @@ das sonst verfällt.
 ## Prüfung nach Risiko: Stufen 0, 1, 2 (Daniel, 10.10.2026)
 
 Anlass: „keine Prüfer-Agenten bei Kleinigkeiten“. `node tools/pr-stufe.mjs <PR>` (Tabelle und Tests: `tools/pr-stufe.mjs`, `tools/pr-stufe.test.mjs`) stuft mechanisch aus Pfaden und Zeilenzahl des Diffs ein, im Zweifel Stufe 2.
-Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten, Skill-Texte `.claude/skills/**/*.md` seit 12.10.2026): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar; bei Stufe 0 prüft der CI-Prüfer seit 12.10.2026 schlank (nur Diff, kleines Zugbudget) und gibt bei Ok frei, sonst Änderungswünsche.
+Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten, Skill-Texte `.claude/skills/**/*.md` seit 12.10.2026, alles unter `tools/claude-global/` seit 23.10.2026): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar; bei Stufe 0 prüft der CI-Prüfer seit 12.10.2026 schlank (nur Diff, kleines Zugbudget) und gibt bei Ok frei, sonst Änderungswünsche.
 
 ## Bilder für PR-Beschreibungen ohne Hook-Umgehung (14.10.2026)
 
@@ -619,7 +621,7 @@ und darf bei keiner Entscheidung aufgeweicht werden.
 - Netflix-Uhrzeit (08:00 UTC als `timeEstimated`, „≈", ohne Countdown) nur bei Eigenproduktionen (`netflixOriginal`); Lizenztitel bleiben „Zeit offen" (Vigilantes, 06.10.2026).
 - **Namensabgleich:** der beste Treffer gewinnt, nicht der erste; `OVA`/`ONA`/`OAD`/`TV` zählen mit, der japanische Titel nicht (`bewerteTreffer`). Ein Namensvergleich allein ist kein Beleg.
 - **Was AniList, aniSearch oder MAL als Anime führen, ist kein Cartoon** (Daniel, 08.10.2026) — der Cartoon zieht auf den Anime-Titel um (`cartoon-umzug.json`); Beleg: TMDB-Kennung, sonst Name **und** Jahr **und** Folgenzahl, im Zweifel Ausnahmeliste statt Zusammenlegung (`check:logic`).
-- **Eine News-Meldung ist eine Aussage zu ihrem Tag:** nie umschreiben (Späteres ist eine neue Meldung), Belege nur ihrer eigenen Aussage, eine Quelle an genau einer Meldung; eigene Messung belegt der Anbieter-Kalender an diesem Tag ([news-plan.md](news-plan.md)).
+- **Eine News-Meldung ist eine Aussage zu ihrem Tag:** nie umschreiben (Späteres ist eine neue Meldung), Belege nur ihrer eigenen Aussage, eine Quelle an genau einer Meldung; eigene Messung belegt der Anbieter-Kalender an diesem Tag ([news-plan.md](news-plan.md)). Ein neues abgeleitetes Feld an einer Meldung wird dort als Aussage (eingefroren, `pipeline/lib/news-felder-fest.ts`) oder Darstellung (lebendig) eingeordnet, bevor es gebaut wird (20.10.2026).
 
 ### Datenläufe: wer auf `main` schreibt, und was beim Ändern zu beachten ist
 
