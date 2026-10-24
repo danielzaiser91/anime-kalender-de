@@ -58,6 +58,12 @@ globalThis.akNetflixStummStarten = (umg) => {
     if (!video.muted) video.muted = true
     if (uhr === null) uhr = takt(lauftNoch, globalThis.akNetflixStummPruefTaktMs)
   }
+  /* Von der Seitenwelt stumm gestellt, ohne dass hier ein Hörer es sah (`play()` abgelehnt): die Marke sagt, es war laut. */
+  const markeZurueck = (video) => {
+    if (vorher.has(video) || !video.hasAttribute?.('data-ak-war-laut')) return
+    if (video.muted) video.muted = false
+    video.removeAttribute('data-ak-war-laut')
+  }
   const alleStumm = (wurzel) => {
     if (!aktiv()) return
     if (wurzel.tagName === 'VIDEO') stumm(wurzel)
@@ -69,7 +75,9 @@ globalThis.akNetflixStummStarten = (umg) => {
   fenster.addEventListener(
     'play',
     (e) => {
-      if (e.target?.tagName === 'VIDEO' && aktiv()) stumm(e.target)
+      if (e.target?.tagName !== 'VIDEO') return
+      if (aktiv()) stumm(e.target)
+      else markeZurueck(e.target)
     },
     true,
   )
