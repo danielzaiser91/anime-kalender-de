@@ -401,15 +401,3 @@
       dubRanges: [{ from: 1, to: 1, dub: true }]
   sources:
     - https://shop.freenet-video.de/your-forma-s01-se45841187
-
-# Ranma ½ (2024) Staffel 3 liegt bei Netflix unter der Seite der Staffeln 1 und 2: AniList führt für beide
-# 81301833 (Daniel meldete dort 2 Staffeln, 23.08.2026); 81171925 stammte nur aus data/anisearch.json
-# (bei allen drei Staffeln dieselbe Adresse) und stand in keiner Linkprüfung. Netflix führt Staffeln einer
-# Serie unter einer Adresse (Vorbild: Edgerunners 2).
-- anilistId: 209872
-  title: "Ranma ½ (2024) – Staffel 3"
-  streams:
-    - platform: netflix
-      url: https://www.netflix.com/title/81301833
-  sources:
-    - https://www.netflix.com/title/81301833
