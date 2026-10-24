@@ -96,6 +96,13 @@ pruefe('erst sammeln, dann je Staffel prüfen', /await selbstSammeln\(reihe\)/.t
 pruefe('eine Staffel ist nach einem Lauf geprüft', /selbstStaffelnGeprueft\.add\(schluessel\)/.test(start) && !/=== vorher/.test(start))
 const wahlCode = schneide('netflixStaffelWaehlen')
 const staffelLeser = readFileSync(resolve(__dirname, 'netflix-staffel.js'), 'utf8')
+/* `gruppenLabel` mit dem Menü, das unter `gemerktFuer` gemerkt wurde, auf der Seite der Reihe '1'. */
+function labelFuer(menue, gemerktFuer) {
+  const g = {}
+  new Function('globalThis', staffelLeser)(g)
+  const code = schneide('gruppenLabel') + ' return gruppenLabel'
+  return new Function('letztesMenue', 'akNetflixMenue', 'gemeinteReihe', code)(g.akNetflixMenueMerken(menue, gemerktFuer), g.akNetflixMenue, () => '1')
+}
 pruefe('die Staffelwahl nimmt auch einen Menütext', /typeof ziel === 'string'/.test(wahlCode))
 
 /*
@@ -394,10 +401,11 @@ function schluss() {
     pruefe('ein erzwungener Lauf prüft die ganze Gruppe', /const alleOffen = erzwungen \? \[\.\.\.DURCHLAUF\.folgen\] : durchlaufOffen\(\)/.test(schneide('durchlaufStarten')))
     pruefe('eine Staffel mit einer Folge zählt eine Prüfung', /return Math\.min\(2, gruppe\.length\)/.test(schneide('randPruefungen')))
     pruefe('der Zähler läuft je Titel über alle Staffeln', /DURCHLAUF\.mehrfach = \{ reihe: String\(reihe\), gesamt: offeneGruppen\(\)\.reduce\(\(n, \[, g\]\) => n \+ randPruefungen\(g\), 0\)/.test(start))
-    const label = new Function('letztesMenue', schneide('gruppenLabel') + '\nreturn gruppenLabel')
+    const label = (m) => labelFuer(m, '1')
     const menue = [{ text: 'Staffel 1  (13 Folgen)', folgen: 13 }, { text: 'Staffel 2  (12 Folgen)', folgen: 12 }]
     pruefe('Staffelname aus dem Menü über die Folgenzahl', label(menue)(Array(12).fill({})) === 'Staffel 2')
     pruefe('zwei gleich lange Staffeln → kein Name', label([...menue, { text: 'Staffel 3 (12 Folgen)', folgen: 12 }])(Array(12).fill({})) === null)
+    pruefe('Menü einer anderen Reihe → kein Name', labelFuer(menue, '2')(Array(12).fill({})) === null)
   }
   /* Ein Fehler im Durchgang endet sichtbar. */
   const huelle = schneide('vielleichtSelbstStarten')

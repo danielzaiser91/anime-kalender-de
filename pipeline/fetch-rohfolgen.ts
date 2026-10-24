@@ -23,6 +23,7 @@ import { schliesseRohfolgenAb, type Offen } from './lib/rohfolgen-abschluss.ts'
 import { sortiereKanalGruppenAus, type ZugeordneteSeiten } from './lib/kanal-aussortieren.ts'
 import { ladeHandbelege } from './lib/dub-confirmed.ts'
 import { ohneDoppelte } from './lib/rohfolgen-doppelte.ts'
+import { belegtDurchStaffel, teileNachNetflixStaffel } from './lib/netflix-staffeln.ts'
 import {
   animeZugehoerigkeit,
   handbelegAdressen,
@@ -316,7 +317,7 @@ async function main(): Promise<void> {
   offen.push(...cartoonLauf.offen)
   erledigt.push(...cartoonLauf.erledigt)
   log(`${Object.keys(cartoonLauf.zugeordnet).length} Cartoon-Adressen zugeordnet, ${cartoonLauf.offen.length} offen`)
-  for (const [schluessel, liste] of cartoonLauf.uebrig) {
+  for (const [schluessel, liste] of teileNachNetflixStaffel(cartoonLauf.uebrig, titles, readJson('data/anbieter-staffeln.json', {}))) {
     /*
       Der Schlüssel trägt seit dem 30.08.2026 die Ausgabe mit (`url#asin`) —
       gesucht und gespeichert wird aber unter der Adresse selbst. Sie steht in
@@ -729,7 +730,7 @@ async function main(): Promise<void> {
     const belastbar = (ausBestand || nameGenau) && sprachen.size === 1
     const ohneKopf = (t: Title) => gemeldeteStaffel !== null && gemeldeteStaffel > 1 && istReihenkopf(t, titles)
     const probe = () => probeGeschwister(anbieter, titel, titles, (t) => listenFuer(t).listen, ohneKopf)
-    const wahl = entscheideZuordnung(anbieter, titel, ak, belastbar, probe)
+    const wahl = belegtDurchStaffel(schluessel, belastbar, entscheideZuordnung(anbieter, titel, ak, belastbar, probe))
     if (wahl.art === 'offen') {
       offen.push({ url, titel: titel.titleDe ?? titel.titleEn ?? null, grund: wahl.grund, folgen: liste.length })
       continue
