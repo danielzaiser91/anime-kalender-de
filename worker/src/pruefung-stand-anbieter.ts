@@ -43,8 +43,7 @@ export function rechneAnbieter(roh: unknown, gemeldet: Gemeldet) {
   /*
     **Nennt das Ziel seine offenen Staffeln, ist es erst erledigt, wenn jede gemeldet ist**
     (22.09.2026). Sonst verschwand Dr. STONE nach der Meldung von Staffel 1 bis zur nächsten
-    Übernahme aus der Prüfliste, obwohl Staffel 2 offen war. Ziele ohne Staffelangabe bleiben
-    bei der Adresse.
+    Übernahme aus der Prüfliste, obwohl Staffel 2 offen war. Ziele ohne Staffelangabe bleiben bei der Adresse.
   */
   const offeneZiele = (a.ziele ?? []).filter((z) => {
     if (gemeldet.gedeckt?.has(z.url)) return false
