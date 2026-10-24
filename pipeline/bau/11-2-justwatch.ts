@@ -1,18 +1,22 @@
 import { readJson, log } from '../lib/util.ts'
 import { type WatchLink, type Title } from '../../shared/types.ts'
+import { todayIso } from '../../shared/time.ts'
 import { providerName, stripAffiliate } from '../../shared/mappings.ts'
 import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
 import { setzeTelekomAnnahme, type JwAngebot } from '../lib/telekom-annahme.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 import { ergaenzeWegeOhneWeg, PHYSISCHE_SHOPS, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
 import { ergaenzeAboWege, type JwAbo } from './11-2-3-abo-wege.ts'
+import { ergaenzeKaufWege, primeNeinTitel, type JwKauf } from './11-2-4-kauf-wege.ts'
 
-export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen }: {
+type Runde = {
   titles: Map<number, Title>
   tmdbMehrdeutig: Set<string>
   toteAdressen: Set<string>
-}) {
-  /* Ein Nein-Handbeleg gilt für beide Runden, die Wege anlegen (Titel ohne Weg, Abo-Weg mit deutschem Ton). */
+}
+
+/* Ein Nein-Handbeleg gilt für alle Runden, die Wege anlegen (Titel ohne Weg, Abo-Weg mit deutschem Ton, Prime-Kauf). */
+function legeWegeAn({ titles, tmdbMehrdeutig, toteAdressen }: Runde) {
   const handNein = neinHandbelege(loadDubChecks())
   ergaenzeWegeOhneWeg({
     titles,
@@ -29,6 +33,20 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
     tmdbMehrdeutig,
     toteAdressen,
   })
+
+  ergaenzeKaufWege({
+    titles,
+    jw: readJson<Record<string, JwKauf>>('data/justwatch-audio.json', {}),
+    handNein,
+    primeNein: primeNeinTitel(),
+    tmdbMehrdeutig,
+    toteAdressen,
+    heute: todayIso(),
+  })
+}
+
+export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen }: Runde) {
+  legeWegeAn({ titles, tmdbMehrdeutig, toteAdressen })
 
   /*
     **Ein Bezugsweg führt zum Anbieter, nicht zu einer Datenbank.**
