@@ -10615,11 +10615,7 @@ async function speicherSchreiben(werte) {
         const frisch = (await speicherLesen('amazonErledigt'))?.amazonErledigt ?? {}
         const zusammen = { ...frisch }
         for (const [schluessel, wert] of Object.entries(erledigt)) {
-          zusammen[schluessel] = {
-            ...(frisch[schluessel] ?? {}),
-            ...wert,
-            staffeln: { ...(frisch[schluessel]?.staffeln ?? {}), ...(wert.staffeln ?? {}) },
-          }
+          zusammen[schluessel] = globalThis.akPrimeEintragVereinigen(frisch[schluessel], wert)
         }
         const bisher = zusammen[listenId] ?? { staffeln: {}, gesamt: staffelZahl() }
         globalThis.akPrimeMeldungEintragen(bisher, nr, deutsch ? '🇩🇪' : '✕', geladen)

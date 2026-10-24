@@ -35,7 +35,7 @@ function globaleLaden(k) {
 }
 
 /** Erste Seite: der Klick auf „melden“, Antwort des Workers ist ok. Der Speicher bleibt in `speicher`. */
-async function meldenAufSeite(speicher, uhr) {
+async function meldenAufSeite(speicher, uhr, tabErledigt = {}) {
   const k = vm.createContext({ Date: uhr.Date, String, Number, Boolean, Object, JSON, Math, Set })
   globaleLaden(k)
   const knopf = knopfNeu()
@@ -45,7 +45,7 @@ async function meldenAufSeite(speicher, uhr) {
     meldeSperre: { mitSperre: (f) => f, vermerken: () => {} },
     verbindungLebt: () => true,
     standGeladen: true,
-    erledigt: {},
+    erledigt: tabErledigt,
     listenId: LISTEN_ID,
     liste: { [LISTEN_ID]: { url: TITEL } },
     location: { pathname: '/gp/video/detail/B0GXC6GGH6' },
@@ -96,6 +96,21 @@ function neueSeite(speicher, uhr) {
   return () => vm.runInContext(`fertig('${LISTEN_ID}')`, k)
 }
 
+/** Ein Tab mit älterem Eintrag (gesamt 2, Staffel 1 mit 5 Folgen) meldet; der Speicher kennt mehr von einem anderen Tab. */
+async function aelteremTab() {
+  const speicher = speicherNeu()
+  speicher.inhalt.amazonErledigt = {
+    [LISTEN_ID]: { staffeln: { s1: '✓', s2: '🇩🇪' }, folgen: { s1: 20, s2: 9 }, gesamt: 4, serie: 'Mission Mars' },
+  }
+  const alterTab = { [LISTEN_ID]: { staffeln: { s1: '✓' }, folgen: { s1: 5 }, gesamt: 2, serie: 'Mission Mars' } }
+  await meldenAufSeite(speicher, uhrNeu(FEST), alterTab)
+  const v = speicher.inhalt.amazonErledigt?.[LISTEN_ID]
+  pruefe('älterer Tab verdrängt gesamt nicht (4 bleibt)', v?.gesamt === 4, v?.gesamt)
+  pruefe('fremde Staffel-Folgenzahl bleibt (s2 = 9)', v?.folgen?.s2 === 9, v?.folgen)
+  pruefe('eigene Meldung gewinnt bei derselben Staffel (s1 = 12)', v?.folgen?.s1 === 12, v?.folgen)
+  pruefe('fremder Befund s2 bleibt', v?.staffeln?.s2 === '🇩🇪', v?.staffeln)
+}
+
 async function main() {
   console.log('Prime-Titelseite: melden, neue Seite, fertig() liest „erledigt“\n')
   pruefe('Handler im Quelltext gefunden', handler.startsWith('async (befundBeimKlick) => {') && handler.length > 1000, handler.length)
@@ -116,6 +131,8 @@ async function main() {
   pruefe('neue Seite 11 Minuten später: Frist um, der Stand entscheidet (offen)', neueSeite(speicher, uhr)() === false)
   uhr.t = FEST + 5 * MIN
   pruefe('ohne Vermerk (leerer Speicher) ist dieselbe Seite offen', neueSeite(speicherNeu(), uhr)() === false)
+
+  await aelteremTab()
 
   if (fehler.length) {
     console.error(`\n${fehler.length} Zusicherung(en) verletzt`)
