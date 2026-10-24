@@ -6,10 +6,9 @@
  * `if (antwort.ok)`, der Vermerk und der Fehlerzweig laufen so, wie sie im Code stehen.
  * Gezählt wird, ob die Seite danach gesperrt ist: ein zweiter Klick meldet nichts.
  */
-const { readFileSync } = require('node:fs')
+const { lies, knopfNeu, handlerKompilieren } = require('./melde-geruest.cjs')
 const vm = require('node:vm')
 
-const lies = (datei) => readFileSync(__dirname + '/' + datei, 'utf8')
 const fehler = []
 function pruefe(name, ok, gefunden) {
   if (ok) return console.log(`  ✓ ${name}`)
@@ -23,35 +22,6 @@ const von = quelle.indexOf(ANFANG)
 const bis = quelle.indexOf('\n  }))\n', von)
 const handler = von < 0 || bis < 0 ? '' : quelle.slice(von + "knopf.addEventListener('click', meldeSperre.mitSperre(".length, bis + 4)
 pruefe('Handler im Quelltext gefunden', handler.startsWith('async (befundBeimKlick) => {') && handler.length > 1000, handler.length)
-
-/** Ein stummer Platzhalter für alles, was der Handler nebenbei anfasst. */
-function stummNeu() {
-  const ziel = function () {}
-  const stumm = new Proxy(ziel, {
-    get: (_, name) => (name === 'then' || name === Symbol.iterator ? undefined : name === Symbol.toPrimitive ? () => '' : stumm),
-    apply: () => stumm,
-    construct: () => stumm,
-    set: () => true,
-  })
-  return stumm
-}
-
-const NATIV = new Set(['Promise', 'Math', 'JSON', 'Object', 'Date', 'Error', 'String', 'Number', 'Array', 'Map', 'Set',
-  'undefined', 'console', 'Symbol', 'Boolean', 'arguments', 'NaN', 'Infinity', 'isNaN', 'parseInt', 'RegExp', 'Intl', 'Reflect'])
-
-function knopfNeu() {
-  const attribute = new Map()
-  return {
-    dataset: {},
-    style: { display: '' },
-    disabled: false,
-    textContent: 'melden',
-    title: '',
-    setAttribute: (k, v) => attribute.set(k, String(v)),
-    removeAttribute: (k) => attribute.delete(k),
-    getAttribute: (k) => attribute.get(k) ?? null,
-  }
-}
 
 /** Eine Seite mit dem echten Handler; `antwort` bestimmt, was der Worker auf die Meldung sagt. */
 function seiteNeu(antwort) {
@@ -100,14 +70,7 @@ function seiteNeu(antwort) {
     uebersichtZeichnen: () => {},
     vorfallMelden: async () => {},
   }
-  const werte = new Map(Object.entries(echt))
-  const stumm = stummNeu()
-  const kulisse = new Proxy({}, {
-    has: (_, name) => typeof name === 'string' && !NATIV.has(name),
-    get: (_, name) => (werte.has(name) ? werte.get(name) : name === Symbol.unscopables ? undefined : stumm),
-    set: (_, name, wert) => { werte.set(name, wert); return true },
-  })
-  const klick = new Function('kulisse', `with (kulisse) { return (${handler}) }`)(kulisse)
+  const { klick } = handlerKompilieren(handler, echt)
   return { knopf, zustand, uhr, meldeSperre, fetchen, klick: meldeSperre.mitSperre(klick) }
 }
 
