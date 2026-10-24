@@ -36,3 +36,21 @@ export function tonspuren(optionen: Option[], dienst: string | undefined): { deu
   const deu = (o: Option): boolean => (o.audios ?? []).some((a) => a.language === 'deu')
   return { deutsch: optionen.some(deu), deutschBeiDienst: !!dienst && optionen.some((o) => o.service?.id === dienst && deu(o)) }
 }
+
+type FeedShow = { title?: string; originalTitle?: string; imdbId?: string; tmdbId?: string }
+type FeedAenderung = { timestamp?: number; service?: { id?: string } }
+type FeedEintrag = Meldung & { titel?: string; originalTitel?: string; tmdbId?: string }
+
+/** Eintrag für `data/motn-changes.json` aus einer Änderung der Quelle; der Ton kommt aus den Optionen des Dienstes der Änderung. */
+export function feedEintrag(art: 'new' | 'removed', show: FeedShow, c: FeedAenderung, optionen: Option[]): FeedEintrag {
+  return {
+    art,
+    titel: show.title,
+    originalTitel: show.originalTitle,
+    imdbId: show.imdbId,
+    tmdbId: show.tmdbId,
+    dienst: c.service?.id,
+    am: c.timestamp ? new Date(c.timestamp * 1000).toISOString().slice(0, 10) : undefined,
+    ...tonspuren(optionen, c.service?.id),
+  }
+}
