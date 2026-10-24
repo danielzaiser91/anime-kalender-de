@@ -66,6 +66,15 @@ pruefe('das Kanal-Logo gilt vor dem Wort Prime', logoVorText.find((f) => f.kennu
 const primeAbo = modul.akPrimeFassungenLesen(knoten(mitMeldung('B01HRLV328', 'Im Prime-Abo enthalten', false, 'Unentitled')), eigen({ art: 'kauf' }))
 pruefe('„Prime-Abo“ ist Prime, nicht Kanal', primeAbo.find((f) => f.kennung === 'B01HRLV328')?.kaufart === 'prime', primeAbo)
 
+const gratis = modul.akPrimeFassungenLesen(knoten(mitMeldung('B01HRLV328', 'Gratiszeitraum', false, 'Unentitled')), eigen({ art: 'kauf' }))
+pruefe('„Gratiszeitraum“ ohne Logo ist Kanal', gratis.find((f) => f.kennung === 'B01HRLV328')?.kaufart === 'kanal', gratis)
+const kanalEigen = modul.akPrimeFassungenLesen(knoten(FIXTURE), eigen({ zugaenge: ['crunchyrollde'] }))
+pruefe('eigene Kanalseite trägt zugang channel', kanalEigen.find((f) => f.kennung === 'B01MSMV5MA')?.zugang === 'channel', kanalEigen)
+const selbstInListe = modul.akPrimeFassungenLesen(knoten(FIXTURE.replace('/detail/B01MSMV5MA', '/detail/B0GVNJRZCM')), eigen({ kennung: 'B0GVNJRZCM' }))
+pruefe('die eigene Seite steht nur einmal da, auch wenn der Abschnitt sie nennt', kennungen(selbstInListe).filter((k) => k === 'B0GVNJRZCM').length === 1 && selbstInListe.length === 2, kennungen(selbstInListe))
+const skripte = JSON.parse(lies('manifest.json')).content_scripts.find((c) => c.js.includes('amazon.js')).js
+pruefe('Manifest: prime-fassungen.js lädt vor amazon.js', skripte.indexOf('prime-fassungen.js') >= 0 && skripte.indexOf('prime-fassungen.js') < skripte.indexOf('amazon.js'), skripte)
+
 // A2: derselbe Block unter einer anderen Adresse (Single-Page-Wechsel) liefert nichts
 pruefe('Block einer anderen Seite: leere Liste', modul.akPrimeFassungenLesen(knoten(FIXTURE), eigen({ kennung: 'B0ZZZZZZZZ' })).length === 0)
 pruefe('Adressvergleich ohne Groß-/Kleinschreibung (GTI)',

@@ -166,7 +166,7 @@ async function main() {
   const kauf = await lauf({ hydration: knoten, seite: { kaufbar: true, leihbar: true } })
   pruefe('Kaufseite: die eigene Zeile heißt Kauf', /Kauf · diese Seite/.test(texte(kauf)[0] ?? ''), texte(kauf))
   const kanal = await lauf({ hydration: knoten, seite: { zugaenge: ['crunchyrollde'] } })
-  pruefe('Kanalseite: die eigene Zeile heißt Kanal und steht hinter Kauf', /Kauf · Alternative/.test(texte(kanal)[0] ?? '') && /Kanal · diese Seite/.test(texte(kanal)[1] ?? ''), texte(kanal))
+  pruefe('Kanalseite: die eigene Zeile heißt Kanal und steht hinter Kauf', /Kauf · Alternative/.test(texte(kanal)[0] ?? '') && /Kanal-Abo · Kanal · diese Seite/.test(texte(kanal)[1] ?? ''), texte(kanal))
   pruefe('ohne Zugangsangabe heißt die eigene Zeile Fassung', /Fassung · diese Seite/.test(t.join('|')), t)
 
   // Weiche: schon bestätigte Auswahl (Briefkasten) schaltet die Fassungsauswahl ab
