@@ -9,6 +9,7 @@ buehne-bilder/
 .wrangler/
 worker/node_modules/
 data/cache/
+*.tmp
 .anisearch*.log
 .tmdb.log
 # Protokolle langer Abrufläufe. Sie sind Arbeitsmaterial, kein Datenbestand —
