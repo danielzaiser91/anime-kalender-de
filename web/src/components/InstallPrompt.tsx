@@ -114,10 +114,10 @@ export function InstallButton() {
   const { t } = useLang()
   const { canPrompt, install } = useInstall()
   if (!canPrompt || !isHandheld()) return null
-  /* Rangfolge im Kopf (Daniel, 09.10.2026): unter 390 px kein Knopf, bis 639 px nur das Symbol, darüber mit Text. */
+  /* Rangfolge im Kopf (Daniel, 09.10.2026): unter 390 px kein Knopf, bis 767 px nur das Symbol, von 768 bis 1279 px im Glocken-Menü (sonst läuft die Kopfleiste über, das Zahnrad ist weg), ab 1280 px mit Text. */
   return (
     <>
-      <span className="hidden min-[390px]:block sm:hidden">
+      <span className="hidden min-[390px]:block md:hidden">
         <Tooltip text={t('pwa.install')} seite="unten">
           <button
             type="button"
@@ -129,7 +129,7 @@ export function InstallButton() {
           </button>
         </Tooltip>
       </span>
-      <span className="hidden sm:block">
+      <span className="hidden xl:block">
         <Button size="sm" onClick={() => void install()} title={t('pwa.pitch')}>
           <span className="whitespace-nowrap">⬇ {t('pwa.install')}</span>
         </Button>
