@@ -43,10 +43,15 @@ const git = (...args) => {
   return r.stdout.trim()
 }
 
-for (const t of ['check-logic-alle', 'arbeiterpool', 'git-stand-wache', 'check-logic-vollstaendig', 'sperre-umgebung', 'bau-umgebung']) {
-  schreibe(`tools/${t}.mjs`, '')
-  copyFileSync(join(tools, `${t}.mjs`), join(k, `tools/${t}.mjs`))
+// Werkzeugkopie: check-logic-alle.mjs samt allen relativen Importen (rekursiv), damit neue Hilfsdateien nicht an einer festen Liste hängen.
+const importiert = (datei) => [...readFileSync(join(tools, datei), 'utf8').matchAll(/from '\.\/([\w.-]+\.mjs)'/g)].map((m) => m[1])
+const zuKopieren = new Set(['check-logic-alle.mjs'])
+for (const datei of zuKopieren) for (const i of importiert(datei)) zuKopieren.add(i)
+for (const datei of zuKopieren) {
+  schreibe(`tools/${datei}`, '')
+  copyFileSync(join(tools, datei), join(k, `tools/${datei}`))
 }
+assert.ok(zuKopieren.has('liste-pruefen.mjs') && zuKopieren.has('arbeiterpool.mjs'), 'Importkette von check-logic-alle.mjs unvollständig gelesen')
 const SPUR_JS = JSON.stringify(spur)
 // Der geteilte Cache der Kulisse (im Temp-Repo, kein Eintrag für data/cache-register.json).
 const CACHE = 'data/cache'
