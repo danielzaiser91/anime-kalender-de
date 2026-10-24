@@ -9,6 +9,7 @@ pipeline/check-adn-kuratiert-ton.ts
 pipeline/check-adn-kuratiert.ts
 pipeline/check-adn-lesetag.ts
 pipeline/check-adn-neuzugaenge.ts
+pipeline/check-adn-offen-wache.ts
 pipeline/check-adn-sprache-offen.ts
 pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-adressen-schreiben.ts
