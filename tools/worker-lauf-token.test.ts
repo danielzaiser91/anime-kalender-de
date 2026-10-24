@@ -10,7 +10,9 @@ import { adminAnfrage } from '../web/src/lib/admin-aufruf.ts'
 import { handleCrZugang } from '../worker/src/cr-zugang.ts'
 import { GEDECKELT, istFrei } from '../worker/src/lesedeckel.ts'
 import { type Env } from '../worker/src/env.ts'
+import { festeUhr } from './feste-uhr.ts'
 
+festeUhr('2026-10-12T12:00:00Z') // Query-Übergang gilt bis UEBERGANG_BIS; echte Uhr ließe den Test ab 07.11. kippen
 const GEHEIM = 'geheim-1'
 const db = { prepare: () => ({ first: async () => null }) }
 const env = { LAUF_TOKEN: GEHEIM, DEBUG_TOKEN: 'debug-1', DB: db } as unknown as Env
