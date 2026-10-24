@@ -687,3 +687,7 @@ Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `
 - [daten-detektiv.md](daten-detektiv.md) — `npm run detektiv`: 25 Regeln gegen Zweitquellen, Funde nach Hebel
 - [meine-woche.md](meine-woche.md) — Konzept „Meine Woche"; Prototyp (Code am 09.10.2026 entfernt, in der Git-Historie)
 
+
+## Mutationsläufer `tools/mutationslaeufer.mjs` (19.10.2026)
+
+Festes Werkzeug für Mutationsproben statt Wegwerf-Läufer: Mutanten über mehrere Dateien, `nr`/`zeile` bei doppelten Zeilen, mehrzeilige `suche`, `@ENDE` zum Anhängen, Git-Bash-Pfade, Kopie `<datei>.mutlauf-orig` mit bytegleichem Rückspiel, `--log <ordner>` mit Diff und Test je Mutant sowie `tabelle.md` für den PR-Nachtrag. Aufruf und Mutantenformat stehen im Kopf der Datei; Test `tools/mutationslaeufer.test.mjs` (läuft über `tools/tests-alle.mjs`).
