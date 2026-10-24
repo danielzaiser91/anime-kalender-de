@@ -3,6 +3,8 @@
  * findet eine Umleitung als eigene Reihe oder zwei Kennungen für dieselben Staffeln.
  */
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
+import { berichtigeNetflixOverlay } from './bau/13-3-0-netflix-overlay.ts'
+import { ergaenzeWegeAusTmdbUndMotn } from './bau/13-3-1-tmdb-wege.ts'
 import { findeDoppelteNetflixKennungen, type StaffelListen } from './lib/netflix-doppelte-kennung.ts'
 
 const fehler: string[] = []
@@ -41,6 +43,27 @@ pruefe('ohne Liste kein Urteil', findeDoppelteNetflixKennungen(zwei, {}).length 
 pruefe('andere Franchise', findeDoppelteNetflixKennungen([titel(1, 7, '900001'), titel(2, 8, '900002')], { '900001': liste(12, 12), '900002': liste(12, 12, 4) }).length === 0)
 pruefe('ohne Franchise', findeDoppelteNetflixKennungen([titel(1, null, '900001'), titel(2, null, '900002')], { '900001': liste(12, 12), '900002': liste(12, 12, 4) }).length === 0)
 pruefe('Nicht-Netflix-Weg zählt nicht', findeDoppelteNetflixKennungen([{ id: 1, franchiseId: 7, streams: [{ platform: 'primevideo', url: netflix('81301833') }] }], {}).length === 0)
+
+/* A2: die beiden Bau-Stellen, die Netflix-Adressen setzen, gehen durch die Umleitungstabelle. */
+const overlay = [{ streams: [{ platform: 'netflix', url: 'https://www.netflix.com/browse?jbv=81301833' }] }, { streams: [{ platform: 'netflix', url: 'https://www.netflix.com/browse?jbv=81301834' }] }]
+pruefe('Overlay-Adresse: zwei umgeschrieben', berichtigeNetflixOverlay(overlay) === 2)
+pruefe('Overlay mit alter Kennung → neue', overlay[0]!.streams[0]!.url === netflix('81171925'), overlay[0]!.streams[0]!.url)
+pruefe('Overlay mit fremder Kennung bleibt', overlay[1]!.streams[0]!.url === netflix('81301834'), overlay[1]!.streams[0]!.url)
+
+const motnEintrag = (links: Record<string, string>) => {
+  const slim = [{ id: 900001, streams: [] as { platform: string; url: string }[] }] as unknown as Parameters<typeof ergaenzeWegeAusTmdbUndMotn>[0]['slim']
+  ergaenzeWegeAusTmdbUndMotn({
+    slim,
+    tmdbTitles: {},
+    tmdbZuTitel: { '900001': { tmdbId: 7, kind: 'tv', providers: ['netflix', 'primevideo'] } } as never,
+    motnTmdb: { 'tv/7': { imdbId: 'tt900001' } } as never,
+    motnLinks: { tt900001: links },
+  })
+  return slim[0]!.streams ?? []
+}
+const motn = motnEintrag({ netflix: netflix('81301833'), primevideo: 'https://www.amazon.de/gp/video/detail/B0TEST' })
+pruefe('MotN-Weg: Netflix-Umleitung → neue Kennung', motn.find((s) => s.platform === 'netflix')?.url === netflix('81171925'), motn)
+pruefe('MotN-Weg: Prime-Adresse unverändert', motn.find((s) => s.platform === 'primevideo')?.url === 'https://www.amazon.de/gp/video/detail/B0TEST', motn)
 
 if (fehler.length) {
   console.error(`FEHL check-netflix-umleitung: ${fehler.join('; ')}`)

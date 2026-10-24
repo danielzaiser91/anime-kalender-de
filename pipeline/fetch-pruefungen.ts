@@ -31,6 +31,7 @@ import {
 } from './lib/folgenbereiche.ts'
 import { ergaenzeUmEntfernte, mitEntfernten, staffelnMitAdresse } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
+import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
 import { adressKern, loadDubChecks, neueBelegBloecke, schreibeBelege } from './lib/dub-confirmed.ts'
 import { kanalJaAdressKerne, kanalOhneAussage } from './lib/kanal-titel.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
@@ -813,7 +814,7 @@ for (const gruppe of jeAdresse.values()) {
           und 25 Meldungen blieben liegen — obwohl `anbieter-staffeln.json` die Aufteilung kennt
           und `ordneMeldungZu()` genau damit am 10.09.2026 richtig zugeordnet hatte.
         */
-        const netflixKennung = /netflix\.com\/title\/(\d+)/.exec(p.url)?.[1]
+        const netflixKennung = /netflix\.com\/title\/(\d+)/.exec(netflixTitelAdresse(p.url))?.[1]
         const bekannt = netflixKennung
           ? ((anbieterStruktur[netflixKennung] as { staffeln?: { seq: number }[] } | undefined)?.staffeln ?? [])
           : []
@@ -943,7 +944,7 @@ for (const gruppe of jeAdresse.values()) {
    */
   // Was der Anbieter über sich sagt, wird behalten — auch wenn die Zuordnung
   // danach scheitert. Es ist die Grundlage für die nächste Prüfrunde.
-  const kennungHier = /\/title\/(\d+)/.exec(p.url)?.[1]
+  const kennungHier = /\/title\/(\d+)/.exec(netflixTitelAdresse(p.url))?.[1]
   if (anbieterStaffeln?.length) {
     if (kennungHier) {
       anbieterStruktur[kennungHier] = { staffeln: anbieterStaffeln, gemeldetAm: heute }
