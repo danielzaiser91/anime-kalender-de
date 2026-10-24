@@ -32,6 +32,7 @@ const F = 900006 // Wiedervorlage: Meldung älter als `seit`
 const G = 900007 // zwei offene Staffeln, beide gemeldet, die zweite genau am `seit` (Grenze zählt)
 const H = 900008 // nur eine Rohfolge ohne Nummer gemeldet: deckt nichts
 const J = 900009 // Meldung ohne Staffelangabe zählt als Staffel 1
+const K = 900010 // keine offene Staffel genannt und nie gemeldet: bleibt offen
 const faelle: Fall[] = [
   { id: A, staffeln: [1], meldungen: [] },
   { id: B, staffeln: [1], meldungen: [{ staffel: 1, am: VOR }] },
@@ -41,6 +42,7 @@ const faelle: Fall[] = [
   { id: G, staffeln: [1, 2], seit: '2026-10-05T00:00:00Z', meldungen: [{ staffel: 1, am: VOR }, { staffel: 2, am: '2026-10-05T00:00:00Z' }] },
   { id: H, staffeln: [1], meldungen: [{ staffel: 1, am: VOR, nummer: null }] },
   { id: J, staffeln: [1], meldungen: [{ staffel: null, am: VOR }] },
+  { id: K, staffeln: [], meldungen: [] },
 ]
 
 const eintrag = (staffel: number | null, nummer: number | null, am: string) => {
@@ -76,7 +78,7 @@ const offene = Object.fromEntries(
 )
 
 /** Der Knopf: Reihen der Liste, die `fertig()` laut Stand nicht als erledigt führt (Stand = `ziele` der Worker-Antwort). */
-async function knopfZahl(standUrls: string[], netzAus: boolean) {
+async function knopfZahl(standUrls: string[], netzAus: boolean, frischIds: string[] = []) {
   const g: Record<string, any> = {
     fetch: async (adresse: string) => {
       if (netzAus) throw new Error('kein Netz')
@@ -88,27 +90,31 @@ async function knopfZahl(standUrls: string[], netzAus: boolean) {
   lade('netflix-uebernahme.js', g)
   const stand = new Set<string>(standUrls)
   const wartet: Set<string> = await g.akNetflixUebernahme(stand, offene, 'https://w.example/pruefung')
-  const frisch = new Set<string>()
+  const frisch = new Set<string>(frischIds)
   return Object.keys(offene).filter((id) => !g.akNetflixErledigtLautStand(id, stand, frisch, wartet)).length
 }
 
 const worker = (await rechnePruefstand(zeilen, [anbieter], ERZEUGT, titelzeilen)).anbieter[0]!
 const standUrls = worker.ziele.map((z) => z.url)
-pruefe(worker.titel === 4, `Worker: A, E, F, H offen; B, G, J gedeckt, C nach dem Prüfstand gemeldet: ${worker.titel}`)
+pruefe(worker.titel === 5, `Worker: A, E, F, H, K offen; B, G, J gedeckt, C nach dem Prüfstand gemeldet: ${worker.titel}`)
 pruefe(
-  JSON.stringify(standUrls) === JSON.stringify([A, E, F, H].map(url)),
-  `Worker-Ziele: A, E, F, H: ${standUrls.join(' ')}`,
+  JSON.stringify(standUrls) === JSON.stringify([A, E, F, H, K].map(url)),
+  `Worker-Ziele: A, E, F, H, K: ${standUrls.join(' ')}`,
 )
 const knopf = await knopfZahl(standUrls, false)
 pruefe(knopf === worker.titel, `Knopf = Titelzahl des Workers (${knopf} = ${worker.titel})`)
 
 /* Die Erweiterung allein, mit dem Stand von vorher (ohne Deckung): sie zöge B und G selbst ab — Beleg, dass die Regel dieselbe ist. */
-const alterStand = [A, B, E, F, G, H, J].map(url)
-pruefe((await knopfZahl(alterStand, false)) === 4, 'Erweiterungsregel auf altem Stand: ebenfalls 4 (A, E, F, H)')
+const alterStand = [A, B, E, F, G, H, J, K].map(url)
+pruefe((await knopfZahl(alterStand, false)) === 5, 'Erweiterungsregel auf altem Stand: ebenfalls 5 (A, E, F, H, K)'
+)
+pruefe(
+  (await knopfZahl(standUrls, false, [String(A)])) === worker.titel - 1,
+  'eigene Meldung dieser Sitzung (A) nimmt die Reihe sofort aus dem Knopf')
 
 /* Nichtauskunft: Titelzeilen nicht lesbar → der Worker deckt nichts ab; ohne Netz die Erweiterung ebenso. */
 const ohne = (await rechnePruefstand(zeilen, [anbieter], ERZEUGT, new Error('D1 weg'))).anbieter[0]!
-pruefe(ohne.titel === 7, `Nichtauskunft des Briefkastens: kein Ziel gedeckt (alle außer C): ${ohne.titel}`)
+pruefe(ohne.titel === 8, `Nichtauskunft des Briefkastens: kein Ziel gedeckt (alle außer C): ${ohne.titel}`)
 const knopfOhne = await knopfZahl(ohne.ziele.map((z) => z.url), true)
 pruefe(knopfOhne === ohne.titel, `ohne Auskunft zählen beide gleich (${knopfOhne} = ${ohne.titel})`)
 
