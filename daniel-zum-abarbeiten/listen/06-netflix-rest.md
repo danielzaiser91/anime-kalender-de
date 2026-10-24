@@ -26,7 +26,7 @@ Erzeugt von `npm run data:netflix-rest`, nicht von Hand pflegen.
 | 1 | Titipo Titipo 2 | 26 | 2019 | [öffnen](https://www.netflix.com/title/81099976) |
 | 2 | Banana Fish | 24 | 2018 | [öffnen](https://www.netflix.com/title/81218604) |
 | 3 | Die Tagebücher der Apothekerin: Staffel 3 - Cour 1 | 12 | 2026 | [öffnen](https://www.netflix.com/title/81712068) |
-| 4 | Cyberpunk: Edgerunners 2 | 10 | 2026 | [öffnen](https://www.netflix.com/title/81744227) |
+| 4 | Cyberpunk: Edgerunners 2 | 10 | 2026 | [öffnen](https://www.netflix.com/title/81054853) |
 | 5 | Mech Cadets | 10 | 2023 | [öffnen](https://www.netflix.com/title/81004665) |
 | 6 | Devil May Cry | 8 | 2025 | [öffnen](https://www.netflix.com/title/81506915) |
 | 7 | Pacific Rim: The Black | 7 | 2021 | [öffnen](https://www.netflix.com/title/81002003) |
