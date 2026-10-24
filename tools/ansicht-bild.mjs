@@ -55,6 +55,7 @@ const ALLE = [
   'quellen',
   'impressum',
   'datenschutz',
+  'empfehlung',
 ]
 
 /** Ein 1×1-Pixel-PNG, transparent — die Antwort auf jede fremde Bildanfrage. */

@@ -1,0 +1,154 @@
+import { useEffect, useRef, useState } from 'react'
+import type { Kandidat } from '@shared/empfehlung-pool.ts'
+import { PLATFORMS, type Fsk, type PlatformId, type StreamLink, type Title } from '@shared/types.ts'
+import { loadSynopsis } from '../../lib/data.ts'
+import { kuerze, metaZeile } from '../../lib/empfehlung-reise.ts'
+import { useLang } from '../../lib/i18n.tsx'
+import { TrailerKino } from '../detail/kino.tsx'
+import { FskBadge } from '../ui.tsx'
+import { bannerUrl, Cover } from './bilder.tsx'
+import { stempelDeckkraft, useWischen } from './wischen.ts'
+
+
+/** Ein Weg je Anbieter mit belegter Synchro, mit Zugangsart, wo sie etwas sagt. */
+function anbieterWege(titel?: Title): StreamLink[] {
+  const gesehen = new Set<string>()
+  return (titel?.streams ?? []).filter((s) => s.dub === true && !gesehen.has(s.platform) && gesehen.add(s.platform))
+}
+
+function Anbieter({ wege, eigene }: { wege: StreamLink[]; eigene: ReadonlySet<string> }) {
+  const { t } = useLang()
+  return (
+    <div className="flex flex-wrap gap-2">
+      {wege.map((s) => (
+        <a
+          key={s.platform}
+          href={s.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ borderColor: PLATFORMS[s.platform as PlatformId]?.color }}
+          className={`inline-flex min-h-11 items-center gap-1.5 rounded-xl border-[1.5px] px-3.5 text-sm font-semibold text-ak-text no-underline ${eigene.has(s.platform) ? 'bg-ak-flaeche-2' : 'bg-ak-flaeche'}`}
+        >
+          {PLATFORMS[s.platform as PlatformId]?.name ?? s.platform}
+          {s.zugang === 'kauf' && <small className="font-normal text-ak-leise">{t('empf.kaufen')}</small>}
+          {s.zugang === 'kostenlos' && <small className="font-normal text-ak-leise">{t('empf.kostenlos')}</small>}
+        </a>
+      ))}
+    </div>
+  )
+}
+
+function ZweiteEbene({ k, titel, genres, eigene }: { k: Kandidat; titel?: Title; genres: string[]; eigene: ReadonlySet<string> }) {
+  const { t, tGenre } = useLang()
+  const [text, setText] = useState<string>()
+  useEffect(() => {
+    let aktiv = true
+    loadSynopsis(k.id).then((s) => aktiv && setText(s?.de ?? s?.en))
+    return () => {
+      aktiv = false
+    }
+  }, [k.id])
+  const kopf = 'mb-2 mt-0 text-xs font-normal uppercase tracking-[0.12em] text-ak-leise'
+  return (
+    <div className="mx-auto grid max-w-[1100px] snap-start gap-5 px-5 pb-40 pt-4 min-[900px]:grid-cols-[1.2fr_1fr] min-[900px]:gap-7">
+      <div>
+        <h3 className={kopf}>{t('empf.handlung')}</h3>
+        <p className="m-0 max-w-[60ch] text-base leading-normal">{text ? kuerze(text) : ''}</p>
+        <h3 className={`${kopf} mt-5`}>{t('empf.blick')}</h3>
+        <div className="flex flex-wrap items-center gap-2">
+          {k.fsk == null ? <span className="rounded-full border border-ak-rand bg-ak-pille px-3 py-1 text-[13px]">{t('empf.fskOffen')}</span> : <FskBadge fsk={k.fsk as Fsk} />}
+          {genres.map((g) => (
+            <span key={g} className="rounded-full border border-ak-rand bg-ak-pille px-3 py-1 text-[13px]">
+              {tGenre(g)}
+            </span>
+          ))}
+          {titel?.studios?.[0] && <span className="rounded-full border border-ak-rand bg-ak-pille px-3 py-1 text-[13px]">{titel.studios[0]}</span>}
+        </div>
+        <h3 className={`${kopf} mt-5`}>{t('empf.aufDeutschBei')}</h3>
+        <Anbieter wege={anbieterWege(titel)} eigene={eigene} />
+      </div>
+      <div>
+        <h3 className={kopf}>{t('empf.trailer')}</h3>
+        {titel?.trailer ? <TrailerKino trailer={titel.trailer} titel={k.n} /> : <p className="m-0 text-[13px] text-ak-sehr-leise">{t('empf.keinTrailer')}</p>}
+      </div>
+    </div>
+  )
+}
+
+/** Ein Vorschlag groß im Bild; Wischen links = nicht interessiert, rechts = Favorit; nach unten die zweite Ebene. */
+export function Leinwand({ k, titel, genres, eigene, istFavorit, aktionen }: {
+  k: Kandidat
+  titel?: Title
+  genres: string[]
+  eigene: ReadonlySet<string>
+  istFavorit: boolean
+  aktionen: { favorit: () => void; nein: () => void; gesehen: () => void; zurueck: () => void }
+}) {
+  const { t } = useLang()
+  const szene = useRef<HTMLDivElement>(null)
+  const [weg, setWeg] = useState<'' | 'weg-links' | 'weg-unten'>('')
+  const verlassen = (art: 'weg-links' | 'weg-unten', tu: () => void) => {
+    if (weg) return
+    setWeg(art)
+    window.setTimeout(tu, 320)
+  }
+  const nein = () => verlassen('weg-links', aktionen.nein)
+  const gesehen = () => verlassen('weg-unten', aktionen.gesehen)
+  const wischen = useWischen({ links: nein, rechts: aktionen.favorit, tipp: () => szene.current?.scrollBy({ top: szene.current.clientHeight - 70, behavior: 'smooth' }) })
+  useEffect(() => {
+    const taste = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') aktionen.favorit()
+      else if (e.key === 'ArrowLeft') nein()
+      else if (e.key === 'ArrowDown') szene.current?.scrollBy({ top: 400, behavior: 'smooth' })
+      else if (e.key === 'ArrowUp') szene.current?.scrollTo({ top: 0, behavior: 'smooth' })
+      else if (e.key.toLowerCase() === 'g') gesehen()
+      else if (e.key === 'Escape') aktionen.zurueck()
+    }
+    window.addEventListener('keydown', taste)
+    return () => window.removeEventListener('keydown', taste)
+  })
+  const banner = bannerUrl(titel, 1280)
+  const nichtBei = eigene.size > 0 && !k.p.some(([p]) => eigene.has(p))
+  const bewegung = wischen.dx ? { transform: `translateX(${wischen.dx * 0.6}px) rotate(${wischen.dx / 60}deg)` } : undefined
+  const rund = 'grid h-[68px] w-[68px] place-items-center rounded-full border border-ak-rand bg-ak-flaeche text-3xl shadow-xl'
+  return (
+    <section className="relative flex min-h-0 flex-1 overflow-hidden" aria-label={k.n}>
+      <div ref={szene} style={bewegung} className={`empf-szene neu absolute inset-0 snap-y snap-proximity overflow-auto overscroll-contain ${weg} ${wischen.dx ? 'ziehen' : ''}`}>
+        <div {...wischen.ereignisse} className="empf-leinwand relative flex h-full min-h-[460px] cursor-pointer snap-start items-end touch-pan-y">
+          {banner ? <img src={banner} alt="" fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover object-top" /> : <Cover titel={titel} breite={500} klasse="absolute inset-0 h-full w-full scale-110 object-cover opacity-[0.6] blur-2xl" hoch />}
+          <span style={{ opacity: stempelDeckkraft(wischen.dx, 'links'), left: 20 }} className="absolute top-[70px] z-20 -rotate-12 rounded-[10px] border-4 border-ak-fehler px-3.5 py-1 text-3xl font-black uppercase tracking-wider text-ak-fehler">{t('empf.stempelNein')}</span>
+          <span style={{ opacity: stempelDeckkraft(wischen.dx, 'rechts'), right: 20 }} className="absolute top-[70px] z-20 rotate-12 rounded-[10px] border-4 border-ak-favorit px-3.5 py-1 text-3xl font-black text-ak-favorit">★</span>
+          <div className="relative z-10 mx-auto flex w-full max-w-[1100px] items-end gap-3.5 px-5 pb-[182px]">
+            <Cover titel={titel} breite={140} hoch klasse="w-[88px] flex-none rounded-lg bg-ak-flaeche-2 object-cover shadow-2xl min-[900px]:w-[140px] min-[900px]:rounded-xl aspect-[2/3]" />
+            <div className="min-w-0">
+              <h2 className="m-0 text-[clamp(28px,6vw,56px)] font-extrabold leading-none tracking-tight">{k.n}</h2>
+              <div className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-sm text-ak-leise">
+                <span>{metaZeile(k, titel?.runtimeMin)}</span>
+                {nichtBei && <span className="text-xs text-ak-sehr-leise">{t('empf.nichtBeiDeinen')}</span>}
+                {k.ab !== undefined && <span className="w-full text-xs text-ak-warnung-text">{t('empf.staffel', { n: k.ab })}</span>}
+              </div>
+            </div>
+          </div>
+          <span className="empf-wippen absolute bottom-[154px] left-1/2 z-10 text-xs text-ak-leise">{t('empf.mehr')}</span>
+        </div>
+        <ZweiteEbene k={k} titel={titel} genres={genres} eigene={eigene} />
+      </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex flex-col items-center gap-2 bg-gradient-to-t from-ak-grund from-60% to-transparent px-4 pb-3 pt-2.5">
+        <div className="pointer-events-auto flex items-start gap-6">
+          <span className="flex flex-col items-center gap-1 text-xs text-ak-leise">
+            <button type="button" onClick={nein} aria-label={t('empf.nein')} className={`${rund} text-ak-fehler`}>✕</button>
+            {t('empf.nein')}
+          </span>
+          <span className="flex flex-col items-center gap-1 text-xs text-ak-leise">
+            <button type="button" onClick={aktionen.favorit} aria-pressed={istFavorit} aria-label={t('empf.favorit')} className={`${rund} text-ak-favorit ${istFavorit ? 'bg-ak-favorit text-ak-auf-akzent' : ''}`}>★</button>
+            {t('empf.favorit')}
+          </span>
+        </div>
+        <button type="button" onClick={gesehen} className="pointer-events-auto min-h-11 rounded-full border border-ak-rand bg-ak-flaeche px-4 text-[13px] text-ak-leise">
+          ✓ {t('empf.gesehen')}
+        </button>
+        <span className="hidden text-[11px] text-ak-sehr-leise min-[900px]:inline">{t('empf.tasten')}</span>
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,51 @@
+/* Bewegung und Lagen der Ansicht „Was gucken?“; nur transform und opacity, Farben aus den ak-Tokens. */
+.empf [hidden] { display: none !important; }
+
+.empf-hg { position: absolute; inset: 0; overflow: hidden; background: var(--ak-grund); }
+.empf-hg-lage {
+  position: absolute; inset: -10%; background-size: cover; background-position: center;
+  filter: blur(40px) saturate(1.4); opacity: 0; transition: opacity 800ms ease;
+}
+.empf-hg-lage.an { opacity: 0.45; }
+
+.empf-mosaik {
+  position: absolute; inset: -12% -4%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  transform: rotate(-6deg); pointer-events: none;
+}
+@media (min-width: 720px) { .empf-mosaik { grid-template-columns: repeat(6, 1fr); gap: 12px; } }
+.empf-spalte { display: flex; flex-direction: column; gap: 8px; animation: empf-treiben 46s ease-in-out infinite alternate; }
+.empf-spalte:nth-child(even) { animation-direction: alternate-reverse; animation-duration: 58s; }
+.empf-spalte img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 10px; display: block; opacity: 0.85; background: var(--ak-flaeche-2); }
+.empf-schleier { position: absolute; inset: 0; background: radial-gradient(ellipse at center, color-mix(in srgb, var(--ak-grund) 55%, transparent) 0%, var(--ak-grund) 78%); }
+@keyframes empf-treiben { from { transform: translateY(0); } to { transform: translateY(-14%); } }
+
+.empf-rein { animation: empf-rein 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes empf-rein { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+.empf-kandidat { transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 180ms; }
+.empf-kandidat:hover { transform: scale(1.03); }
+.empf-kandidat:active { transform: scale(0.97); }
+.empf-kandidat.gewinnt { animation: empf-gewinnt 420ms ease both; }
+.empf-kandidat.verliert { animation: empf-verliert 420ms ease both; }
+@keyframes empf-gewinnt { 40% { transform: scale(1.06); } 100% { transform: scale(1.02); opacity: 0; } }
+@keyframes empf-verliert { to { transform: scale(0.85); opacity: 0; } }
+
+.empf-szene { will-change: transform; }
+.empf-szene.neu { animation: empf-szene-neu 480ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes empf-szene-neu { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
+.empf-szene.weg-links { transition: transform 420ms ease-in, opacity 380ms; transform: translateX(-30%) scale(0.96); opacity: 0; }
+.empf-szene.weg-unten { transition: transform 360ms ease-in, opacity 340ms; transform: translateY(40%) scale(0.9); opacity: 0; }
+.empf-szene.ziehen { transition: none; }
+.empf-wippen { animation: empf-wippen 1.6s ease-in-out infinite; }
+@keyframes empf-wippen { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 5px); } }
+
+.empf-blatt { transition: transform 380ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+/* Text auf Bildern liegt immer auf einem Verlauf und ist immer hell (Bild, nicht Thema). */
+.empf-name { color: rgb(255 255 255); background: linear-gradient(transparent, rgb(0 0 0 / 0.85)); }
+.empf-chip { background: rgb(255 255 255 / 0.18); border: 1px solid rgb(255 255 255 / 0.25); backdrop-filter: blur(4px); }
+.empf-leinwand::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(0 0 0 / 0.25) 0%, transparent 35%, var(--ak-grund) 100%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .empf *, .empf *::before, .empf *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
