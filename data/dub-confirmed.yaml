@@ -39022,3 +39022,14 @@
   dub: true
   checkedAt: '2026-10-24'
   note: "Tonspuren: Deutsch — Amazon-Seite 0J16B1NAB82TO0O5A5Q8TLG1VP: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.417bf623-7b72-42f2-8eb8-c04ba6323685"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-24 ---
+
+- anilistId: 128400
+  title: "Saiyuki Reload: Zeroin"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DMFV78H5
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-24'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0DMFV78H5: alle 13 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.2a1969c9-eb89-42e4-a8a4-3ddf8debd6f5 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
