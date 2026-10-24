@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-24 · **15 offene Verweise** in **13 Zeilen**.
+Stand 2026-10-24 · **18 offene Verweise** in **16 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,7 +33,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Prime Video](07-primevideo.md) | 8 |
+| [Prime Video](07-primevideo.md) | 11 |
 | [Netflix](07-netflix.md) | 4 |
 | [Disney+](07-disneyplus.md) | 3 |
 
@@ -52,8 +52,11 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 9 | 2026-09-13 | Kuroko’s Basketball: | [Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door]() |
 | 10 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
 | 11 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 12 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
-| 13 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
+| 12 | 2023-07-23 | NieR:Automata Ver1.1a | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f447a318-045f-4f1d-871d-f6ac4d53cf8a) |
+| 13 | 2021-02-17 | Project Itoh: Genocidal Organ | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.78b91eef-2e25-9512-4024-a8c43ad3e1f9) |
+| 14 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
+| 15 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
+| 16 | 2018-09-29 | Yunas Geisterhaus | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.31c2fcde-089d-47dd-bf2b-09bca0de572f) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
