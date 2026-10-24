@@ -8,7 +8,7 @@ import { type Env } from '../worker/src/env.ts'
 export type Zeile = { plattform: string; url: string; staffel?: number | null; uebernommen: 0 | 1; gemeldet_am: string }
 
 type Ziel = { url: string; titel: string; staffeln?: number[]; seit?: string }
-export type Anbieter = { name: string; plattform: string; offen: number; gesamt: number; gemeldet: number; ziele: Ziel[] }
+export type Anbieter = { name: string; plattform: string; offen: number; gesamt: number; gemeldet: number; ziele: Ziel[]; ohneSeite?: number; suchAdressen?: string[] }
 
 const nurAdresse = (z: Zeile) => ({ plattform: z.plattform, url: z.url, staffel: z.staffel ?? null })
 

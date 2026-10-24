@@ -7,7 +7,7 @@
  * Attrappe) gegen `akNetflixUebernahme` + `akNetflixErledigtLautStand` aus der Erweiterung; Titelzahl und Knopfzahl müssen
  * gleich sein, auch bei Nichtauskunft (Titelzeilen nicht lesbar / Netz weg).
  *
- * Aufruf: `npx tsx tools/netflix-zahl-gleich.test.ts`
+ * Aufruf: `npx tsx tools/worker-netflix-zahl-gleich.test.ts`
  */
 import { readFileSync } from 'node:fs'
 import { rechnePruefstand, type Anbieter, type Zeile } from './worker-pruefstand-attrappe.ts'
@@ -121,6 +121,25 @@ pruefe(knopfOhne === ohne.titel, `ohne Auskunft zählen beide gleich (${knopfOhn
 /* Genau eine offene Staffel mit genau einer Meldung deckt (1 Meldung, Staffel 1). */
 const nurB = (await rechnePruefstand([], [{ ...anbieter, ziele: anbieter.ziele.filter((z) => z.url === url(B)) }], ERZEUGT, titelzeilen)).anbieter[0]!
 pruefe(nurB.titel === 0, `genau eine Meldung deckt die eine offene Staffel: ${nurB.titel}`)
+
+/*
+  Alle Anbieter: die Hauptzahl der Statusanzeige ist `titel` (Titelseiten, die ein Erweiterungsknopf zählt); Suchadressen
+  und Verweise ohne Kennung stehen getrennt in `ohneSeite`. Prime: Daniel 24.10.2026 Knopf 32, Pille 50 = 32 + 18.
+*/
+const prime: Anbieter = {
+  name: 'Prime Video',
+  plattform: 'primevideo',
+  offen: 4,
+  gesamt: 9,
+  gemeldet: 5,
+  ziele: [1, 2, 3].map((i) => ({ url: `https://www.amazon.de/dp/B0TEST${i}`, titel: `P${i}` })),
+  suchAdressen: ['https://www.amazon.de/s?k=a', 'https://www.amazon.de/s?k=b'],
+}
+const pr = (await rechnePruefstand([], [prime], ERZEUGT, titelzeilen)).anbieter[0]!
+pruefe(pr.titel === 3 && pr.ohneSeite === 2, `Prime: titel zählt nur Titelseiten (3), Suchen stehen getrennt (2): ${pr.titel}/${pr.ohneSeite}`)
+const disney: Anbieter = { ...prime, name: 'Disney+', plattform: 'disneyplus', suchAdressen: undefined, ohneSeite: 20 }
+const di = (await rechnePruefstand([], [disney], ERZEUGT, titelzeilen)).anbieter[0]!
+pruefe(di.titel === 3 && di.ohneSeite === 20, `Disney+: titel 3, ohne Kennung 20 getrennt: ${di.titel}/${di.ohneSeite}`)
 
 console.log(fehler ? `netflix-zahl-gleich: ${fehler} Fehler` : 'netflix-zahl-gleich: alle Fälle ok')
 process.exit(fehler ? 1 : 0)
