@@ -32,6 +32,19 @@
         "https://www.netflix.com/tudum/*"
       ],
       "js": [
+        "netflix-stumm-seite.js"
+      ],
+      "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://www.netflix.com/*"
+      ],
+      "exclude_matches": [
+        "https://www.netflix.com/tudum/*"
+      ],
+      "js": [
         "netflix-stumm.js"
       ],
       "run_at": "document_start"

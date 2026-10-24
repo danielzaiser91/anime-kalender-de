@@ -2169,7 +2169,8 @@ async function merkeErledigt(id, staffel, folge) {
  * Wie viele Titel der Liste noch etwas zu tun haben.
  *
  * **Eine Zahl, eine Stelle** — der Knopf und die Kopfzeile der Liste lesen
- * beide hier. Bis zum 06.09.2026 rechneten sie getrennt und in verschiedenen
+ * beide hier (Stand 24.10.2026: die Pille der Statusanzeige rechnet im Worker, die
+ * Regel „gedeckt“ teilen beide, `tools/worker-netflix-zahl-gleich.test.ts` vergleicht sie). Bis zum 06.09.2026 rechneten sie getrennt und in verschiedenen
  * Einheiten: Der Knopf zählte offene **Staffelkürzel**, die Kopfzeile offene
  * **Titel**. Auf Daniels Bildschirm stand deshalb „3 Titel zu prüfen" über
  * einem Knopf mit der Zahl 5 — Berserk 1 + Fate 1 + Sword Art Online 3.
@@ -2203,9 +2204,7 @@ function fertig(id, eintrag) {
     darunter der Rückfall.
   */
   if (standZieleNetflix) {
-    return (
-      !standZieleNetflix.has(`https://www.netflix.com/title/${id}`) || frischGemeldetNetflix.has(String(id)) || akNetflixWartet.has(String(id))
-    )
+    return akNetflixErledigtLautStand(id, standZieleNetflix, frischGemeldetNetflix, akNetflixWartet)
   }
   if (istErledigt(id, 'tot')) return true
   const staffeln = staffelnVon(id, eintrag)

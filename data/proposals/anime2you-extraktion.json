@@ -667,6 +667,48 @@
     "1062988": {
       "am": "2026-10-23",
       "vorschlaege": 3
+    },
+    "1063031": {
+      "am": "2026-10-24",
+      "vorschlaege": 1
+    },
+    "1063162": {
+      "am": "2026-10-24",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1063240": {
+      "am": "2026-10-24",
+      "vorschlaege": 0
+    },
+    "1063256": {
+      "am": "2026-10-24",
+      "vorschlaege": 0
+    },
+    "1063292": {
+      "am": "2026-10-24",
+      "vorschlaege": 3
+    },
+    "1063329": {
+      "am": "2026-10-24",
+      "vorschlaege": 3
+    },
+    "1063353": {
+      "am": "2026-10-24",
+      "vorschlaege": 1
+    },
+    "1063362": {
+      "am": "2026-10-24",
+      "vorschlaege": 1
+    },
+    "1063384": {
+      "am": "2026-10-24",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1063415": {
+      "am": "2026-10-24",
+      "vorschlaege": 0
     }
   },
   "vorschlaege": [
@@ -5899,6 +5941,158 @@
       "quelle": "https://www.anime2you.de/news/1062868/neue-anime-serie-sorgt-fuer-probleme/",
       "veroeffentlicht": "2026-10-21",
       "gelesenAm": "2026-10-23"
+    },
+    {
+      "titel": "One Piece",
+      "zitat": "Der VoD-Anbieter arbeitet darüber hinaus an einem Anime-Reboot von »One Piece«, das für Februar 2027 geplant ist.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1063353",
+      "artikel": "Kinder Schoko-Bons erhalten besondere »One Piece«-Designs",
+      "quelle": "https://www.anime2you.de/news/1063353/kinder-schoko-bons-one-piece-designs/",
+      "veroeffentlicht": "2026-10-23",
+      "gelesenAm": "2026-10-24"
+    },
+    {
+      "titel": "Though I Am an Inept Villainess",
+      "zitat": "Die Fortsetzung startet im Januar 2027.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1063362",
+      "artikel": "Erster Teaser zum zweiten Teil von »Though I Am an Inept Villainess«",
+      "quelle": "https://www.anime2you.de/news/1063362/though-i-am-an-inept-villainess-part-2-trailer/",
+      "veroeffentlicht": "2026-10-23",
+      "gelesenAm": "2026-10-24"
+    },
+    {
+      "titel": "Akame ga KILL!",
+      "zitat": "Zum Auftakt wird zunächst nur eine Episode ausgestrahlt, bevor die Serie ab dem 23. November 2026 jeden Montagabend um 20:55 Uhr in Doppelfolgen läuft.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": "2026-11-23",
+      "uhrzeit": "20:55",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "jeden Montagabend",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Montag",
+      "warnungen": [
+        "sender „ProSieben FUN“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1063292",
+      "artikel": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
+      "quelle": "https://www.anime2you.de/news/1063292/prosieben-fun-zeigt-akame-ga-kill/",
+      "veroeffentlicht": "2026-10-23",
+      "gelesenAm": "2026-10-24"
+    },
+    {
+      "titel": "Akame ga KILL!",
+      "zitat": "Zusätzlich erscheint der Anime in Kürze in der Mediathek auf Joyn.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1063292",
+      "artikel": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
+      "quelle": "https://www.anime2you.de/news/1063292/prosieben-fun-zeigt-akame-ga-kill/",
+      "veroeffentlicht": "2026-10-23",
+      "gelesenAm": "2026-10-24"
+    },
+    {
+      "titel": "The Apothecary Diaries",
+      "zitat": "Die zwölfteilige dritte Staffel von »The Apothecary Diaries« läuft seit dem 2. Oktober 2026 jeden Freitag um 17:00 Uhr bei Crunchyroll im Simulcast.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-02",
+      "uhrzeit": "17:00",
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": "jeden Freitag",
+      "folgen": null,
+      "unsicher": "Laut Artikel läuft die Staffel bereits seit dem 2. Oktober 2026, zum Veröffentlichungszeitpunkt des Artikels (23.10.) also schon drei Wochen.",
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1063031",
+      "artikel": "Releasetermin des »The Apothecary Diaries«-Videospiels + Trailer",
+      "quelle": "https://www.anime2you.de/news/1063031/the-apothecary-diaries-videospiel-releasetermin/",
+      "veroeffentlicht": "2026-10-23",
+      "gelesenAm": "2026-10-24"
+    },
+    {
+      "titel": "My Hero Academia",
+      "zitat": "Im Anschluss stehen die einzelnen Episoden kostenlos auf Joyn zur Verfügung.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1063329",
+      "artikel": "ProSieben MAXX wiederholt sechste »My Hero Academia«-Staffel",
+      "quelle": "https://www.anime2you.de/news/1063329/my-hero-academia-staffel-6-prosieben-maxx-wiederholung/",
+      "veroeffentlicht": "2026-10-23",
+      "gelesenAm": "2026-10-24"
+    },
+    {
+      "titel": "I Am A Hero Too",
+      "zitat": "Ein neuer Kurzfilm mit dem Titel »I Am A Hero Too« ist seit dem 3. August 2026 auf Crunchyroll verfügbar.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": "2026-08-03",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Montag",
+      "warnungen": [],
+      "artikelId": "1063329",
+      "artikel": "ProSieben MAXX wiederholt sechste »My Hero Academia«-Staffel",
+      "quelle": "https://www.anime2you.de/news/1063329/my-hero-academia-staffel-6-prosieben-maxx-wiederholung/",
+      "veroeffentlicht": "2026-10-23",
+      "gelesenAm": "2026-10-24"
     }
   ]
 }
