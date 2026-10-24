@@ -20,21 +20,32 @@ function pruefe(name: string, ok: boolean, info: unknown = ''): void {
   console.error(`FEHLER: ${name} ${JSON.stringify(info)}`)
 }
 
-const URL_A = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.aaaa'
-const URL_B = 'https://www.amazon.de/dp/B0HJ5TX1WY?tag=movie0c6-21&linkCode=osi&th=1&psc=1'
+const GTI1 = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.11111111-2222-3333-4444-555555555555'
+const GTI2 = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.66666666-7777-8888-9999-000000000000'
+const GTI3 = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee'
+const URL_A = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.aaaaaaaa-0000-0000-0000-000000000000'
+const HEUTE_BAU = '2999-12-31'
+const BEFUND_TAG = '2999-12-04'
+const URL_B = `${URL_A}&tag=movie0c6-21&linkCode=osi&th=1&psc=1`
+const URL_DP = 'https://www.amazon.de/dp/B0HJ5TX1WY?tag=movie0c6-21&linkCode=osi&th=1&psc=1'
 const titel = (id: number, extra: object = {}) => ({ id, streams: [], keywords: [], genres: [], ...extra }) as unknown as Title
 const angebot = (anbieter: string, art: string, audio: string[] | undefined, url: string | undefined = URL_A) => ({ anbieter, art, audio, url })
 const aniSearchBlu = { name: 'aniSearch', url: 'https://www.anisearch.de/article/1,x', kind: 'buy', zugang: 'kauf' }
 
 /** Ein Lauf der Kauf-Runde über einen Titel; Rückgabe: seine Streams. */
-function lauf(angebote: JwKauf['angebote'], t: Title = titel(900001), extra: { handNein?: Set<string>; primeNein?: number[]; mehrdeutig?: string[]; tot?: string[]; ohneTreffer?: boolean; fremd?: JwKauf['angebote'] } = {}): StreamLink[] {
+function lauf(angebote: JwKauf['angebote'], t: Title = titel(900001), extra: { zweiterTitel?: boolean; stand?: string; heute?: string; jwId?: string; pfad?: string; handNein?: Set<string>; primeNein?: number[]; mehrdeutig?: string[]; tot?: string[]; ohneTreffer?: boolean; fremd?: JwKauf['angebote'] } = {}): StreamLink[] {
   ergaenzeKaufWege({
     titles: new Map([[t.id, t]]),
-    jw: { [String(t.id)]: { angebote, ...(extra.ohneTreffer ? { ohneTreffer: true } : {}) }, ...(extra.fremd ? { '900777': { angebote: extra.fremd } } : {}) },
+    jw: {
+      [String(t.id)]: { geprueftAm: extra.stand ?? BEFUND_TAG, jwId: extra.jwId ?? `tm${t.id}`, jwPfad: extra.pfad ?? '/de/Film/x', angebote, ...(extra.ohneTreffer ? { ohneTreffer: true } : {}) },
+      ...(extra.zweiterTitel ? { '900888': { geprueftAm: extra.stand ?? BEFUND_TAG, jwId: extra.jwId ?? `tm${t.id}`, angebote: [] } } : {}),
+      ...(extra.fremd ? { '900777': { angebote: extra.fremd } } : {}),
+    } as Record<string, JwKauf>,
     handNein: extra.handNein ?? new Set(),
     primeNein: new Set(extra.primeNein ?? []),
     tmdbMehrdeutig: new Set(extra.mehrdeutig ?? []),
     toteAdressen: new Set(extra.tot ?? []),
+    heute: extra.heute ?? HEUTE_BAU,
   })
   return t.streams as StreamLink[]
 }
@@ -54,7 +65,7 @@ pruefe('Amazon-Kanal kein Weg', lauf([angebot('Crunchyroll Amazon Channel', 'BUY
 pruefe('Namensvorsatz kein Weg („Foo Amazon Video“)', lauf([angebot('Foo Amazon Video', 'BUY', ['de'])]).length === 0)
 pruefe('Namensanhang kein Weg („Amazon Video Channel“)', lauf([angebot('Amazon Video Channel', 'BUY', ['de'])]).length === 0)
 pruefe('Befund ohne Angebotsliste: kein Weg, kein Absturz', lauf(undefined).length === 0)
-pruefe('ein Angebot ohne Adresse hält das nächste mit Adresse nicht auf', urls(lauf([angebot('Amazon Video', 'BUY', ['de'], ''), angebot('Amazon Video', 'RENT', ['de'], 'https://x/zweites')])) === 'primevideo|kauf|https://x/zweites')
+pruefe('ein Angebot ohne Adresse hält das nächste mit Adresse nicht auf', urls(lauf([angebot('Amazon Video', 'BUY', ['de'], ''), angebot('Amazon Video', 'RENT', ['de'], GTI2)])) === `primevideo|kauf|${GTI2}`)
 pruefe('anderer Shop kein Weg', lauf([angebot('Apple TV', 'BUY', ['de'])]).length === 0)
 pruefe('ohne Adresse kein Weg', lauf([angebot('Amazon Video', 'BUY', ['de'], '')]).length === 0)
 pruefe('tote Adresse kein Weg', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001), { tot: [URL_A] }).length === 0)
@@ -63,8 +74,6 @@ pruefe('Befund ohne Treffer kein Weg', lauf([angebot('Amazon Video', 'BUY', ['de
 pruefe('Nein-Handbeleg an Prime hält ihn zurück', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001), { handNein: new Set([dubKey(900001, 'primevideo')]) }).length === 0)
 pruefe('Nein-Handbeleg eines anderen Titels nicht', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001), { handNein: new Set([dubKey(900002, 'primevideo')]) }).length === 1)
 pruefe('Nein-Handbeleg einer anderen Plattform nicht', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001), { handNein: new Set([dubKey(900001, 'netflix')]) }).length === 1)
-const GTI1 = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.11111111-2222-3333-4444-555555555555'
-const GTI2 = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.66666666-7777-8888-9999-000000000000'
 pruefe('belegtes Nein im Gedächtnis hält ihn zurück', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001), { primeNein: [900001] }).length === 0)
 pruefe('belegtes Nein eines anderen Titels nicht', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001), { primeNein: [900002] }).length === 1)
 pruefe('entfernter Prime-Verweis (Abgang) bleibt Abgang', lauf([angebot('Amazon Video', 'BUY', ['de'])], titel(900001, { entfernteStreams: [{ platform: 'primevideo', url: 'https://x/alt' }] })).length === 0)
@@ -79,13 +88,25 @@ pruefe('Blu-ray-Zeile (watchLinks) hält ihn nicht auf, bleibt aber stehen', (()
   return urls(lauf([angebot('Amazon Video', 'BUY', ['de'])], t)) === `primevideo|kauf|${URL_A}` && (t.watchLinks ?? []).length === 1
 })())
 pruefe('Partnerkennung fällt weg', !urls(lauf([angebot('Amazon Video', 'BUY', ['de'], URL_B)])).includes('tag='))
-pruefe('unter drei Angeboten gewinnt das passende in der Mitte', urls(lauf([angebot('Amazon Video', 'BUY', ['ja']), angebot('Amazon Video', 'RENT', ['de'], 'https://x/mitte'), angebot('Amazon Video', 'BUY', ['de'], 'https://x/ende')])) === 'primevideo|kauf|https://x/mitte')
+pruefe('unter drei Angeboten gewinnt das passende in der Mitte', urls(lauf([angebot('Amazon Video', 'BUY', ['ja']), angebot('Amazon Video', 'RENT', ['de'], GTI2), angebot('Amazon Video', 'BUY', ['de'], GTI3)])) === `primevideo|kauf|${GTI2}`)
 pruefe('nur ein Weg je Titel, auch bei Kauf und Leihe', lauf([angebot('Amazon Video', 'BUY', ['de']), angebot('Amazon Video', 'RENT', ['de'])]).length === 1)
 {
   const fremd = titel(900009, { streams: [{ platform: 'netflix', url: 'https://x/n' }] })
   const vorher = JSON.stringify(fremd)
-  ergaenzeKaufWege({ titles: new Map([[900009, fremd]]), jw: {}, handNein: new Set(), primeNein: new Set(), tmdbMehrdeutig: new Set(), toteAdressen: new Set() })
+  ergaenzeKaufWege({ titles: new Map([[900009, fremd]]), jw: {}, handNein: new Set(), primeNein: new Set(), tmdbMehrdeutig: new Set(), toteAdressen: new Set(), heute: HEUTE_BAU })
   pruefe('Titel ohne JustWatch-Befund bleibt byte-gleich', JSON.stringify(fremd) === vorher)
+}
+
+console.log('Kennzeichnung trägt den Weg (sonst stünde er als "Sprache offen" ohne Prüfliste da):')
+{
+  const de = [angebot('Amazon Video', 'BUY', ['de'])]
+  pruefe('Befund 27 Tage alt: Weg', lauf(de, titel(900001), { stand: '2999-12-04' }).length === 1)
+  pruefe('Befund 28 Tage alt: kein Weg', lauf(de, titel(900001), { stand: '2999-12-03' }).length === 0)
+  pruefe('Befund 38 Tage alt (Anlass 585): kein Weg', lauf(de, titel(900001), { stand: '2999-11-23' }).length === 0)
+  pruefe('Befund-Alter folgt dem Bautag', lauf(de, titel(900001), { stand: '2999-12-03', heute: '2999-12-30' }).length === 1)
+  pruefe('Adresse ohne gti (dp-Seite): kein Weg', lauf([angebot('Amazon Video', 'BUY', ['de'], URL_DP)]).length === 0)
+  pruefe('JustWatch-Kennung bei zwei Titeln (Mehrteiler, Serie): kein Weg', lauf(de, titel(900001), { jwId: 'tm1', pfad: '/de/Serie/x', zweiterTitel: true }).length === 0)
+  pruefe('Serie mit einer Kennung ohne Staffelangabe: Weg (Hinweis-Kennzeichnung greift)', lauf(de, titel(900001), { pfad: '/de/Serie/x' }).length === 1)
 }
 
 console.log('News: ein neu aufgenommener Kauf-/Leihweg meldet kein „jetzt auch bei“:')
@@ -104,7 +125,7 @@ console.log('News: ein neu aufgenommener Kauf-/Leihweg meldet kein „jetzt auch
 }
 
 console.log('Frische Titel:')
-const heute = '2999-12-31'
+const heute = HEUTE_BAU
 const tag = (n: number) => new Date(Date.parse(heute) - n * 86_400_000).toISOString().slice(0, 10)
 const termin = (titleId: number, platform: string, datum: string | undefined) => ({ titleId, platform, schedule: datum ? { firstEpisodeDate: datum } : {} })
 {

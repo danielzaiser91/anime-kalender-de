@@ -1,5 +1,6 @@
 import { readJson, log } from '../lib/util.ts'
 import { type WatchLink, type Title } from '../../shared/types.ts'
+import { todayIso } from '../../shared/time.ts'
 import { providerName, stripAffiliate } from '../../shared/mappings.ts'
 import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
 import { setzeTelekomAnnahme, type JwAngebot } from '../lib/telekom-annahme.ts'
@@ -40,6 +41,7 @@ function legeWegeAn({ titles, tmdbMehrdeutig, toteAdressen }: Runde) {
     primeNein: primeNeinTitel(),
     tmdbMehrdeutig,
     toteAdressen,
+    heute: todayIso(),
   })
 }
 

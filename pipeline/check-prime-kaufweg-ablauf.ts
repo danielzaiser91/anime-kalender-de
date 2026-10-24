@@ -14,7 +14,7 @@ mkdirSync(join(wurzel, 'data', 'curated'), { recursive: true })
 writeFileSync(join(wurzel, 'data', 'kino-ankuendigungen.yaml'), '[]\n')
 
 const angebote = (n: number) => [
-  { anbieter: 'Amazon Video', art: 'BUY', audio: ['de', 'ja'], untertitel: [], url: `https://watch.amazon.de/detail?gti=amzn1.dv.gti.kaufweg${n}` },
+  { anbieter: 'Amazon Video', art: 'BUY', audio: ['de', 'ja'], untertitel: [], url: `https://watch.amazon.de/detail?gti=amzn1.dv.gti.0000000${n}-0000-0000-0000-000000000000` },
 ]
 const befund = (n: number) => ({ geprueftAm: '2999-12-31', jwId: `tm${n}`, altersangabe: '16', angebote: angebote(n) })
 writeFileSync(join(wurzel, 'data', 'justwatch-audio.json'), JSON.stringify({ 900101: befund(1), 900102: befund(2), 900103: befund(3), 900104: befund(4) }))
