@@ -125,8 +125,8 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
        * vorn.
        *
        * `gemeldet` beantwortet die Frage, die die Erweiterung wirklich stellt:
-       * Ist unter dieser Adresse jemals etwas eingegangen? `DISTINCT`, weil je
-       * Staffel und Folge mehrere Zeilen auf dieselbe Adresse zeigen.
+       * Ist hier seit dem Datenlauf (`seitStand`, D1-Budget), nicht „jemals“, etwas eingegangen?
+       * Die Erweiterung wertet nur Vermerke nach dem Prüfstand (`akVermerkGilt`). `DISTINCT`: mehrere Zeilen je Adresse.
        */
       const gemeldet = await gemeldeteAdressen(env, seitStand, abfrage('url'))
       /*

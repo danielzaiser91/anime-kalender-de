@@ -225,6 +225,7 @@ async function meldeHoverCover() {
   const ok = r.maus ? `ok (nach ${Math.round(r.maus.nach)} ms)` : ''
   console.log(`\nCover-Vorschau (Woche, Maus und Touch): ${r.abweichungen.length ? '' : ok}`)
   for (const a of r.ansichten) console.log(`  ${a.name}: ${a.uebersprungen ? 'übersprungen (keine Ereignisse mit Cover in dieser Woche)' : `geprüft an „${a.zeile ?? '–'}“`}`)
+  console.log(`  Saison-Karte und Ähnliche Titel: ${r.weitere.length ? 'rot' : 'ok (Karte nach Frist, weg beim Verlassen)'}`)
   for (const l of r.abweichungen) console.log(`  ✕ ${l}`)
   return r.abweichungen.length > 0
 }

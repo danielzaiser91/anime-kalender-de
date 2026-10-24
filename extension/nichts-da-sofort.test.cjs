@@ -87,6 +87,7 @@ async function netflix() {
 function weg() {
   const kontext = vm.createContext({ localStorage: speicherKulisse() })
   kontext.globalThis = kontext
+  vm.runInContext(lies('pruefstand-zeit.js'), kontext)
   vm.runInContext(lies('disney-weg.js'), kontext)
   return kontext.akDisneyWeg
 }
@@ -145,6 +146,7 @@ async function disneyDrinnen(fabrik) {
       fetch: fetchAntwort,
     })
     k.globalThis = k
+    vm.runInContext(lies('pruefstand-zeit.js'), k)
     vm.runInContext(lies('disney-weg.js'), k)
     k.AK_DISNEY_WEG = fabrik({ dauer: speicherKulisse(), jetzt: () => FEST })
     k.AK_DISNEY_STAFFELN = { titelIdFuer: () => null }

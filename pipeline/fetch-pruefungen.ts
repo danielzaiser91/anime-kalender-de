@@ -42,6 +42,7 @@ import { OFFEN, PRUEFUNGEN_ABHAKEN, quittiereGemerkte } from './lib/spaeter-quit
 import { schalterOderAbbruch } from './lib/schalter.ts'
 import { folgenzahlIstBefund, schreibeAuffaelligkeiten, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
 import { ladeMeldungen, legeAbhakenAb } from './lib/meldungen-stapel.ts'
+import { baueNachUrl } from './lib/nach-url.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN
@@ -109,7 +110,7 @@ if (process.argv.includes('--nur-abhaken')) {
   process.exit(0)
 }
 
-const antwort = await ladeMeldungen(`${WORKER}/pruefung?token=${encodeURIComponent(TOKEN)}`)
+const antwort = await ladeMeldungen(`${WORKER}/pruefung`, TOKEN)
 if (!antwort.ok) {
   warn(`Prüfungen nicht abrufbar: HTTP ${antwort.status}`)
   /*
@@ -182,16 +183,7 @@ const liste: Array<{
   streams?: Array<{ platform: string; url: string; seite?: string }>
 }> = ladePruefTitel(ROOT)
 
-const nachUrl = new Map<string, number[]>()
-for (const t of liste) {
-  for (const s of t.streams ?? []) {
-    /* Die Prüfliste öffnet die Amazon-Seite (`seite`), nicht JustWatchs gti-Adresse (17.09.2026). */
-    for (const u of new Set([s.url, s.seite])) {
-      if (!u) continue
-      nachUrl.set(schluesselAdresse(u), [...(nachUrl.get(schluesselAdresse(u)) ?? []), t.id])
-    }
-  }
-}
+const nachUrl = baueNachUrl(liste)
 
 const entferntJeAdresse = ergaenzeUmEntfernte(nachUrl, resolve(ROOT, 'data/verweise-entfernt.json')) // Staffeln ohne deutschen Ton
 

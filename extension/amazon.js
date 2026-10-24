@@ -4926,7 +4926,10 @@ async function speicherSchreiben(werte) {
   function nichtAngekommen(asinEintrag) {
     try {
       const url = liste[asinEintrag]?.url
-      return Boolean(url && briefkastenAdressen && !briefkastenAdressen.has(url))
+      const fehlt = Boolean(url && briefkastenAdressen && !briefkastenAdressen.has(url))
+      /* Nur ein Vermerk nach dem Prüfstand kann „nicht angekommen“ sein; ältere hat der Bau übernommen. */
+      const vermerk = erledigt[asinEintrag]
+      return fehlt && globalThis.akVermerkGilt(vermerk?.zeit ?? vermerk?.datum, globalThis.AK_OFFENE_AMAZON_ERZEUGT)
     } catch {
       return false
     }
@@ -5419,14 +5422,8 @@ async function speicherSchreiben(werte) {
       */
       try {
         const listeVom = String(globalThis.AK_OFFENE_AMAZON_ERZEUGT ?? '').slice(0, 10)
-        const bereinigt = {}
-        let entfernt = 0
-        for (const [id, wert] of Object.entries(erledigt)) {
-          const url = liste[id]?.url ?? null
-          const frisch = listeVom && String(wert?.zeit ?? wert?.datum ?? '').slice(0, 10) >= listeVom
-          if (!url || briefkastenAdressen.has(url) || frisch) bereinigt[id] = wert
-          else entfernt++
-        }
+        await globalThis.akGemeldetSeit(listeVom)
+        const { bereinigt, entfernt } = globalThis.akPrimeAufraeumen(erledigt, liste, briefkastenAdressen, listeVom)
         if (entfernt) {
           erledigt = bereinigt
           void speicherSchreiben({ amazonErledigt: erledigt })

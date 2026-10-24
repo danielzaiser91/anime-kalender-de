@@ -1,5 +1,6 @@
 import { type NewsEintrag } from '@shared/types.ts'
 import { coverBild } from '../lib/cover.ts'
+import { useHoverCover } from './kalender/HoverCover.tsx'
 
 const KACHEL = 'h-14 w-10 shrink-0 rounded'
 
@@ -7,7 +8,15 @@ const KACHEL = 'h-14 w-10 shrink-0 rounded'
  * Das Bild einer News-Zeile. Ohne Cover steht eine graue Fläche.
  */
 export function NewsCover({ e }: { e: NewsEintrag }): React.JSX.Element {
-  if (e.cover) return <img {...coverBild(e.cover, 40)} alt="" loading="lazy" className={`${KACHEL} object-cover`} />
+  const { zeiger, vorschau } = useHoverCover(e.cover)
+  if (e.cover) {
+    return (
+      <span {...zeiger} className={KACHEL}>
+        <img {...coverBild(e.cover, 40)} alt="" loading="lazy" className="size-full rounded object-cover" />
+        {vorschau}
+      </span>
+    )
+  }
   return <span className={`${KACHEL} bg-slate-200 dark:bg-slate-800`} />
 }
 

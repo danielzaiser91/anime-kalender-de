@@ -10,11 +10,13 @@
  * Aufruf: `npx tsx tools/worker-rohfolge-spalte.test.ts`
  */
 import { DatabaseSync } from 'node:sqlite'
+import { festeUhr } from './feste-uhr.ts'
 import { readdirSync, readFileSync } from 'node:fs'
 import { handlePruefung } from '../worker/src/pruefung.ts'
 import { speichereRohfolgen } from '../worker/src/pruefung-rohfolgen-speichern.ts'
 import { PRUEFUNG_ID_AB, SEITE } from '../worker/src/rohfolgen-seiten.ts'
 
+festeUhr('2026-10-12T12:00:00Z') // Query-Übergang gilt nur bis 07.11.2026
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
   console.log(`  ${bedingung ? 'ok  ' : 'FEHL'} ${text}`)
