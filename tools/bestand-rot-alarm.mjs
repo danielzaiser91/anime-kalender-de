@@ -10,7 +10,7 @@ const ROT = new Set(['failure', 'timed_out', 'cancelled'])
 
 /** `laeufe`: `[{ status, conclusion, createdAt }]` (gh run list). Übersprungene Läufe (Push ohne Bau) zählen weder grün noch rot. */
 export function bestandRotAlarm(laeufe, jetztMs, grenzeStunden = BESTAND_ROT_GRENZE_STUNDEN) {
-  const fertig = laeufe.filter((l) => l.status === 'completed')
+  const fertig = laeufe.filter((l) => l.conclusion)
   const gruen = fertig
     .filter((l) => l.conclusion === 'success')
     .map((l) => l.createdAt)
@@ -19,7 +19,6 @@ export function bestandRotAlarm(laeufe, jetztMs, grenzeStunden = BESTAND_ROT_GRE
   const aelteste = fertig.map((l) => l.createdAt).sort()[0]
   const bezug = gruen ?? aelteste
   const rote = fertig.filter((l) => ROT.has(l.conclusion) && (gruen === undefined || l.createdAt > gruen)).length
-  if (bezug === undefined) return { alarm: false, stunden: 0, gruenAm: gruen, rote }
   const stunden = (jetztMs - Date.parse(bezug)) / 3_600_000
   return { alarm: rote > 0 && stunden > grenzeStunden, stunden, gruenAm: gruen, rote }
 }

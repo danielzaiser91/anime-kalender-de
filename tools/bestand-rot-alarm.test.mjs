@@ -30,6 +30,8 @@ assert.equal(alarm([lauf('success', '2026-10-23T05:59:59Z'), lauf('failure', '20
 assert.equal(alarm([lauf('failure', '2026-10-22T00:00:00Z'), lauf('success', '2026-10-22T01:00:00Z')]).alarm, false)
 assert.equal(alarm([lauf('success', '2026-10-22T01:00:00Z'), lauf('skipped', '2026-10-23T01:00:00Z'), lauf(null, '2026-10-23T02:00:00Z', 'in_progress')]).alarm, false)
 assert.equal(alarm([]).alarm, false)
+// Ein alter, nie beendeter Lauf ist keine Bezugszeit: ohne grünen Lauf zählt der älteste beendete (hier 1 h alt).
+assert.equal(alarm([lauf('', '2026-10-22T00:00:00Z', 'in_progress'), lauf('failure', '2026-10-23T11:00:00Z')]).alarm, false)
 // Abgebrochene und Zeitüberschreitung zählen als rot; ein einziger Lauf genügt.
 assert.equal(alarm([lauf('success', '2026-10-22T01:00:00Z'), lauf('cancelled', '2026-10-22T02:00:00Z')]).alarm, true)
 assert.equal(alarm([lauf('success', '2026-10-22T01:00:00Z'), lauf('timed_out', '2026-10-22T02:00:00Z')]).alarm, true)
@@ -67,7 +69,7 @@ assert.match(bestandRotText(ghMit('kein json'), 'o/r', JETZT), /^ALARM\? Läufe 
 
 // Verdrahtung als Prozess: `gh` über die Kulisse, damit der echte Aufrufer läuft (Datum 2026-10-18 weit in der Vergangenheit, 2999 in der Zukunft).
 const stub = (laeufe) =>
-  `data:text/javascript,import cp from "node:child_process";import{syncBuiltinESMExports}from "node:module";cp.execFileSync=()=>${JSON.stringify(JSON.stringify(laeufe))};syncBuiltinESMExports();globalThis.fetch=async()=>new Response("{}",{status:500})`
+  `data:text/javascript,import cp from "node:child_process";import{syncBuiltinESMExports}from "node:module";cp.execFileSync=(c,a)=>{if(a.includes("--workflow")&&(a[a.indexOf("--repo")+1]!=="danielzaiser91/anime-kalender-de"||a[a.indexOf("--workflow")+1]!=="bestand-bauen.yml"))throw new Error("gh?");return ${JSON.stringify(JSON.stringify(laeufe))}};syncBuiltinESMExports();globalThis.fetch=async()=>new Response("{}",{status:500})`
 const ALT = [lauf('success', '2026-10-18T01:00:00Z'), lauf('failure', '2026-10-18T02:00:00Z')]
 const FRISCH = [lauf('success', '2999-12-31T01:00:00Z'), lauf('failure', '2026-10-18T02:00:00Z')]
 const aufraeumen = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
