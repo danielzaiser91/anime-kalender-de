@@ -23,7 +23,7 @@ function alleDateien(wurzel, ordner) {
 const istCode = (wurzel, datei) => /\.(ts|tsx|mjs|cjs|mts)$/.test(datei) && fs.existsSync(path.join(wurzel, datei)) && fs.statSync(path.join(wurzel, datei)).isFile()
 
 /** Relative Importe mit Literal einer Datei, als Pfade relativ zur Wurzel. */
-function importe(wurzel, datei) {
+export function importe(wurzel, datei) {
   const text = fs.readFileSync(path.join(wurzel, datei), 'utf8')
   const ziele = []
   for (const m of text.matchAll(/['"`](\.{1,2}\/[^'"`\n]+)['"`]/g)) {
