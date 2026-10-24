@@ -79,6 +79,8 @@ pipeline/check-dub-durchgehende-zaehlung.ts
 pipeline/check-empfehlung-ablauf.ts
 pipeline/check-empfehlung-ansicht.ts
 pipeline/check-empfehlung-kern.ts
+pipeline/check-empfehlung-reset.ts
+pipeline/check-empfehlung-sichtbar.ts
 pipeline/check-empfehlung.ts
 pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
@@ -169,6 +171,10 @@ pipeline/check-omu-ohne-termin.ts
 pipeline/check-panel-chips.ts
 pipeline/check-panel-disc-doppel.ts
 pipeline/check-paramount.ts
+pipeline/check-patchnotes-render.ts
+pipeline/check-patchnotes-stempel-flach.ts
+pipeline/check-patchnotes-stempel-regel.ts
+pipeline/check-patchnotes-stempel.ts
 pipeline/check-patchnotes-titel-ablauf.ts
 pipeline/check-patchnotes-titel.ts
 pipeline/check-patchnotes.ts

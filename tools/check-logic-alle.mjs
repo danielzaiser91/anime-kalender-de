@@ -25,6 +25,7 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { laufePool } from './arbeiterpool.mjs'
 import { ohneBauVariablen } from './bau-umgebung.mjs'
+import { historieErgebnis } from './check-logic-historie.mjs'
 import { pruefeVollstaendig } from './check-logic-vollstaendig.mjs'
 import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
 import { vorladeBasis } from './pr-basis.mjs'
@@ -87,6 +88,10 @@ if (mitSperre) {
   for (const f of unverdrahtet) console.error(`${name}: ${f}`)
   if (unverdrahtet.length) process.exit(1)
 }
+
+const historie = historieErgebnis(wurzel)
+if (historie.warnung) console.warn(`${name}: ${historie.warnung}`)
+else console.log(`${name}: ${historie.zeile}`)
 
 const listenProbleme = listenFehler(dateien, listeArg)
 if (listenProbleme.length) {

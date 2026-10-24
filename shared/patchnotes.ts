@@ -21,6 +21,8 @@ export interface Patchnote {
   symbol?: PatchSymbol
   /** Hash-Adresse der Stelle, an der man es sieht („#/datenbank?t=12"). */
   link?: string
+  /** Der Tag liegt nach `data/patchnotes/_ueberarbeitet-bis.txt`: Text noch nicht überarbeitet (Stift im Dialog). */
+  entwurf?: true
 }
 
 export const MAX_WOERTER = 8
@@ -33,7 +35,7 @@ const FELDER = new Set(['datum', 'kategorie', 'text', 'highlight', 'untertitel',
 export const VERBOTENE_WOERTER = /debug|pipeline|prüf|\bwache|wächter|worker|erweiterung|\bintern|geheim|zusicherung|invariante|workflow|datensatz/i
 const woerter =(s: string): number => s.trim().split(/\s+/).filter(Boolean).length
 
-function istTag(s: unknown): s is string {
+export function istTag(s: unknown): s is string {
   if (typeof s !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false
   const d = new Date(`${s}T00:00:00Z`)
   return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === s
@@ -79,8 +81,8 @@ export function pruefeHighlightsJeTag(roh: Record<string, unknown>[]): string[] 
 
 const RANG: Record<string, number> = { highlight: 0, feature: 1, bugfix: 2 }
 
-/** Erwartet Einträge mit aufgelöstem `datum`; neueste Tage oben (höchstens `MAX_TAGE`), im Tag: Highlights, Features, Bugfixes; sonst Reihenfolge der Datei. */
-export function auslieferbarePatchnotes(roh: Record<string, unknown>[]): Patchnote[] {
+/** `ueberarbeitetBis`: letzter überarbeiteter Tag, alle späteren Einträge tragen `entwurf`. Erwartet Einträge mit aufgelöstem `datum`; neueste Tage oben (höchstens `MAX_TAGE`), im Tag: Highlights, Features, Bugfixes; sonst Reihenfolge der Datei. */
+export function auslieferbarePatchnotes(roh: Record<string, unknown>[], ueberarbeitetBis?: string): Patchnote[] {
   const tage = [...new Set(roh.map((e) => e.datum as string))].sort().reverse().slice(0, MAX_TAGE)
   const rang = (e: Record<string, unknown>) => RANG[e.highlight === true ? 'highlight' : (e.kategorie as string)]!
   return tage.flatMap((tag) =>
@@ -96,6 +98,7 @@ export function auslieferbarePatchnotes(roh: Record<string, unknown>[]): Patchno
         ...(e.untertitel !== undefined && { untertitel: e.untertitel as string }),
         ...(e.symbol !== undefined && { symbol: e.symbol as PatchSymbol }),
         ...(e.link !== undefined && { link: e.link as string }),
+        ...(ueberarbeitetBis !== undefined && (e.datum as string) > ueberarbeitetBis && { entwurf: true as const }),
       })),
   )
 }
