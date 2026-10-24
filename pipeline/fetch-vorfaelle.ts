@@ -75,7 +75,7 @@ async function main(): Promise<void> {
   const antwort = await fetch(`${WORKER}/vorfall`, { headers: { Authorization: `Bearer ${TOKEN}` } })
   if (!antwort.ok) {
     warn(`Vorfälle nicht abrufbar: HTTP ${antwort.status}`)
-    recordSource('vorfaelle', 0, `HTTP ${antwort.status}`)
+    if (!TROCKEN) recordSource('vorfaelle', 0, `HTTP ${antwort.status}`)
     return
   }
   const daten = (await antwort.json()) as { vorfaelle?: Vorfall[] }
@@ -97,7 +97,7 @@ async function main(): Promise<void> {
       `leerIstOk` sagt: Der Abruf hat funktioniert, er hat nur nichts gefunden.
       Ein echter Ausfall bleibt sichtbar — der HTTP-Zweig oben trägt ihn.
     */
-    recordSource('vorfaelle', 0, undefined, undefined, true)
+    if (!TROCKEN) recordSource('vorfaelle', 0, undefined, undefined, true)
     log('Nichts zu berichten.')
     return
   }
