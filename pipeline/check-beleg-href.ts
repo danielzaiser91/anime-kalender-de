@@ -26,6 +26,7 @@ const ERLAUBT: Record<string, Record<string, string>> = {
   'web/src/components/detail/antwort-kasten.tsx': { q: 'Quellenliste einer Antwort: Wiki-/Katalogseiten' },
   'web/src/components/detail/flaggen.tsx': { 'verweis.ziel': 'Anbieterseite (Stream, Shop), aus den Wegen des Titels' },
   'web/src/components/detail/handlung-quelle.tsx': { 'q.url': 'Handlungsquelle (aniSearch, ANN, TMDB-Seite)', lizenzSeite: 'feste Lizenzseite' },
+  'web/src/components/empfehlung/Leinwand.tsx': { 'belegLink(s)': 'Anbieterseite des Wegs (Seite, sonst Adresse), nie eine API-Adresse' },
   'web/src/components/detail/kino.tsx': { suche: 'Kino-Suchseite, selbst gebaut', kinoheld: 'Kinoheld-Seite, selbst gebaut' },
   'web/src/components/detail/merken.tsx': { 'googleCalendarUrl(ev, {}, wochenserie(kuenftige))': 'selbst gebaute Kalenderadresse' },
   'web/src/components/detail/pille.tsx': { 'url || undefined': 'Anbieter-Adresse (platformUrl/Weg), keine Beleg-Quelle' },

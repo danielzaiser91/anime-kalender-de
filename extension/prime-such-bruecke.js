@@ -18,6 +18,25 @@
   /** Der Vermerk einer eigenen Meldung: ISO-Zeit, nicht nur der Tag (4.31.9 und früher speicherte den Tag). */
   globalThis.akPrimeVermerk = (jetzt) => new Date(jetzt).toISOString()
 
+  /**
+   * Der Briefkasten räumt lokale Vermerke aus, die er nicht führt (verworfene Meldung, 02.09.2026) —
+   * aber nur solche, die jünger sind als der Prüfstand (`akVermerkGilt`): `gemeldet` liest der Worker
+   * nur seit dem Datenlauf, ältere Vermerke fehlen dort zu Recht und sind angekommen (24.10.2026).
+   * Der Vermerk vom Tag der Prüfliste (`listeVom`) bleibt als Überbrückung. Gibt `{ bereinigt, entfernt }` zurück.
+   */
+  globalThis.akPrimeAufraeumen = (erledigt, liste, adressen, listeVom) => {
+    const bereinigt = {}
+    let entfernt = 0
+    for (const [id, wert] of Object.entries(erledigt)) {
+      const url = liste[id]?.url ?? null
+      const zeit = wert?.zeit ?? wert?.datum
+      const frisch = listeVom && String(zeit ?? '').slice(0, 10) >= listeVom
+      if (!url || adressen.has(url) || frisch || !globalThis.akVermerkGilt(zeit, listeVom)) bereinigt[id] = wert
+      else entfernt++
+    }
+    return { bereinigt, entfernt }
+  }
+
   /** Gilt ein gespeicherter Vermerk (ISO-Zeit) zur Zeit `jetzt` (ms) noch als Überbrückung? */
   globalThis.akPrimeBruecke = (vermerk, jetzt) => {
     const am = Date.parse(vermerk)

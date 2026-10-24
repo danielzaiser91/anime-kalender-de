@@ -114,6 +114,7 @@
         "offene-amazon.js",
         "offene-amazon-stand.js",
         "offene-amazon-suche.js",
+        "pruefstand-zeit.js",
         "prime-titelseite.js",
         "prime-stand.js",
         "prime-such-bruecke.js",
