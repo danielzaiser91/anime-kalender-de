@@ -4435,6 +4435,9 @@ async function speicherSchreiben(werte) {
           Beschriftung nannte eine Ursache, die es nie war.
         */
         : [kastenZeile('ak-such-hinweis', 'Titel gewechselt — für Jahr und Staffelnummer die Seite neu laden')]),
+      ...(erwartungZu(auftrag.suchUrl)?.length >= 2
+        ? []
+        : erwartungsAuswahl(auftrag, globalThis.akPrimeKarten(document, asin(), seitenTitel() || auftrag.titel, abos(), zugangsart()), false)),
       /*
         **Dieselbe Checkliste wie auf der Trefferliste — hier ohne Ankreuzen.**
 
@@ -4530,12 +4533,6 @@ async function speicherSchreiben(werte) {
           return []
         }
       })(),
-      /*
-        Hier stand „Zeigt die Seite deutlich weniger, ist es ein anderes Werk" —
-        entfernt am 02.09.2026 auf Daniels Wunsch: „das kann weg. ist klar."
-        Ein Hinweis, der nur wiederholt, was der Leser ohnehin sieht, kostet
-        Platz und Aufmerksamkeit für die Zeilen, die etwas sagen.
-      */
       /*
         **„Nicht bei Prime" gehört auch auf die Titelseite.**
 
