@@ -57,6 +57,11 @@ pruefe('Staffel 2 am selben ersten Tag wie Staffel 1 gibt nichts', ohneZahl([...
 pruefe('Staffel 2 am Tag danach gilt', ohneZahl([...staffel(1, 10, '1992-04-13'), ...staffel(2, 8, '1992-04-14')], bis(18))?.size === 18)
 pruefe('Staffel ohne jedes Datum gibt nichts', ohneZahl([...staffel(1, 10, '1992-04-13'), ...staffel(2, 8, '1993-05-01').map((f) => ({ ...f, datum: null }))], bis(18)) === undefined)
 
+const frueheFolge = [...staffel(1, 10, '1993-01-05'), ...staffel(2, 8, '1994-05-01')].map((f) => (f.s === 1 && f.e === 2 ? { ...f, datum: '1992-12-30' } : f))
+pruefe('der früheste Tag der Staffel zählt, nicht der der ersten Folge', ohneZahl(frueheFolge, bis(18))?.size === 18)
+const ohneTagEins = [...staffel(1, 10, '1992-04-13'), ...staffel(2, 8, '1993-05-01')].map((f) => (f.e === 1 ? { ...f, datum: null } : f))
+pruefe('Folge ohne Datum in der Staffel stört nicht, solange ein anderer Tag da ist', ohneZahl(ohneTagEins, bis(18))?.size === 18)
+
 console.log('\nTMDB-Folgentitel ohne Folgenzahl: nur deutsche Titel')
 const gemischt = drei.map((f) => (f.s === 2 && f.e === 3 ? { ...f, titel: 'Episode title 2-3' } : f.s === 3 && f.e === 1 ? { ...f, titel: 'Folge 1' } : f))
 const teil = ohneZahl(gemischt, bis(30))
@@ -80,4 +85,4 @@ if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)
 }
-console.log('\nTMDB-Folgentitel ohne Folgenzahl: alle Zusicherungen erfüllt (32 Fälle).')
+console.log('\nTMDB-Folgentitel ohne Folgenzahl: alle Zusicherungen erfüllt (34 Fälle).')
