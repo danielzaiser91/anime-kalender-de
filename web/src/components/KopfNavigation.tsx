@@ -36,7 +36,8 @@ export function KopfNavigation({ view, aktiv, onView, hrefFuer }: {
             }}
             aria-current={aktiv === b.id ? 'page' : undefined}
             className={[
-              'cursor-pointer border-b-2 py-2 transition',
+              'cursor-pointer whitespace-nowrap border-b-2 py-2 transition',
+              b.id === 'empfehlung' ? 'hidden xl:block' : '',
               aktiv === b.id ? 'border-ak-gewaehlt text-ak-text' : 'border-transparent text-ak-leise hover:text-ak-text',
             ].join(' ')}
           >

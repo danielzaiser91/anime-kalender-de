@@ -53,6 +53,9 @@ pruefe('Reiterliste fest', JSON.stringify(BEREICHE) === JSON.stringify([
 pruefe('fünf Reiter', (reiter.match(/<a /g) ?? []).length === 5, reiter)
 pruefe('Reiter „Was gucken?“ mit Ziel', reiter.includes('href="#/empfehlung"') && reiter.includes('Was gucken?'))
 pruefe('Reiter nur ab md', /<nav[^>]*class="hidden [^"]*md:flex"/.test(reiter), reiter.slice(0, 120))
+const wasGucken = /<a [^>]*class="([^"]*)"[^>]*>Was gucken\?<\/a>/.exec(reiter)
+pruefe('Reiter „Was gucken?“ erst ab xl', wasGucken !== null && wasGucken[1].includes('hidden xl:block'), reiter)
+pruefe('die vier anderen Reiter ab md (nicht versteckt)', (reiter.match(/hidden xl:block/g) ?? []).length === 1, reiter)
 pruefe('bereichVon(empfehlung)', bereichVon('empfehlung') === 'empfehlung')
 pruefe('bereichVon(impressum) leer', bereichVon('impressum') === undefined)
 
