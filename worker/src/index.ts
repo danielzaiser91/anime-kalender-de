@@ -33,7 +33,8 @@ import {
   type ReleaseLink,
 } from './templates.ts'
 import { Ereignisse, ereignisSenden } from './ereignisse.ts'
-import { leererPush, pushVersand } from './push.ts'
+import { pushVersand } from './push.ts'
+import { handlePushAbo, handlePushTest } from './push-abo.ts'
 import { istErschienen } from '../../shared/logic.ts'
 import { type Env } from './env.ts'
 import { digestFuer, type DigestKontext, type Reihen, type SubscriberRow } from './digest-inhalt.ts'
@@ -44,6 +45,7 @@ import { loadNews, weitereAusNews } from './news-quelle.ts'
 import { handleLauf } from './lauf.ts'
 import { handleCrZugang } from './cr-zugang.ts'
 import { EMAIL_RE, mitAnmeldeSchutz } from './anmelde-schutz.ts'
+import { digestStand, mitPlatzpruefung, wochenAboFaellig } from './newsletter-kapazitaet.ts'
 import { handleBeleg } from './beleg.ts'; import { loescheAbgelaufenes } from './loeschfristen.ts'; import { starteFaelligeLaeufe } from './wecker.ts'
 
 export { Ereignisse }
@@ -832,7 +834,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
   if (force) due.push(force)
   else if (hour === sendHour) {
     due.push('daily')
-    if (weekdayIndex(iso) === 0) due.push('weekly')
+    due.push('weekly') // jeden Tag: welche Wochen-Abos dran sind, entscheidet wochenAboFaellig (Eimer-Tag)
   }
   if (!due.length) return `nichts zu tun (Berliner Stunde ${hour})`
 
@@ -861,8 +863,8 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
     const window = allEvents.filter((e) => e.date >= iso && e.date <= until)
 
     const { results } = await env.DB.prepare(
-      `SELECT id, email, frequency, platforms, favorites, franchise_hinweis, unsub_token, pref_token, last_sent_at FROM subscribers
-       WHERE status = 'active' AND frequency = ?1`,
+      `SELECT id, email, frequency, platforms, favorites, franchise_hinweis, unsub_token, pref_token, last_sent_at, created_at FROM subscribers
+       WHERE status = 'active' AND frequency = ?1 ORDER BY last_sent_at`,
     )
       .bind(frequency)
       .all<SubscriberRow>()
@@ -881,15 +883,18 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
       workerUrl: env.WORKER_URL || '',
       siteUrl: env.SITE_URL,
     }
-    const posten = (results ?? []).map((sub) => digestFuer(sub, kontext)).filter((p) => p !== null)
-    const sent = await versendeDigest(env, posten, now)
+    const faellige = frequency === 'weekly' && !force ? (results ?? []).filter((s) => wochenAboFaellig(s, iso)) : (results ?? [])
+    const posten = faellige.map((sub) => digestFuer(sub, kontext)).filter((p) => p !== null)
+    const stand = await digestStand(env, now)
+    const sent = await versendeDigest(env, posten.slice(0, stand.platz), now)
 
-    if (!force) {
+    // Nur Erfolg (oder nichts zu senden) schließt den Tag ab; Abgewiesenes geht am Folgetag raus.
+    if (!force && (sent > 0 || !posten.length)) {
       await env.DB.prepare('INSERT OR REPLACE INTO send_log (run_key, sent_at, recipients) VALUES (?1, ?2, ?3)')
         .bind(runKey, now.toISOString(), sent)
         .run()
     }
-    log.push(`${runKey}: ${sent} Mails, ${window.length} Termine im Fenster`)
+    log.push(`${runKey}: ${sent} von ${posten.length} Mails (Platz ${stand.platz}; heute Digest ${stand.digestHeute}, Mails ${stand.mailsHeute}, Monat ${stand.mailsMonat}), ${window.length} Termine im Fenster`)
   }
 
   return log.join('; ')
@@ -1279,7 +1284,7 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
     switch (url.pathname) {
       case '/subscribe':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
-        return mitAnmeldeSchutz(request, env, handleSubscribe, imRahmen, cors(env))
+        return mitPlatzpruefung(request, env, () => mitAnmeldeSchutz(request, env, handleSubscribe, imRahmen, cors(env)), cors(env))
       case '/confirm':
         return handleConfirm(request, env)
       case '/unsubscribe':
@@ -1302,49 +1307,12 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
       case '/push/schluessel':
         /* Der öffentliche VAPID-Schlüssel — der Client braucht ihn zum Abonnieren. */
         return json(env, { schluessel: env.VAPID_PUBLIC ?? null })
-      case '/push/test': {
-        /*
-          Zustell-PoC (18.09.2026): schickt genau einen leeren Push an das übergebene
-          Abo zurück. Kein Speichern, gedeckelt auf 20 Versuche je Stunde insgesamt.
-        */
+      case '/push/test':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
-        if (!(await imRahmen(env, 'push-test', 20, 60))) return json(env, { error: 'Zu viele Versuche, bitte später.' }, 429)
-        let body: { subscription?: { endpoint?: string } }
-        try {
-          body = await request.json()
-        } catch {
-          return json(env, { error: 'Ungültige Anfrage.' }, 400)
-        }
-        const endpoint = body.subscription?.endpoint ?? ''
-        if (!endpoint) return json(env, { error: 'Kein Abo übergeben.' }, 400)
-        const antwort = await leererPush(env, endpoint)
-        return json(env, { ok: antwort.status >= 200 && antwort.status < 300, ...antwort })
-      }
-      case '/push/abo': {
-        /* Abo anlegen oder Favoriten nachführen. Kein Konto: der Endpunkt ist der Schlüssel. */
+        return handlePushTest(request, env, imRahmen, (body, status) => json(env, body, status))
+      case '/push/abo':
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
-        if (!(await imRahmen(env, 'push-abo', 300, 60))) return json(env, { error: 'Zu viele Anfragen.' }, 429)
-        let body: { subscription?: { endpoint?: string }; favoriten?: number[]; abmelden?: boolean; ak?: number }
-        try {
-          body = await request.json()
-        } catch {
-          return json(env, { error: 'Ungültige Anfrage.' }, 400)
-        }
-        const endpoint = body.subscription?.endpoint ?? ''
-        if (!/^https:\/\//.test(endpoint) || endpoint.length > 1000) return json(env, { error: 'Kein gültiges Abo.' }, 400)
-        if (body.abmelden) {
-          await env.DB.prepare('DELETE FROM push_abo WHERE endpoint = ?1').bind(endpoint).run()
-          return json(env, { ok: true, abgemeldet: true })
-        }
-        const favoriten = schreibeFavoriten(body.favoriten, body.ak)
-        await env.DB.prepare(
-          `INSERT INTO push_abo (endpoint, favoriten, erstellt) VALUES (?1, ?2, ?3)
-           ON CONFLICT(endpoint) DO UPDATE SET favoriten = excluded.favoriten`,
-        )
-          .bind(endpoint, favoriten, new Date().toISOString())
-          .run()
-        return json(env, { ok: true })
-      }
+        return handlePushAbo(request, env, imRahmen, (body, status) => json(env, body, status))
       case '/push/nachricht': {
         /* Der Service Worker holt beim Push den Text ab — einmal, danach ist er weg. */
         const endpoint = new URL(request.url).searchParams.get('endpoint') ?? ''
@@ -1447,7 +1415,7 @@ async function verteile(request: Request, env: Env, ctx: ExecutionContext): Prom
         const count = await env.DB.prepare(
           "SELECT COUNT(*) AS n FROM subscribers WHERE status = 'active'",
         ).first<{ n: number }>()
-        return json(env, { ok: true, activeSubscribers: count?.n ?? 0, heute: await tagesstand(env) })
+        return json(env, { ok: true, activeSubscribers: count?.n ?? 0, heute: await tagesstand(env), newsletter: await digestStand(env, new Date()) })
       }
       default:
         return json(env, { error: 'Unbekannter Pfad' }, 404)

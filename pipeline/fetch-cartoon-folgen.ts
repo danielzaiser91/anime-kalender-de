@@ -18,6 +18,7 @@ import { loadEnv, fetchJson, log, readJson, sleep, warn, writeJson } from './lib
 import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
 import type { CartoonFolge } from './lib/episodentitel-block.ts'
+import { todayIso } from '../shared/time.ts'
 
 const args = process.argv.slice(2)
 const LIMIT = Number(args[args.indexOf('--limit') + 1]) || 400
@@ -80,7 +81,7 @@ async function main(): Promise<void> {
   for (const t of offen) {
     try {
       const folgen = await holeFolgen(t.tmdbId!, apiKey)
-      bestand[String(t.id)] = { tmdbId: t.tmdbId!, geholtAm: new Date().toISOString().slice(0, 10), folgen }
+      bestand[String(t.id)] = { tmdbId: t.tmdbId!, geholtAm: todayIso(), folgen }
       geholt++
       if (geholt % 20 === 0) writeJson('data/cartoon-folgen.json', bestand)
     } catch (err) {

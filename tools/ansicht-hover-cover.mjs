@@ -13,6 +13,7 @@
  *   und liegt neben Zeiger und Zeile im sichtbaren Bereich, auch am rechten und unteren Fensterrand.
  */
 import { messeAnsichten } from './ansicht-hover-cover-zeilen.mjs'
+import { messeWeitere } from './ansicht-hover-weitere.mjs'
 
 const FRIST_MIN_MS = 100
 const FRIST_MAX_MS = 600
@@ -201,7 +202,7 @@ async function messeAbbruch(seite, urls) {
 }
 
 /** Wertet die Messungen aus; leer, wenn alles stimmt. */
-export function hoverCoverAbweichungen(maus, touch, abbruch, aufraeumen, wechsel, ansichten) {
+export function hoverCoverAbweichungen(maus, touch, abbruch, aufraeumen, wechsel, ansichten, weitere = []) {
   if (!maus) return ['keine der ersten 8 Zeilen (Im Handel, Im Fernsehen) bekam mit der Maus eine Cover-Vorschau']
   const a = []
   if (maus.nach < FRIST_MIN_MS) a.push(`Vorschau schon nach ${Math.round(maus.nach)} ms (mindestens ${FRIST_MIN_MS} ms Ruhe des Zeigers)`)
@@ -219,6 +220,7 @@ export function hoverCoverAbweichungen(maus, touch, abbruch, aufraeumen, wechsel
   if (wechsel.offen !== 1) a.push('Ansichtswechsel: die Frist lief beim Wechsel nicht (' + wechsel.offen + ' offene Timer, erwartet 1)')
   else if (wechsel.nachWechsel) a.push('Ansichtswechsel während der Frist: der Timer lebt nach dem Verschwinden der Zeile weiter')
   for (const ansicht of ansichten) for (const b of ansicht.befunde) a.push(`${ansicht.name}: ${b}`)
+  a.push(...weitere)
   return a
 }
 
@@ -237,6 +239,7 @@ export async function pruefeHoverCover(chromium, antworte) {
   const aufraeumen = await messeAufraeumen(seite)
   const wechsel = await messeAnsichtWechsel(seite)
   const ansichten = await messeAnsichten(seite)
+  const weitere = await messeWeitere(seite)
   await browser.close()
-  return { maus, touch, ansichten, abweichungen: hoverCoverAbweichungen(maus, touch, abbruch, aufraeumen, wechsel, ansichten) }
+  return { maus, touch, ansichten, weitere, abweichungen: hoverCoverAbweichungen(maus, touch, abbruch, aufraeumen, wechsel, ansichten, weitere) }
 }

@@ -7,6 +7,7 @@ import { coverBild } from '../lib/cover.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { anbieterVon, type SaisonZeile, type Stufe } from '../lib/saison.ts'
 import { terminText } from '../lib/saison-termin.ts'
+import { useHoverCover } from './kalender/HoverCover.tsx'
 
 /** Die Farbe der Stufe: voll grün = auf Deutsch zu sehen, grüner Rand = bestätigt, violett = angekündigt, grau gestrichelt = unklar. */
 const STUFE_FARBE: Record<Stufe, string> = {
@@ -24,6 +25,7 @@ export function SaisonKarte({ z, data, favorit, oeffne, ausblick }: { z: SaisonZ
   const { t } = useLang()
   const name = zeilenName(z)
   const cover = z.titel?.coverImage ?? (z.katalog?.coverImage && !z.katalog.coverImage.startsWith('http') ? ANILIST_COVER_BASIS + z.katalog.coverImage : z.katalog?.coverImage)
+  const { zeiger, vorschau } = useHoverCover(cover)
   const anbieter = (z.titel ? anbieterVon(z.titel, data.releasesByTitle.get(z.id)) : (z.katalog?.anbieter ?? [])).map((p) => PLATFORMS[p]?.name ?? p).slice(0, 3)
   const termin = terminText(z, Boolean(ausblick), todayIso().slice(0, 4), t)
   const rand = favorit ? 'border-ak-favorit/70 shadow-[0_0_0_1px_color-mix(in_srgb,var(--ak-favorit)_30%,transparent)]' : z.erschienen ? 'border-ak-rand hover:border-ak-leise' : 'border-dashed border-ak-rand hover:border-ak-leise'
@@ -34,7 +36,8 @@ export function SaisonKarte({ z, data, favorit, oeffne, ausblick }: { z: SaisonZ
   }
   return (
     <li className="flex">
-      <button type="button" onClick={() => void klick()} className={`flex w-full cursor-pointer gap-2.5 rounded-xl border bg-ak-flaeche p-2 text-left transition ${rand}`}>
+      {vorschau}
+      <button type="button" onClick={() => void klick()} {...zeiger} className={`flex w-full cursor-pointer gap-2.5 rounded-xl border bg-ak-flaeche p-2 text-left transition ${rand}`}>
         {cover ? (
           <img {...coverBild(cover, 60)} alt="" width={60} height={85} loading="lazy" decoding="async" className={`h-[85px] w-[60px] shrink-0 rounded-md object-cover ${z.erschienen ? '' : 'opacity-45 grayscale-[40%]'}`} />
         ) : (

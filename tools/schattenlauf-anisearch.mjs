@@ -4,6 +4,7 @@
 // (Brücke: `data/anisearch.json`, Schlüssel = AniList-ID). Es wird nichts umgestellt und nichts geschrieben außer dem
 // Bericht. Aufruf: `node tools/schattenlauf-anisearch.mjs` → `docs/wissen/schattenlauf-anisearch.md` und `.json`.
 import { readFileSync, writeFileSync } from 'node:fs'
+import { todayIso } from '../shared/time.ts'
 
 const titel = JSON.parse(readFileSync('public/data/titles.json', 'utf8'))
 const liste = Array.isArray(titel) ? titel : titel.titles
@@ -117,7 +118,7 @@ const beispiele = (k) =>
     .map((x) => `- ${x.id} ${x.titel ?? ''}: AniList ${JSON.stringify(x.anilist)} ↔ aniSearch ${JSON.stringify(x.anisearch)}${x.geschaetzt ? ' (aniSearch: Schätzung)' : ''}`)
     .join('\n')
 
-const stand = new Date().toISOString().slice(0, 10)
+const stand = todayIso()
 const md = `# Schattenlauf AniList ↔ aniSearch (Stand ${stand})
 
 Verglichen: **${verglichen}** Titel, die der Bestand führt und zu denen \`data/anisearch.json\` eine geholte aniSearch-Seite hat. Erzeugt von \`tools/schattenlauf-anisearch.mjs\`; die vollständige Abweichungsliste steht in \`schattenlauf-anisearch.json\`. Nichts davon ist umgestellt.

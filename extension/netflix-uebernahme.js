@@ -21,6 +21,14 @@ globalThis.akNetflixWartet = new Set()
 globalThis.akNetflixStaffelnGedeckt = (eintrag, paare) =>
   (eintrag?.staffeln ?? []).filter((st) => st.offen).every((st) => paare.some((p) => Number(p.staffel) === Number(st.nr)))
 
+/*
+  **Erledigt laut Worker-Stand** (24.10.2026): nicht mehr im Stand, in dieser Sitzung gemeldet oder im Briefkasten
+  gedeckt (`akNetflixWartet`). Der Worker nimmt gedeckte Ziele seitdem selbst aus `ziele` (`worker/src/pruefung-gedeckt.ts`,
+  gleiche Regel wie `akNetflixStaffelnGedeckt`); `tools/worker-netflix-zahl-gleich.test.ts` hält beide Zahlen gleich.
+*/
+globalThis.akNetflixErledigtLautStand = (id, standUrls, frisch, wartet) =>
+  !standUrls.has(`https://www.netflix.com/title/${id}`) || frisch.has(String(id)) || wartet.has(String(id))
+
 globalThis.akNetflixUebernahme = async (zieleUrls, offene, worker, netz = globalThis.AK_DISNEY_NETZ) => {
   try {
     const idAus = (url) => String(url).split('/').pop()
@@ -81,11 +89,13 @@ globalThis.akNetflixTotGemeldet = async (id, frisch, merkeTot) => {
  * wartend (Meldung für jede offene Staffel im Briefkasten, nie geöffnet), übersprungen (nach Grund).
  * Ohne Zählung ließ sich nicht sagen, ob der Durchgang jeden Titel erreicht hat.
  */
-globalThis.akNetflixEnde = (grund, uebersprungen, fertigeTitel, besucht, offeneTitel, wartet = globalThis.akNetflixWartet) => {
+globalThis.akNetflixEnde = (grund, uebersprungen, fertigeTitel, besucht, offeneTitel, wartet = globalThis.akNetflixWartet, melden = null) => {
   const nichtFertig = [...uebersprungen.keys()].filter((r) => !fertigeTitel.has(r))
   const wartend = Object.entries(offeneTitel).filter(([id, e]) => wartet.has(id) && !fertigeTitel.has(id) && (e?.staffeln ?? []).some((st) => st.offen)).length
   const zaehlung = { besucht, gemessen: fertigeTitel.size, wartend, uebersprungen: nichtFertig.length }
   globalThis.akProtokoll?.('durchgang-zaehlung', zaehlung)
+  /* Meldeweg `/vorfall` (vorhanden, ohne neues Schema): die Zählung steht als Text; der Vorfall-Abruf listet sie. */
+  void melden?.('durchgang-zaehlung', { text: JSON.stringify(zaehlung) })
   const text = ` · besucht ${besucht}, gemessen ${zaehlung.gemessen}, wartet auf Übernahme ${wartend}`
   return { grund, uebersprungen: nichtFertig, zaehlung, text }
 }

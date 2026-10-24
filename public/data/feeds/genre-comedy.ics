@@ -8,107 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T150000Z
-DTEND:20261016T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
- Folge 24/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16234/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-16#29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T151000Z
-DTEND:20261016T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-16#30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T153500Z
-DTEND:20261016T160500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T160000Z
-DTEND:20261016T163000Z
-SUMMARY:Detektiv Conan – Folge 156/165
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-16#31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T162500Z
-DTEND:20261016T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-16#32@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T165000Z
-DTEND:20261016T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T191500Z
-DTEND:20261016T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 17/22
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:dr-stone-science-future-part1@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261016
-DTEND;VALUE=DATE:20261017
-SUMMARY:Dr. STONE: Science Future – Teil 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15604/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:my-next-life-as-a-villainess-s2-bundle@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261016
-DTEND;VALUE=DATE:20261017
-SUMMARY:My Next Life as a Villainess – Staffel 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/11725/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:rent-a-girlfriend-s4-box@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261016
-DTEND;VALUE=DATE:20261017
-SUMMARY:Rent-A-Girlfriend – Staffel 4 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16032/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-17#15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261017T040000Z
@@ -1029,6 +928,46 @@ SUMMARY:DAN DA DAN (Staffel 2) – Vol. 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16434/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-31#23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261031T045500Z
+DTEND:20261031T052500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-31#24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261031T052000Z
+DTEND:20261031T055000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-31#25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261031T054500Z
+DTEND:20261031T061500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-31#26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261031T061500Z
+DTEND:20261031T064500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-31@anime-kalender-d

@@ -11,6 +11,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { ANDERE_FASSUNG } from './lib/titel-muster.mjs'
+import { todayIso } from '../shared/time.ts'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const quelle = resolve(wurzel, 'data/youtube-befunde.json')
@@ -60,7 +61,7 @@ for (const [url, v] of Object.entries(befunde)) {
 const zeilen = [
   '# YouTube: was die Prüfung gefunden hat',
   '',
-  `Stand: ${new Date().toISOString().slice(0, 10)} · geprüft über YouTubes oEmbed-Schnittstelle`,
+  `Stand: ${todayIso()} · geprüft über YouTubes oEmbed-Schnittstelle`,
   '(Titel und Kanal je Video, ohne Schlüssel und ohne Kontingent).',
   '',
   'Eingetragen wurde nur, wo der **Videotitel die Sprache benennt**. Was hier steht,',

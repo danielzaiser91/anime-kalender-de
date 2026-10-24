@@ -27,6 +27,7 @@ import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { regeln } from './pruef-bestand.mjs'
 import { ladeNeinFaelle } from '../pipeline/lib/nein-wiedervorlage-lesen.ts'
+import { todayIso } from '../shared/time.ts'
 
 /**
  * **Vierte Quelle: von Hand erbetene Wiedervorlage** (`data/erneut-melden.yaml`, 21.09.2026).
@@ -142,7 +143,7 @@ function verdachtsfaelleBisher(wurzel, plattform) {
   try {
     const titel = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
     const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
-    const heute = new Date().toISOString().slice(0, 10)
+    const heute = todayIso()
     for (const [id, fall] of laufendeSynchro(belege, Array.isArray(titel) ? titel : Object.values(titel), plattform, heute)) {
       if (!raus.has(id)) raus.set(id, fall)
     }

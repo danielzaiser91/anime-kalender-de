@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-23T19:06:17.614Z",
+  "scrapedAt": "2026-10-24T05:03:07.158Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
@@ -276,7 +276,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-21"
+      "sammelGelesen": "2026-10-24"
     },
     {
       "articleTitle": "Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm",
@@ -327,7 +327,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-21"
+      "sammelGelesen": "2026-10-24"
     },
     {
       "articleTitle": "Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt",
@@ -813,7 +813,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-21"
+      "sammelGelesen": "2026-10-24"
     },
     {
       "articleTitle": "Design der 30th Anniversary Edition von »Detektiv Conan«",
@@ -1113,7 +1113,7 @@
           "folgen": 54
         }
       ],
-      "sammelGelesen": "2026-10-21"
+      "sammelGelesen": "2026-10-24"
     },
     {
       "articleTitle": "Erste »Kaiju No. 8«-Staffel erscheint im limitierten Steelbook + Design",
@@ -1980,7 +1980,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-21"
+      "sammelGelesen": "2026-10-24"
     },
     {
       "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
@@ -2259,7 +2259,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-10-21"
+      "sammelGelesen": "2026-10-24"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -3326,7 +3326,7 @@
           "edition": ""
         }
       ],
-      "discGelesen": "2026-10-21"
+      "discGelesen": "2026-10-24"
     },
     {
       "articleTitle": "Design der limitierten Steelbook-Edition von »My Dress-Up Darling«",
@@ -4420,19 +4420,6 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
-    },
-    {
-      "articleTitle": "KI-Streit: Synchronsprecher legen Beschwerde gegen Netflix beim Bundeskartellamt ein",
-      "articleUrl": "https://www.anime2you.de/news/1046663/synchronsprecher-bundeskartellamt-beschwerde-netflix/",
-      "publishedAt": "2026-09-08",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
       "alreadyCurated": false
     },
     {

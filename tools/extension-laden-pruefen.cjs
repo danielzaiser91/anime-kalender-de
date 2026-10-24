@@ -70,6 +70,7 @@ const SKRIPTE = [
   'extension/ruhig.js',
   /* Läuft auf jeder Netflix-Seite bei document_start. */
   'extension/netflix-stumm.js',
+  'extension/netflix-stumm-seite.js',
 ]
 
 const fehler = []

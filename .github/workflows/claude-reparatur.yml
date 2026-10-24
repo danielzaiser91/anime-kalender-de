@@ -269,6 +269,13 @@ jobs:
 
             1. Lies das Protokoll des fehlgeschlagenen Schritts und benenne die
                Ursache. Rate nicht — zitiere die Zeile, an der es bricht.
+               Schreibst du die Ursache einem Pull Request oder Commit zu,
+               muss der `headSha` des Laufs (`${{ github.event.workflow_run.head_sha }}`) ihn enthalten
+               (`git merge-base --is-ancestor <commit> <headSha>`; der Checkout
+               ist nur 50 Commits tief, fehlt ein Stand, erst
+               `git fetch --depth=300 origin <headSha>`); sonst
+               machst du die Zuschreibung nicht (Issue 1674: die Ursache lag
+               in einem Commit, der erst nach dem genannten Lauf gemergt wurde).
             2. Entscheide, ob es ein Fehler im Code ist oder eine fremde Quelle,
                die sich geändert hat oder ausgefallen ist. Bei einem Ausfall einer
                fremden Quelle ist **nichts zu reparieren**: Dann öffnest du keinen
