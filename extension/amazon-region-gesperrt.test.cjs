@@ -60,6 +60,89 @@ pruefe('Knopf: regionWeg über staffelRegionWeg',
   /const regionWeg = globalThis.akPrimeStaffelRegionWeg\(gesperrteFolgen, offeneFolgen, lage\.regionWeg\)/.test(quelle))
 pruefe('Notiz nennt die gesperrten Folgen', /\$\{gesperrtN\} in der Region gesperrt/.test(quelle))
 
+/* --- Aufrufseiten, wirklich ausgeführt: der Quelltext der Stellen wird geschnitten und mit Attrappen gespielt --- */
+function stueck(von, bis) {
+  const a = quelle.indexOf(von)
+  const b = quelle.indexOf(bis, a)
+  if (a < 0 || b < 0) throw new Error(`Marke fehlt: ${von} / ${bis}`)
+  return quelle.slice(a, b)
+}
+
+/** Klick-Handler: ab `nichtAbrufbar` bis vor den „Jeder Schritt"-Block. Ergebnis 'weiter' = es wird gesendet. */
+const klickCode = stueck("const nichtAbrufbar = knopf.dataset.tot === 'true'", '    /**\n     * Jeder Schritt sagt')
+function klick({ tot = 'false', geladen, gesperrt, soll, deutsch = false, regionDom = [] }) {
+  const knopf = { dataset: { tot }, textContent: '', title: '' }
+  const f = new Function(
+    'knopf', 'sprachenAusFolgen', 'geladeneFolgen', 'deutschInFolgen', 'gesehen', 'seitenLage', 'ueberKanal', 'setTimeout', 'zeichnen', 'globalThis',
+    `let letzterStand = ''\n${klickCode}\nreturn 'weiter'`,
+  )
+  const ergebnis = f(
+    knopf, () => [], () => geladen, () => deutsch,
+    { gesamt: soll, gesperrt: gesperrt ? karte(gesperrt) : undefined },
+    () => ({ folgenLautSeite: 0, regionFolgen: regionDom }), () => false, () => 0, () => {}, kasten,
+  )
+  return { ergebnis, text: knopf.textContent }
+}
+{
+  const a = klick({ geladen: 27, gesperrt: 24, soll: 51 })
+  pruefe('Klick A: 27 lesbar + 24 gesperrt von 51, kein Deutsch → es wird gesendet', a.ergebnis === 'weiter', a)
+  const a2 = klick({ geladen: 27, gesperrt: 10, soll: 51 })
+  pruefe('Klick Gegenfall: 27 lesbar + 10 gesperrt von 51 → gesperrt mit „fehlen 14"', a2.ergebnis === undefined && /fehlen 14/.test(a2.text), a2)
+  const a3 = klick({ geladen: 27, soll: 51 })
+  pruefe('Klick Gegenfall: nichts gesperrt → „fehlen 24"', a3.ergebnis === undefined && /fehlen 24/.test(a3.text), a3)
+  const a4 = klick({ geladen: 27, gesperrt: 10, soll: 51, regionDom: new Array(24) })
+  pruefe('Klick: Sperren aus dem DOM zählen ebenfalls', a4.ergebnis === 'weiter', a4)
+  const b = klick({ tot: 'true', geladen: 0, gesperrt: 24, soll: 24 })
+  pruefe('Klick B: Knopf stand auf „nicht mehr verfügbar" (tot) → es wird gesendet', b.ergebnis === 'weiter', b)
+  const b2 = klick({ tot: 'false', geladen: 0, gesperrt: 24, soll: 24 })
+  pruefe('Klick: ohne lesbare Folge und ohne tot-Marke bleibt es still (Knopf muss tot setzen)', b2.ergebnis === undefined && b2.text === '', b2)
+}
+
+/** Knopf: regionWeg aus Zählwerk, dann der Regionszweig. */
+const regionCode = stueck('const gesperrteFolgen = gesehen.gesperrt?.size ?? 0', '\n\n') + '\n'
+const zweigCode = stueck('if (regionWeg && !deutsch) {', '    /**\n     * Fehlende Folgen auf einer Seite')
+function knopfLage({ gesperrt, offen, deutsch, textRegionWeg = false }) {
+  const knopf = { dataset: {}, textContent: '', disabled: true }
+  const f = new Function(
+    'knopf', 'gesehen', 'lage', 'deutsch', 'globalThis',
+    `${regionCode}\n${zweigCode}\nreturn 'weiter'`,
+  )
+  const ergebnis = f(
+    knopf,
+    { gesperrt: gesperrt ? karte(gesperrt) : undefined, nummern: karte(offen) },
+    { regionWeg: textRegionWeg }, deutsch, kasten,
+  )
+  return { ergebnis, tot: knopf.dataset.tot, text: knopf.textContent }
+}
+{
+  const b = knopfLage({ gesperrt: 24, offen: 0, deutsch: false })
+  pruefe('Knopf B: 24 von 24 gesperrt, kein Deutsch → „nicht mehr verfügbar", tot', b.ergebnis === undefined && b.tot === 'true' && /nicht mehr verfügbar/.test(b.text), b)
+  const a = knopfLage({ gesperrt: 24, offen: 27, deutsch: false })
+  pruefe('Knopf A: 24 gesperrt + 27 lesbar → Regionszweig greift nicht', a.ergebnis === 'weiter', a)
+  const c = knopfLage({ gesperrt: 24, offen: 0, deutsch: true })
+  pruefe('Knopf: alles gesperrt, aber Deutsch belegt → Regionszweig greift nicht', c.ergebnis === 'weiter', c)
+  const m = knopfLage({ gesperrt: 3, offen: 10, deutsch: false, textRegionWeg: true })
+  pruefe('Knopf Mahouka: 3 gesperrt, 10 lesbar, Seitentext meldet Region → Regionszweig greift nicht', m.ergebnis === 'weiter', m)
+}
+
+{
+  const t = klick({ tot: 'true', geladen: 3, soll: 24 })
+  pruefe('Klick: tot-Marke + unvollständige Liste → es wird gesendet (nicht abrufbar braucht keine Folgen)', t.ergebnis === 'weiter', t)
+}
+
+/** Knopf, „fehlen noch"-Zeile: gesperrte Folgen fehlen nicht. */
+const fehlenCode = stueck('if (!nichtAbrufbar && !istFilm && !vollstaendig && gesehen.gesamt) {', '      knopf.title =')
+function fehlenText({ geladen, wegInRegion, gesamt, deutsch = false }) {
+  const knopf = { dataset: {}, textContent: '', disabled: false }
+  const f = new Function('knopf', 'gesehen', 'geladen', 'wegInRegion', 'deutsch', `const nichtAbrufbar = false, istFilm = false, vollstaendig = false\n${fehlenCode}\n      return }\nreturn 'weiter'`)
+  f(knopf, { gesamt }, geladen, wegInRegion, deutsch)
+  return knopf.textContent
+}
+pruefe('Knopf: 27 gelesen + 24 gesperrt von 52 → „1 fehlen noch"',
+  /— 1 fehlen noch$/.test(fehlenText({ geladen: 27, wegInRegion: 24, gesamt: 52, deutsch: true })), fehlenText({ geladen: 27, wegInRegion: 24, gesamt: 52, deutsch: true }))
+pruefe('Knopf: nichts gesperrt → „25 fehlen noch"',
+  /— 25 fehlen noch$/.test(fehlenText({ geladen: 27, wegInRegion: 0, gesamt: 52, deutsch: true })))
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) verletzt.`)
   process.exit(1)

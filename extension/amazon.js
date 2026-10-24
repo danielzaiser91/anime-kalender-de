@@ -8496,7 +8496,7 @@ async function speicherSchreiben(werte) {
       return
     }
     if (!nichtAbrufbar && !istFilm && !vollstaendig && gesehen.gesamt) {
-      const fehlend = Math.max(0, gesehen.gesamt - geladen)
+      const fehlend = Math.max(0, gesehen.gesamt - geladen - wegInRegion)
       knopf.disabled = true
       knopf.dataset.deutsch = String(deutsch)
       /*
@@ -10101,7 +10101,7 @@ async function speicherSchreiben(werte) {
         „kein Deutsch" über elf Folgen, gestützt auf sieben, ist genau die
         Asymmetrie, die dieses Projekt an fremden Quellen bemängelt.
       */
-      const fehlend = Math.max(0, sollFolgen - geladen)
+      const fehlend = Math.max(0, sollFolgen - geladen - gesperrtN)
       knopf.textContent =
         `${geladen} von ${sollFolgen} Folgen gelesen — für „kein Deutsch" fehlen ${fehlend}`
       knopf.title = ueberKanal()
