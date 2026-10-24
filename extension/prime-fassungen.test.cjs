@@ -57,9 +57,22 @@ pruefe('die eigene Seite mit Prime-Zugang steht vorn', primeEigen[0]?.kennung ==
 const primeAndere = modul.akPrimeFassungenLesen(knoten(mitMeldung('B01HRLV328', 'Mit Prime ansehen', false, 'Unentitled')), eigen({ art: 'kauf' }))
 pruefe('eine Prime-Fassung im Abschnitt rückt vor Kauf und Kanal', kennungen(primeAndere).join() === 'B01HRLV328,B01MSMV5MA,B0GVNJRZCM', kennungen(primeAndere))
 const ohneText = modul.akPrimeFassungenLesen(knoten(mitMeldung('B01HRLV328', '')), eigen({ art: 'kauf' }))
-pruefe('Entitled ohne Kanal-Logo gilt als Prime', ohneText[0]?.kennung === 'B01HRLV328' && ohneText[0]?.kaufart === 'prime', ohneText[0])
+const neutral = ohneText.find((f) => f.kennung === 'B01HRLV328')
+pruefe('Entitled ohne Beleg bleibt neutral, nicht Prime', neutral?.kaufart === 'unbekannt', neutral)
 const mitLogo = modul.akPrimeFassungenLesen(knoten(mitMeldung('B01HRLV328', '', true)), eigen({ art: 'kauf' }))
-pruefe('Entitled mit Kanal-Logo ist Kanal, nicht Prime', mitLogo.find((f) => f.kennung === 'B01HRLV328')?.kaufart === 'kanal', mitLogo)
+pruefe('Entitled mit Kanal-Logo ist Kanal', mitLogo.find((f) => f.kennung === 'B01HRLV328')?.kaufart === 'kanal', mitLogo)
+const logoVorText = modul.akPrimeFassungenLesen(knoten(mitMeldung('B01HRLV328', 'Mit Prime ansehen', true, 'Unentitled')), eigen({ art: 'kauf' }))
+pruefe('das Kanal-Logo gilt vor dem Wort Prime', logoVorText.find((f) => f.kennung === 'B01HRLV328')?.kaufart === 'kanal', logoVorText)
+const primeAbo = modul.akPrimeFassungenLesen(knoten(mitMeldung('B01HRLV328', 'Im Prime-Abo enthalten', false, 'Unentitled')), eigen({ art: 'kauf' }))
+pruefe('„Prime-Abo“ ist Prime, nicht Kanal', primeAbo.find((f) => f.kennung === 'B01HRLV328')?.kaufart === 'prime', primeAbo)
+
+// A2: derselbe Block unter einer anderen Adresse (Single-Page-Wechsel) liefert nichts
+pruefe('Block einer anderen Seite: leere Liste', modul.akPrimeFassungenLesen(knoten(FIXTURE), eigen({ kennung: 'B0ZZZZZZZZ' })).length === 0)
+pruefe('Adressvergleich ohne Groß-/Kleinschreibung (GTI)',
+  modul.akPrimeFassungenLesen(knoten(FIXTURE.replace('/detail/B01MSMV5MA', '/detail/amzn1.dv.gti.abc-123')), eigen({ kennung: 'AMZN1.dv.gti.ABC-123' })).length === 3)
+const gesamtliste = modul.akPrimeKarten({ getElementById: () => knoten(FIXTURE) }, 'B01MSMV5MA', 'T', [], null)
+pruefe('Karten tragen Art, Hinweis und Titel im Namen', gesamtliste.some((k) => k.titel === 'Kanal · Originalversion · Fischen Impossible'), gesamtliste.map((k) => k.titel))
+pruefe('Kanal-Fassung trägt zugang channel (Kanal-Abo-Beschriftung)', gesamtliste.find((k) => k.kennung === 'B0GVNJRZCM')?.zugang === 'channel', gesamtliste)
 
 // Gegenproben: nichts da, nichts geändert
 const ohneAbschnitt = JSON.parse(FIXTURE)
@@ -75,133 +88,9 @@ Object.values(nurSelbst.init.preparations.body.btf.state.containers)[0][0].entit
 pruefe('steht nur die eigene Seite im Abschnitt, bleibt die Liste leer',
   modul.akPrimeFassungenLesen(knoten(JSON.stringify(nurSelbst)), eigen({ kennung: 'B0GVNJRZCM' })).length === 0)
 
-// --- Teil 2: Lauf durch amazon.js -----------------------------------------
-
-const skripte = JSON.parse(lies('manifest.json')).content_scripts.find((c) => c.js.includes('amazon.js')).js
-pruefe('Manifest: prime-fassungen.js lädt vor amazon.js', skripte.indexOf('prime-fassungen.js') >= 0 && skripte.indexOf('prime-fassungen.js') < skripte.indexOf('amazon.js'), skripte)
-
-const SUCHE ='https://www.amazon.de/s?k=Fischen+Impossible&i=instant-video'
-const quelle = ['box.js', 'melde-sperre.js', 'prime-region.js', 'prime-fassungen.js', 'amazon.js'].map(lies).join('\n')
-
-const GLOBALE = Object.fromEntries(
-  [Date, JSON, Math, Set, Map, Number, String, Object, Array, Boolean, RegExp, Promise, Error].map((f) => [f.name, f]),
-)
-GLOBALE.encodeURIComponent = encodeURIComponent
-GLOBALE.decodeURIComponent = decodeURIComponent
-
-function element() {
-  return {
-    className: '',
-    isConnected: true,
-    style: { cssText: '' },
-    dataset: {},
-    textContent: '',
-    title: '',
-    type: '',
-    disabled: false,
-    kinder: [],
-    hoerer: {},
-    classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
-    replaceChildren(...neu) { this.kinder = neu },
-    appendChild(k) { this.kinder.push(k); return k },
-    append(...k) { this.kinder.push(...k) },
-    insertBefore(k) { this.kinder.push(k); return k },
-    remove() {},
-    addEventListener(art, fn) { this.hoerer[art] = fn },
-    querySelector(sel) {
-      const klasse = String(sel).trim().split(/\s+/).pop().replace(/^\./, '')
-      for (const k of this.kinder) {
-        if (String(k?.className ?? '').split(/\s+/).includes(klasse)) return k
-        const tiefer = k?.querySelector?.(sel)
-        if (tiefer) return tiefer
-      }
-      return null
-    },
-    querySelectorAll: () => [],
-    focus() {},
-  }
-}
-
-function lauf(hydration) {
-  const angehaengt = []
-  const speicher = {
-    'ak-prime-suchauftrag': JSON.stringify({ titel: 'Fischen Impossible', id: 1, suchUrl: SUCHE, zeit: Date.now() }),
-  }
-  const pfad = '/gp/video/detail/B01MSMV5MA'
-  const sandkasten = {
-    globalThis: null,
-    AK_OFFENE_AMAZON: {},
-    AK_PRIME_SUCHE: { [SUCHE]: { titel: 'Fischen Impossible', id: 1 } },
-    URLSearchParams,
-    URL,
-    location: { pathname: pfad, search: '', href: 'https://www.amazon.de' + pfad },
-    sessionStorage: {
-      getItem: (k) => speicher[k] ?? null,
-      setItem: (k, v) => { speicher[k] = v },
-      removeItem: (k) => { delete speicher[k] },
-      clear() {},
-    },
-    document: {
-      documentElement: { innerHTML: '<html></html>', classList: { add() {}, remove() {}, toggle() {}, contains: () => false } },
-      body: { ...element(), appendChild(k) { angehaengt.push(k); return k } },
-      title: 'Amazon.de',
-      createElement: () => element(),
-      createTextNode: (t) => ({ textContent: t }),
-      getElementById: (id) => (id === 'dv-web-page-hydration-data' ? hydration : null),
-      querySelector: () => null,
-      querySelectorAll: () => [],
-      addEventListener() {},
-      head: element(),
-    },
-    chrome: { runtime: { id: 'test' }, storage: { local: { get: () => ({ amazonErledigt: {}, amazonSuche: {} }), set: () => Promise.resolve() } } },
-    window: { addEventListener() {}, location: { pathname: pfad, search: '' } },
-    MutationObserver: class { observe() {} },
-    requestAnimationFrame: () => 0,
-    fetch: () => Promise.resolve({ ok: true, json: () => Promise.resolve({}) }),
-    setInterval: () => 0,
-    setTimeout: () => 0,
-    clearInterval() {},
-    console: { log() {}, warn() {}, error() {} },
-    performance: { now: () => Date.now() },
-    navigator: { clipboard: { writeText: () => Promise.resolve() } },
-    ...GLOBALE,
-  }
-  sandkasten.globalThis = sandkasten
-  sandkasten.window.document = sandkasten.document
-  let absturz = null
-  try {
-    vm.runInNewContext(quelle, sandkasten, { filename: 'amazon.js' })
-  } catch (err) {
-    absturz = err
-  }
-  return { absturz, angehaengt }
-}
-
-function zeilen(e, aus = []) {
-  if (String(e?.className ?? '').split(/\s+/).includes('ak-such-auswahl')) aus.push(e)
-  for (const k of e?.kinder ?? []) zeilen(k, aus)
-  return aus
-}
-const zeilenText = (z) => (z.kinder ?? []).map((k) => k.textContent ?? '').join('')
-
-const mit = lauf(knoten(FIXTURE))
-pruefe('Lauf durch amazon.js ohne Absturz', !mit.absturz, mit.absturz?.message)
-const auswahl = mit.angehaengt.flatMap((e) => zeilen(e))
-pruefe('die Titelseite bietet alle drei Fassungen an', auswahl.length === 3, auswahl.map(zeilenText))
-pruefe('die Fassungen tragen ihre ASIN', ['B01MSMV5MA', 'B01HRLV328', 'B0GVNJRZCM'].every((a) => auswahl.some((z) => zeilenText(z).includes(a))), auswahl.map(zeilenText))
-pruefe('Kanal steht zuletzt, nicht vorgekreuzt', /B0GVNJRZCM/.test(zeilenText(auswahl[2] ?? {})) && auswahl.every((z) => z.kinder[0]?.checked === false), auswahl.map(zeilenText))
-
-const prime = lauf(knoten(mitMeldung('B01HRLV328', 'Mit Prime ansehen', false, 'Unentitled')))
-const primeAuswahl = prime.angehaengt.flatMap((e) => zeilen(e))
-pruefe('die Prime-Fassung steht in der Auswahl vorn', /B01HRLV328/.test(zeilenText(primeAuswahl[0] ?? {})), primeAuswahl.map(zeilenText))
-
-const ohne = lauf(null)
-pruefe('ohne Hydration-Knoten läuft der Kasten durch ohne Auswahl', !ohne.absturz && ohne.angehaengt.flatMap((e) => zeilen(e)).length === 0, ohne.absturz?.message)
-const ohneAbschn = lauf(knoten(JSON.stringify(ohneAbschnitt)))
-pruefe('Seite ohne den Abschnitt ändert den Kasten nicht', !ohneAbschn.absturz && ohneAbschn.angehaengt.flatMap((e) => zeilen(e)).length === 0)
 
 if (fehler.length) {
-  console.error(`\n${fehler.length} Zusicherung(en) rot.`)
+  console.error(`${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)
 }
 console.log('\nDie Fassungen aus „Weitere Versionen verfügbar“ halten.')

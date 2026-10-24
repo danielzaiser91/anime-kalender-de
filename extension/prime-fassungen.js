@@ -9,8 +9,8 @@
  * Gemessen an der gespeicherten Seite B01MSMV5MA (Fixture `prime-fassungen.fixture.json`).
  *
  * Kaufart aus `entitlementCues.focusMessage.message`: „Gratiszeitraum" (mit Kanal-Logo) = Kanal,
- * „Kaufen oder leihen" = Kauf. Eine Prime-Probe lag nicht vor: „Prime" im Text gilt als Prime, ebenso
- * `entitlementType: Entitled` ohne Kanal-Logo.
+ * „Kaufen oder leihen" = Kauf. Das Kanal-Logo gilt vor dem Text. Eine Prime-Probe lag nicht vor: nur „Prime"
+ * im Text gilt als Prime, alles andere (auch `Entitled` allein) bleibt neutral („Fassung").
  */
 {
   const ABSCHNITT = 'Weitere Versionen verfügbar'
@@ -23,10 +23,10 @@
   function kaufart(cues) {
     const meldung = text(cues?.focusMessage?.message || cues?.glanceMessage?.message)
     const kanalLogo = Boolean(cues?.providerLogo?.imageUrl)
+    if (kanalLogo) return 'kanal'
     if (/prime/i.test(meldung)) return 'prime'
-    if (kanalLogo || /gratis|abo|kanal|channel/i.test(meldung)) return 'kanal'
-    if (/kaufen|leihen/i.test(meldung)) return 'kauf'
-    return cues?.entitlementType === 'Entitled' ? 'prime' : 'unbekannt'
+    if (/gratis|abo|kanal|channel/i.test(meldung)) return 'kanal'
+    return /kaufen|leihen/i.test(meldung) ? 'kauf' : 'unbekannt'
   }
 
   /** Die Einträge des Abschnitts im geparsten Hydration-Block; leer, wenn es ihn nicht gibt. */
@@ -37,6 +37,12 @@
       if (Array.isArray(treffer?.entities)) return treffer.entities
     }
     return []
+  }
+
+  /** Der Hydration-Block gehört zur geöffneten Seite (Single-Page-Wechsel lässt den alten Block stehen). */
+  function passtZurAdresse(daten, kennung) {
+    const pfad = text(daten?.init?.path).split('?')[0].split('/').pop()
+    return pfad.toLowerCase() === text(kennung).toLowerCase()
   }
 
   function fassung(e) {
@@ -88,7 +94,7 @@
       return []
     }
     const andere = abschnitt(daten).filter((e) => e?.titleID && text(e.titleID) !== text(eigen.kennung))
-    if (!andere.length) return []
+    if (!andere.length || !passtZurAdresse(daten, eigen.kennung)) return []
     const alle = [eigene(eigen), ...andere.map(fassung)]
     return alle.sort((a, b) => RANG[a.kaufart] - RANG[b.kaufart])
   }
@@ -101,6 +107,6 @@
   globalThis.akPrimeKarten = (dokument, kennung, titel, zugaenge, art) =>
     lesen(dokument.getElementById?.('dv-web-page-hydration-data'), { kennung, titel, zugaenge, art }).map((f) => ({
       ...f,
-      titel: `${NAME[f.kaufart]} · ${f.titel} (${f.hinweis})`,
+      titel: `${NAME[f.kaufart]} · ${f.hinweis} · ${f.titel}`,
     }))
 }

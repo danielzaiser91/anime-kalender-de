@@ -4435,9 +4435,6 @@ async function speicherSchreiben(werte) {
           Beschriftung nannte eine Ursache, die es nie war.
         */
         : [kastenZeile('ak-such-hinweis', 'Titel gewechselt — für Jahr und Staffelnummer die Seite neu laden')]),
-      ...(erwartungZu(auftrag.suchUrl)?.length >= 2
-        ? []
-        : erwartungsAuswahl(auftrag, globalThis.akPrimeKarten(document, asin(), seitenTitel() || auftrag.titel, abos(), zugangsart()), false)),
       /*
         **Dieselbe Checkliste wie auf der Trefferliste — hier ohne Ankreuzen.**
 
@@ -4465,7 +4462,7 @@ async function speicherSchreiben(werte) {
           */
           const suchUrlHier = a?.suchUrl ?? eintrag?.url ?? ''
           const erwartet = erwartungZu(suchUrlHier) ?? (Array.isArray(a?.erwartet) ? a.erwartet : [])
-          if (!erwartet || erwartet.length < 2) return []
+          if (!erwartet || erwartet.length < 2) return erwartungsAuswahl(auftrag, globalThis.akPrimeKarten(document, asin(), seitenTitel() || auftrag.titel, abos(), zugangsart()), false)
           const hier = asin()
           reiheMerken(erwartet)
           const gruppe = document.createElement('div')
@@ -4533,6 +4530,12 @@ async function speicherSchreiben(werte) {
           return []
         }
       })(),
+      /*
+        Hier stand „Zeigt die Seite deutlich weniger, ist es ein anderes Werk" —
+        entfernt am 02.09.2026 auf Daniels Wunsch: „das kann weg. ist klar."
+        Ein Hinweis, der nur wiederholt, was der Leser ohnehin sieht, kostet
+        Platz und Aufmerksamkeit für die Zeilen, die etwas sagen.
+      */
       /*
         **„Nicht bei Prime" gehört auch auf die Titelseite.**
 
@@ -5201,7 +5204,7 @@ async function speicherSchreiben(werte) {
   function erwartungsAuswahl(auftrag, sortiert, vorausgewaehlt = true) {
             const karten = sortiert.slice(0, 4).filter((z) => ohneParameter(z.url))
             if (karten.length < 2) return []
-            const kennungVon = (z) => /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(ohneParameter(z.url) ?? '')?.[1] ?? null
+            const kennungVon = (z) => /\/(?:dp|detail)\/([A-Z0-9]{10,32}|amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(ohneParameter(z.url) ?? '')?.[1] ?? null
             /*
               **Die bestätigte Auswahl kommt aus dem gemerkten Auftrag, nicht aus der Prüfliste.**
 
