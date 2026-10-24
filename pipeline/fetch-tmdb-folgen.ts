@@ -21,7 +21,7 @@
  * immer eingefroren — derselbe Fehler, den `scrape-crunchyroll-dub.ts` und
  * `fetch-anisearch.ts` am 15.08.2026 gekostet haben. Vorgabe sind 30 Tage;
  * abgeschlossene Staffeln ändern sich nicht mehr, laufende schon. Laufende Serien mit einer
- * erschienenen Folge ohne echten Titel kommen schon nach 7 Tagen wieder, vor den übrigen
+ * erschienenen Folge ohne echten Titel kommen schon nach 6 Tagen wieder, vor den übrigen
  * (`lib/tmdb-folgen-auswahl.ts`).
  *
  * **Lückentitel** (`lib/tmdb-folgen-luecke.ts`): Titel mit Folgen im belegt deutschen Bereich ohne deutschen Titel und ohne Eintrag
@@ -149,6 +149,7 @@ async function main(): Promise<void> {
       geholt++
       folgenGesamt += folgen.length
     } catch (err) {
+      // Kein Eintrag bei Fehlschlag: ein dauerhaft scheiternder Lückentitel belegt jede Woche einen Platz im Riegel (docs/wissen/folgentitel-quellen.md).
       warn(`TMDB ${id} (${t.titleRomaji ?? t.id}): ${(err as Error).message}`)
     }
     await sleep(120)

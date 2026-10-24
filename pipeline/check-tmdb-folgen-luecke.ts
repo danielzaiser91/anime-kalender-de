@@ -55,9 +55,9 @@ const viele = Array.from({ length: 130 }, (_, i) => k(`z${i}`))
 const alle = (nurLuecke: boolean, limit: number): number =>
   waehleAbrufe({ alle: viele, bestand: {}, heute: '2026-10-24', alterTage: 30, limit, nurLuecke, luecke: () => 1 }).length
 pruefe('Lückenanteil im regulären Lauf auf 128 begrenzt', alle(false, 400) === 128, alle(false, 400))
-pruefe('Probelauf folgt dem eigenen Limit statt 128', alle(true, 129) === 129 && alle(true, 20) === 20)
-pruefe('Probelauf Limit 400 bei 130 Titeln', alle(true, 400) === 130)
-pruefe('Probelauf nur Lücke',w(true, 10) === 'b,sf,a', w(true, 10))
+pruefe('Probelauf ist ebenfalls auf 128 gedeckelt, auch mit größerem Limit', alle(true, 129) === 128 && alle(true, 400) === 128)
+pruefe('Probelauf unter dem Deckel folgt dem eigenen Limit', alle(true, 20) === 20 && alle(true, 128) === 128)
+pruefe('Probelauf nur Lücke', w(true, 10) === 'b,sf,a', w(true, 10))
 pruefe('Grundfrist des Aufrufs gilt: 60 Tage lassen den 53 Tage alten Eintrag draußen', w(false, 10, {}, 60) === 'b,sf,a,sy', w(false, 10, {}, 60))
 const folgen = (alle: ReturnType<typeof k>[], nurLuecke: boolean): string => ids(waehleAbrufe({ alle, bestand: {}, heute: '2026-10-24', alterTage: 30, limit: 10, nurLuecke, luecke: l }))
 pruefe('Unbekannte Folgenzahl: Lückentitel zählt', folgen([ke('a', null)], true) === 'a')

@@ -58,11 +58,11 @@ export interface AbrufWahl<T extends AbrufKandidat> {
   luecke: (id: string) => number
 }
 
-/** Lückentitel zuerst (höchstens `LUECKE_LIMIT`, bei `nurLuecke` bis `limit`), danach die regulär Fälligen von Titeln mit Anbieter; insgesamt höchstens `limit`. */
+/** Lückentitel zuerst (höchstens `LUECKE_LIMIT`, auch bei `nurLuecke`), danach die regulär Fälligen von Titeln mit Anbieter; insgesamt höchstens `limit`. */
 export function waehleAbrufe<T extends AbrufKandidat>(w: AbrufWahl<T>): T[] {
   // Unbekannte Folgenzahl (laufende Langläufer wie Shin-chan) zählt für Lückentitel als Serie, regulär nicht.
   const serien = w.alle.filter((k) => (k.t.episodes ?? 2) > 1)
-  const grenze = w.nurLuecke ? w.limit : Math.min(LUECKE_LIMIT, w.limit)
+  const grenze = Math.min(LUECKE_LIMIT, w.limit)
   const luecke = waehleLuecke(serien, w.bestand, w.luecke, grenze)
   if (w.nurLuecke) return luecke
   const mitAnbieter = w.alle.filter((k) => (k.t.streams ?? []).length > 0 && (k.t.episodes ?? 0) > 1 && !luecke.includes(k))
