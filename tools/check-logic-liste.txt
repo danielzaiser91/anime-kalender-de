@@ -47,6 +47,7 @@ pipeline/check-beleg-bis-anker.ts
 pipeline/check-beleg-href.ts
 pipeline/check-beleg-stoerung.ts
 pipeline/check-belegstaerke-forum.ts
+pipeline/check-belegstaerke-handbelegt.ts
 pipeline/check-belegstaerke.ts
 pipeline/check-bild-und-synchro.ts
 pipeline/check-bookworm-dublette.ts
