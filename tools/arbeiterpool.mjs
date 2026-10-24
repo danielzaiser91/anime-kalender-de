@@ -22,7 +22,11 @@ function starte(auftrag) {
     lauf.stdout.on('data', (d) => teile.push([1, d]))
     lauf.stderr.on('data', (d) => teile.push([2, d]))
     lauf.on('error', (e) => fertig({ status: 1, teile: [[2, `${e.message}\n`]] }))
-    lauf.on('close', (status) => fertig({ status: status ?? 1, teile }))
+    // Ein Signal (OOM-Killer, Zeitlimit) hinterlässt sonst eine rote Prüfung ganz ohne Fehlerzeile.
+    lauf.on('close', (status, signal) => {
+      if (signal) teile.push([2, `Prozess durch Signal ${signal} beendet (kein Exit-Code).\n`])
+      fertig({ status: status ?? 1, teile })
+    })
   })
 }
 

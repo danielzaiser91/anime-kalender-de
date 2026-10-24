@@ -81,6 +81,14 @@ const acht = (rotNr = 5) =>
   assert.deepEqual(letzteZeilen([]), [], 'ohne Ausgabe keine Zeilen')
   console.log('  ✓ letzteZeilen: Kürzung, Kanäle, leer')
 }
+if (process.platform === 'win32') {
+  console.log('  übersprungen: Signal-Fall (Windows kennt keine Signale als Beendigungsgrund)')
+} else {
+  const [e, text] = await fange([knoten(`${schreibe('vorher\n')}; process.kill(process.pid, 'SIGKILL')`)], { alle: true })
+  assert.deepEqual(e.rote, [{ index: 0, status: 1, ende: ['vorher', 'Prozess durch Signal SIGKILL beendet (kein Exit-Code).'] }])
+  assert.match(text, /SIGKILL/)
+  console.log('  ✓ Signal-Tod nennt das Signal in der Ausgabe')
+}
 {
   const a = knoten(schreibe('ok'))
   a.nachher = () => 'Nachprüfung rot'
