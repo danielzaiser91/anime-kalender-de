@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import type { ViewId } from '../lib/router.ts'
+import type { Bereich } from './Header.tsx'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { KalenderZeichen, NewsZeichen, RasterZeichen, ZahnradZeichen } from './kalender/Zeichen.tsx'
 import { SaisonZeichen } from './saison-zeichen.tsx'
@@ -15,7 +16,7 @@ export function HandyNavigation({
   kalender,
   einstellungen,
 }: {
-  aktiv: 'kalender' | 'datenbank' | 'news' | 'saison' | undefined
+  aktiv: Bereich | undefined
   onView: (v: ViewId) => void
   /** Woche oder Monat — „Kalender" behält die gewählte Ansicht. */
   kalender: ViewId

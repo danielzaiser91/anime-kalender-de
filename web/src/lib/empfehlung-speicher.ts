@@ -1,9 +1,16 @@
 import { useState } from 'react'
 import { createIdSet } from './idSet.ts'
 
+const GESEHEN = 'empfehlung:gesehen'
+const VERWORFEN = 'empfehlung:verworfen'
+const ANBIETER_SCHLUESSEL = 'empfehlung:anbieter'
+
+/** Alles, was die Ansicht im Browser ablegt; „Empfehlungen zurücksetzen“ löscht genau diese Schlüssel. */
+export const EMPFEHLUNG_SCHLUESSEL = [GESEHEN, VERWORFEN, ANBIETER_SCHLUESSEL] as const
+
 /** „Schon gesehen“ (nimmt den Titel für immer aus dem Pool) und „Nicht interessiert“ (endgültig, einzeln zurückholbar); nur im Browser. */
-export const empfehlungGesehen = createIdSet('empfehlung:gesehen')
-export const empfehlungVerworfen = createIdSet('empfehlung:verworfen')
+export const empfehlungGesehen = createIdSet(GESEHEN)
+export const empfehlungVerworfen = createIdSet(VERWORFEN)
 
 /** Anbieter, die bevorzugt werden (Vorrang, kein Filter); derselbe Schlüssel wie „Meine Anbieter“ in der Datenbank. */
 const ANBIETER = 'meineAnbieter'
@@ -18,7 +25,7 @@ export function eigeneAnbieterLesen(): string[] {
 }
 
 /** Die Wahl in der Reise bleibt eine Einstellung dieser Ansicht und überschreibt „Meine Anbieter“ der Datenbank nicht. */
-const ANBIETER_REISE = 'empfehlung:anbieter'
+const ANBIETER_REISE = ANBIETER_SCHLUESSEL
 
 export function reiseAnbieterLesen(): string[] {
   try {

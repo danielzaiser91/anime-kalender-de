@@ -9,17 +9,20 @@ import { useMobil } from '../lib/use-mobil.ts'
 import { AboMenue } from './kalender/AboMenue.tsx'
 import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen } from './kalender/Zeichen.tsx'
 
-/** Die drei Bereiche der Seite. Woche und Monat sind beide „Kalender". */
-export const BEREICHE: { id: 'kalender' | 'datenbank' | 'news' | 'saison'; ziel: ViewId }[] = [
+export type Bereich = 'kalender' | 'datenbank' | 'news' | 'saison' | 'empfehlung'
+
+/** Die Bereiche der Seite (am Handy ohne „Was gucken?“: dort führt der Knopf in der Datenbank hin). Woche und Monat sind beide „Kalender". */
+export const BEREICHE: { id: Bereich; ziel: ViewId }[] = [
   { id: 'kalender', ziel: 'woche' },
   { id: 'datenbank', ziel: 'datenbank' },
   { id: 'news', ziel: 'news' },
   { id: 'saison', ziel: 'saison' },
+  { id: 'empfehlung', ziel: 'empfehlung' },
 ]
 
-export function bereichVon(view: ViewId): 'kalender' | 'datenbank' | 'news' | 'saison' | undefined {
+export function bereichVon(view: ViewId): Bereich | undefined {
   if (view === 'woche' || view === 'monat') return 'kalender'
-  if (view === 'datenbank' || view === 'news' || view === 'saison') return view
+  if (view === 'datenbank' || view === 'news' || view === 'saison' || view === 'empfehlung') return view
   return undefined
 }
 
