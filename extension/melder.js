@@ -2203,9 +2203,7 @@ function fertig(id, eintrag) {
     darunter der Rückfall.
   */
   if (standZieleNetflix) {
-    return (
-      !standZieleNetflix.has(`https://www.netflix.com/title/${id}`) || frischGemeldetNetflix.has(String(id)) || akNetflixWartet.has(String(id))
-    )
+    return akNetflixErledigtLautStand(id, standZieleNetflix, frischGemeldetNetflix, akNetflixWartet)
   }
   if (istErledigt(id, 'tot')) return true
   const staffeln = staffelnVon(id, eintrag)
@@ -2276,15 +2274,15 @@ function fertig(id, eintrag) {
  */
 const STAND = 'https://newsletter.animekalender.workers.dev/pruefung?stand=1'
 
-/** Was der Worker für Netflix als offen führt — `null`, solange unbekannt. */
-let offenLautStand = null
+/** Verweise ohne Kennung laut Worker-Stand (nur die Statusanzeige zählt sie) — `null`, solange unbekannt. */
+let ohneKennungStand = null
 
 async function standHolen() {
   try {
     const daten = await fetch(STAND, { cache: 'no-store' }).then((r) => r.json())
     const netflix = (daten.anbieter ?? []).find((a) => a.plattform === 'netflix')
     if (!netflix) return
-    offenLautStand = netflix.offen
+    ohneKennungStand = netflix.ohneSeite ?? 0
     /* Die offenen Adressen selbst — `fertig()` fragt sie (14.09.2026). */
     if (Array.isArray(netflix.ziele)) {
       standZieleNetflix = new Set(netflix.ziele.map((z) => z.url))
@@ -5306,9 +5304,8 @@ function uebersichtZeigen() {
       : 'Anime-Kalender ✓'
   /* Bericht und Ruhemodus stehen immer im Kasten, nicht nur mit der Melde-Leiste (29.09.2026). */
   netflixDebugZeile(netflixKasten())
-  /* Der Worker-Stand steht hier statt am Knopf: Er beantwortet eine andere
-     Frage — was ein Datenlauf schon eingespielt hat. */
-  const nachStand = offenLautStand === null ? '' : `\nIm Datensatz noch ohne Urteil: ${offenLautStand}`
+  /* Die Zahl der Statusanzeige steht hier erklärt statt am Knopf (24.10.2026). */
+  const nachStand = akNetflixZaehlText(akNetflixZaehlung(standZieleNetflix, offeneTitel, frischGemeldetNetflix, akNetflixWartet), ohneKennungStand)
   uebersichtKnopf.title =
     (!offeneAdressen
       ? `Alles gemeldet — ${gesamt} Staffeln, zum Nachsehen anklicken`

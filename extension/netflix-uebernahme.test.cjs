@@ -104,7 +104,7 @@ async function pruefeAlles() {
 
   /* Verdrahtung in melder.js: fertig() fragt die Menge, standHolen() füllt sie. */
   const melder = readFileSync(__dirname + '/melder.js', 'utf8')
-  pruefe('fertig() kennt die wartenden Reihen', melder.includes('frischGemeldetNetflix.has(String(id)) || akNetflixWartet.has(String(id))'))
+  pruefe('fertig() kennt die wartenden Reihen', melder.includes('akNetflixErledigtLautStand(id, standZieleNetflix, frischGemeldetNetflix, akNetflixWartet)'))
   pruefe('standHolen() füllt sie aus dem Briefkasten', melder.includes('akNetflixUebernahme(standZieleNetflix, offeneTitel, WORKER).then(uebersichtZeigen)'))
   /* Die Menge, die fertig() liest, füllt der Helfer: Gumball landet darin (mit den Fällen oben im selben Sandkasten). */
   pruefe('der Helfer füllt akNetflixWartet', g.akNetflixWartet.has('70243420') && !g.akNetflixWartet.has('80000001'), [...g.akNetflixWartet])
