@@ -7,7 +7,7 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 56 Wege, nur Hinweis: 0.
+Flagge „Deutsch“: 59 Wege, nur Hinweis: 0.
 
 JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 15, Mehrteiler 6.
 
@@ -22,7 +22,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (416)
+### Kandidaten für neue Wege (413)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -134,7 +134,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Invaders of the Rokujyoma!? (20638) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.3f2d4d3d-83bb-4ec8-ac12-0fe4b1360c13 | ja |
 | Shigatsu wa Kimi no Uso: Sekunden in Moll (20665) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.a729fccc-6004-45ec-b831-817046dcff5f | nein |
 | Project Itoh: Genocidal Organ (20919) | Crunchyroll | crunchyroll:GPWUKQZMQ | ja |
-| Project Itoh: Genocidal Organ (20919) | Amazon Video | amazon:amzn1.dv.gti.78b91eef-2e25-9512-4024-a8c43ad3e1f9 | nein |
 | Terror in Tokio (20661) | ProSieben Fun Amazon Channel | amazon:amzn1.dv.gti.59cfb2b8-d360-4a1e-a5aa-6fe11b12c051 | ja |
 | Strike Witches: Operation Victory Arrow (20650) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.de665b73-d5cd-4eb1-8c80-9a1eb06cd54e | ja |
 | Lance N’ Masques (20712) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.9d0dfa9b-3d8b-4230-b3ca-55a7b859bc93 | ja |
@@ -230,7 +229,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Tada Never Falls in Love (100179) | Amazon Prime Video | amazon:amzn1.dv.gti.b9a8ec9f-c984-4fc8-8556-fa25eed79a4b | ja |
 | Doreiku: The Animation (100251) | Crunchyroll | crunchyroll:G9DUEPEE7 | ja |
 | Doreiku: The Animation (100251) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.06d12f02-0973-423a-afad-92331c22d4fb | ja |
-| Yunas Geisterhaus (100483) | Amazon Video | amazon:amzn1.dv.gti.31c2fcde-089d-47dd-bf2b-09bca0de572f | nein |
 | Dragon Ball Super: Broly (101302) | Crunchyroll | crunchyroll:G4VUQ85VV | nein |
 | Detektei Layton: Katrielles rätselhafte Fälle (100785) | Amazon Prime Video | amazon:amzn1.dv.gti.3ab713bd-56f0-7ad1-e0a9-b67928c250d7 | ja |
 | Have a NIce Day (103354) | Amazon Video | amazon:amzn1.dv.gti.ccbbc977-5f42-6a4b-317a-c314911f87a4 | ja |
@@ -366,7 +364,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Shinobi no Ittoki (145604) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.c9d9bf3e-016b-41d4-bc40-187e8f06c68d | nein |
 | NieR:Automata Ver1.1a (145665) | Crunchyroll | crunchyroll:G50UZ5VDM | ja |
 | NieR:Automata Ver1.1a (145665) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.96f14089-6dde-4e53-9e32-bd6eddfa0e17 | nein |
-| NieR:Automata Ver1.1a (145665) | Amazon Video | amazon:amzn1.dv.gti.f447a318-045f-4f1d-871d-f6ac4d53cf8a | nein |
 | Spice and Wolf: Merchant Meets the Wise Wolf (145728) | Crunchyroll | crunchyroll:G7PU3P5GE | nein |
 | Spice and Wolf: Merchant Meets the Wise Wolf (145728) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.ace6b3ba-9d82-49c9-883d-da10bb274f0a | nein |
 | I’ve Somehow Gotten Stronger When I Improved My Farm-Related Skills (145815) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.b8512336-9f32-41be-a161-33c8e306f8af | ja |
