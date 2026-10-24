@@ -1,6 +1,7 @@
 import { createIdSet } from './idSet.ts'
+import { todayIso } from '@shared/time.ts'
 
-/** Gemerkte Titel. Liegen im Browser des Nutzers, nicht auf einem Server. */
+/** Gemerkte Titel. Liegen im Browser des Nutzers; auf den Server (D1) gehen sie nur mit Newsletter-Abo, Web-Push oder Kalender-Feed. */
 const favoritesSet = createIdSet('favorites')
 
 /**
@@ -110,7 +111,7 @@ export function favoritSeit(id: number): string | undefined {
 export function favoritDatumPflegen(id: number, gemerkt: boolean): void {
   try {
     const stand = seitLesen()
-    if (gemerkt) stand[String(id)] = new Date().toISOString().slice(0, 10)
+    if (gemerkt) stand[String(id)] = todayIso()
     else delete stand[String(id)]
     localStorage.setItem(SEIT_SCHLUESSEL, JSON.stringify(stand))
   } catch {

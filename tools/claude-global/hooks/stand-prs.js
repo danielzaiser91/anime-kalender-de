@@ -1,5 +1,5 @@
-// Hält in daniel-zum-abarbeiten/stand.md unter „## In Arbeit“ je offenem PR eine Zeile aktuell, dazu die gemergten der
-// letzten 24 h (Daniel 19.10.2026: „kein manuelles eintragen per hauptsitzung mehr“). Geschrieben wird nur der Block
+// Hält in daniel-zum-abarbeiten/stand.md unter „## In Arbeit“ je offenem PR eine Zeile aktuell, dazu eine Sammelzeile der
+// in 24 h gemergten PRs (Daniel 19.10.2026: „kein manuelles eintragen per hauptsitzung mehr“). Geschrieben wird nur der Block
 // zwischen AUF und ZU (stand-prs-block.js): eingerückte Notizen unter einer PR-Zeile wandern mit, fremde Zeilen im Block
 // rücken unter ZU, nichts geht verloren; bei unklaren Marken schreibt der Hook nichts und meldet es der Sitzung.
 // Auslöser: PostToolUse(Bash) — ein gh-Befehl, der PRs ändert, sofort; andere gh-pr/run-Befehle und UserPromptSubmit
@@ -14,6 +14,7 @@ const os = require('node:os')
 const path = require('node:path')
 const { execFileSync } = require('node:child_process')
 const B = require('./stand-prs-block.js')
+const { waechter } = require('./stand-waechter.js')
 
 const REPO = ['danielzaiser91', 'anime-kalender-de']
 const GH_WINDOWS = 'C:/Program Files/GitHub CLI/gh.exe'
@@ -170,16 +171,18 @@ function berlin(zeit) {
   return `${teile.day}.${teile.month}. ${teile.hour}:${teile.minute}`
 }
 
-function gemergtZeile(pr) {
-  return `- [klein] **${kurztitel(pr.title).titel}** — gemergt ${berlin(pr.mergedAt)} — ${verweis(pr)}`
+/** Sammelzeile der in 24 h gemergten PRs (Nummer 0); der letzte Zeitpunkt zeigt, ob der Hook noch mitläuft. */
+function sammelZeile(frisch) {
+  return `- [klein] **Gemergt in 24 h: ${frisch.length}** — zuletzt ${berlin(Date.parse(frisch[0].mergedAt))} — [alle](${B.GEMERGT_LISTE})`
 }
 
-/** Reihen [{ nummer, zeile }]: offene (bereite zuerst, sonst neueste zuerst), dann die in 24 h gemergten ohne Sammler. */
+/** Reihen [{ nummer, zeile }]: offene (bereite zuerst, sonst neueste zuerst), dann eine Sammelzeile der in 24 h gemergten ohne Sammler. */
 function reihen({ offen, gemergt }, jetzt) {
   const sortiert = [...offen].sort((a, b) => Number(bereit(b)) - Number(bereit(a)) || b.number - a.number)
   const frisch = gemergt.filter((pr) => !SAMMLER.test(pr.title) && jetzt - Date.parse(pr.mergedAt) <= GEMERGT_FENSTER)
   frisch.sort((a, b) => Date.parse(b.mergedAt) - Date.parse(a.mergedAt))
-  return [...sortiert.map((pr) => ({ nummer: pr.number, zeile: offeneZeile(pr) })), ...frisch.map((pr) => ({ nummer: pr.number, zeile: gemergtZeile(pr) }))]
+  const sammel = frisch.length ? [{ nummer: 0, zeile: sammelZeile(frisch) }] : []
+  return [...sortiert.map((pr) => ({ nummer: pr.number, zeile: offeneZeile(pr) })), ...sammel]
 }
 
 function hinweisZeile(erfolg, fehler) {
@@ -227,14 +230,16 @@ function aktualisiere({ datei, gh, jetzt, erfolg }) {
     const r = B.ersetzeBlock(vorher.split(eol).join('\n'), frisch.reihen ?? null, hinweis)
     if (r.fehler) return { ergebnis: `nicht geschrieben: ${r.fehler}`, laut: true }
     const neu = r.text.split('\n').join(eol)
-    const fertig = frisch.fehler ? { ergebnis: `veraltet: ${frisch.fehler}`, laut: true } : null
-    if (neu === vorher) return fertig ?? { ergebnis: 'unverändert', erfolg: true }
+    const warnung = waechter(r.text, jetzt)
+    const zusatz = warnung ? { warnung } : {}
+    const fertig = frisch.fehler ? { ergebnis: `veraltet: ${frisch.fehler}`, laut: true, ...zusatz } : null
+    if (neu === vorher) return fertig ?? { ergebnis: 'unverändert', erfolg: true, ...zusatz }
     const { atime, mtime } = fs.statSync(datei)
     const tmp = `${datei}.pr-neu`
     fs.writeFileSync(tmp, neu)
     fs.renameSync(tmp, datei)
     fs.utimesSync(datei, atime, mtime)
-    return fertig ?? { ergebnis: `geschrieben (${frisch.reihen.length} Zeilen)`, erfolg: true }
+    return fertig ?? { ergebnis: `geschrieben (${frisch.reihen.length} Zeilen)`, erfolg: true, ...zusatz }
   } finally {
     fs.rmSync(sperrdatei, { force: true })
   }
@@ -279,10 +284,11 @@ function lauf(input, { env = process.env, gh = ghAufruf, jetzt = Date.now() } = 
 
 /** Hook-Ausgabe: still, außer die Sitzung soll es erfahren (async-Hook: systemMessage erreicht sie beim nächsten Zug). */
 function ausgabe(r) {
-  return r.laut ? `${JSON.stringify({ systemMessage: `stand-prs.js: ${r.ergebnis} (stand.md, Abschnitt „In Arbeit“)` })}\n` : ''
+  const meldungen = [r.laut ? `stand-prs.js: ${r.ergebnis} (stand.md, Abschnitt „In Arbeit“)` : '', r.warnung ? `stand.md: ${r.warnung}` : ''].filter(Boolean)
+  return meldungen.length ? `${JSON.stringify({ systemMessage: meldungen.join('\n') })}\n` : ''
 }
 
-module.exports = { ...B, GH_WINDOWS, ABFRAGE, SEITE, ghAufruf, holePrs, kurztitel, ciUrteil, agentUrteil, zustand, bereit, offeneZeile, gemergtZeile, berlin, reihen, hinweisZeile, sperre, aktualisiere, sollLaufen, lauf, ausgabe }
+module.exports = { ...B, GH_WINDOWS, ABFRAGE, SEITE, ghAufruf, holePrs, kurztitel, ciUrteil, agentUrteil, zustand, bereit, offeneZeile, berlin, sammelZeile, reihen, hinweisZeile, sperre, aktualisiere, sollLaufen, lauf, ausgabe }
 
 if (require.main === module) {
   if (process.argv.includes('--jetzt')) {

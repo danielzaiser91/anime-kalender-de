@@ -26,7 +26,7 @@ Quelle oder über einen Zeitraum auffällt, und sagt je Regel, ob sie hart, weic
 | DD-13 Film mit mehreren Folgen | 3 / 764 | 2/3: The Last und Boruto bei ProSieben MAXX „2 Folgen" = 2 Sendungen; Steel Ball Run ONA bekannte Ausnahme | 2,0 | **hart** (Film ⇒ `episodeCount ≤ 1`, außer `firstEpisodeNumber`/`herkunft`) |
 | DD-16 Disc ohne Produktseite (B-09) | 157 / 160 | 138 Amazon-Suchen, 19 ohne Kaufweg | 2,0 | weich |
 | DD-17 News-Meldung auf verschwundenem Release | 8 / 480 | 8/8: `adn-1423-s1-…` → `auto-116589-adn`, vier Disc-Slugs abgeschnitten (`…-2026-10-1`, `…vorbestimm`) | 2,0 | weich |
-| DD-11 „Premiere" Jahre nach der aniSearch-Erstausgabe | 13 / 45 | 13/13: Disney+-Katalogaufnahmen aus `batch-2026.yaml` ohne `dateMeaning` (Yu-Gi-Oh! S2–S4, Naruto S4, Naruto Shippuden S1, Black Clover S1 …), deutsche Fassung laut aniSearch seit 2003–2023 | 2,0 | weich (Hinweis an die Kuratierung: `dateMeaning: available-from`) |
+| DD-11 „Premiere" Jahre nach der aniSearch-Erstausgabe | 13 / 45 | 13/13: Disney+-Katalogaufnahmen aus `batch-2026.yaml` ohne `dateMeaning` (Yu-Gi-Oh! S4 — S2 und S3 tragen es schon —, Naruto S4, Naruto Shippuden S1, Black Clover S1 …), deutsche Fassung laut aniSearch seit 2003–2023 | 2,0 | weich (Hinweis an die Kuratierung: `dateMeaning: available-from`) |
 | DD-19 Termin ohne Weg zum Anbieter | 3 / 548 | 3/3: 86 bei ADN, Kamisama Kiss und Kotesashi-kun bei Prime — Termin, aber weder Stream noch `platformUrl` | 2,0 | weich |
 | DD-07 Doppelte Werke | 1 / 23.581 | 1/1: Gantz 384 und Gantz 395 (2nd Stage) tragen beide aniSearch 585 | 2,0 | weich |
 | DD-08 Ohne Weg, JustWatch kennt de-Ton | 4 / 387 | nicht gegengeprüft (JustWatch steht unter Anbieter-API) | 1,5 | weich |
@@ -96,6 +96,20 @@ Disney+-Katalogaufnahmen als „Premiere" (DD-11); (5) acht News-Meldungen ohne 
 - **Kabaneri 98662/98663, Ursache:** Beide Filme trugen den Crunchyroll-Serienweg `…/series/GR24GX896/…` (`sharedWith: 3`, von der Serie geerbt). Er fällt erst am Ende von `schliesseWegeAb` weg (`entferneFremdeNachStaffeln`: die Serie hat nur Staffel 1 mit 12 Folgen = 21196). Bis dahin besetzte er den Crunchyroll-Platz, den die JustWatch-Runden (`11-2-justwatch.ts`: „nur Titel ohne Weg“, „kein zweiter Weg zur selben Plattform“) mit der Film-Adresse füllen — danach war nichts mehr zu füllen. Der Satz „Katalog vor JustWatch“ stimmte nicht: der Katalog widerspricht nicht, er kennt die Filme nur nicht im `movie_listing`-Abzug (69 Einträge). Crunchyrolls Schnittstelle führt sie sehr wohl (deutscher Katalog, 13.10.2026, `cms/objects`): `GR0XPDJ0Y` und `GR790PW36` sind Episoden der Filmlistings `GMTE00193059`/`GMTE00193060` („Kompilationsfilm …“), je mit einer Version `de-DE` (`GD9UV5DDX`, `GQJUGK77Q`), Abo.
 - **Bau-Korrektur:** `fuelleWegeAusJustwatch` (`11-wege-abschluss.ts`) entfernt die Serien-Wege ohne Staffel schon vor der JustWatch-Ergänzung (am Ende läuft die Entfernung weiter); Zusicherung `pipeline/check-cr-film-wege.ts`. Die Schlüssel 98662/98663 stehen noch in `detektiv-bekannt.json` und können raus, sobald der Bestandsbau den Bestand ohne den Fund gebaut hat.
 - **Danganronpa 14 statt 13:** Nicht aus unseren Daten klärbar. Die 14 steht nur im Anime2You-Artikel (Aniverse September 2026, „Staffel 1“, 14 Folgen); AniList, aniSearch (Folgenliste 8222), TMDB (Staffel 1) und alle aniSearch-Gesamtausgaben der FilmConfect (126624/126625: `enthalten … folgen: 13`) zählen 13, TMDB führt dazu 3 Specials (Staffel 0). Welche Folge Aniverse als vierzehnte zählt, steht nur auf der Anbieterseite (Prime/Aniverse; Abruf ausgeschlossen) — Handprobe auf der Prime-Seite von `B0CHK728W1` klärt es. Bis dahin bleibt die Zahl der Quelle am Release (wie bei Gantz).
+
+## Wochenwache 20.10.2026: 34 neue Funde (DD-02, DD-11, DD-16, DD-19)
+
+`npm run detektiv -- --nur DD-02,DD-11,DD-16,DD-19` (Bestand 20.10.2026); `--wache` meldete 34 Schlüssel.
+
+| Klasse | Funde | Beurteilung | Folge |
+|---|---|---|---|
+| DD-16 Amazon-Suche statt Produktseite | 25 | echte Lücke: Handeinträge ohne `buyUrl` (Rückfall B-09) | 23 aus der Übersichtstabelle der Anime2You-Amazon-Artikel belegt (`tools/amazon-tabelle.mjs`, Name und Tag/Monat müssen passen; 2 davon neue Funde, 21 ältere); die übrigen 23 neuen brauchen einen Artikel, der die Ausgabe verlinkt (Prüfliste) |
+| DD-16 kein Kaufweg | 3 | Eureka Seven, Isekai Onsen Paradise: neue automatische Meldungen, Artikel ohne Amazon-Link (Quelle fehlt); Dr. Stone: Dublette zu `dr-stone-science-future-part2` | Dublette: Artikel 1058419 als Quelle am Handeintrag, der Sammler markiert ihn beim nächsten Lauf als `alreadyCurated` |
+| DD-02 Folgen über Titel | 2 | Fehlalarm: Concrete Revolutio (beide Staffeln, 24), Zexal S2+S3 (49 + 48 = 97 von 146 Folgen laut Anime2You) | in `detektiv-bekannt.json` |
+| DD-11 „Premiere“ | 2 | Yu-Gi-Oh! Staffel 4 (Disney+): echter Fehler, Katalogaufnahme ohne `dateMeaning` — behoben; Venus Wars (2K-Remaster, Kino): Wiederaufführung, Sprachfassung offen | Venus Wars bleibt gemeldet (Quelle zur Fassung fehlt) |
+| DD-19 Termin ohne Weg | 2 | Snowball Earth (Prime-Kanal Crunchyroll), Trinity Seven (Aniverse-Kanal): ein Weg entsteht nur aus einer Messung | in `detektiv-bekannt.json`, wie Kamisama Kiss |
+
+**Ursache der größten Klasse:** Der Bau setzt für jede Disc ohne `buyUrl` die Amazon-Suche ein (`05-releases.ts`); Anime2You verlinkt die Produktseiten aber in der Übersichtstabelle der Artikel, und die Handeinträge übernahmen sie nicht. `tools/amazon-tabelle.mjs` liest die Tabelle (Name und Termin müssen übereinstimmen, Sonderausgaben bleiben außen, der Partner-Tag fällt weg); `tools/amazon-tabelle.test.mjs` prüft auch, dass keine `buyUrl` der Handdateien eine Abfrage trägt.
 
 ## Grenzen
 

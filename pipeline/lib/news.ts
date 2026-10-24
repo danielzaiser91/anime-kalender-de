@@ -42,7 +42,9 @@ import { titelNachSerienId, waehleStaffel } from './news-cr-zuordnung.ts'
 import { rhythmusMeldung } from './news-rhythmus.ts'
 import { ohneDoppelteTakte, taktMeldungen } from './news-takt.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
-import { haltWeitererFest, vergissAlte } from './news-einfrieren.ts'
+import { haltFelderFest, type FesteFelder } from './news-felder-fest.ts'
+import { haltPremiereFest, haltWeitererFest, vergissAlte } from './news-einfrieren.ts'
+import { premiereBelegtTv } from '../../shared/premiere.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
 const FENSTER_TAGE = 120
@@ -62,6 +64,10 @@ export interface NewsHistorie extends TerminGedaechtnis {
   anbieter?: Record<string, string>
   /** Meldungsschlüssel (`angekuendigt`) → `weiterer` vom Bau, der die Meldung erzeugte (`news-einfrieren.ts`). */
   weiterer?: Record<string, boolean>
+  /** Meldungsschlüssel → Anbieter, Kanal, Einordnung vom Bau, der die Meldung auslieferte (`news-felder-fest.ts`). */
+  felder?: Record<string, FesteFelder>
+  /** Meldungsschlüssel → `true`, wenn die Meldung beim ersten Bau schon „Deutsche TV-Premiere“ sagte; ältere Meldungen behalten ihren Text. */
+  premiere?: Record<string, true>
 }
 
 /**
@@ -150,6 +156,12 @@ export function belegeVonRelease(r: Release): NewsBeleg[] | undefined {
   return nachUrl.size ? [...nachUrl.values()] : undefined
 }
 
+/** Die Marke „Deutsche TV-Premiere“ nur, wenn der Handbeleg unter den Belegen der Meldung selbst steht (Meldung = Aussage zu ihrem Tag). */
+function premiereSteht(r: Release): boolean {
+  const quelle = r.premiere?.quelle
+  return premiereBelegtTv(r) && !!quelle && (belegeVonRelease(r) ?? []).some((b) => b.url === quelle)
+}
+
 /**
  * **Die Termine als Meldungen** — angekündigt, auf Disc, im Kino, verschoben.
  *
@@ -196,6 +208,7 @@ function terminMeldungen(
         titel: t,
         platform: r.platform, ...(r.platform === 'tv' && r.sender ? { anbieter: r.sender } : {}),
         ...(r.kanal ? { kanal: r.kanal } : {}),
+        ...(art === 'angekuendigt' && premiereSteht(r) ? { premiere: true } : {}),
         datum,
         release: r.slug,
         ...(art === 'disc' && ausgabeKurz(r.edition) ? { ausgabe: ausgabeKurz(r.edition) } : {}),
@@ -445,7 +458,7 @@ export function baueNews(
   }
 
   /* 3. Termine: angekündigt, auf Disc, im Kino — und die, die niemand eingehalten hat. */
-  roh.push(...terminMeldungen(releases, nachId, heute), ...omuMeldungen([...titles, ...omuTitel], releases), ...offizielleMeldungen(titles, offizielle))
+  roh.push(...haltPremiereFest(historie, terminMeldungen(releases, nachId, heute)), ...omuMeldungen([...titles, ...omuTitel], releases), ...offizielleMeldungen(titles, offizielle))
   /* Das Datum: beim ersten Mal gemerkt, danach unverändert. */
   let datiert: DatiertNews[] = []
   for (const r of roh) {
@@ -481,7 +494,7 @@ export function baueNews(
 
   datiert = ohneDoppelteTakte(ohneDoppelteFolgen(verschmelzeGleicheQuelle(datiert)))
   datiert.push(...pflegeTerminverlauf({ datiert, nachId, historie, vorherige, name, wurzel: wurzelVon, grenze, heute, nurOriginalton }))
-  datiert = bereinigeNews(ohneKuenstlicheAnkuendigung(datiert))
+  datiert = haltFelderFest(historie, bereinigeNews(ohneKuenstlicheAnkuendigung(datiert)), vorherige)
 
   const gruppen = new Map<string, { am: string; wurzel: number; teile: typeof datiert }>()
   for (const m of datiert) {

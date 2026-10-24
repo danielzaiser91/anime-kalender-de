@@ -38482,3 +38482,554 @@
   kanalMessung: ja
   checkedAt: '2026-10-18'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D544CDK6: nur 10 von 11 Folgen geladen — Rest ungeprüft, Abos: animedigitalde, zugang=abo, gti=amzn1.dv.gti.ca381ce0-3037-4e25-8b93-4bdbbceb472a, regionsperre=laut Seite nicht mehr im Abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-21 ---
+
+- anilistId: 20605
+  title: "Tokyo Ghoul"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CHZ951SV
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CHZ951SV: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.b576a306-51b7-45d2-8fc0-c8162d2907fb — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 166794
+  title: "A Sign of Affection"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-81a4b821-1dbe-4ecc-9e01-57a7941982c3
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de, ja"
+
+- anilistId: 20605
+  title: "Tokyo Ghoul"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CHZ951SV
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GVJFZD1W: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.b576a306-51b7-45d2-8fc0-c8162d2907fb — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 116674
+  title: "Bleach: Thousand-Year Blood War"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: ja — Widersprüchliche Meldungen zu Folge 9"
+
+- anilistId: 159322
+  title: "Bleach: Thousand-Year Blood War"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: ja — Widersprüchliche Meldungen zu Folge 9"
+
+- anilistId: 169755
+  title: "Bleach: Thousand-Year Blood War"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Folgen 1–14 mit deutschem Ton — Tonspuren: ja — Widersprüchliche Meldungen zu Folge 9"
+
+- anilistId: 178025
+  title: "Gachiakuta"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-14f5d468-38b2-4d4b-97ed-649e6c3ba4c8
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  checkedAt: '2026-10-21'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de, ja"
+
+- anilistId: 20605
+  title: "Tokyo Ghoul"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CHZ951SV
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0D83P6X34: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.df2c72f7-ac17-4e9d-8f03-3476aae5733e"
+
+- anilistId: 2167
+  title: "Clannad"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0H4LGN96W
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0H4LGN96W: alle 24 Folgen geprüft, Abos: animedigitalde, aniversede, zugang=abo, gti=amzn1.dv.gti.629ca9c8-3bfc-415f-888c-b5baa007b0aa — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-21 ---
+
+- anilistId: 1889
+  title: "Higurashi no Naku Koro ni Kai"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CW5RP53F
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B09JZHRQ18: alle 26 Folgen geprüft, Abos: aniversede, zugang=abo, gti=amzn1.dv.gti.64ed5868-bfbf-4e5f-a79b-66b99918b0f8 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21450
+  title: "JoJo’s Bizarre Adventure: Diamond Is Unbreakable"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GXK7RJFW
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+    - from: 2
+      to: 2
+      dub: false
+      checked: [2]
+    - from: 3
+      to: 6
+      dub: true
+      checked: [3, 4, 5, 6]
+    - from: 7
+      to: 7
+      dub: false
+      checked: [7]
+    - from: 8
+      to: 9
+      dub: true
+      checked: [8, 9]
+    - from: 10
+      to: 10
+      dub: false
+      checked: [10]
+    - from: 11
+      to: 12
+      dub: true
+      checked: [11, 12]
+    - from: 13
+      to: 13
+      dub: false
+      checked: [13]
+    - from: 14
+      to: 14
+      dub: true
+      checked: [14]
+    - from: 15
+      to: 15
+      dub: false
+      checked: [15]
+    - from: 16
+      to: 16
+      dub: true
+      checked: [16]
+    - from: 17
+      to: 20
+      dub: false
+      checked: [17, 18, 19, 20]
+    - from: 21
+      to: 22
+      dub: true
+      checked: [21, 22]
+    - from: 23
+      to: 27
+      dub: false
+      checked: [23, 24, 25, 26, 27]
+    - from: 28
+      to: 31
+      dub: true
+      checked: [28, 29, 30, 31]
+    - from: 32
+      to: 33
+      dub: false
+      checked: [32, 33]
+    - from: 34
+      to: 34
+      dub: true
+      checked: [34]
+    - from: 35
+      to: 35
+      dub: false
+      checked: [35]
+    - from: 36
+      to: 39
+      dub: true
+      checked: [36, 37, 38, 39]
+  kanalMessung: ja
+  checkedAt: '2026-10-21'
+  note: "Folge 1 mit deutschem Ton, Folge 2 ohne deutschen Ton, Folgen 3–6 mit deutschem Ton, Folge 7 ohne deutschen Ton, Folgen 8–9 mit deutschem Ton, Folge 10 ohne deutschen Ton, Folgen 11–12 mit deutschem Ton, Folge 13 ohne deutschen Ton, Folge 14 mit deutschem Ton, Folge 15 ohne deutschen Ton, Folge 16 mit deutschem Ton, Folgen 17–20 ohne deutschen Ton, Folgen 21–22 mit deutschem Ton, Folgen 23–27 ohne deutschen Ton, Folgen 28–31 mit deutschem Ton, Folgen 32–33 ohne deutschen Ton, Folge 34 mit deutschem Ton, Folge 35 ohne deutschen Ton, Folgen 36–39 mit deutschem Ton — Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GXK7RJFW: nur 39 von 78 Folgen geladen — Rest ungeprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.e39b876a-34a9-4453-af4b-afc0d0ae2182 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21450
+  title: "JoJo’s Bizarre Adventure: Diamond Is Unbreakable"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GXK7RJFW
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 25
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    - from: 26
+      to: 26
+      dub: false
+      checked: [26]
+  kanalMessung: ja
+  checkedAt: '2026-10-21'
+  note: "Folgen 1–25 mit deutschem Ton, Folge 26 ohne deutschen Ton — Tonspuren: Français, 日本語 — Amazon-Seite B0CH1GVRKK: alle 26 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.575d2e03-ea02-4669-93ae-5f9079eafff2 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21450
+  title: "JoJo’s Bizarre Adventure: Diamond Is Unbreakable"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CJC149XP
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0CJC149XP: alle 48 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.df04a8a5-ccc5-419a-aa62-81846b1ab8b3 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 102883
+  title: "JoJo’s Bizarre Adventure: Golden Wind"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0G1ZD14D3
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+    - from: 2
+      to: 2
+      dub: false
+      checked: [2]
+    - from: 3
+      to: 6
+      dub: true
+      checked: [3, 4, 5, 6]
+    - from: 7
+      to: 7
+      dub: false
+      checked: [7]
+    - from: 8
+      to: 9
+      dub: true
+      checked: [8, 9]
+    - from: 10
+      to: 10
+      dub: false
+      checked: [10]
+    - from: 11
+      to: 12
+      dub: true
+      checked: [11, 12]
+    - from: 13
+      to: 13
+      dub: false
+      checked: [13]
+    - from: 14
+      to: 14
+      dub: true
+      checked: [14]
+    - from: 15
+      to: 15
+      dub: false
+      checked: [15]
+    - from: 16
+      to: 16
+      dub: true
+      checked: [16]
+    - from: 17
+      to: 20
+      dub: false
+      checked: [17, 18, 19, 20]
+    - from: 21
+      to: 22
+      dub: true
+      checked: [21, 22]
+    - from: 23
+      to: 27
+      dub: false
+      checked: [23, 24, 25, 26, 27]
+    - from: 28
+      to: 31
+      dub: true
+      checked: [28, 29, 30, 31]
+    - from: 32
+      to: 33
+      dub: false
+      checked: [32, 33]
+    - from: 34
+      to: 34
+      dub: true
+      checked: [34]
+    - from: 35
+      to: 35
+      dub: false
+      checked: [35]
+    - from: 36
+      to: 39
+      dub: true
+      checked: [36, 37, 38, 39]
+  kanalMessung: ja
+  checkedAt: '2026-10-21'
+  note: "Folge 1 mit deutschem Ton, Folge 2 ohne deutschen Ton, Folgen 3–6 mit deutschem Ton, Folge 7 ohne deutschen Ton, Folgen 8–9 mit deutschem Ton, Folge 10 ohne deutschen Ton, Folgen 11–12 mit deutschem Ton, Folge 13 ohne deutschen Ton, Folge 14 mit deutschem Ton, Folge 15 ohne deutschen Ton, Folge 16 mit deutschem Ton, Folgen 17–20 ohne deutschen Ton, Folgen 21–22 mit deutschem Ton, Folgen 23–27 ohne deutschen Ton, Folgen 28–31 mit deutschem Ton, Folgen 32–33 ohne deutschen Ton, Folge 34 mit deutschem Ton, Folge 35 ohne deutschen Ton, Folgen 36–39 mit deutschem Ton — Tonspuren: Deutsch, 日本語 — Amazon-Seite B0G1ZD14D3: nur 39 von 78 Folgen geladen — Rest ungeprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.e39b876a-34a9-4453-af4b-afc0d0ae2182 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 102883
+  title: "JoJo’s Bizarre Adventure: Golden Wind"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CJC149XP
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0CJC149XP: alle 48 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.df04a8a5-ccc5-419a-aa62-81846b1ab8b3 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 206814
+  title: "Dragon Ball Super: Beerus"
+  platform: netflix
+  url: https://www.netflix.com/title/83189604
+  dub: false
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: false
+      checked: [1]
+  checkedAt: '2026-10-21'
+  note: "Folge 1 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original] — Durchlauf: Folge 1: Der Gott der Zerstörung"
+
+- anilistId: 102883
+  title: "JoJo’s Bizarre Adventure: Golden Wind"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0G1ZD14D3
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 25
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    - from: 26
+      to: 26
+      dub: false
+      checked: [26]
+  kanalMessung: ja
+  checkedAt: '2026-10-21'
+  note: "Folgen 1–25 mit deutschem Ton, Folge 26 ohne deutschen Ton — Tonspuren: Français, 日本語 — Amazon-Seite B0CH1GVRKK: alle 26 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.575d2e03-ea02-4669-93ae-5f9079eafff2 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 177166
+  title: "Bakugan"
+  platform: netflix
+  url: https://www.netflix.com/title/81659233
+  available: false
+  checkedAt: '2026-10-21'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 100388
+  title: "Banana Fish"
+  platform: netflix
+  url: https://www.netflix.com/title/81218604
+  available: false
+  checkedAt: '2026-10-21'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 185613
+  title: "Der Herr der Ringe: Die Schlacht der Rohirrim"
+  platform: netflix
+  url: https://www.netflix.com/title/81783938
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: en|Englisch [Original], de|Deutsch — Durchlauf: Folge 1: Der Herr der Ringe: Die Schlacht der Rohirrim"
+
+- anilistId: 177509
+  title: "Kakushite! Makina-san!!"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DPLRJNLG
+  available: false
+  checkedAt: '2026-10-21'
+  note: "Amazon-Seite B0FZD2LNZY: nur 0 von 12 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.14ea64df-5a23-4731-89db-c888cba07e24, regionsperre=laut Seite nicht mehr im Abo, ausgaben=2 (Zugangsart gilt nur für diese)"
+
+- anilistId: 131520
+  title: "The Quintessential Quintuplets Movie"
+  platform: netflix
+  url: https://www.netflix.com/title/81717895
+  available: false
+  checkedAt: '2026-10-21'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 9989
+  title: "AnoHana: Die Blume, die wir an jenem Tag sahen"
+  platform: netflix
+  url: https://www.netflix.com/title/80075178
+  available: false
+  checkedAt: '2026-10-21'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 182469
+  title: "One Piece Fan Letter"
+  platform: netflix
+  url: https://www.netflix.com/title/81947352
+  dub: false
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: ja|Japanisch [Original] — Durchlauf: Folge 1: One Piece Fan Letter"
+
+- anilistId: 21459
+  title: "My Hero Academia"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CH24VZJS
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Polski [Opis audio], Português (Brasil), 日本語 — Amazon-Seite B0CH24VZJS: alle 13 Folgen geprüft, Abos: crunchyrollde, rtlde, zugang=abo, gti=amzn1.dv.gti.569f45b9-0529-4b09-af6b-24fe42797b0f — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 97634
+  title: "Pokémon: Die TV-Serie - Sonne & Mond"
+  platform: netflix
+  url: https://www.netflix.com/title/80186475
+  available: false
+  checkedAt: '2026-10-21'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 481
+  title: "Yu-Gi-Oh!"
+  platform: netflix
+  url: https://www.netflix.com/title/70177034
+  available: false
+  checkedAt: '2026-10-21'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 187941
+  title: "Reincarnated as a Dragon Hatchling"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0F18LDC9W
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0F18LDC9W: alle 12 Folgen geprüft, Abos: animedigitalde, zugang=abo, gti=amzn1.dv.gti.bd1f0c07-f666-4387-aca0-b88bc6c0e4d2 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 187941
+  title: "Reincarnated as a Dragon Hatchling"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0F18LDC9W
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0G5JXTY4Z: alle 12 Folgen geprüft, Abos: animedigitalde, zugang=abo, gti=amzn1.dv.gti.bd1f0c07-f666-4387-aca0-b88bc6c0e4d2 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 123802
+  title: "The Saint’s Magic Power Is Omnipotent"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0B6RXJ888
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0B6RXJ888: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.658a3d09-4fdf-4081-a1db-cca040f09748"
+
+- anilistId: 123802
+  title: "The Saint’s Magic Power Is Omnipotent"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0B6RXJ888
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0B8SSCFX5: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.658a3d09-4fdf-4081-a1db-cca040f09748"
+
+- anilistId: 146206
+  title: "The Saint’s Magic Power Is Omnipotent: Staffel 2"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0D4QBFKTT
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D4QBFKTT: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.56c02279-60c3-4977-9bd4-9cd155cae072"
+
+- anilistId: 10019827
+  title: "Bernard Bär: Eine tierische Verschwörung"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FBQZCZLN
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FBQZCZLN: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.1c522c54-762f-41e6-84a6-815e34559593"
+
+- anilistId: 10019532
+  title: "Bernard Bär: Mission Mars"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DT9F1QRC
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0DT9F1QRC: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.2aa8c1e6-aef7-405d-9e32-1e822641059e"
+
+- anilistId: 10015405
+  title: "Die Boonies: Eine bärenstarke Zeitreise"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GXC6GGH6
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0GXC6GGH6: alle 1 Folge geprüft, Abos: kinderweltde, zugang=abo_und_kauf, gti=amzn1.dv.gti.4323100f-0d5e-4bfe-ad18-84faf36f9689 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-21 ---
+
+- anilistId: 170083
+  title: "Dragon Ball Daima"
+  platform: netflix
+  url: https://www.netflix.com/title/81943491
+  dub: false
+  checkedAt: '2026-10-21'
+  note: "Folgen 1–20 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original] — Gemessen in der Randprobe — gemessen: Folge 1 und 20, dazwischen nicht geprüft — Folge 20: Maximum"
+
+- anilistId: 20850
+  title: "Tokyo Ghoul √A"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0D7N68Q5T
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0D7N68Q5T: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.834ee1bc-c7bc-4b4c-839c-ee8826498aed"
+
+- anilistId: 20850
+  title: "Tokyo Ghoul √A"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DCXV5GMB
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0D83P6X34: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.df2c72f7-ac17-4e9d-8f03-3476aae5733e"
+
+- anilistId: 20850
+  title: "Tokyo Ghoul √A"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CW5WH6XZ
+  dub: true
+  checkedAt: '2026-10-21'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CW5WH6XZ: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.a77f6e73-559f-48d2-a23f-ae7495f4af5f"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-24 ---
+
+- anilistId: 20594
+  title: "Sword Art Online II"
+  platform: netflix
+  url: https://www.netflix.com/title/70302573
+  dub: true
+  checkedAt: '2026-10-24'
+  note: "Folgen 1–24 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — Gemessen in der Randprobe — gemessen: Folge 1 und 24, dazwischen nicht geprüft — Folge 24: Mother's Rosario — Netflix: Sword Art Online II"
+
+- anilistId: 11757
+  title: "Sword Art Online"
+  platform: netflix
+  url: https://www.netflix.com/title/70302573
+  dub: true
+  checkedAt: '2026-10-24'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — Gemessen in der Randprobe — gemessen: Folge 1 und 25, dazwischen nicht geprüft — Folge 25: Der Weltensamen — Netflix: Sword Art Online"
+
+- anilistId: 101349
+  title: "Babylon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP
+  dub: true
+  checkedAt: '2026-10-24'
+  note: "Tonspuren: Deutsch — Amazon-Seite 0J16B1NAB82TO0O5A5Q8TLG1VP: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.417bf623-7b72-42f2-8eb8-c04ba6323685"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-24 ---
+
+- anilistId: 128400
+  title: "Saiyuki Reload: Zeroin"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DMFV78H5
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-24'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0DMFV78H5: alle 13 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.2a1969c9-eb89-42e4-a8a4-3ddf8debd6f5 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"

@@ -9,7 +9,8 @@
 import { readFileSync } from 'node:fs'
 import type { DatabaseSync } from 'node:sqlite'
 import worker, { runDigest } from '../worker/src/index.ts'
-import { DIGEST_CRON } from '../worker/src/digest-versand.ts'
+import type { SubscriberRow } from '../worker/src/digest-inhalt.ts'
+import { DIGEST_CRON, versendeDigest } from '../worker/src/digest-versand.ts'
 import { berlinParts } from '../worker/src/werte.ts'
 import { SITES } from '../worker/src/sites.ts'
 import { schreibeStaende, schreibeVerlauf } from '../worker/src/monitor-speicher.ts'
@@ -39,7 +40,7 @@ const versandLog = (db: DatabaseSync) => db.prepare(`SELECT recipients FROM send
 
 async function digest(db: DatabaseSync, anzahl: number): Promise<string | Error> {
   abonnenten(db, anzahl)
-  db.exec('DELETE FROM send_log')
+  db.exec('DELETE FROM send_log; DELETE FROM schreib_tag')
   zaehlerZurueck()
   return runDigest(testEnv(db, 7), JETZT).catch((e: Error) => e)
 }
@@ -75,11 +76,11 @@ async function grenzeJeAbonnentenzahl(db: DatabaseSync) {
     pruefeMails(db, n)
   }
   await digest(db, 150)
-  pruefe(zaehler.stapel.map((s) => s.length).join() === '100,50', 'N=150: zwei Stapel zu 100 und 50 (Resend-Grenze 100)')
-  pruefe(versandLog(db)?.recipients === 150, 'N=150: send_log mit 150 Empfängern')
+  pruefe(zaehler.stapel.map((s) => s.length).join() === '70', 'N=150: ein Stapel mit 70 (Digest-Kappe, nicht 150)')
+  pruefe(versandLog(db)?.recipients === 70, 'N=150: send_log mit 70 Empfängern')
 
   abonnenten(db, 3)
-  db.exec('DELETE FROM send_log')
+  db.exec('DELETE FROM send_log; DELETE FROM schreib_tag')
   zaehlerZurueck()
   await runDigest({ ...testEnv(db, 7), MAIL_PROVIDER: 'console' }, JETZT)
   const gesetzt = zahl(db, 'SELECT COUNT(*) n FROM subscribers WHERE last_sent_at IS NOT NULL')
@@ -90,11 +91,11 @@ async function fehlerfaelle(db: DatabaseSync) {
   zeige('Fehlerfälle:')
   zaehlerZurueck()
   abonnenten(db, 10)
-  db.exec('DELETE FROM send_log')
+  db.exec('DELETE FROM send_log; DELETE FROM schreib_tag')
   zaehler.ablehnen = 1
   const msg = await runDigest(testEnv(db, 7), JETZT).catch((e: Error) => e)
   pruefe(!(msg instanceof Error), 'Resend lehnt ab: Lauf wirft nicht')
-  pruefe(versandLog(db)?.recipients === 0, 'Resend lehnt ab: send_log trotzdem geschrieben, 0 Empfänger')
+  pruefe(versandLog(db) === undefined, 'Resend lehnt ab: kein send_log, der Folgetag sendet nach')
   pruefe(zahl(db, 'SELECT COUNT(*) n FROM subscribers WHERE last_sent_at IS NOT NULL') === 0, 'Resend lehnt ab: last_sent_at bleibt leer')
   pruefe(!zaehler.sql.some((s) => s.includes('SET last_sent_at')), 'Resend lehnt ab: keine leere last_sent_at-Abfrage (spart einen Unteraufruf)')
 
@@ -102,22 +103,27 @@ async function fehlerfaelle(db: DatabaseSync) {
   pruefe(!zaehler.sql.some((s) => s.startsWith('UPDATE')), 'keine Abonnenten: keine Schreibabfrage (Montag ohne Wochen-Abonnenten)')
 
   abonnenten(db, 150)
-  db.exec('DELETE FROM send_log')
   zaehlerZurueck()
   zaehler.ablehnen = 1
-  await runDigest(testEnv(db, 7), JETZT)
-  pruefe(zahl(db, 'SELECT COUNT(*) n FROM subscribers WHERE last_sent_at IS NOT NULL') === 50, 'erster Stapel abgelehnt: nur die 50 des zweiten gelten als versandt')
-  pruefe(versandLog(db)?.recipients === 50, 'erster Stapel abgelehnt: send_log zählt 50')
+  const posten = (db.prepare('SELECT * FROM subscribers').all() as unknown as SubscriberRow[]).map((sub) => ({
+    sub,
+    mail: { subject: 's', html: 'h', text: 't' },
+    unsubUrl: 'u',
+    syncToken: 't' + sub.id,
+  }))
+  const angenommen = await versendeDigest(testEnv(db, 7), posten, JETZT)
+  pruefe(zaehler.stapel.map((s) => s.length).join() === '100,50', 'Versand 150: zwei Stapel zu 100 und 50 (Resend-Grenze 100)')
+  pruefe(angenommen === 50 && zahl(db, 'SELECT COUNT(*) n FROM subscribers WHERE last_sent_at IS NOT NULL') === 50, 'erster Stapel abgelehnt: nur die 50 des zweiten gelten als versandt')
 
   abonnenten(db, 10)
-  db.exec('DELETE FROM send_log')
+  db.exec('DELETE FROM send_log; DELETE FROM schreib_tag')
   zaehlerZurueck()
   zaehler.stoerung = /SET sync_token/
   await runDigest(testEnv(db, 7), JETZT)
   pruefe(zaehler.stapel.length === 0, 'Sync-Schlüssel nicht gespeichert: keine Mail mit totem Abgleich-Link')
-  pruefe(versandLog(db)?.recipients === 0, 'Sync-Schlüssel nicht gespeichert: send_log mit 0')
+  pruefe(versandLog(db) === undefined, 'Sync-Schlüssel nicht gespeichert: kein send_log')
 
-  db.exec('DELETE FROM send_log')
+  db.exec('DELETE FROM send_log; DELETE FROM schreib_tag')
   zaehlerZurueck()
   zaehler.stoerung = /SET last_sent_at/
   const ohneMarke = await runDigest(testEnv(db, 7), JETZT).catch((e: Error) => e)

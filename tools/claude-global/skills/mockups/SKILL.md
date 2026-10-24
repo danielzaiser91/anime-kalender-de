@@ -7,7 +7,7 @@ description: Mockups für anime-kalender-de bauen und beauftragen — seit 11.10
 
 Anlass: Der HTML-Nachbau (`mockups/basis/`, `archiv/…/detail-panel.js`) driftete von der Seite, und die Palette im Navigator wirkte auf den Navigator statt aufs Mockup. Die **Bühne** (`web/buehne/`, Repo anime-kalender-de) rendert die echte App: echte Bauteile, echtes CSS, eingefrorene Fälle (`faelle.json`), fester Zeitpunkt, kein Netz. „Vorher" ist damit immer der Stand von `main`.
 
-**Regel:** Ein neues Mockup ist eine kleine Datei `web/buehne/mockups/<name>.tsx` — nie ein HTML-Nachbau und kein Ausbau von `basis/`. `basis/` und `archiv/` bleiben lauffähig und über den Verlauf des Navigators erreichbar, bekommen aber nichts Neues. (Der Abschnitt „Mockups bauen auf `mockups/basis/`" im Skill `daniel-dateien-pflegen` gilt nur noch für diese Altbestände.)
+**Regel:** Ein neues Mockup ist eine kleine Datei `web/buehne/mockups/<name>.tsx` — nie ein HTML-Nachbau und kein Ausbau von `basis/`. `basis/` und `archiv/` bleiben lauffähig und über den Verlauf des Navigators erreichbar, bekommen aber nichts Neues. (Der Abschnitt „Mockups bauen auf `mockups/basis/`" im Skill `daniel-dateien-pflegen` gilt nur noch für diese Altbestände.) Die Regel steht seit 20.10.2026 auch in der Projekt-`CLAUDE.md`, damit jeder Agent sie ohne Auftragstext kennt (T-134 kam als HTML ohne Leiste in den Navigator, Daniel: „sieht losgelöst aus“). Geht ein Entwurf auf der Bühne nicht, ist das ein Auftrag, die Bühne zu erweitern, keine Ausnahme.
 
 ## Ablauf
 
@@ -21,7 +21,10 @@ Nach dem Umbau wird „Nachher" zur echten Komponente; das Bild muss dem Mockup-
 
 ## Auftragsvorlage für Fable-Entwürfe (Fable entwirft, Sonnet setzt um)
 
-Ein Entwurfsauftrag nennt, was Fable nicht erraten kann, und verlangt als Ergebnis eine Bühnen-Datei, keinen HTML-Text (Ausnahme: neue Ansichten ohne Gegenstück in der App, z. B. Empfehlungen R3/R4 19.10.2026, entstehen als eigenständiges HTML unter `mockups/`):
+Ein Entwurfsauftrag nennt, was Fable nicht erraten kann, und verlangt als Ergebnis eine Bühnen-Datei, keinen HTML-Text. Auch eine neue Ansicht ohne Gegenstück in der App bekommt einen eigenen Ausschnitt auf der Bühne (`web/buehne/ausschnitte/`). Die frühere HTML-Ausnahme (Empfehlungen R3/R4, 19.10.2026) gilt seit 20.10.2026 nicht mehr (Daniel):
+
+**Neue Ansichten ohne Gegenstück (Ausschnitt `entwurf`, seit 20.10.2026):** statt eigenständigem HTML eine Bühnen-Datei mit `Variante.entwurf` (Vorbild `mockups/empfehlung-reise.tsx`, Nutzerzustand über die Fälle `nutzer-neu`/`nutzer-aktiv`). Der Entwurf trennt Laden und Darstellung (`…Ansicht({ fall, data })` ohne Hook), damit der Render-Testrahmen `tools/buehne-entwurf-render.test.ts` ihn per `renderToString` prüft (Anzahl und Reihenfolge der Einträge, Kennzeichen wie ★, fehlende Einträge, Zuordnung Variante → Entwurf); jeder neue Entwurf bekommt dort seine Fälle.
+
 
 ```
 Ziel: <ein Satz, welches Problem des Besuchers gelöst wird>

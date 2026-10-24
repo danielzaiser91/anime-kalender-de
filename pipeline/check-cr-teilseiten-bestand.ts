@@ -7,6 +7,9 @@ import { existsSync } from 'node:fs'
 import { readJson } from './lib/util.ts'
 import { PRUEFLISTE } from './bau/09-7-cr-teilseiten.ts'
 import type { TeilseitenPruefung } from './lib/teilseiten.ts'
+import { bereicheBelegt, belegteFolgen } from './lib/cr-bereiche-belegt.ts'
+import { staffelDesTitels } from './bau/widerlegung-staffel.ts'
+import type { CrDubData } from './lib/crunchyroll-dub.ts'
 import type { Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -21,8 +24,9 @@ const OUT = 'public/data/titles.json'
 if (existsSync(OUT)) {
   const titel = new Map(readJson<Title[]>(OUT, []).map((t) => [t.id, t]))
   const crGeteilt = [...titel.values()].flatMap((t) => t.streams.filter((s) => s.platform === 'crunchyroll' && s.sharedWith && s.dubRanges?.length).map((s) => ({ t, s })))
-  const ueber = crGeteilt.filter(({ t, s }) => !t.episodes || s.dubRanges!.some((r) => r.from < 1 || r.to < r.from || r.to > t.episodes!))
-  pruefe('Bestand: Bereiche geteilter Crunchyroll-Seiten liegen in 1 bis Folgenzahl', ueber.length === 0, ueber.map((x) => x.t.id).slice(0, 10).join())
+  const crDub = readJson<CrDubData>('data/crunchyroll-dub.json', { scrapedAt: '', serien: [] })
+  const ueber = crGeteilt.filter(({ t, s }) => (t.episodes ? s.dubRanges!.some((r) => r.from < 1 || r.to < r.from || r.to > t.episodes!) : !bereicheBelegt(s.dubRanges!, belegteFolgen(crDub, s.url, staffelDesTitels(t, titel.values())))))
+  pruefe('Bestand: Bereiche geteilter Crunchyroll-Seiten liegen in 1 bis Folgenzahl, ohne Folgenzahl nur auf belegten deutschen Folgen', ueber.length === 0, ueber.map((x) => x.t.id).slice(0, 10).join())
   const liste = readJson<TeilseitenPruefung[]>(PRUEFLISTE, [])
   // Titel, die ein späterer Bauschritt in den Katalog verschiebt (Specials, Zusammenfassungen), sind ebenfalls vorhanden.
   const katalog = new Set(readJson<Title[]>('public/data/ohne-synchro.json', []).map((t) => t.id))

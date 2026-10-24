@@ -1,17 +1,17 @@
 # Was zu tun ist
 
-Stand: 2026-10-20 — **erzeugt aus dem ausgelieferten Datensatz**,
+Stand: 2026-10-24 — **erzeugt aus dem ausgelieferten Datensatz**,
 nicht von Hand gepflegt. Wer hier eine Zahl ändert, ändert sie am
 falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
-| 1 | Prime Video — Suchseiten | 21 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
-| 2 | [Prime Video — Titelseiten](listen/07-primevideo.md) | 47 Adressen, 224 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
-| 3 | [Netflix](listen/06-netflix-rest.md) | 71 Titel, 9 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
+| 1 | Prime Video — Suchseiten | 18 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
+| 2 | [Prime Video — Titelseiten](listen/07-primevideo.md) | 41 Adressen, 221 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 3 | [Netflix](listen/06-netflix-rest.md) | 62 Titel, 6 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
 | 4 | [Suchadressen — welcher Titel steckt dahinter?](listen/18-suchadressen.md) | 2 Adressen | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
-| 5 | [Crunchyroll](listen/07-crunchyroll.md) | 12 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
-| 7 | [Disney+](listen/07-disneyplus.md) | 50 Titel, 6 Verweise | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
+| 5 | [Crunchyroll](listen/07-crunchyroll.md) | 9 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
+| 7 | [Disney+](listen/07-disneyplus.md) | 48 Titel, 4 Verweise | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
 | 8 | [Disney+ — sind es wirklich 2?](listen/21-disneyplus-gruen.md) | 2 Titel, alle Folgen grün | ~2 min | die Frage, ob die Liste recht hat oder das Grün lügt |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.
@@ -20,8 +20,8 @@ schickt die Meldung ab. Die Listen hier sind zum Nachschlagen, nicht zum Abtippe
 
 ## Was das bringt
 
-Von 2922 Titeln zeigen **346** keinen einzigen Bezugsweg,
-**201** davon mit belegter deutscher Synchro. Für die ist die
+Von 2922 Titeln zeigen **345** keinen einzigen Bezugsweg,
+**200** davon mit belegter deutscher Synchro. Für die ist die
 Antwort auf „wo kann ich das sehen?" heute: nirgends bekannt. Jede Meldung von hier
 macht eine davon weniger.
 

@@ -147,12 +147,10 @@ assert.equal(h.hookNummer(h.offeneZeile(pr(901001, { title: '[Prüfung rot] x', 
 assert.equal(h.berlin('2026-10-19T22:30:00Z'), '20.10. 00:30', 'Berliner Tag, nicht UTC')
 assert.equal(h.berlin('2026-12-31T23:05:00Z'), '01.01. 00:05', 'Jahreswechsel, Winterzeit')
 assert.equal(h.berlin(Date.parse('2026-07-01T10:00:00Z')), '01.07. 12:00', 'Sommerzeit, Zahl als Zeit')
-assert.equal(h.gemergtZeile(gemergt(901009, '2026-10-19T13:35:44Z', 'fix: Netflix')), `- [klein] **Netflix** — gemergt 19.10. 15:35 — [PR 901009](${ADR}901009)`)
-assert.equal(h.hookNummer(h.gemergtZeile(gemergt(901009, '2026-10-19T13:35:44Z'))), 901009)
 assert.equal(h.hinweisZeile(JETZT, 'gh: 502'), '- **PR-Liste veraltet** — Stand 20.10. 00:30; Abruf scheitert: gh: 502')
 assert.equal(h.hinweisZeile(0, 'x'), '- **PR-Liste veraltet** — Stand unbekannt; Abruf scheitert: x')
 
-// --- reihen: bereite zuerst, sonst neueste zuerst; gemergt im 24-h-Fenster ohne Sammler ---
+// --- reihen: bereite zuerst, sonst neueste zuerst; gemergt im 24-h-Fenster ohne Sammler als eine Sammelzeile ---
 const grenze = JETZT - 24 * 60 * MIN
 const offenListe = [pr(901001, { kommentare: [] }), pr(901002), pr(901003, { rollup: 'FAILURE' }), pr(901004, { isDraft: true })]
 const merge = [
@@ -163,7 +161,11 @@ const merge = [
   gemergt(901014, null),
   gemergt(901015, iso(JETZT - 3 * MIN), 'chore(wache): Wache durchgesehen'),
 ]
-assert.deepEqual(h.reihen({ offen: offenListe, gemergt: merge }, JETZT).map((r) => r.nummer), [901002, 901004, 901003, 901001, 901013, 901015, 901011], 'nur chore(data) fällt')
+assert.deepEqual(h.reihen({ offen: offenListe, gemergt: merge }, JETZT).map((r) => r.nummer), [901002, 901004, 901003, 901001, 0], 'gemergte: nur die Sammelzeile')
+const sammel = h.reihen({ offen: offenListe, gemergt: merge }, JETZT).at(-1).zeile
+assert.equal(sammel, `- [klein] **Gemergt in 24 h: 3** — zuletzt 20.10. 00:28 — [alle](${h.GEMERGT_LISTE})`, 'chore(data) fällt, 901010 (zu alt) und 901014 (ohne Merge) zählen nicht, jüngster ist 901013')
+assert.deepEqual(h.reihen({ offen: offenListe, gemergt: [gemergt(901012, iso(JETZT - MIN), 'chore(data): x')] }, JETZT).map((r) => r.nummer), [901002, 901004, 901003, 901001], 'ohne gemergte keine Sammelzeile')
+assert.deepEqual(h.reihen({ offen: offenListe, gemergt: [merge[3]] }, JETZT).at(-1), { nummer: 0, zeile: `- [klein] **Gemergt in 24 h: 1** — zuletzt 20.10. 00:28 — [alle](${h.GEMERGT_LISTE})` }, 'genau einer')
 assert.ok(h.reihen({ offen: offenListe, gemergt: merge }, JETZT).every((r) => h.hookNummer(r.zeile) === r.nummer))
 
 // --- holePrs gegen den Nachbau: Vollständigkeit ---
@@ -172,12 +174,13 @@ const aelter = (n) => Array.from({ length: n }, (_, i) => gemergt(900500 + i, is
 let aufrufe = []
 const tag = h.holePrs(ghNachbau({ offen: [pr(901001)], gemergt: [...imFenster(31), ...aelter(5)] }, aufrufe), JETZT)
 assert.equal(aufrufe.length, 1, '31 Merges in 24 h: eine Abfrage reicht')
-assert.equal(h.reihen(tag, JETZT).length, 1 + 31, 'alle 31 gemergten')
+assert.match(h.reihen(tag, JETZT).at(-1).zeile, /Gemergt in 24 h: 31[^0-9]/, 'alle 31 gemergten gezählt')
+assert.equal(h.reihen(tag, JETZT).length, 2, 'ein offener PR und die Sammelzeile')
 aufrufe = []
 const viel = h.holePrs(ghNachbau({ gemergt: [...aelter(7), ...imFenster(150)] }, aufrufe), JETZT)
 assert.equal(aufrufe.length, 2, '150 Merges: zwei Seiten')
 assert.ok(aufrufe[1].includes('nach=100') && aufrufe[1].some((a) => a.startsWith('query=') && !a.includes('offen:')), 'zweite Seite: nur gemergte, ab Cursor')
-assert.equal(h.reihen(viel, JETZT).length, 150)
+assert.match(h.reihen(viel, JETZT)[0].zeile, /Gemergt in 24 h: 150/)
 aufrufe = []
 h.holePrs(ghNachbau({ gemergt: [...imFenster(99), ...aelter(5)] }, aufrufe), JETZT)
 assert.equal(aufrufe.length, 1, 'letzter Eintrag der Seite älter als 24 h: nicht weiter blättern')
@@ -185,7 +188,7 @@ aufrufe = []
 h.holePrs(ghNachbau({ gemergt: [...imFenster(99), gemergt(901999, iso(grenze)), ...aelter(5)] }, aufrufe), JETZT)
 assert.equal(aufrufe.length, 2, 'genau an der Grenze: weiter blättern')
 const spaetKommentiert = h.holePrs(ghNachbau({ gemergt: [gemergt(901500, iso(grenze - 60 * MIN), 'fix: alt', iso(JETZT - MIN)), ...imFenster(3)] }), JETZT)
-assert.deepEqual(h.reihen(spaetKommentiert, JETZT).map((r) => r.nummer), [901100, 901101, 901102], 'nach dem Merge kommentiert: zählt nach mergedAt')
+assert.match(h.reihen(spaetKommentiert, JETZT)[0].zeile, /Gemergt in 24 h: 3[^0-9]/, 'nach dem Merge kommentiert: zählt nach mergedAt')
 assert.throws(() => h.holePrs(ghNachbau({ gemergt: [...imFenster(2001, MIN / 2)] }), JETZT), /mehr als 20 Seiten/)
 assert.equal(h.holePrs(ghNachbau({ gemergt: imFenster(2000, MIN / 2) }), JETZT).gemergt.length, 2000, '20 Seiten ohne Rest reichen')
 const hundert = Array.from({ length: 100 }, (_, i) => pr(902000 + i))
@@ -239,7 +242,7 @@ try {
   const zustand = () => JSON.parse(readFileSync(zustandDatei, 'utf8'))
   const lies = () => readFileSync(datei, 'utf8')
   const ALT = Date.parse('2026-10-01T08:00:00Z')
-  writeFileSync(datei, '# Stand\r\n## In Arbeit\r\n- ▶ **Hand** — bleibt\r\n\r\n## Als Nächstes\r\n- x\r\n')
+  writeFileSync(datei, '# Stand\r\n## In Arbeit (Stand 31.12.2999 00:00)\r\n- ▶ **Hand** — bleibt\r\n\r\n## Als Nächstes\r\n- 🔵 x\r\n')
   utimesSync(datei, new Date(ALT), new Date(ALT))
   const daten = { offen: [pr(901001, { kommentare: [] }), pr(901002)], gemergt: [gemergt(901009, iso(JETZT - MIN))] }
   const jetztLauf = (gh, t) => h.lauf({ jetzt: true }, { env, gh, jetzt: t })
@@ -259,11 +262,11 @@ try {
   assert.ok(existsSync(`${datei}.pr-sperre`), 'fremde Sperre bleibt')
   assert.deepEqual(jetztLauf(ghNachbau(daten), JETZT + 2 * MIN), { ergebnis: 'unverändert', erfolg: true }, 'verwaiste Sperre übernommen')
   const mitHandzeile = (args) => {
-    writeFileSync(datei, lies().replace('- x\r\n', '- x\r\n- **Während der Abfrage**\r\n'))
+    writeFileSync(datei, lies().replace('- 🔵 x\r\n', '- 🔵 x\r\n- 🔵 **Während der Abfrage**\r\n'))
     return ghNachbau({ ...daten, offen: [pr(901003)] })(args)
   }
   assert.equal(jetztLauf(mitHandzeile, JETZT + 3 * MIN).ergebnis, 'geschrieben (2 Zeilen)')
-  assert.ok(lies().includes('- **Während der Abfrage**\r\n') && lies().includes('[PR 901003]') && !lies().includes('[PR 901001]'))
+  assert.ok(lies().includes('- 🔵 **Während der Abfrage**\r\n') && lies().includes('[PR 901003]') && !lies().includes('[PR 901001]'))
 
   // Abruffehler: still bis VERALTET nach dem letzten Erfolg, danach Hinweiszeile und laut; Erfolg räumt sie weg.
   const kaputt = () => {
@@ -304,7 +307,7 @@ try {
   assert.ok(!existsSync(`${datei}.pr-sperre`), 'Sperre nach Fehler frei')
 
   // Prozess: Hook-Eingabe auf stdin, gh als Attrappe; still bei Erfolg, systemMessage bei kaputter Marke.
-  writeFileSync(datei, '## In Arbeit\n- Hand\n')
+  writeFileSync(datei, '## In Arbeit (Stand 31.12.2999 00:00)\n- Hand\n')
   rmSync(zustandDatei)
   const log = join(ordner, 'attrappe.log')
   const prozessEnv = { ...process.env, ...env, STAND_PRS_GH_SKRIPT: ATTRAPPE, STAND_PRS_ATTRAPPE_LOG: log }
@@ -312,7 +315,7 @@ try {
   const p1 = hook({ hook_event_name: 'UserPromptSubmit' })
   assert.equal(p1.status, 0, p1.stderr)
   assert.equal(p1.stdout, '', 'Erfolg ist still')
-  assert.ok(lies().startsWith(`## In Arbeit\n- Hand\n${h.AUF}\n- **Zweiter offener PR** — CI ok · Prüfer R1 freigeben · Checks grün`), lies())
+  assert.ok(lies().startsWith(`## In Arbeit (Stand 31.12.2999 00:00)\n- Hand\n${h.AUF}\n- **Zweiter offener PR** — CI ok · Prüfer R1 freigeben · Checks grün`), lies())
   assert.equal(readFileSync(log, 'utf8'), 'richtig: api graphql\n')
   writeFileSync(datei, `${lies()}\n${h.ZU}\n`)
   const p2 = hook(post('"/c/Program Files/GitHub CLI/gh.exe" pr merge 901002 --squash'))

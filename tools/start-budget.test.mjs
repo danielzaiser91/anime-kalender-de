@@ -24,7 +24,7 @@ const html = (teil = '["meta","woche"]') => `<html><head>
 <link rel="stylesheet" crossorigin href="/assets/index-H.css">
 <script>var voll = ["meta","titles-core"], teil = ${teil}, nimm = voll;</script></head></html>`
 const MANROPE = 'assets/manrope-latin-wght-normal-X1.woff2'
-const UNBOUNDED = 'assets/unbounded-latin-700-normal-X2.woff2'
+const UNBOUNDED = 'assets/unbounded-700-de-X2.woff2'
 const face = (datei) => `@font-face{font-family:F;src:url(/${datei}) format("woff2")}`
 // Manrope im mittleren, Unbounded im letzten Stylesheet; Schriften, die nicht zum Start gehören, stehen daneben.
 const cssF = face('assets/manrope-cyrillic-wght-normal-X0.woff2')
@@ -102,7 +102,7 @@ aufraeumen(dist)
 
 // Startschrift per Dateinamen-Anfang: eine Schrift, die den Namen nur enthält, ist nicht die Startschrift.
 {
-  const lookalike = face('assets/x-manrope-latin-wght-normal-Y.woff2') + face('assets/unbounded-latin-700-normal-Y.woff2').replace('unbounded', 'zunbounded')
+  const lookalike = face('assets/x-manrope-latin-wght-normal-Y.woff2') + face('assets/unbounded-700-de-Y.woff2').replace('unbounded', 'zunbounded')
   const d = kulisse({}, html(), { F: cssF, G: lookalike + cssG, H: cssH })
   writeFileSync(join(d, 'assets', 'index-F.css'), cssF)
   writeFileSync(join(d, 'assets', 'index-G.css'), lookalike + cssG)
@@ -118,7 +118,7 @@ const codeBytes = gemessen.reduce((s, z) => s + z.bytes, 0)
 assert.ok(codeBytes > 30000 && codeBytes < 31000, `Code und Daten ${codeBytes}`)
 let r = lauf(dist)
 assert.equal(r.status, 0)
-assert.match(r.stdout, /^start-budget: 4\d\.\d KB gzip von 330\.0 KB, 28\d\.\d KB Luft \(Code und Daten 29\.\d KB \+ Schriften 15\.6 KB\)$/m)
+assert.match(r.stdout, /^start-budget: 4\d\.\d KB gzip von 300[.]0 KB, 25\d\.\d KB Luft \(Code und Daten 29\.\d KB \+ Schriften 15\.6 KB\)$/m)
 // Grenzwert: genau die Summe besteht, ein Byte weniger nicht.
 const summe = codeBytes + 16000
 assert.equal(bewerte(dist, summe).code, 0)
@@ -128,20 +128,20 @@ assert.match(knapp.text, /^start-budget: [\d.]+ KB gzip, 0\.0 KB über der Grenz
 // Ohne Argument misst der Lauf `dist` im aktuellen Ordner.
 r = lauf(dist, join(dist, '..'))
 assert.equal(r.status, 0)
-assert.match(r.stdout, /^start-budget: 4\d\.\d KB gzip von 330\.0 KB/m)
+assert.match(r.stdout, /^start-budget: 4\d\.\d KB gzip von 300[.]0 KB/m)
 aufraeumen(dist)
 
 // Über der Grenze: Exit 1, Aufschlüsselung mit jeder Startdatei und jeder Startschrift auf eigener Zeile.
 dist = kulisse({ ...alle, 'data/woche.json': GRENZE + 5000 })
 r = lauf(dist)
 assert.equal(r.status, 1)
-assert.match(r.stderr, /^start-budget: 3\d\d\.\d KB gzip, \d+\.\d KB über der Grenze von 330\.0 KB \(Code und Daten/m)
+assert.match(r.stderr, /^start-budget: 3\d\d\.\d KB gzip, \d+\.\d KB über der Grenze von 300[.]0 KB \(Code und Daten/m)
 for (const pfad of [...start.dateien, MANROPE, UNBOUNDED]) assert.match(r.stderr, new RegExp(`^ +[\\d.]+ KB  ${pfad.replace(/[.]/g, '\\.')}$`, 'm'))
 assert.doesNotMatch(r.stderr, /titles-core|Dialog|cyrillic|latin-500/)
 aufraeumen(dist)
 
 // Eine Startschrift fehlt im CSS: Exit 1 mit Namen, nie stilles Bestehen.
-for (const [name, css] of [['manrope-latin-wght', { F: cssF, G: cssG.replace(face(MANROPE), ''), H: cssH }], ['unbounded-latin-700', { F: cssF, G: cssG, H: '' }]]) {
+for (const [name, css] of [['manrope-latin-wght', { F: cssF, G: cssG.replace(face(MANROPE), ''), H: cssH }], ['unbounded-700-de', { F: cssF, G: cssG, H: '' }]]) {
   dist = kulisse(alle, html(), css)
   r = lauf(dist)
   assert.equal(r.status, 1)
@@ -175,7 +175,7 @@ console.log('start-budget.test: ok')
 // Verdrahtung: beide Bau-Skripte rufen den Wächter als eigenen Schritt auf, nach dem Web-Bau (vite build) und vor dem Dateibudget.
 const skripte = JSON.parse(readFileSync(join(import.meta.dirname, '..', 'package.json'), 'utf8')).scripts
 for (const name of ['build', 'build:schlank']) {
-  const schritte = skripte[name].split(' && ')
+  const schritte = skripte[name].replace(/node tools\/bau-eingaben\.mjs "([^"]*)"/, (_, innen) => innen).split(' && ')
   const i = schritte.indexOf('node tools/start-budget.mjs')
   assert.ok(i > schritte.indexOf('vite build'), `${name}: start-budget nach vite build`)
   assert.equal(schritte[i - 1], 'tsx pipeline/check-teilseiten.ts', `${name}: start-budget direkt nach check-teilseiten`)

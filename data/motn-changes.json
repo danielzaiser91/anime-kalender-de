@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 71
+    "2026-10": 83
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1048,7 +1048,7 @@
       "imdbId": "tt31804242",
       "tmdbId": "tv/248516",
       "dienst": "prime",
-      "am": "2026-10-06",
+      "am": "2026-10-20",
       "deutsch": false
     },
     "removed:1979:prime": {
@@ -4428,7 +4428,7 @@
       "imdbId": "tt10133370",
       "tmdbId": "tv/100604",
       "dienst": "prime",
-      "am": "2026-09-25",
+      "am": "2026-10-20",
       "deutsch": true
     },
     "removed:34920:prime": {
@@ -4708,7 +4708,7 @@
       "imdbId": "tt2261391",
       "tmdbId": "tv/44006",
       "dienst": "prime",
-      "am": "2026-10-14",
+      "am": "2026-10-22",
       "deutsch": true
     },
     "removed:4869:netflix": {
@@ -6328,7 +6328,7 @@
       "imdbId": "tt0920489",
       "tmdbId": "tv/37290",
       "dienst": "prime",
-      "am": "2026-10-12",
+      "am": "2026-10-20",
       "deutsch": true
     },
     "removed:13510:netflix": {
@@ -6738,7 +6738,7 @@
       "imdbId": "tt31719701",
       "tmdbId": "tv/261306",
       "dienst": "prime",
-      "am": "2026-10-12",
+      "am": "2026-10-20",
       "deutsch": false
     },
     "removed:62101:prime": {
@@ -8750,7 +8750,117 @@
       "dienst": "prime",
       "am": "2026-10-19",
       "deutsch": false
+    },
+    "new:16798:prime": {
+      "art": "new",
+      "titel": "Beyond the Walls",
+      "originalTitel": "Au-delà des murs",
+      "imdbId": "tt4999820",
+      "tmdbId": "tv/67979",
+      "dienst": "prime",
+      "am": "2026-10-21",
+      "deutsch": true
+    },
+    "new:6416386:prime": {
+      "art": "new",
+      "titel": "Undercover: Caught on Tape",
+      "originalTitel": "Undercover: Caught on Tape",
+      "imdbId": "tt17524192",
+      "tmdbId": "tv/243357",
+      "dienst": "prime",
+      "am": "2026-10-20",
+      "deutsch": true
+    },
+    "new:27067195:disney": {
+      "art": "new",
+      "titel": "Phony",
+      "originalTitel": "Phony",
+      "imdbId": "tt21952924",
+      "tmdbId": "tv/275139",
+      "dienst": "disney",
+      "am": "2026-10-20",
+      "deutsch": false
+    },
+    "new:91675:prime": {
+      "art": "new",
+      "titel": "Peter Voss, der Millionendieb",
+      "originalTitel": "Peter Voss, der Millionendieb",
+      "imdbId": "tt0174414",
+      "tmdbId": "tv/63690",
+      "dienst": "prime",
+      "am": "2026-10-22",
+      "deutsch": true
+    },
+    "new:59576:prime": {
+      "art": "new",
+      "titel": "Le Chevalier de Maison Rouge",
+      "originalTitel": "Le Chevalier de Maison Rouge",
+      "imdbId": "tt0169422",
+      "tmdbId": "tv/75529",
+      "dienst": "prime",
+      "am": "2026-10-22",
+      "deutsch": true
+    },
+    "new:27066513:netflix": {
+      "art": "new",
+      "titel": "The New Stanford Prison Experiment",
+      "originalTitel": "The New Stanford Prison Experiment",
+      "imdbId": "tt46658083",
+      "tmdbId": "tv/335319",
+      "dienst": "netflix",
+      "am": "2026-10-21",
+      "deutsch": false
+    },
+    "new:24333962:netflix": {
+      "art": "new",
+      "titel": "Juan Gabriel: I Must, I Can, I Will",
+      "originalTitel": "Juan Gabriel: Debo, puedo y quiero",
+      "imdbId": "tt28235034",
+      "tmdbId": "tv/283396",
+      "dienst": "netflix",
+      "am": "2026-10-24",
+      "deutsch": false
+    },
+    "new:27299962:netflix": {
+      "art": "new",
+      "titel": "LOST10",
+      "originalTitel": "LOST10",
+      "imdbId": "tt49276654",
+      "tmdbId": "tv/329490",
+      "dienst": "netflix",
+      "am": "2026-10-24",
+      "deutsch": false
+    },
+    "new:26598842:netflix": {
+      "art": "new",
+      "titel": "Did Someone Happen to Mention Me?",
+      "originalTitel": "俺のこと、なんか言ってた？",
+      "imdbId": "tt38337376",
+      "tmdbId": "tv/300527",
+      "dienst": "netflix",
+      "am": "2026-10-24",
+      "deutsch": false
+    },
+    "new:26635555:netflix": {
+      "art": "new",
+      "titel": "Fading Grandeur",
+      "originalTitel": "Grande de España",
+      "imdbId": "tt39387986",
+      "tmdbId": "tv/335535",
+      "dienst": "netflix",
+      "am": "2026-10-23",
+      "deutsch": false
+    },
+    "new:54303:disney": {
+      "art": "new",
+      "titel": "Die Kirche bleibt im Dorf",
+      "originalTitel": "Die Kirche bleibt im Dorf",
+      "imdbId": "tt2844130",
+      "tmdbId": "tv/60872",
+      "dienst": "disney",
+      "am": "2026-10-23",
+      "deutsch": true
     }
   },
-  "fetchedAt": "2026-10-20T04:13:37.600Z"
+  "fetchedAt": "2026-10-24T04:12:22.676Z"
 }

@@ -5,7 +5,8 @@
  * liefert den Verlauf („wann, wie oft, wie lang") und einen Alarm, wenn mehrere Messungen hintereinander schlecht sind.
  * Der Abruf läuft bei Cloudflare, also außerhalb von GitHub Pages; er zeigt, was ein Besucher von außen erreicht.
  */
-import { sendMail, type Mail, type MailEnv } from './mail.ts'
+import { type Mail, type MailEnv } from './mail.ts'
+import { sendeUndZaehle } from './mail-zaehler.ts'
 import { LANGSAM_MS, SCHLECHT_IN_FOLGE, alarmEntscheidung } from '../../shared/schnellmessung-regeln.ts'
 import { fehlerLog } from './werte.ts'
 
@@ -107,7 +108,7 @@ async function alarmPruefen(env: SchnellEnv, probe: Probe, nowIso: string): Prom
       html: `<p><b>${probe.url}</b></p><p>Seit drei Messungen in Folge (je 5 Minuten Abstand) zu langsam oder nicht erreichbar.</p><p>Letzter Grund: ${grund}</p>`,
       fromName: 'Anime-Kalender Wächter',
     }
-    await sendMail(env, mail).catch((e) => fehlerLog('[schnell] Mail fehlgeschlagen', e))
+    await sendeUndZaehle(env, mail).catch((e) => fehlerLog('[schnell] Mail fehlgeschlagen', e))
   }
   return `${probe.name}: ALARM (${grund})`
 }

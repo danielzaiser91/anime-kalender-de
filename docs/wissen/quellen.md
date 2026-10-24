@@ -465,6 +465,13 @@ der 209 Titel mit verlorenem Häkchen `de` am Kanal-Angebot (Hell Mode: nur `ja`
 gti am Weg, die „Deutsch laut JustWatch“ (`lib/jw-vertrauen.ts`) verlangt — das Kennzeichen kommt, sobald
 die Erweiterung die gti liest.
 
+**Die gemeldeten Folgen erkennen eine Kanal-Seite nur über einen Handbeleg** (16.10.2026, Bestandsbau rot an
+Demon Slayer 166240/145139). `rohDeutsch()` kennt Kanal-Seiten nur aus Zeilen mit `kanalOhneBeleg`; eine neue
+Meldung zu einer Kanal-Seite ohne solche Zeile setzt das Häkchen, und das Erbe vom Anbieter setzt es auch. Gegen
+Termine, die alle `sprache` tragen, nimmt `tonDerKanalWege()` (`bau/deutsch-nicht-gegen-sprach-termin.ts`) jedes
+Kanal-Ja ohne Handbeleg wieder weg, nach dem Erbe. Offen: 19 Rohmeldungs-Ja an Kanal-Wegen ohne Termin (gemessen
+16.10.2026 an `prime-zugeordnet.json`), darunter Aniverse-Titel wie Yu-Gi-Oh! GX, die ohne das Häkchen keins mehr trügen.
+
 **Ein Nein zu einer anderen Adresse gilt für den Kanal-Weg nicht** (12.10.2026, Prüfer: Goblin Slayer II, JoJo
 Diamond is Unbreakable). Nach `ohneKanalSprache()` hat die Kanal-Zeile kein `dub` mehr und zählt als Adressbeleg;
 `belegFuer()` fiel bei einem Weg auf `liste[0]` zurück und nahm das Nein einer fremden Adresse. Jetzt hält die
@@ -948,11 +955,11 @@ Standort, Altersfreigabe oder Abo. Entschieden wird sie mit zwei Griffen: die
 „Children of the Sea" war die Suche leer und die Freigabe stand auf 18, der
 höchsten Stufe; damit blieb nur die Region übrig.
 
-**Die Erweiterung meldet deshalb nichts davon von selbst.** Sie bietet auf einer
+**Die Erweiterung meldet deshalb nichts davon von selbst (Ausnahme seit 4.31.11: der Durchgang bei dem Hinweis, siehe unten).** Sie bietet auf einer
 Fehlerseite einen zweiten Versuch an; „nichts da" bleibt ein Klick von Hand. Auch der
 Durchgang (▶ alle durchgehen) meldet bei Startseiten-Umleitung oder dem Hinweis „nicht in
 deinem Gebiet verfügbar" nichts an den Worker: Er merkt den Titel nur lokal und öffnet ihn
-7 Tage lang nicht wieder (`erweiterung.md`, 4.30.9; Entscheidung 13.10.2026, Prüfer zu PR 1147).
+7 Tage lang nicht wieder (`erweiterung.md`, 4.30.9; Entscheidung 13.10.2026, Prüfer zu PR 1147). **Seit 4.31.11 (21.10.2026) meldet der Durchgang den Hinweis „nicht in deinem Gebiet verfügbar“ selbst** (Dirigent, Anlass sechs von Hand geprüfte Titel); Startseiten-Umleitung und Zeitablauf melden weiterhin nichts (`erweiterung.md`).
 
 ### Disney+ führt dieselbe Serie unter zwei Adressen
 
@@ -3245,6 +3252,8 @@ Spur durch den Bau (Ersatz-Cache-Bau, Zwischenstände je Phase): Der Weg steht n
 
 Bau-Vergleich (Ersatz-Cache, Basis `5f19fbc21`): Durarara!! Tenka Taihei bekommt den Crunchyroll-Weg; die beiden Heart-Throb-Titel (18671, 20889) tragen statt der alten kurzen Adresse die Adresse ihres Handbelegs (Daniel, 13.09.). Nicht angefasst, aber derselben Ursache (US-Nein über die Kennung, deutscher Katalog führt die Serie): Digimon (552), Digimon 02 (1313) und SNAFU Climax (108489) verlieren weiter die Adresse, die der Bau ihrer Kennung zuordnet (`data/verweise-entfernt.json`). Durarara!! (6746) behält seinen Weg `crunchyroll.com/durarara`; verloren geht nur `crunchyroll.com/de/durarara`, die Adresse mit der Kennung `G619XVNEY`. Durarara!! Specials (8408) steht seit dem 13.10. nicht mehr im Hauptbestand. Der zurückgeholte Weg trägt keine Meldung „neu auf Deutsch“ oder „jetzt auch bei“ (`meldetNeu` in `lib/news.ts`): Er belegt das Angebot, nicht seinen Beginn — die Folge ist laut `crunchyroll-dub.json` seit 2022 deutsch, die Meldung trüge den Aufnahmetag 07.10. Ein jüngeres `available: false` zur selben Adresse nimmt dem Ja den Weg. Zusicherung: `pipeline/check-handbeleg-weg.ts` (in `check:logic`).
 
+**Nachtrag 24.10.2026 – US-Nein trifft nur die US-Adresse (`lib/cr-us-nein-adresse.ts`).** Belegt der deutsche Katalog dieselbe Serienkennung mit mindestens einer deutschen Folge (`staffeln[].deutsch > 0`), behält ein Weg auf eine `/de/`-Adresse sein Leben, auch wenn ein US-Satz die Serie als „nicht verfügbar“ meldet; ein deutsches „nicht verfügbar“ oder eine Serie ohne Staffel entfernt weiter über dieselbe Kennung. Gemessen an `data/crunchyroll-dub.json` und den 707 Crunchyroll-Wegen aus `data/verweise-entfernt.json` (Stand 24.10.2026): von den fünf Titeln des Fundes (Durarara!!, Specials, Digimon, Digimon 02, SNAFU Climax) wäre heute nur SNAFU Climax betroffen, dessen deutscher Satz drei Staffeln mit 0 deutschen Folgen zählt (`ja-JP`): ohne deutschen Ton kein Beleg, der Weg fällt wie bisher. Die anderen vier tragen inzwischen deutsche Sätze statt eines US-Satzes. Heutige Wirkung auf den Bestand: keine; die Regel schützt künftige Fälle.
+
 ## Tokyo Revengers Staffel 3: Disney+-Start verpasst, falsche Crunchyroll-Zuordnung (04.10.2026)
 
 Daniel am 04.10.2026: „War of the Three Titans" lief bei Disney+ auf Deutsch, im Kalender fehlte der Titel komplett, und die News behauptete „Neu auf Deutsch bei Crunchyroll".
@@ -3899,6 +3908,7 @@ Anlass: „Snowball Earth“ — ein Handbeleg „keine Synchro“ (`data/dub-co
 - **Gemessen (14.10.2026):** 573 Nein-Schlüssel; 28 Nein gelten danach nur ihrer Adresse (24 Titel, fast alle Prime), keines ist ganz aufgehoben. Bau-Vergleich `--katalog` acf8fd784 → ba39407c0: Abo-Wege aus JustWatch 5 → 7, genau Digimon 552 (gti 70a9f6b2…, Prime-Flatrate, Ton de) und Haganai 10719 (gti 6b0f25fd…, Ton de/ja), sonst keine Datei verschieden. Nach der Nachbesserung (Ja ohne Adresse zählt nicht, Haganai-Beleg berichtigt) schreibt der Bau dasselbe (Bau-Vergleich `--katalog` 8788c94d9 → 000038015): 212888 sperrt Crunchyroll wieder ganz, hat dort aber schon einen Weg; Haganais Nein gilt nur noch B0F2958YWW.
 - **Absicherung:** `check-nein-handbeleg.ts` (Regel je Adresse samt Mutation „Nein gilt dem ganzen Titel“; Cartoon-Zwilling und Runde „ohne jeden Weg“ reichen die Adresse durch), `check-nein-handbeleg-aufrufer.ts` (Abo-Runde) und `check-nein-handbeleg-cr.ts` (Geschwister-Block, Katalog) je mit „Nein nur an dieser Adresse“, `check-nein-handbeleg-abschluss.ts` (läuft `schliesseWegeAb`; rot, wenn der Aufruf von `entferneBezugswegeTrotzNein` oder dessen `alleChecks` wegfällt).
 - **Datenbefund (berichtigt 14.10.2026):** Der 10719-Beleg „nicht verfügbar“ (28.09.2026) trug die Adresse B09JV7CC61, seine Notiz nennt aber die Seite B0F2958YWW („laut Seite nicht mehr im Abo“, gti 9c74b1e6…); jetzt steht B0F2958YWW im Beleg. Der neue Weg führt zu JustWatchs Prime-Ausgabe (gti 6b0f25fd…, Ton de/ja), die keiner der beiden Belege nennt.
+- **Datum und Sammeladressen (20.10.2026, `fix/nein-belege-datum-adresse`):** Widersprechen sich Ja und Nein derselben Adresse, gilt das jüngere Urteil: `verschmelze` setzt `juengstesUrteil` (nur bei verschiedenen Daten; am selben Tag bleibt der Feldvergleich, „nicht verfügbar“ gewinnt), `neinHandbelege` liest es. Vorher hob ein älteres Ja ein jüngeres Nein auf (Bereich) und ein älteres „nicht verfügbar“ überlebte ein jüngeres Ja. Such-, Start- und Länderseiten (`istSammelKern` in `shared/adresse-kern.ts`: `amazon.de/s`, Host allein, `/de`) sind keine Ausgabe: ihr Ja belegt keine zweite, ihr Nein gilt der ganzen Plattform und entfällt neben einem Ja an echter Adresse (eine Suche, die den Titel nicht zeigt, widerlegt die Seite nicht; Jormungand: Perfect Order, 13331). Bestand 20.10.: 16 Nein-Schlüssel entfallen (15 Titel mit „0 Folgen geprüft“-Nein vom August/September und deutschem Ja vom 16./18.10., dazu das wirkungslose `13331|amazon.de/s`), sichtbar ändert sich nur Wonderland (107012): sein Prime-Abo-Weg kommt zurück. Die Wirkung auf Cartoon-Wege und Termine wurde nicht gesondert gemessen; Bau-Vergleich `--katalog` 1400c368e → 8543686a0. Absicherung: `check-nein-handbeleg-datum.ts` (echter Weg `ladeHandbelege` → `neinHandbelege` → `wegVerneint` über `AK_ROOT`).
 
 ## Offizielle Websites als Quelle: Sammler und Vorschlagsdatei (13.10.2026)
 
@@ -4074,3 +4084,7 @@ Anlass: „Your Name“ (21519) zeigte bei Videoload „Deutsch angenommen“, o
 - **Nicht:** Serien (JustWatch-Ton gilt nur je Staffel, Regel 07.09.2026; Ansatz A2 bewusst nicht umgesetzt) und Wege ohne Kennung (themoviedb-Adresse); sie bleiben „Deutsch angenommen“.
 - **Wächter:** `check-telekom-annahme-bestand.ts` (`zwillingFehler`): Annahme neben gemessenem Zwilling gleicher Kennung ist rot (Soll 0).
 - **Legende:** „…gilt als deutsch; belegt ist die Tonspur dort nicht.“ (vorher „zu diesem Titel nennt er keine Tonspur“, in 147 Fällen falsch).
+
+## Streaming Availability API: ein Monatslauf je Monat, Reserve für den Tageslauf (23.10.2026)
+
+Am 23.10. um 04:01 UTC startete der Wecker `tonspuren-monatlich` ein drittes Mal im Oktober: `startErlaubt` prüfte bei `nachholen` nur den Abstand (14 Tage) zum Handlauf vom 08.10. Der Lauf verbrauchte 655 Anfragen in fünf Minuten, danach meldete die Quelle 209 von 1.000 übrig (Mails von Movie of the Night bei 50 % und 75 %). Seither sperrt ein nicht abgebrochener Lauf im selben UTC-Monat jeden weiteren Wecker-Start (`shared/weckplan.ts`), und `fetch-motn.ts` hört bei 130 Restanfragen auf (`RESERVE`), damit `fetch-motn-changes` (4 je Tag) bis zum Reset am Ersten auskommt. `motn-links.ts` ruft die API nicht.

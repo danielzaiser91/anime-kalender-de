@@ -1,6 +1,32 @@
 {
   "vorschlaege": [
     {
+      "id": "35718dcc912d",
+      "host": "www.cyberpunk.net",
+      "titelIds": [
+        195539
+      ],
+      "titel": "サイバーパンク2077「エッジランナーズ2」 アップデート(2.5) 配信開始！",
+      "datum": "2026-10-22",
+      "url": "https://www.cyberpunk.net/ja/news/52136",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-22"
+    },
+    {
+      "id": "60a9f49665c8",
+      "host": "www.cyberpunk.net",
+      "titelIds": [
+        195539
+      ],
+      "titel": "REDstreams — サイバーパンク2077にエッジランナーズ2アップデート(2.5)配信決定！",
+      "datum": "2026-10-20",
+      "url": "https://www.cyberpunk.net/ja/news/52104",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-22"
+    },
+    {
       "id": "3c30f5cfa209",
       "host": "one-piece.com",
       "titelIds": [

@@ -39,6 +39,19 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   keine Uhrzeit, veröffentlicht Anime aber um 17:00 JST = 08:00 UTC (Tudum zu Steel Ball Run;
   Daniel sah Folge 2 um 09:35 noch nicht, um 10:11 schon). `expandEvents` setzt diese Zeit dort,
   wo keine belegt ist, als `timeEstimated` — angezeigt mit „≈", ohne Countdown.
+  **Zweite Ausnahme (18.10.2026, F39): Regeltermin aus einer eigenen Sichtung.** Fehlte eine Folge zu `notSeen`
+  und war zu `seen` da, darf `schedule.time` ein Wert im Fenster sein und gilt als Regeltermin für **alle**
+  Folgen der Serie (auch vergangene). Das Fenster steht als Beleg in `schedule.timeSighting` (`notSeen`, `seen`,
+  `date`, `source`). **Fenster unter 60 min: belegt, kein `timeEstimated`; ab 60 min: `timeEstimated` (≈).**
+  Beobachtet man später an einer Folge eine andere Zeit, steht sie als Abweichung in `schedule.zeiten`
+  (Folge → Uhrzeit) und schlägt den Regeltermin. Es gibt keinen eigenen Leser: alle Stellen lesen wie bisher
+  `schedule.time`/`zeiten`. `data:validate` (`pipeline/lib/sichtungsfenster.ts`) verlangt `schedule.time` im
+  Fenster, vollständige Angaben, ein Datum nicht vor der ersten Folge und nicht in der Zukunft und das
+  `timeEstimated`, das die Fensterbreite vorgibt; das Bau-Log hat die Zeile „N Regeltermin aus Sichtung: …".
+  **Jede kuratierte `time` + `timeEstimated` braucht eine benannte Ausnahme:** `timeSighting` oder einen
+  Eintrag in `FESTGELEGTE_ZEITEN` (Altfall Avatar 11:00, Paramount+: Daniel sah F4–6 um 11:42 schon da,
+  Fenster fehlt, Befund offen, 23.10. ohne Sichtung; Frist `bis` 02.11.2026 (nach den Folgen vom 30.10.): danach Fehler in PR-CI und lokal,
+  im Deploy nur Warnung auf der Konsole, damit er nicht an der Frist stirbt).
 - **Abgeleitetes kennzeichnen.** Datum aus dem Simulcast-Start übernommen statt aus einer
   Dub-Ankündigung? Dann `estimated: true`. Folgenzahl geraten? Setzt die Pipeline selbst als
   `episodeCountAssumed`. Beides erscheint im UI als `≈`.
@@ -393,13 +406,18 @@ bleiben englisch (`releaseType`, `firstEpisodeDate`), damit sie zu den Fremd-API
   wird nie gespeichert, sondern immer gegen das heutige Datum gerechnet.
 - Zeitzonen laufen ausschließlich über `shared/time.ts`. Alle Datumsangaben im Datensatz sind
   Ortszeit Europe/Berlin; die Umrechnung nach UTC für ICS und Google Calendar passiert dort
-  über `Intl`, damit die Sommerzeit stimmt.
+  über `Intl`, damit die Sommerzeit stimmt. „Heute“ ist `todayIso()`, nie
+  `new Date().toISOString().slice(0, 10)` (UTC, zwischen 0 und 2 Uhr Berliner Zeit der Vortag);
+  der Wächter `tools/heute-utc.mjs` (in `check:logic`, Grenze `tools/heute-utc-grenzen.json`, Grundstand
+  21.10.2026: 66 Stellen) lässt die Zahl nur sinken.
 
 ## Newsletter
 
 Der Worker in `worker/` ist optional. Ohne gesetztes `VITE_NEWSLETTER_API` zeigt das Formular
 einen ehrlichen Hinweis statt eines kaputten Buttons. DSGVO-Pflichten (Double-Opt-in,
 Abmeldelink, Impressum, Datenschutzerklärung) sind kein Nice-to-have — nichts davon entfernen.
+
+**D1 und Website (Daniel, 23.10.2026):** Die Regel „keine D1“ gilt nur für die Website selbst. Der Newsletter-Worker darf D1 nutzen, auch auf Nutzerpfaden: Favoriten-Abgleich, Web-Push und der persönliche Kalender-Feed. Feed-Abrufe der Kalender-Apps lesen D1 trotzdem nicht bei jedem Mal (Edge-Cache 15 Minuten, `worker/src/favoriten-feed.ts`).
 
 ## Ein roter Lauf wird bemerkt, nicht gemeldet — und die Anzeige danach geleert
 
@@ -472,7 +490,7 @@ das sonst verfällt.
 ## Prüfung nach Risiko: Stufen 0, 1, 2 (Daniel, 10.10.2026)
 
 Anlass: „keine Prüfer-Agenten bei Kleinigkeiten“. `node tools/pr-stufe.mjs <PR>` (Tabelle und Tests: `tools/pr-stufe.mjs`, `tools/pr-stufe.test.mjs`) stuft mechanisch aus Pfaden und Zeilenzahl des Diffs ein, im Zweifel Stufe 2.
-Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten, Skill-Texte `.claude/skills/**/*.md` seit 12.10.2026): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar; bei Stufe 0 prüft der CI-Prüfer seit 12.10.2026 schlank (nur Diff, kleines Zugbudget) und gibt bei Ok frei, sonst Änderungswünsche.
+Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten, Skill-Texte `.claude/skills/**/*.md` seit 12.10.2026, alles unter `tools/claude-global/` seit 23.10.2026): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar; bei Stufe 0 prüft der CI-Prüfer seit 12.10.2026 schlank (nur Diff, kleines Zugbudget) und gibt bei Ok frei, sonst Änderungswünsche.
 
 ## Bilder für PR-Beschreibungen ohne Hook-Umgehung (14.10.2026)
 
@@ -603,7 +621,7 @@ und darf bei keiner Entscheidung aufgeweicht werden.
 - Netflix-Uhrzeit (08:00 UTC als `timeEstimated`, „≈", ohne Countdown) nur bei Eigenproduktionen (`netflixOriginal`); Lizenztitel bleiben „Zeit offen" (Vigilantes, 06.10.2026).
 - **Namensabgleich:** der beste Treffer gewinnt, nicht der erste; `OVA`/`ONA`/`OAD`/`TV` zählen mit, der japanische Titel nicht (`bewerteTreffer`). Ein Namensvergleich allein ist kein Beleg.
 - **Was AniList, aniSearch oder MAL als Anime führen, ist kein Cartoon** (Daniel, 08.10.2026) — der Cartoon zieht auf den Anime-Titel um (`cartoon-umzug.json`); Beleg: TMDB-Kennung, sonst Name **und** Jahr **und** Folgenzahl, im Zweifel Ausnahmeliste statt Zusammenlegung (`check:logic`).
-- **Eine News-Meldung ist eine Aussage zu ihrem Tag:** nie umschreiben (Späteres ist eine neue Meldung), Belege nur ihrer eigenen Aussage, eine Quelle an genau einer Meldung; eigene Messung belegt der Anbieter-Kalender an diesem Tag ([news-plan.md](news-plan.md)).
+- **Eine News-Meldung ist eine Aussage zu ihrem Tag:** nie umschreiben (Späteres ist eine neue Meldung), Belege nur ihrer eigenen Aussage, eine Quelle an genau einer Meldung; eigene Messung belegt der Anbieter-Kalender an diesem Tag ([news-plan.md](news-plan.md)). Ein neues abgeleitetes Feld an einer Meldung wird dort als Aussage (eingefroren, `pipeline/lib/news-felder-fest.ts`) oder Darstellung (lebendig) eingeordnet, bevor es gebaut wird (20.10.2026).
 
 ### Datenläufe: wer auf `main` schreibt, und was beim Ändern zu beachten ist
 
@@ -636,7 +654,7 @@ Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `
 
 ### Codegestalt (Ergänzungen)
 
-- `check:umfang` (steckt in `build`) misst die Überlänge je Bereich — sie darf nur sinken, gesunkene Werte übernimmt `--festschreiben`, angehoben wird nie. **Festgeschrieben wird nur im Bestandsbau auf main (`tools/commit-data.sh`, seit 11.10.2026), nie in einem PR:** Fast jeder PR senkte dieselbe Zeile in `umfang-grenzen.json` um 1 und machte die übrigen offenen PRs DIRTY (28 Commits an der Datei in 3 Tagen). Der PR-Check bleibt gleich streng (Wachstum gegen die Datei ist rot); nur das Nachziehen der gesunkenen Zahl verschiebt sich bis zum nächsten Bestandsbau, bis dahin steht die gewonnene Überlänge anderen PRs zur Verfügung. `--liste` zeigt die größten Stellen. Zusätzlich zählt er „Ketten" (`tools/umfang-ketten.mjs`, Ausgangswert 10.10.2026 je Bereich in `umfang-grenzen.json`): Anweisungen, Typ-Felder und Objekt-Einträge, die in der Zeile ihres Vorgängers beginnen (`a(); b()`, `x?: A; y?: B`, mehrere `...`-Spreads in einer Zeile) — sonst ließe sich die 80/800-Zählung durch Anhängen an bestehende Zeilen umgehen; ein Eintrag je Zeile, `--ketten` zeigt die Fundstellen, Listen ganz in einer Zeile (`{ a, b }`) bleiben erlaubt.
+- `check:umfang` (steckt in `build`) misst die Überlänge je Bereich — sie darf nur sinken, gesunkene Werte übernimmt `--festschreiben`, angehoben wird nie. **Festgeschrieben wird nur im Bestandsbau auf main (`tools/commit-data.sh`, seit 11.10.2026), und dort seit 23.10.2026 nur in der Stunde 02 UTC, nie in einem PR:** Sonst machte jeder Bau nach einem Merge den nächsten offenen PR „nicht aktuell“ (21.10.2026). Fast jeder PR senkte dieselbe Zeile in `umfang-grenzen.json` um 1 und machte die übrigen offenen PRs DIRTY (28 Commits an der Datei in 3 Tagen). Der PR-Check bleibt gleich streng (Wachstum gegen die Datei ist rot); nur das Nachziehen der gesunkenen Zahl verschiebt sich bis zum nächsten Bestandsbau, bis dahin steht die gewonnene Überlänge anderen PRs zur Verfügung. `--liste` zeigt die größten Stellen. Zusätzlich zählt er „Ketten" (`tools/umfang-ketten.mjs`, Ausgangswert 10.10.2026 je Bereich in `umfang-grenzen.json`): Anweisungen, Typ-Felder und Objekt-Einträge, die in der Zeile ihres Vorgängers beginnen (`a(); b()`, `x?: A; y?: B`, mehrere `...`-Spreads in einer Zeile) — sonst ließe sich die 80/800-Zählung durch Anhängen an bestehende Zeilen umgehen; ein Eintrag je Zeile, `--ketten` zeigt die Fundstellen, Listen ganz in einer Zeile (`{ a, b }`) bleiben erlaubt.
 - Verschoben wird mit `tools/modul-umzug.mjs`, nicht von Hand. Vorgehen: Skill `zerlegen`. Bei reinen Kommentar-Umbauten `node tools/nur-kommentare.mjs` (Code ohne Kommentare gleich).
 - Wegwerfskripte gehören ins Scratchpad, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
 - Dieselben Regeln projektübergreifend: `tools/claude-global/` — auf jedem Rechner einmal `node tools/claude-global/einrichten.mjs` (prüfen: `--pruefen`).
@@ -647,8 +665,9 @@ Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `
   "PostToolUse": [ { "matcher": "Bash", "hooks": [ { "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/worktree-aufraeumen.js"], "timeout": 15 } ] } ]
   ```
   (Beide gehören als zusätzliche Elemente in die vorhandenen Listen `hooks.SessionStart` und `hooks.PostToolUse`, nicht als Ersatz.)
-- **PR-Zeilen in `stand.md` schreibt ein Hook (seit 19.10.2026, Daniel: „kein manuelles eintragen per hauptsitzung mehr“)** — `tools/claude-global/hooks/stand-prs.js` mit dem Blockteil `stand-prs-block.js` (Tests `tools/stand-prs-hook.test.mjs`, `tools/stand-prs-block.test.mjs`; gh-Attrappe `tools/stand-prs-gh-attrappe.mjs`; echte Urteilskommentare `tools/stand-prs-urteile-echt.json`). Er hält unter „## In Arbeit“ einen Block zwischen `<!-- pr-zeilen … -->` und `<!-- /pr-zeilen -->`: je offenem PR eine Zeile (Kurztitel, Entwurf, Konflikt, CI-Urteil „**Prüfer-Review** für <Kopf>“ und Agent-Urteil „Prüfer Runde N: freigeben|ändern“ getrennt, je mit „älterer Kopf“, Checks; „bereit“ und damit oben nur, wenn beide auf dem aktuellen Kopf ok sind), dazu alle in den letzten 24 h gemergten ohne `chore(data):` als `[klein]` (geblättert nach letzter Änderung, bis zur 24-h-Grenze, höchstens 20 Seiten à 100).
+- **PR-Zeilen in `stand.md` schreibt ein Hook (seit 19.10.2026, Daniel: „kein manuelles eintragen per hauptsitzung mehr“)** — `tools/claude-global/hooks/stand-prs.js` mit dem Blockteil `stand-prs-block.js` (Tests `tools/stand-prs-hook.test.mjs`, `tools/stand-prs-block.test.mjs`; gh-Attrappe `tools/stand-prs-gh-attrappe.mjs`; echte Urteilskommentare `tools/stand-prs-urteile-echt.json`). Er hält unter „## In Arbeit“ einen Block zwischen `<!-- pr-zeilen … -->` und `<!-- /pr-zeilen -->`: je offenem PR eine Zeile (Kurztitel, Entwurf, Konflikt, CI-Urteil „**Prüfer-Review** für <Kopf>“ und Agent-Urteil „Prüfer Runde N: freigeben|ändern“ getrennt, je mit „älterer Kopf“, Checks; „bereit“ und damit oben nur, wenn beide auf dem aktuellen Kopf ok sind), dazu seit 20.10.2026 **eine** `[klein]`-Sammelzeile „Gemergt in 24 h: N — zuletzt TT.MM. HH:MM — [alle](Suchlink)“ für alle in 24 h gemergten ohne `chore(data):` (vorher je PR eine Zeile, 20.10. waren es ≈ 80 von 119 Punkten in „In Arbeit“; die Mod zählt nur Zeilen mit `- `; die Sammelzeile ist die Reihe 0, alte Einzelzeilen fallen beim nächsten Lauf weg; geblättert nach letzter Änderung, bis zur 24-h-Grenze, höchstens 20 Seiten à 100).
   - **Nichts geht verloren:** eingerückte Notizen wandern mit ihrer PR-Zeile; jede andere Zeile im Block (Handzeile, `### Gruppe`, Freitext) rückt direkt unter die Endmarke; Notizen eines PRs, der aus der Liste fällt, stehen dort unter „Notiz zu PR n — aus der PR-Liste gefallen“. Fehlt eine Marke, ist eine doppelt, verändert oder in falscher Reihenfolge, schreibt der Hook nichts und meldet es der Sitzung (`systemMessage`). Die Änderungszeit der Datei bleibt (`daniel-dateien.js` misst daran die Pflege).
+  - **Wächter (`stand-waechter.js`, Test `tools/stand-waechter.test.mjs`, seit 20.10.2026):** meldet der Sitzung (`systemMessage`, bei jedem Lauf, solange es stimmt), wenn „In Arbeit“ außerhalb des Blocks mehr als 20 `- `-Zeilen hat oder die Kopfzeile keinen „Stand TT.MM.JJJJ HH:MM“ (Berliner Zeit) trägt, der höchstens 24 h alt ist. Geschrieben wird trotzdem.
   - **Fehler sichtbar:** scheitert der Abruf, bleibt der Block still stehen, bis der letzte Erfolg 30 min zurückliegt; dann trägt er die Zeile „PR-Liste veraltet — Stand …; Abruf scheitert: …“ und die Sitzung erfährt es. Mehr als 100 offene PRs gelten als Fehler (Liste wäre unvollständig).
   - Eine GraphQL-Abfrage (≈ 2–3 s), async: sofort nach `gh pr create|merge|close|ready|reopen|edit`, sonst nach gh-pr/run-Befehlen und Prompts höchstens alle 5 min; Ergebnis und letzter Erfolg in `~/.claude/hooks/state/stand-prs.json`, von Hand `node ~/.claude/hooks/stand-prs.js --jetzt`. Verworfen: Workflow schreibt `stand.md` (unversioniert), Mod fragt GitHub selbst (jede Anzeige ein Abruf, nichts für den Hook `daniel-dateien.js`), nur ein Werkzeug für Agenten (hängt an Disziplin).
   - Einrichten: `einrichten.mjs`, dann in `~/.claude/settings.json` je ein Element an die vorhandenen Arrays `hooks.PostToolUse` und `hooks.UserPromptSubmit` anhängen (Handarbeit). Nie als neuen Schlüssel einfügen: ein zweiter Schlüssel `"PostToolUse"` ersetzt im JSON den ersten samt seinen Hooks.

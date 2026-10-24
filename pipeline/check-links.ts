@@ -25,9 +25,10 @@
 import { readFileSync } from 'node:fs'
 import type { PlatformId, Title } from '../shared/types.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
-import { recordSource } from './lib/health.ts'
-import { fortschritt, pauseMitStand } from './lib/link-check-gesundheit.ts'
+import { readSourceHealth, recordSource } from './lib/health.ts'
+import { fortschritt, drosselNachVorlauf, passtInsBudget, pauseMitStand, waehleArbeit, ZEITBUDGET_SEKUNDEN, linkCheckEnde, zaehleBefund } from './lib/link-check-gesundheit.ts'
 import { pruefbare } from './lib/pruefbare-adresse.ts'
+import { todayIso } from '../shared/time.ts'
 
 const DATEI = 'data/link-check.json'
 
@@ -47,6 +48,9 @@ const zahl = (name: string, fallback: number) => {
 }
 const ALTER = zahl('--alter', 30)
 const LIMIT = zahl('--limit', 0)
+/** Zeitbudget in Sekunden (`--zeitbudget`, 0 = ohne): danach beginnt nichts Neues, der Rest bleibt fällig. */
+const BUDGET = zahl('--zeitbudget', ZEITBUDGET_SEKUNDEN)
+const START = Date.now()
 /**
  * **Takt zwischen zwei Abrufen, in Millisekunden** (`--pause`, Standard 700).
  *
@@ -81,7 +85,7 @@ interface Befund {
 
 type Bestand = Record<string, Befund>
 
-const heute = () => new Date().toISOString().slice(0, 10)
+const heute = () => todayIso()
 
 /**
  * Prime-Video-Seiten sagen „nicht verfügbar" mit HTTP **200**.
@@ -322,8 +326,8 @@ async function main(): Promise<void> {
     Adressen sonst nie erreichen — der wöchentliche Lauf prüft 400 von mehreren
     Tausend, und die neuen stehen hinten.
   */
-  offen.sort((a, b) => Number(vorrang.has(b)) - Number(vorrang.has(a)))
-  const arbeit = LIMIT > 0 ? offen.slice(0, LIMIT) : offen
+  const AMAZON = /(^|\.)amazon\./i
+  const arbeit = waehleArbeit(offen, (u) => bestand[u]?.geprueftAm, vorrang, LIMIT, (u) => AMAZON.test(new URL(u).hostname), drosselNachVorlauf(readSourceHealth()['link-check']?.gesperrt))
   log(`Verweise: ${adressen.size} bekannt, ${offen.length} fällig, ${arbeit.length} in diesem Lauf.`)
 
   /**
@@ -353,7 +357,6 @@ async function main(): Promise<void> {
    * übersprungen; sie bleiben fällig.
    */
   const SPERR_SCHWELLE = 20
-  const AMAZON = /(^|\.)amazon\./i
   /**
    * **Die Sperre wird ausgesessen, nicht umgangen** (20.09.2026).
    *
@@ -383,11 +386,12 @@ async function main(): Promise<void> {
   let inFolgeUnklar = 0
   let amazonGesperrt = false
   let uebersprungen = 0
-  let tot = 0
+  const zaehler = { tot: 0, auskuenfte: 0 }
   let geprueft = 0
   /* Messgröße für die Sperrschwelle: nur Amazon zählt, denn nur Amazon sperrt. */
   let amazonAbrufe = 0
   for (let i = 0; i < arbeit.length; i++) {
+    if (!passtInsBudget(START, Date.now(), BUDGET)) break
     const url = arbeit[i]
     const istAmazon = AMAZON.test(new URL(url).hostname)
     if (amazonGesperrt && istAmazon) {
@@ -419,7 +423,7 @@ async function main(): Promise<void> {
       if (++inFolgeUnklar >= SPERR_SCHWELLE) {
         /* Die Zahl, an der sich Takt gegen Menge entscheidet — je Lauf eine Zeile. */
         warn(`Sperrschwelle gemessen: ${amazonAbrufe} Amazon-Abrufe bei ${PAUSE} ms Takt.`)
-        if (++sperren > MAX_SPERREN) {
+        if (++sperren > MAX_SPERREN || !passtInsBudget(START, Date.now(), BUDGET, SPERR_PAUSE)) {
           warn(`${sperren - 1} Sperren in einem Lauf — weiter ohne Amazon, der Rest bleibt fällig.`)
           amazonGesperrt = true
         } else {
@@ -440,8 +444,8 @@ async function main(): Promise<void> {
       unklarFolge = []
     }
     /* Gezählt wird, was dieser Lauf gefunden hat — nicht, was schon dastand. */
-    if (neu.status === 404 || neu.status === 'region') tot++
-    fortschritt(++geprueft, arbeit.length, tot, bestand, log, sichere)
+    zaehleBefund(zaehler, neu.status)
+    fortschritt(++geprueft, arbeit.length, zaehler.tot,bestand, log, sichere)
     await sleep(Math.round(PAUSE * (0.7 + Math.random() * 0.6)))
   }
 
@@ -456,12 +460,12 @@ async function main(): Promise<void> {
   */
   sichere()
   const gesamtTot = Object.values(bestand).filter((b) => b.status === 404 || b.status === 'region').length
-  log(`Verweise: ${geprueft} geprüft, ${tot} davon unbrauchbar. Im Bestand insgesamt ${gesamtTot} unbrauchbar.`)
+  log(`Verweise: ${geprueft} geprüft, ${zaehler.tot} davon unbrauchbar. Im Bestand insgesamt ${gesamtTot} unbrauchbar.`)
   if (uebersprungen) log(`${uebersprungen} Amazon-Adressen wegen der Sperre übersprungen — sie bleiben fällig.`)
   if (!geprueft && offen.length) warn('Nichts geprüft, obwohl etwas fällig war — Aufruf prüfen.')
   /* Nichts faellig ist der Normalfall, sobald alle Adressen geprueft sind —
      kein Grund, den Lauf als stumm zu melden (29.08.2026). */
-  recordSource('link-check', geprueft, undefined, undefined, true)
+  recordSource('link-check', ...linkCheckEnde(geprueft, zaehler.auskuenfte, sperren > 0))
 }
 
 main().catch((err) => {

@@ -5,16 +5,8 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Survival
 X-WR-TIMEZONE:Europe/Berlin
-BEGIN:VEVENT
-UID:dr-stone-science-future-part1@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261016
-DTEND;VALUE=DATE:20261017
-SUMMARY:Dr. STONE: Science Future – Teil 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15604/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
+REFRESH-INTERVAL;VALUE=DURATION:PT12H
+X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
 UID:auto-128893-tv-prosieben-fun@2026-10-19#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
@@ -34,6 +26,17 @@ SUMMARY:Hell’s Paradise – Folge 6/8
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:motn-116287-primevideo@2026-10-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261019
+DTEND;VALUE=DATE:20261020
+SUMMARY:Otherside Picnic (neu bei Prime Video)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/11345/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:all-you-need-is-kill-disc@2026-10-22@anime-kalender-de
@@ -95,16 +98,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
  g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
  ://anime-kalender.de/t/16761/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-172019-disc@2027-01-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270115
-DTEND;VALUE=DATE:20270116
-SUMMARY:Dr. Stone: Science Future (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15604/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

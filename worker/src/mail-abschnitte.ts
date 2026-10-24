@@ -8,6 +8,7 @@
  * Die Reihenfolge der Rubriken und die Einordnung eines Termins stehen in `mail-sorten.ts` —
  * dort ohne HTML, damit man die Regeln lesen kann.
  */
+import { titelAdresse } from '../../shared/teilen.ts'
 import { SPRACHE_HINWEIS, SPRACHE_MARKE } from '../../shared/ics.ts'
 import { ankuendigungsWort, tagIstAngekuendigt } from '../../shared/news-typen.ts'
 import { toIsoDate } from '../../shared/time.ts'
@@ -44,7 +45,7 @@ export function escapeHtml(value: string): string {
  * Wochenansicht — der Hash sagt ihr nur, welcher Tag gemeint ist.
  */
 export function calendarUrl(ctx: RowContext, ev: ReleaseEvent): string {
-  return `${ctx.siteUrl.replace(/\/$/, '')}/t/${ev.titleId}/#/woche?d=${ev.date}&t=${ev.titleId}`
+  return `${ctx.siteUrl.replace(/\/$/, '')}/${titelAdresse(ev.titleId, ev.titleId, ev.date)}`
 }
 
 /** Der kleine Link am Ende einer Zeile: führt zur Titelseite im Kalender. */
@@ -128,7 +129,7 @@ export function newsSatz(m: NewsMeldung): string {
         : `Folge ${m.von} auf Deutsch bei ${anbieter}`
     case 'angekuendigt':
       if (m.omu) return `Start ${omuStartText(m.datum ?? '')}${anbieter ? ` bei ${anbieter}` : ''} mit Untertiteln, ${m.omu === 'synchro-angekuendigt' ? 'deutsche Synchro angekündigt' : 'keine deutsche Synchro angekündigt'}`
-      if (m.platform === 'tv' && m.datum) return `Im TV${m.anbieter ? ` bei ${m.anbieter}` : ''} am ${['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'][new Date(`${m.datum}T12:00:00Z`).getUTCDay()]}, den ${datum}`
+      if (m.platform === 'tv' && m.datum) return `${m.premiere ? 'Deutsche TV-Premiere' : 'Im TV'}${m.anbieter ? ` bei ${m.anbieter}` : ''} am ${['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'][new Date(`${m.datum}T12:00:00Z`).getUTCDay()]}, den ${datum}`
       if (m.jahre && anbieter) return m.discSeitText ? `Nach ${m.jahre} Jahren endlich im Stream auf Deutsch: ab ${datum} bei ${anbieter}! (Auf Disc gibt es die Synchro seit ${m.discSeitText})` : `Nach ${m.jahre} Jahren endlich auf Deutsch: ab ${datum} mit Synchro bei ${anbieter}!`
       return `Start am ${datum}${anbieter ? ` bei ${anbieter}` : ''}`
     case 'rhythmus':

@@ -1,11 +1,11 @@
 {
   "43": {
     "ohneTreffer": true,
-    "geprueftAm": "2026-09-22"
+    "geprueftAm": "2026-10-23"
   },
   "47": {
     "ohneTreffer": true,
-    "geprueftAm": "2026-09-22"
+    "geprueftAm": "2026-10-23"
   },
   "164": {
     "video": "gL61XAeu3q4",
@@ -29,7 +29,7 @@
         "titel": "Cardcaptor Sakura: The Movie"
       }
     ],
-    "geprueftAm": "2026-09-22"
+    "geprueftAm": "2026-10-23"
   },
   "415": {
     "video": "C8JZOc2AoGU",
@@ -38,7 +38,7 @@
   },
   "416": {
     "ohneTreffer": true,
-    "geprueftAm": "2026-09-22"
+    "geprueftAm": "2026-10-23"
   },
   "431": {
     "video": "mP_3jmdNkpI",
@@ -56,12 +56,13 @@
     "geprueftAm": "2026-09-22"
   },
   "523": {
-    "ohneTreffer": true,
-    "geprueftAm": "2026-09-22"
+    "video": "HsFqNmlCBHE",
+    "titel": "Mein Nachbar Totoro",
+    "geprueftAm": "2026-10-23"
   },
   "543": {
     "ohneTreffer": true,
-    "geprueftAm": "2026-09-22"
+    "geprueftAm": "2026-10-23"
   },
   "565": {
     "video": "Xo_hwZoRFII",
@@ -95,7 +96,7 @@
         "titel": "Tränen der Erinnerung"
       }
     ],
-    "geprueftAm": "2026-09-22"
+    "geprueftAm": "2026-10-23"
   },
   "1030": {
     "video": "SgK9KWdZL5c",
@@ -118,7 +119,7 @@
         "titel": "Pokémon 3"
       }
     ],
-    "geprueftAm": "2026-09-22"
+    "geprueftAm": "2026-10-23"
   },
   "1119": {
     "aehnlich": [
@@ -127,7 +128,7 @@
         "titel": "Pokémon 4Ever"
       }
     ],
-    "geprueftAm": "2026-09-22"
+    "geprueftAm": "2026-10-23"
   },
   "1120": {
     "video": "IpANszbWVVg",
@@ -141,7 +142,7 @@
         "titel": "Pokémon 6 – Jirachi: Wishmaker (DE)"
       }
     ],
-    "geprueftAm": "2026-09-22"
+    "geprueftAm": "2026-10-23"
   },
   "1122": {
     "aehnlich": [
@@ -150,11 +151,16 @@
         "titel": "Pokémon 7 – Destiny Deoxys (DE)"
       }
     ],
-    "geprueftAm": "2026-09-22"
+    "geprueftAm": "2026-10-23"
   },
   "1361": {
-    "ohneTreffer": true,
-    "geprueftAm": "2026-09-22"
+    "aehnlich": [
+      {
+        "video": "RvPWlvp_-PY",
+        "titel": "Final Fantasy: The Spirits Within"
+      }
+    ],
+    "geprueftAm": "2026-10-23"
   },
   "1526": {
     "video": "ZYrWZPVSTKQ",
@@ -173,7 +179,7 @@
   },
   "1943": {
     "ohneTreffer": true,
-    "geprueftAm": "2026-09-22"
+    "geprueftAm": "2026-10-23"
   },
   "2201": {
     "video": "e-XouE6kJxY",
@@ -202,7 +208,7 @@
         "titel": "Das Mädchen mit dem Zauberhaar - Mai Mai Miracle"
       }
     ],
-    "geprueftAm": "2026-09-23"
+    "geprueftAm": "2026-10-24"
   },
   "6372": {
     "aehnlich": [
@@ -211,7 +217,7 @@
         "titel": "Eden of the East - The King of Eden"
       }
     ],
-    "geprueftAm": "2026-09-23"
+    "geprueftAm": "2026-10-24"
   },
   "6637": {
     "video": "MKg6t7Dic_c",
@@ -245,7 +251,7 @@
         "titel": "Children Who Chase Lost Voices - Die Reise nach Agartha"
       }
     ],
-    "geprueftAm": "2026-09-23"
+    "geprueftAm": "2026-10-24"
   },
   "9917": {
     "video": "b5IwIt0DK9A",
@@ -264,7 +270,7 @@
   },
   "10681": {
     "ohneTreffer": true,
-    "geprueftAm": "2026-09-23"
+    "geprueftAm": "2026-10-24"
   },
   "10740": {
     "video": "YHPZ6oNVD9o",
@@ -313,7 +319,7 @@
   },
   "20709": {
     "ohneTreffer": true,
-    "geprueftAm": "2026-09-23"
+    "geprueftAm": "2026-10-24"
   },
   "21266": {
     "video": "mPlsBjrJSLs",
@@ -341,7 +347,7 @@
         "titel": "Pokémon – Der Film: Volcanion und das Merchanische Wunderwerk"
       }
     ],
-    "geprueftAm": "2026-09-23"
+    "geprueftAm": "2026-10-24"
   },
   "21729": {
     "video": "88fSdX1vmNU",

@@ -19,6 +19,7 @@ import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { leseEntitaeten, qidAusExternalIds, type ReihenEintrag } from './lib/cartoon-reihen.ts'
 import { REIHEN_DATEI } from './bau/cartoon-reihen.ts'
+import { todayIso } from '../shared/time.ts'
 
 const TMDB = 'https://api.themoviedb.org/3'
 const WIKIDATA = 'https://www.wikidata.org/w/api.php'
@@ -124,7 +125,7 @@ async function schritt2Aussagen(daten: Daten, heute: string): Promise<{ geholt: 
 
 async function main(): Promise<void> {
   const schluessel = process.env.TMDB_API_KEY
-  const heute = new Date().toISOString().slice(0, 10)
+  const heute = todayIso()
   const cartoons = Object.values(readJson<Record<string, { tmdbId: number }>>('data/cartoons.json', {}))
   const tmdbIds = cartoons.map((c) => c.tmdbId).sort((a, b) => a - b)
   const daten = readJson<Daten>(REIHEN_DATEI, {})

@@ -7,25 +7,11 @@
  */
 import { type Env } from './env.ts'
 import { AM, ausId, FASSUNG, lies, MELDUNG_UEBERNOMMEN, NUMMER, ROHFOLGE_UEBERNOMMEN, STAFFEL, TITEL_ID_AB, type Eintrag, type TitelDaten } from './titelzeile-format.ts'
-import { aendereTitelzeile, aktualisierung, type Zeile } from './titelzeile-zeile.ts'
+import { adressen, aendereGebuendelt, JE_STAPEL, type Gelesen } from './titelzeile-buendel.ts'
+import { aendereTitelzeile, aktualisierung } from './titelzeile-zeile.ts'
 
 /** Ids, die zu Titelzeilen gehören. */
 export const sindTitelIds = (ids: number[]) => ids.filter((id) => id >= TITEL_ID_AB)
-
-type Gelesen = Zeile & { url: string; plattform: string }
-
-/**
- * Die Zeile zu jeder Titelnummer, in einer Abfrage über den Index `titel_zeile_nr`. Die Nummern reisen als ein
- * JSON-Wert: D1 bindet höchstens 100 Werte, mit einem `?` je Nummer scheiterte jedes Abhaken ab 101 Titeln
- * („too many SQL variables“, HTTP 500 in jedem Bestandsbau bis 16.10.2026).
- */
-async function adressen(env: Env, nummern: number[]): Promise<Gelesen[]> {
-  if (!nummern.length) return []
-  const { results } = await env.DB.prepare('SELECT nr, url, plattform, version, daten FROM titel_zeile WHERE nr IN (SELECT value FROM json_each(?1))')
-    .bind(JSON.stringify(nummern))
-    .all<Gelesen>()
-  return results ?? []
-}
 
 /** Die Ids je Titelnummer, getrennt nach Staffel, Nummer und Fassung. */
 function jeTitel(ids: number[]): Map<number, { staffel: number; nummer: number; fassung: number }[]> {
@@ -47,8 +33,6 @@ const trifft = (e: Eintrag, f: { staffel: number; nummer: number; fassung: numbe
   mit 93 Anweisungen in einem Stapel ging am 19.09.2026 durch). Ein Titel, den jemand zwischen Lesen und Schreiben
   geändert hat, bleibt offen (Versionsprüfung) und kommt mit dem nächsten Bau wieder.
 */
-const JE_STAPEL = 100
-
 async function aendereFolgen(env: Env, ids: number[], aendere: (e: Eintrag) => Eintrag | null): Promise<void> {
   const je = jeTitel(ids)
   const anweisungen: D1PreparedStatement[] = []
@@ -80,28 +64,35 @@ export async function hakeTitelzeilenAb(env: Env, ids: number[], welche: 'meldun
 
 /** Notfall-Werkzeug `reoeffnen`: übernommene Meldungen eines Anbieters seit `seit` wieder öffnen (nur `uebernommen`, wie bei `pruefung`). */
 export async function oeffneTitelzeilenWieder(env: Env, plattform: string, seit: string): Promise<number> {
-  const { results } = await env.DB.prepare('SELECT url FROM titel_zeile WHERE plattform = ?1').bind(plattform).all<{ url: string }>()
-  let offen = 0
-  for (const { url } of results ?? []) {
-    await aendereTitelzeile(env, { url, plattform }, async (alt) => {
-      if (!alt) return null
-      let n = 0
-      const f = alt.f.map((e) => {
-        if (e[MELDUNG_UEBERNOMMEN] !== 1 || e[AM] < seit) return e
-        n++
-        const neu = [...e] as Eintrag
-        neu[MELDUNG_UEBERNOMMEN] = 0
-        return neu
-      })
-      offen += n
-      return n ? { ...alt, f } : null
+  const { results } = await env.DB.prepare('SELECT nr, url, plattform, version, daten FROM titel_zeile WHERE plattform = ?1').bind(plattform).all<Gelesen>()
+  const geschrieben = await aendereGebuendelt(env, results ?? [], (alt) => {
+    let n = 0
+    const f = alt.f.map((e) => {
+      if (e[MELDUNG_UEBERNOMMEN] !== 1 || e[AM] < seit) return e
+      n++
+      const neu = [...e] as Eintrag
+      neu[MELDUNG_UEBERNOMMEN] = 0
+      return neu
     })
-  }
-  return offen
+    return n ? { daten: { ...alt, f }, zaehl: n } : null
+  })
+  return geschrieben.reduce((summe, g) => summe + g.zaehl, 0)
+}
+
+/** Löschen nach Ids: alle betroffenen Titelzeilen gebündelt (`titelzeile-buendel.ts`). */
+async function loescheNachIds(env: Env, ids: number[]): Promise<{ entfernt: number; urls: string[] }> {
+  const je = jeTitel(sindTitelIds(ids))
+  const geschrieben = await aendereGebuendelt(env, await adressen(env, [...je.keys()]), (alt, t) => {
+    const folgen = je.get(t.nr)!
+    const f = alt.f.filter((e) => !folgen.some((x) => trifft(e, x)))
+    return f.length === alt.f.length ? null : { daten: { ...alt, f }, zaehl: alt.f.length - f.length }
+  })
+  return { entfernt: geschrieben.reduce((summe, g) => summe + g.zaehl, 0), urls: geschrieben.map((g) => g.url) }
 }
 
 /** Entfernt Folgen aus ihren Titelzeilen: Ids (`DELETE /pruefung` mit `ids`) oder Nummern einer Adresse. Gibt die Zahl der entfernten Folgen und die Adressen der geänderten Titelzeilen zurück (für den `?gemeldet=`-Cache). */
 export async function loescheTitelFolgen(env: Env, wahl: { ids: number[] } | { url: string; nummern: number[] }): Promise<{ entfernt: number; urls: string[] }> {
+  if ('ids' in wahl) return await loescheNachIds(env, wahl.ids)
   let entfernt = 0
   const urls: string[] = []
   const ohne = (alt: TitelDaten, behalte: (e: Eintrag) => boolean) => {
@@ -109,20 +100,11 @@ export async function loescheTitelFolgen(env: Env, wahl: { ids: number[] } | { u
     entfernt += alt.f.length - f.length
     return f.length === alt.f.length ? null : { ...alt, f }
   }
-  const aendere = async (t: { url: string; plattform: string }, behalte: (e: Eintrag) => boolean) => {
+  const { results } = await env.DB.prepare('SELECT url, plattform FROM titel_zeile WHERE url = ?1').bind(wahl.url).all<{ url: string; plattform: string }>()
+  for (const t of results ?? []) {
     const vorher = entfernt
-    await aendereTitelzeile(env, t, async (alt) => (alt ? ohne(alt, behalte) : null))
+    await aendereTitelzeile(env, t, async (alt) => (alt ? ohne(alt, (e) => !wahl.nummern.includes(e[NUMMER] ?? -1)) : null))
     if (entfernt > vorher) urls.push(t.url)
-  }
-  if ('url' in wahl) {
-    const { results } = await env.DB.prepare('SELECT url, plattform FROM titel_zeile WHERE url = ?1').bind(wahl.url).all<{ url: string; plattform: string }>()
-    for (const t of results ?? []) await aendere(t, (e) => !wahl.nummern.includes(e[NUMMER] ?? -1))
-    return { entfernt, urls }
-  }
-  const je = jeTitel(sindTitelIds(wahl.ids))
-  for (const t of await adressen(env, [...je.keys()])) {
-    const folgen = je.get(t.nr)!
-    await aendere(t, (e) => !folgen.some((x) => trifft(e, x)))
   }
   return { entfernt, urls }
 }

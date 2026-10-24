@@ -8,6 +8,7 @@ import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parse as yaml } from 'yaml'
 import type { Release, ReleaseEvent, Title } from '../../shared/types.ts'
+import { todayIso } from '../../shared/time.ts'
 
 export const WURZEL = resolve(fileURLToPath(new URL('../../', import.meta.url)))
 
@@ -105,7 +106,7 @@ function synopsenIds(): Set<number> {
   return ids
 }
 
-export function ladeBestand(heute = new Date().toISOString().slice(0, 10)): Bestand {
+export function ladeBestand(heute = todayIso()): Bestand {
   return {
     heute,
     titles: lies('public/data/titles.json', []),

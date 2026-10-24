@@ -15,12 +15,12 @@ import { pathToFileURL } from 'node:url'
 import { gzipSync } from 'node:zlib'
 
 const KB = 1024
-// Grenze 330 KB inkl. Schriften (Dirigent, 18.10.2026: Ist ca. 327 KB; Ziel bleibt 300 KB über einen Folgeauftrag „Schriften verkleinern“).
+// Grenze 300 KB (23.10.2026: Ist 293,8 KB nach verzögertem Laden der Seitenansichten); davor 310 KB inkl. Schriften (18.10.2026: 330 KB bei Ist 327 KB; 20.10.2026: Ist 305,2 KB nach Unbounded-Teilmenge, 5 KB Reserve; Ziel bleibt 300 KB).
 // Die Grenze steigt nie; sie sinkt von Hand, wenn der Ist-Wert dauerhaft darunter liegt.
-export const GRENZE = 330 * KB
+export const GRENZE = 300 * KB
 
 /** Schriften, die der Browser beim Start lädt (gemessen mit Playwright 18.10.2026, 360 und 1280 px): Dateinamen-Anfang im CSS. */
-export const STARTSCHRIFTEN = ['manrope-latin-wght', 'unbounded-latin-700']
+export const STARTSCHRIFTEN = ['manrope-latin-wght', 'unbounded-700-de']
 
 const GEZAEHLT = ['stylesheet', 'modulepreload', 'preload']
 const AUSNAHMEN = ['icon', 'shortcut', 'apple-touch-icon', 'manifest', 'alternate', 'canonical']

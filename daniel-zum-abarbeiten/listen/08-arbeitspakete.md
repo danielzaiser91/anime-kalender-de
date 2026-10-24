@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-20 · **18 offene Verweise** in **16 Zeilen**,
+Stand 2026-10-24 · **15 offene Verweise** in **13 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,7 +31,7 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 16
+## Paket 1 — Zeilen 1 bis 13
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
@@ -39,15 +39,12 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 2 | Netflix | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
 | 3 | Netflix | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
 | 4 | Prime Video | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
-| 5 | Disney+ | Gachiakuta | [Hauptserie](https://www.disneyplus.com/browse/entity-14f5d468-38b2-4d4b-97ed-649e6c3ba4c8) |
-| 6 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
-| 7 | Prime Video | The Detective Is Already Dead | [Staffel 2]() |
-| 8 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
-| 9 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
-| 10 | Disney+ | A Sign of Affection | [Hauptserie](https://www.disneyplus.com/browse/entity-81a4b821-1dbe-4ecc-9e01-57a7941982c3) |
-| 11 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 12 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
-| 13 | Disney+ | Jujutsu Kaisen | [0]() |
-| 14 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
-| 15 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
-| 16 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
+| 5 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
+| 6 | Prime Video | The Detective Is Already Dead | [Staffel 2]() |
+| 7 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
+| 8 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
+| 9 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 10 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
+| 11 | Disney+ | Jujutsu Kaisen | [0]() |
+| 12 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
+| 13 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |

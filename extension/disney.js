@@ -390,8 +390,8 @@
       zählte jede alte Meldung: Snowball Earth (Synchro läuft noch) und Yu-Gi-Oh! standen als
       „alles gemeldet“ da, und auf der Titelseite gab es nichts zu melden (26.09.2026).
     */
-    if (e.seit) return erneutBeantwortet.has(e.url)
-    return briefkasten.has(e.url) || gemeldeteAdressen.has(e.url) || wartetAufUebernahme.has(e.url)
+    if (e.seit) return globalThis.AK_DISNEY_WEG.erledigt(e.url, e.seit, erneutBeantwortet.has(e.url))
+    return globalThis.AK_DISNEY_WEG.erledigt(e.url, null, briefkasten.has(e.url) || gemeldeteAdressen.has(e.url) || wartetAufUebernahme.has(e.url))
   }
 
   function offeneEintraege() {
@@ -722,29 +722,8 @@
   // --- Melden ---------------------------------------------------------------
 
   /** Ein Titel, den Disney+ hier gar nicht führt. */
-  async function meldeWeg(e) {
-    const { token } = await chrome.storage.sync.get('token')
-    if (!token) return false
-    try {
-      const antwort = await fetch(WORKER, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
-        body: JSON.stringify({
-          plattform: 'disneyplus',
-          url: e.url,
-          titelId: globalThis.AK_DISNEY_STAFFELN.titelIdFuer(e.staffeln, null, anbieterStaffeln),
-          /* Stufe 1 des Meldemodells: Verfügbarkeit und Sprache getrennt (22.09.2026). */
-          vorhanden: 'nein',
-          art: 'gemessen',
-          titel: e.titel,
-          serientitel: e.titel,
-          notiz: 'Disney+ meldet: nicht in deinem Gebiet verfügbar',
-        }),
-      })
-      return antwort.ok
-    } catch {
-      return false
-    }
+  function meldeWeg(e) {
+    return globalThis.akDisneyWegSenden(e, { worker: WORKER, anbieterStaffeln, weg: globalThis.AK_DISNEY_WEG })
   }
 
   async function melden() {
@@ -1038,6 +1017,7 @@
     offene: () => offeneEintraege().filter((e) => !istErledigt(e)),
     zustand: () => ({ kennung: kennung(location.href), eintragUrl: eintrag?.url ?? null, startseite: /\/home\/?$/.test(location.pathname) }),
     melden,
+    meldeGebiet: (url) => meldeWeg(offeneEintraege().find((e) => e.url === url) ?? { url }),
     merkeZiel,
     zeigeEnde: (info) =>
       zeigePruefung(
