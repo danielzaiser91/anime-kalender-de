@@ -23,6 +23,8 @@ import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync } from '
 import { homedir } from 'node:os'
 import { dirname, join } from 'node:path'
 
+import { pruefeSavvyHaken } from './savvy-haken.mjs'
+
 const QUELLE = import.meta.dirname
 const ZIEL = process.env.CLAUDE_CONFIG_DIR ?? join(homedir(), '.claude')
 const NUR_PRUEFEN = process.argv.includes('--pruefen')
@@ -54,5 +56,7 @@ const zeilen = [
   ...dateienUnter(join('mods', 'arbeitsliste')).map(kopiere),
   ...readdirSync(join(QUELLE, 'hooks')).filter((datei) => datei.endsWith('.js')).map((datei) => kopiere(join('hooks', datei))),
 ]
+const savvy = pruefeSavvyHaken(ZIEL)
+zeilen.push(savvy.zeile)
 console.log(zeilen.join('\n'))
 if (NUR_PRUEFEN && zeilen.some((z) => z.startsWith('FEHLT'))) process.exit(1)

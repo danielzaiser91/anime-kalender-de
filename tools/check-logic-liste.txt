@@ -13,6 +13,7 @@ pipeline/check-adn-sprache-offen.ts
 pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-adressen-schreiben.ts
 pipeline/check-adressen.ts
+pipeline/check-angebot-feed.ts
 pipeline/check-angebot-seit-disc.ts
 pipeline/check-angebot-seit.ts
 pipeline/check-angebot-stichtag.ts
@@ -75,6 +76,8 @@ pipeline/check-disney-gesamtnummer.ts
 pipeline/check-dub-aus-terminen.ts
 pipeline/check-dub-bereiche.ts
 pipeline/check-dub-durchgehende-zaehlung.ts
+pipeline/check-empfehlung-ablauf.ts
+pipeline/check-empfehlung-ansicht.ts
 pipeline/check-empfehlung-kern.ts
 pipeline/check-empfehlung.ts
 pipeline/check-episodentitel.ts
@@ -149,6 +152,8 @@ pipeline/check-nein-handbeleg-cr.ts
 pipeline/check-nein-handbeleg-datum.ts
 pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts
+pipeline/check-netflix-staffel-ablauf.ts
+pipeline/check-netflix-staffeln.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-einfrieren.ts
 pipeline/check-news-felder-bestand-ablauf.ts
@@ -191,6 +196,7 @@ pipeline/check-quellen-schreiber.ts
 pipeline/check-quittung-sperre.ts
 pipeline/check-reihen-namen-rein.ts
 pipeline/check-reihen-namen.ts
+pipeline/check-reihen-spur-hook.ts
 pipeline/check-reihen-spur.ts
 pipeline/check-reihen-teilname.ts
 pipeline/check-reihen-traeger-aufrufer.ts
@@ -240,6 +246,8 @@ pipeline/check-tmdb-staffel0.ts
 pipeline/check-tmdb-suche.ts
 pipeline/check-tv-schaetzung.ts
 pipeline/check-tv-sichtungen-vor-start.ts
+pipeline/check-unsicheres-raus-ast.ts
+pipeline/check-unsicheres-raus.ts
 pipeline/check-urteil-art.ts
 pipeline/check-urteil-fremde-adresse.ts
 pipeline/check-urteil-spaet.ts
@@ -273,6 +281,8 @@ tools/dienst-fetch.test.ts
 tools/feste-uhr.test.ts
 tools/heute-berlin.test.ts
 tools/heute-utc.mjs
+tools/hover-cover-weitere-verhalten.test.tsx
+tools/hover-cover-weitere.test.tsx
 tools/hover-cover.test.ts
 tools/link-check-ende.test.ts
 tools/link-check-zeitbudget.test.ts

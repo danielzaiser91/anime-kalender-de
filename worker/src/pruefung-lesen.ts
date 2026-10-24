@@ -1,4 +1,5 @@
 import { type Env } from './env.ts'
+import { tokenGleich, tokenMitUebergang } from './lauf-token.ts'
 import { ausSpeicher } from './export-speicher.ts'
 import { zaehleOffenePruefungen, ZAEHLEN_SEKUNDEN } from './pruefung-zaehlen.ts'
 import { liefereRohfolgen } from './pruefung-rohfolgen.ts'
@@ -60,7 +61,7 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
     }
 
     /**
-     * **Eine Zahl, eine Stelle, die sie rechnet.**
+     * **Eine Zahl, eine Stelle, die sie rechnet** (Netflix-Regel „gedeckt“: `pruefung-gedeckt.ts`, Wächter hält die Erweiterung gleich).
      *
      * Bis zum 26.08.2026 rechneten drei Stellen dasselbe aus verschiedenen
      * Quellen: die Statusanzeige aus `pruefstand.json` minus Briefkasten, die
@@ -100,8 +101,8 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
 
     // Die Pipeline holt sich, was noch nicht übernommen wurde.
     const sucheP = new URL(request.url).searchParams
-    const token = sucheP.get('token') ?? ''
-    if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+    const token = tokenMitUebergang(request)
+    if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return antwort({ error: 'Nicht erlaubt' }, 403)
 
     /*
       **Die Reihenfolge bleibt aufsteigend — daran hängt der Datenlauf.**

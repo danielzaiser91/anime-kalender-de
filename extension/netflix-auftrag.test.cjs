@@ -426,6 +426,7 @@ pruefe(
       standZieleNetflix: null,
       frischGemeldetNetflix: new Set(),
       akNetflixWartet: new Set(),
+      akNetflixErledigtLautStand: (id, stand, frisch, wartet) => !stand.has(`https://www.netflix.com/title/${id}`) || frisch.has(String(id)) || wartet.has(String(id)),
       istErledigt: () => true,
       kuerzelErledigt: () => true,
       staffelnVon: () => [],

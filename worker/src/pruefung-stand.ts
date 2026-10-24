@@ -13,6 +13,7 @@
 import { type Env } from './env.ts'
 import { rechneAnbieter, type Gemeldet } from './pruefung-stand-anbieter.ts'
 import { holeWartende } from './pruefung-stand-briefkasten.ts'
+import { gedeckteZiele, netflixZiele } from './pruefung-gedeckt.ts'
 import { staffelnSeit } from './titelzeile-lesen.ts'
 
 /** `bekannt` (höchste Folge laut Datensatz je Kennung, 4.24.21) kommt unverändert aus `pruefstand.json`. */
@@ -96,6 +97,7 @@ export async function berechnePruefstand({ env, antwort, zwischen }: StandKontex
         wartendeStaffeln: wartend.staffeln,
         seitPruefstand: jeGemeldet,
         staffeln: staffelnGemeldet,
+        gedeckt: await gedeckteZiele(env, netflixZiele(stand.anbieter)),
       }
       const anbieter = (stand.anbieter ?? []).map((roh) => rechneAnbieter(roh, gemeldet))
       return antwort({ anbieter: bekanntDazu(anbieter, stand.anbieter), erzeugtAm: new Date().toISOString(), pruefstandAm: seit })

@@ -19,11 +19,11 @@
         return {}
       }
     }
-    /** `seit` wie in der Liste ('2026-08-26'); ohne Wiedervorlage genügt jede frische Antwort. */
+    /** `seit` wie in der Liste ('2026-08-26'); maßgeblich ist der Prüfstand (`akVermerkGilt`), nicht `seit`. */
     const gilt = (url, seit) => {
       const am = lesen()[url]
       if (!am || jetzt() - Date.parse(am) >= FRIST_MS) return false
-      return am >= String(seit ?? '')
+      return globalThis.akVermerkGilt(am, seit)
     }
     return {
       gilt,

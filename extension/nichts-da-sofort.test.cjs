@@ -59,6 +59,7 @@ async function netflix() {
     eigen.globalThis = eigen
     eigen.akNetflixWartet = new Set()
     eigen.akNetflixTotGemeldet = kontext.akNetflixTotGemeldet
+    eigen.akNetflixErledigtLautStand = kontext.akNetflixErledigtLautStand
     vm.runInContext(code, eigen)
     const vorher = vm.runInContext(`fertig('${id}', { titel: 'x' })`, eigen)
     const r = await vm.runInContext(`totMelden('${id}', 'Bakugan')`, eigen)
@@ -86,6 +87,7 @@ async function netflix() {
 function weg() {
   const kontext = vm.createContext({ localStorage: speicherKulisse() })
   kontext.globalThis = kontext
+  vm.runInContext(lies('pruefstand-zeit.js'), kontext)
   vm.runInContext(lies('disney-weg.js'), kontext)
   return kontext.akDisneyWeg
 }
@@ -144,6 +146,7 @@ async function disneyDrinnen(fabrik) {
       fetch: fetchAntwort,
     })
     k.globalThis = k
+    vm.runInContext(lies('pruefstand-zeit.js'), k)
     vm.runInContext(lies('disney-weg.js'), k)
     k.AK_DISNEY_WEG = fabrik({ dauer: speicherKulisse(), jetzt: () => FEST })
     k.AK_DISNEY_STAFFELN = { titelIdFuer: () => null }
