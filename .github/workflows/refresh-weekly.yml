@@ -263,6 +263,10 @@ jobs:
     if: needs.anmelden.outputs.laufen == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    # Ein Schreiber an `data/justwatch-audio.json` zur Zeit: der Tageslauf (Job `sammeln` in refresh-data.yml) trägt dieselbe Gruppe (`tools/justwatch-schreiber.test.mjs`).
+    concurrency:
+      group: justwatch-datei
+      cancel-in-progress: false
     outputs:
       fehler: ${{ steps.auswerten.outputs.fehler }}
     env:
