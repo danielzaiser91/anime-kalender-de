@@ -41,10 +41,10 @@ ohne.lauf.render({ a: 1 })
 ohne.lauf.render({ a: 1 })
 gleich('ohne Liste: jedes Mal, mit Aufräumen davor', ohne.protokoll, ['lauf1', 'weg1', 'lauf1'])
 
-const laenge = probe((p) => (p.a === 1 ? [1] : [1, 2]))
+const laenge = probe((p) => (p.a === 1 ? [1, 2] : [1]))
 laenge.lauf.render({ a: 1 })
 laenge.lauf.render({ a: 2 })
-gleich('längere Liste mit gleichem Anfang zählt als neu', laenge.protokoll, ['lauf1', 'weg1', 'lauf2'])
+gleich('kürzere Liste mit gleichem Anfang zählt als neu', laenge.protokoll, ['lauf1', 'weg1', 'lauf2'])
 
 if (fehler > 0) process.exit(1)
 console.log('haken-lauf.test: Deps, Aufräumen vor Neulauf, schliessen ✓')
