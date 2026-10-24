@@ -119,9 +119,9 @@ try {
   if (offenUrls.join() !== [URL_VIER, URL_LUECKE, URL_DMC].sort().join()) fehler.push(`offen: ${offenUrls.join(' ')}, erwartet die uneinheitliche, die Lücken- und die Devil-May-Cry-Adresse`)
   const belegt = Object.keys(zugeordnet).filter((k) => k.startsWith(URL_VIER) || k.startsWith(URL_LUECKE) || k.startsWith(URL_DMC))
   if (belegt.length) fehler.push(`uneinheitliche Töne oder Lücke trotzdem zugeordnet: ${belegt.join(' ')}`)
-  const abgehakt = (lies('post.json') as { rohfolgenUebernommen: number[] }).rohfolgenUebernommen.length
+  const abgehakt = (lies('data/cache/rohfolgen-abhaken.json') as number[]).length
   const zugeordneteZeilen = rohfolgen.filter((z) => z.url === URL_DREI || z.url === URL_ZWEI).length
-  if (abgehakt !== zugeordneteZeilen) fehler.push(`abgehakt: ${abgehakt}, erwartet ${zugeordneteZeilen} (offene bleiben im Briefkasten)`)
+  if (abgehakt !== zugeordneteZeilen) fehler.push(`abgehakt: ${abgehakt}, erwartet ${zugeordneteZeilen} (offene bleiben im Briefkasten; seit 17.10. merkt der Zuordner nur, abgehakt wird nach dem Commit)`)
 } catch (e) {
   fehler.push(`Ergebnis nicht lesbar: ${(e as Error).message}`)
 } finally {
