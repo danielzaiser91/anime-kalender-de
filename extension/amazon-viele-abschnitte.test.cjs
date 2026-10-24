@@ -99,8 +99,8 @@ setTimeout(() => {
   const g = gut.letzter()
   pruefe('alle fünf Abschnitte: 99 Folgen gelesen', g.funde?.length === 99, g.funde?.length)
   pruefe('alle Abschnitte geholt: offen 0', g.abschnitte?.offen === 0, g.abschnitte)
-  pruefe('Abschnittslog: fünf Einträge mit Status 200', g.abschnittLog?.length === 5 && g.abschnittLog.every((e) => e.status === 200), g.abschnittLog)
-  pruefe('Abschnittslog nennt Bereich 73–96 und 24 Folgen für den vierten', g.abschnittLog?.[3]?.von === 73 && g.abschnittLog?.[3]?.bis === 96 && g.abschnittLog?.[3]?.gelesen === 24, g.abschnittLog?.[3])
+  pruefe('Abschnittslog: fünf Einträge mit Status 200', g.abschnitte?.log?.length === 5 && g.abschnitte?.log.every((e) => e.status === 200), g.abschnitte?.log)
+  pruefe('Abschnittslog nennt Bereich 73–96 und 24 Folgen für den vierten', g.abschnitte?.log?.[3]?.von === 73 && g.abschnitte?.log?.[3]?.bis === 96 && g.abschnitte?.log?.[3]?.gelesen === 24, g.abschnitte?.log?.[3])
 
   const e = einmalFehler.letzter()
   pruefe('ein einmaliger Fehler im vierten Abschnitt wird nachgeholt: 99 Folgen', e.funde?.length === 99, e.funde?.length)
@@ -115,11 +115,11 @@ setTimeout(() => {
   const k = kollision.letzter()
   pruefe('Nummernkollision: 75 Folgen, die ersten 24 bleiben unverändert', k.funde?.length === 75 && k.funde.find((f) => f.nummer === 1)?.kennung === 'B0FOLGE001', k.funde?.length)
   pruefe('Nummernkollision: der Abschnitt zählt als offen (offen 1)', k.abschnitte?.offen === 1, k.abschnitte)
-  pruefe('Nummernkollision: der Log nennt 24 Kollisionen', k.abschnittLog?.[3]?.kollisionen === 24, k.abschnittLog?.[3])
+  pruefe('Nummernkollision: der Log nennt 24 Kollisionen', k.abschnitte?.log?.[3]?.kollisionen === 24, k.abschnitte?.log?.[3])
 
   const o = ohneNummer.letzter()
   pruefe('Folgen ohne Nummer: 75 Folgen, Abschnitt offen', o.funde?.length === 75 && o.abschnitte?.offen === 1, [o.funde?.length, o.abschnitte])
-  pruefe('Folgen ohne Nummer: der Log nennt 24 ohne Nummer', o.abschnittLog?.[3]?.ohneNummer === 24, o.abschnittLog?.[3])
+  pruefe('Folgen ohne Nummer: der Log nennt 24 ohne Nummer', o.abschnitte?.log?.[3]?.ohneNummer === 24, o.abschnitte?.log?.[3])
 
   console.log()
   if (fehler.length) {

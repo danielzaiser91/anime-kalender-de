@@ -46,7 +46,7 @@ function knopfBietet(e) {
     `${knopfCode}\nreturn 'melden'`,
   )
   const r = f(
-    knopf, { gesamt: e.gesamt }, { folgenLautSeite: e.lautSeite ?? 0 }, e.geladen, e.gesperrt ?? 0,
+    knopf, { gesamt: e.gesamt, abschnitte: e.abschnitte }, { folgenLautSeite: e.lautSeite ?? 0 }, e.geladen, e.gesperrt ?? 0,
     e.vollstaendig, e.lageTot ?? e.tot ?? false, e.deutsch ?? false, () => e.kanal ?? false, kasten,
   )
   return { bietet: r === 'melden' && !knopf.disabled, knopf }
@@ -64,7 +64,7 @@ async function klick(e, umgebung = {}) {
   const ergebnis = await f(
     knopf, () => umgebung.verbindung ?? true, umgebung.standGeladen ?? true, Promise.resolve(), umgebung.erledigt ?? {}, 'L',
     () => 'S', '', () => {}, { reload() {} }, () => {}, () => [], () => e.geladen, () => e.deutsch ?? false,
-    { gesamt: e.gesamt, gesperrt: e.gesperrt ? karte(e.gesperrt) : undefined },
+    { gesamt: e.gesamt, abschnitte: e.abschnitte, gesperrt: e.gesperrt ? karte(e.gesperrt) : undefined },
     () => ({ folgenLautSeite: e.lautSeite ?? 0, regionFolgen: [] }), () => e.kanal ?? false, () => {},
     (grund, ok = false) => abgewiesen.push({ grund, ok }),
     { storage: { sync: { get: umgebung.tokenGet ?? (() => Promise.resolve({ token: 'T' })) } } }, kasten,
@@ -89,6 +89,8 @@ const TABELLE = [
   { name: 'nicht abrufbar (tot) ohne Folgenzahl', geladen: 3, gesamt: 24, vollstaendig: true, tot: true, erwartet: true },
   { name: 'Lage sagt nicht abrufbar, Knopf-Zustand nicht (auseinanderlaufend)', geladen: 75, gesamt: 99, vollstaendig: true, lageTot: true, tot: false, erwartet: false },
   { name: 'Lage sagt abrufbar, Knopf-Zustand tot (auseinanderlaufend)', geladen: 3, gesamt: 24, vollstaendig: true, lageTot: false, tot: true, erwartet: true },
+  { name: 'Band-Staffel: alle zwei Abschnitte gelesen (48 von 96 genannt)', geladen: 48, gesamt: 96, lautSeite: 96, abschnitte: { gesamt: 2, offen: 0 }, vollstaendig: true, erwartet: true },
+  { name: 'Dai: fünf Abschnitte, einer offen (75 von 99)', geladen: 75, gesamt: 99, abschnitte: { gesamt: 5, offen: 1 }, vollstaendig: true, erwartet: false },
   { name: 'ohne Folgenzahl, eine Folge', geladen: 1, gesamt: 0, vollstaendig: true, erwartet: true },
 ]
 async function tabelle() {

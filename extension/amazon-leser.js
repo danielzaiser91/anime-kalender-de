@@ -394,8 +394,11 @@
         ...(seite ? { seite } : {}),
         startAdresse,
         fuerAdresse: abrufAdresse,
-        abschnitte: { gesamt: z.tokens.size, offen: [...z.tokens].filter((t) => !z.geholt.has(t) || z.unlesbar.has(t)).length },
-        abschnittLog: z.abschnittLog,
+        abschnitte: {
+          gesamt: z.tokens.size,
+          offen: [...z.tokens].filter((t) => !z.geholt.has(t) || z.unlesbar.has(t)).length,
+          log: z.abschnittLog,
+        },
         ...zusatz,
       },
       '*',
