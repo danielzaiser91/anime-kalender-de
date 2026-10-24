@@ -23,6 +23,7 @@ const WEGWERF_WURZEL = {
   'tools/bau-eingaben.test.mjs': ['data/bestand-historie.jsonl'],
   'tools/delta-wache-historie.test.mjs': ['data/bestand-historie.jsonl'],
   'tools/delta-wache-pendel.test.mjs': ['data/bestand-historie.jsonl'],
+  'pipeline/check-patchnotes-stempel-regel.ts': ['data/bestand-historie.jsonl'],
 }
 
 // Wächter, die das Lesen verbieten oder prüfen, nennen den Namen als Muster.
