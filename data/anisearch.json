@@ -586842,6 +586842,39 @@
     },
     "fetchedAt": "2026-10-03T10:32:56.696Z"
   },
+  "112448": {
+    "anisearchId": 22072,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Sasohan Nyanya",
+          "titleNative": "사소한 냐냐",
+          "status": "Abgeschlossen",
+          "released": "10.07.2019 - 01.07.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "Psycho Nyanya",
+          "status": "Abgeschlossen",
+          "released": "26.09.2019 - 10.09.2020"
+        }
+      ],
+      "format": "Web",
+      "episodes": 103,
+      "runtimeMinutes": 2,
+      "season": "Sommer 2019",
+      "studios": [
+        "STUDIO LICO Corp."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "synonyms": [
+        "Psycho Nyanya"
+      ]
+    },
+    "fetchedAt": "2026-10-24T06:01:35.094Z"
+  },
   "112449": {
     "anisearchId": 16133,
     "streams": [],
@@ -879070,6 +879103,30 @@
       ]
     },
     "fetchedAt": "2026-10-18T06:01:33.988Z"
+  },
+  "218493": {
+    "anisearchId": 22067,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Wan Sheng Jie: Tebie Pian - Gubao de Mimi",
+          "titleNative": "Wan Sheng Jie: Te Bie Pian - Gu Bao de Mi Mi",
+          "status": "Zukünftig",
+          "released": "31.10.2026 - ?"
+        }
+      ],
+      "format": "Web",
+      "episodes": 3,
+      "season": "Herbst 2026",
+      "adaptedFrom": "Manhua",
+      "synonyms": [
+        "All Saints Street Halloween Special",
+        "All Saints Street Special: The Secret of the Old Castle"
+      ]
+    },
+    "fetchedAt": "2026-10-24T06:01:41.847Z"
   },
   "218532": {
     "anisearchId": 22024,
