@@ -6,14 +6,9 @@ import { artWort, type Stand } from '../../lib/empfehlung-reise.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { anbieterName } from '@shared/types.ts'
 import type { PlatformId } from '@shared/types.ts'
+import type { VorschlagAktionen } from '../../lib/empfehlung-aktionen.ts'
 import { Cover } from './bilder.tsx'
 
-export interface VorschlagAktionen {
-  favorit: (id: number) => void
-  gesehen: (id: number) => void
-  nein: (id: number) => void
-  oeffne: (id: number) => void
-}
 
 const ZEILE = 'flex min-h-11 items-center gap-2 rounded-[10px] border border-ak-rand bg-ak-flaeche px-2.5 text-left text-[13px] font-semibold hover:bg-ak-flaeche-2'
 

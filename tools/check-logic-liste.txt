@@ -75,6 +75,7 @@ pipeline/check-disney-gesamtnummer.ts
 pipeline/check-dub-aus-terminen.ts
 pipeline/check-dub-bereiche.ts
 pipeline/check-dub-durchgehende-zaehlung.ts
+pipeline/check-empfehlung-ablauf.ts
 pipeline/check-empfehlung-ansicht.ts
 pipeline/check-empfehlung-kern.ts
 pipeline/check-empfehlung.ts

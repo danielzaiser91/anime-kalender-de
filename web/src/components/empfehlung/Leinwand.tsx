@@ -87,11 +87,13 @@ export function Leinwand({ k, titel, genres, eigene, istFavorit, aktionen }: {
 }) {
   const { t } = useLang()
   const szene = useRef<HTMLDivElement>(null)
+  const zeit = useRef<number | undefined>(undefined)
+  useEffect(() => () => window.clearTimeout(zeit.current), [])
   const [weg, setWeg] = useState<'' | 'weg-links' | 'weg-unten'>('')
   const verlassen = (art: 'weg-links' | 'weg-unten', tu: () => void) => {
     if (weg) return
     setWeg(art)
-    window.setTimeout(tu, 320)
+    zeit.current = window.setTimeout(tu, 320)
   }
   const nein = () => verlassen('weg-links', aktionen.nein)
   const gesehen = () => verlassen('weg-unten', aktionen.gesehen)

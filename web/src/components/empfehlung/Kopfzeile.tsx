@@ -1,5 +1,5 @@
 import { useLang } from '../../lib/i18n.tsx'
-import type { Phase } from './use-reise.ts'
+import type { Phase } from '../../lib/empfehlung-ablauf.ts'
 
 const KNOPF = 'inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full border border-ak-rand bg-ak-flaeche px-3 text-[13px]'
 

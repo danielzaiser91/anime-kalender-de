@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import type { Dataset } from '../../lib/data.ts'
 import { useEmpfehlungsDaten } from '../../lib/empfehlung-daten.ts'
 import { empfehlungGesehen, empfehlungVerworfen, useReiseAnbieter } from '../../lib/empfehlung-speicher.ts'
+import { baueAktionen, nimmWeg } from '../../lib/empfehlung-aktionen.ts'
 import { mosaikIds } from '../../lib/empfehlung-reise.ts'
 import { useFavorites, useHidden } from '../../lib/favorites.ts'
 import { useLang } from '../../lib/i18n.tsx'
@@ -35,21 +36,8 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
   const mosaik = useMemo(() => mosaikIds(kontext?.datei.einstiege ?? [], MOSAIK_COVER), [kontext])
   const kandidat = (id: number) => kontext!.datei.einstiege[kontext!.index.get(id)!]
   const genresVon = (id: number) => kandidat(id).g.map((i) => kontext!.datei.genres[i])
-  const markiere = (ids: typeof empfehlungGesehen, id: number) => {
-    ids.write(new Set([...ids.read(), id]))
-    reise.entferne(id)
-  }
-  const aktionen = {
-    favorit: toggle,
-    gesehen: (id: number) => markiere(empfehlungGesehen, id),
-    nein: (id: number) => markiere(empfehlungVerworfen, id),
-    oeffne: reise.oeffne,
-  }
-  const zurueckholen = (id: number) => {
-    const ids = empfehlungVerworfen.read()
-    ids.delete(id)
-    empfehlungVerworfen.write(ids)
-  }
+  const aktionen = baueAktionen({ gesehen: empfehlungGesehen, verworfen: empfehlungVerworfen, favorit: toggle, oeffne: reise.oeffne, entferne: reise.entferne })
+  const zurueckholen = (id: number) => nimmWeg(empfehlungVerworfen, id)
   const verworfeneKandidaten = kontext ? [...verworfen.ids].filter((id) => kontext.index.has(id)).map(kandidat) : []
   const phase = kontext ? reise.phase : 'start'
 
