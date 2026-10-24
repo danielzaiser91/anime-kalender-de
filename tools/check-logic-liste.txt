@@ -9,6 +9,7 @@ pipeline/check-adn-kuratiert-ton.ts
 pipeline/check-adn-kuratiert.ts
 pipeline/check-adn-lesetag.ts
 pipeline/check-adn-neuzugaenge.ts
+pipeline/check-adn-offen-wache.ts
 pipeline/check-adn-sprache-offen.ts
 pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-adressen-schreiben.ts
@@ -247,6 +248,8 @@ pipeline/check-termine-uebersicht.ts
 pipeline/check-termine-woche-lauf.ts
 pipeline/check-titelwechsel.ts
 pipeline/check-tmdb-ablauf.ts
+pipeline/check-tmdb-folgen-auswahl.ts
+pipeline/check-tmdb-folgen-lauf.ts
 pipeline/check-tmdb-genre.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts

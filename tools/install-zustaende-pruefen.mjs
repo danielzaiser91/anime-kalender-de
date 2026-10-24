@@ -33,7 +33,7 @@ const LAGEN = {
   ios: { ua: IOS_UA },
   installiert: { init: STANDALONE, ereignis: true, erwartet: 0 },
 }
-const BREITEN = [320, 389, 390, 439, 'desktop']
+const BREITEN = [320, 389, 390, 439, 768, 'desktop']
 
 const sichtbar = async (loc) => {
   let n = 0
@@ -72,7 +72,7 @@ async function fall(browser, name, lage, breite) {
   if (lage.ereignis) {
     await seite.evaluate(EREIGNIS)
     // Bedingung statt Pause: Ab 390 px muss der Kopf-Knopf erscheinen, bevor gezählt wird.
-    if (!desktop && breite >= 390 && lage.erwartet !== 0) await kopfKnopf.first().waitFor({ state: 'visible', timeout: 10_000 })
+    if (!desktop && breite >= 390 && breite < 768 && lage.erwartet !== 0) await kopfKnopf.first().waitFor({ state: 'visible', timeout: 10_000 })
   }
   if (lage.ablehnen && !desktop) {
     // Wer das Angebot ablehnt, verbraucht das Ereignis — danach bietet der Browser nichts mehr an.

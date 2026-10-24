@@ -8,76 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-17#15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T040000Z
-DTEND:20261017T043000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-17#16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T042500Z
-DTEND:20261017T045500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-17#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T045000Z
-DTEND:20261017T052000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-17#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T051500Z
-DTEND:20261017T054500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-10-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T110000Z
-DTEND:20261017T113000Z
-SUMMARY:Pokémon Horizonte – Folge 131/132
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-10-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T120000Z
-DTEND:20261017T123000Z
-SUMMARY:Pokémon Horizonte – Folge 131/132
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-165159-tv-toggo-plus@2026-10-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T184500Z
-DTEND:20261017T191500Z
-SUMMARY:Beyblade X – Folge 120/121
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/15075/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261017T221000Z
@@ -940,8 +870,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-26#44@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261026T175000Z
-DTEND:20261026T182000Z
+DTSTART:20261026T175500Z
+DTEND:20261026T182500Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
