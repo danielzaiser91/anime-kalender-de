@@ -43,14 +43,18 @@ globalThis.akNetflixStummStarten = (umg) => {
   const aktiv = () => fenster.location.pathname.startsWith('/watch/') && globalThis.akNetflixLaufAktiv(speicher, Date.now())
 
   const zurueck = () => {
-    for (const [video, warStumm] of vorher) if (!warStumm && video.muted) video.muted = false
+    for (const [video, warStumm] of vorher) {
+      if (!warStumm && video.muted) video.muted = false
+      video.removeAttribute?.('data-ak-war-laut')
+    }
     vorher.clear()
     taktStopp(uhr)
     uhr = null
   }
   const lauftNoch = () => globalThis.akNetflixLaufAktiv(speicher, Date.now()) || zurueck()
   const stumm = (video) => {
-    if (!vorher.has(video)) vorher.set(video, video.muted)
+    /* `netflix-stumm-seite.js` (Seitenwelt) hat es evtl. schon stumm gestellt und es so markiert. */
+    if (!vorher.has(video)) vorher.set(video, video.muted && !video.hasAttribute?.('data-ak-war-laut'))
     if (!video.muted) video.muted = true
     if (uhr === null) uhr = takt(lauftNoch, globalThis.akNetflixStummPruefTaktMs)
   }
