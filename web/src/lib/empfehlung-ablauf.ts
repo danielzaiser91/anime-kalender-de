@@ -31,7 +31,7 @@ export function neueReise(k: Kontext, a: Ablauf, startwert: number, ausgeschloss
 export function antworten(k: Kontext, a: Ablauf, antwort: Antwort, rang: (z: Zustand) => Kandidat[]): Ablauf {
   if (!a.sitzung) return a
   const s = antworteSitzung(k, a.sitzung, antwort)
-  if (s === a.sitzung || istFertig(k, s.zustand, a.ziel)) return { ...a, sitzung: s, phase: 'ergebnis', gezeigt: ersteVorschlaege(rang(s.zustand)) }
+  if (istFertig(k, s.zustand, a.ziel)) return { ...a, sitzung: s, phase: 'ergebnis', gezeigt: ersteVorschlaege(rang(s.zustand)) }
   return { ...a, sitzung: s }
 }
 
