@@ -564,7 +564,7 @@ function veraltetTest(schritte) {
      * Bedingung und `return` nichts anderes passiert; dafür genügt ein
      * großzügiges Fenster.
      */
-    /if\s*\([^)]*!deutsch\s*&&\s*!vollstaendig\s*\)[\s\S]{0,2500}?return/.test(leser),
+    /if\s*\(!globalThis\.akPrimeMeldungErlaubt\(\{ nichtAbrufbar, deutsch[^)]*\)\)\s*\{[\s\S]{0,2500}?return/.test(leser),
   )
   pruefe(
     'die Folgenzahl wird aus episodeNumber gewonnen, nicht aus allen audioTracks',

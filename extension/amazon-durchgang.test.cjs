@@ -129,6 +129,7 @@ function welt({ imFrame = false, speicher = neuerSpeicher() } = {}) {
     letzteSignatur: null,
   }
   vm.createContext(kontext)
+  vm.runInContext(readFileSync(__dirname + '/prime-region.js', 'utf8'), kontext)
   vm.runInContext(block, kontext)
   w.kontext = kontext
   w.lauf = () => vm.runInContext('primeLaufLesen()', kontext)
@@ -312,7 +313,35 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   const w = welt({ imFrame: true })
   w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 1500)
   w.zeige('trage ein …', 16_000, false)
-  pruefe('Frame: Klick ohne Rückmeldung — nach 15 s als nicht gemeldet', w.gepostet[0]?.ok === false && /keine Rückmeldung/.test(w.gepostet[0].grund), w.gepostet[0])
+  pruefe('Frame: Klick, den der Handler gar nicht beantwortet (echtes Ausbleiben) — nach 15 s als nicht gemeldet', w.gepostet[0]?.ok === false && /keine Rückmeldung/.test(w.gepostet[0].grund), w.gepostet[0])
+}
+
+{
+  const w = welt({ imFrame: true })
+  w.kontext.letzteMeldung = { pfad: '/x', ok: false, am: w.uhr - 5000, abgewiesen: 'alt, vor dem Klick' }
+  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 1500)
+  w.zeige('trage ein …', 16_000, false)
+  pruefe('Frame: eine Abweisung von vor dem Klick zählt nicht', /keine Rückmeldung/.test(w.gepostet[0]?.grund ?? ''), w.gepostet[0])
+}
+
+/* Bewusster Ausstieg des Klicks: der Grund geht sofort zurück, nicht erst nach 15 s als „keine Rückmeldung“. */
+{
+  const w = welt({ imFrame: true })
+  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 1500)
+  w.kontext.letzteMeldung = { pfad: '/x', ok: false, am: w.uhr, abgewiesen: 'Staffel nicht vollständig gelesen' }
+  w.zeige('75 von 99 Folgen gelesen — für „kein Deutsch" fehlen 24', 500)
+  const d = w.gepostet[0]
+  pruefe('Frame: abgewiesener Klick → sofort „nicht gesendet: <Grund>"', d?.ok === false && d.grund === 'nicht gesendet: Staffel nicht vollständig gelesen', d)
+  pruefe('Frame: … und ohne 15 s Wartezeit', w.uhr - 1_000_000 < 5000 && !/keine Rückmeldung/.test(d?.grund ?? ''), w.uhr)
+}
+
+{
+  const w = welt({ imFrame: true })
+  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 1500)
+  w.kontext.letzteMeldung = { pfad: '/x', ok: true, am: w.uhr, abgewiesen: 'schon gemeldet' }
+  w.zeige('✓ Staffel 9 gemeldet', 500)
+  const d = w.gepostet[0]
+  pruefe('Frame: Ausstieg „schon gemeldet" → ok, nicht als Fehler', d?.ok === true && d.grund === 'schon gemeldet', d)
 }
 
 {
