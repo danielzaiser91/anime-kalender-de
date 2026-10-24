@@ -4,7 +4,8 @@ import type { Patchnote } from '@shared/patchnotes.ts'
 import { addDays, todayIso } from '@shared/time.ts'
 import { ladePatchnotes } from '../lib/patchnotes.ts'
 import { PT } from '../lib/patchnotes-texte.ts'
-import { PatchFilter, PatchKopf, PatchTagBlock, SCHLIESS_MS, fokusfalle, tageVon, useWischen, type Filter } from './patchnotes-teile.tsx'
+import { PatchFilter, PatchKopf, PatchTagBlock, SCHLIESS_MS, fokusfalle, useWischen } from './patchnotes-teile.tsx'
+import { tageVon, type Filter } from '../lib/patchnotes-tage.ts'
 import '../patchnotes.css'
 
 /**

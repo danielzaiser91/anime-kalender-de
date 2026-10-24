@@ -10,7 +10,7 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 
 const WURZEL = resolve(import.meta.dirname, '..')
-const KOPIEN = ['check-logic-alle.mjs', 'tests-alle.mjs', 'arbeiterpool.mjs', 'git-stand-wache.mjs', 'sperre-umgebung.mjs', 'bau-umgebung.mjs', 'bestand-sperre.cjs', 'check-logic-vollstaendig.mjs', 'liste-pruefen.mjs', 'pr-basis.mjs']
+const KOPIEN = ['check-logic-alle.mjs', 'tests-alle.mjs', 'arbeiterpool.mjs', 'git-stand-wache.mjs', 'sperre-umgebung.mjs', 'bau-umgebung.mjs', 'bestand-sperre.cjs', 'check-logic-vollstaendig.mjs', 'check-logic-historie.mjs', 'liste-pruefen.mjs', 'pr-basis.mjs']
 const STILL = "console.log('still')\n"
 const SCHREIBT_GETRACKT = "import { writeFileSync } from 'node:fs'\nwriteFileSync('x.txt', 'zwei\\n')\n"
 const SCHREIBT_NEU = "import { writeFileSync } from 'node:fs'\nwriteFileSync('neu.txt', 'neu\\n')\n"

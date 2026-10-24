@@ -2,15 +2,10 @@ import { useRef } from 'react'
 import type { Patchnote } from '@shared/patchnotes.ts'
 import { weekdayName } from '@shared/time.ts'
 import { PT } from '../lib/patchnotes-texte.ts'
+import type { Filter, PatchTag } from '../lib/patchnotes-tage.ts'
 import { Tooltip } from './ui.tsx'
 
 /** Bausteine des Dialogs „Neu auf der Webseite“ (siehe `PatchnotesDialog.tsx`). */
-export type Filter = 'alles' | Patchnote['kategorie']
-export interface PatchTag {
-  datum: string
-  hl: Patchnote[]
-  zeilen: Patchnote[]
-}
 const WISCH_SCHWELLE = 80
 export const SCHLIESS_MS = 160
 
@@ -24,8 +19,8 @@ export const Schluessel = () => (
     <path d="M14.7 6.3a4 4 0 0 0-5.4 5.1L3.5 17.2a1.8 1.8 0 0 0 2.6 2.6l5.8-5.8a4 4 0 0 0 5.1-5.4l-2.6 2.6-2.4-.6-.6-2.4z" />
   </svg>
 )
-/** Stift an der heutigen Überschrift: der Eintrag ist noch ein Entwurf. Kein Knopf: ein Knopf öffnet die Blase beim Tippen nicht (Tooltip wartet auf Tastaturfokus), die Hülle öffnet sie per Tippen, Zeigen und Tab. */
-const EntwurfHinweis = () => (
+/** Stift an der Überschrift eines Tages, dessen Texte noch nicht überarbeitet sind. Kein Knopf: ein Knopf öffnet die Blase beim Tippen nicht (Tooltip wartet auf Tastaturfokus), die Hülle öffnet sie per Tippen, Zeigen und Tab. */
+export const EntwurfHinweis = () => (
   <Tooltip text={PT.heuteHinweis} seite="unten">
     <span role="img" aria-label={PT.heuteHinweis} className="pn-entwurf">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinejoin="round" strokeLinecap="round" aria-hidden="true">
@@ -35,19 +30,6 @@ const EntwurfHinweis = () => (
   </Tooltip>
 )
 const symbolVon = (n: Patchnote) => ((n.symbol ?? (n.kategorie === 'feature' ? 'stern' : 'schluessel')) === 'stern' ? <Stern /> : <Schluessel />)
-
-/** Gruppiert nach Tag; je Tag höchstens zwei Highlight-Banner, der Rest sind Zeilen. */
-export function tageVon(liste: Patchnote[], filter: Filter): PatchTag[] {
-  const tage: PatchTag[] = []
-  for (const n of liste) {
-    if (filter !== 'alles' && n.kategorie !== filter) continue
-    let tag = tage.find((t) => t.datum === n.datum)
-    if (!tag) tage.push((tag = { datum: n.datum, hl: [], zeilen: [] }))
-    if (n.highlight && tag.hl.length < 2) tag.hl.push(n)
-    else tag.zeilen.push(n)
-  }
-  return tage
-}
 
 export function PatchKopf({ neuester, titel, schliessen }: { neuester?: string; titel: React.Ref<HTMLHeadingElement>; schliessen: () => void }) {
   return (
@@ -113,7 +95,7 @@ export function PatchTagBlock({ tag, index, heute, gestern, schliessen }: { tag:
           · {weekdayName(tag.datum, true)}
           {relativ}
         </span>
-        {tag.datum === heute && <EntwurfHinweis />}
+        {tag.entwurf && <EntwurfHinweis />}
       </h3>
       {tag.hl.map((n) => (
         <div key={n.text} className="pn-hl">
