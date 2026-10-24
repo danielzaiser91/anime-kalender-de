@@ -21,10 +21,11 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
+import { todayIso } from '../shared/time.ts'
 
 const WURZEL = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const lies = (p) => JSON.parse(readFileSync(resolve(WURZEL, p), 'utf8'))
-const heute = new Date().toISOString().slice(0, 10)
+const heute = todayIso()
 
 const titel = lies('public/data/titles.json')
 const cr = lies('data/crunchyroll-dub.json').serien ?? []

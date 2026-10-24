@@ -32,6 +32,7 @@ import {
   urteile,
   wortIndex,
 } from './lib/anisearch-katalog-abgleich.ts'
+import { todayIso } from '../shared/time.ts'
 
 const API = 'https://api.anisearch.com/v1/anime'
 export const TITELLISTE = 'data/cache/anisearch-titelliste.json'
@@ -207,7 +208,7 @@ function ergebnisDatei(offen: KatalogTitel[], urteil: Map<number, Urteil>, titel
     return { ...zeile(k), asId: u.asId, asName: t?.namen[0], asJahr: eintraege[String(u.asId)]?.y ?? t?.jahr, asFormat: eintraege[String(u.asId)]?.ty, weil: u.weil, weitere: u.weitere.map((c) => c.asId) }
   })
   return {
-    stand: new Date().toISOString().slice(0, 10),
+    stand: todayIso(),
     titelliste: nTitelliste,
     zaehlung: { sicher: nach('sicher').length, unsicher: unsicher.length, widerlegt: nach('widerlegt').length, keiner: nach('keiner').length },
     unsicher,

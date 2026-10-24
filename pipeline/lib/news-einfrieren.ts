@@ -44,13 +44,16 @@ export function traegtFestgehaltenesWeiterer<T extends { art: string; release?: 
   return { ...m, weiterer: true }
 }
 
-/** Das Gedächtnis altert mit `zuerst`: Schlüssel älter als `ab` fallen heraus, ihre festgehaltenen Flags mit. */
+/** Das Gedächtnis altert mit `zuerst`: Schlüssel älter als `ab` fallen heraus, ihre festgehaltenen Flags und Felder mit. */
 export function vergissAlte(historie: NewsHistorie, ab: string): void {
   for (const [k, v] of Object.entries(historie.zuerst)) {
     if (v < ab) delete historie.zuerst[k]
   }
   for (const k of Object.keys(historie.weiterer ?? {})) {
     if (!(k in historie.zuerst)) delete historie.weiterer![k]
+  }
+  for (const k of Object.keys(historie.felder ?? {})) {
+    if (!(k in historie.zuerst)) delete historie.felder![k]
   }
   for (const k of Object.keys(historie.premiere ?? {})) {
     if (!(k in historie.zuerst)) delete historie.premiere![k]
@@ -60,55 +63,7 @@ export function vergissAlte(historie: NewsHistorie, ab: string): void {
 /** Schlüssel der Terminmeldung, wie `terminMeldungen` ihn bildet (`art:release:datum`). */
 const schluesselVon = (m: NewsMeldung): string | undefined => (m.art === 'angekuendigt' && m.release && m.datum ? `angekuendigt:${m.release}:${m.datum}` : undefined)
 
-/**
- * **Einmaliges Säen:** Der Wert einer schon bestehenden Meldung ist ihr erster Stand in der Historie von `news.json`
- * (`staende` von alt nach neu), nicht der heutige. Nur Schlüssel, die noch fehlen und im Gedächtnis (`zuerst`) stehen.
- */
-export function saeeWeiterer(historie: NewsHistorie, staende: NewsEintrag[][], jetzt: NewsEintrag[]): number {
-  const erster: Record<string, boolean> = {}
-  for (const stand of staende) {
-    for (const e of stand) {
-      for (const m of e.meldungen) {
-        const k = schluesselVon(m)
-        if (k) erster[k] ??= m.weiterer === true
-      }
-    }
-  }
-  const fest = (historie.weiterer ??= {})
-  let neu = 0
-  for (const e of jetzt) {
-    for (const m of e.meldungen) {
-      const k = schluesselVon(m)
-      if (!k || k in fest || !(k in historie.zuerst)) continue
-      fest[k] = erster[k] ?? m.weiterer === true
-      neu++
-    }
-  }
-  return neu
-}
-
-/** Bringt `weiterer` in `news.json` auf den festgehaltenen Wert, an der Stelle, an der der Bau das Feld schreibt (nach `geschaetzt`/`belege`). */
-export function setzeWeitererEin(eintraege: NewsEintrag[], fest: Record<string, boolean>): number {
-  let geaendert = 0
-  for (const e of eintraege) {
-    e.meldungen = e.meldungen.map((m) => {
-      const k = schluesselVon(m)
-      if (!k || !(k in fest) || fest[k] === (m.weiterer === true)) return m
-      geaendert++
-      if (!fest[k]) {
-        const { weiterer: _weg, ...ohne } = m
-        return ohne
-      }
-      const reihe = Object.entries(m)
-      const nach = reihe.findLastIndex(([f]) => ['release', 'ausgabe', 'quelle', 'belege', 'geschaetzt'].includes(f))
-      reihe.splice(nach + 1, 0, ['weiterer', true])
-      return Object.fromEntries(reihe) as NewsMeldung
-    })
-  }
-  return geaendert
-}
-
-/** Bestandswächter: jede Terminmeldung in `news.json` trägt das festgehaltene `weiterer` (`fehler`); ohne Eintrag (`luecken`) hat der Bau keinen angelegt, etwa bei Meldungen aus dem Terminverlauf. */
+/** Bestandswächter: jede Terminmeldung in `news.json` trägt das festgehaltene `weiterer` (`fehler`); ohne Eintrag (`luecken`) hat der Bau keinen angelegt. Meldungen aus dem Terminverlauf tragen den Wert seit #1670 und sind keine Lücken mehr (Bestand 20.10.2026: 0). */
 export function einfrierFehler(eintraege: NewsEintrag[], historie: NewsHistorie): { fehler: string[]; luecken: string[] } {
   const fehler: string[] = []
   const luecken: string[] = []

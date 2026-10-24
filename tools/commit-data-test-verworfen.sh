@@ -53,8 +53,8 @@ for bewegung in bewegt unbewegt; do
   pruefe "anisearch.json nicht vom Lauf" nein "$(quelle_gepusht)"
   pruefe "Übernahme-Stempel zurückgenommen" '{"zuletzt":"alt"}' "$(stempel)"
   pruefe "Belege zurückgenommen" "- alt" "$(fern data/dub-confirmed.yaml)"
-  # Danach laufen noch Schritte im selben Arbeitsbaum (`data:check`): Er muss auf HEAD stehen, ohne Löcher und ohne Reste.
-  pruefe "Arbeitsbaum des Laufs sauber" "" "$(git -C "$ARBEIT/verworfen-$bewegung/lauf" status --porcelain -uall -- extension public/data/pruefstand.json data)"
+  # Danach laufen noch Schritte im selben Arbeitsbaum (`data:check`): Er muss auf HEAD stehen, ohne Löcher und ohne Reste (data/cache ist im echten Repo ignoriert; hier liegen dort die Merker des Tests).
+  pruefe "Arbeitsbaum des Laufs sauber" "" "$(git -C "$ARBEIT/verworfen-$bewegung/lauf" status --porcelain -uall -- extension public/data/pruefstand.json data ':!data/cache')"
   pruefe "Fehlerzeile nennt den Bau-Lauf" ja "$(grep -q '^::error::.*Aus dem Bau-Lauf wird nichts committet außer den Abrufen von data:fetch' "$ARBEIT/verworfen-$bewegung/log.txt" && echo ja || echo nein)"
 done
 

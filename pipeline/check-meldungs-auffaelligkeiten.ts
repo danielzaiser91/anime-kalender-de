@@ -58,7 +58,7 @@ pruefe(neueBefunde([], momentaufnahme(['a', 'b'], [], '2026-10-19', () => false)
 
 type Zeile = { pfad: string; inhalt: string }
 type Befund = { am: string; text: string }
-type Ergebnis = { befunde: Befund[] | null; warnung: string | undefined; abrufe: Zeile[]; status: number | null; fehler: string }
+type Ergebnis = { befunde: Befund[] | null; warnung: string | undefined; abrufe: Zeile[]; merker: string | undefined; status: number | null; fehler: string }
 
 function laufe(nr: number): Ergebnis {
   const ordner = mkdtempSync(join(tmpdir(), 'auffaelligkeiten-'))
@@ -74,16 +74,17 @@ function laufe(nr: number): Ergebnis {
     befunde: datei ? (JSON.parse(datei.inhalt) as Befund[]) : null,
     warnung: zeilen.find((s) => /github-env\.txt$/.test(s.pfad))?.inhalt,
     abrufe: zeilen.filter((s) => /^(GET|POST) /.test(s.pfad)),
+    merker: zeilen.find((s) => /quittung-offen[\\/]pruefungen-abhaken\.json$/.test(s.pfad))?.inhalt,
     status: lauf.status,
     fehler: lauf.stderr.slice(-300),
   }
 }
 
-/** Genau ein Abrufe-Eintrag, das Abhaken der Meldungen dieses Laufs: sonst läuft etwas am Briefkasten vorbei oder das Log ist leer. */
+/** Der Lauf merkt die Meldungen zum Abhaken (Quittungsordner) und hakt selbst nichts ab: das geschieht erst nach dem Commit. */
 function pruefeAbhaken(nr: number, r: Ergebnis, kennungen: number[]): void {
-  const erwartet = `{"uebernommen":${JSON.stringify(kennungen)}}`
-  const ok = r.abrufe.length === 1 && /^POST .*\/pruefung$/.test(r.abrufe[0]!.pfad) && r.abrufe[0]!.inhalt === erwartet
-  pruefe(ok, `Lauf ${nr}: erwartet genau ein Abhaken ${erwartet}, Abrufe: ${JSON.stringify(r.abrufe)}`)
+  const erwartet = JSON.stringify(kennungen)
+  const ok = r.abrufe.length === 0 && r.merker === erwartet
+  pruefe(ok, `Lauf ${nr}: erwartet den Merker ${erwartet} und kein Abhaken, Merker: ${r.merker}, Abrufe: ${JSON.stringify(r.abrufe)}`)
 }
 
 const r1 = laufe(1)

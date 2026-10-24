@@ -170,6 +170,10 @@ jobs:
           key: anilist-cache-${{ github.run_id }}
           restore-keys: anilist-cache-
 
+      # Merker (`pipeline/lib/spaeter-quittieren.ts`) gelten nur für diesen Lauf: Aus dem Cache wiederhergestellt, würde `commit-data.sh` sie nach einem grünen Commit freigeben.
+      - name: Quittungs-Merker aus dem Cache verwerfen
+        run: rm -rf data/cache/quittung-offen data/cache/quittung-frei
+
       - name: Rohdaten holen, falls kein Cache da ist
         if: steps.cache.outputs.cache-matched-key == ''
         env:
@@ -210,7 +214,7 @@ jobs:
           git checkout -- data/dub-confirmed.yaml
           git checkout -- data/anbieter-staffeln.json 2>/dev/null || true
           git checkout -- data/meldungen-uebernahme.json
-          rm -f data/cache/pruefungen-abhaken.json
+          rm -f data/cache/quittung-offen/pruefungen-abhaken.json
           echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Neue Meldungen zurückgestellt: $grund" >> "$GITHUB_ENV"
 
       # Was der Erweiterung aufgefallen ist, ohne dass jemand die Konsole oeffnet.
