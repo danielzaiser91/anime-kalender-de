@@ -84,7 +84,7 @@ const post = (body: unknown) =>
   )
 const loesche = (body: unknown) =>
   handlePruefung(new Request('https://worker.test/pruefung', { method: 'DELETE', headers: { 'X-Lauf-Token': 't' }, body: JSON.stringify(body) }), env)
-const hole = (suche: string) => handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&token=t&${suche}`), env)
+const hole = (suche: string) => handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&${suche}`, { headers: { Authorization: 'Bearer t' } }), env)
 
 const URL_A = 'https://www.disneyplus.com/de-de/browse/entity-a'
 const folge = (nr: number, ton = 'ja') => ({
