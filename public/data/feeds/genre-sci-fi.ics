@@ -74,13 +74,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261018
-DTEND;VALUE=DATE:20261019
+DTSTART:20261018T143000Z
+DTEND:20261018T150000Z
 SUMMARY:Tank Chair – Folge 3/≈12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/17554/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
+  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
+ 7554/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -315,13 +315,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261025
-DTEND;VALUE=DATE:20261026
+DTSTART:20261025T153000Z
+DTEND:20261025T160000Z
 SUMMARY:Tank Chair – Folge 4/≈12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/17554/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
+  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
+ 7554/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -463,13 +463,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-11-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261101
-DTEND;VALUE=DATE:20261102
+DTSTART:20261101T153000Z
+DTEND:20261101T160000Z
 SUMMARY:Tank Chair – Folge 5/≈12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/17554/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
+  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
+ 7554/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -521,13 +521,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-11-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261108
-DTEND;VALUE=DATE:20261109
+DTSTART:20261108T153000Z
+DTEND:20261108T160000Z
 SUMMARY:Tank Chair – Folge 6/≈12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/17554/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
+  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
+ 7554/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -559,13 +559,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-11-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261115
-DTEND;VALUE=DATE:20261116
+DTSTART:20261115T153000Z
+DTEND:20261115T160000Z
 SUMMARY:Tank Chair – Folge 7/≈12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/17554/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
+  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
+ 7554/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -661,13 +661,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-11-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261122
-DTEND;VALUE=DATE:20261123
+DTSTART:20261122T153000Z
+DTEND:20261122T160000Z
 SUMMARY:Tank Chair – Folge 8/≈12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/17554/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
+  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
+ 7554/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -710,13 +710,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-11-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261129
-DTEND;VALUE=DATE:20261130
+DTSTART:20261129T153000Z
+DTEND:20261129T160000Z
 SUMMARY:Tank Chair – Folge 9/≈12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/17554/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
+  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
+ 7554/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -760,13 +760,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-12-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261206
-DTEND;VALUE=DATE:20261207
+DTSTART:20261206T153000Z
+DTEND:20261206T160000Z
 SUMMARY:Tank Chair – Folge 10/≈12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/17554/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
+  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
+ 7554/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -818,13 +818,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-12-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261213
-DTEND;VALUE=DATE:20261214
+DTSTART:20261213T153000Z
+DTEND:20261213T160000Z
 SUMMARY:Tank Chair – Folge 11/≈12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/17554/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
+  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
+ 7554/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -856,13 +856,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-12-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261220
-DTEND;VALUE=DATE:20261221
+DTSTART:20261220T153000Z
+DTEND:20261220T160000Z
 SUMMARY:Tank Chair – Folge 12/≈12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/17554/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
+  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
+ 7554/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
