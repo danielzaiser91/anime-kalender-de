@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { Kandidat } from '@shared/empfehlung-pool.ts'
 import { PLATFORMS, type Fsk, type PlatformId, type StreamLink, type Title } from '@shared/types.ts'
 import { loadSynopsis } from '../../lib/data.ts'
+import { belegLink } from '@shared/quelle.ts'
 import { kuerze, metaZeile } from '../../lib/empfehlung-reise.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { TrailerKino } from '../detail/kino.tsx'
@@ -23,7 +24,7 @@ function Anbieter({ wege, eigene }: { wege: StreamLink[]; eigene: ReadonlySet<st
       {wege.map((s) => (
         <a
           key={s.platform}
-          href={s.url}
+          href={belegLink(s)}
           target="_blank"
           rel="noopener noreferrer"
           style={{ borderColor: PLATFORMS[s.platform as PlatformId]?.color }}
