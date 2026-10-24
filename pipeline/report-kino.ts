@@ -36,6 +36,7 @@
 import { writeFileSync, mkdirSync, existsSync } from 'node:fs'
 import { readJson, log } from './lib/util.ts'
 import type { Title, Release } from '../shared/types.ts'
+import { todayIso } from '../shared/time.ts'
 
 const QUELLE = 'data/proposals/anime2you.json'
 const ZIEL = 'daniel-zum-abarbeiten/listen/10-kinostarts.md'
@@ -55,7 +56,7 @@ function titelAusUeberschrift(zeile: string): string | null {
 }
 
 function heute(): string {
-  return new Date().toISOString().slice(0, 10)
+  return todayIso()
 }
 
 function main(): void {

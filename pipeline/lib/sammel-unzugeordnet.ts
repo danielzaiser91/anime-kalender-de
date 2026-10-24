@@ -2,6 +2,7 @@ import type { Release } from '../../shared/types.ts'
 import type { Vorschlag } from './meldungen.ts'
 import { log } from './util.ts'
 import { writeJsonStand } from './stand-halten.ts'
+import { todayIso } from '../../shared/time.ts'
 
 /**
  * **Was ein Sammelartikel meldet und der Bau keinem Titel zuordnen konnte** (04.10.2026): „Tokyo Revengers: War of the
@@ -34,6 +35,6 @@ export function unzugeordnet(sammelVorschlaege: Vorschlag[], neueReleases: Relea
 /** Schreibt die Liste neben die übrigen Vorschläge und nennt sie im Log. */
 export function schreibeUnzugeordnet(sammelVorschlaege: Vorschlag[], neueReleases: Release[]): void {
   const liste = unzugeordnet(sammelVorschlaege, neueReleases)
-  writeJsonStand('data/proposals/nicht-zugeordnet.json', { stand: new Date().toISOString().slice(0, 10), eintraege: liste }, 'stand', true)
+  writeJsonStand('data/proposals/nicht-zugeordnet.json', { stand: todayIso(), eintraege: liste }, 'stand', true)
   if (liste.length) log(`${liste.length} Sammelartikel-Meldungen mit deutschem Ton keinem Titel zugeordnet (data/proposals/nicht-zugeordnet.json)`)
 }

@@ -112,7 +112,7 @@ function stand(antwortDatei, alleIds, angenommen, pruefungen, ordner) {
   const ohne = join(ordner, 'ohne.json')
   writeFileSync(ohne, JSON.stringify(alleIds.filter((id) => !behalten.has(id))))
   if (!setzeZurueck()) return false
-  rmSync(join(wurzel, 'data/cache/pruefungen-abhaken.json'), { force: true })
+  rmSync(join(wurzel, 'data/cache/quittung-offen/pruefungen-abhaken.json'), { force: true })
   /* Ohne Token bricht `fetch-pruefungen.ts` still ab (Exit 0); das Nachspiel fragt den Briefkasten nicht, braucht also keins. */
   const env = { ...process.env, LAUF_TOKEN: process.env.LAUF_TOKEN || 'nachspiel', MELDUNGEN_ANTWORT: antwortDatei, MELDUNGEN_OHNE: ohne }
   delete env.GITHUB_ENV
