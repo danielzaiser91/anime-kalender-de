@@ -100,6 +100,7 @@ function welt({ imFrame = false, speicher = neuerSpeicher() } = {}) {
     gesehen: { seite: { staffeln: STAFFELN } },
     knopf: { textContent: '', style: { display: '' }, disabled: false, isConnected: true, click: () => w.geklickt++ },
     sendetGerade: false,
+    meldeSperre: { gesperrt: () => w.gesperrt === true },
     letzteMeldung: null,
     verbindungLebt: () => true,
     asin: () => 'B07VP6VPVR',
@@ -333,6 +334,17 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   const d = w.gepostet[0]
   pruefe('Frame: abgewiesener Klick → sofort „nicht gesendet: <Grund>"', d?.ok === false && d.grund === 'nicht gesendet: Staffel nicht vollständig gelesen', d)
   pruefe('Frame: … und ohne 15 s Wartezeit', w.uhr - 1_000_000 < 5000 && !/keine Rückmeldung/.test(d?.grund ?? ''), w.uhr)
+}
+
+/* Gesperrte Lage bei sichtbarem „melden“ (mitSperre würde den Klick schlucken): sofort „schon gemeldet“, kein Klick, kein 15-s-Warten. */
+{
+  const w = welt({ imFrame: true })
+  w.gesperrt = true
+  w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 1500)
+  const d = w.gepostet[0]
+  pruefe('Frame: gesperrte Lage → kein Klick', w.geklickt === 0, w.geklickt)
+  pruefe('Frame: gesperrte Lage → sofort ok „schon gemeldet“', d?.ok === true && d.grund === 'schon gemeldet', d)
+  pruefe('Frame: gesperrte Lage → ohne 15 s Wartezeit', w.uhr - 1_000_000 < 5000, w.uhr)
 }
 
 {

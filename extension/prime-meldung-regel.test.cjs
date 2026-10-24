@@ -36,16 +36,18 @@ const knopfCode = schnitt('    const keinDeutschDaten = {\n      sollFolgen', ' 
 const KLICK_KOPF = "knopf.addEventListener('click', meldeSperre.mitSperre(async (befundBeimKlick) => {\n"
 const klickAb = quelle.indexOf(KLICK_KOPF) + KLICK_KOPF.length
 const klickCode = quelle.slice(klickAb, quelle.indexOf('    /**\n     * Jeder Schritt sagt', klickAb))
+/* Dazu der Token-Teil bis vor das Senden, für die Ausstiege „Speicher“ und „kein Token“. */
+const klickCodeMitToken = quelle.slice(klickAb, quelle.indexOf('    sendetGerade = true', klickAb))
 
 function knopfBietet(e) {
-  const knopf = { dataset: {}, textContent: '', title: '', disabled: false }
+  const knopf = { dataset: { tot: String(e.tot ?? false) }, textContent: '', title: '', disabled: false }
   const f = new Function(
     'knopf', 'gesehen', 'lageJetzt', 'geladen', 'wegInRegion', 'vollstaendig', 'nichtAbrufbar', 'deutsch', 'ueberKanal', 'globalThis',
     `${knopfCode}\nreturn 'melden'`,
   )
   const r = f(
     knopf, { gesamt: e.gesamt }, { folgenLautSeite: e.lautSeite ?? 0 }, e.geladen, e.gesperrt ?? 0,
-    e.vollstaendig, e.tot ?? false, e.deutsch ?? false, () => e.kanal ?? false, kasten,
+    e.vollstaendig, e.lageTot ?? e.tot ?? false, e.deutsch ?? false, () => e.kanal ?? false, kasten,
   )
   return { bietet: r === 'melden' && !knopf.disabled, knopf }
 }
@@ -56,15 +58,16 @@ async function klick(e, umgebung = {}) {
   const f = new Function(
     'knopf', 'verbindungLebt', 'standGeladen', 'standFertig', 'erledigt', 'listenId', 'staffelSchluessel', 'letzterStand', 'zeichnen',
     'location', 'htmlNeuLesen', 'sprachenAusFolgen', 'geladeneFolgen', 'deutschInFolgen', 'gesehen', 'seitenLage', 'ueberKanal',
-    'setTimeout', 'abweisen', 'globalThis',
-    `return (async () => {\n${klickCode}\nreturn 'sendet'\n})()`,
+    'setTimeout', 'abweisen', 'chrome', 'globalThis',
+    `return (async () => {\n${klickCodeMitToken}\nreturn 'sendet'\n})()`,
   )
   const ergebnis = await f(
     knopf, () => umgebung.verbindung ?? true, umgebung.standGeladen ?? true, Promise.resolve(), umgebung.erledigt ?? {}, 'L',
     () => 'S', '', () => {}, { reload() {} }, () => {}, () => [], () => e.geladen, () => e.deutsch ?? false,
     { gesamt: e.gesamt, gesperrt: e.gesperrt ? karte(e.gesperrt) : undefined },
     () => ({ folgenLautSeite: e.lautSeite ?? 0, regionFolgen: [] }), () => e.kanal ?? false, () => {},
-    (grund, ok = false) => abgewiesen.push({ grund, ok }), kasten,
+    (grund, ok = false) => abgewiesen.push({ grund, ok }),
+    { storage: { sync: { get: umgebung.tokenGet ?? (() => Promise.resolve({ token: 'T' })) } } }, kasten,
   )
   return { sendet: ergebnis === 'sendet', abgewiesen, knopf }
 }
@@ -84,6 +87,8 @@ const TABELLE = [
   { name: 'alle gelesen (99 von 99)', geladen: 99, gesamt: 99, vollstaendig: true, erwartet: true },
   { name: 'Deutsch gefunden trotz Stillstand bei 75 von 99', geladen: 75, gesamt: 99, vollstaendig: true, deutsch: true, erwartet: true },
   { name: 'nicht abrufbar (tot) ohne Folgenzahl', geladen: 3, gesamt: 24, vollstaendig: true, tot: true, erwartet: true },
+  { name: 'Lage sagt nicht abrufbar, Knopf-Zustand nicht (auseinanderlaufend)', geladen: 75, gesamt: 99, vollstaendig: true, lageTot: true, tot: false, erwartet: false },
+  { name: 'Lage sagt abrufbar, Knopf-Zustand tot (auseinanderlaufend)', geladen: 3, gesamt: 24, vollstaendig: true, lageTot: false, tot: true, erwartet: true },
   { name: 'ohne Folgenzahl, eine Folge', geladen: 1, gesamt: 0, vollstaendig: true, erwartet: true },
 ]
 async function tabelle() {
@@ -122,6 +127,8 @@ async function ausstiege() {
     ['Neuladen-Knopf', voll, { dataset: { neuLaden: 'true' } }, 'Seite lädt neu', false],
     ['keine Folge gelesen', { geladen: 0, gesamt: 24 }, {}, 'keine Folge gelesen', false],
     ['Staffel unvollständig, kein Deutsch', { geladen: 75, gesamt: 99 }, {}, 'Staffel nicht vollständig gelesen', false],
+    ['Speicher wirft', voll, { tokenGet: () => Promise.reject(new Error('Der Speicher antwortet nicht')) }, 'Der Speicher antwortet nicht', false],
+    ['Token fehlt', voll, { tokenGet: () => Promise.resolve({}) }, 'kein Token', false],
   ]
   for (const [name, e, umgebung, grund, ok] of faelle) {
     const r = await klick(e, umgebung)
@@ -142,16 +149,9 @@ function abweisenVerdrahtung() {
   pruefe('abweisen: ok=true wird durchgereicht', k.m2.ok === true && k.m2.abgewiesen === 'Grund B', k.m2)
 }
 
-function tokenAusstiege() {
-  const nach = quelle.slice(quelle.indexOf('    /**\n     * Jeder Schritt sagt'), quelle.indexOf('    sendetGerade = true'))
-  pruefe('Token-Fehler setzt einen Grund', /catch \(err\) \{\n {6}abweisen\(err\.message\)/.test(nach))
-  pruefe('fehlender Token setzt einen Grund', /if \(!token\) \{\n {6}abweisen\('kein Token'\)/.test(nach))
-}
-
 async function haupt() {
   await tabelle()
   await ausstiege()
-  tokenAusstiege()
   abweisenVerdrahtung()
   const teil = await klick({ geladen: 27, gesperrt: 10, gesamt: 51 })
   pruefe('Text zieht gesperrte Folgen ab (27 + 10 von 51 → „fehlen 14")', /fehlen 14$/.test(teil.knopf.textContent), teil.knopf.textContent)

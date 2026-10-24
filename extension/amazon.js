@@ -8879,8 +8879,8 @@ async function speicherSchreiben(werte) {
       geladen,
       gesperrt: wegInRegion,
     }
-    /* Dieselbe Regel wie im Klick: was der Klick abweist, bietet der Knopf nicht an. */
-    if (vollstaendig && !globalThis.akPrimeMeldungErlaubt({ nichtAbrufbar, deutsch, ...keinDeutschDaten })) {
+    /* Dieselbe Regel und Quelle für „nicht abrufbar“ (`dataset.tot`) wie im Klick: was er abweist, bietet der Knopf nicht an. */
+    if (vollstaendig && !globalThis.akPrimeMeldungErlaubt({ nichtAbrufbar: knopf.dataset.tot === 'true', deutsch, ...keinDeutschDaten })) {
       const sperre = globalThis.akPrimeKeinDeutschSperre({ ...keinDeutschDaten, kanal: ueberKanal() })
       knopf.disabled = true
       knopf.dataset.deutsch = 'false'
@@ -11087,10 +11087,10 @@ async function speicherSchreiben(werte) {
       }
       return frameFertig(false, text)
     }
+    if (bietetMelden && meldeSperre.gesperrt()) return frameFertig(true, 'schon gemeldet')
     if (bietetMelden) {
       frameZustand.geklickt = jetzt
-      knopf.click()
-      return
+      return knopf.click()
     }
     /* Kein Angebot: schon gemeldet. Kurz warten, weil der Knopf in den ersten Sekunden noch lädt. */
     if (jetzt - frameZustand.start > 4000 && (!sichtbar || /gemeldet/.test(text))) {
