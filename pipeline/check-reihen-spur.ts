@@ -272,26 +272,46 @@ function spurBeobachter(): { Klasse: new (rueckruf: () => void) => { observe: (e
   }
   return { Klasse, alle }
 }
-function messeNachAenderung(art: 'mutation' | 'resize' | 'scroll'): number {
+type Lauf = { gemessen: number; abgebrochen: number[] }
+/** `rahmen.an` vergibt Ids ab 1 und hält die Rückrufe vor; `ab` nimmt sie heraus. Ohne `flushVorAufraeumen` bleibt der letzte Rahmen beim Aufräumen offen. */
+function messeNachAenderung(ausloeser: ('mutation' | 'resize' | 'scroll')[], flushVorAufraeumen = true): Lauf {
   const hoerer: Record<string, () => void> = {}
   const el = { addEventListener: (n: string, f: () => void) => (hoerer[n] = f), removeEventListener: () => undefined } as unknown as HTMLElement
   const mut = spurBeobachter()
   const res = spurBeobachter()
-  let gemessen = 0
-  const rahmenListe: (() => void)[] = []
-  const aufraeumen = verfolgeSpur(el, () => gemessen++, { mutation: mut.Klasse, resize: res.Klasse }, { an: (f) => rahmenListe.push(f), ab: () => undefined })
-  if (art === 'mutation') mut.alle[0]?.rueckruf()
-  if (art === 'resize') res.alle[0]?.rueckruf()
-  if (art === 'scroll') hoerer.scroll?.()
-  rahmenListe.forEach((f) => f())
+  const lauf: Lauf = { gemessen: 0, abgebrochen: [] }
+  const offen = new Map<number, () => void>()
+  let naechste = 1
+  const rahmen = {
+    an: (f: () => void) => {
+      offen.set(naechste, f)
+      return naechste++
+    },
+    ab: (id: number) => {
+      lauf.abgebrochen.push(id)
+      offen.delete(id)
+    },
+  }
+  const aufraeumen = verfolgeSpur(el, () => lauf.gemessen++, { mutation: mut.Klasse, resize: res.Klasse }, rahmen)
+  for (const art of ausloeser) {
+    if (art === 'mutation') mut.alle[0]?.rueckruf()
+    if (art === 'resize') res.alle[0]?.rueckruf()
+    if (art === 'scroll') hoerer.scroll?.()
+  }
+  if (flushVorAufraeumen) for (const f of [...offen.values()]) f()
   aufraeumen()
+  for (const f of [...offen.values()]) f()
   pruefe('Aufräumen trennt beide Beobachter', Boolean(mut.alle[0]?.getrennt && res.alle[0]?.getrennt))
   pruefe('Mutation beobachtet die Karten der Spur (childList)', JSON.stringify(mut.alle[0]?.optionen) === '{"childList":true}' && mut.alle[0]?.ziel === el)
-  return gemessen
+  pruefe('Resize beobachtet die Spur selbst', res.alle[0]?.ziel === el)
+  return lauf
 }
-gleich('Karten fallen weg (MutationObserver): eine Messung', messeNachAenderung('mutation'), 1)
-gleich('Breite ändert sich (ResizeObserver): eine Messung', messeNachAenderung('resize'), 1)
-gleich('Scrollen: eine Messung', messeNachAenderung('scroll'), 1)
+gleich('Karten fallen weg (MutationObserver): eine Messung', messeNachAenderung(['mutation']).gemessen, 1)
+gleich('Breite ändert sich (ResizeObserver): eine Messung', messeNachAenderung(['resize']).gemessen, 1)
+gleich('Scrollen: eine Messung', messeNachAenderung(['scroll']).gemessen, 1)
+gleich('Drei Auslöser vor dem Rahmen: eine Messung', messeNachAenderung(['scroll', 'resize', 'mutation']).gemessen, 1)
+gleich('Zweiter Auslöser bricht den offenen Rahmen ab', messeNachAenderung(['scroll', 'resize'], false).abgebrochen.slice(0, 2), [0, 1])
+gleich('Aufräumen mit offenem Rahmen: Rahmen 1 abgebrochen, danach keine Messung', messeNachAenderung(['scroll'], false), { gemessen: 0, abgebrochen: [0, 1] })
 
 if (verletzt > 0) {
   console.error(`\n${verletzt} Prüfung(en) verletzt`)

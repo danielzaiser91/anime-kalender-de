@@ -50,7 +50,7 @@ function useSpurMessung(spur: React.RefObject<HTMLDivElement | null>) {
         resize: typeof ResizeObserver === 'undefined' ? undefined : ResizeObserver,
         mutation: typeof MutationObserver === 'undefined' ? undefined : MutationObserver,
       },
-      { an: requestAnimationFrame, ab: cancelAnimationFrame },
+      { an: (f) => requestAnimationFrame(f), ab: (id) => cancelAnimationFrame(id) },
     )
     messen()
     return aufraeumen
