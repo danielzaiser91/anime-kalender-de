@@ -13,6 +13,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { hatInhalt } from '../pipeline/lib/tmdb-ablauf.ts'
+import { todayIso } from '../shared/time.ts'
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -78,7 +79,7 @@ export function datiere(daten, traegt, verlauf, heute) {
 }
 
 function main() {
-  const heute = new Date().toISOString().slice(0, 10)
+  const heute = todayIso()
   for (const { datei, traegt, schoen } of DATEIEN) {
     const daten = JSON.parse(readFileSync(join(wurzel, datei), 'utf8'))
     const r = datiere(daten, traegt, verlaufAusGit(datei), heute)

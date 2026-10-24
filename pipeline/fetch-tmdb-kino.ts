@@ -73,6 +73,7 @@
 import { readJson, writeJson, log, warn } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
+import { todayIso } from '../shared/time.ts'
 
 const args = process.argv.slice(2)
 const zahl = (name: string, standard: number): number => {
@@ -101,7 +102,7 @@ interface Fund {
 }
 
 function heute(): string {
-  return new Date().toISOString().slice(0, 10)
+  return todayIso()
 }
 
 function inMonaten(n: number): string {

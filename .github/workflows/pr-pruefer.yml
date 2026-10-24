@@ -276,6 +276,9 @@ jobs:
             Beschreibung bleibt unverändert: Korrekturen stehen als Kommentar unter "Nachträge" und gelten, verlange
             keine Änderung ihres Kopfs. "Im Log nicht gefunden" sagst du nur mit Job-Kennung; ohne Lesezugriff auf das
             Log schreibst du "nicht beurteilt".
+            Auflagen früherer Runden (20.10.2026): Führe jede Auflage aus früheren Prüfer-Kommentaren ("Prüfer Runde N",
+            auch eigene) im Protokoll einzeln auf, jeweils als erledigt (mit Beleg im Diff oder Nachtrag), verworfen
+            (mit Grund) oder offen. Ein "ok" bei einer offenen Auflage ist nicht erlaubt.
 
             Schreibe zwei Dateien:
             1. ${{ runner.temp }}/pruefer/protokoll.md — deutsch, höchstens 25 Zeilen: Urteil, Befunde mit Datei und

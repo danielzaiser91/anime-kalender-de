@@ -138,6 +138,7 @@ pipeline/check-link-leere-adresse.ts
 pipeline/check-logic.ts
 pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
+pipeline/check-mal-dubletten.ts
 pipeline/check-mal-teilung.ts
 pipeline/check-meldung-gti.ts
 pipeline/check-meldung-summenseite.ts
@@ -152,6 +153,8 @@ pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-einfrieren.ts
+pipeline/check-news-felder-bestand-ablauf.ts
+pipeline/check-news-felder-fest.ts
 pipeline/check-news-offiziell.ts
 pipeline/check-news-rhythmus.ts
 pipeline/check-news-staffel-zuordnung.ts
@@ -183,6 +186,7 @@ pipeline/check-prime-zugeordnet-leser.ts
 pipeline/check-pruefliste-verdrahtung.ts
 pipeline/check-quarantaene.ts
 pipeline/check-quellen-schreiber.ts
+pipeline/check-quittung-sperre.ts
 pipeline/check-reihen-namen-rein.ts
 pipeline/check-reihen-namen.ts
 pipeline/check-reihen-spur.ts
@@ -259,11 +263,13 @@ pipeline/check-zuordner-luecken.ts
 pipeline/check-zweitanbieter.ts
 tools/anime2you-luecken.test.ts
 tools/apt-fremdquelle.mjs
+tools/buehne-entwurf-render.test.ts
 tools/check-patchnotes-pflicht.mjs
 tools/design-klassen.mjs
 tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
 tools/feste-uhr.test.ts
+tools/heute-berlin.test.ts
 tools/heute-utc.mjs
 tools/hover-cover.test.ts
 tools/link-check-ende.test.ts

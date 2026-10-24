@@ -19,6 +19,7 @@ import { resolve } from 'node:path'
 import { log, readJson, ROOT, warn, writeJson } from './lib/util.ts'
 import type { CrDubData, CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
 import type { Title } from '../shared/types.ts'
+import { todayIso } from '../shared/time.ts'
 
 const datei = process.argv[2]
 if (!datei) {
@@ -41,7 +42,7 @@ for (const url of adressen) {
   nachKurz.set(k, [...(nachKurz.get(k) ?? []), url])
 }
 
-const heute = new Date().toISOString().slice(0, 10)
+const heute = todayIso()
 const serien: CrSerie[] = []
 let ohneTreffer = 0
 

@@ -138,6 +138,23 @@ Rechnung in `shared/takt.ts` (`taktTage`, `taktUnklar`), nur aus `schedule.obser
 ## Der Satz einer bestehenden Meldung kippt nicht (20.10.2026)
 
 - **Befund:** `weiterer` wurde bei jedem Bau aus den heutigen Wegen eines Titels neu abgeleitet (`terminMeldungen`). In 126 Ständen von `news.json` (04.–20.10.) wechselte es an 20 Meldungen 77-mal, 12 Meldungen gingen hin und her.
-- **Regel:** Der Wert vom ersten Bau, der die Meldung erzeugte, gilt (`news-historie.json`, Feld `weiterer`, Schlüssel `angekuendigt:<release>:<datum>`; `lib/news-einfrieren.ts`). Trägt der Beleg die Aussage nicht mehr, wird die Meldung nicht mehr erzeugt, aber nie umgeschrieben. Bestehende Meldungen wurden einmalig aus ihrem ersten Stand in der git-Historie gesät (`pipeline/news-einfrieren-saeen.ts`).
+- **Regel:** Der Wert vom ersten Bau, der die Meldung erzeugte, gilt (`news-historie.json`, Feld `weiterer`, Schlüssel `angekuendigt:<release>:<datum>`; `lib/news-einfrieren.ts`). Trägt der Beleg die Aussage nicht mehr, wird die Meldung nicht mehr erzeugt, aber nie umgeschrieben. Bestehende Meldungen wurden einmalig aus ihrem ersten Stand in der git-Historie gesät (einmaliges Werkzeug aus #1660, am 20.10.2026 ausgeführt und entfernt: nichts ruft es mehr auf, ein späterer Bedarf nimmt wie bei `felder` den ausgelieferten `news.json`-Stand).
 - **Wächter:** `check-news-einfrieren.ts` (check:logic, Fixture mit drei Titeln und getauschten Wegen über drei Bauten) und `check-news-einfrieren-bestand.ts` (check:bestand, `news.json` gegen das Festgehaltene).
-- **Offen:** Weitere abgeleitete Felder wechseln ebenfalls (`jahre`, `discSeitText`, `ausgabe`, `omu`, `teil`, `hinweis`, `geschaetzt`); sie sind nicht eingefroren, weil mehrere davon nachträglich eingeführt wurden und die Meldungen bewusst nachgerüstet bekamen.
+- **Weitere Felder:** siehe nächster Abschnitt; offen bleiben `omu` (Aussage, Empfehlung: einfrieren), `ausgabe` (abgeleitet aus der Edition) sowie `quelle` und `belege` (wachsen durch Beleg-Lesung, bleiben lebendig).
+
+## Felder einer Meldung: Aussage oder Darstellung (20.10.2026)
+
+Befund über 126 Stände von `news.json` (04.–20.10.): `hinweis` 45, `anbieter` 19, `kanal` 7, `geschaetzt` 7, `teil` 37, `discSeitText` 40, `jahre` 43 Wechsel; der größte Teil entstand in drei Codeänderungen, die alte Meldungen mitnahmen (74a74ff1e: 30 `hinweis`, 25 `teil`; 686494891: 22 `discSeitText`; 7b982dbdf: 17 `anbieter`).
+
+| Feld | Entscheidung | Grund |
+|---|---|---|
+| `anbieter`, `kanal` | Aussage, eingefroren | Wo es läuft, ist der Satz der Meldung („im TV bei …“, „über Aniverse“). |
+| `geschaetzt` | Aussage, eingefroren | Wie sicher der Termin am Tag war; ohne das hinge später ein Quellenlink an einer Schätzung oder fehlte an einem belegten Termin. |
+| `hinweis` | Aussage, eingefroren (nicht bei `nachgetragen`) | Die Einordnung des Tages („Zuerst nur OmU, Synchro nicht angekündigt“); Späteres ist eine neue Meldung. `nachgetragen` ist Handtext aus `data/curated` und darf berichtigt werden. |
+| `jahre`, `discSeitText` | Aussage, eingefroren | Ein Paar aus `neuJahre()`; der Satz „Nach 14 Jahren endlich …, die Disc gab es seit 4 Monaten“ gehört zusammen. |
+| `weiterer` | Aussage, eingefroren | wie bisher (`news-einfrieren.ts`). |
+| `teil` | Darstellung, lebendig | Name des Teils aus den heutigen Titelnamen; die Aussage trägt `teilId` (Teil der Kennung). Bei Umbenennungen wechselte er hin und her („Staffel 2“ → „II“ → „Staffel 2“). |
+
+- **Mechanik:** `pipeline/lib/news-felder-fest.ts`, Gedächtnis `data/news-historie.json` Feld `felder` (Schlüssel wie `zuerst`, Wert = die sechs Felder des ersten ausgelieferten Stands, `{}` = hatte keine). Läuft als letzter Schritt vor dem Gruppieren, damit Verschmelzen und Terminverlauf nichts zurückschreiben. Eine Meldung, die schon in `news.json` steht und noch keinen Eintrag hat, hält den dort ausgelieferten Stand fest (ohne Säen aus der git-Historie, das würde nachgerüstete Felder wieder entfernen). Abgelöste und zurückgezogene Meldungen tragen den Eintrag unter `art:release:datum`.
+- **Nachrüsten:** Ein neues Feld erscheint nicht mehr nachträglich an alten Meldungen. Soll es das, ist das eine bewusste Datenänderung (Eintrag in `felder` und `news.json` in einem Commit ändern).
+- **Wächter:** `check-news-felder-fest.ts` und `check-news-felder-bestand-ablauf.ts` (check:logic), `check-news-felder-bestand.ts` (check:bestand: `news.json` gegen den Vorstand `HEAD`, `--vorstand HEAD^1` für den letzten Commit). Auf den 126 Ständen vom 04.–20.10. wäre er in 38 Bauten rot gewesen.
