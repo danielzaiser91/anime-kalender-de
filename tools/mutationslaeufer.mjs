@@ -218,6 +218,19 @@ async function lauf(opt, mutanten, originale) {
   return zeilen
 }
 
+export const SIGNALE = ["SIGINT", "SIGTERM", "SIGBREAK", "SIGHUP"]
+
+// Signal: erst Testprozesse beenden, dann Dateien zurückspielen, dann Exit 130.
+export function beiSignal({ kinder, beendeBaum: beende, zuruecksetzen, exit }) {
+  for (const kind of kinder) beende(kind)
+  zuruecksetzen()
+  exit(130)
+}
+
+export function registriereSignale(proc, abhaengigkeiten) {
+  for (const sig of SIGNALE) proc.on(sig, () => beiSignal(abhaengigkeiten))
+}
+
 export async function main(argv) {
   const opt = parseArgs(argv)
   if (!opt.liste || !(opt.timeout > 0)) {
@@ -246,13 +259,7 @@ export async function main(argv) {
       if (existsSync(`${pfad}.mutlauf-orig`)) unlinkSync(`${pfad}.mutlauf-orig`)
     }
   }
-  for (const sig of ["SIGINT", "SIGTERM", "SIGBREAK", "SIGHUP"]) {
-    process.on(sig, () => {
-      for (const kind of laufendeKinder) beendeBaum(kind)
-      zuruecksetzen()
-      process.exit(130)
-    })
-  }
+  registriereSignale(process, { kinder: laufendeKinder, beendeBaum, zuruecksetzen, exit: (code) => process.exit(code) })
   try {
     const zeilen = await lauf(opt, mutanten, originale)
     if (!zeilen) return 2
