@@ -110,6 +110,7 @@ pipeline/check-invarianten.ts
 pipeline/check-ja-hat-weg.ts
 pipeline/check-jw-ablauf.ts
 pipeline/check-jw-auswahl.ts
+pipeline/check-jw-frisch-lauf.ts
 pipeline/check-jw-schlange.ts
 pipeline/check-jw-seite.ts
 pipeline/check-jw-staffeln.ts
@@ -184,6 +185,8 @@ pipeline/check-pille-nur-untertitel.ts
 pipeline/check-poster-karte-saal.ts
 pipeline/check-premiere.ts
 pipeline/check-prime-kanal.ts
+pipeline/check-prime-kaufweg-ablauf.ts
+pipeline/check-prime-kaufweg.ts
 pipeline/check-prime-nein-beleg.ts
 pipeline/check-prime-pille.ts
 pipeline/check-prime-seite-richten.ts

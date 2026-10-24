@@ -31,7 +31,7 @@ import { readJson, ROOT } from './lib/util.ts'
 import { ankuendigungenLaden } from './lib/ankuendigungen.ts'
 import { vorDemStart } from './lib/crunchyroll-vollstaendig.ts'
 import { resolve } from 'node:path'
-import type { Title } from '../shared/types.ts'
+import type { StreamLink, Title } from '../shared/types.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -1061,8 +1061,11 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   const liste = Array.isArray(roh) ? roh : (roh.titles ?? [])
   const titel = new Map(liste.map((t) => [t.id, { ...t, streams: [...t.streams] }]))
   const weg = entferneFremdeNachStaffeln(titel, kennungAusAdresse(), crStaffeln())
-  /* Ein Anbieter aus TMDB (`herkunft: 'tmdb'`, vom Cartoon-Zwilling übernommen, ohne Sprachangabe) oder aus einem sicheren Termin (`'termin'`) ist belegt, nicht erraten. */
-  const erraten = (t: Title) => (t.streams ?? []).filter((s) => s.herkunft !== 'tmdb' && s.herkunft !== 'termin' && s.herkunft !== 'handbeleg').length
+  /* Ein Anbieter aus TMDB (`herkunft: 'tmdb'`, vom Cartoon-Zwilling übernommen, ohne Sprachangabe), aus einem sicheren Termin (`'termin'`) oder ein Prime-Kaufweg aus JustWatch (`'justwatch'`, Angebot mit deutschem Ton, Zuordnung über die TMDB-Kennung) ist belegt, nicht erraten. */
+  const erraten = (t: Title) => (t.streams ?? []).filter((s) => s.herkunft !== 'tmdb' && s.herkunft !== 'termin' && s.herkunft !== 'handbeleg' && s.herkunft !== 'justwatch').length
+  const mitWeg = (herkunft?: StreamLink['herkunft']) => ({ streams: [{ platform: 'primevideo', url: 'https://x/p', herkunft }] }) as unknown as Title
+  pruefe('Fixture: ein JustWatch-Kaufweg zählt nicht als erraten', erraten(mitWeg('justwatch')) === 0)
+  pruefe('Fixture-Kontrolle: derselbe Weg ohne Herkunft zählt als erraten', erraten(mitWeg(undefined)) === 1)
   pruefe('Titel nur bei aniSearch tragen keinen erratenen Weg', liste.every((t) => t.id < 10_000_000 || !erraten(t)), liste.filter((t) => t.id >= 10_000_000 && erraten(t)).map((t) => t.titleEn ?? t.id).slice(0, 5))
   pruefe('im Bestand hängt kein Titel an einer Crunchyroll-Serie, die ihm nicht gehört', weg === 0, [...titel.values()].filter((t, i) => t.streams.length !== liste[i]!.streams.length).map((t) => t.titleEn ?? t.id).slice(0, 8))
 }
