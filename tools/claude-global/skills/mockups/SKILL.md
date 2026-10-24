@@ -23,6 +23,9 @@ Nach dem Umbau wird „Nachher" zur echten Komponente; das Bild muss dem Mockup-
 
 Ein Entwurfsauftrag nennt, was Fable nicht erraten kann, und verlangt als Ergebnis eine Bühnen-Datei, keinen HTML-Text. Auch eine neue Ansicht ohne Gegenstück in der App bekommt einen eigenen Ausschnitt auf der Bühne (`web/buehne/ausschnitte/`). Die frühere HTML-Ausnahme (Empfehlungen R3/R4, 19.10.2026) gilt seit 20.10.2026 nicht mehr (Daniel):
 
+**Neue Ansichten ohne Gegenstück (Ausschnitt `entwurf`, seit 20.10.2026):** statt eigenständigem HTML eine Bühnen-Datei mit `Variante.entwurf` (Vorbild `mockups/empfehlung-reise.tsx`, Nutzerzustand über die Fälle `nutzer-neu`/`nutzer-aktiv`). Der Entwurf trennt Laden und Darstellung (`…Ansicht({ fall, data })` ohne Hook), damit der Render-Testrahmen `tools/buehne-entwurf-render.test.ts` ihn per `renderToString` prüft (Anzahl und Reihenfolge der Einträge, Kennzeichen wie ★, fehlende Einträge, Zuordnung Variante → Entwurf); jeder neue Entwurf bekommt dort seine Fälle.
+
+
 ```
 Ziel: <ein Satz, welches Problem des Besuchers gelöst wird>
 Ausschnitt: <detailpanel | filter | kachel | ganz>

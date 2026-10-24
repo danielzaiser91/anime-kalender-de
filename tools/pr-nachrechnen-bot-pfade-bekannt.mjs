@@ -30,6 +30,8 @@ const WEGWERF_WURZEL = {
 const VERBOTSLISTE = {
   'pipeline/check-sammler-lesezugriffe.ts': ['data/crunchyroll-woche-belege.json'],
   'pipeline/check-sammler-lesezugriffe-faelle.ts': ['data/crunchyroll-woche-belege.json'],
+  'tools/quittung-nach-commit-waechter.mjs': ['data/meldungen-uebernahme.json'],
+  'tools/quittung-nach-commit-waechter.test.mjs': ['data/meldungen-uebernahme.json'],
 }
 
 // nebendateien.ts schreibt 18-suchadressen.md; lib/health.ts schreibt source-health.json und wird vom Bau nur über adn-news.ts erreicht.

@@ -848,7 +848,7 @@ const pruefsumme = createHash('sha256').update(listenInhalt).digest('hex').slice
 writeFileSync(
   resolve(wurzel, 'extension/offene-amazon-stand.js'),
   'globalThis.AK_OFFENE_AMAZON_STAND = ' + JSON.stringify(pruefsumme) + '\n' +
-    'globalThis.AK_OFFENE_AMAZON_ERZEUGT = ' + JSON.stringify(new Date().toISOString().slice(0, 10)) + '\n',
+    'globalThis.AK_OFFENE_AMAZON_ERZEUGT = ' + JSON.stringify((await import('../shared/time.ts')).todayIso()) + '\n',
 )
 /*
   Dieselbe Prüfsumme in eine eigene ausgelieferte Datei — nur von der Live-Seite
