@@ -1,4 +1,5 @@
 import { recordSource } from './health.ts'
+import { todayIso } from '../../shared/time.ts'
 
 /** Positivliste: HTTP-Status außer 403/429 (Abwehr, beweist nichts) und Amazons Regionssatz; `unklar`, `timeout`, `fehler` zählen nicht. */
 export function istAuskunft(status: unknown): boolean {
@@ -26,7 +27,7 @@ export function meldeLinkCheckZwischenstand(
 
 type Bestand = Parameters<typeof meldeLinkCheckZwischenstand>[0]
 
-const heute = () => new Date().toISOString().slice(0, 10)
+const heute = () => todayIso()
 
 /** Vor der Sperr-Pause: Befunde sichern, Stand melden, dann warten (die Zeitgrenze kann in der Pause zuschlagen). */
 export async function pauseMitStand(ms: number, bestand: Bestand, warte: (ms: number) => Promise<void>, sichere: () => void, melde: typeof recordSource = recordSource, tag = heute()): Promise<void> {

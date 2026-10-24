@@ -14,7 +14,7 @@
  *
  * Aufruf: npm run data:pruefungen
  */
-import { appendFileSync, existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { nichtGefuehrtZeilen } from './lib/beleg-nicht-gefuehrt.ts'
 import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
 import yaml from 'js-yaml'
@@ -38,21 +38,24 @@ import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
 import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
 import { ladePruefTitel } from './lib/pruef-titel.ts'
+import { OFFEN, PRUEFUNGEN_ABHAKEN, quittiereGemerkte } from './lib/spaeter-quittieren.ts'
+import { schalterOderAbbruch } from './lib/schalter.ts'
 import { folgenzahlIstBefund, schreibeAuffaelligkeiten, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
 import { ladeMeldungen, legeAbhakenAb } from './lib/meldungen-stapel.ts'
+import { baueNachUrl } from './lib/nach-url.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN
 /** Nur zeigen, was entstünde — nichts schreiben, nichts abhaken. */
+schalterOderAbbruch(['--trocken', '--abhaken-spaeter', '--nur-abhaken'])
 const TROCKEN = process.argv.includes('--trocken')
 /*
   **Abgehakt wird erst, wenn der Bau die neuen Belege angenommen hat** (17.09.2026).
-  `--abhaken-spaeter` legt die Kennungen in eine Datei, `--nur-abhaken` schickt sie
-  nach dem Commit ab. Verwirft der Bau die Belege, bleibt die Datei ungenutzt und
-  die Meldungen liegen weiter im Briefkasten.
+  Der Abruf legt die Kennungen immer in eine Datei (seit 17.10.2026 auch ohne
+  `--abhaken-spaeter`, das nur noch geduldet wird), `--nur-abhaken` schickt sie ab, sobald
+  `tools/commit-data.sh` sie nach dem Commit freigegeben hat (`lib/spaeter-quittieren.ts`).
+  Verwirft der Bau die Belege, bleibt die Datei ungenutzt und die Meldungen liegen weiter im Briefkasten.
 */
-const ABHAKEN_SPAETER = process.argv.includes('--abhaken-spaeter')
-const ABHAKEN_DATEI = resolve(ROOT, 'data/cache/pruefungen-abhaken.json')
 
 interface Pruefung {
   id: number
@@ -103,22 +106,11 @@ if (!TOKEN) {
 }
 
 if (process.argv.includes('--nur-abhaken')) {
-  if (!existsSync(ABHAKEN_DATEI)) {
-    log('Nichts abzuhaken.')
-    process.exit(0)
-  }
-  const ids = JSON.parse(readFileSync(ABHAKEN_DATEI, 'utf8')) as number[]
-  const q = await fetch(`${WORKER}/pruefung`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': TOKEN },
-    body: JSON.stringify({ uebernommen: ids }),
-  })
-  log(q.ok ? `${ids.length} Meldungen im Worker abgehakt` : `Abhaken fehlgeschlagen (HTTP ${q.status})`)
-  rmSync(ABHAKEN_DATEI)
+  await quittiereGemerkte({ datei: PRUEFUNGEN_ABHAKEN, url: `${WORKER}/pruefung`, methode: 'POST', feld: 'uebernommen', token: TOKEN })
   process.exit(0)
 }
 
-const antwort = await ladeMeldungen(`${WORKER}/pruefung?token=${encodeURIComponent(TOKEN)}`)
+const antwort = await ladeMeldungen(`${WORKER}/pruefung`, TOKEN)
 if (!antwort.ok) {
   warn(`Prüfungen nicht abrufbar: HTTP ${antwort.status}`)
   /*
@@ -191,16 +183,7 @@ const liste: Array<{
   streams?: Array<{ platform: string; url: string; seite?: string }>
 }> = ladePruefTitel(ROOT)
 
-const nachUrl = new Map<string, number[]>()
-for (const t of liste) {
-  for (const s of t.streams ?? []) {
-    /* Die Prüfliste öffnet die Amazon-Seite (`seite`), nicht JustWatchs gti-Adresse (17.09.2026). */
-    for (const u of new Set([s.url, s.seite])) {
-      if (!u) continue
-      nachUrl.set(schluesselAdresse(u), [...(nachUrl.get(schluesselAdresse(u)) ?? []), t.id])
-    }
-  }
-}
+const nachUrl = baueNachUrl(liste)
 
 const entferntJeAdresse = ergaenzeUmEntfernte(nachUrl, resolve(ROOT, 'data/verweise-entfernt.json')) // Staffeln ohne deutschen Ton
 
@@ -1343,18 +1326,9 @@ if (TROCKEN) {
   log(String(erledigteIds.size) + " Meldungen waeren abgehakt worden (Trockenlauf: der Briefkasten bleibt, wie er ist)")
   process.exit(0)
 }
-if (erledigteIds.size && ABHAKEN_SPAETER) {
-  legeAbhakenAb(ABHAKEN_DATEI, erledigteIds)
+if (erledigteIds.size) {
+  legeAbhakenAb(resolve(ROOT, OFFEN, PRUEFUNGEN_ABHAKEN), erledigteIds)
   log(`${erledigteIds.size} Meldungen werden nach dem Commit abgehakt`)
-} else if (erledigteIds.size) {
-  const quittung = await fetch(`${WORKER}/pruefung`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': TOKEN },
-    body: JSON.stringify({ uebernommen: [...erledigteIds] }),
-  })
-  log(quittung.ok
-    ? `${erledigteIds.size} Meldungen im Worker abgehakt`
-    : `Abhaken fehlgeschlagen (HTTP ${quittung.status}) — sie kommen beim nächsten Lauf erneut`)
 }
 if (offenGeblieben.length) {
   warn(`${offenGeblieben.length} Meldung(en) bleiben im Briefkasten, bis sie zugeordnet sind.`)

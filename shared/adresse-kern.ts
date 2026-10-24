@@ -50,3 +50,8 @@ export function istSammelKern(kern: string): boolean {
   const suche = new RegExp(`^${host}/(s|search|suche)(/|$)`)
   return nurHost.test(kern) || land.test(kern) || suche.test(kern)
 }
+
+/** Die Seite einer Netflix-Meldung ohne Staffelmarke (`…/title/1#s2`, `…/title/1#0`); andere Anbieter bleiben, wie sie sind (Prime `#N` gilt der Teilseite). */
+export function ohneStaffelMarke(u: string): string {
+  return /^https?:\/\/(?:www\.)?netflix\.com\/title\//.test(u) ? u.replace(/#s?\d+$/, '') : u
+}

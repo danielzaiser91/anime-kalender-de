@@ -40,6 +40,20 @@ source "$(dirname "${BASH_SOURCE[0]}")/quellen-liste.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/quellen-aufsetzen.sh"
 ERZEUGNISSE=(public/data public/og)
 
+# Erst nach einem gelungenen Commit (oder wenn es nichts zu committen gab) und nur bei grünem Ausgang dürfen die
+# Quittungsschritte abschicken, was die Datenschritte gemerkt haben: Sie lesen nur aus quittung-frei/, und dorthin
+# verschiebt allein diese Stelle (pipeline/lib/spaeter-quittieren.ts, 17.10.2026). Wie ein Quittungsschritt
+# geschrieben ist und wo er steht, spielt damit keine Rolle mehr.
+quittungen_freigeben() {
+  local datei
+  for datei in data/cache/quittung-offen/*; do
+    if [ -f "$datei" ]; then
+      mkdir -p data/cache/quittung-frei
+      mv -f "$datei" data/cache/quittung-frei/
+    fi
+  done
+}
+
 # Die Bot-Identität gilt **nur für den Commit dieses Skripts**, nicht für das
 # Repo.
 #
@@ -246,7 +260,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       else
         echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Aus dem Bau-Lauf wird nichts committet außer den Abrufen von data:fetch."
         bau_lauf_zuruecknehmen
-        rm -f data/cache/pruefungen-abhaken.json
+        rm -f data/cache/quittung-offen/pruefungen-abhaken.json
         echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Bestand nicht übernommen: $grund" >> "${GITHUB_ENV:-/dev/null}"
       fi
       BESTAND_KAPUTT=1
@@ -357,6 +371,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   if git diff --staged --quiet; then
     echo "Keine Änderung — nichts zu committen."
     [ "$LAUF_ROT" = 1 ] && exit 1
+    quittungen_freigeben
     exit 0
   fi
 
@@ -367,6 +382,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     echo "Gepusht (Versuch $versuch)."
     # Die Quellen sind gesichert — jetzt darf der Lauf scheitern.
     [ "$LAUF_ROT" = 1 ] && exit 1
+    quittungen_freigeben
     exit 0
   fi
 

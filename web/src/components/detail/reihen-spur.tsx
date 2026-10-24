@@ -1,6 +1,6 @@
 import { useCallback, useId, useLayoutEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import type { Translate } from '../../lib/i18n.tsx'
-import { nachbarKarte, pfeilZustand, setzeStart, springeSpur } from './reihen-spur-regeln.ts'
+import { nachbarKarte, pfeilZustand, setzeStart, springeSpur, verfolgeSpur } from './reihen-spur-regeln.ts'
 
 /** Vor der ersten Messung gelten die Pfeile als überflüssig — sie erscheinen erst, wenn wirklich etwas überläuft. */
 const OHNE_MESSUNG = { versteckt: true, zurueckAus: true, weiterAus: false }
@@ -43,20 +43,17 @@ function useSpurMessung(spur: React.RefObject<HTMLDivElement | null>) {
   useLayoutEffect(() => {
     const el = spur.current
     if (!el) return
-    let rahmen = 0
-    const einmalProFrame = () => {
-      cancelAnimationFrame(rahmen)
-      rahmen = requestAnimationFrame(messen)
-    }
-    el.addEventListener('scroll', einmalProFrame, { passive: true })
-    const beobachter = typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(einmalProFrame)
-    beobachter?.observe(el)
+    const aufraeumen = verfolgeSpur(
+      el,
+      messen,
+      {
+        resize: typeof ResizeObserver === 'undefined' ? undefined : ResizeObserver,
+        mutation: typeof MutationObserver === 'undefined' ? undefined : MutationObserver,
+      },
+      { an: (f) => requestAnimationFrame(f), ab: (id) => cancelAnimationFrame(id) },
+    )
     messen()
-    return () => {
-      cancelAnimationFrame(rahmen)
-      el.removeEventListener('scroll', einmalProFrame)
-      beobachter?.disconnect()
-    }
+    return aufraeumen
   }, [spur, messen])
   return zustand
 }

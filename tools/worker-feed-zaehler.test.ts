@@ -276,6 +276,8 @@ console.log('Nur Feed-Abrufe mit Adresse zählen:')
 
 console.log('Verdrahtung:der Worker zählt jeden Abruf von /feed/favoriten.ics (auch unbekannte Adresse):')
 {
+  // Der Feed antwortet seit #1844 aus dem Edge-Cache; die Attrappe trifft nie, damit jeder Abruf den Worker durchläuft.
+  Object.assign(globalThis, { caches: { default: { match: async () => undefined, put: async () => {} } } })
   const { default: worker } = await import('../worker/src/index.ts')
   const w = neueWelt()
   const abruf = (k: string) =>

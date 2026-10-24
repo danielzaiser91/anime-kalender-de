@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-23. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-24. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-36 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+38 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -16,6 +16,8 @@ Stand: 2026-10-23. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-10-30, 2026-10 (Monat) | crunchyroll | – unklar | [Crunchyroll bald nicht mehr auf Nintendo Switch verfügbar](https://www.anime2you.de/news/1044861/crunchyroll-bald-nicht-mehr-auf-nintendo-switch/) |
 | 2026-10-25 | ? | – unklar | [TV-Guide: Anime im deutschen Fernsehen in KW 43/2026](https://www.anime2you.de/news/1062070/anime-tv-programm-43-2026/) |
 | 2026-10-31 | primevideo | ✅ zugesagt | [Drei Anime-Serien verlassen bald den Prime-Video-Katalog](https://www.anime2you.de/news/1056183/prime-video-entfernt-naruto-und-mehr/) |
+| 2026-11-16, 2026-11-23, 2026-11 (Monat) | ? | ✅ zugesagt | [ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere](https://www.anime2you.de/news/1063292/prosieben-fun-zeigt-akame-ga-kill/) |
+| 2026-11-18, 2026-11 (Monat) | ? | ✅ zugesagt | [ProSieben MAXX wiederholt sechste »My Hero Academia«-Staffel](https://www.anime2you.de/news/1063329/my-hero-academia-staffel-6-prosieben-maxx-wiederholung/) |
 | 2026-11 (Monat) | netflix | – unklar | [Netflix: Alle Anime-Neuzugänge im November 2026](https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/) |
 | 2026-11-09, 2026-11 (Monat) | ? | – unklar | [ProSieben FUN wiederholt »Magical Girl Special Ops Asuka«](https://www.anime2you.de/news/1062104/prosieben-fun-magical-girl-special-ops-asuka-wiederholung/) |
 | 2026-11-05, 2026-11 (Monat) | ? | – unklar | [ProSieben MAXX wiederholt »Whole Cake Island«-Arc von »One Piece«](https://www.anime2you.de/news/1059541/prosieben-maxx-whole-cake-island-arc-one-piece/) |
@@ -45,58 +47,58 @@ Stand: 2026-10-23. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-05 (Monat) | ? | – unklar | [Zwei neue Acrylanhänger zu »Detektiv Conan« angekündigt](https://www.anime2you.de/news/1061186/zwei-detektiv-conan-acrylanhaenger/) |
 | 2027-05 (Monat) | ? | – unklar | [»Fairy Tail« erhält neue Anhänger, Tragetasche und XXL-Mauspad](https://www.anime2you.de/news/1061130/neues-fairy-tail-merchandise/) |
 
-Dazu 53 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 54 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 12 |
-| adn-catalog | 10.9 Tage her | 109 |
+| adn-catalog | 11.9 Tage her | 109 |
 | adn-news | 0.1 Tage her | 75 |
-| anilist-voices | 4.0 Tage her | 0 |
-| anime-offline-database | 4.0 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 101 |
+| anilist-voices | 5.0 Tage her | 0 |
+| anime-offline-database | 5.0 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 104 |
 | anisearch | 0.9 Tage her | 14861 |
-| anisearch-cover-eigen | 11.5 Tage her | 1874 |
+| anisearch-cover-eigen | 12.5 Tage her | 1874 |
 | anisearch-dubs | 1.0 Tage her | 11932 |
-| anisearch-eintraege | 4.0 Tage her | 400 |
-| anisearch-folgen | 4.0 Tage her | 515 |
-| anisearch-slugs | 4.0 Tage her | 14859 |
-| anisearch-zuordnung | 1.0 Tage her | 18483 |
-| ann-voices | 4.0 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 54 |
-| cartoon-folgen | 4.0 Tage her | 300 |
+| anisearch-eintraege | 5.0 Tage her | 400 |
+| anisearch-folgen | 5.0 Tage her | 515 |
+| anisearch-slugs | 5.0 Tage her | 14859 |
+| anisearch-zuordnung | 1.0 Tage her | 18488 |
+| ann-voices | 5.0 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 46 |
+| cartoon-folgen | 5.0 Tage her | 300 |
 | cartoon-reihen | 1.0 Tage her | 1 |
 | cartoons | 1.0 Tage her | 2 |
-| cinestar | 4.0 Tage her | 1 |
-| cr-einzelwerke | 2.6 Tage her | 6 |
-| cr-filmbloecke | 2.6 Tage her | 2 |
-| crunchyroll | 1.3 Tage her | 0 |
-| crunchyroll-dub | 1.0 Tage her | 1137 |
-| crunchyroll-neu | 0.0 Tage her | 143 |
-| crunchyroll-offene | 3.9 Tage her | 14 |
-| crunchyroll-woche | 0.1 Tage her | 59 |
-| justwatch-audio | 3.5 Tage her | 293 |
-| kinoheld | 4.0 Tage her | 0 |
-| kitsu-folgen | 4.0 Tage her | 1 |
-| link-check | 17.6 Tage her | 287 |
-| messbelege | 0.1 Tage her | 0 |
-| motn | 14.7 Tage her | 1943 |
-| motn-changes | 0.0 Tage her | 0 |
-| rohfolgen | 1.6 Tage her | 0 |
-| rtlplus-folgen | 4.0 Tage her | 3 |
-| tmdb-banner | 4.0 Tage her | 6 |
-| tmdb-folgen | 4.0 Tage her | 878 |
-| tmdb-kino | 4.0 Tage her | 3 |
-| tmdb-poster | 4.0 Tage her | 372 |
-| tmdb-titles | 4.0 Tage her | 400 |
+| cinestar | 5.0 Tage her | 1 |
+| cr-einzelwerke | 3.6 Tage her | 6 |
+| cr-filmbloecke | 3.6 Tage her | 2 |
+| crunchyroll | 2.3 Tage her | 0 |
+| crunchyroll-dub | 0.0 Tage her | 1137 |
+| crunchyroll-neu | 0.0 Tage her | 144 |
+| crunchyroll-offene | 4.9 Tage her | 14 |
+| crunchyroll-woche | 0.0 Tage her | 59 |
+| justwatch-audio | 4.5 Tage her | 293 |
+| kinoheld | 5.0 Tage her | 0 |
+| kitsu-folgen | 5.0 Tage her | 1 |
+| link-check | 18.6 Tage her | 287 |
+| messbelege | 0.0 Tage her | 0 |
+| motn | 1.0 Tage her | 2034 |
+| motn-changes | 0.0 Tage her | 5 |
+| rohfolgen | 0.1 Tage her | 0 |
+| rtlplus-folgen | 5.0 Tage her | 3 |
+| tmdb-banner | 5.0 Tage her | 6 |
+| tmdb-folgen | 5.0 Tage her | 878 |
+| tmdb-kino | 5.0 Tage her | 3 |
+| tmdb-poster | 5.0 Tage her | 372 |
+| tmdb-titles | 5.0 Tage her | 400 |
 | toggo | 0.0 Tage her | 22 |
 | trailer | 1.0 Tage her | 0 |
-| tv-de | 0.2 Tage her | 65 |
-| tv-programm | 0.1 Tage her | 287 |
-| vorfaelle | 1.5 Tage her | 1 |
-| wikidata-imdb | 4.0 Tage her | 5192 |
-| wikidata-titel | 4.0 Tage her | 15 |
+| tv-de | 0.2 Tage her | 69 |
+| tv-programm | 0.0 Tage her | 293 |
+| vorfaelle | 0.0 Tage her | 0 |
+| wikidata-imdb | 5.0 Tage her | 5192 |
+| wikidata-titel | 5.0 Tage her | 15 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 4.0 Tage her | 0 |
+| youtube-check | 5.0 Tage her | 0 |

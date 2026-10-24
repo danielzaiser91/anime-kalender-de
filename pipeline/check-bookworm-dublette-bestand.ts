@@ -4,6 +4,7 @@
  * Läuft in `check:bestand`, nicht in `check:logic` (der Bestand liegt hinter neueren Rohdaten zurück).
  */
 import { readFileSync } from 'node:fs'
+import { pruefeBookwormKennung } from './lib/bookworm-pruefung.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -11,6 +12,9 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
   verletzt++
   console.error(`  ✖ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
+
+console.log('\nBookworm Staffel 5: Kennungen und Handdatei (echte Dateien):')
+pruefeBookwormKennung(pruefe, 'data/kennungen.json', 'data/anisearch-ids-hand.yaml')
 
 console.log('\nBookworm Staffel 5 im Bestand:')
 {

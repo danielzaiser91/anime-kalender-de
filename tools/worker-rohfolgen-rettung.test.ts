@@ -124,11 +124,12 @@ assert.deepEqual(offenTitel, [[TITEL, 4], [TITEL2, 1]])
 
 // Die Attrappe beantwortet nur Rohfolgen-Seiten mit dem eigenen Token und zählt Gelesenes und Abgehaktes.
 const probe = workerAusKopie(db, 'x')
-await assert.rejects(probe.fetch('https://w.test/pruefung?rohfolgen=1&token=falsch'))
-await assert.rejects(probe.fetch('https://w.test/anderes?rohfolgen=1&token=x'))
-await assert.rejects(probe.fetch('https://w.test/pruefung?rohfolgen=0&token=x'))
+const ok = { headers: { Authorization: 'Bearer x' } }
+await assert.rejects(probe.fetch('https://w.test/pruefung?rohfolgen=1', { headers: { Authorization: 'Bearer falsch' } }))
+await assert.rejects(probe.fetch('https://w.test/anderes?rohfolgen=1', ok))
+await assert.rejects(probe.fetch('https://w.test/pruefung?rohfolgen=0', ok))
 type Seite = { folgen: { id: number; serientitel: string | null }[] }
-const holeSeite = async (nach: number) => (await (await probe.fetch(`https://w.test/pruefung?rohfolgen=1&nach=${nach}&token=x`)).json()) as Seite
+const holeSeite = async (nach: number) => (await (await probe.fetch(`https://w.test/pruefung?rohfolgen=1&nach=${nach}`, ok)).json()) as Seite
 const seite = await holeSeite(0)
 const ERWARTET = [
   1, 3, 4, 7, 10, 11, 12, 15, 16, 17, 18,
@@ -140,7 +141,7 @@ assert.equal(seite.folgen.find((g) => g.id === TITEL_BASIS + 2)?.serientitel, 'T
 assert.ok(!(await holeSeite(4)).folgen.some((g) => g.id <= 4))
 assert.equal(probe.stand.geholt, ERWARTET.length + ERWARTET.filter((id) => id > 4).length)
 // Abhaken (POST) gibt es seit #1407 nicht mehr: Die Attrappe wirft, statt zu schreiben.
-await assert.rejects(probe.fetch('https://w.test/pruefung?rohfolgen=1&token=x', { method: 'POST', body: '{}' }), /unerwarteter Aufruf/)
+await assert.rejects(probe.fetch('https://w.test/pruefung?rohfolgen=1', { ...ok, method: 'POST', body: '{}' }), /unerwarteter Aufruf/)
 
 // Dreiseitig: neu (b, d, x, k) kommt; später geändert (c) oder entfernt (w) bleibt; unverändert Entferntes (h) kommt nicht
 // zurück; ein Eintrag mit weniger Folgen (g) wird gemeldet statt übernommen, gleich viele (k) zählen als neu.
@@ -261,7 +262,7 @@ try {
   assert.deepEqual(ziel[ANIME], gerettet[ANIME])
 
   // Abgehakt zählt die Quittier-Datei; ohne sie (nichts abzuhaken) ist es 0. Erst nach dem Lauf: das Modul legt ROOT fest.
-  schreibe('abhaken/data/cache/rohfolgen-abhaken.json', [5, 6, 8])
+  schreibe('abhaken/data/cache/quittung-offen/rohfolgen-abhaken.json', [5, 6, 8])
   assert.equal(await abgehaktIn(join(ordner, 'abhaken')), 3)
   assert.equal(await abgehaktIn(join(ordner, 'leer')), 0)
 

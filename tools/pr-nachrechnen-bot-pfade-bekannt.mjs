@@ -23,12 +23,15 @@ const WEGWERF_WURZEL = {
   'tools/bau-eingaben.test.mjs': ['data/bestand-historie.jsonl'],
   'tools/delta-wache-historie.test.mjs': ['data/bestand-historie.jsonl'],
   'tools/delta-wache-pendel.test.mjs': ['data/bestand-historie.jsonl'],
+  'tools/pruefliste-asid.test.mjs': ['data/anbieter-vorschlaege.json', 'data/kanal-widerspruch.json'],
 }
 
 // Wächter, die das Lesen verbieten oder prüfen, nennen den Namen als Muster.
 const VERBOTSLISTE = {
   'pipeline/check-sammler-lesezugriffe.ts': ['data/crunchyroll-woche-belege.json'],
   'pipeline/check-sammler-lesezugriffe-faelle.ts': ['data/crunchyroll-woche-belege.json'],
+  'tools/quittung-nach-commit-waechter.mjs': ['data/meldungen-uebernahme.json'],
+  'tools/quittung-nach-commit-waechter.test.mjs': ['data/meldungen-uebernahme.json'],
 }
 
 // nebendateien.ts schreibt 18-suchadressen.md; lib/health.ts schreibt source-health.json und wird vom Bau nur über adn-news.ts erreicht.

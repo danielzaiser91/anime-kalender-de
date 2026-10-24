@@ -41,7 +41,7 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: |
           echo "--- Worker, von hier aus aufgerufen:"
-          curl -sS "https://newsletter.animekalender.workers.dev/land?token=$LAUF_TOKEN"
+          curl -sS -H "Authorization: Bearer $LAUF_TOKEN" https://newsletter.animekalender.workers.dev/land
           echo
           echo "--- Crunchyroll direkt von diesem Rechner:"
           curl -sS -X POST https://beta-api.crunchyroll.com/auth/v1/token \

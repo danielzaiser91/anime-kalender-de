@@ -290,17 +290,24 @@ test('Klick auf die Zeile: zu → öffnen mit Fokus, dahinter → nach vorn, vor
   await band.unmount()
 })
 
-test('Klick auf „Agents“ schaltet das Savvy-Pane über dessen Befehl, ohne ein eigenes Pane gleicher Kennung zu öffnen', async ($, on) => {
+test('Klick auf „Agents“ zählt nur den Knopf hoch: kein Slash-Befehl im Chat, kein eigenes Pane', async ($, on) => {
   starte(on, null)
   const log: string[] = []
   on('ui.panes', () => ({ value: [] }) as never)
   on('ui.open', (_$, e) => { log.push(`open:${(e as { id?: string }).id}`); return { value: { isPlaced: true } } as never })
   on('command.run', (_$, e) => { log.push(`befehl:${(e as { command?: string }).command}`); return { text: 'ok' } as never })
+  on('state.set', async (_$, e, next) => {
+    const w = e as { key?: string; value?: unknown }
+    if (w.key === 'agentenKnopf') log.push(`knopf:${w.value}`)
+    return next(e)
+  })
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
   await band.press({ key: 'agents-oeffnen' })
   await new Promise(r => setTimeout(r, 30))
-  expect(log).toEqual(['befehl:agents-info'])
+  await band.press({ key: 'agents-oeffnen' })
+  await new Promise(r => setTimeout(r, 30))
+  expect(log).toEqual(['knopf:1', 'knopf:2'])
   await band.unmount()
 })
 

@@ -39,8 +39,8 @@ function lauf({ diff, logic, bestand, vorher = '', eingrenzen = 'exit 1' }) {
   const envDatei = join(arbeit, 'github-env.txt')
   writeFileSync(spur, '')
   writeFileSync(envDatei, '')
-  mkdirSync(join(arbeit, 'data/cache'), { recursive: true })
-  writeFileSync(join(arbeit, 'data/cache/pruefungen-abhaken.json'), '[1]')
+  mkdirSync(join(arbeit, 'data/cache/quittung-offen'), { recursive: true })
+  writeFileSync(join(arbeit, 'data/cache/quittung-offen/pruefungen-abhaken.json'), '[1]')
   writeFileSync(join(arbeit, 'data/meldungen-zurueckgestellt.json'), GESTERN)
   mkdirSync(join(ordner, 'bin'), { recursive: true })
   attrappe('git', `echo "git $*" >> "${spur}"\n[ "$1 $2" = "diff --quiet" ] && exit ${diff ? 1 : 0}\nexit 0`)
@@ -51,7 +51,7 @@ function lauf({ diff, logic, bestand, vorher = '', eingrenzen = 'exit 1' }) {
   if (vorher) env.DATEN_WARNUNG = vorher
   const r = spawnSync('bash', ['--noprofile', '--norc', '-eo', 'pipefail', '-c', schritt.run], { cwd: arbeit, encoding: 'utf8', env })
   assert.equal(r.status, 0, `Schritt endet grün: ${r.stderr}`)
-  const abhaken = existsSync(join(arbeit, 'data/cache/pruefungen-abhaken.json'))
+  const abhaken = existsSync(join(arbeit, 'data/cache/quittung-offen/pruefungen-abhaken.json'))
   const zurueck = readFileSync(join(arbeit, 'data/meldungen-zurueckgestellt.json'), 'utf8')
   return { env: readFileSync(envDatei, 'utf8').trim(), spur: readFileSync(spur, 'utf8'), ausgabe: r.stdout, abhaken, zurueck }
 }

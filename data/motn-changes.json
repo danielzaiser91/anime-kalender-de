@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 81
+    "2026-10": 83
   },
   "gesehen": {
     "26341901:netflix": {
@@ -29,7 +29,8 @@
       "tmdbId": "tv/331650",
       "dienst": "netflix",
       "am": "2026-08-21",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25875786:netflix": {
       "art": "new",
@@ -39,7 +40,8 @@
       "tmdbId": "tv/327414",
       "dienst": "netflix",
       "am": "2026-08-20",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25947102:netflix": {
       "art": "new",
@@ -49,7 +51,8 @@
       "tmdbId": "tv/312523",
       "dienst": "netflix",
       "am": "2026-08-20",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25861590:netflix": {
       "art": "new",
@@ -59,7 +62,8 @@
       "tmdbId": "tv/303351",
       "dienst": "netflix",
       "am": "2026-08-20",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:9517:crunchyroll": {
       "art": "new",
@@ -69,7 +73,8 @@
       "tmdbId": "tv/85942",
       "dienst": "crunchyroll",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:26120489:netflix": {
       "art": "new",
@@ -79,7 +84,8 @@
       "tmdbId": "tv/326901",
       "dienst": "netflix",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:11219:prime": {
       "art": "new",
@@ -89,7 +95,8 @@
       "tmdbId": "tv/61751",
       "dienst": "prime",
       "am": "2026-10-06",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:20184485:prime": {
       "art": "new",
@@ -99,7 +106,8 @@
       "tmdbId": "tv/289244",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:1825:prime": {
       "art": "new",
@@ -109,7 +117,8 @@
       "tmdbId": "tv/64068",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:10126:prime": {
       "art": "new",
@@ -119,7 +128,8 @@
       "tmdbId": "tv/89779",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:3720549:prime": {
       "art": "new",
@@ -129,7 +139,8 @@
       "tmdbId": "tv/230505",
       "dienst": "prime",
       "am": "2026-10-06",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:2765:prime": {
       "art": "new",
@@ -139,7 +150,8 @@
       "tmdbId": "tv/105218",
       "dienst": "prime",
       "am": "2026-10-06",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:5060276:prime": {
       "art": "new",
@@ -149,7 +161,8 @@
       "tmdbId": "tv/235819",
       "dienst": "prime",
       "am": "2026-10-06",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:24671574:prime": {
       "art": "new",
@@ -159,7 +172,8 @@
       "tmdbId": "tv/303265",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:11262042:prime": {
       "art": "new",
@@ -169,7 +183,8 @@
       "tmdbId": "tv/250558",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:10128:prime": {
       "art": "new",
@@ -179,7 +194,8 @@
       "tmdbId": "tv/87969",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:18101182:prime": {
       "art": "new",
@@ -189,7 +205,8 @@
       "tmdbId": "tv/274008",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:13401882:prime": {
       "art": "new",
@@ -199,7 +216,8 @@
       "tmdbId": "tv/257023",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:68477:prime": {
       "art": "new",
@@ -209,7 +227,8 @@
       "tmdbId": "tv/115323",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:27436:prime": {
       "art": "new",
@@ -219,7 +238,8 @@
       "tmdbId": "tv/72401",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:19909940:prime": {
       "art": "new",
@@ -229,7 +249,8 @@
       "tmdbId": "tv/97656",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:22008752:prime": {
       "art": "new",
@@ -239,7 +260,8 @@
       "tmdbId": "tv/261571",
       "dienst": "prime",
       "am": "2026-10-11",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25370055:prime": {
       "art": "new",
@@ -249,7 +271,8 @@
       "tmdbId": "tv/316178",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:32334:prime": {
       "art": "new",
@@ -259,7 +282,8 @@
       "tmdbId": "tv/60100",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:9883212:prime": {
       "art": "new",
@@ -269,7 +293,8 @@
       "tmdbId": "tv/255492",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:63311:prime": {
       "art": "new",
@@ -279,7 +304,8 @@
       "tmdbId": "tv/72926",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:26343276:prime": {
       "art": "new",
@@ -289,7 +315,8 @@
       "tmdbId": "tv/331731",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:1694:netflix": {
       "art": "new",
@@ -299,7 +326,8 @@
       "tmdbId": "tv/71789",
       "dienst": "netflix",
       "am": "2026-08-18",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:79161:prime": {
       "art": "new",
@@ -309,7 +337,8 @@
       "tmdbId": "tv/152327",
       "dienst": "prime",
       "am": "2026-08-17",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:439:prime": {
       "art": "new",
@@ -319,7 +348,8 @@
       "tmdbId": "tv/45",
       "dienst": "prime",
       "am": "2026-08-17",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:131:prime": {
       "art": "new",
@@ -329,7 +359,8 @@
       "tmdbId": "tv/18165",
       "dienst": "prime",
       "am": "2026-08-17",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:659:prime": {
       "art": "new",
@@ -339,7 +370,8 @@
       "tmdbId": "tv/269",
       "dienst": "prime",
       "am": "2026-08-17",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:1668:prime": {
       "art": "new",
@@ -349,7 +381,8 @@
       "tmdbId": "tv/90972",
       "dienst": "prime",
       "am": "2026-08-17",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:12680:prime": {
       "art": "new",
@@ -359,7 +392,8 @@
       "tmdbId": "tv/113452",
       "dienst": "prime",
       "am": "2026-08-17",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:38736:netflix": {
       "art": "new",
@@ -369,7 +403,8 @@
       "tmdbId": "tv/19416",
       "dienst": "netflix",
       "am": "2026-08-16",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25030958:netflix": {
       "art": "new",
@@ -379,7 +414,8 @@
       "tmdbId": "tv/322428",
       "dienst": "netflix",
       "am": "2026-08-14",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:6322:crunchyroll": {
       "art": "new",
@@ -389,7 +425,8 @@
       "tmdbId": "tv/100565",
       "dienst": "crunchyroll",
       "am": "2026-08-13",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:25861088:netflix": {
       "art": "new",
@@ -399,7 +436,8 @@
       "tmdbId": "tv/309798",
       "dienst": "netflix",
       "am": "2026-08-13",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:9306789:netflix": {
       "art": "new",
@@ -409,7 +447,8 @@
       "tmdbId": "tv/244071",
       "dienst": "netflix",
       "am": "2026-08-13",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:26029535:netflix": {
       "art": "new",
@@ -419,7 +458,8 @@
       "tmdbId": "tv/330320",
       "dienst": "netflix",
       "am": "2026-08-12",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:25946910:disney": {
       "art": "new",
@@ -429,7 +469,8 @@
       "tmdbId": "tv/321954",
       "dienst": "disney",
       "am": "2026-08-12",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:21516:disney": {
       "art": "new",
@@ -439,7 +480,8 @@
       "tmdbId": "tv/45789",
       "dienst": "disney",
       "am": "2026-08-12",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:4097:disney": {
       "art": "new",
@@ -449,7 +491,8 @@
       "tmdbId": "tv/88987",
       "dienst": "disney",
       "am": "2026-08-12",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:7272:disney": {
       "art": "new",
@@ -459,7 +502,8 @@
       "tmdbId": "tv/5475",
       "dienst": "disney",
       "am": "2026-08-12",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:7536861:disney": {
       "art": "new",
@@ -469,7 +513,8 @@
       "tmdbId": "tv/242189",
       "dienst": "disney",
       "am": "2026-08-12",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:24604873:disney": {
       "art": "new",
@@ -479,7 +524,8 @@
       "tmdbId": "tv/296423",
       "dienst": "disney",
       "am": "2026-08-12",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:5073:prime": {
       "art": "new",
@@ -489,7 +535,8 @@
       "tmdbId": "tv/34388",
       "dienst": "prime",
       "am": "2026-08-12",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:19951322:crunchyroll": {
       "art": "new",
@@ -499,7 +546,8 @@
       "tmdbId": "tv/107322",
       "dienst": "crunchyroll",
       "am": "2026-08-12",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:25861072:netflix": {
       "art": "new",
@@ -509,7 +557,8 @@
       "tmdbId": "tv/329274",
       "dienst": "netflix",
       "am": "2026-08-11",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:26120718:netflix": {
       "art": "new",
@@ -519,7 +568,8 @@
       "tmdbId": "tv/322852",
       "dienst": "netflix",
       "am": "2026-08-11",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:4828:prime": {
       "art": "new",
@@ -529,7 +579,8 @@
       "tmdbId": "tv/64840",
       "dienst": "prime",
       "am": "2026-10-12",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:62728:prime": {
       "art": "new",
@@ -539,7 +590,8 @@
       "tmdbId": "tv/206233",
       "dienst": "prime",
       "am": "2026-08-10",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:27969:prime": {
       "art": "new",
@@ -549,7 +601,8 @@
       "tmdbId": "tv/100604",
       "dienst": "prime",
       "am": "2026-08-10",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:5997:prime": {
       "art": "new",
@@ -559,7 +612,8 @@
       "tmdbId": "tv/72061",
       "dienst": "prime",
       "am": "2026-08-10",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:5048:prime": {
       "art": "new",
@@ -569,7 +623,8 @@
       "tmdbId": "tv/520",
       "dienst": "prime",
       "am": "2026-08-10",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:25803660:netflix": {
       "art": "new",
@@ -579,7 +634,8 @@
       "tmdbId": "tv/328629",
       "dienst": "netflix",
       "am": "2026-08-09",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:14075:prime": {
       "art": "new",
@@ -589,7 +645,8 @@
       "tmdbId": "tv/62576",
       "dienst": "prime",
       "am": "2026-10-07",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:1696770:prime": {
       "art": "new",
@@ -599,7 +656,8 @@
       "tmdbId": "tv/220763",
       "dienst": "prime",
       "am": "2026-08-07",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:13403341:prime": {
       "art": "new",
@@ -609,7 +667,8 @@
       "tmdbId": "tv/259291",
       "dienst": "prime",
       "am": "2026-08-07",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:15248791:prime": {
       "art": "new",
@@ -619,7 +678,8 @@
       "tmdbId": "tv/249701",
       "dienst": "prime",
       "am": "2026-10-11",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:3376:prime": {
       "art": "new",
@@ -629,7 +689,8 @@
       "tmdbId": "tv/120452",
       "dienst": "prime",
       "am": "2026-08-07",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:25482649:netflix": {
       "art": "new",
@@ -639,7 +700,8 @@
       "tmdbId": "tv/291496",
       "dienst": "netflix",
       "am": "2026-08-07",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:25803667:netflix": {
       "art": "new",
@@ -649,7 +711,8 @@
       "tmdbId": "tv/284753",
       "dienst": "netflix",
       "am": "2026-08-07",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25030056:netflix": {
       "art": "new",
@@ -659,7 +722,8 @@
       "tmdbId": "tv/300480",
       "dienst": "netflix",
       "am": "2026-08-07",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:25893506:prime": {
       "art": "new",
@@ -669,7 +733,8 @@
       "tmdbId": "tv/297208",
       "dienst": "prime",
       "am": "2026-08-07",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:19089:netflix": {
       "art": "new",
@@ -679,7 +744,8 @@
       "tmdbId": "tv/90677",
       "dienst": "netflix",
       "am": "2026-08-07",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:4483:netflix": {
       "art": "new",
@@ -689,7 +755,8 @@
       "tmdbId": "tv/61415",
       "dienst": "netflix",
       "am": "2026-08-06",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:3088:netflix": {
       "art": "new",
@@ -699,7 +766,8 @@
       "tmdbId": "tv/45845",
       "dienst": "netflix",
       "am": "2026-08-06",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:25369272:disney": {
       "art": "new",
@@ -709,7 +777,8 @@
       "tmdbId": "tv/298168",
       "dienst": "disney",
       "am": "2026-08-06",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:1695983:prime": {
       "art": "new",
@@ -719,7 +788,8 @@
       "tmdbId": "tv/222913",
       "dienst": "prime",
       "am": "2026-08-06",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:8891361:prime": {
       "art": "new",
@@ -729,7 +799,8 @@
       "tmdbId": "tv/251824",
       "dienst": "prime",
       "am": "2026-08-06",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25858:prime": {
       "art": "new",
@@ -739,7 +810,8 @@
       "tmdbId": "tv/111499",
       "dienst": "prime",
       "am": "2026-08-06",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:24973537:prime": {
       "art": "new",
@@ -749,7 +821,8 @@
       "tmdbId": "tv/283297",
       "dienst": "prime",
       "am": "2026-08-05",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:25803584:netflix": {
       "art": "new",
@@ -759,7 +832,8 @@
       "tmdbId": "tv/327817",
       "dienst": "netflix",
       "am": "2026-08-05",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:25901909:disney": {
       "art": "new",
@@ -769,7 +843,8 @@
       "tmdbId": "tv/322003",
       "dienst": "disney",
       "am": "2026-08-05",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:384:disney": {
       "art": "new",
@@ -779,7 +854,8 @@
       "tmdbId": "tv/31910",
       "dienst": "disney",
       "am": "2026-08-05",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:19826623:disney": {
       "art": "new",
@@ -789,7 +865,8 @@
       "tmdbId": "tv/285283",
       "dienst": "disney",
       "am": "2026-08-05",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:5926:prime": {
       "art": "new",
@@ -799,7 +876,8 @@
       "tmdbId": "tv/862",
       "dienst": "prime",
       "am": "2026-08-05",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:12822:prime": {
       "art": "new",
@@ -809,7 +887,8 @@
       "tmdbId": "tv/63648",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:26741:prime": {
       "art": "new",
@@ -819,7 +898,8 @@
       "tmdbId": "tv/46104",
       "dienst": "prime",
       "am": "2026-08-05",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:17377373:prime": {
       "art": "new",
@@ -829,7 +909,8 @@
       "tmdbId": "tv/272962",
       "dienst": "prime",
       "am": "2026-08-05",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:75962:prime": {
       "art": "new",
@@ -839,7 +920,8 @@
       "tmdbId": "tv/65769",
       "dienst": "prime",
       "am": "2026-08-05",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:63152:prime": {
       "art": "new",
@@ -849,7 +931,8 @@
       "tmdbId": "tv/136673",
       "dienst": "prime",
       "am": "2026-08-05",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:1695578:prime": {
       "art": "new",
@@ -859,7 +942,8 @@
       "tmdbId": "tv/219715",
       "dienst": "prime",
       "am": "2026-08-05",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25695:prime": {
       "art": "new",
@@ -869,7 +953,8 @@
       "tmdbId": "tv/82819",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:51482:prime": {
       "art": "new",
@@ -879,7 +964,8 @@
       "tmdbId": "tv/135309",
       "dienst": "prime",
       "am": "2026-08-05",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:26029724:netflix": {
       "art": "new",
@@ -889,7 +975,8 @@
       "tmdbId": "tv/330435",
       "dienst": "netflix",
       "am": "2026-08-04",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25803586:disney": {
       "art": "new",
@@ -899,7 +986,8 @@
       "tmdbId": "tv/320399",
       "dienst": "disney",
       "am": "2026-08-04",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:223:prime": {
       "art": "new",
@@ -909,7 +997,8 @@
       "tmdbId": "tv/97546",
       "dienst": "prime",
       "am": "2026-08-04",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:4431:netflix": {
       "art": "new",
@@ -919,7 +1008,8 @@
       "tmdbId": "tv/71641",
       "dienst": "netflix",
       "am": "2026-08-04",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:25861315:netflix": {
       "art": "new",
@@ -929,7 +1019,8 @@
       "tmdbId": "tv/323579",
       "dienst": "netflix",
       "am": "2026-08-03",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25905176:crunchyroll": {
       "art": "new",
@@ -939,7 +1030,8 @@
       "tmdbId": "tv/74355",
       "dienst": "crunchyroll",
       "am": "2026-08-03",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25910642:crunchyroll": {
       "art": "new",
@@ -949,7 +1041,8 @@
       "tmdbId": "tv/107208",
       "dienst": "crunchyroll",
       "am": "2026-08-03",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25897570:crunchyroll": {
       "art": "new",
@@ -959,7 +1052,8 @@
       "tmdbId": "tv/272880",
       "dienst": "crunchyroll",
       "am": "2026-08-03",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25905952:crunchyroll": {
       "art": "new",
@@ -969,7 +1063,8 @@
       "tmdbId": "tv/69300",
       "dienst": "crunchyroll",
       "am": "2026-08-03",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:2439812:prime": {
       "art": "new",
@@ -979,7 +1074,8 @@
       "tmdbId": "tv/222559",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "new:25880450:crunchyroll": {
       "art": "new",
@@ -989,7 +1085,8 @@
       "tmdbId": "tv/130206",
       "dienst": "crunchyroll",
       "am": "2026-08-03",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25901316:crunchyroll": {
       "art": "new",
@@ -999,7 +1096,8 @@
       "tmdbId": "tv/78464",
       "dienst": "crunchyroll",
       "am": "2026-08-03",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:25906839:crunchyroll": {
       "art": "new",
@@ -1009,7 +1107,8 @@
       "tmdbId": "tv/74186",
       "dienst": "crunchyroll",
       "am": "2026-08-03",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:19870063:prime": {
       "art": "new",
@@ -1019,7 +1118,8 @@
       "tmdbId": "tv/261845",
       "dienst": "prime",
       "am": "2026-08-03",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:24333962:netflix": {
       "art": "removed",
@@ -1029,7 +1129,8 @@
       "tmdbId": "tv/283396",
       "dienst": "netflix",
       "am": "2026-08-20",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:1856:prime": {
       "art": "removed",
@@ -1039,7 +1140,8 @@
       "tmdbId": "tv/71790",
       "dienst": "prime",
       "am": "2026-10-11",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:25864375:prime": {
       "art": "removed",
@@ -1049,7 +1151,8 @@
       "tmdbId": "tv/248516",
       "dienst": "prime",
       "am": "2026-10-20",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:1979:prime": {
       "art": "removed",
@@ -1059,7 +1162,8 @@
       "tmdbId": "tv/124364",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:39338:prime": {
       "art": "removed",
@@ -1069,7 +1173,8 @@
       "tmdbId": "tv/104279",
       "dienst": "prime",
       "am": "2026-10-06",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:1213:prime": {
       "art": "removed",
@@ -1079,7 +1184,8 @@
       "tmdbId": "tv/62822",
       "dienst": "prime",
       "am": "2026-10-06",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:7538128:prime": {
       "art": "removed",
@@ -1089,7 +1195,8 @@
       "tmdbId": "tv/133125",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:19609:prime": {
       "art": "removed",
@@ -1099,7 +1206,8 @@
       "tmdbId": "tv/75671",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:11132:prime": {
       "art": "removed",
@@ -1109,7 +1217,8 @@
       "tmdbId": "tv/9302",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:11090:prime": {
       "art": "removed",
@@ -1119,7 +1228,8 @@
       "tmdbId": "tv/72644",
       "dienst": "prime",
       "am": "2026-10-12",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:9903:prime": {
       "art": "removed",
@@ -1129,7 +1239,8 @@
       "tmdbId": "tv/9543",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:31368:prime": {
       "art": "removed",
@@ -1139,7 +1250,8 @@
       "tmdbId": "tv/66981",
       "dienst": "prime",
       "am": "2026-10-06",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:17427:prime": {
       "art": "removed",
@@ -1149,7 +1261,8 @@
       "tmdbId": "tv/40427",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:36195:prime": {
       "art": "removed",
@@ -1159,7 +1272,8 @@
       "tmdbId": "tv/85935",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:10156:prime": {
       "art": "removed",
@@ -1169,7 +1283,8 @@
       "tmdbId": "tv/16491",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:7194:prime": {
       "art": "removed",
@@ -1179,7 +1294,8 @@
       "tmdbId": "tv/42025",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:25039:prime": {
       "art": "removed",
@@ -1189,7 +1305,8 @@
       "tmdbId": "tv/102704",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:13064702:prime": {
       "art": "removed",
@@ -1199,7 +1316,8 @@
       "tmdbId": "tv/261135",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:19865227:prime": {
       "art": "removed",
@@ -1209,7 +1327,8 @@
       "tmdbId": "tv/205771",
       "dienst": "prime",
       "am": "2026-09-07",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:17044:prime": {
       "art": "removed",
@@ -1219,7 +1338,8 @@
       "tmdbId": "tv/47357",
       "dienst": "prime",
       "am": "2026-10-07",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:37870:prime": {
       "art": "removed",
@@ -1229,7 +1349,8 @@
       "tmdbId": "tv/93095",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:29410:prime": {
       "art": "removed",
@@ -1239,7 +1360,8 @@
       "tmdbId": "tv/34677",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:26436:prime": {
       "art": "removed",
@@ -1249,7 +1371,8 @@
       "tmdbId": "tv/112659",
       "dienst": "prime",
       "am": "2026-09-01",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:12724677:prime": {
       "art": "removed",
@@ -1259,7 +1382,8 @@
       "tmdbId": "tv/244592",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:16697966:prime": {
       "art": "removed",
@@ -1269,7 +1393,8 @@
       "tmdbId": "tv/278367",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:63342:prime": {
       "art": "removed",
@@ -1279,7 +1404,8 @@
       "tmdbId": "tv/85250",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:904:prime": {
       "art": "removed",
@@ -1289,7 +1415,8 @@
       "tmdbId": "tv/71769",
       "dienst": "prime",
       "am": "2026-09-25",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:14626123:prime": {
       "art": "removed",
@@ -1299,7 +1426,8 @@
       "tmdbId": "tv/258228",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:4778:prime": {
       "art": "removed",
@@ -1309,7 +1437,8 @@
       "tmdbId": "tv/34531",
       "dienst": "prime",
       "am": "2026-09-01",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:14625957:prime": {
       "art": "removed",
@@ -1319,7 +1448,8 @@
       "tmdbId": "tv/258578",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:53370:prime": {
       "art": "removed",
@@ -1329,7 +1459,8 @@
       "tmdbId": "tv/105917",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:7274:prime": {
       "art": "removed",
@@ -1339,7 +1470,8 @@
       "tmdbId": "tv/91445",
       "dienst": "prime",
       "am": "2026-09-07",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:9915815:prime": {
       "art": "removed",
@@ -1349,7 +1481,8 @@
       "tmdbId": "tv/243875",
       "dienst": "prime",
       "am": "2026-10-14",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "removed:4303794:prime": {
       "art": "removed",
@@ -1359,7 +1492,8 @@
       "tmdbId": "tv/230361",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:19985:prime": {
       "art": "removed",
@@ -1369,7 +1503,8 @@
       "tmdbId": "tv/101666",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:5461215:prime": {
       "art": "removed",
@@ -1379,7 +1514,8 @@
       "tmdbId": "tv/237108",
       "dienst": "prime",
       "am": "2026-09-07",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:24602162:prime": {
       "art": "removed",
@@ -1389,7 +1525,8 @@
       "tmdbId": "tv/308019",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:15190:prime": {
       "art": "removed",
@@ -1399,7 +1536,8 @@
       "tmdbId": "tv/92388",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:3721415:prime": {
       "art": "removed",
@@ -1409,7 +1547,8 @@
       "tmdbId": "tv/157571",
       "dienst": "prime",
       "am": "2026-10-14",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:9884278:prime": {
       "art": "removed",
@@ -1419,7 +1558,8 @@
       "tmdbId": "tv/243743",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:1119:prime": {
       "art": "removed",
@@ -1429,7 +1569,8 @@
       "tmdbId": "tv/66786",
       "dienst": "prime",
       "am": "2026-09-01",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:25864998:prime": {
       "art": "removed",
@@ -1439,7 +1580,8 @@
       "tmdbId": "tv/313311",
       "dienst": "prime",
       "am": "2026-09-07",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:1156:prime": {
       "art": "removed",
@@ -1449,7 +1591,8 @@
       "tmdbId": "tv/2566",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "removed:2494:prime": {
       "art": "removed",
@@ -1459,7 +1602,8 @@
       "tmdbId": "tv/31585",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:2646:prime": {
       "art": "removed",
@@ -1469,7 +1613,8 @@
       "tmdbId": "tv/43078",
       "dienst": "prime",
       "am": "2026-10-12",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:1195:prime": {
       "art": "removed",
@@ -1479,7 +1624,8 @@
       "tmdbId": "tv/32692",
       "dienst": "prime",
       "am": "2026-10-11",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:1193:prime": {
       "art": "removed",
@@ -1489,7 +1635,8 @@
       "tmdbId": "tv/79744",
       "dienst": "prime",
       "am": "2026-10-06",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:1758:prime": {
       "art": "removed",
@@ -1499,7 +1646,8 @@
       "tmdbId": "tv/31251",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:40319:prime": {
       "art": "removed",
@@ -1509,7 +1657,8 @@
       "tmdbId": "tv/45039",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:8433:prime": {
       "art": "removed",
@@ -1519,7 +1668,8 @@
       "tmdbId": "tv/46080",
       "dienst": "prime",
       "am": "2026-08-18",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:19952940:prime": {
       "art": "new",
@@ -1859,7 +2009,8 @@
       "tmdbId": "tv/62650",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "removed:7754:prime": {
       "art": "removed",
@@ -1999,7 +2150,8 @@
       "tmdbId": "tv/53193",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:1058:prime": {
       "art": "removed",
@@ -2029,7 +2181,8 @@
       "tmdbId": "tv/2942",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:4820894:prime": {
       "art": "removed",
@@ -2129,7 +2282,8 @@
       "tmdbId": "tv/64230",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:1649:prime": {
       "art": "removed",
@@ -2139,7 +2293,8 @@
       "tmdbId": "tv/74016",
       "dienst": "prime",
       "am": "2026-10-11",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:17195:prime": {
       "art": "removed",
@@ -2159,7 +2314,8 @@
       "tmdbId": "tv/4556",
       "dienst": "prime",
       "am": "2026-10-06",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:11460:prime": {
       "art": "removed",
@@ -2179,7 +2335,8 @@
       "tmdbId": "tv/34388",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:23352381:prime": {
       "art": "removed",
@@ -2449,7 +2606,8 @@
       "tmdbId": "tv/74332",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:8707:prime": {
       "art": "removed",
@@ -2579,7 +2737,8 @@
       "tmdbId": "tv/63361",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:3202:prime": {
       "art": "removed",
@@ -2589,7 +2748,8 @@
       "tmdbId": "tv/31356",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:28161:prime": {
       "art": "removed",
@@ -2609,7 +2769,8 @@
       "tmdbId": "tv/90623",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:4932:prime": {
       "art": "removed",
@@ -2779,7 +2940,8 @@
       "tmdbId": "tv/214875",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:3255:prime": {
       "art": "removed",
@@ -2849,7 +3011,8 @@
       "tmdbId": "tv/69182",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:461:prime": {
       "art": "removed",
@@ -3009,7 +3172,8 @@
       "tmdbId": "tv/12225",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:1703:prime": {
       "art": "removed",
@@ -3069,7 +3233,8 @@
       "tmdbId": "tv/119495",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:3:prime": {
       "art": "removed",
@@ -3629,7 +3794,8 @@
       "tmdbId": "tv/81700",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:31047:prime": {
       "art": "removed",
@@ -4429,7 +4595,8 @@
       "tmdbId": "tv/100604",
       "dienst": "prime",
       "am": "2026-10-20",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:34920:prime": {
       "art": "removed",
@@ -4709,7 +4876,8 @@
       "tmdbId": "tv/44006",
       "dienst": "prime",
       "am": "2026-10-22",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "removed:4869:netflix": {
       "art": "removed",
@@ -4779,7 +4947,8 @@
       "tmdbId": "tv/333016",
       "dienst": "netflix",
       "am": "2026-09-28",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:463:disney": {
       "art": "new",
@@ -4789,7 +4958,8 @@
       "tmdbId": "tv/56296",
       "dienst": "disney",
       "am": "2026-09-28",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:8881341:disney": {
       "art": "new",
@@ -4799,7 +4969,8 @@
       "tmdbId": "tv/206916",
       "dienst": "disney",
       "am": "2026-09-28",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:18811:prime": {
       "art": "new",
@@ -4979,7 +5150,8 @@
       "tmdbId": "tv/230923",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "new:38454:prime": {
       "art": "new",
@@ -4989,7 +5161,8 @@
       "tmdbId": "tv/36651",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:5643:prime": {
       "art": "new",
@@ -4999,7 +5172,8 @@
       "tmdbId": "tv/61852",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:4431:prime": {
       "art": "new",
@@ -5009,7 +5183,8 @@
       "tmdbId": "tv/71641",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:73016:prime": {
       "art": "new",
@@ -5019,7 +5194,8 @@
       "tmdbId": "tv/112805",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:7194:prime": {
       "art": "new",
@@ -5029,7 +5205,8 @@
       "tmdbId": "tv/42025",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "new:27921:prime": {
       "art": "new",
@@ -5039,7 +5216,8 @@
       "tmdbId": "tv/49718",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:22143:prime": {
       "art": "new",
@@ -5049,7 +5227,8 @@
       "tmdbId": "tv/136322",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:3959:prime": {
       "art": "new",
@@ -5059,7 +5238,8 @@
       "tmdbId": "tv/56336",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:11090:prime": {
       "art": "new",
@@ -5069,7 +5249,8 @@
       "tmdbId": "tv/72644",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:1992:prime": {
       "art": "new",
@@ -5079,7 +5260,8 @@
       "tmdbId": "tv/70485",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:11193:prime": {
       "art": "new",
@@ -5089,7 +5271,8 @@
       "tmdbId": "tv/84000",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:59139:prime": {
       "art": "new",
@@ -5099,7 +5282,8 @@
       "tmdbId": "tv/34449",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:17787:prime": {
       "art": "new",
@@ -5109,7 +5293,8 @@
       "tmdbId": "tv/64198",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:6370:prime": {
       "art": "new",
@@ -5119,7 +5304,8 @@
       "tmdbId": "tv/12323",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:19856:prime": {
       "art": "new",
@@ -5129,7 +5315,8 @@
       "tmdbId": "tv/52051",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:8017:prime": {
       "art": "new",
@@ -5139,7 +5326,8 @@
       "tmdbId": "tv/85310",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:63991:prime": {
       "art": "new",
@@ -5149,7 +5337,8 @@
       "tmdbId": "tv/202655",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:50406:prime": {
       "art": "new",
@@ -5159,7 +5348,8 @@
       "tmdbId": "tv/80376",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:20828:prime": {
       "art": "new",
@@ -5169,7 +5359,8 @@
       "tmdbId": "tv/88570",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:44843:prime": {
       "art": "new",
@@ -5179,7 +5370,8 @@
       "tmdbId": "tv/46060",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:38757:prime": {
       "art": "new",
@@ -5189,7 +5381,8 @@
       "tmdbId": "tv/4645",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:57904:prime": {
       "art": "new",
@@ -5199,7 +5392,8 @@
       "tmdbId": "tv/48200",
       "dienst": "prime",
       "am": "2026-09-26",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:30261:prime": {
       "art": "new",
@@ -5229,7 +5423,8 @@
       "tmdbId": "tv/86034",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:79363:prime": {
       "art": "removed",
@@ -5239,7 +5434,8 @@
       "tmdbId": "tv/210911",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:2804:prime": {
       "art": "removed",
@@ -5249,7 +5445,8 @@
       "tmdbId": "tv/54",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:6221:prime": {
       "art": "removed",
@@ -5259,7 +5456,8 @@
       "tmdbId": "tv/11157",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:25721:prime": {
       "art": "removed",
@@ -5269,7 +5467,8 @@
       "tmdbId": "tv/113791",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:20163968:prime": {
       "art": "removed",
@@ -5279,7 +5478,8 @@
       "tmdbId": "tv/262657",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:29450:prime": {
       "art": "removed",
@@ -5289,7 +5489,8 @@
       "tmdbId": "tv/79371",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:8791:prime": {
       "art": "removed",
@@ -5299,7 +5500,8 @@
       "tmdbId": "tv/77184",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:36376:prime": {
       "art": "removed",
@@ -5309,7 +5511,8 @@
       "tmdbId": "tv/87447",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:9093:prime": {
       "art": "removed",
@@ -5319,7 +5522,8 @@
       "tmdbId": "tv/57284",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:36885:prime": {
       "art": "removed",
@@ -5329,7 +5533,8 @@
       "tmdbId": "tv/102538",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:7294:prime": {
       "art": "removed",
@@ -5339,7 +5544,8 @@
       "tmdbId": "tv/77555",
       "dienst": "prime",
       "am": "2026-10-12",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:10790:prime": {
       "art": "removed",
@@ -5349,7 +5555,8 @@
       "tmdbId": "tv/62452",
       "dienst": "prime",
       "am": "2026-10-06",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:60479:prime": {
       "art": "removed",
@@ -5359,7 +5566,8 @@
       "tmdbId": "tv/217418",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:10126:prime": {
       "art": "removed",
@@ -5369,7 +5577,8 @@
       "tmdbId": "tv/89779",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:19827999:prime": {
       "art": "removed",
@@ -5379,7 +5588,8 @@
       "tmdbId": "tv/253769",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:13506:prime": {
       "art": "removed",
@@ -5389,7 +5599,8 @@
       "tmdbId": "tv/104711",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:14626129:prime": {
       "art": "removed",
@@ -5399,7 +5610,8 @@
       "tmdbId": "tv/280184",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:12281796:prime": {
       "art": "removed",
@@ -5409,7 +5621,8 @@
       "tmdbId": "tv/249753",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:433:prime": {
       "art": "removed",
@@ -5419,7 +5632,8 @@
       "tmdbId": "tv/4327",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:23724:prime": {
       "art": "removed",
@@ -5429,7 +5643,8 @@
       "tmdbId": "tv/71655",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:19856140:prime": {
       "art": "removed",
@@ -5439,7 +5654,8 @@
       "tmdbId": "tv/219004",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:58781:prime": {
       "art": "removed",
@@ -5449,7 +5665,8 @@
       "tmdbId": "tv/70272",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:5054643:prime": {
       "art": "removed",
@@ -5459,7 +5676,8 @@
       "tmdbId": "tv/195459",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:34166:prime": {
       "art": "removed",
@@ -5469,7 +5687,8 @@
       "tmdbId": "tv/62898",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:6439:prime": {
       "art": "removed",
@@ -5479,7 +5698,8 @@
       "tmdbId": "tv/32515",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "removed:17538:prime": {
       "art": "removed",
@@ -5489,7 +5709,8 @@
       "tmdbId": "tv/74685",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:25879395:prime": {
       "art": "removed",
@@ -5499,7 +5720,8 @@
       "tmdbId": "tv/208606",
       "dienst": "prime",
       "am": "2026-10-12",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:14617:prime": {
       "art": "removed",
@@ -5509,7 +5731,8 @@
       "tmdbId": "tv/4698",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:2401:prime": {
       "art": "removed",
@@ -5519,7 +5742,8 @@
       "tmdbId": "tv/61427",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:45971:prime": {
       "art": "removed",
@@ -5529,7 +5753,8 @@
       "tmdbId": "tv/40915",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:38355:prime": {
       "art": "removed",
@@ -5539,7 +5764,8 @@
       "tmdbId": "tv/53135",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:7725:prime": {
       "art": "removed",
@@ -5549,7 +5775,8 @@
       "tmdbId": "tv/67826",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:10285:prime": {
       "art": "removed",
@@ -5559,7 +5786,8 @@
       "tmdbId": "tv/47320",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:7543395:prime": {
       "art": "removed",
@@ -5569,7 +5797,8 @@
       "tmdbId": "tv/75221",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:810:prime": {
       "art": "removed",
@@ -5579,7 +5808,8 @@
       "tmdbId": "tv/43020",
       "dienst": "prime",
       "am": "2026-09-27",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:5425:prime": {
       "art": "removed",
@@ -5599,7 +5829,8 @@
       "tmdbId": "tv/271855",
       "dienst": "disney",
       "am": "2026-09-29",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:24973060:netflix": {
       "art": "new",
@@ -5609,7 +5840,8 @@
       "tmdbId": "tv/318918",
       "dienst": "netflix",
       "am": "2026-09-29",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:26893123:disney": {
       "art": "new",
@@ -5619,7 +5851,8 @@
       "tmdbId": "tv/335964",
       "dienst": "disney",
       "am": "2026-09-28",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:26893503:netflix": {
       "art": "new",
@@ -5629,7 +5862,8 @@
       "tmdbId": "tv/297982",
       "dienst": "netflix",
       "am": "2026-09-28",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:355:prime": {
       "art": "new",
@@ -5639,7 +5873,8 @@
       "tmdbId": "tv/46896",
       "dienst": "prime",
       "am": "2026-09-28",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "removed:1653:prime": {
       "art": "removed",
@@ -5649,7 +5884,8 @@
       "tmdbId": "tv/153312",
       "dienst": "prime",
       "am": "2026-10-05",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:26343532:netflix": {
       "art": "new",
@@ -5659,7 +5895,8 @@
       "tmdbId": "tv/331669",
       "dienst": "netflix",
       "am": "2026-09-30",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:26598917:netflix": {
       "art": "new",
@@ -5669,7 +5906,8 @@
       "tmdbId": "tv/290750",
       "dienst": "netflix",
       "am": "2026-09-30",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:312:prime": {
       "art": "new",
@@ -5679,7 +5917,8 @@
       "tmdbId": "tv/66276",
       "dienst": "prime",
       "am": "2026-09-30",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:9884299:netflix": {
       "art": "new",
@@ -6329,7 +6568,8 @@
       "tmdbId": "tv/37290",
       "dienst": "prime",
       "am": "2026-10-20",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:13510:netflix": {
       "art": "removed",
@@ -6639,7 +6879,8 @@
       "tmdbId": "tv/74538",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:54976:prime": {
       "art": "removed",
@@ -6739,7 +6980,8 @@
       "tmdbId": "tv/261306",
       "dienst": "prime",
       "am": "2026-10-20",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:62101:prime": {
       "art": "removed",
@@ -6759,7 +7001,8 @@
       "tmdbId": "tv/331582",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:217:prime": {
       "art": "removed",
@@ -8369,7 +8612,8 @@
       "tmdbId": "tv/81822",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:63439:prime": {
       "art": "removed",
@@ -8379,7 +8623,8 @@
       "tmdbId": "tv/83454",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:24272:prime": {
       "art": "removed",
@@ -8389,7 +8634,8 @@
       "tmdbId": "tv/112712",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:25893506:prime": {
       "art": "removed",
@@ -8399,7 +8645,8 @@
       "tmdbId": "tv/297208",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:2563:prime": {
       "art": "removed",
@@ -8409,7 +8656,8 @@
       "tmdbId": "tv/70391",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:82142:prime": {
       "art": "removed",
@@ -8419,7 +8667,8 @@
       "tmdbId": "tv/209784",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:35772:prime": {
       "art": "removed",
@@ -8429,7 +8678,8 @@
       "tmdbId": "tv/81403",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:6370:prime": {
       "art": "removed",
@@ -8439,7 +8689,8 @@
       "tmdbId": "tv/12323",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:14673:prime": {
       "art": "removed",
@@ -8449,7 +8700,8 @@
       "tmdbId": "tv/38910",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:42853:prime": {
       "art": "removed",
@@ -8459,7 +8711,8 @@
       "tmdbId": "tv/99232",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:24887:prime": {
       "art": "removed",
@@ -8469,7 +8722,8 @@
       "tmdbId": "tv/71377",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:27531:prime": {
       "art": "removed",
@@ -8479,7 +8733,8 @@
       "tmdbId": "tv/79499",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:16926:prime": {
       "art": "removed",
@@ -8489,7 +8744,8 @@
       "tmdbId": "tv/45854",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:655:prime": {
       "art": "removed",
@@ -8509,7 +8765,8 @@
       "tmdbId": "tv/11196",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:5643:prime": {
       "art": "removed",
@@ -8519,7 +8776,8 @@
       "tmdbId": "tv/61852",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:10701:prime": {
       "art": "removed",
@@ -8529,7 +8787,8 @@
       "tmdbId": "tv/62459",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:6408:prime": {
       "art": "removed",
@@ -8539,7 +8798,8 @@
       "tmdbId": "tv/10938",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:14227:prime": {
       "art": "removed",
@@ -8549,7 +8809,8 @@
       "tmdbId": "tv/34742",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:12933:prime": {
       "art": "removed",
@@ -8559,7 +8820,8 @@
       "tmdbId": "tv/91253",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:11219:prime": {
       "art": "removed",
@@ -8569,7 +8831,8 @@
       "tmdbId": "tv/61751",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:2720:prime": {
       "art": "removed",
@@ -8579,7 +8842,8 @@
       "tmdbId": "tv/2260",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "removed:16792:prime": {
       "art": "removed",
@@ -8589,7 +8853,8 @@
       "tmdbId": "tv/45844",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:5542:prime": {
       "art": "removed",
@@ -8599,7 +8864,8 @@
       "tmdbId": "tv/66869",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:7223:prime": {
       "art": "removed",
@@ -8609,7 +8875,8 @@
       "tmdbId": "tv/67709",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:19918200:prime": {
       "art": "removed",
@@ -8619,7 +8886,8 @@
       "tmdbId": "tv/121720",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:3173:prime": {
       "art": "removed",
@@ -8629,7 +8897,8 @@
       "tmdbId": "tv/59312",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:24511:prime": {
       "art": "removed",
@@ -8639,7 +8908,8 @@
       "tmdbId": "tv/107543",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:5312:prime": {
       "art": "removed",
@@ -8649,7 +8919,8 @@
       "tmdbId": "tv/62211",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:1217:prime": {
       "art": "removed",
@@ -8659,7 +8930,8 @@
       "tmdbId": "tv/5371",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:13831:prime": {
       "art": "removed",
@@ -8669,7 +8941,8 @@
       "tmdbId": "tv/98911",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:35702:prime": {
       "art": "removed",
@@ -8679,7 +8952,8 @@
       "tmdbId": "tv/109330",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:17847:prime": {
       "art": "removed",
@@ -8689,7 +8963,8 @@
       "tmdbId": "tv/14958",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:4720:prime": {
       "art": "removed",
@@ -8699,7 +8974,8 @@
       "tmdbId": "tv/474",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:26523:prime": {
       "art": "removed",
@@ -8709,7 +8985,8 @@
       "tmdbId": "tv/137336",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:822:prime": {
       "art": "removed",
@@ -8719,7 +8996,8 @@
       "tmdbId": "tv/64122",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:5459451:prime": {
       "art": "removed",
@@ -8729,7 +9007,8 @@
       "tmdbId": "tv/238185",
       "dienst": "prime",
       "am": "2026-10-19",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:19632:prime": {
       "art": "removed",
@@ -8789,7 +9068,8 @@
       "tmdbId": "tv/63690",
       "dienst": "prime",
       "am": "2026-10-22",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:59576:prime": {
       "art": "new",
@@ -8799,7 +9079,8 @@
       "tmdbId": "tv/75529",
       "dienst": "prime",
       "am": "2026-10-22",
-      "deutsch": true
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "new:27066513:netflix": {
       "art": "new",
@@ -8809,8 +9090,64 @@
       "tmdbId": "tv/335319",
       "dienst": "netflix",
       "am": "2026-10-21",
-      "deutsch": false
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:24333962:netflix": {
+      "art": "new",
+      "titel": "Juan Gabriel: I Must, I Can, I Will",
+      "originalTitel": "Juan Gabriel: Debo, puedo y quiero",
+      "imdbId": "tt28235034",
+      "tmdbId": "tv/283396",
+      "dienst": "netflix",
+      "am": "2026-10-24",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27299962:netflix": {
+      "art": "new",
+      "titel": "LOST10",
+      "originalTitel": "LOST10",
+      "imdbId": "tt49276654",
+      "tmdbId": "tv/329490",
+      "dienst": "netflix",
+      "am": "2026-10-24",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:26598842:netflix": {
+      "art": "new",
+      "titel": "Did Someone Happen to Mention Me?",
+      "originalTitel": "俺のこと、なんか言ってた？",
+      "imdbId": "tt38337376",
+      "tmdbId": "tv/300527",
+      "dienst": "netflix",
+      "am": "2026-10-24",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:26635555:netflix": {
+      "art": "new",
+      "titel": "Fading Grandeur",
+      "originalTitel": "Grande de España",
+      "imdbId": "tt39387986",
+      "tmdbId": "tv/335535",
+      "dienst": "netflix",
+      "am": "2026-10-23",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:54303:disney": {
+      "art": "new",
+      "titel": "Die Kirche bleibt im Dorf",
+      "originalTitel": "Die Kirche bleibt im Dorf",
+      "imdbId": "tt2844130",
+      "tmdbId": "tv/60872",
+      "dienst": "disney",
+      "am": "2026-10-23",
+      "deutsch": true,
+      "deutschBeiDienst": true
     }
   },
-  "fetchedAt": "2026-10-23T04:11:59.177Z"
+  "fetchedAt": "2026-10-24T04:12:22.676Z"
 }

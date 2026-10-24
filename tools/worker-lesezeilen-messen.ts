@@ -79,7 +79,7 @@ const huelle = (stmt: D1PreparedStatement): D1PreparedStatement => {
 }
 const env = { LAUF_TOKEN: 't', SITE_URL: 'https://attrappe.test/', DB: { prepare: (sql: string) => huelle(roh.prepare(sql)) } } as never
 
-const get = (suche: string) => new Request(`https://worker.test/pruefung?rohfolgen=1&token=t&${suche}`)
+const get = (suche: string) => new Request(`https://worker.test/pruefung?rohfolgen=1&${suche}`, { headers: { Authorization: 'Bearer t' } })
 const seiten: Record<string, string> = {}
 
 async function messe(name: string, suche: string): Promise<unknown> {

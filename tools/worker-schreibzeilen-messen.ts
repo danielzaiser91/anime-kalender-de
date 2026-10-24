@@ -131,7 +131,7 @@ async function messeDurchgang(name: string, bodies: unknown[]) {
 /** Eine Leseabfrage des Workers (Bau, Erweiterung). */
 async function messeLesen(name: string, suche: string, lies = false) {
   summe = { gelesen: 0, geschrieben: 0, abfragen: [] }
-  const r = await handlePruefung(new Request(`https://worker.test/pruefung?token=t&${suche}`), env)
+  const r = await handlePruefung(new Request(`https://worker.test/pruefung?${suche}`, { headers: { Authorization: 'Bearer t' } }), env)
   const j = (await r.json()) as { pruefungen?: { id: number }[]; folgen?: unknown[]; paare?: unknown[] }
   console.log(JSON.stringify({ name, status: r.status, zeilen: (j.pruefungen ?? j.folgen ?? j.paare ?? []).length, gelesen: summe.gelesen, geschrieben: summe.geschrieben }))
   return lies ? j : null

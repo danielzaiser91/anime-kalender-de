@@ -19,11 +19,11 @@
         return {}
       }
     }
-    /** `seit` wie in der Liste ('2026-08-26'); ohne Wiedervorlage genügt jede frische Antwort. */
+    /** `seit` wie in der Liste ('2026-08-26'); maßgeblich ist der Prüfstand (`akVermerkGilt`), nicht `seit`. */
     const gilt = (url, seit) => {
       const am = lesen()[url]
       if (!am || jetzt() - Date.parse(am) >= FRIST_MS) return false
-      return am >= String(seit ?? '')
+      return globalThis.akVermerkGilt(am, seit)
     }
     return {
       gilt,
@@ -39,6 +39,32 @@
       },
       /** Die Rechnung der Liste: Briefkasten-Antwort oder eigene Antwort. */
       erledigt: (url, seit, vomBriefkasten) => vomBriefkasten || gilt(url, seit),
+    }
+  }
+
+  /** Ein Titel, den Disney+ hier gar nicht führt; `true`, wenn die Meldung ankam und lokal vermerkt ist. */
+  globalThis.akDisneyWegSenden = async (e, { worker, anbieterStaffeln, weg: vermerk }) => {
+    const { token } = await chrome.storage.sync.get('token')
+    if (!token) return false
+    try {
+      const antwort = await fetch(worker, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+        body: JSON.stringify({
+          plattform: 'disneyplus',
+          url: e.url,
+          titelId: globalThis.AK_DISNEY_STAFFELN.titelIdFuer(e.staffeln, null, anbieterStaffeln),
+          /* Stufe 1 des Meldemodells: Verfügbarkeit und Sprache getrennt (22.09.2026). */
+          vorhanden: 'nein',
+          art: 'gemessen',
+          titel: e.titel,
+          serientitel: e.titel,
+          notiz: 'Disney+ meldet: nicht in deinem Gebiet verfügbar',
+        }),
+      })
+      return vermerk.merke(e.url, antwort.ok)
+    } catch {
+      return false
     }
   }
 

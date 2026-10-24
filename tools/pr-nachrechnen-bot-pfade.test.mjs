@@ -58,7 +58,6 @@ const ERWARTET = [
   'data/meldungen-uebernahme.json',
   'data/meldungen-zurueckgestellt.json',
   'data/meldungs-auffaelligkeiten.json',
-  'data/motn-changes.json',
   'data/motn-raw',
   'data/pillen-luecken.json',
   'data/prime-kanal-aussortiert.json',
@@ -79,7 +78,7 @@ const ERWARTET = [
 const ORDNER = ['data/anisearch-folgen-raw', 'data/anisearch-sprecher-raw', 'data/ann-raw', 'data/motn-raw']
 
 pruefe('Liste: genau die gemessenen Einträge, keiner doppelt', JSON.stringify([...BOT_DATEIEN_OHNE_LESER]) === JSON.stringify(ERWARTET) && new Set(ERWARTET).size === ERWARTET.length, BOT_DATEIEN_OHNE_LESER.length)
-pruefe('Liste: 54 Einträge', ERWARTET.length === 54, ERWARTET.length)
+pruefe('Liste: 53 Einträge', ERWARTET.length === 53, ERWARTET.length)
 
 for (const eintrag of ERWARTET) {
   const innen = ORDNER.includes(eintrag) ? `${eintrag}/1.json.gz` : eintrag
@@ -91,7 +90,7 @@ for (const eintrag of ERWARTET) {
 
 // Gelesene Bot-Dateien (Tabelle der PR-Beschreibung) und die ausdrücklich ausgeschlossenen Pfade bleiben draußen.
 const GELESEN = [
-  'data/crunchyroll.json', 'data/crunchyroll-woche.json', 'data/termine-verpasst.json', 'data/tv-programm.json',
+  'data/crunchyroll.json', 'data/crunchyroll-woche.json', 'data/termine-verpasst.json', 'data/tv-programm.json', 'data/motn-changes.json',
   'data/cr-einzelwerke.json', 'data/dub-confirmed.yaml', 'data/adn-raw/561.json.gz', 'data/crunchyroll-raw/GG5H5XQMD.de.json.gz', 'data/anisearch-raw/1.html.gz',
   'daniel-zum-abarbeiten/listen/justwatch-widersprueche.md', 'daniel-zum-abarbeiten/stand.md', 'daniel-zum-abarbeiten/listen/07-neu.md',
   'tools/design-klassen-grenzen.json', 'tools/umfang-grenzen.json', 'extension/offene-netflix.js', 'extension/offene-amazon.js', 'public/og/a.jpg',
@@ -103,7 +102,7 @@ for (const datei of GELESEN) pruefe(`gelesen/ausgeschlossen: ${datei} -> keine A
 const wurzel = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 // Dazu die Prüfungen der Kette (kettenDateien): ihre Treffer (Wegwerf-Wurzeln, Verbotslisten) stehen mit Grund in pr-nachrechnen-bot-pfade-bekannt.mjs.
 const BEKANNT = BEKANNT_TREFFER
-pruefe('Wächter: 33 bekannte Treffer (3 Bau, 30 Kette), keine stille Vergrößerung der Liste', BEKANNT.size === 33, BEKANNT.size)
+pruefe('Wächter: 37 bekannte Treffer (3 Bau, 34 Kette), keine stille Vergrößerung der Liste', BEKANNT.size === 37, BEKANNT.size)
 const bau = bauDateien(wurzel)
 const kette = kettenDateien(wurzel)
 pruefe('Wächter: sieht die Kette (Logik-Liste, Tests, Kettenworkflow)', kette.includes('pipeline/check-sammelartikel.ts') && kette.includes('tools/briefkasten-wache.test.mjs') && kette.includes('.github/workflows/pr-pruefung.yml') && !kette.includes('tools/pr-nachrechnen-bot-pfade.test.mjs') && kette.length > 350, kette.length)

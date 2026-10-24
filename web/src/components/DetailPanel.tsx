@@ -527,6 +527,7 @@ export function DetailPanel({
             discReleases={discReleases}
             discZuerst={discZuerst}
           />
+          {discOffen && discAusgaben.length > 0 && <DiscEinzelListe ausgaben={discAusgaben} />}
           <UnterDerAntwort
             data={data}
             title={title}
@@ -548,7 +549,6 @@ export function DetailPanel({
             />
             }
           />
-          {discOffen && discAusgaben.length > 0 && <DiscEinzelListe ausgaben={discAusgaben} />}
           {/*
             „Wo läuft es" steht seit dem 24.08.2026 **vor** den Terminen.
 

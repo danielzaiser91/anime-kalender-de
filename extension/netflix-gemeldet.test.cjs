@@ -176,6 +176,7 @@ async function seite({ bekannt = null, pruefstandAm = '2026-10-10T16:32:13.472Z'
   const t = ladeSeite('/title/' + REIHE, {}, '', speicher)
   const env = t.umgebung
   env.fetch = async (url, opt) => {
+    if (String(url).endsWith('/vorfall')) return { ok: true, json: async () => ({ ok: true }) }
     if (opt?.method === 'POST' && !postOk) return { ok: false, json: async () => ({}) }
     if (opt?.method === 'POST') {
       const b = JSON.parse(opt.body)
@@ -212,7 +213,7 @@ function ladeSeite(pfad, liste, suchteil, speicher) {
   const { umgebung, body, takte } = baueUmgebung(pfad, suchteil, speicher)
   const kontext = vm.createContext(umgebung)
   umgebung.__kontext = kontext
-  for (const datei of ['box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-erinnern.js', 'netflix-zurueckgestellt.js', 'melder.js']) {
+  for (const datei of ['box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-staffel.js', 'netflix-erinnern.js', 'netflix-zurueckgestellt.js', 'melder.js']) {
     vm.runInContext(readFileSync(__dirname + '/' + datei, 'utf8'), kontext, { filename: datei })
   }
   return { umgebung, body, takte }
@@ -373,9 +374,11 @@ async function fehlerFaelle() {
  */
 function gemischtStellen(s) {
   s.posts = []
+  s.vorfaelle = []
   const echt = s.env.fetch
   s.env.fetch = async (url, opt) => {
-    if (opt?.method === 'POST') s.posts.push(JSON.parse(opt.body))
+    if (opt?.method === 'POST' && url.endsWith('/vorfall')) s.vorfaelle.push(JSON.parse(opt.body))
+    if (opt?.method === 'POST' && !url.endsWith('/vorfall')) s.posts.push(JSON.parse(opt.body))
     return echt(url, opt)
   }
   s.env.history = {
@@ -412,6 +415,9 @@ async function randvollFaelle() {
   await a.warte()
   const gemeldet = gemeldeteSprachen(a)
   pruefe('Sammeldurchgang: alle 15 Folgen liegen im Briefkasten', a.briefkasten.length === 15, a.briefkasten.length)
+  const zaehlungen = a.vorfaelle.filter((v) => v.art === 'durchgang-zaehlung')
+  const zahlen = zaehlungen[0] ? JSON.parse(zaehlungen[0].text) : null
+  pruefe('Durchgang-Ende: genau ein /vorfall durchgang-zaehlung, Text = JSON der Zahlen', zaehlungen.length === 1 && zahlen && ['besucht', 'gemessen', 'wartend', 'uebersprungen'].every((k) => Number.isFinite(zahlen[k])), a.vorfaelle)
   const groessen = a.posts.map((b) => b.stapel?.length ?? 0)
   pruefe('… in zwei Stapel-POSTs gesendet (8 mit Deutsch, 7 ohne), nicht 15 einzeln', groessen.length === 2 && groessen.includes(8) && groessen.includes(7), groessen)
   const notizen = a.posts.flatMap((b) => b.stapel ?? []).map((d) => d.notiz)
@@ -435,7 +441,7 @@ async function randvollFaelle() {
   sammelnStellen(c)
   const echtC = c.env.fetch
   c.env.fetch = async (url, opt) => {
-    if (opt?.method !== 'POST') return echtC(url, opt)
+    if (opt?.method !== 'POST' || url.endsWith('/vorfall')) return echtC(url, opt)
     c.posts.push(JSON.parse(opt.body))
     const inhalt = { tageslimit: true, retryAfter: 3600 }
     return { ok: false, status: 429, clone: () => ({ json: async () => inhalt }), json: async () => inhalt }
@@ -469,7 +475,7 @@ async function annahmeFaelle() {
   s.posts = []
   const echt = s.env.fetch
   s.env.fetch = async (url, opt) => {
-    if (opt?.method === 'POST') s.posts.push(JSON.parse(opt.body))
+    if (opt?.method === 'POST' && !url.endsWith('/vorfall')) s.posts.push(JSON.parse(opt.body))
     return echt(url, opt)
   }
   await s.run('durchlaufStarten()')
@@ -489,7 +495,7 @@ async function annahmeFaelle() {
   c.posts = []
   const echtC = c.env.fetch
   c.env.fetch = async (url, opt) => {
-    if (opt?.method !== 'POST') return echtC(url, opt)
+    if (opt?.method !== 'POST' || url.endsWith('/vorfall')) return echtC(url, opt)
     c.posts.push(JSON.parse(opt.body))
     const inhalt = { tageslimit: true, retryAfter: 3600 }
     return { ok: false, status: 429, clone: () => ({ json: async () => inhalt }), json: async () => inhalt }

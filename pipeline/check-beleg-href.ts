@@ -26,13 +26,16 @@ const ERLAUBT: Record<string, Record<string, string>> = {
   'web/src/components/detail/antwort-kasten.tsx': { q: 'Quellenliste einer Antwort: Wiki-/Katalogseiten' },
   'web/src/components/detail/flaggen.tsx': { 'verweis.ziel': 'Anbieterseite (Stream, Shop), aus den Wegen des Titels' },
   'web/src/components/detail/handlung-quelle.tsx': { 'q.url': 'Handlungsquelle (aniSearch, ANN, TMDB-Seite)', lizenzSeite: 'feste Lizenzseite' },
+  'web/src/components/empfehlung/Leinwand.tsx': { 'belegLink(s)': 'Anbieterseite des Wegs (Seite, sonst Adresse), nie eine API-Adresse' },
   'web/src/components/detail/kino.tsx': { suche: 'Kino-Suchseite, selbst gebaut', kinoheld: 'Kinoheld-Seite, selbst gebaut' },
   'web/src/components/detail/merken.tsx': { 'googleCalendarUrl(ev, {}, wochenserie(kuenftige))': 'selbst gebaute Kalenderadresse' },
   'web/src/components/detail/pille.tsx': { 'url || undefined': 'Anbieter-Adresse (platformUrl/Weg), keine Beleg-Quelle' },
   'web/src/components/detail/hilfen.tsx': { url: 'blob:-Adresse der ICS-Datei aus URL.createObjectURL (downloadIcs), keine Adresse aus den Daten' },
   'web/src/components/detail/termin-zeile.tsx': {
-    href: 'Parameter von ProgrammLink; einziger Aufrufer übergibt tvText.programm (tv.de-Programmseite, Eintrag daneben)',
+    href: 'Parameter von ProgrammLink; einziger Aufrufer übergibt tvLink.href (Eintrag daneben)',
+    'tvLink.href': 'aus programmZiel: tvText.programm oder tvQuelle().url',
     'tvText.programm': 'tv.de-Programmseite',
+    'quelle.url': 'tvQuelle(): nur http(s) und parsbar (istLink), sonst keine Quelle',
   },
   'web/src/components/detail/vermerk.tsx': {
     'm.quelle.url': 'Nachrichtenartikel (anime2you u. a.), keine Termin-Quelle',
