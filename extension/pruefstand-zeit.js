@@ -42,7 +42,8 @@ globalThis.akGemeldetSeit = async (eintragSeit) => {
  * ist als der Prüfstand: Was davor gemeldet wurde, hat der Bau eingearbeitet; führt er den Titel
  * trotzdem als offen, ist die alte Meldung kein Beleg mehr. Genauso rechnet der Worker
  * (`pruefung-stand-anbieter.ts`: Meldung seit `pruefstandAm`). Ohne Prüfstand-Zeit gilt `eintragSeit`,
- * ohne beides jeder Vermerk; ein Vermerk ohne Zeit nie. Ein reiner Tag (ältere Fassungen) wird als Tag verglichen.
+ * ohne beides jeder Vermerk; ein Vermerk ohne Zeit nie. Ein reiner Tag (ältere Fassungen) wird als Tag verglichen:
+ * am Tag des Prüfstands gilt er (`>=`), den Tag davor nicht.
  */
 globalThis.akVermerkGilt = (zeit, eintragSeit) => {
   const z = String(zeit ?? '')

@@ -171,6 +171,9 @@ async function maßstab() {
   const gelesen = await k.akGemeldetSeit('2026-08-26')
   pruefe('mit Prüfstand-Zeit gilt sie, nicht das Eintragsdatum', gelesen === STAND, gelesen)
   pruefe('und sie ist danach ohne await lesbar', k.akPruefstandAm === STAND, k.akPruefstandAm)
+  pruefe('Vermerk nur als Tag, am Tag des Prüfstands: gilt (>=)', k.akVermerkGilt('2026-10-24', null) === true, 0)
+  pruefe('Vermerk nur als Tag, einen Tag davor: gilt nicht', k.akVermerkGilt('2026-10-23', null) === false, 0)
+  pruefe('Vermerk als ISO knapp vor dem Prüfstand: gilt nicht', k.akVermerkGilt('2026-10-24T01:35:59.000Z', null) === false, 0)
   const kein = vm.createContext({ fetch: async () => ({ ok: false }) })
   kein.globalThis = kein
   vm.runInContext(lies('pruefstand-zeit.js'), kein)
