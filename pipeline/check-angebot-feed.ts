@@ -76,6 +76,14 @@ for (let i = 0; i < 5; i++) {
   titelMit(450 + i, {})
   meldung('new', 450 + i, '2026-10-11', false)
 }
+for (let i = 0; i < STICHTAG_AB - 1; i++) {
+  titelMit(500 + i, {})
+  meldung('new', 500 + i, '2026-10-10')
+}
+for (let i = 0; i < 3; i++) {
+  titelMit(550 + i, {})
+  meldung('removed', 550 + i, '2026-10-10')
+}
 
 titelMit(10, {}) // removed am selben Tag wie new: gilt als entfernt
 meldung('new', 10, '2026-10-16')
@@ -119,6 +127,7 @@ pruefe('knapp unter der Schwelle (STICHTAG_AB - 1 am Tag) ist keine Welle', seit
 pruefe('genau STICHTAG_AB Feed-Meldungen eines Anbieters an einem Tag: kein seit, kein Termin', !seit(200) && !seit(200 + STICHTAG_AB - 1) && !releases.some((r) => r.titleId >= 200 && r.titleId < 200 + STICHTAG_AB), seit(200))
 pruefe('Welle bei Prime sperrt Netflix am selben Tag nicht', seit(300)?.date === '2026-10-12' && seit(300)?.platform === 'netflix', seit(300))
 pruefe('Meldungen ohne Ton beim Dienst zählen nicht zur Welle', seit(400)?.date === '2026-10-11' && !seit(450), seit(400))
+pruefe('removed-Meldungen am selben Tag zählen nicht zur Welle', seit(500)?.date === '2026-10-10', seit(500))
 pruefe('Welle im Monatsstand sperrt die Feed-Meldung', !seit(13) && !releases.some((r) => r.titleId === 13), seit(13))
 pruefe('removed am selben Tag wie new: nichts', !seit(10), seit(10))
 pruefe('removed eines anderen Dienstes sperrt nicht', seit(11)?.date === '2026-10-15', seit(11))
