@@ -3,6 +3,7 @@ import type { Kandidat } from '@shared/empfehlung-pool.ts'
 import { PLATFORMS, type Fsk, type PlatformId, type StreamLink, type Title } from '@shared/types.ts'
 import { loadSynopsis } from '../../lib/data.ts'
 import { belegLink } from '@shared/quelle.ts'
+import { tasteZuAktion } from '../../lib/empfehlung-bedienung.ts'
 import { kuerze, metaZeile } from '../../lib/empfehlung-reise.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { TrailerKino } from '../detail/kino.tsx'
@@ -100,12 +101,13 @@ export function Leinwand({ k, titel, genres, eigene, istFavorit, aktionen }: {
   const wischen = useWischen({ links: nein, rechts: aktionen.favorit, tipp: () => szene.current?.scrollBy({ top: szene.current.clientHeight - 70, behavior: 'smooth' }) })
   useEffect(() => {
     const taste = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') aktionen.favorit()
-      else if (e.key === 'ArrowLeft') nein()
-      else if (e.key === 'ArrowDown') szene.current?.scrollBy({ top: 400, behavior: 'smooth' })
-      else if (e.key === 'ArrowUp') szene.current?.scrollTo({ top: 0, behavior: 'smooth' })
-      else if (e.key.toLowerCase() === 'g') gesehen()
-      else if (e.key === 'Escape') aktionen.zurueck()
+      const aktion = tasteZuAktion({ key: e.key, altKey: e.altKey, ctrlKey: e.ctrlKey, metaKey: e.metaKey, shiftKey: e.shiftKey, ziel: (e.target as HTMLElement | null)?.tagName ?? '' })
+      if (aktion === 'favorit') aktionen.favorit()
+      else if (aktion === 'nein') nein()
+      else if (aktion === 'runter') szene.current?.scrollBy({ top: 400, behavior: 'smooth' })
+      else if (aktion === 'hoch') szene.current?.scrollTo({ top: 0, behavior: 'smooth' })
+      else if (aktion === 'gesehen') gesehen()
+      else if (aktion === 'zurueck') aktionen.zurueck()
     }
     window.addEventListener('keydown', taste)
     return () => window.removeEventListener('keydown', taste)

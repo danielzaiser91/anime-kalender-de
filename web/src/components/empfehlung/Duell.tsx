@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { naechstesPaar, type Antwort, type Sitzung } from '@shared/empfehlung-kern.ts'
 import type { Kandidat } from '@shared/empfehlung-pool.ts'
 import type { Kontext } from '@shared/empfehlung-vektor.ts'
 import type { Title } from '@shared/types.ts'
+import { baueVerzoegerung } from '../../lib/empfehlung-bedienung.ts'
 import { stand } from '../../lib/empfehlung-reise.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { bannerUrl } from './bilder.tsx'
@@ -50,9 +51,9 @@ export function Duell({ kontext, sitzung, ziel, titel, antworte, zurueck, schein
 }) {
   const { t, tGenre } = useLang()
   const [gewaehlt, setGewaehlt] = useState<Antwort>()
-  const zeit = useRef<number | undefined>(undefined)
+  const zeit = useMemo(() => baueVerzoegerung((f, ms) => window.setTimeout(f, ms), (h) => window.clearTimeout(h)), [])
   const paar = naechstesPaar(kontext, sitzung.zustand)
-  useEffect(() => () => window.clearTimeout(zeit.current), [])
+  useEffect(() => zeit.stopp, [zeit])
   useEffect(() => setGewaehlt(undefined), [sitzung.zustand])
   if (!paar) return null
   const s = stand(kontext, sitzung.zustand, ziel)
@@ -63,7 +64,12 @@ export function Duell({ kontext, sitzung, ziel, titel, antworte, zurueck, schein
     setGewaehlt(antwort)
     const sieger = antwort === 'A' ? a : antwort === 'B' ? b : undefined
     if (sieger) schein(bannerUrl(titel?.get(sieger.id), 300))
-    zeit.current = window.setTimeout(() => antworte(antwort), antwort === 'N' ? 0 : ANTWORT_VERZOEGERUNG_MS)
+    zeit.start(() => antworte(antwort), antwort === 'N' ? 0 : ANTWORT_VERZOEGERUNG_MS)
+  }
+  const zurueckGehen = () => {
+    zeit.stopp()
+    setGewaehlt(undefined)
+    zurueck()
   }
   const status = (me: Antwort): '' | 'gewinnt' | 'verliert' => (!gewaehlt || gewaehlt === 'N' ? '' : gewaehlt === me ? 'gewinnt' : 'verliert')
   const zahlen = s.rest === null ? t('empf.restUntergrenze') : s.rest === s.gesamt ? t('empf.startZahl', { gesamt: s.gesamt }) : t('empf.restZahl', { rest: s.rest, gesamt: s.gesamt })
@@ -84,7 +90,7 @@ export function Duell({ kontext, sitzung, ziel, titel, antworte, zurueck, schein
         </div>
         <p className="mt-2.5 text-[13px] text-ak-leise">{zahlen}</p>
         <div className="mt-1.5 grid grid-cols-[auto_1fr] items-center gap-2 min-[600px]:grid-cols-[auto_1fr_auto]">
-          <button type="button" onClick={zurueck} className={`min-h-11 px-1 text-sm text-ak-leise ${sitzung.verlauf.length ? '' : 'invisible'}`}>
+          <button type="button" onClick={zurueckGehen} className={`min-h-11 px-1 text-sm text-ak-leise ${sitzung.verlauf.length ? '' : 'invisible'}`}>
             {t('empf.zurueck')}
           </button>
           <button type="button" onClick={() => waehle('N')} className="min-h-11 justify-self-center rounded-xl border border-dashed border-ak-rand px-4.5 font-semibold text-ak-leise">

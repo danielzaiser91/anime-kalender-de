@@ -11,6 +11,7 @@ import {
   ANFANG, antworten, duellZurueck, entfernen, genauerMachen, kannGenauer, neueReise, oeffnen, zuPhase, type Ablauf,
 } from '../web/src/lib/empfehlung-ablauf.ts'
 import { rangliste } from '../web/src/lib/empfehlung-reise.ts'
+import { baueVerzoegerung, tasteZuAktion, type TastenEreignis } from '../web/src/lib/empfehlung-bedienung.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -137,6 +138,49 @@ nimmWeg(m, 99)
 pruefe('Zurückholen einer unbekannten Kennung ändert nichts', gleich(m.inhalt(), [1, 3]))
 fuegeHinzu(m, 4)
 pruefe('fuegeHinzu: schreibt eine neue Menge mit allen alten', gleich(m.inhalt(), [1, 3, 4]))
+
+// Verzögerte Antwort im Duell: Timer läuft, dann Zurück/Weg
+let uhr = 0
+let nextId = 1
+const geplant = new Map<number, { f: () => void; ab: number }>()
+const verz = baueVerzoegerung(
+  (f, ms) => { geplant.set(nextId, { f, ab: uhr + ms }); return nextId++ },
+  (h) => void geplant.delete(h),
+)
+const vergeh = (ms: number) => {
+  uhr += ms
+  for (const [h, e] of [...geplant]) if (e.ab <= uhr) { geplant.delete(h); e.f() }
+}
+let antwortLief = 0
+verz.start(() => antwortLief++, 380)
+vergeh(100)
+verz.stopp()
+vergeh(1000)
+pruefe('Timer läuft, dann Zurück: die alte Antwort feuert nicht mehr', antwortLief === 0)
+verz.start(() => antwortLief++, 380)
+vergeh(379)
+pruefe('Ohne Zurück: vor Ablauf keine Antwort', antwortLief === 0)
+vergeh(1)
+pruefe('Ohne Zurück: genau nach 380 ms feuert die Antwort einmal', antwortLief === 1)
+verz.stopp()
+verz.stopp()
+pruefe('stopp ohne laufenden Timer ist harmlos', antwortLief === 1 && geplant.size === 0)
+verz.start(() => antwortLief += 10, 50)
+verz.start(() => antwortLief += 100, 50)
+vergeh(500)
+pruefe('Neuer Start ersetzt den laufenden (nur eine Antwort)', antwortLief === 101)
+
+// Tastatur der Leinwand
+const taste = (key: string, mehr: Partial<TastenEreignis> = {}): string | undefined =>
+  tasteZuAktion({ key, altKey: false, ctrlKey: false, metaKey: false, shiftKey: false, ziel: 'BODY', ...mehr })
+pruefe('Tasten ohne Modifikator: Pfeile, G, Esc', gleich(['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'g', 'G', 'Escape'].map((k) => taste(k)), ['favorit', 'nein', 'runter', 'hoch', 'gesehen', 'gesehen', 'zurueck']))
+pruefe('Alt+← (Browser zurück) löst nichts aus', taste('ArrowLeft', { altKey: true }) === undefined)
+pruefe('Alt+→ löst nichts aus', taste('ArrowRight', { altKey: true }) === undefined)
+pruefe('Strg+G und Meta+G (Suche) lösen nichts aus', taste('g', { ctrlKey: true }) === undefined && taste('g', { metaKey: true }) === undefined)
+pruefe('Umschalt+Pfeil löst nichts aus', taste('ArrowLeft', { shiftKey: true }) === undefined)
+pruefe('Aus einem Eingabefeld löst nichts aus', taste('g', { ziel: 'INPUT' }) === undefined && taste('ArrowLeft', { ziel: 'TEXTAREA' }) === undefined && taste('Escape', { ziel: 'SELECT' }) === undefined)
+pruefe('G mit Fokus auf einem Button löst nichts aus, Pfeil schon', taste('g', { ziel: 'BUTTON' }) === undefined && taste('ArrowLeft', { ziel: 'BUTTON' }) === 'nein')
+pruefe('Andere Taste löst nichts aus', taste('x') === undefined)
 
 if (verletzt > 0) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt`)
