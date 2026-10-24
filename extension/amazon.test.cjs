@@ -717,7 +717,7 @@ function veraltetTest(schritte) {
 {
   const fs = require("node:fs")
   const leser = fs.readFileSync(require("node:path").resolve(__dirname, "amazon.js"), "utf8")
-  const stelleRegion = leser.indexOf("if (regionWeg && !vollstaendig && !deutsch) {")
+  const stelleRegion = leser.indexOf("if (regionWeg && !deutsch) {")
   const stelleVollstaendig = leser.indexOf("if (!vollstaendig && !(regionWeg && deutsch)) {")
   pruefe(
     "der Regionshinweis wird vor der Vollstaendigkeit geprueft",
@@ -739,7 +739,7 @@ function veraltetTest(schritte) {
   )
   pruefe(
     "ein gefundener deutscher Ton schlaegt ihn",
-    /regionWeg && !vollstaendig && !deutsch/.test(leser) &&
+    /regionWeg && !deutsch/.test(leser) &&
       /!vollstaendig && !\(regionWeg && deutsch\)/.test(leser),
   )
   pruefe(

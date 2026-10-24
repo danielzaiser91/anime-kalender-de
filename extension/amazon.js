@@ -7595,10 +7595,7 @@ async function speicherSchreiben(werte) {
      */
     const gesperrteFolgen = gesehen.gesperrt?.size ?? 0
     const offeneFolgen = gesehen.nummern.size
-    const regionWeg =
-      gesperrteFolgen > 0 || offeneFolgen > 0
-        ? gesperrteFolgen > 0 && offeneFolgen === 0
-        : lage.regionWeg
+    const regionWeg = globalThis.akPrimeStaffelRegionWeg(gesperrteFolgen, offeneFolgen, lage.regionWeg)
 
     /**
      * „Nicht mehr in deiner Region" ist eine Auskunft, ein Fehler ist keine.
@@ -8076,7 +8073,7 @@ async function speicherSchreiben(werte) {
      * nichts mehr nach. Die Staffel gilt als vollständig gelesen, und die
      * Notiz der Meldung nennt die betroffenen Folgen.
      */
-    const wegInRegion = seitenLage().regionFolgen.length
+    const wegInRegion = globalThis.akPrimeGesperrteZahl(gesehen.gesperrt, seitenLage().regionFolgen)
     /**
      * **Prime teilt eine Staffel in Bände — die Zahl gilt dann für beide.**
      *
@@ -8860,7 +8857,7 @@ async function speicherSchreiben(werte) {
      * Ausschnitt entsteht nie ein Nein, ein Ja sehr wohl. Erst wenn gar nichts
      * gefunden wurde, ist der Hinweis die einzige Auskunft, die die Seite gibt.
      */
-    if (regionWeg && !vollstaendig && !deutsch) {
+    if (regionWeg && !deutsch) {
       knopf.disabled = false
       knopf.dataset.tot = 'true'
       knopf.dataset.deutsch = 'false'
@@ -10066,7 +10063,8 @@ async function speicherSchreiben(werte) {
      */
     const lautSeite = seitenLage().folgenLautSeite || 0
     const sollFolgen = Math.max(gesehen.gesamt || 0, lautSeite)
-    const vollstaendig = !sollFolgen || geladen >= sollFolgen
+    const gesperrtN = globalThis.akPrimeGesperrteZahl(gesehen.gesperrt, seitenLage().regionFolgen)
+    const vollstaendig = globalThis.akPrimeMeldungVollstaendig(sollFolgen, geladen, gesperrtN)
 
     /**
      * Aus einem Ausschnitt entsteht **nie** ein Nein.
@@ -10459,7 +10457,8 @@ async function speicherSchreiben(werte) {
             (vollstaendig
               ? geladen === 1 && !gesehen.gesamt
                 ? 'Film geprüft'
-                : `alle ${geladen} ${geladen === 1 ? 'Folge' : 'Folgen'} geprüft`
+                : `alle ${geladen} ${geladen === 1 ? 'Folge' : 'Folgen'} geprüft` +
+                  (gesperrtN ? `, ${gesperrtN} in der Region gesperrt` : '')
               : `nur ${geladen} von ${gesehen.gesamt} Folgen geladen — Rest ungeprüft`) +
             `, Abos: ${abos().join(', ') || 'keine Angabe'}` +
             (eintrag.unbekannt ? ' — Staffel nicht im Bestand, Titel von der Seite gelesen' : '') +
