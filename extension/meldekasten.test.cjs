@@ -81,7 +81,7 @@ function grundwerte(z, knopf, speicher) {
     deutschInFolgen: () => z.deutsch,
     geladeneFolgen: () => z.geladen,
     letzteZahl: 12,
-    letzterFortschritt: Date.now() - 60_000,
+    letzterFortschritt: Date.now() - 60_000, // uhr-echt: Zeitstempel relativ zur echten Uhr, der Prüfling liest sie selbst
     GEDULD_MS: 8000,
     RUHE_MS: 2000,
     WARTE_FRIST_MS: 12_000,
@@ -287,11 +287,11 @@ async function pruefeNeuladen() {
 async function pruefeAlter() {
   {
     const STUNDE = 3600 * 1000
-    const vorTag = seiteNeu(zustandNeu({ angekommen: true }), { akMeldeSperre: { '/dp/A|1|true': Date.now() - 23 * STUNDE } })
+    const vorTag = seiteNeu(zustandNeu({ angekommen: true }), { akMeldeSperre: { '/dp/A|1|true': Date.now() - 23 * STUNDE } }) // uhr-echt: Zeitstempel relativ zur echten Uhr, der Prüfling liest sie selbst
     await vorTag.meldeSperre.geladen
     vorTag.takt()
     pruefe('23 Stunden nach der Meldung, angekommen: noch gesperrt', !sichtbar(vorTag.knopf), vorTag.knopf.style.display)
-    const alt = { akMeldeSperre: { '/dp/A|1|true': Date.now() - 25 * STUNDE } }
+    const alt = { akMeldeSperre: { '/dp/A|1|true': Date.now() - 25 * STUNDE } } // uhr-echt: Zeitstempel relativ zur echten Uhr, der Prüfling liest sie selbst
     const z4 = zustandNeu({ angekommen: true })
     const spaet = seiteNeu(z4, alt)
     await spaet.meldeSperre.geladen
@@ -300,16 +300,16 @@ async function pruefeAlter() {
       { marke: z4.marke })
     await spaet.meldeSperre.vermerken()
     pruefe('… und die nächste Meldung sichert ihn nicht weiter (der Speicher wächst nicht)',
-      Object.keys(alt.akMeldeSperre).join() === '/dp/A|1|true' && alt.akMeldeSperre['/dp/A|1|true'] > Date.now() - 5000, alt.akMeldeSperre)
+      Object.keys(alt.akMeldeSperre).join() === '/dp/A|1|true' && alt.akMeldeSperre['/dp/A|1|true'] > Date.now() - 5000, alt.akMeldeSperre) // uhr-echt: Zeitstempel relativ zur echten Uhr, der Prüfling liest sie selbst
     /* Die Meldezeit bleibt die von damals: kam die Meldung nicht an, ist der Knopf nach der Frist auch nach dem Neuladen frei. */
     const z5 = zustandNeu()
-    const unterwegs = seiteNeu(z5, { akMeldeSperre: { '/dp/A|1|true': Date.now() - sperre.AK_MELDE_SPERRE.FRIST_MS - 1000 } })
+    const unterwegs = seiteNeu(z5, { akMeldeSperre: { '/dp/A|1|true': Date.now() - sperre.AK_MELDE_SPERRE.FRIST_MS - 1000 } }) // uhr-echt: Zeitstempel relativ zur echten Uhr, der Prüfling liest sie selbst
     await unterwegs.meldeSperre.geladen
     unterwegs.takt()
     pruefe('nicht angekommen, Frist um, neu geladen: Knopf frei', sichtbar(unterwegs.knopf) && !unterwegs.knopf.disabled && z5.marke === null,
       { marke: z5.marke })
     const z6 = zustandNeu({ angekommen: true })
-    const angekommen = seiteNeu(z6, { akMeldeSperre: { '/dp/A|1|true': Date.now() - sperre.AK_MELDE_SPERRE.FRIST_MS - 1000 } })
+    const angekommen = seiteNeu(z6, { akMeldeSperre: { '/dp/A|1|true': Date.now() - sperre.AK_MELDE_SPERRE.FRIST_MS - 1000 } }) // uhr-echt: Zeitstempel relativ zur echten Uhr, der Prüfling liest sie selbst
     await angekommen.meldeSperre.geladen
     angekommen.takt()
     pruefe('angekommen, Frist um, neu geladen: gesperrt, Marke', !sichtbar(angekommen.knopf) && z6.marke === 'gemeldet ✓', { marke: z6.marke })
@@ -328,7 +328,7 @@ async function geladenNeu(extra, speicher) {
 
 /* Drei gesicherte Befunde, der geprüfte in der Mitte, ein verfallener dazwischen (Prüfer, 1397: `break`, `slice(-1)`). */
 async function pruefeMehrere() {
-  const jetzt = Date.now()
+  const jetzt = Date.now() // uhr-echt: Zeitstempel relativ zur echten Uhr, der Prüfling liest sie selbst
   const gelesen = { akMeldeSperre: { '/dp/A|1|true': jetzt - STUNDE, '/dp/A|9|true': jetzt - 25 * STUNDE, '/dp/A|2|true': jetzt - 2 * STUNDE, '/dp/A|3|true': jetzt - 3 * STUNDE } }
   const mitte = await geladenNeu({ staffel: 2, angekommen: true }, gelesen)
   pruefe('drei Befunde im Speicher, neu geladen auf dem mittleren: gesperrt, Marke', mitte.s.meldeSperre.gesperrt() && mitte.z.marke === 'gemeldet ✓',
@@ -356,7 +356,7 @@ async function pruefeZweiTabs() {
   pruefe('Tab A meldet, Tab B meldet, A neu geladen: weiter „gemeldet"', wieder.s.meldeSperre.gesperrt() && wieder.z.marke === 'gemeldet ✓',
     speicher.akMeldeSperre)
   /* A kennt X noch mit alter Zeit, ein anderer Tab hat X jünger gesichert und einen verfallenen Befund liegen lassen. */
-  const jetzt = Date.now()
+  const jetzt = Date.now() // uhr-echt: Zeitstempel relativ zur echten Uhr, der Prüfling liest sie selbst
   const geteilt = { akMeldeSperre: { '/dp/X|1|true': jetzt - 5 * STUNDE } }
   const alt = await geladenNeu({ pfad: '/dp/X', angekommen: true }, geteilt)
   geteilt.akMeldeSperre = { '/dp/W|1|true': jetzt - 25 * STUNDE, '/dp/X|1|true': jetzt - STUNDE, '/dp/V|1|true': jetzt - 2 * STUNDE }
@@ -369,7 +369,7 @@ async function pruefeZweiTabs() {
 
 /* Angekommen nur, wenn der Worker die Meldung führt; sonst gilt die Frist (Prüfer, 1397). */
 async function pruefeBeleg() {
-  const nachFrist = () => ({ akMeldeSperre: { '/dp/A|1|true': Date.now() - sperre.AK_MELDE_SPERRE.FRIST_MS - 1000 } })
+  const nachFrist = () => ({ akMeldeSperre: { '/dp/A|1|true': Date.now() - sperre.AK_MELDE_SPERRE.FRIST_MS - 1000 } }) // uhr-echt: Zeitstempel relativ zur echten Uhr, der Prüfling liest sie selbst
   const faelle = [
     ['Briefkasten-Antwort fehlt', { briefkastenAdressen: null, briefkastenSeiten: null }, false],
     ['Seite nicht auf der Prüfliste, Briefkasten ohne sie', { liste: {}, briefkastenAdressen: new Set(), briefkastenSeiten: new Set() }, false],
@@ -390,7 +390,7 @@ async function pruefeBeleg() {
 /* Takt vor der Briefkasten-Antwort vergisst nichts; erst „nicht da“ (belegt) löscht (Prüfer, 1397, Auflage A). */
 async function pruefeBelegSpaet() {
   const ADRESSE = 'https://www.amazon.de/dp/A'
-  const alt = () => ({ akMeldeSperre: { '/dp/A|1|true': Date.now() - sperre.AK_MELDE_SPERRE.FRIST_MS - 1000 } })
+  const alt = () => ({ akMeldeSperre: { '/dp/A|1|true': Date.now() - sperre.AK_MELDE_SPERRE.FRIST_MS - 1000 } }) // uhr-echt: Zeitstempel relativ zur echten Uhr, der Prüfling liest sie selbst
   const z = zustandNeu()
   const s = seiteNeu(z, alt())
   s.werte.set('briefkastenAdressen', null)
@@ -438,7 +438,7 @@ async function pruefeVeralteterBriefkasten() {
   const leer = await geladenNeu({ angekommen: true }, {})
   pruefe('leerer Speicher, Worker führt die Adresse: frei, Knopf sichtbar', !leer.s.meldeSperre.gesperrt() && sichtbar(leer.s.knopf))
   for (const alter of [121 * 1000, 2 * STUNDE - 1000]) {
-    const jetzt = Date.now()
+    const jetzt = Date.now() // uhr-echt: Zeitstempel relativ zur echten Uhr, der Prüfling liest sie selbst
     const speicher = { akMeldeSperre: { '/dp/B|1|true': jetzt - STUNDE, '/dp/A|1|true': jetzt - alter, '/dp/C|1|true': jetzt - 3 * STUNDE } }
     const veraltet = (s) => {
       s.werte.set('briefkastenAdressen', new Set(['https://www.amazon.de/dp/B', 'https://www.amazon.de/dp/C']))
@@ -464,7 +464,7 @@ async function pruefeVeralteterBriefkasten() {
 
 /* Seite meldet X jetzt, im Speicher steht X noch mit alter Zeit: die jüngere gewinnt (Prüfer, 1397, Auflage B). */
 async function pruefeJuengereGewinnt() {
-  const jetzt = Date.now()
+  const jetzt = Date.now() // uhr-echt: Zeitstempel relativ zur echten Uhr, der Prüfling liest sie selbst
   const speicher = { akMeldeSperre: { '/dp/W|1|true': jetzt - STUNDE, '/dp/X|1|true': jetzt - 5 * STUNDE, '/dp/V|1|true': jetzt - 2 * STUNDE } }
   const x = await geladenNeu({ pfad: '/dp/X', angekommen: true }, speicher)
   await x.s.meldeSperre.vermerken()
