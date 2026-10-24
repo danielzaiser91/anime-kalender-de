@@ -82,14 +82,14 @@ pruefe('derselbe Titel mit unstimmiger Liste (29 Nummern) bleibt leer', mitFremd
 pruefe('ein vorhandener, passender Titel bleibt (Nummer 11)', mitFremdTiteln(serie(), leereListe.map((f) => (f.nr === 11 ? { ...f, de: 'S2E1 aus aniSearch' } : f)), quellen(drei))?.[10].de === 'S2E1 aus aniSearch')
 
 console.log('\nTMDB-Folgentitel ohne Folgenzahl: Reihenfolge gegen vorhandene Titel (Anthologie Halo Legends)')
-const namen = ['Die Ursprünge', 'Der Babysitter', 'Der Gefallene', 'Hund Katze Fisch Wal', 'Ein langer Weg', 'Das Ende']
+const namen = ['Die Ursprünge', 'Der Babysitter', 'Der Gefallene', 'Hund Katze Fisch Wal', 'Ein langer Weg', 'Super Man']
 const anthologie: TmdbFolge[] = namen.map((titel, i) => ({ s: 1, e: i + 1, titel, en: `Episode title ${i + 1}`, datum: i === 0 ? '1992-01-01' : '1992-12-31' }))
 const mitVorhanden = (v: [number, string][]) => tmdbFolgentitel(serie(), 'Beispiel Langläufer', { folgen: anthologie }, bis(6), new Map(v))
 pruefe('ohne vorhandene Titel gibt es keinen Vergleich und Titel', mitVorhanden([])?.size === 6)
 pruefe('gleiche vorhandene Titel: Titel', mitVorhanden([[1, 'Die Ursprünge'], [2, 'Der Babysitter']])?.size === 6)
 pruefe('zwei vertauschte vorhandene Titel (Nr. 1 und 2) geben nichts', mitVorhanden([[1, 'Der Babysitter'], [2, 'Die Ursprünge']]) === undefined)
 pruefe('ein einziger abweichender vorhandener Titel (letzte Nummer) gibt nichts', mitVorhanden([[1, 'Die Ursprünge'], [6, 'Der Babysitter']]) === undefined)
-pruefe('ein einziger abweichender vorhandener Titel (erste Nummer) gibt nichts', mitVorhanden([[1, 'Der Babysitter'], [6, 'Das Ende']]) === undefined)
+pruefe('ein einziger abweichender vorhandener Titel (erste Nummer) gibt nichts', mitVorhanden([[1, 'Der Babysitter'], [6, 'Super Man']]) === undefined)
 pruefe('englischer Rückfall bei uns gleicht dem englischen TMDB-Titel derselben Nummer', mitVorhanden([[3, 'Episode title 3']])?.size === 6)
 pruefe('englischer Rückfall einer anderen Nummer gibt nichts', mitVorhanden([[3, 'Episode title 4']]) === undefined)
 pruefe('unser Titel enthält den TMDB-Titel (zusammengelegte Folge)', mitVorhanden([[1, 'Die Ursprünge / Teil zwei']])?.size === 6)
@@ -102,6 +102,13 @@ pruefe('die Hälfte gleicht der eigenen Nummer, der Rest ist nur anders überset
 pruefe('weniger als die Hälfte gleicht der eigenen Nummer: nichts', mitVorhanden([[1, 'Die Ursprünge'], [2, 'Eine ganz andere Fassung'], [3, 'Wieder etwas Neues']]) === undefined)
 pruefe('Verschiebung um eine Stelle (Nr. 2 trägt den Titel von Nr. 3)', mitVorhanden([[1, 'Die Ursprünge'], [2, 'Der Gefallene']]) === undefined)
 pruefe('vorhandene Titel ohne TMDB-Nummer (7, 8) zählen nicht mit', mitVorhanden([[1, 'Die Ursprünge'], [7, 'Etwas Fremdes'], [8, 'Noch etwas Fremdes']])?.size === 6)
+pruefe('Titel ohne Buchstaben und Ziffern passt zu nichts', mitVorhanden([[2, '???']]) === undefined)
+pruefe('unser Titel enthält den TMDB-Titel ohne gemeinsames Wort (Nr. 6)', mitVorhanden([[6, 'Superman Returns']])?.size === 6)
+pruefe('TMDB-Titel enthält unseren Titel ohne gemeinsames Wort (Nr. 6)', mitVorhanden([[6, 'Supe']])?.size === 6)
+pruefe('genau die Hälfte der Wörter des kürzeren gilt, weniger nicht', mitVorhanden([[4, 'Hund Maus']])?.size === 6 && mitVorhanden([[4, 'Maus Vogel']]) === undefined)
+pruefe('Wörter von vier Buchstaben zählen', mitVorhanden([[4, 'Hund Bär']])?.size === 6)
+const mitZahlen = (v: string) => tmdbFolgentitel(serie(), 'Beispiel Langläufer', { folgen: anthologie.map((f) => (f.e === 1 ? { ...f, titel: 'Wasserfall Teil 1 und 2' } : f)) }, bis(6), new Map([[1, v]]))
+pruefe('dieselben Zahlen in anderer Reihenfolge gelten, andere Zahlen nicht', mitZahlen('Wasserfall Teil 2 und 1')?.size === 6 && mitZahlen('Wasserfall Teil 1 und 3') === undefined)
 const vertauscht = mitFremdTiteln(serie(), bis(6).map((nr) => ({ nr, ...(nr === 1 ? { de: 'Der Babysitter' } : nr === 2 ? { de: 'Die Ursprünge' } : {}) })), quellen(anthologie))
 pruefe('im Bau: vertauschte aniSearch-Titel lassen alle anderen Nummern leer', vertauscht?.[0].de === 'Der Babysitter' && vertauscht.slice(2).every((f) => !f.de), vertauscht)
 
@@ -109,4 +116,4 @@ if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)
 }
-console.log('\nTMDB-Folgentitel ohne Folgenzahl: alle Zusicherungen erfüllt (52 Fälle).')
+console.log('\nTMDB-Folgentitel ohne Folgenzahl: alle Zusicherungen erfüllt (58 Fälle).')
