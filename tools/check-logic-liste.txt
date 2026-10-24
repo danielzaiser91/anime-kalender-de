@@ -174,7 +174,6 @@ pipeline/check-prime-seite-richten.ts
 pipeline/check-prime-seiten-sperre.ts
 pipeline/check-prime-teilseiten-kanal.ts
 pipeline/check-prime-teilseiten.ts
-pipeline/check-quittung-sperre.ts
 pipeline/check-prime-zugeordnet-jw.ts
 pipeline/check-prime-zugeordnet-lader.ts
 pipeline/check-prime-zugeordnet-leser-faelle.ts
@@ -182,6 +181,7 @@ pipeline/check-prime-zugeordnet-leser.ts
 pipeline/check-pruefliste-verdrahtung.ts
 pipeline/check-quarantaene.ts
 pipeline/check-quellen-schreiber.ts
+pipeline/check-quittung-sperre.ts
 pipeline/check-reihen-namen-rein.ts
 pipeline/check-reihen-namen.ts
 pipeline/check-reihen-spur.ts
