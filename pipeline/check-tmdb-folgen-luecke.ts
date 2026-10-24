@@ -44,8 +44,8 @@ pruefe('Standard-Limit 128 Titel', LUECKE_LIMIT === 128)
 
 console.log('\nTMDB-Lücke: gemeinsame Auswahl')
 const alt = { geholtAm: '2026-09-01', folgen: [{ s: 1, e: 1, titel: 'Der Anfang', en: 'Ep 1', datum: '2026-08-20' }] }
-const w = (nurLuecke: boolean, limit: number, bestand = {}): string =>
-  ids(waehleAbrufe({ alle: ['a', 'b', 'sf', 'sx', 'sy'].map(k), bestand: { sx: alt, ...bestand }, heute: '2026-10-24', alterTage: 30, limit, nurLuecke, luecke: l }))
+const w = (nurLuecke: boolean, limit: number, bestand = {}, alterTage = 30): string =>
+  ids(waehleAbrufe({ alle: ['a', 'b', 'sf', 'sx', 'sy'].map(k), bestand: { sx: alt, ...bestand }, heute: '2026-10-24', alterTage, limit, nurLuecke, luecke: l }))
 pruefe('Lückentitel (auch ohne Anbieter) vor den Fälligen mit Anbieter', w(false, 10) === 'b,sf,a,sx,sy', w(false, 10))
 pruefe('Lücketitel mit Anbieter erscheint nur einmal', w(false, 10).split(',').filter((x) => x === 'sf').length === 1)
 pruefe('Titel ohne Anbieter und ohne Lücke bleibt draußen', !w(false, 10).includes('c'))
@@ -57,6 +57,7 @@ pruefe('Lückenanteil im regulären Lauf auf 128 begrenzt', alle(false, 400) ===
 pruefe('Probelauf folgt dem eigenen Limit statt 128', alle(true, 129) === 129 && alle(true, 20) === 20)
 pruefe('Probelauf Limit 400 bei 130 Titeln', alle(true, 400) === 130)
 pruefe('Probelauf nur Lücke',w(true, 10) === 'b,sf,a', w(true, 10))
+pruefe('Grundfrist des Aufrufs gilt: 60 Tage lassen den 53 Tage alten Eintrag draußen', w(false, 10, {}, 60) === 'b,sf,a,sy', w(false, 10, {}, 60))
 pruefe('Probelauf: Limit 1', w(true, 1) === 'b')
 pruefe('Probelauf: Titel mit Eintrag fehlt', w(true, 10, { b: alt }) === 'sf,a')
 
