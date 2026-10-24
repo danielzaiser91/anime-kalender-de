@@ -29,21 +29,34 @@ pruefe('andere Gründe zählen nicht: ok', stufe(datei(['kein-kandidat', 'mehrde
 pruefe('genau 1: Warnung, fehlt 1', stufe(datei(fehlt(1))) === 'warnung' && bewerteOffenDatei(datei(fehlt(1))).fehlt === 1)
 const gemischt = bewerteOffenDatei(datei([...fehlt(4), 'mehrdeutig']))
 pruefe('4 mit Fremdgrund gemischt: Warnung, fehlt 4', gemischt.stufe === 'warnung' && gemischt.fehlt === 4, gemischt)
-pruefe('genau 5: rot', stufe(datei(fehlt(5))) === 'rot')
-pruefe('4 plus 10 andere (Gesamt über 5): Warnung', stufe(datei([...fehlt(4), ...Array(10).fill('kein-kandidat')])) === 'warnung')
+const fuenf = bewerteOffenDatei(datei(fehlt(5)))
+pruefe('genau 5: nur Warnung (rot stoppt den Bestandsbau), deutlicherer Text', fuenf.stufe === 'warnung' && fuenf.fehlt === 5 && fuenf.text.includes('länger nicht'), fuenf)
+pruefe('4: der Text ist noch der einfache', !gemischt.text.includes('länger nicht'), gemischt)
+const mitNull = bewerteOffenDatei(JSON.stringify({ anzahl: 3, serien: [null, { grund: 'titelliste-fehlt' }, 7] }))
+pruefe('null und Zahl als Eintrag: kein Absturz, zählt nur den echten', mitNull.stufe === 'warnung' && mitNull.fehlt === 1, mitNull)
+pruefe('nur null-Einträge: ok, 0', stufe('{"anzahl":1,"serien":[null]}') === 'ok')
+pruefe('4 plus 10 andere (Gesamt über 5): Warnung, einfacher Text', stufe(datei([...fehlt(4), ...Array(10).fill('kein-kandidat')])) === 'warnung')
 
 const ordner = mkdtempSync(join(tmpdir(), 'adn-offen-wache-'))
 const skript = fileURLToPath(new URL('./check-adn-offen-bestand.ts', import.meta.url))
-function prozess(name: string, inhalt: string | null): number {
+function prozess(name: string, inhalt: string | null): { status: number; out: string; err: string } {
   const d = join(ordner, name)
   if (inhalt !== null) writeFileSync(d, inhalt)
   const r = spawnSync(process.execPath, ['--import', 'tsx', skript, d], { encoding: 'utf8', windowsHide: true })
-  return r.status ?? -1
+  return { status: r.status ?? -1, out: r.stdout, err: r.stderr }
 }
-pruefe('Prozess: Warnung endet mit Exit 0', prozess('a.json', datei(fehlt(2))) === 0)
-pruefe('Prozess: rot endet mit Exit 1', prozess('b.json', datei(fehlt(6))) === 1)
-pruefe('Prozess: fehlende Datei endet mit Exit 1', prozess('c.json', null) === 1)
-pruefe('Prozess: ok endet mit Exit 0', prozess('d.json', datei([])) === 0)
+const warnung = prozess('a.json', datei(fehlt(2)))
+pruefe('Prozess: Warnung endet mit Exit 0, Zeile "⚠ WARNUNG ADN-Titelliste" auf stdout', warnung.status === 0 && warnung.out.includes('⚠ WARNUNG ADN-Titelliste:'), warnung)
+const viele = prozess('b.json', datei(fehlt(6)))
+pruefe('Prozess: viele (6) enden ebenfalls mit Exit 0 und Warnzeile', viele.status === 0 && viele.out.includes('⚠ WARNUNG'), viele)
+const weg = prozess('c.json', null)
+pruefe('Prozess: fehlende Datei endet mit Exit 1, Meldung auf stderr (nicht stdout)', weg.status === 1 && weg.err.includes('✖ ADN-Titelliste:') && weg.out === '', weg)
+const kaputt = prozess('e.json', '{kaputt')
+pruefe('Prozess: kaputte Datei endet mit Exit 1, Meldung auf stderr', kaputt.status === 1 && kaputt.err.includes('kein gültiges JSON') && kaputt.out === '', kaputt)
+const falscheAnzahl = prozess('f.json', datei(fehlt(1), 7))
+pruefe('Prozess: falsche Anzahl endet mit Exit 1, Meldung auf stderr', falscheAnzahl.status === 1 && falscheAnzahl.err.includes('passt nicht'), falscheAnzahl)
+const gut = prozess('d.json', datei([]))
+pruefe('Prozess: ok endet mit Exit 0, Zeile mit ✓ auf stdout', gut.status === 0 && gut.out.includes('✓ ADN-Titelliste:') && gut.err === '', gut)
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(verletzt ? 1 : 0)

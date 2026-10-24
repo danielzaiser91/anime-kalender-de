@@ -198,6 +198,14 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     fi
     npm run check:logic >> "$TEMP_LAUF/bestand-pruefung.txt" 2>&1 && LOGIK_BASIS="$FERN"
   }
+  # Bei Exit 0 zeigt der Lauf nur `tail -3`; Zeilen „⚠ WARNUNG …“ der Bestandsprüfung (z. B. check-adn-offen-bestand.ts) werden
+  # hier zu Anmerkungen des Laufs, sonst bliebe die Warnung unsichtbar.
+  bestand_warnungen() {
+    local zeile
+    while IFS= read -r zeile; do
+      echo "::warning::${zeile#*⚠ }"
+    done < <(grep -F '⚠ WARNUNG' "$TEMP_LAUF/bestand-pruefung.txt" || true)
+  }
   # Die Historie-Zeile dieses Laufs (Schritt „Delta am Bestand festhalten“) misst den Bau vor der Quarantäne. Ausgeliefert wird ein
   # anderer Bestand: Zeile verwerfen (`verworfen: true`, die Wache überspringt sie) und neu messen (19.10.2026: Pendeln gegen Stände,
   # die nie live waren). Ein verworfener Bau-Lauf ohne Auslieferung nimmt die Zeile mit `bau_lauf_zuruecknehmen` zurück.
@@ -288,6 +296,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       BESTAND_KAPUTT=1
     else
       cat "$TEMP_LAUF/bestand-pruefung.txt" | tail -3
+      bestand_warnungen
       # Zurückgestellte Titel (meta.quarantaene): Lauf gelb mit der Liste. Die Kalender-Grenzen bleiben stehen, sonst sänken sie um die fehlenden Titel.
       if zurueck="$(node tools/quarantaene.mjs text public/data/meta.json)"; then
         QUARANTAENE_AKTIV=1

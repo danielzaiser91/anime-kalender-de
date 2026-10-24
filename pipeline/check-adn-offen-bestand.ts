@@ -1,6 +1,6 @@
 /**
  * Bestandswache: `titelliste-fehlt` in `data/adn-anisearch-offen.json` (ADN-Zuordnung, Wochenlauf). Bewertung in `lib/adn-offen-wache.ts`;
- * Warnung ab 1 Serie (Exit 0), rot ab ROT_AB oder bei fehlender/kaputter Datei. Test: `check-adn-offen-wache.ts`.
+ * Warnung ab 1 Serie (Exit 0, auch bei vielen), rot nur bei fehlender/kaputter Datei oder falscher Anzahl. Test: `check-adn-offen-wache.ts`.
  */
 import { existsSync, readFileSync } from 'node:fs'
 import { fileURLToPath, pathToFileURL } from 'node:url'
