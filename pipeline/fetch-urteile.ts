@@ -69,7 +69,7 @@ async function seiten<T>(pfad: string, feld: string): Promise<T[] | null> {
   const alle: T[] = []
   let nach = 0
   for (;;) {
-    const r = await fetch(`${WORKER}/pruefung?${pfad}&nach=${nach}&token=${encodeURIComponent(TOKEN)}`)
+    const r = await fetch(`${WORKER}/pruefung?${pfad}&nach=${nach}`, { headers: { Authorization: `Bearer ${TOKEN}` } })
     if (!r.ok) {
       warn(`Worker antwortet ${r.status} (${pfad}) — Lauf endet ohne zu schreiben.`)
       return null

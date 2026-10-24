@@ -118,6 +118,7 @@
         "prime-titelseite.js",
         "prime-stand.js",
         "prime-such-bruecke.js",
+        "prime-region.js",
         "amazon.js"
       ],
       "css": [

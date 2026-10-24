@@ -5,6 +5,7 @@
  * Inhalt unverändert.
  */
 import { type Env } from './env.ts'
+import { tokenGleich, tokenMitUebergang } from './lauf-token.ts'
 import { jetztIso } from './werte.ts'
 
 /**
@@ -117,8 +118,8 @@ export async function crZugangAuffrischen(env: Env, colo?: string): Promise<void
 /** Gibt das gespeicherte Paket heraus — hinter demselben Token wie alles andere. */
 export async function handleCrZugang(request: Request, env: Env): Promise<Response> {
   const kopf = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-  const token = request.headers.get('X-Lauf-Token') ?? new URL(request.url).searchParams.get('token') ?? ''
-  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) {
+  const token = tokenMitUebergang(request)
+  if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) {
     return new Response(JSON.stringify({ error: 'Nicht erlaubt' }), { status: 403, headers: kopf })
   }
 

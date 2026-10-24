@@ -28,6 +28,7 @@ pruefe('Sperre, zeichnen() und zeichnenRoh() im Quelltext gefunden', code.length
 const sperre = vm.createContext({ Date, String, Number, Boolean, Object, JSON, Promise })
 sperre.globalThis = sperre
 vm.runInContext(lies('melde-sperre.js'), sperre)
+vm.runInContext(lies('prime-region.js'), sperre)
 
 function knopfNeu() {
   const attribute = new Map()
