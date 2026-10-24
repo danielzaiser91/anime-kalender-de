@@ -135,7 +135,16 @@ fall('Datenbau mit || true', (d) => { bauSchritt(d).run = 'npm run data:build ||
 fall('Datenbau ohne Wächter gemessenes Ja', (d) => { datenbau(d).steps.splice(datenbau(d).steps.indexOf(jaWegSchritt(d)), 1) }, DATENBAU)
 fall('Datenbau: Wächter gemessenes Ja mit continue-on-error', (d) => { jaWegSchritt(d)['continue-on-error'] = true }, DATENBAU)
 fall('Datenbau: Wächter gemessenes Ja mit || true', (d) => { jaWegSchritt(d).run += ' || true' }, DATENBAU)
-fall('Datenbau: Wächter gemessenes Ja vor dem Bau', (d) => { const s = datenbau(d).steps; s.push(s.splice(-2, 1)[0]) }, DATENBAU)
+fall('Datenbau: Wächter gemessenes Ja vor dem Bau', (d) => { const s = datenbau(d).steps; const ja = s.splice(s.indexOf(jaWegSchritt(d)), 1)[0]; s.splice(s.indexOf(bauSchritt(d)), 0, ja) }, DATENBAU)
+// Bestandsprüfungen (16.10.2026): letzter Schritt des Datenbaus, nach data:build, nie abgeschwächt.
+fall('Datenbau ohne Bestandsprüfung', (d) => { datenbau(d).steps.pop() }, DATENBAU)
+fall('Datenbau: Bestandsprüfung vor dem Bau', (d) => { const s = datenbau(d).steps; s.splice(s.indexOf(bauSchritt(d)), 0, s.pop()) }, DATENBAU)
+fall('Datenbau: Bestandsprüfung mit continue-on-error', (d) => { datenbau(d).steps.at(-1)['continue-on-error'] = true }, DATENBAU)
+fall('Datenbau: Bestandsprüfung mit || true', (d) => { datenbau(d).steps.at(-1).run += ' || true' }, DATENBAU)
+fall('Datenbau: Bestandsprüfung nur die Liste', (d) => { datenbau(d).steps.at(-1).run = 'npm run check:bestand-liste' }, DATENBAU)
+// Basisvergleich (17.10.2026): gegen HEAD selbst wäre jedes Rot „geerbt“, ohne Tiefe 2 fehlt HEAD^1.
+fall('Datenbau: Basis ist der PR selbst', (d) => { datenbau(d).steps.at(-1).run = 'node tools/pr-bestand-vergleich.mjs HEAD' }, DATENBAU)
+fall('Datenbau: Checkout ohne Tiefe 2', (d) => { delete datenbau(d).steps[0].with }, DATENBAU)
 fall('Datenbau: Cache-Präfix verändert', (d) => { datenbau(d).steps[2].with['restore-keys'] = 'x-' }, DATENBAU)
 fall('Datenbau: Cache-Pfad verändert', (d) => { datenbau(d).steps[2].with.path = 'dist' }, DATENBAU)
 fall('Datenbau: kein Abbruch bei Cache-Miss', (d) => { datenbau(d).steps.splice(3, 1) }, DATENBAU)
