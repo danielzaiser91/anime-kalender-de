@@ -260,6 +260,7 @@ pipeline/check-zuordner-luecken.ts
 pipeline/check-zweitanbieter.ts
 tools/anime2you-luecken.test.ts
 tools/apt-fremdquelle.mjs
+tools/buehne-entwurf-render.test.ts
 tools/check-patchnotes-pflicht.mjs
 tools/design-klassen.mjs
 tools/design-kontrast.mjs
