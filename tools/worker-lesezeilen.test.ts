@@ -69,7 +69,7 @@ for (let i = 1; i <= 2; i++) rohfolge('https://www.amazon.de/dp/B', i, 1)
 
 const hole = async (suche: string) => {
   abfragen.length = 0
-  const r = await handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&token=t&${suche}`), env)
+  const r = await handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&${suche}`, { headers: { Authorization: 'Bearer t' } }), env)
   return (await r.json()) as { folgen?: { url: string; serientitel: string | null }[]; weiter?: number | null; gesamt?: number; namen?: unknown[] }
 }
 const plan = (sql: string, ...werte: unknown[]) =>
@@ -88,7 +88,7 @@ console.log('Rohfolgen: Serienname einmal je Adresse nachgeschlagen')
   const seitenAbfrage = abfragen.find((s) => /FROM prime_folge f/.test(s)) ?? ''
   pruefe(!/SELECT p\.titel/.test(seitenAbfrage), 'die Seitenabfrage trägt keine Unterabfrage je Zeile')
   pruefe(/SEARCH f USING INDEX prime_folge_offen \(id>\?\)/.test(plan(seitenAbfrage, 0)) && !/TEMP B-TREE/.test(plan(seitenAbfrage, 0)), `Plan: Teilindex in Kennungs-Reihenfolge, keine Sortierung (${plan(seitenAbfrage, 0)})`)
-  const leer = (await handlePruefung(new Request('https://worker.test/pruefung?rohfolgen=1&token=t&nach=999'), env).then((r) => r.json())) as { folgen: unknown[] }
+  const leer = (await handlePruefung(new Request('https://worker.test/pruefung?rohfolgen=1&nach=999', { headers: { Authorization: 'Bearer t' } }), env).then((r) => r.json())) as { folgen: unknown[] }
   pruefe(leer.folgen.length === 0, 'Seite ohne Zeilen: leere Liste, keine Abfrage mit leerer Adressliste')
   const bearer = (token: string, suche: string) =>
     handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&${suche}`, { headers: { Authorization: `Bearer ${token}` } }), env)
