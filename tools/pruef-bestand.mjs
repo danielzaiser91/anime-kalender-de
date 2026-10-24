@@ -16,6 +16,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { ladeNeinFaelle } from '../pipeline/lib/nein-wiedervorlage-lesen.ts'
+import { todayIso } from '../shared/time.ts'
 
 export { brauchtUrteil, wartet } from './offen-erschienen.mjs'
 
@@ -136,7 +137,7 @@ export const ausgeblendet = (t, plattform, weg = {}, r = regeln()) => r.erweiter
  * Ohne bekanntes Ende gilt ein Hauptbestandstitel als laufend, ein Cartoon als aktuell ab dem Vorjahr.
  * `vorn` (Weg der JustWatch-Stichprobe) steht vor allem anderen, damit Daniel die 100 zuerst abarbeitet.
  */
-export function rangVon(t, heute = new Date().toISOString().slice(0, 10), vorn = false) {
+export function rangVon(t, heute = todayIso(), vorn = false) {
   if (vorn) return [-1, 0, -(t.jpYear ?? 0)]
   const jahr = Number(heute.slice(0, 4))
   const aktuell = t.jpEnd ? t.jpEnd >= heute : t.cartoon ? (t.jpYear ?? 0) >= jahr - 1 : true
