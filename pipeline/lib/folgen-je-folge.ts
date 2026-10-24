@@ -18,6 +18,7 @@
  * Kandidat, kein Anker trifft), sonst offen mit den Kandidaten. Geraten wird nicht.
  */
 import { adressKern } from './dub-confirmed.ts'
+import { ohneStaffelMarke } from '../../shared/adresse-kern.ts'
 import {
   ausAnisearch,
   englischeSchreibweisen,
@@ -102,7 +103,7 @@ function namensKandidaten(url: string, k: Kontext, reihen: Map<number, number[]>
  * „amazon.de/s", und der PoC sammelte darunter rund 90 Titel als Kandidaten jeder Folge.
  */
 export function ankerAdresse(u: string | null | undefined): string {
-  const k = adressKern(u ?? undefined)
+  const k = adressKern(u ? ohneStaffelMarke(u) : undefined)
   return /\/s$|\/search$|^[^/:]*$/.test(k) ? '' : k
 }
 
