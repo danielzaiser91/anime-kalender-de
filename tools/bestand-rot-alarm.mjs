@@ -40,3 +40,66 @@ export function bestandRotText(gh, repo, jetztMs) {
     return `ALARM? Läufe des Bestandsbaus nicht lesbar: ${String(fehler.message).split('\n')[0]}`
   }
 }
+
+export const DEPLOY_WORKFLOW = 'deploy.yml'
+export const DEPLOY_ROT_GRENZE_STUNDEN = 6
+export const SCHRITTE_GRENZE_STUNDEN = 1
+export const SCHRITTE_MINDESTZAHL = 2
+const SCHRITTE_LAEUFE = 5
+
+/** Deploy ohne Erfolg: gleiche Regel wie beim Bestandsbau (letzter Erfolg älter als die Grenze, danach rote Läufe), eigene Zeile. */
+export function deployAlarmZeile(laeufe, jetztMs, grenzeStunden = DEPLOY_ROT_GRENZE_STUNDEN) {
+  const e = bestandRotAlarm(laeufe, jetztMs, grenzeStunden)
+  if (!e.alarm) return undefined
+  const gruen = e.gruenAm ? `letzter Erfolg ${e.gruenAm}` : 'kein Erfolg in den abgefragten Läufen'
+  return `ALARM Deploy seit ${e.stunden.toFixed(1)} h ohne Erfolg (${gruen}, ${e.rote} rote/abgebrochene danach, Grenze ${grenzeStunden} h)`
+}
+
+/** Rote Läufe nach dem letzten grünen, neueste zuerst: `[{ databaseId, createdAt }]`. */
+export function roteSeitGruen(laeufe) {
+  const fertig = laeufe.filter((l) => l.conclusion)
+  const gruen = fertig.filter((l) => l.conclusion === 'success').map((l) => l.createdAt).sort().at(-1)
+  return fertig.filter((l) => ROT.has(l.conclusion) && (gruen === undefined || l.createdAt > gruen)).sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+}
+
+/** `jobsJe`: Antworten von `gh run view --json jobs`. Ergebnis: verschiedene „Job: Schritt“ mit Fehlschlag. */
+export function fehlerschritte(jobsJe) {
+  const namen = new Set()
+  for (const antwort of jobsJe) {
+    for (const job of antwort.jobs ?? []) {
+      for (const schritt of job.steps ?? []) if (schritt.conclusion === 'failure') namen.add(`${job.name}: ${schritt.name}`)
+    }
+  }
+  return [...namen].sort()
+}
+
+/** Bestandsbau rot länger als die Grenze, und die roten Läufe scheitern an mindestens zwei verschiedenen Schritten (Kette, nicht ein Wackler). */
+export function schritteAlarmZeile(rote, schritte, jetztMs) {
+  if (rote.length === 0 || schritte.length < SCHRITTE_MINDESTZAHL) return undefined
+  const stunden = (jetztMs - Date.parse(rote.at(-1).createdAt)) / 3_600_000
+  if (stunden <= SCHRITTE_GRENZE_STUNDEN) return undefined
+  return `ALARM Bestandsbau seit ${stunden.toFixed(1)} h rot mit ${schritte.length} verschiedenen Fehlerschritten (${schritte.join('; ')}; Grenze ${SCHRITTE_GRENZE_STUNDEN} h)`
+}
+
+const holeLaeufeJson = (gh, repo, workflow) =>
+  JSON.parse(gh('run', 'list', '--repo', repo, '--workflow', workflow, '--limit', '200', '--json', 'status,conclusion,createdAt,databaseId'))
+
+/** Alle Alarmzeilen (Bestandsbau 6 h, Fehlerschritte, Deploy) in einem Text; jede Teilprüfung meldet ihren Lesefehler selbst. */
+export function rotAlarmText(gh, repo, jetztMs) {
+  const zeilen = [bestandRotText(gh, repo, jetztMs)]
+  try {
+    const rote = roteSeitGruen(holeLaeufeJson(gh, repo, BESTAND_WORKFLOW))
+    const jobs = rote.slice(0, SCHRITTE_LAEUFE).map((r) => JSON.parse(gh('run', 'view', String(r.databaseId), '--repo', repo, '--json', 'jobs')))
+    const z = schritteAlarmZeile(rote, fehlerschritte(jobs), jetztMs)
+    if (z) zeilen.push(z)
+  } catch (fehler) {
+    zeilen.push(`ALARM? Fehlerschritte des Bestandsbaus nicht lesbar: ${String(fehler.message).split('\n')[0]}`)
+  }
+  try {
+    const z = deployAlarmZeile(holeLaeufeJson(gh, repo, DEPLOY_WORKFLOW), jetztMs)
+    zeilen.push(z ?? 'Deploy: kein Alarm')
+  } catch (fehler) {
+    zeilen.push(`ALARM? Läufe des Deploys nicht lesbar: ${String(fehler.message).split('\n')[0]}`)
+  }
+  return zeilen.join('\n')
+}
