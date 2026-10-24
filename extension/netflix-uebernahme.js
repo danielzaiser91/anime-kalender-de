@@ -10,12 +10,16 @@
   ist kein Maßstab: er entstand um 16:37, also nach der Meldung, und führt Gumball trotzdem offen.
 
   Maßgeblich ist darum der Briefkasten selbst (`?gemeldet=<Adresse>`, nicht zwischengespeichert):
-  ein Titel mit Meldungen gilt als erledigt — außer eine Wiedervorlage (`seit` an einer offenen
-  Staffel) verlangt eine neuere. Vorbehalt: ein Titel, den ein Lauf nur zum Teil meldete, gilt bis
-  zur Übernahme auch als erledigt, wie schon in der Sitzung, in der er gemeldet wurde.
+  ein Titel gilt als erledigt, wenn **jede offene Staffel** eine Meldung hat (seit 23.10.2026; vorher
+  genügte irgendeine Meldung des Titels, und rund 115 offene Staffeln blieben liegen) — außer eine
+  Wiedervorlage (`seit` an einer offenen Staffel) verlangt eine neuere.
 */
 /* Reihen mit Meldungen im Briefkasten, die der Stand noch als offen führt; `fertig()` in melder.js fragt sie. */
 globalThis.akNetflixWartet = new Set()
+
+/** Hat jede offene Staffel des Eintrags mindestens ein gemeldetes Paar? (`paar.staffel` = Staffelnummer.) */
+globalThis.akNetflixStaffelnGedeckt = (eintrag, paare) =>
+  (eintrag?.staffeln ?? []).filter((st) => st.offen).every((st) => paare.some((p) => Number(p.staffel) === Number(st.nr)))
 
 globalThis.akNetflixUebernahme = async (zieleUrls, offene, worker, netz = globalThis.AK_DISNEY_NETZ) => {
   try {
@@ -28,7 +32,9 @@ globalThis.akNetflixUebernahme = async (zieleUrls, offene, worker, netz = global
       const antwort = await fetch(`${worker}?gemeldet=${encodeURIComponent(url)}`, { cache: 'no-store' })
       if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
       const paare = (await antwort.json()).paare ?? []
-      return new Set(paare.filter((p) => String(p.am ?? '') >= seit).map((p) => `${p.staffel}|${p.nummer}`))
+      const neue = paare.filter((p) => String(p.am ?? '') >= seit)
+      if (!globalThis.akNetflixStaffelnGedeckt(offene[idAus(url)], neue)) return new Set()
+      return new Set(neue.map((p) => `${p.staffel}|${p.nummer}`))
     }
     const urls = [...zieleUrls].filter((url) => offene[idAus(url)] !== undefined)
     const erledigt = await netz.frischGemeldet(urls, holen, { frist: 30 * 60 * 1000, seit: (u) => seitVon(offene[idAus(u)]) })
@@ -68,4 +74,20 @@ globalThis.akMeldungenNeuLaden = (reihe, jetzt = Date.now(), frist = 120000) => 
 globalThis.akNetflixTotGemeldet = async (id, frisch, merkeTot) => {
   frisch.add(String(id))
   await merkeTot(id)
+}
+
+/**
+ * Das Ende eines Durchgangs mit Zählung (23.10.2026): besucht (geöffnet), gemessen (abgeschlossen),
+ * wartend (Meldung für jede offene Staffel im Briefkasten, nie geöffnet), übersprungen (nach Grund).
+ * Ohne Zählung ließ sich nicht sagen, ob der Durchgang jeden Titel erreicht hat.
+ */
+globalThis.akNetflixEnde = (grund, uebersprungen, fertigeTitel, besucht, offeneTitel, wartet = globalThis.akNetflixWartet, melden = null) => {
+  const nichtFertig = [...uebersprungen.keys()].filter((r) => !fertigeTitel.has(r))
+  const wartend = Object.entries(offeneTitel).filter(([id, e]) => wartet.has(id) && !fertigeTitel.has(id) && (e?.staffeln ?? []).some((st) => st.offen)).length
+  const zaehlung = { besucht, gemessen: fertigeTitel.size, wartend, uebersprungen: nichtFertig.length }
+  globalThis.akProtokoll?.('durchgang-zaehlung', zaehlung)
+  /* Meldeweg `/vorfall` (vorhanden, ohne neues Schema): die Zählung steht als Text; der Vorfall-Abruf listet sie. */
+  void melden?.('durchgang-zaehlung', { text: JSON.stringify(zaehlung) })
+  const text = ` · besucht ${besucht}, gemessen ${zaehlung.gemessen}, wartet auf Übernahme ${wartend}`
+  return { grund, uebersprungen: nichtFertig, zaehlung, text }
 }

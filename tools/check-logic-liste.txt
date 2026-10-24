@@ -27,6 +27,7 @@ pipeline/check-anisearch-archiv-text.ts
 pipeline/check-anisearch-archiv.ts
 pipeline/check-anisearch-cover-eigen.ts
 pipeline/check-anisearch-dubletten.ts
+pipeline/check-anisearch-folgen-kennung.ts
 pipeline/check-anisearch-katalog-abgleich.ts
 pipeline/check-anisearch-kennung-mehrfach.ts
 pipeline/check-anisearch-marke-nachziehen.ts
@@ -80,6 +81,7 @@ pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
 pipeline/check-erstausgabe.ts
 pipeline/check-erwartet-wort.ts
+pipeline/check-favoriten-feed-faelle.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-folge-ueber-anzahl-bau.ts
 pipeline/check-folge-ueber-anzahl.ts
@@ -96,6 +98,7 @@ pipeline/check-herkunft-je-folge.ts
 pipeline/check-herkunftsfilter.ts
 pipeline/check-herkunftsland.ts
 pipeline/check-ics-folgen.ts
+pipeline/check-ics-kopf.ts
 pipeline/check-install-stellen.ts
 pipeline/check-invarianten.ts
 pipeline/check-ja-hat-weg.ts
@@ -133,6 +136,7 @@ pipeline/check-link-leere-adresse.ts
 pipeline/check-logic.ts
 pipeline/check-luecken-staffel0.ts
 pipeline/check-mail-verschoben-datum.ts
+pipeline/check-mal-dubletten.ts
 pipeline/check-mal-teilung.ts
 pipeline/check-meldung-gti.ts
 pipeline/check-meldung-summenseite.ts
@@ -147,6 +151,8 @@ pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-einfrieren.ts
+pipeline/check-news-felder-bestand-ablauf.ts
+pipeline/check-news-felder-fest.ts
 pipeline/check-news-offiziell.ts
 pipeline/check-news-rhythmus.ts
 pipeline/check-news-staffel-zuordnung.ts
@@ -156,6 +162,7 @@ pipeline/check-offizielle-news.ts
 pipeline/check-og-termin.ts
 pipeline/check-omu-ohne-termin.ts
 pipeline/check-panel-chips.ts
+pipeline/check-panel-disc-doppel.ts
 pipeline/check-paramount.ts
 pipeline/check-patchnotes-titel-ablauf.ts
 pipeline/check-patchnotes-titel.ts
@@ -194,6 +201,7 @@ pipeline/check-sammler-lesezugriffe-faelle.ts
 pipeline/check-sammler-lesezugriffe.ts
 pipeline/check-schwester-shop.ts
 pipeline/check-screenshot-wiederholen.ts
+pipeline/check-seiten-ansicht.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-sichtung-folge.ts
 pipeline/check-sichtungsfenster.ts
@@ -210,10 +218,12 @@ pipeline/check-stand-halten.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
 pipeline/check-such-chip.ts
+pipeline/check-sw-cache-regeln.ts
 pipeline/check-synchro-original.ts
 pipeline/check-takt.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
+pipeline/check-termin-pille.ts
 pipeline/check-termine-observed-lauf.ts
 pipeline/check-termine-uebersicht.ts
 pipeline/check-termine-woche-lauf.ts
@@ -228,6 +238,7 @@ pipeline/check-tv-sichtungen-vor-start.ts
 pipeline/check-urteil-art.ts
 pipeline/check-urteil-fremde-adresse.ts
 pipeline/check-urteil-spaet.ts
+pipeline/check-us-nein-adresse.ts
 pipeline/check-verpasst-verdrahtung.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts
@@ -239,19 +250,23 @@ pipeline/check-werk-doppelt.ts
 pipeline/check-widerlegung-de-folgen-bau.ts
 pipeline/check-widerlegung-de-folgen.ts
 pipeline/check-woche-beleg.ts
+pipeline/check-woche-groesse.ts
 pipeline/check-wochen-datei.ts
 pipeline/check-wochenprogramm-sendetag.ts
+pipeline/check-write-json-atomar.ts
 pipeline/check-zaehlung.ts
 pipeline/check-zuordner-ablauf.ts
 pipeline/check-zuordner-luecken.ts
 pipeline/check-zweitanbieter.ts
 tools/anime2you-luecken.test.ts
 tools/apt-fremdquelle.mjs
+tools/buehne-entwurf-render.test.ts
 tools/check-patchnotes-pflicht.mjs
 tools/design-klassen.mjs
 tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
 tools/feste-uhr.test.ts
+tools/heute-berlin.test.ts
 tools/heute-utc.mjs
 tools/hover-cover.test.ts
 tools/link-check-ende.test.ts
@@ -263,4 +278,5 @@ tools/sammler-pruefschritt-waechter.mjs
 tools/start-pruefung-wacht.mjs
 tools/uhr-in-tests.mjs
 tools/web-hosting.test.ts
+tools/web-push-voll.test.ts
 tools/workflow-abbruch-waechter.mjs

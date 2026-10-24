@@ -23,6 +23,7 @@
 import { readJson, writeJson, log, warn } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import type { Release, Title } from '../shared/types.ts'
+import { todayIso } from '../shared/time.ts'
 
 const ZIEL = 'data/kinoheld.json'
 const UA = 'Mozilla/5.0 (anime-kalender-de; https://anime-kalender.de; wöchentlich)'
@@ -58,7 +59,7 @@ if (process.argv[1]?.endsWith('fetch-kinoheld.ts')) {
   const releases = readJson<Release[]>('public/data/releases.json', [])
   const roh = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
   const titles = new Map((Array.isArray(roh) ? roh : roh.titles).map((t) => [t.id, t]))
-  const heute = new Date().toISOString().slice(0, 10)
+  const heute = todayIso()
   const bestand = readJson<Record<string, string>>(ZIEL, {})
   const offen = releases.filter(
     (r) =>

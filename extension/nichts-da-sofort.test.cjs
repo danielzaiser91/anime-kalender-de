@@ -144,6 +144,7 @@ async function disneyDrinnen(fabrik) {
       fetch: fetchAntwort,
     })
     k.globalThis = k
+    vm.runInContext(lies('disney-weg.js'), k)
     k.AK_DISNEY_WEG = fabrik({ dauer: speicherKulisse(), jetzt: () => FEST })
     k.AK_DISNEY_STAFFELN = { titelIdFuer: () => null }
     vm.runInContext(code, k)
@@ -187,11 +188,31 @@ function dialog() {
   pruefe('Disney: eine normale Startseite nicht', k.akDisneyGebietGesperrt('Anime Neu im Angebot') === false)
 }
 
+/* Die Seite reicht dem Durchgang den Gebiets-Weg: gemeldet wird der Eintrag der Liste, sonst nur die Adresse. */
+function gebietWeg() {
+  const zeile = /^ +meldeGebiet: .*$/m.exec(lies('disney.js'))?.[0]
+  const gemeldet = []
+  const k = vm.createContext({
+    offeneEintraege: () => [
+      { url: 'u1', titel: 'Aoashi' },
+      { url: 'u2', titel: 'Chainsaw Man' },
+      { url: 'u3', titel: 'Fire Force' },
+    ],
+    meldeWeg: (e) => (gemeldet.push(e), true),
+  })
+  const weg = vm.runInContext(`({${zeile}}).meldeGebiet`, k)
+  weg('u2')
+  weg('unbekannt')
+  pruefe('Disney: der Gebiets-Weg meldet den Eintrag der Liste', gemeldet[0]?.titel === 'Chainsaw Man', gemeldet)
+  pruefe('Disney: eine unbekannte Adresse wird mit der Adresse allein gemeldet', gemeldet[1]?.url === 'unbekannt' && gemeldet.length === 2, gemeldet)
+}
+
 async function main() {
   console.log('Zusicherungen: „nichts da" nimmt den Titel sofort aus der Liste (21.10.2026)\n')
   await netflix()
   await disney()
   dialog()
+  gebietWeg()
   const schlecht = faelle.filter((x) => !x).length
   console.log(schlecht ? `\n${schlecht} Prüfung(en) fehlgeschlagen.` : `\nAlle ${faelle.length} Prüfungen bestanden.`)
   process.exit(schlecht ? 1 : 0)

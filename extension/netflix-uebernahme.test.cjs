@@ -27,6 +27,42 @@ const fetchGespielt = async (adresse) => {
   return { ok: true, json: async () => meldungen[url] ?? { paare: [] } }
 }
 
+async function pruefeStaffeln(melder) {
+  /* 23.10.2026: erledigt je Staffel. Gumball hat Meldungen für Staffel 1 und 2; eine offene Staffel 3 ohne Meldung hält den Titel offen. */
+  const g5 = { fetch: fetchGespielt }
+  lade('disney-netz.js', g5)
+  lade('netflix-uebernahme.js', g5)
+  const teil = { 70243420: { staffeln: [{ nr: 1, offen: false }, { nr: 2, offen: true }, { nr: 3, offen: true }] } }
+  const teilErgebnis = await g5.akNetflixUebernahme(new Set([gumball]), teil, 'https://w.example/pruefung')
+  pruefe('offene Staffel 3 ohne Meldung: Titel bleibt offen (alte Meldung zählt nicht)', !teilErgebnis.has('70243420'), [...teilErgebnis])
+
+  const g6 = { fetch: fetchGespielt }
+  lade('disney-netz.js', g6)
+  lade('netflix-uebernahme.js', g6)
+  const genau = { 70243420: { staffeln: [{ nr: 1, offen: true }, { nr: 2, offen: true }] } }
+  const genauErgebnis = await g6.akNetflixUebernahme(new Set([gumball]), genau, 'https://w.example/pruefung')
+  pruefe('beide offenen Staffeln gemeldet: Titel wartet', genauErgebnis.has('70243420'), [...genauErgebnis])
+
+  const eine = { 70243420: { staffeln: [{ nr: 2, offen: true }] } }
+  pruefe('Staffel 2 gemeldet, Staffel 3 nicht (genau eine fehlt)', g6.akNetflixStaffelnGedeckt(eine[70243420], [{ staffel: 2 }]) && !g6.akNetflixStaffelnGedeckt(teil[70243420], [{ staffel: 2 }]))
+
+  /* Zählung am Ende: besucht / gemessen / wartend / übersprungen, Nichtauskunft (leere Menge) zählt 0 wartend. */
+  const titel = { 1: { staffeln: [{ nr: 1, offen: true }] }, 2: { staffeln: [{ nr: 1, offen: true }] }, 3: { staffeln: [{ nr: 1, offen: false }] } }
+  const gespur = []
+  const g7 = { akProtokoll: (art, d) => gespur.push([art, d]) }
+  lade('netflix-uebernahme.js', g7)
+  const ende = g7.akNetflixEnde('kein offener Auftrag mehr', new Map([['1', 'fertig'], ['9', 'zurueck']]), new Set(['1']), 4, titel, new Set(['2', '3']))
+  pruefe('Zählung: besucht 4, gemessen 1, wartend 1 (Titel 3 hat keine offene Staffel), übersprungen 1', JSON.stringify(ende.zaehlung) === JSON.stringify({ besucht: 4, gemessen: 1, wartend: 1, uebersprungen: 1 }), ende.zaehlung)
+  pruefe('Zählung geht ins Protokoll', gespur.length === 1 && gespur[0][0] === 'durchgang-zaehlung', gespur)
+  const leer = g7.akNetflixEnde('x', new Map(), new Set(), 0, titel, new Set())
+  pruefe('keine Auskunft vom Briefkasten: wartend 0', leer.zaehlung.wartend === 0, leer.zaehlung)
+  const gemeldet = []
+  g7.akNetflixEnde('x', new Map([['9', 'zurueck']]), new Set(['1']), 3, titel, new Set(['2']), (art, d) => gemeldet.push([art, d]))
+  pruefe('Zählung geht als Vorfall an den Worker (genau ein Aufruf, Zahlen im Text)', gemeldet.length === 1 && gemeldet[0][0] === 'durchgang-zaehlung' && gemeldet[0][1].text === JSON.stringify({ besucht: 3, gemessen: 1, wartend: 1, uebersprungen: 1 }), gemeldet)
+  pruefe('ohne Melder (Nichtauskunft) kein Fehler', g7.akNetflixEnde('x', new Map(), new Set(), 0, titel, new Set()).zaehlung.besucht === 0)
+  pruefe('melder.js reicht vorfallMelden durch', melder.includes('selbstGezaehlt, offeneTitel, undefined, vorfallMelden)'))
+}
+
 async function pruefeAlles() {
   const g = { fetch: fetchGespielt }
   lade('disney-netz.js', g)
@@ -75,6 +111,8 @@ async function pruefeAlles() {
   const manifest = readFileSync(__dirname + '/manifest.json', 'utf8')
   const ordnung = ['disney-netz.js', 'netflix-uebernahme.js', 'melder.js'].map((n) => manifest.indexOf(`"${n}"`))
   pruefe('Manifest: Netflix lädt disney-netz.js und netflix-uebernahme.js vor melder.js', ordnung[0] > 0 && ordnung[0] < ordnung[1] && ordnung[1] < ordnung[2], ordnung)
+
+  await pruefeStaffeln(melder)
 
   process.exit(faelle.every(Boolean) ? 0 : 1)
 }

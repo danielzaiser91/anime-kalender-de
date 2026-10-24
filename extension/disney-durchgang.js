@@ -65,11 +65,31 @@
     erledigt: lauf.erledigt.length,
     uebersprungen: lauf.uebersprungen,
     schon: lauf.schon ?? [],
+    gebiet: lauf.gebiet ?? [],
     zurueck,
   })
 
+  /**
+   * Der Hinweistext „nicht in deinem Gebiet verfügbar" ist Disney+' eigene Auskunft und der einzige
+   * Fall, den der Durchgang meldet (Daniel, 21.10.2026: sechs von Hand geprüfte Titel blieben in der
+   * Liste). Startseiten-Umleitung und Zeitablauf melden weiter nichts (Rooster Fighter, 13.10.2026).
+   */
+  function gebietMelden({ lauf, meldeGebiet, lesen, schreiben, zurueck, nichtDa, abhaken }) {
+    const url = lauf.aktuell
+    lauf.meldet = true
+    schreiben(lauf)
+    Promise.resolve(meldeGebiet(url)).catch(() => false).then((ok) => {
+      const jetztLauf = lesen()
+      if (jetztLauf?.aktuell !== url) return
+      if (!ok) return nichtDa(jetztLauf, 'nicht in deinem Gebiet verfügbar (Meldung kam nicht an)')
+      zurueck.merke(url)
+      jetztLauf.gebiet = [...(jetztLauf.gebiet ?? []), url]
+      abhaken(jetztLauf, null)
+    })
+  }
+
   /** Die Ablauflogik ohne Browser — `disney-durchgang.test.cjs` spielt sie im Sandkasten. */
-  function durchgang({ speicher, dauer, seitenStart = Infinity, jetzt, offene, oeffne, melde, ende, zustand = () => ({}), limit = () => null }) {
+  function durchgang({ speicher, dauer, seitenStart = Infinity, jetzt, offene, oeffne, melde, meldeGebiet = async () => false, ende, zustand = () => ({}), limit = () => null }) {
     const zurueck = zurueckstellung({ dauer, jetzt })
     const lesen = () => {
       try {
@@ -146,7 +166,7 @@
         /* Eine Seite, die vor dem Öffnen des Ziels geladen wurde, läuft bis zum Seitenwechsel weiter: ihr Zustand gehört dem Titel davor. */
         const z = seitenStart >= lauf.seiteSeit ? zustand() : {}
         /* Disney+ sagt es selbst („nicht in deinem Gebiet verfügbar", Dialog mit „OK"): kein Warten auf die Schonzeit der Startseite. */
-        if (z.gebiet && seit > 1000) return nichtDa(lauf, 'nicht in deinem Gebiet verfügbar')
+        if (z.gebiet && seit > 1000 && !lauf.meldet) return gebietMelden({ lauf, meldeGebiet, lesen, schreiben, zurueck, nichtDa, abhaken })
         /* Disney+ leitet einen nicht verfügbaren Titel auf die Startseite um (Dialog „Je nach Standort …"). */
         if (z.startseite && seit > ANKOMMEN_MS) return nichtDa(lauf, 'nicht verfügbar (Startseite)')
         /* Eine andere Titelseite heißt: Daniel hat übernommen — der Lauf zieht ihm den Tab nicht weg. */
@@ -156,10 +176,11 @@
     }
   }
   /** Der Text der Endanzeige: je übersprungenem Titel eine Zeile mit Grund — `titelFuer(url)` liefert den Namen. */
-  function endeText({ grund, erledigt, uebersprungen, schon = [], zurueck = [] }, titelFuer) {
+  function endeText({ grund, erledigt, uebersprungen, schon = [], gebiet = [], zurueck = [] }, titelFuer) {
     const kopf = `Durchgang ${grund === 'nichts mehr offen' ? 'fertig' : 'beendet'} · ${erledigt} Titel${grund.startsWith('Tageslimit') ? ` — ${grund}` : ''}`
     const bereits =
       (schon.length ? `\n${schon.length} schon gemeldet: ${schon.map(titelFuer).join(', ')}` : '') +
+      (gebiet.length ? `\n${gebiet.length} als „nicht in deinem Gebiet verfügbar“ gemeldet: ${gebiet.map(titelFuer).join(', ')}` : '') +
       (zurueck.length ? `\n${zurueck.length} zurückgestellt (7 Tage, Disney+ zeigte „nicht verfügbar"): ${zurueck.map(titelFuer).join(', ')}` : '')
     if (!uebersprungen.length) return kopf + bereits
     const zeilen = uebersprungen.map((u) => `• ${titelFuer(u.url)}: ${u.grund}`)
@@ -188,6 +209,7 @@
       location.href = e.url
     },
     melde: () => void seite()?.melden(),
+    meldeGebiet: (url) => seite()?.meldeGebiet(url),
     ende: (info) => seite()?.zeigeEnde(info),
     zustand: () => ({ ...seite()?.zustand(), gebiet: gebietGesperrt(document.body?.innerText) }),
     limit: () => globalThis.AK_TAGESLIMIT?.text() ?? null,

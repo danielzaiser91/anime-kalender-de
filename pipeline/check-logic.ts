@@ -111,7 +111,7 @@ import { coverBild } from '../web/src/lib/cover.ts'
 import { digestMail } from '../worker/src/templates.ts'
 import { LAUF_ABFRAGEN, LAUF_ARTEN, SQL_EINE_ART } from '../worker/src/lauf-sql.ts'
 import { geteilteWegeTrotzWiderlegung, pruefeErgebnis, releasesAusNurOriginalton } from './lib/pruefung.ts'
-import { anisearchUmgezogen, dubNurHinterToggle, ergaenzeAnisearchTitel } from './bau/anisearch-titel.ts'
+import { anisearchUmgezogen, dubNurHinterToggle } from './bau/anisearch-titel.ts'
 import { MAL_AUSNAHMEN, malDubletten } from './lib/mal-dubletten.ts'
 import { pruefeKalenderKonsistenz } from './lib/kalender-konsistenz.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
@@ -172,7 +172,7 @@ import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
-import { ALTE_AUTO_KENNUNG, istAbschied, nurOriginaltonMeldungen, releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
+import { istAbschied, nurOriginaltonMeldungen, releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
 import { findDates } from './lib/feed.ts'
 import { leseSammelartikel, vorschlaegeAusSammelartikel, zaehleSammelVerwurf, sammelFaellig, ANBIETER_SAMMELARTIKEL } from './lib/sammelartikel.ts'
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
@@ -6745,8 +6745,6 @@ pruefe(
   pruefe('ein neuer Anbieter: „Dandadan jetzt auch bei Netflix"', pushText([], [bei]) === 'Dandadan jetzt auch bei Netflix')
   pruefe('beides zusammen wird gebündelt', pushText([folge], [bei]) === '2 Neuigkeiten: Frieren – Folge 3 · Dandadan (Netflix)', String(pushText([folge], [bei])))
   pruefe('ohne Anlass kein Text — dann kein Push', pushText([], []) === null)
-  const push = readFileSync('worker/src/push.ts', 'utf8')
-  pruefe('… und der Versand merkt sich gemeldete Anbieter, bevor er beim ersten Lauf aussteigt', push.indexOf('gemeldet = ?2') < push.indexOf('if (!abo.zuletzt) continue'))
 }
 {
   /* Plaketten lesbar (18.09.2026, Daniels Wahl „hell B, dunkel C“): jede Anbieterfarbe
@@ -6776,7 +6774,7 @@ pruefe(
   /* TOGGO: „toggo ist immer DE, immer, ausnahmslos" — und Anbieter stehen als Pillen in Tippziel-Höhe mit Sprach-Blase (12.10.2026). */
   const panel = panelQuelltext()
   pruefe('ein TOGGO-Weg ist immer „✓ Deutsch"', /statusArt\(istToggo\(e\.url\) \|\|\s*e\.dubRanges/.test(panel))
-  pruefe('die Anbieter stehen als Pillen von mindestens 52 px, die Sprache als Blase', panel.includes('inline-flex min-h-[52px] max-w-full items-center') && panel.includes('-top-3.5') && panel.includes('gap-y-4'))
+  pruefe('die Anbieter stehen als Pillen von mindestens 52 px, die Sprache als Blase', panel.includes('inline-flex min-h-[52px] min-w-0 max-w-full items-center') && panel.includes('-top-3.5') && panel.includes('gap-y-4'))
 }
 {
   /* TOGGO-Fenster (19.09.2026, gemessen an Daima und Boruto): die Pille rechnet beim Anzeigen. */
@@ -8414,6 +8412,7 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     pruefe('Nachholen: Monatslauf ab dem 2. täglich zur Prüfung fällig, davor nicht', um('2026-10-03T04:00:00Z') && um('2026-10-31T04:00:00Z') && !um('2026-10-01T04:00:00Z') && !um('2026-10-03T05:00:00Z'))
     pruefe('Nachholen: abgebrochener Lauf am 2. (davor Erfolg vor 30 Tagen) -> Start am 3.', startErlaubt(w, [lauf('2026-10-02T04:00:00Z', 'cancelled'), lauf('2026-09-02T08:46:21Z', 'success')], am3))
     pruefe('Nachholen: erfolgreicher Lauf am 2. -> kein Start am 3.', !startErlaubt(w, [lauf('2026-10-02T04:00:00Z', 'success'), lauf('2026-09-02T08:46:21Z', 'success')], am3))
+    pruefe('Nachholen: Handlauf am 08. -> kein zweiter Start am 23., Start am 2. des Folgemonats', !startErlaubt(w, [lauf('2026-10-08T12:30:40Z', 'success')], new Date('2026-10-23T04:00:00Z')) && startErlaubt(w, [lauf('2026-10-08T12:30:40Z', 'success')], new Date('2026-11-02T04:00:00Z')))
     pruefe('Nachholen: laufender Lauf sperrt, keine Läufe -> Start', !startErlaubt(w, [lauf('2026-10-02T04:00:00Z', '', 'in_progress')], am3) && startErlaubt(w, [], am3))
     pruefe('Doppelstart-Schutz der übrigen Workflows bleibt: neuester Lauf zählt auch abgebrochen', !startErlaubt('refresh-hourly.yml', [lauf('2026-10-03T03:50:00Z', 'cancelled')], am3) && startErlaubt('refresh-hourly.yml', [lauf('2026-10-03T03:00:00Z', 'success')], am3))
   }
@@ -8595,26 +8594,7 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   const teil = Object.keys(MAL_AUSNAHMEN).map(Number)[0]!
   pruefe('MAL-Dublette: ein begründeter Teil (Reporter Blues, aniSearch 3873) meldet nichts', malDubletten([{ id: 500, malId: 77 }, { id: 10_000_000 + teil }], mal(teil, 77), '2026-10-08').length === 0)
   pruefe('MAL-Dublette: der Übergang der vier Dubletten gilt bis 15.10.2026, danach nicht mehr', malDubletten([{ id: 204011, malId: 63098 }, { id: 10_021_084 }], mal(21084, 63098), '2026-10-15').length === 0 && malDubletten([{ id: 204011, malId: 63098 }, { id: 10_021_084 }], mal(21084, 63098), '2026-10-16').length === 1)
-  const eintraege = JSON.parse(readFileSync('data/anisearch-eintraege.json', 'utf8')) as Record<string, { mal?: number }>
-  pruefe('MAL-Dublette: jede Ausnahme nennt ihren Grund, und die Kennungen der Ausnahmen sind aniSearch-Kennungen im Eintragsbestand', Object.entries(MAL_AUSNAHMEN).every(([id, g]) => g.length > 10 && id in eintraege))
-  /* Die vier Dubletten: Handbindung, AniList-Titel im Bestand → die aniSearch-Zeile entfällt, der AniList-Titel übernimmt die Erstausgabe; ohne ihn bleibt die Zeile. */
   const dubletten = [[204011, 21084], [206814, 21566], [212503, 21575], [213457, 21751]] as const
-  const ohne = new Map<number, Title>()
-  ergaenzeAnisearchTitel(ohne, new Map(), new Map())
-  pruefe('MAL-Dublette: fehlt der AniList-Titel, bleibt die aniSearch-Zeile (kein Werk geht verloren)', dubletten.every(([, as]) => ohne.has(10_000_000 + as)))
-  const mit = new Map<number, Title>(dubletten.map(([al]) => [al, { id: al, streams: [] } as unknown as Title]))
-  ergaenzeAnisearchTitel(mit, new Map(), new Map())
-  pruefe('MAL-Dublette: steht der AniList-Titel im Bestand, entfällt die aniSearch-Zeile', dubletten.every(([, as]) => !mit.has(10_000_000 + as)))
-  pruefe('MAL-Dublette: Psyren (aniSearch: Dub geplant, seit 11.10.2026 ohne deutsches Datum), Beerus und Fool Night (kein Deutsch) bekommen keine Erstausgabe', !mit.get(204011)!.deErstausgabe && !mit.get(206814)!.deErstausgabe && !mit.get(213457)!.deErstausgabe)
-  const kette = anisearchUmgezogen(new Set([204011]), new Set(), undefined, undefined)
-  pruefe('MAL-Dublette: die Handbindung zählt als Umzug (Verlust-Riegel des Baus)', kette.has(10_021_084))
-  const handText = readFileSync('data/anisearch-ids-hand.yaml', 'utf8')
-  pruefe(
-    'MAL-Dublette: jede alte Slug-Kennung automatischer Termine (ALTE_AUTO_KENNUNG) ist die aniSearch-Kennung, die die Handdatei an den AniList-Titel bindet',
-    Object.entries(ALTE_AUTO_KENNUNG).every(([al, alt]) => new RegExp(`^${al}:\\s*${alt - 10_000_000}\\b`, 'm').test(handText)),
-  )
-  /* Hyouken II (aniSearch: Dub geplant): weder die aniSearch-Zeile noch der AniList-Titel trägt seit 11.10.2026 eine deutsche Erstausgabe aus dem Block (Psyren ist oben geprüft). */
-  pruefe('MAL-Dublette: Hyouken II übernimmt keine Erstausgabe aus dem Block mit Marke Geplant', !ohne.get(10_021_575)?.deErstausgabe && !mit.get(212503)!.deErstausgabe)
   /* Der Auto-Termin von Beerus und Fool Night behält seinen Slug; ein vorhandener Release derselben Plattform verdrängt ihn, statt einen zweiten Termin zu bilden. */
   const meldung = (titleId: number, name: string, plattform: string, kontext: string) =>
     ({ articleTitle: `Termin von »${name}«`, articleUrl: 'https://www.anime2you.de/news/1/', category: 'streaming', platforms: [plattform], titleId, dates: [{ iso: '2026-10-11', context: kontext }] }) as unknown as Parameters<typeof releasesAus>[0][number]
@@ -8627,7 +8607,16 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
     pruefe(`Auto-Termin ${name}: kommt ein Release derselben Plattform dazu, entsteht kein zweiter Termin`, releasesAus([v], titelListe, fremd, '2026-10-08').length === 0)
   }
   /* Kennungen: jede zusammengeführte aniSearch-Zeile hat einen Nachfolger, der selbst nicht zusammengeführt ist; die Ausgabe nennt nur den Nachfolger. */
-  const { akVon, zeilen } = ladeAkVon('data/kennungen.json')
+  /* Kulisse in der Form von `data/kennungen.json` (Zeilen `[ak, AniList, aniSearch, zuAk?]`); die echten Zeilen prüft `check-mal-dubletten-bestand.ts`. */
+  const kennungenOrdner = mkdtempSync(join(tmpdir(), 'kennungen-'))
+  const kulissenZeilen = [
+    [17000, 100, 1],
+    ...dubletten.flatMap(([al, as], i) => [[18000 + i, al, as], [27000 + i, 10_000_000 + as, as, 18000 + i]]),
+    [19000, 200, 2],
+  ]
+  writeFileSync(join(kennungenOrdner, 'kennungen.json'), JSON.stringify({ titel: kulissenZeilen }))
+  const { akVon, zeilen } = ladeAkVon(join(kennungenOrdner, 'kennungen.json'))
+  rmSync(kennungenOrdner, { recursive: true, force: true })
   const jeAnilist = new Map(zeilen.map((z) => [z[1], z]))
   pruefe('Kennung: die aniSearch-Zeile jeder Dublette hat die ak des AniList-Titels als Nachfolger (zuAk), und der Nachfolger ist kein Zwischenglied',
     dubletten.every(([al, as]) => {

@@ -23,6 +23,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { tagebuchZeilen } from './wache-tagebuch.mjs'
+import { todayIso } from '../shared/time.ts'
 
 const [deltaDatei, kastenDatei, lage] = process.argv.slice(2)
 const ZIEL = 'daniel-zum-abarbeiten/00-wache.md'
@@ -67,7 +68,7 @@ try {
     })
   ausgelassenText = (zeilen.length ? zeilen.join('\n') : 'nichts ausgelassen') + `\n(${vortagText})`
   mkdirSync(dirname(STAND), { recursive: true })
-  writeFileSync(STAND, JSON.stringify({ datum: new Date().toISOString().slice(0, 10), jeGrund: jetztStand }) + '\n')
+  writeFileSync(STAND, JSON.stringify({ datum: todayIso(), jeGrund: jetztStand }) + '\n')
 } catch {
   ausgelassenText = 'Datei fehlt — der letzte Bau hat nichts ausgelassen oder ist nicht gelaufen.'
 }

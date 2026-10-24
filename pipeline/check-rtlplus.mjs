@@ -28,6 +28,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { todayIso } from '../shared/time.ts'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const args = process.argv.slice(2)
@@ -105,7 +106,7 @@ for (const [i, v] of arbeit.entries()) {
     console.log(`  ${i + 1}/${arbeit.length} ? ${v.titel.slice(0, 34)} — ${err.message}`)
     continue
   }
-  bestand[v.url] = { ...befund, anilistId: v.id, geprueftAm: new Date().toISOString().slice(0, 10) }
+  bestand[v.url] = { ...befund, anilistId: v.id, geprueftAm: todayIso() }
   const zeichen = !befund.lebt ? '✕' : befund.passt ? '·' : '≠'
   console.log(`  ${i + 1}/${arbeit.length} ${zeichen} ${v.titel.slice(0, 36).padEnd(38)} ${befund.seitenTitel ?? ''}`)
   await new Promise((r) => setTimeout(r, PAUSE))
