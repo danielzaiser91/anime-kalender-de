@@ -4,7 +4,7 @@
  * „Teile ohne Synchro zeigen“ an → Spur ganz nach rechts und zurück zum Anfang scrollen → Schalter aus.
  * Danach darf keine Spur Pfeile (‹ ›) zeigen, die nicht überläuft; bei überlaufender Spur gehören sie dazu.
  * Anlass: Pfeile blieben nach dieser Folge stehen (Daniel, t/12416), weil die Messung die Kartenzahl nicht beobachtete.
- * Aufruf: node tools/panel-reihe-schalter.mjs [--dist <Ordner>]     (Teil von `npm run check:panel`)
+ * Aufruf: node tools/panel-reihe-schalter.mjs     (Teil von `npm run check:panel`)
  */
 import { chromium } from 'playwright'
 import { pathToFileURL } from 'node:url'
@@ -15,7 +15,6 @@ import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
-const arg = (name) => (process.argv.includes(name) ? process.argv[process.argv.indexOf(name) + 1] : undefined)
 const EIN_PUNKT = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64')
 const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2', '.webmanifest': 'application/manifest+json' }
 
@@ -32,6 +31,7 @@ export function antwortAus(dist) {
 }
 
 /** Titel mit Reihe, deren Teile ohne Synchro standardmäßig ausgeblendet sind (Ein Stück Reihe, die Daniel meldete). */
+// AniList 128400 = ak 12416 (t/12416, Daniels Meldung)
 const TITEL = akVon('128400')
 const SCHALTER = /Teile ohne Synchro zeigen/
 
@@ -60,7 +60,7 @@ async function main() {
   if (!distPruefen(WURZEL)) return
   const browser = await chromium.launch()
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
-  await seite.route('**/*', antwortAus(path.resolve(arg('--dist') ?? path.join(WURZEL, 'dist'))))
+  await seite.route('**/*', antwortAus(path.join(WURZEL, 'dist')))
   await seite.goto(`http://ak.test/#/datenbank?t=${TITEL}`, { waitUntil: 'networkidle' })
   await seite.locator('[data-reihe-liste] [role=tablist]').first().waitFor({ state: 'visible', timeout: 20_000 })
   await seite.waitForTimeout(400)
