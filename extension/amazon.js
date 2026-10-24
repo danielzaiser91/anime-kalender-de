@@ -3566,6 +3566,10 @@ async function speicherSchreiben(werte) {
    * gemessenen zehn Sekunden und hing einmal ganz, weil der versteckte Knopf „trage ein …" behielt.
    */
   let letzteMeldung = null
+  /** Bewusster Ausstieg des Klicks ohne Senden: `frameSchritt` meldet den Grund sofort. */
+  function abweisen(grund, ok = false) {
+    letzteMeldung = globalThis.akPrimeAbweisung(grund, ok, location.pathname, Date.now())
+  }
 
   /** Text der Marke, wenn noch eine Staffel aussteht — sonst „gemeldet ✓". */
   let weiterText = null
@@ -5436,15 +5440,15 @@ async function speicherSchreiben(werte) {
         der Briefkasten sie, und damit entscheidet er auch dort. Vorher blieb
         für Suchadressen nur der lokale Vermerk, und der ist nicht abgeglichen.
       */
-      briefkastenSuchen = Array.isArray(daten.gemeldeteSuchen) ? new Set(daten.gemeldeteSuchen) : null
+      const neueSuchen = Array.isArray(daten.gemeldeteSuchen) ? new Set(daten.gemeldeteSuchen) : null
       /* Die Seiten, auf denen schon nachgesehen wurde — siehe `seiteOffen`. */
-      briefkastenSeiten = Array.isArray(daten.gemeldeteSeiten) ? new Set(daten.gemeldeteSeiten) : null
+      const neueSeiten = Array.isArray(daten.gemeldeteSeiten) ? new Set(daten.gemeldeteSeiten) : null
       /*
         Welche Ausgaben zu einem Suchauftrag gehören — bestätigt von Daniel, und
         beim Worker gespeichert. Nicht im Browser: Der erste Anlauf legte es in
         `sessionStorage` ab und war nach einem Neuladen weg (02.09.2026).
       */
-      briefkastenErwartungen = daten.erwartungen && typeof daten.erwartungen === 'object' ? daten.erwartungen : null
+      const neueErwartungen = daten.erwartungen && typeof daten.erwartungen === 'object' ? daten.erwartungen : null
       briefkastenGeholtAm = Date.now()
       /*
         **Im selben Takt der Stand, den die Statusanzeige zeigt.**
@@ -5464,6 +5468,9 @@ async function speicherSchreiben(werte) {
       } catch {
         /* Ohne Stand gilt die ältere Rechnung in `fertig()`. */
       }
+      briefkastenSuchen = neueSuchen // erst mit standZiele: die Zählung ist bis 2 h alt
+      briefkastenSeiten = neueSeiten
+      briefkastenErwartungen = neueErwartungen
       try {
         uebersichtZeichnen()
       } catch {
@@ -5649,6 +5656,7 @@ async function speicherSchreiben(werte) {
       */
       if (briefkastenSuchen) {
         const gefuehrt = briefkastenSuchen.has(url)
+        if (!gefuehrt && globalThis.akPrimeBruecke(suchErledigt[url], Date.now())) return true // frischer Vermerk bleibt
         if (!gefuehrt && suchErledigt[url]) vermerkVerwerfen(url)
         return gefuehrt
       }
@@ -8866,6 +8874,20 @@ async function speicherSchreiben(werte) {
      * sind gesperrt. Dann gibt es nichts nachzuladen, und die Meldung geht mit
      * dem, was belegt ist.
      */
+    const keinDeutschDaten = {
+      sollFolgen: Math.max(gesehen.gesamt || 0, lageJetzt.folgenLautSeite || 0),
+      geladen,
+      gesperrt: wegInRegion,
+    }
+    /* Dieselbe Regel und Quelle für „nicht abrufbar“ (`dataset.tot`) wie im Klick: was er abweist, bietet der Knopf nicht an. */
+    if (vollstaendig && !globalThis.akPrimeMeldungErlaubt({ nichtAbrufbar: knopf.dataset.tot === 'true', deutsch, ...keinDeutschDaten })) {
+      const sperre = globalThis.akPrimeKeinDeutschSperre({ ...keinDeutschDaten, kanal: ueberKanal() })
+      knopf.disabled = true
+      knopf.dataset.deutsch = 'false'
+      knopf.textContent = sperre.text
+      knopf.title = sperre.title
+      return
+    }
     if (!vollstaendig && !(regionWeg && deutsch)) {
       knopf.disabled = true
       knopf.textContent = wartet
@@ -9968,6 +9990,7 @@ async function speicherSchreiben(werte) {
 
   knopf.addEventListener('click', meldeSperre.mitSperre(async (befundBeimKlick) => {
     if (!verbindungLebt()) {
+      abweisen('Erweiterung neu geladen')
       knopf.textContent = '↻ Seite neu laden'
       knopf.title = 'Die Erweiterung wurde neu geladen. Diese Seite kennt sie noch nicht — einmal aktualisieren, dann geht es weiter.'
       return
@@ -10005,6 +10028,7 @@ async function speicherSchreiben(werte) {
       // Der Stand kann die Lage geändert haben — diese Staffel ist womöglich
       // längst gemeldet.
       if (erledigt[listenId]?.staffeln?.[staffelSchluessel()]) {
+        abweisen('schon gemeldet', true)
         letzterStand = ''
         zeichnen()
         return
@@ -10027,12 +10051,14 @@ async function speicherSchreiben(werte) {
      * kommt.
      */
     if (knopf.dataset.wechselt === 'true' && knopf.dataset.neuLaden !== 'true') {
+      abweisen('Staffelwechsel läuft')
       return
     }
     if (knopf.dataset.neuLaden === 'true') {
       knopf.textContent = '↻ lädt neu …'
       // Defensiv: Im Testsandkasten gibt es kein `reload`.
       if (typeof location?.reload === 'function') location.reload()
+      abweisen('Seite lädt neu')
       return
     }
     htmlNeuLesen()
@@ -10041,7 +10067,10 @@ async function speicherSchreiben(werte) {
     const geladen = geladeneFolgen()
     // Ein toter Verweis hat naturgemaess keine Folgen -- er ist der einzige
     // Grund, hier ohne geladene Folgen weiterzugehen.
-    if (!geladen && !nichtAbrufbar) return
+    if (!geladen && !nichtAbrufbar) {
+      abweisen('keine Folge gelesen')
+      return
+    }
     const deutsch = deutschInFolgen()
     /**
      * **Der Umfang ist die größere der beiden Zahlen — nicht die bekanntere.**
@@ -10077,34 +10106,13 @@ async function speicherSchreiben(werte) {
      */
     // Die Sperre gilt der Aussage "kein Deutsch". "Gibt es nicht" ist eine
     // andere -- sie stuetzt sich nicht auf Folgen, sondern auf ihr Fehlen.
-    if (!nichtAbrufbar && !deutsch && !vollstaendig) {
-      /*
-        **Der Knopf sagt jetzt, woran es liegt.**
-
-        „erst alle 11 Folgen ansehen — sonst kein ‚kein Deutsch'" stand am
-        28.08.2026 bei „Domestic Girlfriend", und Daniel fragte: „warum dieser
-        error auf dem melde button?" Zwei Dinge waren daran falsch, obwohl die
-        Sperre selbst richtig ist:
-
-        - **„ansehen" klingt nach abspielen.** Gemeint ist, dass die Erweiterung
-          die Tonspuren noch nicht zu allen Folgen gelesen hat.
-        - **Die Zahl allein erklärt nichts.** Wer nicht weiß, wie viele schon
-          gelesen sind, kann nicht einschätzen, ob Warten hilft.
-
-        Bei einem Kanal-Titel ohne gebuchtes Abo liefert Amazon für die übrigen
-        Folgen gar keine Tonspur — dann ist die Bedingung durch Warten nicht zu
-        erfüllen, und das gehört dazugesagt. Die Sperre bleibt trotzdem: Ein
-        „kein Deutsch" über elf Folgen, gestützt auf sieben, ist genau die
-        Asymmetrie, die dieses Projekt an fremden Quellen bemängelt.
-      */
-      const fehlend = Math.max(0, sollFolgen - geladen - gesperrtN)
-      knopf.textContent =
-        `${geladen} von ${sollFolgen} Folgen gelesen — für „kein Deutsch" fehlen ${fehlend}`
-      knopf.title = ueberKanal()
-        ? 'Die übrigen Folgen laufen über ein Kanal-Abo; ohne das nennt Amazon ihre ' +
-          'Tonspuren nicht. Ein „kein Deutsch" über die ganze Staffel wäre damit geraten.'
-        : 'Noch nicht alle Abschnitte geladen. „Deutsch gefunden" gilt sofort — ' +
-          '„kein Deutsch" erst, wenn jede Folge gelesen ist.'
+    const keinDeutschDaten = { sollFolgen, geladen, gesperrt: gesperrtN }
+    if (!globalThis.akPrimeMeldungErlaubt({ nichtAbrufbar, deutsch, ...keinDeutschDaten })) {
+      /* Dieselbe Regel wie am Knopf (prime-region.js); der Durchgang erfährt den Grund sofort. */
+      const sperre = globalThis.akPrimeKeinDeutschSperre({ ...keinDeutschDaten, kanal: ueberKanal() })
+      knopf.textContent = sperre.text
+      knopf.title = sperre.title
+      abweisen('Staffel nicht vollständig gelesen')
       setTimeout(() => {
         letzterStand = ''
         zeichnen()
@@ -10136,6 +10144,7 @@ async function speicherSchreiben(werte) {
       knopf.textContent = 'hole Zugangsschlüssel …'
       ;({ token } = await mitFrist(chrome.storage.sync.get('token'), 'Der Speicher'))
     } catch (err) {
+      abweisen(err.message)
       knopf.textContent = err.message
       setTimeout(() => {
         letzterStand = ''
@@ -10144,6 +10153,7 @@ async function speicherSchreiben(werte) {
       return
     }
     if (!token) {
+      abweisen('kein Token')
       knopf.textContent = 'Kein Token — Rechtsklick aufs Symbol, dann Optionen'
       return
     }
@@ -11054,8 +11064,12 @@ async function speicherSchreiben(werte) {
     if (sichtbar && /^Kein Token/.test(text)) return frameFertig(false, 'kein Token')
     if (frameZustand.geklickt) {
       const m = letzteMeldung
+      if (m && m.am >= frameZustand.geklickt && m.abgewiesen) {
+        const a = globalThis.akPrimeAbweisungAntwort(m)
+        return frameFertig(a.ok, a.grund)
+      }
       if (m && m.am >= frameZustand.geklickt) return frameFertig(m.ok, m.ok ? 'gemeldet' : `Fehler: ${text}`)
-      /* Der Handler kann ohne Senden aussteigen (Stand sagt: schon gemeldet) — dann gibt es keine. */
+      /* Jeder bewusste Ausstieg setzt `letzteMeldung` (`abweisen`); hier bleibt nur echtes Ausbleiben. */
       if (jetzt - frameZustand.geklickt > 15_000) return frameFertig(false, `keine Rückmeldung: ${text}`)
       return
     }
@@ -11073,10 +11087,10 @@ async function speicherSchreiben(werte) {
       }
       return frameFertig(false, text)
     }
+    if (bietetMelden && meldeSperre.gesperrt()) return frameFertig(true, 'schon gemeldet')
     if (bietetMelden) {
       frameZustand.geklickt = jetzt
-      knopf.click()
-      return
+      return knopf.click()
     }
     /* Kein Angebot: schon gemeldet. Kurz warten, weil der Knopf in den ersten Sekunden noch lädt. */
     if (jetzt - frameZustand.start > 4000 && (!sichtbar || /gemeldet/.test(text))) {
