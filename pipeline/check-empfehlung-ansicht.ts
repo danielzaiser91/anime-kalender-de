@@ -23,7 +23,7 @@ const gleich = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.s
 const GENRES = ['Action', 'Comedy', 'Drama', 'Sci-Fi', 'Romance', 'Fantasy', 'Horror', 'Sport']
 const WOERTER = ['Schule', 'Magie', 'Gegenwart', 'Isekai', 'Weltraum', 'Slapstick', 'Rache', 'Musik']
 
-/** 60 Einstiege; jeder dritte nur bei Crunchyroll, der Rest bei Netflix; jeder neunte beginnt mit Staffel 2 (`ab`, kein `duell`). */
+/** 60 Einstiege; jeder dritte nur bei Crunchyroll, jeder siebte bei Netflix und Crunchyroll, der Rest bei Netflix; jeder neunte beginnt mit Staffel 2 (`ab`, kein `duell`). */
 function kulisse(): EmpfehlungsDatei {
   const einstiege: Kandidat[] = []
   for (let i = 0; i < 60; i++) {
@@ -37,7 +37,7 @@ function kulisse(): EmpfehlungsDatei {
       k: [(i * 5) % 8, (i + 2) % 8],
       fsk: [0, 6, 12, 16][i % 4],
       v: 70,
-      p: [[i % 3 === 0 ? 'crunchyroll' : 'netflix']],
+      p: i % 7 === 0 ? [['netflix'], ['crunchyroll']] : [[i % 3 === 0 ? 'crunchyroll' : 'netflix']],
     }
     einstiege.push(i % 9 === 4 ? { ...k, ab: 2 } : { ...k, duell: true })
   }
@@ -50,8 +50,8 @@ const ids = (liste: Kandidat[]): number[] => liste.map((x) => x.id)
 
 console.log('Abzüge beim Start')
 pruefe('leer → keine Ausschlüsse', gleich(ausgeschlossenFuerReise({ favoriten: [], gesehen: [], ausgeblendet: [], gesehenBis: {} }), []))
-const aus = ausgeschlossenFuerReise({ favoriten: [1, 2], gesehen: [2, 3], ausgeblendet: [4], gesehenBis: { '5': 12, '1': 3 } })
-pruefe('Favoriten, Gesehen, Ausgeblendet und „gesehen bis“ vereint, ohne Doppelte', gleich([...aus].sort(), [1, 2, 3, 4, 5]), aus)
+const aus = ausgeschlossenFuerReise({ favoriten: [1, 2], gesehen: [2, 3], ausgeblendet: [4], gesehenBis: { '5': 12, '6': 3 } })
+pruefe('Favoriten, Gesehen, Ausgeblendet und „gesehen bis“ vereint, ohne Doppelte', gleich([...aus].sort(), [1, 2, 3, 4, 5, 6]), aus)
 
 console.log('Vorrang der eigenen Anbieter')
 const z0 = neuerZustand(k, 7)
@@ -59,10 +59,22 @@ const ohne = rangliste(k, z0, [], new Set())
 pruefe('ohne eigene Anbieter = Rangliste des Kerns', gleich(ids(ohne), ids(vorschlaege(k, z0, [], 60))))
 const mit = rangliste(k, z0, [], new Set(['crunchyroll']))
 pruefe('mit eigenen: dieselben Titel', gleich([...ids(mit)].sort(), [...ids(ohne)].sort()))
-pruefe('mit eigenen: Platz 1 ist ein Crunchyroll-Titel', mit[0].p[0][0] === 'crunchyroll', mit[0])
+const beiCr = (x: Kandidat): boolean => x.p.some(([p]) => p === 'crunchyroll')
+pruefe('mit eigenen: Platz 1 ist ein Crunchyroll-Titel', beiCr(mit[0]), mit[0])
 pruefe('mit eigenen: Reihenfolge ab Platz 21 unverändert', gleich(ids(mit).slice(20), ids(ohne).slice(20)))
-const nurEiner = rangliste(k, z0, [], new Set(['crunchyroll', 'wow'])).filter((x) => x.p[0][0] === 'crunchyroll')
-pruefe('Vorrang ist kein Filter: Netflix-Titel bleiben', mit.some((x) => x.p[0][0] === 'netflix') && nurEiner.length > 0)
+let vorneGeordnet = true
+for (let seed = 1; seed <= 12; seed++) {
+  const basis = rangliste(k, neuerZustand(k, seed), [], new Set())
+  const geordnet = rangliste(k, neuerZustand(k, seed), [], new Set(['crunchyroll']))
+  const erste20 = geordnet.slice(0, 20)
+  const ersteBei = erste20.filter(beiCr).length
+  const sortiert = erste20.every((x, i) => (i < ersteBei ? beiCr(x) : !beiCr(x)))
+  const mengeGleich = gleich(ids(erste20).sort(), ids(basis.slice(0, 20)).sort())
+  if (!sortiert || !mengeGleich) vorneGeordnet = false
+}
+pruefe('in 12 Läufen: die ersten 20 = dieselbe Menge, eigene Anbieter (auch einer von mehreren) vor allen anderen', vorneGeordnet)
+const nurEiner =rangliste(k, z0, [], new Set(['crunchyroll', 'wow'])).filter(beiCr)
+pruefe('Vorrang ist kein Filter: Netflix-Titel bleiben', mit.some((x) => !beiCr(x)) && nurEiner.length > 0)
 const eigenerKeiner = rangliste(k, z0, [], new Set(['disneyplus']))
 pruefe('Anbieter ohne Treffer ändert nichts', gleich(ids(eigenerKeiner), ids(ohne)))
 const abgezogen = rangliste(k, z0, [datei.einstiege[0].id], new Set())
@@ -89,10 +101,11 @@ pruefe('Art', artWort({ f: 'MOVIE' }) === 'Film' && artWort({ f: 'TV' }) === 'Se
 pruefe('Ziel 6 → 10, 8 → 10, 10 bleibt', naechstesZiel(6, 10) === 10 && naechstesZiel(8, 10) === 10 && naechstesZiel(10, 10) === 10)
 pruefe('Ziel unter der Obergrenze: 2 → 6', naechstesZiel(2, 10) === 6)
 pruefe('kurzer Text bleibt', kuerze('Kurz.') === 'Kurz.')
-const lang = `${'wort '.repeat(200)}ende`
+const lang = `${'abcdefg '.repeat(100)}ende`
 const gekuerzt = kuerze(lang)
-pruefe('langer Text endet auf … an einer Wortgrenze, höchstens 421 Zeichen', gekuerzt.endsWith('wort…') && gekuerzt.length <= 421, gekuerzt.length)
+pruefe('langer Text: letztes angebrochenes Wort fällt weg, … folgt', gekuerzt === `${'abcdefg '.repeat(51)}abcdefg…`, gekuerzt.length)
 pruefe('Text genau an der Grenze bleibt', kuerze('a'.repeat(420)) === 'a'.repeat(420))
+pruefe('421 Zeichen ohne Leerzeichen → 420 und …', kuerze('a'.repeat(421)) === `${'a'.repeat(420)}…`)
 pruefe('Mosaik: 60 Einstiege → 24 Kennungen', mosaikIds(datei.einstiege, 24).length === 24)
 pruefe('Mosaik: 5 Einstiege → 5 Kennungen', mosaikIds(datei.einstiege.slice(0, 5), 24).length === 5)
 pruefe('Mosaik: leer → leer', mosaikIds([], 24).length === 0)

@@ -42,7 +42,7 @@ export const ersteVorschlaege = (rang: Kandidat[]): number[] => rang.slice(0, VO
 
 /** Ersetzt `entfernt` durch den nächsten Titel der Rangliste, der noch nicht gezeigt wird; gibt es keinen, rückt die Galerie zusammen. */
 export function ersetzeVorschlag(gezeigt: number[], entfernt: number, rang: Kandidat[]): number[] {
-  const naechster = rang.find((x) => x.id !== entfernt && !gezeigt.includes(x.id))
+  const naechster = rang.find((x) => !gezeigt.includes(x.id))
   if (naechster) return gezeigt.map((id) => (id === entfernt ? naechster.id : id))
   return gezeigt.filter((id) => id !== entfernt)
 }
