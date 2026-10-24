@@ -47,3 +47,15 @@ export function baueVerzoegerung(plane: (f: () => void, ms: number) => number, l
     stopp,
   }
 }
+
+/** Duell „Zurück“: laufende Antwort abbrechen, Wahl löschen, dann eine Antwort zurück. */
+export function geheZurueck(zeit: Pick<Verzoegerung, 'stopp'>, loescheWahl: () => void, zurueck: () => void): void {
+  zeit.stopp()
+  loescheWahl()
+  zurueck()
+}
+
+/** Führt die zur Taste gehörende Aktion aus; ohne Aktion passiert nichts. */
+export function fuehreTasteAus(aktion: TastenAktion | undefined, tun: Record<TastenAktion, () => void>): void {
+  if (aktion) tun[aktion]()
+}

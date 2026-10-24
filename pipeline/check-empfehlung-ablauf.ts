@@ -11,7 +11,7 @@ import {
   ANFANG, antworten, duellZurueck, entfernen, genauerMachen, kannGenauer, neueReise, oeffnen, zuPhase, type Ablauf,
 } from '../web/src/lib/empfehlung-ablauf.ts'
 import { rangliste } from '../web/src/lib/empfehlung-reise.ts'
-import { baueVerzoegerung, tasteZuAktion, type TastenEreignis } from '../web/src/lib/empfehlung-bedienung.ts'
+import { baueVerzoegerung, fuehreTasteAus, geheZurueck, tasteZuAktion, type TastenEreignis } from '../web/src/lib/empfehlung-bedienung.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -181,6 +181,29 @@ pruefe('Umschalt+Pfeil löst nichts aus', taste('ArrowLeft', { shiftKey: true })
 pruefe('Aus einem Eingabefeld löst nichts aus', taste('g', { ziel: 'INPUT' }) === undefined && taste('ArrowLeft', { ziel: 'TEXTAREA' }) === undefined && taste('Escape', { ziel: 'SELECT' }) === undefined)
 pruefe('G mit Fokus auf einem Button löst nichts aus, Pfeil schon', taste('g', { ziel: 'BUTTON' }) === undefined && taste('ArrowLeft', { ziel: 'BUTTON' }) === 'nein')
 pruefe('Andere Taste löst nichts aus', taste('x') === undefined)
+
+// Verdrahtung der Handler (laufen wirklich, in dieser Reihenfolge)
+console.log('Duell-Zurück und Tasten-Verdrahtung')
+const spur: string[] = []
+geheZurueck({ stopp: () => spur.push('stopp') }, () => spur.push('loesche'), () => spur.push('zurueck'))
+pruefe('Zurück: stoppt Timer, löscht Wahl, geht zurück – genau so, in dieser Reihenfolge', gleich(spur, ['stopp', 'loesche', 'zurueck']))
+const namen = ['favorit', 'nein', 'runter', 'hoch', 'gesehen', 'zurueck'] as const
+const tun = (): Record<(typeof namen)[number], () => void> => {
+  const r = {} as Record<(typeof namen)[number], () => void>
+  for (const n of namen) r[n] = () => void spur.push(n)
+  return r
+}
+for (const n of namen) {
+  spur.length = 0
+  fuehreTasteAus(n, tun())
+  pruefe(`Taste-Aktion „${n}“ ruft genau ihren Handler`, gleich(spur, [n]))
+}
+spur.length = 0
+fuehreTasteAus(undefined, tun())
+pruefe('Ohne Aktion läuft kein Handler', spur.length === 0)
+spur.length = 0
+fuehreTasteAus(tasteZuAktion({ key: 'ArrowLeft', altKey: false, ctrlKey: false, metaKey: false, shiftKey: false, ziel: 'BODY' }), tun())
+pruefe('Pfeil links über die ganze Kette: nur „nein“', gleich(spur, ['nein']))
 
 if (verletzt > 0) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt`)

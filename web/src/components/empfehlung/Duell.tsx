@@ -3,7 +3,7 @@ import { naechstesPaar, type Antwort, type Sitzung } from '@shared/empfehlung-ke
 import type { Kandidat } from '@shared/empfehlung-pool.ts'
 import type { Kontext } from '@shared/empfehlung-vektor.ts'
 import type { Title } from '@shared/types.ts'
-import { baueVerzoegerung } from '../../lib/empfehlung-bedienung.ts'
+import { baueVerzoegerung, geheZurueck } from '../../lib/empfehlung-bedienung.ts'
 import { stand } from '../../lib/empfehlung-reise.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { bannerUrl } from './bilder.tsx'
@@ -66,11 +66,7 @@ export function Duell({ kontext, sitzung, ziel, titel, antworte, zurueck, schein
     if (sieger) schein(bannerUrl(titel?.get(sieger.id), 300))
     zeit.start(() => antworte(antwort), antwort === 'N' ? 0 : ANTWORT_VERZOEGERUNG_MS)
   }
-  const zurueckGehen = () => {
-    zeit.stopp()
-    setGewaehlt(undefined)
-    zurueck()
-  }
+  const zurueckGehen = () => geheZurueck(zeit, () => setGewaehlt(undefined), zurueck)
   const status = (me: Antwort): '' | 'gewinnt' | 'verliert' => (!gewaehlt || gewaehlt === 'N' ? '' : gewaehlt === me ? 'gewinnt' : 'verliert')
   const zahlen = s.rest === null ? t('empf.restUntergrenze') : s.rest === s.gesamt ? t('empf.startZahl', { gesamt: s.gesamt }) : t('empf.restZahl', { rest: s.rest, gesamt: s.gesamt })
   return (

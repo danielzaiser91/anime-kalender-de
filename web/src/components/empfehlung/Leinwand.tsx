@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type RefObject } from 'react'
 import type { Kandidat } from '@shared/empfehlung-pool.ts'
 import { PLATFORMS, type Fsk, type PlatformId, type StreamLink, type Title } from '@shared/types.ts'
 import { loadSynopsis } from '../../lib/data.ts'
 import { belegLink } from '@shared/quelle.ts'
-import { tasteZuAktion } from '../../lib/empfehlung-bedienung.ts'
+import { fuehreTasteAus, tasteZuAktion } from '../../lib/empfehlung-bedienung.ts'
 import { kuerze, metaZeile } from '../../lib/empfehlung-reise.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { TrailerKino } from '../detail/kino.tsx'
@@ -77,6 +77,22 @@ function ZweiteEbene({ k, titel, genres, eigene }: { k: Kandidat; titel?: Title;
   )
 }
 
+/** Tastatur der Leinwand; Pfeile, G und Esc lösen die übergebenen Aktionen aus. */
+function useTasten(szene: RefObject<HTMLDivElement | null>, ziele: { favorit: () => void; nein: () => void; gesehen: () => void; zurueck: () => void }) {
+  useEffect(() => {
+    const taste = (e: KeyboardEvent) => {
+      const aktion = tasteZuAktion({ key: e.key, altKey: e.altKey, ctrlKey: e.ctrlKey, metaKey: e.metaKey, shiftKey: e.shiftKey, ziel: (e.target as HTMLElement | null)?.tagName ?? '' })
+      fuehreTasteAus(aktion, {
+        ...ziele,
+        runter: () => szene.current?.scrollBy({ top: 400, behavior: 'smooth' }),
+        hoch: () => szene.current?.scrollTo({ top: 0, behavior: 'smooth' }),
+      })
+    }
+    window.addEventListener('keydown', taste)
+    return () => window.removeEventListener('keydown', taste)
+  })
+}
+
 /** Ein Vorschlag groß im Bild; Wischen links = nicht interessiert, rechts = Favorit; nach unten die zweite Ebene. */
 export function Leinwand({ k, titel, genres, eigene, istFavorit, aktionen }: {
   k: Kandidat
@@ -99,19 +115,7 @@ export function Leinwand({ k, titel, genres, eigene, istFavorit, aktionen }: {
   const nein = () => verlassen('weg-links', aktionen.nein)
   const gesehen = () => verlassen('weg-unten', aktionen.gesehen)
   const wischen = useWischen({ links: nein, rechts: aktionen.favorit, tipp: () => szene.current?.scrollBy({ top: szene.current.clientHeight - 70, behavior: 'smooth' }) })
-  useEffect(() => {
-    const taste = (e: KeyboardEvent) => {
-      const aktion = tasteZuAktion({ key: e.key, altKey: e.altKey, ctrlKey: e.ctrlKey, metaKey: e.metaKey, shiftKey: e.shiftKey, ziel: (e.target as HTMLElement | null)?.tagName ?? '' })
-      if (aktion === 'favorit') aktionen.favorit()
-      else if (aktion === 'nein') nein()
-      else if (aktion === 'runter') szene.current?.scrollBy({ top: 400, behavior: 'smooth' })
-      else if (aktion === 'hoch') szene.current?.scrollTo({ top: 0, behavior: 'smooth' })
-      else if (aktion === 'gesehen') gesehen()
-      else if (aktion === 'zurueck') aktionen.zurueck()
-    }
-    window.addEventListener('keydown', taste)
-    return () => window.removeEventListener('keydown', taste)
-  })
+  useTasten(szene, { favorit: aktionen.favorit, nein, gesehen, zurueck: aktionen.zurueck })
   const banner = bannerUrl(titel, 1280)
   const nichtBei = eigene.size > 0 && !k.p.some(([p]) => eigene.has(p))
   const bewegung = wischen.dx ? { transform: `translateX(${wischen.dx * 0.6}px) rotate(${wischen.dx / 60}deg)` } : undefined
