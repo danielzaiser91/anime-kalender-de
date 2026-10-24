@@ -31,8 +31,8 @@ export const WECKPLAN: Weckplan[] = [
   { workflow: 'ladezeiten.yml', stunden: [16], abstandMin: 600 },
   // Meldungen offizieller Anime-Websites (ab 13.10.2026): 13 Uhr, nach Tageslauf (04), aniSearch-Katalog (06) und Anime2You-Auswertung (12), vor den Ladezeiten (16).
   { workflow: 'offizielle-news.yml', stunden: [13], abstandMin: 600 },
-  // Meldungskopie (ab 14.10.2026): D1-Export der drei Meldungstabellen, 03 Uhr (kein anderer Tageslauf; ein Export blockiert die D1 kurz). Spätestens nach 33 h nachgeholt (wecker-wache), Grenze 36 h.
-  { workflow: 'meldungskopie.yml', stunden: [3], abstandMin: 1200 },
+  // Meldungskopie (ab 14.10.2026): D1-Export der drei Meldungstabellen, 03 Uhr (kein anderer Tageslauf; ein Export blockiert die D1 kurz). Spätestens nach 33 h nachgeholt (wecker-wache), Grenze 36 h. Abstand 13 h: ein Handlauf um 12 Uhr (15 h vor 03 Uhr) darf den nächsten Wecker-Start nicht sperren (16.10.2026 fehlte er so).
+  { workflow: 'meldungskopie.yml', stunden: [3], abstandMin: 780 },
   // Monatskontingent der Streaming Availability API (Reset am Ersten). Vorher nur GitHubs Cron: ein abgebrochener Lauf blieb ohne Nachhol-Start (`motn` am 08.10.2026 36 Tage still).
   { workflow: 'tonspuren-monatlich.yml', stunden: [4], tagImMonat: 2, nachholen: true, abstandMin: 20160 },
 ]
@@ -56,13 +56,15 @@ export interface LaufStand {
 
 /**
  * Darf der Wecker diesen Workflow jetzt starten? Normal zählt der neueste Lauf (Schutz vor Doppelstarts). Bei `nachholen` zählt der neueste *nicht abgebrochene*
- * Lauf, und ein gerade laufender oder wartender Lauf sperrt — so holt der nächste Tag einen abgebrochenen Monatslauf nach, ein erfolgreicher wird nicht wiederholt.
+ * Lauf, und ein gerade laufender oder wartender Lauf sperrt — so holt der nächste Tag einen abgebrochenen Monatslauf nach, ein Lauf im selben Monat wird nicht wiederholt.
  * `null` im Altersfall (keine Läufe) heißt: starten.
  */
 export function startErlaubt(workflow: string, laeufe: LaufStand[], jetzt: Date, plan: Weckplan[] = WECKPLAN): boolean {
   const nachholen = plan.find((p) => p.workflow === workflow)?.nachholen === true
   if (nachholen && laeufe.some((l) => l.status === 'in_progress' || l.status === 'queued' || l.status === 'pending' || l.status === 'waiting')) return false
   const massgeblich = nachholen ? laeufe.find((l) => l.conclusion !== 'cancelled') : laeufe[0]
+  // Ein Monatslauf im laufenden Monat genügt: der Abstand allein startete am 23.10. einen zweiten (Handlauf 08.10. + 14 Tage) und leerte das Kontingent.
+  if (nachholen && massgeblich?.created_at?.slice(0, 7) === jetzt.toISOString().slice(0, 7)) return false
   const t = Date.parse(massgeblich?.created_at ?? '')
   return !Number.isFinite(t) || (jetzt.getTime() - t) / 60000 >= abstandMin(workflow, plan)
 }

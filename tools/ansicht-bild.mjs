@@ -298,7 +298,8 @@ async function main() {
   const breite = HANDY ? 375 : 1280
   const hoehe = HANDY ? 812 : 900
   const browser = await chromium.launch()
-  const seite = await browser.newPage({ viewport: { width: breite, height: hoehe } })
+  /* Handy = Telefon: überlagernde Leiste ohne Platzbedarf (`scrollbar-gutter` in styles.css reserviert sonst 10 px). */
+  const seite = await browser.newPage({ viewport: { width: breite, height: hoehe }, hasTouch: HANDY, isMobile: HANDY })
 
   const fehler = []
   seite.on('console', (m) => {

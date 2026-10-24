@@ -3,6 +3,7 @@
  * Beide Richtungen: nichts zuordnen, was nicht aufgeht (stiller Durchlass wäre eine falsche Sprachaussage), und nichts
  * liegen lassen, was aufgeht (lauter Fehlalarm: die Folgen blieben unzuordenbar).
  */
+import { ankerAdresse } from './lib/folgen-je-folge.ts'
 import { belegtDurchStaffel, folgenzahlAusMenue, teileNachNetflixStaffel, type StaffelListen } from './lib/netflix-staffeln.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -204,6 +205,10 @@ pruefe('Staffelgruppe ohne belastbaren Treffer bleibt offen', belegtDurchStaffel
 pruefe('Adresse ohne Staffelschlüssel bleibt offen', belegtDurchStaffel(`${URL_A}#0`, true, offenGrund).art === 'offen' && belegtDurchStaffel(URL_A, true, offenGrund).art === 'offen')
 const mitFolgen = { art: 'folgen' as const, paare: [] }
 pruefe('eine Entscheidung über Folgen bleibt, wie sie ist', belegtDurchStaffel(`${URL_A}#s2`, true, mitFolgen) === mitFolgen)
+
+/* Der Anker des früheren Einlesers (`adressIndex`) kennt die Seite auch mit Staffelmarke. */
+pruefe('ankerAdresse: #s1 und #0 führen auf dieselbe Seite wie ohne Marke', ankerAdresse(`${URL_A}#s1`) === ankerAdresse(URL_A) && ankerAdresse(`${URL_A}#0`) === ankerAdresse(URL_A) && ankerAdresse(URL_A) !== '')
+pruefe('ankerAdresse: andere Seite bleibt andere Seite', ankerAdresse(`${URL_A}#s1`) !== ankerAdresse('https://www.netflix.com/title/1#s1'))
 
 if (fehler.length) {
   console.error(`FEHL check-netflix-staffeln: ${fehler.join('; ')}`)

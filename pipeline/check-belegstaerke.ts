@@ -1,16 +1,11 @@
 /**
  * Zusicherungen zur Belegstärke (`dubConfidence`, 09.10.2026): kein high ohne starke oder zwei mittlere Quellen, schwache Quellen heben nie über low.
- * Läuft hinter `check:logic`; prüft die Regel an Beispielen; die Treffer-Datei gegen den Datensatz steht in `check-belegstaerke-bestand.ts`.
+ * Läuft hinter `check:logic`; prüft die Regel an Beispielen; die Forum-Liste steht in `check-belegstaerke-forum.ts`, die Treffer-Datei gegen den Datensatz in `check-belegstaerke-bestand.ts`.
  */
 import type { Title } from '../shared/types.ts'
 import { titleStatus } from '../shared/logic.ts'
 import { synchroBelegt } from '../shared/titles.ts'
-import { belegstaerke, forumTitel, hochOhneBeleg, zaehleBelegte, type Belegsignale } from './lib/belegstaerke.ts'
-import { loadDubChecks, type DubCheck } from './lib/dub-confirmed.ts'
-import { readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
-import yaml from 'js-yaml'
-import { ROOT } from './lib/util.ts'
+import { belegstaerke, hochOhneBeleg, zaehleBelegte, type Belegsignale } from './lib/belegstaerke.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -45,19 +40,6 @@ console.log('\nBelegstärke: Synchron-Forum-Liste (mittel, hebt nie über high)'
   pruefe('Forum plus starke Quelle: high, nicht very-high', belegstaerke(titel(tonspur), forum) === 'high')
   pruefe('Forum plus Synchronkartei: high, nicht very-high', belegstaerke(titel(), { ...forum, kartei: new Set([1]) }) === 'high')
   pruefe('Forum plus starke und mittlere Quelle: very-high gilt ohne das Forum', belegstaerke(titel({ ...tonspur, ...anisearch }), forum) === 'very-high')
-  const check = (anilistId: number, dub: boolean, rest: Partial<DubCheck> = {}) => ({ anilistId, platform: 'netflix', dub, checkedAt: '2026-10-09', ...rest }) as DubCheck
-  const treffer = (yaml.load(readFileSync(resolve(ROOT, 'data/synchron-forum-treffer.yaml'), 'utf8')) as { anilistId: number }[]).map((t) => t.anilistId)
-  const [a, b, c, d] = treffer
-  const gefiltert = forumTitel([check(a, false, { nichtImBestand: true }), check(b, false, { nichtImBestand: true }), check(b, true), check(d, false)])
-  pruefe('Nein zur Synchro selbst (nichtImBestand) schließt den Titel aus', !gefiltert.has(a))
-  pruefe('dasselbe Nein neben einem Ja lässt ihn zu', gefiltert.has(b) && gefiltert.has(c))
-  pruefe('ein Plattform-Nein (dub:false ohne nichtImBestand) schließt nicht aus', gefiltert.has(d))
-  /* Anlass: PR 1151 legte ein Crunchyroll-Nein für Afro Samurai an; Universum Anime synchronisierte die Serie 2007, die Liste belegt sie. */
-  const echt = loadDubChecks()
-  pruefe('Vorbedingung: ein Crunchyroll-Nein für 1292 liegt in den Handbelegen', echt.some((x) => x.anilistId === 1292 && x.platform === 'crunchyroll' && x.dub === false))
-  pruefe('1292 bleibt trotz Crunchyroll-Nein in der Forum-Liste', forumTitel(echt).has(1292))
-  const signale: Belegsignale = { ...leer, forum: forumTitel(echt) }
-  pruefe('1292 mit aniSearch-Marke und Forum-Treffer: high (belegt), nicht normal', belegstaerke(titel({ id: 1292, ...anisearch }), signale) === 'high')
 }
 
 console.log('\nBelegstärke: „erschienen“ folgt weiter der alten Stufe')

@@ -9,7 +9,8 @@
 import { readFileSync } from 'node:fs'
 import type { DatabaseSync } from 'node:sqlite'
 import worker, { runDigest } from '../worker/src/index.ts'
-import { DIGEST_CRON } from '../worker/src/digest-versand.ts'
+import type { SubscriberRow } from '../worker/src/digest-inhalt.ts'
+import { DIGEST_CRON, versendeDigest } from '../worker/src/digest-versand.ts'
 import { berlinParts } from '../worker/src/werte.ts'
 import { SITES } from '../worker/src/sites.ts'
 import { schreibeStaende, schreibeVerlauf } from '../worker/src/monitor-speicher.ts'
@@ -30,6 +31,8 @@ const GRENZE = 50
 /** Donnerstag 07:00 Berlin (Sommerzeit): Tagesdigest fällig, kein Wochendigest. */
 const JETZT = new Date('2026-10-15T05:00:00Z')
 const TAG = '2026-10-15'
+/** Montag 07:00 Berlin (Sommerzeit): Sendestunde mit fälliger Wochenübersicht der Überwachung, der schärfste Fall für den stündlichen Aufruf. */
+const MONTAG_SENDESTUNDE = new Date('2026-10-19T05:00:00Z')
 
 const zahl = (db: DatabaseSync, sql: string) => Number((db.prepare(sql).get() as { n: number }).n)
 const gesendet = () => zaehler.stapel.flat()
@@ -37,7 +40,7 @@ const versandLog = (db: DatabaseSync) => db.prepare(`SELECT recipients FROM send
 
 async function digest(db: DatabaseSync, anzahl: number): Promise<string | Error> {
   abonnenten(db, anzahl)
-  db.exec('DELETE FROM send_log')
+  db.exec('DELETE FROM send_log; DELETE FROM schreib_tag')
   zaehlerZurueck()
   return runDigest(testEnv(db, 7), JETZT).catch((e: Error) => e)
 }
@@ -73,11 +76,11 @@ async function grenzeJeAbonnentenzahl(db: DatabaseSync) {
     pruefeMails(db, n)
   }
   await digest(db, 150)
-  pruefe(zaehler.stapel.map((s) => s.length).join() === '100,50', 'N=150: zwei Stapel zu 100 und 50 (Resend-Grenze 100)')
-  pruefe(versandLog(db)?.recipients === 150, 'N=150: send_log mit 150 Empfängern')
+  pruefe(zaehler.stapel.map((s) => s.length).join() === '70', 'N=150: ein Stapel mit 70 (Digest-Kappe, nicht 150)')
+  pruefe(versandLog(db)?.recipients === 70, 'N=150: send_log mit 70 Empfängern')
 
   abonnenten(db, 3)
-  db.exec('DELETE FROM send_log')
+  db.exec('DELETE FROM send_log; DELETE FROM schreib_tag')
   zaehlerZurueck()
   await runDigest({ ...testEnv(db, 7), MAIL_PROVIDER: 'console' }, JETZT)
   const gesetzt = zahl(db, 'SELECT COUNT(*) n FROM subscribers WHERE last_sent_at IS NOT NULL')
@@ -88,11 +91,11 @@ async function fehlerfaelle(db: DatabaseSync) {
   zeige('Fehlerfälle:')
   zaehlerZurueck()
   abonnenten(db, 10)
-  db.exec('DELETE FROM send_log')
+  db.exec('DELETE FROM send_log; DELETE FROM schreib_tag')
   zaehler.ablehnen = 1
   const msg = await runDigest(testEnv(db, 7), JETZT).catch((e: Error) => e)
   pruefe(!(msg instanceof Error), 'Resend lehnt ab: Lauf wirft nicht')
-  pruefe(versandLog(db)?.recipients === 0, 'Resend lehnt ab: send_log trotzdem geschrieben, 0 Empfänger')
+  pruefe(versandLog(db) === undefined, 'Resend lehnt ab: kein send_log, der Folgetag sendet nach')
   pruefe(zahl(db, 'SELECT COUNT(*) n FROM subscribers WHERE last_sent_at IS NOT NULL') === 0, 'Resend lehnt ab: last_sent_at bleibt leer')
   pruefe(!zaehler.sql.some((s) => s.includes('SET last_sent_at')), 'Resend lehnt ab: keine leere last_sent_at-Abfrage (spart einen Unteraufruf)')
 
@@ -100,22 +103,27 @@ async function fehlerfaelle(db: DatabaseSync) {
   pruefe(!zaehler.sql.some((s) => s.startsWith('UPDATE')), 'keine Abonnenten: keine Schreibabfrage (Montag ohne Wochen-Abonnenten)')
 
   abonnenten(db, 150)
-  db.exec('DELETE FROM send_log')
   zaehlerZurueck()
   zaehler.ablehnen = 1
-  await runDigest(testEnv(db, 7), JETZT)
-  pruefe(zahl(db, 'SELECT COUNT(*) n FROM subscribers WHERE last_sent_at IS NOT NULL') === 50, 'erster Stapel abgelehnt: nur die 50 des zweiten gelten als versandt')
-  pruefe(versandLog(db)?.recipients === 50, 'erster Stapel abgelehnt: send_log zählt 50')
+  const posten = (db.prepare('SELECT * FROM subscribers').all() as unknown as SubscriberRow[]).map((sub) => ({
+    sub,
+    mail: { subject: 's', html: 'h', text: 't' },
+    unsubUrl: 'u',
+    syncToken: 't' + sub.id,
+  }))
+  const angenommen = await versendeDigest(testEnv(db, 7), posten, JETZT)
+  pruefe(zaehler.stapel.map((s) => s.length).join() === '100,50', 'Versand 150: zwei Stapel zu 100 und 50 (Resend-Grenze 100)')
+  pruefe(angenommen === 50 && zahl(db, 'SELECT COUNT(*) n FROM subscribers WHERE last_sent_at IS NOT NULL') === 50, 'erster Stapel abgelehnt: nur die 50 des zweiten gelten als versandt')
 
   abonnenten(db, 10)
-  db.exec('DELETE FROM send_log')
+  db.exec('DELETE FROM send_log; DELETE FROM schreib_tag')
   zaehlerZurueck()
   zaehler.stoerung = /SET sync_token/
   await runDigest(testEnv(db, 7), JETZT)
   pruefe(zaehler.stapel.length === 0, 'Sync-Schlüssel nicht gespeichert: keine Mail mit totem Abgleich-Link')
-  pruefe(versandLog(db)?.recipients === 0, 'Sync-Schlüssel nicht gespeichert: send_log mit 0')
+  pruefe(versandLog(db) === undefined, 'Sync-Schlüssel nicht gespeichert: kein send_log')
 
-  db.exec('DELETE FROM send_log')
+  db.exec('DELETE FROM send_log; DELETE FROM schreib_tag')
   zaehlerZurueck()
   zaehler.stoerung = /SET last_sent_at/
   const ohneMarke = await runDigest(testEnv(db, 7), JETZT).catch((e: Error) => e)
@@ -148,32 +156,55 @@ async function monitorSpeicher(db: DatabaseSync) {
 }
 
 /** Führt einen Cron-Aufruf aus und wartet auf alles, was er an `waitUntil` gibt. */
-async function cron(db: DatabaseSync, ausdruck: string) {
+async function cron(db: DatabaseSync, ausdruck: string, zeit: Date, sendeStunde = berlinParts(zeit).hour) {
   const offen: Promise<unknown>[] = []
   const ctx = { waitUntil: (p: Promise<unknown>) => offen.push(p), passThroughOnException: () => {} } as unknown as ExecutionContext
   zaehlerZurueck()
-  await worker.scheduled({ cron: ausdruck, scheduledTime: Date.now(), noRetry: () => {} }, testEnv(db, berlinParts(new Date()).hour), ctx)
+  await worker.scheduled({ cron: ausdruck, scheduledTime: zeit.getTime(), noRetry: () => {} }, testEnv(db, sendeStunde), ctx)
   await Promise.allSettled(offen)
 }
 
 /** Wecker-Spitze (3 statt 2 Abläufe je Stunde, je 2 Aufrufe) und ein, zwei Push-Abos brauchen Luft unter der Grenze. */
 const PUFFER_STUENDLICH = 5
 
-async function triggerGetrennt() {
-  zeige('Cron-Trigger:')
+/** Montags zur Sendestunde geht die Wochenübersicht der Überwachung an MONITOR_EMAIL, aber kein Digest an Abonnenten. */
+async function montagsStatusmail() {
+  zeige('Montag zur Sendestunde:')
+  fetchAttrappe(berlinParts(MONTAG_SENDESTUNDE).iso)
   const db = neueDatenbank()
   abonnenten(db, 50)
-  await cron(db, '0 * * * *')
+  await cron(db, '0 * * * *', MONTAG_SENDESTUNDE)
+  pruefe(zaehler.stapel.length === 0 && zaehler.einzelmails === 1, 'stündlicher Aufruf am Montag zur Sendestunde: nur die Wochenübersicht, kein Digest')
+  pruefe(zahl(db, "SELECT COUNT(*) n FROM send_log WHERE run_key LIKE 'daily:%'") === 0, 'stündlicher Aufruf am Montag: kein Digest-Eintrag im send_log')
+
+  const ausserhalb = neueDatenbank()
+  abonnenten(ausserhalb, 50)
+  const sendeStunde = berlinParts(MONTAG_SENDESTUNDE).hour
+  await cron(ausserhalb, '0 * * * *', MONTAG_SENDESTUNDE, sendeStunde + 3)
+  pruefe(zaehler.stapel.length === 0 && zaehler.einzelmails === 0, 'stündlicher Aufruf am Montag außerhalb der Sendestunde: keine Mail')
+}
+
+async function triggerGetrennt() {
+  zeige('Cron-Trigger:')
+  fetchAttrappe(TAG)
+  const db = neueDatenbank()
+  abonnenten(db, 50)
+  await cron(db, '0 * * * *', JETZT)
   pruefe(zaehler.stapel.length === 0 && zaehler.einzelmails === 0, 'stündlicher Aufruf zur Sendestunde verschickt keinen Digest')
   pruefe(zahl(db, 'SELECT COUNT(*) n FROM site_status') === SITES.length, `stündlicher Aufruf: Monitor schreibt alle ${SITES.length} Seiten`)
   pruefe(unteraufrufe() + PUFFER_STUENDLICH < GRENZE, `stündlicher Aufruf: ${unteraufrufe()} + ${PUFFER_STUENDLICH} Puffer < ${GRENZE}`)
 
   const leer = neueDatenbank()
   abonnenten(leer, 50)
-  await cron(leer, DIGEST_CRON)
+  await cron(leer, DIGEST_CRON, JETZT)
   pruefe(gesendet().length === 50, 'Digest-Trigger verschickt den Digest an alle 50')
   pruefe(zahl(leer, 'SELECT COUNT(*) n FROM site_status') === 0 && zaehler.objekt === 0, 'Digest-Trigger lässt Monitor und Schnellmesser aus')
   pruefe(unteraufrufe() < GRENZE, `Digest-Trigger: ${unteraufrufe()} Unteraufrufe < ${GRENZE}`)
+
+  const falscheStunde = neueDatenbank()
+  abonnenten(falscheStunde, 50)
+  await cron(falscheStunde, DIGEST_CRON, JETZT, berlinParts(JETZT).hour + 1)
+  pruefe(gesendet().length === 0, 'Digest-Trigger außerhalb der Sendestunde verschickt nichts')
 }
 
 /** wrangler.toml muss beide Ausdrücke wörtlich tragen, und die UTC-Stunden des Digests decken die Sendestunde in Sommer- und Winterzeit. */
@@ -195,8 +226,8 @@ fetchAttrappe(TAG)
 await grenzeJeAbonnentenzahl(db)
 await fehlerfaelle(db)
 await monitorSpeicher(neueDatenbank())
-fetchAttrappe(berlinParts(new Date()).iso)
 await triggerGetrennt()
+await montagsStatusmail()
 wranglerTrigger()
 
 if (fehler) {

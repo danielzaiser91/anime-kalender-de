@@ -14,7 +14,7 @@ import { waehlePlakat } from './lib/tmdb-plakat.ts'
 import { waehleStaffel } from './lib/tmdb-staffel.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
 import { mitDubKennzeichen, terminAusEintrag } from './lib/anisearch-termine.ts'
-import { dubIdsNachAnisearch, deutschMarke } from './lib/anisearch-marke.ts'
+import { dubIdsNachAnisearch, deutschMarke, setzeMarkenFuerPruefung } from './lib/anisearch-marke.ts'
 import { anisearchBruecke } from './lib/anisearch-katalog-ids.ts'
 import { erstausgabeAlsNeuigkeit } from '../web/src/components/detail/antwort-regeln.ts'
 import { stufeVon } from '../web/src/lib/saison.ts'
@@ -41,7 +41,7 @@ pruefe('Staffel: Beginn und Folgenzahl treffen die zweite', waehleStaffel(staffe
 pruefe('Staffel: ein Special (Staffel 0) zählt nie', waehleStaffel(staffeln, '2005-10-01', 3) === undefined)
 pruefe('Staffel: gleiches Datum, aber andere Folgenzahl ist keine Staffel', waehleStaffel(staffeln, '2005-10-20', 49) === undefined)
 const alt = { id: 1, slug: 'x', titleRomaji: 'X', format: 'TV', episodes: 143, jpYear: 1989, jpStatus: 'FINISHED', streams: [], genres: [], keywords: [], studios: [], dubConfidence: 'low' } as unknown as Title
-const kopf = (erst: Title['deErstausgabe']) => berechneAntwort({ title: { ...alt, deErstausgabe: erst }, releases: [], today: '2026-10-07' })
+const kopf = (erst: Title['deErstausgabe']) => berechneAntwort({ title: { ...alt, deErstausgabe: erst }, releases: [], today: '2026-10-07', jetzt: new Date('2026-10-07T12:00:00Z') })
 const teil = kopf({ synchro: true, teil: true })
 console.log('Saison-Stufen')
 const T0 = '2026-10-07'
@@ -80,9 +80,12 @@ const unbekannt = [...typen].filter((ty) => !(ty in FORMAT))
 pruefe('jeder Typname der Eintragsdatei steht in der Formattabelle (deutsch und englisch)', unbekannt.length === 0, unbekannt)
 pruefe('„TV-Serie“ ist eine Serie, „Film“ ein Film', FORMAT['TV-Serie'] === 'TV' && FORMAT['Film'] === 'MOVIE')
 console.log('Keine Synchro laut aniSearch')
-const dubs = JSON.parse(readFileSync('data/anisearch-dubs.json', 'utf8')) as Record<string, string>
+/* Eigene Marken (Kennungen ab 900000): die Fälle hängen nicht an der Sammlerdatei, deren Marken mit jedem Abruf wandern. */
+const dubs: Record<string, string> = { 900101: 'd', 900102: 'c', 900103: 'p', 900104: '-' }
+setzeMarkenFuerPruefung(dubs)
 const idMit = (kz: string) => Number(Object.keys(dubs).find((k) => dubs[k] === kz))
 pruefe('Dub-Liste d: ohne Sprachblock entsteht trotzdem eine Synchro-Marke', mitDubKennzeichen(idMit('d'), undefined)?.synchro === true)
+pruefe('Dub-Liste d: vertont heißt nicht Teilsynchro', mitDubKennzeichen(idMit('d'), undefined)?.teil === undefined)
 pruefe('Dub-Liste c: Synchro und Teilmarke', mitDubKennzeichen(idMit('c'), undefined)?.teil === true)
 pruefe('Dub-Liste -: der Termin bleibt, wie er ist', mitDubKennzeichen(idMit('-'), undefined) === undefined)
 /* Dragon Hatchling: der deutsche Block wiederholt den Japan-Zeitraum, die Marke steht auf „Geplant“. */
@@ -95,16 +98,19 @@ pruefe('Erstausgabe aus Dub c: Synchro und Teilmarke', erstausgabeAus(eintragC).
 pruefe('Erstausgabe aus Dub d: Synchro ohne Teilmarke', erstausgabeAus({ ...eintragC, dub: 'd' }).synchro === true && !('teil' in erstausgabeAus({ ...eintragC, dub: 'd' })))
 pruefe('Erstausgabe aus Dub c behält Datum und Verlag', erstausgabeAus(eintragC).von === '1995-03-01' && erstausgabeAus(eintragC).publisher === 'Kazé')
 /* Eine Marke, drei Dateien (`lib/anisearch-marke.ts`): Eintragsdatei, Dub-Liste je aniSearch-Kennung und Auszug je Titel dürfen nicht auseinanderlaufen. */
+setzeMarkenFuerPruefung(undefined)
 const dubIds = dubIdsNachAnisearch()
 const eintraegeDatei = JSON.parse(readFileSync('data/anisearch-eintraege.json', 'utf8')) as Record<string, { dub: string }>
 const markeAbweichend = Object.entries(eintraegeDatei).filter(([id, e]) => (dubIds[id] ?? '-') !== e.dub).map(([id]) => id)
 pruefe('Eintragsdatei und Dub-Liste führen für jede aniSearch-Kennung dieselbe Marke', markeAbweichend.length === 0, markeAbweichend.slice(0, 10))
 const bruecke = anisearchBruecke()
-const auszugAbweichend = Object.entries(dubs).filter(([titel, k]) => bruecke.has(titel) && (dubIds[bruecke.get(titel)!] ?? '-') !== k).map(([titel]) => titel)
+const auszug = JSON.parse(readFileSync('data/anisearch-dubs.json', 'utf8')) as Record<string, string>
+const auszugAbweichend = Object.entries(auszug).filter(([titel, k]) => bruecke.has(titel) && (dubIds[bruecke.get(titel)!] ?? '-') !== k).map(([titel]) => titel)
 pruefe('Der Auszug je Titel stimmt über die Brücke mit der Dub-Liste überein', auszugAbweichend.length === 0, auszugAbweichend.slice(0, 10))
 const ohneMarke = [...bruecke].filter(([titel, anisearch]) => dubIds[anisearch] && deutschMarke(Number(titel)) !== dubIds[anisearch]).map(([titel]) => titel)
 pruefe('Jeder Titel der Brücke, dessen aniSearch-Eintrag Deutsch führt, trägt die Marke (auch wo der Auszug älter ist)', ohneMarke.length === 0, ohneMarke.slice(0, 10))
-pruefe('Psyren und Hyouken II (per Hand gebunden) tragen die Marke Geplant', deutschMarke(204011) === 'p' && deutschMarke(212503) === 'p')
+pruefe('Psyren und Hyouken II (per Hand gebunden) stehen in der Brücke und tragen die Marke der Liste', [204011, 212503].every((id) => bruecke.has(String(id)) && deutschMarke(id) === dubIds[bruecke.get(String(id))!]))
+setzeMarkenFuerPruefung(dubs)
 const mitErst = (id: number, extra: Partial<Title> = {}) => titel({ id, deErstausgabe: { von: '2024-10-21', publisher: 'Crunchyroll' } as never, ...extra })
 pruefe('deutsche Ausgabe, aniSearch nennt kein Deutsch: keine Synchro', keineSynchroLautAnisearch(mitErst(idMit('-'))))
 pruefe('ein Stream mit belegter Synchro schlägt das', !keineSynchroLautAnisearch(mitErst(idMit('-'), { streams: [{ platform: 'netflix', dub: true } as never] })))
@@ -112,6 +118,7 @@ pruefe('auch ohne deutsche Ausgabe: aniSearch nennt kein Deutsch, kein Beleg', k
 pruefe('Deutsch vertont: bleibt', !keineSynchroLautAnisearch(mitErst(idMit('d'))))
 pruefe('Deutsch abgebrochen (Teilsynchro): bleibt', !keineSynchroLautAnisearch(mitErst(idMit('c'))))
 pruefe('Deutsch geplant: bleibt', !keineSynchroLautAnisearch(mitErst(idMit('p'))))
+setzeMarkenFuerPruefung(undefined)
 const neu = ausAnisearchDubs([])
 pruefe('Titel mit vertontem, geplantem oder abgebrochenem Deutsch kommen in den Bestand', neu.length > 0 && neu.every((id) => 'dpc'.includes(deutschMarke(id) ?? '-')))
 pruefe('was schon im Bestand steht, wird nicht noch einmal geholt', !ausAnisearchDubs(neu.map((id) => ({ id }))).length)

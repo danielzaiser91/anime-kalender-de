@@ -87,6 +87,17 @@ export function deutscherWochentaktLaeuft(events: ReleaseEvent[], jetzt: Date = 
 }
 
 /**
+ * **Hat die deutsche Fassung schon begonnen?** Ein Stream mit belegter Tonspur, eine erschienene deutsche Folge oder eine
+ * deutsche Erstausgabe mit Tagesdatum bis heute. Ohne eines davon ist ein künftiger Termin eine Premiere, kein Nachschlag
+ * (Yaiba: Sprecher belegt, erste TV-Folge am 05.11.2026 — der Kasten sagte „Alle 24 Folgen auf Deutsch“, 21.10.2026).
+ */
+export function deutschBegonnen(title: Title, erschieneneFolgen: number, heute: string): boolean {
+  if ((title.streams ?? []).some((s) => s.dub === true) || erschieneneFolgen > 0) return true
+  const von = title.deErstausgabe?.von
+  return Boolean(title.deErstausgabe?.synchro && von && /^\d{4}-\d{2}-\d{2}$/.test(von) && von <= heute)
+}
+
+/**
  * **Der Terminsatz im Kopf** — „erscheint am …" bzw. beim Komplettabwurf
  * „im Angebot ab …". Ausgelagert, damit `AntwortKasten` die Längengrenze hält.
  */
@@ -133,9 +144,24 @@ export function deSeitQuelleSchluessel(quelle: 'wikipedia' | 'disc' | undefined)
   return quelle === 'wikipedia' ? 'antwort.deSeitWikipedia' : quelle === 'disc' ? 'antwort.deSeitDisc' : 'antwort.deSeitQuelle'
 }
 
+/** Letzte Folgennummer einer angenommenen Folgenzahl (0 ohne Annahme). */
+function angenommeneLetzte(r: Release | undefined): number {
+  const s = r?.schedule
+  return s?.episodeCountAssumed && s.episodeCount ? (s.firstEpisodeNumber ?? 1) + s.episodeCount - 1 : 0
+}
+
+/**
+ * **Kündigt eine Plattform mehr Folgen an, als die Datenbank für Japan kennt, gilt für die deutsche Fassung die
+ * Ankündigung** (Villainess, 18.10.2026: AniList 11, Wochenplan Folge 12) — als Annahme, `gesamtGeschaetzt` kennzeichnet sie.
+ */
+export function angekuendigteLaenge(title: Title, releases: Release[]): number {
+  return Math.max(0, ...releases.map(angenommeneLetzte).filter((n) => n > (title.episodes ?? Infinity)))
+}
+
 /** Stammt die Gesamtzahl nur aus der fortgeschriebenen Folgenzahl des laufenden Release? */
 export function gesamtGeschaetzt(title: Title, releases: Release[], n: ReleaseEvent): boolean {
-  return !title.episodes && Boolean(releases.find((r) => r.slug === n.releaseSlug)?.schedule.episodeCountAssumed)
+  const r = releases.find((x) => x.slug === n.releaseSlug)
+  return Boolean(r?.schedule.episodeCountAssumed) && (!title.episodes || angenommeneLetzte(r) > title.episodes)
 }
 
 /** Eine Zahl oder ein Datum, das auf einer geschätzten Folgenzahl beruht, trägt „≈“. */

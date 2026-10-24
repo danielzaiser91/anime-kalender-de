@@ -25,22 +25,27 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            tools/lauf-melden.sh
+            tools/wecker-wache-entscheid.mjs
+
       - name: Überfällige Läufe nachholen
         id: nachholen
         run: |
           # Mit ":ohne-abbruch" zählt ein abgebrochener Lauf nicht als Start (der Monatslauf wurde am 02.10.2026 nach 4 s abgebrochen und nie wiederholt).
           # Workflow : erlaubtes Alter des letzten Starts in Stunden (etwas mehr als der Takt, damit eine kleine Verspätung keinen Doppelstart auslöst)
           PLAN="refresh-hourly.yml:3 refresh-data.yml:30 refresh-weekly.yml:192 adn-laufende.yml:9 claude-verpasst-recherche.yml:30 claude-anime2you-extraktion.yml:30 claude-wache-urteil.yml:30 anisearch-katalog.yml:30 ladezeiten.yml:30 offizielle-news.yml:30 meldungskopie.yml:30 tonspuren-monatlich.yml:744:ohne-abbruch"
-          jetzt="$(date -u +%s)"
           nachgeholt=0
           for eintrag in $PLAN; do
             wf="${eintrag%%:*}"; rest="${eintrag#*:}"; max="${rest%%:*}"; ohne=""; case "$rest" in *:ohne-abbruch) ohne=1;; esac
-            aktiv="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow "$wf" --limit 5 --json status --jq '[.[] | select(.status=="in_progress" or .status=="queued" or .status=="pending" or .status=="waiting")] | length')"
-            letzter="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow "$wf" --limit 10 --json createdAt,conclusion --jq "[.[] | select(.conclusion != \"cancelled\" or \"$ohne\" == \"\")] | .[0].createdAt // empty")"
-            if [ -z "$letzter" ]; then alter=99999; else alter=$(( (jetzt - $(date -u -d "$letzter" +%s)) / 3600 )); fi
-            printf '%-34s letzter Start vor %5s h (erlaubt %s h), aktiv: %s\n' "$wf" "$alter" "$max" "${aktiv:-0}"
-            if [ "$alter" -gt "$max" ] && [ "${aktiv:-0}" -eq 0 ]; then
-              echo "::warning title=Wecker überfällig::$wf lief zuletzt vor ${alter} h (erlaubt $max h) — wird jetzt gestartet; Cloudflare-Wecker prüfen (worker/src/wecker.ts, Secret GITHUB_WECKER_TOKEN)"
+            laeufe="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow "$wf" --limit 10 --json createdAt,conclusion,status)"
+            # Ein roter Start zählt nicht als erledigt: Entscheidung in tools/wecker-wache-entscheid.mjs (einmal nachholen je Fenster, getestet).
+            urteil="$(printf '%s' "$laeufe" | node tools/wecker-wache-entscheid.mjs "$max" ${ohne:+ohne-abbruch})"
+            printf '%-34s %s (Frist %s h)\n' "$wf" "$urteil" "$max"
+            if [ "${urteil%% *}" = "ja" ]; then
+              echo "::warning title=Wecker überfällig::$wf: ${urteil#ja } — wird jetzt gestartet; Cloudflare-Wecker prüfen (worker/src/wecker.ts, Secret GITHUB_WECKER_TOKEN)"
               gh workflow run "$wf" --repo "$GITHUB_REPOSITORY" --ref main
               nachgeholt=$((nachgeholt + 1))
             fi
@@ -50,11 +55,6 @@ jobs:
 
       # Ein Nachhol-Start heißt, der Wecker hat gefehlt: in der Laufstatus-App melden und rot enden, statt im Protokoll zu verschwinden.
       # Gemeldet wird nur dann — sonst stünde alle 3 Stunden ein grüner Lauf in der Anzeige.
-      - uses: actions/checkout@v4
-        if: always() && steps.nachholen.outputs.nachgeholt != '0'
-        with:
-          sparse-checkout: tools/lauf-melden.sh
-
       - name: Nachholen melden
         if: always() && steps.nachholen.outputs.nachgeholt != '0'
         continue-on-error: true

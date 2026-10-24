@@ -4,6 +4,7 @@
  */
 import { SYNOPSIS_GROUPS, type Title } from '../shared/types.ts'
 import { readJson } from './lib/util.ts'
+import { zurueckgestellt } from './lib/quarantaene.ts'
 import { ladeEigeneHandlungen } from './lib/handlung-eigen.ts'
 
 type Synopse = { de?: string; eigen?: unknown }
@@ -14,6 +15,7 @@ function ausgeliefert(id: number): Synopse | undefined {
 }
 
 const titel = new Set(readJson<Title[]>('public/data/titles.json', []).map((t) => t.id))
+for (const id of zurueckgestellt().ids) titel.add(id) // zurückgestellt (Quarantäne), nicht verloren
 const meldungen: string[] = []
 for (const e of ladeEigeneHandlungen()) {
   const s = ausgeliefert(e.id)

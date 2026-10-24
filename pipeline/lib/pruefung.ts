@@ -21,6 +21,7 @@ import { lastEpisodeDate } from '../../shared/logic.ts'
 import { addDays } from '../../shared/time.ts'
 import { premiereFehler } from './premiere.ts'
 import { beobachtetOhneTermin } from './folge-ueber-anzahl.ts'
+import { sichtungsZeilen } from './sichtungsfenster.ts'
 
 export interface Pruefergebnis {
   fehler: string[]
@@ -225,8 +226,8 @@ export function pruefeErgebnis(
       if (/themoviedb\.org/.test(w.url) && !w.ueberTmdb)
         fehler.push(`Anime ${t.id}: Bezugsweg „${w.name}" zeigt auf TMDB, ohne als „über TMDB" gekennzeichnet zu sein`)
 
-  fehler.push(...schlussFehler(releases, events, titles))
-  return { fehler, warnungen }
+  const schluss = schlussPruefung(releases, events, titles)
+  return { fehler: [...fehler, ...schluss.fehler], warnungen: [...warnungen, ...schluss.warnungen] }
 }
 
 /** Die Prüfungen am Ende von `pruefeErgebnis`, die nicht je Release laufen (eigene Funktion, damit jene nicht wächst). */
@@ -237,6 +238,11 @@ function schlussFehler(releases: Release[], events: ReleaseEvent[], titles: Map<
     ...premiereFehler(releases),
     ...beobachtetOhneTermin(releases, events),
   ]
+}
+
+/** Schluss-Fehler plus die Ergebniszeile der Sichtungen fürs Bau-Log (sie belegt, dass die Prüfung am echten Bestand lief). */
+function schlussPruefung(releases: Release[], events: ReleaseEvent[], titles: Map<number, Title>): Pruefergebnis {
+  return { fehler: schlussFehler(releases, events, titles), warnungen: sichtungsZeilen(releases) }
 }
 
 /**
@@ -260,19 +266,23 @@ export function geteilteWegeTrotzWiderlegung(releases: Release[], titles: Map<nu
   return fehler
 }
 
+/** Die Schlüssel `titleId|platform`, deren Termine **alle** eine Sprachkennzeichnung (`sprache`: omu/offen) tragen. */
+export function alleTermineGekennzeichnet(releases: Release[]): Set<string> {
+  const alle = new Map<string, boolean>()
+  for (const r of releases) {
+    const k = `${r.titleId}|${r.platform}`
+    alle.set(k, (alle.get(k) ?? true) && Boolean(r.sprache))
+  }
+  return new Set([...alle].filter(([, gekennzeichnet]) => gekennzeichnet).map(([k]) => k))
+}
+
 /**
  * Ein Stream trägt kein „deutsch", wenn alle Termine seines Anbieters eine Sprachkennzeichnung (`sprache`: omu/offen) haben:
  * Ein solcher Termin belegt keine Synchro (Beerus und Fool Night, Netflix, 13.10.2026).
  */
 export function deutschNurAusSpracheTermin(releases: Release[], titles: Map<number, Title>): string[] {
-  const alleGekennzeichnet = new Map<string, boolean>()
-  for (const r of releases) {
-    const k = `${r.titleId}|${r.platform}`
-    alleGekennzeichnet.set(k, (alleGekennzeichnet.get(k) ?? true) && Boolean(r.sprache))
-  }
   const fehler: string[] = []
-  for (const [k, gekennzeichnet] of alleGekennzeichnet) {
-    if (!gekennzeichnet) continue
+  for (const k of alleTermineGekennzeichnet(releases)) {
     const [id, plattform] = k.split('|')
     const weg = titles.get(Number(id))?.streams.find((s) => s.platform === plattform && s.dub === true)
     if (weg) fehler.push(`Anime ${id}: alle Termine auf ${plattform} tragen eine Sprachkennzeichnung, der Weg trägt trotzdem „deutsch"`)

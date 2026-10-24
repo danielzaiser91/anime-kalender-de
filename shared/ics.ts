@@ -94,7 +94,8 @@ function summaryOhneMarke(ev: ReleaseEvent, bis?: number): string {
 export function eventDescription(ev: ReleaseEvent, opts: IcsOptions = {}): string {
   const lines = [
     `Plattform: ${anbieterName(ev.platform, ev.sender)}`,
-    `Release-Art: ${RELEASE_TYPES[ev.releaseType].name}`,
+    // „Simuldub“ im Namen der Art behauptet eine Synchro; bei gesetzter Sprache (omu/offen) gilt die Kurzform.
+    `Release-Art: ${ev.sprache ? RELEASE_TYPES[ev.releaseType].short : RELEASE_TYPES[ev.releaseType].name}`,
   ]
   if (ev.imAngebot) lines.push(IM_ANGEBOT_HINWEIS)
   if (ev.erstausgabe) lines.push(ERSTAUSGABE_HINWEIS)
@@ -138,19 +139,28 @@ function veventBody(ev: ReleaseEvent, opts: IcsOptions, bis?: number): string[] 
   return lines
 }
 
-export function buildIcs(events: ReleaseEvent[], opts: IcsOptions = {}): string {
+/** Kopf der Kalenderdatei bis vor den ersten Termin (jede Zeile mit CRLF). */
+export function icsKopf(calendarName = 'Anime-Kalender DE'): string {
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
     `PRODID:${PRODID}`,
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
-    `X-WR-CALNAME:${esc(opts.calendarName ?? 'Anime-Kalender DE')}`,
+    `X-WR-CALNAME:${esc(calendarName)}`,
     'X-WR-TIMEZONE:Europe/Berlin',
+    'REFRESH-INTERVAL;VALUE=DURATION:PT12H',
+    'X-PUBLISHED-TTL:PT12H',
   ]
-  for (const { ev, bis } of fasseFolgenZusammen(events)) lines.push(...veventBody(ev, opts, bis))
-  lines.push('END:VCALENDAR')
   return lines.map(fold).join('\r\n') + '\r\n'
+}
+
+export const ICS_FUSS = 'END:VCALENDAR\r\n'
+
+export function buildIcs(events: ReleaseEvent[], opts: IcsOptions = {}): string {
+  const lines: string[] = []
+  for (const { ev, bis } of fasseFolgenZusammen(events)) lines.push(...veventBody(ev, opts, bis))
+  return icsKopf(opts.calendarName) + lines.map((l) => fold(l) + '\r\n').join('') + ICS_FUSS
 }
 
 /**

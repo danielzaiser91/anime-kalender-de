@@ -10,7 +10,9 @@
  *   HTML          Netz zuerst, aber mit Zeitlimit — sonst hängt die App an
  *                 einer toten Verbindung, statt die Kopie zu nehmen.
  *   /assets/…     Cache zuerst. Die Namen tragen einen Hash, sie ändern sich nie.
- *   /data/…       Cache zuerst **je Build-Kennung**, sonst Netz. Siehe unten.
+ *   /data/…       Cache zuerst **je Datei-Kennung** (Inhalts-Hash in der Adresse), sonst Netz. Siehe unten.
+ *   /icons/, /og/ Cache sofort, dazu Netzabruf und Auffrischung (feste Adressen ohne
+ *                 Hash: ein neues Logo muss ankommen, 23.10.2026).
  *   Cover         Cache zuerst, auch vom fremden CDN. Die App legt die Bilder
  *                 der aktuellen und nächsten Woche selbst hier ab.
  *
@@ -21,7 +23,9 @@ const VERSION = 'v4'
 const SHELL = `shell-${VERSION}`
 const DATA = `data-${VERSION}`
 const MEDIA = `media-${VERSION}`
-const KEEP = [SHELL, DATA, MEDIA]
+// Feste Adressen ohne Hash (Icons, Vorschaubilder) liegen getrennt von den Covern und werden nie cache-first bedient.
+const FEST = `fest-${VERSION}`
+const KEEP = [SHELL, DATA, MEDIA, FEST]
 
 /** Wie lange auf das Netz gewartet wird, bevor die Kopie gewinnt. */
 const NETWORK_TIMEOUT_MS = 3000
@@ -74,9 +78,9 @@ async function precache() {
   const data = await caches.open(DATA)
   await Promise.all(DATA_FILES.map((url) => data.add(url).catch(() => undefined)))
 
-  const media = await caches.open(MEDIA)
+  const fest = await caches.open(FEST)
   await Promise.all(
-    ['/icons/icon-192.png', '/icons/icon-512.png'].map((url) => media.add(url).catch(() => undefined)),
+    ['/icons/icon-192.png', '/icons/icon-512.png'].map((url) => fest.add(url).catch(() => undefined)),
   )
 }
 
@@ -142,7 +146,29 @@ async function trimCache(cache, max, nurPfad) {
  */
 const SHELL_MAX = 40
 
-/** Cache zuerst, Netz nur beim ersten Mal. Für unveränderliche Adressen. */
+/** Wie viele feste Adressen (Icons, Vorschaubilder) höchstens liegen bleiben; es sind rund zwanzig. */
+const FEST_MAX = 60
+
+/**
+ * Aus dem Cache sofort, dazu Abruf und Auffrischung für den nächsten Besuch.
+ * Für feste Adressen ohne Hash, deren Inhalt sich ändern darf; `no-cache` umgeht den HTTP-Cache.
+ */
+async function staleWhileRevalidate(request, cacheName, event) {
+  const cache = await caches.open(cacheName)
+  const hit = await cache.match(request)
+  const abruf = fetch(request, { cache: 'no-cache' }).then(async (response) => {
+    if (response.ok) {
+      await cache.put(request, response.clone())
+      await trimCache(cache, FEST_MAX)
+    }
+    return response
+  })
+  if (!hit) return abruf
+  event.waitUntil(abruf.catch(() => undefined))
+  return hit
+}
+
+/** Cache zuerst, Netz nur beim ersten Mal. Nur für Adressen mit Inhalts-Hash und fremde Cover. */
 async function cacheFirst(request, cacheName) {
   const cache = await caches.open(cacheName)
   const hit = await cache.match(request)
@@ -161,21 +187,21 @@ async function cacheFirst(request, cacheName) {
 /**
  * Wie viele Datendateien höchstens liegen bleiben.
  *
- * Seit die Adressen eine Build-Kennung tragen, hinterlässt jeder Deploy einen
+ * Seit die Adressen eine Inhalts-Kennung tragen, hinterlässt jede geänderte Datei einen
  * neuen Satz Einträge. Ohne Obergrenze läge nach fünfzig Deploys fünfzigmal
  * derselbe Datensatz im Speicher.
  */
 const DATA_MAX = 80
 
 /**
- * Daten: Cache zuerst — aber nur bei **gleicher** Build-Kennung.
+ * Daten: Cache zuerst — aber nur bei **gleicher** Datei-Kennung (gleiche Adresse = gleicher Inhalt).
  *
  * Der Kern des Cache-Bustings, und der Grund, warum hartes Neuladen nie wieder
  * nötig sein sollte:
  *
  *  - **Gleiche Kennung** heißt: exakt dieselbe Datei wie beim letzten Mal. Sie
  *    kann sich nicht geändert haben, also wird sofort geantwortet, ohne Netz.
- *  - **Neue Kennung** heißt: neuer Deploy. Der Cache kennt die Adresse nicht,
+ *  - **Neue Kennung** heißt: geänderter Inhalt der Datei. Der Cache kennt die Adresse nicht,
  *    es geht ans Netz — genau einmal, danach ist auch sie schnell.
  *  - **Offline** wird die Kennung ignoriert (`ignoreSearch`) und die letzte
  *    bekannte Fassung genommen. Lieber Termine von vorgestern als eine leere
@@ -225,7 +251,7 @@ async function networkFirst(request, cacheName) {
        * nachfragen, ob die Kopie noch stimmt". Ohne das antwortet der
        * HTTP-Cache des Browsers zehn Minuten lang (GitHub Pages setzt
        * `max-age=600`) mit dem alten HTML — und altes HTML verweist auf das
-       * alte Bündel, das wiederum die alte Build-Kennung trägt. Die ganze
+       * alte Bündel, das wiederum die alten Dateikennungen trägt. Die ganze
        * Kette hinge dann an einer Datei, die niemand nachgefragt hat.
        *
        * Die Antwort ist meist ein 304 und damit fast kostenlos.
@@ -272,7 +298,7 @@ self.addEventListener('fetch', (event) => {
     return
   }
   if (url.pathname.startsWith('/icons/') || url.pathname.startsWith('/og/')) {
-    event.respondWith(cacheFirst(request, MEDIA))
+    event.respondWith(staleWhileRevalidate(request, FEST, event))
   }
 })
 

@@ -57,6 +57,7 @@
         "netflix-staffel.js",
         "netflix-erinnern.js",
         "netflix-zurueckgestellt.js",
+        "netflix-alle-staffeln.js",
         "melder.js",
         "netflix-bericht.js",
         "netflix-protokoll.js"
@@ -102,6 +103,7 @@
         "offene-amazon-suche.js",
         "prime-titelseite.js",
         "prime-stand.js",
+        "prime-such-bruecke.js",
         "amazon.js"
       ],
       "css": [
@@ -133,6 +135,7 @@
         "disney-netz.js",
         "disney-staffeln.js",
         "disney-beantwortet.js",
+        "disney-weg.js",
         "disney.js",
         "disney-durchgang.js"
       ],

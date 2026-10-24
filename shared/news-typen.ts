@@ -46,6 +46,8 @@ export interface NewsBeleg {
   erstGeprueftAm?: string; zuletztGeprueftAm?: string; bildAm?: string
   /** Eigene Messung statt Bild (Crunchyroll-Serienseiten lassen sich nicht fotografieren): was der Katalog am Tag `am` zu den Folgen der Meldung sagte. */
   messung?: { am: string; quelle: string; zeilen: string[] }
+  /** Öffentliche Seite zum Beleg, wenn `url` eine API-Adresse ist (ADN: Serienseite); „Originalseite“ führt hierhin. */
+  seite?: string
 }
 
 export interface NewsMeldung {
@@ -58,6 +60,8 @@ export interface NewsMeldung {
   weiterer?: boolean
   /** Bei `neu` und `angekuendigt` (Streaming): Jahre seit dem japanischen Start (ab fünf) — „Nach 14 Jahren endlich …"; `discSeitText`: so lange gibt es die deutsche Fassung schon auf Disc („4 Monaten"). */
   jahre?: number; discSeitText?: string
+  /** Bei `angekuendigt` im TV: Handbeleg „erste deutsche Ausstrahlung“ (`premiereBelegtTv`) — der Satz sagt „Deutsche TV-Premiere“ (Daniel, 21.10.2026). */
+  premiere?: boolean
   /** Bei `angekuendigt`: Start nur mit Untertiteln (OmU) — ob eine deutsche Synchro angekündigt ist (Daniel, 06.10.2026: beide Auskünfte sind interessant). */
   omu?: 'synchro-angekuendigt' | 'synchro-offen'
   /** Bei `offiziell`: was die Meldung der offiziellen Website sagt (von Hand bei der Freigabe gewählt). */

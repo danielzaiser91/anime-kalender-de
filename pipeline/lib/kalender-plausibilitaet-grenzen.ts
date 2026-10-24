@@ -5,6 +5,7 @@
 import { writeFileSync } from 'node:fs'
 import { gesenkt, zuViel } from '../../tools/design-klassen.mjs'
 import { panelLink, REGELN, type Regel, type Treffer } from './kalender-plausibilitaet.ts'
+import { melde } from './quarantaene.ts'
 
 const HINWEIS = 'Wird nur vom Bestandsbau gesenkt (tools/commit-data.sh, --festschreiben), nie von Hand erhöht. Ausgangswerte 16.10.2026.'
 
@@ -30,6 +31,22 @@ export function ueberschreitungen(treffer: TrefferJeRegel, grenzen: Grenzen): st
     fehler.push(`${r} hat ${treffer[r].length - erlaubt} Treffer mehr. Neu:\n${(neu.length ? neu : treffer[r]).map(zeile).join('\n')}`)
   }
   return fehler
+}
+
+/** Die neuen Treffer der Regeln über ihrer Grenze, je mit Regel: die Titel, die der Bestandsbau zurückstellen darf (Quarantäne). */
+export function neueTreffer(treffer: TrefferJeRegel, grenzen: Grenzen): { regel: Regel; treffer: Treffer }[] {
+  const ergebnis: { regel: Regel; treffer: Treffer }[] = []
+  for (const r of REGELN) {
+    if (treffer[r].length <= (grenzen.vorkommen[r] ?? 0)) continue
+    const bekannt = new Set(grenzen.bekannt[r] ?? [])
+    for (const t of treffer[r]) if (!bekannt.has(t.schluessel)) ergebnis.push({ regel: r, treffer: t })
+  }
+  return ergebnis
+}
+
+/** Meldet jeden neuen Treffer als Titel, den der Bestandsbau zurückstellen darf. */
+export function meldeNeueTreffer(treffer: TrefferJeRegel, grenzen: Grenzen): void {
+  for (const n of neueTreffer(treffer, grenzen)) melde(n.treffer.titleId, 'kalender-plausibilitaet', `${n.regel}: ${n.treffer.text}`)
 }
 
 /** Schreibt gesunkene Zahlen und die aktuellen Schlüssel in `datei`; bei einem Anstieg unverändert und mit den betroffenen Regeln als Rückgabe. */

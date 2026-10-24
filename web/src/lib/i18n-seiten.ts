@@ -138,7 +138,7 @@ export const TEXTE_SEITEN = {
   'news.changeAddress': 'E-Mail-Adresse ändern',
   'news.frequency': 'Rhythmus',
   'news.weekly': 'Wöchentlich',
-  'news.weeklyHint': 'montags 07:00, alles der kommenden Woche',
+  'news.weeklyHint': 'einmal pro Woche, 07:00, die nächsten 7 Tage',
   'news.daily': 'Täglich',
   'news.dailyHint': '07:00, alles des Tages',
   'news.autoSync': 'Änderungen werden ab jetzt selbsttätig übernommen.',

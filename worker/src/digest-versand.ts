@@ -7,6 +7,7 @@
 import type { Env } from './env.ts'
 import type { DigestPost } from './digest-inhalt.ts'
 import { resendMail, sendMail, type Mail } from './mail.ts'
+import { bucheMails } from './mail-zaehler.ts'
 import { fehlerLog } from './werte.ts'
 
 /** Resend nimmt höchstens 100 Mails je Stapel (api-reference/emails/send-batch-emails, abgerufen 14.10.2026). */
@@ -79,6 +80,7 @@ export async function versendeDigest(env: Env, posten: DigestPost[], now: Date):
     }
   }
   if (!angenommen.length) return 0
+  await bucheMails(env, angenommen.length, now)
   try {
     await env.DB.prepare('UPDATE subscribers SET last_sent_at = ?1 WHERE id IN (SELECT value FROM json_each(?2))')
       .bind(now.toISOString(), JSON.stringify(angenommen))

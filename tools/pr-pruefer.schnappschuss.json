@@ -1,0 +1,132 @@
+{
+  "name": "PR-Prüfer",
+  "on": {
+    "pull_request_target": {
+      "branches": [
+        "main"
+      ],
+      "types": [
+        "opened",
+        "synchronize",
+        "ready_for_review"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "read",
+    "pull-requests": "write",
+    "checks": "read"
+  },
+  "concurrency": {
+    "group": "pr-pruefer-${{ github.event.pull_request.number }}",
+    "cancel-in-progress": true
+  },
+  "jobs": {
+    "pruefen": {
+      "name": "Prüfer-Review",
+      "if": "github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 30,
+      "env": {
+        "PR": "${{ github.event.pull_request.number }}",
+        "HEAD_SHA": "${{ github.event.pull_request.head.sha }}",
+        "BASE_SHA": "${{ github.event.pull_request.base.sha }}"
+      },
+      "steps": [
+        {
+          "uses": "actions/checkout@v4",
+          "with": {
+            "persist-credentials": false
+          }
+        },
+        {
+          "name": "Diff bereitlegen",
+          "id": "diff",
+          "env": {
+            "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+          },
+          "run": "# Diff je Datei aus der Dateiliste der API (tools/pr-diff-bauen.mjs, Skript aus main): große Datendateien\n# werden durch eine Stub-Zeile ersetzt, Code, Workflows und Doku bleiben vollständig. Kein Pipe, der den\n# Exit von gh maskiert: erst in eine Datei. Fehlt die Liste oder ist sie leer, ist der Zustand unvollstaendig.\nT=\"$RUNNER_TEMP/pruefer\"; mkdir -p \"$T\"\n# Rückfall für Dateien ohne API-Patch (sehr große Änderung, z. B. data/dub-confirmed.yaml): nur Git-OBJEKTE holen\n# (Merge-Basis und Kopf, je Tiefe 1), kein Checkout, nichts aus dem PR ausführen. `git diff` liest sie nur;\n# das Skript bleibt das aus main. Schlägt ein Schritt fehl, bleiben basis/kopf leer und es gibt keinen Rückfall.\nbasis=\"\"; kopf=\"\"\nmb=$(gh api --method GET \"repos/$GITHUB_REPOSITORY/compare/$BASE_SHA...$HEAD_SHA\" -f per_page=1 -q .merge_base_commit.sha) || mb=\"\"\nif [[ \"$mb\" =~ ^[0-9a-f]{40}$ ]] && [[ \"$HEAD_SHA\" =~ ^[0-9a-f]{40}$ ]]; then\n  export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.extraheader\n  export GIT_CONFIG_VALUE_0=\"AUTHORIZATION: basic $(printf 'x-access-token:%s' \"$GH_TOKEN\" | base64 -w0)\"\n  if git fetch --no-tags --depth=1 origin \"$mb\" \"$HEAD_SHA\"; then basis=\"$mb\"; kopf=\"$HEAD_SHA\"; fi\n  unset GIT_CONFIG_COUNT GIT_CONFIG_KEY_0 GIT_CONFIG_VALUE_0\nfi\nzustand=unvollstaendig\n: > \"$T/pr.diff\"\nif gh api --method GET --paginate \"repos/$GITHUB_REPOSITORY/pulls/$PR/files\" -f per_page=100 -q '.[]' > \"$T/dateien.ndjson\"; then\n  zustand=$(node tools/pr-diff-bauen.mjs \"$T/dateien.ndjson\" \"$T/pr.diff\" \"$basis\" \"$kopf\") || zustand=unvollstaendig\nfi\n[ \"$zustand\" = ok ] || zustand=unvollstaendig\nrm -f \"$T/dateien.ndjson\"\ngh pr view \"$PR\" --repo \"$GITHUB_REPOSITORY\" --json title,body,headRefName \\\n  -q '\"Titel: \" + .title + \"\\nZweig: \" + .headRefName + \"\\n\\n\" + .body' > \"$T/pr-beschreibung.txt\"\n# Beschreibungen sind unveränderlich; spätere Runden stehen als Kommentar \"Nachtrag…\" oder \"Nachbesserung…\" (mit oder ohne **, #) am Textanfang (PR-Autor sowie Inhaber, Mitglieder, Mitarbeiter des Repos).\n# REST-Login statt `gh pr view --json author`: das liefert bei Apps \"app/claude\" und fällt durch die Prüfung unten (PR 1394).\nautor=$(gh api \"repos/$GITHUB_REPOSITORY/pulls/$PR\" -q .user.login) || autor=\"\"\nif [[ \"$autor\" =~ ^[A-Za-z0-9][A-Za-z0-9-]*(\\[bot\\])?$ ]]; then\n  # Fail-soft: fehlt das Skript (z. B. auf main vor dem Merge) oder stürzt node ab, muss diff-zustand trotzdem geschrieben werden.\n  node tools/pr-nachtraege.mjs \"$PR\" \"$autor\" \"$T/pr-beschreibung.txt\" || echo \"Nachträge nicht angehängt\"\nfi\necho \"diff-zustand=$zustand\" >> \"$GITHUB_OUTPUT\"\necho \"Diff-Zustand: $zustand\"\nwc -c \"$T/pr.diff\"\n"
+        },
+        {
+          "name": "Prüfstufe",
+          "id": "stufe",
+          "env": {
+            "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
+            "GH_REPO": "${{ github.repository }}"
+          },
+          "run": "T=\"$RUNNER_TEMP/pruefer\"\nstufe=2\nif node tools/pr-stufe.mjs \"$PR\" > \"$T/stufe.json\"; then\n  stufe=$(node -e 'console.log(JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\")).stufe)' \"$T/stufe.json\") || stufe=2\nfi\necho \"stufe=$stufe\" >> \"$GITHUB_OUTPUT\"\n{\n  echo \"<!-- pr-stufe -->\"\n  echo \"**Prüfstufe $stufe** für ${HEAD_SHA:0:9}\"\n  echo\n  node -e 'const j=JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\"));console.log(j.begruendung.map(b=>\"- \"+b).join(\"\\n\"))' \"$T/stufe.json\" || true\n} > \"$T/stufe.md\"\ncat \"$T/stufe.md\" >> \"$GITHUB_STEP_SUMMARY\"\n# Ein Kommentar je PR: den mit der Marke aktualisieren, sonst neu anlegen.\nalt=$(gh api \"repos/$GITHUB_REPOSITORY/issues/$PR/comments\" --paginate -q '.[] | select(.body | startswith(\"<!-- pr-stufe -->\")) | .id' | head -1) || alt=\nif [ -n \"$alt\" ]; then\n  gh api -X PATCH \"repos/$GITHUB_REPOSITORY/issues/comments/$alt\" -F body=@\"$T/stufe.md\" > /dev/null\nelse\n  gh pr comment \"$PR\" --repo \"$GITHUB_REPOSITORY\" --body-file \"$T/stufe.md\"\nfi\n"
+        },
+        {
+          "name": "Prüfer-Eingang prüfen",
+          "id": "eingang",
+          "env": {
+            "DIFF_ZUSTAND": "${{ steps.diff.outputs.diff-zustand }}",
+            "KOPF": "${{ github.event.pull_request.head.sha }}"
+          },
+          "run": "node tools/pr-eingang.mjs \"$RUNNER_TEMP/pruefer/pr-beschreibung.txt\" \"$DIFF_ZUSTAND\" \"$KOPF\" >> \"$GITHUB_OUTPUT\""
+        },
+        {
+          "name": "Prüfer (Stufe 0, schlank)",
+          "if": "steps.stufe.outputs.stufe == '0'",
+          "uses": "anthropics/claude-code-action@v1",
+          "with": {
+            "claude_code_oauth_token": "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}",
+            "github_token": "${{ secrets.GITHUB_TOKEN }}",
+            "allowed_bots": "claude,github-actions",
+            "settings": "{\"permissions\":{\"deny\":[\"Read(//proc/**)\",\"Read(//sys/**)\",\"Read(//run/**)\",\"Read(//etc/**)\",\"Read(./.git/**)\",\"Read(**/.git/**)\",\"Bash\"]}}\n",
+            "claude_args": "--max-turns 8\n--allowedTools \"Read(/${{ runner.temp }}/pruefer/**),Edit(/${{ runner.temp }}/pruefer/**)\"\n",
+            "prompt": {
+              "platzhalter": "<Prompt-Text: nicht Teil des Schnappschusses>",
+              "ausdruecke": [
+                "github.event.pull_request.head.sha",
+                "runner.temp",
+                "steps.eingang.outputs.zustand"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Prüfer",
+          "if": "steps.stufe.outputs.stufe != '0'",
+          "uses": "anthropics/claude-code-action@v1",
+          "with": {
+            "claude_code_oauth_token": "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}",
+            "github_token": "${{ secrets.GITHUB_TOKEN }}",
+            "allowed_bots": "claude,github-actions",
+            "settings": "{\"permissions\":{\"deny\":[\"Read(//proc/**)\",\"Read(//sys/**)\",\"Read(//run/**)\",\"Read(//etc/**)\",\"Read(./.git/**)\",\"Read(**/.git/**)\",\"Bash\"]}}\n",
+            "claude_args": "--max-turns 40\n--allowedTools \"Read(/${{ runner.temp }}/pruefer/**),Read(./**),Grep,Glob,Edit(/${{ runner.temp }}/pruefer/**)\"\n",
+            "prompt": {
+              "platzhalter": "<Prompt-Text: nicht Teil des Schnappschusses>",
+              "ausdruecke": [
+                "github.event.pull_request.head.sha",
+                "github.workspace",
+                "runner.temp",
+                "steps.eingang.outputs.zustand",
+                "steps.stufe.outputs.stufe"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Check-Stand des Kopfes",
+          "id": "checks",
+          "if": "${{ !cancelled() }}",
+          "env": {
+            "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+          },
+          "run": "node tools/pr-checks-stand.mjs \"$HEAD_SHA\" 720 >> \"$GITHUB_OUTPUT\""
+        },
+        {
+          "name": "Protokoll und Freigabe",
+          "if": "always()",
+          "env": {
+            "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
+            "DIFF_ZUSTAND": "${{ steps.eingang.outputs.zustand }}",
+            "CHECKS": "${{ steps.checks.outputs.stand }}"
+          },
+          "run": "set -u\nT=\"$RUNNER_TEMP/pruefer\"\nif [ ! -s \"$T/urteil.json\" ] || [ ! -s \"$T/protokoll.md\" ]; then\n  echo \"::error::Kein Urteil geschrieben (urteil.json oder protokoll.md fehlt/leer) - keine Freigabe. Inhalt von $T:\"\n  ls -la \"$T\" || true\n  exit 1\nfi\nurteil=$(node -e 'const u=JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\"));console.log(u.urteil+\" \"+u.sha)' \"$T/urteil.json\") || { echo \"::error::urteil.json unlesbar - keine Freigabe.\"; exit 1; }\nart=${urteil% *}; sha=${urteil#* }\nif [ \"$DIFF_ZUSTAND\" != \"ok\" ] && [ \"$art\" = \"ok\" ]; then\n  echo \"Diff unvollständig - Urteil ok wird zu aendern.\"\n  art=aendern\n  printf '\\n**Hinweis:** Diff leer, nicht abrufbar oder gekürzt, oder Commit-Liste fehlt - nicht vollständig geprüft, daher keine Freigabe.\\n' >> \"$T/protokoll.md\"\nfi\nif grep -qE 'gh[spuor]_[A-Za-z0-9]|github_pat_|x-access-token' \"$T/protokoll.md\" || grep -qF -- \"$GH_TOKEN\" \"$T/protokoll.md\"; then\n  echo \"Token-Muster im Protokoll - Protokoll verworfen, Urteil aendern.\"\n  art=aendern\n  printf 'Das Protokoll enthielt ein Token-Muster und wurde verworfen. Der Lauf ist als Fehlerfall zu behandeln (Prompt-Injektion vermutet).\\n' > \"$T/protokoll.md\"\nfi\ntitel=\"$art\"\nif [ \"$art\" = \"ok\" ] && [ \"${CHECKS:-}\" != \"gruen\" ]; then\n  titel=\"ok, ${CHECKS:-Checks-Stand unbekannt}\"\nfi\naktuell=$(gh pr view \"$PR\" --repo \"$GITHUB_REPOSITORY\" --json headRefOid -q .headRefOid)\nif [ \"$sha\" != \"$HEAD_SHA\" ] || [ \"$aktuell\" != \"$HEAD_SHA\" ]; then\n  echo \"Stand $sha passt nicht zum aktuellen Head $aktuell - keine Freigabe.\"\n  exit 0\nfi\n{ echo \"**Prüfer-Review** für ${HEAD_SHA:0:9} - Urteil: **$titel**\"; echo; cat \"$T/protokoll.md\"; } > \"$T/kommentar.md\"\ngh pr comment \"$PR\" --repo \"$GITHUB_REPOSITORY\" --body-file \"$T/kommentar.md\"\nif [ \"$art\" = \"ok\" ]; then\n  gh pr review \"$PR\" --repo \"$GITHUB_REPOSITORY\" --approve --body \"Urteil: $titel. Prüfprotokoll steht als Kommentar (Stand ${HEAD_SHA:0:9}).\"\nelse\n  gh pr review \"$PR\" --repo \"$GITHUB_REPOSITORY\" --request-changes --body \"Befunde im Prüfprotokoll-Kommentar (Stand ${HEAD_SHA:0:9}).\"\nfi\n"
+        }
+      ]
+    }
+  }
+}

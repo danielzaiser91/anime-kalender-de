@@ -5,7 +5,7 @@ import { useHatFolgenListe } from './folgen-bereich.tsx'
 type Props = ComponentProps<typeof AntwortBereich>
 
 /** Eingaben von `AntwortBereich`, die `kastenOhneInhalt` prüft (der Test gleicht beide Listen mit den Props ab). */
-export const BEWERTET = ['antwort', 'title', 'releases', 'terminReleases', 'streamReleases', 'discAusgaben', 'discReleases', 'tvVorbei', 'wegeHinweis', 'kastenNotiz', 'kaufausgabeZeile', 'folgenLuecke'] as const
+export const BEWERTET = ['antwort', 'title', 'releases', 'terminReleases', 'streamReleases', 'discAusgaben', 'discReleases', 'tvVorbei', 'wegeHinweis', 'kastenNotiz', 'folgenLuecke'] as const
 /** Eingaben, die nur Darstellung oder Zustand sind und keine Zeile unter der Überschrift erzeugen. */
 export const OHNE_WIRKUNG = ['sortiertNachZugang', 't', 'today', 'verbindung', 'favorites', 'folgenAngabeFuer', 'dubZeilen', 'releaseJePlattform', 'discOffen', 'setDiscOffen', 'discZuerst'] as const
 
@@ -24,7 +24,7 @@ export function kastenOhneInhalt(p: Eingabe): boolean {
   const { antwort, title } = p
   const nurSynchroOffen = antwort?.art === 'ohne' && Boolean(title.westlich) && !title.dubHinweis && !title.streams.length
   const keineWege = !(title.watchLinks ?? []).length && ![p.releases, p.terminReleases, p.streamReleases, p.discAusgaben, p.discReleases, p.tvVorbei].some((l) => l.length)
-  const keineZeile = !(p.wegeHinweis || p.kastenNotiz || p.kaufausgabeZeile || p.folgenLuecke || p.folgenListe || title.ohneSynchro || title.deErstausgabe || title.angebotSeit)
+  const keineZeile = !(p.wegeHinweis || p.kastenNotiz || p.folgenLuecke || p.folgenListe || title.ohneSynchro || title.deErstausgabe || title.angebotSeit)
   return nurSynchroOffen && keineWege && keineZeile
 }
 

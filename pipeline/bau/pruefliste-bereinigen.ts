@@ -10,12 +10,23 @@ import { PRUEFLISTE } from './09-7-cr-teilseiten.ts'
  */
 export const nurAusgelieferte = (liste: TeilseitenPruefung[], ausgeliefert: Set<number>) => liste.filter((p) => ausgeliefert.has(p.titleId))
 
-export function bereinigePruefliste(ausgeliefert: Set<number>): void {
+/**
+ * Phase 10 (Widerlegung) setzt Bereiche erst nach 09-7: Ein Weg, der dort einen Bereich bekam, ist nichts mehr zu prüfen
+ * und fliegt von der Liste (check-cr-teilseiten-bestand: „Bereich und Prüfliste zugleich“ ist verboten).
+ */
+export const ohneBereich = (liste: TeilseitenPruefung[], mitBereich: Set<string>) => liste.filter((p) => !mitBereich.has(`${p.titleId}|${p.url}`))
+
+/** Schlüssel `Kennung|Adresse` aller Crunchyroll-Wege mit Bereich. */
+export function wegeMitBereich(titel: Title[]): Set<string> {
+  return new Set(titel.flatMap((t) => t.streams.filter((s) => s.platform === 'crunchyroll' && s.dubRanges?.length).map((s) => `${t.id}|${s.url}`)))
+}
+
+export function bereinigePruefliste(slim: Title[]): void {
   const liste = readJson<TeilseitenPruefung[]>(PRUEFLISTE, [])
-  const bleibt = nurAusgelieferte(liste, ausgeliefert)
+  const bleibt = ohneBereich(nurAusgelieferte(liste, ausgelieferteKennungen(slim)), wegeMitBereich(slim))
   if (bleibt.length === liste.length) return
   writeJson(PRUEFLISTE, bleibt)
-  log(`Prüfliste geteilter Crunchyroll-Seiten: ${liste.length - bleibt.length} Titel ohne Ausgabe gestrichen (Dublette oder entfallen)`)
+  log(`Prüfliste geteilter Crunchyroll-Seiten: ${liste.length - bleibt.length} Titel gestrichen (ohne Ausgabe oder inzwischen mit Bereich)`)
 }
 
 /** Kennungen der beiden Ausgabedateien: Hauptbestand (`slim`) und Datei hinter dem Schalter. */

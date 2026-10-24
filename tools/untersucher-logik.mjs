@@ -71,13 +71,26 @@ export function laufNummern(texte) {
   return [...new Set(texte.join('\n').match(/\b\d{10,12}\b/g) ?? [])]
 }
 
-/** Offene PRs, die das Issue (`#N`) oder einen seiner Läufe nennen. */
-export function offenePrs(prs, issueNr, laeufe) {
+/**
+ * So lange hält ein offener PR den Untersucher zurück. Danach gilt er als liegengeblieben: PR 1464 stand
+ * vom 17.10. 22:10 bis zum Morgen offen, der Bau blieb rot, und jeder Untersucher meldete `ok` ohne zu arbeiten.
+ */
+export const PR_FRIST_MS = 6 * 3600 * 1000
+
+function betrifft(p, issueNr, laeufe) {
   const nr = new RegExp(`#${issueNr}(?!\\d)`)
-  return prs
-    .filter((p) => {
-      const t = `${p.title}\n${p.body ?? ''}`
-      return nr.test(t) || laeufe.some((l) => t.includes(l))
-    })
-    .map((p) => p.number)
+  const t = `${p.title}\n${p.body ?? ''}`
+  return nr.test(t) || laeufe.some((l) => t.includes(l))
+}
+
+const liegtLange = (p, jetzt) => jetzt - Date.parse(p.createdAt) > PR_FRIST_MS
+
+/** Offene, frische PRs, die das Issue (`#N`) oder einen seiner Läufe nennen. */
+export function offenePrs(prs, issueNr, laeufe, jetzt) {
+  return prs.filter((p) => betrifft(p, issueNr, laeufe) && !liegtLange(p, jetzt)).map((p) => p.number)
+}
+
+/** Passende PRs, die länger als `PR_FRIST_MS` offen stehen: sie halten den Untersucher nicht auf. */
+export function liegengebliebenePrs(prs, issueNr, laeufe, jetzt) {
+  return prs.filter((p) => betrifft(p, issueNr, laeufe) && liegtLange(p, jetzt)).map((p) => p.number)
 }

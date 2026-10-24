@@ -1,0 +1,77 @@
+# Mutationen für delta-wache-pendel.test.mjs, je Datei ein Abschnitt "## datei"; Zeilen "suche ⟶ ersetze" (tools/mutationsprobe.mjs in __assets)
+## pipeline/lib/bestand-pendel.ts
+Math.abs(a - b) <= TOLERANZ ⟶ Math.abs(a - b) < TOLERANZ
+Math.abs(a - b) <= TOLERANZ ⟶ Math.abs(a - b) <= TOLERANZ + 1
+export const TOLERANZ = 5 ⟶ export const TOLERANZ = 40
+export const TOLERANZ = 5 ⟶ export const TOLERANZ = 0
+nah(k[n], k[n - 2]) && !nah(k[n], k[n - 1]) ⟶ nah(k[n], k[n - 2]) && nah(k[n], k[n - 1])
+nah(k[n], k[n - 2]) && !nah(k[n], k[n - 1]) ⟶ nah(k[n], k[n - 2]) || !nah(k[n], k[n - 1])
+nah(k[n], k[n - 2]) && !nah(k[n], k[n - 1]) ⟶ true && !nah(k[n], k[n - 1])
+nah(k[n], k[n - 2]) && !nah(k[n], k[n - 1]) ⟶ nah(k[n], k[n - 2]) && true
+nah(k[n], k[n - 2]) && !nah(k[n], k[n - 1]) ⟶ nah(k[n], k[n - 1]) && !nah(k[n], k[n - 2])
+let i = 2 ⟶ let i = 3
+let i = 2 ⟶ let i = 1
+wechsel: bis - von, ⟶ wechsel: bis - von + 1,
+wechsel: bis - von, ⟶ wechsel: bis,
+davor: von - 1 ⟶ davor: von
+i = bis + 3 ⟶ i = bis + 2
+i = bis + 3 ⟶ i = bis + 4
+const laufend = p.bis === zeilen.length - 1 ⟶ const laufend = true
+const laufend = p.bis === zeilen.length - 1 ⟶ const laufend = false
+const laufend = p.bis === zeilen.length - 1 ⟶ const laufend = p.bis === zeilen.length - 2
+i = p.bis + 1 ⟶ i = p.bis
+i = p.bis + 1 ⟶ i = p.bis + 2
+x.bis === i - 1 && x.davor >= 0 ⟶ x.bis === i - 1
+x.bis === i - 1 && x.davor >= 0 ⟶ x.bis === i - 1 && true
+x.bis === i - 1 && x.davor >= 0 ⟶ x.davor >= 0
+x.bis === i - 1 && x.davor >= 0 ⟶ x.bis === i - 1 && x.davor >= 1
+kz(zeilen[nachPendel.davor]) ⟶ kz(zeilen[i - 1])
+kz(zeilen[nachPendel.davor]) ⟶ kz(zeilen[nachPendel.von])
+zeitpunkt: String(zeilen[p.bis].zeitpunkt) ⟶ zeitpunkt: String(zeilen[p.von].zeitpunkt)
+standText(zeilen[p.von + 1]) ⟶ standText(zeilen[p.von + 2])
+standText(zeilen[p.von + 1]) ⟶ standText(zeilen[p.von])
+pendelte von ${uhr(zeilen[p.von].zeitpunkt)} bis ${uhr(zeilen[p.bis].zeitpunkt)} ⟶ pendelte von ${uhr(zeilen[p.bis].zeitpunkt)} bis ${uhr(zeilen[p.von].zeitpunkt)}
+auffaellig: strs(zeilen[i].auffaellig), erklaert: strs(zeilen[i].erklaert), netto: false ⟶ auffaellig: [], erklaert: [], netto: false
+auffaellig: strs(zeilen[i].auffaellig), erklaert: strs(zeilen[i].erklaert), netto: false ⟶ auffaellig: strs(zeilen[i].auffaellig), erklaert: [], netto: false
+const pendel = findePendel(zeilen) ⟶ const pendel = []
+while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1) && amAnfang(bis + 1)) bis++ ⟶ while (false) bis++
+while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1) && amAnfang(bis + 1)) bis++ ⟶ while (bis + 1 < zeilen.length) bis++
+while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1) && amAnfang(bis + 1)) bis++ ⟶ while (bis + 1 <= zeilen.length && kehrtZurueck(bis + 1) && amAnfang(bis + 1)) bis++
+while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1) && amAnfang(bis + 1)) bis++ ⟶ while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1)) bis++
+while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1) && amAnfang(bis + 1)) bis++ ⟶ while (bis + 1 < zeilen.length && amAnfang(bis + 1)) bis++
+nah(k[n], k[von + ((n - von) % 2)]) ⟶ nah(k[n], k[von + ((n - von + 1) % 2)])
+nah(k[n], k[von + ((n - von) % 2)]) ⟶ nah(k[n], k[von])
+nah(k[n], k[von + ((n - von) % 2)]) ⟶ nah(k[n], k[n - 2])
+## tools/delta-pruefen.mjs
+${e.laufend ? '⚠' : 'ℹ'} ⟶ ${'⚠'}
+${e.laufend ? '⚠' : 'ℹ'} ⟶ ${'ℹ'}
+(e.art === 'pendel' ? e.laufend : e.auffaellig.length) ⟶ (e.art === 'pendel' ? false : e.auffaellig.length)
+(e.art === 'pendel' ? e.laufend : e.auffaellig.length) ⟶ (e.art === 'pendel' ? true : e.auffaellig.length)
+${e.netto ? 'netto gegen den Stand vor dem Pendeln: ' : ''} ⟶ ${''}
+Date.parse(e.art === 'pendel' ? e.zeitpunkt : e.zeile.zeitpunkt) >= grenze ⟶ Date.parse(e.art === 'pendel' ? e.zeitpunkt : e.zeile.zeitpunkt) >= 0
+Date.parse(e.art === 'pendel' ? e.zeitpunkt : e.zeile.zeitpunkt) >= grenze ⟶ Date.parse(e.art === 'pendel' ? e.zeile : e.zeile.zeitpunkt) >= grenze
+if (e.erklaert.length) ⟶ if (false)
+if (e.auffaellig.length) ⟶ if (false)
+if (still && !ALLES && !e.auffaellig.length) ⟶ if (still && !ALLES)
+if (still && !ALLES && !e.auffaellig.length) ⟶ if (still && !ALLES && e.auffaellig.length)
+ereignisse(zeilen).filter ⟶ zeilen.map((zeile) => ({ art: 'zeile', zeile, auffaellig: zeile.auffaellig ?? [], erklaert: zeile.erklaert ?? [], netto: false })).filter
+## tools/wache-tagebuch.mjs
+if (befund && reiheSeitRuhe(alt).some ⟶ if (reiheSeitRuhe(alt).some
+if (befund && reiheSeitRuhe(alt).some ⟶ if (false && reiheSeitRuhe(alt).some
+if (befund && reiheSeitRuhe(alt).some ⟶ if (true && reiheSeitRuhe(alt).some
+if (befund && reiheSeitRuhe(alt).some ⟶ if (befund && alt.some
+ruhe < 0 ? alt : alt.slice(0, ruhe) ⟶ alt
+ruhe < 0 ? alt : alt.slice(0, ruhe) ⟶ ruhe < 0 ? alt : alt.slice(0, ruhe + 1)
+ruhe < 0 ? alt : alt.slice(0, ruhe) ⟶ ruhe < 0 ? [] : alt.slice(0, ruhe)
+ruhe < 0 ? alt : alt.slice(0, ruhe) ⟶ ruhe < 0 ? alt : alt.slice(0, ruhe - 1)
+.at(-1) === 'unauffällig' ⟶ .at(0) === 'unauffällig'
+.at(-1) === 'unauffällig' ⟶ .at(-1) !== 'unauffällig'
+.slice(2, -1) ⟶ .slice(1, -1)
+.slice(2, -1) ⟶ .slice(3, -1)
+.slice(2, -1) ⟶ .slice(2, -2)
+return alt ⟶ return [neu, ...alt]
+return [neu, ...alt] ⟶ return alt
+## tools/wache-schreiben.mjs
+tagebuchZeilen(zeile, alt, befund) ⟶ [zeile, ...alt]
+tagebuchZeilen(zeile, alt, befund) ⟶ tagebuchZeilen(zeile, alt, true)
+tagebuchZeilen(zeile, alt, befund) ⟶ tagebuchZeilen(zeile, [], befund)

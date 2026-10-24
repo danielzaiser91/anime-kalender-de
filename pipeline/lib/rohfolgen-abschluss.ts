@@ -1,10 +1,12 @@
 /**
- * Der Schluss von `fetch-rohfolgen.ts`: Prüflisten schreiben, dann den Briefkasten abhaken, dann zählen.
+ * Der Schluss von `fetch-rohfolgen.ts`: Prüflisten schreiben, die abzuhakenden Kennungen merken, dann zählen.
  * Ausgelagert (16.10.2026), damit der Zuordner nicht weiter wächst; Inhalt und Reihenfolge unverändert.
  */
-import { log, readJson, warn, writeJson } from './util.ts'
+import { log, writeJson } from './util.ts'
+import { merkeZumQuittieren, ROHFOLGEN_ABHAKEN } from './spaeter-quittieren.ts'
 import { recordSource } from './health.ts'
 import { verschiebeKanalGruppen, type KanalAussortiert } from './kanal-aussortieren.ts'
+import { leseZugeordnet } from './prime-meldung-riegel.ts'
 
 /** Ein Fall, der geklärt werden muss, statt geraten zu werden. */
 export interface Offen {
@@ -30,15 +32,13 @@ export interface Zaehler {
   ohneFolgenzuordnung: number
 }
 
-export async function schliesseRohfolgenAb({
+export function schliesseRohfolgenAb({
   zugeordnet,
   kanalWeg,
   offen,
   erledigt,
   veraltet,
   zaehler: { ueberFolgentitel, uebersprungenStaffel, ohneFolgenzuordnung },
-  worker: WORKER,
-  token: TOKEN,
 }: {
   zugeordnet: Record<string, Zugeordnet>
   /** Offene Kanal-Gruppen ohne Deutsch (lib/kanal-aussortieren.ts): kommen aus der offenen Liste und werden abgehakt. */
@@ -47,9 +47,7 @@ export async function schliesseRohfolgenAb({
   erledigt: number[]
   veraltet: number[]
   zaehler: Zaehler
-  worker: string
-  token: string
-}): Promise<void> {
+}): void {
   /*
     **Der Bestand dieser Datei ist der Ertrag aller Läufe, nicht der des letzten.**
 
@@ -70,29 +68,18 @@ export async function schliesseRohfolgenAb({
     nichts findet, darf nicht löschen, was ein früherer gefunden hat.
   */
   erledigt.push(...verschiebeKanalGruppen(kanalWeg, offen))
-  const bisher = readJson<typeof zugeordnet>('data/prime-zugeordnet.json', {})
-  writeJson('data/prime-zugeordnet.json', { ...bisher, ...zugeordnet })
+  const bisher = leseZugeordnet<(typeof zugeordnet)[string]>()
+  writeJson('data/prime-zugeordnet.json', leseZugeordnet({ ...bisher, ...zugeordnet }))
   writeJson('data/prime-unzugeordnet.json', offen)
 
   /*
-    **Erst schreiben, dann abhaken.** Die Zuordnung steht committet im Repo,
-    bevor der Briefkasten sie vergisst — andersherum wäre ein Netzfehler zwischen
-    beiden Schritten ein Datenverlust.
+    **Abgehakt wird erst nach dem Commit** (17.10.2026): Hier wird nur gemerkt, der Schritt
+    „Rohfolgen abhaken" (`pipeline/rohfolgen-abhaken.ts`) schickt es nach „Änderungen committen" ab.
+    Am 16.10.2026 hakte dieser Lauf 13.350 Rohfolgen ab, dann scheiterte der Bau — 1.029 Adressen gingen verloren.
   */
   erledigt.push(...veraltet)
-  if (erledigt.length) {
-    try {
-      const res = await fetch(`${WORKER}/pruefung`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': TOKEN },
-        body: JSON.stringify({ rohfolgenUebernommen: erledigt }),
-      })
-      if (res.ok) log(`${erledigt.length} Rohfolgen abgehakt`)
-      else warn(`Rohfolgen nicht abgehakt: HTTP ${res.status} — sie kommen beim nächsten Lauf erneut`)
-    } catch (e) {
-      warn(`Rohfolgen nicht abgehakt: ${(e as Error).message}`)
-    }
-  }
+  merkeZumQuittieren(ROHFOLGEN_ABHAKEN, erledigt)
+  if (erledigt.length) log(`${erledigt.length} Rohfolgen werden nach dem Commit abgehakt`)
 
   const gesamtZugeordnet = Object.values(zugeordnet).reduce((n, z) => n + z.folgen.length, 0)
   log(

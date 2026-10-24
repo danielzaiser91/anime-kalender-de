@@ -109,8 +109,14 @@
   schedule:
     firstEpisodeDate: "2026-07-12"
     estimated: true
+  # Die Notiz bleibt wahr, egal ob Folge 12 erscheint (Ankündigung und japanische Zahl sind Tatsachen); sie darf entfallen, wenn
+  # Crunchyroll Folge 12 geliefert und erklärt hat. Belege: Wochenprogramm-Artikel (erstmals 15.10.2026 in
+  # data/crunchyroll-woche-belege.json), aniSearch 20297 (11 Folgen, Folge 11 am 2026-09-21).
+  note: "Folge 12 steht im Crunchyroll-Wochenprogramm, obwohl es in Japan nur 11 Folgen gab."
   sources:
     - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+    - https://www.anisearch.de/anime/20297
+    - https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026
 
 - slug: tomb-raider-king
   anilistId: 184356

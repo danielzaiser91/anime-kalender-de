@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "titleId": 101349,
+    "name": "Babylon",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP",
+    "von": 1,
+    "bis": 12,
+    "vorherSeit": "2026-08-31",
+    "seit": "2026-10-23",
+    "zuletzt": "2026-10-23"
+  },
+  {
+    "titleId": 141391,
+    "name": "Call of the Night",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/gp/video/detail/B0B6FVJXST",
+    "von": 1,
+    "bis": 13,
+    "vorherSeit": "2026-08-31",
+    "seit": "2026-10-23",
+    "zuletzt": "2026-10-23"
+  }
+]
