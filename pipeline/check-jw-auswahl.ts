@@ -165,7 +165,10 @@ const namen = (zeilen: string): string[] => unbedingteAufrufe(rumpf(zeilen), 'f'
   pruefe('Netflix: Meldung einer anderen Seite mit Marke trifft nicht', andere(titel(25, []), s) === undefined, andere(titel(25, []), s))
   const prime = weg('primevideo', 'https://www.amazon.de/dp/B0D188KVH4')
   const pm = messungAusBelegen([], {}, { 'https://www.amazon.de/dp/B0D188KVH4#4': { titleId: 26, plattform: 'primevideo', folgen: [{ sprachen: ['Deutsch'] }] } })
-  pruefe('Prime: Teilmarke #4 gilt weiter für dieselbe Seite', pm(titel(26, []), prime)?.urteil === 'ja', pm(titel(26, []), prime))
+  const detail = 'https://www.amazon.de/gp/video/detail/B0FW2J99HL'
+  const dm = messungAusBelegen([], {}, { [`${detail}#3`]: { titleId: 27, plattform: 'primevideo', folgen: [{ sprachen: ['Deutsch'] }] } })
+  pruefe('Prime: Teilmarke #3 an einer Detailseite gilt der Teilseite, nicht der Seite (unverändert)', dm(titel(27, []), weg('primevideo', detail)) === undefined, dm(titel(27, []), weg('primevideo', detail)))
+  pruefe('Prime: Teilmarke #4 an einer dp-Seite bleibt unverändert (gilt der Teilseite, kein Treffer)', pm(titel(26, []), prime) === undefined, pm(titel(26, []), prime))
 }
 
 if (fehler) {

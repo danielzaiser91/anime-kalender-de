@@ -51,7 +51,7 @@ export function istSammelKern(kern: string): boolean {
   return nurHost.test(kern) || land.test(kern) || suche.test(kern)
 }
 
-/** Die Adresse einer Meldung ohne Staffel- oder Teilmarke (`…/title/1#s2`, `…/title/1#0`): die Seite, auf der sie gilt. */
+/** Die Seite einer Netflix-Meldung ohne Staffelmarke (`…/title/1#s2`, `…/title/1#0`); andere Anbieter bleiben, wie sie sind (Prime `#N` gilt der Teilseite). */
 export function ohneStaffelMarke(u: string): string {
-  return u.replace(/#s?\d+$/, '')
+  return /^https?:\/\/(?:www\.)?netflix\.com\/title\//.test(u) ? u.replace(/#s?\d+$/, '') : u
 }
