@@ -4094,3 +4094,7 @@ Anlass: „Your Name“ (21519) zeigte bei Videoload „Deutsch angenommen“, o
 ## Streaming Availability API: ein Monatslauf je Monat, Reserve für den Tageslauf (23.10.2026)
 
 Am 23.10. um 04:01 UTC startete der Wecker `tonspuren-monatlich` ein drittes Mal im Oktober: `startErlaubt` prüfte bei `nachholen` nur den Abstand (14 Tage) zum Handlauf vom 08.10. Der Lauf verbrauchte 655 Anfragen in fünf Minuten, danach meldete die Quelle 209 von 1.000 übrig (Mails von Movie of the Night bei 50 % und 75 %). Seither sperrt ein nicht abgebrochener Lauf im selben UTC-Monat jeden weiteren Wecker-Start (`shared/weckplan.ts`), und `fetch-motn.ts` hört bei 130 Restanfragen auf (`RESERVE`), damit `fetch-motn-changes` (4 je Tag) bis zum Reset am Ersten auskommt. `motn-links.ts` ruft die API nicht.
+
+## ADN: Kalenderserien ohne Katalog und Liste (24.10.2026)
+
+`adn-catalog.json` und `adn-anisearch-offen.json` betreffen nur Katalogserien (nur mit `vde`, Zuordnung im Katalog-Lauf). Serien aus `adn.json` (Kalender) sind davon nicht erfasst: Am 24.10. fehlten 5 von 12 in beiden Dateien (Dreamland 887, Madoka-Serie 1318 und Filme 1319–1321). Dreamland: im Archiv ohne `vde` (12.10.), `--laufend` fragt Archivserien nicht neu; der Wochenlauf holt sie nach, in dem Bau steht sie ohne Titel (Warnung `entferneOhneTitel`, kein AniList-Titel im Bestand). Madoka: Katalog-Lauf hinkt. Absicht, kein stiller Verwurf; `check-adn-anisearch.ts` gibt die Lücke als `::warning::` aus (`kalenderOhneNetz`), ohne Fehler, weil eine neue Serie bis zum nächsten Lauf fehlen darf.
