@@ -1,6 +1,6 @@
 /**
  * Zusicherung: Der Tagesfeed `motn-changes.json` setzt „Im Angebot seit" sofort (`pipeline/bau/angebot-feed.ts`), durch `ergaenzeAngebotSeit` hindurch.
- * Gegenproben: removed, Meldung ohne Deutsch, belegtes seit aus motn.json, unbekannte Serie, Wiedereinstellung nach Entfernung, Erfassungsstichtag.
+ * Gegenproben: removed, Meldung ohne Deutsch, belegtes seit aus motn.json, unbekannte Serie, Wiedereinstellung nach Entfernung, Erfassungsstichtag (Monatsstand und Feed-Welle ab STICHTAG_AB), Schreibstelle (feedEintrag).
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-angebot-feed.ts`
  */
@@ -8,7 +8,7 @@ import type { MotnDaten } from './lib/motn.ts'
 import type { Release, Title } from '../shared/types.ts'
 import { ergaenzeAngebotSeit } from './bau/13-3-angebot-seit.ts'
 import { STICHTAG_AB } from './bau/angebot-stichtag.ts'
-import { tonspuren, type MotnChanges } from './bau/angebot-feed.ts'
+import { feedEintrag, tonspuren, type MotnChanges } from './bau/angebot-feed.ts'
 
 let verletzt = 0
 let faelle = 0
@@ -55,11 +55,26 @@ titelMit(7, {}, 'netflix')
 meldung('new', 7, '2026-10-19', true, 'netflix')
 titelMit(8, {})
 meldung('new', 8, '2026-10-18', true, 'unbekannt') // Dienst unbekannt
-titelMit(9, {}) // viele Feed-Meldungen am selben Tag erzeugen keinen Stichtag (Barbapapas-Fall im Bauvergleich)
+titelMit(9, {}) // knapp unter der Schwelle: STICHTAG_AB - 1 Feed-Meldungen am selben Tag sind noch Angebotstage
 meldung('new', 9, '2026-10-17')
-for (let i = 0; i < STICHTAG_AB - 1; i++) {
+for (let i = 0; i < STICHTAG_AB - 2; i++) {
   titelMit(100 + i, {})
   meldung('new', 100 + i, '2026-10-17')
+}
+// genau an der Schwelle: Welle wie Prime 26.09.2026, kein seit; Netflix am selben Tag und Meldungen ohne Ton beim Dienst zählen nicht mit
+for (let i = 0; i < STICHTAG_AB; i++) {
+  titelMit(200 + i, {})
+  meldung('new', 200 + i, '2026-10-12')
+}
+titelMit(300, {}, 'netflix')
+meldung('new', 300, '2026-10-12', true, 'netflix')
+for (let i = 0; i < STICHTAG_AB - 1; i++) {
+  titelMit(400 + i, {})
+  meldung('new', 400 + i, '2026-10-11')
+}
+for (let i = 0; i < 5; i++) {
+  titelMit(450 + i, {})
+  meldung('new', 450 + i, '2026-10-11', false)
 }
 
 titelMit(10, {}) // removed am selben Tag wie new: gilt als entfernt
@@ -100,7 +115,10 @@ pruefe('removed älter als new: new gilt', seit(6)?.date === '2026-10-19', seit(
 pruefe('Serie nicht in motn.json: unberührt', !titel.has(99))
 pruefe('Netflix wird genauso gesetzt', seit(7)?.platform === 'netflix' && seit(7)?.date === '2026-10-19', seit(7))
 pruefe('unbekannter Dienst: nichts', !seit(8), seit(8))
-pruefe('viele Feed-Meldungen an einem Tag sind keine Welle', seit(9)?.date === '2026-10-17' && seit(100)?.date === '2026-10-17', seit(9))
+pruefe('knapp unter der Schwelle (STICHTAG_AB - 1 am Tag) ist keine Welle', seit(9)?.date === '2026-10-17' && seit(100)?.date === '2026-10-17' && seit(100 + STICHTAG_AB - 3)?.date === '2026-10-17', seit(9))
+pruefe('genau STICHTAG_AB Feed-Meldungen eines Anbieters an einem Tag: kein seit, kein Termin', !seit(200) && !seit(200 + STICHTAG_AB - 1) && !releases.some((r) => r.titleId >= 200 && r.titleId < 200 + STICHTAG_AB), seit(200))
+pruefe('Welle bei Prime sperrt Netflix am selben Tag nicht', seit(300)?.date === '2026-10-12' && seit(300)?.platform === 'netflix', seit(300))
+pruefe('Meldungen ohne Ton beim Dienst zählen nicht zur Welle', seit(400)?.date === '2026-10-11' && !seit(450), seit(400))
 pruefe('Welle im Monatsstand sperrt die Feed-Meldung', !seit(13) && !releases.some((r) => r.titleId === 13), seit(13))
 pruefe('removed am selben Tag wie new: nichts', !seit(10), seit(10))
 pruefe('removed eines anderen Dienstes sperrt nicht', seit(11)?.date === '2026-10-15', seit(11))
@@ -116,6 +134,20 @@ pruefe('Erzeuger: derselbe Ton zählt nicht für Prime (Optionen ohne deu)', !to
 pruefe('Erzeuger: Dienst ohne audios und ohne Eintrag: nein', !tonspuren(optionen, 'disney').deutschBeiDienst && !tonspuren(optionen, 'crunchyroll').deutschBeiDienst)
 pruefe('Erzeuger: ohne Dienstkennung nie wahr', !tonspuren([{ audios: [{ language: 'deu' }] }], undefined).deutschBeiDienst)
 pruefe('Erzeuger: deutsch zählt jeden Dienst, leere Optionen nicht', tonspuren(optionen, 'prime').deutsch && !tonspuren([{ service: { id: 'prime' } }], 'prime').deutsch)
+
+const primeTon = [{ service: { id: 'prime' }, audios: [{ language: 'deu' }] }, { service: { id: 'netflix' }, audios: [{ language: 'jpn' }] }]
+const stempel = Date.UTC(2026, 9, 19, 23, 30) / 1000
+const zeige = { title: 'Titel', originalTitle: 'Original', imdbId: 'tt7', tmdbId: 'tv/7' }
+const primeEintrag = feedEintrag('new', zeige, { timestamp: stempel, service: { id: 'prime' } }, primeTon)
+pruefe(
+  'Schreibstelle: „Ton nur bei Prime" ergibt deutschBeiDienst === true und das ganze Feldbild',
+  JSON.stringify(primeEintrag) === JSON.stringify({ art: 'new', titel: 'Titel', originalTitel: 'Original', imdbId: 'tt7', tmdbId: 'tv/7', dienst: 'prime', am: '2026-10-19', deutsch: true, deutschBeiDienst: true }),
+  primeEintrag,
+)
+const netflixEintrag = feedEintrag('removed', zeige, { service: { id: 'netflix' } }, primeTon)
+pruefe('Schreibstelle: dieselben Optionen bei Netflix: deutsch ja, beim Dienst nein, art und fehlender Zeitstempel durchgereicht', netflixEintrag.deutsch === true && netflixEintrag.deutschBeiDienst === false && netflixEintrag.art === 'removed' && netflixEintrag.am === undefined, netflixEintrag)
+const ohneDienst = feedEintrag('new', zeige, { timestamp: stempel }, primeTon)
+pruefe('Schreibstelle: Änderung ohne Dienstkennung: nie deutschBeiDienst', ohneDienst.deutschBeiDienst === false && ohneDienst.dienst === undefined, ohneDienst)
 
 if (verletzt) {
   console.error(`\n${verletzt} von ${faelle} Zusicherung(en) verletzt.`)
