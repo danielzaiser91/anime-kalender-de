@@ -21,6 +21,14 @@ globalThis.akNetflixWartet = new Set()
 globalThis.akNetflixStaffelnGedeckt = (eintrag, paare) =>
   (eintrag?.staffeln ?? []).filter((st) => st.offen).every((st) => paare.some((p) => Number(p.staffel) === Number(st.nr)))
 
+/*
+  **Erledigt laut Worker-Stand** (24.10.2026): nicht mehr im Stand, in dieser Sitzung gemeldet oder im Briefkasten
+  gedeckt (`akNetflixWartet`). Der Worker nimmt gedeckte Ziele seitdem selbst aus `ziele` (`worker/src/pruefung-gedeckt.ts`,
+  gleiche Regel wie `akNetflixStaffelnGedeckt`); `tools/worker-netflix-zahl-gleich.test.ts` hält beide Zahlen gleich.
+*/
+globalThis.akNetflixErledigtLautStand = (id, standUrls, frisch, wartet) =>
+  !standUrls.has(`https://www.netflix.com/title/${id}`) || frisch.has(String(id)) || wartet.has(String(id))
+
 globalThis.akNetflixUebernahme = async (zieleUrls, offene, worker, netz = globalThis.AK_DISNEY_NETZ) => {
   try {
     const idAus = (url) => String(url).split('/').pop()
