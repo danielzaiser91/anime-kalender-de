@@ -79,6 +79,8 @@ pipeline/check-dub-durchgehende-zaehlung.ts
 pipeline/check-empfehlung-ablauf.ts
 pipeline/check-empfehlung-ansicht.ts
 pipeline/check-empfehlung-kern.ts
+pipeline/check-empfehlung-reset.ts
+pipeline/check-empfehlung-sichtbar.ts
 pipeline/check-empfehlung.ts
 pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
