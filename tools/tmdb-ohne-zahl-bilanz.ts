@@ -5,7 +5,7 @@ import fs from 'node:fs'
 import { tmdbFolgentitel } from '../pipeline/bau/folgentitel-tmdb.ts'
 
 const sha = process.argv[2] ?? 'HEAD'
-const git = (p: string): string => execFileSync('git', ['show', `${sha}:${p}`], { encoding: 'utf8', maxBuffer: 1 << 29, windowsHide: true })
+const git = (p: string): string => execFileSync('git', ['show', `${sha}:${p}`], { encoding: 'utf8', maxBuffer: 1 << 29, windowsHide: true, stdio: ['ignore', 'pipe', 'ignore'] })
 const lies = (p: string) => JSON.parse(fs.readFileSync(p, 'utf8'))
 const t = JSON.parse(git('public/data/titles.json'))
 const arr: any[] = Array.isArray(t) ? t : (t.titles ?? Object.values(t))

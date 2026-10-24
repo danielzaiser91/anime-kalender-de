@@ -30,6 +30,10 @@ Anlass: Daniel (04.10.2026) an Hana-Kimi S2: Auch nach dem aniSearch-Lauf fehlen
 danach TMDB (nur echte Titel), Wikipedia nur für die Langläufer, für die es eine Liste gibt.** Wikipedia ist nicht die beste Quelle: Es gibt
 dort nur rund 54 Anime-Listen gegenüber 43 Lücken, die zu 60 % Crunchyroll-Serien der laufenden Saison sind.
 
+## Langläufer ohne Folgenzahl (24.10.2026)
+
+`tmdbFolgentitel` übernimmt auch Titel **ohne** `episodes` (Shin-chan, Beyblade X), wenn die Staffeln ab 1 hintereinander gelegt die durchgehende Nummerierung ergeben: unsere Nummern genau 1 bis N, N = Summe aller TMDB-Staffeln (Staffel 0 zählt nicht), jede Staffel und die Staffelnummern lückenlos, Staffel 1 beginnt im Beginnjahr, erste Sendetage streng aufsteigend. Sonst keine Titel. Gegenprobe an allen 874 Titeln mit Eintrag und Folgenzahl (Folgenzahl weggelassen): 358 Ergebnisse gleich der alten Regel, 0 abweichend, 156 strenger (kein Titel statt Titel), 1 neu (T・P BON, zwei Staffeln zu je 12). Bilanz und Aufruf: `tools/tmdb-ohne-zahl-bilanz.ts`. Wirkung erst, wenn `data/tmdb-folgen.json` Einträge für diese Titel hat (Abruf: #1948).
+
 ## Umsetzung
 
 - **Stufe 1 gebaut am 04.10.2026** (`pipeline/bau/folgentitel-cr.ts`, eingebunden in `folgen-dateien.ts`): Titel je Folgennummer über die `guid` der deutschen Folge (`crunchyroll-dub.json`) und die `versions`
