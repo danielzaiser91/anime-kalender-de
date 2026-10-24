@@ -113,10 +113,7 @@ async function schreibseite() {
   const neu = seite({ suchVermerk: vermerk })
   pruefe('Rundlauf: gespeicherter Vermerk überbrückt auf der nächsten Seite', neu.suche() === true)
   pruefe('akPrimeVermerk gibt die ISO-Zeit zurück', k.akPrimeVermerk(FEST) === '2026-10-21T01:10:00.000Z', k.akPrimeVermerk(FEST))
-  pruefe(
-    'Titelseite: der Vermerk der Meldung ist die ISO-Zeit (Quelltextstelle)',
-    /bisher\.zeit = globalThis\.akPrimeVermerk\(Date\.now\(\)\)/.test(q),
-  )
+  /* Dass die Titelseiten-Meldung diesen Vermerk schreibt, läuft in `amazon-melden-vermerk.test.cjs`. */
 }
 
 async function haupt() {
