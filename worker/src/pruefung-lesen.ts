@@ -60,7 +60,7 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
     }
 
     /**
-     * **Eine Zahl, eine Stelle, die sie rechnet.**
+     * **Eine Zahl, eine Stelle, die sie rechnet** (Netflix-Regel „gedeckt“: `pruefung-gedeckt.ts`, Wächter hält die Erweiterung gleich).
      *
      * Bis zum 26.08.2026 rechneten drei Stellen dasselbe aus verschiedenen
      * Quellen: die Statusanzeige aus `pruefstand.json` minus Briefkasten, die
