@@ -341,6 +341,56 @@ async function spieleEmpfehlung(browser, geraet, thema) {
   return fehler
 }
 
+const RESET_BREITEN = [390, 768, 1024, 1440]
+const RESET_SCHLUESSEL = ['empfehlung:gesehen', 'empfehlung:verworfen', 'empfehlung:anbieter']
+
+/** Je Breite: Einstellungen über einen sichtbaren, anklickbaren Knopf öffnen, „Empfehlungen zurücksetzen“ leert die Schlüssel. */
+async function pruefeZuruecksetzen(browser, breite, thema) {
+  const kennung = `zurücksetzen ${breite}/${thema}`
+  const kontext = await browser.newContext({
+    viewport: { width: breite, height: 900 },
+    isMobile: breite < 768,
+    hasTouch: breite < 768,
+    colorScheme: thema === 'dunkel' ? 'dark' : 'light',
+  })
+  const seite = await kontext.newPage()
+  await seite.route('**/*', antworteAusDist)
+  /* Die Fläche „Was gucken?“ deckt die App-Kopfleiste voll ab (eigene Kopfzeile), darum geht man von der Datenbank aus. */
+  await seite.goto('http://ak.test/#/datenbank', { waitUntil: 'networkidle' })
+  await seite.locator('header').first().waitFor({ state: 'visible', timeout: 20_000 })
+  await seite.evaluate((s) => s.forEach((k) => localStorage.setItem(k, '[1]')), RESET_SCHLUESSEL)
+  const fehler = []
+  const knopf = seite.getByRole('button', { name: 'Einstellungen' })
+  const box = await knopf.first().boundingBox()
+  if (!box) fehler.push(`${kennung}: kein sichtbarer Einstellungen-Knopf`)
+  else {
+    const treffer = await seite.evaluate(([x, y]) => document.elementFromPoint(x, y)?.closest('button')?.getAttribute('aria-label') ?? document.elementFromPoint(x, y)?.closest('button')?.textContent, [box.x + box.width / 2, box.y + box.height / 2])
+    if (!/Einstellungen/.test(String(treffer))) fehler.push(`${kennung}: Knopf wird überdeckt (Treffer: ${treffer})`)
+    const ueberlauf = await seite.evaluate(() => document.querySelector('header').scrollWidth - document.querySelector('header').clientWidth)
+    if (ueberlauf > 0) fehler.push(`${kennung}: Kopfleiste läuft um ${ueberlauf} px über`)
+    await knopf.first().click()
+    await Promise.all([seite.waitForNavigation({ waitUntil: 'load' }), seite.getByRole('button', { name: 'Empfehlungen zurücksetzen' }).click()])
+    const rest = await seite.evaluate((s) => s.filter((k) => localStorage.getItem(k) !== null), RESET_SCHLUESSEL)
+    if (rest.length) fehler.push(`${kennung}: Schlüssel bleiben: ${rest.join(', ')}`)
+  }
+  await seite.screenshot({ path: path.join(BILDER, `empfehlung-reset-${breite}-${thema}.png`) })
+  await kontext.close()
+  return fehler
+}
+
+/** Alle Breiten, beide Themen; druckt die Ergebniszeile zum Zurücksetzen; wahr, wenn etwas rot ist. */
+async function meldeZuruecksetzen() {
+  const browser = await chromium.launch()
+  const fehler = []
+  for (const breite of RESET_BREITEN) {
+    for (const thema of ['dunkel', 'hell']) fehler.push(...(await pruefeZuruecksetzen(browser, breite, thema)))
+  }
+  await browser.close()
+  console.log(`\nEmpfehlungen zurücksetzen (${RESET_BREITEN.join('/')} px, hell und dunkel; Knopf sichtbar, nicht überdeckt, Kopfleiste ohne Überlauf): ${fehler.length ? '' : 'ok'}`)
+  for (const f of fehler) console.log(`  ✕ ${f}`)
+  return fehler.length > 0
+}
+
 /** Beide Geräte, beide Themen; druckt die Ergebniszeile; wahr, wenn etwas rot ist. */
 async function meldeEmpfehlung() {
   const browser = await chromium.launch()
@@ -369,6 +419,7 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
   }
   if (!handy && ansichten.includes('woche') && (await meldeHoverCover())) rot = true
   if (!handy && ansichten.includes('empfehlung') && (await meldeEmpfehlung())) rot = true
+  if (!handy && ansichten.includes('empfehlung') && (await meldeZuruecksetzen())) rot = true
   if (handy && ['woche', 'monat', 'datenbank'].every((a) => ansichten.includes(a))) {
     const leiste = await pruefeWerkzeugleiste(seite)
     console.log(`\nWerkzeugleiste unten (320/360/393/440 px): ${leiste.length ? '' : 'ok'}`)
