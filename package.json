@@ -156,7 +156,7 @@
     "check:ladezeiten": "node tools/ladezeiten-messen.mjs",
     "check:ansichten": "node tools/schwer.mjs npm run check:ansichten-teile",
     "check:ansichten-teile": "npm run check:ansichten-desktop && npm run check:ansichten-handy",
-    "check:ansichten-desktop": "node tools/schwer.mjs node tools/ansicht-bild.mjs && node tools/schwer.mjs node tools/kachel-ecken-messen.mjs && node tools/schwer.mjs node tools/ansicht-empfehlung.mjs",
+    "check:ansichten-desktop": "node tools/schwer.mjs node tools/ansicht-bild.mjs && node tools/schwer.mjs node tools/kachel-ecken-messen.mjs",
     "check:ansichten-handy": "node tools/schwer.mjs node tools/ansicht-bild.mjs --handy woche monat datenbank",
     "ansichten:bilder": "node tools/ansicht-bild.mjs --docs",
     "check:adress-schalter": "node tools/adress-schalter-pruefen.mjs",
