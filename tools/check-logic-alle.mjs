@@ -120,7 +120,16 @@ const { rote, gelaufen, veraendert } = await laufePool(auftraege, {
   meldung: (i) => console.log(`[${name} ${i + 1}/${dateien.length}] ${dateien[i]}`),
 })
 rmSync(spurOrdner, { recursive: true, force: true })
+/** Die roten Prüfungen mit ihren letzten Ausgabezeilen: Erwartete Fehler anderer Prüfungen drucken ✖ wie echte, die Liste am Ende ist die verlässliche Stelle. */
+function meldeRote() {
+  for (const r of rote) {
+    console.error(`--- ${dateien[r.index]} (Exit ${r.status}), letzte Zeilen:`)
+    for (const z of r.ende) console.error(`    ${z}`)
+  }
+}
+
 if (rote.length > 0 && !alle) {
+  meldeRote()
   console.error(`${name}: ${dateien[rote[0].index]} ist rot (${gelaufen - rote.length} von ${dateien.length} Prüfungen grün gelaufen).`)
   console.error(`Weitere Fehler dahinter bleiben verdeckt. Alle roten Prüfungen auf einmal: \`npm run ${mitSperre ? 'check:logic' : 'check:bestand-liste'} -- --alle\`.`)
   process.exit(rote[0].status)
@@ -128,6 +137,7 @@ if (rote.length > 0 && !alle) {
 if (rote.length > 0) {
   console.error(`${name}: ${rote.length} von ${dateien.length} Prüfungen rot:`)
   for (const r of rote) console.error(`  - ${dateien[r.index]}`)
+  meldeRote()
   process.exit(1)
 }
 if (veraendert.length > 0) process.exit(1)

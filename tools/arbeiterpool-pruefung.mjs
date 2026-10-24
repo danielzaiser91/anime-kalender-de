@@ -8,7 +8,7 @@ import { execFileSync } from 'node:child_process'
 import { mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { laufePool } from './arbeiterpool.mjs'
+import { laufePool, letzteZeilen } from './arbeiterpool.mjs'
 import { gitStand, veraenderte } from './git-stand-wache.mjs'
 
 const knoten = (code) => ({ befehl: process.execPath, args: ['-e', code], env: process.env })
@@ -40,7 +40,7 @@ const acht = (rotNr = 5) =>
 {
   const [e, text] = await fange(acht(), { alle: true, n: 3 })
   assert.equal(e.gelaufen, 8, 'alle acht Aufträge sind gelaufen')
-  assert.deepEqual(e.rote, [{ index: 5, status: 3 }], 'Auftrag 5 ist rot, mit seinem Exit-Code')
+  assert.deepEqual(e.rote, [{ index: 5, status: 3, ende: ['aus5;'] }], 'Auftrag 5 ist rot, mit seinem Exit-Code')
   const erwartet = Array.from({ length: 8 }, (_, i) => `#${i}|aus${i};`).join('')
   assert.equal(text, erwartet, 'Ausgabe je Auftrag steht in Auftragsreihenfolge, auch die des roten')
   console.log('  ✓ alle laufen, Ausgabe in Reihenfolge, roter Auftrag mit Exit-Code')
@@ -63,7 +63,7 @@ const acht = (rotNr = 5) =>
 {
   const [e] = await fange(acht(1), { alle: false, n: 1 })
   assert.equal(e.gelaufen, 2, 'ohne --alle startet nach dem ersten roten Auftrag keiner mehr')
-  assert.deepEqual(e.rote, [{ index: 1, status: 3 }])
+  assert.deepEqual(e.rote, [{ index: 1, status: 3, ende: ['aus1;'] }])
   console.log('  ✓ ohne --alle: nach dem ersten roten kein weiterer Start')
 }
 {
@@ -73,10 +73,19 @@ const acht = (rotNr = 5) =>
   console.log('  ✓ vorgezogener roter Auftrag: Ausgabe bleibt erhalten')
 }
 {
+  const zehn = Array.from({ length: 10 }, (_, i) => [i % 2 ? 2 : 1, `z${i}
+
+`])
+  assert.deepEqual(letzteZeilen(zehn), ['z2', 'z3', 'z4', 'z5', 'z6', 'z7', 'z8', 'z9'], 'acht letzte nicht leere Zeilen, beide Kanäle in Reihenfolge')
+  assert.deepEqual(letzteZeilen(zehn, 1), ['z9'], 'genau eine Zeile bei n = 1')
+  assert.deepEqual(letzteZeilen([]), [], 'ohne Ausgabe keine Zeilen')
+  console.log('  ✓ letzteZeilen: Kürzung, Kanäle, leer')
+}
+{
   const a = knoten(schreibe('ok'))
   a.nachher = () => 'Nachprüfung rot'
   const [e, text] = await fange([a], { alle: true })
-  assert.deepEqual(e.rote, [{ index: 0, status: 1 }], 'ein Fehltext von nachher macht den Auftrag rot')
+  assert.deepEqual(e.rote, [{ index: 0, status: 1, ende: ['okNachprüfung rot'] }], 'ein Fehltext von nachher macht den Auftrag rot')
   assert.match(text, /Nachprüfung rot/)
   console.log('  ✓ nachher() kann einen grünen Auftrag rot machen')
 }

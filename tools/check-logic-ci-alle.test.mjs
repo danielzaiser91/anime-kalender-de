@@ -47,7 +47,15 @@ try {
   assert.ok(ci.letzteLief, 'mit CI=true laufen auch die Prüfungen hinter der roten')
   assert.ok(ci.text.includes(`- ${rot}`), `mit CI=true steht die rote Prüfung in der Liste am Ende: ${ci.text.slice(-400)}`)
 
+  const ab = ci.text.indexOf('--- ')
+  const auszug = (text, pfad) => text.includes(`--- ${pfad} (Exit 1), letzte Zeilen:
+    absichtlich rot
+`)
+  assert.ok(ab > ci.text.indexOf(`- ${rot}`), 'der Auszug steht hinter der Liste der roten')
+  assert.ok(auszug(ci.text.slice(ab), rot), 'der Auszug nennt Namen, Exit-Code und die Fehlerzeile')
+
   const lokal = lauf(liste, undefined)
+  assert.ok(auszug(lokal.text, rot), 'ohne CI steht der Auszug ebenfalls da')
   assert.equal(lokal.status, 1, 'ohne CI ist der Lauf rot')
   assert.ok(!lokal.letzteLief, 'ohne CI startet nach dem ersten Fehler keine weitere Prüfung')
 
