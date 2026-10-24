@@ -5440,15 +5440,15 @@ async function speicherSchreiben(werte) {
         der Briefkasten sie, und damit entscheidet er auch dort. Vorher blieb
         für Suchadressen nur der lokale Vermerk, und der ist nicht abgeglichen.
       */
-      briefkastenSuchen = Array.isArray(daten.gemeldeteSuchen) ? new Set(daten.gemeldeteSuchen) : null
+      const neueSuchen = Array.isArray(daten.gemeldeteSuchen) ? new Set(daten.gemeldeteSuchen) : null
       /* Die Seiten, auf denen schon nachgesehen wurde — siehe `seiteOffen`. */
-      briefkastenSeiten = Array.isArray(daten.gemeldeteSeiten) ? new Set(daten.gemeldeteSeiten) : null
+      const neueSeiten = Array.isArray(daten.gemeldeteSeiten) ? new Set(daten.gemeldeteSeiten) : null
       /*
         Welche Ausgaben zu einem Suchauftrag gehören — bestätigt von Daniel, und
         beim Worker gespeichert. Nicht im Browser: Der erste Anlauf legte es in
         `sessionStorage` ab und war nach einem Neuladen weg (02.09.2026).
       */
-      briefkastenErwartungen = daten.erwartungen && typeof daten.erwartungen === 'object' ? daten.erwartungen : null
+      const neueErwartungen = daten.erwartungen && typeof daten.erwartungen === 'object' ? daten.erwartungen : null
       briefkastenGeholtAm = Date.now()
       /*
         **Im selben Takt der Stand, den die Statusanzeige zeigt.**
@@ -5468,6 +5468,9 @@ async function speicherSchreiben(werte) {
       } catch {
         /* Ohne Stand gilt die ältere Rechnung in `fertig()`. */
       }
+      briefkastenSuchen = neueSuchen // erst mit standZiele: die Zählung ist bis 2 h alt
+      briefkastenSeiten = neueSeiten
+      briefkastenErwartungen = neueErwartungen
       try {
         uebersichtZeichnen()
       } catch {
@@ -5653,6 +5656,7 @@ async function speicherSchreiben(werte) {
       */
       if (briefkastenSuchen) {
         const gefuehrt = briefkastenSuchen.has(url)
+        if (!gefuehrt && globalThis.akPrimeBruecke(suchErledigt[url], Date.now())) return true // frischer Vermerk bleibt
         if (!gefuehrt && suchErledigt[url]) vermerkVerwerfen(url)
         return gefuehrt
       }
