@@ -231,6 +231,7 @@ jobs:
             mit der Fixture.
             Kulissen-Tests: Die Kulisse muss Daten enthalten, die es im echten Repo nicht gibt, sonst beweist Grün
             nicht, dass die Kulisse gelesen wird; relative Dateipfade im Prüfling per Grep suchen.
+            Ändert ein PR Dateien unter public/ ohne Hash im Namen, prüft der Prüfer die Cache-Regel in public/sw.js.
             Klasse an html/body (16.10.2026): CSS-Regeln nur mit Vorfahr; Fake-document-Tests sehen keine
             Stil-Kollision — prüfe jede Klasse, die ein Skript an html/body hängt, auf Kollision mit CSS-Regeln.
             Melde-Knopf der Erweiterung (16.10.2026): Jede Änderung an einem Knopf, der eine Meldung sendet, prüfst
