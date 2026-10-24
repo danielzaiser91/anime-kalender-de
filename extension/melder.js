@@ -2572,7 +2572,7 @@ function offeneGruppen() {
  * Menüeintrag, dessen Folgenzahl genau einmal passt — sonst keiner.
  */
 function gruppenLabel(gruppe) {
-  const passend = (letztesMenue ?? []).filter((e) => e.folgen === gruppe.length)
+  const passend = akNetflixMenue(letztesMenue, gemeinteReihe()).filter((e) => e.folgen === gruppe.length)
   if (passend.length !== 1) return null
   return passend[0].text.replace(/\s*\(?\s*\d+\s*(?:Folgen|Folge|Episoden|Episode|Episodes)\s*\)?\s*$/i, '').trim() || null
 }
@@ -2687,7 +2687,7 @@ function meldeZiel(reihe, folge) {
     : eigene.length === 1
       ? Number(eigene[0].nr)
       : null
-  return { staffel, titelId }
+  return { staffel, titelId, folgen: gruppe.length, ausKennung: mitListe }
 }
 
 /**
@@ -2704,8 +2704,7 @@ function rechnetInNetflixStaffeln(reihe) {
 /** Welche Staffel Netflix' Auswahlfeld gerade zeigt — die Zahl aus „Staffel 3" / „Teil 2", sonst null. */
 function angezeigteNetflixStaffel() {
   const knopf = document.querySelector('[data-uia="episode-selector"] button[data-uia="dropdown-toggle"]')
-  const treffer = /(?:Staffel|Teil|Season)\s*(\d+)/i.exec(knopf?.textContent ?? '')
-  return treffer ? Number(treffer[1]) : null
+  return akNetflixStaffelNr(knopf?.textContent)
 }
 
 /** Im Auswahlfeld „Staffel N" anklicken. true, wenn der Eintrag da war und geklickt wurde. */
@@ -2725,8 +2724,7 @@ async function netflixStaffelWaehlen(ziel) {
       const treffer = eintraege.find((li) => {
         if (typeof ziel === 'function') return ziel((li.textContent ?? '').trim())
         if (typeof ziel === 'string') return (li.textContent ?? '').trim() === ziel
-        const t = /(?:Staffel|Teil|Season)\s*(\d+)/i.exec(li.textContent ?? '')
-        return t && Number(t[1]) === ziel
+        return akNetflixStaffelNr(li.textContent) === ziel
       })
       if (!treffer) {
         knopf.click()
@@ -2756,17 +2754,12 @@ async function netflixStaffelnImMenue() {
     eintraege = [...document.querySelectorAll('[data-uia="dropdown-menu"] li[data-uia="dropdown-menu-item"]')]
     if (!eintraege.length) await new Promise((r) => setTimeout(r, 100))
   }
-  const raus = eintraege.map((li) => {
-    const text = (li.textContent ?? '').trim()
-    const nr = /(?:Staffel|Teil|Season)\s*(\d+)/i.exec(text)
-    const folgen = /(\d+)\s*(?:Folgen|Folge|Episoden|Episode|Episodes)\b/i.exec(text)
-    return { text, nr: nr ? Number(nr[1]) : null, folgen: folgen ? Number(folgen[1]) : null }
-  })
+  const raus = akNetflixStaffelEintraege(eintraege.map((li) => li.textContent))
   if (!warOffen) knopf.click()
   /* „Alle Folgen anzeigen" ist keine Staffel — der Durchgang wechselt nur zwischen echten. */
   const staffeln = raus.filter((e) => !istAlleFolgenEintrag(e.text))
   /* Gemerkt für `gruppenLabel()` — im Player gibt es kein Menü. */
-  if (staffeln.length) letztesMenue = staffeln
+  if (staffeln.length) letztesMenue = akNetflixMenueMerken(staffeln, gemeinteReihe())
   return staffeln
 }
 
@@ -3805,6 +3798,7 @@ async function durchlaufStarten() {
   const angezeigt = angezeigterNetflixName()
   DURCHLAUF.staffelLabel =
     DURCHLAUF.selbst || DURCHLAUF.mehrfach || istAlleFolgenEintrag(angezeigt) ? gruppenLabel(DURCHLAUF.folgen) : angezeigt
+  if (!imPlayer()) await netflixStaffelnImMenue()
   if (!DURCHLAUF.uebergangen) await durchlaufStandLaden(reihe)
   DURCHLAUF.uebergangen = false
   /*
@@ -4308,8 +4302,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
             gti: f.videoId != null ? String(f.videoId) : null,
             nummer: f.nummer ?? null,
             titel: f.titel ?? null,
-            staffelText: DURCHLAUF.staffelLabel ?? (f.seasonId != null ? String(f.seasonId) : null),
-            staffelNr: ziel.staffel,
+            ...akNetflixRohStaffel(ziel, akNetflixMenue(letztesMenue, reihe), DURCHLAUF.staffelLabel, f.seasonId),
             /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
             ...beobachtung(true, befund.deutsch, !gemessen.has(Number(f.nummer))),
             roh: {
@@ -4455,8 +4448,7 @@ async function durchlaufMelden(folge, echte, deutsch) {
             nummer: folge.nummer ?? null,
             titel: folge.titel ?? null,
             sprachen: echte.map((x) => `${x.code}|${x.name}`),
-            staffelText: DURCHLAUF.staffelLabel ?? (folge.seasonId != null ? String(folge.seasonId) : null),
-            staffelNr: meldeZiel(gemeinteReihe(), folge).staffel,
+            ...akNetflixRohStaffel(meldeZiel(gemeinteReihe(), folge), akNetflixMenue(letztesMenue, gemeinteReihe()), DURCHLAUF.staffelLabel, folge.seasonId),
             /* Stufe 1 je Folge (Migration 035) — dieselbe Beobachtung wie die Meldung. */
             ...beobachtung(true, deutsch),
             /*

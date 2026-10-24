@@ -717,7 +717,7 @@ function veraltetTest(schritte) {
 {
   const fs = require("node:fs")
   const leser = fs.readFileSync(require("node:path").resolve(__dirname, "amazon.js"), "utf8")
-  const stelleRegion = leser.indexOf("if (regionWeg && !vollstaendig && !deutsch) {")
+  const stelleRegion = leser.indexOf("if (regionWeg && !deutsch && (!vollstaendig || gesperrteFolgen > 0)) {")
   const stelleVollstaendig = leser.indexOf("if (!vollstaendig && !(regionWeg && deutsch)) {")
   pruefe(
     "der Regionshinweis wird vor der Vollstaendigkeit geprueft",
@@ -728,18 +728,19 @@ function veraltetTest(schritte) {
    * Drei Bedingungen, drei reale Faelle — wer eine loest, holt sich einen zurueck:
    *
    * - ohne `regionWeg`: "Chaika" Staffel 1 wartete auf Tonspuren, die nie kommen
-   * - ohne `!vollstaendig`: "Mahouka" bot an, eine vollstaendige Staffel als
+   * - ohne `!vollstaendig` (es sei denn, das Zaehlwerk nennt gesperrte Folgen und keine lesbare):
+   *   "Mahouka" bot an, eine vollstaendige Staffel als
    *   verschwunden zu melden, weil zwei Folgen den Hinweis in ihrer Kachel tragen
    * - ohne `!deutsch`: dieselbe Staffel mit drei gesperrten Folgen -- zehn davon
    *   mit deutschem Ton -- galt als unvollstaendig und damit als verschwunden
    */
   pruefe(
-    "und gilt nur, solange Folgen fehlen und nichts belegt ist",
+    "und gilt nur bei unvollstaendiger Liste oder lauter gesperrten Folgen, solange nichts belegt ist",
     stelleRegion > 0,
   )
   pruefe(
     "ein gefundener deutscher Ton schlaegt ihn",
-    /regionWeg && !vollstaendig && !deutsch/.test(leser) &&
+    /regionWeg && !deutsch && \(!vollstaendig \|\| gesperrteFolgen > 0\)/.test(leser) &&
       /!vollstaendig && !\(regionWeg && deutsch\)/.test(leser),
   )
   pruefe(

@@ -173,7 +173,7 @@ export async function beschaffeZugang(): Promise<CrZugang> {
     const worker = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
     let antwort: Response
     try {
-      antwort = await fetch(`${worker}/cr-zugang?token=${encodeURIComponent(token)}`)
+      antwort = await fetch(`${worker}/cr-zugang`, { headers: { Authorization: `Bearer ${token}` } })
     } catch (netz) {
       throw new ZugangspaketFehlt(`${grund} Der Worker ist nicht erreichbar: ${(netz as Error).message}`)
     }

@@ -109,7 +109,7 @@ export const post = (body: unknown) =>
 export const loesche = (body: unknown) =>
   new Request('https://worker.test/pruefung', { method: 'DELETE', headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': 't' }, body: JSON.stringify(body) })
 export const lies = async (env: never, suche: string) =>
-  (await handlePruefung(new Request(`https://worker.test/pruefung?token=t&${suche}`), env).then((r) => r.json())) as Record<string, unknown>
+  (await handlePruefung(new Request(`https://worker.test/pruefung?${suche}`, { headers: { Authorization: 'Bearer t' } }), env).then((r) => r.json())) as Record<string, unknown>
 export const zahl = (db: DatabaseSync, sql: string) => Number((db.prepare(sql).get() as { n: number }).n)
 
 /** Die Zähler `offen_meldung`/`offen_rohfolge` jeder Titelzeile stimmen mit ihren Folgen überein (so überspringen die Leser Titel ohne offene Folgen). */

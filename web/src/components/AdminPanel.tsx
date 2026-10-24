@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { adminAnfrage } from '../lib/admin-aufruf.ts'
 import { Button, SectionTitle } from './ui.tsx'
 
 const WORKER_URL = import.meta.env.VITE_NEWSLETTER_API ?? ''
@@ -68,11 +69,7 @@ export function AdminPanel({ token }: { token: string }) {
     setBusy(action.path)
     setOutput(undefined)
     try {
-      const sep = action.path.includes('?') ? '&' : '?'
-      const url = `${WORKER_URL}${action.path}${
-        action.path.startsWith('/debug') ? `${sep}token=${encodeURIComponent(token)}` : ''
-      }`
-      const res = await fetch(url)
+      const res = await fetch(...adminAnfrage(WORKER_URL, action.path, token))
       setOutput(JSON.stringify(await res.json(), null, 2))
     } catch (err) {
       setOutput(`Fehlgeschlagen: ${(err as Error).message}`)

@@ -46,7 +46,7 @@ const wert = (name) => {
 }
 
 async function offene() {
-  const antwort = await fetch(`${BRIEFKASTEN}?token=${TOKEN}`)
+  const antwort = await fetch(`${BRIEFKASTEN}`, { headers: { Authorization: `Bearer ${TOKEN}` } })
   if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
   const { pruefungen } = await antwort.json()
   return pruefungen ?? []

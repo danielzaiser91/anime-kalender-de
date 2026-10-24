@@ -5,13 +5,13 @@
     "lastCount": 12
   },
   "anime2you": {
-    "lastOk": "2026-10-24T12:03:25.353Z",
-    "lastRun": "2026-10-24T12:03:25.353Z",
-    "lastCount": 51
+    "lastOk": "2026-10-24T15:03:03.889Z",
+    "lastRun": "2026-10-24T15:03:03.889Z",
+    "lastCount": 50
   },
   "crunchyroll": {
     "lastOk": "2026-10-21T20:02:22.932Z",
-    "lastRun": "2026-10-24T12:03:04.835Z",
+    "lastRun": "2026-10-24T15:02:43.820Z",
     "lastCount": 0,
     "lastError": "keine Kachel im Kalender gefunden"
   },
@@ -86,9 +86,9 @@
     "lastCount": 878
   },
   "rohfolgen": {
-    "lastOk": "2026-10-24T01:34:19.579Z",
-    "lastRun": "2026-10-24T12:38:17.233Z",
-    "lastCount": 0
+    "lastOk": "2026-10-24T15:38:00.799Z",
+    "lastRun": "2026-10-24T15:38:00.799Z",
+    "lastCount": 3
   },
   "anisearch-folgen": {
     "lastOk": "2026-10-19T05:08:54.415Z",
@@ -116,9 +116,9 @@
     "lastCount": 14
   },
   "vorfaelle": {
-    "lastOk": "2026-10-24T12:38:00.900Z",
-    "lastRun": "2026-10-24T12:38:00.900Z",
-    "lastCount": 1
+    "lastOk": "2026-10-24T15:37:47.549Z",
+    "lastRun": "2026-10-24T15:37:47.549Z",
+    "lastCount": 0
   },
   "crunchyroll-neu": {
     "lastOk": "2026-10-24T04:06:59.714Z",
@@ -141,8 +141,8 @@
     "lastCount": 15
   },
   "tv-programm": {
-    "lastOk": "2026-10-24T12:03:28.877Z",
-    "lastRun": "2026-10-24T12:03:28.877Z",
+    "lastOk": "2026-10-24T15:03:06.301Z",
+    "lastRun": "2026-10-24T15:03:06.301Z",
     "lastCount": 281
   },
   "tv-de": {
@@ -176,8 +176,8 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-10-24T12:03:11.206Z",
-    "lastRun": "2026-10-24T12:03:11.206Z",
+    "lastOk": "2026-10-24T15:02:50.202Z",
+    "lastRun": "2026-10-24T15:02:50.202Z",
     "lastCount": 59
   },
   "adn-news": {
@@ -186,8 +186,8 @@
     "lastCount": 75
   },
   "messbelege": {
-    "lastOk": "2026-10-24T12:03:26.721Z",
-    "lastRun": "2026-10-24T12:03:26.721Z",
+    "lastOk": "2026-10-24T15:03:05.269Z",
+    "lastRun": "2026-10-24T15:03:05.269Z",
     "lastCount": 0
   },
   "beleg-lesungen": {
