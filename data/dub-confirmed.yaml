@@ -39059,3 +39059,24 @@
   dub: true
   checkedAt: '2026-10-24'
   note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil), Türkçe, हिन्दी, ไทย, 日本語, 日本語 [音声による説明] — Amazon-Seite B0HG69RT1Y: alle 4 Folgen geprüft, Abos: Prime, FVOD — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.82c84934-b1f4-4ef5-b753-c4358fc076e6"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-24 ---
+
+- anilistId: 21236
+  title: "Beyblade Burst"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CHP5RVPL
+  dub: false
+  checkedAt: '2026-10-24'
+  note: "Amazon-Seite B0CHP5RVPL: alle 27 Folgen geprüft, 24 in der Region gesperrt, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, gti=amzn1.dv.gti.4662220d-e1d8-4272-963b-a82bedf3aba2, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 209872
+  title: "Ranma 1/2: Staffel 3"
+  platform: netflix
+  url: https://www.netflix.com/title/81171925
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 4
+      dub: true
+      checked: [1, 2, 3, 4]
+  checkedAt: '2026-10-24'
+  note: "Folgen 1–4 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, hi|Hindi, id|Indonesisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch — Gemessen in der Randprobe — gemessen: Folge 25 und 28, dazwischen nicht geprüft — Folge 28: Teekampfzeremonie — Netflix: Staffel 3"
