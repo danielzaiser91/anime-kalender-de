@@ -52,6 +52,7 @@ function abbruch(text) {
 function ladeAusnahmen(dateien) {
   if (!mitSperre || !existsSync(ausnahmenDatei)) return new Map()
   const roh = JSON.parse(readFileSync(ausnahmenDatei, 'utf8'))
+  // UTC bleibt: Der Lauf wird ohne shared/ kopiert (wache-verdrahtung.test.mjs); die Frist endet so höchstens 2 h nach Mitternacht Berlin.
   const heute = new Date().toISOString().slice(0, 10)
   if (roh.ausnahmen.length > roh.hoechstens) abbruch(`${roh.ausnahmen.length} Ausnahmen, erlaubt höchstens ${roh.hoechstens} (${ausnahmenDatei}).`)
   for (const a of roh.ausnahmen) {

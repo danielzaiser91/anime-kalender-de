@@ -23,6 +23,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { todayIso } from '../shared/time.ts'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const args = process.argv.slice(2)
@@ -115,7 +116,7 @@ async function main() {
     }
 
     if (!treffer) {
-      bestand[v.id] = { titel: v.titel, gefunden: false, geprueftAm: new Date().toISOString().slice(0, 10) }
+      bestand[v.id] = { titel: v.titel, gefunden: false, geprueftAm: todayIso() }
       ohneTreffer++
       continue
     }
@@ -130,7 +131,7 @@ async function main() {
       crTitel: treffer.title,
       spuren,
       deutsch,
-      geprueftAm: new Date().toISOString().slice(0, 10),
+      geprueftAm: todayIso(),
     }
   }
 

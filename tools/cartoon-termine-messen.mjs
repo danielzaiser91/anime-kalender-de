@@ -28,6 +28,7 @@
  * Aufruf: `TMDB_API_KEY=… node tools/cartoon-termine-messen.mjs [--n 100]`
  */
 import { readFileSync, writeFileSync } from 'node:fs'
+import { todayIso } from '../shared/time.ts'
 
 const SCHLUESSEL = process.env.TMDB_API_KEY
 if (!SCHLUESSEL) {
@@ -36,7 +37,7 @@ if (!SCHLUESSEL) {
 }
 
 const N = Number(/--n[= ](\d+)/.exec(process.argv.join(' '))?.[1] ?? 100)
-const heute = new Date().toISOString().slice(0, 10)
+const heute = todayIso()
 const bestand = Object.values(JSON.parse(readFileSync('data/cartoons.json', 'utf8')))
 
 /* Immer dieselbe Stichprobe: Ein fester Startwert macht die Messung wiederholbar. */

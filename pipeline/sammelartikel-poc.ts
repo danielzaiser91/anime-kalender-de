@@ -20,6 +20,7 @@ import { artikelDaten, aussagenAusLineup, aussagenAusSynchros, crunchyrollZeilen
 import { ergebnisseZu, katalogLaden, releasesLaden, type Ergebnis } from './lib/aussagen-abgleich.ts'
 import type { Aussage, Leser } from './lib/aussagen.ts'
 import { log, sleep, warn, writeJson } from './lib/util.ts'
+import { todayIso } from '../shared/time.ts'
 
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
 const UA_BROWSER = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
@@ -152,7 +153,7 @@ async function main(): Promise<void> {
   }
   /* Handlungstexte sind fremde Sprachwerke (Rechte offen, siehe Doku) — ins Repo geht nur ihre Länge. */
   const ohneInhalt = ergebnisse.map(({ inhalt, ...e }) => ({ ...e, ...(inhalt ? { inhaltZeichen: inhalt.length } : {}) }))
-  writeJson(aus, { stand: new Date().toISOString().slice(0, 10), hinweis: 'PoC, nicht in den Bau eingehängt — docs/wissen/sammelartikel-poc.md', jeArtikel, aussagen: args.includes('--mit-inhalt') ? ergebnisse : ohneInhalt }, true)
+  writeJson(aus, { stand: todayIso(), hinweis: 'PoC, nicht in den Bau eingehängt — docs/wissen/sammelartikel-poc.md', jeArtikel, aussagen: args.includes('--mit-inhalt') ? ergebnisse : ohneInhalt }, true)
   log(`${ergebnisse.length} Aussagen aus ${jeArtikel.length} Artikeln → ${aus}`)
 }
 
