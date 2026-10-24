@@ -130,11 +130,11 @@ async function zweiTabs(erst, dann) {
 async function beideRichtungen() {
   const speicher = speicherNeu()
   speicher.inhalt.amazonErledigt = {
-    [LISTEN_ID]: { staffeln: { s3: '✕' }, folgen: { s3: 4 }, gesamt: 3, serie: 'Mission Mars' },
+    [LISTEN_ID]: { staffeln: { s1: '✕', s3: '✕' }, folgen: { s3: 4 }, gesamt: 5, serie: 'Mission Mars' },
     NUR_SPEICHER: { staffeln: { s1: '🇩🇪' }, gesamt: 1 },
   }
   const start = {
-    [LISTEN_ID]: { staffeln: { s1: '🇩🇪' }, folgen: { s1: 12 }, gesamt: 3, serie: 'Mission Mars' },
+    [LISTEN_ID]: { staffeln: { s1: '🇩🇪' }, folgen: { s1: 12 }, gesamt: 2, serie: 'Mission Mars' },
     NUR_TAB: { staffeln: { s1: '✕' }, gesamt: 1 },
   }
   await meldenAufSeite(speicher, uhrNeu(FEST), 's2', { folgen: 7, start })
@@ -142,6 +142,8 @@ async function beideRichtungen() {
   const v = alle?.[LISTEN_ID]
   pruefe('beide Richtungen: s1 (nur im Tab), s2 (neu), s3 (nur im Speicher)', v?.staffeln?.s1 === '🇩🇪' && v?.staffeln?.s2 === '🇩🇪' && v?.staffeln?.s3 === '✕', v?.staffeln)
   pruefe('beide Richtungen: Folgenzahlen aus Tab und Meldung', v?.folgen?.s1 === 12 && v?.folgen?.s2 === 7, v?.folgen)
+  pruefe('beide Richtungen: Gesamtzahl aus dem Speicher (5) bleibt, nicht aus dem Tab (2)', v?.gesamt === 5, v?.gesamt)
+  pruefe('beide Richtungen: bei Streit um s1 gilt der Tab (spätere Meldung), nicht der Speicher', v?.staffeln?.s1 === '🇩🇪', v?.staffeln)
   pruefe('beide Richtungen: Kennung nur im Speicher bleibt', alle?.NUR_SPEICHER?.staffeln?.s1 === '🇩🇪', alle)
   pruefe('beide Richtungen: Kennung nur im Tab bleibt', alle?.NUR_TAB?.staffeln?.s1 === '✕', alle)
 }
