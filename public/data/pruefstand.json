@@ -1,30 +1,28 @@
 {
- "erzeugtAm": "2026-10-23T12:21:20.245Z",
+ "erzeugtAm": "2026-10-24T16:07:00.038Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 855,
-   "gesamt": 899,
-   "offen": 44,
-   "ohneSeite": 18,
+   "gemeldet": 857,
+   "gesamt": 897,
+   "offen": 40,
+   "ohneSeite": 16,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
-    "https://www.amazon.de/s?k=Es%20war%20einmal%20%E2%80%A6%20Amerika&i=instant-video",
-    "https://www.amazon.de/s?k=Es%20war%20einmal%20%E2%80%A6%20Die%20Entdeckung%20unserer%20Welt&i=instant-video",
+    "https://www.amazon.de/s?k=Christoph%20Columbus&i=instant-video",
     "https://www.amazon.de/s?k=Miraculous%3A%20Geschichten%20von%20Ladybug%20und%20Cat%20Noir&i=instant-video",
     "https://www.amazon.de/s?k=Rick%20and%20Morty%3A%20The%20Anime&i=instant-video",
     "https://www.amazon.de/s?k=Vampire%20Hunter%20D%3A%20Bloodlust&i=instant-video",
+    "https://www.amazon.de/s?k=Aura%3A%20Koga%20Maryuin%E2%80%99s%20Last%20War&i=instant-video",
     "https://www.amazon.de/s?k=Operation%3A%20Nussknacker%20-%20Auf%20die%20N%C3%BCsse%2C%20fertig%2C%20los!&i=instant-video",
     "https://www.amazon.de/s?k=Sam%3A%20Ein%20fast%20perfekter%20Held&i=instant-video",
-    "https://www.amazon.de/s?k=Es%20war%20einmal%20%E2%80%A6%20Entdecker%20und%20Erfinder&i=instant-video",
     "https://www.amazon.de/s?k=Isekai%20Onsen%20Paradise&i=instant-video",
     "https://www.amazon.de/s?k=Tayo%20und%20die%20kleinen%20Zauberer&i=instant-video",
     "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video",
     "https://www.amazon.de/s?k=Prinz%20Ribbit%3A%20Ein%20Frosch%20auf%20Umwegen!&i=instant-video",
     "https://www.amazon.de/s?k=Operation%20Nussknacker%202%3A%20Voll%20auf%20die%20N%C3%BCsse&i=instant-video",
     "https://www.amazon.de/s?k=Happy%20Fish%202%3A%20Hai-Alarm%20im%20Hochwasser&i=instant-video",
-    "https://www.amazon.de/s?k=Gans%20im%20Gl%C3%BCck&i=instant-video",
     "https://www.amazon.de/s?k=Outback%3A%20Jetzt%20wird%E2%80%99s%20richtig%20wild!&i=instant-video",
     "https://www.amazon.de/s?k=Super%20Wings%3A%20Maximum%20Speed&i=instant-video"
    ],
@@ -75,10 +73,6 @@
      "titel": "Dragon Ball Daima"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0DMFV78H5",
-     "titel": "Saiyuki Reload: Zeroin"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0BZWFR7H1",
      "titel": "Bluelock (BLUE LOCK)"
     },
@@ -103,10 +97,6 @@
      "titel": "Golden Kamuy 4 (Golden Kamuy Season 4)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B09192P17W",
-     "titel": "Haikyu!! An Land vs. In der Luft / Der ”Weg” des Balls (HAIKYU!! LAND VS. AIR)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B09MDQX4CW",
      "titel": "Appare-Ranman!"
     },
@@ -117,10 +107,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP",
      "titel": "Babylon"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CHP5RVPL",
-     "titel": "Beyblade Burst"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/0O59G87GV5BELGUFJKLQQAGHP4",

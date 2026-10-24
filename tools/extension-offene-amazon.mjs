@@ -35,7 +35,8 @@ import { createHash } from 'node:crypto'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+// AK_ROOT: Kulissentest (tools/pruefliste-asid.test.mjs) lässt den echten Lauf in einem Wegwerf-Ordner arbeiten.
+const wurzel = process.env.AK_ROOT ?? resolve(dirname(fileURLToPath(import.meta.url)), '..')
 import { verdachtsFelder, verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
 import { ausgeblendet, brauchtUrteil, eintragsInfo, ladeBestand, ladeCartoons, nachRang, regeln, wartet } from './pruef-bestand.mjs'
 import { nachschlagVon } from './prime-nachschlag.mjs'
@@ -470,25 +471,6 @@ function istNachrangigeStaffel(t) {
 
 let wegenStaffel = 0
 
-/*
-  **Die aniSearch-Kennung gehört in die Prüfliste.**
-
-  Daniel am 28.08.2026: „nimm für prüfliste titel anisearch statt anilist.co."
-  aniSearch führt deutsche Titel, deutsche Beschreibungen und die deutschen
-  Anbieter — für die Frage „ist das derselbe Titel, den Prime hier zeigt" ist das
-  die brauchbarere Seite als AniList, das englisch und japanisch denkt.
-
-  Die Zuordnung liegt seit jeher in `data/anisearch.json` (Schlüssel: unsere
-  AniList-Kennung, Feld `anisearchId`), sie wurde nur nie weitergereicht.
-*/
-const anisearch = (() => {
-  try {
-    return JSON.parse(readFileSync(resolve(wurzel, 'data/anisearch.json'), 'utf8'))
-  } catch {
-    return {}
-  }
-})()
-
 /**
  * **Ein Titel, der seinen Teil verschweigt, ist in der Liste wertlos.**
  *
@@ -608,7 +590,7 @@ for (const t of titel) {
         das Jahr nicht.
       */
       jahr: Number.isFinite(t.jpYear) ? t.jpYear : null,
-      asId: anisearch[String(t.id)]?.anisearchId ?? null,
+      asId: t.anisearchId ?? null,
       ...nachschlag(t),
     }
   }
@@ -658,7 +640,7 @@ try {
       id: v.id,
       folgen: v.folgen,
       jahr: Number.isFinite(t?.jpYear) ? t.jpYear : null,
-      asId: anisearch[String(v.id)]?.anisearchId ?? null,
+      asId: t?.anisearchId ?? null,
       ...nachschlag(t),
       vorschlag: true,
       /*
@@ -714,7 +696,7 @@ try {
       id: t.id,
       folgen: t.episodes ?? null,
       jahr: Number.isFinite(t.jpYear) ? t.jpYear : null,
-      asId: anisearch[String(t.id)]?.anisearchId ?? null,
+      asId: t.anisearchId ?? null,
     }
     zweiteAusgaben++
   }
@@ -866,7 +848,7 @@ const pruefsumme = createHash('sha256').update(listenInhalt).digest('hex').slice
 writeFileSync(
   resolve(wurzel, 'extension/offene-amazon-stand.js'),
   'globalThis.AK_OFFENE_AMAZON_STAND = ' + JSON.stringify(pruefsumme) + '\n' +
-    'globalThis.AK_OFFENE_AMAZON_ERZEUGT = ' + JSON.stringify(new Date().toISOString().slice(0, 10)) + '\n',
+    'globalThis.AK_OFFENE_AMAZON_ERZEUGT = ' + JSON.stringify((await import('../shared/time.ts')).todayIso()) + '\n',
 )
 /*
   Dieselbe Prüfsumme in eine eigene ausgelieferte Datei — nur von der Live-Seite

@@ -6,6 +6,7 @@ import type { StreamLink, Title } from '../../shared/types.ts'
 import { hatDeutschenTon } from '../../shared/sprachen-ton.ts'
 import type { DubCheck } from '../lib/dub-confirmed.ts'
 import { seitenSchluessel } from '../lib/jw-seite.ts'
+import { ohneStaffelMarke } from '../../shared/adresse-kern.ts'
 import type { Messung, NeinAdresse } from './jw-seite-ton.ts'
 
 export interface MeldungRoh {
@@ -15,7 +16,8 @@ export interface MeldungRoh {
 }
 
 /** Gilt ein Beleg mit Adresse für diesen Weg? Ohne Adresse gilt er dem ganzen Anbieter. */
-function trifft(url: string | undefined, s: StreamLink): boolean {
+function trifft(roh: string | undefined, s: StreamLink): boolean {
+  const url = roh === undefined ? roh : ohneStaffelMarke(roh)
   if (!url) return true
   return url === s.url || url === s.seite || (seitenSchluessel(url) !== undefined && seitenSchluessel(url) === seitenSchluessel(s.url))
 }

@@ -590,7 +590,7 @@ pruefe(
 */
 {
   const q = readFileSync(__dirname + '/amazon.js', 'utf8')
-  const zaehl = q.indexOf('const fehlend = Math.max(0, gesehen.gesamt - geladen)')
+  const zaehl = q.indexOf('const fehlend = Math.max(0, gesehen.gesamt - geladen - wegInRegion)')
   const melden = q.indexOf('Diese Seite führt keine Folgenliste')
   pruefe('der Meldezweig steht vor dem Zählzweig', melden > 0 && zaehl > 0 && melden < zaehl)
 }

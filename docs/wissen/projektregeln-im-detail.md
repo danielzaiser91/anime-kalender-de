@@ -50,7 +50,7 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   `timeEstimated`, das die Fensterbreite vorgibt; das Bau-Log hat die Zeile „N Regeltermin aus Sichtung: …".
   **Jede kuratierte `time` + `timeEstimated` braucht eine benannte Ausnahme:** `timeSighting` oder einen
   Eintrag in `FESTGELEGTE_ZEITEN` (Altfall Avatar 11:00, Paramount+: Daniel sah F4–6 um 11:42 schon da,
-  Fenster fehlt, Befund offen, am 23.10. messen; Frist `bis` 25.10.2026: danach Fehler in PR-CI und lokal,
+  Fenster fehlt, Befund offen, 23.10. ohne Sichtung; Frist `bis` 02.11.2026 (nach den Folgen vom 30.10.): danach Fehler in PR-CI und lokal,
   im Deploy nur Warnung auf der Konsole, damit er nicht an der Frist stirbt).
 - **Abgeleitetes kennzeichnen.** Datum aus dem Simulcast-Start übernommen statt aus einer
   Dub-Ankündigung? Dann `estimated: true`. Folgenzahl geraten? Setzt die Pipeline selbst als
@@ -417,6 +417,8 @@ Der Worker in `worker/` ist optional. Ohne gesetztes `VITE_NEWSLETTER_API` zeigt
 einen ehrlichen Hinweis statt eines kaputten Buttons. DSGVO-Pflichten (Double-Opt-in,
 Abmeldelink, Impressum, Datenschutzerklärung) sind kein Nice-to-have — nichts davon entfernen.
 
+**D1 und Website (Daniel, 23.10.2026):** Die Regel „keine D1“ gilt nur für die Website selbst. Der Newsletter-Worker darf D1 nutzen, auch auf Nutzerpfaden: Favoriten-Abgleich, Web-Push und der persönliche Kalender-Feed. Feed-Abrufe der Kalender-Apps lesen D1 trotzdem nicht bei jedem Mal (Edge-Cache 15 Minuten, `worker/src/favoriten-feed.ts`).
+
 ## Ein roter Lauf wird bemerkt, nicht gemeldet — und die Anzeige danach geleert
 
 Daniel am 07.09.2026, 15:50: „in status app sind 2 rote läufe (vor 3h+). wann
@@ -488,7 +490,7 @@ das sonst verfällt.
 ## Prüfung nach Risiko: Stufen 0, 1, 2 (Daniel, 10.10.2026)
 
 Anlass: „keine Prüfer-Agenten bei Kleinigkeiten“. `node tools/pr-stufe.mjs <PR>` (Tabelle und Tests: `tools/pr-stufe.mjs`, `tools/pr-stufe.test.mjs`) stuft mechanisch aus Pfaden und Zeilenzahl des Diffs ein, im Zweifel Stufe 2.
-Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten, Skill-Texte `.claude/skills/**/*.md` seit 12.10.2026): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar; bei Stufe 0 prüft der CI-Prüfer seit 12.10.2026 schlank (nur Diff, kleines Zugbudget) und gibt bei Ok frei, sonst Änderungswünsche.
+Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten, Skill-Texte `.claude/skills/**/*.md` seit 12.10.2026, alles unter `tools/claude-global/` seit 23.10.2026): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar; bei Stufe 0 prüft der CI-Prüfer seit 12.10.2026 schlank (nur Diff, kleines Zugbudget) und gibt bei Ok frei, sonst Änderungswünsche.
 
 ## Bilder für PR-Beschreibungen ohne Hook-Umgehung (14.10.2026)
 
@@ -619,7 +621,7 @@ und darf bei keiner Entscheidung aufgeweicht werden.
 - Netflix-Uhrzeit (08:00 UTC als `timeEstimated`, „≈", ohne Countdown) nur bei Eigenproduktionen (`netflixOriginal`); Lizenztitel bleiben „Zeit offen" (Vigilantes, 06.10.2026).
 - **Namensabgleich:** der beste Treffer gewinnt, nicht der erste; `OVA`/`ONA`/`OAD`/`TV` zählen mit, der japanische Titel nicht (`bewerteTreffer`). Ein Namensvergleich allein ist kein Beleg.
 - **Was AniList, aniSearch oder MAL als Anime führen, ist kein Cartoon** (Daniel, 08.10.2026) — der Cartoon zieht auf den Anime-Titel um (`cartoon-umzug.json`); Beleg: TMDB-Kennung, sonst Name **und** Jahr **und** Folgenzahl, im Zweifel Ausnahmeliste statt Zusammenlegung (`check:logic`).
-- **Eine News-Meldung ist eine Aussage zu ihrem Tag:** nie umschreiben (Späteres ist eine neue Meldung), Belege nur ihrer eigenen Aussage, eine Quelle an genau einer Meldung; eigene Messung belegt der Anbieter-Kalender an diesem Tag ([news-plan.md](news-plan.md)).
+- **Eine News-Meldung ist eine Aussage zu ihrem Tag:** nie umschreiben (Späteres ist eine neue Meldung), Belege nur ihrer eigenen Aussage, eine Quelle an genau einer Meldung; eigene Messung belegt der Anbieter-Kalender an diesem Tag ([news-plan.md](news-plan.md)). Ein neues abgeleitetes Feld an einer Meldung wird dort als Aussage (eingefroren, `pipeline/lib/news-felder-fest.ts`) oder Darstellung (lebendig) eingeordnet, bevor es gebaut wird (20.10.2026).
 
 ### Datenläufe: wer auf `main` schreibt, und was beim Ändern zu beachten ist
 
@@ -657,6 +659,7 @@ Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `
 - Wegwerfskripte gehören ins Scratchpad, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
 - Dieselben Regeln projektübergreifend: `tools/claude-global/` — auf jedem Rechner einmal `node tools/claude-global/einrichten.mjs` (prüfen: `--pruefen`).
 - Die Claude-Code-Mod `arbeitsliste` (zeigt `daniel-zum-abarbeiten/stand.md`) wird seit 12.10.2026 in `tools/claude-global/mods/arbeitsliste/` gepflegt; `einrichten.mjs` kopiert sie nach `~/.claude/mods/arbeitsliste/` (Test: `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1 claude plugin test` im Mod-Ordner). Nicht im Repo: `messung.log`, `.claude-plugin/types/`.
+- Der Agents-Knopf der Mod zählt `arbeitsliste.agentenKnopf` hoch; das Pane schaltet ein `state.set`-Hook in der fremden Mod `~/.claude/mods/claude-kit/plugins/savvy-progress/hooks/register.tsx` (nicht im Repo, Kopie: `mods/arbeitsliste/hooks/savvy-haken-kopie.ts`). Ein claude-kit-Update kann ihn entfernen: `node tools/claude-global/einrichten.mjs --pruefen` meldet "FEHLT Hook für den Agents-Knopf" (24.10.2026); bis dahin zeigt der Knopf einen Hinweis statt still nichts zu tun.
 - **Worktrees räumen sich selbst ab (seit 18.10.2026)** — Hook `tools/claude-global/hooks/worktree-aufraeumen.js` (+ `-logik.js`, Test `tools/worktree-aufraeumen.test.mjs`). Anlass: 274 `_wt-*`-Worktrees à ~49 000 Dateien, Windows hielt ~8 KB Kernel-Dateicache je Datei (~3 GB RAM). Auslöser: PostToolUse nach `gh pr merge` und SessionStart (dort zusätzlich eine Zeile bei > 20 Worktrees); beide kehren sofort zurück und starten `--abbau` unsichtbar über `prozess-register.mjs` (Frist 30 min, Sperrdatei `__assets/prozesse/worktree-aufraeumen.lock` = höchstens ein Abbau). Entfernt wird nur mit positivem Erledigt-Zeichen (Lesen hinterlässt kein Lebenszeichen, „Kopf in main“ zählt nicht): Kopf des Worktrees == `headRefOid` eines gemergten/geschlossenen PR (auch losgelöste Prüfer-Worktrees; ein später weitergeführter Zweig gleichen Namens bleibt; ebenso ein Worktree, dessen HEAD sich erst nach dem Merge/Schließen bewegt hat, z. B. Nachprüfung oder neuer Zweig auf altem Kopf: `logs/HEAD` jünger als der Abschluss), mindestens 24 h seit Merge/Schließen des PR, zusätzlich keine Änderung in den letzten 2 h (Ordner, oberste Einträge, `index`, `HEAD`, `logs/HEAD`), Probe-Umbenennen des Ordners (EPERM/EBUSY = in Benutzung, dann wird nichts gelöst, nur gemeldet), kein offener PR (Zweigname oder Kopf), kein echter `data/cache` mit Inhalt, `git status --porcelain` leer (auch ohne unversionierte Dateien; vor dem Entfernen erneut); ignorierte Dateien wie `dist/` gehen mit dem Worktree verloren; ohne `--force`, ein Rest im Ordner nach `worktree remove` wird als Fehler gemeldet. `--liste` liest nur (kein `git fetch`). Zweige bleiben. Verknüpfungen (`node_modules` auch in Unterordnern wie `worker/`, `data/cache`) werden vorher einzeln mit `unlink` gelöst, nie rekursiv; bleibt eine, bleibt der Worktree. Lose `_wt-*` (nicht registriert) im Hauptordner und daneben (z. B. `C:/code/ai/_wt-*`): nur Verknüpfungen jeden Namens plus leere Ordner (bis 6 Ebenen) → weg (Link per `unlink`, von unten; vorher, zwischen den Links und nachher müssen Haupt-`node_modules` und `data/cache` da sein, sonst Abbruch); echte Datei, `.git`-Datei, Dateien wie `_wt-x.log` oder ein Link als Ordnername bleiben, nur Liste (`--liste`); die Wächterzeile zählt nur den Hauptordner (19.10.2026). Einrichten: `node tools/claude-global/einrichten.mjs` kopiert beide Dateien nach `~/.claude/hooks/`; in `~/.claude/settings.json` je einen Eintrag ergänzen (Handarbeit):
   ```json
   "SessionStart": [ { "hooks": [ { "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/worktree-aufraeumen.js"], "timeout": 15 } ] } ],
@@ -684,3 +687,7 @@ Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `
 - [daten-detektiv.md](daten-detektiv.md) — `npm run detektiv`: 25 Regeln gegen Zweitquellen, Funde nach Hebel
 - [meine-woche.md](meine-woche.md) — Konzept „Meine Woche"; Prototyp (Code am 09.10.2026 entfernt, in der Git-Historie)
 
+
+## Mutationsläufer `tools/mutationslaeufer.mjs` (19.10.2026)
+
+Festes Werkzeug für Mutationsproben statt Wegwerf-Läufer: Mutanten über mehrere Dateien, `nr`/`zeile` bei doppelten Zeilen, mehrzeilige `suche`, `@ENDE` zum Anhängen, Git-Bash-Pfade, Kopie `<datei>.mutlauf-orig` mit bytegleichem Rückspiel, `--log <ordner>` mit Diff und Test je Mutant sowie `tabelle.md` für den PR-Nachtrag. Aufruf und Mutantenformat stehen im Kopf der Datei; Test `tools/mutationslaeufer.test.mjs` (läuft über `tools/tests-alle.mjs`).

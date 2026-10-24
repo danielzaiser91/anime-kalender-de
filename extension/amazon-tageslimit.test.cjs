@@ -143,7 +143,7 @@ async function lade({ limit, ende }) {
   const sandkasten = sandkastenBauen(dokumentBauen(alle), speicher)
   /* Die Pause gilt schon beim ersten Zeichnen: `merken` läuft zwischen `tageslimit.js` und `amazon.js`. */
   const pause = limit ? `globalThis.AK_TAGESLIMIT.merken(${limit.map((x) => JSON.stringify(x)).join(',')})` : ''
-  const quelle = [lies(['tageslimit.js']), pause, lies(['box.js', 'melde-sperre.js', 'prime-titelseite.js', 'amazon.js'])].join('\n')
+  const quelle = [lies(['tageslimit.js']), pause, lies(['box.js', 'melde-sperre.js', 'prime-titelseite.js', 'prime-region.js', 'amazon.js'])].join('\n')
   const ergebnis = vm.runInNewContext(quelle, sandkasten, { filename: 'amazon.js' })
   await new Promise((r) => setImmediate(r))
   ergebnis.catch(() => {})

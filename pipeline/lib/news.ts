@@ -42,6 +42,7 @@ import { titelNachSerienId, waehleStaffel } from './news-cr-zuordnung.ts'
 import { rhythmusMeldung } from './news-rhythmus.ts'
 import { ohneDoppelteTakte, taktMeldungen } from './news-takt.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
+import { haltFelderFest, type FesteFelder } from './news-felder-fest.ts'
 import { haltPremiereFest, haltWeitererFest, vergissAlte } from './news-einfrieren.ts'
 import { premiereBelegtTv } from '../../shared/premiere.ts'
 
@@ -63,6 +64,8 @@ export interface NewsHistorie extends TerminGedaechtnis {
   anbieter?: Record<string, string>
   /** Meldungsschlüssel (`angekuendigt`) → `weiterer` vom Bau, der die Meldung erzeugte (`news-einfrieren.ts`). */
   weiterer?: Record<string, boolean>
+  /** Meldungsschlüssel → Anbieter, Kanal, Einordnung vom Bau, der die Meldung auslieferte (`news-felder-fest.ts`). */
+  felder?: Record<string, FesteFelder>
   /** Meldungsschlüssel → `true`, wenn die Meldung beim ersten Bau schon „Deutsche TV-Premiere“ sagte; ältere Meldungen behalten ihren Text. */
   premiere?: Record<string, true>
 }
@@ -493,7 +496,7 @@ export function baueNews(
 
   datiert = ohneDoppelteTakte(ohneDoppelteFolgen(verschmelzeGleicheQuelle(datiert)))
   datiert.push(...pflegeTerminverlauf({ datiert, nachId, historie, vorherige, name, wurzel: wurzelVon, grenze, heute, nurOriginalton }))
-  datiert = bereinigeNews(ohneKuenstlicheAnkuendigung(datiert))
+  datiert = haltFelderFest(historie, bereinigeNews(ohneKuenstlicheAnkuendigung(datiert)), vorherige)
 
   const gruppen = new Map<string, { am: string; wurzel: number; teile: typeof datiert }>()
   for (const m of datiert) {

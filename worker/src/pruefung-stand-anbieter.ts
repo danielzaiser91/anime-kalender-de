@@ -14,6 +14,8 @@ export type Gemeldet = {
   staffeln: Map<string, Set<number>>
   /** Je Adresse die Staffeln der Meldungen, die auf die Übernahme warten. */
   wartendeStaffeln: Map<string, Set<number>>
+  /** Ziele, deren offene Staffeln der Briefkasten deckt (`pruefung-gedeckt.ts`, Netflix); fehlt in Tests. */
+  gedeckt?: Set<string>
 }
 
 export function rechneAnbieter(roh: unknown, gemeldet: Gemeldet) {
@@ -41,10 +43,10 @@ export function rechneAnbieter(roh: unknown, gemeldet: Gemeldet) {
   /*
     **Nennt das Ziel seine offenen Staffeln, ist es erst erledigt, wenn jede gemeldet ist**
     (22.09.2026). Sonst verschwand Dr. STONE nach der Meldung von Staffel 1 bis zur nächsten
-    Übernahme aus der Prüfliste, obwohl Staffel 2 offen war. Ziele ohne Staffelangabe bleiben
-    bei der Adresse.
+    Übernahme aus der Prüfliste, obwohl Staffel 2 offen war. Ziele ohne Staffelangabe bleiben bei der Adresse.
   */
   const offeneZiele = (a.ziele ?? []).filter((z) => {
+    if (gemeldet.gedeckt?.has(z.url)) return false
     if (!adresseErledigt(z.url, z.seit)) return true
     if (!z.staffeln?.length) return false
     const gemeldeteStaffeln = [

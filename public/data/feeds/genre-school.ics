@@ -5,26 +5,8 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – School
 X-WR-TIMEZONE:Europe/Berlin
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261016T160000Z
-DTEND:20261016T163000Z
-SUMMARY:Detektiv Conan – Folge 156/165
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:sailor-moon-s1-steelbook@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261016
-DTEND;VALUE=DATE:20261017
-SUMMARY:Sailor Moon – Staffel 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/486/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
+REFRESH-INTERVAL;VALUE=DURATION:PT12H
+X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-17#15@anime-kalender-de
 DTSTAMP:20200101T000000Z
@@ -289,6 +271,46 @@ SUMMARY:Nukitashi – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15668/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-31#23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261031T045500Z
+DTEND:20261031T052500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-31#24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261031T052000Z
+DTEND:20261031T055000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-31#25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261031T054500Z
+DTEND:20261031T061500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-31#26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261031T061500Z
+DTEND:20261031T064500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-11-01@anime-kalender-de

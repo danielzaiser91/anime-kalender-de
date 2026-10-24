@@ -52,9 +52,9 @@ function attrappe(protokoll, alter) {
   const basis = 'https://newsletter.animekalender.workers.dev/pruefung?'
   return [
     'import {appendFileSync} from "node:fs";',
-    `globalThis.fetch=async(u)=>{u=String(u);appendFileSync(${JSON.stringify(protokoll)},u+String.fromCharCode(10));`,
-    `if(u===${JSON.stringify(basis + 'zaehlen=1&token=geheim')})return new Response(${JSON.stringify(JSON.stringify(zaehlen))});`,
-    `if(u===${JSON.stringify(basis + 'token=geheim')})return new Response(${JSON.stringify(JSON.stringify(liste))});`,
+    `globalThis.fetch=async(u,o)=>{u=String(u);const ok=new Headers(o?.headers).get("Authorization")==="Bearer geheim";appendFileSync(${JSON.stringify(protokoll)},u+String.fromCharCode(10));`,
+    `if(ok&&u===${JSON.stringify(basis + 'zaehlen=1')})return new Response(${JSON.stringify(JSON.stringify(zaehlen))});`,
+    `if(ok&&u===${JSON.stringify(basis.slice(0, -1))})return new Response(${JSON.stringify(JSON.stringify(liste))});`,
     'return new Response("",{status:404})}',
   ].join('')
 }

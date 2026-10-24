@@ -126,7 +126,13 @@ function laufeSchritte(wf, ordner, prs) {
     if (s.id) kontext.ausgaben[s.id] = leseAusgaben(ausgabe)
   }
   const datei = path.join(temp, 'pruefer', 'pr-beschreibung.txt')
-  return { ausgaben: kontext.ausgaben, beschreibung: fs.existsSync(datei) ? fs.readFileSync(datei, 'utf8') : null, aufrufe: leseAufrufe(path.join(ordner, 'aufrufe.log')) }
+  const auflagen = path.join(temp, 'pruefer', 'auflagen.md')
+  return {
+    ausgaben: kontext.ausgaben,
+    beschreibung: fs.existsSync(datei) ? fs.readFileSync(datei, 'utf8') : null,
+    auflagen: fs.existsSync(auflagen) ? fs.readFileSync(auflagen, 'utf8') : null,
+    aufrufe: leseAufrufe(path.join(ordner, 'aufrufe.log')),
+  }
 }
 
 /** Alle gh-Aufrufe der Attrappe in Reihenfolge, je Aufruf ein Wortlaut `api …` bzw. `pr …`. */

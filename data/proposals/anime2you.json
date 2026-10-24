@@ -1,15 +1,44 @@
 {
-  "scrapedAt": "2026-10-23T15:11:24.610Z",
+  "scrapedAt": "2026-10-24T16:03:11.211Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
-    "schon in einem Rubrik-Feed gelesen": 8,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 19,
+    "schon in einem Rubrik-Feed gelesen": 3,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "Anime-Neuheiten im November 2026 auf DVD und Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1062132/disc-neuheiten-november-2026/",
+      "publishedAt": "2026-10-24",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "Anime-Neuheiten im November 2026 auf DVD und Blu-ray Im November 2026 kommen wieder za"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zwei Synchro-Neuzugänge ab sofort auf Crunchyroll verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1063615/crunchyroll-apotheke-staffel-3-synchro-und-mehr/",
+      "publishedAt": "2026-10-24",
+      "category": "allgemein",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "hinweis": "sprache",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
       "articleUrl": "https://www.anime2you.de/news/1063292/prosieben-fun-zeigt-akame-ga-kill/",
@@ -50,6 +79,21 @@
         }
       ],
       "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "AniMoon startet neue Online-Rabattaktion zur MEX 2026",
+      "articleUrl": "https://www.anime2you.de/news/1063240/animoon-mex-berlin-2026-rabattaktion/",
+      "publishedAt": "2026-10-23",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-10-25",
+          "context": "die Details zusammen. 10 % Rabatt auf zahlreiche Artikel Vom 23. bis 25. Oktober 2026 erhalten Kunden mit dem Gutscheincode MEX26 einen Rab"
+        }
+      ],
+      "dub": "unklar",
       "alreadyCurated": false
     },
     {
@@ -261,7 +305,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-21"
+      "sammelGelesen": "2026-10-24"
     },
     {
       "articleTitle": "Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm",
@@ -312,7 +356,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-21"
+      "sammelGelesen": "2026-10-24"
     },
     {
       "articleTitle": "Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt",
@@ -798,7 +842,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-21"
+      "sammelGelesen": "2026-10-24"
     },
     {
       "articleTitle": "Design der 30th Anniversary Edition von »Detektiv Conan«",
@@ -1098,7 +1142,7 @@
           "folgen": 54
         }
       ],
-      "sammelGelesen": "2026-10-21"
+      "sammelGelesen": "2026-10-24"
     },
     {
       "articleTitle": "Erste »Kaiju No. 8«-Staffel erscheint im limitierten Steelbook + Design",
@@ -1965,7 +2009,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-21"
+      "sammelGelesen": "2026-10-24"
     },
     {
       "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
@@ -2244,7 +2288,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-10-21"
+      "sammelGelesen": "2026-10-24"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -3311,7 +3355,7 @@
           "edition": ""
         }
       ],
-      "discGelesen": "2026-10-21"
+      "discGelesen": "2026-10-24"
     },
     {
       "articleTitle": "Design der limitierten Steelbook-Edition von »My Dress-Up Darling«",
@@ -4405,19 +4449,6 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
-    },
-    {
-      "articleTitle": "KI-Streit: Synchronsprecher legen Beschwerde gegen Netflix beim Bundeskartellamt ein",
-      "articleUrl": "https://www.anime2you.de/news/1046663/synchronsprecher-bundeskartellamt-beschwerde-netflix/",
-      "publishedAt": "2026-09-08",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
       "alreadyCurated": false
     },
     {

@@ -5,12 +5,13 @@
 import { readFileSync } from 'node:fs'
 import { gzipSync } from 'node:zlib'
 import { fileURLToPath } from 'node:url'
+import { todayIso } from '../shared/time.ts'
 
 const D = fileURLToPath(new URL('../public/data/', import.meta.url))
 const lies = (f) => JSON.parse(readFileSync(D + f, 'utf8'))
 const rel = lies('releases.json'), ev = lies('events.json'), tit = lies('titles.json')
 const car = lies('cartoons.json'), news = lies('news.json'), meta = lies('meta.json')
-const heute = new Date().toISOString().slice(0, 10)
+const heute = todayIso()
 let befunde = 0
 const melde = (ok, text, proben = []) => {
   if (!ok) befunde++

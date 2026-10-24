@@ -74,3 +74,34 @@ export function springeSpur(
 ): void {
   spur.scrollBy(sprungZiel(richtung, spur.clientWidth, weniger('(prefers-reduced-motion: reduce)').matches))
 }
+
+type BeobachterKlasse = new (rueckruf: () => void) => { observe: (el: Element, optionen?: ResizeObserverOptions & MutationObserverInit) => void; disconnect: () => void }
+
+/**
+ * Meldet `messen` (ein Frame später), wenn die Spur scrollt, ihre Breite ändert oder Karten hinzukommen/wegfallen.
+ * Letzteres braucht den MutationObserver: schrumpft nur der Inhalt (Schalter „Teile ohne Synchro“ aus), bleibt die Breite der Spur gleich
+ * und der ResizeObserver schwiege (Daniel, 24.10.2026). Rückgabe: Aufräumfunktion.
+ */
+export function verfolgeSpur(
+  el: HTMLElement,
+  messen: () => void,
+  klassen: { resize?: BeobachterKlasse; mutation?: BeobachterKlasse },
+  rahmen: { an: (f: () => void) => number; ab: (id: number) => void },
+): () => void {
+  let id = 0
+  const einmalProFrame = () => {
+    rahmen.ab(id)
+    id = rahmen.an(messen)
+  }
+  el.addEventListener('scroll', einmalProFrame, { passive: true })
+  const groesse = klassen.resize ? new klassen.resize(einmalProFrame) : undefined
+  groesse?.observe(el)
+  const karten = klassen.mutation ? new klassen.mutation(einmalProFrame) : undefined
+  karten?.observe(el, { childList: true })
+  return () => {
+    rahmen.ab(id)
+    el.removeEventListener('scroll', einmalProFrame)
+    groesse?.disconnect()
+    karten?.disconnect()
+  }
+}

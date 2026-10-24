@@ -22,7 +22,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (415)
+### Kandidaten für neue Wege (416)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -303,6 +303,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | She Professed Herself Pupil of the Wise Man (119056) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.21211aa9-7320-47d7-8c9e-6d7438d15718 | nein |
 | The Dungeon of Black Company (120608) | Crunchyroll | crunchyroll:GG1U20Z5J | ja |
 | The Dungeon of Black Company (120608) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.f5a5fcd6-41ab-4ef8-b11e-0b80bd4b940c | nein |
+| Grisaia: Phantom Trigger THE ANIMATION - Stargazer (120892) | Amazon Prime Video | amazon:amzn1.dv.gti.0df363bb-532f-4d75-b429-661c1aa9cf16 | nein |
 | Horimiya (124080) | Crunchyroll | crunchyroll:GVWU8N11G | ja |
 | Horimiya (124080) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.e84aaf58-e58f-47c4-a9a4-32ff9819d308 | ja |
 | Battle Game in 5 Seconds (126047) | Crunchyroll | crunchyroll:G31UX79ZJ | nein |

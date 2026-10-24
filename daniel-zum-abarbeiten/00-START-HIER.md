@@ -1,13 +1,13 @@
 # Was zu tun ist
 
-Stand: 2026-10-23 — **erzeugt aus dem ausgelieferten Datensatz**,
+Stand: 2026-10-24 — **erzeugt aus dem ausgelieferten Datensatz**,
 nicht von Hand gepflegt. Wer hier eine Zahl ändert, ändert sie am
 falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
-| 1 | Prime Video — Suchseiten | 18 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
-| 2 | [Prime Video — Titelseiten](listen/07-primevideo.md) | 42 Adressen, 222 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 1 | Prime Video — Suchseiten | 16 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
+| 2 | [Prime Video — Titelseiten](listen/07-primevideo.md) | 39 Adressen, 221 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
 | 3 | [Netflix](listen/06-netflix-rest.md) | 62 Titel, 6 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
 | 4 | [Suchadressen — welcher Titel steckt dahinter?](listen/18-suchadressen.md) | 2 Adressen | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
 | 5 | [Crunchyroll](listen/07-crunchyroll.md) | 9 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
@@ -20,7 +20,7 @@ schickt die Meldung ab. Die Listen hier sind zum Nachschlagen, nicht zum Abtippe
 
 ## Was das bringt
 
-Von 2922 Titeln zeigen **345** keinen einzigen Bezugsweg,
+Von 2922 Titeln zeigen **344** keinen einzigen Bezugsweg,
 **200** davon mit belegter deutscher Synchro. Für die ist die
 Antwort auf „wo kann ich das sehen?" heute: nirgends bekannt. Jede Meldung von hier
 macht eine davon weniger.

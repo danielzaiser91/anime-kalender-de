@@ -4,6 +4,7 @@
  */
 import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
+import { bestandRotText } from './bestand-rot-alarm.mjs'
 
 const REPO = process.env.GITHUB_REPOSITORY || 'danielzaiser91/anime-kalender-de'
 const STUNDEN = 3600e3
@@ -109,6 +110,7 @@ const QUELLEN = [
   ['09-meldungen-an-claude.txt', meldungen],
   ['10-bisherige-urteile.md', frueher],
   ['11-wache-datei.md', () => lies('daniel-zum-abarbeiten/00-wache.md')],
+  ['12-bestandsbau-alarm.txt', () => bestandRotText(gh, REPO, Date.now())],
 ]
 
 /** Alle Dossier-Dateien als [Name, Inhalt]; der Kopf trägt den Zeitpunkt. */

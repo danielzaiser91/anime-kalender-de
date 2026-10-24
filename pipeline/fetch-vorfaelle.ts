@@ -28,9 +28,11 @@ import { resolve } from 'node:path'
 import { log, warn, ROOT } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { merkeZumQuittieren, quittiereGemerkte, VORFAELLE_LOESCHEN } from './lib/spaeter-quittieren.ts'
+import { schalterOderAbbruch } from './lib/schalter.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN ?? ''
+schalterOderAbbruch(['--trocken', '--nur-loeschen'])
 const TROCKEN = process.argv.includes('--trocken')
 
 interface Vorfall {
@@ -56,6 +58,8 @@ const ERKLAERUNG: Record<string, string> = {
     'Netflix hat den Durchlauf abgebrochen. `M7…` meint die Wiedergabe (zu viele Streams, Netz), `E1…`/`UI…`/`NSES-…` den Titel selbst.',
   melden_fehlgeschlagen: 'Die Meldung kam nicht beim Worker an — der Befund ist verloren.',
   ausnahme: 'Ein unerwarteter Fehler in der Erweiterung.',
+  'durchgang-zaehlung':
+    'Ende eines Netflix-Durchgangs: besucht, gemessen, wartet auf Übernahme, übersprungen. Misst er viele besuchte Titel nie, steht es hier.',
 }
 
 async function main(): Promise<void> {
@@ -68,10 +72,10 @@ async function main(): Promise<void> {
     return
   }
 
-  const antwort = await fetch(`${WORKER}/vorfall?token=${encodeURIComponent(TOKEN)}`)
+  const antwort = await fetch(`${WORKER}/vorfall`, { headers: { Authorization: `Bearer ${TOKEN}` } })
   if (!antwort.ok) {
     warn(`Vorfälle nicht abrufbar: HTTP ${antwort.status}`)
-    recordSource('vorfaelle', 0, `HTTP ${antwort.status}`)
+    if (!TROCKEN) recordSource('vorfaelle', 0, `HTTP ${antwort.status}`)
     return
   }
   const daten = (await antwort.json()) as { vorfaelle?: Vorfall[] }
@@ -93,7 +97,7 @@ async function main(): Promise<void> {
       `leerIstOk` sagt: Der Abruf hat funktioniert, er hat nur nichts gefunden.
       Ein echter Ausfall bleibt sichtbar — der HTTP-Zweig oben trägt ihn.
     */
-    recordSource('vorfaelle', 0, undefined, undefined, true)
+    if (!TROCKEN) recordSource('vorfaelle', 0, undefined, undefined, true)
     log('Nichts zu berichten.')
     return
   }

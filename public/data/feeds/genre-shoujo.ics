@@ -5,16 +5,8 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Shoujo
 X-WR-TIMEZONE:Europe/Berlin
-BEGIN:VEVENT
-UID:sailor-moon-s1-steelbook@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261016
-DTEND;VALUE=DATE:20261017
-SUMMARY:Sailor Moon – Staffel 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/486/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
+REFRESH-INTERVAL;VALUE=DURATION:PT12H
+X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
 UID:motn-102939-primevideo@2026-10-19@anime-kalender-de
 DTSTAMP:20200101T000000Z

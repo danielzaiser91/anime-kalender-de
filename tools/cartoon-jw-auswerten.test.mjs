@@ -63,12 +63,16 @@ assert.ok(wilsonUnten(468 - 3, 468) > 0.98 - 0.001, 'Anime-Messung: 465 von 468 
 /* Seitenweises Holen mit nachgebautem fetch. */
 const seiten = [{ pruefungen: [{ a: 1 }], weiter: 5 }, { pruefungen: [{ a: 2 }], weiter: null }]
 const abgerufen = []
-const antwort = async (url) => {
+const kopfzeilen = []
+const antwort = async (url, optionen) => {
   abgerufen.push(url)
+  kopfzeilen.push(optionen?.headers?.Authorization)
   return { ok: true, json: async () => seiten[abgerufen.length - 1] }
 }
 assert.deepEqual(await holeMeldungen('https://w.example', 'geheim', antwort), [{ a: 1 }, { a: 2 }])
-assert.match(abgerufen[1], /nach=5&token=geheim/)
+assert.match(abgerufen[1], /nach=5$/)
+assert.ok(abgerufen.every((u) => !u.includes('geheim')), 'Token nie in der Adresse')
+assert.deepEqual(kopfzeilen, ['Bearer geheim', 'Bearer geheim'])
 await assert.rejects(holeMeldungen('https://w.example', 'x', async () => ({ ok: false, status: 403 })), /403/)
 
 console.log('cartoon-jw-auswerten: ok')

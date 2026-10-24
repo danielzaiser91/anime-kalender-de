@@ -39,6 +39,7 @@ import { log, warn } from './lib/util.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import { leseZugeordnet } from './lib/prime-meldung-riegel.ts'
 import { handpruefungSchreiben, jwFrisch, type Handpruefung } from './lib/jw-handpruefung.ts'
+import { todayIso } from '../shared/time.ts'
 
 const ROOT = resolve(import.meta.dirname, '..')
 const TROCKEN = process.argv.includes('--trocken')
@@ -137,7 +138,7 @@ for (const [url, z] of Object.entries(zugeordnet)) {
 
 log(`${kanalOffen.length} Kanal-Meldungen ohne Urteil.`)
 
-const heute = new Date().toISOString().slice(0, 10)
+const heute = todayIso()
 const neu: string[] = []
 /** Meldungen, denen die zweite Quelle widerspricht — sie gehören zurück auf die Prüfliste. */
 const widersprueche: {

@@ -14,6 +14,7 @@ import { geplantNichtDeutschHeute, ladeGeplantQuelle } from './lib/invarianten-g
 import { dubIdsNachAnisearch, dubsNachTitel } from './lib/anisearch-marke.ts'
 import { kanalProben, kanalWegProben, kanalWegeVorhanden } from './check-invarianten-kanal.ts'
 import { kanalFehler } from './bau/kanal-fehler.ts'
+import { todayIso } from '../shared/time.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -141,7 +142,7 @@ if (process.argv.includes('--bestand')) {
   const handKeine = new Set((yaml.load(readFileSync(new URL('../data/ohne-synchro-von-hand.yaml', import.meta.url), 'utf8')) as { anilistId?: number; sources?: string[] }[]).filter((e) => e.anilistId && e.sources?.length).map((e) => e.anilistId!))
   const auslieferung = { titles: [...titles.values()], ohneSynchro: d<Title[]>('ohne-synchro.json'), cartoons: d<Title[]>('cartoons.json'), franchises: d<Record<string, { id: number; name: string }[]>>('franchises.json') }
   const a = [
-    ...synchroNichtHinterToggle(auslieferung, { dubsAnilist: dubsNachTitel(), dubIds: dubIdsNachAnisearch(), handbelegteIds: handbelegt, handKeine, heute: new Date().toISOString().slice(0, 10) }),
+    ...synchroNichtHinterToggle(auslieferung, { dubsAnilist: dubsNachTitel(), dubIds: dubIdsNachAnisearch(), handbelegteIds: handbelegt, handKeine, heute: todayIso() }),
     ...reihenVerweiseAufgeloest(auslieferung),
     ...geplantNichtDeutschHeute(releases, titles, ladeGeplantQuelle()),
     ...kanalFehler(titles.values(), releases),

@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-10-23T04:11:56.934Z",
+  "scrapedAt": "2026-10-24T04:12:21.292Z",
   "window": {
-    "from": "2026-09-08",
-    "to": "2027-01-06"
+    "from": "2026-09-09",
+    "to": "2027-01-07"
   },
   "shows": [
     {
@@ -754,19 +754,6 @@
           "image": "https://image.animationdigitalnetwork.com/license/dreamland/tv/web/eps1_320x180.jpg"
         },
         {
-          "date": "2026-10-24",
-          "time": "19:00",
-          "episode": 2,
-          "url": "https://animationdigitalnetwork.com/de/video/887-dreamland/32721-folge-2",
-          "season": "1",
-          "seasonReference": "dreamland_tv",
-          "order": 7,
-          "type": "EPS",
-          "duration": 1380,
-          "title": "Dreamland - Folge 2",
-          "image": "https://image.animationdigitalnetwork.com/license/dreamland/tv_0002/web/license_320x180.jpg"
-        },
-        {
           "date": "2026-10-31",
           "time": "19:00",
           "episode": 3,
@@ -780,7 +767,7 @@
           "image": "https://image.animationdigitalnetwork.com/license/dreamland/tv_0003/web/license_320x180.jpg"
         }
       ],
-      "batch": false
+      "batch": true
     },
     {
       "showId": 1319,

@@ -51,7 +51,7 @@ const ZURUECK = 'data/meldungen-zurueckgestellt.json'
   Meldung ist verlorengegangen") war falsch. Eine Antwort, die abgeschnitten
   sein kann, beantwortet eine andere Frage als die gestellte.
 */
-const antwort = await fetch(`${WORKER}/pruefung?zaehlen=1&token=${encodeURIComponent(TOKEN)}`)
+const antwort = await fetch(`${WORKER}/pruefung?zaehlen=1`, { headers: { Authorization: `Bearer ${TOKEN}` } })
 if (!antwort.ok) {
   console.error(`Briefkasten antwortet mit HTTP ${antwort.status} — nicht prüfbar.`)
   process.exit(1)
@@ -123,7 +123,7 @@ if (!adressen.length) {
   So geht es ohne Zustand.
 */
 const NACHZUEGLER_STUNDEN = 24
-const listeAntwort = await fetch(`${WORKER}/pruefung?token=${encodeURIComponent(TOKEN)}`)
+const listeAntwort = await fetch(`${WORKER}/pruefung`, { headers: { Authorization: `Bearer ${TOKEN}` } })
 if (!listeAntwort.ok) {
   console.error(`Meldungsliste antwortet mit HTTP ${listeAntwort.status} — Alter nicht prüfbar.`)
   process.exit(1)

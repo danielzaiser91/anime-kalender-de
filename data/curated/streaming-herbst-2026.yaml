@@ -183,6 +183,13 @@
   releaseType: weekly
   schedule:
     firstEpisodeDate: "2026-10-04"
+    # Regeltermin aller Folgen (18.10.2026, F39): Folge 3 fehlte um 16:18 MESZ, war um 16:32 da (Daniel); Fenster unter 60 min gilt als belegt, daher ohne ≈. Prime nennt keine Zeit.
+    time: "16:30"
+    timeSighting:
+      notSeen: "16:18"
+      seen: "16:32"
+      date: "2026-10-18"
+      source: Daniel
     # Anime2You (04.10.2026): ab sofort, „Jeden Sonntag eine neue Episode", Deutsch und Japanisch (UT). Die Folgenzahl nennt die Meldung nicht.
     observed:
       1: "2026-10-04"
@@ -339,7 +346,7 @@
     firstEpisodeDate: "2026-10-09"
     episodeCount: 13
     lastEpisodeDate: "2026-10-30"
-    # Daniel sah F4–6 am 16.10. um 11:42 schon bei Paramount+ und hat 11:00 festgelegt (16.10., 13:21) — nicht gemessen, darum „≈“; am 23.10. genauer messen.
+    # Daniel sah F4–6 am 16.10. um 11:42 schon bei Paramount+ und hat 11:00 festgelegt (16.10., 13:21) — nicht gemessen, darum „≈“; Sichtung am 23.10. fehlt, nächste Folgen 30.10.
     time: "11:00"
     timeEstimated: true
     observed:
