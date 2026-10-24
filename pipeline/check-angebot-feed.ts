@@ -62,6 +62,16 @@ for (let i = 0; i < STICHTAG_AB - 1; i++) {
   meldung('new', 100 + i, '2026-10-17')
 }
 
+titelMit(10, {}) // removed am selben Tag wie new: gilt als entfernt
+meldung('new', 10, '2026-10-16')
+meldung('removed', 10, '2026-10-16')
+titelMit(11, {}) // removed bei einem anderen Dienst sperrt Prime nicht
+meldung('new', 11, '2026-10-15')
+meldung('removed', 11, '2026-10-16', true, 'netflix')
+titelMit(12, {}) // Eintrag ohne Feld imdbId: Schlüssel zählt
+delete (archiv.tt12 as Partial<Show>).imdbId
+meldung('new', 12, '2026-10-14')
+
 const slim = [...titel.values()].map((t) => ({ ...t }))
 const releases: Release[] = []
 ergaenzeAngebotSeit({
@@ -84,6 +94,9 @@ pruefe('Serie nicht in motn.json: unberührt', !titel.has(99))
 pruefe('Netflix wird genauso gesetzt', seit(7)?.platform === 'netflix' && seit(7)?.date === '2026-10-19', seit(7))
 pruefe('unbekannter Dienst: nichts', !seit(8), seit(8))
 pruefe('Erfassungsstichtag aus dem Feed zählt als Welle', !seit(9) && !releases.some((r) => r.titleId === 9), seit(9))
+pruefe('removed am selben Tag wie new: nichts', !seit(10), seit(10))
+pruefe('removed eines anderen Dienstes sperrt nicht', seit(11)?.date === '2026-10-15', seit(11))
+pruefe('Serie ohne imdbId-Feld wird über den Schlüssel gefunden', seit(12)?.date === '2026-10-14', seit(12))
 
 if (verletzt) {
   console.error(`\n${verletzt} von ${faelle} Zusicherung(en) verletzt.`)
