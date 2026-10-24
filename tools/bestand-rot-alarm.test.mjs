@@ -5,7 +5,7 @@ import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { alarmZeile, bestandRotAlarm, bestandRotText } from './bestand-rot-alarm.mjs'
+import { alarmZeile, bestandRotAlarm, bestandRotText, deployAlarmZeile, fehlerschritte, rotAlarmText, roteSeitGruen, schritteAlarmZeile } from './bestand-rot-alarm.mjs'
 
 const JETZT = Date.parse('2026-10-23T12:00:00Z')
 const lauf = (conclusion, createdAt, status = 'completed') => ({ status, conclusion, createdAt })
@@ -67,9 +67,88 @@ const wirft = () => {
 assert.equal(bestandRotText(wirft, 'o/r', JETZT), 'ALARM? Läufe des Bestandsbaus nicht lesbar: gh kaputt')
 assert.match(bestandRotText(ghMit('kein json'), 'o/r', JETZT), /^ALARM\? Läufe des Bestandsbaus nicht lesbar/)
 
+// Deploy: gleiche Grenze, eigene Zeile; Zahlenpaare verschieden (8 h alt, 1 rot).
+assert.equal(deployAlarmZeile([lauf('success', '2026-10-23T07:00:00Z'), lauf('failure', '2026-10-23T10:00:00Z')], JETZT), undefined)
+assert.equal(deployAlarmZeile([lauf('success', '2026-10-23T06:00:00Z'), lauf('failure', '2026-10-23T07:00:00Z')], JETZT), undefined)
+assert.equal(deployAlarmZeile([], JETZT), undefined)
+assert.equal(
+  deployAlarmZeile([lauf('success', '2026-10-23T04:00:00Z'), lauf('cancelled', '2026-10-23T05:00:00Z')], JETZT),
+  'ALARM Deploy seit 8.0 h ohne Erfolg (letzter Erfolg 2026-10-23T04:00:00Z, 1 rote/abgebrochene danach, Grenze 6 h)',
+)
+assert.match(deployAlarmZeile([lauf('failure', '2026-10-23T05:00:00Z')], JETZT), /kein Erfolg in den abgefragten Läufen/)
+
+// Fehlerschritte: verschiedene Namen über Läufe und Jobs, Doppelte zählen einmal, Nicht-Fehlschläge nicht.
+const job = (name, ...schritte) => ({ name, steps: schritte.map(([n, c]) => ({ name: n, conclusion: c })) })
+assert.deepEqual(
+  fehlerschritte([
+    { jobs: [job('build', ['Bau', 'failure'], ['Setup', 'success'])] },
+    { jobs: [job('build', ['Bau', 'failure']), job('pruefen', ['Test', 'failure'], ['Rest', 'cancelled'])] },
+    {},
+  ]),
+  ['build: Bau', 'pruefen: Test'],
+)
+assert.deepEqual(fehlerschritte([]), [])
+const rot1 = { databaseId: 1, createdAt: '2026-10-23T09:00:00Z' }
+const rotZwei = { databaseId: 2, createdAt: '2026-10-23T09:30:00Z' }
+const zwei2 = ['a: x', 'b: y']
+assert.equal(schritteAlarmZeile([], zwei2, JETZT), undefined)
+assert.equal(schritteAlarmZeile([rot1], ['a: x'], JETZT), undefined)
+assert.equal(schritteAlarmZeile([rot1], [], JETZT), undefined)
+// Grenze 1 h: genau 1 h kein Alarm, eine Sekunde mehr Alarm.
+assert.equal(schritteAlarmZeile([{ databaseId: 3, createdAt: '2026-10-23T11:00:00Z' }], zwei2, JETZT), undefined)
+assert.match(schritteAlarmZeile([{ databaseId: 3, createdAt: '2026-10-23T10:59:59Z' }], zwei2, JETZT), /^ALARM Bestandsbau seit 1\.0 h rot mit 2 /)
+// Der älteste rote Lauf (letztes Element, neueste zuerst) gibt den Beginn an.
+assert.equal(
+  schritteAlarmZeile([rotZwei, rot1], ['a: x', 'b: y', 'c: z'], JETZT),
+  'ALARM Bestandsbau seit 3.0 h rot mit 3 verschiedenen Fehlerschritten (a: x; b: y; c: z; Grenze 1 h)',
+)
+const seit = roteSeitGruen([
+  lauf('success', '2026-10-23T01:00:00Z'),
+  { ...lauf('failure', '2026-10-23T04:00:00Z'), databaseId: 7 },
+  { ...lauf('failure', '2026-10-23T09:00:00Z'), databaseId: 8 },
+  { ...lauf('failure', '2026-10-22T09:00:00Z'), databaseId: 9 },
+])
+assert.deepEqual(seit.map((r) => r.databaseId), [8, 7])
+
+// Gesamttext mit Kulisse: Läufe nach Workflow getrennt, Jobs nach Lauf-ID; drei Läufe, der richtige in der Mitte.
+const kulisse = ({ bestand, deploy, jobs }) => (...a) => {
+  if (a[1] === 'list') return a[a.indexOf('--workflow') + 1] === 'deploy.yml' ? deploy : bestand
+  if (a[1] === 'view' && a[2] === '7') return jobs.sieben
+  if (a[1] === 'view' && a[2] === '8') return jobs.acht
+  throw new Error(`unerwartet ${a.join(' ')}`)
+}
+const BESTAND = JSON.stringify([
+  { ...lauf('success', '2026-10-23T01:00:00Z'), databaseId: 6 },
+  { ...lauf('failure', '2026-10-23T04:00:00Z'), databaseId: 7 },
+  { ...lauf('failure', '2026-10-23T09:00:00Z'), databaseId: 8 },
+])
+const DEPLOY_ROT = JSON.stringify([lauf('success', '2026-10-23T01:00:00Z'), lauf('failure', '2026-10-23T05:00:00Z')])
+const JOBS = { sieben: JSON.stringify({ jobs: [job('build', ['Bau', 'failure'])] }), acht: JSON.stringify({ jobs: [job('pruefen', ['Test', 'failure'])] }) }
+const voll = rotAlarmText(kulisse({ bestand: BESTAND, deploy: DEPLOY_ROT, jobs: JOBS }), 'o/r', JETZT).split('\n')
+assert.equal(voll.length, 3)
+assert.match(voll[0], /^ALARM Bestandsbau seit 11\.0 h rot/)
+assert.equal(voll[1], 'ALARM Bestandsbau seit 8.0 h rot mit 2 verschiedenen Fehlerschritten (build: Bau; pruefen: Test; Grenze 1 h)')
+assert.match(voll[2], /^ALARM Deploy seit 11\.0 h ohne Erfolg/)
+// Gleicher Schritt in beiden Läufen: nur die 6-h-Zeile; Deploy grün: Entwarnungszeile.
+const DEPLOY_GRUEN = JSON.stringify([lauf('success', '2026-10-23T11:00:00Z')])
+const eins = rotAlarmText(kulisse({ bestand: BESTAND, deploy: DEPLOY_GRUEN, jobs: { sieben: JOBS.sieben, acht: JOBS.sieben } }), 'o/r', JETZT).split('\n')
+assert.equal(eins.length, 2)
+assert.equal(eins[1], 'Deploy: kein Alarm')
+// Lesefehler je Teil.
+const deployWirft = (...a) => {
+  if (a.includes('deploy.yml')) throw new Error('deploy kaputt\nzweite')
+  return kulisse({ bestand: BESTAND, deploy: '[]', jobs: JOBS })(...a)
+}
+assert.match(rotAlarmText(deployWirft, 'o/r', JETZT), /\nALARM\? Läufe des Deploys nicht lesbar: deploy kaputt$/)
+const jobsWirft = (...a) => {
+  if (a[2] === '8') throw new Error('jobs kaputt')
+  return kulisse({ bestand: BESTAND, deploy: '[]', jobs: JOBS })(...a)
+}
+assert.match(rotAlarmText(jobsWirft, 'o/r', JETZT), /\nALARM\? Fehlerschritte des Bestandsbaus nicht lesbar: jobs kaputt\n/)
+
 // Verdrahtung als Prozess: `gh` über die Kulisse, damit der echte Aufrufer läuft (Datum 2026-10-18 weit in der Vergangenheit, 2999 in der Zukunft).
 const stub = (laeufe) =>
-  `data:text/javascript,import cp from "node:child_process";import{syncBuiltinESMExports}from "node:module";cp.execFileSync=(c,a)=>{if(a.includes("--workflow")&&(a[a.indexOf("--repo")+1]!=="danielzaiser91/anime-kalender-de"||a[a.indexOf("--workflow")+1]!=="bestand-bauen.yml"))throw new Error("gh?");return ${JSON.stringify(JSON.stringify(laeufe))}};syncBuiltinESMExports();globalThis.fetch=async()=>new Response("{}",{status:500})`
+  `data:text/javascript,import cp from "node:child_process";import{syncBuiltinESMExports}from "node:module";cp.execFileSync=(c,a)=>{if(a.includes("--workflow")&&(a[a.indexOf("--repo")+1]!=="danielzaiser91/anime-kalender-de"||!["bestand-bauen.yml","deploy.yml"].includes(a[a.indexOf("--workflow")+1])))throw new Error("gh?");return ${JSON.stringify(JSON.stringify(laeufe))}};syncBuiltinESMExports();globalThis.fetch=async()=>new Response("{}",{status:500})`
 const ALT = [lauf('success', '2026-10-18T01:00:00Z'), lauf('failure', '2026-10-18T02:00:00Z')]
 const FRISCH = [lauf('success', '2999-12-31T01:00:00Z'), lauf('failure', '2026-10-18T02:00:00Z')]
 const aufraeumen = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
@@ -77,6 +156,7 @@ const fahre = (laeufe) => spawnSync(process.execPath, ['--import', stub(laeufe),
 const a1 = fahre(ALT)
 assert.equal(a1.status, 0, a1.stderr)
 assert.match(a1.stdout, /^ALARM Bestandsbau seit [\d.]+ h rot \(letzter grüner Lauf 2026-10-18T01:00:00Z, 1 rote/m)
+assert.match(a1.stdout, /^ALARM Deploy seit [0-9.]+ h ohne Erfolg/m)
 assert.doesNotMatch(fahre(FRISCH).stdout, /ALARM/)
 
 // Dossier der Wache: Datei 12 trägt dieselbe Zeile (cwd = Wegwerfordner, die übrigen Quellen melden ihre Fehler selbst).
@@ -91,4 +171,4 @@ try {
 } finally {
   rmSync(wegwerf, { recursive: true, force: true })
 }
-console.log('bestand-rot-alarm: ok (Grenze 6 h, 4 Gegenfälle, Lesefehler, aufraeumen + Dossier als Prozess)')
+console.log('bestand-rot-alarm: ok (Grenze 6 h, 4 Gegenfälle, Deploy, Fehlerschritte, Lesefehler, aufraeumen + Dossier als Prozess)')

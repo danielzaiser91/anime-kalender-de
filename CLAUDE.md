@@ -21,7 +21,7 @@ Gesamtüberblick aller **Animation mit deutscher Synchronfassung** (nicht nur ja
 ## Daten, Läufe, Architektur
 
 - Auf `main` schreibt nur der Bestandsbau; Sammler liefern per Pull Request. Neue Datei im Lauf → `tools/quellen-liste.sh`. Nichts nach `.github/workflows/` pushen, solange ein Sammler läuft (`gh run list --status in_progress`). Zeitpläne vom Cloudflare-Wecker. Datenläufe remote: `gh workflow run <datei>.yml --repo danielzaiser91/anime-kalender-de`. **Auswertungen und Einmal-SQL nie an der echten D1**, sondern an der Kopie: `npm run meldungskopie -- holen`, dann `abfrage "…"` (betrieb.md, Abschnitt Meldungskopie).
-- Roter Lauf wird bemerkt, nicht gemeldet: `node tools/laeufe-aufraeumen.mjs --trocken` an jeder Wachphase und nach jedem Push; eine `ALARM`-Zeile (Bestandsbau > 6 h rot, `tools/bestand-rot-alarm.mjs`) geht vor allem anderen.
+- Roter Lauf wird bemerkt, nicht gemeldet: `node tools/laeufe-aufraeumen.mjs --trocken` an jeder Wachphase und nach jedem Push; eine `ALARM`-Zeile (Bestandsbau > 6 h rot, rot > 1 h mit ≥ 2 Fehlerschritten, Deploy > 6 h ohne Erfolg; `tools/bestand-rot-alarm.mjs`) geht vor allem anderen.
 - Fluss: `data/curated/*.yaml` + `data/cache/*` → `pipeline/build.ts` (Phasen `pipeline/bau/`) → `public/data/*` (committet). Bauweise: [ARCHITEKTUR.md](ARCHITEKTUR.md); neues Feld nur in `titles.json`, wenn die Mehrheit es braucht.
 - `shared/` ohne Node/DOM (Pipeline, Web, Worker). Status nur über `shared/logic.ts`; Zeitzonen nur `shared/time.ts` (Daten Europe/Berlin). Oberfläche/Doku deutsch, Feldnamen englisch. Newsletter-Worker optional; DSGVO-Pflichten nie entfernen.
 
