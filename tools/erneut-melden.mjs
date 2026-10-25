@@ -28,7 +28,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
 import { verdachtsfaelle } from './verdacht.mjs'
-import { legeWorktreeAn } from './erneut-melden-worktree.mjs'
+import { legeWorktreeAn, restzweigHinweis } from './erneut-melden-worktree.mjs'
 
 const haupt = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const args = process.argv.slice(2)
@@ -38,7 +38,7 @@ const ohnePush = args.includes('--ohne-push')
 const nurNeu = args.includes('--neu-erzeugen')
 const kennungen = args.filter((a, i) => !a.startsWith('--') && !(grundIdx >= 0 && i === grundIdx + 1))
 /* Wer einreicht, arbeitet in einem eigenen Arbeitsbaum auf origin/main; der Hauptordner bleibt unberührt (Anlass 20.10.2026). */
-const einreichen = !args.includes('--pruefen') && !ohnePush && (nurNeu || kennungen.length > 0)
+const einreichen = !args.includes('--pruefen') && !ohnePush && !nurNeu && kennungen.length > 0
 const arbeitsbaum = einreichen ? legeWorktreeAn(haupt, new Date().toISOString().replace(/[-:TZ.]/g, '').slice(0, 14)) : null
 if (arbeitsbaum) process.on('exit', arbeitsbaum.aufraeumen)
 const wurzel = arbeitsbaum ? arbeitsbaum.pfad : haupt
@@ -177,6 +177,11 @@ if (fehlt) process.exit(1)
 if (ohnePush) process.exit(0)
 
 lauf('npm run check:vor-commit')
+if (nurNeu) {
+  /* `--neu-erzeugen` arbeitet im aktuellen Ordner und bleibt auf dem aktuellen Zweig: kein eigener Zweig, kein eigener PR. */
+  console.log('Neu erzeugt und geprüft — Änderungen liegen im aktuellen Ordner, bitte alles stagen und auf dem PR-Zweig committen.')
+  process.exit(0)
+}
 /* Direkt nach main geht seit dem 11.10.2026 nichts mehr (Ruleset `main-pruefweg`): eigener Zweig (im Arbeitsbaum angelegt), Pull Request (ohne Auto-Merge). */
 lauf(`git add ${DATEIEN.join(' ')}`)
 const nachricht = `Prüfliste: ${neu.map((n) => `${name(n.id)} (${n.plattform})`).join(', ')} erneut melden\n\nGrund: ${grund}. Erzeugt von tools/erneut-melden.mjs.`
@@ -205,5 +210,12 @@ try {
 /* Die Vorprüfung verlangt, dass der PR-Text jede geänderte Datei nennt. */
 const geaendert = execSync('git diff --name-only origin/main...HEAD', { cwd: wurzel, encoding: 'utf8' }).split('\n').filter(Boolean)
 const prText = `${nachricht}\n\nGeänderte Dateien (erzeugt): ${geaendert.map((d) => `\`${d}\``).join(', ')}.`
-execFileSync('bash', ['tools/pr-einreichen.sh', nachricht.split('\n')[0], prText], { cwd: wurzel, stdio: 'inherit' })
+try {
+  execFileSync('bash', ['tools/pr-einreichen.sh', nachricht.split('\n')[0], prText], { cwd: wurzel, stdio: 'inherit' })
+} catch (e) {
+  /* Der Exit-Handler löscht den lokalen Zweig; ein schon gepushter Zweig auf origin bliebe sonst unbemerkt liegen. */
+  const hinweis = restzweigHinweis(wurzel, arbeitsbaum.zweig)
+  if (hinweis) console.error(hinweis)
+  process.exit(e.status || 1)
+}
 console.log('Als Pull Request eingereicht — Merge nach Freigabe und `node tools/pr-nachrechnen.mjs <PR>` von Hand, danach zeigt die Status-App die Titel.')
