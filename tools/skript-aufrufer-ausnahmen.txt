@@ -1,0 +1,10 @@
+# Prüfskripte ohne Aufrufer in package.json, Workflow, Liste oder anderem Skript, die bewusst so bleiben (Wächter: tools/skript-aufrufer-wache.mjs).
+# Format: `pfad # Grund` (eine Datei je Zeile, Grund Pflicht). Eine Ausnahme, die nicht mehr nötig ist, macht check:logic rot.
+# Stand 25.10.2026 (Inventur Bauer skript-aufrufer): „verwaist“ = Besitzer klären, einhängen oder löschen.
+tools/a11y-pruefen.mjs # Handwerkzeug von Hand nach vite build, Aufruf im Kopfkommentar
+tools/adn-vorschlaege-pruefen.mjs # verwaist seit 28.08.2026, Besitzer klären
+tools/anilist-links-pruefen.mjs # Handwerkzeug für Messungen, beschrieben in docs/wissen/quellen.md
+tools/buehne-zeit-pruefen.mjs # Handwerkzeug für die Bühne, beschrieben in docs/wissen/betrieb.md
+tools/cr-entfernte-gegenpruefen.mjs # verwaist seit 29.08.2026 (nur PLAN.md/Archiv), Besitzer klären
+tools/prime-staffel-jahr-pruefen.mjs # verwaist seit 18.09.2026 (nur Archiv), Besitzer klären
+tools/pruefrunden-gh-attrappe.mjs # Attrappe für gh, vom Test tools/pruefrunden-hook.test.mjs gestartet, keine Prüfung
