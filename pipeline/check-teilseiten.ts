@@ -3,7 +3,7 @@
  * hat unter `dist/t/<Slug>/` eine Seite mit og:title, og:description, og:image und canonical.
  * Titel ohne Seite (Katalog ohne Synchro) bekommen keinen Knopf (`teilbarerSlug`), nie einen toten Link.
  */
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { cartoonMitSynchroBeleg, teilbarerSlug, teilenPfad } from '../shared/teilen.ts'
 import type { Title } from '../shared/types.ts'
@@ -12,6 +12,7 @@ import { todayIso } from '../shared/time.ts'
 import { ROOT } from './lib/util.ts'
 import { erreichbar } from './lib/seiten-erreichbar.ts'
 import { SITE } from './lib/titel-seite.ts'
+import { iconSeitenMaengel } from '../tools/icon-kennung.mjs'
 
 const MAX_KLICKS = 3
 
@@ -110,8 +111,17 @@ function uebersichtMaengel(): string[] {
   return /mit deutscher Synchro/i.test(html) ? ['/termine/ verspricht „mit deutscher Synchro“, führt aber Termine ohne belegte Synchro'] : []
 }
 
+/** Icon-Adressen in Startseite, Sammelseite, einer Titelseite, 404 und Manifest tragen `?v=` passend zum Dateiinhalt. */
+function iconAdressMaengel(): string[] {
+  const titelSeite = readdirSync(resolve(DIST, 't')).sort()[0]
+  const seiten = ['index.html', 'termine/index.html', `t/${titelSeite}/index.html`, '404.html', 'manifest.webmanifest']
+  const mangel = iconSeitenMaengel(DIST, seiten)
+  console.log(`[teilseiten] Icon-Adressen: ${seiten.length} Dateien geprüft, ${mangel.length} ohne passendes ?v=`)
+  return mangel
+}
+
 function main(): void {
-  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel(), ...lastmodMaengel(), ...uebersichtMaengel()]
+  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel(), ...lastmodMaengel(), ...uebersichtMaengel(), ...iconAdressMaengel()]
   for (const [art, titel] of quellen()) {
     const teilbar = new Map(titel.map((t) => [t.id, teilbarerSlug(t)]))
     const mitSlug = [...teilbar.values()].filter((s): s is string => s !== undefined)
