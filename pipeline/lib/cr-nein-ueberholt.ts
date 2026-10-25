@@ -13,6 +13,7 @@
  */
 import type { Title } from '../../shared/types.ts'
 import type { CrSerie } from './crunchyroll-dub.ts'
+import { zerlege } from './cr-staffel-nummer.ts'
 import { log } from './util.ts'
 
 export interface OffenerBefund {
@@ -21,19 +22,6 @@ export interface OffenerBefund {
   seriesId?: string
   titel?: string
   geprueftAm?: string
-}
-
-const STAFFEL = /\b(?:staffel|season)\s*(\d+)\b/i
-
-/** Staffelnummer (`Season 2` ≙ `Staffel 2`) und der Rest des Namens ohne Satzzeichen. */
-function zerlege(name: string): { nr: number | null; kern: string } {
-  const nr = STAFFEL.exec(name)?.[1]
-  const kern = name
-    .replace(STAFFEL, ' ')
-    .toLowerCase()
-    .replace(/[^\p{L}\p{N}]+/gu, ' ')
-    .trim()
-  return { nr: nr ? Number(nr) : null, kern }
 }
 
 /**

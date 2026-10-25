@@ -64,6 +64,7 @@
  */
 import type { Title } from '../../shared/types.ts'
 import type { CrSerie, CrStaffel } from './crunchyroll-dub.ts'
+import { titelStaffelNr, zerlege } from './cr-staffel-nummer.ts'
 
 /** Ein abgeleiteter deutscher Streaming-Termin für genau einen Titel. */
 export interface CrTermin {
@@ -178,28 +179,37 @@ function verwirf(grund: string, serie: CrSerie, titel?: number, zahl?: string): 
   return []
 }
 
-/** Eine Staffel mittendrin: lückenlos ab 1, es fehlen welche zum Ende hin, die letzte liegt höchstens 21 Tage zurück. */
-function istLaufend(folgen: ReturnType<typeof datierte>, titel: Title): boolean {
+type Datierte = ReturnType<typeof datierte>
+
+const TAG_MS = 24 * 3600 * 1000
+
+/**
+ * Die kleinste Nummer, wenn die datierten Folgen von dort an lückenlos zählen (jede Nummer einmal) — sonst `null`.
+ * Crunchyroll zählt manche Reihen über alle Staffeln durch: Apothekerin Staffel 3 beginnt bei 49 (25.10.2026).
+ */
+function lueckenlosAb(folgen: Datierte): number | null {
   const nummern = folgen
     .map((f) => Number(f.nummer))
     .filter((n) => Number.isFinite(n) && n >= 1)
     .sort((a, b) => a - b)
-  const lueckenlosAb1 =
-    nummern.length === folgen.length && nummern[0] === 1 && nummern[nummern.length - 1] === nummern.length
+  const ok = nummern.length > 0 && nummern.length === folgen.length && new Set(nummern).size === nummern.length
+  return ok && nummern[nummern.length - 1]! - nummern[0]! + 1 === nummern.length ? nummern[0]! : null
+}
+
+/** Eine Staffel mittendrin: lückenlos (ab irgendeiner Nummer), es fehlen welche zum Ende hin, die letzte liegt höchstens 21 Tage zurück. */
+function istLaufend(folgen: Datierte, titel: Title, jetzt: number): boolean {
   const juengste = folgen
     .map((f) => String(f.verfuegbarAb).slice(0, 10))
     .sort()
     .pop()
-  const frisch = Boolean(
-    juengste && Date.now() - Date.parse(juengste + 'T00:00:00Z') < 21 * 24 * 3600 * 1000,
-  )
-  return lueckenlosAb1 && Boolean(titel.episodes) && folgen.length < titel.episodes! && frisch
+  const frisch = Boolean(juengste && jetzt - Date.parse(juengste + 'T00:00:00Z') < 21 * TAG_MS)
+  return lueckenlosAb(folgen) !== null && Boolean(titel.episodes) && folgen.length < titel.episodes! && frisch
 }
 
-/** Nur Nummern, die bei 1 anfangen und die Folgenzahl nicht überschreiten — sonst gar keine Beobachtung. */
-function beobachtetVon(folgen: ReturnType<typeof datierte>, obergrenze: number): Record<number, string> {
+/** Nur Nummern, die (nach Abzug des Versatzes) bei 1 anfangen und die Folgenzahl nicht überschreiten — sonst gar keine Beobachtung. */
+function beobachtetVon(folgen: Datierte, obergrenze: number, versatz = 0): Record<number, string> {
   const paare = folgen
-    .map((f) => [Number(f.nummer), nachBerlin(f.verfuegbarAb!)?.datum] as const)
+    .map((f) => [Number(f.nummer) - versatz, nachBerlin(f.verfuegbarAb!)?.datum] as const)
     .filter((p): p is readonly [number, string] => Number.isFinite(p[0]) && p[0] >= 1 && Boolean(p[1]))
   const nummernMenge = paare.map(([n]) => n)
   const passt = nummernMenge.length > 0 && Math.min(...nummernMenge) === 1 && Math.max(...nummernMenge) <= obergrenze
@@ -213,7 +223,7 @@ function verwirfPaar(grund: string, serie: CrSerie, titel: number, zahl: string)
 }
 
 /** Der Termin für ein Paar aus Titel und Block — `null`, wenn die ganze Serie verworfen wird. */
-function terminAusPaar(serie: CrSerie, titel: Title, block: CrStaffel): CrTermin | null {
+function terminAusPaar(serie: CrSerie, titel: Title, block: CrStaffel, jetzt: number): CrTermin | null {
   const folgen = datierte(block)
 
   /*
@@ -223,12 +233,12 @@ function terminAusPaar(serie: CrSerie, titel: Title, block: CrStaffel): CrTermin
     Unterwelt"): Dort sind 21 von 24 Folgen deutsch, die 21. kam am Vortag. Der Riegel
     ließ solche Staffeln komplett durchfallen — im Kalender stand nichts, obwohl jede
     erschienene Folge ihren Tag trägt. Erlaubt ist der Fall nur unter drei Bedingungen:
-    die datierten Folgen sind **lückenlos ab 1**, es fehlen welche zum Ende hin, und die
+    die datierten Folgen sind **lückenlos ab ihrer kleinsten Nummer** (Apothekerin Staffel 3 beginnt bei 49; gezählt wird dann ab 1), es fehlen welche zum Ende hin, und die
     letzte liegt höchstens 21 Tage zurück. Dann ist es kein fremder Block, sondern eine
     Staffel mittendrin; `lastEpisodeDate` bleibt offen, und die Fortschreibung rechnet
     die restlichen Folgen weiter.
   */
-  const laufend = istLaufend(folgen, titel)
+  const laufend = istLaufend(folgen, titel, jetzt)
   if (folgen.length !== titel.episodes && !laufend)
     return verwirfPaar('Folgenzahl geht nicht auf', serie, titel.id, `${folgen.length} datiert, ${titel.episodes} laut Bestand`)
   /* Und mindestens die Hälfte des Blocks ist datiert, sonst ist es kein Verlauf. */
@@ -276,14 +286,67 @@ function terminAusPaar(serie: CrSerie, titel: Title, block: CrStaffel): CrTermin
       frühesten belegten Beobachtung"). Gesetzt wird deshalb nur, was bei 1 anfängt und die
       Folgenzahl nicht überschreitet.
     */
-    beobachtet: beobachtetVon(folgen, laufend ? titel.episodes! : folgen.length),
+    beobachtet: beobachtetVon(folgen, laufend ? titel.episodes! : folgen.length, laufend ? lueckenlosAb(folgen)! - 1 : 0),
     rhythmus: messeRhythmus(daten),
     blockName: block.name,
     datiert: folgen.length,
   }
 }
 
-export function termineAusSerie(serie: CrSerie, unsere: Title[]): CrTermin[] {
+/** Nur die datierten Folgen eines Blocks als Termin: ohne Fortschreibung und ohne erfundene Folgenzahl. */
+function terminAusDatierten(serie: CrSerie, titel: Title, block: CrStaffel): CrTermin | null {
+  const folgen = datierte(block)
+  const punkte = folgen
+    .map((f) => nachBerlin(f.verfuegbarAb!))
+    .filter((x): x is { datum: string; zeit: string } => x !== null)
+    .sort((a, b) => (a.datum < b.datum ? -1 : a.datum > b.datum ? 1 : 0))
+  if (!punkte.length) return null
+  const daten = punkte.map((p) => p.datum)
+  const jahr = Number(daten[0]!.slice(0, 4))
+  if (titel.jpYear && jahr < titel.jpYear)
+    return verwirfPaar('deutscher Termin vor der japanischen Ausstrahlung', serie, titel.id, `${jahr} gegen ${titel.jpYear}`)
+  const zeiten = new Set(punkte.map((p) => p.zeit))
+  const ab = lueckenlosAb(folgen)
+  return {
+    titleId: titel.id,
+    firstEpisodeDate: daten[0]!,
+    lastEpisodeDate: daten[daten.length - 1],
+    time: zeiten.size === 1 ? [...zeiten][0] : undefined,
+    episodeCount: folgen.length,
+    beobachtet: beobachtetVon(folgen, folgen.length, ab === null ? 0 : ab - 1),
+    rhythmus: messeRhythmus(daten),
+    blockName: block.name,
+    datiert: folgen.length,
+  }
+}
+
+/**
+ * **Geht die Paarung nicht auf, bekommt nur der jüngste frische Block einen Termin** (25.10.2026: Last Boss S2, Apothekerin S3,
+ * Aristocrat S3 fehlten, weil die neue Staffel noch kein `dub` oder keine Folgenzahl trug und Riegel 1 die ganze Serie verwarf).
+ *
+ * Der jüngste Titel an der Adresse (jüngstes Jahr, bei Gleichstand höhere Kennung) bekommt den jüngsten Block, wenn dessen
+ * erste deutsche Folge höchstens 21 Tage alt ist, kein Termin vor der japanischen Ausstrahlung liegt und die Staffelnummer
+ * des Blocks („Staffel N“/„Season N“) genau zu diesem Titel passt (Nummer im Namen, sonst seine Stelle in der Reihe).
+ * Sonst `null`: weiter verwerfen und zählen, nicht raten. Der Block selbst belegt die deutsche Fassung; ein belegtes Nein bleibt eins.
+ */
+function termineAusJuengstem(serie: CrSerie, unsere: Title[], bloecke: CrStaffel[], jetzt: number): CrTermin[] | null {
+  const titel = unsere
+    .filter((t) => !t.streams.some((s) => s.platform === 'crunchyroll' && s.url === serie.url && s.dub === false))
+    .sort((a, b) => (a.jpYear ?? 0) - (b.jpYear ?? 0) || a.id - b.id)
+  const block = [...bloecke].sort((a, b) => (erstesDatum(a) < erstesDatum(b) ? -1 : 1)).pop()
+  if (!titel.length || !block) return null
+  if (jetzt - Date.parse(erstesDatum(block).slice(0, 10) + 'T00:00:00Z') > 21 * TAG_MS) return null
+  const blockNr = zerlege(block.name).nr
+  const nummern = titel.map((t, i) => titelStaffelNr(t) ?? i + 1)
+  if (blockNr === null || nummern[nummern.length - 1] !== blockNr || nummern.filter((n) => n === blockNr).length !== 1) return null
+  const juengster = titel[titel.length - 1]!
+  const termin = juengster.episodes && istLaufend(datierte(block), juengster, jetzt)
+    ? terminAusPaar(serie, juengster, block, jetzt)
+    : terminAusDatierten(serie, juengster, block)
+  return termin ? [termin] : []
+}
+
+export function termineAusSerie(serie: CrSerie, unsere: Title[], jetzt = Date.now()): CrTermin[] {
   /* Nur der deutsche Katalog trägt deutsche Termine — ein US-Lauf sagt nichts. */
   if (serie.katalog !== 'de') return []
   if (!unsere.length) return []
@@ -301,8 +364,10 @@ export function termineAusSerie(serie: CrSerie, unsere: Title[]): CrTermin[] {
     const stream = t.streams.find((x) => x.platform === 'crunchyroll' && x.url === serie.url)
     return stream?.dub === true && typeof t.episodes === 'number' && t.episodes > 0
   })
-  if (kandidaten.length !== bloecke.length)
-    return verwirf('Blöcke und Titel verschieden viele', serie, undefined, `${bloecke.length} Blöcke, ${kandidaten.length} Titel`)
+  if (kandidaten.length !== bloecke.length) {
+    const jung = termineAusJuengstem(serie, unsere, bloecke, jetzt)
+    return jung ?? verwirf('Blöcke und Titel verschieden viele', serie, undefined, `${bloecke.length} Blöcke, ${kandidaten.length} Titel`)
+  }
 
   /*
     **Zugeordnet wird chronologisch und paarweise — und nur, wenn jedes Paar
@@ -336,7 +401,7 @@ export function termineAusSerie(serie: CrSerie, unsere: Title[]): CrTermin[] {
 
   const raus: CrTermin[] = []
   for (let i = 0; i < nachJahr.length; i++) {
-    const termin = terminAusPaar(serie, nachJahr[i]!, nachDatum[i]!)
+    const termin = terminAusPaar(serie, nachJahr[i]!, nachDatum[i]!, jetzt)
     if (!termin) return []
     raus.push(termin)
   }
@@ -355,9 +420,9 @@ function datierte(st: CrStaffel): { nummer?: number; guid: string; verfuegbarAb?
 }
 
 /** Leitet die Termine für alle Serien ab. `nachUrl` bildet Crunchyroll-Adresse → unsere Titel. */
-export function alleTermine(serien: CrSerie[], nachUrl: Map<string, Title[]>): CrTermin[] {
+export function alleTermine(serien: CrSerie[], nachUrl: Map<string, Title[]>, jetzt = Date.now()): CrTermin[] {
   const raus: CrTermin[] = []
-  for (const serie of serien) raus.push(...termineAusSerie(serie, nachUrl.get(serie.url) ?? []))
+  for (const serie of serien) raus.push(...termineAusSerie(serie, nachUrl.get(serie.url) ?? [], jetzt))
   return raus
 }
 
