@@ -1,7 +1,4 @@
 import { createRoot } from 'react-dom/client'
-import '@fontsource/unbounded/500.css'
-import '@fontsource/unbounded/700.css'
-import '@fontsource-variable/manrope'
 import './zelle.css'
 import { AUSSCHNITTE } from './ausschnitte/index.ts'
 import type { Fall } from './faelle.ts'

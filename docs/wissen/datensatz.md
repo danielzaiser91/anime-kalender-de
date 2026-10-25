@@ -422,8 +422,8 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
   Sprachhinweis bleiben eigene Kacheln. Zusicherung: `pipeline/check-kachel-anbieter.ts`; Code `web/src/lib/anbieter-kachel.ts`, die Nein-Wiedervorlage (`quellen.md`, 13.10.2026) liest dieselbe Kachel als Widerruf eines Nein. Der Tageskopf („7 Termine“)
   zählt weiter Termine je Anbieter.
 - **Farben und Schriften:** Variablen `--ak-*` je Thema in `styles.css`, in Tailwind `bg-ak-grund`,
-  `text-ak-leise` usw.; Unbounded und Manrope selbst gehostet (`@fontsource`), nicht über Google
-  Fonts — ein Abruf dort übermittelt die IP-Adresse.
+  `text-ak-leise` usw.; Schrift E (25.10.2026): Systemschrift im Text, Serifen-Stack in Überschriften (`--ak-schrift-*`), keine Webschrift — nichts geht über Google
+  Fonts, nichts übermittelt eine IP-Adresse (Vorschaubilder nutzen weiter Unbounded/Manrope serverseitig, `og-schriften.ts`).
 - Die Handy-Leiste liegt per Portal am `body` (unter `backdrop-filter` bezöge sich `fixed` sonst auf
   die Kopfleiste); die Seite hält unter `md` unten Platz für sie frei.
 - **Steuerleiste unten** (27.09.2026, Daniel: „einfach immer unten am rand anzeigen"): Woche/Monat,

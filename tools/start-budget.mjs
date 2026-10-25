@@ -3,7 +3,7 @@
  * Start-Budget (Leitziel Mobile Performance, ZIELE.md): Was ein Erstbesuch der Startseite lädt, gzip-Summe, darf die Grenze nicht
  * überschreiten. Gemessen nach dem Web-Bau an `dist/`: index.html, jedes Skript und jedes `modulepreload`/`stylesheet`/`preload` daraus
  * (Einstieg plus statisch vorgeladene Chunks), die Dateien, die das Vorlade-Skript der Wochenansicht (`teil = [...]`,
- * tools/vite-vorladen.ts) anfordert, und als eigener Summand die Startschriften (STARTSCHRIFTEN, roh als woff2).
+ * tools/vite-vorladen.ts) anfordert. Webschriften gibt es seit Schrift E (25.10.2026) nicht mehr; eine woff2 im Start-CSS ergibt Exit 1, damit keine ungezählte Schrift hineinwächst.
  * Nicht gezählt: dynamisch geladene Chunks, Bilder, die vollen Dateien der Nicht-Wochen-Ansichten, das Nachladen nach dem Start.
  * Jedes `<script src>` und `<link>` der HTML wird gelesen; ein `link rel` außerhalb der Ausnahmeliste ergibt Exit 1 statt still zu fehlen.
  *
@@ -15,15 +15,12 @@ import { pathToFileURL } from 'node:url'
 import { gzipSync } from 'node:zlib'
 
 const KB = 1024
-// Grenze 280 KB (25.10.2026: Ist 274,8 KB, 18,2 KB weniger, seit die Wochenansicht aus `woche-kacheln.json` startet; Ist-Zahl + 10 KB, auf volle 10 KB abgerundet).
+// Grenze 250 KB (25.10.2026, Schrift E: Ist 236,0 KB lokal, 237,5 KB in der Kette ohne Webschriften; Ist + 10 KB, abgerundet auf 250 wegen Luft über der Warnschwelle). Davor 280 KB (25.10.2026: Ist 274,8 KB, 18,2 KB weniger, seit die Wochenansicht aus `woche-kacheln.json` startet; Ist-Zahl + 10 KB, auf volle 10 KB abgerundet).
 // Davor 300 KB (23.10.2026: Ist 293,8 KB nach verzögertem Laden der Seitenansichten); davor 310 KB inkl. Schriften (18.10.2026: 330 KB bei Ist 327 KB; 20.10.2026: Ist 305,2 KB nach Unbounded-Teilmenge, 5 KB Reserve; Ziel bleibt 300 KB).
 // Die Grenze steigt nie; sie sinkt von Hand, wenn der Ist-Wert dauerhaft darunter liegt.
-export const GRENZE = 280 * KB
+export const GRENZE = 250 * KB
 /** Frühwarnung: bleibt weniger Luft, druckt der Lauf eine `::warning::`-Zeile (Daten wachsen mit jedem Datenlauf; 25.10.2026 riss die Grenze um 0,2 KB). */
 export const WARNLUFT = 3 * KB
-
-/** Schriften, die der Browser beim Start lädt (gemessen mit Playwright 18.10.2026, 360 und 1280 px): Dateinamen-Anfang im CSS. */
-export const STARTSCHRIFTEN = ['manrope-latin-wght', 'unbounded-700-de']
 
 const GEZAEHLT = ['stylesheet', 'modulepreload', 'preload']
 const AUSNAHMEN = ['icon', 'shortcut', 'apple-touch-icon', 'manifest', 'alternate', 'canonical']
@@ -79,17 +76,9 @@ export function messe(dist, pfade) {
   return { zeilen, fehlt }
 }
 
-/** Pfade der Startschriften aus den Stylesheets (`url(…woff2)`); fehlt eine, steht sie in `fehlt`. */
+/** woff2-Dateien, die die Start-Stylesheets anfordern (Soll: keine, Text und Überschriften nehmen Geräteschriften). */
 export function startSchriften(dist, cssPfade) {
-  const urls = cssPfade.flatMap((p) => [...readFileSync(join(dist, p), 'utf8').matchAll(/url\(([^)]+?\.woff2)\)/g)].map((m) => m[1].replace(/^["']|["']$/g, '').replace(/^\//, '')))
-  const pfade = []
-  const fehlt = []
-  for (const anfang of STARTSCHRIFTEN) {
-    const treffer = urls.find((u) => u.split('/').pop().startsWith(`${anfang}-`))
-    if (treffer) pfade.push(treffer)
-    else fehlt.push(anfang)
-  }
-  return { pfade, fehlt }
+  return cssPfade.flatMap((p) => [...readFileSync(join(dist, p), 'utf8').matchAll(/url\(([^)]+?\.woff2)\)/g)].map((m) => m[1].replace(/^["']|["']$/g, '').replace(/^\//, '')))
 }
 
 /** Zusatzzeile, wenn die Luft unter `WARNLUFT` liegt. */
@@ -107,15 +96,13 @@ export function bewerte(dist, grenze = GRENZE) {
   const { zeilen, fehlt } = messe(dist, start.dateien)
   if (fehlt.length) return { code: 1, text: `start-budget: Datei fehlt in ${dist}: ${fehlt.join(', ')}` }
   const schriften = startSchriften(dist, start.css)
-  if (schriften.fehlt.length) return { code: 1, text: `start-budget: Startschrift nicht im CSS: ${schriften.fehlt.join(', ')}` }
-  const schriftZeilen = schriften.pfade.map((pfad) => ({ pfad, bytes: readFileSync(join(dist, pfad)).length }))
+  if (schriften.length) return { code: 1, text: `start-budget: Webschrift im Start-CSS (nicht gezählt, nicht vorgesehen): ${schriften.join(', ')}` }
   const codeBytes = zeilen.reduce((s, z) => s + z.bytes, 0)
-  const schriftBytes = schriftZeilen.reduce((s, z) => s + z.bytes, 0)
-  const summe = codeBytes + schriftBytes
+  const summe = codeBytes
   const kb = (b) => (b / KB).toFixed(1)
-  const teile = `Code und Daten ${kb(codeBytes)} KB + Schriften ${kb(schriftBytes)} KB`
+  const teile = `Code und Daten ${kb(codeBytes)} KB`
   if (summe <= grenze) return { code: 0, text: `start-budget: ${kb(summe)} KB gzip von ${kb(grenze)} KB, ${kb(grenze - summe)} KB Luft (${teile})${warnZeile(grenze - summe, kb)}` }
-  const liste = [...zeilen, ...schriftZeilen].map((z) => `  ${kb(z.bytes).padStart(7)} KB  ${z.pfad}`).join('\n')
+  const liste = zeilen.map((z) => `  ${kb(z.bytes).padStart(7)} KB  ${z.pfad}`).join('\n')
   return { code: 1, text: `start-budget: ${kb(summe)} KB gzip, ${kb(summe - grenze)} KB über der Grenze von ${kb(grenze)} KB (${teile})\n${liste}` }
 }
 
