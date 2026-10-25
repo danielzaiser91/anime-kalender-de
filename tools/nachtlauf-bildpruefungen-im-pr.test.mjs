@@ -54,7 +54,7 @@ export function befehleVon(doc, mitMatrix) {
 
 /** Nachtlauf-Prüfungen ohne PR-Gegenstück und ohne Ausnahme. */
 export function fehlendeImPr(nachts, pr, ausnahmen) {
-  return nachts.filter((n) => n.startsWith('check:') || n.endsWith(':bilder')).filter((n) => !pr.includes(n) && !(n in ausnahmen))
+  return nachts.filter((n) => !pr.includes(n) && !(n in ausnahmen))
 }
 
 /** Matrix-Befehle, die zu keiner Wurzel gehören. */
@@ -62,11 +62,28 @@ export function ohneWurzel(matrixBefehle, wurzeln) {
   return matrixBefehle.filter((b) => !wurzeln.some((w) => b === w || b.startsWith(`${w}-`)))
 }
 
+/** Ausnahmen, die nicht mehr nötig sind: im PR vorhanden oder nachts nicht mehr da. */
+export function veralteteAusnahmen(ausnahmen, nachts, pr) {
+  return Object.keys(ausnahmen).filter((a) => pr.includes(a) || !nachts.includes(a))
+}
+
+/** Feste Fälle der Rechenregeln (Mutanten der Funktionen werden hier rot, nicht erst an den Workflows). */
+function selbsttest() {
+  assert.equal(schluessel('npm run ansichten:bilder -- --handy'), 'check:ansichten-handy')
+  assert.equal(schluessel('npm run ansichten:bilder'), 'check:ansichten-desktop')
+  assert.equal(schluessel('npm run check:news -- --handy'), 'check:news --handy')
+  assert.equal(schluessel('npm ci'), null)
+  assert.deepEqual(fehlendeImPr(['check:a', 'check:b', 'check:c'], ['check:a'], { 'check:b': 'x' }), ['check:c'])
+  assert.deepEqual(veralteteAusnahmen({ 'check:a': 'x', 'check:b': 'x', 'check:c': 'x' }, ['check:a', 'check:b'], ['check:b']), ['check:b', 'check:c'])
+  assert.deepEqual(ohneWurzel(['check:p', 'check:p-teile', 'check:q'], ['check:p']), ['check:q'])
+}
+
 function lade(datei) {
   return parse(readFileSync(resolve(WURZEL, '.github/workflows', datei), 'utf8'))
 }
 
 function main() {
+  selbsttest()
   const nachts = befehleVon(lade('aussehen-pruefen.yml'), false)
   const prDoc = lade('pr-pruefung.yml')
   const pr = befehleVon(prDoc, true)
@@ -76,7 +93,7 @@ function main() {
   const fehlen = fehlendeImPr(nachts, pr, AUSNAHMEN)
   assert.deepEqual(fehlen, [], `Nachtlauf-Bildprüfung fehlt im PR (Matrix aufnehmen oder in AUSNAHMEN mit Grund): ${fehlen.join(', ')}`)
 
-  const veraltet = Object.keys(AUSNAHMEN).filter((a) => pr.includes(a) || !nachts.includes(a))
+  const veraltet = veralteteAusnahmen(AUSNAHMEN, nachts, pr)
   assert.deepEqual(veraltet, [], `AUSNAHMEN veraltet (läuft jetzt im PR oder nicht mehr nachts): ${veraltet.join(', ')}`)
 
   const matrix = prDoc.jobs.aussehen.strategy.matrix.include.map((e) => schluessel(e.befehl))
