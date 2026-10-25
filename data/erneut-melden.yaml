@@ -4,7 +4,8 @@
 #
 # **Nicht von Hand eintragen**, sondern: node tools/erneut-melden.mjs <anilistId>[:anbieter] … --grund "…"
 # Das Skript schreibt die Zeile, erzeugt Prüflisten und Prüfstand (Status-App) neu, prüft und
-# pusht. `check:wiedervorlage` meldet einen Eintrag, der hier steht, aber nicht nachgezogen ist.
+# pusht. Mit `--ohne-push` schreibt es nur im aktuellen Ordner (kein eigener Arbeitsbaum, kein Push) — für
+# einen PR-Zweig, der die Zeilen selbst committet. `check:wiedervorlage` meldet einen Eintrag, der hier steht, aber nicht nachgezogen ist.
 #
 # 21.09.2026: Netflix-Handbelege, die nur einzelne Folgen nennen (meist Folge 1, bei Dr. STONE
 # Folge 24, bei Stone Wars Folge 11), während MOTN alle Folgen als deutsch führt. Daniel:
