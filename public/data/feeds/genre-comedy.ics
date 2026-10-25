@@ -8,90 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T221000Z
-DTEND:20261017T224000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T083000Z
-DTEND:20261018T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 12/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17577/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-18#7@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T124500Z
-DTEND:20261018T131500Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-18#8@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T131500Z
-DTEND:20261018T134500Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-18#9@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T134500Z
-DTEND:20261018T141500Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384006@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T140000Z
-DTEND:20261018T143000Z
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 3/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16547/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-186541-primevideo@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T140000Z
-DTEND:20261018T143000Z
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 3/13
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16547/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384004@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T143000Z
-DTEND:20261018T150000Z
-SUMMARY:Overgeared Staffel 1 – Folge 4/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17645/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-19#32@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T151000Z
@@ -558,8 +474,10 @@ DTSTART:20261025T150000Z
 DTEND:20261025T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 4/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16547/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -581,8 +499,10 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261025T153000Z
 DTEND:20261025T160000Z
 SUMMARY:Overgeared Staffel 1 – Folge 5/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17645/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -929,6 +849,36 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
  ttps://anime-kalender.de/t/16919/
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-11-01#13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261101T135000Z
+DTEND:20261101T142000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-11-01#14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261101T142000Z
+DTEND:20261101T145000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-11-01#15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261101T145000Z
+DTEND:20261101T152000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-01@anime-kalender-de

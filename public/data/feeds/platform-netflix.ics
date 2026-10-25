@@ -8,16 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-189123-netflix@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261018
-DTEND;VALUE=DATE:20261019
-SUMMARY:Blue Box: Staffel 2 – Folge 3/≈12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:cyberpunk-edgerunners-2-netflix@2026-10-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261020T080000Z

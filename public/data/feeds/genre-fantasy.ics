@@ -8,48 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T221000Z
-DTEND:20261017T224000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384004@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T143000Z
-DTEND:20261018T150000Z
-SUMMARY:Overgeared Staffel 1 – Folge 4/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17645/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:appraisal-aristocrat-s3-crunchyroll@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T150000Z
-DTEND:20261018T153000Z
-SUMMARY:As a Reincarnated Aristocrat\, I'll Use My Appraisal Skill to Rise 
- in the World – Staffel 3 – Folge 1/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16469/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-10-18#13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T150000Z
-DTEND:20261018T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 13–
- 14/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16011/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-10-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T140500Z
@@ -593,8 +551,10 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261025T153000Z
 DTEND:20261025T160000Z
 SUMMARY:Overgeared Staffel 1 – Folge 5/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17645/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -604,8 +564,10 @@ DTSTART:20261025T160000Z
 DTEND:20261025T163000Z
 SUMMARY:As a Reincarnated Aristocrat\, I'll Use My Appraisal Skill to Rise 
  in the World – Staffel 3 – Folge 2/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16469/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16469/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

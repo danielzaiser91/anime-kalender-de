@@ -8,46 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T221000Z
-DTEND:20261017T224000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-18#7@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T124500Z
-DTEND:20261018T131500Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-18#8@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T131500Z
-DTEND:20261018T134500Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-18#9@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T134500Z
-DTEND:20261018T141500Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-10012621-tv-super-rtl@2026-10-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T075000Z
@@ -1186,6 +1146,36 @@ SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-11-01#13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261101T135000Z
+DTEND:20261101T142000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-11-01#14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261101T142000Z
+DTEND:20261101T145000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-11-01#15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261101T145000Z
+DTEND:20261101T152000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-05@anime-kalender-de

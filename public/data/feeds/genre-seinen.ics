@@ -8,30 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:cr-GT00384006@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T140000Z
-DTEND:20261018T143000Z
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 3/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16547/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-186541-primevideo@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T140000Z
-DTEND:20261018T143000Z
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 3/13
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16547/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-10-21#16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T140000Z
@@ -71,8 +47,10 @@ DTSTART:20261025T150000Z
 DTEND:20261025T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 4/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16547/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
