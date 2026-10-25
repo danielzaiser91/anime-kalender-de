@@ -9,7 +9,7 @@
  * Gemessen an der gespeicherten Seite B01MSMV5MA (Fixture `prime-fassungen.fixture.json`).
  *
  * Kaufart aus `entitlementCues.focusMessage.message`: „Gratiszeitraum" (mit Kanal-Logo) = Kanal,
- * „Kaufen oder leihen" = Kauf. „Prime" im Text gilt vor dem Logo (4.32.5, gemessen an der Kaufseite B01HRLV328:
+ * „Kaufen oder leihen" = Kauf. „Prime" im Text gilt bei bestehendem Abo (`Entitled`) vor dem Logo (4.32.5, gemessen an der Kaufseite B01HRLV328:
  * die Uncut-Fassung B01MSMV5MA trägt „In Prime enthalten." und ein Prime-Logo unter benefit-id/m-r/Prime);
  * danach gilt das Kanal-Logo vor dem übrigen Text. Alles andere (auch `Entitled` allein) bleibt neutral („Fassung").
  */
@@ -24,6 +24,8 @@
   function kaufart(cues) {
     const meldung = text(cues?.focusMessage?.message || cues?.glanceMessage?.message)
     const kanalLogo = Boolean(cues?.providerLogo?.imageUrl)
+    /* Kanal-Logo ohne Abo (`Unentitled`) = Kanal, auch bei „Prime Video Channels“ im Text. */
+    if (kanalLogo && cues?.entitlementType !== 'Entitled') return 'kanal'
     if (/prime/i.test(meldung)) return 'prime'
     if (kanalLogo) return 'kanal'
     if (/gratis|abo|kanal|channel/i.test(meldung)) return 'kanal'

@@ -146,6 +146,20 @@ const auswahl = (l) => l.angehaengt.flatMap((e) => zeilen(e)).filter((z) => z.ki
 const texte = (l) => auswahl(l).map(zeilenText)
 const daten = (f) => JSON.parse(JSON.stringify(f))
 
+async function kanalOhneAbo() {
+  // Gegenprobe: Uncut ohne Abo (Unentitled), Logo und „Prime Video Channels“ ist Kanal
+  const channels = JSON.parse(lies('prime-fassungen-kauf.fixture.json'))
+  for (const reihe of Object.values(channels.init.preparations.body.btf.state.containers)) {
+    const uncut = reihe[0].entities.find((e) => e.titleID === 'B01MSMV5MA')
+    uncut.entitlementCues.entitlementType = 'Unentitled'
+    uncut.entitlementCues.focusMessage = { message: 'Prime Video Channels' }
+  }
+  const channelsLauf = await lauf({ hydration: { textContent: JSON.stringify(channels) }, pfad: '/gp/video/detail/B01HRLV328', seite: { kaufbar: true } })
+  const ct = texte(channelsLauf)
+  pruefe('Unentitled + Logo + „Prime Video Channels“: die Uncut-Fassung ist Kanal, nicht Prime',
+    ct.length === 3 && !ct.some((x) => /Kauf\/Abo · Prime/.test(x)) && ct.filter((x) => /Kanal-Abo · Kanal/.test(x)).length === 2, ct)
+}
+
 async function main() {
   console.log('Zusicherungen für die Fassungen im Kasten der Titelseite\n')
   const knoten = { textContent: FIXTURE }
@@ -196,6 +210,7 @@ async function main() {
   pruefe('Kaufseite: danach die eigene Seite als Kauf, zuletzt der Kanal',
     /Kauf · diese Seite/.test(kt[1] ?? '') && /Kanal-Abo · Kanal/.test(kt[2] ?? '') && /B0GVNJRZCM/.test(kt[2] ?? ''), kt)
 
+  await kanalOhneAbo()
   // Gegenprobe: dasselbe Logo ohne Prime-Text bleibt Kanal
   const logoOhnePrime = JSON.parse(lies('prime-fassungen-kauf.fixture.json'))
   const liste = logoOhnePrime.init.preparations.body.btf.state.containers
