@@ -12,6 +12,8 @@ export function main(datei: string): number {
   const zeile = `  ${marke} ADN-Titelliste: ${w.text}`
   if (w.stufe === 'rot') console.error(zeile)
   else console.log(zeile)
+  if (w.stufe === 'rot') console.error('VERSTÖSSE: 1')
+  else console.log('VERSTÖSSE: 0')
   return w.stufe === 'rot' ? 1 : 0
 }
 

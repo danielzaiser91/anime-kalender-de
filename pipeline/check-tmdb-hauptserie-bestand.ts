@@ -28,6 +28,8 @@ pruefe('keine Folgenliste (tmdb-folgen.json) einer anderen Kennung als in tmdb-t
 
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
+  console.log(`VERSTÖSSE: ${verletzt}`)
   process.exit(1)
 }
 console.log('\nTMDB-Hauptserie (Bestand): alle Zusicherungen halten.')
+console.log('VERSTÖSSE: 0')

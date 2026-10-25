@@ -300,4 +300,5 @@ console.log('\nRelease-Titel (gegen den Bestand)')
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
+console.log(`VERSTÖSSE: ${fehler}`)
 process.exit(fehler ? 1 : 0)

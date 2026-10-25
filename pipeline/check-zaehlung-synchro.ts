@@ -27,5 +27,9 @@ if (mitOs === 0) {
   verletzt++
   console.error('  ✖ keine os-Titel in titles.json — der Test misst nichts mehr')
 }
-if (verletzt) process.exit(1)
+if (verletzt) {
+  console.log(`VERSTÖSSE: ${verletzt}`)
+  process.exit(1)
+}
 console.log('  ✓ Zahl „mit 🇩🇪" ist mit und ohne Schalter gleich')
+console.log('VERSTÖSSE: 0')

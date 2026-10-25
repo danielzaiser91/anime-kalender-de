@@ -37,5 +37,7 @@ console.log('\nBelegstärke: Treffer-Datei gegen den Datensatz')
 
 if (fehler) {
   console.error(`\n${fehler} Zusicherung(en) verletzt.`)
+  console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
+console.log('VERSTÖSSE: 0')

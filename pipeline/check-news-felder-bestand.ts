@@ -26,12 +26,14 @@ export function main(argv: string[]): number {
     vorstand = leseVorstand(ref)
   } catch (e) {
     console.error(`FEHLER: Vorstand ${ref} nicht lesbar: ${(e as Error).message.split('\n')[0]}`)
+    console.log('VERSTÖSSE: 1')
     return 1
   }
   const jetzt = readJson<NewsEintrag[]>(DATEI, [])
   const zeilen = vorstand ? felderAenderungen(vorstand, jetzt) : []
   for (const z of zeilen) console.error(`FEHLER: ${z}`)
   console.log(`check-news-felder-bestand: ${jetzt.length} Einträge gegen ${vorstand ? `${vorstand.length} des Vorstands ${ref}` : `Vorstand ${ref} ohne news.json`}, ${zeilen.length} geänderte Felder`)
+  console.log(`VERSTÖSSE: ${zeilen.length}`)
   return zeilen.length ? 1 : 0
 }
 

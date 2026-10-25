@@ -32,6 +32,8 @@ if (existsSync(OUT)) {
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu den geteilten Prime-Seiten am Bestand verletzt`)
+  console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
 console.log('Geteilte Prime-Seiten (Bestand): Zusicherungen erfüllt')
+console.log('VERSTÖSSE: 0')

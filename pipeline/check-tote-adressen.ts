@@ -78,6 +78,8 @@ if (treffer.length) {
   for (const z of treffer.slice(0, 20)) console.error(`  ${z}`)
   if (treffer.length > 20) console.error(`  … und ${treffer.length - 20} weitere`)
   console.error('\nIrgendeine Runde in build.ts legt sie nach dem Entfernen wieder an — dort gehört `lautPruefungTot` davor.')
+  console.log(`VERSTÖSSE: ${treffer.length}`)
   process.exit(1)
 }
 console.log(`Keine tote Adresse im Datensatz (${Object.keys(befunde).length} geprüfte Adressen).`)
+console.log('VERSTÖSSE: 0')
