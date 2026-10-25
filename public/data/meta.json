@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-25T04:08:41.550Z",
+  "generatedAt": "2026-10-25T10:10:00.633Z",
   "titleCount": 2922,
   "belegtCount": 2592,
-  "releaseCount": 806,
-  "eventCount": 3997,
+  "releaseCount": 805,
+  "eventCount": 3985,
   "genres": [
     "Action",
     "Adventure",
@@ -224,6 +224,7 @@
     "Behind The Tree",
     "Paramount+",
     "Paramount+ über Apple TV",
+    "Plex",
     "Plex Channel",
     "Plex Player",
     "Verleihshop",
@@ -243,7 +244,6 @@
     "KSM Anime — Complete Edition (AKIBA PASS Shop)",
     "Netflix",
     "Netflix Standard With Ads",
-    "Plex",
     "Pokémon TV",
     "Thalia",
     "Vimeo",
@@ -264,7 +264,7 @@
     2016,
     2015
   ],
-  "patchnotesStand": "2026-10-24",
+  "patchnotesStand": "2026-10-25",
   "attribution": [
     "Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0",
     "Metadaten: AniList (https://anilist.co)",
