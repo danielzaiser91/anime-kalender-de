@@ -8,6 +8,19 @@
   globalThis.akPrimeGesperrteZahl = (gesperrtMap, regionFolgenDom) =>
     Math.max(gesperrtMap?.size ?? 0, regionFolgenDom?.length ?? 0)
 
+  /**
+   * Wie viele Folgen die Staffel hat, gemessen an dem, was lesbar ist. Die Seitenzahl meint bei Bänden
+   * die ganze Staffel (ZEXAL: 96 genannt, 48 erreichbar; „fehlen 48“ für immer). Sind mindestens zwei Abschnitte
+   * bekannt und alle wirklich gelesen (`offen` 0; ein fehlgeschlagener oder unlesbarer Abschnitt bleibt offen),
+   * gilt das Gelesene. Sonst die größere Zahl von Zählwerk und Seite.
+   */
+  globalThis.akPrimeSollFolgen = (gesehen, lautSeite, gelesen) => {
+    const genannt = Math.max(gesehen.gesamt || 0, lautSeite || 0)
+    const abschnitte = gesehen.abschnitte
+    const alleGelesen = abschnitte && abschnitte.gesamt >= 2 && abschnitte.offen === 0
+    return alleGelesen && gelesen > 0 ? Math.min(genannt, gelesen) : genannt
+  }
+
   /** Ist jede Folge gelesen oder gesperrt? (27 lesbar + 24 gesperrt von 51) */
   globalThis.akPrimeMeldungVollstaendig = (sollFolgen, geladen, gesperrt) =>
     geladen + gesperrt >= sollFolgen

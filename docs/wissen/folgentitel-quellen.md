@@ -39,3 +39,10 @@ dort nur rund 54 Anime-Listen gegenüber 43 Lücken, die zu 60 % Crunchyroll-Ser
 - **Offen — Stufe 1b:** Serien, die sich **mehrere Staffeln einen Crunchyroll-Weg teilen** (`sharedWith`: Mushoku Tensei, Iruma-kun, Black Clover …), brauchen die Staffelzuordnung: Die Titel stehen
   in der Antwort je Staffel (`episodes[staffelId]`), die Zuordnung Staffel ↔ Bestandstitel liegt in `bau/09-4`; dort sollte das Ergebnis je Staffel bleiben, statt es hier neu zu raten.
 - **Offen — Stufe 2:** TMDB als dritte Stufe (nur echte Titel, 14 der 43 Lücken), danach Wikipedia für Langläufer.
+
+## Laufende Serien: TMDB-Abruf nach 6 Tagen statt 30 (24.10.2026)
+
+Anlass: „Die sieben Ritter des Königreichs der Marronniers" (AniList 212799) hatte 4 Folgen, aber nur Folge 1 einen Titel; `data/tmdb-folgen.json` war am 12.10. geholt (Folgen 2–3 dort „Folge N"), der nächste Abruf wäre erst nach 30 Tagen gekommen (ebenso Overgeared 212888).
+
+- `pipeline/lib/tmdb-folgen-auswahl.ts` (`waehleFaellige`, geprüft von `check-tmdb-folgen-auswahl.ts`): Ein Eintrag ist zusätzlich fällig, wenn der Abruf mindestens 6 Tage alt ist (6 statt 7, damit ein einen Tag früher startender Wochenlauf ihn nicht um eine Woche verschiebt; Prüfer 1938) und eine Folge der Staffeln ab 1 mit TMDB-Datum in den letzten 21 Tagen (bis heute) keinen echten Titel trägt (leer, Platzhalter nach `PLATZHALTER` aus `bau/folgentitel-tmdb.ts`, oder gleich dem englischen). Diese Titel stehen vor den übrigen, damit sie unter `--limit 300` nicht hinter den 30-Tage-Fälligen verhungern.
+- Das 21-Tage-Fenster ist nötig: ohne es wären 368 von 817 Kandidaten jede Woche fällig (alte Serien, deren Titel bei TMDB dauerhaft englisch sind). Mit Fenster, Stand 24.10.2026: Wochenlauf hätte vorher 11, nachher 31 Titel fällig (20 frisch fällig); alle 20 liegen unter dem Limit 300. Die 30-Tage-Welle (803 am 07.11., alles am 06.10. geholt) übersteigt das Limit weiterhin; sie läuft über mehrere Wochenläufe aus.

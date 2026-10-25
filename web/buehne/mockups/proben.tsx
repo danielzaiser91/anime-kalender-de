@@ -13,6 +13,15 @@ function probe(ausschnitt: AusschnittName, titel: string): void {
   })
 }
 
+// Zustandsbild „Kopf ohne Marke“: Fall 86 ohne Sprachbeleg an allen Zeilen (Fall-Optionen, `fall-optionen.ts`).
+mockup({
+  name: 'probe-tonspur',
+  titel: 'Probe – Panel ohne Sprachbeleg',
+  ausschnitt: 'detailpanel',
+  faelle: ['86', '86-ohne-beleg'],
+  varianten: { A: { ersatz: {}, notiz: 'Probe ohne Änderung: der Fall „ohne Beleg“ zeigt den Kopf ohne Marke.' } },
+})
+
 probe('filter', 'Filterfenster und Chips')
 probe('kachel', 'Kachelraster der Datenbank')
 probe('ganz', 'Ganze App')

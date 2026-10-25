@@ -120,3 +120,12 @@ export function ordneAdnZuAnisearch(serien: AdnSerie[], titel: Map<number, AsTit
     offen: rest.map((s) => ({ showId: s.showId, title: s.title, originalTitle: s.originalTitle, grund: grund(s.showId), kandidaten: alle.get(s.showId)!.slice(0, 3) })),
   }
 }
+
+/**
+ * Serien des Kalenders (`data/adn.json`), die weder im Katalog noch in der Liste der offenen stehen. Der Katalog-Lauf ordnet nur Katalogserien zu; eine
+ * Kalenderserie, die er (noch) nicht führt, hat keine aniSearch-Kennung und keinen Platz auf der Liste — im Bau fängt sie nur die Namenszuordnung.
+ */
+export function kalenderOhneNetz(kalender: { showId: number; title: string }[], katalog: { showId: number }[], offen: { showId: number }[]): { showId: number; title: string }[] {
+  const bekannt = new Set([...katalog, ...offen].map((s) => s.showId))
+  return kalender.filter((s) => !bekannt.has(s.showId))
+}

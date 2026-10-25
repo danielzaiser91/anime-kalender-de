@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react'
-import { installStellen, KOPF_KNOPF_AB_PX, type MenueInstall } from './install-stellen.ts'
+import { installStellen, KOPF_KNOPF_AB_BREIT_PX, KOPF_KNOPF_AB_PX, KOPF_KNOPF_BIS_PX, type MenueInstall } from './install-stellen.ts'
 
 /**
  * Alles rund um „App installieren".
@@ -108,9 +108,9 @@ export function useInstall(): InstallState {
   }
 }
 
-/** Breit genug für den Kopf-Knopf? Gleiche Schwelle wie `min-[390px]` in `InstallButton`. */
+/** Breit genug für den Kopf-Knopf? Gleiche Schwellen wie `min-[390px]`, `md` und `xl` in `InstallButton`. */
 function useBreit(): boolean {
-  const abfrage = `(min-width: ${KOPF_KNOPF_AB_PX}px)`
+  const abfrage = `(min-width: ${KOPF_KNOPF_AB_PX}px) and (max-width: ${KOPF_KNOPF_BIS_PX}px), (min-width: ${KOPF_KNOPF_AB_BREIT_PX}px)`
   return useSyncExternalStore(
     (melden) => {
       const m = window.matchMedia(abfrage)

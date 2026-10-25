@@ -942,8 +942,7 @@ for (const gruppe of jeAdresse.values()) {
    * auf eine Seite, die sie nicht enthält. Das ist Netflix' eigene Auskunft,
    * kein Rückschluss, und wird wie die Tonspuren behandelt.
    */
-  // Was der Anbieter über sich sagt, wird behalten — auch wenn die Zuordnung
-  // danach scheitert. Es ist die Grundlage für die nächste Prüfrunde.
+  // Was der Anbieter über sich sagt, wird behalten, auch bei gescheiterter Zuordnung (Grundlage der nächsten Prüfrunde).
   const kennungHier = /\/title\/(\d+)/.exec(netflixTitelAdresse(p.url))?.[1]
   if (anbieterStaffeln?.length) {
     if (kennungHier) {

@@ -8,16 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:cr-GT00378078@2026-10-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T160000Z
-DTEND:20261017T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 10/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16797/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T144500Z
@@ -124,9 +114,12 @@ UID:cr-GT00378078@2026-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261024T160000Z
 DTEND:20261024T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16797/
+SUMMARY:⚠ nicht erschienen: Jaadugar: A Witch in Mongolia Staffel 1 – F
+ olge 11/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
+  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
+ 6797/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
