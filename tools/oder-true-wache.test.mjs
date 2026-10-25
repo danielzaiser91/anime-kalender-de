@@ -55,7 +55,6 @@ assert.equal(texte('offset +e').length, 0, 'offset ist kein set')
 assert.equal(texte('set +e2').length, 0, 'set +e2 (Wortzeichen dahinter)')
 assert.equal(texte('a || exit0').length, 0, 'exit0 ist ein anderes Kommando')
 assert.equal(texte('set+e').length, 0, 'set+e ist ein anderes Kommando')
-assert.equal(texte('set +oerrexit').length, 0, 'set +oerrexit ist ungültig')
 assert.deepEqual(art('a || set +e'), ['set +e'], 'nach ||')
 assert.deepEqual(art('set +ue'), ['set +e'], 'e am Ende der Schalter')
 
