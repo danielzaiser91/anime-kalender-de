@@ -122,12 +122,19 @@ async function tabelle() {
   pruefe('dasselbe im Klick: Abweisung „keine Folge gelesen" steht vor der Soll-Rechnung', gesperrtKlick.abgewiesen.length === 1 && gesperrtKlick.abgewiesen[0].grund === 'keine Folge gelesen', gesperrtKlick.abgewiesen)
   const laeuft = knopfBietet({ geladen: 75, gesamt: 99, vollstaendig: false })
   pruefe('Liste noch nicht vollständig: die Entscheidung greift am Knopf nicht (andere Sperre zuständig)', laeuft.knopf.textContent === '' && laeuft.bietet === true, laeuft.knopf)
-  const mehr = kasten.akPrimeKeinDeutschSperre({ sollFolgen: 5, geladen: 7, gesperrt: 0, kanal: false })
-  pruefe('Sperrtext: nie eine negative Zahl', /fehlen 0$/.test(mehr.text), mehr.text)
+  const mehr = kasten.akPrimeLeseStand({ sollFolgen: 5, geladen: 7, gesperrt: 0, fertig: false })
+  pruefe('Ladetext: nie eine negative Zahl', /fehlen 0$/.test(mehr), mehr)
   pruefe('Kanal-Titel: Hinweis nennt das Kanal-Abo',/Kanal-Abo/.test(kanal.knopf.title), kanal.knopf.title)
   const normal = await klick({ geladen: 75, gesamt: 99 })
   pruefe('ohne Kanal: Hinweis nennt keinen Kanal', !/Kanal/.test(normal.knopf.title), normal.knopf.title)
-  pruefe('Text nennt „fehlen 24"', /75 von 99 Folgen gelesen — für „kein Deutsch" fehlen 24/.test(normal.knopf.textContent), normal.knopf.textContent)
+  pruefe('Stillstand: Text nennt das Gelieferte, kein „fehlen"', normal.knopf.textContent === '75 Folgen gelesen — mehr zeigt die Seite nicht', normal.knopf.textContent)
+  pruefe('Stillstand: Hinweis nennt Amazons Zahl 99', /Amazon nennt 99 Folgen/.test(normal.knopf.title), normal.knopf.title)
+  /* Band-Staffel ohne bekannte Abschnitte (ZEXAL Band 2: 96 genannt, 48 erreichbar): nie „fehlen 48" */
+  const band = await klick({ geladen: 48, gesamt: 96, lautSeite: 96 })
+  pruefe('Band-Staffel: „48 Folgen gelesen — mehr zeigt die Seite nicht"', band.knopf.textContent === '48 Folgen gelesen — mehr zeigt die Seite nicht', band.knopf.textContent)
+  /* Gegenprobe: lädt die Seite noch, bleibt „fehlen N" wahr. */
+  const lade = kasten.akPrimeLeseStand({ sollFolgen: 99, geladen: 75, gesperrt: 0, fertig: false })
+  pruefe('Ladephase: „75 von 99 Folgen gelesen — für „kein Deutsch" fehlen 24"', lade === '75 von 99 Folgen gelesen — für „kein Deutsch" fehlen 24', lade)
 }
 
 /* Jeder bewusste Ausstieg ohne Senden setzt einen Grund. */
@@ -167,7 +174,9 @@ async function haupt() {
   await ausstiege()
   abweisenVerdrahtung()
   const teil = await klick({ geladen: 27, gesperrt: 10, gesamt: 51 })
-  pruefe('Text zieht gesperrte Folgen ab (27 + 10 von 51 → „fehlen 14")', /fehlen 14$/.test(teil.knopf.textContent), teil.knopf.textContent)
+  pruefe('Stillstand mit Sperren: nur das Gelesene (27 + 10 von 51)', teil.knopf.textContent === '27 Folgen gelesen — mehr zeigt die Seite nicht', teil.knopf.textContent)
+  const ladeTeil = kasten.akPrimeLeseStand({ sollFolgen: 51, geladen: 27, gesperrt: 10, fertig: false })
+  pruefe('Ladephase zieht gesperrte Folgen ab (27 + 10 von 51 → „fehlen 14")', /fehlen 14$/.test(ladeTeil), ladeTeil)
   if (fehler.length) {
     console.error(`\n${fehler.length} Zusicherung(en) verletzt.`)
     process.exit(1)
