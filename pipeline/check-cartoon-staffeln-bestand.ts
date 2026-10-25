@@ -33,6 +33,8 @@ if (existsSync(OUT)) {
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu den Cartoon-Staffeln am Bestand verletzt`)
+  console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
 console.log('Cartoon-Staffeln (Bestand): Zusicherungen erfüllt')
+console.log('VERSTÖSSE: 0')

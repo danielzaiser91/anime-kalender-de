@@ -44,5 +44,7 @@ function bestandspruefung(): void {
 bestandspruefung()
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
+  console.log(`VERSTÖSSE: ${verletzt}`)
   process.exit(1)
 }
+console.log('VERSTÖSSE: 0')

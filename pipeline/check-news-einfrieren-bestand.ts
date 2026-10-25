@@ -16,5 +16,6 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   for (const l of luecken) console.warn(`WARNUNG: weiterer nicht festgehalten: ${l}`)
   for (const f of fehler) console.error(`FEHLER: ${f}`)
   console.log(`check-news-einfrieren-bestand: ${eintraege.length} Einträge, ${luecken.length} ohne Eintrag, ${fehler.length} Fehler`)
+  console.log(`VERSTÖSSE: ${fehler.length}`)
   process.exit(fehler.length ? 1 : 0)
 }

@@ -30,6 +30,8 @@ for (const { datei } of DATEIEN) {
 
 if (verletzt) {
   console.error(`\n${verletzt} Abrufdatum liegt nach dem Commit, der den Eintrag zuerst enthält.`)
+  console.log(`VERSTÖSSE: ${verletzt}`)
   process.exit(1)
 }
 console.log('\nTMDB-Bilddatum (Bestand): kein Datum liegt nach seinem Commit.')
+console.log('VERSTÖSSE: 0')

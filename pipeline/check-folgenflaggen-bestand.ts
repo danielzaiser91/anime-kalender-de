@@ -40,4 +40,5 @@ if (folgen < 1000) {
 }
 
 console.log(`check-folgenflaggen-bestand: ${fehler ? `${fehler} Fehler` : 'ok'} (${listen} Folgenlisten, ${folgen} Folgen aus den Bereichen der Wege)`)
+console.log(`VERSTÖSSE: ${fehler}`)
 process.exit(fehler ? 1 : 0)

@@ -92,9 +92,9 @@ function klick({ tot = 'false', geladen, gesperrt, soll, deutsch = false, region
   const a = klick({ geladen: 27, gesperrt: 24, soll: 51 })
   pruefe('Klick A: 27 lesbar + 24 gesperrt von 51, kein Deutsch → es wird gesendet', a.ergebnis === 'weiter', a)
   const a2 = klick({ geladen: 27, gesperrt: 10, soll: 51 })
-  pruefe('Klick Gegenfall: 27 lesbar + 10 gesperrt von 51 → gesperrt mit „fehlen 14"', a2.ergebnis === undefined && /fehlen 14/.test(a2.text), a2)
+  pruefe('Klick Gegenfall: 27 lesbar + 10 gesperrt von 51 → gesperrt, Text nennt das Gelesene', a2.ergebnis === undefined && a2.text === '27 Folgen gelesen — mehr zeigt die Seite nicht', a2)
   const a3 = klick({ geladen: 27, soll: 51 })
-  pruefe('Klick Gegenfall: nichts gesperrt → „fehlen 24"', a3.ergebnis === undefined && /fehlen 24/.test(a3.text), a3)
+  pruefe('Klick Gegenfall: nichts gesperrt → ebenso, ohne „fehlen"', a3.ergebnis === undefined && a3.text === '27 Folgen gelesen — mehr zeigt die Seite nicht' && !/fehlen/.test(a3.text), a3)
   const a4 = klick({ geladen: 27, gesperrt: 10, soll: 51, regionDom: new Array(24) })
   pruefe('Klick: Sperren aus dem DOM zählen ebenfalls', a4.ergebnis === 'weiter', a4)
   const b = klick({ tot: 'true', geladen: 0, gesperrt: 24, soll: 24 })
@@ -147,12 +147,14 @@ function knopfLage({ gesperrt, offen, deutsch, textRegionWeg = false, vollstaend
 const fehlenCode = stueck('if (!nichtAbrufbar && !istFilm && !vollstaendig && gesehen.gesamt) {', '      knopf.title =')
 function fehlenText({ geladen, wegInRegion, gesamt, deutsch = false }) {
   const knopf = { dataset: {}, textContent: '', disabled: false }
-  const f = new Function('knopf', 'gesehen', 'geladen', 'wegInRegion', 'deutsch', `const nichtAbrufbar = false, istFilm = false, vollstaendig = false\n${fehlenCode}\n      return }\nreturn 'weiter'`)
-  f(knopf, { gesamt }, geladen, wegInRegion, deutsch)
+  const f = new Function('knopf', 'gesehen', 'geladen', 'wegInRegion', 'deutsch', 'globalThis', `const nichtAbrufbar = false, istFilm = false, vollstaendig = false\n${fehlenCode}\n      return }\nreturn 'weiter'`)
+  f(knopf, { gesamt }, geladen, wegInRegion, deutsch, kasten)
   return knopf.textContent
 }
 pruefe('Knopf: 27 gelesen + 24 gesperrt von 52 → „1 fehlen noch"',
   /— 1 fehlen noch$/.test(fehlenText({ geladen: 27, wegInRegion: 24, gesamt: 52, deutsch: true })), fehlenText({ geladen: 27, wegInRegion: 24, gesamt: 52, deutsch: true }))
+pruefe('Knopf ohne Deutsch, Seite lädt: 27 + 10 gesperrt von 52 → „fehlen 15"',
+  fehlenText({ geladen: 27, wegInRegion: 10, gesamt: 52 }) === '27 von 52 Folgen gelesen — für „kein Deutsch" fehlen 15', fehlenText({ geladen: 27, wegInRegion: 10, gesamt: 52 }))
 pruefe('Knopf: nichts gesperrt → „25 fehlen noch"',
   /— 25 fehlen noch$/.test(fehlenText({ geladen: 27, wegInRegion: 0, gesamt: 52, deutsch: true })))
 

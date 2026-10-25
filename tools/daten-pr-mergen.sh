@@ -31,6 +31,12 @@ fremd_grund() {
 
 fehler=0
 for nr in "$@"; do
+  # Schon gemergt oder geschlossen: `gh` meldet dann mergeable=UNKNOWN, das ist kein Konflikt.
+  status="$(gh pr view "$nr" --json state -q .state)"
+  if [ "$status" = MERGED ] || [ "$status" = CLOSED ]; then
+    echo "::notice::Pull Request $nr übersprungen: schon $status."
+    continue
+  fi
   # Fremder Autor (Mensch, lokaler Lauf): nicht Sache der App, den Lauf rot zu machen — der Pull Request geht den normalen Prüfweg (Kette, CI-Prüfer).
   autor="$(gh pr view "$nr" --json author -q .author.login)"
   if [ "$autor" != "$APP_AUTOR" ]; then

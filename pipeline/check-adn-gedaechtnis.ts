@@ -105,6 +105,8 @@ console.log('ADN-Gedächtnis: ein einmal belegtes vde geht nicht verloren\n')
 console.log()
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) verletzt.`)
+  console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
 console.log('Alle Zusicherungen halten.')
+console.log('VERSTÖSSE: 0')

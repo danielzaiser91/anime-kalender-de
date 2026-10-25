@@ -77,6 +77,8 @@ console.log('Saison-Ausblick: nichts fällt weg')
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) im Bestand verletzt.`)
+  console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
 console.log('Bild, F-Sperre und Saison-Ausblick im Bestand: Zusicherungen erfüllt.')
+console.log('VERSTÖSSE: 0')

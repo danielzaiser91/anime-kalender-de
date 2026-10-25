@@ -2255,6 +2255,7 @@ beide gleich.
 (dort auch `istTot`: 404/region). Als Auskunft zählt ein HTTP-Status unter 500 außer 403/429, dazu
 `region`; 5xx (503 = Dienst nicht erreichbar), `unklar`, `timeout`, `fehler` zählen nicht. Ein Lauf, der
 nur 5xx liefert, meldet „nur Nichtauskünfte“ statt gesund. Stand `data/link-check.json`: 96 Einträge mit 503.
+Ein 5xx-Befund wird beim nächsten Lauf fällig (`istFaellig` in `link-befund.ts`, wie `unklar`), nicht erst nach 30 Tagen. Drankommen heißt das noch nicht: der Wochenlauf in `refresh-weekly.yml` nimmt mit `--limit 400` die ältesten `geprueftAm` zuerst, und 5xx hat keinen Vorrang. Stand 25.10.2026 kommt keiner der 75 neu fälligen 503-Links in den nächsten Lauf (3.197 ältere stehen davor); die Änderung wirkt erst, wenn der Rückstand abgebaut ist. Alle 96 503-Befunde sind `www.amazon.de` (Bot-Abwehr, kein Ausfall) und zählen nicht für `SPERR_SCHWELLE` (zählt nur `unklar`).
 
 ## Eine falsche TMDB-Kennung verteilt fremde Wege über den ganzen Titel
 

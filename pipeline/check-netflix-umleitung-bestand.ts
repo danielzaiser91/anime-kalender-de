@@ -14,6 +14,8 @@ const listen = lies<StaffelListen>(listenPfad)
 const funde = findeDoppelteNetflixKennungen(titles, listen)
 if (funde.length) {
   console.error(`FEHL check-netflix-umleitung-bestand: ${funde.join('; ')}`)
+  console.log(`VERSTÖSSE: ${funde.length}`)
   process.exit(1)
 }
 console.log(`check-netflix-umleitung-bestand: ${titles.length} Titel, keine doppelte Netflix-Kennung.`)
+console.log('VERSTÖSSE: 0')
