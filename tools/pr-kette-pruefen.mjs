@@ -51,10 +51,9 @@ function zaehleVorkommen(teiljobs, vorCommit) {
   return zaehler
 }
 
-const SAMMEL_ZEILEN = [
-  `echo "$NEEDS" | jq -r 'to_entries[] | "\\(.key): \\(.value.result)"'`,
-  `echo "$NEEDS" | jq -e 'all(.[]; .result == "success")' > /dev/null`,
-].join('\n')
+/** Urteil in `tools/kette-urteil.mjs` (Test dort): success = grün, nur cancelled = abgebrochen, sonst Exit 1. */
+const SAMMEL_ZEILEN = 'node tools/kette-urteil.mjs'
+const CHECKOUT = { uses: 'actions/checkout@v4' }
 const SAMMEL_ENV = { NEEDS: '${{ toJSON(needs) }}' }
 const WORKFLOW_SCHLUESSEL = ['name', 'on', 'permissions', 'env', 'concurrency', 'jobs']
 const JOB_SCHLUESSEL = ['name', 'if', 'runs-on', 'timeout-minutes', 'steps']
@@ -80,16 +79,17 @@ function pruefeJobForm(id, job, erlaubt) {
   return fehler
 }
 
-/** Verstöße der Sammeljob-Schritte: genau ein Schritt mit fester Fassung, nichts davor, nichts danach. */
+/** Verstöße der Sammeljob-Schritte: Checkout, dann genau ein Urteilsschritt mit fester Fassung, nichts davor, nichts danach. */
 function pruefeSammlerSchritte(sammler) {
   const schritte = sammler.steps ?? []
   const fehler = []
-  if (schritte.length !== 1) fehler.push(`Sammeljob: genau ein Schritt verlangt, gefunden ${schritte.length}`)
-  for (const s of schritte) {
+  if (schritte.length !== 2) fehler.push(`Sammeljob: genau zwei Schritte verlangt (Checkout, Urteil), gefunden ${schritte.length}`)
+  if (JSON.stringify(schritte[0]) !== JSON.stringify(CHECKOUT)) fehler.push('Sammeljob: erster Schritt ist nicht exakt actions/checkout@v4 ohne Zusätze')
+  for (const s of schritte.slice(1)) {
     for (const k of fremdeSchluessel(s, ['name', 'env', 'run'])) fehler.push(`Sammeljob: Schlüssel "${k}" am Schritt nicht erlaubt`)
     if (JSON.stringify(s.env) !== JSON.stringify(SAMMEL_ENV)) fehler.push('Sammeljob: env ist nicht exakt NEEDS: ${{ toJSON(needs) }}')
     if (String(s.run ?? '').trim() !== SAMMEL_ZEILEN) {
-      fehler.push('Sammeljob: nicht auf success geprüft - die Schritt-Zeilen sind nicht textgleich der Sollfassung (jq -e all(.[]; .result == "success"))')
+      fehler.push('Sammeljob: nicht auf success geprüft - die Schritt-Zeilen sind nicht textgleich der Sollfassung (node tools/kette-urteil.mjs)')
     }
   }
   return fehler

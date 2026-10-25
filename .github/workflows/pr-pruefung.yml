@@ -122,12 +122,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      - uses: actions/checkout@v4
       - name: Alle Teiljobs grün?
         env:
           NEEDS: ${{ toJSON(needs) }}
-        run: |
-          echo "$NEEDS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
-          echo "$NEEDS" | jq -e 'all(.[]; .result == "success")' > /dev/null
+        run: node tools/kette-urteil.mjs
 
 
   # Datenbau (16.10.2026): `pipeline/lib/pruefung.ts` lief nur im Bestandsbau nach dem Merge; PR 1368 setzte ein Feld, das ein späterer Bauschritt
