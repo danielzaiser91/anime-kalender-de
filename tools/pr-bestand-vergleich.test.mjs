@@ -38,7 +38,7 @@ assert.equal(zaehleVerstoesse('> x\nnpm error code 1\n  - Verstoß\nVERSTÖSSE: 
 assert.equal(zaehleVerstoesse('✓ gut\nVERSTÖSSE: 0'), 0)
 assert.equal(zaehleVerstoesse('VERSTÖSSE: 5'), 5)
 // Fehlt die Zeile oder steht sie mehrfach/verformt, wirft die Zählung (nie 0 annehmen).
-for (const schlecht of ['', 'FEHLER: x\nA\nB', 'VERSTÖSSE: 1\nVERSTÖSSE: 1', ' VERSTÖSSE: 1', 'Verstöße: 1', 'VERSTÖSSE: x', 'VERSTÖSSE: 1 weitere', 'VERSTÖSSE:']) assert.throws(() => zaehleVerstoesse(schlecht), /„VERSTÖSSE: <n>“ (fehlt|steht 2-mal) in der Ausgabe/, schlecht)
+for (const schlecht of ['', 'FEHLER: x\nA\nB', 'VERSTÖSSE: 1\nVERSTÖSSE: 1', ' VERSTÖSSE: 1', 'Verstöße: 1', 'VERSTÖSSE: x', 'VERSTÖSSE: ','VERSTÖSSE: 1 weitere', 'VERSTÖSSE:']) assert.throws(() => zaehleVerstoesse(schlecht), /„VERSTÖSSE: <n>“ (fehlt|steht 2-mal) in der Ausgabe/, schlecht)
 assert.throws(() => zaehleVerstoesse('VERSTÖSSE: 1\nVERSTÖSSE: 1'), /steht 2-mal/)
 assert.throws(() => zaehleVerstoesse('a'), /fehlt/)
 const meldungen = []

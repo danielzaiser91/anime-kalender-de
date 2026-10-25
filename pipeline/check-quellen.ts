@@ -183,11 +183,11 @@ function zeige(name: string, b: Bilanz): boolean {
 
 log('Robustheitstest der Synchro-Quellen — Maßstab ist data/dub-confirmed.yaml')
 log(`Handprüfungen als Kontrolle: ${hand.size}`)
-let alleSauber = [
+let verstoesse = [
   zeige('Crunchyroll Content-API', cr),
   zeige('ADN', adn),
   zeige('YouTube (oEmbed)', yt),
-].every(Boolean)
+].filter((sauber) => !sauber).length
 
 /**
  * Die Stichprobe ist der eigentliche Zweck dieses Laufs.
@@ -304,7 +304,7 @@ log('── aniSearch: was die Datenbank kennt und wir nicht ──')
   )
   if (anteil > 35) {
     warn(`Mehr als ein Drittel der aniSearch-Verweise kommt nicht an (${anteil.toFixed(0)} %).`)
-    alleSauber = false
+    verstoesse++
   }
 }
 
@@ -347,7 +347,7 @@ log('── aniSearch: was die Datenbank kennt und wir nicht ──')
           `Suchadressen (nur in der Liste: ${nurListe.length}, nur im Prüfstand: ${nurStand.length}). ` +
           'Beide entstehen mit `npm run data:extension-liste` — einzeln aufgerufen laufen sie auseinander.',
       )
-      alleSauber = false
+      verstoesse++
     } else {
       log(`✓ Prüfliste und Prüfstand nennen dieselben ${ausListe.size} Suchadressen.`)
     }
@@ -355,9 +355,9 @@ log('── aniSearch: was die Datenbank kennt und wir nicht ──')
 }
 
 log('')
-if (!alleSauber) {
+if (verstoesse > 0) {
   warn('Mindestens eine Quelle widerspricht einer Handprüfung — siehe oben.')
-  console.log('VERSTÖSSE: 1')
+  console.log(`VERSTÖSSE: ${verstoesse}`)
   process.exit(1)
 }
 log('✓ Keine Quelle widerspricht einer Handprüfung.')
