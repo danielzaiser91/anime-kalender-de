@@ -2251,6 +2251,11 @@ sind auf `unklar` zurückgestuft.
 oder eine andere Form derselben Kennung?* Ein Anbieter mit zwei Adressformen antwortet nicht für
 beide gleich.
 
+**„Echte Auskunft“ des Link-Checks (25.10.2026):** Eine Regel, `istAuskunft` in `pipeline/lib/link-befund.ts`
+(dort auch `istTot`: 404/region). Als Auskunft zählt ein HTTP-Status unter 500 außer 403/429, dazu
+`region`; 5xx (503 = Dienst nicht erreichbar), `unklar`, `timeout`, `fehler` zählen nicht. Ein Lauf, der
+nur 5xx liefert, meldet „nur Nichtauskünfte“ statt gesund. Stand `data/link-check.json`: 96 Einträge mit 503.
+
 ## Eine falsche TMDB-Kennung verteilt fremde Wege über den ganzen Titel
 
 Daniel am 17.09.2026 an „Your Name.": „appletv pill führt zu #2 (bug? wie ist dieser
