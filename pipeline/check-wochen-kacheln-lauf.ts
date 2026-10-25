@@ -25,10 +25,10 @@ function tage(): string[] {
   return liste
 }
 
-function lauf(): { status: number | null; fehler: string } {
+function lauf(argument = ''): { status: number | null; fehler: string } {
   const skript = join(arbeit, 'lauf.ts')
   const baustein = pathToFileURL(join(wurzel, 'pipeline', 'bau', '13-8-wochen-datei.ts')).href
-  writeFileSync(skript, `import { schreibeWochenDatei } from '${baustein}'\nschreibeWochenDatei()\n`)
+  writeFileSync(skript, `import { schreibeWochenDatei } from '${baustein}'\nschreibeWochenDatei(${argument})\n`)
   const tsx = join(wurzel, 'node_modules', 'tsx', 'dist', 'cli.mjs')
   /* Die Sperre von check:logic (`bestand-sperre.cjs`) gilt dem echten Bestand in `public/data`; der Wegwerf-Ordner liegt im Temp-Ordner. */
   const umgebung = { ...process.env, AK_ROOT: arbeit, BESTAND_ERLAUBT: '', BESTAND_SPUR: '' }
@@ -60,6 +60,13 @@ try {
   pruefe('die Kachel-Datei verliert die Quellen des Releases', !('sources' in (kachel.releases[0] ?? {})) && !('platformUrl' in (kachel.releases[0] ?? {})))
   const zweiter = lauf()
   pruefe('ein zweiter Lauf ergibt dieselbe Datei', zweiter.status === 0 && JSON.stringify(lies('woche-kacheln.json')) === JSON.stringify(kachel))
+
+  /* Eine Kachel-Datei, die der Wochen-Datei widerspricht, bricht den Bau ab und wird nicht geschrieben. */
+  rmSync(join(arbeit, 'public', 'data', 'woche-kacheln.json'))
+  const kaputt = lauf("(woche) => ({ ...woche, von: '1999-01-04' })")
+  pruefe('ein Widerspruch beendet den Lauf mit Exit 1', kaputt.status === 1, kaputt)
+  pruefe('der Widerspruch ist benannt', kaputt.fehler.includes('andere Woche als die Wochen-Datei'), kaputt.fehler)
+  pruefe('die widersprüchliche Kachel-Datei wird nicht geschrieben', !existsSync(join(arbeit, 'public', 'data', 'woche-kacheln.json')))
 } finally {
   rmSync(arbeit, { recursive: true, force: true })
 }

@@ -24,6 +24,7 @@ try {
   assert.match(bewerteWocheGroesse(p, gz - 1).text, /über der Grenze/)
   assert.equal(bewerteWocheGroesse(p, gz + 1000).code, 0)
   assert.equal(bewerteWocheGroesse(join(wurzel, 'fehlt.json')).code, 1, 'fehlende Datei ist rot')
+  assert.match(bewerteWocheGroesse(join(wurzel, 'fehlt.json')).text, /^woche-kacheln\.json nicht lesbar/)
   assert.equal(bewerteWocheGroesse(datei('leer.json', Buffer.alloc(0))).code, 0, 'leere Datei liegt unter der Grenze')
   assert.equal(bewerteWocheGroesse(datei('gross.json', randomBytes(WOCHE_GRENZE + 2000))).code, 1, 'Vorgabegrenze 22 KB greift')
   assert.equal(WOCHE_GRENZE, 22 * 1024)
