@@ -63,7 +63,7 @@ assert.equal(e(wt({ kopfZeitMs: undefined }), mit(pr('MERGED'))).grund, 'kopf-na
 assert.equal(e(wt({ kopfZeitMs: Infinity }), mit(pr('MERGED'))).grund, 'kopf-nach-abschluss', 'unlesbare HEAD-Zeit bleibt')
 assert.equal(e(wt({ pfad: 'C:/x/haupt' }), mit(pr('MERGED'))).grund, 'haupt', 'Hauptordner nie')
 assert.equal(e(wt({ pfad: 'C:\\X\\Haupt\\' }), mit(pr('MERGED'))).grund, 'haupt', 'Schreibweise egal')
-for (const fremd of ['C:/x/haupt/anderer', 'C:/x/haupt/_wt-a', 'C:/x/_worktrees/haupt', 'C:/x/_worktrees/haupt/a/b', 'C:/x/_worktrees2/haupt/a', 'C:/x/mein_worktrees/haupt/a', 'C:/x/haupt/_worktrees/a']) {
+for (const fremd of ['C:/x/haupt/anderer', 'C:/x/haupt/_wt-a', 'C:/x/_worktrees/haupt', 'C:/x/_worktrees/haupt/a/b', 'C:/x/_worktrees2/haupt/a', 'C:/x/mein_worktrees/haupt/a', 'C:/x/_worktrees//a', 'C:/x/haupt/_worktrees/a']) {
   assert.equal(e(wt({ pfad: fremd }), mit(pr('MERGED'))).grund, 'fremd', `nur _worktrees/<repo>/<thema>: ${fremd}`)
 }
 assert.deepEqual(e(wt({ existiert: false })), { aktion: 'prune', grund: 'ordner-fehlt' })
@@ -494,6 +494,11 @@ try {
   const gelistet = (p) => altListe.lose.some((o) => o.pfad.replace(/\\/g, '/') === p.replace(/\\/g, '/'))
   assert.deepEqual(altOrte.map(gelistet), [false, false], 'alte Orte nicht gelistet')
   assert.equal(H.zaehleWt(haupt), readdirSync(wtDir).length, 'Zähler: genau die Ordner unter _worktrees/<repo>/ (nach dem Abbau ist kein registrierter ohne Ordner übrig)')
+  // Registriert, aber ohne Ordner: zählt über die Registrierung, nicht über das Verzeichnis (und nur unter _worktrees/<repo>/).
+  neu('_wt-zaehl', 'b-zaehl')
+  rmSync(join(wtDir, '_wt-zaehl'), { recursive: true })
+  assert.equal(H.zaehleWt(haupt), readdirSync(wtDir).length + 1, 'Zähler: registrierter Worktree ohne Ordner')
+  g(haupt, 'worktree', 'prune')
   assert.equal(lose(nbListe, '_wt-nb-reg'), undefined, 'registrierter Worktree daneben ist kein loser Ordner')
   assert.equal(existsSync(nachbar('_wt-nb-weg')), true, '--liste ändert nichts')
   // Haupt-Bestand fehlt: Abbruch, nichts wird gelöst.

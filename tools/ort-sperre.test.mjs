@@ -59,13 +59,13 @@ richtig('git worktree remove C:/code/ai/_wt-alt', HAUPT, 'remove darf auch alte 
 richtig('git worktree prune', HAUPT, 'prune')
 
 // Write: nur neue Wegwerfdateien direkt in einer Repo-Wurzel (Ordner mit .git) unter C:/code.
-const vorhanden = new Set(['C:/Users/ih/AppData/Local/Temp/claude/x/scratchpad/.git', 'D:/code/ai/anime-kalender-de/.git', `${HAUPT}/.git`, `${WT}/foo/.git`, `${HAUPT}/_alt.log`, 'C:/code/ai/neu/x'])
+const vorhanden = new Set(['C:/Users/ih/AppData/Local/Temp/claude/x/scratchpad/.git', 'D:/code/ai/anime-kalender-de/.git', 'E:/kopie/c:/code/neu/.git', `${HAUPT}/.git`, `${WT}/foo/.git`, `${HAUPT}/_alt.log`, 'C:/code/ai/neu/x'])
 const existiert = (p) => [...vorhanden].some((v) => v.toLowerCase() === p.toLowerCase())
 const schreibe = (file_path, tool_name = 'Write') => pruefe({ tool_name, tool_input: { file_path } }, existiert)
-const verweigert = (file_path, was) => assert.match(schreibe(file_path) ?? '', /^Wegwerfdatei „[^“]+“ direkt in der Repo-Wurzel .*Scratchpad/, `${was ?? file_path} verweigert`)
+const verweigert = (file_path, was) => assert.equal((schreibe(file_path) ?? '').split(' direkt in der Repo-Wurzel ')[0], `Wegwerfdatei „${file_path.split(/[\\/]/).at(-1)}“`, `${was ?? file_path} verweigert`)
 const erlaubt = (file_path, was, tool_name) => assert.equal(schreibe(file_path, tool_name), null, `${was ?? file_path} erlaubt`)
 
-for (const n of ['_q.mjs', '_vc-handbelege.log', '_wt-x.txt', '.liste1397.txt', '.a.bak', '.tmp_x', 'probe.log', 'GROSS.LOG', 'x.bak', 'y.tmp', '_']) {
+for (const n of ['_q.mjs', '_vc-handbelege.log', '_wt-x.txt', '.liste1397.txt', '.GROSS.TXT', '.a.bak', '.tmp_x', 'probe.log', 'GROSS.LOG', 'x.bak', 'y.tmp', '_']) {
   verweigert(`${HAUPT}/${n}`, `Hauptordner ${n}`)
   verweigert(`${WT}/foo/${n}`, `Worktree-Wurzel ${n}`)
 }
@@ -80,6 +80,8 @@ erlaubt(`${WT}/foo/web/src/_q.mjs`, 'Unterordner im Worktree')
 erlaubt('C:/code/ai/neu/_q.mjs', 'Ordner ohne .git (neues Projekt)')
 erlaubt('C:/Users/ih/AppData/Local/Temp/claude/x/scratchpad/_q.mjs', 'Scratchpad außerhalb von C:/code')
 erlaubt('D:/code/ai/anime-kalender-de/_q.mjs', 'anderes Laufwerk')
+erlaubt('E:/kopie/c:/code/neu/_q.mjs', 'C:/code nur am Pfadanfang')
+assert.equal(ORT.schreibGrund({ tool_name: 'Edit', tool_input: { file_path: `${HAUPT}/_q.mjs` } }, existiert), null, 'schreibGrund selbst prüft das Werkzeug')
 erlaubt(`${HAUPT}/_q.mjs`, 'Edit ist kein Write', 'Edit')
 assert.equal(schreibe(undefined), null, 'ohne Pfad')
 
