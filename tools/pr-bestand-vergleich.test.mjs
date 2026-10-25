@@ -35,6 +35,8 @@ assert.throws(() => restSkripte({ scripts: {} }), /fehlt/)
 // Zählregel (tools/pr-bestand-zaehlen.mjs): Kopf- und Erfolgszeilen zählen nicht, Verstoßzeilen je eine.
 assert.equal(zaehleVerstoesse('FEHLER: 2 Einträge:\nA\nB\n'), 3)
 assert.equal(zaehleVerstoesse('> x\nnpm error code 1\n✓ gut\nOK\n\n  - Verstoß\n'), 1)
+assert.equal(zaehleVerstoesse('npm ERR! a\nnpm warn b\nnpm error c\n✔ d\n✓ e\nOK\n> f\n'), 0)
+assert.equal(zaehleVerstoesse('OK danach\nmehr'), 2)
 assert.equal(zaehleVerstoesse(''), 0)
 const geteilt = teileListenAusgabe('Kopf\n[check:bestand 1/2] a.ts\nx\ny\n[check:bestand 2/2] b.ts\nz\ncheck:bestand: 1 von 2 Prüfungen rot:\n  - b.ts\n--- b.ts (Exit 1)\n')
 assert.deepEqual([...geteilt], [['a.ts', 'x\ny'], ['b.ts', 'z']])
