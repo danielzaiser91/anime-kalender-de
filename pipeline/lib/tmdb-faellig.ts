@@ -1,6 +1,7 @@
+import { genreFehlt } from './tmdb-genre.ts'
 import { kinoFehlt } from './tmdb-kino-zuletzt.ts'
 
-type Eintrag = { tmdbId?: number; kind?: string; kinoDe?: string[]; fetchedAt?: string }
+type Eintrag = { tmdbId?: number; kind?: string; genreIds?: number[]; kinoDe?: string[]; fetchedAt?: string }
 
 export type FaelligOptionen = {
   handIds: Set<number>
@@ -20,7 +21,7 @@ export function faelligeTitel<T extends { id: number }>(titles: T[], cache: Reco
       if (o.handIds.has(t.id)) return false
       const e = cache[t.id]
       if (o.nurOhneEintrag) return !e
-      if (o.force || !e || kinoFehlt(e)) return true
+      if (o.force || !e || kinoFehlt(e) || genreFehlt(e)) return true
       return (e.fetchedAt ?? '') < (e.tmdbId ? o.grenze : o.grenzeFehlschlag)
     })
     .sort((a, b) => (cache[a.id]?.fetchedAt ?? '').localeCompare(cache[b.id]?.fetchedAt ?? ''))

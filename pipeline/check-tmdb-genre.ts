@@ -11,6 +11,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import yaml from 'js-yaml'
 import { keineAnimation, ohneAnimation, genreUngemessen } from './lib/tmdb-genre.ts'
 import { genreNachtragen } from './lib/tmdb-genre-lauf.ts'
+import { faelligeTitel } from './lib/tmdb-faellig.ts'
 import { waehleBesten, type SearchHit } from './lib/tmdb-titel-treffer.ts'
 import { lookup } from './lib/tmdb-titel-lookup.ts'
 import { uebernimmVonHand } from './lib/tmdb-von-hand.ts'
@@ -127,6 +128,20 @@ async function lookupFaelle(): Promise<void> {
   pruefe('Film ohne Genreliste in der Detailantwort: leere Liste statt fehlend', film.tmdbId === 33 && film.kind === 'movie' && film.genreIds?.length === 0, film)
   const nichts = await lookup('k', { id: 3, titleEn: 'Kakegurui', jpYear: 2005, format: 'TV' } as Title, holen, keinSchlaf)
   pruefe('nur Treffer ohne passendes Jahr: Fehltreffer', nichts.miss === true && nichts.tmdbId === undefined, nichts)
+  kreislaufGenreFehlt(serie)
+}
+
+console.log('\nTMDB-Genre: Zuordnung ohne genreIds ist fällig, auch frisch (Kakegurui Twin, 138183)')
+const fern = '2999-12-31T00:00:00.000Z'
+const opt = { handIds: new Set<number>([6]), nurOhneEintrag: false, force: false, grenze: '2000-01-01T00:00:00.000Z', grenzeFehlschlag: '2000-01-01T00:00:00.000Z' }
+const faelligIds = (cache: Record<string, object>, o = opt): number[] => faelligeTitel([1, 2, 3, 4, 5, 6].map((id) => ({ id })), cache, o).map((t) => t.id)
+const tv = (extra: object): object => ({ tmdbId: 138183, kind: 'tv', fetchedAt: fern, ...extra })
+function kreislaufGenreFehlt(nachholung: TmdbTitle): void {
+  const cache: Record<string, object> = { 1: tv({}), 2: tv({ genreIds: [16] }), 3: tv({ genreIds: [] }), 4: { kind: 'tv', fetchedAt: fern }, 5: tv({}), 6: tv({}) }
+  pruefe('frischer Eintrag ohne genreIds ist fällig, mit Genre (auch leerer Liste) oder ohne Kennung nicht, von Hand nie', faelligIds(cache).join() === '1,5', faelligIds(cache))
+  pruefe('Nachsuche-Lauf (nur ohne Eintrag) holt sie nicht', faelligIds(cache, { ...opt, nurOhneEintrag: true }).join() === '', faelligIds(cache, { ...opt, nurOhneEintrag: true }))
+  cache[1] = { ...nachholung, fetchedAt: fern }
+  pruefe('Kreislauf: nach dem Lauf (lookup trägt genreIds) ist der Titel nicht mehr fällig', faelligIds(cache).join() === '5', faelligIds(cache))
 }
 await lookupFaelle()
 
