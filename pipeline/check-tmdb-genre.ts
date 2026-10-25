@@ -11,6 +11,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import yaml from 'js-yaml'
 import { keineAnimation, ohneAnimation, genreUngemessen } from './lib/tmdb-genre.ts'
 import { genreNachtragen } from './lib/tmdb-genre-lauf.ts'
+import { faelligeTitel } from './lib/tmdb-faellig.ts'
 import { waehleBesten, type SearchHit } from './lib/tmdb-titel-treffer.ts'
 import { lookup } from './lib/tmdb-titel-lookup.ts'
 import { uebernimmVonHand } from './lib/tmdb-von-hand.ts'
@@ -127,6 +128,29 @@ async function lookupFaelle(): Promise<void> {
   pruefe('Film ohne Genreliste in der Detailantwort: leere Liste statt fehlend', film.tmdbId === 33 && film.kind === 'movie' && film.genreIds?.length === 0, film)
   const nichts = await lookup('k', { id: 3, titleEn: 'Kakegurui', jpYear: 2005, format: 'TV' } as Title, holen, keinSchlaf)
   pruefe('nur Treffer ohne passendes Jahr: Fehltreffer', nichts.miss === true && nichts.tmdbId === undefined, nichts)
+  kreislaufGenreFehlt(serie)
+}
+
+console.log('\nTMDB-Genre: Zuordnung ohne genreIds wird wie ein Fehlschlag wiedervorgelegt (Kakegurui Twin, 138183)')
+const fern = '2999-12-31T00:00:00.000Z'
+const alt = '2400-01-01T00:00:00.000Z'
+const opt = { handIds: new Set<number>([6]), nurOhneEintrag: false, force: false, grenze: '2000-01-01T00:00:00.000Z', grenzeFehlschlag: '2500-01-01T00:00:00.000Z' }
+const faelligIds = (cache: Record<string, object>, o = opt): number[] => faelligeTitel([1, 2, 3, 4, 5, 6].map((id) => ({ id })), cache, o).map((t) => t.id)
+const tv = (extra: object): object => ({ tmdbId: 138183, kind: 'tv', fetchedAt: fern, ...extra })
+function kreislaufGenreFehlt(nachholung: TmdbTitle): void {
+  const voll = { 1: tv({ fetchedAt: alt }), 2: tv({ genreIds: [16], fetchedAt: alt }), 3: tv({ genreIds: [], fetchedAt: alt }), 4: tv({ genreIds: [16] }), 5: tv({}), 6: tv({ fetchedAt: alt }) }
+  const cache: Record<string, object> = { ...voll }
+  pruefe('ohne genreIds und über der Wiedervorlagefrist ist fällig; mit Genre (auch leerer Liste), frisch gescheitert oder von Hand nicht', faelligIds(cache).join() === '1', faelligIds(cache))
+  pruefe('Nachsuche-Lauf (nur ohne Eintrag) holt sie nicht', faelligIds(cache, { ...opt, nurOhneEintrag: true }).join() === '', faelligIds(cache, { ...opt, nurOhneEintrag: true }))
+  cache[1] = tv({})
+  pruefe('Kreislauf: lookup scheitert wieder (keine genreIds, frischer Abruf): keine Wiederholung vor der Frist', faelligIds(cache).join() === '', faelligIds(cache))
+  cache[1] = { ...nachholung, fetchedAt: alt }
+  pruefe('Kreislauf: lookup trägt genreIds nach: nicht mehr fällig, auch nach der Frist', faelligIds(cache).join() === '', faelligIds(cache))
+  const fristen = { ...opt, grenze: '2000-01-01', grenzeFehlschlag: '2500-01-01' }
+  const treffer = { 2: tv({ genreIds: [16], fetchedAt: alt }), 4: { kind: 'tv', fetchedAt: alt } }
+  pruefe('Fehlschlag wartet kürzer als ein Treffer', faelligIds(treffer, fristen).join() === '1,3,5,4', faelligIds(treffer, fristen))
+  const reihe = { 1: tv({ fetchedAt: '2002-01-01' }), 2: tv({ fetchedAt: '2001-01-01' }), 3: tv({ fetchedAt: '2003-01-01' }), 5: tv({ fetchedAt: '2000-06-01' }) }
+  pruefe('ältester Abruf zuerst', faelligIds(reihe).join() === '4,5,2,1,3', faelligIds(reihe))
 }
 await lookupFaelle()
 
