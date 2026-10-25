@@ -217,7 +217,7 @@ import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap,
 import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-serien.ts'
 import { passendeAdresse } from './fetch-kinoheld.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
-import { loeseGeteilteWegeVonWiderlegten, sammleWiderlegungen, widerlegtDurchWoche, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
+import { deutscheFolgenTage, loeseGeteilteWegeVonWiderlegten, sammleWiderlegungen, widerlegtDurchWoche, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
 import { istUnplausibel } from './lib/justwatch-plausibel.ts'
 import { adressenAusNews, adressenMitOffenemTermin, belegeFuerAlle, crunchyrollDatum, entzieheBild, kopfzeilenDatum, istArtikel, merkeLesung, traegtArtikeldatum, unveraendertSeit, warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
 import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
@@ -7675,6 +7675,15 @@ pruefe(
   pruefe('Wochenprogramm/Gedächtnis: ein verschobener Termin fällt heraus', verschoben.gedaechtnis[apo.slug] === undefined, verschoben)
   const bestaetigt = sammleWiderlegungen([clev], titles, woche, { [clev.slug]: { am: '2026-09-30', grund: 'x', gemeldet: true } })
   pruefe('Wochenprogramm/Gedächtnis: ein `de` hebt eine frühere Widerlegung auf', bestaetigt.gedaechtnis[clev.slug] === undefined, bestaetigt)
+  /* Die Vorschau führt nur die Simulcast-Folge; eine nachgeholte deutsche Folge im Katalog schlägt ihr `ja` (Last Boss S2, 24.10.2026). */
+  const katalogTage = deutscheFolgenTage({ folgen: [{ serieId: 'G3KHEVDJ7', verfuegbarAb: '2026-10-01T22:30:00Z' }, { serieId: 'GX', verfuegbarAb: '2026-10-02T12:00:00Z' }] })
+  pruefe('Katalog: Folgentag zählt in Berliner Zeit', katalogTage.has('G3KHEVDJ7|2026-10-02') && !katalogTage.has('G3KHEVDJ7|2026-10-01'), [...katalogTage])
+  const katalogSchlaegt = sammleWiderlegungen([apo], titles, woche, gemerkt, katalogTage)
+  pruefe(
+    'Wochenprogramm/Katalog: deutsche Folge am Tag widerlegt nicht und hebt das Gedächtnis auf',
+    katalogSchlaegt.anzahl === 0 && katalogSchlaegt.gedaechtnis[apo.slug] === undefined,
+    katalogSchlaegt,
+  )
 
   /* Ein geteilter Reihen-Weg belegt für eine widerlegte Staffel kein Deutsch; ein eigener Weg und eine Staffel mit gültigem Termin behalten es. */
   const geteilt = (id: number, kennung: string): Title => {

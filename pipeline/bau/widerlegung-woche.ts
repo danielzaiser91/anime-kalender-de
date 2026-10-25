@@ -24,7 +24,7 @@
 import { readJson, writeJson, log } from '../lib/util.ts'
 import { crunchyrollSeriesId } from '../lib/crunchyroll.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
-import { addDays } from '../../shared/time.ts'
+import { addDays, toIsoDate } from '../../shared/time.ts'
 import type { Release, Title } from '../../shared/types.ts'
 import { staffelDesTitels } from './widerlegung-staffel.ts'
 
@@ -102,12 +102,16 @@ function sprachenJeSerieTag(woche: Wochenprogramm): Map<string, Set<string>> {
  * Im Fenster entscheidet die Vorschau: `de` hebt eine frühere Widerlegung auf,
  * nur `ja` schreibt eine neue. Außerhalb bleibt Gemerktes stehen, solange der
  * Termin derselbe ist; verschobene oder verschwundene Termine fallen heraus.
+ *
+ * `deutschAmTag` (Serienkennung|Tag aus dem Katalog) schlägt beides: Die Vorschau führt nur die
+ * Simulcast-Folge, nachgeholte deutsche Folgen fehlen dort (Last Boss S2, 24.10.2026).
  */
 export function sammleWiderlegungen(
   releases: Release[],
   titles: Map<number, Title>,
   woche: Wochenprogramm,
   gedaechtnis: WiderlegungsGedaechtnis,
+  deutschAmTag: Set<string> = new Set(),
 ): { anzahl: number; gedaechtnis: WiderlegungsGedaechtnis } {
   const from = woche.wocheAb
   const bis = from ? addDays(from, 6) : ''
@@ -121,7 +125,7 @@ export function sammleWiderlegungen(
     const kennung = kennungDesReleases(r, title)
     const imFenster = Boolean(from && datum && datum >= from && datum <= bis)
     const heute = imFenster && kennung ? sprachen.get(`${kennung}|${datum}`) : undefined
-    if (heute?.has('de')) continue
+    if (heute?.has('de') || deutschAmTag.has(`${kennung}|${datum}`)) continue
     if (widerlegtDurchWoche(heute)) {
       neu[r.slug] = { am: datum!, grund: GRUND, quelle: woche.artikel, gemeldet: warBehauptet(r, title) }
       anzahl++
@@ -131,6 +135,15 @@ export function sammleWiderlegungen(
     if (alt && alt.am === datum) neu[r.slug] = alt
   }
   return { anzahl, gedaechtnis: neu }
+}
+
+/** Serienkennung|Tag (Berlin) jeder deutschen Folge, die der Katalog neu führt (`data/crunchyroll-neu.json`). */
+export function deutscheFolgenTage(neu: { folgen?: { serieId?: string; verfuegbarAb?: string }[] }): Set<string> {
+  const tage = new Set<string>()
+  for (const f of neu.folgen ?? []) {
+    if (f.serieId && f.verfuegbarAb) tage.add(`${f.serieId}|${toIsoDate(new Date(f.verfuegbarAb))}`)
+  }
+  return tage
 }
 
 /** „Staffel 3“ / „Season 3“ am Ende des Staffelnamens im Katalog. */
@@ -212,7 +225,8 @@ export function loeseGeteilteWegeVonWiderlegten(releases: Release[], titles: Map
 export function widerlegeDeutscheTermine(releases: Release[], titles: Map<number, Title>): number {
   const woche = readJson<Wochenprogramm>('data/crunchyroll-woche.json', {})
   const gedaechtnis = readJson<WiderlegungsGedaechtnis>(DATEI, {})
-  const { anzahl, gedaechtnis: neu } = sammleWiderlegungen(releases, titles, woche, gedaechtnis)
+  const katalogNeu = readJson<{ folgen?: { serieId?: string; verfuegbarAb?: string }[] }>('data/crunchyroll-neu.json', {})
+  const { anzahl, gedaechtnis: neu } = sammleWiderlegungen(releases, titles, woche, gedaechtnis, deutscheFolgenTage(katalogNeu))
   for (const r of releases) {
     const gemerkt = neu[r.slug]
     if (gemerkt) r.widerlegt = gemerkt
