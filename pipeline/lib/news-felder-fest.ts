@@ -11,7 +11,7 @@ import type { NewsArt, NewsEintrag, NewsMeldung } from '../../shared/news-typen.
 import type { NewsHistorie } from './news.ts'
 import type { DatiertNews } from './news-verlauf.ts'
 
-export const FESTE_FELDER = ['hinweis', 'anbieter', 'kanal', 'geschaetzt', 'jahre', 'discSeitText'] as const
+export const FESTE_FELDER = ['hinweis', 'anbieter', 'kanal', 'geschaetzt', 'jahre', 'discSeitText', 'omu'] as const
 export type FesteFelder = Partial<Pick<NewsMeldung, (typeof FESTE_FELDER)[number]>>
 
 /** Nur diese Arten tragen die Felder aus der Ableitung; `nachgetragen` ist Handtext (`data/curated`), dessen Korrektur erlaubt bleibt. */
