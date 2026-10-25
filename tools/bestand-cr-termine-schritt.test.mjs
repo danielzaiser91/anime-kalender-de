@@ -38,7 +38,7 @@ function lauf({ npmAusgabe, exit, vorher = '' }) {
 }
 
 /** Die Prüfung selbst: Wegwerf-Ordner mit Titel, Release und Katalog; `serieId` des Katalogs verweist auf den Crunchyroll-Weg. */
-function pruefung(releaseSlug) {
+function pruefung(releaseSlug, { folgeTag = '2026-10-20', start = '2026-10-20', stand = '2026-10-25T12:00:00Z', fremd = false } = {}) {
   const d = join(ordner, `daten-${Math.random().toString(36).slice(2)}`)
   mkdirSync(join(d, 'public/data'), { recursive: true })
   mkdirSync(join(d, 'data'), { recursive: true })
@@ -46,19 +46,19 @@ function pruefung(releaseSlug) {
   writeFileSync(join(d, 'public/data/titles.json'), JSON.stringify({ titles: [titel] }))
   const release = releaseSlug && {
     slug: releaseSlug,
-    titleId: 900001,
+    titleId: fremd ? 900002 : 900001,
     platform: 'crunchyroll',
     kind: 'weekly',
     date: '2999-01-01',
     time: '18:00',
-    schedule: { weekday: 5, firstEpisodeNumber: 1, firstEpisodeDate: '2026-10-20', episodes: 12, time: '18:00' },
+    schedule: { weekday: 5, firstEpisodeNumber: 1, firstEpisodeDate: start, episodes: 12, time: '18:00' },
   }
   writeFileSync(join(d, 'public/data/releases.json'), JSON.stringify({ releases: release ? [release] : [] }))
-  const folge = { serieId: 'G900SERIE', serie: 'Testserie', staffel: 'Staffel 1', nummer: 1, verfuegbarAb: '2026-10-20T16:00:00Z' }
+  const folge = { serieId: 'G900SERIE', serie: 'Testserie', staffel: 'Staffel 1', nummer: 1, verfuegbarAb: `${folgeTag}T16:00:00Z` }
   writeFileSync(join(d, 'data/crunchyroll-neu.json'), JSON.stringify({ folgen: [folge] }))
   const tsx = join(wurzel, 'node_modules/tsx/dist/cli.mjs')
   const skript = join(tools, 'cr-termine-vorschau.ts')
-  const r = spawnSync(process.execPath, [tsx, skript, '--wie-gebaut', '--streng', '--stand', '2026-10-25T12:00:00Z'], { cwd: d, encoding: 'utf8' })
+  const r = spawnSync(process.execPath, [tsx, skript, '--wie-gebaut', '--streng', '--stand', stand], { cwd: d, encoding: 'utf8' })
   return { status: r.status, ausgabe: r.stdout }
 }
 
@@ -100,6 +100,15 @@ try {
   assert.equal(fehlt.status, 1, 'Folge ohne Termin: Exit 1')
   assert.match(fehlt.ausgabe, /^FEHLT 2026-10-20 Testserie \| Staffel 1 #1$/m, 'FEHLT-Zeile im Format, das der Schritt liest')
   assert.match(fehlt.ausgabe, /^1 deutsche Folge\(n\) ohne Termin$/m)
+  // Fenster: genau 14 Tage zählt, 15 nicht; Toleranz genau ±1 Tag; fremder Titel zählt nicht; das Fenster folgt --stand, nicht der Uhr.
+  assert.equal(pruefung('', { folgeTag: '2026-10-11' }).status, 1, 'Folge 14 Tage vor dem Stand zählt noch')
+  assert.equal(pruefung('', { folgeTag: '2026-10-10' }).status, 0, 'Folge 15 Tage vor dem Stand zählt nicht mehr')
+  assert.equal(pruefung('', { stand: '2999-12-31T00:00:00Z' }).status, 0, 'Fenster folgt --stand, nicht der Uhr')
+  assert.equal(pruefung('crunchyroll-g900serie', { start: '2026-10-21' }).status, 0, 'Termin einen Tag danach trifft')
+  assert.equal(pruefung('crunchyroll-g900serie', { start: '2026-10-19' }).status, 0, 'Termin einen Tag davor trifft')
+  assert.equal(pruefung('crunchyroll-g900serie', { start: '2026-10-22' }).status, 1, 'Termin zwei Tage danach trifft nicht')
+  assert.equal(pruefung('crunchyroll-g900serie', { start: '2026-10-18' }).status, 1, 'Termin zwei Tage davor trifft nicht')
+  assert.equal(pruefung('crunchyroll-fremd', { fremd: true }).status, 1, 'Termin eines fremden Titels am selben Tag zählt nicht')
   console.log('bestand-cr-termine-schritt: ok')
 } finally {
   rmSync(ordner, { recursive: true, force: true })
