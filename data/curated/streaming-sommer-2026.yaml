@@ -255,10 +255,12 @@
   titleDe: "Die Tagebücher der Apothekerin: Staffel 3 - Teil 1"
   platform: crunchyroll
   releaseType: weekly
+  # Stand 25.10.2026: Crunchyroll zeigt Folge 1 (dort durchnummeriert als 49,
+  # „Heuschrecken") auf Deutsch seit 23.10.2026 17:00 (verfuegbarAb 15:00 UTC).
   schedule:
-    firstEpisodeDate: "2026-10-02"
-    estimated: true
-  note: "Deutsche Synchro für Herbst 2026 angekündigt, noch ohne Termin."
+    firstEpisodeDate: "2026-10-23"
+    time: "17:00"
   sources:
+    - https://www.crunchyroll.com/de/series/G3KHEVDJ7/the-apothecary-diaries
     - https://www.crunchyroll.com/de/news/latest/2026/8/16/die-tagebuecher-der-apothekerin-staffel-3-anime-release-date-trailer-visual
     - https://www.anisearch.de/anime/20704

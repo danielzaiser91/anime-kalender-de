@@ -1,0 +1,20 @@
+# Prüfskripte ohne Aufrufer in package.json, Workflow, Liste oder anderem Skript, die bewusst so bleiben (Wächter: tools/skript-aufrufer-wache.mjs).
+# Format: `pfad # Grund` (eine Datei je Zeile, Grund Pflicht). Eine Ausnahme, die nicht mehr nötig ist, macht check:logic rot.
+# Stand 25.10.2026 (Inventur Bauer skript-aufrufer): „verwaist“ = Besitzer klären, einhängen oder löschen.
+tools/a11y-pruefen.mjs # Handwerkzeug von Hand nach vite build, Aufruf im Kopfkommentar
+tools/adn-vorschlaege-pruefen.mjs # verwaist seit 28.08.2026, Besitzer klären
+tools/anilist-links-pruefen.mjs # Handwerkzeug für Messungen, beschrieben in docs/wissen/quellen.md
+tools/buehne-zeit-pruefen.mjs # Handwerkzeug für die Bühne, beschrieben in docs/wissen/betrieb.md
+tools/cr-entfernte-gegenpruefen.mjs # verwaist seit 29.08.2026 (nur PLAN.md/Archiv), Besitzer klären
+tools/prime-staffel-jahr-pruefen.mjs # verwaist seit 18.09.2026 (nur Archiv), Besitzer klären
+tools/pruefrunden-gh-attrappe.mjs # Attrappe für gh, vom Test tools/pruefrunden-hook.test.mjs gestartet, keine Prüfung
+tools/archiv/analyse-2026-10-02/bruecke-pruefen-name-jahr.cjs # Archiv einer Einmal-Analyse vom 03.10.2026, nur in docs/wissen/poc-anisearch-felder.md genannt
+tools/claude-global/hooks/hauptordner-sperre.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
+tools/claude-global/hooks/pruefrunden.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
+tools/claude-global/hooks/stand-waechter.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
+tools/cr-vorschlaege-pruefen.mjs # verwaist seit 28.08.2026 (nur Kommentar in pipeline/bau/09-3-prime.ts), Besitzer klären
+tools/lauf-status-app-pruefen.mjs # verwaist seit 13.09.2026 (nur Kommentar in pipeline/check-logic.ts), Besitzer klären
+tools/patchnotes-gestagt-pruefen.mjs # Pre-Commit-Hook, von tools/quellen-commit-wache.sh --einrichten geschrieben, kein Schritt der Kette
+tools/pr-kette-pruefen.mjs # läuft nur über seinen Test tools/pr-kette-pruefen.test.mjs (check:workflows), Besitzer klären ob eigener Schritt
+tools/pr-pruefer-kulisse-gh.cjs # gh-Attrappe, von tools/pr-pruefer-kulisse.mjs als Text gelesen, keine Prüfung
+tools/pruefung-zurueckstellen.mjs # Handwerkzeug (09.09.2026, Prüfliste), von Hand gestartet

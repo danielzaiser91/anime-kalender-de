@@ -6,6 +6,7 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import type { Title } from '../shared/types.ts'
 
 const JA = 900001
 const JA_NICHT_IM_BESTAND = 900002
@@ -45,6 +46,13 @@ try {
   pruefe('dub:false zählt nicht', !handbelegt.has(NEIN), gefunden)
   pruefe('dub:false mit nichtImBestand zählt nicht', !handbelegt.has(NEIN_NICHT_IM_BESTAND), gefunden)
   pruefe('genau ein Titel in der Kulisse', handbelegt.size === 1, gefunden)
+  console.log('\nBelegstärke: mitBelegstaerke liest die Herkunft der API-Tonspur')
+  const { mitBelegstaerke, motnTonSchluessel } = await import('./lib/belegstaerke.ts')
+  const api = { id: 900005, dubConfidence: 'low', streams: [{ platform: 'netflix', url: 'x', dub: true }] } as unknown as Title
+  const mitApi = mitBelegstaerke([api], [], new Set([motnTonSchluessel(900005, 'x')]))[0]?.dubConfidence
+  const ohne = mitBelegstaerke([api], [], new Set())[0]?.dubConfidence
+  pruefe('Tonspur nur aus der API: normal', mitApi === 'normal', mitApi)
+  pruefe('dieselbe Tonspur ohne Vermerk der API: high', ohne === 'high', ohne)
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }

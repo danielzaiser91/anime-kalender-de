@@ -3,17 +3,10 @@ import { eigenerTerminVerdraengt, mitDubKennzeichen, terminAusEintrag, verlagAls
 import yaml from 'js-yaml'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import {
-  type MotnDaten,
-  LEER as MOTN_LEER,
-  laufendJeAnbieter,
-  laufendSchluessel,
-  ordneShowsZu,
-  tmdbZuordnung,
-  uebernehmbar,
-} from '../lib/motn.ts'
+import { type MotnDaten, LEER as MOTN_LEER } from '../lib/motn.ts'
+import { werteMotnAus } from './09-5-1-motn-uebernahme.ts'
 import { todayIso } from '../../shared/time.ts'
-import { staffelnDesFranchise, passtZuSerie, bewerteTreffer, volltreffer, type AdnData } from '../lib/adn.ts'
+import type { AdnData } from '../lib/adn.ts'
 import { adnAdresseSchaerfen, adnFolgenAdresse, ladeAdnArchiv, beurteileAdnVerweis } from '../lib/adn-sprachen.ts'
 import { type Release, type Title } from '../../shared/types.ts'
 import { anisearchFelderAnwenden } from '../lib/anisearch-felder.ts'
@@ -194,42 +187,13 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
    *     Haus. Prime Video und Disney+ werden geholt und ausgewiesen, aber nicht
    *     übernommen, solange die Kontrollmessung sie nicht trägt.
    */
-  const motn = readJson<MotnDaten>('data/motn.json', MOTN_LEER)
-  const heuteMotn = todayIso()
-  let motnBelege = 0
-  if (Object.keys(motn.shows ?? {}).length) {
-    /**
-     * Läuft zu diesem Titel bei diesem Anbieter gerade etwas?
-     *
-     * Der Status wird nie gespeichert, sondern immer gegen heute gerechnet
-     * (`shared/logic.ts`) — also auch hier, statt aus einem Feld gelesen.
-     */
-    const laeuft = laufendJeAnbieter(releases, heuteMotn)
-
-    const alle = [...titles.values()]
-    const belege = ordneShowsZu(
-      alle,
-      motn.shows,
-      (t) => (t.franchiseId ? staffelnDesFranchise(alle, t.franchiseId) : []),
-      { passtZuSerie, bewerteTreffer, volltreffer },
-      tmdbZuordnung(readJson('data/tmdb-titles.json', {}), motn.tmdb),
-    )
-
-    let ausgelassenLaufend = 0
-    for (const beleg of belege) {
-      const laeuftBei = laeuft.has(laufendSchluessel(beleg.titleId, beleg.platform))
-      if (beleg.deutsch && beleg.eindeutig && laeuftBei) ausgelassenLaufend++
-      if (!uebernehmbar(beleg, laeuftBei, heuteMotn)) continue
-      const stream = titles.get(beleg.titleId)?.streams.find((s) => s.platform === beleg.platform)
-      if (!stream || stream.dub !== undefined) continue
-      stream.dub = true
-      motnBelege++
-    }
-    log(
-      `${motnBelege} Synchro-Angaben über die Streaming Availability API belegt ` +
-        `(${Object.keys(motn.shows).length} Serien im Bestand, ${ausgelassenLaufend} laufende ausgelassen)`,
-    )
-  }
+  const { motnBelege, motnTon } = werteMotnAus({
+    motn: readJson<MotnDaten>('data/motn.json', MOTN_LEER),
+    tmdbTitles: readJson('data/tmdb-titles.json', {}),
+    titles,
+    releases,
+    heute: todayIso(),
+  })
 
   /**
    * Was ADN uns längst gesagt hat — nachgelesen im eigenen Archiv.
@@ -620,5 +584,5 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
     // zu denen niemand die Tonspur belegt. Sie bleiben unangetastet.
   }
   if (ohneDeutsch) log(`${ohneDeutsch} Verweise ohne deutsche Synchro entfernt`)
-  return { adnArchiv, adnStreamSchaerfen, motnBelege }
+  return { adnArchiv, adnStreamSchaerfen, motnBelege, motnTon }
 }

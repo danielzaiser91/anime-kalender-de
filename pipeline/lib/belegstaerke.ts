@@ -12,7 +12,19 @@ import { ROOT, log } from './util.ts'
  * Stark: Synchronkartei-Eintrag, Anbieter-Tonspur (darin der Handbeleg aus `dub-confirmed.yaml`). Mittel: TV-Programmdaten, aniSearch-Marke
  * „Synchronisiert", Synchron-Forum-Liste (Stand 24.12.2023, 09.10.2026). Schwach (MyDubList, AniList-Sprecher, Händler) hebt nie über `low`.
  */
-export type Belegsignale = { handbelegt: ReadonlySet<number>; kartei: ReadonlySet<number>; tv: ReadonlySet<number>; forum: ReadonlySet<number> }
+export type Belegsignale = {
+  handbelegt: ReadonlySet<number>
+  kartei: ReadonlySet<number>
+  tv: ReadonlySet<number>
+  forum: ReadonlySet<number>
+  /** Streams, deren `dub: true` nur aus der Streaming-Availability-API stammt (`motnTonSchluessel`); fehlt = keine. */
+  motnTon?: ReadonlySet<string>
+}
+
+/** Schlüssel eines Streams für `Belegsignale.motnTon`. */
+export function motnTonSchluessel(titleId: number, url: string): string {
+  return `${titleId}|${url}`
+}
 
 type Kette = Pick<Title, 'id' | 'streams' | 'deErstausgabe'>
 
@@ -21,9 +33,12 @@ type Kette = Pick<Title, 'id' | 'streams' | 'deErstausgabe'>
  * Die Synchron-Forum-Liste (`forum`) ist eine mittlere Quelle, hebt aber nie über high: für very-high zählt sie nicht.
  */
 export function belegstaerke(t: Kette, s: Belegsignale): DubConfidence {
-  const anbieter = Boolean(t.streams?.some((st) => st.dub === true)) || s.handbelegt.has(t.id)
+  const mitTon = (st: { dub?: boolean }) => st.dub === true
+  const anbieter = Boolean(t.streams?.some((st) => mitTon(st) && !s.motnTon?.has(motnTonSchluessel(t.id, st.url)))) || s.handbelegt.has(t.id)
+  /* Nur die Streaming-Availability-API sagt Deutsch (Moonrise 150654): ihr Schweigen ist kein Nein, ihr Ja allein nur eine mittlere Quelle. */
+  const nurApi = !anbieter && Boolean(t.streams?.some(mitTon))
   const stark = Number(anbieter) + Number(s.kartei.has(t.id))
-  const mittel = Number(s.tv.has(t.id)) + Number(Boolean(t.deErstausgabe?.synchro))
+  const mittel = Number(s.tv.has(t.id)) + Number(Boolean(t.deErstausgabe?.synchro)) + Number(nurApi)
   const mitForum = mittel + Number(s.forum.has(t.id))
   if (stark && stark + mittel > 1) return 'very-high'
   if (stark || mitForum > 1) return 'high'
@@ -90,8 +105,8 @@ export function zaehleBelegte(titel: Pick<Title, 'dubConfidence' | 'westlich' | 
 }
 
 /** Alle Titel mit der Stufe aus ihren Quellen; die Eingabe bleibt unverändert. */
-export function mitBelegstaerke<T extends Kette & Pick<Title, 'dubConfidence'>>(titel: T[], releases: Release[]): (T & Pick<Title, 'einzelquelle'>)[] {
-  const signale = ladeBelegsignale(releases)
+export function mitBelegstaerke<T extends Kette & Pick<Title, 'dubConfidence'>>(titel: T[], releases: Release[], motnTon: ReadonlySet<string>): (T & Pick<Title, 'einzelquelle'>)[] {
+  const signale = { ...ladeBelegsignale(releases), motnTon }
   return titel.map((t) => {
     const dubConfidence = belegstaerke(t, signale)
     /* Die alte Stufe (`low` = eine MyDubList-Stimme) steuert weiter „erschienen“ und „ohne belegte Synchro“; das Feld steht nur, wo sie von der neuen abweicht. */
