@@ -1,0 +1,65 @@
+name: Erweiterung — Version zählen
+
+# PRs heben die Version der Erweiterung nicht an (tools/pr-vorpruefung.mjs lehnt das ab): parallele PRs kollidierten
+# an dieser einen Zeile (24./25.10.2026, 4.32.2 bis 4.32.5). Nach dem Merge zählt dieser Lauf die letzte Stelle hoch.
+# Der Push des Zählers löst einen weiteren Lauf aus; der findet seit dem Zähler-Commit nichts mehr zu zählen
+# (tools/extension-version.mjs). Deploy ignoriert `extension/**`.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'extension/**'
+
+permissions:
+  contents: read
+
+# Ein Zähler zur Zeit. GitHub hält je Gruppe nur einen wartenden Lauf und ersetzt ihn durch den neueren; deshalb zählt der
+# Lauf nicht „seinen“ Push, sondern alles seit dem letzten Zähler-Commit (tools/extension-version.mjs). Der letzte Lauf
+# sieht so jeden Push, auch den eines verdrängten Laufs; der Lauf nach dem Zähler-Push findet nichts mehr zu zählen.
+concurrency:
+  group: extension-version
+  cancel-in-progress: false
+
+jobs:
+  zaehlen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Der Push geht direkt auf `main`; das Ruleset lässt dafür nur die App durch (wie in bestand-bauen.yml).
+      - name: App-Token holen
+        id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          private-key: ${{ secrets.DATEN_APP_KEY }}
+          permission-contents: write
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ steps.app.outputs.token }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Version zählen
+        env:
+          VOR_PUSH: ${{ github.event.before }}
+        run: |
+          git fetch --quiet --unshallow --filter=tree:0 origin main
+          node tools/extension-version.mjs --rueckfall "$VOR_PUSH"
+
+      - name: Zähler committen
+        run: |
+          if git diff --quiet -- extension/manifest.json; then exit 0; fi
+          git config user.name "anime-kalender-bot"
+          git config user.email "bot@anime-kalender.de"
+          git commit -m "chore(extension): Version gezählt" -- extension/manifest.json
+          for versuch in 1 2 3; do
+            if git push; then exit 0; fi
+            git pull --rebase --quiet
+          done
+          echo "::error::Push des Versionszählers scheiterte dreimal"
+          exit 1

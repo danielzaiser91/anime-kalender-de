@@ -12,6 +12,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { basename } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { bewerte, neueEintraege } from './check-patchnotes-pflicht.mjs'
+import { anhebungRot } from './extension-version.mjs'
 import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
 
 const PRUEFLISTEN = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt']
@@ -112,6 +113,21 @@ function waechterRot(skript, name) {
   }
 }
 
+/** Der PR darf die Version der Erweiterung nicht selbst anheben (zählt nach dem Merge der Workflow). */
+function versionRot() {
+  const pfad = 'extension/manifest.json'
+  const lies = (quelle) => {
+    try {
+      return git('show', quelle)
+    } catch {
+      return null
+    }
+  }
+  const basis = git('merge-base', 'origin/main', 'HEAD').trim()
+  const rot = anhebungRot(lies(`${basis}:${pfad}`), lies(`HEAD:${pfad}`))
+  return rot === null ? [] : [rot]
+}
+
 const umfangRot = () => waechterRot('tools/umfang-pruefen.mjs', 'check:umfang')
 /** Fundstellen (`datei:zeile`) aus `--liste`, die in einer Datei des Diffs stehen. */
 export function fundeImDiff(liste, dateien) {
@@ -148,7 +164,7 @@ function main() {
     existiert: existiertIn(bekannt, existsSync),
   })
   const lies = (name) => (existsSync(name) ? readFileSync(name, 'utf8') : null)
-  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot(), ...uhrRot(dateien)]
+  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot(), ...uhrRot(dateien), ...versionRot()]
   for (const h of urteil.gelb) console.log(`  ! Hinweis: ${h}`)
   for (const r of rot) console.error(`  ✖ Vorprüfung: ${r}`)
   if (rot.length) {
