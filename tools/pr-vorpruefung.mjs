@@ -122,7 +122,8 @@ function versionRot() {
       return null
     }
   }
-  const rot = anhebungRot(lies(`origin/main:${pfad}`), lies(`HEAD:${pfad}`))
+  const basis = git('merge-base', 'origin/main', 'HEAD').trim()
+  const rot = anhebungRot(lies(`${basis}:${pfad}`), lies(`HEAD:${pfad}`))
   return rot === null ? [] : [rot]
 }
 

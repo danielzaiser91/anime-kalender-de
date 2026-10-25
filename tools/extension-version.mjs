@@ -2,15 +2,19 @@
  * Versionszähler der Erweiterung (25.10.2026): PRs heben `extension/manifest.json` nicht mehr an (parallele PRs kollidierten
  * an dieser einen Zeile); nach dem Merge zählt `.github/workflows/extension-version.yml` die letzte Stelle hoch.
  *
- *   node tools/extension-version.mjs --von <sha> --bis <sha> [--manifest extension/manifest.json]
+ *   node tools/extension-version.mjs [--von <sha>] [--bis <sha>] [--rueckfall <sha>] [--manifest extension/manifest.json]
  *
- * Zählt genau einmal je Push, wenn dessen Spanne ausgelieferten Erweiterungs-Code ändert und die Version nicht schon
- * selbst (von Hand) angehoben wurde. Schreibt nur die Zeile `"version"`, sonst nichts.
+ * Die Spanne läuft vom jüngsten Zähler-Commit (ZAEHLER_BETREFF) bis `--bis` (Standard HEAD); gibt es noch keinen, gilt
+ * `--rueckfall`. Zählt einmal je Spanne, wenn sie ausgelieferten Erweiterungs-Code ändert und die Version nicht schon
+ * von Hand angehoben wurde. Weil nicht der einzelne Push zählt, sondern alles seit dem letzten Zähler, geht nichts
+ * verloren, wenn GitHub einen wartenden Lauf durch einen neueren ersetzt. Schreibt nur die Zeile `"version"`.
  */
 import { execFileSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
+/** Betreff des Zähler-Commits; der Workflow committet genau so, die Suche nach der Spanne liest ihn. */
+export const ZAEHLER_BETREFF = 'chore(extension): Version gezählt'
 const VERSION_ZEILE = /^(\s*"version"\s*:\s*")(\d+)\.(\d+)\.(\d+)(")/m
 
 /** Zählt nur, was Daniels geladene Erweiterung verändert: keine Tests, Fixtures, Markdown. */
@@ -66,11 +70,25 @@ function argWert(name) {
   return i >= 0 ? process.argv[i + 1] : undefined
 }
 
+/**
+ * Jüngster Zähler-Commit auf `bis`: Betreff wie ZAEHLER_BETREFF und ausschließlich das Manifest geändert
+ * (ein PR gleichen Titels mit Code zählt nicht). Null, wenn es keinen gibt.
+ */
+function letzterZaehler(bis, pfad) {
+  const kandidaten = git('log', '-20', '--format=%H%x09%s', '--fixed-strings', `--grep=${ZAEHLER_BETREFF}`, bis)
+  for (const zeile of kandidaten.split('\n').filter(Boolean)) {
+    const [sha, betreff] = zeile.split('\t')
+    const dateien = git('diff-tree', '--no-commit-id', '--name-only', '--no-renames', '-r', sha).split('\n').filter(Boolean)
+    if (betreff === ZAEHLER_BETREFF && dateien.length === 1 && dateien[0] === pfad) return sha
+  }
+  return null
+}
+
 function main() {
-  const von = argWert('--von')
-  const bis = argWert('--bis')
+  const bis = argWert('--bis') ?? 'HEAD'
   const pfad = argWert('--manifest') ?? 'extension/manifest.json'
-  if (!von || !bis) throw new Error('--von und --bis fehlen')
+  const von = argWert('--von') ?? letzterZaehler(bis, pfad) ?? argWert('--rueckfall')
+  if (!von) throw new Error('--von fehlt, kein Zähler-Commit gefunden und kein --rueckfall')
   const dateien = git('diff', '--name-only', '--no-renames', `${von}..${bis}`).split('\n').filter(Boolean)
   const urteil = naechsteVersion({ dateien, vorherText: manifestAn(von, pfad), bisText: manifestAn(bis, pfad), aktuellText: readFileSync(pfad, 'utf8') })
   if (urteil.text !== null) writeFileSync(pfad, urteil.text)

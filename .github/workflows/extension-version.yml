@@ -2,8 +2,8 @@ name: Erweiterung — Version zählen
 
 # PRs heben die Version der Erweiterung nicht an (tools/pr-vorpruefung.mjs lehnt das ab): parallele PRs kollidierten
 # an dieser einen Zeile (24./25.10.2026, 4.32.2 bis 4.32.5). Nach dem Merge zählt dieser Lauf die letzte Stelle hoch.
-# Der Push des Zählers ändert nur `extension/manifest.json` mit angehobener Version und löst sich deshalb nicht selbst aus
-# (tools/extension-version.mjs: „Version schon angehoben“). Deploy ignoriert `extension/**`.
+# Der Push des Zählers löst einen weiteren Lauf aus; der findet seit dem Zähler-Commit nichts mehr zu zählen
+# (tools/extension-version.mjs). Deploy ignoriert `extension/**`.
 
 on:
   push:
@@ -14,7 +14,9 @@ on:
 permissions:
   contents: read
 
-# Ein Zähler zur Zeit, Läufe warten aufeinander: jeder Push zählt genau einmal.
+# Ein Zähler zur Zeit. GitHub hält je Gruppe nur einen wartenden Lauf und ersetzt ihn durch den neueren; deshalb zählt der
+# Lauf nicht „seinen“ Push, sondern alles seit dem letzten Zähler-Commit (tools/extension-version.mjs). Der letzte Lauf
+# sieht so jeden Push, auch den eines verdrängten Laufs; der Lauf nach dem Zähler-Push findet nichts mehr zu zählen.
 concurrency:
   group: extension-version
   cancel-in-progress: false
@@ -44,11 +46,10 @@ jobs:
 
       - name: Version zählen
         env:
-          VON: ${{ github.event.before }}
-          BIS: ${{ github.sha }}
+          VOR_PUSH: ${{ github.event.before }}
         run: |
-          git fetch --quiet --depth=1 origin "$VON" "$BIS"
-          node tools/extension-version.mjs --von "$VON" --bis "$BIS"
+          git fetch --quiet --unshallow --filter=tree:0 origin main
+          node tools/extension-version.mjs --rueckfall "$VOR_PUSH"
 
       - name: Zähler committen
         run: |

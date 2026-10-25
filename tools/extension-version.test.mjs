@@ -8,7 +8,7 @@ import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSy
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { parse } from 'yaml'
-import { anhebungRot, naechsteVersion, versionVon, zaehltAlsAuslieferung } from './extension-version.mjs'
+import { ZAEHLER_BETREFF, anhebungRot, naechsteVersion, versionVon, zaehltAlsAuslieferung } from './extension-version.mjs'
 
 const tools = import.meta.dirname
 const man = (v) => `{\n  "name": "x",\n  "version": "${v}",\n  "manifest_version": 3\n}\n`
@@ -74,8 +74,7 @@ try {
   assert.match(zweiter.stdout, /unverändert \(Version schon angehoben/, 'der Bump-Commit selbst löst nichts aus')
   assert.equal(readFileSync(join(a, 'extension/manifest.json'), 'utf8'), man('4.32.3'))
   const ohneBis = ruf(a, 'extension-version.mjs', '--von', bis)
-  assert.match(ohneBis.stderr, /--von und --bis fehlen/, '--bis fehlt: Fehler')
-  assert.notEqual(ohneBis.status, 0)
+  assert.match(ohneBis.stdout, /unverändert \(Version schon angehoben/, '--bis fehlt: gilt HEAD')
   mkdirSync(join(a, 'andere'))
   writeFileSync(join(a, 'andere/m.json'), man('7.0.0'))
   git(a, 'add', '.')
@@ -100,19 +99,66 @@ try {
     assert.equal(v.status, erwartet, `${name}: ${v.stdout}${v.stderr}`)
     if (hebt) assert.match(v.stderr, /Version 4\.32\.2 -> 4\.32\.3 im PR angehoben/)
   }
+  // main hat nach der Abzweigung gezählt, der PR rührt das Manifest nicht an: grün (Vergleich an der Merge-Basis)
+  const m = repo('pr-main-weiter')
+  git(m, 'checkout', '-q', '-b', 'fix/x')
+  writeFileSync(join(m, 'extension/a.js'), '2\n')
+  git(m, 'commit', '-qam', 'pr')
+  git(m, 'checkout', '-q', 'main')
+  writeFileSync(join(m, 'extension/manifest.json'), man('4.32.3'))
+  git(m, 'commit', '-qam', ZAEHLER_BETREFF)
+  git(m, 'update-ref', 'refs/remotes/origin/main', 'main')
+  git(m, 'remote', 'add', 'origin', m)
+  git(m, 'checkout', '-q', 'fix/x')
+  const weiter = ruf(m, 'pr-vorpruefung.mjs', '--titel', 't', '--text', 'extension/a.js geändert. Patch Notes: keine – Technik')
+  assert.equal(weiter.status, 0, `main weitergezählt, PR unberührt: ${weiter.stdout}${weiter.stderr}`)
+
+  // Spanne seit dem jüngsten Zähler-Commit, nicht seit dem Push
+  const s = repo('spanne')
+  const zaehle = (...a) => ruf(s, 'extension-version.mjs', ...a)
+  const basisSha = git(s, 'rev-parse', 'HEAD').trim()
+  assert.match(zaehle().stderr, /kein Zähler-Commit gefunden/, 'weder Zähler noch Rückfall: Fehler')
+  writeFileSync(join(s, 'extension/a.js'), 'A\n')
+  git(s, 'commit', '-qam', 'code A')
+  const ohneZaehler = zaehle('--rueckfall', basisSha)
+  assert.match(ohneZaehler.stdout, /angehoben \(4\.32\.2 -> 4\.32\.3\)/, `Rückfall gilt ohne Zähler-Commit: ${ohneZaehler.stderr}`)
+  git(s, 'commit', '-qam', ZAEHLER_BETREFF)
+  const zaehlerSha = git(s, 'rev-parse', 'HEAD').trim()
+  writeFileSync(join(s, 'extension/a.js'), 'B\n')
+  git(s, 'commit', '-qam', 'code B')
+  writeFileSync(join(s, 'extension/a.js'), 'C\n')
+  git(s, 'commit', '-qam', 'code C')
+  const kopf = git(s, 'rev-parse', 'HEAD').trim()
+  assert.match(zaehle('--rueckfall', kopf).stdout, /angehoben \(4\.32\.3 -> 4\.32\.4\)/, 'B und C zusammen: eine Anhebung, Rückfall ignoriert')
+  git(s, 'commit', '-qam', ZAEHLER_BETREFF)
+  assert.match(zaehle('--rueckfall', basisSha).stdout, /unverändert \(kein ausgelieferter/, 'nichts seit dem Zähler: kein zweites Mal')
+  // Betreff allein macht keinen Zähler: Code im Commit, anderer Dateiumfang oder Betreff nur als Teilstück
+  writeFileSync(join(s, 'extension/a.js'), 'D\n')
+  git(s, 'commit', '-qam', ZAEHLER_BETREFF)
+  assert.match(zaehle('--rueckfall', basisSha).stdout, /angehoben/, 'gleicher Betreff mit Code ist kein Zähler')
+  git(s, 'reset', '-q', '--hard', 'HEAD~1')
+  writeFileSync(join(s, 'extension/manifest.json'), man('4.32.9'))
+  writeFileSync(join(s, 'extension/a.js'), 'E\n')
+  git(s, 'commit', '-qam', `x ${ZAEHLER_BETREFF} y`)
+  assert.match(zaehle('--rueckfall', basisSha).stdout, /Version schon angehoben/, 'Betreff nur als Teilstück zählt nicht (sonst: nichts zu zählen)')
+  assert.match(zaehle('--von', zaehlerSha, '--bis', 'HEAD').stdout, /Version schon angehoben/, '--von überschreibt die Suche')
+
   // Workflow: Auslöser, Reihenfolge, Verdrahtung des Skripts und der Commit-Schritt gegen ein echtes „origin“
   const wf = parse(readFileSync(join(tools, '../.github/workflows/extension-version.yml'), 'utf8'))
   assert.deepEqual(wf.on.push, { branches: ['main'], paths: ['extension/**'] })
   assert.deepEqual(wf.concurrency, { group: 'extension-version', 'cancel-in-progress': false })
   const schritte = wf.jobs.zaehlen.steps
   const zaehlen = schritte.find((s) => s.name === 'Version zählen')
-  assert.deepEqual(zaehlen.env, { VON: '${{ github.event.before }}', BIS: '${{ github.sha }}' })
-  assert.match(zaehlen.run, /node tools\/extension-version\.mjs --von "\$VON" --bis "\$BIS"/)
+  assert.deepEqual(zaehlen.env, { VOR_PUSH: '${{ github.event.before }}' })
+  assert.match(zaehlen.run, /node tools\/extension-version\.mjs --rueckfall "\$VOR_PUSH"/)
+  assert.ok(schritte.find((s) => s.name === 'Zähler committen').run.includes(`git commit -m "${ZAEHLER_BETREFF}"`), 'Betreff wie die Suche ihn liest')
   assert.ok(schritte.indexOf(zaehlen) < schritte.findIndex((s) => s.name === 'Zähler committen'), 'erst zählen, dann committen')
   const commitSchritt = schritte.find((s) => s.name === 'Zähler committen').run
   const bare = join(wurzel, 'origin.git')
   const basisRepo = repo('wf')
   git(wurzel, 'clone', '-q', '--bare', basisRepo, bare)
+  git(bare, 'config', 'uploadpack.allowFilter', 'true')
+  git(bare, 'config', 'uploadpack.allowAnySHA1InWant', 'true')
   const klon = (n) => {
     git(wurzel, 'clone', '-q', bare, join(wurzel, n))
     return join(wurzel, n)
@@ -124,20 +170,33 @@ try {
   writeFileSync(join(k1, 'extension/manifest.json'), man('4.32.3'))
   assert.equal(commitLauf(k1).status, 0)
   assert.match(git(bare, 'log', '-1', '--format=%s', 'main'), /Version gezählt/, 'Zähler liegt auf origin')
-  // Flacher Klon wie actions/checkout: von/bis müssen erst geholt werden; Arbeitskopie ist weiter als die Spanne
-  const vonSha = git(bare, 'rev-parse', 'main~1').trim()
-  const bisSha = git(bare, 'rev-parse', 'main').trim()
-  git(wurzel, 'clone', '-q', '--depth=1', `file://${bare.replace(/\\/g, '/')}`, join(wurzel, 'flach'))
-  const flach = join(wurzel, 'flach')
-  const lauf = spawnSync('bash', ['-e', '-c', zaehlen.run], { cwd: flach, encoding: 'utf8', env: { ...process.env, VON: vonSha, BIS: bisSha } })
-  assert.equal(lauf.status, 0, `flacher Klon: ${lauf.stderr}`)
-  assert.match(lauf.stdout, /unverändert \(Version schon angehoben/, 'Spanne enthält den Zähler selbst')
+  // Zwei Merges ohne Zähler dazwischen, flacher Klon wie actions/checkout: ein Lauf zählt beide genau einmal
+  const vorPush = git(bare, 'rev-parse', 'main').trim()
+  for (const [n, inhalt] of [['kA', 'A\n'], ['kB', 'B\n']]) {
+    const k = klon(n)
+    writeFileSync(join(k, 'extension/a.js'), inhalt)
+    git(k, 'commit', '-qam', `code ${n}`)
+    git(k, 'push', '-q')
+  }
+  const flachLauf = (name, rueckfall) => {
+    const ziel = join(wurzel, name)
+    git(wurzel, 'clone', '-q', '--depth=1', `file://${bare.split('\\').join('/')}`, ziel)
+    const r = spawnSync('bash', ['-e', '-c', zaehlen.run], { cwd: ziel, encoding: 'utf8', env: { ...process.env, VOR_PUSH: rueckfall } })
+    assert.equal(r.status, 0, `${name}: ${r.stderr}`)
+    return { ziel, stdout: r.stdout }
+  }
+  const erster = flachLauf('flach1', vorPush)
+  assert.match(erster.stdout, /angehoben \(4\.32\.3 -> 4\.32\.4\)/, 'beide Merges seit dem Zähler: eine Anhebung')
+  assert.equal(commitLauf(erster.ziel).status, 0)
+  assert.equal(git(bare, 'show', 'main:extension/manifest.json'), man('4.32.4'))
+  const zweiter2 = flachLauf('flach2', vorPush)
+  assert.match(zweiter2.stdout, /unverändert \(kein ausgelieferter/, 'der Lauf nach dem Zähler-Push findet nichts, trotz altem Vor-Push-Stand')
   // Nur die Manifest-Datei wird committet, nichts anderes aus der Arbeitskopie
   const k0 = klon('k0')
   writeFileSync(join(k0, 'extension/manifest.json'), man('4.32.9'))
   writeFileSync(join(k0, 'extension/a.js'), 'unrelated\n')
   assert.equal(commitLauf(k0).status, 0)
-  assert.equal(git(bare, 'show', 'main:extension/a.js'), '1\n', 'fremde Änderung der Arbeitskopie bleibt draußen')
+  assert.equal(git(bare, 'show', 'main:extension/a.js'), 'B\n', 'fremde Änderung der Arbeitskopie bleibt draußen')
   const k2 = klon('k2')
   const k3 = klon('k3')
   writeFileSync(join(k2, 'extension/a.js'), 'fremd\n')
