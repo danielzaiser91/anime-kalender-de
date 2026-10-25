@@ -1,3 +1,4 @@
+import { ergaenzeOptionsFaelle } from './fall-optionen.ts'
 import { NUTZER_FAELLE, nutzerAus, type Nutzer } from './nutzer-faelle.ts'
 
 /** Die eingefrorenen Fälle (`faelle.json`, geschrieben von `tools/buehne-faelle.mjs`) und der umgebogene `fetch`. */
@@ -50,6 +51,7 @@ function ergaenzeNutzerFaelle(faelle: Record<string, Fall>): void {
 export function baueFaelle(datei: FaelleDatei): FaelleDatei {
   datei.faelle[ALLE] = gesamtbestand(Object.values(datei.faelle))
   ergaenzeNutzerFaelle(datei.faelle)
+  ergaenzeOptionsFaelle(datei.faelle)
   return datei
 }
 
