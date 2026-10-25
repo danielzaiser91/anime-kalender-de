@@ -6,6 +6,7 @@ import { todayIso } from '../../shared/time.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { serienBesitz, istFremd, entferneFremdeCrWege, entferneFremdeNachStaffeln } from './cr-serie-geteilt.ts'
 import { vorDemStart } from '../lib/crunchyroll-vollstaendig.ts'
+import { neinUeberholtMitLog, serienNachKennung, type OffenerBefund } from '../lib/cr-nein-ueberholt.ts'
 
 export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
   titles: Map<number, Title>
@@ -312,10 +313,8 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
      * Unterscheidung, die `DubCheck.available` seit dem 12.08.2026 zieht.
      */
     {
-      const offene = readJson<Record<string, { herkunft?: string; dub?: boolean; grund?: string; geprueftAm?: string }>>(
-        'data/crunchyroll-offene.json',
-        {},
-      )
+      const offene = readJson<Record<string, OffenerBefund & { grund?: string }>>('data/crunchyroll-offene.json', {})
+      const crSerienJeKennung = serienNachKennung(crDub.serien)
       let ausOffenen = 0
       let toteOffene = 0
       for (const title of titles.values()) {
@@ -360,6 +359,8 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
             continue
           }
           if (typeof b.dub !== 'boolean') continue
+          /* Ein Nein, das der jüngere Dub-Bestand widerlegt, gilt nicht: der normale Weg entscheidet. */
+          if (neinUeberholtMitLog(b, crSerienJeKennung, title)) continue
           stream.dub = b.dub
           ausOffenen++
         }

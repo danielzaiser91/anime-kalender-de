@@ -5,6 +5,7 @@ import { addDays, todayIso } from '../../shared/time.ts'
 import { NEIN_GILT_TAGE, NUR_DIESER_TITEL, type EntfernterVerweis } from './grundlagen.ts'
 import { readJson, log } from '../lib/util.ts'
 import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
+import { neinUeberholtMitLog, serienNachKennung, type OffenerBefund } from '../lib/cr-nein-ueberholt.ts'
 import { providerName } from '../../shared/mappings.ts'
 import { kapitelImBlock, beurteile, type CrDubData } from '../lib/crunchyroll-dub.ts'
 import { beurteileAdnVerweis } from '../lib/adn-sprachen.ts'
@@ -242,10 +243,8 @@ export function ergaenzeAnisearchWege({
      * beurteilen" (06.09.2026), nur eine Quelle weiter.
      */
     /* Die Befunde aus dem Einzellauf — beide Blöcke unten lesen sie. */
-    const crOffeneBefunde = readJson<Record<string, { herkunft?: string; dub?: boolean }>>(
-      'data/crunchyroll-offene.json',
-      {},
-    )
+    const crOffeneBefunde = readJson<Record<string, OffenerBefund>>('data/crunchyroll-offene.json', {})
+    const crSerienJeKennung = serienNachKennung(crDub.serien)
     const toteCrAdressen = new Set([
       ...crDub.serien
         .filter((s) => !usNeinWiderlegt(s) && (s.nichtVerfuegbar || /nicht mehr verf|404/.test(s.fehler ?? '')))
@@ -508,7 +507,7 @@ export function ergaenzeAnisearchWege({
            * Absatz darüber, nur eine Quelle weiter.
            */
           const ausOffenen = crOffeneBefunde[stream.url]
-          if (typeof ausOffenen?.dub === 'boolean') {
+          if (typeof ausOffenen?.dub === 'boolean' && !neinUeberholtMitLog(ausOffenen, crSerienJeKennung, title)) {
             stream.dub = ausOffenen.dub
             continue
           }
