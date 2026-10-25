@@ -128,6 +128,18 @@ pruefe('andere Woche wird gemeldet', meldet({ ...kachel, bis: '2026-10-12' }, 'a
 pruefe('erfundenes Feld wird gemeldet', meldet({ ...kachel, releases: [{ ...kachel.releases[0]!, erfunden: 1 } as unknown as Release, kachel.releases[1]!] }, 'Release a weicht'))
 pruefe('gekürzte Liste im Weg wird gemeldet', meldet({ ...kachel, titles: [{ ...kachel.titles[0]!, streams: kachel.titles[0]!.streams!.slice(1) }, kachel.titles[1]!] }, 'Titel 1 weicht'))
 
+const kuerzer = { ...kachel.titles[0]!, streams: kachel.titles[0]!.streams!.slice(0, 1) }
+pruefe('eine kürzere Liste (Anfang der vollen) wird gemeldet', meldet({ ...kachel, titles: [kuerzer, kachel.titles[1]!] }, 'Titel 1 weicht'))
+pruefe('anderer Beginn der Woche wird gemeldet', meldet({ ...kachel, von: '2026-10-04' }, 'andere Woche'))
+pruefe('ein Titel zu viel wird gemeldet', meldet({ ...kachel, titles: [...kachel.titles, titel(3)] }, '3 Titel statt 2'))
+pruefe('ein Titel zu viel nennt seine Stelle', meldet({ ...kachel, titles: [...kachel.titles, titel(3)] }, 'Stelle 2 ist 3 statt nichts'))
+const mitPlan = (schedule: unknown): WochenDatei => ({ ...kachel, releases: [{ ...kachel.releases[0]!, schedule } as unknown as Release, kachel.releases[1]!] })
+const planVoll = (schedule: unknown): WochenDatei => ({ ...woche, releases: [{ ...woche.releases[0]!, schedule } as unknown as Release, woche.releases[1]!] })
+pruefe('Objekt gegen Text wird gemeldet', pruefeKachelDatei(mitPlan({}), planVoll('x')).some((f) => f.includes('Release a weicht')))
+pruefe('Objekt gegen Liste wird gemeldet', pruefeKachelDatei(mitPlan({}), planVoll([])).some((f) => f.includes('Release a weicht')))
+pruefe('Objekt gegen null wird gemeldet', pruefeKachelDatei(mitPlan({}), planVoll(null)).some((f) => f.includes('Release a weicht')))
+pruefe('Liste gegen Text gleicher Länge wird gemeldet', pruefeKachelDatei(mitPlan(['x']), planVoll('x')).some((f) => f.includes('Release a weicht')))
+
 /* Die Abzugslisten, fest eingetragen: gemessen mit `tools/kachel-felder-messen.mjs` (25.10.2026); jede Änderung ist eine Entscheidung. */
 const TITEL_FEST = 'angebotSeit,anisearchId,ankuendigung,annId,ausgabenOhneDe,bannerImage,dubHinweis,einzelquelle,entfernteStreams,episodes,franchiseId,fskQuelle,hasVoices,jpEnd,jpSeason,jpStart,jpStatus,jpYear,kino,malId,runtimeMin,score,scoreQuelle,staffeln,staffelnQuelle,studios,synopsis,titleDe,titleEn,titleNative,titleRomaji,tmdbId,trailer,westlich'
 const RELEASE_FEST = 'automatisch,buyUrl,cinemaUntil,disputedDates,edition,herkunft,netflixOriginal,nachtrag,note,platformUrl,publisher,quellen,rhythmus,schnitt,sources'
