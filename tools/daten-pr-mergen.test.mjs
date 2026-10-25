@@ -3,7 +3,7 @@
  * die ausschließlich Pfade der Quellenliste ändern (Prüfer-Urteil PR 767). Alles andere endet rot und ohne Merge.
  */
 import { spawnSync } from 'node:child_process'
-import { chmodSync, existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -31,7 +31,8 @@ case "$1 $2" in
   "pr merge") echo "$3" >> "${posix(gemergt)}"; exit 0 ;;
 esac
 case "$7" in
-  .mergeable) if [ "$FALL" = konflikt ] || [ "$FALL" = autor-konflikt ]; then echo CONFLICTING; else echo MERGEABLE; fi ;;
+  .state) case " $ERLEDIGT " in *" $3 "*) echo "$ZUSTAND" ;; *) echo OPEN ;; esac ;;
+  .mergeable) case " $ERLEDIGT " in *" $3 "*) echo UNKNOWN; exit 0 ;; esac; if [ "$FALL" = konflikt ] || [ "$FALL" = autor-konflikt ]; then echo CONFLICTING; else echo MERGEABLE; fi ;;
   .title) if [ "$FALL" = rot ]; then echo "[Prüfung rot] chore(data): Test"; else echo "chore(data): Test"; fi ;;
   .author.login) if [ "$FALL" = autor ] || [ "$FALL" = autor-konflikt ]; then echo "app/fremder"; else echo "app/anime-kalender-daten"; fi ;;
   .isCrossRepository) if [ "$FALL" = fork ]; then echo true; else echo false; fi ;;
@@ -41,14 +42,15 @@ esac
   )
   chmodSync(join(bin, 'gh'), 0o755)
 
-  const lauf = (fall) => {
+  const lauf = (fall, nummern = ['7'], erledigt = '', zustand = 'MERGED') => {
     rmSync(gemergt, { force: true })
-    const r = spawnSync('bash', ['tools/daten-pr-mergen.sh', '7'], {
+    const r = spawnSync('bash', ['tools/daten-pr-mergen.sh', ...nummern], {
       cwd: wurzel,
       encoding: 'utf8',
-      env: { ...process.env, FALL: fall, PATH: `${posix(bin)}:${process.env.PATH}` },
+      env: { ...process.env, FALL: fall, ERLEDIGT: erledigt, ZUSTAND: zustand, PATH: `${posix(bin)}:${process.env.PATH}` },
     })
-    return { status: r.status, out: `${r.stdout}${r.stderr}`, gemergt: existsSync(gemergt) }
+    const liste = existsSync(gemergt) ? readFileSync(gemergt, 'utf8').trim().split('\n') : []
+    return { status: r.status, out: `${r.stdout}${r.stderr}`, gemergt: liste.length > 0, liste }
   }
 
   const ok = lauf('ok')
@@ -65,6 +67,13 @@ esac
   pruefe('Konflikt nach dem Auflösen: nicht gemergt, Lauf rot, PR-Nummer und Zustand im Fehler', konflikt.status === 1 && !konflikt.gemergt && /::error::Pull Request 7 bleibt offen \(CONFLICTING\)/.test(konflikt.out), konflikt.out)
   const rot = lauf('rot')
   pruefe('Marke „Prüfung rot“ im Titel: nicht gemergt, Lauf bleibt grün, Hinweis im Protokoll', rot.status === 0 && !rot.gemergt && /Pull Request 7 trägt die Marke/.test(rot.out), rot.out)
+  for (const zustand of ['MERGED', 'CLOSED']) {
+    const r = lauf('ok', ['6', '7'], '6', zustand)
+    const hinweis = new RegExp(`::notice::Pull Request 6 übersprungen: schon ${zustand}`)
+    pruefe(`PR (${zustand}) vor einem offenen: übersprungen, kein Rot, der offene wird gemergt`, r.status === 0 && r.liste.join() === '7' && hinweis.test(r.out) && !/::error::/.test(r.out), r)
+  }
+  const nurErledigt = lauf('ok', ['6'], '6')
+  pruefe('nur ein gemergter PR: Lauf grün, nichts gemergt', nurErledigt.status === 0 && !nurErledigt.gemergt && !/::error::/.test(nurErledigt.out), nurErledigt.out)
 } finally {
   rmSync(dir, { recursive: true, force: true })
 }
