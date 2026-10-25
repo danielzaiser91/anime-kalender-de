@@ -75,6 +75,13 @@ pruefe('andere Nummer ist ein anderer Block', !gleicherBlock('Season 2', 'Staffe
 pruefe('Nummer gegen keine Nummer ist ein anderer Block', !gleicherBlock('Fruits Basket (2019)', 'Fruits Basket Staffel 2'))
 pruefe('ohne Nummer muss der ganze Name gleich sein', gleicherBlock('Genocidal Organ (German Dub)', 'genocidal organ german dub') && !gleicherBlock('(OmU) Genocidal Organ', 'Genocidal Organ (German Dub)'))
 pruefe('zwei verschiedene Serien mit gleicher Nummer sind kein Treffer', !gleicherBlock('Rascal Season 2', 'Dorohedoro Staffel 2'))
+pruefe('ohne Nummer reicht „enthalten“ nicht: Fruits Basket (2019) ist nicht Fruits Basket', !gleicherBlock('Fruits Basket (2019)', 'Fruits Basket') && !gleicherBlock('Fruits Basket', 'Fruits Basket (2019)'))
+pruefe('mit Nummer: der kürzere Name im längeren (Block führt den Serienname-Präfix)', gleicherBlock('Apothekerin Staffel 3', 'Die Tagebücher der Apothekerin Staffel 3'))
+pruefe('mit Nummer: der längere Name im kürzeren (Nein führt den Serienname-Präfix)', gleicherBlock('Die Tagebücher der Apothekerin Staffel 3', 'Apothekerin Staffel 3'))
+const ohneStaffeln = serienNachKennung([{ ...serie('GT00361955', '2026-10-25', []), staffeln: undefined } as unknown as CrSerie])
+pruefe('Serie ohne Staffelliste: kein Absturz, nichts überholt', !neinUeberholt(nein('GT00361955', 'Season 2', '2026-09-28'), ohneStaffeln))
+const ohneZahl = serienNachKennung([{ ...serie('GT00361955', '2026-10-25', [['Staffel 2', 5, 5]]), staffeln: [{ name: 'Staffel 2', folgen: 5 }] } as unknown as CrSerie])
+pruefe('Block ohne Angabe deutscher Folgen zählt als 0', !neinUeberholt(nein('GT00361955', 'Season 2', '2026-09-28'), ohneZahl))
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
