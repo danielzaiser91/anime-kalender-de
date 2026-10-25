@@ -10,7 +10,7 @@ einmal täglich im Netz (Anbieter-News, Social Media, Anime2You) und schreibt `r
 `rechercheQuelle`, `rechercheAm` und — nur mit Quelle, die den Tag nennt — `neuErwartet`.
 Nach zwei Wochen wöchentlich, nach zwei Monaten nicht mehr. Von Hand eintragen geht weiterhin.
 
-Stand: 2026-10-25 11:03 · 1 offen, 17 nachgeholt
+Stand: 2026-10-25 12:03 · 1 offen, 17 nachgeholt
 
 | Titel | Folge | erwartet | beim Anbieter | Kalender gelesen | Anime2You | Recherche | fällig |
 |---|---|---|---|---|---|---|---|
