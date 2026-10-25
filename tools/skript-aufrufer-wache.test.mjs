@@ -1,6 +1,9 @@
 /** Gegenprobe zu `tools/skript-aufrufer-wache.mjs`: Aufruf `node tools/skript-aufrufer-wache.test.mjs`. */
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { istPruefskript, nenntSkript, ohneAufrufer, pruefeAufrufer } from './skript-aufrufer-wache.mjs'
 
@@ -53,4 +56,22 @@ console.log(`  ✓ Repo: ${echt.geprueft} Prüfskripte`)
 const prozess = spawnSync(process.execPath, [fileURLToPath(new URL('./skript-aufrufer-wache.mjs', import.meta.url))], { encoding: 'utf8', windowsHide: true })
 assert.equal(prozess.status, 0, prozess.stderr)
 assert.match(prozess.stdout, /^skript-aufrufer-wache: \d+ Prüfskripte/m)
+// Exit-Code als eigener Prozess an einem Wegwerf-Repo mit einem Prüfskript ohne Aufrufer.
+const ordner = mkdtempSync(join(tmpdir(), 'skript-aufrufer-'))
+try {
+  spawnSync('git', ['init', '-q', ordner], { windowsHide: true })
+  mkdirSync(join(ordner, 'tools'))
+  writeFileSync(join(ordner, 'tools/x-pruefen.mjs'), PROGRAMM)
+  const wache = fileURLToPath(new URL('./skript-aufrufer-wache.mjs', import.meta.url))
+  const rot = spawnSync(process.execPath, [wache, ordner], { encoding: 'utf8', windowsHide: true })
+  assert.equal(rot.status, 1, 'Prüfskript ohne Aufrufer: Exit 1')
+  assert.match(rot.stderr, /^check:logic: tools\/x-pruefen\.mjs hat keinen Aufrufer/m)
+  writeFileSync(join(ordner, 'package.json'), '{"scripts":{"x":"node tools/x-pruefen.mjs"}}')
+  const gruen = spawnSync(process.execPath, [wache, ordner], { encoding: 'utf8', windowsHide: true })
+  assert.equal(gruen.status, 0, gruen.stderr)
+  assert.match(gruen.stdout, /^skript-aufrufer-wache: 1 Prüfskripte/m)
+  console.log('  ✓ Exit-Code im Wegwerf-Repo (ohne und mit Aufrufer)')
+} finally {
+  rmSync(ordner, { recursive: true, force: true })
+}
 console.log('skript-aufrufer-wache.test: grün')

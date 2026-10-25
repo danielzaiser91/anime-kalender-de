@@ -82,7 +82,8 @@ export function pruefeAufrufer(wurzel) {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const { fehler, geprueft } = pruefeAufrufer(join(dirname(fileURLToPath(import.meta.url)), '..'))
+  const wurzel = process.argv[2] ?? join(dirname(fileURLToPath(import.meta.url)), '..')
+  const { fehler, geprueft } = pruefeAufrufer(wurzel)
   for (const f of fehler) console.error(`check:logic: ${f}`)
   if (fehler.length) process.exit(1)
   console.log(`skript-aufrufer-wache: ${geprueft} Prüfskripte, alle haben einen Aufrufer oder eine begründete Ausnahme.`)
