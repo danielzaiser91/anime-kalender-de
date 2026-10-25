@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-25 · **18 offene Verweise** in **15 Zeilen**,
+Stand 2026-10-25 · **17 offene Verweise** in **14 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,7 +31,7 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 15
+## Paket 1 — Zeilen 1 bis 14
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
@@ -47,6 +47,5 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 10 | Prime Video | Yunas Geisterhaus | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.31c2fcde-089d-47dd-bf2b-09bca0de572f) |
 | 11 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
 | 12 | Netflix | Meine ganz besondere Hochzeit | [Special]() |
-| 13 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
-| 14 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door]() |
-| 15 | Prime Video | Project Itoh: Genocidal Organ | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.78b91eef-2e25-9512-4024-a8c43ad3e1f9) |
+| 13 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door]() |
+| 14 | Prime Video | Project Itoh: Genocidal Organ | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.78b91eef-2e25-9512-4024-a8c43ad3e1f9) |
