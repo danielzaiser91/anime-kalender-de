@@ -164,7 +164,7 @@ pruefe('Wochenabstand wird gemessen und die Tage je Folge stehen dabei', z?.rhyt
 const mitNull = lauf(serie(LB, [lbEins, ['Staffel 2', 3, 5, [[0, '2026-10-10T14:00:00Z'], [1, '2026-10-17T14:00:00Z'], [2, '2026-10-24T14:00:00Z']]]]), lbTitel)
 pruefe('Folge 0 zählt nicht als Beobachtung, 1 und 2 bleiben', JSON.stringify(mitNull.raus[0]?.beobachtet) === '{"1":"2026-10-17","2":"2026-10-24"}', mitNull.raus[0])
 const kaputtesDatum = lauf(serie(LB, [lbEins, ['Staffel 2', 1, 5, [[1, 'kaputt']]]]), lbTitel)
-pruefe('ein Block, dessen einziges Datum kaputt ist: kein Termin, kein Absturz', kaputtesDatum.raus.length === 0, kaputtesDatum)
+pruefe('ein Block, dessen einziges Datum kaputt ist: kein Termin, kein Absturz, gezählt', kaputtesDatum.raus.length === 0 && kaputtesDatum.verworfen.length === 1 && kaputtesDatum.verworfen[0]?.grund === 'Folgendatum nicht lesbar', kaputtesDatum)
 const apOhneZahl = lauf(apothekerin, [apTitel(true)[0]!, apTitel(true)[1]!, titel(195516, 'The Apothecary Diaries Season 3', 2026, AP, undefined)])
 pruefe('ohne Folgenzahl, Block ab 49: nur die datierte Folge, als Folge 1 gezählt', apOhneZahl.raus[0]?.episodeCount === 1 && apOhneZahl.raus[0]?.lastEpisodeDate === '2026-10-23' && JSON.stringify(apOhneZahl.raus[0]?.beobachtet) === '{"1":"2026-10-23"}', apOhneZahl)
 const mitLuecke = lauf(serie(AP, [apEins, apZwei, ['Die Tagebücher der Apothekerin Staffel 3', 2, 4, [[49, '2026-10-16T15:00:00Z'], [51, '2026-10-23T15:00:00Z']]]]), apTitel(undefined))

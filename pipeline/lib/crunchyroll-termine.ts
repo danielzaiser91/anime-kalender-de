@@ -300,7 +300,7 @@ function terminAusDatierten(serie: CrSerie, titel: Title, block: CrStaffel): CrT
     .map((f) => nachBerlin(f.verfuegbarAb!))
     .filter((x): x is { datum: string; zeit: string } => x !== null)
     .sort((a, b) => (a.datum < b.datum ? -1 : a.datum > b.datum ? 1 : 0))
-  if (!punkte.length) return null
+  if (!punkte.length) return verwirfPaar('Folgendatum nicht lesbar', serie, titel.id, `${folgen.length} datiert`)
   const daten = punkte.map((p) => p.datum)
   const jahr = Number(daten[0]!.slice(0, 4))
   if (titel.jpYear && jahr < titel.jpYear)
