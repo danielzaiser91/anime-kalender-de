@@ -12,13 +12,18 @@ export function gebundenerName(knoten: ts.Node): ts.Identifier | undefined {
   return p && ts.isVariableDeclaration(p) && p.initializer === knoten && ts.isIdentifier(p.name) ? p.name : undefined
 }
 
+/** `obj.u`: der Name hinter dem Punkt ist eine andere Sache als die Variable `u`. */
+function istEigenschaftsname(n: ts.Identifier): boolean {
+  return ts.isPropertyAccessExpression(n.parent) && n.parent.name === n
+}
+
 /** Alle Verwendungen des Namens in der Datei (ohne die Deklaration selbst und ohne Verwendungen in ihrem eigenen Initialisierer). */
 function verwendungen(name: ts.Identifier): ts.Identifier[] {
   const deklaration = name.parent
   const treffer: ts.Identifier[] = []
   const besuche = (n: ts.Node): void => {
     if (n === deklaration) return
-    if (ts.isIdentifier(n) && n.text === name.text && n !== name) treffer.push(n)
+    if (ts.isIdentifier(n) && n.text === name.text && !istEigenschaftsname(n)) treffer.push(n)
     ts.forEachChild(n, besuche)
   }
   besuche(name.getSourceFile())

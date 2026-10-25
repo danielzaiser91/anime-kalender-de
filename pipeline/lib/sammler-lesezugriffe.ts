@@ -77,7 +77,7 @@ function verbraucher(knoten: ts.Node, decl: Map<string, string[]>): Urteil {
     return p.arguments?.[1]?.getText() === 'import.meta.url' ? verbraucher(p, decl) : 'nein'
   }
   /* `u.pathname` / `u.href` bleiben derselbe Pfadwert. */
-  if (ts.isPropertyAccessExpression(p) && p.expression === knoten && URL_EIGENSCHAFTEN.has(p.name.text)) return verbraucher(p, decl)
+  if (ts.isPropertyAccessExpression(p) && URL_EIGENSCHAFTEN.has(p.name.text)) return verbraucher(p, decl)
   const gebunden = ts.isNewExpression(knoten) || ts.isCallExpression(knoten) ? gebundenerName(knoten) : undefined
   if (gebunden) return urteilUeberVariable(gebunden, (v) => verbraucher(v, decl))
   if (!ts.isCallExpression(p)) return '?'
