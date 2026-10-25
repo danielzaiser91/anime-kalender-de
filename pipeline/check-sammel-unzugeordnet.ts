@@ -6,6 +6,7 @@
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import type { Vorschlag } from './lib/meldungen.ts'
 
 const wurzel = mkdtempSync(join(tmpdir(), 'unzugeordnet-'))
 process.env.AK_ROOT = wurzel
@@ -53,12 +54,12 @@ async function main(): Promise<void> {
     sources: [],
   } as never
 
-  const abgedeckt: never[] = []
+  const abgedeckt: Vorschlag[] = []
   const neu = releasesAus(sammelV, titles, [handeintrag], '2026-10-25', [], abgedeckt)
   const titelListe = (l: { titel: string; anbieter: string[] }[]) => l.map((e) => `${e.titel}/${e.anbieter.join(',')}`)
 
   pruefe('Kulisse: der Handeintrag verdrängt den Bot-Termin bei Netflix', neu.every((r) => r.platform !== 'netflix' || r.titleId !== 900123), neu.length)
-  pruefe('Kulisse: beide Blue-Box-Meldungen sind abgedeckt, der neue Termin „Gefunden“ nicht', abgedeckt.length === 2 && abgedeckt.every((v) => v.articleTitle.includes('Blue Box')) && neu.length === 1, [abgedeckt.length, neu.length])
+  pruefe('Kulisse: beide Blue-Box-Meldungen sind abgedeckt, der neue Termin „Gefunden“ nicht', abgedeckt.length === 2 && abgedeckt.every((v: { articleTitle: string }) => v.articleTitle.includes('Blue Box')) && neu.length === 1, [abgedeckt.length, neu.length])
   const ohne = unzugeordnet(sammelV, neu)
   const mit = unzugeordnet(sammelV, neu, abgedeckt)
   pruefe('alt: Blue Box/Netflix stand fälschlich auf der Liste', titelListe(ohne).includes('Blue Box/netflix'), titelListe(ohne))
