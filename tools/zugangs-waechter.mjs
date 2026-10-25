@@ -110,7 +110,7 @@ function weckerBefund() {
 
 /** Workflows, die der Wecker startet, die `wecker-wache.yml` aber nicht nachholen würde (leer = stimmig). */
 export function wachePlanBefunde(weckplanText, wacheText) {
-  const plan = [...weckplanText.matchAll(/workflow: '([^']+)'/g)].map((m) => m[1])
+  const plan = [...weckplanText.matchAll(/workflow: '([^']+)'(?![^}\n]*\brepo:\s*')/g)].map((m) => m[1])
   const wache = new Set([...wacheText.matchAll(/([A-Za-z0-9-]+\.yml):\d+/g)].map((m) => m[1]))
   return plan.filter((w) => !wache.has(w)).map((w) => `Wecker-Plan startet ${w}, die Wecker-Wache holt es nicht nach (PLAN in wecker-wache.yml)`)
 }
@@ -146,7 +146,7 @@ export function ausloeser(workflowText) {
  * `workflows`: Dateiname -> Text. Anlass 13.10.2026: `offizielle-news.yml` lief nie, weil sein Plan-Eintrag fehlte.
  */
 export function weckplanLuecken(weckplanText, workflows, ausnahmen = OHNE_WECKPLAN) {
-  const plan = new Set([...weckplanText.matchAll(/workflow: '([^']+)'/g)].map((m) => m[1]))
+  const plan = new Set([...weckplanText.matchAll(/workflow: '([^']+)'(?![^}\n]*\brepo:\s*')/g)].map((m) => m[1]))
   const b = []
   for (const [name, text] of Object.entries(workflows)) {
     const keys = ausloeser(text)
