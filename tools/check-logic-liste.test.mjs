@@ -33,7 +33,7 @@ try {
   assert.equal(punktVorStrich.status, 1, '„.“ vor „-“ ist unsortiert (Code-Reihenfolge)')
   assert.match(punktVorStrich.text, /check-a-b\.ts steht zu früh/, 'der zu früh stehende Eintrag wird genannt')
   const echt = ['pipeline/check-adn-kuratiert-ton.ts', 'pipeline/check-adn-kuratiert.ts']
-  const mitKommentar = lauf(['# Kommentar steht mitten in der Liste', ...echt])
+  const mitKommentar = lauf([echt[0], '# Kommentar steht mitten in der Liste', echt[1]])
   assert.doesNotMatch(mitKommentar.text, /alphabetisch|mehrfach/, 'Kommentarzeilen zählen nicht, „-“ vor „.“ ist sortiert (echte Zeilen der Liste)')
   const umgekehrt = lauf([...echt].reverse())
   assert.match(umgekehrt.text, /check-adn-kuratiert-ton\.ts steht zu früh/, 'echte Zeilen in umgekehrter Reihenfolge sind unsortiert')
