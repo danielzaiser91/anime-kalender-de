@@ -13,6 +13,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, 
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { teileListenAusgabe, trenneGeerbtUndNeu, zaehleVerstoesse } from './pr-bestand-zaehlen.mjs'
 
 const LISTE = 'tools/check-bestand-liste.txt'
 /** Kennung für einen roten Listenlauf ohne einzelne Prüfung (Liste unsortiert, Prüfung ändert Dateien): zählt immer als neu. */
@@ -78,30 +79,33 @@ function melde(kennung, ergebnis) {
 
 /** Die Liste läuft über eine Kopie mit genau den gewünschten Zeilen (Reihenfolge der Liste, also weiter sortiert). */
 async function roteDerListe(wurzel, dateien) {
-  if (dateien.length === 0) return []
+  if (dateien.length === 0) return new Map()
   const ordner = mkdtempSync(join(tmpdir(), 'bestand-liste-'))
   const datei = join(ordner, 'liste.txt')
   writeFileSync(datei, `${dateien.join('\n')}\n`)
   const r = await lauf(process.execPath, ['tools/check-logic-alle.mjs', datei, 'check:bestand', '--alle'], wurzel)
   rmSync(ordner, { recursive: true, force: true })
   melde(GANZE_LISTE, r)
-  if (r.status === 0) return []
-  const rote = roteAusListe(r.aus)
+  if (r.status === 0) return new Map()
+  const teile = teileListenAusgabe(r.aus)
+  const rote = new Map(roteAusListe(r.aus).map((d) => [d, zaehleVerstoesse(teile.get(d) ?? '')]))
   // Schreibt eine Prüfung ins Repo, meldet der Pool das neben roten Prüfungen nur im Text (tools/arbeiterpool.mjs); das ist nie geerbt.
   const schreibt = r.aus.includes('Der Lauf hat getrackte Dateien verändert')
-  return rote.length > 0 && !schreibt ? rote : [...rote, GANZE_LISTE]
+  if (rote.size === 0 || schreibt) rote.set(GANZE_LISTE, 1)
+  return rote
 }
 
-/** Rote Prüfungen eines Stands: die Rest-Skripte nacheinander, die Liste daneben. */
+/** Rote Prüfungen eines Stands mit der Zahl ihrer Verstöße: die Rest-Skripte nacheinander, die Liste daneben. */
 async function roteImStand(wurzel, { rest, liste }) {
   const listenLauf = roteDerListe(wurzel, liste)
-  const rote = []
+  const rote = new Map()
   for (const skript of rest) {
     const r = await lauf('npm', ['run', skript], wurzel)
     melde(skript, r)
-    if (r.status !== 0) rote.push(skript)
+    if (r.status !== 0) rote.set(skript, zaehleVerstoesse(r.aus))
   }
-  return [...rote, ...(await listenLauf)]
+  for (const [k, zahl] of await listenLauf) rote.set(k, zahl)
+  return rote
 }
 
 function git(args, cwd) {
@@ -127,8 +131,8 @@ async function roteDerBasis(wurzel, basisRef, prRot) {
     }
     const basis = stand(ort)
     const auswahl = {
-      rest: basis.rest.filter((s) => prRot.includes(s)),
-      liste: basis.liste.filter((d) => prRot.includes(d)),
+      rest: basis.rest.filter((s) => prRot.has(s)),
+      liste: basis.liste.filter((d) => prRot.has(d)),
     }
     return await roteImStand(ort, auswahl)
   } finally {
@@ -141,21 +145,22 @@ async function roteDerBasis(wurzel, basisRef, prRot) {
 /** Exit-Code des Schritts: 0, wenn jede rote Prüfung auch auf der Basis rot ist. */
 async function vergleiche(wurzel, basisRef) {
   const prRot = await roteImStand(wurzel, stand(wurzel))
-  if (prRot.length === 0) {
+  if (prRot.size === 0) {
     console.log('Bestandsprüfungen: alle grün.')
     return 0
   }
-  console.log(`Rot auf dem PR-Bau: ${prRot.join(', ')}. Gegenprobe auf der Basis ${basisRef} …`)
+  const rotText = [...prRot].map(([k, z]) => `${k} (${z})`).join(', ')
+  console.log(`Rot auf dem PR-Bau (Verstöße): ${rotText}. Gegenprobe auf der Basis ${basisRef} …`)
   const basisRot = await roteDerBasis(wurzel, basisRef, prRot)
   if (basisRot === null) {
-    console.log(`::error::Der Bau der Basis ${basisRef} ist gescheitert; rot auf dem PR-Bau: ${prRot.join(', ')}`)
+    console.log(`::error::Der Bau der Basis ${basisRef} ist gescheitert; rot auf dem PR-Bau: ${rotText}`)
     return 1
   }
-  const geerbt = prRot.filter((k) => basisRot.includes(k))
-  const neu = prRot.filter((k) => !geerbt.includes(k))
-  for (const k of geerbt) console.log(`::warning::${k} ist schon auf der Basis ${basisRef} rot (nicht diesem PR angelastet)`)
+  const { geerbt, neu } = trenneGeerbtUndNeu(prRot, basisRot)
+  for (const k of geerbt) console.log(`::warning::${k} ist schon auf der Basis ${basisRef} rot (${prRot.get(k)} Verstöße, Basis ${basisRot.get(k)}; nicht diesem PR angelastet)`)
   if (neu.length === 0) return 0
-  console.log(`::error::Der gebaute Bestand verletzt Zusicherungen, die auf der Basis grün sind: ${neu.join(', ')}`)
+  for (const k of neu) console.log(`${k}: ${prRot.get(k)} Verstöße auf dem PR, ${basisRot.get(k) ?? 'grün'} auf der Basis`)
+  console.log(`::error::Der gebaute Bestand verletzt Zusicherungen, die auf der Basis nicht oder weniger verletzt sind: ${neu.join(', ')}`)
   return 1
 }
 
