@@ -292,7 +292,7 @@ export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
 type Urteil = Pick<DubCheck, 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil'>
 
 /** Das Urteil einer Zeile: Nein (`dub: false`, `available: false`), Ja (`dub: true` oder deutscher Bereich, sofern verfügbar) oder keins. */
-function urteilVon(c: Urteil): 'ja' | 'nein' | undefined {
+export function urteilVon(c: Urteil): 'ja' | 'nein' | undefined {
   if (c.juengstesUrteil) return c.juengstesUrteil
   const nein = c.dub === false || c.available === false
   const ja = c.available !== false && (c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub)))
