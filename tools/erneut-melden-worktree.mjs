@@ -16,12 +16,15 @@ function junctionLoesen(pfad) {
   if (existsSync(pfad) && lstatSync(pfad).isSymbolicLink()) unlinkSync(pfad)
 }
 
+/** Ort des Arbeitsbaums: `<Wurzel>/<Repo-Ordnername>/erneut-melden-<Stempel>`; die Wurzel ist `AK_WORKTREES` oder der Standard. */
+export const worktreePfad = (haupt, stempel) => join(process.env.AK_WORKTREES ?? WURZEL, basename(haupt), `erneut-melden-${stempel}`)
+
 /**
  * Legt `C:/code/_worktrees/<repo>/erneut-melden-<stempel>` auf `origin/main` mit neuem Zweig `erneut-melden/<stempel>` an
  * (Junctions für `node_modules` und `data/cache`, falls der Hauptordner sie hat). `aufraeumen` ist wiederholbar.
  */
 export function legeWorktreeAn(haupt, stempel) {
-  const pfad = join(process.env.AK_WORKTREES ?? WURZEL, basename(haupt), `erneut-melden-${stempel}`)
+  const pfad = worktreePfad(haupt, stempel)
   const zweig = `erneut-melden/${stempel}`
   git(haupt, ['fetch', '-q', 'origin', 'main'])
   git(haupt, ['worktree', 'add', '-q', '-b', zweig, pfad, 'origin/main'])

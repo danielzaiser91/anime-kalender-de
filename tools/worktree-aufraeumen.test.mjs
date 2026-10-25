@@ -121,6 +121,13 @@ assert.equal(H.ausloeser({ ...merge, hook_event_name: 'PreToolUse' }), null)
 assert.equal(H.ausloeser({ ...merge, tool_response: { interrupted: true } }), null)
 assert.equal(H.ausloeser({ ...merge, tool_input: { command: 'gh pr view 9' } }), null)
 
+// Standardwurzel ohne Umgebungsvariable (der Attrappen-Teil setzt WT_WURZEL auf einen Wegwerf-Ordner).
+const wurzelVorher = process.env.WT_WURZEL
+delete process.env.WT_WURZEL
+assert.equal(H.wtOrdner('C:/code/ai/anime-kalender-de'), 'C:/code/_worktrees/anime-kalender-de', 'Standardwurzel')
+assert.equal(H.wtOrdner('C:/code/ai/ticket-board'), 'C:/code/_worktrees/ticket-board', 'Repo-Name aus dem Hauptordner')
+if (wurzelVorher !== undefined) process.env.WT_WURZEL = wurzelVorher
+
 // ---- Attrappen-Repo ---------------------------------------------------------------------------------------------------------------------
 const wurzel = mkdtempSync(join(tmpdir(), 'wt-aufraeumen-'))
 const env = { ...process.env, GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t' }

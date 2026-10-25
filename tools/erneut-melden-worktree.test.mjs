@@ -8,7 +8,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from 'node:os'
 import { basename, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { legeWorktreeAn, restzweigHinweis } from './erneut-melden-worktree.mjs'
+import { legeWorktreeAn, restzweigHinweis, worktreePfad } from './erneut-melden-worktree.mjs'
 
 const git = (cwd, ...args) => execFileSync('git', args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
 const wurzel = mkdtempSync(join(tmpdir(), 'erneut-wt-'))
@@ -17,6 +17,12 @@ const haupt = join(wurzel, 'haupt')
 const zweiter = join(wurzel, 'zweiter')
 const persoenlich = ['-c', 'user.name=t', '-c', 'user.email=t@t']
 process.env.AK_WORKTREES = join(wurzel, '_worktrees')
+/* Standardort ohne Umgebungsvariable (die Tests unten setzen AK_WORKTREES auf einen Wegwerf-Ordner). */
+const gesetzt = process.env.AK_WORKTREES
+delete process.env.AK_WORKTREES
+assert.equal(worktreePfad('C:/code/ai/anime-kalender-de', '20990101000000').replace(/\\/g, '/'), 'C:/code/_worktrees/anime-kalender-de/erneut-melden-20990101000000', 'Standardort')
+assert.equal(worktreePfad('C:/code/ai/ticket-board', '1').replace(/\\/g, '/'), 'C:/code/_worktrees/ticket-board/erneut-melden-1', 'Repo-Name aus dem Hauptordner')
+process.env.AK_WORKTREES = gesetzt
 const wtOrt = (stempel) => join(wurzel, '_worktrees', basename(haupt), `erneut-melden-${stempel}`)
 
 git(wurzel, 'init', '-q', '--bare', '-b', 'main', ursprung)
