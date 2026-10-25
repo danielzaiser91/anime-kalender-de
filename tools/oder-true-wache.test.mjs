@@ -52,12 +52,14 @@ try {
   mkdirSync(join(wurzel, '.github/workflows'), { recursive: true })
   mkdirSync(join(wurzel, 'tools'))
   writeFileSync(join(wurzel, '.github/workflows/w.yml'), 'name: w\njobs:\n  a:\n    steps:\n      - run: |\n          node tools/sammler.mjs || true\n')
+  writeFileSync(join(wurzel, '.github/workflows/v.yaml'), 'name: v\njobs:\n  a:\n    steps:\n      - run: npm run daten || true\n')
   writeFileSync(join(wurzel, 'tools/s.sh'), 'set -e\ntsx pipeline/x.ts || :\n# kommentiert || true\n')
   const meldungen = pruefe(wurzel, [])
-  assert.equal(meldungen.length, 2)
-  assert.match(meldungen[0], /w\.yml.*sammler\.mjs \|\| true/)
-  assert.match(meldungen[1], /tools\/s\.sh/)
-  const erlaubt = [{ datei: '.github/workflows/w.yml', text: 'sammler.mjs || true' }, { datei: 'tools/s.sh', text: 'x.ts || :' }]
+  assert.equal(meldungen.length, 3)
+  assert.match(meldungen[0], /v\.yaml.*npm run daten \|\| true/)
+  assert.match(meldungen[1], /w\.yml.*sammler\.mjs \|\| true/)
+  assert.match(meldungen[2], /tools\/s\.sh/)
+  const erlaubt = [{ datei: '.github/workflows/w.yml', text: 'sammler.mjs || true' }, { datei: 'tools/s.sh', text: 'x.ts || :' }, { datei: '.github/workflows/v.yaml', text: 'npm run daten' }]
   assert.deepEqual(pruefe(wurzel, erlaubt), [])
   assert.equal(pruefe(wurzel, [...erlaubt, { datei: 'tools/s.sh', text: 'gibt es nicht' }]).length, 1, 'verwaiste Ausnahme meldet')
 } finally {
