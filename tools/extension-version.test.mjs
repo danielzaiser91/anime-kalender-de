@@ -50,6 +50,7 @@ function repo(name) {
   mkdirSync(join(arbeit, 'extension'), { recursive: true })
   mkdirSync(join(arbeit, 'tools'))
   writeFileSync(join(arbeit, 'tools/umfang-pruefen.mjs'), "console.log('ok')\n")
+  writeFileSync(join(arbeit, 'tools/uhr-in-tests.mjs'), "console.log('ok')\n")
   copyFileSync(join(tools, 'extension-version.mjs'), join(arbeit, 'tools/extension-version.mjs'))
   writeFileSync(join(arbeit, 'extension/manifest.json'), man('4.32.2'))
   writeFileSync(join(arbeit, 'extension/a.js'), '1\n')
