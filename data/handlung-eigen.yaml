@@ -87,17 +87,6 @@
     - name: aniSearch
       url: https://www.anisearch.de/anime/18340
 
-- id: 159309 # Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs – Staffel 2 (2026, TV, 12 Folgen)
-  umfang: reihe
-  lizenz: CC BY-SA 4.0
-  text: >-
-    Zweite Staffel (zwölf Folgen, Sommer 2026) der Isekai-Serie nach den Light Novels von Yomu Mishima. Ein Büroangestellter wird als Leon Fou Bartfort im Königreich Holfort wiedergeboren, in der Welt eines Otome-Spiels, in dem Frauen den Ton angeben und Nebenfiguren schlechte Karten haben. Mit seinem Wissen über das Spiel und dem Artefakt Luxion mischt er die Adelsgesellschaft auf. Actionkomödie mit Romantik und Mecha-Elementen.
-  quellen:
-    - name: Wikipedia (EN)
-      url: https://en.wikipedia.org/wiki/Trapped_in_a_Dating_Sim:_The_World_of_Otome_Games_Is_Tough_for_Mobs
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/17984
-
 - id: 198369 # Detektiv Conan: Der gefallene Engel des Highways (2026, Film, 109 min)
   umfang: titel
   lizenz: CC BY-SA 4.0
@@ -377,23 +366,6 @@
       url: https://www.anisearch.de/anime/19989
     - name: aniSearch (Staffel 1)
       url: https://www.anisearch.de/anime/19375
-
-- id: 133007 # Puella Magi Madoka Magica the Movie - Walpurgisnacht: Rising (2026, Film)
-  umfang: reihe
-  lizenz: CC BY-SA 4.0
-  text: >-
-    „Puella Magi Madoka Magica“: Kinofilm von Shaft (Magica Quartet, Musik von Yuki Kajiura), in Japan seit August 2026. Die Schülerin Madoka Kaname und ihre Freundin Sayaka Miki begegnen dem katzenartigen Wesen Kyubey. Es bietet ihnen an, einen Wunsch zu erfüllen, wenn sie dafür magische Kräfte annehmen und gegen Hexen kämpfen. Die neue Mitschülerin Homura Akemi, selbst ein Magical Girl, versucht Madoka davon abzuhalten, den Vertrag zu schließen.
-  quellen:
-    - name: Wikipedia (EN)
-      url: https://en.wikipedia.org/wiki/Puella_Magi_Madoka_Magica
-    - name: Wikipedia (DE)
-      url: https://de.wikipedia.org/wiki/Puella_Magi_Madoka_Magica
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/16217
-    - name: aniSearch (Magia Record, Final Season)
-      url: https://www.anisearch.de/anime/16573
-    - name: aniSearch (Magia Record, Staffel 2)
-      url: https://www.anisearch.de/anime/15130
 
 - id: 190054 # Meine ganz besondere Hochzeit: Special (2026, Special, 3 Folgen)
   umfang: reihe
