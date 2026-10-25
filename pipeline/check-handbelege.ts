@@ -219,6 +219,7 @@ if (fehler.length) {
   warn(`${fehler.length} Handprüfungen werden vom Datensatz nicht wiedergegeben:`)
   for (const f of fehler.slice(0, 25)) warn('   ' + f)
   if (fehler.length > 25) warn(`   … und ${fehler.length - 25} weitere`)
+  console.log(`VERSTÖSSE: ${fehler.length}`)
   process.exit(1)
 }
 
@@ -297,6 +298,7 @@ log('✓ Jede eindeutige Handprüfung steht so im Datensatz, wie sie geprüft wu
   if (verschluckt.length) {
     warn(`Abbruch: ${verschluckt.length} Verweis(e) benutzen einen veralteten Beleg:`)
     for (const v of verschluckt.slice(0, 8)) warn(`   ${v}`)
+    console.log(`VERSTÖSSE: ${verschluckt.length}`)
     process.exit(1)
   }
   const mehrfach = [...jeSchluessel.values()].filter((g) => g.length > 1).length
@@ -347,6 +349,7 @@ log('✓ Jede eindeutige Handprüfung steht so im Datensatz, wie sie geprüft wu
   if (unmarkiert.length) {
     warn(`Abbruch: ${unmarkiert.length} kuratierte(r) Eintrag/Einträge nennen „voraussichtlich", aber der Termin trägt kein estimated: true:`)
     for (const u of unmarkiert) warn(`   ${u}`)
+    console.log(`VERSTÖSSE: ${unmarkiert.length}`)
     process.exit(1)
   }
   log('✓ Jeder kuratierte Termin mit „voraussichtlich" in der note trägt estimated: true.')
@@ -360,7 +363,9 @@ log('✓ Jede eindeutige Handprüfung steht so im Datensatz, wie sie geprüft wu
   const falsch = erstausgabeTrotzNein(readJson<Release[]>(resolve(ROOT, 'public/data/releases.json'), []), neinHandbelege(belege))
   if (falsch.length) {
     warn(`Abbruch: ${falsch.length} Release(s) tragen „erstausgabe“, obwohl ein Nein-Handbeleg ihren Anbieter verneint: ${falsch.slice(0, 5).join(', ')}`)
+    console.log(`VERSTÖSSE: ${falsch.length}`)
     process.exit(1)
   }
   log('✓ Keine Erstveröffentlichung gegen einen Nein-Handbeleg.')
 }
+console.log('VERSTÖSSE: 0')

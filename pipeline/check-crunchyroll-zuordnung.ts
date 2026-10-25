@@ -1071,4 +1071,5 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
+console.log(`VERSTÖSSE: ${fehler}`)
 process.exit(fehler ? 1 : 0)

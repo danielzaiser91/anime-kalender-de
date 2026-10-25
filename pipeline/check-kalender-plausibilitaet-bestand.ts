@@ -36,9 +36,11 @@ function festschreibenMelden(treffer: TrefferJeRegel, alt: Grenzen): number {
   const zuhoch = festschreiben(treffer, alt, GRENZEN)
   if (zuhoch.length) {
     console.error('Festschreiben erhöht nie:\n  ' + zuhoch.join('\n  '))
+    console.log(`VERSTÖSSE: ${zuhoch.length}`)
     return 1
   }
   console.log('Gesunkene Werte übernommen.')
+  console.log('VERSTÖSSE: 0')
   return 0
 }
 
@@ -51,6 +53,7 @@ function pruefen(treffer: TrefferJeRegel, grenzen: Grenzen): number {
   for (const f of fehler) console.error(`  FEHLER: ${f}`)
   meldeNeueTreffer(treffer, grenzen)
   if (fehler.length) console.error('\nDie Grenzen werden nicht angehoben: Daten oder Bau korrigieren. Alle Treffer: npm run check:kalender-plausibilitaet -- --liste')
+  console.log(`VERSTÖSSE: ${fehler.length}`)
   return fehler.length ? 1 : 0
 }
 

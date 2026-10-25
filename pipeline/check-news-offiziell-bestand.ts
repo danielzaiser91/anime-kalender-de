@@ -15,6 +15,8 @@ const ohneTitel = liste.filter((e) => !titel.has(e.titleId)).map((e) => `${e.id}
 const zukunft = liste.filter((e) => e.datum > todayIso()).map((e) => e.id)
 if (ohneTitel.length || zukunft.length) {
   console.error(`✖ offizielle Meldungen: ohne Titel im Bestand ${JSON.stringify(ohneTitel)}, Tag in der Zukunft ${JSON.stringify(zukunft)}`)
+  console.log(`VERSTÖSSE: ${ohneTitel.length + zukunft.length}`)
   process.exit(1)
 }
 console.log(`  ✓ ${liste.length} freigegebene Meldung(en), jede mit Titel im Bestand und Tag bis heute`)
+console.log('VERSTÖSSE: 0')

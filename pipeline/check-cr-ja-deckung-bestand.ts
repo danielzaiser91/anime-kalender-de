@@ -36,6 +36,8 @@ const offen = crJaOhneDeckung({
 if (offen.length) {
   console.error(`✖ ${offen.length} Crunchyroll-Ja ohne Deckung in Serien mit Null-Block (weder Block-Urteil noch Termin noch Handbeleg):`)
   for (const z of offen) console.error(`    ${z}`)
+  console.log(`VERSTÖSSE: ${offen.length}`)
   process.exit(1)
 }
 console.log('✓ Jedes Crunchyroll-Ja ohne Bereiche in Serien mit Null-Block ist gedeckt.')
+console.log('VERSTÖSSE: 0')
