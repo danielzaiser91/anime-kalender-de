@@ -198,25 +198,33 @@ const mit = (z, muster) => z.filter((l) => muster.test(l))
 
 // --- Drift: Kette aus Teilpendeln, Gesamtverlust in einer Zeile --------------------------------------------------------------
 {
-  const drift = folge(2000, 2000, 2036, 1995, 2031, 1990, 2026, 1985, 2021, 1980)
+  const drift = folge(2010, 2000, 2036, 1995, 2031, 1990, 2026, 1985, 2021, 1980)
   const e = ereignisse(drift)
   assert.deepEqual(e.map((x) => x.art), ['zeile', 'pendel', 'pendel', 'zeile'])
   assert.doesNotMatch(e[1].text, /Kette/, 'das erste Glied kennt den Gesamtverlust noch nicht')
-  assert.match(e[2].text, /; Kette aus 2 Teilpendeln seit 19.10., 01:00: 2000 -> 1980 Urteile \(-20\) gegen den Stand davor$/, 'Summe über beide Glieder, nicht 2031 -> 1980')
+  assert.match(e[2].text, /; Kette aus 2 Teilpendeln seit 19.10., 01:00: 2010 -> 1980 Urteile \(-30\) gegen den Stand davor$/, 'Summe über beide Glieder, nicht 2031 -> 1980')
   assert.equal(e[3].netto, true)
-  assert.deepEqual(e[3].auffaellig, ['20 Urteile verloren', 'primevideo: 20 Synchro-Belege weniger'], 'netto gegen den Stand vor der Kette (2000), nicht gegen das Ende des ersten Glieds (2031)')
+  assert.deepEqual(e[3].auffaellig, ['30 Urteile verloren', 'primevideo: 30 Synchro-Belege weniger'], 'netto gegen den Stand vor der Kette (2010), nicht gegen das Ende des ersten Glieds (2031) oder die Zeile 2000')
+
+  // Kette aus drei Gliedern: Anfang und Summe reichen über beide Übergänge; weitere Zeilen danach ändern die Summe nicht.
+  const drei = ereignisse(folge(2010, 2000, 2036, 1995, 2031, 1990, 2026, 1985, 2021, 1980, 2016, 1975, 2011, 1970, 1960))
+  assert.deepEqual(drei.map((x) => x.art), ['zeile', 'pendel', 'pendel', 'pendel', 'zeile', 'zeile'])
+  assert.match(drei[3].text, /Kette aus 3 Teilpendeln seit 19.10., 01:00: 2010 -> 1970 Urteile \(-40\)/)
+  assert.match(drei[2].text, /Kette aus 2 Teilpendeln seit 19.10., 01:00: 2010 -> 1980 Urteile \(-30\)/)
+  const mehr = ereignisse(folge(2010, 2000, 2036, 1995, 2031, 1990, 2026, 1985, 2021, 1980, 1960))
+  assert.match(mehr[2].text, /2010 -> 1980 Urteile \(-30\)/, 'die Zeile direkt nach der Kette, nicht die letzte der Datei')
 
   // Laufende Kette: bis zur letzten Zeile gerechnet, Gewinn mit Plus.
-  const laufend = ereignisse(folge(2000, 2000, 2036, 1995, 2031, 1990, 2026, 1985, 2021))
-  assert.match(laufend[2].text, /^pendelt seit .*: 2000 -> 2021 Urteile \(\+21\) gegen den Stand davor$/)
+  const laufend = ereignisse(folge(2010, 2000, 2036, 1995, 2031, 1990, 2026, 1985, 2021))
+  assert.match(laufend[2].text, /^pendelt seit .*: 2010 -> 2021 Urteile \(\+11\) gegen den Stand davor$/)
 
   // Gesamtverlust genau 0: ohne Vorzeichen.
-  const null0 = ereignisse(folge(2000, 2000, 2036, 1995, 2031, 1990, 2026, 1985, 2021, 2000))
-  assert.match(null0[2].text, /2000 -> 2000 Urteile \(0\) gegen/)
+  const null0 = ereignisse(folge(2010, 2000, 2036, 1995, 2031, 1990, 2026, 1985, 2021, 2010))
+  assert.match(null0[2].text, /2010 -> 2010 Urteile \(0\) gegen/)
 
   // Kette aus einem Teilpendel (Grenze): keine Kettenzeile, Netto wie bisher gegen die Zeile davor.
   const einzeln = ereignisse(folge(100, 60, 100, 60, 90))
-  assert.doesNotMatch(einzeln[0].text, /Kette/)
+  assert.match(einzeln[0].text, /\(3 Wechsel\)$/, 'kein Anhang')
   const eins = ereignisse(folge(2000, 2000, 2036, 1995, 2031, 1990, 1700))
   assert.doesNotMatch(eins[1].text, /Kette/)
   assert.equal(eins[2].netto, true)
@@ -234,7 +242,7 @@ const mit = (z, muster) => z.filter((l) => muster.test(l))
 
   // Als Prozess: die Zeile steht im Wortlaut der Wache.
   const w = wache(drift.map((z) => JSON.stringify(z)).join('\n') + '\n', '2026-10-19T16:00:00Z')
-  assert.equal(mit(w.zeilen, /Kette aus 2 Teilpendeln seit 19.10., 01:00: 2000 -> 1980 Urteile \(-20\)/).length, 1)
+  assert.equal(mit(w.zeilen, /Kette aus 2 Teilpendeln seit 19.10., 01:00: 2010 -> 1980 Urteile \(-30\)/).length, 1)
   console.log('Drift-Kette: Gesamtverlust in der Info-Zeile, Kette aus 1 ohne Zeile, Lücke keine Kette: ok')
 }
 
