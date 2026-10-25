@@ -40,12 +40,14 @@ export function pruefePfade(wurzel, pfade) {
     if (rel.startsWith('..') || isAbsolute(rel)) return `${p} liegt außerhalb des Repos.`
     if (!git(wurzel, ['ls-files', '--', rel]).aus.trim()) return `${p} ist nicht in git getrackt (Wiederherstellung wäre unmöglich).`
   }
+  // skip-worktree (S) und assume-unchanged (Kleinbuchstabe) verbergen lokale Änderungen vor `status`; `checkout` würde sie verwerfen.
+  if (/^[a-zS]/m.test(git(wurzel, ['ls-files', '-v', '--', ...pfade]).aus)) return 'Die Pfade enthalten skip-worktree- oder assume-unchanged-Dateien; erst zurücksetzen.'
   if (git(wurzel, ['status', '--porcelain', '--ignored', '--', ...pfade]).aus.trim()) return 'Die Pfade haben lokale oder ignorierte Dateien (git stellt sie nicht her); erst bereinigen.'
   return ''
 }
 
-/** Eine Prüfung als Kindprozess (asynchron, damit Strg-C die Wiederherstellung auslösen kann). */
-function fahre(wurzel, skript) {
+/** Eine Prüfung als Kindprozess (asynchron, damit Strg-C die Wiederherstellung auslösen kann). Ohne Frist: Strg-C ist der Ausweg (betrieb.md). */
+export function fahre(wurzel, skript) {
   if (!/^[\w:.-]+$/.test(skript)) throw new Error(`Ungültiger Skriptname: ${skript}`)
   return new Promise((fertig) => {
     let aus = ''
@@ -65,8 +67,38 @@ export function verlinkeCache(wurzel) {
   return true
 }
 
+/** Löst nur die Verknüpfung, nie den Inhalt; fehlt der Pfad (mit `data` gelöscht und ohne cache wiederhergestellt), tut sie nichts. */
 export function loeseLink(pfad) {
-  if (lstatSync(pfad).isSymbolicLink()) unlinkSync(pfad) // nur die Verknüpfung, nie den Inhalt
+  let status
+  try {
+    status = lstatSync(pfad)
+  } catch {
+    return
+  }
+  if (status.isSymbolicLink()) unlinkSync(pfad)
+}
+
+/** Stellt die Pfade wieder her und löst die Cache-Verknüpfung (Ende und Abbruch gehen denselben Weg). */
+export function raeumeAuf(wurzel, pfade, cacheLink) {
+  try {
+    stelleWieder(wurzel, pfade)
+  } finally {
+    if (cacheLink) loeseLink(join(wurzel, 'data', 'cache'))
+  }
+}
+
+/** Hängt das Aufräumen an Abbruchsignale; `beende` ist einspeisbar (Exit 130). */
+export function haengeAbbruchAn(quelle, raeume, beende) {
+  for (const sig of ['SIGINT', 'SIGTERM']) {
+    quelle.once(sig, () => {
+      raeume()
+      beende(130)
+    })
+  }
+}
+
+export function schlusszeile(anzahl, abweichend, rest) {
+  return `loeschexperiment: ${anzahl} Prüfungen, ${abweichend} abweichend, Pfade ${rest ? `NICHT wiederhergestellt: ${rest}` : 'wiederhergestellt'}.`
 }
 
 /** Basislauf, Löschen, zweiter Lauf, Wiederherstellung (auch bei Fehler); `lauf` ist einspeisbar. */
@@ -102,17 +134,12 @@ async function main() {
     return
   }
   const verlinkt = a.cache && verlinkeCache(wurzel)
-  for (const sig of ['SIGINT', 'SIGTERM']) {
-    process.once(sig, () => {
-      stelleWieder(wurzel, a.pfade)
-      process.exit(130)
-    })
-  }
+  haengeAbbruchAn(process, () => raeumeAuf(wurzel, a.pfade, verlinkt), (code) => process.exit(code))
   try {
     const { zeilen, abweichend } = await experiment(wurzel, a)
     for (const z of zeilen) console.log(`${z.urteil.padEnd(18)} ${z.name} (Exit ${z.basis} -> ${z.nach})`)
     const rest = git(wurzel, ['status', '--porcelain', '--ignored', '--', ...a.pfade]).aus.trim()
-    console.log(`loeschexperiment: ${zeilen.length} Prüfungen, ${abweichend} abweichend, Pfade ${rest ? `NICHT wiederhergestellt: ${rest}` : 'wiederhergestellt'}.`)
+    console.log(schlusszeile(zeilen.length, abweichend, rest))
   } finally {
     if (verlinkt) loeseLink(join(wurzel, 'data', 'cache'))
   }
