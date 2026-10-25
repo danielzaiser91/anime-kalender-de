@@ -132,16 +132,21 @@ try {
   assert.match(zaehle('--rueckfall', kopf).stdout, /angehoben \(4\.32\.3 -> 4\.32\.4\)/, 'B und C zusammen: eine Anhebung, Rückfall ignoriert')
   git(s, 'commit', '-qam', ZAEHLER_BETREFF)
   assert.match(zaehle('--rueckfall', basisSha).stdout, /unverändert \(kein ausgelieferter/, 'nichts seit dem Zähler: kein zweites Mal')
-  // Betreff allein macht keinen Zähler: Code im Commit, anderer Dateiumfang oder Betreff nur als Teilstück
+  // Betreff allein macht keinen Zähler: nur Code (a), Code und Manifest (b), Betreff nur als Teilstück (c)
+  const hand = /Version schon angehoben \(4\.32\.4 -> 4\.32\.9\)/
   writeFileSync(join(s, 'extension/a.js'), 'D\n')
   git(s, 'commit', '-qam', ZAEHLER_BETREFF)
-  assert.match(zaehle('--rueckfall', basisSha).stdout, /angehoben/, 'gleicher Betreff mit Code ist kein Zähler')
+  assert.match(zaehle('--rueckfall', basisSha).stdout, /angehoben \(4\.32\.4 -> 4\.32\.5\)/, '(a) gleicher Betreff mit Code ist kein Zähler')
   git(s, 'reset', '-q', '--hard', 'HEAD~1')
   writeFileSync(join(s, 'extension/manifest.json'), man('4.32.9'))
   writeFileSync(join(s, 'extension/a.js'), 'E\n')
+  git(s, 'commit', '-qam', ZAEHLER_BETREFF)
+  assert.match(zaehle('--rueckfall', basisSha).stdout, hand, '(b) Betreff, Manifest und Code zugleich ist kein Zähler')
+  git(s, 'reset', '-q', '--hard', 'HEAD~1')
+  writeFileSync(join(s, 'extension/manifest.json'), man('4.32.9'))
   git(s, 'commit', '-qam', `x ${ZAEHLER_BETREFF} y`)
-  assert.match(zaehle('--rueckfall', basisSha).stdout, /Version schon angehoben/, 'Betreff nur als Teilstück zählt nicht (sonst: nichts zu zählen)')
-  assert.match(zaehle('--von', zaehlerSha, '--bis', 'HEAD').stdout, /Version schon angehoben/, '--von überschreibt die Suche')
+  assert.match(zaehle('--rueckfall', basisSha).stdout, hand, '(c) Betreff nur als Teilstück zählt nicht')
+  assert.match(zaehle('--von', zaehlerSha).stdout, /Version schon angehoben \(4\.32\.3 -> 4\.32\.9\)/, '--von überschreibt die Suche')
 
   // Workflow: Auslöser, Reihenfolge, Verdrahtung des Skripts und der Commit-Schritt gegen ein echtes „origin“
   const wf = parse(readFileSync(join(tools, '../.github/workflows/extension-version.yml'), 'utf8'))
