@@ -457,3 +457,33 @@
       4: "2026-10-25"
   sources:
     - https://www.anime2you.de/news/1057429/netflix-blue-box-staffel-2-und-mehr/
+
+# Crunchyroll-Synchros, die der Automatismus am 25.10.2026 verpasst hat (altes
+# „Nein" vom 28.09. schlug den neuen Befund, Blockzahl ungleich Titelzahl). Die
+# Termine stammen aus Crunchyrolls eigenem verfuegbarAb (data/crunchyroll-neu.json).
+- slug: last-boss-s2-crunchyroll
+  anilistId: 204389
+  search: "Yasei no Last Boss ga Arawareta! 2nd Season"
+  titleDe: "A Wild Last Boss Appeared! – Staffel 2"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-10-24"
+    time: "15:30"
+    observed:
+      1: "2026-10-24"
+      2: "2026-10-24"
+  sources:
+    - https://www.crunchyroll.com/de/series/GT00361955/a-wild-last-boss-appeared
+
+- slug: appraisal-aristocrat-s3-crunchyroll
+  anilistId: 185756
+  search: "Tensei Kizoku, Kantei Skill de Nariagaru 3rd Season"
+  titleDe: "As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World – Staffel 3"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-10-18"
+    time: "17:00"
+  sources:
+    - https://www.crunchyroll.com/de/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world
