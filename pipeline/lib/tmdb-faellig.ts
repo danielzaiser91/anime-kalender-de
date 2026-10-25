@@ -21,8 +21,9 @@ export function faelligeTitel<T extends { id: number }>(titles: T[], cache: Reco
       if (o.handIds.has(t.id)) return false
       const e = cache[t.id]
       if (o.nurOhneEintrag) return !e
-      if (o.force || !e || kinoFehlt(e) || genreFehlt(e)) return true
-      return (e.fetchedAt ?? '') < (e.tmdbId ? o.grenze : o.grenzeFehlschlag)
+      if (o.force || !e || kinoFehlt(e)) return true
+      /* Ohne Genre zählt wie ein Fehlschlag: bald wieder, aber nicht in jedem Lauf (dauerhaft scheiternder Detailabruf). */
+      return (e.fetchedAt ?? '') < (e.tmdbId && !genreFehlt(e) ? o.grenze : o.grenzeFehlschlag)
     })
     .sort((a, b) => (cache[a.id]?.fetchedAt ?? '').localeCompare(cache[b.id]?.fetchedAt ?? ''))
 }
