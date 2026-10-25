@@ -75,6 +75,40 @@ assert.equal(fuehreZusammen({ n: 1 }, { n: 2 }, { n: 1 }).ergebnis.n, 2)
   assert.deepEqual(r.ergebnis.felder, { 'neu:5': { a: 1, b: 2 } })
 }
 
+// A1: Liste ist ein Ganzes — PR ändert Element 0, main Element 1: Widerspruch, nicht elementweise gemischt
+assert.throws(
+  () => fuehreZusammen({ termine: { t: ['a', 'z'] } }, { termine: { t: ['A', 'z'] } }, { termine: { t: ['a', 'Z'] } }),
+  /Widerspruch bei termine\/t/,
+)
+// A2: PR löscht ein Feld, main ändert ein anderes desselben Objekts -> Löschung bleibt, Änderung bleibt
+assert.deepEqual(
+  fuehreZusammen({ felder: { e: { a: 1, b: 2 } } }, { felder: { e: { b: 2 } } }, { felder: { e: { a: 1, b: 3 } } }).ergebnis.felder,
+  { e: { b: 3 } },
+)
+// A3: main löscht den Eintrag, PR ändert ihn -> Widerspruch (kein Absturz)
+assert.throws(
+  () => fuehreZusammen({ felder: { e: { a: 1 } } }, { felder: { e: { a: 2 } } }, { felder: {} }),
+  /Widerspruch bei felder\/e/,
+)
+// A4: Schlüssel nur im PR (neu angelegt), drei Einträge -> alle übernommen und gezählt
+{
+  const r = fuehreZusammen({ felder: {} }, { felder: {}, neu: { x: 1, y: 2, z: 3 } }, { felder: {} })
+  assert.deepEqual(r.ergebnis.neu, { x: 1, y: 2, z: 3 })
+  assert.deepEqual(r.uebernommen, { felder: 0, neu: 3 })
+  // Schlüssel nur auf main bleibt unangetastet; Schlüssel, den der PR ganz entfernt, wird geleert
+  const s = fuehreZusammen({ alt: { x: 1, y: 2 } }, {}, { alt: { x: 1, y: 2 }, nurMain: { q: 1 } })
+  assert.deepEqual(s.ergebnis, { alt: {}, nurMain: { q: 1 } })
+  assert.deepEqual(s.uebernommen, { alt: 2, nurMain: 0 })
+}
+// Schlüssel, den PR und main beide nicht mehr haben, taucht nicht als leere Zuordnung wieder auf
+assert.deepEqual(fuehreZusammen({ weg: { x: 1 }, b: { q: 1 } }, { b: { q: 1 } }, { b: { q: 1 } }).ergebnis, { b: { q: 1 } })
+// A5: null ist ein Wert, kein Objekt
+assert.deepEqual(fuehreZusammen({ felder: { e: { a: 1 } } }, { felder: { e: { a: null } } }, { felder: { e: { a: 1 } } }).ergebnis.felder, { e: { a: null } })
+assert.throws(
+  () => fuehreZusammen({ felder: { e: { a: 1 } } }, { felder: { e: { a: { x: 1 } } } }, { felder: { e: { a: null } } }),
+  /Widerspruch bei felder\/e\/a/,
+)
+
 // Prozess: Format bleibt wie main (einzeilig, mit und ohne Zeilenende), Widerspruch -> Exit 1 ohne Ziel
 const dir = mkdtempSync(join(tmpdir(), 'nhz-'))
 try {

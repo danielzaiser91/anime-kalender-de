@@ -47,9 +47,11 @@ function mischeKarte(basis, pr, haupt, schluessel) {
 /** Gibt { ergebnis, uebernommen: { schluessel: Zahl } } zurück. */
 export function fuehreZusammen(basis, pr, haupt) {
   const ergebnis = { ...haupt }
+  // Ein Schlüssel, der in PR und main fehlt, bleibt weg (auch wenn die Basis ihn kannte).
   const uebernommen = {}
   for (const schluessel of new Set([...Object.keys(basis), ...Object.keys(pr), ...Object.keys(haupt)])) {
     const [b, p, h] = [basis[schluessel], pr[schluessel], haupt[schluessel]]
+    if (p === undefined && h === undefined) continue
     if (istObjekt(b) || istObjekt(p) || istObjekt(h)) {
       const { karte, n } = mischeKarte(b, p, h, schluessel)
       ergebnis[schluessel] = karte
@@ -84,4 +86,4 @@ export function main(argv) {
   return 0
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) process.exit(main(process.argv[1] ? process.argv.slice(2) : []))
+if (import.meta.url === pathToFileURL(process.argv[1]).href) process.exit(main(process.argv.slice(2)))
