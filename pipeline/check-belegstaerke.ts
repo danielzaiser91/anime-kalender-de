@@ -42,6 +42,25 @@ console.log('\nBelegstärke: Synchron-Forum-Liste (mittel, hebt nie über high)'
   pruefe('Forum plus starke und mittlere Quelle: very-high gilt ohne das Forum', belegstaerke(titel({ ...tonspur, ...anisearch }), forum) === 'very-high')
 }
 
+console.log('\nBelegstärke: Tonspur nur aus der Streaming-Availability-API (mittel, 25.10.2026)')
+{
+  /* Moonrise (150654) und Thunder 3 (207254) sind Netflix-Titel, deren Deutsch nur die API nennt. */
+  const moonrise = { id: 150654, streams: [{ platform: 'netflix', url: 'x', dub: true }] } as Partial<Title>
+  const api = { ...leer, motnTon: new Set(['150654:netflix']) }
+  pruefe('nur API: normal statt high', belegstaerke(titel(moonrise), api) === 'normal')
+  pruefe('API plus aniSearch-Marke: high', belegstaerke(titel({ ...moonrise, ...anisearch }), api) === 'high')
+  pruefe('API plus TV-Termin: high', belegstaerke(titel(moonrise), { ...api, tv: new Set([150654]) }) === 'high')
+  pruefe('API plus Forum: high', belegstaerke(titel(moonrise), { ...api, forum: new Set([150654]) }) === 'high')
+  pruefe('API plus Handbeleg: high (stark)', belegstaerke(titel(moonrise), { ...api, handbelegt: new Set([150654]) }) === 'high')
+  pruefe('API plus Synchronkartei: very-high (stark plus mittel)', belegstaerke(titel(moonrise), { ...api, kartei: new Set([150654]) }) === 'very-high')
+  pruefe('API plus Handbeleg plus Marke: very-high', belegstaerke(titel({ ...moonrise, ...anisearch }), { ...api, handbelegt: new Set([150654]) }) === 'very-high')
+  const cr = { id: 150654, streams: [{ platform: 'netflix', url: 'x', dub: true }, { platform: 'crunchyroll', url: 'y', dub: true }] } as Partial<Title>
+  pruefe('API auf Netflix, Crunchyroll-Tonspur dazu: high (Crunchyroll bleibt stark)', belegstaerke(titel(cr), api) === 'high')
+  pruefe('Crunchyroll allein bleibt high', belegstaerke(titel({ id: 150654, streams: [{ platform: 'crunchyroll', url: 'y', dub: true }] } as Partial<Title>), api) === 'high')
+  pruefe('Schlüssel eines anderen Titels oder Anbieters gilt nicht', belegstaerke(titel(moonrise), { ...leer, motnTon: new Set(['1:netflix', '150654:disneyplus']) }) === 'high')
+  pruefe('API-Ton ohne dub: true zählt nicht', belegstaerke(titel({ id: 150654, streams: [{ platform: 'netflix', url: 'x' }] } as Partial<Title>), api) === 'low')
+}
+
 console.log('\nBelegstärke: „erschienen“ folgt weiter der alten Stufe')
 {
   const status = (x: object) => titleStatus([], '2026-10-09', { jpYear: 2020, streams: [], ...x } as never)

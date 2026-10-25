@@ -33,9 +33,12 @@ type Kette = Pick<Title, 'id' | 'streams' | 'deErstausgabe'>
  * Die Synchron-Forum-Liste (`forum`) ist eine mittlere Quelle, hebt aber nie über high: für very-high zählt sie nicht.
  */
 export function belegstaerke(t: Kette, s: Belegsignale): DubConfidence {
-  const anbieter = Boolean(t.streams?.some((st) => st.dub === true)) || s.handbelegt.has(t.id)
+  const mitTon = (st: { dub?: boolean; platform: string }) => st.dub === true
+  const anbieter = Boolean(t.streams?.some((st) => mitTon(st) && !s.motnTon?.has(motnTonSchluessel(t.id, st.platform)))) || s.handbelegt.has(t.id)
+  /* Nur die Streaming-Availability-API sagt Deutsch (Moonrise 150654): ihr Schweigen ist kein Nein, ihr Ja allein nur eine mittlere Quelle. */
+  const nurApi = !anbieter && Boolean(t.streams?.some(mitTon))
   const stark = Number(anbieter) + Number(s.kartei.has(t.id))
-  const mittel = Number(s.tv.has(t.id)) + Number(Boolean(t.deErstausgabe?.synchro))
+  const mittel = Number(s.tv.has(t.id)) + Number(Boolean(t.deErstausgabe?.synchro)) + Number(nurApi)
   const mitForum = mittel + Number(s.forum.has(t.id))
   if (stark && stark + mittel > 1) return 'very-high'
   if (stark || mitForum > 1) return 'high'
