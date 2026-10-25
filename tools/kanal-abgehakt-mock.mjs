@@ -2,6 +2,7 @@
 // Der Bestand ist eine Attrappe: Lesezugriffe auf public/data/{titles,franchises,cartoons}.json liefern sie statt der gebauten Dateien.
 import fs from 'node:fs'
 import { syncBuiltinESMExports } from 'node:module'
+import { baueFetchAttrappe, istMeldungsabruf, meldungsAntwort } from './fetch-attrappe.mjs'
 
 const URL_DER_MELDUNG = 'https://www.disneyplus.com/de-de/browse/entity-00000000-0000-0000-0000-000000000000'
 const TITEL_ID = 1
@@ -21,8 +22,9 @@ fs.readFileSync = (p, ...rest) => {
 syncBuiltinESMExports()
 
 const echt = globalThis.fetch
-globalThis.fetch = async (url, opt) => {
-  if (String(url).includes('/pruefung') && !(opt && opt.method === 'POST')) {
+globalThis.fetch = baueFetchAttrappe(
+  (url, opt) => {
+    if (!istMeldungsabruf(url, opt)) return undefined
     const zeile = {
       id: 99999,
       plattform: 'disneyplus',
@@ -43,7 +45,7 @@ globalThis.fetch = async (url, opt) => {
       titel_id: TITEL_ID,
       folge: null,
     }
-    return new Response(JSON.stringify({ pruefungen: [zeile] }), { status: 200, headers: { 'content-type': 'application/json' } })
-  }
-  return echt(url, opt)
-}
+    return meldungsAntwort([zeile])
+  },
+  echt,
+)
