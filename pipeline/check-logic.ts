@@ -7702,11 +7702,11 @@ pruefe(
   pruefe('Wochenprogramm/Katalog: andere Staffel am selben Tag schlägt das `ja` nicht', nurSchwester.anzahl === 1 && nurSchwester.gedaechtnis[apo.slug] !== undefined, nurSchwester)
   /* Die Bau-Phase liest alle drei Dateien; fehlt der Katalog in der Verdrahtung, käme die Widerlegung zurück. */
   const dateien: Record<string, unknown> = {
-    'data/crunchyroll-woche.json': woche,
-    'data/widerlegte-termine.json': gemerkt,
-    'data/crunchyroll-neu.json': { folgen: [{ serieId: 'G3KHEVDJ7', staffel: 'Staffel 1', verfuegbarAb: '2026-10-02T09:00:00Z' }] },
+    'crunchyroll-woche.json': woche,
+    'widerlegte-termine.json': gemerkt,
+    'crunchyroll-neu.json': { folgen: [{ serieId: 'G3KHEVDJ7', staffel: 'Staffel 1', verfuegbarAb: '2026-10-02T09:00:00Z' }] },
   }
-  const ausDateien = widerlegungAusDateien([apo, clover], titles, <T>(d: string, ersatz: T) => (dateien[d] as T) ?? ersatz)
+  const ausDateien = widerlegungAusDateien([apo, clover], titles, <T>(d: string, ersatz: T) => (dateien[d.split('/').pop()!] as T) ?? ersatz)
   pruefe(
     'Wochenprogramm/Katalog: die Bau-Phase liest den Katalog (Apothekerin frei, Black Clover widerlegt)',
     ausDateien.gedaechtnis[apo.slug] === undefined && ausDateien.gedaechtnis[clover.slug] !== undefined && ausDateien.anzahl === 1,
