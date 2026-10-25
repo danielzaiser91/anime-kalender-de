@@ -32,6 +32,11 @@ try {
   const punktVorStrich = lauf(['pipeline/check-a.ts', 'pipeline/check-a-b.ts'])
   assert.equal(punktVorStrich.status, 1, '„.“ vor „-“ ist unsortiert (Code-Reihenfolge)')
   assert.match(punktVorStrich.text, /check-a-b\.ts steht zu früh/, 'der zu früh stehende Eintrag wird genannt')
+  const echt = ['pipeline/check-adn-kuratiert-ton.ts', 'pipeline/check-adn-kuratiert.ts']
+  const mitKommentar = lauf(['# Kommentar steht mitten in der Liste', ...echt])
+  assert.doesNotMatch(mitKommentar.text, /alphabetisch|mehrfach/, 'Kommentarzeilen zählen nicht, „-“ vor „.“ ist sortiert (echte Zeilen der Liste)')
+  const umgekehrt = lauf([...echt].reverse())
+  assert.match(umgekehrt.text, /check-adn-kuratiert-ton\.ts steht zu früh/, 'echte Zeilen in umgekehrter Reihenfolge sind unsortiert')
   const hilfe = spawnSync(process.execPath, [join(WURZEL, 'tools/check-logic-alle.mjs'), '--help'], { cwd: WURZEL, encoding: 'utf8', timeout: 20000 })
   assert.equal(hilfe.status, 0, '--help endet mit 0')
   assert.match(hilfe.stdout, /^Aufruf:/, '--help druckt nur die Hilfe')
