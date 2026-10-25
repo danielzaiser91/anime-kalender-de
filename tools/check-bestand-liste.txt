@@ -14,6 +14,7 @@ pipeline/check-cartoon-wege-bestand.ts
 pipeline/check-cartoon-wege-falten-bestand.ts
 pipeline/check-cartoon-zwilling-bestand.ts
 pipeline/check-cr-ja-deckung-bestand.ts
+pipeline/check-cr-neu-bestand.ts
 pipeline/check-cr-teilseiten-bestand.ts
 pipeline/check-deutsche-folgenzahl-bestand.ts
 pipeline/check-empfehlung-bestand.ts
