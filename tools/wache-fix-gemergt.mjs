@@ -1,7 +1,7 @@
 /**
  * Zusatz zur ALARM-Zeile einer stummen Quelle: liegt nach ihrem letzten Lauf ein Commit auf main, der ihren Schreiber
- * (`recordSource('<name>', …)` in `pipeline/`) oder einen Workflow berührt, der diesen aufruft, ist der Fix schon da
- * und nur der nächste Lauf steht aus. Der Alarm bleibt; es kommt nur die Erklärung dazu.
+ * (`recordSource('<name>', …)` in `pipeline/`) oder einen Workflow berührt, der diesen aufruft, steht der nächste Lauf aus.
+ * Gemeldet wird nur die Änderung, kein Fix: ein Workflow startet viele Skripte. Der Alarm bleibt, nur der Zusatz kommt dazu.
  */
 import { execFileSync } from 'node:child_process'
 import { readdirSync, readFileSync } from 'node:fs'
@@ -55,7 +55,7 @@ export function fixGemergtText(commits, referenzIso) {
   const referenzMs = Date.parse(referenzIso)
   if (!Number.isFinite(referenzMs)) return ''
   const neu = commits.filter((c) => Date.parse(c.iso) > referenzMs).sort((a, b) => Date.parse(b.iso) - Date.parse(a.iso))[0]
-  return neu ? ` — Fix gemergt ${neu.iso.slice(0, 10)} (${neu.sha}), nächster Lauf steht aus` : ''
+  return neu ? ` — Änderung an Schreiber oder Workflow gemergt ${neu.iso.slice(0, 10)} (${neu.sha}), nächster Lauf steht aus` : ''
 }
 
 /**

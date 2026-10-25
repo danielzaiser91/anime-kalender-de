@@ -1,4 +1,4 @@
-// Zusatz „Fix gemergt“ an der ALARM-Zeile: Bezugspunkt letzter Lauf, strikte Grenze, Pfadzuordnung aus Schreiber und Workflow,
+// Zusatz „Änderung an Schreiber oder Workflow gemergt“ an der ALARM-Zeile: Bezugspunkt letzter Lauf, strikte Grenze, Pfadzuordnung aus Schreiber und Workflow,
 // Gegenfälle, Gitfehler, Verdrahtung in laeufe-aufraeumen als Prozess (Wegwerf-Repo mit festen Commit-Zeiten).
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
@@ -12,11 +12,11 @@ import { commitsZuPfaden, fixGemergtText, fixZusatz, quellenPfade } from './wach
 // Reine Regel: strikt nach dem Bezugspunkt, neuester gewinnt, Datum aus dem Commit.
 const c = (sha, iso) => ({ sha, iso })
 const LAUF = '2026-10-05T14:58:03.000Z'
-assert.equal(fixGemergtText([c('aaa1111', '2026-10-05T14:58:04.000Z')], LAUF), ' — Fix gemergt 2026-10-05 (aaa1111), nächster Lauf steht aus')
+assert.equal(fixGemergtText([c('aaa1111', '2026-10-05T14:58:04.000Z')], LAUF), ' — Änderung an Schreiber oder Workflow gemergt 2026-10-05 (aaa1111), nächster Lauf steht aus')
 assert.equal(fixGemergtText([c('aaa1111', LAUF)], LAUF), '', 'genau zur Zeit des Laufs: der Lauf kannte den Stand')
 assert.equal(fixGemergtText([c('aaa1111', '2026-10-05T14:58:02.000Z')], LAUF), '')
 assert.equal(fixGemergtText([], LAUF), '')
-assert.equal(fixGemergtText([c('alt0000', '2026-10-10T10:00:00.000Z'), c('neu1111', '2026-10-20T10:00:00.000Z'), c('mit2222', '2026-10-15T10:00:00.000Z')], LAUF), ' — Fix gemergt 2026-10-20 (neu1111), nächster Lauf steht aus')
+assert.equal(fixGemergtText([c('alt0000', '2026-10-10T10:00:00.000Z'), c('neu1111', '2026-10-20T10:00:00.000Z'), c('mit2222', '2026-10-15T10:00:00.000Z')], LAUF), ' — Änderung an Schreiber oder Workflow gemergt 2026-10-20 (neu1111), nächster Lauf steht aus')
 assert.equal(fixGemergtText([c('aaa1111', '2026-10-20T10:00:00.000Z')], 'kein Datum'), '')
 
 // Zusatz-Funktion mit Attrappen: Bezugspunkt lastRun vor lastOk, sonst lastOk, sonst nichts; Fehler schweigen.
@@ -35,7 +35,7 @@ const jetzt = Date.parse('2026-10-25T12:00:00Z')
 const ohne = eskalationsZeilen(stand, jetzt, { q: 9 })
 const voll = eskalationsZeilen(stand, jetzt, { q: 9 }, mit)
 assert.equal(ohne.length, 1)
-assert.equal(voll[0], ohne[0] + ' — Fix gemergt 2026-10-25 (fix1234), nächster Lauf steht aus')
+assert.equal(voll[0], ohne[0] + ' — Änderung an Schreiber oder Workflow gemergt 2026-10-25 (fix1234), nächster Lauf steht aus')
 assert.deepEqual(eskalationsZeilen({ q: { lastOk: '2026-10-24T00:00:00Z' } }, jetzt, { q: 9 }, mit), [], 'ohne Alarm kein Zusatz')
 
 const wegwerf = mkdtempSync(join(tmpdir(), 'wache-fix-gemergt-'))
@@ -89,11 +89,11 @@ try {
   commit('2026-10-05T12:00:00Z', 'gleichzeitig', 'pipeline/alpha.ts')
   assert.equal(zusatz('alpha', eintrag), '')
   const sha1 = commit('2026-10-05T12:00:01Z', 'knapp danach', 'pipeline/alpha.ts')
-  assert.equal(zusatz('alpha', eintrag), ` — Fix gemergt 2026-10-05 (${sha1}), nächster Lauf steht aus`)
+  assert.equal(zusatz('alpha', eintrag), ` — Änderung an Schreiber oder Workflow gemergt 2026-10-05 (${sha1}), nächster Lauf steht aus`)
 
-  // Neuester gewinnt, Workflow-Änderung zählt, andere Quelle bleibt unberührt.
+  // Neuester gewinnt; eine Workflow-Änderung (woche.yml startet auch andere Schritte) zählt nur als neutrale „Änderung“, nicht als Fix; andere Quelle bleibt unberührt.
   const sha2 = commit('2026-10-12T08:00:00Z', 'workflow', '.github/workflows/woche.yml')
-  assert.equal(zusatz('alpha', eintrag), ` — Fix gemergt 2026-10-12 (${sha2}), nächster Lauf steht aus`)
+  assert.equal(zusatz('alpha', eintrag), ` — Änderung an Schreiber oder Workflow gemergt 2026-10-12 (${sha2}), nächster Lauf steht aus`)
   assert.equal(zusatz('mehr', eintrag), '')
   assert.equal(commitsZuPfaden(repo, ['pipeline/alpha.ts', '.github/workflows/woche.yml'])[0].sha, sha2)
 
@@ -109,7 +109,7 @@ try {
   writeFileSync(gesundheit, JSON.stringify({ alpha: { lastOk: '2026-01-01T00:00:00Z', lastRun: '2026-10-05T12:00:00Z' }, 'alpha-lang': { lastOk: '2026-01-01T00:00:00Z', lastRun: '2026-10-07T00:00:00Z' } }))
   const lauf = spawnSync(process.execPath, ['--import', stub, aufraeumen, '--trocken', '--gesundheit', gesundheit, '--wurzel', repo], { encoding: 'utf8', env: { ...process.env, LAUF_TOKEN: '' } })
   assert.equal(lauf.status, 0, lauf.stderr)
-  assert.match(lauf.stdout, new RegExp(`^ALARM Quelle alpha seit \\d+\\.\\d Tagen ohne Erfolg \\(Frist 4 Tage, Eskalation ab 8\\) — Fix gemergt 2026-10-12 \\(${sha2}\\), nächster Lauf steht aus$`, 'm'))
+  assert.match(lauf.stdout, new RegExp(`^ALARM Quelle alpha seit \\d+\\.\\d Tagen ohne Erfolg \\(Frist 4 Tage, Eskalation ab 8\\) — Änderung an Schreiber oder Workflow gemergt 2026-10-12 \\(${sha2}\\), nächster Lauf steht aus$`, 'm'))
   assert.match(lauf.stdout, /^ALARM Quelle alpha-lang seit \d+\.\d Tagen ohne Erfolg \(Frist 4 Tage, Eskalation ab 8\)$/m, 'Quelle ohne neuen Commit: Alarm ohne Zusatz')
 } finally {
   rmSync(wegwerf, { recursive: true, force: true })
