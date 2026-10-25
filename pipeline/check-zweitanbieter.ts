@@ -31,6 +31,15 @@ console.log('\nZweitanbieter (Bau):')
   const cr2 = ev(3, 'crunchyroll', '2026-10-24', 1)
   lauf([p2, cr2])
   pruefe('Kanal ohne eigenen Anbieter (Aniverse, Prime selbst): Marke bleibt', cr2.zweitanbieter?.erster === 'primevideo', cr2.zweitanbieter)
+  /* Im Bau kennt der Titel den Kanal noch nicht (Weg aus dem Termin entsteht später), nur das Release trägt ihn (2056 wirkte live nicht). */
+  const p4 = ev(4, 'primevideo', '2026-09-26', 1)
+  const cr4 = ev(4, 'crunchyroll', '2026-10-24', 1)
+  lauf([p4, cr4], [rel('4-primevideo', { kanal: 'Crunchyroll' })])
+  pruefe('Kanal nur am Release: Crunchyroll trägt kein „zuerst bei Prime“', cr4.zweitanbieter === undefined, cr4.zweitanbieter)
+  const p5 = ev(5, 'primevideo', '2026-09-26', 1)
+  const cr5 = ev(5, 'crunchyroll', '2026-10-24', 1)
+  lauf([p5, cr5], [rel('5-primevideo', { kanal: 'Aniverse' })])
+  pruefe('Aniverse am Release: Marke bleibt', cr5.zweitanbieter?.erster === 'primevideo', cr5.zweitanbieter)
 }
 {
   /* Das Band der Unterwelt: Crunchyroll Folge 15 am 08.08.2026, Netflix zwei Monate später. */
