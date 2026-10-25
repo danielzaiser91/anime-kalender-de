@@ -54,8 +54,8 @@ function naechsterRumpf(knoten) {
   return k
 }
 
-/** Eine Ausgabe zählt für einen Ausgang auf Dateiebene, wo immer sie steht (Hilfsfunktion davor), sonst nur innerhalb seiner Funktion. */
-const liegtImRumpf = (ausgabe, rumpf) => ts.isSourceFile(rumpf) || (ausgabe.pos >= rumpf.pos && ausgabe.end <= rumpf.end)
+/** Eine Ausgabe vor dem Ausgang zählt, wenn sie nicht vor dessen Funktion steht; auf Dateiebene also jede frühere (Hilfsfunktion davor). */
+const liegtImRumpf = (ausgabe, rumpf) => ausgabe.pos >= rumpf.pos
 
 /** Liste der Fehlerausgänge ohne eine früher stehende Ausgabe in ihrem Rumpf: `[{ zeile }]`. */
 export function findeStummeAusgaenge(quelltext, dateiname = 'x.ts') {
