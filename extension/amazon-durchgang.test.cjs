@@ -326,13 +326,20 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
 }
 
 /* Bewusster Ausstieg des Klicks: der Grund geht sofort zurück, nicht erst nach 15 s als „keine Rückmeldung“. */
-{
+/* Die zweite `zeige`-Zeile ist der Takt, der den Ausstieg liest; ihr Text darf die Sperre „nur der sichtbare Knopf
+   spricht“ nicht auslösen. Beide Texte, die amazon.js heute anzeigt, laufen durch („fuer“, nicht „für“ wie früher hier). */
+for (const [text, teil] of [
+  ['75 von 99 Folgen gelesen — 24 fehlen noch', '} fehlen noch`'],
+  ['75 von 99 Folgen gelesen — fuer „kein Deutsch" fehlen 24', 'Folgen gelesen — fuer „kein Deutsch" fehlen ${fehlend}`'],
+]) {
+  pruefe(`Frame: der Knopftext steht so in amazon.js (${teil})`, quelle.includes(teil))
   const w = welt({ imFrame: true })
   w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 1500)
   w.kontext.letzteMeldung = { pfad: '/x', ok: false, am: w.uhr, abgewiesen: 'Staffel nicht vollständig gelesen' }
-  w.zeige('75 von 99 Folgen gelesen — für „kein Deutsch" fehlen 24', 500)
+  pruefe(`Frame: vor dem Takt keine Antwort (${text})`, !w.gepostet.length)
+  w.zeige(text, 500)
   const d = w.gepostet[0]
-  pruefe('Frame: abgewiesener Klick → sofort „nicht gesendet: <Grund>"', d?.ok === false && d.grund === 'nicht gesendet: Staffel nicht vollständig gelesen', d)
+  pruefe(`Frame: abgewiesener Klick → sofort „nicht gesendet: <Grund>" (${text})`, d?.ok === false && d.grund === 'nicht gesendet: Staffel nicht vollständig gelesen', d)
   pruefe('Frame: … und ohne 15 s Wartezeit', w.uhr - 1_000_000 < 5000 && !/keine Rückmeldung/.test(d?.grund ?? ''), w.uhr)
 }
 
