@@ -53,18 +53,17 @@ export function leerraumFunde(diff) {
   for (const z of diff.split('\n')) {
     if (z.startsWith('diff --git ')) {
       schliesse()
-      datei = null
       imHunk = false
     } else if (!imHunk && z.startsWith('+++ ')) {
-      const pfad = z.startsWith('+++ b/') ? z.slice(6) : null
-      datei = pfad && !AUSGENOMMEN.some((m) => m.test(pfad)) ? pfad : null
+      const pfad = z.slice(6) // `+++ b/<pfad>`; bei `+++ /dev/null` gibt es keine Pluszeilen
+      datei = AUSGENOMMEN.some((m) => m.test(pfad)) ? null : pfad
     } else if (z.startsWith('@@')) {
       schliesse()
       imHunk = true
       zeile = Number(/\+(\d+)/.exec(z)?.[1] ?? 0)
-    } else if (imHunk && z.startsWith('+')) {
+    } else if (z.startsWith('+')) {
       hinzu.push({ zeile: zeile++, text: z.slice(1) })
-    } else if (imHunk && z.startsWith('-')) {
+    } else if (z.startsWith('-')) {
       entfernt.push(z.slice(1))
     }
   }

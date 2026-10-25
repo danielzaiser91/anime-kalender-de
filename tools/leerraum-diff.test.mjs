@@ -40,6 +40,9 @@ assert.equal(leerraumFunde('Binary files a/x.png and b/x.png differ\n').length, 
 const doppelt = leerraumFunde(diff('a.ts', { ab: 3, minus: ['a b'], plus: ['ab', 'a  b'] }))
 assert.equal(doppelt.length, 1, 'eine entfernte Zeile ergibt höchstens einen Fund')
 
+// Eine zeichengleiche Zeile verbraucht ihre Gegenzeile, sie darf keiner späteren Leerraum-Zeile als Partner dienen.
+assert.equal(leerraumFunde(diff('a.ts', { ab: 3, minus: ['x'], plus: ['x', ' x'] })).length, 0, 'gleiche Zeile verbraucht den Partner')
+
 // Umformatieren: ab drei Einrückungs-Änderungen in einer Datei kein Fund, andere Funde bleiben.
 const block = [eins(3, 'a', ' a'), eins(5, 'b', ' b'), eins(8, 'c', ' c')]
 assert.equal(leerraumFunde(diff('a.ts', ...block)).length, 0, 'drei Einrückungen = Umformatieren')
