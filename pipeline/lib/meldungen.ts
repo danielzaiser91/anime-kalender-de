@@ -430,6 +430,16 @@ function freierSlug(slug: string, vorhanden: Release[], tag: string): string {
   return vorhanden.some((r) => r.slug === slug) ? `${slug}-${tag}` : slug
 }
 
+function aktuelleQuelle(url: string, heute: string, sagt: string): Quelle {
+  return {
+    url,
+    name: quellenName(url),
+    gesehenAm: heute,
+    sagt,
+    stand: 'aktuell',
+  }
+}
+
 export function releasesAus(
   vorschlaege: Vorschlag[],
   titel: Title[],
@@ -476,13 +486,7 @@ export function releasesAus(
     const art = artDerMeldung(v, platform, treffer)
 
     const name = treffer.titleDe ?? treffer.titleEn ?? treffer.titleRomaji ?? `#${treffer.id}`
-    const quelle: Quelle = {
-      url: v.articleUrl,
-      name: quellenName(v.articleUrl),
-      gesehenAm: heute,
-      sagt: tag,
-      stand: 'aktuell',
-    }
+    const quelle = aktuelleQuelle(v.articleUrl, heute, tag)
 
     out.push({
       /**
