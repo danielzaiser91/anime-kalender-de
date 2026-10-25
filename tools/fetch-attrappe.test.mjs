@@ -19,9 +19,6 @@ assert.equal(await (await bekannt('https://a.invalid/ja')).text(), 'ja')
 await assert.rejects(() => bekannt('https://a.invalid/nein', { method: 'POST' }), /unerwarteter Aufruf POST https:\/\/a\.invalid\/nein/)
 await assert.rejects(() => bekannt('https://a.invalid/nein'), /unerwarteter Aufruf GET https:\/\/a\.invalid\/nein/)
 
-const weitergereicht = baueFetchAttrappe(() => undefined, async (url) => new Response(`weiter ${url}`))
-assert.equal(await (await weitergereicht('https://b.invalid/x')).text(), 'weiter https://b.invalid/x')
-
 assert.equal(istMeldungsabruf('https://w.invalid/pruefung', undefined), true)
 assert.equal(istMeldungsabruf('https://w.invalid/pruefung', { method: 'POST' }), false)
 assert.equal(istMeldungsabruf('https://w.invalid/andere', undefined), false)

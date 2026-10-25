@@ -1,10 +1,9 @@
 // Gemeinsamer Kern der fetch-Attrappen: `antwort(url, opt)` liefert eine Response oder undefined (nicht vorgesehen).
-// Nicht Vorgesehenes geht an `weiter` (nur solange ein Aufrufer es noch ausdrücklich verlangt), sonst Fehler mit Adresse.
-export function baueFetchAttrappe(antwort, weiter) {
+// Nicht Vorgesehenes wirft mit Adresse, statt still ans echte Netz zu gehen.
+export function baueFetchAttrappe(antwort) {
   return async (url, opt) => {
     const treffer = await antwort(url, opt)
     if (treffer) return treffer
-    if (weiter) return weiter(url, opt)
     throw new Error(`Attrappe: unerwarteter Aufruf ${opt?.method ?? 'GET'} ${url}`)
   }
 }
