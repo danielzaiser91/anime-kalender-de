@@ -28,6 +28,7 @@
 import type { Meldung, Quelle, Release, ReleaseType, Title } from '../../shared/types.ts'
 import { quelleAnzeigeName } from '../../shared/quelle.ts'
 import { nachJahrUndId } from '../../shared/titles.ts'
+import { ordneTeilHinweis, teilHinweis, vermerkeVerworfen } from './teil-hinweis.ts'
 import type { Verschiebung } from './disc-verschiebungen.ts'
 import type { SammelEintrag } from './sammelartikel.ts'
 import { folgenzahlUeberWerk } from './pruefung.ts'
@@ -193,8 +194,12 @@ export function teilAusUeberschrift(
  */
 function reihenTeil(basis: Title, alle: Title[], text: string): Title | undefined {
   const teil = teilAusUeberschrift(text)
-  // Keine Staffel-/Film-Angabe: Die Überschrift meint den Titel selbst.
-  if (!teil) return basis
+  if (!teil) {
+    // Part-/Cour-/Filmbox-Hinweis ohne Staffel-Wort: nur per Name, sonst verwerfen.
+    const hinweis = teilHinweis(text)
+    // Ohne Hinweis meint die Überschrift den Titel selbst.
+    return hinweis ? ordneTeilHinweis(hinweis, basis, alle) : basis
+  }
   if (!teil.nummer) return undefined
 
   const reihe = basis.franchiseId ?? basis.id
@@ -430,6 +435,7 @@ export function releasesAus(
   titel: Title[],
   vorhanden: Release[],
   heute: string,
+  verworfen?: string[],
 ): Release[] {
   const belegt = belegteTermine(vorhanden)
   const out: Release[] = []
@@ -459,7 +465,7 @@ export function releasesAus(
         : undefined
     if (!basis) continue
 
-    const treffer = reihenTeil(basis, titel, v.articleTitle)
+    const treffer = reihenTeil(basis, titel, v.articleTitle) ?? vermerkeVerworfen(v.articleTitle, verworfen)
     if (!treffer) continue
 
     const platform = anbieterDerMeldung(v)
