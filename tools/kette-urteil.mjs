@@ -39,14 +39,22 @@ export async function abgebrochenBeenden(laufId, ausfuehren, warte) {
   return 1
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const needs = JSON.parse(process.env.NEEDS ?? '{}')
-  for (const [name, n] of Object.entries(needs)) console.log(`${name}: ${n.result}`)
+/** Wartezeit auf den eigenen Abbruch; danach gilt der Schritt als rot. */
+export const ABBRUCH_FRIST_MS = 120_000
+
+/** Der ganze Ablauf mit eingespeisten Fremdzugriffen; Rückgabe ist der Exit-Code. */
+export async function kettenLauf(env, ausgabe, ausfuehren, warte) {
+  const needs = JSON.parse(env.NEEDS ?? '{}')
+  for (const [name, n] of Object.entries(needs)) ausgabe(`${name}: ${n.result}`)
   const urteil = kettenUrteil(needs)
-  console.log(`kette-urteil: ${urteil}`)
-  if (urteil === 'gruen') process.exit(0)
-  if (urteil === 'rot') process.exit(1)
+  ausgabe(`kette-urteil: ${urteil}`)
+  if (urteil === 'gruen') return 0
+  if (urteil === 'rot') return 1
+  return abgebrochenBeenden(env.GITHUB_RUN_ID, ausfuehren, warte)
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const ausfuehren = (cmd, args) => execFileSync(cmd, args, { stdio: 'inherit', windowsHide: true })
-  // Der Abbruch beendet diesen Schritt; kommt er nicht an, bleibt es nach der Frist beim Fehlschlag.
-  process.exit(await abgebrochenBeenden(process.env.GITHUB_RUN_ID, ausfuehren, () => new Promise((fertig) => setTimeout(fertig, 120_000))))
+  const warte = () => new Promise((fertig) => setTimeout(fertig, ABBRUCH_FRIST_MS))
+  process.exit(await kettenLauf(process.env, console.log, ausfuehren, warte))
 }

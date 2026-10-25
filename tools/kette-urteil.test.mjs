@@ -5,7 +5,7 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { resolve } from 'node:path'
-import { abgebrochenBeenden, kettenUrteil, laufAbbrechen } from './kette-urteil.mjs'
+import { ABBRUCH_FRIST_MS, abgebrochenBeenden, kettenLauf, kettenUrteil, laufAbbrechen } from './kette-urteil.mjs'
 
 const liste = (...r) => Object.fromEntries(r.map((result, i) => [`job${i}`, { result }]))
 
@@ -46,7 +46,26 @@ assert.equal(await abgebrochenBeenden('4711', () => { throw new Error('x') }, wa
 assert.equal(await abgebrochenBeenden(undefined, () => {}, warte), 1, 'ohne Lauf-Nummer: rot')
 assert.equal(gewartet, 1, 'ohne gelungenen Abbruch keine Wartezeit')
 
-const SKRIPT = resolve(import.meta.dirname, 'kette-urteil.mjs')
+// Verdrahtung: alles abgebrochen mit Lauf-Nummer ruft `gh run cancel <Nummer>` und wartet; grün und rot rufen nichts
+const zeilen = []
+const calls = []
+const nurAufruf = (cmd, args) => { calls.push([cmd, ...args]) }
+const mitId = { NEEDS: JSON.stringify(liste('cancelled', 'cancelled')), GITHUB_RUN_ID: '4711' }
+gewartet = 0
+assert.equal(await kettenLauf(mitId, (z) => zeilen.push(z), nurAufruf, warte), 1)
+assert.deepEqual(calls, [['gh', 'run', 'cancel', '4711']])
+assert.equal(gewartet, 1)
+assert.ok(zeilen.includes('kette-urteil: abgebrochen'))
+assert.ok(zeilen.includes('job1: cancelled'))
+calls.length = 0
+assert.equal(await kettenLauf({ NEEDS: JSON.stringify(liste('success')), GITHUB_RUN_ID: '4711' }, () => {}, nurAufruf, warte), 0)
+assert.equal(await kettenLauf({ NEEDS: JSON.stringify(liste('success', 'failure')), GITHUB_RUN_ID: '4711' }, () => {}, nurAufruf, warte), 1)
+assert.equal(await kettenLauf({ NEEDS: JSON.stringify(liste('success', 'cancelled')), GITHUB_RUN_ID: '4711' }, () => {}, nurAufruf, warte), 1)
+assert.deepEqual(calls, [], 'grün, rot und Mix brechen den Lauf nie ab')
+assert.equal(gewartet, 1)
+assert.equal(ABBRUCH_FRIST_MS, 120_000)
+
+const SKRIPT =resolve(import.meta.dirname, 'kette-urteil.mjs')
 function lauf(needs) {
   const env = { ...process.env }
   delete env.GITHUB_RUN_ID
