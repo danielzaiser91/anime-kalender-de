@@ -154,12 +154,14 @@ pipeline/check-meldung-summenseite.ts
 pipeline/check-meldungs-auffaelligkeiten.ts
 pipeline/check-minuten-takt.ts
 pipeline/check-motn-reihe.ts
+pipeline/check-nein-datum.ts
 pipeline/check-nein-handbeleg-abschluss.ts
 pipeline/check-nein-handbeleg-aufrufer.ts
 pipeline/check-nein-handbeleg-cr.ts
 pipeline/check-nein-handbeleg-datum.ts
 pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts
+pipeline/check-netflix-quellen.ts
 pipeline/check-netflix-staffel-ablauf.ts
 pipeline/check-netflix-staffeln.ts
 pipeline/check-netflix-umleitung-ablauf.ts
@@ -252,6 +254,8 @@ pipeline/check-termine-uebersicht.ts
 pipeline/check-termine-woche-lauf.ts
 pipeline/check-titelwechsel.ts
 pipeline/check-tmdb-ablauf.ts
+pipeline/check-tmdb-folgen-404-lauf.ts
+pipeline/check-tmdb-folgen-404.ts
 pipeline/check-tmdb-folgen-auswahl.ts
 pipeline/check-tmdb-folgen-lauf.ts
 pipeline/check-tmdb-folgen-luecke-lauf.ts

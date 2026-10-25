@@ -1,6 +1,6 @@
 /** Tests für tools/pr-diff-bauen.mjs: Stub nur für große Dateien der Positivliste, alles andere vollständig. */
 import { readFileSync } from 'node:fs'
-import { baueDiff, gitDiffRunner, gitInhaltRunner, istDatenJs, ladeQuellen, stubbar, GRENZE_STUB } from './pr-diff-bauen.mjs'
+import { baueDiff, gitDiffRunner, gitInhaltRunner, istDatenJs, ladeQuellen, stubbar, GRENZE_STUB, GRENZE_GESAMT } from './pr-diff-bauen.mjs'
 
 const fehler = []
 const pruefe = (name, ok) => {
@@ -132,6 +132,40 @@ const jsLauf = (befehl, args, opt) => (jsAufrufe.push({ befehl, args, opt }), { 
 pruefe('Inhalts-Runner liest den Blob am Kopf ohne Shell', gitInhaltRunner(SHA_B, jsLauf)({ filename: 'extension/offene-x.js' }) === daten && jsAufrufe[0].args.join(' ') === `cat-file blob ${SHA_B}:extension/offene-x.js` && !jsAufrufe[0].opt.shell)
 pruefe('Inhalts-Runner: Fehler → null', gitInhaltRunner(SHA_B, () => ({ status: 128, stdout: '' }))({ filename: 'x' }) === null)
 pruefe('Inhalts-Runner ohne gültige SHA → nie ein Aufruf', gitInhaltRunner('', () => { throw new Error('x') })({ filename: 'x' }) === null)
+
+// Gesamtgrenze (PR 1944): viele kleine Erzeugnis-Diffs unter GRENZE_STUB reißen GRENZE_GESAMT, Code bleibt vollständig.
+const mitGroesse = (n) => '+' + 'y'.repeat(n)
+const codeDatei = datei('pipeline/lib/x.ts', '@@ -1 +1 @@\n-a\n+codezeile')
+const erzeugnisse = Array.from({ length: 90 }, (_, i) => datei(`public/data/folgen/${i}.json`, mitGroesse(10000)))
+const viele = bau([...erzeugnisse, codeDatei])
+pruefe('90 × 10 KB Erzeugnisse + Code → ok, Code vollständig', viele.zustand === 'ok' && viele.diff.includes('+codezeile'))
+pruefe('Gesamtdiff passt in GRENZE_GESAMT', Buffer.byteLength(viele.diff) <= GRENZE_GESAMT)
+pruefe('nicht mehr gestubbt als nötig', viele.gestubbt.length > 40 && viele.gestubbt.length < 60)
+pruefe('Stub-Zeile nennt Pfad und +/−', viele.diff.includes('Datendatei public/data/folgen/') && viele.diff.includes('10001 Byte Diff, +3/−1 Zeilen'))
+const gemischt = bau([datei('public/data/gross-a.json', mitGroesse(45000)), datei('public/data/gross-b.json', mitGroesse(40000)), ...erzeugnisse.slice(0, 40), codeDatei])
+pruefe('größte zuerst gestubbt', gemischt.zustand === 'ok' && gemischt.gestubbt.slice(0, 2).join() === 'public/data/gross-a.json,public/data/gross-b.json' && gemischt.gestubbt.length <= 4)
+pruefe('unter der Grenze: nichts zusätzlich gestubbt', bau([...erzeugnisse.slice(0, 30), codeDatei]).gestubbt.length === 0)
+const nurCode = Array.from({ length: 12 }, (_, i) => datei(`pipeline/lib/c${i}.ts`, '@@\n' + mitGroesse(40000)))
+const codeViel = bau([...nurCode, ...erzeugnisse.slice(0, 5)])
+pruefe('Nicht-Stubbares allein über der Grenze → unvollstaendig', codeViel.zustand === 'unvollstaendig' && codeViel.gestubbt.length === 5)
+const nie = bau([datei('data/dub-confirmed.yaml', mitGroesse(40000)), datei('data/curated/a.yaml', mitGroesse(40000)), ...Array.from({ length: 20 }, (_, i) => datei(`docs/d${i}.md`, mitGroesse(20000))), ...erzeugnisse.slice(0, 20)])
+pruefe('NIE_STUB und Doku bleiben sichtbar, nur Erzeugnisse gestubbt', nie.diff.includes('y'.repeat(40000)) && nie.gestubbt.every((p) => p.startsWith('public/data/')))
+// Genau auf der Grenze: nach dem ersten Stub ist der Rest exakt GRENZE_GESAMT, dann wird kein zweiter Stub gesetzt.
+const paar = [datei('public/data/rand-a.json', mitGroesse(45000)), datei('public/data/rand-b.json', mitGroesse(44000))]
+const mitRest = (n) => bau([...paar, datei('pipeline/lib/rest.ts', mitGroesse(n))])
+let [klein, gross2] = [320000, 380000]
+while (gross2 - klein > 1) {
+  const mitte = Math.floor((klein + gross2) / 2)
+  if (mitRest(mitte).gestubbt.length <= 1) klein = mitte
+  else gross2 = mitte
+}
+const rand = mitRest(klein)
+pruefe('Rest genau GRENZE_GESAMT: nur der größte gestubbt, ok', rand.gestubbt.join() === 'public/data/rand-a.json' && Buffer.byteLength(rand.diff) === GRENZE_GESAMT && rand.zustand === 'ok')
+pruefe('Rest GRENZE_GESAMT + 1: auch der zweite gestubbt', mitRest(klein + 1).gestubbt.length === 2)
+// Pfade mit Steuerzeichen werden maskiert, bleiben aber sichtbar und werden nie gestubbt (auch nicht als größte Datei).
+const steuerDatei = datei('public/data/a\nb.json', mitGroesse(49000).replace(/y/g, 'q'))
+const mitSteuer = bau([steuerDatei, ...erzeugnisse, codeDatei])
+pruefe('Pfad mit Steuerzeichen bleibt unter Druck sichtbar', mitSteuer.diff.includes('q'.repeat(49000)) && mitSteuer.gestubbt.every((p) => !p.includes('\\x0a')))
 
 if (fehler.length > 0) {
   console.error(`pr-diff-bauen.test: ${fehler.length} Fehler`)

@@ -1,6 +1,6 @@
 import { readJson, log } from '../lib/util.ts'
 import { adressKern, dubKey, adressGleich, type DubCheck } from '../lib/dub-confirmed.ts'
-import { juengsteJeKern } from '../lib/link-befund.ts'
+import { istTot, juengsteJeKern } from '../lib/link-befund.ts'
 import { type Title, type PlatformId } from '../../shared/types.ts'
 import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { netflixAdresseTaugt } from '../../shared/netflix-adresse-pruefung.ts'
@@ -130,7 +130,7 @@ export function werteLinkpruefungAus({
   */
   const lautPruefungTot = (url: string): boolean => {
     const status = linkBefunde[url]?.status
-    return status === 404 || status === 'region'
+    return istTot(status)
   }
   /** Wie oft der Kanal-Verweis mit dem Crunchyroll-Befund entfallen ist. */
   let kanalMitEntfernt = 0

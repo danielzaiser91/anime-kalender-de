@@ -27,6 +27,7 @@ import type { PlatformId, Title } from '../shared/types.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { readSourceHealth, recordSource } from './lib/health.ts'
 import { fortschritt, drosselNachVorlauf, passtInsBudget, pauseMitStand, waehleArbeit, ZEITBUDGET_SEKUNDEN, linkCheckEnde, zaehleBefund } from './lib/link-check-gesundheit.ts'
+import { istTot } from './lib/link-befund.ts'
 import { pruefbare } from './lib/pruefbare-adresse.ts'
 import { todayIso } from '../shared/time.ts'
 
@@ -459,7 +460,7 @@ async function main(): Promise<void> {
     Lauf hat neuere Auskünfte über die Adressen, die er selbst gefragt hat.
   */
   sichere()
-  const gesamtTot = Object.values(bestand).filter((b) => b.status === 404 || b.status === 'region').length
+  const gesamtTot = Object.values(bestand).filter((b) => istTot(b.status)).length
   log(`Verweise: ${geprueft} geprüft, ${zaehler.tot} davon unbrauchbar. Im Bestand insgesamt ${gesamtTot} unbrauchbar.`)
   if (uebersprungen) log(`${uebersprungen} Amazon-Adressen wegen der Sperre übersprungen — sie bleiben fällig.`)
   if (!geprueft && offen.length) warn('Nichts geprüft, obwohl etwas fällig war — Aufruf prüfen.')

@@ -1,0 +1,71 @@
+{
+  "_quelle": "Ausschnitt aus der gespeicherten Kaufseite Amazon.de Fischen Impossible (B01HRLV328), 24.10.2026; nur der Abschnitt Weitere Versionen verfügbar, nur gelesene Felder. Die Uncut-Fassung (in Prime enthalten) trägt zugleich ein Prime-Logo unter benefit-id/m-r/Prime.",
+  "init": {
+    "path": "/detail/B01HRLV328",
+    "preparations": {
+      "body": {
+        "btf": {
+          "state": {
+            "containers": {
+              "B01HRMJTJG": [
+                {
+                  "containerType": "VariantCarousel",
+                  "title": "Weitere Versionen verfügbar",
+                  "entities": [
+                    {
+                      "titleID": "B0GVNJRZCM",
+                      "title": "Fischen Impossible",
+                      "releaseYear": "2011",
+                      "runtime": "1 Std. 25 Min.",
+                      "variantMessages": [
+                        "Originalversion"
+                      ],
+                      "entitlementCues": {
+                        "entitlementType": "Unentitled",
+                        "focusMessage": {
+                          "icon": "OFFER_ICON",
+                          "message": "Gratiszeitraum"
+                        },
+                        "glanceMessage": {
+                          "icon": "OFFER_ICON",
+                          "message": "Gratiszeitraum"
+                        },
+                        "providerLogo": {
+                          "imageUrl": "https://m.media-amazon.com/images/G/03/digital/video/merch/subs/benefit-id/g-l/kixi/logos/channels-logo-white._CB579371211_.png"
+                        }
+                      }
+                    },
+                    {
+                      "titleID": "B01MSMV5MA",
+                      "title": "Fischen Impossible Uncut [dt./OV]",
+                      "releaseYear": "2012",
+                      "runtime": "1 Std. 36 Min.",
+                      "variantMessages": [
+                        "Alternative Audiosprache",
+                        "Beinhaltet unbearbeitete Szenen",
+                        "6 Minuten zusätzlicher Inhalte"
+                      ],
+                      "entitlementCues": {
+                        "entitlementType": "Entitled",
+                        "focusMessage": {
+                          "icon": "ENTITLED_ICON",
+                          "message": "In Prime enthalten."
+                        },
+                        "glanceMessage": {
+                          "message": ""
+                        },
+                        "providerLogo": {
+                          "imageUrl": "https://m.media-amazon.com/images/G/03/digital/video/merch/subs/benefit-id/m-r/Prime/logos/channels-logo-white._CB559052816_.png"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

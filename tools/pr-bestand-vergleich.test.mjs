@@ -11,6 +11,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { restSkripte } from './pr-bestand-vergleich.mjs'
+import { teileListenAusgabe, trenneGeerbtUndNeu, zaehleVerstoesse } from './pr-bestand-zaehlen.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wurzel = join(tools, '..')
@@ -30,6 +31,16 @@ assert.throws(
   /kein „npm run/,
 )
 assert.throws(() => restSkripte({ scripts: {} }), /fehlt/)
+
+// Zählregel (tools/pr-bestand-zaehlen.mjs): Kopf- und Erfolgszeilen zählen nicht, Verstoßzeilen je eine.
+assert.equal(zaehleVerstoesse('FEHLER: 2 Einträge:\nA\nB\n'), 3)
+assert.equal(zaehleVerstoesse('> x\nnpm error code 1\n✓ gut\nOK\n\n  - Verstoß\n'), 1)
+assert.equal(zaehleVerstoesse('npm ERR! a\nnpm warn b\nnpm error c\n✔ d\n✓ e\nOK\n> f\n'), 0)
+assert.equal(zaehleVerstoesse('OK danach\nmehr'), 2)
+assert.equal(zaehleVerstoesse(''), 0)
+const geteilt = teileListenAusgabe('Kopf\n[check:bestand 1/2] a.ts\nx\ny\n[check:bestand 2/2] b.ts\nz\ncheck:bestand: 1 von 2 Prüfungen rot:\n  - b.ts\n--- b.ts (Exit 1)\n')
+assert.deepEqual([...geteilt], [['a.ts', 'x\ny'], ['b.ts', 'z']])
+assert.deepEqual(trenneGeerbtUndNeu(new Map([['a', 2], ['b', 3], ['c', 1], ['d', 1]]), new Map([['a', 2], ['b', 2], ['d', 5]])), { geerbt: ['a', 'd'], neu: ['b', 'c'] })
 
 const k = mkdtempSync(join(tmpdir(), 'pr-bestand-vergleich-'))
 const spur = join(k, '..', `${k.split(/[\\/]/).at(-1)}-spur.txt`)
@@ -62,12 +73,14 @@ export function pruefe(name) {
   const lies = (p) => (existsSync(p) ? readFileSync(p, 'utf8').split(/\\s+/) : [])
   appendFileSync(${SPUR_JS}, (existsSync('ist-pr') ? 'pr:' : 'basis:') + name + '\\n')
   if (lies('aus/schreibt.txt').includes(name)) appendFileSync('getrackt.txt', name + '\\n')
-  if (![...lies('aus/rot.txt'), ...lies(${JSON.stringify(`${CACHE}/rot.txt`)})].includes(name)) {
+  // Ein Name, der n-mal in der Rotliste steht, meldet n Verstöße (je eine Zeile).
+  const zahl = [...lies('aus/rot.txt'), ...lies(${JSON.stringify(`${CACHE}/rot.txt`)})].filter((n) => n === name).length
+  if (zahl === 0) {
     console.log('  - geprüft ' + name)
     return
   }
   // Wie echte Prüfungen: eine Aufzählung im eigenen Text, die nicht als rote Prüfung gelesen werden darf.
-  console.log('  - Verstoß in ' + name)
+  for (let i = 1; i <= zahl; i++) console.log('  - Verstoß ' + i + ' in ' + name)
   process.exit(1)
 }
 `,
@@ -160,14 +173,14 @@ try {
   assert.equal(e.status, 1, e.aus)
   assert.deepEqual(e.pr, ALLE_PR, 'nach einer roten Prüfung laufen alle weiteren')
   assert.deepEqual(e.basis, ['check:r2', 'pruef/a.mjs', 'pruef/b.mjs', 'pruef/c.mjs'], 'auf der Basis laufen genau die auf dem PR roten')
-  assert.match(e.aus, /::error::.*grün sind: pruef\/b\.mjs\n/)
+  assert.match(e.aus, /::error::.*weniger verletzt sind: pruef\/b\.mjs\n/)
   for (const g of ['check:r2', 'pruef/a.mjs', 'pruef/c.mjs']) assert.ok(e.aus.includes(`::warning::${g} ist schon auf der Basis`), g)
 
   // Nur Geerbtes, einmal über den Basisbau, einmal über den geteilten Cache: grün mit Warnungen.
   e = fall({
     bauRot: ['check:r2'],
     cacheRot: ['pruef/b.mjs'],
-    prRot: ['check:r2', 'pruef/b.mjs'],
+    prRot: ['check:r2'],
   })
   assert.equal(e.status, 0, e.aus)
   assert.deepEqual(e.pr, ALLE_PR)
@@ -183,7 +196,7 @@ try {
   })
   assert.equal(e.status, 1, e.aus)
   assert.deepEqual(e.basis, ['check:r1'])
-  assert.match(e.aus, /::error::.*grün sind: pruef\/bb\.mjs\n/)
+  assert.match(e.aus, /::error::.*weniger verletzt sind: pruef\/bb\.mjs\n/)
 
   // Scheitert der Basisbau, zählt jedes Rot.
   e = fall({ kaputt: true, bauRot: ['check:r1'], prRot: ['check:r1'] })
@@ -196,22 +209,42 @@ try {
   e = fall({ prListe: ['pruef/b.mjs', 'pruef/a.mjs', 'pruef/c.mjs'] })
   assert.equal(e.status, 1, e.aus)
   assert.deepEqual(e.basis, [])
-  assert.match(e.aus, /::error::.*grün sind: check:bestand-liste\n/)
+  assert.match(e.aus, /::error::.*weniger verletzt sind: check:bestand-liste\n/)
 
   // Eine Prüfung schreibt ins Repo: rot als Ganzes, allein und neben einer geerbten roten Prüfung.
   e = fall({ schreibt: ['pruef/b.mjs'] })
   assert.equal(e.status, 1, e.aus)
-  assert.match(e.aus, /::error::.*grün sind: check:bestand-liste\n/)
+  assert.match(e.aus, /::error::.*weniger verletzt sind: check:bestand-liste\n/)
   e = fall({ bauRot: ['pruef/c.mjs'], prRot: ['pruef/c.mjs'], schreibt: ['pruef/b.mjs'] })
   assert.equal(e.status, 1, e.aus)
   assert.deepEqual(e.basis, ['pruef/c.mjs'])
-  assert.match(e.aus, /::error::.*grün sind: check:bestand-liste\n/)
+  assert.match(e.aus, /::error::.*weniger verletzt sind: check:bestand-liste\n/)
+
+  // Zahl der Verstöße (25.10.2026): gleich viele oder weniger als auf der Basis = geerbt (Warnung), mehr = rot; Rest-Skript und Listenprüfung je.
+  const zwei = ['pruef/b.mjs', 'pruef/b.mjs']
+  e = fall({ bauRot: zwei, prRot: zwei })
+  assert.equal(e.status, 0, e.aus)
+  assert.match(e.aus, /::warning::pruef\/b\.mjs ist schon auf der Basis/)
+  e = fall({ bauRot: [...zwei, 'check:r2', 'check:r2'], prRot: [...zwei, 'check:r2'] })
+  assert.equal(e.status, 0, `weniger Verstöße als die Basis: ${e.aus}`)
+  e = fall({ bauRot: zwei, prRot: [...zwei, 'pruef/b.mjs'] })
+  assert.equal(e.status, 1, e.aus)
+  assert.match(e.aus, /::error::.*verletzt sind: pruef\/b\.mjs\n/)
+  assert.doesNotMatch(e.aus, /::warning::/)
+  e = fall({ bauRot: ['check:r2', 'check:r2'], prRot: ['check:r2', 'check:r2', 'check:r2'] })
+  assert.equal(e.status, 1, e.aus)
+  assert.match(e.aus, /::error::.*verletzt sind: check:r2\n/)
+  // Ein neuer Verstoß neben einer gleich gebliebenen geerbten Prüfung: nur die mit mehr Verstößen steht im Fehler.
+  e = fall({ bauRot: ['pruef/a.mjs', 'check:r1'], prRot: ['pruef/a.mjs', 'check:r1', 'check:r1'] })
+  assert.equal(e.status, 1, e.aus)
+  assert.match(e.aus, /verletzt sind: check:r1\n/)
+  assert.match(e.aus, /::warning::pruef\/a\.mjs/)
 
   // A1 (PR 1386, R3): ein rotes Rest-Skript, das es nur im PR gibt, ist neu; die Basis fährt es nicht (sonst „Missing script“ = geerbt).
   e = fall({ restNeu: ['r4'], bauRot: ['check:r4'], prRot: ['check:r4'] })
   assert.equal(e.status, 1, e.aus)
   assert.deepEqual(e.basis, [], 'check:r4 gibt es auf der Basis nicht')
-  assert.match(e.aus, /::error::.*grün sind: check:r4\n/)
+  assert.match(e.aus, /::error::.*weniger verletzt sind: check:r4\n/)
   assert.doesNotMatch(e.aus, /::warning::check:r4/)
 } finally {
   unlinkSync(join(k, 'node_modules'))

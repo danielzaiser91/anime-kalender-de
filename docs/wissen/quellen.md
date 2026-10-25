@@ -2251,6 +2251,11 @@ sind auf `unklar` zurückgestuft.
 oder eine andere Form derselben Kennung?* Ein Anbieter mit zwei Adressformen antwortet nicht für
 beide gleich.
 
+**„Echte Auskunft“ des Link-Checks (25.10.2026):** Eine Regel, `istAuskunft` in `pipeline/lib/link-befund.ts`
+(dort auch `istTot`: 404/region). Als Auskunft zählt ein HTTP-Status unter 500 außer 403/429, dazu
+`region`; 5xx (503 = Dienst nicht erreichbar), `unklar`, `timeout`, `fehler` zählen nicht. Ein Lauf, der
+nur 5xx liefert, meldet „nur Nichtauskünfte“ statt gesund. Stand `data/link-check.json`: 96 Einträge mit 503.
+
 ## Eine falsche TMDB-Kennung verteilt fremde Wege über den ganzen Titel
 
 Daniel am 17.09.2026 an „Your Name.": „appletv pill führt zu #2 (bug? wie ist dieser
@@ -4108,6 +4113,8 @@ Am 23.10. um 04:01 UTC startete der Wecker `tonspuren-monatlich` ein drittes Mal
 ## Netflix: eine Serie, zwei Kennungen — Umleitung statt eigener Reihe (24.10.2026)
 
 Netflix führt Ranma ½ (2024) mit allen drei Staffeln unter 81171925; 81301833 öffnet dieselbe Seite und springt auf die erste Kennung (Daniel, F56). AniList lieferte noch die alte Kennung für Staffel 1 und 2. Umleitungen stehen in `NETFLIX_UMGELEITET` (`pipeline/lib/netflix-adresse.ts`, wie die Wunschadressen), `netflixTitelAdresse()` führt jeden Verweis auf die neue Kennung. Die Umleitung hat keinen Eintrag in `data/anbieter-staffeln.json`. `pipeline/check-netflix-umleitung-bestand.ts` (check:bestand) und `check-netflix-umleitung.ts` (check:logic) sperren Umleitung als Verweis oder Reihe sowie zwei Kennungen einer Franchise, deren Staffelliste (mindestens zwei Staffeln) der Anfang der anderen ist. Neue Umleitung nur mit Beleg eines Menschen eintragen (kein Netflix-Abruf).
+
+**Quellen nennen verschiedene Kennungen (25.10.2026).** Bei sieben Titeln (Chihiro 199, Nausicaä 572, Arrietty 7711, Ultramarine Magmell 101597, Saiki K Reawakened 112625, Grimm Variations 135643, Kakegurui ×× 100876) nennen Datensatz (= AniList-Verweis), aniSearch und JustWatch nicht dieselbe Netflix-Kennung. Welche stimmt (Umleitung oder zweite Seite), kann nur ein Mensch auf Netflix sehen; die Titel stehen deshalb in `data/erneut-melden.yaml` (Prüfliste der Erweiterung). `pipeline/check-netflix-quellen-bestand.ts` (`check:bestand`, Warnung, Exit 0) zählt solche Titel mit `lib/netflix-quellen-abweichung.ts` und warnt für jeden, der nicht auf der offenen Netflix-Prüfliste (`public/data/pruefstand.json`) steht. Entscheidet ein Mensch „Umleitung“, kommt sie in `NETFLIX_UMGELEITET`; die Warnung verschwindet dann, weil Umleitungen vor dem Vergleich aufgelöst werden. Sonst bleibt der Titel auf der Prüfliste, bis eine Meldung angekommen ist, und fällt danach wieder als Warnung auf, bis jemand entschieden hat.
 
 ## ADN: Kalenderserien ohne Katalog und Liste (24.10.2026)
 

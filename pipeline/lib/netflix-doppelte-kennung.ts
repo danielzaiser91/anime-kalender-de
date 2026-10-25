@@ -7,7 +7,7 @@ import { NETFLIX_UMGELEITET } from './netflix-adresse.ts'
 export type StaffelListen = Record<string, { staffeln?: { seq: number; folgen: number }[] } | undefined>
 export type TitelMitWegen = { id: number; franchiseId?: number | null; streams?: { platform?: string; url?: string }[] }
 
-const kennung = (url: string | undefined): string | undefined => /netflix\.com\/(?:[a-z-]+\/)?title\/(\d+)/i.exec(url ?? '')?.[1]
+export const netflixKennungAusAdresse = (url: string | undefined): string | undefined => /netflix\.com\/(?:[a-z-]+\/)?title\/(\d+)/i.exec(url ?? '')?.[1]
 
 function folgenzahlen(listen: StaffelListen, id: string): number[] {
   return [...(listen[id]?.staffeln ?? [])].sort((a, b) => a.seq - b.seq).map((s) => s.folgen)
@@ -27,7 +27,7 @@ export function findeDoppelteNetflixKennungen(titles: TitelMitWegen[], listen: S
   const jeFranchise = new Map<number, Set<string>>()
   for (const t of titles) {
     for (const s of t.streams ?? []) {
-      const k = s.platform === 'netflix' ? kennung(s.url) : undefined
+      const k = s.platform === 'netflix' ? netflixKennungAusAdresse(s.url) : undefined
       if (!k) continue
       if (NETFLIX_UMGELEITET[k]) funde.push(`Titel ${t.id} führt die Umleitung ${k} statt ${NETFLIX_UMGELEITET[k]}`)
       if (t.franchiseId == null) continue

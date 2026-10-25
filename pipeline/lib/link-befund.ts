@@ -19,6 +19,21 @@ export interface LinkBefund {
   geprueftAm?: string
 }
 
+/**
+ * Die einzige Regel für „echte Auskunft“: HTTP-Status unter 500 außer 403/429 (Abwehr, beweist nichts) und
+ * Amazons Regionssatz. 5xx (500, 503 …) heißt „Dienst nicht erreichbar“ und sagt nichts über die Adresse;
+ * `unklar`, `timeout`, `fehler` zählen ebenfalls nicht.
+ */
+export function istAuskunft(status: unknown): boolean {
+  if (status === 'region') return true
+  return typeof status === 'number' && status < 500 && status !== 403 && status !== 429
+}
+
+/** Unbrauchbare Adresse: 404 oder Regionssperre (eine endgültige Auskunft, nie eine Nichtauskunft). */
+export function istTot(status: unknown): boolean {
+  return status === 404 || status === 'region'
+}
+
 /** Der jüngste Befund je Seite (`adressKern`) — der ältere derselben Seite fällt weg. */
 export function juengsteJeKern(befunde: Record<string, LinkBefund>): Map<string, LinkBefund> {
   const karte = new Map<string, LinkBefund>()

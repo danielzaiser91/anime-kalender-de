@@ -1,11 +1,7 @@
 import { recordSource } from './health.ts'
 import { todayIso } from '../../shared/time.ts'
+import { istAuskunft, istTot } from './link-befund.ts'
 
-/** Positivliste: HTTP-Status außer 403/429 (Abwehr, beweist nichts) und Amazons Regionssatz; `unklar`, `timeout`, `fehler` zählen nicht. */
-export function istAuskunft(status: unknown): boolean {
-  if (status === 'region') return true
-  return typeof status === 'number' && status !== 403 && status !== 429
-}
 
 /**
  * Zwischenstand der Quellen-Gesundheit für `check-links.ts`.
@@ -89,7 +85,7 @@ export function waehleArbeit(
 
 /** Zählt einen Befund dieses Laufs: unbrauchbar (404/region) und, getrennt davon, echte Auskunft. */
 export function zaehleBefund(zaehler: { tot: number; auskuenfte: number }, status: unknown): void {
-  if (status === 404 || status === 'region') zaehler.tot++
+  if (istTot(status)) zaehler.tot++
   if (istAuskunft(status)) zaehler.auskuenfte++
 }
 
