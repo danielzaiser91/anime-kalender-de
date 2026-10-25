@@ -48,22 +48,22 @@ nachdenkt, muss auf die erste Zeile schauen, nicht auf die dritte.
 | `index.html` | 3,7 KB |
 | `index-*.js` (App) | 210,7 KB |
 | `index-*.css` | 25,7 KB |
-| `meta.json` | 2,2 KB |
-| `woche-kacheln.json` (Wochenansicht, nur Kachelfelder; Stand 25.10.2026) | 18,0 KB |
+| `meta.json` | 2,3 KB (Stand 25.10.2026, gemessen) |
+| `woche-kacheln.json` (Wochenansicht, nur Kachelfelder; Stand 25.10.2026, gemessen) | 18,1 KB |
 | **Summe** | **≈ 293 KB (327 KB abzüglich 34,1 KB Schriften; Stand 18.10.2026, gemessen 25.10.2026: 236 KB)** |
 
-Gezählt wird, was der Wächter `tools/start-budget.mjs` misst (Stand 18.10.2026). Ohne Bedienung lädt die Seite danach innerhalb von
-etwa 6 s die vollen Dateien nach (`titles-core`, `releases`, `events` ≈ 337 KB, `planeNachladen`; dazu der Precache des Service Workers):
+Gezählt wird, was der Wächter `tools/start-budget.mjs` misst (Stand 18.10.2026). Die Zeilen für `index-*.js`, `index-*.css` und `index.html` stammen aus dem Bau von `dist` und sind in diesem Stand (25.10.2026) nicht neu gemessen. Ohne Bedienung lädt die Seite danach innerhalb von
+etwa 6 s die vollen Dateien nach (`titles-core` 178,3 KB, `releases` 102,0 KB, `events` 70,2 KB, zusammen ≈ 350 KB, Stand 25.10.2026, `planeNachladen`; dazu der Precache des Service Workers):
 nicht im Wächter, offen als Folgeauftrag. Alle Zahlen: Playwright-Messung gegen `dist`, 360 und 1280 px.
 
 Nachgeladen wird nur, wer es anfordert:
 
-- `titles.json` (2,6 MB → **551 KB** gzip) erst beim Öffnen der Datenbank-Ansicht
+- `titles.json` (3,6 MB → **766,5 KB** gzip, Stand 25.10.2026) erst beim Öffnen der Datenbank-Ansicht
 - Handlungsbeschreibungen in **32 Gruppen** — eine Kachel lädt nur ihre eigene Gruppe
 - Cover-Bilder direkt von AniList, nicht von uns
 
 Diese Trennung ist die wichtigste Architekturentscheidung des Projekts und der Grund, warum
-der Kalender trotz 2.753 Titeln in rund 327 KB startet.
+der Kalender trotz 2.922 Titeln (Stand 25.10.2026) unter der Grenze von 250 KB startet (Startmessung 25.10.2026: 236 KB, Wert aus der bestehenden Zeile oben, in diesem Lauf nicht neu gemessen).
 
 ## Wo wir an den Grenzen stehen
 
