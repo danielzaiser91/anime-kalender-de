@@ -27,7 +27,7 @@ const SCHREIBEN = new Set(['writeFileSync', 'writeFile', 'writeJson', 'appendFil
 /** Zeichenketten-Vergleich gegen Quelltext, kein Lesen der Datei. */
 const TEXTVERGLEICH = new Set(['includes', 'indexOf', 'startsWith', 'endsWith'])
 const URL_EIGENSCHAFTEN = new Set(['pathname', 'href'])
-const PFAD_BAUER =new Set(['join', 'resolve'])
+const PFAD_BAUER = new Set(['join', 'resolve'])
 const ECHTE_WURZELN = new Set(['ROOT', 'WURZEL'])
 const ECHTER_URSPRUNG = /import\.meta\.(?:dirname|url)|process\.cwd\(\)|\bROOT\b|\bWURZEL\b/
 const KULISSEN_URSPRUNG = /mkdtemp|tmpdir|[Kk]ulisse/
@@ -78,7 +78,7 @@ function verbraucher(knoten: ts.Node, decl: Map<string, string[]>): Urteil {
   }
   /* `u.pathname` / `u.href` bleiben derselbe Pfadwert. */
   if (ts.isPropertyAccessExpression(p) && URL_EIGENSCHAFTEN.has(p.name.text)) return verbraucher(p, decl)
-  const gebunden = ts.isNewExpression(knoten) || ts.isCallExpression(knoten) ? gebundenerName(knoten) : undefined
+  const gebunden = ts.isNewExpression(knoten) || (ts.isCallExpression(knoten) && aufrufName(knoten.expression) === 'fileURLToPath') ? gebundenerName(knoten) : undefined
   if (gebunden) return urteilUeberVariable(gebunden, (v) => verbraucher(v, decl))
   if (!ts.isCallExpression(p)) return '?'
   const name = aufrufName(p.expression)

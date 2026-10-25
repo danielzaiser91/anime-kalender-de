@@ -17,7 +17,8 @@ function istEigenschaftsname(n: ts.Identifier): boolean {
   return ts.isPropertyAccessExpression(n.parent) && n.parent.name === n
 }
 
-/** Alle Verwendungen des Namens in der Datei (ohne die Deklaration selbst und ohne Verwendungen in ihrem eigenen Initialisierer). */
+/** Alle Verwendungen des Namens in der Datei (ohne die Deklaration selbst und ohne Verwendungen in ihrem eigenen Initialisierer).
+ *  Grobe Näherung ohne Gültigkeitsbereich: eine gleichnamige Variable anderswo kann „nein“ nur zu „lesen“/„?“ machen (strenger, nie nachgiebiger). */
 function verwendungen(name: ts.Identifier): ts.Identifier[] {
   const deklaration = name.parent
   const treffer: ts.Identifier[] = []
