@@ -1,7 +1,7 @@
 // Alarm „Bestandsbau rot“: Grenze 6 h, Gegenfälle, Lesefehler und die zwei Verdrahtungen (laeufe-aufraeumen, Wachen-Dossier) als echte Prozesse.
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync } from 'node:fs'
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -152,7 +152,9 @@ const stub = (laeufe) =>
 const ALT = [lauf('success', '2026-10-18T01:00:00Z'), lauf('failure', '2026-10-18T02:00:00Z')]
 const FRISCH = [lauf('success', '2999-12-31T01:00:00Z'), lauf('failure', '2026-10-18T02:00:00Z')]
 const aufraeumen = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
-const fahre = (laeufe) => spawnSync(process.execPath, ['--import', stub(laeufe), aufraeumen, '--trocken'], { encoding: 'utf8', env: { ...process.env, LAUF_TOKEN: '' } })
+const leereGesundheit = join(mkdtempSync(join(tmpdir(), 'bestand-rot-g-')), 'g.json')
+writeFileSync(leereGesundheit, '{}')
+const fahre = (laeufe) => spawnSync(process.execPath, ['--import', stub(laeufe), aufraeumen, '--trocken', '--gesundheit', leereGesundheit], { encoding: 'utf8', env: { ...process.env, LAUF_TOKEN: '' } })
 const a1 = fahre(ALT)
 assert.equal(a1.status, 0, a1.stderr)
 assert.match(a1.stdout, /^ALARM Bestandsbau seit [\d.]+ h rot \(letzter grüner Lauf 2026-10-18T01:00:00Z, 1 rote/m)
