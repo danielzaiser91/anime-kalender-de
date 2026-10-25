@@ -173,7 +173,7 @@ export function teilAusUeberschrift(
 ): { nummer?: number; art: 'staffel' | 'film' } | undefined {
   const wort = /\b(erste[nr]?|zweite[nr]?|dritte[nr]?|vierte[nr]?|fünfte[nr]?|sechste[nr]?|siebte[nr]?|achte[nr]?|neunte[nr]?|zehnte[nr]?)\b/i
   const ziffer = /\b(\d{1,2})\.\s*(staffel|season)|staffel\s*(\d{1,2})\b/i
-  const istFilm = /\bfilm\b|-film|\bmovie\b|\bkinostart\b/i.test(text)
+  const istFilm = /\bfilm\b|-film(?!box)|\bmovie\b|\bkinostart\b/i.test(text)
   const istStaffel = /\bstaffel\b|\bseason\b/i.test(text)
   if (!istFilm && !istStaffel) return undefined
 

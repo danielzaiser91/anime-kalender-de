@@ -11,9 +11,32 @@ export type TeilHinweis = { art: 'part'; nummer: number } | { art: 'box' }
 
 const ORDINAL = /\b(erste[nr]?|zweite[nr]?|dritte[nr]?|vierte[nr]?|fünfte[nr]?|sechste[nr]?|siebte[nr]?|achte[nr]?|neunte[nr]?|zehnte[nr]?)\b/i
 
+const STAMM: Record<string, number> = {
+  erste: 1,
+  zweite: 2,
+  dritte: 3,
+  vierte: 4,
+  fünfte: 5,
+  sechste: 6,
+  siebte: 7,
+  achte: 8,
+  neunte: 9,
+  zehnte: 10,
+}
+
+/** „zweiten Parts", „dritter Cour", „2. Part" → Nummer. */
+function ordinalPart(text: string): number | undefined {
+  const wort = /\b(erste|zweite|dritte|vierte|fünfte|sechste|siebte|achte|neunte|zehnte)[nrsm]?\s+(?:parts?|cours?)\b/i.exec(text)
+  if (wort) return STAMM[wort[1].toLowerCase()]
+  const punkt = /\b(\d{1,2})\.\s*(?:parts?|cours?)\b/i.exec(text)
+  return punkt ? Number(punkt[1]) : undefined
+}
+
 export function teilHinweis(text: string): TeilHinweis | undefined {
   const part = /\b(?:part|cour)\s*0*(\d{1,2})\b/i.exec(text)
   if (part) return { art: 'part', nummer: Number(part[1]) }
+  const ordinal = ordinalPart(text)
+  if (ordinal) return { art: 'part', nummer: ordinal }
   // Nur die Filmbox: Eine Box einer Serie gehört zur Serie, eine Filmbox zu keinem TV-Teil.
   const istBox = /\bfilmbox\b/i.test(text)
   const mitZahl = ORDINAL.test(text) || /\bfilmbox\s*\d{1,2}\b/i.test(text)

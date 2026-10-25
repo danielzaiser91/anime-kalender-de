@@ -75,6 +75,41 @@ pruefe('Staffel ohne Treffer wird verworfen, aber nicht als Hinweis gezählt', s
 const staffelUndPart = lauf(900001, 'Fünfte »Teststein«-Staffel Part 2: Blu-ray-Termin')
 pruefe('Staffel-Pfad verwirft Staffel + Part: nicht als Hinweis gezählt', staffelUndPart.r.length === 0 && staffelUndPart.verworfen.length === 0, staffelUndPart)
 
+// Die drei echten Anlass-Überschriften (data/proposals/anime2you.json, 25.10.2026), wörtlich.
+const dbz = lauf(900004, 'Termin der zweiten Blu-ray-Filmbox zu »Dragon Ball Z« + Design')
+pruefe('Echt: DBZ-Filmbox (Staffel-Pfad hätte sie am Basistitel gelassen): verworfen', dbz.r.length === 0 && dbz.verworfen.length === 1, dbz)
+
+const stone = lauf(900001, 'Blu-ray-Termin des zweiten Parts von »Teststein: Science Future«')
+pruefe('Echt: „zweiten Parts" geht an den Part-2-Titel, nicht an den Basistitel', stone.r[0]?.titleId === 900002 && stone.verworfen.length === 0, stone.r.map((x) => x.titleId))
+
+const anki = lauf(900004, 'Disc-Termin des zweiten Parts von »Tougen Anki« + Design')
+pruefe('Echt: „zweiten Parts" ohne Namenstreffer: verworfen', anki.r.length === 0 && anki.verworfen.length === 1, anki)
+
+const dbzDesign = lauf(900004, 'Design der neuen Blu-ray-Filmbox zu »Dragon Ball Z« enthüllt')
+pruefe('Echt: Filmbox ohne Zahl bleibt am Basistitel', dbzDesign.r[0]?.titleId === 900004 && dbzDesign.verworfen.length === 0, dbzDesign)
+
+// Namensliste: Treffer nur über titleDe bzw. titleRomaji; zwei Kandidaten, richtiger an zweiter Stelle.
+const titel2 = [
+  { id: 900011, franchiseId: 900011, titleEn: 'Mitte', format: 'TV' },
+  { id: 900012, franchiseId: 900011, titleDe: 'Mitte Part 2', titleEn: 'Mitte Zwei', format: 'TV' },
+  { id: 900021, franchiseId: 900021, titleEn: 'Rand', format: 'TV' },
+  { id: 900022, franchiseId: 900021, titleEn: 'Rand Teil', titleRomaji: 'Rand Cour 3', format: 'TV' },
+] as unknown as Eingabe[1]
+const deTreffer = releasesAus([disc(900011, 'Mitte Part 2: Blu-ray')], titel2, [], '2026-10-25', [])
+pruefe('Treffer nur über titleDe', deTreffer[0]?.titleId === 900012, deTreffer.map((x) => x.titleId))
+const romajiTreffer = releasesAus([disc(900021, 'Rand Cour 3: Blu-ray')], titel2, [], '2026-10-25', [])
+pruefe('Treffer nur über titleRomaji', romajiTreffer[0]?.titleId === 900022, romajiTreffer.map((x) => x.titleId))
+const zweiKandidaten = [
+  { id: 900031, franchiseId: 900031, titleEn: 'Paar', format: 'TV' },
+  { id: 900032, franchiseId: 900031, titleEn: 'Paar Staffel 1', format: 'TV' },
+  { id: 900033, franchiseId: 900031, titleEn: 'Paar Part 2', format: 'TV' },
+] as unknown as Eingabe[1]
+const zweiter = releasesAus([disc(900031, 'Paar Part 2: Blu-ray')], zweiKandidaten, [], '2026-10-25', [])
+pruefe('Treffer an dritter Stelle der Reihe, nicht am ersten', zweiter[0]?.titleId === 900033, zweiter.map((x) => x.titleId))
+
+pruefe('Hinweis: zweiten Parts', JSON.stringify(teilHinweis('des zweiten Parts von X')) === '{"art":"part","nummer":2}')
+pruefe('Hinweis: dritter Cour', JSON.stringify(teilHinweis('dritter Cour')) === '{"art":"part","nummer":3}')
+pruefe('Hinweis: 2. Part', JSON.stringify(teilHinweis('X 2. Part')) === '{"art":"part","nummer":2}')
 pruefe('Hinweis: Cour 3', JSON.stringify(teilHinweis('X Cour 3')) === '{"art":"part","nummer":3}')
 pruefe('Hinweis: Filmbox 2', teilHinweis('X Filmbox 2')?.art === 'box')
 pruefe('Hinweis: Steelbook allein ist keiner', teilHinweis('Erste X-Staffel im Steelbook') === undefined)
