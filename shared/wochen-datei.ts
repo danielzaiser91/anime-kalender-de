@@ -4,9 +4,10 @@ import { addDays, startOfWeek } from './time.ts'
 /**
  * **Wochen-Datei: der Start der Wochenansicht** (Ladegewicht, `docs/wissen/datensatz.md`).
  *
- * Die Wochenansicht braucht beim Erstaufruf nur die Termine einer Woche samt Release und Titel. `woche.json` führt genau
- * die und ersetzt beim Start `titles-core.json` + `releases.json` + `events.json`; die vollständigen Dateien kommen danach
- * im Hintergrund. Jeder Eintrag steht **unverändert** auch in den vollen Dateien (`pruefeWochenDatei`).
+ * Die Wochenansicht braucht beim Erstaufruf nur die Termine einer Woche samt Release und Titel. `woche.json` führt genau die.
+ * Die App lädt sie nicht selbst, sie startet aus `woche-kacheln.json` (`shared/wochen-kacheln.ts`), die der Bau aus dieser Datei schneidet;
+ * `woche.json` bleibt Zwischenstufe und Messgrundlage (Wochenfenster in `vite.config.ts`, Probe-Werkzeuge).
+ * Jeder Eintrag steht **unverändert** auch in den vollen Dateien (`pruefeWochenDatei`).
  */
 export interface WochenDatei {
   /** Montag und Sonntag der Woche, für die der Bau gelaufen ist (Europe/Berlin). */
