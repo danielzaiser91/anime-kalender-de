@@ -7,6 +7,8 @@ import type { PlatformId, Release, Title } from '../shared/types.ts'
 import type { MotnBeleg } from './lib/motn.ts'
 import { LEER, laufendSchluessel, type MotnBestand, type MotnDaten } from './lib/motn.ts'
 import { uebernehmeMotnBelege, werteMotnAus } from './bau/09-5-1-motn-uebernahme.ts'
+import { urteilSchliesstSpaeteLuecken } from './bau/urteil-schliesst-luecken.ts'
+import { kanalErbtVomAnbieter } from './bau/kanal-erbt-anbieter.ts'
 import { motnTonSchluessel } from './lib/belegstaerke.ts'
 
 const HEUTE = '2026-10-25'
@@ -67,6 +69,13 @@ console.log('\nMotn-Übernahme: der ganze Weg von der Quelle zum Vermerk (Onmyoj
   const onmyoji = neuerTitel()
   const mit = lauf({ ...LEER, shows: quelle }, onmyoji)
   pruefe('Serie der Quelle wird zugeordnet: dub:true und genau ein Vermerk', onmyoji.streams[0]?.dub === true && mit.motnBelege === 1 && mit.motnTon.has(motnTonSchluessel(900120, 'https://n/onmyoji')), [...mit.motnTon])
+  /* Spätere Schreiber von dub:true fassen einen Verweis mit Urteil nicht an: Der API-Vermerk wird nie von einer zweiten Quelle überschrieben. */
+  const spaet = urteilSchliesstSpaeteLuecken([onmyoji], [], new Set(['900120|netflix']), new Set())
+  const geerbt = kanalErbtVomAnbieter([onmyoji])
+  pruefe('späte Urteile und Kanalerbe setzen am API-Verweis nichts erneut', spaet === 0 && geerbt === 0, [spaet, geerbt])
+  const ohneUrteil = neuerTitel()
+  const spaetOhne = urteilSchliesstSpaeteLuecken([ohneUrteil], [], new Set(['900120|netflix']), new Set())
+  pruefe('Gegenprobe: ohne API-Urteil setzt das späte Urteil den Verweis', spaetOhne === 1 && ohneUrteil.streams[0]?.dub === true, spaetOhne)
   const laufendeStaffel = neuerTitel()
   const release = { titleId: 900120, platform: 'netflix', slug: 'x', schedule: { firstEpisodeDate: HEUTE, episodeCount: 13 } } as unknown as Release
   const laeuft = werteMotnAus({ motn: { ...LEER, shows: quelle }, tmdbTitles: {}, titles: new Map([[900120, laufendeStaffel]]), releases: [release], heute: HEUTE })
