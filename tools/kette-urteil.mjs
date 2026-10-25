@@ -7,8 +7,9 @@
  *
  * Abgebrochen heißt: der Sammeljob muss selbst als `cancelled` enden. Exit 0 ließe ihn als `success` zählen (gemessen an PR 2053,
  * Lauf 40226531743) und ein von Hand abgebrochener Lauf wäre ein grüner Pflicht-Check. Darum bricht das Skript den eigenen Lauf
- * erneut ab (`gh run cancel`); überlebt der Schritt das, bleibt es bei Exit 1.
- * Aufruf: NEEDS='<toJSON(needs)>' GITHUB_RUN_ID=<id> node tools/kette-urteil.mjs
+ * erzwungen ab (`force-cancel`; ein zweites gewöhnliches `gh run cancel` ließ den Schritt weiterlaufen, gemessen an PR 2053, Lauf
+ * 40228130651); überlebt der Schritt das, bleibt es bei Exit 1.
+ * Aufruf: NEEDS='<toJSON(needs)>' GITHUB_RUN_ID=<id> GITHUB_REPOSITORY=<owner/repo> GH_TOKEN=<token> node tools/kette-urteil.mjs
  */
 import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
@@ -23,10 +24,10 @@ export function kettenUrteil(needs) {
 }
 
 /** Bricht den eigenen Lauf ab; `true` nur, wenn der Aufruf gelang (Fehler oder fehlende Lauf-Nummer = `false`). */
-export function laufAbbrechen(laufId, ausfuehren) {
-  if (!laufId) return false
+export function laufAbbrechen(ziel, ausfuehren) {
+  if (!ziel) return false
   try {
-    ausfuehren('gh', ['run', 'cancel', laufId])
+    ausfuehren('gh', ['api', '-X', 'POST', ziel])
     return true
   } catch {
     return false
@@ -34,9 +35,15 @@ export function laufAbbrechen(laufId, ausfuehren) {
 }
 
 /** Bricht bei „abgebrochen“ den eigenen Lauf ab und wartet auf das Ende des Schritts; Rückgabe ist der Exit-Code, falls er ausbleibt (immer 1). */
-export async function abgebrochenBeenden(laufId, ausfuehren, warte) {
-  if (laufAbbrechen(laufId, ausfuehren)) await warte()
+export async function abgebrochenBeenden(ziel, ausfuehren, warte) {
+  if (laufAbbrechen(ziel, ausfuehren)) await warte()
   return 1
+}
+
+/** API-Adresse zum erzwungenen Abbruch des eigenen Laufs; leer, wenn Repo oder Lauf-Nummer fehlen. */
+export function abbruchZiel(env) {
+  if (!env.GITHUB_REPOSITORY || !env.GITHUB_RUN_ID) return ''
+  return `repos/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}/force-cancel`
 }
 
 /** Wartezeit auf den eigenen Abbruch; danach gilt der Schritt als rot. */
@@ -50,7 +57,7 @@ export async function kettenLauf(env, ausgabe, ausfuehren, warte) {
   ausgabe(`kette-urteil: ${urteil}`)
   if (urteil === 'gruen') return 0
   if (urteil === 'rot') return 1
-  return abgebrochenBeenden(env.GITHUB_RUN_ID, ausfuehren, warte)
+  return abgebrochenBeenden(abbruchZiel(env), ausfuehren, warte)
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

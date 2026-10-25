@@ -5,7 +5,7 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { resolve } from 'node:path'
-import { ABBRUCH_FRIST_MS, abgebrochenBeenden, kettenLauf, kettenUrteil, laufAbbrechen } from './kette-urteil.mjs'
+import { ABBRUCH_FRIST_MS, abbruchZiel, abgebrochenBeenden, kettenLauf, kettenUrteil, laufAbbrechen } from './kette-urteil.mjs'
 
 const liste = (...r) => Object.fromEntries(r.map((result, i) => [`job${i}`, { result }]))
 
@@ -28,11 +28,12 @@ assert.equal(kettenUrteil(undefined), 'rot')
 assert.equal(kettenUrteil({ a: {} }), 'rot')
 assert.equal(kettenUrteil({ a: null }), 'rot')
 
+const ZIEL = 'repos/eigner/repo/actions/runs/4711/force-cancel'
 // Abbruch des eigenen Laufs: Attrappe prüft Befehl und Argumente
 const aufrufe = []
-assert.equal(laufAbbrechen('4711', (cmd, args) => { aufrufe.push([cmd, ...args]) }), true)
-assert.deepEqual(aufrufe, [['gh', 'run', 'cancel', '4711']])
-assert.equal(laufAbbrechen('4711', () => { throw new Error('409') }), false, 'Fehler beim Abbruch')
+assert.equal(laufAbbrechen(ZIEL, (cmd, args) => { aufrufe.push([cmd, ...args]) }), true)
+assert.deepEqual(aufrufe, [['gh', 'api', '-X', 'POST', ZIEL]])
+assert.equal(laufAbbrechen(ZIEL, () => { throw new Error('409') }), false, 'Fehler beim Abbruch')
 const unberuehrt = []
 assert.equal(laufAbbrechen(undefined, (...a) => { unberuehrt.push(a) }), false, 'ohne Lauf-Nummer')
 assert.equal(laufAbbrechen('', (...a) => { unberuehrt.push(a) }), false, 'leere Lauf-Nummer')
@@ -40,9 +41,9 @@ assert.deepEqual(unberuehrt, [], 'ohne Lauf-Nummer kein Aufruf')
 
 let gewartet = 0
 const warte = async () => { gewartet++ }
-assert.equal(await abgebrochenBeenden('4711', () => {}, warte), 1, 'überlebt der Schritt den Abbruch: rot')
+assert.equal(await abgebrochenBeenden(ZIEL, () => {}, warte), 1, 'überlebt der Schritt den Abbruch: rot')
 assert.equal(gewartet, 1, 'nach gelungenem Abbruch wird auf das Ende gewartet')
-assert.equal(await abgebrochenBeenden('4711', () => { throw new Error('x') }, warte), 1, 'Abbruch scheitert: rot')
+assert.equal(await abgebrochenBeenden(ZIEL, () => { throw new Error('x') }, warte), 1, 'Abbruch scheitert: rot')
 assert.equal(await abgebrochenBeenden(undefined, () => {}, warte), 1, 'ohne Lauf-Nummer: rot')
 assert.equal(gewartet, 1, 'ohne gelungenen Abbruch keine Wartezeit')
 
@@ -50,20 +51,26 @@ assert.equal(gewartet, 1, 'ohne gelungenen Abbruch keine Wartezeit')
 const zeilen = []
 const calls = []
 const nurAufruf = (cmd, args) => { calls.push([cmd, ...args]) }
-const mitId = { NEEDS: JSON.stringify(liste('cancelled', 'cancelled')), GITHUB_RUN_ID: '4711' }
+const mitId = { NEEDS: JSON.stringify(liste('cancelled', 'cancelled')), GITHUB_RUN_ID: '4711', GITHUB_REPOSITORY: 'eigner/repo' }
 gewartet = 0
 assert.equal(await kettenLauf(mitId, (z) => zeilen.push(z), nurAufruf, warte), 1)
-assert.deepEqual(calls, [['gh', 'run', 'cancel', '4711']])
+assert.deepEqual(calls, [['gh', 'api', '-X', 'POST', 'repos/eigner/repo/actions/runs/4711/force-cancel']])
 assert.equal(gewartet, 1)
 assert.ok(zeilen.includes('kette-urteil: abgebrochen'))
 assert.ok(zeilen.includes('job1: cancelled'))
 calls.length = 0
-assert.equal(await kettenLauf({ NEEDS: JSON.stringify(liste('success')), GITHUB_RUN_ID: '4711' }, () => {}, nurAufruf, warte), 0)
-assert.equal(await kettenLauf({ NEEDS: JSON.stringify(liste('success', 'failure')), GITHUB_RUN_ID: '4711' }, () => {}, nurAufruf, warte), 1)
-assert.equal(await kettenLauf({ NEEDS: JSON.stringify(liste('success', 'cancelled')), GITHUB_RUN_ID: '4711' }, () => {}, nurAufruf, warte), 1)
+assert.equal(await kettenLauf({ NEEDS: JSON.stringify(liste('success')), GITHUB_RUN_ID: '4711', GITHUB_REPOSITORY: 'eigner/repo' }, () => {}, nurAufruf, warte), 0)
+assert.equal(await kettenLauf({ NEEDS: JSON.stringify(liste('success', 'failure')), GITHUB_RUN_ID: '4711', GITHUB_REPOSITORY: 'eigner/repo' }, () => {}, nurAufruf, warte), 1)
+assert.equal(await kettenLauf({ NEEDS: JSON.stringify(liste('success', 'cancelled')), GITHUB_RUN_ID: '4711', GITHUB_REPOSITORY: 'eigner/repo' }, () => {}, nurAufruf, warte), 1)
 assert.deepEqual(calls, [], 'grün, rot und Mix brechen den Lauf nie ab')
 assert.equal(gewartet, 1)
 assert.equal(ABBRUCH_FRIST_MS, 120_000)
+assert.equal(abbruchZiel({ GITHUB_REPOSITORY: 'eigner/repo', GITHUB_RUN_ID: '4711' }), ZIEL)
+assert.equal(abbruchZiel({ GITHUB_RUN_ID: '4711' }), '', 'ohne Repo')
+assert.equal(abbruchZiel({ GITHUB_REPOSITORY: 'eigner/repo' }), '', 'ohne Lauf-Nummer')
+calls.length = 0
+assert.equal(await kettenLauf({ NEEDS: JSON.stringify(liste('cancelled')), GITHUB_RUN_ID: '4711' }, () => {}, nurAufruf, warte), 1, 'ohne Repo rot')
+assert.deepEqual(calls, [], 'ohne Repo kein Aufruf')
 
 const SKRIPT =resolve(import.meta.dirname, 'kette-urteil.mjs')
 function lauf(needs) {
