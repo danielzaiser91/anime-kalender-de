@@ -36,12 +36,10 @@ const zeile = (nr) => ({
   folge: null,
 })
 
-const echt = globalThis.fetch
 globalThis.fetch = baueFetchAttrappe(
   (url, opt) => {
     if (!istMeldungsabruf(url, opt)) return undefined
     const pruefungen = Array.from({ length: 12 }, (_, i) => zeile(i + 1))
     return meldungsAntwort(pruefungen)
   },
-  echt,
 )

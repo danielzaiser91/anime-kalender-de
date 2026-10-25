@@ -40,12 +40,10 @@ const zeile = (titelId, nr, zaehler) => ({
 
 const bereich = (titelId, von, bis) => Array.from({ length: bis - von + 1 }, (_, i) => zeile(titelId, von + i, i))
 
-const echt = globalThis.fetch
 globalThis.fetch = baueFetchAttrappe(
   (url, opt) => {
     if (!istMeldungsabruf(url, opt)) return undefined
     const pruefungen = [...bereich(1, 1, 25), ...bereich(2, 14, 25), zeile(3, null, 0), ...bereich(4, 1, 14), ...bereich(5, 1, 15)]
     return meldungsAntwort(pruefungen)
   },
-  echt,
 )

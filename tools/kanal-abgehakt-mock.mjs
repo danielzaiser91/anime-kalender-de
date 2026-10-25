@@ -21,7 +21,6 @@ fs.readFileSync = (p, ...rest) => {
 }
 syncBuiltinESMExports()
 
-const echt = globalThis.fetch
 globalThis.fetch = baueFetchAttrappe(
   (url, opt) => {
     if (!istMeldungsabruf(url, opt)) return undefined
@@ -47,5 +46,4 @@ globalThis.fetch = baueFetchAttrappe(
     }
     return meldungsAntwort([zeile])
   },
-  echt,
 )
