@@ -72,7 +72,7 @@ Quelle: [GitHub Pages limits](https://docs.github.com/en/pages/getting-started-w
 | Grenze | Wert | Heute | Abstand |
 |---|---|---|---|
 | Veröffentlichte Seite | 1 GB | 20 MB | **50-fach** |
-| Bandbreite | 100 GB/Monat | ~327 KB je Aufruf (Start) | reicht für **~300.000 Aufrufe/Monat** |
+| Bandbreite | 100 GB/Monat | ~327 KB je Aufruf (Start; Stand 18.10.2026, nicht neu gemessen: dist-Bau nötig) | reicht für **~300.000 Aufrufe/Monat** (mit diesem Wert gerechnet) |
 | Builds pro Stunde | 10 (entfällt bei eigenem Actions-Workflow — den haben wir) | 3 Läufe/Tag | greift nicht |
 | Deploy-Dauer | 10 Minuten | ~2 Minuten | 5-fach |
 | Datei | 100 MB | größte: 2,6 MB | 38-fach |
@@ -95,14 +95,14 @@ Der Kalender zeigt ohnehin nie mehr als eine Woche gleichzeitig. Aufwand: klein,
 Ladelogik dafür steht bereits.
 
 *Stand 08.10.2026:* Die Summe lag bei ≈ 590 KB (Start, mit Code). Statt der Monatsteilung startet
-die Wochenansicht aus `woche.json` (31 KB; seit 25.10.2026 aus `woche-kacheln.json`, 18 KB), die vollen Dateien laden danach nach — Zahlen und
+die Wochenansicht aus `woche.json` (37,4 KB, Stand 25.10.2026; seit 25.10.2026 aus `woche-kacheln.json`, 18,1 KB), die vollen Dateien laden danach nach — Zahlen und
 Regeln in `docs/wissen/datensatz.md`, „Wochen-Datei zuerst umgesetzt".
 
 ### 2. Ein Datenfeld interessiert nur eine Minderheit
 
 **Auslöser:** Eine neue Angabe würde `titles.json` deutlich vergrößern, aber die wenigsten
 Besucher fragen sie ab. Der erste konkrete Fall: **deutsche Synchronsprecher.** Bei etwa
-zwanzig Rollen je Titel und 2.753 Titeln reden wir über 55.000 Einträge — ein Vielfaches des
+zwanzig Rollen je Titel und 2.922 Titeln (Stand 25.10.2026) reden wir über rund 58.000 Einträge (2.922 × 20) — ein Vielfaches des
 heutigen Datensatzes, für eine Angabe, die man erst sieht, wenn man eine Kachel öffnet und
 aufklappt.
 
