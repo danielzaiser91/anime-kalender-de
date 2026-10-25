@@ -63,6 +63,13 @@ pruefe('ein Termin einer anderen Plattform zählt nicht', fehlt(vier.slice(3), [
 pruefe('ein Termin einer fremden Franchise zählt nicht', fehlt(vier.slice(3), [ev(180523, '2026-10-18')]).length === 1)
 pruefe('ein Termin eines unbekannten Titels zählt nicht', fehlt(vier.slice(3), [ev(999999, '2026-10-18')]).length === 1)
 
+/*
+ * Eine widerlegte Folge (Wochenprogramm führt am Tag nur `ja`, `data/widerlegte-termine.json`) erzeugt keinen Termin in events.json:
+ * Last Boss S2 und Apothekerin S3 fehlten am 25.10.2026 live genau so. Die Wache liest die Termine, nicht die Releases, und fängt den Weg.
+ */
+const widerlegtOhneEvent = fehlt(vier.slice(0, 2), [ev(180523, '2026-11-06', 'disc'), ev(204389, '2026-09-26', 'primevideo')])
+pruefe('Termin durch die Widerlegung gestrichen (nur Disc und Prime im Bestand): beide Folgen werden gemeldet', widerlegtOhneEvent.length === 2, widerlegtOhneEvent)
+
 /* Tagesgrenzen: heute selbst ist noch kein Befund, ab gestern bis 10 Tage schon. */
 const amTag = (tag: string) => [folge('GG5H5XQMD', 'Staffel 3', 1, `${tag}T12:00:00.000Z`)]
 pruefe('Folge von heute: kein Befund (der Bau kann noch aufholen)', fehlt(amTag('2026-10-25'), []).length === 0)
