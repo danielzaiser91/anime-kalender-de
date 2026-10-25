@@ -54,7 +54,10 @@ export function schreibeZweitanbieter(
   releases: Release[],
   kanalAnbieter: ReadonlyMap<number, PlatformId>,
 ): { anzahl: number; kollisionen: string[] } {
-  const anbieter = (e: ReleaseEvent): PlatformId => (e.platform === 'primevideo' && kanalAnbieter.get(e.titleId)) || e.platform
+  /* Der Kanal am Release zuerst: Wege mit Herkunft „termin“ entstehen erst nach dieser Phase (11-7), der Titel kennt ihn hier noch nicht. */
+  const kanalDes = new Map(releases.map((r) => [r.slug, r.kanal]))
+  const anbieter = (e: ReleaseEvent): PlatformId =>
+    (e.platform === 'primevideo' && (anbieterDesKanals(kanalDes.get(e.releaseSlug)) ?? kanalAnbieter.get(e.titleId))) || e.platform
   const katalog = new Set(releases.filter((r) => r.dateMeaning === 'available-from').map((r) => r.slug))
   const stream = events.filter(istStreaming)
   const fruehest = new Map<string, ReleaseEvent>()
