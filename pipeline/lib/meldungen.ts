@@ -28,7 +28,7 @@
 import type { Meldung, Quelle, Release, ReleaseType, Title } from '../../shared/types.ts'
 import { quelleAnzeigeName } from '../../shared/quelle.ts'
 import { nachJahrUndId } from '../../shared/titles.ts'
-import { ordneTeilHinweis, teilHinweis, vermerkeVerworfen } from './teil-hinweis.ts'
+import { ordneTeilHinweis, teilHinweis } from './teil-hinweis.ts'
 import type { Verschiebung } from './disc-verschiebungen.ts'
 import type { SammelEintrag } from './sammelartikel.ts'
 import { folgenzahlUeberWerk } from './pruefung.ts'
@@ -430,6 +430,17 @@ function freierSlug(slug: string, vorhanden: Release[], tag: string): string {
   return vorhanden.some((r) => r.slug === slug) ? `${slug}-${tag}` : slug
 }
 
+/**
+ * Zählt eine verworfene Überschrift, wenn der Part-/Cour-/Filmbox-Hinweis der Grund ist — nicht,
+ * wenn der Staffel-Pfad sie schon verworfen hat. Liefert immer undefined.
+ */
+function vermerkeTeilHinweis(artikel: string, verworfen?: string[]): undefined {
+  const hinweis = teilHinweis(artikel)
+  const ausStaffelPfad = teilAusUeberschrift(artikel) !== undefined && hinweis?.art !== 'box'
+  if (hinweis && !ausStaffelPfad) verworfen?.push(artikel)
+  return undefined
+}
+
 function aktuelleQuelle(url: string, heute: string, sagt: string): Quelle {
   return {
     url,
@@ -475,7 +486,7 @@ export function releasesAus(
         : undefined
     if (!basis) continue
 
-    const treffer = reihenTeil(basis, titel, v.articleTitle) ?? vermerkeVerworfen(v.articleTitle, verworfen)
+    const treffer = reihenTeil(basis, titel, v.articleTitle) ?? vermerkeTeilHinweis(v.articleTitle, verworfen)
     if (!treffer) continue
 
     const platform = anbieterDerMeldung(v)

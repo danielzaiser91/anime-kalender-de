@@ -72,6 +72,9 @@ pruefe('Gegenfall: Filmbox ohne Zahl bleibt am Basistitel', filmboxOhneZahl.r[0]
 const staffel5 = lauf(900001, 'Fünfte »Teststein«-Staffel: Blu-ray-Termin')
 pruefe('Staffel ohne Treffer wird verworfen, aber nicht als Hinweis gezählt', staffel5.r.length === 0 && staffel5.verworfen.length === 0, staffel5)
 
+const staffelUndPart = lauf(900001, 'Fünfte »Teststein«-Staffel Part 2: Blu-ray-Termin')
+pruefe('Staffel-Pfad verwirft Staffel + Part: nicht als Hinweis gezählt', staffelUndPart.r.length === 0 && staffelUndPart.verworfen.length === 0, staffelUndPart)
+
 pruefe('Hinweis: Cour 3', JSON.stringify(teilHinweis('X Cour 3')) === '{"art":"part","nummer":3}')
 pruefe('Hinweis: Filmbox 2', teilHinweis('X Filmbox 2')?.art === 'box')
 pruefe('Hinweis: Steelbook allein ist keiner', teilHinweis('Erste X-Staffel im Steelbook') === undefined)

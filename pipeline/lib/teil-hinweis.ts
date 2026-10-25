@@ -34,9 +34,3 @@ export function ordneTeilHinweis(hinweis: TeilHinweis, basis: Title, alle: Title
   const inReihe = alle.filter((t) => (t.franchiseId ?? t.id) === reihe)
   return teilNachPartNummer(inReihe, hinweis.nummer)
 }
-
-/** Für `releasesAus`: vermerkt die verworfene Überschrift, wenn sie einen Hinweis trägt; liefert immer undefined. */
-export function vermerkeVerworfen(artikel: string, verworfen?: string[]): undefined {
-  if (teilHinweis(artikel)) verworfen?.push(artikel)
-  return undefined
-}
