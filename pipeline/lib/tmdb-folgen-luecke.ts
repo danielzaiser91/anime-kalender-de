@@ -1,5 +1,6 @@
 import { PLATZHALTER } from '../bau/folgentitel-tmdb.ts'
 import { waehleFaellige, type BestandKurz } from './tmdb-folgen-auswahl.ts'
+import { vermerkGilt, type Vermerk404 } from './tmdb-folgen-404.ts'
 
 /** Eine Folgendatei `public/data/folgen/<id>.json`, soweit die Lückenzählung sie liest. */
 export interface FolgenDatei {
@@ -44,6 +45,7 @@ export function waehleLuecke<T extends { id: string }>(
 export interface AbrufKandidat {
   id: string
   t: { streams?: unknown[]; episodes?: number | null }
+  tmdb?: { tmdbId?: number }
 }
 
 export interface AbrufWahl<T extends AbrufKandidat> {
@@ -56,15 +58,18 @@ export interface AbrufWahl<T extends AbrufKandidat> {
   /** Nur die Lückentitel, ohne die regulären Fälligen (Probelauf `--nur-luecke`). */
   nurLuecke: boolean
   luecke: (id: string) => number
+  /** Negativvermerke (TMDB antwortete 404): solche Titel bleiben bis zur Altersgrenze draußen. */
+  fehlt?: Record<string, Vermerk404>
 }
 
 /** Lückentitel zuerst (höchstens `LUECKE_LIMIT`, auch bei `nurLuecke`), danach die regulär Fälligen von Titeln mit Anbieter; insgesamt höchstens `limit`. */
 export function waehleAbrufe<T extends AbrufKandidat>(w: AbrufWahl<T>): T[] {
   // Unbekannte Folgenzahl (laufende Langläufer wie Shin-chan) zählt für Lückentitel als Serie, regulär nicht.
-  const serien = w.alle.filter((k) => (k.t.episodes ?? 2) > 1)
+  const frei = w.alle.filter((k) => !vermerkGilt(w.fehlt?.[k.id], k.tmdb?.tmdbId, w.heute, w.alterTage))
+  const serien = frei.filter((k) => (k.t.episodes ?? 2) > 1)
   const grenze = Math.min(LUECKE_LIMIT, w.limit)
   const luecke = waehleLuecke(serien, w.bestand, w.luecke, grenze)
   if (w.nurLuecke) return luecke
-  const mitAnbieter = w.alle.filter((k) => (k.t.streams ?? []).length > 0 && (k.t.episodes ?? 0) > 1 && !luecke.includes(k))
+  const mitAnbieter = frei.filter((k) => (k.t.streams ?? []).length > 0 && (k.t.episodes ?? 0) > 1 && !luecke.includes(k))
   return [...luecke, ...waehleFaellige(mitAnbieter, w.bestand, w.heute, w.alterTage, w.limit)].slice(0, w.limit)
 }
