@@ -112,6 +112,21 @@ async function zweiteStaffel() {
   pruefe('zweite Staffel: fremde Kennung bleibt unberührt', speicher.inhalt.amazonErledigt?.ANDERE?.staffeln?.s1 === '✕')
 }
 
+/** Ein Tab mit älterem Eintrag (gesamt 2, Staffel 1 mit 5 Folgen) meldet; der Speicher kennt mehr von einem anderen Tab. */
+async function aelteremTab() {
+  const speicher = speicherNeu()
+  speicher.inhalt.amazonErledigt = {
+    [LISTEN_ID]: { staffeln: { s1: '✓', s2: '🇩🇪' }, folgen: { s1: 20, s2: 9 }, gesamt: 4, serie: 'Mission Mars' },
+  }
+  const alterTab = { [LISTEN_ID]: { staffeln: { s1: '✓' }, folgen: { s1: 5 }, gesamt: 2, serie: 'Mission Mars' } }
+  await meldenAufSeite(speicher, uhrNeu(FEST), 's1', { start: alterTab })
+  const v = speicher.inhalt.amazonErledigt?.[LISTEN_ID]
+  pruefe('älterer Tab verdrängt gesamt nicht (4 bleibt)', v?.gesamt === 4, v?.gesamt)
+  pruefe('fremde Staffel-Folgenzahl bleibt (s2 = 9)', v?.folgen?.s2 === 9, v?.folgen)
+  pruefe('eigene Meldung gewinnt bei derselben Staffel (s1 = 12)', v?.folgen?.s1 === 12, v?.folgen)
+  pruefe('fremder Befund s2 bleibt', v?.staffeln?.s2 === '🇩🇪', v?.staffeln)
+}
+
 /** Zwei Tabs melden nacheinander s1 und s2 (je mit leerem Eigenstand): beide Vermerke stehen getrennt im Speicher. */
 async function zweiTabs(erst, dann) {
   const speicher = speicherNeu()
@@ -170,6 +185,7 @@ async function main() {
   pruefe('ohne Vermerk (leerer Speicher) ist dieselbe Seite offen', neueSeite(speicherNeu(), uhr)() === false)
 
   await zweiteStaffel()
+  await aelteremTab()
   await zweiTabs('s1', 's2')
   await zweiTabs('s2', 's1')
   await beideRichtungen()
