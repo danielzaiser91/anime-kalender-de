@@ -178,6 +178,111 @@ function verwirf(grund: string, serie: CrSerie, titel?: number, zahl?: string): 
   return []
 }
 
+/** Eine Staffel mittendrin: lückenlos ab 1, es fehlen welche zum Ende hin, die letzte liegt höchstens 21 Tage zurück. */
+function istLaufend(folgen: ReturnType<typeof datierte>, titel: Title): boolean {
+  const nummern = folgen
+    .map((f) => Number(f.nummer))
+    .filter((n) => Number.isFinite(n) && n >= 1)
+    .sort((a, b) => a - b)
+  const lueckenlosAb1 =
+    nummern.length === folgen.length && nummern[0] === 1 && nummern[nummern.length - 1] === nummern.length
+  const juengste = folgen
+    .map((f) => String(f.verfuegbarAb).slice(0, 10))
+    .sort()
+    .pop()
+  const frisch = Boolean(
+    juengste && Date.now() - Date.parse(juengste + 'T00:00:00Z') < 21 * 24 * 3600 * 1000,
+  )
+  return lueckenlosAb1 && Boolean(titel.episodes) && folgen.length < titel.episodes! && frisch
+}
+
+/** Nur Nummern, die bei 1 anfangen und die Folgenzahl nicht überschreiten — sonst gar keine Beobachtung. */
+function beobachtetVon(folgen: ReturnType<typeof datierte>, obergrenze: number): Record<number, string> {
+  const paare = folgen
+    .map((f) => [Number(f.nummer), nachBerlin(f.verfuegbarAb!)?.datum] as const)
+    .filter((p): p is readonly [number, string] => Number.isFinite(p[0]) && p[0] >= 1 && Boolean(p[1]))
+  const nummernMenge = paare.map(([n]) => n)
+  const passt = nummernMenge.length > 0 && Math.min(...nummernMenge) === 1 && Math.max(...nummernMenge) <= obergrenze
+  return passt ? Object.fromEntries(paare) : {}
+}
+
+/** Wie `verwirf`, aber für die Paarung: `null` verwirft die ganze Serie. */
+function verwirfPaar(grund: string, serie: CrSerie, titel: number, zahl: string): null {
+  verwirf(grund, serie, titel, zahl)
+  return null
+}
+
+/** Der Termin für ein Paar aus Titel und Block — `null`, wenn die ganze Serie verworfen wird. */
+function terminAusPaar(serie: CrSerie, titel: Title, block: CrStaffel): CrTermin | null {
+  const folgen = datierte(block)
+
+  /*
+    Riegel 2: die Folgenzahl geht exakt auf, oder die ganze Serie fällt.
+
+    **Ausnahme: eine Staffel, die gerade läuft** (Daniel, 20.09.2026, „Das Band der
+    Unterwelt"): Dort sind 21 von 24 Folgen deutsch, die 21. kam am Vortag. Der Riegel
+    ließ solche Staffeln komplett durchfallen — im Kalender stand nichts, obwohl jede
+    erschienene Folge ihren Tag trägt. Erlaubt ist der Fall nur unter drei Bedingungen:
+    die datierten Folgen sind **lückenlos ab 1**, es fehlen welche zum Ende hin, und die
+    letzte liegt höchstens 21 Tage zurück. Dann ist es kein fremder Block, sondern eine
+    Staffel mittendrin; `lastEpisodeDate` bleibt offen, und die Fortschreibung rechnet
+    die restlichen Folgen weiter.
+  */
+  const laufend = istLaufend(folgen, titel)
+  if (folgen.length !== titel.episodes && !laufend)
+    return verwirfPaar('Folgenzahl geht nicht auf', serie, titel.id, `${folgen.length} datiert, ${titel.episodes} laut Bestand`)
+  /* Und mindestens die Hälfte des Blocks ist datiert, sonst ist es kein Verlauf. */
+  if (folgen.length < (block.deutsch ?? folgen.length) / 2)
+    return verwirfPaar('zu wenige Folgen datiert', serie, titel.id, `${folgen.length} von ${block.deutsch ?? '?'}`)
+
+  const punkte = folgen
+    .map((f) => nachBerlin(f.verfuegbarAb!))
+    .filter((x): x is { datum: string; zeit: string } => x !== null)
+    .sort((a, b) => (a.datum < b.datum ? -1 : a.datum > b.datum ? 1 : 0))
+  if (!punkte.length) return null
+
+  const daten = punkte.map((p) => p.datum)
+  /*
+    Riegel 3: keine deutsche Fassung vor ihrer japanischen Ausstrahlung. Er fängt auch
+    Crunchyrolls Platzhalter: „The Dungeon of Black Company" (2021) trägt bei jeder Folge
+    `2001-01-02T07:59:00Z` (gemeldet über den Posteingang, 21.09.2026).
+  */
+  const jahr = Number(daten[0]!.slice(0, 4))
+  if (titel.jpYear && jahr < titel.jpYear)
+    return verwirfPaar('deutscher Termin vor der japanischen Ausstrahlung', serie, titel.id, `${jahr} gegen ${titel.jpYear}`)
+
+  const zeiten = new Set(punkte.map((p) => p.zeit))
+  return {
+    titleId: titel.id,
+    firstEpisodeDate: daten[0]!,
+    /*
+      **`lastEpisodeDate` nur bei vollständig datiertem Block.**
+
+      Das Feld beendet die Fortschreibung (`expandEvents`) — ein zu früh
+      gesetztes Ende schneidet echte Folgen ab. Fehlen Daten, rechnet die
+      Terminlogik lieber weiter, als die Staffel zu schließen.
+    */
+    lastEpisodeDate:
+      !laufend && folgen.length === (block.deutsch ?? folgen.length) ? daten[daten.length - 1] : undefined,
+    /* Eine Uhrzeit nur, wenn alle Folgen dieselbe tragen — sonst ist sie geraten. */
+    time: zeiten.size === 1 ? [...zeiten][0] : undefined,
+    /* Bei einer laufenden Staffel zählt, was sie haben wird — sonst endet der Kalender mittendrin. */
+    episodeCount: laufend ? titel.episodes! : folgen.length,
+    /*
+      **Nur Nummern, die zu dieser Staffel gehören.** Crunchyrolls Blöcke zählen teils über
+      die ganze Reihe durch (Staffel 2 beginnt bei 13), unser Release zählt ab 1. Ungeprüft
+      übernommen, ergaben sich Beobachtungen hinter dem Staffelende — acht Zusicherungen
+      brachen den Bau ab (20.09.2026, Lauf 35507532910: „letzter Termin liegt vor der
+      frühesten belegten Beobachtung"). Gesetzt wird deshalb nur, was bei 1 anfängt und die
+      Folgenzahl nicht überschreitet.
+    */
+    beobachtet: beobachtetVon(folgen, laufend ? titel.episodes! : folgen.length),
+    rhythmus: messeRhythmus(daten),
+    blockName: block.name,
+    datiert: folgen.length,
+  }
+}
+
 export function termineAusSerie(serie: CrSerie, unsere: Title[]): CrTermin[] {
   /* Nur der deutsche Katalog trägt deutsche Termine — ein US-Lauf sagt nichts. */
   if (serie.katalog !== 'de') return []
@@ -231,99 +336,9 @@ export function termineAusSerie(serie: CrSerie, unsere: Title[]): CrTermin[] {
 
   const raus: CrTermin[] = []
   for (let i = 0; i < nachJahr.length; i++) {
-    const titel = nachJahr[i]!
-    const block = nachDatum[i]!
-    const folgen = datierte(block)
-
-    /*
-      Riegel 2: die Folgenzahl geht exakt auf, oder die ganze Serie fällt.
-
-      **Ausnahme: eine Staffel, die gerade läuft** (Daniel, 20.09.2026, „Das Band der
-      Unterwelt"): Dort sind 21 von 24 Folgen deutsch, die 21. kam am Vortag. Der Riegel
-      ließ solche Staffeln komplett durchfallen — im Kalender stand nichts, obwohl jede
-      erschienene Folge ihren Tag trägt. Erlaubt ist der Fall nur unter drei Bedingungen:
-      die datierten Folgen sind **lückenlos ab 1**, es fehlen welche zum Ende hin, und die
-      letzte liegt höchstens 21 Tage zurück. Dann ist es kein fremder Block, sondern eine
-      Staffel mittendrin; `lastEpisodeDate` bleibt offen, und die Fortschreibung rechnet
-      die restlichen Folgen weiter.
-    */
-    const nummern = folgen
-      .map((f) => Number(f.nummer))
-      .filter((n) => Number.isFinite(n) && n >= 1)
-      .sort((a, b) => a - b)
-    const lueckenlosAb1 =
-      nummern.length === folgen.length && nummern[0] === 1 && nummern[nummern.length - 1] === nummern.length
-    const juengste = folgen
-      .map((f) => String(f.verfuegbarAb).slice(0, 10))
-      .sort()
-      .pop()
-    const frisch = Boolean(
-      juengste && Date.now() - Date.parse(juengste + 'T00:00:00Z') < 21 * 24 * 3600 * 1000,
-    )
-    const laufend =
-      lueckenlosAb1 && Boolean(titel.episodes) && folgen.length < titel.episodes! && frisch
-    if (folgen.length !== titel.episodes && !laufend)
-      return verwirf('Folgenzahl geht nicht auf', serie, titel.id, `${folgen.length} datiert, ${titel.episodes} laut Bestand`)
-    /* Und mindestens die Hälfte des Blocks ist datiert, sonst ist es kein Verlauf. */
-    if (folgen.length < (block.deutsch ?? folgen.length) / 2)
-      return verwirf('zu wenige Folgen datiert', serie, titel.id, `${folgen.length} von ${block.deutsch ?? '?'}`)
-
-    const punkte = folgen
-      .map((f) => nachBerlin(f.verfuegbarAb!))
-      .filter((x): x is { datum: string; zeit: string } => x !== null)
-      .sort((a, b) => (a.datum < b.datum ? -1 : a.datum > b.datum ? 1 : 0))
-    if (!punkte.length) return []
-
-    const daten = punkte.map((p) => p.datum)
-    /*
-      Riegel 3: keine deutsche Fassung vor ihrer japanischen Ausstrahlung. Er fängt auch
-      Crunchyrolls Platzhalter: „The Dungeon of Black Company" (2021) trägt bei jeder Folge
-      `2001-01-02T07:59:00Z` (gemeldet über den Posteingang, 21.09.2026).
-    */
-    const jahr = Number(daten[0]!.slice(0, 4))
-    if (titel.jpYear && jahr < titel.jpYear)
-      return verwirf('deutscher Termin vor der japanischen Ausstrahlung', serie, titel.id, `${jahr} gegen ${titel.jpYear}`)
-
-    const zeiten = new Set(punkte.map((p) => p.zeit))
-    raus.push({
-      titleId: titel.id,
-      firstEpisodeDate: daten[0]!,
-      /*
-        **`lastEpisodeDate` nur bei vollständig datiertem Block.**
-
-        Das Feld beendet die Fortschreibung (`expandEvents`) — ein zu früh
-        gesetztes Ende schneidet echte Folgen ab. Fehlen Daten, rechnet die
-        Terminlogik lieber weiter, als die Staffel zu schließen.
-      */
-      lastEpisodeDate:
-        !laufend && folgen.length === (block.deutsch ?? folgen.length) ? daten[daten.length - 1] : undefined,
-      /* Eine Uhrzeit nur, wenn alle Folgen dieselbe tragen — sonst ist sie geraten. */
-      time: zeiten.size === 1 ? [...zeiten][0] : undefined,
-      /* Bei einer laufenden Staffel zählt, was sie haben wird — sonst endet der Kalender mittendrin. */
-      episodeCount: laufend ? titel.episodes! : folgen.length,
-      /*
-        **Nur Nummern, die zu dieser Staffel gehören.** Crunchyrolls Blöcke zählen teils über
-        die ganze Reihe durch (Staffel 2 beginnt bei 13), unser Release zählt ab 1. Ungeprüft
-        übernommen, ergaben sich Beobachtungen hinter dem Staffelende — acht Zusicherungen
-        brachen den Bau ab (20.09.2026, Lauf 35507532910: „letzter Termin liegt vor der
-        frühesten belegten Beobachtung"). Gesetzt wird deshalb nur, was bei 1 anfängt und die
-        Folgenzahl nicht überschreitet.
-      */
-      beobachtet: (() => {
-        const paare = folgen
-          .map((f) => [Number(f.nummer), nachBerlin(f.verfuegbarAb!)?.datum] as const)
-          .filter((p): p is readonly [number, string] => Number.isFinite(p[0]) && p[0] >= 1 && Boolean(p[1]))
-        const nummernMenge = paare.map(([n]) => n)
-        const passt =
-          nummernMenge.length > 0 &&
-          Math.min(...nummernMenge) === 1 &&
-          Math.max(...nummernMenge) <= (laufend ? titel.episodes! : folgen.length)
-        return passt ? Object.fromEntries(paare) : {}
-      })(),
-      rhythmus: messeRhythmus(daten),
-      blockName: block.name,
-      datiert: folgen.length,
-    })
+    const termin = terminAusPaar(serie, nachJahr[i]!, nachDatum[i]!)
+    if (!termin) return []
+    raus.push(termin)
   }
   return raus
 }
