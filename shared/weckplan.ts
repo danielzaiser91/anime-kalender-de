@@ -6,6 +6,8 @@
  */
 export interface Weckplan {
   workflow: string
+  /** Fremdes Repo (`besitzer/name`), in dem der Workflow liegt; fehlt es, gilt dieses Repo. Die Wecker-Wache (läuft nur hier) deckt fremde Einträge nicht ab. */
+  repo?: string
   /** Leer = jede Stunde. */
   stunden?: number[]
   wochentag?: number
@@ -34,18 +36,23 @@ export const WECKPLAN: Weckplan[] = [
   // Meldungskopie (ab 14.10.2026): D1-Export der drei Meldungstabellen, 03 Uhr (kein anderer Tageslauf; ein Export blockiert die D1 kurz). Spätestens nach 33 h nachgeholt (wecker-wache), Grenze 36 h. Abstand 13 h: ein Handlauf um 12 Uhr (15 h vor 03 Uhr) darf den nächsten Wecker-Start nicht sperren (16.10.2026 fehlte er so).
   { workflow: 'meldungskopie.yml', stunden: [3], abstandMin: 780 },
   // Monatskontingent der Streaming Availability API (Reset am Ersten). Vorher nur GitHubs Cron: ein abgebrochener Lauf blieb ohne Nachhol-Start (`motn` am 08.10.2026 36 Tage still).
+  // Nativ-Repo (ab 25.10.2026): GitHubs Zeitplan schaltet sich dort nach 60 Ruhetagen ab und feuert unpünktlich; das Wecker-Token gilt für beide Repos.
+  { workflow: 'daten.yml', repo: 'danielzaiser91/anime-kalender-nativ', abstandMin: 40 },
   { workflow: 'tonspuren-monatlich.yml', stunden: [4], tagImMonat: 2, nachholen: true, abstandMin: 20160 },
 ]
 
 /** Mindestabstand eines Workflows in Minuten (Vorgabe 30 für Unbekannte). */
 export const abstandMin = (workflow: string, plan: Weckplan[] = WECKPLAN): number => plan.find((p) => p.workflow === workflow)?.abstandMin ?? 30
 
-/** Die Workflows, die zu diesem Zeitpunkt (UTC) starten sollen. */
-export function faelligeLaeufe(jetzt: Date, plan: Weckplan[] = WECKPLAN): string[] {
+/** Die Plan-Einträge, die zu diesem Zeitpunkt (UTC) starten sollen. */
+export function faelligeEintraege(jetzt: Date, plan: Weckplan[] = WECKPLAN): Weckplan[] {
   const stunde = jetzt.getUTCHours()
   const wochentag = jetzt.getUTCDay() === 0 ? 7 : jetzt.getUTCDay()
-  return plan.filter((p) => (!p.stunden || p.stunden.includes(stunde)) && (!p.wochentag || p.wochentag === wochentag) && (!p.tagImMonat || (p.nachholen ? jetzt.getUTCDate() >= p.tagImMonat : p.tagImMonat === jetzt.getUTCDate()))).map((p) => p.workflow)
+  return plan.filter((p) => (!p.stunden || p.stunden.includes(stunde)) && (!p.wochentag || p.wochentag === wochentag) && (!p.tagImMonat || (p.nachholen ? jetzt.getUTCDate() >= p.tagImMonat : p.tagImMonat === jetzt.getUTCDate())))
 }
+
+/** Die Workflows, die zu diesem Zeitpunkt (UTC) starten sollen. */
+export const faelligeLaeufe = (jetzt: Date, plan: Weckplan[] = WECKPLAN): string[] => faelligeEintraege(jetzt, plan).map((p) => p.workflow)
 
 /** Ein Lauf, wie ihn die GitHub-API liefert (neuester zuerst). */
 export interface LaufStand {

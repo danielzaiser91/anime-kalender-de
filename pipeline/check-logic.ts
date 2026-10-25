@@ -8398,7 +8398,8 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   }
   /* Der Wecker startet die Datenläufe pünktlich (GitHubs Cron kam 4–7 Stunden zu spät, 05.10.2026). */
   {
-    const um = (iso: string) => faelligeLaeufe(new Date(iso)).sort().join(',')
+    const um = (iso: string) => faelligeLaeufe(new Date(iso)).filter((w) => w !== 'daten.yml').sort().join(',')
+    pruefe('Wecker: das Nativ-Repo (daten.yml, fremdes Repo) wird jede Stunde fällig', faelligeLaeufe(new Date('2026-10-06T15:00:00Z')).includes('daten.yml'))
     pruefe('Wecker: jede Stunde der Stundenlauf', um('2026-10-06T15:00:00Z') === 'refresh-hourly.yml', um('2026-10-06T15:00:00Z'))
     pruefe('Wecker: 04 Uhr UTC zusätzlich der Tageslauf (und der Nachhol-Kandidat Tonspuren)', um('2026-10-06T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml', um('2026-10-06T04:00:00Z'))
     pruefe('Wecker: Montag 05 Uhr UTC der Wochenlauf, Dienstag nicht', um('2026-10-05T05:00:00Z') === 'refresh-hourly.yml,refresh-weekly.yml' && um('2026-10-06T05:00:00Z') === 'refresh-hourly.yml', um('2026-10-05T05:00:00Z'))
