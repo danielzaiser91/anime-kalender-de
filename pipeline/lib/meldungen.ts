@@ -412,6 +412,13 @@ const istBelegt = (belegt: Set<string>, titleId: number, platform: string, tag: 
   belegt.has(eigenerSchluessel(titleId, platform)) ||
   belegt.has(gelesenSchluessel(titleId, platform, url))
 
+/** Wie `istBelegt`, merkt sich aber die Meldung: Sie ist abgedeckt, nicht „nicht zugeordnet“. */
+function istBelegtVermerkt(belegt: Set<string>, treffer: Title, platform: string, tag: string, v: Vorschlag, abgedeckt?: Vorschlag[]): boolean {
+  const ja = istBelegt(belegt, treffer.id, platform, tag, v.articleUrl)
+  if (ja) abgedeckt?.push(v)
+  return ja
+}
+
 function belegteTermine(vorhanden: Release[]): Set<string> {
   const tagDerDisc = (r: Release) => (r.platform === 'disc' ? r.schedule.firstEpisodeDate : '')
   const belegt = new Set(vorhanden.map((r) => terminSchluessel(r.titleId, r.platform, tagDerDisc(r))))
@@ -457,7 +464,7 @@ export function releasesAus(
   vorhanden: Release[],
   heute: string,
   verworfen?: string[],
-  /** Meldungen, deren Titel und Anbieter schon ein Termin belegt (Handeintrag, Crunchyroll, früherer Treffer): kein neuer Termin, aber auch nicht „nicht zugeordnet“. */
+  /** Meldungen, die schon ein Termin belegt: kein neuer Termin, aber nicht „nicht zugeordnet“. */
   abgedeckt?: Vorschlag[],
 ): Release[] {
   const belegt = belegteTermine(vorhanden)
@@ -493,10 +500,7 @@ export function releasesAus(
 
     const platform = anbieterDerMeldung(v)
     if (!platform) continue
-    if (istBelegt(belegt, treffer.id, platform, tag, v.articleUrl)) {
-      abgedeckt?.push(v)
-      continue
-    }
+    if (istBelegtVermerkt(belegt, treffer, platform, tag, v, abgedeckt)) continue
     belegeTermin(belegt, treffer.id, platform, tag)
 
     const art = artDerMeldung(v, platform, treffer)
