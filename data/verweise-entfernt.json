@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-24T22:05:32.067Z",
+  "stand": "2026-10-25T10:01:04.735Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -6338,17 +6338,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 104252,
-      "titel": "Demon Lord, Retry!",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/demon-lord-retry",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-25",
-      "letzterWeg": false
-    },
-    {
       "titleId": 104276,
       "titel": "My Hero Academia 4",
       "plattform": "netflix",
@@ -7898,6 +7887,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-25",
       "letzterWeg": true
+    },
+    {
+      "titleId": 104252,
+      "titel": "Demon Lord, Retry!",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/demon-lord-retry",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-25",
+      "letzterWeg": false
     },
     {
       "titleId": 481,

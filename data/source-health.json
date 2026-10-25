@@ -5,13 +5,13 @@
     "lastCount": 8
   },
   "anime2you": {
-    "lastOk": "2026-10-25T09:03:17.863Z",
-    "lastRun": "2026-10-25T09:03:17.863Z",
+    "lastOk": "2026-10-25T12:03:25.775Z",
+    "lastRun": "2026-10-25T12:03:25.775Z",
     "lastCount": 50
   },
   "crunchyroll": {
     "lastOk": "2026-10-21T20:02:22.932Z",
-    "lastRun": "2026-10-25T09:02:59.776Z",
+    "lastRun": "2026-10-25T12:03:10.118Z",
     "lastCount": 0,
     "lastError": "keine Kachel im Kalender gefunden"
   },
@@ -81,13 +81,13 @@
     "lastCount": 1
   },
   "tmdb-folgen": {
-    "lastOk": "2026-10-19T05:07:29.828Z",
-    "lastRun": "2026-10-19T05:07:29.828Z",
-    "lastCount": 878
+    "lastOk": "2026-10-25T09:42:21.625Z",
+    "lastRun": "2026-10-25T09:42:21.625Z",
+    "lastCount": 877
   },
   "rohfolgen": {
     "lastOk": "2026-10-24T19:10:55.318Z",
-    "lastRun": "2026-10-25T04:07:27.029Z",
+    "lastRun": "2026-10-25T11:16:44.551Z",
     "lastCount": 0
   },
   "anisearch-folgen": {
@@ -116,8 +116,8 @@
     "lastCount": 14
   },
   "vorfaelle": {
-    "lastOk": "2026-10-25T04:07:19.855Z",
-    "lastRun": "2026-10-25T04:07:19.855Z",
+    "lastOk": "2026-10-25T11:16:37.103Z",
+    "lastRun": "2026-10-25T11:16:37.103Z",
     "lastCount": 0
   },
   "crunchyroll-neu": {
@@ -141,8 +141,8 @@
     "lastCount": 15
   },
   "tv-programm": {
-    "lastOk": "2026-10-25T09:03:22.378Z",
-    "lastRun": "2026-10-25T09:03:22.378Z",
+    "lastOk": "2026-10-25T12:03:28.337Z",
+    "lastRun": "2026-10-25T12:03:28.337Z",
     "lastCount": 283
   },
   "tv-de": {
@@ -176,8 +176,8 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-10-25T09:03:07.374Z",
-    "lastRun": "2026-10-25T09:03:07.374Z",
+    "lastOk": "2026-10-25T12:03:16.547Z",
+    "lastRun": "2026-10-25T12:03:16.547Z",
     "lastCount": 59
   },
   "adn-news": {
@@ -186,8 +186,8 @@
     "lastCount": 75
   },
   "messbelege": {
-    "lastOk": "2026-10-25T09:03:19.504Z",
-    "lastRun": "2026-10-25T09:03:19.504Z",
+    "lastOk": "2026-10-25T12:03:27.155Z",
+    "lastRun": "2026-10-25T12:03:27.155Z",
     "lastCount": 0
   },
   "beleg-lesungen": {

@@ -66,6 +66,8 @@ case "$2" in
     [ "${FAKE_BESTAND:-ok}" = warnzeichen ] && { printf '⚠ Hinweis eins\n⚠ Hinweis zwei\n⚠ Hinweis drei\n  ✗ Netflix-Liste enthält Cartoon-Adressen — 89\n'; exit 1; }
     # Grüner Lauf mit Warnzeile weit vor den letzten drei Zeilen (tail -3 zeigt sie sonst nicht).
     [ "${FAKE_BESTAND:-ok}" = adn-warnung ] && { printf '  ⚠ WARNUNG ADN-Titelliste: 2 Serie(n) mit „titelliste-fehlt“\n  ✓ a\n  ✓ b\n  ✓ c\n'; exit 0; }
+    # Zeile in der Form von check-handlung-eigen-bestand.ts (bestandWarnzeile), weit vor den letzten drei Zeilen.
+    [ "${FAKE_BESTAND:-ok}" = handlung-warnung ] && { printf '⚠ WARNUNG Eigene Handlung: 2 überholt (Quelle gewinnt): 159309, 133007\n  ✓ a\n  ✓ b\n  ✓ c\n'; exit 0; }
     # Zeilen mit mehreren Marken: jede steht genau einmal im Grund.
     [ "${FAKE_BESTAND:-ok}" = doppelt-a ] && { printf 'FEHLER: a ✗ ⚠\n✖ b ⚠\n⚠ c\n'; exit 1; }
     [ "${FAKE_BESTAND:-ok}" = doppelt-b ] && { printf '✗ b ⚠\n⚠ c\n'; exit 1; }
@@ -209,6 +211,11 @@ szenario adnwarnung FAKE_BAU=ok FAKE_BESTAND=adn-warnung
 pruefe "Exit 0, Erzeugnis gepusht" "0 ja" "$CODE $(im_fernstand public/data/titles.json)"
 pruefe "Anmerkung mit dem Text der Warnung" ja "$(grep -q '^::warning::WARNUNG ADN-Titelliste: 2 Serie(n)' "$ARBEIT/adnwarnung/log.txt" && echo ja || echo nein)"
 pruefe "grüner Lauf ohne Warnzeile: keine Anmerkung dazu" nein "$(grep -q 'WARNUNG ADN' "$ARBEIT/gruen/log.txt" && echo ja || echo nein)"
+
+echo "Überholte eigene Handlung (⚠ WARNUNG-Zeile des Bestandschecks): der Lauf zeigt Zahl und Kennungen als ::warning::"
+szenario handlungwarnung FAKE_BAU=ok FAKE_BESTAND=handlung-warnung
+pruefe "Exit 0, Erzeugnis gepusht" "0 ja" "$CODE $(im_fernstand public/data/titles.json)"
+pruefe "Anmerkung mit Zahl und Kennungen" ja "$(grep -q '^::warning::WARNUNG Eigene Handlung: 2 überholt (Quelle gewinnt): 159309, 133007' "$ARBEIT/handlungwarnung/log.txt" && echo ja || echo nein)"
 
 echo "data:build scheitert: rot, Quellen trotzdem gesichert, keine Erzeugnisse"
 szenario aufbau FAKE_BAU=fail

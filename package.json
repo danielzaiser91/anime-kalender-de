@@ -161,7 +161,7 @@
     "check:ansichten-handy": "node tools/schwer.mjs node tools/ansicht-bild.mjs --handy woche monat datenbank",
     "ansichten:bilder": "node tools/ansicht-bild.mjs --docs",
     "check:adress-schalter": "node tools/adress-schalter-pruefen.mjs",
-    "check:install": "node tools/install-zustaende-pruefen.mjs && node tools/daten-adressen-pruefen.mjs && node tools/daten-adressen-browser.mjs",
+    "check:install": "node tools/install-zustaende-pruefen.mjs && node tools/daten-adressen-pruefen.mjs && node tools/daten-adressen-browser.mjs && node tools/kachel-felder-messen.mjs",
     "check:kopf": "node tools/kopf-pruefen.mjs",
     "check:tv-schalter": "node tools/tv-schalter-pruefen.mjs",
     "check:zurueck": "node tools/zurueck-pruefen.mjs",

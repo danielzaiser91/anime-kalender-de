@@ -176,11 +176,11 @@ const metaDatei = (meta: unknown): Record<string, unknown> => (meta ? { 'public/
   const fehlt = mitte(ids)
   const titles = ids.filter((id) => id !== fehlt).map((id) => titel(id, { episodes: 100000 }))
   leser('deutsche-folgenzahl', 'pipeline/check-deutsche-folgenzahl-bestand.ts', (meta) => ({ kopien: ['data/erstausgabe-von-hand.yaml'], dateien: { 'public/data/titles.json': titles, ...metaDatei(meta) } }), fehlt)
-  // Handdatei mit drei Einträgen: der mittlere (900001) fehlt und ist zurückgestellt, der letzte steht mit zu wenigen Folgen im Bestand
+  // Handdatei mit drei Einträgen: der mittlere (900001) fehlt und ist zurückgestellt, der letzte steht ohne Folgenzahl des Werks im Bestand
   // und auch in der Liste. Sie entschuldigt nur fehlende Titel, und nach dem zurückgestellten wird weiter geprüft.
   const [erster, letzter] = lies<{ anilistId: number; deFolgen?: unknown }[]>('data/erstausgabe-von-hand.yaml').filter((e) => e.deFolgen)
   const hand = [erster!, { ...erster!, anilistId: 900001 }, letzter!]
-  const knapp = [titel(erster!.anilistId, { episodes: 100000 }), titel(letzter!.anilistId, { episodes: 1 })]
+  const knapp = [titel(erster!.anilistId, { episodes: 100000 }), titel(letzter!.anilistId)]
   const beide = { quarantaene: [900001, letzter!.anilistId].map((titleId) => quarantaene(titleId).quarantaene[0]) }
   const dateien = { 'data/erstausgabe-von-hand.yaml': yaml.dump(hand), 'public/data/titles.json': knapp, 'public/data/meta.json': beide }
   const r = lauf('pipeline/check-deutsche-folgenzahl-bestand.ts', { dateien })

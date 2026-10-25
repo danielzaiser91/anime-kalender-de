@@ -22,7 +22,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (413)
+### Kandidaten für neue Wege (438)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -301,7 +301,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | She Professed Herself Pupil of the Wise Man (119056) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.21211aa9-7320-47d7-8c9e-6d7438d15718 | nein |
 | The Dungeon of Black Company (120608) | Crunchyroll | crunchyroll:GG1U20Z5J | ja |
 | The Dungeon of Black Company (120608) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.f5a5fcd6-41ab-4ef8-b11e-0b80bd4b940c | nein |
-| Grisaia: Phantom Trigger THE ANIMATION - Stargazer (120892) | Amazon Prime Video | amazon:amzn1.dv.gti.0df363bb-532f-4d75-b429-661c1aa9cf16 | nein |
 | Horimiya (124080) | Crunchyroll | crunchyroll:GVWU8N11G | ja |
 | Horimiya (124080) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.e84aaf58-e58f-47c4-a9a4-32ff9819d308 | ja |
 | Battle Game in 5 Seconds (126047) | Crunchyroll | crunchyroll:G31UX79ZJ | nein |
@@ -431,12 +430,38 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | I May Be a Guild Receptionist, but I’ll Solo Any Boss to Clock Out on Time (167143) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.63237988-633d-4826-8cd0-fe6d93e3888f | nein |
 | Sentenced to Be a Hero (167152) | Crunchyroll | crunchyroll:GE00356811ITIT | nein |
 | Sentenced to Be a Hero (167152) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.3bfcc30d-163b-4afd-b185-86940d5cc139 | nein |
+| I’ll Become a Villainess Who Goes Down in History (168139) | Crunchyroll | crunchyroll:GG1UXW92V | nein |
+| I’ll Become a Villainess Who Goes Down in History (168139) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.702dd44b-54d8-45bd-9bed-c3381a87898a | nein |
+| Dungeon People (168345) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.4158d4ca-afed-48fa-a85e-a055a7d57409 | ja |
+| Fist of the North Star: Hokuto No Ken (169228) | Amazon Prime Video | amazon:amzn1.dv.gti.d1393f28-73de-40bb-a1e3-45f3212cee27 | ja |
+| Code Geass: Rozé of the Recapture (126830) | Disney Plus | disney:entity-666998dc-6229-4057-9857-54da01132d33 | nein |
+| Chillin’ in Another World with Level 2 Super Cheat Powers (170130) | Crunchyroll | crunchyroll:G14U4747X | nein |
+| Chillin’ in Another World with Level 2 Super Cheat Powers (170130) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.e5e1c16a-f209-464b-8f6d-282a8807bac4 | nein |
 | I Parry Everything! (170695) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.b11c8eec-d48f-45d5-ae23-76a040572efe | ja |
+| Sand Land: The Series (175642) | Disney Plus | disney:entity-ede9d04a-8330-4524-8976-40b1520d4633 | nein |
+| A Journey through Another World: Raising Kids While Adventuring (171031) | Crunchyroll | crunchyroll:GN7UDME3W | nein |
+| A Journey through Another World: Raising Kids While Adventuring (171031) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.d3030278-8c5f-4641-bcf8-c3fc069b5c1a | nein |
 | Plus-Sized Elf (173388) | Amazon Prime Video | amazon:amzn1.dv.gti.9925c815-aad9-478a-870f-de9dae893efe | ja |
+| Loner Life in Another World (173693) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.5a749de2-9862-4630-a0e9-9e64dc4fc731 | nein |
+| Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells (173694) | Crunchyroll | crunchyroll:GJWUQ7J7P | nein |
+| Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells (173694) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1972f90c-2708-49f9-865e-248df5f681d0 | nein |
 | A Few Moments of Cheers (173935) | Amazon Prime Video | amazon:amzn1.dv.gti.52b945cb-79dd-424e-8161-3cc173c1501e | ja |
+| Viral Hit (174653) | Crunchyroll | crunchyroll:G2XU07NN2 | nein |
+| Viral Hit (174653) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.67d9f9e6-d4a0-4291-a0dd-2918aba25f61 | nein |
+| Nyaight of the Living Cat (175124) | Crunchyroll | crunchyroll:G7PU3DJ2X | nein |
+| Nyaight of the Living Cat (175124) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.cc76bb9c-e658-4fa1-9daa-13c1e48c33de | nein |
+| Übel Blatt (175198) | Amazon Prime Video | amazon:amzn1.dv.gti.fbd0daf7-1bf1-4b59-ae8e-a9688472bfc0 | ja |
 | Given: The Movie - To the Sea (175199) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.70feed16-933c-4fd3-bb9d-185738ff1b10 | nein |
 | Honey Lemon Soda (175443) | Crunchyroll | crunchyroll:GX9U3MD8Z | nein |
 | Honey Lemon Soda (175443) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1d758d9a-d4ce-44b4-b360-610d93c2a753 | nein |
+| Zenshu (176273) | Crunchyroll | crunchyroll:G8WU7V701 | nein |
+| Zenshu (176273) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.cefcabd7-2428-43a1-9d15-4df49def6867 | nein |
+| Possibly the Greatest Alchemist of All Time (177506) | Crunchyroll | crunchyroll:GG1UX57PQ | nein |
+| Possibly the Greatest Alchemist of All Time (177506) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.d1732819-dd32-4dcb-b5bb-4f7a3fc40a6e | nein |
+| Darwin’s Incident (177679) | Amazon Prime Video | amazon:amzn1.dv.gti.c6936fbf-0aee-4c15-b594-9d8ec473a3b4 | ja |
+| The Ghost in the Shell (177699) | Amazon Prime Video | amazon:amzn1.dv.gti.e6239860-6c74-4435-8c48-3e9c88948635 | ja |
+| Tamon’s B-Side (178005) | Crunchyroll | crunchyroll:GE00366316DEDE | nein |
+| Tamon’s B-Side (178005) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.bad3ebdd-db9c-4e1b-8b68-8937781accff | nein |
 | Gachiakuta (178025) | Crunchyroll | crunchyroll:GE00352502PLPL | nein |
 | Gachiakuta (178025) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.535620c2-c736-49ea-a6b5-e50571595798 | nein |
 | Kill Blue (198113) | Crunchyroll | crunchyroll:GE00375331FRFR | nein |

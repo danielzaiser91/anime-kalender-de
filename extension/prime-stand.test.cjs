@@ -78,6 +78,16 @@ pruefe('amazon.js liest keine Token-Liste mehr', !/\?token=\$\{/.test(amazon))
 const js = JSON.parse(readFileSync(__dirname + '/manifest.json', 'utf8')).content_scripts.find((g) => g.js.includes('amazon.js')).js
 pruefe('Manifest: prime-stand.js lädt vor amazon.js', js.indexOf('prime-stand.js') >= 0 && js.indexOf('prime-stand.js') < js.indexOf('amazon.js'), js)
 
+/* Tab-Eintrag gegen Speicher-Eintrag (akPrimeEintragVereinigen): Speicher größer, dann Tab größer, Streit um s1. */
+const frischEintrag = { staffeln: { s1: '✓', s2: '🇩🇪' }, folgen: { s1: 20, s2: 9 }, gesamt: 5, serie: 'A' }
+const tabEintrag = { staffeln: { s1: '🇩🇪' }, folgen: { s1: 7 }, gesamt: 2, serie: 'B' }
+const v1 = sandkasten.akPrimeEintragVereinigen(frischEintrag, tabEintrag)
+pruefe('Eintrag: Tab gesamt 2, Speicher 5 → 5', v1.gesamt === 5, v1.gesamt)
+pruefe('Eintrag: Tab gesamt 8, Speicher 5 → 8', sandkasten.akPrimeEintragVereinigen(frischEintrag, { ...tabEintrag, gesamt: 8 }).gesamt === 8)
+pruefe('Eintrag: fremde Staffel-Folgenzahl bleibt', v1.folgen.s2 === 9, v1.folgen)
+pruefe('Eintrag: Streit um dieselbe Staffel gewinnt der Tab (Folgen und Befund)', v1.folgen.s1 === 7 && v1.staffeln.s1 === '🇩🇪', v1)
+pruefe('Eintrag: ohne Speicher-Eintrag gilt der Tab', sandkasten.akPrimeEintragVereinigen(undefined, tabEintrag).folgen.s1 === 7 && sandkasten.akPrimeEintragVereinigen(undefined, tabEintrag).gesamt === 2)
+
 if (fehler.length) {
   console.log(`\n${fehler.length} Prüfung(en) rot.`)
   process.exit(1)

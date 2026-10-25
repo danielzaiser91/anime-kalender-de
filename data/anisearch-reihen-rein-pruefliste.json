@@ -1,8 +1,8 @@
 {
-  "stand": "2026-10-24",
+  "stand": "2026-10-25",
   "bestand": {
-    "inReihen": 3024,
-    "reihen": 816,
+    "inReihen": 3026,
+    "reihen": 817,
     "pruefliste": [
       {
         "art": "verschmilzt",
@@ -1552,7 +1552,7 @@
     ]
   },
   "katalog": {
-    "inReihen": 12027,
+    "inReihen": 12026,
     "reihen": 3072,
     "pruefliste": [
       {
@@ -6074,6 +6074,23 @@
         ],
         "alleinstehende": [],
         "beispiel": "VSPO! × Vanguard Animation PV —Gemeinsames Universum→ Cardfight!! Vanguard"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 43,
+            "name": "GHOST IN THE SHELL: Koukaku Kidoutai",
+            "titel": 32
+          },
+          {
+            "id": 218740,
+            "name": "Koukaku Kidoutai: THE GHOST IN THE SHELL (Shinsaku Animation)",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Koukaku Kidoutai: THE GHOST IN THE SHELL —Gemeinsames Universum→ Koukaku Kidoutai: THE GHOST IN THE SHELL (Shinsaku Animation)"
       },
       {
         "art": "universum",

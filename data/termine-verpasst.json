@@ -443,73 +443,25 @@
     }
   },
   {
-    "id": "cr-G6793XKZY@2026-10-24",
-    "slug": "cr-G6793XKZY",
-    "titleId": 171110,
-    "name": "Ascendance of a Bookworm Staffel 4",
+    "id": "you-and-i-are-polar-opposites-s2@2026-10-25",
+    "slug": "you-and-i-are-polar-opposites-s2",
+    "titleId": 210031,
+    "name": "You and I Are Polar Opposites – Staffel 2",
     "platform": "crunchyroll",
-    "episode": 23,
-    "erwartetAm": "2026-10-24T09:30:00.000Z",
-    "bemerktAm": "2026-10-24T23:03:24.971Z",
+    "episode": 13,
+    "erwartetAm": "2026-10-25T09:30:00.000Z",
+    "bemerktAm": "2026-10-25T10:03:36.476Z",
     "erschienenAm": null,
     "verzugStunden": null,
-    "folgenVerfuegbar": 22,
+    "folgenVerfuegbar": 12,
     "tagGeschaetzt": true,
     "neuErwartet": null,
     "recherche": null,
-    "wocheBeleg": {
-      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
-      "gesehenAm": "2026-10-19T07:03:01.440Z",
-      "bild": "www.crunchyroll.com/wochenprogramm/g6793xkzy/2026-10-24-f23-2026-10-19-07-03.webp",
-      "bildAm": "2026-10-19T07:03:01.440Z",
-      "markierung": [
-        0.5138888888888888,
-        0.7397959183673469,
-        0.21861111111111112,
-        0.22959183673469388
-      ]
-    },
-    "newsGeprueftAm": "2026-10-25T05:03:08.782Z",
     "messbeleg": {
-      "am": "2026-10-24T23:03:50.201Z",
-      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-24",
-      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-24/2026-10-24-23-03.jpg",
-      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-24/2026-10-24-23-03.html.gz"
-    }
-  },
-  {
-    "id": "cr-GT00378078@2026-10-24",
-    "slug": "cr-GT00378078",
-    "titleId": 190569,
-    "name": "Jaadugar: A Witch in Mongolia Staffel 1",
-    "platform": "crunchyroll",
-    "episode": 11,
-    "erwartetAm": "2026-10-24T16:00:00.000Z",
-    "bemerktAm": "2026-10-24T23:03:24.971Z",
-    "erschienenAm": null,
-    "verzugStunden": null,
-    "folgenVerfuegbar": 10,
-    "tagGeschaetzt": true,
-    "neuErwartet": null,
-    "recherche": null,
-    "wocheBeleg": {
-      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
-      "gesehenAm": "2026-10-19T07:03:01.440Z",
-      "bild": "www.crunchyroll.com/wochenprogramm/gt00378078/2026-10-24-f11-2026-10-19-07-03.webp",
-      "bildAm": "2026-10-19T07:03:01.440Z",
-      "markierung": [
-        0.021111111111111112,
-        0.9204988308651598,
-        0.21861111111111112,
-        0.0701480904130943
-      ]
-    },
-    "newsGeprueftAm": "2026-10-25T05:03:08.782Z",
-    "messbeleg": {
-      "am": "2026-10-24T23:03:50.201Z",
-      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-24",
-      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-24/2026-10-24-23-03.jpg",
-      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-24/2026-10-24-23-03.html.gz"
+      "am": "2026-10-25T10:04:02.234Z",
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-25",
+      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-25/2026-10-25-10-04.jpg",
+      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-25/2026-10-25-10-04.html.gz"
     }
   }
 ]
