@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-10-25T14:03:09.444Z",
+  "scrapedAt": "2026-10-25T19:03:53.421Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 17,
-    "schon in einem Rubrik-Feed gelesen": 5,
+    "schon in einem Rubrik-Feed gelesen": 4,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 4
   },
@@ -59,6 +59,25 @@
         {
           "month": "2026-11",
           "context": "hr – allerdings nur in verkürzter Form. Wir fassen zusammen. Rückkehr im November 2026 Ab dem 6. November 2026 setzt ProSieben MAXX freitags"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 44/2026",
+      "articleUrl": "https://www.anime2you.de/news/1063795/anime-tv-programm-44-2026/",
+      "publishedAt": "2026-10-25",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-10-26",
+          "context": "ender, damit ihr keine Sendung verpasst! Premieren und Highlights Vom 26. OKtober bis 1. November 2026 gibt es wieder zahlreiche Anime-Premi"
+        },
+        {
+          "iso": "2026-11-01",
+          "context": "keine Sendung verpasst! Premieren und Highlights Vom 26. OKtober bis 1. November 2026 gibt es wieder zahlreiche Anime-Premieren und -Highli"
         }
       ],
       "dub": "unklar",
