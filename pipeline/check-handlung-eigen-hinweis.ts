@@ -48,6 +48,12 @@ const b = lauf([eintrag(33), eintrag(65)], [{ id: 33 }], {})
 pruefe('Prozess verwaist: Exit 1', b.code === 1 && b.aus.includes('FEHLER') && b.aus.includes('65'), `${b.code} ${b.aus}`)
 const c = lauf([eintrag(33)], [{ id: 33 }], {})
 pruefe('Prozess sauber: Exit 0 ohne WARNUNG', c.code === 0 && !c.aus.includes('⚠ WARNUNG'), `${c.code} ${c.aus}`)
+const d = laufeGegenKulisse(SKRIPT, {
+  'data/handlung-eigen.yaml': JSON.stringify([eintrag(33)]),
+  'public/data/titles.json': '[]',
+  'public/data/meta.json': JSON.stringify({ quarantaene: [{ titleId: 33, releases: [] }] }),
+})
+pruefe('Prozess: zurückgestellter Titel gilt nicht als verwaist', d.code === 0 && !d.aus.includes('FEHLER'), `${d.code} ${d.aus}`)
 
 if (fehler) process.exit(1)
-console.log('Eigene Handlung überholt: Hinweis statt Fehler, Quelle gewinnt im Bau, Prozess-Exit 0/1 mit WARNUNG-Zeile: 11 Fälle ok.')
+console.log('Eigene Handlung überholt: Hinweis statt Fehler, Quelle gewinnt im Bau, Prozess-Exit 0/1 mit WARNUNG-Zeile: 12 Fälle ok.')
