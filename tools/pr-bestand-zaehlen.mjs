@@ -20,7 +20,7 @@ export function teileListenAusgabe(ausgabe) {
   let datei = null
   for (const zeile of ausgabe.split(/\r?\n/)) {
     // Der Schlussbericht des Pools (rote Liste, wiederholte letzte Zeilen) gehört zu keiner Prüfung.
-    if (/^(Der Lauf hat getrackte|.+: \d+ von \d+ Prüfungen (rot:|grün))/.test(zeile)) break
+    if (/^(Der Lauf hat getrackte|.+: \d+ von \d+ Prüfungen rot:)/.test(zeile)) break
     const kopf = /^\[\S+ \d+\/\d+\] (.+)$/.exec(zeile)
     if (kopf) {
       datei = kopf[1]
