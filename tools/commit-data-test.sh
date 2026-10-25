@@ -64,6 +64,8 @@ case "$2" in
     [ "${FAKE_BESTAND:-ok}" = fehler ] && { echo "FEHLER: Cover fehlt bei Titel 7"; exit 1; }
     [ "${FAKE_BESTAND:-ok}" = gemischt ] && { printf '⚠ Hinweis eins\n⚠ Hinweis zwei\n⚠ Hinweis drei\nFEHLER: Cover fehlt bei Titel 9\n'; exit 1; }
     [ "${FAKE_BESTAND:-ok}" = warnzeichen ] && { printf '⚠ Hinweis eins\n⚠ Hinweis zwei\n⚠ Hinweis drei\n  ✗ Netflix-Liste enthält Cartoon-Adressen — 89\n'; exit 1; }
+    # Grüner Lauf mit Warnzeile weit vor den letzten drei Zeilen (tail -3 zeigt sie sonst nicht).
+    [ "${FAKE_BESTAND:-ok}" = adn-warnung ] && { printf '  ⚠ WARNUNG ADN-Titelliste: 2 Serie(n) mit „titelliste-fehlt“\n  ✓ a\n  ✓ b\n  ✓ c\n'; exit 0; }
     # Zeilen mit mehreren Marken: jede steht genau einmal im Grund.
     [ "${FAKE_BESTAND:-ok}" = doppelt-a ] && { printf 'FEHLER: a ✗ ⚠\n✖ b ⚠\n⚠ c\n'; exit 1; }
     [ "${FAKE_BESTAND:-ok}" = doppelt-b ] && { printf '✗ b ⚠\n⚠ c\n'; exit 1; }
@@ -201,6 +203,12 @@ pruefe "Quelle gepusht" ja "$(quelle_gepusht)"
 pruefe "Erzeugnis gepusht" ja "$(im_fernstand public/data/titles.json)"
 pruefe "Quittungen freigegeben" "ja ja nein" "$(frei rohfolgen-abhaken.json) $(frei pruefungen-abhaken.json) $(offen rohfolgen-abhaken.json)"
 pruefe "Übernahme-Stempel gepusht" '{"zuletzt":"neu"}' "$(stempel)"
+
+echo "Bestandsprüfung grün, aber mit „⚠ WARNUNG“-Zeile hinter dem tail -3: der Lauf zeigt sie als ::warning::"
+szenario adnwarnung FAKE_BAU=ok FAKE_BESTAND=adn-warnung
+pruefe "Exit 0, Erzeugnis gepusht" "0 ja" "$CODE $(im_fernstand public/data/titles.json)"
+pruefe "Anmerkung mit dem Text der Warnung" ja "$(grep -q '^::warning::WARNUNG ADN-Titelliste: 2 Serie(n)' "$ARBEIT/adnwarnung/log.txt" && echo ja || echo nein)"
+pruefe "grüner Lauf ohne Warnzeile: keine Anmerkung dazu" nein "$(grep -q 'WARNUNG ADN' "$ARBEIT/gruen/log.txt" && echo ja || echo nein)"
 
 echo "data:build scheitert: rot, Quellen trotzdem gesichert, keine Erzeugnisse"
 szenario aufbau FAKE_BAU=fail

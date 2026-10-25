@@ -202,5 +202,8 @@ try {
   execSync('git rebase --continue', { cwd: wurzel, stdio: 'inherit', env: { ...process.env, GIT_EDITOR: 'true' } })
   console.log(`Konflikt mit einem Bestandslauf gelöst: ${konflikte.join(', ')} neu erzeugt.`)
 }
-execFileSync('bash', ['tools/pr-einreichen.sh', nachricht.split('\n')[0]], { cwd: wurzel, stdio: 'inherit' })
+/* Die Vorprüfung verlangt, dass der PR-Text jede geänderte Datei nennt. */
+const geaendert = execSync('git diff --name-only origin/main...HEAD', { cwd: wurzel, encoding: 'utf8' }).split('\n').filter(Boolean)
+const prText = `${nachricht}\n\nGeänderte Dateien (erzeugt): ${geaendert.map((d) => `\`${d}\``).join(', ')}.`
+execFileSync('bash', ['tools/pr-einreichen.sh', nachricht.split('\n')[0], prText], { cwd: wurzel, stdio: 'inherit' })
 console.log('Als Pull Request eingereicht — Merge nach Freigabe und `node tools/pr-nachrechnen.mjs <PR>` von Hand, danach zeigt die Status-App die Titel.')

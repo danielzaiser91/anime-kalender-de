@@ -8875,7 +8875,7 @@ async function speicherSchreiben(werte) {
      * dem, was belegt ist.
      */
     const keinDeutschDaten = {
-      sollFolgen: Math.max(gesehen.gesamt || 0, lageJetzt.folgenLautSeite || 0),
+      sollFolgen: globalThis.akPrimeSollFolgen(gesehen, lageJetzt.folgenLautSeite, geladen + wegInRegion),
       geladen,
       gesperrt: wegInRegion,
     }
@@ -10087,8 +10087,8 @@ async function speicherSchreiben(werte) {
      * Erweiterung nicht erklären kann, darf sie nicht überstimmen.
      */
     const lautSeite = seitenLage().folgenLautSeite || 0
-    const sollFolgen = Math.max(gesehen.gesamt || 0, lautSeite)
     const gesperrtN = globalThis.akPrimeGesperrteZahl(gesehen.gesperrt, seitenLage().regionFolgen)
+    const sollFolgen = globalThis.akPrimeSollFolgen(gesehen, lautSeite, geladen + gesperrtN)
     const vollstaendig = globalThis.akPrimeMeldungVollstaendig(sollFolgen, geladen, gesperrtN)
 
     /**

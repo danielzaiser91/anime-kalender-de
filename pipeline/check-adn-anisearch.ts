@@ -6,7 +6,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { wortIndex, type AsTitel } from './lib/anisearch-katalog-abgleich.ts'
-import { ordneAdnZuAnisearch, titellisteFrisch, TITELLISTE_MAX_TAGE, type AdnOffen } from './lib/adn-anisearch.ts'
+import { kalenderOhneNetz, ordneAdnZuAnisearch, titellisteFrisch, TITELLISTE_MAX_TAGE, type AdnOffen } from './lib/adn-anisearch.ts'
 import { ordneKatalogZuAnisearch, uebernimmOhneTitelliste } from './lib/adn-zuordnung-lauf.ts'
 import { besterTitel, nameTraegt } from './bau/adn-show-titel.ts'
 import type { AdnShow } from './lib/adn.ts'
@@ -120,6 +120,16 @@ pruefe('„kein-kandidat“ hat keine Kandidaten, „mehrdeutig“ zwei mit glei
   const [a, b] = o.kandidaten
   return Boolean(a && b && a.gleich === b.gleich && a.punkte === b.punkte)
 }))
+
+// Kalenderserien ohne Platz in Katalog und Liste: Fälle (Mutanten: Katalog oder Liste weglassen, Vereinigung statt Schnitt).
+const kal = [{ showId: 1, title: 'A' }, { showId: 2, title: 'B' }, { showId: 3, title: 'C' }, { showId: 4, title: 'D' }]
+pruefe('Kalenderserie nur im Katalog, nur in der Liste, in beiden oder in keinem: nur die in keinem bleibt', JSON.stringify(kalenderOhneNetz(kal, [{ showId: 1 }, { showId: 3 }], [{ showId: 2 }, { showId: 3 }])) === '[{"showId":4,"title":"D"}]', kalenderOhneNetz(kal, [{ showId: 1 }], [{ showId: 2 }]))
+pruefe('Kalenderserien: alles leer ergibt alle, nichts im Kalender ergibt nichts', kalenderOhneNetz(kal, [], []).length === 4 && kalenderOhneNetz([], [{ showId: 1 }], []).length === 0)
+// Der eingecheckte Kalender: Lücken sind erlaubt (Katalog-Lauf hinkt), aber sichtbar. Warnung statt Fehler, weil eine neue Serie bis zum nächsten Lauf fehlen darf.
+const kalenderShows = (JSON.parse(readFileSync('data/adn.json', 'utf8')) as { shows: { showId: number; title: string }[] }).shows
+const luecken = kalenderOhneNetz(kalenderShows, katalog.shows, offen)
+if (luecken.length) console.log(`::warning::ADN-Kalender: ${luecken.length} von ${kalenderShows.length} Serien weder im Katalog noch auf der Liste der offenen: ${luecken.map((s) => `${s.showId} ${s.title}`).join('; ')}`)
+console.log(`check-adn-anisearch: Kalenderserien ohne Katalog und Liste: ${luecken.length}`)
 
 if (fehler) process.exit(1)
 console.log('check-adn-anisearch: ok')

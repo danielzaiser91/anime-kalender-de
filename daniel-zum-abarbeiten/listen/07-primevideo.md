@@ -1,6 +1,6 @@
 # Prime Video: was noch zu prüfen ist
 
-Stand 2026-10-24 · **11 offene Verweise** in **10 Zeilen**.
+Stand 2026-10-25 · **11 offene Verweise** in **10 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).

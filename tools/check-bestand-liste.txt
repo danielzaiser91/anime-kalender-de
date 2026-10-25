@@ -2,6 +2,7 @@
 # Hierher gehört jede Prüfung, die den gebauten Bestand (public/data) liest: check:logic lehnt sie ab (Wächter, tools/check-logic-alle.mjs).
 # Alphabetisch sortiert (check-logic-alle.mjs verlangt es), ein neuer Check kommt an die passende Stelle, nicht ans Ende.
 pipeline/check-adn-film-bestand.ts
+pipeline/check-adn-offen-bestand.ts
 pipeline/check-angebot-bestand.ts
 pipeline/check-anisearch-dubletten-bestand.ts
 pipeline/check-anisearch-katalog-abgleich-bestand.ts

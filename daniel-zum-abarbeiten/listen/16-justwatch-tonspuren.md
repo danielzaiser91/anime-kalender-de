@@ -1,19 +1,18 @@
 # Was JustWatch zu offenen Verweisen sagt
 
-Stand: 2026-10-19. Erzeugt von `npm run data:justwatch`.
+Stand: 2026-10-25. Erzeugt von `npm run data:justwatch`.
 
 **Das sind Kandidaten, keine Belege.** Die Angabe gilt der **Serie**, nicht der
 einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, belegt
 sind acht. Und ein fehlendes `de` belegt nichts: Netflix meldet dort gar keine
 Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
-22 offene Verweise, zu denen JustWatch eine Tonspur nennt.
+20 offene Verweise, zu denen JustWatch eine Tonspur nennt.
 
 | Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |
 |---|---|---|---|---|
 | [Sonic X](https://anime-kalender.de/#/datenbank?t=1816) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sonic-X) |
 | [A Certain Magical Index](https://anime-kalender.de/#/datenbank?t=4654) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en, ja` | [JustWatch](https://www.justwatch.com/de/Serie/Toaru-Majutsu-no-Index) |
-| [Project Itoh: Genocidal Organ](https://anime-kalender.de/#/datenbank?t=20919) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Film/Genocidal-Organ) |
 | [Arpeggio of Blue Steel: Ars Nova - Cadenza](https://anime-kalender.de/#/datenbank?t=20764) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Film/Arpeggio-of-Blue-Steel-Ars-Nova-Cadenza) |
 | [Steins;Gate 0](https://anime-kalender.de/#/datenbank?t=21127) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, ja, pt` | [JustWatch](https://www.justwatch.com/de/Serie/Steins-Gate-0) |
 | [Konosuba: God’s Blessing on This Wonderful World!](https://anime-kalender.de/#/datenbank?t=21202) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/KonoSuba-Gods-blessing-on-this-wonderful-world) |
@@ -21,7 +20,6 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [KonoSuba: God’s Blessing on This Wonderful World! 2](https://anime-kalender.de/#/datenbank?t=21699) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/KonoSuba-Gods-blessing-on-this-wonderful-world) |
 | [Sylvanian Families](https://anime-kalender.de/#/datenbank?t=187052) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sylvanian-Families) |
 | [KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson](https://anime-kalender.de/#/datenbank?t=102976) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, ja, pt` | [JustWatch](https://www.justwatch.com/de/Film/Kono-Subarashii-Sekai-ni-Shukufuku-wo-Kurenai-Densetsu) |
-| [Dorohedoro](https://anime-kalender.de/#/datenbank?t=105228) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, it, ja, pt, th` | [JustWatch](https://www.justwatch.com/de/Serie/Dorohedoro) |
 | [Karakai Jozu no Takagi-san: Staffel 2](https://anime-kalender.de/#/datenbank?t=107068) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, ja, ru` | [JustWatch](https://www.justwatch.com/de/Serie/karakaiShang-Shou-noGao-Mu-san) |
 | [Jujutsu Kaisen 0](https://anime-kalender.de/#/datenbank?t=131573) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, it, ja, pl, pt, ru, th` | [JustWatch](https://www.justwatch.com/de/Film/jujutsu-kaisen-0) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-99777) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, pt, ru` | [JustWatch](https://www.justwatch.com/de/Serie/Onyx-Equinox) |
@@ -36,7 +34,7 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
 ## Titel ganz ohne Bezugsweg
 
-283 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
+281 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
 Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro; das 🇩🇪 sagt,
 dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 
@@ -44,9 +42,7 @@ dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 |---|---|
 | [Drei kleine Geister](https://anime-kalender.de/#/datenbank?t=310) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4ab84d22-8eb7-4a0e-8cc1-9e2146a69910) 🇩🇪, [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4ab84d22-8eb7-4a0e-8cc1-9e2146a69910) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0b279223-d147-465f-9182-6d3ceb7537dd) |
 | [Kuroko’s Basketball - Winter Cup Highlights Movie 1 Shadow and Light](https://anime-kalender.de/#/datenbank?t=102093) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪 |
-| [Grisaia: Phantom Trigger THE ANIMATION - Stargazer](https://anime-kalender.de/#/datenbank?t=120892) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0df363bb-532f-4d75-b429-661c1aa9cf16) 🇩🇪, [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0df363bb-532f-4d75-b429-661c1aa9cf16) 🇩🇪, [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0df363bb-532f-4d75-b429-661c1aa9cf16) 🇩🇪, [Apple TV Store](https://tv.apple.com/de/movie/grisaia-phantom-trigger-the-animation/umc.cmc.culsuxbflsikc2oy86hm1tcp?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv&playableId=tvs.sbd.9001%3A1550346836) 🇩🇪 |
 | [Petals of Reincarnation](https://anime-kalender.de/#/datenbank?t=179950) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b89b927e-502e-4990-97b3-5a0a40e4a24b) |
-| [Detektiv Conan: Der gefallene Engel des Highways](https://anime-kalender.de/#/datenbank?t=198369) | [Cinestar](https://www.cinestar.de/kino-leipzig/veranstaltung-detektiv-conan-film-29-der-gefallene-engel-des-highways-cineanime) |
 | [Mein Bruder, der Minotaurus](https://anime-kalender.de/#/datenbank?t=-316832) | [Apple TV](https://tv.apple.com/de/episode/lorcan-und-der-wahnsinn/umc.cmc.2m341hrww75wvt0oegl05z9kn?at=1000l3V2&ct=app_tvplus&itscg=30200&itsct=justwatch_tv&playableId=tvs.sbd.4000%3AA0018301001&showId=umc.cmc.2xp2k3if93s921ariv5tlhr1p) 🇩🇪, [Apple TV Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d39f0f59-cd40-4995-9636-c3054a0df9af) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-296756) | [HBO Max](https://www.hbomax.com/de/en/show/a3313dd3-2d1f-4072-8525-1434643403a8/s1/e1-pilot/56393299-c6fa-4114-bb75-5d3696391aa4), [HBO Max Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f05f8539-e6cf-4c1b-a39b-68508bd24f5a) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.22e470e0-ce8d-4ce6-baee-88035607079e), [MagentaTV](https://www.magenta.tv/serie/president-curtis/staffel-1/GN_SEASON_33285879_DE_1) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-255760) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.5876a543-a76d-4ff0-bfb5-f4211aba99d8), [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.5876a543-a76d-4ff0-bfb5-f4211aba99d8) |
