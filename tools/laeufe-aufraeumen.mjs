@@ -27,6 +27,7 @@ import { erledigtArgumente, findeRotenLauf, holeLaeufe, holeVerlauf, letzteDaten
 import { rotAlarmText } from './bestand-rot-alarm.mjs'
 import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
 import { eskalationsText } from './wache-eskalation.mjs'
+import { wacheZeilen } from './wache-bilanz.mjs'
 import { fileURLToPath } from 'node:url'
 
 const WORKER = 'https://newsletter.animekalender.workers.dev/lauf'
@@ -111,7 +112,16 @@ async function main() {
   await stillstandMelden()
   const rotZeilen = rotAlarmText(gh, REPO, Date.now()).split('\n')
   for (const zeile of rotZeilen) if (zeile.startsWith('ALARM')) console.log(zeile)
-  for (const zeile of eskalationsText(gesundheitsDatei(), Date.now())) console.log(zeile)
+  const quellenZeilen = eskalationsText(gesundheitsDatei(), Date.now())
+  for (const zeile of quellenZeilen) console.log(zeile)
+  try {
+    await laeufePruefen(erledigt)
+  } finally {
+    for (const zeile of wacheZeilen(rotZeilen, quellenZeilen)) console.log(zeile)
+  }
+}
+
+async function laeufePruefen(erledigt) {
   const { liste, verlauf, meldung } = await holeLaeufe(fetch, WORKER)
   if (meldung) {
     console.error(meldung)
