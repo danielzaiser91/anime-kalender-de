@@ -249,6 +249,7 @@ pipeline/check-titelwechsel.ts
 pipeline/check-tmdb-ablauf.ts
 pipeline/check-tmdb-folgen-auswahl.ts
 pipeline/check-tmdb-folgen-lauf.ts
+pipeline/check-tmdb-folgentitel-absolut.ts
 pipeline/check-tmdb-genre.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
