@@ -23,11 +23,6 @@ export function legeWorktreeAn(haupt, stempel) {
   git(haupt, ['fetch', '-q', 'origin', 'main'])
   git(haupt, ['worktree', 'add', '-q', '-b', zweig, pfad, 'origin/main'])
   const verknuepft = []
-  for (const rel of ['node_modules', join('data', 'cache')]) {
-    if (!existsSync(join(haupt, rel))) continue
-    symlinkSync(join(haupt, rel), join(pfad, rel), 'junction')
-    verknuepft.push(join(pfad, rel))
-  }
   let weg = false
   const aufraeumen = () => {
     if (weg) return
@@ -36,5 +31,31 @@ export function legeWorktreeAn(haupt, stempel) {
     git(haupt, ['worktree', 'remove', '--force', pfad])
     git(haupt, ['branch', '-D', zweig])
   }
+  /* Scheitert eine Junction, bliebe sonst ein Arbeitsbaum samt Zweig ohne Meldung liegen. */
+  try {
+    for (const rel of ['node_modules', join('data', 'cache')]) {
+      if (!existsSync(join(haupt, rel))) continue
+      symlinkSync(join(haupt, rel), join(pfad, rel), 'junction')
+      verknuepft.push(join(pfad, rel))
+    }
+  } catch (fehler) {
+    aufraeumen()
+    throw fehler
+  }
   return { pfad, zweig, aufraeumen }
+}
+
+/**
+ * Hinweis für einen Abbruch nach dem Push, aber vor der PR-Anlage: der Zweig liegt dann auf origin.
+ * Er wird nur gemeldet, nie gelöscht (hängt doch ein PR daran, würde das Löschen ihn schließen). `null`: nichts liegen geblieben.
+ */
+export function restzweigHinweis(cwd, zweig) {
+  let liste = ''
+  try {
+    liste = git(cwd, ['ls-remote', '--heads', 'origin', zweig])
+  } catch {
+    return `Ob der Zweig ${zweig} auf origin liegt, ließ sich nicht prüfen: git ls-remote --heads origin ${zweig}`
+  }
+  if (!liste.trim()) return null
+  return `Zweig ${zweig} liegt auf origin, ohne dass ein Pull Request angelegt wurde (prüfen: gh pr list --head ${zweig}). Löschen: git push origin --delete ${zweig}`
 }

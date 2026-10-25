@@ -8,7 +8,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { legeWorktreeAn } from './erneut-melden-worktree.mjs'
+import { legeWorktreeAn, restzweigHinweis } from './erneut-melden-worktree.mjs'
 
 const git = (cwd, ...args) => execFileSync('git', args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
 const wurzel = mkdtempSync(join(tmpdir(), 'erneut-wt-'))
@@ -73,5 +73,33 @@ assert.ok(!existsSync(join(haupt, '_wt-erneut-melden-20990101000000')), 'nach pr
 assert.equal(git(haupt, 'branch', '--list', 'erneut-melden/*'), '', 'Zweig nach process.exit entfernt')
 assert.deepEqual(stand(), [], 'Hauptordner nach Abbruch unverändert')
 
+/* Junction scheitert (node_modules ist verknüpft, data/cache existiert im Arbeitsbaum schon): Wurf, aber nichts bleibt liegen. */
+mkdirSync(join(zweiter, 'data', 'cache'), { recursive: true })
+writeFileSync(join(zweiter, 'data', 'cache', 'k.txt'), 'k')
+git(zweiter, 'add', '-A')
+git(zweiter, ...persoenlich, 'commit', '-q', '-m', 'cache verfolgt')
+git(zweiter, 'push', '-q', 'origin', 'HEAD:main')
+mkdirSync(join(haupt, 'data', 'cache'), { recursive: true })
+assert.throws(() => legeWorktreeAn(haupt, '20990101000001'), /EEXIST/, 'Junction-Fehlschlag wirft weiter')
+assert.ok(!existsSync(join(haupt, '_wt-erneut-melden-20990101000001')), 'Junction-Fehlschlag: Arbeitsbaum entfernt')
+assert.equal(git(haupt, 'branch', '--list', 'erneut-melden/*'), '', 'Junction-Fehlschlag: Zweig entfernt')
+assert.equal(git(haupt, 'worktree', 'list', '--porcelain').split('\n').filter((z) => z.startsWith('worktree ')).length, 1, 'Junction-Fehlschlag: kein Arbeitsbaum registriert')
+assert.equal(readFileSync(join(haupt, 'node_modules', 'x.txt'), 'utf8'), 'x', 'Junction-Fehlschlag: node_modules des Hauptordners bleibt voll')
+assert.deepEqual(stand(), [], 'Junction-Fehlschlag: Hauptordner unverändert')
+
+/* Restzweig: gemeldet, nie gelöscht. */
+assert.equal(restzweigHinweis(haupt, 'erneut-melden/20990101000002'), null, 'Restzweig: nichts auf origin, kein Hinweis')
+git(haupt, 'push', '-q', 'origin', 'HEAD:refs/heads/erneut-melden/20990101000002')
+const hinweis = restzweigHinweis(haupt, 'erneut-melden/20990101000002')
+assert.match(hinweis, /^Zweig erneut-melden\/20990101000002 liegt auf origin/, 'Restzweig: Hinweis nennt den Zweig')
+assert.ok(hinweis.includes('git push origin --delete erneut-melden/20990101000002'), 'Restzweig: Löschbefehl steht im Hinweis')
+assert.ok(hinweis.includes('gh pr list --head erneut-melden/20990101000002'), 'Restzweig: Prüfbefehl steht im Hinweis')
+assert.match(git(haupt, 'ls-remote', '--heads', 'origin', 'erneut-melden/20990101000002'), /refs\/heads\/erneut-melden\/20990101000002/, 'Restzweig: nach dem Hinweis nicht gelöscht')
+assert.equal(restzweigHinweis(haupt, 'erneut-melden/20990101000003'), null, 'Restzweig: anderer Zweig daneben zählt nicht')
+const ohneOrigin = join(wurzel, 'ohne-origin')
+mkdirSync(ohneOrigin)
+git(ohneOrigin, 'init', '-q')
+assert.match(restzweigHinweis(ohneOrigin, 'erneut-melden/x'), /ließ sich nicht prüfen/, 'Restzweig: Abruffehler wird gemeldet, nicht verschwiegen')
+
 rmSync(wurzel, { recursive: true, force: true })
-console.log('erneut-melden-worktree: alle Fälle grün (Stand origin/main, Hauptordner unberührt, Aufräumen bei Abbruch, zweiter Lauf)')
+console.log('erneut-melden-worktree: alle Fälle grün (Stand origin/main, Hauptordner unberührt, Aufräumen bei Abbruch, zweiter Lauf, Junction-Fehlschlag, Restzweig)')

@@ -37,7 +37,7 @@ datei('tools/extension-offene-amazon.mjs', '')
 datei('tools/extension-offene-disney.mjs', '')
 datei('tools/pruefstand.mjs', `import { appendFileSync } from 'node:fs'\nappendFileSync(process.env.AK_SONDE + '/pruefstand.txt', process.cwd() + '\\n')\n`)
 datei('tools/vor-commit-attrappe.mjs', `import { appendFileSync } from 'node:fs'\nappendFileSync(process.env.AK_SONDE + '/vorcommit.txt', process.cwd() + '\\n')\nprocess.exit(process.env.AK_VC_ROT ? 1 : 0)\n`)
-datei('tools/pr-attrappe.mjs', `import { execFileSync } from 'node:child_process'\nimport { writeFileSync } from 'node:fs'\nwriteFileSync(process.env.AK_SONDE + '/pr-text.txt', process.argv[3] ?? '')\nconst g = (...a) => execFileSync('git', a, { encoding: 'utf8' }).trim()\nwriteFileSync(process.env.AK_SONDE + '/pr.txt', [process.cwd(), g('rev-parse', '--abbrev-ref', 'HEAD'), process.argv[2], g('show', '--name-only', '--format=', 'HEAD')].join('\\n'))\n`)
+datei('tools/pr-attrappe.mjs', `import { execFileSync } from 'node:child_process'\nimport { writeFileSync } from 'node:fs'\nwriteFileSync(process.env.AK_SONDE + '/pr-text.txt', process.argv[3] ?? '')\nconst g = (...a) => execFileSync('git', a, { encoding: 'utf8' }).trim()\nwriteFileSync(process.env.AK_SONDE + '/pr.txt', [process.cwd(), g('rev-parse', '--abbrev-ref', 'HEAD'), process.argv[2], g('show', '--name-only', '--format=', 'HEAD')].join('\\n'))\nif (process.env.AK_PR_FEHL) {\n  g('push', '-q', 'origin', 'HEAD:refs/heads/' + g('rev-parse', '--abbrev-ref', 'HEAD'))\n  process.exit(3)\n}\n`)
 datei('tools/pr-einreichen.sh', '#!/usr/bin/env bash\nexec node tools/pr-attrappe.mjs "$@"\n')
 datei('package.json', JSON.stringify({ name: 'kulisse', private: true, scripts: { 'check:vor-commit': 'node tools/vor-commit-attrappe.mjs' } }))
 datei('public/data/titles.json', JSON.stringify([{ id: 900001, titleDe: 'Testtitel', streams: [{ platform: 'netflix', url: 'https://www.netflix.com/title/900001' }] }]))
@@ -129,6 +129,42 @@ try {
   hauptUnberuehrt('vor-commit rot')
   aufgeraeumt('vor-commit rot')
 
+  /* 4b. PR-Skript scheitert nach dem Push: Exit-Code bleibt, Restzweig wird gemeldet, bleibt auf origin (nie gelöscht), lokal aufgeräumt. */
+  const pushFehl = lauf(['900001'], { AK_PR_FEHL: '1' })
+  assert.equal(pushFehl.status, 3, `PR-Skript scheitert: Exit-Code 3 durchgereicht (${pushFehl.stderr})`)
+  const rest = git(haupt, 'ls-remote', '--heads', 'origin', 'erneut-melden/*')
+  assert.match(rest, /refs\/heads\/erneut-melden\/\d{14}$/, 'PR-Skript scheitert: Zweig liegt weiter auf origin')
+  const restName = rest.split('refs/heads/')[1]
+  assert.ok(pushFehl.stderr.includes(`Zweig ${restName} liegt auf origin`), `PR-Skript scheitert: Hinweis nennt den Zweig (${pushFehl.stderr})`)
+  assert.ok(pushFehl.stderr.includes(`git push origin --delete ${restName}`), 'PR-Skript scheitert: Hinweis nennt den Löschbefehl')
+  hauptUnberuehrt('PR-Skript scheitert')
+  aufgeraeumt('PR-Skript scheitert')
+  git(haupt, 'push', '-q', 'origin', '--delete', restName)
+
+  /* 4c. Erfolg und vor-commit rot lassen keinen Restzweig auf origin. */
+  assert.equal(git(haupt, 'ls-remote', '--heads', 'origin', 'erneut-melden/*'), '', 'sonst: kein Zweig auf origin')
+
+  /* 4d. --neu-erzeugen: arbeitet im aktuellen Ordner, kein Arbeitsbaum, kein Zweig, kein PR, Exit 0. */
+  const neuErz = lauf(['--neu-erzeugen'])
+  assert.equal(neuErz.status, 0, `--neu-erzeugen: Exit 0 (${neuErz.stdout}${neuErz.stderr})`)
+  assert.equal(readFileSync(join(sonde, 'vorcommit.txt'), 'utf8').trim(), haupt, '--neu-erzeugen: check:vor-commit im aktuellen Ordner')
+  assert.ok(!existsSync(join(sonde, 'pr.txt')), '--neu-erzeugen: kein PR')
+  assert.match(neuErz.stdout, /^Neu erzeugt und geprüft — Änderungen liegen im aktuellen Ordner/m, '--neu-erzeugen: Hinweis')
+  assert.equal(git(haupt, 'rev-parse', 'HEAD'), kopf, '--neu-erzeugen: kein Commit')
+  assert.equal(git(haupt, 'branch', '--list', 'erneut-melden/*'), '', '--neu-erzeugen: kein Zweig')
+  assert.equal(git(haupt, 'ls-remote', '--heads', 'origin', 'erneut-melden/*'), '', '--neu-erzeugen: nichts auf origin')
+  assert.deepEqual(readdirSync(haupt).filter((n) => n.startsWith('_wt-erneut-melden-')), [], '--neu-erzeugen: kein Arbeitsbaum')
+  git(haupt, 'checkout', '-q', '--', '.')
+
+  /* 4e. Dasselbe mit einer Kennung dahinter: kein Arbeitsbaum, kein PR (die Kennung zählt bei --neu-erzeugen nicht). */
+  const mitKennung = lauf(['--neu-erzeugen', '900001'])
+  assert.equal(mitKennung.status, 0, `--neu-erzeugen mit Kennung: Exit 0 (${mitKennung.stdout}${mitKennung.stderr})`)
+  assert.equal(readFileSync(join(sonde, 'vorcommit.txt'), 'utf8').trim(), haupt, '--neu-erzeugen mit Kennung: im aktuellen Ordner')
+  assert.ok(!existsSync(join(sonde, 'pr.txt')), '--neu-erzeugen mit Kennung: kein PR')
+  assert.equal(git(haupt, 'rev-parse', 'HEAD'), kopf, '--neu-erzeugen mit Kennung: kein Commit')
+  assert.equal(git(haupt, 'branch', '--list', 'erneut-melden/*'), '', '--neu-erzeugen mit Kennung: kein Zweig')
+  git(haupt, 'checkout', '-q', '--', '.')
+
   /* 5. Ohne Einreichen (--ohne-push) und ohne Kennung: kein Arbeitsbaum. */
   const hilfe = lauf([])
   assert.equal(hilfe.status, 1, 'ohne Kennung: Aufrufhinweis, Exit 1')
@@ -138,4 +174,4 @@ try {
   unlinkSync(join(haupt, 'node_modules'))
   rmSync(wurzel, { recursive: true, force: true })
 }
-console.log('erneut-melden (Prozess): alle Fälle grün (Erfolg im Arbeitsbaum, Wurf, process.exit(1), FEHL mit lokaler Änderung, check:vor-commit rot, pruefstand im Arbeitsbaum, ohne Kennung)')
+console.log('erneut-melden (Prozess): alle Fälle grün (Erfolg im Arbeitsbaum, Wurf, process.exit(1), FEHL mit lokaler Änderung, check:vor-commit rot, PR-Skript scheitert mit Restzweig, --neu-erzeugen ohne Arbeitsbaum, pruefstand im Arbeitsbaum, ohne Kennung)')
