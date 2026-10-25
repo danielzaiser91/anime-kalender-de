@@ -24,7 +24,7 @@
 import { readJson, writeJson, log } from '../lib/util.ts'
 import { crunchyrollSeriesId } from '../lib/crunchyroll.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
-import { addDays } from '../../shared/time.ts'
+import { addDays, toIsoDate } from '../../shared/time.ts'
 import type { Release, Title } from '../../shared/types.ts'
 import { staffelDesTitels } from './widerlegung-staffel.ts'
 
@@ -108,6 +108,7 @@ export function sammleWiderlegungen(
   titles: Map<number, Title>,
   woche: Wochenprogramm,
   gedaechtnis: WiderlegungsGedaechtnis,
+  katalogBelegt: (kennung: string, datum: string) => boolean = () => false,
 ): { anzahl: number; gedaechtnis: WiderlegungsGedaechtnis } {
   const from = woche.wocheAb
   const bis = from ? addDays(from, 6) : ''
@@ -122,6 +123,8 @@ export function sammleWiderlegungen(
     const imFenster = Boolean(from && datum && datum >= from && datum <= bis)
     const heute = imFenster && kennung ? sprachen.get(`${kennung}|${datum}`) : undefined
     if (heute?.has('de')) continue
+    /* Der Dub-Bestand datiert die deutsche Folge selbst: eine Messung schlägt den Plan der Vorschau, auch ein gemerktes Nein. */
+    if (kennung && datum && katalogBelegt(kennung, datum)) continue
     if (widerlegtDurchWoche(heute)) {
       neu[r.slug] = { am: datum!, grund: GRUND, quelle: woche.artikel, gemeldet: warBehauptet(r, title) }
       anzahl++
@@ -204,6 +207,14 @@ export function loeseGeteilteWegeVonWiderlegten(releases: Release[], titles: Map
   return geloest
 }
 
+/** Führt der deutsche Katalog der Serie eine deutsche Folge, die an genau diesem Tag (Europe/Berlin) erschien? */
+export function deutscheFolgeAmTag(crDub: CrDubData, kennung: string, datum: string): boolean {
+  const serie = crDub.serien.find((e) => e.katalog === 'de' && e.seriesId === kennung)
+  return (serie?.staffeln ?? []).some((st) =>
+    (st.deutscheFolgen ?? []).some((f) => f.verfuegbarAb !== undefined && toIsoDate(new Date(f.verfuegbarAb)) === datum),
+  )
+}
+
 /**
  * Widerlegt jeden deutschen Termin aus der Wochenvorschau, trägt das Ergebnis in
  * die Releases und führt das Gedächtnis fort. Gibt die Zahl der **neuen**
@@ -212,12 +223,12 @@ export function loeseGeteilteWegeVonWiderlegten(releases: Release[], titles: Map
 export function widerlegeDeutscheTermine(releases: Release[], titles: Map<number, Title>): number {
   const woche = readJson<Wochenprogramm>('data/crunchyroll-woche.json', {})
   const gedaechtnis = readJson<WiderlegungsGedaechtnis>(DATEI, {})
-  const { anzahl, gedaechtnis: neu } = sammleWiderlegungen(releases, titles, woche, gedaechtnis)
+  const crDub = readJson<CrDubData>('data/crunchyroll-dub.json', { scrapedAt: '', serien: [] })
+  const { anzahl, gedaechtnis: neu } = sammleWiderlegungen(releases, titles, woche, gedaechtnis, (k, d) => deutscheFolgeAmTag(crDub, k, d))
   for (const r of releases) {
     const gemerkt = neu[r.slug]
     if (gemerkt) r.widerlegt = gemerkt
   }
-  const crDub = readJson<CrDubData>('data/crunchyroll-dub.json', { scrapedAt: '', serien: [] })
   loeseGeteilteWegeVonWiderlegten(releases, titles, crDub)
   writeJson(DATEI, neu, true)
   log(`${anzahl} deutsche Termin(e) durch das Wochenprogramm neu widerlegt, ${Object.keys(neu).length} im Gedächtnis`)
