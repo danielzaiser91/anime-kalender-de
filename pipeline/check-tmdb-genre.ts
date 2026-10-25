@@ -140,6 +140,11 @@ function kreislaufGenreFehlt(nachholung: TmdbTitle): void {
   const cache: Record<string, object> = { 1: tv({}), 2: tv({ genreIds: [16] }), 3: tv({ genreIds: [] }), 4: { kind: 'tv', fetchedAt: fern }, 5: tv({}), 6: tv({}) }
   pruefe('frischer Eintrag ohne genreIds ist fällig, mit Genre (auch leerer Liste) oder ohne Kennung nicht, von Hand nie', faelligIds(cache).join() === '1,5', faelligIds(cache))
   pruefe('Nachsuche-Lauf (nur ohne Eintrag) holt sie nicht', faelligIds(cache, { ...opt, nurOhneEintrag: true }).join() === '', faelligIds(cache, { ...opt, nurOhneEintrag: true }))
+  const fristen = { ...opt, grenze: '2000-01-01', grenzeFehlschlag: '2500-01-01' }
+  const alt = { 2: tv({ genreIds: [16], fetchedAt: '2400-01-01' }), 4: { kind: 'tv', fetchedAt: '2400-01-01' } }
+  pruefe('Fehlschlag wartet kürzer als ein Treffer', faelligIds(alt, fristen).join() === '1,3,5,4', faelligIds(alt, fristen))
+  const reihe = { 1: tv({ fetchedAt: '2002-01-01' }), 2: tv({ fetchedAt: '2001-01-01' }), 3: tv({ fetchedAt: '2003-01-01' }), 5: tv({ fetchedAt: '2000-06-01' }) }
+  pruefe('ältester Abruf zuerst', faelligIds(reihe).join() === '4,5,2,1,3', faelligIds(reihe))
   cache[1] = { ...nachholung, fetchedAt: fern }
   pruefe('Kreislauf: nach dem Lauf (lookup trägt genreIds) ist der Titel nicht mehr fällig', faelligIds(cache).join() === '5', faelligIds(cache))
 }
