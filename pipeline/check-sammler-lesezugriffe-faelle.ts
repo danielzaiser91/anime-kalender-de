@@ -6,7 +6,7 @@
 import { spawnSync } from 'node:child_process'
 import { rmSync } from 'node:fs'
 import { join } from 'node:path'
-import { lauf, pruefeZugriffe, sammleFunde, type Zulassung } from './check-sammler-lesezugriffe.ts'
+import { hinweisZeilen, lauf, pruefeZugriffe, sammleFunde, type Zulassung } from './check-sammler-lesezugriffe.ts'
 import { findeLesezugriffe } from './lib/sammler-lesezugriffe.ts'
 import { legeKulisseAn } from './lib/sammler-lesezugriffe-kulisse.ts'
 
@@ -139,7 +139,7 @@ console.log('\nEntscheidung: Liste, Gründe, Zeitfenster')
 const gut = 'ganze Datei als Eingabe, kein fester Schlüssel'
 const zul = (datei: string, liest: string, grund = gut): Zulassung => ({ datei, liest, grund })
 const funde = (...paare: [string, string][]) => new Map(paare.map(([d, z]) => [d, new Set([z])]))
-const fehler = (f: Map<string, Set<string>>, l: Zulassung[]) => pruefeZugriffe(f, l)
+const fehler = (f: Map<string, Set<string>>, l: Zulassung[], u?: Map<string, Set<string>>) => pruefeZugriffe(f, l, u)
 pruefe('gelisteter Zugriff mit Grund: grün', fehler(funde(['pipeline/a.ts', 'data/a.json']), [zul('pipeline/a.ts', 'data/a.json')]).length === 0)
 pruefe('Zugriff ohne Eintrag: rot', fehler(funde(['pipeline/a.ts', 'data/a.json']), []).length === 1)
 pruefe('gleiche Datei, zweite Prüfung ohne Eintrag: rot', fehler(new Map([['pipeline/a.ts', new Set(['data/a.json'])], ['pipeline/b.ts', new Set(['data/a.json'])]]), [zul('pipeline/a.ts', 'data/a.json')]).length === 1)
@@ -190,6 +190,34 @@ const rot = starte(w3)
 const gruen = starte(w1)
 pruefe('Prozess: Exitcode 1 bei Verstoß, Meldung auf stderr', rot.status === 1 && rot.stderr.includes('Zeitfenster'), [rot.status, rot.stderr])
 pruefe('Prozess: Exitcode 0 und Ergebniszeile bei sauberer Kulisse', gruen.status === 0 && gruen.stdout.startsWith('check-sammler-lesezugriffe: 1 Lesezugriffe begründet'), [gruen.status, gruen.stdout, gruen.stderr])
+
+console.log('\nUnbekannte Formen unter tools/: Hinweis, nie rot')
+const ruhig = { ...basis, 'tools/x.test.ts': '' }
+const UNKLAR = `const P_B = 'data/b.json'\nconst P_A = 'data/a.json'\nappendFileSync(P_B, '')\nappendFileSync(P_A, '')`
+const w13 = legeKulisseAn({ ...ruhig, 'tools/q.test.mjs': UNKLAR })
+const r13 = lauf(w13)
+pruefe('„?“ in einem Test unter tools/: kein Fehler, eine Hinweiszeile mit sortierten Zielen', r13.fehler.length === 0 && r13.hinweise.join('|') === '  ? tools/q.test.mjs: data/a.json, data/b.json', [r13.fehler, r13.hinweise])
+const w18 = legeKulisseAn(ruhig)
+pruefe('Hinweis nennt nichts, wenn alles erkannt ist', lauf(w18).hinweise.length === 0, lauf(w18).hinweise)
+const w14 = legeKulisseAn({ ...ruhig, 'tools/q.test.mjs': `const P = 'data/a.json'\nappendFileSync(P, '')\nreadFileSync('data/a.json')`, 'tools/sammler-lesezugriffe.json': JSON.stringify([zul('pipeline/check-a.ts', 'data/a.json'), zul('tools/q.test.mjs', 'data/a.json')]) })
+pruefe('„?“ auf ein Ziel, das dieselbe Datei sicher liest: kein Hinweis', lauf(w14).hinweise.length === 0 && lauf(w14).fehler.length === 0, [lauf(w14).hinweise, lauf(w14).fehler])
+const w15 = legeKulisseAn({ ...ruhig, 'tools/q.test.mjs': `const P = 'data/a.yaml'\nconst Q = 'data/b-von-hand.json'\nappendFileSync(P, '')\nappendFileSync(Q, '')` })
+pruefe('„?“ auf Handdateien: kein Hinweis', lauf(w15).hinweise.length === 0, lauf(w15).hinweise)
+const w16 = legeKulisseAn({ ...ruhig, 'tools/q.test.mjs': `readFileSync('data/e.json')\nconst P = 'data/c.json'\nappendFileSync(P, '')` })
+pruefe('sicheres Lesen bleibt rot, ein „?“ daneben steht nur im Hinweis', lauf(w16).fehler.length === 1 && lauf(w16).fehler[0]!.includes('data/e.json') && lauf(w16).hinweise.join() === '  ? tools/q.test.mjs: data/c.json', [lauf(w16).fehler, lauf(w16).hinweise])
+const w17 = legeKulisseAn({ ...ruhig, 'pipeline/check-b.ts': `const DATEI = 'data/b.json'` })
+pruefe('„?“ in einer Prüfung unter pipeline/ ist weiter ein Fehler, kein Hinweis', lauf(w17).fehler.length === 1 && lauf(w17).hinweise.length === 0, [lauf(w17).fehler, lauf(w17).hinweise])
+const veraltet = [zul('tools/q.test.mjs', 'data/a.json')]
+const mitHinweis = fehler(new Map(), veraltet, new Map([['tools/q.test.mjs', new Set(['data/a.json'])]]))
+pruefe('veralteter Eintrag mit „?“ auf demselben Ziel: weiter rot, Text nennt die unbekannte Form', mitHinweis.length === 1 && mitHinweis[0]!.includes('veraltet') && mitHinweis[0]!.includes('unbekannter Form'), mitHinweis)
+const fremd = fehler(new Map(), veraltet, new Map([['tools/q.test.mjs', new Set(['data/z.json'])], ['tools/r.test.mjs', new Set(['data/a.json'])]]))
+pruefe('„?“ auf anderes Ziel oder in anderer Datei: derselbe Fehler ohne Zusatz', fremd.length === 1 && !fremd[0]!.includes('unbekannter Form'), fremd)
+const viele = (n: number) => new Map([['tools/v.test.mjs', new Set(Array.from({ length: n }, (_, i) => `data/z${i}.json`))]])
+pruefe('Hinweis: genau drei Ziele ohne Zusatz, vier mit „(+1)“, sieben mit „(+4)“', hinweisZeilen(viele(3))[0] === '  ? tools/v.test.mjs: data/z0.json, data/z1.json, data/z2.json' && hinweisZeilen(viele(4))[0]!.endsWith('data/z2.json (+1)') && hinweisZeilen(viele(7))[0]!.endsWith('(+4)'), [hinweisZeilen(viele(3)), hinweisZeilen(viele(4)), hinweisZeilen(viele(7))])
+const hinweisLauf = starte(w13)
+pruefe('Prozess: Exitcode 0, Ergebniszeile zuerst, dann Hinweis auf stdout', hinweisLauf.status === 0 && hinweisLauf.stdout.startsWith('check-sammler-lesezugriffe:') && hinweisLauf.stdout.includes('Hinweis (kein Fehler): 1 Tests unter tools/') && hinweisLauf.stdout.includes('  ? tools/q.test.mjs: data/a.json, data/b.json') && hinweisLauf.stderr === '', [hinweisLauf.status, hinweisLauf.stdout, hinweisLauf.stderr])
+pruefe('Prozess: saubere Kulisse druckt keinen Hinweis', !starte(w18).stdout.includes('Hinweis'))
+for (const w of [w13, w14, w15, w16, w17, w18]) rmSync(w, { recursive: true, force: true })
 for (const w of [w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12]) rmSync(w, { recursive: true, force: true })
 
 if (verletzt) {
