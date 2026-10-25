@@ -4,7 +4,7 @@
  *
  * Cartoons schaltet nur der Schnellfilter (Filter `kw`/`xkw` in der Adresse). Gemessen wird: Das Zahnrad steht
  * bei 393 px in der Tab-Leiste, der Dialog geht auf, enthält die Thema-Zeile und keine Cartoon-Zeile; am
- * Rechner (1280 px) gibt es kein Zahnrad, weil der Dialog dort nichts enthielte.
+ * Rechner (1280 px) steht es in der Kopfleiste, der Dialog enthält „Empfehlungen zurücksetzen“ (seit #1931).
  *
  * Aufruf: `node tools/einstellungen-bild.mjs` · `npm run check:einstellungen`
  */
@@ -82,7 +82,11 @@ for (const thema of ['dunkel', 'hell']) {
 
   await seite.setViewportSize({ width: 1280, height: 900 })
   await seite.waitForTimeout(400)
-  pruefe(`1280 px: kein Zahnrad (${thema})`, (await sichtbareZahnraeder()) === 0)
+  pruefe(`1280 px: genau ein Zahnrad (${thema})`, (await sichtbareZahnraeder()) === 1)
+  await seite.getByRole('button', { name: 'Einstellungen' }).locator('visible=true').click()
+  await dialog.waitFor({ state: 'visible', timeout: 10_000 })
+  pruefe(`1280 px: Dialog enthält „Empfehlungen zurücksetzen“ (${thema})`, /Empfehlungen zurücksetzen/.test(await dialog.innerText()))
+  await seite.keyboard.press('Escape')
 }
 
 await browser.close()
