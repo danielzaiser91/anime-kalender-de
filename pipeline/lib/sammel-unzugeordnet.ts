@@ -18,11 +18,12 @@ export interface NichtZugeordnet {
   quelle: string
 }
 
-export function unzugeordnet(sammelVorschlaege: Vorschlag[], neueReleases: Release[]): NichtZugeordnet[] {
+export function unzugeordnet(sammelVorschlaege: Vorschlag[], neueReleases: Release[], abgedeckt: Vorschlag[] = []): NichtZugeordnet[] {
   const behandelt = new Set(neueReleases.map((r) => r.herkunft ?? ''))
   return sammelVorschlaege
     .filter((v) => v.dub === 'zugesagt' && (v.dates ?? []).some((d) => d.iso))
     .filter((v) => ![...behandelt].some((h) => h.includes(v.articleTitle)))
+    .filter((v) => !abgedeckt.includes(v))
     .map((v) => ({
       titel: v.articleTitle.replace(/^»|«.*$/g, ''),
       artikel: v.articleUrl,
@@ -33,8 +34,10 @@ export function unzugeordnet(sammelVorschlaege: Vorschlag[], neueReleases: Relea
 }
 
 /** Schreibt die Liste neben die übrigen Vorschläge und nennt sie im Log. */
-export function schreibeUnzugeordnet(sammelVorschlaege: Vorschlag[], neueReleases: Release[]): void {
-  const liste = unzugeordnet(sammelVorschlaege, neueReleases)
+export function schreibeUnzugeordnet(sammelVorschlaege: Vorschlag[], neueReleases: Release[], abgedeckt: Vorschlag[] = []): void {
+  const liste = unzugeordnet(sammelVorschlaege, neueReleases, abgedeckt)
+  const ausgenommen = unzugeordnet(sammelVorschlaege, neueReleases).filter((e) => !liste.some((l) => l.artikel === e.artikel && l.titel === e.titel))
+  if (ausgenommen.length) log(`${ausgenommen.length} Sammelartikel-Meldungen belegt schon ein Termin des Titels beim Anbieter — nicht in der Liste: ${ausgenommen.map((e) => `${e.titel} (${e.anbieter.join('/')})`).join(' | ')}`)
   writeJsonStand('data/proposals/nicht-zugeordnet.json', { stand: todayIso(), eintraege: liste }, 'stand', true)
   if (liste.length) log(`${liste.length} Sammelartikel-Meldungen mit deutschem Ton keinem Titel zugeordnet (data/proposals/nicht-zugeordnet.json)`)
 }

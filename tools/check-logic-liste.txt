@@ -229,6 +229,7 @@ pipeline/check-rohfolgen-cartoons.ts
 pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
+pipeline/check-sammel-unzugeordnet.ts
 pipeline/check-sammelartikel.ts
 pipeline/check-sammler-lesezugriffe-faelle.ts
 pipeline/check-sammler-lesezugriffe.ts

@@ -457,6 +457,8 @@ export function releasesAus(
   vorhanden: Release[],
   heute: string,
   verworfen?: string[],
+  /** Meldungen, deren Titel und Anbieter schon ein Termin belegt (Handeintrag, Crunchyroll, früherer Treffer): kein neuer Termin, aber auch nicht „nicht zugeordnet“. */
+  abgedeckt?: Vorschlag[],
 ): Release[] {
   const belegt = belegteTermine(vorhanden)
   const out: Release[] = []
@@ -491,7 +493,10 @@ export function releasesAus(
 
     const platform = anbieterDerMeldung(v)
     if (!platform) continue
-    if (istBelegt(belegt, treffer.id, platform, tag, v.articleUrl)) continue
+    if (istBelegt(belegt, treffer.id, platform, tag, v.articleUrl)) {
+      abgedeckt?.push(v)
+      continue
+    }
     belegeTermin(belegt, treffer.id, platform, tag)
 
     const art = artDerMeldung(v, platform, treffer)
