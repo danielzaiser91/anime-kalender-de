@@ -191,7 +191,7 @@ function eventRow(ctx: RowContext, ev: ReleaseEvent, highlight: boolean): string
       ${highlight ? '<span style="color:#fbbf24;">★</span> ' : ''}<a href="${escapeHtml(
         calendarUrl(ctx, ev),
       )}" style="color:#fff;text-decoration:none;"><strong>${escapeHtml(ev.name)}</strong></a>${badge(ev)}<br>
-      <span style="color:#9aa5bd;font-size:13px;">${[escapeHtml(time), escapeHtml(episode), platformPart, ev.estimated ? 'geschätzt' : '', kalenderLink(calendarUrl(ctx, ev))]
+      <span style="color:#9aa5bd;font-size:13px;">${[escapeHtml(time), escapeHtml(episode), platformPart, ev.estimated && !ev.time ? 'geschätzt' : '', kalenderLink(calendarUrl(ctx, ev))]
         .filter(Boolean)
         .join(' · ')}</span>
     </td>

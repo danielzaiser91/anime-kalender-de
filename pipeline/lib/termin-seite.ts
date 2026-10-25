@@ -202,7 +202,7 @@ export function body(
       const wann = `${weekdayName(e.date)}, ${formatDate(e.date)}`
       const zeit = e.time ? ` um ${zeitMitMarke(e, '≈ ')} Uhr` : ''
       const folge = anzeigeFolge(e) ? `Folge ${e.episode}${e.episodeCount ? ` von ${e.episodeCount}` : ''}: ` : ''
-      const abgeleitet = e.estimated ? ' (Termin abgeleitet)' : ''
+      const abgeleitet = e.estimated && !e.time ? ' (Termin abgeleitet)' : ''
       return `<li>${esc(`${folge}${wann}${zeit}${abgeleitet}`)}</li>`
     })
     .join('\n        ')

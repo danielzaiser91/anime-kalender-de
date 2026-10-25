@@ -20,6 +20,7 @@ import { zeichneKarte, type KartenDaten } from './lib/og-karte.ts'
 import { zeichneStandard } from './lib/og-standard-bild.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
 import { terminKopf } from './lib/og-termin.ts'
+import { SCHAETZ_DATEI, liesSchaetzListe, neuWegenSchaetzung, schreibSchaetzListe } from './lib/og-schaetz.ts'
 import { mussNeuZeichnen, standardKarte, standardKennung } from './lib/og-standard.ts'
 
 const OUT_DIR = resolve(ROOT, 'public/og')
@@ -87,16 +88,18 @@ async function main(): Promise<void> {
 
   // --- Ein Bild je Release --------------------------------------------------
   let written = 0
+  const schaetzDatei = resolve(OUT_DIR, SCHAETZ_DATEI)
+  const mitSchaetzung = liesSchaetzListe(existsSync(schaetzDatei) ? readFileSync(schaetzDatei, 'utf8') : undefined)
   for (const release of releases) {
     const file = resolve(OUT_DIR, `${release.slug}.jpg`)
-    if (NUR ? !NUR.has(release.slug) : !FORCE && existsSync(file)) continue
+    const events = expandEvents(release)
+    const kopf = terminKopf(release, events, today) ?? { datum: '', folge: '', fakt: '' }
+    const schonGezeichnet = existsSync(file) && !neuWegenSchaetzung(kopf.fakt, release.slug, mitSchaetzung)
+    if (NUR ? !NUR.has(release.slug) : !FORCE && schonGezeichnet) continue
 
     const title = titleById.get(release.titleId)
-    const events = expandEvents(release)
     const type = RELEASE_TYPES[release.releaseType]
     const status = releaseStatus(release, today)
-
-    const kopf = terminKopf(release, events, today) ?? { datum: '', folge: '', fakt: '' }
 
     const badges: KartenDaten['badges'] = [
       { text: PLATFORMS[release.platform].name, color: PLATFORMS[release.platform].color },
@@ -111,9 +114,11 @@ async function main(): Promise<void> {
       file,
     )
     written++
+    if (kopf.fakt.includes('≈')) mitSchaetzung.add(release.slug)
   }
 
   log(`${written} Vorschaubilder erzeugt, ${releases.length} Releases insgesamt`)
+  if (!NUR) writeFileSync(schaetzDatei, schreibSchaetzListe(mitSchaetzung))
   if (!NUR) writeFileSync(FASSUNG_DATEI, `${FASSUNG}\n`)
 }
 

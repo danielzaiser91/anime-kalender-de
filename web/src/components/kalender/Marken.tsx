@@ -12,7 +12,7 @@ const ZEIT_PILLE = 'rounded-md bg-[rgba(13,15,20,.85)] px-1.5 py-0.5 text-xs fon
 function ZeitMarkeJetzt({ event, t, angabe }: { event: ReleaseEvent; t: Translate; angabe: KachelAngabe }) {
   return (
     <>
-      <span className={ZEIT_PILLE}>{angabe.seit ? t('kal.seit', { zeit: angabe.seit }) : event.time}</span>
+      <span className={ZEIT_PILLE}>{angabe.seit ? t('kal.seit', { zeit: angabe.seit }) : zeitMitMarke(event, '≈ ')}</span>
       {angabe.in && <span className={ZEIT_PILLE}>{angabe.in}</span>}
     </>
   )

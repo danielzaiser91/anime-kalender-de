@@ -4,6 +4,7 @@ import { addDays, berlinToUtc, toIcsStamp } from './time.ts'
 import { istAusgeblieben } from './logic.ts'
 import { premiereHinweis } from './premiere.ts'
 import { fasseFolgenZusammen } from './ics-folgen.ts'
+import { zeitGeschaetzt } from './zeit-text.ts'
 
 const PRODID = '-//anime-kalender-de//Anime-Kalender DE//DE'
 
@@ -102,7 +103,7 @@ export function eventDescription(ev: ReleaseEvent, opts: IcsOptions = {}): strin
   if (ev.sprache) lines.push(SPRACHE_HINWEIS[ev.sprache])
   if (ev.premiere || ev.tvPremiere) lines.push(premiereHinweis(ev.platform, ev.premiereVorher))
   if (!ev.time) lines.push('Uhrzeit noch nicht bestätigt.')
-  if (ev.timeEstimated) lines.push(ev.platform === 'netflix' ? 'Uhrzeit voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.' : 'Uhrzeit voraussichtlich, nicht gemessen.')
+  if (ev.time && zeitGeschaetzt(ev)) lines.push(ev.timeEstimated && ev.platform === 'netflix' ? 'Uhrzeit voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.' : 'Uhrzeit voraussichtlich, nicht gemessen.')
   if (ev.estimated)
     lines.push('Geschätzter Termin: kein vom Anbieter genannter Tag, sondern aus Rhythmus oder Originalterminen abgeleitet.')
   if (opts.siteUrl) lines.push(`Details: ${opts.siteUrl.replace(/\/$/, '')}/t/${opts.titelId?.(ev.titleId) ?? ev.titleId}/`)
