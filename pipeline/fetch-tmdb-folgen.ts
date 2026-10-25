@@ -21,19 +21,25 @@
  * immer eingefroren — derselbe Fehler, den `scrape-crunchyroll-dub.ts` und
  * `fetch-anisearch.ts` am 15.08.2026 gekostet haben. Vorgabe sind 30 Tage;
  * abgeschlossene Staffeln ändern sich nicht mehr, laufende schon. Laufende Serien mit einer
- * erschienenen Folge ohne echten Titel kommen schon nach 7 Tagen wieder, vor den übrigen
+ * erschienenen Folge ohne echten Titel kommen schon nach 6 Tagen wieder, vor den übrigen
  * (`lib/tmdb-folgen-auswahl.ts`).
  *
- * Aufruf: `npx tsx pipeline/fetch-tmdb-folgen.ts [--limit N] [--alter TAGE]`
+ * **Lückentitel** (`lib/tmdb-folgen-luecke.ts`): Titel mit Folgen im belegt deutschen Bereich ohne deutschen Titel und ohne Eintrag
+ * kommen zuerst dran, auch ohne Anbieter. Der Bau übernimmt daraus nur Titel, die nicht englisch und kein „Folge N" sind (`folgentitel-tmdb.ts`).
+ * TMDB-Grenze (developer.themoviedb.org/docs/rate-limiting, 24.10.2026): Obergrenze ≈ 40 Anfragen/s, 429 beachten; hier 120 ms Pause ≈ 8/s.
+ *
+ * Aufruf: `npx tsx pipeline/fetch-tmdb-folgen.ts [--limit N] [--alter TAGE] [--nur-luecke]`
  */
 import { loadEnv, fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
-import { waehleFaellige } from './lib/tmdb-folgen-auswahl.ts'
+import { dubLuecke, waehleAbrufe, type FolgenDatei } from './lib/tmdb-folgen-luecke.ts'
 
 const args = process.argv.slice(2)
 const LIMIT = Number(args[args.indexOf('--limit') + 1]) || 400
+/** Probelauf: nur Titel mit Lücke im Dub-Bereich ohne Eintrag, z. B. `--nur-luecke --limit 20`. */
+const NUR_LUECKE = args.includes('--nur-luecke')
 const ALTER_TAGE = Number(args[args.indexOf('--alter') + 1]) || 30
 
 const BASE = 'https://api.themoviedb.org/3'
@@ -89,19 +95,17 @@ async function main(): Promise<void> {
   const bestand = readJson<Record<string, Eintrag>>('data/tmdb-folgen.json', {})
 
   /*
-    Nur Serien, und nur solche mit Verweis: Ein Titel ohne Anbieter braucht keine
-    Zuordnungshilfe, und ein Film hat keine Folgenliste. Das hält die Zahl der
-    Abrufe an der Sache statt am Katalog.
+    Nur Serien mit Verweis, kein Film. Regulär kommen nur Titel mit Anbieter dran (Zuordnungshilfe);
+    Titel mit Lücke im deutschen Folgenbereich ohne Eintrag holt `waehleAbrufe` zusätzlich, auch ohne Anbieter.
   */
-  const kandidaten = titles
-    .filter((t) => (t.streams ?? []).length > 0)
-    .filter((t) => (t.episodes ?? 0) > 1)
+  const alle = titles
     .map((t) => ({ t, id: String(t.id), tmdb: tmdbTitles[String(t.id)] }))
     .filter((x) => x.tmdb?.tmdbId && x.tmdb.kind !== 'movie')
 
-  const offen = waehleFaellige(kandidaten, bestand, todayIso(), ALTER_TAGE, LIMIT)
+  const luecke = (id: string): number => dubLuecke(readJson<FolgenDatei | undefined>(`public/data/folgen/${id}.json`, undefined))
+  const offen = waehleAbrufe({ alle, bestand, heute: todayIso(), alterTage: ALTER_TAGE, limit: LIMIT, nurLuecke: NUR_LUECKE, luecke })
 
-  log(`${offen.length} Titel mit Folgenbedarf (Grenze ${ALTER_TAGE} Tage, höchstens ${LIMIT})`)
+  log(`${offen.length} Titel mit Folgenbedarf (Grenze ${ALTER_TAGE} Tage, höchstens ${LIMIT}${NUR_LUECKE ? ', nur Lückentitel' : ''})`)
 
   let geholt = 0
   let folgenGesamt = 0
@@ -145,6 +149,7 @@ async function main(): Promise<void> {
       geholt++
       folgenGesamt += folgen.length
     } catch (err) {
+      // Kein Eintrag bei Fehlschlag: ein dauerhaft scheiternder Lückentitel belegt jede Woche einen Platz im Riegel (docs/wissen/folgentitel-quellen.md).
       warn(`TMDB ${id} (${t.titleRomaji ?? t.id}): ${(err as Error).message}`)
     }
     await sleep(120)
