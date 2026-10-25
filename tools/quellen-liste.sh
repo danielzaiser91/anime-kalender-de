@@ -128,6 +128,8 @@ QUELLEN=(
   data/kanal-widerspruch.json
   data/meldungs-auffaelligkeiten.json
   data/tmdb-folgen.json
+  # Titel, für die TMDB beim Folgenabruf 404 antwortete: erst nach der Altersgrenze wieder gewählt (kein Folgeneintrag).
+  data/tmdb-folgen-404.json
   # Titelliste je Cartoon aus TMDB, für die Zuordnung von Meldungen über den Folgentitel (11.10.2026).
   data/cartoon-folgen.json
   data/anbieter-vorschlaege.json

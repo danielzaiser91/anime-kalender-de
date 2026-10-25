@@ -27,7 +27,7 @@ const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/cs
 const EIN_PUNKT = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64')
 const voll = (name) => JSON.parse(readFileSync(path.join(DIST, 'data', name), 'utf8'))
 
-const PROXY = `
+export const PROXY = `
 window.__gelesen = {}
 const merke = (pfad) => { window.__gelesen[pfad] = (window.__gelesen[pfad] || 0) + 1 }
 const umhuelle = (objekt, pfad) => {
@@ -39,6 +39,14 @@ const umhuelle = (objekt, pfad) => {
       if (Array.isArray(ziel)) return typeof wert === 'object' && wert ? umhuelle(wert, pfad) : wert
       merke(pfad + '.' + name)
       return typeof wert === 'object' && wert ? umhuelle(wert, pfad + '.' + name) : wert
+    },
+    has(ziel, name) {
+      if (typeof name === 'string' && !Array.isArray(ziel)) merke(pfad + '.' + name)
+      return Reflect.has(ziel, name)
+    },
+    getOwnPropertyDescriptor(ziel, name) {
+      if (typeof name === 'string' && !Array.isArray(ziel)) merke(pfad + '.' + name)
+      return Reflect.getOwnPropertyDescriptor(ziel, name)
     },
     ownKeys(ziel) {
       merke(pfad + '#keys')
@@ -60,6 +68,9 @@ export function wochenTage(von) {
   return [tag(0), tag(14), tag(42)]
 }
 
+/** Die Kachel-Datei behält von jeder Sendung nur `start` (`releaseKachel`). */
+const sendungFeldWeg = (pfad) => pfad.startsWith('release.sendungen.') && pfad.slice('release.sendungen.'.length).split('.')[0] !== 'start'
+
 /** Gelesene Pfade, die auf einer Abzugsliste stehen (`title.titleDe`, `title.streams.url`, `release.sources` …). */
 export function verlorene(pfade) {
   const regeln = [
@@ -68,7 +79,7 @@ export function verlorene(pfade) {
     ['title.streams.', STREAM_OHNE],
     ['title.watchLinks.', WATCHLINK_OHNE],
   ]
-  return pfade.filter((pfad) => regeln.some(([vorsatz, liste]) => pfad.startsWith(vorsatz) && liste.includes(pfad.slice(vorsatz.length).split('.')[0])))
+  return pfade.filter((pfad) => sendungFeldWeg(pfad) || regeln.some(([vorsatz, liste]) => pfad.startsWith(vorsatz) && liste.includes(pfad.slice(vorsatz.length).split('.')[0])))
 }
 
 async function bedienen(seite) {

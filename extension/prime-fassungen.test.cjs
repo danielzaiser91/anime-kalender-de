@@ -62,7 +62,11 @@ pruefe('Entitled ohne Beleg bleibt neutral, nicht Prime', neutral?.kaufart === '
 const mitLogo = modul.akPrimeFassungenLesen(knoten(mitMeldung('B01HRLV328', '', true)), eigen({ art: 'kauf' }))
 pruefe('Entitled mit Kanal-Logo ist Kanal', mitLogo.find((f) => f.kennung === 'B01HRLV328')?.kaufart === 'kanal', mitLogo)
 const logoVorText = modul.akPrimeFassungenLesen(knoten(mitMeldung('B01HRLV328', 'Mit Prime ansehen', true, 'Unentitled')), eigen({ art: 'kauf' }))
-pruefe('das Kanal-Logo gilt vor dem Wort Prime', logoVorText.find((f) => f.kennung === 'B01HRLV328')?.kaufart === 'kanal', logoVorText)
+pruefe('das Kanal-Logo gilt vor dem Wort Prime, wenn kein Abo besteht (Unentitled)', logoVorText.find((f) => f.kennung === 'B01HRLV328')?.kaufart === 'kanal', logoVorText)
+const channelsText = modul.akPrimeFassungenLesen(knoten(mitMeldung('B01HRLV328', 'Prime Video Channels', true, 'Unentitled')), eigen({ art: 'kauf' }))
+pruefe('Unentitled mit Kanal-Logo und „Prime Video Channels“ ist Kanal', channelsText.find((f) => f.kennung === 'B01HRLV328')?.kaufart === 'kanal', channelsText)
+const aboLogo = modul.akPrimeFassungenLesen(knoten(mitMeldung('B01HRLV328', 'In Prime enthalten.', true, 'Entitled')), eigen({ art: 'kauf' }))
+pruefe('Entitled mit Prime-Text und Logo ist Prime (Kaufseite B01HRLV328)', aboLogo.find((f) => f.kennung === 'B01HRLV328')?.kaufart === 'prime', aboLogo)
 const primeAbo = modul.akPrimeFassungenLesen(knoten(mitMeldung('B01HRLV328', 'Im Prime-Abo enthalten', false, 'Unentitled')), eigen({ art: 'kauf' }))
 pruefe('„Prime-Abo“ ist Prime, nicht Kanal', primeAbo.find((f) => f.kennung === 'B01HRLV328')?.kaufart === 'prime', primeAbo)
 

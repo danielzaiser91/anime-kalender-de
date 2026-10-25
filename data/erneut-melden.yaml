@@ -543,4 +543,11 @@
 - { anilistId: 163270, platform: primevideo, seit: '2026-10-13', grund: "Kanal-Nachmessung: altes Ja nur aus Amazons Kanal-Angabe, ohne Gegenprobe mit Deutsch (12.10.2026)", kanal: true, vorrang: 2 }
 - { anilistId: 166521, platform: primevideo, seit: '2026-10-13', grund: "Kanal-Nachmessung: altes Ja nur aus Amazons Kanal-Angabe, ohne Gegenprobe mit Deutsch (12.10.2026)", kanal: true, vorrang: 2 }
 - { anilistId: 176508, platform: primevideo, seit: '2026-10-13', grund: "Kanal-Nachmessung: altes Ja nur aus Amazons Kanal-Angabe, ohne Gegenprobe mit Deutsch (12.10.2026)", kanal: true, vorrang: 2 }
+- { anilistId: 199, platform: netflix, seit: '2026-10-25', grund: "Quellen nennen zwei Netflix-Kennungen (Datensatz/AniList, aniSearch, JustWatch): Seite von Hand öffnen und melden, 25.10.2026" }
+- { anilistId: 572, platform: netflix, seit: '2026-10-25', grund: "Quellen nennen zwei Netflix-Kennungen (Datensatz/AniList, aniSearch, JustWatch): Seite von Hand öffnen und melden, 25.10.2026" }
+- { anilistId: 7711, platform: netflix, seit: '2026-10-25', grund: "Quellen nennen zwei Netflix-Kennungen (Datensatz/AniList, aniSearch, JustWatch): Seite von Hand öffnen und melden, 25.10.2026" }
+- { anilistId: 101597, platform: netflix, seit: '2026-10-25', grund: "Quellen nennen zwei Netflix-Kennungen (Datensatz/AniList, aniSearch, JustWatch): Seite von Hand öffnen und melden, 25.10.2026" }
+- { anilistId: 112625, platform: netflix, seit: '2026-10-25', grund: "Quellen nennen zwei Netflix-Kennungen (Datensatz/AniList, aniSearch, JustWatch): Seite von Hand öffnen und melden, 25.10.2026" }
+- { anilistId: 135643, platform: netflix, seit: '2026-10-25', grund: "Quellen nennen zwei Netflix-Kennungen (Datensatz/AniList, aniSearch, JustWatch): Seite von Hand öffnen und melden, 25.10.2026" }
+- { anilistId: 100876, platform: netflix, seit: '2026-10-25', grund: "Quellen nennen zwei Netflix-Kennungen (Datensatz/AniList, aniSearch, JustWatch): Seite von Hand öffnen und melden, 25.10.2026" }
 - { anilistId: 195539, platform: netflix, seit: '2026-10-25', grund: "Netflix-Kennung korrigiert (PR 1945)" }

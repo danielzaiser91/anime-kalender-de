@@ -7,6 +7,7 @@ import { baueNews, type NewsHistorie } from './lib/news.ts'
 import { vergissAlte } from './lib/news-einfrieren.ts'
 import { felderAenderungen, festSchluessel, haltFelderFest, type FesteFelder } from './lib/news-felder-fest.ts'
 import type { DatiertNews } from './lib/news-verlauf.ts'
+import { festeUhr } from '../tools/feste-uhr.ts'
 
 let fehler = 0
 let faelle = 0
@@ -17,19 +18,19 @@ function pruefe(name: string, ok: boolean, ist?: unknown): void {
   console.error(`FEHLER: ${name}`, ist === undefined ? '' : JSON.stringify(ist))
 }
 
-const FELDER = ['hinweis', 'anbieter', 'kanal', 'geschaetzt', 'jahre', 'discSeitText'] as const
+const FELDER = ['hinweis', 'anbieter', 'kanal', 'geschaetzt', 'jahre', 'discSeitText', 'omu'] as const
 const historie = (felder?: Record<string, FesteFelder>): NewsHistorie => ({ zuerst: {}, ...(felder ? { felder } : {}) })
 const titelOb = { id: 1 } as Title
 const lebend = (extra: Partial<NewsMeldung> = {}, schluessel = 'angekuendigt:r-1:2099-01-01'): DatiertNews =>
   ({ art: 'angekuendigt', platform: 'netflix', release: 'r-1', datum: '2099-01-01', am: '2026-10-01', titel: titelOb, schluessel, ...extra }) as DatiertNews
 const K = 'angekuendigt:r-1:2099-01-01'
-const voll: Partial<NewsMeldung> = { hinweis: 'H1', anbieter: 'A1', kanal: 'K1', geschaetzt: true, jahre: 14, discSeitText: '4 Monaten' }
-const anders: Partial<NewsMeldung> = { hinweis: 'H2', anbieter: 'A2', kanal: 'K2', geschaetzt: false, jahre: 15, discSeitText: '5 Monaten' }
+const voll: Partial<NewsMeldung> = { hinweis: 'H1', anbieter: 'A1', kanal: 'K1', geschaetzt: true, jahre: 14, discSeitText: '4 Monaten', omu: 'synchro-offen' }
+const anders: Partial<NewsMeldung> = { hinweis: 'H2', anbieter: 'A2', kanal: 'K2', geschaetzt: false, jahre: 15, discSeitText: '5 Monaten', omu: 'synchro-angekuendigt' }
 
 /* 1. Die Weiche: erster Stand wird festgehalten; jedes Feld einzeln gekippt (anderer Wert, weg, neu) bleibt beim ersten Stand. */
 const h1 = historie()
 const erst = haltFelderFest(h1, [lebend(voll)], [])
-pruefe('Erster Bau: alle sechs Felder werden festgehalten', JSON.stringify(h1.felder?.[K]) === JSON.stringify(voll) && erst[0]!.hinweis === 'H1', h1.felder)
+pruefe('Erster Bau: alle sieben Felder werden festgehalten', JSON.stringify(h1.felder?.[K]) === JSON.stringify(voll) && erst[0]!.hinweis === 'H1', h1.felder)
 for (const f of FELDER) {
   const kippt = haltFelderFest(historie({ [K]: { ...voll } }), [lebend({ ...voll, [f]: anders[f] })], [])[0]!
   pruefe(`${f}: anderer Wert wird auf den ersten Stand zurückgesetzt`, kippt[f] === voll[f] && FELDER.every((g) => kippt[g] === voll[g]), kippt)
@@ -195,6 +196,26 @@ pruefe(
   felderAenderungen(mit({ ...voll, teilId: 7 }, { titelId: 1 }), mit({ ...voll, hinweis: 'X', teilId: 7 }, { titelId: 99 })).length === 1 &&
     felderAenderungen(mit({ ...voll, teilId: 7 }, { titelId: 1 }), mit({ ...voll, hinweis: 'X', teilId: 8 }, { titelId: 1 })).length === 0,
 )
+
+/* 8. omu im echten Bau (feste Uhr 2026-10-25): die Meldung von gestern behält ihr omu, eine neue nimmt den heutigen Wert; die 400-Tage-Grenze des Gedächtnisses. */
+const omuTitel = (id: number, synchro: 'angekuendigt' | 'offen'): Title =>
+  ({ ...titel(id, {}), ankuendigung: { platform: 'crunchyroll', omuAb: '2026-11-01', synchro, quellen: ['https://example.org/omu'], stand: '2026-10-20' } }) as unknown as Title
+const omuBau = (h: NewsHistorie, ts: Title[], vorherige: NewsEintrag[] = []): NewsMeldung[] =>
+  baueNews([], [], [], [], h, vorherige, ts).flatMap((e) => e.meldungen.filter((m) => m.omu !== undefined))
+const stopUhr = festeUhr('2026-10-25T12:00:00Z')
+const ho = historie()
+const omu1 = omuBau(ho, [omuTitel(7, 'angekuendigt')])
+pruefe('Bau 1: omu vom heutigen Stand', omu1.length === 1 && omu1[0]!.omu === 'synchro-angekuendigt', omu1)
+const omu2 = omuBau(ho, [omuTitel(7, 'offen'), omuTitel(8, 'offen')])
+pruefe('Bau 2: die Meldung von gestern behält ihr omu, wenn sich die Auskunft ändert', omu2.filter((m) => m.omu === 'synchro-angekuendigt').length === 1, omu2)
+pruefe('Bau 2: die neue Meldung bekommt den aktuellen Wert', omu2.filter((m) => m.omu === 'synchro-offen').length === 1, omu2)
+const omu3 = omuBau(historie(), [omuTitel(7, 'offen')], baueNews([], [], [], [], historie(), [], [omuTitel(7, 'angekuendigt')]))
+pruefe('Neues Gedächtnis: der ausgelieferte Stand aus news.json gilt', omu3.length === 1 && omu3[0]!.omu === 'synchro-angekuendigt', omu3)
+const hg = historie({ 'a:1': {}, 'b:1': {}, 'c:1': {} })
+hg.zuerst = { 'a:1': '2025-09-19', 'b:1': '2025-09-20', 'c:1': '2025-09-21' }
+baueNews([], [], [], [], hg, [])
+pruefe('Gedächtnis: 401 Tage alt fällt heraus, genau 400 und 399 bleiben', JSON.stringify(Object.keys(hg.zuerst)) === JSON.stringify(['b:1', 'c:1']) && JSON.stringify(Object.keys(hg.felder ?? {})) === JSON.stringify(['b:1', 'c:1']), hg)
+stopUhr()
 
 console.log(`check-news-felder-fest: ${faelle} Zusicherungen, ${fehler} Fehler`)
 process.exit(fehler ? 1 : 0)

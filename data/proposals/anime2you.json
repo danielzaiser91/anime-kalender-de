@@ -1,14 +1,69 @@
 {
-  "scrapedAt": "2026-10-25T05:03:08.782Z",
+  "scrapedAt": "2026-10-25T14:03:09.444Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 19,
-    "schon in einem Rubrik-Feed gelesen": 4,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 17,
+    "schon in einem Rubrik-Feed gelesen": 5,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "Neue »My Happy Marriage«-Folgen ab sofort auf Netflix verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1063685/my-happy-marriage-special-ab-sofort-auf-netflix/",
+      "publishedAt": "2026-10-25",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "hinweis": "sprache",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zweite »Blue Box«-Staffel legt Pause vor fünfter Episode ein",
+      "articleUrl": "https://www.anime2you.de/news/1063658/blue-box-staffel-2-pause/",
+      "publishedAt": "2026-10-25",
+      "category": "allgemein",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-01",
+          "context": "ie fünfte Episode der zweiten Staffel wird nicht wie zuvor geplant am 1. November 2026, sondern erst am 8. November 2026 in Japan ausgestrah"
+        },
+        {
+          "iso": "2026-11-08",
+          "context": "fel wird nicht wie zuvor geplant am 1. November 2026, sondern erst am 8. November 2026 in Japan ausgestrahlt sowie bei Netflix mit deutscher"
+        }
+      ],
+      "dub": "ja",
+      "pause": "pause",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Anime Night« auf ProSieben MAXX kehrt verkürzt zurück",
+      "articleUrl": "https://www.anime2you.de/news/1063716/prosieben-maxx-anime-night-kehrt-verkuerzt-zurueck/",
+      "publishedAt": "2026-10-25",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-06",
+          "context": "erkürzter Form. Wir fassen zusammen. Rückkehr im November 2026 Ab dem 6. November 2026 setzt ProSieben MAXX freitags ab ungefähr 23:20 Uhr d"
+        },
+        {
+          "month": "2026-11",
+          "context": "hr – allerdings nur in verkürzter Form. Wir fassen zusammen. Rückkehr im November 2026 Ab dem 6. November 2026 setzt ProSieben MAXX freitags"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Anime-Neuheiten im November 2026 auf DVD und Blu-ray",
       "articleUrl": "https://www.anime2you.de/news/1062132/disc-neuheiten-november-2026/",
