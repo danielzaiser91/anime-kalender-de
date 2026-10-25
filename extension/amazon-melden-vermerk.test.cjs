@@ -35,7 +35,7 @@ function globaleLaden(k) {
 }
 
 /** Erste Seite: der Klick auf „melden“, Antwort des Workers ist ok. Der Speicher bleibt in `speicher`. */
-async function meldenAufSeite(speicher, uhr, staffel = 's1', tabErledigt = {}) {
+async function meldenAufSeite(speicher, uhr, staffel = 's1', { folgen = 12, start = {} } = {}) {
   const k = vm.createContext({ Date: uhr.Date, String, Number, Boolean, Object, JSON, Math, Set })
   globaleLaden(k)
   const knopf = knopfNeu()
@@ -45,7 +45,7 @@ async function meldenAufSeite(speicher, uhr, staffel = 's1', tabErledigt = {}) {
     meldeSperre: { mitSperre: (f) => f, vermerken: () => {} },
     verbindungLebt: () => true,
     standGeladen: true,
-    erledigt: tabErledigt,
+    erledigt: start,
     listenId: LISTEN_ID,
     liste: { [LISTEN_ID]: { url: TITEL } },
     location: { pathname: '/gp/video/detail/B0GXC6GGH6' },
@@ -53,7 +53,7 @@ async function meldenAufSeite(speicher, uhr, staffel = 's1', tabErledigt = {}) {
     staffelZahl: () => 1,
     seitenTitel: () => 'Mission Mars',
     deutschInFolgen: () => true,
-    geladeneFolgen: () => 12,
+    geladeneFolgen: () => folgen,
     sprachenAusFolgen: () => ['Deutsch'],
     seitenLage: () => ({ folgenLautSeite: 12 }),
     gesehen: { gesamt: 12, jeFolge: null },
@@ -119,12 +119,48 @@ async function aelteremTab() {
     [LISTEN_ID]: { staffeln: { s1: '✓', s2: '🇩🇪' }, folgen: { s1: 20, s2: 9 }, gesamt: 4, serie: 'Mission Mars' },
   }
   const alterTab = { [LISTEN_ID]: { staffeln: { s1: '✓' }, folgen: { s1: 5 }, gesamt: 2, serie: 'Mission Mars' } }
-  await meldenAufSeite(speicher, uhrNeu(FEST), 's1', alterTab)
+  await meldenAufSeite(speicher, uhrNeu(FEST), 's1', { start: alterTab })
   const v = speicher.inhalt.amazonErledigt?.[LISTEN_ID]
   pruefe('älterer Tab verdrängt gesamt nicht (4 bleibt)', v?.gesamt === 4, v?.gesamt)
   pruefe('fremde Staffel-Folgenzahl bleibt (s2 = 9)', v?.folgen?.s2 === 9, v?.folgen)
   pruefe('eigene Meldung gewinnt bei derselben Staffel (s1 = 12)', v?.folgen?.s1 === 12, v?.folgen)
   pruefe('fremder Befund s2 bleibt', v?.staffeln?.s2 === '🇩🇪', v?.staffeln)
+}
+
+/** Zwei Tabs melden nacheinander s1 und s2 (je mit leerem Eigenstand): beide Vermerke stehen getrennt im Speicher. */
+async function zweiTabs(erst, dann) {
+  const speicher = speicherNeu()
+  const uhr = uhrNeu(FEST)
+  const folgenVon = { s1: 12, s2: 7 }
+  await meldenAufSeite(speicher, uhr, erst, { folgen: folgenVon[erst] })
+  await meldenAufSeite(speicher, uhr, dann, { folgen: folgenVon[dann] })
+  const v = speicher.inhalt.amazonErledigt?.[LISTEN_ID]
+  const name = `zwei Tabs (${erst}, dann ${dann})`
+  pruefe(`${name}: beide Staffeln stehen im Vermerk`, v?.staffeln?.s1 === '🇩🇪' && v?.staffeln?.s2 === '🇩🇪', v?.staffeln)
+  pruefe(`${name}: Folgenzahlen getrennt`, v?.folgen?.s1 === 12 && v?.folgen?.s2 === 7, v?.folgen)
+  pruefe(`${name}: genau zwei Staffeln`, Object.keys(v?.staffeln ?? {}).length === 2, v?.staffeln)
+}
+
+/** Der Speicher kennt, was ein anderer Tab meldete; der eigene Tab, was noch nicht geschrieben ist: beides bleibt. */
+async function beideRichtungen() {
+  const speicher = speicherNeu()
+  speicher.inhalt.amazonErledigt = {
+    [LISTEN_ID]: { staffeln: { s1: '✕', s3: '✕' }, folgen: { s3: 4 }, gesamt: 5, serie: 'Mission Mars', titel: 'Mission Mars (Liste)' },
+    NUR_SPEICHER: { staffeln: { s1: '🇩🇪' }, gesamt: 1 },
+  }
+  const start = {
+    [LISTEN_ID]: { staffeln: { s1: '🇩🇪' }, folgen: { s1: 12 }, gesamt: 2, serie: 'Mission Mars' },
+    NUR_TAB: { staffeln: { s1: '✕' }, gesamt: 1 },
+  }
+  await meldenAufSeite(speicher, uhrNeu(FEST), 's2', { folgen: 7, start })
+  const alle = speicher.inhalt.amazonErledigt
+  const v = alle?.[LISTEN_ID]
+  pruefe('beide Richtungen: s1 (nur im Tab), s2 (neu), s3 (nur im Speicher)', v?.staffeln?.s1 === '🇩🇪' && v?.staffeln?.s2 === '🇩🇪' && v?.staffeln?.s3 === '✕', v?.staffeln)
+  pruefe('beide Richtungen: Folgenzahlen aus Tab und Meldung', v?.folgen?.s1 === 12 && v?.folgen?.s2 === 7, v?.folgen)
+  pruefe('beide Richtungen: Feld nur im Speicher (titel) bleibt erhalten', v?.titel === 'Mission Mars (Liste)', v?.titel)
+  pruefe('beide Richtungen: bei Streit um s1 gilt der Tab (spätere Meldung), nicht der Speicher', v?.staffeln?.s1 === '🇩🇪', v?.staffeln)
+  pruefe('beide Richtungen: Kennung nur im Speicher bleibt', alle?.NUR_SPEICHER?.staffeln?.s1 === '🇩🇪', alle)
+  pruefe('beide Richtungen: Kennung nur im Tab bleibt', alle?.NUR_TAB?.staffeln?.s1 === '✕', alle)
 }
 
 async function main() {
@@ -150,6 +186,9 @@ async function main() {
 
   await zweiteStaffel()
   await aelteremTab()
+  await zweiTabs('s1', 's2')
+  await zweiTabs('s2', 's1')
+  await beideRichtungen()
 
   if (fehler.length) {
     console.error(`\n${fehler.length} Zusicherung(en) verletzt`)

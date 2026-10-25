@@ -1,0 +1,71 @@
+{
+  "_quelle": "Ausschnitt aus der gespeicherten Seite Amazon.de Fischen Impossible Uncut (B01MSMV5MA), 24.10.2026; nur der Abschnitt Weitere Versionen verfügbar, nur gelesene Felder.",
+  "init": {
+    "path": "/detail/B01MSMV5MA",
+    "preparations": {
+      "body": {
+        "btf": {
+          "state": {
+            "containers": {
+              "B01MQJZG9B": [
+                {
+                  "containerType": "VariantCarousel",
+                  "title": "Weitere Versionen verfügbar",
+                  "entities": [
+                    {
+                      "titleID": "B0GVNJRZCM",
+                      "title": "Fischen Impossible",
+                      "releaseYear": "2011",
+                      "runtime": "1 Std. 25 Min.",
+                      "variantMessages": [
+                        "Originalversion"
+                      ],
+                      "entitlementCues": {
+                        "entitlementType": "Unentitled",
+                        "focusMessage": {
+                          "icon": "OFFER_ICON",
+                          "message": "Gratiszeitraum"
+                        },
+                        "glanceMessage": {
+                          "icon": "OFFER_ICON",
+                          "message": "Gratiszeitraum"
+                        },
+                        "providerLogo": {
+                          "imageUrl": "https://m.media-amazon.com/images/G/03/digital/video/merch/subs/benefit-id/g-l/kixi/logos/channels-logo-white._CB579371211_.png",
+                          "logoScalarHorizontal": "emphasis"
+                        }
+                      }
+                    },
+                    {
+                      "titleID": "B01HRLV328",
+                      "title": "Fischen Impossible [dt./OV]",
+                      "releaseYear": "2011",
+                      "runtime": "1 Std. 29 Min.",
+                      "variantMessages": [
+                        "Alternative Audiosprache"
+                      ],
+                      "entitlementCues": {
+                        "entitlementType": "Unentitled",
+                        "focusMessage": {
+                          "icon": "OFFER_ICON",
+                          "message": "Kaufen oder leihen"
+                        },
+                        "glanceMessage": {
+                          "icon": "OFFER_ICON",
+                          "message": "Kaufen oder leihen"
+                        },
+                        "providerLogo": {
+                          "message": ""
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
