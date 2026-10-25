@@ -26,6 +26,7 @@ assert.equal(kettenUrteil(liste('cancelled', 'skipped')), 'rot')
 assert.equal(kettenUrteil({}), 'rot')
 assert.equal(kettenUrteil(undefined), 'rot')
 assert.equal(kettenUrteil({ a: {} }), 'rot')
+assert.equal(kettenUrteil({ a: null }), 'rot')
 
 const SKRIPT = resolve(import.meta.dirname, 'kette-urteil.mjs')
 function lauf(needs) {
@@ -45,4 +46,4 @@ assert.match(rot.aus, /^kette-urteil: rot$/m)
 assert.equal(lauf(liste('success', 'cancelled')).code, 1)
 assert.equal(lauf(undefined).code, 1, 'ohne NEEDS rot')
 
-console.log('kette-urteil.test: 14 Listenfälle, 5 Prozessfälle ok')
+console.log('kette-urteil.test: 16 Listenfälle, 5 Prozessfälle ok')
