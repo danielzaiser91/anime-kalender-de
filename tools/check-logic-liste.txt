@@ -161,6 +161,7 @@ pipeline/check-nein-handbeleg-cr.ts
 pipeline/check-nein-handbeleg-datum.ts
 pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts
+pipeline/check-netflix-quellen.ts
 pipeline/check-netflix-staffel-ablauf.ts
 pipeline/check-netflix-staffeln.ts
 pipeline/check-netflix-umleitung-ablauf.ts
