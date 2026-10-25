@@ -3,7 +3,7 @@
  * (die Belegstärke zählt sie als mittlere Quelle). Kennungen ab 900000, feste Uhr.
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-motn-uebernahme.ts`
  */
-import type { PlatformId, Title } from '../shared/types.ts'
+import type { PlatformId, Release, Title } from '../shared/types.ts'
 import type { MotnBeleg } from './lib/motn.ts'
 import { LEER, laufendSchluessel, type MotnBestand, type MotnDaten } from './lib/motn.ts'
 import { uebernehmeMotnBelege, werteMotnAus } from './bau/09-5-1-motn-uebernahme.ts'
@@ -67,6 +67,10 @@ console.log('\nMotn-Übernahme: der ganze Weg von der Quelle zum Vermerk (Onmyoj
   const onmyoji = neuerTitel()
   const mit = lauf({ ...LEER, shows: quelle }, onmyoji)
   pruefe('Serie der Quelle wird zugeordnet: dub:true und genau ein Vermerk', onmyoji.streams[0]?.dub === true && mit.motnBelege === 1 && mit.motnTon.has(motnTonSchluessel(900120, 'https://n/onmyoji')), [...mit.motnTon])
+  const laufendeStaffel = neuerTitel()
+  const release = { titleId: 900120, platform: 'netflix', slug: 'x', schedule: { firstEpisodeDate: HEUTE, episodeCount: 13 } } as unknown as Release
+  const laeuft = werteMotnAus({ motn: { ...LEER, shows: quelle }, tmdbTitles: {}, titles: new Map([[900120, laufendeStaffel]]), releases: [release], heute: HEUTE })
+  pruefe('läuft die Staffel bei Netflix gerade, bleibt der Verweis ohne Urteil', laufendeStaffel.streams[0]?.dub === undefined && laeuft.motnTon.size === 0, [...laeuft.motnTon])
   const ohneKatalog = neuerTitel()
   const ohne = lauf(LEER, ohneKatalog)
   pruefe('ohne Serien im Katalog: nichts gesetzt, kein Vermerk', ohneKatalog.streams[0]?.dub === undefined && ohne.motnBelege === 0 && ohne.motnTon.size === 0, [...ohne.motnTon])
