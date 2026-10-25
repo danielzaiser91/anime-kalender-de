@@ -10,13 +10,13 @@ export function bewerteEigeneHandlungen(
   eintraege: EigeneHandlung[],
   titel: Set<number>,
   ausgeliefert: (id: number) => Synopse | undefined,
-): { fehler: string[]; hinweise: string[] } {
+): { fehler: string[]; hinweise: number[] } {
   const fehler: string[] = []
-  const hinweise: string[] = []
+  const hinweise: number[] = []
   for (const e of eintraege) {
     const s = ausgeliefert(e.id)
     if (!titel.has(e.id)) fehler.push(`Eigene Handlung ${e.id}: Titel nicht im Bestand`)
-    else if (s?.de && !s.eigen) hinweise.push(`Eigene Handlung ${e.id}: der Bestand führt einen Text aus einer Quelle`)
+    else if (s?.de && !s.eigen) hinweise.push(e.id)
   }
   return { fehler, hinweise }
 }

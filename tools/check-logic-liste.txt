@@ -72,6 +72,7 @@ pipeline/check-daten-adressen.ts
 pipeline/check-daten-kennung.ts
 pipeline/check-db-relevanz.ts
 pipeline/check-detektiv-funde.ts
+pipeline/check-deutsche-folgenzahl-hinweis.ts
 pipeline/check-deutsche-folgenzahl.ts
 pipeline/check-disc-verschiebung-staffel.ts
 pipeline/check-disney-gesamtnummer.ts

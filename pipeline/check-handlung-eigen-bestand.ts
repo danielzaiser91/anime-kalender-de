@@ -7,6 +7,7 @@ import { readJson } from './lib/util.ts'
 import { zurueckgestellt } from './lib/quarantaene.ts'
 import { ladeEigeneHandlungen } from './lib/handlung-eigen.ts'
 import { bewerteEigeneHandlungen } from './lib/handlung-eigen-bestand.ts'
+import { bestandWarnzeile } from './lib/bestand-warnzeile.ts'
 
 type Synopse = { de?: string; eigen?: unknown }
 
@@ -19,7 +20,7 @@ const titel = new Set(readJson<Title[]>('public/data/titles.json', []).map((t) =
 for (const id of zurueckgestellt().ids) titel.add(id) // zurückgestellt (Quarantäne), nicht verloren
 const { fehler, hinweise } = bewerteEigeneHandlungen(ladeEigeneHandlungen(), titel, ausgeliefert)
 
-if (hinweise.length) console.log(`::warning::${hinweise.length} überholte Einträge in data/handlung-eigen.yaml (Quelle gewinnt, bei Gelegenheit löschen):\n${hinweise.join('\n')}`)
+if (hinweise.length) console.log(bestandWarnzeile('Eigene Handlung', 'überholt (Quelle gewinnt, in data/handlung-eigen.yaml bei Gelegenheit löschen)', hinweise))
 if (fehler.length) {
   console.error(`FEHLER: ${fehler.length} verwaiste Einträge in data/handlung-eigen.yaml — löschen:\n${fehler.join('\n')}`)
   process.exit(1)
