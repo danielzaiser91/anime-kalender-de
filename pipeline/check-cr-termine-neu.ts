@@ -183,6 +183,20 @@ pruefe('ein Titel ohne Jahr gilt nicht als der jüngste', ohneJahr.raus.length =
 const jahrGleichIdUnten = lauf(aristocrat, [ariTitel[0]!, titel(185756, `${ariName} Season 2`, 2026, ARI, true, 12), titel(178434, `${ariName} Season 3`, 2026, ARI, true)])
 pruefe('gleiches Jahr, niedrigere Kennung trägt „Season 3“: die höhere (Season 2) ist die jüngste, nicht eindeutig', jahrGleichIdUnten.raus.length === 0, jahrGleichIdUnten)
 
+/* --- Überlebende der ersten Mutationsrunde --- */
+const abEins = lauf(nurDrei([[1, '2026-10-16T15:00:00Z'], [2, '2026-10-23T15:00:00Z']]), drei12)
+pruefe('laufende Staffel ab Folge 1 (wie „Das Band der Unterwelt“): 12 erwartet, Ende offen, Folgen 1 und 2', abEins.raus[0]?.episodeCount === 12 && abEins.raus[0]?.lastEpisodeDate === undefined && JSON.stringify(abEins.raus[0]?.beobachtet) === '{"1":"2026-10-16","2":"2026-10-23"}', abEins.raus[0])
+const alteErste = lauf(nurDrei([[49, '2026-09-25T15:00:00Z'], [50, '2026-10-23T15:00:00Z']]), drei12)
+pruefe('erste Folge 30 Tage alt, letzte frisch: laufend (es zählt die jüngste)', alteErste.raus.length === 1 && alteErste.raus[0]?.episodeCount === 12, alteErste)
+const mitLuckeAlt = lauf(serie(AP, [['Die Tagebücher der Apothekerin Staffel 3', 4, 4, [[1, '2024-01-07T15:00:00Z'], [2, '2024-01-14T15:00:00Z'], [3, '2024-01-21T15:00:00Z'], [5, '2024-01-28T15:00:00Z']]]]), [titel(195516, 'The Apothecary Diaries Season 3', 2023, AP, true, 4)])
+pruefe('Block 1, 2, 3, 5 bei 4 Folgen: Nummer 5 liegt über der Folgenzahl, keine Beobachtung', mitLuckeAlt.raus.length === 1 && JSON.stringify(mitLuckeAlt.raus[0]?.beobachtet) === '{}', mitLuckeAlt.raus[0])
+const netflixGleicheAdresse = lauf(aristocrat, [ariTitel[0]!, ariTitel[1]!, fremderNein(185756, `${ariName} Season 3`, 2026, [{ platform: 'crunchyroll', url: ARI }, { platform: 'netflix', url: ARI, dub: false }])])
+pruefe('ein Nein bei Netflix unter derselben Adresse schließt den Crunchyroll-Titel nicht aus', netflixGleicheAdresse.raus.length === 1, netflixGleicheAdresse)
+const ohneJahrVorn = lauf(aristocrat, [{ ...ariTitel[2]!, jpYear: undefined } as Title, ariTitel[0]!, ariTitel[1]!])
+pruefe('Titel ohne Jahr steht in der Liste vorn: gilt trotzdem nicht als jüngster', ohneJahrVorn.raus.length === 0, ohneJahrVorn)
+const ohneJahrMitte = lauf(aristocrat, [ariTitel[0]!, { ...ariTitel[2]!, jpYear: undefined } as Title, ariTitel[1]!])
+pruefe('Titel ohne Jahr in der Mitte: gilt trotzdem nicht als jüngster', ohneJahrMitte.raus.length === 0, ohneJahrMitte)
+
 /* --- Standardzeit und Durchreichen: nie die echte Uhr im Erwartungswert, nur Fernzukunft und Fernvergangenheit --- */
 const dreiBloecke = (letzterTag: string, jahr: number) => ({
   serie: serie(ARI, [['Staffel 1', 12, 12, wochen('1999-04-28T15:00:00Z', 12)], ['Staffel 2', 12, 12, wochen('1999-10-20T15:00:00Z', 12)], ['Staffel 3', 1, 4, [[1, letzterTag]]]]),
@@ -193,6 +207,7 @@ pruefe('ohne eingespeiste Zeit gilt die echte: ein Block von 2001 ist nicht fris
 const fern = dreiBloecke('2999-12-30T15:00:00Z', 2000)
 pruefe('ohne eingespeiste Zeit gilt die echte: ein Block von 2999 ist frisch', termineAusSerie(fern.serie, fern.titel).length === 1)
 const durch = alleTermine([alt2001.serie], new Map([[ARI, alt2001.titel]]), Date.parse('2001-01-10T12:00:00Z'))
+pruefe('alleTermine ohne Zeit: echte Uhr, 2001 alt und 2999 frisch', alleTermine([alt2001.serie], new Map([[ARI, alt2001.titel]])).length === 0 && alleTermine([fern.serie], new Map([[ARI, fern.titel]])).length === 1)
 pruefe('alleTermine reicht die Zeit durch: 5 Tage nach der Folge von 2001 ist der Block frisch', durch.length === 1 && durch[0]?.titleId === 3, durch)
 
 /* --- Bestehendes: geht die Paarung auf, ändert sich nichts --- */
