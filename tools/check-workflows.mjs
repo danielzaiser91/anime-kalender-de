@@ -22,6 +22,8 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { parse } from 'yaml'
+import { OHNE_BEFUND } from './oder-true-ausnahmen.mjs'
+import { pruefe as pruefeOderTrue, sammleFunde } from './oder-true-wache.mjs'
 
 const DIR = resolve(process.cwd(), '.github/workflows')
 let fehler = 0
@@ -546,6 +548,12 @@ for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml'))) {
     fehler++
   }
 }
+
+for (const meldung of pruefeOderTrue(process.cwd())) {
+  console.error(meldung)
+  fehler++
+}
+console.log(`✓ oder-true: ${OHNE_BEFUND.length} Ausnahmen, ${sammleFunde(process.cwd()).length} Treffer`)
 
 if (fehler) {
   console.error(`\n${fehler} Problem(e) in den Workflow-Dateien.`)
