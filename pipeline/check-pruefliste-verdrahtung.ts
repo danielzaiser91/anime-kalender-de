@@ -49,6 +49,7 @@ try {
     allTitles: [mitBereich, ohneBereich],
     releases: [],
     kanalJeAdresse: new Map(),
+    motnTon: new Set(),
     anisearch: {},
     tmdbTitles: {},
     mitStimmen: new Set(),

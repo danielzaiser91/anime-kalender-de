@@ -12,7 +12,19 @@ import { ROOT, log } from './util.ts'
  * Stark: Synchronkartei-Eintrag, Anbieter-Tonspur (darin der Handbeleg aus `dub-confirmed.yaml`). Mittel: TV-Programmdaten, aniSearch-Marke
  * „Synchronisiert", Synchron-Forum-Liste (Stand 24.12.2023, 09.10.2026). Schwach (MyDubList, AniList-Sprecher, Händler) hebt nie über `low`.
  */
-export type Belegsignale = { handbelegt: ReadonlySet<number>; kartei: ReadonlySet<number>; tv: ReadonlySet<number>; forum: ReadonlySet<number> }
+export type Belegsignale = {
+  handbelegt: ReadonlySet<number>
+  kartei: ReadonlySet<number>
+  tv: ReadonlySet<number>
+  forum: ReadonlySet<number>
+  /** Streams, deren `dub: true` nur aus der Streaming-Availability-API stammt (`motnTonSchluessel`); fehlt = keine. */
+  motnTon?: ReadonlySet<string>
+}
+
+/** Schlüssel eines Streams für `Belegsignale.motnTon`. */
+export function motnTonSchluessel(titleId: number, platform: string): string {
+  return `${titleId}:${platform}`
+}
 
 type Kette = Pick<Title, 'id' | 'streams' | 'deErstausgabe'>
 
@@ -90,8 +102,8 @@ export function zaehleBelegte(titel: Pick<Title, 'dubConfidence' | 'westlich' | 
 }
 
 /** Alle Titel mit der Stufe aus ihren Quellen; die Eingabe bleibt unverändert. */
-export function mitBelegstaerke<T extends Kette & Pick<Title, 'dubConfidence'>>(titel: T[], releases: Release[]): (T & Pick<Title, 'einzelquelle'>)[] {
-  const signale = ladeBelegsignale(releases)
+export function mitBelegstaerke<T extends Kette & Pick<Title, 'dubConfidence'>>(titel: T[], releases: Release[], motnTon: ReadonlySet<string>): (T & Pick<Title, 'einzelquelle'>)[] {
+  const signale = { ...ladeBelegsignale(releases), motnTon }
   return titel.map((t) => {
     const dubConfidence = belegstaerke(t, signale)
     /* Die alte Stufe (`low` = eine MyDubList-Stimme) steuert weiter „erschienen“ und „ohne belegte Synchro“; das Feld steht nur, wo sie von der neuen abweicht. */

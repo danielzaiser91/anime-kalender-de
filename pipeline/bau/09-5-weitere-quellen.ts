@@ -12,6 +12,7 @@ import {
   tmdbZuordnung,
   uebernehmbar,
 } from '../lib/motn.ts'
+import { motnTonSchluessel } from '../lib/belegstaerke.ts'
 import { todayIso } from '../../shared/time.ts'
 import { staffelnDesFranchise, passtZuSerie, bewerteTreffer, volltreffer, type AdnData } from '../lib/adn.ts'
 import { adnAdresseSchaerfen, adnFolgenAdresse, ladeAdnArchiv, beurteileAdnVerweis } from '../lib/adn-sprachen.ts'
@@ -197,6 +198,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
   const motn = readJson<MotnDaten>('data/motn.json', MOTN_LEER)
   const heuteMotn = todayIso()
   let motnBelege = 0
+  const motnTon = new Set<string>()
   if (Object.keys(motn.shows ?? {}).length) {
     /**
      * Läuft zu diesem Titel bei diesem Anbieter gerade etwas?
@@ -223,6 +225,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
       const stream = titles.get(beleg.titleId)?.streams.find((s) => s.platform === beleg.platform)
       if (!stream || stream.dub !== undefined) continue
       stream.dub = true
+      motnTon.add(motnTonSchluessel(beleg.titleId, beleg.platform))
       motnBelege++
     }
     log(
@@ -620,5 +623,5 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
     // zu denen niemand die Tonspur belegt. Sie bleiben unangetastet.
   }
   if (ohneDeutsch) log(`${ohneDeutsch} Verweise ohne deutsche Synchro entfernt`)
-  return { adnArchiv, adnStreamSchaerfen, motnBelege }
+  return { adnArchiv, adnStreamSchaerfen, motnBelege, motnTon }
 }
