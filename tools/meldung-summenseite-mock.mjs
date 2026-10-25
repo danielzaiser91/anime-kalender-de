@@ -3,6 +3,7 @@
 // Titel 2 (12 Folgen): nur Folge 14–25, also gar keine eigene. Titel 3 (12 Folgen): Meldung ohne Folgennummer. Titel 4 (12 Folgen): 1–14, also um 2 drüber: bleibt. Titel 5: 1–15, um 3 drüber: gekappt.
 import fs from 'node:fs'
 import { syncBuiltinESMExports } from 'node:module'
+import { baueFetchAttrappe, istMeldungsabruf, meldungsAntwort } from './fetch-attrappe.mjs'
 
 const seite = (n) => `https://www.amazon.de/gp/video/detail/B0TESTSUMME${n}`
 const titel = (id, episodes) => ({ id, titleDe: `Summen-Titel ${id}`, episodes, streams: [{ platform: 'primevideo', url: seite(id) }] })
@@ -39,11 +40,10 @@ const zeile = (titelId, nr, zaehler) => ({
 
 const bereich = (titelId, von, bis) => Array.from({ length: bis - von + 1 }, (_, i) => zeile(titelId, von + i, i))
 
-const echt = globalThis.fetch
-globalThis.fetch = async (url, opt) => {
-  if (String(url).includes('/pruefung') && !(opt && opt.method === 'POST')) {
+globalThis.fetch = baueFetchAttrappe(
+  (url, opt) => {
+    if (!istMeldungsabruf(url, opt)) return undefined
     const pruefungen = [...bereich(1, 1, 25), ...bereich(2, 14, 25), zeile(3, null, 0), ...bereich(4, 1, 14), ...bereich(5, 1, 15)]
-    return new Response(JSON.stringify({ pruefungen }), { status: 200, headers: { 'content-type': 'application/json' } })
-  }
-  return echt(url, opt)
-}
+    return meldungsAntwort(pruefungen)
+  },
+)
