@@ -77,6 +77,9 @@ function zusatzFaelle(): void {
   pruefe(seite.includes('≈ 17:00 Uhr') && !seite.includes('Termin abgeleitet'), 'Teilseite: estimated mit Uhrzeit nur „≈"')
   const seiteOhne = body(ohneZeit, undefined, undefined, HEUTE, [], 1, 'zeit-test', umfeld)
   pruefe(seiteOhne.includes('(Termin abgeleitet)') && !seiteOhne.includes('≈'), 'Teilseite: estimated ohne Uhrzeit bleibt „abgeleitet"')
+  const gemessenOhne = plan({ time: undefined })
+  pruefe(!body(gemessenOhne, undefined, undefined, HEUTE, [], 1, 'zeit-test', umfeld).includes('abgeleitet'), 'Teilseite: gemessener Termin ohne Uhrzeit ohne „abgeleitet"')
+  pruefe(!digestMail([expandEvents(gemessenOhne)[0]!], 'daily', 'https://anime-kalender.de/', 'https://x/u', {}).html.includes('geschätzt'), 'HTML-Mail: gemessener Termin ohne Uhrzeit ohne „geschätzt"')
 
   console.log('A6: jeder Termin, Disc')
   const zwei = body(plan({ timeEstimated: true }), undefined, undefined, HEUTE, [], 1, 'zeit-test', umfeld)

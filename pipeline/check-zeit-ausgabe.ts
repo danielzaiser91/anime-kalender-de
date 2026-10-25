@@ -18,7 +18,7 @@ const AUSNAHMEN: Record<string, string> = {
   'pipeline/lib/sichtungsfenster.ts': 'Prüftext für Handpfleger',
 }
 
-const AUSGABE = /\.time\}|\bUhr\b.*\.time\b|\.time\b.*\bUhr\b|\.time\]\.filter|\.time \?\? '–'/
+const AUSGABE = /\.time\}|\bUhr\b.*\.time\b|\.time\b.*\bUhr\b|\.time\]\.filter|\.time \?\? '–'|(const|let) \w+ = .*\?\.time$/
 
 const KOMMENTAR = /^\s*(\/\/|\*|\/\*)/
 /** Die Zeile nutzt den Helfer, wertet das Flag aus (`timeEstimated`) oder trägt das fertige Kennzeichen (`geschaetzt`) oder zählt herunter (`Countdown`, nur gemessene Zeiten). */

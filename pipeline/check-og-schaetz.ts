@@ -4,7 +4,7 @@
  * Läuft in `check:logic`.
  */
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
@@ -37,6 +37,7 @@ daten('releases.json', [
   release('zeit-est', 900001, { timeEstimated: true }),
   release('zeit-gemessen', 900002, {}),
   release('zeit-termin-est', 900003, { estimated: true }),
+  release('zeit-ohne-bild', 900004, {}),
 ])
 daten('titles-core.json', [])
 daten('titles.json', [])
@@ -62,6 +63,7 @@ try {
   pruefe('geschätzte Uhrzeit (timeEstimated): neu gezeichnet', bild('zeit-est') !== 'alt')
   pruefe('estimated-Termin mit Uhrzeit: neu gezeichnet', bild('zeit-termin-est') !== 'alt')
   pruefe('gemessene Uhrzeit: Bild bleibt', bild('zeit-gemessen') === 'alt')
+  pruefe('Release ohne Bild: gezeichnet', bild('zeit-ohne-bild') !== 'alt' && existsSync(join(og, 'zeit-ohne-bild.jpg')))
   pruefe('Liste der Bilder mit ≈', readFileSync(join(og, 'schaetz.txt'), 'utf8') === 'zeit-est\nzeit-termin-est\n')
   alteBilder()
   pruefe('Lauf 2 endet mit 0', lauf() === 0)
@@ -82,4 +84,4 @@ if (fehler > 0) {
   console.error(`check-og-schaetz: ${fehler} Fehler`)
   process.exit(1)
 }
-console.log('check-og-schaetz: ok (Lauf 1 zeichnet 2 von 3, Lauf 2 keins, 5 Listenfälle)')
+console.log('check-og-schaetz: ok (Lauf 1 zeichnet 2 von 3 vorhandenen und das fehlende, Lauf 2 keins, 5 Listenfälle)')
