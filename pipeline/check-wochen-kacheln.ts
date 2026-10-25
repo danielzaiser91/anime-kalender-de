@@ -5,7 +5,7 @@
  */
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import type { WochenDatei } from '../shared/wochen-datei.ts'
-import { baueKachelDatei, pruefeKachelDatei } from '../shared/wochen-kacheln.ts'
+import { RELEASE_OHNE, STREAM_OHNE, TITEL_OHNE, WATCHLINK_OHNE, baueKachelDatei, pruefeKachelDatei } from '../shared/wochen-kacheln.ts'
 
 let verletzt = 0
 let faelle = 0
@@ -127,6 +127,19 @@ pruefe('geänderter Termin wird gemeldet', meldet({ ...kachel, events: [{ ...kac
 pruefe('andere Woche wird gemeldet', meldet({ ...kachel, bis: '2026-10-12' }, 'andere Woche'))
 pruefe('erfundenes Feld wird gemeldet', meldet({ ...kachel, releases: [{ ...kachel.releases[0]!, erfunden: 1 } as unknown as Release, kachel.releases[1]!] }, 'Release a weicht'))
 pruefe('gekürzte Liste im Weg wird gemeldet', meldet({ ...kachel, titles: [{ ...kachel.titles[0]!, streams: kachel.titles[0]!.streams!.slice(1) }, kachel.titles[1]!] }, 'Titel 1 weicht'))
+
+/* Die Abzugslisten, fest eingetragen: gemessen mit `tools/kachel-felder-messen.mjs` (25.10.2026); jede Änderung ist eine Entscheidung. */
+const TITEL_FEST = 'angebotSeit,anisearchId,ankuendigung,annId,ausgabenOhneDe,bannerImage,dubHinweis,einzelquelle,entfernteStreams,episodes,franchiseId,fskQuelle,hasVoices,jpEnd,jpSeason,jpStart,jpStatus,jpYear,kino,malId,runtimeMin,score,scoreQuelle,staffeln,staffelnQuelle,studios,synopsis,titleDe,titleEn,titleNative,titleRomaji,tmdbId,trailer,westlich'
+const RELEASE_FEST = 'automatisch,buyUrl,cinemaUntil,disputedDates,edition,herkunft,netflixOriginal,nachtrag,note,platformUrl,publisher,quellen,rhythmus,schnitt,sources'
+pruefe('Abzugsliste Titel', TITEL_OHNE.join() === TITEL_FEST)
+pruefe('Abzugsliste Release', RELEASE_OHNE.join() === RELEASE_FEST)
+pruefe('Abzugsliste Stream', STREAM_OHNE.join() === 'url,seite,fenster,dubQuelle,dubStand,herkunft,kanal,sharedWith')
+pruefe('Abzugsliste Link', WATCHLINK_OHNE.join() === 'url,toggo,dubAbgeleitet,ueberTmdb,ersetzt')
+
+const viele: WochenDatei = { ...woche, titles: Array.from({ length: 30 }, (_, i) => titel(i + 1)), releases: [], events: [] }
+const vieleKachel = baueKachelDatei(viele)
+pruefe('Meldungen sind auf 20 begrenzt', pruefeKachelDatei({ ...vieleKachel, titles: vieleKachel.titles.map((t) => ({ ...t, slug: 'x' })) }, viele).length === 20)
+pruefe('eine Meldung weniger bleibt unbegrenzt', pruefeKachelDatei({ ...vieleKachel, titles: vieleKachel.titles.map((t, i) => (i < 19 ? { ...t, slug: 'x' } : t)) }, viele).length === 19)
 
 console.log(verletzt ? `\n${verletzt} von ${faelle} Zusicherungen zur Kachel-Datei verletzt.` : `\nKachel-Datei: ${faelle} Zusicherungen halten.`)
 process.exit(verletzt ? 1 : 0)

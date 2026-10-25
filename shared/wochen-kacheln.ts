@@ -22,9 +22,6 @@ export const RELEASE_OHNE = [
   'publisher', 'quellen', 'rhythmus', 'schnitt', 'sources',
 ] as const
 
-/** Auf Sendungen (Fernsehen) liest die Kachel nur den Beginn. */
-export const SENDUNG_MIT = ['start'] as const
-
 export const STREAM_OHNE = ['url', 'seite', 'fenster', 'dubQuelle', 'dubStand', 'herkunft', 'kanal', 'sharedWith'] as const
 export const WATCHLINK_OHNE = ['url', 'toggo', 'dubAbgeleitet', 'ueberTmdb', 'ersetzt'] as const
 
@@ -47,7 +44,7 @@ function titelKachel(titel: Title): Title {
 
 function releaseKachel(release: Release): Release {
   const kachel = ohne(release, RELEASE_OHNE)
-  if (kachel.sendungen) kachel.sendungen = kachel.sendungen.map((s) => Object.fromEntries(SENDUNG_MIT.map((f) => [f, s[f]])) as typeof s)
+  if (kachel.sendungen) kachel.sendungen = kachel.sendungen.map((s) => ({ start: s.start }) as typeof s)
   return kachel
 }
 

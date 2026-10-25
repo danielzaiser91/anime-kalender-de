@@ -630,6 +630,15 @@ erstes Karten-Bild 4,75 s → 2,84 s; Bytes bis zu den Karten (ohne Bilder) 568 
 Alle Nicht-Bild-Dateien fertig erst nach ≈ 11,8 s statt 3,1 s (Nachladen hinter den Bildern); Gesamtbytes ohne Bilder +33 KB (die Wochen-Datei). Ergebnis der Wochenansicht
 Byte-gleich zum alten Build (`main`-HTML nach dem Nachladen, 173.450 Zeichen), einziger Unterschied zwischen frühem und spätem Stand ist das scrollabhängige `aria-current` am Heute-Knopf (auch im alten Build).
 
+## Kachel-Datei: Wochenstart ohne Panel-Daten (25.10.2026)
+
+`woche-kacheln.json` ist `woche.json` ohne alles, was der Start der Wochenansicht nie liest (`shared/wochen-kacheln.ts`, geschrieben in `bau/13-8-wochen-datei.ts` hinter `woche.json`):
+Quellen und Kaufadressen der Releases, vier Namen und Banner je Titel, Wegadressen (außer bei kostenlosen Wegen: `kostenloseFolgen` liest Adresse und Fenster), Sendungstitel.
+Termine bleiben ganz, `schedule` ebenfalls (Takt und verpasste Folgen lesen `observed`/`verpasst`). Die Listen sind **Abzugslisten**: ein neues Feld kommt von selbst mit, das Start-Budget zeigt ein Zuviel.
+Belegt mit `node tools/kachel-felder-messen.mjs` (Proxys auf der Wochen-Datei, Lesezugriffe auch auf fehlende Felder, Bedienung auf Desktop und Handy, mehrere Wochen); Exit 1, wenn ein gelesenes Feld abgezogen wird.
+`useStartdaten` ist unverändert: Panel, andere Ansichten und Filter holen die vollen Dateien (`loadDataset`) im Leerlauf nach dem ersten Bild oder sofort bei Bedienung; das Panel öffnet erst mit den vollen Daten.
+Größe 25.10.2026: 18,0 KB statt 36,2 KB gzip, Start-Budget 293,0 → 274,7 KB (`tools/start-budget.mjs` auf zwei Bauten desselben Datenstands). `woche.json` selbst wird nur noch von Prüfungen und Werkzeugen gelesen; Folge: aus der Auslieferung nehmen.
+
 ## Bilder und CLS am Start behoben (08.10.2026)
 
 Ursachen: (1) Die Wochenkachel (173 CSS-px) zog bei 2× AniLists `large` (460 px, als PNG bis 553 KB; AniList liefert kein WebP/AVIF, `medium` wiegt ~150 KB);
