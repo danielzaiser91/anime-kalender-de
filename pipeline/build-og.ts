@@ -20,7 +20,7 @@ import { zeichneKarte, type KartenDaten } from './lib/og-karte.ts'
 import { zeichneStandard } from './lib/og-standard-bild.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
 import { terminKopf } from './lib/og-termin.ts'
-import { SCHAETZ_DATEI, liesSchaetzListe, neuWegenSchaetzung, schreibSchaetzListe } from './lib/og-schaetz.ts'
+import { SCHAETZ_DATEI, liesSchaetzListe, neuWegenSchaetzung, nurVorhandene, schreibSchaetzListe } from './lib/og-schaetz.ts'
 import { mussNeuZeichnen, standardKarte, standardKennung } from './lib/og-standard.ts'
 
 const OUT_DIR = resolve(ROOT, 'public/og')
@@ -118,7 +118,7 @@ async function main(): Promise<void> {
   }
 
   log(`${written} Vorschaubilder erzeugt, ${releases.length} Releases insgesamt`)
-  if (!NUR) writeFileSync(schaetzDatei, schreibSchaetzListe(mitSchaetzung))
+  if (!NUR) writeFileSync(schaetzDatei, schreibSchaetzListe(nurVorhandene(mitSchaetzung, new Set(releases.map((r) => r.slug)))))
   if (!NUR) writeFileSync(FASSUNG_DATEI, `${FASSUNG}\n`)
 }
 

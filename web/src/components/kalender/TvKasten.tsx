@@ -1,5 +1,5 @@
-import { zeitMitMarke } from '@shared/zeit-text.ts'
 import { Fragment, useState } from 'react'
+import { zeitMitMarke } from '@shared/zeit-text.ts'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Zeilenzustand } from '@shared/laeuft-jetzt.ts'
 import type { Dataset } from '../../lib/data.ts'

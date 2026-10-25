@@ -8,7 +8,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, 
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
-import { liesSchaetzListe, neuWegenSchaetzung, schreibSchaetzListe } from './lib/og-schaetz.ts'
+import { liesSchaetzListe, neuWegenSchaetzung, nurVorhandene, schreibSchaetzListe } from './lib/og-schaetz.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -59,12 +59,13 @@ function lauf(): number {
 
 try {
   alteBilder()
+  writeFileSync(join(og, 'schaetz.txt'), 'zeit-gemessen-entfernt\n')
   pruefe('Lauf 1 endet mit 0', lauf() === 0)
   pruefe('geschätzte Uhrzeit (timeEstimated): neu gezeichnet', bild('zeit-est') !== 'alt')
   pruefe('estimated-Termin mit Uhrzeit: neu gezeichnet', bild('zeit-termin-est') !== 'alt')
   pruefe('gemessene Uhrzeit: Bild bleibt', bild('zeit-gemessen') === 'alt')
   pruefe('Release ohne Bild: gezeichnet', bild('zeit-ohne-bild') !== 'alt' && existsSync(join(og, 'zeit-ohne-bild.jpg')))
-  pruefe('Liste der Bilder mit ≈', readFileSync(join(og, 'schaetz.txt'), 'utf8') === 'zeit-est\nzeit-termin-est\n')
+  pruefe('Liste der Bilder mit ≈ (Slug ohne Release fällt heraus)', readFileSync(join(og, 'schaetz.txt'), 'utf8') === 'zeit-est\nzeit-termin-est\n')
   alteBilder()
   pruefe('Lauf 2 endet mit 0', lauf() === 0)
   pruefe('zweiter Lauf: nichts mehr neu gezeichnet', ['zeit-est', 'zeit-gemessen', 'zeit-termin-est'].every((s) => bild(s) === 'alt'))
@@ -76,6 +77,7 @@ try {
 const liste = liesSchaetzListe('b\n\na\n')
 pruefe('Liste: Leerzeilen weg', liste.size === 2 && liste.has('a'))
 pruefe('Liste: sortiert geschrieben', schreibSchaetzListe(liste) === 'a\nb\n')
+pruefe('nurVorhandene: behält a, streicht b', [...nurVorhandene(new Set(['a', 'b']), new Set(['a', 'c']))].join() === 'a')
 pruefe('≈ und unbekannt: neu', neuWegenSchaetzung('≈ 17:00 Uhr', 'x', new Set()))
 pruefe('≈ und bekannt: nicht neu', !neuWegenSchaetzung('≈ 17:00 Uhr', 'x', new Set(['x'])))
 pruefe('ohne ≈: nicht neu', !neuWegenSchaetzung('17:00 Uhr', 'x', new Set()))
@@ -84,4 +86,4 @@ if (fehler > 0) {
   console.error(`check-og-schaetz: ${fehler} Fehler`)
   process.exit(1)
 }
-console.log('check-og-schaetz: ok (Lauf 1 zeichnet 2 von 3 vorhandenen und das fehlende, Lauf 2 keins, 5 Listenfälle)')
+console.log('check-og-schaetz: ok (Lauf 1 zeichnet 2 von 3 vorhandenen und das fehlende, Lauf 2 keins, 6 Listenfälle, Slug ohne Release fällt aus der Liste)')

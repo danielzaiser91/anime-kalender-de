@@ -21,14 +21,15 @@ const AUSNAHMEN: Record<string, string> = {
 const AUSGABE = /\.time\}|\bUhr\b.*\.time\b|\.time\b.*\bUhr\b|\.time\]\.filter|\.time \?\? '–'|(const|let) \w+ = .*\?\.time$/
 
 const KOMMENTAR = /^\s*(\/\/|\*|\/\*)/
-/** Die Zeile nutzt den Helfer, wertet das Flag aus (`timeEstimated`) oder trägt das fertige Kennzeichen (`geschaetzt`) oder zählt herunter (`Countdown`, nur gemessene Zeiten). */
-const GEKENNZEICHNET = /zeitMitMarke|zeitGeschaetzt|timeEstimated|\bgeschaetzt\b|Countdown/
+/** Die Zeile ruft den Helfer auf, setzt „≈“ unmittelbar hinter das Flag (`timeEstimated`/`geschaetzt`) oder rendert den Countdown (nur gemessene Zeiten); ein Flag-Wort irgendwo sonst entschuldigt nichts. */
+const GEKENNZEICHNET = /\bzeitMitMarke\(|\bzeitGeschaetzt\(|\b(timeEstimated|geschaetzt) \? [`'"]≈|<Countdown\b/
 
 export function findeLuecken(dateien: Record<string, string>, ausnahmen: Record<string, string>): string[] {
   return Object.entries(dateien).flatMap(([pfad, text]) => {
     if (ausnahmen[pfad]) return []
     const zeilen = text.split('\n').map((z, i) => ({ z, nr: i + 1 }))
-    return zeilen.filter(({ z }) => !KOMMENTAR.test(z) && AUSGABE.test(z) && !GEKENNZEICHNET.test(z)).map(({ z, nr }) => `${pfad}:${nr}: ${z.trim()}`)
+    const ohneZeilenende = (z: string) => z.replace(/\s\/\/.*$/, '')
+    return zeilen.filter(({ z }) => !KOMMENTAR.test(z) && AUSGABE.test(z) && !GEKENNZEICHNET.test(ohneZeilenende(z))).map(({ z, nr }) => `${pfad}:${nr}: ${z.trim()}`)
   })
 }
 
@@ -55,10 +56,18 @@ const luecken = findeLuecken(alleDateien(), AUSNAHMEN)
 pruefe('Uhrzeit-Ausgabe ohne zeitMitMarke', luecken.length === 0, `\n${luecken.join('\n')}`)
 const probe = { 'x.ts': 'const a = `${ev.time} Uhr`', 'y.ts': 'const a = `${zeitMitMarke(ev, 1)} Uhr`\nconst b = `${ev.time} Uhr`', 'z.ts': '// ${ev.time} Uhr\nconst b = 1' }
 pruefe('Probe: ungekennzeichnete Zeilen gefunden, gekennzeichnete und Kommentar nicht', findeLuecken(probe, {}).join('|').startsWith('x.ts:1:') && findeLuecken(probe, {}).length === 2 && findeLuecken(probe, {})[1]!.startsWith('y.ts:2:'))
+const umgehung = {
+  'a.ts': 'const a = `${ev.time} Uhr ${x.timeEstimated}`',
+  'b.ts': 'const a = `${ev.time} Uhr`, fertig = n.geschaetzt',
+  'c.ts': 'const a = `${ev.time} Uhr` // zeitMitMarke(ev)',
+  'd.ts': 'const a = `um ${e.timeEstimated ? \'≈ \' : \'\'}${e.time} Uhr`',
+  'e.ts': 'const a = zeitGeschaetzt(ev) ? `≈ ${ev.time}` : `${ev.time} Uhr`',
+}
+pruefe('Probe: Flag-Wort irgendwo in der Zeile entschuldigt nicht', findeLuecken(umgehung, {}).map((z) => z.slice(0, 5)).join('|') === 'a.ts:|b.ts:|c.ts:', findeLuecken(umgehung, {}).join('\n'))
 pruefe('Probe: Ausnahme gilt', findeLuecken(probe, { 'x.ts': 'Grund', 'y.ts': 'Grund' }).length === 0)
 
 if (fehler > 0) {
   console.error(`check-zeit-ausgabe: ${fehler} Fehler`)
   process.exit(1)
 }
-console.log(`check-zeit-ausgabe: ok (${Object.keys(alleDateien()).length} Dateien, ${Object.keys(AUSNAHMEN).length} Ausnahmen)`)
+console.log(`check-zeit-ausgabe: ok (Umgehungsprobe, ${Object.keys(alleDateien()).length} Dateien, ${Object.keys(AUSNAHMEN).length} Ausnahmen)`)

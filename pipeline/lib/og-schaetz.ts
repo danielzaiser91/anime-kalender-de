@@ -16,3 +16,8 @@ export function schreibSchaetzListe(slugs: ReadonlySet<string>): string {
 export function neuWegenSchaetzung(fakt: string, slug: string, bekannt: ReadonlySet<string>): boolean {
   return fakt.includes('≈') && !bekannt.has(slug)
 }
+
+/** Slugs ohne Release fallen aus der Liste, sie wuchs sonst mit jedem entfernten Release. */
+export function nurVorhandene(liste: ReadonlySet<string>, vorhanden: ReadonlySet<string>): Set<string> {
+  return new Set([...liste].filter((slug) => vorhanden.has(slug)))
+}
