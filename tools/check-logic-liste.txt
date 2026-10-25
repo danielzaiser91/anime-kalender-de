@@ -66,6 +66,7 @@ pipeline/check-cr-film-wege.ts
 pipeline/check-cr-ja-deckung.ts
 pipeline/check-cr-komplettabwurf.ts
 pipeline/check-cr-nein-ueberholt.ts
+pipeline/check-cr-nein-verdrahtung.ts
 pipeline/check-cr-neu-wache.ts
 pipeline/check-cr-teilseiten-bestand-kulisse.ts
 pipeline/check-cr-teilseiten.ts
