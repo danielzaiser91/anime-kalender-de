@@ -10,7 +10,7 @@ import { datenAdresse } from '../web/src/lib/daten-adresse.ts'
  * sie nicht reicht. Fehlt die Angabe (Entwicklungsserver), entscheidet die App selbst.
  */
 const VOLL = ['meta', 'titles-core', 'releases', 'events']
-const WOCHE = ['meta', 'woche']
+const WOCHE = ['meta', 'woche-kacheln']
 
 type VorladeOptionen = { base: string; kennungen: Record<string, string>; ersatz: string; woche?: { von: string; bis: string } }
 

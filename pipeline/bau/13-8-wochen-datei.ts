@@ -1,5 +1,6 @@
 import type { Release, ReleaseEvent, Title } from '../../shared/types.ts'
 import { baueWochenDatei, pruefeWochenDatei } from '../../shared/wochen-datei.ts'
+import { baueKachelDatei, pruefeKachelDatei } from '../../shared/wochen-kacheln.ts'
 import { todayIso } from '../../shared/time.ts'
 import { log, readJson, writeJson } from '../lib/util.ts'
 import { OUT } from './grundlagen.ts'
@@ -17,5 +18,8 @@ export function schreibeWochenDatei(): void {
   const fehler = pruefeWochenDatei(woche, titles, releases, events)
   brichAbBeiWiderspruch(fehler, 'Widerspruch/Widersprüche in woche.json — Bau abgebrochen.')
   writeJson(`${OUT}/woche.json`, woche)
+  const kacheln = baueKachelDatei(woche)
+  brichAbBeiWiderspruch(pruefeKachelDatei(kacheln, woche), 'Widerspruch/Widersprüche in woche-kacheln.json — Bau abgebrochen.')
+  writeJson(`${OUT}/woche-kacheln.json`, kacheln)
   log(`woche.json ${woche.von}–${woche.bis}: ${woche.events.length} Termine, ${woche.releases.length} Releases, ${woche.titles.length} Titel`)
 }

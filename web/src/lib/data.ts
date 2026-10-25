@@ -70,9 +70,9 @@ export interface WochenStart {
 
 let wochenStartPromise: Promise<WochenStart> | undefined
 
-/** `woche.json` + `meta.json` statt der drei vollen Dateien — für den Erstaufruf der Wochenansicht. */
+/** `woche-kacheln.json` (nur Kachelfelder, `shared/wochen-kacheln.ts`) + `meta.json` statt der drei vollen Dateien — für den Erstaufruf der Wochenansicht. */
 export function loadWochenStart(): Promise<WochenStart> {
-  wochenStartPromise ??= Promise.all([loadJson<WochenDatei>('woche.json'), loadMeta()]).then(([w, meta]) => ({
+  wochenStartPromise ??= Promise.all([loadJson<WochenDatei>('woche-kacheln.json'), loadMeta()]).then(([w, meta]) => ({
     data: baueDataset(w.titles, w.releases, w.events, meta),
     von: w.von,
     bis: w.bis,
