@@ -27,7 +27,7 @@ import type { PlatformId, Title } from '../shared/types.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { readSourceHealth, recordSource } from './lib/health.ts'
 import { fortschritt, drosselNachVorlauf, passtInsBudget, pauseMitStand, waehleArbeit, ZEITBUDGET_SEKUNDEN, linkCheckEnde, zaehleBefund } from './lib/link-check-gesundheit.ts'
-import { istTot } from './lib/link-befund.ts'
+import { istFaellig, istTot } from './lib/link-befund.ts'
 import { pruefbare } from './lib/pruefbare-adresse.ts'
 import { todayIso } from '../shared/time.ts'
 
@@ -320,7 +320,7 @@ async function main(): Promise<void> {
       wie ein echter Befund dreißig Tage haltbar, hätte der Riegel nur den
       falschen Eintrag umbenannt statt ihn zu beheben.
     */
-    return !alt || alt.status === 'unklar' || alt.geprueftAm < grenze
+    return istFaellig(alt, grenze)
   })
   /*
     Vorrang vor der Reihenfolge des Bestands: Ein Lauf mit `--limit` würde diese

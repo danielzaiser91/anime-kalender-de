@@ -322,6 +322,7 @@ tools/hover-cover-weitere.test.tsx
 tools/hover-cover.test.ts
 tools/link-check-ende.test.ts
 tools/link-check-zeitbudget.test.ts
+tools/link-faelligkeit.test.ts
 tools/quarantaene-pruefungen.test.ts
 tools/quellen-gesundheit.test.ts
 tools/quittung-nach-commit-waechter.mjs
