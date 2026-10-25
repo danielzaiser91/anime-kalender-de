@@ -116,7 +116,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:54:01.847Z"
+    "fetchedAt": "2026-10-25T06:07:26.033Z"
   },
   "5": {
     "anisearchId": 261,
@@ -221,7 +221,7 @@
         "Cowboy Bebop: Knockin’ on Heaven’s Door"
       ]
     },
-    "fetchedAt": "2026-09-24T09:54:08.915Z"
+    "fetchedAt": "2026-10-25T06:07:32.903Z"
   },
   "6": {
     "anisearchId": 2295,
@@ -330,7 +330,7 @@
         "The Ballad of Vash the Stampede"
       ]
     },
-    "fetchedAt": "2026-09-24T09:54:15.976Z"
+    "fetchedAt": "2026-10-25T06:07:39.774Z"
   },
   "7": {
     "anisearchId": 3343,
@@ -419,7 +419,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:54:23.041Z"
+    "fetchedAt": "2026-10-25T06:07:46.642Z"
   },
   "8": {
     "anisearchId": 576,
@@ -914,7 +914,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:54:30.236Z"
+    "fetchedAt": "2026-10-25T06:07:53.638Z"
   },
   "20": {
     "anisearchId": 2788,
@@ -1489,7 +1489,7 @@
         "Sukuran"
       ]
     },
-    "fetchedAt": "2026-09-24T09:54:37.353Z"
+    "fetchedAt": "2026-10-25T06:08:00.507Z"
   },
   "25": {
     "anisearchId": 2175,
@@ -532514,15 +532514,15 @@
           "language": "Japanisch",
           "title": "Nijuuseiki Denki Mokuroku: Eureka Evrika",
           "titleNative": "Nijūseiki Denki Mokuroku: Eureka Evrika",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "released": "05.07.2026 - 27.09.2026"
         },
         {
           "language": "Englisch",
           "title": "Sparks of Tomorrow",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "05.07.2026 - ?",
+          "released": "05.07.2026 - 27.09.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -532530,9 +532530,9 @@
         {
           "language": "Deutsch",
           "title": "Sparks of Tomorrow",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "05.07.2026 - ?",
+          "released": "05.07.2026 - 27.09.2026",
           "publisher": [
             "Netflix, Inc.",
             "LEONINE Anime"
@@ -532541,9 +532541,9 @@
         {
           "language": "Spanisch",
           "title": "Destellos del mañana",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "05.07.2026 - ?",
+          "released": "05.07.2026 - 27.09.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -532551,9 +532551,9 @@
         {
           "language": "Französisch",
           "title": "Étincelles de demain",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "05.07.2026 - ?",
+          "released": "05.07.2026 - 27.09.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -532561,9 +532561,9 @@
         {
           "language": "Italienisch",
           "title": "Sparks of Tomorrow",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "05.07.2026 - ?",
+          "released": "05.07.2026 - 27.09.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -532628,14 +532628,13 @@
           "url": "https://denkimokuroku.jp/en/"
         }
       ],
-      "broadcast": "Sonntag 23:00 (JST)",
       "synonyms": [
         "20 Seiki Denki Mokuroku",
         "Nijuuseiki Denki Mokuroku",
         "20th Century Electricity Catalog"
       ]
     },
-    "fetchedAt": "2026-09-24T09:52:43.702Z"
+    "fetchedAt": "2026-10-25T06:06:03.429Z"
   },
   "103311": {
     "anisearchId": 13728,
@@ -576069,7 +576068,7 @@
         "Alrihla (الرحلة)"
       ]
     },
-    "fetchedAt": "2026-09-24T09:55:48.016Z"
+    "fetchedAt": "2026-10-25T06:09:02.236Z"
   },
   "110229": {
     "anisearchId": 14451,
@@ -651451,7 +651450,7 @@
         "Beyblade Burst Staffel 6"
       ]
     },
-    "fetchedAt": "2026-09-24T09:54:44.395Z"
+    "fetchedAt": "2026-10-25T06:08:07.354Z"
   },
   "130254": {
     "anisearchId": 11810,
@@ -654982,7 +654981,7 @@
       ],
       "adaptedFrom": "Originalwerk"
     },
-    "fetchedAt": "2026-09-24T09:55:19.719Z"
+    "fetchedAt": "2026-10-25T06:08:41.673Z"
   },
   "131118": {
     "anisearchId": 16083,
@@ -655136,7 +655135,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:54:51.454Z"
+    "fetchedAt": "2026-10-25T06:08:14.226Z"
   },
   "131150": {
     "anisearchId": 16067,
@@ -655356,7 +655355,7 @@
         "Encouragement of Climb Season 4"
       ]
     },
-    "fetchedAt": "2026-09-24T09:54:58.508Z"
+    "fetchedAt": "2026-10-25T06:08:21.086Z"
   },
   "131239": {
     "anisearchId": 21377,
@@ -656198,7 +656197,7 @@
         "Dr. Stone: Staffel 3"
       ]
     },
-    "fetchedAt": "2026-09-24T09:55:12.667Z"
+    "fetchedAt": "2026-10-25T06:08:34.818Z"
   },
   "131519": {
     "anisearchId": 10384,
@@ -656354,7 +656353,7 @@
         "The Quintessential Quintuplets 3"
       ]
     },
-    "fetchedAt": "2026-09-24T09:55:05.608Z"
+    "fetchedAt": "2026-10-25T06:08:27.952Z"
   },
   "131548": {
     "anisearchId": 16088,
@@ -657455,7 +657454,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:55:40.973Z"
+    "fetchedAt": "2026-10-25T06:08:55.385Z"
   },
   "131681": {
     "anisearchId": 16103,
@@ -657585,7 +657584,7 @@
         "Attack on Titan: Staffel 4 (Teil 2)"
       ]
     },
-    "fetchedAt": "2026-09-24T09:55:33.922Z"
+    "fetchedAt": "2026-10-25T06:08:48.531Z"
   },
   "131708": {
     "anisearchId": 17046,
@@ -658599,7 +658598,7 @@
         "JoJo’s Bizarre Adventure Part 6: Stone Ocean"
       ]
     },
-    "fetchedAt": "2026-09-24T09:55:55.066Z"
+    "fetchedAt": "2026-10-25T06:09:09.095Z"
   },
   "131944": {
     "anisearchId": 16473,
@@ -659786,7 +659785,7 @@
         "The Way of the Househusband (Part 2)"
       ]
     },
-    "fetchedAt": "2026-09-24T09:56:02.119Z"
+    "fetchedAt": "2026-10-25T06:09:15.946Z"
   },
   "132232": {
     "anisearchId": 16120,
@@ -660789,7 +660788,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:27:52.441Z"
+    "fetchedAt": "2026-10-25T06:09:29.686Z"
   },
   "132474": {
     "anisearchId": 16203,
@@ -660906,7 +660905,7 @@
         "Going Out to the Parallel Universe"
       ]
     },
-    "fetchedAt": "2026-09-24T09:27:45.383Z"
+    "fetchedAt": "2026-10-25T06:09:22.815Z"
   },
   "132477": {
     "anisearchId": 14284,
@@ -662338,6 +662337,7 @@
   },
   "133007": {
     "anisearchId": 16217,
+    "descriptionDe": "Madoka führt erneut ein unbeschwertes und völlig normales Leben, fernab der Schrecken und Gefahren des Daseins als Magical Girl. Im Hintergrund beherrscht Homura Akemi als nahezu allmächtige Existenz die neu geformte Realität der Stadt Mitakihara. Obwohl sie sich selbst die Rolle des Teufels zugeschrieben hat, schützt sie ihre ehemaligen Gefährtinnen weiterhin im Verborgenen. Sie nimmt den Mädchen den größtmöglichen Teil der schweren Last ab, während diese gegen die verbliebenen düsteren Wesen kämpfen.\n\nDieses mühsam aufrechterhaltene Gleichgewicht gerät jedoch schlagartig ins Wanken, als eines Tages drei neue Magical Girls an der Schule auftauchen. Homura muss schockiert feststellen, dass diese Unbekannten keineswegs aus ihrer eigenen Schöpfungskraft hervorgegangen sind. Das plötzliche Erscheinen der fremden Kriegerinnen stellt ihre vermeintliche Allmacht grundlegend infrage. Homura sieht sich gezwungen, sich den unvorhergesehenen Konsequenzen ihres eigenen Handelns zu stellen.\n\nDie unkontrollierbaren Entwicklungen bedrohen nicht nur das mühsam errichtete, friedliche Dasein von Madoka, sondern ziehen das Schicksal der gesamten Welt erneut in Mitleidenschaft. Inmitten dieser aufkeimenden Verwirrung entfaltet sich ein tiefgreifender emotionaler und psychologischer Konflikt um die gegenseitigen Verpflichtungen der Mädchen. Homura kämpft verzweifelt darum, die Kontrolle zu behalten und Madoka zu beschützen, während das Fundament ihrer erschaffenen Realität unaufhaltsam zu zerbröckeln beginnt. \n\nQuelle: www.anisearch.de/anime/16217",
     "streams": [],
     "info": {
       "languages": [
@@ -662352,7 +662352,7 @@
           "language": "Englisch",
           "title": "Puella Magi Madoka Magica the Movie - Walpurgisnacht: Rising",
           "status": "Zukünftig",
-          "released": "?",
+          "released": "31.10.2026",
           "publisher": [
             "Aniplex of America Inc.",
             "Plus Media Networks Asia Pte. Ltd."
@@ -662370,12 +662370,21 @@
         {
           "language": "Spanisch",
           "title": "Puella Magi Madoka Magica: Walpurgisnacht Rising - La Película",
-          "status": "Zukünftig",
+          "status": "Abgeschlossen",
           "released": "01.10.2026",
           "publisher": [
             "Aniplex of America Inc.",
             "Selecta Visión S.L.U.",
             "KEM Media"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Puella Magi Madoka Magica Le Film : La Nuit de Walpurgis - Ressuscitée",
+          "status": "Zukünftig",
+          "released": "07.12.2026",
+          "publisher": [
+            "Crunchyroll"
           ]
         },
         {
@@ -662390,6 +662399,7 @@
       ],
       "format": "Film",
       "episodes": 1,
+      "runtimeMinutes": 120,
       "season": "Sommer 2026",
       "studios": [
         "SHAFT Inc."
@@ -662427,7 +662437,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:53:47.598Z"
+    "fetchedAt": "2026-10-25T06:07:05.193Z"
   },
   "133138": {
     "anisearchId": 16052,
@@ -663252,7 +663262,7 @@
         "Overlord Season 4"
       ]
     },
-    "fetchedAt": "2026-09-24T09:56:09.182Z"
+    "fetchedAt": "2026-10-25T06:09:36.551Z"
   },
   "133845": {
     "anisearchId": 16275,
@@ -663355,19 +663365,23 @@
       "adaptedFrom": "Light Novel",
       "websites": [
         {
-          "name": "Twitter",
-          "url": "https://twitter.com/over_lord_anime"
+          "name": "X",
+          "url": "https://x.com/over_lord_anime"
         },
         {
           "name": "Overlord Anime",
           "url": "https://overlord-anime.com/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/overlord-el-reino-sagrado/"
         }
       ],
       "synonyms": [
         "Overlord the Movie: Holy Kingdom Arc"
       ]
     },
-    "fetchedAt": "2026-09-24T09:56:16.238Z"
+    "fetchedAt": "2026-10-25T06:09:43.409Z"
   },
   "133849": {
     "anisearchId": 18801,
@@ -663892,7 +663906,7 @@
         "no puede comunicarse"
       ]
     },
-    "fetchedAt": "2026-09-24T09:56:23.299Z"
+    "fetchedAt": "2026-10-25T06:09:50.275Z"
   },
   "134045": {
     "anisearchId": 19857,
@@ -666096,7 +666110,7 @@
       ],
       "adaptedFrom": "Originalwerk"
     },
-    "fetchedAt": "2026-09-24T09:56:44.447Z"
+    "fetchedAt": "2026-10-25T06:10:03.966Z"
   },
   "135432": {
     "anisearchId": 16385,
@@ -666186,7 +666200,7 @@
       ],
       "adaptedFrom": "Live-Action"
     },
-    "fetchedAt": "2026-09-24T09:56:51.491Z"
+    "fetchedAt": "2026-10-25T06:10:10.966Z"
   },
   "135443": {
     "anisearchId": 12404,
@@ -666555,7 +666569,7 @@
       ],
       "adaptedFrom": "Märchen"
     },
-    "fetchedAt": "2026-09-24T09:56:58.529Z"
+    "fetchedAt": "2026-10-25T06:10:17.821Z"
   },
   "135645": {
     "anisearchId": 16381,
@@ -666721,7 +666735,7 @@
       ],
       "adaptedFrom": "Originalwerk"
     },
-    "fetchedAt": "2026-09-24T09:56:37.404Z"
+    "fetchedAt": "2026-10-25T06:09:57.119Z"
   },
   "135776": {
     "anisearchId": 10910,
@@ -667005,7 +667019,7 @@
         "Ojisan in Another World"
       ]
     },
-    "fetchedAt": "2026-09-24T09:57:05.585Z"
+    "fetchedAt": "2026-10-25T06:10:24.685Z"
   },
   "135864": {
     "anisearchId": 16655,
@@ -667649,7 +667663,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:57:12.644Z"
+    "fetchedAt": "2026-10-25T06:10:31.543Z"
   },
   "136110": {
     "anisearchId": 9418,
@@ -668196,7 +668210,7 @@
         "Alice und Teres Fabrik der Illusionen"
       ]
     },
-    "fetchedAt": "2026-09-24T09:57:19.687Z"
+    "fetchedAt": "2026-10-25T06:10:38.400Z"
   },
   "136150": {
     "anisearchId": 16417,
@@ -668421,7 +668435,7 @@
         "Fruits Basket: The Story of Kyoko and Katsuya"
       ]
     },
-    "fetchedAt": "2026-09-24T09:57:26.743Z"
+    "fetchedAt": "2026-10-25T06:10:45.250Z"
   },
   "136205": {
     "anisearchId": 13869,
@@ -668906,10 +668920,18 @@
         {
           "name": "Gkids",
           "url": "https://gkids.com/films/goodbye-don-glees/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/hasta-siempre-don-glees/"
+        },
+        {
+          "name": "Eurozoom",
+          "url": "https://www.eurozoom.fr/goodbye"
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:57:40.826Z"
+    "fetchedAt": "2026-10-25T06:10:58.959Z"
   },
   "136303": {
     "anisearchId": 16438,
@@ -669602,7 +669624,7 @@
         "“Ippon” Again!"
       ]
     },
-    "fetchedAt": "2026-09-24T09:57:54.913Z"
+    "fetchedAt": "2026-10-25T06:11:12.678Z"
   },
   "136436": {
     "anisearchId": 16895,
@@ -669696,7 +669718,7 @@
         "Miss Kobayashi’s Dragon Maid S Special"
       ]
     },
-    "fetchedAt": "2026-09-24T09:59:26.611Z"
+    "fetchedAt": "2026-10-25T06:12:55.513Z"
   },
   "136452": {
     "anisearchId": 16493,
@@ -670715,7 +670737,7 @@
         "Konosuba: God’s Blessing on This Wonderful World! Staffel 3"
       ]
     },
-    "fetchedAt": "2026-09-24T09:58:09.006Z"
+    "fetchedAt": "2026-10-25T06:11:33.238Z"
   },
   "136829": {
     "anisearchId": 16719,
@@ -670847,7 +670869,7 @@
         "My Next Life as a Villainess: All Routes Lead to Doom! OVA"
       ]
     },
-    "fetchedAt": "2026-09-24T09:29:03.320Z"
+    "fetchedAt": "2026-10-25T06:11:26.375Z"
   },
   "136862": {
     "anisearchId": 20085,
@@ -670972,7 +670994,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:58:16.048Z"
+    "fetchedAt": "2026-10-25T06:11:40.090Z"
   },
   "136934": {
     "anisearchId": 16538,
@@ -672088,10 +672110,14 @@
         {
           "name": "Toei Animation",
           "url": "https://www.toei-anim.co.jp/movie/digimon-adventure/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/digimon-adventure-02-the-beginning/"
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:58:23.097Z"
+    "fetchedAt": "2026-10-25T06:11:46.945Z"
   },
   "137312": {
     "anisearchId": 16515,
@@ -675355,7 +675381,7 @@
         "Shuumatsu no Walküre 2"
       ]
     },
-    "fetchedAt": "2026-09-24T09:58:30.210Z"
+    "fetchedAt": "2026-10-25T06:11:53.796Z"
   },
   "138060": {
     "anisearchId": 15813,
@@ -675485,7 +675511,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:57:47.874Z"
+    "fetchedAt": "2026-10-25T06:11:05.821Z"
   },
   "138064": {
     "anisearchId": 19908,
@@ -675866,10 +675892,14 @@
         {
           "name": "Blue Thermal",
           "url": "https://blue-thermal.jp/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/blue-thermal/"
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:58:37.253Z"
+    "fetchedAt": "2026-10-25T06:12:00.649Z"
   },
   "138383": {
     "anisearchId": 16561,
@@ -676558,7 +676588,7 @@
         "To Your Eternity 2nd Season"
       ]
     },
-    "fetchedAt": "2026-09-24T09:29:17.429Z"
+    "fetchedAt": "2026-10-25T06:12:07.508Z"
   },
   "138600": {
     "anisearchId": 16563,
@@ -676751,7 +676781,7 @@
       ],
       "adaptedFrom": "Videospiel"
     },
-    "fetchedAt": "2026-09-24T09:58:44.303Z"
+    "fetchedAt": "2026-10-25T06:12:14.359Z"
   },
   "138700": {
     "anisearchId": 16570,
@@ -677535,7 +677565,7 @@
         "Ghost in the Shell: SAC_2045 (2021)"
       ]
     },
-    "fetchedAt": "2026-09-24T09:58:01.953Z"
+    "fetchedAt": "2026-10-25T06:11:19.528Z"
   },
   "138912": {
     "anisearchId": 16795,
@@ -678160,7 +678190,7 @@
         "Welcome to Demon School! Iruma-kun 3rd Season"
       ]
     },
-    "fetchedAt": "2026-09-24T09:58:51.346Z"
+    "fetchedAt": "2026-10-25T06:12:21.212Z"
   },
   "139093": {
     "anisearchId": 16581,
@@ -679757,7 +679787,7 @@
         "Management of Novice Alchemist Get My Shop!"
       ]
     },
-    "fetchedAt": "2026-09-24T09:58:58.397Z"
+    "fetchedAt": "2026-10-25T06:12:28.077Z"
   },
   "139376": {
     "anisearchId": 16604,
@@ -680276,7 +680306,7 @@
         "Tensura Movie"
       ]
     },
-    "fetchedAt": "2026-09-24T09:59:05.452Z"
+    "fetchedAt": "2026-10-25T06:12:34.938Z"
   },
   "139518": {
     "anisearchId": 16617,
@@ -680391,7 +680421,7 @@
         "Tsukimichi: Moonlit Fantasy - Second Act"
       ]
     },
-    "fetchedAt": "2026-09-24T09:59:12.510Z"
+    "fetchedAt": "2026-10-25T06:12:41.804Z"
   },
   "139527": {
     "anisearchId": 16768,
@@ -680449,6 +680479,10 @@
     "streams": [
       {
         "provider": "primevideo-channel-aniverse-de",
+        "url": "https://www.amazon.de/dp/B0B6T51CP4?tag=anisearch.de-21"
+      },
+      {
+        "provider": "amazon-de",
         "url": "https://www.amazon.de/dp/B0D26HS24L?tag=anisearch.de-21"
       },
       {
@@ -680570,7 +680604,7 @@
         "Tensei Shitara Kendeshita"
       ]
     },
-    "fetchedAt": "2026-09-24T09:59:19.569Z"
+    "fetchedAt": "2026-10-25T06:12:48.665Z"
   },
   "139589": {
     "anisearchId": 16613,
@@ -680674,7 +680708,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:59:33.656Z"
+    "fetchedAt": "2026-10-25T06:13:02.532Z"
   },
   "139592": {
     "anisearchId": 16824,
@@ -681113,7 +681147,7 @@
         "Ame wo Tsugeru Hyouryuu Danchi"
       ]
     },
-    "fetchedAt": "2026-09-24T09:59:54.819Z"
+    "fetchedAt": "2026-10-25T06:13:16.266Z"
   },
   "139648": {
     "anisearchId": 16615,
@@ -681223,7 +681257,7 @@
         "How a Realist Hero Rebuilt the Kingdom (2022)"
       ]
     },
-    "fetchedAt": "2026-09-24T09:59:47.772Z"
+    "fetchedAt": "2026-10-25T06:13:09.395Z"
   },
   "139669": {
     "anisearchId": 20566,
@@ -682402,7 +682436,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T10:00:16.433Z"
+    "fetchedAt": "2026-10-25T06:13:36.854Z"
   },
   "140005": {
     "anisearchId": 16786,
@@ -682516,7 +682550,7 @@
         "Detective Conan: Hanzawa the Criminal"
       ]
     },
-    "fetchedAt": "2026-09-24T10:00:09.389Z"
+    "fetchedAt": "2026-10-25T06:13:29.984Z"
   },
   "140019": {
     "anisearchId": 5962,
@@ -683194,7 +683228,7 @@
       ],
       "adaptedFrom": "Videospiel"
     },
-    "fetchedAt": "2026-09-24T10:00:23.462Z"
+    "fetchedAt": "2026-10-25T06:13:43.701Z"
   },
   "140307": {
     "anisearchId": 5330,
@@ -683700,7 +683734,7 @@
         "Mob Psycho 100 Season 3"
       ]
     },
-    "fetchedAt": "2026-09-24T10:00:30.572Z"
+    "fetchedAt": "2026-10-25T06:13:50.581Z"
   },
   "140457": {
     "anisearchId": 16667,
@@ -683807,7 +683841,7 @@
         "I Will Quit Being the Hero: Yamemasu Tsugi no Shokuba ha Mao Jo"
       ]
     },
-    "fetchedAt": "2026-09-24T09:30:06.808Z"
+    "fetchedAt": "2026-10-25T06:13:57.454Z"
   },
   "140499": {
     "anisearchId": 16665,
@@ -683921,10 +683955,18 @@
         {
           "name": "Gkids",
           "url": "https://gkids.com/films/blue-giant/"
+        },
+        {
+          "name": "Selecta Vision",
+          "url": "https://www.selecta-vision.com/catalogos/blue-giant/"
+        },
+        {
+          "name": "Eurozoom",
+          "url": "https://www.eurozoom.fr/bluegiant"
         }
       ]
     },
-    "fetchedAt": "2026-09-24T10:00:37.604Z"
+    "fetchedAt": "2026-10-25T06:14:04.324Z"
   },
   "140501": {
     "anisearchId": 16676,
@@ -684485,7 +684527,7 @@
         "Nagatoro-san: Staffel 2"
       ]
     },
-    "fetchedAt": "2026-09-24T10:00:44.657Z"
+    "fetchedAt": "2026-10-25T06:14:11.192Z"
   },
   "140601": {
     "anisearchId": 18120,
@@ -687958,7 +688000,7 @@
         "Song of the Night Walkers"
       ]
     },
-    "fetchedAt": "2026-09-24T09:30:13.984Z"
+    "fetchedAt": "2026-10-25T06:14:18.169Z"
   },
   "141400": {
     "anisearchId": 16791,
@@ -688204,7 +688246,7 @@
         "Mushoku Tensei: Jobless Reincarnation Special"
       ]
     },
-    "fetchedAt": "2026-09-24T09:30:21.042Z"
+    "fetchedAt": "2026-10-25T06:14:25.027Z"
   },
   "141774": {
     "anisearchId": 16792,
@@ -692016,8 +692058,8 @@
       "languages": [
         {
           "language": "Japanisch",
-          "title": "Otome Game Sekai wa Mob ni Kibishii Sekai desu",
-          "titleNative": "Otome Game Sekai wa Mob ni Kibishī Sekai desu",
+          "title": "Otomegee Sekai wa Mob ni Kibishii Sekai desu",
+          "titleNative": "Otomegee Sekai wa Mob ni Kibishī Sekai desu",
           "status": "Abgeschlossen",
           "released": "03.04.2022 - 19.06.2022"
         },
@@ -692115,11 +692157,12 @@
       ],
       "synonyms": [
         "Mobseka",
+        "Otome Game Sekai wa Mob ni Kibishii Sekai desu",
         "Otomege Sekai wa Mob ni Kibishī Sekai Desu",
-        "The World of Otome Games is a Tough for Mobs."
+        "The World of Otome Games Is a Tough for Mobs."
       ]
     },
-    "fetchedAt": "2026-09-24T09:30:42.473Z"
+    "fetchedAt": "2026-10-25T06:14:32.001Z"
   },
   "142080": {
     "anisearchId": 16802,
@@ -692644,7 +692687,7 @@
         "Detektiv Conan Film 25"
       ]
     },
-    "fetchedAt": "2026-09-24T09:57:33.787Z"
+    "fetchedAt": "2026-10-25T06:10:52.106Z"
   },
   "142274": {
     "anisearchId": 16841,
@@ -700955,7 +700998,7 @@
         "Eden’s Zero 2"
       ]
     },
-    "fetchedAt": "2026-09-24T10:00:01.876Z"
+    "fetchedAt": "2026-10-25T06:13:23.124Z"
   },
   "144992": {
     "anisearchId": 17541,
@@ -706476,7 +706519,7 @@
         "オリエント 淡路島激闘編"
       ]
     },
-    "fetchedAt": "2026-09-24T09:31:45.972Z"
+    "fetchedAt": "2026-10-25T06:14:38.859Z"
   },
   "146638": {
     "anisearchId": 17228,
@@ -708848,7 +708891,7 @@
         "Watashino"
       ]
     },
-    "fetchedAt": "2026-09-24T09:32:00.139Z"
+    "fetchedAt": "2026-10-25T06:14:45.737Z"
   },
   "147105": {
     "anisearchId": 17281,
@@ -718334,7 +718377,7 @@
         "Only I Level Up"
       ]
     },
-    "fetchedAt": "2026-09-24T09:33:24.761Z"
+    "fetchedAt": "2026-10-25T06:14:52.620Z"
   },
   "151847": {
     "anisearchId": 17509,
@@ -736046,7 +736089,7 @@
         "DMDP"
       ]
     },
-    "fetchedAt": "2026-09-24T09:35:53.052Z"
+    "fetchedAt": "2026-10-25T06:14:59.492Z"
   },
   "157287": {
     "anisearchId": 20853,
@@ -747145,7 +747188,7 @@
         "Dr. Stone: Staffel 3 (Teil 2)"
       ]
     },
-    "fetchedAt": "2026-09-24T09:38:56.572Z"
+    "fetchedAt": "2026-10-25T06:15:06.361Z"
   },
   "162682": {
     "anisearchId": 18265,
@@ -780407,7 +780450,7 @@
         "The Old Man Reincarnated as a Villainess"
       ]
     },
-    "fetchedAt": "2026-09-24T09:42:07.176Z"
+    "fetchedAt": "2026-10-25T06:15:13.228Z"
   },
   "172463": {
     "anisearchId": 18987,
@@ -810731,7 +810774,7 @@
         "Meine Wiedergeburt als Schleim in einer anderen Welt: Film 2"
       ]
     },
-    "fetchedAt": "2026-09-24T09:48:08.240Z"
+    "fetchedAt": "2026-10-25T06:01:35.325Z"
   },
   "182255": {
     "anisearchId": 19635,
@@ -810849,7 +810892,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:48:15.301Z"
+    "fetchedAt": "2026-10-25T06:01:42.203Z"
   },
   "182300": {
     "anisearchId": 19638,
@@ -810965,7 +811008,7 @@
         "Wistoria of Wand and Sword Second"
       ]
     },
-    "fetchedAt": "2026-09-24T09:48:22.354Z"
+    "fetchedAt": "2026-10-25T06:01:49.084Z"
   },
   "182309": {
     "anisearchId": 19637,
@@ -811692,7 +811735,7 @@
         "The Princess-Knight Bride of Barbaroi"
       ]
     },
-    "fetchedAt": "2026-09-24T09:48:29.404Z"
+    "fetchedAt": "2026-10-25T06:01:55.953Z"
   },
   "182544": {
     "anisearchId": 19671,
@@ -812223,7 +812266,7 @@
         "Oshi no Ko: Mein Star - Staffel 3"
       ]
     },
-    "fetchedAt": "2026-09-24T09:48:36.474Z"
+    "fetchedAt": "2026-10-25T06:02:02.850Z"
   },
   "182616": {
     "anisearchId": 19694,
@@ -813157,7 +813200,7 @@
         "The Unaware Atelier Master"
       ]
     },
-    "fetchedAt": "2026-09-24T09:48:50.577Z"
+    "fetchedAt": "2026-10-25T06:02:16.604Z"
   },
   "183159": {
     "anisearchId": 14089,
@@ -813295,7 +813338,7 @@
         "Nidome no Jinsei wa Nani wo Suru?"
       ]
     },
-    "fetchedAt": "2026-09-24T09:48:57.647Z"
+    "fetchedAt": "2026-10-25T06:02:23.488Z"
   },
   "183231": {
     "anisearchId": 19730,
@@ -813677,7 +813720,7 @@
         "I’m the Evil Lord of an Intergalactic Empire!"
       ]
     },
-    "fetchedAt": "2026-09-24T09:49:04.707Z"
+    "fetchedAt": "2026-10-25T06:02:30.361Z"
   },
   "183275": {
     "anisearchId": 19717,
@@ -813895,7 +813938,7 @@
         "The Lady with a Peculiar Palate and the Mad-Blooded Duke"
       ]
     },
-    "fetchedAt": "2026-09-24T09:49:11.773Z"
+    "fetchedAt": "2026-10-25T06:02:37.237Z"
   },
   "183384": {
     "anisearchId": 20889,
@@ -814324,7 +814367,7 @@
         "One Piece: Fish-Man Island Arc - Speciel Remastered Edition"
       ]
     },
-    "fetchedAt": "2026-09-24T09:48:43.519Z"
+    "fetchedAt": "2026-10-25T06:02:09.718Z"
   },
   "183471": {
     "anisearchId": 19888,
@@ -815439,7 +815482,7 @@
         "Sakamoto Days Part 2"
       ]
     },
-    "fetchedAt": "2026-09-24T09:49:18.835Z"
+    "fetchedAt": "2026-10-25T06:02:44.098Z"
   },
   "184279": {
     "anisearchId": 19762,
@@ -816294,23 +816337,23 @@
           "language": "Südkorea",
           "title": "Dogurwang",
           "titleNative": "도굴왕",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "released": "09.07.2026 - 01.10.2026"
         },
         {
           "language": "Japanisch",
           "title": "Toukutsu Ou",
           "titleNative": "Tōkutsu Ō",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
           "released": "09.07.2026 - 01.10.2026"
         },
         {
           "language": "Englisch",
           "title": "Tomb Raider King",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.07.2026 - ?",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll",
             "MediaLink Entertainment Limited"
@@ -816319,9 +816362,9 @@
         {
           "language": "Deutsch",
           "title": "Tomb Raider King",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.07.2026 - ?",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -816329,9 +816372,9 @@
         {
           "language": "Spanisch",
           "title": "Tomb Raider King",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.07.2026 - ?",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -816339,9 +816382,9 @@
         {
           "language": "Französisch",
           "title": "Tomb Raider King",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.07.2026 - ?",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -816349,8 +816392,8 @@
         {
           "language": "Italienisch",
           "title": "Tomb Raider King",
-          "status": "Laufend",
-          "released": "08.07.2026 - ?",
+          "status": "Abgeschlossen",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -816358,6 +816401,7 @@
       ],
       "format": "TV-Serie",
       "episodes": 12,
+      "runtimeMinutes": 23,
       "season": "Sommer 2026",
       "studios": [
         "Studio EEK Co.,Ltd"
@@ -816393,10 +816437,9 @@
           "name": "Tombraiderking Pr",
           "url": "https://tombraiderking-pr.com/"
         }
-      ],
-      "broadcast": "Donnerstag 01:15 (JST)"
+      ]
     },
-    "fetchedAt": "2026-09-24T09:52:57.818Z"
+    "fetchedAt": "2026-10-25T06:06:17.165Z"
   },
   "184369": {
     "anisearchId": 18910,
@@ -816644,15 +816687,15 @@
           "language": "Japanisch",
           "title": "Mairimashita! Iruma-kun: Dai 4 Series",
           "titleNative": "魔入りました！ 入間くん 第4シリーズ",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "released": "04.04.2026 - 26.09.2026"
         },
         {
           "language": "Englisch",
           "title": "Welcome to Demon School! Iruma-kun: Season 4",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "04.04.2026 - ?",
+          "released": "04.04.2026 - 26.09.2026",
           "publisher": [
             "Crunchyroll",
             "Muse Communication Co.,Ltd."
@@ -816661,9 +816704,9 @@
         {
           "language": "Deutsch",
           "title": "Welcome to Demon School! Iruma-kun: Staffel 4",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "04.04.2026 - ?",
+          "released": "04.04.2026 - 26.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -816671,9 +816714,9 @@
         {
           "language": "Spanisch",
           "title": "Welcome to Demon School! Iruma-kun: Temporada 4",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "04.04.2026 - ?",
+          "released": "04.04.2026 - 26.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -816681,8 +816724,8 @@
         {
           "language": "Französisch",
           "title": "Welcome to Demon School ! Iruma-kun : Saison 4",
-          "status": "Laufend",
-          "released": "04.04.2026 - ?",
+          "status": "Abgeschlossen",
+          "released": "04.04.2026 - 26.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -816690,8 +816733,8 @@
         {
           "language": "Italienisch",
           "title": "Welcome to Demon School! Iruma-kun: Stagione 4",
-          "status": "Laufend",
-          "released": "04.04.2026 - ?",
+          "status": "Abgeschlossen",
+          "released": "04.04.2026 - 26.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -816699,6 +816742,7 @@
       ],
       "format": "TV-Serie",
       "episodes": 24,
+      "runtimeMinutes": 25,
       "season": "Frühling 2026",
       "studios": [
         "BANDAI NAMCO Pictures Inc."
@@ -816735,12 +816779,11 @@
           "url": "https://www.nhk-character.com/chara/iruma/"
         }
       ],
-      "broadcast": "Samstag 18:25 (JST)",
       "synonyms": [
         "Welcome to Demon School! Iruma-kun 4th Season"
       ]
     },
-    "fetchedAt": "2026-09-24T09:49:25.936Z"
+    "fetchedAt": "2026-10-25T06:02:50.975Z"
   },
   "184560": {
     "anisearchId": 19373,
@@ -817139,7 +817182,7 @@
         "¡No hay manera de que pueda tener una amante! ¿O quizá sí?"
       ]
     },
-    "fetchedAt": "2026-09-24T09:49:32.988Z"
+    "fetchedAt": "2026-10-25T06:02:57.837Z"
   },
   "184624": {
     "anisearchId": 21668,
@@ -817307,7 +817350,7 @@
         "Anne auf Green Gables"
       ]
     },
-    "fetchedAt": "2026-09-24T09:49:40.117Z"
+    "fetchedAt": "2026-10-25T06:03:04.714Z"
   },
   "184642": {
     "anisearchId": 19922,
@@ -818138,7 +818181,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:49:47.171Z"
+    "fetchedAt": "2026-10-25T06:03:11.578Z"
   },
   "184982": {
     "anisearchId": 11992,
@@ -820052,7 +820095,7 @@
         "2.5 Dimensional Seduction: Staffel 2"
       ]
     },
-    "fetchedAt": "2026-09-24T09:53:54.647Z"
+    "fetchedAt": "2026-10-25T06:07:12.044Z"
   },
   "185519": {
     "anisearchId": 19958,
@@ -820471,7 +820514,7 @@
         "Skeleton Knight in Another World II"
       ]
     },
-    "fetchedAt": "2026-09-24T09:49:54.237Z"
+    "fetchedAt": "2026-10-25T06:03:18.449Z"
   },
   "185543": {
     "anisearchId": 19950,
@@ -822141,6 +822184,10 @@
     "descriptionDe": "Schon lange vor der Zeit, in der ein Junge namens Izuku Midoriya die U.A. High besucht, um selbst ein lizenzierter Held zu werden, ist die Welt in diejenigen aufgeteilt, die ihre Kräfte legal anwenden, und diejenigen, die das ohne Erlaubnis der Regierung tun. Doch nicht jeder, der ohne Lizenz agiert, ist gleich ein durchtriebener Schurke – denn manche von ihnen setzen ihre Kräfte trotzdem im Kampf gegen das Böse ein und werden daher Vigilante genannt. Mit einer Abneigung gegenüber all den Regeln und Verpflichtungen, denen ein offizieller Held unterliegt, setzen sie ihre Kräfte im Verborgenen ein und erreichen mit ihren Macken teils Erstaunliches.\n\nEiner von ihnen ist der Student Kouichi Haimawari, der als großer Fan von All Might schon immer den Traum gehegt hat, eines Tages selbst ein Held zu werden, aber von seiner eher mittelmäßigen Fähigkeiten zum Gleiten zurückgehalten wurde. Seine Kräfte nutzte er bisher nur, um alltäglich gute Taten zu vollbringen, wie zum Beispiel verlorene Gegenstände zurückzubringen oder älteren Menschen über die Straße zu helfen. Aber eines Tages ändert sich das. Von dem wenig zimperlichen Vigilante Knuckleduster vor einer Schlägerei gerettet wird sein großes Potenzial offensichtlich und Knuckleduster bittet ihn dabei zu helfen, die Quelle einer gefährlichen neuartigen Droge namens »Trigger« ausfindig zu machen, die die Macken ihrer Konsumenten auf Kosten von deren Vernunft verstärkt. Doch ohne Lizenz bedeutet das auch, vor dem wachsamen Auge des Gesetztes selbst zum Verbrecher zu werden … \n\nQuelle: www.anisearch.de/anime/19991",
     "streams": [
       {
+        "provider": "netflix",
+        "url": "https://www.netflix.com/title/82036361"
+      },
+      {
         "provider": "crunchyroll",
         "url": "https://www.crunchyroll.com/series/G79H23ZQ3/my-hero-academia-vigilantes"
       }
@@ -822256,7 +822303,7 @@
         "Vigilante: My Hero Academia Illegals"
       ]
     },
-    "fetchedAt": "2026-09-24T09:50:01.295Z"
+    "fetchedAt": "2026-10-25T06:03:25.313Z"
   },
   "185748": {
     "anisearchId": 20044,
@@ -825904,7 +825951,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:50:08.356Z"
+    "fetchedAt": "2026-10-25T06:03:32.186Z"
   },
   "186522": {
     "anisearchId": 19954,
@@ -826609,7 +826656,7 @@
         "Tamahoshi"
       ]
     },
-    "fetchedAt": "2026-09-24T09:50:15.413Z"
+    "fetchedAt": "2026-10-25T06:03:39.053Z"
   },
   "186631": {
     "anisearchId": 12732,
@@ -827388,7 +827435,7 @@
         "Sutetsuyo"
       ]
     },
-    "fetchedAt": "2026-09-24T09:50:22.479Z"
+    "fetchedAt": "2026-10-25T06:03:45.935Z"
   },
   "186822": {
     "anisearchId": 20190,
@@ -828040,7 +828087,7 @@
         "Ninja vs. Gokudo"
       ]
     },
-    "fetchedAt": "2026-09-24T09:50:29.529Z"
+    "fetchedAt": "2026-10-25T06:03:52.796Z"
   },
   "186920": {
     "anisearchId": 20203,
@@ -830198,7 +830245,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:50:36.594Z"
+    "fetchedAt": "2026-10-25T06:03:59.667Z"
   },
   "187583": {
     "anisearchId": 6417,
@@ -830452,7 +830499,8 @@
           "dubbed": true,
           "released": "29.09.2025 - 15.12.2025",
           "publisher": [
-            "Crunchyroll"
+            "Crunchyroll",
+            "Muse Communication Co.,Ltd."
           ]
         },
         {
@@ -830534,7 +830582,7 @@
         "Material Collector’s Another World Travels"
       ]
     },
-    "fetchedAt": "2026-09-24T09:50:43.655Z"
+    "fetchedAt": "2026-10-25T06:04:06.537Z"
   },
   "187833": {
     "anisearchId": 21773,
@@ -830731,6 +830779,7 @@
   },
   "187892": {
     "anisearchId": 20280,
+    "descriptionDe": "Der Kampf gegen übermächtige Außerirdische endet für Rita tödlich – allerdings nur vorübergehend. Nach ihrem Tod erwacht sie erneut und stellt fest, dass derselbe Tag von vorn beginnt. Fortan ist sie dazu verdammt, die Invasion und ihren eigenen Tod immer wieder zu durchleben, ohne zu wissen, wie sie der Zeitschleife entkommen kann.\n\nEine neue Hoffnung entsteht, als Rita zufällig auf Keiji trifft. Auch er scheint in demselben Kreislauf gefangen zu sein und teilt damit ein Schicksal, das Rita bislang allein ertragen musste. Ihre Begegnung eröffnet Rita schließlich eine neue Hoffnung: Vielleicht gibt es doch einen Weg aus dem endlosen Kreislauf von Kampf und Tod … \n\nQuelle: www.anisearch.de/anime/20280",
     "streams": [],
     "info": {
       "languages": [
@@ -830755,7 +830804,8 @@
         {
           "language": "Deutsch",
           "title": "All You Need Is Kill",
-          "status": "Zukünftig",
+          "status": "Abgeschlossen",
+          "dubbed": true,
           "released": "29.09.2026",
           "publisher": [
             "KSM Anime"
@@ -830763,11 +830813,13 @@
         },
         {
           "language": "Spanisch",
-          "title": "All You Need Is Kill",
+          "title": "Sólo Necesitas Matar",
           "status": "Abgeschlossen",
           "released": "07.07.2026",
           "publisher": [
-            "GKIDS Inc."
+            "GKIDS Inc.",
+            "Corazón Films México",
+            "BF Distribution"
           ]
         },
         {
@@ -830818,7 +830870,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:50:50.711Z"
+    "fetchedAt": "2026-10-25T06:04:13.400Z"
   },
   "187901": {
     "anisearchId": 20285,
@@ -832505,9 +832557,9 @@
         {
           "language": "Italienisch",
           "title": "Though I Am an Inept Villainess",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "26.07.2026 - ?",
+          "released": "26.07.2026 - 04.10.2026",
           "publisher": [
             "Crunchyroll",
             "The Walt Disney Company"
@@ -832558,7 +832610,7 @@
         "Though I Am an Inept Villainess: Tale of the Butterfly-Rat Body Swap in the Maiden Court"
       ]
     },
-    "fetchedAt": "2026-09-24T09:50:57.767Z"
+    "fetchedAt": "2026-10-25T06:04:20.260Z"
   },
   "188239": {
     "anisearchId": 20303,
@@ -834067,15 +834119,15 @@
           "language": "Japanisch",
           "title": "Re:Zero kara Hajimeru Isekai Seikatsu 4",
           "titleNative": "Re:ゼロから始める異世界生活 4",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "released": "08.04.2026 - 30.09.2026"
         },
         {
           "language": "Englisch",
           "title": "Re:Zero - Starting Life in Another World: Season 4",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "16.03.2026 - ?",
+          "released": "16.03.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll",
             "Muse Communication Co.,Ltd."
@@ -834084,9 +834136,9 @@
         {
           "language": "Deutsch",
           "title": "Re:Zero - Starting Life in Another World: Staffel 4",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.04.2026 - ?",
+          "released": "08.04.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -834094,9 +834146,9 @@
         {
           "language": "Spanisch",
           "title": "Re:Zero - Starting Life in Another World: Temporada 4",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.04.2026 - ?",
+          "released": "08.04.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -834104,9 +834156,9 @@
         {
           "language": "Französisch",
           "title": "Re:Zero - Starting Life in Another World : Saison 4",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.04.2026 - ?",
+          "released": "08.04.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -834114,9 +834166,9 @@
         {
           "language": "Italienisch",
           "title": "Re:Zero - Starting Life in Another World: Stagione 4",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.04.2026 - ?",
+          "released": "08.04.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -834124,6 +834176,7 @@
       ],
       "format": "TV-Serie",
       "episodes": 19,
+      "runtimeMinutes": 25,
       "season": "Frühling 2026",
       "studios": [
         "WHITE FOX Co., Ltd."
@@ -834160,10 +834213,9 @@
           "name": "Re Zero Anime",
           "url": "https://re-zero-anime.jp/"
         }
-      ],
-      "broadcast": "Mittwoch 22:00 (JST)"
+      ]
     },
-    "fetchedAt": "2026-09-24T09:51:04.840Z"
+    "fetchedAt": "2026-10-25T06:04:27.288Z"
   },
   "189068": {
     "anisearchId": 17164,
@@ -836407,68 +836459,65 @@
       "languages": [
         {
           "language": "Japanisch",
-          "title": "Steel Ball Run: Jojo no Kimyou na Bouken",
-          "titleNative": "Steel Ball Run: Jojo no Kimyō na Bōken",
-          "status": "Pausiert",
-          "released": "19.03.2026 - ?"
+          "title": "Steel Ball Run: Jojo no Kimyou na Bouken - 1st Stage",
+          "titleNative": "Steel Ball Run: Jojo no Kimyō na Bōken - 1st Stage",
+          "status": "Abgeschlossen",
+          "released": "19.03.2026"
         },
         {
           "language": "Englisch",
-          "title": "Steel Ball Run: Jojo’s Bizarre Adventure",
-          "status": "Pausiert",
+          "title": "Steel Ball Run: Jojo’s Bizarre Adventure - 1st Stage",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "19.03.2026 - ?",
+          "released": "19.03.2026",
           "publisher": [
             "Netflix, Inc."
           ]
         },
         {
           "language": "Deutsch",
-          "title": "Steel Ball Run: Jojo’s Bizarre Adventure",
-          "status": "Pausiert",
+          "title": "Steel Ball Run: Jojo’s Bizarre Adventure - Phase 1",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "19.03.2026 - ?",
+          "released": "19.03.2026",
           "publisher": [
             "Netflix, Inc."
           ]
         },
         {
           "language": "Spanisch",
-          "title": "Steel Ball Run: Jojo’s Bizarre Adventure",
-          "status": "Pausiert",
+          "title": "Steel Ball Run: Jojo’s Bizarre Adventure - 1.a Fase",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "19.03.2026 - ?",
+          "released": "19.03.2026",
           "publisher": [
             "Netflix, Inc."
           ]
         },
         {
           "language": "Französisch",
-          "title": "Steel Ball Run : Jojo’s Bizarre Adventure",
-          "status": "Pausiert",
+          "title": "Steel Ball Run : Jojo’s Bizarre Adventure - 1re Étape",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "19.03.2026 - ?",
+          "released": "19.03.2026",
           "publisher": [
             "Netflix, Inc."
           ]
         },
         {
           "language": "Italienisch",
-          "title": "Steel Ball Run: Le bizzarre avventure di Jojo",
-          "status": "Pausiert",
+          "title": "Steel Ball Run: Le bizzarre avventure di Jojo - 1a Tappa",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "19.03.2026 - ?",
+          "released": "19.03.2026",
           "publisher": [
             "Netflix, Inc."
           ]
         }
       ],
-      "issues": [
-        "Episodenanzahl: vorläufige Schätzung"
-      ],
       "format": "Web",
-      "episodes": 12,
-      "episodesEstimated": true,
+      "episodes": 1,
+      "runtimeMinutes": 47,
       "season": "Frühling 2026",
       "studios": [
         "David Production Inc."
@@ -836515,7 +836564,7 @@
         "JoJo’s Bizarre Adventure: Steel Ball Run"
       ]
     },
-    "fetchedAt": "2026-09-24T09:51:11.887Z"
+    "fetchedAt": "2026-10-25T06:07:19.042Z"
   },
   "190569": {
     "anisearchId": 21044,
@@ -836801,7 +836850,7 @@
         "Kanan-sama Is Easy as Hell!"
       ]
     },
-    "fetchedAt": "2026-09-24T09:51:18.948Z"
+    "fetchedAt": "2026-10-25T06:04:34.153Z"
   },
   "190840": {
     "anisearchId": 20459,
@@ -839627,7 +839676,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:51:25.997Z"
+    "fetchedAt": "2026-10-25T06:04:41.021Z"
   },
   "194028": {
     "anisearchId": 20575,
@@ -841008,6 +841057,7 @@
   },
   "194829": {
     "anisearchId": 20658,
+    "descriptionDe": "Der einst von einer großen Heldenkarriere träumende Schwertmeister Beryl Gardenant hat sich längst mit einem bescheidenen Dasein abgefunden und leitet in einem abgelegenen Heimatdorf eine kleine Fechtschule. Seine Hoffnung auf einen ruhigen Lebensabend zwischen Gartenarbeit und einfachem Training zerschlägt sich jedoch schlagartig, als ihn völlig überraschend die Nachricht von seiner Ernennung zum Spezialausbilder der königlichen Rittergarde erreicht. Widerwillig reist der gealterte Fechtlehrer in die schillernde Hauptstadt des Königreichs, wo ihn eine unverhoffte Wiederbegegnung mit seinen ehemaligen Schützlingen erwartet. Seine früheren Schülerinnen und Schüler haben es mittlerweile zu echten Koryphäen gebracht. Unter ihnen befinden sich die hochgeschätzte Kommandantin der Rittergarde Allucia, die mächtige Magierin Surena sowie ein herausragender Abenteurer mit dem höchsten Gildenrang.\n\nObwohl Beryl in seiner tiefen Bescheidenheit fest davon überzeugt ist, dass diese Elitekrieger seine Unterstützung längst nicht mehr benötigen, zieht ihn der Strudel der Ereignisse unaufhaltsam in seinen Bann. Seine Vergangenheit holt den ergrauten Meister wieder ein, da im Hintergrund neu aufkeimende Konflikte und finstere Bedrohungen das gesamte Reich zu erschüttern drohen. Allucia, Surena und die übrigen Weggefährten verstricken sich immer tiefer in die aufkeimenden Krisen, woraufhin Beryl seine verstaubten Fähigkeiten erneut unter Beweis stellen muss. Widerwillig greift der erfahrene Schwertkämpfer wieder zur Klinge, um an der Seite seiner geschätzten Schützlinge zu kämpfen und das Schicksal des Königreichs abzuwenden. \n\nQuelle: www.anisearch.de/anime/20658",
     "streams": [
       {
         "provider": "amazon-de",
@@ -841122,7 +841172,7 @@
         "De vieux plouc à maître de l’épée : Saison 2"
       ]
     },
-    "fetchedAt": "2026-09-24T09:51:33.064Z"
+    "fetchedAt": "2026-10-25T06:04:47.882Z"
   },
   "194872": {
     "anisearchId": 20713,
@@ -841928,6 +841978,10 @@
     "descriptionDe": "Trigger – so heißt eine Droge, die die Fähigkeiten ihrer Nutzer verstärkt und in Naruhata eine ganze Reihe von Problemen ausgelöst hat. Ihr Auftauchen führte dazu, dass Knuckleduster, Kouichi und Pop☆Step zu Vigilantes wurden – einer inoffiziellen Bürgerwehr, die versucht zu helfen, obwohl sie ohne offiziellen Heldenstatus agiert und damit das Gesetz bricht.\n\nInzwischen ist klar, dass Knuckleduster aus einem bestimmten Grund handelte: Er wollte Kuin Hachisuka aus der Reserve locken. Doch seit ihrer Konfrontation fehlt von ihm jede Spur. Für Kouichi und Pop☆Step geht es derweil nach Osaka, wo ein Idolauftritt ansteht. Allerdings sind längst nicht alle Drahtzieher hinter Trigger gefasst, und die Organisation, die inzwischen als »Schurkenfabrik« bekannt ist, hat sich ausgerechnet Osaka als Schauplatz ihrer nächsten Pläne ausgesucht. \n\nQuelle: www.anisearch.de/anime/20687",
     "streams": [
       {
+        "provider": "netflix",
+        "url": "https://www.netflix.com/title/82036361"
+      },
+      {
         "provider": "crunchyroll",
         "url": "https://www.crunchyroll.com/series/G79H23ZQ3/my-hero-academia-vigilantes"
       }
@@ -842044,7 +842098,7 @@
         "My Hero Academia: Vigilantes 2"
       ]
     },
-    "fetchedAt": "2026-09-24T09:51:40.117Z"
+    "fetchedAt": "2026-10-25T06:04:54.752Z"
   },
   "195333": {
     "anisearchId": 20708,
@@ -843405,7 +843459,7 @@
         "Yomi no Tsugai: Dúo del Inframundo"
       ]
     },
-    "fetchedAt": "2026-09-24T09:51:47.180Z"
+    "fetchedAt": "2026-10-25T06:05:01.615Z"
   },
   "195604": {
     "anisearchId": 20716,
@@ -845642,7 +845696,7 @@
         "I Want You to Make a Disgusted Face and Show Me Your Underwear Returns"
       ]
     },
-    "fetchedAt": "2026-09-24T09:23:08.541Z"
+    "fetchedAt": "2026-10-25T06:05:08.478Z"
   },
   "196893": {
     "anisearchId": 21071,
@@ -845808,7 +845862,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:51:54.236Z"
+    "fetchedAt": "2026-10-25T06:05:15.341Z"
   },
   "196974": {
     "anisearchId": 20810,
@@ -847354,7 +847408,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:52:08.352Z"
+    "fetchedAt": "2026-10-25T06:05:29.070Z"
   },
   "198117": {
     "anisearchId": 20868,
@@ -847820,7 +847874,7 @@
         "Detektiv Conan Film 29"
       ]
     },
-    "fetchedAt": "2026-09-24T09:52:01.292Z"
+    "fetchedAt": "2026-10-25T06:05:22.208Z"
   },
   "198373": {
     "anisearchId": 20872,
@@ -849607,7 +849661,7 @@
         "Jidou Hanbaiki ni Umarekawatta Ore wa Meikyuu wo Samayou 3 Ki"
       ]
     },
-    "fetchedAt": "2026-09-24T09:52:22.462Z"
+    "fetchedAt": "2026-10-25T06:05:42.810Z"
   },
   "198946": {
     "anisearchId": 20894,
@@ -849624,15 +849678,15 @@
           "language": "Japanisch",
           "title": "Clevatess II: Majuu no Ou to Itsuwari no Yuusha Denshou",
           "titleNative": "Clevatess II: Majū no Ō to Itsuwari no Yūsha Denshō",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "released": "08.07.2026 - 30.09.2026"
         },
         {
           "language": "Englisch",
           "title": "Clevatess: Season 2",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.07.2026 - ?",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll",
             "MediaLink Entertainment Limited"
@@ -849641,9 +849695,9 @@
         {
           "language": "Deutsch",
           "title": "Clevatess: Staffel 2",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.07.2026 - ?",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -849651,9 +849705,9 @@
         {
           "language": "Spanisch",
           "title": "Clevatess: Temporada 2",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.07.2026 - ?",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -849661,9 +849715,9 @@
         {
           "language": "Französisch",
           "title": "Clevatess : Saison 2",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.07.2026 - ?",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
@@ -849671,19 +849725,16 @@
         {
           "language": "Italienisch",
           "title": "Clevatess: Stagione 2",
-          "status": "Laufend",
-          "released": "08.07.2026 - ?",
+          "status": "Abgeschlossen",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Crunchyroll"
           ]
         }
       ],
-      "issues": [
-        "Episodenanzahl: vorläufige Schätzung"
-      ],
       "format": "TV-Serie",
       "episodes": 13,
-      "episodesEstimated": true,
+      "runtimeMinutes": 24,
       "season": "Sommer 2026",
       "studios": [
         "Lay-duce Inc."
@@ -849721,7 +849772,6 @@
           "url": "http://lay-duce.co.jp/works/1770/"
         }
       ],
-      "broadcast": "Mittwoch 21:00 (JST)",
       "synonyms": [
         "Clevatess 2: Majuu no Ou to Itsuwari no Yuusha Denshou",
         "Clevatess II: Majuu no Ou to Akago to Shikabane no Yuusha",
@@ -849729,7 +849779,7 @@
         "Clevatess II: The King of Magical Beasts and the Legend of the False Hero"
       ]
     },
-    "fetchedAt": "2026-09-24T09:52:29.529Z"
+    "fetchedAt": "2026-10-25T06:05:49.694Z"
   },
   "198966": {
     "anisearchId": 20892,
@@ -850185,7 +850235,7 @@
         "Rent-a-Girlfriend 5th Season"
       ]
     },
-    "fetchedAt": "2026-09-24T09:52:15.412Z"
+    "fetchedAt": "2026-10-25T06:05:35.956Z"
   },
   "199066": {
     "anisearchId": 20895,
@@ -852219,7 +852269,7 @@
         "Marriage Toxin"
       ]
     },
-    "fetchedAt": "2026-09-24T09:52:36.644Z"
+    "fetchedAt": "2026-10-25T06:05:56.549Z"
   },
   "199588": {
     "anisearchId": 20953,
@@ -856263,7 +856313,7 @@
       ],
       "adaptedFrom": "Originalwerk"
     },
-    "fetchedAt": "2026-09-24T09:52:50.761Z"
+    "fetchedAt": "2026-10-25T06:06:10.287Z"
   },
   "202957": {
     "anisearchId": 21033,
@@ -862761,7 +862811,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:53:04.877Z"
+    "fetchedAt": "2026-10-25T06:06:24.023Z"
   },
   "206919": {
     "anisearchId": 21505,
@@ -863124,15 +863174,15 @@
           "language": "Japanisch",
           "title": "Yani Neko",
           "titleNative": "ヤニねこ",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "released": "03.07.2026 - 25.09.2026"
         },
         {
           "language": "Englisch",
           "title": "Chainsmoker Cat",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "02.07.2026 - 24.09.2026",
+          "released": "02.07.2026 - 25.09.2026",
           "publisher": [
             "MediaLink Entertainment Limited",
             "Netflix, Inc.",
@@ -863142,9 +863192,9 @@
         {
           "language": "Deutsch",
           "title": "Chainsmoker Cat",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "02.07.2026 - 24.09.2026",
+          "released": "02.07.2026 - 25.09.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -863152,9 +863202,9 @@
         {
           "language": "Spanisch",
           "title": "Fumadora empedernida",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "02.07.2026 - 24.09.2026",
+          "released": "02.07.2026 - 25.09.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -863162,9 +863212,9 @@
         {
           "language": "Französisch",
           "title": "Chainsmoker Cat",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "02.07.2026 - 24.09.2026",
+          "released": "02.07.2026 - 25.09.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -863172,9 +863222,9 @@
         {
           "language": "Italienisch",
           "title": "Chainsmoker Cat",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "02.07.2026 - 24.09.2026",
+          "released": "02.07.2026 - 25.09.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -863182,6 +863232,7 @@
       ],
       "format": "TV-Serie",
       "episodes": 12,
+      "runtimeMinutes": 24,
       "season": "Sommer 2026",
       "studios": [
         "Bibury Animation Studios"
@@ -863214,10 +863265,9 @@
           "name": "Yanineko Anime",
           "url": "https://yanineko-anime.com/"
         }
-      ],
-      "broadcast": "Freitag 00:30 (JST)"
+      ]
     },
-    "fetchedAt": "2026-09-24T09:53:12.374Z"
+    "fetchedAt": "2026-10-25T06:06:30.902Z"
   },
   "207191": {
     "anisearchId": 21219,
@@ -863406,6 +863456,7 @@
   },
   "207254": {
     "anisearchId": 21226,
+    "descriptionDe": "Der Mittelschüler Pyontaro führt ein recht gewöhnliches Leben, in dem ihn seine jüngere Schwester Futaba abgöttisch liebt. Gemeinsam mit seinen beiden besten Freunden, mit denen er ein eingespieltes Trio bildet, stößt er eines Tages auf eine mysteriöse Disc, die ihnen von ihrem Lehrer überlassen wurde. Beim Abspielen des vermeintlich harmlosen Speichermediums ahnen die drei Jugendlichen nicht, dass die Scheibe als Tor zu einer völlig fremden Dimension dient. Als plötzlich eine erschreckend realistisch wirkende Libelle aus dem Bildschirm krabbelt, folgt die neugierige Futaba dem Insekt und verschwindet spurlos in der dahinterliegenden Welt.\n\nAuf der anderen Seite des Portals erweist sich die parallele Erde jedoch als düsteres, von feindseligen Außerirdischen besetztes Territorium, wo die kleine Futaba augenblicklich von den Invasoren entführt wird. Um das Mädchen zu retten, zögern Pyontaro und seine Freunde nicht und wagen ebenfalls den Schritt in die unbekannte Dimension. In dieser drückenden Umwelt stellen die Jungen überrascht fest, dass die physikalischen Gesetze der neuen Welt völlig anders funktionieren. Während die Welt der Außerirdischen hochgradig realistisch wirkt, gehorchen die Körper der drei Schüler den Gesetzen ihrer stark stilisierten Heimatwelt. Durch diesen visuellen und physischen Unterschied entwickeln sie in der fremden Realität übermenschliche Kräfte, die ihre einzige Waffe darstellen, um sich gegen die Übermacht der Besatzer zu behaupten und Futaba zu befreien. \n\nQuelle: www.anisearch.de/anime/21226",
     "streams": [
       {
         "provider": "netflix",
@@ -863418,15 +863469,15 @@
           "language": "Japanisch",
           "title": "Thunder 3",
           "titleNative": "サンダー3",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "released": "09.07.2026 - 01.10.2026"
         },
         {
           "language": "Englisch",
           "title": "Thunder 3",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.07.2026 - ?",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -863434,9 +863485,9 @@
         {
           "language": "Deutsch",
           "title": "Thunder 3",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.07.2026 - ?",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -863444,9 +863495,9 @@
         {
           "language": "Spanisch",
           "title": "Thunder 3",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.07.2026 - ?",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -863454,9 +863505,9 @@
         {
           "language": "Französisch",
           "title": "Thunder 3",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.07.2026 - ?",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Netflix, Inc."
           ]
@@ -863464,20 +863515,16 @@
         {
           "language": "Italienisch",
           "title": "Thunder 3",
-          "status": "Laufend",
+          "status": "Abgeschlossen",
           "dubbed": true,
-          "released": "08.07.2026 - ?",
+          "released": "08.07.2026 - 30.09.2026",
           "publisher": [
             "Netflix, Inc."
           ]
         }
       ],
-      "issues": [
-        "Episodenanzahl: vorläufige Schätzung<br>Laufzeit: nicht bestätigt"
-      ],
       "format": "TV-Serie",
       "episodes": 12,
-      "episodesEstimated": true,
       "runtimeMinutes": 22,
       "season": "Sommer 2026",
       "studios": [
@@ -863485,7 +863532,7 @@
       ],
       "staff": [
         {
-          "name": "Yuuki IKEDA",
+          "name": "Hiroya OKU",
           "role": "Original Work"
         }
       ],
@@ -863504,9 +863551,11 @@
           "url": "https://thunder3-anime.com/"
         }
       ],
-      "broadcast": "Donnerstag 00:45 (JST)"
+      "synonyms": [
+        "Thunder Three"
+      ]
     },
-    "fetchedAt": "2026-09-24T09:53:19.410Z"
+    "fetchedAt": "2026-10-25T06:06:37.751Z"
   },
   "207327": {
     "anisearchId": 21228,
@@ -864908,7 +864957,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-09-24T09:53:26.463Z"
+    "fetchedAt": "2026-10-25T06:06:44.632Z"
   },
   "208367": {
     "anisearchId": 21940,
@@ -866556,7 +866605,7 @@
         "Hana-Kimi: For You in Full Blossom 2"
       ]
     },
-    "fetchedAt": "2026-09-24T09:53:33.504Z"
+    "fetchedAt": "2026-10-25T06:06:51.485Z"
   },
   "209670": {
     "anisearchId": 21326,
@@ -869230,7 +869279,7 @@
         "My Hero Academia: I Am a Hero Too"
       ]
     },
-    "fetchedAt": "2026-09-24T09:53:40.554Z"
+    "fetchedAt": "2026-10-25T06:06:58.339Z"
   },
   "211778": {
     "anisearchId": 21543,
