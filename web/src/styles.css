@@ -6,8 +6,11 @@
 @source not "../buehne";
 
 @theme {
-  --font-sans: 'Manrope Variable', 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Unbounded', 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+  /* Schrift E (Daniel 25.10.2026): Text in der Systemschrift, Überschriften mit Serifen aus dem Gerät, keine Webschrift beim Start. */
+  --ak-schrift-text: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ak-schrift-titel: 'Sitka Banner', Charter, 'Bitstream Charter', Cambria, 'Noto Serif', serif;
+  --font-sans: var(--ak-schrift-text);
+  --font-display: var(--ak-schrift-titel);
   /* Die fünf Schriftstufen des Detail-Panels (Größe / Zeile); `tools/panel-messen.mjs` lässt keine sechste zu. */
   --text-t1: 24px;
   --text-t1--line-height: 28px;

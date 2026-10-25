@@ -23,13 +23,12 @@ const html = (teil = '["meta","woche-kacheln"]') => `<html><head>
 <link rel="stylesheet" crossorigin href="/assets/index-G.css">
 <link rel="stylesheet" crossorigin href="/assets/index-H.css">
 <script>var voll = ["meta","titles-core"], teil = ${teil}, nimm = voll;</script></head></html>`
-const MANROPE = 'assets/manrope-latin-wght-normal-X1.woff2'
-const UNBOUNDED = 'assets/unbounded-700-de-X2.woff2'
+
 const face = (datei) => `@font-face{font-family:F;src:url(/${datei}) format("woff2")}`
-// Manrope im mittleren, Unbounded im letzten Stylesheet; Schriften, die nicht zum Start gehören, stehen daneben.
-const cssF = face('assets/manrope-cyrillic-wght-normal-X0.woff2')
-const cssG = `${face('assets/unbounded-latin-500-normal-X3.woff2')}${face(MANROPE)}`
-const cssH = face(UNBOUNDED)
+// Schriften gibt es im Start nicht mehr (Schrift E): Stylesheets ohne woff2; die Fälle mit Schrift stehen unten.
+const cssF = 'a{color:red}'
+const cssG = 'b{color:blue}'
+const cssH = 'c{color:green}'
 
 /** Kulisse mit je einer Zufallsdatei; auch Dateien, die NICHT zum Start gehören (müssen unbeachtet bleiben). */
 function kulisse(groessen, indexHtml = html(), css = { F: cssF, G: cssG, H: cssH }, wurzel = mkdtempSync(join(tmpdir(), 'start-budget-'))) {
@@ -54,10 +53,7 @@ const alle = {
   'assets/index-H.css': 4000,
   'data/meta.json': 4000,
   'data/woche-kacheln.json': 5000,
-  [MANROPE]: 10000,
-  [UNBOUNDED]: 6000,
-  'assets/manrope-cyrillic-wght-normal-X0.woff2': 7000, // nicht Teil des Starts
-  'assets/unbounded-latin-500-normal-X3.woff2': 8000, // nicht Teil des Starts
+
   'data/titles-core.json': 400000, // volle Ansicht, nicht Teil des Wochenstarts
   'assets/Dialog-D.js': 400000, // dynamisch geladen
 }
@@ -100,27 +96,28 @@ writeFileSync(join(dist, 'assets', 'komprimierbar.js'), zeilen)
 assert.deepEqual(messe(dist, ['assets/komprimierbar.js']).zeilen, [{ pfad: 'assets/komprimierbar.js', bytes: 47266 }])
 aufraeumen(dist)
 
-// Startschrift per Dateinamen-Anfang: eine Schrift, die den Namen nur enthält, ist nicht die Startschrift.
+// Jede woff2 in jedem Start-Stylesheet wird gefunden, der führende Schrägstrich fällt weg.
 {
-  const lookalike = face('assets/x-manrope-latin-wght-normal-Y.woff2') + face('assets/unbounded-700-de-Y.woff2').replace('unbounded', 'zunbounded')
-  const d = kulisse({}, html(), { F: cssF, G: lookalike + cssG, H: cssH })
-  writeFileSync(join(d, 'assets', 'index-F.css'), cssF)
-  writeFileSync(join(d, 'assets', 'index-G.css'), lookalike + cssG)
-  writeFileSync(join(d, 'assets', 'index-H.css'), cssH)
-  assert.deepEqual(startSchriften(d, ['assets/index-F.css', 'assets/index-G.css', 'assets/index-H.css']), { pfade: [MANROPE, UNBOUNDED], fehlt: [] })
+  const d = kulisse({}, html(), { F: cssF, G: cssG, H: cssH })
+  const css = ['assets/index-F.css', 'assets/index-G.css', 'assets/index-H.css']
+  for (const [n, c] of [['F', cssF], ['G', cssG], ['H', cssH]]) writeFileSync(join(d, 'assets', `index-${n}.css`), c)
+  assert.deepEqual(startSchriften(d, css), [])
+  writeFileSync(join(d, 'assets', 'index-F.css'), face('assets/a-X0.woff2'))
+  writeFileSync(join(d, 'assets', 'index-H.css'), '@font-face{src:url(/assets/c-X1.woff2)}')
+  assert.deepEqual(startSchriften(d, css), ['assets/a-X0.woff2', 'assets/c-X1.woff2'])
   aufraeumen(d)
 }
 
-// Unter der Grenze: Exit 0, Zeile mit Summe und Luft; die Summe zählt genau die Startdateien, Schriften roh als eigener Summand.
+// Unter der Grenze: Exit 0, Zeile mit Summe und Luft; die Summe zählt genau die Startdateien.
 dist = kulisse(alle)
 const { zeilen: gemessen } = messe(dist, start.dateien)
 const codeBytes = gemessen.reduce((s, z) => s + z.bytes, 0)
 assert.ok(codeBytes > 30000 && codeBytes < 31000, `Code und Daten ${codeBytes}`)
 let r = lauf(dist)
 assert.equal(r.status, 0)
-assert.match(r.stdout, /^start-budget: 4\d\.\d KB gzip von 280[.]0 KB, 23\d\.\d KB Luft \(Code und Daten 29\.\d KB \+ Schriften 15\.6 KB\)$/m)
+assert.match(r.stdout, /^start-budget: 29\.\d KB gzip von 240[.]0 KB, 21\d\.\d KB Luft \(Code und Daten 29\.\d KB\)$/m)
 // Grenzwert: genau die Summe besteht, ein Byte weniger nicht.
-const summe = codeBytes + 16000
+const summe = codeBytes
 assert.equal(bewerte(dist, summe).code, 0)
 const knapp = bewerte(dist, summe - 1)
 assert.equal(knapp.code, 1)
@@ -137,24 +134,24 @@ assert.doesNotMatch(knapp.text, /::warning::/)
 // Ohne Argument misst der Lauf `dist` im aktuellen Ordner.
 r = lauf(dist, join(dist, '..'))
 assert.equal(r.status, 0)
-assert.match(r.stdout, /^start-budget: 4\d\.\d KB gzip von 280[.]0 KB/m)
+assert.match(r.stdout, /^start-budget: 29\.\d KB gzip von 240[.]0 KB/m)
 aufraeumen(dist)
 
-// Über der Grenze: Exit 1, Aufschlüsselung mit jeder Startdatei und jeder Startschrift auf eigener Zeile.
+// Über der Grenze: Exit 1, Aufschlüsselung mit jeder Startdatei auf eigener Zeile.
 dist = kulisse({ ...alle, 'data/woche-kacheln.json': GRENZE + 5000 })
 r = lauf(dist)
 assert.equal(r.status, 1)
-assert.match(r.stderr, /^start-budget: 3\d\d\.\d KB gzip, \d+\.\d KB über der Grenze von 280[.]0 KB \(Code und Daten/m)
-for (const pfad of [...start.dateien, MANROPE, UNBOUNDED]) assert.match(r.stderr, new RegExp(`^ +[\\d.]+ KB  ${pfad.replace(/[.]/g, '\\.')}$`, 'm'))
-assert.doesNotMatch(r.stderr, /titles-core|Dialog|cyrillic|latin-500/)
+assert.match(r.stderr, /^start-budget: 2\d\d\.\d KB gzip, \d+\.\d KB über der Grenze von 240[.]0 KB \(Code und Daten/m)
+for (const pfad of start.dateien) assert.match(r.stderr, new RegExp(`^ +[\\d.]+ KB  ${pfad.replace(/[.]/g, '\\.')}$`, 'm'))
+assert.doesNotMatch(r.stderr, /titles-core|Dialog/)
 aufraeumen(dist)
 
-// Eine Startschrift fehlt im CSS: Exit 1 mit Namen, nie stilles Bestehen.
-for (const [name, css] of [['manrope-latin-wght', { F: cssF, G: cssG.replace(face(MANROPE), ''), H: cssH }], ['unbounded-700-de', { F: cssF, G: cssG, H: '' }]]) {
+// Eine Webschrift im Start-CSS (jedes der drei Stylesheets): Exit 1 mit Dateiname, nie stilles Bestehen.
+for (const [name, css] of [['F', { F: face('assets/x-F.woff2'), G: cssG, H: cssH }], ['G', { F: cssF, G: face('assets/x-G.woff2'), H: cssH }], ['H', { F: cssF, G: cssG, H: face('assets/x-H.woff2') }]]) {
   dist = kulisse(alle, html(), css)
   r = lauf(dist)
   assert.equal(r.status, 1)
-  assert.match(r.stderr, new RegExp(`^start-budget: Startschrift nicht im CSS: ${name}$`, 'm'))
+  assert.match(r.stderr, new RegExp(`^start-budget: Webschrift im Start-CSS \\(nicht gezählt, nicht vorgesehen\\): assets/x-${name}\\.woff2$`, 'm'))
   aufraeumen(dist)
 }
 
