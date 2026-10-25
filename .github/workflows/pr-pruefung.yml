@@ -121,11 +121,16 @@ jobs:
     if: ${{ always() && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # actions: write nur für `gh run cancel` im Urteilsskript: bei „alles abgebrochen“ muss dieser Job selbst als abgebrochen enden, Exit 0 zählte als success.
+    permissions:
+      contents: read
+      actions: write
     steps:
       - uses: actions/checkout@v4
       - name: Alle Teiljobs grün?
         env:
           NEEDS: ${{ toJSON(needs) }}
+          GH_TOKEN: ${{ github.token }}
         run: node tools/kette-urteil.mjs
 
 

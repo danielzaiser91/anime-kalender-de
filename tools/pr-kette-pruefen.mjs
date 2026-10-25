@@ -54,10 +54,12 @@ function zaehleVorkommen(teiljobs, vorCommit) {
 /** Urteil in `tools/kette-urteil.mjs` (Test dort): success = grün, nur cancelled = abgebrochen, sonst Exit 1. */
 const SAMMEL_ZEILEN = 'node tools/kette-urteil.mjs'
 const CHECKOUT = { uses: 'actions/checkout@v4' }
-const SAMMEL_ENV = { NEEDS: '${{ toJSON(needs) }}' }
+const SAMMEL_ENV = { NEEDS: '${{ toJSON(needs) }}', GH_TOKEN: '${{ github.token }}' }
+/** `actions: write` nur für `gh run cancel` im Urteilsskript (nichts sonst am Sammeljob). */
+const SAMMEL_RECHTE = { contents: 'read', actions: 'write' }
 const WORKFLOW_SCHLUESSEL = ['name', 'on', 'permissions', 'env', 'concurrency', 'jobs']
 const JOB_SCHLUESSEL = ['name', 'if', 'runs-on', 'timeout-minutes', 'steps']
-const SAMMEL_JOB_SCHLUESSEL = [...JOB_SCHLUESSEL, 'needs']
+const SAMMEL_JOB_SCHLUESSEL = [...JOB_SCHLUESSEL, 'needs', 'permissions']
 const SCHRITT_SCHLUESSEL = ['name', 'uses', 'with', 'run', 'env']
 const UPLOAD = 'actions/upload-pages-artifact@v3'
 const ERLAUBTE_ACTIONS = ['actions/checkout@v4', './.github/actions/kette-einrichten', UPLOAD]
@@ -87,7 +89,7 @@ function pruefeSammlerSchritte(sammler) {
   if (JSON.stringify(schritte[0]) !== JSON.stringify(CHECKOUT)) fehler.push('Sammeljob: erster Schritt ist nicht exakt actions/checkout@v4 ohne Zusätze')
   for (const s of schritte.slice(1)) {
     for (const k of fremdeSchluessel(s, ['name', 'env', 'run'])) fehler.push(`Sammeljob: Schlüssel "${k}" am Schritt nicht erlaubt`)
-    if (JSON.stringify(s.env) !== JSON.stringify(SAMMEL_ENV)) fehler.push('Sammeljob: env ist nicht exakt NEEDS: ${{ toJSON(needs) }}')
+    if (JSON.stringify(s.env) !== JSON.stringify(SAMMEL_ENV)) fehler.push('Sammeljob: env ist nicht exakt NEEDS und GH_TOKEN')
     if (String(s.run ?? '').trim() !== SAMMEL_ZEILEN) {
       fehler.push('Sammeljob: nicht auf success geprüft - die Schritt-Zeilen sind nicht textgleich der Sollfassung (node tools/kette-urteil.mjs)')
     }
@@ -109,7 +111,8 @@ function pruefeSammler(jobs, sammlerId) {
   if (sammler.if !== erwartetIf) {
     fehler.push(`Sammeljob: if ist nicht textgleich "${erwartetIf}" (always() ist Pflicht, sonst überspringt ihn ein roter Teiljob = bestanden)`)
   }
-  fehler.push(...pruefeJobForm('Sammeljob', sammler, SAMMEL_JOB_SCHLUESSEL), ...pruefeSammlerSchritte(sammler))
+  if (JSON.stringify(sammler.permissions) !== JSON.stringify(SAMMEL_RECHTE)) fehler.push('Sammeljob: permissions sind nicht exakt contents: read, actions: write')
+  fehler.push(...pruefeJobForm('Sammeljob', sammler, SAMMEL_JOB_SCHLUESSEL),...pruefeSammlerSchritte(sammler))
   return fehler
 }
 
