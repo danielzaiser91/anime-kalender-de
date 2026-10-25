@@ -43,12 +43,14 @@ const stand = {
   alpha: { lastOk: vor(7 * TAG) },
   neu: { lastOk: vor(1 * TAG) },
   stumm: {},
+  leer: null,
 }
 const zeilen = eskalationsZeilen(stand, JETZT, { 'link-check': 9 })
-assert.equal(zeilen.length, 3)
-assert.match(zeilen[0], /^ALARM Quelle link-check seit 19\.0 Tagen/)
-assert.match(zeilen[1], /^ALARM Quelle stumm noch nie/)
-assert.match(zeilen[2], /^ALARM Quelle zeta seit 9\.0 Tagen ohne Erfolg \(Frist 4 Tage, Eskalation ab 8\)/)
+assert.equal(zeilen.length, 4)
+assert.match(zeilen[0], /^ALARM Quelle leer noch nie/)
+assert.match(zeilen[1], /^ALARM Quelle link-check seit 19\.0 Tagen/)
+assert.match(zeilen[2], /^ALARM Quelle stumm noch nie/)
+assert.match(zeilen[3], /^ALARM Quelle zeta seit 9\.0 Tagen ohne Erfolg \(Frist 4 Tage, Eskalation ab 8\)/)
 assert.deepEqual(eskalationsZeilen({}, JETZT), [])
 
 const wegwerf = mkdtempSync(join(tmpdir(), 'wache-eskalation-'))

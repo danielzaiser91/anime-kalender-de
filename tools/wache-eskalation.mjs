@@ -41,6 +41,6 @@ export function eskalationsText(datei, jetztMs) {
   try {
     return eskalationsZeilen(JSON.parse(readFileSync(datei, 'utf8')), jetztMs)
   } catch (fehler) {
-    return [`ALARM? ${datei} nicht lesbar: ${String(fehler.message).split('\n')[0]}`]
+    return [`ALARM? ${datei} nicht lesbar: ${fehler.message}`]
   }
 }
