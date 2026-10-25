@@ -25,6 +25,7 @@
  * | Doku: *.md, docs, daniel-zum-abarbeiten, mockups                            | 0       |
  * | Text: data/patchnotes/*.yaml, web/src/**\/i18n*.ts(x)                       | 0       |
  * | eine einzelne *.css unter web/src oder extension, höchstens 30 Zeilen       | 0       |
+ * | nur Testdateien (*.test.*, *.spec.*; auch Umbenennungsquellen), sonst 2     | höchstens 1 |
  * | web/src-Code, dessen geänderte Zeilen alle Kommentare sind, höchstens 30    | 0       |
  *
  * Herabstufung gibt es nur durch diese Tabelle. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen,
@@ -53,6 +54,8 @@ const CSS = /^(web\/src|extension)\/.*\.css$/
 const WEB_CODE = /^web\/src\/.*\.tsx?$/
 const RECHTSTEXT = /(impressum|datenschutz|nutzungsbedingungen)/i
 const STUFE_1 = /^(web\/src\/|extension\/|data\/dub-confirmed\.yaml$|data\/curated\/|data\/[^/]+\.yaml$)/
+// Testdatei: Name endet auf .test./.spec. mit Skript-Endung (in jedem Ordner).
+const TESTDATEI = /(^|\/)[^/]+\.(test|spec)\.[cm]?[jt]sx?$/
 const FAKTENZAHL = /\b\d{1,2}:\d{2}\b|\b\d{4}-\d{2}-\d{2}\b|\b\d{1,2}\.\d{1,2}\.(\d{2,4})?(?!\d)|\b\d+\s*(Folgen?|Episoden?|Staffeln?|Uhr)\b|\b\d{5,}\b/i
 
 /**
@@ -137,6 +140,11 @@ function stufeOhneModus(d, n) {
   return [2, 'Pfad ohne Herabstufungsregel (Pipeline, Logik, Workflow, Worker, Schema oder unbekannt)']
 }
 
+function nurTest(d) {
+  if (d.unlesbar || d.symlink) return false
+  return TESTDATEI.test(d.pfad) && (!d.quelle || TESTDATEI.test(d.quelle))
+}
+
 /** Stufe des ganzen Diffs. Eingabe: Ergebnis von liesDiff. */
 export function bestimmeStufe(dateien) {
   const begruendung = []
@@ -146,6 +154,9 @@ export function bestimmeStufe(dateien) {
     if (s > 0) begruendung.push(`${d.pfad}: Stufe ${s} (${grund})`)
     stufe = Math.max(stufe, s)
   }
+  // Nur Tests: höchstens Stufe 1, nicht 0 — gelöschte Tests oder geschwächte Zusicherungen sind aus dem Pfad nicht erkennbar.
+  // Schon eine Nicht-Testdatei (auch als Umbenennungsquelle) lässt die Tabelle unverändert gelten.
+  if (dateien.length > 0 && dateien.every(nurTest)) stufe = Math.min(stufe, 1)
   // „Eine Komponente/Datei": mehrere CSS-Dateien sind keine gescopte Anpassung.
   const csss = dateien.filter((d) => CSS.test(d.pfad))
   if (csss.length > 1 && stufe === 0) {

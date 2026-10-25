@@ -2,6 +2,7 @@
 // `titel_id` an der mittleren. Der Bestand ist eine Attrappe wie in `kanal-abgehakt-mock.mjs`; GET /pruefung liefert die Meldung.
 import fs from 'node:fs'
 import { syncBuiltinESMExports } from 'node:module'
+import { baueFetchAttrappe, istMeldungsabruf, meldungsAntwort } from './fetch-attrappe.mjs'
 
 const gti = (n) => `https://watch.amazon.de/detail?gti=amzn1.dv.gti.0000000${n}-0000-0000-0000-000000000000`
 const titel = (id) => ({ id, titleDe: `Gti-Titel ${id}`, episodes: 12, streams: [{ platform: 'primevideo', url: gti(id) }] })
@@ -16,9 +17,9 @@ fs.readFileSync = (p, ...rest) => {
 }
 syncBuiltinESMExports()
 
-const echt = globalThis.fetch
-globalThis.fetch = async (url, opt) => {
-  if (String(url).includes('/pruefung') && !(opt && opt.method === 'POST')) {
+globalThis.fetch = baueFetchAttrappe(
+  (url, opt) => {
+    if (!istMeldungsabruf(url, opt)) return undefined
     const zeile = {
       id: 900001,
       plattform: 'primevideo',
@@ -39,7 +40,6 @@ globalThis.fetch = async (url, opt) => {
       titel_id: null,
       folge: null,
     }
-    return new Response(JSON.stringify({ pruefungen: [zeile] }), { status: 200, headers: { 'content-type': 'application/json' } })
-  }
-  return echt(url, opt)
-}
+    return meldungsAntwort([zeile])
+  },
+)

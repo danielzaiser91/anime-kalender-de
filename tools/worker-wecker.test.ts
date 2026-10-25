@@ -32,6 +32,12 @@ process.env.TZ = 'America/Los_Angeles'
 festeUhr('2026-10-20T10:30:00Z')
 
 const gestartet: string[] = []
+/** Starts und Lauf-Abfragen in einem anderen Repo als anime-kalender-de, als `repo/workflow`. */
+const fremdGestartet: string[] = []
+const fremdAbgefragt: string[] = []
+const HAUPT = 'danielzaiser91/anime-kalender-de'
+/** Antwort der Attrappe auf einen Start im Fremd-Repo. */
+let fremdStatus = 204
 const kopfZeilen: string[] = []
 /** Antwort der Attrappe auf "letzte Läufe" (neuester zuerst); leer = nie gelaufen. */
 let bisherige: { created_at: string; status: string; conclusion: string }[] = []
@@ -42,11 +48,15 @@ function mitAufzeichnung(): void {
   const weiter = globalThis.fetch
   globalThis.fetch = (async (eingabe: RequestInfo | URL, init?: RequestInit) => {
     const url = typeof eingabe === 'string' ? eingabe : eingabe instanceof URL ? eingabe.href : eingabe.url
-    const treffer = /actions\/workflows\/([^/]+)\/dispatches$/.exec(url)
+    const treffer = /repos\/([^/]+\/[^/]+)\/actions\/workflows\/([^/]+)\/dispatches$/.exec(url)
     if (treffer && init?.method === 'POST') {
-      gestartet.push(treffer[1])
+      if (treffer[1] === HAUPT) gestartet.push(treffer[2])
+      else fremdGestartet.push(`${treffer[1]}/${treffer[2]}`)
       kopfZeilen.push(String((init.headers as Record<string, string>).Authorization))
     }
+    if (treffer && init?.method === 'POST' && treffer[1] !== HAUPT && fremdStatus !== 204) return new Response('{}', { status: fremdStatus })
+    const abfrage = /repos\/([^/]+\/[^/]+)\/actions\/workflows\/([^/]+)\/runs\?/.exec(url)
+    if (abfrage && abfrage[1] !== HAUPT) fremdAbgefragt.push(`${abfrage[1]}/${abfrage[2]}`)
     if (url.includes('/runs?')) return new Response(JSON.stringify({ workflow_runs: bisherige }), { status: 200 })
     return weiter(eingabe, init)
   }) as typeof fetch
@@ -100,6 +110,34 @@ pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), MONTAG_VIER)), [])
 bisherige = lauf(41)
 pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), MONTAG_VIER)), ['refresh-hourly.yml']), '41 min vor der Wecker-Zeit: der stündliche Lauf startet, Tages- und Monatslauf (600 min und mehr) bleiben gesperrt')
 bisherige = []
+
+// Nativ-Repo: `daten.yml` wird jede Stunde fällig; Abfrage und Start gehen an anime-kalender-nativ, nie an das Hauptrepo.
+const NATIV_DATEN = 'danielzaiser91/anime-kalender-nativ/daten.yml'
+for (const zeit of ['2026-10-19T04:00:00.000Z', '2026-10-19T15:00:00.000Z', '2026-10-20T23:00:00.000Z']) {
+  fremdGestartet.length = 0
+  fremdAbgefragt.length = 0
+  const haupt = await nach(() => starteFaelligeLaeufe(env('t'), new Date(zeit)))
+  pruefe(JSON.stringify(fremdGestartet) === JSON.stringify([NATIV_DATEN]), `${zeit}: daten.yml startet im Nativ-Repo`)
+  pruefe(JSON.stringify(fremdAbgefragt) === JSON.stringify([NATIV_DATEN]), `${zeit}: die Lauf-Abfrage geht ans Nativ-Repo`)
+  pruefe(!haupt.includes('daten.yml'), `${zeit}: daten.yml wird nicht im Hauptrepo gestartet`)
+}
+bisherige = lauf(10)
+fremdGestartet.length = 0
+await starteFaelligeLaeufe(env('t'), MONTAG_VIER)
+pruefe(fremdGestartet.length === 0, 'Nativ-Lauf vor 10 min: Mindestabstand 40 min sperrt auch das Fremd-Repo')
+bisherige = []
+// Token ohne Recht am Nativ-Repo (403) oder Workflow fehlt (404): kein Absturz, die Hauptrepo-Läufe starten, das Log nennt Repo und Workflow.
+const fehlerLog: string[] = []
+console.error = (...a: unknown[]) => void fehlerLog.push(a.join(' '))
+for (const status of [403, 404]) {
+  fremdStatus = status
+  fehlerLog.length = 0
+  const haupt = await nach(() => starteFaelligeLaeufe(env('t'), MONTAG_VIER))
+  pruefe(gleich(haupt, ['refresh-hourly.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']), `Nativ-Start ${status}: die Hauptrepo-Läufe starten trotzdem`)
+  pruefe(fehlerLog.some((z) => z.includes(`danielzaiser91/anime-kalender-nativ/daten.yml: HTTP ${status}`)), `Nativ-Start ${status}: Log nennt Repo, Workflow und Status`)
+}
+fremdStatus = 204
+console.error = () => {}
 
 stumm('scheduled (Wecker-Aufruf in index.ts):')
 /** Ein Cron-Aufruf mit fester `scheduledTime`; wartet auf alles, was an `waitUntil` geht. */

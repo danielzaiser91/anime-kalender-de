@@ -41,6 +41,19 @@ assert.deepEqual(weckplanLuecken('', { 'z.yml': zeitplan }, {}), [])
 assert.equal(weckplanLuecken('', { 'a.yml': abruf }, { 'a.yml': 'Grund', 'weg.yml': 'Grund' }).length, 1)
 assert.equal(weckplanLuecken("{ workflow: 'a.yml' }", { 'a.yml': abruf }, { 'a.yml': 'Grund' }).length, 1)
 assert.equal(weckplanLuecken('', { 'a.yml': 'name: x\n' }, {}).length, 1)
+// Fremdes Repo im Plan: der Workflow liegt nicht hier, die Wache muss ihn nicht nachholen, und er deckt keinen gleichnamigen Workflow hier.
+const fremd = "{ workflow: 'f.yml', repo: 'o/r', abstandMin: 40 },\n{ workflow: 'h.yml', abstandMin: 40 }"
+assert.equal(wachePlanBefunde(fremd, 'h.yml:5').length, 0)
+assert.equal(wachePlanBefunde(fremd, 'f.yml:5').length, 1)
+assert.equal(weckplanLuecken(fremd, { 'f.yml': abruf }, {}).length, 1)
+// `repo: '` in einem Kommentar (auch in der Zeile davor) lässt keinen Hauptrepo-Eintrag fallen.
+const kommentar = "// Nativ: repo: 'o/r'\n{ workflow: 'h.yml', abstandMin: 40 }, // repo: 'x'\n// repo: 'y'\n{ workflow: 'g.yml', abstandMin: 40 }"
+assert.equal(wachePlanBefunde(kommentar, '').length, 2)
+assert.equal(weckplanLuecken(kommentar, { 'h.yml': abruf, 'g.yml': abruf }, {}).length, 0)
+// Kommentar innerhalb eines mehrzeiligen Eintrags desselben Hauptrepos.
+const innen = "{ workflow: 'k.yml',\n  // repo: 'z'\n  abstandMin: 40 }"
+assert.equal(wachePlanBefunde(innen, '').length, 1)
+assert.equal(weckplanLuecken(innen, { 'k.yml': abruf }, {}).length, 0)
 // Gegenprobe am echten Bestand: ohne offizielle-news.yml im Plan wird die Prüfung rot, mit ihm grün.
 const wurzel = new URL('..', import.meta.url)
 const planText = readFileSync(new URL('shared/weckplan.ts', wurzel), 'utf8')

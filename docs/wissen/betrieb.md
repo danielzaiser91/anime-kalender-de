@@ -195,6 +195,10 @@ eigenen Commits nicht enthielt. Ohne diesen Blick wäre die Arbeit eines ganzen
 Abschnitts liegen geblieben — sichtbar erst beim nächsten Datenlauf, der auf
 einem Stand ohne sie gebaut hätte.
 
+## Merge-Konflikt in der News-Historie (25.10.2026)
+
+Die News-Historie ist einzeilig, jeder Bestandsbau ändert sie; ein PR, der sie ergänzt, kollidiert deshalb fast sicher. Bei diesem Konflikt nicht von Hand lösen, sondern `node tools/news-historie-zusammenfuehren.mjs <basis> <pr> <main> <ziel>` aufrufen (Stände per `git show <merge-base>:…`, `HEAD:…`, `origin/main:…`): es überträgt nur die PR-Änderungen auf main, behält das main-Format und bricht bei verschiedenen Änderungen desselben Felds mit Exit 1 ab.
+
 ## Eine Migration wird angewandt **und** gebucht — sonst läuft die Buchführung weg
 
 Bis zum 10.09.2026 führte `wrangler d1 migrations list` elf Migrationen (018
@@ -1069,7 +1073,9 @@ Umsetzung: `pipeline/lib/beleg-bild.ts` (`belegAusschnitt`), benutzt von `belege
 
 ## Stunden-Wecker über Cloudflare (04.10.2026)
 
-GitHubs Cron-Plan für `refresh-hourly.yml` (`23 * * * *`) feuerte real etwa alle 4,6 Stunden. Der Worker `newsletter` (Cron `0 * * * *`) startet den Workflow deshalb zusätzlich per `workflow_dispatch` (`worker/src/wecker.ts`). Das Token liegt als Worker-Secret `GITHUB_WECKER_TOKEN` (Fine-grained PAT, nur dieses Repo, Actions: Read and write; Wert in `my_secrets.md`). Gesetzt mit `wrangler secret put GITHUB_WECKER_TOKEN --config wrangler.toml` im Ordner `worker/` (ohne `--config` legt wrangler einen leeren Worker an). Prüfen: nach der vollen Stunde `gh run list --workflow refresh-hourly.yml` — ein Lauf mit Ereignis `workflow_dispatch` um :00. Läuft der Plan von GitHub zusätzlich, schützt die `concurrency`-Gruppe des Workflows vor Doppelläufen.
+GitHubs Cron-Plan für `refresh-hourly.yml` (`23 * * * *`) feuerte real etwa alle 4,6 Stunden. Der Worker `newsletter` (Cron `0 * * * *`) startet den Workflow deshalb zusätzlich per `workflow_dispatch` (`worker/src/wecker.ts`). Das Token liegt als Worker-Secret `GITHUB_WECKER_TOKEN` (Fine-grained PAT, dieses Repo und `anime-kalender-nativ`, Actions: Read and write; Wert in `my_secrets.md`). Gesetzt mit `wrangler secret put GITHUB_WECKER_TOKEN --config wrangler.toml` im Ordner `worker/` (ohne `--config` legt wrangler einen leeren Worker an). Prüfen: nach der vollen Stunde `gh run list --workflow refresh-hourly.yml` — ein Lauf mit Ereignis `workflow_dispatch` um :00. Läuft der Plan von GitHub zusätzlich, schützt die `concurrency`-Gruppe des Workflows vor Doppelläufen.
+
+**Fremdes Repo (25.10.2026):** Ein Plan-Eintrag mit `repo` startet seinen Workflow in diesem Repo — so `daten.yml` in `danielzaiser91/anime-kalender-nativ`, stündlich (GitHubs Zeitplan schaltet sich dort nach 60 Ruhetagen ab). Die Wecker-Wache (`wecker-wache.yml`, nur im Hauptrepo) und die Plan-Leser in `tools/zugangs-waechter.mjs` überspringen solche Einträge; fällt der Wecker aus, holt niemand den Nativ-Lauf nach (der nächste Wecker-Start tut es).
 
 ## Warum Commits an Datendateien warten mussten — und was daran geändert ist (04.10.2026)
 

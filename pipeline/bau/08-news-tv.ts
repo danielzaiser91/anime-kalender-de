@@ -20,12 +20,15 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
   // `data/curated/`, Crunchyroll oder ADN schon da ist, gewinnt gegen den Bot.
   const rohVorschlaege = readJson<{ proposals?: Vorschlag[] }>('data/proposals/anime2you.json', {})
   const sammelV = vorschlaegeAusAllenSammelartikeln(rohVorschlaege.proposals ?? [])
+  const teilVerworfen: string[] = []
   const ausMeldungen = releasesAus(
     [...(rohVorschlaege.proposals ?? []), ...sammelV],
     [...titles.values()],
     releases,
     todayIso(),
+    teilVerworfen,
   )
+  log(`${teilVerworfen.length} Anime2You-Meldungen mit Part-/Cour-/Box-Hinweis keinem Teil sicher zuzuordnen — verworfen${teilVerworfen.length ? `: ${teilVerworfen.join(' | ')}` : ''}`)
   releases.push(...ausMeldungen)
   /* Kein Termin aus einer Meldung, die nur Originalton nennt — gezählt und gelistet (`listen/23-nur-originalton.md`, Posteingang); über zehn (10.10.2026: 1) greift das Muster vermutlich zu weit. */
   const nurOmu = nurOriginaltonMeldungen(rohVorschlaege.proposals ?? [])

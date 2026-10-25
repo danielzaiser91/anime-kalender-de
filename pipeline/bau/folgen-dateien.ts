@@ -24,6 +24,7 @@ import yaml from 'js-yaml'
 import { readJson, writeJson, log, clearDir, ROOT } from '../lib/util.ts'
 import { OUT } from './grundlagen.ts'
 import { ladeTitelQuellen, mitFremdTiteln } from './folgentitel-stufen.ts'
+import { folgenZeilen } from './folgentitel-zeilen.ts'
 
 interface Folge {
   nr: number
@@ -107,7 +108,7 @@ export function schreibeFolgenDateien(titel: Title[]): void {
     const de = deutscheFolgen(t, wikiFolgen, heute, Math.max(...f.map((x) => x.nr)))
     zaehlung[t.id] = [f.length, f.filter((x) => de.some(([von, bis]) => x.nr >= von && x.nr <= bis)).length]
     writeJson(`${ordner}/${t.id}.json`, {
-      f: f.map((x) => (einheitlich ? [x.nr, x.de ?? x.en ?? x.ja ?? ''] : [x.nr, x.de ?? x.en ?? x.ja ?? '', x.minuten ?? 0])),
+      f: folgenZeilen(f, einheitlich),
       de,
       ...(einheitlich ? { min: einheitlich } : {}),
       ...(hinweise.some((h) => h.anilistId === t.id) ? { h: hinweise.filter((h) => h.anilistId === t.id).map((h) => [h.folge, h.text]) } : {}),

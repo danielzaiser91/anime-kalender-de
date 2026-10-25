@@ -13,6 +13,9 @@ export function ohneAnimation(cache: Record<string, Eintrag>, vonHand: Set<numbe
     .map(([id]) => Number(id))
 }
 
+/** Zuordnung, deren Genre nie gelesen wurde (Detailabruf gescheitert oder Bestand von vor `genreIds`): der Filter hat sie nie gesehen, `data:tmdb` holt sie sofort nach. */
+export const genreFehlt = (e: Eintrag): boolean => !!e.tmdbId && !e.genreIds
+
 /** Titel mit Zuordnung, deren Genre noch nie gelesen wurde (Bestand aus der Zeit vor `genreIds`). */
 export const genreUngemessen = (cache: Record<string, Eintrag>): number[] =>
-  Object.entries(cache).filter(([, e]) => e.tmdbId && !e.genreIds).map(([id]) => Number(id))
+  Object.entries(cache).filter(([, e]) => genreFehlt(e)).map(([id]) => Number(id))

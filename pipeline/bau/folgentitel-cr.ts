@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { gunzipSync } from 'node:zlib'
 import type { Title } from '../../shared/types.ts'
+import { istPlatzhalter } from './folgentitel-zeilen.ts'
 
 /**
  * **Deutsche Folgentitel aus Crunchyroll** (Daniel, 04.10.2026: aniSearch hat für viele Serien keine; Quellenvergleich in
@@ -78,10 +79,11 @@ interface Folge {
 
 /**
  * Die Liste aus aniSearch, wo sie keinen Titel hat, mit den Titeln aus Crunchyroll gefüllt; fehlt die Liste ganz, entsteht sie aus Crunchyroll
- * (mindestens zwei Folgen). Ein vorhandener Titel wird nie überschrieben.
+ * (mindestens zwei Folgen). Ein vorhandener Titel wird nie überschrieben; ein Titel, der dem englischen oder japanischen der Liste gleicht, gilt nicht als deutsch (TMDB-Folge 147: Text englisch, unter „de“).
  */
 export function mitCrTiteln(f: Folge[] | undefined, cr: Map<number, string> | undefined): Folge[] | undefined {
   if (!cr) return f
-  if (!f || f.length < 2) return cr.size >= 2 ? [...cr].sort((a, b) => a[0] - b[0]).map(([nr, de]) => ({ nr, de })) : f
-  return f.map((x) => (x.de ?? x.en ?? x.ja ? x : cr.has(x.nr) ? { ...x, de: cr.get(x.nr) } : x))
+  const echt = [...cr].filter(([, t]) => !istPlatzhalter(t))
+  if (!f || f.length < 2) return echt.length >= 2 ? echt.sort((a, b) => a[0] - b[0]).map(([nr, de]) => ({ nr, de })) : f
+  return f.map((x) => (x.de || !cr.has(x.nr) || [x.en, x.ja].includes(cr.get(x.nr)) || istPlatzhalter(cr.get(x.nr)!) ? x : { ...x, de: cr.get(x.nr) }))
 }
