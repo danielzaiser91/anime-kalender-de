@@ -10,7 +10,7 @@
 
   /**
    * Wie viele Folgen die Staffel hat, gemessen an dem, was lesbar ist. Die Seitenzahl meint bei Bänden
-   * die ganze Staffel (ZEXAL: 96 genannt, 48 erreichbar; „fehlen 48“ für immer). Sind mindestens zwei Abschnitte
+   * die ganze Staffel (ZEXAL: 96 genannt, 48 erreichbar; ohne bekannte Abschnitte bleibt die Seitenzahl, der Satz zeigt beim Stillstand dann das Gelieferte, s. akPrimeLeseStand). Sind mindestens zwei Abschnitte
    * bekannt und alle wirklich gelesen (`offen` 0; ein fehlgeschlagener oder unlesbarer Abschnitt bleibt offen),
    * gilt das Gelesene. Sonst die größere Zahl von Zählwerk und Seite.
    */
