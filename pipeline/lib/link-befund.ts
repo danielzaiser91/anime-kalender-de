@@ -19,6 +19,17 @@ export interface LinkBefund {
   geprueftAm?: string
 }
 
+/** Positivliste: HTTP-Status außer 403/429 (Abwehr, beweist nichts) und Amazons Regionssatz; `unklar`, `timeout`, `fehler` zählen nicht. Die einzige Regel für „echte Auskunft“. */
+export function istAuskunft(status: unknown): boolean {
+  if (status === 'region') return true
+  return typeof status === 'number' && status !== 403 && status !== 429
+}
+
+/** Unbrauchbare Adresse: 404 oder Regionssperre (eine endgültige Auskunft, nie eine Nichtauskunft). */
+export function istTot(status: unknown): boolean {
+  return status === 404 || status === 'region'
+}
+
 /** Der jüngste Befund je Seite (`adressKern`) — der ältere derselben Seite fällt weg. */
 export function juengsteJeKern(befunde: Record<string, LinkBefund>): Map<string, LinkBefund> {
   const karte = new Map<string, LinkBefund>()
