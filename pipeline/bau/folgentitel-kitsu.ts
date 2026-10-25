@@ -5,7 +5,7 @@ import type { Title } from '../../shared/types.ts'
  * keine Laufzeit je Folge). Quelle ist `data/kitsu-folgen.json` (`fetch-kitsu-folgen.ts`): Kitsu-Kennung über die MAL-Kennung, je Folge Nummer, Titel, Minuten.
  *
  * Es zählt nur, was zusammenpasst: Kitsus Folgenzahl ist genau unsere, die Nummern laufen 1…n ohne Lücke und Doppelte. Sonst gibt es nichts — keine Nummer wird geraten.
- * Kitsus Titel sind englisch oder umschrieben, nie deutsch; sie füllen nur Folgen, die sonst gar keinen Titel hätten. Ein Titel aus einer früheren Stufe bleibt.
+ * Kitsus Titel sind englisch oder umschrieben, nie deutsch, und werden seit 24.10.2026 (F57, „nur deutsche") nicht mehr übernommen: aus Kitsu kommen nur Folgenlängen (und die Nummern einer sonst leeren Liste).
  */
 export interface KitsuEintrag {
   k: number | null
@@ -20,8 +20,6 @@ interface Folge {
   ja?: string
 }
 
-const PLATZHALTER = /^(folge|episode|ep\.?)\s*\d*$/i
-
 /** Die Kitsu-Folgen dieses Titels, wenn sie zu ihm passen: genau seine Zahl, Nummern 1…n. */
 function passendeFolgen(titel: Title, e: KitsuEintrag | undefined): [number, string, number][] | undefined {
   if (!e?.k || !titel.episodes || e.f.length !== titel.episodes) return undefined
@@ -29,7 +27,7 @@ function passendeFolgen(titel: Title, e: KitsuEintrag | undefined): [number, str
   return nummern.every((n, i) => n === i + 1) ? e.f : undefined
 }
 
-/** Füllt Lücken in Titel und Minuten; ein vorhandener Wert bleibt. Gibt die Liste unverändert zurück, wo Kitsu nichts Passendes hat. */
+/** Füllt Lücken in den Minuten (Titel nicht, siehe oben); ein vorhandener Wert bleibt. Gibt die Liste unverändert zurück, wo Kitsu nichts Passendes hat. */
 export function mitKitsuTiteln(titel: Title, folgen: Folge[] | undefined, e: KitsuEintrag | undefined): Folge[] | undefined {
   const aus = passendeFolgen(titel, e)
   if (!aus) return folgen
@@ -38,10 +36,8 @@ export function mitKitsuTiteln(titel: Title, folgen: Folge[] | undefined, e: Kit
   return basis.map((x) => {
     const k = jeNr.get(x.nr)
     if (!k) return x
-    const name = k[1] && !PLATZHALTER.test(k[1]) ? k[1] : undefined
     return {
       ...x,
-      ...(!(x.de ?? x.en ?? x.ja) && name ? { en: name } : {}),
       ...(!x.minuten && k[2] > 0 ? { minuten: k[2] } : {}),
     }
   })
