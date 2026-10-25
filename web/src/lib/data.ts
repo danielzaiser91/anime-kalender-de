@@ -2,6 +2,7 @@ import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
 import { datenAdresse } from './daten-adresse.ts'
 import { SYNOPSIS_GROUPS, type DiscAusgabe } from '@shared/types.ts'
 import type { WochenDatei } from '@shared/wochen-datei.ts'
+import { KACHEL_DATEI } from '@shared/wochen-kacheln.ts'
 import type { DataMeta, Franchises, Meldung, NewsEintrag, Release, ReleaseEvent, Title } from '@shared/types.ts'
 
 export interface Dataset {
@@ -70,9 +71,9 @@ export interface WochenStart {
 
 let wochenStartPromise: Promise<WochenStart> | undefined
 
-/** `woche.json` + `meta.json` statt der drei vollen Dateien — für den Erstaufruf der Wochenansicht. */
+/** `woche-kacheln.json` (nur Kachelfelder, `shared/wochen-kacheln.ts`) + `meta.json` statt der drei vollen Dateien — für den Erstaufruf der Wochenansicht. */
 export function loadWochenStart(): Promise<WochenStart> {
-  wochenStartPromise ??= Promise.all([loadJson<WochenDatei>('woche.json'), loadMeta()]).then(([w, meta]) => ({
+  wochenStartPromise ??= Promise.all([loadJson<WochenDatei>(`${KACHEL_DATEI}.json`), loadMeta()]).then(([w, meta]) => ({
     data: baueDataset(w.titles, w.releases, w.events, meta),
     von: w.von,
     bis: w.bis,

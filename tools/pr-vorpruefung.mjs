@@ -102,13 +102,29 @@ export function existiertIn(bekannt, aufPlatte) {
 
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 1 << 28 })
 
-function umfangRot() {
+/** Fährt einen Wächter als eigenen Prozess im Repo-Wurzelordner; rot = Exit ≠ 0, samt Ausgabe. */
+function waechterRot(skript, name) {
   try {
-    execFileSync(process.execPath, ['tools/umfang-pruefen.mjs'], { encoding: 'utf8', stdio: 'pipe' })
+    execFileSync(process.execPath, [skript], { encoding: 'utf8', stdio: 'pipe' })
     return []
   } catch (e) {
-    return [`check:umfang rot:\n${String(e.stdout ?? '') + String(e.stderr ?? '')}`.trimEnd()]
+    return [`${name} rot:\n${String(e.stdout ?? '') + String(e.stderr ?? '')}`.trimEnd()]
   }
+}
+
+const umfangRot = () => waechterRot('tools/umfang-pruefen.mjs', 'check:umfang')
+/** Fundstellen (`datei:zeile`) aus `--liste`, die in einer Datei des Diffs stehen. */
+export function fundeImDiff(liste, dateien) {
+  return liste.split('\n').filter((z) => z && dateien.includes(z.slice(0, z.lastIndexOf(':'))))
+}
+
+/** Dieselbe Grenze wie die Kette (tools/uhr-in-tests-grenzen.json); bei Rot kommen die Fundstellen in den Dateien des Diffs dazu. */
+function uhrRot(dateien) {
+  const rot = waechterRot('tools/uhr-in-tests.mjs', 'Uhr in Tests (new Date()/Date.now())')
+  if (!rot.length) return rot
+  const liste = execFileSync(process.execPath, ['tools/uhr-in-tests.mjs', '--liste'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
+  const eigene = fundeImDiff(liste, dateien)
+  return [eigene.length ? `${rot[0]}\nEchte Uhr in Dateien dieses PR: ${eigene.join(', ')}` : rot[0]]
 }
 
 function argWert(name) {
@@ -132,14 +148,14 @@ function main() {
     existiert: existiertIn(bekannt, existsSync),
   })
   const lies = (name) => (existsSync(name) ? readFileSync(name, 'utf8') : null)
-  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot()]
+  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot(), ...uhrRot(dateien)]
   for (const h of urteil.gelb) console.log(`  ! Hinweis: ${h}`)
   for (const r of rot) console.error(`  ✖ Vorprüfung: ${r}`)
   if (rot.length) {
     console.error(`Vorprüfung rot (${rot.length}): der CI-Prüfer würde „ändern“ sagen. Text/Commit anpassen, dann erneut einreichen.`)
     process.exit(1)
   }
-  console.log(`  ✓ Vorprüfung: ${dateien.length} Dateien, Beschreibung, Patch Notes und Umfang passen.`)
+  console.log(`  ✓ Vorprüfung: ${dateien.length} Dateien, Beschreibung, Patch Notes, Umfang und Uhr in Tests passen.`)
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) main()
