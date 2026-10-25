@@ -10,6 +10,9 @@ import type { WochenDatei } from './wochen-datei.ts'
  * Termine bleiben unverändert. Die Listen unten sind **Abzugslisten**: Ein neues Feld im Datensatz kommt von selbst mit — ein Zuviel
  * zeigt das Start-Budget, ein Zuwenig würde die Kachel still falsch zeichnen. Gemessen mit `tools/kachel-felder-messen.mjs`.
  */
+/** Name der Datei (ohne `.json`): Bau, Vorlade-Skript und App lesen ihn von hier, damit nie eine Seite eine andere Datei holt als die vorgeladene. */
+export const KACHEL_DATEI = 'woche-kacheln'
+
 export const TITEL_OHNE = [
   'angebotSeit', 'anisearchId', 'ankuendigung', 'annId', 'ausgabenOhneDe', 'bannerImage', 'dubHinweis', 'einzelquelle', 'entfernteStreams',
   'episodes', 'franchiseId', 'fskQuelle', 'hasVoices', 'jpEnd', 'jpSeason', 'jpStart', 'jpStatus', 'jpYear', 'kino', 'malId', 'runtimeMin',

@@ -5,7 +5,7 @@ const KB = 1024
 
 /**
  * Grenze für `woche-kacheln.json` (gzip, 25.10.2026): Die Datei zählt voll zum Start-Budget (`tools/start-budget.mjs`) und schwankt mit dem Inhalt
- * der Woche (+1,4 KB in einem Bau, 23.10.2026). Ist 18,4 KB; mit 22 KB bleibt der Bestandsbau rot, bevor ein Deploy am Budget scheitert.
+ * der Woche (+1,4 KB in einem Bau, 23.10.2026). Ist 18,3 KB; mit 22 KB bleibt der Bestandsbau rot, bevor ein Deploy am Budget scheitert.
  */
 export const WOCHE_GRENZE = 22 * KB
 

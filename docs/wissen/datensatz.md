@@ -637,7 +637,7 @@ Quellen und Kaufadressen der Releases, vier Namen und Banner je Titel, Wegadress
 Termine bleiben ganz, `schedule` ebenfalls (Takt und verpasste Folgen lesen `observed`/`verpasst`). Die Listen sind **Abzugslisten**: ein neues Feld kommt von selbst mit, das Start-Budget zeigt ein Zuviel.
 Belegt mit `node tools/kachel-felder-messen.mjs` (Proxys auf der Wochen-Datei, Lesezugriffe auch auf fehlende Felder, Bedienung auf Desktop und Handy, mehrere Wochen); Exit 1, wenn ein gelesenes Feld abgezogen wird.
 `useStartdaten` ist unverändert: Panel, andere Ansichten und Filter holen die vollen Dateien (`loadDataset`) im Leerlauf nach dem ersten Bild oder sofort bei Bedienung; das Panel öffnet erst mit den vollen Daten.
-Größe 25.10.2026: 18,0 KB statt 36,2 KB gzip, Start-Budget 293,0 → 274,7 KB (`tools/start-budget.mjs` auf zwei Bauten desselben Datenstands). `woche.json` selbst wird nur noch von Prüfungen und Werkzeugen gelesen; Folge: aus der Auslieferung nehmen.
+Größe 25.10.2026: 18,0 KB statt 36,2 KB gzip, Start-Budget 293,0 → 274,8 KB (`tools/start-budget.mjs` auf zwei Bauten desselben Datenstands). `woche.json` selbst wird nur noch von Prüfungen und Werkzeugen gelesen; Folge: aus der Auslieferung nehmen.
 
 ## Bilder und CLS am Start behoben (08.10.2026)
 
