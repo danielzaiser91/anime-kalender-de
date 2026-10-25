@@ -69,7 +69,7 @@ export function pruefeSynchroJePlattform({
     anisearch,
     releases,
   })
-  const { adnArchiv, adnStreamSchaerfen, motnBelege } = werteWeitereQuellenAus({
+  const { adnArchiv, adnStreamSchaerfen, motnBelege, motnTon } = werteWeitereQuellenAus({
     releases,
     titles,
     adnKatalog,
@@ -91,7 +91,7 @@ export function pruefeSynchroJePlattform({
   /* Erst hier sind alle Crunchyroll-Termine da; vor Phase 10 übernehmen die Ereignisse das Flag. */
   hebeFolgenzahlAufBeobachtung(releases)
   hebeFolgenzahlAnnahmeAuf(releases)
-  return synchroErgebnis(belege, pruefung, motnBelege)
+  return synchroErgebnis(belege, pruefung, motnBelege, motnTon)
 }
 
 /** Was die Phasen nach der Synchro-Prüfung brauchen (`build.ts` reicht es als `synchro` weiter). */
@@ -99,6 +99,7 @@ function synchroErgebnis(
   belege: ReturnType<typeof sammleBelege>,
   pruefung: ReturnType<typeof werteLinkpruefungAus>,
   motnBelege: ReturnType<typeof werteWeitereQuellenAus>['motnBelege'],
+  motnTon: ReturnType<typeof werteWeitereQuellenAus>['motnTon'],
 ) {
   const { zugangJeAdresse, crAdresseZu, beantworteteSuchen, suchOffen, alleChecks, checksJePlattform, kanalJeAdresse } =
     belege
@@ -114,6 +115,7 @@ function synchroErgebnis(
     checksJePlattform,
     belegFuer: belege.belegFuer,
     motnBelege,
+    motnTon,
     kanalJeAdresse,
   }
 }

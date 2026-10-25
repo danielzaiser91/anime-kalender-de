@@ -178,6 +178,8 @@ import { leseSammelartikel, vorschlaegeAusSammelartikel, zaehleSammelVerwurf, sa
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
 import { erschieneneFolgen, deutscheFolgen } from './bau/folgen-dateien.ts'
+import { folgenZeilen, fremdtitelZahl, istPlatzhalter } from './bau/folgentitel-zeilen.ts'
+import { luecke } from './bau/folgentitel-stufen.ts'
 import { unzugeordnet } from './lib/sammel-unzugeordnet.ts'
 import { FRANCHISE_RELATIONS, otherZaehlt } from '../shared/mappings.ts'
 import { namensanfangMindestens } from '../shared/namensgebunden.ts'
@@ -8492,6 +8494,22 @@ console.log('\nFolgentitel aus Crunchyroll:')
   const gefuellt = mitCrTiteln([{ nr: 1, de: 'Eigener Titel' }, { nr: 2 }], cr)
   pruefe('aniSearch-Titel bleibt, die Lücke füllt Crunchyroll', gefuellt?.[0]?.de === 'Eigener Titel' && gefuellt?.[1]?.de === 'Treffen in der Höhle')
   pruefe('fehlt die Liste ganz, entsteht sie aus Crunchyroll', mitCrTiteln(undefined, cr)?.length === 2)
+  pruefe('Nur deutsch: Crunchyroll füllt eine Folge, die aniSearch nur englisch oder japanisch führt', mitCrTiteln([{ nr: 1, en: 'Meeting' }, { nr: 2, ja: 'Deai' }], cr)?.every((x) => x.de !== undefined) === true)
+  const rueckfall = [{ nr: 1, de: 'Deutscher Titel', en: 'English', minuten: 24 }, { nr: 2, en: 'Only English', ja: 'Nihongo', minuten: 25 }, { nr: 3, ja: 'Nur Japanisch' }, { nr: 4 }]
+  const zeilen = folgenZeilen(rueckfall, undefined)
+  pruefe('Nur deutsch: Folgenzeile trägt de oder nichts, nie en/ja', JSON.stringify(zeilen) === '[[1,"Deutscher Titel",24],[2,"",25],[3,"",0],[4,"",0]]', zeilen)
+  pruefe('Nur deutsch: Zeile bei einheitlicher Länge ohne Minuten', JSON.stringify(folgenZeilen(rueckfall, 24)) === '[[1,"Deutscher Titel"],[2,""],[3,""],[4,""]]')
+  pruefe('Nur deutsch: ein Platzhalter als de („Folge 3", „Ohne Titel") landet nicht in der Folgendatei', JSON.stringify(folgenZeilen([{ nr: 1, de: 'Folge 3' }, { nr: 2, de: 'Ohne Titel' }, { nr: 3, de: 'Echt' }], 24)) === '[[1,""],[2,""],[3,"Echt"]]')
+  pruefe('Nur deutsch: Wächter zählt 0 fremde Titel', fremdtitelZahl(zeilen, rueckfall) === 0)
+  pruefe('Nur deutsch: Wächter zählt englischen und japanischen Rückfall je einmal', fremdtitelZahl([[1, 'Deutscher Titel'], [2, 'Only English'], [3, 'Nur Japanisch']], rueckfall) === 2)
+  pruefe('Nur deutsch: Zeile ohne aniSearch-Gegenstück zählt nicht und stürzt nicht ab', fremdtitelZahl([[9, 'X']], rueckfall) === 0)
+  pruefe('Nur deutsch: „Ohne Titel", „Untitled", „Folge 3" sind Platzhalter, ein echter Titel nicht', istPlatzhalter('Ohne Titel') && istPlatzhalter('untitled') && istPlatzhalter(' Folge 3 ') && istPlatzhalter('Episode 12') && !istPlatzhalter('Ohne Titel gehen') && !istPlatzhalter('Folge der Sterne'))
+  pruefe('Nur deutsch: Crunchyroll-Platzhalter füllt keine Folge', mitCrTiteln([{ nr: 1 }, { nr: 2 }], new Map([[1, 'Ohne Titel'], [2, 'Echter Titel']]))?.[0]?.de === undefined)
+  pruefe('Nur deutsch: aus Platzhaltern allein entsteht keine Liste', mitCrTiteln(undefined, new Map([[1, 'Ohne Titel'], [2, 'Untitled'], [3, 'Echt']])) === undefined)
+  pruefe('Nur deutsch: ein deutscher Titel, der dem englischen gleicht (Pilot), zählt nicht', fremdtitelZahl([[5, 'Pilot']], [{ nr: 5, de: 'Pilot', en: 'Pilot' }]) === 0)
+  pruefe('Nur deutsch: ein Crunchyroll-Titel, der dem englischen der Liste gleicht, ist kein deutscher', mitCrTiteln([{ nr: 1, en: 'Treffen in der Höhle' }, { nr: 2 }], new Map([[1, 'Treffen in der Höhle'], [2, 'Anderer']]))?.[0]?.de === undefined)
+  pruefe('Nur deutsch: ein japanischer Titel gleicher Schreibweise ist kein deutscher', mitCrTiteln([{ nr: 1, ja: 'Deai' }, { nr: 2 }], new Map([[1, 'Deai'], [2, 'Anderer']]))?.[0]?.de === undefined)
+  pruefe('Nur deutsch: eine Liste mit nur englischem Titel hat eine Lücke', luecke([{ nr: 1, de: 'A' }, { nr: 2, en: 'B' }]) && luecke([{ nr: 1, de: 'A' }, { nr: 2, ja: 'B' }]) && !luecke([{ nr: 1, de: 'A' }, { nr: 2, de: 'B' }]))
 }
 {
   const woche = { releaseType: 'weekly' as const, schedule: { firstEpisodeDate: '2026-10-04' } }

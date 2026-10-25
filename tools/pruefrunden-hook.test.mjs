@@ -182,10 +182,10 @@ assert.deepEqual(findePr('Prüfe PR 16 in danielzaiser91/ticket-board'), { numme
 assert.deepEqual(findePr('Prüfe PR 14 im Repo C:/code/ai/ticket-board'), { nummer: '14', repo: TB })
 assert.deepEqual(findePr('Prüfe im Repo C:/code/ai/ticket-board: PR 19 (Lehre aus PR 13) und PR 11'), { nummer: '19', repo: TB })
 // Worktree-Pfade und das eigene Repo in zwei Schreibweisen sind keine zweite Nennung.
-assert.deepEqual(findePr('Prüfe PR 991 in danielzaiser91/anime-kalender-de, Worktree C:/code/ai/_wt-pruef-991'), { nummer: '991', repo: AK })
+assert.deepEqual(findePr('Prüfe PR 991 in danielzaiser91/anime-kalender-de, Worktree C:/code/_worktrees/anime-kalender-de/pruef-991'), { nummer: '991', repo: AK })
 assert.deepEqual(findePr('Prüfe PR 55 im Repo C:/code/ai/anime-kalender-de (danielzaiser91/anime-kalender-de.)'), { nummer: '55', repo: AK })
 assert.deepEqual(findePr('Prüfe PR 56, Worktree C:/code/ai/ak-herkunftsfilter'), { nummer: '56', repo: AK })
-assert.deepEqual(findePr('Prüfe PR 57 im Repo C:/code/ai/_wt-pruef-57'), { nummer: '57', repo: AK }, 'ein Worktree-Ordner ist kein Repo')
+assert.deepEqual(findePr('Prüfe PR 57 im Repo C:/code/_worktrees/anime-kalender-de/pruef-57'), { nummer: '57', repo: AK }, 'ein Worktree-Ordner ist kein Repo')
 assert.deepEqual(findePr('Prüfe https://github.com/fremd/projekt/pull/31'), { nummer: '31', repo: 'fremd/projekt' }, 'Adresse mit fremdem Eigentümer')
 // Zwei verschiedene Repos: keine Entscheidung.
 assert.deepEqual(findePr('Prüfe PR 12 in danielzaiser91/ticket-board und danielzaiser91/anime-kalender-de'), { nummer: '12', repo: null })

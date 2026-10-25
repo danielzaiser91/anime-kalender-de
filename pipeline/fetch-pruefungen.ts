@@ -31,6 +31,7 @@ import {
 import { ergaenzeUmEntfernte, mitEntfernten, staffelnMitAdresse } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
+import { bekannteNetflixStaffeln } from './lib/netflix-staffeln-bekannt.ts'
 import { adressKern, loadDubChecks } from './lib/dub-confirmed.ts'
 import { haengeBelegeAn } from './lib/belege-anhaengen.ts'
 import { kanalJaAdressKerne, kanalOhneAussage } from './lib/kanal-titel.ts'
@@ -814,10 +815,7 @@ for (const gruppe of jeAdresse.values()) {
           und 25 Meldungen blieben liegen — obwohl `anbieter-staffeln.json` die Aufteilung kennt
           und `ordneMeldungZu()` genau damit am 10.09.2026 richtig zugeordnet hatte.
         */
-        const netflixKennung = /netflix\.com\/title\/(\d+)/.exec(netflixTitelAdresse(p.url))?.[1]
-        const bekannt = netflixKennung
-          ? ((anbieterStruktur[netflixKennung] as { staffeln?: { seq: number }[] } | undefined)?.staffeln ?? [])
-          : []
+        const bekannt = bekannteNetflixStaffeln(p.url, anbieterStruktur)
         if (eindeutig.length === 1) {
           log(`Staffel ${staffelNr} von ${p.url}: Seite ${kennung} gehört zu ${eindeutig[0]}`)
           ids = eindeutig

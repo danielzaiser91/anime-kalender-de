@@ -17,6 +17,8 @@
  * Fehlt der API-Diff einer nicht stubbaren Datei (die API liefert bei sehr großen Änderungen kein `patch`, z. B. `data/dub-confirmed.yaml`
  * mit +1.230 Zeilen, PR 792), holt `gitDiffRunner` ihn aus den vom Workflow geholten Git-Objekten (nur Objekte, kein Checkout des PR).
  * Bleibt auch das leer oder schlägt fehl, gilt weiter „nicht lieferbar" (fail closed).
+ * Gesamtgrenze (25.10.2026): Würde der Diff GRENZE_GESAMT überschreiten, werden zusätzlich stubbare Dateien (dieselbe Positivliste, nie
+ * NIE_STUB, nie Code/Doku) gestubbt, größte zuerst, bis der Rest passt (PR 1944: 90 Erzeugnis-Diffs je < 50 KB rissen die Grenze).
  * Ist der Rest über GRENZE_GESAMT Byte, fehlt der Diff einer nicht stubbaren Datei oder die Liste ist leer, ist der Zustand `unvollstaendig`.
  */
 import { spawnSync } from 'node:child_process'
@@ -149,11 +151,29 @@ function abschnitt(d, quellen, gitDiff, inhalt) {
   return { text: `${kopf(d)}\n${text}`, gestubbt: false, fehlt: aenderungen > 0 }
 }
 
+/** Gesamtdiff über der Grenze: stubbare, noch lesbare Abschnitte größte zuerst durch ihren Stub ersetzen, bis die Summe passt. */
+function stubbeBisPasst(sicher, teile, quellen, inhalt) {
+  let summe = Buffer.byteLength(teile.map((t) => t.text).join('\n') + '\n')
+  if (summe <= GRENZE_GESAMT) return
+  const kandidaten = sicher
+    .map((d, i) => ({ d, i, laenge: Buffer.byteLength(teile[i].text) }))
+    .filter(({ d, i }) => !teile[i].gestubbt && !d.steuer && stubbareDatei(d, quellen, inhalt))
+    .sort((a, b) => b.laenge - a.laenge)
+  for (const { d, i, laenge } of kandidaten) {
+    if (summe <= GRENZE_GESAMT) break
+    const bytes = typeof d.patch === 'string' && d.patch !== '' ? Buffer.byteLength(d.patch) : null
+    const text = `${kopf(d)}\n${stubZeile(d, bytes)}`
+    summe -= laenge - Buffer.byteLength(text)
+    teile[i] = { text, gestubbt: true, fehlt: false }
+  }
+}
+
 /** Eingabe: Dateiobjekte der API und die Datenläufe-Liste (ladeQuellen). Ausgabe: { diff, zustand, gestubbt[] }. */
 export function baueDiff(dateien, quellen, gitDiff = () => null, inhalt = () => null) {
   const steuer = (d) => STEUERZEICHEN.test(d.filename) || STEUERZEICHEN.test(d.previous_filename ?? '')
   const sicher = dateien.map((d) => ({ ...d, filename: maskiere(d.filename), previous_filename: maskiere(d.previous_filename), steuer: steuer(d) }))
   const teile = sicher.map((d) => abschnitt(d, quellen, gitDiff, inhalt))
+  stubbeBisPasst(sicher, teile, quellen, inhalt)
   let diff = teile.map((t) => t.text).join('\n') + '\n'
   let zustand = 'ok'
   if (dateien.length === 0 || dateien.length >= API_MAXIMUM || teile.some((t) => t.fehlt)) zustand = 'unvollstaendig'

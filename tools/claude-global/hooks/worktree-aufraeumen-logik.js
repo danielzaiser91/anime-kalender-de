@@ -1,5 +1,5 @@
 // Reine Entscheidungslogik für hooks/worktree-aufraeumen.js (kein Dateizugriff, kein Prozess): was mit einem Worktree geschieht.
-// Anlass 18.10.2026: 274 `_wt-*`-Worktrees à ~49 000 Dateien, Windows hielt ~8 KB Kernel-Dateicache je Datei (~3 GB RAM).
+// Anlass 18.10.2026: 274 Worktrees im Hauptordner à ~49 000 Dateien, Windows hielt ~8 KB Kernel-Dateicache je Datei (~3 GB RAM).
 
 /** Änderungen jünger als das: dort arbeitet vielleicht noch ein Agent. */
 const SCHONFRIST_MS = 2 * 60 * 60 * 1000
@@ -23,8 +23,8 @@ function leseWorktrees(porcelain) {
 }
 
 const norm = (p) => p.replace(/\\/g, '/').replace(/\/+$/, '').toLowerCase()
-/** Nur Arbeitsbäume mit `_wt-`-Ordnernamen kommen in Frage — nie der Hauptordner. */
-const istWtName = (pfad) => /\/_wt-[^/]+$/.test(norm(pfad))
+/** Nur Arbeitsbäume unter `.../_worktrees/<repo>/<thema>` kommen in Frage (seit 25.10.2026) — nie der Hauptordner. */
+const istWtName = (pfad) => /\/_worktrees\/[^/]+\/[^/]+$/.test(norm(pfad))
 
 /**
  * Positives Erledigt-Zeichen (Lesen hinterlässt kein Lebenszeichen, darum reicht „lange nichts geändert“ nie): ein PR mit
@@ -63,7 +63,7 @@ function entscheide(w, ctx) {
 }
 
 /**
- * Loser `_wt-*`-Ordner ohne Git-Registrierung. eintraege: [{ name, istVerknuepfung }] (lstat, Verknüpfung nicht verfolgt).
+ * Loser Ordner unter `_worktrees/<repo>/` ohne Git-Registrierung. eintraege: [{ name, istVerknuepfung }] (lstat, Verknüpfung nicht verfolgt).
  * Weg nur: leer, oder nur Verknüpfungen (Junctions/Symlinks, jeder Name) und leere Ordner, beliebig tief.
  * Alles andere wird nur aufgelistet. Eintrag mit `kinder` (Namen und Verknüpfungs-Flags) = echter Unterordner.
  */

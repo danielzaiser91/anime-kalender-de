@@ -32,7 +32,7 @@ Das ist der Kern, und der häufigste Denkfehler:
 
 | | Was es ist | Heute | Grenze | Wer es merkt |
 |---|---|---|---|---|
-| **Ladelast** | was ein Besucher wirklich herunterlädt | **≈ 275 KB** (gzip, Start; Stand 25.10.2026, Wächter `tools/start-budget.mjs`, Grenze 280 KB) | gefühlt ab ~1 MB | jeder Besucher, sofort |
+| **Ladelast** | was ein Besucher wirklich herunterlädt | **≈ 236 KB** (gzip, Start; Stand 25.10.2026, Wächter `tools/start-budget.mjs`, Grenze 250 KB) | gefühlt ab ~1 MB | jeder Besucher, sofort |
 | **Veröffentlichte Seite** | Inhalt von `dist/` | 20 MB | **1 GB** (GitHub Pages) | niemand, bis es reißt |
 | **Repo** | alles inkl. Rohdaten und Historie | 108 MB (`.git` 64 MB gepackt) | ~1 GB empfohlen | nur wer klont |
 
@@ -50,8 +50,7 @@ nachdenkt, muss auf die erste Zeile schauen, nicht auf die dritte.
 | `index-*.css` | 25,7 KB |
 | `meta.json` | 2,2 KB |
 | `woche-kacheln.json` (Wochenansicht, nur Kachelfelder; Stand 25.10.2026) | 18,0 KB |
-| Schriften (`manrope-latin`, `unbounded-700-de` Teilmenge, woff2) | 34,1 KB |
-| **Summe** | **≈ 327 KB** |
+| **Summe** | **≈ 293 KB (327 KB abzüglich 34,1 KB Schriften; Stand 18.10.2026, gemessen 25.10.2026: 236 KB)** |
 
 Gezählt wird, was der Wächter `tools/start-budget.mjs` misst (Stand 18.10.2026). Ohne Bedienung lädt die Seite danach innerhalb von
 etwa 6 s die vollen Dateien nach (`titles-core`, `releases`, `events` ≈ 337 KB, `planeNachladen`; dazu der Precache des Service Workers):

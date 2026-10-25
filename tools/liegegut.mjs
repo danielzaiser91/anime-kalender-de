@@ -65,7 +65,9 @@ export function signaleEinzel(pr, kopfZeit, jetzt) {
   if (alleGut && checks.art === 'gruen' && pr.mergeStateStatus === 'CLEAN' && stunden(ruhe, jetzt) > RUHE_FREIGABE_H) {
     aus.push({ nr: 1, text: 'Freigabe + grün + ruhend', seit: ruhe })
   }
-  if (aufKopf.some((u) => u.gut) && aufKopf.some((u) => !u.gut)) {
+  // Widerspruch nur, wenn das jüngste Urteil schlecht ist und ein früheres gut war; ein späteres Ok löst ein Ändern auf (Nachtrag-Ablauf 1997/2007).
+  const jüngstes = aufKopf.at(-1)
+  if (jüngstes && !jüngstes.gut && aufKopf.some((u) => u.gut)) {
     aus.push({ nr: 2, text: 'Urteile widersprechen sich auf demselben Kopf', seit: aufKopf.at(-1).zeit })
   }
   if (pr.mergeable === 'CONFLICTING' && stunden(ruhe, jetzt) > KONFLIKT_H) aus.push({ nr: 3, text: 'Konflikt liegt', seit: ruhe })

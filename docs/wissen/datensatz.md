@@ -422,8 +422,8 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
   Sprachhinweis bleiben eigene Kacheln. Zusicherung: `pipeline/check-kachel-anbieter.ts`; Code `web/src/lib/anbieter-kachel.ts`, die Nein-Wiedervorlage (`quellen.md`, 13.10.2026) liest dieselbe Kachel als Widerruf eines Nein. Der Tageskopf („7 Termine“)
   zählt weiter Termine je Anbieter.
 - **Farben und Schriften:** Variablen `--ak-*` je Thema in `styles.css`, in Tailwind `bg-ak-grund`,
-  `text-ak-leise` usw.; Unbounded und Manrope selbst gehostet (`@fontsource`), nicht über Google
-  Fonts — ein Abruf dort übermittelt die IP-Adresse.
+  `text-ak-leise` usw.; Schrift E (25.10.2026): Systemschrift im Text, Serifen-Stack in Überschriften (`--ak-schrift-*`), keine Webschrift — nichts geht über Google
+  Fonts, nichts übermittelt eine IP-Adresse (Vorschaubilder nutzen weiter Unbounded/Manrope serverseitig, `og-schriften.ts`).
 - Die Handy-Leiste liegt per Portal am `body` (unter `backdrop-filter` bezöge sich `fixed` sonst auf
   die Kopfleiste); die Seite hält unter `md` unten Platz für sie frei.
 - **Steuerleiste unten** (27.09.2026, Daniel: „einfach immer unten am rand anzeigen"): Woche/Monat,
@@ -818,6 +818,8 @@ Nachtrag 09.10.2026: Der Bau (`schreibeTvAuskunft`, `pipeline/bau/10-termine.ts`
 ## Fußzeile: „belegt“ heißt Stufe stark (09.10.2026)
 
 Die Fußzeile nannte `titleCount` (alle Titel des Hauptbestands) „Anime mit belegter deutscher Synchro“, obwohl 786 von 2.926 nur auf einer mittleren oder schwachen Quelle stehen (Bestand 09.10.2026: very-high 1.529, high 611, normal 412, low 374). Jetzt: `meta.belegtCount` = Titel mit `dubConfidence` high oder very-high (= Belegstärke-Filter „≥ stark“; `zaehleBelegte`, `pipeline/lib/belegstaerke.ts`), der Rest „angekündigt oder wahrscheinlich“. Auf diesem Bestand: 2.140 belegt, 786 angekündigt oder wahrscheinlich. `belegtCount` wird wie die Release-Zahl erst in `13-5-kerndateien.ts` aus `titles.json` gesetzt; `zaehlworteStimmen` prüft es gegen die Datei (`check:invarianten`). Bekannte Grenze: „high“ umfasst auch zwei mittlere Quellen (aniSearch-Marke plus TV), nicht nur Handbeleg und Anbieter-Tonspur.
+
+**Tonspur nur aus der Streaming-Availability-API (25.10.2026):** `dub: true`, das allein `data/motn.json` gesetzt hat (Netflix, `09-5-weitere-quellen.ts`; Vermerk `motnTon`, nicht in `titles.json`), zählt in `belegstaerke()` als mittlere Quelle statt als starke. Allein: normal; mit aniSearch-Marke, TV-Termin oder Forum: high; mit Handbeleg, Kartei oder anderer Anbieter-Tonspur wie bisher. Die 113 „Handbeleg ohne very-high“ des Analysten sind kein Fehler: keiner hat einen Handbeleg mit `dub: true`, es sind Adressbelege ohne Urteil (213 von 251 Titeln mit Beleg ohne Ton-Stream) oder ein `dub: false`.
 
 ## Datenschutztext folgt dem Datenfluss (09.10.2026)
 

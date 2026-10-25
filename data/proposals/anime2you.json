@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-10-25T13:03:46.389Z",
+  "scrapedAt": "2026-10-25T14:03:09.444Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 17,
     "schon in einem Rubrik-Feed gelesen": 5,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 16,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -43,6 +43,25 @@
       ],
       "dub": "ja",
       "pause": "pause",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Anime Night« auf ProSieben MAXX kehrt verkürzt zurück",
+      "articleUrl": "https://www.anime2you.de/news/1063716/prosieben-maxx-anime-night-kehrt-verkuerzt-zurueck/",
+      "publishedAt": "2026-10-25",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-06",
+          "context": "erkürzter Form. Wir fassen zusammen. Rückkehr im November 2026 Ab dem 6. November 2026 setzt ProSieben MAXX freitags ab ungefähr 23:20 Uhr d"
+        },
+        {
+          "month": "2026-11",
+          "context": "hr – allerdings nur in verkürzter Form. Wir fassen zusammen. Rückkehr im November 2026 Ab dem 6. November 2026 setzt ProSieben MAXX freitags"
+        }
+      ],
+      "dub": "unklar",
       "alreadyCurated": false
     },
     {
