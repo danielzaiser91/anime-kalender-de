@@ -22,7 +22,7 @@ import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
-import { juengsteJeKern } from './lib/link-befund.ts'
+import { istTot, juengsteJeKern } from './lib/link-befund.ts'
 
 const roh = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as Title[] | { titles: Title[] }
 const titles: Title[] = Array.isArray(roh) ? roh : roh.titles
@@ -59,7 +59,7 @@ const tot = (url?: string): boolean => {
   if (!url) return false
   const b = befundJeKern.get(adressKern(url))
   const s = b?.status
-  if (!(s === 404 || s === 'region')) return false
+  if (!istTot(s)) return false
   return !((handGesehen.get(kern(url)) ?? '') > String(b?.geprueftAm ?? ''))
 }
 
