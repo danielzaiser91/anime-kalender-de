@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-24T19:45:42.993Z",
+ "erzeugtAm": "2026-10-24T22:06:20.279Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -377,8 +377,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 774,
-   "gesamt": 890,
-   "offen": 116,
+   "gesamt": 891,
+   "offen": 117,
    "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -393,6 +393,10 @@
     {
      "url": "https://www.netflix.com/title/81684733",
      "titel": "Oshi no Ko: Mein Star"
+    },
+    {
+     "url": "https://www.netflix.com/title/83189604",
+     "titel": "Dragon Ball Super: Beerus"
     },
     {
      "url": "https://www.netflix.com/title/81642888",

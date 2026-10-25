@@ -9,12 +9,12 @@ import { HandyNavigation } from './HandyNavigation.tsx'
 import { useEinrollen } from '../lib/use-einrollen.ts'
 import { useMobil } from '../lib/use-mobil.ts'
 import { AboMenue } from './kalender/AboMenue.tsx'
-import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen } from './kalender/Zeichen.tsx'
+import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen, ZahnradZeichen } from './kalender/Zeichen.tsx'
 
 const RUND = 'flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
 
 /**
- * Die Kopfleiste der Poster-Gestaltung (26.09.2026): Logo, drei Bereiche, Suche, Abo-Knopf, Thema.
+ * Die Kopfleiste der Poster-Gestaltung (26.09.2026): Logo, drei Bereiche, Suche, Abo-Knopf, Thema, ab md das Zahnrad (Einstellungen).
  * Sie klebt oben und rollt mit. Auf dem Handy folgen unter dem Logo die
  * Bereiche und das Zahnrad (`HandyNavigation`), die Suche klappt dazwischen auf. Der Markenname steht immer ganz da;
  * bei Platzmangel weicht die rechte Seite (Daniel, 09.10.2026).
@@ -52,7 +52,7 @@ export function Header({
   useEinrollen(kopf, useMobil(), view)
   return (
     <header ref={kopf} className="sticky top-0 z-30 border-b border-ak-linie bg-ak-grund/90 backdrop-blur">
-      <div className="mx-auto flex max-w-[1600px] items-center gap-2 px-4 py-3 sm:gap-6 sm:px-6 lg:px-10">
+      <div className="mx-auto flex max-w-[1600px] items-center gap-2 px-4 py-3 sm:gap-3 sm:px-6 lg:gap-6 lg:px-10">
         <a
           href={startHref}
           onClick={(e) => {
@@ -65,19 +65,20 @@ export function Header({
           className="flex shrink-0 cursor-pointer items-center gap-2 text-ak-text min-[360px]:gap-2.5"
         >
           <LogoZeichen className="size-7 min-[360px]:size-8" />
-          <span className="shrink-0 whitespace-nowrap font-display text-[14px] font-bold tracking-[-0.01em] min-[360px]:text-base sm:text-xl">
+          <span className="shrink-0 whitespace-nowrap font-display text-[14px] font-bold tracking-[-0.01em] min-[360px]:text-base sm:text-xl md:text-lg lg:text-xl">
             anime<span className="text-ak-akzent">·</span>kalender
           </span>
         </a>
         <KopfNavigation view={view} aktiv={aktiv} onView={onView} hrefFuer={hrefFuer} />
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-          {!kalender && <KopfSuchfeld suche={suche} setSuche={setSuche} className="hidden w-64 lg:block xl:w-72" />}
+          {!kalender && <KopfSuchfeld suche={suche} setSuche={setSuche} className="hidden w-52 lg:block xl:w-72" />}
           <button type="button" onClick={oeffnen} aria-expanded={kalender ? undefined : sucheAuf} aria-label={t('kopf.sucheOeffnen')} className={`${RUND} ${kalender ? '' : 'lg:hidden'}`}>
             <SuchZeichen />
           </button>
           <InstallButton />
           <AboMenue onView={onView} favorites={favorites} />
           <ThemaKnopf />
+          <EinstellungenKnopf einstellungen={einstellungen} />
         </div>
       </div>
       {sucheAuf && !kalender && (
@@ -87,6 +88,17 @@ export function Header({
       )}
       <HandyNavigation aktiv={aktiv} onView={onView} kalender={kalender ? view : 'woche'} einstellungen={einstellungen} />
     </header>
+  )
+}
+
+/** Ab md öffnet das Zahnrad im Kopf dieselben Einstellungen wie die Handy-Leiste (dort steht „Empfehlungen zurücksetzen“). */
+function EinstellungenKnopf({ einstellungen }: { einstellungen: () => void }) {
+  const { t } = useLang()
+  const label = t('einstellungen.titel')
+  return (
+    <button type="button" onClick={einstellungen} aria-label={label} title={label} className={`${RUND} hidden md:flex`}>
+      <ZahnradZeichen />
+    </button>
   )
 }
 

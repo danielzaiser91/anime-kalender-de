@@ -59,7 +59,7 @@ export function useKopfSuche(view: ViewId, kalender: boolean, suche: string, zur
   return { sucheAuf, eingabe, kopf, oeffnen }
 }
 
-const FELD = 'h-11 w-full rounded-full border border-ak-rand bg-ak-flaeche pr-24 pl-10 text-sm text-ak-text placeholder:text-ak-sehr-leise'
+const FELD = 'h-11 w-full rounded-full border border-ak-rand bg-ak-flaeche pr-24 pl-10 placeholder-shown:pr-12 text-sm text-ak-text placeholder:text-ak-sehr-leise'
 
 /** Das Suchfeld mit Lupe; `className` setzt die Breite/Sichtbarkeit des Rahmens. */
 export function KopfSuchfeld({

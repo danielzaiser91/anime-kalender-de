@@ -5,7 +5,7 @@ import { randomBytes } from 'node:crypto'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { bewerte, GRENZE, messe, startDateien, startSchriften } from './start-budget.mjs'
+import { bewerte, GRENZE, messe, startDateien, startSchriften, WARNLUFT } from './start-budget.mjs'
 
 // Je Gruppe drei Kandidaten, der geprüfte in der Mitte (Bundler legt mehrere Skripte, Vorab-Chunks und Stylesheets an).
 const html = (teil = '["meta","woche"]') => `<html><head>
@@ -125,6 +125,15 @@ assert.equal(bewerte(dist, summe).code, 0)
 const knapp = bewerte(dist, summe - 1)
 assert.equal(knapp.code, 1)
 assert.match(knapp.text, /^start-budget: [\d.]+ KB gzip, 0\.0 KB über der Grenze/m)
+// Frühwarnung: unter WARNLUFT Luft eine ::warning::-Zeile (Exit 0), ab WARNLUFT keine; 0 Byte Luft warnt.
+assert.equal(WARNLUFT, 3072)
+for (const [luft, warnt] of [[0, true], [1, true], [WARNLUFT - 1, true], [WARNLUFT, false], [WARNLUFT + 1, false]]) {
+  const e = bewerte(dist, summe + luft)
+  assert.equal(e.code, 0)
+  assert.equal(/^::warning::start-budget: nur noch /m.test(e.text), warnt, `Luft ${luft}`)
+}
+assert.match(bewerte(dist, summe + 1024).text, /^::warning::start-budget: nur noch 1\.0 KB Luft/m)
+assert.doesNotMatch(knapp.text, /::warning::/)
 // Ohne Argument misst der Lauf `dist` im aktuellen Ordner.
 r = lauf(dist, join(dist, '..'))
 assert.equal(r.status, 0)

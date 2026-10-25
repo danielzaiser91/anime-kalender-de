@@ -30,6 +30,16 @@ Anlass: Daniel (04.10.2026) an Hana-Kimi S2: Auch nach dem aniSearch-Lauf fehlen
 danach TMDB (nur echte Titel), Wikipedia nur für die Langläufer, für die es eine Liste gibt.** Wikipedia ist nicht die beste Quelle: Es gibt
 dort nur rund 54 Anime-Listen gegenüber 43 Lücken, die zu 60 % Crunchyroll-Serien der laufenden Saison sind.
 
+## Langläufer ohne Folgenzahl (24.10.2026)
+
+`tmdbFolgentitel` übernimmt auch Titel **ohne** `episodes` (Shin-chan, Beyblade X), wenn die Staffeln ab 1 hintereinander gelegt die durchgehende Nummerierung ergeben: unsere Nummern genau 1 bis N, N = Summe aller TMDB-Staffeln (Staffel 0 zählt nicht), Staffel- und Folgennummern lückenlos, Staffel 1 beginnt im Beginnjahr, erste Sendetage streng aufsteigend. Sonst keine Titel.
+
+**Reihenfolge:** Ohne Folgenzahl fehlt die Gegenprobe, dass TMDB-Nr. n unsere Nr. n ist (Anthologie Halo Legends: TMDB-Nr. 1 „Die Ursprünge“, unsere Nr. 1 „Der Babysitter“). Darum prüfen die bei uns schon vorhandenen Titel (aniSearch, Crunchyroll, Kitsu) die Nummern: Gleicht einer dem TMDB-Titel (deutsch oder englisch) einer **anderen** Nummer statt der eigenen, gibt es nichts, und mindestens die Hälfte der vorhandenen Titel muss der eigenen Nummer gleichen (Name gleich oder enthalten, oder die Hälfte der Wörter ab vier Buchstaben gemeinsam und dieselben Zahlen). Eine bloß andere Übersetzung zählt nicht als Widerspruch, belegt die Reihenfolge aber auch nicht. **Grenze:** Hat eine Serie gar keinen vorhandenen Titel in dem Bereich, gibt es keinen Vergleich; dann gilt allein die Staffelrechnung. Sie liegt falsch, wenn TMDB die Staffeln in anderer Reihenfolge als die Sendung führt und Summe, Beginnjahr und Sendetage trotzdem passen (Anthologien); bei einem Langläufer mit Dutzenden vorhandener Titel (Shin-chan im Stand von #1944: 66 von 1.092 Nummern) würde eine solche Abweichung am Vergleich scheitern.
+
+Gegenprobe (Stand `bf4f3df0b`, 24.10.2026, `npx tsx tools/tmdb-ohne-zahl-bilanz.ts bf4f3df0b`): an allen 871 Titeln mit Eintrag und Folgenzahl, Folgenzahl weggelassen, vorhandene Titel aus der Folgendatei: alte Regel gibt bei 513 Titeln etwas, neue bei 333; 333 identisch, 0 abweichend, 180 strenger (davon 22 vom Vergleich der vorhandenen Titel abgewiesen, u. a. Halo Legends 6867; mehrere sind bloß anders übersetzt oder haben denselben Titel zweimal in der Serie), 0 neu. Die Messung ist nicht unabhängig, weil die Folgendatei Titel enthält, die die alte Regel selbst gesetzt hat.
+
+Wirkung erst, wenn `data/tmdb-folgen.json` Einträge für diese Titel hat (Abruf: #1948).
+
 ## Umsetzung
 
 - **Stufe 1 gebaut am 04.10.2026** (`pipeline/bau/folgentitel-cr.ts`, eingebunden in `folgen-dateien.ts`): Titel je Folgennummer über die `guid` der deutschen Folge (`crunchyroll-dub.json`) und die `versions`

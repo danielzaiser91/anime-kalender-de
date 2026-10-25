@@ -6,6 +6,7 @@ import { eigeneKennungen, uebersetzteKopie } from './tools/vite-kennungen.ts'
 import { datenKennung } from './tools/daten-kennung.ts'
 import { NACH_DEM_BAU_UMGESCHRIEBEN, dateiKennungen, schreibeDateienInMeta } from './tools/daten-kennungen.ts'
 import { vorladeSkript } from './tools/vite-vorladen.ts'
+import { iconKennungen } from './tools/icon-kennung.mjs'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { quellBaum } from './tools/quell-baum.ts'
@@ -95,7 +96,7 @@ export default defineConfig({
     __DATEI_KENNUNGEN__: JSON.stringify(adressKennungen),
     __APP_VERSION__: JSON.stringify(appVersion),
   },
-  plugins: [react(), tailwindcss(), datenVorladen(), eigeneKennungen(uebersetzt), versionDatei()],
+  plugins: [react(), tailwindcss(), datenVorladen(), eigeneKennungen(uebersetzt), versionDatei(), iconKennungen(fileURLToPath(new URL('./public', import.meta.url)))],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./web/src', import.meta.url)),

@@ -341,6 +341,105 @@ async function spieleEmpfehlung(browser, geraet, thema) {
   return fehler
 }
 
+const RESET_BREITEN = [390, 768, 820, 1024, 1180, 1279, 1440]
+const RESET_SCHLUESSEL = ['empfehlung:gesehen', 'empfehlung:verworfen', 'empfehlung:anbieter']
+
+const IPAD_UA = 'Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
+const LANGE_SUCHE = 'Sword Art Online Alicization War of Underworld'
+
+/** Der Kopf-Worst-Case ab 768 px: iPad-Kennung (Install-Knopf erlaubt), Install-Ereignis, gefüllte Suche. */
+async function oeffneKopfWorstCase(browser, breite, thema) {
+  const handy = breite < 768
+  const kontext = await browser.newContext({
+    viewport: { width: breite, height: 900 },
+    isMobile: handy,
+    hasTouch: handy || breite >= 768,
+    userAgent: handy ? undefined : IPAD_UA,
+    colorScheme: thema === 'dunkel' ? 'dark' : 'light',
+  })
+  const seite = await kontext.newPage()
+  await seite.route('**/*', antworteAusDist)
+  await seite.addInitScript(() => {
+    setTimeout(() => {
+      const e = new Event('beforeinstallprompt')
+      e.prompt = () => Promise.resolve()
+      e.userChoice = new Promise(() => {})
+      window.dispatchEvent(e)
+    }, 300)
+  })
+  /* Die Fläche „Was gucken?“ deckt die App-Kopfleiste voll ab (eigene Kopfzeile), darum geht man von der Datenbank aus. */
+  await seite.goto('http://ak.test/#/datenbank', { waitUntil: 'networkidle' })
+  await seite.locator('header').first().waitFor({ state: 'visible', timeout: 20_000 })
+  const feld = seite.locator('header input[type="search"]').first()
+  if (await feld.isVisible()) await feld.fill(LANGE_SUCHE)
+  await seite.waitForTimeout(1500)
+  /* Die einmalige Installationsfrage (nach 1,2 s) legt sich über die Seite; ein Klick auf den Hintergrund schließt sie. */
+  const frage = seite.locator('div.fixed.inset-0 > [role="dialog"]')
+  if (await frage.count()) await seite.mouse.click(3, 3)
+  return { kontext, seite }
+}
+
+/** Was der Kopf zeigt: sichtbare Einstellungen-Knöpfe, Überlauf, Treffer in der Mitte des ersten Knopfs, Platzhalter-Breite. */
+function messeKopf() {
+  const knoepfe = [...document.querySelectorAll('button[aria-label="Einstellungen"]')].filter((k) => k.offsetWidth > 0)
+  const r = knoepfe[0]?.getBoundingClientRect()
+  const treffer = r ? document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)?.closest('button')?.getAttribute('aria-label') : null
+  const kopf = document.querySelector('header')
+  return { anzahl: knoepfe.length, treffer, ueberlauf: kopf.scrollWidth - kopf.clientWidth }
+}
+
+/** Platzhalter „Anime suchen“ ganz lesbar? Leert ein Feld im Kopf kurz und misst den Text gegen die Eingabefläche. */
+async function platzhalterAbgeschnitten(seite) {
+  const feld = seite.locator('header input[type="search"]:visible').first()
+  if (!(await feld.count())) return false
+  await feld.fill('')
+  return feld.evaluate((el) => {
+    const stil = getComputedStyle(el)
+    const zeichen = document.createElement('canvas').getContext('2d')
+    zeichen.font = `${stil.fontSize} ${stil.fontFamily}`
+    const platz = el.clientWidth - parseFloat(stil.paddingLeft) - parseFloat(stil.paddingRight)
+    return zeichen.measureText(el.placeholder).width > platz
+  })
+}
+
+/** Je Breite: genau ein sichtbarer Einstellungen-Knopf, erreichbar, Kopf ohne Überlauf; „Empfehlungen zurücksetzen“ leert die Schlüssel. */
+async function pruefeZuruecksetzen(browser, breite, thema) {
+  const kennung = `zurücksetzen ${breite}/${thema}`
+  const { kontext, seite } = await oeffneKopfWorstCase(browser, breite, thema)
+  await seite.evaluate((s) => s.forEach((k) => localStorage.setItem(k, '[1]')), RESET_SCHLUESSEL)
+  const fehler = []
+  const kopf = await seite.evaluate(messeKopf)
+  if (kopf.anzahl !== 1) fehler.push(`${kennung}: ${kopf.anzahl} sichtbare Einstellungen-Knöpfe statt 1`)
+  else if (!/Einstellungen/.test(String(kopf.treffer))) fehler.push(`${kennung}: Knopf wird überdeckt (Treffer: ${kopf.treffer})`)
+  if (kopf.ueberlauf > 0) fehler.push(`${kennung}: Kopfleiste läuft um ${kopf.ueberlauf} px über`)
+  if (breite >= 1024 && (await platzhalterAbgeschnitten(seite))) fehler.push(`${kennung}: Suchplatzhalter abgeschnitten`)
+  await seite.screenshot({ path: path.join(BILDER, `empfehlung-reset-${breite}-${thema}.png`), clip: { x: 0, y: 0, width: breite, height: 120 } })
+  if (kopf.anzahl === 1) fehler.push(...(await setzeZurueck(seite, kennung)))
+  await kontext.close()
+  return fehler
+}
+
+/** Öffnet die Einstellungen, setzt die Empfehlungen zurück und meldet Schlüssel, die bleiben. */
+async function setzeZurueck(seite, kennung) {
+  await seite.locator('button[aria-label="Einstellungen"]:visible').first().click({ timeout: 5000 })
+  await Promise.all([seite.waitForNavigation({ waitUntil: 'load' }), seite.getByRole('button', { name: 'Empfehlungen zurücksetzen' }).click({ timeout: 5000 })])
+  const rest = await seite.evaluate((s) => s.filter((k) => localStorage.getItem(k) !== null), RESET_SCHLUESSEL)
+  return rest.length ? [`${kennung}: Schlüssel bleiben: ${rest.join(', ')}`] : []
+}
+
+/** Alle Breiten, beide Themen; druckt die Ergebniszeile zum Zurücksetzen; wahr, wenn etwas rot ist. */
+async function meldeZuruecksetzen() {
+  const browser = await chromium.launch()
+  const fehler = []
+  for (const breite of RESET_BREITEN) {
+    for (const thema of ['dunkel', 'hell']) fehler.push(...(await pruefeZuruecksetzen(browser, breite, thema)))
+  }
+  await browser.close()
+  console.log(`\nEmpfehlungen zurücksetzen (${RESET_BREITEN.join('/')} px, hell und dunkel; iPad-Kennung mit Install-Ereignis und gefüllter Suche; genau ein Knopf, nicht überdeckt, Kopfleiste ohne Überlauf, Platzhalter lesbar): ${fehler.length ? '' : 'ok'}`)
+  for (const f of fehler) console.log(`  ✕ ${f}`)
+  return fehler.length > 0
+}
+
 /** Beide Geräte, beide Themen; druckt die Ergebniszeile; wahr, wenn etwas rot ist. */
 async function meldeEmpfehlung() {
   const browser = await chromium.launch()
@@ -369,6 +468,7 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
   }
   if (!handy && ansichten.includes('woche') && (await meldeHoverCover())) rot = true
   if (!handy && ansichten.includes('empfehlung') && (await meldeEmpfehlung())) rot = true
+  if (!handy && ansichten.includes('empfehlung') && (await meldeZuruecksetzen())) rot = true
   if (handy && ['woche', 'monat', 'datenbank'].every((a) => ansichten.includes(a))) {
     const leiste = await pruefeWerkzeugleiste(seite)
     console.log(`\nWerkzeugleiste unten (320/360/393/440 px): ${leiste.length ? '' : 'ok'}`)

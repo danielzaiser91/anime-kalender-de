@@ -1,5 +1,6 @@
 import { readJson, log, writeJson } from '../lib/util.ts'
 import { type MotnDaten, LEER as MOTN_LEER } from '../lib/motn.ts'
+import { berichtigeNetflixOverlay } from './13-3-0-netflix-overlay.ts'
 import { ergaenzeWegeAusTmdbUndMotn } from './13-3-1-tmdb-wege.ts'
 import { ergaenzeAngebotSeit } from './13-3-angebot-seit.ts'
 import { type Release, type Title } from '../../shared/types.ts'
@@ -52,16 +53,7 @@ export function schreibeListen({ slim, tmdbTitles, releases, titles }: {
    * Betroffen sind zwei Verweise; die Normalisierung steht hier trotzdem,
    * damit auch der dritte gar nicht erst durchkommt.
    */
-  let netflixBerichtigt = 0
-  for (const eintrag of slim) {
-    for (const s of eintrag.streams ?? []) {
-      if (s.platform !== 'netflix') continue
-      const id = /\/browse\?jbv=(\d+)/.exec(s.url)?.[1]
-      if (!id) continue
-      s.url = `https://www.netflix.com/title/${id}`
-      netflixBerichtigt++
-    }
-  }
+  const netflixBerichtigt = berichtigeNetflixOverlay(slim)
   if (netflixBerichtigt) {
     log(`${netflixBerichtigt} Netflix-Overlay-Adressen auf die Titelseite umgeschrieben`)
   }
