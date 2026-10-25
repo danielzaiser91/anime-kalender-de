@@ -36,6 +36,7 @@ const arr: any[] = Array.isArray(t) ? t : (t.titles ?? Object.values(t))
 const dateien = ausCommit(arr.map((x) => `public/data/folgen/${x.id}.json`))
 const tm = lies('data/tmdb-folgen.json')
 const ti = lies('data/tmdb-titles.json')
+const n404 = fs.existsSync('data/tmdb-folgen-404.json') ? lies('data/tmdb-folgen-404.json') : {}
 const leer = (n: string | undefined) => !n || /^(folge|episode)\s*\d*$/i.test(n)
 const summe: Record<string, [number, number]> = {}
 const z = { mitZahl: 0, alt: 0, neu: 0, gleich: 0, abweichend: 0, strenger: 0, neuNur: [] as string[], abgewiesen: [] as number[] }
@@ -62,7 +63,7 @@ for (const x of arr) {
     else if (neu) z.neuNur.push(`${x.id} ${x.titleEn}`)
   }
   if (!luecken.length) continue
-  const grund = x.format === 'MOVIE' ? 'Film' : !['TV', 'TV_SHORT', 'ONA'].includes(x.format) ? 'Format ' + x.format : !ti[x.id]?.tmdbId ? 'keine tmdbId' : !e ? 'kein Eintrag in tmdb-folgen.json' : 'mit Eintrag'
+  const grund = x.format === 'MOVIE' ? 'Film' : !['TV', 'TV_SHORT', 'ONA'].includes(x.format) ? 'Format ' + x.format : !ti[x.id]?.tmdbId ? 'keine tmdbId' : !e ? (n404[x.id]?.tmdbId === ti[x.id]?.tmdbId ? 'TMDB 404' : 'kein Eintrag in tmdb-folgen.json') : 'mit Eintrag'
   const schluessel = `${grund}${x.episodes ? ', mit episodes' : ', ohne episodes'}`
   summe[schluessel] ??= [0, 0]
   summe[schluessel][0]++

@@ -35,6 +35,7 @@ import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { dubLuecke, waehleAbrufe, type FolgenDatei } from './lib/tmdb-folgen-luecke.ts'
+import { istSerie404, type Vermerk404 } from './lib/tmdb-folgen-404.ts'
 
 const args = process.argv.slice(2)
 const LIMIT = Number(args[args.indexOf('--limit') + 1]) || 400
@@ -140,7 +141,8 @@ async function main(): Promise<void> {
     .filter((x) => x.tmdb?.tmdbId && x.tmdb.kind !== 'movie')
 
   const luecke = (id: string): number => dubLuecke(readJson<FolgenDatei | undefined>(`public/data/folgen/${id}.json`, undefined))
-  const offen = waehleAbrufe({ alle, bestand, heute: todayIso(), alterTage: ALTER_TAGE, limit: LIMIT, nurLuecke: NUR_LUECKE, luecke })
+  const fehlt = readJson<Record<string, Vermerk404>>('data/tmdb-folgen-404.json', {})
+  const offen = waehleAbrufe({ alle, bestand, heute: todayIso(), alterTage: ALTER_TAGE, limit: LIMIT, nurLuecke: NUR_LUECKE, luecke, fehlt })
 
   log(`${offen.length} Titel mit Folgenbedarf (Grenze ${ALTER_TAGE} Tage, höchstens ${LIMIT}${NUR_LUECKE ? ', nur Lückentitel' : ''})`)
 
@@ -152,16 +154,19 @@ async function main(): Promise<void> {
     try {
       const eintrag = await holeEintrag(id, apiKey)
       bestand[String(t.id)] = eintrag
+      delete fehlt[String(t.id)]
       geholt++
       folgenGesamt += eintrag.folgen.length
     } catch (err) {
-      // Kein Eintrag bei Fehlschlag: ein dauerhaft scheiternder Lückentitel belegt jede Woche einen Platz im Riegel (docs/wissen/folgentitel-quellen.md).
+      // Nur 404 ist eine Auskunft und bekommt einen Vermerk mit Datum; jeder andere Fehler schreibt nichts und der Titel bleibt im nächsten Lauf dran.
+      if (istSerie404(err, id)) fehlt[String(t.id)] = { tmdbId: id, geprueft: todayIso() }
       warn(`TMDB ${id} (${t.titleRomaji ?? t.id}): ${(err as Error).message}`)
     }
     await sleep(120)
   }
 
   writeJson('data/tmdb-folgen.json', bestand)
+  writeJson('data/tmdb-folgen-404.json', fehlt)
   log(`${geholt} Titel geholt, ${folgenGesamt} Folgen; Bestand jetzt ${Object.keys(bestand).length}`)
   recordSource('tmdb-folgen', Object.keys(bestand).length, undefined, geholt)
 }
