@@ -32,12 +32,15 @@ async function main(): Promise<void> {
     dub: 'unklar',
     sammel: [
       { titel: 'Blue Box', zusatz: 'Staffel 2', datum: '2026-10-04', deutsch: true, woechentlich: true, stream: ['Netflix'] },
+      { titel: 'Gefunden', datum: '2026-10-06', deutsch: true, woechentlich: false, stream: ['Netflix'] },
       { titel: 'Cyberpunk: Edgerunners II', datum: '2026-10-20', deutsch: true, woechentlich: false, stream: ['Netflix'], folgen: 10 },
     ],
   }
-  const sammelV = vorschlaegeAusAllenSammelartikeln([artikel as never])
+  const zweiterArtikel = { ...artikel, articleUrl: 'https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/', sammel: [artikel.sammel[0]!] }
+  const sammelV = vorschlaegeAusAllenSammelartikeln([artikel as never, zweiterArtikel as never])
   const titles = [
     { id: 900122, franchiseId: 900122, titleEn: 'Blue Box', titleDe: 'Blue Box', format: 'ONA', jpYear: 2024 },
+    { id: 900124, franchiseId: 900124, titleEn: 'Gefunden', titleDe: 'Gefunden', format: 'TV', jpYear: 2026 },
     { id: 900123, franchiseId: 900122, titleEn: 'Blue Box Season 2', titleDe: 'Blue Box: Staffel 2', format: 'TV', jpYear: 2026 },
   ] as never[]
   const handeintrag = {
@@ -55,13 +58,13 @@ async function main(): Promise<void> {
   const titelListe = (l: { titel: string; anbieter: string[] }[]) => l.map((e) => `${e.titel}/${e.anbieter.join(',')}`)
 
   pruefe('Kulisse: der Handeintrag verdrängt den Bot-Termin bei Netflix', neu.every((r) => r.platform !== 'netflix' || r.titleId !== 900123), neu.length)
-  pruefe('Kulisse: genau die Netflix-Meldung zu Blue Box ist abgedeckt', abgedeckt.length === 1, abgedeckt.length)
+  pruefe('Kulisse: beide Blue-Box-Meldungen sind abgedeckt, der neue Termin „Gefunden“ nicht', abgedeckt.length === 2 && abgedeckt.every((v) => v.articleTitle.includes('Blue Box')) && neu.length === 1, [abgedeckt.length, neu.length])
   const ohne = unzugeordnet(sammelV, neu)
   const mit = unzugeordnet(sammelV, neu, abgedeckt)
   pruefe('alt: Blue Box/Netflix stand fälschlich auf der Liste', titelListe(ohne).includes('Blue Box/netflix'), titelListe(ohne))
   pruefe('neu: Blue Box/Netflix fällt von der Liste', !titelListe(mit).includes('Blue Box/netflix'), titelListe(mit))
   pruefe('Gegenfall: Edgerunners II (kein Termin im Bestand) bleibt', titelListe(mit).includes('Cyberpunk: Edgerunners II/netflix'), titelListe(mit))
-  pruefe('genau ein Eintrag weniger als vorher', ohne.length - mit.length === 1, [ohne.length, mit.length])
+  pruefe('zwei Einträge weniger als vorher', ohne.length - mit.length === 2, [ohne.length, mit.length])
 
   mkdirSync(join(wurzel, 'data', 'proposals'), { recursive: true })
   const zeilen: string[] = []
@@ -75,7 +78,7 @@ async function main(): Promise<void> {
   const datei = JSON.parse(readFileSync(join(wurzel, 'data', 'proposals', 'nicht-zugeordnet.json'), 'utf8')) as { eintraege: { titel: string }[] }
   pruefe('Datei: Blue Box/Netflix nicht darin, Edgerunners darin', datei.eintraege.some((e) => e.titel.includes('Edgerunners')) && datei.eintraege.length === mit.length, datei.eintraege.length)
   const zeile = zeilen.find((z) => z.includes('belegt schon ein Termin'))
-  pruefe('Log: Ausnahme wird gezählt und benannt', !!zeile && zeile.includes('] 1 Sammelartikel-Meldungen belegt') && zeile.includes('Blue Box (netflix)'), zeilen)
+  pruefe('Log: Ausnahme wird gezählt und benannt', !!zeile && zeile.includes('] 2 Sammelartikel-Meldungen belegt') && zeile.includes('Blue Box (netflix)'), zeilen)
   // Verdrahtung im Bau: derselbe Fall durch `ergaenzeTermineAusNewsUndTv`, nicht nur durch die Einzelfunktionen.
   writeFileSync(join(wurzel, 'data', 'kino-ankuendigungen.yaml'), '[]')
   writeFileSync(join(wurzel, 'data', 'proposals', 'anime2you.json'), JSON.stringify({ proposals: [artikel] }))
