@@ -11,7 +11,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { restSkripte } from './pr-bestand-vergleich.mjs'
-import { teileListenAusgabe, trenneGeerbtUndNeu, zaehleVerstoesse } from './pr-bestand-zaehlen.mjs'
+import { teileListenAusgabe, trenneGeerbtUndNeu, zaehleOderMelde, zaehleVerstoesse } from './pr-bestand-zaehlen.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wurzel = join(tools, '..')
@@ -32,12 +32,17 @@ assert.throws(
 )
 assert.throws(() => restSkripte({ scripts: {} }), /fehlt/)
 
-// Zählregel (tools/pr-bestand-zaehlen.mjs): Kopf- und Erfolgszeilen zählen nicht, Verstoßzeilen je eine.
-assert.equal(zaehleVerstoesse('FEHLER: 2 Einträge:\nA\nB\n'), 3)
-assert.equal(zaehleVerstoesse('> x\nnpm error code 1\n✓ gut\nOK\n\n  - Verstoß\n'), 1)
-assert.equal(zaehleVerstoesse('npm ERR! a\nnpm warn b\nnpm error c\n✔ d\n✓ e\nOK\n> f\n'), 0)
-assert.equal(zaehleVerstoesse('OK danach\nmehr'), 2)
-assert.equal(zaehleVerstoesse(''), 0)
+// Zählregel (tools/pr-bestand-zaehlen.mjs): nur die Zeile „VERSTÖSSE: n“ zählt.
+assert.equal(zaehleVerstoesse('FEHLER: 2 Einträge:\nA\nB\nVERSTÖSSE: 2\n'), 2)
+assert.equal(zaehleVerstoesse('> x\nnpm error code 1\n  - Verstoß\nVERSTÖSSE: 11\r\nnpm error\n'), 11)
+assert.equal(zaehleVerstoesse('✓ gut\nVERSTÖSSE: 0'), 0)
+assert.equal(zaehleVerstoesse('VERSTÖSSE: 5'), 5)
+// Fehlt die Zeile oder steht sie mehrfach/verformt, wirft die Zählung (nie 0 annehmen).
+for (const schlecht of ['', 'FEHLER: x\nA\nB', 'VERSTÖSSE: 1\nVERSTÖSSE: 1', ' VERSTÖSSE: 1', 'Verstöße: 1', 'VERSTÖSSE: x', 'VERSTÖSSE: 1 weitere', 'VERSTÖSSE:']) assert.throws(() => zaehleVerstoesse(schlecht), /„VERSTÖSSE: <n>“ (fehlt|steht 2-mal)/, schlecht)
+const meldungen = []
+assert.ok(Number.isNaN(zaehleOderMelde("x.ts", "ohne", (m) => meldungen.push(m))))
+assert.deepEqual(meldungen, ['::error::x.ts: Zeile „VERSTÖSSE: <n>“ fehlt in der Ausgabe der Prüfung'])
+assert.equal(zaehleOderMelde('x.ts', 'VERSTÖSSE: 3', () => assert.fail('keine Meldung')), 3)
 const geteilt = teileListenAusgabe('Kopf\n[check:bestand 1/2] a.ts\nx\ny\n[check:bestand 2/2] b.ts\nz\ncheck:bestand: 1 von 2 Prüfungen rot:\n  - b.ts\n--- b.ts (Exit 1)\n')
 assert.deepEqual([...geteilt], [['a.ts', 'x\ny'], ['b.ts', 'z']])
 assert.deepEqual(trenneGeerbtUndNeu(new Map([['a', 2], ['b', 3], ['c', 1], ['d', 1]]), new Map([['a', 2], ['b', 2], ['d', 5]])), { geerbt: ['a', 'd'], neu: ['b', 'c'] })
@@ -75,12 +80,16 @@ export function pruefe(name) {
   if (lies('aus/schreibt.txt').includes(name)) appendFileSync('getrackt.txt', name + '\\n')
   // Ein Name, der n-mal in der Rotliste steht, meldet n Verstöße (je eine Zeile).
   const zahl = [...lies('aus/rot.txt'), ...lies(${JSON.stringify(`${CACHE}/rot.txt`)})].filter((n) => n === name).length
+  // Ein Name in ohne-zeile.txt lässt die Schlusszeile weg (Prüfung ohne das Ausgabeformat).
+  const ohneZeile = lies(${JSON.stringify(`${CACHE}/ohne-zeile.txt`)}).includes(name)
   if (zahl === 0) {
     console.log('  - geprüft ' + name)
+    if (!ohneZeile) console.log('VERSTÖSSE: 0')
     return
   }
-  // Wie echte Prüfungen: eine Aufzählung im eigenen Text, die nicht als rote Prüfung gelesen werden darf.
-  for (let i = 1; i <= zahl; i++) console.log('  - Verstoß ' + i + ' in ' + name)
+  // Wie echte Prüfungen: Ausgabezeilen im eigenen Text, die nicht mitzählen; gezählt wird nur die Schlusszeile.
+  for (let i = 1; i <= 7; i++) console.log('  - Verstoß ' + i + ' in ' + name)
+  if (!ohneZeile) console.log('VERSTÖSSE: ' + zahl)
   process.exit(1)
 }
 `,
@@ -116,7 +125,7 @@ const LISTE = ['pruef/a.mjs', 'pruef/b.mjs', 'pruef/c.mjs']
 git('init', '-q', '-b', 'main')
 
 /** Ein Basis-Commit (bauRot: was der Basisbau rot macht) und darauf der PR-Stand (prListe, prRot = Ausgabe des PR-Baus). */
-function fall({ bauRot = [], kaputt = false, cacheRot = [], prListe = LISTE, prRot = [], schreibt = [], restNeu = [] }) {
+function fall({ bauRot = [], kaputt = false, cacheRot = [], prListe = LISTE, prRot = [], schreibt = [], restNeu = [], ohneZeile = [] }) {
   schreibe('package.json', paket(REST))
   schreibe('tools/check-bestand-liste.txt', `# Kulisse\n${LISTE.join('\n')}\n`)
   schreibe('bau-rot.txt', bauRot.join('\n'))
@@ -132,6 +141,7 @@ function fall({ bauRot = [], kaputt = false, cacheRot = [], prListe = LISTE, prR
   schreibe('aus/rot.txt', prRot.join('\n'))
   schreibe('aus/schreibt.txt', schreibt.join('\n'))
   schreibe(`${CACHE}/rot.txt`, cacheRot.join('\n'))
+  schreibe(`${CACHE}/ohne-zeile.txt`, ohneZeile.join('\n'))
   writeFileSync(spur, '')
   const r = spawnSync(process.execPath, [skript, basis], {
     cwd: k,
@@ -239,6 +249,14 @@ try {
   assert.equal(e.status, 1, e.aus)
   assert.match(e.aus, /verletzt sind: check:r1\n/)
   assert.match(e.aus, /::warning::pruef\/a\.mjs/)
+
+  // Fehlt die Zeile „VERSTÖSSE: n“ (Rest-Skript und Listenprüfung je), meldet der Schritt es laut und gilt als rot, auch wenn die Basis ebenso rot ist.
+  for (const name of ['check:r2', 'pruef/b.mjs']) {
+    e = fall({ bauRot: [name], prRot: [name], ohneZeile: [name] })
+    assert.equal(e.status, 1, e.aus)
+    assert.match(e.aus, new RegExp(`::error::${name.replace(/[.:/]/g, '\\$&')}: Zeile „VERSTÖSSE: <n>“ fehlt`))
+    assert.doesNotMatch(e.aus, /::warning::/)
+  }
 
   // A1 (PR 1386, R3): ein rotes Rest-Skript, das es nur im PR gibt, ist neu; die Basis fährt es nicht (sonst „Missing script“ = geerbt).
   e = fall({ restNeu: ['r4'], bauRot: ['check:r4'], prRot: ['check:r4'] })
