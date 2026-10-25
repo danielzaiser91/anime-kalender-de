@@ -76,7 +76,7 @@ try {
   const fahre = () => spawnSync(process.execPath, [join(tools, 'check-workflows.mjs')], { cwd: welt, encoding: 'utf8', windowsHide: true })
   const gruen = fahre()
   assert.equal(gruen.status, 0, gruen.stderr)
-  assert.match(gruen.stdout, /✓ oder-true: \d+ Ausnahmen, \d+ Treffer/)
+  assert.match(gruen.stdout, /✓ oder-true: (\d+) Ausnahmen, \1 Treffer/)
   writeFileSync(join(welt, 'tools/neu.sh'), 'npx tsx pipeline/sammler.ts || true\n')
   const rot = fahre()
   assert.equal(rot.status, 1, 'neuer Verschlucker macht check-workflows rot')
