@@ -42,6 +42,9 @@ pruefe('Nicht-Netflix-Weg zählt nicht', ids([{ id: 11, streams: [{ platform: 'p
 const fund = abweichendeNetflixKennungen([titel(12, '900001', 22)], dateien({ 22: ['900002'] }, { 12: ['900002'] }))[0]
 pruefe('Fund nennt die Kennungen je Quelle', JSON.stringify(fund?.kennungen) === JSON.stringify({ datensatz: ['900001'], anisearch: ['900002'], justwatch: ['900002'] }), fund)
 
+pruefe('aniSearch-Eintrag ohne Kennung trifft keinen Titel ohne Kennung', ids([titel(13, '900001')], { anisearch: { x: { streams: [{ url: nf('900002') }] } }, justwatch: {} }).length === 0)
+pruefe('Kennungen je Quelle sind sortiert', JSON.stringify(abweichendeNetflixKennungen([titel(14, '900005')], dateien({}, { 14: ['900009', '900003'] }))[0]?.kennungen.justwatch) === JSON.stringify(['900003', '900009']))
+
 /* Prüfliste: die Seite des Titels steht im Prüfstand. */
 const t3 = [titel(31, '900001'), titel(32, '900002'), titel(33, null), { id: 34, streams: [{ platform: 'primevideo', url: nf('900001') }] }]
 const liste = titelAufPruefliste(t3, [nf('900001'), nf('900777')])
@@ -82,6 +85,9 @@ const lauf = (...args: string[]) => {
 const offen = lauf(titelPfad, asPfad, jwPfad, stand([]))
 pruefe('Prozess offen: Exit 0 und Warnzeile mit Titel', offen.status === 0 && offen.out.includes('⚠ WARNUNG Netflix-Kennung: Titel 900101'), offen)
 pruefe('Prozess offen: Zählzeile', offen.out.includes('1 Titel mit Abweichung, 0 auf der Prüfliste, 1 ohne'), offen)
+const ohneZiele = schreibe('stand-leer.json', { anbieter: [{ plattform: 'netflix' }] })
+const ohneListe = lauf(titelPfad, asPfad, jwPfad, ohneZiele)
+pruefe('Prozess ohne Ziele im Prüfstand: Titel bleibt offen', ohneListe.status === 0 && ohneListe.out.includes('1 Titel mit Abweichung, 0 auf der Prüfliste, 1 ohne'), ohneListe)
 const gelistet = lauf(titelPfad, asPfad, jwPfad, stand([nf('900001')]))
 pruefe('Prozess gelistet: Exit 0, keine Warnzeile, gezählt', gelistet.status === 0 && !gelistet.out.includes('WARNUNG') && gelistet.out.includes('1 auf der Prüfliste, 0 ohne'), gelistet)
 const kaputt = lauf(schreibe('kaputt.json', '{'), asPfad, jwPfad, stand([]))
