@@ -22,8 +22,8 @@ export type Belegsignale = {
 }
 
 /** Schlüssel eines Streams für `Belegsignale.motnTon`. */
-export function motnTonSchluessel(titleId: number, platform: string): string {
-  return `${titleId}:${platform}`
+export function motnTonSchluessel(titleId: number, url: string): string {
+  return `${titleId}|${url}`
 }
 
 type Kette = Pick<Title, 'id' | 'streams' | 'deErstausgabe'>
@@ -33,8 +33,8 @@ type Kette = Pick<Title, 'id' | 'streams' | 'deErstausgabe'>
  * Die Synchron-Forum-Liste (`forum`) ist eine mittlere Quelle, hebt aber nie über high: für very-high zählt sie nicht.
  */
 export function belegstaerke(t: Kette, s: Belegsignale): DubConfidence {
-  const mitTon = (st: { dub?: boolean; platform: string }) => st.dub === true
-  const anbieter = Boolean(t.streams?.some((st) => mitTon(st) && !s.motnTon?.has(motnTonSchluessel(t.id, st.platform)))) || s.handbelegt.has(t.id)
+  const mitTon = (st: { dub?: boolean }) => st.dub === true
+  const anbieter = Boolean(t.streams?.some((st) => mitTon(st) && !s.motnTon?.has(motnTonSchluessel(t.id, st.url)))) || s.handbelegt.has(t.id)
   /* Nur die Streaming-Availability-API sagt Deutsch (Moonrise 150654): ihr Schweigen ist kein Nein, ihr Ja allein nur eine mittlere Quelle. */
   const nurApi = !anbieter && Boolean(t.streams?.some(mitTon))
   const stark = Number(anbieter) + Number(s.kartei.has(t.id))

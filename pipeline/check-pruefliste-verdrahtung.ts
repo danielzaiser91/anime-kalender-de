@@ -12,6 +12,7 @@ import type { DataMeta, Title } from '../shared/types.ts'
 
 const URL_MIT = 'https://www.crunchyroll.com/de/series/GTESTMIT/mit'
 const URL_OHNE = 'https://www.crunchyroll.com/de/series/GTESTOHNE/ohne'
+const URL_API = 'https://www.netflix.com/title/900012'
 const REPO = join(import.meta.dirname, '..')
 /** Leere Dateien in data/, die die Phasen beim Laden ohne Rückfall lesen. */
 const STUBS = ['offizielle-meldungen.yaml', 'ankuendigungen.yaml', 'ohne-synchro-von-hand.yaml', 'anisearch-ids-hand.yaml', 'folgen-hinweise.yaml', 'fanservice-urteil.yaml', 'synchron-forum-treffer.yaml', 'kino-ankuendigungen.yaml']
@@ -38,6 +39,9 @@ try {
   process.chdir(wurzel) // Phase 13-6 startet tools/kennungen-erzeugen.mjs mit relativen Pfaden
   const mitBereich = titel(900010, [{ platform: 'crunchyroll', url: URL_MIT, dub: true, dubRanges: [{ from: 1, to: 1, dub: true }] }])
   const ohneBereich = titel(900011, [{ platform: 'crunchyroll', url: URL_OHNE, dub: true }])
+  const nurApi = titel(900012, [{ platform: 'netflix', url: URL_API, dub: true }])
+  const ohneVermerk = titel(900013, [{ platform: 'netflix', url: URL_API, dub: true }])
+  const alle = [mitBereich, ohneBereich, nurApi, ohneVermerk]
   const { PRUEFLISTE } = await import('./bau/09-7-cr-teilseiten.ts')
   const liste = [zeile(900010, URL_MIT), zeile(900011, URL_OHNE), zeile(900999, URL_OHNE)]
   writeFileSync(join(wurzel, PRUEFLISTE), JSON.stringify(liste))
@@ -45,24 +49,29 @@ try {
   for (const d of STUBS) writeFileSync(join(wurzel, 'data', d), '')
 
   const { schreibeDatensatz } = await import('./bau/13-schreiben.ts')
+  const { motnTonSchluessel } = await import('./lib/belegstaerke.ts')
   schreibeDatensatz({
-    allTitles: [mitBereich, ohneBereich],
+    allTitles: alle,
     releases: [],
     kanalJeAdresse: new Map(),
-    motnTon: new Set(),
+    motnTon: new Set([motnTonSchluessel(900012, URL_API)]),
     anisearch: {},
     tmdbTitles: {},
     mitStimmen: new Set(),
     verschoben: [],
     verweiseEntfernt: [],
-    titles: new Map([mitBereich, ohneBereich].map((t) => [t.id, t])),
+    titles: new Map(alle.map((t) => [t.id, t])),
     jpStartAnzeige: new Map(),
     events: [],
-    meta: { generatedAt: '2026-10-20T00:00:00Z', titleCount: 2, belegtCount: 0, releaseCount: 0, eventCount: 0, genres: [], keywords: [], platforms: [], providers: [], years: [], attribution: [] } as unknown as DataMeta,
+    meta: { generatedAt: '2026-10-20T00:00:00Z', titleCount: 4, belegtCount: 3, releaseCount: 0, eventCount: 0, genres: [], keywords: [], platforms: [], providers: [], years: [], attribution: [] } as unknown as DataMeta,
   })
 
   const danach = (JSON.parse(readFileSync(join(wurzel, PRUEFLISTE), 'utf8')) as { titleId: number; url: string }[]).map((p) => `${p.titleId}|${p.url}`)
   pruefe('Phase 13 bereinigt die Prüfliste: Weg mit Bereich und Titel ohne Ausgabe fallen weg, der offene Weg bleibt', JSON.stringify(danach) === JSON.stringify([`900011|${URL_OHNE}`]), danach)
+  const ausgeliefert = JSON.parse(readFileSync(join(wurzel, 'public', 'data', 'titles.json'), 'utf8')) as Pick<Title, 'id' | 'dubConfidence'>[]
+  const stufe = (id: number) => ausgeliefert.find((t) => t.id === id)?.dubConfidence
+  pruefe('Phase 13 gibt motnTon an die Belegstärke: Tonspur nur aus der API ist normal', stufe(900012) === 'normal', stufe(900012))
+  pruefe('dieselbe Tonspur ohne Vermerk bleibt high', stufe(900013) === 'high', stufe(900013))
 } finally {
   process.chdir(start)
   rmSync(wurzel, { recursive: true, force: true })

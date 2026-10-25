@@ -47,9 +47,9 @@ try {
   pruefe('dub:false mit nichtImBestand zählt nicht', !handbelegt.has(NEIN_NICHT_IM_BESTAND), gefunden)
   pruefe('genau ein Titel in der Kulisse', handbelegt.size === 1, gefunden)
   console.log('\nBelegstärke: mitBelegstaerke liest die Herkunft der API-Tonspur')
-  const { mitBelegstaerke } = await import('./lib/belegstaerke.ts')
+  const { mitBelegstaerke, motnTonSchluessel } = await import('./lib/belegstaerke.ts')
   const api = { id: 900005, dubConfidence: 'low', streams: [{ platform: 'netflix', url: 'x', dub: true }] } as unknown as Title
-  const mitApi = mitBelegstaerke([api], [], new Set(['900005:netflix']))[0]?.dubConfidence
+  const mitApi = mitBelegstaerke([api], [], new Set([motnTonSchluessel(900005, 'x')]))[0]?.dubConfidence
   const ohne = mitBelegstaerke([api], [], new Set())[0]?.dubConfidence
   pruefe('Tonspur nur aus der API: normal', mitApi === 'normal', mitApi)
   pruefe('dieselbe Tonspur ohne Vermerk der API: high', ohne === 'high', ohne)

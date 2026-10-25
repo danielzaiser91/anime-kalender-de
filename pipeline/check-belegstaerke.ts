@@ -5,7 +5,7 @@
 import type { Title } from '../shared/types.ts'
 import { titleStatus } from '../shared/logic.ts'
 import { synchroBelegt } from '../shared/titles.ts'
-import { belegstaerke, hochOhneBeleg, zaehleBelegte, type Belegsignale } from './lib/belegstaerke.ts'
+import { belegstaerke, hochOhneBeleg, motnTonSchluessel, zaehleBelegte, type Belegsignale } from './lib/belegstaerke.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -46,7 +46,7 @@ console.log('\nBelegstärke: Tonspur nur aus der Streaming-Availability-API (mit
 {
   /* Moonrise (150654) und Thunder 3 (207254) sind Netflix-Titel, deren Deutsch nur die API nennt. */
   const moonrise = { id: 150654, streams: [{ platform: 'netflix', url: 'x', dub: true }] } as Partial<Title>
-  const api = { ...leer, motnTon: new Set(['150654:netflix']) }
+  const api = { ...leer, motnTon: new Set([motnTonSchluessel(150654, 'x')]) }
   pruefe('nur API: normal statt high', belegstaerke(titel(moonrise), api) === 'normal')
   pruefe('API plus aniSearch-Marke: high', belegstaerke(titel({ ...moonrise, ...anisearch }), api) === 'high')
   pruefe('API plus TV-Termin: high', belegstaerke(titel(moonrise), { ...api, tv: new Set([150654]) }) === 'high')
@@ -56,8 +56,10 @@ console.log('\nBelegstärke: Tonspur nur aus der Streaming-Availability-API (mit
   pruefe('API plus Handbeleg plus Marke: very-high', belegstaerke(titel({ ...moonrise, ...anisearch }), { ...api, handbelegt: new Set([150654]) }) === 'very-high')
   const cr = { id: 150654, streams: [{ platform: 'netflix', url: 'x', dub: true }, { platform: 'crunchyroll', url: 'y', dub: true }] } as Partial<Title>
   pruefe('API auf Netflix, Crunchyroll-Tonspur dazu: high (Crunchyroll bleibt stark)', belegstaerke(titel(cr), api) === 'high')
+  const zweiNetflix = { id: 150654, streams: [{ platform: 'netflix', url: 'x', dub: true }, { platform: 'netflix', url: 'z', dub: true }] } as Partial<Title>
+  pruefe('zwei Netflix-Wege, nur einer aus der API: der andere bleibt stark, high', belegstaerke(titel(zweiNetflix), api) === 'high')
   pruefe('Crunchyroll allein bleibt high', belegstaerke(titel({ id: 150654, streams: [{ platform: 'crunchyroll', url: 'y', dub: true }] } as Partial<Title>), api) === 'high')
-  pruefe('Schlüssel eines anderen Titels oder Anbieters gilt nicht', belegstaerke(titel(moonrise), { ...leer, motnTon: new Set(['1:netflix', '150654:disneyplus']) }) === 'high')
+  pruefe('Schlüssel eines anderen Titels oder einer anderen Adresse gilt nicht', belegstaerke(titel(moonrise), { ...leer, motnTon: new Set([motnTonSchluessel(1, 'x'), motnTonSchluessel(150654, 'y')]) }) === 'high')
   pruefe('API-Ton ohne dub: true zählt nicht', belegstaerke(titel({ id: 150654, streams: [{ platform: 'netflix', url: 'x' }] } as Partial<Title>), api) === 'low')
 }
 
