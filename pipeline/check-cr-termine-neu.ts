@@ -217,7 +217,7 @@ pruefe('Paarung geht auf: ein Termin wie bisher, ohne B', aufgeht.raus.length ==
 pruefe('Paarung geht auf: alle zwölf Tage als Beobachtung (Nummer = Obergrenze zählt)', Object.keys(aufgeht.raus[0]?.beobachtet ?? {}).length === 12, aufgeht.raus[0]?.beobachtet)
 
 /* --- Staffelnummer aus dem Namen: Ordinalform („3rd Season“) und Zählform („Season 4“) --- */
-const nrVon = (titleEn: string | null, titleDe: string | null = null) => titelStaffelNr({ titleDe, titleEn, titleRomaji: null })
+const nrVon = (titleEn: string, titleDe?: string) => titelStaffelNr({ titleDe, titleEn })
 pruefe('„3rd Season“ ist Staffel 3', nrVon('Show 3rd Season') === 3, nrVon('Show 3rd Season'))
 pruefe('„2nd Season“ ist Staffel 2', nrVon('Show 2nd Season') === 2, nrVon('Show 2nd Season'))
 pruefe('„1st Season“ ist Staffel 1', nrVon('Show 1st Season') === 1, nrVon('Show 1st Season'))
