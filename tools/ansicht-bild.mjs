@@ -30,6 +30,7 @@ import { pruefeAdressen } from './ansicht-adressen.mjs'
 import { pruefeHoverCover } from './ansicht-hover-cover.mjs'
 import { pruefeStatusfarben } from './ansicht-statusfarben.mjs'
 import { distPruefen } from './dist-frisch.mjs'
+import { eckenFehler } from './ecken-urteil.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -287,9 +288,7 @@ async function messeEmpfehlungsCover(seite) {
 /** Ecken rund, Unterkante und Zeilen darunter mit und ohne Favorit gleich, Plakette im Cover. */
 function pruefeEmpfehlungsCover(ohne, mit) {
   const fehler = []
-  const [ecke, aussen, eckeU, aussenU] = ohne.farben
-  if (farbAbstand(ecke, aussen) >= PIXEL_VERSCHIEDEN) fehler.push('obere linke Ecke ist nicht rund (Pixel zeigt nicht den Hintergrund)')
-  if (farbAbstand(eckeU, aussenU) >= PIXEL_VERSCHIEDEN) fehler.push('untere rechte Ecke ist nicht rund')
+  fehler.push(...eckenFehler(ohne.farben))
   if (Math.round(ohne.r.y + ohne.r.h) !== Math.round(mit.r.y + mit.r.h)) fehler.push('Unterkante des Covers verschiebt sich mit Favorit')
   ohne.farben.slice(4).forEach((f, i) => {
     if (farbAbstand(f, mit.farben[4 + i]) >= PIXEL_VERSCHIEDEN) fehler.push(`Zeile ${i + 1} unter dem Cover ändert sich mit Favorit (Ringrest)`)
