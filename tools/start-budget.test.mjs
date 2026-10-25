@@ -5,10 +5,10 @@ import { randomBytes } from 'node:crypto'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { bewerte, GRENZE, messe, startDateien, startSchriften } from './start-budget.mjs'
+import { bewerte, GRENZE, messe, startDateien, startSchriften, WARNLUFT } from './start-budget.mjs'
 
 // Je Gruppe drei Kandidaten, der geprüfte in der Mitte (Bundler legt mehrere Skripte, Vorab-Chunks und Stylesheets an).
-const html = (teil = '["meta","woche"]') => `<html><head>
+const html = (teil = '["meta","woche-kacheln"]') => `<html><head>
 <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="/icons/apple.png" />
 <link rel="manifest" href="/manifest.webmanifest" />
@@ -53,7 +53,7 @@ const alle = {
   'assets/index-G.css': 3500,
   'assets/index-H.css': 4000,
   'data/meta.json': 4000,
-  'data/woche.json': 5000,
+  'data/woche-kacheln.json': 5000,
   [MANROPE]: 10000,
   [UNBOUNDED]: 6000,
   'assets/manrope-cyrillic-wght-normal-X0.woff2': 7000, // nicht Teil des Starts
@@ -63,7 +63,7 @@ const alle = {
 }
 const lauf = (dist, cwd) => spawnSync(process.execPath, [join(import.meta.dirname, 'start-budget.mjs'), ...(cwd ? [] : [dist])], { encoding: 'utf8', cwd })
 const aufraeumen = (dist) => rmSync(join(dist, '..'), { recursive: true, force: true })
-const IMMER = ['index.html', 'assets/index-A.js', 'assets/index-B.js', 'assets/vendor-C.js', 'assets/vendor-D.js', 'assets/vendor-E.js', 'assets/index-F.css', 'assets/index-G.css', 'assets/index-H.css', 'data/meta.json', 'data/woche.json']
+const IMMER = ['index.html', 'assets/index-A.js', 'assets/index-B.js', 'assets/vendor-C.js', 'assets/vendor-D.js', 'assets/vendor-E.js', 'assets/index-F.css', 'assets/index-G.css', 'assets/index-H.css', 'data/meta.json', 'data/woche-kacheln.json']
 
 // Dateiauswahl: alle Skripte, alle Vorab-Chunks, alle Stylesheets, Wochendaten, index.html — Icons, Manifest, Feed, Canonical nicht.
 const start = startDateien(html())
@@ -118,24 +118,33 @@ const codeBytes = gemessen.reduce((s, z) => s + z.bytes, 0)
 assert.ok(codeBytes > 30000 && codeBytes < 31000, `Code und Daten ${codeBytes}`)
 let r = lauf(dist)
 assert.equal(r.status, 0)
-assert.match(r.stdout, /^start-budget: 4\d\.\d KB gzip von 300[.]0 KB, 25\d\.\d KB Luft \(Code und Daten 29\.\d KB \+ Schriften 15\.6 KB\)$/m)
+assert.match(r.stdout, /^start-budget: 4\d\.\d KB gzip von 280[.]0 KB, 23\d\.\d KB Luft \(Code und Daten 29\.\d KB \+ Schriften 15\.6 KB\)$/m)
 // Grenzwert: genau die Summe besteht, ein Byte weniger nicht.
 const summe = codeBytes + 16000
 assert.equal(bewerte(dist, summe).code, 0)
 const knapp = bewerte(dist, summe - 1)
 assert.equal(knapp.code, 1)
 assert.match(knapp.text, /^start-budget: [\d.]+ KB gzip, 0\.0 KB über der Grenze/m)
+// Frühwarnung: unter WARNLUFT Luft eine ::warning::-Zeile (Exit 0), ab WARNLUFT keine; 0 Byte Luft warnt.
+assert.equal(WARNLUFT, 3072)
+for (const [luft, warnt] of [[0, true], [1, true], [WARNLUFT - 1, true], [WARNLUFT, false], [WARNLUFT + 1, false]]) {
+  const e = bewerte(dist, summe + luft)
+  assert.equal(e.code, 0)
+  assert.equal(/^::warning::start-budget: nur noch /m.test(e.text), warnt, `Luft ${luft}`)
+}
+assert.match(bewerte(dist, summe + 1024).text, /^::warning::start-budget: nur noch 1\.0 KB Luft/m)
+assert.doesNotMatch(knapp.text, /::warning::/)
 // Ohne Argument misst der Lauf `dist` im aktuellen Ordner.
 r = lauf(dist, join(dist, '..'))
 assert.equal(r.status, 0)
-assert.match(r.stdout, /^start-budget: 4\d\.\d KB gzip von 300[.]0 KB/m)
+assert.match(r.stdout, /^start-budget: 4\d\.\d KB gzip von 280[.]0 KB/m)
 aufraeumen(dist)
 
 // Über der Grenze: Exit 1, Aufschlüsselung mit jeder Startdatei und jeder Startschrift auf eigener Zeile.
-dist = kulisse({ ...alle, 'data/woche.json': GRENZE + 5000 })
+dist = kulisse({ ...alle, 'data/woche-kacheln.json': GRENZE + 5000 })
 r = lauf(dist)
 assert.equal(r.status, 1)
-assert.match(r.stderr, /^start-budget: 3\d\d\.\d KB gzip, \d+\.\d KB über der Grenze von 300[.]0 KB \(Code und Daten/m)
+assert.match(r.stderr, /^start-budget: 3\d\d\.\d KB gzip, \d+\.\d KB über der Grenze von 280[.]0 KB \(Code und Daten/m)
 for (const pfad of [...start.dateien, MANROPE, UNBOUNDED]) assert.match(r.stderr, new RegExp(`^ +[\\d.]+ KB  ${pfad.replace(/[.]/g, '\\.')}$`, 'm'))
 assert.doesNotMatch(r.stderr, /titles-core|Dialog|cyrillic|latin-500/)
 aufraeumen(dist)
@@ -151,11 +160,11 @@ for (const [name, css] of [['manrope-latin-wght', { F: cssF, G: cssG.replace(fac
 
 // Fehlende Datei, fehlendes index.html, fehlender Ordner: Exit 1, nie stilles Bestehen.
 const ohne = { ...alle }
-delete ohne['data/woche.json']
+delete ohne['data/woche-kacheln.json']
 dist = kulisse(ohne)
 r = lauf(dist)
 assert.equal(r.status, 1)
-assert.match(r.stderr, /^start-budget: Datei fehlt in .*: data\/woche\.json$/m)
+assert.match(r.stderr, /^start-budget: Datei fehlt in .*: data\/woche-kacheln\.json$/m)
 aufraeumen(dist)
 r = lauf(join(tmpdir(), 'start-budget-gibt-es-nicht'))
 assert.equal(r.status, 1)

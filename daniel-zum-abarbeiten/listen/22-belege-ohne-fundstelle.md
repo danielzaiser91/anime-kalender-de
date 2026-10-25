@@ -23,14 +23,14 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/ (gelesen 2026-10-22) — Vigilante: Boku no Hero Academia ILLEGALS (185736), Vigilante: Boku no Hero Academia ILLEGALS 2nd Season (195322), Watashi no Shiawase na Kekkon Tokubetsu-hen (190054), Niwatori Fighter (179813)
 - https://www.anime2you.de/news/1056867/disney-plus-tokyo-revengers-simulcast-und-mehr/ (gelesen 2026-10-24) — Honey Lemon Soda (175443)
 - https://tokyo-revengers-anime.com/news/archives/4935 (gelesen 2026-10-05) — Tokyo Revengers: War of the Three Titans Arc (178083)
-- https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026 (gelesen 2026-10-18) — Mushoku Tensei: Jobless Reincarnation – Staffel 3 (178789), Saga of Tanya the Evil – Staffel 2 (135865), Gaikotsu Kishi-sama, Tadaima Isekai e Odekakechuu II (185542), Futsutsuka na Akujo de wa Gozaimasu ga: Suuguu Chouso Torikae Den (188139), Tomb Raider King (184356), Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2 (159309), You and I Are Polar Opposites – Staffel 2 (210031), Thunder 3 (207254)
+- https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026 (gelesen 2026-10-25) — Mushoku Tensei: Jobless Reincarnation – Staffel 3 (178789), Saga of Tanya the Evil – Staffel 2 (135865), Gaikotsu Kishi-sama, Tadaima Isekai e Odekakechuu II (185542), Futsutsuka na Akujo de wa Gozaimasu ga: Suuguu Chouso Torikae Den (188139), Tomb Raider King (184356), Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2 (159309), You and I Are Polar Opposites – Staffel 2 (210031), Thunder 3 (207254)
 - https://www.anime2you.de/news/1022385/crunchyroll-sommer-2026-synchros/ (gelesen 2026-10-18) — Black Torch (187538)
 - https://news.animationdigitalnetwork.com/de/2026/09/10/undefeated-bahamut-chronicle-ecchi-mecha-anime-bei-adn/ (gelesen 2026-10-05) — Assassination Classroom (20755), Assassination Classroom Second Season (21170)
 - https://news.animationdigitalnetwork.com/de/2026/09/21/86-eighty-six-kommt-im-oktober-zu-adn/ (gelesen 2026-10-05) — Sword Art Online II (20594)
 - https://news.animationdigitalnetwork.com/de/2026/06/29/maedchen-mit-toedlichen-waffen-gunslinger-girl-jetzt-bei-adn/ (gelesen 2026-10-05) — Gunslinger Girl -Il Teatrino- (3231)
 - https://news.animationdigitalnetwork.com/de/2026/08/17/love-lies-jetzt-im-stream-bei-adn-dystopisches-romance-drama/ (gelesen 2026-10-05) — Love and Lies (98320)
 - https://news.animationdigitalnetwork.com/de/2026/07/20/sci-fi-donghua-ringing-fate-kommt-zu-adn/ (gelesen 2026-10-05) — Boku no Hero Academia (21459), My Hero Academia Season 2 (21856)
-- https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/ (gelesen 2026-10-18) — Hands off: Sawaranaide Kotesashi-kun! (187331), Trinity Seven Movie - Tenkuu Toshokan to Shinku no Maou (103631), Your Forma (167142)
+- https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/ (gelesen 2026-10-25) — Hands off: Sawaranaide Kotesashi-kun! (187331), Trinity Seven Movie - Tenkuu Toshokan to Shinku no Maou (103631), Your Forma (167142)
 - https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/ (gelesen 2026-10-18) — Shingeki no Kyojin (16498)
 - https://news.animationdigitalnetwork.com/de/2026/10/05/school-babysitters-die-besondere-kita-im-stream-bei-adn/ (gelesen 2026-10-05) — Assassination Classroom (20755), Assassination Classroom Second Season (21170)
 - https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855 (gelesen 2026-10-19) — kein Titel zugeordnet
@@ -74,7 +74,7 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1056837/joyn-plus-hells-paradise-und-mehr/ (gelesen 2026-10-07) — Hell’s Paradise (128893)
 - https://www.anime2you.de/news/1055887/ (gelesen 2026-10-24) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1054748/ (gelesen 2026-10-24) — kein Titel zugeordnet
-- https://www.anime2you.de/news/1056092/dragon-ball-super-beerus-simulcast/ (gelesen 2026-10-18) — kein Titel zugeordnet
+- https://www.anime2you.de/news/1056092/dragon-ball-super-beerus-simulcast/ (gelesen 2026-10-25) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/ (gelesen 2026-10-21) — Beelzebub (9513)
 - https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/ (gelesen 2026-10-21) — Bishoujo Senshi Sailor Moon SuperS (1239), Bishoujo Senshi Sailor Moon R (740), Bishoujo Senshi Sailor Moon: Sailor Stars (996), Hanarokushou ga Akeru Hi ni (177132)
 - https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/ (gelesen 2026-10-14) — Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. presage flower) (20791), Fate/stay night [Heaven's Feel] – Gesamtausgabe (II. lost butterfly) (21718), Fate/stay night [Heaven's Feel] – Gesamtausgabe (III. spring song) (21719)
@@ -96,12 +96,12 @@ Die Aussage war auf der Seite nicht zu finden. Von Hand prüfen: nennt der Artik
 - https://www.anime2you.de/news/1059957/sss-class-revival-hunter-neuer-teaser/ (gelesen 2026-10-21) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1044124/jujutsu-kaisen-staffel-1-steelbook-edition/ (gelesen 2026-10-21) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1058606/crunchyroll-the-boxer-und-mehr/ (gelesen 2026-10-21) — kein Titel zugeordnet
-- https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/ (gelesen 2026-10-18) — Bleach: The Movie - Memories of Nobody (1686)
+- https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/ (gelesen 2026-10-25) — Bleach: The Movie - Memories of Nobody (1686)
 - https://www.anime2you.de/news/1052617/netflix-bride-of-the-barrier-master-simulcast/ (gelesen 2026-10-21) — kein Titel zugeordnet
-- https://www.anime2you.de/news/1049988/disney-plus-the-god-of-high-school-und-mehr/ (gelesen 2026-10-15) — Beyblade X – Staffel 2 - Teil 2 (165159)
+- https://www.anime2you.de/news/1049988/disney-plus-the-god-of-high-school-und-mehr/ (gelesen 2026-10-25) — Beyblade X – Staffel 2 - Teil 2 (165159)
 - https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/ (gelesen 2026-10-20) — Snowball Earth (196144)
-- https://www.anime2you.de/news/1058501/starttermin-von-magical-buffs/ (gelesen 2026-10-18) — kein Titel zugeordnet
-- https://www.anime2you.de/news/1057673/crunchyroll-zeigt-red-riding-hood/ (gelesen 2026-10-15) — kein Titel zugeordnet
+- https://www.anime2you.de/news/1058501/starttermin-von-magical-buffs/ (gelesen 2026-10-25) — kein Titel zugeordnet
+- https://www.anime2you.de/news/1057673/crunchyroll-zeigt-red-riding-hood/ (gelesen 2026-10-25) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/ (gelesen 2026-10-18) — Snowball Earth (196144)
 - https://www.disneyplus.com/de-de/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855 (gelesen 2026-10-17) — kein Titel zugeordnet
 - https://www.anime2you.de/news/1061001/neun-animoon-crunchyroll-hardball-disc-verschiebungen/ (gelesen 2026-10-20) — Good Luck Girl! – Vol. 1 (13535), Kaiju No. 8 – Staffel 2 – Komplettbox (178754)

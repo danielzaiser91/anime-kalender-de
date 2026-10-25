@@ -1,5 +1,5 @@
 /**
- * Disney+: Pille und Knopf zählen dieselbe Zahl, auch wenn die Adressen aus dem Gedächtnis kommen (4.32.3, 24.10.2026).
+ * Disney+: Pille und Knopf zählen dieselbe Zahl, auch wenn die Adressen aus dem Gedächtnis kommen (4.32.5, 24.10.2026).
  *
  * Daniel am 24.10.2026: Die Pille zeigte 7 Titel, der Knopf im geöffneten Tab 1. Die „nichts da"-Antworten vom
  * Nachmittag (15:30 UTC) lagen vor dem neuen Prüfstand (16:07 UTC) und durften nicht mehr gelten. `akVermerkGilt`

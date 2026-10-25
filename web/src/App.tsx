@@ -23,7 +23,7 @@ import { SeitenAnsichtLazy } from './components/SeitenAnsichtLazy.tsx'
 import { cacheCoversForOffline } from './lib/pwa.ts'
 import { coverBild, KACHEL_DICHTE } from './lib/cover.ts'
 import { KalenderBereich } from './components/kalender/KalenderBereich.tsx'
-import { DatenbankBereich } from './components/DatenbankBereich.tsx'
+import { DatenbankBereichLazy } from './components/DatenbankBereichLazy.tsx'
 import { DetailPanel } from './components/DetailPanel.tsx'
 import { Footer } from './components/Footer.tsx'
 import { StartGeruest, WochenSkelett } from './components/StartGeruest.tsx'
@@ -222,7 +222,7 @@ export default function App() {
         )}
 
         {route.view === 'datenbank' && (
-          <DatenbankBereich
+          <DatenbankBereichLazy
             data={data}
             route={route}
             navigate={navigate}

@@ -25,12 +25,25 @@ export function netflixTitelAdresse(url: string): string {
     /\/(?:title|watch)\/(\d{6,})/.exec(url)?.[1] ??
     /[?&]jbv=(\d{6,})/.exec(url)?.[1] ??
     /\/WiMovie\/(?:[^/]+\/)?(\d{6,})/.exec(url)?.[1]
-  if (kennung) return `https://www.netflix.com/title/${kennung}`
+  if (kennung) return `https://www.netflix.com/title/${NETFLIX_UMGELEITET[kennung] ?? kennung}`
 
   /* Ohne Kennung im Pfad zählt Netflix' eigene Auskunft — siehe WUNSCHADRESSEN. */
   const wunsch = /netflix\.com\/([^/?#]+)\/?$/i.exec(url)?.[1]?.toLowerCase()
   const ausTabelle = wunsch ? WUNSCHADRESSEN[wunsch] : undefined
   return ausTabelle ? `https://www.netflix.com/title/${ausTabelle}` : url
+}
+
+/**
+ * Netflix-Kennungen, die Netflix selbst auf eine andere Titelseite umleitet (alt → neu).
+ *
+ * Netflix führt manche Serie mit allen Staffeln auf einer Seite; eine zweite Kennung öffnet sie, die Adresse
+ * springt aber auf die erste. Die Kennung der Umleitung ist keine eigene Reihe und steht nie in einem Verweis.
+ * Belegt ist nur, was ein Mensch auf Netflix gesehen hat:
+ * - 81301833 → 81171925, Ranma ½ (2024), alle drei Staffeln (Daniel, 24.10.2026, F56). AniList führt noch die alte
+ *   Kennung für Staffel 1 und 2, aniSearch für alle drei die neue.
+ */
+export const NETFLIX_UMGELEITET: Readonly<Record<string, string>> = {
+  '81301833': '81171925',
 }
 
 /**

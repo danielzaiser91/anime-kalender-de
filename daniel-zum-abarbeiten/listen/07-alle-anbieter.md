@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-24 · **18 offene Verweise** in **16 Zeilen**.
+Stand 2026-10-25 · **18 offene Verweise** in **15 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,30 +33,29 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Prime Video](07-primevideo.md) | 11 |
-| [Netflix](07-netflix.md) | 4 |
-| [Disney+](07-disneyplus.md) | 3 |
+| [Prime Video](07-primevideo.md) | 12 |
+| [Netflix](07-netflix.md) | 5 |
+| [Disney+](07-disneyplus.md) | 1 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
-| 2 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
-| 3 | 2026-10-07 | The Detective Is Already Dead | [Staffel 2]() |
-| 4 | 2026-10-06 | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
-| 5 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie]() |
-| 6 | 2026-09-28 | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
-| 7 | 2026-09-28 | Jujutsu Kaisen | [0]() |
-| 8 | 2026-09-26 | A Wild Last Boss Appeared! | [Staffel 2]() |
-| 9 | 2026-09-13 | Kuroko’s Basketball: | [Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door]() |
-| 10 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
-| 11 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 12 | 2023-07-23 | NieR:Automata Ver1.1a | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f447a318-045f-4f1d-871d-f6ac4d53cf8a) |
-| 13 | 2021-02-17 | Project Itoh: Genocidal Organ | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.78b91eef-2e25-9512-4024-a8c43ad3e1f9) |
-| 14 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
-| 15 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
-| 16 | 2018-09-29 | Yunas Geisterhaus | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.31c2fcde-089d-47dd-bf2b-09bca0de572f) |
+| 1 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special]() |
+| 2 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
+| 3 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() · [Infinity Castle](https://www.amazon.de/gp/video/detail/B0GZSDPCV4) |
+| 4 | 2026-10-07 | The Detective Is Already Dead | [Staffel 2]() |
+| 5 | 2026-10-06 | My Hero Academia | [Vigilantes](https://www.netflix.com/title/82036361) · [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
+| 6 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie]() |
+| 7 | 2026-09-26 | A Wild Last Boss Appeared! | [Staffel 2]() |
+| 8 | 2026-09-13 | Kuroko’s Basketball: | [Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door]() |
+| 9 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
+| 10 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 11 | 2023-07-23 | NieR:Automata Ver1.1a | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f447a318-045f-4f1d-871d-f6ac4d53cf8a) |
+| 12 | 2021-02-17 | Project Itoh: Genocidal Organ | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.78b91eef-2e25-9512-4024-a8c43ad3e1f9) |
+| 13 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
+| 14 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
+| 15 | 2018-09-29 | Yunas Geisterhaus | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.31c2fcde-089d-47dd-bf2b-09bca0de572f) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 

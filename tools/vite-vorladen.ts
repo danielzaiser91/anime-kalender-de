@@ -1,16 +1,17 @@
+import { KACHEL_DATEI } from '../shared/wochen-kacheln.ts'
 import { datenAdresse } from '../web/src/lib/daten-adresse.ts'
 
 /**
  * Das Vorladen der Startdaten im `<head>` (Vite-Plugin `daten-vorladen`, Begründung in `vite.config.ts`).
  *
  * Welche Dateien der Erstaufruf braucht, hängt von der Adresse ab, die erst im Browser feststeht: Die Wochenansicht startet aus
- * `woche.json` (`web/src/lib/start-daten.ts`), jede andere Adresse aus den drei vollen Dateien. Ein kleines Skript im Kopf entscheidet
+ * `woche-kacheln.json` (`web/src/lib/start-daten.ts`), jede andere Adresse aus den drei vollen Dateien. Ein kleines Skript im Kopf entscheidet
  * das vor dem ersten Byte des Bündels — dieselbe Regel wie die App (Wochenansicht, kein Titel, keine Suche, Datum und heute in der
- * Woche des Baus) und teilt sie der App als `window.__akWoche` mit — die App holt dann nicht erst `woche.json`, um festzustellen, dass
+ * Woche des Baus) und teilt sie der App als `window.__akWoche` mit — die App holt dann nicht erst `woche-kacheln.json`, um festzustellen, dass
  * sie nicht reicht. Fehlt die Angabe (Entwicklungsserver), entscheidet die App selbst.
  */
 const VOLL = ['meta', 'titles-core', 'releases', 'events']
-const WOCHE = ['meta', 'woche']
+const WOCHE = ['meta', KACHEL_DATEI]
 
 type VorladeOptionen = { base: string; kennungen: Record<string, string>; ersatz: string; woche?: { von: string; bis: string } }
 

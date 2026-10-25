@@ -32,7 +32,7 @@ Das ist der Kern, und der häufigste Denkfehler:
 
 | | Was es ist | Heute | Grenze | Wer es merkt |
 |---|---|---|---|---|
-| **Ladelast** | was ein Besucher wirklich herunterlädt | **≈ 294 KB** (gzip, Start; Stand 23.10.2026, Wächter `tools/start-budget.mjs`, Grenze 300 KB) | gefühlt ab ~1 MB | jeder Besucher, sofort |
+| **Ladelast** | was ein Besucher wirklich herunterlädt | **≈ 275 KB** (gzip, Start; Stand 25.10.2026, Wächter `tools/start-budget.mjs`, Grenze 280 KB) | gefühlt ab ~1 MB | jeder Besucher, sofort |
 | **Veröffentlichte Seite** | Inhalt von `dist/` | 20 MB | **1 GB** (GitHub Pages) | niemand, bis es reißt |
 | **Repo** | alles inkl. Rohdaten und Historie | 108 MB (`.git` 64 MB gepackt) | ~1 GB empfohlen | nur wer klont |
 
@@ -49,7 +49,7 @@ nachdenkt, muss auf die erste Zeile schauen, nicht auf die dritte.
 | `index-*.js` (App) | 210,7 KB |
 | `index-*.css` | 25,7 KB |
 | `meta.json` | 2,2 KB |
-| `woche.json` (Wochenansicht) | 40,0 KB |
+| `woche-kacheln.json` (Wochenansicht, nur Kachelfelder; Stand 25.10.2026) | 18,0 KB |
 | Schriften (`manrope-latin`, `unbounded-700-de` Teilmenge, woff2) | 34,1 KB |
 | **Summe** | **≈ 327 KB** |
 
@@ -96,7 +96,7 @@ Der Kalender zeigt ohnehin nie mehr als eine Woche gleichzeitig. Aufwand: klein,
 Ladelogik dafür steht bereits.
 
 *Stand 08.10.2026:* Die Summe lag bei ≈ 590 KB (Start, mit Code). Statt der Monatsteilung startet
-die Wochenansicht aus `woche.json` (31 KB), die vollen Dateien laden danach nach — Zahlen und
+die Wochenansicht aus `woche.json` (31 KB; seit 25.10.2026 aus `woche-kacheln.json`, 18 KB), die vollen Dateien laden danach nach — Zahlen und
 Regeln in `docs/wissen/datensatz.md`, „Wochen-Datei zuerst umgesetzt".
 
 ### 2. Ein Datenfeld interessiert nur eine Minderheit
