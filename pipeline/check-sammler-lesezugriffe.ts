@@ -62,7 +62,7 @@ export function scanne(wurzel: string): { funde: Map<string, Set<string>>; unkla
     const ziele = new Set(alle.filter((f) => f.art === 'lesen' || d.startsWith('pipeline/')).map((f) => f.ziel))
     if (ziele.size) funde.set(d, ziele)
     const offen = new Set(alle.filter((f) => f.art === '?' && !ziele.has(f.ziel) && !HAND.test(f.ziel)).map((f) => f.ziel))
-    if (offen.size && !d.startsWith('pipeline/')) unklar.set(d, offen)
+    if (offen.size) unklar.set(d, offen)
   }
   return { funde, unklar }
 }
