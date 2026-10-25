@@ -1,6 +1,7 @@
 [
   { "datei": "pipeline/check-adn-anisearch.ts", "liest": "data/adn-catalog.json", "grund": "Invariante über die ganze Datei (Katalog gegen Liste der offenen), kein fester Schlüssel" },
   { "datei": "pipeline/check-adn-anisearch.ts", "liest": "data/adn-anisearch-offen.json", "grund": "Invariante über die ganze Datei (Katalog gegen Liste der offenen), kein fester Schlüssel" },
+  { "datei": "pipeline/check-adn-anisearch.ts", "liest": "data/adn.json", "grund": "Invariante über die ganze Datei (Kalenderserien gegen Katalog und Liste der offenen), Warnung, kein fester Schlüssel" },
   { "datei": "pipeline/check-angebot-stichtag.ts", "liest": "data/motn.json", "grund": "Archiv, das nur wächst: die Stichtage sind vergangene Erstbeobachtungen (seit), 20.10.2026 gezählt: Crunchyroll 31.03.2026 mit 234 Titeln" },
   { "datei": "pipeline/check-anisearch-folgen-kennung.ts", "liest": "data/anisearch.json", "grund": "Pfadname der Kulisse (Fixture-Schlüssel 1/3/7); dazu ein Lauf mit drei festen Titeln (13709, 21852, 98874), deren Kennung nur der Titel trägt und deshalb nicht in dieser Datei steht" },
   { "datei": "pipeline/check-anisearch-folgen-kennung.ts", "liest": "data/anisearch-folgen.json", "grund": "Pfadname der Kulisse; der Lauf mit festen Titeln erwartet Folgen unter den Kennungen 10072, 1119, 12083 (17.10.2026 gezählt: 14, 5, 2 deutsche Folgentitel; die Archivdatei wächst nur)" },
@@ -24,6 +25,7 @@
   { "datei": "pipeline/check-nein-handbeleg-cr.ts", "liest": "data/cr-katalog-de.json", "grund": "sucht irgendeinen Eintrag mit einer Staffel und de-DE (Hunderte), keine feste Serie" },
   { "datei": "pipeline/check-netflix-staffel-ablauf.ts", "liest": "data/prime-zugeordnet.json", "grund": "Kulisse: lies() liest den Wegwerf-Ordner des Tests, nicht das Repo" },
   { "datei": "pipeline/check-netflix-staffel-ablauf.ts", "liest": "data/prime-unzugeordnet.json", "grund": "Kulisse: lies() liest den Wegwerf-Ordner des Tests, nicht das Repo" },
+  { "datei": "pipeline/check-netflix-umleitung-ablauf.ts", "liest": "data/anbieter-staffeln.json", "grund": "Kulisse: liest den Wegwerf-Ordner (AK_ROOT) des Tests, nicht das Repo" },
   { "datei": "pipeline/check-rohfolgen-ablauf.ts", "liest": "data/prime-zugeordnet.json", "grund": "Kulisse: lies() liest den Wegwerf-Ordner des Tests, nicht das Repo" },
   { "datei": "pipeline/check-rohfolgen-ablauf.ts", "liest": "data/prime-unzugeordnet.json", "grund": "Kulisse: lies() liest den Wegwerf-Ordner des Tests, nicht das Repo" },
   { "datei": "pipeline/check-tmdb-genre.ts", "liest": "data/tmdb-titles.json", "grund": "Eigenschaft über den ganzen Bestand: jede Zuordnung mit bekanntem Genre trägt Animation, kein fester Schlüssel" },

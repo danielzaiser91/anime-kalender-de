@@ -53,7 +53,7 @@ function planeNachladen(starte: () => void): () => void {
 /**
  * **Die Daten der App: erst die Woche, dann alles.**
  *
- * Die Wochenansicht startet aus `woche.json` (≈ 30 KB statt ≈ 317 KB) und lädt die vollen Dateien danach im Hintergrund (`planeNachladen`).
+ * Die Wochenansicht startet aus `woche-kacheln.json` (≈ 18 KB gzip, nur Kachelfelder, `shared/wochen-kacheln.ts`; 25.10.2026) statt aus den vollen Dateien (≈ 317 KB) und lädt die vollen Dateien danach im Hintergrund (`planeNachladen`).
  * `data` ist die Wochen-Datei nur, solange sie für diese Ansicht reicht (Woche und heute in ihrer Woche, Wochenansicht);
  * jede andere Ansicht und jedes Panel warten auf `voll` und lösen das Laden sofort aus. `voll` kommt als Übergang (`startTransition`): das Neuzeichnen mit allen Daten läuft in Zeitscheiben statt als eine lange Aufgabe. Fehlt oder veraltet die
  * Wochen-Datei, läuft der Start wie vorher.

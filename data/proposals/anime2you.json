@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-24T17:03:19.718Z",
+  "scrapedAt": "2026-10-25T05:03:08.782Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
@@ -36,7 +36,42 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "zeiten": [
+        {
+          "tag": "Samstag",
+          "zeit": "15:30",
+          "satz": "Staffel 2 »Die Tagebücher der Apothekerin« – Staffel 3 »A Wild Last Boss Appeared!« – Staffel 2 Episoden: 2 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag um 15:30 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Freitag",
+          "zeit": "17:00",
+          "satz": "seiner unerwarteten Wiedergeburt zu lüften. »Die Tagebücher der Apothekerin« – Staffel 3 Episoden: 1 von 12 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Freitag um 17:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        }
+      ],
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "A Wild Last Boss Appeared!",
+          "zusatz": "Staffel 2",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "titel": "Die Tagebücher der Apothekerin",
+          "zusatz": "Staffel 3",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-10-25"
     },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
@@ -267,7 +302,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-22"
+      "sammelGelesen": "2026-10-25"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -759,7 +794,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-22"
+      "sammelGelesen": "2026-10-25"
     },
     {
       "articleTitle": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
@@ -2402,7 +2437,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-22"
+      "sammelGelesen": "2026-10-25"
     },
     {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
@@ -2486,7 +2521,7 @@
           "datum": "2026-10-01"
         }
       ],
-      "sammelGelesen": "2026-10-22"
+      "sammelGelesen": "2026-10-25"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -2629,7 +2664,7 @@
           "datum": "2026-10-06"
         }
       ],
-      "sammelGelesen": "2026-10-22"
+      "sammelGelesen": "2026-10-25"
     },
     {
       "articleTitle": "Action-Anime »Rooster Fighter« bald auf Netflix verfügbar",
@@ -5657,7 +5692,7 @@
           "edition": "limited-edition steelbook"
         }
       ],
-      "discGelesen": "2026-10-22"
+      "discGelesen": "2026-10-25"
     },
     {
       "articleTitle": "»Afro Samurai« erscheint im limitierten Steelbook auf Blu-ray",

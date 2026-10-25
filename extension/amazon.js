@@ -4462,7 +4462,7 @@ async function speicherSchreiben(werte) {
           */
           const suchUrlHier = a?.suchUrl ?? eintrag?.url ?? ''
           const erwartet = erwartungZu(suchUrlHier) ?? (Array.isArray(a?.erwartet) ? a.erwartet : [])
-          if (!erwartet || erwartet.length < 2) return []
+          if (!erwartet || erwartet.length < 2) return erwartungsAuswahl(auftrag, globalThis.akPrimeKarten(document, asin(), seitenTitel() || auftrag.titel, abos(), zugangsart()), false)
           const hier = asin()
           reiheMerken(erwartet)
           const gruppe = document.createElement('div')
@@ -5204,7 +5204,7 @@ async function speicherSchreiben(werte) {
   function erwartungsAuswahl(auftrag, sortiert, vorausgewaehlt = true) {
             const karten = sortiert.slice(0, 4).filter((z) => ohneParameter(z.url))
             if (karten.length < 2) return []
-            const kennungVon = (z) => /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(ohneParameter(z.url) ?? '')?.[1] ?? null
+            const kennungVon = (z) => /\/(?:dp|detail)\/([A-Z0-9]{10,32}|amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(ohneParameter(z.url) ?? '')?.[1] ?? null
             /*
               **Die bestätigte Auswahl kommt aus dem gemerkten Auftrag, nicht aus der Prüfliste.**
 
@@ -8875,7 +8875,7 @@ async function speicherSchreiben(werte) {
      * dem, was belegt ist.
      */
     const keinDeutschDaten = {
-      sollFolgen: Math.max(gesehen.gesamt || 0, lageJetzt.folgenLautSeite || 0),
+      sollFolgen: globalThis.akPrimeSollFolgen(gesehen, lageJetzt.folgenLautSeite, geladen + wegInRegion),
       geladen,
       gesperrt: wegInRegion,
     }
@@ -10087,8 +10087,8 @@ async function speicherSchreiben(werte) {
      * Erweiterung nicht erklären kann, darf sie nicht überstimmen.
      */
     const lautSeite = seitenLage().folgenLautSeite || 0
-    const sollFolgen = Math.max(gesehen.gesamt || 0, lautSeite)
     const gesperrtN = globalThis.akPrimeGesperrteZahl(gesehen.gesperrt, seitenLage().regionFolgen)
+    const sollFolgen = globalThis.akPrimeSollFolgen(gesehen, lautSeite, geladen + gesperrtN)
     const vollstaendig = globalThis.akPrimeMeldungVollstaendig(sollFolgen, geladen, gesperrtN)
 
     /**
@@ -10615,11 +10615,7 @@ async function speicherSchreiben(werte) {
         const frisch = (await speicherLesen('amazonErledigt'))?.amazonErledigt ?? {}
         const zusammen = { ...frisch }
         for (const [schluessel, wert] of Object.entries(erledigt)) {
-          zusammen[schluessel] = {
-            ...(frisch[schluessel] ?? {}),
-            ...wert,
-            staffeln: { ...(frisch[schluessel]?.staffeln ?? {}), ...(wert.staffeln ?? {}) },
-          }
+          zusammen[schluessel] = globalThis.akPrimeEintragVereinigen(frisch[schluessel], wert)
         }
         const bisher = zusammen[listenId] ?? { staffeln: {}, gesamt: staffelZahl() }
         globalThis.akPrimeMeldungEintragen(bisher, nr, deutsch ? '🇩🇪' : '✕', geladen)

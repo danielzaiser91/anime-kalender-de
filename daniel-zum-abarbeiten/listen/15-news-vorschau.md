@@ -1,6 +1,6 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-24. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-25. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
@@ -47,58 +47,58 @@ Stand: 2026-10-24. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-05 (Monat) | ? | – unklar | [Zwei neue Acrylanhänger zu »Detektiv Conan« angekündigt](https://www.anime2you.de/news/1061186/zwei-detektiv-conan-acrylanhaenger/) |
 | 2027-05 (Monat) | ? | – unklar | [»Fairy Tail« erhält neue Anhänger, Tragetasche und XXL-Mauspad](https://www.anime2you.de/news/1061130/neues-fairy-tail-merchandise/) |
 
-Dazu 54 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 55 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 0.0 Tage her | 12 |
-| adn-catalog | 11.9 Tage her | 109 |
+| adn | 0.0 Tage her | 8 |
+| adn-catalog | 12.9 Tage her | 109 |
 | adn-news | 0.1 Tage her | 75 |
-| anilist-voices | 5.0 Tage her | 0 |
-| anime-offline-database | 5.0 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 104 |
-| anisearch | 0.9 Tage her | 14861 |
-| anisearch-cover-eigen | 12.5 Tage her | 1874 |
+| anilist-voices | 6.0 Tage her | 0 |
+| anime-offline-database | 6.0 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 103 |
+| anisearch | 0.9 Tage her | 2 |
+| anisearch-cover-eigen | 13.5 Tage her | 1874 |
 | anisearch-dubs | 1.0 Tage her | 11932 |
-| anisearch-eintraege | 5.0 Tage her | 400 |
-| anisearch-folgen | 5.0 Tage her | 515 |
-| anisearch-slugs | 5.0 Tage her | 14859 |
+| anisearch-eintraege | 6.0 Tage her | 400 |
+| anisearch-folgen | 6.0 Tage her | 515 |
+| anisearch-slugs | 6.0 Tage her | 14859 |
 | anisearch-zuordnung | 1.0 Tage her | 18488 |
-| ann-voices | 5.0 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 46 |
-| cartoon-folgen | 5.0 Tage her | 300 |
+| ann-voices | 6.0 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 36 |
+| cartoon-folgen | 6.0 Tage her | 300 |
 | cartoon-reihen | 1.0 Tage her | 1 |
-| cartoons | 1.0 Tage her | 2 |
-| cinestar | 5.0 Tage her | 1 |
-| cr-einzelwerke | 3.6 Tage her | 6 |
-| cr-filmbloecke | 3.6 Tage her | 2 |
-| crunchyroll | 2.3 Tage her | 0 |
+| cartoons | 1.0 Tage her | 1 |
+| cinestar | 6.0 Tage her | 1 |
+| cr-einzelwerke | 4.6 Tage her | 6 |
+| cr-filmbloecke | 4.6 Tage her | 2 |
+| crunchyroll | 3.3 Tage her | 0 |
 | crunchyroll-dub | 0.0 Tage her | 1137 |
-| crunchyroll-neu | 0.0 Tage her | 144 |
-| crunchyroll-offene | 4.9 Tage her | 14 |
-| crunchyroll-woche | 0.0 Tage her | 59 |
-| justwatch-audio | 4.5 Tage her | 293 |
-| kinoheld | 5.0 Tage her | 0 |
-| kitsu-folgen | 5.0 Tage her | 1 |
-| link-check | 18.6 Tage her | 287 |
-| messbelege | 0.0 Tage her | 0 |
-| motn | 1.0 Tage her | 2034 |
-| motn-changes | 0.0 Tage her | 5 |
-| rohfolgen | 0.1 Tage her | 0 |
-| rtlplus-folgen | 5.0 Tage her | 3 |
-| tmdb-banner | 5.0 Tage her | 6 |
-| tmdb-folgen | 5.0 Tage her | 878 |
-| tmdb-kino | 5.0 Tage her | 3 |
-| tmdb-poster | 5.0 Tage her | 372 |
-| tmdb-titles | 5.0 Tage her | 400 |
+| crunchyroll-neu | 0.0 Tage her | 148 |
+| crunchyroll-offene | 5.9 Tage her | 14 |
+| crunchyroll-woche | 0.1 Tage her | 59 |
+| justwatch-audio | 5.5 Tage her | 293 |
+| kinoheld | 6.0 Tage her | 0 |
+| kitsu-folgen | 6.0 Tage her | 1 |
+| link-check | 19.6 Tage her | 287 |
+| messbelege | 0.1 Tage her | 0 |
+| motn | 2.0 Tage her | 2034 |
+| motn-changes | 0.0 Tage her | 0 |
+| rohfolgen | 0.4 Tage her | 0 |
+| rtlplus-folgen | 6.0 Tage her | 3 |
+| tmdb-banner | 6.0 Tage her | 6 |
+| tmdb-folgen | 6.0 Tage her | 878 |
+| tmdb-kino | 6.0 Tage her | 3 |
+| tmdb-poster | 6.0 Tage her | 372 |
+| tmdb-titles | 6.0 Tage her | 400 |
 | toggo | 0.0 Tage her | 22 |
 | trailer | 1.0 Tage her | 0 |
-| tv-de | 0.2 Tage her | 69 |
-| tv-programm | 0.0 Tage her | 293 |
+| tv-de | 0.3 Tage her | 73 |
+| tv-programm | 0.1 Tage her | 281 |
 | vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 5.0 Tage her | 5192 |
-| wikidata-titel | 5.0 Tage her | 15 |
+| wikidata-imdb | 6.0 Tage her | 5192 |
+| wikidata-titel | 6.0 Tage her | 15 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 5.0 Tage her | 0 |
+| youtube-check | 6.0 Tage her | 0 |

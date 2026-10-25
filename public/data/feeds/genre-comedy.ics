@@ -8,71 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-17#15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T040000Z
-DTEND:20261017T043000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-17#16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T042500Z
-DTEND:20261017T045500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-17#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T045000Z
-DTEND:20261017T052000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-17#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T051500Z
-DTEND:20261017T054500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-10-17@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T150000Z
-DTEND:20261017T153000Z
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 3/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
-  oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
- 7642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:das-band-der-unterwelt-netflix@2026-10-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261017
-DTEND;VALUE=DATE:20261018
-SUMMARY:Das Band der Unterwelt – Folge 16/24
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannte
- r Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: h
- ttps://anime-kalender.de/t/16919/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261017T221000Z
@@ -578,7 +513,8 @@ UID:you-and-i-are-polar-opposites-s2@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T093000Z
 DTEND:20261025T100000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 13/13
+SUMMARY:⚠ nicht erschienen: You and I Are Polar Opposites – Staffel 2 
+ – Folge 13/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin: kein vom Anbieter genannter Tag\, sondern aus Rhythmus
   oder Originalterminen abgeleitet.\nDetails: https://anime-kalender.de/t/1
@@ -692,8 +628,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-26#44@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261026T175000Z
-DTEND:20261026T182000Z
+DTSTART:20261026T175500Z
+DTEND:20261026T182500Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/

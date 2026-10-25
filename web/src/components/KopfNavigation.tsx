@@ -21,7 +21,7 @@ export function KopfNavigation({ view, aktiv, onView, hrefFuer }: {
 }) {
   const { t } = useLang()
   return (
-    <nav aria-label={t('nav.bereich')} className="hidden gap-6 text-[15px] font-semibold md:flex">
+    <nav aria-label={t('nav.bereich')} className="hidden gap-3 text-[15px] font-semibold md:flex lg:gap-6">
       {BEREICHE.map((b) => {
         const ziel = b.id === 'kalender' && aktiv === 'kalender' ? view : b.ziel
         return (

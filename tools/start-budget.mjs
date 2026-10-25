@@ -15,9 +15,12 @@ import { pathToFileURL } from 'node:url'
 import { gzipSync } from 'node:zlib'
 
 const KB = 1024
-// Grenze 300 KB (23.10.2026: Ist 293,8 KB nach verzögertem Laden der Seitenansichten); davor 310 KB inkl. Schriften (18.10.2026: 330 KB bei Ist 327 KB; 20.10.2026: Ist 305,2 KB nach Unbounded-Teilmenge, 5 KB Reserve; Ziel bleibt 300 KB).
+// Grenze 280 KB (25.10.2026: Ist 274,8 KB, 18,2 KB weniger, seit die Wochenansicht aus `woche-kacheln.json` startet; Ist-Zahl + 10 KB, auf volle 10 KB abgerundet).
+// Davor 300 KB (23.10.2026: Ist 293,8 KB nach verzögertem Laden der Seitenansichten); davor 310 KB inkl. Schriften (18.10.2026: 330 KB bei Ist 327 KB; 20.10.2026: Ist 305,2 KB nach Unbounded-Teilmenge, 5 KB Reserve; Ziel bleibt 300 KB).
 // Die Grenze steigt nie; sie sinkt von Hand, wenn der Ist-Wert dauerhaft darunter liegt.
-export const GRENZE = 300 * KB
+export const GRENZE = 280 * KB
+/** Frühwarnung: bleibt weniger Luft, druckt der Lauf eine `::warning::`-Zeile (Daten wachsen mit jedem Datenlauf; 25.10.2026 riss die Grenze um 0,2 KB). */
+export const WARNLUFT = 3 * KB
 
 /** Schriften, die der Browser beim Start lädt (gemessen mit Playwright 18.10.2026, 360 und 1280 px): Dateinamen-Anfang im CSS. */
 export const STARTSCHRIFTEN = ['manrope-latin-wght', 'unbounded-700-de']
@@ -89,6 +92,12 @@ export function startSchriften(dist, cssPfade) {
   return { pfade, fehlt }
 }
 
+/** Zusatzzeile, wenn die Luft unter `WARNLUFT` liegt. */
+function warnZeile(luft, kb) {
+  if (luft >= WARNLUFT) return ''
+  return `\n::warning::start-budget: nur noch ${kb(luft)} KB Luft (Warnung unter ${kb(WARNLUFT)} KB) – Startdateien verkleinern, bevor der nächste Datenlauf die Grenze reißt`
+}
+
 /** Ergebnis als `{ code, text }`; über der Grenze mit Aufschlüsselung je Datei. */
 export function bewerte(dist, grenze = GRENZE) {
   const indexPfad = join(dist, 'index.html')
@@ -105,7 +114,7 @@ export function bewerte(dist, grenze = GRENZE) {
   const summe = codeBytes + schriftBytes
   const kb = (b) => (b / KB).toFixed(1)
   const teile = `Code und Daten ${kb(codeBytes)} KB + Schriften ${kb(schriftBytes)} KB`
-  if (summe <= grenze) return { code: 0, text: `start-budget: ${kb(summe)} KB gzip von ${kb(grenze)} KB, ${kb(grenze - summe)} KB Luft (${teile})` }
+  if (summe <= grenze) return { code: 0, text: `start-budget: ${kb(summe)} KB gzip von ${kb(grenze)} KB, ${kb(grenze - summe)} KB Luft (${teile})${warnZeile(grenze - summe, kb)}` }
   const liste = [...zeilen, ...schriftZeilen].map((z) => `  ${kb(z.bytes).padStart(7)} KB  ${z.pfad}`).join('\n')
   return { code: 1, text: `start-budget: ${kb(summe)} KB gzip, ${kb(summe - grenze)} KB über der Grenze von ${kb(grenze)} KB (${teile})\n${liste}` }
 }

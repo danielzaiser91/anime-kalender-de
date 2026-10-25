@@ -1,6 +1,6 @@
 # Prime Video: was noch zu prüfen ist
 
-Stand 2026-10-24 · **11 offene Verweise** in **10 Zeilen**.
+Stand 2026-10-25 · **12 offene Verweise** in **10 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -10,7 +10,7 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
-| 2 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
+| 2 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() · [Infinity Castle](https://www.amazon.de/gp/video/detail/B0GZSDPCV4) |
 | 3 | 2026-10-07 | The Detective Is Already Dead | [Staffel 2]() |
 | 4 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie]() |
 | 5 | 2026-09-26 | A Wild Last Boss Appeared! | [Staffel 2]() |

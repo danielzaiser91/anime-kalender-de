@@ -9,6 +9,7 @@ pipeline/check-adn-kuratiert-ton.ts
 pipeline/check-adn-kuratiert.ts
 pipeline/check-adn-lesetag.ts
 pipeline/check-adn-neuzugaenge.ts
+pipeline/check-adn-offen-wache.ts
 pipeline/check-adn-sprache-offen.ts
 pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-adressen-schreiben.ts
@@ -77,6 +78,7 @@ pipeline/check-disney-gesamtnummer.ts
 pipeline/check-dub-aus-terminen.ts
 pipeline/check-dub-bereiche.ts
 pipeline/check-dub-durchgehende-zaehlung.ts
+pipeline/check-effekt-abhaengigkeiten.ts
 pipeline/check-empfehlung-ablauf.ts
 pipeline/check-empfehlung-ansicht.ts
 pipeline/check-empfehlung-kern.ts
@@ -158,6 +160,8 @@ pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts
 pipeline/check-netflix-staffel-ablauf.ts
 pipeline/check-netflix-staffeln.ts
+pipeline/check-netflix-umleitung-ablauf.ts
+pipeline/check-netflix-umleitung.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-einfrieren.ts
 pipeline/check-news-felder-bestand-ablauf.ts
@@ -248,6 +252,9 @@ pipeline/check-titelwechsel.ts
 pipeline/check-tmdb-ablauf.ts
 pipeline/check-tmdb-folgen-auswahl.ts
 pipeline/check-tmdb-folgen-lauf.ts
+pipeline/check-tmdb-folgen-luecke-lauf.ts
+pipeline/check-tmdb-folgen-luecke.ts
+pipeline/check-tmdb-folgentitel-absolut.ts
 pipeline/check-tmdb-genre.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
@@ -274,6 +281,8 @@ pipeline/check-widerlegung-de-folgen.ts
 pipeline/check-woche-beleg.ts
 pipeline/check-woche-groesse.ts
 pipeline/check-wochen-datei.ts
+pipeline/check-wochen-kacheln-lauf.ts
+pipeline/check-wochen-kacheln.ts
 pipeline/check-wochenprogramm-sendetag.ts
 pipeline/check-write-json-atomar.ts
 pipeline/check-zaehlung.ts
@@ -283,11 +292,14 @@ pipeline/check-zweitanbieter.ts
 tools/anime2you-luecken.test.ts
 tools/apt-fremdquelle.mjs
 tools/buehne-entwurf-render.test.ts
+tools/buehne-fall-optionen.test.ts
 tools/check-patchnotes-pflicht.mjs
 tools/design-klassen.mjs
 tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
+tools/effekt-abhaengigkeiten.test.ts
 tools/feste-uhr.test.ts
+tools/haken-lauf.test.ts
 tools/heute-berlin.test.ts
 tools/heute-utc.mjs
 tools/hover-cover-weitere-verhalten.test.tsx

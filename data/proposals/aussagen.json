@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-10-24",
+  "stand": "2026-10-25",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -11234,6 +11234,96 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 202
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1063615/crunchyroll-apotheke-staffel-3-synchro-und-mehr/|A Wild Last Boss Appeared!|Staffel 2|start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-25",
+      "fingerabdruck": "d750f86d3989",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1063615/crunchyroll-apotheke-staffel-3-synchro-und-mehr/",
+          "veroeffentlicht": "2026-10-24",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "A Wild Last Boss Appeared!",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [
+          "primevideo",
+          "crunchyroll"
+        ],
+        "datum": "2026-10-24",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "woechentlich": true,
+        "zeit": "15:30",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»A Wild Last Boss Appeared!« – Staffel 2\nEpisoden: 2 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Samstag um 15:30 Uhr\nStream: Prime Video, Crunchyroll",
+        "offen": {
+          "grund": "Japan-Start passt nicht zum genannten Tag 2026-10-24 (A Wild Last Boss Appeared! Staffel 2: 2026-09-26)",
+          "kandidaten": [
+            {
+              "id": 204389,
+              "name": "A Wild Last Boss Appeared! Staffel 2",
+              "jpStart": "2026-09-26"
+            }
+          ]
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 370
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1063615/crunchyroll-apotheke-staffel-3-synchro-und-mehr/|Die Tagebücher der Apothekerin|Staffel 3|start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-25",
+      "fingerabdruck": "ceaf43241d11",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1063615/crunchyroll-apotheke-staffel-3-synchro-und-mehr/",
+          "veroeffentlicht": "2026-10-24",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Die Tagebücher der Apothekerin",
+        "zusatz": "Staffel 3",
+        "art": "start",
+        "plattformen": [
+          "primevideo",
+          "crunchyroll"
+        ],
+        "datum": "2026-10-24",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "woechentlich": true,
+        "zeit": "17:00",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Die Tagebücher der Apothekerin« – Staffel 3\nEpisoden: 1 von 12 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Freitag um 17:00 Uhr\nStream: Prime Video, Crunchyroll",
+        "offen": {
+          "grund": "Japan-Start passt nicht zum genannten Tag 2026-10-24 (Die Tagebücher der Apothekerin: Staffel 3 - Cour 1: 2026-10-02)",
+          "kandidaten": [
+            {
+              "id": 195516,
+              "name": "Die Tagebücher der Apothekerin: Staffel 3 - Cour 1",
+              "jpStart": "2026-10-02"
+            }
+          ]
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 430
       }
     }
   ]

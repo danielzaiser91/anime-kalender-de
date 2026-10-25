@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-24T19:45:42.993Z",
+ "erzeugtAm": "2026-10-25T10:02:03.132Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 854,
-   "gesamt": 897,
-   "offen": 43,
+   "gemeldet": 855,
+   "gesamt": 899,
+   "offen": 44,
    "ohneSeite": 16,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -51,6 +51,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DX1Y1FFR",
      "titel": "Yaiba: Samurai Legend"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0GZSDPCV4",
+     "titel": "Demon Slayer: Kimetsu no Yaiba - Infinity Castle (Demon Slayer: Kimetsu no Yaiba Infinity Castle)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DJKGJQ7K",
@@ -377,9 +381,9 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 774,
-   "gesamt": 890,
-   "offen": 116,
-   "ohneSeite": 19,
+   "gesamt": 893,
+   "offen": 119,
+   "ohneSeite": 17,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
     {
@@ -393,6 +397,14 @@
     {
      "url": "https://www.netflix.com/title/81684733",
      "titel": "Oshi no Ko: Mein Star"
+    },
+    {
+     "url": "https://www.netflix.com/title/82036361",
+     "titel": "My Hero Academia: Vigilantes"
+    },
+    {
+     "url": "https://www.netflix.com/title/83189604",
+     "titel": "Dragon Ball Super: Beerus"
     },
     {
      "url": "https://www.netflix.com/title/81642888",
@@ -696,7 +708,6 @@
     "81054851": 6,
     "81080523": 15,
     "81095103": 1,
-    "81171925": 4,
     "81176966": 6,
     "81220429": 12,
     "81220435": 14,
@@ -735,10 +746,10 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 175,
-   "gesamt": 338,
+   "gemeldet": 177,
+   "gesamt": 340,
    "offen": 163,
-   "ohneSeite": 20,
+   "ohneSeite": 18,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
     {
