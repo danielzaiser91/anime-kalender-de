@@ -6,7 +6,8 @@
  * Wochenprogramm mit dem **aktuellen** Code und den aktuellen Dateien neu und erzeugt die Termine mit
  * `expandEvents`. So zeigt eine Änderung an Widerlegung oder Terminlogik in Sekunden, was der Bau
  * ausgeben wird, statt erst nach Merge, Bau und Deploy (25.10.2026). Änderungen an `data/curated/`
- * sieht sie nicht — die brauchen den Bau.
+ * sieht sie nicht — die brauchen den Bau. Rechnet ohne `loeseGeteilteWegeVonWiderlegten`; ein Treffer
+ * zählt reihenweit ±1 Tag.
  *
  * Aufruf: `npx tsx tools/cr-termine-vorschau.ts [--wie-gebaut] [--streng]`
  *   --wie-gebaut  Widerlegung aus dem Bau übernehmen statt neu rechnen (Vergleich vorher/nachher)
@@ -16,7 +17,8 @@ import { readFileSync } from 'node:fs'
 import { expandEvents } from '../shared/logic.ts'
 import { toIsoDate } from '../shared/time.ts'
 import type { Release, Title } from '../shared/types.ts'
-import { deutscheFolgenTage, sammleWiderlegungen, type Wochenprogramm, type WiderlegungsGedaechtnis } from '../pipeline/bau/widerlegung-woche.ts'
+import { readJson } from '../pipeline/lib/util.ts'
+import { widerlegungAusDateien } from '../pipeline/bau/widerlegung-woche.ts'
 
 type KatalogFolge = { serieId?: string; serie?: string; staffel?: string; nummer?: number; verfuegbarAb?: string }
 
@@ -25,13 +27,7 @@ const alsListe = <T>(wert: unknown): T[] => (Array.isArray(wert) ? wert : (Objec
 
 function widerlegungNeuRechnen(releases: Release[], titles: Map<number, Title>): void {
   for (const r of releases) if (r.platform === 'crunchyroll') delete r.widerlegt
-  const { gedaechtnis } = sammleWiderlegungen(
-    releases,
-    titles,
-    lies<Wochenprogramm>('data/crunchyroll-woche.json'),
-    lies<WiderlegungsGedaechtnis>('data/widerlegte-termine.json'),
-    deutscheFolgenTage(lies('data/crunchyroll-neu.json')),
-  )
+  const { gedaechtnis } = widerlegungAusDateien(releases, titles, readJson)
   for (const r of releases) if (gedaechtnis[r.slug]) r.widerlegt = gedaechtnis[r.slug]
 }
 

@@ -103,8 +103,9 @@ function sprachenJeSerieTag(woche: Wochenprogramm): Map<string, Set<string>> {
  * nur `ja` schreibt eine neue. Außerhalb bleibt Gemerktes stehen, solange der
  * Termin derselbe ist; verschobene oder verschwundene Termine fallen heraus.
  *
- * `deutschAmTag` (Serienkennung|Tag aus dem Katalog) schlägt beides: Die Vorschau führt nur die
- * Simulcast-Folge, nachgeholte deutsche Folgen fehlen dort (Last Boss S2, 24.10.2026).
+ * `deutschAmTag` (Serienkennung|Tag|Staffel aus dem Katalog) schlägt beides: Die Vorschau führt nur die
+ * Simulcast-Folge, nachgeholte deutsche Folgen fehlen dort (Last Boss S2, 24.10.2026). Die Staffel
+ * gehört zum Schlüssel, weil Schwesterstaffeln dieselbe Serienkennung tragen.
  */
 export function sammleWiderlegungen(
   releases: Release[],
@@ -125,7 +126,7 @@ export function sammleWiderlegungen(
     const kennung = kennungDesReleases(r, title)
     const imFenster = Boolean(from && datum && datum >= from && datum <= bis)
     const heute = imFenster && kennung ? sprachen.get(`${kennung}|${datum}`) : undefined
-    if (heute?.has('de') || deutschAmTag.has(`${kennung}|${datum}`)) continue
+    if (heute?.has('de') || deutschImKatalog(deutschAmTag, `${kennung}|${datum}`, title, titles)) continue
     if (widerlegtDurchWoche(heute)) {
       neu[r.slug] = { am: datum!, grund: GRUND, quelle: woche.artikel, gemeldet: warBehauptet(r, title) }
       anzahl++
@@ -137,13 +138,43 @@ export function sammleWiderlegungen(
   return { anzahl, gedaechtnis: neu }
 }
 
-/** Serienkennung|Tag (Berlin) jeder deutschen Folge, die der Katalog neu führt (`data/crunchyroll-neu.json`). */
-export function deutscheFolgenTage(neu: { folgen?: { serieId?: string; verfuegbarAb?: string }[] }): Set<string> {
+/** Ein Titel allein in seiner Reihe ist Staffel 1; sonst zählt die errechnete Staffel. */
+function deutschImKatalog(tage: Set<string>, kennungTag: string, title: Title | undefined, titles: Map<number, Title>): boolean {
+  if (!tage.size || !title) return false
+  const allein = ![...titles.values()].some((x) => x.id !== title.id && x.franchiseId !== undefined && x.franchiseId === title.franchiseId)
+  const staffel = allein ? 1 : staffelDesTitels(title, titles.values())
+  return staffel !== undefined && tage.has(`${kennungTag}|${staffel}`)
+}
+
+type KatalogNeu = { folgen?: { serieId?: string; serie?: string; staffel?: string; verfuegbarAb?: string }[] }
+
+/**
+ * Serienkennung|Tag (Berlin)|Staffel jeder deutschen Folge, die der Katalog neu führt (`data/crunchyroll-neu.json`).
+ * Staffel aus „Staffel/Season N“, ein Staffelname gleich dem Seriennamen ist Staffel 1; Specials und
+ * Bogennamen ohne Nummer zählen nicht.
+ */
+export function deutscheFolgenTage(neu: KatalogNeu): Set<string> {
   const tage = new Set<string>()
   for (const f of neu.folgen ?? []) {
-    if (f.serieId && f.verfuegbarAb) tage.add(`${f.serieId}|${toIsoDate(new Date(f.verfuegbarAb))}`)
+    const staffel = f.staffel === f.serie ? 1 : Number(STAFFEL_IM_NAMEN.exec(f.staffel ?? '')?.[1])
+    if (f.serieId && f.verfuegbarAb && staffel) tage.add(`${f.serieId}|${toIsoDate(new Date(f.verfuegbarAb))}|${staffel}`)
   }
   return tage
+}
+
+/** Liest Wochenprogramm, Gedächtnis und Katalog über `lies`, damit der Test die Verdrahtung ohne Dateien prüft. */
+export function widerlegungAusDateien(
+  releases: Release[],
+  titles: Map<number, Title>,
+  lies: <T>(datei: string, ersatz: T) => T,
+): { anzahl: number; gedaechtnis: WiderlegungsGedaechtnis } {
+  return sammleWiderlegungen(
+    releases,
+    titles,
+    lies<Wochenprogramm>('data/crunchyroll-woche.json', {}),
+    lies<WiderlegungsGedaechtnis>(DATEI, {}),
+    deutscheFolgenTage(lies<KatalogNeu>('data/crunchyroll-neu.json', {})),
+  )
 }
 
 /** „Staffel 3“ / „Season 3“ am Ende des Staffelnamens im Katalog. */
@@ -223,10 +254,7 @@ export function loeseGeteilteWegeVonWiderlegten(releases: Release[], titles: Map
  * Widerlegungen zurück; der Bau protokolliert sie.
  */
 export function widerlegeDeutscheTermine(releases: Release[], titles: Map<number, Title>): number {
-  const woche = readJson<Wochenprogramm>('data/crunchyroll-woche.json', {})
-  const gedaechtnis = readJson<WiderlegungsGedaechtnis>(DATEI, {})
-  const katalogNeu = readJson<{ folgen?: { serieId?: string; verfuegbarAb?: string }[] }>('data/crunchyroll-neu.json', {})
-  const { anzahl, gedaechtnis: neu } = sammleWiderlegungen(releases, titles, woche, gedaechtnis, deutscheFolgenTage(katalogNeu))
+  const { anzahl, gedaechtnis: neu } = widerlegungAusDateien(releases, titles, readJson)
   for (const r of releases) {
     const gemerkt = neu[r.slug]
     if (gemerkt) r.widerlegt = gemerkt

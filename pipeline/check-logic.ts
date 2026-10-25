@@ -217,7 +217,7 @@ import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap,
 import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-serien.ts'
 import { passendeAdresse } from './fetch-kinoheld.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
-import { deutscheFolgenTage, loeseGeteilteWegeVonWiderlegten, sammleWiderlegungen, widerlegtDurchWoche, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
+import { deutscheFolgenTage, loeseGeteilteWegeVonWiderlegten, sammleWiderlegungen, widerlegtDurchWoche, widerlegungAusDateien, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
 import { istUnplausibel } from './lib/justwatch-plausibel.ts'
 import { adressenAusNews, adressenMitOffenemTermin, belegeFuerAlle, crunchyrollDatum, entzieheBild, kopfzeilenDatum, istArtikel, merkeLesung, traegtArtikeldatum, unveraendertSeit, warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
 import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
@@ -7676,13 +7676,41 @@ pruefe(
   const bestaetigt = sammleWiderlegungen([clev], titles, woche, { [clev.slug]: { am: '2026-09-30', grund: 'x', gemeldet: true } })
   pruefe('Wochenprogramm/Gedächtnis: ein `de` hebt eine frühere Widerlegung auf', bestaetigt.gedaechtnis[clev.slug] === undefined, bestaetigt)
   /* Die Vorschau führt nur die Simulcast-Folge; eine nachgeholte deutsche Folge im Katalog schlägt ihr `ja` (Last Boss S2, 24.10.2026). */
-  const katalogTage = deutscheFolgenTage({ folgen: [{ serieId: 'G3KHEVDJ7', verfuegbarAb: '2026-10-01T22:30:00Z' }, { serieId: 'GX', verfuegbarAb: '2026-10-02T12:00:00Z' }] })
-  pruefe('Katalog: Folgentag zählt in Berliner Zeit', katalogTage.has('G3KHEVDJ7|2026-10-02') && !katalogTage.has('G3KHEVDJ7|2026-10-01'), [...katalogTage])
+  const katalogTage = deutscheFolgenTage({
+    folgen: [
+      { serieId: 'G3KHEVDJ7', staffel: 'Staffel 1', verfuegbarAb: '2026-10-01T22:30:00Z' },
+      { serieId: 'GX', staffel: 'Season 3', verfuegbarAb: '2026-10-02T12:00:00Z' },
+      { serieId: 'GY', serie: 'Kill Blue', staffel: 'Kill Blue', verfuegbarAb: '2026-10-02T12:00:00Z' },
+      { serieId: 'GZ', serie: 'Lord', staffel: 'Lord Specials', verfuegbarAb: '2026-10-02T12:00:00Z' },
+    ],
+  })
+  pruefe('Katalog: Folgentag zählt in Berliner Zeit', katalogTage.has('G3KHEVDJ7|2026-10-02|1') && !katalogTage.has('G3KHEVDJ7|2026-10-01|1'), [...katalogTage])
+  pruefe(
+    'Katalog: Staffel aus „Season N“, Name gleich Serie = 1, Specials ohne Nummer zählen nicht',
+    katalogTage.has('GX|2026-10-02|3') && katalogTage.has('GY|2026-10-02|1') && katalogTage.size === 3,
+    [...katalogTage],
+  )
   const katalogSchlaegt = sammleWiderlegungen([apo], titles, woche, gemerkt, katalogTage)
   pruefe(
     'Wochenprogramm/Katalog: deutsche Folge am Tag widerlegt nicht und hebt das Gedächtnis auf',
     katalogSchlaegt.anzahl === 0 && katalogSchlaegt.gedaechtnis[apo.slug] === undefined,
     katalogSchlaegt,
+  )
+  /* Schwesterstaffeln teilen die Serienkennung: eine deutsche Folge der Staffel 2 hebt die Widerlegung von Staffel 1 nicht auf. */
+  const andereStaffel = deutscheFolgenTage({ folgen: [{ serieId: 'G3KHEVDJ7', staffel: 'Staffel 2', verfuegbarAb: '2026-10-02T12:00:00Z' }] })
+  const nurSchwester = sammleWiderlegungen([apo], titles, woche, {}, andereStaffel)
+  pruefe('Wochenprogramm/Katalog: andere Staffel am selben Tag schlägt das `ja` nicht', nurSchwester.anzahl === 1 && nurSchwester.gedaechtnis[apo.slug] !== undefined, nurSchwester)
+  /* Die Bau-Phase liest alle drei Dateien; fehlt der Katalog in der Verdrahtung, käme die Widerlegung zurück. */
+  const dateien: Record<string, unknown> = {
+    'data/crunchyroll-woche.json': woche,
+    'data/widerlegte-termine.json': gemerkt,
+    'data/crunchyroll-neu.json': { folgen: [{ serieId: 'G3KHEVDJ7', staffel: 'Staffel 1', verfuegbarAb: '2026-10-02T09:00:00Z' }] },
+  }
+  const ausDateien = widerlegungAusDateien([apo, clover], titles, <T>(d: string, ersatz: T) => (dateien[d] as T) ?? ersatz)
+  pruefe(
+    'Wochenprogramm/Katalog: die Bau-Phase liest den Katalog (Apothekerin frei, Black Clover widerlegt)',
+    ausDateien.gedaechtnis[apo.slug] === undefined && ausDateien.gedaechtnis[clover.slug] !== undefined && ausDateien.anzahl === 1,
+    ausDateien,
   )
 
   /* Ein geteilter Reihen-Weg belegt für eine widerlegte Staffel kein Deutsch; ein eigener Weg und eine Staffel mit gültigem Termin behalten es. */
