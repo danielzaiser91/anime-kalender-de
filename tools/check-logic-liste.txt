@@ -183,6 +183,7 @@ pipeline/check-news-staffel-zuordnung.ts
 pipeline/check-notiz-fassung.ts
 pipeline/check-offizielle-lauf.ts
 pipeline/check-offizielle-news.ts
+pipeline/check-og-schaetz.ts
 pipeline/check-og-termin.ts
 pipeline/check-omu-ohne-termin.ts
 pipeline/check-panel-chips.ts
@@ -299,6 +300,7 @@ pipeline/check-wochen-kacheln.ts
 pipeline/check-wochenprogramm-sendetag.ts
 pipeline/check-write-json-atomar.ts
 pipeline/check-zaehlung.ts
+pipeline/check-zeit-ausgabe.ts
 pipeline/check-zuordner-ablauf.ts
 pipeline/check-zuordner-luecken.ts
 pipeline/check-zweitanbieter.ts

@@ -2,6 +2,7 @@ import type { Release, ReleaseEvent } from '../../shared/types.ts'
 import type { expandEvents } from '../../shared/logic.ts'
 import { folgenblockBis } from '../../shared/folgenblock.ts'
 import { formatDate, weekdayName } from '../../shared/time.ts'
+import { zeitMitMarke } from '../../shared/zeit-text.ts'
 
 /**
  * Erscheinen mehrere belegte Folgen am selben Tag (Avatar: Die sieben Häfen, freitags drei), steht der Plural — entschieden von
@@ -29,7 +30,7 @@ export function terminZeilen(release: Release, events: ReturnType<typeof expandE
     },
   ]
   if (kommend) {
-    const zeit = kommend.time ? `${kommend.time} Uhr` : release.releaseType === 'disc' ? 'im Handel' : 'noch offen'
+    const zeit = kommend.time ? `${zeitMitMarke(kommend, '≈ ')} Uhr` : release.releaseType === 'disc' ? 'im Handel' : 'noch offen'
     zeilen.push({ label: 'Uhrzeit', value: zeit })
   }
   return zeilen
@@ -74,7 +75,7 @@ export function terminKopf(release: Release, events: ReturnType<typeof expandEve
   if (!termin) return undefined
   const datum = datumKurz(termin.date, today)
   if (!kommend) return { datum, folge: '', fakt: datumBedeutung(release, false) }
-  const zeit = kommend.time ? `${kommend.timeEstimated ? '≈ ' : ''}${kommend.time} Uhr` : release.releaseType === 'disc' ? 'im Handel' : 'Uhrzeit noch offen'
+  const zeit = kommend.time ? `${zeitMitMarke(kommend, '≈ ')} Uhr` : release.releaseType === 'disc' ? 'im Handel' : 'Uhrzeit noch offen'
   const folge = folgenText(release, events, kommend)
   return { datum, folge, fakt: folge ? zeit : [datumBedeutung(release, true), zeit].filter(Boolean).join(' · ') }
 }

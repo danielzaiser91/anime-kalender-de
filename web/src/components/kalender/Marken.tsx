@@ -1,3 +1,4 @@
+import { zeitMitMarke } from '@shared/zeit-text.ts'
 import type { ReleaseEvent } from '@shared/types.ts'
 import { PLATFORMS, anbieterName } from '@shared/types.ts'
 import type { KachelAngabe } from '@shared/laeuft-jetzt.ts'
@@ -11,7 +12,7 @@ const ZEIT_PILLE = 'rounded-md bg-[rgba(13,15,20,.85)] px-1.5 py-0.5 text-xs fon
 function ZeitMarkeJetzt({ event, t, angabe }: { event: ReleaseEvent; t: Translate; angabe: KachelAngabe }) {
   return (
     <>
-      <span className={ZEIT_PILLE}>{angabe.seit ? t('kal.seit', { zeit: angabe.seit }) : event.time}</span>
+      <span className={ZEIT_PILLE}>{angabe.seit ? t('kal.seit', { zeit: angabe.seit }) : zeitMitMarke(event, '≈ ')}</span>
       {angabe.in && <span className={ZEIT_PILLE}>{angabe.in}</span>}
     </>
   )
@@ -21,7 +22,7 @@ function ZeitMarkeJetzt({ event, t, angabe }: { event: ReleaseEvent; t: Translat
 export function ZeitMarke({ event, t, angabe }: { event: ReleaseEvent; t: Translate; angabe?: KachelAngabe }) {
   if (angabe?.seit || angabe?.in) return <ZeitMarkeJetzt event={event} t={t} angabe={angabe} />
   const text = event.time
-    ? `${event.timeEstimated || event.estimated ? '≈ ' : ''}${event.time}`
+    ? `${zeitMitMarke(event, '≈ ')}`
     : event.releaseType === 'disc'
       ? t('card.inStores')
       : ''

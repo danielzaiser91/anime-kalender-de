@@ -9,6 +9,7 @@
 import type { Release } from '@shared/types.ts'
 import { expandEvents } from '@shared/logic.ts'
 import { formatDate } from '@shared/time.ts'
+import { zeitMitMarke } from '@shared/zeit-text.ts'
 
 export interface TvZuletzt {
   release: Release
@@ -34,6 +35,6 @@ export function tvZuletzt(releases: Release[], heute: string, jetztZeit: string)
   return mitTermin.flatMap(({ release, termine: [letzter] }) => {
     if (!letzter) return []
     const nr = letzter.e.episode && !letzter.e.sichtung ? letzter.e.episode : release.sendungen?.find((s) => s.start === letzter.start)?.nr
-    return [{ release, text: [nr ? `Fg. ${nr}` : undefined, formatDate(letzter.e.date), letzter.e.time].filter(Boolean).join(' · ') }]
+    return [{ release, text: [nr ? `Fg. ${nr}` : undefined, formatDate(letzter.e.date), zeitMitMarke(letzter.e, '≈ ')].filter(Boolean).join(' · ') }]
   })
 }

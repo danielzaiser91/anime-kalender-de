@@ -3,6 +3,7 @@
   (Variante D, Daniel 13.10.2026). Ohne DOM und React, damit Seite, Bühnen-Mockup und Test sie gemeinsam laden.
   `jetzt` ist „HH:MM" Berliner Zeit (`nowHhMm()`), `heute` ein Datum; Vergleiche laufen als Zeichenkette wie in der Seite.
 */
+import { zeitGeschaetzt } from './zeit-text.ts'
 
 /** Eine Sendung aus dem Programm (`release.sendungen`): Beginn und Ende als „YYYY-MM-DDTHH:MM". */
 export interface Sendung {
@@ -41,7 +42,7 @@ export interface Kastenzustand {
 }
 
 const minuten = (uhr: string): number => Number(uhr.slice(0, 2)) * 60 + Number(uhr.slice(3, 5))
-const geschaetzt = (t: Termin): boolean => !!(t.timeEstimated || t.estimated)
+const geschaetzt = (t: Termin): boolean => zeitGeschaetzt(t)
 
 /** „in 12 Min", „in 1 Std 5 Min", „in 2 Std" — ab einer Minute. */
 export function restText(n: number): string {

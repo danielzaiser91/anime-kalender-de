@@ -1,4 +1,5 @@
 import { Fragment, useState } from 'react'
+import { zeitMitMarke } from '@shared/zeit-text.ts'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Zeilenzustand } from '@shared/laeuft-jetzt.ts'
 import type { Dataset } from '../../lib/data.ts'
@@ -101,21 +102,21 @@ function TvZeile({
     return <li className="py-1 text-[13px] italic text-ak-sehr-leise">{ev.name}</li>
   }
   const premiere = tvPremiere(ev, data)
-  const letzte = weitere[weitere.length - 1]?.time
+  const letzte = zeitMitMarke(weitere[weitere.length - 1] ?? {}, '≈ ')
   return (
     <li data-tv-zeile className={vorbei ? 'ak-vorbei' : ''} {...zeiger}>
       <button
         type="button"
         data-schliesst
         onClick={() => onOpen(ev)}
-        className="grid w-full cursor-pointer grid-cols-[24px_44px_minmax(0,1fr)] items-center gap-2 rounded-lg py-1 text-left text-[13px] transition hover:bg-ak-flaeche-2 focus-visible:-outline-offset-2"
+        className="grid w-full cursor-pointer grid-cols-[24px_54px_minmax(0,1fr)] items-center gap-2 rounded-lg py-1 text-left text-[13px] transition hover:bg-ak-flaeche-2 focus-visible:-outline-offset-2"
       >
         {cover ? (
           <img {...coverBild(cover, 24)} alt="" loading="lazy" className="h-[34px] w-6 rounded object-cover" />
         ) : (
           <span className="h-[34px] w-6 rounded bg-ak-flaeche-2" />
         )}
-        <UhrzeitMitLaeuft zeit={ev.time ?? '–'} zustand={zustand} />
+        <UhrzeitMitLaeuft zeit={zeitMitMarke(ev, '≈ ') || '–'} zustand={zustand} />
         <span className="flex min-w-0 flex-col">
           <span className="ak-titel font-semibold text-ak-text">
             {vorbei && <span className="sr-only">vorbei </span>}
@@ -130,10 +131,10 @@ function TvZeile({
           type="button"
           onClick={() => setAuf(!auf)}
           aria-expanded={auf}
-          className={`ml-[76px] flex min-h-11 cursor-pointer items-center rounded px-1 text-xs font-semibold text-ak-tv hover:underline sm:min-h-0 ${TREFFER_24_HOCH}`}
+          className={`ml-[86px] flex min-h-11 cursor-pointer items-center rounded px-1 text-xs font-semibold text-ak-tv hover:underline sm:min-h-0 ${TREFFER_24_HOCH}`}
         >
           {auf
-            ? t('kal.buendelAuch', { zeiten: weitere.map((w) => w.time ?? '–').join(', ') })
+            ? t('kal.buendelAuch', { zeiten: weitere.map((w) => zeitMitMarke(w, '≈ ') || '–').join(', ') })
             : letzte
               ? t(weitere.length === 1 ? 'kal.buendelTvEine' : 'kal.buendelTv', { n: weitere.length, zeit: letzte })
               : t('kal.buendelTvOhneZeit', { n: weitere.length })}

@@ -11,6 +11,7 @@ import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
 import { expandEvents } from '@shared/logic.ts'
 import { istPremiere } from '@shared/tv-signale.ts'
 import { premiereBelegtTv } from '@shared/premiere.ts'
+import { zeitMitMarke } from '@shared/zeit-text.ts'
 import { folgeDesTermins, laufendeSendung, sendungZuTermin } from '@shared/laeuft-jetzt.ts'
 
 export { istPremiere }
@@ -88,7 +89,7 @@ export function tvAngabe(
           ? `${TAG[new Date(`${e.date}T12:00:00Z`).getUTCDay()]!} ${e.date.slice(8, 10)}.${e.date.slice(5, 7)}.`
           : `${e.date.slice(8, 10)}.${e.date.slice(5, 7)}.`
     const nr = nummer(e)
-    zeit = [kommend ? '' : 'zuletzt', tag, e.time].filter(Boolean).join(' ')
+    zeit = [kommend ? '' : 'zuletzt', tag, zeitMitMarke(e, '≈ ')].filter(Boolean).join(' ')
     const teile = [
       nr ? `Fg. ${nr}` : undefined,
       zeit,
