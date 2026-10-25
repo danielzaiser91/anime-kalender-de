@@ -43,6 +43,19 @@ globalThis.akPrimeMeldungEintragen = (bisher, nr, befund, folgen) => {
 }
 
 /*
+  Tab-Eintrag und Speicher-Eintrag derselben Kennung: Befund und Folgenzahl je Staffel werden vereinigt
+  (streiten beide um dieselbe Staffel, gewinnt der Tab), `gesamt` ist das Maximum. Ein Tab mit älterem
+  Stand darf weder die Gesamtzahl noch fremde Staffeln eines anderen Tabs verdrängen.
+*/
+globalThis.akPrimeEintragVereinigen = (frisch, wert) => ({
+  ...(frisch ?? {}),
+  ...wert,
+  staffeln: { ...(frisch?.staffeln ?? {}), ...(wert.staffeln ?? {}) },
+  folgen: { ...(frisch?.folgen ?? {}), ...(wert.folgen ?? {}) },
+  gesamt: Math.max(frisch?.gesamt ?? 1, wert.gesamt ?? 1),
+})
+
+/*
   Je Staffel die größere Folgenzahl: Eine fremde Teilmeldung (höchste Folge 3) darf das lokal gemerkte
   „E1–12" der eigenen Meldung nicht kürzen; weiß der Worker mehr, zählt das (CI-Prüfer, 15.10.2026).
 */
