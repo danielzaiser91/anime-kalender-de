@@ -33,6 +33,7 @@ pipeline/check-katalog-release-bestand.ts
 pipeline/check-logic-bestand.ts
 pipeline/check-mal-dubletten-bestand.ts
 pipeline/check-nein-liste-bestand.ts
+pipeline/check-netflix-quellen-bestand.ts
 pipeline/check-netflix-umleitung-bestand.ts
 pipeline/check-news-einfrieren-bestand.ts
 pipeline/check-news-felder-bestand.ts
