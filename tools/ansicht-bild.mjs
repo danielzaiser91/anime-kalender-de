@@ -278,7 +278,8 @@ async function messeEmpfehlungsCover(seite) {
   })
   const [x, y, w, h] = [r.x, r.y, r.w, r.h].map(Math.round)
   const unten = [1, 2, 3, 4].map((d) => [x + Math.round(w / 2), y + h - 1 + d])
-  const punkte = [[x + 1, y + 1], [x + 18, y + 18], [x + w - 2, y + h - 2], [x + w - 19, y + h - 19], ...unten]
+  /* Innenpunkt unten rechts auf halber Höhe: unten im Cover liegt der Staffel-Verlauf (`.empf-name`) und dunkelt ihn je nach Vorschlag ab. */
+  const punkte = [[x + 1, y + 1], [x + 18, y + 18], [x + w - 2, y + h - 2], [x + w - 2, y + Math.round(h / 2)], ...unten]
   const png = (await seite.screenshot()).toString('base64')
   return { r, farben: await seite.evaluate(lesePixelPng, { png, punkte }) }
 }

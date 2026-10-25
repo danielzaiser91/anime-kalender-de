@@ -146,6 +146,20 @@ const auswahl = (l) => l.angehaengt.flatMap((e) => zeilen(e)).filter((z) => z.ki
 const texte = (l) => auswahl(l).map(zeilenText)
 const daten = (f) => JSON.parse(JSON.stringify(f))
 
+async function kanalOhneAbo() {
+  // Gegenprobe: Uncut ohne Abo (Unentitled), Logo und „Prime Video Channels“ ist Kanal
+  const channels = JSON.parse(lies('prime-fassungen-kauf.fixture.json'))
+  for (const reihe of Object.values(channels.init.preparations.body.btf.state.containers)) {
+    const uncut = reihe[0].entities.find((e) => e.titleID === 'B01MSMV5MA')
+    uncut.entitlementCues.entitlementType = 'Unentitled'
+    uncut.entitlementCues.focusMessage = { message: 'Prime Video Channels' }
+  }
+  const channelsLauf = await lauf({ hydration: { textContent: JSON.stringify(channels) }, pfad: '/gp/video/detail/B01HRLV328', seite: { kaufbar: true } })
+  const ct = texte(channelsLauf)
+  pruefe('Unentitled + Logo + „Prime Video Channels“: die Uncut-Fassung ist Kanal, nicht Prime',
+    ct.length === 3 && !ct.some((x) => /Kauf\/Abo · Prime/.test(x)) && ct.filter((x) => /Kanal-Abo · Kanal/.test(x)).length === 2, ct)
+}
+
 async function main() {
   console.log('Zusicherungen für die Fassungen im Kasten der Titelseite\n')
   const knoten = { textContent: FIXTURE }
@@ -186,6 +200,30 @@ async function main() {
   const gtiLauf = await lauf({ hydration: { textContent: FIXTURE.replace('/detail/B01MSMV5MA', '/detail/' + gti) }, pfad: '/gp/video/detail/' + gti })
   const gtiTexte = texte(gtiLauf)
   pruefe('GTI-Seite: drei Zeilen, die eigene trägt die GTI', gtiTexte.length === 3 && gtiTexte.some((x) => x.includes(`(${gti})`)), gtiTexte)
+
+  // Kaufseite B01HRLV328: die Uncut-Fassung trägt „In Prime enthalten." und ein Prime-Logo, sie ist Prime und kein Kanal
+  const kaufKnoten = { textContent: lies('prime-fassungen-kauf.fixture.json') }
+  const ausKauf = await lauf({ hydration: kaufKnoten, pfad: '/gp/video/detail/B01HRLV328', seite: { kaufbar: true } })
+  const kt = texte(ausKauf)
+  pruefe('Kaufseite: drei Zeilen', kt.length === 3, kt)
+  pruefe('Kaufseite: die Uncut-Fassung steht zuerst, als Prime', /Kauf\/Abo · Prime · /.test(kt[0] ?? '') && /B01MSMV5MA/.test(kt[0] ?? ''), kt)
+  pruefe('Kaufseite: danach die eigene Seite als Kauf, zuletzt der Kanal',
+    /Kauf · diese Seite/.test(kt[1] ?? '') && /Kanal-Abo · Kanal/.test(kt[2] ?? '') && /B0GVNJRZCM/.test(kt[2] ?? ''), kt)
+
+  await kanalOhneAbo()
+  // Gegenprobe: dasselbe Logo ohne Prime-Text bleibt Kanal
+  const logoOhnePrime = JSON.parse(lies('prime-fassungen-kauf.fixture.json'))
+  const liste = logoOhnePrime.init.preparations.body.btf.state.containers
+  for (const reihe of Object.values(liste)) {
+    for (const e of reihe[0].entities) {
+      e.entitlementCues.entitlementType = 'Unentitled'
+      e.entitlementCues.focusMessage = { message: 'Gratiszeitraum' }
+    }
+  }
+  const nurKanal = await lauf({ hydration: { textContent: JSON.stringify(logoOhnePrime) }, pfad: '/gp/video/detail/B01HRLV328', seite: { kaufbar: true } })
+  const nk = texte(nurKanal)
+  pruefe('Logo ohne Prime-Text bleibt Kanal, auch bei der Uncut-Kennung',
+    nk.length === 3 && /Kauf · diese Seite/.test(nk[0] ?? '') && nk.filter((x) => /Kanal-Abo · Kanal/.test(x)).length === 2, nk)
 
   // Gegenproben
   const ohneKnoten = await lauf({ hydration: null })

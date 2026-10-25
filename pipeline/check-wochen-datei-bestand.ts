@@ -6,6 +6,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { pruefeWochenDatei, type WochenDatei } from '../shared/wochen-datei.ts'
+import { pruefeKachelDatei } from '../shared/wochen-kacheln.ts'
 import { ladeAkVon, uebersetzeDatei } from './lib/ausgabe-kennung.ts'
 
 let verletzt = 0
@@ -30,6 +31,10 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
     const w2 = uebersetzt('woche.json', woche) as WochenDatei
     const nach = pruefeWochenDatei(w2, uebersetzt('titles-core.json', t) as Title[], uebersetzt('releases.json', r) as Release[], uebersetzt('events.json', e) as ReleaseEvent[])
     pruefe('Bestand: auch nach der Übersetzung in eigene Kennungen', nach.length === 0, nach)
+    const kacheln = lies<WochenDatei>('woche-kacheln.json')
+    pruefe('Bestand: woche-kacheln.json passt zu woche.json', pruefeKachelDatei(kacheln, woche).length === 0, pruefeKachelDatei(kacheln, woche))
+    const kachelNach = pruefeKachelDatei(uebersetzt('woche-kacheln.json', kacheln) as WochenDatei, w2)
+    pruefe('Bestand: auch die Kachel-Datei nach der Übersetzung in eigene Kennungen', kachelNach.length === 0, kachelNach)
   }
 }
 
