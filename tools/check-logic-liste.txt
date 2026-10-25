@@ -253,6 +253,8 @@ pipeline/check-termine-uebersicht.ts
 pipeline/check-termine-woche-lauf.ts
 pipeline/check-titelwechsel.ts
 pipeline/check-tmdb-ablauf.ts
+pipeline/check-tmdb-folgen-404-lauf.ts
+pipeline/check-tmdb-folgen-404.ts
 pipeline/check-tmdb-folgen-auswahl.ts
 pipeline/check-tmdb-folgen-lauf.ts
 pipeline/check-tmdb-folgen-luecke-lauf.ts
