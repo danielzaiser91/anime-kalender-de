@@ -28,6 +28,7 @@
 import type { Meldung, Quelle, Release, ReleaseType, Title } from '../../shared/types.ts'
 import { quelleAnzeigeName } from '../../shared/quelle.ts'
 import { nachJahrUndId } from '../../shared/titles.ts'
+import { ordneTeilHinweis, teilHinweis } from './teil-hinweis.ts'
 import type { Verschiebung } from './disc-verschiebungen.ts'
 import type { SammelEintrag } from './sammelartikel.ts'
 import { folgenzahlUeberWerk } from './pruefung.ts'
@@ -172,7 +173,7 @@ export function teilAusUeberschrift(
 ): { nummer?: number; art: 'staffel' | 'film' } | undefined {
   const wort = /\b(erste[nr]?|zweite[nr]?|dritte[nr]?|vierte[nr]?|fünfte[nr]?|sechste[nr]?|siebte[nr]?|achte[nr]?|neunte[nr]?|zehnte[nr]?)\b/i
   const ziffer = /\b(\d{1,2})\.\s*(staffel|season)|staffel\s*(\d{1,2})\b/i
-  const istFilm = /\bfilm\b|-film|\bmovie\b|\bkinostart\b/i.test(text)
+  const istFilm = /\bfilm\b|-film(?!box)|\bmovie\b|\bkinostart\b/i.test(text)
   const istStaffel = /\bstaffel\b|\bseason\b/i.test(text)
   if (!istFilm && !istStaffel) return undefined
 
@@ -193,8 +194,12 @@ export function teilAusUeberschrift(
  */
 function reihenTeil(basis: Title, alle: Title[], text: string): Title | undefined {
   const teil = teilAusUeberschrift(text)
-  // Keine Staffel-/Film-Angabe: Die Überschrift meint den Titel selbst.
-  if (!teil) return basis
+  if (!teil) {
+    // Part-/Cour-/Filmbox-Hinweis ohne Staffel-Wort: nur per Name, sonst verwerfen.
+    const hinweis = teilHinweis(text)
+    // Ohne Hinweis meint die Überschrift den Titel selbst.
+    return hinweis ? ordneTeilHinweis(hinweis, basis, alle) : basis
+  }
   if (!teil.nummer) return undefined
 
   const reihe = basis.franchiseId ?? basis.id
@@ -425,11 +430,33 @@ function freierSlug(slug: string, vorhanden: Release[], tag: string): string {
   return vorhanden.some((r) => r.slug === slug) ? `${slug}-${tag}` : slug
 }
 
+/**
+ * Zählt eine verworfene Überschrift, wenn der Part-/Cour-/Filmbox-Hinweis der Grund ist — nicht,
+ * wenn der Staffel-Pfad sie schon verworfen hat. Liefert immer undefined.
+ */
+function vermerkeTeilHinweis(artikel: string, verworfen?: string[]): undefined {
+  const hinweis = teilHinweis(artikel)
+  const ausStaffelPfad = teilAusUeberschrift(artikel) !== undefined && hinweis?.art !== 'box'
+  if (hinweis && !ausStaffelPfad) verworfen?.push(artikel)
+  return undefined
+}
+
+function aktuelleQuelle(url: string, heute: string, sagt: string): Quelle {
+  return {
+    url,
+    name: quellenName(url),
+    gesehenAm: heute,
+    sagt,
+    stand: 'aktuell',
+  }
+}
+
 export function releasesAus(
   vorschlaege: Vorschlag[],
   titel: Title[],
   vorhanden: Release[],
   heute: string,
+  verworfen?: string[],
 ): Release[] {
   const belegt = belegteTermine(vorhanden)
   const out: Release[] = []
@@ -459,7 +486,7 @@ export function releasesAus(
         : undefined
     if (!basis) continue
 
-    const treffer = reihenTeil(basis, titel, v.articleTitle)
+    const treffer = reihenTeil(basis, titel, v.articleTitle) ?? vermerkeTeilHinweis(v.articleTitle, verworfen)
     if (!treffer) continue
 
     const platform = anbieterDerMeldung(v)
@@ -470,13 +497,7 @@ export function releasesAus(
     const art = artDerMeldung(v, platform, treffer)
 
     const name = treffer.titleDe ?? treffer.titleEn ?? treffer.titleRomaji ?? `#${treffer.id}`
-    const quelle: Quelle = {
-      url: v.articleUrl,
-      name: quellenName(v.articleUrl),
-      gesehenAm: heute,
-      sagt: tag,
-      stand: 'aktuell',
-    }
+    const quelle = aktuelleQuelle(v.articleUrl, heute, tag)
 
     out.push({
       /**
