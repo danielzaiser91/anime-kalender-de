@@ -15,7 +15,7 @@ export interface Weckplan {
   tagImMonat?: number
   /** Mit `tagImMonat`: gilt ab diesem Tag bis zum Monatsende, solange der letzte nicht abgebrochene Start älter als `abstandMin` ist (Nachholen eines abgebrochenen Monatslaufs). */
   nachholen?: boolean
-  /** Mindestabstand zum letzten Start desselben Workflows in Minuten — schützt vor Doppelstarts (gemessen 05.10.2026: zwei Starts im Abstand von zehn Sekunden). */
+  /** Mindestabstand zum letzten Start desselben Workflows in Minuten — schützt vor Doppelstarts (gemessen 05.10.2026: zwei Starts im Abstand von zehn Sekunden). Der Workflow-Name ist Schlüssel für Abstand und Nachholen und muss über alle Repos eindeutig sein (`daten.yml` gibt es hier nicht). */
   abstandMin: number
 }
 
@@ -35,9 +35,9 @@ export const WECKPLAN: Weckplan[] = [
   { workflow: 'offizielle-news.yml', stunden: [13], abstandMin: 600 },
   // Meldungskopie (ab 14.10.2026): D1-Export der drei Meldungstabellen, 03 Uhr (kein anderer Tageslauf; ein Export blockiert die D1 kurz). Spätestens nach 33 h nachgeholt (wecker-wache), Grenze 36 h. Abstand 13 h: ein Handlauf um 12 Uhr (15 h vor 03 Uhr) darf den nächsten Wecker-Start nicht sperren (16.10.2026 fehlte er so).
   { workflow: 'meldungskopie.yml', stunden: [3], abstandMin: 780 },
-  // Monatskontingent der Streaming Availability API (Reset am Ersten). Vorher nur GitHubs Cron: ein abgebrochener Lauf blieb ohne Nachhol-Start (`motn` am 08.10.2026 36 Tage still).
   // Nativ-Repo (ab 25.10.2026): GitHubs Zeitplan schaltet sich dort nach 60 Ruhetagen ab und feuert unpünktlich; das Wecker-Token gilt für beide Repos.
   { workflow: 'daten.yml', repo: 'danielzaiser91/anime-kalender-nativ', abstandMin: 40 },
+  // Monatskontingent der Streaming Availability API (Reset am Ersten). Vorher nur GitHubs Cron: ein abgebrochener Lauf blieb ohne Nachhol-Start (`motn` am 08.10.2026 36 Tage still).
   { workflow: 'tonspuren-monatlich.yml', stunden: [4], tagImMonat: 2, nachholen: true, abstandMin: 20160 },
 ]
 

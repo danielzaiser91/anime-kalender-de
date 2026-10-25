@@ -36,6 +36,8 @@ const gestartet: string[] = []
 const fremdGestartet: string[] = []
 const fremdAbgefragt: string[] = []
 const HAUPT = 'danielzaiser91/anime-kalender-de'
+/** Antwort der Attrappe auf einen Start im Fremd-Repo. */
+let fremdStatus = 204
 const kopfZeilen: string[] = []
 /** Antwort der Attrappe auf "letzte Läufe" (neuester zuerst); leer = nie gelaufen. */
 let bisherige: { created_at: string; status: string; conclusion: string }[] = []
@@ -52,6 +54,7 @@ function mitAufzeichnung(): void {
       else fremdGestartet.push(`${treffer[1]}/${treffer[2]}`)
       kopfZeilen.push(String((init.headers as Record<string, string>).Authorization))
     }
+    if (treffer && init?.method === 'POST' && treffer[1] !== HAUPT && fremdStatus !== 204) return new Response('{}', { status: fremdStatus })
     const abfrage = /repos\/([^/]+\/[^/]+)\/actions\/workflows\/([^/]+)\/runs\?/.exec(url)
     if (abfrage && abfrage[1] !== HAUPT) fremdAbgefragt.push(`${abfrage[1]}/${abfrage[2]}`)
     if (url.includes('/runs?')) return new Response(JSON.stringify({ workflow_runs: bisherige }), { status: 200 })
@@ -123,6 +126,18 @@ fremdGestartet.length = 0
 await starteFaelligeLaeufe(env('t'), MONTAG_VIER)
 pruefe(fremdGestartet.length === 0, 'Nativ-Lauf vor 10 min: Mindestabstand 40 min sperrt auch das Fremd-Repo')
 bisherige = []
+// Token ohne Recht am Nativ-Repo (403) oder Workflow fehlt (404): kein Absturz, die Hauptrepo-Läufe starten, das Log nennt Repo und Workflow.
+const fehlerLog: string[] = []
+console.error = (...a: unknown[]) => void fehlerLog.push(a.join(' '))
+for (const status of [403, 404]) {
+  fremdStatus = status
+  fehlerLog.length = 0
+  const haupt = await nach(() => starteFaelligeLaeufe(env('t'), MONTAG_VIER))
+  pruefe(gleich(haupt, ['refresh-hourly.yml', 'refresh-data.yml', 'tonspuren-monatlich.yml']), `Nativ-Start ${status}: die Hauptrepo-Läufe starten trotzdem`)
+  pruefe(fehlerLog.some((z) => z.includes(`danielzaiser91/anime-kalender-nativ/daten.yml: HTTP ${status}`)), `Nativ-Start ${status}: Log nennt Repo, Workflow und Status`)
+}
+fremdStatus = 204
+console.error = () => {}
 
 stumm('scheduled (Wecker-Aufruf in index.ts):')
 /** Ein Cron-Aufruf mit fester `scheduledTime`; wartet auf alles, was an `waitUntil` geht. */

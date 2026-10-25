@@ -30,7 +30,7 @@ async function starte(env: Env, repo: string, workflow: string, jetzt: Date): Pr
   /* Doppelstarts abfangen: Am 05.10.2026 kamen zwei Starts im Abstand von zehn Sekunden; Ursache ungeklärt, der Schutz gilt unabhängig davon. */
   const laeufe = await letzteLaeufe(env, repo, workflow).catch(() => [])
   if (!startErlaubt(workflow, laeufe, jetzt)) {
-    console.log(`[wecker] ${workflow}: übersprungen (Mindestabstand oder Lauf aktiv)`)
+    console.log(`[wecker] ${repo}/${workflow}: übersprungen (Mindestabstand oder Lauf aktiv)`)
     return
   }
   const r = await fetch(`https://api.github.com/repos/${repo}/actions/workflows/${workflow}/dispatches`, {
@@ -38,7 +38,7 @@ async function starte(env: Env, repo: string, workflow: string, jetzt: Date): Pr
     headers: KOPF(env),
     body: JSON.stringify({ ref: 'main' }),
   })
-  if (r.status !== 204) console.error(`[wecker] ${workflow}: HTTP ${r.status}`)
+  if (r.status !== 204) console.error(`[wecker] ${repo}/${workflow}: HTTP ${r.status}`)
 }
 
 /** Jede volle Stunde aufgerufen (`scheduled`): startet alles, was jetzt fällig ist. Ein Ausfall eines Starts hält die anderen nicht auf. */
