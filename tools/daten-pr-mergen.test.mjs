@@ -30,6 +30,7 @@ try {
 case "$1 $2" in
   "pr merge") echo "$3" >> "${posix(gemergt)}"; exit 0 ;;
 esac
+[ "$3" = 6 ] && [ -n "$FALL6" ] && FALL="$FALL6"
 case "$7" in
   .state) case " $ERLEDIGT " in *" $3 "*) echo "$ZUSTAND" ;; *) echo OPEN ;; esac ;;
   .mergeable) case " $ERLEDIGT " in *" $3 "*) echo UNKNOWN; exit 0 ;; esac; if [ "$FALL" = konflikt ] || [ "$FALL" = autor-konflikt ]; then echo CONFLICTING; else echo MERGEABLE; fi ;;
@@ -42,12 +43,12 @@ esac
   )
   chmodSync(join(bin, 'gh'), 0o755)
 
-  const lauf = (fall, nummern = ['7'], erledigt = '', zustand = 'MERGED') => {
+  const lauf = (fall, nummern = ['7'], erledigt = '', zustand = 'MERGED', fall6 = '') => {
     rmSync(gemergt, { force: true })
     const r = spawnSync('bash', ['tools/daten-pr-mergen.sh', ...nummern], {
       cwd: wurzel,
       encoding: 'utf8',
-      env: { ...process.env, FALL: fall, ERLEDIGT: erledigt, ZUSTAND: zustand, PATH: `${posix(bin)}:${process.env.PATH}` },
+      env: { ...process.env, FALL: fall, ERLEDIGT: erledigt, ZUSTAND: zustand, FALL6: fall6, PATH: `${posix(bin)}:${process.env.PATH}` },
     })
     const liste = existsSync(gemergt) ? readFileSync(gemergt, 'utf8').trim().split('\n') : []
     return { status: r.status, out: `${r.stdout}${r.stderr}`, gemergt: liste.length > 0, liste }
@@ -74,6 +75,11 @@ esac
   }
   const nurErledigt = lauf('ok', ['6'], '6')
   pruefe('nur ein gemergter PR: Lauf grün, nichts gemergt', nurErledigt.status === 0 && !nurErledigt.gemergt && !/::error::/.test(nurErledigt.out), nurErledigt.out)
+  // PR 6 scheitert auf jede Art, PR 7 ist in Ordnung: die Schleife macht mit PR 7 weiter.
+  for (const [fall6, rot6] of [['autor', 0], ['konflikt', 1], ['rot', 0], ['fork', 1]]) {
+    const r = lauf('ok', ['6', '7'], '', 'MERGED', fall6)
+    pruefe(`PR 6 im Fall „${fall6}“ vor einem guten PR 7: PR 7 wird gemergt, Ausgang ${rot6}`, r.status === rot6 && r.liste.join() === '7', r)
+  }
 } finally {
   rmSync(dir, { recursive: true, force: true })
 }
