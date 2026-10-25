@@ -21,6 +21,7 @@ pipeline/check-empfehlung-kern-bestand.ts
 pipeline/check-favoriten-feed-bestand.ts
 pipeline/check-folge-zwoelf-hinweis-bestand.ts
 pipeline/check-folgenflaggen-bestand.ts
+pipeline/check-folgentitel-sprache-bestand.ts
 pipeline/check-folgenzahl-kennzeichnung-bestand.ts
 pipeline/check-handlung-eigen-bestand.ts
 pipeline/check-herkunftsland-bestand.ts

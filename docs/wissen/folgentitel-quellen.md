@@ -1,4 +1,4 @@
-# Folgentitel: woher sie kommen, wo sie fehlen, welche Quelle die beste ist (04.10.2026)
+# Folgentitel: woher sie kommen, wo sie fehlen, welche Quelle die beste ist (04.10.2026; Stand und Regel „nur deutsch" ab 24.10.2026 unten)
 
 Anlass: Daniel (04.10.2026) an Hana-Kimi S2: Auch nach dem aniSearch-Lauf fehlen „für viele Serien" die Folgentitel
 (`anisearch.de/anime/21327,…/episodes` führt keine); er schlug Wikipedia vor und bat, Quellen zu suchen und die beste zu wählen.
@@ -49,6 +49,18 @@ Wirkung erst, wenn `data/tmdb-folgen.json` Einträge für diese Titel hat (Abruf
 - **Offen — Stufe 1b:** Serien, die sich **mehrere Staffeln einen Crunchyroll-Weg teilen** (`sharedWith`: Mushoku Tensei, Iruma-kun, Black Clover …), brauchen die Staffelzuordnung: Die Titel stehen
   in der Antwort je Staffel (`episodes[staffelId]`), die Zuordnung Staffel ↔ Bestandstitel liegt in `bau/09-4`; dort sollte das Ergebnis je Staffel bleiben, statt es hier neu zu raten.
 - **Offen — Stufe 2:** TMDB als dritte Stufe (nur echte Titel, 14 der 43 Lücken), danach Wikipedia für Langläufer.
+
+## Stand und Regel „nur deutsch" (24.10.2026)
+
+Der Stand vom 04.10. oben ist überholt: Stufe 2 (TMDB, `folgentitel-tmdb.ts`) und Kitsu (`folgentitel-kitsu.ts`, nur noch Folgenlängen) sind gebaut; Stufe 1b ist offen geblieben.
+
+- **Regel (Daniel, F57, 24.10.2026: „nur deutsche, so schnell wie möglich die deutschen folgentitel nachholen, aktuellen bestand einmal komplett beheben"):** Eine Zeile der Folgendatei trägt den deutschen Titel (`de`: aniSearch, Crunchyroll de-DE, TMDB de) oder gar keinen. Der frühere Rückfall `de ?? en ?? ja` ist abgeschaltet (`folgentitel-zeilen.ts`, `folgenZeilen`); Kitsu liefert keine Titel mehr; ein Crunchyroll-/TMDB-Titel, der dem englischen oder japanischen aniSearch-Titel der Folge gleicht, gilt nicht als deutsch (`mitCrTiteln`). Die Oberfläche zeigt eine Folge ohne Titel als „—" (alle leer: „Die Folgentitel liegen noch nicht vor.").
+- **Wirkung am Bestand (Bau vom 24.10.2026, 41.597 Folgen in 1.807 Dateien):** Rückfälle aus aniSearch 4.081 → 0; Folgen mit Titel 40.932 → 36.747, leere Folgen 665 → 4.850. Wächter: `check:logic` (Fälle „Nur deutsch") und `check:bestand` (`pipeline/check-folgentitel-sprache-bestand.ts`, zählt Zeilen, deren Titel dem en/ja der aniSearch-Folge gleicht, wo diese keinen deutschen Titel hat; muss 0 sein).
+- **Erreichbare Obergrenze:** Von ≈ 4.861 Lückenfolgen liegen 3.210 in Folgen ohne belegte deutsche Synchro (kein deutscher Titel zu erwarten), nur **1.651 in 78 Titeln** in belegt deutschen Folgen. Nur diese sind noch zu füllen (Bericht `daniel-zum-abarbeiten/berichte/folgentitel-deutsch-2026-10-24.md`).
+- **Rechtslage der Alternativen:** JustWatch: Nutzungsbedingungen verbieten „data mining, robots, scraping or similar data gathering" (trotz offener robots.txt) — nicht verwenden. Wunschliste (`wunschliste.de`): Impressum erlaubt Vervielfältigung nur „mit schriftlicher Genehmigung" — nicht ohne Genehmigung. Erweiterungs-Meldungen decken 0 % der Lücke. Offen als eigener Schritt: TMDB auf die 294 Lückentitel ausdehnen (PR 1938 für laufende Serien).
+- **Vorschlag, nicht umgesetzt:** Noch nicht erschienene Folgen (Marronniers: 16 von 19 leeren) gar nicht erst in die Dateien aufnehmen.
+- **Lücke des Wächters (Stand 24.10.2026, Folgeschritt):** `check-folgentitel-sprache-bestand.ts` fängt nur Titel, die dem aniSearch-`en`/`ja` exakt gleichen. Gemessen am Bestand (36.747 Titel vor dem Platzhalterfilter): 3 sichere englische Zeilen ohne diese Gleichheit (116673 Folge 1 und 2, 395 Folge 10), 30 Zeilen gleich einem Kitsu-Titel (27 davon in 13185, Transformers-Kurzwörter, wohl legitim), 744 gleich dem TMDB-`en` (überwiegend Lehnwörter, nicht einzeln geprüft). Platzhalter („Ohne Titel", „Untitled", „Folge N", „Episode N") stehen nicht mehr in den Dateien (`istPlatzhalter`); Flowers of Evil (16201) trug 13× „Ohne Titel" aus Crunchyroll.
+- **Folgeauftrag (offen, 25.10.2026):** Der Wächter soll englische Titel auch ohne exakte Gleichheit mit aniSearch-`en` erkennen (`mitCrTiteln` vergleicht exakt): die 3 sicheren Zeilen (116673 F1/F2, 395 F10) als Testfälle, die 30 Kitsu- und 744 TMDB-gleichen Zeilen stichprobenartig prüfen. Dazu 7 Folgendateien mit 34 doppelten Folgennummern (zwei aniSearch-Reihen in einer Datei). Steht in `stand.md` unter „Als Nächstes“.
 
 ## Laufende Serien: TMDB-Abruf nach 6 Tagen statt 30 (24.10.2026)
 
