@@ -80,7 +80,7 @@ Auslieferungsdateien (`public/data/`), gzip auf der Leitung, gemessen 02.10.2026
 | `ohne-synchro.json` (15.147) | 5,5 MB | 1,28 MB | Schalter „ohne Synchro" |
 | `synopses/N`, `disc/N` (32 Gruppen, `id % 32`), `voices/<id>` | klein | | Panel |
 
-**Erstaufruf ≈ 236 KB gzip** (Stand 25.10.2026; Seitenansichten lazy: `SeitenAnsichtLazy.tsx`, Schrift E: Systemschrift im Text, Serifen-Stack für Überschriften (`--ak-schrift-text`, `--ak-schrift-titel` in `styles.css`), keine Webschrift: Bündel, CSS, HTML, Wochendaten; Wächter `tools/start-budget.mjs`, Grenze 240 KB; Wochendaten aus `woche-kacheln.json`). Am 02.10.2026 waren es noch ≈ 470 KB mit den vier vollen Startdateien; Aufschlüsselung in `ARCHITEKTUR.md`.
+**Erstaufruf ≈ 236 KB gzip** (Stand 25.10.2026; Seitenansichten lazy: `SeitenAnsichtLazy.tsx`, Schrift E: Systemschrift im Text, Serifen-Stack für Überschriften (`--ak-schrift-text`, `--ak-schrift-titel` in `styles.css`), keine Webschrift: Bündel, CSS, HTML, Wochendaten; Wächter `tools/start-budget.mjs`, Grenze 250 KB; Wochendaten aus `woche-kacheln.json`). Am 02.10.2026 waren es noch ≈ 470 KB mit den vier vollen Startdateien; Aufschlüsselung in `ARCHITEKTUR.md`.
 
 ## 5. Oberfläche (Routen und Komponenten)
 

@@ -35,7 +35,7 @@ export const FilterRund = forwardRef<HTMLButtonElement, { offen: boolean; anzahl
       aria-haspopup="dialog"
       aria-label={anzahl ? `${t('filter.button')} (${anzahl})` : t('filter.button')}
       className={[
-        'relative flex h-11 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-full border pr-3.5 pl-3 text-sm font-bold transition',
+        'relative flex h-11 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-full border pr-3.5 pl-3 text-sm font-bold transition max-[339px]:gap-1 max-[339px]:px-2.5 max-[339px]:text-[13px]',
         filterFarbe(offen, anzahl),
       ].join(' ')}
     >

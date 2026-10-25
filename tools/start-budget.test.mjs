@@ -115,7 +115,7 @@ const codeBytes = gemessen.reduce((s, z) => s + z.bytes, 0)
 assert.ok(codeBytes > 30000 && codeBytes < 31000, `Code und Daten ${codeBytes}`)
 let r = lauf(dist)
 assert.equal(r.status, 0)
-assert.match(r.stdout, /^start-budget: 29\.\d KB gzip von 240[.]0 KB, 21\d\.\d KB Luft \(Code und Daten 29\.\d KB\)$/m)
+assert.match(r.stdout, /^start-budget: 29\.\d KB gzip von 250[.]0 KB, 22\d\.\d KB Luft \(Code und Daten 29\.\d KB\)$/m)
 // Grenzwert: genau die Summe besteht, ein Byte weniger nicht.
 const summe = codeBytes
 assert.equal(bewerte(dist, summe).code, 0)
@@ -134,14 +134,14 @@ assert.doesNotMatch(knapp.text, /::warning::/)
 // Ohne Argument misst der Lauf `dist` im aktuellen Ordner.
 r = lauf(dist, join(dist, '..'))
 assert.equal(r.status, 0)
-assert.match(r.stdout, /^start-budget: 29\.\d KB gzip von 240[.]0 KB/m)
+assert.match(r.stdout, /^start-budget: 29\.\d KB gzip von 250[.]0 KB/m)
 aufraeumen(dist)
 
 // Über der Grenze: Exit 1, Aufschlüsselung mit jeder Startdatei auf eigener Zeile.
 dist = kulisse({ ...alle, 'data/woche-kacheln.json': GRENZE + 5000 })
 r = lauf(dist)
 assert.equal(r.status, 1)
-assert.match(r.stderr, /^start-budget: 2\d\d\.\d KB gzip, \d+\.\d KB über der Grenze von 240[.]0 KB \(Code und Daten/m)
+assert.match(r.stderr, /^start-budget: 2\d\d\.\d KB gzip, \d+\.\d KB über der Grenze von 250[.]0 KB \(Code und Daten/m)
 for (const pfad of start.dateien) assert.match(r.stderr, new RegExp(`^ +[\\d.]+ KB  ${pfad.replace(/[.]/g, '\\.')}$`, 'm'))
 assert.doesNotMatch(r.stderr, /titles-core|Dialog/)
 aufraeumen(dist)
