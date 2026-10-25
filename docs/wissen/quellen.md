@@ -2255,6 +2255,7 @@ beide gleich.
 (dort auch `istTot`: 404/region). Als Auskunft zählt ein HTTP-Status unter 500 außer 403/429, dazu
 `region`; 5xx (503 = Dienst nicht erreichbar), `unklar`, `timeout`, `fehler` zählen nicht. Ein Lauf, der
 nur 5xx liefert, meldet „nur Nichtauskünfte“ statt gesund. Stand `data/link-check.json`: 96 Einträge mit 503.
+Ein 5xx-Befund ist beim nächsten Lauf wieder fällig (`istFaellig` in `link-befund.ts`, wie `unklar`), nicht erst nach den 30 Tagen; der Link-Lauf ist der wöchentliche in `refresh-weekly.yml`, also hängt eine 503-Adresse höchstens eine Woche. Vorher standen die 96 Adressen bis zu 35 Tage (ältester Befund 20.09.2026).
 
 ## Eine falsche TMDB-Kennung verteilt fremde Wege über den ganzen Titel
 

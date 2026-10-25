@@ -28,12 +28,12 @@ assert.equal(istFaellig({ status: 200, geprueftAm: '2026-09-30' }, GRENZE), true
 const wurzel = resolve(import.meta.dirname, '..')
 const wurzelOrdner = process.argv[2] ?? tmpdir()
 const URL1 = 'https://www.netflix.com/title/1'
-function geprueft(status: number | string): number {
+function geprueft(status: number | string, datum = '2999-12-31'): number {
   const tmp = mkdtempSync(join(wurzelOrdner, 'link-faelligkeit-'))
   mkdirSync(join(tmp, 'public', 'data'), { recursive: true })
   mkdirSync(join(tmp, 'data'), { recursive: true })
   writeFileSync(join(tmp, 'public', 'data', 'titles.json'), JSON.stringify([{ streams: [{ platform: 'netflix', url: URL1 }] }]))
-  writeFileSync(join(tmp, 'data', 'link-check.json'), JSON.stringify({ [URL1]: { status, geprueftAm: '2999-12-31' } }))
+  writeFileSync(join(tmp, 'data', 'link-check.json'), JSON.stringify({ [URL1]: { status, geprueftAm: datum } }))
   const stub = join(tmp, 'fetch-stub.mjs')
   writeFileSync(stub, 'globalThis.fetch = async () => new Response("", { status: 200 })')
   const r = spawnSync(
@@ -48,4 +48,6 @@ function geprueft(status: number | string): number {
 for (const [status, soll] of [[503, 1], [500, 1], ['unklar', 1], [404, 0], [200, 0], [403, 0], ['timeout', 0], ['fehler', 0]] as [number | string, number][]) {
   assert.equal(geprueft(status), soll, `Lauf: frischer Befund ${status} -> neu abgerufen ${soll}`)
 }
+assert.equal(geprueft(200, '2000-01-01'), 1, 'Lauf: alter 200er ist nach 30 Tagen wieder fällig')
+assert.equal(geprueft(404, '2000-01-01'), 1, 'Lauf: alter 404 ist nach 30 Tagen wieder fällig')
 console.log('link-faelligkeit: 5xx und unklar sofort fällig, 404/200/403/timeout/fehler erst nach der Frist (Tabelle + Lauf): ok')
