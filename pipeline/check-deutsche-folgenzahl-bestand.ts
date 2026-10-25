@@ -1,25 +1,21 @@
 /**
- * Deutsche Folgenzahl gegen den gebauten Bestand (`check:bestand`, 12.10.2026): Ein `deFolgen` in `data/erstausgabe-von-hand.yaml`, dessen Zahl im Bestand nicht unter der Folgenzahl
- * des Werks liegt (oder dessen Titel fehlt), wird nicht genutzt — er soll nicht veralten, sondern gelöscht werden. Dass die Detaildaten die Zahl schon tragen, prüft der nächste Bestandsbau.
+ * Deutsche Folgenzahl gegen den gebauten Bestand (`check:bestand`, 12.10.2026): Ein `deFolgen` in `data/erstausgabe-von-hand.yaml`, dessen Titel oder Folgenzahl des Werks im Bestand fehlt, ist ein Fehler
+ * (die Teilsynchro-Angabe verschwindet still). Liegt die Zahl nicht unter den Folgen des Werks, ist die Synchro vollständig und der Eintrag nur überholt: Hinweis
+ * (`⚠ WARNUNG`, Exit 0; 25.10.2026). Bewertung in `lib/deutsche-folgenzahl-bestand.ts`; die Detaildaten trägt der nächste Bestandsbau.
  */
 import type { Title } from '../shared/types.ts'
 import { readJson } from './lib/util.ts'
 import { zurueckgestellt } from './lib/quarantaene.ts'
-import { deFolgenGilt, ladeErstausgabeVonHand } from './lib/erstausgabe-von-hand.ts'
+import { ladeErstausgabeVonHand } from './lib/erstausgabe-von-hand.ts'
+import { bewerteDeutscheFolgenzahl } from './lib/deutsche-folgenzahl-bestand.ts'
+import { bestandWarnzeile } from './lib/bestand-warnzeile.ts'
 
 const titel = new Map(readJson<Title[]>('public/data/titles.json', []).map((t) => [t.id, t]))
-const meldungen: string[] = []
-const zurueck = zurueckgestellt().ids
-for (const e of ladeErstausgabeVonHand()) {
-  if (!e.deFolgen) continue
-  const t = titel.get(e.anilistId ?? 0)
-  if (!t && zurueck.has(e.anilistId ?? 0)) continue // zurückgestellt (Quarantäne), nicht verloren
-  if (!t) meldungen.push(`Deutsche Folgenzahl ${e.anilistId} (${e.title}): Titel nicht im Bestand`)
-  else if (!deFolgenGilt(e.deFolgen, t.episodes)) meldungen.push(`Deutsche Folgenzahl ${e.anilistId} (${e.title}): ${e.deFolgen.n} liegt nicht unter den ${t.episodes} Folgen des Werks`)
-}
+const { fehler, hinweise } = bewerteDeutscheFolgenzahl(ladeErstausgabeVonHand(), titel, zurueckgestellt().ids)
 
-if (meldungen.length) {
-  console.error(`FEHLER: ${meldungen.length} überholte Einträge mit deFolgen in data/erstausgabe-von-hand.yaml — löschen:\n${meldungen.join('\n')}`)
+if (hinweise.length) console.log(bestandWarnzeile('Deutsche Folgenzahl', 'überholt (Synchro vollständig, deFolgen in data/erstausgabe-von-hand.yaml bei Gelegenheit löschen)', hinweise))
+if (fehler.length) {
+  console.error(`FEHLER: ${fehler.length} Einträge mit deFolgen in data/erstausgabe-von-hand.yaml ohne Titel oder Folgenzahl im Bestand — beheben:\n${fehler.join('\n')}`)
   process.exit(1)
 }
-console.log('Deutsche Folgenzahl gegen den Bestand: kein Eintrag überholt.')
+console.log(`Deutsche Folgenzahl gegen den Bestand: ${hinweise.length} überholt (Hinweis), kein Eintrag verwaist.`)

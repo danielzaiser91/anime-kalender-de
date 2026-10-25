@@ -3346,9 +3346,10 @@ console.log('\nStaffel und Teil zählen:')
 console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut angehängt:')
 {
   const abholung = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
+  const anhaengen = readFileSync('pipeline/lib/belege-anhaengen.ts', 'utf8')
   const { neu } = neueBelegBloecke('- a: 1\n', ['- a: 1', '- b: 2', '  c: x', '- b: 2', '  c: "x"', '- d: 3'])
   pruefe('neue Belege: vorhandene und doppelte fallen, der Rest bleibt', neu.length === 2, neu)
-  pruefe('fetch-pruefungen nutzt diesen Abgleich', /neueBelegBloecke\(alt, zeilen\)/.test(abholung))
+  pruefe('fetch-pruefungen nutzt diesen Abgleich', /neueBelegBloecke\(alt, zeilen\)/.test(anhaengen) && /haengeBelegeAn\(/.test(abholung))
   /* Haikyu!!-Summenseite, 20.10.2026: das Prüfdatum zählt beim Abgleich nicht, die Folgenspanne schon. */
   const bereich = (von: number, bis: number) => ({ von, bis, dub: true, belegt: Array.from({ length: bis - von + 1 }, (_, i) => von + i) })
   const gekappt = begrenzeAufFolgenzahl([bereich(1, 3), bereich(4, 15)], 12)
@@ -3404,7 +3405,7 @@ console.log('\nHandbelege: ein wörtlich vorhandener Beleg wird nicht erneut ang
   pruefe('Kommentare und Reihenfolge bleiben stehen',
     entdoppleBelege('# Kopf\n\n- a: 1\n') === '# Kopf\n\n- a: 1\n')
   pruefe('fetch-pruefungen ruft den Riegel vor dem Schreiben',
-    /schreibeBelege\(p, neu, warn\)/.test(abholung) && /entdoppleBelege\(text, melde\)/.test(readFileSync('pipeline/lib/dub-confirmed.ts', 'utf8')))
+    /schreibeBelege\(p, neu, warn\)/.test(anhaengen) && /entdoppleBelege\(text, melde\)/.test(readFileSync('pipeline/lib/dub-confirmed.ts', 'utf8')))
   /* 22.09.2026: Haikyu!! TO THE TOP — Netflix-Staffel 4 ohne Zahl in unseren Titeln blieb liegen. */
   pruefe(
     'eine Netflix-Staffel ohne Nummer in unserer Reihe wird über Netflix\' Aufteilung verteilt',
