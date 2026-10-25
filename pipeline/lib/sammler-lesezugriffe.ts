@@ -8,6 +8,7 @@
  */
 import ts from 'typescript'
 import { findeHelferZugriffe } from './sammler-lesezugriffe-helfer.ts'
+import { gebundenerName, urteilUeberVariable } from './sammler-lesezugriffe-variable.ts'
 
 export interface Lesefund {
   ziel: string
@@ -25,7 +26,8 @@ const LESEN = new Set(['readFileSync', 'readFile', 'readJson', 'ladeAkVon', 'exi
 const SCHREIBEN = new Set(['writeFileSync', 'writeFile', 'writeJson', 'appendFileSync', 'rmSync', 'unlinkSync', 'mkdirSync', 'copyFileSync', 'schreibe'])
 /** Zeichenketten-Vergleich gegen Quelltext, kein Lesen der Datei. */
 const TEXTVERGLEICH = new Set(['includes', 'indexOf', 'startsWith', 'endsWith'])
-const PFAD_BAUER = new Set(['join', 'resolve'])
+const URL_EIGENSCHAFTEN = new Set(['pathname', 'href'])
+const PFAD_BAUER =new Set(['join', 'resolve'])
 const ECHTE_WURZELN = new Set(['ROOT', 'WURZEL'])
 const ECHTER_URSPRUNG = /import\.meta\.(?:dirname|url)|process\.cwd\(\)|\bROOT\b|\bWURZEL\b/
 const KULISSEN_URSPRUNG = /mkdtemp|tmpdir|[Kk]ulisse/
@@ -74,6 +76,10 @@ function verbraucher(knoten: ts.Node, decl: Map<string, string[]>): Urteil {
   if (ts.isNewExpression(p) && aufrufName(p.expression) === 'URL') {
     return p.arguments?.[1]?.getText() === 'import.meta.url' ? verbraucher(p, decl) : 'nein'
   }
+  /* `u.pathname` / `u.href` bleiben derselbe Pfadwert. */
+  if (ts.isPropertyAccessExpression(p) && p.expression === knoten && URL_EIGENSCHAFTEN.has(p.name.text)) return verbraucher(p, decl)
+  const gebunden = ts.isNewExpression(knoten) || ts.isCallExpression(knoten) ? gebundenerName(knoten) : undefined
+  if (gebunden) return urteilUeberVariable(gebunden, (v) => verbraucher(v, decl))
   if (!ts.isCallExpression(p)) return '?'
   const name = aufrufName(p.expression)
   if (name === undefined) return '?'
