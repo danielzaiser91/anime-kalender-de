@@ -109,7 +109,7 @@ function TvZeile({
         type="button"
         data-schliesst
         onClick={() => onOpen(ev)}
-        className="grid w-full cursor-pointer grid-cols-[24px_44px_minmax(0,1fr)] items-center gap-2 rounded-lg py-1 text-left text-[13px] transition hover:bg-ak-flaeche-2 focus-visible:-outline-offset-2"
+        className="grid w-full cursor-pointer grid-cols-[24px_54px_minmax(0,1fr)] items-center gap-2 rounded-lg py-1 text-left text-[13px] transition hover:bg-ak-flaeche-2 focus-visible:-outline-offset-2"
       >
         {cover ? (
           <img {...coverBild(cover, 24)} alt="" loading="lazy" className="h-[34px] w-6 rounded object-cover" />
@@ -131,7 +131,7 @@ function TvZeile({
           type="button"
           onClick={() => setAuf(!auf)}
           aria-expanded={auf}
-          className={`ml-[76px] flex min-h-11 cursor-pointer items-center rounded px-1 text-xs font-semibold text-ak-tv hover:underline sm:min-h-0 ${TREFFER_24_HOCH}`}
+          className={`ml-[86px] flex min-h-11 cursor-pointer items-center rounded px-1 text-xs font-semibold text-ak-tv hover:underline sm:min-h-0 ${TREFFER_24_HOCH}`}
         >
           {auf
             ? t('kal.buendelAuch', { zeiten: weitere.map((w) => zeitMitMarke(w, '≈ ') || '–').join(', ') })

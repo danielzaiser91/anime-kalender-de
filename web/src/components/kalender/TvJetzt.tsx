@@ -10,7 +10,7 @@ import { useLang } from '../../lib/i18n.tsx'
 /** Uhrzeit, bei einer laufenden Sendung mit „● Läuft" darunter. */
 export function UhrzeitMitLaeuft({ zeit, zustand }: { zeit: string; zustand: Zeilenzustand | undefined }) {
   const { t } = useLang()
-  const uhr = <span className="font-bold tabular-nums text-ak-tv">{zeit}</span>
+  const uhr = <span className="whitespace-nowrap font-bold tabular-nums text-ak-tv">{zeit}</span>
   if (zustand?.art !== 'laeuft') return uhr
   return (
     <span className="flex flex-col">
