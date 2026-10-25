@@ -83,6 +83,9 @@ const spaet = [folge('GG5H5XQMD', 'Staffel 3', 1, '2026-10-24T22:30:00.000Z')]
 pruefe('Tag in Berlin: 24.10. 22:30 UTC ist der 25.10., also heute und kein Befund', fehlt(spaet, [], titles, '2026-10-25').length === 0)
 pruefe('Tag in Berlin: am 26.10. fehlt die Folge vom 25.10. (nicht vom 24.10.)', fehlt(spaet, [], titles, '2026-10-26')[0]?.tag === '2026-10-25')
 
+const schwester = { id: 300, franchiseId: 164702, titleEn: 'Schwester', streams: [] } as unknown as Title
+pruefe('ein Titel derselben Franchise ohne eigenen Crunchyroll-Weg zählt mit', fehlt(vier.slice(3), [ev(300, '2026-10-18')], [...titles, schwester]).length === 0)
+pruefe('Kontrolle: derselbe Termin eines fremden Titels ohne Franchise zählt nicht', fehlt(vier.slice(3), [ev(300, '2026-10-18')], [...titles, { ...schwester, franchiseId: 999 } as Title]).length === 1)
 pruefe('Serie ohne unseren Titel: kein Befund', fehlt([folge('GUNBEKANNT', 'Staffel 1', 1, '2026-10-24T13:30:00.000Z')], []).length === 0)
 pruefe('Titel nur bei Netflix: kein Crunchyroll-Befund', fehlt([folge('GFREMD', 'Staffel 1', 1, '2026-10-24T13:30:00.000Z')], []).length === 0)
 pruefe('Folge ohne Zeitstempel: übersprungen', fehlt([{ serieId: 'GG5H5XQMD' }], []).length === 0)
