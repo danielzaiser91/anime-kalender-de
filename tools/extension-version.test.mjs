@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { parse } from 'yaml'
@@ -32,6 +32,10 @@ assert.equal(naechsteVersion({ dateien: ['extension/a.js'], vorherText: man('4.0
 const rennen = naechsteVersion({ dateien: ['extension/a.js'], vorherText: man('4.32.2'), bisText: man('4.32.2'), aktuellText: man('4.32.3') })
 assert.equal(rennen.text, man('4.32.4'), 'früherer Zähler schon auf main: zählt auf der Arbeitskopie weiter, überspringt nicht')
 assert.throws(() => naechsteVersion({ dateien: ['extension/a.js'], vorherText: man('1.0.0'), bisText: '{}', aktuellText: '{}' }), /ohne lesbare Version/)
+assert.throws(() => naechsteVersion({ dateien: ['extension/a.js'], vorherText: man('1.0.0'), bisText: man('1.0.0'), aktuellText: '{}' }), /ohne lesbare Version/, 'Arbeitskopie ohne Version')
+assert.equal(anhebungRot(man('4.0.1'), '{}'), null, 'PR löscht die Version: kein Anhebungs-Befund')
+const rest = naechsteVersion({ dateien: ['extension/a.js'], vorherText: man('4.32.2'), bisText: man('4.32.2'), aktuellText: man('4.32.3').replace('"x"', '"anderer-name"') })
+assert.equal(rest.text, man('4.32.4').replace('"x"', '"anderer-name"'), 'der Rest der Arbeitskopie bleibt erhalten')
 assert.equal(anhebungRot(man('4.0.1'), man('4.0.1')), null)
 assert.equal(anhebungRot(man('4.0.1'), man('4.0.2')) !== null, true)
 assert.equal(anhebungRot(null, man('4.0.2')), null, 'Manifest neu im PR')
@@ -46,6 +50,7 @@ function repo(name) {
   mkdirSync(join(arbeit, 'extension'), { recursive: true })
   mkdirSync(join(arbeit, 'tools'))
   writeFileSync(join(arbeit, 'tools/umfang-pruefen.mjs'), "console.log('ok')\n")
+  copyFileSync(join(tools, 'extension-version.mjs'), join(arbeit, 'tools/extension-version.mjs'))
   writeFileSync(join(arbeit, 'extension/manifest.json'), man('4.32.2'))
   writeFileSync(join(arbeit, 'extension/a.js'), '1\n')
   git(arbeit, 'init', '-q', '-b', 'main')
@@ -68,7 +73,19 @@ try {
   const zweiter = ruf(a, 'extension-version.mjs', '--von', bis, '--bis', git(a, 'rev-parse', 'HEAD').trim())
   assert.match(zweiter.stdout, /unverändert \(Version schon angehoben/, 'der Bump-Commit selbst löst nichts aus')
   assert.equal(readFileSync(join(a, 'extension/manifest.json'), 'utf8'), man('4.32.3'))
-  assert.notEqual(ruf(a, 'extension-version.mjs', '--von', bis).status, 0, '--bis fehlt: Fehler')
+  const ohneBis = ruf(a, 'extension-version.mjs', '--von', bis)
+  assert.match(ohneBis.stderr, /--von und --bis fehlen/, '--bis fehlt: Fehler')
+  assert.notEqual(ohneBis.status, 0)
+  mkdirSync(join(a, 'andere'))
+  writeFileSync(join(a, 'andere/m.json'), man('7.0.0'))
+  git(a, 'add', '.')
+  git(a, 'commit', '-qm', 'fremdes Manifest')
+  git(a, 'tag', 'x')
+  writeFileSync(join(a, 'extension/a.js'), '3\n')
+  git(a, 'commit', '-qam', 'code2')
+  const eigen = ruf(a, 'extension-version.mjs', '--von', 'x', '--bis', 'HEAD', '--manifest', 'andere/m.json')
+  assert.equal(readFileSync(join(a, 'andere/m.json'), 'utf8'), man('7.0.1'), `--manifest wirkt: ${eigen.stdout}${eigen.stderr}`)
+  assert.equal(readFileSync(join(a, 'extension/manifest.json'), 'utf8'), man('4.32.3'), 'Standard-Manifest bleibt unberührt')
 
   // Vorprüfung: PR hebt an -> rot; ohne Anhebung grün
   for (const [name, hebt, erwartet] of [['pr-rot', true, 1], ['pr-gruen', false, 0]]) {
@@ -107,6 +124,20 @@ try {
   writeFileSync(join(k1, 'extension/manifest.json'), man('4.32.3'))
   assert.equal(commitLauf(k1).status, 0)
   assert.match(git(bare, 'log', '-1', '--format=%s', 'main'), /Version gezählt/, 'Zähler liegt auf origin')
+  // Flacher Klon wie actions/checkout: von/bis müssen erst geholt werden; Arbeitskopie ist weiter als die Spanne
+  const vonSha = git(bare, 'rev-parse', 'main~1').trim()
+  const bisSha = git(bare, 'rev-parse', 'main').trim()
+  git(wurzel, 'clone', '-q', '--depth=1', `file://${bare.replace(/\\/g, '/')}`, join(wurzel, 'flach'))
+  const flach = join(wurzel, 'flach')
+  const lauf = spawnSync('bash', ['-e', '-c', zaehlen.run], { cwd: flach, encoding: 'utf8', env: { ...process.env, VON: vonSha, BIS: bisSha } })
+  assert.equal(lauf.status, 0, `flacher Klon: ${lauf.stderr}`)
+  assert.match(lauf.stdout, /unverändert \(Version schon angehoben/, 'Spanne enthält den Zähler selbst')
+  // Nur die Manifest-Datei wird committet, nichts anderes aus der Arbeitskopie
+  const k0 = klon('k0')
+  writeFileSync(join(k0, 'extension/manifest.json'), man('4.32.9'))
+  writeFileSync(join(k0, 'extension/a.js'), 'unrelated\n')
+  assert.equal(commitLauf(k0).status, 0)
+  assert.equal(git(bare, 'show', 'main:extension/a.js'), '1\n', 'fremde Änderung der Arbeitskopie bleibt draußen')
   const k2 = klon('k2')
   const k3 = klon('k3')
   writeFileSync(join(k2, 'extension/a.js'), 'fremd\n')
