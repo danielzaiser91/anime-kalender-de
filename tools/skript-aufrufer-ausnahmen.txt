@@ -15,7 +15,6 @@ tools/claude-global/hooks/pruefrunden.js # Claude-Hook, wird von tools/claude-gl
 tools/claude-global/hooks/stand-waechter.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
 tools/cr-vorschlaege-pruefen.mjs # Handwerkzeug, muss von einer deutschen IP laufen (Runner stehen in den USA, Kopfkommentar); schreibt data/cr-vorschlaege.json, die pipeline/bau/09-3-prime.ts liest, letzter Lauf 28.08.2026
 tools/lauf-status-app-pruefen.mjs # Handwerkzeug, startet die Electron-Statusanzeige aus C:/code/ai/__assets/tools/lauf-status (braucht ein Fenster, nicht CI-fähig); die Lauf-Arten-Gegenprobe steht in check:logic
-tools/patchnotes-gestagt-pruefen.mjs # Pre-Commit-Hook, von tools/quellen-commit-wache.sh --einrichten geschrieben, kein Schritt der Kette
 tools/pr-kette-pruefen.mjs # Wächter der PR-Kette; sein Test tools/pr-kette-pruefen.test.mjs lädt die echte pr-pruefung.yml und läuft in check:workflows (tests-alle), ein eigener Schritt wäre doppelt
 tools/pr-pruefer-kulisse-gh.cjs # gh-Attrappe, von tools/pr-pruefer-kulisse.mjs als Text gelesen, keine Prüfung
 tools/pruefung-zurueckstellen.mjs # Handwerkzeug (09.09.2026, Prüfliste), von Hand gestartet
