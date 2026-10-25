@@ -27,6 +27,7 @@ import { erledigtArgumente, findeRotenLauf, holeLaeufe, holeVerlauf, letzteDaten
 import { rotAlarmText } from './bestand-rot-alarm.mjs'
 import { meldeRoteSammlerPrs } from './rote-sammler-prs.mjs'
 import { eskalationsText } from './wache-eskalation.mjs'
+import { fixZusatz } from './wache-fix-gemergt.mjs'
 import { fileURLToPath } from 'node:url'
 
 const WORKER = 'https://newsletter.animekalender.workers.dev/lauf'
@@ -103,6 +104,12 @@ function gesundheitsDatei() {
   return i >= 0 ? args[i + 1] : fileURLToPath(new URL('../data/source-health.json', import.meta.url))
 }
 
+/** `--wurzel <ordner>` (Test) oder das Repo dieses Skripts. */
+function wurzel() {
+  const i = args.indexOf('--wurzel')
+  return i >= 0 ? args[i + 1] : fileURLToPath(new URL('..', import.meta.url))
+}
+
 async function main() {
   // Ein roter Sammler-Fund lässt den Lauf grün; er bleibt als PR liegen und muss hier auffallen (tools/rote-sammler-prs.mjs).
   const erledigt = erledigtArgumente(args)
@@ -111,7 +118,7 @@ async function main() {
   await stillstandMelden()
   const rotZeilen = rotAlarmText(gh, REPO, Date.now()).split('\n')
   for (const zeile of rotZeilen) if (zeile.startsWith('ALARM')) console.log(zeile)
-  for (const zeile of eskalationsText(gesundheitsDatei(), Date.now())) console.log(zeile)
+  for (const zeile of eskalationsText(gesundheitsDatei(), Date.now(), fixZusatz(wurzel()))) console.log(zeile)
   const { liste, verlauf, meldung } = await holeLaeufe(fetch, WORKER)
   if (meldung) {
     console.error(meldung)
