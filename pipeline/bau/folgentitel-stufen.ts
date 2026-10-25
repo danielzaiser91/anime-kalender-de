@@ -32,8 +32,8 @@ export function ladeTitelQuellen(): TitelQuellen {
 }
 
 /** Ein Titel hat keine Folge ohne Namen mehr — dann braucht keine weitere Stufe zu laden. */
-function luecke(f: Folge[] | undefined): boolean {
-  return !f || f.length < 2 || f.some((x) => !(x.de ?? x.en ?? x.ja))
+export function luecke(f: Folge[] | undefined): boolean {
+  return !f || f.length < 2 || f.some((x) => !x.de)
 }
 
 /**
