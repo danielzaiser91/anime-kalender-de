@@ -35,7 +35,7 @@ function globaleLaden(k) {
 }
 
 /** Erste Seite: der Klick auf „melden“, Antwort des Workers ist ok. Der Speicher bleibt in `speicher`. */
-async function meldenAufSeite(speicher, uhr, tabErledigt = {}) {
+async function meldenAufSeite(speicher, uhr, staffel = 's1', tabErledigt = {}) {
   const k = vm.createContext({ Date: uhr.Date, String, Number, Boolean, Object, JSON, Math, Set })
   globaleLaden(k)
   const knopf = knopfNeu()
@@ -49,7 +49,7 @@ async function meldenAufSeite(speicher, uhr, tabErledigt = {}) {
     listenId: LISTEN_ID,
     liste: { [LISTEN_ID]: { url: TITEL } },
     location: { pathname: '/gp/video/detail/B0GXC6GGH6' },
-    staffelSchluessel: () => 's1',
+    staffelSchluessel: () => staffel,
     staffelZahl: () => 1,
     seitenTitel: () => 'Mission Mars',
     deutschInFolgen: () => true,
@@ -96,6 +96,22 @@ function neueSeite(speicher, uhr) {
   return () => vm.runInContext(`fertig('${LISTEN_ID}')`, k)
 }
 
+/** Unter derselben Kennung liegt schon Staffel 1 (andere Zeit, andere Folgen): Staffel 2 ergänzt, überschreibt nichts. */
+async function zweiteStaffel() {
+  const speicher = speicherNeu()
+  const alt = { staffeln: { s1: '🇩🇪' }, folgen: { s1: 10 }, gesamt: 2, serie: 'Mission Mars', zeit: '2026-10-20T00:00:00.000Z' }
+  speicher.inhalt.amazonErledigt = { [LISTEN_ID]: alt, ANDERE: { staffeln: { s1: '✕' }, gesamt: 1 } }
+  const uhr = uhrNeu(FEST)
+  await meldenAufSeite(speicher, uhr, 's2')
+  const neu = speicher.inhalt.amazonErledigt?.[LISTEN_ID]
+  pruefe('zweite Staffel: Staffel 1 bleibt erhalten', neu?.staffeln?.s1 === '🇩🇪', neu?.staffeln)
+  pruefe('zweite Staffel: Staffel 2 kommt dazu', neu?.staffeln?.s2 === '🇩🇪', neu?.staffeln)
+  pruefe('zweite Staffel: Folgenzahl von Staffel 1 bleibt', neu?.folgen?.s1 === 10, neu?.folgen)
+  pruefe('zweite Staffel: Gesamtzahl schrumpft nicht', neu?.gesamt === 2, neu?.gesamt)
+  pruefe('zweite Staffel: Vermerk trägt die neue Zeit', neu?.zeit === '2026-10-21T01:10:00.000Z', neu?.zeit)
+  pruefe('zweite Staffel: fremde Kennung bleibt unberührt', speicher.inhalt.amazonErledigt?.ANDERE?.staffeln?.s1 === '✕')
+}
+
 /** Ein Tab mit älterem Eintrag (gesamt 2, Staffel 1 mit 5 Folgen) meldet; der Speicher kennt mehr von einem anderen Tab. */
 async function aelteremTab() {
   const speicher = speicherNeu()
@@ -103,7 +119,7 @@ async function aelteremTab() {
     [LISTEN_ID]: { staffeln: { s1: '✓', s2: '🇩🇪' }, folgen: { s1: 20, s2: 9 }, gesamt: 4, serie: 'Mission Mars' },
   }
   const alterTab = { [LISTEN_ID]: { staffeln: { s1: '✓' }, folgen: { s1: 5 }, gesamt: 2, serie: 'Mission Mars' } }
-  await meldenAufSeite(speicher, uhrNeu(FEST), alterTab)
+  await meldenAufSeite(speicher, uhrNeu(FEST), 's1', alterTab)
   const v = speicher.inhalt.amazonErledigt?.[LISTEN_ID]
   pruefe('älterer Tab verdrängt gesamt nicht (4 bleibt)', v?.gesamt === 4, v?.gesamt)
   pruefe('fremde Staffel-Folgenzahl bleibt (s2 = 9)', v?.folgen?.s2 === 9, v?.folgen)
@@ -132,6 +148,7 @@ async function main() {
   uhr.t = FEST + 5 * MIN
   pruefe('ohne Vermerk (leerer Speicher) ist dieselbe Seite offen', neueSeite(speicherNeu(), uhr)() === false)
 
+  await zweiteStaffel()
   await aelteremTab()
 
   if (fehler.length) {
