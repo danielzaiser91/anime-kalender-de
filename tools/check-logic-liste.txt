@@ -78,6 +78,7 @@ pipeline/check-disney-gesamtnummer.ts
 pipeline/check-dub-aus-terminen.ts
 pipeline/check-dub-bereiche.ts
 pipeline/check-dub-durchgehende-zaehlung.ts
+pipeline/check-effekt-abhaengigkeiten.ts
 pipeline/check-empfehlung-ablauf.ts
 pipeline/check-empfehlung-ansicht.ts
 pipeline/check-empfehlung-kern.ts
@@ -251,6 +252,8 @@ pipeline/check-titelwechsel.ts
 pipeline/check-tmdb-ablauf.ts
 pipeline/check-tmdb-folgen-auswahl.ts
 pipeline/check-tmdb-folgen-lauf.ts
+pipeline/check-tmdb-folgen-luecke-lauf.ts
+pipeline/check-tmdb-folgen-luecke.ts
 pipeline/check-tmdb-folgentitel-absolut.ts
 pipeline/check-tmdb-genre.ts
 pipeline/check-tmdb-hauptserie.ts
@@ -292,7 +295,9 @@ tools/check-patchnotes-pflicht.mjs
 tools/design-klassen.mjs
 tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
+tools/effekt-abhaengigkeiten.test.ts
 tools/feste-uhr.test.ts
+tools/haken-lauf.test.ts
 tools/heute-berlin.test.ts
 tools/heute-utc.mjs
 tools/hover-cover-weitere-verhalten.test.tsx
