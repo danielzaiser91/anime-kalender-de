@@ -10,6 +10,7 @@ tools/prime-staffel-jahr-pruefen.mjs # verwaist seit 18.09.2026 (nur Archiv), Be
 tools/pruefrunden-gh-attrappe.mjs # Attrappe für gh, vom Test tools/pruefrunden-hook.test.mjs gestartet, keine Prüfung
 tools/archiv/analyse-2026-10-02/bruecke-pruefen-name-jahr.cjs # Archiv einer Einmal-Analyse vom 03.10.2026, nur in docs/wissen/poc-anisearch-felder.md genannt
 tools/claude-global/hooks/hauptordner-sperre.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
+tools/claude-global/hooks/ort-sperre.js # Claude-Hook-Baustein, von hauptordner-sperre.js eingebunden, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
 tools/claude-global/hooks/pruefrunden.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
 tools/claude-global/hooks/stand-waechter.js # Claude-Hook, wird von tools/claude-global/einrichten.mjs nach ~/.claude kopiert
 tools/cr-vorschlaege-pruefen.mjs # verwaist seit 28.08.2026 (nur Kommentar in pipeline/bau/09-3-prime.ts), Besitzer klären

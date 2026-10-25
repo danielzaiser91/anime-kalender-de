@@ -195,6 +195,10 @@ eigenen Commits nicht enthielt. Ohne diesen Blick wäre die Arbeit eines ganzen
 Abschnitts liegen geblieben — sichtbar erst beim nächsten Datenlauf, der auf
 einem Stand ohne sie gebaut hätte.
 
+## Merge-Konflikt in der News-Historie (25.10.2026)
+
+Die News-Historie ist einzeilig, jeder Bestandsbau ändert sie; ein PR, der sie ergänzt, kollidiert deshalb fast sicher. Bei diesem Konflikt nicht von Hand lösen, sondern `node tools/news-historie-zusammenfuehren.mjs <basis> <pr> <main> <ziel>` aufrufen (Stände per `git show <merge-base>:…`, `HEAD:…`, `origin/main:…`): es überträgt nur die PR-Änderungen auf main, behält das main-Format und bricht bei verschiedenen Änderungen desselben Felds mit Exit 1 ab.
+
 ## Eine Migration wird angewandt **und** gebucht — sonst läuft die Buchführung weg
 
 Bis zum 10.09.2026 führte `wrangler d1 migrations list` elf Migrationen (018

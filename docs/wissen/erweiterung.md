@@ -1764,7 +1764,7 @@ Grenze, gemessen an Dr. Stone: Stone Wars: Ein Titel mit Beleg **von heute** ist
 erneut vorlegbar — Belege tragen nur das Datum, und `checkedAt >= seit` gilt dann schon. Das
 Skript sagt das ausdrücklich.
 
-Seit 20.10.2026 arbeitet das Skript beim Einreichen in einem eigenen Arbeitsbaum `_wt-erneut-melden-<Stempel>` auf `origin/main` (`tools/erneut-melden-worktree.mjs`): Zweig, Commit, Push und PR entstehen dort, der Hauptordner (Hook `hauptordner-sperre.js`) bleibt unberührt, der Arbeitsbaum wird beim Beenden (auch bei Abbruch) abgeräumt. `--ohne-push` und `--pruefen` arbeiten wie bisher im aktuellen Ordner.
+Seit 20.10.2026 arbeitet das Skript beim Einreichen in einem eigenen Arbeitsbaum `C:/code/_worktrees/<repo>/erneut-melden-<Stempel>` auf `origin/main` (`tools/erneut-melden-worktree.mjs`): Zweig, Commit, Push und PR entstehen dort, der Hauptordner (Hook `hauptordner-sperre.js`) bleibt unberührt, der Arbeitsbaum wird beim Beenden (auch bei Abbruch) abgeräumt. `--ohne-push` und `--pruefen` arbeiten wie bisher im aktuellen Ordner.
 
 ## Der Durchgang entscheidet mit der Liste der eigenen Seite (24.09.2026)
 
