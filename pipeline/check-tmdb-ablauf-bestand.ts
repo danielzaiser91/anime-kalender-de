@@ -34,6 +34,8 @@ pruefeDatei('data/cartoons.json', Object.entries(cartoons).map(([id, e]) => [id,
 
 if (zuAlt.length) {
   console.error(`\n${zuAlt.length} TMDB-Einträge älter als ${FRIST_TAGE} Tage:\n${zuAlt.slice(0, 20).join('\n')}`)
+  console.log(`VERSTÖSSE: ${zuAlt.length}`)
   process.exit(1)
 }
 console.log('\nTMDB-Ablauf (Bestand): nichts älter als 180 Tage.')
+console.log('VERSTÖSSE: 0')

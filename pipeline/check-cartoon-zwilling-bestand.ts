@@ -58,4 +58,5 @@ console.log('\nCartoon oder Anime (ausgelieferter Datensatz):')
 }
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
+console.log(`VERSTÖSSE: ${verletzt}`)
 process.exit(verletzt ? 1 : 0)

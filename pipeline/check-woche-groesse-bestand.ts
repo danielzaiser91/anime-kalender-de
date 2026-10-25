@@ -11,5 +11,6 @@ if (import.meta.url === pathToFileURL(process.argv[1]!).href) {
   const { code, text } = bewerteWocheGroesse(pfad)
   if (code) console.error(`check-woche-groesse-bestand: ${text}`)
   else console.log(`check-woche-groesse-bestand: ok – ${text}`)
+  console.log(`VERSTÖSSE: ${code}`)
   process.exit(code)
 }

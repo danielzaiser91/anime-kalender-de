@@ -357,6 +357,8 @@ log('── aniSearch: was die Datenbank kennt und wir nicht ──')
 log('')
 if (!alleSauber) {
   warn('Mindestens eine Quelle widerspricht einer Handprüfung — siehe oben.')
+  console.log('VERSTÖSSE: 1')
   process.exit(1)
 }
 log('✓ Keine Quelle widerspricht einer Handprüfung.')
+console.log('VERSTÖSSE: 0')

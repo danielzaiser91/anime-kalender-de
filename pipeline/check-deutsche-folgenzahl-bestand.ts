@@ -16,6 +16,8 @@ const { fehler, hinweise } = bewerteDeutscheFolgenzahl(ladeErstausgabeVonHand(),
 if (hinweise.length) console.log(bestandWarnzeile('Deutsche Folgenzahl', 'überholt (Synchro vollständig, deFolgen in data/erstausgabe-von-hand.yaml bei Gelegenheit löschen)', hinweise))
 if (fehler.length) {
   console.error(`FEHLER: ${fehler.length} Einträge mit deFolgen in data/erstausgabe-von-hand.yaml ohne Titel oder Folgenzahl im Bestand — beheben:\n${fehler.join('\n')}`)
+  console.log(`VERSTÖSSE: ${fehler.length}`)
   process.exit(1)
 }
 console.log(`Deutsche Folgenzahl gegen den Bestand: ${hinweise.length} überholt (Hinweis), kein Eintrag verwaist.`)
+console.log('VERSTÖSSE: 0')

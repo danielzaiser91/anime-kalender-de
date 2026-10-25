@@ -28,4 +28,5 @@ if (existsSync(datei)) {
 }
 
 console.log(fehler ? `\nHerkunftsland (Bestand): ${fehler} Zusicherung(en) verletzt.` : 'Herkunftsland (Bestand): alle Zusicherungen halten.')
+console.log(`VERSTÖSSE: ${fehler}`)
 process.exit(fehler ? 1 : 0)

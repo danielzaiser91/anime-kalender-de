@@ -35,5 +35,7 @@ console.log(`${mitListe - offen.length} von ${mitListe} Crunchyroll-Zuordnungen 
 for (const o of offen) console.log('  offen:', o)
 if (quote < UNTERGRENZE) {
   console.error(`✖ Weniger als ${UNTERGRENZE * 100} % bestätigt — eine Zuordnung ist vermutlich verrutscht.`)
+  console.log(`VERSTÖSSE: 1`)
   process.exit(1)
 }
+console.log('VERSTÖSSE: 0')

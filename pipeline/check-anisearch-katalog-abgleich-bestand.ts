@@ -45,6 +45,8 @@ pruefe('Katalog: keine Dublette — zu jeder eingehängten Kennung bleibt keine 
 
 if (fehler) {
   console.error(`${fehler} Fehler`)
+  console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
 console.log('check-anisearch-katalog-abgleich-bestand: ok')
+console.log('VERSTÖSSE: 0')

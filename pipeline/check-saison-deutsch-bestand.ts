@@ -36,6 +36,8 @@ for (const [name, saison] of [['Letzte', versetzt(heute, -1)], ['Aktuelle', heut
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) verletzt.`)
+  console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
 console.log('Alle Zusicherungen halten.')
+console.log('VERSTÖSSE: 0')

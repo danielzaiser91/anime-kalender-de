@@ -22,3 +22,4 @@ pruefeInvarianten(heute.eintraege, 'echter Bestand', soll)
 assert.deepEqual(stichprobeDatei('2026-10-11'), heute, 'echter Bestand: deterministisch')
 
 console.log(`cartoon-jw-stichprobe-bestand-pruefen: ok (Pool ${JSON.stringify(adressenJeGruppe(pool))}, Grundmenge ${JSON.stringify(grund)}, Soll ${JSON.stringify(soll)})`)
+console.log('VERSTÖSSE: 0')
