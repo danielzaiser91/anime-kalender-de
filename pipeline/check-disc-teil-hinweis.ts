@@ -107,6 +107,17 @@ const zweiKandidaten = [
 const zweiter = releasesAus([disc(900031, 'Paar Part 2: Blu-ray')], zweiKandidaten, [], '2026-10-25', [])
 pruefe('Treffer an dritter Stelle der Reihe, nicht am ersten', zweiter[0]?.titleId === 900033, zweiter.map((x) => x.titleId))
 
+// Basis mit Reihenkennung ungleich eigener Kennung; „Part 20" darf nicht als „Part 2" zählen.
+const titel3 = [
+  { id: 900040, franchiseId: 900040, titleEn: 'Fern', format: 'TV' },
+  { id: 900041, franchiseId: 900040, titleEn: 'Fern Part 20', format: 'TV' },
+  { id: 900042, franchiseId: 900040, titleEn: 'Fern Part 2', format: 'TV' },
+] as unknown as Eingabe[1]
+const ausBasis = releasesAus([disc(900040, 'Fern Part 2: Blu-ray')], titel3, [], '2026-10-25', [])
+pruefe('Part 2 trifft nicht Part 20', ausBasis[0]?.titleId === 900042, ausBasis.map((x) => x.titleId))
+const ausFolge = releasesAus([disc(900041, 'Fern Part 2: Blu-ray')], titel3, [], '2026-10-25', [])
+pruefe('Reihe wird über die Reihenkennung der Basis gesucht, nicht über deren Kennung', ausFolge[0]?.titleId === 900042, ausFolge.map((x) => x.titleId))
+
 pruefe('Hinweis: zweiten Parts', JSON.stringify(teilHinweis('des zweiten Parts von X')) === '{"art":"part","nummer":2}')
 pruefe('Hinweis: dritter Cour', JSON.stringify(teilHinweis('dritter Cour')) === '{"art":"part","nummer":3}')
 pruefe('Hinweis: 2. Part', JSON.stringify(teilHinweis('X 2. Part')) === '{"art":"part","nummer":2}')
