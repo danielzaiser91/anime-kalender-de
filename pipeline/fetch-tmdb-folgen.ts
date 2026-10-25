@@ -78,6 +78,43 @@ interface Eintrag {
   folgen: Folge[]
 }
 
+/** Holt Serie und alle Staffeln einer TMDB-Kennung (de-DE und en-US) und baut daraus den Bestandseintrag. */
+async function holeEintrag(id: number, apiKey: string): Promise<Eintrag> {
+  const serie = await fetchJson<{ name?: string; seasons?: { season_number: number }[] }>(
+    `${BASE}/tv/${id}?api_key=${apiKey}&language=de-DE`,
+  )
+  /*
+    Staffel 0 ist bei TMDB der Sammelplatz für Specials. Sie gehört dazu —
+    genau dort liegen die Sonderfolgen, die bei Anbietern zwischen den
+    regulären auftauchen und die Zählung verschieben.
+  */
+  const nummern = (serie.seasons ?? []).map((s) => s.season_number).sort((a, b) => a - b)
+  const folgen: Folge[] = []
+
+  for (const s of nummern) {
+    const staffel = await fetchJson<{
+      episodes?: { episode_number: number; name?: string; air_date?: string; runtime?: number }[]
+    }>(`${BASE}/tv/${id}/season/${s}?api_key=${apiKey}&language=de-DE`)
+    const en = await englischeTitel(id, s, apiKey)
+    for (const e of staffel.episodes ?? []) {
+      folgen.push({
+        s, e: e.episode_number, en: en.get(e.episode_number) ?? null,
+        titel: e.name?.trim() || null,
+        datum: e.air_date || null,
+        minuten: Number.isFinite(e.runtime) ? (e.runtime as number) : null,
+      })
+    }
+    await sleep(120)
+  }
+
+  return {
+    tmdbId: id, ...(serie.name ? { nameDe: serie.name } : {}),
+    geholtAm: todayIso(),
+    staffeln: nummern.length,
+    folgen,
+  }
+}
+
 async function main(): Promise<void> {
   loadEnv()
   const apiKey = process.env.TMDB_API_KEY
@@ -113,41 +150,10 @@ async function main(): Promise<void> {
   for (const { t, tmdb } of offen) {
     const id = tmdb!.tmdbId!
     try {
-      const serie = await fetchJson<{ name?: string; seasons?: { season_number: number }[] }>(
-        `${BASE}/tv/${id}?api_key=${apiKey}&language=de-DE`,
-      )
-      /*
-        Staffel 0 ist bei TMDB der Sammelplatz für Specials. Sie gehört dazu —
-        genau dort liegen die Sonderfolgen, die bei Anbietern zwischen den
-        regulären auftauchen und die Zählung verschieben.
-      */
-      const nummern = (serie.seasons ?? []).map((s) => s.season_number).sort((a, b) => a - b)
-      const folgen: Folge[] = []
-
-      for (const s of nummern) {
-        const staffel = await fetchJson<{
-          episodes?: { episode_number: number; name?: string; air_date?: string; runtime?: number }[]
-        }>(`${BASE}/tv/${id}/season/${s}?api_key=${apiKey}&language=de-DE`)
-        const en = await englischeTitel(id, s, apiKey)
-        for (const e of staffel.episodes ?? []) {
-          folgen.push({
-            s, e: e.episode_number, en: en.get(e.episode_number) ?? null,
-            titel: e.name?.trim() || null,
-            datum: e.air_date || null,
-            minuten: Number.isFinite(e.runtime) ? (e.runtime as number) : null,
-          })
-        }
-        await sleep(120)
-      }
-
-      bestand[String(t.id)] = {
-        tmdbId: id, ...(serie.name ? { nameDe: serie.name } : {}),
-        geholtAm: todayIso(),
-        staffeln: nummern.length,
-        folgen,
-      }
+      const eintrag = await holeEintrag(id, apiKey)
+      bestand[String(t.id)] = eintrag
       geholt++
-      folgenGesamt += folgen.length
+      folgenGesamt += eintrag.folgen.length
     } catch (err) {
       // Kein Eintrag bei Fehlschlag: ein dauerhaft scheiternder Lückentitel belegt jede Woche einen Platz im Riegel (docs/wissen/folgentitel-quellen.md).
       warn(`TMDB ${id} (${t.titleRomaji ?? t.id}): ${(err as Error).message}`)
