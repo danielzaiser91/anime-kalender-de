@@ -28,6 +28,7 @@ assert.equal(istPruefskript('tools/a-pruefen.mjs', BIBLIOTHEK), false, 'Biblioth
 assert.equal(istPruefskript('tools/a-pruefen.mjs', LIB_MIT_LAUF), true, 'export mit Top-Level-Lauf ist ein Programm (A5)')
 assert.equal(istPruefskript('tools/a-pruefen.mjs', LIB_START_IM_KOMMENTAR), false, 'Startform nur im Kommentar (A5)')
 assert.equal(istPruefskript('tools/a-pruefen.test.mjs', PROGRAMM), false, 'Test zählt nicht')
+assert.equal(istPruefskript('tools/x-check.d.ts', PROGRAMM), false, 'Typdatei zählt nicht')
 assert.equal(istPruefskript('tools/anzeigen.mjs', PROGRAMM), false, 'Name ohne Prüfwort')
 for (const wort of ['zugangs-waechter', 'x-verify', 'x-audit', 'x-wache', 'x-sperre', 'x-guard', 'x-valid', 'x-lint', 'x-gate', 'x-check', 'x-pruefen']) {
   assert.equal(istPruefskript(`tools/${wort}.mjs`, PROGRAMM), true, `Namenswort ${wort} (A1)`)
@@ -70,6 +71,9 @@ pruefe('A2 Listenzeile mit Zeilenende-Kommentar zählt', { ...S, 'tools/check-lo
 pruefe('A2 description in package.json', { ...S, 'package.json': JSON.stringify({ description: A, scripts: { x: 'echo' } }) }, 1)
 pruefe('A2 YAML-Kommentar im Workflow', { ...S, '.github/workflows/w.yml': `# node ${A}\n${workflow('echo')}` }, 1)
 pruefe('A2 Workflow-Schlüssel außerhalb run', { ...S, '.github/workflows/w.yml': `paths:\n  - ${A}\n${workflow('echo')}` }, 1)
+
+pruefe('A2 name-Zeile im Workflow (kein run)', { ...S, '.github/workflows/w.yml': `name: node ${A}\n${workflow('echo')}` }, 1)
+pruefe('Test, den die Kette startet, ist kein Aufrufer', { ...S, 'package.json': paket('node tools/t.test.mjs'), 'tools/t.test.mjs': `node ${A}` }, 1)
 
 // A3: Waisen rufen nichts auf; Aufrufer müssen selbst erreicht sein.
 pruefe('A3 Zweier-Kreis von Waisen', { 'tools/a-pruefen.mjs': 'node tools/b-pruefen.mjs', 'tools/b-pruefen.mjs': `node ${A}` }, 2)
