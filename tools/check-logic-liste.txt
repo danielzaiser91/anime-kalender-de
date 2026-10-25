@@ -319,6 +319,7 @@ tools/quarantaene-pruefungen.test.ts
 tools/quellen-gesundheit.test.ts
 tools/quittung-nach-commit-waechter.mjs
 tools/sammler-pruefschritt-waechter.mjs
+tools/skript-aufrufer-wache.mjs
 tools/start-pruefung-wacht.mjs
 tools/uhr-in-tests.mjs
 tools/web-hosting.test.ts
