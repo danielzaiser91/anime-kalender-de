@@ -7,7 +7,9 @@
 // Wirksames Verzeichnis: Bash-cwd, `cd`, `git -C`, `--work-tree`. Ein `cd` ohne folgendes `&&` kann scheitern: dann zählen beide
 // Möglichkeiten. Nicht bestimmbare Ziele (`$X`, `~`) fallen auf das Startverzeichnis (cwd) zurück. Klammern halten ihr `cd` im Inneren.
 // „Im Hauptordner“ heißt: erster Vorfahr mit `.git` ist der Hauptordner selbst (eine `.git`-Datei oder ein anderer Treffer = eigener
-// Arbeitsbaum); noch nicht angelegte `HAUPT/_wt-*` und `HAUPT/.claude/worktrees/*` gelten vorab als Worktrees (ein vorhandener Ordner ohne `.git` nicht: Git läuft dort im Hauptordner).
+// Arbeitsbaum); noch nicht angelegte `HAUPT/.claude/worktrees/*` gelten vorab als Worktrees (ein vorhandener Ordner ohne `.git` nicht: Git läuft dort im Hauptordner).
+// Worktrees selbst liegen seit 25.10.2026 unter C:/code/_worktrees/<repo>/<thema>, außerhalb des Hauptordners. Zwei weitere Prüfungen
+// (Ziel von `git worktree add`, Wegwerfdateien per Write in Repo-Wurzeln) stehen in ort-sperre.js und laufen über dieselbe Einbindung.
 // Unbekannte Git-Unterbefehle sind frei: gesperrt wird nur, was Zweig oder Stand schreibt (SCHREIBEND und SONDER).
 // Einbindung ohne Änderung an settings.json: in ~/.claude/hooks/dispatch-pretooluse.js ins Feld PRUEFER eine Zeile
 //   ['hauptordner-sperre.js', (i) => { const g = require(path.join(H, 'hauptordner-sperre.js')).pruefe(i); return g ? { permissionDecision: 'deny', permissionDecisionReason: g } : null }],
@@ -15,6 +17,7 @@
 //   { "matcher": "Bash", "hooks": [{ "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/hauptordner-sperre.js"], "timeout": 10 }] }
 const fs = require('node:fs')
 const path = require('node:path')
+const ORT = require('./ort-sperre.js')
 
 const HAUPT = 'c:/code/ai/anime-kalender-de'
 const SCHREIBEND = new Set(['checkout', 'switch', 'merge', 'rebase', 'commit', 'reset', 'cherry-pick', 'revert', 'restore', 'am', 'push', 'add', 'rm', 'mv', 'clean', 'apply', 'update-ref', 'update-index', 'symbolic-ref', 'read-tree', 'sparse-checkout', 'filter-branch', 'bisect'])
@@ -42,7 +45,7 @@ function inEigenemBaum(p, haupt) {
 
 function imHaupt(p, haupt) {
   if (!p || !(p === haupt || p.startsWith(`${haupt}/`))) return false
-  if (!fs.existsSync(p) && /^(_wt-|\.claude\/worktrees\/)/.test(p.slice(haupt.length + 1))) return false
+  if (!fs.existsSync(p) && /^\.claude\/worktrees\//.test(p.slice(haupt.length + 1))) return false
   return !inEigenemBaum(p, haupt)
 }
 
@@ -217,6 +220,8 @@ function pruefeSegment({ tokens, op }, z, haupt) {
     }
     if (p === 'git' || p === 'git.exe') {
       const { wirksam, unter, args } = liesGit(tokens, i, z)
+      const ortGrund = unter === 'worktree' ? ORT.worktreeZielGrund(args, wirksam, (v, p) => loese(v, mitVariablen(p, z.vars))) : null
+      if (ortGrund) return ortGrund
       const grund = verbotenerUnterbefehl(unter, args)
       return wirksam.some((v) => imHaupt(v, haupt)) ? grund : null
     }
@@ -241,11 +246,13 @@ function pruefeBefehl(befehl, cwd, haupt = HAUPT) {
 }
 
 /** Grund der Verweigerung (Text) oder null — Schnittstelle wie die Module des Verteilers. */
-function pruefe(eingabe) {
+function pruefe(eingabe, existiert) {
+  if (eingabe.tool_name === 'Write') return ORT.schreibGrund(eingabe, existiert)
   if (eingabe.tool_name !== 'Bash') return null
   const grund = pruefeBefehl(String(eingabe.tool_input?.command ?? ''), eingabe.cwd)
   if (!grund) return null
-  return `Hauptordner anime-kalender-de: „${grund}“ gesperrt (dort nur Lesen und git pull --ff-only). Arbeite in einem Worktree: git worktree add C:/code/ai/_wt-<name> -b <zweig> origin/main, danach „cd C:/code/ai/_wt-<name> && …“ mit && (nie mit ;, sonst läuft der Rest im Hauptordner, falls cd scheitert) oder git -C C:/code/ai/_wt-<name> …`
+  if (grund.startsWith('git worktree add außerhalb')) return `„${grund}“ gesperrt. ${ORT.ZIEL_TEXT}`
+  return `Hauptordner anime-kalender-de: „${grund}“ gesperrt (dort nur Lesen und git pull --ff-only). Arbeite in einem Worktree: git worktree add C:/code/_worktrees/anime-kalender-de/<thema> -b <zweig> origin/main, danach „cd C:/code/_worktrees/anime-kalender-de/<thema> && …“ mit && (nie mit ;, sonst läuft der Rest im Hauptordner, falls cd scheitert) oder git -C C:/code/_worktrees/anime-kalender-de/<thema> …`
 }
 
 module.exports = { pruefe, pruefeBefehl, loese }

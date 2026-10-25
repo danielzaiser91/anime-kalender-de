@@ -6,7 +6,7 @@ import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { basename, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { legeWorktreeAn, restzweigHinweis } from './erneut-melden-worktree.mjs'
 
@@ -16,6 +16,8 @@ const ursprung = join(wurzel, 'ursprung.git')
 const haupt = join(wurzel, 'haupt')
 const zweiter = join(wurzel, 'zweiter')
 const persoenlich = ['-c', 'user.name=t', '-c', 'user.email=t@t']
+process.env.AK_WORKTREES = join(wurzel, '_worktrees')
+const wtOrt = (stempel) => join(wurzel, '_worktrees', basename(haupt), `erneut-melden-${stempel}`)
 
 git(wurzel, 'init', '-q', '--bare', '-b', 'main', ursprung)
 git(wurzel, 'clone', '-q', ursprung, haupt)
@@ -33,7 +35,7 @@ git(zweiter, 'add', 'b.txt')
 git(zweiter, ...persoenlich, 'commit', '-q', '-m', 'zwei')
 git(zweiter, 'push', '-q', 'origin', 'HEAD:main')
 
-const stand = () => git(haupt, 'status', '--porcelain').split('\n').filter((z) => z && !z.includes('_wt-') && !z.includes('node_modules'))
+const stand = () => git(haupt, 'status', '--porcelain').split('\n').filter((z) => z && !z.includes('node_modules'))
 const kopf = git(haupt, 'rev-parse', 'HEAD')
 
 const w = legeWorktreeAn(haupt, '20990101000000')
@@ -69,7 +71,7 @@ try {
 } catch (e) {
   assert.equal(e.status, 1)
 }
-assert.ok(!existsSync(join(haupt, '_wt-erneut-melden-20990101000000')), 'nach process.exit aufgeräumt')
+assert.ok(!existsSync(wtOrt('20990101000000')), 'nach process.exit aufgeräumt')
 assert.equal(git(haupt, 'branch', '--list', 'erneut-melden/*'), '', 'Zweig nach process.exit entfernt')
 assert.deepEqual(stand(), [], 'Hauptordner nach Abbruch unverändert')
 
@@ -81,7 +83,7 @@ git(zweiter, ...persoenlich, 'commit', '-q', '-m', 'cache verfolgt')
 git(zweiter, 'push', '-q', 'origin', 'HEAD:main')
 mkdirSync(join(haupt, 'data', 'cache'), { recursive: true })
 assert.throws(() => legeWorktreeAn(haupt, '20990101000001'), /EEXIST/, 'Junction-Fehlschlag wirft weiter')
-assert.ok(!existsSync(join(haupt, '_wt-erneut-melden-20990101000001')), 'Junction-Fehlschlag: Arbeitsbaum entfernt')
+assert.ok(!existsSync(wtOrt('20990101000001')), 'Junction-Fehlschlag: Arbeitsbaum entfernt')
 assert.equal(git(haupt, 'branch', '--list', 'erneut-melden/*'), '', 'Junction-Fehlschlag: Zweig entfernt')
 assert.equal(git(haupt, 'worktree', 'list', '--porcelain').split('\n').filter((z) => z.startsWith('worktree ')).length, 1, 'Junction-Fehlschlag: kein Arbeitsbaum registriert')
 assert.equal(readFileSync(join(haupt, 'node_modules', 'x.txt'), 'utf8'), 'x', 'Junction-Fehlschlag: node_modules des Hauptordners bleibt voll')

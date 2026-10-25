@@ -19,7 +19,7 @@ const SCHON = L.SCHONFRIST_MS
 const JETZT = 1_000_000_000_000
 const PR_SCHON = L.SCHONFRIST_PR_MS
 const ctxBasis = { haupt: 'C:/x/haupt', jetzt: JETZT, prs: [], cacheLeer: () => true, sauber: () => true }
-const wt = (extra = {}) => ({ pfad: 'C:/x/haupt/_wt-a', zweig: 'z', kopf: 'k', existiert: true, juengsteAenderungMs: JETZT - SCHON - 1, kopfZeitMs: JETZT - PR_SCHON - 1, ...extra })
+const wt = (extra = {}) => ({ pfad: 'C:/x/_worktrees/haupt/a', zweig: 'z', kopf: 'k', existiert: true, juengsteAenderungMs: JETZT - SCHON - 1, kopfZeitMs: JETZT - PR_SCHON - 1, ...extra })
 const e = (w, c = {}) => L.entscheide(w, { ...ctxBasis, ...c })
 const iso = (ms) => new Date(ms).toISOString()
 // Dateizeiten und Sperren des Dateisystems sind echte Zeit, die Entscheidungslogik oben läuft mit fester JETZT.
@@ -63,8 +63,9 @@ assert.equal(e(wt({ kopfZeitMs: undefined }), mit(pr('MERGED'))).grund, 'kopf-na
 assert.equal(e(wt({ kopfZeitMs: Infinity }), mit(pr('MERGED'))).grund, 'kopf-nach-abschluss', 'unlesbare HEAD-Zeit bleibt')
 assert.equal(e(wt({ pfad: 'C:/x/haupt' }), mit(pr('MERGED'))).grund, 'haupt', 'Hauptordner nie')
 assert.equal(e(wt({ pfad: 'C:\\X\\Haupt\\' }), mit(pr('MERGED'))).grund, 'haupt', 'Schreibweise egal')
-assert.equal(e(wt({ pfad: 'C:/x/haupt/anderer' }), mit(pr('MERGED'))).grund, 'fremd', 'nur _wt-Ordner')
-assert.equal(e(wt({ pfad: 'C:/x/haupt/x_wt-a' }), mit(pr('MERGED'))).grund, 'fremd')
+for (const fremd of ['C:/x/haupt/anderer', 'C:/x/haupt/_wt-a', 'C:/x/_worktrees/haupt', 'C:/x/_worktrees/haupt/a/b', 'C:/x/_worktrees2/haupt/a', 'C:/x/mein_worktrees/haupt/a', 'C:/x/haupt/_worktrees/a']) {
+  assert.equal(e(wt({ pfad: fremd }), mit(pr('MERGED'))).grund, 'fremd', `nur _worktrees/<repo>/<thema>: ${fremd}`)
+}
 assert.deepEqual(e(wt({ existiert: false })), { aktion: 'prune', grund: 'ordner-fehlt' })
 assert.equal(e(wt({ juengsteAenderungMs: JETZT - SCHON + 1 }), mit(pr('MERGED'))).grund, 'jung', 'eine Millisekunde unter 2 h')
 assert.equal(e(wt({ juengsteAenderungMs: JETZT - SCHON }), mit(pr('MERGED'))).aktion, 'weg', 'genau 2 h')
@@ -126,6 +127,8 @@ const env = { ...process.env, GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t', GIT
 const g = (cwd, ...a) => execFileSync('git', a, { cwd, env, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true }).trim()
 const origin = join(wurzel, 'origin.git')
 const haupt = join(wurzel, 'haupt').replace(/\\/g, '/')
+const wtDir = join(wurzel, '_worktrees', 'haupt').replace(/\\/g, '/')
+process.env.WT_WURZEL = join(wurzel, '_worktrees')
 const fremdNm = join(wurzel, 'echtes-node-modules')
 const fremdCache = join(wurzel, 'echter-cache')
 
@@ -140,16 +143,17 @@ try {
   g(haupt, 'commit', '-m', 'c1')
   g(haupt, 'push', 'origin', 'HEAD:main')
   const c1 = g(haupt, 'rev-parse', 'HEAD')
+  mkdirSync(wtDir, { recursive: true })
 
   // HEAD-Zeit des Worktrees setzen (Reflog-Datei im Verwaltungsordner); ohne Angabe 30 h zurück, also vor jedem Abschluss dieser Tests.
   const kopfDatei = (name) => join(haupt, '.git', 'worktrees', name, 'logs', 'HEAD')
   const setzeKopfZeit = (name, vorH = 30) => utimesSync(kopfDatei(name), new Date(uhr() - vorH * 3600_000), new Date(uhr() - vorH * 3600_000))
   const neu = (name, zweig, mitCommit = false) => {
-    g(haupt, 'worktree', 'add', '-b', zweig, join(haupt, name), c1)
+    g(haupt, 'worktree', 'add', '-b', zweig, join(wtDir, name), c1)
     if (mitCommit) {
-      writeFileSync(join(haupt, name, 'neu.txt'), zweig)
-      g(join(haupt, name), 'add', 'neu.txt')
-      g(join(haupt, name), 'commit', '-m', zweig)
+      writeFileSync(join(wtDir, name, 'neu.txt'), zweig)
+      g(join(wtDir, name), 'add', 'neu.txt')
+      g(join(wtDir, name), 'commit', '-m', zweig)
     }
     setzeKopfZeit(name)
   }
@@ -163,8 +167,8 @@ try {
   neu('_wt-untracked', 'b-untracked', true)
   neu('_wt-junction', 'b-junction', true)
   neu('_wt-weg-ordner', 'b-weg-ordner')
-  writeFileSync(join(haupt, '_wt-dirty', 'data', 'a.txt'), 'geändert\n')
-  writeFileSync(join(haupt, '_wt-untracked', 'agent-notiz.txt'), 'wichtig\n')
+  writeFileSync(join(wtDir, '_wt-dirty', 'data', 'a.txt'), 'geändert\n')
+  writeFileSync(join(wtDir, '_wt-untracked', 'agent-notiz.txt'), 'wichtig\n')
   mkdirSync(fremdNm)
   writeFileSync(join(fremdNm, 'paket.txt'), 'p')
   mkdirSync(fremdCache)
@@ -173,37 +177,37 @@ try {
   mkdirSync(join(haupt, 'data', 'cache'), { recursive: true })
   writeFileSync(join(haupt, 'data', 'cache', 'haupt.json'), '{}')
   writeFileSync(join(fremdCache, 'roh.json'), '{}')
-  symlinkSync(fremdNm, join(haupt, '_wt-junction', 'node_modules'), 'junction')
-  symlinkSync(fremdCache, join(haupt, '_wt-junction', 'data', 'cache'), 'junction')
+  symlinkSync(fremdNm, join(wtDir, '_wt-junction', 'node_modules'), 'junction')
+  symlinkSync(fremdCache, join(wtDir, '_wt-junction', 'data', 'cache'), 'junction')
   // A5: Prüfer-Worktree losgelöst auf dem Kopf eines gemergten PR; A2: Zweig des gemergten PR mit späterer Arbeit; A4: echter Cache; A3: Junction unter worker/.
-  const oidGemergt = g(join(haupt, '_wt-gemergt'), 'rev-parse', 'HEAD')
-  g(haupt, 'worktree', 'add', '--detach', join(haupt, '_wt-pruefer'), oidGemergt)
+  const oidGemergt = g(join(wtDir, '_wt-gemergt'), 'rev-parse', 'HEAD')
+  g(haupt, 'worktree', 'add', '--detach', join(wtDir, '_wt-pruefer'), oidGemergt)
   setzeKopfZeit('_wt-pruefer')
   neu('_wt-wieder', 'b-wieder', true)
-  const oidWieder = g(join(haupt, '_wt-wieder'), 'rev-parse', 'HEAD')
-  writeFileSync(join(haupt, '_wt-wieder', 'spaeter.txt'), 'neue Arbeit')
-  g(join(haupt, '_wt-wieder'), 'add', 'spaeter.txt')
-  g(join(haupt, '_wt-wieder'), 'commit', '-m', 'spaeter')
+  const oidWieder = g(join(wtDir, '_wt-wieder'), 'rev-parse', 'HEAD')
+  writeFileSync(join(wtDir, '_wt-wieder', 'spaeter.txt'), 'neue Arbeit')
+  g(join(wtDir, '_wt-wieder'), 'add', 'spaeter.txt')
+  g(join(wtDir, '_wt-wieder'), 'commit', '-m', 'spaeter')
   neu('_wt-cache', 'b-cache', true)
-  mkdirSync(join(haupt, '_wt-cache', 'data', 'cache'))
-  writeFileSync(join(haupt, '_wt-cache', 'data', 'cache', 'x.json'), '{"lokal":1}')
+  mkdirSync(join(wtDir, '_wt-cache', 'data', 'cache'))
+  writeFileSync(join(wtDir, '_wt-cache', 'data', 'cache', 'x.json'), '{"lokal":1}')
   neu('_wt-worker', 'b-worker', true)
-  mkdirSync(join(haupt, '_wt-worker', 'worker'))
-  symlinkSync(fremdNm, join(haupt, '_wt-worker', 'worker', 'node_modules'), 'junction')
-  rmSync(join(haupt, '_wt-weg-ordner'), { recursive: true })
+  mkdirSync(join(wtDir, '_wt-worker', 'worker'))
+  symlinkSync(fremdNm, join(wtDir, '_wt-worker', 'worker', 'node_modules'), 'junction')
+  rmSync(join(wtDir, '_wt-weg-ordner'), { recursive: true })
   // lose Ordner
-  mkdirSync(join(haupt, '_wt-lose-leer'))
-  mkdirSync(join(haupt, '_wt-lose-junction'))
-  symlinkSync(fremdNm, join(haupt, '_wt-lose-junction', 'node_modules'), 'junction')
-  mkdirSync(join(haupt, '_wt-lose-inhalt'))
-  writeFileSync(join(haupt, '_wt-lose-inhalt', 'x.txt'), 'x')
-  mkdirSync(join(haupt, '_wt-lose-inhalt-und-junction'))
-  symlinkSync(fremdNm, join(haupt, '_wt-lose-inhalt-und-junction', 'node_modules'), 'junction')
-  writeFileSync(join(haupt, '_wt-lose-inhalt-und-junction', 'x.txt'), 'x')
+  mkdirSync(join(wtDir, '_wt-lose-leer'))
+  mkdirSync(join(wtDir, '_wt-lose-junction'))
+  symlinkSync(fremdNm, join(wtDir, '_wt-lose-junction', 'node_modules'), 'junction')
+  mkdirSync(join(wtDir, '_wt-lose-inhalt'))
+  writeFileSync(join(wtDir, '_wt-lose-inhalt', 'x.txt'), 'x')
+  mkdirSync(join(wtDir, '_wt-lose-inhalt-und-junction'))
+  symlinkSync(fremdNm, join(wtDir, '_wt-lose-inhalt-und-junction', 'node_modules'), 'junction')
+  writeFileSync(join(wtDir, '_wt-lose-inhalt-und-junction', 'x.txt'), 'x')
 
   // Abschluss vor 22 h: nach „jetzt + 3 h“ sind es 25 h (über der Schonfrist), mit echter Uhr 22 h (darunter).
   const vor22h = new Date(uhr() - 22 * 3600_000).toISOString()
-  const oid = (name) => g(join(haupt, name), 'rev-parse', 'HEAD')
+  const oid = (name) => g(join(wtDir, name), 'rev-parse', 'HEAD')
   const erledigt = (zweig, name, state = 'MERGED', kopf = oid(name)) => ({ headRefName: zweig, headRefOid: kopf, state, mergedAt: state === 'MERGED' ? vor22h : null, closedAt: state === 'CLOSED' ? vor22h : null })
   const prs = [
     erledigt('b-gemergt', '_wt-gemergt'),
@@ -229,7 +233,7 @@ try {
   // Liste ändert nichts.
   const liste = H.abbau(haupt, welt, false)
   assert.equal(entfernt.length, 0)
-  assert.equal(existsSync(join(haupt, '_wt-gemergt')), true)
+  assert.equal(existsSync(join(wtDir, '_wt-gemergt')), true)
   const erwartet = {
     '_wt-gemergt': ['weg', 'pr-merged'],
     '_wt-geschlossen': ['weg', 'pr-closed'],
@@ -257,70 +261,70 @@ try {
   assert.equal(frisch.entfernt, 0, 'alles unter 2 h bleibt')
   assert.equal(grund(frisch, '_wt-gemergt').grund, 'jung')
   assert.equal(lose(frisch, '_wt-lose-leer').grund, 'jung')
-  assert.equal(existsSync(join(haupt, '_wt-lose-leer')), true)
+  assert.equal(existsSync(join(wtDir, '_wt-lose-leer')), true)
 
   // Abbau.
   jetzt = uhr() + 3 * 3600_000
   const b = H.abbau(haupt, welt, true)
   assert.deepEqual(b.fehler, [])
   assert.deepEqual(entfernt.map((p) => p.replace(/^.*\/(_wt-[^/]+)$/, '$1')).sort(), ['_wt-geschlossen', '_wt-gemergt', '_wt-pruefer', '_wt-worker', '_wt-junction'].sort())
-  for (const weg of ['_wt-gemergt', '_wt-geschlossen', '_wt-pruefer', '_wt-worker', '_wt-junction', '_wt-lose-leer', '_wt-lose-junction']) assert.equal(existsSync(join(haupt, weg)), false, `${weg} weg`)
-  for (const bleibt of ['_wt-inmain', '_wt-wieder', '_wt-cache', '_wt-offen', '_wt-offen-inmain', '_wt-ohnepr', '_wt-dirty', '_wt-untracked', '_wt-lose-inhalt', '_wt-lose-inhalt-und-junction']) assert.equal(existsSync(join(haupt, bleibt)), true, `${bleibt} bleibt`)
-  assert.equal(readFileSync(join(haupt, '_wt-untracked', 'agent-notiz.txt'), 'utf8'), 'wichtig\n')
-  assert.equal(readFileSync(join(haupt, '_wt-dirty', 'data', 'a.txt'), 'utf8'), 'geändert\n')
-  assert.equal(readFileSync(join(haupt, '_wt-cache', 'data', 'cache', 'x.json'), 'utf8'), '{"lokal":1}', 'echter Cache bleibt')
-  assert.equal(existsSync(join(haupt, '_wt-wieder', 'spaeter.txt')), true, 'Zweig mit Arbeit nach dem Merge bleibt')
+  for (const weg of ['_wt-gemergt', '_wt-geschlossen', '_wt-pruefer', '_wt-worker', '_wt-junction', '_wt-lose-leer', '_wt-lose-junction']) assert.equal(existsSync(join(wtDir, weg)), false, `${weg} weg`)
+  for (const bleibt of ['_wt-inmain', '_wt-wieder', '_wt-cache', '_wt-offen', '_wt-offen-inmain', '_wt-ohnepr', '_wt-dirty', '_wt-untracked', '_wt-lose-inhalt', '_wt-lose-inhalt-und-junction']) assert.equal(existsSync(join(wtDir, bleibt)), true, `${bleibt} bleibt`)
+  assert.equal(readFileSync(join(wtDir, '_wt-untracked', 'agent-notiz.txt'), 'utf8'), 'wichtig\n')
+  assert.equal(readFileSync(join(wtDir, '_wt-dirty', 'data', 'a.txt'), 'utf8'), 'geändert\n')
+  assert.equal(readFileSync(join(wtDir, '_wt-cache', 'data', 'cache', 'x.json'), 'utf8'), '{"lokal":1}', 'echter Cache bleibt')
+  assert.equal(existsSync(join(wtDir, '_wt-wieder', 'spaeter.txt')), true, 'Zweig mit Arbeit nach dem Merge bleibt')
   assert.equal(readFileSync(join(fremdNm, 'paket.txt'), 'utf8'), 'p', 'worker/node_modules: Ziel unberührt')
   assert.equal(readFileSync(join(fremdNm, 'paket.txt'), 'utf8'), 'p', 'node_modules des Hauptordners unberührt (Junction nie rekursiv)')
   assert.equal(readFileSync(join(fremdCache, 'roh.json'), 'utf8'), '{}', 'data/cache unberührt')
   assert.ok(existsSync(join(haupt, '.git')) && existsSync(join(haupt, 'data', 'a.txt')), 'Hauptordner unberührt')
-  assert.equal(readFileSync(join(haupt, '_wt-lose-inhalt', 'x.txt'), 'utf8'), 'x')
-  assert.ok(existsSync(join(haupt, '_wt-lose-inhalt-und-junction', 'node_modules')), 'Junction im Ordner mit Inhalt bleibt')
+  assert.equal(readFileSync(join(wtDir, '_wt-lose-inhalt', 'x.txt'), 'utf8'), 'x')
+  assert.ok(existsSync(join(wtDir, '_wt-lose-inhalt-und-junction', 'node_modules')), 'Junction im Ordner mit Inhalt bleibt')
   const zweige = g(haupt, 'branch', '--list').split('\n').map((z) => z.replace(/^[*+]?\s+/, ''))
   for (const z of ['b-gemergt', 'b-geschlossen', 'b-inmain', 'b-wieder', 'b-cache', 'b-worker', 'b-junction', 'b-weg-ordner', 'b-offen', 'b-dirty']) assert.ok(zweige.includes(z), `Zweig ${z} bleibt`)
   assert.equal(g(haupt, 'worktree', 'list').includes('_wt-weg-ordner'), false, 'prune räumt die Registrierung')
 
   // Eine Verknüpfung, die sich nicht lösen lässt, hält den Worktree zurück.
   neu('_wt-haengt', 'b-haengt', true)
-  symlinkSync(fremdNm, join(haupt, '_wt-haengt', 'node_modules'), 'junction')
+  symlinkSync(fremdNm, join(wtDir, '_wt-haengt', 'node_modules'), 'junction')
   prs.push(erledigt('b-haengt', '_wt-haengt'))
   prs.push({ headRefName: 'b-haengt', state: 'MERGED' })
   const haengt = H.abbau(haupt, { ...welt, loese: () => false }, true)
   assert.equal(grund(haengt, '_wt-haengt').aktion, 'weg')
   assert.equal(haengt.fehler.filter((f) => f.includes('_wt-haengt')).length, 1)
-  assert.equal(existsSync(join(haupt, '_wt-haengt')), true, 'Worktree mit hängender Verknüpfung bleibt')
+  assert.equal(existsSync(join(wtDir, '_wt-haengt')), true, 'Worktree mit hängender Verknüpfung bleibt')
   assert.equal(entfernt.some((p) => p.endsWith('_wt-haengt')), false)
-  assert.equal(H.verknuepfungen(join(haupt, '_wt-haengt')).length, 1)
-  assert.equal(H.loeseVerknuepfungen(join(haupt, '_wt-haengt')), true)
-  assert.equal(H.verknuepfungen(join(haupt, '_wt-haengt')).length, 0)
+  assert.equal(H.verknuepfungen(join(wtDir, '_wt-haengt')).length, 1)
+  assert.equal(H.loeseVerknuepfungen(join(wtDir, '_wt-haengt')), true)
+  assert.equal(H.verknuepfungen(join(wtDir, '_wt-haengt')).length, 0)
   assert.equal(readFileSync(join(fremdNm, 'paket.txt'), 'utf8'), 'p')
 
   // Bleibt nach `entferne` ein Rest (z. B. nicht gelöste Verknüpfung in der Tiefe), zählt der Worktree nicht als entfernt.
   neu('_wt-rest', 'b-rest', true)
   prs.push(erledigt('b-rest', '_wt-rest'))
   const rest = H.abbau(haupt, { ...welt, entferne: (p) => (p.includes('_wt-rest') ? undefined : welt.entferne(p)) }, true)
-  assert.equal(existsSync(join(haupt, '_wt-rest')), true)
+  assert.equal(existsSync(join(wtDir, '_wt-rest')), true)
   assert.equal(rest.fehler.filter((f) => f.startsWith('Rest bleibt') && f.includes('_wt-rest')).length, 1)
   // Zwischen Planung und Entfernen geändert: nichts wird gelöst oder entfernt.
   let status = 0
   const spaeter = H.abbau(haupt, { ...welt, sauber: (p) => (p.includes('_wt-rest') ? ++status === 1 : welt.sauber(p)) }, true)
   assert.equal(spaeter.fehler.filter((f) => f.startsWith('Geändert nach der Prüfung') && f.includes('_wt-rest')).length, 1)
-  assert.equal(existsSync(join(haupt, '_wt-rest')), true)
+  assert.equal(existsSync(join(wtDir, '_wt-rest')), true)
   // Nicht-leerer loser Ordner und zwischenzeitlich verändertes Worktree: nichts wird erzwungen.
-  const nichtLeer = { worktrees: [], lose: [{ pfad: join(haupt, '_wt-lose-inhalt'), aktion: 'weg' }], fehler: [], entfernt: 0 }
+  const nichtLeer = { worktrees: [], lose: [{ pfad: join(wtDir, '_wt-lose-inhalt'), aktion: 'weg' }], fehler: [], entfernt: 0 }
   H.vollziehe(haupt, welt, nichtLeer)
   assert.equal(nichtLeer.fehler.length, 1)
-  assert.equal(readFileSync(join(haupt, '_wt-lose-inhalt', 'x.txt'), 'utf8'), 'x', 'rmdir, nie rekursiv')
+  assert.equal(readFileSync(join(wtDir, '_wt-lose-inhalt', 'x.txt'), 'utf8'), 'x', 'rmdir, nie rekursiv')
   const beiRennen = H.abbau(haupt, { ...welt, sauber: () => true }, true)
   assert.equal(beiRennen.fehler.filter((f) => f.includes('_wt-dirty') || f.includes('_wt-untracked')).length, 2, 'ohne --force: Entfernen scheitert')
-  assert.equal(readFileSync(join(haupt, '_wt-untracked', 'agent-notiz.txt'), 'utf8'), 'wichtig\n')
-  assert.equal(readFileSync(join(haupt, '_wt-dirty', 'data', 'a.txt'), 'utf8'), 'geändert\n')
+  assert.equal(readFileSync(join(wtDir, '_wt-untracked', 'agent-notiz.txt'), 'utf8'), 'wichtig\n')
+  assert.equal(readFileSync(join(wtDir, '_wt-dirty', 'data', 'a.txt'), 'utf8'), 'geändert\n')
 
   // A6: erst nach dem Merge auf den PR-Kopf gesetzte Worktrees (neuer Zweig, losgelöste Nachprüfung, alter Zweig wieder ausgecheckt) bleiben.
   prs.push(erledigt('b-gemergt', '_wt-pruefer', 'MERGED', oidGemergt))
-  g(haupt, 'worktree', 'add', '-b', 'neue-arbeit', join(haupt, '_wt-a6-zweig'), oidGemergt)
-  g(haupt, 'worktree', 'add', '--detach', join(haupt, '_wt-a6-nachpruefung'), oidGemergt)
-  g(haupt, 'worktree', 'add', join(haupt, '_wt-a6-alt'), 'b-gemergt')
+  g(haupt, 'worktree', 'add', '-b', 'neue-arbeit', join(wtDir, '_wt-a6-zweig'), oidGemergt)
+  g(haupt, 'worktree', 'add', '--detach', join(wtDir, '_wt-a6-nachpruefung'), oidGemergt)
+  g(haupt, 'worktree', 'add', join(wtDir, '_wt-a6-alt'), 'b-gemergt')
   const a6 = ['_wt-a6-zweig', '_wt-a6-nachpruefung', '_wt-a6-alt']
   const a6Liste = H.abbau(haupt, welt, false)
   for (const n of a6) assert.deepEqual([grund(a6Liste, n).aktion, grund(a6Liste, n).grund], ['behalten', 'kopf-nach-abschluss'], n)
@@ -330,7 +334,7 @@ try {
   for (const n of a6) assert.deepEqual([grund(a6Alt, n).aktion, grund(a6Alt, n).grund], ['weg', 'pr-merged'], `${n} mit altem HEAD`)
   for (const n of a6) setzeKopfZeit(n, 0)
   const a6Los = H.abbau(haupt, welt, true)
-  for (const n of a6) assert.equal(existsSync(join(haupt, n, '.git')), true, `${n} nach dem Abbau noch da`)
+  for (const n of a6) assert.equal(existsSync(join(wtDir, n, '.git')), true, `${n} nach dem Abbau noch da`)
   assert.equal(a6Los.fehler.filter((f) => a6.some((n) => f.includes(n))).length, 0)
 
   // A7: Ordner in Benutzung (EBUSY/EPERM beim Umbenennen) → nichts gelöst, nichts entfernt, nur gemeldet.
@@ -347,23 +351,23 @@ try {
   zaehler = 0
   assert.equal(H.ordnerFrei(join(wurzel, 'x'), () => { if (++zaehler === 2) ebusy() }, () => {}), true, 'zweiter Rückversuch gelingt')
   neu('_wt-benutzt', 'b-benutzt', true)
-  symlinkSync(fremdNm, join(haupt, '_wt-benutzt', 'node_modules'), 'junction')
+  symlinkSync(fremdNm, join(wtDir, '_wt-benutzt', 'node_modules'), 'junction')
   prs.push(erledigt('b-benutzt', '_wt-benutzt'))
   const belegt = H.abbau(haupt, { ...welt, frei: (p) => H.ordnerFrei(p, ebusy) }, true)
   assert.equal(belegt.fehler.filter((f) => f.startsWith('In Benutzung') && f.includes('_wt-benutzt')).length, 1)
-  assert.equal(existsSync(join(haupt, '_wt-benutzt', 'neu.txt')), true, 'Dateien bleiben')
-  assert.equal(H.verknuepfungen(join(haupt, '_wt-benutzt')).length, 1, 'Verknüpfung bleibt')
+  assert.equal(existsSync(join(wtDir, '_wt-benutzt', 'neu.txt')), true, 'Dateien bleiben')
+  assert.equal(H.verknuepfungen(join(wtDir, '_wt-benutzt')).length, 1, 'Verknüpfung bleibt')
   assert.equal(entfernt.some((p) => p.endsWith('_wt-benutzt')), false, 'git worktree remove nicht aufgerufen')
   assert.ok(g(haupt, 'worktree', 'list').includes('_wt-benutzt'), 'Registrierung bleibt')
   if (process.platform === 'win32') {
     // Nur unter win32 beweisbar: Linux/macOS benennen einen Ordner mit fremdem cwd ohne Fehler um, ein Gegenstück gibt es dort nicht.
     // Windows: echter Kindprozess mit cwd im Worktree hält den Ordner; die Standardprobe (fs.renameSync) muss das sehen. Auf Linux belegt nur A7 oben (ebusy-Attrappe) den Ablauf.
-    const kind = spawn(process.execPath, ['-e', 'setInterval(() => {}, 1000)'], { cwd: join(haupt, '_wt-benutzt'), stdio: 'ignore', windowsHide: true })
+    const kind = spawn(process.execPath, ['-e', 'setInterval(() => {}, 1000)'], { cwd: join(wtDir, '_wt-benutzt'), stdio: 'ignore', windowsHide: true })
     try {
       await new Promise((ok) => setTimeout(ok, 1500))
       const mitKind = H.abbau(haupt, welt, true)
       assert.equal(mitKind.fehler.filter((f) => f.startsWith('In Benutzung') && f.includes('_wt-benutzt')).length, 1, 'cwd im Worktree: in Benutzung')
-      assert.equal(existsSync(join(haupt, '_wt-benutzt', 'neu.txt')), true)
+      assert.equal(existsSync(join(wtDir, '_wt-benutzt', 'neu.txt')), true)
       assert.ok(g(haupt, 'worktree', 'list').includes('_wt-benutzt'))
     } finally {
       kind.kill()
@@ -371,7 +375,7 @@ try {
     }
   }
   const frei = H.abbau(haupt, welt, true)
-  assert.equal(existsSync(join(haupt, '_wt-benutzt')), false, 'ohne Benutzung wird abgebaut')
+  assert.equal(existsSync(join(wtDir, '_wt-benutzt')), false, 'ohne Benutzung wird abgebaut')
   assert.deepEqual(frei.fehler.filter((f) => f.includes('_wt-benutzt')), [])
   assert.equal(readFileSync(join(fremdNm, 'paket.txt'), 'utf8'), 'p')
 
@@ -383,22 +387,22 @@ try {
   assert.equal(rueck.fehler.filter((f) => f.startsWith('Zurückbenennen scheitert') && f.includes('_wt-rueck')).length, 1, 'Fehler laut')
   assert.ok(rueck.fehler.some((f) => f.startsWith('prune übersprungen')), 'prune ausgesetzt, gemeldet')
   assert.ok(g(haupt, 'worktree', 'list').includes('_wt-rueck'), 'Registrierung bleibt')
-  assert.equal(existsSync(join(haupt, '_wt-rueck-p', 'neu.txt')), true, 'Dateien liegen als -p')
+  assert.equal(existsSync(join(wtDir, '_wt-rueck-p', 'neu.txt')), true, 'Dateien liegen als -p')
   // Eigener Vollzug mit Attrappen: ohne Fehler beim Zurückbenennen läuft prune weiter (Gegenprobe zum Aussetzen).
   const pruneSpur = { worktrees: [], lose: [], fehler: [], entfernt: 0 }
   H.vollziehe(haupt, welt, pruneSpur)
   assert.equal(pruneSpur.fehler.length, 0, 'ohne Rückbenennfehler: prune läuft')
   // Der nächste Lauf: -p wird zurückbenannt (und der gemergte Worktree dann regulär abgebaut).
-  assert.deepEqual(H.heileProbeOrdner([{ pfad: join(haupt, '_wt-rueck') }], { fehler: [] }, renameSync).map((p) => basename(p)), ['_wt-rueck'])
-  assert.equal(existsSync(join(haupt, '_wt-rueck', 'neu.txt')), true, 'wieder unter dem Namen')
+  assert.deepEqual(H.heileProbeOrdner([{ pfad: join(wtDir, '_wt-rueck') }], { fehler: [] }, renameSync).map((p) => basename(p)), ['_wt-rueck'])
+  assert.equal(existsSync(join(wtDir, '_wt-rueck', 'neu.txt')), true, 'wieder unter dem Namen')
   neu('_wt-rueck2', 'b-rueck2', true)
   prs.push(erledigt('b-rueck2', '_wt-rueck2'))
-  renameSync(join(haupt, '_wt-rueck2'), join(haupt, '_wt-rueck2-p'))
-  for (const n of ['_wt-ohne-registrierung-p', '_wt-beides', '_wt-beides-p']) { mkdirSync(join(haupt, n)); writeFileSync(join(haupt, n, 'x.txt'), 'x') }
+  renameSync(join(wtDir, '_wt-rueck2'), join(wtDir, '_wt-rueck2-p'))
+  for (const n of ['_wt-ohne-registrierung-p', '_wt-beides', '_wt-beides-p']) { mkdirSync(join(wtDir, n)); writeFileSync(join(wtDir, n, 'x.txt'), 'x') }
   const heilLauf = H.abbau(haupt, welt, true)
-  assert.equal(existsSync(join(haupt, '_wt-rueck2-p')), false, 'Lauf heilt liegengebliebenes -p')
-  assert.equal(existsSync(join(haupt, '_wt-ohne-registrierung-p')), true, 'ohne Registrierung bleibt es')
-  assert.equal(existsSync(join(haupt, '_wt-beides-p')), true, 'ist der Zielname belegt, bleibt es')
+  assert.equal(existsSync(join(wtDir, '_wt-rueck2-p')), false, 'Lauf heilt liegengebliebenes -p')
+  assert.equal(existsSync(join(wtDir, '_wt-ohne-registrierung-p')), true, 'ohne Registrierung bleibt es')
+  assert.equal(existsSync(join(wtDir, '_wt-beides-p')), true, 'ist der Zielname belegt, bleibt es')
   assert.deepEqual(heilLauf.fehler.filter((f) => f.includes('_wt-rueck2')), [])
   // A1 R5: Worktree neben haupt (21 von 70 echten liegen unter C:/code/ai/) liegt als -p → der Lauf benennt ihn zurück, die Registrierung bleibt.
   const aussen = join(wurzel, '_wt-aussen')
@@ -433,27 +437,27 @@ try {
   const versucht = []
   H.heileProbeOrdner([{ pfad: join(stray, '_wt-b') }], strayBericht, (von) => versucht.push(von))
   assert.deepEqual(versucht, [], 'Zielname belegt: nicht einmal versucht')
-  rmSync(join(haupt, '_wt-ohne-registrierung-p'), { recursive: true })
-  rmSync(join(haupt, '_wt-beides'), { recursive: true })
-  rmSync(join(haupt, '_wt-beides-p'), { recursive: true })
+  rmSync(join(wtDir, '_wt-ohne-registrierung-p'), { recursive: true })
+  rmSync(join(wtDir, '_wt-beides'), { recursive: true })
+  rmSync(join(wtDir, '_wt-beides-p'), { recursive: true })
 
   // Lose Reste aus Verknüpfungen einen Ordner tief (data/cache) gehen weg, echter Cache im selben Aufbau nicht; die Wächterzeile zählt sie mit.
   const vorher = H.zaehleWt(haupt)
-  mkdirSync(join(haupt, '_wt-lose-datacache', 'data'), { recursive: true })
-  symlinkSync(fremdCache, join(haupt, '_wt-lose-datacache', 'data', 'cache'), 'junction')
-  symlinkSync(fremdNm, join(haupt, '_wt-lose-datacache', 'node_modules'), 'junction')
-  mkdirSync(join(haupt, '_wt-lose-echtcache', 'data', 'cache'), { recursive: true })
-  writeFileSync(join(haupt, '_wt-lose-echtcache', 'data', 'cache', 'k.json'), '{}')
+  mkdirSync(join(wtDir, '_wt-lose-datacache', 'data'), { recursive: true })
+  symlinkSync(fremdCache, join(wtDir, '_wt-lose-datacache', 'data', 'cache'), 'junction')
+  symlinkSync(fremdNm, join(wtDir, '_wt-lose-datacache', 'node_modules'), 'junction')
+  mkdirSync(join(wtDir, '_wt-lose-echtcache', 'data', 'cache'), { recursive: true })
+  writeFileSync(join(wtDir, '_wt-lose-echtcache', 'data', 'cache', 'k.json'), '{}')
   assert.equal(H.zaehleWt(haupt), vorher + 2, 'lose Ordner zählen mit')
   const loseListe = H.abbau(haupt, { ...welt, jetzt: () => uhr() + 3 * 3600_000 }, true)
-  assert.equal(existsSync(join(haupt, '_wt-lose-datacache')), false, 'Reste weg')
+  assert.equal(existsSync(join(wtDir, '_wt-lose-datacache')), false, 'Reste weg')
   assert.equal(readFileSync(join(fremdCache, 'roh.json'), 'utf8'), '{}', 'Ziel der Junction unberührt')
   assert.equal(readFileSync(join(fremdNm, 'paket.txt'), 'utf8'), 'p')
-  assert.equal(readFileSync(join(haupt, '_wt-lose-echtcache', 'data', 'cache', 'k.json'), 'utf8'), '{}', 'echter Cache bleibt')
+  assert.equal(readFileSync(join(wtDir, '_wt-lose-echtcache', 'data', 'cache', 'k.json'), 'utf8'), '{}', 'echter Cache bleibt')
   assert.equal(lose(loseListe, '_wt-lose-echtcache').grund, 'inhalt')
 
-  // Verwaiste Ordner NEBEN dem Hauptordner (wie C:/code/ai/_wt-*): nur Verknüpfungen (jeder Name) und leere Ordner gehen weg, alles andere bleibt.
-  const nachbar = (...teile) => join(wurzel, ...teile)
+  // Verwaiste Ordner unter _worktrees/<repo>/ (Reste, Probe-Ordner): nur Verknüpfungen (jeder Name) und leere Ordner gehen weg, alles andere bleibt.
+  const nachbar = (...teile) => join(wtDir, ...teile)
   mkdirSync(nachbar('_wt-nb-weg', 'data'), { recursive: true })
   mkdirSync(nachbar('_wt-nb-weg', 'leer', 'tief'), { recursive: true })
   symlinkSync(fremdNm, nachbar('_wt-nb-weg', 'node_modules'), 'junction')
@@ -478,7 +482,18 @@ try {
   const nbListe = H.abbau(haupt, welt, false)
   assert.deepEqual(['_wt-nb-weg', '_wt-nb-datei', '_wt-nb-git', '_wt-nb.log', '_wt-nb-link', '_wt-nb-tief', '_wt-nb-sechs'].map((n) => lose(nbListe, n).aktion), ['weg', 'behalten', 'behalten', 'behalten', 'behalten', 'behalten', 'weg'])
   assert.deepEqual(['_wt-nb-datei', '_wt-nb-git', '_wt-nb.log', '_wt-nb-link', '_wt-nb-tief'].map((n) => lose(nbListe, n).grund), ['inhalt', 'inhalt', 'kein-ordner', 'kein-ordner', 'inhalt'])
-  assert.ok(nbListe.lose.every((o) => basename(o.pfad).startsWith('_wt-')), 'nur _wt-*-Namen')
+  // Seit 25.10.2026 zählt nur noch _worktrees/<repo>/: alte Orte (im Hauptordner, daneben) werden weder gelistet noch angefasst.
+  const altOrte = [join(haupt, '_wt-alt-haupt'), join(wurzel, '_wt-alt-nachbar')]
+  for (const p of altOrte) mkdirSync(p)
+  const altListe = H.abbau(haupt, welt, false)
+  // Fehlt der Ordner unter _worktrees/<repo>/ ganz, gibt es keine losen Ordner und keinen Fehler.
+  const echteWurzel = process.env.WT_WURZEL
+  process.env.WT_WURZEL = join(wurzel, 'gibt-es-nicht')
+  assert.deepEqual([H.abbau(haupt, welt, false).lose, typeof H.zaehleWt(haupt)], [[], 'number'], 'Ordner fehlt')
+  process.env.WT_WURZEL = echteWurzel
+  const gelistet = (p) => altListe.lose.some((o) => o.pfad.replace(/\\/g, '/') === p.replace(/\\/g, '/'))
+  assert.deepEqual(altOrte.map(gelistet), [false, false], 'alte Orte nicht gelistet')
+  assert.equal(H.zaehleWt(haupt), readdirSync(wtDir).length, 'Zähler: genau die Ordner unter _worktrees/<repo>/ (nach dem Abbau ist kein registrierter ohne Ordner übrig)')
   assert.equal(lose(nbListe, '_wt-nb-reg'), undefined, 'registrierter Worktree daneben ist kein loser Ordner')
   assert.equal(existsSync(nachbar('_wt-nb-weg')), true, '--liste ändert nichts')
   // Haupt-Bestand fehlt: Abbruch, nichts wird gelöst.
@@ -610,7 +625,7 @@ try {
   assert.equal(zahl(), vor + 1, 'Merge startet den Abbau')
   assert.equal(H.hook(sitz, { ...startOpt, haupt }), null, 'wenige Worktrees: keine Zeile')
   assert.equal(zahl(), vor + 2, 'Sitzungsstart startet den Abbau')
-  for (let i = 0; i < 18; i++) g(haupt, 'worktree', 'add', '--no-checkout', '-b', `b-viele-${i}`, join(haupt, `_wt-viele-${i}`), c1)
+  for (let i = 0; i < 18; i++) g(haupt, 'worktree', 'add', '--no-checkout', '-b', `b-viele-${i}`, join(wtDir, `_wt-viele-${i}`), c1)
   const anzahl = g(haupt, 'worktree', 'list', '--porcelain').split('\n').filter((z) => z.startsWith('worktree ')).length - 1
   assert.ok(anzahl > 20, `Vorbereitung: ${anzahl}`)
   assert.match(H.hook(sitz, { ...startOpt, haupt }), /Worktree-Wächter: \d+ Worktrees/)
@@ -624,7 +639,7 @@ try {
     input: JSON.stringify(eingabe),
     encoding: 'utf8',
     timeout: 20000,
-    env: { ...env, WT_HAUPT: haupt, WT_REGISTER: attrappe, WT_SPERRE: sperre },
+    env: { ...env, WT_WURZEL: process.env.WT_WURZEL, WT_HAUPT: haupt, WT_REGISTER: attrappe, WT_SPERRE: sperre },
   })
   let r = lauf2({ ...merge, tool_input: { command: 'gh pr view 1' } })
   assert.equal(r.status, 0)
@@ -639,7 +654,7 @@ try {
   assert.match(r.stdout, /Worktree-Wächter: \d+ Worktrees/)
   assert.equal(existsSync(aus), true)
 } finally {
-  for (const p of [join(haupt, '_wt-junction', 'node_modules'), join(haupt, '_wt-haengt', 'node_modules'), join(haupt, '_wt-lose-junction', 'node_modules'), join(haupt, '_wt-lose-inhalt-und-junction', 'node_modules')]) {
+  for (const p of [join(wtDir, '_wt-junction', 'node_modules'), join(wtDir, '_wt-haengt', 'node_modules'), join(wtDir, '_wt-lose-junction', 'node_modules'), join(wtDir, '_wt-lose-inhalt-und-junction', 'node_modules')]) {
     try { rmSync(p, { force: true }) } catch {}
   }
   rmSync(wurzel, { recursive: true, force: true, maxRetries: 3 })
