@@ -1,0 +1,64 @@
+name: Erweiterung — Version zählen
+
+# PRs heben die Version der Erweiterung nicht an (tools/pr-vorpruefung.mjs lehnt das ab): parallele PRs kollidierten
+# an dieser einen Zeile (24./25.10.2026, 4.32.2 bis 4.32.5). Nach dem Merge zählt dieser Lauf die letzte Stelle hoch.
+# Der Push des Zählers ändert nur `extension/manifest.json` mit angehobener Version und löst sich deshalb nicht selbst aus
+# (tools/extension-version.mjs: „Version schon angehoben“). Deploy ignoriert `extension/**`.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'extension/**'
+
+permissions:
+  contents: read
+
+# Ein Zähler zur Zeit, Läufe warten aufeinander: jeder Push zählt genau einmal.
+concurrency:
+  group: extension-version
+  cancel-in-progress: false
+
+jobs:
+  zaehlen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Der Push geht direkt auf `main`; das Ruleset lässt dafür nur die App durch (wie in bestand-bauen.yml).
+      - name: App-Token holen
+        id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          private-key: ${{ secrets.DATEN_APP_KEY }}
+          permission-contents: write
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ steps.app.outputs.token }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Version zählen
+        env:
+          VON: ${{ github.event.before }}
+          BIS: ${{ github.sha }}
+        run: |
+          git fetch --quiet --depth=1 origin "$VON" "$BIS"
+          node tools/extension-version.mjs --von "$VON" --bis "$BIS"
+
+      - name: Zähler committen
+        run: |
+          if git diff --quiet -- extension/manifest.json; then exit 0; fi
+          git config user.name "anime-kalender-bot"
+          git config user.email "bot@anime-kalender.de"
+          git commit -m "chore(extension): Version gezählt" -- extension/manifest.json
+          for versuch in 1 2 3; do
+            if git push; then exit 0; fi
+            git pull --rebase --quiet
+          done
+          echo "::error::Push des Versionszählers scheiterte dreimal"
+          exit 1

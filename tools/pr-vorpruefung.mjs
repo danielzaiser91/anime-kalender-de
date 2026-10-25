@@ -12,6 +12,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { basename } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { bewerte, neueEintraege } from './check-patchnotes-pflicht.mjs'
+import { anhebungRot } from './extension-version.mjs'
 import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
 
 const PRUEFLISTEN = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt']
@@ -111,6 +112,20 @@ function umfangRot() {
   }
 }
 
+/** Der PR darf die Version der Erweiterung nicht selbst anheben (zählt nach dem Merge der Workflow). */
+function versionRot() {
+  const pfad = 'extension/manifest.json'
+  const lies = (quelle) => {
+    try {
+      return git('show', quelle)
+    } catch {
+      return null
+    }
+  }
+  const rot = anhebungRot(lies(`origin/main:${pfad}`), lies(`HEAD:${pfad}`))
+  return rot === null ? [] : [rot]
+}
+
 function argWert(name) {
   const i = process.argv.indexOf(name)
   return i >= 0 ? process.argv[i + 1] : undefined
@@ -132,7 +147,7 @@ function main() {
     existiert: existiertIn(bekannt, existsSync),
   })
   const lies = (name) => (existsSync(name) ? readFileSync(name, 'utf8') : null)
-  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot()]
+  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot(), ...versionRot()]
   for (const h of urteil.gelb) console.log(`  ! Hinweis: ${h}`)
   for (const r of rot) console.error(`  ✖ Vorprüfung: ${r}`)
   if (rot.length) {
