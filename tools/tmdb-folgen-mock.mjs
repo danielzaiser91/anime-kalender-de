@@ -24,6 +24,9 @@ globalThis.fetch = async (url) => {
   const serie = /^\/3\/tv\/(\d+)$/.exec(u.pathname)
   if (serie) {
     appendFileSync(`${process.env.AK_ROOT}/abrufe.txt`, `${serie[1]}\n`)
+    // Kennung 1012 kennt TMDB nicht (404), 1013 antwortet mit 403 (kein 404, keine Auskunft).
+    if (serie[1] === '1012') return new Response('{}', { status: 404, statusText: 'Not Found' })
+    if (serie[1] === '1013') return new Response('{}', { status: 403, statusText: 'Forbidden' })
     return new Response(JSON.stringify({ name: 'Kulisse', seasons: [{ season_number: 1 }] }), { status: 200 })
   }
   if (/^\/3\/tv\/\d+\/season\/1$/.test(u.pathname)) {

@@ -17,7 +17,6 @@
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { nichtGefuehrtZeilen } from './lib/beleg-nicht-gefuehrt.ts'
 import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
-import yaml from 'js-yaml'
 import { amazonTitelAdresse, echteAmazonAdresse } from './lib/amazon-adresse.js'
 import { resolve } from 'node:path'
 import {
@@ -33,7 +32,8 @@ import { ergaenzeUmEntfernte, mitEntfernten, staffelnMitAdresse } from './lib/en
 import { log, ROOT, warn } from './lib/util.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
 import { bekannteNetflixStaffeln } from './lib/netflix-staffeln-bekannt.ts'
-import { adressKern, loadDubChecks, neueBelegBloecke, schreibeBelege } from './lib/dub-confirmed.ts'
+import { adressKern, loadDubChecks } from './lib/dub-confirmed.ts'
+import { haengeBelegeAn } from './lib/belege-anhaengen.ts'
 import { kanalJaAdressKerne, kanalOhneAussage } from './lib/kanal-titel.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
@@ -1243,38 +1243,7 @@ for (const gruppe of jeAdresse.values()) {
   else if (!erledigteIds.has(gruppe[0]!.id)) liegenGeblieben(offenGeblieben, ohneZuordnung, p, 'keine Folge der Meldung fällt in die Zielstaffeln', ids, 'Staffelaufteilung der Seite prüfen')
 }
 
-if (zeilen.length && !TROCKEN) {
-  const p = resolve(ROOT, 'data/dub-confirmed.yaml')
-  const alt = readFileSync(p, 'utf8')
-  const kopf = `\n# --- Aus dem Browser gemeldet, abgeholt am ${heute} ---`
-  /* Ein Beleg, der schon dasteht, wird nicht noch einmal angehängt (Solo Leveling, 15.09.2026). */
-  const { bloecke, neu: neueBloecke } = neueBelegBloecke(alt, zeilen)
-  const uebersprungen = bloecke.length - neueBloecke.length
-  if (uebersprungen) log(`${uebersprungen} Beleg(e) standen wörtlich schon da — nicht erneut angehängt`)
-  const neueZeilen = neueBloecke.flatMap((b) => ['', ...b.filter((z, i) => i === 0 || z !== '')])
-  const neu = alt.trimEnd() + '\n' + kopf + '\n' + neueZeilen.join('\n') + '\n'
-  /*
-    **Erst lesen, dann schreiben — sonst fällt der Fehler drei Schritte später.**
-
-    Am 30.08.2026 bekam ein Eintrag zwei `url:`-Zeilen: Eine Amazon-Suchadresse
-    mit zugeordneter `/dp/`-Adresse durchlief oben den Zweig für die echte
-    Adresse und unten noch einmal den für „Kanal-Meldung ohne Urteil". YAML
-    verbietet doppelte Schlüssel, und der stündliche Lauf brach ab — nicht hier,
-    sondern beim Bau, mit einer Zeilennummer aus 24.000 Zeilen und ohne Hinweis
-    darauf, wer sie geschrieben hat.
-
-    Ein Parse-Versuch kostet Millisekunden und meldet den Fehler dort, wo er
-    entsteht. Geschrieben wird nur, was sich danach auch wieder lesen lässt.
-  */
-  try {
-    yaml.load(neu)
-  } catch (e) {
-    throw new Error(
-      `Die erzeugten Zeilen ergeben kein gültiges YAML — nichts geschrieben. ${(e as Error).message}`,
-    )
-  }
-  if (neueZeilen.some((z) => z.startsWith('- '))) schreibeBelege(p, neu, warn)
-}
+if (zeilen.length && !TROCKEN) haengeBelegeAn({ datei: resolve(ROOT, 'data/dub-confirmed.yaml'), zeilen, heute, log, warn })
 
 if (!TROCKEN) schreibeMeldungenListe(ohneZuordnung, liste, heute)
 

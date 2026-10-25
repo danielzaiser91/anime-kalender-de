@@ -44,6 +44,9 @@ globalThis.akGemeldetSeit = async (eintragSeit) => {
  * (`pruefung-stand-anbieter.ts`: Meldung seit `pruefstandAm`). Ohne Prüfstand-Zeit gilt `eintragSeit`,
  * ohne beides jeder Vermerk; ein Vermerk ohne Zeit nie. Ein reiner Tag (ältere Fassungen) wird als Tag verglichen:
  * am Tag des Prüfstands gilt er (`>=`), den Tag davor nicht.
+ *
+ * `akPruefstandAm` füllt nur `akGemeldetSeit`. Wer Vermerke bewertet, ruft es vorher selbst auf: Der Abruf je
+ * Adresse (`frischGemeldet`) überspringt, was er sich gemerkt hat, und ließ die Zeit leer (Disney+, 24.10.2026).
  */
 globalThis.akVermerkGilt = (zeit, eintragSeit) => {
   const z = String(zeit ?? '')
