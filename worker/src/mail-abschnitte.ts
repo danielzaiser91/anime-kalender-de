@@ -12,6 +12,7 @@ import { titelAdresse } from '../../shared/teilen.ts'
 import { SPRACHE_HINWEIS, SPRACHE_MARKE } from '../../shared/ics.ts'
 import { ankuendigungsWort, tagIstAngekuendigt } from '../../shared/news-typen.ts'
 import { toIsoDate } from '../../shared/time.ts'
+import { zeitMitMarke } from '../../shared/zeit-text.ts'
 import { omuStartText } from '../../shared/ankuendigung.ts'
 import { folgenProWoche } from '../../shared/folgenrhythmus.ts'
 import { taktSatz } from '../../shared/takt-text.ts'
@@ -87,7 +88,7 @@ export function badge(ev: ReleaseEvent): string {
 function wiederholungsTeile(ev: ReleaseEvent): string[] {
   const teile = [ev.name]
   if (ev.episode && !ev.sichtung) teile.push(`Fg. ${ev.episode}`)
-  if (ev.time) teile.push(`${ev.time} Uhr`)
+  if (ev.time) teile.push(`${zeitMitMarke(ev, 'ca. ')} Uhr`)
   const wer = ev.sender || PLATFORMS[ev.platform]?.name
   if (wer) teile.push(wer)
   return teile

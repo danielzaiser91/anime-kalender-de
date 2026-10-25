@@ -1,6 +1,7 @@
 import type { NewsEintrag, ReleaseEvent } from '../../shared/types.ts'
 import { PLATFORMS, RELEASE_TYPES, anbieterName } from '../../shared/types.ts'
 import { formatDate, weekdayName } from '../../shared/time.ts'
+import { zeitMitMarke } from '../../shared/zeit-text.ts'
 import { sorteVon, SORTEN, wichtigkeit, type Sorte } from './mail-sorten.ts'
 import { messText, messZelle, type Messwerte } from './monitor-statistik.ts'
 import {
@@ -168,7 +169,7 @@ function eventRow(ctx: RowContext, ev: ReleaseEvent, highlight: boolean): string
     Ohne Uhrzeit steht hier nichts — die Teile werden deshalb gesammelt und
     erst am Ende verbunden, sonst bliebe ein führender Trennpunkt stehen.
   */
-  const time = ev.time ? `${ev.timeEstimated ? 'ca. ' : ''}${ev.time} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : ''
+  const time = ev.time ? `${zeitMitMarke(ev, 'ca. ')} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : ''
   const episode = ev.episode && !ev.sichtung ? `Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCountAssumed ? '≈' : ''}${ev.episodeCount}` : ''}` : ''
   const platform = PLATFORMS[ev.platform]
   /* Im Fernsehen ist der **Sender** die Auskunft, nicht das Wort „TV" (28.09.2026). */
@@ -234,7 +235,7 @@ function textSections(ctx: RowContext, events: ReleaseEvent[]): string {
             const watch = watchUrl(ctx, ev)
             return (
               `  - ${ev.name}${ev.episode && !ev.sichtung ? ` (Folge ${ev.episode})` : ''}${
-                ev.time ? ` — ${ev.time} Uhr` : ev.releaseType === 'disc' ? ' — im Handel' : ''
+                ev.time ? ` — ${zeitMitMarke(ev, 'ca. ')} Uhr` : ev.releaseType === 'disc' ? ' — im Handel' : ''
               }, ${anbieterName(ev.platform, ev.sender)}${ev.kostenlos ? ' — heute kostenlos' : ''}\n` +
               `    Kalender: ${calendarUrl(ctx, ev)}` +
               (watch ? `\n    ${ev.releaseType === 'disc' ? 'Kaufen' : 'Ansehen'}: ${watch}` : '')

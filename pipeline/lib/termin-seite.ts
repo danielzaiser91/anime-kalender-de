@@ -9,10 +9,11 @@ import { andereNamen } from './titel-namen.ts'
 import { SITE, esc, namenZeile, seitenTitel, sprachFeld, synchroSatz, termineUeberschrift, synopsenAbsatz, type SynopsenText } from './titel-seite.ts'
 import { type Umfeld } from './titel-umfeld.ts'
 import { teilenPfad, titelAdresse, titelHash } from '../../shared/teilen.ts'
+import { zeitMitMarke } from '../../shared/zeit-text.ts'
 import { OG_FASSUNG } from './og-fassung.ts'
 
 /** Beschreibungstext der Vorschau — das, was unter der Überschrift steht. */
-function describe(release: Release, title: Title | undefined, today: string): string {
+export function describe(release: Release, title: Title | undefined, today: string): string {
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
   const parts: string[] = []
@@ -20,7 +21,7 @@ function describe(release: Release, title: Title | undefined, today: string): st
   if (next) {
     const when = `${weekdayName(next.date)}, ${formatDate(next.date)}`
     const time = next.time
-      ? ` um ${next.time} Uhr`
+      ? ` um ${zeitMitMarke(next, '≈ ')} Uhr`
       : release.releaseType === 'disc'
         ? ''
         : ' (Uhrzeit noch offen)'
@@ -199,7 +200,7 @@ export function body(
   const termine = events
     .map((e) => {
       const wann = `${weekdayName(e.date)}, ${formatDate(e.date)}`
-      const zeit = e.time ? ` um ${e.time} Uhr` : ''
+      const zeit = e.time ? ` um ${zeitMitMarke(e, '≈ ')} Uhr` : ''
       const folge = anzeigeFolge(e) ? `Folge ${e.episode}${e.episodeCount ? ` von ${e.episodeCount}` : ''}: ` : ''
       const abgeleitet = e.estimated ? ' (Termin abgeleitet)' : ''
       return `<li>${esc(`${folge}${wann}${zeit}${abgeleitet}`)}</li>`
