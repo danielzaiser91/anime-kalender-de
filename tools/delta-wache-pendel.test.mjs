@@ -196,6 +196,48 @@ const mit = (z, muster) => z.filter((l) => muster.test(l))
   assert.deepEqual(arten(folge(100)), ['zeile'])
 }
 
+// --- Drift: Kette aus Teilpendeln, Gesamtverlust in einer Zeile --------------------------------------------------------------
+{
+  const drift = folge(2000, 2000, 2036, 1995, 2031, 1990, 2026, 1985, 2021, 1980)
+  const e = ereignisse(drift)
+  assert.deepEqual(e.map((x) => x.art), ['zeile', 'pendel', 'pendel', 'zeile'])
+  assert.doesNotMatch(e[1].text, /Kette/, 'das erste Glied kennt den Gesamtverlust noch nicht')
+  assert.match(e[2].text, /; Kette aus 2 Teilpendeln seit 19.10., 01:00: 2000 -> 1980 Urteile \(-20\) gegen den Stand davor$/, 'Summe über beide Glieder, nicht 2031 -> 1980')
+  assert.equal(e[3].netto, true)
+  assert.deepEqual(e[3].auffaellig, ['20 Urteile verloren', 'primevideo: 20 Synchro-Belege weniger'], 'netto gegen den Stand vor der Kette (2000), nicht gegen das Ende des ersten Glieds (2031)')
+
+  // Laufende Kette: bis zur letzten Zeile gerechnet, Gewinn mit Plus.
+  const laufend = ereignisse(folge(2000, 2000, 2036, 1995, 2031, 1990, 2026, 1985, 2021))
+  assert.match(laufend[2].text, /^pendelt seit .*: 2000 -> 2021 Urteile \(\+21\) gegen den Stand davor$/)
+
+  // Gesamtverlust genau 0: ohne Vorzeichen.
+  const null0 = ereignisse(folge(2000, 2000, 2036, 1995, 2031, 1990, 2026, 1985, 2021, 2000))
+  assert.match(null0[2].text, /2000 -> 2000 Urteile \(0\) gegen/)
+
+  // Kette aus einem Teilpendel (Grenze): keine Kettenzeile, Netto wie bisher gegen die Zeile davor.
+  const einzeln = ereignisse(folge(100, 60, 100, 60, 90))
+  assert.doesNotMatch(einzeln[0].text, /Kette/)
+  const eins = ereignisse(folge(2000, 2000, 2036, 1995, 2031, 1990, 1700))
+  assert.doesNotMatch(eins[1].text, /Kette/)
+  assert.equal(eins[2].netto, true)
+
+  // Kette ab Dateianfang: kein Stand davor, keine Summe.
+  const ohneDavor = ereignisse(folge(100, 60, 100, 60, 100, 200, 140, 200, 140, 200, 90))
+  assert.doesNotMatch(ohneDavor[1].text, /Kette/)
+  assert.equal(ohneDavor[2].netto, false)
+
+  // Zwei Pendel mit einer Zeile dazwischen sind keine Kette.
+  const luecke = ereignisse(folge(100, 60, 100, 60, 100, 500, 300, 260, 300, 260, 300, 50))
+  assert.deepEqual(luecke.map((x) => x.art), ['pendel', 'zeile', 'pendel', 'zeile'])
+  assert.doesNotMatch(luecke[2].text, /Kette/)
+  assert.equal(luecke[3].netto, true)
+
+  // Als Prozess: die Zeile steht im Wortlaut der Wache.
+  const w = wache(drift.map((z) => JSON.stringify(z)).join('\n') + '\n', '2026-10-19T16:00:00Z')
+  assert.equal(mit(w.zeilen, /Kette aus 2 Teilpendeln seit 19.10., 01:00: 2000 -> 1980 Urteile \(-20\)/).length, 1)
+  console.log('Drift-Kette: Gesamtverlust in der Info-Zeile, Kette aus 1 ohne Zeile, Lücke keine Kette: ok')
+}
+
 // --- Tagebuch: gleicher Befund-Wortlaut nicht erneut ---------------------------------------------------------------------
 {
   const z = (zeit, zahlen, aend, befund) => `| ${zeit} | ${zahlen} | ${aend} | ${befund} |`
