@@ -52,6 +52,8 @@ bestandspruefung()
 
 if (verletzt) {
   console.error(`${verletzt} Zusicherung(en) verletzt.`)
+  console.log(`VERSTÖSSE: ${verletzt}`)
   process.exit(1)
 }
 console.log('check-kachel-buendel-bestand: ok')
+console.log('VERSTÖSSE: 0')

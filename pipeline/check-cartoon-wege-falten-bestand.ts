@@ -145,5 +145,9 @@ const jack = pillen(JACK).filter((s) => s.platform === 'netflix' && s.teilBereic
 pruefe(jack.every((s) => s.dub), `Jack: ${jack.length} Netflix-Teilpillen, nicht jede mit Haken`)
 pruefeJackZeilen()
 
-if (fehler) process.exit(1)
+if (fehler) {
+  console.log(`VERSTÖSSE: ${fehler}`)
+  process.exit(1)
+}
 console.log('Cartoon-Wege falten (Bestand): Zusicherungen erfüllt')
+console.log('VERSTÖSSE: 0')

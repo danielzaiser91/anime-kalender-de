@@ -37,6 +37,8 @@ if (existsSync(OUT)) {
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu den geteilten Crunchyroll-Seiten am Bestand verletzt`)
+  console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
 console.log('Geteilte Crunchyroll-Seiten (Bestand): Zusicherungen erfüllt')
+console.log('VERSTÖSSE: 0')

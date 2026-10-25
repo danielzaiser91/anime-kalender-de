@@ -59,6 +59,8 @@ pruefe('Bestand: mindestens ein Weg trägt „≈“ (sonst prüft diese Prüfun
 
 if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
+  console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
 console.log(`check-folgenzahl-kennzeichnung-bestand: ok (mit „≈“: Hauptbestand ${gekennzeichnet[0]}, Katalog ${gekennzeichnet[1]}, Cartoons ${gekennzeichnet[2]})`)
+console.log('VERSTÖSSE: 0')

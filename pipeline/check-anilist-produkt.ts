@@ -84,6 +84,8 @@ if (process.argv.includes('--bestand')) bestand()
 else einheiten()
 if (fehler > 0) {
   console.error(`${fehler} Zusicherung(en) verletzt`)
+  console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
 console.log('Bewertung, Schlagworte und Banner stimmen.')
+console.log('VERSTÖSSE: 0')

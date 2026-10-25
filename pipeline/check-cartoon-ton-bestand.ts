@@ -21,6 +21,7 @@ function pruefe(name: string, ok: boolean, info = ''): void {
 const OUT = 'public/data/cartoons.json'
 if (!existsSync(OUT)) {
   console.error(`FEHLER: ${OUT} fehlt — erst bauen`)
+  console.log('VERSTÖSSE: 1')
   process.exit(1)
 }
 const cartoons = readJson<Title[]>(OUT, [])
@@ -39,6 +40,8 @@ if (mit.length) pruefe('Bestand: mindestens 400 Cartoons mit Ton-Hinweis', mit.l
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zum Cartoon-Ton im Bestand verletzt`)
+  console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
 console.log('Cartoon-Ton im Bestand: Zusicherungen erfüllt')
+console.log('VERSTÖSSE: 0')
