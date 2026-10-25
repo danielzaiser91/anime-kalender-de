@@ -9,7 +9,7 @@ import { bewerteAnfragen } from '../tools/daten-adressen-bewerten.ts'
 const wurzel = mkdtempSync(join(tmpdir(), 'adressen-'))
 const daten = join(wurzel, 'daten')
 mkdirSync(join(daten, 'voices'), { recursive: true })
-for (const name of ['events.json', 'releases.json', 'titles-core.json', 'woche.json', 'meta.json', 'patchnotes.json']) writeFileSync(join(daten, name), JSON.stringify(name))
+for (const name of ['events.json', 'releases.json', 'titles-core.json', 'woche-kacheln.json', 'meta.json', 'patchnotes.json']) writeFileSync(join(daten, name), JSON.stringify(name))
 writeFileSync(join(daten, 'voices', '1.json'), '{}')
 
 const echt = dateiKennungen(daten, NACH_DEM_BAU_UMGESCHRIEBEN)
@@ -69,8 +69,8 @@ metaHash.dateien = { ...echt, 'meta.json': 'eeeeeeee' }
 erwarte('meta.json mit Inhalts-Hash', metaHash, 1, 'darf keinen Inhalts-Hash tragen')
 
 const veraltet = gut()
-veraltet.dateien = { ...echt, 'woche.json': '00000000' }
-erwarte('Kennung passt nicht zum Inhalt (Mitte der Liste)', veraltet, 1, `dateien["woche.json"] = 00000000, aus dem Inhalt von `)
+veraltet.dateien = { ...echt, 'woche-kacheln.json': '00000000' }
+erwarte('Kennung passt nicht zum Inhalt (Mitte der Liste)', veraltet, 1, `dateien["woche-kacheln.json"] = 00000000, aus dem Inhalt von `)
 
 const zusatz = gut()
 zusatz.dateien = { ...echt, 'zusatz.json': 'eeeeeeee' }

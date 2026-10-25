@@ -90,7 +90,7 @@ pruefe('Adresse: nicht erfasste Datei und nicht erfasster Ordner nehmen den Ersa
 pruefe('Adresse: Basis wird vorangestellt', datenAdresse('/sub/', 'meta.json', kennungen, 'e') === '/sub/data/meta.json?v=bbbbbbbb')
 
 const skript = vorladeSkript({ base: '/', kennungen, ersatz: 'ersatz', woche: { von: '2026-10-12', bis: '2026-10-18' } })
-for (const [name, v] of [['meta', 'bbbbbbbb'], ['events', 'aaaaaaaa'], ['titles-core', 'ersatz'], ['releases', 'eeeeeeee'], ['woche', 'ersatz']] as const) {
+for (const [name, v] of [['meta', 'bbbbbbbb'], ['events', 'aaaaaaaa'], ['titles-core', 'ersatz'], ['releases', 'eeeeeeee'], ['woche-kacheln', 'ersatz']] as const) {
   pruefe(`Vorladen: ${name}.json mit Kennung ${v}`, skript.includes(`"${name}":"/data/${name}.json?v=${v}"`))
 }
 pruefe('Vorladen: das Skript setzt die Adresse aus der Tabelle, nicht aus Name und Ersatz', skript.includes('l.href = A[n];'))
