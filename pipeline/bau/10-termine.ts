@@ -1,7 +1,7 @@
 import { type ReleaseEvent, type Title, type Release } from '../../shared/types.ts'
 import { expandEvents } from '../../shared/logic.ts'
 import { istPremiere, istStaffelfinale, istStaffelstart } from '../../shared/tv-signale.ts'
-import { schreibeZweitanbieter } from '../../shared/zweitanbieter.ts'
+import { primeKanalAnbieter, schreibeZweitanbieter } from '../../shared/zweitanbieter.ts'
 import { schreibeKatalogReleaseVonHand } from '../lib/katalog-belege.ts'
 import { log, warn } from '../lib/util.ts'
 import { pruefeErgebnis } from '../lib/pruefung.ts'
@@ -59,12 +59,12 @@ export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], 
   log(`TV-Auskunft an den Terminen: ${premier} Premieren, ${wiederholungen} Wiederholungen, ${ohneAussage} ohne Aussage (kein Beleg), ${finale} Staffelfinale`)
   log(`Katalog-Release: ${schreibeKatalogReleaseVonHand(events, releases)} Termine`)
   schreibePremiereMitMeldung(events, releases, titles)
-  schreibeZweitanbieterMitMeldung(events, releases)
+  schreibeZweitanbieterMitMeldung(events, releases, titles)
 }
 
 /** Die Marke „Zweitanbieter“ nach den Handbelegen schreiben; ein widersprechender Premiere-Beleg ist eine Warnung. */
-function schreibeZweitanbieterMitMeldung(events: ReleaseEvent[], releases: Release[]): void {
-  const { anzahl, kollisionen } = schreibeZweitanbieter(events, releases)
+function schreibeZweitanbieterMitMeldung(events: ReleaseEvent[], releases: Release[], titles: Map<number, Title>): void {
+  const { anzahl, kollisionen } = schreibeZweitanbieter(events, releases, primeKanalAnbieter(titles.values()))
   for (const k of kollisionen) warn(k)
   log(`Zweitanbieter: ${anzahl} Termine`)
 }

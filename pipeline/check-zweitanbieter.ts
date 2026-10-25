@@ -16,9 +16,22 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 const ev = (titleId: number, platform: PlatformId, date: string, episode: number, o: Partial<ReleaseEvent> = {}): ReleaseEvent =>
   ({ id: `${titleId}-${platform}-${episode}-${date}`, releaseSlug: `${titleId}-${platform}`, titleId, date, episode, releaseType: 'weekly', platform, name: 'X', ...o }) as ReleaseEvent
 const rel = (slug: string, o: Partial<Release> = {}): Release => ({ slug, ...o }) as Release
-const lauf = (events: ReleaseEvent[], releases: Release[] = []) => schreibeZweitanbieter(events, releases)
+const lauf = (events: ReleaseEvent[], releases: Release[] = [], kanal = new Map<number, PlatformId>()) => schreibeZweitanbieter(events, releases, kanal)
 
 console.log('\nZweitanbieter (Bau):')
+{
+  /* A Wild Last Boss Appeared S2 (25.10.2026): Prime über den Crunchyroll-Kanal ist Crunchyroll, kein zweiter Erster. */
+  const prime = ev(2, 'primevideo', '2026-09-26', 1)
+  const cr = ev(2, 'crunchyroll', '2026-10-24', 1)
+  const nf = ev(2, 'netflix', '2026-11-20', 1)
+  lauf([prime, cr, nf], [], new Map([[2, 'crunchyroll' as PlatformId]]))
+  pruefe('Crunchyroll trägt kein „zuerst bei Prime“, wenn Prime der Crunchyroll-Kanal ist', cr.zweitanbieter === undefined, cr.zweitanbieter)
+  pruefe('ein später Dritter nennt den echten Anbieter, nicht den Kanal', nf.zweitanbieter?.erster === 'crunchyroll', nf.zweitanbieter)
+  const p2 = ev(3, 'primevideo', '2026-09-26', 1)
+  const cr2 = ev(3, 'crunchyroll', '2026-10-24', 1)
+  lauf([p2, cr2])
+  pruefe('Kanal ohne eigenen Anbieter (Aniverse, Prime selbst): Marke bleibt', cr2.zweitanbieter?.erster === 'primevideo', cr2.zweitanbieter)
+}
 {
   /* Das Band der Unterwelt: Crunchyroll Folge 15 am 08.08.2026, Netflix zwei Monate später. */
   const cr = ev(1, 'crunchyroll', '2026-08-08', 15)
