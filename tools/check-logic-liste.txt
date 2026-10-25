@@ -160,6 +160,7 @@ pipeline/check-meldung-summenseite.ts
 pipeline/check-meldungs-auffaelligkeiten.ts
 pipeline/check-minuten-takt.ts
 pipeline/check-motn-reihe.ts
+pipeline/check-motn-uebernahme.ts
 pipeline/check-nein-datum.ts
 pipeline/check-nein-handbeleg-abschluss.ts
 pipeline/check-nein-handbeleg-aufrufer.ts
@@ -323,6 +324,7 @@ tools/quarantaene-pruefungen.test.ts
 tools/quellen-gesundheit.test.ts
 tools/quittung-nach-commit-waechter.mjs
 tools/sammler-pruefschritt-waechter.mjs
+tools/skript-aufrufer-wache.mjs
 tools/start-pruefung-wacht.mjs
 tools/uhr-in-tests.mjs
 tools/web-hosting.test.ts

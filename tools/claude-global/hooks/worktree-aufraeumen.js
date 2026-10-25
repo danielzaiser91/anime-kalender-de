@@ -1,9 +1,9 @@
-// Worktrees räumen sich selbst ab (Anlass 18.10.2026: 274 `_wt-*`-Worktrees ≈ 3 GB Kernel-Dateicache). Entscheidungen: worktree-aufraeumen-logik.js.
+// Worktrees räumen sich selbst ab (Anlass 18.10.2026: 274 Worktrees ≈ 3 GB Kernel-Dateicache; seit 25.10.2026 liegen sie unter C:/code/_worktrees/<repo>/<thema>). Entscheidungen: worktree-aufraeumen-logik.js.
 // Zwei Auslöser, beide kehren sofort zurück und starten den Abbau unsichtbar über das Prozess-Register (Frist, Sperre = höchstens ein Abbau):
 //   PostToolUse(Bash) nach erfolgreichem `gh pr merge`  und  SessionStart (dort zusätzlich die Wächterzeile bei > 20 Worktrees).
 // Entfernt wird nur: sauberer Worktree, HEAD seit vor dem Abschluss unbewegt, Ordner frei (Probe-Umbenennen), keine Änderung in den letzten 2 h, Kopf == headRefOid eines gemergten/geschlossenen PR seit mindestens 24 h (Lesen hinterlässt kein Lebenszeichen), kein offener PR, kein echter data/cache.
-// Zweige bleiben. Verknüpfungen (node_modules, data/cache) werden vor dem Entfernen einzeln gelöst, nie rekursiv. Lose `_wt-*`-Ordner:
-// im Hauptordner und daneben: nur Verknüpfungen und leere Ordner → weg (Verknüpfung per unlink, vorher/nachher Haupt-node_modules und data/cache da), sonst nur aufgelistet.
+// Zweige bleiben. Verknüpfungen (node_modules, data/cache) werden vor dem Entfernen einzeln gelöst, nie rekursiv. Lose Ordner unter _worktrees/<repo>/ ohne Registrierung:
+// nur Verknüpfungen und leere Ordner → weg (Verknüpfung per unlink, vorher/nachher Haupt-node_modules und data/cache da), sonst nur aufgelistet.
 // Von Hand:  node worktree-aufraeumen.js --liste   (zeigt Entscheidungen, ändert nichts)   |   --abbau (Abbau im Vordergrund)
 // Einträge in ~/.claude/settings.json: siehe docs/wissen/projektregeln-im-detail.md, Punkt „Worktrees räumen sich selbst ab“.
 const { execFileSync, spawnSync } = require('node:child_process')
@@ -15,6 +15,10 @@ const L = require('./worktree-aufraeumen-logik.js')
 const HAUPT = process.env.WT_HAUPT ?? 'C:/code/ai/anime-kalender-de'
 const REGISTER = process.env.WT_REGISTER ?? 'C:/code/ai/__assets/tools/prozess-register.mjs'
 const SPERRE = process.env.WT_SPERRE ?? 'C:/code/ai/__assets/prozesse/worktree-aufraeumen.lock'
+/** Wurzel aller Arbeitsbäume; `WT_WURZEL` nur für den Prozesstest. */
+const wtWurzel = () => process.env.WT_WURZEL ?? 'C:/code/_worktrees'
+/** Ordner der Arbeitsbäume dieses Repos: `<Wurzel>/<Repo-Ordnername>`. */
+const wtOrdner = (haupt) => `${wtWurzel()}/${path.basename(haupt)}`
 const FRIST_MIN = 30
 const RUECK_VERSUCHE = 3
 const RUECK_PAUSE_MS = 200
@@ -149,7 +153,7 @@ function leseEintrag(p, tiefe = 0) {
 /** Einträge unter einem losen Ordner. */
 const leseKinder = (pfad) => fs.readdirSync(pfad).map((n) => leseEintrag(path.join(pfad, n)))
 
-/** Bewertung eines losen `_wt-*`-Eintrags: nur ein echter Ordner kommt in Frage (Dateien wie `_wt-x.log` und Verknüpfungen bleiben). */
+/** Bewertung eines losen Eintrags: nur ein echter Ordner kommt in Frage (Dateien und Verknüpfungen bleiben). */
 function bewerteLosenPfad(pfad, haupt, jetzt) {
   try {
     const l = fs.lstatSync(pfad)
@@ -159,12 +163,14 @@ function bewerteLosenPfad(pfad, haupt, jetzt) {
   } catch { return { aktion: 'behalten', grund: 'unlesbar' } }
 }
 
-/** Lose `_wt-*`-Ordner ohne Git-Registrierung im Hauptordner und daneben (dort liegen die meisten Worktrees), mit Bewertung. */
+/** Lose Ordner ohne Git-Registrierung unter `_worktrees/<repo>/`, mit Bewertung. */
 function loseOrdner(haupt, registriert, jetzt) {
-  const orte = [haupt, path.dirname(haupt)]
-  return orte.flatMap((ort) => fs.readdirSync(ort)
-    .filter((n) => n.startsWith('_wt-') && !registriert.has(L.norm(`${ort}/${n}`)))
-    .map((name) => ({ pfad: path.join(ort, name), ...bewerteLosenPfad(path.join(ort, name), haupt, jetzt) })))
+  const ort = wtOrdner(haupt)
+  let namen = []
+  try { namen = fs.readdirSync(ort) } catch {}
+  return namen
+    .filter((n) => !registriert.has(L.norm(`${ort}/${n}`)))
+    .map((name) => ({ pfad: path.join(ort, name), ...bewerteLosenPfad(path.join(ort, name), haupt, jetzt) }))
 }
 
 /** Fehlende Haupt-Bestände (`node_modules`, `data/cache`): dann darf keine Verknüpfung mehr gelöst werden. */
@@ -292,10 +298,12 @@ function ausloeser(eingabe) {
   return ok && L.istMerge(eingabe.tool_input?.command) ? 'merge' : null
 }
 
-/** Registrierte `_wt-*`-Worktrees plus lose `_wt-*`-Ordner im Hauptordner (die Reste aus Verknüpfungen zählen mit). */
+/** Registrierte Worktrees plus lose Ordner unter `_worktrees/<repo>/` (die Reste aus Verknüpfungen zählen mit). */
 function zaehleWt(haupt) {
   const pfade = L.leseWorktrees(git(haupt, 'worktree', 'list', '--porcelain')).map((w) => L.norm(w.pfad)).filter(L.istWtName)
-  const lose = fs.readdirSync(haupt).filter((n) => n.startsWith('_wt-')).map((n) => L.norm(`${haupt}/${n}`))
+  let namen = []
+  try { namen = fs.readdirSync(wtOrdner(haupt)) } catch {}
+  const lose = namen.map((n) => L.norm(`${wtOrdner(haupt)}/${n}`))
   return new Set([...pfade, ...lose]).size
 }
 
@@ -341,4 +349,4 @@ function main() {
 
 if (require.main === module) process.exit(main())
 
-module.exports = { PR_FELDER, abbauImVordergrund, vollziehe, abbau, hook, starteAbbau, ausloeser, nimmSperre, echteWelt, juengsteAenderung, loeseVerknuepfungen, verknuepfungen, ordnerFrei, heileProbeOrdner, kopfZeit, zaehleWt, raeumeLosen, fehlendeBestaende, bewerteLosenPfad }
+module.exports = { wtOrdner, PR_FELDER, abbauImVordergrund, vollziehe, abbau, hook, starteAbbau, ausloeser, nimmSperre, echteWelt, juengsteAenderung, loeseVerknuepfungen, verknuepfungen, ordnerFrei, heileProbeOrdner, kopfZeit, zaehleWt, raeumeLosen, fehlendeBestaende, bewerteLosenPfad }

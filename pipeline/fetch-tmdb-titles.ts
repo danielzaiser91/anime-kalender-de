@@ -21,7 +21,7 @@ import { findeGeteilteHauptserien, streicheZuordnungen } from './lib/tmdb-haupts
 import { inhaltsStand, streicheAbgelaufenes, STREICH_TAGE } from './lib/tmdb-ablauf.ts'
 import { lookup } from './lib/tmdb-titel-lookup.ts'
 import { uebernimmVonHand } from './lib/tmdb-von-hand.ts'
-import { kinoFehlt } from './lib/tmdb-kino-zuletzt.ts'
+import { faelligeTitel } from './lib/tmdb-faellig.ts'
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 
@@ -156,26 +156,14 @@ async function main(): Promise<void> {
    * Alter ist unbekannt und damit im Zweifel groß.
    */
   const grenze = new Date(Date.now() - ALTER_TAGE * 86400_000).toISOString()
-  const faellig = titles
-    /*
-      **Ein Fehlschlag wird früher wiedervorgelegt als ein Treffer.**
-
-      Wer gefunden wurde, ändert sich selten; wer nicht gefunden wurde, kann beim
-      nächsten Mal mit einer anderen Schreibweise treffen — genau das ist am
-      28.08.2026 passiert, als der japanische und der deutsche Titel dazukamen.
-      Ohne diese Ausnahme hätten die 1.247 Fehlschläge bis zum Ablauf der vollen
-      Frist auf ihren zweiten Versuch gewartet.
-    */
-    .filter((t) => {
-      /* Was von Hand steht, wird nicht neu gesucht — sonst gewinnt der Fehltreffer wieder. */
-      if (handIds.has(t.id)) return false
-      if (NUR_OHNE_EINTRAG) return !cache[t.id]
-      if (FORCE || !cache[t.id] || kinoFehlt(cache[t.id]!)) return true
-      const e = cache[t.id]!
-      const frist = e.tmdbId ? grenze : new Date(Date.now() - 7 * 86400_000).toISOString()
-      return (e.fetchedAt ?? '') < frist
-    })
-    .sort((a, b) => (cache[a.id]?.fetchedAt ?? '').localeCompare(cache[b.id]?.fetchedAt ?? ''))
+  /* Ein Fehlschlag wird früher wiedervorgelegt als ein Treffer: eine andere Schreibweise kann beim nächsten Mal treffen (28.08.2026). */
+  const faellig = faelligeTitel(titles, cache, {
+    handIds,
+    nurOhneEintrag: NUR_OHNE_EINTRAG,
+    force: FORCE,
+    grenze,
+    grenzeFehlschlag: new Date(Date.now() - 7 * 86400_000).toISOString(),
+  })
   const todo = faellig.slice(0, LIMIT)
   const nie = faellig.filter((t) => !cache[t.id]).length
   log(

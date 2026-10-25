@@ -103,8 +103,8 @@ function main(): void {
   })
 }
 
-type Auslieferung = Omit<Parameters<typeof schreibeDatensatzGemessen>[0], 'allTitles' | 'meta' | 'kanalJeAdresse'> & {
-  synchro: Pick<ReturnType<typeof pruefeSynchroJePlattform>, 'kanalJeAdresse' | 'motnBelege'>
+type Auslieferung = Omit<Parameters<typeof schreibeDatensatzGemessen>[0], 'allTitles' | 'meta' | 'kanalJeAdresse' | 'motnTon'> & {
+  synchro: Pick<ReturnType<typeof pruefeSynchroJePlattform>, 'kanalJeAdresse' | 'motnBelege' | 'motnTon'>
   quarantaene: ZurueckgestellterTitel[]
 }
 
@@ -122,6 +122,7 @@ function liefereAus({ synchro, quarantaene, ...rest }: Auslieferung): void {
     ...rest,
     allTitles,
     kanalJeAdresse: synchro.kanalJeAdresse,
+    motnTon: synchro.motnTon,
     meta,
   })
   schreibeAboFeeds({ newsFuerRss, events, platforms, allTitles, genres, meta, keywords })

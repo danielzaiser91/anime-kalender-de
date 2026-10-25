@@ -32,6 +32,7 @@ export function schreibeDatensatz({
   allTitles,
   releases,
   kanalJeAdresse,
+  motnTon,
   anisearch,
   tmdbTitles,
   mitStimmen,
@@ -45,6 +46,8 @@ export function schreibeDatensatz({
   allTitles: Title[]
   releases: Release[]
   kanalJeAdresse: Map<string, string | undefined>
+  /** Streams, deren Tonspur nur die Streaming-Availability-API belegt (Schlüssel `motnTonSchluessel`). */
+  motnTon: ReadonlySet<string>
   anisearch: Record<string, AnisearchEintrag>
   tmdbTitles: Record<string, TmdbTitelEintrag>
   mitStimmen: Set<number>
@@ -67,7 +70,7 @@ export function schreibeDatensatz({
   tonDerKanalWege(allTitles, releases, jwNeinAnSeite())
 
   const { slim } = baueAuslieferung({
-    allTitles: mitBelegstaerke(allTitles, releases),
+    allTitles: mitBelegstaerke(allTitles, releases, motnTon),
     anisearch,
     tmdbTitles,
     trenneQuelle,

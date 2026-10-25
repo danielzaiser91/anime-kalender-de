@@ -8,7 +8,7 @@ import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { dirname, join, sep } from 'node:path'
+import { basename, dirname, join, sep } from 'node:path'
 
 const tools = import.meta.dirname
 const git = (cwd, ...args) => execFileSync('git', args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
@@ -17,6 +17,9 @@ const wurzel = mkdtempSync(join(tmpdir(), 'erneut-lauf-'))
 const ursprung = join(wurzel, 'ursprung.git')
 const haupt = join(wurzel, 'haupt')
 const sonde = join(wurzel, 'sonde')
+const wtWurzel = join(wurzel, '_worktrees')
+const wtOrdner = join(wtWurzel, basename(haupt))
+const wtNamen = () => (existsSync(wtOrdner) ? readdirSync(wtOrdner) : [])
 mkdirSync(sonde)
 
 const datei = (rel, inhalt) => {
@@ -46,7 +49,7 @@ datei('public/data/pruefliste-stand.json', '{}')
 datei('data/erneut-melden.yaml', '[]\n')
 datei('data/dub-confirmed.yaml', '[]\n')
 for (const d of ['offene-netflix.js', 'offene-amazon.js', 'offene-amazon-stand.js', 'offene-disney.js']) datei(`extension/${d}`, '')
-datei('.gitignore', 'node_modules\n_wt-*\n')
+datei('.gitignore', 'node_modules\n')
 git(haupt, 'add', '-A')
 git(haupt, ...persoenlich, 'commit', '-q', '-m', 'kulisse')
 git(haupt, 'push', '-q', 'origin', 'HEAD:main')
@@ -59,7 +62,7 @@ const lauf = (args, umgebung = {}) => {
   rmSync(join(sonde, 'pr.txt'), { force: true })
   rmSync(join(sonde, 'vorcommit.txt'), { force: true })
   rmSync(join(sonde, 'pruefstand.txt'), { force: true })
-  const env = { ...process.env, AK_SONDE: sonde, GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t', ...umgebung }
+  const env = { ...process.env, AK_SONDE: sonde, AK_WORKTREES: wtWurzel, GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t', ...umgebung }
   return spawnSync(process.execPath, ['tools/erneut-melden.mjs', ...args], { cwd: haupt, env, encoding: 'utf8' })
 }
 const hauptUnberuehrt = (fall) => {
@@ -69,13 +72,13 @@ const hauptUnberuehrt = (fall) => {
   assert.equal(readFileSync(join(haupt, 'data', 'erneut-melden.yaml'), 'utf8'), yamlVorher, `${fall}: YAML des Hauptordners unverändert`)
 }
 const aufgeraeumt = (fall) => {
-  assert.deepEqual(readdirSync(haupt).filter((n) => n.startsWith('_wt-erneut-melden-')), [], `${fall}: Arbeitsbaum entfernt`)
+  assert.deepEqual(wtNamen().filter((n) => n.startsWith('erneut-melden-')), [], `${fall}: Arbeitsbaum entfernt`)
   assert.equal(git(haupt, 'branch', '--list', 'erneut-melden/*'), '', `${fall}: Zweig entfernt`)
   assert.equal(git(haupt, 'worktree', 'list', '--porcelain').split('\n').filter((z) => z.startsWith('worktree ')).length, 1, `${fall}: kein Arbeitsbaum registriert`)
   assert.ok(existsSync(join(haupt, 'node_modules', 'js-yaml')), `${fall}: node_modules des Hauptordners bleibt voll`)
 }
 const imArbeitsbaum = (pfad, fall) => {
-  const erwartet = haupt + sep + '_wt-erneut-melden-'
+  const erwartet = wtOrdner + sep + 'erneut-melden-'
   assert.ok(pfad.trim().startsWith(erwartet), `${fall}: lief im Arbeitsbaum, nicht im Hauptordner (${pfad})`)
 }
 
@@ -153,7 +156,7 @@ try {
   assert.equal(git(haupt, 'rev-parse', 'HEAD'), kopf, '--neu-erzeugen: kein Commit')
   assert.equal(git(haupt, 'branch', '--list', 'erneut-melden/*'), '', '--neu-erzeugen: kein Zweig')
   assert.equal(git(haupt, 'ls-remote', '--heads', 'origin', 'erneut-melden/*'), '', '--neu-erzeugen: nichts auf origin')
-  assert.deepEqual(readdirSync(haupt).filter((n) => n.startsWith('_wt-erneut-melden-')), [], '--neu-erzeugen: kein Arbeitsbaum')
+  assert.deepEqual(wtNamen().filter((n) => n.startsWith('erneut-melden-')), [], '--neu-erzeugen: kein Arbeitsbaum')
   git(haupt, 'checkout', '-q', '--', '.')
 
   /* 4e. Dasselbe mit einer Kennung dahinter: kein Arbeitsbaum, kein PR (die Kennung zählt bei --neu-erzeugen nicht). */

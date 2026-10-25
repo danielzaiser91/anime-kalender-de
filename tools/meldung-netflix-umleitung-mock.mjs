@@ -2,6 +2,7 @@
 // (Ranma ½, 24.10.2026). Bestand als Attrappe wie in `meldung-summenseite-mock.mjs`; Wurzel (AK_ROOT) ist ein Wegwerf-Ordner.
 import fs from 'node:fs'
 import { syncBuiltinESMExports } from 'node:module'
+import { baueFetchAttrappe, istMeldungsabruf, meldungsAntwort } from './fetch-attrappe.mjs'
 
 const titel = { id: 900001, titleDe: 'Umleitungs-Titel', episodes: 12, streams: [{ platform: 'netflix', url: 'https://www.netflix.com/title/81171925' }] }
 const attrappe = { titles: [titel], franchises: {}, cartoons: [] }
@@ -35,11 +36,10 @@ const zeile = (nr) => ({
   folge: null,
 })
 
-const echt = globalThis.fetch
-globalThis.fetch = async (url, opt) => {
-  if (String(url).includes('/pruefung') && !(opt && opt.method === 'POST')) {
+globalThis.fetch = baueFetchAttrappe(
+  (url, opt) => {
+    if (!istMeldungsabruf(url, opt)) return undefined
     const pruefungen = Array.from({ length: 12 }, (_, i) => zeile(i + 1))
-    return new Response(JSON.stringify({ pruefungen }), { status: 200, headers: { 'content-type': 'application/json' } })
-  }
-  return echt(url, opt)
-}
+    return meldungsAntwort(pruefungen)
+  },
+)
