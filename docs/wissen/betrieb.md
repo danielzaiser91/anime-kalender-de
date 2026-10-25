@@ -1993,6 +1993,13 @@ Die Kette läuft auf `refs/pull/N/merge`, also gegen main zum Zeitpunkt ihres St
 - **Auto-Merge bleibt ungeschützt:** Ein Pflicht-Check „Kette aktuell gegen main“ geht ohne Fan-out nicht. Checks hängen am Kopf-Commit des PR, ein main-Push ändert keinen Kopf; den Check bei jedem main-Push für alle offenen PR neu zu setzen ist genau der verworfene Weg. `strict_required_status_checks_policy: true` im Ruleset `main-pruefweg` wäre das harte Gegenstück, verlangt aber den Zweig auf main-Stand (Update-Branch), erzeugt damit einen neuen Kopf, verwirft über `dismiss_stale_reviews_on_push` die Freigabe und startet den Prüfer neu. Merge Queue gibt es für ein Konto-Repo nicht (nur Organisationen). Also mergt Auto-Merge (`gh pr merge --auto`) ohne Nachrechnen. Stand 19.10.2026: seit dem 17.10. 0 von 51 gemergten Code-PR mit Auto-Merge (zuletzt 1352 am 16.10.); Sammler-PR (`daten/`) überspringen diese Kettenjobs. `tools/pr-einreichen.sh` (aufgerufen von `tools/pushen.sh` und `tools/erneut-melden.mjs`) schaltet seit 19.10.2026 kein `--auto` mehr ein, es druckt den Nachrechnen- und Merge-Befehl.
 - **Zeitzone:** Die Kette läuft mit `TZ: Europe/Berlin` (Workflow-env, von `tools/pr-kette-rahmen.mjs` festgeschrieben).
 
+## Löschexperiment: „kein Leser übersehen“ belegen (25.10.2026)
+
+`node tools/loeschexperiment.mjs <pfad…> [--pruefung <npm-skript>…] [--cache]` (Anlass Prüfer 1741: 53 Einträge von Hand gelöscht). Es fährt die Prüfungen als Basis (Vorgabe `check:pfade`, `typecheck`, `check:hooks`; je Lauf über `tools/schwer.mjs`), löscht genau die Pfade, fährt dieselben Prüfungen erneut und druckt je Prüfung `gleich` / `neu rot` / `neu grün` / `rot, anderes Ende`. Danach stellt `git checkout -- <pfade>` sie wieder her, auch bei Fehler; kein `git clean`. Nur getrackte, unveränderte Pfade im Repo sind erlaubt. Exit 0 auch bei Abweichungen (Messlauf), 2 bei Fehlbedienung.
+- **Untergrenze bestätigt:** zwei Läufe vorhandener `check:*` mit Exit-Code-Vergleich decken den Fall ab; kein eigener Prüfer-Baukasten.
+- **`--cache`:** legt `data/cache` als Junction auf das des Hauptordners, wenn es im Worktree fehlt (nur lesend), und löst die Verknüpfung am Ende. Für `data:build`-Prüfungen (`--pruefung data:build`); dort schreibt der Bau nach `public/data`, das nicht mitwiederhergestellt wird, also nur in Wegwerf-Worktrees.
+- **Belegt am 25.10.2026:** `docs/analyse-cartoons.md` gelöscht → `check:pfade`, `check:umfang` gleich; `tools/umfang-pruefen.mjs` gelöscht → `check:umfang` neu rot.
+
 ## Delta-Wache: verworfene Läufe und gewollte Herabstufungen zählen nicht (19.10.2026)
 
 Die Wache (`tools/delta-pruefen.mjs`) war am 19.10. rot, ohne dass etwas verloren ging. Zwei Ursachen, beide in `data/bestand-historie.jsonl`:
