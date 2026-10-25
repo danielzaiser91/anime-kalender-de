@@ -1,3 +1,4 @@
+import { zeitGeschaetzt } from '@shared/zeit-text.ts'
 import { anzeigeFolge, istAusgeblieben } from '@shared/logic.ts'
 import { weekdayName } from '@shared/time.ts'
 import { anbieterName, type PlatformId, type ReleaseEvent } from '@shared/types.ts'
@@ -48,7 +49,7 @@ function naechster(termine: ReleaseEvent[]): Nachleger {
     bis: Math.max(...amTag),
     date: erster.date,
     time: erster.time,
-    geschaetzt: Boolean(erster.estimated || erster.timeEstimated),
+    geschaetzt: zeitGeschaetzt(erster),
   }
 }
 

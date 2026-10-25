@@ -1,3 +1,4 @@
+import { zeitMitMarke } from '@shared/zeit-text.ts'
 import type { Release, ReleaseEvent } from '@shared/types.ts'
 import { anbieterDesKanals } from '@shared/kanal-anbieter.ts'
 
@@ -63,7 +64,7 @@ export function vereineAnbieter(
 }
 
 /** Zeit wie die Marke auf dem Cover sie schreibt: „≈ 16:00" bei einer Schätzung, leer ohne Uhrzeit. */
-export const zeitText = (ev: ReleaseEvent): string => (ev.time ? `${ev.timeEstimated || ev.estimated ? '≈ ' : ''}${ev.time}` : '')
+export const zeitText = (ev: ReleaseEvent): string => zeitMitMarke(ev, '≈ ')
 
 /** Alle Anbieter nennen dieselbe Zeit (samt Schätzung) — dann reicht eine Marke auf dem Cover, sonst steht die Zeit je Anbieter. */
 export const zeitGemeinsam = (buendel: ReleaseEvent[][]): boolean => buendel.every((b) => zeitText(b[0]!) === zeitText(buendel[0]![0]!))
