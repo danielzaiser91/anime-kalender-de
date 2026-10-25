@@ -5022,6 +5022,12 @@
   ],
   "apothecary-diaries-s3-cour1": [
     {
+      "url": "https://www.crunchyroll.com/de/series/G3KHEVDJ7/the-apothecary-diaries",
+      "name": "crunchyroll.com",
+      "gesehenAm": "2026-10-25",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026",
       "name": "Crunchyroll News",
       "gesehenAm": "2026-10-01",
@@ -5047,7 +5053,8 @@
       "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-02",
-      "stand": "vermutlich-ueberholt"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-10-23"
     }
   ],
   "black-clover-s2-crunchyroll": [
@@ -7468,6 +7475,52 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-10-19",
       "sagt": "2026-09-06",
+      "stand": "aktuell"
+    }
+  ],
+  "last-boss-s2-crunchyroll": [
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00361955/a-wild-last-boss-appeared",
+      "name": "crunchyroll.com",
+      "gesehenAm": "2026-10-25",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026",
+      "name": "Crunchyroll News",
+      "gesehenAm": "2026-10-25",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026",
+      "name": "Crunchyroll News",
+      "gesehenAm": "2026-10-25",
+      "stand": "aktuell"
+    }
+  ],
+  "appraisal-aristocrat-s3-crunchyroll": [
+    {
+      "url": "https://www.crunchyroll.com/de/series/GG5H5XQMD/as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world",
+      "name": "crunchyroll.com",
+      "gesehenAm": "2026-10-25",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026",
+      "name": "Crunchyroll News",
+      "gesehenAm": "2026-10-25",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026",
+      "name": "Crunchyroll News",
+      "gesehenAm": "2026-10-25",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar",
+      "name": "crunchyroll.com",
+      "gesehenAm": "2026-10-25",
       "stand": "aktuell"
     }
   ]

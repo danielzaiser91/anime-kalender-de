@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-25T10:01:04.735Z",
+  "stand": "2026-10-25T17:05:44.509Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7722,17 +7722,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-25",
       "letzterWeg": false
-    },
-    {
-      "titleId": 204389,
-      "titel": "A Wild Last Boss Appeared! Staffel 2",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GT00361955/a-wild-last-boss-appeared",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-25",
-      "letzterWeg": true
     },
     {
       "titleId": 118465,
