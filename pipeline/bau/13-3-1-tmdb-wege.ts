@@ -1,5 +1,6 @@
 import { loadDubChecks, dubKey } from '../lib/dub-confirmed.ts'
 import { log } from '../lib/util.ts'
+import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { type MotnDaten } from '../lib/motn.ts'
 import { type PlatformId } from '../../shared/types.ts'
 import { zugangsart } from '../../shared/zugangsart.ts'
@@ -106,7 +107,7 @@ export function ergaenzeWegeAusTmdbUndMotn({ slim, tmdbTitles, tmdbZuTitel, motn
       */
       neue.push({
         platform: platform as PlatformId,
-        url,
+        url: platform === 'netflix' ? netflixTitelAdresse(url) : url,
         // Prime Video führt Abo- und Kauftitel nebeneinander; die lizenzierte
         // JustWatch-Angabe entscheidet, wo sie vorliegt. Ohne sie greift die
         // Vorgabe des Anbieters.

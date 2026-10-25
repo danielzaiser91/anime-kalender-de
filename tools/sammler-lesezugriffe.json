@@ -25,6 +25,7 @@
   { "datei": "pipeline/check-nein-handbeleg-cr.ts", "liest": "data/cr-katalog-de.json", "grund": "sucht irgendeinen Eintrag mit einer Staffel und de-DE (Hunderte), keine feste Serie" },
   { "datei": "pipeline/check-netflix-staffel-ablauf.ts", "liest": "data/prime-zugeordnet.json", "grund": "Kulisse: lies() liest den Wegwerf-Ordner des Tests, nicht das Repo" },
   { "datei": "pipeline/check-netflix-staffel-ablauf.ts", "liest": "data/prime-unzugeordnet.json", "grund": "Kulisse: lies() liest den Wegwerf-Ordner des Tests, nicht das Repo" },
+  { "datei": "pipeline/check-netflix-umleitung-ablauf.ts", "liest": "data/anbieter-staffeln.json", "grund": "Kulisse: liest den Wegwerf-Ordner (AK_ROOT) des Tests, nicht das Repo" },
   { "datei": "pipeline/check-rohfolgen-ablauf.ts", "liest": "data/prime-zugeordnet.json", "grund": "Kulisse: lies() liest den Wegwerf-Ordner des Tests, nicht das Repo" },
   { "datei": "pipeline/check-rohfolgen-ablauf.ts", "liest": "data/prime-unzugeordnet.json", "grund": "Kulisse: lies() liest den Wegwerf-Ordner des Tests, nicht das Repo" },
   { "datei": "pipeline/check-tmdb-genre.ts", "liest": "data/tmdb-titles.json", "grund": "Eigenschaft über den ganzen Bestand: jede Zuordnung mit bekanntem Genre trägt Animation, kein fester Schlüssel" },
