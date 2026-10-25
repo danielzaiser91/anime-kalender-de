@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-25T10:02:03.132Z",
+ "erzeugtAm": "2026-10-25T11:15:27.326Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -380,9 +380,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 774,
+   "gemeldet": 773,
    "gesamt": 893,
-   "offen": 119,
+   "offen": 120,
    "ohneSeite": 17,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -393,6 +393,10 @@
     {
      "url": "https://www.netflix.com/title/81272431",
      "titel": "Numberblocks"
+    },
+    {
+     "url": "https://www.netflix.com/title/81054853",
+     "titel": "Cyberpunk: Edgerunners"
     },
     {
      "url": "https://www.netflix.com/title/81684733",
