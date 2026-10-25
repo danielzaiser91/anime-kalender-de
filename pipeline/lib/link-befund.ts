@@ -52,5 +52,5 @@ export function juengsteJeKern(befunde: Record<string, LinkBefund>): Map<string,
 export function istFaellig(alt: LinkBefund | undefined, grenze: string): boolean {
   if (!alt || alt.status === 'unklar') return true
   if (typeof alt.status === 'number' && alt.status >= 500) return true
-  return (alt.geprueftAm ?? '') < grenze
+  return (alt.geprueftAm ?? 'z') < grenze
 }

@@ -21,6 +21,9 @@ for (const [name, status, soll] of tabelle) {
   assert.equal(istFaellig({ status: status as number, geprueftAm: ALT }, GRENZE), true, `alt ${name}: nach der Frist immer fällig`)
 }
 assert.equal(istFaellig(undefined, GRENZE), true, 'nie geprüft')
+assert.equal(istFaellig({ status: 200 }, GRENZE), false, 'Datum fehlt, 200: wie auf main nicht fällig')
+assert.equal(istFaellig({ status: 404 }, GRENZE), false, 'Datum fehlt, 404: wie auf main nicht fällig')
+assert.equal(istFaellig({ status: 503 }, GRENZE), true, 'Datum fehlt, 503: fällig')
 assert.equal(istFaellig({ status: 200, geprueftAm: GRENZE }, GRENZE), false, 'Datum genau an der Grenze: noch nicht fällig')
 assert.equal(istFaellig({ status: 200, geprueftAm: '2026-09-30' }, GRENZE), true, 'einen Tag vor der Grenze: fällig')
 
