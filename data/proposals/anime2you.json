@@ -1,13 +1,13 @@
 {
-  "scrapedAt": "2026-10-25T19:03:53.421Z",
+  "scrapedAt": "2026-10-25T23:02:51.672Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 17,
     "schon in einem Rubrik-Feed gelesen": 4,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
-    "Sprachhinweis älter als 45 Tage": 4
+    "Sprachhinweis älter als 45 Tage": 5
   },
   "proposals": [
     {
@@ -4375,19 +4375,6 @@
       ],
       "dub": "ja",
       "alreadyCurated": true
-    },
-    {
-      "articleTitle": "Netflix entfernt »Kuromukuro« aus seinem Programm",
-      "articleUrl": "https://www.anime2you.de/news/1048297/netflix-entfernt-kuromukuro/",
-      "publishedAt": "2026-09-10",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
-      "alreadyCurated": false
     },
     {
       "articleTitle": "Anime Planet startet große »End of Summer«-Rabattaktion",
