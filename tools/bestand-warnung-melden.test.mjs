@@ -48,8 +48,8 @@ assert.equal(neueZeilen(viele(1), '', JETZT).length, 1)
 
 // Rückblick: ein Wortlaut weiter zurück als RUECKBLICK Zeilen gilt als neu, einer innerhalb als bekannt.
 const fueller = (n) => bestehend(...Array.from({ length: n }, (_, i) => `füller ${i}`))
-assert.equal(neueZeilen(zeile(1), bestehend(t1) + fueller(RUECKBLICK - 2), JETZT).length, 0)
-assert.equal(neueZeilen(zeile(1), bestehend(t1) + fueller(RUECKBLICK + 1), JETZT).length, 1)
+assert.equal(neueZeilen(zeile(1), bestehend(t1) + fueller(RUECKBLICK - 1), JETZT).length, 0, 'genau RUECKBLICK Zeilen: noch bekannt')
+assert.equal(neueZeilen(zeile(1), bestehend(t1) + fueller(RUECKBLICK), JETZT).length, 1, 'eine mehr: nicht mehr im Rückblick')
 
 // Als Prozess: zwei Läufe hintereinander hängen nur einmal an; Datei ohne Zeilenende, fehlende Datei, fehlendes Protokoll, falscher Aufruf.
 const wo = mkdtempSync(join(tmpdir(), 'bestand-warnung-melden-'))

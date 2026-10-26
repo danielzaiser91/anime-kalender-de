@@ -32,7 +32,7 @@ export function warnTexte(protokoll) {
 /** Die `text`-Felder der letzten `RUECKBLICK` Zeilen; eine unlesbare Zeile zählt nicht. */
 export function bekannteTexte(jsonl) {
   const bekannt = new Set()
-  for (const zeile of jsonl.split('\n').slice(-RUECKBLICK)) {
+  for (const zeile of jsonl.split('\n').filter(Boolean).slice(-RUECKBLICK)) {
     try {
       const text = JSON.parse(zeile).text
       if (typeof text === 'string') bekannt.add(text)
