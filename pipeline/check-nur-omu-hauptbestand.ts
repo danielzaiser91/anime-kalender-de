@@ -96,6 +96,7 @@ pruefe('Titel ohne Release und ohne Startdatum bleibt (unverändertes Verhalten)
 pruefe('Titel ohne Release mit Start in der Zukunft wandert weiter (unverändertes Verhalten)', !w.titles.has(900012) && lauf.verschoben.some((t) => t.id === 900012))
 pruefe('Titel mit Release bleibt trotz Start in der Zukunft (unverändertes Verhalten)', w.titles.has(900002))
 pruefe('Alle übrigen Releases bleiben in Reihenfolge und als dieselben Objekte', JSON.stringify(slugs) === JSON.stringify(vorher.filter((r) => !weg.includes(r.titleId)).map((r) => r.slug)) && w.releases.every((r) => vorher.includes(r)), slugs)
+pruefe('Gemischter Titel: die OmU-Ereignisse fallen weiter weg, das deutsche bleibt', lauf.events.filter((e) => e.titleId === 900003).every((e) => e.sprache !== 'omu') && lauf.events.some((e) => e.titleId === 900003), lauf.events.filter((e) => e.titleId === 900003))
 pruefe('Ereignisse der bleibenden Titel mit Beleg bleiben', lauf.events.some((e) => e.titleId === 900002) && lauf.events.some((e) => e.titleId === 900007))
 
 console.log('nurOmuTitel direkt:')
