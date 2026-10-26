@@ -126,6 +126,7 @@
     "data:vorschlaege": "tsx pipeline/vorschlaege-anbieter.ts",
     "data:wiedervorlage": "tsx pipeline/wiedervorlage.ts",
     "check:qualitaet": "tsx pipeline/check-qualitaet.ts",
+    "check:cr-termine": "tsx tools/cr-termine-vorschau.ts --wie-gebaut --streng",
     "data:rohfolgen": "tsx pipeline/fetch-rohfolgen.ts",
     "data:rohfolgen-abhaken": "tsx pipeline/rohfolgen-abhaken.ts",
     "data:folgen-zuordnung": "tsx pipeline/fetch-folgen-zuordnung.ts",

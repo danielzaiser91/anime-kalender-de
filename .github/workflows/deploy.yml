@@ -243,7 +243,17 @@ jobs:
       !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]') &&
       needs.herkunft.outputs.treffer != '1'
     steps:
+      # Verlauf für den Logik-Beleg (tools/logik-beleg.mjs): Commit-Nachrichten der letzten 30, ohne ihre Inhalte.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 30
+          filter: blob:none
+
+      # Hat der Bestandsbau `check:logic` für genau diesen Inhalt (außerhalb der Datenpfade) schon grün gefahren, steht der Abdruck in
+      # seiner Commit-Nachricht und der Lauf unten spart die ~3 min. Jeder Fehler hier heißt nur „nicht belegt“: dann läuft die Prüfung.
+      - name: Logik-Beleg des Bestandsbaus lesen
+        id: beleg
+        run: node tools/logik-beleg.mjs gueltig
 
       # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
       # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
@@ -334,7 +344,15 @@ jobs:
       - name: Zusicherungen prüfen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run check:pfade && npm run check:logic && npm run check:search
+          LOGIK_BELEGT: ${{ steps.beleg.outputs.gueltig }}
+        run: |
+          npm run check:pfade
+          if [ "$LOGIK_BELEGT" = 1 ]; then
+            echo "check:logic übersprungen: vom Bestandsbau für diesen Inhalt belegt (Schritt „Logik-Beleg“)."
+          else
+            npm run check:logic
+          fi
+          npm run check:search
 
       - name: Fortschritt — Zusicherungen geprüft
         continue-on-error: true
