@@ -1,17 +1,17 @@
 {
   "adn": {
-    "lastOk": "2026-10-26T04:20:41.258Z",
-    "lastRun": "2026-10-26T04:20:41.258Z",
-    "lastCount": 11
+    "lastOk": "2026-10-26T05:14:14.260Z",
+    "lastRun": "2026-10-26T05:14:14.260Z",
+    "lastCount": 16
   },
   "anime2you": {
-    "lastOk": "2026-10-26T11:14:48.459Z",
-    "lastRun": "2026-10-26T11:14:48.459Z",
-    "lastCount": 50
+    "lastOk": "2026-10-26T14:03:14.822Z",
+    "lastRun": "2026-10-26T14:03:14.822Z",
+    "lastCount": 49
   },
   "crunchyroll": {
     "lastOk": "2026-10-21T20:02:22.932Z",
-    "lastRun": "2026-10-26T11:14:32.343Z",
+    "lastRun": "2026-10-26T14:02:59.247Z",
     "lastCount": 0,
     "lastError": "keine Kachel im Kalender gefunden"
   },
@@ -21,9 +21,9 @@
     "lastCount": 3
   },
   "adn-catalog": {
-    "lastOk": "2026-10-12T05:44:48.358Z",
-    "lastRun": "2026-10-12T05:44:48.358Z",
-    "lastCount": 109
+    "lastOk": "2026-10-26T05:18:50.806Z",
+    "lastRun": "2026-10-26T05:18:50.806Z",
+    "lastCount": 115
   },
   "crunchyroll-dub": {
     "lastOk": "2026-10-26T05:26:50.687Z",
@@ -88,8 +88,8 @@
   },
   "rohfolgen": {
     "lastOk": "2026-10-26T11:19:39.837Z",
-    "lastRun": "2026-10-26T11:19:39.837Z",
-    "lastCount": 693
+    "lastRun": "2026-10-26T14:08:30.528Z",
+    "lastCount": 0
   },
   "anisearch-folgen": {
     "lastOk": "2026-10-26T05:11:51.757Z",
@@ -117,8 +117,8 @@
     "lastCount": 9
   },
   "vorfaelle": {
-    "lastOk": "2026-10-26T11:19:32.892Z",
-    "lastRun": "2026-10-26T11:19:32.892Z",
+    "lastOk": "2026-10-26T14:08:25.247Z",
+    "lastRun": "2026-10-26T14:08:25.247Z",
     "lastCount": 0
   },
   "crunchyroll-neu": {
@@ -142,8 +142,8 @@
     "lastCount": 15
   },
   "tv-programm": {
-    "lastOk": "2026-10-26T11:14:52.612Z",
-    "lastRun": "2026-10-26T11:14:52.612Z",
+    "lastOk": "2026-10-26T14:03:18.420Z",
+    "lastRun": "2026-10-26T14:03:18.420Z",
     "lastCount": 294
   },
   "tv-de": {
@@ -177,8 +177,8 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-10-26T11:14:38.564Z",
-    "lastRun": "2026-10-26T11:14:38.564Z",
+    "lastOk": "2026-10-26T14:03:05.761Z",
+    "lastRun": "2026-10-26T14:03:05.761Z",
     "lastCount": 59
   },
   "adn-news": {
@@ -187,8 +187,8 @@
     "lastCount": 75
   },
   "messbelege": {
-    "lastOk": "2026-10-26T11:14:49.661Z",
-    "lastRun": "2026-10-26T11:14:49.661Z",
+    "lastOk": "2026-10-26T14:03:16.214Z",
+    "lastRun": "2026-10-26T14:03:16.214Z",
     "lastCount": 0
   },
   "beleg-lesungen": {

@@ -15,7 +15,10 @@ const lies = (rel) => readFileSync(join(wurzel, rel), 'utf8')
 const stumm = (text) => findeStummeAusgaenge(text).map((s) => s.zeile)
 
 /** Prüfungen ohne eigenen Fehlerausgang, mit Grund. Der Test verlangt, dass sie wirklich keinen haben. */
-const OHNE_AUSGANG = {}
+const OHNE_AUSGANG = {
+  'pipeline/check-handlung-eigen-bestand.ts':
+    'verwaist ist seit 26.10.2026 eine Warnung (herabgestufteWarnzeile, Exit 0): ein Eintrag ohne Titel bringt nichts live, der Bau bindet nur Einträge zu Titeln im Bestand ein',
+}
 
 // Fälle der Regel (Zeilennummern: erste Zeile = 1).
 assert.deepEqual(stumm('process.exit(1)'), [1], 'nackter Ausgang ist stumm')

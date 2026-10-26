@@ -38,6 +38,8 @@ export const OHNE_BEFUND = [
   { datei: 'tools/commit-data-test.sh', text: 'gruen/log.txt" || true', grund: 'Testskript: grep -c ohne Treffer' },
   { datei: 'tools/commit-data-test.sh', text: 'unbewegt/log.txt" || true', grund: 'Testskript: grep -c ohne Treffer' },
   { datei: 'tools/commit-data-test.sh', text: 'commit-data.sh" || true', grund: 'Testskript: grep -c ohne Treffer' },
+  { datei: '.github/workflows/bestand-bauen.yml', text: "grep -c '^FEHLT'", grund: 'grep -c ohne Treffer endet mit 1; 0 wird direkt danach als „Prüfung nicht lesbar“ behandelt' },
+  { datei: '.github/workflows/bestand-bauen.yml', text: "grep '^FEHLT'", grund: 'grep ohne Treffer endet mit 1; leere Liste ist das gewollte Ergebnis (Anzeigetext)' },
   { datei: 'tools/commit-data.sh', text: 'bestand-pruefung.txt" || true)', grund: 'grep ohne Treffer; die Warnzeilen sind reine Anzeige' },
   { datei: 'tools/commit-data.sh', text: 'git checkout HEAD -- public/data 2>/dev/null || true', grund: 'Verwerfen unbelegter Erzeugnisse nach roter Bestandsprüfung (gewollt, siehe Kommentar dort)' },
   { datei: 'tools/commit-data.sh', text: "tr -s '[:space:]' ' ')\" || true", grund: 'Meldungstext aus grep-Ketten; ohne Treffer bleibt er leer (Kommentar in commit-data.sh)' },

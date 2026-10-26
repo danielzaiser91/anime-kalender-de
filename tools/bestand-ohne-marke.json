@@ -1,0 +1,198 @@
+[
+  {
+    "datei": "pipeline/check-adn-film-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-adn-offen-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-angebot-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-anisearch-dubletten-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-anisearch-katalog-abgleich-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-belegstaerke-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-cartoon-aufnahme-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-cartoon-staffeln-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-cartoon-wege-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-cartoon-wege-falten-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-cartoon-zwilling-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-cover-luecken-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-cr-neu-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-cr-teilseiten-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-deutsche-folgenzahl-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-empfehlung-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-empfehlung-kern-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-folge-zwoelf-hinweis-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-folgenflaggen-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-folgentitel-sprache-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-folgenzahl-kennzeichnung-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-herkunftsland-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-ja-hat-weg-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-kachel-buendel-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-kalender-plausibilitaet-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-katalog-eingefroren-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-katalog-release-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-logic-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-mal-dubletten-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-nein-liste-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-netflix-quellen-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-netflix-umleitung-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-news-einfrieren-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-news-felder-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-news-offiziell-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-prime-teilseiten-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-reihen-namen-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-reihen-teilname-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-saison-deutsch-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-staffel-von-hand-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-tmdb-ablauf-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-verweise-von-hand-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-woche-groesse-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-wochen-datei-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "pipeline/check-zaehlung-synchro.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "tools/cartoon-jw-stichprobe-bestand-pruefen.mjs",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "tools/pruefliste-asid-bestand.mjs",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "tools/sprache-netz-bestand-pruefen.mjs",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  },
+  {
+    "datei": "tools/tmdb-bilddatum-bestand.mjs",
+    "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
+  }
+]

@@ -89,6 +89,10 @@ fi
 # Neuversuch-Verkürzung (tools/neuversuch.sh): Basis, auf der gebaut bzw. check:logic grün war, und ob der letzte Versuch ganz grün war.
 BAU_BASIS=""
 LOGIK_BASIS=""
+# Abdruck (tools/logik-beleg.mjs) des Inhalts, für den check:logic grün war: aus der Vorprüfung „Neue Handbelege prüfen“ des Bau-Laufs
+# (Datei LOGIK_GRUEN_DATEI) oder aus dem eigenen grünen Lauf. Gleicher Abdruck = kein neuer Lauf, und er kommt als Beleg in den Commit.
+LOGIK_ABDRUCK=""
+if [ -r "${LOGIK_GRUEN_DATEI:-}" ]; then LOGIK_ABDRUCK="$(cat "$LOGIK_GRUEN_DATEI")"; fi
 PRUEFUNG_GRUEN=0
 for versuch in $(seq 1 "$VERSUCHE"); do
   # Die Quarantäne-Liste gilt nur für den Bau dieses Versuchs; nach dem Neuaufsetzen zählt allein der neue Prüfstand.
@@ -196,7 +200,14 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       echo "check:logic übersprungen: seit $LOGIK_BASIS bewegten sich nur Datenpfade." >> "$TEMP_LAUF/bestand-pruefung.txt"
       return 0
     fi
-    npm run check:logic >> "$TEMP_LAUF/bestand-pruefung.txt" 2>&1 && LOGIK_BASIS="$FERN"
+    if node tools/logik-beleg.mjs gleich "$LOGIK_ABDRUCK"; then
+      echo "check:logic übersprungen: gleicher Inhalt außerhalb der Datenpfade wie beim grünen Lauf (Abdruck ${LOGIK_ABDRUCK:0:12})." >> "$TEMP_LAUF/bestand-pruefung.txt"
+      return 0
+    fi
+    LOGIK_ABDRUCK=""
+    npm run check:logic >> "$TEMP_LAUF/bestand-pruefung.txt" 2>&1 || return 1
+    LOGIK_BASIS="$FERN"
+    LOGIK_ABDRUCK="$(node tools/logik-beleg.mjs abdruck 2>/dev/null)" || LOGIK_ABDRUCK=""
   }
   # Bei Exit 0 zeigt der Lauf nur `tail -3`; Zeilen „⚠ WARNUNG …“ der Bestandsprüfung (z. B. check-adn-offen-bestand.ts) werden
   # hier zu Anmerkungen des Laufs, sonst bliebe die Warnung unsichtbar.
@@ -205,6 +216,8 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     while IFS= read -r zeile; do
       echo "::warning::${zeile#*⚠ }"
     done < <(grep -F '⚠ WARNUNG' "$TEMP_LAUF/bestand-pruefung.txt" || true)
+    # Herabgestufte Prüfungen („[vorher rot]“, 26.10.2026) zusätzlich in den Posteingang, sonst bleibt der Verstoß ein Lauf-Log-Eintrag.
+    node tools/bestand-warnung-melden.mjs "$TEMP_LAUF/bestand-pruefung.txt" data/meldungen-an-claude.jsonl || echo "::warning::Die herabgestuften Warnungen kamen nicht in den Posteingang."
   }
   # Die Historie-Zeile dieses Laufs (Schritt „Delta am Bestand festhalten“) misst den Bau vor der Quarantäne. Ausgeliefert wird ein
   # anderer Bestand: Zeile verwerfen (`verworfen: true`, die Wache überspringt sie) und neu messen (19.10.2026: Pendeln gegen Stände,
@@ -406,7 +419,9 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     exit 0
   fi
 
-  git -c user.name="$BOT_NAME" -c user.email="$BOT_MAIL" commit -m "$NACHRICHT" --quiet
+  # Beleg für den Deploy (tools/logik-beleg.mjs): nur wenn der Inhalt außerhalb der Datenpfade der ist, für den check:logic grün war.
+  BELEG="$(node tools/logik-beleg.mjs zeile "$LOGIK_ABDRUCK" 2>/dev/null)" || BELEG=""
+  git -c user.name="$BOT_NAME" -c user.email="$BOT_MAIL" commit -m "$NACHRICHT" ${BELEG:+-m "$BELEG"} --quiet
 
   # Die Meldung bleibt sichtbar: Am 11.10.2026 scheiterten sechs Pushes bei unbewegtem Fernstand, und ohne Text war nicht zu sagen, ob es ein Wettlauf oder eine Ablehnung (Rechte, Schutzregel) war.
   if git push --quiet 2>"$TEMP_LAUF/push-fehler.txt"; then

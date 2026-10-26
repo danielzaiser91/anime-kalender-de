@@ -43,11 +43,12 @@ permissions:
   actions: read
 
 concurrency:
-  # Pushes der Daten-App überspringt der Job-`if`; der Lauf selbst bekäme sonst die Gruppe und bräche einen laufenden Deploy ab.
+  # Pushes der Daten-App überspringt der Job-`if`; der Lauf selbst bekäme sonst die Gruppe und verdrängte einen wartenden Deploy.
   # Ebenso ein workflow_run-Lauf nach nicht erfolgreichem Bestandsbau (16.10.2026: er verdrängte den push-Deploy und übersprang sich dann selbst).
-  # workflow_run-Läufe brechen nie ab, sondern warten: zwei Bau-Abschlüsse kurz nacheinander lassen den ersten Deploy zu Ende laufen.
+  # Kein Lauf bricht einen laufenden Deploy ab, er wartet; ein neuerer wartender ersetzt den älteren (GitHub hält je Gruppe nur einen).
+  # Vorher brach jeder Merge den laufenden ab: 60 von ~290 Deploys in 7 Tagen, ein Live-Fix kam je Merge ~8 min später (26.10.2026).
   group: ${{ (github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]') && format('app-push-{0}', github.run_id) || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success') && format('uebersprungen-{0}', github.run_id) || 'pages' }}
-  cancel-in-progress: ${{ github.event_name != 'workflow_run' }}
+  cancel-in-progress: false
 
 jobs:
   # **Zwei Wege zum Deploy** (Daniel, 08.10.2026): Der Bau und die Prüfungen laufen nebeneinander. **Hart** (Standard): Deployt wird erst, wenn beides grün ist.
@@ -242,7 +243,17 @@ jobs:
       !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]') &&
       needs.herkunft.outputs.treffer != '1'
     steps:
+      # Verlauf für den Logik-Beleg (tools/logik-beleg.mjs): Commit-Nachrichten der letzten 30, ohne ihre Inhalte.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 30
+          filter: blob:none
+
+      # Hat der Bestandsbau `check:logic` für genau diesen Inhalt (außerhalb der Datenpfade) schon grün gefahren, steht der Abdruck in
+      # seiner Commit-Nachricht und der Lauf unten spart die ~3 min. Jeder Fehler hier heißt nur „nicht belegt“: dann läuft die Prüfung.
+      - name: Logik-Beleg des Bestandsbaus lesen
+        id: beleg
+        run: node tools/logik-beleg.mjs gueltig
 
       # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
       # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
@@ -333,7 +344,15 @@ jobs:
       - name: Zusicherungen prüfen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run check:pfade && npm run check:logic && npm run check:search
+          LOGIK_BELEGT: ${{ steps.beleg.outputs.gueltig }}
+        run: |
+          npm run check:pfade
+          if [ "$LOGIK_BELEGT" = 1 ]; then
+            echo "check:logic übersprungen: vom Bestandsbau für diesen Inhalt belegt (Schritt „Logik-Beleg“)."
+          else
+            npm run check:logic
+          fi
+          npm run check:search
 
       - name: Fortschritt — Zusicherungen geprüft
         continue-on-error: true
