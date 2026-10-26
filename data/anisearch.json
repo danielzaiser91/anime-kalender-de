@@ -879317,5 +879317,139 @@
       ]
     },
     "fetchedAt": "2026-10-19T06:01:39.618Z"
+  },
+  "218721": {
+    "anisearchId": 22076,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Made in Abyss: Gekijou Series Dai Ni Bu",
+          "titleNative": "Made in Abyss: Gekijō Series Dai Ni Bu",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "staff": [
+        {
+          "name": "Akihito TSUKUSHI",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Miabyss",
+          "url": "https://miabyss.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-26T06:01:34.417Z"
+  },
+  "218740": {
+    "anisearchId": 22073,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Koukaku Kidoutai (Shinsaku Animation)",
+          "titleNative": "Kōkaku Kidōtai (Shinsaku Animation)",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "studios": [
+        "Science SARU Inc."
+      ],
+      "staff": [
+        {
+          "name": "Masamune SHIROU",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/thegitsofficial"
+        },
+        {
+          "name": "X",
+          "url": "https://x.com/thegits_animeEN"
+        },
+        {
+          "name": "Theghostintheshell Anime",
+          "url": "https://www.theghostintheshell-anime.jp/"
+        },
+        {
+          "name": "Theghostintheshell Anime",
+          "url": "https://www.theghostintheshell-anime.jp/en/"
+        }
+      ],
+      "synonyms": [
+        "The Ghost in the Shell (New Animation Project)"
+      ]
+    },
+    "fetchedAt": "2026-10-26T06:01:41.167Z"
+  },
+  "218835": {
+    "anisearchId": 22074,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kimi to Boku no Saigo no Senjou, Arui wa Sekai ga Hajimaru Seisen Season III",
+          "titleNative": "Kimi to Boku no Saigo no Senjō, Arui wa Sekai ga Hajimaru Seisen Season III",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "SILVER LINK.",
+        "Studio Palett"
+      ],
+      "staff": [
+        {
+          "name": "Kei SAZANE",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yuki INABA",
+          "role": "Direction"
+        },
+        {
+          "name": "Kaori YOSHIKAWA",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/kimisen_project"
+        },
+        {
+          "name": "KimisenTV",
+          "url": "https://kimisentv.com/"
+        }
+      ],
+      "synonyms": [
+        "Our Last Crusade or the Rise of a New World: Season 3",
+        "Our Last Crusade or the Rise of a New World: Staffel 3"
+      ]
+    },
+    "fetchedAt": "2026-10-26T06:01:47.913Z"
   }
 }
