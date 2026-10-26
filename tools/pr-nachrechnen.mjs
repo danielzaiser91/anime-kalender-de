@@ -17,6 +17,7 @@
 import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
 import { BOT_DATEIEN_OHNE_LESER, istBotDatei } from './pr-nachrechnen-bot-pfade.mjs'
+import { gitAufruf, gitLeser } from './pr-nachrechnen-leser-git.mjs'
 
 export const KETTE = 'pr-pruefung.yml'
 /** Kleiner Job der Kette mit Checkout ohne eigenes `ref` (prüft `pr-nachrechnen.test.mjs` an der YAML). */
@@ -54,13 +55,22 @@ export const COMPARE_GRENZE = 300
 
 export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p)) || istBotDatei(datei)
 
+/**
+ * Doku auf main, an deren Stand kein Kettenschritt hängt (Dirigent 26.10.2026, Anlass PR 2118): `docs/`, Markdown im Wurzelordner und
+ * `daniel-zum-abarbeiten/00-wache.md` (nur `tools/wache-schreiben.mjs` schreibt sie). Andere Daniel-Dateien lesen Prüfungen
+ * (`stand.md`, `listen/07-neu.md`, `listen/justwatch-widersprueche.md`, Test in `pr-nachrechnen-bot-pfade.test.mjs`), `data/patchnotes/` der Bau.
+ * Ausgenommen von `docs/`: `design-regeln.md`, das `tools/design-kontrast.mjs` liest (Prüfer 2123 R1); `dokuLeser` im Bot-Pfade-Test sucht den nächsten Leser.
+ */
+const LIEST_KETTE = 'docs/wissen/design-regeln.md'
+const ohneKetteLeser = (datei) => (datei.startsWith('docs/') && datei !== LIEST_KETTE) || /^[^/]+\.md$/.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'
+
 /** null = Ausnahme gilt (main bewegte nur Datenpfade, der PR keinen); sonst der Grund, warum nicht. */
 export function datenpfadAusnahme(vergleich, prDateien) {
   if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
   if (vergleich.anzahl >= COMPARE_GRENZE) return `Vergleich mit ${vergleich.anzahl} Dateien evtl. abgeschnitten`
-  const fremd = vergleich.dateien.find((d) => !istDatenpfad(d))
+  const fremd = vergleich.dateien.find((d) => !istDatenpfad(d) && !ohneKetteLeser(d))
   if (fremd !== undefined) return `main bewegte ${fremd}`
-  const beruehrt = prDateien.find(istDatenpfad)
+  const beruehrt = prDateien.find((p) => istDatenpfad(p) || vergleich.dateien.includes(p))
   if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
   return null
 }
@@ -68,36 +78,31 @@ export function datenpfadAusnahme(vergleich, prDateien) {
 /** Autoren der Datenläufe auf main (gemessen 23.10.2026 an den letzten 40 Commits). */
 export const BOT_AUTOREN = ['anime-kalender-daten[bot]', 'github-actions[bot]']
 /**
- * PR-Pfade, die die Kette nie gegen Daten laufen lässt. Alles andere gilt als Leser: `web/` und `tools/` lesen `public/data` über
- * `npm run build` und die Prüfskripte, `worker/`, `extension/` und `.github/` über ihre Tests (Prüfer #1860).
+ * Merge-Fluss C (23.10.2026): Ein Sprung nur aus Bot-Commits unter `data/` entwertet keinen PR, dessen Code die bewegten Dateien nicht
+ * liest (Leser-Regel `pr-nachrechnen-leser.mjs`, seit 26.10.2026; vorher galt jede Datei außer Doku als Leser); der Bestandsbau prüft
+ * nach dem Merge den ganzen Datensatz. Von 8 Entwertungen am 23.10. waren 2 reine Bot-Sprünge, 5 enthielten einen Menschen-Merge;
+ * die Meldung nennt darum den Autor. `liestBewegtes(bewegt, prDateien)` -> null | Grund. null = Ausnahme gilt, sonst der Grund.
  */
-export const OHNE_DATENLESER = ['docs/', 'daniel-zum-abarbeiten/', 'data/patchnotes/']
-const liestDaten = (datei) => !OHNE_DATENLESER.some((p) => datei.startsWith(p)) && !/^[^/]+\.md$/.test(datei)
-
-/**
- * Merge-Fluss C (23.10.2026): Ein Sprung nur aus Bot-Commits unter `data/` entwertet keinen PR, der keine Daten liest; der Bestandsbau
- * prüft nach dem Merge den ganzen Datensatz. Von 8 Entwertungen am 23.10. waren 2 reine Bot-Sprünge (beide bei 1842, der `tools/` las),
- * 5 enthielten einen Menschen-Merge; die Meldung nennt darum den Autor. null = Ausnahme gilt, sonst der Grund.
- */
-export function botSprungAusnahme(vergleich, prDateien) {
+export function botSprungAusnahme(vergleich, prDateien, liestBewegtes) {
   if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
   if (vergleich.anzahl >= COMPARE_GRENZE || vergleich.commitsGesamt !== vergleich.autoren.length) return 'Vergleich evtl. abgeschnitten'
   const mensch = vergleich.autoren.find((a) => !BOT_AUTOREN.includes(a))
   if (mensch !== undefined) return `Commit von ${mensch}`
-  const fremd = vergleich.dateien.find((d) => !d.startsWith('data/') && !istDatenpfad(d))
+  const fremd = vergleich.dateien.find((d) => !d.startsWith('data/') && !istDatenpfad(d) && !ohneKetteLeser(d))
   if (fremd !== undefined) return `Bot bewegte ${fremd}`
-  const leser = prDateien.find(liestDaten)
-  return leser === undefined ? null : `der PR liest Daten (${leser})`
+  const beruehrt = prDateien.find((p) => vergleich.dateien.includes(p))
+  if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
+  return liestBewegtes(vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d)), prDateien)
 }
 
 /** Rückgabe { ausnahme } (Kette gilt weiter, Text für die Meldung) oder { grund }. */
-function datenpfadGrund(gh, nummer, basis, main) {
+function datenpfadGrund(gh, pr, basis, main, leser) {
   const vergleich = JSON.parse(gh(['api', `repos/{owner}/{repo}/compare/${basis}...${main}`, '--jq', '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)], commitsGesamt: .total_commits, autoren: [.commits[] | .author.login // .commit.author.name]}']))
-  const pr = gh(['api', `repos/{owner}/{repo}/pulls/${nummer}/files`, '--paginate', '--jq', '.[] | .filename, (.previous_filename // empty)']).split(/\r?\n/).filter(Boolean)
-  const daten = datenpfadAusnahme(vergleich, pr)
+  const prDateien = gh(['api', `repos/{owner}/{repo}/pulls/${pr.number}/files`, '--paginate', '--jq', '.[] | .filename, (.previous_filename // empty)']).split(/\r?\n/).filter(Boolean)
+  const daten = datenpfadAusnahme(vergleich, prDateien)
   if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
-  const bot = botSprungAusnahme(vergleich, pr)
-  if (bot === null) return { ausnahme: 'nur Daten-Bots unter data/, der PR liest keine Daten' }
+  const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main }))
+  if (bot === null) return { ausnahme: 'nur Daten-Bots unter data/, kein Code des PR liest die bewegten Dateien' }
   return { grund: `${daten}; ${bot}` }
 }
 
@@ -172,7 +177,7 @@ function basisDesLaufs(gh, pr) {
 }
 
 /** Ablauf für einen PR; `gh(args)` und `warte(ms)` sind eingespeist, `melde` schreibt eine Zeile. Rückgabe: Exit-Code (siehe Kopf). */
-export function nachrechnen(nummer, gh, melde, warte) {
+export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf)) {
   const pr = JSON.parse(gh(['pr', 'view', String(nummer), '--json', 'number,state,mergeable,headRefOid,headRefName']))
   const halt = hindernis(pr)
   if (halt !== null) {
@@ -189,7 +194,7 @@ export function nachrechnen(nummer, gh, melde, warte) {
     melde(`PR ${nummer}: aktuell, die Kette rechnete gegen main ${kurz(main)}`)
     return 0
   }
-  const urteil = datenpfadGrund(gh, nummer, basis, main)
+  const urteil = datenpfadGrund(gh, pr, basis, main, leser)
   if (urteil.ausnahme !== undefined) {
     melde(`PR ${nummer}: aktuell, Kette gegen ${kurz(basis)}, main ist ${kurz(main)}, seitdem ${urteil.ausnahme}`)
     return 0
@@ -209,13 +214,13 @@ export function schlafe(ms) {
 }
 
 /** Startlogik: Argument prüfen, Fehler als Exit 2 (nie still grün). */
-export function main(argv, ausfuehrer, melde, warte) {
+export function main(argv, ausfuehrer, melde, warte, leser) {
   if (argv.length !== 1 || !/^\d+$/.test(argv[0])) {
     melde('Aufruf: node tools/pr-nachrechnen.mjs <PR-Nummer>')
     return 2
   }
   try {
-    return nachrechnen(Number(argv[0]), ausfuehrer, melde, warte)
+    return nachrechnen(Number(argv[0]), ausfuehrer, melde, warte, leser)
   } catch (e) {
     melde(`pr-nachrechnen: FEHLER ${e.message}`)
     return 2
