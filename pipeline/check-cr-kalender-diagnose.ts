@@ -5,7 +5,7 @@
  *
  * Aufruf: npx tsx pipeline/check-cr-kalender-diagnose.ts
  */
-import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -13,7 +13,8 @@ const ordner = mkdtempSync(join(tmpdir(), 'cr-kalender-diagnose-'))
 mkdirSync(join(ordner, 'data'))
 process.env.AK_ROOT = ordner
 const { fehlerText, kalenderDiagnose, meldeLeerenKalender } = await import('./lib/cr-kalender-diagnose.ts')
-const { liesWochen, scrapeWeek } = await import('./scrape-crunchyroll.ts')
+const { liesWochen, main, scrapeWeek } = await import('./scrape-crunchyroll.ts')
+const { addDays, startOfWeek, todayIso } = await import('../shared/time.ts')
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -21,7 +22,8 @@ const pruefe = (bedingung: boolean, text: string) => {
   if (!bedingung) fehler++
 }
 const datenOrdner = join(ordner, 'data')
-const gesundheit = () => JSON.parse(readFileSync(join(datenOrdner, readdirSync(datenOrdner)[0]), 'utf8'))
+const KALENDER_DATEI = 'crunchyroll.json'
+const gesundheit = () => JSON.parse(readFileSync(join(datenOrdner, readdirSync(datenOrdner).find((f) => f !== KALENDER_DATEI)!), 'utf8'))
 
 // Cloudflare-Prüfseite, wie sie ein Bot sieht (Titel und Skriptmerkmal sind die der echten Seite).
 const CHALLENGE_HTML =
@@ -62,9 +64,12 @@ console.log('fehlerText')
 
 /** Browser-Attrappe: `goto` liefert den Status, `evaluate` je nach Aufruf Kacheln oder Text; jede Methode wirft ungebunden. */
 function browserAttrappe(opts: { status: number | null; titel: string; html: string; kacheln: boolean; seiteKaputt?: boolean }) {
+  const urls: string[] = []
+  const zaehler = { geschlossen: 0 }
   const seite = {
-    async goto(this: unknown) {
+    async goto(this: unknown, url: string) {
       if (this === undefined) throw new Error('ungebunden')
+      urls.push(url)
       return opts.status === null ? null : { status: () => opts.status }
     },
     async waitForSelector(this: unknown) {
@@ -96,7 +101,17 @@ function browserAttrappe(opts: { status: number | null; titel: string; html: str
       if (this === undefined) throw new Error('ungebunden')
     },
   }
-  return { seite, browser: { newPage: async () => seite } as never }
+  const browser = {
+    async newPage(this: unknown) {
+      if (this === undefined) throw new Error('ungebunden')
+      return seite
+    },
+    async close(this: unknown) {
+      if (this === undefined) throw new Error('ungebunden')
+      zaehler.geschlossen++
+    },
+  }
+  return { seite, urls, zaehler, browser: browser as never }
 }
 
 console.log('scrapeWeek')
@@ -154,6 +169,30 @@ console.log('liesWochen')
   pruefe(leer.slots.length === 0, 'alle Wochen leer: keine Slots')
   const fehlerzeile = gesundheit().crunchyroll.lastError as string
   pruefe(fehlerzeile.startsWith('keine Kachel im Kalender gefunden — 2026-10-19: HTTP 403; Titel „Just a moment...“'), `alle Wochen leer: Gesundheit trägt die Diagnose der ersten Woche: ${fehlerzeile}`)
+}
+
+console.log('main (Browser, Datum und Wochenzahl als Parameter)')
+{
+  const datumVon = (url: string) => /date=([\d-]+)/.exec(url)?.[1]
+  const sperre = browserAttrappe({ status: 403, titel: 'Zweite Sperre', html: CHALLENGE_HTML, kacheln: false })
+  await main(async () => sperre.browser, '2026-10-26', 3)
+  pruefe(sperre.urls.map(datumVon).join() === '2026-10-19,2026-10-26,2026-11-02', `main: drei Wochen ab Heute, URLs ${sperre.urls.map(datumVon).join()}`)
+  pruefe(sperre.zaehler.geschlossen === 1, 'main: Browser genau einmal geschlossen')
+  pruefe(gesundheit().crunchyroll.lastError.includes('Titel „Zweite Sperre“'), 'main: leerer Kalender schreibt die Diagnose in die Gesundheitsdatei')
+  pruefe(!existsSync(join(datenOrdner, KALENDER_DATEI)), 'main: leerer Kalender schreibt keine Kalenderdatei')
+
+  const voll = browserAttrappe({ status: 200, titel: 'Kalender', html: KACHEL_HTML, kacheln: true })
+  await main(async () => voll.browser, '2026-10-26', 2)
+  pruefe(voll.urls.length === 2 && voll.zaehler.geschlossen === 1, 'main: zwei Wochen gelesen, Browser geschlossen')
+  const kalender = JSON.parse(readFileSync(join(datenOrdner, KALENDER_DATEI), 'utf8'))
+  pruefe(Object.keys(kalender.german).length === 1 && kalender.window.from === '2026-10-26', `main: Kalenderdatei mit einem deutschen Titel, Fenster ab ${kalender.window?.from}`)
+  pruefe(gesundheit().crunchyroll.lastCount === 1 && gesundheit().crunchyroll.lastError === undefined, 'main: Gesundheit meldet den Treffer ohne Fehler')
+
+  // Ohne Parameter: Standard-Wochenzahl (6, kein --weeks in diesem Lauf) und der Tag des Laufs.
+  const standard = browserAttrappe({ status: 200, titel: 'Kalender', html: KACHEL_HTML, kacheln: true })
+  await main(async () => standard.browser)
+  pruefe(standard.urls.length === 6, `main: Standard sechs Wochen (${standard.urls.length})`)
+  pruefe(datumVon(standard.urls[0]!) === startOfWeek(addDays(todayIso(), -28)), 'main: Standard beginnt vier Wochen vor der laufenden Woche')
 }
 
 rmSync(ordner, { recursive: true, force: true })
