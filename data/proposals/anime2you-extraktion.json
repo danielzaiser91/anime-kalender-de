@@ -9,6 +9,10 @@
       "am": "2026-10-15",
       "vorschlaege": 1
     },
+    "1050083": {
+      "am": "2026-10-26",
+      "vorschlaege": 2
+    },
     "1052708": {
       "am": "2026-10-13",
       "vorschlaege": 0,
@@ -477,6 +481,10 @@
       "am": "2026-10-23",
       "vorschlaege": 1
     },
+    "1061442": {
+      "am": "2026-10-26",
+      "vorschlaege": 0
+    },
     "1061447": {
       "am": "2026-10-18",
       "vorschlaege": 0
@@ -615,6 +623,10 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1062384": {
+      "am": "2026-10-26",
+      "vorschlaege": 0
+    },
     "1062428": {
       "am": "2026-10-21",
       "vorschlaege": 1
@@ -709,6 +721,10 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1063206": {
+      "am": "2026-10-26",
+      "vorschlaege": 1
+    },
     "1063240": {
       "am": "2026-10-24",
       "vorschlaege": 0
@@ -753,6 +769,47 @@
     "1063615": {
       "am": "2026-10-25",
       "vorschlaege": 2
+    },
+    "1063638": {
+      "am": "2026-10-26",
+      "vorschlaege": 0
+    },
+    "1063644": {
+      "am": "2026-10-26",
+      "vorschlaege": 0
+    },
+    "1063658": {
+      "am": "2026-10-26",
+      "vorschlaege": 1
+    },
+    "1063671": {
+      "am": "2026-10-26",
+      "vorschlaege": 0
+    },
+    "1063685": {
+      "am": "2026-10-26",
+      "vorschlaege": 1
+    },
+    "1063695": {
+      "am": "2026-10-26",
+      "vorschlaege": 0
+    },
+    "1063707": {
+      "am": "2026-10-26",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1063716": {
+      "am": "2026-10-26",
+      "vorschlaege": 6
+    },
+    "1063795": {
+      "am": "2026-10-26",
+      "vorschlaege": 6
+    },
+    "1063990": {
+      "am": "2026-10-26",
+      "vorschlaege": 0
     }
   },
   "vorschlaege": [
@@ -939,7 +996,8 @@
       "unsicher": null,
       "wochentag": "Donnerstag",
       "warnungen": [
-        "Uhrzeit widerspricht 18:55 (Artikel 1060030) – gegenlesen"
+        "Uhrzeit widerspricht 18:55 (Artikel 1060030) – gegenlesen",
+        "Uhrzeit widerspricht 18:55 (Artikel 1060030), 18:30 (Artikel 1063795) – gegenlesen"
       ],
       "artikelId": "1059541",
       "artikel": "ProSieben MAXX wiederholt »Whole Cake Island«-Arc von »One Piece«",
@@ -1333,7 +1391,8 @@
       "unsicher": null,
       "wochentag": null,
       "warnungen": [
-        "Uhrzeit widerspricht 18:50 (Artikel 1059541) – gegenlesen"
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541) – gegenlesen",
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:30 (Artikel 1063795) – gegenlesen"
       ],
       "artikelId": "1060030",
       "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 42/2026",
@@ -6584,6 +6643,285 @@
       "quelle": "https://www.anime2you.de/news/1060519/vier-digism-bocchi-the-rock-figuren/",
       "veroeffentlicht": "2026-10-24",
       "gelesenAm": "2026-10-25"
+    },
+    {
+      "titel": "Cyberpunk: Edgerunners",
+      "zitat": "Die zehnteilige zweite »Cyberpunk: Edgerunners«-Serie ist seit dem 20. Oktober 2026 weltweit auf Netflix verfügbar und erzählt eine eigenständige Geschichte mit neuen Hauptfiguren.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "netflix",
+      "datum": "2026-10-20",
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "10",
+      "unsicher": null,
+      "wochentag": "Dienstag",
+      "warnungen": [],
+      "artikelId": "1063206",
+      "artikel": "»Cyberpunk: Edgerunners II« setzt bewusst auf Retro-Anime-Stil",
+      "quelle": "https://www.anime2you.de/news/1063206/cyberpunk-edgerunners-ii-retro-anime-stil/",
+      "veroeffentlicht": "2026-10-25",
+      "gelesenAm": "2026-10-26"
+    },
+    {
+      "titel": "Hell’s Paradise",
+      "zitat": "Hell’s Paradise ProSieben FUN · Folge 7-8 · Montag um 20:55 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "20:55",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": "7-8",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1063795",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 44/2026",
+      "quelle": "https://www.anime2you.de/news/1063795/anime-tv-programm-44-2026/",
+      "veroeffentlicht": "2026-10-25",
+      "gelesenAm": "2026-10-26"
+    },
+    {
+      "titel": "Dororo",
+      "zitat": "Dororo ProSieben FUN · Folge 7-8 · Montag um 21:45 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "21:45",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": "Montag",
+      "folgen": "7-8",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1063795",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 44/2026",
+      "quelle": "https://www.anime2you.de/news/1063795/anime-tv-programm-44-2026/",
+      "veroeffentlicht": "2026-10-25",
+      "gelesenAm": "2026-10-26"
+    },
+    {
+      "titel": "Pokémon Horizonte: Gute Aussichten",
+      "zitat": "Pokémon Horizonte: Gute Aussichten TOGGO · Folge 44 · Samstag um 13:00 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "13:00",
+      "anbieter": null,
+      "sender": "TOGGO",
+      "wochentage": "Samstag",
+      "folgen": "44",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1063795",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 44/2026",
+      "quelle": "https://www.anime2you.de/news/1063795/anime-tv-programm-44-2026/",
+      "veroeffentlicht": "2026-10-25",
+      "gelesenAm": "2026-10-26"
+    },
+    {
+      "titel": "Beyblade X",
+      "zitat": "Beyblade X TOGGO plus · Folge 122 · Samstag um 20:45 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "20:45",
+      "anbieter": null,
+      "sender": "TOGGO plus",
+      "wochentage": "Samstag",
+      "folgen": "122",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1063795",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 44/2026",
+      "quelle": "https://www.anime2you.de/news/1063795/anime-tv-programm-44-2026/",
+      "veroeffentlicht": "2026-10-25",
+      "gelesenAm": "2026-10-26"
+    },
+    {
+      "titel": "One Piece",
+      "zitat": "One Piece ProSieben MAXX · Letzte Folge (1122) am Donnerstag um 18:30 Uhr",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "18:30",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "Donnerstag",
+      "folgen": "1122",
+      "unsicher": "Letzte Folge der laufenden Ausstrahlung bei diesem Sender, keine Aussage zur Fortsetzung.",
+      "wochentag": null,
+      "warnungen": [
+        "Uhrzeit widerspricht 18:50 (Artikel 1059541), 18:55 (Artikel 1060030) – gegenlesen"
+      ],
+      "artikelId": "1063795",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 44/2026",
+      "quelle": "https://www.anime2you.de/news/1063795/anime-tv-programm-44-2026/",
+      "veroeffentlicht": "2026-10-25",
+      "gelesenAm": "2026-10-26"
+    },
+    {
+      "titel": "One Piece Characters Log",
+      "zitat": "One Piece Characters Log (OmU) ProSieben MAXX · Ab Donnerstag um 18:55 Uhr",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "18:55",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "Donnerstag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1063795",
+      "artikel": "TV-Guide: Anime im deutschen Fernsehen in KW 44/2026",
+      "quelle": "https://www.anime2you.de/news/1063795/anime-tv-programm-44-2026/",
+      "veroeffentlicht": "2026-10-25",
+      "gelesenAm": "2026-10-26"
+    },
+    {
+      "titel": "Solo Leveling",
+      "zitat": "Ab dem 6. November 2026 setzt ProSieben MAXX freitags ab ungefähr 23:20 Uhr die Wiederholungen der zweiten Staffel von »Solo Leveling« und der ersten Staffel von »Frieren: Nach dem Ende der Reise« fort. Am 6. November 2026 zeigt der Free-TV-Sender um 23:25 Uhr zunächst die 20. Episode von »Solo Leveling«, bevor ab 23:55 Uhr die Folgen 26 und 27 von »Frieren« zu sehen sind.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": "2026-11-06",
+      "uhrzeit": "23:25",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": null,
+      "folgen": "20",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1063716",
+      "artikel": "»Anime Night« auf ProSieben MAXX kehrt verkürzt zurück",
+      "quelle": "https://www.anime2you.de/news/1063716/prosieben-maxx-anime-night-kehrt-verkuerzt-zurueck/",
+      "veroeffentlicht": "2026-10-25",
+      "gelesenAm": "2026-10-26"
+    },
+    {
+      "titel": "Frieren: Nach dem Ende der Reise",
+      "zitat": "Ab dem 6. November 2026 setzt ProSieben MAXX freitags ab ungefähr 23:20 Uhr die Wiederholungen der zweiten Staffel von »Solo Leveling« und der ersten Staffel von »Frieren: Nach dem Ende der Reise« fort. Am 6. November 2026 zeigt der Free-TV-Sender um 23:25 Uhr zunächst die 20. Episode von »Solo Leveling«, bevor ab 23:55 Uhr die Folgen 26 und 27 von »Frieren« zu sehen sind.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": "2026-11-06",
+      "uhrzeit": "23:55",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": null,
+      "folgen": "26-27",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1063716",
+      "artikel": "»Anime Night« auf ProSieben MAXX kehrt verkürzt zurück",
+      "quelle": "https://www.anime2you.de/news/1063716/prosieben-maxx-anime-night-kehrt-verkuerzt-zurueck/",
+      "veroeffentlicht": "2026-10-25",
+      "gelesenAm": "2026-10-26"
+    },
+    {
+      "titel": "Solo Leveling",
+      "zitat": "Am 14. November 2026 stehen dann ab 23:20 Uhr die Episoden 21 bis 23 von »Solo Leveling« auf dem Programm. Im Anschluss folgt die 28. »Frieren«-Episode.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": "2026-11-14",
+      "uhrzeit": "23:20",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": null,
+      "folgen": "21-23",
+      "unsicher": null,
+      "wochentag": "Samstag",
+      "warnungen": [
+        "sender „ProSieben MAXX“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1063716",
+      "artikel": "»Anime Night« auf ProSieben MAXX kehrt verkürzt zurück",
+      "quelle": "https://www.anime2you.de/news/1063716/prosieben-maxx-anime-night-kehrt-verkuerzt-zurueck/",
+      "veroeffentlicht": "2026-10-25",
+      "gelesenAm": "2026-10-26"
+    },
+    {
+      "titel": "Frieren: Nach dem Ende der Reise",
+      "zitat": "Am 14. November 2026 stehen dann ab 23:20 Uhr die Episoden 21 bis 23 von »Solo Leveling« auf dem Programm. Im Anschluss folgt die 28. »Frieren«-Episode.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": "2026-11-14",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": null,
+      "folgen": "28",
+      "unsicher": "Uhrzeit für die Frieren-Episode nicht genannt, nur „im Anschluss“.",
+      "wochentag": "Samstag",
+      "warnungen": [
+        "sender „ProSieben MAXX“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1063716",
+      "artikel": "»Anime Night« auf ProSieben MAXX kehrt verkürzt zurück",
+      "quelle": "https://www.anime2you.de/news/1063716/prosieben-maxx-anime-night-kehrt-verkuerzt-zurueck/",
+      "veroeffentlicht": "2026-10-25",
+      "gelesenAm": "2026-10-26"
+    },
+    {
+      "titel": "My Happy Marriage",
+      "zitat": "Die drei neuen »My Happy Marriage«-Episoden stehen ab sofort als Folge 14 bis 16 der zweiten Staffel sowohl mit deutscher Sprachfassung als auch in der japanischen Originalvertonung mit deutschen Untertiteln auf Netflix zur Verfügung.",
+      "art": "folgen",
+      "sprache": "deutsch+omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "14-16",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1063685",
+      "artikel": "Neue »My Happy Marriage«-Folgen ab sofort auf Netflix verfügbar",
+      "quelle": "https://www.anime2you.de/news/1063685/my-happy-marriage-special-ab-sofort-auf-netflix/",
+      "veroeffentlicht": "2026-10-25",
+      "gelesenAm": "2026-10-26"
+    },
+    {
+      "titel": "Blue Box",
+      "zitat": "Die fünfte Episode der zweiten Staffel wird nicht wie zuvor geplant am 1. November 2026, sondern erst am 8. November 2026 in Japan ausgestrahlt sowie bei Netflix mit deutscher Sprachfassung und im Originalton mit Untertiteln im Simulcast gezeigt.",
+      "art": "pause",
+      "sprache": "deutsch+omu",
+      "plattform": "netflix",
+      "datum": "2026-11-08",
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "5",
+      "unsicher": null,
+      "wochentag": "Sonntag",
+      "warnungen": [],
+      "artikelId": "1063658",
+      "artikel": "Zweite »Blue Box«-Staffel legt Pause vor fünfter Episode ein",
+      "quelle": "https://www.anime2you.de/news/1063658/blue-box-staffel-2-pause/",
+      "veroeffentlicht": "2026-10-25",
+      "gelesenAm": "2026-10-26"
     }
   ]
 }
