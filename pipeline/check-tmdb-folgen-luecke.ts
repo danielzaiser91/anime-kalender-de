@@ -3,7 +3,7 @@
  * größte Lücke zuerst, Riegel, Probelauf `nurLuecke`. Die erwarteten Werte stehen hier fest, nicht aus dem Modul.
  * Aufruf: `npm run check:logic`.
  */
-import { ABRUFE_JE_TITEL, LUECKE_ABRUFE, LUECKE_LIMIT, dubLuecke, waehleAbrufe, waehleLuecke, type FolgenDatei } from './lib/tmdb-folgen-luecke.ts'
+import { ABRUFE_JE_TITEL, LUECKE_ABRUFE, LUECKE_LIMIT, dubLuecke, streicheFremdeKennungen, waehleAbrufe, waehleLuecke, type FolgenDatei } from './lib/tmdb-folgen-luecke.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -68,6 +68,11 @@ pruefe('Zwei Folgen: regulär fällig', folgen([ke('sy', 2)], false) === 'sy')
 pruefe('Eine Folge: regulär nicht fällig', folgen([ke('sy', 1)], false) === '')
 pruefe('Probelauf: Limit 1', w(true, 1) === 'b')
 pruefe('Probelauf: Titel mit Eintrag fehlt', w(true, 10, { b: alt }) === 'sf,a')
+
+console.log('\nTMDB-Lücke: überholte Kennung')
+const folgenBestand: Record<string, { tmdbId?: number }> = { 1: { tmdbId: 10 }, 2: { tmdbId: 20 }, 3: { tmdbId: 30 } }
+const gestrichen = streicheFremdeKennungen(folgenBestand, { 1: { tmdbId: 10 }, 2: { tmdbId: 21 } })
+pruefe('andere und fehlende Kennung wird gestrichen, gleiche bleibt', gestrichen.join() === '2,3' && Object.keys(folgenBestand).join() === '1', [gestrichen, folgenBestand])
 
 if (verletzt > 0) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
