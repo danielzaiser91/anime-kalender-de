@@ -22,7 +22,9 @@ const PRUEF_NAME = /check|pruef|wache|waechter|sperre|guard|valid|verify|audit|l
 const STARTFORM = /process\.argv\[1\]|require\.main/
 const TOPLEVEL_LAUF = /^(?!export |function |async function )[^\n]*\bprocess\.exit(?:Code)?\b|^(?:void |await )?main\(/m
 const EXPORT = /^\s*export\s/m
-const LESBAR = /\.(mjs|cjs|js|mts|ts|tsx|sh|json|ya?ml|txt)$/
+// Ausnahmelisten nennen Dateien als Daten (`datei: '…'`), sie rufen nichts auf.
+const DATENLISTE = /ausnahmen/i
+const LESBAR =/\.(mjs|cjs|js|mts|ts|tsx|sh|json|ya?ml|txt)$/
 const LISTEN = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt']
 const AUSNAHMEN = 'tools/skript-aufrufer-ausnahmen.txt'
 
@@ -90,7 +92,7 @@ export function erreichbar(dateien) {
     for (const pfad of skripte) {
       if (erreicht.has(pfad) || !nenntSkript(text, pfad)) continue
       erreicht.add(pfad)
-      offen.push(ohneKommentar(pfad, dateien.get(pfad)))
+      if (!DATENLISTE.test(pfad.split('/').pop())) offen.push(ohneKommentar(pfad, dateien.get(pfad)))
     }
   }
   return erreicht
