@@ -98,6 +98,13 @@ console.log('Bestandswache')
   pruefe(warnt.status === 0 && /⚠ WARNUNG Ankündigung: 1 Titel/.test(warnt.stdout) && warnt.stdout.includes('VERSTÖSSE: 0'), `Prozess heute 26.10.: Warnung, Exit 0 — ${warnt.stdout.trim().slice(0, 120)}`)
   const still = lauf('2027-03-01')
   pruefe(still.status === 0 && !/WARNUNG/.test(still.stdout) && /✓ Ankündigung/.test(still.stdout), 'Prozess später: keine Warnung (Frist abgelaufen), Exit 0')
+  // Ohne Datumsargument gilt der Tag des Laufs: ferner Start = immer frisch (Warnung), alter Start = abgelaufen (keine).
+  writeFileSync(join(daten, 'ohne-synchro.json'), JSON.stringify([titel(900041, ank('2999-01-01'), { titleEn: 'Fern' } as Partial<Title>)]))
+  const ohneDatum = spawnSync(process.execPath, ['--import', 'tsx', join(wurzel, 'pipeline', 'check-ankuendigung-versteckt-bestand.ts'), ordner], { cwd: wurzel, encoding: 'utf8' })
+  pruefe(ohneDatum.status === 0 && /WARNUNG Ankündigung: 1 Titel .*900041 Fern/.test(ohneDatum.stdout), 'Prozess ohne Datum: Tag des Laufs, ferner Start warnt')
+  writeFileSync(join(daten, 'ohne-synchro.json'), JSON.stringify([titel(900042, ank('2000-01-01'))]))
+  const altOhneDatum = spawnSync(process.execPath, ['--import', 'tsx', join(wurzel, 'pipeline', 'check-ankuendigung-versteckt-bestand.ts'), ordner], { cwd: wurzel, encoding: 'utf8' })
+  pruefe(altOhneDatum.status === 0 && !/WARNUNG/.test(altOhneDatum.stdout), 'Prozess ohne Datum: alter Start warnt nicht')
   rmSync(ordner, { recursive: true, force: true })
 }
 
