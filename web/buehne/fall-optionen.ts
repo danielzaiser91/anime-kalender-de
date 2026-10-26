@@ -14,6 +14,9 @@ export interface FallOptionen {
 /** Abgeleitete Fälle: Kennung → Ausgangsfall, Anzeigename und Optionen. */
 export const OPTIONS_FAELLE: Record<string, { von: string; name: string; optionen: FallOptionen }> = {
   '86-ohne-beleg': { von: '86', name: '86 – alle Zeilen ohne Sprachbeleg', optionen: { tonspur: 'ohne-beleg' } },
+  /* Gleiche Daten, andere Ausgangslage: das Mockup öffnet die Datenbank hier mit einem Jahresfilter (`suchadressen`). */
+  'hajime-no-ippo-jahr': { von: 'hajime-no-ippo', name: 'Hajime no Ippo – Suche mit Jahresfilter', optionen: {} },
+  'tokyo-revengers-jahr': { von: 'tokyo-revengers', name: 'Tokyo Revengers – Suche mit Jahresfilter', optionen: {} },
 }
 
 type Weg = Record<string, unknown>

@@ -14,7 +14,7 @@ export function ZelleInhalt({ werte, fall, ausschnitte }: { werte: URLSearchPara
   return (
     <>
       {variante?.stil && <style>{variante.stil}</style>}
-      <Ausschnitt fall={fall} ersatz={variante?.ersatz ?? {}} mockup={def.name} variante={kennung} />
+      <Ausschnitt fall={fall} ersatz={variante?.ersatz ?? {}} mockup={def.name} variante={kennung} fallKennung={werte.get('fall') ?? ''} />
     </>
   )
 }
