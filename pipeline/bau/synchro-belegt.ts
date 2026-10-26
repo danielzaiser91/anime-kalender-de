@@ -1,6 +1,4 @@
 import type { Release, Title } from '../../shared/types.ts'
-import { todayIso } from '../../shared/time.ts'
-import { frischAngekuendigt } from './ohne-beleg.ts'
 
 /** Je Release-Liste die Titel mit einem sicheren (nicht geschätzten, nicht widerlegten) Termin — einmal gerechnet. */
 const sichereTermine = new WeakMap<Release[], Set<number>>()
@@ -14,9 +12,8 @@ const sichereTermine = new WeakMap<Release[], Set<number>>()
  * Wirkt **nur auf die Reihenliste** im Panel (gestrichelt, hinter „ohne Synchro ausblenden") — der Titel bleibt im Kalender, weil seine
  * Ankündigung dort steht.
  */
-export function ohneBelegteSynchro(t: Title, releases: Release[], heuteIso: string = todayIso()): boolean {
+export function ohneBelegteSynchro(t: Title, releases: Release[]): boolean {
   if (!(t.einzelquelle ?? t.dubConfidence === 'low') || (t.jpYear ?? 0) < 2023) return false
-  if (frischAngekuendigt(t, heuteIso)) return false // der Anbieter hat die Synchro angekündigt (F70, 26.10.2026): kein Streifen „keine deutsche Synchro“
   if (t.streams?.some((s) => s.dub === true) || t.deErstausgabe?.synchro || t.hasVoices) return false
   let sicher = sichereTermine.get(releases)
   if (!sicher) {

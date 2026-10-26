@@ -12,6 +12,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { Title } from '../shared/types.ts'
+import type { AniListMedia } from './lib/anilist.ts'
 
 /* Der Bau schreibt Dateien unter `data/` (widerlegte Termine, Sprecherquellen): Er läuft gegen einen Wegwerf-Ordner (`AK_ROOT`), nie gegen das Repo. */
 const bauOrdner = mkdtempSync(join(tmpdir(), 'ankuendigung-sichtbar-bau-'))
@@ -23,7 +24,8 @@ const { ankuendigungenLaden } = await import('./lib/ankuendigungen.ts')
 const { setzeMarkenFuerPruefung } = await import('./lib/anisearch-marke.ts')
 const { ANKUENDIGUNG_FRIST_TAGE, ausgestrahltOhneBeleg, frischAngekuendigt, keineSynchroGilt } = await import('./bau/ohne-beleg.ts')
 const { ohneBelegteSynchro } = await import('./bau/synchro-belegt.ts')
-const { rolleTermineAus } = await import('./bau/10-termine.ts')
+const { rolleTermineAusMitKomplettabwurf } = await import('./bau/10-komplettabwurf.ts')
+const { titleFromMedia } = await import('./bau/titel-hilfen.ts')
 const { versteckteFrischeAnkuendigungen, versteckteWarnzeile } = await import('./lib/ankuendigung-versteckt.ts')
 
 let fehler = 0
@@ -36,6 +38,29 @@ const wurzel = fileURLToPath(new URL('..', import.meta.url))
 const titel = (id: number, ank: Title['ankuendigung'] | undefined, extra: Partial<Title> = {}): Title =>
   ({ id, jpYear: 2026, streams: [{ platform: 'crunchyroll' }], ankuendigung: ank, ...extra }) as unknown as Title
 const ank = (omuAb: string, synchro: 'angekuendigt' | 'offen' = 'angekuendigt') => ({ platform: 'crunchyroll', omuAb, synchro, quellen: [], stand: '2026-09-15' }) as Title['ankuendigung']
+/* AniList-Medium wie im Bau (Vorbild check-herkunftsland.ts): `titleFromMedia` erzeugt den Titel, nichts wird von Hand ergänzt. */
+const medium = (id: number): AniListMedia => ({
+  id,
+  idMal: null,
+  title: { romaji: 'Test', english: null, native: null },
+  format: 'TV',
+  status: 'RELEASING',
+  episodes: 12,
+  duration: 24,
+  season: 'FALL',
+  seasonYear: 2026,
+  startDate: { year: 2026, month: 10, day: 7 },
+  genres: [],
+  tags: [],
+  externalLinks: [],
+  studios: { nodes: [] },
+  coverImage: { large: null, extraLarge: null },
+  bannerImage: null,
+  averageScore: null,
+  isAdult: false,
+  description: null,
+  countryOfOrigin: 'JP',
+})
 
 console.log('Frist')
 {
@@ -72,21 +97,6 @@ console.log('ausgestrahltOhneBeleg: Ankündigung schlägt den Katalog, bis sie a
   setzeMarkenFuerPruefung(undefined)
 }
 
-console.log('Verdrahtung im Bau (rolleTermineAus, Bau-Zeitpunkt = heute)')
-{
-  /* Start in ferner Zukunft = immer frisch, Start im Jahr 2000 = immer abgelaufen: unabhängig von der Uhr des Laufs. */
-  setzeMarkenFuerPruefung({ 900031: 'p', 900032: 'p', 900033: 'p' })
-  const titles = new Map<number, Title>([
-    [900031, titel(900031, ank('2999-01-01'))],
-    [900032, titel(900032, ank('2000-01-01'))],
-    [900033, titel(900033, undefined)],
-  ])
-  const { verschoben } = rolleTermineAus({ releases: [], titles, jpStart: new Map() })
-  pruefe(verschoben.map((t) => t.id).sort().join() === '900032,900033', `verschoben: ${verschoben.map((t) => t.id).sort().join()} (abgelaufene und fehlende Ankündigung; die frische bleibt)`)
-  pruefe(titles.has(900031) && !titles.has(900032) && !titles.has(900033), 'frische Ankündigung bleibt im Bestand')
-  setzeMarkenFuerPruefung(undefined)
-}
-
 console.log('Ankündigung schlägt aniSearch „Deutsch nicht genannt“ (F70, Rayearth)')
 {
   /* Rayearth 2026 (178868) wörtlich aus data/ankuendigungen.yaml; aniSearch führt Deutsch als „-“, der Weg ist ein Crunchyroll-Weg ohne Beleg. */
@@ -99,17 +109,41 @@ console.log('Ankündigung schlägt aniSearch „Deutsch nicht genannt“ (F70, R
   pruefe(keineSynchroGilt(rayearth, '2026-12-07'), 'Rayearth Tag 61: aniSearch gilt wieder')
   pruefe(keineSynchroGilt(titel(900051, undefined), '2026-10-26'), 'Gegenprobe: ohne Ankündigung gilt aniSearch')
   pruefe(keineSynchroGilt(titel(900051, ank('2026-10-08', 'offen')), '2026-10-26'), 'Gegenprobe: Ankündigung ohne Synchro-Aussage schützt nicht')
-  const titles = new Map<number, Title>([
-    [900051, titel(900051, ank('2999-01-01'), { streams: [] } as Partial<Title>)],
-    [900052, titel(900052, ank('2000-01-01'), { streams: [] } as Partial<Title>)],
-  ]) // ohne Weg: nur aniSearchs „-“ kann sie verschieben, nicht ausgestrahltOhneBeleg
-  const { verschoben } = rolleTermineAus({ releases: [], titles, jpStart: new Map() })
-  pruefe(verschoben.map((t) => t.id).join() === '900052' && titles.has(900051), `Bau: frische Ankündigung bleibt trotz „-“, abgelaufene wird verschoben (${verschoben.map((t) => t.id).join()})`)
-  /* Der Streifen „keine deutsche Synchro“ kommt aus ohneBelegteSynchro (os/ohneSynchro): keine Kachel mit frischer Ankündigung trägt ihn. */
-  pruefe(!ohneBelegteSynchro(rayearth, [], '2026-10-26'), 'Streifen: Rayearth mit frischer Ankündigung ohne Streifen')
-  pruefe(ohneBelegteSynchro(rayearth, [], '2026-12-07'), 'Streifen: Tag 61 wieder mit Streifen')
-  pruefe(!ohneBelegteSynchro(titel(900051, ank('2999-01-01'), { dubConfidence: 'low' } as Partial<Title>), []), 'Streifen: ohne Datumsargument gilt der Tag des Laufs (ferner Start = frisch)')
-  pruefe(ohneBelegteSynchro(titel(900051, undefined, { dubConfidence: 'low' } as Partial<Title>), [], '2026-10-26'), 'Streifen Gegenprobe: ohne Ankündigung bleibt er')
+  /* Der Streifen „keine deutsche Synchro“ (ohneBelegteSynchro) bleibt auch bei frischer Ankündigung (Daniel, F71, 26.10.2026). */
+  pruefe(ohneBelegteSynchro(rayearth, []), 'Streifen: Rayearth mit frischer Ankündigung behält ihn')
+  pruefe(ohneBelegteSynchro(titel(900051, ank('2000-01-01'), { dubConfidence: 'low' } as Partial<Title>), []), 'Streifen: abgelaufene Ankündigung ebenso')
+  pruefe(ohneBelegteSynchro(titel(900051, undefined, { dubConfidence: 'low' } as Partial<Title>), []), 'Streifen Gegenprobe: ohne Ankündigung bleibt er')
+  setzeMarkenFuerPruefung(undefined)
+}
+
+console.log('Ende zu Ende: Phase 10 mit Titeln aus titleFromMedia, Ankündigung nur aus der Datei')
+{
+  /* Kein Titel trägt `ankuendigung` von Hand: sie kommt aus der Datei (echtes Format) über die Bauphase. Ferne Zukunft = frisch, 2000 = abgelaufen (uhrunabhängig). */
+  const ids = { frisch: 900061, frischOhneWeg: 900062, abgelaufen: 900063, offen: 900064, ohne: 900065, katalog: 900066, katalogOffen: 900067 }
+  const eintrag = (id: number, omuAb: string, synchro: string) => `  - { anilistId: ${id}, titel: "Fixture ${id}", platform: crunchyroll, omuAb: "${omuAb}", synchro: ${synchro}, stand: "2026-09-15", quellen: [lineup] }`
+  const zeilen = ['quellen:', '  lineup: https://example.org/lineup', 'eintraege:',
+    eintrag(ids.frisch, '2999-01-01', 'angekuendigt'), eintrag(ids.frischOhneWeg, '2999-01-01', 'angekuendigt'),
+    eintrag(ids.abgelaufen, '2000-01-01', 'angekuendigt'), eintrag(ids.offen, '2999-01-01', 'offen'),
+    eintrag(ids.katalog, '2999-01-01', 'angekuendigt'), eintrag(ids.katalogOffen, '2999-01-01', 'offen')]
+  writeFileSync(join(bauOrdner, 'data', 'ankuendigungen.yaml'), zeilen.join('\n'))
+  /* Katalogeintrag im Format von data/cache/anilist-katalog.json (Rayearth 2026 als Vorlage); nur diese beiden stehen im Katalog, in keinem Bestand. */
+  const katalogZeile = (id: number) => ({ id, mal: 59204, t: ['Katalog Fixture', null, null], format: 'TV', jahr: 2026, start: '2026-10-07', status: 'RELEASING', latein: null, synonyme: [], folgen: null, genres: ['Fantasy'], score: 69, cover: null, eltern: [], rel: [] })
+  mkdirSync(join(bauOrdner, 'data', 'cache'), { recursive: true })
+  writeFileSync(join(bauOrdner, 'data', 'cache', 'anilist-katalog.json'), JSON.stringify({ eintraege: [katalogZeile(ids.katalog), katalogZeile(ids.katalogOffen)] }))
+  setzeMarkenFuerPruefung({ [ids.frisch]: '-', [ids.frischOhneWeg]: 'p', [ids.abgelaufen]: '-', [ids.offen]: '-', [ids.ohne]: '-', [ids.katalog]: '-' })
+  const ausAniList = (id: number) => ({ ...titleFromMedia(medium(id), 'low'), streams: [{ platform: 'crunchyroll' }] }) as unknown as Title
+  const titles = new Map<number, Title>([ids.frisch, ids.frischOhneWeg, ids.abgelaufen, ids.offen, ids.ohne].map((id) => [id, ausAniList(id)]))
+  const jpStart = new Map<number, string>()
+  pruefe([...titles.values()].every((t) => t.ankuendigung === undefined), 'Fixtures tragen kein Feld ankuendigung von Hand')
+  const { verschoben } = rolleTermineAusMitKomplettabwurf({ releases: [], titles, jpStart }, { handNein: () => new Set(), tmdb: {} })
+  const weg = verschoben.map((t) => t.id).sort().join()
+  pruefe(weg === [ids.abgelaufen, ids.offen, ids.ohne].join(), `verschoben: ${weg} (abgelaufene, offene und fehlende Ankündigung; frische bleiben trotz „-“ bzw. „p“)`)
+  pruefe(titles.has(ids.frisch) && titles.has(ids.frischOhneWeg), 'beide frischen Titel bleiben im Bestand')
+  pruefe(titles.get(ids.frisch)?.ankuendigung?.omuAb === '2999-01-01', 'die Ankündigung kommt aus der Datei an den Titel')
+  const ausKatalog = titles.get(ids.katalog)
+  pruefe(ausKatalog !== undefined && ausKatalog.ankuendigung?.synchro === 'angekuendigt' && ausKatalog.malId === 59204 && jpStart.get(ids.katalog) === '2026-10-07', 'Katalogtitel mit angekündigter Synchro kommt in den Bestand (mit MAL-Kennung und Start)')
+  pruefe(!verschoben.some((t) => t.id === ids.katalog), 'und wird trotz aniSearch „-“ nicht verschoben (Rayearth)')
+  pruefe(!titles.has(ids.katalogOffen) && !jpStart.has(ids.katalogOffen), 'Katalogtitel mit Synchro „offen“ bleibt draußen')
   setzeMarkenFuerPruefung(undefined)
 }
 
@@ -129,12 +163,25 @@ console.log('Bestandswache')
   const daten = join(ordner, 'public', 'data')
   mkdirSync(daten, { recursive: true })
   writeFileSync(join(daten, 'ohne-synchro.json'), JSON.stringify([a, b, c]))
+  mkdirSync(join(ordner, 'data'), { recursive: true })
+  const eintraege = [900021, '2026-10-08', 900041, '2999-01-01', 900042, '2000-01-01']
+  const yamlZeilen = ['quellen:', '  lineup: https://example.org/lineup', 'eintraege:']
+  for (let i = 0; i < eintraege.length; i += 2) yamlZeilen.push(`  - { anilistId: ${eintraege[i]}, titel: "Wache ${eintraege[i]}", platform: crunchyroll, omuAb: "${eintraege[i + 1]}", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup] }`)
+  writeFileSync(join(ordner, 'data', 'ankuendigungen.yaml'), yamlZeilen.join('\n'))
+  const hauptDatei = join(daten, 'titles.json')
+  writeFileSync(hauptDatei, JSON.stringify([{ id: 900021 }, { id: 900041 }, { id: 900042 }]))
   const lauf = (heute: string) =>
     spawnSync(process.execPath, ['--import', 'tsx', join(wurzel, 'pipeline', 'check-ankuendigung-versteckt-bestand.ts'), ordner, heute], { cwd: wurzel, encoding: 'utf8' })
   const warnt = lauf('2026-10-26')
   pruefe(warnt.status === 0 && /⚠ WARNUNG Ankündigung: 1 Titel/.test(warnt.stdout) && warnt.stdout.includes('VERSTÖSSE: 0'), `Prozess heute 26.10.: Warnung, Exit 0 — ${warnt.stdout.trim().slice(0, 120)}`)
   const still = lauf('2027-03-01')
   pruefe(still.status === 0 && !/WARNUNG/.test(still.stdout) && /✓ Ankündigung/.test(still.stdout), 'Prozess später: keine Warnung (Frist abgelaufen), Exit 0')
+  // Fehlt ein Titel mit frischer Ankündigung in titles.json (egal wo sonst), warnt die Wache — auch wenn er nirgends steht.
+  writeFileSync(hauptDatei, JSON.stringify([{ id: 900042 }]))
+  const fehlt = lauf('2026-10-26')
+  pruefe(fehlt.status === 0 && /⚠ WARNUNG Ankündigung: 2 Titel .* fehlen in titles\.json .*: 900021; 900041$/m.test(fehlt.stdout) && fehlt.stdout.includes('VERSTÖSSE: 0'), `Prozess: fehlende Titel mit frischer Ankündigung warnen, Exit 0 — ${fehlt.stdout.trim().slice(-160)}`)
+  pruefe(!/fehlen in titles/.test(warnt.stdout) && /✓ Ankündigung: jeder Titel/.test(warnt.stdout), 'Prozess: stehen alle in titles.json, keine Fehlt-Warnung')
+  writeFileSync(hauptDatei, JSON.stringify([{ id: 900021 }, { id: 900041 }, { id: 900042 }]))
   // Ohne Datumsargument gilt der Tag des Laufs: ferner Start = immer frisch (Warnung), alter Start = abgelaufen (keine).
   writeFileSync(join(daten, 'ohne-synchro.json'), JSON.stringify([titel(900041, ank('2999-01-01'), { titleEn: 'Fern' } as Partial<Title>)]))
   const ohneDatum = spawnSync(process.execPath, ['--import', 'tsx', join(wurzel, 'pipeline', 'check-ankuendigung-versteckt-bestand.ts'), ordner], { cwd: wurzel, encoding: 'utf8' })

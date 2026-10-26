@@ -49,14 +49,3 @@ export function ankuendigungenLaden(wurzel: string): Map<number, Ankuendigung> {
   }
   return raus
 }
-
-/**
- * Hängt die Ankündigung vor Phase 10 an die Titel: `rolleTermineAus` und `frischAngekuendigt` lesen sie am Titel, `mitAnkuendigung`
- * (Phase 13) käme zu spät (F70, 26.10.2026: Rayearth blieb trotz Ankündigung hinter dem Toggle).
- */
-export function haengeAnkuendigungAn(titles: Map<number, Title>, wurzel: string): void {
-  for (const [id, a] of ankuendigungenLaden(wurzel)) {
-    const t = titles.get(id)
-    if (t) t.ankuendigung = a
-  }
-}
