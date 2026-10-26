@@ -103,6 +103,7 @@ for (const daten of ['data/curated/tv-2026.yaml', 'data/dub-confirmed.yaml', 'da
 }
 pruefe('PR ändert nur Patch Notes (ohne Leser in der Kette), Leser vorhanden -> null', grund(['data/patchnotes/neu.yaml']) === null)
 pruefe('PR ändert Datei außerhalb von data/ mit Datenendung, Leser vorhanden -> null', grund(['tools/daten.json']) === null)
+pruefe('PR ändert Namensvetter datax/ (kein Ordner data/), Leser vorhanden -> null', grund(['datax/a.json']) === null)
 pruefe('PR ändert eine Datei unter public/og (kein Datenkanal des Baus), Leser vorhanden -> null', grund(['public/og/a.json']) === null)
 {
   const gelesen = []
