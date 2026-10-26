@@ -326,13 +326,22 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
 }
 
 /* Bewusster Ausstieg des Klicks: der Grund geht sofort zurück, nicht erst nach 15 s als „keine Rückmeldung“. */
-{
+/* Die zweite `zeige`-Zeile ist der Takt, der den Ausstieg liest; ihr Text darf die Sperre „nur der sichtbare Knopf
+   spricht“ nicht auslösen. Beide Texte, die der Knopf heute anzeigt, laufen durch: der erste steht in amazon.js, der zweite
+   kommt aus akPrimeLeseStand (prime-region.js, mit „für“). */
+const regionQuelle = readFileSync(__dirname + '/prime-region.js', 'utf8')
+for (const [text, teil, ort] of [
+  ['75 von 99 Folgen gelesen — 24 fehlen noch', '} fehlen noch`', quelle],
+  ['75 von 99 Folgen gelesen — für „kein Deutsch" fehlen 24', 'Folgen gelesen — für „kein Deutsch" fehlen ${Math.max(0, sollFolgen - geladen - gesperrt)}`', regionQuelle],
+]) {
+  pruefe(`Frame: der Knopftext steht so im Quelltext (${teil})`, ort.includes(teil))
   const w = welt({ imFrame: true })
   w.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 1500)
   w.kontext.letzteMeldung = { pfad: '/x', ok: false, am: w.uhr, abgewiesen: 'Staffel nicht vollständig gelesen' }
-  w.zeige('75 von 99 Folgen gelesen — für „kein Deutsch" fehlen 24', 500)
+  pruefe(`Frame: vor dem Takt keine Antwort (${text})`, !w.gepostet.length)
+  w.zeige(text, 500)
   const d = w.gepostet[0]
-  pruefe('Frame: abgewiesener Klick → sofort „nicht gesendet: <Grund>"', d?.ok === false && d.grund === 'nicht gesendet: Staffel nicht vollständig gelesen', d)
+  pruefe(`Frame: abgewiesener Klick → sofort „nicht gesendet: <Grund>" (${text})`, d?.ok === false && d.grund === 'nicht gesendet: Staffel nicht vollständig gelesen', d)
   pruefe('Frame: … und ohne 15 s Wartezeit', w.uhr - 1_000_000 < 5000 && !/keine Rückmeldung/.test(d?.grund ?? ''), w.uhr)
 }
 
