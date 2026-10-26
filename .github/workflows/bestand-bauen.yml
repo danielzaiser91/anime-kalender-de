@@ -201,7 +201,7 @@ jobs:
           if git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi
           if npm run check:logic > /tmp/logic.txt 2>&1 && npx tsx pipeline/check-logic-bestand.ts >> /tmp/logic.txt 2>&1; then
             echo '[]' > data/meldungen-zurueckgestellt.json
-            # Beleg für „Änderungen committen“ (tools/commit-data.sh): bleibt der Inhalt außerhalb der Datenpfade gleich, entfällt dort das zweite check:logic.
+            # Beleg für den Schritt „Änderungen committen“ (Commit-Skript): bleibt der Inhalt außerhalb der Datenpfade gleich, entfällt dort das zweite check:logic.
             if node tools/logik-beleg.mjs abdruck > "$RUNNER_TEMP/logik-gruen.txt"; then
               echo "LOGIK_GRUEN_DATEI=$RUNNER_TEMP/logik-gruen.txt" >> "$GITHUB_ENV"
             fi
