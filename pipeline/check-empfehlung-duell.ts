@@ -171,6 +171,24 @@ console.log('Andere Vorschläge, reduzierte Bewegung, Abbruch')
   pruefe('nach Abbruch: die neue Wahl wechselt genau einmal', gleich(gewechselt, ['B']), gewechselt)
 }
 
+{
+  const { u, st, gewechselt } = aufbau()
+  const bilder = aufschub()
+  st.waehle('A', () => bilder.p)
+  await u.schiebe(600)
+  st.abbrechen()
+  bilder.los()
+  await mikro()
+  pruefe('Abbruch im Warten: spät eintreffende Bilder wechseln nichts mehr', gewechselt.length === 0 && st.schritt() === 'bereit', { gewechselt, s: st.schritt() })
+}
+{
+  const { u, st, gewechselt } = aufbau()
+  st.waehle('A', sofort)
+  await u.schiebe(500)
+  await u.schiebe(6000)
+  pruefe('der Höchstwart-Zeitgeber wechselt nach dem Wechsel nicht ein zweites Mal', gleich(gewechselt, ['A']), gewechselt)
+}
+
 console.log('Bilder vorladen')
 const quelle = (n: number) => ({ src: `https://bild.test/${n}.jpg` })
 {
