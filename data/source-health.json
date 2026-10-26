@@ -51,9 +51,10 @@
     "lastCount": 0
   },
   "link-check": {
-    "lastOk": "2026-10-05T14:58:03.356Z",
-    "lastRun": "2026-10-05T14:58:03.356Z",
-    "lastCount": 287
+    "lastOk": "2026-10-26T05:12:11.618Z",
+    "lastRun": "2026-10-26T05:12:11.618Z",
+    "lastCount": 150,
+    "gesperrt": true
   },
   "tmdb-titles": {
     "lastOk": "2026-10-19T05:07:21.778Z",
@@ -171,8 +172,8 @@
     "lastCount": 5313
   },
   "rtlplus-folgen": {
-    "lastOk": "2026-10-19T05:11:46.542Z",
-    "lastRun": "2026-10-19T05:11:46.542Z",
+    "lastOk": "2026-10-26T05:06:50.539Z",
+    "lastRun": "2026-10-26T05:06:50.539Z",
     "lastCount": 3
   },
   "crunchyroll-woche": {
