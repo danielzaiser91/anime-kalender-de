@@ -230,6 +230,8 @@ pipeline/check-reihen-teilname.ts
 pipeline/check-reihen-traeger-aufrufer.ts
 pipeline/check-reihen-traeger.ts
 pipeline/check-reinids-grund.ts
+pipeline/check-remake-verdrahtung.ts
+pipeline/check-remake-zaehlung.ts
 pipeline/check-rohfolgen-ablauf.ts
 pipeline/check-rohfolgen-cartoons.ts
 pipeline/check-saison-deutsch.ts
