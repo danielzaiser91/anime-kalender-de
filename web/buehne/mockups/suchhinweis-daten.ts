@@ -1,42 +1,62 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
 import { todayIso } from '@shared/time.ts'
+import type { Title } from '@shared/types.ts'
+import type { Dataset } from '../../src/lib/data.ts'
 import { loadAllTitles, loadOhneSynchro, loadSynonyme, synonymeFuer } from '../../src/lib/data.ts'
 import { filterTitles, type FilterState } from '../../src/lib/filters.ts'
 import { titelQuelle } from '../../src/lib/titel-quelle.ts'
 import { useDatensatz } from '../ausschnitte/datensatz.ts'
-import { nurMitSchalter, zaehleZusatz, type ZusatzTreffer } from './suchhinweis-zaehlen.ts'
+import { findeBlockade, type Blockade } from './suchhinweis-filter.ts'
+import { nurMitSchalter, passtGenau, zaehleZusatz, type ZusatzTreffer } from './suchhinweis-zaehlen.ts'
+
+/** Was der Hinweis wissen muss: die Treffer, die der Schalter dazuholt, und was den exakten Treffer versteckt. */
+export interface Suchhinweis {
+  zusatz: ZusatzTreffer
+  blockade?: Blockade<Title>
+}
+
+/** Passt ein einzelner Titel zu den Filtern? Die Suche bleibt außen vor: „exakt“ ist hier der Name. */
+const passtZuFiltern = (data: Dataset) => (t: Title, f: FilterState): boolean => filterTitles([t], data, { ...f, search: '' }, todayIso(), new Set()).length > 0
+
+function berechne(data: Dataset, alle: Title[] | undefined, ohne: Title[] | undefined, stand: HinweisStand): Suchhinweis {
+  const mit = titelQuelle(data.titles, alle, ohne, true, undefined)
+  const nurSchalter = nurMitSchalter(mit, titelQuelle(data.titles, alle, ohne, false, undefined))
+  const zusatz = zaehleZusatz(filterTitles(nurSchalter, data, stand.filters, todayIso(), new Set()), stand.suche, synonymeFuer)
+  const ueberSchalter = new Set(nurSchalter.map((t) => t.id))
+  const exakte = mit.filter((t) => passtGenau(t, stand.suche, synonymeFuer(t.id))).map((titel) => ({ titel, nurMitSchalter: ueberSchalter.has(titel.id) }))
+  return { zusatz, blockade: findeBlockade(exakte, stand.filters, stand.ohneSynchro, passtZuFiltern(data)) }
+}
 
 /**
- * Die Zahl der Treffer, die nur der Schalter dazuholt. Die Menge ohne Synchro wird erst geladen, wenn gesucht wird
+ * Der Hinweis zum Stand der Datenbank. Die Menge ohne Synchro wird erst geladen, wenn gesucht wird
  * (Ladeweg der echten Umsetzung: siehe Bericht); solange sie fehlt oder die Suche nicht zur Zahl passt, kommt `undefined`.
  */
-export function useZusatzTreffer(suche: string, filters: FilterState): ZusatzTreffer | undefined {
+export function useSuchhinweis(stand: HinweisStand | undefined): Suchhinweis | undefined {
   const data = useDatensatz()
-  const [stand, setStand] = useState<{ suche: string; treffer: ZusatzTreffer }>()
+  const [fertig, setFertig] = useState<{ stand: HinweisStand; hinweis: Suchhinweis }>()
+  const suche = stand?.suche ?? ''
   useEffect(() => {
-    if (!data || !suche.trim()) return
+    if (!data || !stand || !suche.trim()) return
     let aktiv = true
     void Promise.all([loadAllTitles(data), loadOhneSynchro(data), loadSynonyme()]).then(([alle, ohne]) => {
-      if (!aktiv) return
-      const mit = titelQuelle(data.titles, alle, ohne, true, undefined)
-      const kandidaten = nurMitSchalter(mit, titelQuelle(data.titles, alle, ohne, false, undefined))
-      const treffer = filterTitles(kandidaten, data, filters, todayIso(), new Set())
-      setStand({ suche, treffer: zaehleZusatz(treffer, suche, synonymeFuer) })
+      if (aktiv) setFertig({ stand, hinweis: berechne(data, alle, ohne, stand) })
     })
     return () => {
       aktiv = false
     }
-  }, [data, suche, filters])
-  return stand?.suche === suche ? stand.treffer : undefined
+  }, [data, suche, stand?.filters, stand?.ohneSynchro])
+  const passt = fertig && stand && fertig.stand.suche === stand.suche && fertig.stand.filters === stand.filters && fertig.stand.ohneSynchro === stand.ohneSynchro
+  return passt ? fertig.hinweis : undefined
 }
 
-/** Was Kopf, Raster und Leer-Anzeige der Datenbank gemeinsam brauchen; der Kopf trägt es ein, die anderen lesen es. */
+/** Was Kopf, Zählzeile und Hinweis der Datenbank gemeinsam brauchen; der Kopf trägt es ein, die anderen lesen es. */
 export interface HinweisStand {
   suche: string
   filters: FilterState
   ohneSynchro: boolean
   ergebnisse: number
   einschalten: (next: boolean) => void
+  filterAendern: (next: FilterState) => void
 }
 
 let aktuell: HinweisStand | undefined
@@ -57,3 +77,6 @@ export function useHinweisStand(): HinweisStand | undefined {
     () => aktuell,
   )
 }
+
+/** Der jüngste Stand des Kopfes, auch nach einem Wechsel zwischen Aufruf und Ausführung. */
+export const leseStand = (): HinweisStand | undefined => aktuell

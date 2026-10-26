@@ -25,10 +25,13 @@ export function zaehleZusatz(treffer: Title[], suche: string, synonymeFuer: (id:
   return { gesamt: treffer.length, genau: treffer.filter((t) => passtGenau(t, suche, synonymeFuer(t.id))).length }
 }
 
-/** „+5 ohne deutsche Synchro, 1 davon passt genau“ — die Zahl der genauen Treffer nur, wenn es welche gibt. */
-export function hinweisText({ gesamt, genau }: ZusatzTreffer): string {
-  const kopf = `+${gesamt.toLocaleString('de-DE')} ohne deutsche Synchro`
-  if (genau === 0) return kopf
-  if (genau === 1) return gesamt === 1 ? `${kopf}, passt genau` : `${kopf}, 1 davon passt genau`
-  return `${kopf}, ${genau} davon passen genau`
+/** „6 Treffer ohne Synchro, davon 1 exakt“ — die exakten nur, wenn es welche gibt. */
+export function zusatzText({ gesamt, genau }: ZusatzTreffer): string {
+  const kopf = `${gesamt.toLocaleString('de-DE')} Treffer ohne Synchro`
+  return genau > 0 ? `${kopf}, davon ${genau.toLocaleString('de-DE')} exakt` : kopf
+}
+
+/** „„Hajime no Ippo“ ist ausgeblendet durch: Jahr 2003“ — die Filter kommen fertig beschriftet. */
+export function blockadeText(name: string, filter: string[]): string {
+  return `„${name}“ ist ausgeblendet durch: ${filter.join(', ')}`
 }

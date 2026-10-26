@@ -1,86 +1,93 @@
 import { useEffect, type ComponentProps } from 'react'
-import { DbLeer as EchtesLeer, DbRaster as EchtesRaster } from '../../src/components/db-bedienung.tsx'
+import { DbKopfzeile as EchteKopfzeile } from '../../src/components/db-kopfzeile.tsx'
 import { DbKopfbereich as EchterKopf } from '../../src/components/filter/DbWerkzeug.tsx'
-import { EMPTY_FILTERS } from '../../src/lib/filters.ts'
+import { anzeigeName } from '@shared/titles.ts'
 import { useLang } from '../../src/lib/i18n.tsx'
-import { merkeStand, useHinweisStand, useZusatzTreffer } from './suchhinweis-daten.ts'
-import { hinweisText } from './suchhinweis-zaehlen.ts'
+import { useMobil } from '../../src/lib/use-mobil.ts'
+import { leseStand, merkeStand, useHinweisStand, useSuchhinweis, type HinweisStand, type Suchhinweis } from './suchhinweis-daten.ts'
+import { loeseBlockade } from './suchhinweis-filter.ts'
+import { einheitName } from './suchhinweis-namen.ts'
+import { blockadeText, zusatzText } from './suchhinweis-zaehlen.ts'
 
-type Form = 'zeile' | 'karte' | 'leer'
+type Form = 'zeile' | 'darunter'
 
 const HUELLE: Record<Form, string> = {
-  zeile: 'flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ak-text',
-  karte: 'flex flex-wrap items-center justify-between gap-3 rounded-xl border border-dashed border-ak-rand px-4 py-2 text-sm text-ak-text',
-  leer: 'flex flex-col items-center gap-2 text-sm text-ak-text',
+  zeile: 'inline-flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ak-text',
+  darunter: 'flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ak-text',
 }
 
 const KNOPF = 'min-h-11 shrink-0 cursor-pointer rounded-full border border-ak-rand px-4 text-sm font-semibold text-ak-akzent-text transition hover:bg-ak-flaeche-2'
 
-/** Der Hinweis selbst: Zahl, Knopf, der den Schalter einschaltet. `zeile` ist Fließtext, `karte` eine gestrichelte Reihe am Listenende. */
-function Hinweis({ text, einschalten, form }: { text: string; einschalten: () => void; form: Form }) {
+/** Was der Knopf tut: gibt es Filter, die den exakten Treffer verstecken, geht er genau diese an (und schaltet bei Bedarf den Synchro-Schalter ein), sonst schaltet er nur den Schalter ein. */
+function loese(stand: HinweisStand, hinweis: Suchhinweis): void {
+  const b = hinweis.blockade
+  if (b && b.einheiten.length > 0) stand.filterAendern(loeseBlockade(stand.filters, b))
+  /* Der Schalter und die Filter schreiben je die ganze Adresse aus dem Stand ihres Aufrufs; der zweite Schritt wartet auf den ersten (die echte Umsetzung braucht einen gemeinsamen Adresswechsel). */
+  if (!b || b.synchro || b.einheiten.length === 0) setTimeout(() => leseStand()?.einschalten(true), 0)
+}
+
+/** Der Hinweis zum Stand der Datenbank (Suche, Filter, Schalter); ohne etwas zu sagen nichts. */
+function HinweisZumStand({ form }: { form: Form }) {
+  const { tGenre } = useLang()
+  const stand = useHinweisStand()
+  const hinweis = useSuchhinweis(stand)
+  if (!stand || !hinweis) return null
+  const zusatz = !stand.ohneSynchro && hinweis.zusatz.gesamt > 0
+  const b = hinweis.blockade
+  const versteckt = b && b.einheiten.length > 0
+  if (!zusatz && !versteckt) return null
+  const filter = b ? [...b.einheiten.map((e) => einheitName(e, stand.filters, tGenre)), ...(b.synchro ? ['ohne deutsche Synchro'] : [])] : []
+  const saetze = [...(zusatz ? [zusatzText(hinweis.zusatz)] : []), ...(b && versteckt ? [blockadeText(anzeigeName(b.titel), filter)] : [])]
   return (
-    <div role="status" data-suchhinweis={form} className={HUELLE[form]}>
-      <span>{text}</span>
-      <button type="button" onClick={einschalten} className={KNOPF}>
-        Anzeigen
+    <span role="status" data-suchhinweis={form} className={HUELLE[form]}>
+      <span>{saetze.join(' · ')}</span>
+      <button type="button" onClick={() => loese(stand, hinweis)} className={KNOPF}>
+        {versteckt ? 'Filter entfernen' : 'Anzeigen'}
       </button>
-    </div>
+    </span>
   )
 }
 
-/** Der Hinweis zum Stand der Datenbank (Suche, Filter, Schalter); ohne Zusatztreffer oder bei eingeschaltetem Schalter nichts. */
-function HinweisZumStand({ form, ohneLeereListe }: { form: Form; ohneLeereListe?: boolean }) {
-  const stand = useHinweisStand()
-  const treffer = useZusatzTreffer(stand?.suche ?? '', stand?.filters ?? EMPTY_FILTERS)
-  if (!stand || stand.ohneSynchro || !treffer || treffer.gesamt === 0) return null
-  if (ohneLeereListe && stand.ergebnisse === 0) return null
-  return <Hinweis text={hinweisText(treffer)} einschalten={() => stand.einschalten(true)} form={form} />
-}
-
-/** Trägt den Stand des Kopfes ein, damit Raster und Leer-Anzeige ihn kennen. */
+/** Trägt den Stand des Kopfes ein, damit Zählzeile und Hinweis ihn kennen. */
 function useStandMerken(p: ComponentProps<typeof EchterKopf>): void {
   useEffect(() => {
-    merkeStand({ suche: p.suche, filters: p.filters, ohneSynchro: p.ohneSynchro, ergebnisse: p.ergebnisse, einschalten: p.onOhneSynchroChange })
+    merkeStand({ suche: p.suche, filters: p.filters, ohneSynchro: p.ohneSynchro, ergebnisse: p.ergebnisse, einschalten: p.onOhneSynchroChange, filterAendern: p.onFiltersChange })
   })
 }
 
-/** Variante A: Textzeile mit Knopf direkt unter der Trefferzahl. */
+/**
+ * Variante A (Kopf): trägt den Stand ein; am Rechner steht der Hinweis in der Zählzeile. Am Handy liegt die Zählzeile
+ * in der Leiste am unteren Rand, die für einen Hinweis zu schmal ist — dort steht er wie in B darunter.
+ */
+export function KopfOhneHinweis(p: ComponentProps<typeof EchterKopf>) {
+  useStandMerken(p)
+  const mobil = useMobil()
+  return (
+    <>
+      <EchterKopf {...p} />
+      {mobil && <HinweisZumStand form="darunter" />}
+    </>
+  )
+}
+
+/** Variante A (Zählzeile, Rechner): „0 Ergebnisse für …“ und der Hinweis in derselben Zeile. */
+export function KopfzeileMitHinweis(p: ComponentProps<typeof EchteKopfzeile>) {
+  if (p.zweizeilig) return <EchteKopfzeile {...p} />
+  return (
+    <span className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
+      <EchteKopfzeile {...p} />
+      <HinweisZumStand form="zeile" />
+    </span>
+  )
+}
+
+/** Variante B: Hinweis als Zeile direkt unter dem Kopf mit der Zählzeile. */
 export function KopfMitZeile(p: ComponentProps<typeof EchterKopf>) {
   useStandMerken(p)
   return (
     <>
       <EchterKopf {...p} />
-      <HinweisZumStand form="zeile" ohneLeereListe />
+      <HinweisZumStand form="darunter" />
     </>
-  )
-}
-
-/** Variante B (Kopf): unverändert, trägt nur den Stand ein. */
-export function KopfOhneHinweis(p: ComponentProps<typeof EchterKopf>) {
-  useStandMerken(p)
-  return <EchterKopf {...p} />
-}
-
-/** Variante B (Liste): das echte Raster, als letzte Zeile der Liste der Hinweis. */
-export function RasterMitHinweis(p: ComponentProps<typeof EchtesRaster>) {
-  return (
-    <div className="flex flex-col gap-3">
-      <EchtesRaster {...p} />
-      <HinweisZumStand form="karte" ohneLeereListe />
-    </div>
-  )
-}
-
-/** Keine Treffer mit Synchro: statt des allgemeinen Knopfs („Auch Anime ohne deutsche Synchro zeigen“) die Zahl, die er bringt. */
-export function LeerMitZahl(p: ComponentProps<typeof EchtesLeer>) {
-  const { t } = useLang()
-  const stand = useHinweisStand()
-  const treffer = useZusatzTreffer(stand?.suche ?? '', stand?.filters ?? EMPTY_FILTERS)
-  if (p.ohneSynchro || !treffer || treffer.gesamt === 0) return <EchtesLeer {...p} />
-  return (
-    <div className="mx-auto flex max-w-md flex-col items-center gap-3 rounded-2xl border border-dashed border-ak-rand px-6 py-10 text-center">
-      <p className="text-sm text-ak-leise">{t('db.leerTipps')}</p>
-      <Hinweis text={hinweisText(treffer)} einschalten={p.onOhneSynchro} form="leer" />
-    </div>
   )
 }

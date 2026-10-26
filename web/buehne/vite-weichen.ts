@@ -14,6 +14,8 @@ const WEICHEN = [
   { importeur: '/web/src/components/kalender/PosterKarte.tsx', quelle: './Marken.tsx', ziel: './weichen/marken.tsx' },
   { importeur: '/web/src/components/DatabaseView.tsx', quelle: './filter/DbWerkzeug.tsx', ziel: './weichen/db-werkzeug.tsx' },
   { importeur: '/web/src/components/DatabaseView.tsx', quelle: './db-bedienung.tsx', ziel: './weichen/db-bedienung.tsx' },
+  { importeur: '/web/src/components/db-bedienung.tsx', quelle: './db-kopfzeile.tsx', ziel: './weichen/db-kopfzeile.tsx' },
+  { importeur: '/web/src/components/filter/DbWerkzeug.tsx', quelle: '../db-kopfzeile.tsx', ziel: './weichen/db-kopfzeile.tsx' },
 ]
 
 export function buehnenWeichen(): Plugin {

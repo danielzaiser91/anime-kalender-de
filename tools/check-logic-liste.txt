@@ -334,6 +334,7 @@ tools/quittung-nach-commit-waechter.mjs
 tools/sammler-pruefschritt-waechter.mjs
 tools/skript-aufrufer-wache.mjs
 tools/start-pruefung-wacht.mjs
+tools/suchhinweis-filter.test.ts
 tools/uhr-in-tests.mjs
 tools/web-hosting.test.ts
 tools/web-push-voll.test.ts

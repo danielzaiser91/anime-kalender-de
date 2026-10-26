@@ -1,5 +1,6 @@
 import { createContext, type ComponentProps, type ComponentType } from 'react'
 import type { DbLeer, DbRaster } from '../src/components/db-bedienung.tsx'
+import type { DbKopfzeile } from '../src/components/db-kopfzeile.tsx'
 import type { PanelBuehne } from '../src/components/detail/buehne.tsx'
 import type { DbKopfbereich } from '../src/components/filter/DbWerkzeug.tsx'
 import type { TvKasten } from '../src/components/kalender/TvKasten.tsx'
@@ -13,6 +14,7 @@ export interface Ersatz {
   DbKopfbereich: ComponentType<ComponentProps<typeof DbKopfbereich>>
   DbRaster: ComponentType<ComponentProps<typeof DbRaster>>
   DbLeer: ComponentType<ComponentProps<typeof DbLeer>>
+  DbKopfzeile: ComponentType<ComponentProps<typeof DbKopfzeile>>
 }
 
 export const ErsatzKontext = createContext<Partial<Ersatz>>({})

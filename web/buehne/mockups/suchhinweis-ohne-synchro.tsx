@@ -1,25 +1,35 @@
 import { mockup } from '../register.ts'
-import { KopfMitZeile, KopfOhneHinweis, LeerMitZahl, RasterMitHinweis } from './suchhinweis-teile.tsx'
+import { KopfMitZeile, KopfOhneHinweis, KopfzeileMitHinweis } from './suchhinweis-teile.tsx'
+
+const IPPO = 'Hajime no Ippo: The Fighting!'
 
 /**
- * Suchbegriffe je Fall (Kennung des Falltitels):
- * Hajime no Ippo: 0 Treffer mit Synchro, 6 ohne, einer davon gleicht dem Begriff (der schwierige Fall);
- * Tokyo Revengers: Treffer mit und ohne Synchro, keiner ohne passt genau; One Piece, Attack on Titan: lange Listen.
+ * Adresse der Datenbank je Fall:
+ * Hajime no Ippo: 0 Treffer mit Synchro, 6 ohne, einer davon gleicht dem Namen (der schwierige Fall); mit Jahr 2003 verbergen Jahr und Synchro ihn zugleich;
+ * Tokyo Revengers mit Jahr 2019: der exakte Treffer hat Synchro, nur das Jahr versteckt ihn; ohne Jahr: Treffer mit Synchro, keiner ohne passt genau;
+ * One Piece, Attack on Titan: lange Listen.
  */
 mockup({
   name: 'suchhinweis-ohne-synchro',
   titel: 'Suche: Hinweis auf Treffer ohne deutsche Synchro',
   ausschnitt: 'datenbank',
-  faelle: ['hajime-no-ippo', 'tokyo-revengers', 'one-piece', 'attack-on-titan'],
-  suchbegriffe: { 232: 'Hajime no Ippo: The Fighting!', 15957: 'Tokyo Revengers', 12: 'One Piece', 10659: 'Attack on Titan' },
+  faelle: ['hajime-no-ippo', 'hajime-no-ippo-jahr', 'tokyo-revengers-jahr', 'tokyo-revengers', 'one-piece', 'attack-on-titan'],
+  suchadressen: {
+    'hajime-no-ippo': { q: IPPO },
+    'hajime-no-ippo-jahr': { q: IPPO, y: '2003' },
+    'tokyo-revengers-jahr': { q: 'Tokyo Revengers', y: '2019' },
+    'tokyo-revengers': { q: 'Tokyo Revengers' },
+    'one-piece': { q: 'One Piece' },
+    'attack-on-titan': { q: 'Attack on Titan' },
+  },
   varianten: {
     A: {
-      ersatz: { DbKopfbereich: KopfMitZeile, DbLeer: LeerMitZahl },
-      notiz: 'Textzeile mit Knopf „Anzeigen“ direkt unter der Trefferzahl. Ohne Treffer mit Synchro übernimmt die Leer-Anzeige die Zahl.',
+      ersatz: { DbKopfbereich: KopfOhneHinweis, DbKopfzeile: KopfzeileMitHinweis },
+      notiz: 'Hinweis in derselben Zeile wie „0 Ergebnisse für …“: Treffer ohne Synchro, davon exakt; verstecken Filter den exakten Treffer, nennt die Zeile sie und der Knopf „Filter entfernen“ löst genau diese.',
     },
     B: {
-      ersatz: { DbKopfbereich: KopfOhneHinweis, DbRaster: RasterMitHinweis, DbLeer: LeerMitZahl },
-      notiz: 'Gestrichelte Reihe als letzte Zeile der Trefferliste. Ohne Treffer mit Synchro übernimmt die Leer-Anzeige die Zahl.',
+      ersatz: { DbKopfbereich: KopfMitZeile },
+      notiz: 'Derselbe Hinweis als eigene Zeile direkt unter der Zählzeile.',
     },
   },
 })

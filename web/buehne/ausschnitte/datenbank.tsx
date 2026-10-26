@@ -3,14 +3,16 @@ import { mockupMit } from '../register.ts'
 import { Ganz } from './ganz.tsx'
 import type { AusschnittEigenschaften } from './typ.ts'
 
-/** Stellt die Adresse auf „Datenbank, Suche nach …“, bevor die App sie liest. */
-function oeffneSuche(suche: string): true {
-  history.replaceState(null, '', `${location.pathname}${location.search}#/datenbank?${new URLSearchParams({ q: suche })}`)
+/** Stellt die Adresse auf „Datenbank“ mit den Parametern des Falls (Suche, Jahr …), bevor die App sie liest. */
+function oeffneDatenbank(parameter: Record<string, string>): true {
+  history.replaceState(null, '', `${location.pathname}${location.search}#/datenbank?${new URLSearchParams(parameter)}`)
   return true
 }
 
-/** Ausschnitt `datenbank`: die ganze App, geöffnet in der Datenbank mit dem Suchbegriff des Falls (`suchbegriffe` des Mockups). */
+/** Ausschnitt `datenbank`: die ganze App, geöffnet in der Datenbank mit den Adressparametern des Falls (`suchadressen` des Mockups; ohne Kennung gilt der erste Fall). */
 export function DatenbankSuche(eigenschaften: AusschnittEigenschaften) {
-  useState(() => oeffneSuche(mockupMit(eigenschaften.mockup)?.suchbegriffe?.[eigenschaften.fall.titleId] ?? ''))
+  const def = mockupMit(eigenschaften.mockup)
+  const kennung = eigenschaften.fallKennung || def?.faelle[0] || ''
+  useState(() => oeffneDatenbank(def?.suchadressen?.[kennung] ?? {}))
   return <Ganz {...eigenschaften} />
 }
