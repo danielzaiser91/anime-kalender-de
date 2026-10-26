@@ -11,7 +11,7 @@
   },
   "crunchyroll": {
     "lastOk": "2026-10-21T20:02:22.932Z",
-    "lastRun": "2026-10-26T05:02:51.091Z",
+    "lastRun": "2026-10-26T05:06:00.852Z",
     "lastCount": 0,
     "lastError": "keine Kachel im Kalender gefunden"
   },
@@ -26,9 +26,9 @@
     "lastCount": 109
   },
   "crunchyroll-dub": {
-    "lastOk": "2026-10-26T04:19:50.039Z",
-    "lastRun": "2026-10-26T04:19:50.039Z",
-    "lastCount": 1137
+    "lastOk": "2026-10-26T05:26:50.687Z",
+    "lastRun": "2026-10-26T05:26:50.687Z",
+    "lastCount": 1141
   },
   "anime-offline-database": {
     "lastOk": "2026-10-26T05:09:13.392Z",
