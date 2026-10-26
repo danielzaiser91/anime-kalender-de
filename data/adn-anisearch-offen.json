@@ -1,5 +1,5 @@
 {
-  "anzahl": 20,
+  "anzahl": 22,
   "serien": [
     {
       "showId": 444,
@@ -93,6 +93,13 @@
       "kandidaten": []
     },
     {
+      "showId": 887,
+      "title": "Dreamland",
+      "originalTitle": "Dreamland",
+      "grund": "titelliste-fehlt",
+      "kandidaten": []
+    },
+    {
       "showId": 1144,
       "title": "Billy & Buddy",
       "originalTitle": "Boule et Bill",
@@ -160,6 +167,13 @@
       "title": "Yakari",
       "originalTitle": "Yakari",
       "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 1347,
+      "title": "Reincarnated as a Dragon Hatchling",
+      "originalTitle": "Tensei Shitara Dragon no Tamago Datta",
+      "grund": "titelliste-fehlt",
       "kandidaten": []
     }
   ]

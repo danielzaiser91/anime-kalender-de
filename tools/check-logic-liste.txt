@@ -60,6 +60,7 @@ pipeline/check-cartoon-ton.ts
 pipeline/check-cartoon-wege-falten.ts
 pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
+pipeline/check-cover-luecken-wache.ts
 pipeline/check-cover-quelle.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
@@ -311,6 +312,7 @@ tools/anime2you-luecken.test.ts
 tools/apt-fremdquelle.mjs
 tools/buehne-entwurf-render.test.ts
 tools/buehne-fall-optionen.test.ts
+tools/buehne-speicher.test.ts
 tools/check-patchnotes-pflicht.mjs
 tools/design-klassen.mjs
 tools/design-kontrast.mjs

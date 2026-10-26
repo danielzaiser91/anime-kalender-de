@@ -1,4 +1,4 @@
-/** Überholte eigene Handlungen sind ein Hinweis, verwaiste ein Fehler (`check-handlung-eigen-bestand.ts`); die Quelle gewinnt im Bau. Läuft in `check:logic`. */
+/** Überholte und verwaiste eigene Handlungen sind Warnungen (`check-handlung-eigen-bestand.ts`, verwaist seit 26.10.2026); die Quelle gewinnt im Bau. Läuft in `check:logic`. */
 import { bewerteEigeneHandlungen } from './lib/handlung-eigen-bestand.ts'
 import { eigeneTexteAktiv, ladeEigeneHandlungen, type EigeneHandlung } from './lib/handlung-eigen.ts'
 import { laufeGegenKulisse } from './lib/bestand-kulisse.ts'
@@ -22,16 +22,16 @@ const titel = new Set([901, 902, 903]) // 904 und 905 fehlen ganz
 const keiner = new Set<number>()
 const r = bewerteEigeneHandlungen([901, 902, 903, 904].map(eintrag), titel, (id) => bestand[id], keiner)
 pruefe('überholt: nur Hinweis', r.hinweise.length === 1 && r.hinweise[0] === 901, r.hinweise.join('|'))
-pruefe('verwaist: Fehler', r.fehler.length === 1 && r.fehler[0]!.includes('904'), r.fehler.join('|'))
+pruefe('verwaist: Eintrag 904 gemeldet', r.verwaist.join() === '904', r.verwaist.join('|'))
 const nurUeberholt = bewerteEigeneHandlungen([eintrag(901)], new Set([901]), (id) => bestand[id], keiner)
-pruefe('nur überholt: kein Fehler', nurUeberholt.fehler.length === 0 && nurUeberholt.hinweise.length === 1)
+pruefe('nur überholt: kein Fehler', nurUeberholt.verwaist.length === 0 && nurUeberholt.hinweise.length === 1)
 const verwaistMitText = bewerteEigeneHandlungen([eintrag(905)], titel, (id) => bestand[id], keiner)
-pruefe('Titel fehlt und Bestand führt Text: nur Fehler, kein Hinweis', verwaistMitText.fehler.length === 1 && verwaistMitText.hinweise.length === 0, JSON.stringify(verwaistMitText))
+pruefe('Titel fehlt und Bestand führt Text: nur verwaist, kein Hinweis', verwaistMitText.verwaist.length === 1 && verwaistMitText.hinweise.length === 0, JSON.stringify(verwaistMitText))
 pruefe('leer', bewerteEigeneHandlungen([], titel, () => undefined, keiner).hinweise.length === 0)
 
-// Hinter dem Toggle (verschoben, nicht verloren): Warnung statt Fehler; ein Titel ohne jede Spur bleibt ein Fehler.
+// Hinter dem Toggle (verschoben, nicht verloren): Warnung statt verwaist; ein Titel ohne jede Spur bleibt verwaist.
 const versteckt = bewerteEigeneHandlungen([904, 906].map(eintrag), titel, () => undefined, new Set([904, 907]))
-pruefe('hinter dem Toggle: nur Warnung', versteckt.versteckt.join() === '904' && versteckt.fehler.length === 1 && versteckt.fehler[0]!.includes('906'), JSON.stringify(versteckt))
+pruefe('hinter dem Toggle: nur Warnung', versteckt.versteckt.join() === '904' && versteckt.verwaist.join() === '906', JSON.stringify(versteckt))
 const sichtbarUndVersteckt = bewerteEigeneHandlungen([eintrag(901)], titel, (id) => bestand[id], new Set([901]))
 pruefe('sichtbar und zugleich hinter dem Toggle: gilt als sichtbar', sichtbarUndVersteckt.versteckt.length === 0 && sichtbarUndVersteckt.hinweise.length === 1, JSON.stringify(sichtbarUndVersteckt))
 
@@ -66,7 +66,7 @@ const lauf = (e: EigeneHandlung[], t: unknown[], g: Record<string, unknown>, ver
 const a = lauf([eintrag(33)], [{ id: 33 }], { 33: { de: 'Quelltext' } })
 pruefe('Prozess überholt: Exit 0 + WARNUNG-Zeile', a.code === 0 && /^⚠ WARNUNG Eigene Handlung: 1 überholt .*: 33$/m.test(a.aus), `${a.code} ${a.aus}`)
 const b = lauf([eintrag(33), eintrag(65)], [{ id: 33 }], {})
-pruefe('Prozess verwaist: Exit 1', b.code === 1 && b.aus.includes('FEHLER') && b.aus.includes('65'), `${b.code} ${b.aus}`)
+pruefe('Prozess verwaist: Exit 0 + herabgestufte WARNUNG-Zeile', b.code === 0 && /^⚠ WARNUNG \[vorher rot\] Eigene Handlung: 1 ohne Titel im Bestand .*: 65$/m.test(b.aus) && !b.aus.includes('FEHLER'), `${b.code} ${b.aus}`)
 const c = lauf([eintrag(33)], [{ id: 33 }], {})
 pruefe('Prozess sauber: Exit 0 ohne WARNUNG', c.code === 0 && !c.aus.includes('⚠ WARNUNG'), `${c.code} ${c.aus}`)
 const d = laufeGegenKulisse(SKRIPT, {
@@ -81,12 +81,12 @@ const hyouken = { id: 212503, titleRomaji: 'Hyouken no Majutsushi ga Sekai wo Su
 const e = lauf([eintrag(212503)], [{ id: 33 }], {}, [hyouken])
 pruefe('Prozess hinter dem Toggle: Exit 0 + WARNUNG-Zeile', e.code === 0 && /^⚠ WARNUNG Eigene Handlung: 1 ohne deutsche Synchro im Katalog .*: 212503$/m.test(e.aus) && !e.aus.includes("FEHLER"), `${e.code} ${e.aus}`)
 const g = lauf([eintrag(212503), eintrag(65)], [{ id: 33 }], {}, [hyouken])
-pruefe('Prozess hinter dem Toggle und verwaist: Exit 1, nur der verwaiste wird genannt', g.code === 1 && g.aus.includes('FEHLER') && g.aus.includes('65') && !g.aus.includes('Eigene Handlung 212503'), `${g.code} ${g.aus}`)
+pruefe('Prozess hinter dem Toggle und verwaist: nur der verwaiste in der herabgestuften Zeile', g.code === 0 && /^⚠ WARNUNG \[vorher rot\] Eigene Handlung: 1 ohne Titel im Bestand .*: 65$/m.test(g.aus), `${g.code} ${g.aus}`)
 const h = lauf([eintrag(212503)], [{ id: 33 }], {}, [])
-pruefe('Prozess ohne Liste hinter dem Toggle: Exit 1', h.code === 1 && h.aus.includes("212503"), `${h.code} ${h.aus}`)
+pruefe('Prozess ohne Liste hinter dem Toggle: verwaist, Exit 0', h.code === 0 && /^⚠ WARNUNG \[vorher rot\] Eigene Handlung: 1 ohne Titel im Bestand .*: 212503$/m.test(h.aus), `${h.code} ${h.aus}`)
 // Festgehalten, nicht gewünscht: ohne-synchro.json führt den ganzen AniList-Katalog, Verschobene und Katalog sind dort nicht zu trennen — ein Katalogtitel ist nur Warnung.
 const katalogTitel = lauf([eintrag(70)], [{ id: 33 }], {}, [{ id: 70, ohneSynchro: true }])
 pruefe('Prozess Katalogtitel ohne Verschiebung: Warnung (bekannte Grenze), Exit 0', katalogTitel.code === 0 && /^⚠ WARNUNG Eigene Handlung: 1 ohne deutsche Synchro im Katalog .*: 70$/m.test(katalogTitel.aus), `${katalogTitel.code} ${katalogTitel.aus}`)
 
 if (fehler) process.exit(1)
-console.log('Eigene Handlung überholt: Hinweis statt Fehler, Quelle gewinnt im Bau, Prozess-Exit 0/1 mit WARNUNG-Zeile, hinter dem Toggle keine Verwaisung: alle Fälle ok.')
+console.log('Eigene Handlung überholt: Hinweis statt Fehler, Quelle gewinnt im Bau, Prozess-Exit 0 mit WARNUNG-Zeile auch bei verwaist, hinter dem Toggle keine Verwaisung: alle Fälle ok.')
