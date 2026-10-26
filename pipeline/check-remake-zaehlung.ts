@@ -14,6 +14,7 @@ import { reihenGruppen } from '../web/src/components/detail/reihen-gruppen.ts'
 import type { Dataset } from '../web/src/lib/data.ts'
 import { ladeRemakeVonHand, markiereRemakes, remakePaareAusKanten, zaehltAlsNeuverfilmung } from './bau/remake-von.ts'
 import { doppelteNummern, remakeMitOriginalInGruppe } from './lib/remake-zaehlung-pruefung.ts'
+import { uebersetzeDatei } from './lib/ausgabe-kennung.ts'
 
 let verletzt = 0
 let faelle = 0
@@ -210,6 +211,17 @@ function bauSeite(): void {
   pruefe('Prüfer: ein Film-Paar zählt nicht als Befund', remakeMitOriginalInGruppe(filme, new Map([[11, 10]])).length === 0)
 }
 
+/** Die Seite kennt nur `ak`: `remakeVon` muss mit übersetzt werden, sonst findet sie das Original nicht (die Datei im Bestand trägt AniList-Kennungen). */
+function ausgabeKennung(): void {
+  console.log('\nAusgabe auf eigene Kennungen:')
+  const ak = (n: number) => (n < 0 ? n : n + 1000)
+  const roh = { 3: [{ id: 5, name: 'X' }, { id: 6, name: 'Y', remakeVon: 5 }, { id: -7, name: 'Cartoon', remakeVon: -8 }] }
+  const aus = uebersetzeDatei('franchises.json', roh, ak) as Record<string, Record<string, unknown>[]>
+  pruefe('remakeVon läuft auf ak, id und al wie bisher', aus['1003']![1]!.remakeVon === 1005 && aus['1003']![1]!.id === 1006 && aus['1003']![1]!.al === 6, aus)
+  pruefe('ohne remakeVon entsteht kein Feld', !('remakeVon' in aus['1003']![0]!))
+  pruefe('negative Kennung (Cartoon) bleibt wie sie ist', aus['1003']![2]!.remakeVon === -8)
+}
+
 function handDatei(): void {
   console.log('\nHandliste data/remake-von-hand.yaml:')
   const dir = mkdtempSync(join(tmpdir(), 'remake-hand-'))
@@ -249,6 +261,7 @@ gruppenNamen()
 gegenproben()
 kopfUndGruppen()
 bauSeite()
+ausgabeKennung()
 handDatei()
 
 console.log(`\ncheck-remake-zaehlung: ${faelle} Zusicherungen, ${verletzt} verletzt`)
