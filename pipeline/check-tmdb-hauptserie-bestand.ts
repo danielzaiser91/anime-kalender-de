@@ -4,6 +4,7 @@
  */
 import { type TmdbEintrag } from './lib/tmdb-hauptserie.ts'
 import { readJson } from './lib/util.ts'
+import { melde, zurueckgestellt } from './lib/quarantaene.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -21,8 +22,13 @@ const banner = readJson<Record<string, unknown>>('data/tmdb-banner.json', {})
 const folgen = readJson<Record<string, { tmdbId?: number }>>('data/tmdb-folgen.json', {})
 /* Ein Titel mit Staffel-0-Zuordnung (`tmdb-staffel0.json`) trägt keine Serienkennung, aber das Standbild seiner Folge. */
 const staffel0 = readJson<Record<string, unknown>>('data/tmdb-staffel0.json', {})
-const bannerOhneKennung = Object.keys(banner).filter((id) => !bestand[id]?.tmdbId && !(id in staffel0))
-const folgenAndere = Object.keys(folgen).filter((id) => folgen[id]!.tmdbId !== bestand[id]?.tmdbId)
+/* Die Dateien sind roher Sammler-Stand: ein zurückgestellter Titel (Quarantäne) steht nicht mehr im Bestand, sein Eintrag ist dort kein Verstoß mehr. */
+const draussen = zurueckgestellt().ids
+const ohneZurueckgestellte = (ids: string[]): string[] => ids.filter((id) => !draussen.has(Number(id)))
+const bannerOhneKennung = ohneZurueckgestellte(Object.keys(banner).filter((id) => !bestand[id]?.tmdbId && !(id in staffel0)))
+const folgenAndere = ohneZurueckgestellte(Object.keys(folgen).filter((id) => folgen[id]!.tmdbId !== bestand[id]?.tmdbId))
+for (const id of bannerOhneKennung) melde(Number(id), 'tmdb-hauptserie', 'Hintergrundbild ohne TMDB-Kennung')
+for (const id of folgenAndere) melde(Number(id), 'tmdb-hauptserie', 'Folgenliste einer anderen TMDB-Kennung')
 pruefe('kein Hintergrundbild (tmdb-banner.json) ohne Kennung in tmdb-titles.json oder Zuordnung in tmdb-staffel0.json', bannerOhneKennung.length === 0, bannerOhneKennung)
 pruefe('keine Folgenliste (tmdb-folgen.json) einer anderen Kennung als in tmdb-titles.json', folgenAndere.length === 0, folgenAndere)
 
