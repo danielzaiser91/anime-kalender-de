@@ -188,18 +188,8 @@ export async function liesWochen(browser: Browser, today: string, weeks: number)
   return { slots, weekStarts }
 }
 
-async function main(): Promise<void> {
-  const browser = await chromium.launch({ headless: !HEADED })
-  const today = todayIso()
-  let gelesen: Awaited<ReturnType<typeof liesWochen>>
-  try {
-    gelesen = await liesWochen(browser, today, WEEKS)
-  } finally {
-    await browser.close()
-  }
-  const { slots, weekStarts } = gelesen
-  if (!slots.length) return
-
+/** Führt die gelesenen Slots mit dem bisherigen Stand zusammen und schreibt `data/crunchyroll.json`. */
+function schreibeKalender(slots: CrunchyrollSlot[], weekStarts: string[]): void {
   // Pro Titel den zuletzt gesehenen Sendeplatz festhalten.
   const german: CrunchyrollData['german'] = {}
   for (const slot of slots.filter((s) => s.german)) {
@@ -287,6 +277,23 @@ async function main(): Promise<void> {
   const germanCount = Object.keys(german).length
   recordSource('crunchyroll', germanCount, germanCount ? undefined : 'Kalender geladen, aber kein „(Deutsch)"-Eintrag')
   log(`${Object.keys(merged).length} Titel mit belegter deutscher Sendezeit gespeichert.`)
+}
+
+/** `start`, `today` und `weeks` stehen als Parameter, damit der Test den Ablauf ohne Browser und ohne Uhr fährt. */
+export async function main(
+  start: () => Promise<Browser> = () => chromium.launch({ headless: !HEADED }),
+  today: string = todayIso(),
+  weeks: number = WEEKS,
+): Promise<void> {
+  const browser = await start()
+  let gelesen: Awaited<ReturnType<typeof liesWochen>>
+  try {
+    gelesen = await liesWochen(browser, today, weeks)
+  } finally {
+    await browser.close()
+  }
+  if (!gelesen.slots.length) return
+  schreibeKalender(gelesen.slots, gelesen.weekStarts)
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
