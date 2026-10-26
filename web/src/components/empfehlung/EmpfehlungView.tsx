@@ -21,7 +21,7 @@ const MOSAIK_COVER = 24
 
 const zufallsStart = (): number => Math.floor(Math.random() * 1e6)
 
-/** „Was gucken?“: Einleitung → Duelle → fünf Vorschläge → Leinwand. Liegt als Fläche über der Seite; erreichbar nur per Adresse (`#/empfehlung`). */
+/** „Entdecken“: Einleitung → Duelle → fünf Vorschläge → Leinwand. Liegt als Fläche über der Seite; erreichbar nur per Adresse (`#/entdecken`). */
 export default function EmpfehlungView({ data }: { data: Dataset }) {
   const { t } = useLang()
   const { kontext, titel, fehler } = useEmpfehlungsDaten(data)

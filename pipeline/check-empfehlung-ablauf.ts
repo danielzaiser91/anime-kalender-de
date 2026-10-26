@@ -1,5 +1,5 @@
 /**
- * Zusicherungen zum Ablauf der Ansicht „Was gucken?“ (`web/src/lib/empfehlung-ablauf.ts`, `empfehlung-aktionen.ts`), den die Hooks
+ * Zusicherungen zum Ablauf der Ansicht „Entdecken“ (`web/src/lib/empfehlung-ablauf.ts`, `empfehlung-aktionen.ts`), den die Hooks
  * der Ansicht nur aufrufen: Phasenwechsel Duell → Ergebnis, Ziel 6/10, Zurück, ✕/✓ mit Nachrücken, Mengen fortschreiben,
  * Zurückholen. Läuft über die echten Kernfunktionen an einer erfundenen Pool-Datei. Aufruf: `npm run check:logic`.
  */
@@ -70,7 +70,7 @@ const verlauf = spiele(start, ['A', 'N', 'B', 'A', 'B', 'B', 'A'])
 const fertigIndex = verlauf.findIndex((a) => a.phase === 'ergebnis')
 pruefe('Ergebnis nach genau 6 gewerteten Duellen (das neutrale zählt nicht): 7. Antwort', fertigIndex === 6, fertigIndex)
 pruefe('davor bleibt es im Duell, die Galerie unverändert', verlauf.slice(0, 6).every((a) => a.phase === 'duell' && gleich(a.gezeigt, [1, 2])))
-pruefe('„Kann mich nicht entscheiden“ erhöht die gewerteten nicht', verlauf[1].sitzung!.zustand.gewertet === 1)
+pruefe('„Andere Vorschläge“ erhöht die gewerteten nicht', verlauf[1].sitzung!.zustand.gewertet === 1)
 const ende = verlauf[6]
 pruefe('Galerie = die ersten fünf der Rangliste des Endzustands', gleich(ende.gezeigt, ids(rang(ende.sitzung!.zustand)).slice(0, 5)), ende.gezeigt)
 pruefe('Galerie ohne Titel aus den Duellen', ende.gezeigt.every((id) => !ende.sitzung!.zustand.gesehen.map((i) => 900300 + i).includes(id)))

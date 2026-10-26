@@ -1,0 +1,7 @@
+[
+  { "name": "Kontrolle (unmutiert, muss grün bleiben)", "aenderungen": [] },
+  { "name": "DuellKarten: Karte eckig (rounded-2xl → rounded-none)", "datei": "web/src/components/empfehlung/DuellKarten.tsx", "suche": "rounded-2xl", "ersetze": "rounded-none" },
+  { "name": "duell.css: Sieger ohne Ring", "datei": "web/src/components/empfehlung/duell.css", "suche": ".empf-kandidat.gewinnt { box-shadow: 0 0 0 4px var(--ak-gut), ", "ersetze": ".empf-kandidat.gewinnt { box-shadow: " },
+  { "name": "duell.css: Verlierer-Ring in Siegerfarbe", "datei": "web/src/components/empfehlung/duell.css", "suche": ".empf-kandidat.verliert { box-shadow: 0 0 0 4px var(--ak-fehler),", "ersetze": ".empf-kandidat.verliert { box-shadow: 0 0 0 4px var(--ak-gut)," },
+  { "name": "duell.css: Verlierer rutscht 3 px nach unten", "datei": "web/src/components/empfehlung/duell.css", "suche": ".empf-kandidat.verliert { box-shadow", "ersetze": ".empf-kandidat.verliert { transform: translateY(3px); box-shadow" }
+]

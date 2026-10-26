@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react'
 import type { Dataset } from '../lib/data.ts'
 
-/** „Was gucken?“ ist ein eigener Chunk und lädt erst auf `#/empfehlung` (Start-Budget). */
+/** „Entdecken“ ist ein eigener Chunk und lädt erst auf `#/entdecken` (Start-Budget). */
 const EmpfehlungView = lazy(() => import('./empfehlung/EmpfehlungView.tsx'))
 
 export function EmpfehlungLazy({ data }: { data: Dataset }) {
