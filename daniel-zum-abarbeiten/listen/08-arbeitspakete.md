@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-25 · **17 offene Verweise** in **14 Zeilen**,
+Stand 2026-10-26 · **17 offene Verweise** in **14 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -42,7 +42,7 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 5 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() · [Infinity Castle](https://www.amazon.de/gp/video/detail/B0GZSDPCV4) |
 | 6 | Prime Video | The Detective Is Already Dead | [Staffel 2]() |
 | 7 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
-| 8 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
+| 8 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie](https://www.amazon.de/gp/video/detail/B0FR3P275F) |
 | 9 | Prime Video | NieR:Automata Ver1.1a | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f447a318-045f-4f1d-871d-f6ac4d53cf8a) |
 | 10 | Prime Video | Yunas Geisterhaus | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.31c2fcde-089d-47dd-bf2b-09bca0de572f) |
 | 11 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |

@@ -20,6 +20,7 @@ function pruefe(name: string, ok: boolean, info = ''): void {
 const OUT = 'public/data/titles.json'
 if (!existsSync(OUT)) {
   console.error(`FEHLER: ${OUT} fehlt — erst bauen`)
+  console.log('VERSTÖSSE: 1')
   process.exit(1)
 }
 const titel = readJson<Title[]>(OUT, [])
@@ -36,4 +37,8 @@ pruefe(
   ungekennzeichnet.map((t) => t.id).join(', '),
 )
 console.log(`  ${titel.filter((t) => freenet(t).some((w) => w.dubAbgeleitet)).length} Titel mit „laut Schwester-Shop“ bei freenet`)
-if (fehler) process.exit(1)
+if (fehler) {
+  console.log(`VERSTÖSSE: ${fehler}`)
+  process.exit(1)
+}
+console.log('VERSTÖSSE: 0')

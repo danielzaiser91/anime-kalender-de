@@ -4290,7 +4290,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe(
     'ein Amazon-200 ohne Produktseite gilt nicht als lebende Adresse',
     linkPruefer.includes('if (!PRODUKTSEITE.test(text)) return { status: \'unklar\'') &&
-      linkPruefer.includes("alt.status === 'unklar'"),
+      readFileSync('pipeline/lib/link-befund.ts', 'utf8').includes("alt.status === 'unklar'"),
     'sonst bucht ein misslungener Abruf eine tote ASIN für dreißig Tage als lebend',
   )
   /*

@@ -229,6 +229,7 @@ pipeline/check-rohfolgen-cartoons.ts
 pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
+pipeline/check-sammel-unzugeordnet.ts
 pipeline/check-sammelartikel.ts
 pipeline/check-sammler-lesezugriffe-faelle.ts
 pipeline/check-sammler-lesezugriffe.ts
@@ -322,6 +323,7 @@ tools/hover-cover-weitere.test.tsx
 tools/hover-cover.test.ts
 tools/link-check-ende.test.ts
 tools/link-check-zeitbudget.test.ts
+tools/link-faelligkeit.test.ts
 tools/quarantaene-pruefungen.test.ts
 tools/quellen-gesundheit.test.ts
 tools/quittung-nach-commit-waechter.mjs

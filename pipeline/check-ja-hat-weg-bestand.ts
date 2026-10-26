@@ -29,12 +29,15 @@ function main(): number {
     const fehler = bestandsFehler(titel, cartoons, ladeHandbelege(), AUSNAHMEN)
     if (fehler.length) {
       for (const zeile of fehler) console.error(zeile)
+      console.log(`VERSTÖSSE: ${fehler.length}`)
       return 1
     }
     console.log(`✓ Gemessenes Ja ⇒ ein Weg: ${titel.length + cartoons.length} Titel im Datensatz, keiner ohne Weg (Cartoons je Anbieter).`)
+    console.log('VERSTÖSSE: 0')
     return 0
   } catch (e) {
     console.error(`✖ ${(e as Error).message}`)
+    console.log('VERSTÖSSE: 1')
     return 1
   }
 }

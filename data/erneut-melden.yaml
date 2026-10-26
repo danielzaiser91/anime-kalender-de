@@ -551,3 +551,4 @@
 - { anilistId: 112625, platform: netflix, seit: '2026-10-25', grund: "Quellen nennen zwei Netflix-Kennungen (Datensatz/AniList, aniSearch, JustWatch): Seite von Hand öffnen und melden, 25.10.2026" }
 - { anilistId: 135643, platform: netflix, seit: '2026-10-25', grund: "Quellen nennen zwei Netflix-Kennungen (Datensatz/AniList, aniSearch, JustWatch): Seite von Hand öffnen und melden, 25.10.2026" }
 - { anilistId: 100876, platform: netflix, seit: '2026-10-25', grund: "Quellen nennen zwei Netflix-Kennungen (Datensatz/AniList, aniSearch, JustWatch): Seite von Hand öffnen und melden, 25.10.2026" }
+- { anilistId: 195539, platform: netflix, seit: '2026-10-25', grund: "Netflix-Kennung korrigiert (PR 1945)" }

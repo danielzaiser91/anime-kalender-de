@@ -20,5 +20,9 @@ fehler.push(...kennungenOhneTitel(datei, titles, akVon))
 
 for (const w of coverHinweise(datei, titles)) console.warn(`  ! ${w}`)
 for (const f of fehler) console.error(`  ✖ ${f}`)
-if (fehler.length) process.exit(1)
+if (fehler.length) {
+  console.log(`VERSTÖSSE: ${fehler.length}`)
+  process.exit(1)
+}
 console.log(`Empfehlung (Bestand): ${datei.einstiege.length} Einstiege aus ${datei.pool} Titeln, ${gzipGroesse(datei)} Byte gzip (Grenze ${MAX_GZIP_BYTES}), Kennungen in ak aufgelöst`)
+console.log('VERSTÖSSE: 0')

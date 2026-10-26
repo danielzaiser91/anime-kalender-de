@@ -52,6 +52,8 @@ pruefe('jede Cartoon-Meldung nennt das Release, aus dem sie stammt', vonCartoons
 
 if (fehler) {
   console.error(`check-cartoon-news: ${fehler} Fehler`)
+  console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
 console.log('check-cartoon-news: alles grün')
+console.log('VERSTÖSSE: 0')

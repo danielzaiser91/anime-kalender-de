@@ -28,18 +28,18 @@ export function eskalation(name, frist, letzterErfolg, jetztMs) {
 }
 
 /** Alle Alarmzeilen zu einem Gesundheitsstand `{ name: { lastOk } }`, nach Name sortiert. */
-export function eskalationsZeilen(gesundheit, jetztMs, fristen = FRISTEN) {
+export function eskalationsZeilen(gesundheit, jetztMs, fristen = FRISTEN, zusatz = () => '') {
   return Object.keys(gesundheit)
     .sort()
-    .map((name) => eskalation(name, fristen[name] ?? STANDARD_FRIST_TAGE, gesundheit[name]?.lastOk, jetztMs))
-    .filter((e) => e.eskalieren)
-    .map((e) => e.text)
+    .map((name) => ({ name, e: eskalation(name, fristen[name] ?? STANDARD_FRIST_TAGE, gesundheit[name]?.lastOk, jetztMs) }))
+    .filter(({ e }) => e.eskalieren)
+    .map(({ name, e }) => e.text + zusatz(name, gesundheit[name]))
 }
 
 /** Liest den Stand aus `datei`; nicht lesbar ist selbst eine Zeile, nie Schweigen. */
-export function eskalationsText(datei, jetztMs) {
+export function eskalationsText(datei, jetztMs, zusatz) {
   try {
-    return eskalationsZeilen(JSON.parse(readFileSync(datei, 'utf8')), jetztMs)
+    return eskalationsZeilen(JSON.parse(readFileSync(datei, 'utf8')), jetztMs, FRISTEN, zusatz)
   } catch (fehler) {
     return [`ALARM? ${datei} nicht lesbar: ${fehler.message}`]
   }

@@ -1,5 +1,5 @@
 {
-  "aufgeloestAm": "2026-10-25T04:10:51.548Z",
+  "aufgeloestAm": "2026-10-26T05:26:50.685Z",
   "adressen": {
     "http://www.crunchyroll.com/de/a-place-further-than-the-universe": {
       "seriesId": "GYK541EPR",
@@ -3969,13 +3969,13 @@
       "geprueftAm": "2026-10-12"
     },
     "https://www.crunchyroll.com/de/angels-of-death": {
-      "ziel": "https://www.crunchyroll.com/de/angels-of-death?__cf_chl_rt_tk=o9JAK5og2q7LbaYaDo.0jv1Dkw.ybEj102XoAxYRy5s-1791781688-1.0.1.1-2f9_JnE7.l67IHw5XbB0VI75X.ySQXYoazkaXQhxQx0",
-      "geprueftAm": "2026-10-12",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
+      "seriesId": "GRVDN485R",
+      "ziel": "https://www.crunchyroll.com/de/series/GRVDN485R/angels-of-death",
+      "geprueftAm": "2026-10-26"
     },
     "https://www.crunchyroll.com/de/persona5-the-animation/persona5-the-animation-dark-sun-780776": {
-      "ziel": "https://www.crunchyroll.com/de/persona5-the-animation/persona5-the-animation-dark-sun-780776?__cf_chl_rt_tk=2n4qHm_ul8TdomSeZJb4BNvf1aEXxbgHhdokFgMmx5M-1791781833-1.0.1.1-TYUiYzzAuPyHhvQZC2ULh8VN38yw1KC77UkgqLsP7Zs",
-      "geprueftAm": "2026-10-12",
+      "ziel": "https://www.crunchyroll.com/de/persona5-the-animation/persona5-the-animation-dark-sun-780776?__cf_chl_rt_tk=nM.XXuZq8.wDbrKUgfAJWJ1VjKWGzCaEH7g3uf6fZ7Y-1792991406-1.0.1.1-YbGqGW1dsGH6V3MFibCzvAcoslcU89ESR2XcUKWgkoI",
+      "geprueftAm": "2026-10-26",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/jujutsu-kaisen/jujutsu-kaisen-0-german-dub-unknown-868375": {

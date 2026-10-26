@@ -21,6 +21,7 @@ const SECRET_WERT = { 'app-id': '${{ secrets.DATEN_APP_ID }}', 'app-key': '${{ s
 export const TOKEN_JOBS = {
   'bestand-bauen.yml': { bauen: 'checkout' },
   'delta-wache.yml': { wache: 'checkout' },
+  'extension-version.yml': { zaehlen: 'checkout' },
   'claude-daten-merge.yml': { nachholen: 'daten-pr-mergen', zusammenfuehren: 'daten-pr-mergen' },
   'claude-anime2you-extraktion.yml': { lesen: 'quellen-pr' },
   'claude-verpasst-recherche.yml': { recherchieren: 'quellen-pr' },

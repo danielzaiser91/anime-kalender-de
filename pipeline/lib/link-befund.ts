@@ -44,3 +44,13 @@ export function juengsteJeKern(befunde: Record<string, LinkBefund>): Map<string,
   }
   return karte
 }
+
+/**
+ * Ob eine Adresse im Link-Lauf dran ist: nie geprüft, `unklar` oder 5xx (Dienst nicht erreichbar, sagt
+ * nichts über die Adresse) sind beim nächsten Lauf wieder fällig, alles andere erst nach `grenze` (ISO-Datum).
+ */
+export function istFaellig(alt: LinkBefund | undefined, grenze: string): boolean {
+  if (!alt || alt.status === 'unklar') return true
+  if (typeof alt.status === 'number' && alt.status >= 500) return true
+  return (alt.geprueftAm ?? 'z') < grenze
+}

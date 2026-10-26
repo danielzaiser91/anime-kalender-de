@@ -23,6 +23,8 @@ const { fehler, hinweise } = bewerteEigeneHandlungen(ladeEigeneHandlungen(), tit
 if (hinweise.length) console.log(bestandWarnzeile('Eigene Handlung', 'überholt (Quelle gewinnt, in data/handlung-eigen.yaml bei Gelegenheit löschen)', hinweise))
 if (fehler.length) {
   console.error(`FEHLER: ${fehler.length} verwaiste Einträge in data/handlung-eigen.yaml — löschen:\n${fehler.join('\n')}`)
+  console.log(`VERSTÖSSE: ${fehler.length}`)
   process.exit(1)
 }
 console.log(`Eigene Handlung gegen den Bestand: ${hinweise.length} überholt (Hinweis), kein Eintrag verwaist.`)
+console.log('VERSTÖSSE: 0')

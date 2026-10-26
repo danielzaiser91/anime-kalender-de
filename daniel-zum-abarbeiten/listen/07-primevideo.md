@@ -1,6 +1,6 @@
 # Prime Video: was noch zu prüfen ist
 
-Stand 2026-10-25 · **11 offene Verweise** in **9 Zeilen**.
+Stand 2026-10-26 · **11 offene Verweise** in **9 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -12,7 +12,7 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | 1 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
 | 2 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() · [Infinity Castle](https://www.amazon.de/gp/video/detail/B0GZSDPCV4) |
 | 3 | 2026-10-07 | The Detective Is Already Dead | [Staffel 2]() |
-| 4 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie]() |
+| 4 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie](https://www.amazon.de/gp/video/detail/B0FR3P275F) |
 | 5 | 2026-09-13 | Kuroko’s Basketball: | [Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door]() |
 | 6 | 2023-07-23 | NieR:Automata Ver1.1a | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f447a318-045f-4f1d-871d-f6ac4d53cf8a) |
 | 7 | 2021-02-17 | Project Itoh: Genocidal Organ | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.78b91eef-2e25-9512-4024-a8c43ad3e1f9) |
