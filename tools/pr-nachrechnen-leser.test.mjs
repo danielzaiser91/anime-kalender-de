@@ -111,6 +111,11 @@ pruefe('Nennung nur über den Dateinamen -> Grund', /liest data\/crunchyroll-woc
 pruefe('geaenderteSkripte: package.json ohne scripts -> leer', geaenderteSkripte('{}', '{}') === '' && geaenderteSkripte('{}', pj({ a: 'x' })) === 'x')
 pruefe('package.json: Skript nennt Datei, die der Leser importiert -> Rückrichtung', /pipeline\/lib\/helfer\.ts wird von Code genutzt/.test(grund(['package.json'], { paketSkripte: 'node pipeline/lib/helfer.ts' })), grund(['package.json'], { paketSkripte: 'node pipeline/lib/helfer.ts' }))
 pruefe('package.json: Skript nennt den Ordner der importierten Datei -> Rückrichtung', /pipeline\/lib wird von Code genutzt/.test(grund(['package.json'], { paketSkripte: 'ls pipeline/lib' })), grund(['package.json'], { paketSkripte: 'ls pipeline/lib' }))
+{
+  // Der Leser nennt einen Ordner (Token ohne Endung); eine PR-Datei darin hängt mit dem Leser zusammen.
+  const ordner = (p) => ({ 'tools/r.mjs': `const d = 'tools/sub'\nconst f = '${F}'\n` })[p] ?? null
+  pruefe('Rückrichtung: PR-Datei liegt im Ordner, den der Leser nennt -> Grund', /tools\/sub\/x\.mjs wird von Code genutzt/.test(bewegtesGelesen({ bewegt: [F], pr: ['tools/sub/x.mjs'], leser: ['tools/r.mjs'], lies: ordner, paketSkripte: null })))
+}
 pruefe('Patch-Notes-YAML, die die Datei nennt, zählt nicht (ohne Leser)', bewegtesGelesen({ bewegt: [F], pr: ['data/patchnotes/neu.yaml'], leser: [], lies: () => `text: ${F}\n`, paketSkripte: null }) === null)
 pruefe('package.json: Ordner-Token in geändertem Skript trifft den Leser-Ordner', /ruft pipeline\/bau\/cr\.ts auf/.test(grund(['package.json'], { paketSkripte: 'ls pipeline/bau' })))
 
