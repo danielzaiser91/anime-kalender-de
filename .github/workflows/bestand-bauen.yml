@@ -305,6 +305,22 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:qualitaet
 
+      # Fehlt eine deutsche Crunchyroll-Folge der letzten 14 Tage als Termin, bleibt der Bau grün und die Daten gehen raus; die Folge
+      # kommt als gelbe Lauf-Meldung (`DATEN_WARNUNG`) in die App und in `laeufe-aufraeumen` (Anlass 25.10.2026: Last Boss S2 #1–2,
+      # Apothekerin S3 #49 fehlten Tage, Widerlegung durch das Wochenprogramm).
+      - name: Crunchyroll-Folgen im Kalender prüfen
+        continue-on-error: true
+        run: |
+          if ! npm run check:cr-termine > "$RUNNER_TEMP/cr-termine.log" 2>&1; then
+            cat "$RUNNER_TEMP/cr-termine.log"
+            fehlt="$(grep -c '^FEHLT' "$RUNNER_TEMP/cr-termine.log" || true)"
+            folgen="$(grep '^FEHLT' "$RUNNER_TEMP/cr-termine.log" | head -3 | cut -d' ' -f3- | paste -sd';' - || true)"
+            [ "$fehlt" = 0 ] && folgen='Prüfung nicht lesbar'
+            echo "::error::Crunchyroll-Folgen ohne Termin: ${folgen}"
+            echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Crunchyroll-Folgen ohne Termin (${fehlt}): ${folgen}" >> "$GITHUB_ENV"
+            exit 1
+          fi
+
       - name: Vorschaubilder für neue Releases
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
