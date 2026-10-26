@@ -30,8 +30,8 @@ export class MiniKnoten {
   }
   get firstChild() { return this.childNodes[0] ?? null }
   get lastChild() { return this.childNodes[this.childNodes.length - 1] ?? null }
-  get nextSibling() { return this.parentNode ? (this.parentNode.childNodes[this.parentNode.childNodes.indexOf(this) + 1] ?? null) : null }
-  get previousSibling() { return this.parentNode ? (this.parentNode.childNodes[this.parentNode.childNodes.indexOf(this) - 1] ?? null) : null }
+  get nextSibling(): MiniKnoten | null { return this.parentNode ? (this.parentNode.childNodes[this.parentNode.childNodes.indexOf(this) + 1] ?? null) : null }
+  get previousSibling(): MiniKnoten | null { return this.parentNode ? (this.parentNode.childNodes[this.parentNode.childNodes.indexOf(this) - 1] ?? null) : null }
   get data() { return this.nodeValue ?? '' }
   set data(w: string) { this.nodeValue = w }
   get textContent(): string {
