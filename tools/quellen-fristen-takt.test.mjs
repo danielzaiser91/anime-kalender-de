@@ -41,6 +41,7 @@ assert.deepEqual(quellenNamen("recordSource('a-b', 0)\nrecordSource( 'c', 1)\nre
 const ziele = (text) => importZiele(text, 'pipeline/lib/x.ts')
 assert.deepEqual(ziele("import a from './adn-news.ts'\nimport { b } from '../bau/y.ts'\nimport ts from 'typescript'\nimport t from 'node:fs'"), ['pipeline/lib/adn-news.ts', 'pipeline/bau/y.ts'])
 assert.deepEqual(ziele("export { c } from './c.ts'\nconst m = await import('./d.mjs')\nimport('./e.ts')\nimport(name)"), ['pipeline/lib/c.ts', 'pipeline/lib/d.mjs', 'pipeline/lib/e.ts'])
+assert.deepEqual(ziele("import p from 'paket/lib.mjs'"), [], 'Paketpfad mit .mjs ist kein eigenes Modul')
 assert.deepEqual(ziele("import x from './kein-skript.json'\n// import y from './kommentar.ts'"), [])
 assert.deepEqual(ohneFrist({ b: 1, a: 1, c: 1 }, { c: 2 }), ['a', 'b'])
 assert.deepEqual(ohneFrist({ a: 1 }, { a: 4 }), [])
