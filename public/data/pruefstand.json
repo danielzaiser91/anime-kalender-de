@@ -1,30 +1,31 @@
 {
- "erzeugtAm": "2026-10-26T05:20:51.628Z",
+ "erzeugtAm": "2026-10-26T11:22:10.377Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 853,
+   "gemeldet": 828,
    "gesamt": 905,
-   "offen": 52,
-   "ohneSeite": 16,
+   "offen": 77,
+   "ohneSeite": 17,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
-    "https://www.amazon.de/s?k=Christoph%20Columbus&i=instant-video",
+    "https://www.amazon.de/s?k=Higurashi%20no%20Naku%20Koro%20ni&i=instant-video",
+    "https://www.amazon.de/s?k=Die%20Schatzinsel&i=instant-video",
     "https://www.amazon.de/s?k=Miraculous%3A%20Geschichten%20von%20Ladybug%20und%20Cat%20Noir&i=instant-video",
     "https://www.amazon.de/s?k=Rick%20and%20Morty%3A%20The%20Anime&i=instant-video",
-    "https://www.amazon.de/s?k=Vampire%20Hunter%20D%3A%20Bloodlust&i=instant-video",
-    "https://www.amazon.de/s?k=Aura%3A%20Koga%20Maryuin%E2%80%99s%20Last%20War&i=instant-video",
     "https://www.amazon.de/s?k=Operation%3A%20Nussknacker%20-%20Auf%20die%20N%C3%BCsse%2C%20fertig%2C%20los!&i=instant-video",
     "https://www.amazon.de/s?k=Sam%3A%20Ein%20fast%20perfekter%20Held&i=instant-video",
     "https://www.amazon.de/s?k=Isekai%20Onsen%20Paradise&i=instant-video",
-    "https://www.amazon.de/s?k=Tayo%20und%20die%20kleinen%20Zauberer&i=instant-video",
+    "https://www.amazon.de/s?k=Princess%20Principal%3A%20Crown%20Handler%20-%20Chapter%205&i=instant-video",
+    "https://www.amazon.de/s?k=Princess%20Principal%3A%20Crown%20Handler%20-%20Chapter%206&i=instant-video",
     "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video",
     "https://www.amazon.de/s?k=Prinz%20Ribbit%3A%20Ein%20Frosch%20auf%20Umwegen!&i=instant-video",
     "https://www.amazon.de/s?k=Operation%20Nussknacker%202%3A%20Voll%20auf%20die%20N%C3%BCsse&i=instant-video",
     "https://www.amazon.de/s?k=Happy%20Fish%202%3A%20Hai-Alarm%20im%20Hochwasser&i=instant-video",
     "https://www.amazon.de/s?k=Outback%3A%20Jetzt%20wird%E2%80%99s%20richtig%20wild!&i=instant-video",
-    "https://www.amazon.de/s?k=Super%20Wings%3A%20Maximum%20Speed&i=instant-video"
+    "https://www.amazon.de/s?k=Super%20Wings%3A%20Maximum%20Speed&i=instant-video",
+    "https://www.amazon.de/s?k=Dragon%20Ball%20Super%3A%20Beerus&i=instant-video"
    ],
    "ziel": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
    "ziele": [
@@ -45,6 +46,10 @@
      "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8ae81ee2-03f2-4f55-9027-c453f804a727",
+     "titel": "All You Need Is Kill"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0DMKS6Y12",
      "titel": "From Bureaucrat to Villainess: Dad’s Been Reincarnated! (From Bureaucrat to Villainess: Dad's Been Reincarnated!)"
     },
@@ -59,6 +64,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DJKGJQ7K",
      "titel": "Yandere Dark Elf: She Chased Me All the Way from Another World!"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.9a001bc0-718e-4acb-8909-aaad6633e395",
+     "titel": "Scarlet"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0FR3P275F",
@@ -81,8 +90,16 @@
      "titel": "Dragon Ball Daima"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a0a1e77c-4dab-4120-9298-b2d49ecb5d9d",
+     "titel": "Der Junge und der Reiher (The Boy and the Heron)"
+    },
+    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.f447a318-045f-4f1d-871d-f6ac4d53cf8a",
      "titel": "NieR:Automata Ver1.1a"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.3f227d98-2ca8-4ad6-bf0e-07169fe309d8",
+     "titel": "Psycho-Pass: Providence"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0BZWFR7H1",
@@ -91,6 +108,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVLJNLWJ",
      "titel": "Management of a Novice Alchemist"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.abac5db1-37b2-44b3-b7eb-cc7a0ddc8e95",
+     "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Der Film - Feuerrote Bande (That Time I Got Reincarnated as a Slime the Movie: Scarlet Bond)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CJRZY5ND",
@@ -113,8 +134,20 @@
      "titel": "Appare-Ranman!"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.2f20592a-93ae-4698-b458-c4496238db0c",
+     "titel": "Pokémon: Der Film - Geheimnisse des Dschungels (Pokémon the Movie: Secrets of the Jungle)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0CGQ64WRN",
      "titel": "Dragon Quest: The Adventure of Dai"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.def5b6f7-df33-4eff-9c45-9b72997a7402",
+     "titel": "Aya und die Hexe (Earwig and the Witch)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.0445703e-9803-4665-a6a5-9c1ac591e4b7",
+     "titel": "Tayo und die kleinen Zauberer (Tayo and Little Wizards)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0C8X3SVR3",
@@ -125,12 +158,24 @@
      "titel": "Babylon"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.40baebee-963d-05df-8082-9aa7c5a15ea7",
+     "titel": "Pokémon: Mewtu schlägt zurück - Evolution (Pokémon: Mewtwo Strikes Back—Evolution)"
+    },
+    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.31c2fcde-089d-47dd-bf2b-09bca0de572f",
      "titel": "Yunas Geisterhaus (Yuuna and the Haunted Hot Springs)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.f2e24b4d-774f-4038-9d29-da82d247ed44",
+     "titel": "Godzilla: Eine Stadt am Rande der Schlacht (Godzilla: City on the Edge of Battle)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0CFL5Y7XN",
      "titel": "Goblin Slayer"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.3a6b794b-7c37-40c1-a043-95c83e5c2682",
+     "titel": "Godzilla: Zerstörer der Welt (Godzilla: The Planet Eater)"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.78b91eef-2e25-9512-4024-a8c43ad3e1f9",
@@ -141,12 +186,28 @@
      "titel": "Granblue Fantasy: The Animation"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0F5J5JTSL",
+     "titel": "KonoSuba: God’s Blessing on This Wonderful World! 2 (KONOSUBA -God's blessing on this wonderful world! 2)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0FVFT9MQF",
+     "titel": "KonoSuba: God’s Blessing on This Wonderful World! 2 (KONOSUBA -God's blessing on this wonderful world! 2)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a1b18e96-858e-4960-bf41-2920e0837925",
+     "titel": "Godzilla: Planet der Monster (Godzilla: Planet of the Monsters)"
+    },
+    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5482d2e9-157c-411c-b5c3-7f3210286c90",
      "titel": "A Silent Voice"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVBLNC3X",
      "titel": "Die rothaarige Schneeprinzessin: Staffel 2 (Snow White with the Red Hair Season 2)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.63b9a08d-3318-4dd4-be6f-9f48926fd70b",
+     "titel": "Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door (Winter Cup Highlights Episode 3 – Winter Cup Highlights -Crossing the Door-)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GX7VDJK3",
@@ -169,6 +230,10 @@
      "titel": "Shomin Sample"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.e2b9fee5-686e-dae3-6127-14321a1c7d1c",
+     "titel": "High Speed! Free! Starting Days (High Speed! -Free! Starting Days-)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B07LHCSXV6",
      "titel": "Chaika, die Sargprinzessin (Chaika -The Coffin Princess-)"
     },
@@ -177,12 +242,24 @@
      "titel": "Wanna Be the Strongest in the World!"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d2894273-ef85-4257-8ccb-f07be49c0758",
+     "titel": "Aura: Koga Maryuin’s Last War (Aura)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.3b1459a1-1f09-4e3e-a509-00cd5dc4ac50",
+     "titel": "Dragon Ball Z: Kampf der Götter (Dragon Ball Z: Battle of Gods)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B09ZJW8HGH",
      "titel": "Kuroko’s Basketball: 2nd Season (Kuroko's Basketball 2)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHN14W48",
      "titel": "Free! Iwatobi Swim Club (Free! -Iwatobi Swim Club-)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.36eedcf2-91ec-4fdc-8b33-80ac2699950d",
+     "titel": "Speckles: Die Abenteuer eines Dinosauriers (Speckles: Dinosaurs of the Korean Peninsula)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHMH8ZJS",
@@ -197,6 +274,10 @@
      "titel": "Bakemonogatari"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.52b88c64-9014-cd52-2245-089e6c2cf91e",
+     "titel": "Detektiv Conan: Die Partitur des Grauens (Detective Conan: Full Score of Fear)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0CW5RP53F",
      "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
     },
@@ -207,6 +288,14 @@
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.90c814d3-83d5-4e7e-aa2c-68e5234cd305",
      "titel": "Shakugan no Shana"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.dcf86418-9547-4d15-b4d5-91cf1b3f105f",
+     "titel": "Das Königreich der Katzen (The Cat Returns)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f",
+     "titel": "Vampire Hunter D: Bloodlust"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GYDLTDD8",
@@ -221,12 +310,25 @@
      "titel": "Detektiv Conan (Detective Conan)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d80cfa8e-16ef-4540-a4da-8b91bf29e1c1",
+     "titel": "Stimme des Herzens: Whisper of the Heart (Whisper of the Heart)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
      "titel": "Shin-chan (Shin Chan)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.4ecd1f39-5235-49ff-b803-577d9e035a87",
+     "titel": "Christoph Columbus (Christopher Columbus)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B00WDK3XPE",
      "titel": "Wickie und die starken Männer (Vicky the Viking)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.820ab860-288b-411f-9325-983478490d4b",
+     "titel": "Coco, der neugierige Affe (Curious George)",
+     "hinweis": "Staffeln unklar: TMDB zählt 389 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     }
    ],
    "naechster": "2.5 Dimensional Seduction (2.5-jigen no Ririsa 2nd Season)",
@@ -238,9 +340,6 @@
     "B0B8T893H2": 13,
     "B0FW2J99HL": 167,
     "B0B6S983B4": 40,
-    "B0FXS96LSG": 1,
-    "B0FV7Z1617": 1,
-    "B0FWZ4L2B2": 1,
     "B0B8PKXRZ8": 26,
     "B0CQ4VL364": 51,
     "B0FBKS1XMF": 50,
@@ -291,7 +390,6 @@
     "B0GX19XQ9J": 12,
     "B0170N47P8": 4,
     "B0CGS3NC7T": 25,
-    "B0FWYBHG1D": 1,
     "B0GTQ6D142": 12,
     "B0D6ZSNNM5": 12,
     "B0HB4LWHTH": 12,
@@ -380,7 +478,6 @@
     "B0FX17N29N": 13,
     "B0GPKQ8QW9": 14,
     "B0DDJ1CH7R": 12,
-    "B0FSST2W8Q": 1,
     "B0H8NJSHG8": 12,
     "B0DMGBPB65": 12,
     "B0DQTBWY5K": 13,
@@ -408,10 +505,10 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 765,
-   "gesamt": 892,
-   "offen": 127,
-   "ohneSeite": 17,
+   "gemeldet": 758,
+   "gesamt": 886,
+   "offen": 128,
+   "ohneSeite": 16,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
     {
@@ -500,6 +597,11 @@
     {
      "url": "https://www.netflix.com/title/70019062",
      "titel": "Nausicaä aus dem Tal der Winde"
+    },
+    {
+     "url": "https://www.netflix.com/title/81612719",
+     "titel": "Die Dinosaurier",
+     "hinweis": "Staffeln unklar: TMDB zählt 4 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/81306317",
@@ -813,8 +915,8 @@
    "name": "Disney+",
    "plattform": "disneyplus",
    "gemeldet": 178,
-   "gesamt": 341,
-   "offen": 163,
+   "gesamt": 342,
+   "offen": 164,
    "ohneSeite": 17,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
@@ -852,6 +954,10 @@
      "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
      "titel": "Bleach: Thousand-Year Blood War",
      "seit": "2026-10-15"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51",
+     "titel": "Welcome to Demon School! Iruma-kun"
     },
     {
      "url": "https://www.disneyplus.com/de-de/browse/entity-5973d358-1997-47d0-942d-e85b455ed9db",
@@ -1068,7 +1174,6 @@
     "cfb90125-8678-4327-a1b8-e608f293eccd": 39,
     "ceb1fd76-acbe-4269-a1f3-532614807772": 131,
     "1b84d641-1bb3-422d-be4c-8e24c7b547cc": 25,
-    "b042544d-cd7d-40c6-9be4-db79666a1b51": 23,
     "3AHbeFV7Lqvn": 25,
     "5AiiTRJ7OaKg": 9,
     "dea589b3-2f6d-4991-a875-c67d625a4e37": 8,
