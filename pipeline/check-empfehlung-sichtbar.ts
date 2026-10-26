@@ -100,5 +100,5 @@ hashAufraeumen(parseHash('#/empfehlung'), {
 })
 pruefe('die Adressleiste zeigt danach #/entdecken', ersetzt.length === 1 && ersetzt[0].endsWith('#/entdecken'), ersetzt)
 
-console.log(`empfehlung-sichtbar:${verletzt === 0 ? 'alle Zusicherungen erfüllt' : `${verletzt} verletzt`}`)
+console.log(`empfehlung-sichtbar: ${verletzt === 0 ? 'alle Zusicherungen erfüllt' : `${verletzt} verletzt`}`)
 process.exit(verletzt === 0 ? 0 : 1)
