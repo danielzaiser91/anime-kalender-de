@@ -46,7 +46,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 3 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() · [Infinity Castle](https://www.amazon.de/gp/video/detail/B0GZSDPCV4) |
 | 4 | 2026-10-07 | The Detective Is Already Dead | [Staffel 2]() |
 | 5 | 2026-10-06 | My Hero Academia | [Vigilantes](https://www.netflix.com/title/82036361) · [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
-| 6 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie]() |
+| 6 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie](https://www.amazon.de/gp/video/detail/B0FR3P275F) |
 | 7 | 2026-09-13 | Kuroko’s Basketball: | [Kuroko’s Basketball - Winter Cup Highlights Movie 3 Crossing the Door]() |
 | 8 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
 | 9 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |

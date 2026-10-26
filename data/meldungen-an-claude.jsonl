@@ -44,3 +44,4 @@
 {"am":"2026-10-25T04:10:35.331Z","quelle":"beleg-lesen","schwere":"hinweis","text":"111 Belege ohne Fundstelle — von Hand prüfen","datei2":"daniel-zum-abarbeiten/listen/22-belege-ohne-fundstelle.md"}
 {"am":"2026-10-25T10:00:24.984Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Blöcke und Titel verschieden viele 220 → 221","datei2":"data/termine-ausgelassen.json"}
 {"am":"2026-10-26T04:19:28.682Z","quelle":"beleg-lesen","schwere":"hinweis","text":"110 Belege ohne Fundstelle — von Hand prüfen","datei2":"daniel-zum-abarbeiten/listen/22-belege-ohne-fundstelle.md"}
+{"am":"2026-10-26T04:41:25.860Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Blöcke und Titel verschieden viele 219 → 220","datei2":"data/termine-ausgelassen.json"}
