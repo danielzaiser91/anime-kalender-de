@@ -119,12 +119,12 @@ console.log('Ankündigung schlägt aniSearch „Deutsch nicht genannt“ (F70, R
 console.log('Ende zu Ende: Bau-Phasen 02 und 10 mit Titeln aus titleFromMedia, Ankündigung nur aus der Datei')
 {
   /* Kein Titel trägt `ankuendigung` von Hand: sie kommt aus der Datei (echtes Format) über die Bauphase. Ferne Zukunft = frisch, 2000 = abgelaufen (uhrunabhängig). */
-  const ids = { frisch: 900061, frischOhneWeg: 900062, abgelaufen: 900063, offen: 900064, ohne: 900065, katalog: 900066, katalogOffen: 900067 }
+  const ids = { frisch: 900061, frischOhneWeg: 900062, abgelaufen: 900063, offen: 900064, ohne: 900065, katalog: 900066, katalogOffen: 900067, nirgends: 900068 }
   const eintrag = (id: number, omuAb: string, synchro: string) => `  - { anilistId: ${id}, titel: "Fixture ${id}", platform: crunchyroll, omuAb: "${omuAb}", synchro: ${synchro}, stand: "2026-09-15", quellen: [lineup] }`
   const zeilen = ['quellen:', '  lineup: https://example.org/lineup', 'eintraege:',
     eintrag(ids.frisch, '2999-01-01', 'angekuendigt'), eintrag(ids.frischOhneWeg, '2999-01-01', 'angekuendigt'),
     eintrag(ids.abgelaufen, '2000-01-01', 'angekuendigt'), eintrag(ids.offen, '2999-01-01', 'offen'),
-    eintrag(ids.katalog, '2999-01-01', 'angekuendigt'), eintrag(ids.katalogOffen, '2999-01-01', 'offen')]
+    eintrag(ids.katalog, '2999-01-01', 'angekuendigt'), eintrag(ids.katalogOffen, '2999-01-01', 'offen'), eintrag(ids.nirgends, '2999-01-01', 'angekuendigt')]
   writeFileSync(join(bauOrdner, 'data', 'ankuendigungen.yaml'), zeilen.join('\n'))
   /* Katalogeintrag im Format von data/cache/anilist-katalog.json (Rayearth 2026 als Vorlage); nur diese beiden stehen im Katalog, in keinem Bestand. */
   const katalogZeile = (id: number) => ({ id, mal: 59204, t: ['Katalog Fixture', null, null], format: 'TV', jahr: 2026, start: '2026-10-07', status: 'RELEASING', latein: null, synonyme: [], folgen: null, genres: ['Fantasy'], score: 69, cover: null, eltern: [], rel: [] })
@@ -144,6 +144,7 @@ console.log('Ende zu Ende: Bau-Phasen 02 und 10 mit Titeln aus titleFromMedia, A
   pruefe(ausKatalog !== undefined && ausKatalog.ankuendigung?.synchro === 'angekuendigt' && ausKatalog.malId === 59204 && jpStart.get(ids.katalog) === '2026-10-07' && jpStartAnzeige.get(ids.katalog) === '2026-10-07', 'Katalogtitel mit angekündigter Synchro kommt in den Bestand (mit MAL-Kennung und Start)')
   pruefe(!verschoben.some((t) => t.id === ids.katalog), 'und wird trotz aniSearch „-“ nicht verschoben (Rayearth)')
   pruefe(!titles.has(ids.katalogOffen) && !jpStart.has(ids.katalogOffen), 'Katalogtitel mit Synchro „offen“ bleibt draußen')
+  pruefe(!titles.has(ids.nirgends), 'Ankündigung ohne Titel in Bestand und Katalog: nichts wird erfunden, kein Absturz')
   setzeMarkenFuerPruefung(undefined)
 }
 
@@ -180,6 +181,8 @@ console.log('Bestandswache')
   writeFileSync(hauptDatei, JSON.stringify([{ id: 900042 }]))
   const fehlt = lauf('2026-10-26')
   pruefe(fehlt.status === 0 && /⚠ WARNUNG Ankündigung: 2 Titel .* fehlen in titles\.json .*: 900021; 900041$/m.test(fehlt.stdout) && fehlt.stdout.includes('VERSTÖSSE: 0'), `Prozess: fehlende Titel mit frischer Ankündigung warnen, Exit 0 — ${fehlt.stdout.trim().slice(-160)}`)
+  const fehltSpaeter = lauf('2027-03-01')
+  pruefe(/⚠ WARNUNG Ankündigung: 1 Titel .* fehlen in titles\.json .*: 900041$/m.test(fehltSpaeter.stdout), 'Prozess: das übergebene Datum zählt (900021 ist am 01.03.2027 abgelaufen, nur 900041 fehlt)')
   pruefe(!/fehlen in titles/.test(warnt.stdout) && /✓ Ankündigung: jeder Titel/.test(warnt.stdout), 'Prozess: stehen alle in titles.json, keine Fehlt-Warnung')
   writeFileSync(hauptDatei, JSON.stringify([{ id: 900021 }, { id: 900041 }, { id: 900042 }]))
   // Ohne Datumsargument gilt der Tag des Laufs: ferner Start = immer frisch (Warnung), alter Start = abgelaufen (keine).
