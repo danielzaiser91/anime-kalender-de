@@ -75,6 +75,7 @@ export function pruefeSynchroJePlattform({
     adnKatalog,
     adnVerweiseErgaenzt,
     verweiseEntfernt,
+    schreibWurzel,
   })
   ergaenzeAnisearchWege({
     ...belege,
