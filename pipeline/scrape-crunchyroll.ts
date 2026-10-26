@@ -14,7 +14,7 @@
  *
  * Aufruf: npx tsx pipeline/scrape-crunchyroll.ts [--weeks 6] [--head]
  */
-import { chromium, type Browser } from 'playwright'
+import { chromium, type Browser, type Page } from 'playwright'
 import { addDays, diffDays, startOfWeek, todayIso } from '../shared/time.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
@@ -59,6 +59,48 @@ function toBerlin(datetime: string): { date: string; time: string } | undefined 
   }
 }
 
+/** Lädt die Kalenderwoche mit bis zu drei Versuchen; wirft, wenn alle scheitern. */
+async function ladeKalenderSeite(page: Page, weekStart: string): Promise<void> {
+  // `filter=premium` ist kein Login-Zwang, sondern nur die Ansichts-Umschaltung
+  // der Seite: ohne den Parameter blendet Crunchyroll die Kacheln aus und
+  // wirbt stattdessen fürs Abo. Mit ihm liefert dieselbe öffentliche Seite
+  // alle Termine samt Uhrzeit.
+  /**
+   * Drei Versuche, dann gilt diese Woche als ungelesen.
+   *
+   * Am 24.08.2026 um 01:59 brach der stuendliche Lauf an einem
+   * net::ERR_CONNECTION_CLOSED ab und nahm die beiden anderen Wochen
+   * mitsamt Datenbau und Deploy mit. Eine Stunde spaeter lief derselbe
+   * Aufruf durch -- es war ein Aussetzer, kein Umbau der Seite.
+   *
+   * Dasselbe Muster wie beim AniList-Ausfall am 23.08.: Ein Lauf haelt an,
+   * obwohl er weitermachen koennte, und nimmt alles Uebrige mit.
+   *
+   * Die Pause waechst (2 s, 4 s), damit ein kurzer Aussetzer ueberbrueckt
+   * wird, ohne bei einer echten Sperre nachzudruecken.
+   */
+  let letzterFehler: unknown
+  for (let versuch = 1; versuch <= 3; versuch++) {
+    try {
+      await page.goto(
+        `https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=${weekStart}`,
+        { waitUntil: 'domcontentloaded', timeout: 45000 },
+      )
+      letzterFehler = undefined
+      break
+    } catch (err) {
+      letzterFehler = err
+      if (versuch < 3) {
+        warn(
+          `${weekStart}: Aufruf fehlgeschlagen (Versuch ${versuch}/3) — ${(err as Error).message.split('\n')[0]}`,
+        )
+        await new Promise((r) => setTimeout(r, versuch * 2000))
+      }
+    }
+  }
+  if (letzterFehler) throw letzterFehler
+}
+
 async function scrapeWeek(browser: Browser, weekStart: string): Promise<CrunchyrollSlot[]> {
   const page = await browser.newPage({
     userAgent: UA,
@@ -68,44 +110,7 @@ async function scrapeWeek(browser: Browser, weekStart: string): Promise<Crunchyr
   })
 
   try {
-    // `filter=premium` ist kein Login-Zwang, sondern nur die Ansichts-Umschaltung
-    // der Seite: ohne den Parameter blendet Crunchyroll die Kacheln aus und
-    // wirbt stattdessen fürs Abo. Mit ihm liefert dieselbe öffentliche Seite
-    // alle Termine samt Uhrzeit.
-    /**
-     * Drei Versuche, dann gilt diese Woche als ungelesen.
-     *
-     * Am 24.08.2026 um 01:59 brach der stuendliche Lauf an einem
-     * net::ERR_CONNECTION_CLOSED ab und nahm die beiden anderen Wochen
-     * mitsamt Datenbau und Deploy mit. Eine Stunde spaeter lief derselbe
-     * Aufruf durch -- es war ein Aussetzer, kein Umbau der Seite.
-     *
-     * Dasselbe Muster wie beim AniList-Ausfall am 23.08.: Ein Lauf haelt an,
-     * obwohl er weitermachen koennte, und nimmt alles Uebrige mit.
-     *
-     * Die Pause waechst (2 s, 4 s), damit ein kurzer Aussetzer ueberbrueckt
-     * wird, ohne bei einer echten Sperre nachzudruecken.
-     */
-    let letzterFehler: unknown
-    for (let versuch = 1; versuch <= 3; versuch++) {
-      try {
-        await page.goto(
-          `https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=${weekStart}`,
-          { waitUntil: 'domcontentloaded', timeout: 45000 },
-        )
-        letzterFehler = undefined
-        break
-      } catch (err) {
-        letzterFehler = err
-        if (versuch < 3) {
-          warn(
-            `${weekStart}: Aufruf fehlgeschlagen (Versuch ${versuch}/3) — ${(err as Error).message.split('\n')[0]}`,
-          )
-          await new Promise((r) => setTimeout(r, versuch * 2000))
-        }
-      }
-    }
-    if (letzterFehler) throw letzterFehler
+    await ladeKalenderSeite(page, weekStart)
     // Auf die erste gerenderte Kachel warten; bleibt die Woche leer, ist das
     // kein Fehler, sondern eine Woche ohne veröffentlichten Zeitplan.
     await page
