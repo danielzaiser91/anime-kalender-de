@@ -4,8 +4,8 @@
  * wie der Anlassfall PR 2043 (Workflow-PR gegen Bot-Daten).
  */
 import { attrappe } from './pr-nachrechnen-leser-attrappe.mjs'
-import { SUCHORDNER, gitLeser, inhalte } from './pr-nachrechnen-leser-git.mjs'
-import { bewegtesGelesen, geaenderteSkripte, importZiele, leserIn, ohneKommentare, ohneLeser, pfadTokens, trifft } from './pr-nachrechnen-leser.mjs'
+import { GIT_TIMEOUT_MS, SUCHORDNER, gitAufrufMit, gitLeser, inhalte } from './pr-nachrechnen-leser-git.mjs'
+import { bewegtesGelesen, geaenderteSkripte, importZiele, leserIn, ohneKommentare, ohneLeser, ordnerLeser, pfadTokens, trifft } from './pr-nachrechnen-leser.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -210,6 +210,36 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   const k = inhalte(git, MAIN, ['tools/a.mjs', 'tools/fehlt.mjs', 'tools/c.mjs'])
   pruefe('inhalte: Mehrbyte-Inhalt richtig geschnitten, fehlende Datei fehlt, Nachbarn stimmen', k.size === 2 && k.get('tools/a.mjs') === 'Größe ä\n' && k.get('tools/c.mjs') === 'drei\n', [...k])
   pruefe('inhalte: keine Dateien -> kein git-Aufruf', inhalte(() => { throw new Error('nicht aufrufen') }, MAIN, []).size === 0)
+}
+
+// A2 (Prüfer 2123 R1): PR-Code, der ein Verzeichnis liest oder Namen darunter zusammensetzt, ist Leser jeder bewegten Datei darunter.
+{
+  const mitText = (text, datei = 'tools/neu.test.mjs') => grund([datei], { lies: (p) => (p === datei ? text : lies(p)) })
+  const ordnerGrund = (text) => /^der PR liest einen Ordner mit data\/crunchyroll-woche\.json \(tools\/neu\.test\.mjs\)/.test(mitText(text) ?? '')
+  pruefe('Ordner: readdirSync(data/) mit readFileSync(data/ + f) -> Grund', ordnerGrund("for (const f of fs.readdirSync('data/')) fs.readFileSync('data/' + f)\n"), mitText("fs.readdirSync('data/')\nreadFileSync('data/'+f)\n"))
+  pruefe('Ordner: Template data/${n}.json ohne readdir -> Grund', ordnerGrund('readFileSync(`data/${n}.json`)\n'), mitText('readFileSync(`data/${n}.json`)\n'))
+  pruefe('Ordner: readdirSync(data) als Literal ohne Schrägstrich -> Grund', ordnerGrund("fs.readdirSync('data')\n"), mitText("fs.readdirSync('data')\n"))
+  pruefe('Ordner: unter data/ nur anderer Unterordner (data/curated/ + Name) -> null', mitText("readFileSync('data/curated/' + n)\n") === null, mitText("readFileSync('data/curated/' + n)\n"))
+  pruefe('Ordner: readdirSync(data/curated) als Literal, Datei liegt darüber -> null', mitText("fs.readdirSync('data/curated')\n") === null)
+  pruefe('Ordner: Kommentarzeile mit readdirSync(data/) -> null', mitText("// fs.readdirSync('data/'); readFileSync('data/' + f)\nconst a = 1\n") === null)
+  pruefe('Ordner: public/data-Verzeichnis -> null', mitText("fs.readdirSync('public/data/')\nreadFileSync('public/data/' + f)\n") === null, mitText("fs.readdirSync('public/data/')\n"))
+  pruefe('Ordner: Literal data ohne Verzeichnis-Aufruf (join(root, data)) -> null', mitText("const d = join(root, 'data')\n") === null)
+  pruefe('Ordner: Markdown ist kein lesbarer Code -> null', mitText("readFileSync('data/' + f)\n", 'docs/x.md') === null)
+  pruefe('ordnerLeser: nur eine Datei unter dem Token, nicht der Token selbst', ordnerLeser("x('data/' + f)\n", ['data/a/b.json']) === 'data/a/b.json' && ordnerLeser("x('data/a.json')\n", ['data/a.json']) === undefined)
+}
+
+// A3/A4 (Prüfer 2123 R1): leere oder abgelaufene git-Ausgabe ergibt nie „aktuell“.
+{
+  const leer = gitLeser(fakeGit({ main: {}, kopf: {} }).git)([F], ['tools/neu.mjs'], REFS)
+  pruefe('gitLeser: nichts von main gelesen (leere Ladung) -> nicht ermittelbar', /^Leser nicht ermittelbar \(kein Code auf main/.test(leer), leer)
+  const optionen = []
+  const mit = gitAufrufMit((programm, args, opt) => { optionen.push([programm, args[0], opt.timeout]); return '' })
+  mit(['fetch', '-q'])
+  mit(['ls-tree', '-r'])
+  mit(['cat-file', '--batch'], { input: 'x\n', roh: true })
+  pruefe('gitAufruf: jeder Aufruf (fetch, ls-tree, cat-file) setzt das Zeitlimit von 120 s', GIT_TIMEOUT_MS === 120000 && optionen.length === 3 && optionen.every(([p, , t]) => p === 'git' && t === 120000), optionen)
+  const abgelaufen = gitLeser(gitAufrufMit(() => { throw Object.assign(new Error('spawnSync git ETIMEDOUT'), { code: 'ETIMEDOUT' }) }))([F], ['tools/neu.mjs'], REFS)
+  pruefe('gitLeser: Zeitlimit abgelaufen -> nicht ermittelbar', /^Leser nicht ermittelbar \(spawnSync git ETIMEDOUT\)$/.test(abgelaufen), abgelaufen)
 }
 
 if (fehler.length > 0) {

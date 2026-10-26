@@ -8,8 +8,8 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { datenpfadAusnahme } from './pr-nachrechnen.mjs'
 import { BOT_DATEIEN_OHNE_LESER } from './pr-nachrechnen-bot-pfade.mjs'
-import { BEKANNT_TREFFER } from './pr-nachrechnen-bot-pfade-bekannt.mjs'
-import { bauDateien, kettenDateien, leserImBau } from './pr-nachrechnen-bot-pfade-leser.mjs'
+import { BEKANNT_DOKU, BEKANNT_TREFFER } from './pr-nachrechnen-bot-pfade-bekannt.mjs'
+import { bauDateien, dokuLeser, kettenDateien, leserImBau } from './pr-nachrechnen-bot-pfade-leser.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -93,7 +93,7 @@ const GELESEN = [
   'data/crunchyroll.json', 'data/crunchyroll-woche.json', 'data/termine-verpasst.json', 'data/tv-programm.json', 'data/motn-changes.json',
   'data/cr-einzelwerke.json', 'data/dub-confirmed.yaml', 'data/adn-raw/561.json.gz', 'data/crunchyroll-raw/GG5H5XQMD.de.json.gz', 'data/anisearch-raw/1.html.gz',
   'daniel-zum-abarbeiten/listen/justwatch-widersprueche.md', 'daniel-zum-abarbeiten/stand.md', 'daniel-zum-abarbeiten/listen/07-neu.md',
-  'tools/design-klassen-grenzen.json', 'tools/umfang-grenzen.json', 'extension/offene-netflix.js', 'extension/offene-amazon.js', 'public/og/a.jpg',
+  'docs/wissen/design-regeln.md', 'tools/design-klassen-grenzen.json', 'tools/umfang-grenzen.json', 'extension/offene-netflix.js', 'extension/offene-amazon.js', 'public/og/a.jpg',
 ]
 for (const datei of GELESEN) pruefe(`gelesen/ausgeschlossen: ${datei} -> keine Ausnahme`, ausnahme([datei]) === `main bewegte ${datei}`)
 
@@ -113,6 +113,35 @@ const importiertHealth = bau.filter((d) => /from '(\.\/|\.\.\/lib\/)health\.ts'/
 pruefe('Ausnahme health.ts: im Bau importiert nur adn-news.ts sie', importiertHealth.join() === 'pipeline/lib/adn-news.ts', importiertHealth)
 const adnImporte = bau.flatMap((d) => fs.readFileSync(path.join(wurzel, d), 'utf8').split('\n').filter((z) => /from '.*\/adn-news\.ts'/.test(z)).map((z) => `${d}: ${z.trim()}`))
 pruefe('Ausnahme health.ts: adn-news.ts nutzt der Bau nur für artikelJeShow', adnImporte.join() === "pipeline/bau/07-adn.ts: import { artikelJeShow, type AdnNews } from '../lib/adn-news.ts'", adnImporte)
+
+// Dokument-Wächter (dokuLeser): die Ausnahme für docs/, Wurzel-Markdown und 00-wache.md gilt nur, solange kein Bau-Code und keine Prüfung sie liest.
+pruefe('Doku-Wächter: 24 bekannte Treffer (23 nur genannt, 1 liest), keine stille Vergrößerung', BEKANNT_DOKU.size === 24, BEKANNT_DOKU.size)
+pruefe('Doku-Wächter: kein unbekannter Leser von docs/, Wurzel-Markdown oder 00-wache.md', dokuLeser(wurzel, BEKANNT_DOKU).length === 0, dokuLeser(wurzel, BEKANNT_DOKU))
+pruefe('Doku-Wächter: sieht den Leser design-kontrast und die Nennungen', dokuLeser(wurzel, new Set()).length === 24 && dokuLeser(wurzel, new Set()).includes('tools/design-kontrast.mjs|docs/'), dokuLeser(wurzel, new Set()))
+pruefe('Doku-Wächter: das gelesene Dokument steht nicht in der Ausnahme, ein anderes schon', ausnahme(['docs/wissen/design-regeln.md']) === 'main bewegte docs/wissen/design-regeln.md' && ausnahme(['docs/wissen/anderes.md']) === null)
+const DOKU_BASIS = { 'pipeline/build.ts': "import { a } from './lib/a.ts'\n", 'pipeline/validate.ts': '', 'pipeline/check-ja-hat-weg-bestand.ts': '', 'pipeline/lib/a.ts': 'export const a = 1\n' }
+const DOKU_FIXTURES = [
+  ['kein Leser', {}, []],
+  ['Leser von docs/ in lib', { 'pipeline/lib/a.ts': "readFileSync('docs/wissen/x.md')\n" }, ['pipeline/lib/a.ts|docs/']],
+  ['Leser von Wurzel-Markdown in der Logik-Liste', { 'tools/check-logic-liste.txt': 'pipeline/check-x.ts\n', 'pipeline/check-x.ts': "readFileSync('ZIELE.md')\n" }, ['pipeline/check-x.ts|ZIELE.md']],
+  ['Leser von 00-wache.md im Kettenworkflow', { '.github/workflows/pr-pruefung.yml': 'run: cat daniel-zum-abarbeiten/00-wache.md\n' }, ['.github/workflows/pr-pruefung.yml|00-wache.md']],
+  ['nur im Kommentar', { 'pipeline/lib/a.ts': "// docs/x.md ZIELE.md\n * 00-wache.md\n" }, []],
+  ['Test nennt es nur als Fixture', { 'tools/x.test.mjs': "const f = 'docs/a.md'\n" }, []],
+  ['Datei außerhalb der Hülle', { 'pipeline/fetch-x.ts': "const f = 'docs/a.md'\n" }, []],
+  ['Wurzel-Markdown ohne Datei im Wurzelordner zählt nicht', { 'pipeline/lib/a.ts': "const f = 'NEU.md'\n" }, []],
+]
+for (const [name, extra, erwartet] of DOKU_FIXTURES) {
+  const ort = fixture({ ...DOKU_BASIS, 'ZIELE.md': '', ...extra })
+  const treffer = dokuLeser(ort, new Set())
+  fs.rmSync(ort, { recursive: true, force: true })
+  pruefe(`Doku-Wächter-Fixture: ${name}`, JSON.stringify(treffer) === JSON.stringify(erwartet), treffer)
+}
+{
+  const ort = fixture({ ...DOKU_BASIS, 'pipeline/lib/a.ts': "readFileSync('docs/x.md')\n" })
+  const still = dokuLeser(ort, new Set(['pipeline/lib/a.ts|docs/']))
+  fs.rmSync(ort, { recursive: true, force: true })
+  pruefe('Doku-Wächter-Fixture: bekannte Stelle bleibt still', still.length === 0, still)
+}
 
 // Fixture-Wurzeln: der Wächter muss einen Leser in lib, im Bau, in shared und in web/src finden, aber weder Kommentare noch Dateien außerhalb der Hülle.
 function fixture(dateien) {
@@ -172,4 +201,4 @@ if (fehler.length > 0) {
   console.error(`pr-nachrechnen-bot-pfade.test: ${fehler.length} rot`)
   process.exit(1)
 }
-console.log(`pr-nachrechnen-bot-pfade.test: grün (${ERWARTET.length} Bot-Dateien ohne Leser, ${GELESEN.length} gelesene/ausgeschlossene bleiben draußen, ${bau.length} Bau-Dateien durchsucht, 26 Wächter-Fixtures, 1 Hüllen-Fixture und ${BEKANNT.size} bekannte Treffer in ${kette.length} Ketten-Dateien)`)
+console.log(`pr-nachrechnen-bot-pfade.test: grün (${ERWARTET.length} Bot-Dateien ohne Leser, ${GELESEN.length} gelesene/ausgeschlossene bleiben draußen, ${bau.length} Bau-Dateien durchsucht, 26 Wächter-Fixtures, 1 Hüllen-Fixture, ${DOKU_FIXTURES.length + 1} Doku-Wächter-Fixtures und ${BEKANNT.size} bekannte Treffer in ${kette.length} Ketten-Dateien, ${BEKANNT_DOKU.size} bekannte Doku-Treffer)`)

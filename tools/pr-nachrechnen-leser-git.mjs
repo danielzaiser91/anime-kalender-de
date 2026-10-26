@@ -8,10 +8,14 @@ import { LESBAR, bewegtesGelesen, geaenderteSkripte, leserIn } from './pr-nachre
 
 export const SUCHORDNER = ['pipeline', 'shared', 'tools', 'web', 'worker', 'extension', '.github']
 
-/** git-Aufruf; mit `roh` kommen die Bytes (Dateiinhalte), sonst Text; `input` geht auf stdin. */
-export function gitAufruf(args, { input, roh = false } = {}) {
-  return execFileSync('git', args, { input: input === undefined ? undefined : Buffer.from(input), encoding: roh ? 'buffer' : 'utf8', windowsHide: true, maxBuffer: 256 * 1024 * 1024, stdio: ['pipe', 'pipe', 'pipe'] })
-}
+/** Höchstdauer eines git-Aufrufs (der Abruf geht gegen das Netz); danach wirft der Aufruf und der PR gilt als nicht ermittelbar. */
+export const GIT_TIMEOUT_MS = 120000
+
+/** git-Aufruf über `ausfuehren` (execFileSync oder eine Attrappe); mit `roh` kommen die Bytes (Dateiinhalte), sonst Text; `input` geht auf stdin. */
+export const gitAufrufMit = (ausfuehren) => (args, { input, roh = false } = {}) =>
+  ausfuehren('git', args, { input: input === undefined ? undefined : Buffer.from(input), encoding: roh ? 'buffer' : 'utf8', windowsHide: true, maxBuffer: 256 * 1024 * 1024, stdio: ['pipe', 'pipe', 'pipe'], timeout: GIT_TIMEOUT_MS })
+
+export const gitAufruf = gitAufrufMit(execFileSync)
 
 /**
  * Inhalte der Dateien `pfade` im Stand `ref` als Karte; fehlende Dateien fehlen in der Karte. Antwort von `cat-file --batch`:
@@ -42,6 +46,7 @@ export const gitLeser = (git) => (bewegt, pr, refs) => {
   try {
     git(['fetch', '-q', 'origin', `refs/pull/${refs.nummer}/head`, refs.main])
     const mainTexte = inhalte(git, refs.main, codeDateien(git, refs.main))
+    if (mainTexte.size === 0) return 'Leser nicht ermittelbar (kein Code auf main gelesen)'
     const kopfTexte = inhalte(git, refs.kopf, pr.filter((p) => LESBAR.test(p)))
     const lies = (pfad) => kopfTexte.get(pfad) ?? mainTexte.get(pfad) ?? null
     const paket = (ref) => inhalte(git, ref, ['package.json']).get('package.json') ?? null

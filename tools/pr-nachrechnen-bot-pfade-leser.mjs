@@ -8,7 +8,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { importZiele } from './pr-nachrechnen-leser.mjs'
+import { importZiele, ohneKommentare } from './pr-nachrechnen-leser.mjs'
 
 const EINSTIEGE = ['pipeline/build.ts', 'pipeline/validate.ts', 'pipeline/check-ja-hat-weg-bestand.ts']
 
@@ -56,6 +56,25 @@ export function leserImBau(wurzel, eintraege, bekannt) {
     const code = fs.readFileSync(path.join(wurzel, datei), 'utf8').split('\n').filter((z) => !/^\s*(\/\/|\*|\/\*|#)/.test(z)).join('\n')
     for (const eintrag of eintraege) {
       if (code.includes(eintrag.split('/').pop()) && !bekannt.has(`${datei}|${eintrag}`)) treffer.push(`${datei}|${eintrag}`)
+    }
+  }
+  return treffer
+}
+
+/**
+ * Nennungen der Dokumente, die `pr-nachrechnen.mjs` als „ohne Leser“ ausnimmt (`docs/`, Markdown im Wurzelordner, `00-wache.md`), im Bau und in
+ * den Prüfungen der Kette außer den Tests (sie nennen Dokumente nur als Fixture): Treffer `Datei|Token`, die nicht in `bekannt` stehen.
+ * Grenze wie oben: ein zur Laufzeit zusammengesetzter Pfad fällt nicht auf.
+ */
+export function dokuLeser(wurzel, bekannt) {
+  const wurzelMd = fs.readdirSync(wurzel, { withFileTypes: true }).filter((e) => e.isFile() && e.name.endsWith('.md')).map((e) => e.name)
+  const tokens = ['docs/', '00-wache.md', ...wurzelMd]
+  const treffer = []
+  for (const datei of new Set([...bauDateien(wurzel), ...kettenDateien(wurzel)])) {
+    if (/\.test\.[^/]*$/.test(datei)) continue
+    const code = ohneKommentare(fs.readFileSync(path.join(wurzel, datei), 'utf8'))
+    for (const token of tokens) {
+      if (code.includes(token) && !bekannt.has(`${datei}|${token}`)) treffer.push(`${datei}|${token}`)
     }
   }
   return treffer

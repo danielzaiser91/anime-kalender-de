@@ -59,8 +59,10 @@ export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p
  * Doku auf main, an deren Stand kein Kettenschritt hängt (Dirigent 26.10.2026, Anlass PR 2118): `docs/`, Markdown im Wurzelordner und
  * `daniel-zum-abarbeiten/00-wache.md` (nur `tools/wache-schreiben.mjs` schreibt sie). Andere Daniel-Dateien lesen Prüfungen
  * (`stand.md`, `listen/07-neu.md`, `listen/justwatch-widersprueche.md`, Test in `pr-nachrechnen-bot-pfade.test.mjs`), `data/patchnotes/` der Bau.
+ * Ausgenommen von `docs/`: `design-regeln.md`, das `tools/design-kontrast.mjs` liest (Prüfer 2123 R1); `dokuLeser` im Bot-Pfade-Test sucht den nächsten Leser.
  */
-const ohneKetteLeser = (datei) => datei.startsWith('docs/') || /^[^/]+\.md$/.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'
+const LIEST_KETTE = 'docs/wissen/design-regeln.md'
+const ohneKetteLeser = (datei) => (datei.startsWith('docs/') && datei !== LIEST_KETTE) || /^[^/]+\.md$/.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'
 
 /** null = Ausnahme gilt (main bewegte nur Datenpfade, der PR keinen); sonst der Grund, warum nicht. */
 export function datenpfadAusnahme(vergleich, prDateien) {

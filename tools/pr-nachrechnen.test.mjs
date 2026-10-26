@@ -208,7 +208,9 @@ for (const [name, aendere] of [
 // Reine Entscheidung, unabhängig von gh.
 pruefe('Ausnahme: Umbenennung aus Datenpfad heraus ist ein Fremdpfad der PR-Seite', datenpfadAusnahme({ status: 'ahead', anzahl: 2, dateien: ['public/data/a.json'] }, ['neu.json', 'data/cache/ordner/alt']) !== null)
 pruefe('Ausnahme: genau eine Datenpfad-Datei im Vergleich -> null', datenpfadAusnahme({ status: 'ahead', anzahl: 1, dateien: ['data/cache/ordner/a'] }, ['x.ts']) === null)
-
+// A1 (Prüfer 2123 R1): design-regeln.md liest tools/design-kontrast.mjs (check:logic), andere Doku nicht.
+pruefe('Ausnahme: reiner Doku-Commit an design-regeln.md bei CSS-PR -> main bewegte die Datei', datenpfadAusnahme({ status: 'ahead', anzahl: 1, dateien: ['docs/wissen/design-regeln.md'] }, ['web/src/index.css']) === 'main bewegte docs/wissen/design-regeln.md')
+pruefe('Ausnahme: andere Doku (docs/wissen/anderes.md) -> null', datenpfadAusnahme({ status: 'ahead', anzahl: 1, dateien: ['docs/wissen/anderes.md'] }, ['web/src/index.css']) === null)
 // Merge-Fluss C (23.10.2026), Leser-Regel seit 26.10.2026 (pr-nachrechnen-leser.mjs, Regel selbst: pr-nachrechnen-leser.test.mjs): Ein
 // Bot-Sprung nur unter data/ entwertet nur einen PR, dessen Code die bewegten Dateien liest. Hier die Verdrahtung, erst mit einem
 // Leser-Stub (zeichnet Argumente auf), dann mit dem echten Git-Anschluss über einem Fake-git.
@@ -283,7 +285,8 @@ for (const fremd of ['tools/umfang-grenzen.json', 'extension/a.json', 'datax/a.j
 }
 const botVergleich = (o) => ({ status: 'ahead', anzahl: 1, dateien: ['data/a.json'], commitsGesamt: 2, autoren: BOTS, ...o })
 pruefe('C: mehr Commits als geliefert (Liste abgeschnitten) -> Grund', botSprungAusnahme(botVergleich({ commitsGesamt: 3 }), ['worker/a.ts'], leserStub(null)) === 'Vergleich evtl. abgeschnitten')
-pruefe('C: genau an der Compare-Grenze -> Grund', botSprungAusnahme(botVergleich({ anzahl: 300 }), ['worker/a.ts'], leserStub(null)) === 'Vergleich evtl. abgeschnitten')
+pruefe('C: design-regeln.md unter den Bewegungen -> Bot bewegte die Datei', botSprungAusnahme(botVergleich({ dateien: ['data/a.json', 'docs/wissen/design-regeln.md'] }), ['web/src/index.css'], leserStub(null)) === 'Bot bewegte docs/wissen/design-regeln.md')
+pruefe('C: genau an der Compare-Grenze -> Grund',botSprungAusnahme(botVergleich({ anzahl: 300 }), ['worker/a.ts'], leserStub(null)) === 'Vergleich evtl. abgeschnitten')
 pruefe('C: eine unter der Compare-Grenze -> null', botSprungAusnahme(botVergleich({ anzahl: 299 }), ['docs/a.md'], leserStub(null)) === null)
 pruefe('C: diverged -> Grund', /diverged/.test(botSprungAusnahme(botVergleich({ status: 'diverged' }), ['worker/a.ts'], leserStub(null))))
 pruefe('C: Umbenennung aus data/ heraus auf PR-Seite: alter Name trifft eine bewegte Datei -> berührt', botSprungAusnahme(botVergleich({ dateien: ['data/alt.json', 'data/a.json'] }), ['docs/a.md', 'data/alt.json'], leserStub(null)) === 'der PR berührt data/alt.json')

@@ -62,6 +62,24 @@ export function huelle(start, lies) {
   return namen
 }
 
+const WURZELN = '(?:\\.github|data|public|tools|pipeline|shared|web|worker|extension)'
+/** Ordnerpfad, an den der Code einen Namen anhängt (`'data/' + f`, `` `data/${n}` ``): der Leser einer Datei darunter, ohne ihren Namen zu nennen. */
+const ORDNER_ANHANG = new RegExp(`(?:^|[^\\w./-])(${WURZELN}(?:/[\\w./@-]*)?)/(?=['"\`]|\\$\\{)`, 'g')
+/** Ordnerpfad als eigenes Literal, nur zusammen mit einem Verzeichnis-Aufruf (`readdirSync('data')`, `glob`) ein Leser. */
+const ORDNER_LITERAL = new RegExp(`(?:^|[^\\w./-])(${WURZELN}(?:/[\\w./@-]*\\w)?)(?=['"\`])`, 'g')
+const VERZEICHNIS_AUFRUF = /readdir|opendir|scandir|glob|walk|recursive/i
+
+/** Ordner-Tokens des Codes (ohne Kommentare), die ein Verzeichnis lesen oder einen Namen darunter zusammensetzen. */
+export function ordnerTokens(text) {
+  const code = ohneKommentare(text)
+  const anhang = [...code.matchAll(ORDNER_ANHANG)].map((m) => m[1])
+  const literal = VERZEICHNIS_AUFRUF.test(code) ? [...code.matchAll(ORDNER_LITERAL)].map((m) => m[1]) : []
+  return [...new Set([...anhang, ...literal])]
+}
+
+/** Erste bewegte Datei, die unter einem Ordner-Token des Codes liegt (nicht der Token selbst als Datei). */
+export const ordnerLeser = (text, bewegt) => bewegt.find((b) => ordnerTokens(text).some((t) => b.startsWith(`${t}/`)))
+
 /** Dateien aus `texte` (Karte Pfad -> Inhalt), die den Namen einer bewegten Datei außerhalb von Kommentaren nennen, sortiert. */
 export const leserIn = (texte, bewegt) => [...texte].filter(([, text]) => bewegt.some((b) => nennt(text, b))).map(([pfad]) => pfad).sort()
 
@@ -113,6 +131,8 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
     const text = lies(p)
     const b = text === null ? undefined : bewegt.find((x) => nennt(text, x))
     if (b !== undefined) return `der PR liest ${b} (${p})`
+    const ordner = text === null ? undefined : ordnerLeser(text, bewegt)
+    if (ordner !== undefined) return `der PR liest einen Ordner mit ${ordner} (${p}), Verzeichnis nicht eindeutig`
   }
   const vorwaerts = [...huelle(start, lies)]
   const l1 = leser.find((r) => vorwaerts.some((n) => trifft(n, r)))

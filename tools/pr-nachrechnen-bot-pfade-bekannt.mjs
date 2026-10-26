@@ -46,3 +46,38 @@ const SCHREIBER = {
 export const BEKANNT_TREFFER = new Set(
   [WEGWERF_WURZEL, VERBOTSLISTE, SCHREIBER].flatMap((gruppe) => Object.entries(gruppe).flatMap(([datei, eintraege]) => eintraege.map((e) => `${datei}|${e}`))),
 )
+
+/**
+ * Treffer des Dokument-Wächters (`dokuLeser`): Nennungen von `docs/`, Wurzel-Markdown und `00-wache.md` im Bau und in den Prüfungen der Kette.
+ * Handdurchsicht 26.10.2026: alle nennen das Dokument nur in einer Meldung oder einem Text; die einzige Ausnahme liest, `tools/design-kontrast.mjs`
+ * (Kontrasttabelle in `docs/wissen/design-regeln.md`), darum steht diese Datei nicht in der Ausnahme von `pr-nachrechnen.mjs`.
+ */
+const DOKU_NUR_GENANNT = {
+  'pipeline/bau/09-4-2-bloecke.ts': ['CLAUDE.md'],
+  'pipeline/bau/09-4-3-katalog.ts': ['CLAUDE.md'],
+  'pipeline/bau/09-4-4-termine.ts': ['CLAUDE.md'],
+  'pipeline/bau/09-6-anisearch-wege.ts': ['CLAUDE.md'],
+  'pipeline/bau/11-4-ausgaben.ts': ['docs/'],
+  'pipeline/bau/13-1-anreichern.ts': ['docs/'],
+  'pipeline/bau/anisearch-titel.ts': ['docs/'],
+  'pipeline/bau/jw-widerspruchs-liste.ts': ['docs/'],
+  'pipeline/bau/nebendateien.ts': ['CLAUDE.md'],
+  'pipeline/bau/verlust-riegel.ts': ['CLAUDE.md'],
+  'pipeline/lib/anisearch-termine.ts': ['CLAUDE.md'],
+  'pipeline/lib/anisearch-warteschlange.ts': ['CLAUDE.md'],
+  'pipeline/lib/news.ts': ['CLAUDE.md'],
+  'shared/mappings.ts': ['docs/'],
+  'web/src/components/DetailPanel.tsx': ['CLAUDE.md'],
+  'web/src/components/detail/antwort-kasten.tsx': ['CLAUDE.md'],
+  'web/src/lib/i18n.tsx': ['CLAUDE.md'],
+  'pipeline/check-logic.ts': ['CLAUDE.md', 'docs/'],
+  'pipeline/check-patchnotes-titel-ablauf.ts': ['README.md'],
+  'pipeline/check-prime-zugeordnet-leser-faelle.ts': ['docs/'],
+  'tools/check-patchnotes-pflicht.mjs': ['docs/'],
+  'tools/design-klassen.mjs': ['docs/'],
+}
+const DOKU_LIEST = { 'tools/design-kontrast.mjs': ['docs/'] }
+
+export const BEKANNT_DOKU = new Set(
+  [DOKU_NUR_GENANNT, DOKU_LIEST].flatMap((gruppe) => Object.entries(gruppe).flatMap(([datei, eintraege]) => eintraege.map((e) => `${datei}|${e}`))),
+)
