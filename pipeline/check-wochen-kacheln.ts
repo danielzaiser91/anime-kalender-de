@@ -102,7 +102,7 @@ pruefe('Titel verliert Namen, Banner, Studios, Jahr, Franchise', !['titleDe', 't
 pruefe('Release behält Plan und Namen', schluessel(r1) === 'slug,titleId,name,platform,releaseType,year,schedule,sendungen', schluessel(r1))
 pruefe('Release verliert Quellen, Kaufadresse, Hinweis, Herkunft', !['sources', 'quellen', 'platformUrl', 'buyUrl', 'note', 'herkunft'].some((f) => f in r1))
 pruefe('der Plan (beobachtete und verpasste Folgen) bleibt ganz', JSON.stringify(r1.schedule) === JSON.stringify(woche.releases[0]!.schedule))
-pruefe('Sendungen behalten nur den Beginn', JSON.stringify(r1.sendungen) === '[{"start":"2026-10-06T10:00"}]', r1.sendungen)
+pruefe('Sendungen behalten Beginn und Ende', JSON.stringify(r1.sendungen) === '[{"start":"2026-10-06T10:00","ende":"2026-10-06T10:20"}]', r1.sendungen)
 pruefe('Termine bleiben unverändert', JSON.stringify(kachel.events) === JSON.stringify(woche.events))
 pruefe('Woche bleibt', kachel.von === '2026-10-05' && kachel.bis === '2026-10-11')
 pruefe('Reihenfolge bleibt', kachel.titles.map((t) => t.id).join() === '1,2' && kachel.releases.map((r) => r.slug).join() === 'a,b')
