@@ -37,6 +37,7 @@ pipeline/check-anisearch-reihen-rein.ts
 pipeline/check-anisearch-reihen.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
+pipeline/check-ankuendigung-sichtbar.ts
 pipeline/check-antwort-jetzt.ts
 pipeline/check-ausgeblieben-text.ts
 pipeline/check-auto-disc-handeintrag.ts
