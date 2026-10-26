@@ -309,6 +309,7 @@ console.log('Anbindung: was ein Klick im Duell auslöst (die Logik, die der Reac
   weg.waehle('B')
   await weg.u.schiebe(100)
   weg.zurueckGehen()
+  pruefe('Zurück im Duell: alle Zeitgeber geräumt', weg.u.offen() === 0, weg.u.offen())
   pruefe('Zurück im Duell: Wahl gelöscht, eine Antwort zurück, Eingabe frei', gleich(weg.log, ['gewaehlt B', 'gewaehlt undefined', 'zurueck']) && weg.waehle('A') === true, weg.log)
   weg.offen.forEach((f) => f())
   await weg.u.schiebe(6000)
@@ -319,7 +320,12 @@ console.log('Anbindung: was ein Klick im Duell auslöst (die Logik, die der Reac
   pruefe('reduzierte Bewegung wird an die Steuerung gereicht (Überblendung)', still.schritte[0] === 'blende', still.schritte)
   const n = baue(6)
   n.waehle('N')
-  pruefe('„Andere Vorschläge“ lädt das Paar nach N und meldet den Fall-Schritt', n.schritte[0] === 'fall', n.schritte)
+  pruefe('„Andere Vorschläge“ meldet den Fall-Schritt', n.schritte[0] === 'fall', n.schritte)
+  await mikro()
+  n.offen.forEach((f) => f())
+  await mikro()
+  const nachN = naechstesPaar(kontext, antworteSitzung(kontext, s, 'N').zustand)!
+  pruefe('„Andere Vorschläge“ lädt das Paar nach N', gleich([...n.angefordert].sort(), [url(nachN[0]), url(nachN[1])].sort()), n.angefordert)
 }
 
 console.log('Anzeige im Wartezustand')
