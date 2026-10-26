@@ -8,6 +8,8 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { parse } from 'yaml'
+import { attrappe } from './pr-nachrechnen-leser-attrappe.mjs'
+import { gitLeser } from './pr-nachrechnen-leser-git.mjs'
 import { BOT_AUTOREN, COMPARE_GRENZE, JOB, KETTE, REF_ABSTAND_MS, REF_PRUEFUNGEN, basisAusLog, botSprungAusnahme, datenpfadAusnahme, hindernis, main, nachrechnen, neuesterLauf, schlafe } from './pr-nachrechnen.mjs'
 
 const fehler = []
@@ -190,22 +192,60 @@ for (const [name, aendere] of [
 pruefe('Ausnahme: Umbenennung aus Datenpfad heraus ist ein Fremdpfad der PR-Seite', datenpfadAusnahme({ status: 'ahead', anzahl: 2, dateien: ['public/data/a.json'] }, ['neu.json', 'data/cache/ordner/alt']) !== null)
 pruefe('Ausnahme: genau eine Datenpfad-Datei im Vergleich -> null', datenpfadAusnahme({ status: 'ahead', anzahl: 1, dateien: ['data/cache/ordner/a'] }, ['x.ts']) === null)
 
-// Merge-Fluss C (23.10.2026): Bot-Sprung nur unter data/ entwertet keinen PR, der keine Daten liest (nur Doku, Daniel-Dateien,
-// Patch Notes, Markdown im Wurzelordner).
+// Merge-Fluss C (23.10.2026), Leser-Regel seit 26.10.2026 (pr-nachrechnen-leser.mjs, Regel selbst: pr-nachrechnen-leser.test.mjs): Ein
+// Bot-Sprung nur unter data/ entwertet nur einen PR, dessen Code die bewegten Dateien liest. Hier die Verdrahtung, erst mit einem
+// Leser-Stub (zeichnet Argumente auf), dann mit dem echten Git-Anschluss über einem Fake-git.
 const BOTS = ['anime-kalender-daten[bot]', 'github-actions[bot]']
 const BOT_MAIN = ['data/crunchyroll-woche.json', 'public/data/titles.json', 'data/curated/tv-2026.yaml']
 const CODE_PR = 'docs/wissen/a.md\ndaniel-zum-abarbeiten/stand.md\nCLAUDE.md\ndata/patchnotes/neu.yaml\n'
+const leserStub = (antwort) => {
+  const f = (bewegt, pr, refs) => {
+    f.aufrufe.push({ bewegt, pr, refs })
+    return antwort
+  }
+  f.aufrufe = []
+  return f
+}
 pruefe('Bot-Autoren sind genau die zwei Datenläufe', JSON.stringify(BOT_AUTOREN) === JSON.stringify(BOTS), BOT_AUTOREN)
 {
+  const stub = leserStub(null)
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: BOTS, prDateien: CODE_PR }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe('C: Bot-Sprung unter data/, Code-PR -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen })
-  pruefe('C: Meldung nennt die Bot-Ausnahme', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Daten-Bots unter data/, der PR liest keine Daten', k.meldungen)
+  const code = main(['7'], k.gh, k.melde, k.warte, stub)
+  pruefe('C: Leser sagt null -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen })
+  pruefe('C: Meldung nennt die Bot-Ausnahme', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Daten-Bots unter data/, kein Code des PR liest die bewegten Dateien', k.meldungen)
+  const a = stub.aufrufe[0]
+  pruefe('C: Leser bekommt bewegte Dateien ohne public/data, PR-Dateien und Stände', stub.aufrufe.length === 1 && a.bewegt.join() === 'data/crunchyroll-woche.json,data/curated/tv-2026.yaml' && a.pr.join() === CODE_PR.trim().split('\n').join() && JSON.stringify(a.refs) === JSON.stringify({ nummer: 7, kopf: KOPF, main: MAIN }), stub.aufrufe)
 }
-for (const leser of ['pipeline/build.ts', 'shared/logic.ts', 'data/curated/a.yaml', 'data/dub-confirmed.yaml', 'public/og/a.png', 'web/src/a.tsx', 'tools/check-pfade.mjs', 'tools/commit-data.sh', 'worker/src/a.ts', 'extension/a.js', '.github/workflows/w.yml', 'package.json', 'web/README.md', 'docsx/a.md']) {
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: BOTS, prDateien: `${CODE_PR}${leser}\n` }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe(`C: PR liest Daten (${leser}) -> 1, Meldung nennt die Datei`, code === 1 && schreibend(k.aufrufe).length === 4 && k.meldungen.join().includes(`der PR liest Daten (${leser})`), { code, m: k.meldungen })
+{
+  const stub = leserStub('der PR liest data/crunchyroll-woche.json (tools/x.mjs)')
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: BOTS, prDateien: 'tools/x.mjs\n' }))
+  const code = main(['7'], k.gh, k.melde, k.warte, stub)
+  pruefe('C: Leser nennt Grund -> 1, neu angestoßen, Meldung trägt den Grund', code === 1 && schreibend(k.aufrufe).length === 4 && k.meldungen.join().includes('der PR liest data/crunchyroll-woche.json (tools/x.mjs)'), { code, m: k.meldungen })
+}
+for (const beruehrt of ['data/crunchyroll-woche.json', 'public/data/titles.json']) {
+  const stub = leserStub(null)
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: BOTS, prDateien: `${CODE_PR}${beruehrt}\n` }))
+  const code = main(['7'], k.gh, k.melde, k.warte, stub)
+  pruefe(`C: PR berührt bewegte Datei ${beruehrt} -> 1, Leser nicht gefragt`, code === 1 && stub.aufrufe.length === 0 && k.meldungen.join().includes(`der PR berührt ${beruehrt}`), { code, m: k.meldungen })
+}
+// Verdrahtung mit dem echten Git-Anschluss: Anlassfall PR 2043 (nur ein Workflow) bleibt gültig, ein PR am Leser wird veraltet.
+const REPO = {
+  main: {
+    'pipeline/bau/cr.ts': "import { x } from '../lib/helfer'\nconst d = 'data/crunchyroll-woche.json'\n",
+    'pipeline/lib/helfer.ts': 'export const x = 1\n',
+    '.github/workflows/bestand-bauen.yml': 'steps:\n  - run: npm run data:build\n',
+  },
+  kopf: {},
+}
+for (const [name, pr, erwartet] of [['Workflow ohne Leser', '.github/workflows/bestand-bauen.yml\n', 0], ['Helfer des Lesers', 'pipeline/lib/helfer.ts\n', 1], ['Leser selbst', 'pipeline/bau/cr.ts\n', 1]]) {
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: BOTS, prDateien: pr }))
+  const code = nachrechnen(7, k.gh, k.melde, k.warte, gitLeser(attrappe(REPO, { mainSha: MAIN }).git))
+  pruefe(`C: echter Anschluss, ${name} -> ${erwartet}`, code === erwartet && schreibend(k.aufrufe).length === (erwartet === 1 ? 4 : 0), { code, m: k.meldungen })
+}
+{
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: BOTS, prDateien: '.github/workflows/bestand-bauen.yml\n' }))
+  const code = nachrechnen(7, k.gh, k.melde, k.warte, gitLeser(attrappe(REPO, { mainSha: MAIN, fetchFehler: true }).git))
+  pruefe('C: Git nicht erreichbar -> im Zweifel veraltet (1) mit Grund', code === 1 && k.meldungen.join().includes('Leser nicht ermittelbar'), { code, m: k.meldungen })
 }
 for (const [name, autoren] of [['ein Mensch dazwischen', ['anime-kalender-daten[bot]', 'danielzaiser91', 'github-actions[bot]']], ['fremder Bot', ['dependabot[bot]']]]) {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren, prDateien: CODE_PR }))
@@ -218,11 +258,11 @@ for (const fremd of ['tools/umfang-grenzen.json', 'extension/a.json', 'datax/a.j
   pruefe(`C: Bot bewegte ${fremd} -> 1`, code === 1 && k.meldungen.join().includes(`Bot bewegte ${fremd}`), { code, m: k.meldungen })
 }
 const botVergleich = (o) => ({ status: 'ahead', anzahl: 1, dateien: ['data/a.json'], commitsGesamt: 2, autoren: BOTS, ...o })
-pruefe('C: mehr Commits als geliefert (Liste abgeschnitten) -> Grund', botSprungAusnahme(botVergleich({ commitsGesamt: 3 }), ['worker/a.ts']) === 'Vergleich evtl. abgeschnitten')
-pruefe('C: genau an der Compare-Grenze -> Grund', botSprungAusnahme(botVergleich({ anzahl: 300 }), ['worker/a.ts']) === 'Vergleich evtl. abgeschnitten')
-pruefe('C: eine unter der Compare-Grenze -> null', botSprungAusnahme(botVergleich({ anzahl: 299 }), ['docs/a.md']) === null)
-pruefe('C: diverged -> Grund', /diverged/.test(botSprungAusnahme(botVergleich({ status: 'diverged' }), ['worker/a.ts'])))
-pruefe('C: Umbenennung aus data/ heraus auf PR-Seite zählt als Leser', botSprungAusnahme(botVergleich(), ['docs/a.md', 'data/alt.json']) === 'der PR liest Daten (data/alt.json)')
+pruefe('C: mehr Commits als geliefert (Liste abgeschnitten) -> Grund', botSprungAusnahme(botVergleich({ commitsGesamt: 3 }), ['worker/a.ts'], leserStub(null)) === 'Vergleich evtl. abgeschnitten')
+pruefe('C: genau an der Compare-Grenze -> Grund', botSprungAusnahme(botVergleich({ anzahl: 300 }), ['worker/a.ts'], leserStub(null)) === 'Vergleich evtl. abgeschnitten')
+pruefe('C: eine unter der Compare-Grenze -> null', botSprungAusnahme(botVergleich({ anzahl: 299 }), ['docs/a.md'], leserStub(null)) === null)
+pruefe('C: diverged -> Grund', /diverged/.test(botSprungAusnahme(botVergleich({ status: 'diverged' }), ['worker/a.ts'], leserStub(null))))
+pruefe('C: Umbenennung aus data/ heraus auf PR-Seite: alter Name trifft eine bewegte Datei -> berührt', botSprungAusnahme(botVergleich({ dateien: ['data/alt.json', 'data/a.json'] }), ['docs/a.md', 'data/alt.json'], leserStub(null)) === 'der PR berührt data/alt.json')
 // Takt und Frist wie in docs/wissen/betrieb.md beschrieben (alle 2 s, höchstens 60 s; gemessen war der Ref nach wenigen Sekunden neu).
 pruefe('Warten: alle 2 s, höchstens 60 s', REF_ABSTAND_MS === 2000 && REF_PRUEFUNGEN * REF_ABSTAND_MS === 60000, { REF_ABSTAND_MS, REF_PRUEFUNGEN })
 // Grenze relativ zu REF_PRUEFUNGEN: neu gerechnet bei der letzten erlaubten Prüfung -> 1; eine Prüfung später -> Fehler, kein zweites Öffnen.
