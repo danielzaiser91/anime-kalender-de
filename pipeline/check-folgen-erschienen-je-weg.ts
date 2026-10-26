@@ -64,8 +64,6 @@ pruefe('Genau eine erschienene Folge: 1-1', text(deutscheFolgen(titel([netflix])
 pruefe('Zwei Pläne eines Anbieters: der höhere zählt', weg([wochen('netflix', '2026-01-04', 3), wochen('netflix', '2026-10-04', 12)], '2026-10-26').get('netflix') === 4)
 pruefe('Zwei Pläne, der ältere höher: der höhere zählt', weg([wochen('netflix', '2026-01-04', 12), wochen('netflix', '2026-10-18', 12)], '2026-10-26').get('netflix') === 12)
 pruefe('Zwei Anbieter im selben Titel: Komplettdrop deckt voll, Plan nur sein Stück', text(deutscheFolgen(titel([netflix, rtl]), undefined, '2026-10-26', 12, weg([wochen('rtlplus', '2026-10-04', 12)], '2026-10-26'))) === '1-12')
-const nurBeobachtet = wochen('netflix', '2026-10-04', 0, { episodeCount: undefined, observed: { 1: '2026-10-04', 2: '2026-10-11' } })
-pruefe('Plan nur aus beobachteten Terminen (ohne Folgenzahl) zählt', weg([nurBeobachtet], '2026-10-26').get('netflix') === 2)
 pruefe('Kein nicht-TV-Plan, nur Disc: nichts', weg([{ ...drop, releaseType: 'disc' } as Release], '2026-10-26').size === 0)
 
 console.log('\nDeutsche Folgen: der Bau reicht die Pläne durch (Kulisse)')

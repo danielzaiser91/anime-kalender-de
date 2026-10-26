@@ -14,7 +14,7 @@ export function hoechsteFolgeJeAnbieter(releases: Release[], heute: string): Map
   for (const r of releases) {
     if (r.releaseType !== 'weekly') continue
     /* Nur ein Starttermin ohne Folgenzahl sagt nichts über den Plan (213805: Netflix-Start, womöglich Komplettdrop). */
-    if (!r.schedule.episodeCount && !Object.keys(r.schedule.observed ?? {}).length) continue
+    if (!r.schedule.episodeCount) continue
     const mitNummer = expandEvents(r).filter((e) => typeof e.episode === 'number')
     if (!mitNummer.length) continue
     const erschienen = mitNummer.filter((e) => istErschienen(e, jetzt)).map((e) => e.episode as number)
