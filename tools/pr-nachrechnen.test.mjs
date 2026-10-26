@@ -254,7 +254,7 @@ const REPO = {
   },
   kopf: {},
 }
-for (const [name, pr, erwartet] of [['Workflow ohne Leser', '.github/workflows/bestand-bauen.yml\n', 0], ['Helfer des Lesers', 'pipeline/lib/helfer.ts\n', 1], ['Leser selbst', 'pipeline/bau/cr.ts\n', 1]]) {
+for (const [name, pr, erwartet] of [['Workflow ohne Leser', '.github/workflows/bestand-bauen.yml\n', 0], ['Helfer des Lesers', 'pipeline/lib/helfer.ts\n', 1], ['Leser selbst', 'pipeline/bau/cr.ts\n', 1], ['Daten des PR (Handbelege)', 'data/dub-confirmed.yaml\n', 1]]) {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: BOTS, prDateien: pr }))
   const code = nachrechnen(7, k.gh, k.melde, k.warte, gitLeser(attrappe(REPO, { mainSha: MAIN }).git))
   pruefe(`C: echter Anschluss, ${name} -> ${erwartet}`, code === erwartet && schreibend(k.aufrufe).length === (erwartet === 1 ? 4 : 0), { code, m: k.meldungen })

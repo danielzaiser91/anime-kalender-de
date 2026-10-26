@@ -53,6 +53,7 @@ try {
   pruefe('echtes git: Workflow- und Skript-PR ohne Leser -> null', leser([F], ['.github/workflows/bestand.yml', 'tools/neu.mjs'], refs) === null, leser([F], ['.github/workflows/bestand.yml', 'tools/neu.mjs'], refs))
   pruefe('echtes git: PR an der Hilfsdatei des Lesers -> Rückrichtung', /pipeline\/lib\/helfer\.ts wird von Code genutzt/.test(leser([F], ['pipeline/lib/helfer.ts'], refs)))
   pruefe('echtes git: PR am Leser selbst -> Grund (Mehrbyte-Zeichen im Kommentar stören nicht)', leser([F], ['pipeline/bau/cr.ts'], refs) !== null)
+  pruefe('echtes git: PR ändert Handbelege, Leser der bewegten Datei vorhanden -> Grund', /^der PR ändert data\/dub-confirmed\.yaml/.test(leser([F], ['tools/neu.mjs', 'data/dub-confirmed.yaml'], refs)))
   pruefe('echtes git: package.json im Kopf unverändert -> kein Skript geändert, null', leser([F], ['package.json', 'tools/neu.mjs'], refs) === null)
   const kaputt = gitLeser(gitAufruf)([F], ['tools/neu.mjs'], { ...refs, nummer: 99 })
   pruefe('echtes git: Kopf nicht abrufbar (kein refs/pull/99/head) -> nicht ermittelbar', /^Leser nicht ermittelbar \(/.test(kaputt), kaputt)

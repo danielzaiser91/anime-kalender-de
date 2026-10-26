@@ -68,6 +68,12 @@ export const leserIn = (texte, bewegt) => [...texte].filter(([, text]) => bewegt
 /** Nennt der Text (ohne Kommentare) den Namen der Datei (der Pfad enthält ihn, `join(ordner, 'a.json')` nennt nur den Namen)? */
 export const nennt = (text, bewegt) => ohneKommentare(text).includes(bewegt.split('/').pop())
 
+/**
+ * Daten, die der Bau mit der bewegten Datei in einem Lauf verarbeitet (kuratierte Daten, Handbelege, Sammlerdaten; Auflage CI-Prüfer
+ * 26.10.2026): ändert der PR sie und liest Code die bewegte Datei, kann die Kombination neu kippen, auch ohne dass der PR-Code sie nennt.
+ */
+const aendertBauDaten = (datei) => datei.startsWith('data/')
+
 /** Einträge einer Ausführungsliste, die der PR neu aufnimmt (Pfade im Kopf, die main nicht hat): nur sie laufen neu gegen die Daten. */
 const neueEintraege = (liste, lies, liesMain) => {
   const alt = new Set(pfadTokens(liesMain(liste) ?? ''))
@@ -96,6 +102,8 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   const treffer = pr.find((p) => bewegt.includes(p))
   if (treffer !== undefined) return `der PR berührt ${treffer}`
   const eigene = pr.filter((p) => !ohneLeser(p) && p !== 'package.json')
+  const daten = leser.length === 0 ? undefined : eigene.find(aendertBauDaten)
+  if (daten !== undefined) return `der PR ändert ${daten}, das der Bau mit den bewegten Dateien zusammen liest (Leser: ${leser[0]})`
   let start = eigene.flatMap((p) => (LISTE.test(p) ? neueEintraege(p, lies, liesMain) : [p]))
   if (pr.includes('package.json')) {
     if (paketSkripte === null) return 'package.json nicht vergleichbar'

@@ -94,14 +94,24 @@ pruefe('pfadTokens: jeder Ordnerkopf zählt', pfadTokens(['.github/a.yml', 'data
 for (const [ende, ziel] of [['.ts', 'a/b.ts'], ['.tsx', 'a/b.tsx'], ['.mjs', 'a/b.mjs'], ['.cjs', 'a/b.cjs'], ['.mts', 'a/b.mts'], ['/index.ts', 'a/b/index.ts']]) {
   pruefe(`importZiele: Kandidat ${ende}`, importZiele('a/c.ts', "import './b'").includes(ziel), importZiele('a/c.ts', "import './b'"))
 }
+// Datenkanal (Auflage A1/A3 des CI-Prüfers): ein PR mit Datenänderung, die der Bau mit der bewegten Datei zusammen liest, bleibt veraltet,
+// auch wenn sein Code sie nicht nennt. Handbelege, kuratierte Daten und Sammlerdaten, je einzeln; ohne Leser der bewegten Datei gilt er nicht.
+for (const daten of ['data/curated/tv-2026.yaml', 'data/dub-confirmed.yaml', 'data/anbieter-staffeln.json', 'data/curated/ordner/tief/a.yaml']) {
+  const g = grund(['tools/nachbar.mjs', daten])
+  pruefe(`PR ändert ${daten}, Leser der bewegten Datei vorhanden -> Grund`, /^der PR ändert .*, das der Bau mit den bewegten Dateien zusammen liest \(Leser: pipeline\/bau\/cr\.ts\)$/.test(g) && g.includes(daten), g)
+  pruefe(`PR ändert ${daten}, kein Leser der bewegten Datei -> null`, grund(['tools/nachbar.mjs', daten], { leser: [] }) === null)
+}
+pruefe('PR ändert nur Patch Notes (ohne Leser in der Kette), Leser vorhanden -> null', grund(['data/patchnotes/neu.yaml']) === null)
+pruefe('PR ändert Datei außerhalb von data/ mit Datenendung, Leser vorhanden -> null', grund(['tools/daten.json']) === null)
+pruefe('PR ändert eine Datei unter public/og (kein Datenkanal des Baus), Leser vorhanden -> null', grund(['public/og/a.json']) === null)
 {
   const gelesen = []
   const spaeh = (p) => {
     gelesen.push(p)
     return lies(p)
   }
-  bewegtesGelesen({ bewegt: [F], pr: ['data/curated/a.json', 'web/src/a.css', 'tools/nachbar.mjs', 'data/curated/b.yaml'], leser: LESER, lies: spaeh, paketSkripte: null })
-  pruefe('Daten, Stile und Bilder werden nicht gelesen, Skripte und YAML schon', !gelesen.includes('data/curated/a.json') && !gelesen.includes('web/src/a.css') && gelesen.includes('tools/nachbar.mjs') && gelesen.includes('data/curated/b.yaml'), gelesen)
+  bewegtesGelesen({ bewegt: [F], pr: ['tools/daten.json', 'web/src/a.css', 'tools/nachbar.mjs', 'tools/b.yaml'], leser: LESER, lies: spaeh, paketSkripte: null })
+  pruefe('Daten, Stile und Bilder werden nicht gelesen, Skripte und YAML schon', !gelesen.includes('tools/daten.json') && !gelesen.includes('web/src/a.css') && gelesen.includes('tools/nachbar.mjs') && gelesen.includes('tools/b.yaml'), gelesen)
 }
 {
   const kreis = (p) => ({ 'tools/a.mjs': "import './b.mjs'\n", 'tools/b.mjs': "import './a.mjs'\n" })[p] ?? null
@@ -142,7 +152,7 @@ const PR_BAUM = { ...BAUM, 'docs/leser.md': `${F}\n`, 'tools/notiz.mjs': '// dat
 pruefe('SUCHORDNER sind genau die Ordner des Codes', SUCHORDNER.join() === 'pipeline,shared,tools,web,worker,extension,.github', SUCHORDNER)
 {
   const { git, aufrufe, eingaben } = fakeGit({ main: PR_BAUM, kopf: {} })
-  const g = gitLeser(git)([F], ['.github/workflows/bestand.yml', 'docs/x.md', 'data/gross.json', 'tools/anderes.mjs'], REFS)
+  const g = gitLeser(git)([F], ['.github/workflows/bestand.yml', 'docs/x.md', 'web/gross.json', 'tools/anderes.mjs'], REFS)
   pruefe('gitLeser: im Kopf werden nur lesbare PR-Dateien geholt (keine Daten, keine Doku)', eingaben[1] === `${KOPF}:.github/workflows/bestand.yml\n${KOPF}:tools/anderes.mjs\n`, eingaben)
   pruefe('gitLeser: von main alle lesbaren Dateien der Code-Ordner, keine Bilder', eingaben[0].includes(`${MAIN}:tools/anderes.mjs\n`) && !eingaben[0].includes('bild.png') && !eingaben[0].includes('data/x.mjs'), eingaben[0])
   pruefe('gitLeser: Anlassfall (Workflow ohne Leser) -> null', g === null, g)
