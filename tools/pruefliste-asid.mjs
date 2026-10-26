@@ -36,12 +36,18 @@ function urteil(liste, { paare, schlecht }) {
   return fehler
 }
 
+/** Die bekannten Titel: der Hauptbestand und, was hinter dem Schalter „ohne Synchro“ liegt (`ohne-synchro.json`, fehlt es, bleibt es leer). */
+function bekannteTitel(wurzel, hauptbestand) {
+  const hinterSchalter = existsSync(resolve(wurzel, 'public/data/ohne-synchro.json')) ? JSON.parse(quelle(wurzel, 'public/data/ohne-synchro.json')) : []
+  return new Map([...hinterSchalter, ...hauptbestand].map((t) => [t.id, t]))
+}
+
 /** Prüft `public/data/prime-suche.json` und `extension/offene-netflix.js` unter `wurzel`; liefert die Fehlerzeilen. */
 export function pruefeAsId(wurzel) {
   const dateien = ['public/data/titles.json', 'public/data/prime-suche.json', 'extension/offene-netflix.js']
   const fehlt = dateien.filter((d) => !existsSync(resolve(wurzel, d)))
   if (fehlt.length) return fehlt.map((d) => `${d} fehlt`)
-  const titel = new Map(JSON.parse(quelle(wurzel, dateien[0])).map((t) => [t.id, t]))
+  const titel = bekannteTitel(wurzel, JSON.parse(quelle(wurzel, dateien[0])))
 
   const prime = Object.entries(JSON.parse(quelle(wurzel, dateien[1])))
   const primeErgebnis = abweichungen(prime.map(([url, e]) => [url, e.id, e.asId]), titel)
