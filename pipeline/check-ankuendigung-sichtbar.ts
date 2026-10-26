@@ -21,7 +21,8 @@ mkdirSync(join(bauOrdner, 'data', 'curated'))
 process.env.AK_ROOT = bauOrdner
 const { ankuendigungenLaden } = await import('./lib/ankuendigungen.ts')
 const { setzeMarkenFuerPruefung } = await import('./lib/anisearch-marke.ts')
-const { ANKUENDIGUNG_FRIST_TAGE, ausgestrahltOhneBeleg, frischAngekuendigt } = await import('./bau/ohne-beleg.ts')
+const { ANKUENDIGUNG_FRIST_TAGE, ausgestrahltOhneBeleg, frischAngekuendigt, keineSynchroGilt } = await import('./bau/ohne-beleg.ts')
+const { ohneBelegteSynchro } = await import('./bau/synchro-belegt.ts')
 const { rolleTermineAus } = await import('./bau/10-termine.ts')
 const { versteckteFrischeAnkuendigungen, versteckteWarnzeile } = await import('./lib/ankuendigung-versteckt.ts')
 
@@ -83,6 +84,31 @@ console.log('Verdrahtung im Bau (rolleTermineAus, Bau-Zeitpunkt = heute)')
   const { verschoben } = rolleTermineAus({ releases: [], titles, jpStart: new Map() })
   pruefe(verschoben.map((t) => t.id).sort().join() === '900032,900033', `verschoben: ${verschoben.map((t) => t.id).sort().join()} (abgelaufene und fehlende Ankündigung; die frische bleibt)`)
   pruefe(titles.has(900031) && !titles.has(900032) && !titles.has(900033), 'frische Ankündigung bleibt im Bestand')
+  setzeMarkenFuerPruefung(undefined)
+}
+
+console.log('Ankündigung schlägt aniSearch „Deutsch nicht genannt“ (F70, Rayearth)')
+{
+  /* Rayearth 2026 (178868) wörtlich aus data/ankuendigungen.yaml; aniSearch führt Deutsch als „-“, der Weg ist ein Crunchyroll-Weg ohne Beleg. */
+  const echt = ankuendigungenLaden(wurzel).get(178868)
+  pruefe(echt?.omuAb === '2026-10-07' && echt.synchro === 'angekuendigt', `echter Eintrag 178868: ${echt?.omuAb} / ${echt?.synchro}`)
+  setzeMarkenFuerPruefung({ 178868: '-', 900051: '-', 900052: '-' })
+  const rayearth = titel(178868, echt, { dubConfidence: 'low' } as Partial<Title>)
+  pruefe(!keineSynchroGilt(rayearth, '2026-10-26'), 'Rayearth am 26.10.2026: aniSearchs „keine Synchro“ gilt nicht')
+  pruefe(!keineSynchroGilt(rayearth, '2026-12-06'), 'Rayearth Tag 60: gilt nicht')
+  pruefe(keineSynchroGilt(rayearth, '2026-12-07'), 'Rayearth Tag 61: aniSearch gilt wieder')
+  pruefe(keineSynchroGilt(titel(900051, undefined), '2026-10-26'), 'Gegenprobe: ohne Ankündigung gilt aniSearch')
+  pruefe(keineSynchroGilt(titel(900051, ank('2026-10-08', 'offen')), '2026-10-26'), 'Gegenprobe: Ankündigung ohne Synchro-Aussage schützt nicht')
+  const titles = new Map<number, Title>([
+    [900051, titel(900051, ank('2999-01-01'))],
+    [900052, titel(900052, ank('2000-01-01'))],
+  ])
+  const { verschoben } = rolleTermineAus({ releases: [], titles, jpStart: new Map() })
+  pruefe(verschoben.map((t) => t.id).join() === '900052' && titles.has(900051), `Bau: frische Ankündigung bleibt trotz „-“, abgelaufene wird verschoben (${verschoben.map((t) => t.id).join()})`)
+  /* Der Streifen „keine deutsche Synchro“ kommt aus ohneBelegteSynchro (os/ohneSynchro): keine Kachel mit frischer Ankündigung trägt ihn. */
+  pruefe(!ohneBelegteSynchro(rayearth, [], '2026-10-26'), 'Streifen: Rayearth mit frischer Ankündigung ohne Streifen')
+  pruefe(ohneBelegteSynchro(rayearth, [], '2026-12-07'), 'Streifen: Tag 61 wieder mit Streifen')
+  pruefe(ohneBelegteSynchro(titel(900051, undefined, { dubConfidence: 'low' } as Partial<Title>), [], '2026-10-26'), 'Streifen Gegenprobe: ohne Ankündigung bleibt er')
   setzeMarkenFuerPruefung(undefined)
 }
 

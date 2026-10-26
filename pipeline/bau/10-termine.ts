@@ -13,7 +13,7 @@ import { kostenloseFolgen } from '../../shared/kostenlos.ts'
 import { sprecherRollen } from './sprecher-anisearch.ts'
 import { widerlegeDeutscheTermine } from './widerlegung-woche.ts'
 import { anisearchNurKatalog } from './anisearch-titel.ts'
-import { ausgestrahltOhneBeleg, keineSynchroLautAnisearch, ohneSynchroVonHand } from './ohne-beleg.ts'
+import { ausgestrahltOhneBeleg, keineSynchroGilt, ohneSynchroVonHand } from './ohne-beleg.ts'
 import { urteilSchliesstLuecken } from './urteil-schliesst-luecken.ts'
 import { ohneOmuTermine } from './omu-ohne-termin.ts'
 
@@ -155,7 +155,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
     if (mitStimmen.has(id) && !handNein.has(id)) continue
     // Ohne bekanntes Startdatum wird nichts entfernt — Unwissen ist kein Beleg.
     const start = jpStart.get(id)
-    if (!(start && start > heuteIso) && !handNein.has(id) && !ausgestrahltOhneBeleg(titles.get(id)!, heuteIso) && !keineSynchroLautAnisearch(titles.get(id)!)) continue
+    if (!(start && start > heuteIso) && !handNein.has(id) && !ausgestrahltOhneBeleg(titles.get(id)!, heuteIso) && !keineSynchroGilt(titles.get(id)!, heuteIso)) continue
     const titel = titles.get(id)
     if (titel) verschoben.push(titel)
     titles.delete(id)
