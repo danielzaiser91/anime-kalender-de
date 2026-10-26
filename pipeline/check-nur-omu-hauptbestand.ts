@@ -50,16 +50,17 @@ const welt = (): { titles: Map<number, Title>; releases: Release[] } => ({
     [900007, titel(900007, { ankuendigung: { platform: 'netflix', synchro: 'angekuendigt' } as Title['ankuendigung'] })],
     [900008, titel(900008)],
     [900009, titel(900009)],
+    [900012, titel(900012)],
     [900010, titel(900010, { deErstausgabe: { synchro: true } } as Partial<Title>)],
     [900011, titel(900011)],
   ]),
   releases: [
     release(900001, 'beerus-netflix'),
     release(900002, 'mit-beleg'),
-    release(900003, 'omu-und-de-a'),
-    release(900003, 'omu-und-de-b', { sprache: undefined }),
-    release(900004, 'omu-und-offen-a'),
-    release(900004, 'omu-und-offen-b', { sprache: 'offen' }),
+    release(900003, 'omu-und-de-a', { sprache: undefined }),
+    release(900003, 'omu-und-de-b'),
+    release(900004, 'omu-und-offen-a', { sprache: 'offen' }),
+    release(900004, 'omu-und-offen-b'),
     release(900005, 'omu-widerlegt-a'),
     release(900005, 'omu-widerlegt-b', { sprache: undefined, widerlegt: { am: '2099-01-01', grund: 'g', gemeldet: true } }),
     release(900006, 'mit-sprechern'),
@@ -73,8 +74,8 @@ const welt = (): { titles: Map<number, Title>; releases: Release[] } => ({
 
 const w = welt()
 const vorher = w.releases.slice()
-const lauf = rolleTermineAus({ releases: w.releases, titles: w.titles, jpStart: new Map() })
-const weg = [900001, 900005, 900008, 900011]
+const lauf = rolleTermineAus({ releases: w.releases, titles: w.titles, jpStart: new Map([[900002, '2999-01-01'], [900012, '2999-01-01']]) })
+const weg = [900001, 900005, 900008, 900011, 900012]
 const bleibt = [900002, 900003, 900004, 900006, 900007, 900009, 900010]
 const slugs = w.releases.map((r) => r.slug)
 console.log('Nur-OmU-Titel im Hauptbestand:')
@@ -91,13 +92,15 @@ pruefe('Sprache „offen“ (unklar) hält den Titel', w.titles.has(900004) && s
 pruefe('Deutsche Sprechrollen halten den Titel', w.titles.has(900006) && slugs.includes('mit-sprechern'))
 pruefe('Synchro angekündigt hält den Titel', w.titles.has(900007) && slugs.includes('angekuendigt'))
 pruefe('Erstausgabe-Marke hält den Titel', w.titles.has(900010) && slugs.includes('erstausgabe'))
-pruefe('Titel ohne Release bleibt (unverändertes Verhalten)', w.titles.has(900009))
+pruefe('Titel ohne Release und ohne Startdatum bleibt (unverändertes Verhalten)', w.titles.has(900009))
+pruefe('Titel ohne Release mit Start in der Zukunft wandert weiter (unverändertes Verhalten)', !w.titles.has(900012) && lauf.verschoben.some((t) => t.id === 900012))
+pruefe('Titel mit Release bleibt trotz Start in der Zukunft (unverändertes Verhalten)', w.titles.has(900002))
 pruefe('Alle übrigen Releases bleiben in Reihenfolge und als dieselben Objekte', JSON.stringify(slugs) === JSON.stringify(vorher.filter((r) => !weg.includes(r.titleId)).map((r) => r.slug)) && w.releases.every((r) => vorher.includes(r)), slugs)
 pruefe('Ereignisse der bleibenden Titel mit Beleg bleiben', lauf.events.some((e) => e.titleId === 900002) && lauf.events.some((e) => e.titleId === 900007))
 
 console.log('nurOmuTitel direkt:')
 const direkt = nurOmuTitel(welt().titles, welt().releases)
-pruefe('Menge der Nur-OmU-Titel (Sprechrollen prüft erst der Aufrufer: 900006 ist dabei)', [...direkt].sort().join() === [...weg, 900006].sort().join(), [...direkt])
+pruefe('Menge der Nur-OmU-Titel (Sprechrollen prüft erst der Aufrufer: 900006 ist dabei)', [...direkt].sort().join() === [900001, 900005, 900006, 900008, 900011].join(), [...direkt])
 pruefe('Titel nicht in der Karte: nicht dabei', !nurOmuTitel(new Map(), welt().releases).has(900001))
 pruefe('Ohne Releases: leer', nurOmuTitel(welt().titles, []).size === 0)
 pruefe('Nur ein einziger OmU-Termin (genau 1): zählt', nurOmuTitel(welt().titles, [release(900001, 'x')]).has(900001))
