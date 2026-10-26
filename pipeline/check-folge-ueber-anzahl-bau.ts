@@ -47,7 +47,7 @@ try {
     vorherTitles: [],
     schreibWurzel,
   })
-  const fehlt = [PRUEFLISTE, PRIME_PRUEFLISTE].filter((pfad) => !existsSync(join(schreibWurzel, pfad)))
+  const fehlt = [PRUEFLISTE, PRIME_PRUEFLISTE, 'data/adn-vde-historie.json'].filter((pfad) => !existsSync(join(schreibWurzel, pfad)))
   if (fehlt.length) {
     console.error('FEHLER: die Phase schreibt ihre Prüfliste nicht unter die übergebene Wurzel', fehlt)
     process.exit(1)

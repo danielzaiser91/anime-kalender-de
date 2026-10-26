@@ -28,8 +28,8 @@ assert.deepEqual(verlorene([]), [])
 /* Ein Feld gleichen Namens auf einem anderen Typ ist kein Verlust: `url` steht bei Titeln nicht auf der Liste, bei Wegen schon. */
 assert.deepEqual(verlorene(['title.url', 'release.url', 'event.sources']), [])
 
-/* Sendungen behalten nur `start`: jedes andere gelesene Feld ist ein Verlust. */
-assert.deepEqual(verlorene(['release.sendungen', 'release.sendungen.start', 'release.sendungen.ende', 'release.sendungen.sender.name']), ['release.sendungen.ende', 'release.sendungen.sender.name'])
+/* Sendungen behalten `start` und `ende`: jedes andere gelesene Feld ist ein Verlust. */
+assert.deepEqual(verlorene(['release.sendungen', 'release.sendungen.start', 'release.sendungen.ende', 'release.sendungen.sender.name']), ['release.sendungen.sender.name'])
 
 /* Lesezugriffe über `in` und `hasOwnProperty` zählen wie `get`; Listen-Indizes nicht. */
 function gelesenNach(lesen) {

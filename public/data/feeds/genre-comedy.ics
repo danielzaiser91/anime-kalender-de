@@ -62,7 +62,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T191500Z
 DTEND:20261019T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 18/22
+SUMMARY:Pokémon Reisen: Die Serie – Folge 18/23
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -133,7 +133,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261020T191500Z
 DTEND:20261020T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 19/22
+SUMMARY:Pokémon Reisen: Die Serie – Folge 19/23
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -204,7 +204,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T191500Z
 DTEND:20261021T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 20/22
+SUMMARY:Pokémon Reisen: Die Serie – Folge 20/23
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -264,7 +264,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261022T191500Z
 DTEND:20261022T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 21/22
+SUMMARY:Pokémon Reisen: Die Serie – Folge 21/23
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -354,7 +354,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261023T191500Z
 DTEND:20261023T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 22/22
+SUMMARY:Pokémon Reisen: Die Serie – Folge 22/23
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -429,8 +429,7 @@ UID:you-and-i-are-polar-opposites-s2@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T093000Z
 DTEND:20261025T100000Z
-SUMMARY:⚠ nicht erschienen: You and I Are Polar Opposites – Staffel 2 
- – Folge 13/13
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 13/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17577/
 CATEGORIES:Crunchyroll
@@ -470,8 +469,8 @@ UID:cr-GT00384006@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T150000Z
 DTEND:20261025T153000Z
-SUMMARY:⚠ nicht erschienen: Reborn as a Space Mercenary: I Woke Up Piloti
- ng the Strongest Starship! Staffel 1 – Folge 4/13
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! Staffel 1 – Folge 4/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
@@ -494,7 +493,7 @@ UID:cr-GT00384004@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T153000Z
 DTEND:20261025T160000Z
-SUMMARY:⚠ nicht erschienen: Overgeared Staffel 1 – Folge 5/12
+SUMMARY:Overgeared Staffel 1 – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
@@ -548,6 +547,16 @@ SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T201500Z
+DTEND:20261026T204500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 23/23
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-27#44@anime-kalender-de

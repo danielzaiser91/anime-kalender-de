@@ -13,6 +13,7 @@
   { "datei": "pipeline/check-bild-und-synchro.ts", "liest": "data/anisearch-dub-ids.json", "grund": "ganze Liste als Eingabe (Marke je Brücken-Titel gegen deutschMarke); Psyren und Hyouken II prüfen nur Gleichheit der beiden Quellen, nicht einen Wert" },
   { "datei": "pipeline/check-cartoon-reihen.ts", "liest": "data/cartoons.json", "grund": "Cartoon-Bestand wird fortgeschrieben (lesen, ergänzen, schreiben), nichts fällt heraus; Untergrenzen statt fester Zahl" },
   { "datei": "pipeline/check-episodentitel.ts", "liest": "data/anbieter-staffeln.json", "grund": "ganze Datei als Eingabe der Listenprüfung, kein fester Schlüssel; fehlt sie, gilt {}" },
+  { "datei": "pipeline/check-folge-ueber-anzahl-bau.ts", "liest": "data/adn-vde-historie.json", "grund": "nur existsSync unter der Schreibwurzel: belegt, dass Bauphase 9 die Historie in die Kulisse schreibt statt ins Repo; Inhalt wird nicht gelesen" },
   { "datei": "pipeline/check-logic.ts", "liest": "data/prime-unzugeordnet.json", "grund": "zählt nur Meldungen mit Kennung gegen die Zuordnung (Quote), kein fester Schlüssel" },
   { "datei": "pipeline/check-logic.ts", "liest": "data/prime-zugeordnet.json", "grund": "zählt nur die Größe der Zuordnung (mindestens eine), kein fester Schlüssel" },
   { "datei": "pipeline/check-logic.ts", "liest": "data/anisearch.json", "grund": "Quellen der Kurations-Dateien gegen die aniSearch-Kennung des Titels: Eigenschaft über alle Einträge" },

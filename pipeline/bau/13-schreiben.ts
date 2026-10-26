@@ -83,7 +83,7 @@ export function schreibeDatensatz({
     verweiseEntfernt,
   })
 
-  ergaenzeEigeneHandlungen(synopses, slim)
+  ergaenzeEigeneHandlungen(synopses, slim, verschoben)
   ergaenzeDeutscheFolgenzahl(synopses, new Map([...titles.values()].map((t) => [t.id, t.episodes])))
   const releasesVorAngebot = releases.length
   ergaenzeErstausgabeAngebot({ titles: titles.values(), releases })

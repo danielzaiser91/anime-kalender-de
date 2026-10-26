@@ -17,10 +17,12 @@ function ausgeliefert(id: number): Synopse | undefined {
 }
 
 const titel = new Set(readJson<Title[]>('public/data/titles.json', []).map((t) => t.id))
+const hinterToggle = new Set(readJson<{ id: number }[]>('public/data/ohne-synchro.json', []).map((t) => t.id))
 for (const id of zurueckgestellt().ids) titel.add(id) // zurückgestellt (Quarantäne), nicht verloren
-const { fehler, hinweise } = bewerteEigeneHandlungen(ladeEigeneHandlungen(), titel, ausgeliefert)
+const { fehler, hinweise, versteckt } = bewerteEigeneHandlungen(ladeEigeneHandlungen(), titel, ausgeliefert, hinterToggle)
 
 if (hinweise.length) console.log(bestandWarnzeile('Eigene Handlung', 'überholt (Quelle gewinnt, in data/handlung-eigen.yaml bei Gelegenheit löschen)', hinweise))
+if (versteckt.length) console.log(bestandWarnzeile('Eigene Handlung', 'ohne deutsche Synchro im Katalog (hinter dem Toggle; der Text bleibt stehen, bis der Titel sichtbar ist)', versteckt))
 if (fehler.length) {
   console.error(`FEHLER: ${fehler.length} verwaiste Einträge in data/handlung-eigen.yaml — löschen:\n${fehler.join('\n')}`)
   console.log(`VERSTÖSSE: ${fehler.length}`)
