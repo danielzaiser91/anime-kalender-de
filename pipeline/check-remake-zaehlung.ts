@@ -51,6 +51,9 @@ function yaibaZaehlung(): void {
   pruefe('Fortsetzung 2027 ist Staffel 2 von 2', nr(nachher, 199337) === '2/2')
   pruefe('das Original steht allein in seiner Gruppe und bekommt keine Nummer', !nachher.has(2335))
   pruefe('mit Markierung kommt keine Nummer doppelt vor', doppelteNummern({ 1: neu }).length === 0, doppelteNummern({ 1: neu }))
+  pruefe('eine Reihe ohne Neuverfilmung gilt nicht als „mit Neuverfilmung"', doppelteNummern({ 1: alt })[0]?.mitRemake === false)
+  const zuViel = doppelteNummern({ 1: [...neu, tv(300, 'Yaiba Zusatz', '2028-01-01', { staffelQuelle: 2 })] })
+  pruefe('doppelte Nummer in der Gruppe der Neuverfilmung wird als „mit Neuverfilmung" gemeldet', zuViel.length === 1 && zuViel[0]!.mitRemake && zuViel[0]!.nummer === '2/-' && zuViel[0]!.teile.length === 2, zuViel)
   const beschriftung = staffelBeschriftungen(hauptstaffeln(neu), name)
   pruefe('Beschriftung: 2025 „Staffel 1", 2027 „Staffel 2"', beschriftung.get(177476) === 'Staffel 1' && beschriftung.get(199337) === 'Staffel 2', [...beschriftung])
   const reihenfolge = [199337, 2335, 177476].map((id) => neu.find((m) => m.id === id)!)
@@ -71,6 +74,21 @@ function gruppenZuschnitt(): void {
   pruefe('gleicher Start: die kleinere Kennung vor der Markierung zählt zum Original', JSON.stringify(zaehlgruppen(gleichTag).map(ids)) === '[[1,2],[3]]', zaehlgruppen(gleichTag).map(ids))
   const zwei = [tv(1, 'B', '1990-01-01'), tv(2, 'B neu', '2000-01-01', { remakeVon: 1 }), tv(3, 'B neu 2', '2005-01-01'), tv(4, 'B nochmal', '2010-01-01', { remakeVon: 2 }), tv(5, 'B nochmal 2', '2012-01-01')]
   pruefe('zwei Neuverfilmungen ergeben drei Gruppen nach Start', JSON.stringify(zaehlgruppen(zwei).map(ids)) === '[[1],[2,3],[4,5]]', zaehlgruppen(zwei).map(ids))
+  const ohneOriginal = [tv(2, 'C neu', '2000-01-01', { remakeVon: 1 }), tv(3, 'C neu 2', '2005-01-01')]
+  pruefe('Neuverfilmung als frühester Teil: keine leere Gruppe davor', JSON.stringify(zaehlgruppen(ohneOriginal).map(ids)) === '[[2,3]]', zaehlgruppen(ohneOriginal).map(ids))
+}
+
+/** Der übergebene Reihenname gilt für die Gruppe, die ihn trägt; die anderen heißen nach ihrem ersten Teil. */
+function gruppenNamen(): void {
+  console.log('\nName je Zählgruppe:')
+  const keinTreffer = staffelBeschriftungen([tv(1, 'Alpha', '2000-01-01'), tv(2, 'Alpha Staffel 2', '2002-01-01')], 'Beta')
+  pruefe('ohne Neuverfilmung rechnet die Reihe mit dem übergebenen Namen, auch wenn er nicht passt', keinTreffer.size === 0, [...keinTreffer])
+  const spice = [tv(1, 'Spice and Wolf', '2008-01-08'), tv(2, 'Spice and Wolf: Merchant Meets the Wise Wolf', '2024-04-02', { remakeVon: 1 }), tv(3, 'Spice and Wolf: Merchant Meets the Wise Wolf - Staffel 2', '2027')]
+  const mitName = staffelStaende(spice, 'Spice and Wolf')
+  pruefe('die Gruppe, die den Namen trägt, behält ihn: die Neuverfilmung heißt „eigener Name"', mitName.get(2)?.eigenerName === true, [...mitName])
+  const fremd = [tv(1, 'Orig', '1990-01-01'), tv(2, 'Foo Bar: Alpha', '2010-01-01', { remakeVon: 1 }), tv(3, 'Foo Bar: Beta', '2012-01-01'), tv(4, 'Foo Bar: Gamma', '2014-01-01')]
+  const nachErstem = staffelStaende(fremd, 'Orig')
+  pruefe('trägt keine Gruppe den Namen, heißt sie nach dem gemeinsamen Anfang ihrer Teile („Foo Bar")', nachErstem.get(2)?.eigenerName === true && nachErstem.get(3)?.eigenerName === true, [...nachErstem])
 }
 
 function gegenproben(): void {
@@ -187,6 +205,7 @@ function handDatei(): void {
 
 yaibaZaehlung()
 gruppenZuschnitt()
+gruppenNamen()
 gegenproben()
 kopfUndGruppen()
 bauSeite()
