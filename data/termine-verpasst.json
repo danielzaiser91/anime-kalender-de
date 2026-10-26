@@ -443,99 +443,6 @@
     }
   },
   {
-    "id": "you-and-i-are-polar-opposites-s2@2026-10-25",
-    "slug": "you-and-i-are-polar-opposites-s2",
-    "titleId": 210031,
-    "name": "You and I Are Polar Opposites – Staffel 2",
-    "platform": "crunchyroll",
-    "episode": 13,
-    "erwartetAm": "2026-10-25T09:30:00.000Z",
-    "bemerktAm": "2026-10-25T10:03:36.476Z",
-    "erschienenAm": null,
-    "verzugStunden": null,
-    "folgenVerfuegbar": 12,
-    "tagGeschaetzt": true,
-    "neuErwartet": null,
-    "recherche": null,
-    "messbeleg": {
-      "am": "2026-10-25T10:04:02.234Z",
-      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-25",
-      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-25/2026-10-25-10-04.jpg",
-      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-25/2026-10-25-10-04.html.gz"
-    },
-    "newsGeprueftAm": "2026-10-25T23:02:51.672Z"
-  },
-  {
-    "id": "cr-GT00384006@2026-10-25",
-    "slug": "cr-GT00384006",
-    "titleId": 186541,
-    "name": "Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship! Staffel 1",
-    "platform": "crunchyroll",
-    "episode": 4,
-    "erwartetAm": "2026-10-25T15:00:00.000Z",
-    "bemerktAm": "2026-10-26T00:05:32.533Z",
-    "erschienenAm": null,
-    "verzugStunden": null,
-    "folgenVerfuegbar": 3,
-    "tagGeschaetzt": true,
-    "neuErwartet": null,
-    "recherche": null,
-    "wocheBeleg": {
-      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
-      "gesehenAm": "2026-10-19T07:03:01.440Z",
-      "bild": "www.crunchyroll.com/wochenprogramm/gt00384006/2026-10-25-f4-2026-10-19-07-03.webp",
-      "bildAm": "2026-10-19T07:03:01.440Z",
-      "markierung": [
-        0.021111111111111112,
-        0.8041095890410959,
-        0.21861111111111112,
-        0.17945205479452056
-      ]
-    },
-    "newsGeprueftAm": "2026-10-25T23:02:51.672Z",
-    "messbeleg": {
-      "am": "2026-10-26T00:05:58.417Z",
-      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-25",
-      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-25/2026-10-26-00-05.jpg",
-      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-25/2026-10-26-00-05.html.gz"
-    }
-  },
-  {
-    "id": "cr-GT00384004@2026-10-25",
-    "slug": "cr-GT00384004",
-    "titleId": 212888,
-    "name": "Overgeared Staffel 1",
-    "platform": "crunchyroll",
-    "episode": 5,
-    "erwartetAm": "2026-10-25T15:30:00.000Z",
-    "bemerktAm": "2026-10-26T00:05:32.533Z",
-    "erschienenAm": null,
-    "verzugStunden": null,
-    "folgenVerfuegbar": 1,
-    "tagGeschaetzt": true,
-    "neuErwartet": null,
-    "recherche": null,
-    "wocheBeleg": {
-      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
-      "gesehenAm": "2026-10-19T07:03:01.440Z",
-      "bild": "www.crunchyroll.com/wochenprogramm/gt00384004/2026-10-25-f5-2026-10-19-07-03.webp",
-      "bildAm": "2026-10-19T07:03:01.440Z",
-      "markierung": [
-        0.2675,
-        0.8041095890410959,
-        0.21861111111111112,
-        0.17945205479452056
-      ]
-    },
-    "newsGeprueftAm": "2026-10-25T23:02:51.672Z",
-    "messbeleg": {
-      "am": "2026-10-26T00:05:58.417Z",
-      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-25",
-      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-25/2026-10-26-00-05.jpg",
-      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-25/2026-10-26-00-05.html.gz"
-    }
-  },
-  {
     "id": "appraisal-aristocrat-s3-crunchyroll@2026-10-25",
     "slug": "appraisal-aristocrat-s3-crunchyroll",
     "titleId": 185756,
@@ -562,7 +469,7 @@
         0.12265917602996254
       ]
     },
-    "newsGeprueftAm": "2026-10-25T23:02:51.672Z",
+    "newsGeprueftAm": "2026-10-26T04:23:53.569Z",
     "messbeleg": {
       "am": "2026-10-26T00:05:58.417Z",
       "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-25",
