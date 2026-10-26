@@ -133,7 +133,15 @@ function plaetzeInStaffel(eintraege: { id: number; staffel: number }[]): Map<num
 }
 
 type StaffelEintrag = { id: number; staffel: number; teil?: number; eigenerName: boolean }
-type StaffelFeld = { id: number; name: string; jpYear?: number; jpStart?: string; staffelQuelle?: number }
+type StaffelFeld = {
+  id: number
+  name: string
+  jpYear?: number
+  jpStart?: string
+  staffelQuelle?: number
+  /** Kennung des Originals, wenn dieser Eintrag eine Neuverfilmung ist (`zaehlgruppen`). */
+  remakeVon?: number
+}
 
 /** Sortierschlüssel der Ausstrahlung: Start, sonst Jahr (`jahrZumSortieren`). */
 export function ausstrahlungsZeit(m: { jpYear?: number; jpStart?: string }): string {
@@ -221,7 +229,54 @@ function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string
   return eintraege
 }
 
+/**
+ * **Zählgruppen einer Reihe: das Original und je Neuverfilmung eine eigene Linie** (Daniel, 26.10.2026: Yaiba 2025
+ * ist ein Remake von Staffel 1 und stand als „Staffel 2"). Eine Neuverfilmung (`remakeVon`) und alles, was danach
+ * startet, zählt für sich von 1; was davor liegt, bleibt in der Gruppe des Originals. Ohne Neuverfilmung kommt die
+ * Liste unverändert als eine Gruppe zurück. Reihenfolge: Original-Linie zuerst, dann nach Start der Neuverfilmung.
+ */
+export function zaehlgruppen<T extends Pick<StaffelFeld, 'id' | 'jpYear' | 'jpStart' | 'remakeVon'>>(teile: T[]): T[][] {
+  const frueher = (a: T, b: T) => ausstrahlungsZeit(a).localeCompare(ausstrahlungsZeit(b)) || a.id - b.id
+  const wurzeln = teile.filter((m) => m.remakeVon !== undefined).sort(frueher)
+  if (!wurzeln.length) return [teile]
+  const gruppen: T[][] = [[], ...wurzeln.map((): T[] => [])]
+  for (const m of teile) {
+    const nummer = wurzeln.filter((w) => frueher(w, m) <= 0).length
+    gruppen[nummer]!.push(m)
+  }
+  return gruppen.filter((g) => g.length > 0)
+}
+
+/** Die Zählgruppe, in der `id` liegt (leer, wenn die Kennung nicht in `teile` steht). */
+export function zaehlgruppeVon<T extends Pick<StaffelFeld, 'id' | 'jpYear' | 'jpStart' | 'remakeVon'>>(teile: T[], id: number): T[] {
+  return zaehlgruppen(teile).find((g) => g.some((m) => m.id === id)) ?? []
+}
+
+/** Rechnet je Zählgruppe für sich; eine einzige Gruppe läuft unverändert mit dem übergebenen Reihennamen. */
+function jeZaehlgruppe<T extends StaffelFeld, R>(
+  staffeln: T[],
+  reihenName: string,
+  rechne: (gruppe: T[], name: string) => Map<number, R>,
+): Map<number, R> {
+  const gruppen = zaehlgruppen(staffeln)
+  if (gruppen.length < 2) return rechne(staffeln, reihenName)
+  const klein = (x: string) => x.toLowerCase()
+  const ergebnis = new Map<number, R>()
+  for (const gruppe of gruppen) {
+    /* Der übergebene Name gilt für die Gruppe, die ihn trägt; die anderen heißen nach ihrem ersten Teil. */
+    const traegt = gruppe.some((m) => klein(m.name).startsWith(klein(reihenName)))
+    const erster = gruppe.slice().sort((a, b) => ausstrahlungsZeit(a).localeCompare(ausstrahlungsZeit(b)) || a.id - b.id)[0]!
+    const name = traegt ? reihenName : reihenAnfang(ohneStaffelEins(erster.name), gruppe.map((m) => m.name))
+    for (const [id, wert] of rechne(gruppe, name)) ergebnis.set(id, wert)
+  }
+  return ergebnis
+}
+
 export function staffelBeschriftungen<T extends StaffelFeld>(staffeln: T[], reihenName: string): Map<number, string> {
+  return jeZaehlgruppe(staffeln, reihenName, beschrifteGruppe)
+}
+
+function beschrifteGruppe<T extends StaffelFeld>(staffeln: T[], reihenName: string): Map<number, string> {
   const eintraege = zaehleStaffeln(staffeln, reihenName)
   const ohneNamen = new Set(eintraege.filter((e) => !e.eigenerName).map((e) => e.staffel))
   const mitTeilen = new Set(eintraege.filter((e) => (e.teil ?? 1) >= 2).map((e) => e.staffel))
@@ -254,6 +309,10 @@ export type StaffelNummer = { staffel: number; teil?: number; von: number; eigen
  * Leer bei einer einzigen Staffel — dort unterscheidet die Nummer nichts (One Piece).
  */
 export function staffelStaende<T extends StaffelFeld>(staffeln: T[], reihenName: string): Map<number, StaffelNummer> {
+  return jeZaehlgruppe(staffeln, reihenName, staendeGruppe)
+}
+
+function staendeGruppe<T extends StaffelFeld>(staffeln: T[], reihenName: string): Map<number, StaffelNummer> {
   const eintraege = zaehleStaffeln(staffeln, reihenName)
   const von = Math.max(0, ...eintraege.map((e) => e.staffel))
   if (von < 2) return new Map()

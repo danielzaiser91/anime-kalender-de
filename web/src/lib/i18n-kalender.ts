@@ -14,6 +14,8 @@ export const TEXTE_KALENDER = {
   ...TEXTE_ZEILEN,
   // Fortsetzung mit eigenem Titel in der Reihenliste, keine Staffel.
   'detail.gruppeEigene': 'Eigene Serien',
+  // Neuverfilmung einer Serie der Reihe samt ihren Fortsetzungen; zählt für sich (Yaiba 2025).
+  'detail.gruppeNeuverfilmung': 'Neuverfilmung',
   ...TEXTE_ANTWORT,
   // Original noch nicht erschienen (Reihenliste, Datenbankkarte).
   'geplant.marke': 'Geplant',

@@ -21,6 +21,9 @@
 # `ids:` verbindet Titel zu einer Reihe, `getrennt:` verbietet aniSearch-Beziehungen zwischen diesen
 # Titeln (Wanderung wie Prüflisten-Fall). Belege: Beziehungen der Archivseiten data/anisearch-raw,
 # Titel in public/data/titles.json und data/anisearch-eintraege.json.
+# `getrennt:` wirkt nur auf aniSearch-Beziehungen (`ladeTrennungen` in anisearch-reihen-pruefliste.ts, gelesen allein von
+# `uebernimmReihen`); eine Reihe, die AniList selbst bildet (`FRANCHISE_RELATIONS`, 03-reihen.ts), trennt es nicht — Yaiba 2025
+# und 1993 hängen über AniList `ALTERNATIVE` zusammen. Eine Neuverfilmung steht darum in `data/remake-von-hand.yaml` (eigene Zählung).
 
 # aniSearch führt die Kurzgeschichten (Tanpenshuu) als „Hauptgeschichte" von Detektiv Conan, das Making-of
 # als „Alternative Umgebung" von Detektiv Conan und „Anderes" der Kurzgeschichten 2; alle tragen Conan-Figuren.

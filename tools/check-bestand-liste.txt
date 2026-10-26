@@ -46,6 +46,7 @@ pipeline/check-news-offiziell-bestand.ts
 pipeline/check-prime-teilseiten-bestand.ts
 pipeline/check-reihen-namen-bestand.ts
 pipeline/check-reihen-teilname-bestand.ts
+pipeline/check-remake-zaehlung-bestand.ts
 pipeline/check-saison-deutsch-bestand.ts
 pipeline/check-schwester-shop-bestand.ts
 pipeline/check-staffel-von-hand-bestand.ts
