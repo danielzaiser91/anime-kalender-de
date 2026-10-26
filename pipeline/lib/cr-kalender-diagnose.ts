@@ -24,10 +24,14 @@ function kurz(text: string): string {
   return flach.length > TEXT_LAENGE ? `${flach.slice(0, TEXT_LAENGE)}…` : flach
 }
 
-/** Fehlertext für `data/source-health.json`: die Woche mit der ersten Diagnose; ohne Diagnose (kein Seitenabruf gelungen) der alte Satz. */
+/** `lastError` landet über den Blocker in `public/data/blocker.json` und in der Statusanzeige: höchstens so viele Zeichen (26.10.2026, Prüfer 2125). */
+export const FEHLER_LAENGE = 160
+
+/** Fehlertext für `data/source-health.json`: die Woche mit der ersten Diagnose, auf `FEHLER_LAENGE` gekürzt; ohne Diagnose (kein Seitenabruf gelungen) der alte Satz. */
 export function fehlerText(diagnosen: string[]): string {
   const grund = 'keine Kachel im Kalender gefunden'
-  return diagnosen.length ? `${grund} — ${diagnosen[0]}` : grund
+  const text = diagnosen.length ? `${grund} — ${diagnosen[0]}` : grund
+  return text.length > FEHLER_LAENGE ? `${text.slice(0, FEHLER_LAENGE - 1)}…` : text
 }
 
 /** Alle Wochen leer: Diagnose ins Log, Kurzfassung in die Quellengesundheit. Der Lauf bleibt grün (Daniel, 30.08.2026). */

@@ -39,10 +39,11 @@ assert.deepEqual(ohneSchreiber(['a', 'b'], ['a', '?']), ['b'], 'ein „?“-Schr
 assert.deepEqual(ohneSchreiber(['a', 'b'], []), ['a', 'b'], 'ohne Schreiber alle')
 
 /* --- Wächter als eigener Prozess gegen eine Kulisse (AK_ROOT) --- */
-function waechter(quelle: string): { status: number | null; aus: string } {
+const FRISTEN_AB = "export const FRISTEN = { 'a': 9, 'b': 9 }\n"
+function waechter(quelle: string, fristenQuelle = FRISTEN_AB): { status: number | null; aus: string } {
   const kulisse = mkdtempSync(join(tmpdir(), 'quellen-waechter-'))
   for (const d of ['pipeline', 'tools', 'shared', 'worker/src']) mkdirSync(join(kulisse, d), { recursive: true })
-  writeFileSync(join(kulisse, 'pipeline', 'check-sources.ts'), "const FRISTEN: Record<string, number> = { 'a': 9, 'b': 9 }\n")
+  writeFileSync(join(kulisse, 'tools', 'quellen-fristen.mjs'), fristenQuelle)
   writeFileSync(join(kulisse, 'pipeline', 'x.ts'), quelle)
   const r = spawnSync(process.execPath, ['--import', pathToFileURL(resolve(import.meta.dirname, '..', 'node_modules/tsx/dist/esm/index.mjs')).href, resolve(import.meta.dirname, '..', 'pipeline/check-quellen-schreiber.ts')], {
     env: { ...process.env, AK_ROOT: kulisse },
@@ -58,6 +59,9 @@ assert.ok(gruen.aus.includes('2 Fristen, 2 Schreiber (0 mit unlesbarem Namen), 0
 const fehlt = waechter("recordSource('a', 1)\n")
 assert.equal(fehlt.status, 1, 'Frist b ohne Schreiber: rot')
 assert.ok(fehlt.aus.includes('1 ohne Schreiber: b'), 'nennt die Quelle')
+const keine = waechter("recordSource('a', 1)\n", 'export const FRISTEN = buildFristen()\n')
+assert.equal(keine.status, 1, 'keine Fristen lesbar: rot, nicht „0 Fristen“ grün')
+assert.ok(keine.aus.includes('0 Fristen') && keine.aus.includes('Keine Fristen gelesen'), 'nennt die Ursache')
 const blind = waechter("recordSource('a', 1)\nrecordSource('b', 1)\nrecordSource(name, 1)\n")
 assert.equal(blind.status, 1, 'ein Name als Variable: rot, nicht still grün')
 assert.ok(blind.aus.includes('(1 mit unlesbarem Namen)'), 'Zahl der unlesbaren Namen steht in der Zeile')

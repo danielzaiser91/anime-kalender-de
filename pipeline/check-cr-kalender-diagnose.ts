@@ -59,6 +59,11 @@ console.log('fehlerText')
 {
   pruefe(fehlerText([]) === 'keine Kachel im Kalender gefunden', 'ohne Diagnose: alter Satz')
   pruefe(fehlerText(['2026-10-12: A']) === 'keine Kachel im Kalender gefunden — 2026-10-12: A', 'genau eine Diagnose')
+  const vorn = 'keine Kachel im Kalender gefunden — '
+  const genau = `2026-10-12: ${'x'.repeat(160 - vorn.length - 12)}`
+  pruefe(fehlerText([genau]).length === 160 && fehlerText([genau]) === `${vorn}${genau}`, 'genau 160 Zeichen: unverändert')
+  pruefe(fehlerText([`${genau}y`]) === `${vorn}${genau}`.slice(0, 159) + '…', '161 Zeichen: auf 160 gekürzt, „…“ am Ende')
+  pruefe(fehlerText([`${genau}y`]).length === 160, 'gekürzter Text ist 160 Zeichen lang')
   pruefe(fehlerText(['2026-10-12: A', '2026-10-19: B']) === 'keine Kachel im Kalender gefunden — 2026-10-12: A', 'erste Woche')
 }
 
@@ -125,6 +130,8 @@ console.log('scrapeWeek')
   pruefe(slots.length === 0 && diagnosen.length === 1, 'leere Woche: eine Diagnose')
   pruefe(diagnosen[0].startsWith('2026-10-19: HTTP 403; Titel „Just a moment...“'), `Diagnose mit Woche und Status: ${diagnosen[0]}`)
   pruefe(diagnosen[0].includes('Text „Verifying you are human“'), 'Text aus innerText der Seite')
+  /* `__cf_chl` steht nur im HTML (page.content()), nicht im Titel oder Text: ohne den HTML-Abruf fehlt es. */
+  pruefe(diagnosen[0].includes('Challenge-Merkmale: __cf_chl,'), 'Challenge-Merkmal aus dem HTML der Seite')
 
   const voll = browserAttrappe({ status: 200, titel: 'Kalender', html: KACHEL_HTML, kacheln: true })
   const d2: string[] = []
