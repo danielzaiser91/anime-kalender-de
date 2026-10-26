@@ -32,8 +32,8 @@ export function verdrahtungsFehler(quelltext: string): string[] {
   if (remakes.arguments.length !== 2) fehler.push(`markiereRemakes braucht genau Reihen und Titel (gefunden: ${remakes.arguments.length} Argumente)`)
   if (remakes.arguments[0]?.getText(datei) !== 'reihen') fehler.push(`markiereRemakes muss die Reihen bekommen (gefunden: ${remakes.arguments[0]?.getText(datei)})`)
   const titel = remakes.arguments[1]
-  if (!titel || !/titles\.values\(\)/.test(titel.getText(datei)) || !/ausKatalog/.test(titel.getText(datei))) {
-    fehler.push(`markiereRemakes muss alle Titel samt Katalog bekommen (gefunden: ${titel?.getText(datei)})`)
+  if (titel?.getText(datei) !== 'fuerReihen') {
+    fehler.push(`markiereRemakes muss die Titel der Reihen (fuerReihen: ausgeliefert samt Katalog) bekommen (gefunden: ${titel?.getText(datei)})`)
   }
   return fehler
 }
@@ -50,15 +50,15 @@ function pruefe(name: string, ok: boolean, info = ''): void {
 const quelle = readFileSync(new URL('./bau/13-4-zusatzdateien.ts', import.meta.url), 'utf8')
 pruefe('Bau-Schritt ist verdrahtet', verdrahtungsFehler(quelle).length === 0, verdrahtungsFehler(quelle).join('; '))
 
-const AUFRUF = 'markiereRemakes(reihen, [...titles.values(), ...ausKatalog])'
+const AUFRUF = 'markiereRemakes(reihen, fuerReihen)'
 pruefe('Vorlage enthält den Aufruf genau einmal', quelle.split(AUFRUF).length === 2)
 const abweichungen: [string, string][] = [
   ['Aufruf entfernt', quelle.replace(AUFRUF, 'reihen')],
   ['Aufruf hinter `0 &&`', quelle.replace(AUFRUF, '0 && ' + AUFRUF)],
   ['leere Titelliste', quelle.replace(AUFRUF, 'markiereRemakes(reihen, [])')],
-  ['Katalog fehlt', quelle.replace(AUFRUF, 'markiereRemakes(reihen, [...titles.values()])')],
-  ['falsche Reihen', quelle.replace(AUFRUF, 'markiereRemakes({}, [...titles.values(), ...ausKatalog])')],
-  ['Aufruf mit drittem Argument', quelle.replace(AUFRUF, 'markiereRemakes(reihen, [...titles.values(), ...ausKatalog], {})')],
+  ['Titel aus der Bau-Karte statt der ausgelieferten (ohne aniSearch-Kennung)', quelle.replace(AUFRUF, 'markiereRemakes(reihen, [...titles.values()])')],
+  ['falsche Reihen', quelle.replace(AUFRUF, 'markiereRemakes({}, fuerReihen)')],
+  ['Aufruf mit drittem Argument', quelle.replace(AUFRUF, 'markiereRemakes(reihen, fuerReihen, {})')],
   ['Aufruf außerhalb der Schreibzeile', quelle.replace(AUFRUF, 'reihen').replace('  writeJson(`${OUT}/franchises.json`', `  ${AUFRUF}\n  writeJson(\`\${OUT}/franchises.json\``)],
   ['zweites Schreiben ohne Markierung', quelle.replace('  writeJson(`${OUT}/franchises.json`', '  writeJson(`${OUT}/franchises.json`, reihen)\n  writeJson(`${OUT}/franchises.json`')],
 ]

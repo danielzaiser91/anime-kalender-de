@@ -278,7 +278,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
         : t.coverImage,
     }))
   }
-  writeJson(`${OUT}/franchises.json`, markiereEigeneWerke(markiereRemakes(reihen, [...titles.values(), ...ausKatalog])))
+  writeJson(`${OUT}/franchises.json`, markiereEigeneWerke(markiereRemakes(reihen, fuerReihen)))
   log(`${Object.keys(reihen).length} Reihen mit mehr als einem Eintrag geschrieben`)
 
   schreibeMeldungen(slim)
