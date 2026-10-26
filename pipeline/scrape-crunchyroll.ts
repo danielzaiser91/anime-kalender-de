@@ -15,9 +15,11 @@
  * Aufruf: npx tsx pipeline/scrape-crunchyroll.ts [--weeks 6] [--head]
  */
 import { chromium, type Browser, type Page } from 'playwright'
+import { pathToFileURL } from 'node:url'
 import { addDays, diffDays, startOfWeek, todayIso } from '../shared/time.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { kalenderDiagnose, meldeLeerenKalender } from './lib/cr-kalender-diagnose.ts'
 import {
   crunchyrollSeriesId,
   normalizeTitle,
@@ -60,7 +62,7 @@ function toBerlin(datetime: string): { date: string; time: string } | undefined 
 }
 
 /** Lädt die Kalenderwoche mit bis zu drei Versuchen; wirft, wenn alle scheitern. */
-async function ladeKalenderSeite(page: Page, weekStart: string): Promise<void> {
+async function ladeKalenderSeite(page: Page, weekStart: string): Promise<number | undefined> {
   // `filter=premium` ist kein Login-Zwang, sondern nur die Ansichts-Umschaltung
   // der Seite: ohne den Parameter blendet Crunchyroll die Kacheln aus und
   // wirbt stattdessen fürs Abo. Mit ihm liefert dieselbe öffentliche Seite
@@ -80,12 +82,14 @@ async function ladeKalenderSeite(page: Page, weekStart: string): Promise<void> {
    * wird, ohne bei einer echten Sperre nachzudruecken.
    */
   let letzterFehler: unknown
+  let status: number | undefined
   for (let versuch = 1; versuch <= 3; versuch++) {
     try {
-      await page.goto(
+      const antwort = await page.goto(
         `https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=${weekStart}`,
         { waitUntil: 'domcontentloaded', timeout: 45000 },
       )
+      status = antwort?.status()
       letzterFehler = undefined
       break
     } catch (err) {
@@ -99,9 +103,24 @@ async function ladeKalenderSeite(page: Page, weekStart: string): Promise<void> {
     }
   }
   if (letzterFehler) throw letzterFehler
+  return status
 }
 
-async function scrapeWeek(browser: Browser, weekStart: string): Promise<CrunchyrollSlot[]> {
+/** Liest Titel, sichtbaren Text und HTML der geladenen Seite für die Diagnose bei null Kacheln. */
+async function seitenDiagnose(page: Page, status: number | undefined): Promise<string> {
+  const [titel, text, html] = await Promise.all([
+    page.title().catch(() => ''),
+    page.evaluate(() => document.body?.innerText ?? '').catch(() => ''),
+    page.content().catch(() => ''),
+  ])
+  return kalenderDiagnose({ status, titel, text, html })
+}
+
+export async function scrapeWeek(
+  browser: Browser,
+  weekStart: string,
+  diagnosen: string[],
+): Promise<CrunchyrollSlot[]> {
   const page = await browser.newPage({
     userAgent: UA,
     locale: 'de-DE',
@@ -110,7 +129,7 @@ async function scrapeWeek(browser: Browser, weekStart: string): Promise<Crunchyr
   })
 
   try {
-    await ladeKalenderSeite(page, weekStart)
+    const status = await ladeKalenderSeite(page, weekStart)
     // Auf die erste gerenderte Kachel warten; bleibt die Woche leer, ist das
     // kein Fehler, sondern eine Woche ohne veröffentlichten Zeitplan.
     await page
@@ -126,6 +145,8 @@ async function scrapeWeek(browser: Browser, weekStart: string): Promise<Crunchyr
           release.querySelector<HTMLAnchorElement>('.js-season-name-link')?.getAttribute('href') ?? '',
       })),
     )
+
+    if (!rows.length) diagnosen.push(`${weekStart}: ${await seitenDiagnose(page, status)}`)
 
     return rows
       .map((row): CrunchyrollSlot | undefined => {
@@ -152,6 +173,7 @@ async function main(): Promise<void> {
   const browser = await chromium.launch({ headless: !HEADED })
   const today = todayIso()
   const slots: CrunchyrollSlot[] = []
+  const diagnosen: string[] = []
   const weekStarts: string[] = []
 
   try {
@@ -160,7 +182,7 @@ async function main(): Promise<void> {
     for (let i = WEEKS - 2; i >= -1; i--) {
       const weekStart = startOfWeek(addDays(today, -7 * i))
       weekStarts.push(weekStart)
-      const found = await scrapeWeek(browser, weekStart)
+      const found = await scrapeWeek(browser, weekStart, diagnosen)
       log(`Crunchyroll ${weekStart}: ${found.length} Einträge, davon ${found.filter((f) => f.german).length} deutsch`)
       slots.push(...found)
       await sleep(1500)
@@ -170,8 +192,7 @@ async function main(): Promise<void> {
   }
 
   if (!slots.length) {
-    recordSource('crunchyroll', 0, 'keine Kachel im Kalender gefunden')
-    warn('Keine Einträge gefunden — Seitenaufbau geändert? Bestehende Daten bleiben unangetastet.')
+    meldeLeerenKalender(diagnosen)
     return
   }
 
@@ -264,7 +285,9 @@ async function main(): Promise<void> {
   log(`${Object.keys(merged).length} Titel mit belegter deutscher Sendezeit gespeichert.`)
 }
 
-main().catch((err) => {
-  console.error(err)
-  process.exit(1)
-})
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    console.error(err)
+    process.exit(1)
+  })
+}
