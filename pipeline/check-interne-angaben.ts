@@ -42,7 +42,7 @@ pruefe('Feld note ohne Namen: Verstoß in releases, woche, woche-kacheln', ['rel
 pruefe('Feld note in anderer Datei (news.json) ohne Namen: kein Verstoß', interneAngaben('news.json', [{ note: 'x' }]).length === 0)
 pruefe('Zwei Felder in einem Objekt: das zweite schlägt an', interneAngaben('releases.json', { a: 'ok', note: 'Daniel' }).length === 1)
 pruefe('Namensfeld der einen Datei ist in der anderen kein Namensfeld', interneAngaben('voices/1.json', [{ note: 'Daniel Fehlow' }]).length === 1 && interneAngaben('sprecher.json', [{ actor: 'Daniel Axt' }]).length === 1)
-pruefe('Ohne Namen, Zahlen, null, leer: kein Treffer', interneAngaben('releases.json', [{ note: 'Netflix, 24 Minuten.', n: 1, x: null }, {}, []]).length === 0)
+pruefe('Ohne Namen, Zahlen, null, leer: kein Treffer', interneAngaben('releases.json', [{ text: 'Netflix, 24 Minuten.', n: 1, x: null }, {}, []]).length === 0)
 
 /* 2. Der Auslieferungsweg: releases.json ohne note, alles andere unverändert, Eingabe nicht verändert. */
 const rel = { titleId: 1, slug: 'r-1', platform: 'netflix', note: ANLASS, sources: ['https://example.org/1'], schedule: { firstEpisodeDate: '2099-01-01' } } as unknown as Release
