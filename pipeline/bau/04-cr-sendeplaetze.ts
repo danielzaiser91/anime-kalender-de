@@ -1,4 +1,4 @@
-import { readJson, log, slugify } from '../lib/util.ts'
+import { readJson, log } from '../lib/util.ts'
 import {
   type CrunchyrollData,
   type WochenFolgeRoh,
@@ -10,6 +10,7 @@ import {
 import { type Title } from '../../shared/types.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
+import { titelAusKatalogEintrag } from '../lib/katalog-titel.ts'
 
 export function indiziereCrSendeplaetze({ titles }: {
   titles: Map<number, Title>
@@ -136,28 +137,7 @@ export function indiziereCrSendeplaetze({ titles }: {
          */
         const vorhanden = titles.get(e.id)
         if (vorhanden) return vorhanden
-        const anzeige = e.t[1] ?? e.latein ?? e.t[0] ?? String(e.id)
-        const neu: Title = {
-          id: e.id,
-          slug: `${slugify(anzeige)}-${e.id}`,
-          keywords: [],
-          /**
-           * Ein Titel aus dem Katalog belegt keine Synchro -- er belegt nur,
-           * dass es den Anime gibt. `low` ist deshalb richtig: Der Termin
-           * daneben stammt aus dem Crunchyroll-Kalender, die Sprachfassung
-           * muss weiterhin belegt werden.
-           */
-          dubConfidence: 'low' as const,
-          titleRomaji: e.t[0] ?? undefined,
-          titleEn: e.t[1] ?? e.latein ?? undefined,
-          titleNative: e.t[2] ?? undefined,
-          format: e.format ?? undefined,
-          jpYear: e.jahr ?? undefined,
-          episodes: e.folgen ?? undefined,
-          genres: e.genres?.length ? [...e.genres] : [],
-          coverImage: e.cover ? `https://s4.anilist.co/file/anilistcdn/media/anime/cover/${e.cover}` : undefined,
-          streams: [],
-        }
+        const neu = titelAusKatalogEintrag(e)
         titles.set(e.id, neu)
         log(`  Titel aus dem Katalog ergänzt: ${e.id} (${e.t[0] ?? e.t[1]})`)
         return neu
