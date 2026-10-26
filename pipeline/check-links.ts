@@ -189,7 +189,7 @@ async function pruefeEinmal(url: string): Promise<Befund> {
     const res = await fetch(url, {
       redirect: 'follow',
       signal: AbortSignal.timeout(8000),
-      headers: { 'User-Agent': 'anime-kalender.de/1.0 (+https://anime-kalender.de; danielzaiser91@googlemail.com)' },
+      headers: { 'User-Agent': 'anime-kalender.de/1.0 (+https://anime-kalender.de; kontakt@anime-kalender.de)' },
     })
     if (res.ok && AMAZON_VIDEO.test(url)) {
       const text = await res.text()
