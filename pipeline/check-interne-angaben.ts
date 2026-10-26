@@ -38,6 +38,8 @@ pruefe('Dasselbe Feld in einer anderen Datei schlägt an (actor in news.json)', 
 pruefe('Zahlenschlüssel erben das Feld des Elternteils', interneAngaben('releases.json', { note: { 0: 'Daniel' } }).length === 1 && interneAngaben('voices/1.json', { actor: { 0: 'Daniel Axt' } }).length === 0)
 pruefe('Schreibweisen: Daniels, DANIEL, Zaiser', interneAngaben('releases.json', [{ note: 'Daniels' }, { note: 'DANIEL' }, { note: 'Zaiser' }]).length === 3)
 pruefe('Zwei Treffer in einer Datei werden beide gezählt', interneAngaben('releases.json', [{ note: 'Daniel' }, { source: 'Daniel' }]).length === 2)
+pruefe('Zwei Felder in einem Objekt: das zweite schlägt an', interneAngaben('releases.json', { a: 'ok', note: 'Daniel' }).length === 1)
+pruefe('Namensfeld der einen Datei ist in der anderen kein Namensfeld', interneAngaben('voices/1.json', [{ note: 'Daniel Fehlow' }]).length === 1 && interneAngaben('sprecher.json', [{ actor: 'Daniel Axt' }]).length === 1)
 pruefe('Ohne Namen, Zahlen, null, leer: kein Treffer', interneAngaben('releases.json', [{ note: 'Netflix, 24 Minuten.', n: 1, x: null }, {}, []]).length === 0)
 
 /* 2. Der Auslieferungsweg: releases.json ohne note, alles andere unverändert, Eingabe nicht verändert. */
@@ -98,6 +100,8 @@ pruefe('haltFelderFest: ein früher festgehaltener hinweis an „angekündigt“
 const neuMitHinweis = { ...alt, art: 'neu', hinweis: 'Seit 2 Jahren' } as unknown as DatiertNews
 const nachNeu = haltFelderFest({ zuerst: {}, felder: { 'neu:r-1:2099-01-01': { hinweis: 'Seit 2 Jahren' } } }, [neuMitHinweis], [])[0]!
 pruefe('haltFelderFest: der hinweis einer „neu“-Meldung bleibt (nur die Notiz fällt weg)', nachNeu.hinweis === 'Seit 2 Jahren', nachNeu)
+const ohneHinweis = { ...alt, hinweis: undefined } as unknown as DatiertNews
+pruefe('haltFelderFest: „angekündigt“ ohne hinweis bleibt dasselbe Objekt', haltFelderFest({ zuerst: {}, felder: { 'angekuendigt:r-1:2099-01-01': { kanal: 'K' } } }, [ohneHinweis], [])[0] === ohneHinweis)
 const eintrag = (m: Partial<NewsMeldung>): NewsEintrag[] => [{ am: '2026-10-01', titelId: 1, titel: 'T', slug: 't', meldungen: [{ art: 'angekuendigt', platform: 'netflix', release: 'r-1', datum: '2099-01-01', ...m } as NewsMeldung] }]
 pruefe('Wächter: Wegfall des hinweis an „angekündigt“ ist kein Fehler', felderAenderungen(eintrag({ hinweis: ANLASS }), eintrag({})).length === 0)
 pruefe('Wächter: Wegfall des hinweis an „neu“ bleibt ein Fehler', felderAenderungen(eintrag({ art: 'neu', hinweis: 'a' }), eintrag({ art: 'neu' })).length === 1)
