@@ -143,7 +143,7 @@ const DATEN_MAIN = ['public/data/titles.json', 'data/cache/ordner/anilist', 'pub
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe('nur Bot-Berichte bewegt -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe })
 }
-// 26.10.2026 (PR 2118: main bewegte daniel-zum-abarbeiten/00-wache.md): Doku und Daniel-Dateien auf main entwerten keinen PR; Patch Notes schon (der Bau liest sie).
+// 26.10.2026 (PR 2118: main bewegte daniel-zum-abarbeiten/00-wache.md): Doku auf main entwertet keinen PR; andere Daniel-Dateien (Prüfungen lesen sie) und Patch Notes (der Bau liest sie) schon.
 for (const [name, dateien, prDateien, erwartet] of [
   ['Daniel-Datei wörtlich vom Anlass', ['daniel-zum-abarbeiten/00-wache.md'], 'src/a.ts\n', 0],
   ['Doku zwischen Datenpfaden', ['public/data/titles.json', 'docs/wissen/betrieb.md', 'data/cache/ordner/a'], 'src/a.ts\n', 0],

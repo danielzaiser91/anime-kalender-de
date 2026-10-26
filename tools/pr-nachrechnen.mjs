@@ -18,7 +18,6 @@ import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
 import { BOT_DATEIEN_OHNE_LESER, istBotDatei } from './pr-nachrechnen-bot-pfade.mjs'
 import { gitAufruf, gitLeser } from './pr-nachrechnen-leser-git.mjs'
-import { ohneLeser } from './pr-nachrechnen-leser.mjs'
 
 export const KETTE = 'pr-pruefung.yml'
 /** Kleiner Job der Kette mit Checkout ohne eigenes `ref` (prüft `pr-nachrechnen.test.mjs` an der YAML). */
@@ -56,8 +55,12 @@ export const COMPARE_GRENZE = 300
 
 export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p)) || istBotDatei(datei)
 
-/** Doku und Daniel-Dateien auf main: kein Kettenschritt hängt an ihrem Stand (Dirigent 26.10.2026); `data/patchnotes/` liest der Bau und bleibt draußen. */
-const ohneKetteLeser = (datei) => ohneLeser(datei) && !datei.startsWith('data/patchnotes/')
+/**
+ * Doku auf main, an deren Stand kein Kettenschritt hängt (Dirigent 26.10.2026, Anlass PR 2118): `docs/`, Markdown im Wurzelordner und
+ * `daniel-zum-abarbeiten/00-wache.md` (nur `tools/wache-schreiben.mjs` schreibt sie). Andere Daniel-Dateien lesen Prüfungen
+ * (`stand.md`, `listen/07-neu.md`, `listen/justwatch-widersprueche.md`, Test in `pr-nachrechnen-bot-pfade.test.mjs`), `data/patchnotes/` der Bau.
+ */
+const ohneKetteLeser = (datei) => datei.startsWith('docs/') || /^[^/]+\.md$/.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'
 
 /** null = Ausnahme gilt (main bewegte nur Datenpfade, der PR keinen); sonst der Grund, warum nicht. */
 export function datenpfadAusnahme(vergleich, prDateien) {
