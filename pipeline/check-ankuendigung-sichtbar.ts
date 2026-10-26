@@ -26,6 +26,8 @@ const { ANKUENDIGUNG_FRIST_TAGE, ausgestrahltOhneBeleg, frischAngekuendigt, kein
 const { ohneBelegteSynchro } = await import('./bau/synchro-belegt.ts')
 const { rolleTermineAusMitKomplettabwurf } = await import('./bau/10-komplettabwurf.ts')
 const { baueTitel } = await import('./bau/02-titel.ts')
+const { releasesAus } = await import('./lib/meldungen.ts')
+const { vorschlaegeAusSammelartikel } = await import('./lib/sammelartikel.ts')
 const { versteckteFrischeAnkuendigungen, versteckteWarnzeile } = await import('./lib/ankuendigung-versteckt.ts')
 
 let fehler = 0
@@ -39,10 +41,10 @@ const titel = (id: number, ank: Title['ankuendigung'] | undefined, extra: Partia
   ({ id, jpYear: 2026, streams: [{ platform: 'crunchyroll' }], ankuendigung: ank, ...extra }) as unknown as Title
 const ank = (omuAb: string, synchro: 'angekuendigt' | 'offen' = 'angekuendigt') => ({ platform: 'crunchyroll', omuAb, synchro, quellen: [], stand: '2026-09-15' }) as Title['ankuendigung']
 /* AniList-Medium wie im Bau (Vorbild check-herkunftsland.ts): `titleFromMedia` erzeugt den Titel, nichts wird von Hand ergänzt. */
-const medium = (id: number): AniListMedia => ({
+const medium = (id: number, name = 'Test'): AniListMedia => ({
   id,
   idMal: null,
-  title: { romaji: 'Test', english: null, native: null },
+  title: { romaji: name, english: name, native: null },
   format: 'TV',
   status: 'RELEASING',
   episodes: 12,
@@ -146,6 +148,27 @@ console.log('Ende zu Ende: Bau-Phasen 02 und 10 mit Titeln aus titleFromMedia, A
   pruefe(!titles.has(ids.katalogOffen) && !jpStart.has(ids.katalogOffen), 'Katalogtitel mit Synchro „offen“ bleibt draußen')
   pruefe(!titles.has(ids.nirgends), 'Ankündigung ohne Titel in Bestand und Katalog: nichts wird erfunden, kein Absturz')
   setzeMarkenFuerPruefung(undefined)
+}
+
+console.log('Sammelartikel-Eintrag mit Ankündigung ist kein deutscher Termin (F70, Rayearth-Form)')
+{
+  /* Form des echten Eintrags (data/proposals/anime2you.json, Artikel 1050718): deutsch, nicht wöchentlich, kein Anbieter, Datum = Simulcast-Start. */
+  const art = { url: 'https://www.anime2you.de/news/900000/fixture-simulcasts/', publishedAt: '2026-09-15' }
+  const eintrag = (titel: string, datum: string) => ({ titel, deutsch: true, woechentlich: false, stream: [], datum })
+  const zeile = (id: number, omuAb: string) => `  - { anilistId: ${id}, titel: "Fixture ${id}", platform: crunchyroll, omuAb: "${omuAb}", synchro: angekuendigt, stand: "2026-09-15", quellen: [lineup] }`
+  writeFileSync(join(bauOrdner, 'data', 'ankuendigungen.yaml'), ['quellen:', '  lineup: https://example.org/lineup', 'eintraege:', zeile(900071, '2999-01-01'), zeile(900073, '2000-01-01'), zeile(900074, '2999-01-01')].join('\n'))
+  const namen = new Map([[900071, 'Rayearth Form'], [900072, 'Ohne Ankuendigung Form'], [900073, 'Abgelaufen Form'], [900074, 'Einzelmeldung Form']])
+  const byAniId = Object.fromEntries([...namen].map(([id, name]) => [String(id), medium(id, name)]))
+  const { titles } = baueTitel({ byMal: {}, byAniId, confidenceRaw: {} })
+  const sammelNamen = ['Rayearth Form', 'Ohne Ankuendigung Form', 'Abgelaufen Form']
+  const einzel = { titleId: 900074, articleTitle: 'Einzelmeldung Form', articleUrl: 'https://www.anime2you.de/news/900001/einzel/', publishedAt: '2026-09-15', category: 'streaming', platforms: ['crunchyroll'], dates: [{ iso: '2999-01-01', context: 'Start am 1. Januar' }], dub: 'ja' }
+  const vorschlaege = [...vorschlaegeAusSammelartikel(art, sammelNamen.map((n) => eintrag(n, '2999-01-01')), 'crunchyroll'), einzel] as ReturnType<typeof vorschlaegeAusSammelartikel>
+  const abgedeckt: typeof vorschlaege = []
+  const releases = releasesAus(vorschlaege, [...titles.values()], [], '2026-10-26', undefined, abgedeckt)
+  const mitTermin = releases.map((r) => r.titleId).sort().join()
+  pruefe(mitTermin === '900072,900073,900074', `Termine nur für Titel ohne frische Ankündigung im Sammelartikel: ${mitTermin} (Rayearth-Form 900071 bekommt keinen; die Einzelmeldung 900074 schon)`)
+  pruefe(abgedeckt.length === 1 && abgedeckt[0]!.articleTitle.includes('Rayearth Form'), 'der Eintrag gilt als abgedeckt, nicht als „nicht zugeordnet“')
+  pruefe(releases.find((r) => r.titleId === 900072)?.releaseType === 'batch', 'Gegenprobe: der Sammelweg erzeugt sonst weiter seinen Termin (batch)')
 }
 
 console.log('Bestandswache')
