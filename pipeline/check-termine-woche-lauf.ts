@@ -28,6 +28,8 @@ try {
   cpSync(join(wurzel, 'pipeline', 'termine-pruefen.ts'), join(arbeit, 'pipeline', 'termine-pruefen.ts'))
   cpSync(join(wurzel, 'pipeline', 'lib'), join(arbeit, 'pipeline', 'lib'), { recursive: true })
   cpSync(join(wurzel, 'shared'), join(arbeit, 'shared'), { recursive: true })
+  mkdirSync(join(arbeit, 'pipeline', 'bau'), { recursive: true })
+  cpSync(join(wurzel, 'pipeline', 'bau', 'widerlegung-staffel.ts'), join(arbeit, 'pipeline', 'bau', 'widerlegung-staffel.ts'))
   cpSync(join(wurzel, 'package.json'), join(arbeit, 'package.json'))
   mkdirSync(join(arbeit, 'daniel-zum-abarbeiten', 'listen'), { recursive: true })
   symlinkSync(join(wurzel, 'node_modules'), join(arbeit, 'node_modules'), 'junction')

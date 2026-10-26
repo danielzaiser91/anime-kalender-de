@@ -73,3 +73,12 @@ export function waehleAbrufe<T extends AbrufKandidat>(w: AbrufWahl<T>): T[] {
   const mitAnbieter = frei.filter((k) => (k.t.streams ?? []).length > 0 && (k.t.episodes ?? 0) > 1 && !luecke.includes(k))
   return [...luecke, ...waehleFaellige(mitAnbieter, w.bestand, w.heute, w.alterTage, w.limit)].slice(0, w.limit)
 }
+
+/** Streicht Folgenlisten, deren Kennung nicht mehr die in `tmdb-titles.json` ist (26.10.2026: Titel 161 wechselte 42814 → 21788); der Titel gilt dann als ohne Eintrag und wird neu geholt. */
+export function streicheFremdeKennungen(bestand: Record<string, { tmdbId?: number }>, tmdbTitles: Record<string, { tmdbId?: number }>): string[] {
+  // Fehlt tmdb-titles.json (readJson liefert {}), wäre jede Kennung fremd und der ganze Bestand weg.
+  if (!Object.keys(tmdbTitles).length) return []
+  const fremd = Object.keys(bestand).filter((id) => bestand[id]!.tmdbId !== tmdbTitles[id]?.tmdbId)
+  for (const id of fremd) delete bestand[id]
+  return fremd
+}

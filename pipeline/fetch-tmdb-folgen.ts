@@ -34,7 +34,7 @@ import { loadEnv, fetchJson, log, readJson, sleep, warn, writeJson } from './lib
 import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
-import { dubLuecke, waehleAbrufe, type FolgenDatei } from './lib/tmdb-folgen-luecke.ts'
+import { dubLuecke, streicheFremdeKennungen, waehleAbrufe, type FolgenDatei } from './lib/tmdb-folgen-luecke.ts'
 import { istSerie404, type Vermerk404 } from './lib/tmdb-folgen-404.ts'
 
 const args = process.argv.slice(2)
@@ -131,6 +131,8 @@ async function main(): Promise<void> {
     {},
   )
   const bestand = readJson<Record<string, Eintrag>>('data/tmdb-folgen.json', {})
+  const fremd = streicheFremdeKennungen(bestand, tmdbTitles)
+  if (fremd.length) log(`${fremd.length} Folgenliste(n) mit überholter TMDB-Kennung gestrichen: ${fremd.join(', ')}`)
 
   /*
     Nur Serien mit Verweis, kein Film. Regulär kommen nur Titel mit Anbieter dran (Zuordnungshilfe);
