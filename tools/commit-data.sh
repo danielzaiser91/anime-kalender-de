@@ -419,8 +419,9 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     exit 0
   fi
 
-  # Beleg für den Deploy (tools/logik-beleg.mjs): nur wenn der Inhalt außerhalb der Datenpfade der ist, für den check:logic grün war.
-  BELEG="$(node tools/logik-beleg.mjs zeile "$LOGIK_ABDRUCK" 2>/dev/null)" || BELEG=""
+  # Beleg für den Deploy (tools/logik-beleg.mjs): nur wenn der Inhalt außerhalb der Datenpfade der ist, für den check:logic grün war und der
+  # Commit ihn ganz trägt; die Warnung („nähme nicht mit: …“) kommt auf stderr ins Log.
+  BELEG="$(node tools/logik-beleg.mjs zeile "$LOGIK_ABDRUCK")" || BELEG=""
   git -c user.name="$BOT_NAME" -c user.email="$BOT_MAIL" commit -m "$NACHRICHT" ${BELEG:+-m "$BELEG"} --quiet
 
   # Die Meldung bleibt sichtbar: Am 11.10.2026 scheiterten sechs Pushes bei unbewegtem Fernstand, und ohne Text war nicht zu sagen, ob es ein Wettlauf oder eine Ablehnung (Rechte, Schutzregel) war.

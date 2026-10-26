@@ -73,7 +73,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
     deutscheReihe,
     new Set(releases.map((r) => r.titleId)),
   )
-  schreibeNeuMitSynchro(slim, releases); schreibeFolgenDateien([...titles.values()]); ergaenzeCoverGross(synopses, slim); schreibeSaisonDatei(titles, releases); schreibeAnisearchOffen(slim)
+  schreibeNeuMitSynchro(slim, releases); schreibeFolgenDateien([...titles.values()], releases); ergaenzeCoverGross(synopses, slim); schreibeSaisonDatei(titles, releases); schreibeAnisearchOffen(slim)
   // Synopsen in Gruppen statt in einer Datei.
   //
   // Vorher lag alles in `synopses.json`: 3,8 MB, die beim ersten Öffnen eines
