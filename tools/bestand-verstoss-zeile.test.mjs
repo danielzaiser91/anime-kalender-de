@@ -15,9 +15,7 @@ const lies = (rel) => readFileSync(join(wurzel, rel), 'utf8')
 const stumm = (text) => findeStummeAusgaenge(text).map((s) => s.zeile)
 
 /** Prüfungen ohne eigenen Fehlerausgang, mit Grund. Der Test verlangt, dass sie wirklich keinen haben. */
-const OHNE_AUSGANG = {
-  'tools/cartoon-jw-stichprobe-bestand-pruefen.mjs': 'rot nur durch assert-Wurf: der Stacktrace (Meldung samt Aufrufzeilen) zählt als mehrere Zeilen',
-}
+const OHNE_AUSGANG = {}
 
 // Fälle der Regel (Zeilennummern: erste Zeile = 1).
 assert.deepEqual(stumm('process.exit(1)'), [1], 'nackter Ausgang ist stumm')
@@ -79,8 +77,8 @@ for (const datei of Object.keys(OHNE_AUSGANG)) assert.ok(pruefungen.includes(dat
 // Am echten Skript: ohne seine Fehlerzeilen wird dieselbe Datei stumm.
 const echt = lies('pipeline/check-ja-hat-weg-bestand.ts')
 assert.deepEqual(stumm(echt), [])
-const leise = echt.replaceAll('console.error(', 'void(')
+const leise = echt.replaceAll('console.error(', 'void(').replaceAll('console.log(', 'void(')
 assert.notEqual(leise, echt)
-assert.equal(stumm(leise).length, 1, 'ohne console.error wird der Ausgang von check-ja-hat-weg-bestand stumm')
+assert.equal(stumm(leise).length, 1, 'ohne console.error und console.log wird der Ausgang von check-ja-hat-weg-bestand stumm')
 
 console.log(`bestand-verstoss-zeile.test: grün (${pruefungen.length} Bestandsprüfungen, ${Object.keys(OHNE_AUSGANG).length} Ausnahme)`)
