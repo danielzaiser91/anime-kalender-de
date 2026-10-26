@@ -64,11 +64,13 @@ pruefe('Genau eine erschienene Folge: 1-1', text(deutscheFolgen(titel([netflix])
 pruefe('Zwei Pläne eines Anbieters: der höhere zählt', weg([wochen('netflix', '2026-01-04', 3), wochen('netflix', '2026-10-04', 12)], '2026-10-26').get('netflix') === 4)
 pruefe('Zwei Pläne, der ältere höher: der höhere zählt', weg([wochen('netflix', '2026-01-04', 12), wochen('netflix', '2026-10-18', 12)], '2026-10-26').get('netflix') === 12)
 pruefe('Zwei Anbieter im selben Titel: Komplettdrop deckt voll, Plan nur sein Stück', text(deutscheFolgen(titel([netflix, rtl]), undefined, '2026-10-26', 12, weg([wochen('rtlplus', '2026-10-04', 12)], '2026-10-26'))) === '1-12')
+const nurBeobachtet = wochen('netflix', '2026-10-04', 0, { episodeCount: undefined, observed: { 1: '2026-10-04', 2: '2026-10-11' } })
+pruefe('Plan nur aus beobachteten Terminen (ohne Folgenzahl) zählt', weg([nurBeobachtet], '2026-10-26').get('netflix') === 2)
 pruefe('Kein nicht-TV-Plan, nur Disc: nichts', weg([{ ...drop, releaseType: 'disc' } as Release], '2026-10-26').size === 0)
 
 console.log('\nDeutsche Folgen: der Bau reicht die Pläne durch (Kulisse)')
 /** Startet den Lauf in der Kulisse (`AK_ROOT`) und liest die `de`-Zeile; ein Fehlschlag des Kindprozesses ist ein Fehler des Falls. */
-function lauf(wurzel: string, art: 'mit' | 'ohne'): string {
+function lauf(wurzel: string, art: 'mit' | 'ohne' | 'zukunft'): string {
   const wurzelRepo = join(import.meta.dirname, '..')
   const tsx = createRequire(join(wurzelRepo, 'package.json')).resolve('tsx/cli')
   const r = spawnSync(process.execPath, [tsx, join(wurzelRepo, 'pipeline/lib/kulisse-folgen-erschienen.ts'), art], {
@@ -94,6 +96,8 @@ function kulisse(): void {
     pruefe('Bau: 40 Folgen, 20 ausgespielte Wochen — deutsch 1-20', mit === '[[1,20]]', mit)
     const ohne = lauf(wurzel, 'ohne')
     pruefe('Bau: ohne Plan unverändert 1-40', ohne === '[[1,40]]', ohne)
+    const zukunft = lauf(wurzel, 'zukunft')
+    pruefe('Bau: Plan startet erst 2999 — noch nichts deutsch', zukunft === '[]', zukunft)
   } finally {
     rmSync(wurzel, { recursive: true, force: true })
   }
