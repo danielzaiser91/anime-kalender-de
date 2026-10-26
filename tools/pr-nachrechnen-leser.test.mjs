@@ -68,6 +68,16 @@ for (const [n, ok] of [[LESER_GRENZE, true], [LESER_GRENZE + 1, false]]) {
   pruefe(`${n} Leser -> ${ok ? 'null' : 'Zweifel'}`, ok ? g === null : /41 Leser/.test(g), g)
 }
 
+// Ausführungslisten: Inhalt zählt als Aufruf, die Liste selbst nutzt kein Leser (Anlass: PR 2099 änderte tools/check-logic-liste.txt)
+{
+  const LISTE = 'tools/check-logic-liste.txt'
+  const nenntListe = { ...BAUM, 'tools/check-logic-alle.mjs': `const liste = '${LISTE}'\nconst d = '${F}'\n` }
+  const g = (listenText, leser) => bewegtesGelesen({ bewegt: [F], pr: [LISTE], leser, lies: (p) => (p === LISTE ? listenText : nenntListe[p] ?? null), paketSkripte: null })
+  pruefe('Liste mit unbeteiligten Prüfungen, obwohl ein Leser die Liste nennt -> null', g('# Kopf\npipeline/check-x.ts\n', ['tools/check-logic-alle.mjs']) === null, g('# Kopf\npipeline/check-x.ts\n', ['tools/check-logic-alle.mjs']))
+  pruefe('Liste nimmt eine Prüfung auf, die der Leser ist -> Grund', /ruft pipeline\/bau\/cr\.ts auf/.test(g('# Kopf\npipeline/bau/cr.ts\n', LESER)), g('# Kopf\npipeline/bau/cr.ts\n', LESER))
+  pruefe('Liste: Kommentarzeile mit dem Leser zählt nicht', g('# pipeline/bau/cr.ts\n', LESER) === null)
+}
+
 // package.json zählt nur mit den geänderten Skripten
 pruefe('package.json: geändertes Skript ruft Leser-Skript -> Grund', /ruft pipeline\/bau\/cr\.ts auf/.test(grund(['package.json'], { paketSkripte: 'npx tsx tools/cr-vorschau.ts' })))
 pruefe('package.json: geändertes Skript ohne Leser -> null', grund(['package.json'], { paketSkripte: 'node tools/anderes.mjs' }) === null)

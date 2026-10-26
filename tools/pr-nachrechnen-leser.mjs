@@ -15,8 +15,10 @@ export const ohneLeser = (datei) => OHNE_DATENLESER.some((p) => datei.startsWith
 
 const ENDUNGEN = ['.ts', '.tsx', '.mjs', '.cjs', '.mts', '/index.ts']
 const CODE = /\.(ts|tsx|mjs|cjs|mts)$/
-/** Nur diese Dateien werden gelesen; Daten, Markdown und Bilder bleiben Blätter. */
-export const LESBAR = /\.(ts|tsx|mjs|cjs|mts|js|sh|ya?ml)$/
+/** Ausführungslisten (welche Prüfungen laufen): ihr Inhalt zählt als Aufruf, sie selbst werden von keinem Leser „genutzt“. */
+const LISTE = /-liste\.txt$/
+/** Nur diese Dateien werden gelesen (Skripte, Workflows, Ausführungslisten); Daten, Markdown und Bilder bleiben Blätter. */
+export const LESBAR = /(\.(ts|tsx|mjs|cjs|mts|js|sh|ya?ml)|-liste\.txt)$/
 const PFAD = /(?:^|[^\w./-])((?:\.github|data|public|tools|pipeline|shared|web|worker|extension)\/[\w./@-]*\w)/g
 const KOMMENTAR = /^\s*(\/\/|\*|\/\*|#)/
 
@@ -104,7 +106,7 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, paketSkripte }) {
   const l1 = leser.find((r) => vorwaerts.some((n) => trifft(n, r)))
   if (l1 !== undefined) return `der PR ruft ${l1} auf oder importiert es, das bewegte Daten liest`
   const rueckwaerts = [...huelle(leser, lies)]
-  for (const p of start) {
+  for (const p of start.filter((d) => !LISTE.test(d))) {
     const n = rueckwaerts.find((x) => trifft(x, p) || trifft(p, x))
     if (n !== undefined) return `${p} wird von Code genutzt, der bewegte Daten liest (${n})`
   }
