@@ -56,8 +56,8 @@ assert.deepEqual(
   [],
   'Eintrag in tools/bestand-ohne-marke.json ohne Grund: der Wächter meldet Titel oder kann nicht mehr rot enden, Eintrag streichen',
 )
-// Obergrenze fest eingetragen: sie darf nur sinken (Stand 26.10.2026: 49). Wer einen Wächter ohne Marke einträgt, hebt sie an und muss das im PR begründen.
-assert.ok(stehen.length <= 49, `Liste hat ${stehen.length} Einträge, erlaubt sind höchstens 49`)
+// Obergrenze fest eingetragen: sie darf nur sinken (Stand 26.10.2026: 50, davon der Wächter für interne Angaben mit Begründung). Wer einen Wächter ohne Marke einträgt, hebt sie an und muss das im PR begründen.
+assert.ok(stehen.length <= 50, `Liste hat ${stehen.length} Einträge, erlaubt sind höchstens 50`)
 assert.equal(new Set(stehen).size, stehen.length, 'Eintrag doppelt')
 assert.ok(eintraege.every((e) => typeof e.grund === 'string' && e.grund.length > 10), 'jeder Eintrag hat einen Grund')
 assert.deepEqual([...stehen].sort(), stehen, 'Liste alphabetisch')

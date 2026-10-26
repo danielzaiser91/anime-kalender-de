@@ -29,6 +29,7 @@ pipeline/check-folgentitel-sprache-bestand.ts
 pipeline/check-folgenzahl-kennzeichnung-bestand.ts
 pipeline/check-handlung-eigen-bestand.ts
 pipeline/check-herkunftsland-bestand.ts
+pipeline/check-interne-angaben-bestand.ts
 pipeline/check-ja-hat-weg-bestand.ts
 pipeline/check-jw-vertrauen-bestand.ts
 pipeline/check-kachel-buendel-bestand.ts
