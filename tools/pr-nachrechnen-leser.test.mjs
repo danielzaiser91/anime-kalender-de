@@ -82,6 +82,35 @@ pruefe('geaenderteSkripte: nur der geänderte und neue Wert', geaenderteSkripte(
 pruefe('geaenderteSkripte: unverändert -> leer', geaenderteSkripte(pj({ a: 'x' }), pj({ a: 'x' })) === '')
 pruefe('geaenderteSkripte: kein JSON oder null -> null', geaenderteSkripte('{', pj({})) === null && geaenderteSkripte(null, pj({})) === null)
 
+// Weitere Fälle: jede Ordnerkopf-, Endungs- und Lesegrenze einzeln
+pruefe('pfadTokens: jeder Ordnerkopf zählt', pfadTokens(['.github/a.yml', 'data/a.json', 'public/a', 'tools/a.mjs', 'pipeline/a.ts', 'shared/a.ts', 'web/a.tsx', 'worker/a.ts', 'extension/a.js'].join(' ')).length === 9)
+for (const [ende, ziel] of [['.ts', 'a/b.ts'], ['.tsx', 'a/b.tsx'], ['.mjs', 'a/b.mjs'], ['.cjs', 'a/b.cjs'], ['.mts', 'a/b.mts'], ['/index.ts', 'a/b/index.ts']]) {
+  pruefe(`importZiele: Kandidat ${ende}`, importZiele('a/c.ts', "import './b'").includes(ziel), importZiele('a/c.ts', "import './b'"))
+}
+{
+  const gelesen = []
+  const spaeh = (p) => {
+    gelesen.push(p)
+    return lies(p)
+  }
+  bewegtesGelesen({ bewegt: [F], pr: ['data/curated/a.json', 'web/src/a.css', 'tools/nachbar.mjs', 'data/curated/b.yaml'], leser: LESER, lies: spaeh, paketSkripte: null })
+  pruefe('Daten, Stile und Bilder werden nicht gelesen, Skripte und YAML schon', !gelesen.includes('data/curated/a.json') && !gelesen.includes('web/src/a.css') && gelesen.includes('tools/nachbar.mjs') && gelesen.includes('data/curated/b.yaml'), gelesen)
+}
+{
+  const kreis = (p) => ({ 'tools/a.mjs': "import './b.mjs'\n", 'tools/b.mjs': "import './a.mjs'\n" })[p] ?? null
+  pruefe('Importkreis endet (kein zweites Lesen derselben Datei)', bewegtesGelesen({ bewegt: [F], pr: ['tools/a.mjs'], leser: LESER, lies: kreis, paketSkripte: null }) === null)
+}
+{
+  // Pfad-Tokens folgt nur die Startdatei: Workflow nennt a.mjs (Stufe 1), a.mjs nennt b.mjs (Stufe 2, nicht gefolgt), b.mjs ist Leser.
+  const stufen = (p) => ({ '.github/workflows/w.yml': 'run: node tools/a.mjs\n', 'tools/a.mjs': "spawn('tools/b.mjs')\n", 'tools/b.mjs': `const d = '${F}'\n` })[p] ?? null
+  pruefe('Token der zweiten Stufe werden nicht gefolgt', bewegtesGelesen({ bewegt: [F], pr: ['.github/workflows/w.yml'], leser: ['tools/b.mjs'], lies: stufen, paketSkripte: null }) === null)
+  const importiert = (p) => ({ '.github/workflows/w.yml': 'run: node tools/a.mjs\n', 'tools/a.mjs': "import './b.mjs'\n", 'tools/b.mjs': `const d = '${F}'\n` })[p] ?? null
+  pruefe('Importe der zweiten Stufe werden gefolgt', /ruft tools\/b\.mjs auf/.test(bewegtesGelesen({ bewegt: [F], pr: ['.github/workflows/w.yml'], leser: ['tools/b.mjs'], lies: importiert, paketSkripte: null })))
+}
+pruefe('Nennung nur über den Dateinamen -> Grund', /liest data\/crunchyroll-woche\.json/.test(bewegtesGelesen({ bewegt: [F], pr: ['tools/b.mjs'], leser: [], lies: () => "join(ordner, 'crunchyroll-woche.json')", paketSkripte: null })))
+pruefe('geaenderteSkripte: package.json ohne scripts -> leer', geaenderteSkripte('{}', '{}') === '' && geaenderteSkripte('{}', pj({ a: 'x' })) === 'x')
+pruefe('package.json: Ordner-Token in geändertem Skript trifft den Leser-Ordner', /ruft pipeline\/bau\/cr\.ts auf/.test(grund(['package.json'], { paketSkripte: 'ls pipeline/bau' })))
+
 // Git-Anschluss mit Fake-git: Repo als { main: {...}, kopf: {...} }
 const MAIN = 'a'.repeat(40)
 const KOPF = 'b'.repeat(40)
@@ -91,7 +120,7 @@ const PR_BAUM = { ...BAUM, 'docs/leser.md': `${F}\n`, 'tools/notiz.mjs': '// dat
 {
   const { git, aufrufe } = fakeGit({ main: PR_BAUM, kopf: {} })
   pruefe('suchLeser: Treffer in Code, nicht in Kommentar, nicht in Markdown', suchLeser(git, MAIN, [F]).join() === 'pipeline/bau/cr.ts,.github/workflows/nennt.yml'.split(',').sort().join(), suchLeser(git, MAIN, [F]))
-  pruefe('suchLeser: sucht den Dateinamen, nicht den Pfad', aufrufe[0].includes('-e crunchyroll-woche.json') && !aufrufe[0].includes(`-e ${F}`), aufrufe[0])
+  pruefe('suchLeser: sucht den Dateinamen als Festtext in den Ordnern des Codes', aufrufe[0] === `grep -n -F -e crunchyroll-woche.json ${MAIN} -- pipeline shared tools web worker extension .github`, aufrufe[0])
 }
 {
   const { git } = fakeGit({ main: { 'tools/x.mjs': 'nichts\n' }, kopf: {} })

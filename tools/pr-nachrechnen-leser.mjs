@@ -36,25 +36,29 @@ export function importZiele(datei, text) {
 /** Pfade mit Ordnerkopf im Text außerhalb von Kommentarzeilen. */
 export const pfadTokens = (text) => [...new Set([...ohneKommentare(text).matchAll(PFAD)].map((m) => m[1]))]
 
-const folgen = (datei, text) => [...(CODE.test(datei) ? importZiele(datei, text) : []), ...pfadTokens(text)]
+const importeVon = (datei, text) => (CODE.test(datei) ? importZiele(datei, text) : [])
 
 /** Ein Name trifft eine Datei, wenn er sie selbst oder ihren Ordner meint (Token ohne Endung wie `data/cache`). */
 export const trifft = (name, datei) => datei === name || datei.startsWith(`${name}/`)
 
-/** Alle von `start` aus erreichbaren Namen (Dateien und Pfad-Tokens); `zweifel` gesetzt, wenn die Hülle die Grenze sprengt. */
+/**
+ * Alle von `start` aus erreichbaren Namen (Dateien und Pfad-Tokens); `zweifel` gesetzt, wenn die Hülle die Grenze sprengt. Pfad-Tokens
+ * (Aufrufe, Listen von Dateinamen) folgt nur die Startdatei selbst: Tests und Ausnahmelisten nennen Dutzende Pfade, über mehrere Stufen
+ * wäre jede Hülle zu groß (gemessen 26.10.2026 an PR 2043 und 2099); Importen folgt die Hülle ohne Grenze der Tiefe.
+ */
 export function huelle(start, lies) {
   const namen = new Set(start)
-  const offen = [...start]
+  const offen = start.map((datei) => [datei, true])
   let gelesen = 0
   while (offen.length > 0) {
-    const datei = offen.pop()
+    const [datei, startdatei] = offen.pop()
     const text = LESBAR.test(datei) ? lies(datei) : null
     if (text === null) continue
     if (++gelesen > HUELLE_GRENZE) return { namen, zweifel: `Hülle größer als ${HUELLE_GRENZE} Dateien` }
-    for (const ziel of folgen(datei, text)) {
+    for (const ziel of [...importeVon(datei, text), ...(startdatei ? pfadTokens(text) : [])]) {
       if (namen.has(ziel)) continue
       namen.add(ziel)
-      offen.push(ziel)
+      offen.push([ziel, false])
     }
   }
   return { namen, zweifel: null }

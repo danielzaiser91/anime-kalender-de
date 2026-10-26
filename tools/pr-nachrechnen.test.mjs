@@ -392,6 +392,12 @@ function prozess(daten, argv) {
   pruefe('Prozess: nur Daten bewegt -> Exit 0, Zeile auf stdout, nichts geschlossen', r.status === 0 && /seitdem nur Daten bewegt/.test(r.aus) && schreibend(args).length === 0, { status: r.status, aus: r.aus, args })
 }
 {
+  // Ohne eingespeisten Leser läuft der echte Git-Anschluss; die Attrappe kennt kein git -> „nicht ermittelbar“, im Zweifel veraltet.
+  const r = prozess(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: BOTS, prDateien: '.github/workflows/w.yml\n' }), ['7'])
+  const args = r.aufrufe.map(([befehl, a]) => `${befehl} ${a.join(' ')}`)
+  pruefe('Prozess: Bot-Sprung ohne eingespeisten Leser -> echter Anschluss ruft git, Exit 1 mit Grund', r.status === 1 && args.some((a) => a.startsWith('git fetch -q origin refs/pull/7/head')) && /Leser nicht ermittelbar/.test(r.aus), { status: r.status, aus: r.aus, args })
+}
+{
   const r = prozess(antworten({ mainSha: MAIN, mainDateien: [...DATEN_MAIN, 'tools/umfang-grenzen.json'] }), ['7'])
   pruefe('Prozess: auch umfang-grenzen.json bewegt -> Exit 1', r.status === 1, r)
 }
