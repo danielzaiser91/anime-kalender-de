@@ -5,6 +5,9 @@
  */
 const PFLEGE = /daniel|zaiser/i
 
+/** Dateien, in denen das Feld `note` (interne Notiz) nie vorkommen darf, auch ohne Namen im Text. */
+const NOTIZ_DATEIEN = /^(releases|woche|woche-kacheln)\.json$/
+
 interface Ausnahme {
   /** Dateipfad unter `public/data`, mit `/`. */
   datei: RegExp
@@ -36,7 +39,10 @@ export function interneAngaben(datei: string, wert: unknown, feld = '(wurzel)'):
   }
   if (Array.isArray(wert)) return wert.flatMap((v) => interneAngaben(datei, v, feld))
   if (wert && typeof wert === 'object') {
-    return Object.entries(wert).flatMap(([k, v]) => interneAngaben(datei, v, /^\d+$/.test(k) ? feld : k))
+    return Object.entries(wert).flatMap(([k, v]) => {
+      if (k === 'note' && NOTIZ_DATEIEN.test(datei)) return [`${datei} :: note :: Feld der internen Notiz`]
+      return interneAngaben(datei, v, /^\d+$/.test(k) ? feld : k)
+    })
   }
   return []
 }
