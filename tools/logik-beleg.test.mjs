@@ -118,7 +118,7 @@ const abdruckIn = (ordner) => {
   gleich(main(['zeile', gruen], r.ordner, (z) => zeile.push(z)), 0, 'zeile: Exit 0')
   gleich(zeile, [belegZeile(gruen)], 'zeile druckt bei gleichem Abdruck die Beleg-Zeile')
   const keine = []
-  main(['zeile', 'c'.repeat(64)], r.ordner, (z) => keine.push(z))
+  gleich(main(['zeile', 'c'.repeat(64)], r.ordner, (z) => keine.push(z)), 0, 'zeile: auch bei fremdem Abdruck Exit 0 (Commit nie blockieren)')
   gleich(keine, [], 'zeile druckt bei fremdem Abdruck nichts')
   main(['zeile', ''], r.ordner, (z) => keine.push(z))
   gleich(keine, [], 'zeile druckt bei leerem Abdruck nichts')

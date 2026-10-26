@@ -50,7 +50,7 @@ export function belegt(commits, abdruck) {
 }
 
 function letzteCommits(anzahl, cwd) {
-  const roh = git(['log', `-${anzahl}`, '--first-parent', '--format=%ae%x00%B%x01'], { cwd })
+  const roh = git(['log', `-${anzahl}`, '--format=%ae%x00%B%x01'], { cwd })
   return roh.split('\x01').map((s) => s.replace(/^\n/, '')).filter(Boolean).map((s) => {
     const [email, ...rest] = s.split('\0')
     return { email, nachricht: rest.join('\0') }
