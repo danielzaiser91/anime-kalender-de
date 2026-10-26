@@ -5,7 +5,6 @@ import type { Dataset } from '../../src/lib/data.ts'
 import { loadAllTitles, loadOhneSynchro, loadSynonyme, synonymeFuer } from '../../src/lib/data.ts'
 import { filterTitles, type FilterState } from '../../src/lib/filters.ts'
 import { titelQuelle } from '../../src/lib/titel-quelle.ts'
-import { useDatensatz } from '../ausschnitte/datensatz.ts'
 import { findeBlockade, type Blockade } from './suchhinweis-filter.ts'
 import { nurMitSchalter, passtGenau, zaehleZusatz, type ZusatzTreffer } from './suchhinweis-zaehlen.ts'
 
@@ -32,7 +31,7 @@ function berechne(data: Dataset, alle: Title[] | undefined, ohne: Title[] | unde
  * (Ladeweg der echten Umsetzung: siehe Bericht); solange sie fehlt oder die Suche nicht zur Zahl passt, kommt `undefined`.
  */
 export function useSuchhinweis(stand: HinweisStand | undefined): Suchhinweis | undefined {
-  const data = useDatensatz()
+  const data = useHinweisDaten()
   const [fertig, setFertig] = useState<{ stand: HinweisStand; hinweis: Suchhinweis }>()
   const suche = stand?.suche ?? ''
   useEffect(() => {
@@ -75,6 +74,28 @@ export function useHinweisStand(): HinweisStand | undefined {
       return () => hoerer.delete(h)
     },
     () => aktuell,
+  )
+}
+
+let appDaten: Dataset | undefined
+
+/**
+ * Der Datensatz der laufenden App (das Raster der Datenbank trägt ihn ein). Ein eigener `loadDataset()` wäre ein zweiter Datensatz:
+ * `loadOhneSynchro` füllt nur den Index seines ersten Aufrufers, und das Panel der App fände die Titel ohne Synchro nicht („keine Metadaten“).
+ */
+export function merkeDaten(data: Dataset): void {
+  if (appDaten === data) return
+  appDaten = data
+  hoerer.forEach((h) => h())
+}
+
+export function useHinweisDaten(): Dataset | undefined {
+  return useSyncExternalStore(
+    (h) => {
+      hoerer.add(h)
+      return () => hoerer.delete(h)
+    },
+    () => appDaten,
   )
 }
 

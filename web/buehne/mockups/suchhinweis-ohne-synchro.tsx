@@ -1,5 +1,5 @@
 import { mockup } from '../register.ts'
-import { KopfMitZeile, KopfOhneHinweis, KopfzeileMitHinweis } from './suchhinweis-teile.tsx'
+import { KopfOhneHinweis, KopfzeileMitHinweis, LeerMitHinweis, RasterMitDaten } from './suchhinweis-teile.tsx'
 
 const IPPO = 'Hajime no Ippo: The Fighting!'
 
@@ -24,12 +24,8 @@ mockup({
   },
   varianten: {
     A: {
-      ersatz: { DbKopfbereich: KopfOhneHinweis, DbKopfzeile: KopfzeileMitHinweis },
-      notiz: 'Hinweis in derselben Zeile wie „0 Ergebnisse für …“: Treffer ohne Synchro, davon exakt; verstecken Filter den exakten Treffer, nennt die Zeile sie und der Knopf „Filter entfernen“ löst genau diese.',
-    },
-    B: {
-      ersatz: { DbKopfbereich: KopfMitZeile },
-      notiz: 'Derselbe Hinweis als eigene Zeile direkt unter der Zählzeile.',
+      ersatz: { DbKopfbereich: KopfOhneHinweis, DbKopfzeile: KopfzeileMitHinweis, DbRaster: RasterMitDaten, DbLeer: LeerMitHinweis },
+      notiz: 'Hinweis in derselben Zeile wie „0 Ergebnisse für …“, getrennt durch „·“: Treffer ohne Synchro, davon exakt; verstecken Filter den exakten Treffer, nennt die Zeile sie und der Knopf „Filter entfernen“ löst genau diese. Der alte Knopf „Auch Anime ohne deutsche Synchro zeigen“ entfällt, solange der Hinweis steht.',
     },
   },
 })

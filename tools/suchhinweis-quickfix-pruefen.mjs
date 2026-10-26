@@ -30,6 +30,8 @@ async function pruefeFall(seite, variante, fall, { knopf, text, synchro }) {
   assert.equal(await ergebnisse(seite), 0, `${variante}/${fall}: vorher 0 Ergebnisse`)
   const hinweis = await seite.locator(HINWEIS).first().innerText()
   assert.match(hinweis, text, `${variante}/${fall}: Text des Hinweises: ${hinweis}`)
+  assert.match(hinweis, /^·\s/, `${variante}/${fall}: Trenner „·“ vor dem Hinweis: ${hinweis}`)
+  assert.doesNotMatch(await seite.locator('body').innerText(), /Auch Anime ohne deutsche Synchro zeigen/, `${variante}/${fall}: alter Knopf entfällt`)
   assert.equal(await seite.locator(HINWEIS).first().getByRole('button').innerText(), knopf, `${variante}/${fall}: Knopf`)
   assert.equal(await synchroAn(seite), false, `${variante}/${fall}: Synchro-Schalter vorher aus`)
   await seite.locator(HINWEIS).first().getByRole('button').click()
@@ -44,7 +46,7 @@ async function main() {
   const { browser, seite, fremde } = await starteBuehne()
   try {
     await seite.setViewportSize({ width: 1200, height: 900 })
-    for (const v of ['A', 'B']) {
+    for (const v of ['A']) {
       await pruefeFall(seite, v, 'hajime-no-ippo-jahr', { knopf: 'Filter entfernen', text: /Jahr 2003, ohne deutsche Synchro/, synchro: true })
       await pruefeFall(seite, v, 'tokyo-revengers-jahr', { knopf: 'Filter entfernen', text: /durch: Jahr 2019$/m, synchro: false })
       await pruefeFall(seite, v, 'hajime-no-ippo', { knopf: 'Anzeigen', text: /6 Treffer ohne Synchro, davon 1 exakt/, synchro: true })
@@ -53,7 +55,7 @@ async function main() {
     await browser.close()
   }
   assert.equal(fremde.length, 0, `Anfragen nach draußen: ${fremde[0]}`)
-  console.log('suchhinweis-quickfix-pruefen: ok (3 Fälle × Varianten A und B)')
+  console.log('suchhinweis-quickfix-pruefen: ok (3 Fälle, Variante A)')
 }
 
 await main()
