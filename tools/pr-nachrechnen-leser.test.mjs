@@ -5,7 +5,7 @@
  */
 import { attrappe } from './pr-nachrechnen-leser-attrappe.mjs'
 import { SUCHORDNER, gitLeser, inhalte } from './pr-nachrechnen-leser-git.mjs'
-import { LESER_GRENZE, bewegtesGelesen, geaenderteSkripte, importZiele, leserIn, ohneKommentare, ohneLeser, pfadTokens, trifft } from './pr-nachrechnen-leser.mjs'
+import { bewegtesGelesen, geaenderteSkripte, importZiele, leserIn, ohneKommentare, ohneLeser, pfadTokens, trifft } from './pr-nachrechnen-leser.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -63,10 +63,6 @@ const kette = (n) => (p) => {
 pruefe('Importkette über 300 Dateien bis zum Leser -> Grund', /ruft tools\/k299\.mjs auf/.test(bewegtesGelesen({ bewegt: [F], pr: ['tools/k0.mjs'], leser: ['tools/k299.mjs'], lies: kette(300), paketSkripte: null })))
 pruefe('Importkette über 300 Dateien ohne Leser -> null', bewegtesGelesen({ bewegt: [F], pr: ['tools/k0.mjs'], leser: ['tools/fern.mjs'], lies: kette(300), paketSkripte: null }) === null)
 pruefe('Rückrichtung über 300 Dateien: Leser am Anfang, PR-Datei am Ende -> Grund', /tools\/k299\.mjs wird von Code genutzt/.test(bewegtesGelesen({ bewegt: [F], pr: ['tools/k299.mjs'], leser: ['tools/k0.mjs'], lies: kette(300), paketSkripte: null })))
-for (const [n, ok] of [[LESER_GRENZE, true], [LESER_GRENZE + 1, false]]) {
-  const g = bewegtesGelesen({ bewegt: [F], pr: ['tools/nachbar.mjs'], leser: Array.from({ length: n }, (_, i) => `pipeline/l${i}.ts`), lies, paketSkripte: null })
-  pruefe(`${n} Leser -> ${ok ? 'null' : 'Zweifel'}`, ok ? g === null : /41 Leser/.test(g), g)
-}
 
 // Ausführungslisten: Inhalt zählt als Aufruf, die Liste selbst nutzt kein Leser (Anlass: PR 2099 änderte tools/check-logic-liste.txt)
 {

@@ -3,12 +3,11 @@
  * jede Datei außer Doku als „liest Daten“ galt). Ein Bot-Sprung entwertet einen PR nur, wenn er eine bewegte Datei berührt oder Code,
  * der sie liest, mit dem Code des PR zusammenhängt: der PR ruft den Leser auf bzw. importiert ihn, oder der Leser nutzt eine Datei des PR.
  * Verknüpfung (`huelle`): relative Importe, Pfade mit Ordnerkopf im Text (Aufrufe wie `node tools/x.mjs`, Daten-Literale). `npm run`
- * wird nicht aufgelöst; `package.json` zählt nur mit den Skripten, deren Wert der PR ändert. Im Zweifel (zu viele Leser, Git nicht lesbar)
+ * wird nicht aufgelöst; `package.json` zählt nur mit den Skripten, deren Wert der PR ändert. Im Zweifel (Git nicht lesbar, package.json nicht vergleichbar)
  * gilt der PR als betroffen. Grenze: ein zur Laufzeit zusammengesetzter Pfad fällt nicht auf.
  */
 import path from 'node:path'
 
-export const LESER_GRENZE = 40
 /** PR-Pfade ohne Leser in der Kette (Doku, Daniel-Dateien, Patch Notes, Markdown im Wurzelordner). */
 export const OHNE_DATENLESER = ['docs/', 'daniel-zum-abarbeiten/', 'data/patchnotes/']
 export const ohneLeser = (datei) => OHNE_DATENLESER.some((p) => datei.startsWith(p)) || /^[^/]+\.md$/.test(datei)
@@ -101,7 +100,6 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, paketSkripte }) {
     const b = text === null ? undefined : bewegt.find((x) => nennt(text, x))
     if (b !== undefined) return `der PR liest ${b} (${p})`
   }
-  if (leser.length > LESER_GRENZE) return `${leser.length} Leser der bewegten Dateien, mehr als ${LESER_GRENZE}`
   const vorwaerts = [...huelle(start, lies)]
   const l1 = leser.find((r) => vorwaerts.some((n) => trifft(n, r)))
   if (l1 !== undefined) return `der PR ruft ${l1} auf oder importiert es, das bewegte Daten liest`
