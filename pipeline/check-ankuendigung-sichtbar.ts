@@ -59,6 +59,8 @@ console.log('ausgestrahltOhneBeleg: Ankündigung schlägt den Katalog, bis sie a
   pruefe(ausgestrahltOhneBeleg(titel(900010, ank('2026-10-08', 'offen')), '2026-10-26'), 'Gegenprobe: Ankündigung ohne Synchro-Aussage schützt nicht')
   pruefe(!ausgestrahltOhneBeleg(titel(900010, ank('2026-10-08'), { streams: [] } as Partial<Title>), '2026-12-08'), 'bisherige Regeln bleiben: ohne Weg nie verschoben')
   pruefe(!ausgestrahltOhneBeleg(titel(900010, ank('2026-10-08'), { jpYear: 2019 } as Partial<Title>), '2026-12-08'), 'bisherige Regeln bleiben: vor 2023 nie verschoben')
+  pruefe(ausgestrahltOhneBeleg(titel(900010, undefined, { jpYear: 2023 } as Partial<Title>), '2026-10-26'), 'bisherige Grenze: 2023 wird verschoben')
+  pruefe(!ausgestrahltOhneBeleg(titel(900010, undefined, { jpYear: 2022 } as Partial<Title>), '2026-10-26'), 'bisherige Grenze: 2022 bleibt')
   setzeMarkenFuerPruefung(undefined)
 }
 
@@ -85,6 +87,7 @@ console.log('Bestandswache')
   const treffer = versteckteFrischeAnkuendigungen([a, b, c], '2026-10-26')
   pruefe(treffer.length === 1 && treffer[0]!.id === 900021, 'nur der frische Titel')
   pruefe(versteckteWarnzeile([]) === undefined, 'keine Warnzeile ohne Treffer')
+  pruefe(/2 Titel .*: 900021 Frisch; 900024 Zweiter$/.test(versteckteWarnzeile([a, titel(900024, ank('2026-10-08'), { titleEn: 'Zweiter' } as Partial<Title>)]) ?? ''), 'zwei Titel, mit „; “ getrennt')
   pruefe(/^ {2}⚠ WARNUNG Ankündigung: 1 Titel .*: 900021 Frisch$/.test(versteckteWarnzeile(treffer) ?? ''), versteckteWarnzeile(treffer) ?? '')
 
   // Als Prozess gegen einen Wegwerf-Ordner (Datei unter dem Namen, den die Wache liest).
