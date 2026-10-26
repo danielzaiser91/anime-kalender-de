@@ -58,5 +58,26 @@ const news = baueNews([t], [release(900005, 'crunchyroll')], [], [], { zuerst: {
 const omu = news.flatMap((e) => e.meldungen.filter((m) => m.omu).map((m) => ({ am: e.am, quelle: m.quelle })))
 pruefe('baueNews: Meldung „Synchro angekündigt" am Tag der Quelle trotz Release des Anbieters', omu.length === 1 && omu[0]!.am === stand && !!omu[0]!.quelle, omu)
 
+/*
+  Nach dem Beschnitt (PR 2131 R1): Mit voller Liste schnitt die 400er-Grenze die Ankündigungen ab (Rayearth, 15.09., und sechs ältere Meldungen
+  fielen heraus). 410 jüngere Füller drücken die Ankündigungen hinter Platz 400; frische bleiben, abgelaufene (60 Tage nach Start) dürfen fallen.
+*/
+const heute = todayIso()
+const fueller = Array.from({ length: 410 }, (_, i) =>
+  titel(910000 + i, { ...a('offen'), omuAb: addDays(heute, 5), stand: addDays(heute, -1 - (i % 50)) }),
+)
+const alt = addDays(heute, -110)
+const frisch = [
+  titel(920001, { ...a('angekuendigt'), omuAb: addDays(heute, 5), stand: alt }),
+  titel(920002, { ...a('angekuendigt'), omuAb: addDays(heute, -60), stand: alt }),
+]
+const abgelaufen = titel(920003, { ...a('angekuendigt'), omuAb: addDays(heute, -61), stand: alt })
+const voll = baueNews([...fueller, ...frisch, abgelaufen], [], [], [], { zuerst: {} })
+const hat = (id: number): boolean => voll.some((e) => e.meldungen.some((m) => m.omu === 'synchro-angekuendigt' && e.slug === `t-${id}`))
+pruefe('Die Liste ist über der Grenze (Wächter nicht blind)', voll.length > 400, voll.length)
+pruefe('Beschnitt: frische angekündigte Synchro, Start in der Zukunft, bleibt trotz voller Liste', hat(920001))
+pruefe('Beschnitt: frische angekündigte Synchro, Start vor 60 Tagen (letzter Tag), bleibt trotz voller Liste', hat(920002))
+pruefe('Beschnitt: abgelaufene Ankündigung (61 Tage nach Start) fällt wie jede andere Meldung', !hat(920003))
+
 console.log(verletzt === 0 ? '\nAnkündigungs-Meldung: alle Zusicherungen halten.' : `\nAnkündigungs-Meldung: ${verletzt} Zusicherung(en) verletzt.`)
 process.exit(verletzt === 0 ? 0 : 1)

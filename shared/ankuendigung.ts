@@ -8,7 +8,7 @@
  */
 import type { Release, StreamLink, Title } from './types.ts'
 import { PLATFORMS } from './types.ts'
-import { formatDate, monthName, todayIso } from './time.ts'
+import { diffDays, formatDate, monthName, todayIso } from './time.ts'
 
 type Ankuendigung = NonNullable<Title['ankuendigung']>
 
@@ -30,6 +30,15 @@ export function omuStartText(omuAb: string): string {
 /** Letzter Tag, an dem der Start noch bevorsteht: der Tag selbst, bei einem Monat sein Ende. */
 export function omuLetzterTag(omuAb: string): string {
   return nurMonat(omuAb) ? `${omuAb}-31` : omuAb
+}
+
+/** Tage nach `omuAb`, in denen eine Synchro-Ankündigung des Anbieters gilt, auch wenn dessen Katalog noch keine deutsche Tonspur führt. */
+export const ANKUENDIGUNG_FRIST_TAGE = 60
+
+/** Gilt die Synchro-Ankündigung mit Start `omuAb` an `heute` noch? Bei nur genanntem Monat zählt dessen erster Tag. */
+export function ankuendigungFrisch(omuAb: string, heute: string): boolean {
+  const tag = nurMonat(omuAb) ? `${omuAb}-01` : omuAb
+  return diffDays(tag, heute) <= ANKUENDIGUNG_FRIST_TAGE
 }
 
 /**
