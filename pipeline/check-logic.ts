@@ -8012,7 +8012,7 @@ console.log('\nOmU-Meldung:')
   pruefe('Pille: Anbieter des Simulcasts ohne belegte Synchro = OmU', streamNurOmu(monat, crOhne))
   pruefe('Pille: belegte Synchro, anderer Anbieter oder kein Simulcast = keine OmU-Marke', !streamNurOmu(monat, crDub) && !streamNurOmu(monat, prime) && !streamNurOmu({ id: 1 } as never, crOhne))
   const rel = { titleId: 7, platform: 'crunchyroll', schedule: { firstEpisodeDate: '2026-10-11' } } as never
-  pruefe('OmU: gibt es ein Release desselben Anbieters, entfällt die Meldung', omuMeldungen([titel], [rel]).length === 0)
+  pruefe('OmU: gibt es ein Release desselben Anbieters, entfällt „Synchro offen"', omuMeldungen([titel], [rel]).length === 0)
   /* Der Bau legt `ankuendigung` erst beim Schreiben an den Titel — die Meldung muss sie selbst nachschlagen (Beerus, 04.10.2026). */
   const ohneFeld = { id: 9 } as never
   const aus = omuMeldungen([ohneFeld], [], new Map([[9, { platform: 'crunchyroll', omuAb: '2026-10-11', synchro: 'angekuendigt', quellen: ['https://x'], stand: '2026-10-01' } as never]]))

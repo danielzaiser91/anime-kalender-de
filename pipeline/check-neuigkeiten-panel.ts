@@ -53,6 +53,17 @@ pruefe(
   ).length === 1,
 )
 
+/* Magic Knight Rayearth (26.10.2026): Meldung wörtlich wie in news.json — Start des Originaltons am 07.10. vorbei, Release hängt nicht dran. */
+const rayearth = (omu: string | undefined, datum = '2026-10-07'): NewsEintrag[] =>
+  [{ am: '2026-09-15', titelId: 178868, meldungen: [{ art: 'angekuendigt', platform: 'crunchyroll', datum, ...(omu ? { omu } : {}) }] }] as unknown as NewsEintrag[]
+const rayearthZeilen = (heute: string, omu: string | undefined = 'synchro-angekuendigt', datum?: string) => meldungenImPanel(rayearth(omu, datum), 178868, heute).length
+pruefe('angekündigte Synchro: bleibt nach dem Start des Originaltons', rayearthZeilen('2026-10-26') === 1)
+pruefe('angekündigte Synchro: letzter Tag der Frist (60 Tage nach Start) bleibt', rayearthZeilen('2026-12-06') === 1)
+pruefe('angekündigte Synchro: 61 Tage nach Start fällt weg', rayearthZeilen('2026-12-07') === 0)
+pruefe('angekündigte Synchro mit nur genanntem Monat: bleibt in der Frist, fällt danach weg', rayearthZeilen('2026-11-30', 'synchro-angekuendigt', '2026-10') === 1 && rayearthZeilen('2026-12-01', 'synchro-angekuendigt', '2026-10') === 0)
+pruefe('Synchro offen (Start vorbei): fällt weg', rayearthZeilen('2026-10-26', 'synchro-offen') === 0)
+pruefe('Termin-Meldung ohne Kennzeichen (Start vorbei): fällt weg', rayearthZeilen('2026-10-26', '') === 0)
+
 if (fehler) {
   console.error(`check-neuigkeiten-panel: ${fehler} Fehler`)
   process.exit(1)
