@@ -31,7 +31,7 @@ const dateien: Record<number, unknown> = { 900001: mitLuecke, 900002: ohneLuecke
 const tmdbTitles = Object.fromEntries(katalog.filter((t) => t.id !== 900005).map((t) => [String(t.id), { tmdbId: t.id - 899000, kind: t.id === 900004 ? 'movie' : 'tv' }]))
 const bestand = { 900003: { tmdbId: 1003, geholtAm: '2026-10-20', staffeln: 1, folgen: [{ s: 1, e: 1, titel: 'Der Anfang', en: 'Ep 1', datum: '2026-08-20', minuten: 24 }] }, 900008: { tmdbId: 1008, geholtAm: '2026-10-14', staffeln: 1, folgen: [] } }
 
-function lauf(argumente: string[]): { abrufe: string; status: number | null; fehler: string } {
+function lauf(argumente: string[], start: Record<string, unknown> = bestand): { abrufe: string; status: number | null; fehler: string; nachher: Record<string, { tmdbId?: number }> } {
   const kulisse = mkdtempSync(join(tmpdir(), 'tmdb-folgen-luecke-'))
   const schreibe = (pfad: string, inhalt: unknown): void => {
     mkdirSync(dirname(join(kulisse, pfad)), { recursive: true })
@@ -41,7 +41,7 @@ function lauf(argumente: string[]): { abrufe: string; status: number | null; feh
     schreibe('public/data/titles.json', katalog)
     for (const [id, d] of Object.entries(dateien)) schreibe(`public/data/folgen/${id}.json`, d)
     schreibe('data/tmdb-titles.json', tmdbTitles)
-    schreibe('data/tmdb-folgen.json', bestand)
+    schreibe('data/tmdb-folgen.json', start)
     writeFileSync(join(kulisse, 'abrufe.txt'), '')
     const r = spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'pipeline/fetch-tmdb-folgen.ts'), ...argumente], {
       cwd: wurzel,
@@ -49,7 +49,8 @@ function lauf(argumente: string[]): { abrufe: string; status: number | null; feh
       env: { ...process.env, AK_ROOT: kulisse, TMDB_API_KEY: 'test' },
     })
     const abrufe = readFileSync(join(kulisse, 'abrufe.txt'), 'utf8').trim().split('\n').join(',')
-    return { abrufe, status: r.status, fehler: r.stderr.slice(-300) }
+    const nachher = r.status === 0 ? JSON.parse(readFileSync(join(kulisse, 'data/tmdb-folgen.json'), 'utf8')) : {}
+    return { abrufe, status: r.status, fehler: r.stderr.slice(-300), nachher }
   } finally {
     rmSync(kulisse, { recursive: true, force: true })
   }
@@ -67,8 +68,13 @@ for (const [name, argumente, erwartet] of faelle) {
   if (e.status !== 0) fehler.push(`${name}: Lauf endet mit ${e.status}: ${e.fehler}`)
   else if (e.abrufe !== erwartet) fehler.push(`${name}: Abrufe ${e.abrufe}, erwartet ${erwartet}`)
 }
+// Überholte Kennung: 900008 trägt im Bestand 4242, tmdb-titles sagt 1008. Ohne Streichen bliebe der 10 Tage alte Eintrag stehen.
+const ueberholt = lauf(['--limit', '5'], { ...bestand, 900008: { ...bestand[900008], tmdbId: 4242 } })
+if (ueberholt.status !== 0) fehler.push(`überholte Kennung: Lauf endet mit ${ueberholt.status}: ${ueberholt.fehler}`)
+else if (ueberholt.abrufe !== '1001,1009,1010,1007,1008') fehler.push(`überholte Kennung: Abrufe ${ueberholt.abrufe}, erwartet 1001,1009,1010,1007,1008`)
+else if (ueberholt.nachher['900008']?.tmdbId !== 1008) fehler.push(`überholte Kennung: Bestand 900008 trägt ${ueberholt.nachher['900008']?.tmdbId}, erwartet 1008`)
 if (fehler.length) {
   console.error(`FEHL check-tmdb-folgen-luecke-lauf: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-tmdb-folgen-luecke-lauf: nur der Lückentitel ohne Anbieter wird geholt (Probelauf, regulär, Limit 1); Film, Eintrag, Ein-Folgen-Titel und fehlender Verweis bleiben draußen.')
+console.log('check-tmdb-folgen-luecke-lauf: nur der Lückentitel ohne Anbieter wird geholt (Probelauf, regulär, Limit 1); Film, Eintrag, Ein-Folgen-Titel und fehlender Verweis bleiben draußen; eine überholte Kennung wird gestrichen und neu geholt.')

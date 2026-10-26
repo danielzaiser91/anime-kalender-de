@@ -68,8 +68,9 @@ export function wochenTage(von) {
   return [tag(0), tag(14), tag(42)]
 }
 
-/** Die Kachel-Datei behält von jeder Sendung nur `start` (`releaseKachel`). */
-const sendungFeldWeg = (pfad) => pfad.startsWith('release.sendungen.') && pfad.slice('release.sendungen.'.length).split('.')[0] !== 'start'
+/** Die Kachel-Datei behält von jeder Sendung `start` und `ende` (`releaseKachel`; `tvZuletzt` liest beide). */
+const SENDUNG_BLEIBT = ['start', 'ende']
+const sendungFeldWeg = (pfad) => pfad.startsWith('release.sendungen.') && !SENDUNG_BLEIBT.includes(pfad.slice('release.sendungen.'.length).split('.')[0])
 
 /** Gelesene Pfade, die auf einer Abzugsliste stehen (`title.titleDe`, `title.streams.url`, `release.sources` …). */
 export function verlorene(pfade) {
