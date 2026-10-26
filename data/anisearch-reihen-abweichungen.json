@@ -2,46 +2,46 @@
   "stand": "2026-10-26",
   "deckung": {
     "titel": 20660,
-    "mitSeite": 16322,
-    "ohneSeite": 11,
+    "mitSeite": 16325,
+    "ohneSeite": 8,
     "ohneAnisearchKennung": 3056,
     "ohneReferenz": 1271,
-    "seitenImArchiv": 17520,
-    "kanten": 18600
+    "seitenImArchiv": 17523,
+    "kanten": 18602
   },
   "gesamt": {
-    "titel": 16322,
-    "gleich": 14009,
+    "titel": 16325,
+    "gleich": 13984,
     "fehlen": 902,
-    "zusaetzlich": 1294,
+    "zusaetzlich": 1322,
     "gemischt": 117
   },
   "hauptbestand": {
-    "titel": 2877,
-    "gleich": 2309,
+    "titel": 2876,
+    "gleich": 2287,
     "fehlen": 328,
-    "zusaetzlich": 224,
+    "zusaetzlich": 245,
     "gemischt": 16
   },
   "haelfteA": {
-    "titel": 7454,
+    "titel": 7455,
     "gleich": 6323,
     "fehlen": 314,
-    "zusaetzlich": 707,
+    "zusaetzlich": 708,
     "gemischt": 110
   },
   "haelfteB": {
-    "titel": 8868,
-    "gleich": 7686,
+    "titel": 8870,
+    "gleich": 7661,
     "fehlen": 588,
-    "zusaetzlich": 587,
+    "zusaetzlich": 614,
     "gemischt": 7
   },
   "cluster": {
-    "einzel": 5745,
-    "gleich": 2453,
+    "einzel": 5746,
+    "gleich": 2452,
     "zerlegt": 102,
-    "verschmilzt": 104,
+    "verschmilzt": 105,
     "gemischt": 10
   },
   "beispiele": {
@@ -252,6 +252,13 @@
         "anisearch": 1
       },
       {
+        "id": 43,
+        "name": "GHOST IN THE SHELL: Koukaku Kidoutai",
+        "titel": 28,
+        "referenz": 2,
+        "anisearch": 1
+      },
+      {
         "id": 9883,
         "name": "Osomatsu-kun (1988)",
         "titel": 25,
@@ -319,13 +326,6 @@
         "name": "Monster Strike",
         "titel": 19,
         "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 87435,
-        "name": "BanG Dream!",
-        "titel": 19,
-        "referenz": 4,
         "anisearch": 1
       }
     ],

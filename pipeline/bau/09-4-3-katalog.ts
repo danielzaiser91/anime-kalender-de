@@ -7,6 +7,7 @@ import { type EntfernterVerweis } from './grundlagen.ts'
 import { serienBesitz, istFremd, entferneFremdeCrWege, entferneFremdeNachStaffeln } from './cr-serie-geteilt.ts'
 import { vorDemStart } from '../lib/crunchyroll-vollstaendig.ts'
 import { neinUeberholtMitLog, serienNachKennung, type OffenerBefund } from '../lib/cr-nein-ueberholt.ts'
+import { katalogSerieIstEinWerk } from '../lib/cr-katalog-ein-werk.ts'
 
 export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
   titles: Map<number, Title>
@@ -228,7 +229,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
               das nicht — für sie bleibt der Verweis offen, bis der Prüflauf je
               Folge antwortet.
             */
-            if ((eintrag.staffeln ?? 0) !== 1 || vorDemStart(title, katalog.geholtAm) || istFremd(besitz, kennung, title.id, eintrag.folgen)) continue
+            if (!katalogSerieIstEinWerk(crDub, kennung, eintrag, title) || vorDemStart(title, katalog.geholtAm) || istFremd(besitz, kennung, title.id, eintrag.folgen)) continue
             stream.dub = (eintrag.audio ?? []).includes('de-DE')
             ausKennung++
           }
@@ -275,7 +276,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
             const kennung = /\/series\/([A-Z0-9]+)/.exec(stream.url)?.[1]
             if (!kennung) continue
             const eintrag = nachKennung.get(kennung)
-            if (!eintrag?.folgen || (eintrag.staffeln ?? 0) !== 1 || vorDemStart(title, katalogStand) || istFremd(besitz, kennung, title.id, eintrag.folgen)) continue
+            if (!eintrag?.folgen || !katalogSerieIstEinWerk(crDub, kennung, eintrag, title) || vorDemStart(title, katalogStand) || istFremd(besitz, kennung, title.id, eintrag.folgen)) continue
             if (!(eintrag.audio ?? []).includes('de-DE')) continue
             if (hinterDemEnde(kennung, title)) continue
             /* Nur wenn der Katalog wirklich jünger ist als die Messung, die das Nein trug. */

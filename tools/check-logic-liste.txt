@@ -64,6 +64,7 @@ pipeline/check-cover-quelle.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
 pipeline/check-cr-ja-deckung.ts
+pipeline/check-cr-katalog-ein-werk.ts
 pipeline/check-cr-komplettabwurf.ts
 pipeline/check-cr-nein-ueberholt.ts
 pipeline/check-cr-nein-verdrahtung.ts
@@ -283,6 +284,7 @@ pipeline/check-urteil-art.ts
 pipeline/check-urteil-fremde-adresse.ts
 pipeline/check-urteil-spaet.ts
 pipeline/check-us-nein-adresse.ts
+pipeline/check-verpasst-katalog.ts
 pipeline/check-verpasst-verdrahtung.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts

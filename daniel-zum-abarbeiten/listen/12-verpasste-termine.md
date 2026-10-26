@@ -10,8 +10,7 @@ einmal täglich im Netz (Anbieter-News, Social Media, Anime2You) und schreibt `r
 `rechercheQuelle`, `rechercheAm` und — nur mit Quelle, die den Tag nennt — `neuErwartet`.
 Nach zwei Wochen wöchentlich, nach zwei Monaten nicht mehr. Von Hand eintragen geht weiterhin.
 
-Stand: 2026-10-26 10:02 · 1 offen, 15 nachgeholt
+Stand: 2026-10-26 11:14 · 0 offen, 16 nachgeholt
 
 | Titel | Folge | erwartet | beim Anbieter | Kalender gelesen | Anime2You | Recherche | fällig |
 |---|---|---|---|---|---|---|---|
-| As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World – Staffel 3 | 2 | 2026-10-25 16:00 | 12 Folgen | — | keine Meldung | **offen** | ja |

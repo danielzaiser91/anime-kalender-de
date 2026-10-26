@@ -44,6 +44,7 @@ export const OHNE_BEFUND = [
   { datei: 'tools/commit-data.sh', text: 'git checkout HEAD -- public/data 2>/dev/null || true', grund: 'Verwerfen unbelegter Erzeugnisse nach roter Bestandsprüfung (gewollt, siehe Kommentar dort)' },
   { datei: 'tools/commit-data.sh', text: "tr -s '[:space:]' ' ')\" || true", grund: 'Meldungstext aus grep-Ketten; ohne Treffer bleibt er leer (Kommentar in commit-data.sh)' },
   { datei: 'tools/commit-data.sh', text: 'git add "$pfad" 2>/dev/null || true', grund: 'Pfad wurde eben mit -e geprüft; ein Fehler von git add selbst bliebe unsichtbar', offen: true },
+  { datei: 'tools/commit-data-test.sh', text: '"github-actions[bot]" ] || exit 0', grund: 'Testskript: Attrappen-Hook lässt Pushes anderer Autoren bewusst durch' },
   { datei: 'tools/lauf-melden.sh', text: '>/dev/null 2>&1 || true', grund: 'Statusmeldung an den Worker, belegt nichts' },
   { datei: 'tools/pushen.sh', text: '|| true)"', grund: 'grep -Ev ohne Treffer = keine fremden Dateien, gewollt' },
   { datei: 'tools/quellen-pr.sh', text: "grep -oE '[0-9]+$' || true", grund: 'PR-Nummer aus der Adresse; leer wird weiter unten behandelt' },
@@ -53,5 +54,7 @@ export const OHNE_BEFUND = [
   { datei: 'tools/quellen-pruefen.sh', text: 'quellen_pruefen) || true', grund: 'Vergleichsbasis auf main; leere Basis macht den Vergleich strenger, nicht milder', offen: true },
   { datei: 'tools/quellen-pruefen.sh', text: 'git worktree remove --force "$dir/main" >&2 || true', grund: 'Aufräumen des Wegwerf-Arbeitsbaums' },
   { datei: 'tools/quellen-pruefen.sh', text: 'grep -vxFf <(printf', grund: 'grep ohne Treffer = keine neuen Fehler, gewollt' },
+  { datei: 'tools/quellen-commit-wache.sh', text: 'cd "$(git rev-parse --show-toplevel)" || exit 0', grund: 'Git-Hook vor dem Commit, bewusst fail-open (Kopfkommentar dort); schreibt keine Daten' },
+  { datei: 'tools/quellen-commit-wache.sh', text: '"main" ] || exit 0', grund: 'Git-Hook: Zweig-Commits erreichen den Bestand nur über einen PR, dort prüft die Kette' },
   { datei: 'tools/schritt.sh', text: 'bash "$MELDER" laeuft', grund: 'Anzeigemeldung, ein Ausfall darf den Schritt nicht stoppen' },
 ]

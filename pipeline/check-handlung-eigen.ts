@@ -62,7 +62,7 @@ const echte = ladeEigeneHandlungen()
 const reihe = echte.find((e) => e.umfang === 'reihe')!
 const titel = echte.find((e) => e.umfang === 'titel')!
 const synopsen: Record<number, SynopsisEintrag> = { [reihe.id]: { en: 'English only' }, [titel.id]: { de: 'Text aus einer Quelle' } }
-ergaenzeEigeneHandlungen(synopsen, echte.map((e) => ({ id: e.id })))
+ergaenzeEigeneHandlungen(synopsen, echte.map((e) => ({ id: e.id })), [])
 pruefe('Bau: Titel mit Quelltext behält ihn', synopsen[titel.id]!.de === 'Text aus einer Quelle' && !synopsen[titel.id]!.eigen)
 pruefe('Bau: Reihentext trägt Text, Quellen, Lizenz und Reihenkennzeichen', synopsen[reihe.id]!.de === reihe.text && synopsen[reihe.id]!.eigen?.reihe === true && synopsen[reihe.id]!.eigen?.quellen.length === reihe.quellen.length && synopsen[reihe.id]!.eigen?.lizenz === reihe.lizenz)
 pruefe('Bau: die englische Fassung bleibt neben dem eigenen Text', synopsen[reihe.id]!.en === 'English only')

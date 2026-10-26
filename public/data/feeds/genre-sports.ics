@@ -80,6 +80,17 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
+UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-10-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261025T090000Z
+DTEND:20261025T093000Z
+SUMMARY:Aoashi Staffel 2 (neu bei Crunchyroll)
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetai
+ ls: https://anime-kalender.de/t/16812/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-189123-netflix@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261025

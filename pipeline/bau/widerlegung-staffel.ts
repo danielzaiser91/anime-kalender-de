@@ -21,3 +21,6 @@ export function staffelDesTitels(t: Title, titles: Iterable<Title>): number | un
   const stand = staffelStaende(hauptstaffeln(teile), anzeigeName(kopf)).get(t.id)
   return stand && stand.teil === undefined ? stand.staffel : undefined
 }
+
+/** „Staffel 3“ / „Season 3“ am Ende des Staffelnamens im Katalog. */
+export const STAFFEL_IM_NAMEN = /(?:staffel|season)\s+(\d+)\s*$/i

@@ -138,6 +138,17 @@ async function messeRechterRand(seite, zeile) {
 }
 
 /**
+ * Ob der Zeiger in der Mitte der Zeile wirklich diese Zeile trifft. Eine Zeile in einer inneren Bildlaufliste kann
+ * außerhalb deren Ausschnitts liegen; dort träfe der Zeiger eine andere Zeile, und die Karte gehörte zu ihr.
+ */
+function zeileTrifft(zeile) {
+  return zeile.evaluate((el) => {
+    const r = el.getBoundingClientRect()
+    return el.contains(document.elementFromPoint(r.x + Math.min(r.width / 2, 60), r.y + r.height / 2))
+  })
+}
+
+/**
  * Fenster knapp unter einer Zeile: die Karte muss darüber. Liegt die gemessene Zeile im Dokument zu weit oben,
  * als dass die ganze Karte darüber passt, wird eine spätere Zeile der Liste mit Vorschau genommen.
  */
@@ -153,6 +164,7 @@ async function messeUntenRand(seite, zeile, wahl) {
     const box = await z.boundingBox()
     await seite.setViewportSize({ width: FENSTER.width, height: Math.ceil(box.y + box.height) + 24 })
     await seite.waitForTimeout(200)
+    if (!(await zeileTrifft(z))) continue
     const unten = await zeigeUndMesse(seite, z)
     if (unten) return lageAbweichungen(unten).map((l) => `unten am Fenster: ${l}`)
   }
