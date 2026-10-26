@@ -1,15 +1,44 @@
 {
-  "scrapedAt": "2026-10-26T06:03:22.632Z",
+  "scrapedAt": "2026-10-26T19:16:01.308Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 17,
     "schon in einem Rubrik-Feed gelesen": 4,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 15,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
+      "articleUrl": "https://www.anime2you.de/news/1064193/crunchyroll-psyren-synchro-und-mehr/",
+      "publishedAt": "2026-10-26",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Crunchyroll bringt besonderes »Black Clover«-Erlebnis nach Deutschland",
+      "articleUrl": "https://www.anime2you.de/news/1064175/crunchyroll-black-clover-erlebnis-in-berlin/",
+      "publishedAt": "2026-10-26",
+      "category": "allgemein",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-29",
+          "context": "r Eintritt Der sogenannte »Black Clover Aura Stunt« findet am 28. und 29. Oktober 2026 jeweils von 10:00 Uhr bis 20:00 Uhr im Atrium in der"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Neue »My Happy Marriage«-Folgen ab sofort auf Netflix verfügbar",
       "articleUrl": "https://www.anime2you.de/news/1063685/my-happy-marriage-special-ab-sofort-auf-netflix/",
