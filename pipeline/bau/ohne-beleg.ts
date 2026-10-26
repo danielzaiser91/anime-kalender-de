@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import type { Title } from '../../shared/types.ts'
-import { diffDays } from '../../shared/time.ts'
+import { ANKUENDIGUNG_FRIST_TAGE, ankuendigungFrisch } from '../../shared/ankuendigung.ts'
 import { ROOT } from '../lib/util.ts'
 import { deutschMarke } from '../lib/anisearch-marke.ts'
 
@@ -22,8 +22,7 @@ export function ausgestrahltOhneBeleg(t: Title, heuteIso: string): boolean {
   return (t.jpYear ?? 0) >= 2023
 }
 
-/** Tage nach `omuAb`, in denen eine Synchro-Ankündigung des Anbieters gilt, auch wenn dessen Katalog noch keine deutsche Tonspur führt. */
-export const ANKUENDIGUNG_FRIST_TAGE = 60
+export { ANKUENDIGUNG_FRIST_TAGE }
 
 /**
  * **Ein Katalog ohne deutsche Tonspur widerlegt die Ankündigung desselben Anbieters nicht, solange sie frisch ist** (Dirigent, 26.10.2026,
@@ -34,8 +33,7 @@ export const ANKUENDIGUNG_FRIST_TAGE = 60
 export function frischAngekuendigt(t: Title, heuteIso: string): boolean {
   const a = t.ankuendigung
   if (a?.synchro !== 'angekuendigt') return false
-  const tag = a.omuAb.length === 7 ? `${a.omuAb}-01` : a.omuAb
-  return diffDays(tag, heuteIso) <= ANKUENDIGUNG_FRIST_TAGE
+  return ankuendigungFrisch(a.omuAb, heuteIso)
 }
 
 /**
