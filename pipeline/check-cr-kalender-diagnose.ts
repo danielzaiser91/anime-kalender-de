@@ -63,7 +63,7 @@ console.log('fehlerText')
 }
 
 /** Browser-Attrappe: `goto` liefert den Status, `evaluate` je nach Aufruf Kacheln oder Text; jede Methode wirft ungebunden. */
-function browserAttrappe(opts: { status: number | null; titel: string; html: string; kacheln: boolean; seiteKaputt?: boolean }) {
+function browserAttrappe(opts: { status: number | null; titel: string; html: string; kacheln: boolean; seiteKaputt?: boolean; auchNichtDeutsch?: boolean }) {
   const urls: string[] = []
   const zaehler = { geschlossen: 0 }
   const seite = {
@@ -84,7 +84,10 @@ function browserAttrappe(opts: { status: number | null; titel: string; html: str
         return 'Verifying you are human'
       }
       return opts.kacheln
-        ? [{ datetime: '2026-10-21T17:00:00Z', rawTitle: 'Beispiel (Deutsch)', episode: '3', seriesUrl: '/de/series/GXYZ/beispiel' }]
+        ? [
+            { datetime: '2026-10-21T17:00:00Z', rawTitle: 'Beispiel (Deutsch)', episode: '3', seriesUrl: '/de/series/GXYZ/beispiel' },
+            ...(opts.auchNichtDeutsch ? [{ datetime: '2026-10-21T18:00:00Z', rawTitle: 'Andere Serie', episode: '1', seriesUrl: '/de/series/GABC/andere' }] : []),
+          ]
         : []
     },
     async title(this: unknown) {
@@ -181,11 +184,13 @@ console.log('main (Browser, Datum und Wochenzahl als Parameter)')
   pruefe(gesundheit().crunchyroll.lastError.includes('Titel „Zweite Sperre“'), 'main: leerer Kalender schreibt die Diagnose in die Gesundheitsdatei')
   pruefe(!existsSync(join(datenOrdner, KALENDER_DATEI)), 'main: leerer Kalender schreibt keine Kalenderdatei')
 
-  const voll = browserAttrappe({ status: 200, titel: 'Kalender', html: KACHEL_HTML, kacheln: true })
-  await main(async () => voll.browser, '2026-10-26', 2)
+  // Heute 09.11.2026 (anders als die Fälle davor): Wochen 09.11. und 16.11., Fenster 09.11. bis 22.11.; die Kachel ohne „(Deutsch)“ kommt nicht in die Datei.
+  const voll = browserAttrappe({ status: 200, titel: 'Kalender', html: KACHEL_HTML, kacheln: true, auchNichtDeutsch: true })
+  await main(async () => voll.browser, '2026-11-09', 2)
   pruefe(voll.urls.length === 2 && voll.zaehler.geschlossen === 1, 'main: zwei Wochen gelesen, Browser geschlossen')
   const kalender = JSON.parse(readFileSync(join(datenOrdner, KALENDER_DATEI), 'utf8'))
-  pruefe(Object.keys(kalender.german).length === 1 && kalender.window.from === '2026-10-26', `main: Kalenderdatei mit einem deutschen Titel, Fenster ab ${kalender.window?.from}`)
+  pruefe(Object.keys(kalender.german).length === 1 && kalender.window.from === '2026-11-09' && kalender.window.to === '2026-11-22', `main: Kalenderdatei mit einem deutschen Titel, Fenster ${kalender.window?.from} bis ${kalender.window?.to}`)
+  pruefe(kalender.slots.length === 2 && kalender.slots.every((s: { german: boolean }) => s.german), `main: nur deutsche Slots in der Datei (${kalender.slots.length})`)
   pruefe(gesundheit().crunchyroll.lastCount === 1 && gesundheit().crunchyroll.lastError === undefined, 'main: Gesundheit meldet den Treffer ohne Fehler')
 
   // Ohne Parameter: Standard-Wochenzahl (6, kein --weeks in diesem Lauf) und der Tag des Laufs.
