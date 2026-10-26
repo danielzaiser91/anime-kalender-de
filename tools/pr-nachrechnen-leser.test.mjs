@@ -226,6 +226,7 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   pruefe('Ordner: Literal data ohne Verzeichnis-Aufruf (join(root, data)) -> null', mitText("const d = join(root, 'data')\n") === null)
   pruefe('Ordner: Markdown ist kein lesbarer Code -> null', mitText("readFileSync('data/' + f)\n", 'docs/x.md') === null)
   pruefe('ordnerLeser: nur eine Datei unter dem Token, nicht der Token selbst', ordnerLeser("x('data/' + f)\n", ['data/a/b.json']) === 'data/a/b.json' && ordnerLeser("x('data/a.json')\n", ['data/a.json']) === undefined)
+  pruefe('ordnerLeser: Ordnername als Namensanfang (data/a gegen data/ab.json) -> kein Treffer', ordnerLeser("fs.readdirSync('data/a')\n", ['data/ab.json']) === undefined && ordnerLeser("fs.readdirSync('data/a')\n", ['data/a/b.json']) === 'data/a/b.json')
 }
 
 // A3/A4 (Prüfer 2123 R1): leere oder abgelaufene git-Ausgabe ergibt nie „aktuell“.
