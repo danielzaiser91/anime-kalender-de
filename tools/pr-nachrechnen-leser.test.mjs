@@ -35,7 +35,7 @@ pruefe('ohneKommentare: //, *, /*, # fallen weg', ohneKommentare('a\n// b\n * c\
 pruefe('pfadTokens: Aufruf, Daten-Literal, Ordnerkopf', pfadTokens('run: node tools/x.mjs "data/a/b.json" pipeline/bau').join() === 'tools/x.mjs,data/a/b.json,pipeline/bau', pfadTokens('run: node tools/x.mjs "data/a/b.json" pipeline/bau'))
 pruefe('pfadTokens: URL und Namensteil zählen nicht', pfadTokens('https://x.de/data/a.json mydata/b.json').length === 0, pfadTokens('https://x.de/data/a.json mydata/b.json'))
 pruefe('pfadTokens: Kommentarzeile zählt nicht', pfadTokens('# tools/x.mjs').length === 0)
-pruefe('trifft: Datei, Ordner, Namensvetter', trifft('data/cache', 'data/cache/a') && trifft('data/a.json', 'data/a.json') && !trifft('data/cache', 'data/cachex/a'))
+pruefe('trifft: Datei, Ordner, Namensvetter', trifft('tools/sub', 'tools/sub/a') && trifft('data/a.json', 'data/a.json') && !trifft('tools/sub', 'tools/subx/a'))
 pruefe('importZiele: relativ zum Ordner der Datei, mit und ohne Endung', importZiele('tools/a/b.mjs', "import x from '../lib/h'").includes('tools/lib/h.ts') && importZiele('tools/a/b.mjs', "import x from '../lib/h'").includes('tools/lib/h'))
 pruefe('ohneLeser: Doku, Daniel, Patch Notes, Wurzel-Markdown; nicht web/README.md', ['docs/a.md', 'daniel-zum-abarbeiten/s.md', 'data/patchnotes/a.yaml', 'CLAUDE.md'].every(ohneLeser) && !ohneLeser('web/README.md') && !ohneLeser('docsx/a.md'))
 
