@@ -1,5 +1,5 @@
 /**
- * Wächter gegen `|| true` (auch `|| :`, `; true`, `|| /bin/true`) in Workflows und Lauf-Skripten.
+ * Wächter gegen `|| true` (auch `|| :`, `; true`, `|| /bin/true`), `|| exit 0` und `set +e` in Workflows und Lauf-Skripten.
  *
  * Warum: Ein verschluckter Fehler vor einem Werkzeug, das Daten schreibt oder belegt, lässt den Lauf grün
  * und den Beleg still verloren gehen (Prüfer 1578). Jeder Treffer ist deshalb ein Fehler, außer er steht
@@ -14,16 +14,27 @@ import { resolve } from 'node:path'
 import { parse } from 'yaml'
 import { OHNE_BEFUND } from './oder-true-ausnahmen.mjs'
 
-const MUSTER = /(\|\||;)\s*(?:\/bin\/|\/usr\/bin\/)?(?:true|:)(?![\w-])/
+// `exit 0` nach `||` und `set +e` (auch `set +eu`, `set +o errexit`) verschlucken Fehler wie `|| true`.
+export const ARTEN = [
+  { name: '|| true', muster: /(\|\||;)\s*(?:\/bin\/|\/usr\/bin\/)?(?:true|:)(?![\w-])/ },
+  { name: '|| exit 0', muster: /\|\|\s*exit\s+0(?![\w-])/ },
+  { name: 'set +e', muster: /(?:^|[;&|(])\s*set\s+\+(?:[a-z]*e[a-z]*|o\s+errexit)(?![\w-])/ },
+]
 
-/** Zeilen mit Verschlucker; Kommentarzeilen bleiben außen vor. */
+/** Zeilen mit Verschlucker (`art` = Name des Musters); Kommentarzeilen bleiben außen vor. */
 export function findeOderTrue(text) {
   const treffer = []
   text.split('\n').forEach((zeile, i) => {
     if (zeile.trim().startsWith('#')) return
-    if (MUSTER.test(zeile)) treffer.push({ zeile: i + 1, text: zeile.trim() })
+    const art = ARTEN.find((a) => a.muster.test(zeile))
+    if (art) treffer.push({ zeile: i + 1, text: zeile.trim(), art: art.name })
   })
   return treffer
+}
+
+/** Trefferzahl je Muster, z. B. `|| true: 41, || exit 0: 3, set +e: 0`. */
+export function zaehleArten(funde) {
+  return ARTEN.map((a) => `${a.name}: ${funde.filter((f) => f.art === a.name).length}`).join(', ')
 }
 
 /** Alle `run`-Texte einer Workflow-Datei. */
@@ -57,12 +68,12 @@ export function sammleFunde(wurzel) {
   const wf = resolve(wurzel, '.github/workflows')
   for (const f of readdirSync(wf).filter((n) => /\.ya?ml$/.test(n))) {
     for (const lauf of laufTexte(readFileSync(resolve(wf, f), 'utf8'))) {
-      for (const t of findeOderTrue(lauf)) funde.push({ datei: `.github/workflows/${f}`, text: t.text })
+      for (const t of findeOderTrue(lauf)) funde.push({ datei: `.github/workflows/${f}`, text: t.text, art: t.art })
     }
   }
   const tools = resolve(wurzel, 'tools')
   for (const f of readdirSync(tools).filter((n) => n.endsWith('.sh'))) {
-    for (const t of findeOderTrue(readFileSync(resolve(tools, f), 'utf8'))) funde.push({ datei: `tools/${f}`, text: t.text })
+    for (const t of findeOderTrue(readFileSync(resolve(tools, f), 'utf8'))) funde.push({ datei: `tools/${f}`, text: t.text, art: t.art })
   }
   return funde
 }
@@ -71,7 +82,7 @@ export function sammleFunde(wurzel) {
 export function pruefe(wurzel, ausnahmen = OHNE_BEFUND) {
   const { offen, verwaist } = bewerte(sammleFunde(wurzel), ausnahmen)
   return [
-    ...offen.map((f) => `✗ ${f.datei}: \`${f.text.slice(0, 120)}\` verschluckt einen Fehler (|| true). Beheben oder mit Begründung in tools/oder-true-ausnahmen.mjs eintragen.`),
+    ...offen.map((f) => `✗ ${f.datei}: \`${f.text.slice(0, 120)}\` verschluckt einen Fehler (${f.art}). Beheben oder mit Begründung in tools/oder-true-ausnahmen.mjs eintragen.`),
     ...verwaist.map((a) => `✗ tools/oder-true-ausnahmen.mjs: Ausnahme für ${a.datei} („${a.text}“) trifft nichts mehr — streichen.`),
   ]
 }
