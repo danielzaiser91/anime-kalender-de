@@ -83,6 +83,9 @@ const japanisch = { ...beyRelease, tvLetzteSichtung: undefined } as Release
 pruefe('Wache: ohne Sichtung, aber japanisch 128 gegen Ende 122: gemeldet', grund(japanisch)[0]?.includes('japanisch 128') === true, grund(japanisch))
 pruefe('Wache: japanisch genau am Ende (122): sauber', grund(japanisch, { '165159': [122, 122] }).length === 0)
 pruefe('Wache: japanisch eine Folge mehr (123 gegen 122): gemeldet', grund(japanisch, { '165159': [123, 122] }).length === 1)
+const ersteStaffel = { ...japanisch, schedule: { firstEpisodeDate: '2026-06-05', episodeCount: 12 } } as Release
+pruefe('Wache: Staffel ab Folge 1 mit 12 Folgen, japanisch 12: sauber (Ende = Folgenzahl)', grund(ersteStaffel, { '165159': [12, 12] }).length === 0)
+pruefe('Wache: Staffel ab Folge 1 mit 12 Folgen, japanisch 13: gemeldet', grund(ersteStaffel, { '165159': [13, 12] }).length === 1)
 pruefe('Wache: ohne Zählung: sauber', grund(japanisch, {}).length === 0)
 pruefe('Wache: belegtes Enddatum macht es sauber', grund({ ...beyRelease, schedule: { ...beyRelease.schedule!, lastEpisodeDate: '2026-10-23' } } as Release).length === 0)
 pruefe('Wache: Release ohne Finale-Termin wird nicht gemeldet', grund(beyRelease, zaehlung, false).length === 0)
