@@ -44,6 +44,9 @@ console.log('kalenderDiagnose')
   const token = 'Xy9'.repeat(20)
   const geschwaerzt = kalenderDiagnose({ status: 200, titel: 't', text: `token ${token} ende`, html: '' })
   pruefe(!geschwaerzt.includes(token) && geschwaerzt.includes('token … ende'), 'lange Schlüsselfolge entfernt')
+  const knapp = 'k'.repeat(39)
+  pruefe(kalenderDiagnose({ status: 200, titel: 't', text: knapp, html: '' }).includes(`Text „${knapp}“`), '39 Zeichen am Stück bleiben')
+  pruefe(kalenderDiagnose({ status: 200, titel: 't', text: `${knapp}k`, html: '' }).includes('Text „…“'), '40 Zeichen am Stück entfernt')
   pruefe(kalenderDiagnose({ status: 200, titel: 't', text: 'a\n\n  b\tc', html: '' }).includes('Text „a b c“'), 'Leerraum zusammengezogen')
   pruefe(kalenderDiagnose({ status: 200, titel: 'Einen Moment…', text: '', html: '' }).includes('Challenge-Merkmale: Einen Moment'), 'Merkmal im Titel')
 }
@@ -55,7 +58,7 @@ console.log('fehlerText')
 }
 
 /** Browser-Attrappe: `goto` liefert den Status, `evaluate` je nach Aufruf Kacheln oder Text; jede Methode wirft ungebunden. */
-function browserAttrappe(opts: { status: number | null; titel: string; html: string; kacheln: boolean }) {
+function browserAttrappe(opts: { status: number | null; titel: string; html: string; kacheln: boolean; seiteKaputt?: boolean }) {
   const seite = {
     async goto(this: unknown) {
       if (this === undefined) throw new Error('ungebunden')
@@ -68,17 +71,22 @@ function browserAttrappe(opts: { status: number | null; titel: string; html: str
     async evaluate(this: unknown, f: () => unknown) {
       if (this === undefined) throw new Error('ungebunden')
       const text = f.toString()
-      if (text.includes('innerText')) return 'Verifying you are human'
+      if (text.includes('innerText')) {
+        if (opts.seiteKaputt) throw new Error('Execution context was destroyed')
+        return 'Verifying you are human'
+      }
       return opts.kacheln
         ? [{ datetime: '2026-10-21T17:00:00Z', rawTitle: 'Beispiel (Deutsch)', episode: '3', seriesUrl: '/de/series/GXYZ/beispiel' }]
         : []
     },
     async title(this: unknown) {
       if (this === undefined) throw new Error('ungebunden')
+      if (opts.seiteKaputt) throw new Error('Target closed')
       return opts.titel
     },
     async content(this: unknown) {
       if (this === undefined) throw new Error('ungebunden')
+      if (opts.seiteKaputt) throw new Error('Target closed')
       return opts.html
     },
     async close(this: unknown) {
@@ -107,11 +115,23 @@ console.log('scrapeWeek')
   const d3: string[] = []
   await scrapeWeek(ohneAntwort.browser, '2026-10-19', d3)
   pruefe(d3[0].startsWith('2026-10-19: HTTP unbekannt;'), 'goto ohne Antwortobjekt: Status unbekannt')
+
+  // Titel, Text und HTML können einzeln scheitern (Seite schon zu): die Diagnose entsteht trotzdem, der Lauf bricht nicht ab.
+  const kaputt = browserAttrappe({ status: 503, titel: 'x', html: 'x', kacheln: false, seiteKaputt: true })
+  const d4: string[] = []
+  await scrapeWeek(kaputt.browser, '2026-10-12', d4)
+  pruefe(d4.length === 1 && d4[0] === '2026-10-12: HTTP 503; Titel „“; keine Challenge-Merkmale; Text „“', `Seite zu: ${d4[0]}`)
 }
 
 console.log('meldeLeerenKalender')
 {
-  meldeLeerenKalender(['2026-10-12: HTTP 403; Titel „Just a moment...“'])
+  const warnungen: string[] = []
+  const alt = console.warn
+  console.warn = (...a: unknown[]) => void warnungen.push(a.join(' '))
+  meldeLeerenKalender(['2026-10-12: HTTP 403; Titel „Just a moment...“', '2026-10-19: HTTP 403; Titel „zweite“'])
+  console.warn = alt
+  pruefe(warnungen.filter((w) => w.includes('Diagnose 2026-10-12: HTTP 403')).length === 1, 'Diagnose der ersten Woche im Log')
+  pruefe(warnungen.filter((w) => w.includes('Diagnose 2026-10-19: HTTP 403')).length === 1, 'Diagnose der zweiten Woche im Log')
   const eintrag = gesundheit().crunchyroll
   pruefe(eintrag.lastCount === 0, 'lastCount 0')
   pruefe(eintrag.lastOk === undefined, 'kein lastOk bei Fehlschlag')
