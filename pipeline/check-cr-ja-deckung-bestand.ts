@@ -11,6 +11,7 @@ import { crBelegKennungen, type BelegQuellen } from './lib/cr-ja-belege.ts'
 import { crJaOhneDeckung, kennungenMitCrTermin } from './lib/cr-ja-deckung.ts'
 import type { CrDubData } from './lib/crunchyroll-dub.ts'
 import { loadDubChecks } from './lib/dub-confirmed.ts'
+import { melde } from './lib/quarantaene.ts'
 import { readJson, ROOT } from './lib/util.ts'
 
 const lies = <T>(datei: string, leer: T): T => readJson<T>(resolve(ROOT, datei), leer)
@@ -35,7 +36,10 @@ const offen = crJaOhneDeckung({
 
 if (offen.length) {
   console.error(`✖ ${offen.length} Crunchyroll-Ja ohne Deckung in Serien mit Null-Block (weder Block-Urteil noch Termin noch Handbeleg):`)
-  for (const z of offen) console.error(`    ${z}`)
+  for (const z of offen) {
+    console.error(`    ${z}`)
+    melde(Number(z.split(' ')[0]), 'cr-ja-deckung', 'Crunchyroll-Ja ohne Deckung')
+  }
   console.log(`VERSTÖSSE: ${offen.length}`)
   process.exit(1)
 }

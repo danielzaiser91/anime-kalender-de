@@ -216,6 +216,8 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     while IFS= read -r zeile; do
       echo "::warning::${zeile#*⚠ }"
     done < <(grep -F '⚠ WARNUNG' "$TEMP_LAUF/bestand-pruefung.txt" || true)
+    # Herabgestufte Prüfungen („[vorher rot]“, 26.10.2026) zusätzlich in den Posteingang, sonst bleibt der Verstoß ein Lauf-Log-Eintrag.
+    node tools/bestand-warnung-melden.mjs "$TEMP_LAUF/bestand-pruefung.txt" data/meldungen-an-claude.jsonl || echo "::warning::Die herabgestuften Warnungen kamen nicht in den Posteingang."
   }
   # Die Historie-Zeile dieses Laufs (Schritt „Delta am Bestand festhalten“) misst den Bau vor der Quarantäne. Ausgeliefert wird ein
   # anderer Bestand: Zeile verwerfen (`verworfen: true`, die Wache überspringt sie) und neu messen (19.10.2026: Pendeln gegen Stände,
