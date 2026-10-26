@@ -29,4 +29,5 @@ else {
 }
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) zum Favoriten-Feed am Bestand verletzt.` : '\nFavoriten-Feed (Bestand): alle Zusicherungen halten.')
+console.log(`VERSTÖSSE: ${verletzt}`)
 process.exit(verletzt ? 1 : 0)

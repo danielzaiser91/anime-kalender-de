@@ -443,26 +443,38 @@
     }
   },
   {
-    "id": "you-and-i-are-polar-opposites-s2@2026-10-25",
-    "slug": "you-and-i-are-polar-opposites-s2",
-    "titleId": 210031,
-    "name": "You and I Are Polar Opposites – Staffel 2",
+    "id": "appraisal-aristocrat-s3-crunchyroll@2026-10-25",
+    "slug": "appraisal-aristocrat-s3-crunchyroll",
+    "titleId": 185756,
+    "name": "As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World – Staffel 3",
     "platform": "crunchyroll",
-    "episode": 13,
-    "erwartetAm": "2026-10-25T09:30:00.000Z",
-    "bemerktAm": "2026-10-25T10:03:36.476Z",
+    "episode": 2,
+    "erwartetAm": "2026-10-25T16:00:00.000Z",
+    "bemerktAm": "2026-10-26T00:05:32.533Z",
     "erschienenAm": null,
     "verzugStunden": null,
     "folgenVerfuegbar": 12,
     "tagGeschaetzt": true,
     "neuErwartet": null,
     "recherche": null,
-    "messbeleg": {
-      "am": "2026-10-25T10:04:02.234Z",
-      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-25",
-      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-25/2026-10-25-10-04.jpg",
-      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-25/2026-10-25-10-04.html.gz"
+    "wocheBeleg": {
+      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+      "gesehenAm": "2026-10-19T23:02:29.249Z",
+      "bild": "www.crunchyroll.com/wochenprogramm/gg5h5xqmd/2026-10-25-f2-2026-10-19-23-02.webp",
+      "bildAm": "2026-10-19T23:02:29.249Z",
+      "markierung": [
+        0.021111111111111112,
+        0.8661048689138576,
+        0.21861111111111112,
+        0.12265917602996254
+      ]
     },
-    "newsGeprueftAm": "2026-10-25T14:03:09.444Z"
+    "newsGeprueftAm": "2026-10-26T06:03:22.632Z",
+    "messbeleg": {
+      "am": "2026-10-26T00:05:58.417Z",
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=2026-10-25",
+      "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-25/2026-10-26-00-05.jpg",
+      "html": "www.crunchyroll.com/simulcastcalendar/2026-10-25/2026-10-26-00-05.html.gz"
+    }
   }
 ]

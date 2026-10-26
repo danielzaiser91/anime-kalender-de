@@ -12,6 +12,7 @@ if (ausgabe.size && eingefroren.length) {
   const fehlen = eingefroren.filter((e) => !ausgabe.has(e.id)).map((e) => e.id)
   if (fehlen.length > eingefroren.length * 0.01) {
     console.error(`  ✖ Ausgabe: höchstens 1 % der eingefrorenen Titel fehlen in ohne-synchro.json und titles.json — gefunden: ${JSON.stringify({ anzahl: fehlen.length, beispiele: fehlen.slice(0, 5) })}`)
+    console.log(`VERSTÖSSE: ${fehlen.length}`)
     process.exit(1)
   }
   console.log(`  ✓ Ausgabe: ${fehlen.length} von ${eingefroren.length} eingefrorenen Titeln fehlen (Grenze 1 %)`)
@@ -25,3 +26,4 @@ if (offen.length) {
   console.log('  ✓ Alle Kennungen mit keiner sind eingefroren')
 }
 console.log('check-katalog-eingefroren-bestand: ok')
+console.log('VERSTÖSSE: 0')

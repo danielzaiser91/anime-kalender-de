@@ -13,7 +13,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, 
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { teileListenAusgabe, trenneGeerbtUndNeu, zaehleVerstoesse } from './pr-bestand-zaehlen.mjs'
+import { teileListenAusgabe, trenneGeerbtUndNeu, zaehleOderMelde } from './pr-bestand-zaehlen.mjs'
 
 const LISTE = 'tools/check-bestand-liste.txt'
 /** Kennung für einen roten Listenlauf ohne einzelne Prüfung (Liste unsortiert, Prüfung ändert Dateien): zählt immer als neu. */
@@ -88,7 +88,7 @@ async function roteDerListe(wurzel, dateien) {
   melde(GANZE_LISTE, r)
   if (r.status === 0) return new Map()
   const teile = teileListenAusgabe(r.aus)
-  const rote = new Map(roteAusListe(r.aus).map((d) => [d, zaehleVerstoesse(teile.get(d) ?? '')]))
+  const rote = new Map(roteAusListe(r.aus).map((d) => [d, zaehleOderMelde(d, teile.get(d) ?? '')]))
   // Schreibt eine Prüfung ins Repo, meldet der Pool das neben roten Prüfungen nur im Text (tools/arbeiterpool.mjs); das ist nie geerbt.
   const schreibt = r.aus.includes('Der Lauf hat getrackte Dateien verändert')
   if (rote.size === 0 || schreibt) rote.set(GANZE_LISTE, 1)
@@ -102,7 +102,7 @@ async function roteImStand(wurzel, { rest, liste }) {
   for (const skript of rest) {
     const r = await lauf('npm', ['run', skript], wurzel)
     melde(skript, r)
-    if (r.status !== 0) rote.set(skript, zaehleVerstoesse(r.aus))
+    if (r.status !== 0) rote.set(skript, zaehleOderMelde(skript, r.aus))
   }
   for (const [k, zahl] of await listenLauf) rote.set(k, zahl)
   return rote

@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-10-25",
+  "stand": "2026-10-26",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -10998,7 +10998,7 @@
     {
       "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|STEEL BALL RUN: JoJo’s Bizarre Adventure||start|netflix",
       "erstGesehen": "2026-10-22",
-      "fingerabdruck": "9a5b258fa373",
+      "fingerabdruck": "20f43698f6e5",
       "offenOderUnklar": false,
       "ergebnis": {
         "quelle": {
@@ -11020,8 +11020,8 @@
         "zitat": "Freitag: »STEEL BALL RUN: JoJo’s Bizarre Adventure« (Simulcast)\nFreitag: »STEEL BALL RUN: JoJo’s Bizarre Adventure« (Simulcast)\nSimulcast: Jeden Freitag\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
         "zuordnung": {
           "anilistId": 190327,
-          "name": "Steel Ball Run: Jojo’s Bizarre Adventure",
-          "wie": "name-genau"
+          "name": "Steel Ball Run: Jojo’s Bizarre Adventure - Phase 1",
+          "wie": "name-teil"
         },
         "bestand": {
           "status": "bekannt",
@@ -11032,7 +11032,8 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 215
-      }
+      },
+      "geaendert": "2026-10-26"
     },
     {
       "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|Tougen Anki|Staffel 2|start|netflix",

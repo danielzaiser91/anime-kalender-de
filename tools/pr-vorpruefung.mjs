@@ -14,6 +14,7 @@ import { fileURLToPath } from 'node:url'
 import { bewerte, neueEintraege } from './check-patchnotes-pflicht.mjs'
 import { anhebungRot } from './extension-version.mjs'
 import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
+import { leerraumRot } from './lib/leerraum-diff.mjs'
 
 const PRUEFLISTEN = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt']
 
@@ -164,7 +165,8 @@ function main() {
     existiert: existiertIn(bekannt, existsSync),
   })
   const lies = (name) => (existsSync(name) ? readFileSync(name, 'utf8') : null)
-  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot(), ...uhrRot(dateien), ...versionRot()]
+  const leerraum = leerraumRot(git('diff', '-U0', '--no-renames', 'origin/main...HEAD'), text)
+  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot(), ...uhrRot(dateien), ...versionRot(), ...leerraum]
   for (const h of urteil.gelb) console.log(`  ! Hinweis: ${h}`)
   for (const r of rot) console.error(`  ✖ Vorprüfung: ${r}`)
   if (rot.length) {

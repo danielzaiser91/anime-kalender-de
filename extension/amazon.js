@@ -8516,7 +8516,7 @@ async function speicherSchreiben(werte) {
           ? `${geladen} von ${gesehen.gesamt} gelesen — ein Abschnitt fehlt noch`
           : deutsch
             ? `${geladen} von ${gesehen.gesamt} Folgen gelesen — ${fehlend} fehlen noch`
-            : `${geladen} von ${gesehen.gesamt} Folgen gelesen — fuer „kein Deutsch" fehlen ${fehlend}`
+            : globalThis.akPrimeLeseStand({ sollFolgen: gesehen.gesamt, geladen, gesperrt: wegInRegion, fertig: false })
       knopf.title =
         'Solange nicht jede Folge gelesen ist, sagt die Meldung mehr, als geprueft wurde. ' +
         '„Deutsch gefunden" gilt fuer die Sprache sofort — die Zahl der Folgen aber erst, wenn sie stimmt.'

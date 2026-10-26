@@ -1,0 +1,55 @@
+/**
+ * Erlaubte `|| true`-Stellen (Wächter: tools/oder-true-wache.mjs). `text` ist ein Teilstring der getrimmten Zeile.
+ * `offen: true` = datenführend, Bestand seit 25.10.2026 hingenommen (Workflow-Änderung wäre ein eigener PR);
+ * Besitzer ist der Dirigent, Auflösung in daniel-zum-abarbeiten/vorrat/laufend/waechter-oder-true.md.
+ */
+const ANMELDUNG = 'Lauf-Anmeldung/Statusmeldung an den Worker; sie belegt nichts, ein Ausfall darf den Lauf nicht stoppen'
+const EXTRAHEADER = 'Aufräumen eines Git-Konfigwerts, der fehlen darf'
+const APT = 'Aufräumen einer fremden apt-Quelle auf dem Runner; fehlt sie, ist nichts zu tun'
+
+export const OHNE_BEFUND = [
+  { datei: '.github/workflows/aussehen-pruefen.yml', text: 'xargs -r rm -fv || true', grund: APT },
+  { datei: '.github/workflows/crunchyroll-nachholen.yml', text: 'xargs -r rm -fv || true', grund: APT },
+  { datei: '.github/workflows/ladezeiten.yml', text: 'xargs -r rm -fv || true', grund: APT },
+  { datei: '.github/workflows/bestand-bauen.yml', text: 'anmeldung.json > /dev/null || true', grund: ANMELDUNG },
+  { datei: '.github/workflows/claude-auftrag.yml', text: 'anmeldung.json > /dev/null || true', grund: ANMELDUNG },
+  { datei: '.github/workflows/claude-auftrag.yml', text: 'fortschritt.json > /dev/null 2>&1 || true', grund: 'Fortschrittsmeldung an den Worker, nur Anzeige' },
+  { datei: '.github/workflows/claude-daten-merge.yml', text: 'anmeldung.json > /dev/null || true', grund: ANMELDUNG },
+  { datei: '.github/workflows/claude-reparatur.yml', text: 'anmeldung.json > /dev/null || true', grund: ANMELDUNG },
+  { datei: '.github/workflows/crunchyroll-nachholen.yml', text: 'anmeldung.json > /dev/null || true', grund: ANMELDUNG },
+  { datei: '.github/workflows/deploy.yml', text: 'anmeldung.json > /dev/null || true', grund: ANMELDUNG },
+  { datei: '.github/workflows/refresh-data.yml', text: 'anmeldung.json > /dev/null || true', grund: ANMELDUNG },
+  { datei: '.github/workflows/refresh-hourly.yml', text: 'anmeldung.json > /dev/null || true', grund: ANMELDUNG },
+  { datei: '.github/workflows/refresh-weekly.yml', text: 'anmeldung.json > /dev/null || true', grund: ANMELDUNG },
+  { datei: '.github/workflows/tonspuren-monatlich.yml', text: 'anmeldung.json > /dev/null || true', grund: ANMELDUNG },
+  { datei: '.github/workflows/bestand-bauen.yml', text: 'git checkout -- data/anbieter-staffeln.json 2>/dev/null || true', grund: 'Rücksetzen einer Arbeitskopie vor dem Zweigwechsel; nichts Belegtes geht verloren' },
+  { datei: '.github/workflows/claude-anime2you-extraktion.yml', text: '--unset-all http.https://github.com/.extraheader || true', grund: EXTRAHEADER },
+  { datei: '.github/workflows/claude-verpasst-recherche.yml', text: '--unset-all http.https://github.com/.extraheader || true', grund: EXTRAHEADER },
+  { datei: '.github/workflows/claude-wache-urteil.yml', text: '--unset-all http.https://github.com/.extraheader || true', grund: EXTRAHEADER },
+  { datei: '.github/workflows/delta-wache.yml', text: 'cat zugaenge.txt >> briefkasten.txt 2>/dev/null || true', grund: 'Zugangsliste fürs Briefkasten-Protokoll; fehlt sie, bleibt ein Hinweis aus', offen: true },
+  { datei: '.github/workflows/delta-wache.yml', text: 'git pull -q --rebase origin main || true', grund: 'schlägt der Rebase fehl, scheitert der folgende push sichtbar' },
+  { datei: '.github/workflows/delta-wache.yml', text: 'neue-meldungen.jsonl" || true', grund: 'grep ohne Treffer endet mit 1; leere Datei ist das gewollte Ergebnis' },
+  { datei: '.github/workflows/pr-pruefer.yml', text: 'stufe.json" || true', grund: 'Begründungsliste nur für die Anzeige im Kommentar; die Stufe steht schon in GITHUB_OUTPUT' },
+  { datei: '.github/workflows/pr-pruefer.yml', text: 'ls -la "$T" || true', grund: 'Diagnoseausgabe direkt vor exit 1' },
+  { datei: '.github/workflows/weiche-test.yml', text: 'diag=1" || true', grund: 'Diagnoseabruf der Weiche, schreibt keine Daten; die Schleife soll alle drei Versuche zeigen' },
+  { datei: 'tools/bau-issues-schliessen.sh', text: 'öffnet der nächste rote Bau ein neues Issue." || true', grund: 'Schließen eines Meldungs-Issues; scheitert es, wird der nächste Lauf es erneut versuchen' },
+  { datei: 'tools/commit-data-test-quarantaene.sh', text: 'npm.txt" || true', grund: 'Testskript: grep -c ohne Treffer endet mit 1, 0 ist die Erwartung' },
+  { datei: 'tools/commit-data-test-verworfen.sh', text: 'tr -d \'\\n\' || true', grund: 'Testskript: fehlende Datei auf origin ist ein Prüffall' },
+  { datei: 'tools/commit-data-test.sh', text: 'gruen/log.txt" || true', grund: 'Testskript: grep -c ohne Treffer' },
+  { datei: 'tools/commit-data-test.sh', text: 'unbewegt/log.txt" || true', grund: 'Testskript: grep -c ohne Treffer' },
+  { datei: 'tools/commit-data-test.sh', text: 'commit-data.sh" || true', grund: 'Testskript: grep -c ohne Treffer' },
+  { datei: 'tools/commit-data.sh', text: 'bestand-pruefung.txt" || true)', grund: 'grep ohne Treffer; die Warnzeilen sind reine Anzeige' },
+  { datei: 'tools/commit-data.sh', text: 'git checkout HEAD -- public/data 2>/dev/null || true', grund: 'Verwerfen unbelegter Erzeugnisse nach roter Bestandsprüfung (gewollt, siehe Kommentar dort)' },
+  { datei: 'tools/commit-data.sh', text: "tr -s '[:space:]' ' ')\" || true", grund: 'Meldungstext aus grep-Ketten; ohne Treffer bleibt er leer (Kommentar in commit-data.sh)' },
+  { datei: 'tools/commit-data.sh', text: 'git add "$pfad" 2>/dev/null || true', grund: 'Pfad wurde eben mit -e geprüft; ein Fehler von git add selbst bliebe unsichtbar', offen: true },
+  { datei: 'tools/lauf-melden.sh', text: '>/dev/null 2>&1 || true', grund: 'Statusmeldung an den Worker, belegt nichts' },
+  { datei: 'tools/pushen.sh', text: '|| true)"', grund: 'grep -Ev ohne Treffer = keine fremden Dateien, gewollt' },
+  { datei: 'tools/quellen-pr.sh', text: "grep -oE '[0-9]+$' || true", grund: 'PR-Nummer aus der Adresse; leer wird weiter unten behandelt' },
+  { datei: 'tools/quellen-pr.sh', text: 'gh label create', grund: 'Etikett existiert vielleicht schon; reine Anzeige' },
+  { datei: 'tools/quellen-pr.sh', text: 'gh pr edit "$ZWEIG" --add-label', grund: 'Etikett nur Anzeige' },
+  { datei: 'tools/quellen-pr.sh', text: 'gh pr close "$alt"', grund: 'Schließen eines abgelösten Meldungs-PR, belegt nichts' },
+  { datei: 'tools/quellen-pruefen.sh', text: 'quellen_pruefen) || true', grund: 'Vergleichsbasis auf main; leere Basis macht den Vergleich strenger, nicht milder', offen: true },
+  { datei: 'tools/quellen-pruefen.sh', text: 'git worktree remove --force "$dir/main" >&2 || true', grund: 'Aufräumen des Wegwerf-Arbeitsbaums' },
+  { datei: 'tools/quellen-pruefen.sh', text: 'grep -vxFf <(printf', grund: 'grep ohne Treffer = keine neuen Fehler, gewollt' },
+  { datei: 'tools/schritt.sh', text: 'bash "$MELDER" laeuft', grund: 'Anzeigemeldung, ein Ausfall darf den Schritt nicht stoppen' },
+]

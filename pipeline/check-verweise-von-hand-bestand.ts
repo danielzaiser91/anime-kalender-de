@@ -16,6 +16,8 @@ const unvollstaendig = eintraege
   .map(({ nr }) => nr)
 if (unvollstaendig.length) {
   console.error(`✖ data/verweise-von-hand.yaml: Eintrag Nr. ${unvollstaendig.join(', ')} ohne Kennung, Anbieter oder https-Adresse`)
+  console.log(`VERSTÖSSE: ${unvollstaendig.length}`)
   process.exit(1)
 }
 console.log(`  ✓ ${eintraege.length} Handverweis(e), jeder mit Kennung, Anbieter und https-Adresse`)
+console.log('VERSTÖSSE: 0')

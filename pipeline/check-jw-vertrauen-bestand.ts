@@ -37,6 +37,8 @@ for (const OUT of ['public/data/titles.json', 'public/data/cartoons.json']) {
 
 if (fehler) {
   console.error(`${fehler} Fehler`)
+  console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
 console.log('check-jw-vertrauen-bestand: ok')
+console.log('VERSTÖSSE: 0')

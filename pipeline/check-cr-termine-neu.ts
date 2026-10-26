@@ -10,6 +10,7 @@
  */
 import type { Title } from '../shared/types.ts'
 import type { CrSerie } from './lib/crunchyroll-dub.ts'
+import { titelStaffelNr } from './lib/cr-staffel-nummer.ts'
 import { alleTermine, ausgelassen, termineAusSerie } from './lib/crunchyroll-termine.ts'
 
 let fehler = 0
@@ -214,6 +215,16 @@ pruefe('alleTermine reicht die Zeit durch: 5 Tage nach der Folge von 2001 ist de
 const aufgeht = lauf(serie(ARI, [['Staffel 1', 12, 12, wochen('2024-04-28T15:00:00Z', 12)]]), [titel(164702, ariName, 2024, ARI, true, 12)])
 pruefe('Paarung geht auf: ein Termin wie bisher, ohne B', aufgeht.raus.length === 1 && aufgeht.raus[0]?.lastEpisodeDate === '2024-07-14' && aufgeht.verworfen.length === 0, aufgeht)
 pruefe('Paarung geht auf: alle zwölf Tage als Beobachtung (Nummer = Obergrenze zählt)', Object.keys(aufgeht.raus[0]?.beobachtet ?? {}).length === 12, aufgeht.raus[0]?.beobachtet)
+
+/* --- Staffelnummer aus dem Namen: Ordinalform („3rd Season“) und Zählform („Season 4“) --- */
+const nrVon = (titleEn: string, titleDe?: string) => titelStaffelNr({ titleDe, titleEn })
+pruefe('„3rd Season“ ist Staffel 3', nrVon('Show 3rd Season') === 3, nrVon('Show 3rd Season'))
+pruefe('„2nd Season“ ist Staffel 2', nrVon('Show 2nd Season') === 2, nrVon('Show 2nd Season'))
+pruefe('„1st Season“ ist Staffel 1', nrVon('Show 1st Season') === 1, nrVon('Show 1st Season'))
+pruefe('„4th Season“ ist Staffel 4', nrVon('Show 4th Season') === 4, nrVon('Show 4th Season'))
+pruefe('„Season 4“ greift ohne Ordinalform', nrVon('Show Season 4') === 4, nrVon('Show Season 4'))
+pruefe('Ordinalform steht in einem späteren Namen', nrVon('Show', 'Show 3rd Season') === 3, nrVon('Show', 'Show 3rd Season'))
+pruefe('ohne Staffelnennung: null', nrVon('Show') === null, nrVon('Show'))
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

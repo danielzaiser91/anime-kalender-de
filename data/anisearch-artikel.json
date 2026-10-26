@@ -196356,5 +196356,115 @@
     ],
     "fetchedAt": "2026-10-12T05:47:28.908Z",
     "stand": 1
+  },
+  "220769": {
+    "ean": "4006448368654",
+    "audio": [
+      "Deutsch",
+      "Japanisch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "polyband Medien GmbH",
+    "umfang": "Film",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 19245,
+        "typ": "Film",
+        "folgen": 1
+      }
+    ],
+    "fetchedAt": "2026-10-26T03:32:42.084Z",
+    "stand": 1
+  },
+  "220986": {
+    "ean": "7630017541369",
+    "audio": [
+      "Japanisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Crunchyroll",
+    "umfang": "Einzelnes Vol.",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 19379,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-10-26T03:32:48.693Z",
+    "stand": 1
+  },
+  "220987": {
+    "ean": "7630017542502",
+    "audio": [
+      "Japanisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Crunchyroll",
+    "umfang": "Einzelnes Vol.",
+    "medium": "DVD",
+    "enthalten": [
+      {
+        "anisearchId": 19138,
+        "typ": "TV-Serie",
+        "folgen": 24
+      }
+    ],
+    "fetchedAt": "2026-10-26T03:32:35.470Z",
+    "stand": 1
+  },
+  "220988": {
+    "ean": "7630017542496",
+    "audio": [
+      "Japanisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Crunchyroll",
+    "umfang": "Einzelnes Vol.",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 19138,
+        "typ": "TV-Serie",
+        "folgen": 24
+      }
+    ],
+    "fetchedAt": "2026-10-26T03:32:28.833Z",
+    "stand": 1
+  },
+  "221048": {
+    "ean": "7630017541307",
+    "audio": [
+      "Japanisch",
+      "Deutsch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "Crunchyroll",
+    "umfang": "Einzelnes Vol.",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 18302,
+        "typ": "TV-Serie",
+        "folgen": 16
+      }
+    ],
+    "fetchedAt": "2026-10-26T03:32:22.189Z",
+    "stand": 1
   }
 }

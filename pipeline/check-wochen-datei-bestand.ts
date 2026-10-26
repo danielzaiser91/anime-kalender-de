@@ -39,4 +39,5 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 }
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) zur Wochen-Datei am Bestand verletzt.` : '\nWochen-Datei (Bestand): alle Zusicherungen halten.')
+console.log(`VERSTÖSSE: ${verletzt}`)
 process.exit(verletzt ? 1 : 0)

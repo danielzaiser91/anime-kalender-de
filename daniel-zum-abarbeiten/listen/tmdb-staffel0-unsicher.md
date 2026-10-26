@@ -1,6 +1,6 @@
 # TMDB-Staffel 0: unsichere Treffer
 
-Erzeugt von `pipeline/lib/tmdb-staffel0-abruf.ts` (im Plakat-Lauf). 150 Titel sind zugeordnet (`data/tmdb-staffel0.json`), 114 unsicher (diese Liste), 0 ohne Zuordnung, weil zwei Titel dieselbe Folge träfen.
+Erzeugt von `pipeline/lib/tmdb-staffel0-abruf.ts` (im Plakat-Lauf). 151 Titel sind zugeordnet (`data/tmdb-staffel0.json`), 114 unsicher (diese Liste), 0 ohne Zuordnung, weil zwei Titel dieselbe Folge träfen.
 Sicher heißt: Datum höchstens ±1 Tag, Name der Folge gleich (englisch oder japanisch), Länge gleich, einziger Treffer. Die Spalte „Tage“ ist TMDB minus unser japanischer Start.
 
 | Titel | Start | TMDB | Werte | Grund |
@@ -96,11 +96,11 @@ Sicher heißt: Datum höchstens ±1 Tag, Name der Folge gleich (englisch oder ja
 | [Made in Abyss: Retsujitsu no Ougonkyou - Papa to Issho](https://anime-kalender.de/#/woche?t=153791) | 2022-10-26 | [tv/72636/season/0](https://www.themoviedb.org/tv/72636/season/0) Folge 5 | +0 Tage, Länge ±0 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [That Time I Got Reincarnated as a Slime: Visions of Coleus](https://anime-kalender.de/#/woche?t=161802) | 2023-11-01 | [tv/82684/season/0](https://www.themoviedb.org/tv/82684/season/0) Folge 11 | +0 Tage, Länge ±0 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Plus-Sized Elf Specials](https://anime-kalender.de/#/woche?t=179126) | 2024-10-06 | [tv/243743/season/0](https://www.themoviedb.org/tv/243743/season/0) Folge 13 | -1 Tage, Länge ±0 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
+| [My Happy Marriage Special Episodes](https://anime-kalender.de/#/woche?t=190054) | 2026-10-25 | [tv/196944/season/0](https://www.themoviedb.org/tv/196944/season/0) Folge 2 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [My Hero Academia More](https://anime-kalender.de/#/woche?t=204356) | 2026-05-02 | [tv/65930/season/0](https://www.themoviedb.org/tv/65930/season/0) Folge 18 | +0 Tage, Länge ±1 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Angels of Death (ONA)](https://anime-kalender.de/#/woche?t=104243) | 2018-10-05 | [tv/80477/season/0](https://www.themoviedb.org/tv/80477/season/0) Folge 1 | +0 Tage, Länge ±0 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Beyblade Burst QuadStrike](https://anime-kalender.de/#/woche?t=166062) | 2023-04-04 | [tv/67667/season/0](https://www.themoviedb.org/tv/67667/season/0) Folge 2 | +0 Tage, Länge ±1 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Blue Lock: EPISODE Nagi - Additional Time!](https://anime-kalender.de/#/woche?t=176317) | 2024-04-19 | [tv/131041/season/0](https://www.themoviedb.org/tv/131041/season/0) Folge 24 | +0 Tage, Länge ±1 min, Name anders | Datum nah, aber Name oder Länge tragen nicht |
-| [My Happy Marriage Special Episodes](https://anime-kalender.de/#/woche?t=190054) | 2026-10-25 | [tv/196944/season/0](https://www.themoviedb.org/tv/196944/season/0) Folge 2 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [Angel Beats! Stairway to Heaven](https://anime-kalender.de/#/woche?t=10006864) | 2010-12-04 | [tv/42942/season/0](https://www.themoviedb.org/tv/42942/season/0) Folge 2 | +18 Tage, Länge –, Name gleich | Name gleich, aber Datum oder Länge tragen nicht |
 | [Black Butler II: Ciel in Wonderland](https://anime-kalender.de/#/woche?t=10006994) | 2010-10-27 | [tv/50712/season/0](https://www.themoviedb.org/tv/50712/season/0) Folge 3 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |
 | [K-On! Visiting!](https://anime-kalender.de/#/woche?t=10007052) | 2010-09-29 | [tv/42253/season/0](https://www.themoviedb.org/tv/42253/season/0) Folge 14 | +0 Tage, Länge –, Name anders | Datum nah, aber Name oder Länge tragen nicht |

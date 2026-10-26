@@ -7,18 +7,34 @@
  * Aufruf: node tools/cartoon-jw-stichprobe-bestand-pruefen.mjs
  */
 import assert from 'node:assert/strict'
+import { pathToFileURL } from 'node:url'
 import { kandidaten, ladeBestand, stichprobeDatei } from './cartoon-jw-stichprobe.mjs'
 import { adressenJeGruppe, pruefeInvarianten, sollAusPool } from './cartoon-jw-stichprobe-invarianten.mjs'
 
 /* Mit den echten Dateien gerechnet: dieselben Invarianten, zweimal dasselbe Ergebnis. */
-const { cartoons, jw } = ladeBestand()
-const pool = kandidaten(cartoons, jw)
-const ohneUrteil = cartoons.map((c) => ({ ...c, streams: (c.streams ?? []).map(({ dub, ...weg }) => weg) }))
-const grund = adressenJeGruppe(kandidaten(ohneUrteil, jw))
-for (const [richtung, n] of Object.entries(grund)) assert.ok(n >= 50, `echter Bestand: Grundmenge ${richtung} ohne Urteilsfilter nur ${n} (Eingaben leer oder zusammengebrochen?)`)
-const soll = sollAusPool(pool)
-const heute = stichprobeDatei('2026-10-11')
-pruefeInvarianten(heute.eintraege, 'echter Bestand', soll)
-assert.deepEqual(stichprobeDatei('2026-10-11'), heute, 'echter Bestand: deterministisch')
+/** Fängt jeden Fehlschlag einer Zusicherung, gibt ihn aus und zählt ihn; die Schlusszeile `VERSTÖSSE: <n>` steht immer. */
+export function pruefeBestand(lade = ladeBestand, datei = stichprobeDatei) {
+  const fehler = []
+  const pruefe = (fn) => {
+    try {
+      fn()
+    } catch (e) {
+      fehler.push(e.message)
+    }
+  }
+  const { cartoons, jw } = lade()
+  const pool = kandidaten(cartoons, jw)
+  const ohneUrteil = cartoons.map((c) => ({ ...c, streams: (c.streams ?? []).map(({ dub, ...weg }) => weg) }))
+  const grund = adressenJeGruppe(kandidaten(ohneUrteil, jw))
+  for (const [richtung, n] of Object.entries(grund)) pruefe(() => assert.ok(n >= 50, `echter Bestand: Grundmenge ${richtung} ohne Urteilsfilter nur ${n} (Eingaben leer oder zusammengebrochen?)`))
+  const soll = sollAusPool(pool)
+  const heute = datei('2026-10-11')
+  pruefe(() => pruefeInvarianten(heute.eintraege, 'echter Bestand', soll))
+  pruefe(() => assert.deepEqual(datei('2026-10-11'), heute, 'echter Bestand: deterministisch'))
+  if (fehler.length === 0) console.log(`cartoon-jw-stichprobe-bestand-pruefen: ok (Pool ${JSON.stringify(adressenJeGruppe(pool))}, Grundmenge ${JSON.stringify(grund)}, Soll ${JSON.stringify(soll)})`)
+  for (const f of fehler) console.log(`FEHLER: ${f}`)
+  console.log(`VERSTÖSSE: ${fehler.length}`)
+  return fehler.length
+}
 
-console.log(`cartoon-jw-stichprobe-bestand-pruefen: ok (Pool ${JSON.stringify(adressenJeGruppe(pool))}, Grundmenge ${JSON.stringify(grund)}, Soll ${JSON.stringify(soll)})`)
+if (import.meta.url === pathToFileURL(process.argv[1]).href) process.exit(pruefeBestand() > 0 ? 1 : 0)

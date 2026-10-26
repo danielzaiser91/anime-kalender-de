@@ -18,5 +18,9 @@ for (const e of falsch) {
   const ist = glieder.has(e.anilistId) ? `staffelQuelle ${glieder.get(e.anilistId)?.staffelQuelle}` : 'keine Reihe'
   console.error(`FEHLER: AniList ${e.anilistId} (data/staffel-von-hand.yaml) soll Staffel ${e.staffel} sein, im Bestand: ${ist}`)
 }
-if (!eintraege.length || falsch.length) process.exit(1)
+if (!eintraege.length || falsch.length) {
+  console.log(`VERSTÖSSE: ${falsch.length || 1}`)
+  process.exit(1)
+}
 console.log(`Staffel von Hand (Bestand): ${eintraege.length} Eintrag/Einträge, alle mit der Staffelnummer in franchises.json`)
+console.log('VERSTÖSSE: 0')

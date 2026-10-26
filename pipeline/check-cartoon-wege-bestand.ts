@@ -49,6 +49,8 @@ if (existsSync(OUT)) pruefeBestand(readJson<Title[]>(OUT, []))
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu den Cartoon-Wegen am Bestand verletzt`)
+  console.log(`VERSTÖSSE: ${fehler}`)
   process.exit(1)
 }
 console.log('Cartoon-Wege (Bestand): Zusicherungen erfüllt')
+console.log('VERSTÖSSE: 0')

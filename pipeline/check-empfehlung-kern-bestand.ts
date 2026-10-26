@@ -19,6 +19,7 @@ const { profile, uebersprungen } = brauchbareProfile(k)
 for (const u of uebersprungen) console.warn(`  ! Profil ${u} hat weniger als ${MIN_KERN} Kerntitel und wird übersprungen (Schlagwort umbenannt?)`)
 if (profile.length < 3) {
   console.error(`  ✖ nur ${profile.length} von 5 Profilen mit mindestens ${MIN_KERN} Kerntiteln: Simulation nicht belastbar, Profile in pipeline/lib/empfehlung-simulation.ts an die Schlagwörter anpassen`)
+  console.log('VERSTÖSSE: 1')
   process.exit(1)
 }
 
@@ -86,9 +87,13 @@ if (zurueckFalsch) fehler.push(`${zurueckFalsch} Mal stellt „Zurück“ nicht 
 if (vorschlagsFehler) fehler.push(`${vorschlagsFehler} Vorschlagslisten ohne fünf verschiedene Titel`)
 
 for (const f of fehler) console.error(`  ✖ ${f}`)
-if (fehler.length) process.exit(1)
+if (fehler.length) {
+  console.log(`VERSTÖSSE: ${fehler.length}`)
+  process.exit(1)
+}
 console.log(
   `Empfehlung (Kern, Bestand): ${datei.einstiege.length} Einstiege, ${profile.length} Profile, Trefferquote ${(q4 * 100).toFixed(0)} / ${(q6 * 100).toFixed(0)} / ${(q12 * 100).toFixed(0)} % nach 4 / 6 / 12 Duellen ` +
     `(30 % unentschieden nach 6: ${(q6neutral * 100).toFixed(0)} %), Restmenge nach 2/4/6 Duellen ${rest.map((r) => r.toFixed(0)).join('/')}, ` +
     `200 Läufe ohne Teil-2-Duell, ohne wiederkehrendes Verworfenes, Zurück exakt`,
 )
+console.log('VERSTÖSSE: 0')

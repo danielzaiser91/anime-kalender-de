@@ -42,6 +42,46 @@ while (bis + 1 < zeilen.length && kehrtZurueck(bis + 1) && amAnfang(bis + 1)) bi
 nah(k[n], k[von + ((n - von) % 2)]) ⟶ nah(k[n], k[von + ((n - von + 1) % 2)])
 nah(k[n], k[von + ((n - von) % 2)]) ⟶ nah(k[n], k[von])
 nah(k[n], k[von + ((n - von) % 2)]) ⟶ nah(k[n], k[n - 2])
+(x) => x.bis === p.von - 1 ⟶ (x) => x.bis === p.von
+(x) => x.bis === p.von - 1 ⟶ (x) => x.bis === p.von - 2
+(x) => x.bis === q.von - 1 ⟶ (x) => x.bis === q.von
+(x) => x.bis === q.von - 1 ⟶ (x) => x.bis === q.von - 2
+glieder.unshift(q) ⟶ glieder.push(q)
+glieder.length < 2 || davor < 0 ⟶ glieder.length < 1 || davor < 0
+glieder.length < 2 || davor < 0 ⟶ glieder.length < 3 || davor < 0
+glieder.length < 2 || davor < 0 ⟶ glieder.length < 2 && davor < 0
+glieder.length < 2 || davor < 0 ⟶ glieder.length < 2 || davor < 1
+glieder.length < 2 || davor < 0 ⟶ glieder.length < 2 || davor < -1
+glieder.length < 2 || davor < 0 ⟶ davor < 0
+glieder.length < 2 || davor < 0 ⟶ glieder.length < 2
+const davor = glieder[0].davor ⟶ const davor = glieder[1].davor
+const davor = glieder[0].davor ⟶ const davor = ende.davor
+Number(zeilen[davor].mitUrteil) ⟶ Number(zeilen[davor + 1].mitUrteil)
+Number(zeilen[davor].mitUrteil) ⟶ Number(zeilen[glieder[0].von].mitUrteil)
+Math.min(ende.bis + 1, zeilen.length - 1) ⟶ ende.bis
+Math.min(ende.bis + 1, zeilen.length - 1) ⟶ zeilen.length - 1
+Math.min(ende.bis + 1, zeilen.length - 1) ⟶ Math.max(ende.bis + 1, zeilen.length - 1)
+Math.min(ende.bis + 1, zeilen.length - 1) ⟶ Math.min(ende.bis + 1, zeilen.length - 2)
+const d = nach - von ⟶ const d = von - nach
+d > 0 ? '+' : '' ⟶ d >= 0 ? '+' : ''
+d > 0 ? '+' : '' ⟶ d < 0 ? '+' : ''
+d > 0 ? '+' : '' ⟶ ''
+seit ${uhr(zeilen[glieder[0].von].zeitpunkt)} ⟶ seit ${uhr(zeilen[ende.von].zeitpunkt)}
+seit ${uhr(zeilen[glieder[0].von].zeitpunkt)} ⟶ seit ${uhr(zeilen[ende.bis].zeitpunkt)}
+Kette aus ${glieder.length} ⟶ Kette aus ${glieder.length + 1}
+return '' ⟶ return ' '
+return kopf + kettenText(zeilen, glieder, p) ⟶ return kopf
+return kopf + kettenText(zeilen, glieder, p) ⟶ return kopf + kettenText(zeilen, [p], p)
+return kopf + kettenText(zeilen, glieder, p) ⟶ return kopf + kettenText(zeilen, glieder, glieder[0])
+text: pendelText(zeilen, p, laufend, kette(pendel, p)) ⟶ text: pendelText(zeilen, p, laufend, [p])
+text: pendelText(zeilen, p, laufend, kette(pendel, p)) ⟶ text: pendelText(zeilen, p, laufend, kette(pendel, pendel[0]))
+const bezug = ende ? kette(pendel, ende)[0].davor : -1 ⟶ const bezug = ende ? ende.davor : -1
+const bezug = ende ? kette(pendel, ende)[0].davor : -1 ⟶ const bezug = ende ? kette(pendel, ende)[1].davor : -1
+const bezug = ende ? kette(pendel, ende)[0].davor : -1 ⟶ const bezug = ende ? kette(pendel, ende)[0].davor : 0
+if (bezug >= 0) { ⟶ if (bezug > 0) {
+if (bezug >= 0) { ⟶ if (true) {
+const ende = pendel.find((x) => x.bis === i - 1) ⟶ const ende = pendel.find((x) => x.bis === i)
+const ende = pendel.find((x) => x.bis === i - 1) ⟶ const ende = pendel.find((x) => x.bis === i - 2)
 ## tools/delta-pruefen.mjs
 ${e.laufend ? '⚠' : 'ℹ'} ⟶ ${'⚠'}
 ${e.laufend ? '⚠' : 'ℹ'} ⟶ ${'ℹ'}

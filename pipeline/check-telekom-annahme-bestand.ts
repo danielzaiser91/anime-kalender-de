@@ -22,6 +22,7 @@ function pruefe(name: string, ok: boolean, info = ''): void {
 const OUT = 'public/data/titles.json'
 if (!existsSync(OUT)) {
   console.error(`FEHLER: ${OUT} fehlt — erst bauen`)
+  console.log('VERSTÖSSE: 1')
   process.exit(1)
 }
 const titel = readJson<Title[]>(OUT, [])
@@ -40,4 +41,8 @@ pruefe('Bestand: kein Titel hängt mit seiner Deutsch-Antwort allein an der Anna
 const ersetzbar = meldeVerletzte(titel, 'telekom-annahme', 'Annahme, obwohl der MagentaTV-Zwilling gemessen hat', (t) => zwillingFehler([t]).length > 0)
 pruefe('Bestand: keine Annahme, wo der MagentaTV-Zwilling (gleiche Gracenote-Kennung) gemessenes Deutsch hat', ersetzbar.length === 0, zwillingFehler(titel)[0])
 console.log(`  ${titel.filter((t) => angenommen(t).length).length} Titel mit Telekom-Annahme`)
-if (fehler) process.exit(1)
+if (fehler) {
+  console.log(`VERSTÖSSE: ${fehler}`)
+  process.exit(1)
+}
+console.log('VERSTÖSSE: 0')
