@@ -12237,6 +12237,17 @@
     "fetchedAt": "2026-09-12T18:09:12.502Z",
     "stand": 3
   },
+  "20753": {
+    "titel": "Garo: The Animation",
+    "quelle": "ueberschrift",
+    "englisch": "Garo: The Animation",
+    "synonyme": [
+      "Garo Project"
+    ],
+    "anisearchId": 9764,
+    "fetchedAt": "2026-10-26T05:12:21.312Z",
+    "stand": 3
+  },
   "20756": {
     "titel": "Mobile Suit Gundam-san",
     "quelle": "ueberschrift",
@@ -38254,6 +38265,13 @@
     "fetchedAt": "2026-09-27T16:23:07.960Z",
     "stand": 3
   },
+  "161410": {
+    "titel": "Lycoris Recoil (Shinsaku Animation)",
+    "quelle": "ueberschrift",
+    "anisearchId": 18206,
+    "fetchedAt": "2026-10-26T05:12:28.270Z",
+    "stand": 3
+  },
   "161505": {
     "titel": "Fuyu no Okuri Mono",
     "quelle": "ueberschrift",
@@ -38724,6 +38742,17 @@
     "fetchedAt": "2026-09-27T15:38:25.623Z",
     "stand": 3
   },
+  "163326": {
+    "titel": "Cardcaptor Sakura: Clear Card-hen (Zokuhen)",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "CCSCC (Sequel)",
+      "Cardcaptor Sakura: Clear Card Arc (Sequel)"
+    ],
+    "anisearchId": 18326,
+    "fetchedAt": "2026-10-26T05:12:35.235Z",
+    "stand": 3
+  },
   "163364": {
     "titel": "Bikkurimen",
     "quelle": "ueberschrift",
@@ -39025,6 +39054,13 @@
     ],
     "anisearchId": 18935,
     "fetchedAt": "2026-09-27T15:39:33.161Z",
+    "stand": 3
+  },
+  "165831": {
+    "titel": "Macross (Shin Series)",
+    "quelle": "ueberschrift",
+    "anisearchId": 12706,
+    "fetchedAt": "2026-10-26T05:12:42.193Z",
     "stand": 3
   },
   "165855": {
@@ -40375,6 +40411,16 @@
     "fetchedAt": "2026-09-27T15:11:24.640Z",
     "stand": 3
   },
+  "170816": {
+    "titel": "Ginga Eiyuu Densetsu: Die Neue These (Zokuhen)",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Legend of the Galactic Heroes: Die Neue These (Sequel)"
+    ],
+    "anisearchId": 18846,
+    "fetchedAt": "2026-10-26T05:12:49.113Z",
+    "stand": 3
+  },
   "170822": {
     "titel": "Mukuware na Katta Murabito A, Kizoku ni Hirowarete Dekiai Sareru Ue ni, Jitsu wa Motteita Densetsu Kyuu no Kami Skill mo Kakusei Shita",
     "quelle": "ueberschrift",
@@ -40452,6 +40498,16 @@
     ],
     "anisearchId": 18893,
     "fetchedAt": "2026-09-27T15:44:30.597Z",
+    "stand": 3
+  },
+  "171017": {
+    "titel": "Ultraman: Darkness Heels",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "ウルトラマン ~ダークネスヒールズ~"
+    ],
+    "anisearchId": 19574,
+    "fetchedAt": "2026-10-26T05:12:56.069Z",
     "stand": 3
   },
   "171029": {
@@ -40598,6 +40654,14 @@
     ],
     "anisearchId": 18936,
     "fetchedAt": "2026-09-27T15:45:11.122Z",
+    "stand": 3
+  },
+  "171630": {
+    "titel": "The One Piece",
+    "quelle": "sprachblock",
+    "englisch": "The One Piece",
+    "anisearchId": 18939,
+    "fetchedAt": "2026-10-26T05:11:53.463Z",
     "stand": 3
   },
   "171637": {
@@ -45448,6 +45512,13 @@
     "fetchedAt": "2026-09-27T14:47:53.762Z",
     "stand": 3
   },
+  "195448": {
+    "titel": "Monogatari Series: Off &amp; Monster Season (Shin Episode)",
+    "quelle": "ueberschrift",
+    "anisearchId": 20697,
+    "fetchedAt": "2026-10-26T05:12:14.344Z",
+    "stand": 3
+  },
   "195486": {
     "titel": "Junji Ito: Crimson",
     "quelle": "sprachblock",
@@ -46430,6 +46501,19 @@
     "fetchedAt": "2026-09-27T15:03:59.311Z",
     "stand": 3
   },
+  "202251": {
+    "titel": "The Unaware Atelier Meister: Staffel 2",
+    "quelle": "synonym",
+    "synonyme": [
+      "The Unaware Atelier Master 2",
+      "The Unaware Atelier Meister 2",
+      "The Unaware Atelier Meister: Season 2",
+      "The Unaware Atelier Meister: Staffel 2"
+    ],
+    "anisearchId": 21009,
+    "fetchedAt": "2026-10-26T05:13:02.991Z",
+    "stand": 3
+  },
   "202253": {
     "titel": "Death Stranding Isolations",
     "quelle": "ueberschrift",
@@ -46574,6 +46658,17 @@
     "fetchedAt": "2026-09-27T15:05:00.084Z",
     "stand": 3
   },
+  "203651": {
+    "titel": "Code Geass: Hoshi Oi no Aspar",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Code Geass: Aspal the Star Chaser",
+      "Code Geass: Star Chaser Aspal"
+    ],
+    "anisearchId": 21062,
+    "fetchedAt": "2026-10-26T05:12:00.423Z",
+    "stand": 3
+  },
   "203710": {
     "titel": "Wei Miao Rensheng",
     "quelle": "ueberschrift",
@@ -46642,6 +46737,19 @@
     "fetchedAt": "2026-09-27T14:44:58.496Z",
     "stand": 3
   },
+  "204293": {
+    "titel": "Akatsuki no Yona (Zokuhen)",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Yona of the Dawn (Sequel)",
+      "Akatsuki no Yona: Prinzessin der Morgendämmerung (Fortsetzung)",
+      "Yona",
+      "Princesse de l’Aube (suite)"
+    ],
+    "anisearchId": 21103,
+    "fetchedAt": "2026-10-26T05:13:09.947Z",
+    "stand": 3
+  },
   "204361": {
     "titel": "Shin Kochira Katsushikaku Kameari Kouenmae Hashutsujo",
     "quelle": "ueberschrift",
@@ -46652,6 +46760,19 @@
     ],
     "anisearchId": 21119,
     "fetchedAt": "2026-09-27T14:49:07.890Z",
+    "stand": 3
+  },
+  "204362": {
+    "titel": "Gekijouban Kaijuu 8-gou",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Kaijuu 8-gou: Kanketsu-hen (怪獣8号 完結編)",
+      "Kaiju No. 8: Final Chapter",
+      "Kaiju No. 8: The Final Mission",
+      "Kaiju No. 8: The Movie"
+    ],
+    "anisearchId": 21115,
+    "fetchedAt": "2026-10-26T05:12:07.388Z",
     "stand": 3
   },
   "204363": {
@@ -46674,6 +46795,16 @@
     ],
     "anisearchId": 21117,
     "fetchedAt": "2026-09-14T11:41:21.590Z",
+    "stand": 3
+  },
+  "204429": {
+    "titel": "Chainsaw Man: Shikaku-hen",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Chainsaw Man: Assassins Arc"
+    ],
+    "anisearchId": 21123,
+    "fetchedAt": "2026-10-26T05:13:16.875Z",
     "stand": 3
   },
   "204432": {
@@ -46938,6 +47069,16 @@
     ],
     "anisearchId": 21166,
     "fetchedAt": "2026-10-12T05:29:10.103Z",
+    "stand": 3
+  },
+  "206812": {
+    "titel": "Dragon Ball Super: Ginga Patrol",
+    "quelle": "ueberschrift",
+    "synonyme": [
+      "Dragon Ball Super: The Galactic Patrol"
+    ],
+    "anisearchId": 21188,
+    "fetchedAt": "2026-10-26T05:13:23.821Z",
     "stand": 3
   },
   "206814": {
