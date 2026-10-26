@@ -7453,7 +7453,7 @@ pruefe(
     ({ slug, titleId: 1, name: slug, platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-10-01' }, ...extra }) as Release
   const data = {
     releaseBySlug: new Map([
-      ['w', rel('w')],
+      ['w', rel('w', { schedule: { firstEpisodeDate: '2026-10-01', episodeCount: 12 } })],
       ['teil2', rel('teil2', { schedule: { firstEpisodeDate: '2026-10-01', firstEpisodeNumber: 13 } })],
       ['katalog', rel('katalog', { dateMeaning: 'available-from' })],
     ]),
