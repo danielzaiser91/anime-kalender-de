@@ -88,6 +88,10 @@
     "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
   },
   {
+    "datei": "pipeline/check-interne-angaben-bestand.ts",
+    "grund": "Stand 26.10.2026: keine Titelmarke; die Angabe steht in Dateien, nicht in einem Titel. Sperrt den Bestandsbau ganz, gewollt: nichts Internes veröffentlichen."
+  },
+  {
     "datei": "pipeline/check-ja-hat-weg-bestand.ts",
     "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
   },

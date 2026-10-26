@@ -124,6 +124,7 @@ pipeline/check-herkunftsland.ts
 pipeline/check-ics-folgen.ts
 pipeline/check-ics-kopf.ts
 pipeline/check-install-stellen.ts
+pipeline/check-interne-angaben.ts
 pipeline/check-invarianten.ts
 pipeline/check-ja-hat-weg.ts
 pipeline/check-jw-ablauf.ts
