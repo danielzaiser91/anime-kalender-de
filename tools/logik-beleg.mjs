@@ -29,15 +29,34 @@ export function abdruckVon(pfadeUndHashes) {
   return createHash('sha256').update(zeilen.join('\n')).digest('hex')
 }
 
+/**
+ * Ausgaben des Bau-Laufs, die kein Commit je aufnimmt (weder `QUELLEN` noch `ERZEUGNISSE`, tools/quellen-liste.sh) und die keine Prüfung liest:
+ * `data:dub-checks` überschreibt sie bei jedem Bau, im Repo steht seit 29.09.2026 der Handstand. Sie zählen weder im Abdruck noch als Abweichung.
+ */
+export const NIE_COMMITTET = ['data/dub-pruefliste-zurueckgestellt.md']
+
+/** Zählt der Pfad zum Abdruck? Nein bei Datenpfaden und bei Ausgaben, die nie in einen Commit gehen. */
+const zaehlt = (pfad) => !istDatenpfad(pfad) && !NIE_COMMITTET.includes(pfad)
+
 /** Abdruck der Arbeitskopie in `cwd`. */
 export function abdruckAusGit(cwd = process.cwd(), lauf = git) {
   const roh = lauf(['ls-files', '-z', '--cached', '--others', '--exclude-standard'], { cwd })
   const alle = [...new Set(roh.split('\0').filter(Boolean))]
   if (alle.some((p) => p.includes('\n'))) throw new Error('Pfad mit Zeilenumbruch')
-  const pfade = alle.filter((p) => !istDatenpfad(p) && existsSync(`${cwd}/${p}`))
+  const pfade = alle.filter((p) => zaehlt(p) && existsSync(`${cwd}/${p}`))
   const hashes = lauf(['hash-object', '--stdin-paths'], { cwd, input: `${pfade.join('\n')}\n` }).split('\n').filter(Boolean)
   if (hashes.length !== pfade.length) throw new Error('Hash-Anzahl weicht von der Dateizahl ab')
   return abdruckVon(pfade.map((p, i) => [p, hashes[i]]))
+}
+
+/**
+ * Zählende Pfade, in denen die Arbeitskopie vom Index abweicht (geändert, gelöscht, neu und ungestagt). Der Commit nähme sie nicht mit, geprüft
+ * wurden sie trotzdem: der Abdruck der Arbeitskopie wäre ein anderer als der des Commits, und der Deploy fände den Beleg nicht (26.10.2026).
+ */
+export function ungestagt(cwd = process.cwd(), lauf = git) {
+  const geaendert = lauf(['diff', '--name-only', '-z', '--no-renames'], { cwd }).split('\0')
+  const neu = lauf(['ls-files', '-z', '--others', '--exclude-standard'], { cwd }).split('\0')
+  return [...new Set([...geaendert, ...neu].filter(Boolean))].filter(zaehlt).sort()
 }
 
 export const belegZeile = (abdruck) => `Logik-geprueft: ${abdruck}`
@@ -68,8 +87,20 @@ export function gueltigkeit(cwd, commits = letzteCommits) {
   }
 }
 
+/** Die Beleg-Zeile, wenn der Commit den geprüften Inhalt trägt; sonst eine Warnung mit den Pfaden, die er nicht mitnimmt. */
+export function zeileOderGrund(cwd, abdruck, ausgabe, warnung, lauf = git) {
+  let offen
+  try {
+    offen = ungestagt(cwd, lauf)
+  } catch {
+    offen = ['(Index nicht lesbar)']
+  }
+  if (offen.length) warnung(`::warning::Logik-Beleg entfällt, der Commit nähme nicht mit: ${offen.slice(0, 10).join(', ')}`)
+  else ausgabe(belegZeile(abdruck))
+}
+
 /** Aufrufe der Kommandozeile; Rückgabe ist der Exit-Code. */
-export function main([befehl, arg], cwd = process.cwd(), ausgabe = console.log, umgebung = process.env) {
+export function main([befehl, arg], cwd = process.cwd(), ausgabe = console.log, umgebung = process.env, warnung = console.error) {
   if (befehl === 'abdruck') {
     try {
       ausgabe(abdruckAusGit(cwd))
@@ -85,7 +116,7 @@ export function main([befehl, arg], cwd = process.cwd(), ausgabe = console.log, 
     } catch {
       gleich = false
     }
-    if (befehl === 'zeile' && gleich) ausgabe(belegZeile(arg))
+    if (befehl === 'zeile' && gleich) zeileOderGrund(cwd, arg, ausgabe, warnung)
     return befehl === 'gleich' && !gleich ? 1 : 0
   }
   if (befehl === 'gueltig') {

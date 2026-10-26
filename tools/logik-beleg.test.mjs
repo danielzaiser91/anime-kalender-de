@@ -3,13 +3,13 @@
  * Kommandozeile und die Verdrahtung in commit-data.sh, deploy.yml und bestand-bauen.yml (geparst, nicht per Textsuche).
  */
 import assert from 'node:assert/strict'
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
-import { BELEG_ZEILE, BOT_MAIL, abdruckAusGit, abdruckVon, belegAusNachricht, belegZeile, belegt, gueltigkeit, main } from './logik-beleg.mjs'
+import { BELEG_ZEILE, BOT_MAIL, NIE_COMMITTET, abdruckAusGit, abdruckVon, belegAusNachricht, belegZeile, belegt, gueltigkeit, main, ungestagt, zeileOderGrund } from './logik-beleg.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wurzel = join(tools, '..')
@@ -203,6 +203,103 @@ const abdruckIn = (ordner) => {
   const prozess = execFileSync(process.execPath, [join(tools, 'logik-beleg.mjs'), 'gueltig'], { cwd: r.ordner, encoding: 'utf8', windowsHide: true, env: { ...process.env, GITHUB_OUTPUT: join(wegwerf, 'prozess.txt') } })
   ok(prozess.startsWith('check:logic entfällt'), 'Prozessaufruf: Beleg erkannt')
   gleich(readFileSync(join(wegwerf, 'prozess.txt'), 'utf8'), 'gueltig=1\n', 'Prozessaufruf schreibt GITHUB_OUTPUT')
+}
+
+// 4b. Der Bau-Lauf (26.10.2026, Bau-Commit 678b76cc2): Schritte vor dem Commit ändern Dateien außerhalb der Datenpfade, die
+// `commit-data.sh` nie aufnimmt. Gespielt wird dessen Folge: Prüfstand abdrucken, Erzeugnisse stagen, `zeile`, Commit, frischer Klon.
+{
+  const AUSGABE = ['data', 'dub-pruefliste-zurueckgestellt.md'].join('/')
+  const bau = (aendereNachPruefung) => {
+    const r = repo()
+    r.schreibe('tools/a.mjs', 'eins')
+    r.schreibe(AUSGABE, 'Handstand')
+    r.schreibe(`${DATEN}/titles.json`, '{}')
+    r.commit('start')
+    r.schreibe(AUSGABE, 'Bau: 17 offene Verweise')
+    r.schreibe(`${DATEN}/titles.json`, '{"neu":1}')
+    const geprueft = abdruckIn(r.ordner)
+    aendereNachPruefung(r)
+    r.git('add', DATEN)
+    const ausgabe = []
+    const warnung = []
+    main(['zeile', geprueft], r.ordner, (z) => ausgabe.push(z), {}, (w) => warnung.push(w))
+    r.git('-c', 'user.name=t', '-c', `user.email=${BOT_MAIL}`, 'commit', '-q', '-m', 'chore(data): Bestand neu gebaut', ...(ausgabe[0] ? ['-m', ausgabe[0]] : []))
+    const klon = join(r.ordner, '..', `klon-${nummer}`)
+    execFileSync('git', ['clone', '-q', r.ordner, klon], { windowsHide: true, stdio: 'pipe' })
+    return { r, geprueft, ausgabe, warnung, klon }
+  }
+  const ruhig = bau(() => {})
+  gleich(ruhig.ausgabe, [belegZeile(ruhig.geprueft)], 'Bau: ungestagte Ausgabe-Datei verhindert den Beleg nicht')
+  gleich(ruhig.warnung, [], 'Bau: dann keine Warnung')
+  ok(gueltigkeit(ruhig.klon).gueltig, 'Bau: der frische Klon des Commits erkennt den Beleg')
+
+  const code = bau((r) => r.schreibe('tools/a.mjs', 'zwei'))
+  gleich(code.ausgabe, [], 'Bau: Code nach der Prüfung geändert und ungestagt: keine Beleg-Zeile')
+  ok(!gueltigkeit(code.klon).gueltig, 'Bau: dann erkennt der Klon keinen Beleg')
+
+  const gestagt = bau((r) => {
+    r.schreibe('tools/a.mjs', 'zwei')
+    r.git('add', 'tools/a.mjs')
+  })
+  gleich(gestagt.ausgabe, [], 'Bau: Code nach der Prüfung geändert und gestagt: keine Beleg-Zeile (Abdruck anders)')
+
+  // Code schon vor der Prüfung geändert, aber nicht gestagt: der Abdruck passt, der Commit trägt die Änderung nicht.
+  const r1 = repo()
+  r1.schreibe('tools/a.mjs', 'eins')
+  r1.commit('start')
+  r1.schreibe('tools/a.mjs', 'zwei')
+  const ausg = []
+  const warn = []
+  main(['zeile', abdruckIn(r1.ordner)], r1.ordner, (z) => ausg.push(z), {}, (w) => warn.push(w))
+  gleich(ausg, [], 'ungestagte Code-Änderung: keine Beleg-Zeile')
+  gleich(warn, ['::warning::Logik-Beleg entfällt, der Commit nähme nicht mit: tools/a.mjs'], 'die Warnung nennt den Pfad')
+  r1.git('add', 'tools/a.mjs')
+  main(['zeile', abdruckIn(r1.ordner)], r1.ordner, (z) => ausg.push(z), {}, (w) => warn.push(w))
+  gleich(ausg.length, 1, 'dieselbe Änderung gestagt: Beleg-Zeile')
+  r1.schreibe('tools/neu.mjs', 'x')
+  main(['zeile', abdruckIn(r1.ordner)], r1.ordner, (z) => ausg.push(z), {}, (w) => warn.push(w))
+  gleich([ausg.length, warn[1]], [1, '::warning::Logik-Beleg entfällt, der Commit nähme nicht mit: tools/neu.mjs'], 'neue ungestagte Code-Datei: keine Beleg-Zeile')
+
+  // Mehrere offene Pfade: sortiert, höchstens zehn genannt; als Prozess (wie commit-data.sh) steht die Warnung auf stderr, stdout bleibt leer.
+  const r3 = repo()
+  r3.schreibe('tools/a.mjs', 'eins')
+  r3.commit('start')
+  for (const n of ['k', 'b', 'a']) r3.schreibe(`tools/${n}.mjs`, 'x')
+  const viele = []
+  zeileOderGrund(r3.ordner, 'a'.repeat(64), () => {}, (w) => viele.push(w))
+  gleich(viele, ['::warning::Logik-Beleg entfällt, der Commit nähme nicht mit: tools/a.mjs, tools/b.mjs, tools/k.mjs'], 'mehrere offene Pfade: sortiert genannt')
+  for (let n = 0; n < 8; n += 1) r3.schreibe(`tools/z${n}.mjs`, 'x')
+  const elf = []
+  zeileOderGrund(r3.ordner, 'a'.repeat(64), () => {}, (w) => elf.push(w))
+  gleich(elf[0].split(': ')[1].split(', ').length, 10, 'elf offene Pfade: zehn genannt')
+  const stand = execFileSync(process.execPath, [join(tools, 'logik-beleg.mjs'), 'abdruck'], { cwd: r3.ordner, encoding: 'utf8', windowsHide: true }).trim()
+  const kind = spawnSync(process.execPath, [join(tools, 'logik-beleg.mjs'), 'zeile', stand], { cwd: r3.ordner, encoding: 'utf8', windowsHide: true })
+  gleich([kind.status, kind.stdout, kind.stderr.startsWith('::warning::Logik-Beleg entfällt')], [0, '', true], 'Prozess: Exit 0, stdout leer (kein Commit-Text), Warnung auf stderr')
+
+  // ungestagt: gelöscht zählt, Datenpfad, Ausgabe-Datei und ignorierte Datei nicht; Fehler von git heißen nie „nichts offen“.
+  const r2 = repo()
+  r2.schreibe('tools/a.mjs', 'eins')
+  r2.schreibe('.gitignore', 'ignoriert.txt\n')
+  r2.schreibe(AUSGABE, 'a')
+  r2.schreibe(`${DATEN}/titles.json`, '{}')
+  r2.commit('start')
+  r2.schreibe(AUSGABE, 'b')
+  r2.schreibe(`${DATEN}/titles.json`, '{"neu":1}')
+  r2.schreibe(`${DATEN}/neu.json`, '{}')
+  r2.schreibe('ignoriert.txt', 'x')
+  gleich(ungestagt(r2.ordner), [], 'ungestagt: Datenpfade, Ausgabe-Datei und ignorierte Datei zählen nicht')
+  rmSync(join(r2.ordner, 'tools/a.mjs'))
+  gleich(ungestagt(r2.ordner), ['tools/a.mjs'], 'ungestagt: gelöschte Code-Datei zählt')
+  const kaputt = []
+  zeileOderGrund(r2.ordner, 'a'.repeat(64), (z) => kaputt.push(['zeile', z]), (w) => kaputt.push(['warnung', w]), () => {
+    throw new Error('git kaputt')
+  })
+  gleich(kaputt, [['warnung', '::warning::Logik-Beleg entfällt, der Commit nähme nicht mit: (Index nicht lesbar)']], 'git-Fehler: keine Beleg-Zeile')
+
+  // Die Ausnahme-Datei hat keinen Leser und keinen Commit-Weg: sonst dürfte sie nicht aus dem Abdruck.
+  gleich(NIE_COMMITTET, [AUSGABE], 'NIE_COMMITTET: genau die Bau-Ausgabe ohne Commit')
+  const treffer = execFileSync('git', ['grep', '-l', '-F', AUSGABE, '--', 'pipeline', 'tools', 'shared', 'web/src', 'worker', 'extension', '.github'], { cwd: wurzel, encoding: 'utf8', windowsHide: true })
+  gleich(treffer.split('\n').filter(Boolean).sort(), ['pipeline/report-dub-checks.ts', 'tools/logik-beleg.mjs'], 'NIE_COMMITTET: nur der Schreiber und diese Liste nennen die Datei')
 }
 
 // 5. Verdrahtung: geparste Workflows und die Autor-Adresse in commit-data.sh.
