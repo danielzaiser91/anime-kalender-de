@@ -47,7 +47,7 @@ function titelKachel(titel: Title): Title {
 
 function releaseKachel(release: Release): Release {
   const kachel = ohne(release, RELEASE_OHNE)
-  if (kachel.sendungen) kachel.sendungen = kachel.sendungen.map((s) => ({ start: s.start }) as typeof s)
+  if (kachel.sendungen) kachel.sendungen = kachel.sendungen.map((s) => ({ start: s.start, ende: s.ende }) as typeof s)
   return kachel
 }
 
