@@ -73,8 +73,8 @@ ausgabe_lauf() { echo "Bau: 17 offene Verweise" > "$1/data/dub-pruefliste-zuruec
 # Code-Datei, die ein Bau-Schritt schreibt und kein Commit aufnimmt (liegt weder in QUELLEN noch in ERZEUGNISSE).
 fremd_lauf() { echo "x" > "$1/tools/bau-ausgabe.mjs"; }
 
-echo "Logik-Beleg: Bau-Ausgabe ohne Commit (überschriebene Handstand-Datei): der Beleg bleibt und der Deploy erkennt ihn im Klon"
-START_EXTRA=ausgabe_start LAUF_EXTRA=ausgabe_lauf bau_szenario beleg-ausgabe
+echo "Logik-Beleg: Bau-Ausgabe ohne Commit (überschriebene Handstand-Datei, Fernstand unbewegt): der Beleg bleibt und der Deploy erkennt ihn im Klon"
+UNBEWEGT=ja START_EXTRA=ausgabe_start LAUF_EXTRA=ausgabe_lauf bau_szenario beleg-ausgabe
 pruefe "Exit 0" 0 "$CODE"
 pruefe "der Fernstand behält den Handstand" Handstand "$(git -C "$ORIGIN" show main:data/dub-pruefliste-zurueckgestellt.md)"
 pruefe "Commit trägt die Beleg-Zeile" ja "$([ -n "$(beleg_im_fernstand)" ] && echo ja || echo nein)"

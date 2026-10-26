@@ -300,7 +300,7 @@ const abdruckIn = (ordner) => {
   // Die Ausnahme-Datei hat keinen Leser und keinen Commit-Weg: sonst dürfte sie nicht aus dem Abdruck.
   gleich(NIE_COMMITTET, [AUSGABE], 'NIE_COMMITTET: genau die Bau-Ausgabe ohne Commit')
   const treffer = execFileSync('git', ['grep', '-l', '-F', AUSGABE, '--', 'pipeline', 'tools', 'shared', 'web/src', 'worker', 'extension', '.github'], { cwd: wurzel, encoding: 'utf8', windowsHide: true })
-  gleich(treffer.split('\n').filter(Boolean).sort(), ['pipeline/report-dub-checks.ts', 'tools/logik-beleg.mjs'], 'NIE_COMMITTET: nur der Schreiber und diese Liste nennen die Datei')
+  gleich(treffer.split('\n').filter(Boolean).sort(), ['pipeline/report-dub-checks.ts', 'tools/commit-data-test-beleg.sh', 'tools/logik-beleg.mjs'], 'NIE_COMMITTET: nur der Schreiber, das Szenario und diese Liste nennen die Datei')
 }
 
 // 5. Verdrahtung: geparste Workflows und die Autor-Adresse in commit-data.sh.
