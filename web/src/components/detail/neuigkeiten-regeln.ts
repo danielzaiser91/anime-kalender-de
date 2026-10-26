@@ -1,5 +1,5 @@
 import type { NewsEintrag, NewsMeldung, Release } from '@shared/types.ts'
-import { omuLetzterTag } from '@shared/ankuendigung.ts'
+import { ankuendigungFrisch, omuLetzterTag } from '@shared/ankuendigung.ts'
 
 export interface Zeile {
   am: string
@@ -10,6 +10,10 @@ export interface Zeile {
 
 /** Meldungen, die einen Termin nennen — sie veralten mit ihm. */
 const TERMIN_ARTEN = new Set<NewsMeldung['art']>(['angekuendigt', 'rhythmus', 'disc', 'kino'])
+
+/** Eine angekündigte Synchro ist auch nach dem Start des Originaltons die Nachricht, solange die Ankündigung gilt (60 Tage, Rayearth 26.10.2026). */
+const synchroAnkuendigungGilt = (m: NewsMeldung, heute: string): boolean =>
+  m.omu === 'synchro-angekuendigt' && m.datum !== undefined && ankuendigungFrisch(m.datum, heute)
 
 /**
  * Was das Panel an News zeigt: **nur der eigene Titel** — bei Pokémon standen
@@ -32,7 +36,7 @@ export function meldungenImPanel(
         Eine **angekündigte** Staffel bleibt sichtbar — sie ist noch kein Termin,
         den das Panel schon zeigt, sondern die Nachricht selbst.
       */
-      if (TERMIN_ARTEN.has(m.art) && m.datum && omuLetzterTag(m.datum) < heute && !laeuft(m.release)) continue
+      if (TERMIN_ARTEN.has(m.art) && m.datum && omuLetzterTag(m.datum) < heute && !laeuft(m.release) && !synchroAnkuendigungGilt(m, heute)) continue
       zeilen.push({ am: e.am, m, teilId })
     }
   return zeilen.sort((a, b) => b.am.localeCompare(a.am))
