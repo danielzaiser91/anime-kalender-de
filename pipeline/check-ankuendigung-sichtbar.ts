@@ -7,16 +7,23 @@
  * Aufruf: npx tsx pipeline/check-ankuendigung-sichtbar.ts
  */
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { Title } from '../shared/types.ts'
-import { ankuendigungenLaden } from './lib/ankuendigungen.ts'
-import { setzeMarkenFuerPruefung } from './lib/anisearch-marke.ts'
-import { ANKUENDIGUNG_FRIST_TAGE, ausgestrahltOhneBeleg, frischAngekuendigt } from './bau/ohne-beleg.ts'
-import { rolleTermineAus } from './bau/10-termine.ts'
-import { versteckteFrischeAnkuendigungen, versteckteWarnzeile } from './lib/ankuendigung-versteckt.ts'
+
+/* Der Bau schreibt Dateien unter `data/` (widerlegte Termine, Sprecherquellen): Er läuft gegen einen Wegwerf-Ordner (`AK_ROOT`), nie gegen das Repo. */
+const bauOrdner = mkdtempSync(join(tmpdir(), 'ankuendigung-sichtbar-bau-'))
+mkdirSync(join(bauOrdner, 'data'))
+for (const datei of ['ohne-synchro-von-hand.yaml', 'kino-ankuendigungen.yaml']) copyFileSync(join(import.meta.dirname, '..', 'data', datei), join(bauOrdner, 'data', datei))
+mkdirSync(join(bauOrdner, 'data', 'curated'))
+process.env.AK_ROOT = bauOrdner
+const { ankuendigungenLaden } = await import('./lib/ankuendigungen.ts')
+const { setzeMarkenFuerPruefung } = await import('./lib/anisearch-marke.ts')
+const { ANKUENDIGUNG_FRIST_TAGE, ausgestrahltOhneBeleg, frischAngekuendigt } = await import('./bau/ohne-beleg.ts')
+const { rolleTermineAus } = await import('./bau/10-termine.ts')
+const { versteckteFrischeAnkuendigungen, versteckteWarnzeile } = await import('./lib/ankuendigung-versteckt.ts')
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -111,6 +118,7 @@ console.log('Bestandswache')
   rmSync(ordner, { recursive: true, force: true })
 }
 
+rmSync(bauOrdner, { recursive: true, force: true })
 if (fehler) {
   console.error(`${fehler} Fall/Fälle rot`)
   process.exit(1)
