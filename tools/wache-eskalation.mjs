@@ -8,7 +8,11 @@ import { readFileSync } from 'node:fs'
 import { FRISTEN } from './quellen-fristen.mjs'
 
 const TAG_MS = 86_400_000
-/** Standardfrist von `pipeline/check-sources.ts` für Quellen ohne eigenen Eintrag. */
+/**
+ * Standardfrist von `pipeline/check-sources.ts` für Quellen ohne eigenen Eintrag (Alarm erst bei 8 Tagen).
+ * Jede Quelle, die ein Workflow stündlich oder täglich schreibt, hat deshalb einen eigenen Eintrag in
+ * `quellen-fristen.mjs` (Wächter `quellen-fristen-takt.test.mjs`, seit 26.10.2026).
+ */
 export const STANDARD_FRIST_TAGE = 4
 /** Läuft nur von Daniels Rechner (anonymes Crunchyroll-Token mit deutscher Region), nie aus der Cloud. */
 export const DANIELS_HANDGRIFF = new Set(['cr-einzelwerke', 'cr-filmbloecke'])

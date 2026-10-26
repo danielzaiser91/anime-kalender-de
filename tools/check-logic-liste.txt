@@ -66,6 +66,7 @@ pipeline/check-cover-quelle.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
 pipeline/check-cr-ja-deckung.ts
+pipeline/check-cr-kalender-diagnose.ts
 pipeline/check-cr-katalog-ein-werk.ts
 pipeline/check-cr-komplettabwurf.ts
 pipeline/check-cr-nein-ueberholt.ts
