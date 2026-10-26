@@ -73,6 +73,8 @@ console.log('\nTMDB-Lücke: überholte Kennung')
 const folgenBestand: Record<string, { tmdbId?: number }> = { 1: { tmdbId: 10 }, 2: { tmdbId: 20 }, 3: { tmdbId: 30 } }
 const gestrichen = streicheFremdeKennungen(folgenBestand, { 1: { tmdbId: 10 }, 2: { tmdbId: 21 } })
 pruefe('andere und fehlende Kennung wird gestrichen, gleiche bleibt', gestrichen.join() === '2,3' && Object.keys(folgenBestand).join() === '1', [gestrichen, folgenBestand])
+const ohneTitel: Record<string, { tmdbId?: number }> = { 1: { tmdbId: 10 } }
+pruefe('leere tmdb-titles.json streicht nichts', streicheFremdeKennungen(ohneTitel, {}).length === 0 && Object.keys(ohneTitel).join() === '1', ohneTitel)
 
 if (verletzt > 0) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
