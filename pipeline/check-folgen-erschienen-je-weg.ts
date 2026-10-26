@@ -68,7 +68,7 @@ pruefe('Kein nicht-TV-Plan, nur Disc: nichts', weg([{ ...drop, releaseType: 'dis
 
 console.log('\nDeutsche Folgen: der Bau reicht die Pläne durch (Kulisse)')
 /** Startet den Lauf in der Kulisse (`AK_ROOT`) und liest die `de`-Zeile; ein Fehlschlag des Kindprozesses ist ein Fehler des Falls. */
-function lauf(wurzel: string, art: 'mit' | 'ohne' | 'zukunft' | 'mehrere'): string {
+function lauf(wurzel: string, art: 'mit' | 'ohne' | 'zukunft' | 'mehrere' | 'zusatz'): string {
   const wurzelRepo = join(import.meta.dirname, '..')
   const tsx = createRequire(join(wurzelRepo, 'package.json')).resolve('tsx/cli')
   const r = spawnSync(process.execPath, [tsx, join(wurzelRepo, 'pipeline/lib/kulisse-folgen-erschienen.ts'), art], {
@@ -98,6 +98,8 @@ function kulisse(): void {
     pruefe('Bau: Plan startet erst 2999 — noch nichts deutsch', zukunft === '[]', zukunft)
     const mehrere = lauf(wurzel, 'mehrere')
     pruefe('Bau: Pläne zweier Anbieter am selben Titel — Netflix-Plan zählt trotz Crunchyroll-Plan danach', mehrere === '[[1,20]]', mehrere)
+    const zusatz = lauf(wurzel, 'zusatz')
+    pruefe('Bau: `schreibeZusatzdateien` reicht die Releases an die Folgendatei durch — deutsch 1-20', zusatz === '[[1,20]]', zusatz)
   } finally {
     rmSync(wurzel, { recursive: true, force: true })
   }
