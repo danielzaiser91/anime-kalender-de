@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-25T14:49:50.889Z",
+ "erzeugtAm": "2026-10-26T05:20:51.628Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 855,
-   "gesamt": 899,
-   "offen": 44,
+   "gemeldet": 853,
+   "gesamt": 905,
+   "offen": 52,
    "ohneSeite": 16,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -61,6 +61,10 @@
      "titel": "Yandere Dark Elf: She Chased Me All the Way from Another World!"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0FR3P275F",
+     "titel": "Hände weg, Kotesashi-kun (Hands off: Sawaranaide Kotesashi-kun!)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0FP4BJZFG",
      "titel": "Dusk Beyond the End of the World"
     },
@@ -113,12 +117,20 @@
      "titel": "Dragon Quest: The Adventure of Dai"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0C8X3SVR3",
+     "titel": "Legend of the Galactic Heroes: Die Neue These (Legend of the Galactic Heroes: Die Neue These Second)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP",
      "titel": "Babylon"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.31c2fcde-089d-47dd-bf2b-09bca0de572f",
      "titel": "Yunas Geisterhaus (Yuuna and the Haunted Hot Springs)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0CFL5Y7XN",
+     "titel": "Goblin Slayer"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.78b91eef-2e25-9512-4024-a8c43ad3e1f9",
@@ -157,6 +169,10 @@
      "titel": "Shomin Sample"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B07LHCSXV6",
+     "titel": "Chaika, die Sargprinzessin (Chaika -The Coffin Princess-)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0GMY84XLR",
      "titel": "Wanna Be the Strongest in the World!"
     },
@@ -167,6 +183,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHN14W48",
      "titel": "Free! Iwatobi Swim Club (Free! -Iwatobi Swim Club-)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0CHMH8ZJS",
+     "titel": "Strike Witches 2"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DMWSJ7B9",
@@ -185,6 +205,10 @@
      "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.90c814d3-83d5-4e7e-aa2c-68e5234cd305",
+     "titel": "Shakugan no Shana"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0GYDLTDD8",
      "titel": "Cardcaptor Sakura"
     },
@@ -199,6 +223,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DNNFT23G",
      "titel": "Shin-chan (Shin Chan)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B00WDK3XPE",
+     "titel": "Wickie und die starken Männer (Vicky the Viking)"
     }
    ],
    "naechster": "2.5 Dimensional Seduction (2.5-jigen no Ririsa 2nd Season)",
@@ -368,7 +396,7 @@
     "B0GDGLLYLS": 24,
     "B0FJ7GC6S6": 10,
     "B0DJWXLZ55": 12,
-    "B0HKFFGQ7F": 3,
+    "B0HKFFGQ7F": 4,
     "B0FN41VKQ5": 12,
     "B0DQ6SDQL2": 12,
     "B0H1QXQL33": 12,
@@ -380,8 +408,8 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 766,
-   "gesamt": 893,
+   "gemeldet": 765,
+   "gesamt": 892,
    "offen": 127,
    "ohneSeite": 17,
    "ziel": "https://www.netflix.com/title/81608820",
@@ -784,10 +812,10 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 177,
-   "gesamt": 340,
+   "gemeldet": 178,
+   "gesamt": 341,
    "offen": 163,
-   "ohneSeite": 18,
+   "ohneSeite": 17,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
     {
