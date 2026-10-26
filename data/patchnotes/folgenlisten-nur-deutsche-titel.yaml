@@ -1,3 +1,3 @@
 kategorie: bugfix
-text: Folgenlisten zeigen nur noch deutsche Titel
-untertitel: Ohne deutschen Titel steht ein Strich statt Englisch
+text: Folgentitel im Detail-Panel nur noch auf Deutsch
+untertitel: Fehlt der deutsche Titel, steht ein Strich statt Englisch

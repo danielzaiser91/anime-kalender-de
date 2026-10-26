@@ -3943,7 +3943,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'die Katalog-Runde greift nur bei genau einer Staffel',
-    bau.includes('if ((eintrag.staffeln ?? 0) !== 1 || vorDemStart(title, katalog.geholtAm)'),
+    bau.includes('if (!katalogSerieIstEinWerk(crDub, kennung, eintrag, title) || vorDemStart(title, katalog.geholtAm)'),
     'eine Serienkennung ist ein Franchise — Free! führt neun Staffeln unter einer',
   )
   pruefe(
