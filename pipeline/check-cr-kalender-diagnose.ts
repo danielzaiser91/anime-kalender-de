@@ -48,12 +48,14 @@ console.log('kalenderDiagnose')
   pruefe(kalenderDiagnose({ status: 200, titel: 't', text: knapp, html: '' }).includes(`Text „${knapp}“`), '39 Zeichen am Stück bleiben')
   pruefe(kalenderDiagnose({ status: 200, titel: 't', text: `${knapp}k`, html: '' }).includes('Text „…“'), '40 Zeichen am Stück entfernt')
   pruefe(kalenderDiagnose({ status: 200, titel: 't', text: 'a\n\n  b\tc', html: '' }).includes('Text „a b c“'), 'Leerraum zusammengezogen')
+  pruefe(kalenderDiagnose({ status: 200, titel: 't', text: '\n  a b \n', html: '' }).includes('Text „a b“'), 'Leerraum am Rand entfernt')
   pruefe(kalenderDiagnose({ status: 200, titel: 'Einen Moment…', text: '', html: '' }).includes('Challenge-Merkmale: Einen Moment'), 'Merkmal im Titel')
 }
 
 console.log('fehlerText')
 {
   pruefe(fehlerText([]) === 'keine Kachel im Kalender gefunden', 'ohne Diagnose: alter Satz')
+  pruefe(fehlerText(['2026-10-12: A']) === 'keine Kachel im Kalender gefunden — 2026-10-12: A', 'genau eine Diagnose')
   pruefe(fehlerText(['2026-10-12: A', '2026-10-19: B']) === 'keine Kachel im Kalender gefunden — 2026-10-12: A', 'erste Woche')
 }
 
