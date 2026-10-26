@@ -22,7 +22,7 @@
 const BROWSER = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36'
 
 /** Wer wir sind und wo man uns erreicht — die Angabe, die seit dem 09.08.2026 mitläuft. */
-const PROJEKT = 'anime-kalender.de/1.0 (+https://anime-kalender.de; danielzaiser91@googlemail.com)'
+const PROJEKT = 'anime-kalender.de/1.0 (+https://anime-kalender.de; kontakt@anime-kalender.de)'
 
 /**
  * Die Kennung für Abrufe gegen Server, die eine nackte Projektkennung abweisen.
