@@ -50,7 +50,7 @@ const SHOWS_API = `${BASE}/show`
  * Verursacher anzuschreiben, statt ihn auszusperren. Nötig war sie ohnehin nie
  * — mit ehrlicher Kennung antwortet dieselbe Schnittstelle mit 200.
  */
-const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de; danielzaiser91@googlemail.com)'
+const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de; kontakt@anime-kalender.de)'
 /**
  * `Accept-Language: de` entscheidet über die **Sprache der Titel**.
  *

@@ -8,4 +8,6 @@ export interface AusschnittEigenschaften {
   /** Das Mockup und seine Variante (leer = Vorher), für Ausschnitte mit eigenen Entwürfen. */
   mockup: string
   variante: string
+  /** Kennung des gewählten Falls (Schlüssel in `faelle.json`); leer, wenn die Adresse keinen nennt. */
+  fallKennung?: string
 }
