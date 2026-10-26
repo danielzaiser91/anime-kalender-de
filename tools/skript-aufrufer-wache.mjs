@@ -24,7 +24,7 @@ const TOPLEVEL_LAUF = /^(?!export |function |async function )[^\n]*\bprocess\.ex
 const EXPORT = /^\s*export\s/m
 // Ausnahmelisten nennen Dateien als Daten (`datei: '…'`), sie rufen nichts auf.
 const DATENLISTE = /ausnahmen/i
-const LESBAR =/\.(mjs|cjs|js|mts|ts|tsx|sh|json|ya?ml|txt)$/
+const LESBAR = /\.(mjs|cjs|js|mts|ts|tsx|sh|json|ya?ml|txt)$/
 const LISTEN = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt']
 const AUSNAHMEN = 'tools/skript-aufrufer-ausnahmen.txt'
 
