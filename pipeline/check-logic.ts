@@ -8297,11 +8297,11 @@ console.log('\nAusgestrahlt ohne deutschen Beleg:')
 {
   /* Ranma 1/2 Staffel 3 (Daniel, 04.10.2026): Weg da, kein deutscher Beleg → hinter den Toggle; belegte und alte Titel bleiben. */
   const titel = (jpYear: number, streams: { platform: string; dub?: boolean }[], extra: Partial<Title> = {}) => ({ id: 999_999_999, jpYear, streams, ...extra }) as unknown as Title
-  pruefe('neue Staffel mit ungeprüftem Weg und ohne Beleg wird verschoben', ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix' }])))
-  pruefe('ein Weg mit belegter Synchro bleibt', !ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix', dub: true }])))
-  pruefe('eine Erstausgabe-Marke bleibt', !ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix' }], { deErstausgabe: { synchro: true } } as Partial<Title>)))
-  pruefe('ein älterer Fernsehtitel ohne Weg bleibt', !ausgestrahltOhneBeleg(titel(1999, [])))
-  pruefe('ein älterer Titel mit ungeprüftem Weg bleibt', !ausgestrahltOhneBeleg(titel(2019, [{ platform: 'crunchyroll' }])))
+  pruefe('neue Staffel mit ungeprüftem Weg und ohne Beleg wird verschoben', ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix' }]), '2026-10-26'))
+  pruefe('ein Weg mit belegter Synchro bleibt', !ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix', dub: true }]), '2026-10-26'))
+  pruefe('eine Erstausgabe-Marke bleibt', !ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix' }], { deErstausgabe: { synchro: true } } as Partial<Title>), '2026-10-26'))
+  pruefe('ein älterer Fernsehtitel ohne Weg bleibt', !ausgestrahltOhneBeleg(titel(1999, []), '2026-10-26'))
+  pruefe('ein älterer Titel mit ungeprüftem Weg bleibt', !ausgestrahltOhneBeleg(titel(2019, [{ platform: 'crunchyroll' }]), '2026-10-26'))
 }
 console.log('\nBeleg: Fundstelle, Banner, Handlung:')
 {
@@ -8633,7 +8633,7 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
 }
 /* aniSearch „vertont" (d) oder „abgebrochen" (c) ist ein Synchro-Beleg: der Titel bleibt trotz Streams ohne eigenen Beleg im Hauptbestand; „geplant" (p) nicht. */
 {
-  const ohneBelegAls = (id: number) => ausgestrahltOhneBeleg({ id, jpYear: 2026, streams: [{ platform: 'netflix' } as never] } as unknown as Title)
+  const ohneBelegAls = (id: number) => ausgestrahltOhneBeleg({ id, jpYear: 2026, streams: [{ platform: 'netflix' } as never] } as unknown as Title, '2026-10-26')
   const dubs: Record<string, string> = { 900101: 'd', 900102: 'c', 900103: 'p', 900104: '-' }
   setzeMarkenFuerPruefung(dubs)
   const mit = (k: string) => Number(Object.keys(dubs).find((id) => dubs[id] === k))

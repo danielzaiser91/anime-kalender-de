@@ -4,7 +4,7 @@ import { cos, zufall, type Kontext } from './empfehlung-vektor.ts'
 /** Gewertete Duelle bis zu den ersten Vorschlägen, und bis „Noch vier Duelle – genauer“ (Spezifikation 17.4/18). */
 export const DUELLE_START = 6
 export const DUELLE_MAX = 10
-/** Gezeigte Duelle einschließlich „Kann mich nicht entscheiden“: danach ist Schluss, auch ohne Antworten. */
+/** Gezeigte Duelle einschließlich „Andere Vorschläge“: danach ist Schluss, auch ohne Antworten. */
 export const SCHRITTE_MAX = 30
 /** Die Restmenge schrumpft nie unter so viele Titel (die nächsten am Sieger). */
 export const UNTERGRENZE_REST = 12

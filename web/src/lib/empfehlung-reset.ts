@@ -6,7 +6,7 @@ export interface SpeicherLoeschen {
 }
 
 /**
- * Löscht alles, was „Was gucken?“ im Browser abgelegt hat (gewählte Anbieter der Reise, Geguckt, Verworfen).
+ * Löscht alles, was „Entdecken“ im Browser abgelegt hat (gewählte Anbieter der Reise, Geguckt, Verworfen).
  * Favoriten, ausgeblendete Titel und „Meine Anbieter“ der Datenbank bleiben. Gibt die Zahl der Schlüssel zurück,
  * die angefasst wurden; ein gesperrter Speicher wirft nicht.
  */

@@ -6,6 +6,7 @@ pipeline/check-adn-offen-bestand.ts
 pipeline/check-angebot-bestand.ts
 pipeline/check-anisearch-dubletten-bestand.ts
 pipeline/check-anisearch-katalog-abgleich-bestand.ts
+pipeline/check-ankuendigung-versteckt-bestand.ts
 pipeline/check-belegstaerke-bestand.ts
 pipeline/check-cartoon-aufnahme-bestand.ts
 pipeline/check-cartoon-news.ts
@@ -22,6 +23,7 @@ pipeline/check-empfehlung-bestand.ts
 pipeline/check-empfehlung-kern-bestand.ts
 pipeline/check-favoriten-feed-bestand.ts
 pipeline/check-folge-zwoelf-hinweis-bestand.ts
+pipeline/check-folgen-erschienen-bestand.ts
 pipeline/check-folgenflaggen-bestand.ts
 pipeline/check-folgentitel-sprache-bestand.ts
 pipeline/check-folgenzahl-kennzeichnung-bestand.ts

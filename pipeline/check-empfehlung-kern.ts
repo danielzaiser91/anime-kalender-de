@@ -1,6 +1,6 @@
 /**
  * Zusicherungen zum Rechenkern der Empfehlung (`shared/empfehlung-kern.ts`, `empfehlung-vektor.ts`) an einer erfundenen Pool-Datei:
- * Paarwahl, Eingrenzung, „Kann mich nicht entscheiden“, Zurück, Vorschläge mit Verworfenen, Abzüge. Die Simulation am echten
+ * Paarwahl, Eingrenzung, „Andere Vorschläge“, Zurück, Vorschläge mit Verworfenen, Abzüge. Die Simulation am echten
  * Bestand steht in `check-empfehlung-kern-bestand.ts`. Aufruf: `npm run check:logic`.
  */
 import type { EmpfehlungsDatei, Kandidat } from '../shared/empfehlung-pool.ts'
@@ -150,7 +150,7 @@ console.log('\nEmpfehlung, Eingrenzung:')
   pruefe('Restmenge schrumpft von Duell zu Duell nicht', zwei.rest.length <= 40 && zwei.rest.every((i) => z0.rest.includes(i)))
 }
 
-console.log('\nEmpfehlung, Kann mich nicht entscheiden:')
+console.log('\nEmpfehlung, Andere Vorschläge:')
 {
   const z0 = neuerZustand(k, 11)
   const paar = naechstesPaar(k, z0)!

@@ -22,14 +22,15 @@ function quelldateien(ordner: string): string[] {
 }
 
 function main(): number {
-  const fristen = fristNamen(readFileSync(join(ROOT, 'pipeline/check-sources.ts'), 'utf8'))
+  const fristen = fristNamen(readFileSync(join(ROOT, 'tools/quellen-fristen.mjs'), 'utf8'))
   const schreiber = ORDNER.flatMap(quelldateien).flatMap((d) => schreiberNamen(readFileSync(join(ROOT, d), 'utf8')))
   const fehlt = ohneSchreiber(fristen, schreiber)
   const unklar = schreiber.filter((n) => n === '?').length
   console.log(`check-quellen-schreiber: ${fristen.length} Fristen, ${schreiber.length} Schreiber (${unklar} mit unlesbarem Namen), ${fehlt.length} ohne Schreiber${fehlt.length ? `: ${fehlt.join(', ')}` : ''}`)
   if (fehlt.length) console.error('Frist ohne Schreiber: Quelle eingestellt? Dann aus FRISTEN austragen.')
   if (unklar) console.error('recordSource mit Name als Variable: Name als Zeichenkette schreiben, sonst prüft der Wächter blind.')
-  return fehlt.length || unklar ? 1 : 0
+  if (!fristen.length) console.error('Keine Fristen gelesen: der Wächter prüft sonst nichts (FRISTEN nicht mehr als Objektliteral in tools/quellen-fristen.mjs?).')
+  return fehlt.length || unklar || !fristen.length ? 1 : 0
 }
 
 process.exit(main())

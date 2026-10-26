@@ -37,6 +37,7 @@ pipeline/check-anisearch-reihen-rein.ts
 pipeline/check-anisearch-reihen.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
+pipeline/check-ankuendigung-sichtbar.ts
 pipeline/check-antwort-jetzt.ts
 pipeline/check-ausgeblieben-text.ts
 pipeline/check-auto-disc-handeintrag.ts
@@ -65,6 +66,7 @@ pipeline/check-cover-quelle.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
 pipeline/check-cr-ja-deckung.ts
+pipeline/check-cr-kalender-diagnose.ts
 pipeline/check-cr-katalog-ein-werk.ts
 pipeline/check-cr-komplettabwurf.ts
 pipeline/check-cr-nein-ueberholt.ts
@@ -90,6 +92,8 @@ pipeline/check-dub-durchgehende-zaehlung.ts
 pipeline/check-effekt-abhaengigkeiten.ts
 pipeline/check-empfehlung-ablauf.ts
 pipeline/check-empfehlung-ansicht.ts
+pipeline/check-empfehlung-duell-lauf.ts
+pipeline/check-empfehlung-duell.ts
 pipeline/check-empfehlung-kern.ts
 pipeline/check-empfehlung-reset.ts
 pipeline/check-empfehlung-sichtbar.ts
@@ -104,6 +108,7 @@ pipeline/check-folge-ueber-anzahl-bau.ts
 pipeline/check-folge-ueber-anzahl.ts
 pipeline/check-folge-ueber-titel.ts
 pipeline/check-folge-zwoelf-hinweis.ts
+pipeline/check-folgen-erschienen-je-weg.ts
 pipeline/check-folgenblock.ts
 pipeline/check-folgenflaggen.ts
 pipeline/check-folgenzahl-belegt.ts
