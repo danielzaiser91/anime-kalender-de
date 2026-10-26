@@ -29,7 +29,7 @@ const AOASHI = 'Deutsche Fassung bei Crunchyroll — 1 Folgen mit belegtem Termi
 const namen = (liste: Release[]): string[] => batchUeberBelegt(liste).map((r) => r.slug)
 
 pruefe('Herkunft wörtlich (Aoashi): 1 belegte Folge', belegteFolgen(AOASHI) === 1, belegteFolgen(AOASHI))
-pruefe('Der Erzeuger der Herkunft und der Leser passen zusammen', belegteFolgen(crHerkunft(7, 'Staffel 2')) === 7 && crHerkunft(1, 'Staffel 2') === AOASHI, crHerkunft(1, 'Staffel 2'))
+pruefe('Der Erzeuger der Herkunft und der Leser passen zusammen', belegteFolgen(crHerkunft(24, 'Staffel 2')) === 24 && crHerkunft(1, 'Staffel 2') === AOASHI, crHerkunft(1, 'Staffel 2'))
 pruefe('ohne Herkunft: keine Zahl', belegteFolgen(undefined) === null && belegteFolgen('Kalender') === null)
 pruefe('Aoashi: 1 belegt, 24 behauptet — gemeldet', namen([release('aoashi', AOASHI, 24)]).join() === 'aoashi', namen([release('aoashi', AOASHI, 24)]))
 pruefe('Film (1 von 1): nicht gemeldet', namen([release('film', crHerkunft(1, 'Film'), 1)]).length === 0)
