@@ -63,21 +63,25 @@ pruefe('baueNews: Meldung „Synchro angekündigt" am Tag der Quelle trotz Relea
   fielen heraus). 410 jüngere Füller drücken die Ankündigungen hinter Platz 400; frische bleiben, abgelaufene (60 Tage nach Start) dürfen fallen.
 */
 const heute = todayIso()
-const fueller = Array.from({ length: 410 }, (_, i) =>
-  titel(910000 + i, { ...a('offen'), omuAb: addDays(heute, 5), stand: addDays(heute, -1 - (i % 50)) }),
+const fueller = Array.from({ length: 450 }, (_, i) =>
+  titel(910000 + i, { ...a('offen'), omuAb: addDays(heute, -70), stand: addDays(heute, -1 - (i % 50)) }),
 )
 const alt = addDays(heute, -110)
 const frisch = [
   titel(920001, { ...a('angekuendigt'), omuAb: addDays(heute, 5), stand: alt }),
   titel(920002, { ...a('angekuendigt'), omuAb: addDays(heute, -60), stand: alt }),
+  titel(920004, { ...a('offen'), omuAb: addDays(heute, -30), stand: alt }),
 ]
 const abgelaufen = titel(920003, { ...a('angekuendigt'), omuAb: addDays(heute, -61), stand: alt })
-const voll = baueNews([...fueller, ...frisch, abgelaufen], [], [], [], { zuerst: {} })
-const hat = (id: number): boolean => voll.some((e) => e.meldungen.some((m) => m.omu === 'synchro-angekuendigt' && e.slug === `t-${id}`))
+const voll = baueNews([...fueller.slice(0, 410), ...frisch, abgelaufen], [], [], [], { zuerst: {} })
+const hat = (id: number): boolean => voll.some((e) => e.meldungen.some((m) => m.omu !== undefined && e.slug === `t-${id}`))
 pruefe('Die Liste ist über der Grenze (Wächter nicht blind)', voll.length > 400, voll.length)
 pruefe('Beschnitt: frische angekündigte Synchro, Start in der Zukunft, bleibt trotz voller Liste', hat(920001))
 pruefe('Beschnitt: frische angekündigte Synchro, Start vor 60 Tagen (letzter Tag), bleibt trotz voller Liste', hat(920002))
+pruefe('Beschnitt: frische Ankündigung mit offener Synchro bleibt trotz voller Liste', hat(920004))
 pruefe('Beschnitt: abgelaufene Ankündigung (61 Tage nach Start) fällt wie jede andere Meldung', !hat(920003))
+const ueberDeckel = baueNews([...fueller, frisch[0]!], [], [], [], { zuerst: {} })
+pruefe('Deckel: bei 451 Einträgen passt auch eine frische Ankündigung nicht mehr hinein (höchstens 440)', ueberDeckel.length <= 440 && !ueberDeckel.some((e) => e.slug === 't-920001'), ueberDeckel.length)
 
 console.log(verletzt === 0 ? '\nAnkündigungs-Meldung: alle Zusicherungen halten.' : `\nAnkündigungs-Meldung: ${verletzt} Zusicherung(en) verletzt.`)
 process.exit(verletzt === 0 ? 0 : 1)
