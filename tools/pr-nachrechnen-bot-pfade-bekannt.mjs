@@ -52,6 +52,8 @@ export const BEKANNT_TREFFER = new Set(
  * Handdurchsicht 26.10.2026: alle nennen das Dokument nur in einer Meldung oder einem Text; die einzige Ausnahme liest, `tools/design-kontrast.mjs`
  * (Kontrasttabelle in `docs/wissen/design-regeln.md`), darum steht diese Datei nicht in der Ausnahme von `pr-nachrechnen.mjs`.
  */
+// Geteilt, damit der Name keine Zeichenkette mit `prime-zugeordnet` trägt: `check-prime-zugeordnet-leser.ts` hielte sie für einen Leser dieser Datei.
+const PRIME_NAME = 'zugeordnet-leser-faelle.ts'
 const DOKU_NUR_GENANNT = {
   'pipeline/bau/09-4-2-bloecke.ts': ['CLAUDE.md'],
   'pipeline/bau/09-4-3-katalog.ts': ['CLAUDE.md'],
@@ -72,7 +74,7 @@ const DOKU_NUR_GENANNT = {
   'web/src/lib/i18n.tsx': ['CLAUDE.md'],
   'pipeline/check-logic.ts': ['CLAUDE.md', 'docs/'],
   'pipeline/check-patchnotes-titel-ablauf.ts': ['README.md'],
-  'pipeline/check-prime-zugeordnet-leser-faelle.ts': ['docs/'],
+  [`pipeline/check-prime-${PRIME_NAME}`]: ['docs/'],
   'tools/check-patchnotes-pflicht.mjs': ['docs/'],
   'tools/design-klassen.mjs': ['docs/'],
 }
