@@ -10,7 +10,7 @@ export const SUCHORDNER = ['pipeline', 'shared', 'tools', 'web', 'worker', 'exte
 
 /** git-Aufruf; mit `roh` kommen die Bytes (Dateiinhalte), sonst Text; `input` geht auf stdin. */
 export function gitAufruf(args, { input, roh = false } = {}) {
-  return execFileSync('git', args, { input, encoding: roh ? 'buffer' : 'utf8', windowsHide: true, maxBuffer: 256 * 1024 * 1024, stdio: ['pipe', 'pipe', 'pipe'] })
+  return execFileSync('git', args, { input: input === undefined ? undefined : Buffer.from(input), encoding: roh ? 'buffer' : 'utf8', windowsHide: true, maxBuffer: 256 * 1024 * 1024, stdio: ['pipe', 'pipe', 'pipe'] })
 }
 
 /**
