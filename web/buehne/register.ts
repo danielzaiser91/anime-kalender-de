@@ -26,6 +26,8 @@ export interface MockupDef {
   zeiten?: Record<string, string>
   /** Nur Ausschnitt `entwurf`: was die heutige Seite an dieser Stelle zeigt; fehlt es, steht dort „Neu“. */
   vorher?: Entwurf
+  /** Nur Ausschnitt `datenbank`: Suchbegriff je Fall (Kennung des Falltitels → Begriff). */
+  suchbegriffe?: Record<number, string>
 }
 
 const register = new Map<string, MockupDef>()

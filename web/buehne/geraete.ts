@@ -10,7 +10,7 @@ export const GROESSE: Record<GeraetGroesse, { breite: number; hoehe: number; nam
 }
 
 /** Kachelraster und ganze App brauchen eine breite Desktop-Zelle (Raster, Seitenleisten); Panel und Filter zeigen sich schon bei 512. */
-const BREIT: AusschnittName[] = ['kachel', 'ganz', 'design']
+const BREIT: AusschnittName[] = ['kachel', 'ganz', 'datenbank', 'design']
 
 export function geraeteFuer(ausschnitt: AusschnittName): GeraetGroesse[] {
   return BREIT.includes(ausschnitt) ? ['375', '1200'] : ['375', '512']
