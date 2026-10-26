@@ -5,9 +5,11 @@
  */
 export function attrappe(repo, { mainSha, fetchFehler = false, lsFehler = false } = {}) {
   const aufrufe = []
+  const eingaben = []
   const stand = (ref) => repo[ref === mainSha ? 'main' : 'kopf']
   const git = (args, { input } = {}) => {
     aufrufe.push(args.join(' '))
+    if (input !== undefined) eingaben.push(input)
     if (args[0] === 'fetch') {
       if (fetchFehler) throw new Error('fatal: kein Netz')
       return ''
@@ -29,5 +31,5 @@ export function attrappe(repo, { mainSha, fetchFehler = false, lsFehler = false 
     }
     throw new Error(`unbekannt: ${args.join(' ')}`)
   }
-  return { git, aufrufe }
+  return { git, aufrufe, eingaben }
 }

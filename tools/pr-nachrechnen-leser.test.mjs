@@ -136,8 +136,10 @@ const REFS = { nummer: 7, kopf: KOPF, main: MAIN }
 const PR_BAUM = { ...BAUM, 'docs/leser.md': `${F}\n`, 'tools/notiz.mjs': '// data/crunchyroll-woche.json nur Kommentar\nconst z = 1\n', 'tools/bild.png': `${F}\n`, 'data/x.mjs': `${F}\n` }
 pruefe('SUCHORDNER sind genau die Ordner des Codes', SUCHORDNER.join() === 'pipeline,shared,tools,web,worker,extension,.github', SUCHORDNER)
 {
-  const { git, aufrufe } = fakeGit({ main: PR_BAUM, kopf: {} })
-  const g = gitLeser(git)([F], ['.github/workflows/bestand.yml', 'tools/anderes.mjs'], REFS)
+  const { git, aufrufe, eingaben } = fakeGit({ main: PR_BAUM, kopf: {} })
+  const g = gitLeser(git)([F], ['.github/workflows/bestand.yml', 'docs/x.md', 'data/gross.json', 'tools/anderes.mjs'], REFS)
+  pruefe('gitLeser: im Kopf werden nur lesbare PR-Dateien geholt (keine Daten, keine Doku)', eingaben[1] === `${KOPF}:.github/workflows/bestand.yml\n${KOPF}:tools/anderes.mjs\n`, eingaben)
+  pruefe('gitLeser: von main alle lesbaren Dateien der Code-Ordner, keine Bilder', eingaben[0].includes(`${MAIN}:tools/anderes.mjs\n`) && !eingaben[0].includes('bild.png') && !eingaben[0].includes('data/x.mjs'), eingaben[0])
   pruefe('gitLeser: Anlassfall (Workflow ohne Leser) -> null', g === null, g)
   pruefe('gitLeser: holt PR-Kopf und main zuerst', aufrufe[0] === `fetch -q origin refs/pull/7/head ${MAIN}`, aufrufe)
   pruefe('gitLeser: Baum von main in den Ordnern des Codes', aufrufe[1] === `ls-tree -r --name-only ${MAIN} -- pipeline shared tools web worker extension .github`, aufrufe)
@@ -146,7 +148,7 @@ pruefe('SUCHORDNER sind genau die Ordner des Codes', SUCHORDNER.join() === 'pipe
 {
   // Nur lesbare Dateien kommen in den Speicher: Bilder und Dateien außerhalb der Ordner zählen nicht als Leser
   const { git } = fakeGit({ main: { 'tools/bild.png': `${F}\n`, 'data/x.mjs': `${F}\n`, 'tools/anderes.mjs': 'nichts\n' }, kopf: {} })
-  pruefe('gitLeser: .png und Ordner außerhalb zählen nicht als Leser', gitLeser(git)([F], ['tools/anderes.mjs'], REFS) === null)
+  pruefe('gitLeser: .png und Ordner außerhalb zählen nicht als Leser', gitLeser(git)([F], ['tools/anderes.mjs', 'tools/bild.png', 'data/x.mjs'], REFS) === null)
 }
 {
   const kopfBaum = { '.github/workflows/neu.yml': `run: echo ${F}\n` }
