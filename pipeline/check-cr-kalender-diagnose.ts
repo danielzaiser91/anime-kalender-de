@@ -5,7 +5,7 @@
  *
  * Aufruf: npx tsx pipeline/check-cr-kalender-diagnose.ts
  */
-import { mkdirSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -20,7 +20,8 @@ const pruefe = (bedingung: boolean, text: string) => {
   console.log(`  ${bedingung ? 'ok  ' : 'FEHL'} ${text}`)
   if (!bedingung) fehler++
 }
-const gesundheit = () => JSON.parse(readFileSync(join(ordner, 'data', 'source-health.json'), 'utf8'))
+const datenOrdner = join(ordner, 'data')
+const gesundheit = () => JSON.parse(readFileSync(join(datenOrdner, readdirSync(datenOrdner)[0]), 'utf8'))
 
 // Cloudflare-Prüfseite, wie sie ein Bot sieht (Titel und Skriptmerkmal sind die der echten Seite).
 const CHALLENGE_HTML =
