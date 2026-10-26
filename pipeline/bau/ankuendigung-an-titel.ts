@@ -1,7 +1,7 @@
 import type { Title } from '../../shared/types.ts'
 import { ankuendigungenLaden } from '../lib/ankuendigungen.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
-import { titelAusKatalogEintrag } from '../lib/katalog-titel.ts'
+import { titelAusKatalogEintrag } from './katalog-titel.ts'
 import { log } from '../lib/util.ts'
 
 /**

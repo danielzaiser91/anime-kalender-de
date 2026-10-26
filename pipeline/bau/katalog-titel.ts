@@ -1,6 +1,6 @@
-import { slugify } from './util.ts'
+import { slugify } from '../lib/util.ts'
 import type { Title } from '../../shared/types.ts'
-import type { KatalogEintrag } from './anilist.ts'
+import type { KatalogEintrag } from '../lib/anilist.ts'
 
 /**
  * Ein Titel aus dem AniList-Katalog ist ein vollwertiger Titel — er trägt dieselben Felder, nur aus einer anderen Quelle.

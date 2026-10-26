@@ -10,7 +10,7 @@ import {
 import { type Title } from '../../shared/types.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
-import { titelAusKatalogEintrag } from '../lib/katalog-titel.ts'
+import { titelAusKatalogEintrag } from './katalog-titel.ts'
 
 export function indiziereCrSendeplaetze({ titles }: {
   titles: Map<number, Title>
