@@ -6,6 +6,8 @@ export interface DoppelteNummer {
   reihe: string
   nummer: string
   teile: string[]
+  /** Kennungen derselben Teile, für die Titelmarke des Bestandswächters. */
+  ids: number[]
   /** Die Reihe enthält eine Neuverfilmung (`remakeVon`) — genau die Klasse, die die Zählgruppen schließen. */
   mitRemake: boolean
 }
@@ -22,15 +24,17 @@ export function doppelteNummern(reihen: Record<string, FranchiseMember[]>): Dopp
     const name = reihenVertreter(reihe.slice().sort(nachAusstrahlung)).name
     const stand = staffelStaende(haupt, name)
     for (const gruppe of zaehlgruppen(haupt)) {
-      const jeNummer = new Map<string, string[]>()
+      const jeNummer = new Map<string, FranchiseMember[]>()
       for (const m of gruppe) {
         const s = stand.get(m.id)
         if (!s) continue
         const schluessel = `${s.staffel}/${s.teil ?? '-'}`
-        jeNummer.set(schluessel, [...(jeNummer.get(schluessel) ?? []), `${m.name} (${m.jpYear})`])
+        jeNummer.set(schluessel, [...(jeNummer.get(schluessel) ?? []), m])
       }
-      for (const [nummer, teile] of jeNummer) {
-        if (teile.length > 1) aus.push({ reihe: name, nummer, teile, mitRemake: reihe.some((m) => m.remakeVon !== undefined) })
+      for (const [nummer, glieder] of jeNummer) {
+        if (glieder.length < 2) continue
+        const teile = glieder.map((m) => `${m.name} (${m.jpYear})`)
+        aus.push({ reihe: name, nummer, teile, ids: glieder.map((m) => m.id), mitRemake: reihe.some((m) => m.remakeVon !== undefined) })
       }
     }
   }
@@ -38,14 +42,14 @@ export function doppelteNummern(reihen: Record<string, FranchiseMember[]>): Dopp
 }
 
 /** Neuverfilmungen, die mit ihrem Original in derselben Zählgruppe stehen (`paare`: Neuverfilmung → Original, nur Serien derselben Reihe). */
-export function remakeMitOriginalInGruppe(reihen: Record<string, FranchiseMember[]>, paare: Map<number, number>): string[] {
-  const aus: string[] = []
+export function remakeMitOriginalInGruppe(reihen: Record<string, FranchiseMember[]>, paare: Map<number, number>): FranchiseMember[] {
+  const aus: FranchiseMember[] = []
   for (const reihe of Object.values(reihen)) {
     for (const m of reihe) {
       const original = paare.get(m.id)
       const vorlage = reihe.find((x) => x.id === original)
       if (!vorlage || !zaehltAlsNeuverfilmung(m, vorlage)) continue
-      if (zaehlgruppeVon(reihe, m.id).some((x) => x.id === original)) aus.push(`${m.name} (${m.jpYear}) steht mit dem Original ${original} in einer Zählgruppe`)
+      if (zaehlgruppeVon(reihe, m.id).some((x) => x.id === original)) aus.push(m)
     }
   }
   return aus

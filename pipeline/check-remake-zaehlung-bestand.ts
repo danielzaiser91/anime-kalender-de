@@ -8,6 +8,7 @@ import { readFileSync } from 'node:fs'
 import type { FranchiseMember, Title } from '../shared/types.ts'
 import { alleRemakePaare, markiereRemakes } from './bau/remake-von.ts'
 import { doppelteNummern, remakeMitOriginalInGruppe } from './lib/remake-zaehlung-pruefung.ts'
+import { melde } from './lib/quarantaene.ts'
 
 /** Doppelte Nummern in Reihen ohne Neuverfilmung (Spin-offs mit Staffelzahl im Namen); gemessen 26.10.2026, darf nur sinken. */
 export const BEKANNT_DOPPELT_OHNE_REMAKE = 34
@@ -34,9 +35,11 @@ console.log('\nNeuverfilmungen und Zählgruppen im ausgelieferten Datensatz:')
 
   pruefe(`Anlassfall: Yaiba 2025 ist die Neuverfilmung von Yaiba 1993 (${neuverfilmungen.length} Neuverfilmungen insgesamt)`, alle.some((m) => m.id === YAIBA.remake && m.remakeVon === YAIBA.original))
   const zusammen = remakeMitOriginalInGruppe(markiert, paare)
-  pruefe(`Keine Neuverfilmung steht mit ihrem Original in einer Zählgruppe (${paare.size} Paare geprüft)`, zusammen.length === 0, zusammen.slice(0, 5))
+  for (const m of zusammen) melde(m.id, 'remake-zaehlung-bestand', 'Neuverfilmung steht mit ihrem Original in einer Zählgruppe')
+  pruefe(`Keine Neuverfilmung steht mit ihrem Original in einer Zählgruppe (${paare.size} Paare geprüft)`, zusammen.length === 0, zusammen.slice(0, 5).map((m) => m.name))
   const doppelt = doppelteNummern(markiert)
   const mitRemake = doppelt.filter((d) => d.mitRemake)
+  for (const d of mitRemake) for (const id of d.ids) melde(id, 'remake-zaehlung-bestand', `Staffelnummer ${d.nummer} doppelt in einer Reihe mit Neuverfilmung`)
   pruefe('In Reihen mit Neuverfilmung kommt keine Staffelnummer doppelt vor', mitRemake.length === 0, mitRemake.slice(0, 5))
   const ohneRemake = doppelt.length - mitRemake.length
   if (ohneRemake > BEKANNT_DOPPELT_OHNE_REMAKE) console.log(`  ⚠ WARNUNG Zählung: ${ohneRemake} doppelte Staffelnummern in Reihen ohne Neuverfilmung, bekannt waren ${BEKANNT_DOPPELT_OHNE_REMAKE} (neue Fälle: Remake in aniSearch prüfen oder data/remake-von-hand.yaml)`)

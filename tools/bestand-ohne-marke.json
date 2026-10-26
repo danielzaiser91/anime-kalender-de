@@ -152,10 +152,6 @@
     "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
   },
   {
-    "datei": "pipeline/check-remake-zaehlung-bestand.ts",
-    "grund": "Stand 26.10.2026: Rot heißt, die Markierung der Neuverfilmungen im Bau ist kaputt (kein einzelner Titel); eine Quarantäne verbärge Titel für einen Fehler im Code. Rechnet mit derselben Funktion wie der Bau."
-  },
-  {
     "datei": "pipeline/check-saison-deutsch-bestand.ts",
     "grund": "Stand 26.10.2026: keine Titelmarke; sperrt den Bestandsbau ganz. Streichen, sobald der Wächter Titel meldet."
   },
