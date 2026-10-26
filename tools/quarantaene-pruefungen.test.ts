@@ -153,6 +153,41 @@ function titel(id: number, rest: object = {}): { id: number } {
   pruefe('cartoon-news: sauber ohne Marke', gruen.code === 0 && gruen.marken.length === 0, gruen.aus.slice(-1500))
 }
 
+// cr-ja-deckung (26.10.2026, PERSONA5 Stars and Ours): drei Titel auf Adressen, die zweite mit Null-Block; Ja ohne Deckung nur an Titel 6
+// (Titel 5 hat Termin, Titel 7 steht auf der Serie ohne Null-Block). Die Marke trägt die Kennung, nicht den Namen.
+{
+  const adresse = (n: number) => `https://www.crunchyroll.com/de/series/GTEST000${n}/x`
+  const weg = (n: number) => ({ platform: 'crunchyroll', url: adresse(n), dub: true })
+  const serie = (n: number, staffeln: object[]) => ({ url: adresse(n), seriesId: `GTEST000${n}`, katalog: 'de', deutschImAngebot: true, staffeln })
+  const mitNull = [{ deutsch: 0, folgen: 12 }]
+  const crDub = { scrapedAt: '', serien: [serie(1, [{ deutsch: 12, folgen: 12 }]), serie(2, mitNull), serie(3, mitNull)] }
+  const titles = [titel(5, { streams: [weg(2)] }), titel(6, { streams: [weg(3)] }), titel(7, { streams: [weg(1)] })]
+  const termin = { slug: 'a', titleId: 5, name: 'A', platform: 'crunchyroll', releaseType: 'weekly', sources: [], schedule: { firstEpisodeDate: '2099-01-05', episodeCount: 12 } }
+  const dateien = { 'public/data/titles.json': titles, 'public/data/releases.json': [termin], 'data/crunchyroll-dub.json': crDub }
+  const rot = lauf('pipeline/check-cr-ja-deckung-bestand.ts', { dateien, kopien: ['data/dub-confirmed.yaml', 'data/curated', 'data/kino-ankuendigungen.yaml', 'data/ankuendigungen.yaml'] })
+  pruefe('cr-ja-deckung: Marke nur am Titel ohne Deckung', rot.code === 1 && gleich(rot.marken, [6]), { code: rot.code, marken: rot.marken, aus: rot.aus.slice(-800) })
+  const gruen = lauf('pipeline/check-cr-ja-deckung-bestand.ts', { dateien: { ...dateien, 'public/data/titles.json': [titles[0], titles[2]] }, kopien: ['data/dub-confirmed.yaml', 'data/curated', 'data/kino-ankuendigungen.yaml', 'data/ankuendigungen.yaml'] })
+  pruefe('cr-ja-deckung: gedeckt ohne Marke', gruen.code === 0 && gruen.marken.length === 0, gruen.aus.slice(-800))
+}
+
+// tmdb-hauptserie (26.10.2026): Folgenliste einer anderen Kennung (2, 4) und Hintergrundbild ohne Kennung (3; 8 trägt Staffel 0, 4 ist zurückgestellt).
+// Zurückgestellte Titel gelten nicht mehr als Verstoß — sonst bliebe die Prüfung nach der Quarantäne rot, weil sie die rohe Sammler-Datei liest.
+{
+  const quarantaeneMeta = (ids: number[]) => ({ quarantaene: ids.map((titleId) => ({ titleId, pruefung: 'p', grund: 'g', releases: [] })) })
+  const dateien = {
+    'data/tmdb-titles.json': { '1': { tmdbId: 11 }, '2': { tmdbId: 12 }, '4': { tmdbId: 14 }, '8': {} },
+    'data/tmdb-folgen.json': { '1': { tmdbId: 11 }, '2': { tmdbId: 99 }, '4': { tmdbId: 98 } },
+    'data/tmdb-banner.json': { '1': {}, '3': {}, '8': {} },
+    'data/tmdb-staffel0.json': { '8': {} },
+  }
+  const rot = lauf('pipeline/check-tmdb-hauptserie-bestand.ts', { dateien })
+  pruefe('tmdb-hauptserie: Marken an Folgenliste (2, 4) und Hintergrundbild (3)', rot.code === 1 && gleich([...rot.marken].sort(), [2, 3, 4]), { code: rot.code, marken: rot.marken })
+  const zurueck = lauf('pipeline/check-tmdb-hauptserie-bestand.ts', { dateien: { ...dateien, 'public/data/meta.json': quarantaeneMeta([2, 4]) } })
+  pruefe('tmdb-hauptserie: zurückgestellte Titel zählen nicht, der übrige bleibt rot', zurueck.code === 1 && gleich(zurueck.marken, [3]), { code: zurueck.code, marken: zurueck.marken })
+  const alle = lauf('pipeline/check-tmdb-hauptserie-bestand.ts', { dateien: { ...dateien, 'public/data/meta.json': quarantaeneMeta([2, 3, 4]) } })
+  pruefe('tmdb-hauptserie: alle Verstöße zurückgestellt: grün ohne Marke', alle.code === 0 && alle.marken.length === 0, { code: alle.code, marken: alle.marken })
+}
+
 const lies = <T>(datei: string): T => yaml.load(readFileSync(join(WURZEL, datei), 'utf8')) as T
 const mitte = <T>(liste: T[]): T => liste[Math.floor(liste.length / 2)]!
 const quarantaene = (titleId: number, releases: string[] = []) => ({ quarantaene: [{ titleId, pruefung: 'p', grund: 'g', releases }] })
@@ -191,7 +226,9 @@ const metaDatei = (meta: unknown): Record<string, unknown> => (meta ? { 'public/
   const ids = lies<{ id: number }[]>('data/handlung-eigen.yaml').map((e) => e.id)
   const fehlt = mitte(ids)
   const titles = ids.filter((id) => id !== fehlt).map((id) => titel(id))
-  leser('handlung-eigen', 'pipeline/check-handlung-eigen-bestand.ts', (meta) => ({ kopien: ['data/handlung-eigen.yaml'], dateien: { 'public/data/titles.json': titles, ...metaDatei(meta) } }), fehlt)
+  // Seit 26.10.2026 sperrt ein verwaister Eintrag nicht mehr: Warnung samt Kennung, Exit 0 (kein Leser der Quarantäne nötig).
+  const r = lauf('pipeline/check-handlung-eigen-bestand.ts', { kopien: ['data/handlung-eigen.yaml'], dateien: { 'public/data/titles.json': titles } })
+  pruefe('handlung-eigen: fehlender Titel ist Warnung mit Kennung, Exit 0', r.code === 0 && r.aus.includes('[vorher rot] Eigene Handlung: 1 ohne Titel im Bestand') && r.aus.includes(`: ${fehlt}`), r.aus.slice(-600))
 }
 {
   const ids = [...new Set(lies<{ eintraege: { titleId: number }[] }>('data/offizielle-meldungen.yaml').eintraege.map((e) => e.titleId))]
