@@ -2,6 +2,7 @@ import { writeJson, readJson, log } from '../lib/util.ts'
 import { pruefeInvarianten, zaehlworteStimmen } from '../lib/invarianten.ts'
 import { zaehleBelegte } from '../lib/belegstaerke.ts'
 import { OUT } from './grundlagen.ts'
+import { schreibeReleasesJson } from '../lib/release-ohne-notiz.ts'
 import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 import { cartoonsAusReleases } from './cartoon-kern.ts'
 import { auslieferungsInvarianten } from './auslieferung-pruefen.ts'
@@ -41,7 +42,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
   bruecheBeiWiderspruchAb(pruefeInvarianten(releases, events, titles))
   bruecheBeiWiderspruchAb({ fehler: [...auslieferungsInvarianten(releases),...releasesAusNurOriginalton(releases, nurOriginaltonAdressen()), ...autoReleaseFehler(releases)], warnungen: [] })
   bruecheBeiWiderspruchAb({ fehler: deutschNurAusSpracheTermin(releases, titles), warnungen: [] })
-  writeJson(`${OUT}/releases.json`, releases)
+  schreibeReleasesJson(releases, `${OUT}/releases.json`, writeJson)
   writeJson(`${OUT}/events.json`, events)
 
   /*

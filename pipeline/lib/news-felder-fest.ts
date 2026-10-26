@@ -61,8 +61,15 @@ export function haltFelderFest(historie: NewsHistorie, meldungen: DatiertNews[],
       if (istAbgeloest(m)) return m
       fest[k] = bisher.get(meldungsKennung(m.am, m.titel.id, m)) ?? felderVon(m)
     }
-    return mitFeldern(m, fest[k]!)
+    return ohneInterneNotiz(mitFeldern(m, fest[k]!))
   })
+}
+
+/** Ein `hinweis` an „angekündigt“ war die Release-Notiz (intern, 26.10.2026): auch ein früher festgehaltener fällt weg. */
+function ohneInterneNotiz<T extends NewsMeldung>(m: T): T {
+  if (m.art !== 'angekuendigt' || m.hinweis === undefined) return m
+  const { hinweis: _intern, ...rest } = m
+  return rest as T
 }
 
 /** Bestandswächter: Felder, die eine bestehende Meldung gegenüber dem Vorstand (`vorher`) ändert (mit `weiterer`); handgepflegte Arten zählen nicht. */
@@ -75,6 +82,7 @@ export function felderAenderungen(vorher: NewsEintrag[], jetzt: NewsEintrag[]): 
       const a = alt.get(meldungsKennung(e.am, m.teilId ?? e.titelId, m))
       if (!a || !FESTE_ARTEN.has(m.art)) continue
       for (const f of [...FESTE_FELDER, 'weiterer' as const]) {
+        if (f === 'hinweis' && m.art === 'angekuendigt') continue
         if (JSON.stringify(a[f]) !== JSON.stringify(m[f])) zeilen.push(`${e.am} ${e.titel} [${m.art} ${m.release ?? m.platform ?? ''}] ${f}: ${JSON.stringify(a[f])} -> ${JSON.stringify(m[f])}`)
       }
     }
