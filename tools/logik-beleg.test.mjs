@@ -262,12 +262,13 @@ const abdruckIn = (ordner) => {
 
   // Mehrere offene Pfade: sortiert, höchstens zehn genannt; als Prozess (wie commit-data.sh) steht die Warnung auf stderr, stdout bleibt leer.
   const r3 = repo()
-  r3.schreibe('tools/a.mjs', 'eins')
+  r3.schreibe('tools/m.mjs', 'eins')
   r3.commit('start')
+  r3.schreibe('tools/m.mjs', 'zwei')
   for (const n of ['k', 'b', 'a']) r3.schreibe(`tools/${n}.mjs`, 'x')
   const viele = []
   zeileOderGrund(r3.ordner, 'a'.repeat(64), () => {}, (w) => viele.push(w))
-  gleich(viele, ['::warning::Logik-Beleg entfällt, der Commit nähme nicht mit: tools/a.mjs, tools/b.mjs, tools/k.mjs'], 'mehrere offene Pfade: sortiert genannt')
+  gleich(viele, ['::warning::Logik-Beleg entfällt, der Commit nähme nicht mit: tools/a.mjs, tools/b.mjs, tools/k.mjs, tools/m.mjs'], 'mehrere offene Pfade (geändert und neu gemischt): sortiert genannt')
   for (let n = 0; n < 8; n += 1) r3.schreibe(`tools/z${n}.mjs`, 'x')
   const elf = []
   zeileOderGrund(r3.ordner, 'a'.repeat(64), () => {}, (w) => elf.push(w))

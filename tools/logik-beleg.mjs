@@ -54,7 +54,7 @@ export function abdruckAusGit(cwd = process.cwd(), lauf = git) {
  * wurden sie trotzdem: der Abdruck der Arbeitskopie wäre ein anderer als der des Commits, und der Deploy fände den Beleg nicht (26.10.2026).
  */
 export function ungestagt(cwd = process.cwd(), lauf = git) {
-  const geaendert = lauf(['diff', '--name-only', '-z', '--no-renames'], { cwd }).split('\0')
+  const geaendert = lauf(['diff', '--name-only', '-z'], { cwd }).split('\0')
   const neu = lauf(['ls-files', '-z', '--others', '--exclude-standard'], { cwd }).split('\0')
   return [...new Set([...geaendert, ...neu].filter(Boolean))].filter(zaehlt).sort()
 }
