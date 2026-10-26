@@ -81,6 +81,11 @@ pruefe('A3 Nicht-Prüfskript-Waise ruft auf', { ...S, 'tools/messen-x.mjs': `nod
 pruefe('A3 Kette Kern → Zwischenskript → Prüfskript', { ...S, 'package.json': paket('node tools/messen-x.mjs'), 'tools/messen-x.mjs': `node ${A}` }, 0)
 pruefe('A3 Kette über zwei Stufen', { ...S, 'package.json': paket('bash tools/s.sh'), 'tools/s.sh': 'node tools/t.mjs', 'tools/t.mjs': `node ${A}` }, 0)
 
+// A1 (Runde 2): Eine Nennung in einer Ausnahmeliste (Datenliste) ist kein Aufruf; sie macht das Skript nicht erreichbar.
+const LISTE = { 'tools/x-wache.mjs': "import './x-ausnahmen.mjs'\nprocess.exit(0)\n" }
+pruefe('A1 Namensnennung in Ausnahmeliste ruft nicht auf', { ...S, ...LISTE, 'package.json': paket('node tools/x-wache.mjs'), 'tools/x-ausnahmen.mjs': `export const L = [{ datei: '${A}' }]\n` }, 1)
+pruefe('A1 gleiche Nennung in einem Skript ohne „ausnahmen“ im Namen zählt', { ...S, 'tools/x-liste.mjs': `export const L = [{ datei: '${A}' }]\n`, 'package.json': paket('node tools/x-liste.mjs') }, 0)
+
 // A6: Pipeline-Wort in Zeichenkette.
 pruefe('A6 Wort in web/x.ts zählt nicht', { 'pipeline/check.ts': PROGRAMM, 'package.json': paket('node web/x.ts'), 'web/x.ts': "const a = 'check'" }, 1)
 pruefe('A6 Import ohne Endung zählt', { 'pipeline/check-x.ts': PROGRAMM, 'package.json': paket('tsx pipeline/main.ts'), 'pipeline/main.ts': "import './check-x'" }, 0)
