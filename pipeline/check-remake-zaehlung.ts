@@ -114,6 +114,7 @@ function gegenproben(): void {
   ]
   const s = staffelStaende(sw, 'Spice and Wolf')
   pruefe('Spice and Wolf: Original 1/2 und 2/2, Neuverfilmung 1/2 und 2/2 — statt 1 bis 4', nr(s, 2966) === '1/2' && nr(s, 5341) === '2/2' && nr(s, 145728) === '1/2' && nr(s, 181951) === '2/2', [...s])
+  pruefe('Spice and Wolf: keine doppelte Nummer, weil jede Gruppe für sich zählt', doppelteNummern({ 1: sw }).length === 0, doppelteNummern({ 1: sw }))
   const hxh = [tv(136, 'Hunter x Hunter', '1999-10-16', { episodes: 62 }), tv(11061, 'Hunter × Hunter', '2011-10-02', { episodes: 148 })]
   pruefe('ohne belegte Neuverfilmung (Hunter x Hunter 2011, offen) bleibt die Zählung wie sie war', nr(staffelStaende(hxh, 'Hunter x Hunter'), 11061) === '2/2')
 }
@@ -136,6 +137,24 @@ function kopfUndGruppen(): void {
   pruefe('Reihenliste: Neuverfilmung führt 2025 und 2027', gruppen[1]!.teile.map((m) => m.id).join() === '177476,199337')
   const ohneGruppe = reihenGruppen(YAIBA(), haupt, (a, b) => (a.jpYear ?? 0) - (b.jpYear ?? 0), (k) => k)
   pruefe('Reihenliste ohne Markierung: keine Neuverfilmungs-Gruppe', !ohneGruppe.some((g) => g.titel === 'detail.gruppeNeuverfilmung'))
+  const nachJahr = (a: FranchiseMember, b: FranchiseMember) => (a.jpYear ?? 0) - (b.jpYear ?? 0)
+  const zwei = [tv(1, 'O', '1990-01-01'), tv(2, 'O 2', '1995-01-01'), tv(3, 'N', '2010-01-01', { remakeVon: 1 }), tv(4, 'N 2', '2012-01-01')]
+  const sortiert = reihenGruppen(zwei.slice().reverse(), haupt, nachJahr, (k) => k).map((g) => g.teile.map((m) => m.id).join())
+  pruefe('Reihenliste sortiert jede Gruppe selbst', sortiert.join('|') === '1,2|3,4', sortiert)
+  kopfSonderfaelle(data, titel)
+}
+
+/** Kopf in den Randfällen: Gruppe mit einem Teil, Titel außerhalb der Reihe, Gruppe mit eigenem Namensanfang. */
+function kopfSonderfaelle(data: Dataset, titel: (id: number, en: string, jahr: number) => Title): void {
+  const einzeln = [tv(1, 'Orig', '1990-01-01'), tv(2, 'Neu', '2010-01-01', { remakeVon: 1 }), tv(0, 'Vorläufer', '1980-01-01')]
+  const deutsch = { ...titel(2, 'Neu', 2010), titleDe: 'Neu Deutsch' } as Title
+  const einzelnKopf = reihenNameVon(deutsch, einzeln, data)
+  pruefe('Gruppe mit einem Teil: der Kopf ist der Name des Titels', einzelnKopf === 'Neu Deutsch', einzelnKopf)
+  const fremdKopf = reihenNameVon(titel(5, 'Fremd', 2000), YAIBA_MARKIERT(), data)
+  pruefe('Titel, der nicht in der Reihe steht: der Kopf nennt die ganze Reihe', fremdKopf === 'Legendary Brave Swordsman Yaiba', fremdKopf)
+  const viele = [tv(1, 'Orig', '1990-01-01'), tv(2, 'Orig Zwei', '1991-01-01'), tv(3, 'Orig Drei', '1992-01-01'), tv(4, 'Foo Bar: Alpha', '2010-01-01', { remakeVon: 1 }), tv(5, 'Foo Bar: Beta', '2011-01-01')]
+  const anfang = reihenNameVon(titel(4, 'Foo Bar: Alpha', 2010), viele, data)
+  pruefe('der Kopf kürzt auf den gemeinsamen Anfang der Gruppe, nicht der ganzen Reihe', anfang === 'Foo Bar', anfang)
 }
 
 function bauSeite(): void {
@@ -153,6 +172,10 @@ function bauSeite(): void {
   pruefe('gleiches Jahr ergibt kein Paar', remakePaareAusKanten([kante(101, 102)], titel).size === 0)
   pruefe('genau ein Jahr Abstand genügt', remakePaareAusKanten([kante(102, 103)], titel).get(13) === 12)
   pruefe('unbekannte aniSearch-Kennung ergibt kein Paar', remakePaareAusKanten([kante(100, 999)], titel).size === 0)
+  const ohneJahr = [{ id: 20, jpYear: undefined, anisearchId: 200 }, { id: 21, jpYear: 2006, anisearchId: 201 }]
+  pruefe('ohne Jahr ergibt kein Paar, in beiden Richtungen der Kante', remakePaareAusKanten([kante(200, 201)], ohneJahr).size === 0 && remakePaareAusKanten([kante(201, 200)], ohneJahr).size === 0)
+  const zweiOriginale = [...titel, { id: 15, jpYear: 1990, anisearchId: 105 }]
+  pruefe('mehrere Originale: das erste gefundene gilt', remakePaareAusKanten([kante(101, 100), kante(101, 105)], zweiOriginale).get(11) === 10)
 
   const reihen = (): Record<number, FranchiseMember[]> => ({ 1: [tv(10, 'A', '2002-01-01'), tv(11, 'A neu', '2006-01-01'), { ...tv(14, 'A Film', '2008-01-01'), format: 'MOVIE' }], 2: [tv(12, 'C', '2006-01-01')] })
   const m = markiereRemakes(reihen(), titel, { kanten: [kante(100, 101)], hand: [] })
@@ -163,6 +186,19 @@ function bauSeite(): void {
   pruefe('Original in anderer Reihe: keine Markierung', Object.values(fremd).flat().every((x) => x.remakeVon === undefined))
   const film = markiereRemakes({ 1: [{ ...tv(10, 'F', '2002-01-01'), format: 'MOVIE' }, { ...tv(11, 'F neu', '2006-01-01'), format: 'MOVIE' }] }, titel, { kanten: [kante(100, 101)], hand: [] })
   pruefe('Filme werden nicht als Linie gezählt', film[1]!.every((x) => x.remakeVon === undefined))
+  const kino = (m: FranchiseMember): FranchiseMember => ({ ...m, format: 'MOVIE' })
+  const serieGegenFilm = markiereRemakes({ 1: [tv(10, 'S', '2002-01-01'), kino(tv(11, 'S neu', '2006-01-01'))] }, titel, { kanten: [kante(100, 101)], hand: [] })
+  const filmGegenSerie = markiereRemakes({ 1: [kino(tv(10, 'S', '2002-01-01')), tv(11, 'S neu', '2006-01-01')] }, titel, { kanten: [kante(100, 101)], hand: [] })
+  pruefe('Serie gegen Film zählt nicht, in beiden Richtungen', [...serieGegenFilm[1]!, ...filmGegenSerie[1]!].every((x) => x.remakeVon === undefined))
+  const warnungen: string[] = []
+  const warnAlt = console.warn
+  console.warn = (...a: unknown[]) => void warnungen.push(a.join(' '))
+  const handEintrag = { remake: 11, original: 10, grund: 'g', quelle: 'https://beispiel.invalid/x' }
+  markiereRemakes(reihen(), titel, { kanten: [], hand: [handEintrag] })
+  const ohneWarnung = warnungen.length
+  markiereRemakes(reihen(), titel, { kanten: [], hand: [{ ...handEintrag, original: 99 }] })
+  console.warn = warnAlt
+  pruefe('ein Handeintrag, der nichts markiert, warnt — ein wirksamer nicht', ohneWarnung === 0 && warnungen.length === 1, warnungen)
   const hand = markiereRemakes(reihen(), titel, { kanten: [], hand: [{ remake: 11, original: 10, grund: 'g', quelle: 'https://beispiel.invalid/x' }] })
   pruefe('Handeintrag ohne aniSearch-Kante markiert', hand[1]![1]!.remakeVon === 10)
   const umgekehrt = markiereRemakes(reihen(), titel, { kanten: [], hand: [{ remake: 10, original: 11, grund: 'g', quelle: 'https://beispiel.invalid/x' }] })
@@ -170,6 +206,8 @@ function bauSeite(): void {
   pruefe('zaehltAlsNeuverfilmung: gleicher Start nicht', !zaehltAlsNeuverfilmung(tv(2, 'x', '2000-01-01'), tv(1, 'x', '2000-01-01')))
   pruefe('Prüfer: Neuverfilmung mit Original in einer Gruppe wird gemeldet', remakeMitOriginalInGruppe(reihen(), new Map([[11, 10]])).length === 1)
   pruefe('Prüfer: getrennte Gruppen sind ohne Befund', remakeMitOriginalInGruppe(m, new Map([[11, 10]])).length === 0)
+  const filme = { 1: [kino(tv(10, 'F', '2002-01-01')), kino(tv(11, 'F neu', '2006-01-01'))] }
+  pruefe('Prüfer: ein Film-Paar zählt nicht als Befund', remakeMitOriginalInGruppe(filme, new Map([[11, 10]])).length === 0)
 }
 
 function handDatei(): void {
@@ -196,6 +234,8 @@ function handDatei(): void {
     pruefe('Quelle ohne https bricht ab', wirft('- remake: 2\n  original: 1\n  grund: g\n  quelle: http://a.invalid\n'))
     pruefe('ohne Grund bricht ab', wirft('- remake: 2\n  original: 1\n  quelle: https://a.invalid\n'))
     pruefe('Kennung keine Zahl bricht ab', wirft('- remake: x\n  original: 1\n  grund: g\n  quelle: https://a.invalid\n'))
+    pruefe('Kennung des Originals keine Zahl bricht ab', wirft('- remake: 2\n  original: x\n  grund: g\n  quelle: https://a.invalid\n'))
+    pruefe('ein einziger kaputter Eintrag unter guten bricht ab', wirft('- remake: 2\n  original: 1\n  grund: g\n  quelle: https://a.invalid\n- remake: 4\n  original: 3\n  grund: g\n  quelle: nicht-https\n'))
     const echt = ladeRemakeVonHand()
     pruefe('echte Handliste: Yaiba mit Quelle', echt.some((e) => e.remake === 177476 && e.original === 2335 && e.quelle.startsWith('https://')), echt)
   } finally {

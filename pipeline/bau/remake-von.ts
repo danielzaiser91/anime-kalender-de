@@ -40,7 +40,7 @@ export function remakePaareAusKanten(kanten: Kante[], titel: (Zeit & { anisearch
   for (const k of kanten.filter((x) => x.art === 'Remake')) {
     for (const a of nachKennung.get(k.a) ?? []) {
       for (const b of nachKennung.get(k.b) ?? []) {
-        if (a.id === b.id || !a.jpYear || !b.jpYear || Math.abs(a.jpYear - b.jpYear) < 1) continue
+        if (!a.jpYear || !b.jpYear || Math.abs(a.jpYear - b.jpYear) < 1) continue
         const [neu, alt] = a.jpYear > b.jpYear ? [a, b] : [b, a]
         if (!paare.has(neu.id)) paare.set(neu.id, alt.id)
       }
