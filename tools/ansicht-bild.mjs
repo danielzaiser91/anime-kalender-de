@@ -31,6 +31,7 @@ import { pruefeHoverCover } from './ansicht-hover-cover.mjs'
 import { pruefeStatusfarben } from './ansicht-statusfarben.mjs'
 import { distPruefen } from './dist-frisch.mjs'
 import { eckenFehler } from './ecken-urteil.mjs'
+import { messeDuell } from './ansicht-duell.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -319,6 +320,7 @@ async function spieleEmpfehlung(browser, geraet, thema) {
   await los.waitFor({ timeout: 20_000 })
   await los.click()
   await seite.waitForTimeout(900)
+  for (const f of await messeDuell(seite, lesePixelPng)) fehler.push(`${kennung}: Duell ${f}`)
   for (let i = 0; i < 6; i++) {
     await seite.locator('.empf-kandidat').nth(i % 2).click()
     await seite.waitForTimeout(700)
@@ -449,7 +451,7 @@ async function meldeEmpfehlung() {
   }
   await browser.close()
   const faelle = EMPFEHLUNG_GERAETE.length * 2
-  console.log(`\nEntdecken (Reise durchgespielt, ${faelle} Fälle: Handy und Rechner, hell und dunkel; Konsole, Scrollen, Tippflächen, Ecken und Unterkante der Cover): ${fehler.length ? '' : 'ok'}`)
+  console.log(`\nEntdecken (Reise durchgespielt, ${faelle} Fälle: Handy und Rechner, hell und dunkel; Konsole, Scrollen, Tippflächen, Ecken und Unterkante der Cover, Duell-Karte mit und ohne gewinnt/verliert: Ecken, Unterkante, Ring): ${fehler.length ? '' : 'ok'}`)
   for (const f of fehler) console.log(`  ✕ ${f}`)
   return fehler.length > 0
 }
