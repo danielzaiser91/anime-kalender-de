@@ -77,7 +77,7 @@ function ThemaZeile() {
   )
 }
 
-/** Löscht, was „Was gucken?“ im Browser abgelegt hat (Favoriten und Datenbank-Vorlieben bleiben) und lädt neu, damit eine offene Ansicht den leeren Stand zeigt. */
+/** Löscht, was „Entdecken“ im Browser abgelegt hat (Favoriten und Datenbank-Vorlieben bleiben) und lädt neu, damit eine offene Ansicht den leeren Stand zeigt. */
 export function EmpfehlungZeile({ neuLaden = () => location.reload() }: { neuLaden?: () => void }) {
   const { t } = useLang()
   return (

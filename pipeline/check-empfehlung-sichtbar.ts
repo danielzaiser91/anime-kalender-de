@@ -1,5 +1,5 @@
 /**
- * Zusicherungen zum Einstieg in „Was gucken?“: Reiter nur ab `md` und fünf feste Plätze am Handy, Knopf der Datenbank
+ * Zusicherungen zum Einstieg in „Entdecken“: Reiter nur ab `md` und fünf feste Plätze am Handy, Knopf der Datenbank
  * (führt in die Ansicht, ist in `DatenbankBereich` eingebaut) und Zeile „Empfehlungen zurücksetzen“ in den Einstellungen
  * (ruft das echte Zurücksetzen). Die Handler werden aus dem gerenderten Baum geholt und ausgeführt.
  * Aufruf: `npm run check:logic`.
@@ -48,25 +48,25 @@ function baumVon(komponente: () => ReactNode): ReactNode {
 const reiter = renderToStaticMarkup(h(KopfNavigation, { view: 'woche', aktiv: 'kalender', onView: () => {}, hrefFuer: (z: string) => `#/${z}` }))
 pruefe('Reiterliste fest', JSON.stringify(BEREICHE) === JSON.stringify([
   { id: 'kalender', ziel: 'woche' }, { id: 'datenbank', ziel: 'datenbank' }, { id: 'news', ziel: 'news' },
-  { id: 'saison', ziel: 'saison' }, { id: 'empfehlung', ziel: 'empfehlung' },
+  { id: 'saison', ziel: 'saison' }, { id: 'entdecken', ziel: 'entdecken' },
 ]), BEREICHE)
 pruefe('fünf Reiter', (reiter.match(/<a /g) ?? []).length === 5, reiter)
-pruefe('Reiter „Was gucken?“ mit Ziel', reiter.includes('href="#/empfehlung"') && reiter.includes('Was gucken?'))
+pruefe('Reiter „Entdecken“ mit Ziel', reiter.includes('href="#/entdecken"') && reiter.includes('Entdecken'))
 pruefe('Reiter nur ab md', /<nav[^>]*class="hidden [^"]*md:flex[ "]/.test(reiter), reiter.slice(0, 120))
-const wasGucken = /<a [^>]*class="([^"]*)"[^>]*>Was gucken\?<\/a>/.exec(reiter)
-pruefe('Reiter „Was gucken?“ erst ab xl', wasGucken !== null && wasGucken[1].includes('hidden xl:block'), reiter)
+const wasGucken = /<a [^>]*class="([^"]*)"[^>]*>Entdecken<\/a>/.exec(reiter)
+pruefe('Reiter „Entdecken“ erst ab xl', wasGucken !== null && wasGucken[1].includes('hidden xl:block'), reiter)
 pruefe('die vier anderen Reiter ab md (nicht versteckt)', (reiter.match(/hidden xl:block/g) ?? []).length === 1, reiter)
-pruefe('bereichVon(empfehlung)', bereichVon('empfehlung') === 'empfehlung')
+pruefe('bereichVon(entdecken)', bereichVon('entdecken') === 'entdecken')
 pruefe('bereichVon(impressum) leer', bereichVon('impressum') === undefined)
 
-const handy = renderToStaticMarkup(h(HandyNavigation, { aktiv: 'empfehlung', onView: () => {}, kalender: 'woche', einstellungen: () => {} }))
+const handy = renderToStaticMarkup(h(HandyNavigation, { aktiv: 'entdecken', onView: () => {}, kalender: 'woche', einstellungen: () => {} }))
 pruefe('Handy-Leiste: genau fünf Plätze', (handy.match(/<button/g) ?? []).length === 5, handy)
-pruefe('Handy-Leiste: kein „Was gucken?“', !handy.includes('Was gucken?'))
+pruefe('Handy-Leiste: kein „Entdecken“', !handy.includes('Entdecken'))
 
 const ziele: unknown[] = []
 const knopf = finde(baumVon(() => WasGuckenKnopf({ navigate: (n) => ziele.push(n) })), (e) => e.type === 'button')
 knopf?.props.onClick?.()
-pruefe('Datenbank-Knopf führt nach empfehlung', JSON.stringify(ziele) === '[{"view":"empfehlung"}]', ziele)
+pruefe('Datenbank-Knopf führt nach entdecken', JSON.stringify(ziele) === '[{"view":"entdecken"}]', ziele)
 
 const route = { filters: { search: '' }, sort: undefined }
 const dbZiele: unknown[] = []
@@ -82,12 +82,23 @@ const dbProps = {
 const bereich = baumVon(() => DatenbankBereich(dbProps as unknown as Parameters<typeof DatenbankBereich>[0]))
 const eingebaut = finde(bereich, (e) => e.type === WasGuckenKnopf)
 const eingebautNavigate = eingebaut?.props.navigate as ((n: unknown) => void) | undefined
-eingebautNavigate?.({ view: 'empfehlung' })
-pruefe('Datenbank-Bereich baut den Knopf mit seinem navigate ein', JSON.stringify(dbZiele) === '[{"view":"empfehlung"}]', dbZiele)
+eingebautNavigate?.({ view: 'entdecken' })
+pruefe('Datenbank-Bereich baut den Knopf mit seinem navigate ein', JSON.stringify(dbZiele) === '[{"view":"entdecken"}]', dbZiele)
 
 const zeile = finde(baumVon(() => EmpfehlungZeile({ neuLaden: () => abgerufen.push('NEULADEN') })), (e) => e.type === 'button')
 zeile?.props.onClick?.()
 pruefe('Einstellungen-Zeile löscht alle drei Schlüssel, danach Neuladen', JSON.stringify(abgerufen) === '["empfehlung:gesehen","empfehlung:verworfen","empfehlung:anbieter","NEULADEN"]', abgerufen)
+
+const { parseHash, hashAufraeumen } = await import('../web/src/lib/router.ts')
+pruefe('#/entdecken öffnet die Ansicht', parseHash('#/entdecken').view === 'entdecken')
+pruefe('alter geteilter Link #/empfehlung führt dorthin', parseHash('#/empfehlung').view === 'entdecken')
+const ersetzt: string[] = []
+hashAufraeumen(parseHash('#/empfehlung'), {
+  ort: { pathname: '/', search: '', hash: '#/empfehlung' },
+  verlauf: { state: null, replaceState: (_s: unknown, _t: string, url?: string | URL | null) => void ersetzt.push(String(url)), pushState() {}, back() {} },
+  base: '',
+})
+pruefe('die Adressleiste zeigt danach #/entdecken', ersetzt.length === 1 && ersetzt[0].endsWith('#/entdecken'), ersetzt)
 
 console.log(`empfehlung-sichtbar: ${verletzt === 0 ? 'alle Zusicherungen erfüllt' : `${verletzt} verletzt`}`)
 process.exit(verletzt === 0 ? 0 : 1)

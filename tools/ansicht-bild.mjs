@@ -31,6 +31,7 @@ import { pruefeHoverCover } from './ansicht-hover-cover.mjs'
 import { pruefeStatusfarben } from './ansicht-statusfarben.mjs'
 import { distPruefen } from './dist-frisch.mjs'
 import { eckenFehler } from './ecken-urteil.mjs'
+import { messeDuell } from './ansicht-duell.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -56,7 +57,7 @@ const ALLE = [
   'quellen',
   'impressum',
   'datenschutz',
-  'empfehlung',
+  'entdecken',
 ]
 
 /** Ein 1×1-Pixel-PNG, transparent — die Antwort auf jede fremde Bildanfrage. */
@@ -232,7 +233,7 @@ async function meldeHoverCover() {
 }
 
 /*
-  **„Was gucken?“ (`#/empfehlung`) wirklich durchspielen.** Die Bilder oben zeigen von der Route nur die Einleitung; hier werden sechs Duelle
+  **„Entdecken“ (`#/entdecken`) wirklich durchspielen.** Die Bilder oben zeigen von der Route nur die Einleitung; hier werden sechs Duelle
   geklickt und Vorschläge, Leinwand und zweite Ebene gemessen: Handy 360 × 780 und Rechner 1440 × 900, hell und dunkel. Geprüft werden keine
   Konsolenfehler, kein waagerechtes Scrollen, jede sichtbare Schaltfläche ≥ 44 px, und an Pixeln die Cover der Vorschläge (Ecken rund,
   Unterkante und die Zeilen darunter mit und ohne Favorit gleich, ★-Plakette im Cover).
@@ -315,10 +316,11 @@ async function spieleEmpfehlung(browser, geraet, thema) {
   seite.on('pageerror', (e) => fehler.push(`${kennung}: ${String(e).slice(0, 140)}`))
   await seite.route('**/*', antworteAusDist)
   const los = seite.getByRole('button', { name: "Los geht's" })
-  await seite.goto('http://ak.test/#/empfehlung', { waitUntil: 'networkidle' })
+  await seite.goto('http://ak.test/#/entdecken', { waitUntil: 'networkidle' })
   await los.waitFor({ timeout: 20_000 })
   await los.click()
   await seite.waitForTimeout(900)
+  for (const f of await messeDuell(seite, lesePixelPng)) fehler.push(`${kennung}: Duell ${f}`)
   for (let i = 0; i < 6; i++) {
     await seite.locator('.empf-kandidat').nth(i % 2).click()
     await seite.waitForTimeout(700)
@@ -367,7 +369,7 @@ async function oeffneKopfWorstCase(browser, breite, thema) {
       window.dispatchEvent(e)
     }, 300)
   })
-  /* Die Fläche „Was gucken?“ deckt die App-Kopfleiste voll ab (eigene Kopfzeile), darum geht man von der Datenbank aus. */
+  /* Die Fläche „Entdecken“ deckt die App-Kopfleiste voll ab (eigene Kopfzeile), darum geht man von der Datenbank aus. */
   await seite.goto('http://ak.test/#/datenbank', { waitUntil: 'networkidle' })
   await seite.locator('header').first().waitFor({ state: 'visible', timeout: 20_000 })
   const feld = seite.locator('header input[type="search"]').first()
@@ -449,7 +451,7 @@ async function meldeEmpfehlung() {
   }
   await browser.close()
   const faelle = EMPFEHLUNG_GERAETE.length * 2
-  console.log(`\nWas gucken? (Reise durchgespielt, ${faelle} Fälle: Handy und Rechner, hell und dunkel; Konsole, Scrollen, Tippflächen, Ecken und Unterkante der Cover): ${fehler.length ? '' : 'ok'}`)
+  console.log(`\nEntdecken (Reise durchgespielt, ${faelle} Fälle: Handy und Rechner, hell und dunkel; Konsole, Scrollen, Tippflächen, Ecken und Unterkante der Cover, Duell-Karte mit und ohne gewinnt/verliert: Ecken, Unterkante, Ring): ${fehler.length ? '' : 'ok'}`)
   for (const f of fehler) console.log(`  ✕ ${f}`)
   return fehler.length > 0
 }
@@ -467,8 +469,8 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
     if (rechner.abweichungen.length) rot = true
   }
   if (!handy && ansichten.includes('woche') && (await meldeHoverCover())) rot = true
-  if (!handy && ansichten.includes('empfehlung') && (await meldeEmpfehlung())) rot = true
-  if (!handy && ansichten.includes('empfehlung') && (await meldeZuruecksetzen())) rot = true
+  if (!handy && ansichten.includes('entdecken') && (await meldeEmpfehlung())) rot = true
+  if (!handy && ansichten.includes('entdecken') && (await meldeZuruecksetzen())) rot = true
   if (handy && ['woche', 'monat', 'datenbank'].every((a) => ansichten.includes(a))) {
     const leiste = await pruefeWerkzeugleiste(seite)
     console.log(`\nWerkzeugleiste unten (320/360/393/440 px): ${leiste.length ? '' : 'ok'}`)
