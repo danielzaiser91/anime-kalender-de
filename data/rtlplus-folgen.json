@@ -1,5 +1,5 @@
 {
-  "geholtAm": "2026-10-19T05:07:02.983Z",
+  "geholtAm": "2026-10-26T05:05:41.862Z",
   "titel": {
     "16870": {
       "programm": "the-last-naruto-the-movie-p_226250",
@@ -27,6 +27,13 @@
       "programm": "beyblade-x-p_9519",
       "videos": [
         {
+          "video": "das-ziel-des-drachen-c_2142003",
+          "titel": "Das Ziel des Drachen",
+          "ab": "2026-10-16",
+          "staffel": 3,
+          "folge": 21
+        },
+        {
           "video": "konflikt-im-x-c_2133559",
           "titel": "Konflikt im X",
           "ab": "2026-10-09",
@@ -34,18 +41,18 @@
           "folge": 20
         },
         {
+          "video": "die-zukunft-jenseits-davon-c_2164413",
+          "titel": "Die Zukunft jenseits davon",
+          "ab": "2026-10-23",
+          "staffel": 3,
+          "folge": 22
+        },
+        {
           "video": "an-den-ort-c_2130576",
           "titel": "An Den Ort",
           "ab": "2026-10-02",
           "staffel": 3,
           "folge": 19
-        },
-        {
-          "video": "das-ziel-des-drachen-c_2142003",
-          "titel": "Das Ziel des Drachen",
-          "ab": "2026-10-16",
-          "staffel": 3,
-          "folge": 21
         },
         {
           "video": "motiv-zu-motiv-c_2121373",
@@ -1693,6 +1700,13 @@
           "staffel": 3,
           "dt": "Das Ziel des Drachen",
           "ab": "2026-10-16"
+        },
+        {
+          "nr": 122,
+          "st": 22,
+          "staffel": 3,
+          "dt": "Die Zukunft jenseits davon",
+          "ab": "2026-10-23"
         }
       ]
     }

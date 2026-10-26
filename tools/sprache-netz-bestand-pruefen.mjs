@@ -67,7 +67,9 @@ if (existsSync(`${WURZEL}/public/data/titles.json`) && existsSync(`${WURZEL}/pub
   if (process.argv.includes('--bericht')) for (const { t, s } of luecken) console.log(`LÜCKE ${t.id} ${t.titleDe ?? t.titleEn} ${s.platform} ${s.url}`)
   if (luecken.length) {
     console.error(`FEHLER: ${luecken.length} Einträge „Sprache offen“ weder belegt noch auf der Prüfliste (Netflix, Prime, Disney+ mit Adresse): ${luecken.slice(0, 5).map(({ t, s }) => `${t.id}|${s.platform}`).join(', ')}`)
+    console.log(`VERSTÖSSE: ${luecken.length}`)
     process.exit(1)
   }
 }
 console.log('sprache-netz-bestand-pruefen: ok')
+console.log('VERSTÖSSE: 0')

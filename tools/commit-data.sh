@@ -265,7 +265,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     # von 15:14 bis 21:08 UTC lieferte er grün keine Erzeugnisse aus, sechs Stunden unbemerkt).
     if ! bestand_pruefen && ! quarantaene_versuchen; then
       cat "$TEMP_LAUF/bestand-pruefung.txt"
-      # Die sechs Prüfungen in `check:bestand` melden über `warn()` (Zeichen
+      # Die Prüfungen in `check:bestand` (12 Skripte und die Liste mit 53 Dateien, Stand 25.10.2026) melden über `warn()` (Zeichen
       # `⚠`) oder mit `✗` (U+2717); nur `check-logic.ts` und `build.ts`
       # selbst nutzen `✖` (U+2716). Ein Muster, das nur `✖` sucht, findet bei
       # jedem `check:bestand`-Fehlschlag keinen Treffer — `grep` beendet sich

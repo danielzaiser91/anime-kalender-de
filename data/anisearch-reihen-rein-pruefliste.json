@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-25",
+  "stand": "2026-10-26",
   "bestand": {
     "inReihen": 3026,
     "reihen": 817,
@@ -1213,6 +1213,23 @@
         "art": "universum",
         "reihen": [
           {
+            "id": 3588,
+            "name": "Soul Eater",
+            "titel": 3
+          },
+          {
+            "id": 105310,
+            "name": "Enen no Shouboutai",
+            "titel": 5
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Enen no Shouboutai: San no Shou Part 2 —Gemeinsames Universum→ Soul Eater Not!"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
             "id": 184951,
             "name": "Seihantai na Kimi to Boku",
             "titel": 2
@@ -1552,7 +1569,7 @@
     ]
   },
   "katalog": {
-    "inReihen": 12026,
+    "inReihen": 12025,
     "reihen": 3072,
     "pruefliste": [
       {
@@ -6125,6 +6142,23 @@
         ],
         "alleinstehende": [],
         "beispiel": "Dai Yamato Zero-go —Gemeinsames Universum→ Uchuu Senkan Yamato"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 3588,
+            "name": "Soul Eater",
+            "titel": 3
+          },
+          {
+            "id": 105310,
+            "name": "Enen no Shouboutai",
+            "titel": 5
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Enen no Shouboutai: San no Shou Part 2 —Gemeinsames Universum→ Soul Eater Not!"
       },
       {
         "art": "universum",

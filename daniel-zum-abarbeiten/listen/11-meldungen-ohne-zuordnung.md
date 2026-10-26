@@ -9,7 +9,7 @@ Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:
 gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er
 nicht, gehört die Zeile gestrichen.
 
-Stand: 2026-10-25
+Stand: 2026-10-26
 
 ## Was hier zu tun ist
 
@@ -39,7 +39,7 @@ nicht. Vier Fälle, vier Handgriffe:
 | primevideo | https://www.amazon.de/gp/video/detail/B0DYF8BKVP | Shaman King — Staffel 3 in der Reihe nicht zu bestimmen | dub | [Shaman King](https://anilist.co/anime/154) | Seite B0DVTJ4VFB als Verweis an den Titel von Staffel 3 eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0DYF8BKVP | Shaman King — Staffel 2 in der Reihe nicht zu bestimmen | dub | [Shaman King](https://anilist.co/anime/154) | Seite B0DNJQ89BT als Verweis an den Titel von Staffel 2 eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0FRXMBN3D | Arifureta: From Commonplace to World’s Strongest (Arifureta: From Commonplace to World's Strongest Season 3) — Staffel 1 der Seite B0DMKK6DWD gehört nicht zum Auftragstitel | dub | [Arifureta: From Commonplace to World’s Strongest](https://anilist.co/anime/154473) | Seite B0DMKK6DWD als Verweis an ihren Staffel-Titel eintragen |
-| primevideo | https://www.amazon.de/gp/video/detail/B07LHCSXV6 | Chaika, die Sargprinzessin (Chaika -The Coffin Princess-) | weg | — | nichts — diese Adresse steht bei uns nirgends |
+| primevideo | https://www.amazon.de/gp/video/detail/B07LHCSXV6 | Chaika, die Sargprinzessin (Chaika -The Coffin Princess-) — Staffel 2 in der Reihe nicht zu bestimmen | weg | [Chaika, die Sargprinzessin](https://anilist.co/anime/20462)<br>[Chaika, die Sargprinzessin: Avenging Battle](https://anilist.co/anime/20719) | Seite B07MXMCF4V als Verweis an den Titel von Staffel 2 eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0G75LX98H | Classroom of the Elite: Staffel 3 (Classroom of the Elite Season 3) — Staffel 1 der Seite B0GGJKGT5P gehört nicht zum Auftragstitel | dub | [Classroom of the Elite: Staffel 3](https://anilist.co/anime/146066) | Seite B0GGJKGT5P als Verweis an ihren Staffel-Titel eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0883CSMBB | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth (Is It Wrong to Try to Pick Up Girls in a Dungeon?) — Staffel 4: 22 Folgen gemeldet, Zielstaffel hat 11 | dub | [Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth](https://anilist.co/anime/20920) | Staffel 4 prüfen: Folgenzahl passt nicht |
 | primevideo | https://www.amazon.de/gp/video/detail/B0883CSMBB | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth (Is It Wrong to Try to Pick Up Girls in a Dungeon?) — Staffel 5 in der Reihe nicht zu bestimmen | dub | [Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth](https://anilist.co/anime/20920) | Seite B0D75XMMB1 als Verweis an den Titel von Staffel 5 eintragen |

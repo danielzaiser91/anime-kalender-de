@@ -21,12 +21,14 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
   const rohVorschlaege = readJson<{ proposals?: Vorschlag[] }>('data/proposals/anime2you.json', {})
   const sammelV = vorschlaegeAusAllenSammelartikeln(rohVorschlaege.proposals ?? [])
   const teilVerworfen: string[] = []
+  const abgedeckt: Vorschlag[] = []
   const ausMeldungen = releasesAus(
     [...(rohVorschlaege.proposals ?? []), ...sammelV],
     [...titles.values()],
     releases,
     todayIso(),
     teilVerworfen,
+    abgedeckt,
   )
   log(`${teilVerworfen.length} Anime2You-Meldungen mit Part-/Cour-/Box-Hinweis keinem Teil sicher zuzuordnen — verworfen${teilVerworfen.length ? `: ${teilVerworfen.join(' | ')}` : ''}`)
   releases.push(...ausMeldungen)
@@ -35,7 +37,7 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
   const melde = nurOmu.length > 10 ? warn : log
   melde(`${nurOmu.length} Anime2You-Meldungen nennen nur Originalton mit Untertiteln — kein deutscher Termin daraus${nurOmu.length ? `: ${nurOmu.map((v) => v.articleTitle).join(' | ')}` : ''}`)
   schreibeNurOriginalton(nurOmu)
-  schreibeUnzugeordnet(sammelV, ausMeldungen)
+  schreibeUnzugeordnet(sammelV, ausMeldungen, abgedeckt)
   const verschoben = verschiebungenAnwenden(releases, rohVorschlaege.proposals ?? [], todayIso(), titles)
   if (verschoben.length) log(`${verschoben.length} Disc-Termine laut Anime2You verschoben: ${verschoben.map((v) => `${v.name} (${v.von} → ${v.nach})`).join(', ')}`)
   if (ausMeldungen.length)

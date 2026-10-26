@@ -32,4 +32,5 @@ console.log('\nHöhere Filmnummern treffen nie den ersten Film (Prüfer-Befund P
 }
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
+console.log(`VERSTÖSSE: ${verletzt}`)
 process.exit(verletzt ? 1 : 0)

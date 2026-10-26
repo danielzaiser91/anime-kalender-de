@@ -10,7 +10,8 @@
 
   /**
    * Wie viele Folgen die Staffel hat, gemessen an dem, was lesbar ist. Die Seitenzahl meint bei Bänden
-   * die ganze Staffel (ZEXAL: 96 genannt, 48 erreichbar; „fehlen 48“ für immer). Sind mindestens zwei Abschnitte
+   * die ganze Staffel (ZEXAL: 96 genannt, 48 erreichbar). Ohne bekannte Abschnitte bleibt die Seitenzahl;
+   * der Satz zeigt beim Stillstand dann das Gelieferte (`akPrimeLeseStand`). Sind mindestens zwei Abschnitte
    * bekannt und alle wirklich gelesen (`offen` 0; ein fehlgeschlagener oder unlesbarer Abschnitt bleibt offen),
    * gilt das Gelesene. Sonst die größere Zahl von Zählwerk und Seite.
    */
@@ -33,14 +34,24 @@
   globalThis.akPrimeMeldungErlaubt = ({ nichtAbrufbar, deutsch, sollFolgen, geladen, gesperrt }) =>
     Boolean(nichtAbrufbar || deutsch || globalThis.akPrimeMeldungVollstaendig(sollFolgen, geladen, gesperrt))
 
-  /** Text und Hinweis, solange „kein Deutsch“ nicht über die ganze Staffel belegt ist. */
+  /**
+   * Der Satz zum Lesestand ohne Deutsch (eine Regel für Ladephase und Stillstand, 25.10.2026). Solange die Seite
+   * noch lädt, ist „fehlen N“ wahr; steht sie still (`fertig`), liefert sie nichts nach — bei Bänden nennt Amazon
+   * die ganze Staffel (ZEXAL: 96 genannt, 48 erreichbar) —, dann steht nur, was geliefert ist.
+   */
+  globalThis.akPrimeLeseStand = ({ sollFolgen, geladen, gesperrt, fertig }) =>
+    fertig
+      ? `${geladen} Folgen gelesen — mehr zeigt die Seite nicht`
+      : `${geladen} von ${sollFolgen} Folgen gelesen — für „kein Deutsch" fehlen ${Math.max(0, sollFolgen - geladen - gesperrt)}`
+
+  /** Text und Hinweis, solange „kein Deutsch“ nicht über die ganze Staffel belegt ist (Seite steht still). */
   globalThis.akPrimeKeinDeutschSperre = ({ sollFolgen, geladen, gesperrt, kanal }) => ({
-    text: `${geladen} von ${sollFolgen} Folgen gelesen — für „kein Deutsch" fehlen ${Math.max(0, sollFolgen - geladen - gesperrt)}`,
+    text: globalThis.akPrimeLeseStand({ sollFolgen, geladen, gesperrt, fertig: true }),
     title: kanal
       ? 'Die übrigen Folgen laufen über ein Kanal-Abo; ohne das nennt Amazon ihre ' +
         'Tonspuren nicht. Ein „kein Deutsch" über die ganze Staffel wäre damit geraten.'
-      : 'Noch nicht alle Abschnitte geladen. „Deutsch gefunden" gilt sofort — ' +
-        '„kein Deutsch" erst, wenn jede Folge gelesen ist.',
+      : `Amazon nennt ${sollFolgen} Folgen, die Seite zeigt weniger (bei geteilten Staffeln liefert sie nur einen Teil). ` +
+        '„Deutsch gefunden" gilt sofort — „kein Deutsch" erst, wenn jede Folge gelesen ist.',
   })
 
   /** Ausstieg des Klicks ohne Senden; der Durchgang erfährt den Grund sofort (`ok: true` = schon gemeldet). */

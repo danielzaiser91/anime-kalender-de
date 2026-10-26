@@ -146,6 +146,29 @@ const jobsWirft = (...a) => {
 }
 assert.match(rotAlarmText(jobsWirft, 'o/r', JETZT), /\nALARM\? Fehlerschritte des Bestandsbaus nicht lesbar: jobs kaputt\n/)
 
+// Jeder Workflow wird genau einmal gelistet (vorher zweimal für den Bestandsbau: 20 s statt 10 s bei --trocken).
+const zaehler = { 'bestand-bauen.yml': 0, 'deploy.yml': 0 }
+const zaehlend = (...a) => {
+  if (a[1] === 'list') zaehler[a[a.indexOf('--workflow') + 1]]++
+  return kulisse({ bestand: BESTAND, deploy: DEPLOY_ROT, jobs: JOBS })(...a)
+}
+rotAlarmText(zaehlend, 'o/r', JETZT)
+assert.deepEqual(zaehler, { 'bestand-bauen.yml': 1, 'deploy.yml': 1 })
+// Lesefehler des Bestandsbaus: beide Bestandszeilen melden ihn, Deploy läuft weiter, und es bleibt bei einem Abruf.
+let versuche = 0
+const bestandWirft = (...a) => {
+  if (a[1] === 'list' && a.includes('bestand-bauen.yml')) {
+    versuche++
+    throw new Error('bestand kaputt\nzweite')
+  }
+  return kulisse({ bestand: BESTAND, deploy: DEPLOY_GRUEN, jobs: JOBS })(...a)
+}
+assert.equal(
+  rotAlarmText(bestandWirft, 'o/r', JETZT),
+  'ALARM? Läufe des Bestandsbaus nicht lesbar: bestand kaputt\nALARM? Fehlerschritte des Bestandsbaus nicht lesbar: bestand kaputt\nDeploy: kein Alarm',
+)
+assert.equal(versuche, 1)
+
 // Verdrahtung als Prozess: `gh` über die Kulisse, damit der echte Aufrufer läuft (Datum 2026-10-18 weit in der Vergangenheit, 2999 in der Zukunft).
 const stub = (laeufe) =>
   `data:text/javascript,import cp from "node:child_process";import{syncBuiltinESMExports}from "node:module";cp.execFileSync=(c,a)=>{if(a.includes("--workflow")&&(a[a.indexOf("--repo")+1]!=="danielzaiser91/anime-kalender-de"||!["bestand-bauen.yml","deploy.yml"].includes(a[a.indexOf("--workflow")+1])))throw new Error("gh?");return ${JSON.stringify(JSON.stringify(laeufe))}};syncBuiltinESMExports();globalThis.fetch=async()=>new Response("{}",{status:500})`

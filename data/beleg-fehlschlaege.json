@@ -48,7 +48,15 @@
     "anzahl": 4
   },
   "https://www.disneyplus.com/de-de/browse/entity-5ecc8b00-79fd-4c1a-81ed-f44260ef38d4": {
-    "am": "2026-10-25",
+    "am": "2026-10-26",
+    "anzahl": 2
+  },
+  "https://www.disneyplus.com/browse/entity-b8b65a37-0205-4771-bd07-24b5c4406034": {
+    "am": "2026-10-26",
+    "anzahl": 1
+  },
+  "https://www.disneyplus.com/browse/entity-7c74ce17-ce8d-42d7-b2b5-afc0db501194": {
+    "am": "2026-10-26",
     "anzahl": 1
   }
 }

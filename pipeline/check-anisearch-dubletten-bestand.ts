@@ -44,6 +44,8 @@ console.log('\nAusgelieferter Datensatz:')
 
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
+  console.log(`VERSTÖSSE: ${verletzt}`)
   process.exit(1)
 }
 console.log('\nOK')
+console.log('VERSTÖSSE: 0')
