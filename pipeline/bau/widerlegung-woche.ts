@@ -26,7 +26,7 @@ import { crunchyrollSeriesId } from '../lib/crunchyroll.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
 import { addDays, toIsoDate } from '../../shared/time.ts'
 import type { Release, Title } from '../../shared/types.ts'
-import { staffelDesTitels } from './widerlegung-staffel.ts'
+import { STAFFEL_IM_NAMEN, staffelDesTitels } from './widerlegung-staffel.ts'
 
 /** Eine Zeile der Wochenvorschau, soweit sie hier zählt. */
 export interface WochenZeile {
@@ -176,9 +176,6 @@ export function widerlegungAusDateien(
     deutscheFolgenTage(lies<KatalogNeu>('data/crunchyroll-neu.json', {})),
   )
 }
-
-/** „Staffel 3“ / „Season 3“ am Ende des Staffelnamens im Katalog. */
-const STAFFEL_IM_NAMEN = /(?:staffel|season)\s+(\d+)\s*$/i
 
 /**
  * Die deutschen Folgen **der Staffel Nr. `staffel`** der Serie unter `url`, die der Katalog am Tag `ab` oder später führt,
