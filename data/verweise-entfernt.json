@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-26T05:20:10.884Z",
+  "stand": "2026-10-26T11:29:35.904Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -1900,7 +1900,7 @@
       "url": "https://www.crunchyroll.com/de/k",
       "seriesId": "GRJ0X2V5Y",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -1911,7 +1911,7 @@
       "url": "https://www.crunchyroll.com/de/k-missing-kings",
       "seriesId": "GRQWDPPER",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -1922,7 +1922,7 @@
       "url": "https://www.crunchyroll.com/de/k-seven-stories",
       "seriesId": "GRNVN8MX6",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -1933,7 +1933,7 @@
       "url": "https://www.crunchyroll.com/de/k-seven-stories",
       "seriesId": "GRNVN8MX6",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -1944,7 +1944,7 @@
       "url": "https://www.crunchyroll.com/de/k-seven-stories",
       "seriesId": "GRNVN8MX6",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -1955,7 +1955,7 @@
       "url": "https://www.crunchyroll.com/de/k-seven-stories",
       "seriesId": "GRNVN8MX6",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -1966,7 +1966,7 @@
       "url": "https://www.crunchyroll.com/de/k-seven-stories",
       "seriesId": "GRNVN8MX6",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -1977,7 +1977,7 @@
       "url": "https://www.crunchyroll.com/de/k-seven-stories",
       "seriesId": "GRNVN8MX6",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -1988,7 +1988,7 @@
       "url": "https://www.crunchyroll.com/de/kamisama-hajimemashita",
       "seriesId": "GRE5KE7P6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -1999,7 +1999,7 @@
       "url": "https://www.crunchyroll.com/de/kanon",
       "seriesId": "GZJH3D0VK",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2010,20 +2010,9 @@
       "url": "https://www.crunchyroll.com/de/kenichi-the-mightiest-disciple",
       "seriesId": "GEXH3W859",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
-    },
-    {
-      "titleId": 18679,
-      "titel": "Kill La Kill",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/kill-la-kill",
-      "seriesId": "GY8VM43GY",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-10-26",
-      "letzterWeg": true
     },
     {
       "titleId": 6610,
@@ -2032,7 +2021,7 @@
       "url": "https://www.crunchyroll.com/de/king-of-thorn",
       "seriesId": "GRGGZDV4R",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2043,7 +2032,7 @@
       "url": "https://www.crunchyroll.com/de/kurokos-basketball",
       "seriesId": "G62P48X56",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2054,7 +2043,7 @@
       "url": "https://www.crunchyroll.com/de/kurokos-basketball",
       "seriesId": "G62P48X56",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2065,7 +2054,7 @@
       "url": "https://www.crunchyroll.com/de/kurokos-basketball",
       "seriesId": "G62P48X56",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2076,7 +2065,7 @@
       "url": "https://www.crunchyroll.com/de/kurokos-basketball/episode-225-tip-off-690095",
       "seriesId": "G62P48X56",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2087,7 +2076,7 @@
       "url": "https://www.crunchyroll.com/de/kurokos-basketball/episode-415-lets-do-that-again-690097",
       "seriesId": "G62P48X56",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2098,7 +2087,7 @@
       "url": "https://www.crunchyroll.com/de/kurokos-basketball/episode-755-the-greatest-present-728751",
       "seriesId": "G62P48X56",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2109,20 +2098,9 @@
       "url": "https://www.crunchyroll.com/de/kurokos-basketball/kurokos-basketball-the-movie-last-game-kurokos-basketball-the-movie-last-game-778592",
       "seriesId": "G62P48X56",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
-    },
-    {
-      "titleId": 97,
-      "titel": "Last Exile",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/last-exile",
-      "seriesId": "GY5VZ9PEY",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-10-26",
-      "letzterWeg": true
     },
     {
       "titleId": 100178,
@@ -2131,7 +2109,7 @@
       "url": "https://www.crunchyroll.com/de/liz-and-the-blue-bird",
       "seriesId": "G0XHWM5E2",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2141,8 +2119,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/magic-users-club-ova",
       "seriesId": "GYGG2ZDEY",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2153,7 +2131,7 @@
       "url": "https://www.crunchyroll.com/de/maken-ki",
       "seriesId": "GRZXGP4VY",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2164,7 +2142,7 @@
       "url": "https://www.crunchyroll.com/de/maken-ki",
       "seriesId": "GRZXGP4VY",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2175,7 +2153,7 @@
       "url": "https://www.crunchyroll.com/de/maquia-when-the-promised-flower-blooms",
       "seriesId": "G5PHNM731",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2186,7 +2164,7 @@
       "url": "https://www.crunchyroll.com/de/marudase-kintaro",
       "seriesId": "G8DHV79M5",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2197,7 +2175,7 @@
       "url": "https://www.crunchyroll.com/de/mass-effect",
       "seriesId": "GW4HM750E",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2208,7 +2186,7 @@
       "url": "https://www.crunchyroll.com/de/midnight-occult-civil-servants",
       "seriesId": "GR4PX80WY",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2219,7 +2197,7 @@
       "url": "https://www.crunchyroll.com/de/midnight-occult-civil-servants",
       "seriesId": "GR4PX80WY",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2230,7 +2208,7 @@
       "url": "https://www.crunchyroll.com/de/millennium-actress",
       "seriesId": "GDKHZEP05",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2241,7 +2219,7 @@
       "url": "https://www.crunchyroll.com/de/miss-hokusai",
       "seriesId": "GMEHMEJJG",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2252,7 +2230,7 @@
       "url": "https://www.crunchyroll.com/de/mon-colle-knights",
       "seriesId": "GYW47E7N6",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2263,18 +2241,7 @@
       "url": "https://www.crunchyroll.com/de/murder-princess",
       "seriesId": "G63KKJVW6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-10-26",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 108489,
-      "titel": "My Teen Romantic Comedy SNAFU: Climax",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/my-teen-romantic-comedy-snafu",
-      "seriesId": "GYNQJ8GXY",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2285,7 +2252,7 @@
       "url": "https://www.crunchyroll.com/de/night-on-the-galactic-railroad",
       "seriesId": "GR9VG8KE6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2296,20 +2263,9 @@
       "url": "https://www.crunchyroll.com/de/noir",
       "seriesId": "GR19PXG06",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
-    },
-    {
-      "titleId": 116287,
-      "titel": "Otherside Picnic",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/otherside-picnic",
-      "seriesId": "GEXH3WGGV",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-10-26",
-      "letzterWeg": false
     },
     {
       "titleId": 98873,
@@ -2318,7 +2274,7 @@
       "url": "https://www.crunchyroll.com/de/overlord",
       "seriesId": "G69PZ5PDY",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2329,7 +2285,7 @@
       "url": "https://www.crunchyroll.com/de/overlord",
       "seriesId": "G69PZ5PDY",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2340,7 +2296,7 @@
       "url": "https://www.crunchyroll.com/de/overlord",
       "seriesId": "G69PZ5PDY",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2351,7 +2307,7 @@
       "url": "https://www.crunchyroll.com/de/paranoia-agent",
       "seriesId": "G5PHNMW8E",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2361,8 +2317,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/peter-grill-and-the-philosophers-time",
       "seriesId": "G60XNWQVR",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2373,7 +2329,7 @@
       "url": "https://www.crunchyroll.com/de/phoenix",
       "seriesId": "G64PE3D0R",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2384,7 +2340,7 @@
       "url": "https://www.crunchyroll.com/de/pilot-candidate",
       "seriesId": "G63VX0WXY",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2395,7 +2351,7 @@
       "url": "https://www.crunchyroll.com/de/planetarian",
       "seriesId": "G5PHNM7M1",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2406,7 +2362,7 @@
       "url": "https://www.crunchyroll.com/de/project-blue-earth-sos",
       "seriesId": "G6GGZQ5W6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2416,8 +2372,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/promare",
       "seriesId": "GMEHME59W",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2428,7 +2384,7 @@
       "url": "https://www.crunchyroll.com/de/pt-br/series/G65V4P4K6/star-blazers-space-battleship-yamato",
       "seriesId": "G65V4P4K6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2439,7 +2395,7 @@
       "url": "https://www.crunchyroll.com/de/pumpkin-scissors",
       "seriesId": "G675N0DZR",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2450,7 +2406,7 @@
       "url": "https://www.crunchyroll.com/de/ragnarok-the-animation",
       "seriesId": "G65V1MND6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2461,7 +2417,7 @@
       "url": "https://www.crunchyroll.com/de/rin-daughters-of-mnemosyne",
       "seriesId": "GRK52WP96",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2472,7 +2428,7 @@
       "url": "https://www.crunchyroll.com/de/romeo-x-juliet",
       "seriesId": "GYZXG2146",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2482,8 +2438,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/rumbling-hearts",
       "seriesId": "G6ZXM399R",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2493,8 +2449,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/sailor-moon-r-the-movie",
       "seriesId": "GYJ0X8Q26",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2505,7 +2461,7 @@
       "url": "https://www.crunchyroll.com/de/samurai-7",
       "seriesId": "G6DK0K8KR",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2515,8 +2471,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/samurai-flamenco",
       "seriesId": "GRE5M12P6",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2527,7 +2483,7 @@
       "url": "https://www.crunchyroll.com/de/sankarea",
       "seriesId": "GP5HJ8EPW",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2538,7 +2494,7 @@
       "url": "https://www.crunchyroll.com/de/sankarea",
       "seriesId": "GP5HJ8EPW",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2548,8 +2504,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/school-rumble",
       "seriesId": "GDKHZEP41",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2559,8 +2515,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/school-rumble",
       "seriesId": "GDKHZEP41",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2571,31 +2527,9 @@
       "url": "https://www.crunchyroll.com/de/scrapped-princess",
       "seriesId": "G63VXDXNY",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
-    },
-    {
-      "titleId": 9926,
-      "titel": "Sekaiichi Hatsukoi: The World’s Greatest First Love",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/sekai-ichi-hatsukoi-worlds-greatest-first-love",
-      "seriesId": "GR19X8916",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-10-26",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 11123,
-      "titel": "Sekaiichi Hatsukoi: The World’s Greatest First Love 2",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/sekai-ichi-hatsukoi-worlds-greatest-first-love",
-      "seriesId": "GR19X8916",
-      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
-      "entferntAm": "2026-10-26",
-      "letzterWeg": false
     },
     {
       "titleId": 156896,
@@ -2604,7 +2538,7 @@
       "url": "https://www.crunchyroll.com/de/series/G0XHWM577/kizuna-no-allele",
       "seriesId": "G0XHWM577",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2615,7 +2549,7 @@
       "url": "https://www.crunchyroll.com/de/series/G0XHWM577/kizuna-no-allele",
       "seriesId": "G0XHWM577",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2626,7 +2560,7 @@
       "url": "https://www.crunchyroll.com/de/series/G1XHJV3P3/the-saints-magic-power-is-omnipotent",
       "seriesId": "G1XHJV3P3",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2637,7 +2571,7 @@
       "url": "https://www.crunchyroll.com/de/series/G24H1NJQ2/human-lost",
       "seriesId": "G24H1NJQ2",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2648,7 +2582,7 @@
       "url": "https://www.crunchyroll.com/de/series/G4PH0WJ7Z/the-legend-of-hei",
       "seriesId": "G4PH0WJ7Z",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2658,8 +2592,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/G4PH0WJDQ/captain-tsubasa-junior-youth-arc",
       "seriesId": "G4PH0WJDQ",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2670,7 +2604,7 @@
       "url": "https://www.crunchyroll.com/de/series/G5PHNM9ZM/yohane-the-parhelion--sunshine-in-the-mirror",
       "seriesId": "G5PHNM9ZM",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2681,7 +2615,7 @@
       "url": "https://www.crunchyroll.com/de/series/G60X904VR/my-hime",
       "seriesId": "G60X904VR",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2691,19 +2625,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/G649DWXJY/serial-experiments-lain?srsltid=AfmBOoqy4RNm5F9R6_w2RqfN8fH-pB9qJMPHJcqZaU8eCP5WAWXKHaGe",
       "seriesId": "G649DWXJY",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
-      "entferntAm": "2026-10-26",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 155211,
-      "titel": "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth IV – Teil 2",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/G6DQN9KGR/is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon",
-      "seriesId": "G6DQN9KGR",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2713,8 +2636,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/G6WE0Z9G6/elfen-lied",
       "seriesId": "G6WE0Z9G6",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2725,7 +2648,7 @@
       "url": "https://www.crunchyroll.com/de/series/G6WEV3WM6/noragami",
       "seriesId": "G6WEV3WM6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2736,7 +2659,7 @@
       "url": "https://www.crunchyroll.com/de/series/G6WEV3WM6/noragami",
       "seriesId": "G6WEV3WM6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2747,7 +2670,7 @@
       "url": "https://www.crunchyroll.com/de/series/G79H23XJJ/edens-zero",
       "seriesId": "G79H23XJJ",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2758,7 +2681,7 @@
       "url": "https://www.crunchyroll.com/de/series/G8DHV7874/cyber-city-oedo-808",
       "seriesId": "G8DHV7874",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2769,7 +2692,7 @@
       "url": "https://www.crunchyroll.com/de/series/G8DHV78Q4/rainbow",
       "seriesId": "G8DHV78Q4",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2780,7 +2703,7 @@
       "url": "https://www.crunchyroll.com/de/series/G8DHV7E9Q/inuyashiki-last-hero",
       "seriesId": "G8DHV7E9Q",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2791,7 +2714,7 @@
       "url": "https://www.crunchyroll.com/de/series/G9VHN9DXX/",
       "seriesId": "G9VHN9DXX",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2802,7 +2725,7 @@
       "url": "https://www.crunchyroll.com/de/series/G9VHN9DXX/",
       "seriesId": "G9VHN9DXX",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2813,7 +2736,7 @@
       "url": "https://www.crunchyroll.com/de/series/GEXH3W2GK/narenare--cheer-for-you-",
       "seriesId": "GEXH3W2GK",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2824,7 +2747,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMEHME53W/black-rock-shooter",
       "seriesId": "GMEHME53W",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -2835,7 +2758,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMEHMENP7/ninja-scroll-the-series",
       "seriesId": "GMEHMENP7",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2845,8 +2768,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/GMEHMEZ7J/welcome-to-the-ballroom",
       "seriesId": "GMEHMEZ7J",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2857,7 +2780,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMTE00002906/dragon-ball-z-the-dead-zone",
       "seriesId": "GMTE00002906",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2868,7 +2791,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMTE00002907/dragon-ball-z-broly-second-coming",
       "seriesId": "GMTE00002907",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2879,7 +2802,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMTE00002908/dragon-ball-z-bio-broly",
       "seriesId": "GMTE00002908",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2890,7 +2813,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMTE00002909/dragon-ball-z-fusion-reborn",
       "seriesId": "GMTE00002909",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2901,7 +2824,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMTE00002910/dragon-ball-z-wrath-of-the-dragon",
       "seriesId": "GMTE00002910",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2912,7 +2835,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMTE00002911/dragon-ball-z-the-worlds-strongest",
       "seriesId": "GMTE00002911",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2923,7 +2846,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMTE00002912/dragon-ball-z-the-tree-of-might",
       "seriesId": "GMTE00002912",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2934,7 +2857,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMTE00002914/dragon-ball-z-coolers-revenge",
       "seriesId": "GMTE00002914",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2945,7 +2868,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMTE00002915/dragon-ball-z-return-of-cooler",
       "seriesId": "GMTE00002915",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2956,7 +2879,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMTE00002916/dragon-ball-z-super-android-13",
       "seriesId": "GMTE00002916",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2967,7 +2890,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMTE00002917/dragon-ball-z-broly-the-legendary-super-saiyan",
       "seriesId": "GMTE00002917",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2978,7 +2901,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMTE00002918/dragon-ball-z-bojack-unbound",
       "seriesId": "GMTE00002918",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2989,7 +2912,7 @@
       "url": "https://www.crunchyroll.com/de/series/GMTE00376679/assassination-classroom-the-movie-our-time",
       "seriesId": "GMTE00376679",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -2999,8 +2922,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/GQWH0M1GG/dragon-ball-z-movies",
       "seriesId": "GQWH0M1GG",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -3011,7 +2934,7 @@
       "url": "https://www.crunchyroll.com/de/series/GQWH0M1K3/manie-manie-neo-tokyo",
       "seriesId": "GQWH0M1K3",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -3022,7 +2945,7 @@
       "url": "https://www.crunchyroll.com/de/series/GQWH0M4NN/love-hina-again",
       "seriesId": "GQWH0M4NN",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -3033,7 +2956,7 @@
       "url": "https://www.crunchyroll.com/de/series/GR4980206/sky-wizards-academy",
       "seriesId": "GR4980206",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -3043,8 +2966,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/GRMGWEM3R/jormungand",
       "seriesId": "GRMGWEM3R",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -3054,8 +2977,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/GRMGWEM3R/jormungand",
       "seriesId": "GRMGWEM3R",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -3065,8 +2988,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/GRP8011JR/utawarerumono",
       "seriesId": "GRP8011JR",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -3077,7 +3000,7 @@
       "url": "https://www.crunchyroll.com/de/series/GT00365079/hands-off-sawaranaide-kotesashi-kun",
       "seriesId": "GT00365079",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -3087,8 +3010,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/GT00365727/rooster-fighter",
       "seriesId": "GT00365727",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -3099,7 +3022,7 @@
       "url": "https://www.crunchyroll.com/de/series/GXJHM39V0/fatestay-night-heavens-feel",
       "seriesId": "GXJHM39V0",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -3110,7 +3033,7 @@
       "url": "https://www.crunchyroll.com/de/series/GXJHM3GG8/promise-of-wizard",
       "seriesId": "GXJHM3GG8",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -3121,7 +3044,7 @@
       "url": "https://www.crunchyroll.com/de/series/GY8V11X7Y/fatestay-night-unlimited-blade-works",
       "seriesId": "GY8V11X7Y",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -3132,7 +3055,7 @@
       "url": "https://www.crunchyroll.com/de/series/GY8V11X7Y/fatestay-night-unlimited-blade-works",
       "seriesId": "GY8V11X7Y",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -3143,7 +3066,7 @@
       "url": "https://www.crunchyroll.com/de/series/GY8V7NP8Y/lucky-star",
       "seriesId": "GY8V7NP8Y",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -3153,8 +3076,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/GYGGV94PY/btooom/",
       "seriesId": "GYGGV94PY",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-21",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -3165,7 +3088,7 @@
       "url": "https://www.crunchyroll.com/de/series/GZJH3D0P5/onimai-im-now-your-sister",
       "seriesId": "GZJH3D0P5",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -3440,7 +3363,7 @@
       "url": "https://www.crunchyroll.com/de/servamp",
       "seriesId": "GR2PQ7J2R",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -3451,7 +3374,7 @@
       "url": "https://www.crunchyroll.com/de/shakugan-no-shana",
       "seriesId": "GYW4EJZ26",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -3462,7 +3385,7 @@
       "url": "https://www.crunchyroll.com/de/shakugan-no-shana",
       "seriesId": "GYW4EJZ26",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -3473,7 +3396,7 @@
       "url": "https://www.crunchyroll.com/de/shakugan-no-shana",
       "seriesId": "GYW4EJZ26",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -3484,7 +3407,7 @@
       "url": "https://www.crunchyroll.com/de/shakugan-no-shana",
       "seriesId": "GYW4EJZ26",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -3495,7 +3418,7 @@
       "url": "https://www.crunchyroll.com/de/shakugan-no-shana",
       "seriesId": "GYW4EJZ26",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -3506,7 +3429,7 @@
       "url": "https://www.crunchyroll.com/de/shomin-sample",
       "seriesId": "G8DHV728E",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-08-26",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -4418,8 +4341,8 @@
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/GVDHX8QGP/nana",
       "seriesId": "GVDHX8QGP",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-24",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": false
     },
@@ -4430,7 +4353,18 @@
       "url": "http://www.crunchyroll.com/de/captain-harlock",
       "seriesId": "GYGGPD73Y",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
-      "geprueftAm": "2026-10-12",
+      "geprueftAm": "2026-10-26",
+      "entferntAm": "2026-10-26",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 104243,
+      "titel": "Angels of Death (Episoden 13-16)",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/angels-of-death",
+      "seriesId": "GRVDN485R",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-26",
       "entferntAm": "2026-10-26",
       "letzterWeg": true
     },
@@ -4615,6 +4549,17 @@
       "titel": "Mobile Suit Gundam Seed",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/mobile-suit-gundam-seed",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-26",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 97,
+      "titel": "Last Exile",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/last-exile",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -5183,6 +5128,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 9926,
+      "titel": "Sekaiichi Hatsukoi: The World’s Greatest First Love",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/sekai-ichi-hatsukoi-worlds-greatest-first-love",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-26",
+      "letzterWeg": false
+    },
+    {
       "titleId": 10015,
       "titel": "Yu-Gi-Oh! Zexal",
       "plattform": "crunchyroll",
@@ -5198,6 +5154,17 @@
       "titel": "Hunter × Hunter",
       "plattform": "crunchyroll",
       "url": "http://www.crunchyroll.com/de/hunter-x-hunter",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-26",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 11123,
+      "titel": "Sekaiichi Hatsukoi: The World’s Greatest First Love 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/sekai-ichi-hatsukoi-worlds-greatest-first-love",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -5346,6 +5313,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-26",
       "letzterWeg": false
+    },
+    {
+      "titleId": 18679,
+      "titel": "Kill La Kill",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/kill-la-kill",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-26",
+      "letzterWeg": true
     },
     {
       "titleId": 19191,
@@ -6470,6 +6448,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 108489,
+      "titel": "My Teen Romantic Comedy SNAFU: Climax",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/my-teen-romantic-comedy-snafu",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-26",
+      "letzterWeg": false
+    },
+    {
       "titleId": 108626,
       "titel": "Human Lost",
       "plattform": "primevideo",
@@ -6683,6 +6672,17 @@
       "titel": "By the Grace of the Gods",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/by-the-grace-of-the-gods",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-26",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 116287,
+      "titel": "Otherside Picnic",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/otherside-picnic",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -7062,6 +7062,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-26",
       "letzterWeg": false
+    },
+    {
+      "titleId": 155211,
+      "titel": "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth IV – Teil 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/G6DQN9KGR/is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-26",
+      "letzterWeg": true
     },
     {
       "titleId": 154965,
@@ -7759,13 +7770,24 @@
     {
       "titleId": 206814,
       "titel": "Dragon Ball Super: Beerus",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GT00389311/dragon-ball-super-beerus",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-26",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 206814,
+      "titel": "Dragon Ball Super: Beerus",
       "plattform": "netflix",
       "url": "https://www.netflix.com/title/83189604",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-26",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 102883,
@@ -7876,6 +7898,28 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-26",
       "letzterWeg": true
+    },
+    {
+      "titleId": 114622,
+      "titel": "Dorohedoro: Teuflische Anekdoten",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GT00371893/dorohedoro",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-26",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 114622,
+      "titel": "Dorohedoro: Teuflische Anekdoten",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/watch/GE00375247JAJP/devilish-anecdotes--disparity-of-the-masks--a-shop-for-you--the-spring-of-the-underling--the-tale-of-the-invisible-gyoza-fairy--the-devils-dance--ohba-memories-in-the-night-breeze",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-26",
+      "letzterWeg": false
     },
     {
       "titleId": 104252,

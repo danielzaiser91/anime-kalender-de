@@ -170,7 +170,7 @@ export function nimmSerieAuf(archiv: AdnArchiv, showId: string, videos: AdnRohVi
  * Abruf kann unvollständig zurückkommen; `pflegen: true` schreibt neue hinein.
  * Ohne die Option wird nur gelesen — für die Checks, die nichts verändern dürfen.
  */
-export function ladeAdnArchiv(optionen: { pflegen?: boolean } = {}): AdnArchiv {
+export function ladeAdnArchiv(optionen: { pflegen?: boolean; schreibWurzel?: string } = {}): AdnArchiv {
   const archiv = leeresArchiv()
   if (!existsSync(ARCHIV_DIR)) return archiv
 
@@ -203,7 +203,7 @@ export function ladeAdnArchiv(optionen: { pflegen?: boolean } = {}): AdnArchiv {
     wieder += stand.wiederhergestellt
     nimmSerieAuf(archiv, serienId, videos)
   }
-  if (optionen.pflegen) schreibeVdeHistorie(historie, neu, wieder)
+  if (optionen.pflegen) schreibeVdeHistorie(historie, neu, wieder, optionen.schreibWurzel)
   return archiv
 }
 

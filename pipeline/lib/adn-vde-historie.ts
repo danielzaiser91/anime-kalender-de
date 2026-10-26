@@ -46,8 +46,8 @@
  * gelöscht wird ein Eintrag nur, wenn sich ein Fund als Messfehler erweist —
  * dann mit Notiz, warum.
  */
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
 import { ROOT, log } from './util.ts'
 
 const DATEI = resolve(ROOT, 'data', 'adn-vde-historie.json')
@@ -118,11 +118,13 @@ export function ergaenzeAusHistorie(
   return { neu, wiederhergestellt }
 }
 
-export function schreibeVdeHistorie(historie: VdeHistorie, neu: number, wieder: number): void {
+export function schreibeVdeHistorie(historie: VdeHistorie, neu: number, wieder: number, schreibWurzel = ROOT): void {
   const serien = Object.keys(historie).length
   const folgen = Object.values(historie).reduce((n, s) => n + Object.keys(s).length, 0)
+  const ziel = resolve(schreibWurzel, 'data', 'adn-vde-historie.json')
+  mkdirSync(dirname(ziel), { recursive: true })
   writeFileSync(
-    DATEI,
+    ziel,
     `${JSON.stringify({ hinweis: 'Jede Folge, die je eine deutsche Tonspur trug. Wird nur ergaenzt, nie gekuerzt — siehe pipeline/lib/adn-vde-historie.ts.', serien: historie }, null, 1)}\n`,
   )
   log(

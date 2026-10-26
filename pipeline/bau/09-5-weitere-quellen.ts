@@ -14,9 +14,10 @@ import { handErstausgabe, ladeErstausgabeVonHand } from '../lib/erstausgabe-von-
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { istNahAmJapanStart } from '../lib/nah-am-japan-start.ts'
 
-export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerweiseErgaenzt, verweiseEntfernt }: {
+export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerweiseErgaenzt, verweiseEntfernt, schreibWurzel }: {
   releases: Release[]
   titles: Map<number, Title>
+  schreibWurzel?: string
   adnKatalog: AdnData
   adnVerweiseErgaenzt: number
   verweiseEntfernt: EntfernterVerweis[]
@@ -213,8 +214,6 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
    * dem 24.08.2026, während das Archiv vom 21.08. zu Recht zwölf Folgen ohne
    * `vde` führt. Beide Angaben stimmen; die jüngere gewinnt.
    */
-  // `pflegen`: Der Bau ist der einzige Lauf, der das Gedächtnis fortschreiben
-  // darf — die Checks lesen dieselbe Quelle und dürfen sie nicht verändern.
   /**
    * **Joyn ist ein deutscher Anbieter — dort läuft nichts auf Japanisch.**
    *
@@ -443,8 +442,8 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
     return true
   }
 
-
-  const adnArchiv = ladeAdnArchiv({ pflegen: true })
+  // Das Gedächtnis schreibt nur der Bau; Checks geben eine Kulisse als `schreibWurzel` vor.
+  const adnArchiv = ladeAdnArchiv({ pflegen: true, schreibWurzel })
   {
     // Folgenverweise auf die alte Domain — Begründung an `adnFolgenAdresse`.
     let umgestellt = 0
