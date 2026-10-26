@@ -312,6 +312,8 @@ tools/anime2you-luecken.test.ts
 tools/apt-fremdquelle.mjs
 tools/buehne-entwurf-render.test.ts
 tools/buehne-fall-optionen.test.ts
+tools/buehne-speicher.test.ts
+tools/buehne-start.test.ts
 tools/check-patchnotes-pflicht.mjs
 tools/design-klassen.mjs
 tools/design-kontrast.mjs
