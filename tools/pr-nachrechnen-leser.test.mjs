@@ -72,6 +72,11 @@ pruefe('Rückrichtung über 300 Dateien: Leser am Anfang, PR-Datei am Ende -> Gr
   pruefe('Liste mit unbeteiligten Prüfungen, obwohl ein Leser die Liste nennt -> null', g('# Kopf\npipeline/check-x.ts\n', ['tools/check-logic-alle.mjs']) === null, g('# Kopf\npipeline/check-x.ts\n', ['tools/check-logic-alle.mjs']))
   pruefe('Liste nimmt eine Prüfung auf, die der Leser ist -> Grund', /ruft pipeline\/bau\/cr\.ts auf/.test(g('# Kopf\npipeline/bau/cr.ts\n', LESER)), g('# Kopf\npipeline/bau/cr.ts\n', LESER))
   pruefe('Liste: Kommentarzeile mit dem Leser zählt nicht', g('# pipeline/bau/cr.ts\n', LESER) === null)
+  // Nur neu aufgenommene Einträge laufen neu: der Leser steht schon auf main -> null; ein zweiter, neuer Eintrag ohne Leser ändert daran nichts
+  const mitMain = (kopfText, mainText) => bewegtesGelesen({ bewegt: [F], pr: [LISTE], leser: LESER, lies: (p) => (p === LISTE ? kopfText : lies(p)), liesMain: (p) => (p === LISTE ? mainText : null), paketSkripte: null })
+  pruefe('Liste: Leser stand schon auf main, neuer Eintrag ohne Leser -> null', mitMain('pipeline/bau/cr.ts\npipeline/check-x.ts\n', 'pipeline/bau/cr.ts\n') === null, mitMain('pipeline/bau/cr.ts\npipeline/check-x.ts\n', 'pipeline/bau/cr.ts\n'))
+  pruefe('Liste: Leser neu neben altem Eintrag -> Grund', /ruft pipeline\/bau\/cr\.ts auf/.test(mitMain('pipeline/check-x.ts\npipeline/bau/cr.ts\n', 'pipeline/check-x.ts\n')))
+  pruefe('Liste: Eintrag entfernt -> null', mitMain('pipeline/check-x.ts\n', 'pipeline/check-x.ts\npipeline/bau/cr.ts\n') === null)
 }
 
 // package.json zählt nur mit den geänderten Skripten
@@ -162,6 +167,13 @@ pruefe('SUCHORDNER sind genau die Ordner des Codes', SUCHORDNER.join() === 'pipe
 {
   const g = gitLeser(fakeGit({ main: PR_BAUM, kopf: {} }).git)([F], ['pipeline/lib/helfer.ts'], REFS)
   pruefe('gitLeser: Helfer des Lesers aus main gelesen -> Rückrichtung', /wird von Code genutzt/.test(g), g)
+}
+{
+  const liste = 'tools/check-logic-liste.txt'
+  const g = gitLeser(fakeGit({ main: { ...PR_BAUM, [liste]: 'pipeline/bau/cr.ts\n' }, kopf: { [liste]: 'pipeline/bau/cr.ts\npipeline/check-neu.ts\n' } }).git)([F], [liste], REFS)
+  pruefe('gitLeser: Liste mit neuem Eintrag, der Leser stand schon auf main -> null', g === null, g)
+  const g2 = gitLeser(fakeGit({ main: { ...PR_BAUM, [liste]: 'pipeline/check-x.ts\n' }, kopf: { [liste]: 'pipeline/check-x.ts\npipeline/bau/cr.ts\n' } }).git)([F], [liste], REFS)
+  pruefe('gitLeser: Liste nimmt den Leser neu auf -> Grund', /ruft pipeline\/bau\/cr\.ts auf/.test(g2), g2)
 }
 {
   const g = gitLeser(fakeGit({ main: PR_BAUM, kopf: {} }).git)([F], ['tools/gelöscht-im-pr.mjs'], REFS)

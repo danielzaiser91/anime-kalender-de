@@ -68,6 +68,12 @@ export const leserIn = (texte, bewegt) => [...texte].filter(([, text]) => bewegt
 /** Nennt der Text (ohne Kommentare) den Namen der Datei (der Pfad enthält ihn, `join(ordner, 'a.json')` nennt nur den Namen)? */
 export const nennt = (text, bewegt) => ohneKommentare(text).includes(bewegt.split('/').pop())
 
+/** Einträge einer Ausführungsliste, die der PR neu aufnimmt (Pfade im Kopf, die main nicht hat): nur sie laufen neu gegen die Daten. */
+const neueEintraege = (liste, lies, liesMain) => {
+  const alt = new Set(pfadTokens(liesMain(liste) ?? ''))
+  return pfadTokens(lies(liste) ?? '').filter((t) => !alt.has(t))
+}
+
 /** Skript-Werte aus package.json, die sich zwischen alt und neu unterscheiden, als ein Text; null, wenn nicht lesbar. */
 export function geaenderteSkripte(altJson, neuJson) {
   try {
@@ -85,12 +91,12 @@ export function geaenderteSkripte(altJson, neuJson) {
  * `pr`: Dateien des PR. `leser`: Dateien auf main, die eine bewegte Datei im Code nennen. `lies(pfad)`: Text oder null (Kopf, sonst main).
  * `paketSkripte`: geänderte Skripte aus package.json (null = nicht lesbar), nur gebraucht, wenn der PR package.json berührt.
  */
-export function bewegtesGelesen({ bewegt, pr, leser, lies, paketSkripte }) {
+export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null, paketSkripte }) {
   if (bewegt.length === 0) return null
   const treffer = pr.find((p) => bewegt.includes(p))
   if (treffer !== undefined) return `der PR berührt ${treffer}`
   const eigene = pr.filter((p) => !ohneLeser(p) && p !== 'package.json')
-  let start = [...eigene]
+  let start = eigene.flatMap((p) => (LISTE.test(p) ? neueEintraege(p, lies, liesMain) : [p]))
   if (pr.includes('package.json')) {
     if (paketSkripte === null) return 'package.json nicht vergleichbar'
     start = [...start, ...pfadTokens(paketSkripte)]
@@ -104,7 +110,7 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, paketSkripte }) {
   const l1 = leser.find((r) => vorwaerts.some((n) => trifft(n, r)))
   if (l1 !== undefined) return `der PR ruft ${l1} auf oder importiert es, das bewegte Daten liest`
   const rueckwaerts = [...huelle(leser, lies)]
-  for (const p of start.filter((d) => !LISTE.test(d))) {
+  for (const p of start) {
     const n = rueckwaerts.find((x) => trifft(x, p) || trifft(p, x))
     if (n !== undefined) return `${p} wird von Code genutzt, der bewegte Daten liest (${n})`
   }
