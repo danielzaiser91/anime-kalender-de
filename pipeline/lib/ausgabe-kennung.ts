@@ -42,6 +42,13 @@ function titel(t: Record<string, unknown>, ak: AkVon): Record<string, unknown> {
   return neu
 }
 
+/** Ein Reihenglied: eigene Kennung, `al` für den Quellenverweis, und `remakeVon` (Kennung des Originals) auf `ak`. */
+function reihenGlied(m: Record<string, unknown>, ak: AkVon): Record<string, unknown> {
+  const neu: Record<string, unknown> = { ...m, id: num(m.id, ak), al: m.id }
+  if (typeof m.remakeVon === 'number') neu.remakeVon = ak(m.remakeVon)
+  return neu
+}
+
 const liste = (v: unknown, f: (x: Record<string, unknown>) => Record<string, unknown>) => (Array.isArray(v) ? v.map(f) : v)
 
 function schluessel(o: unknown, ak: AkVon, wert: (v: unknown) => unknown = (v) => v): Record<string, unknown> {
@@ -91,7 +98,7 @@ export function uebersetzeDatei(name: string, daten: unknown, ak: AkVon): unknow
     case 'saison-ausblick.json':
       return { katalog: liste((daten as { katalog: unknown }).katalog, (k) => ({ ...k, id: num(k.id, ak) })) }
     case 'franchises.json':
-      return schluessel(daten, ak, (v) => liste(v, (m) => ({ ...m, id: num(m.id, ak), al: m.id })))
+      return schluessel(daten, ak, (v) => liste(v, (m) => reihenGlied(m, ak)))
     case 'reihen.json':
       return schluessel(daten, ak, (v) => ({ ...(v as object), f: num((v as { f: number }).f, ak) }))
     case 'synonyme.json':

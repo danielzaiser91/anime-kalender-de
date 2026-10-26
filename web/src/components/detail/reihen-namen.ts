@@ -8,6 +8,7 @@ import {
   istStaffel,
   ohneStaffelEins,
   reihenVertreter,
+  zaehlgruppeVon,
 } from '@shared/titles.ts'
 import type { Dataset } from '../../lib/data.ts'
 import { kurzName } from './reihen-regeln.ts'
@@ -22,12 +23,15 @@ import { kurzName } from './reihen-regeln.ts'
  */
 export function reihenNameVon(title: Title | undefined, reihe: FranchiseMember[], data: Dataset): string {
   if (!title) return ''
-  if (reihe.length < 2) return anzeigeName(title)
-  const vertreter = reihenVertreter(reihe.map((m) => ({ ...m, id: m.id })))
+  /* Der Kopf nennt die Zählgruppe des geöffneten Titels: Eine Neuverfilmung heißt nicht wie das Original (Yaiba 2025, 26.10.2026). */
+  const gruppe = zaehlgruppeVon(reihe, title.id)
+  const teile = gruppe.length ? gruppe : reihe
+  if (teile.length < 2) return anzeigeName(title)
+  const vertreter = reihenVertreter(teile.map((m) => ({ ...m, id: m.id })))
   const kopf = ohneStaffelEins(vertreter.name)
   const kopfIstDeutsch = data.titleById.get(vertreter.id)?.titleDe === vertreter.name
   /* Der erste Teil nennt oft sich selbst, nicht die Reihe — siehe `reihenAnfang()`. */
-  return reihenAnfang(kopf, reihe.map((m) => m.name), kopfIstDeutsch)
+  return reihenAnfang(kopf, teile.map((m) => m.name), kopfIstDeutsch)
 }
 
 /**

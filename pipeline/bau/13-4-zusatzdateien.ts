@@ -18,6 +18,7 @@ import { ergaenzeCoverGross } from './cover-gross.ts'
 import { ohneBelegteSynchro } from './synchro-belegt.ts'
 import { schreibeSaisonDatei } from './saison-datei.ts'
 import { cartoonsMitReihe, markiereEigeneWerke } from './cartoon-reihen.ts'
+import { markiereRemakes } from './remake-von.ts'
 import { schreibeAnisearchOffen } from './anisearch-kennung.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
 
@@ -277,7 +278,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
         : t.coverImage,
     }))
   }
-  writeJson(`${OUT}/franchises.json`, markiereEigeneWerke(reihen))
+  writeJson(`${OUT}/franchises.json`, markiereEigeneWerke(markiereRemakes(reihen, fuerReihen)))
   log(`${Object.keys(reihen).length} Reihen mit mehr als einem Eintrag geschrieben`)
 
   schreibeMeldungen(slim)

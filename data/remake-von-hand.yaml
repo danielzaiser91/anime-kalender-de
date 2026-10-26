@@ -1,0 +1,15 @@
+# Neuverfilmungen, die aniSearch nicht als „Remake" führt — das Original bleibt in der Reihe, die Neuverfilmung
+# und ihre Fortsetzungen zählen als eigene Linie (`FranchiseMember.remakeVon`, `zaehlgruppen()` in shared/titles.ts).
+#
+# Die aniSearch-Beziehung „Remake" (beidseitig eingetragen, die spätere Serie ist die Neuverfilmung) wird im Bau
+# automatisch gelesen (`pipeline/bau/remake-von.ts`); hierher gehört nur, was dort anders oder gar nicht steht.
+# Jeder Eintrag: remake und original (AniList-Kennungen der Titel), grund und quelle (https-Adresse, die es belegt).
+# Beide müssen Serien (TV/ONA) derselben Reihe sein, sonst warnt der Bau.
+
+# aniSearch führt Yaiba 2025 (19712) und das Original von 1993 (241) nur als „Alternative Version" zueinander
+# (Archivseite 19712, Stand 26.10.2026); Daniel: „es ist ein remake von staffel 1 (1. teil)". Die Fortsetzung 2027
+# (20927) ist bei aniSearch der Sequel der Neuverfilmung.
+- remake: 177476
+  original: 2335
+  grund: 'Yaiba: Samurai Legend (2025) erzählt Kenyuu Densetsu Yaiba (1993) neu; die Fortsetzung 2027 baut auf der Neuverfilmung auf'
+  quelle: https://www.anisearch.de/anime/19712
