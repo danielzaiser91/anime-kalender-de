@@ -1,4 +1,5 @@
-import { log, readJson } from '../lib/util.ts'
+import { ROOT, log, readJson } from '../lib/util.ts'
+import { haengeAnkuendigungAn } from '../lib/ankuendigungen.ts'
 import type { Release } from '../../shared/types.ts'
 import { KATALOG_MIN_FOLGEN } from '../../shared/katalog-release.ts'
 import { rolleTermineAus } from './10-termine.ts'
@@ -51,6 +52,7 @@ export function rolleTermineAusMitKomplettabwurf(
   const slugs = wandleKomplettabwuerfeUm(args.releases)
   if (slugs.length) log(`${slugs.length} Crunchyroll-Komplettabwürfe statt Wochentakt: ${slugs.join(', ')}`)
   markiereErstausgabe({ alle: args.releases, pruefen: args.releases, titles: args.titles, handNein: (quelle.handNein ?? (() => neinHandbelege(loadDubChecks())))() })
+  haengeAnkuendigungAn(args.titles, ROOT)
   schreibeNachOriginal(args.releases, quelle.tmdb ?? readJson('data/tmdb-folgen.json', {}))
   return (quelle.rolle ?? rolleTermineAus)(args)
 }
