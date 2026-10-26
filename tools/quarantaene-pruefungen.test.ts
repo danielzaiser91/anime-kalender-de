@@ -283,10 +283,14 @@ function riegel(liste: number[] | undefined): Lauf {
     release(-1, { firstEpisodeNumber: 101, episodeCount: 22 }, { tvLetzteSichtung: '2026-10-23' }),
     release(-2, { estimated: true }),
     release(-3, { episodeCount: 12, lastEpisodeDate: '2026-10-23' }),
+    release(-4, { episodeCount: 12 }),
   ]
-  const dateien = { 'public/data/events.json': [finale(-1), finale(-2), finale(-3)], 'public/data/releases.json': releases, 'public/data/folgen/zaehlung.json': { '-1': [128, 122] } }
+  const zaehlung = { '-1': [128, 122], '-4': [24, 12] }
+  const dateien = { 'public/data/events.json': [finale(-1), finale(-2), finale(-3), finale(-4)], 'public/data/releases.json': releases, 'public/data/folgen/zaehlung.json': zaehlung }
   const rot = lauf('pipeline/check-finale-bestand.ts', { dateien })
   pruefe('finale-bestand: nur Sichtung und fehlende Folgenzahl tragen die Marke', gleich(rot.marken, [-1, -2]) && rot.code === 1, rot)
+  const weich = lauf('pipeline/check-finale-bestand.ts', { dateien: { ...dateien, 'public/data/events.json': [finale(-4)] } })
+  pruefe('finale-bestand: japanisch mehr Folgen (-4) ist nur eine Warnzeile, ohne Marke und mit Exit 0', weich.code === 0 && weich.marken.length === 0 && weich.aus.includes('⚠ WARNUNG Staffelfinale bei weniger Folgen als japanisch: 1 Titel: -4'), weich)
   const gruen = lauf('pipeline/check-finale-bestand.ts', { dateien: { ...dateien, 'public/data/events.json': [finale(-3)] } })
   pruefe('finale-bestand: Finale mit belegtem Ende ist sauber ohne Marke', gruen.code === 0 && gruen.marken.length === 0 && gruen.aus.includes('1 Termine'), gruen)
   const ohneDatei = lauf('pipeline/check-finale-bestand.ts', {})

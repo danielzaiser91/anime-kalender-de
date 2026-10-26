@@ -98,6 +98,12 @@ pruefe('Wache: Beyblade X (Sichtung, japanisch 128) wird gemeldet', grund(beyRel
 pruefe('Wache: Ramparts of Ice (ohne Folgenzahl) wird gemeldet', grund(ramparts, {}).join() === 'Finale ohne Folgenzahl am Release', grund(ramparts, {}))
 const japanisch = { ...beyRelease, tvLetzteSichtung: undefined } as Release
 pruefe('Wache: ohne Sichtung, aber japanisch 128 gegen Ende 122: gemeldet', grund(japanisch)[0]?.includes('japanisch 128') === true, grund(japanisch))
+/* Hart (sperrt) sind nur die Verstöße, die die Regel nie erzeugen darf; der Verdacht „japanisch mehr“ ist weich. */
+const hart = (r: Release, z: Record<string, number[]> = zaehlung) =>
+  finaleOhneEndbeleg([{ releaseSlug: r.slug, staffelfinale: true } as never], [r], z).map((v) => v.hart)
+pruefe('Wache: Finale aus einer Sichtung ist hart', hart(beyRelease).join() === 'true')
+pruefe('Wache: Finale ohne Folgenzahl ist hart', hart(ramparts, {}).join() === 'true')
+pruefe('Wache: japanisch mehr Folgen ist weich', hart(japanisch).join() === 'false')
 pruefe('Wache: japanisch genau am Ende (122): sauber', grund(japanisch, { '165159': [122, 122] }).length === 0)
 pruefe('Wache: japanisch eine Folge mehr (123 gegen 122): gemeldet', grund(japanisch, { '165159': [123, 122] }).length === 1)
 const ersteStaffel = { ...japanisch, schedule: { firstEpisodeDate: '2026-06-05', episodeCount: 12 } } as Release
