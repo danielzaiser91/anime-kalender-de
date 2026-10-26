@@ -281,7 +281,7 @@ function terminAusPaar(serie: CrSerie, titel: Title, block: CrStaffel, jetzt: nu
       Terminlogik lieber weiter, als die Staffel zu schließen.
     */
     lastEpisodeDate:
-      (laufend ? !mitWerkszahl : folgen.length === (block.deutsch ?? folgen.length)) ? daten[daten.length - 1] : undefined,
+      !laufend && folgen.length === (block.deutsch ?? folgen.length) ? daten[daten.length - 1] : undefined,
     /* Eine Uhrzeit nur, wenn alle Folgen dieselbe tragen — sonst ist sie geraten. */
     time: zeiten.size === 1 ? [...zeiten][0] : undefined,
     /* Bei einer laufenden Staffel zählt, was sie haben wird — sonst endet der Kalender mittendrin. */

@@ -221,7 +221,7 @@ const ao = aoLauf([[1, '2026-10-25T09:00:00Z']]).raus.find((t) => t.titleId === 
 pruefe('Aoashi S2: eine Folge am 25.10. ist ein Wochenstart, kein Abwurf', ao?.rhythmus === 'weekly', ao)
 pruefe('Aoashi S2: Folge 1 belegt, Werkszahl 24 als Erwartung, Ende offen', ao?.episodeCount === 24 && ao?.lastEpisodeDate === undefined && JSON.stringify(ao?.beobachtet) === '{"1":"2026-10-25"}', ao)
 const aoDoppel = aoLauf([[1, '2026-10-25T09:00:00Z'], [2, '2026-10-25T09:00:00Z']]).raus.find((t) => t.titleId === 191788)
-pruefe('Aoashi S2 mit zwei Folgen am selben Tag: Abwurf-Rhythmus, aber nur die zwei belegten Folgen, nie 24', aoDoppel?.rhythmus === 'batch' && aoDoppel?.episodeCount === 2 && aoDoppel?.lastEpisodeDate === '2026-10-25', aoDoppel)
+pruefe('Aoashi S2 mit zwei Folgen am selben Tag: Abwurf-Rhythmus, nur die zwei belegten Folgen (nie 24), kein erfundenes Ende', aoDoppel?.rhythmus === 'batch' && aoDoppel?.episodeCount === 2 && aoDoppel?.lastEpisodeDate === undefined, aoDoppel)
 pruefe('Aoashi S2 mit zwei Folgen am selben Tag: Beobachtung 1 und 2', JSON.stringify(aoDoppel?.beobachtet) === '{"1":"2026-10-25","2":"2026-10-25"}', aoDoppel?.beobachtet)
 const aoErste = aoLauf([[1, '2026-10-25T09:00:00Z']]).raus.find((t) => t.titleId === 134732)
 pruefe('Aoashi S1: 24 Folgen an zwei Tagen bleiben Abwurf (Katalog)', aoErste?.rhythmus === 'batch' && aoErste?.episodeCount === 24, aoErste)
