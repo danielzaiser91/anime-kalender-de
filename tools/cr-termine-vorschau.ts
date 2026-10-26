@@ -12,6 +12,7 @@
  * Aufruf: `npx tsx tools/cr-termine-vorschau.ts [--wie-gebaut] [--streng]`
  *   --wie-gebaut  Widerlegung aus dem Bau übernehmen statt neu rechnen (Vergleich vorher/nachher)
  *   --streng      Exit 1, sobald eine Folge fehlt
+ *   --stand <ISO> "Jetzt" des 14-Tage-Fensters (Standard: die Uhr; für Messungen an alten Bau-Ständen und Tests)
  */
 import { readFileSync } from 'node:fs'
 import { expandEvents } from '../shared/logic.ts'
@@ -44,7 +45,9 @@ function main(): void {
   const releases = alsListe<Release>(lies('public/data/releases.json'))
   if (!args.includes('--wie-gebaut')) widerlegungNeuRechnen(releases, new Map(titel.map((t) => [t.id, t])))
   const termine = releases.filter((r) => r.platform === 'crunchyroll').flatMap((r) => expandEvents(r))
-  const grenze = toIsoDate(new Date(Date.now() - 14 * 864e5))
+  const stand = args.indexOf('--stand')
+  const jetzt = stand >= 0 ? Date.parse(args[stand + 1]) : Date.now()
+  const grenze = toIsoDate(new Date(jetzt - 14 * 864e5))
   let fehlt = 0
   for (const f of lies<{ folgen?: KatalogFolge[] }>('data/crunchyroll-neu.json').folgen ?? []) {
     if (!f.serieId || !f.verfuegbarAb) continue
