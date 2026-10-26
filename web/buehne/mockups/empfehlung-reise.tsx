@@ -8,7 +8,7 @@ import { waehleVorschlaege } from './empfehlung-reise-wahl.ts'
 /** Prüfstein der neuen Bühnen-Ansicht „entwurf“: die Empfehlungsseite (T-133, Reise R4) als Einleitung und als Fünf Vorschläge. */
 const Einleitung: Entwurf = () => (
   <section className="flex min-h-[70vh] flex-col items-center justify-center gap-4 p-6 text-center">
-    <p className="font-display text-sm text-ak-akzent-text">Was gucken?</p>
+    <p className="font-display text-sm text-ak-akzent-text">Entdecken</p>
     <h1 className="text-3xl font-bold text-ak-text">Zeig uns, was du magst.</h1>
     <p className="max-w-sm text-ak-leise">Wir zeigen dir, was du als Nächstes guckst. Sechs schnelle Duelle, dann kommen die Vorschläge.</p>
     <button type="button" className="min-h-11 rounded-full bg-ak-akzent px-6 font-semibold text-white">Los geht&apos;s</button>

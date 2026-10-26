@@ -1,0 +1,55 @@
+/* Duell-Animation: nur transform und opacity, Farben aus den ak-Tokens. Der Schritt steht in data-schritt (empfehlung-duell-steuerung.ts). */
+/* Karten fallen und gleiten innerhalb des Duell-Bereichs; der Rand lässt Rahmen und Schatten der Karten stehen. */
+.empf-duell { --sx: 0; --sy: 1; overflow: clip; padding: 8px 8px 36px; margin: -8px -8px -36px; }
+@media (min-width: 768px) { .empf-duell { --sx: 1; --sy: 0; } }
+.empf-duell [data-seite="a"] { --v: 1; }
+.empf-duell [data-seite="b"] { --v: -1; }
+/* Die Lage in der Mitte: A und B stoßen aufeinander (Spalten am Rechner, Zeilen am Handy). */
+.empf-duell [data-seite] { --mitte: translate(calc(var(--sx) * var(--v) * 14%), calc(var(--sy) * var(--v) * 14%)); }
+
+/* Eingabe gesperrt, solange etwas läuft; die Sperre in der Logik ist die eigentliche (empfehlung-duell-steuerung.ts). */
+.empf-duell:not([data-schritt="bereit"]) .empf-kandidat { pointer-events: none; }
+
+.empf-kandidat.gewinnt { box-shadow: 0 0 0 4px var(--ak-gut), 0 25px 50px -12px rgb(0 0 0 / 0.5); }
+.empf-kandidat.verliert { box-shadow: 0 0 0 4px var(--ak-fehler), 0 25px 50px -12px rgb(0 0 0 / 0.5); }
+.empf-kandidat.verliert::after { content: ""; position: absolute; inset: 0; background: var(--ak-fehler); opacity: 0.28; pointer-events: none; }
+.empf-haken { animation: empf-haken 300ms cubic-bezier(0.2, 1.6, 0.4, 1) 150ms both; }
+@keyframes empf-haken { from { opacity: 0; transform: scale(0.3); } to { opacity: 1; transform: none; } }
+
+[data-schritt="stoss"] .empf-kandidat { animation: empf-stoss 150ms ease-in forwards; }
+@keyframes empf-stoss { to { transform: var(--mitte); } }
+
+[data-schritt="abgang"] .empf-kandidat.gewinnt { animation: empf-sieger 350ms ease-out forwards; }
+@keyframes empf-sieger {
+  0% { transform: var(--mitte); opacity: 1; }
+  40% { transform: scale(1.08); opacity: 1; }
+  70% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+[data-schritt="abgang"] .empf-kandidat.verliert { animation: empf-faellt 350ms ease-in forwards; }
+@keyframes empf-faellt {
+  0% { transform: var(--mitte); opacity: 1; }
+  100% { transform: translateY(125%) rotate(calc(var(--v, 1) * 16deg)); opacity: 0; }
+}
+
+/* „Andere Vorschläge“: beide fallen nach unten. */
+[data-schritt="fall"] .empf-kandidat { animation: empf-faellt-beide 350ms ease-in forwards; }
+@keyframes empf-faellt-beide { to { transform: translateY(125%) rotate(calc(var(--v, 1) * 8deg)); opacity: 0; } }
+
+/* Platzhalter, bis die nächsten Cover dekodiert sind. */
+.empf-platz { animation: empf-puls 900ms ease-in-out infinite alternate; }
+@keyframes empf-puls { from { opacity: 0.45; } to { opacity: 0.85; } }
+
+[data-schritt="herein"] .empf-kandidat { animation: empf-herein 350ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+[data-schritt="herein"] [data-seite="b"].empf-kandidat { animation-delay: 60ms; }
+@keyframes empf-herein { from { transform: translateY(-115%); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* Reduzierte Bewegung: nur Überblendung, kürzer als der Rest der Ansicht (die globale Regel dort setzt 0,01 ms). */
+[data-schritt="blende"] .empf-kandidat { animation: empf-blende-aus 150ms linear forwards; }
+@keyframes empf-blende-aus { to { opacity: 0; } }
+@keyframes empf-blende-ein { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .empf .empf-duell[data-schritt="herein"] .empf-kandidat { animation-name: empf-blende-ein; animation-delay: 0ms; }
+  .empf .empf-duell .empf-kandidat, .empf .empf-duell .empf-platz, .empf .empf-duell .empf-haken { animation-duration: 150ms !important; }
+  .empf .empf-duell .empf-platz { animation-name: none; opacity: 0.6; }
+}

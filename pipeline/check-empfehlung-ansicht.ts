@@ -1,5 +1,5 @@
 /**
- * Zusicherungen zu den Rechenschritten der Ansicht „Was gucken?“ (`web/src/lib/empfehlung-reise.ts`) und zum Wischen
+ * Zusicherungen zu den Rechenschritten der Ansicht „Entdecken“ (`web/src/lib/empfehlung-reise.ts`) und zum Wischen
  * (`web/src/components/empfehlung/wischen.ts`) an einer erfundenen Pool-Datei: Abzüge beim Start, Vorrang der eigenen Anbieter,
  * Ersatz auf der Galerie, Zeilen, Zwischenstand, Ziel, Mosaik, Wischweg. Der ganze Ablauf (6 Duelle bis fünf Vorschläge) läuft
  * über die echten Kernfunktionen. Aufruf: `npm run check:logic`.

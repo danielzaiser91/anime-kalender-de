@@ -28,7 +28,7 @@ export type ViewId =
   | 'quellen'
   | 'impressum'
   | 'datenschutz'
-  | 'empfehlung'
+  | 'entdecken'
 
 /** Alle Ansichten; die Navigation (Kalender · Datenbank · News) steht in `Header.tsx`. */
 export const VIEWS: { id: ViewId; label: string }[] = [
@@ -42,7 +42,7 @@ export const VIEWS: { id: ViewId; label: string }[] = [
   { id: 'quellen', label: 'Quellen' },
   { id: 'impressum', label: 'Impressum' },
   { id: 'datenschutz', label: 'Datenschutz' },
-  { id: 'empfehlung', label: 'Was gucken?' },
+  { id: 'entdecken', label: 'Entdecken' },
 ]
 
 /**
@@ -56,6 +56,8 @@ const ALTE_ANSICHTEN: Record<string, { view: ViewId; favoriten?: true; verfuegba
   agenda: { view: 'woche' },
   favoriten: { view: 'woche', favoriten: true },
   wo: { view: 'datenbank', verfuegbar: true },
+  /* „Was gucken?“ lag bis 26.10.2026 unter `#/empfehlung`; entfernen frühestens 31.12.2026, wenn kein geteilter Link mehr ankommt. */
+  empfehlung: { view: 'entdecken' },
 }
 
 export interface AppRoute {

@@ -1,4 +1,4 @@
-/** Reine Entscheidungen der Bedienung von „Was gucken?“ (Tastatur, verzögerte Antwort); die Komponenten rufen sie nur auf. */
+/** Reine Entscheidungen der Bedienung von „Entdecken“ (Tastatur, verzögerte Antwort); die Komponenten rufen sie nur auf. */
 
 export type TastenAktion = 'favorit' | 'nein' | 'runter' | 'hoch' | 'gesehen' | 'zurueck'
 
