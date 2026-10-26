@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-export const CONTACT_EMAIL = 'danielzaiser91@googlemail.com'
+export const CONTACT_EMAIL = 'kontakt@anime-kalender.de'
 
 function Abschnitt({ titel, children }: { titel: string; children: ReactNode }) {
   return (

@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-26T19:16:01.308Z",
+  "scrapedAt": "2026-10-26T23:06:03.879Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
@@ -7,7 +7,7 @@
     "schon in einem Rubrik-Feed gelesen": 4,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 15,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
-    "Sprachhinweis älter als 45 Tage": 4
+    "Sprachhinweis älter als 45 Tage": 5
   },
   "proposals": [
     {
@@ -100,10 +100,6 @@
       "category": "allgemein",
       "platforms": [],
       "dates": [
-        {
-          "iso": "2026-10-26",
-          "context": "ender, damit ihr keine Sendung verpasst! Premieren und Highlights Vom 26. OKtober bis 1. November 2026 gibt es wieder zahlreiche Anime-Premi"
-        },
         {
           "iso": "2026-11-01",
           "context": "keine Sendung verpasst! Premieren und Highlights Vom 26. OKtober bis 1. November 2026 gibt es wieder zahlreiche Anime-Premieren und -Highli"
@@ -4376,19 +4372,6 @@
       ],
       "dub": "ja",
       "alreadyCurated": true
-    },
-    {
-      "articleTitle": "Drei neue »Lord of Mysteries«-Folgen ab sofort auf Deutsch bei Crunchyroll",
-      "articleUrl": "https://www.anime2you.de/news/1049401/drei-neue-lord-of-mysteries-folgen-auf-deutsch/",
-      "publishedAt": "2026-09-11",
-      "category": "streaming",
-      "platforms": [
-        "crunchyroll"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
-      "alreadyCurated": false
     },
     {
       "articleTitle": "Deutscher Synchro-Trailer zu »Avatar: Die sieben Häfen« + Visual",
