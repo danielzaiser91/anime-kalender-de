@@ -64,11 +64,8 @@ export function huelle(start, lies) {
   return { namen, zweifel: null }
 }
 
-/** Nennt der Text (ohne Kommentare) die Datei mit Pfad oder wenigstens ihrem Namen? */
-export const nennt = (text, bewegt) => {
-  const code = ohneKommentare(text)
-  return code.includes(bewegt) || code.includes(bewegt.split('/').pop())
-}
+/** Nennt der Text (ohne Kommentare) den Namen der Datei (der Pfad enthält ihn, `join(ordner, 'a.json')` nennt nur den Namen)? */
+export const nennt = (text, bewegt) => ohneKommentare(text).includes(bewegt.split('/').pop())
 
 /** Skript-Werte aus package.json, die sich zwischen alt und neu unterscheiden, als ein Text; null, wenn nicht lesbar. */
 export function geaenderteSkripte(altJson, neuJson) {
@@ -110,7 +107,7 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, paketSkripte }) {
   const rueckwaerts = huelle(leser, lies)
   if (rueckwaerts.zweifel !== null) return rueckwaerts.zweifel
   for (const p of start) {
-    const n = [...rueckwaerts.namen].find((x) => trifft(x, p))
+    const n = [...rueckwaerts.namen].find((x) => trifft(x, p) || trifft(p, x))
     if (n !== undefined) return `${p} wird von Code genutzt, der bewegte Daten liest (${n})`
   }
   return null

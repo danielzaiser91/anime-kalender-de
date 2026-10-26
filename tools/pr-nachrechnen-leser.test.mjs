@@ -64,8 +64,8 @@ for (const [n, ok] of [[HUELLE_GRENZE, true], [HUELLE_GRENZE + 1, false]]) {
   pruefe(`Hülle mit ${n} Dateien -> ${ok ? 'null' : 'Zweifel'}`, ok ? g === null : /Hülle größer als 200/.test(g), g)
 }
 {
-  const g = bewegtesGelesen({ bewegt: [F], pr: ['tools/k0.mjs'], leser: ['tools/k0.mjs'], lies: kette(HUELLE_GRENZE + 1), paketSkripte: null })
-  pruefe('Hülle des Lesers zu groß -> Zweifel (Rückrichtung)', g !== null, g)
+  const g = bewegtesGelesen({ bewegt: [F], pr: ['tools/nachbar.mjs'], leser: ['tools/k0.mjs'], lies: kette(HUELLE_GRENZE + 1), paketSkripte: null })
+  pruefe('Hülle des Lesers zu groß -> Zweifel (Rückrichtung)', /Hülle größer als 200/.test(g), g)
 }
 for (const [n, ok] of [[LESER_GRENZE, true], [LESER_GRENZE + 1, false]]) {
   const g = bewegtesGelesen({ bewegt: [F], pr: ['tools/nachbar.mjs'], leser: Array.from({ length: n }, (_, i) => `pipeline/l${i}.ts`), lies, paketSkripte: null })
@@ -109,6 +109,9 @@ for (const [ende, ziel] of [['.ts', 'a/b.ts'], ['.tsx', 'a/b.tsx'], ['.mjs', 'a/
 }
 pruefe('Nennung nur über den Dateinamen -> Grund', /liest data\/crunchyroll-woche\.json/.test(bewegtesGelesen({ bewegt: [F], pr: ['tools/b.mjs'], leser: [], lies: () => "join(ordner, 'crunchyroll-woche.json')", paketSkripte: null })))
 pruefe('geaenderteSkripte: package.json ohne scripts -> leer', geaenderteSkripte('{}', '{}') === '' && geaenderteSkripte('{}', pj({ a: 'x' })) === 'x')
+pruefe('package.json: Skript nennt Datei, die der Leser importiert -> Rückrichtung', /pipeline\/lib\/helfer\.ts wird von Code genutzt/.test(grund(['package.json'], { paketSkripte: 'node pipeline/lib/helfer.ts' })), grund(['package.json'], { paketSkripte: 'node pipeline/lib/helfer.ts' }))
+pruefe('package.json: Skript nennt den Ordner der importierten Datei -> Rückrichtung', /pipeline\/lib wird von Code genutzt/.test(grund(['package.json'], { paketSkripte: 'ls pipeline/lib' })), grund(['package.json'], { paketSkripte: 'ls pipeline/lib' }))
+pruefe('Patch-Notes-YAML, die die Datei nennt, zählt nicht (ohne Leser)', bewegtesGelesen({ bewegt: [F], pr: ['data/patchnotes/neu.yaml'], leser: [], lies: () => `text: ${F}\n`, paketSkripte: null }) === null)
 pruefe('package.json: Ordner-Token in geändertem Skript trifft den Leser-Ordner', /ruft pipeline\/bau\/cr\.ts auf/.test(grund(['package.json'], { paketSkripte: 'ls pipeline/bau' })))
 
 // Git-Anschluss mit Fake-git: Repo als { main: {...}, kopf: {...} }
