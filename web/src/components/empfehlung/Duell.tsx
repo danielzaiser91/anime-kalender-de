@@ -36,7 +36,11 @@ export function Duell({ kontext, sitzung, ziel, titel, antworte, zurueck, schein
 }) {
   const { t, tGenre } = useLang()
   const breit = useBreit()
-  const { schritt, gewaehlt, waehle, zurueckGehen } = useDuell({ kontext, sitzung, ziel, titel, breit, antworte, zurueck })
+  const quelle = (id: number) => {
+    const ti = titel?.get(id)
+    return kartenQuelle(bannerUrl(ti, 780), ti?.coverImage, breit)
+  }
+  const { schritt, gewaehlt, waehle, zurueckGehen } = useDuell({ kontext, sitzung, ziel, quelle, antworte, zurueck })
   const paar = naechstesPaar(kontext, sitzung.zustand)
   if (!paar) return null
   const s = stand(kontext, sitzung.zustand, ziel)
@@ -48,7 +52,6 @@ export function Duell({ kontext, sitzung, ziel, titel, antworte, zurueck, schein
     if (sieger) schein(bannerUrl(titel?.get(sieger.id), 300))
   }
   const status = (me: 'A' | 'B'): Status => (!gewaehlt || gewaehlt === 'N' ? '' : gewaehlt === me ? 'gewinnt' : 'verliert')
-  const quelle = (id: number) => { const t = titel?.get(id); return kartenQuelle(bannerUrl(t, 780), t?.coverImage, breit) }
   const zahlen = s.rest === null ? t('empf.restUntergrenze') : s.rest === s.gesamt ? t('empf.startZahl', { gesamt: s.gesamt }) : t('empf.restZahl', { rest: s.rest, gesamt: s.gesamt })
   return (
     <section className="flex min-h-0 flex-1 flex-col px-4 pb-3 pt-16" aria-live="polite">

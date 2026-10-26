@@ -1,6 +1,5 @@
 /* Duell-Animation: nur transform und opacity, Farben aus den ak-Tokens. Der Schritt steht in data-schritt (empfehlung-duell-steuerung.ts). */
-/* Karten fallen und gleiten innerhalb des Duell-Bereichs; der Rand lässt Rahmen und Schatten der Karten stehen. */
-.empf-duell { --sx: 0; --sy: 1; overflow: clip; padding: 8px 8px 36px; margin: -8px -8px -36px; }
+.empf-duell { --sx: 0; --sy: 1; }
 @media (min-width: 768px) { .empf-duell { --sx: 1; --sy: 0; } }
 .empf-duell [data-seite="a"] { --v: 1; }
 .empf-duell [data-seite="b"] { --v: -1; }

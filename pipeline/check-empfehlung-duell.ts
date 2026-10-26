@@ -6,11 +6,12 @@
 import { createElement as h } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import type { Antwort } from '../shared/empfehlung-kern.ts'
-import { neueSitzung, neuerZustand } from '../shared/empfehlung-kern.ts'
+import { antworteSitzung, naechstesPaar, neueSitzung, neuerZustand } from '../shared/empfehlung-kern.ts'
 import type { EmpfehlungsDatei, Kandidat } from '../shared/empfehlung-pool.ts'
 import { baueKontext } from '../shared/empfehlung-vektor.ts'
 import { DuellKarten } from '../web/src/components/empfehlung/DuellKarten.tsx'
 import { browserLader, kartenQuelle, ladeUndDekodiere, paarNachAntwort, type Lader } from '../web/src/lib/empfehlung-duell-bilder.ts'
+import { baueDuellAnbindung } from '../web/src/lib/empfehlung-duell-anbindung.ts'
 import { baueDuellSteuerung, type DuellSchritt } from '../web/src/lib/empfehlung-duell-steuerung.ts'
 
 let verletzt = 0
@@ -251,6 +252,74 @@ const kontext = baueKontext(datei)
   pruefe('nach A kommt ein anderes Paar als nach B', a !== null && b !== null && !gleich(a, b), { a, b })
   pruefe('das Paar nach A ist ein Paar zweier verschiedener Titel', a !== null && a[0] !== a[1])
   pruefe('Ziel schon nach dieser Antwort erreicht: kein Paar (Reise geht zu den Vorschlägen)', paarNachAntwort(kontext, s, 'A', 1) === null)
+}
+
+console.log('Anbindung: was ein Klick im Duell auslöst (die Logik, die der React-Hook nur aufruft)')
+{
+  const s = neueSitzung(neuerZustand(kontext, 5, []))
+  const jetzt = naechstesPaar(kontext, s.zustand)!
+  const nachA = naechstesPaar(kontext, antworteSitzung(kontext, s, 'A').zustand)!
+  const url = (i: number) => `https://bild.test/${einstiege[i].id}.jpg`
+  const baue = (ziel: number, reduziert = false) => {
+    const u = uhr()
+    const log: string[] = []
+    const angefordert: string[] = []
+    const offen: Array<() => void> = []
+    const schritte: DuellSchritt[] = []
+    const a = baueDuellAnbindung({
+      plane: u.plane,
+      loesche: u.loesche,
+      meldeSchritt: (st) => schritte.push(st),
+      setzeGewaehlt: (x) => log.push(`gewaehlt ${x}`),
+      aktuell: () => ({
+        kontext,
+        sitzung: s,
+        ziel,
+        quelle: (id: number) => ({ src: `https://bild.test/${id}.jpg` }),
+        antworte: (x) => log.push(`antworte ${x}`),
+        zurueck: () => log.push('zurueck'),
+      }),
+      lader: () => {
+        const l = { src: '', srcset: '', sizes: '', decode: () => new Promise<void>((ok) => offen.push(() => (angefordert.push(l.src), ok()))) }
+        return l
+      },
+      reduziert: () => reduziert,
+    })
+    return { u, log, angefordert, offen, schritte, ...a }
+  }
+  const t = baue(6)
+  pruefe('Wahl wird angenommen und gemerkt', t.waehle('A') === true && gleich(t.log, ['gewaehlt A']), t.log)
+  pruefe('Doppelklick: zweite Wahl wirkungslos, nichts wird gemerkt', t.waehle('B') === false && gleich(t.log, ['gewaehlt A']), t.log)
+  await mikro()
+  pruefe('geladen wird genau das Paar nach der Antwort, nicht das gezeigte', t.offen.length === 2, t.offen.length)
+  await t.u.schiebe(1000)
+  pruefe('Bilder noch nicht dekodiert: die Antwort geht nicht durch', gleich(t.log, ['gewaehlt A']), t.log)
+  t.offen.forEach((f) => f())
+  await mikro()
+  pruefe('nach dem Dekodieren: Wahl gelöscht, dann Antwort, genau einmal', gleich(t.log, ['gewaehlt A', 'gewaehlt undefined', 'antworte A']), t.log)
+  pruefe('angefordert: die zwei Bilder des nächsten Paars', gleich([...t.angefordert].sort(), [url(nachA[0]), url(nachA[1])].sort()), t.angefordert)
+  pruefe('das nächste Paar ist ein anderes als das gezeigte', !gleich([...nachA].sort(), [...jetzt].sort()), { jetzt, nachA })
+
+  const ende = baue(1)
+  ende.waehle('A')
+  await ende.u.schiebe(500)
+  pruefe('Ziel erreicht: nichts vorzuladen, Wechsel nach der Animation', ende.offen.length === 0 && gleich(ende.log, ['gewaehlt A', 'gewaehlt undefined', 'antworte A']), ende.log)
+
+  const weg = baue(6)
+  weg.waehle('B')
+  await weg.u.schiebe(100)
+  weg.zurueckGehen()
+  pruefe('Zurück im Duell: Wahl gelöscht, eine Antwort zurück, Eingabe frei', gleich(weg.log, ['gewaehlt B', 'gewaehlt undefined', 'zurueck']) && weg.waehle('A') === true, weg.log)
+  weg.offen.forEach((f) => f())
+  await weg.u.schiebe(6000)
+  pruefe('Zurück: die abgebrochene Wahl B geht nie durch, die neue A schon einmal', weg.log.filter((x) => x.startsWith('antworte')).join() === 'antworte A', weg.log)
+
+  const still = baue(6, true)
+  still.waehle('N')
+  pruefe('reduzierte Bewegung wird an die Steuerung gereicht (Überblendung)', still.schritte[0] === 'blende', still.schritte)
+  const n = baue(6)
+  n.waehle('N')
+  pruefe('„Andere Vorschläge“ lädt das Paar nach N und meldet den Fall-Schritt', n.schritte[0] === 'fall', n.schritte)
 }
 
 console.log('Anzeige im Wartezustand')
