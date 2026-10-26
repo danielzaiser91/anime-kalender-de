@@ -12,13 +12,13 @@ import { blockadeText, zusatzText } from './suchhinweis-zaehlen.ts'
 
 type Form = 'zeile' | 'darunter'
 
-/** Wie die Zählzeile selbst („0 Ergebnisse · 0 mit …“): Abstand `gap-x-2`, Mittelpunkt als eigener Text. */
+/** Die Zählzeile selbst („0 Ergebnisse · 0 mit …“) trennt mit „·“; in der Zeile fließt der Hinweis als Text hinter ihr (bricht er um, bleibt der Trenner an der Zählung), darunter (Handy) steht er für sich. */
 const HUELLE: Record<Form, string> = {
-  zeile: 'inline-flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ak-text',
+  zeile: 'text-sm leading-7 text-ak-text',
   darunter: 'flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ak-text',
 }
 
-const KNOPF = 'min-h-11 shrink-0 cursor-pointer rounded-full border border-ak-rand px-4 text-sm font-semibold text-ak-akzent-text transition hover:bg-ak-flaeche-2'
+const KNOPF = 'inline-flex min-h-11 shrink-0 items-center align-middle cursor-pointer rounded-full border border-ak-rand px-4 text-sm font-semibold text-ak-akzent-text transition hover:bg-ak-flaeche-2'
 
 /** Was der Knopf tut: gibt es Filter, die den exakten Treffer verstecken, geht er genau diese an (und schaltet bei Bedarf den Synchro-Schalter ein), sonst schaltet er nur den Schalter ein. */
 function loese(stand: HinweisStand, hinweis: Suchhinweis): void {
@@ -48,8 +48,8 @@ function HinweisZumStand({ form }: { form: Form }) {
   if (!inhalt) return null
   return (
     <span role="status" data-suchhinweis={form} className={HUELLE[form]}>
-      {form === 'zeile' && <span aria-hidden="true">·</span>}
-      <span>{inhalt.text}</span>
+      {form === 'zeile' && <span aria-hidden="true">· </span>}
+      <span>{inhalt.text}</span>{' '}
       <button type="button" onClick={() => loese(inhalt.stand, inhalt.hinweis)} className={KNOPF}>
         {inhalt.versteckt ? 'Filter entfernen' : 'Anzeigen'}
       </button>
@@ -83,8 +83,8 @@ export function KopfOhneHinweis(p: ComponentProps<typeof EchterKopf>) {
 export function KopfzeileMitHinweis(p: ComponentProps<typeof EchteKopfzeile>) {
   if (p.zweizeilig) return <EchteKopfzeile {...p} />
   return (
-    <span className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-      <EchteKopfzeile {...p} />
+    <span className="min-w-0 text-sm leading-7">
+      <span className="inline-flex align-middle"><EchteKopfzeile {...p} /></span>{" "}
       <HinweisZumStand form="zeile" />
     </span>
   )

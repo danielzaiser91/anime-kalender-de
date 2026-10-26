@@ -48,7 +48,7 @@ async function main() {
     await seite.setViewportSize({ width: 1200, height: 900 })
     for (const v of ['A']) {
       await pruefeFall(seite, v, 'hajime-no-ippo-jahr', { knopf: 'Filter entfernen', text: /Jahr 2003, ohne deutsche Synchro/, synchro: true })
-      await pruefeFall(seite, v, 'tokyo-revengers-jahr', { knopf: 'Filter entfernen', text: /durch: Jahr 2019$/m, synchro: false })
+      await pruefeFall(seite, v, 'tokyo-revengers-jahr', { knopf: 'Filter entfernen', text: /durch: Jahr 2019 Filter entfernen$/, synchro: false })
       await pruefeFall(seite, v, 'hajime-no-ippo', { knopf: 'Anzeigen', text: /6 Treffer ohne Synchro, davon 1 exakt/, synchro: true })
     }
   } finally {
