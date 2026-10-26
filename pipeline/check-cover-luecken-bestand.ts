@@ -4,7 +4,7 @@
  * Ein neuer Eintrag ohne Cover ist **nur eine Warnung** (Exit 0): Rot stoppt den ganzen Bestandsbau, und aniSearch-only-Titel kommen täglich ohne Bild hinzu.
  * Rot nur bei fehlender oder kaputter Lückenliste. Test: `check-cover-luecken-wache.ts`.
  */
-import { existsSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { pruefeCoverLuecken } from './lib/cover-luecken.ts'
@@ -16,7 +16,6 @@ export function main(wurzel: string): number {
   const listePfad = join(wurzel, 'data/cover-luecken.json')
   let luecken: Record<string, string>
   try {
-    if (!existsSync(listePfad)) throw new Error('fehlt')
     luecken = lies(listePfad) as Record<string, string>
     if (!luecken || typeof luecken !== 'object' || Array.isArray(luecken)) throw new Error('keine Kennung-Grund-Zuordnung')
   } catch (e) {
