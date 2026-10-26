@@ -14,14 +14,14 @@ import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { versteckteFrischeAnkuendigungen, versteckteWarnzeile } from './lib/ankuendigung-versteckt.ts'
 
-export function main(wurzel: string, heuteIso: string): number {
+/** Nur Ausgabe, nie ein Fehlerausgang: die Wache sperrt den Bestandsbau nicht (`tools/bestand-marken.mjs` zählt Ausgänge). */
+export function main(wurzel: string, heuteIso: string): void {
   const hinten = JSON.parse(readFileSync(join(wurzel, 'public', 'data', 'ohne-synchro.json'), 'utf8')) as Title[]
   const zeile = versteckteWarnzeile(versteckteFrischeAnkuendigungen(hinten, heuteIso))
   console.log(zeile ?? '  ✓ Ankündigung: kein Titel mit frischer Synchro-Ankündigung hinter dem Toggle')
   console.log('VERSTÖSSE: 0')
-  return 0
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  process.exit(main(process.argv[2] ?? fileURLToPath(new URL('..', import.meta.url)), process.argv[3] ?? todayIso()))
+  main(process.argv[2] ?? fileURLToPath(new URL('..', import.meta.url)), process.argv[3] ?? todayIso())
 }
