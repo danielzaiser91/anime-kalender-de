@@ -275,6 +275,25 @@ function riegel(liste: number[] | undefined): Lauf {
   pruefe('verlust-riegel: fremde Kennung lässt den Verlust stehen', fremd.code === 1 && fremd.aus.includes('ABBRUCH: 2 Titel'), fremd.aus.slice(-600))
 }
 
+// cr-batch-bestand: Aoashi-Abwurf (Herkunft wörtlich: 1 belegte Folge, 24 behauptet) wird gemeldet; Film (1 von 1), voller Abwurf und
+// Wochentakt mit Werkszahl bleiben ohne Marke.
+{
+  const termin = (titleId: number, belegt: number, anzahl: number, releaseType = 'batch') => ({
+    slug: `cr${titleId}`,
+    titleId,
+    platform: 'crunchyroll',
+    releaseType,
+    herkunft: `Deutsche Fassung bei Crunchyroll — ${belegt} Folgen mit belegtem Termin (Block „Staffel 2“)`,
+    schedule: { firstEpisodeDate: '2026-10-25', episodeCount: anzahl },
+  })
+  const rot = lauf('pipeline/check-cr-batch-bestand.ts', { dateien: { 'public/data/releases.json': [termin(-1, 1, 24), termin(-2, 1, 1), termin(-3, 24, 24), termin(-4, 1, 24, 'weekly')] } })
+  pruefe('cr-batch-bestand: nur der Abwurf mit 1 von 24 trägt die Marke', gleich(rot.marken, [-1]) && rot.code === 1, rot)
+  const gruen = lauf('pipeline/check-cr-batch-bestand.ts', { dateien: { 'public/data/releases.json': [termin(-2, 1, 1), termin(-3, 24, 24)] } })
+  pruefe('cr-batch-bestand: Film und voller Abwurf sind sauber ohne Marke', gruen.code === 0 && gruen.marken.length === 0 && gruen.aus.includes('2 geprüft'), gruen)
+  const ohneDatei = lauf('pipeline/check-cr-batch-bestand.ts', {})
+  pruefe('cr-batch-bestand: ohne Bestand rot, aber ohne Marke', ohneDatei.code === 1 && ohneDatei.marken.length === 0, ohneDatei)
+}
+
 if (fehler) {
   console.error(`quarantaene-pruefungen: ${fehler} Fehler`)
   process.exit(1)
