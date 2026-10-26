@@ -1,5 +1,6 @@
 import { biegeFetchUm, ladeFaelle } from './faelle.ts'
 import { friereZeitEin } from './feste-zeit.ts'
+import { bereiteSpeicherVor } from './speicher-je-zelle.ts'
 import { leseHash, zeitAus } from './zustand.ts'
 
 /*
@@ -10,6 +11,7 @@ async function start() {
   const faelle = await ladeFaelle()
   const { name, werte } = leseHash(location.hash)
   friereZeitEin(zeitAus(werte) || faelle.heute)
+  bereiteSpeicherVor(name, window)
   const fall = faelle.faelle[werte.get('fall') ?? ''] ?? Object.values(faelle.faelle)[0]!
   biegeFetchUm(faelle, fall)
   const root = document.getElementById('root')!
