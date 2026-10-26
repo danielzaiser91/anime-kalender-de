@@ -13,7 +13,7 @@ const ordner = mkdtempSync(join(tmpdir(), 'cr-kalender-diagnose-'))
 mkdirSync(join(ordner, 'data'))
 process.env.AK_ROOT = ordner
 const { fehlerText, kalenderDiagnose, meldeLeerenKalender } = await import('./lib/cr-kalender-diagnose.ts')
-const { scrapeWeek } = await import('./scrape-crunchyroll.ts')
+const { liesWochen, scrapeWeek } = await import('./scrape-crunchyroll.ts')
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -138,6 +138,21 @@ console.log('meldeLeerenKalender')
   pruefe(eintrag.lastCount === 0, 'lastCount 0')
   pruefe(eintrag.lastOk === undefined, 'kein lastOk bei Fehlschlag')
   pruefe(eintrag.lastError === 'keine Kachel im Kalender gefunden — 2026-10-12: HTTP 403; Titel „Just a moment...“', `lastError trägt die Diagnose: ${eintrag.lastError}`)
+}
+
+console.log('liesWochen')
+{
+  // Heute ist Montag 26.10.2026; drei Wochen = 19.10., 26.10., 02.11.
+  const voll = browserAttrappe({ status: 200, titel: 'Kalender', html: KACHEL_HTML, kacheln: true })
+  const mitKacheln = await liesWochen(voll.browser, '2026-10-26', 3)
+  pruefe(mitKacheln.slots.length === 3 && mitKacheln.weekStarts.join() === '2026-10-19,2026-10-26,2026-11-02', 'Wochen mit Kacheln: drei Slots, drei Wochen')
+  pruefe(gesundheit().crunchyroll.lastError.includes('2026-10-12'), 'Wochen mit Kacheln: Gesundheit unberührt (alter Stand vom Fall davor)')
+
+  const sperre = browserAttrappe({ status: 403, titel: 'Just a moment...', html: CHALLENGE_HTML, kacheln: false })
+  const leer = await liesWochen(sperre.browser, '2026-10-26', 3)
+  pruefe(leer.slots.length === 0, 'alle Wochen leer: keine Slots')
+  const fehlerzeile = gesundheit().crunchyroll.lastError as string
+  pruefe(fehlerzeile.startsWith('keine Kachel im Kalender gefunden — 2026-10-19: HTTP 403; Titel „Just a moment...“'), `alle Wochen leer: Gesundheit trägt die Diagnose der ersten Woche: ${fehlerzeile}`)
 }
 
 rmSync(ordner, { recursive: true, force: true })

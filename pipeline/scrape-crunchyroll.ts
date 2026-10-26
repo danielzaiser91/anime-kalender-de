@@ -169,32 +169,36 @@ export async function scrapeWeek(
   }
 }
 
-async function main(): Promise<void> {
-  const browser = await chromium.launch({ headless: !HEADED })
-  const today = todayIso()
+/** Liest die Wochen von `today` aus rückwärts; bleibt alles leer, steht die Diagnose in der Quellengesundheit. */
+export async function liesWochen(browser: Browser, today: string, weeks: number) {
   const slots: CrunchyrollSlot[] = []
   const diagnosen: string[] = []
   const weekStarts: string[] = []
+  // Rückblick statt Vorschau: künftige Wochen stehen oft noch auf
+  // „Zeitplan kommt bald", vergangene tragen die tatsächliche Uhrzeit.
+  for (let i = weeks - 2; i >= -1; i--) {
+    const weekStart = startOfWeek(addDays(today, -7 * i))
+    weekStarts.push(weekStart)
+    const found = await scrapeWeek(browser, weekStart, diagnosen)
+    log(`Crunchyroll ${weekStart}: ${found.length} Einträge, davon ${found.filter((f) => f.german).length} deutsch`)
+    slots.push(...found)
+    await sleep(1500)
+  }
+  if (!slots.length) meldeLeerenKalender(diagnosen)
+  return { slots, weekStarts }
+}
 
+async function main(): Promise<void> {
+  const browser = await chromium.launch({ headless: !HEADED })
+  const today = todayIso()
+  let gelesen: Awaited<ReturnType<typeof liesWochen>>
   try {
-    // Rückblick statt Vorschau: künftige Wochen stehen oft noch auf
-    // „Zeitplan kommt bald", vergangene tragen die tatsächliche Uhrzeit.
-    for (let i = WEEKS - 2; i >= -1; i--) {
-      const weekStart = startOfWeek(addDays(today, -7 * i))
-      weekStarts.push(weekStart)
-      const found = await scrapeWeek(browser, weekStart, diagnosen)
-      log(`Crunchyroll ${weekStart}: ${found.length} Einträge, davon ${found.filter((f) => f.german).length} deutsch`)
-      slots.push(...found)
-      await sleep(1500)
-    }
+    gelesen = await liesWochen(browser, today, WEEKS)
   } finally {
     await browser.close()
   }
-
-  if (!slots.length) {
-    meldeLeerenKalender(diagnosen)
-    return
-  }
+  const { slots, weekStarts } = gelesen
+  if (!slots.length) return
 
   // Pro Titel den zuletzt gesehenen Sendeplatz festhalten.
   const german: CrunchyrollData['german'] = {}
