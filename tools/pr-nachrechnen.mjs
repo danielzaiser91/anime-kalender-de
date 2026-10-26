@@ -18,6 +18,7 @@ import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
 import { BOT_DATEIEN_OHNE_LESER, istBotDatei } from './pr-nachrechnen-bot-pfade.mjs'
 import { gitAufruf, gitLeser } from './pr-nachrechnen-leser-git.mjs'
+import { ohneLeser } from './pr-nachrechnen-leser.mjs'
 
 export const KETTE = 'pr-pruefung.yml'
 /** Kleiner Job der Kette mit Checkout ohne eigenes `ref` (prüft `pr-nachrechnen.test.mjs` an der YAML). */
@@ -55,13 +56,16 @@ export const COMPARE_GRENZE = 300
 
 export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p)) || istBotDatei(datei)
 
+/** Doku und Daniel-Dateien auf main: kein Kettenschritt hängt an ihrem Stand (Dirigent 26.10.2026); `data/patchnotes/` liest der Bau und bleibt draußen. */
+const ohneKetteLeser = (datei) => ohneLeser(datei) && !datei.startsWith('data/patchnotes/')
+
 /** null = Ausnahme gilt (main bewegte nur Datenpfade, der PR keinen); sonst der Grund, warum nicht. */
 export function datenpfadAusnahme(vergleich, prDateien) {
   if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
   if (vergleich.anzahl >= COMPARE_GRENZE) return `Vergleich mit ${vergleich.anzahl} Dateien evtl. abgeschnitten`
-  const fremd = vergleich.dateien.find((d) => !istDatenpfad(d))
+  const fremd = vergleich.dateien.find((d) => !istDatenpfad(d) && !ohneKetteLeser(d))
   if (fremd !== undefined) return `main bewegte ${fremd}`
-  const beruehrt = prDateien.find(istDatenpfad)
+  const beruehrt = prDateien.find((p) => istDatenpfad(p) || vergleich.dateien.includes(p))
   if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
   return null
 }
@@ -79,11 +83,11 @@ export function botSprungAusnahme(vergleich, prDateien, liestBewegtes) {
   if (vergleich.anzahl >= COMPARE_GRENZE || vergleich.commitsGesamt !== vergleich.autoren.length) return 'Vergleich evtl. abgeschnitten'
   const mensch = vergleich.autoren.find((a) => !BOT_AUTOREN.includes(a))
   if (mensch !== undefined) return `Commit von ${mensch}`
-  const fremd = vergleich.dateien.find((d) => !d.startsWith('data/') && !istDatenpfad(d))
+  const fremd = vergleich.dateien.find((d) => !d.startsWith('data/') && !istDatenpfad(d) && !ohneKetteLeser(d))
   if (fremd !== undefined) return `Bot bewegte ${fremd}`
   const beruehrt = prDateien.find((p) => vergleich.dateien.includes(p))
   if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
-  return liestBewegtes(vergleich.dateien.filter((d) => !istDatenpfad(d)), prDateien)
+  return liestBewegtes(vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d)), prDateien)
 }
 
 /** Rückgabe { ausnahme } (Kette gilt weiter, Text für die Meldung) oder { grund }. */

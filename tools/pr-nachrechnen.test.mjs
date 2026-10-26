@@ -143,6 +143,20 @@ const DATEN_MAIN = ['public/data/titles.json', 'data/cache/ordner/anilist', 'pub
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe('nur Bot-Berichte bewegt -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe })
 }
+// 26.10.2026 (PR 2118: main bewegte daniel-zum-abarbeiten/00-wache.md): Doku und Daniel-Dateien auf main entwerten keinen PR; Patch Notes schon (der Bau liest sie).
+for (const [name, dateien, prDateien, erwartet] of [
+  ['Daniel-Datei wörtlich vom Anlass', ['daniel-zum-abarbeiten/00-wache.md'], 'src/a.ts\n', 0],
+  ['Doku zwischen Datenpfaden', ['public/data/titles.json', 'docs/wissen/betrieb.md', 'data/cache/ordner/a'], 'src/a.ts\n', 0],
+  ['Markdown im Wurzelordner', ['CLAUDE.md'], 'src/a.ts\n', 0],
+  ['Patch Notes', ['data/patchnotes/neu.yaml'], 'src/a.ts\n', 1],
+  ['Doku und Code', ['docs/wissen/betrieb.md', 'shared/logic.ts'], 'src/a.ts\n', 1],
+  ['Markdown in Unterordner (web/README.md)', ['web/README.md'], 'src/a.ts\n', 1],
+  ['PR berührt dieselbe Doku-Datei', ['docs/wissen/betrieb.md'], 'docs/wissen/betrieb.md\n', 1],
+]) {
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: dateien, prDateien }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe(`main bewegt ${name} -> ${erwartet}`, code === erwartet && schreibend(k.aufrufe).length === (erwartet === 1 ? 4 : 0), { code, m: k.meldungen })
+}
 {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['daniel-zum-abarbeiten/00-START-HIER.md', 'shared/logic.ts'] }))
   const code = main(['7'], k.gh, k.melde, k.warte)
@@ -246,6 +260,13 @@ for (const [name, pr, erwartet] of [['Workflow ohne Leser', '.github/workflows/b
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: BOTS, prDateien: '.github/workflows/bestand-bauen.yml\n' }))
   const code = nachrechnen(7, k.gh, k.melde, k.warte, gitLeser(attrappe(REPO, { mainSha: MAIN, fetchFehler: true }).git))
   pruefe('C: Git nicht erreichbar -> im Zweifel veraltet (1) mit Grund', code === 1 && k.meldungen.join().includes('Leser nicht ermittelbar'), { code, m: k.meldungen })
+}
+{
+  // Bot-Sprung mit Doku-Datei dabei: der Leser bekommt nur die Datendatei
+  const stub = leserStub(null)
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['data/crunchyroll-woche.json', 'docs/wissen/betrieb.md'], autoren: BOTS, prDateien: 'src/a.ts\n' }))
+  const code = main(['7'], k.gh, k.melde, k.warte, stub)
+  pruefe('Bot-Sprung mit Doku: Leser sieht nur die Datendatei', code === 0 && stub.aufrufe.length === 1 && stub.aufrufe[0].bewegt.join() === 'data/crunchyroll-woche.json', { code, a: stub.aufrufe })
 }
 for (const [name, autoren] of [['ein Mensch dazwischen', ['anime-kalender-daten[bot]', 'danielzaiser91', 'github-actions[bot]']], ['fremder Bot', ['dependabot[bot]']]]) {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren, prDateien: CODE_PR }))
