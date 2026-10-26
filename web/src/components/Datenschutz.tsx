@@ -60,7 +60,7 @@ function BrowserAbschnitte() {
 
       <Abschnitt titel="Lokale Speicherung im Browser">
         <p>
-          Farbschema, Ansicht, gewählte Anbieter, Vorlieben, Favoriten und gesehene Folgen, bei „Was gucken?“ die gewählten Anbieter, Geguckt und Verworfenes, sowie Merker für Hinweise und für
+          Farbschema, Ansicht, gewählte Anbieter, Vorlieben, Favoriten und gesehene Folgen, bei „Entdecken“ die gewählten Anbieter, Geguckt und Verworfenes, sowie Merker für Hinweise und für
           Benachrichtigungen werden im{' '}
           <em>localStorage</em> deines Browsers abgelegt, für die Offline-Nutzung außerdem
           Seitendateien im Browser-Cache. Das ist für diese Funktionen nötig (§ 25 Abs. 2 Nr. 2
