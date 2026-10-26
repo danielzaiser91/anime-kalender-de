@@ -1,20 +1,15 @@
 import { biegeFetchUm, ladeFaelle } from './faelle.ts'
 import { friereZeitEin } from './feste-zeit.ts'
-import { leseHash, zeitAus } from './zustand.ts'
+import { startAblauf } from './start-ablauf.ts'
 
-/*
-  Reihenfolge ist Absicht: erst Fälle laden, dann Uhr und `fetch` umbiegen, erst danach die App-Module laden —
-  Teile der App lesen „heute" beim Laden. Kein Netz: `fetch` kennt nur die Fälle.
-*/
-async function start() {
-  const faelle = await ladeFaelle()
-  const { name, werte } = leseHash(location.hash)
-  friereZeitEin(zeitAus(werte) || faelle.heute)
-  const fall = faelle.faelle[werte.get('fall') ?? ''] ?? Object.values(faelle.faelle)[0]!
-  biegeFetchUm(faelle, fall)
-  const root = document.getElementById('root')!
-  if (name === 'zelle') (await import('./zelle.tsx')).zeigeZelle(root, werte, fall)
-  else (await import('./rahmen.tsx')).zeigeRahmen(root, faelle)
-}
-
-void start()
+/* Die App-Module werden erst im Ablauf geladen (`start-ablauf.ts`, Reihenfolge ist Absicht). */
+void startAblauf({
+  hash: () => location.hash,
+  fenster: window,
+  wurzel: () => document.getElementById('root')!,
+  ladeFaelle,
+  friereZeitEin,
+  biegeFetchUm,
+  zeigeZelle: async (root, werte, fall) => (await import('./zelle.tsx')).zeigeZelle(root, werte, fall),
+  zeigeRahmen: async (root, faelle) => (await import('./rahmen.tsx')).zeigeRahmen(root, faelle),
+})
