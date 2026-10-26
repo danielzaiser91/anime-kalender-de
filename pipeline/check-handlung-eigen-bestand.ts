@@ -22,7 +22,7 @@ for (const id of zurueckgestellt().ids) titel.add(id) // zurückgestellt (Quaran
 const { fehler, hinweise, versteckt } = bewerteEigeneHandlungen(ladeEigeneHandlungen(), titel, ausgeliefert, hinterToggle)
 
 if (hinweise.length) console.log(bestandWarnzeile('Eigene Handlung', 'überholt (Quelle gewinnt, in data/handlung-eigen.yaml bei Gelegenheit löschen)', hinweise))
-if (versteckt.length) console.log(bestandWarnzeile('Eigene Handlung', 'hinter dem Toggle (keine deutsche Fassung belegt; der Text bleibt stehen, bis der Titel sichtbar ist)', versteckt))
+if (versteckt.length) console.log(bestandWarnzeile('Eigene Handlung', 'ohne deutsche Synchro im Katalog (hinter dem Toggle; der Text bleibt stehen, bis der Titel sichtbar ist)', versteckt))
 if (fehler.length) {
   console.error(`FEHLER: ${fehler.length} verwaiste Einträge in data/handlung-eigen.yaml — löschen:\n${fehler.join('\n')}`)
   console.log(`VERSTÖSSE: ${fehler.length}`)

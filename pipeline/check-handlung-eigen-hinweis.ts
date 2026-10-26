@@ -1,9 +1,8 @@
 /** Überholte eigene Handlungen sind ein Hinweis, verwaiste ein Fehler (`check-handlung-eigen-bestand.ts`); die Quelle gewinnt im Bau. Läuft in `check:logic`. */
 import { bewerteEigeneHandlungen } from './lib/handlung-eigen-bestand.ts'
-import { eigeneTexteAktiv, type EigeneHandlung } from './lib/handlung-eigen.ts'
+import { eigeneTexteAktiv, ladeEigeneHandlungen, type EigeneHandlung } from './lib/handlung-eigen.ts'
 import { laufeGegenKulisse } from './lib/bestand-kulisse.ts'
 import { ergaenzeEigeneHandlungen, ungenutztWarnung } from './bau/handlung-eigen-einbinden.ts'
-import { ladeEigeneHandlungen } from './lib/handlung-eigen.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -80,11 +79,14 @@ pruefe('Prozess: zurückgestellter Titel gilt nicht als verwaist', d.code === 0 
 // Der Anlass vom 26.10.2026, wörtlich: Titel 212503 (Hyouken II) ist sichtbar gewesen, liegt hinter dem Toggle und trägt eine eigene Handlung.
 const hyouken = { id: 212503, titleRomaji: 'Hyouken no Majutsushi ga Sekai wo Suberu II', jpStatus: 'RELEASING', ohneSynchro: true }
 const e = lauf([eintrag(212503)], [{ id: 33 }], {}, [hyouken])
-pruefe('Prozess hinter dem Toggle: Exit 0 + WARNUNG-Zeile', e.code === 0 && /^⚠ WARNUNG Eigene Handlung: 1 hinter dem Toggle .*: 212503$/m.test(e.aus) && !e.aus.includes("FEHLER"), `${e.code} ${e.aus}`)
+pruefe('Prozess hinter dem Toggle: Exit 0 + WARNUNG-Zeile', e.code === 0 && /^⚠ WARNUNG Eigene Handlung: 1 ohne deutsche Synchro im Katalog .*: 212503$/m.test(e.aus) && !e.aus.includes("FEHLER"), `${e.code} ${e.aus}`)
 const g = lauf([eintrag(212503), eintrag(65)], [{ id: 33 }], {}, [hyouken])
 pruefe('Prozess hinter dem Toggle und verwaist: Exit 1, nur der verwaiste wird genannt', g.code === 1 && g.aus.includes('FEHLER') && g.aus.includes('65') && !g.aus.includes('Eigene Handlung 212503'), `${g.code} ${g.aus}`)
 const h = lauf([eintrag(212503)], [{ id: 33 }], {}, [])
 pruefe('Prozess ohne Liste hinter dem Toggle: Exit 1', h.code === 1 && h.aus.includes("212503"), `${h.code} ${h.aus}`)
+// Festgehalten, nicht gewünscht: ohne-synchro.json führt den ganzen AniList-Katalog, Verschobene und Katalog sind dort nicht zu trennen — ein Katalogtitel ist nur Warnung.
+const katalogTitel = lauf([eintrag(70)], [{ id: 33 }], {}, [{ id: 70, ohneSynchro: true }])
+pruefe('Prozess Katalogtitel ohne Verschiebung: Warnung (bekannte Grenze), Exit 0', katalogTitel.code === 0 && /^⚠ WARNUNG Eigene Handlung: 1 ohne deutsche Synchro im Katalog .*: 70$/m.test(katalogTitel.aus), `${katalogTitel.code} ${katalogTitel.aus}`)
 
 if (fehler) process.exit(1)
 console.log('Eigene Handlung überholt: Hinweis statt Fehler, Quelle gewinnt im Bau, Prozess-Exit 0/1 mit WARNUNG-Zeile, hinter dem Toggle keine Verwaisung: alle Fälle ok.')
