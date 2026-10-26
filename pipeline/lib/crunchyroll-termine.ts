@@ -137,10 +137,15 @@ function tageDazwischen(a: string, b: string): number {
  * Folgen 1 bis 3 erschienen am selben Tag, danach lief es wöchentlich. Ein
  * Auftakt mit mehreren Folgen ist ein Sendeplan, kein Abwurf — deshalb
  * entscheidet der **Median** der Abstände und nicht ihr Mittelwert.
+ *
+ * **Eine einzige Folge ist kein Abwurf, solange der Rest der Staffel noch kommt** (`laufend`; Aoashi Staffel 2,
+ * 26.10.2026: Folge 1 am 25.10. stand als „Neu bei Crunchyroll, 24 Folgen“). Ein Abwurf braucht mehrere Folgen an einem Tag.
  */
-function messeRhythmus(daten: string[]): 'weekly' | 'batch' {
+function messeRhythmus(daten: string[], laufend = false): 'weekly' | 'batch' {
   const tage = [...new Set(daten)].sort()
-  if (tage.length <= 1) return 'batch'
+  if (tage.length <= 1) return laufend && daten.length === 1 ? 'weekly' : 'batch'
+  /* Eine Staffel mittendrin hat Pausen, aber keinen Abwurf: Folgen an mehreren Tagen sind ihr Sendeplan. */
+  if (laufend) return 'weekly'
   /*
     Mehr als zwei Folgen je Termin im Schnitt: Das ist ein Abwurf. Die Grenze
     liegt höher als bei ADN (1,5), weil Crunchyroll bei Katalogtiteln gern
@@ -262,6 +267,9 @@ function terminAusPaar(serie: CrSerie, titel: Title, block: CrStaffel, jetzt: nu
     return verwirfPaar('deutscher Termin vor der japanischen Ausstrahlung', serie, titel.id, `${jahr} gegen ${titel.jpYear}`)
 
   const zeiten = new Set(punkte.map((p) => p.zeit))
+  const rhythmus = messeRhythmus(daten, laufend)
+  /* Die Werkszahl nur für einen Wochentakt; ein Abwurf mitten in der Staffel belegt nur die Folgen, die da sind. */
+  const mitWerkszahl = laufend && rhythmus === 'weekly'
   return {
     titleId: titel.id,
     firstEpisodeDate: daten[0]!,
@@ -277,7 +285,7 @@ function terminAusPaar(serie: CrSerie, titel: Title, block: CrStaffel, jetzt: nu
     /* Eine Uhrzeit nur, wenn alle Folgen dieselbe tragen — sonst ist sie geraten. */
     time: zeiten.size === 1 ? [...zeiten][0] : undefined,
     /* Bei einer laufenden Staffel zählt, was sie haben wird — sonst endet der Kalender mittendrin. */
-    episodeCount: laufend ? titel.episodes! : folgen.length,
+    episodeCount: mitWerkszahl ? titel.episodes! : folgen.length,
     /*
       **Nur Nummern, die zu dieser Staffel gehören.** Crunchyrolls Blöcke zählen teils über
       die ganze Reihe durch (Staffel 2 beginnt bei 13), unser Release zählt ab 1. Ungeprüft
@@ -286,8 +294,8 @@ function terminAusPaar(serie: CrSerie, titel: Title, block: CrStaffel, jetzt: nu
       frühesten belegten Beobachtung"). Gesetzt wird deshalb nur, was bei 1 anfängt und die
       Folgenzahl nicht überschreitet.
     */
-    beobachtet: beobachtetVon(folgen, laufend ? titel.episodes! : folgen.length, laufend ? lueckenlosAb(folgen)! - 1 : 0),
-    rhythmus: messeRhythmus(daten),
+    beobachtet: beobachtetVon(folgen, mitWerkszahl ? titel.episodes! : folgen.length, laufend ? lueckenlosAb(folgen)! - 1 : 0),
+    rhythmus,
     blockName: block.name,
     datiert: folgen.length,
   }
