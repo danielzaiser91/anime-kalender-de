@@ -183,7 +183,7 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-25#10@anime-kalender-de
+UID:auto-5027-tv-disney-channel@2026-10-25#13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T135000Z
 DTEND:20261025T142000Z
@@ -193,7 +193,7 @@ DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-25#11@anime-kalender-de
+UID:auto-5027-tv-disney-channel@2026-10-25#14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T142000Z
 DTEND:20261025T145000Z
@@ -203,7 +203,7 @@ DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-25#12@anime-kalender-de
+UID:auto-5027-tv-disney-channel@2026-10-25#15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T145000Z
 DTEND:20261025T152000Z
@@ -359,7 +359,7 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-11-01#13@anime-kalender-de
+UID:auto-5027-tv-disney-channel@2026-11-01#16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261101T135000Z
 DTEND:20261101T142000Z
@@ -369,7 +369,7 @@ DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-11-01#14@anime-kalender-de
+UID:auto-5027-tv-disney-channel@2026-11-01#17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261101T142000Z
 DTEND:20261101T145000Z
@@ -379,7 +379,7 @@ DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-11-01#15@anime-kalender-de
+UID:auto-5027-tv-disney-channel@2026-11-01#18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261101T145000Z
 DTEND:20261101T152000Z
@@ -910,10 +910,10 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:kaiju-no8-s2-komplettbox@2027-05-07@anime-kalender-de
+UID:kaiju-no8-s2-komplettbox@2027-03-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270507
-DTEND;VALUE=DATE:20270508
+DTSTART;VALUE=DATE:20270305
+DTEND;VALUE=DATE:20270306
 SUMMARY:Kaiju No. 8 – Staffel 2 – Komplettbox (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16005/

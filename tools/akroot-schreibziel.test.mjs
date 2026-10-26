@@ -113,10 +113,10 @@ try {
   assert.ok(voicesDir.startsWith(kulisse), `Sonde: Stimmen-Ordner liegt nicht in der Kulisse: ${voicesDir}`)
   console.log('akroot-schreibziel: Sonde schreibt nur in die Kulisse')
 
-  // Jede Prüfung, die AK_ROOT nennt, setzt ihre Kulisse selbst. Der Prozess startet ohne AK_ROOT: sonst verdeckt die Umgebung
+  // Jede Prüfung, die AK_ROOT nennt oder eine schreibWurzel vorgibt, setzt ihre Kulisse selbst. Der Prozess startet ohne AK_ROOT: sonst verdeckt die Umgebung
   // Module, die vor dem eigenen Setzen laden und die Repo-Wurzel merken.
   const checks = readdirSync(join(WURZEL, 'pipeline'))
-    .filter((f) => /^check-.*\.ts$/.test(f) && readFileSync(join(WURZEL, 'pipeline', f), 'utf8').includes('AK_ROOT'))
+    .filter((f) => /^check-.*\.ts$/.test(f) && /AK_ROOT|schreibWurzel/.test(readFileSync(join(WURZEL, 'pipeline', f), 'utf8')))
     .sort()
   assert.ok(checks.length > 0, 'keine Prüfung mit Kulisse gefunden')
   const { verstoesse, ungeprueft } = schreibzielLauf(WURZEL, checks, (f) => laufe(join(WURZEL, 'pipeline', f)))

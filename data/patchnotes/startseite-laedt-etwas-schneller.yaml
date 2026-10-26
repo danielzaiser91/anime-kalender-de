@@ -1,2 +1,4 @@
 kategorie: feature
-text: Startseite lädt etwas schneller
+highlight: true
+text: Startseite lädt ein Fünftel weniger Daten
+untertitel: 233 statt rund 300 KB, Datenbank-Ansicht lädt erst beim Öffnen
