@@ -40,6 +40,7 @@ import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminFri
 import { meldeAbbruch } from './lib/abbruch.ts'
 import { beobachtetAusRelease } from './lib/verpasst-beobachtet.ts'
 import { katalogBeobachtungen, katalogStaffel } from './lib/verpasst-katalog.ts'
+import { toIsoDate } from '../shared/time.ts'
 import type { NeueFolge } from './lib/cr-neu-wache.ts'
 import type { Title } from '../shared/types.ts'
 import { BELEGE_DATEI, belegeAnhaengen, type WocheBelege } from './lib/woche-beleg.ts'
@@ -205,7 +206,7 @@ function beobachtungen(slug: string): Beobachtung[] {
   const ausKalender = adresse ? (gesehen.get(adressKern(adresse)) ?? []) : []
   const titel = alleTitel.find((t) => t.id === titelIdJeSlug.get(slug))
   const serieId = /\/series\/([A-Z0-9]+)/i.exec(adresse ?? '')?.[1]
-  const ausKatalog = katalogBeobachtungen(katalogFolgen, serieId, katalogStaffel(titel, alleTitel))
+  const ausKatalog = katalogBeobachtungen(katalogFolgen, serieId, katalogStaffel(titel, alleTitel), toIsoDate(JETZT))
   return [...ausKalender, ...ausKatalog, ...beobachtetAusRelease(folgentageJeSlug.get(slug), JETZT)]
 }
 

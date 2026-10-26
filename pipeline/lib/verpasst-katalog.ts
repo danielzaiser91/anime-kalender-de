@@ -5,7 +5,8 @@ import type { NeueFolge } from './cr-neu-wache.ts'
 
 /**
  * Die Staffel, unter der der Crunchyroll-Katalog die Folgen dieses Titels führt: allein in seiner Reihe Staffel 1,
- * sonst die errechnete Staffelnummer; `undefined`, wenn sie nicht eindeutig ist (dann zählt der Katalog nicht als Beleg).
+ * sonst die errechnete Staffelnummer (der Katalog führt einen Titel ohne Schwestertitel als Staffel 1, auch eine
+ * AniList-Fortsetzung; Folgennummern zählen dort je Staffel neu); `undefined`, wenn sie nicht eindeutig ist (dann zählt der Katalog nicht als Beleg).
  */
 export function katalogStaffel(title: Title | undefined, titles: Title[]): number | undefined {
   if (!title) return undefined
@@ -23,6 +24,7 @@ export function katalogBeobachtungen(
   folgen: NeueFolge[],
   serieId: string | undefined,
   staffel: number | undefined,
+  heute: string,
 ): { date: string; episode: number }[] {
   if (!serieId || staffel === undefined) return []
   const raus: { date: string; episode: number }[] = []
@@ -30,7 +32,9 @@ export function katalogBeobachtungen(
     if (f.serieId !== serieId || !f.verfuegbarAb || !Number.isInteger(f.nummer) || (f.nummer as number) < 1) continue
     const ihre = f.staffel === f.serie ? 1 : Number(STAFFEL_IM_NAMEN.exec(f.staffel ?? '')?.[1])
     if (ihre !== staffel) continue
-    raus.push({ date: toIsoDate(new Date(f.verfuegbarAb)), episode: f.nummer as number })
+    const date = toIsoDate(new Date(f.verfuegbarAb))
+    /* Eine angekündigte Folge (Tag nach `heute`, Berliner Tag wie bei beobachtetAusRelease) ist keine Sichtung. */
+    if (date <= heute) raus.push({ date, episode: f.nummer as number })
   }
   return raus
 }

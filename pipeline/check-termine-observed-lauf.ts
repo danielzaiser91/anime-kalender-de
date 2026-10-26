@@ -105,6 +105,10 @@ try {
     geholtAm: '2026-10-26',
     folgen: [
       { guid: 'GE00384134DEDE', serieId: 'GG5H5XQMD', serie: kopf, staffelId: 'GS00384021DEDE', staffel: 'Staffel 3', nummer: 2, titel: 'Canarre in Gefahr', ausstrahlung: '2026-10-04T00:00:00.000Z', verfuegbarAb: '2026-10-25T15:00:00.000Z', gesehenAm: '2026-10-26' },
+      /* Staffel 2 derselben Serie, erst am 06.11. angekündigt (jetzt = 04.11.): keine Sichtung. */
+      { guid: 'GEZUKUNFT', serieId: 'GG5H5XQMD', serie: kopf, staffel: 'Staffel 2', nummer: 2, verfuegbarAb: '2026-11-06T15:00:00.000Z' },
+      /* Fremde Serie, gleiche Staffel und Nummer am erwarteten Tag: gehört nicht zu diesem Vermerk. */
+      { guid: 'GEFREMD', serieId: 'GANDERE', serie: 'Andere Serie', staffel: 'Staffel 2', nummer: 2, verfuegbarAb: '2026-10-25T15:00:00.000Z' },
     ],
   })
   schreibe('data/termine-verpasst.json', [
@@ -136,6 +140,7 @@ try {
   pruefe('ohne Beobachtung bleibt der Vermerk offen', je('ohne') !== undefined && je('ohne')?.erschienenAm === null, je('ohne'))
   pruefe('Katalog sieht Folge 2 der Staffel 3 am erwarteten Tag: Vermerk entfällt (Aristocrat S3)', je('aristocrat-s3') === undefined, je('aristocrat-s3'))
   pruefe('Folge 2 der Schwesterstaffel unter derselben Serienkennung bleibt offen', je('aristocrat-s2') !== undefined && je('aristocrat-s2')?.erschienenAm === null, je('aristocrat-s2'))
+  pruefe('Katalog kündigt Folge 2 erst für übermorgen an: keine Sichtung, Vermerk bleibt offen', je('aristocrat-s2')?.erschienenAm === null, je('aristocrat-s2'))
 } finally {
   rmSync(arbeit, { recursive: true, force: true })
 }
