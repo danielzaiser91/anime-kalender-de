@@ -63,6 +63,23 @@ pruefe('Ramparts of Ice: Folge 1/1 ohne Folgenzahl am Release ist kein Finale', 
 const mitZahl: Release = { ...ramparts, schedule: { ...ramparts.schedule!, episodeCount: 1 } }
 pruefe('ein Release mit belegter Folgenzahl 1 hat sein Finale bei Folge 1', istStaffelfinale(ersteRamparts, { releaseBySlug: new Map([[mitZahl.slug, mitZahl]]) }))
 
+/* Die übrigen Bedingungen von istStaffelfinale mit Folgenzahl am Release, damit keine von ihnen im Schatten einer anderen steht. */
+const zwoelf: Release = {
+  slug: 'zwoelf',
+  titleId: 1,
+  name: 'X',
+  platform: 'crunchyroll',
+  releaseType: 'weekly',
+  schedule: { firstEpisodeDate: '2026-10-01', episodeCount: 12 },
+} as unknown as Release
+const geraten: Release = { ...zwoelf, schedule: { ...zwoelf.schedule!, episodeCountAssumed: true } }
+const zwoelfte = (extra: object = {}) => ({ ...expandEvents(zwoelf).at(-1)!, ...extra })
+const frage = (r: Release, e: ReturnType<typeof zwoelfte>) => istStaffelfinale(e, { releaseBySlug: new Map([[r.slug, r]]) })
+pruefe('Folge 12/12 mit belegter Folgenzahl: Finale', frage(zwoelf, zwoelfte()))
+pruefe('Folge 12/12 mit geratener Folgenzahl: kein Finale', !frage(geraten, zwoelfte()))
+pruefe('Folge 12/12, die ausgeblieben ist: kein Finale', !frage(zwoelf, zwoelfte({ verpasst: { bis: '2026-12-01' } })))
+pruefe('Folge 12/12, die verspätet doch erschien: Finale', frage(zwoelf, zwoelfte({ verpasst: { erschienenAm: '2026-12-02' } })))
+
 /* Die Wache am Bestand: Anlassfälle wörtlich, dazu Gegenfälle. */
 const beyEvent = { releaseSlug: 'auto-165159-rtlplus-staffel-3', staffelfinale: true } as never
 const beyRelease = {
