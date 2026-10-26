@@ -18,7 +18,7 @@ import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
 
 const BASIS = 'https://kitsu.io/api/edge'
-const KOPF = { accept: 'application/vnd.api+json', 'user-agent': 'anime-kalender-de/1.0 (nichtkommerziell; danielzaiser91@googlemail.com)' }
+const KOPF = { accept: 'application/vnd.api+json', 'user-agent': 'anime-kalender-de/1.0 (nichtkommerziell; kontakt@anime-kalender.de)' }
 const LIMIT = Number(process.argv[process.argv.indexOf('--limit') + 1]) || Infinity
 const ALLE = process.argv.includes('--alle')
 
