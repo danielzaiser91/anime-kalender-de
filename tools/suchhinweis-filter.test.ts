@@ -67,6 +67,10 @@ const filter = mit({ years: [2003], confirmedOnly: true })
 const nurJahrOffen = findeBlockade([kand(zwoelf), kand(ippo)], filter, true, passt)
 assert.equal(nurJahrOffen?.titel, ippo, 'ippo ist bestätigt, nur das Jahr stört')
 assert.equal(findeBlockade([kand(ippo), kand(zwoelf)], filter, true, passt)?.titel, ippo)
+// Gleich viele Hindernisse: der erste der Liste gewinnt, in beiden Reihenfolgen.
+const gleichauf: Mini = { name: 'C', jahr: 1999, genre: 'Sport', sicher: true }
+assert.equal(findeBlockade([kand(ippo), kand(gleichauf)], mit({ years: [2003] }), true, passt)?.titel, ippo)
+assert.equal(findeBlockade([kand(gleichauf), kand(ippo)], mit({ years: [2003] }), true, passt)?.titel, gleichauf)
 // Ist ein exakter Treffer sichtbar, gibt es nichts zu lösen — auch wenn ein anderer versteckt ist.
 const sichtbar: Mini = { ...ippo, jahr: 2003 }
 assert.equal(findeBlockade([kand(ippo), kand(sichtbar)], mit({ years: [2003] }), true, passt), undefined)
