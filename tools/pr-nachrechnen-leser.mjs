@@ -3,12 +3,11 @@
  * jede Datei außer Doku als „liest Daten“ galt). Ein Bot-Sprung entwertet einen PR nur, wenn er eine bewegte Datei berührt oder Code,
  * der sie liest, mit dem Code des PR zusammenhängt: der PR ruft den Leser auf bzw. importiert ihn, oder der Leser nutzt eine Datei des PR.
  * Verknüpfung (`huelle`): relative Importe, Pfade mit Ordnerkopf im Text (Aufrufe wie `node tools/x.mjs`, Daten-Literale). `npm run`
- * wird nicht aufgelöst; `package.json` zählt nur mit den Skripten, deren Wert der PR ändert. Im Zweifel (zu große Hülle, zu viele Leser,
- * nicht lesbar) gilt der PR als betroffen. Grenze: ein zur Laufzeit zusammengesetzter Pfad fällt nicht auf.
+ * wird nicht aufgelöst; `package.json` zählt nur mit den Skripten, deren Wert der PR ändert. Im Zweifel (zu viele Leser, Git nicht lesbar)
+ * gilt der PR als betroffen. Grenze: ein zur Laufzeit zusammengesetzter Pfad fällt nicht auf.
  */
 import path from 'node:path'
 
-export const HUELLE_GRENZE = 200
 export const LESER_GRENZE = 40
 /** PR-Pfade ohne Leser in der Kette (Doku, Daniel-Dateien, Patch Notes, Markdown im Wurzelordner). */
 export const OHNE_DATENLESER = ['docs/', 'daniel-zum-abarbeiten/', 'data/patchnotes/']
@@ -42,27 +41,28 @@ const importeVon = (datei, text) => (CODE.test(datei) ? importZiele(datei, text)
 export const trifft = (name, datei) => datei === name || datei.startsWith(`${name}/`)
 
 /**
- * Alle von `start` aus erreichbaren Namen (Dateien und Pfad-Tokens); `zweifel` gesetzt, wenn die Hülle die Grenze sprengt. Pfad-Tokens
- * (Aufrufe, Listen von Dateinamen) folgt nur die Startdatei selbst: Tests und Ausnahmelisten nennen Dutzende Pfade, über mehrere Stufen
- * wäre jede Hülle zu groß (gemessen 26.10.2026 an PR 2043 und 2099); Importen folgt die Hülle ohne Grenze der Tiefe.
+ * Alle von `start` aus erreichbaren Namen (Dateien und Pfad-Tokens). Pfad-Tokens (Aufrufe, Listen von Dateinamen) folgt nur die
+ * Startdatei selbst: Tests und Ausnahmelisten nennen Dutzende Pfade, über mehrere Stufen wüchse jede Hülle auf den ganzen Baum
+ * (gemessen 26.10.2026 an PR 2043); Importen folgt die Hülle ohne Grenze der Tiefe.
  */
 export function huelle(start, lies) {
   const namen = new Set(start)
   const offen = start.map((datei) => [datei, true])
-  let gelesen = 0
   while (offen.length > 0) {
     const [datei, startdatei] = offen.pop()
     const text = LESBAR.test(datei) ? lies(datei) : null
     if (text === null) continue
-    if (++gelesen > HUELLE_GRENZE) return { namen, zweifel: `Hülle größer als ${HUELLE_GRENZE} Dateien` }
     for (const ziel of [...importeVon(datei, text), ...(startdatei ? pfadTokens(text) : [])]) {
       if (namen.has(ziel)) continue
       namen.add(ziel)
       offen.push([ziel, false])
     }
   }
-  return { namen, zweifel: null }
+  return namen
 }
+
+/** Dateien aus `texte` (Karte Pfad -> Inhalt), die den Namen einer bewegten Datei außerhalb von Kommentaren nennen, sortiert. */
+export const leserIn = (texte, bewegt) => [...texte].filter(([, text]) => bewegt.some((b) => nennt(text, b))).map(([pfad]) => pfad).sort()
 
 /** Nennt der Text (ohne Kommentare) den Namen der Datei (der Pfad enthält ihn, `join(ordner, 'a.json')` nennt nur den Namen)? */
 export const nennt = (text, bewegt) => ohneKommentare(text).includes(bewegt.split('/').pop())
@@ -100,14 +100,12 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, paketSkripte }) {
     if (b !== undefined) return `der PR liest ${b} (${p})`
   }
   if (leser.length > LESER_GRENZE) return `${leser.length} Leser der bewegten Dateien, mehr als ${LESER_GRENZE}`
-  const vorwaerts = huelle(start, lies)
-  if (vorwaerts.zweifel !== null) return vorwaerts.zweifel
-  const l1 = leser.find((r) => [...vorwaerts.namen].some((n) => trifft(n, r)))
+  const vorwaerts = [...huelle(start, lies)]
+  const l1 = leser.find((r) => vorwaerts.some((n) => trifft(n, r)))
   if (l1 !== undefined) return `der PR ruft ${l1} auf oder importiert es, das bewegte Daten liest`
-  const rueckwaerts = huelle(leser, lies)
-  if (rueckwaerts.zweifel !== null) return rueckwaerts.zweifel
+  const rueckwaerts = [...huelle(leser, lies)]
   for (const p of start) {
-    const n = [...rueckwaerts.namen].find((x) => trifft(x, p) || trifft(p, x))
+    const n = rueckwaerts.find((x) => trifft(x, p) || trifft(p, x))
     if (n !== undefined) return `${p} wird von Code genutzt, der bewegte Daten liest (${n})`
   }
   return null

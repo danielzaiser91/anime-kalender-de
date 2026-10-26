@@ -1,27 +1,31 @@
 /**
- * Fake-git für die Tests der Leser-Regel (kein Test): Repo als { main: { pfad: text }, kopf: { pfad: text } }; kennt fetch, show <ref>:<pfad> und
- * grep -n -F -e <name> <main> (Status 1 ohne Treffer). `mainSha` unterscheidet die Ref von main und Kopf.
+ * Fake-git für die Tests der Leser-Regel (kein Test): Repo als { main: { pfad: text }, kopf: { pfad: text } }; kennt fetch,
+ * `ls-tree -r --name-only <ref> -- <ordner>…` und `cat-file --batch` (Eingabe `<ref>:<pfad>` je Zeile, Antwort im Format von git).
+ * `mainSha` unterscheidet die Ref von main und Kopf; `aufrufe` hält jeden Aufruf als Zeile fest.
  */
-export function attrappe(repo, { mainSha, fetchFehler = false, grepStatus } = {}) {
+export function attrappe(repo, { mainSha, fetchFehler = false, lsFehler = false } = {}) {
   const aufrufe = []
-  const git = (args) => {
+  const stand = (ref) => repo[ref === mainSha ? 'main' : 'kopf']
+  const git = (args, { input } = {}) => {
     aufrufe.push(args.join(' '))
     if (args[0] === 'fetch') {
       if (fetchFehler) throw new Error('fatal: kein Netz')
       return ''
     }
-    if (args[0] === 'show') {
-      const [ref, ...rest] = args[1].split(':')
-      const text = repo[ref === mainSha ? 'main' : 'kopf'][rest.join(':')]
-      if (text === undefined) throw new Error('fatal: path does not exist')
-      return text
+    if (args[0] === 'ls-tree') {
+      if (lsFehler) throw new Error('fatal: kein Baum')
+      const ordner = args.slice(5)
+      return Object.keys(stand(args[3])).filter((p) => ordner.some((o) => p.startsWith(`${o}/`))).join('\n')
     }
-    if (args[0] === 'grep') {
-      if (grepStatus !== undefined) throw Object.assign(new Error('grep kaputt'), { status: grepStatus })
-      const namen = args.filter((a, i) => args[i - 1] === '-e')
-      const zeilen = Object.entries(repo.main).flatMap(([p, t]) => t.split('\n').map((z, i) => [p, i + 1, z])).filter(([, , z]) => namen.some((n) => z.includes(n)))
-      if (zeilen.length === 0) throw Object.assign(new Error('keine Treffer'), { status: 1 })
-      return zeilen.map(([p, i, z]) => `${mainSha}:${p}:${i}:${z}`).join('\n')
+    if (args[0] === 'cat-file') {
+      const teile = input.split('\n').filter(Boolean).map((z) => {
+        const i = z.indexOf(':')
+        const text = stand(z.slice(0, i))[z.slice(i + 1)]
+        if (text === undefined) return Buffer.from(`${z} missing\n`)
+        const inhalt = Buffer.from(text, 'utf8')
+        return Buffer.concat([Buffer.from(`${'0'.repeat(40)} blob ${inhalt.length}\n`), inhalt, Buffer.from('\n')])
+      })
+      return Buffer.concat(teile)
     }
     throw new Error(`unbekannt: ${args.join(' ')}`)
   }

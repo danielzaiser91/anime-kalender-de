@@ -4,8 +4,8 @@
  * wie der Anlassfall PR 2043 (Workflow-PR gegen Bot-Daten).
  */
 import { attrappe } from './pr-nachrechnen-leser-attrappe.mjs'
-import { gitLeser, suchLeser } from './pr-nachrechnen-leser-git.mjs'
-import { HUELLE_GRENZE, LESER_GRENZE, bewegtesGelesen, geaenderteSkripte, importZiele, ohneKommentare, ohneLeser, pfadTokens, trifft } from './pr-nachrechnen-leser.mjs'
+import { SUCHORDNER, gitLeser, inhalte } from './pr-nachrechnen-leser-git.mjs'
+import { LESER_GRENZE, bewegtesGelesen, geaenderteSkripte, importZiele, leserIn, ohneKommentare, ohneLeser, pfadTokens, trifft } from './pr-nachrechnen-leser.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -54,19 +54,15 @@ pruefe('gelöschte oder nicht lesbare PR-Datei -> kein Absturz, null', grund(['t
 pruefe('keine bewegten Dateien -> null', bewegtesGelesen({ bewegt: [], pr: ['pipeline/bau/cr.ts'], leser: LESER, lies, paketSkripte: null }) === null)
 pruefe('Umbenennung: alter Name im PR zählt', /berührt/.test(grund(['tools/neu.mjs', F])))
 
-// Grenzen: genau an der Grenze, eins darüber
+// Importketten: beliebig tief, kein Zweifel durch Größe
 const kette = (n) => (p) => {
   const m = /^tools\/k(\d+)\.mjs$/.exec(p)
-  return m === null ? null : Number(m[1]) + 1 < n ? `import './k${Number(m[1]) + 1}.mjs'\n` : 'export {}\n'
+  if (m === null) return null
+  return Number(m[1]) + 1 < n ? `import './k${Number(m[1]) + 1}.mjs'\n` : 'export {}\n'
 }
-for (const [n, ok] of [[HUELLE_GRENZE, true], [HUELLE_GRENZE + 1, false]]) {
-  const g = bewegtesGelesen({ bewegt: [F], pr: ['tools/k0.mjs'], leser: ['pipeline/bau/cr.ts'], lies: kette(n), paketSkripte: null })
-  pruefe(`Hülle mit ${n} Dateien -> ${ok ? 'null' : 'Zweifel'}`, ok ? g === null : /Hülle größer als 200/.test(g), g)
-}
-{
-  const g = bewegtesGelesen({ bewegt: [F], pr: ['tools/nachbar.mjs'], leser: ['tools/k0.mjs'], lies: kette(HUELLE_GRENZE + 1), paketSkripte: null })
-  pruefe('Hülle des Lesers zu groß -> Zweifel (Rückrichtung)', /Hülle größer als 200/.test(g), g)
-}
+pruefe('Importkette über 300 Dateien bis zum Leser -> Grund', /ruft tools\/k299\.mjs auf/.test(bewegtesGelesen({ bewegt: [F], pr: ['tools/k0.mjs'], leser: ['tools/k299.mjs'], lies: kette(300), paketSkripte: null })))
+pruefe('Importkette über 300 Dateien ohne Leser -> null', bewegtesGelesen({ bewegt: [F], pr: ['tools/k0.mjs'], leser: ['tools/fern.mjs'], lies: kette(300), paketSkripte: null }) === null)
+pruefe('Rückrichtung über 300 Dateien: Leser am Anfang, PR-Datei am Ende -> Grund', /tools\/k299\.mjs wird von Code genutzt/.test(bewegtesGelesen({ bewegt: [F], pr: ['tools/k299.mjs'], leser: ['tools/k0.mjs'], lies: kette(300), paketSkripte: null })))
 for (const [n, ok] of [[LESER_GRENZE, true], [LESER_GRENZE + 1, false]]) {
   const g = bewegtesGelesen({ bewegt: [F], pr: ['tools/nachbar.mjs'], leser: Array.from({ length: n }, (_, i) => `pipeline/l${i}.ts`), lies, paketSkripte: null })
   pruefe(`${n} Leser -> ${ok ? 'null' : 'Zweifel'}`, ok ? g === null : /41 Leser/.test(g), g)
@@ -119,32 +115,32 @@ pruefe('package.json: Skript nennt den Ordner der importierten Datei -> Rückric
 pruefe('Patch-Notes-YAML, die die Datei nennt, zählt nicht (ohne Leser)', bewegtesGelesen({ bewegt: [F], pr: ['data/patchnotes/neu.yaml'], leser: [], lies: () => `text: ${F}\n`, paketSkripte: null }) === null)
 pruefe('package.json: Ordner-Token in geändertem Skript trifft den Leser-Ordner', /ruft pipeline\/bau\/cr\.ts auf/.test(grund(['package.json'], { paketSkripte: 'ls pipeline/bau' })))
 
+// leserIn: Treffer in Code, nicht in Kommentaren, sortiert
+{
+  const texte = new Map([['tools/z.mjs', `const d = '${F}'\n`], ['tools/a.mjs', "join(o, 'crunchyroll-woche.json')\n"], ['tools/k.mjs', `// ${F}\nconst x = 1\n`], ['tools/n.mjs', "const a = 'zweite-datei.json'\n"]])
+  pruefe('leserIn: Pfad oder nur Name im Code, Kommentar nicht, sortiert', leserIn(texte, [F]).join() === 'tools/a.mjs,tools/z.mjs', leserIn(texte, [F]))
+  pruefe('leserIn: mehrere bewegte Dateien, jede zählt', leserIn(texte, ['data/nichts-da.json', 'data/zweite-datei.json']).join() === 'tools/n.mjs', leserIn(texte, ['data/nichts-da.json', 'data/zweite-datei.json']))
+}
+
 // Git-Anschluss mit Fake-git: Repo als { main: {...}, kopf: {...} }
 const MAIN = 'a'.repeat(40)
 const KOPF = 'b'.repeat(40)
 const fakeGit = (repo, opt = {}) => attrappe(repo, { mainSha: MAIN, ...opt })
 const REFS = { nummer: 7, kopf: KOPF, main: MAIN }
-const PR_BAUM = { ...BAUM, 'docs/leser.md': `${F}\n`, 'tools/notiz.mjs': '// data/crunchyroll-woche.json nur Kommentar\nconst z = 1\n' }
-{
-  const { git, aufrufe } = fakeGit({ main: PR_BAUM, kopf: {} })
-  pruefe('suchLeser: Treffer in Code, nicht in Kommentar, nicht in Markdown', suchLeser(git, MAIN, [F]).join() === 'pipeline/bau/cr.ts,.github/workflows/nennt.yml'.split(',').sort().join(), suchLeser(git, MAIN, [F]))
-  pruefe('suchLeser: sucht den Dateinamen als Festtext in den Ordnern des Codes', aufrufe[0] === `grep -n -F -e crunchyroll-woche.json ${MAIN} -- pipeline shared tools web worker extension .github`, aufrufe[0])
-}
-{
-  const { git } = fakeGit({ main: { 'tools/x.mjs': 'nichts\n' }, kopf: {} })
-  pruefe('suchLeser: kein Treffer (Status 1) -> leere Liste', suchLeser(git, MAIN, [F]).length === 0)
-  let werfen = false
-  try {
-    suchLeser(fakeGit({ main: {}, kopf: {} }, { grepStatus: 2 }).git, MAIN, [F])
-  } catch {
-    werfen = true
-  }
-  pruefe('suchLeser: anderer Fehler (Status 2) wird nicht als „kein Leser“ gelesen', werfen)
-}
+const PR_BAUM = { ...BAUM, 'docs/leser.md': `${F}\n`, 'tools/notiz.mjs': '// data/crunchyroll-woche.json nur Kommentar\nconst z = 1\n', 'tools/bild.png': `${F}\n`, 'data/x.mjs': `${F}\n` }
+pruefe('SUCHORDNER sind genau die Ordner des Codes', SUCHORDNER.join() === 'pipeline,shared,tools,web,worker,extension,.github', SUCHORDNER)
 {
   const { git, aufrufe } = fakeGit({ main: PR_BAUM, kopf: {} })
   const g = gitLeser(git)([F], ['.github/workflows/bestand.yml', 'tools/anderes.mjs'], REFS)
-  pruefe('gitLeser: Anlassfall (Workflow ohne Leser) -> null, holt PR-Kopf und main', g === null && aufrufe[0] === `fetch -q origin refs/pull/7/head ${MAIN}`, { g, aufrufe })
+  pruefe('gitLeser: Anlassfall (Workflow ohne Leser) -> null', g === null, g)
+  pruefe('gitLeser: holt PR-Kopf und main zuerst', aufrufe[0] === `fetch -q origin refs/pull/7/head ${MAIN}`, aufrufe)
+  pruefe('gitLeser: Baum von main in den Ordnern des Codes', aufrufe[1] === `ls-tree -r --name-only ${MAIN} -- pipeline shared tools web worker extension .github`, aufrufe)
+  pruefe('gitLeser: ein Abruf für main, einer für die PR-Dateien im Kopf, nie je Datei', aufrufe.length === 4 && aufrufe[2] === 'cat-file --batch' && aufrufe[3] === 'cat-file --batch', aufrufe)
+}
+{
+  // Nur lesbare Dateien kommen in den Speicher: Bilder und Dateien außerhalb der Ordner zählen nicht als Leser
+  const { git } = fakeGit({ main: { 'tools/bild.png': `${F}\n`, 'data/x.mjs': `${F}\n`, 'tools/anderes.mjs': 'nichts\n' }, kopf: {} })
+  pruefe('gitLeser: .png und Ordner außerhalb zählen nicht als Leser', gitLeser(git)([F], ['tools/anderes.mjs'], REFS) === null)
 }
 {
   const kopfBaum = { '.github/workflows/neu.yml': `run: echo ${F}\n` }
@@ -160,6 +156,10 @@ const PR_BAUM = { ...BAUM, 'docs/leser.md': `${F}\n`, 'tools/notiz.mjs': '// dat
   pruefe('gitLeser: Helfer des Lesers aus main gelesen -> Rückrichtung', /wird von Code genutzt/.test(g), g)
 }
 {
+  const g = gitLeser(fakeGit({ main: PR_BAUM, kopf: {} }).git)([F], ['tools/gelöscht-im-pr.mjs'], REFS)
+  pruefe('gitLeser: PR-Datei in keinem Stand vorhanden (gelöscht) -> kein Absturz, null', g === null, g)
+}
+{
   const kopf = { 'package.json': JSON.stringify({ scripts: { 'check:neu': 'npx tsx tools/cr-vorschau.ts' } }) }
   const main = { ...PR_BAUM, 'package.json': JSON.stringify({ scripts: {} }) }
   const g = gitLeser(fakeGit({ main, kopf }).git)([F], ['package.json'], REFS)
@@ -169,9 +169,16 @@ const PR_BAUM = { ...BAUM, 'docs/leser.md': `${F}\n`, 'tools/notiz.mjs': '// dat
   const g3 = gitLeser(fakeGit({ main, kopf: {} }).git)([F], ['package.json'], REFS)
   pruefe('gitLeser: package.json im Kopf nicht lesbar -> Zweifel', g3 === 'package.json nicht vergleichbar', g3)
 }
-for (const [name, opt, repo] of [['fetch scheitert', { fetchFehler: true }, { main: PR_BAUM, kopf: {} }], ['grep scheitert', { grepStatus: 2 }, { main: PR_BAUM, kopf: {} }]]) {
-  const g = gitLeser(fakeGit(repo, opt).git)([F], ['tools/anderes.mjs'], REFS)
+for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree scheitert', { lsFehler: true }]]) {
+  const g = gitLeser(fakeGit({ main: PR_BAUM, kopf: {} }, opt).git)([F], ['tools/anderes.mjs'], REFS)
   pruefe(`gitLeser: ${name} -> „nicht ermittelbar“, also veraltet`, /^Leser nicht ermittelbar \(/.test(g), g)
+}
+{
+  // inhalte: Mehrbyte-Zeichen und Reihenfolge, fehlende Datei in der Mitte
+  const { git } = fakeGit({ main: { 'tools/a.mjs': 'Größe ä\n', 'tools/c.mjs': 'drei\n' }, kopf: {} })
+  const k = inhalte(git, MAIN, ['tools/a.mjs', 'tools/fehlt.mjs', 'tools/c.mjs'])
+  pruefe('inhalte: Mehrbyte-Inhalt richtig geschnitten, fehlende Datei fehlt, Nachbarn stimmen', k.size === 2 && k.get('tools/a.mjs') === 'Größe ä\n' && k.get('tools/c.mjs') === 'drei\n', [...k])
+  pruefe('inhalte: keine Dateien -> kein git-Aufruf', inhalte(() => { throw new Error('nicht aufrufen') }, MAIN, []).size === 0)
 }
 
 if (fehler.length > 0) {
