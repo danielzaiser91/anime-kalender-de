@@ -10,7 +10,7 @@ import { log } from '../lib/util.ts'
  * AniList-Katalog steht (Magic Knight Rayearth 2026: kein Termin, kein MyDubList-Eintrag), kommt aus dem Katalog in den Bestand —
  * sonst hätte die Regel nichts, das sie halten könnte. Eine Synchro-Aussage „offen“ holt niemanden herein.
  */
-export function haengeAnkuendigungAn(titles: Map<number, Title>, jpStart: Map<number, string>, wurzel: string): void {
+export function haengeAnkuendigungAn(titles: Map<number, Title>, jpStart: Map<number, string>, jpStartAnzeige: Map<number, string>, wurzel: string): void {
   const ankuendigungen = ankuendigungenLaden(wurzel)
   const fehlen = [...ankuendigungen].filter(([id, a]) => !titles.has(id) && a.synchro === 'angekuendigt')
   const katalog = fehlen.length ? new Map(ladeKatalogEintraege().map((e) => [e.id, e])) : new Map()
@@ -18,7 +18,10 @@ export function haengeAnkuendigungAn(titles: Map<number, Title>, jpStart: Map<nu
     const e = katalog.get(id)
     if (!e) continue
     titles.set(id, { ...titelAusKatalogEintrag(e), ...(e.mal ? { malId: e.mal } : {}) })
-    if (e.start) jpStart.set(id, e.start)
+    if (e.start) {
+      jpStart.set(id, e.start)
+      jpStartAnzeige.set(id, e.start)
+    }
     log(`  Titel mit angekündigter Synchro aus dem Katalog ergänzt: ${id} (${e.t[0] ?? e.t[1]})`)
   }
   for (const [id, a] of ankuendigungen) {

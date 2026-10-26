@@ -25,7 +25,7 @@ const { setzeMarkenFuerPruefung } = await import('./lib/anisearch-marke.ts')
 const { ANKUENDIGUNG_FRIST_TAGE, ausgestrahltOhneBeleg, frischAngekuendigt, keineSynchroGilt } = await import('./bau/ohne-beleg.ts')
 const { ohneBelegteSynchro } = await import('./bau/synchro-belegt.ts')
 const { rolleTermineAusMitKomplettabwurf } = await import('./bau/10-komplettabwurf.ts')
-const { titleFromMedia } = await import('./bau/titel-hilfen.ts')
+const { baueTitel } = await import('./bau/02-titel.ts')
 const { versteckteFrischeAnkuendigungen, versteckteWarnzeile } = await import('./lib/ankuendigung-versteckt.ts')
 
 let fehler = 0
@@ -116,7 +116,7 @@ console.log('Ankündigung schlägt aniSearch „Deutsch nicht genannt“ (F70, R
   setzeMarkenFuerPruefung(undefined)
 }
 
-console.log('Ende zu Ende: Phase 10 mit Titeln aus titleFromMedia, Ankündigung nur aus der Datei')
+console.log('Ende zu Ende: Bau-Phasen 02 und 10 mit Titeln aus titleFromMedia, Ankündigung nur aus der Datei')
 {
   /* Kein Titel trägt `ankuendigung` von Hand: sie kommt aus der Datei (echtes Format) über die Bauphase. Ferne Zukunft = frisch, 2000 = abgelaufen (uhrunabhängig). */
   const ids = { frisch: 900061, frischOhneWeg: 900062, abgelaufen: 900063, offen: 900064, ohne: 900065, katalog: 900066, katalogOffen: 900067 }
@@ -131,17 +131,17 @@ console.log('Ende zu Ende: Phase 10 mit Titeln aus titleFromMedia, Ankündigung 
   mkdirSync(join(bauOrdner, 'data', 'cache'), { recursive: true })
   writeFileSync(join(bauOrdner, 'data', 'cache', 'anilist-katalog.json'), JSON.stringify({ eintraege: [katalogZeile(ids.katalog), katalogZeile(ids.katalogOffen)] }))
   setzeMarkenFuerPruefung({ [ids.frisch]: '-', [ids.frischOhneWeg]: 'p', [ids.abgelaufen]: '-', [ids.offen]: '-', [ids.ohne]: '-', [ids.katalog]: '-' })
-  const ausAniList = (id: number) => ({ ...titleFromMedia(medium(id), 'low'), streams: [{ platform: 'crunchyroll' }] }) as unknown as Title
-  const titles = new Map<number, Title>([ids.frisch, ids.frischOhneWeg, ids.abgelaufen, ids.offen, ids.ohne].map((id) => [id, ausAniList(id)]))
-  const jpStart = new Map<number, string>()
-  pruefe([...titles.values()].every((t) => t.ankuendigung === undefined), 'Fixtures tragen kein Feld ankuendigung von Hand')
+  /* Der echte Erzeuger (baueTitel, darin titleFromMedia und die Ankündigung aus der Datei); nur die Wege kommen aus späteren Phasen und stehen von Hand dran. */
+  const byAniId = Object.fromEntries([ids.frisch, ids.frischOhneWeg, ids.abgelaufen, ids.offen, ids.ohne].map((id) => [String(id), medium(id)]))
+  const { titles, jpStart, jpStartAnzeige } = baueTitel({ byMal: {}, byAniId, confidenceRaw: {} })
+  for (const t of titles.values()) if (t.id !== ids.katalog) t.streams = [{ platform: 'crunchyroll' }] as Title['streams']
   const { verschoben } = rolleTermineAusMitKomplettabwurf({ releases: [], titles, jpStart }, { handNein: () => new Set(), tmdb: {} })
   const weg = verschoben.map((t) => t.id).sort().join()
   pruefe(weg === [ids.abgelaufen, ids.offen, ids.ohne].join(), `verschoben: ${weg} (abgelaufene, offene und fehlende Ankündigung; frische bleiben trotz „-“ bzw. „p“)`)
   pruefe(titles.has(ids.frisch) && titles.has(ids.frischOhneWeg), 'beide frischen Titel bleiben im Bestand')
   pruefe(titles.get(ids.frisch)?.ankuendigung?.omuAb === '2999-01-01', 'die Ankündigung kommt aus der Datei an den Titel')
   const ausKatalog = titles.get(ids.katalog)
-  pruefe(ausKatalog !== undefined && ausKatalog.ankuendigung?.synchro === 'angekuendigt' && ausKatalog.malId === 59204 && jpStart.get(ids.katalog) === '2026-10-07', 'Katalogtitel mit angekündigter Synchro kommt in den Bestand (mit MAL-Kennung und Start)')
+  pruefe(ausKatalog !== undefined && ausKatalog.ankuendigung?.synchro === 'angekuendigt' && ausKatalog.malId === 59204 && jpStart.get(ids.katalog) === '2026-10-07' && jpStartAnzeige.get(ids.katalog) === '2026-10-07', 'Katalogtitel mit angekündigter Synchro kommt in den Bestand (mit MAL-Kennung und Start)')
   pruefe(!verschoben.some((t) => t.id === ids.katalog), 'und wird trotz aniSearch „-“ nicht verschoben (Rayearth)')
   pruefe(!titles.has(ids.katalogOffen) && !jpStart.has(ids.katalogOffen), 'Katalogtitel mit Synchro „offen“ bleibt draußen')
   setzeMarkenFuerPruefung(undefined)

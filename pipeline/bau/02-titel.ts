@@ -4,6 +4,8 @@ import { type AniListMedia } from '../lib/anilist.ts'
 import { ANISEARCH_ID_BASIS, ergaenzeAnisearchTitel } from './anisearch-titel.ts'
 import { anisearchCoverAusCache } from '../lib/anisearch-cover.ts'
 import { entferneSammeltitel, freizugebendeSeiten } from './mal-teilung.ts'
+import { haengeAnkuendigungAn } from './ankuendigung-an-titel.ts'
+import { ROOT } from '../lib/util.ts'
 
 export function baueTitel({ byMal, confidenceRaw, byAniId }: {
   byMal: Record<string, AniListMedia>
@@ -51,5 +53,6 @@ export function baueTitel({ byMal, confidenceRaw, byAniId }: {
     const t = titles.get(id)
     if (t && !t.coverImage) t.coverImage = cover
   }
+  haengeAnkuendigungAn(titles, jpStart, jpStartAnzeige, ROOT)
   return { titles, jpStart, jpStartAnzeige }
 }
