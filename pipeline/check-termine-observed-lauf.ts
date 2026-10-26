@@ -45,6 +45,8 @@ try {
   cpSync(join(wurzel, 'pipeline', 'termine-pruefen.ts'), join(arbeit, 'pipeline', 'termine-pruefen.ts'))
   cpSync(join(wurzel, 'pipeline', 'lib'), join(arbeit, 'pipeline', 'lib'), { recursive: true })
   cpSync(join(wurzel, 'shared'), join(arbeit, 'shared'), { recursive: true })
+  mkdirSync(join(arbeit, 'pipeline', 'bau'), { recursive: true })
+  cpSync(join(wurzel, 'pipeline', 'bau', 'widerlegung-staffel.ts'), join(arbeit, 'pipeline', 'bau', 'widerlegung-staffel.ts'))
   cpSync(join(wurzel, 'package.json'), join(arbeit, 'package.json'))
   mkdirSync(join(arbeit, 'daniel-zum-abarbeiten', 'listen'), { recursive: true })
   symlinkSync(join(wurzel, 'node_modules'), join(arbeit, 'node_modules'), 'junction')
@@ -79,7 +81,32 @@ try {
     release('zukunft', 'GZUKUNFT', { 5: '2026-11-06' }),
     release('frueher', 'GFRUEHER', { 12: '2026-10-10' }),
     release('ohne', 'GOHNE'),
+    { ...release('aristocrat-s3', 'GG5H5XQMD'), titleId: 185756 },
+    { ...release('aristocrat-s2', 'GG5H5XQMD'), titleId: 178434 },
   ])
+  /* Die drei Titel der echten Reihe (Staffelnummer kommt aus der Reihe) und die echte Katalogzeile von Folge 2 (crunchyroll-neu.json, 26.10.2026). */
+  const reihe = (id: number, titleEn: string, titleRomaji: string, jpYear: number, episodes?: number) => ({
+    id,
+    franchiseId: 164702,
+    titleEn,
+    titleRomaji,
+    format: 'TV',
+    jpYear,
+    ...(episodes ? { episodes } : {}),
+    streams: [],
+  })
+  const kopf = "As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World"
+  schreibe('public/data/titles.json', [
+    reihe(164702, kopf, 'Tensei Kizoku, Kantei Skill de Nariagaru', 2024, 12),
+    reihe(178434, `${kopf} Season 2`, 'Tensei Kizoku, Kantei Skill de Nariagaru 2nd Season', 2024, 12),
+    reihe(185756, `${kopf} Season 3`, 'Tensei Kizoku, Kantei Skill de Nariagaru 3rd Season', 2026),
+  ])
+  schreibe('data/crunchyroll-neu.json', {
+    geholtAm: '2026-10-26',
+    folgen: [
+      { guid: 'GE00384134DEDE', serieId: 'GG5H5XQMD', serie: kopf, staffelId: 'GS00384021DEDE', staffel: 'Staffel 3', nummer: 2, titel: 'Canarre in Gefahr', ausstrahlung: '2026-10-04T00:00:00.000Z', verfuegbarAb: '2026-10-25T15:00:00.000Z', gesehenAm: '2026-10-26' },
+    ],
+  })
   schreibe('data/termine-verpasst.json', [
     vermerk('spaet', 12, '2026-10-14T17:25:00.000Z'),
     vermerk('punkt', 12, '2026-10-14T17:25:00.000Z'),
@@ -87,6 +114,8 @@ try {
     vermerk('zukunft', 5, '2026-10-14T17:25:00.000Z'),
     vermerk('frueher', 12, '2026-10-14T17:25:00.000Z'),
     vermerk('ohne', 5, '2026-10-14T17:25:00.000Z'),
+    { ...vermerk('aristocrat-s3', 2, '2026-10-25T16:00:00.000Z'), titleId: 185756 },
+    { ...vermerk('aristocrat-s2', 2, '2026-10-25T16:00:00.000Z'), titleId: 178434 },
   ])
   schreibe('data/crunchyroll.json', { scrapedAt: '2026-11-04T12:00:00Z', window: { from: '2026-10-01', to: '2026-11-30' }, german: {}, slots: [] })
 
@@ -105,6 +134,8 @@ try {
   pruefe('Beobachtung in der Zukunft (Ankündigung) schließt nicht', je('zukunft') !== undefined && je('zukunft')?.erschienenAm === null, je('zukunft'))
   pruefe('Beobachtung vor dem erwarteten Tag schließt nicht', je('frueher') !== undefined && je('frueher')?.erschienenAm === null, je('frueher'))
   pruefe('ohne Beobachtung bleibt der Vermerk offen', je('ohne') !== undefined && je('ohne')?.erschienenAm === null, je('ohne'))
+  pruefe('Katalog sieht Folge 2 der Staffel 3 am erwarteten Tag: Vermerk entfällt (Aristocrat S3)', je('aristocrat-s3') === undefined, je('aristocrat-s3'))
+  pruefe('Folge 2 der Schwesterstaffel unter derselben Serienkennung bleibt offen', je('aristocrat-s2') !== undefined && je('aristocrat-s2')?.erschienenAm === null, je('aristocrat-s2'))
 } finally {
   rmSync(arbeit, { recursive: true, force: true })
 }

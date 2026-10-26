@@ -39,6 +39,9 @@ import { log, readJson, ROOT, writeJson } from './lib/util.ts'
 import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminFrist, terminPruefen, terminZeitpunkt } from './lib/ausgeblieben.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
 import { beobachtetAusRelease } from './lib/verpasst-beobachtet.ts'
+import { katalogBeobachtungen, katalogStaffel } from './lib/verpasst-katalog.ts'
+import type { NeueFolge } from './lib/cr-neu-wache.ts'
+import type { Title } from '../shared/types.ts'
 import { BELEGE_DATEI, belegeAnhaengen, type WocheBelege } from './lib/woche-beleg.ts'
 import { neuerVermerk } from './lib/vermerk-neu.ts'
 import type { WocheBelegVermerk } from '../shared/woche-beleg-typ.ts'
@@ -175,7 +178,7 @@ for (const eintrag of Object.values(kalender.german ?? {})) {
   gesehen.set(schluessel, [...(gesehen.get(schluessel) ?? []), ...(eintrag.observations ?? [])])
 }
 /* Ein Ereignis kennt die Serienadresse nicht — die Veröffentlichung schon. */
-const veroeffentlichungen = readJson<Array<{ slug: string; platformUrl?: string; schedule?: { firstEpisodeDate?: string; observed?: Record<string, string> } }>>(
+const veroeffentlichungen = readJson<Array<{ slug: string; titleId?: number; platformUrl?: string; schedule?: { firstEpisodeDate?: string; observed?: Record<string, string> } }>>(
   'public/data/releases.json',
   [],
 )
@@ -192,10 +195,18 @@ const vorDemStart = (v: { slug: string; erwartetAm: string }) => {
   return Boolean(start && v.erwartetAm.slice(0, 10) < start)
 }
 
+/* Der Katalog (`crunchyroll-neu.json`) sieht deutsche Folgen, die der Simulcast-Kalender nicht zeigt (Aristocrat S3 F2, 26.10.2026). */
+const katalogFolgen = readJson<{ folgen?: NeueFolge[] }>('data/crunchyroll-neu.json', {}).folgen ?? []
+const alleTitel = readJson<Title[]>('public/data/titles.json', [])
+const titelIdJeSlug = new Map(veroeffentlichungen.map((r) => [r.slug, r.titleId]))
+
 function beobachtungen(slug: string): Beobachtung[] {
   const adresse = adresseJeSlug.get(slug)
   const ausKalender = adresse ? (gesehen.get(adressKern(adresse)) ?? []) : []
-  return [...ausKalender, ...beobachtetAusRelease(folgentageJeSlug.get(slug), JETZT)]
+  const titel = alleTitel.find((t) => t.id === titelIdJeSlug.get(slug))
+  const serieId = /\/series\/([A-Z0-9]+)/i.exec(adresse ?? '')?.[1]
+  const ausKatalog = katalogBeobachtungen(katalogFolgen, serieId, katalogStaffel(titel, alleTitel))
+  return [...ausKalender, ...ausKatalog, ...beobachtetAusRelease(folgentageJeSlug.get(slug), JETZT)]
 }
 
 function zeitpunkt(e: Ereignis): Date {
