@@ -100,14 +100,15 @@ console.log('Ankündigung schlägt aniSearch „Deutsch nicht genannt“ (F70, R
   pruefe(keineSynchroGilt(titel(900051, undefined), '2026-10-26'), 'Gegenprobe: ohne Ankündigung gilt aniSearch')
   pruefe(keineSynchroGilt(titel(900051, ank('2026-10-08', 'offen')), '2026-10-26'), 'Gegenprobe: Ankündigung ohne Synchro-Aussage schützt nicht')
   const titles = new Map<number, Title>([
-    [900051, titel(900051, ank('2999-01-01'))],
-    [900052, titel(900052, ank('2000-01-01'))],
-  ])
+    [900051, titel(900051, ank('2999-01-01'), { streams: [] } as Partial<Title>)],
+    [900052, titel(900052, ank('2000-01-01'), { streams: [] } as Partial<Title>)],
+  ]) // ohne Weg: nur aniSearchs „-“ kann sie verschieben, nicht ausgestrahltOhneBeleg
   const { verschoben } = rolleTermineAus({ releases: [], titles, jpStart: new Map() })
   pruefe(verschoben.map((t) => t.id).join() === '900052' && titles.has(900051), `Bau: frische Ankündigung bleibt trotz „-“, abgelaufene wird verschoben (${verschoben.map((t) => t.id).join()})`)
   /* Der Streifen „keine deutsche Synchro“ kommt aus ohneBelegteSynchro (os/ohneSynchro): keine Kachel mit frischer Ankündigung trägt ihn. */
   pruefe(!ohneBelegteSynchro(rayearth, [], '2026-10-26'), 'Streifen: Rayearth mit frischer Ankündigung ohne Streifen')
   pruefe(ohneBelegteSynchro(rayearth, [], '2026-12-07'), 'Streifen: Tag 61 wieder mit Streifen')
+  pruefe(!ohneBelegteSynchro(titel(900051, ank('2999-01-01'), { dubConfidence: 'low' } as Partial<Title>), []), 'Streifen: ohne Datumsargument gilt der Tag des Laufs (ferner Start = frisch)')
   pruefe(ohneBelegteSynchro(titel(900051, undefined, { dubConfidence: 'low' } as Partial<Title>), [], '2026-10-26'), 'Streifen Gegenprobe: ohne Ankündigung bleibt er')
   setzeMarkenFuerPruefung(undefined)
 }
