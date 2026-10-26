@@ -133,7 +133,7 @@ szenario() {
   git init -q --bare -b main "$ORIGIN"
   git clone -q "$ORIGIN" "$d/start" 2>/dev/null
   mkdir -p "$d/start/tools" "$d/start/data"
-  for datei in commit-data.sh quellen-liste.sh quellen-aufsetzen.sh health-vereinen.mjs dub-belege-vereinen.mjs quarantaene.mjs neuversuch.sh neuversuch-art.mjs pr-nachrechnen.mjs pr-nachrechnen-bot-pfade.mjs; do
+  for datei in commit-data.sh quellen-liste.sh quellen-aufsetzen.sh health-vereinen.mjs dub-belege-vereinen.mjs quarantaene.mjs neuversuch.sh neuversuch-art.mjs pr-nachrechnen.mjs pr-nachrechnen-bot-pfade.mjs logik-beleg.mjs; do
     cp "$WURZEL/tools/$datei" "$d/start/tools/$datei"
   done
   # js-yaml für dub-belege-vereinen: ohne scheitert quellen_aufsetzen jetzt laut.
@@ -306,6 +306,7 @@ pruefe "Exit 0 (die Warnung aus Versuch 1 gilt nicht mehr)" 0 "$CODE"
 source "$WURZEL/tools/commit-data-test-quarantaene.sh"
 source "$WURZEL/tools/commit-data-test-verworfen.sh"
 source "$WURZEL/tools/commit-data-test-neuversuch.sh"
+source "$WURZEL/tools/commit-data-test-beleg.sh"
 
 echo "Gleichzeitige Läufe teilen sich keine festen Pfade (Wackeln unter Last, 14.10.2026)"
 pruefe "kein fester /tmp-Pfad in commit-data.sh" 0 "$(grep -c "/tmp/" "$WURZEL/tools/commit-data.sh" || true)"

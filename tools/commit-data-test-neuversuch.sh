@@ -35,7 +35,9 @@ pruefe "code: check:logic zweimal" 2 "$(aufrufe nv-code check:logic)"
 echo "Neuversuch nach einem nicht grünen Versuch 1 (Prüfliste scheitert, Bestand rot): auch bei Bot-Dateien volle Kette"
 ERSTEN_ABLEHNEN=ja VERSUCHE_N=2 PAUSE_DATEI=data/abruf-stempel.json szenario nv-liste FAKE_LISTE=einmal FAKE_ZAEHLER="$ARBEIT/nv-liste/zaehler"
 pruefe "Liste: Bau zweimal" 2 "$(aufrufe nv-liste data:build)"
-pruefe "Liste: check:logic zweimal" 2 "$(aufrufe nv-liste check:logic)"
+# Seit dem Logik-Beleg (26.10.2026) genügt der Abdruck: derselbe Inhalt außerhalb der Datenpfade braucht kein zweites check:logic, auch nach einem nicht grünen Versuch.
+pruefe "Liste: check:logic nur einmal (gleicher Abdruck)" 1 "$(aufrufe nv-liste check:logic)"
+pruefe "Liste: Log nennt den Beleg" ja "$(grep -q "check:logic übersprungen: gleicher Inhalt" "$ARBEIT/nv-liste/log.txt" && echo ja || echo nein)"
 ERSTEN_ABLEHNEN=ja VERSUCHE_N=2 PAUSE_DATEI=data/abruf-stempel.json szenario nv-bestand FAKE_BESTAND=fail
 pruefe "Bestand rot: Bau zweimal" 2 "$(aufrufe nv-bestand data:build)"
 pruefe "Bestand rot: check:bestand zweimal" 2 "$(aufrufe nv-bestand check:bestand)"
@@ -47,7 +49,7 @@ ZWEI_ABLEHNEN=ja VERSUCHE_N=3 PAUSE_DATEI="public/data/fremd.json data/abruf-ste
 pruefe "3 Versuche, Bestand in Versuch 2 rot: Versuch 3 gepusht, Exit 0" "ja 0" "$(grep -q '^Gepusht (Versuch 3)' "$ARBEIT/nv3-bestand/log.txt" && echo ja || echo nein) $CODE"
 pruefe "3 Versuche, Bestand rot: Bau dreimal" 3 "$(aufrufe nv3-bestand data:build)"
 pruefe "3 Versuche, Bestand rot: check:bestand dreimal" 3 "$(aufrufe nv3-bestand check:bestand)"
-pruefe "3 Versuche, Bestand rot: check:logic in Versuch 1 und 3" 2 "$(aufrufe nv3-bestand check:logic)"
+pruefe "3 Versuche, Bestand rot: check:logic nur in Versuch 1 (Versuch 3: gleicher Abdruck)" 1 "$(aufrufe nv3-bestand check:logic)"
 ZWEI_ABLEHNEN=ja VERSUCHE_N=3 PAUSE_DATEI="public/data/fremd.json data/abruf-stempel.json" szenario nv3-bau FAKE_BAU=fail-nur-2
 pruefe "3 Versuche, Bau in Versuch 2 kaputt: Bau dreimal" 3 "$(aufrufe nv3-bau data:build)"
 pruefe "3 Versuche, Bau kaputt: check:bestand zweimal (Versuch 1 und 3)" 2 "$(aufrufe nv3-bau check:bestand)"
