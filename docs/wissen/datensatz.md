@@ -1111,6 +1111,16 @@ Lehre: Ein Genre-Riegel (Animation) trennt nicht Serie von Webvideo. „The Oran
 
 Restlücke (16.10.2026): Ein Netzwerk gilt als Beleg, auch wenn es ein Fan-Kanal ist („Ian Channel (US)“ bei „The Sister Hand and Twilight Sparkle Show“), und ein Studio auch, wenn es eine Einzelperson ist („JS Productions“ bei „Battle for the Apps Server!“). Beides lässt sich aus den TMDB-Feldern nicht belegen; erst `type`/`production_countries` aus TMDB könnten helfen. Das Studio „Independent“ (HaneKage) zählt seit dem Nachtrag nicht als Studio. Ablauftest des Baus: `check-cartoon-aufnahme-bau.ts` (check:logic, Kulisse über `AK_ROOT`).
 
+## Interne Notizen und Namen aus der Pflege gehören nie in `public/data` (26.10.2026)
+
+Anlass: Das Panel von „Dragon Ball Super: Beerus“ zeigte die Notiz des Eintrags (`note`) wörtlich, samt „laut Daniels Sichtung“. `note`, `timeSighting.source` und die daraus abgeleitete `hinweis` einer „angekündigt“-Meldung sind Arbeitsnotizen, keine Besucher-Auskunft. Seitdem schreibt der Bau `releases.json` ohne `note` (`pipeline/lib/release-ohne-notiz.ts`), eine Meldung „angekündigt“ trägt keinen `hinweis` mehr, und die Sichtung nennt als Quelle „eigene Sichtung“. `check-interne-angaben-bestand.ts` (`check:bestand`) prüft jedes Textfeld unter `public/data` auf Daniel/Zaiser; ausgenommen sind nur die Namensfelder in `lib/interne-angaben.ts` (Sprecher, Figur, Titel, Synopse, Folgentitel) — ein neues Namensfeld dort eintragen, nie eine Wortliste lockern.
+
+Lehre: Eine Feldliste der Ausnahmen statt einer Wortliste. Prüfer und Prüfkette ließen den Text durch, weil sie nur Inhalt und Belege eines Eintrags prüften, nie, wohin Freitext aus `data/curated` veröffentlicht wird; `note` war als Panel-Hinweis eingeführt worden (Folge-12-Notiz) und wuchs zu einem Ablageort für Recherchestand. Wer ein Freitextfeld aus der Pflege veröffentlicht, nennt im PR, wer es liest.
+
+Das löst die Regeln „`note` bleibt für Besucher“ (13.09.2026) und „Eine Notiz nennt nur, was der Bildschirm nicht sagt“ (13.10.2026) ab: `note` ist ausnahmslos intern, die beiden Abschnitte oben gelten nur noch für das, was ein künftiges Besucherfeld tragen darf.
+
+Folge: Notizen mit Besucherwert (z. B. „Erhielt in Deutschland keine FSK-Freigabe“, „Eine deutsche Synchronfassung ist nicht geplant“) erscheinen nicht mehr; sie brauchen ein eigenes, bewusst veröffentlichtes Feld.
+
 ## `empfehlung.json`: Pool für „Was gucke ich als Nächstes?“ (20.10.2026)
 
 **Bau.** `bau/13-10-empfehlung.ts` (Aufruf in `liefereAus`, `build.ts`) leitet die Datei nach der Auslieferung aus `titles.json` und `franchises.json` ab (Logik in `shared/empfehlung-pool.ts`). Pool: Stream mit `dub === true`, nicht gesperrt, Bewertung ≥ 60 oder keine (20.10.2026: 1.357 Titel). Pro Reihe (`franchiseId`) bleibt der früheste Pool-Teil (`jpYear`, dann `id`) als Einstieg (711), mit Genres/Schlagwörtern als Indizes, FSK, Bewertung, Anbietern mit Synchro und Trailer-Marke; `reihe` führt jede andere Pool-Kennung auf ihren Einstieg. **Kein Cover, kein Banner** in der Datei (66 von 78 KB waren Bild-Adressen): der Client leitet sie aus `titles.json` ab oder lädt sie nur für gezeigte Titel.
