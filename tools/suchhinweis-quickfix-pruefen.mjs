@@ -37,7 +37,6 @@ async function pruefeFall(seite, variante, fall, { knopf, text, synchro }) {
   assert.equal(await synchroAn(seite), synchro, `${variante}/${fall}: Synchro-Schalter nach dem Knopf`)
   if (synchro) assert.equal(await seite.locator(HINWEIS).count(), 0, `${variante}/${fall}: bei eingeschaltetem Schalter kein Hinweis mehr`)
   const jahrChips = await seite.locator('button[aria-label*="2003"], button[aria-label*="2019"]').count()
-  if (jahrChips) console.log(await seite.locator('button[aria-label*="2003"], button[aria-label*="2019"]').evaluateAll((e) => e.map((x) => x.getAttribute('aria-label'))))
   assert.equal(jahrChips, 0, `${variante}/${fall}: der Jahresfilter ist entfernt`)
 }
 
