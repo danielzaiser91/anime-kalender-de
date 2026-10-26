@@ -8,6 +8,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import type { Release, Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { hoechsteFolgeJeAnbieter } from './bau/folgen-erschienen-je-weg.ts'
+import { melde } from './lib/quarantaene.ts'
 
 const DATEN = new URL('../public/data/', import.meta.url)
 const lies = (pfad: URL) => JSON.parse(readFileSync(pfad, 'utf8'))
@@ -35,6 +36,7 @@ for (const t of titel) {
   const hoechste = Math.max(0, ...de.map(([, bis]) => bis))
   if (hoechste <= grenze) continue
   fehler++
+  melde(t.id, 'folgen-erschienen-bestand', 'Deutsche Folgen über dem Stand des Wochenplans')
   console.error(`FEHLER: ${t.id} deutsch bis Folge ${hoechste}, die Wochenpläne haben aber nur bis Folge ${grenze} ausgespielt`)
 }
 
