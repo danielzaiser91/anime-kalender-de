@@ -8,26 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-19#5@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261019T194500Z
-DTEND:20261019T201500Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-10-19#6@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261019T200500Z
-DTEND:20261019T203500Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
 UID:cyberpunk-edgerunners-2-netflix@2026-10-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261020T080000Z
@@ -53,6 +33,26 @@ UID:auto-101347-tv-prosieben-fun@2026-10-26#8@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261026T211000Z
 DTEND:20261026T214000Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-11-02#9@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261102T204500Z
+DTEND:20261102T211500Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-11-02#10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261102T211000Z
+DTEND:20261102T214000Z
 SUMMARY:Dororo
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/9059/
