@@ -33,7 +33,15 @@ export function alarmZeile(ergebnis) {
 /** Liest die Läufe mit der übergebenen `gh`-Funktion; nicht lesbar ist selbst eine Zeile, nie Schweigen. */
 export function bestandRotText(gh, repo, jetztMs) {
   try {
-    const laeufe = JSON.parse(gh('run', 'list', '--repo', repo, '--workflow', BESTAND_WORKFLOW, '--limit', '200', '--json', 'status,conclusion,createdAt'))
+    return bestandRotZeile(holeLaeufeJson(gh, repo, BESTAND_WORKFLOW), jetztMs)
+  } catch (fehler) {
+    return `ALARM? Läufe des Bestandsbaus nicht lesbar: ${String(fehler.message).split('\n')[0]}`
+  }
+}
+
+/** Zeile aus bereits geholten Läufen; ein Rechenfehler ist selbst eine Zeile. */
+export function bestandRotZeile(laeufe, jetztMs) {
+  try {
     const ergebnis = bestandRotAlarm(laeufe, jetztMs)
     return alarmZeile(ergebnis) ?? `Bestandsbau: kein Alarm (letzter grüner Lauf ${ergebnis.gruenAm ?? 'unbekannt'}, ${ergebnis.rote} rote/abgebrochene danach)`
   } catch (fehler) {
@@ -86,9 +94,17 @@ const holeLaeufeJson = (gh, repo, workflow) =>
 
 /** Alle Alarmzeilen (Bestandsbau 6 h, Fehlerschritte, Deploy) in einem Text; jede Teilprüfung meldet ihren Lesefehler selbst. */
 export function rotAlarmText(gh, repo, jetztMs) {
-  const zeilen = [bestandRotText(gh, repo, jetztMs)]
+  let bestand
+  let abrufFehler
   try {
-    const rote = roteSeitGruen(holeLaeufeJson(gh, repo, BESTAND_WORKFLOW))
+    bestand = holeLaeufeJson(gh, repo, BESTAND_WORKFLOW)
+  } catch (fehler) {
+    abrufFehler = fehler
+  }
+  const zeilen = [abrufFehler ? `ALARM? Läufe des Bestandsbaus nicht lesbar: ${String(abrufFehler.message).split('\n')[0]}` : bestandRotZeile(bestand, jetztMs)]
+  try {
+    if (abrufFehler) throw abrufFehler
+    const rote = roteSeitGruen(bestand)
     const jobs = rote.slice(0, SCHRITTE_LAEUFE).map((r) => JSON.parse(gh('run', 'view', String(r.databaseId), '--repo', repo, '--json', 'jobs')))
     const z = schritteAlarmZeile(rote, fehlerschritte(jobs), jetztMs)
     if (z) zeilen.push(z)

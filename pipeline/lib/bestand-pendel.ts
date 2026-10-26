@@ -53,9 +53,27 @@ const kz = (z: HistorieZeile) => z as unknown as Kennzahlen
 const strs = (v: unknown): string[] => (Array.isArray(v) ? (v as string[]) : [])
 const uhr = (iso: unknown) => new Date(String(iso)).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
 
-function pendelText(zeilen: HistorieZeile[], p: Pendel, laufend: boolean): string {
+/** Teilpendel, die lückenlos aneinanderstoßen (langsame Drift: die Stände wandern je Zyklus weiter), bilden eine Kette; zurück bis zu ihrem ersten Glied. */
+function kette(pendel: Pendel[], p: Pendel): Pendel[] {
+  const glieder = [p]
+  for (let q = pendel.find((x) => x.bis === p.von - 1); q; q = pendel.find((x) => x.bis === q.von - 1)) glieder.unshift(q)
+  return glieder
+}
+
+/** Gesamtverlust der Kette (nur bei mindestens zwei Teilpendeln und bekanntem Stand davor): Urteile vor der Kette gegen die Zeile nach ihrem Ende. */
+function kettenText(zeilen: HistorieZeile[], glieder: Pendel[], ende: Pendel): string {
+  const davor = glieder[0].davor
+  if (glieder.length < 2 || davor < 0) return ''
+  const von = Number(zeilen[davor].mitUrteil)
+  const nach = Number(zeilen[Math.min(ende.bis + 1, zeilen.length - 1)].mitUrteil)
+  const d = nach - von
+  return `; Kette aus ${glieder.length} Teilpendeln seit ${uhr(zeilen[glieder[0].von].zeitpunkt)}: ${von} -> ${nach} Urteile (${d > 0 ? '+' : ''}${d}) gegen den Stand davor`
+}
+
+function pendelText(zeilen: HistorieZeile[], p: Pendel, laufend: boolean, glieder: Pendel[]): string {
   const zwischen = `zwischen ${standText(zeilen[p.von])} und ${standText(zeilen[p.von + 1])} (${p.wechsel} Wechsel)`
-  return laufend ? `pendelt seit ${uhr(zeilen[p.von].zeitpunkt)} ${zwischen}` : `pendelte von ${uhr(zeilen[p.von].zeitpunkt)} bis ${uhr(zeilen[p.bis].zeitpunkt)} ${zwischen}`
+  const kopf = laufend ? `pendelt seit ${uhr(zeilen[p.von].zeitpunkt)} ${zwischen}` : `pendelte von ${uhr(zeilen[p.von].zeitpunkt)} bis ${uhr(zeilen[p.bis].zeitpunkt)} ${zwischen}`
+  return kopf + kettenText(zeilen, glieder, p)
 }
 
 /** Die Zeilen der Historie als Ereignisse: Pendeln als eines, die Zeile nach dem Pendeln netto gegen den Stand davor, alle anderen wie gespeichert. */
@@ -67,13 +85,14 @@ export function ereignisse(zeilen: HistorieZeile[]): Ereignis[] {
     const p = pendel.find((x) => x.von === i)
     if (p) {
       const laufend = p.bis === zeilen.length - 1
-      aus.push({ art: 'pendel', pendel: p, text: pendelText(zeilen, p, laufend), laufend, zeitpunkt: String(zeilen[p.bis].zeitpunkt) })
+      aus.push({ art: 'pendel', pendel: p, text: pendelText(zeilen, p, laufend, kette(pendel, p)), laufend, zeitpunkt: String(zeilen[p.bis].zeitpunkt) })
       i = p.bis + 1
       continue
     }
-    const nachPendel = pendel.find((x) => x.bis === i - 1 && x.davor >= 0)
-    if (nachPendel) {
-      const b = findeAuffaelliges(kz(zeilen[i]), kz(zeilen[nachPendel.davor]))
+    const ende = pendel.find((x) => x.bis === i - 1)
+    const bezug = ende ? kette(pendel, ende)[0].davor : -1
+    if (bezug >= 0) {
+      const b = findeAuffaelliges(kz(zeilen[i]), kz(zeilen[bezug]))
       aus.push({ art: 'zeile', zeile: zeilen[i], auffaellig: b.auffaellig, erklaert: b.erklaert, netto: true })
     } else {
       aus.push({ art: 'zeile', zeile: zeilen[i], auffaellig: strs(zeilen[i].auffaellig), erklaert: strs(zeilen[i].erklaert), netto: false })

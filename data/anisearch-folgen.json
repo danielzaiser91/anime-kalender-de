@@ -267073,7 +267073,7 @@
         "nr": 13
       }
     ],
-    "geholtAm": "2026-10-19T05:05:05.558Z"
+    "geholtAm": "2026-10-26T05:08:16.319Z"
   },
   "13776": {
     "anisearchId": 13776,
@@ -297732,7 +297732,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:08:47.389Z"
+    "geholtAm": "2026-10-26T05:11:44.743Z"
   },
   "16224": {
     "anisearchId": 16224,
@@ -303822,7 +303822,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:02:19.024Z"
+    "geholtAm": "2026-10-26T05:05:29.874Z"
   },
   "16884": {
     "anisearchId": 16884,
@@ -304747,7 +304747,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:07:44.914Z"
+    "geholtAm": "2026-10-26T05:10:35.104Z"
   },
   "16976": {
     "anisearchId": 16976,
@@ -312565,7 +312565,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:02:25.965Z"
+    "geholtAm": "2026-10-26T05:05:36.798Z"
   },
   "17552": {
     "anisearchId": 17552,
@@ -333437,7 +333437,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:07:51.833Z"
+    "geholtAm": "2026-10-26T05:10:42.072Z"
   },
   "19246": {
     "anisearchId": 19246,
@@ -333977,37 +333977,87 @@
     "anisearchId": 19292,
     "folgen": [
       {
-        "nr": 1
+        "nr": 1,
+        "datum": "2026-07-07",
+        "minuten": 24,
+        "de": "PROLOG + SUPER SPARTAN i",
+        "en": "Prologue / Super Spartan I",
+        "ja": "PROLOG + SUPER SPARTAN i"
       },
       {
-        "nr": 2
+        "nr": 2,
+        "datum": "2026-07-14",
+        "minuten": 24,
+        "de": "SUPER SPARTAN ii + JUNK JUNGLE i",
+        "en": "Super Spartan II / Junk Jungle I",
+        "ja": "SUPER SPARTAN ii + JUNK JUNGLE i"
       },
       {
-        "nr": 3
+        "nr": 3,
+        "datum": "2026-07-21",
+        "minuten": 24,
+        "de": "JUNK JUNGLE ii + MEGATECH MACHINE i + ii",
+        "en": "Junk Jungle II / Megatech Machine I / Megatech Machine II",
+        "ja": "JUNK JUNGLE ii + MEGATECH MACHINE i + ii"
       },
       {
-        "nr": 4
+        "nr": 4,
+        "datum": "2026-07-28",
+        "minuten": 24,
+        "de": "ROBOT RONDO",
+        "en": "Robot Rondo",
+        "ja": "ROBOT RONDO"
       },
       {
-        "nr": 5
+        "nr": 5,
+        "datum": "2026-08-04",
+        "minuten": 24,
+        "de": "PHANTOM FUND",
+        "en": "Phantom Fund",
+        "ja": "PHANTOM FUND"
       },
       {
-        "nr": 6
+        "nr": 6,
+        "datum": "2026-08-11",
+        "minuten": 24,
+        "de": "DUMB BARTER",
+        "en": "Dumb Barter",
+        "ja": "DUMB BARTER"
       },
       {
-        "nr": 7
+        "nr": 7,
+        "datum": "2026-08-18",
+        "minuten": 24,
+        "de": "BYE BYE CLAY",
+        "en": "Bye Bye Clay",
+        "ja": "BYE BYE CLAY"
       },
       {
-        "nr": 8
+        "nr": 8,
+        "datum": "2026-08-25",
+        "minuten": 24,
+        "de": "ZWISCHENAKT + BRAIN DRAIN i",
+        "en": "Intermission / Brain Drain I",
+        "ja": "ZWISCHENAKT + BRAIN DRAIN i"
       },
       {
-        "nr": 9
+        "nr": 9,
+        "datum": "2026-09-01",
+        "minuten": 24,
+        "de": "BRAIN DRAIN ii",
+        "en": "Brain Drain II",
+        "ja": "BRAIN DRAIN ii"
       },
       {
-        "nr": 10
+        "nr": 10,
+        "datum": "2026-09-08",
+        "minuten": 24,
+        "de": "BRAIN DRAIN iii + GHOST COAST + EPILOG",
+        "en": "Brain Drain III / Ghost Coast / Epilogue",
+        "ja": "BRAIN DRAIN iii + GHOST COAST + EPILOG"
       }
     ],
-    "geholtAm": "2026-10-19T05:02:32.906Z"
+    "geholtAm": "2026-10-26T05:05:43.755Z"
   },
   "19294": {
     "anisearchId": 19294,
@@ -334774,7 +334824,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:02:39.846Z"
+    "geholtAm": "2026-10-26T05:05:50.676Z"
   },
   "19373": {
     "anisearchId": 19373,
@@ -335306,7 +335356,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:07:58.780Z"
+    "geholtAm": "2026-10-26T05:10:49.025Z"
   },
   "19443": {
     "anisearchId": 19443,
@@ -338902,7 +338952,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:02:46.794Z"
+    "geholtAm": "2026-10-26T05:05:57.626Z"
   },
   "19635": {
     "anisearchId": 19635,
@@ -338997,7 +339047,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:02:53.732Z"
+    "geholtAm": "2026-10-26T05:06:04.548Z"
   },
   "19638": {
     "anisearchId": 19638,
@@ -340752,7 +340802,7 @@
         "nr": 24
       }
     ],
-    "geholtAm": "2026-10-19T05:03:00.681Z"
+    "geholtAm": "2026-10-26T05:06:11.498Z"
   },
   "19779": {
     "anisearchId": 19779,
@@ -342098,7 +342148,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:03:07.624Z"
+    "geholtAm": "2026-10-26T05:06:18.421Z"
   },
   "20000": {
     "anisearchId": 20000,
@@ -342143,7 +342193,7 @@
         "nr": 10
       }
     ],
-    "geholtAm": "2026-10-19T05:03:14.569Z"
+    "geholtAm": "2026-10-26T05:06:25.369Z"
   },
   "20073": {
     "anisearchId": 20073,
@@ -342532,9 +342582,12 @@
       },
       {
         "nr": 12
+      },
+      {
+        "nr": 13
       }
     ],
-    "geholtAm": "2026-10-19T05:03:21.506Z"
+    "geholtAm": "2026-10-26T05:06:32.333Z"
   },
   "20183": {
     "anisearchId": 20183,
@@ -342870,7 +342923,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:03:28.449Z"
+    "geholtAm": "2026-10-26T05:06:39.286Z"
   },
   "20264": {
     "anisearchId": 20264,
@@ -342969,7 +343022,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:08:05.702Z"
+    "geholtAm": "2026-10-26T05:10:55.992Z"
   },
   "20293": {
     "anisearchId": 20293,
@@ -343330,7 +343383,7 @@
         "nr": 19
       }
     ],
-    "geholtAm": "2026-10-19T05:03:42.342Z"
+    "geholtAm": "2026-10-26T05:06:53.159Z"
   },
   "20372": {
     "anisearchId": 20372,
@@ -343474,7 +343527,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:03:49.282Z"
+    "geholtAm": "2026-10-26T05:07:00.107Z"
   },
   "20379": {
     "anisearchId": 20379,
@@ -343678,7 +343731,7 @@
         "nr": 3
       }
     ],
-    "geholtAm": "2026-10-19T05:07:03.492Z"
+    "geholtAm": "2026-10-26T05:07:07.021Z"
   },
   "20466": {
     "anisearchId": 20466,
@@ -343687,7 +343740,49 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:07:10.417Z"
+    "geholtAm": "2026-10-26T05:10:14.463Z"
+  },
+  "20477": {
+    "anisearchId": 20477,
+    "folgen": [
+      {
+        "nr": 1
+      },
+      {
+        "nr": 2
+      },
+      {
+        "nr": 3
+      },
+      {
+        "nr": 4
+      },
+      {
+        "nr": 5
+      },
+      {
+        "nr": 6
+      },
+      {
+        "nr": 7
+      },
+      {
+        "nr": 8
+      },
+      {
+        "nr": 9
+      },
+      {
+        "nr": 10
+      },
+      {
+        "nr": 11
+      },
+      {
+        "nr": 12
+      }
+    ],
+    "geholtAm": "2026-10-26T05:05:22.918Z"
   },
   "20494": {
     "anisearchId": 20494,
@@ -344214,7 +344309,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:08:12.657Z"
+    "geholtAm": "2026-10-26T05:11:02.953Z"
   },
   "20704": {
     "anisearchId": 20704,
@@ -344256,7 +344351,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:04:17.045Z"
+    "geholtAm": "2026-10-26T05:07:27.844Z"
   },
   "20705": {
     "anisearchId": 20705,
@@ -344292,19 +344387,25 @@
         "nr": 10
       }
     ],
-    "geholtAm": "2026-10-19T05:04:23.987Z"
+    "geholtAm": "2026-10-26T05:07:34.765Z"
   },
   "20716": {
     "anisearchId": 20716,
     "folgen": [
       {
-        "nr": 1
+        "nr": 1,
+        "minuten": 24,
+        "de": "Kriegsbeginn"
       },
       {
-        "nr": 2
+        "nr": 2,
+        "minuten": 24,
+        "de": "Das Tor zur Unterwelt"
       },
       {
-        "nr": 3
+        "nr": 3,
+        "minuten": 24,
+        "de": "Der schwarze Beschützer"
       },
       {
         "nr": 4
@@ -344334,85 +344435,205 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:04:10.105Z"
+    "geholtAm": "2026-10-26T05:11:09.961Z"
   },
   "20717": {
     "anisearchId": 20717,
     "folgen": [
       {
-        "nr": 1
+        "nr": 1,
+        "datum": "2026-04-04",
+        "minuten": 24,
+        "de": "Asa und Yuru",
+        "en": "Asa and Yuru",
+        "ja": "Asa to Yuru (アサとユル)"
       },
       {
-        "nr": 2
+        "nr": 2,
+        "datum": "2026-04-11",
+        "minuten": 24,
+        "de": "Linke und Rechter",
+        "en": "Right and Left",
+        "ja": "Migi to Hidari (右と左)"
       },
       {
-        "nr": 3
+        "nr": 3,
+        "datum": "2026-04-18",
+        "minuten": 24,
+        "de": "Dera und Hana",
+        "en": "Dera and Hana",
+        "ja": "Dera to Hana (デラとハナ)"
       },
       {
-        "nr": 4
+        "nr": 4,
+        "datum": "2026-04-25",
+        "minuten": 24,
+        "de": "Jin und Yuru",
+        "en": "Jin and Yuru",
+        "ja": "Jin to Yuru (ジンとユル)"
       },
       {
-        "nr": 5
+        "nr": 5,
+        "datum": "2026-05-02",
+        "minuten": 24,
+        "de": "Hase und Schildkröte",
+        "en": "Hare and Tortoise",
+        "ja": "Usagi to Kame (兎と亀)"
       },
       {
-        "nr": 6
+        "nr": 6,
+        "datum": "2026-05-09",
+        "minuten": 24,
+        "de": "Der Kagemori-Clan und die rätselhaften Angreifer",
+        "en": "The Kagemori Clan and the Unknown Assailants",
+        "ja": "Kagemori-ke to Nazo no Shuugekisha (影森家と謎の襲撃者)"
       },
       {
-        "nr": 7
+        "nr": 7,
+        "datum": "2026-05-16",
+        "minuten": 24,
+        "de": "Asa und Kai",
+        "en": "Asa and Break",
+        "ja": "Asa to “Kai” (アサと「解」)"
       },
       {
-        "nr": 8
+        "nr": 8,
+        "datum": "2026-05-23",
+        "minuten": 24,
+        "de": "Verdacht und Überzeugung",
+        "en": "Suspicion and Conviction",
+        "ja": "Ginen to Kakushin (疑念と確信)"
       },
       {
-        "nr": 9
+        "nr": 9,
+        "datum": "2026-05-30",
+        "minuten": 24,
+        "de": "Embrace und Whisper",
+        "en": "Embrace and Whisper",
+        "ja": "Embrace to Whisper (抱擁と囁き[エンブレイスとウィスパー])"
       },
       {
-        "nr": 10
+        "nr": 10,
+        "datum": "2026-06-06",
+        "minuten": 24,
+        "de": "Tenaga und Ashinaga",
+        "en": "Long-Arm and Long-Leg",
+        "ja": "Tenaga to Ashinaga (手長と足長)"
       },
       {
-        "nr": 11
+        "nr": 11,
+        "datum": "2026-06-13",
+        "minuten": 24,
+        "de": "Großer Bruder und kleiner Bruder",
+        "en": "Big Brother and Little Brother",
+        "ja": "Ani to Otouto (兄と弟)"
       },
       {
-        "nr": 12
+        "nr": 12,
+        "datum": "2026-06-20",
+        "minuten": 24,
+        "de": "Tsugai-Wächter und Schamane",
+        "en": "Retainer and Shaman",
+        "ja": "Tsugai Komono to Kitoushi (番小者と祈祷師)"
       },
       {
-        "nr": 13
+        "nr": 13,
+        "datum": "2026-07-04",
+        "minuten": 24,
+        "de": "Daikyō und Shōkyō",
+        "en": "Daikyo and Shokyo",
+        "ja": "Daikyou to Shoukyou (大凶と小凶)"
       },
       {
-        "nr": 14
+        "nr": 14,
+        "datum": "2026-07-11",
+        "minuten": 24,
+        "de": "Familie und Freunde",
+        "en": "Family and Friends",
+        "ja": "Kazoku to Tomo (家族と友)"
       },
       {
-        "nr": 15
+        "nr": 15,
+        "datum": "2026-07-18",
+        "minuten": 24,
+        "de": "Yuru und Danji",
+        "en": "Yuru and Danji",
+        "ja": "Yuru to Danji (ユルとダンジ)"
       },
       {
-        "nr": 16
+        "nr": 16,
+        "datum": "2026-07-25",
+        "minuten": 24,
+        "de": "Kagemori und Shingō",
+        "en": "Kagemori and Shingo",
+        "ja": "Kagemori to Shingou (影森と新郷)"
       },
       {
-        "nr": 17
+        "nr": 17,
+        "datum": "2026-08-01",
+        "minuten": 24,
+        "de": "Heulsuse und Lausbub",
+        "en": "Crybaby and Naughty Child",
+        "ja": "Naku Ko to Warui Ko (泣く子と悪い子)"
       },
       {
-        "nr": 18
+        "nr": 18,
+        "datum": "2026-08-08",
+        "minuten": 24,
+        "de": "Fūjin und Raijin",
+        "en": "Fujin and Raijin",
+        "ja": "Fuujin to Raijin (風神と雷神)"
       },
       {
-        "nr": 19
+        "nr": 19,
+        "datum": "2026-08-15",
+        "minuten": 24,
+        "de": "Schwert und Bogen",
+        "en": "Sword and Bow",
+        "ja": "Katana to Yumi (刀と弓)"
       },
       {
-        "nr": 20
+        "nr": 20,
+        "datum": "2026-08-22",
+        "minuten": 24,
+        "de": "Jäger und Gejagte",
+        "en": "The Hunted and the Hunter",
+        "ja": "Toubousha to Tsuisekisha (逃亡者と追跡者)"
       },
       {
-        "nr": 21
+        "nr": 21,
+        "datum": "2026-08-29",
+        "minuten": 24,
+        "de": "Zashiki Warashi und Higashimura",
+        "en": "Zashiki-Warashi and Higashi Village",
+        "ja": "Zashiki Warashi to Higashi Mura (ザシキワラシと東村)"
       },
       {
-        "nr": 22
+        "nr": 22,
+        "datum": "2026-09-05",
+        "minuten": 24,
+        "de": "Die Kagemori-Brüder und die Kuroya-Geschwister",
+        "en": "The Kagemori Brothers and the Kuroya Siblings",
+        "ja": "Kagemori Kyoudai to Kuroya Yon Kyoudai (影森兄弟と黒谷四姉弟)"
       },
       {
-        "nr": 23
+        "nr": 23,
+        "datum": "2026-09-12",
+        "minuten": 24,
+        "de": "Gefühl und Vernunft",
+        "en": "Emotion and Reason",
+        "ja": "Jou to Kotowari (情と理)"
       },
       {
-        "nr": 24
+        "nr": 24,
+        "datum": "2026-09-19",
+        "minuten": 24,
+        "de": "Higashimura und Nishinomura",
+        "en": "Higashi Village and Nishino Village",
+        "ja": "Higashi Mura to Nishino Mura (東村と西ノ村)"
       }
     ],
-    "geholtAm": "2026-10-19T05:04:30.931Z"
+    "geholtAm": "2026-10-26T05:07:41.715Z"
   },
   "20768": {
     "anisearchId": 20768,
@@ -344636,7 +344857,7 @@
         "nr": 6
       }
     ],
-    "geholtAm": "2026-10-19T05:08:19.581Z"
+    "geholtAm": "2026-10-26T05:11:16.920Z"
   },
   "20836": {
     "anisearchId": 20836,
@@ -344645,7 +344866,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:04:44.733Z"
+    "geholtAm": "2026-10-26T05:07:55.459Z"
   },
   "20852": {
     "anisearchId": 20852,
@@ -344882,7 +345103,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:08:26.546Z"
+    "geholtAm": "2026-10-26T05:11:23.874Z"
   },
   "20865": {
     "anisearchId": 20865,
@@ -345063,7 +345284,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:08:33.472Z"
+    "geholtAm": "2026-10-26T05:11:30.832Z"
   },
   "20885": {
     "anisearchId": 20885,
@@ -345075,7 +345296,7 @@
         "nr": 2
       }
     ],
-    "geholtAm": "2026-10-19T05:04:37.748Z"
+    "geholtAm": "2026-10-26T05:07:48.515Z"
   },
   "20893": {
     "anisearchId": 20893,
@@ -345508,7 +345729,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:08:54.364Z"
+    "geholtAm": "2026-10-26T05:11:51.700Z"
   },
   "20938": {
     "anisearchId": 20938,
@@ -345771,7 +345992,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:04:58.612Z"
+    "geholtAm": "2026-10-26T05:08:09.330Z"
   },
   "21004": {
     "anisearchId": 21004,
@@ -345780,7 +346001,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:05:12.499Z"
+    "geholtAm": "2026-10-26T05:08:23.269Z"
   },
   "21031": {
     "anisearchId": 21031,
@@ -345988,7 +346209,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:04:03.168Z"
+    "geholtAm": "2026-10-26T05:07:20.895Z"
   },
   "21070": {
     "anisearchId": 21070,
@@ -345997,7 +346218,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:03:35.393Z"
+    "geholtAm": "2026-10-26T05:06:46.237Z"
   },
   "21094": {
     "anisearchId": 21094,
@@ -346006,7 +346227,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:04:51.672Z"
+    "geholtAm": "2026-10-26T05:08:02.378Z"
   },
   "21117": {
     "anisearchId": 21117,
@@ -346048,7 +346269,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:05:26.390Z"
+    "geholtAm": "2026-10-26T05:08:37.154Z"
   },
   "21118": {
     "anisearchId": 21118,
@@ -346057,7 +346278,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:05:19.438Z"
+    "geholtAm": "2026-10-26T05:08:30.204Z"
   },
   "21171": {
     "anisearchId": 21171,
@@ -346099,7 +346320,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:05:33.328Z"
+    "geholtAm": "2026-10-26T05:08:44.082Z"
   },
   "21198": {
     "anisearchId": 21198,
@@ -346243,7 +346464,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:05:40.281Z"
+    "geholtAm": "2026-10-26T05:08:51.038Z"
   },
   "21226": {
     "anisearchId": 21226,
@@ -346285,7 +346506,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:05:47.218Z"
+    "geholtAm": "2026-10-26T05:08:57.966Z"
   },
   "21293": {
     "anisearchId": 21293,
@@ -346389,7 +346610,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:05:54.167Z"
+    "geholtAm": "2026-10-26T05:09:04.913Z"
   },
   "21327": {
     "anisearchId": 21327,
@@ -346434,7 +346655,7 @@
         "nr": 13
       }
     ],
-    "geholtAm": "2026-10-19T05:06:01.109Z"
+    "geholtAm": "2026-10-26T05:09:11.864Z"
   },
   "21332": {
     "anisearchId": 21332,
@@ -346476,7 +346697,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:06:08.056Z"
+    "geholtAm": "2026-10-26T05:09:18.812Z"
   },
   "21357": {
     "anisearchId": 21357,
@@ -346527,7 +346748,7 @@
         "nr": 13
       }
     ],
-    "geholtAm": "2026-10-19T05:06:21.922Z"
+    "geholtAm": "2026-10-26T05:09:32.723Z"
   },
   "21361": {
     "anisearchId": 21361,
@@ -346626,7 +346847,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:06:28.825Z"
+    "geholtAm": "2026-10-26T05:09:39.675Z"
   },
   "21505": {
     "anisearchId": 21505,
@@ -346644,7 +346865,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:06:35.770Z"
+    "geholtAm": "2026-10-26T05:09:46.621Z"
   },
   "21566": {
     "anisearchId": 21566,
@@ -346686,7 +346907,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:02:12.067Z"
+    "geholtAm": "2026-10-26T05:10:21.428Z"
   },
   "21573": {
     "anisearchId": 21573,
@@ -346695,7 +346916,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-10-19T05:06:14.966Z"
+    "geholtAm": "2026-10-26T05:09:25.767Z"
   },
   "21575": {
     "anisearchId": 21575,
@@ -346737,7 +346958,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:08:40.458Z"
+    "geholtAm": "2026-10-26T05:11:37.783Z"
   },
   "21585": {
     "anisearchId": 21585,
@@ -346803,7 +347024,7 @@
         "nr": 20
       }
     ],
-    "geholtAm": "2026-10-19T05:06:42.679Z"
+    "geholtAm": "2026-10-26T05:09:53.572Z"
   },
   "21586": {
     "anisearchId": 21586,
@@ -346845,7 +347066,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:06:49.617Z"
+    "geholtAm": "2026-10-26T05:10:00.540Z"
   },
   "21717": {
     "anisearchId": 21717,
@@ -346941,7 +347162,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:07:17.239Z"
+    "geholtAm": "2026-10-26T05:10:28.272Z"
   },
   "21791": {
     "anisearchId": 21791,
@@ -346983,7 +347204,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:06:56.541Z"
+    "geholtAm": "2026-10-26T05:10:07.491Z"
   },
   "21925": {
     "anisearchId": 21925,
@@ -347046,11 +347267,8 @@
       },
       {
         "nr": 11
-      },
-      {
-        "nr": 12
       }
     ],
-    "geholtAm": "2026-10-19T05:03:56.227Z"
+    "geholtAm": "2026-10-26T05:07:13.973Z"
   }
 }

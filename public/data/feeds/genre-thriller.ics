@@ -52,14 +52,14 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-9756-adn@2026-10-29@anime-kalender-de
+UID:adn-1318@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261029
-DTEND;VALUE=DATE:20261030
+DTSTART:20261029T080000Z
+DTEND:20261029T083000Z
 SUMMARY:Puella Magi Madoka Magica (neu bei ADN)
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
- em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
- nicht bestätigt.\nDetails: https://anime-kalender.de/t/4943/
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
+ s://anime-kalender.de/t/4943/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

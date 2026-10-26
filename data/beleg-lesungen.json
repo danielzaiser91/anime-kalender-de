@@ -5438,7 +5438,7 @@
     ]
   },
   "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026": {
-    "zuletzt": "2026-10-25",
+    "zuletzt": "2026-10-26",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -5485,7 +5485,7 @@
         "text": "www.crunchyroll.com/717e6c808bc62a57/2026-10-05-ceb63ca006b57854.txt.gz"
       },
       {
-        "am": "2026-10-25",
+        "am": "2026-10-26",
         "hash": "bdc0357ca4971e5b",
         "hf": 2,
         "veroeffentlicht": "2026-09-15",
@@ -13713,7 +13713,7 @@
     ]
   },
   "https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/": {
-    "zuletzt": "2026-10-19",
+    "zuletzt": "2026-10-26",
     "lesungen": [
       {
         "am": "2026-10-16",
@@ -13736,6 +13736,18 @@
         "bildfassung": 2,
         "bild": "www.anime2you.de/a1921780e29d20ef/2026-10-18-8351bfeb8ff3d1cf.webp",
         "text": "www.anime2you.de/a1921780e29d20ef/2026-10-18-8351bfeb8ff3d1cf.txt.gz"
+      },
+      {
+        "am": "2026-10-26",
+        "hash": "f1e4370978d1a5d8",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-14",
+        "aktualisiert": "2026-10-17",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 2,
+        "bild": "www.anime2you.de/a1921780e29d20ef/2026-10-26-f1e4370978d1a5d8.webp",
+        "text": "www.anime2you.de/a1921780e29d20ef/2026-10-26-f1e4370978d1a5d8.txt.gz"
       }
     ]
   },
