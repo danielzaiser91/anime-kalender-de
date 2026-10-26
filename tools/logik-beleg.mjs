@@ -32,8 +32,9 @@ export function abdruckVon(pfadeUndHashes) {
 /** Abdruck der Arbeitskopie in `cwd`. */
 export function abdruckAusGit(cwd = process.cwd(), lauf = git) {
   const roh = lauf(['ls-files', '-z', '--cached', '--others', '--exclude-standard'], { cwd })
-  const pfade = [...new Set(roh.split('\0').filter(Boolean))].filter((p) => !istDatenpfad(p) && existsSync(`${cwd}/${p}`))
-  if (pfade.some((p) => p.includes('\n'))) throw new Error('Pfad mit Zeilenumbruch')
+  const alle = [...new Set(roh.split('\0').filter(Boolean))]
+  if (alle.some((p) => p.includes('\n'))) throw new Error('Pfad mit Zeilenumbruch')
+  const pfade = alle.filter((p) => !istDatenpfad(p) && existsSync(`${cwd}/${p}`))
   const hashes = lauf(['hash-object', '--stdin-paths'], { cwd, input: `${pfade.join('\n')}\n` }).split('\n').filter(Boolean)
   if (hashes.length !== pfade.length) throw new Error('Hash-Anzahl weicht von der Dateizahl ab')
   return abdruckVon(pfade.map((p, i) => [p, hashes[i]]))
@@ -80,7 +81,7 @@ export function main([befehl, arg], cwd = process.cwd(), ausgabe = console.log, 
   if (befehl === 'gleich' || befehl === 'zeile') {
     let gleich = false
     try {
-      gleich = Boolean(arg) && abdruckAusGit(cwd) === arg
+      gleich = abdruckAusGit(cwd) === arg
     } catch {
       gleich = false
     }

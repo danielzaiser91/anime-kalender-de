@@ -9,7 +9,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
-import { BELEG_ZEILE, BOT_MAIL, abdruckVon, belegAusNachricht, belegZeile, belegt, gueltigkeit, main } from './logik-beleg.mjs'
+import { BELEG_ZEILE, BOT_MAIL, abdruckAusGit, abdruckVon, belegAusNachricht, belegZeile, belegt, gueltigkeit, main } from './logik-beleg.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wurzel = join(tools, '..')
@@ -50,6 +50,7 @@ function repo() {
 const abdruckIn = (ordner) => {
   const zeilen = []
   main(['abdruck'], ordner, (z) => zeilen.push(z))
+  assert.match(zeilen[0] ?? '', /^[0-9a-f]{64}$/, 'abdruckIn: der Abdruck muss berechenbar sein')
   return zeilen[0]
 }
 
@@ -92,6 +93,25 @@ const abdruckIn = (ordner) => {
   gleich(abdruckVon([['a', '1'], ['b', '2']]), abdruckVon([['b', '2'], ['a', '1']]), 'Reihenfolge der Eingabe ist egal')
 }
 
+// 1b. Fehlerfälle von git (Kulisse für den Aufruf): unlesbare Antworten ergeben nie einen Abdruck.
+{
+  const r = repo()
+  r.schreibe('tools/a.mjs', 'eins')
+  r.schreibe('tools/b.mjs', 'zwei')
+  r.commit('start')
+  const kulisse = (pfade, hashes) => (args) => (args[0] === 'ls-files' ? `${pfade.join('\0')}\0` : `${hashes.join('\n')}\n`)
+  const h40 = (z) => z.repeat(40)
+  ok(/^[0-9a-f]{64}$/.test(abdruckAusGit(r.ordner, kulisse(['tools/a.mjs', 'tools/b.mjs'], [h40('a'), h40('b')]))), 'Kulisse: zwei Dateien, zwei Hashes: Abdruck')
+  assert.throws(() => abdruckAusGit(r.ordner, kulisse(['tools/a.mjs', 'tools/b.mjs'], [h40('a')])), /Hash-Anzahl/, 'ein Hash zu wenig: kein Abdruck')
+  faelle += 1
+  assert.throws(() => abdruckAusGit(r.ordner, kulisse(['tools/a.mjs', 'tools/b.mjs'], [h40('a'), h40('b'), h40('c')])), /Hash-Anzahl/, 'ein Hash zu viel: kein Abdruck')
+  faelle += 1
+  assert.throws(() => abdruckAusGit(r.ordner, kulisse(['tools/a.mjs', 'tools/x\ny.mjs'], [h40('a'), h40('b')])), /Zeilenumbruch/, 'Pfad mit Zeilenumbruch: kein Abdruck')
+  faelle += 1
+  assert.throws(() => abdruckAusGit(r.ordner, kulisse([`${DATEN}/a\nb.json`, 'tools/a.mjs'], [h40('a')])), /Zeilenumbruch/, 'auch ein Datenpfad mit Zeilenumbruch: kein Abdruck (geschlossen)')
+  faelle += 1
+}
+
 // 2. Nachrichtenzeile und Belegprüfung.
 {
   const h = 'a'.repeat(64)
@@ -99,6 +119,7 @@ const abdruckIn = (ordner) => {
   gleich(belegAusNachricht(`chore(data) ${belegZeile(h)}`), null, 'Zeile mitten im Satz zählt nicht')
   gleich(belegAusNachricht(`${belegZeile('b'.repeat(63))}`), null, 'zu kurzer Abdruck zählt nicht')
   gleich(belegAusNachricht(`Logik-geprueft: ${'G'.repeat(64)}`), null, 'kein Hex zählt nicht')
+  gleich(belegAusNachricht(`${belegZeile(h)}0`), null, 'Zeile mit angehängtem Zeichen zählt nicht')
   ok(BELEG_ZEILE.test(belegZeile(h)), 'belegZeile passt zu BELEG_ZEILE')
   const bot = (n) => ({ email: BOT_MAIL, nachricht: n })
   ok(belegt([bot('x'), bot(belegZeile(h))], h), 'zweiter Commit belegt')
@@ -122,7 +143,9 @@ const abdruckIn = (ordner) => {
   gleich(keine, [], 'zeile druckt bei fremdem Abdruck nichts')
   main(['zeile', ''], r.ordner, (z) => keine.push(z))
   gleich(keine, [], 'zeile druckt bei leerem Abdruck nichts')
-  gleich(main(['gleich', gruen], r.ordner, () => {}), 0, 'gleich: gleicher Abdruck, Exit 0')
+  const still = []
+  gleich(main(['gleich', gruen], r.ordner, (z) => still.push(z)), 0, 'gleich: gleicher Abdruck, Exit 0')
+  gleich(still, [], 'gleich druckt nichts')
   gleich(main(['gleich', 'c'.repeat(64)], r.ordner, () => {}), 1, 'gleich: anderer Abdruck, Exit 1')
   gleich(main(['gleich', ''], r.ordner, () => {}), 1, 'gleich: leerer Abdruck, Exit 1')
 
