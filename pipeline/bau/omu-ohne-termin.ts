@@ -1,4 +1,4 @@
-import type { ReleaseEvent, Title } from '../../shared/types.ts'
+import type { Release, ReleaseEvent, Title } from '../../shared/types.ts'
 import { deutschLautAnisearch, deutschGeplantLautAnisearch } from './ohne-beleg.ts'
 
 /**
@@ -16,4 +16,18 @@ export function omuOhneDeutschBeleg(t: Title | undefined): boolean {
 /** Lässt die OmU-Termine der Titel ohne Deutsch-Beleg weg; alles andere (auch `sprache: 'offen'`) bleibt. */
 export function ohneOmuTermine(events: ReleaseEvent[], titles: Map<number, Title>): ReleaseEvent[] {
   return events.filter((e) => !(e.sprache === 'omu' && omuOhneDeutschBeleg(titles.get(e.titleId))))
+}
+
+/**
+ * **Ein Titel, dessen Termine alle nur Originalton nennen, steht nicht im Hauptbestand** (Daniel, 26.10.2026, Beerus: „keiner der
+ * Anbieter hat deutsche Synchro“). Ein einziger Termin ohne `sprache: 'omu'` (oder nur `offen`, also unklar) hält ihn drin, ebenso jeder
+ * Deutsch-Beleg derselben Regel wie bei den Terminen (`omuOhneDeutschBeleg`). Widerlegte Termine zählen nicht.
+ */
+export function nurOmuTitel(titles: Map<number, Title>, releases: Release[]): Set<number> {
+  const sprachen = new Map<number, (string | undefined)[]>()
+  for (const r of releases) {
+    if (r.widerlegt) continue
+    sprachen.set(r.titleId, [...(sprachen.get(r.titleId) ?? []), r.sprache])
+  }
+  return new Set([...sprachen.keys()].filter((id) => sprachen.get(id)!.every((s) => s === 'omu') && omuOhneDeutschBeleg(titles.get(id))))
 }

@@ -1,5 +1,6 @@
-import type { Release, Title } from '../../shared/types.ts'
+import type { Release, ReleaseEvent, Title } from '../../shared/types.ts'
 import { log } from '../lib/util.ts'
+import { nurOmuTitel } from './omu-ohne-termin.ts'
 import { anisearchNurKatalog } from './anisearch-titel.ts'
 import { ausgestrahltOhneBeleg, keineSynchroLautAnisearch, ohneSynchroVonHand } from './ohne-beleg.ts'
 
@@ -28,6 +29,9 @@ import { ausgestrahltOhneBeleg, keineSynchroLautAnisearch, ohneSynchroVonHand } 
  * Die Verschobenen werden aufbewahrt, nicht weggeworfen: `schreibeOhneSynchro` bekommt sie übergeben
  * und trägt nach, wer nicht schon über den AniList-Katalog dorthin gelangt. Ohne diese Liste hing es
  * vom Zufall ab, ob ein Titel hinter dem Toggle wieder auftaucht.
+ *
+ * Ein Titel mit Terminen, die alle nur Originalton nennen (`nurOmuTitel`), wandert ebenfalls und nimmt seine Termine mit
+ * (Daniel, 26.10.2026): Nächste Folge und Folgenzähler liefen sonst, als gäbe es eine deutsche Fassung. Deutsche Sprechrollen halten ihn drin.
  */
 export function verschiebeHinterToggle({ titles, releases, jpStart, mitStimmen, heuteIso }: {
   titles: Map<number, Title>
@@ -39,7 +43,13 @@ export function verschiebeHinterToggle({ titles, releases, jpStart, mitStimmen, 
   const mitRelease = new Set(releases.map((r) => r.titleId))
   const verschoben: Title[] = []
   const handNein = new Set([...ohneSynchroVonHand(), ...anisearchNurKatalog()])
+  const nurOmu = nurOmuTitel(titles, releases)
   for (const id of [...titles.keys()]) {
+    if (nurOmu.has(id) && !mitStimmen.has(id)) {
+      verschoben.push(titles.get(id)!)
+      titles.delete(id)
+      continue
+    }
     if (mitRelease.has(id)) continue
     /**
      * Deutsche Sprechrollen schlagen jede Ableitung.
@@ -57,6 +67,20 @@ export function verschiebeHinterToggle({ titles, releases, jpStart, mitStimmen, 
     if (titel) verschoben.push(titel)
     titles.delete(id)
   }
+  entferneTermineVon(new Set(verschoben.map((t) => t.id)), releases)
   if (verschoben.length) log(`${verschoben.length} Titel hinter den Toggle verschoben: japanische Ausstrahlung steht noch aus oder keine deutsche Fassung belegt`)
   return verschoben
+}
+
+/** Nimmt die Releases der verschobenen Titel aus der Liste selbst; sonst verweist ein Release auf einen Titel, den es im Hauptbestand nicht mehr gibt. */
+function entferneTermineVon(ids: Set<number>, releases: Release[]): void {
+  for (let i = releases.length - 1; i >= 0; i--) {
+    if (ids.has(releases[i]!.titleId)) releases.splice(i, 1)
+  }
+}
+
+/** Die Ereignisse ohne die der verschobenen Titel. */
+export function ohneVerschobene(events: ReleaseEvent[], verschoben: Title[]): ReleaseEvent[] {
+  const ids = new Set(verschoben.map((t) => t.id))
+  return events.filter((e) => !ids.has(e.titleId))
 }

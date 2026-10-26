@@ -12,7 +12,7 @@ import { todayIso } from '../../shared/time.ts'
 import { kostenloseFolgen } from '../../shared/kostenlos.ts'
 import { sprecherRollen } from './sprecher-anisearch.ts'
 import { widerlegeDeutscheTermine } from './widerlegung-woche.ts'
-import { verschiebeHinterToggle } from './hinter-toggle.ts'
+import { ohneVerschobene, verschiebeHinterToggle } from './hinter-toggle.ts'
 import { urteilSchliesstLuecken } from './urteil-schliesst-luecken.ts'
 import { ohneOmuTermine } from './omu-ohne-termin.ts'
 
@@ -110,7 +110,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
   const verschoben = verschiebeHinterToggle({ titles, releases, jpStart, mitStimmen, heuteIso: todayIso() })
   schreibeTvAuskunft(events, releases, titles)
   schreibeKostenlosAuskunft(events, titles)
-  return { events: ohneOmuTermine(events, titles), mitStimmen, verschoben }
+  return { events: ohneOmuTermine(ohneVerschobene(events, verschoben), titles), mitStimmen, verschoben }
 }
 
 /**
