@@ -16,13 +16,14 @@
  * (`data/folgen-hinweise.yaml`, z. B. „nie in Deutschland ausgestrahlt"). `zaehlung.json` führt je Titel `[alle, deutsche]`
  * für die Überschrift des Antwortkastens, wo AniList keine Folgenzahl kennt (One Piece).
  */
-import type { Title } from '../../shared/types.ts'
+import type { Release, Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { readJson, writeJson, log, clearDir, ROOT } from '../lib/util.ts'
 import { OUT } from './grundlagen.ts'
+import { hoechsteFolgeJeAnbieter } from './folgen-erschienen-je-weg.ts'
 import { ladeTitelQuellen, mitFremdTiteln } from './folgentitel-stufen.ts'
 import { folgenZeilen } from './folgentitel-zeilen.ts'
 
@@ -51,7 +52,7 @@ export function erschieneneFolgen(f: Folge[], wikiHoechste: number, heute: strin
 }
 
 /** Die Folgen mit belegter deutscher Synchro, als Bereiche. */
-export function deutscheFolgen(t: Title, wiki: { nr: number; ead?: string }[] | undefined, heute: string, hoechste: number): [number, number][] {
+export function deutscheFolgen(t: Title, wiki: { nr: number; ead?: string }[] | undefined, heute: string, hoechste: number, erschienenJeAnbieter?: Map<string, number>): [number, number][] {
   const nummern = new Set<number>()
   /* Wo es eine Wikipedia-Liste gibt, gilt sie bis zu ihrer letzten Nummer; die Wege füllen nur darüber hinaus (Daniel, 04.10.2026: „wikipedia ist mehr vertrauenswürdig", One Piece 492). */
   const wikiBis = wiki?.length && Math.max(...wiki.map((w) => w.nr)) <= hoechste ? Math.max(...wiki.map((w) => w.nr)) : 0
@@ -66,7 +67,9 @@ export function deutscheFolgen(t: Title, wiki: { nr: number; ead?: string }[] | 
   const mitBereichen = mitDub.filter((s) => s.dubRanges?.length)
   const beteiligt = mitBereichen.length && !abgeschlossen ? mitBereichen : mitDub
   for (const s of beteiligt) {
-    if (!s.dubRanges?.length) for (let n = Math.max(1, wikiBis + 1); n <= hoechste; n++) nummern.add(n)
+    /* Ein laufender Weg ohne Bereiche deckt nur, was sein Wochenplan schon ausgespielt hat (Beyblade X: 122 statt 128). */
+    const bis = Math.min(hoechste, erschienenJeAnbieter?.get(s.platform) ?? hoechste)
+    if (!s.dubRanges?.length) for (let n = Math.max(1, wikiBis + 1); n <= bis; n++) nummern.add(n)
     for (const r of s.dubRanges ?? []) if (r.dub) for (let n = Math.max(r.from, wikiBis + 1); n <= r.to; n++) nummern.add(n)
   }
   if (wikiBis) for (const w of wiki!) if (w.ead && w.ead <= heute) nummern.add(w.nr)
@@ -79,7 +82,7 @@ export function deutscheFolgen(t: Title, wiki: { nr: number; ead?: string }[] | 
   return bereiche
 }
 
-export function schreibeFolgenDateien(titel: Title[]): void {
+export function schreibeFolgenDateien(titel: Title[], releases: Release[]): void {
   const roh = readJson<Record<string, { folgen?: Folge[] }>>('data/anisearch-folgen.json', {})
   const zuordnung = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
   const wiki = readJson<WikiListe>('data/wikipedia-folgen.json', {}).titel ?? {}
@@ -92,6 +95,8 @@ export function schreibeFolgenDateien(titel: Title[]): void {
     const a = zuordnung[String(t.id)]?.anisearchId
     if (a) jeAsId.set(a, (jeAsId.get(a) ?? 0) + 1)
   }
+  const releasesJeTitel = new Map<number, Release[]>()
+  for (const r of releases) releasesJeTitel.set(r.titleId, [...(releasesJeTitel.get(r.titleId) ?? []), r])
   const ordner = `${OUT}/folgen`
   clearDir(ordner)
   const index: number[] = []
@@ -105,7 +110,7 @@ export function schreibeFolgenDateien(titel: Title[]): void {
     if (!f || f.length < 2) continue
     const minuten = new Set(f.map((x) => x.minuten).filter(Boolean))
     const einheitlich = minuten.size === 1 ? [...minuten][0] : minuten.size === 0 ? t.runtimeMin : undefined
-    const de = deutscheFolgen(t, wikiFolgen, heute, Math.max(...f.map((x) => x.nr)))
+    const de = deutscheFolgen(t, wikiFolgen, heute, Math.max(...f.map((x) => x.nr)), hoechsteFolgeJeAnbieter(releasesJeTitel.get(t.id) ?? [], heute))
     zaehlung[t.id] = [f.length, f.filter((x) => de.some(([von, bis]) => x.nr >= von && x.nr <= bis)).length]
     writeJson(`${ordner}/${t.id}.json`, {
       f: folgenZeilen(f, einheitlich),

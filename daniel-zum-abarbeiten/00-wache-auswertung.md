@@ -446,3 +446,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** `origin/main` stand in allen Runden unverändert auf 807fa586 — es war also kein Wettlauf. Der Lauf wurde vom Push ausgelöst, der `.github/workflows/wecker-wache.yml` ändert; Ablehnung wegen Workflow-Datei/Rechte ist der Verdacht, aber **nicht belegt**. Ob ein Bau-Lauf nach einem Workflow-Push dauerhaft nicht pushen kann, zeigt erst der nächste Lauf.
 
 **Was läuft komplett falsch?** `tools/commit-data.sh`, Zeile `if git push --quiet 2>/dev/null` — dort bricht der Lauf, und die Ursache bleibt unsichtbar.
+
+
+## 26.10.2026 (Nachmittag) — Wache meldet Befund (Lauf 40338081042, Issue #2121)
+
+**Was läuft korrekt.** Die Wache hat den Bauabschnitt vom 26.10., 11:22 UTC (Lauf 40314052891, Commit f8c3413b) gefunden: 1 Titel weniger, mitUrteil −19, ohneUrteil +41. Gemessen im Vergleich 5035f51f → f8c3413b: `data/urteile.json` hat **keinen** Schlüssel verloren (17253 → 17253, 0 geändert); der Rückgang liegt in den Streams von `titles.json`. Der Folgebau 11:53 hat die Zahl nicht weiter verschlechtert.
+
+**Wo ist Verbesserungspotenzial?** Die Wache zeigt „2 Urteile verloren" ohne Titelnamen; der Vergleich musste per Hand aus Git-Ständen gebaut werden. Eine Liste der betroffenen Titel in der Meldung würde den Gang sparen.
+
+**Wo sind echte Risiken und Lücken?** Erklärt sind: 14 Prime-Ja an Kanal-Titeln (Inuyasha-Filme, Conan-Filme, Lupin III u. a.; Regel „Kanal-Titel belegt nichts") und Hyouken no Majutsushi II (212503) hinter dem Toggle (Fix #2102). Persona-5-Ja bei Crunchyroll (106896, 109418, 110265) entfielen mit #2101 (Katalog-Ja nicht bei Null-Block). **Nicht belegt:** TRIGUN (6) und TRIGUN: Badlands Rumble (4106) verloren den Crunchyroll-Stream ganz (`fehlt`) sowie Dorohedoro: Ma no Omake, Satsuriku no Tenshi und Dragon Ball Super: Beerus — Ursache nicht gemessen, kein Beleg für Absicht.
+
+**Was läuft komplett falsch?** Nichts im Code, den ich belegen kann; es gibt keinen Fehlerschritt, der Lauf ist absichtlich rot („Auffälligkeit gefunden", `delta-wache.yml`). Kein Pull Request, da keine Codeursache gefunden wurde; offen bleibt die Trigun-Frage.

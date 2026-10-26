@@ -7,8 +7,9 @@
  * am Tag der Quelle (`stand`), nicht am Tag, an dem der Start liegt. Nennt die Quelle nur den Monat („JJJJ-MM",
  * PSYREN), steht der Monat in der Meldung: „Synchro angekündigt" hat seinen Beleg auch ohne Starttag (10.10.2026).
  *
- * Nur wo es **kein** Release desselben Anbieters gibt: Sonst steht der Start schon als Termin da und hat
- * seine Meldung.
+ * „Synchro angekündigt" ist eine eigene Aussage mit eigenem Tag und gilt immer (Daniel, 26.10.2026). Die Meldung
+ * „keine Synchro angekündigt" entfällt, sobald es ein Release desselben Anbieters gibt: Dann steht der Start
+ * schon als Termin da und hat seine Meldung.
  */
 import type { NewsMeldung, Release, Title } from '../../shared/types.ts'
 import { hostVon } from '../../shared/quelle.ts'
@@ -27,7 +28,7 @@ export function omuMeldungen(
   for (const t of titles) {
     const a = t.ankuendigung ?? ankuendigungen.get(t.id)
     if (!a) continue
-    if (releases.some((r) => r.titleId === t.id && r.platform === a.platform && !r.widerlegt)) continue
+    if (a.synchro !== 'angekuendigt' && releases.some((r) => r.titleId === t.id && r.platform === a.platform && !r.widerlegt)) continue
     raus.push({
       schluessel: `omu:${t.id}:${a.platform}:${a.omuAb}`,
       fallback: a.stand,

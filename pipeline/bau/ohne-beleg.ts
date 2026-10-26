@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import type { Title } from '../../shared/types.ts'
+import { ANKUENDIGUNG_FRIST_TAGE, ankuendigungFrisch } from '../../shared/ankuendigung.ts'
 import { ROOT } from '../lib/util.ts'
 import { deutschMarke } from '../lib/anisearch-marke.ts'
 
@@ -15,9 +16,24 @@ import { deutschMarke } from '../lib/anisearch-marke.ts'
  * bleiben, wo sie sind — ihre Synchro ist real, nur nicht in Wegen belegt (gemessen 04.10.2026: 213 Titel ohne Beleg, davon
  * etwa 25 ab 2024 mit Weg). Wie überall gilt: ein Vorfilter verschiebt, er löscht nicht (`schreibeOhneSynchro`).
  */
-export function ausgestrahltOhneBeleg(t: Title): boolean {
+export function ausgestrahltOhneBeleg(t: Title, heuteIso: string): boolean {
   if (!t.streams.length || t.deErstausgabe || t.streams.some((s) => s.dub === true) || deutschLautAnisearch(t)) return false
+  if (frischAngekuendigt(t, heuteIso)) return false
   return (t.jpYear ?? 0) >= 2023
+}
+
+export { ANKUENDIGUNG_FRIST_TAGE }
+
+/**
+ * **Ein Katalog ohne deutsche Tonspur widerlegt die Ankündigung desselben Anbieters nicht, solange sie frisch ist** (Dirigent, 26.10.2026,
+ * Iceblade Sorcerer Staffel 2: Crunchyroll kündigte die Synchro an, der Katalog-Durchlauf meldete „0 von 3 deutsch“ — noch nicht erschienen, nicht „keine Synchro“;
+ * Projektziel: Unsicheres kennzeichnen statt weglassen, gestrichen wird nur, was eine Quelle widerlegt). Frisch heißt bis 60 Tage nach `omuAb`;
+ * bei nur genanntem Monat (`JJJJ-MM`) zählt dessen erster Tag. Danach gilt die Regel wie bisher. `heuteIso` ist der Bau-Zeitpunkt.
+ */
+export function frischAngekuendigt(t: Title, heuteIso: string): boolean {
+  const a = t.ankuendigung
+  if (a?.synchro !== 'angekuendigt') return false
+  return ankuendigungFrisch(a.omuAb, heuteIso)
 }
 
 /**

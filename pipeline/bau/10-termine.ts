@@ -155,7 +155,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
     if (mitStimmen.has(id) && !handNein.has(id)) continue
     // Ohne bekanntes Startdatum wird nichts entfernt — Unwissen ist kein Beleg.
     const start = jpStart.get(id)
-    if (!(start && start > heuteIso) && !handNein.has(id) && !ausgestrahltOhneBeleg(titles.get(id)!) && !keineSynchroLautAnisearch(titles.get(id)!)) continue
+    if (!(start && start > heuteIso) && !handNein.has(id) && !ausgestrahltOhneBeleg(titles.get(id)!, heuteIso) && !keineSynchroLautAnisearch(titles.get(id)!)) continue
     const titel = titles.get(id)
     if (titel) verschoben.push(titel)
     titles.delete(id)
