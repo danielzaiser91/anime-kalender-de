@@ -67,7 +67,7 @@ const WURZELN = '(?:\\.github|data|public|tools|pipeline|shared|web|worker|exten
 const ORDNER_ANHANG = new RegExp(`(?:^|[^\\w./-])(${WURZELN}(?:/[\\w./@-]*)?)/(?=['"\`]|\\$\\{)`, 'g')
 /** Ordnerpfad als eigenes Literal, nur zusammen mit einem Verzeichnis-Aufruf (`readdirSync('data')`, `glob`) ein Leser. */
 const ORDNER_LITERAL = new RegExp(`(?:^|[^\\w./-])(${WURZELN}(?:/[\\w./@-]*\\w)?)(?=['"\`])`, 'g')
-const VERZEICHNIS_AUFRUF = /readdir|opendir|scandir|glob|walk|recursive/i
+const VERZEICHNIS_AUFRUF = /readdir|opendir|scandir|\bglob(?:Sync)?\b/i
 
 /** Ordner-Tokens des Codes (ohne Kommentare), die ein Verzeichnis lesen oder einen Namen darunter zusammensetzen. */
 export function ordnerTokens(text) {
