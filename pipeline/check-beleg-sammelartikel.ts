@@ -15,8 +15,8 @@ const pruefe = (name: string, ok: boolean, info = ''): void => {
   if (!ok) fehler++
 }
 
-/** Vier Abschnitte à 1500 Pixel; der Name „Psyren“ steht auch im Fließtext des Nachbarn darüber. Der tiefste Titel (mit Datum) liegt über 3600 Pixel unter dem Kopf. */
-const ABSCHNITT = (kopf: string, text: string): string => `<section style="height:1500px"><h2>${kopf}</h2><p>${text}</p></section>`
+/** Vier Abschnitte à 1300 Pixel; der Name „Psyren“ steht auch im Fließtext des Nachbarn darüber. Der tiefste Titel (mit Datum) liegt über 3600 Pixel unter dem Kopf. */
+const ABSCHNITT = (kopf: string, text: string): string => `<section style="height:1300px"><h2>${kopf}</h2><p>${text}</p></section>`
 const SAMMELARTIKEL = `<article><h1>Deutsche Synchros im Herbst 2026</h1><p>Die Übersicht aller Titel mit deutscher Synchronfassung im Herbst.</p>${[
   ABSCHNITT('Reborn as a Space Mercenary', 'Aus der Feder des Machers von Psyren, mit viel Weltraum und noch mehr Söldnern.'),
   ABSCHNITT('PSYREN', 'Inhalt: Eine Gruppe Jugendlicher wird in eine Parallelwelt gezogen und muss überleben.'),
@@ -79,6 +79,8 @@ function newsFaelle(): void {
   const s = z.suchbegriffe.get(url) ?? []
   pruefe('Zuordnung: die Starttage kommen weiter aus den Terminen', z.tage.get(url)?.join() === '2026-10-02')
   pruefe('Suchbegriffe: Name aus der Meldung steht darin', s.includes('Psyren') && s.includes('Teilreihe') && s.includes('Apothekerin'))
+  pruefe('Suchbegriffe: auch die anderen Namen des Meldungstitels stehen darin', s.includes('Psyren (TV)'))
+  pruefe('Gruppen: eine Quelle, die keine Adresse ist, wird kein Schlüssel', !z.gruppen.has('kein Link') && !z.suchbegriffe.has('kein Link'))
   pruefe('Suchbegriffe: ohne Meldungen fehlt er', !(suchbegriffeJeAdresse([release], titles).get(url) ?? []).includes('Psyren'))
 }
 
