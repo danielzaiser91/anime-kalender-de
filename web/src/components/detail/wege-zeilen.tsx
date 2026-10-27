@@ -1,7 +1,8 @@
 import { PLATFORMS, type Release, type Title, type DiscAusgabe, type StreamLink } from '@shared/types.ts'
 import { streamNurOmu, synchroAngekuendigt } from '@shared/ankuendigung.ts'
 import { anzeigeName } from '@shared/titles.ts'
-import { farbeZuAnbieter, istToggo, discPillen } from './pillen.tsx'
+import { farbeZuAnbieter, istToggo } from './pillen.tsx'
+import { DiscBereich } from './disc-bereich.tsx'
 import { TerminZeile } from './termin-zeile.tsx'
 import { Pille, DubStatus } from './pille.tsx'
 import { istAnnahme, streamStatus, streamWegStatus } from './legende-zeilen.ts'
@@ -12,7 +13,6 @@ import { toggoAngabe, jetztBerlin } from '../../lib/toggo.ts'
 import type { TvZuletzt } from '../../lib/tv-zuletzt.ts'
 import { tvVorbeiPillen } from './tv-vorbei.tsx'
 import type { Translate } from '../../lib/i18n.tsx'
-import type { Dispatch, SetStateAction } from 'react'
 import { pillenSchluessel, type sortiereNachZugang } from './wege-sortieren.ts'
 import { tvAngabe } from '../../lib/tv-angabe.ts'
 import { teilAngaben } from './wege-falten.ts'
@@ -247,56 +247,53 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
               ).concat(tvVorbeiPillen(tvVorbei, anzeigeName(title), today, t('detail.tvNurVorbei')))
 }
 
+/** Die Kaufweg-Pillen unter „Disc": eine Pille je Shop; die aniSearch-Ausgaben ersetzen die eine aniSearch-Pille, sobald sie geladen sind. */
+function kaufwegPillen({ sortiertNachZugang, t, folgenAngabeFuer, discAusgaben }: {
+  sortiertNachZugang: Sortiert
+  t: Translate
+  folgenAngabeFuer: FolgenAngabeFuer
+  discAusgaben: DiscAusgabe[]
+}) {
+  return sortiertNachZugang.flatMap(({ shops }) =>
+    shops
+      .filter((g) => !(g.shop === 'aniSearch' && discAusgaben.length))
+      .map((g) => (
+        <Pille
+          key={g.shop + g.eintraege[0].url}
+          name={g.shop}
+          url={g.eintraege[0].url}
+          unten={
+            g.eintraege.length > 1
+              ? t('where.angebote', { count: g.eintraege.length })
+              : g.eintraege[0].dubRanges?.length
+                ? folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges }) || undefined
+                : undefined
+          }
+          status={g.eintraege[0].dubRanges?.some((r) => r.dub) ? <DubStatus art="belegt" /> : undefined}
+          /* Der Weg trägt die Farbe seines Anbieters; aniSearch bekommt die Silberscheibe. */
+          farbe={farbeZuAnbieter(g.shop)}
+          icon={anbieterDatei(g.shop) ? <AnbieterIcon was={g.shop} /> : <DiscZeichen />}
+        />
+      )),
+  )
+}
+
 /** Die Zeilen unter „Disc": Händler, aniSearch-Ausgaben, Disc-Termine. */
-export function discZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, discAusgaben, discOffen, setDiscOffen, discReleases }: {
+export function discZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, discAusgaben, discReleases }: {
   sortiertNachZugang: Sortiert
   title: Title
   t: Translate
   today: string
   folgenAngabeFuer: FolgenAngabeFuer
   discAusgaben: DiscAusgabe[]
-  discOffen: boolean
-  setDiscOffen: Dispatch<SetStateAction<boolean>>
   discReleases: Release[]
 }) {
-            /*
-              **Disc ist, was man kauft** — Händler und Vorbestellungen.
-              Vier Ausgaben desselben Verlags sind **eine** Auskunft, keine
-              vier: eine Pille je Shop, die Zahl der
-              Ausgaben in der zweiten Zeile.
-            */
-            return [
-              /* Die aniSearch-Ausgaben ersetzen die eine aniSearch-Pille, sobald sie geladen sind. */
-              ...discPillen(discAusgaben, discOffen, () => setDiscOffen((o) => !o), t as unknown as (k: string, v?: Record<string, string | number>) => string),
-              ...sortiertNachZugang.flatMap(({ shops }) =>
-                shops
-                  .filter((g) => !(g.shop === 'aniSearch' && discAusgaben.length))
-                  .map((g) => (
-                  <Pille
-                    key={g.shop + g.eintraege[0].url}
-                    name={g.shop}
-                    url={g.eintraege[0].url}
-                    unten={
-                      g.eintraege.length > 1
-                        ? t('where.angebote', { count: g.eintraege.length })
-                        : g.eintraege[0].dubRanges?.length
-                          ? folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges }) || undefined
-                          : undefined
-                    }
-                    status={g.eintraege[0].dubRanges?.some((r) => r.dub) ? <DubStatus art="belegt" /> : undefined}
-                    /*
-                      Auch hier trägt der Weg die Farbe seines Anbieters —
-                      derselbe Grund wie bei den Stream-Wegen darüber. Für
-                      aniSearch kommt die Silberscheibe dazu: Sie ersetzt
-                      das Wort „Disc", das bis zum 07.09.2026 im Namen stand.
-                    */
-                    farbe={farbeZuAnbieter(g.shop)}
-                    icon={anbieterDatei(g.shop) ? <AnbieterIcon was={g.shop} /> : <DiscZeichen />}
-                  />
-                )),
-              ),
-              ...discReleases.map((r) => (
-                <TerminZeile key={r.slug} release={r} titel={anzeigeName(title)} today={today} />
-              )),
-  ]
+  /*
+    **Disc ist, was man kauft** — Händler und Vorbestellungen. Vier Ausgaben desselben Verlags
+    sind **eine** Auskunft: eine Pille je Shop, die Zahl der Ausgaben in der zweiten Zeile.
+  */
+  const kaufwege = kaufwegPillen({ sortiertNachZugang, t, folgenAngabeFuer, discAusgaben })
+  /* Die Varianten stehen als Matrix (Mockup B3, F96); ohne Ausgabe und Termin bleiben nur die Kaufwege. */
+  if (!discAusgaben.length && !discReleases.length) return kaufwege
+  return [<DiscBereich key="disc-bereich" title={title} today={today} discAusgaben={discAusgaben} discReleases={discReleases} kaufwege={kaufwege} />]
 }

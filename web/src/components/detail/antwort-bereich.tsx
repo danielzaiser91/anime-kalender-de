@@ -1,4 +1,4 @@
-import { AntwortKastenMitMarke } from './kasten-marke.tsx'
+import { KastenMitFolgenKarte } from './kasten-folgen.tsx'
 import { FolgenMitNachlegern } from './nachleger-zeilen.tsx'
 import { deutscheBereicheDerWege } from './stream-bereiche.ts'
 import type { StreamLink, Release, Title, DiscAusgabe } from '@shared/types.ts'
@@ -7,14 +7,13 @@ import type { TvZuletzt } from '../../lib/tv-zuletzt.ts'
 import { tvVorbeiGruppen } from './tv-vorbei.tsx'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { NewsletterVerbindung } from '../../lib/newsletterSync.ts'
-import type { Dispatch, SetStateAction } from 'react'
 import { type berechneAntwort } from './antwort-berechnen.ts'
 import { terminPillen, streamZeilen, discZeilen } from './wege-zeilen.tsx'
 import { angebotSeitZeileVon } from './kasten-hinweise.ts'
 import { KinoZuletzt } from './kino-zuletzt.tsx'
 import type { sortiereNachZugang } from './wege-sortieren.ts'
 
-export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, terminReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
+export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, terminReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discReleases, discZuerst }: {
   antwort: ReturnType<typeof berechneAntwort>
   sortiertNachZugang: ReturnType<typeof sortiereNachZugang>
   streamReleases: Release[]
@@ -34,8 +33,6 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
   releaseJePlattform: Map<string, Release>
   releases: Release[]
   discAusgaben: DiscAusgabe[]
-  discOffen: boolean
-  setDiscOffen: Dispatch<SetStateAction<boolean>>
   discReleases: Release[]
   /** Über einen Disc-Termin geöffnet — der Umschalter startet auf „Disc". */
   discZuerst?: boolean
@@ -43,7 +40,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
   return (
     <>
       {antwort && (
-        <AntwortKastenMitMarke
+        <KastenMitFolgenKarte
           pillenGruppen={
             new Map([
               ...zeilenGruppen(sortiertNachZugang, title, releases),
@@ -86,7 +83,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
             ) : <KinoZuletzt titleId={title.id} antwort={antwort} t={t} />
           }
           stream={streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, dubZeilen, releaseJePlattform, streamReleases, releases, tvVorbei })}
-          disc={discZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, discAusgaben, discOffen, setDiscOffen, discReleases })}
+          disc={discZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, discAusgaben, discReleases })}
           discZuerst={discZuerst}
           key={discZuerst ? 'disc' : 'stream'}
         />

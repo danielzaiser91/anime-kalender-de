@@ -239,10 +239,22 @@ const TEXTE = {
   // selben Händler: bei einer Disc zwei Ausgaben, bei einem Kaufstream zwei
   // Käufe. „Angebote" trifft beide und sagt, was hinter dem Klick wartet.
   'where.angebote': '{count} Angebote',
-  'where.discGesamt': 'Gesamtausgabe',
-  'where.discEinzeln': 'Einzelausgaben',
-  'where.discAnzahl': '{n} Ausgaben',
-  'where.discAnzahlEine': '1 Ausgabe',
+  /* Disc-Bereich: eine Zeile je Variante, nach Art gruppiert (Mockup B3, 27.10.2026). */
+  'disc.variante': '1 Variante',
+  'disc.varianten': '{n} Varianten',
+  'disc.art.gesamt': 'Gesamtausgaben',
+  'disc.art.box': 'Boxen',
+  'disc.art.vol': 'Volumes',
+  'disc.art.film': 'Filme',
+  'disc.art.sonst': 'Sonstiges',
+  'disc.format.b': 'Blu-ray',
+  'disc.format.d': 'DVD',
+  'disc.format.u': '4K',
+  'disc.alleZeigen': 'Alle {n} anzeigen',
+  'disc.kalender': 'Kalendereintrag',
+  'disc.google': 'Google',
+  'disc.datei': 'Datei (.ics)',
+  'disc.quelle': 'Quelle: aniSearch',
 
   // Zwei Fassungen, je nachdem ob ein Newsletter hinterlegt ist. Daniels
   // Vorgabe (15.08.2026): Der Text soll sagen, was der Stern bewirkt, und

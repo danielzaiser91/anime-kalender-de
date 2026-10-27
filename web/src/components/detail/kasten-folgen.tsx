@@ -1,11 +1,11 @@
 import type { ComponentProps } from 'react'
-import { AntwortKastenMitMarke } from '../../src/components/detail/kasten-marke.tsx'
+import { AntwortKastenMitMarke } from './kasten-marke.tsx'
 
 /**
- * Die Folgenliste löst sich vom roten Kasten (Daniel, 27.10.2026, Punkt 4): Der Kasten endet mit dem Disc-Bereich, die
+ * Die Folgenliste löst sich vom roten Kasten (Daniel, 27.10.2026, F96): Der Kasten endet mit dem Disc-Bereich, die
  * Folgenliste steht darunter in einer eigenen Karte. Ohne Folgenliste bleibt die Karte leer und verschwindet (`empty:hidden`).
  */
-export function KastenFolgenDarunter({ folgen, ...kasten }: ComponentProps<typeof AntwortKastenMitMarke>) {
+export function KastenMitFolgenKarte({ folgen, ...kasten }: ComponentProps<typeof AntwortKastenMitMarke>) {
   return (
     <>
       <AntwortKastenMitMarke {...kasten} />

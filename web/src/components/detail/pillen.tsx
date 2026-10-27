@@ -1,11 +1,6 @@
-import { type DiscAusgabe, PLATFORMS, type WatchLink } from '@shared/types.ts'
-import { type ReactNode } from 'react'
-import { Tooltip, DiscZeichen } from '../ui.tsx'
-import { formatDate } from '@shared/time.ts'
+import { PLATFORMS, type WatchLink } from '@shared/types.ts'
 import { translate } from '../../lib/i18n.tsx'
-import { Pille } from './pille.tsx'
 import { plattformVonWegName } from '../../lib/anbieter-wegname.ts'
-import { einzelneAusgaben } from './disc-regeln.ts'
 
 /*
   Die Pille „nicht mehr abrufbar" (durchgestrichen) ist seit dem 22.09.2026 aus der Oberfläche
@@ -29,108 +24,6 @@ import { einzelneAusgaben } from './disc-regeln.ts'
  * Detail-Modul mit.
  */
 
-
-const DISC_FORMAT: Record<DiscAusgabe[1], string> = { b: 'Blu-ray', d: 'DVD', u: '4K UHD' }
-
-/**
- * **Die deutschen Disc-Ausgaben: je Format eine Pille, die Einzelbände zum Aufklappen.**
- *
- * Daniel am 16.09.2026 an Dragon Quest Dai: aniSearch führt Blu-ray und DVD, je als
- * Komplettset und in vier Boxen — „wir wollen auf unserer webseite nicht unnötig viele
- * titel anzeigen … 2 discs pills dvd und blueray, führen zu gesamtpaket, darunter
- * ausklappbar die volumes". Gewählt: Die Gesamtausgabe (oder bei Filmen die jüngste
- * Ausgabe) je Format als Pille, dazu **eine** Umschalt-Pille für alle Einzelbände. Die
- * Liste selbst steht unter dem Kasten, damit dessen Höhe fest bleibt.
- */
-export function discPillen(
-  ausgaben: DiscAusgabe[],
-  offen: boolean,
-  umschalten: () => void,
-  t: (k: string, v?: Record<string, string | number>) => string,
-): ReactNode[] {
-  const pillen: ReactNode[] = []
-  for (const f of ['b', 'd', 'u'] as const) {
-    const eigene = ausgaben.filter((a) => a[1] === f)
-    const kopf = eigene.filter((a) => a[2] === 'g')
-    const wahl = kopf[0] ?? eigene.find((a) => a[2] === 'e')
-    if (!wahl) continue
-    pillen.push(
-      <Pille
-        key={`disc-${f}`}
-        name={DISC_FORMAT[f]}
-        url={`https://www.anisearch.de/article/${wahl[4]}`}
-        /* Bei einer Einzelausgabe (Film) wiederholte der Kurzname den Titel — das Datum sagt mehr (Stichprobe 16.09.2026). */
-        unten={kopf.length ? t('where.discGesamt') : wahl[3] ? formatDate(wahl[3]) : undefined}
-        titel={`${wahl[0]}${wahl[3] ? ` · ${formatDate(wahl[3])}` : ''}`}
-        icon={<DiscZeichen />}
-      />,
-    )
-  }
-  const einzeln = einzelneAusgaben(ausgaben)
-  if (einzeln.length) {
-    pillen.push(
-      <button
-        key="disc-einzeln"
-        type="button"
-        onClick={umschalten}
-        aria-expanded={offen}
-        className="inline-flex min-h-[52px] cursor-pointer items-center gap-2.5 rounded-xl bg-ak-pille py-1.5 pl-3.5 pr-4 text-left text-ak-text shadow-[inset_0_0_0_1px_rgba(15,23,42,.12)] transition hover:bg-ak-pille-hover dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08)]"
-      >
-        <span className="flex shrink-0 items-center">
-          <DiscZeichen />
-        </span>
-        <span className="flex flex-col">
-          <span className="text-t3 font-semibold">{t('where.discEinzeln')}</span>
-          <span className="text-t4 text-ak-leise">
-            {einzeln.length === 1 ? t('where.discAnzahlEine') : t('where.discAnzahl', { n: einzeln.length })} {offen ? '▴' : '▾'}
-          </span>
-        </span>
-      </button>,
-    )
-  }
-  return pillen
-}
-
-/** Die aufgeklappten Einzelbände, nach Format getrennt. */
-export function DiscEinzelListe({ ausgaben }: { ausgaben: DiscAusgabe[] }) {
-  const gruppen = (['b', 'd', 'u'] as const)
-    .map((f) => ({
-      f,
-      liste: ausgaben
-        .filter((a) => a[1] === f && a[2] !== 'g')
-        .sort((a, b) => a[3].localeCompare(b[3]) || a[0].localeCompare(b[0])),
-    }))
-    .filter((g) => g.liste.length)
-  return (
-    <div className="mt-2 space-y-1.5 rounded-xl border border-slate-200 px-3 py-2 text-t4 dark:border-white/10">
-      {gruppen.map((g) => (
-        <div key={g.f} className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <span className="w-14 shrink-0 font-semibold text-slate-700 dark:text-slate-200">{DISC_FORMAT[g.f]}</span>
-          {g.liste.map((a) => {
-            const link = (
-              <a
-                key={a[4]}
-                href={`https://www.anisearch.de/article/${a[4]}`}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="whitespace-nowrap text-sky-700 hover:underline dark:text-sky-300"
-              >
-                {a[0]}
-              </a>
-            )
-            return a[3] ? (
-              <Tooltip key={a[4]} text={formatDate(a[3])} eigenerFokus>
-                {link}
-              </Tooltip>
-            ) : (
-              link
-            )
-          })}
-        </div>
-      ))}
-    </div>
-  )
-}
 
 /**
  * Fasst die Bezugswege eines Shops zu einer Zeile zusammen.

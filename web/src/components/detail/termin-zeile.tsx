@@ -87,7 +87,7 @@ function mediumAus(edition?: string): string | undefined {
 }
 
 /** Der Händlername aus der Adresse — „amazon.de" wird zu „Amazon". */
-function haendlerAus(url?: string): string {
+export function haendlerAus(url?: string): string {
   if (!url) return 'Shop'
   try {
     const host = new URL(url).hostname.replace(/^www\./, '').split('.')[0]
