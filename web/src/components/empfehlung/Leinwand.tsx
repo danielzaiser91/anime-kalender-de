@@ -4,7 +4,7 @@ import { PLATFORMS, type Fsk, type PlatformId, type StreamLink, type Title } fro
 import { loadSynopsis } from '../../lib/data.ts'
 import { belegLink } from '@shared/quelle.ts'
 import { fuehreTasteAus, tasteZuAktion } from '../../lib/empfehlung-bedienung.ts'
-import { kuerze, metaZeile } from '../../lib/empfehlung-reise.ts'
+import { metaZeile } from '../../lib/empfehlung-reise.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { TrailerKino } from '../detail/kino.tsx'
 import { FskBadge } from '../ui.tsx'
@@ -40,6 +40,17 @@ function Anbieter({ wege, eigene }: { wege: StreamLink[]; eigene: ReadonlySet<st
   )
 }
 
+/** Die Handlung ganz, als letzter Block der Detailansicht. */
+export function Handlung({ text, kopf }: { text?: string; kopf: string }) {
+  const { t } = useLang()
+  return (
+    <div className="min-[900px]:col-span-2">
+      <h3 className={kopf}>{t('empf.handlung')}</h3>
+      <p className="m-0 max-w-[60ch] whitespace-pre-line text-base leading-normal">{text ?? ''}</p>
+    </div>
+  )
+}
+
 function ZweiteEbene({ k, titel, genres, eigene }: { k: Kandidat; titel?: Title; genres: string[]; eigene: ReadonlySet<string> }) {
   const { t, tGenre } = useLang()
   const [text, setText] = useState<string>()
@@ -54,9 +65,7 @@ function ZweiteEbene({ k, titel, genres, eigene }: { k: Kandidat; titel?: Title;
   return (
     <div className="mx-auto grid max-w-[1100px] snap-start gap-5 px-5 pb-40 pt-4 min-[900px]:grid-cols-[1.2fr_1fr] min-[900px]:gap-7">
       <div>
-        <h3 className={kopf}>{t('empf.handlung')}</h3>
-        <p className="m-0 max-w-[60ch] text-base leading-normal">{text ? kuerze(text) : ''}</p>
-        <h3 className={`${kopf} mt-5`}>{t('empf.blick')}</h3>
+        <h3 className={`${kopf} mt-0`}>{t('empf.blick')}</h3>
         <div className="flex flex-wrap items-center gap-2">
           {k.fsk == null ? <span className="rounded-full border border-ak-rand bg-ak-pille px-3 py-1 text-[13px]">{t('empf.fskOffen')}</span> : <FskBadge fsk={k.fsk as Fsk} />}
           {genres.map((g) => (
@@ -73,6 +82,7 @@ function ZweiteEbene({ k, titel, genres, eigene }: { k: Kandidat; titel?: Title;
         <h3 className={kopf}>{t('empf.trailer')}</h3>
         {titel?.trailer ? <TrailerKino trailer={titel.trailer} titel={k.n} /> : <p className="m-0 text-[13px] text-ak-sehr-leise">{t('empf.keinTrailer')}</p>}
       </div>
+      <Handlung text={text} kopf={kopf} />
     </div>
   )
 }
@@ -114,7 +124,7 @@ export function Leinwand({ k, titel, genres, eigene, istFavorit, aktionen }: {
   }
   const nein = () => verlassen('weg-links', aktionen.nein)
   const gesehen = () => verlassen('weg-unten', aktionen.gesehen)
-  const wischen = useWischen({ links: nein, rechts: aktionen.favorit, tipp: () => szene.current?.scrollBy({ top: szene.current.clientHeight - 70, behavior: 'smooth' }) })
+  const wischen = useWischen({ links: nein, rechts: aktionen.favorit })
   useTasten(szene, { favorit: aktionen.favorit, nein, gesehen, zurueck: aktionen.zurueck })
   const banner = bannerUrl(titel, 1280)
   const nichtBei = eigene.size > 0 && !k.p.some(([p]) => eigene.has(p))
@@ -123,12 +133,12 @@ export function Leinwand({ k, titel, genres, eigene, istFavorit, aktionen }: {
   return (
     <section className="relative flex min-h-0 flex-1 overflow-hidden" aria-label={k.n}>
       <div ref={szene} style={bewegung} className={`empf-szene neu absolute inset-0 snap-y snap-proximity overflow-auto overscroll-contain ${weg} ${wischen.dx ? 'ziehen' : ''}`}>
-        <div {...wischen.ereignisse} className="empf-leinwand relative flex h-full min-h-[460px] cursor-pointer snap-start items-end touch-pan-y">
+        <div {...wischen.ereignisse} className="empf-leinwand relative flex h-full min-h-[460px] snap-start items-end touch-pan-y">
           {banner ? <img src={banner} alt="" fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover object-top" /> : <Cover titel={titel} breite={500} klasse="absolute inset-0 h-full w-full scale-110 object-cover opacity-[0.6] blur-2xl" hoch />}
           <span style={{ opacity: stempelDeckkraft(wischen.dx, 'links'), left: 20 }} className="absolute top-[70px] z-20 -rotate-12 rounded-[10px] border-4 border-ak-fehler px-3.5 py-1 text-3xl font-black uppercase tracking-wider text-ak-fehler">{t('empf.stempelNein')}</span>
           <span style={{ opacity: stempelDeckkraft(wischen.dx, 'rechts'), right: 20 }} className="absolute top-[70px] z-20 rotate-12 rounded-[10px] border-4 border-ak-favorit px-3.5 py-1 text-3xl font-black text-ak-favorit">★</span>
           <div className="relative z-10 mx-auto flex w-full max-w-[1100px] items-end gap-3.5 px-5 pb-[182px]">
-            <Cover titel={titel} breite={140} hoch klasse="w-[88px] flex-none rounded-lg bg-ak-flaeche-2 object-cover shadow-2xl min-[900px]:w-[140px] min-[900px]:rounded-xl aspect-[2/3]" />
+            <Cover titel={titel} breite={300} hoch klasse="w-[176px] flex-none rounded-lg bg-ak-flaeche-2 object-cover shadow-2xl min-[900px]:w-[280px] min-[900px]:rounded-xl aspect-[2/3]" />
             <div className="min-w-0">
               <h2 className="m-0 text-[clamp(28px,6vw,56px)] font-extrabold leading-none tracking-tight">{k.n}</h2>
               <div className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-sm text-ak-leise">

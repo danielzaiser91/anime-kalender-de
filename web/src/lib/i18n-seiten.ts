@@ -283,7 +283,7 @@ export const TEXTE_SEITEN = {
   'empf.zurueckholen': 'Zurückholen',
   'empf.staffel': 'Beginnt mit Staffel {n} – Staffel 1 gibt es nicht auf Deutsch',
   'empf.coverOeffnen': '{titel}: Handlung, Anbieter und Trailer',
-  'empf.zuVorschlaegen': '← Vorschläge',
+  'empf.zuVorschlaegen': 'Zurück zu den Vorschlägen',
   'empf.mehr': '▾ mehr',
   'empf.handlung': 'Worum es geht',
   'empf.blick': 'Auf einen Blick',

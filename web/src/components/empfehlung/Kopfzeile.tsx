@@ -14,9 +14,13 @@ export function Kopfzeile({ phase, anbieter, blattOffen, vorschlaege, blatt }: {
   const { t } = useLang()
   return (
     <header className="absolute inset-x-0 top-0 z-20 flex items-center justify-between gap-2 px-4 py-2">
-      <a href="#/woche" title={t('empf.zumKalender')} className="inline-flex min-h-11 items-center font-bold tracking-wide text-ak-text no-underline">
-        {t('view.entdecken')}
-      </a>
+      {phase === 'leinwand' ? (
+        <span className="inline-flex min-h-11 items-center font-bold tracking-wide max-[600px]:hidden">{t('view.entdecken')}</span>
+      ) : (
+        <a href="#/woche" title={t('empf.zumKalender')} className="inline-flex min-h-11 items-center font-bold tracking-wide text-ak-text no-underline">
+          {t('view.entdecken')}
+        </a>
+      )}
       <span className="flex items-center gap-1.5">
         {phase === 'leinwand' && (
           <button type="button" className={KNOPF} onClick={vorschlaege}>

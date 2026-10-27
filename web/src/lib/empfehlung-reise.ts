@@ -79,12 +79,3 @@ export function mosaikIds(einstiege: Array<Pick<Kandidat, 'id'>>, anzahl: number
   const schritt = Math.max(1, Math.floor(einstiege.length / anzahl))
   return einstiege.filter((_, i) => i % schritt === 0).slice(0, anzahl).map((k) => k.id)
 }
-
-/** Länge der Handlung auf der zweiten Ebene (Spezifikation 5). */
-export const HANDLUNG_ZEICHEN = 420
-
-/** Kürzt an einer Wortgrenze und hängt „…“ an; kurze Texte bleiben. */
-export function kuerze(text: string, max = HANDLUNG_ZEICHEN): string {
-  if (text.length <= max) return text
-  return `${text.slice(0, max).replace(/\s+\S*$/, '')}…`
-}
