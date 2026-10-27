@@ -66,7 +66,7 @@ async function fall(browser, name, lage, breite) {
   await seite.locator('header').first().waitFor({ state: 'visible', timeout: 20_000 })
 
   const kopfKnopf = seite.locator('header button[aria-label="App installieren"], header button:has-text("App installieren")')
-  const glocke = seite.locator('header button[aria-label^="Abonnieren"]').first()
+  const glocke = seite.locator('header button[aria-label^="Menü"]').first()
   await glocke.waitFor({ state: 'visible', timeout: 20_000 })
   const karte =seite.locator('body > div[role="dialog"]')
   if (lage.ereignis) {

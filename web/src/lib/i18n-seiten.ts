@@ -251,7 +251,6 @@ export const TEXTE_SEITEN = {
   // Entdecken (Spezifikation 18, Daniels Wortlaut)
   'view.entdecken': 'Entdecken',
   'empf.zuruecksetzen': 'Empfehlungen zurücksetzen',
-  'empf.zuDatenbankKnopf': 'Entdecken',
   'empf.einstiegTitel': 'Zeig uns, was du magst.',
   'empf.einstiegText': 'Triff 6 Entscheidungen und wir ermitteln daraus deine Vorlieben – daraus werden 5 Vorschläge.',
   'empf.los': "Los geht's",

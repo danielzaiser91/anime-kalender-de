@@ -2,7 +2,7 @@ import type { ViewId } from './router.ts'
 
 export type Bereich = 'kalender' | 'datenbank' | 'news' | 'saison' | 'entdecken'
 
-/** Die Bereiche der Seite (am Handy ohne „Entdecken“: dort führt der Knopf in der Datenbank hin). Woche und Monat sind beide „Kalender". */
+/** Die Bereiche der Seite Woche und Monat sind beide „Kalender". */
 export const BEREICHE: { id: Bereich; ziel: ViewId }[] = [
   { id: 'kalender', ziel: 'woche' },
   { id: 'datenbank', ziel: 'datenbank' },

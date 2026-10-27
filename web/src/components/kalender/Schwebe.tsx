@@ -1,4 +1,4 @@
-import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
+import { cloneElement, isValidElement, useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { sichtbareBreite } from '../../lib/sichtbare-breite.ts'
@@ -78,7 +78,7 @@ export function Schwebe({
       onClick={(e) => !karte.current?.contains(e.target as Node) && umschalten()}
       aria-describedby={offen && art === 'zeigen' ? id : undefined}
     >
-      {children}
+      {mitZustand(children, art !== 'zeigen', offen, id)}
       {offen &&
         createPortal(
           <div
@@ -175,4 +175,10 @@ function useSchliessen(
       window.removeEventListener('scroll', rollen, true)
     }
   }, [offen, anker, karte, stumm])
+}
+
+/** Ein per Klick geöffneter Auslöser meldet Vorlesenden Zustand und (geöffnet) Ziel. */
+function mitZustand(knopf: ReactNode, aktiv: boolean, offen: boolean, id: string): ReactNode {
+  if (!aktiv || !isValidElement<Record<string, unknown>>(knopf)) return knopf
+  return cloneElement(knopf, { 'aria-expanded': offen, 'aria-controls': offen ? id : undefined })
 }
