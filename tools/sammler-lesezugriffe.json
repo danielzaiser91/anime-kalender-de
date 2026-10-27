@@ -20,6 +20,7 @@
   { "datei": "pipeline/check-logic.ts", "liest": "data/anisearch.json", "grund": "Quellen der Kurations-Dateien gegen die aniSearch-Kennung des Titels: Eigenschaft über alle Einträge" },
   { "datei": "pipeline/check-logic.ts", "liest": "data/termine-verpasst.json", "grund": "Eigenschaft (keine Folge doppelt); Vermerke werden nie gelöscht, nur gestrichen markiert" },
   { "datei": "pipeline/check-omu-ohne-termin.ts", "liest": "data/anisearch-dubs.json", "grund": "dynamischer Import nur für setzeMarkenFuerPruefung: setzt Testmarken in einer Kulisse (AK_ROOT), liest die Datei nicht" },
+  { "datei": "pipeline/check-nur-omu-hauptbestand.ts", "liest": "data/anisearch-dubs.json", "grund": "dynamischer Import nur für setzeMarkenFuerPruefung: setzt Testmarken in einer Kulisse (AK_ROOT), liest die Datei nicht" },
   { "datei": "pipeline/check-invarianten.ts", "liest": "data/anisearch-dubs.json", "grund": "ganze Karte als Eingabe der Auslieferungs-Invarianten (Eigenschaft über alle Titel), kein fester Schlüssel" },
   { "datei": "pipeline/check-invarianten.ts", "liest": "data/anisearch-dub-ids.json", "grund": "ganze Liste als Eingabe der Auslieferungs-Invarianten (Eigenschaft über alle Titel), kein fester Schlüssel" },
   { "datei": "pipeline/check-luecken-staffel0.ts", "liest": "data/tmdb-staffel0.json", "grund": "nur nicht leer und ladeStaffel0 reicht die Schlüssel durch, kein fester Schlüssel" },
