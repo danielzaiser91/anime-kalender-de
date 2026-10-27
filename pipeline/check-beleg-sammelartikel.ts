@@ -15,13 +15,13 @@ const pruefe = (name: string, ok: boolean, info = ''): void => {
   if (!ok) fehler++
 }
 
-/** Vier Abschnitte à 1300 Pixel; der Name „Psyren“ steht auch im Fließtext des Nachbarn darüber. Der tiefste Titel (mit Datum) liegt über 3600 Pixel unter dem Kopf. */
-const ABSCHNITT = (kopf: string, text: string): string => `<section style="height:1300px"><h2>${kopf}</h2><p>${text}</p></section>`
+/** Vier Abschnitte (300, 1300, 2100 und 1300 Pixel); der Name „Psyren“ steht auch im Fließtext des Nachbarn darüber. Der tiefste Titel (mit Datum) liegt über 3600 Pixel unter dem Kopf; Psyren (3492 Pixel) passt noch ins Fenster, der erste Titel (3792) nicht mehr.  */
+const ABSCHNITT = (hoehe: number, kopf: string, text: string): string => `<section style="height:${hoehe}px"><h2>${kopf}</h2><p>${text}</p></section>`
 const SAMMELARTIKEL = `<article><h1>Deutsche Synchros im Herbst 2026</h1><p>Die Übersicht aller Titel mit deutscher Synchronfassung im Herbst.</p>${[
-  ABSCHNITT('Reborn as a Space Mercenary', 'Aus der Feder des Machers von Psyren, mit viel Weltraum und noch mehr Söldnern.'),
-  ABSCHNITT('PSYREN', 'Inhalt: Eine Gruppe Jugendlicher wird in eine Parallelwelt gezogen und muss überleben.'),
-  ABSCHNITT('Fillertitel Zwei Beispiel', 'Inhalt: Ein Text über einen weiteren Titel dieser Übersicht, ohne Datum.'),
-  ABSCHNITT('Die Tagebücher der Apothekerin Staffel 3', 'Die Tagebücher der Apothekerin Staffel 3 startet am 2. Oktober 2026 mit deutscher Synchronfassung.'),
+  ABSCHNITT(300, 'Reborn as a Space Mercenary', 'Aus der Feder des Machers von Psyren, mit viel Weltraum und noch mehr Söldnern.'),
+  ABSCHNITT(1300, 'PSYREN', 'Inhalt: Eine Gruppe Jugendlicher wird in eine Parallelwelt gezogen und muss überleben.'),
+  ABSCHNITT(2100, 'Fillertitel Zwei Beispiel', 'Inhalt: Ein Text über einen weiteren Titel dieser Übersicht, ohne Datum.'),
+  ABSCHNITT(1300, 'Die Tagebücher der Apothekerin Staffel 3', 'Die Tagebücher der Apothekerin Staffel 3 startet am 2. Oktober 2026 mit deutscher Synchronfassung.'),
 ].join('')}</article>`
 const GRUPPEN = [
   { id: 1, suchen: ['Psyren'], tage: [] },
@@ -45,7 +45,7 @@ async function sammelartikelFall(): Promise<void> {
   /* Die Abschnitte sind gleich hoch: stehen die Marken auf den Überschriften, sind ihre Abstände gleich — eine Marke im Fließtext des Nachbarn verschöbe die erste. */
   const abstand1 = m['2'][1] - m['1'][1]
   const abstand2 = m['3'][1] - m['2'][1]
-  pruefe('Sammelartikel: die Marke sitzt auf der Überschrift, nicht im Fließtext des Nachbarn', Math.abs(abstand1 / abstand2 - 1) < 0.05, `Abstände ${abstand1.toFixed(3)} / ${abstand2.toFixed(3)}`)
+  pruefe('Sammelartikel: die Marke sitzt auf der Überschrift, nicht im Fließtext des Nachbarn', Math.abs(abstand1 / abstand2 - 1300 / 2100) < 0.03, `Abstände ${abstand1.toFixed(3)} / ${abstand2.toFixed(3)}`)
   pruefe('Sammelartikel: der Titel über dem Fenster hat keine Marke (kein falsches Bild)', !m['4'])
 }
 
