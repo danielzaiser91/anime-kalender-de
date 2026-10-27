@@ -239,10 +239,6 @@ const TEXTE = {
   // selben Händler: bei einer Disc zwei Ausgaben, bei einem Kaufstream zwei
   // Käufe. „Angebote" trifft beide und sagt, was hinter dem Klick wartet.
   'where.angebote': '{count} Angebote',
-  'where.discGesamt': 'Gesamtausgabe',
-  'where.discEinzeln': 'Einzelausgaben',
-  'where.discAnzahl': '{n} Ausgaben',
-  'where.discAnzahlEine': '1 Ausgabe',
   /* Disc-Bereich: eine Zeile je Variante, nach Art gruppiert (Mockup B3, 27.10.2026). */
   'disc.variante': '1 Variante',
   'disc.varianten': '{n} Varianten',

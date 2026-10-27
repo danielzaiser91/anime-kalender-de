@@ -161,8 +161,6 @@ function bereich(t: Title, rs: Release[]): string {
     folgenLuecke: null,
     releases: rs,
     discAusgaben: [],
-    discOffen: false,
-    setDiscOffen: () => undefined,
     discReleases: [],
   }
   return text(renderToStaticMarkup(createElement(AntwortBereich, eingabe as never)))

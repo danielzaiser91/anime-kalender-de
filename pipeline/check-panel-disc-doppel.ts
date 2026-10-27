@@ -1,18 +1,10 @@
 /**
- * Zusicherungen (21.10.2026, Daniel, Your Forma und Saiyuki Reload: Zeroin):
- * (1) Die Einzelausgaben-Liste steht im Panel gleich unter dem Antwort-Kasten, nicht hinter Reihe und Handlung (Syntaxbaum), und
- *     zeigt jede Ausgabe, die der Zähler nennt.
+ * (1) (Seit 27.10.2026 entfallen: die Einzelausgaben-Liste unter dem Kasten gibt es nicht mehr, die Varianten stehen im Disc-Bereich.)
  * (2) Ein Stream-Bezugsweg (der Helfer filtert nur die Stream-Liste; Kauf-Wege laufen an ihm vorbei) auf derselben Seite wie ein Verweis ist keine zweite Pille (Lauf durch `sortiereNachZugang`).
  * (3) Der Handbeleg „freenet meinVOD, Deutsch“ zu Your Forma steht in `data/watch-links.yaml`.
  * Aufruf: `npm run check:logic`.
  */
-import { readFileSync } from 'node:fs'
-import { createElement } from 'react'
-import { renderToStaticMarkup } from 'react-dom/server'
-import ts from 'typescript'
-import type { DiscAusgabe, Title } from '../shared/types.ts'
-import { DiscEinzelListe } from '../web/src/components/detail/pillen.tsx'
-import { einzelneAusgaben } from '../web/src/components/detail/disc-regeln.ts'
+import type { Title } from '../shared/types.ts'
 import { sortiereNachZugang } from '../web/src/components/detail/wege-sortieren.ts'
 import { loadWatchLinks } from './lib/curated.ts'
 
@@ -22,40 +14,6 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
   verletzt++
   console.error(`  ✖ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
-
-/* (1) Reihenfolge der Geschwister im Panel: Antwort-Kasten, Einzelliste, UnterDerAntwort. */
-const quelle = readFileSync(new URL('../web/src/components/DetailPanel.tsx', import.meta.url), 'utf8')
-function geschwisterNamen(code: string): string[] {
-  const baum = ts.createSourceFile('x.tsx', code, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)
-  let namen: string[] = []
-  const besuche = (n: ts.Node): void => {
-    if (ts.isJsxElement(n) || ts.isJsxFragment(n)) {
-      const mine = n.children.flatMap((k) => {
-        if (ts.isJsxSelfClosingElement(k)) return [k.tagName.getText(baum)]
-        if (ts.isJsxExpression(k) && k.expression && k.getText(baum).includes('<DiscEinzelListe')) return ['DiscEinzelListe']
-        return []
-      })
-      if (mine.includes('DiscEinzelListe')) namen = mine
-    }
-    ts.forEachChild(n, besuche)
-  }
-  besuche(baum)
-  return namen
-}
-const namen = geschwisterNamen(quelle)
-const i = namen.indexOf('DiscEinzelListe')
-pruefe('Einzelliste steht direkt nach dem Antwort-Kasten', i > 0 && namen[i - 1] === 'AntwortBereichOderNichts', namen)
-pruefe('Einzelliste steht vor „UnterDerAntwort“ (Reihe, Handlung)', i >= 0 && namen[i + 1] === 'UnterDerAntwort', namen)
-pruefe('Quelle von „vorher“ (Liste hinter UnterDerAntwort) wird erkannt', geschwisterNamen('const a = <div><X /><U /> {o && <DiscEinzelListe a={b} />}</div>').join() === 'X,U,DiscEinzelListe')
-
-/* Your Forma, Disc 2 Bände (Zähler 2): die aufgeklappte Liste nennt beide. */
-const forma: DiscAusgabe[] = [
-  ['Vol. 2/2', 'b', 't', '2026-04-24', 195983],
-  ['Vol. 1/2: Limited Edition + Sammelschuber', 'b', 't', '2026-02-27', 196877],
-]
-const html = renderToStaticMarkup(createElement(DiscEinzelListe, { ausgaben: forma }))
-pruefe('Zähler nennt 2 Ausgaben', einzelneAusgaben(forma).length === 2)
-pruefe('Liste zeigt beide Ausgaben', html.includes('Vol. 2/2') && html.includes('Vol. 1/2: Limited Edition') && html.includes('195983') && html.includes('196877'), html)
 
 /* (2) Saiyuki: Verweis „Prime Video (Aniverse)“ und Bezugsweg „Amazon Prime (Aniverse)“ auf derselben Seite. */
 const prime = 'https://www.amazon.de/gp/video/detail/B0DMFV78H5'

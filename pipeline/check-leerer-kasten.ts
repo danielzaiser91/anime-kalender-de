@@ -73,8 +73,6 @@ const uebrige = {
   folgenAngabeFuer: () => '',
   dubZeilen: () => [],
   releaseJePlattform: new Map(),
-  discOffen: false,
-  setDiscOffen: () => undefined,
 }
 const rahmen = (e: Eingabe): string => renderToStaticMarkup(createElement(KastenRahmen, { ...uebrige, ...e } as never))
 pruefe('leer: nichts gerendert', rahmen(mit({})) === '')

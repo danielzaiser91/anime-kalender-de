@@ -7,7 +7,7 @@ type Props = ComponentProps<typeof AntwortBereich>
 /** Eingaben von `AntwortBereich`, die `kastenOhneInhalt` prüft (der Test gleicht beide Listen mit den Props ab). */
 export const BEWERTET = ['antwort', 'title', 'releases', 'terminReleases', 'streamReleases', 'discAusgaben', 'discReleases', 'tvVorbei', 'wegeHinweis', 'kastenNotiz', 'folgenLuecke'] as const
 /** Eingaben, die nur Darstellung oder Zustand sind und keine Zeile unter der Überschrift erzeugen. */
-export const OHNE_WIRKUNG = ['sortiertNachZugang', 't', 'today', 'verbindung', 'favorites', 'folgenAngabeFuer', 'dubZeilen', 'releaseJePlattform', 'discOffen', 'setDiscOffen', 'discZuerst'] as const
+export const OHNE_WIRKUNG = ['sortiertNachZugang', 't', 'today', 'verbindung', 'favorites', 'folgenAngabeFuer', 'dubZeilen', 'releaseJePlattform', 'discZuerst'] as const
 
 type Eingabe = Pick<Props, (typeof BEWERTET)[number]> & {
   /** Die Folgenliste kommt nicht über die Props, sondern nachgeladen (`folgen/index.json`). */

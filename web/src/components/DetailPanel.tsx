@@ -21,7 +21,6 @@ import { folgenAuskunft } from './detail/folgen-angabe.ts'
 import { titelMitTerminBereichen } from './detail/stream-bereiche.ts'
 import { lueckeOhneAnbieter } from './detail/folgen-ohne-anbieter.ts'
 import { dubZeilenVon } from './detail/dub-zeilen.ts'
-import { DiscEinzelListe } from './detail/pillen.tsx'
 import { KinoBanner } from './detail/kino.tsx'
 import { VoiceCast, AehnlicheTitel } from './detail/weitere.tsx'
 import { berechneAntwortMitDeFolgen } from './detail/antwort-de-folgen.ts'
@@ -87,12 +86,10 @@ export function DetailPanel({
   const [genresOffen, setGenresOffen] = useState(false)
   const [plotOffen, setPlotOffen] = useState(false)
   const [discAusgaben, setDiscAusgaben] = useState<DiscAusgabe[]>([])
-  const [discOffen, setDiscOffen] = useState(false)
 
   useEffect(() => {
     let alive = true
     setDiscAusgaben([])
-    setDiscOffen(false)
     loadDiscAusgaben(titleId)
       .then((a) => {
         if (alive) setDiscAusgaben(a)
@@ -522,12 +519,9 @@ export function DetailPanel({
             releaseJePlattform={releaseJePlattform}
             releases={releases}
             discAusgaben={discAusgaben}
-            discOffen={discOffen}
-            setDiscOffen={setDiscOffen}
             discReleases={discReleases}
             discZuerst={discZuerst}
           />
-          {discOffen && discAusgaben.length > 0 && <DiscEinzelListe ausgaben={discAusgaben} />}
           <UnterDerAntwort
             data={data}
             title={title}

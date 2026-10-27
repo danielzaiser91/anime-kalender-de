@@ -46,7 +46,6 @@ import { toggoAngabe } from '../web/src/lib/toggo.ts'
 import { planeKatalogLauf } from './lib/katalog-plan.ts'
 import { ohneEingeordnete, verlaeufeAus } from '../web/src/lib/news-verlauf.ts'
 import { deutschAbgeschlossen, erschieneneFuerFolgenliste } from '../web/src/components/detail/antwort-regeln.ts'
-import { einzelneAusgaben } from '../web/src/components/detail/disc-regeln.ts'
 import { istEingeklappt } from '../web/src/components/detail/reihen-regeln.ts'
 import { messungenFuerFolgen } from './lib/news-messung.ts'
 import { ergaenzeErstausgabeAngebot } from './bau/13-7-erstausgabe-angebot.ts'
@@ -141,7 +140,7 @@ import {
   durchlaufendeZaehlung,
   DURCHZAEHLUNG_UNKLAR,
 } from './lib/crunchyroll.ts'
-import type { DiscAusgabe, Release, ReleaseEvent, Title } from '../shared/types.ts'
+import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { todayIso, addDays } from '../shared/time.ts'
 import { schreibeKostenlosAuskunft } from './bau/10-termine.ts'
 import { badge } from '../worker/src/mail-abschnitte.ts'
@@ -8393,11 +8392,6 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     pruefe('Reihen-Box: ein geplanter Teil (Original noch nicht erschienen) ist auch ohne Flag eingeklappt, der geöffnete bleibt sichtbar', istEingeklappt(geplant, 178533) && !istEingeklappt(geplant, 206814) && !istEingeklappt({ id: 1, jpStatus: 'FINISHED', jpYear: 2099 }, 178533))
   }
   pruefe('Folgenliste: bei „fertig" zählt raus (Ereignisse) nicht als Folgennummer (One Piece: 10)', erschieneneFuerFolgenliste({ art: 'fertig', raus: 10 }) === undefined && erschieneneFuerFolgenliste({ art: 'laeuft', raus: 5 }) === 5 && erschieneneFuerFolgenliste(undefined) === undefined)
-  {
-    const box = (kurz: string, art: 'e' | 'g' | 't', nr: number): DiscAusgabe => [kurz, 'b', art, '2026-05-15', nr] as DiscAusgabe
-    pruefe('Disc: Boxen ohne Gesamtausgabe lassen sich aufklappen (One Piece, 20 Ausgaben)', einzelneAusgaben([box('Box 38', 'e', 1), box('Box 37', 'e', 2)]).length === 2)
-    pruefe('Disc: eine einzelne Film-Ausgabe bleibt ohne Aufklapper, Einzelausgaben neben einer Gesamtausgabe erscheinen', einzelneAusgaben([box('Film', 'e', 3)]).length === 0 && einzelneAusgaben([box('Gesamt', 'g', 4), box('Teil', 'e', 5)]).length === 1)
-  }
   pruefe('manime.de-News und Collectors-Junkies-Beiträge werden gelesen, deren Startseiten nicht', istArtikel('https://www.manime.de/news/rtl-toggo-zensiert-dragon-ball-daima/0064225/') && istArtikel('https://collectors-junkies.com/code-geass-lelouch-of-the-rebellion-staffel-12-gesamtausgabe-auf-blu-ray-ab-september-2026/') && !istArtikel('https://collectors-junkies.com/') && !istArtikel('https://www.manime.de/'))
   pruefe('geprüfte Domains seit 05.10.2026 werden gelesen', istArtikel('https://www.joyn.de/serien/dr-stone') && istArtikel('https://www.disneyplus.com/de-de/browse/entity-0113d236') && istArtikel('https://www.whats-on-netflix.com/news/x/') && istArtikel('https://de.wikipedia.org/wiki/Detektiv_Conan/Episodenliste') && istArtikel('https://www.kinoheld.de/film/sen-to-chihiro-no-kamikakushi'))
   pruefe('Kopfzeilen-Datum: nur mit Uhrzeit, nicht aus dem Fließtext', kopfzeilenDatum('Disc ab 16. April 2027\nDer Streaming-Dienst\n22. Juli 2026 um 19:20 Uhr') === '2026-07-22' && kopfzeilenDatum('Release ab 16. April 2027 im Handel') === undefined && kopfzeilenDatum('15. SEPT. 2026, 18:00 MESZ') === '2026-09-15')

@@ -54,8 +54,6 @@ const stellen = [
   ['components/detail/pille.tsx', /const PILLE_MARKE =\s*'([^']*)'/, 'bg-ak-pille'],
   ['components/detail/pille.tsx', /const PILLE_OHNE_MARKE = '([^']*)'/, 'bg-ak-pille'],
   ['components/detail/pille.tsx', /className=\{`([^`]*rounded-xl[^`]*)`\}/, 'hover:bg-ak-pille-hover'],
-  ['components/detail/pillen.tsx', /className="([^"]*cursor-pointer items-center gap-2\.5[^"]*)"/, 'bg-ak-pille'],
-  ['components/detail/pillen.tsx', /className="([^"]*cursor-pointer items-center gap-2\.5[^"]*)"/, 'hover:bg-ak-pille-hover'],
   ['components/detail/merken-optik.ts', /mitFarbe\s*\? '([^']*)'/, 'bg-ak-pille'],
   ['components/detail/merken-optik.ts', /mitFarbe\s*\? '([^']*)'/, 'hover:bg-ak-pille-hover'],
 ]

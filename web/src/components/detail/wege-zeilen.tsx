@@ -13,7 +13,6 @@ import { toggoAngabe, jetztBerlin } from '../../lib/toggo.ts'
 import type { TvZuletzt } from '../../lib/tv-zuletzt.ts'
 import { tvVorbeiPillen } from './tv-vorbei.tsx'
 import type { Translate } from '../../lib/i18n.tsx'
-import type { Dispatch, SetStateAction } from 'react'
 import { pillenSchluessel, type sortiereNachZugang } from './wege-sortieren.ts'
 import { tvAngabe } from '../../lib/tv-angabe.ts'
 import { teilAngaben } from './wege-falten.ts'
@@ -287,8 +286,6 @@ export function discZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFu
   today: string
   folgenAngabeFuer: FolgenAngabeFuer
   discAusgaben: DiscAusgabe[]
-  discOffen: boolean
-  setDiscOffen: Dispatch<SetStateAction<boolean>>
   discReleases: Release[]
 }) {
   /*
