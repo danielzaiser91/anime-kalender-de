@@ -3253,7 +3253,7 @@ Weg darf nicht davon abhängen, welche Stelle ihn zufällig gefunden hat.
   wirklich neuen, unkuratierten Serie wird in `06-cr-simuldubs.ts` als Einzeltermin-Batch geführt (bekannte Grenze, nicht gebaut).
 - **Beleglink:** `bau/cr-quelle.ts` (`crQuelleUrl`): Termine mit Wochenprogramm-Beobachtung verweisen auf den gelesenen Artikel
   (`artikel` in `crunchyroll-woche.json`), reine Kalendertermine behalten den historischen Link `/de/simulcastcalendar` (leitet auf
-  `/de/simulcasts` um; kein besserer Beleg für damals gemessene Termine). Weitere Leser der alten Adresse, nicht angefasst:
+  `/de/simulcasts` um; kein besserer Beleg für damals gemessene Termine). Meldungslinks (`quelle`) und die Quellenseite verweisen seit dem Folge-PR auf die Übersicht `/de/news/seasonal-lineup` (stabil, der Wochenartikel wechselt je Woche); die Foto-Belege (`messBeleg`) behalten den Kalenderlink, sonst verschmölze das Entdoppeln sie mit dem Wochenartikel. Die Wochendatei liest `crQuelleUrl` einmal je Prozess. Früher nicht angefasst:
   `lib/news-verspaetung.ts` (`kalenderTag`, Meldungslink) und die Quellenseite in `web/src/components/StaticViews.tsx`.
 - **Folge, Grenze:** `data/crunchyroll.json` `window.to` steht auf 21.10. (letzter gelesener Tag); `termine-pruefen.ts` urteilt nur im
   Fenster. **Die Ausgeblieben-/Verpasst-Erkennung für Crunchyroll endet damit mit dem Kalender:** Termine nach dem 21.10. kann sie nicht

@@ -9,6 +9,9 @@
  * Eigene Datei, damit der Prüflauf beide Schreibweisen festhalten kann, ohne den Browser-Abruf zu
  * laden: `check-logic` importiert diese Datei, nicht das Skript mit Playwright.
  */
+/** Übersicht der Wochenprogramm-Artikel: stabiler Link (der Wochenartikel wechselt je Woche). */
+export const WOCHENPROGRAMM_UEBERSICHT = 'https://www.crunchyroll.com/de/news/seasonal-lineup'
+
 export const MONATE: Record<string, number> = {
   januar: 1, februar: 2, märz: 3, maerz: 3, april: 4, mai: 5, juni: 6, juli: 7,
   august: 8, september: 9, oktober: 10, november: 11, dezember: 12,

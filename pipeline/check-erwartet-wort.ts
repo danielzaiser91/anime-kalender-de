@@ -35,6 +35,7 @@ console.log('\nGebündelte Folgen: angekündigt nur, wenn alle belegt sind')
 {
   pruefe('drei Folgen, nur eine mit Foto: „erwartet waren“', newsSatz(nachgereicht(reihe([9], true))) === 'Folgen 8–10 sind da, erwartet waren 13.09., 20.09. und 27.09.', newsSatz(nachgereicht(reihe([9], true))))
   pruefe('drei Folgen, alle mit Foto: „angekündigt waren“', newsSatz(nachgereicht(reihe([8, 9, 10], true))) === 'Folgen 8–10 sind da, angekündigt waren 13.09., 20.09. und 27.09.')
+  pruefe('nachgereicht (Crunchyroll): Quelle ist das Wochenprogramm, nicht der Kalender-Tag', nachgereicht(reihe([9], true)).quelle === 'https://www.crunchyroll.com/de/news/seasonal-lineup', nachgereicht(reihe([9], true)).quelle)
   const plan = { observed: { 11: '2026-10-04' } }
   pruefe('mit planmäßiger Folge, nicht belegt: „erwartet waren“', newsSatz(nachgereicht(reihe([], true, plan))).includes('mit der geplanten Folge 11 erschienen, erwartet waren'), newsSatz(nachgereicht(reihe([], true, plan))))
   pruefe('mit planmäßiger Folge, belegt: „angekündigt waren“', newsSatz(nachgereicht(reihe([8, 9, 10], true, plan))).includes('erschienen, angekündigt waren'))
