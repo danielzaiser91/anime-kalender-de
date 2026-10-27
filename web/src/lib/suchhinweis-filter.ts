@@ -1,4 +1,4 @@
-import { EMPTY_FILTERS, LIST_KEYS, type FilterState, type ListKey } from '../../src/lib/filters.ts'
+import { EMPTY_FILTERS, LIST_KEYS, type FilterState, type ListKey } from './filters.ts'
 
 /** Die Schalter des Filters, die nur an oder aus sind (jeder einzeln entfernbar). */
 export const SCHALTER = [

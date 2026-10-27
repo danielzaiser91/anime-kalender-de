@@ -1,5 +1,5 @@
 import type { Title } from '@shared/types.ts'
-import { normalize } from '../../src/lib/search.ts'
+import { normalize } from './search.ts'
 
 /** Treffer, die nur der Schalter „Anime ohne deutsche Synchro“ dazuholt: alle, und davon die mit gleichem Namen. */
 export interface ZusatzTreffer {

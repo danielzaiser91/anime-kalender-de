@@ -6,9 +6,9 @@ import { anzeigeName } from '@shared/titles.ts'
 import { useLang } from '../../src/lib/i18n.tsx'
 import { useMobil } from '../../src/lib/use-mobil.ts'
 import { leseStand, merkeDaten, merkeStand, useHinweisStand, useSuchhinweis, type HinweisStand, type Suchhinweis } from './suchhinweis-daten.ts'
-import { loeseBlockade } from './suchhinweis-filter.ts'
-import { einheitName } from './suchhinweis-namen.ts'
-import { blockadeText, zusatzText } from './suchhinweis-zaehlen.ts'
+import { loeseBlockade } from '../../src/lib/suchhinweis-filter.ts'
+import { einheitName } from '../../src/lib/suchhinweis-namen.ts'
+import { blockadeText, zusatzText } from '../../src/lib/suchhinweis-zaehlen.ts'
 
 type Form = 'zeile' | 'darunter'
 

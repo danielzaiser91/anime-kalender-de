@@ -5,8 +5,8 @@ import type { Dataset } from '../../src/lib/data.ts'
 import { loadAllTitles, loadOhneSynchro, loadSynonyme, synonymeFuer } from '../../src/lib/data.ts'
 import { filterTitles, type FilterState } from '../../src/lib/filters.ts'
 import { titelQuelle } from '../../src/lib/titel-quelle.ts'
-import { findeBlockade, type Blockade } from './suchhinweis-filter.ts'
-import { nurMitSchalter, passtGenau, zaehleZusatz, type ZusatzTreffer } from './suchhinweis-zaehlen.ts'
+import { findeBlockade, type Blockade } from '../../src/lib/suchhinweis-filter.ts'
+import { nurMitSchalter, passtGenau, zaehleZusatz, type ZusatzTreffer } from '../../src/lib/suchhinweis-zaehlen.ts'
 
 /** Was der Hinweis wissen muss: die Treffer, die der Schalter dazuholt, und was den exakten Treffer versteckt. */
 export interface Suchhinweis {
