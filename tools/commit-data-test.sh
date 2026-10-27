@@ -312,6 +312,18 @@ pruefe "Versuch 1 meldete die Prüfliste als gescheitert" ja "$(grep -q '^::erro
 pruefe "Versuch 2 gepusht" ja "$(grep -q '^Gepusht (Versuch 2)' "$ARBEIT/neuversuch/log.txt" && echo ja || echo nein)"
 pruefe "Exit 0 (die Warnung aus Versuch 1 gilt nicht mehr)" 0 "$CODE"
 
+# `git add` scheitert an einer vorhandenen Quelle (neu und ignoriert): kein `|| true`, der Lauf wird rot und sagt welche.
+quelle_ignoriert() {
+  echo '{}' > "$1/data/kennungen.json"
+  echo 'data/kennungen.json' > "$1/.gitignore"
+}
+echo "git add scheitert an einer Quelle: rot, Fehler nennt den Pfad, übrige Quellen gesichert"
+LAUF_EXTRA=quelle_ignoriert szenario addfehler
+pruefe "git add scheitert: Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+pruefe "git add scheitert: Fehler nennt den Pfad" ja "$(grep -q '^::error::git add fehlgeschlagen: data/kennungen.json$' "$ARBEIT/addfehler/log.txt" && echo ja || echo nein)"
+pruefe "git add scheitert: übrige Quelle trotzdem gepusht" ja "$(quelle_gepusht)"
+pruefe "grüner Lauf: kein git-add-Fehler" nein "$(grep -q 'git add fehlgeschlagen' "$ARBEIT/gruen/log.txt" && echo ja || echo nein)"
+
 source "$WURZEL/tools/commit-data-test-quarantaene.sh"
 source "$WURZEL/tools/commit-data-test-verworfen.sh"
 source "$WURZEL/tools/commit-data-test-neuversuch.sh"

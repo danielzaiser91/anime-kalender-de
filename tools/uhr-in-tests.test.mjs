@@ -65,8 +65,22 @@ try {
     'new globalThis.Date()',
     'globalThis.Date.now()',
     'Date()',
+    "globalThis['Date'].now()",
+    "new globalThis['Date']()",
+    'globalThis["Date"]()',
+    'Reflect.construct(Date, [])',
+    'Reflect.construct(Date)',
+    'Reflect.construct(globalThis.Date, [])',
   ]) {
     assert.deepEqual(funde(`const x = 1\nconst t = ${form}\n`), ['a.test.ts:2'], `zählt: ${JSON.stringify(form)}`)
+  }
+  // Eingepackte Date-Verweise zählen wie die nackten.
+  for (const form of ['new (Date)()', '(Date as any).now()', 'new (Date as any)()', '(<any>Date).now()', '(globalThis as any).Date.now()', "(globalThis)['Date']()", 'Reflect.construct((Date), [])']) {
+    assert.deepEqual(funde(`const x = 1\nconst t = ${form}\n`), ['a.test.ts:2'], `zählt eingepackt: ${JSON.stringify(form)}`)
+  }
+  // Alias: die Bindung zählt einmal, der spätere Aufruf unter dem neuen Namen nicht noch einmal.
+  for (const alias of ['const D = Date', 'const D = globalThis.Date', "const D = globalThis['Date']", 'const { now } = Date', 'let D = Date, y = 1', 'const D = Date as any', 'const D = (Date)', 'const D = <any>Date', 'const D = Date!', 'const D = Date satisfies unknown', 'const D = ((globalThis as any).Date)']) {
+    assert.deepEqual(funde(`const x = 1\n${alias}\nconst t = D.now()\n`), ['a.test.ts:2'], `Alias zählt: ${JSON.stringify(alias)}`)
   }
   assert.deepEqual(funde('const echteUhr = Date.now\nconst t = echteUhr()\n'), ['a.test.ts:1'], 'Verweis auf Date.now ohne Aufruf zählt (die Aufrufstelle selbst nicht)')
   assert.deepEqual(funde('const x = [Date.now(), new Date()]\n'), ['a.test.ts:1', 'a.test.ts:1'], 'zwei Vorkommen in einer Zeile zählen zweimal')
@@ -91,8 +105,29 @@ try {
     'const Date2 = 1; Date2.now()',
     'neu.Date()',
     'zeit.now()',
+    'globalThis.fetch()',
+    "globalThis['fetch']()",
+    'new globalThis.Intl()',
+    "neu['Date']()",
+    'Reflect.construct(Date, [0])',
+    'Reflect.construct(Foo, [])',
+    'Reflect.construct(Foo)',
+    'Reflect.apply(Date.UTC, undefined, [])',
+    'Foo.construct(Date, [])',
+    'Reflect.other(Date, [])',
+    'Reflect.construct()',
+    'Reflect.construct(Date, [1], Foo)',
+    'globalThis[Date]()',
+    "'globalThis'.Date()",
+    "'globalThis'['Date']()",
+    "'Reflect'.construct(Date, [])",
+    'Reflect.construct(Date, args)',
   ]) {
     assert.deepEqual(funde(`const t = ${form}\n`), [], `zählt nicht: ${JSON.stringify(form)}`)
+  }
+
+  for (const bindung of ['const D = Foo', 'const D = Foo as any', 'const D = (Foo)', 'const D = (Foo as any).Date','const D = Date.UTC(1)', 'const D = fn(Date)', 'const D', 'const { y } = globalThis.fetch', 'const o = { a: Date }', 'function f(D = Date) {}']) {
+    assert.deepEqual(funde(`${bindung}\n`), [], `Bindung zählt nicht: ${JSON.stringify(bindung)}`)
   }
 
   // Ausnahme nur als Kommentar mit Grund.

@@ -336,14 +336,19 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   #
   # Einzeln hinzugefügt trägt jeder Pfad nur sein eigenes Fehlen, und wer fehlt,
   # steht im Log — sonst sucht man den Verlust beim nächsten Mal wieder im Bau.
+  #
+  # Scheitert `git add` an einem vorhandenen Pfad (ignoriert, gesperrter Index), steht das als ::error:: im Log und
+  # macht den Lauf rot (HINZU_GESCHEITERT); die übrigen Pfade und das Sichern der Quellen laufen weiter.
+  HINZU_GESCHEITERT=0
   hinzu() {
     local fehlend=()
     local pfad
     for pfad in "$@"; do
-      if [ -e "$pfad" ]; then
-        git add "$pfad" 2>/dev/null || true
-      else
+      if [ ! -e "$pfad" ]; then
         fehlend+=("$pfad")
+      elif ! git add "$pfad"; then
+        echo "::error::git add fehlgeschlagen: $pfad"
+        HINZU_GESCHEITERT=1
       fi
     done
     if [ ${#fehlend[@]} -gt 0 ]; then
@@ -410,6 +415,9 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     hinzu "${QUELLEN[@]}"
   else
     hinzu "${ERZEUGNISSE[@]}" "${QUELLEN[@]}"
+  fi
+  if [ "$HINZU_GESCHEITERT" = 1 ]; then
+    LAUF_ROT=1
   fi
 
   if git diff --staged --quiet; then

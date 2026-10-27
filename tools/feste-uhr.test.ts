@@ -7,7 +7,7 @@
 import assert from 'node:assert/strict'
 import { festeUhr } from './feste-uhr.ts'
 
-const Echt = globalThis.Date
+const Echt = globalThis.Date // uhr-echt: sichert das echte Date zum Zurückstellen, liest keine Zeit
 const zurueck = festeUhr('2026-10-12T12:00:00Z')
 try {
   assert.equal(new Date().toISOString(), '2026-10-12T12:00:00.000Z', 'ohne Argument: fester Zeitpunkt') // uhr-echt: prüft gerade die feste Uhr

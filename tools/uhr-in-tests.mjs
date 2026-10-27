@@ -3,6 +3,10 @@
  * Wächter: die echte Uhr (`new Date()`, `Date()`, `Date.now`) in Testdateien darf nur weniger werden.
  * Eine Prüfung gegen die echte Uhr wird am UTC-Tageswechsel oder zur Sendestunde rot, ohne dass jemand etwas geändert hat
  * (main war am 19.10.2026 so einen Montag lang rot). Neue Tests nehmen eine feste Zeit (`tools/feste-uhr.ts`).
+ * Auch die Umgehungen zählen: `globalThis['Date']`, ein Alias (`const D = Date`, `const { now } = Date`; die Bindung zählt einmal)
+ * und `Reflect.construct(Date, [])` ohne Argumente; Klammern, `as`, `<T>`, `!` und `satisfies` darum herum werden ausgepackt.
+ * Nicht erfasst: Date als Objektwert, Parameter-Vorgabe oder Funktionsargument, `window.Date`/`self.Date`, `{ Date: D } = globalThis`,
+ * `let D; D = Date`, `(0, Date)()`, `Date.call()`.
  * Gezählt wird im Syntaxbaum aller getrackten `*.test.*`-Dateien und aller Einträge von tools/check-logic-liste.txt.
  * Misst der Test die Uhr bewusst (Wartezeit, Alter einer Datei), steht in einem Kommentar derselben Zeile
  * `uhr-echt: <Grund>` (ohne Grund oder in einem String gilt es nicht); die Stelle zählt dann nicht.
@@ -35,8 +39,32 @@ function testdateien(quelle) {
   return [...new Set([...getrackt.filter((p) => TESTNAME.test(p)), ...eintraege])].sort()
 }
 
-const istDate = (n) =>
-  (ts.isIdentifier(n) && n.text === 'Date') || (ts.isPropertyAccessExpression(n) && n.name.text === 'Date' && ts.isIdentifier(n.expression) && n.expression.text === 'globalThis')
+// Klammern, `as`, `<T>`, `!` und `satisfies` um einen Ausdruck ändern nicht, was er ist.
+const auspacken = (n) => ts.skipOuterExpressions(n)
+
+const istGlobalThis = (roh) => {
+  const n = auspacken(roh)
+  return ts.isIdentifier(n) && n.text === 'globalThis'
+}
+
+const istDate = (roh) => istDateKern(auspacken(roh))
+
+const istDateKern = (n) =>
+  (ts.isIdentifier(n) && n.text === 'Date') ||
+  (ts.isPropertyAccessExpression(n) && n.name.text === 'Date' && istGlobalThis(n.expression)) ||
+  (ts.isElementAccessExpression(n) && ts.isStringLiteralLike(n.argumentExpression) && n.argumentExpression.text === 'Date' && istGlobalThis(n.expression))
+
+/** `const D = Date` / `const { now } = Date`: der Alias liest die Uhr später unter anderem Namen. */
+const istAlias = (n) => ts.isVariableDeclaration(n) && n.initializer !== undefined && istDate(n.initializer)
+
+/** `Reflect.construct(Date, [])` ohne Argumente (oder ohne Argumentliste) liest die Uhr wie `new Date()`. */
+function istReflectUhr(n) {
+  const f = n.expression
+  if (!ts.isPropertyAccessExpression(f) || f.name.text !== 'construct' || !ts.isIdentifier(f.expression) || f.expression.text !== 'Reflect') return false
+  const [ziel, liste] = n.arguments
+  if (!ziel || !istDate(ziel)) return false
+  return liste === undefined || (ts.isArrayLiteralExpression(liste) && liste.elements.length === 0)
+}
 
 const istJetzt = (n) =>
   (ts.isPropertyAccessExpression(n) && n.name.text === 'now' && istDate(n.expression)) ||
@@ -47,7 +75,8 @@ const wirdZugewiesen = (n) => ts.isBinaryExpression(n.parent) && n.parent.left =
 /** Liest die echte Uhr: `new Date()`/`new Date`, `Date()`, `Date.now` (außer als Zuweisungsziel). */
 function liestUhr(n) {
   if (ts.isNewExpression(n)) return istDate(n.expression) && !n.arguments?.length
-  if (ts.isCallExpression(n)) return istDate(n.expression)
+  if (ts.isCallExpression(n)) return istDate(n.expression) || istReflectUhr(n)
+  if (istAlias(n)) return true
   return istJetzt(n) && !wirdZugewiesen(n)
 }
 
