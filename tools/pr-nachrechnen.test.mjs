@@ -109,7 +109,7 @@ const schreibend = (aufrufe) => aufrufe.filter((a) => a.startsWith('pr close') |
   const ref = `api repos/{owner}/{repo}/pulls/7 --jq .merge_commit_sha`
   const folge = k.aufrufe.filter((a) => a === ref || schreibend([a]).length > 0)
   pruefe('veraltet, Merge-Commit alt -> 1, öffnen, neu gerechneten Merge-Commit abwarten, erneut öffnen', code === 1 && folge.join() === [ref, 'pr close 7', 'pr reopen 7', ref, 'pr close 7', 'pr reopen 7'].join() && k.gewartet.length === 0, k.aufrufe)
-  pruefe('veraltet: Meldung nennt beide Stände und den Grund', /NICHT AKTUELL \(Kette gegen 7a466acc8, main ist c0ffee000; main bewegte tools\/x\.mjs; main bewegte tools\/x\.mjs\)/.test(k.meldungen.join()), k.meldungen)
+  pruefe('veraltet: Meldung nennt beide Stände und den Grund', /NICHT AKTUELL \(Kette gegen 7a466acc8, main ist c0ffee000; main bewegte tools\/x\.mjs\)/.test(k.meldungen.join()), k.meldungen)
 }
 {
   const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [M_NEU] }))
@@ -190,7 +190,8 @@ for (const [name, prDateien] of [['public/data', 'src/a.ts\npublic/data/titles.j
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN, prDateien }))
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe(`PR berührt ${name} -> 1, neu angestoßen`, code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
-  pruefe(`PR berührt ${name}: Meldung nennt die Datei`, /; der PR berührt (public\/data\/|data\/cache\/|public\/data\/x\.json)/.test(k.meldungen.join()), k.meldungen)
+  pruefe(`PR berührt ${name}: Grund steht genau einmal`, k.meldungen.join().split('der PR berührt').length === 2, k.meldungen)
+  pruefe(`PR berührt ${name}: Meldung nennt die Datei`,/; der PR berührt (public\/data\/|data\/cache\/|public\/data\/x\.json)/.test(k.meldungen.join()), k.meldungen)
 }
 for (const [name, roh, erwartet] of [
   ['diverged', vergleich(DATEN_MAIN, 'diverged'), 1],

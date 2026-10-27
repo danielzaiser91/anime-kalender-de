@@ -113,7 +113,7 @@ function datenpfadGrund(gh, pr, basis, main, leser, voll) {
   if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
   const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main }))
   if (bot === null) return { ausnahme: 'nur Daten-Bots unter data/, kein Code des PR liest die bewegten Dateien' }
-  return { grund: `${daten}; ${bot}` }
+  return { grund: daten === bot ? daten : `${daten}; ${bot}` }
 }
 
 const kurz = (sha) => sha.slice(0, 9)
