@@ -66,6 +66,6 @@ assert.ok(zeilen[0].includes('refresh-hourly.yml') && zeilen[0].includes('vor 4.
 // Eigene Tabelle wird benutzt
 assert.deepEqual(pruefeFristen(() => vor(5), JETZT, { 'x.yml': 4, 'y.yml': 6 }), ['x.yml: letzter erfolgreicher Lauf vor 5 h, erlaubt 4 h'])
 // Alles frisch -> keine Befunde (Gegenprobe)
-assert.deepEqual(pruefeFristen(() => vor(1), JETZT), [])
+assert.deepEqual(pruefeFristen(() => vor(1), JETZT, FRISTEN_STUNDEN), [])
 
 console.log('wache-fristen: 6 Regelfälle, Tabelle (14 Workflows), Grenze 3 h, stündlich 4 h -> Meldung, Durchlauf 13 Zeilen + Abruffehler + nie, frisch -> leer: ok')

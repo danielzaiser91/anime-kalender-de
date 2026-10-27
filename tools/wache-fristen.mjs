@@ -34,7 +34,7 @@ export const FRISTEN_STUNDEN = {
 }
 
 /** Befunde aller Workflows; `letzterErfolg(workflow)` liefert Millisekunden oder null und darf werfen. */
-export function pruefeFristen(letzterErfolg, jetzt, fristen = FRISTEN_STUNDEN, ausgabe = () => {}) {
+export function pruefeFristen(letzterErfolg, jetzt, fristen, ausgabe = () => {}) {
   const befunde = []
   for (const [workflow, max] of Object.entries(fristen)) {
     let t = null
