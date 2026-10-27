@@ -54,6 +54,9 @@ export function stundenlaufBefunde(stunde: Workflow, bau: Workflow): string[] {
   if (weiche >= 0 && schritte[weiche].env?.CR_WEICHE_TOKEN !== '${{ secrets.CR_WEICHE_TOKEN }}') {
     befunde.push('Zugangspaket: CR_WEICHE_TOKEN kommt nicht aus dem Secret')
   }
+  if (urteil >= 0 && /MELDER"? +fehler/.test(schritte[urteil].run ?? '')) {
+    befunde.push('Urteil: eigener fehler-Melder (Weichen-Ausfall wären 24 rote Einträge am Tag)')
+  }
   if (urteil >= 0 && schritte[urteil].env?.CR_ZUGANG !== '${{ env.CR_ZUGANG_FRISCH }}') {
     befunde.push('Urteil: CR_ZUGANG nicht aus dem frischen Paket der Weiche')
   }

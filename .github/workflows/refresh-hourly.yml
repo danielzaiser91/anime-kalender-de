@@ -93,9 +93,8 @@ jobs:
       - name: Die neu gefundenen Serien sofort beurteilen
         env:
           CR_ZUGANG: ${{ env.CR_ZUGANG_FRISCH }}
-        run: >
-          bash tools/schritt.sh --zeit 8m "Neue Serien beurteilen" -- bash -c
-          'npm run data:cr-dub -- --nur-neu --limit 60 || { bash "$MELDER" fehler "Crunchyroll-Urteil übersprungen (Stundenlauf): Zugangspaket der Weiche fehlt"; exit 1; }'
+        # Kein eigener `fehler`-Melder: ein Weichen-Ausfall wäre sonst bis zu 24 rote Statuseinträge am Tag; `lauf-abmelden.sh` meldet den Lauf gelb mit dem Schrittnamen.
+        run: bash tools/schritt.sh --zeit 8m "Neue Serien beurteilen" -- npm run data:cr-dub -- --nur-neu --limit 60
 
       # Ein geschätzter Termin, an dem nichts erschien, darf nicht stehen bleiben, als wäre er eingetreten. Braucht die Beobachtungen des Kalender-Abrufs.
       - name: Verpasste Termine prüfen

@@ -66,6 +66,7 @@ abweichung('Urteil nach dem Einreichen', (w) => {
   const [u] = s.splice(indexVon(w, URTEIL), 1)
   s.push(u)
 }, /Reihenfolge/)
+abweichung('Urteil mit eigenem fehler-Melder', (w) => (schritteVon(w)[indexVon(w, URTEIL)].run += ' || bash "$MELDER" fehler "x"'), /fehler-Melder/)
 abweichung('Weiche ohne Secret', (w) => (schritteVon(w)[indexVon(w, WEICHE)].env = {}), /CR_WEICHE_TOKEN/)
 abweichung('Urteil ohne frisches Paket', (w) => (schritteVon(w)[indexVon(w, URTEIL)].env = { CR_ZUGANG: '${{ secrets.CR_ZUGANG }}' }), /CR_ZUGANG/)
 
@@ -77,4 +78,4 @@ if (fehler) {
   console.error(`\n${fehler} Zusicherung(en) verletzt`)
   process.exit(1)
 }
-console.log('\nCR-Neu stündlich: alle Zusicherungen erfüllt (echter Stundenlauf + 22 Abwandlungen)')
+console.log('\nCR-Neu stündlich: alle Zusicherungen erfüllt (echter Stundenlauf + 23 Abwandlungen)')
