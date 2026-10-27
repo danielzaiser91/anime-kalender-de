@@ -148,7 +148,7 @@ console.log('Der Hook läuft wirklich (use-reise.ts)')
   const mengen = { favoriten: new Set<number>(), ausgeblendet: new Set<number>(), gesehen: new Set<number>(), verworfen: new Set<number>(), eigene: [] as string[] }
   type Reise = ReturnType<typeof useReise>
   const aufbau = async () => {
-    const dom = installiereMiniDom(attrappeUhr(), () => ({}))
+    const dom = installiereMiniDom({ ...attrappeUhr(), matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }) }, () => ({}))
     let jetzt!: Reise
     const Probe = () => {
       jetzt = useReise(k, mengen, () => 7)

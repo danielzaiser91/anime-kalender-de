@@ -278,6 +278,8 @@ export const TEXTE_SEITEN = {
   'empf.gesehen': 'Schon gesehen',
   'empf.nein': 'Nicht interessiert',
   'empf.verworfen': 'Verworfene ({n})',
+  'empf.gesehenListe': 'Gesehene ({n})',
+  'empf.details': 'Details',
   'empf.zurueckholen': 'Zurückholen',
   'empf.staffel': 'Beginnt mit Staffel {n} – Staffel 1 gibt es nicht auf Deutsch',
   'empf.coverOeffnen': '{titel}: Handlung, Anbieter und Trailer',

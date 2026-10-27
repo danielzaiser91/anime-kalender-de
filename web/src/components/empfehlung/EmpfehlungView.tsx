@@ -37,8 +37,13 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
   const kandidat = (id: number) => kontext!.datei.einstiege[kontext!.index.get(id)!]
   const genresVon = (id: number) => kandidat(id).g.map((i) => kontext!.datei.genres[i])
   const aktionen = baueAktionen({ gesehen: empfehlungGesehen, verworfen: empfehlungVerworfen, favorit: toggle, oeffne: reise.oeffne, entferne: reise.entferne })
-  const zurueckholen = (id: number) => nimmWeg(empfehlungVerworfen, id)
-  const verworfeneKandidaten = kontext ? [...verworfen.ids].filter((id) => kontext.index.has(id)).map(kandidat) : []
+  const kandidaten = (ids: Set<number>) => (kontext ? [...ids].filter((id) => kontext.index.has(id)).map(kandidat) : [])
+  const ablage = {
+    verworfen: kandidaten(verworfen.ids),
+    gesehen: kandidaten(gesehen.ids),
+    verworfenHolen: (id: number) => nimmWeg(empfehlungVerworfen, id),
+    gesehenHolen: (id: number) => nimmWeg(empfehlungGesehen, id),
+  }
   const phase = kontext ? reise.phase : 'start'
 
   return (
@@ -61,8 +66,7 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
           stand={reise.stehen}
           genauer={reise.kannGenauer ? reise.genauer : undefined}
           vonVorn={reise.vonVorn}
-          verworfen={verworfeneKandidaten}
-          zurueckholen={zurueckholen}
+          ablage={ablage}
         />
       )}
       {kontext && phase === 'leinwand' && reise.aktuell !== undefined && (
