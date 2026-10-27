@@ -146,6 +146,11 @@ jobs:
           CR_WEICHE_TOKEN: ${{ secrets.CR_WEICHE_TOKEN }}
         run: node tools/cr-zugang-holen.mjs --github-env
 
+      # `data:cr-dub` öffnet Crunchyroll-Serienseiten im Browser (scrape-crunchyroll-dub.ts); wie in den Wochen- und Nachhol-Läufen braucht er Chromium.
+      - name: Browser für Crunchyroll-Tonspuren installieren
+        if: ${{ inputs.lauf == 'data:cr-dub' }}
+        run: npx playwright install --with-deps chromium
+
       # Vor dem Cover-Lauf: robots.txt von www.anisearch.de und cdn.anisearch.de wörtlich nach data/anisearch-robots.txt. Sperrt sie den Cover-Pfad, wird der Lauf rot
       # und lädt nichts; die Datei geht trotzdem in den Pull Request (der Schritt „Quellen als Pull Request einreichen“ läuft immer).
       - name: aniSearch-Cover — robots.txt prüfen
