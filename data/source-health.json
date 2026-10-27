@@ -5,15 +5,15 @@
     "lastCount": 11
   },
   "anime2you": {
-    "lastOk": "2026-10-27T04:16:54.878Z",
-    "lastRun": "2026-10-27T04:16:54.878Z",
-    "lastCount": 101
+    "lastOk": "2026-10-27T05:03:10.280Z",
+    "lastRun": "2026-10-27T05:03:10.280Z",
+    "lastCount": 50
   },
   "crunchyroll": {
     "lastOk": "2026-10-21T20:02:22.932Z",
-    "lastRun": "2026-10-27T04:07:18.548Z",
+    "lastRun": "2026-10-27T05:02:51.364Z",
     "lastCount": 0,
-    "lastError": "keine Kachel im Kalender gefunden — 2026-09-14: HTTP 200; Titel „Crunchyroll – Simulcasts durchstöbern“; keine Challenge-Merkmale; Text „Neu Beliebt Simulcast …"
+    "lastError": "keine Kachel im Kalender gefunden — 2026-10-19: HTTP 200; Titel „Crunchyroll – Simulcasts durchstöbern“; keine Challenge-Merkmale; Text „Neu Beliebt Simulcast …"
   },
   "anisearch": {
     "lastOk": "2026-10-27T04:01:56.778Z",
@@ -143,8 +143,9 @@
   },
   "tv-programm": {
     "lastOk": "2026-10-27T04:03:05.308Z",
-    "lastRun": "2026-10-27T04:03:05.308Z",
-    "lastCount": 294
+    "lastRun": "2026-10-27T05:03:12.404Z",
+    "lastCount": 0,
+    "lastError": "keine Sendung gelesen"
   },
   "tv-de": {
     "lastOk": "2026-10-26T23:07:57.832Z",
@@ -177,8 +178,8 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-10-27T04:02:50.663Z",
-    "lastRun": "2026-10-27T04:02:50.663Z",
+    "lastOk": "2026-10-27T05:02:57.598Z",
+    "lastRun": "2026-10-27T05:02:57.598Z",
     "lastCount": 61
   },
   "adn-news": {
@@ -187,8 +188,8 @@
     "lastCount": 75
   },
   "messbelege": {
-    "lastOk": "2026-10-27T04:03:04.362Z",
-    "lastRun": "2026-10-27T04:03:04.362Z",
+    "lastOk": "2026-10-27T05:03:11.385Z",
+    "lastRun": "2026-10-27T05:03:11.385Z",
     "lastCount": 0
   },
   "beleg-lesungen": {
