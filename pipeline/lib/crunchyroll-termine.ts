@@ -65,6 +65,7 @@
 import type { Title } from '../../shared/types.ts'
 import type { CrSerie, CrStaffel } from './crunchyroll-dub.ts'
 import { titelStaffelNr, zerlege } from './cr-staffel-nummer.ts'
+import { startetImTerminjahr } from './cr-auftakt-wache.ts'
 
 /** Ein abgeleiteter deutscher Streaming-Termin für genau einen Titel. */
 export interface CrTermin {
@@ -305,10 +306,11 @@ function terminAusPaar(serie: CrSerie, titel: Title, block: CrStaffel, jetzt: nu
 
 /**
  * Läuft die Staffel, ohne dass wir ihre Länge kennen? Der Titel trägt keine Folgenzahl (AniList kennt sie nicht, Psyren 26.10.2026),
- * der Block führt aber mehr Folgen als deutsche, und die deutschen sind lückenlos. Dann ist die erste Folge der Auftakt, kein Abwurf.
+ * der Block führt mehr Folgen als deutsche, die deutschen sind lückenlos, und die Serie startete im Jahr des Termins (`jpYear`;
+ * sonst ist es Katalognachschub einer alten Staffel). Dann ist die erste Folge der Auftakt, kein Abwurf.
  */
-function zahlOffenUndLaufend(folgen: Datierte, titel: Title, block: CrStaffel): boolean {
-  return !titel.episodes && block.folgen > folgen.length && lueckenlosAb(folgen) !== null
+function zahlOffenUndLaufend(folgen: Datierte, titel: Title, block: CrStaffel, ersterTag: string): boolean {
+  return !titel.episodes && block.folgen > folgen.length && lueckenlosAb(folgen) !== null && startetImTerminjahr(titel, ersterTag)
 }
 
 /** Nur die datierten Folgen eines Blocks als Termin; die Länge einer laufenden Staffel ohne Zahl setzt der Bau (`zahlOffen`). */
@@ -325,7 +327,7 @@ function terminAusDatierten(serie: CrSerie, titel: Title, block: CrStaffel): CrT
     return verwirfPaar('deutscher Termin vor der japanischen Ausstrahlung', serie, titel.id, `${jahr} gegen ${titel.jpYear}`)
   const zeiten = new Set(punkte.map((p) => p.zeit))
   const ab = lueckenlosAb(folgen)
-  const laufend = zahlOffenUndLaufend(folgen, titel, block)
+  const laufend = zahlOffenUndLaufend(folgen, titel, block, daten[0]!)
   const rhythmus = messeRhythmus(daten, laufend)
   const offen = laufend && rhythmus === 'weekly'
   return {

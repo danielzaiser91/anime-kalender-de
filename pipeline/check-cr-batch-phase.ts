@@ -22,6 +22,7 @@ const { legeCrVerweiseUndTermineAn } = await import('./bau/09-4-4-termine.ts')
 const { batchUeberBelegt, belegteFolgen } = await import('./lib/cr-batch-wache.ts')
 const { expandEvents } = await import('../shared/logic.ts')
 const { istStaffelstart } = await import('../shared/tv-signale.ts')
+const { auftaktAlsKatalog } = await import('./lib/cr-auftakt-wache.ts')
 
 const AO = 'https://www.crunchyroll.com/de/aoashi'
 const titel = { id: 191788, titleEn: 'Aoashi Season 2', jpYear: 2026, episodes: 24, format: 'TV', streams: [{ platform: 'crunchyroll', url: AO, dub: true }] }
@@ -70,6 +71,8 @@ try {
   const ps = lauf(ersteFolge, psyren, geschaetzt, undefined, 'Staffel 1')
   const p = ps[0]
   pruefe('Psyren: ein Termin, wöchentlich statt Abwurf („Neu bei“ entfällt)', ps.length === 1 && p?.releaseType === 'weekly' && p?.dateMeaning === undefined, ps)
+  const dubSerie = [{ url: PS, seriesId: 'GT00371866', staffeln: [{ name: 'Staffel 1', folgen: 4, deutsch: 1, deutscheFolgen: ersteFolge }] }] as never
+  pruefe('Psyren: die Bestandswache (cr-auftakt-bestand) meldet das Ergebnis der Phase nicht', auftaktAlsKatalog(ps, new Map([[204011, psyren as never]]), dubSerie).length === 0)
   pruefe('Psyren: aniSearch nennt 12 Folgen (geschätzt) — erwartet, als geraten gekennzeichnet, kein Ende', p?.schedule?.episodeCount === 12 && p?.schedule?.episodeCountAssumed === true && p?.schedule?.lastEpisodeDate === undefined, p?.schedule)
   pruefe('Psyren: Folge 1 am 26.10. um 15:30 Berlin belegt', p?.schedule?.firstEpisodeDate === '2026-10-26' && p?.schedule?.time === '15:30' && p?.schedule?.observed?.[1] === '2026-10-26', p?.schedule)
   const psTermine = expandEvents(p!)

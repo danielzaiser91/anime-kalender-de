@@ -256,7 +256,11 @@ const psyZahl = lauf(serie(PSY, [['Staffel 1', 1, 4, [[1, '2026-10-26T14:30:00Z'
 pruefe('mit Folgenzahl am Titel gilt der alte Weg (Aoashi): 12 erwartet, kein zahlOffen', psyZahl?.rhythmus === 'weekly' && psyZahl?.episodeCount === 12 && psyZahl?.zahlOffen === undefined, psyZahl)
 const psyEins = lauf(serie(LB, [lbEins, ['Staffel 2', 1, 4, [[1, '2026-10-24T13:30:00Z']]]]), [lbTitel[0]!, titel(204389, 'A Wild Last Boss Appeared! Season 2', 2026, LB, undefined, 1)], JETZT).raus[0]
 pruefe('Titel mit Folgenzahl 1 (ohne dub) und schon einer deutschen Folge: kein offenes Ende, Abwurf wie bisher', psyEins?.zahlOffen === undefined && psyEins?.lastEpisodeDate === '2026-10-24' && psyEins?.rhythmus === 'batch', psyEins)
-const psyLuecke =lauf(serie(PSY, [['Staffel 1', 2, 4, [[1, '2026-10-26T14:30:00Z'], [3, '2026-11-09T14:30:00Z']]]]), psyTitel, Date.parse('2026-11-10T05:00:00Z')).raus[0]
+const katalog = lauf(serie(PSY, [['Staffel 1', 1, 24, [[1, '2026-10-26T14:30:00Z']]]]), [titel(204011, 'PSYREN', 2015, PSY, true)], JETZT_PSY).raus[0]
+pruefe('Katalognachschub (jpYear 2015, Block 24, eine deutsche Folge, ≤ 21 Tage): bleibt Abwurf „Neu bei“, kein offenes Ende', katalog?.zahlOffen === undefined && katalog?.rhythmus === 'batch' && katalog?.lastEpisodeDate === '2026-10-26', katalog)
+const psyOhneJahr = lauf(serie(PSY, [['Staffel 1', 1, 4, [[1, '2026-10-26T14:30:00Z']]]]), [{ ...psyTitel[0]!, jpYear: undefined } as Title], JETZT_PSY).raus[0]
+pruefe('Titel ohne jpYear: kein Auftakt, bleibt Abwurf', psyOhneJahr?.zahlOffen === undefined && psyOhneJahr?.rhythmus === 'batch', psyOhneJahr)
+const psyLuecke = lauf(serie(PSY, [['Staffel 1', 2, 4, [[1, '2026-10-26T14:30:00Z'], [3, '2026-11-09T14:30:00Z']]]]), psyTitel, Date.parse('2026-11-10T05:00:00Z')).raus[0]
 pruefe('Psyren-Form mit Lücke in den Nummern (1, 3): nicht laufend, Ende gesetzt', psyLuecke?.zahlOffen === undefined && psyLuecke?.lastEpisodeDate === '2026-11-09', psyLuecke)
 const psyZwei = lauf(serie(PSY, [['Staffel 1', 2, 4, [[1, '2026-10-26T14:30:00Z'], [2, '2026-11-02T15:30:00Z']]]]), psyTitel, Date.parse('2026-11-03T05:00:00Z')).raus[0]
 pruefe('Psyren nach der zweiten Woche: weiter wöchentlich, Folgen 1 und 2, Ende offen', psyZwei?.rhythmus === 'weekly' && psyZwei?.zahlOffen === true && psyZwei?.lastEpisodeDate === undefined && JSON.stringify(psyZwei?.beobachtet) === '{"1":"2026-10-26","2":"2026-11-02"}', psyZwei)
