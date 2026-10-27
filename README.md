@@ -51,7 +51,6 @@ funktioniert alles andere trotzdem.
 | `npm run dev` | Entwicklungsserver |
 | `npm run build` | Produktionsbuild nach `dist/` |
 | `npm run data:fetch` | MyDubList, AniList, TMDB → `data/cache/` |
-| `npm run data:crunchyroll` | deutsche Sendezeiten aus dem Simulcast-Kalender → `data/crunchyroll.json` |
 | `npm run data:build` | alles zusammen → `public/data/` inkl. ICS-Feeds |
 | `npm run data:all` | alle drei nacheinander |
 | `npm run data:validate` | prüft die kuratierten YAML-Dateien |

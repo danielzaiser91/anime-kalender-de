@@ -32,6 +32,7 @@ import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
 import { belegeAktualisieren } from './lib/woche-bild.ts'
+import { neueEintraege } from './lib/woche-neue-eintraege.ts'
 
 const args = process.argv.slice(2)
 const HEADED = args.includes('--head')
@@ -135,6 +136,25 @@ export function entscheiden(
     for (let f = e.von; f <= e.bis; f++) uebernommen.push({ key, seriesId: e.seriesId, episode: f, date: e.datum })
   }
   return { uebernommen, abweichungen, ohneEintrag }
+}
+
+/** Legt Serien an, die der Kalenderbestand nicht kennt (der Kalender-Abruf entfiel am 27.10.2026), und gibt den Bestand zurück. */
+export function neueSerienAnlegen(eintraege: WochenEintrag[], heute: string, datei = 'data/crunchyroll.json'): CrunchyrollData['german'] {
+  const bestand = readJson<CrunchyrollData>(datei, { scrapedAt: '', german: {}, slots: [] })
+  const { neu, verworfen } = neueEintraege(eintraege, bestand.german, heute)
+  const keys = Object.keys(neu)
+  for (const v of verworfen) warn(`Wochenprogramm: ${v.titel} ohne neuen Kalendereintrag (${v.grund})`)
+  if (keys.length) {
+    Object.assign(bestand.german, neu)
+    writeJson(datei, bestand, true)
+    log(`Wochenprogramm: ${keys.length} neue Serien im Kalenderbestand angelegt: ${keys.join(', ')}`)
+  }
+  return bestand.german
+}
+
+/** Erst neue Serien anlegen, dann entscheiden: Ihre Zeilen gelten sonst als „ohne Kalendereintrag". */
+export function zeilenEntscheiden(eintraege: WochenEintrag[], heute: string, datei?: string): ReturnType<typeof entscheiden> {
+  return entscheiden(eintraege, neueSerienAnlegen(eintraege, heute, datei), heute)
 }
 
 /** Abweichungen als Vorfall an den Worker — die Status-App zeigt sie; ein Vorfall je Zeile und Tag. */
@@ -283,8 +303,7 @@ async function main(): Promise<void> {
     const wocheAb = wocheAus(roh.ueberschrift, jahr)
     if (!wocheAb) throw new Error(`Woche nicht lesbar aus „${roh.ueberschrift}"`)
     const { eintraege, marken } = eintraegeAus(roh, wocheAb)
-    const kalender = readJson<CrunchyrollData>('data/crunchyroll.json', { scrapedAt: '', german: {}, slots: [] }).german
-    const entschieden = entscheiden(eintraege, kalender, todayIso())
+    const entschieden = zeilenEntscheiden(eintraege, todayIso())
     const programm: WochenProgramm = { geholtAm: new Date().toISOString(), artikel, ueberschrift: roh.ueberschrift, wocheAb, eintraege, ...entschieden }
     writeJson('data/crunchyroll-woche.json', programm)
     recordSource('crunchyroll-woche', eintraege.length, eintraege.length ? undefined : 'Artikel gelesen, aber keine Zeile erkannt', eintraege.length)

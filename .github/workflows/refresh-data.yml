@@ -81,10 +81,6 @@ jobs:
       - name: AniList-Gesamtkatalog auffrischen
         run: bash tools/schritt.sh --zeit 10m "AniList-Katalog auffrischen" -- npm run data:katalog -- --frisch
 
-      # Schlägt der Lauf fehl (Seitenumbau, Ausfall), bleiben die zuletzt gespeicherten Zeiten stehen — der Build läuft trotzdem weiter.
-      - name: Deutsche Sendezeiten von Crunchyroll lesen
-        run: bash tools/schritt.sh --zeit 10m "Sendezeiten von Crunchyroll" -- npm run data:crunchyroll
-
       # Vier Abrufe, wenige Sekunden: Crunchyroll führt selbst, was neu hinzugekommen ist, und nennt je Folge ihre Tonspur. Ohne diesen Lauf erfahren wir von einer
       # neuen Synchro erst bei der nächsten Wiedervorlage (Lord-of-Mysteries-Specials: vier Wochen, 10.09.2026).
       - name: Neue deutsche Folgen bei Crunchyroll finden

@@ -50,12 +50,6 @@ export const FRISTEN = {
   // Mehrmals täglich; zwei stumme Tage heißen, RTL+ hat die Seite umgebaut.
   'tv-programm': 3,
   /*
-    Stündlicher Kalender (refresh-hourly.yml, dazu täglich in refresh-data.yml). Er lieferte vom 21.10.2026 an keine
-    Kachel mehr, der Lauf blieb absichtlich grün, und die Standardfrist von 4 Tagen (Alarm erst bei 8) meldete es erst
-    am 26.10. Ein Tag Frist, Alarm nach zwei.
-  */
-  crunchyroll: 1,
-  /*
     Quellen, die bei jedem Tageslauf (refresh-data.yml) oder öfter laufen und bis zum 26.10.2026 unbemerkt auf der
     Standardfrist standen. Frist 3 = Taktung plus zwei Tage Luft, wie `crunchyroll-neu`; Gesundheitsdatei vom 26.10.2026:
     alle zuletzt vor weniger als einem Tag erfolgreich. `tv-de` und `messbelege` laufen stündlich; `messbelege` zählt
