@@ -19,7 +19,6 @@ const WEGWERF_WURZEL = {
   'pipeline/check-og-schaetz.ts': ['public/og/fassung.txt', 'public/og/schaetz.txt'],
   'pipeline/check-kanal-aussortieren.ts': ['data/prime-kanal-aussortiert.json'],
   'pipeline/check-sammelartikel.ts': ['data/proposals/aussagen.json', 'data/sammelartikel-stand.json'],
-  'pipeline/check-termine-woche-lauf.ts': ['data/crunchyroll-woche-belege.json'],
   'pipeline/check-vorfaelle-ablauf.ts': ['daniel-zum-abarbeiten/listen/17-vorfaelle.md'],
   'tools/bau-eingaben.test.mjs': ['data/bestand-historie.jsonl'],
   'tools/delta-wache-historie.test.mjs': ['data/bestand-historie.jsonl'],
@@ -30,8 +29,6 @@ const WEGWERF_WURZEL = {
 
 // Wächter, die das Lesen verbieten oder prüfen, nennen den Namen als Muster.
 const VERBOTSLISTE = {
-  'pipeline/check-sammler-lesezugriffe.ts': ['data/crunchyroll-woche-belege.json'],
-  'pipeline/check-sammler-lesezugriffe-faelle.ts': ['data/crunchyroll-woche-belege.json'],
   'tools/quittung-nach-commit-waechter.mjs': ['data/meldungen-uebernahme.json'],
   'tools/quittung-nach-commit-waechter.test.mjs': ['data/meldungen-uebernahme.json'],
 }

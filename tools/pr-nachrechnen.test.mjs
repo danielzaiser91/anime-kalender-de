@@ -128,7 +128,7 @@ const DATEN_MAIN = ['public/data/titles.json', 'data/cache/ordner/anilist', 'pub
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN }))
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe('nur Daten bewegt -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe })
-  pruefe('nur Daten bewegt: Meldung nennt beide Stände und die Pfade', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Daten bewegt (public/data/, data/cache/, 56 Bot-Dateien ohne Leser)', k.meldungen)
+  pruefe('nur Daten bewegt: Meldung nennt beide Stände und die Pfade', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Daten bewegt (public/data/, data/cache/, 55 Bot-Dateien ohne Leser)', k.meldungen)
   pruefe('nur Daten bewegt: liest Vergleich und PR-Dateien', k.aufrufe.some((a) => a.includes('/compare/')) && k.aufrufe.some((a) => a.includes('/pulls/7/files')), k.aufrufe)
 }
 {
