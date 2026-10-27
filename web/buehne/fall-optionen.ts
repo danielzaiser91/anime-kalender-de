@@ -9,10 +9,31 @@ const TITEL_DATEIEN = ['titles-core.json', 'titles.json']
 /** Überschreibt Felder eines Falls; `tonspur: 'ohne-beleg'` löscht jeden Sprachbeleg an allen Wegen. */
 export interface FallOptionen {
   tonspur?: 'ohne-beleg'
+  /** Das Panel öffnet mit dem Umschalter auf „Disc“ (wie über einen Disc-Termin); die Daten bleiben gleich. */
+  start?: 'disc'
+}
+
+/** Die Disc-Fälle des Mockups `disc-bereich` (27.10.2026): gleiche Daten, Panel startet auf „Disc“. */
+const DISC_FAELLE: Record<string, { von: string; name: string; optionen: FallOptionen }> = Object.fromEntries(
+  [
+    ['sakamoto-days', 'Sakamoto Days'],
+    ['dan-da-dan', 'Dan Da Dan'],
+    ['trigun-stampede', 'Trigun Stampede'],
+    ['chihiro', 'Chihiros Reise ins Zauberland'],
+    ['86', '86'],
+    ['fernsehtag-detektiv-conan', 'Detektiv Conan'],
+    ['one-piece', 'One Piece'],
+  ].map(([von, name]) => [`${von}-disc`, { von, name: `${name} – Panel auf „Disc“`, optionen: { start: 'disc' } }]),
+)
+
+/** Wahr für einen abgeleiteten Fall mit `start: 'disc'` — der Ausschnitt `detailpanel` übergibt dann `discZuerst`. */
+export function startAufDisc(fallKennung: string | undefined, vorlage = OPTIONS_FAELLE): boolean {
+  return vorlage[fallKennung ?? '']?.optionen.start === 'disc'
 }
 
 /** Abgeleitete Fälle: Kennung → Ausgangsfall, Anzeigename und Optionen. */
 export const OPTIONS_FAELLE: Record<string, { von: string; name: string; optionen: FallOptionen }> = {
+  ...DISC_FAELLE,
   '86-ohne-beleg': { von: '86', name: '86 – alle Zeilen ohne Sprachbeleg', optionen: { tonspur: 'ohne-beleg' } },
   /* Gleiche Daten, andere Ausgangslage: das Mockup öffnet die Datenbank hier mit einem Jahresfilter (`suchadressen`). */
   'hajime-no-ippo-jahr': { von: 'hajime-no-ippo', name: 'Hajime no Ippo – Suche mit Jahresfilter', optionen: {} },
