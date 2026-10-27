@@ -21,7 +21,7 @@ export function KopfNavigation({ view, aktiv, onView, hrefFuer }: {
 }) {
   const { t } = useLang()
   return (
-    <nav aria-label={t('nav.bereich')} className="hidden gap-3 text-[15px] font-semibold md:flex lg:gap-6">
+    <nav aria-label={t('nav.bereich')} className="hidden gap-2 text-[15px] font-semibold md:flex lg:gap-4 xl:gap-6">
       {BEREICHE.map((b) => {
         const ziel = b.id === 'kalender' && aktiv === 'kalender' ? view : b.ziel
         return (
@@ -37,7 +37,6 @@ export function KopfNavigation({ view, aktiv, onView, hrefFuer }: {
             aria-current={aktiv === b.id ? 'page' : undefined}
             className={[
               'cursor-pointer whitespace-nowrap border-b-2 py-2 transition',
-              b.id === 'entdecken' ? 'hidden xl:block' : '',
               aktiv === b.id ? 'border-ak-gewaehlt text-ak-text' : 'border-transparent text-ak-leise hover:text-ak-text',
             ].join(' ')}
           >

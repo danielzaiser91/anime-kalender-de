@@ -55,10 +55,16 @@ const pruefe = (was, ok, zusatz) => {
 }
 
 async function sichtbareZahnraeder() {
-  const alle = seite.getByRole('button', { name: 'Einstellungen' })
+  const alle = seite.locator('header button[aria-label^="Menü"]')
   let n = 0
   for (let i = 0; i < (await alle.count()); i++) if (await alle.nth(i).isVisible()) n++
   return n
+}
+
+/** Burger-Menü im Kopf öffnen, dann den Eintrag „Einstellungen“. */
+async function oeffneEinstellungen() {
+  await seite.locator('header button[aria-label^="Menü"]:visible').first().click()
+  await seite.getByRole('dialog', { name: /^Menü/ }).getByRole('button', { name: 'Einstellungen' }).click()
 }
 
 console.log('Die Einstellungen:\n')
@@ -70,8 +76,8 @@ for (const thema of ['dunkel', 'hell']) {
   await seite.goto('about:blank')
   await seite.goto('http://ak.test/#/datenbank', { waitUntil: 'networkidle' })
   await seite.waitForTimeout(1500)
-  pruefe(`393 px: genau ein Zahnrad (${thema})`, (await sichtbareZahnraeder()) === 1)
-  await seite.getByRole('button', { name: 'Einstellungen' }).locator('visible=true').click()
+  pruefe(`393 px: genau ein Burger-Knopf (${thema})`, (await sichtbareZahnraeder()) === 1)
+  await oeffneEinstellungen()
   const dialog = seite.getByRole('dialog', { name: 'Einstellungen' })
   await dialog.waitFor({ state: 'visible', timeout: 10_000 })
   await seite.screenshot({ path: path.join(WURZEL, 'docs', `einstellungen-${thema}.png`) })
@@ -82,8 +88,8 @@ for (const thema of ['dunkel', 'hell']) {
 
   await seite.setViewportSize({ width: 1280, height: 900 })
   await seite.waitForTimeout(400)
-  pruefe(`1280 px: genau ein Zahnrad (${thema})`, (await sichtbareZahnraeder()) === 1)
-  await seite.getByRole('button', { name: 'Einstellungen' }).locator('visible=true').click()
+  pruefe(`1280 px: genau ein Burger-Knopf (${thema})`, (await sichtbareZahnraeder()) === 1)
+  await oeffneEinstellungen()
   await dialog.waitFor({ state: 'visible', timeout: 10_000 })
   pruefe(`1280 px: Dialog enthält „Empfehlungen zurücksetzen“ (${thema})`, /Empfehlungen zurücksetzen/.test(await dialog.innerText()))
   await seite.keyboard.press('Escape')
