@@ -19,7 +19,7 @@ export const OPTIONS_FAELLE: Record<string, { von: string; name: string; optione
   'tokyo-revengers-jahr': { von: 'tokyo-revengers', name: 'Tokyo Revengers – Suche mit Jahresfilter', optionen: {} },
   /* Mit „Staffeln zusammenfassen“ (Adresse `staffeln=1`) zählt der Suchhinweis Karten statt Titel. */
   'attack-on-titan-zusammen': { von: 'attack-on-titan', name: 'Attack on Titan – Staffeln zusammengefasst', optionen: {} },
-  'one-piece-zusammen': { von: 'one-piece', name: 'One Piece – Staffeln zusammengefasst', optionen: {} },
+  'hajime-no-ippo-zusammen': { von: 'hajime-no-ippo', name: 'Hajime no Ippo – Staffeln zusammengefasst', optionen: {} },
 }
 
 type Weg = Record<string, unknown>
