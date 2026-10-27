@@ -251,6 +251,7 @@ await main({ riegel: 9 })
 pruefe('HTTP-Fehler und Netzfehler stempeln nicht, Fund und 404 (nicht geführt) schon', stempel() === '907001,907004', stempel())
 pruefe('der Lauf überlebt den Netzfehler und fragt alle vier', tmdbAbrufe.join(',') === '21,22,23,24', tmdbAbrufe)
 pruefe('ein Fund unter den Ausfällen ist keine Fehlermeldung', meldung() === undefined, meldung())
+pruefe('gemeldet wird die Zahl der Funde (eins: 21)', lies<Record<string, { lastCount?: number }>>(join('data', 'source-health.json'))['trailer']?.lastCount === 1)
 fehlerBei.clear()
 netzfehlerBei.clear()
 nichtGefuehrtBei.clear()
@@ -268,6 +269,27 @@ kinocheckFehler = false
 tmdbAbrufe.length = 0
 await main({ riegel: 9 })
 pruefe('KinoCheck wieder erreichbar: Titel wird erneut gefragt und gestempelt', tmdbAbrufe.join(',') === '31' && stempel() === '908001', [tmdbAbrufe, stempel()])
+
+/* KinoCheck-Fehler und TMDB ohne Fund: kein Stempel (der Fehler darf nicht von „nichts gefunden“ überdeckt werden). */
+richteEin([probe(908001, 'TV', 2020)], { '908001': { tmdbId: 31, kind: 'tv' } })
+kinocheckFehler = true
+leerAlle = true
+await main({ riegel: 9 })
+pruefe('KinoCheck-Fehler plus leere TMDB-Antwort: kein Stempel', !existsSync(join(wurzel, 'data', 'trailer-versuche.json')) || stempel() === '', stempel())
+leerAlle = false
+
+/* Ohne TMDB-Schlüssel zählt nur KinoCheck: 404 dort = eine Antwort ohne Fund, Fehler dort = ein Ausfall. */
+delete process.env.TMDB_API_KEY
+kinocheckFehler = false
+richteEin([probe(908001, 'TV', 2020)], { '908001': { tmdbId: 31, kind: 'tv' } })
+await main({ riegel: 9 })
+pruefe('KinoCheck antwortet "nicht geführt": 0 Funde bei 1 Antwort', /^0 Funde bei 1 Antwort/.test(meldung() ?? ''), meldung())
+kinocheckFehler = true
+richteEin([probe(908001, 'TV', 2020)], { '908001': { tmdbId: 31, kind: 'tv' } })
+await main({ riegel: 9 })
+pruefe('KinoCheck fällt aus, kein TMDB: alle Abrufe fehlgeschlagen', /^alle 1 Abrufe/.test(meldung() ?? ''), meldung())
+kinocheckFehler = false
+process.env.TMDB_API_KEY = 'tm'
 
 /* A4: Gesundheitsmeldung. */
 richteEin(drei, dreiTmdb)
