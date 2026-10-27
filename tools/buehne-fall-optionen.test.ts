@@ -7,7 +7,7 @@ import { readFileSync } from 'node:fs'
 import type { Release, Title } from '../shared/types.ts'
 import { alleOhneSprachbeleg } from '../web/src/components/detail/legende-zeilen.ts'
 import { sortiereNachZugang } from '../web/src/components/detail/wege-sortieren.ts'
-import { ergaenzeOptionsFaelle, mitOptionen } from '../web/buehne/fall-optionen.ts'
+import { ergaenzeOptionsFaelle, mitOptionen, startAufDisc } from '../web/buehne/fall-optionen.ts'
 import { baueFaelle, type FaelleDatei, type Fall } from '../web/buehne/faelle-bau.ts'
 
 const FELDER = ['dub', 'dubRanges', 'dubQuelle', 'dubStand', 'dubHintOnly', 'dubAbgeleitet']
@@ -63,4 +63,15 @@ assert.equal(alle['86-ohne-beleg']!.name, '86 – alle Zeilen ohne Sprachbeleg')
 assert.equal(alle['86-ohne-beleg']!.titleId, alle['86']!.titleId)
 // Die übrigen Fälle bleiben, wie sie waren.
 assert.equal(ohneBeleg(alle['tokyo-revengers']!), false)
-console.log('buehne-fall-optionen: ok (Felder, Ausgangsfall, Fehlfälle, Fall 86 mit/ohne Beleg)')
+
+// `start: 'disc'` ändert keine Daten; nur der abgeleitete Fall startet auf „Disc“, der Ausgangsfall und Unbekanntes nicht.
+assert.deepEqual(mitOptionen(roh, { start: 'disc' }, 'N')['titles.json'], roh['titles.json'])
+assert.deepEqual(alle['sakamoto-days-disc']!.disc, alle['sakamoto-days']!.disc)
+assert.equal(alle['sakamoto-days-disc']!.titleId, alle['sakamoto-days']!.titleId)
+assert.equal(startAufDisc('sakamoto-days-disc'), true)
+assert.equal(startAufDisc('sakamoto-days'), false)
+assert.equal(startAufDisc('86-ohne-beleg'), false)
+assert.equal(startAufDisc(undefined), false)
+assert.equal(startAufDisc('x', { x: { von: 'a', name: 'X', optionen: { tonspur: 'ohne-beleg' } } }), false)
+assert.equal(startAufDisc('x', { x: { von: 'a', name: 'X', optionen: { start: 'disc' } } }), true)
+console.log('buehne-fall-optionen: ok (Felder, Ausgangsfall, Fehlfälle, Fall 86 mit/ohne Beleg, Start auf Disc)')
