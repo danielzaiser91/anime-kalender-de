@@ -34,7 +34,7 @@ export function AboMenue({ onView, favorites, einstellungen }: { onView: (v: Vie
   )
 }
 
-function AboInhalt({
+export function AboInhalt({
   onView,
   favorites,
   verbindung,

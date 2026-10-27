@@ -19,7 +19,7 @@ import { dienstFetch } from './dienstFetch.ts'
 const TOKEN_KEY = 'newsletterSyncToken'
 const SENT_KEY = 'newsletterSyncSent'
 const MAIL_KEY = 'newsletterMail'
-const WORKER_URL = import.meta.env.VITE_NEWSLETTER_API ?? ''
+const WORKER_URL = import.meta.env?.VITE_NEWSLETTER_API ?? ''
 const DEBOUNCE_MS = 2500
 
 /**

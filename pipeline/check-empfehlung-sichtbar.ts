@@ -78,7 +78,25 @@ const dbProps = {
   favorites: new Set(),
 }
 const bereich = baumVon(() => DatenbankBereich(dbProps as unknown as Parameters<typeof DatenbankBereich>[0]))
-pruefe('Datenbank-Bereich baut keinen Entdecken-Knopf mehr ein', finde(bereich, (e) => typeof e.type === 'function' && e.type.name === 'WasGuckenKnopf') === undefined, dbZiele)
+/** Klickt jeden Knopf im Baum (auch in Unterkomponenten, die sich rendern lassen) und meldet, ob dabei nach „entdecken“ navigiert wurde. */
+function fuehrtNachEntdecken(baum: ReactNode, ziele: unknown[], tiefe = 0): boolean {
+  const ergebnis = finde(baum, (e) => {
+    if (typeof e.props.onClick === 'function') e.props.onClick()
+    if (ziele.some((z) => JSON.stringify(z).includes('entdecken'))) return true
+    if (typeof e.type !== 'function' || tiefe > 3) return false
+    try {
+      return fuehrtNachEntdecken(baumVon(() => (e.type as (p: unknown) => ReactNode)(e.props)), ziele, tiefe + 1)
+    } catch {
+      return false
+    }
+  })
+  return ergebnis !== undefined
+}
+const Fremd = ({ navigate }: { navigate: (n: unknown) => void }) => h('button', { onClick: () => navigate({ view: 'entdecken' }) }, 'Entdecken')
+const fremdZiele: unknown[] = []
+pruefe('Prüfung erkennt einen wieder eingebauten Entdecken-Knopf (Gegenprobe)', fuehrtNachEntdecken(h('div', null, h(Fremd, { navigate: (n) => fremdZiele.push(n) })), fremdZiele), fremdZiele)
+pruefe('Datenbank-Bereich hat keinen Knopf, der nach entdecken führt', !fuehrtNachEntdecken(bereich, dbZiele), dbZiele)
+
 
 const zeile = finde(baumVon(() => EmpfehlungZeile({ neuLaden: () => abgerufen.push('NEULADEN') })), (e) => e.type === 'button')
 zeile?.props.onClick?.()

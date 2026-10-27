@@ -178,7 +178,7 @@ function useSchliessen(
 }
 
 /** Ein per Klick geöffneter Auslöser meldet Vorlesenden Zustand und (geöffnet) Ziel. */
-function mitZustand(knopf: ReactNode, aktiv: boolean, offen: boolean, id: string): ReactNode {
+export function mitZustand(knopf: ReactNode, aktiv: boolean, offen: boolean, id: string): ReactNode {
   if (!aktiv || !isValidElement<Record<string, unknown>>(knopf)) return knopf
   return cloneElement(knopf, { 'aria-expanded': offen, 'aria-controls': offen ? id : undefined })
 }

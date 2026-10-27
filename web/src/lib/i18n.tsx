@@ -628,7 +628,6 @@ const TEXTE = {
   'antwort.discNeben': 'Kaufausgabe — erscheint an einem Tag komplett',
   'antwort.discSeit': 'seit {datum}',
   'einstellungen.titel': 'Einstellungen',
-  /* Kurzwort für die Handy-Tab-Leiste (Zelle ~64 px); der volle Name bleibt aria-label. */
   'einstellungen.schliessen': 'Einstellungen schließen',
   'db.westlich': 'Cartoon',
   'db.westlichHinweis': 'Westliche Animation — kein Anime im Sinne der Datenbanken, aber auf Deutsch zu sehen.',
