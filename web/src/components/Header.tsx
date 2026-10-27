@@ -14,7 +14,7 @@ import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen } from './kalender
 const RUND = 'flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
 
 /**
- * Die Kopfleiste der Poster-Gestaltung (26.09.2026): Logo, drei Bereiche, Suche, Thema (ab md), Burger-Menü (Abo, Newsletter, Optionen).
+ * Die Kopfleiste der Poster-Gestaltung (26.09.2026): Logo, drei Bereiche, Suche, Thema (ab md), Burger-Menü (Kalender-Abo, Newsletter, Push, App, Einstellungen).
  * Sie klebt oben und rollt mit. Auf dem Handy folgen unter dem Logo die
  * Bereiche (`HandyNavigation`), die Suche klappt dazwischen auf. Der Markenname steht immer ganz da;
  * bei Platzmangel weicht die rechte Seite (Daniel, 09.10.2026).

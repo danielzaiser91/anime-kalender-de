@@ -10,9 +10,8 @@ import { BurgerZeichen, GlockenZeichen, KalenderZeichen, PostZeichen, ZahnradZei
 import { Schalter } from './FilterFeld.tsx'
 
 /**
- * **Abo und Newsletter in einem Knopf** (Daniel, 26.09.2026: Beschriftung nur Kalender- und
- * Glockensymbol). Dahinter: Kalender-Abo, Newsletter und — seit der Favoriten-Reiter entfallen
- * ist — der Push-Schalter für Favoriten.
+ * **Burger-Menü oben rechts** (seit 27.10.2026, vorher Glocken-Knopf): Kalender-Abo, Newsletter,
+ * Push-Schalter für Favoriten, App-Installation und der Weg in die Einstellungen.
  */
 export function AboMenue({ onView, favorites, einstellungen }: { onView: (v: ViewId) => void; favorites: Set<number>; einstellungen: () => void }) {
   const { t } = useLang()

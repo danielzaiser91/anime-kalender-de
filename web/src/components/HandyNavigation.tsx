@@ -7,7 +7,7 @@ import { SaisonZeichen } from './saison-zeichen.tsx'
 
 /**
  * **Auf dem Handy steht die Navigation oben in der Kopfleiste** — Kalender, Datenbank, News, Saison und
- * Entdecken (Optionen liegen im Burger-Menü). Unten, in Daumenreichweite, sitzt seit 12.10.2026 die
+ * Entdecken (Einstellungen liegen im Burger-Menü). Unten, in Daumenreichweite, sitzt seit 12.10.2026 die
  * Werkzeugleiste der Ansicht
  * (`filter/Werkzeugleiste.tsx`); die Navigation rollt mit der Kopfleiste beim Abwärtsscrollen ein.
  */
