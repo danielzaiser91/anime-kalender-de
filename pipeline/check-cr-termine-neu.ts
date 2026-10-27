@@ -254,7 +254,9 @@ const psyVoll = lauf(serie(PSY, [['Staffel 1', 1, 1, [[1, '2026-10-26T14:30:00Z'
 pruefe('Psyren-Form, aber der Block führt nur diese eine Folge: Abwurf wie bisher, Ende gesetzt', psyVoll?.rhythmus === 'batch' && psyVoll?.zahlOffen === undefined && psyVoll?.lastEpisodeDate === '2026-10-26', psyVoll)
 const psyZahl = lauf(serie(PSY, [['Staffel 1', 1, 4, [[1, '2026-10-26T14:30:00Z']]]]), [titel(204011, 'PSYREN', 2026, PSY, true, 12)], JETZT_PSY).raus[0]
 pruefe('mit Folgenzahl am Titel gilt der alte Weg (Aoashi): 12 erwartet, kein zahlOffen', psyZahl?.rhythmus === 'weekly' && psyZahl?.episodeCount === 12 && psyZahl?.zahlOffen === undefined, psyZahl)
-const psyLuecke = lauf(serie(PSY, [['Staffel 1', 2, 4, [[1, '2026-10-26T14:30:00Z'], [3, '2026-11-09T14:30:00Z']]]]), psyTitel, Date.parse('2026-11-10T05:00:00Z')).raus[0]
+const psyEins = lauf(serie(PSY, [['Staffel 1', 1, 4, [[1, '2026-10-26T14:30:00Z']]]]), [titel(204011, 'PSYREN', 2026, PSY, true, 1)], JETZT_PSY).raus[0]
+pruefe('Titel mit Folgenzahl 1 und schon einer deutschen Folge: kein offenes Ende, Abwurf wie bisher', psyEins?.zahlOffen === undefined && psyEins?.lastEpisodeDate === '2026-10-26' && psyEins?.rhythmus === 'batch', psyEins)
+const psyLuecke =lauf(serie(PSY, [['Staffel 1', 2, 4, [[1, '2026-10-26T14:30:00Z'], [3, '2026-11-09T14:30:00Z']]]]), psyTitel, Date.parse('2026-11-10T05:00:00Z')).raus[0]
 pruefe('Psyren-Form mit Lücke in den Nummern (1, 3): nicht laufend, Ende gesetzt', psyLuecke?.zahlOffen === undefined && psyLuecke?.lastEpisodeDate === '2026-11-09', psyLuecke)
 const psyZwei = lauf(serie(PSY, [['Staffel 1', 2, 4, [[1, '2026-10-26T14:30:00Z'], [2, '2026-11-02T15:30:00Z']]]]), psyTitel, Date.parse('2026-11-03T05:00:00Z')).raus[0]
 pruefe('Psyren nach der zweiten Woche: weiter wöchentlich, Folgen 1 und 2, Ende offen', psyZwei?.rhythmus === 'weekly' && psyZwei?.zahlOffen === true && psyZwei?.lastEpisodeDate === undefined && JSON.stringify(psyZwei?.beobachtet) === '{"1":"2026-10-26","2":"2026-11-02"}', psyZwei)
