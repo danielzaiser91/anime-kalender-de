@@ -3,7 +3,7 @@ import type { Phase } from '../../lib/empfehlung-ablauf.ts'
 
 const KNOPF = 'inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full border border-ak-rand bg-ak-flaeche px-3 text-[13px]'
 
-/** Kopfzeile der Fläche: Rückweg zum Kalender, je nach Phase „← Vorschläge“ bzw. „Von vorn“, am Handy der Anbieter-Knopf. */
+/** Kopfzeile der Fläche: links „Entdecken“ (Link zum Kalender, in der Detailansicht nur Text), dort der Knopf „Zurück zu den Vorschlägen“, am Handy der Anbieter-Knopf. */
 export function Kopfzeile({ phase, anbieter, blattOffen, vorschlaege, blatt }: {
   phase: Phase
   anbieter: number

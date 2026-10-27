@@ -29,7 +29,7 @@ function Vorschlag({ k, titel, istFavorit, aktionen }: { k: Kandidat; titel?: Ti
         className="empf-kandidat relative block aspect-[2/3] w-full overflow-hidden rounded-xl bg-ak-flaeche-2 shadow-xl"
       >
         <Cover titel={titel} breite={200} klasse="h-full w-full object-cover" />
-        <span className="empf-details" aria-hidden>
+        <span className="empf-details">
           {t('empf.details')}
         </span>
         {istFavorit && (

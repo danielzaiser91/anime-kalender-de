@@ -32,6 +32,7 @@ import { pruefeStatusfarben } from './ansicht-statusfarben.mjs'
 import { distPruefen } from './dist-frisch.mjs'
 import { eckenFehler } from './ecken-urteil.mjs'
 import { messeDuell } from './ansicht-duell.mjs'
+import { messeDetailsOverlay } from './ansicht-details-overlay.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -330,8 +331,10 @@ async function spieleEmpfehlung(browser, geraet, thema) {
   const niedrig = await seite.evaluate(zuNiedrigeFlaechen, MIN_TIPPFLAECHE)
   if (niedrig.length) fehler.push(`${kennung}: Tippfläche unter 44 px: ${niedrig.join(' | ')}`)
   const ohne = await messeEmpfehlungsCover(seite)
+  for (const f of await messeDetailsOverlay(seite, EMPFEHLUNG_COVER, lesePixelPng, 'ohne Favorit')) fehler.push(`${kennung}: ${f}`)
   await seite.locator('.empf ul > li:first-child button[aria-pressed]').click()
   const mit = await messeEmpfehlungsCover(seite)
+  for (const f of await messeDetailsOverlay(seite, EMPFEHLUNG_COVER, lesePixelPng, 'mit Favorit')) fehler.push(`${kennung}: ${f}`)
   for (const f of pruefeEmpfehlungsCover(ohne, mit)) fehler.push(`${kennung}: ${f}`)
   await seite.locator(EMPFEHLUNG_COVER).click()
   await seite.waitForTimeout(1200)
@@ -451,7 +454,7 @@ async function meldeEmpfehlung() {
   }
   await browser.close()
   const faelle = EMPFEHLUNG_GERAETE.length * 2
-  console.log(`\nEntdecken (Reise durchgespielt, ${faelle} Fälle: Handy und Rechner, hell und dunkel; Konsole, Scrollen, Tippflächen, Ecken und Unterkante der Cover, Duell-Karte mit und ohne gewinnt/verliert: Ecken, Unterkante, Ring): ${fehler.length ? '' : 'ok'}`)
+  console.log(`\nEntdecken (Reise durchgespielt, ${faelle} Fälle: Handy und Rechner, hell und dunkel; Konsole, Scrollen, Tippflächen, Ecken und Unterkante der Cover, Details-Overlay mit und ohne Favorit: Ecken, Lage, Zeilen darunter, Abdunklung; Duell-Karte mit und ohne gewinnt/verliert: Ecken, Unterkante, Ring): ${fehler.length ? '' : 'ok'}`)
   for (const f of fehler) console.log(`  ✕ ${f}`)
   return fehler.length > 0
 }
