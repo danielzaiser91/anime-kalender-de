@@ -1977,6 +1977,50 @@
         "episode": 1
       },
       "weeklyConfirmed": false
+    },
+    "die tagebücher der apothekerin (s3)": {
+      "time": "17:00",
+      "weekday": 4,
+      "dates": [
+        "2026-10-30"
+      ],
+      "rawTitle": "Die Tagebücher der Apothekerin (Staffel 3)",
+      "seriesId": "G3KHEVDJ7",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G3KHEVDJ7",
+      "observations": [
+        {
+          "date": "2026-10-30",
+          "episode": 2,
+          "quelle": "woche"
+        }
+      ],
+      "weeklyConfirmed": false,
+      "earliest": {
+        "date": "2026-10-30",
+        "episode": 2
+      }
+    },
+    "a wild last boss appeared s2": {
+      "time": "15:30",
+      "weekday": 5,
+      "dates": [
+        "2026-10-31"
+      ],
+      "rawTitle": "A Wild Last Boss Appeared! Staffel 2",
+      "seriesId": "GT00361955",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00361955",
+      "observations": [
+        {
+          "date": "2026-10-31",
+          "episode": 3,
+          "quelle": "woche"
+        }
+      ],
+      "weeklyConfirmed": false,
+      "earliest": {
+        "date": "2026-10-31",
+        "episode": 3
+      }
     }
   },
   "slots": [
