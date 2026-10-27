@@ -18,6 +18,8 @@ const stumm = (text) => findeStummeAusgaenge(text).map((s) => s.zeile)
 const OHNE_AUSGANG = {
   'pipeline/check-ankuendigung-versteckt-bestand.ts':
     'nur Warnung (⚠ WARNUNG, Exit 0): ein Titel mit frischer Ankündigung hinter dem Toggle kann zu Recht dort liegen (aniSearch „Deutsch nicht genannt“, Handurteil), Rot würde den Bestandsbau stoppen; 26.10.2026',
+  'pipeline/check-disc-suchlinks-bestand.ts':
+    'nur Warnung (⚠ WARNUNG, Exit 0): ein Sammler kann jederzeit eine Disc ohne EAN melden, Rot würde den Bestandsbau stoppen; 27.10.2026',
   'pipeline/check-handlung-eigen-bestand.ts':
     'verwaist ist seit 26.10.2026 eine Warnung (herabgestufteWarnzeile, Exit 0): ein Eintrag ohne Titel bringt nichts live, der Bau bindet nur Einträge zu Titeln im Bestand ein',
 }
