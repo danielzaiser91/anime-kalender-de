@@ -2,7 +2,9 @@
  * Test zu tools/abnahme-freigabe.mjs und .github/workflows/abnahme-freigabe.yml.
  * Erwartete Werte stehen fest im Test (nichts aus dem Prüfling importiert außer den Funktionen selbst).
  */
+import { spawnSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { parse } from 'yaml'
 import { entscheide, lauf } from './abnahme-freigabe.mjs'
 
@@ -29,6 +31,7 @@ pruefe('zu kurzer Hash (8 Zeichen)', art({ text: `${PRAE}\nKopf a1b2c3d4` }) ===
 pruefe('alter Hash', art({ text: `${PRAE}\nKopf ${ALT}` }) === 'hinweis')
 pruefe('ohne Hash', art({ text: `${PRAE}\nalles gut` }) === 'hinweis')
 pruefe('Hash, der kein Präfix ist (Mitte des Kopfs)', art({ text: `${PRAE}\n${KOPF.slice(3, 20)}` }) === 'hinweis')
+pruefe('Hash klebt an Buchstaben davor', art({ text: `${PRAE}\nzz${KOPF.slice(0, 12)}` }) === 'hinweis')
 pruefe('länger als der Kopf', art({ text: `${PRAE}\n${KOPF}ab` }) === 'hinweis')
 pruefe('fremder Autor', art({ autor: 'fremder', text: `${PRAE}\n${KOPF}` }) === 'ignorieren')
 pruefe('Bot als Autor', art({ autor: 'github-actions[bot]', text: `${PRAE}\n${KOPF}` }) === 'ignorieren')
@@ -65,7 +68,8 @@ pruefe('Lauf alter Hash: Ergebnis hinweis', alt.e.art === 'hinweis')
 const fremd = simuliere({ COMMENT_USER: 'fremder', COMMENT_ASSOC: 'OWNER', COMMENT_BODY: `${PRAE}\n${KOPF}` })
 pruefe('Lauf fremder Autor: weder Review noch Kommentar', fremd.aufrufe.every((a) => a[1] === 'view'))
 
-for (const [name, env] of [['PR mit Zeichen', { PR: '1; rm' }], ['REPO mit Leerraum', { REPO: 'o r' }]]) {
+pruefe('Lauf frei: Text nennt gekürzten Kopf', review?.some((x) => x.includes(`für ${KOPF.slice(0, 9)} (genannt`)), review)
+for (const [name, env] of [['PR mit Zeichen', { PR: '1; rm' }], ['PR mit Zeichen davor', { PR: 'x1' }], ['REPO mit Leerraum', { REPO: 'o r' }], ['REPO mit Leerraum und Schrägstrich', { REPO: 'x o/r y' }]]) {
   let geworfen = false
   try { simuliere({ ...ok, COMMENT_BODY: `${PRAE}\n${KOPF}`, ...env }) } catch { geworfen = true }
   pruefe(`Lauf wirft bei ${name}`, geworfen)
@@ -73,6 +77,10 @@ for (const [name, env] of [['PR mit Zeichen', { PR: '1; rm' }], ['REPO mit Leerr
 let kopfKaputt = false
 try { lauf({ ...ok, PR: '1', REPO: 'o/r', COMMENT_BODY: `${PRAE}\n${KOPF}` }, () => 'unsinn') } catch { kopfKaputt = true }
 pruefe('Lauf wirft bei unlesbarem Kopf', kopfKaputt)
+
+// Start als eigener Prozess: ohne PR/REPO muss das Skript laufen und scheitern (kein stilles Ende mit Exit 0).
+const prozess = spawnSync(process.execPath, [fileURLToPath(new URL('./abnahme-freigabe.mjs', import.meta.url))], { env: {}, encoding: 'utf8', windowsHide: true })
+pruefe('Prozess: Start ohne env scheitert mit Meldung', prozess.status !== 0 && prozess.stderr.includes('PR oder REPO ungültig'), prozess.stderr)
 
 // Workflow: geparstes YAML.
 const wf = parse(readFileSync(new URL('../.github/workflows/abnahme-freigabe.yml', import.meta.url), 'utf8'))

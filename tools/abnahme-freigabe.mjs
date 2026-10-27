@@ -45,7 +45,7 @@ function ghEcht(args) {
   return execFileSync('gh', args, { encoding: 'utf8', windowsHide: true })
 }
 
-if (import.meta.url === `file://${process.argv[1]}` || process.argv[1] === fileURLToPath(import.meta.url)) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const e = lauf(process.env, ghEcht)
   console.log(`Abnahme-Freigabe: ${e.art}${e.hash ? ` (${e.hash})` : ''}`)
 }
