@@ -1,45 +1,18 @@
 import { useMemo, useState } from 'react'
 
 import type { Title } from '@shared/types.ts'
-import { nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import { DbKopfbereich } from './filter/DbWerkzeug.tsx'
 import { zaehleMitSynchro } from './db-kopfzeile.tsx'
 import { DbLeer, DbRaster, MehrKnopf } from './db-bedienung.tsx'
 import type { FilterState } from '../lib/filters.ts'
+import { groupByFranchise, type TitleGroup } from '../lib/db-gruppen.ts'
 import { ordneListe } from '../lib/db-liste.ts'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
 
 const PAGE_SIZE = 60
-
-export interface TitleGroup {
-  main: Title
-  members: Title[]
-}
-
-/**
- * Bündelt Staffeln derselben Reihe.
- *
- * Vertreter ist die **erste reguläre Staffel**, nicht die neueste — warum,
- * steht bei `reihenVertreter()`. Die Mitglieder stehen in
- * Ausstrahlungsreihenfolge, damit die Reihe im Detail-Panel von vorn nach
- * hinten gelesen wird.
- */
-export function groupByFranchise(titles: Title[]): TitleGroup[] {
-  const byFranchise = new Map<number, Title[]>()
-  for (const t of titles) {
-    const key = t.franchiseId ?? t.id
-    const list = byFranchise.get(key)
-    if (list) list.push(t)
-    else byFranchise.set(key, [t])
-  }
-  return [...byFranchise.values()].map((members) => {
-    const sorted = members.slice().sort(nachAusstrahlung)
-    return { main: reihenVertreter(sorted), members: sorted }
-  })
-}
 
 export function DatabaseView({
   data,
