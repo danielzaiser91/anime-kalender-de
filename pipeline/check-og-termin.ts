@@ -81,7 +81,7 @@ eq('Kopf Disc künftig: „im Handel"', kopf(disc), { datum: 'Fr, 13.03.', folge
 eq('Kopf: ein Termin am heutigen Tag ist der künftige', kopf(plan({ 1: '2026-03-03', 2: '2026-03-10', 3: '2026-03-17' }))?.folge, 'Folge 2 von 6')
 const staffelPaket = { ...plan({ 1: '2026-03-13', 2: '2026-03-13' }), releaseType: 'batch' } as unknown as Release
 eq('Kopf Staffelpaket: keine Folgenzeile, auch mit Nummern', kopf(staffelPaket)?.folge, '')
-const erst ={ ...plan({ 1: '2026-03-02' }), erstausgabe: true } as unknown as Release
+const erst = { ...plan({ 1: '2026-03-02' }), erstausgabe: true } as unknown as Release
 eq('Kopf Erstausgabe vorbei: „Erstveröffentlichung"', kopf(erst)?.fakt, 'Erstveröffentlichung')
 
 const mitZeit = plan({ 1: '2026-03-13' })

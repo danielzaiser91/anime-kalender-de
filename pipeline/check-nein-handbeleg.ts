@@ -59,7 +59,7 @@ console.log('\nNein-Handbelege als Schlüsselmenge:')
   pruefe('… neben einem Ja an anderer Adresse sperrt es nur die eigene Adresse', wegVerneint(nebenJa, 17, 'primevideo', verschmolzen.url) && !wegVerneint(nebenJa, 17, 'primevideo', JW_PRIME), [...nebenJa])
   const bereichNein = neinHandbelege([hand(18, 'netflix', { url: 'https://www.netflix.com/title/9', available: false, dubRanges: [{ from: 1, to: 3, dub: true }] })])
   pruefe('deutscher Bereich und „nicht verfügbar“ in einer Zeile: das Nein gilt', wegVerneint(bereichNein, 18, 'netflix', 'https://www.netflix.com/title/9'), [...bereichNein])
-  const ohneBeide =neinHandbelege([hand(15, 'netflix', { available: false }), hand(15, 'netflix', { dub: true })])
+  const ohneBeide = neinHandbelege([hand(15, 'netflix', { available: false }), hand(15, 'netflix', { dub: true })])
   pruefe('Ja und Nein ohne Adresse: dieselbe Ausgabe ist nicht belegt, das Nein gilt', wegVerneint(ohneBeide, 15, 'netflix', 'https://www.netflix.com/title/8'), [...ohneBeide])
 }
 

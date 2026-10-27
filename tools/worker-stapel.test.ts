@@ -185,7 +185,7 @@ const nummern = (n: number, ab = 1) => Array.from({ length: n }, (_, i) => meldu
   const r500 = await handlePruefung(wirft, u.env, u.ctx)
   const i500 = (await r500.json()) as { grund?: string; error?: string }
   pruefe(r500.status === 500 && i500.grund === 'ausnahme Error' && i500.error === i500.grund && r500.headers.get('Access-Control-Allow-Origin') === '*', 'Ausnahme bei Einzelmeldung: 500 mit Grund und CORS statt Cloudflare-Fehlerseite')
-  const falschesToken =new Request('https://worker.test/pruefung', { method: 'POST', headers: { 'X-Lauf-Token': 'x' }, body: '{}' })
+  const falschesToken = new Request('https://worker.test/pruefung', { method: 'POST', headers: { 'X-Lauf-Token': 'x' }, body: '{}' })
   protokoll.length = 0
   const r403 = await handlePruefung(falschesToken, u.env, u.ctx)
   pruefe(r403.status === 403 && protokoll.some((z) => z.includes('"status":403')) && !protokoll.some((z) => z.includes('"x"')), 'Falsches Token: 403, im Protokoll ohne Token')

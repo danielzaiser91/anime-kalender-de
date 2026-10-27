@@ -18,7 +18,7 @@ console.error = () => {}
 
 /** Die Pfade, die auch aus einer Datei (Ursprung `null`) gelesen werden — absichtlich als Literal, nicht aus `OFFENE_PFADE`. */
 const OFFENE_PFADE_ERWARTET = ['/lauf', '/pruefung', '/netzfund', '/vorfall']
-const D1_LIMIT =new Error("D1_ERROR: Your account has exceeded D1's free tier daily row read limit.")
+const D1_LIMIT = new Error("D1_ERROR: Your account has exceeded D1's free tier daily row read limit.")
 const CORS = { 'Access-Control-Allow-Origin': 'https://anime.example' }
 const werfe = (e: unknown) => async (): Promise<Response> => {
   throw e

@@ -39,7 +39,7 @@ console.log('\n„Im Angebot seit“ im Bestand:')
   }
   const nichtErst = [...termine.values()].filter((e) => e.erstausgabe && (fruehesterTag.get(e.titleId) ?? e.date) < e.date).map((e) => e.id)
   pruefe('keine Erstveröffentlichung, wenn der Titel einen früheren Termin hat (Disc eingeschlossen)', !nichtErst.length, nichtErst.slice(0, 5))
-  const ohneKern =releases.filter((r) => termine.has(r.slug) && !kern.has(r.titleId)).map((r) => `${r.slug}:${r.titleId}`)
+  const ohneKern = releases.filter((r) => termine.has(r.slug) && !kern.has(r.titleId)).map((r) => `${r.slug}:${r.titleId}`)
   pruefe('jeder Titel mit solchem Termin steht im Kern (Cover und Name für die Karte)', !ohneKern.length, ohneKern.slice(0, 5))
   const jeTag = new Map<string, number>()
   for (const r of releases.filter((x) => x.slug.startsWith('motn-'))) jeTag.set(`${r.platform} ${r.schedule.firstEpisodeDate}`, (jeTag.get(`${r.platform} ${r.schedule.firstEpisodeDate}`) ?? 0) + 1)

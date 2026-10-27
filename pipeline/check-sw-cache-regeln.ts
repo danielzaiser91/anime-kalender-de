@@ -172,7 +172,7 @@ async function pruefeLaufzeit(quelltext: string): Promise<string[]> {
     voll.kulisse.speicher.set('fest-v4', new Map([...alle, [url, 'alt']]))
     await holeAntwort(voll.handler, url)
     soll(`${pfad} Obergrenze fest-v4`, voll.kulisse.speicher.get('fest-v4')?.size, 60)
-    const fehlerhaft =baueKulisse(quelltext, () => '404:kaputt')
+    const fehlerhaft = baueKulisse(quelltext, () => '404:kaputt')
     fehlerhaft.kulisse.speicher.set('fest-v4', new Map([[url, 'alt']]))
     await holeAntwort(fehlerhaft.handler, url)
     soll(`${pfad} Netz 404: Kopie bleibt`, fehlerhaft.kulisse.speicher.get('fest-v4')?.get(url), 'alt')

@@ -26,7 +26,7 @@ const zelle = (x: string | number): string => String(x).replace(/\|/g, '\\|')
 export const nurSerieText = (e: JwSeitenErgebnis): string =>
   [...e.nurSerie].map(([grund, n]) => `${grund} ${n}`).join(', ') || 'keine'
 
-const prozent =(z: { gemessen: number; widerspruch: number }): string => `${((z.widerspruch / z.gemessen) * 100).toFixed(1)} %`
+const prozent = (z: { gemessen: number; widerspruch: number }): string => `${((z.widerspruch / z.gemessen) * 100).toFixed(1)} %`
 
 /** Der Abschnitt einer Phase als Markdown, mit Start- und Endmarke. */
 export function abschnitt(art: 'Anime' | 'Cartoons', e: JwSeitenErgebnis): string {

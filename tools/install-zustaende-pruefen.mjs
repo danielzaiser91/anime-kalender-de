@@ -68,7 +68,7 @@ async function fall(browser, name, lage, breite) {
   const kopfKnopf = seite.locator('header button[aria-label="App installieren"], header button:has-text("App installieren")')
   const glocke = seite.locator('header button[aria-label^="Menü"]').first()
   await glocke.waitFor({ state: 'visible', timeout: 20_000 })
-  const karte =seite.locator('body > div[role="dialog"]')
+  const karte = seite.locator('body > div[role="dialog"]')
   if (lage.ereignis) {
     await seite.evaluate(EREIGNIS)
     // Bedingung statt Pause: Ab 390 px muss der Kopf-Knopf erscheinen, bevor gezählt wird.

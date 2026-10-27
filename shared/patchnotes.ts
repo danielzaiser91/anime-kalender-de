@@ -33,7 +33,7 @@ export const MAX_TAGE = 30
 const FELDER = new Set(['datum', 'kategorie', 'text', 'highlight', 'untertitel', 'symbol', 'link'])
 /** Nichts, was ein Besucher nicht sehen darf oder nicht versteht (Debug, Pipeline, Prüfungen, Erweiterung, versteckte Einstellungen). */
 export const VERBOTENE_WOERTER = /debug|pipeline|prüf|\bwache|wächter|worker|erweiterung|\bintern|geheim|zusicherung|invariante|workflow|datensatz/i
-const woerter =(s: string): number => s.trim().split(/\s+/).filter(Boolean).length
+const woerter = (s: string): number => s.trim().split(/\s+/).filter(Boolean).length
 
 export function istTag(s: unknown): s is string {
   if (typeof s !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false

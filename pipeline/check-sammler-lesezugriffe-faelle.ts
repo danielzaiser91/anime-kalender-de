@@ -21,7 +21,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 
 const art = (text: string): string => findeLesezugriffe('x.ts', text).map((f) => `${f.ziel}:${f.art}`).join()
 const KULISSE = `const kulisse = mkdtempSync(join(tmpdir(), 'x'))\n`
-const IMP =`import { readFileSync, appendFileSync } from 'node:fs'\nimport { join, resolve } from 'node:path'\n`
+const IMP = `import { readFileSync, appendFileSync } from 'node:fs'\nimport { join, resolve } from 'node:path'\n`
 
 console.log('\nScanner: was als Lesen zählt')
 pruefe('readFileSync mit festem Pfad', art(`${IMP}readFileSync('data/a.json', 'utf8')`) === 'data/a.json:lesen')
@@ -177,7 +177,7 @@ const w11 = legeKulisseAn({ ...basis, 'tools/sammler-lesezugriffe.json': JSON.st
 pruefe('Lesen über eine new URL-Variable in tools/ mit Eintrag: grün (kein „veraltet“)', lauf(w11).fehler.length === 0, lauf(w11).fehler)
 const w12 = legeKulisseAn({ ...basis, 'tools/v.test.mjs': `const u = new URL('../data/e.json', import.meta.url)\nreadFileSync(u, 'utf8')` })
 pruefe('Lesen über eine new URL-Variable in tools/ ohne Eintrag: rot', lauf(w12).fehler.length === 1 && lauf(w12).fehler[0]!.includes('tools/v.test.mjs'), lauf(w12).fehler)
-const w5 =legeKulisseAn({ ...basis, 'pipeline/check-c.ts': `readJson('data/e.json', {})` })
+const w5 = legeKulisseAn({ ...basis, 'pipeline/check-c.ts': `readJson('data/e.json', {})` })
 pruefe('Prüfung außerhalb der Liste (läuft nicht in check:logic): nicht gezählt', lauf(w5).fehler.length === 0)
 const w8 = legeKulisseAn({ ...basis, 'pipeline/check-b.ts': `const DATEI = 'data/b.json'` })
 pruefe('Pfad in einer Konstante einer Prüfung der Liste („?“): rot', lauf(w8).fehler.length === 1 && lauf(w8).fehler[0]!.includes('data/b.json'), lauf(w8).fehler)
