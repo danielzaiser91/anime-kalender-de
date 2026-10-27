@@ -39,7 +39,7 @@ const KENNUNGEN = typeof __DATEI_KENNUNGEN__ === 'object' ? __DATEI_KENNUNGEN__ 
  * bekannte Fassung zurück, egal welche Kennung die trägt.
  */
 function url(path: string): string {
-  return datenAdresse(import.meta.env.BASE_URL, path, KENNUNGEN, BUILD_ID)
+  return datenAdresse(import.meta.env?.BASE_URL ?? '/', path, KENNUNGEN, BUILD_ID)
 }
 
 export async function loadJson<T>(path: string): Promise<T> {
