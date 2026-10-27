@@ -26,7 +26,7 @@ export const TEXTE_KALENDER = {
   'kopf.startseite': 'Anime-Kalender DE — zur aktuellen Woche',
   'kopf.suche': 'Anime suchen',
   'kopf.sucheOeffnen': 'Suche öffnen',
-  'kopf.abo': 'Abonnieren: Kalender-Abo, Newsletter, Push',
+  'kopf.abo': 'Menü: Kalender-Abo, Newsletter, Einstellungen',
   'kopf.aboKalenderHinweis': 'Google, Apple, Outlook — aktualisiert sich selbst',
   'kopf.aboNewsletterHinweis': 'Neue Termine per Mail',
   'kopf.aboPush': 'Push für Favoriten',

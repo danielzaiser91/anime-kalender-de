@@ -14,7 +14,6 @@ import { DatabaseView } from './DatabaseView.tsx'
 import { FilterBarDock } from './FilterBar.tsx'
 import { SprecherLeiste } from './SprecherLeiste.tsx'
 import { Ladeanzeige } from './ui.tsx'
-import { WasGuckenKnopf } from './WasGuckenKnopf.tsx'
 
 export interface DatenbankBereichProps {
   data: Dataset
@@ -45,7 +44,6 @@ export function DatenbankBereich(p: DatenbankBereichProps) {
   const herkunftZaehlung = useMemo(() => zaehleHerkunft(p.quelle), [p.quelle])
   const ansicht = (
     <>
-      <WasGuckenKnopf navigate={p.navigate} />
       {p.geladen ? (
         <SuchfundstellenContext.Provider value={p.titles.fundstellen}>
           <DatabaseView

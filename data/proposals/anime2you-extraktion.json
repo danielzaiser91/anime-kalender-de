@@ -325,6 +325,10 @@
       "am": "2026-10-14",
       "vorschlaege": 0
     },
+    "1060152": {
+      "am": "2026-10-27",
+      "vorschlaege": 0
+    },
     "1060168": {
       "am": "2026-10-14",
       "vorschlaege": 3
@@ -807,9 +811,43 @@
       "am": "2026-10-26",
       "vorschlaege": 6
     },
+    "1063815": {
+      "am": "2026-10-27",
+      "vorschlaege": 1
+    },
+    "1063875": {
+      "am": "2026-10-27",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1063990": {
       "am": "2026-10-26",
       "vorschlaege": 0
+    },
+    "1064013": {
+      "am": "2026-10-27",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1064033": {
+      "am": "2026-10-27",
+      "vorschlaege": 1
+    },
+    "1064045": {
+      "am": "2026-10-27",
+      "vorschlaege": 0
+    },
+    "1064175": {
+      "am": "2026-10-27",
+      "vorschlaege": 1
+    },
+    "1064193": {
+      "am": "2026-10-27",
+      "vorschlaege": 4
+    },
+    "1064211": {
+      "am": "2026-10-27",
+      "vorschlaege": 1
     }
   },
   "vorschlaege": [
@@ -6922,6 +6960,165 @@
       "quelle": "https://www.anime2you.de/news/1063658/blue-box-staffel-2-pause/",
       "veroeffentlicht": "2026-10-25",
       "gelesenAm": "2026-10-26"
+    },
+    {
+      "titel": "Aoashi – Staffel 2",
+      "zitat": "»Aoashi« – Staffel 2 Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Sonntag um 11:00 Uhr",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": "11:00",
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": "Jeden Sonntag",
+      "folgen": "1",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1064193",
+      "artikel": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
+      "quelle": "https://www.anime2you.de/news/1064193/crunchyroll-psyren-synchro-und-mehr/",
+      "veroeffentlicht": "2026-10-26",
+      "gelesenAm": "2026-10-27"
+    },
+    {
+      "titel": "Aoashi – Staffel 2",
+      "zitat": "»Aoashi« – Staffel 2 Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Sonntag um 11:00 Uhr",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": "11:00",
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": "Jeden Sonntag",
+      "folgen": "1",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1064193",
+      "artikel": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
+      "quelle": "https://www.anime2you.de/news/1064193/crunchyroll-psyren-synchro-und-mehr/",
+      "veroeffentlicht": "2026-10-26",
+      "gelesenAm": "2026-10-27"
+    },
+    {
+      "titel": "PSYREN",
+      "zitat": "»PSYREN« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Montag um 16:30 Uhr",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": "16:30",
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": "Jeden Montag",
+      "folgen": "1",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1064193",
+      "artikel": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
+      "quelle": "https://www.anime2you.de/news/1064193/crunchyroll-psyren-synchro-und-mehr/",
+      "veroeffentlicht": "2026-10-26",
+      "gelesenAm": "2026-10-27"
+    },
+    {
+      "titel": "PSYREN",
+      "zitat": "»PSYREN« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Montag um 16:30 Uhr",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": "16:30",
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": "Jeden Montag",
+      "folgen": "1",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1064193",
+      "artikel": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
+      "quelle": "https://www.anime2you.de/news/1064193/crunchyroll-psyren-synchro-und-mehr/",
+      "veroeffentlicht": "2026-10-26",
+      "gelesenAm": "2026-10-27"
+    },
+    {
+      "titel": "Black Clover Second Season",
+      "zitat": "»Black Clover Second Season« läuft seit dem 3. Oktober 2026 im japanischen Fernsehen und hierzulande bei Crunchyroll im Simulcast. Eine deutsche Synchronfassung ist angekündigt, hat aber noch keinen Starttermin.",
+      "art": "sprachfassung",
+      "sprache": "deutsch",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Deutsche Synchronfassung ist angekündigt, aber noch ohne Starttermin.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1064175",
+      "artikel": "Crunchyroll bringt besonderes »Black Clover«-Erlebnis nach Deutschland",
+      "quelle": "https://www.anime2you.de/news/1064175/crunchyroll-black-clover-erlebnis-in-berlin/",
+      "veroeffentlicht": "2026-10-26",
+      "gelesenAm": "2026-10-27"
+    },
+    {
+      "titel": "One Piece",
+      "zitat": "Auch die Kinder Schoko-Bons sind derzeit in einem speziellen Verpackungsdesign zur Netflix-Serie, deren dritte Staffel im nächsten Jahr erscheint, erhältlich.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1063815",
+      "artikel": "Exklusive »One Piece«-Figuren von Funko ab sofort in Kinder Joy",
+      "quelle": "https://www.anime2you.de/news/1063815/one-piece-funko-figuren-kinder-joy/",
+      "veroeffentlicht": "2026-10-26",
+      "gelesenAm": "2026-10-27"
+    },
+    {
+      "titel": "The World’s Strongest Witch",
+      "zitat": "»The World’s Strongest Witch« umfasst demnach insgesamt zwölf Episoden, die seit dem 7. Oktober 2026 im japanischen Fernsehen ausgestrahlt und bei Crunchyroll im Originalton mit deutschen Untertiteln im Simulcast gezeigt werden.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-07",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": "Mittwoch",
+      "warnungen": [],
+      "artikelId": "1064033",
+      "artikel": "Episodenanzahl der Fantasy-Serie »The World’s Strongest Witch«",
+      "quelle": "https://www.anime2you.de/news/1064033/the-worlds-strongest-witch-episodenanzahl/",
+      "veroeffentlicht": "2026-10-26",
+      "gelesenAm": "2026-10-27"
     }
   ]
 }
