@@ -36,6 +36,10 @@ const FAELLE = [
   { slug: 'cyberpunk-edgerunners', name: 'Cyberpunk: Edgerunners 2 (Netflix-Eigenproduktion)', titel: 195539 },
   { slug: 'chihiro', name: 'Chihiros Reise ins Zauberland (Film)', titel: 199 },
   { slug: 'golden-kamuy', name: 'Golden Kamuy (angekündigt, ohne Datum)', titel: 210073 },
+  /* Disc-Fälle (Mockup `disc-bereich`, 27.10.2026): Termine samt aniSearch-Ausgaben, viele Editionen, genau eine Disc. */
+  { slug: 'sakamoto-days', name: 'Sakamoto Days (Netflix, Disc-Termine seit und ab)', titel: 177709 },
+  { slug: 'dan-da-dan', name: 'Dan Da Dan (Disc: Editionen, Gesamtausgabe kommend)', titel: 171018 },
+  { slug: 'trigun-stampede', name: 'Trigun Stampede (genau eine Disc)', titel: 151040 },
 ]
 
 /**

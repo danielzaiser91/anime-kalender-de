@@ -16,6 +16,7 @@ const WEICHEN = [
   { importeur: '/web/src/components/DatabaseView.tsx', quelle: './db-bedienung.tsx', ziel: './weichen/db-bedienung.tsx' },
   { importeur: '/web/src/components/db-bedienung.tsx', quelle: './db-kopfzeile.tsx', ziel: './weichen/db-kopfzeile.tsx' },
   { importeur: '/web/src/components/filter/DbWerkzeug.tsx', quelle: '../db-kopfzeile.tsx', ziel: './weichen/db-kopfzeile.tsx' },
+  { importeur: '/web/src/components/detail/antwort-bereich.tsx', quelle: './wege-zeilen.tsx', ziel: './weichen/wege-zeilen.tsx' },
 ]
 
 export function buehnenWeichen(): Plugin {
