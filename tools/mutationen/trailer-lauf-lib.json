@@ -1,0 +1,22 @@
+[
+  ["alter >= WIEDERVORLAGE_TAGE", "alter > WIEDERVORLAGE_TAGE"],
+  ["alter >= WIEDERVORLAGE_TAGE", "alter >= WIEDERVORLAGE_TAGE + 1"],
+  ["alter === undefined ||", "false ||"],
+  ["alter === undefined ||", "true ||"],
+  ["export const RIEGEL_JE_LAUF = 500", "export const RIEGEL_JE_LAUF = 501"],
+  ["export const WIEDERVORLAGE_TAGE = 30", "export const WIEDERVORLAGE_TAGE = 31"],
+  ["export const SPEICHERN_ALLE = 100", "export const SPEICHERN_ALLE = 99"],
+  ["(versuche[String(a.id)] ?? '').localeCompare(versuche[String(b.id)] ?? '')", "(versuche[String(b.id)] ?? '').localeCompare(versuche[String(a.id)] ?? '')"],
+  ["(versuche[String(a.id)] ?? '').localeCompare(versuche[String(b.id)] ?? '')", "0"],
+  ["grenze > 0 ? Math.min(grenze, riegel) : riegel", "grenze > 0 ? grenze : riegel"],
+  ["grenze > 0 ? Math.min(grenze, riegel) : riegel", "grenze >= 0 ? Math.min(grenze, riegel) : riegel"],
+  ["grenze > 0 ? Math.min(grenze, riegel) : riegel", "riegel"],
+  ["grenze > 0 ? Math.min(grenze, riegel) : riegel", "grenze > 1 ? Math.min(grenze, riegel) : riegel"],
+  ["geordnet.slice(0,", "geordnet.slice(1,"],
+  ["const jetzt = new Date(heute)", "const jetzt = new Date()"],
+  ["++n % alle === 0", "n++ % alle === 0"],
+  ["++n % alle === 0", "++n % alle === 1"],
+  ["++n % alle === 0", "++n % (alle + 1) === 0"],
+  ["    if (++n % alle === 0) speichere()\n  }\n  speichere()\n}", "    if (++n % alle === 0) speichere()\n  }\n}"],
+  ["    await je(t)\n", "    void je(t)\n"]
+]

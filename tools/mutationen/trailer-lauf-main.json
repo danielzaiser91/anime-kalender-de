@@ -1,0 +1,21 @@
+[
+  ["opt.riegel ?? RIEGEL_JE_LAUF", "RIEGEL_JE_LAUF"],
+  ["opt.riegel ?? RIEGEL_JE_LAUF", "opt.riegel ?? 0"],
+  ["waehleDran(offen, versuche, heute(), opt.riegel ?? RIEGEL_JE_LAUF, GRENZE)", "offen.slice(0, opt.riegel ?? RIEGEL_JE_LAUF)"],
+  ["waehleDran(offen, versuche, heute(), opt.riegel ?? RIEGEL_JE_LAUF, GRENZE)", "waehleDran(offen, {}, heute(), opt.riegel ?? RIEGEL_JE_LAUF, GRENZE)"],
+  ["waehleDran(offen, versuche, heute(), opt.riegel ?? RIEGEL_JE_LAUF, GRENZE)", "waehleDran(offen, versuche, heute(), opt.riegel ?? RIEGEL_JE_LAUF, 0)"],
+  ["opt.speichernAlle ?? SPEICHERN_ALLE", "opt.speichernAlle ?? 1000"],
+  ["opt.speichernAlle ?? SPEICHERN_ALLE", "1000"],
+  ["    () => {\n      writeJson('data/trailer.json', bestand)\n", "    () => {\n"],
+  ["      writeJson('data/trailer-versuche.json', versuche)\n    },", "    },"],
+  ["Boolean(schluessel && tmdbSchluessel)", "Boolean(schluessel || tmdbSchluessel)"],
+  ["Boolean(schluessel && tmdbSchluessel)", "Boolean(tmdbSchluessel)"],
+  ["Boolean(schluessel && tmdbSchluessel)", "Boolean(schluessel)"],
+  ["Boolean(schluessel && tmdbSchluessel)", "true"],
+  ["if (stempeln && bestand[String(titel.id)]?.sprache !== 'de')", "if (bestand[String(titel.id)]?.sprache !== 'de')"],
+  ["if (stempeln && bestand[String(titel.id)]?.sprache !== 'de')", "if (stempeln)"],
+  ["if (stempeln && bestand[String(titel.id)]?.sprache !== 'de')", "if (stempeln && bestand[String(titel.id)]?.sprache === 'de')"],
+  ["versuche[String(titel.id)] = heute()", "versuche[String(titel.id)] = ''"],
+  ["await frageSchnittstellen(titel, tmdb[String(titel.id)], bestand, tmdbSchluessel, zaehler)", "void 0"],
+  ["const versuche = readJson<Versuche>('data/trailer-versuche.json', {})", "const versuche: Versuche = {}"]
+]
