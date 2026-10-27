@@ -12,7 +12,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
   console.error(`  ✖ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
-const EIGENE = ['empfehlung:gesehen', 'empfehlung:verworfen', 'empfehlung:anbieter']
+const EIGENE = ['empfehlung:gesehen', 'empfehlung:verworfen', 'empfehlung:anbieter', 'empfehlung:reise']
 const FREMDE = ['meineAnbieter', 'favorites', 'hidden', 'gesehenBis', 'empfehlung:gesehen:changed']
 
 function speicher(erlaubt = true) {

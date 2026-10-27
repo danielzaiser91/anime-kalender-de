@@ -4,12 +4,11 @@ import type { Phase } from '../../lib/empfehlung-ablauf.ts'
 const KNOPF = 'inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full border border-ak-rand bg-ak-flaeche px-3 text-[13px]'
 
 /** Kopfzeile der Fläche: Rückweg zum Kalender, je nach Phase „← Vorschläge“ bzw. „Von vorn“, am Handy der Anbieter-Knopf. */
-export function Kopfzeile({ phase, anbieter, blattOffen, vorschlaege, vonVorn, blatt }: {
+export function Kopfzeile({ phase, anbieter, blattOffen, vorschlaege, blatt }: {
   phase: Phase
   anbieter: number
   blattOffen: boolean
   vorschlaege: () => void
-  vonVorn: () => void
   blatt: () => void
 }) {
   const { t } = useLang()
@@ -22,11 +21,6 @@ export function Kopfzeile({ phase, anbieter, blattOffen, vorschlaege, vonVorn, b
         {phase === 'leinwand' && (
           <button type="button" className={KNOPF} onClick={vorschlaege}>
             {t('empf.zuVorschlaegen')}
-          </button>
-        )}
-        {phase === 'ergebnis' && (
-          <button type="button" className={KNOPF} onClick={vonVorn}>
-            {t('empf.vonVorn')}
           </button>
         )}
         {phase !== 'start' && (

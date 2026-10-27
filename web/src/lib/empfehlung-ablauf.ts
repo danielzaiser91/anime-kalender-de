@@ -55,4 +55,7 @@ export function entfernen(a: Ablauf, id: number, rang: Kandidat[]): Ablauf {
 
 export const oeffnen = (a: Ablauf, id: number): Ablauf => ({ ...a, phase: 'leinwand', aktuell: id })
 
-export const zuPhase = (a: Ablauf, phase: Phase): Ablauf => ({ ...a, phase })
+/** „Von vorn“: zurück zum Startbildschirm, ohne Sitzung und ohne Galerie. */
+export const zuStart = (): Ablauf => ANFANG
+
+export const zuPhase =(a: Ablauf, phase: Phase): Ablauf => ({ ...a, phase })

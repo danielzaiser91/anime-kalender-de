@@ -98,6 +98,7 @@ pipeline/check-empfehlung-ansicht.ts
 pipeline/check-empfehlung-duell-lauf.ts
 pipeline/check-empfehlung-duell.ts
 pipeline/check-empfehlung-kern.ts
+pipeline/check-empfehlung-reise-speicher.ts
 pipeline/check-empfehlung-reset.ts
 pipeline/check-empfehlung-sichtbar.ts
 pipeline/check-empfehlung.ts

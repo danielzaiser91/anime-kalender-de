@@ -44,7 +44,7 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
   return (
     <div className="empf fixed inset-0 z-50 flex flex-col bg-ak-grund text-ak-text">
       <Hintergrund url={schein} />
-      <Kopfzeile phase={phase} anbieter={eigene.length} blattOffen={blatt} vorschlaege={() => reise.setPhase('ergebnis')} vonVorn={reise.neu} blatt={() => setBlatt(true)} />
+      <Kopfzeile phase={phase} anbieter={eigene.length} blattOffen={blatt} vorschlaege={() => reise.setPhase('ergebnis')} blatt={() => setBlatt(true)} />
       {fehler && <p className="m-auto text-ak-fehler-text">{t('empf.fehler')}</p>}
       {!fehler && !kontext && <p className="m-auto text-ak-leise">{t('empf.laedt')}</p>}
       {kontext && phase === 'start' && <Einleitung titel={titel} ids={mosaik} los={reise.neu} />}
@@ -60,7 +60,7 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
           aktionen={aktionen}
           stand={reise.stehen}
           genauer={reise.kannGenauer ? reise.genauer : undefined}
-          vonVorn={reise.neu}
+          vonVorn={reise.vonVorn}
           verworfen={verworfeneKandidaten}
           zurueckholen={zurueckholen}
         />
