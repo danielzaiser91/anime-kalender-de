@@ -913,8 +913,8 @@ export function ImpressumView() {
           </li>
           <li>
             Sendezeiten:{' '}
-            <a className="underline" href="https://www.crunchyroll.com/de/simulcastcalendar">
-              Crunchyroll-Simulcast-Kalender
+            <a className="underline" href="https://www.crunchyroll.com/de/news/seasonal-lineup">
+              Crunchyroll-Wochenprogramm
             </a>
           </li>
           {/*
