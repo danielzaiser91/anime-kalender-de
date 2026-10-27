@@ -28,10 +28,10 @@ const titel = { id: 191788, titleEn: 'Aoashi Season 2', jpYear: 2026, episodes: 
 const folge = (nummer: number, verfuegbarAb: string) => ({ nummer, guid: `g${nummer}`, verfuegbarAb })
 
 /** Die Phase mit einem Block („Staffel 2“, vier Folgen) und diesen deutschen Folgen; zurück kommen die angelegten Releases. */
-function lauf(folgen: ReturnType<typeof folge>[], t: { id: number; streams: { url: string }[] } = titel, anisearch = {}, jetzt = Date.parse('2026-10-27T05:00:00Z'), block = 'Staffel 2') {
+function lauf(folgen: ReturnType<typeof folge>[], t: { id: number; streams: { url: string }[] } = titel, anisearch = {}, jetzt = Date.parse('2026-10-27T05:00:00Z'), block = 'Staffel 2', vorher: unknown[] = []) {
   const url = t.streams[0]!.url
   const serie = { url, katalog: 'de', staffeln: [{ name: block, deutsch: folgen.length, folgen: 4, deutscheFolgen: folgen }] }
-  const releases: never[] = []
+  const releases = vorher as never[]
   const log = console.log
   console.log = () => undefined
   try {
@@ -86,6 +86,11 @@ try {
   pruefe('aniSearch-Zahl unter den belegten Folgen (1 gegen 2): die belegten gewinnen, geraten', viele?.schedule?.episodeCount === 2 && viele?.schedule?.episodeCountAssumed === true, viele?.schedule)
   const batch = lauf([folge(1, '2026-10-26T14:30:00Z'), folge(2, '2026-10-26T14:30:00Z')], psyren, geschaetzt, undefined, 'Staffel 1')[0]
   pruefe('Psyren mit zwei Folgen am Starttag bleibt Abwurf mit nur den zwei Folgen (Auslegung unverändert)', batch?.releaseType === 'batch' && batch?.schedule?.episodeCount === 2 && batch?.schedule?.episodeCountAssumed === undefined, batch?.schedule)
+  /* Steht die Folge schon als Sammeltermin da (Bestand vom 27.10., „Neu bei“), ersetzt der Wochentermin ihn und bekommt dieselbe Länge. */
+  const alt = { slug: 'psyren-alt', titleId: 204011, platform: 'crunchyroll', releaseType: 'batch', dateMeaning: 'available-from', schedule: { firstEpisodeDate: '2026-10-26', lastEpisodeDate: '2026-10-26', episodeCount: 1 } }
+  const ersetzt = lauf(ersteFolge, psyren, geschaetzt, undefined, 'Staffel 1', [alt])
+  const e = ersetzt[0]
+  pruefe('Psyren als vorhandener Sammeltermin: wird wöchentlich, 12 erwartet (geraten), kein Ende, Slug bleibt', ersetzt.length === 1 && e?.slug === 'psyren-alt' && e?.releaseType === 'weekly' && e?.dateMeaning === undefined && e?.schedule.episodeCount === 12 && e?.schedule.episodeCountAssumed === true && e?.schedule.lastEpisodeDate === undefined, e)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
