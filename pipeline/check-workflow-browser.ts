@@ -51,10 +51,34 @@ jobs:
     steps:
       - run: npm run "$LAUF"
 `
-const OPTION_MIT_BROWSER = `${OPTION_OHNE_BROWSER}      - name: Browser
+const OPTIONEN = `
+on:
+  workflow_dispatch:
+    inputs:
+      lauf:
+        type: choice
+        options: [data:tmdb, data:cr-dub]
+jobs:
+  lauf:
+    steps:
+`
+const INSTALL_CR_DUB = `      - name: Browser
         if: \${{ inputs.lauf == 'data:cr-dub' }}
         run: npx playwright install --with-deps chromium
 `
+const INSTALL_TMDB = INSTALL_CR_DUB.replace('data:cr-dub', 'data:tmdb')
+const INSTALL_OHNE_BEDINGUNG = '      - run: npx playwright install --with-deps chromium\n'
+const LAUF = '      - run: npm run "$LAUF"\n'
+const OPTION_MIT_BROWSER = OPTIONEN + INSTALL_CR_DUB + LAUF
+const OPTION_BROWSER_DANACH = OPTIONEN + LAUF + INSTALL_CR_DUB
+const OPTION_FALSCHE_BEDINGUNG = OPTIONEN + INSTALL_TMDB + LAUF
+const OPTION_UNBEDINGT = OPTIONEN + INSTALL_OHNE_BEDINGUNG + LAUF
+const SKRIPT_DANN_INSTALL = `
+jobs:
+  a:
+    steps:
+      - run: npx tsx pipeline/messbelege.ts
+${INSTALL_OHNE_BEDINGUNG}`
 const OHNE_BROWSER_SKRIPT = `
 jobs:
   a:
@@ -79,7 +103,11 @@ export function fuehreAus(): number {
   pruefe('einrichten ohne playwright: Job a fehlt', jobsOhneBrowser(OHNE_BROWSER).join() === 'a', jobsOhneBrowser(OHNE_BROWSER))
   pruefe('playwright install im run zählt', jobsOhneBrowser(INSTALL_PER_RUN).length === 0, jobsOhneBrowser(INSTALL_PER_RUN))
   pruefe('wählbare Option data:cr-dub ohne Browser: Job lauf fehlt', jobsOhneBrowser(OPTION_OHNE_BROWSER).join() === 'lauf', jobsOhneBrowser(OPTION_OHNE_BROWSER))
-  pruefe('wählbare Option mit eigenem Installationsschritt: kein Befund', jobsOhneBrowser(OPTION_MIT_BROWSER).length === 0, jobsOhneBrowser(OPTION_MIT_BROWSER))
+  pruefe('wählbare Option, Installation mit passender Bedingung davor: kein Befund', jobsOhneBrowser(OPTION_MIT_BROWSER).length === 0, jobsOhneBrowser(OPTION_MIT_BROWSER))
+  pruefe('wählbare Option, Installation erst nach dem Lauf: Job lauf fehlt', jobsOhneBrowser(OPTION_BROWSER_DANACH).join() === 'lauf', jobsOhneBrowser(OPTION_BROWSER_DANACH))
+  pruefe('wählbare Option, Bedingung nennt data:tmdb statt data:cr-dub: Job lauf fehlt', jobsOhneBrowser(OPTION_FALSCHE_BEDINGUNG).join() === 'lauf', jobsOhneBrowser(OPTION_FALSCHE_BEDINGUNG))
+  pruefe('wählbare Option, Installation ohne Bedingung davor: kein Befund', jobsOhneBrowser(OPTION_UNBEDINGT).length === 0, jobsOhneBrowser(OPTION_UNBEDINGT))
+  pruefe('Skript startet vor der Installation: Job a fehlt', jobsOhneBrowser(SKRIPT_DANN_INSTALL).join() === 'a', jobsOhneBrowser(SKRIPT_DANN_INSTALL))
   pruefe('Skript ohne Browser: kein Befund', jobsOhneBrowser(OHNE_BROWSER_SKRIPT).length === 0, jobsOhneBrowser(OHNE_BROWSER_SKRIPT))
   pruefe('zwei Jobs, einer mit playwright: true (Boolean): nur Job a', jobsOhneBrowser(ZWEI_JOBS).join() === 'a', jobsOhneBrowser(ZWEI_JOBS))
 
@@ -101,7 +129,7 @@ export function fuehreAus(): number {
     const ohne = jobsOhneBrowser(readFileSync(join(ordner, d), 'utf8'))
     pruefe(`${d}: jeder Job mit Browser-Skript richtet Chromium ein`, ohne.length === 0, ohne)
   }
-  console.log(verletzt ? `✖ check-workflow-browser: ${verletzt} Verstöße` : `✓ check-workflow-browser: ${dateien.length} Workflows, ${Object.keys(BROWSER_SKRIPTE).length} Browser-Skripte, 7 Fälle`)
+  console.log(verletzt ? `✖ check-workflow-browser: ${verletzt} Verstöße` : `✓ check-workflow-browser: ${dateien.length} Workflows, ${Object.keys(BROWSER_SKRIPTE).length} Browser-Skripte, 12 Fälle`)
   return verletzt ? 1 : 0
 }
 
