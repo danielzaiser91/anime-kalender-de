@@ -39,18 +39,18 @@ function Vorschlag({ k, titel, istFavorit, aktionen }: { k: Kandidat; titel?: Ti
         )}
         {k.ab !== undefined && <span className="empf-name absolute inset-x-0 bottom-0 px-2 pb-1.5 pt-5 text-left text-[11px] leading-tight">{t('empf.staffel', { n: k.ab })}</span>}
       </button>
-      <div className="flex flex-col gap-1">
-        <button type="button" aria-pressed={istFavorit} onClick={() => aktionen.favorit(k.id)} className={`${ZEILE} ${istFavorit ? 'border-ak-favorit-rand' : ''}`}>
+      <div className="empf-aktionen flex flex-col gap-1">
+        <button type="button" aria-pressed={istFavorit} aria-label={t('empf.favorit')} title={t('empf.favorit')} onClick={() => aktionen.favorit(k.id)} className={`${ZEILE} ${istFavorit ? 'border-ak-favorit-rand' : ''}`}>
           <i className="w-[18px] text-center not-italic text-ak-favorit-text">★</i>
-          {t('empf.favorit')}
+          <span className="empf-aktion-text">{t('empf.favorit')}</span>
         </button>
-        <button type="button" onClick={() => aktionen.gesehen(k.id)} className={ZEILE}>
+        <button type="button" aria-label={t('empf.gesehen')} title={t('empf.gesehen')} onClick={() => aktionen.gesehen(k.id)} className={ZEILE}>
           <i className="w-[18px] text-center not-italic text-ak-gut-text">✓</i>
-          {t('empf.gesehen')}
+          <span className="empf-aktion-text">{t('empf.gesehen')}</span>
         </button>
-        <button type="button" onClick={() => aktionen.nein(k.id)} className={ZEILE}>
+        <button type="button" aria-label={t('empf.nein')} title={t('empf.nein')} onClick={() => aktionen.nein(k.id)} className={ZEILE}>
           <i className="w-[18px] text-center not-italic text-ak-fehler-text">✕</i>
-          {t('empf.nein')}
+          <span className="empf-aktion-text">{t('empf.nein')}</span>
         </button>
       </div>
     </li>
@@ -74,8 +74,8 @@ export function Vorschlaege({ kontext, gezeigt, titel, favoriten, aktionen, stan
   const wenige = kandidaten.length < 5
   const unter = stand.rest === null ? 'empf.untenGrenze' : 'empf.untenZahl'
   return (
-    <section className="flex-1 overflow-auto px-4 pb-8 pt-24" aria-live="polite">
-      <div className="mx-auto max-w-[1040px]">
+    <section className="empf-galerie-abschnitt flex-1 overflow-auto px-4 pb-8 pt-24" aria-live="polite">
+      <div className="empf-galerie mx-auto max-w-[1040px]">
         {kandidaten.length === 0 ? (
           <div className="py-10 text-center">
             <h2 className="m-0 text-[clamp(26px,5vw,40px)] font-extrabold leading-tight">{t('empf.nichtsUebrig')}</h2>
@@ -93,7 +93,7 @@ export function Vorschlaege({ kontext, gezeigt, titel, favoriten, aktionen, stan
             </ul>
           </>
         )}
-        <div className="mt-5 flex flex-wrap items-center gap-2.5">
+        <Ablage {...ablage}>
           {genauer && (
             <button type="button" onClick={genauer} className="min-h-11 rounded-xl bg-ak-akzent px-4.5 font-semibold text-ak-auf-akzent">
               {t('empf.genauer')}
@@ -102,8 +102,7 @@ export function Vorschlaege({ kontext, gezeigt, titel, favoriten, aktionen, stan
           <button type="button" onClick={vonVorn} className="min-h-11 rounded-xl border border-ak-rand bg-ak-flaeche px-4.5 font-semibold">
             {t('empf.vonVorn')}
           </button>
-        </div>
-        <Ablage {...ablage} />
+        </Ablage>
       </div>
     </section>
   )

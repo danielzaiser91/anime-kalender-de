@@ -58,6 +58,7 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
         <Fortsetzen
           vorschau={reise.vorschau.map(kandidat)}
           titel={titel}
+          mosaik={mosaik}
           offenesDuell={!!reise.stehen && !reise.stehen.fertig}
           fortfahren={reise.fortfahren}
           neu={reise.verwerfenUndNeu}
@@ -86,13 +87,7 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
           titel={titel?.get(reise.aktuell)}
           genres={genresVon(reise.aktuell)}
           eigene={reise.eigene}
-          istFavorit={favorites.has(reise.aktuell)}
-          aktionen={{
-            favorit: () => toggle(reise.aktuell!),
-            nein: () => aktionen.nein(reise.aktuell!),
-            gesehen: () => aktionen.gesehen(reise.aktuell!),
-            zurueck: () => reise.setPhase('ergebnis'),
-          }}
+          zurueck={() => reise.setPhase('ergebnis')}
         />
       )}
       {kontext && phase !== 'start' && <AnbieterLasche anbieter={eigene.length} offen={blatt} umschalten={() => setBlatt(!blatt)} />}
