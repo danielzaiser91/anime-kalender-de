@@ -1,0 +1,110 @@
+[
+ [
+  "if (antwort.status === 404) return null",
+  "if (antwort.status === 404) return FEHLER"
+ ],
+ [
+  "if (antwort.status === 404) return null",
+  "if (false) return null"
+ ],
+ [
+  "if (!antwort.ok) return FEHLER",
+  "if (!antwort.ok) return null"
+ ],
+ [
+  "  } catch {\n    return FEHLER",
+  "  } catch {\n    return null"
+ ],
+ [
+  "const art = tmdbArt(eintrag.kind, titel.format)",
+  "const art = eintrag.kind ?? 'movie'"
+ ],
+ [
+  "const art = tmdbArt(eintrag.kind, titel.format)",
+  "const art = tmdbArt(eintrag.kind, undefined)"
+ ],
+ [
+  "const art = tmdbArt(eintrag.kind, titel.format)",
+  "const art = tmdbArt(undefined, titel.format)"
+ ],
+ [
+  "const roh = await holeAntwort(tmdbVideosUrl(TMDB, art, tmdbId, schluessel))\n  if (roh === FEHLER) return FEHLER",
+  "const roh = await holeAntwort(tmdbVideosUrl(TMDB, art, tmdbId, schluessel))\n  if (roh === FEHLER) return null"
+ ],
+ [
+  "categories=Trailer`)\n  if (roh === FEHLER) return FEHLER",
+  "categories=Trailer`)\n  if (roh === FEHLER) return null"
+ ],
+ [
+  "      zaehler.ausgefallen++\n      auskunft = false",
+  "      zaehler.ausgefallen++\n      auskunft = true"
+ ],
+ [
+  "      zaehler.ausgefallen++\n      auskunft = false",
+  "      auskunft = false"
+ ],
+ [
+  "    zaehler.ausgefallen++\n    return false",
+  "    return false"
+ ],
+ [
+  "    zaehler.ausgefallen++\n    return false",
+  "    zaehler.ausgefallen++\n    return true"
+ ],
+ [
+  "  zaehler.antworten++\n  if (!vonTmdb) return auskunft",
+  "  if (!vonTmdb) return auskunft"
+ ],
+ [
+  "      zaehler.antworten++\n      if (vonKc)",
+  "      if (vonKc)"
+ ],
+ [
+  "if (!vonTmdb) return auskunft",
+  "if (!vonTmdb) return true"
+ ],
+ [
+  "if (!tmdbSchluessel) return auskunft",
+  "if (!tmdbSchluessel) return true"
+ ],
+ [
+  "if (stempeln && auskunft && bestand",
+  "if (stempeln && bestand"
+ ],
+ [
+  "lageVon(funde, zaehler.antworten, zaehler.ausgefallen)",
+  "lageVon(funde, zaehler.antworten, 0)"
+ ],
+ [
+  "lageVon(funde, zaehler.antworten, zaehler.ausgefallen)",
+  "lageVon(funde, 0, zaehler.ausgefallen)"
+ ],
+ [
+  "lageVon(funde, zaehler.antworten, zaehler.ausgefallen)",
+  "lageVon(ausKanal, zaehler.antworten, zaehler.ausgefallen)"
+ ],
+ [
+  "recordSource('trailer', funde, fehler, fehler ? 0 : zaehler.antworten, !fehler)",
+  "recordSource('trailer', funde, fehler, zaehler.antworten, !fehler)"
+ ],
+ [
+  "recordSource('trailer', funde, fehler, fehler ? 0 : zaehler.antworten, !fehler)",
+  "recordSource('trailer', funde, fehler, fehler ? 0 : zaehler.antworten, true)"
+ ],
+ [
+  "recordSource('trailer', funde, fehler, fehler ? 0 : zaehler.antworten, !fehler)",
+  "recordSource('trailer', funde, undefined, fehler ? 0 : zaehler.antworten, !fehler)"
+ ],
+ [
+  "recordSource('trailer', funde, fehler, fehler ? 0 : zaehler.antworten, !fehler)",
+  "recordSource('trailer', 0, fehler, fehler ? 0 : zaehler.antworten, !fehler)"
+ ],
+ [
+  "dran.filter((t) => t.format === 'MOVIE')",
+  "dran.filter(() => true)"
+ ],
+ [
+  "dran.filter((t) => t.format === 'MOVIE')",
+  "dran.filter((t) => t.format !== 'MOVIE')"
+ ]
+]

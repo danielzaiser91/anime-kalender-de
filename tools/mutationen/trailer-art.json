@@ -1,0 +1,26 @@
+[
+ [
+  "if (kind === 'movie' || kind === 'tv') return kind",
+  "if (kind === 'movie') return kind"
+ ],
+ [
+  "if (kind === 'movie' || kind === 'tv') return kind",
+  "if (kind === 'tv') return kind"
+ ],
+ [
+  "if (kind === 'movie' || kind === 'tv') return kind",
+  "if (false) return kind"
+ ],
+ [
+  "return format === 'MOVIE' ? 'movie' : 'tv'",
+  "return 'tv'"
+ ],
+ [
+  "return format === 'MOVIE' ? 'movie' : 'tv'",
+  "return 'movie'"
+ ],
+ [
+  "return format === 'MOVIE' ? 'movie' : 'tv'",
+  "return format !== 'MOVIE' ? 'movie' : 'tv'"
+ ]
+]

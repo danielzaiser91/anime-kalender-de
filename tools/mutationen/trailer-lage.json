@@ -1,0 +1,30 @@
+[
+ [
+  "antworten > 0 && funde === 0",
+  "antworten > 1 && funde === 0"
+ ],
+ [
+  "antworten > 0 && funde === 0",
+  "antworten > 0 && funde < 2"
+ ],
+ [
+  "antworten > 0 && funde === 0",
+  "antworten >= 0 && funde === 0"
+ ],
+ [
+  "antworten > 0 && funde === 0",
+  "funde === 0"
+ ],
+ [
+  "antworten === 0 && ausgefallen > 0",
+  "ausgefallen > 0"
+ ],
+ [
+  "antworten === 0 && ausgefallen > 0",
+  "antworten === 0 && ausgefallen > 1"
+ ],
+ [
+  "antworten === 0 && ausgefallen > 0",
+  "antworten === 0 && ausgefallen >= 0"
+ ]
+]
