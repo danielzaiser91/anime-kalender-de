@@ -10,7 +10,7 @@
 import { gzipSync } from 'node:zlib'
 import type { Page } from 'playwright'
 import { sperreEntfernen } from './cookie-banner.ts'
-import { stuetzstelle, verdecktesMarkieren, type Stelle } from './beleg-stelle.ts'
+import { fensterStart, stuetzstelle, verdecktesMarkieren, type Stelle } from './beleg-stelle.ts'
 import type { Gruppe } from './beleg-suche.ts'
 
 /** So hoch darf der Ausschnitt ab der Überschrift werden, wenn keine Stützstelle weiter unten liegt. */
@@ -37,7 +37,7 @@ interface Messung {
 }
 
 /** Läuft im Browser: entfernt Reste, prüft auf Wände und misst den Ausschnitt samt Fundstelle. */
-function messeAusschnitt({ maxHoehe, maxBisStelle, skala, suchen, stelle, bisUnten }: { maxHoehe: number; skala: number; maxBisStelle: number; suchen: string[]; stelle?: Stelle; bisUnten?: number }): Messung | 'wand' | undefined {
+function messeAusschnitt({ maxHoehe, maxBisStelle, skala, suchen, stelle, bisUnten, vonOben }: { maxHoehe: number; skala: number; maxBisStelle: number; suchen: string[]; stelle?: Stelle; bisUnten?: number; vonOben?: number }): Messung | 'wand' | undefined {
   /* Liegt in der Mitte des Fensters etwas, das nicht zum Artikel gehört, ist es eine Zustimmungswand — bleibt sie, gibt es kein Bild. */
   const imWeg = (): boolean => {
     const treffer = document.elementFromPoint(260, 450)
@@ -62,6 +62,7 @@ function messeAusschnitt({ maxHoehe, maxBisStelle, skala, suchen, stelle, bisUnt
       oben = Math.max(0, stelle.oben - 500)
       unten = stelle.unten + 16
     } else unten = Math.max(unten, stelle.unten + 16)
+    if (vonOben !== undefined) oben = Math.min(oben, vonOben)
     /* Mehrere Titel im Artikel: der Ausschnitt reicht bis zur Fundstelle des tiefsten, sonst fehlt dem unteren die Marke. */
     if (bisUnten) unten = Math.max(unten, bisUnten + 16)
     unten = Math.min(unten, oben + maxBisStelle)
@@ -122,7 +123,8 @@ export async function belegAusschnitt(seite: Page, suchen: string[] = [], tage: 
   const stelle = await stuetzstelle(seite, stuetzbegriffe(seite.url(), suchen), tage)
   const stellen = gruppen.length > 1 ? await Promise.all(gruppen.map(async (g) => [g.id, await stuetzstelle(seite, g.suchen, g.tage)] as const)) : []
   const bisUnten = Math.max(0, ...stellen.map(([, st]) => st?.unten ?? 0)) || undefined
-  const gemessen = await seite.evaluate(messeAusschnitt, { maxHoehe: MAX_HOEHE, maxBisStelle: MAX_BIS_STELLE, skala: BILD_SKALA, suchen, stelle, bisUnten })
+  const vonOben = bisUnten ? fensterStart(stellen.flatMap(([, st]) => (st ? [st.oben] : [])), bisUnten, MAX_BIS_STELLE) : undefined
+  const gemessen = await seite.evaluate(messeAusschnitt, { maxHoehe: MAX_HOEHE, maxBisStelle: MAX_BIS_STELLE, skala: BILD_SKALA, suchen, stelle, bisUnten, vonOben })
   if (!gemessen || gemessen === 'wand') return gemessen
   const cdp = await seite.context().newCDPSession(seite)
   const { data } = await cdp.send('Page.captureScreenshot', { format: 'webp', quality: 20, captureBeyondViewport: true, clip: gemessen.clip })

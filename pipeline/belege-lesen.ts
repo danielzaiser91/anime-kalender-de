@@ -19,7 +19,7 @@ import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
 import { todayIso } from '../shared/time.ts'
-import type { NewsEintrag, Release, Title } from '../shared/types.ts'
+import type { NewsEintrag, Release } from '../shared/types.ts'
 import {
   adressenAusNews, adressenMitOffenemTermin, bildOhnePruefung, ohneMarkenJeTitel, crunchyrollDatum, entzieheBild, kopfzeilenDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
 } from './lib/beleg-lesung.ts'
@@ -28,7 +28,7 @@ import { neueStoerungen, ohneRuhende, seiteninfo } from './lib/beleg-stoerung.ts
 import { merkeFehlschlag, vergissFehlschlag, type Fehlschlaege } from './lib/beleg-fehlschlag.ts'
 import { BILD_FASSUNG, belegAusschnitt } from './lib/beleg-bild.ts'
 import { schreibeOhneFundstelle } from './lib/beleg-ohne-fundstelle.ts'
-import { gruppenJeAdresse, suchbegriffeJeAdresse, tageJeAdresse, type Gruppe } from './lib/beleg-suche.ts'
+import { zuordnungFuerLesen, type Gruppe } from './lib/beleg-suche.ts'
 
 const DATEI = 'data/beleg-lesungen.json'
 /** Letzter Fehlschlag je Adresse (`lib/beleg-fehlschlag.ts`); Laufgedächtnis, keine Datenkorrektur. */
@@ -161,15 +161,13 @@ async function main(): Promise<void> {
   for (const [url, e] of Object.entries(gedaechtnis))
     if (!traegtArtikeldatum(url)) for (const l of e.lesungen) { l.ausgabe ??= l.veroeffentlicht; delete l.veroeffentlicht; delete l.aktualisiert }
   const adressen = args.includes('--adresse') ? [args[args.indexOf('--adresse') + 1]!] : belegAdressen(gedaechtnis, heute)
-  const suchbegriffe = suchbegriffeJeAdresse(readJson<Release[]>('public/data/releases.json', []), readJson<Title[]>('public/data/titles.json', []))
-  const gruppen = gruppenJeAdresse(readJson<Release[]>('public/data/releases.json', []), readJson<Title[]>('public/data/titles.json', []))
+  const { suchbegriffe, gruppen, tage } = zuordnungFuerLesen(readJson)
   const mehrere = new Set([...gruppen].filter(([, g]) => g.length > 1).map(([u]) => u))
   const sofort = ohneMarkenJeTitel(gedaechtnis, mehrere)
   const fehlschlaege = readJson<Fehlschlaege>(FEHLSCHLAEGE, {})
   /* Ohne Obergrenze: Sie zählt erst beim Abruf (`ohneRuhende`), damit ruhende Anbieter keine Plätze belegen. */
   const schlange = warteschlange([...adressen, ...sofort], gedaechtnis, heute, zahl('--abstand', 7), Infinity, sofort, fehlschlaege)
   log(`Belege: ${schlange.length} Artikel fällig`)
-  const tage = tageJeAdresse(readJson<Release[]>('public/data/releases.json', []))
   const kontext = { gedaechtnis, heute, suchbegriffe, gruppen, tage }
   const browser = await chromium.launch()
   let gelesen = 0

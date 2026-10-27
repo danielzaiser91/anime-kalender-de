@@ -13,8 +13,8 @@ import { apiBelegMitInhalt } from './beleg-api.ts'
 import { releaseStatus } from '../../shared/logic.ts'
 import { inPause, type Fehlschlaege } from './beleg-fehlschlag.ts'
 
-/** Fassung der Aufnahme: steigt sie, werden alle Bilder einmal neu aufgenommen (2 seit 07.10.2026: doppelte Auflösung). */
-export const BILD_FASSUNG = 2
+/** Fassung der Aufnahme: steigt sie, werden alle Bilder einmal neu aufgenommen (2 seit 07.10.2026: doppelte Auflösung; 3 seit 27.10.2026: Ausschnitt reicht bis zur obersten Titel-Überschrift). */
+export const BILD_FASSUNG = 3
 
 /** Artikel, keine Kalender, APIs oder Katalogseiten — nur sie haben einen Text, der sich ändern kann. */
 const ARTIKEL = [
