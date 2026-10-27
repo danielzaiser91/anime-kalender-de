@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-10-27T09:02:58.689Z",
+  "scrapedAt": "2026-10-27T13:04:01.623Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
-    "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
-    "schon in einem Rubrik-Feed gelesen": 4,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 15,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
+    "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
+    "schon in einem Rubrik-Feed gelesen": 6,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
@@ -25,6 +25,70 @@
         }
       ],
       "dub": "nein",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Blu-ray-Termin des Sci-Fi-Klassikers »Venus Wars« + Vorbestellung",
+      "articleUrl": "https://www.anime2you.de/news/1064672/venus-wars-blu-ray-termin/",
+      "publishedAt": "2026-10-27",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-11",
+          "context": "ase im Dezember 2026 »Venus Wars« kommt demzufolge voraussichtlich am 11. Dezember 2026 in einer 2K-restaurierten Fassung auf Blu-ray in den"
+        },
+        {
+          "month": "2026-12",
+          "context": "Wars« auf Blu-ray veröffentlichen wird. Wir fassen zusammen. Release im Dezember 2026 »Venus Wars« kommt demzufolge voraussichtlich am 11."
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Umamusume: Pretty Derby – Beginning of a New Era« kommt ins Kino",
+      "articleUrl": "https://www.anime2you.de/news/1064556/umamusume-pretty-derby-film-im-kino/",
+      "publishedAt": "2026-10-27",
+      "category": "kino",
+      "platforms": [
+        "kino"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-13",
+          "context": "ume: Pretty Derby – Beginning of a New Era« läuft exklusiv am 12. und 13. Dezember 2026 im Rahmen […] Der Beitrag »Umamusume: Pretty Derby"
+        },
+        {
+          "month": "2026-12",
+          "context": "auf der großen Leinwand zu sehen sein. Wir fassen zusammen. Kinostart im Dezember 2026 Der Fortsetzungsfilm mit dem Titel »Umamusume: Pretty"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Nächste Episode von »PSYREN« erscheint später + Recap",
+      "articleUrl": "https://www.anime2you.de/news/1064592/psyren-episode-5-verschoben/",
+      "publishedAt": "2026-10-27",
+      "category": "allgemein",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-02",
+          "context": "pisode von »PSYREN« wird demzufolge nicht wie ursprünglich geplant am 2. November 2026, sondern erst am 9. November 2026 im japanischen Fern"
+        },
+        {
+          "iso": "2026-11-09",
+          "context": "e nicht wie ursprünglich geplant am 2. November 2026, sondern erst am 9. November 2026 im japanischen Fernsehen ausgestrahlt und bei Crunchy"
+        }
+      ],
+      "dub": "unklar",
+      "pause": "pause",
       "alreadyCurated": false
     },
     {
