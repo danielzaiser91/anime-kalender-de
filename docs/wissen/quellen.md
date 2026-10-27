@@ -3236,9 +3236,18 @@ Weg darf nicht davon abhängen, welche Stelle ihn zufällig gefunden hat.
 - **Echte Lücke:** Neue Serien. Das Wochenprogramm hängt Folgen nur an vorhandene Einträge; `ohneEintrag` führte am 27.10. zwei
   (Die Tagebücher der Apothekerin S3, A Wild Last Boss Appeared! S2). `lib/woche-neue-eintraege.ts` legt sie jetzt an (nur Synchro-Zeilen
   ab heute mit Kennung und Uhrzeit; ist die Kennung unter anderem Namen schon geführt, bleibt es bei der Meldung). Die Beobachtungen
-  tragen `quelle: 'woche'` (Ankündigung, nicht gemessen).
-- **Folge:** `data/crunchyroll.json` `window.to` steht auf 21.10. (letzter gelesener Tag); `termine-pruefen.ts` urteilt nur im
-  Fenster und hätte sonst jeden Termin vom 22.10. bis 01.11. als verpasst führen können.
+  tragen `quelle: 'woche'` (Ankündigung, nicht gemessen). Beide Serien sind kuratiert (`last-boss-s2-crunchyroll`,
+  `apothecary-diaries-s3-cour1`); das Anlegen ergänzt also vor allem Kalenderbeobachtungen, kein neues Release. Ein Einzeltermin einer
+  wirklich neuen, unkuratierten Serie wird in `06-cr-simuldubs.ts` als Einzeltermin-Batch geführt (bekannte Grenze, nicht gebaut).
+- **Beleglink:** `bau/cr-quelle.ts` (`crQuelleUrl`): Termine mit Wochenprogramm-Beobachtung verweisen auf den gelesenen Artikel
+  (`artikel` in `crunchyroll-woche.json`), reine Kalendertermine behalten den historischen Link `/de/simulcastcalendar` (leitet auf
+  `/de/simulcasts` um; kein besserer Beleg für damals gemessene Termine). Weitere Leser der alten Adresse, nicht angefasst:
+  `lib/news-verspaetung.ts` (`kalenderTag`, Meldungslink) und die Quellenseite in `web/src/components/StaticViews.tsx`.
+- **Folge, Grenze:** `data/crunchyroll.json` `window.to` steht auf 21.10. (letzter gelesener Tag); `termine-pruefen.ts` urteilt nur im
+  Fenster. **Die Ausgeblieben-/Verpasst-Erkennung für Crunchyroll endet damit mit dem Kalender:** Termine nach dem 21.10. kann sie nicht
+  mehr als verpasst führen (vom Prüfer mit altem und neuem Fenster gemessen: 0/0/0 neu/nachgeholt/verpasst, `termine-verpasst.json`
+  byte-gleich); das Wochenprogramm bestätigt nur, es belegt kein Ausbleiben. Möglicher kleiner Ersatz (nicht gebaut): Wochenprogramm-Zeile
+  vorhanden, Folge am Sendetag nicht im Crunchyroll-Katalog (`crunchyroll-neu`) → „ausgeblieben“-Kandidat.
 - **Nicht gebaut:** News-Artikel unter `/de/news/latest` (`cr-news-api-service…`) als zweite Quelle. Kein Bedarf aus der Messung; Sprache
   und Uhrzeit stehen dort nicht verlässlich. Bleibt Option, falls das Wochenprogramm ausfällt.
 
