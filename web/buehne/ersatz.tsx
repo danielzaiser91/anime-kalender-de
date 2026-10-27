@@ -6,6 +6,7 @@ import type { DbKopfbereich } from '../src/components/filter/DbWerkzeug.tsx'
 import type { TvKasten } from '../src/components/kalender/TvKasten.tsx'
 import type { ZeitMarke } from '../src/components/kalender/Marken.tsx'
 import type { discZeilen } from '../src/components/detail/wege-zeilen.tsx'
+import type { AntwortKastenMitMarke } from '../src/components/detail/kasten-marke.tsx'
 
 /** Die Zeilen unter „Disc“ als Bauteil: dieselben Angaben, die `discZeilen()` bekommt. */
 export type DiscBereichEigenschaften = Parameters<typeof discZeilen>[0]
@@ -14,6 +15,8 @@ export type DiscBereichEigenschaften = Parameters<typeof discZeilen>[0]
 export interface Ersatz {
   PanelBuehne: ComponentType<ComponentProps<typeof PanelBuehne>>
   DiscBereich: ComponentType<DiscBereichEigenschaften>
+  /** Der Antwortkasten samt Folgenliste (`AntwortKastenMitMarke`); das Mockup kann die Folgenliste unter den Kasten setzen. */
+  AntwortKasten: ComponentType<ComponentProps<typeof AntwortKastenMitMarke>>
   TvKasten: ComponentType<ComponentProps<typeof TvKasten>>
   ZeitMarke: ComponentType<ComponentProps<typeof ZeitMarke>>
   DbKopfbereich: ComponentType<ComponentProps<typeof DbKopfbereich>>
