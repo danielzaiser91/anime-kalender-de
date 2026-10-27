@@ -10,7 +10,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { parse } from 'yaml'
 import { attrappe } from './pr-nachrechnen-leser-attrappe.mjs'
 import { gitLeser } from './pr-nachrechnen-leser-git.mjs'
-import { BOT_AUTOREN, COMPARE_GRENZE, JOB, KETTE, REF_ABSTAND_MS, REF_PRUEFUNGEN, basisAusLog, botSprungAusnahme, datenpfadAusnahme, hindernis, main, nachrechnen, neuesterLauf, schlafe } from './pr-nachrechnen.mjs'
+import { COMPARE_GRENZE, JOB, KETTE, REF_ABSTAND_MS, REF_PRUEFUNGEN, basisAusLog, botSprungAusnahme, datenpfadAusnahme, hindernis, main, nachrechnen, neuesterLauf, schlafe } from './pr-nachrechnen.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -109,7 +109,7 @@ const schreibend = (aufrufe) => aufrufe.filter((a) => a.startsWith('pr close') |
   const ref = `api repos/{owner}/{repo}/pulls/7 --jq .merge_commit_sha`
   const folge = k.aufrufe.filter((a) => a === ref || schreibend([a]).length > 0)
   pruefe('veraltet, Merge-Commit alt -> 1, öffnen, neu gerechneten Merge-Commit abwarten, erneut öffnen', code === 1 && folge.join() === [ref, 'pr close 7', 'pr reopen 7', ref, 'pr close 7', 'pr reopen 7'].join() && k.gewartet.length === 0, k.aufrufe)
-  pruefe('veraltet: Meldung nennt beide Stände und den Grund', /NICHT AKTUELL \(Kette gegen 7a466acc8, main ist c0ffee000; main bewegte tools\/x\.mjs; Commit von danielzaiser91\)/.test(k.meldungen.join()), k.meldungen)
+  pruefe('veraltet: Meldung nennt beide Stände und den Grund', /NICHT AKTUELL \(Kette gegen 7a466acc8, main ist c0ffee000; main bewegte tools\/x\.mjs; main bewegte tools\/x\.mjs\)/.test(k.meldungen.join()), k.meldungen)
 }
 {
   const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [M_NEU] }))
@@ -189,10 +189,47 @@ for (const [name, roh, erwartet] of [
   ['eine unter der Compare-Grenze', vergleich(DATEN_MAIN, 'ahead', COMPARE_GRENZE - 1), 0],
 ]) {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh } }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
+  const code = main(['7'], k.gh, k.melde, k.warte, undefined, () => ({ fehler: 'aus' }))
   pruefe(`Vergleich ${name} -> ${erwartet}`, code === erwartet && schreibend(k.aufrufe).length === (erwartet === 1 ? 4 : 0), { code, m: k.meldungen })
 }
 pruefe('Compare-Grenze ist 300 (Grenze der GitHub-API)', COMPARE_GRENZE === 300)
+// 27.10.2026 (Anlass PR 2146, 300 Dateien): Ab der Grenze zählt der lokale Vergleich (git), nicht der abgeschnittene der API.
+const VIELE = Array.from({ length: 400 }, (_, i) => `data/cache/q/${i}.json`)
+const voll = (dateien, autoren = ['github-actions[bot]'], fehler) => {
+  const f = (basis, main) => {
+    f.aufrufe.push([basis, main])
+    return fehler === undefined ? { dateien, autoren, commitsGesamt: autoren.length } : { fehler }
+  }
+  f.aufrufe = []
+  return f
+}
+for (const [name, v, prDateien, erwartet, text] of [
+  ['300 Dateien, lokal alles Daten, PR ohne Leser', voll(VIELE), 'data/patchnotes/a.yaml\n', 0, /seitdem nur Daten bewegt/],
+  ['300 Dateien, lokal eine Datei mit Leser (tools/x.mjs)', voll([...VIELE, 'tools/x.mjs']), 'data/patchnotes/a.yaml\n', 1, /main bewegte tools\/x\.mjs/],
+  ['300 Dateien, lokal Datenpfad vom PR berührt', voll(VIELE), `${VIELE[399]}\n`, 1, /der PR berührt data\/cache\/q\/399\.json/],
+  ['300 Dateien, git scheitert (Zeitlimit)', voll([], [], 'ETIMEDOUT'), 'data/patchnotes/a.yaml\n', 1, /evtl\. abgeschnitten \(lokales git: ETIMEDOUT\)/],
+]) {
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh: vergleich(DATEN_MAIN, 'ahead', 300) }, prDateien }))
+  const code = main(['7'], k.gh, k.melde, k.warte, undefined, v)
+  pruefe(`lokaler Vergleich: ${name} -> ${erwartet}`, code === erwartet && text.test(k.meldungen.join()) && schreibend(k.aufrufe).length === (erwartet === 1 ? 4 : 0), { code, m: k.meldungen })
+  pruefe(`lokaler Vergleich: ${name}: git bekam Basis und main`, v.aufrufe.length === 1 && v.aufrufe[0].join() === `${BASIS},${MAIN}`, v.aufrufe)
+}
+{
+  const v = voll(VIELE)
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN, prDateien: 'data/patchnotes/a.yaml\n' }))
+  main(['7'], k.gh, k.melde, k.warte, undefined, v)
+  pruefe('lokaler Vergleich: unter der Grenze fragt kein git', v.aufrufe.length === 0, v.aufrufe)
+}
+// Mehr Commits als die API-Liste (250) trägt: lokal gezählt, Autoren aus git.
+const bots300 = JSON.stringify({ status: 'ahead', anzahl: 1, dateien: ['data/a.json'], commitsGesamt: 300, autoren: ['github-actions[bot]'] })
+for (const [name, autoren, erwartet, text] of [
+  ['300 Commits, alles Bots, Leser sagt null', Array(300).fill('anime-kalender-daten[bot]'), 0, /nur Daten-Bots/],
+  ['300 Commits, einer davon ein Mensch (Autor zählt nicht)', [...Array(299).fill('github-actions[bot]'), 'danielzaiser91'], 0, /nur Daten-Bots/],
+]) {
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh: bots300 }, prDateien: 'tools/x.mjs\n' }))
+  const code = main(['7'], k.gh, k.melde, k.warte, () => null, voll(['data/curated/a.yaml'], autoren))
+  pruefe(`lokaler Vergleich: ${name} -> ${erwartet}`, code === erwartet && text.test(k.meldungen.join()), { code, m: k.meldungen })
+}
 // Abruffehler und Unsinn: Exit 2, nichts angestoßen, nie still 0.
 for (const [name, aendere] of [
   ['Vergleich nicht abrufbar', (d) => { delete d[`api repos/{owner}/{repo}/compare/${BASIS}...${MAIN} --jq ${JQ_VERGLEICH}`] }],
@@ -225,7 +262,6 @@ const leserStub = (antwort) => {
   f.aufrufe = []
   return f
 }
-pruefe('Bot-Autoren sind genau die zwei Datenläufe', JSON.stringify(BOT_AUTOREN) === JSON.stringify(BOTS), BOT_AUTOREN)
 {
   const stub = leserStub(null)
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: BOTS, prDateien: CODE_PR }))
@@ -273,19 +309,28 @@ for (const [name, pr, erwartet] of [['Workflow ohne Leser', '.github/workflows/b
   const code = main(['7'], k.gh, k.melde, k.warte, stub)
   pruefe('Bot-Sprung mit Doku: Leser sieht nur die Datendatei', code === 0 && stub.aufrufe.length === 1 && stub.aufrufe[0].bewegt.join() === 'data/crunchyroll-woche.json', { code, a: stub.aufrufe })
 }
-for (const [name, autoren] of [['ein Mensch dazwischen', ['anime-kalender-daten[bot]', 'danielzaiser91', 'github-actions[bot]']], ['fremder Bot', ['dependabot[bot]']]]) {
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren, prDateien: CODE_PR }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe(`C: ${name} -> 1, neu angestoßen`, code === 1 && schreibend(k.aufrufe).length === 4 && /Commit von (danielzaiser91|dependabot\[bot\])/.test(k.meldungen.join()), { code, m: k.meldungen })
+// 27.10.2026 (PR 2165): Der Autor entscheidet nicht; Mensch-Commit auf data/ ohne Leser -> aktuell, mit Leser oder mit Code -> veraltet.
+for (const [name, autoren] of [['ein Mensch dazwischen', ['anime-kalender-daten[bot]', 'danielzaiser91', 'github-actions[bot]']], ['nur ein Mensch (Squash-Merge)', ['danielzaiser91']], ['fremder Bot', ['dependabot[bot]']]]) {
+  const frei = leserStub(null)
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['data/patchnotes/_ueberarbeitet-bis.txt'], autoren, prDateien: CODE_PR }))
+  const code = main(['7'], k.gh, k.melde, k.warte, frei)
+  pruefe(`C: ${name}, Datei ohne Leser -> 0`, code === 0 && schreibend(k.aufrufe).length === 0 && frei.aufrufe.length === 1, { code, m: k.meldungen })
+  const liest = leserStub('der PR liest data/patchnotes/_ueberarbeitet-bis.txt (tools/x.mjs)')
+  const k2 = kulisse(antworten({ mainSha: MAIN, mainDateien: ['data/patchnotes/_ueberarbeitet-bis.txt'], autoren, prDateien: CODE_PR }))
+  const code2 = main(['7'], k2.gh, k2.melde, k2.warte, liest)
+  pruefe(`C: ${name}, Datei mit Leser -> 1, neu angestoßen`, code2 === 1 && schreibend(k2.aufrufe).length === 4 && /der PR liest data\/patchnotes/.test(k2.meldungen.join()), { code2, m: k2.meldungen })
+  const k3 = kulisse(antworten({ mainSha: MAIN, mainDateien: [...BOT_MAIN, 'web/src/a.tsx'], autoren, prDateien: CODE_PR }))
+  const code3 = main(['7'], k3.gh, k3.melde, k3.warte, leserStub(null))
+  pruefe(`C: ${name}, Code auf main bewegt -> 1`, code3 === 1 && /main bewegte web\/src\/a\.tsx/.test(k3.meldungen.join()), { code3, m: k3.meldungen })
 }
 for (const fremd of ['tools/umfang-grenzen.json', 'extension/a.json', 'datax/a.json']) {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: [...BOT_MAIN, fremd], autoren: BOTS, prDateien: CODE_PR }))
   const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe(`C: Bot bewegte ${fremd} -> 1`, code === 1 && k.meldungen.join().includes(`Bot bewegte ${fremd}`), { code, m: k.meldungen })
+  pruefe(`C: main bewegte ${fremd} -> 1`, code === 1 && k.meldungen.join().includes(`; main bewegte ${fremd}`), { code, m: k.meldungen })
 }
 const botVergleich = (o) => ({ status: 'ahead', anzahl: 1, dateien: ['data/a.json'], commitsGesamt: 2, autoren: BOTS, ...o })
 pruefe('C: mehr Commits als geliefert (Liste abgeschnitten) -> Grund', botSprungAusnahme(botVergleich({ commitsGesamt: 3 }), ['worker/a.ts'], leserStub(null)) === 'Vergleich evtl. abgeschnitten')
-pruefe('C: design-regeln.md unter den Bewegungen -> Bot bewegte die Datei', botSprungAusnahme(botVergleich({ dateien: ['data/a.json', 'docs/wissen/design-regeln.md'] }), ['web/src/index.css'], leserStub(null)) === 'Bot bewegte docs/wissen/design-regeln.md')
+pruefe('C: design-regeln.md unter den Bewegungen -> Bot bewegte die Datei', botSprungAusnahme(botVergleich({ dateien: ['data/a.json', 'docs/wissen/design-regeln.md'] }), ['web/src/index.css'], leserStub(null)) === 'main bewegte docs/wissen/design-regeln.md')
 pruefe('C: genau an der Compare-Grenze -> Grund',botSprungAusnahme(botVergleich({ anzahl: 300 }), ['worker/a.ts'], leserStub(null)) === 'Vergleich evtl. abgeschnitten')
 pruefe('C: eine unter der Compare-Grenze -> null', botSprungAusnahme(botVergleich({ anzahl: 299 }), ['docs/a.md'], leserStub(null)) === null)
 pruefe('C: diverged -> Grund', /diverged/.test(botSprungAusnahme(botVergleich({ status: 'diverged' }), ['worker/a.ts'], leserStub(null))))
