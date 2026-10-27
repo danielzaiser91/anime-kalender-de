@@ -9,7 +9,7 @@ import { copyFileSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, unlinkSync, 
 import os from 'node:os'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { ansichtErgebnis, bewerte, fehlendeZeilen, kandidatenWochen, kennungsWochen, kulisseAntwort, main, messeMitWahl, messwocheAbbruch, saalFehler, saalKulisse, sammleFehler, tagePlus, waehleMesswoche } from './kachel-ecken-messen.mjs'
+import { ansichtErgebnis, bewerte, fehlendeZeilen, kandidatenWochen, kennungsWochen, kulisseAntwort, main, messeMitWahl, messwocheAbbruch, saalFehler, saalKulisse, sammleFehler, setzeSichtbarkeitSchwebender, tagePlus, waehleMesswoche } from './kachel-ecken-messen.mjs'
 
 const LEISTE = [200, 20, 20]
 const COVER = [70, 90, 130]
@@ -272,5 +272,16 @@ assert.equal(saalKulisse([tv(7, { releaseType: 'movie', platform: 'kino' })], ['
 assert.equal(JSON.parse(kulisseAntwort('events.json', JSON.stringify(ohneKino), wochen3)).length, 6, 'events.json bekommt die Termine')
 const fremd = Buffer.from(JSON.stringify([{ platform: 'adn' }]))
 assert.equal(kulisseAntwort('titles-core.json', fremd, wochen3), fremd, 'andere Dateien bleiben unberührt')
+
+// Schwebende Elemente (27.10.2026): fixed und sticky (der Kopf lag nach dem Sprung zu „heute“ im Ganzseitenbild über einer Kachelecke) werden versteckt und wieder gezeigt, Fließendes bleibt.
+const lagen = ['fixed', 'sticky', 'static', 'relative', 'absolute'].map((position) => ({ position, style: { visibility: 'start' } }))
+globalThis.document = { querySelectorAll: () => lagen }
+globalThis.getComputedStyle = (el) => ({ position: el.position })
+setzeSichtbarkeitSchwebender('hidden')
+assert.deepEqual(lagen.map((e) => e.style.visibility), ['hidden', 'hidden', 'start', 'start', 'start'], 'fixed und sticky versteckt, sonst unberührt')
+setzeSichtbarkeitSchwebender('')
+assert.deepEqual(lagen.map((e) => e.style.visibility), ['', '', 'start', 'start', 'start'], 'beide wieder gezeigt')
+delete globalThis.document
+delete globalThis.getComputedStyle
 
 console.log('kachel-ecken-messen.test: ok')
