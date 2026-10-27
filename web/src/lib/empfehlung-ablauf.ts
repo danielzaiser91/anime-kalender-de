@@ -58,4 +58,4 @@ export const oeffnen = (a: Ablauf, id: number): Ablauf => ({ ...a, phase: 'leinw
 /** „Von vorn“: zurück zum Startbildschirm, ohne Sitzung und ohne Galerie. */
 export const zuStart = (): Ablauf => ANFANG
 
-export const zuPhase =(a: Ablauf, phase: Phase): Ablauf => ({ ...a, phase })
+export const zuPhase = (a: Ablauf, phase: Phase): Ablauf => ({ ...a, phase })

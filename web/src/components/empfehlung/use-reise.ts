@@ -35,7 +35,7 @@ export function useReise(kontext: Kontext | undefined, m: Mengen, startwert: () 
     if (gemerkt) setA(gemerkt)
   }, [kontext, weg])
   useEffect(() => reiseMerken(a), [a])
-  const aendere =(f: (alt: Ablauf, k: Kontext) => Ablauf) => kontext && setA((alt) => f(alt, kontext))
+  const aendere = (f: (alt: Ablauf, k: Kontext) => Ablauf) => kontext && setA((alt) => f(alt, kontext))
   return {
     phase: a.phase,
     sitzung: a.sitzung,
