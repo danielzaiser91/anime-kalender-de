@@ -40,7 +40,6 @@ export const BOT_DATEIEN_OHNE_LESER = [
   'data/ann-raw',
   'data/beleg-fehlschlaege.json',
   'data/bestand-historie.jsonl',
-  'data/crunchyroll-woche-belege.json',
   'data/folgen-zuordnung.json',
   'data/imdb-ids.json',
   'data/kanal-widerspruch.json',

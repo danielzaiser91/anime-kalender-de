@@ -10,6 +10,8 @@ import { type AnisearchEintrag } from './01-quellen.ts'
 import { type CrDubData } from '../lib/crunchyroll-dub.ts'
 import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
 import { legeCrWegeAusKatalogAn } from './09-4-4-1-katalog-wege.ts'
+import { quellenMitZeit, zeitHinweis } from '../lib/cr-zeit-woche.ts'
+import { ladeZeitBelege, merkeZeitKorrekturen } from '../lib/cr-zeit-merkliste.ts'
 
 export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, verschwunden, usNeinOffen, nachUrl, releases, jetzt }: {
   titles: Map<number, Title>
@@ -47,7 +49,8 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
       ein Block datierte Folgen hat und dessen Folgenzahl exakt zur unseren
       passt. Was sie liegen lässt, lässt sie mit Absicht liegen.
     */
-    const crTermine = alleTermine(crDub.serien, nachUrl, jetzt)
+    const crTermine = alleTermine(crDub.serien, nachUrl, jetzt, ladeZeitBelege())
+    merkeZeitKorrekturen(crTermine)
     let termineNeu = 0
     let termineSchonDa = 0
     for (const t of crTermine) {
@@ -90,7 +93,8 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
           ...zahlFelder(t, anisearch[t.titleId]?.info),
           observed: beobachtungenZusammenfuehren(t.beobachtet, sammel.schedule?.observed),
         }
-        sammel.herkunft = `Deutsche Fassung bei Crunchyroll — ${t.datiert} Folgen mit belegtem Termin (Block „${t.blockName}"), Sammeldatum ersetzt`
+        sammel.herkunft = `Deutsche Fassung bei Crunchyroll — ${t.datiert} Folgen mit belegtem Termin (Block „${t.blockName}"), Sammeldatum ersetzt${zeitHinweis(t.zeitQuelle)}`
+        sammel.sources = quellenMitZeit(sammel.sources, t.zeitQuelle)
         termineNeu++
         continue
       }
@@ -131,9 +135,9 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
         */
         dateMeaning: t.rhythmus === 'batch' ? 'available-from' : undefined,
         fsk: title.fsk,
-        herkunft: crHerkunft(t.datiert, t.blockName),
+        herkunft: crHerkunft(t.datiert, t.blockName) + zeitHinweis(t.zeitQuelle),
         year: Number(t.firstEpisodeDate.slice(0, 4)),
-        sources: [adresse ?? 'https://www.crunchyroll.com/de'],
+        sources: quellenMitZeit([adresse ?? 'https://www.crunchyroll.com/de'], t.zeitQuelle),
       })
       termineNeu++
     }

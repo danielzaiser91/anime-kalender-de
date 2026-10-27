@@ -66,6 +66,7 @@ import type { Title } from '../../shared/types.ts'
 import type { CrSerie, CrStaffel } from './crunchyroll-dub.ts'
 import { titelStaffelNr, zerlege } from './cr-staffel-nummer.ts'
 import { startetImTerminjahr } from './cr-auftakt-wache.ts'
+import { zeitAusWochenprogramm, type WocheBelege } from './cr-zeit-woche.ts'
 
 /** Ein abgeleiteter deutscher Streaming-Termin für genau einen Titel. */
 export interface CrTermin {
@@ -76,6 +77,10 @@ export interface CrTermin {
   lastEpisodeDate?: string
   /** Uhrzeit des ersten Termins, falls alle Folgen dieselbe tragen. */
   time?: string
+  /** Gesetzt, wenn `time` aus dem Wochenprogramm statt aus dem API-Stempel kommt: der Artikel, der sie belegt. */
+  zeitQuelle?: string
+  /** `Serienkennung|Tag` der ersetzten Zeit — Schlüssel der Merkliste (`cr-zeit-merkliste.ts`). */
+  zeitSchluessel?: string
   episodeCount: number
   /** Die Staffel läuft, ihre Länge ist unbekannt: `episodeCount` zählt nur die deutschen Folgen bis jetzt. */
   zahlOffen?: true
@@ -102,8 +107,8 @@ export interface CrTermin {
  * nimmt, verschiebt jeden Termin nach 22:00 UTC auf den Vortag; bei einer
  * Freitagsfolge um 23:30 UTC stünde im Kalender Freitag statt Samstag.
  *
- * Gerechnet wird über `Intl`, wie überall in diesem Projekt (`shared/time.ts`)
- * — eine feste Stundenverschiebung wäre im Winter richtig und im Sommer falsch.
+ * Gerechnet wird über `Intl` (`shared/time.ts` hat keine Umrechnung von UTC-Zeitstempel in Datum und Uhrzeit,
+ * `utcZeitInBerlin` kennt nur die Uhrzeit) — eine feste Stundenverschiebung wäre im Winter richtig und im Sommer falsch.
  */
 function nachBerlin(iso: string): { datum: string; zeit: string } | null {
   const d = new Date(iso)
@@ -444,10 +449,24 @@ function datierte(st: CrStaffel): { nummer?: number; guid: string; verfuegbarAb?
 }
 
 /** Leitet die Termine für alle Serien ab. `nachUrl` bildet Crunchyroll-Adresse → unsere Titel. */
-export function alleTermine(serien: CrSerie[], nachUrl: Map<string, Title[]>, jetzt = Date.now()): CrTermin[] {
+export function alleTermine(serien: CrSerie[], nachUrl: Map<string, Title[]>, jetzt = Date.now(), belege: WocheBelege = {}): CrTermin[] {
   const raus: CrTermin[] = []
-  for (const serie of serien) raus.push(...termineAusSerie(serie, nachUrl.get(serie.url) ?? [], jetzt))
+  for (const serie of serien) {
+    for (const t of termineAusSerie(serie, nachUrl.get(serie.url) ?? [], jetzt)) raus.push(zeitAusBeleg(t, serie.seriesId, belege))
+  }
   return raus
+}
+
+/** Gibt es für Serie und ersten Tag eine Wochenprogramm-Zeit, gilt sie vor der API-Zeit; geändert wird nur bei Abweichung. */
+function zeitAusBeleg(t: CrTermin, seriesId: string | undefined, belege: WocheBelege): CrTermin {
+  const woche = t.time ? zeitAusWochenprogramm(belege, seriesId, t.firstEpisodeDate) : undefined
+  if (!woche || woche.zeit === t.time) return t
+  return {
+    ...t,
+    time: woche.zeit,
+    zeitQuelle: woche.artikel,
+    zeitSchluessel: `${seriesId}|${t.firstEpisodeDate}`,
+  }
 }
 
 /**
