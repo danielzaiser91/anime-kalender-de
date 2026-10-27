@@ -74,7 +74,7 @@ export function DatabaseView({
     return ordneListe(base, sort, suche, data.releasesByTitle, today)
   }, [titles, grouped, sort, suche, data.releasesByTitle, today])
   const mitSynchro = useMemo(() => zaehleMitSynchro(liste), [liste])
-  const hinweis = useSuchhinweis({ data, suche, filters, ohneSynchro, gruppiert: grouped, sichtbar: titles, favorites })
+  const hinweis = useSuchhinweis({ data, suche, filters, ohneSynchro, gruppiert: grouped, ergebnisse: liste.length, sichtbar: titles, favorites })
   const hinweisDa = useHinweisInhalt({ hinweis, filters, ohneSynchro }) !== null
 
   return (

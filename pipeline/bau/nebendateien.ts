@@ -1,4 +1,5 @@
 import { writeJson, readJson, log, warn } from '../lib/util.ts'
+import { namensIndex } from './ohne-synchro-namen.ts'
 import { STAND_ZEILE, writeTextStand } from '../lib/stand-halten.ts'
 import { plattformAusAdresse } from '../../shared/adresse-passt.ts'
 import { hatAufnahmeBeleg } from '../lib/cartoon-aufnahme.ts'
@@ -326,6 +327,7 @@ export function schreibeOhneSynchro(
   const alle = ohneWerkDubletten([...ohne, ...nachgetragen.map((t) => ({ ...t, ...(kennungen.has(t.id) ? { anisearchId: kennungen.get(t.id) } : {}), dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))], geschuetzt)
 
   writeJson(`${OUT}/ohne-synchro.json`, alle.map((t) => mitLaufzeit(mitAnkuendigung(t))))
+  writeJson(`${OUT}/ohne-synchro-namen.json`, namensIndex(alle))
   meldeOhneSynchro(alle, eintraege.length, nachgetragen.length, bekannt)
 }
 

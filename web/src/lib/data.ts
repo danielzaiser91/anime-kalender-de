@@ -175,6 +175,19 @@ export function loadOhneSynchro(data: Dataset): Promise<Title[]> {
   return ohneSynchroPromise
 }
 
+let ohneNamenPromise: Promise<Title[]> | undefined
+
+/**
+ * Nur die Namen und Filterfelder der Titel ohne Synchro (`ohne-synchro-namen.json`) — für den Suchhinweis, der sonst die ganze Datei
+ * (gzip 1,7 MB) laden müsste. Die Titel wandern nicht in den Index der App (kein Panel dazu); fehlt die Datei, gibt es keinen Hinweis.
+ */
+export function loadOhneSynchroNamen(): Promise<Title[]> {
+  ohneNamenPromise ??= loadJson<Title[]>('ohne-synchro-namen.json')
+    .then((zeilen) => zeilen.map((t) => ({ ...t, slug: String(t.id), genres: t.genres ?? [], keywords: [], streams: [], dubConfidence: 'low' as const, ohneSynchro: true })))
+    .catch(() => [])
+  return ohneNamenPromise
+}
+
 let cartoonsPromise: Promise<Title[]> | undefined
 
 /**

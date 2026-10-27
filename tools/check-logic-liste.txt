@@ -199,6 +199,7 @@ pipeline/check-offizielle-lauf.ts
 pipeline/check-offizielle-news.ts
 pipeline/check-og-schaetz.ts
 pipeline/check-og-termin.ts
+pipeline/check-ohne-synchro-namen.ts
 pipeline/check-omu-ohne-termin.ts
 pipeline/check-panel-chips.ts
 pipeline/check-panel-disc-doppel.ts

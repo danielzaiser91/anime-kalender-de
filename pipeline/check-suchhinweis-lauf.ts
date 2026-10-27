@@ -45,6 +45,8 @@ interface Eingabe {
   suche: string
   gruppiert: boolean
   ohneSynchro?: boolean
+  /** Karten der Liste; ohne Angabe die Zahl der gezeigten Titel. */
+  ergebnisse?: number
 }
 interface Bild {
   suche: string
@@ -57,10 +59,10 @@ const gefundenes: { bilder: Bild[]; geloest: Array<[FilterState | undefined, boo
 const keineFavoriten = new Set<number>()
 
 /** Wie die App: Filter und Liste behalten ihre Identität, solange sich nichts ändert (sonst rechnet der Hook endlos neu). */
-function Sonde({ suche, gruppiert, ohneSynchro = false }: Eingabe) {
+function Sonde({ suche, gruppiert, ohneSynchro = false, ergebnisse }: Eingabe) {
   const filters = useMemo(() => ({ ...EMPTY_FILTERS, search: suche }), [suche])
   const sichtbar = useMemo(() => (ohneSynchro ? fertig : mitSynchro).filter((t) => t.titleDe!.includes(suche)), [suche, ohneSynchro])
-  const hinweis = useSuchhinweis({ data, suche, filters, ohneSynchro, gruppiert, sichtbar, favorites: keineFavoriten }, lade)
+  const hinweis = useSuchhinweis({ data, suche, filters, ohneSynchro, gruppiert, ergebnisse: ergebnisse ?? sichtbar.length, sichtbar, favorites: keineFavoriten }, lade)
   gefundenes.bilder.push({ suche, gruppiert, gesamt: hinweis?.zusatz.gesamt, blockade: !!hinweis?.blockade })
   return h(SuchHinweis, { form: 'zeile', hinweis, filters, ohneSynchro, onLoesen: (f, an) => void gefundenes.geloest.push([f, an]) })
 }
@@ -142,6 +144,11 @@ console.log('\nSuchhinweis: Hook und Komponente')
 {
   const l = await lauf({ suche: 'A', gruppiert: false }, 600)
   pruefe('ein Zeichen: nichts geladen', l.nachher.geladen === 0 && l.nachher.text === '', l.nachher)
+  await l.abbau()
+}
+for (const [ergebnisse, geladen] of [[14, 1], [15, 0]] as const) {
+  const l = await lauf({ suche: 'Attack on Titan', gruppiert: false, ergebnisse }, 600)
+  pruefe(`${ergebnisse} Ergebnisse: ${geladen ? 'geladen' : 'nichts geladen, kein Hinweis'}`, l.nachher.geladen === geladen && (geladen === 1 || l.nachher.text === ''), l.nachher)
   await l.abbau()
 }
 {
