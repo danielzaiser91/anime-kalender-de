@@ -12,6 +12,7 @@ import { SuchfundstellenContext } from '../lib/such-kontext.ts'
 import { SucheLeerenContext } from '../lib/suche-leeren-kontext.ts'
 import { DatabaseView } from './DatabaseView.tsx'
 import { FilterBarDock } from './FilterBar.tsx'
+import type { HinweisLoesen } from './SuchHinweis.tsx'
 import { SprecherLeiste } from './SprecherLeiste.tsx'
 import { Ladeanzeige } from './ui.tsx'
 
@@ -34,6 +35,17 @@ export interface DatenbankBereichProps {
   hidden: Set<number>
   onToggleFavorite: (id: number) => void
   onToggleHidden: (id: number) => void
+}
+
+/**
+ * Der Knopf des Suchhinweises: Filter und Schalter „ohne Synchro“ in einem Adresswechsel (zwei getrennte Aufrufe schrieben je die ganze
+ * Adresse aus ihrem alten Stand). Ohne Filteränderung genügt der Schalter allein.
+ */
+export function loeseHinweis(p: DatenbankBereichProps): HinweisLoesen {
+  return (filters, schalterAn) => {
+    if (!filters) return p.onOhneSynchroChange(true)
+    p.navigate({ filters: { ...filters, search: p.route.filters.search }, ...(schalterAn ? { ohne: true as const } : {}) })
+  }
 }
 
 /** Die Datenbank: Filterfeld und Titelraster. */
@@ -64,6 +76,7 @@ export function DatenbankBereich(p: DatenbankBereichProps) {
             onSortChange={(sort) => p.navigate({ sort })}
             filters={route.filters}
             onFiltersChange={p.setFilters}
+            onHinweisLoesen={loeseHinweis(p)}
           />
         </SuchfundstellenContext.Provider>
       ) : (

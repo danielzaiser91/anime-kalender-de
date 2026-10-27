@@ -1,11 +1,11 @@
 /**
- * Test der Ermittlung „Welche Filter verstecken den exakten Treffer?“ (`web/buehne/mockups/suchhinweis-filter.ts`).
+ * Test der Ermittlung „Welche Filter verstecken den exakten Treffer?“ (`web/src/lib/suchhinweis-filter.ts`).
  * `passt` ist hier eine feste Regel auf einem Mini-Titel (Jahr, Genre, bestätigt), kein Aufruf der App-Filter.
  */
 import assert from 'node:assert/strict'
 import { EMPTY_FILTERS, type FilterState } from '../web/src/lib/filters.ts'
-import { blockadeText, zusatzText } from '../web/buehne/mockups/suchhinweis-zaehlen.ts'
-import { aktiveEinheiten, findeBlockade, loeseBlockade, SCHALTER, type Kandidat } from '../web/buehne/mockups/suchhinweis-filter.ts'
+import { blockadeText, zusatzText } from '../web/src/lib/suchhinweis-zaehlen.ts'
+import { aktiveEinheiten, findeBlockade, loeseBlockade, SCHALTER, type Kandidat } from '../web/src/lib/suchhinweis-filter.ts'
 
 interface Mini {
   name: string

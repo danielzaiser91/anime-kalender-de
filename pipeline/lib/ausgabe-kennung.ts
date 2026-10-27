@@ -63,6 +63,7 @@ export function uebersetzeDatei(name: string, daten: unknown, ak: AkVon): unknow
     case 'titles.json':
     case 'titles-core.json':
     case 'ohne-synchro.json':
+    case 'ohne-synchro-namen.json':
       return liste(daten, (t) => titel(t, ak))
     case 'releases.json':
     case 'events.json':

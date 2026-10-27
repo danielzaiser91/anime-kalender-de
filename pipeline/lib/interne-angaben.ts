@@ -22,7 +22,7 @@ export const NAMEN_AUSNAHMEN: readonly Ausnahme[] = [
   { datei: /^synonyme\.json$/, felder: ['*'] },
   { datei: /^synopses\/[^/]+\.json$/, felder: ['de', 'en'] },
   { datei: /^folgen\/[^/]+\.json$/, felder: ['f'] },
-  { datei: /^(cartoons|ohne-synchro|titles|titles-core)\.json$/, felder: ['slug', 'url', 'titleDe', 'titleEn', 'titleRomaji'] },
+  { datei: /^(cartoons|ohne-synchro|ohne-synchro-namen|titles|titles-core)\.json$/, felder: ['slug', 'url', 'titleDe', 'titleEn', 'titleRomaji'] },
 ]
 
 function erlaubt(datei: string, feld: string): boolean {

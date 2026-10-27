@@ -12,6 +12,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { ladeAkVon, uebersetzeDatei } from '../pipeline/lib/ausgabe-kennung.ts'
+import { namensIndex } from '../pipeline/bau/ohne-synchro-namen.ts'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 const DATEN = resolve(WURZEL, 'public/data')
@@ -87,6 +88,7 @@ function schneide(fall, ak) {
     'titles-core.json': ohneBilder(kern),
     'titles.json': ohneBilder(alle),
     'ohne-synchro.json': ohneBilder(ohneSynchro),
+    'ohne-synchro-namen.json': namensIndex(ohneSynchro),
     'releases.json': lies('releases.json').filter((r) => ids.has(r.titleId)),
     'events.json': lies('events.json').filter((e) => ids.has(e.titleId)),
     'meldungen.json': liesWennDa('meldungen.json', []).filter((m) => ids.has(m.titleId)),
