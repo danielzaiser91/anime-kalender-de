@@ -349,7 +349,7 @@ console.log('Planer wählt pruefung_folge ohne Hinweis, auch bei Bestand und Sta
 
 console.log('Wiederholte Meldung: Tagesgrenze UTC/Berlin (D) und Zeile vor dem Listenbau (W), 12.10.2026')
 {
-  const Echt = Date
+  const Echt = Date // uhr-echt: sichert das echte Date zum Zurückstellen, liest keine Zeit
   /* `jetzt` des Workers (`new Date()`) auf einen festen Zeitpunkt setzen; sonst nichts am Date ändern. */
   const zuZeit = async <T>(iso: string, lauf: () => Promise<T>): Promise<T> => {
     const fest = new Echt(iso).getTime()

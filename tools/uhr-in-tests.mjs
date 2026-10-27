@@ -35,8 +35,24 @@ function testdateien(quelle) {
   return [...new Set([...getrackt.filter((p) => TESTNAME.test(p)), ...eintraege])].sort()
 }
 
+const istGlobalThis = (n) => ts.isIdentifier(n) && n.text === 'globalThis'
+
 const istDate = (n) =>
-  (ts.isIdentifier(n) && n.text === 'Date') || (ts.isPropertyAccessExpression(n) && n.name.text === 'Date' && ts.isIdentifier(n.expression) && n.expression.text === 'globalThis')
+  (ts.isIdentifier(n) && n.text === 'Date') ||
+  (ts.isPropertyAccessExpression(n) && n.name.text === 'Date' && istGlobalThis(n.expression)) ||
+  (ts.isElementAccessExpression(n) && ts.isStringLiteralLike(n.argumentExpression) && n.argumentExpression.text === 'Date' && istGlobalThis(n.expression))
+
+/** `const D = Date` / `const { now } = Date`: der Alias liest die Uhr später unter anderem Namen. */
+const istAlias = (n) => ts.isVariableDeclaration(n) && n.initializer !== undefined && istDate(n.initializer)
+
+/** `Reflect.construct(Date, [])` ohne Argumente (oder ohne Argumentliste) liest die Uhr wie `new Date()`. */
+function istReflectUhr(n) {
+  const f = n.expression
+  if (!ts.isPropertyAccessExpression(f) || f.name.text !== 'construct' || !ts.isIdentifier(f.expression) || f.expression.text !== 'Reflect') return false
+  const [ziel, liste] = n.arguments
+  if (!ziel || !istDate(ziel)) return false
+  return liste === undefined || (ts.isArrayLiteralExpression(liste) && liste.elements.length === 0)
+}
 
 const istJetzt = (n) =>
   (ts.isPropertyAccessExpression(n) && n.name.text === 'now' && istDate(n.expression)) ||
@@ -47,7 +63,8 @@ const wirdZugewiesen = (n) => ts.isBinaryExpression(n.parent) && n.parent.left =
 /** Liest die echte Uhr: `new Date()`/`new Date`, `Date()`, `Date.now` (außer als Zuweisungsziel). */
 function liestUhr(n) {
   if (ts.isNewExpression(n)) return istDate(n.expression) && !n.arguments?.length
-  if (ts.isCallExpression(n)) return istDate(n.expression)
+  if (ts.isCallExpression(n)) return istDate(n.expression) || istReflectUhr(n)
+  if (istAlias(n)) return true
   return istJetzt(n) && !wirdZugewiesen(n)
 }
 

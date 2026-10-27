@@ -49,9 +49,19 @@ quellen_pruefen_main() {
   dir="$(mktemp -d)"
   if git worktree add --detach --quiet "$dir/main" origin/main >&2; then
     if [ -e node_modules ]; then ln -s "$PWD/node_modules" "$dir/main/node_modules"; fi
-    (cd "$dir/main" && QUELLEN_PRUEFFRIST="${QUELLEN_PRUEFFRIST:-$QUELLEN_BASISFRIST_STANDARD}" quellen_pruefen) || true
+    # Exit 1 = main selbst ist rot (die Liste auf stdout ist der Befund); jeder andere Exit bleibt sichtbar statt verschluckt.
+    local status=0
+    (
+      cd "$dir/main" || exit 2
+      QUELLEN_PRUEFFRIST="${QUELLEN_PRUEFFRIST:-$QUELLEN_BASISFRIST_STANDARD}" quellen_pruefen
+    ) || status=$?
+    if [ "$status" -gt 1 ]; then
+      echo "Die Prüfung auf main konnte nicht laufen (Exit $status); der Vergleich gilt ohne Basis." >&2
+    fi
     rm -f "$dir/main/node_modules"
     git worktree remove --force "$dir/main" >&2 || true
+  else
+    echo "Kein Arbeitsbaum für origin/main; der Vergleich gilt ohne Basis." >&2
   fi
   rm -rf "$dir"
 }
