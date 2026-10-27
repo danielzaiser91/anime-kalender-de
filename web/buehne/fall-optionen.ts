@@ -17,6 +17,9 @@ export const OPTIONS_FAELLE: Record<string, { von: string; name: string; optione
   /* Gleiche Daten, andere Ausgangslage: das Mockup öffnet die Datenbank hier mit einem Jahresfilter (`suchadressen`). */
   'hajime-no-ippo-jahr': { von: 'hajime-no-ippo', name: 'Hajime no Ippo – Suche mit Jahresfilter', optionen: {} },
   'tokyo-revengers-jahr': { von: 'tokyo-revengers', name: 'Tokyo Revengers – Suche mit Jahresfilter', optionen: {} },
+  /* Mit „Staffeln zusammenfassen“ (Adresse `staffeln=1`) zählt der Suchhinweis Karten statt Titel. */
+  'attack-on-titan-zusammen': { von: 'attack-on-titan', name: 'Attack on Titan – Staffeln zusammengefasst', optionen: {} },
+  'one-piece-zusammen': { von: 'one-piece', name: 'One Piece – Staffeln zusammengefasst', optionen: {} },
 }
 
 type Weg = Record<string, unknown>

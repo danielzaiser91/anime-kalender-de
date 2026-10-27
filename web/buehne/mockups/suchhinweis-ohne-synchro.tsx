@@ -12,7 +12,7 @@ mockup({
   name: 'suchhinweis-ohne-synchro',
   titel: 'Suche: Hinweis auf Treffer ohne deutsche Synchro',
   ausschnitt: 'datenbank',
-  faelle: ['hajime-no-ippo', 'hajime-no-ippo-jahr', 'tokyo-revengers-jahr', 'tokyo-revengers', 'one-piece', 'attack-on-titan'],
+  faelle: ['hajime-no-ippo', 'hajime-no-ippo-jahr', 'tokyo-revengers-jahr', 'tokyo-revengers', 'one-piece', 'attack-on-titan', 'attack-on-titan-zusammen', 'one-piece-zusammen'],
   suchadressen: {
     'hajime-no-ippo': { q: IPPO },
     'hajime-no-ippo-jahr': { q: IPPO, y: '2003' },
@@ -20,6 +20,8 @@ mockup({
     'tokyo-revengers': { q: 'Tokyo Revengers' },
     'one-piece': { q: 'One Piece' },
     'attack-on-titan': { q: 'Attack on Titan' },
+    'attack-on-titan-zusammen': { q: 'Attack on Titan', staffeln: '1' },
+    'one-piece-zusammen': { q: 'One Piece', staffeln: '1' },
   },
   varianten: {
     A: {
