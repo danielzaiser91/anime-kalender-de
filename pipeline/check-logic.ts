@@ -8494,8 +8494,8 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   const lesung = (extra: Record<string, unknown>) => ({ am: '2026-10-03', hash: 'h', ...extra })
   const ged = {
     'https://www.anime2you.de/news/1/': { zuletzt: '2026-10-05', lesungen: [lesung({ bild: 'alt.jpg' })] },
-    'https://www.anime2you.de/news/2/': { zuletzt: '2026-10-05', lesungen: [lesung({ bild: 'neu.webp', qs: 'ok', bildfassung: 2 })] },
-    'https://www.anime2you.de/news/3/': { zuletzt: '2026-09-01', lesungen: [lesung({ bild: 'x.webp', qs: 'ok', bildfassung: 2 })] },
+    'https://www.anime2you.de/news/2/': { zuletzt: '2026-10-05', lesungen: [lesung({ bild: 'neu.webp', qs: 'ok', bildfassung: 3 })] },
+    'https://www.anime2you.de/news/3/': { zuletzt: '2026-09-01', lesungen: [lesung({ bild: 'x.webp', qs: 'ok', bildfassung: 3 })] },
     'https://www.anime2you.de/news/4/': { zuletzt: '2026-10-05', lesungen: [lesung({ bild: 'f1.webp', qs: 'ok' })] },
   } as unknown as BelegGedaechtnis
   const schlange = warteschlange(Object.keys(ged), ged, '2026-10-05', 7, 10)

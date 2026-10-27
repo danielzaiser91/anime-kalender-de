@@ -11,6 +11,15 @@ export interface Stelle {
 }
 
 /**
+ * Oberkante des Ausschnitts, die die Überschrift des obersten Titels noch einschließt: die höchste Fundstelle, von der aus die unterste (`bisUnten`) in `maxBisStelle` Pixel passt.
+ * Ohne das beginnt der Ausschnitt an der Fundstelle des Hauptbegriffs, und jeder Titel darüber verliert Überschrift und Marke (Psyren, 27.10.2026).
+ */
+export function fensterStart(oberkanten: number[], bisUnten: number, maxBisStelle: number): number | undefined {
+  const passt = oberkanten.filter((o) => bisUnten + 16 - (o - 16) <= maxBisStelle)
+  return passt.length ? Math.max(0, Math.min(...passt) - 16) : undefined
+}
+
+/**
  * Kennzeichnet Absätze, die ein Container mit festem Rand abschneidet (eingeklappte Kritik) oder die hinter dem Seitenende liegen, mit `data-beleg-verdeckt`:
  * Im Bild stünden sie auf leerer Fläche, also sind sie weder Stützstelle noch Grund, den Ausschnitt zu verlängern (Kinoheld, 12.10.2026).
  */
@@ -47,7 +56,7 @@ export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]
       const kandidaten = [...wurzel.querySelectorAll('p, li, tr, h2, h3')]
         .filter((e) => !e.hasAttribute('data-beleg-verdeckt'))
         .map((e) => ({ e: e as HTMLElement, text: norm((e as HTMLElement).innerText), roh: (e as HTMLElement).innerText.toLowerCase() }))
-        .filter((k) => k.text.length > 12)
+        .filter((k) => k.text.length > 12 || /^H[23]$/.test(k.e.tagName))
         .sort((a, b) => a.text.length - b.text.length)
       const gesucht = suchen.map(norm)
       /* Alle Zeilen, die einen Titel **und** einen Termin nennen — ein Artikel belegt oft mehrere Termine, und das Bild soll sie alle zeigen. Sonst die erste mit einem Titel. */

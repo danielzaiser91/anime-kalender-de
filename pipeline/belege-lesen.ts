@@ -161,8 +161,9 @@ async function main(): Promise<void> {
   for (const [url, e] of Object.entries(gedaechtnis))
     if (!traegtArtikeldatum(url)) for (const l of e.lesungen) { l.ausgabe ??= l.veroeffentlicht; delete l.veroeffentlicht; delete l.aktualisiert }
   const adressen = args.includes('--adresse') ? [args[args.indexOf('--adresse') + 1]!] : belegAdressen(gedaechtnis, heute)
-  const suchbegriffe = suchbegriffeJeAdresse(readJson<Release[]>('public/data/releases.json', []), readJson<Title[]>('public/data/titles.json', []))
-  const gruppen = gruppenJeAdresse(readJson<Release[]>('public/data/releases.json', []), readJson<Title[]>('public/data/titles.json', []))
+  const news = readJson<NewsEintrag[]>('public/data/news.json', [])
+  const suchbegriffe = suchbegriffeJeAdresse(readJson<Release[]>('public/data/releases.json', []), readJson<Title[]>('public/data/titles.json', []), news)
+  const gruppen = gruppenJeAdresse(readJson<Release[]>('public/data/releases.json', []), readJson<Title[]>('public/data/titles.json', []), news)
   const mehrere = new Set([...gruppen].filter(([, g]) => g.length > 1).map(([u]) => u))
   const sofort = ohneMarkenJeTitel(gedaechtnis, mehrere)
   const fehlschlaege = readJson<Fehlschlaege>(FEHLSCHLAEGE, {})

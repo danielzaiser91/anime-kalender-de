@@ -1,10 +1,26 @@
-import type { Release, Title } from '../../shared/types.ts'
+import type { NewsEintrag, Release, Title } from '../../shared/types.ts'
+
+/** Titel, die Meldungen mit dieser Adresse belegen (Titel der Meldung, sonst der Reihe) — sie haben oft keinen Termin, der die Adresse trägt (Psyren, 27.10.2026). */
+function titelJeAdresseAusNews(news: NewsEintrag[]): Map<string, Map<number, string>> {
+  const je = new Map<string, Map<number, string>>()
+  for (const e of news)
+    for (const m of e.meldungen) {
+      const urls = new Set([...(m.belege ?? []).map((b) => b.url), ...(typeof m.quelle === 'string' && /^https?:\/\//.test(m.quelle) ? [m.quelle] : [])])
+      for (const url of urls) je.set(url, (je.get(url) ?? new Map<number, string>()).set(m.teilId ?? e.titelId, e.titel))
+    }
+  return je
+}
+
+/** Die Namen eines Titels, den nur eine Meldung mit der Adresse verbindet. */
+function namenAusNews(name: string, t: Title | undefined): string[] {
+  return [name, t?.titleDe, t?.titleEn, t?.titleRomaji].filter((n): n is string => Boolean(n))
+}
 
 /**
  * **Wonach im Artikel die Fundstelle gesucht wird** (Daniel, 04.10.2026, „Zur Fundstelle" im Beleg-Dialog): die Namen der Titel, deren Termine
  * der Artikel belegt — der ausführlichste zuerst, dann der Name vor dem Doppelpunkt („Tokyo Revengers" statt „Tokyo Revengers: War of the Three Titans").
  */
-export function suchbegriffeJeAdresse(releases: Release[], titles: Title[]): Map<string, string[]> {
+export function suchbegriffeJeAdresse(releases: Release[], titles: Title[], news: NewsEintrag[] = []): Map<string, string[]> {
   const nachId = new Map(titles.map((t) => [t.id, t]))
   const je = new Map<string, Set<string>>()
   for (const r of releases) {
@@ -20,6 +36,11 @@ export function suchbegriffeJeAdresse(releases: Release[], titles: Title[]): Map
       }
       je.set(url, menge)
     }
+  }
+  for (const [url, titel] of titelJeAdresseAusNews(news)) {
+    const menge = je.get(url) ?? new Set<string>()
+    for (const [id, name] of titel) for (const n of namenAusNews(name, nachId.get(id))) menge.add(n)
+    je.set(url, menge)
   }
   return new Map([...je].map(([url, menge]) => [url, [...menge].sort((a, b) => b.length - a.length)]))
 }
@@ -43,7 +64,7 @@ export interface Gruppe {
 }
 
 /** Die Titel je Artikel-Adresse, einzeln (Bleach und Madoka im selben Artikel teilen sich sonst eine Marke). */
-export function gruppenJeAdresse(releases: Release[], titles: Title[]): Map<string, Gruppe[]> {
+export function gruppenJeAdresse(releases: Release[], titles: Title[], news: NewsEintrag[] = []): Map<string, Gruppe[]> {
   const nachId = new Map(titles.map((t) => [t.id, t]))
   const je = new Map<string, Map<number, { namen: Set<string>; tage: Set<string> }>>()
   for (const r of releases) {
@@ -62,6 +83,15 @@ export function gruppenJeAdresse(releases: Release[], titles: Title[]): Map<stri
       gruppen.set(r.titleId, g)
       je.set(url, gruppen)
     }
+  }
+  for (const [url, titel] of titelJeAdresseAusNews(news)) {
+    const gruppen = je.get(url) ?? new Map()
+    for (const [id, name] of titel) {
+      const g = gruppen.get(id) ?? { namen: new Set<string>(), tage: new Set<string>() }
+      for (const n of namenAusNews(name, nachId.get(id))) g.namen.add(n)
+      gruppen.set(id, g)
+    }
+    je.set(url, gruppen)
   }
   return new Map([...je].map(([url, gruppen]) => [url, [...gruppen].map(([id, g]) => ({ id, suchen: [...g.namen].sort((a, b) => b.length - a.length), tage: [...g.tage] }))]))
 }
