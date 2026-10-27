@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-10-27T18:03:39.443Z",
+  "scrapedAt": "2026-10-27T19:02:22.019Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
     "schon in einem Rubrik-Feed gelesen": 6,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 4
   },
@@ -111,6 +111,23 @@
         }
       ],
       "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "ADN kündigt sechs Anime-Neuzugänge für November 2026 an",
+      "articleUrl": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+      "publishedAt": "2026-10-27",
+      "category": "streaming",
+      "platforms": [
+        "adn"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "r 2026 an Der Streaming-Dienst ADN erweitert sein Anime-Programm auch im November 2026 mit mehreren Neuzugängen. Wir fassen zusammen. Neuzug"
+        }
+      ],
+      "dub": "unklar",
       "alreadyCurated": false
     },
     {
