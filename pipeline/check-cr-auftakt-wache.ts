@@ -35,6 +35,9 @@ pruefe('Block vollständig deutsch (4 von 4): nicht gemeldet', auftaktAlsKatalog
 pruefe('Termin einen Tag nach dem Blockbeginn (UTC gegen Berlin): gemeldet', auftaktAlsKatalog([release(am('2026-10-27'))], titel(2026), [serie(ERSTE)]).length === 1)
 pruefe('Termin eine Woche nach dem Blockbeginn: nicht gemeldet', auftaktAlsKatalog([release(am('2026-11-02'))], titel(2026), [serie(ERSTE)]).length === 0)
 pruefe('zwei deutsche Folgen am Starttag (Abwurf, Auslegung bleibt): nicht gemeldet', auftaktAlsKatalog([release()], titel(2026), [serie([...ERSTE, ...ERSTE])]).length === 0)
+pruefe('Block mit nur dieser einen Folge (1 von 1, Film): nicht gemeldet', auftaktAlsKatalog([release()], titel(2026), [serie(ERSTE, 1)]).length === 0)
+const fremd = { ...serie(ERSTE, 24), seriesId: 'GFREMD0000' } as CrSerie
+pruefe('zwei Serien im Bestand, die fremde zuerst: die mit der Kennung des Termins entscheidet', auftaktAlsKatalog([release()], titel(2026), [fremd, serie(ERSTE)]).length === 1 && auftaktAlsKatalog([release()], titel(2026), [serie(ERSTE), fremd]).length === 1)
 pruefe('Serie nicht im Dub-Bestand: nicht gemeldet', auftaktAlsKatalog([release()], titel(2026), []).length === 0)
 pruefe('Jahresgrenze: Serie 2026, Termin 31.12.2026 gilt, Termin 01.01.2027 nicht', startetImTerminjahr({ jpYear: 2026 }, '2026-12-31') && !startetImTerminjahr({ jpYear: 2026 }, '2027-01-01'))
 
