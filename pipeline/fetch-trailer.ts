@@ -38,12 +38,12 @@
  * fallen. Ohne das Fenster fing „Elysium" (unser Anime von 2003) den
  * gleichnamigen Sci-Fi-Film von 2013.
  *
- * **Wiedervorlage statt Endgültigkeit.** Ein Film ohne deutschen Trailer wird
- * bei jedem Lauf erneut gesucht — ein Trailer erscheint Wochen vor dem
- * Kinostart, und ein Eintrag, der einmal „nichts gefunden" sagt, verhindert
- * sonst seine eigene Überprüfung (dieselbe Falle wie bei jeder Warteschlange,
- * die sich aus „schon beantwortet" bildet). Ein **deutscher** Fund ist dagegen
- * fertig und wird nur noch auf Erreichbarkeit geprüft.
+ * **Wiedervorlage statt Endgültigkeit.** Ein Titel ohne deutschen Trailer wird nach
+ * 30 Tagen erneut gesucht (Stempel in `data/trailer-versuche.json`, höchstens 500 je Lauf,
+ * nie Gesuchte zuerst) — ein Trailer erscheint Wochen vor dem Kinostart, und ein Eintrag,
+ * der einmal „nichts gefunden" sagt, verhindert sonst seine eigene Überprüfung. Ein
+ * **deutscher** Fund ist dagegen fertig und wird nur noch auf Erreichbarkeit geprüft.
+ * Der Lauf speichert alle 100 Titel, damit die Schrittfrist nichts verliert.
  *
  * **Und die Adressen veralten.** Daniel: „links müssen regelmäßig geprüft
  * werden ob sie noch existieren, weil es sein kann das die videos nach einer
@@ -59,6 +59,8 @@ import { recordSource } from './lib/health.ts'
 import { todayIso } from '../shared/time.ts'
 import type { EmpfehlungsDatei } from '../shared/empfehlung-pool.ts'
 import { tmdbVideosUrl, trailerKandidaten } from './lib/trailer-auswahl.ts'
+import { RIEGEL_JE_LAUF, SPEICHERN_ALLE, arbeiteInStuecken, waehleDran, type Versuche } from './lib/trailer-lauf.ts'
+import { pathToFileURL } from 'node:url'
 
 /**
  * **Die Kanäle, in dieser Reihenfolge.**
@@ -354,12 +356,62 @@ async function pruefeAdressen(bestand: Record<string, TrailerEintrag>, schluesse
   return weg
 }
 
-async function main(): Promise<void> {
+interface Zaehler {
+  kc: number
+  tmdbDe: number
+  fremd: number
+}
+
+/**
+ * **Weg 2 und 3 für einen Titel.** KinoCheck nur ab 2012, TMDB ohne Jahresgrenze; ohne TMDB-Zuordnung
+ * gibt es nichts zu fragen.
+ */
+async function frageSchnittstellen(
+  titel: Titel,
+  eintrag: TmdbEintrag | undefined,
+  bestand: Record<string, TrailerEintrag>,
+  tmdbSchluessel: string | undefined,
+  zaehler: Zaehler,
+): Promise<void> {
+  if (!eintrag?.tmdbId) return
+
+  if ((titel.jpYear ?? 0) >= 2012) {
+    const vonKc = await ausKinocheck(eintrag.tmdbId, eintrag.kind ?? 'movie')
+    await sleep(250)
+    if (vonKc) {
+      bestand[String(titel.id)] = vonKc
+      zaehler.kc++
+      return
+    }
+  }
+
+  if (!tmdbSchluessel) return
+  const vonTmdb = await ausTmdb(eintrag.tmdbId, eintrag.kind ?? 'movie', tmdbSchluessel)
+  await sleep(120)
+  if (!vonTmdb) return
+  /*
+    Ein fremdsprachiger Fund überschreibt keinen anderen fremdsprachigen —
+    sonst wechselte die Sprache bei jedem Lauf, je nachdem, was TMDB gerade
+    zuerst nennt. Ein deutscher überschreibt immer.
+  */
+  const bisher = bestand[String(titel.id)]
+  if (vonTmdb.sprache === 'de') {
+    bestand[String(titel.id)] = vonTmdb
+    zaehler.tmdbDe++
+  } else if (!bisher) {
+    bestand[String(titel.id)] = vonTmdb
+    zaehler.fremd++
+  }
+}
+
+/** `riegel` und `speichernAlle` nur für die Probe; im Betrieb gelten `RIEGEL_JE_LAUF` und `SPEICHERN_ALLE`. */
+export async function main(opt: { riegel?: number; speichernAlle?: number } = {}): Promise<void> {
   const schluessel = process.env.YOUTUBE_API_KEY
   const tmdbSchluessel = process.env.TMDB_API_KEY
   const titles = readJson<Titel[]>('public/data/titles.json', [])
   const tmdb = readJson<Record<string, TmdbEintrag>>('data/tmdb-titles.json', {})
   const bestand = readJson<Record<string, TrailerEintrag>>('data/trailer.json', {})
+  const versuche = readJson<Versuche>('data/trailer-versuche.json', {})
 
   /*
     **Filme und die Einstiege von Entdecken** (Daniel, 26.10.2026: Trailer für alle Titel dort).
@@ -375,21 +427,17 @@ async function main(): Promise<void> {
   /*
     **Wiedervorlage:** Wer keinen **deutschen** Trailer hat, kommt wieder dran.
     Das schließt die Filme mit fremdsprachigem Rückfall ein — erscheint später
-    ein deutscher, ersetzt er ihn.
+    ein deutscher, ersetzt er ihn. Erst nach 30 Tagen, höchstens 500 je Lauf, nie Gesuchte zuerst.
   */
   const offen = filme.filter((t) => bestand[String(t.id)]?.sprache !== 'de')
-  const dran = GRENZE > 0 ? offen.slice(0, GRENZE) : offen
+  const dran = waehleDran(offen, versuche, heute(), opt.riegel ?? RIEGEL_JE_LAUF, GRENZE)
   log(`${filme.length} Filme · ${weg} tote Adressen entfernt · ${dran.length} ohne deutschen Trailer`)
   if (!dran.length) {
     recordSource('trailer', 0, undefined, filme.length, true)
     writeJson('data/trailer.json', bestand)
     return
   }
-
   let ausKanal = 0
-  let ausKc = 0
-  let ausTmdbDe = 0
-  let fremd = 0
 
   const index = schluessel ? await kanalIndex(schluessel) : []
   if (!schluessel) warn('Kein YOUTUBE_API_KEY — kein Kanalindex und keine Adressprüfung.')
@@ -402,47 +450,24 @@ async function main(): Promise<void> {
     }
   }
 
-  /*
-    **Die beiden Schnittstellen nur für das, was übrig bleibt — und nur, wo es
-    etwas geben kann.** KinoCheck begleitet das Kinoprogramm; zu einem Film von
-    1998 gibt es dort nichts. TMDB dagegen führt auch alte Filme, wird also
-    ohne Jahresgrenze gefragt.
-  */
+  /* Die Schnittstellen (Weg 2 und 3) nur für das, was der Index nicht fand. */
   const nochOffen = dran.filter((t) => bestand[String(t.id)]?.sprache !== 'de')
-  for (const titel of nochOffen) {
-    const eintrag = tmdb[String(titel.id)]
-    if (!eintrag?.tmdbId) continue
-
-    if ((titel.jpYear ?? 0) >= 2012) {
-      const vonKc = await ausKinocheck(eintrag.tmdbId, eintrag.kind ?? 'movie')
-      await sleep(250)
-      if (vonKc) {
-        bestand[String(titel.id)] = vonKc
-        ausKc++
-        continue
-      }
-    }
-
-    if (!tmdbSchluessel) continue
-    const vonTmdb = await ausTmdb(eintrag.tmdbId, eintrag.kind ?? 'movie', tmdbSchluessel)
-    await sleep(120)
-    if (!vonTmdb) continue
-    /*
-      Ein fremdsprachiger Fund überschreibt keinen anderen fremdsprachigen —
-      sonst wechselte die Sprache bei jedem Lauf, je nachdem, was TMDB gerade
-      zuerst nennt. Ein deutscher überschreibt immer.
-    */
-    const bisher = bestand[String(titel.id)]
-    if (vonTmdb.sprache === 'de') {
-      bestand[String(titel.id)] = vonTmdb
-      ausTmdbDe++
-    } else if (!bisher) {
-      bestand[String(titel.id)] = vonTmdb
-      fremd++
-    }
-  }
-
-  writeJson('data/trailer.json', bestand)
+  const zaehler: Zaehler = { kc: 0, tmdbDe: 0, fremd: 0 }
+  /* Ohne beide Schlüssel war die Suche keine Auskunft — dann kein Stempel. */
+  const stempeln = Boolean(schluessel && tmdbSchluessel)
+  await arbeiteInStuecken(
+    nochOffen,
+    async (titel) => {
+      await frageSchnittstellen(titel, tmdb[String(titel.id)], bestand, tmdbSchluessel, zaehler)
+      if (stempeln && bestand[String(titel.id)]?.sprache !== 'de') versuche[String(titel.id)] = heute()
+    },
+    () => {
+      writeJson('data/trailer.json', bestand)
+      writeJson('data/trailer-versuche.json', versuche)
+    },
+    opt.speichernAlle ?? SPEICHERN_ALLE,
+  )
+  const { kc: ausKc, tmdbDe: ausTmdbDe, fremd } = zaehler
   const deutsche = Object.values(bestand).filter((e) => e.sprache === 'de').length
   /*
     **Null Funde sind hier der Normalfall**, sobald der Bestand steht: Der Lauf
@@ -457,4 +482,4 @@ async function main(): Promise<void> {
   )
 }
 
-await main()
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) await main()

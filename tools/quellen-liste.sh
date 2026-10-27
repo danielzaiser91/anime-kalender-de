@@ -338,6 +338,8 @@ QUELLEN=(
   # KinoChecks offizielle API plus der Index seines Kanals; ohne diese Zeile
   # wäre die Arbeit jedes Laufs weg — siehe die vier Messdateien vom 24.08.2026.
   data/trailer.json
+  # Wann ein Titel zuletzt ohne deutschen Trailer gesucht wurde (30 Tage Wiedervorlage).
+  data/trailer-versuche.json
   # Westliche Animationsserien aus TMDB — der zweite Bestand seit dem
   # 12.09.2026. Ohne diese Zeile wirft der Reset im CI-Lauf weg, was der
   # Abruf geholt hat, und die Seite verliert 906 Titel.
