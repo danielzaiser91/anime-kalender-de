@@ -172,9 +172,6 @@ jobs:
           cache: restore
           playwright: 'true'
 
-      - name: Crunchyroll — zwölf Wochen
-        run: bash tools/schritt.sh --zeit 15m "Crunchyroll — zwölf Wochen" -- npx tsx pipeline/scrape-crunchyroll.ts --weeks 12
-
       # Frisches Zugangspaket über die Vercel-Weiche in Frankfurt (weiche-vercel/); das Secret `CR_ZUGANG` bleibt nur Rückfall, es lebt 24 Stunden.
       - name: Crunchyroll-Zugangspaket über die Weiche holen
         env:

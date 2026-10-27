@@ -4,7 +4,7 @@ name: Stündlich — Sendezeiten
 # und wird gemergt, wenn GitHub `MERGEABLE` sagt; sonst übernimmt „Claude — Daten-PR zusammenführen". Den Datensatz baut „Bestand — zusammenführen und bauen"; dass
 # eine Quelle schweigt, meldet dort `data:check` (Daniel, 30.08.2026: „wöchentlich und stündlich sollte nie rot sein können, alles was sie machen ist sammeln und liefern").
 #
-# Der Crunchyroll-Kalender ist die einzige Quelle, die sich mehrmals täglich ändert: Uhrzeiten verschieben sich, Folgen kommen dazu, Staffeln fallen aus.
+# Das Crunchyroll-Wochenprogramm ist die einzige Quelle, die sich mehrmals täglich ändert: Uhrzeiten verschieben sich, Folgen kommen dazu, Staffeln fallen aus.
 # Alles andere ändert sich höchstens täglich und läuft im Tageslauf. Gepusht wird nur bei echter Änderung.
 #
 # Umbau vom 05.10.2026: eigene Gruppe `stunde` (vorher `daten`: ein Wochenlauf hielt den Stundenlauf bis zu anderthalb Stunden an), Schritte über `tools/schritt.sh`
@@ -37,7 +37,7 @@ jobs:
     # Zweck und Ziel gehen an die Statusanzeige mit (Daniel, 21.08.2026: „Zweck sollte kurz beschreiben wofür dieser lauf ist").
     env:
       LAUF_ZWECK: 'Hält die Sendetermine von anime-kalender.de stündlich aktuell'
-      LAUF_ZIEL: 'Crunchyroll-Kalender der nächsten drei Wochen, Wochenprogramm und TV-Programm einlesen'
+      LAUF_ZIEL: 'Crunchyroll-Wochenprogramm und TV-Programm einlesen'
       LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
       JOB_ANZEIGE: Sendezeiten
     steps:
@@ -73,12 +73,8 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: bash tools/schritt.sh --zeit 15m "Rohdaten holen" -- npm run data:fetch
 
-      # Drei Wochen genügen stündlich; der Wochenlauf schaut weiter zurück.
-      - name: Crunchyroll-Kalender lesen
-        run: bash tools/schritt.sh --zeit 10m "Crunchyroll-Kalender" -- npx tsx pipeline/scrape-crunchyroll.ts --weeks 3
-
-      # Kommende Synchro-Folgen stehen nur im Wochenprogramm (gemessen 25.09.2026: der Kalender führt sie nicht). Direkt hinter dem Kalender, weil die
-      # Anschlussprüfung dessen Stand braucht; Abweichungen gehen als Vorfall an den Worker, daher das Token.
+      # Das Wochenprogramm ist seit 27.10.2026 die einzige Quelle der Sendetermine: Der Simulcast-Kalender ist auf /de/simulcasts umgeleitet (seit ~21.10.2026).
+      # Es legt auch neue Serien im Kalenderbestand an; Abweichungen gehen als Vorfall an den Worker, daher das Token.
       - name: Crunchyroll-Wochenprogramm lesen
         run: bash tools/schritt.sh --zeit 8m "Crunchyroll-Wochenprogramm" -- npx tsx pipeline/scrape-crunchyroll-woche.ts
 

@@ -1,5 +1,7 @@
 /* Bewegung und Lagen der Ansicht „Entdecken“; nur transform und opacity, Farben aus den ak-Tokens. */
 .empf [hidden] { display: none !important; }
+/* Alles Klickbare zeigt die Hand (Tailwind setzt bei Knöpfen den Pfeil). */
+.empf :is(button, a[href], summary):not(:disabled) { cursor: pointer; }
 
 .empf-hg { position: absolute; inset: 0; overflow: hidden; background: var(--ak-grund); z-index: 0; }
 /* Positionierte Lage liegt sonst über allem, was nicht positioniert ist (Überschriften, Texte). */
@@ -27,6 +29,13 @@
 .empf-kandidat { transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 180ms; }
 .empf-kandidat:hover { transform: scale(1.03); }
 .empf-kandidat:active { transform: scale(0.97); }
+/* „Details“ über abgedunkeltem Cover: Text liegt auf dem Bild und ist immer hell. */
+.empf-details {
+  position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; pointer-events: none;
+  background: rgb(0 0 0 / 0.55); color: rgb(255 255 255); font-size: 15px; font-weight: 700; transition: opacity 160ms;
+}
+.empf-kandidat:focus-visible .empf-details { opacity: 1; }
+@media (hover: hover) { .empf-kandidat:hover .empf-details { opacity: 1; } }
 
 .empf-szene { will-change: transform; }
 .empf-szene.neu { animation: empf-szene-neu 480ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
