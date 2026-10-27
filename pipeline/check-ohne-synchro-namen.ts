@@ -18,8 +18,8 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 const roh = (t: Record<string, unknown>) => t as unknown as Title
 const zeilen = [
   roh({ id: 902, franchiseId: 800, titleRomaji: 'Zeta', titleEn: 'Zeta', titleNative: 'ゼータ', jpYear: 2004, jpEnd: '2004-12-01', genres: ['Action'], format: 'TV', land: 'JP', fsk: 12, coverImage: 'x.jpg', synopsis: 'lang' }),
-  roh({ id: 901, titleRomaji: 'Alpha', titleEn: 'Alpha Story', titleDe: 'Alpha Geschichte', genres: [], jpYear: 1999 }),
   roh({ id: 903, titleRomaji: 'Alpha', jpYear: 2001 }),
+  roh({ id: 901, titleRomaji: 'Alpha', titleEn: 'Alpha Story', titleDe: 'Alpha Geschichte', genres: [], jpYear: 1999 }),
 ]
 const index = namensIndex(zeilen)
 
