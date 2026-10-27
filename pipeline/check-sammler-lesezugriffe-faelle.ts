@@ -42,6 +42,8 @@ pruefe('new URL in einer Variablen, später gelesen', art(`const u = ${URL_A}\nr
 pruefe('new URL in einer Konstante, im Lesen verschachtelt', art(`const DATEI = ${URL_A}\nconst t = JSON.parse(readFileSync(DATEI, 'utf8'))`) === 'data/a.json:lesen')
 pruefe('fileURLToPath(new URL) in einer Variablen, später gelesen', art(`const p = fileURLToPath(${URL_A})\nreadJson(p, {})`) === 'data/a.json:lesen')
 pruefe('new URL(…).pathname und .href im Lesen', art(`readFileSync(${URL_A}.pathname)`) === 'data/a.json:lesen' && art(`readFileSync(${URL_A}.href)`) === 'data/a.json:lesen')
+pruefe('new URL(…).pathname und .href in einer Variablen, später gelesen', art(`const p = ${URL_A}.pathname\nreadFileSync(p)`) === 'data/a.json:lesen' && art(`const p = ${URL_A}.href\nreadFileSync(p)`) === 'data/a.json:lesen')
+pruefe('new URL(…).pathname in einer Variablen, die nur geschrieben wird, zählt nicht', art(`const p = ${URL_A}.pathname\nappendFileSync(p, '')`) === '')
 pruefe('Variable mit Lesen und Schreiben: Lesen zählt', art(`const u = ${URL_A}\nappendFileSync(u, '')\nreadFileSync(u)`) === 'data/a.json:lesen')
 pruefe('Variable, die nur weitergereicht wird: „?“', art(`const u = ${URL_A}\nconst b = u\nreadFileSync(b)`) === 'data/a.json:?')
 pruefe('Variable, die geschrieben und anderswo weitergereicht wird: „?“, nicht „nein“', art(`const u = ${URL_A}\nappendFileSync(u, '')\nweiter(u)`) === 'data/a.json:?')
