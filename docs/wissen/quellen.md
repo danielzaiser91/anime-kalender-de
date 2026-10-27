@@ -1234,6 +1234,18 @@ gilt jetzt nur noch, was aus dem Sprachblock oder den Synonymen stammt. Wo
 AniList keinen englischen Namen führt (8.683 Titel, 656 davon in der Reihe eines
 Bestandstitels), liefert aniSearchs Sprachblock ihn nach.
 
+**Seit 27.10.2026 stündlich statt täglich.** Psyren Folge 1 war am 26.10. um 14:30 UTC auf Deutsch verfügbar, im
+Bestand stand sie erst am 27.10. um 04:37 (Katalogfund und Urteil liefen nur im Tageslauf 04 UTC; das
+Wochenprogramm trug die DE-Zeile erst 0,6–1,6 h nach Release). Daniel: „spätestens wenn unser crunchy lauf es
+bestätigt muss es im kalender auftauchen“. `refresh-hourly.yml` führt deshalb dieselben drei Schritte wie der
+Tageslauf aus: `data:cr-neu`, Zugangspaket über die Weiche, `data:cr-dub -- --nur-neu` (Frist-Regel und
+Tageslauf unverändert). Gemessen am Tageslauf 27.10.2026: 4 s / 2 s / 4 s; 6 Browse-Abrufe plus ein anonymes Token
+je Lauf bei Crunchyroll (24 × 7 = 168 am Tag statt 7) und ein Weichen-Abruf je Lauf. Das Urteil liest nur Serien mit
+neuer Folge, deren letzter Blick älter ist als der Fund (Tagesgenauigkeit: eine zweite neue Folge derselben Serie am
+selben Tag wartet bis zum nächsten Tag). Verworfen: nur `data:cr-neu` (liefert Meldung und Prüfung, aber keinen
+Termin: die Termine entstehen aus dem Urteil `crunchyroll-dub.json`) und das Wochenprogramm häufiger (zeigt die DE-Zeile
+erst, wenn Crunchyroll sie in den Wochenplan setzt, ohne exakte Minute). Wächter: `pipeline/check-cr-neu-stuendlich.ts`.
+
 ## Für 85 Titel ist „kein Anbieter bekannt" die Antwort, nicht die Lücke
 
 Am 12.09.2026 durchgemessen, weil die Aufgabenliste seit Tagen „Titel ohne

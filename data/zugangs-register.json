@@ -142,6 +142,7 @@
         "crunchyroll-nachholen.yml",
         "daten-auf-abruf.yml",
         "refresh-data.yml",
+        "refresh-hourly.yml",
         "refresh-weekly.yml",
         "weiche-test.yml"
       ],
