@@ -7,7 +7,7 @@ import { teilenPfad } from '@shared/teilen.ts'
  * Vorschaubild — alles hinter dem `#` erreicht weder Server noch Crawler.
  */
 export function shareUrl(slug: string): string {
-  return new URL(`${import.meta.env.BASE_URL}${teilenPfad(slug)}`, window.location.origin).toString()
+  return new URL(`${import.meta.env?.BASE_URL ?? '/'}${teilenPfad(slug)}`, window.location.origin).toString()
 }
 
 export function useShare(): {

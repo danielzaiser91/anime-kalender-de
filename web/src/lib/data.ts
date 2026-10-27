@@ -384,7 +384,7 @@ export function loadVoices(titleId: number): Promise<Voices> {
  * still tot.
  */
 export function feedUrl(name: string): string {
-  return `${import.meta.env.BASE_URL}data/feeds/${name}`
+  return `${import.meta.env?.BASE_URL ?? '/'}data/feeds/${name}`
 }
 
 /** Absolute URL — Google Calendar und Outlook brauchen sie zum Abonnieren. */

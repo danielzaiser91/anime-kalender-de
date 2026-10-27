@@ -286,7 +286,7 @@ export interface Umgebung {
   base: string
 }
 
-const browser = (): Umgebung => ({ ort: window.location, verlauf: history, base: import.meta.env.BASE_URL.replace(/\/$/, '') })
+const browser = (): Umgebung => ({ ort: window.location, verlauf: history, base: (import.meta.env?.BASE_URL ?? '/').replace(/\/$/, '') })
 
 /** Die Adresse, die in die Leiste soll — oder nichts, wenn sie schon stimmt oder die Seite nicht zum Muster passt. */
 export function seitenAdresseFuer(base: string, ort: { pathname: string; search: string; hash: string }, titelSlug?: string): string | undefined {
@@ -319,7 +319,7 @@ export function adressHash(route: AppRoute, pathname = window.location.pathname)
 }
 
 /** Der Pfad zum geöffneten Titel: `/t/<ak>/`. */
-function zielPfad(titelSlug?: string, base = import.meta.env.BASE_URL.replace(/\/$/, '')): string {
+function zielPfad(titelSlug?: string, base = (import.meta.env?.BASE_URL ?? '/').replace(/\/$/, '')): string {
   return titelSlug ? `${base}/t/${encodeURIComponent(titelSlug)}/` : `${base}/`
 }
 
