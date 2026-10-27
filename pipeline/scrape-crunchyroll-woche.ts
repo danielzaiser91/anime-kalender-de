@@ -272,6 +272,24 @@ export function eintraegeAus(roh: WocheRoh, wocheAb: string): { eintraege: Woche
   return { eintraege, marken }
 }
 
+/** Der gelesene Artikel → `data/crunchyroll-woche.json` (und neue Serien in `data/crunchyroll.json`); alles außer dem Foto-Schritt. */
+export async function artikelAuswerten(roh: WocheRoh, artikel: string, heute: string): Promise<{ eintraege: WochenEintrag[]; marken: string[]; programm: WochenProgramm }> {
+  const jahr = Number(roh.jahr) || new Date().getUTCFullYear()
+  const wocheAb = wocheAus(roh.ueberschrift, jahr)
+  if (!wocheAb) throw new Error(`Woche nicht lesbar aus „${roh.ueberschrift}"`)
+  const { eintraege, marken } = eintraegeAus(roh, wocheAb)
+  const entschieden = zeilenEntscheiden(eintraege, heute)
+  const programm: WochenProgramm = { geholtAm: new Date().toISOString(), artikel, ueberschrift: roh.ueberschrift, wocheAb, eintraege, ...entschieden }
+  writeJson('data/crunchyroll-woche.json', programm)
+  recordSource('crunchyroll-woche', eintraege.length, eintraege.length ? undefined : 'Artikel gelesen, aber keine Zeile erkannt', eintraege.length)
+  const de = eintraege.filter((e) => e.sprache === 'de')
+  log(`${roh.ueberschrift}: ${eintraege.length} Zeilen, davon ${de.length} Synchro (${de.filter((e) => e.abweichend).length} mit eigenem Datum)`)
+  log(`Übernommen: ${entschieden.uebernommen.length} Folgen · Abweichungen: ${entschieden.abweichungen.length} · ohne Kalendereintrag: ${entschieden.ohneEintrag.length}`)
+  for (const a of entschieden.abweichungen) warn(`Wochenprogramm weicht ab: ${a.titel} Folge ${a.von} am ${a.datum} — ${a.grund}`)
+  await abweichungenMelden(entschieden.abweichungen, artikel)
+  return { eintraege, marken, programm }
+}
+
 /*
   **Der Wachhund muss diese Quelle kennen.** Bis zum 30.09.2026 meldete sie sich nirgends — ein stiller
   Ausfall wie der vom 28.09. konnte deshalb drei Tage unbemerkt bleiben. `check-sources` liest
@@ -298,20 +316,7 @@ async function main(): Promise<void> {
     await seite.goto(artikel, { waitUntil: 'domcontentloaded', timeout: 60_000 })
     await seite.waitForSelector('h3 a[href*="/series/"]', { timeout: 30_000 })
 
-    const roh = await rohLesen(seite)
-    const jahr = Number(roh.jahr) || new Date().getUTCFullYear()
-    const wocheAb = wocheAus(roh.ueberschrift, jahr)
-    if (!wocheAb) throw new Error(`Woche nicht lesbar aus „${roh.ueberschrift}"`)
-    const { eintraege, marken } = eintraegeAus(roh, wocheAb)
-    const entschieden = zeilenEntscheiden(eintraege, todayIso())
-    const programm: WochenProgramm = { geholtAm: new Date().toISOString(), artikel, ueberschrift: roh.ueberschrift, wocheAb, eintraege, ...entschieden }
-    writeJson('data/crunchyroll-woche.json', programm)
-    recordSource('crunchyroll-woche', eintraege.length, eintraege.length ? undefined : 'Artikel gelesen, aber keine Zeile erkannt', eintraege.length)
-    const de = eintraege.filter((e) => e.sprache === 'de')
-    log(`${roh.ueberschrift}: ${eintraege.length} Zeilen, davon ${de.length} Synchro (${de.filter((e) => e.abweichend).length} mit eigenem Datum)`)
-    log(`Übernommen: ${entschieden.uebernommen.length} Folgen · Abweichungen: ${entschieden.abweichungen.length} · ohne Kalendereintrag: ${entschieden.ohneEintrag.length}`)
-    for (const a of entschieden.abweichungen) warn(`Wochenprogramm weicht ab: ${a.titel} Folge ${a.von} am ${a.datum} — ${a.grund}`)
-    await abweichungenMelden(entschieden.abweichungen, artikel)
+    const { eintraege, marken, programm } = await artikelAuswerten(await rohLesen(seite), artikel, todayIso())
     /* Zuletzt: Ein gescheitertes Foto darf die Zeilen oben nicht aufhalten. */
     await belegeAktualisieren(seite, eintraege, marken, artikel, programm.geholtAm)
   } finally {
