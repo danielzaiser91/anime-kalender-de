@@ -118,8 +118,6 @@ export const mitAnkuendigung = <T extends { id: number }>(t: T): T =>
 /** Deutsche Sprechrollen, eine Datei je Titel — gefüllt von `data:voices`. */
 export const VOICES_DIR = resolve(ROOT, OUT, 'voices')
 
-export const CR_CALENDAR_URL = 'https://www.crunchyroll.com/de/simulcastcalendar'
-
 /**
  * Woher die ADN-Termine **wirklich** stammen.
  *

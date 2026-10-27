@@ -103,9 +103,22 @@ pruefe('Bau: Fenster weiter als der letzte Termin: der letzte Termin gilt', indi
 writeFileSync(datei, JSON.stringify({ ...anfang, window: undefined }, null, 2))
 pruefe('Bau: ohne Fenster gilt der letzte Termin', indiziereCrSendeplaetze({ titles: new Map() }).crKalenderBis === '2026-10-12')
 
+// Prüfer 2170 R2 (A6): neu angelegte Einträge behaupten keinen bestätigten Wochentakt
+pruefe('neuer Eintrag: weeklyConfirmed ist false', Object.values(zwei.neu).every((e) => e.weeklyConfirmed === false), zwei.neu)
+
+// Prüfer 2170 R2 (A5): Beleglink — Wochenprogramm-Termine verweisen auf den gelesenen Artikel, reine Kalendertermine behalten den historischen Link
+const { crQuelleUrl } = await import('./bau/cr-quelle.ts')
+const KALENDERLINK = 'https://www.crunchyroll.com/de/simulcastcalendar'
+pruefe('Beleglink: Beobachtung aus dem Wochenprogramm → Artikel', crQuelleUrl({ observations: [{ date: '2026-10-30', episode: 2, quelle: 'woche' }] }) === 'https://example.invalid/artikel')
+pruefe('Beleglink: gemischt (gemessen + Wochenprogramm) → Artikel', crQuelleUrl({ observations: [{ date: '2026-10-12', episode: 1 }, { date: '2026-10-30', episode: 2, quelle: 'woche' }] }) === 'https://example.invalid/artikel')
+pruefe('Beleglink: nur gemessene Kalendertermine → historischer Link', crQuelleUrl({ observations: [{ date: '2026-10-12', episode: 1 }] }) === KALENDERLINK)
+pruefe('Beleglink: ohne Beobachtungen → historischer Link', crQuelleUrl({}) === KALENDERLINK)
+rmSync(join(ordner, 'data', 'crunchyroll-woche.json'))
+pruefe('Beleglink: Wochenprogramm-Termin, aber keine Wochendatei → historischer Link', crQuelleUrl({ observations: [{ date: '2026-10-30', quelle: 'woche' }] }) === KALENDERLINK)
+
 rmSync(ordner, { recursive: true, force: true })
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)
 }
-console.log('check-woche-neue-serien: alle Fälle grün (Regel 16, Lauf 6, Artikel-Weg 2, Bau-Marke 5)')
+console.log('check-woche-neue-serien: alle Fälle grün (Regel 16, Lauf 6, Artikel-Weg 2, Bau-Marke 5, Beleglink 5, Takt 1)')

@@ -5,7 +5,8 @@ import { ankuendigungenLaden } from '../lib/ankuendigungen.ts'
 import { angekuendigterTermin } from './ankuendigungs-termin.ts'
 import { quellenUndTermin } from '../lib/quellen-bindung.ts'
 import { nachgereichteFolgen, verpasstAmTermin } from './verpasst-am-termin.ts'
-import { verpassteTermine, CR_CALENDAR_URL } from './grundlagen.ts'
+import { verpassteTermine } from './grundlagen.ts'
+import { crQuelleUrl } from './cr-quelle.ts'
 import { pickPlatformUrl, derivedStart, observedEpisodes, overlapsWindow, werkTitel } from './titel-hilfen.ts'
 import {
   normalizeTitle,
@@ -171,7 +172,7 @@ export function baueReleases({
             durchzaehlungHinweis = durchgezaehlt.note
           }
         }
-        sources.push(CR_CALENDAR_URL)
+        sources.push(crQuelleUrl(slot))
       } else if (
         entry.schedule.estimated &&
         !angekuendigt?.omuAb &&
