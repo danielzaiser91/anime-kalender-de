@@ -1,19 +1,19 @@
 {
   "adn": {
-    "lastOk": "2026-10-26T05:14:14.260Z",
-    "lastRun": "2026-10-26T05:14:14.260Z",
-    "lastCount": 16
+    "lastOk": "2026-10-27T04:13:43.889Z",
+    "lastRun": "2026-10-27T04:13:43.889Z",
+    "lastCount": 11
   },
   "anime2you": {
-    "lastOk": "2026-10-27T04:03:03.278Z",
-    "lastRun": "2026-10-27T04:03:03.278Z",
-    "lastCount": 50
+    "lastOk": "2026-10-27T04:16:54.878Z",
+    "lastRun": "2026-10-27T04:16:54.878Z",
+    "lastCount": 101
   },
   "crunchyroll": {
     "lastOk": "2026-10-21T20:02:22.932Z",
-    "lastRun": "2026-10-27T04:02:44.557Z",
+    "lastRun": "2026-10-27T04:07:18.548Z",
     "lastCount": 0,
-    "lastError": "keine Kachel im Kalender gefunden — 2026-10-19: HTTP 200; Titel „Crunchyroll – Simulcasts durchstöbern“; keine Challenge-Merkmale; Text „Neu Beliebt Simulcast …"
+    "lastError": "keine Kachel im Kalender gefunden — 2026-09-14: HTTP 200; Titel „Crunchyroll – Simulcasts durchstöbern“; keine Challenge-Merkmale; Text „Neu Beliebt Simulcast …"
   },
   "anisearch": {
     "lastOk": "2026-10-27T04:01:56.778Z",
@@ -26,9 +26,9 @@
     "lastCount": 115
   },
   "crunchyroll-dub": {
-    "lastOk": "2026-10-26T05:26:50.687Z",
-    "lastRun": "2026-10-26T05:26:50.687Z",
-    "lastCount": 1141
+    "lastOk": "2026-10-27T04:12:46.527Z",
+    "lastRun": "2026-10-27T04:12:46.527Z",
+    "lastCount": 1142
   },
   "anime-offline-database": {
     "lastOk": "2026-10-26T05:09:13.392Z",
@@ -62,9 +62,9 @@
     "lastCount": 400
   },
   "motn-changes": {
-    "lastOk": "2026-10-26T04:20:42.388Z",
-    "lastRun": "2026-10-26T04:20:42.388Z",
-    "lastCount": 0
+    "lastOk": "2026-10-27T04:13:47.285Z",
+    "lastRun": "2026-10-27T04:13:47.285Z",
+    "lastCount": 17
   },
   "motn": {
     "lastOk": "2026-10-23T04:06:38.053Z",
@@ -107,9 +107,9 @@
     "lastCount": 2
   },
   "justwatch-audio": {
-    "lastOk": "2026-10-26T05:35:11.964Z",
-    "lastRun": "2026-10-26T05:35:11.964Z",
-    "lastCount": 502
+    "lastOk": "2026-10-27T04:24:53.757Z",
+    "lastRun": "2026-10-27T04:24:53.757Z",
+    "lastCount": 17
   },
   "crunchyroll-offene": {
     "lastOk": "2026-10-26T05:35:27.447Z",
@@ -122,18 +122,18 @@
     "lastCount": 5
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-10-26T04:17:59.291Z",
-    "lastRun": "2026-10-26T04:17:59.291Z",
-    "lastCount": 153
+    "lastOk": "2026-10-27T04:07:23.173Z",
+    "lastRun": "2026-10-27T04:07:23.173Z",
+    "lastCount": 154
   },
   "cartoons": {
-    "lastOk": "2026-10-26T04:24:01.154Z",
-    "lastRun": "2026-10-26T04:24:01.154Z",
-    "lastCount": 0
+    "lastOk": "2026-10-27T04:17:25.086Z",
+    "lastRun": "2026-10-27T04:17:25.086Z",
+    "lastCount": 1
   },
   "trailer": {
-    "lastOk": "2026-10-26T04:28:35.520Z",
-    "lastRun": "2026-10-26T04:28:35.520Z",
+    "lastOk": "2026-10-27T04:23:09.103Z",
+    "lastRun": "2026-10-27T04:23:09.103Z",
     "lastCount": 0
   },
   "wikidata-titel": {
@@ -152,13 +152,13 @@
     "lastCount": 65
   },
   "toggo": {
-    "lastOk": "2026-10-27T00:20:36.277Z",
-    "lastRun": "2026-10-27T00:20:36.277Z",
+    "lastOk": "2026-10-27T04:14:36.889Z",
+    "lastRun": "2026-10-27T04:14:36.889Z",
     "lastCount": 22
   },
   "wikipedia-folgen": {
-    "lastOk": "2026-10-26T04:22:59.610Z",
-    "lastRun": "2026-10-26T04:22:59.610Z",
+    "lastOk": "2026-10-27T04:16:14.582Z",
+    "lastRun": "2026-10-27T04:16:14.582Z",
     "lastCount": 9
   },
   "kinoheld": {
@@ -192,9 +192,9 @@
     "lastCount": 0
   },
   "beleg-lesungen": {
-    "lastOk": "2026-10-26T04:19:28.680Z",
-    "lastRun": "2026-10-26T04:19:28.680Z",
-    "lastCount": 2
+    "lastOk": "2026-10-27T04:12:40.655Z",
+    "lastRun": "2026-10-27T04:12:40.655Z",
+    "lastCount": 34
   },
   "anisearch-dubs": {
     "lastOk": "2026-10-27T04:01:47.880Z",
@@ -212,8 +212,8 @@
     "lastCount": 18493
   },
   "cartoon-reihen": {
-    "lastOk": "2026-10-26T04:24:01.844Z",
-    "lastRun": "2026-10-26T04:24:01.844Z",
+    "lastOk": "2026-10-27T04:17:26.142Z",
+    "lastRun": "2026-10-27T04:17:26.142Z",
     "lastCount": 0
   },
   "tmdb-poster": {

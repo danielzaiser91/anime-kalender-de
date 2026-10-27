@@ -1,17 +1,18 @@
 # Was JustWatch zu offenen Verweisen sagt
 
-Stand: 2026-10-26. Erzeugt von `npm run data:justwatch`.
+Stand: 2026-10-27. Erzeugt von `npm run data:justwatch`.
 
 **Das sind Kandidaten, keine Belege.** Die Angabe gilt der **Serie**, nicht der
 einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, belegt
 sind acht. Und ein fehlendes `de` belegt nichts: Netflix meldet dort gar keine
 Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
-24 offene Verweise, zu denen JustWatch eine Tonspur nennt.
+26 offene Verweise, zu denen JustWatch eine Tonspur nennt.
 
 | Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |
 |---|---|---|---|---|
 | [Sonic X](https://anime-kalender.de/#/datenbank?t=1816) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sonic-X) |
+| [Christoph Columbus](https://anime-kalender.de/#/datenbank?t=3132) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/christoph-columbus) |
 | [A Certain Magical Index](https://anime-kalender.de/#/datenbank?t=4654) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en, ja` | [JustWatch](https://www.justwatch.com/de/Serie/Toaru-Majutsu-no-Index) |
 | [Arpeggio of Blue Steel: Ars Nova - Cadenza](https://anime-kalender.de/#/datenbank?t=20764) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Film/Arpeggio-of-Blue-Steel-Ars-Nova-Cadenza) |
 | [Steins;Gate 0](https://anime-kalender.de/#/datenbank?t=21127) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, ja, pt` | [JustWatch](https://www.justwatch.com/de/Serie/Steins-Gate-0) |
@@ -22,9 +23,10 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [Sylvanian Families](https://anime-kalender.de/#/datenbank?t=187052) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sylvanian-Families) |
 | [KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson](https://anime-kalender.de/#/datenbank?t=102976) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, ja, pt` | [JustWatch](https://www.justwatch.com/de/Film/Kono-Subarashii-Sekai-ni-Shukufuku-wo-Kurenai-Densetsu) |
 | [Karakai Jozu no Takagi-san: Staffel 2](https://anime-kalender.de/#/datenbank?t=107068) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, ja, ru` | [JustWatch](https://www.justwatch.com/de/Serie/karakaiShang-Shou-noGao-Mu-san) |
+| [Tonikawa: Over the Moon for You](https://anime-kalender.de/#/datenbank?t=116267) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, ja, pt, ru` | [JustWatch](https://www.justwatch.com/de/Serie/Tonikawa-Kawaii) |
 | [Jujutsu Kaisen 0](https://anime-kalender.de/#/datenbank?t=131573) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, it, ja, pl, pt, ru, th` | [JustWatch](https://www.justwatch.com/de/Film/jujutsu-kaisen-0) |
 | [Demon Slayer: Kimetsu no Yaiba - Infinity Castle](https://anime-kalender.de/#/datenbank?t=178788) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, hi, it, ja, pl, pt, ta, te` | [JustWatch](https://www.justwatch.com/de/Film/demon-slayer-kimetsu-no-yaiba-infinity-castle) |
-| [Dragon Ball Super: Beerus](https://anime-kalender.de/#/datenbank?t=206814) | crunchyroll | kein Deutsch | `ja` | [JustWatch](https://www.justwatch.com/de/Serie/dragon-ball-super-beerus) |
+| [Tayo und die kleinen Zauberer](https://anime-kalender.de/#/datenbank?t=188076) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/mabeobbeoseu-tayo) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-99777) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, fr, pt, ru` | [JustWatch](https://www.justwatch.com/de/Serie/Onyx-Equinox) |
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |
 | [My Little Pony - Freundschaft ist Magie](https://anime-kalender.de/#/datenbank?t=-33765) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en` | [JustWatch](https://www.justwatch.com/de/Serie/My-Little-Pony-Friendship-Is-Magic) |
@@ -38,7 +40,7 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
 ## Titel ganz ohne Bezugsweg
 
-302 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
+293 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
 Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro; das 🇩🇪 sagt,
 dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 
@@ -47,20 +49,11 @@ dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 | [Drei kleine Geister](https://anime-kalender.de/#/datenbank?t=310) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4ab84d22-8eb7-4a0e-8cc1-9e2146a69910) 🇩🇪, [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4ab84d22-8eb7-4a0e-8cc1-9e2146a69910) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0b279223-d147-465f-9182-6d3ceb7537dd) |
 | [Kuroko’s Basketball - Winter Cup Highlights Movie 1 Shadow and Light](https://anime-kalender.de/#/datenbank?t=102093) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.9095f403-0aba-4d18-aea4-36284e16fb0c) 🇩🇪 |
 | [Petals of Reincarnation](https://anime-kalender.de/#/datenbank?t=179950) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b89b927e-502e-4990-97b3-5a0a40e4a24b) |
-| [Die Abenteuer des fantastischen Weltraumpiraten Captain Harlock](https://anime-kalender.de/#/datenbank?t=1000) | [Videobuster](https://www.videobuster.de/dvd-bluray-verleih/84491/space-pirate-captain-herlock?campaign=vb50feed#rental&rental-dvd) |
-| [Transformers](https://anime-kalender.de/#/datenbank?t=2268) | [Videobuster](https://www.videobuster.de/dvd-bluray-verleih/101176/transformers-animated?campaign=vb50feed#rental&rental-dvd), [Thalia](https://www.thalia.de/shop/home/artikeldetails/A1072630182) |
-| [Tayo und die kleinen Zauberer](https://anime-kalender.de/#/datenbank?t=188076) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0445703e-9803-4665-a6a5-9c1ac591e4b7) 🇩🇪, [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0445703e-9803-4665-a6a5-9c1ac591e4b7) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.dceb39f7-a25a-439b-906c-d0caf4413250) |
 | [Rascal Does Not Dream of a Dear Friend](https://anime-kalender.de/#/datenbank?t=199340) | [Cineplex DE](https://www.cineplex.de/berlin-neukoelln/film/rascal-does-not-dream-of-a-dear-friend-79341000012FWBXJYB), [Cinestar](https://www.cinestar.de/kino-wildau/veranstaltung-cineanime-rascal-does-not-dream-of-a-dear-friend-omu) |
-| [Die Tragödie der Belladonna](https://anime-kalender.de/#/datenbank?t=10001546) | [Videobuster](https://www.videobuster.de/dvd-bluray-verleih/123663/die-tragoedie-der-belladonna?campaign=vb50feed#rental&rental-dvd) |
 | [Es war einmal … Amerika](https://anime-kalender.de/#/datenbank?t=10004750) | [ARD Plus Amazon channel ](https://watch.amazon.de/detail?gti=amzn1.dv.gti.4ca9f6d9-8dbb-059e-1644-ae369a6d19ba) |
 | [Es war einmal … Die Entdeckung unserer Welt](https://anime-kalender.de/#/datenbank?t=10005217) | [ARD Plus Amazon channel ](https://watch.amazon.de/detail?gti=amzn1.dv.gti.cca9f6be-670f-1d2b-8bc0-9d37f890c04e), [Videobuster](https://www.videobuster.de/dvd-bluray-verleih/169521/es-war-einmal-abenteurer-entdecker?campaign=vb50feed#rental&rental-dvd) |
 | [Es war einmal … Entdecker und Erfinder](https://anime-kalender.de/#/datenbank?t=10005293) | [ARD Plus Amazon channel ](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c2a9f6af-5937-52f1-6ed1-08648ae0af74), [Videobuster](https://www.videobuster.de/dvd-bluray-verleih/169514/es-war-einmal-forscher-erfinder?campaign=vb50feed#rental&rental-dvd) |
-| [Astro Boy: Der Film](https://anime-kalender.de/#/datenbank?t=10005374) | [Videobuster](https://www.videobuster.de/dvd-bluray-verleih/114463/astro-boy?campaign=vb50feed#rental&rental-bluray) |
-| [Happy Fish: Hai-Alarm und frische Fische](https://anime-kalender.de/#/datenbank?t=10013225) | [Videobuster](https://www.videobuster.de/dvd-bluray-verleih/89244/happy-fish?campaign=vb50feed#rental&rental-dvd), [buy ZOXS](https://www.buyzoxs.de/kaufen/sonstige45/shark-bait-blu-ray_B0B148DJNC.html), [Amazon DVD / Blu-ray](https://www.amazon.de/dp/B0B148DJNC?tag=movie0c6-21&linkCode=osi&th=1&psc=1), [Buecher](https://www.awin1.com/pclick.php?p=43811330642&a=400165&m=14584) |
 | [Re:Zero - Starting Life in Another World: Bünde aus Eis](https://anime-kalender.de/#/datenbank?t=10013951) | [Crunchyroll Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.5d11c410-4b4b-4fef-8c75-b1c01805685e) 🇩🇪, [Amazon DVD / Blu-ray](https://www.amazon.de/dp/B0CN9QDWKH?tag=movie0c6-21&linkCode=osi&th=1&psc=1) |
-| [Der Wunschdrache](https://anime-kalender.de/#/datenbank?t=10014120) | [Netflix](https://www.netflix.com/title/81153694), [Netflix Standard with Ads](https://www.netflix.com/title/81153694) |
-| [My Daemon](https://anime-kalender.de/#/datenbank?t=10018789) | [Netflix](https://www.netflix.com/title/81261227), [Netflix Standard with Ads](https://www.netflix.com/title/81261227) |
-| [Tokyo Override](https://anime-kalender.de/#/datenbank?t=10019343) | [Netflix](https://www.netflix.com/title/81153111), [Netflix Standard with Ads](https://www.netflix.com/title/81153111) |
 | [Super Wings: Maximum Speed](https://anime-kalender.de/#/datenbank?t=10019348) | [Cinestar](https://www.cinestar.de/kino-karlsruhe-filmpalast-am-zkm/film/super-wings-maximum-speed), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d80e6132-6947-4ced-aa16-4c0571e4dfcb) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d80e6132-6947-4ced-aa16-4c0571e4dfcb) 🇩🇪 |
 | [Attack on Titan: The Last Attack](https://anime-kalender.de/#/datenbank?t=10019527) | [Crunchyroll](https://www.crunchyroll.com/watch/GJWUQ7WGE/attack-on-titan-the-last-attack), [Crunchyroll Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1af3f16e-7da6-4d78-aac7-1713988ecd89) 🇩🇪 |
 | [Mein Bruder, der Minotaurus](https://anime-kalender.de/#/datenbank?t=-316832) | [Apple TV](https://tv.apple.com/de/episode/lorcan-und-der-wahnsinn/umc.cmc.2m341hrww75wvt0oegl05z9kn?at=1000l3V2&ct=app_tvplus&itscg=30200&itsct=justwatch_tv&playableId=tvs.sbd.4000%3AA0018301001&showId=umc.cmc.2xp2k3if93s921ariv5tlhr1p) 🇩🇪, [Apple TV Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d39f0f59-cd40-4995-9636-c3054a0df9af) 🇩🇪 |

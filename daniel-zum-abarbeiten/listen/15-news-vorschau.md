@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-26. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-27. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-40 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+41 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -14,7 +14,7 @@ Stand: 2026-10-26. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-10 (Monat) | primevideo, aniverse | ✅ zugesagt | [Neue Anime-Katalogtitel im Oktober 2026 bei aniverse](https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/) |
 | 2026-10 (Monat) | adn | ❌ nur Originalton | [ADN nimmt »86 EIGHTY-SIX« in sein Programm auf](https://www.anime2you.de/news/1052781/86-eighty-six-bald-auf-adn/) |
 | 2026-10-30, 2026-10 (Monat) | crunchyroll | – unklar | [Crunchyroll bald nicht mehr auf Nintendo Switch verfügbar](https://www.anime2you.de/news/1044861/crunchyroll-bald-nicht-mehr-auf-nintendo-switch/) |
-| 2026-10-26, 2026-11-01 | ? | – unklar | [TV-Guide: Anime im deutschen Fernsehen in KW 44/2026](https://www.anime2you.de/news/1063795/anime-tv-programm-44-2026/) |
+| 2026-10-29 | crunchyroll | – unklar | [Crunchyroll bringt besonderes »Black Clover«-Erlebnis nach Deutschland](https://www.anime2you.de/news/1064175/crunchyroll-black-clover-erlebnis-in-berlin/) |
 | 2026-10-31 | primevideo | ✅ zugesagt | [Drei Anime-Serien verlassen bald den Prime-Video-Katalog](https://www.anime2you.de/news/1056183/prime-video-entfernt-naruto-und-mehr/) |
 | 2026-11-06, 2026-11 (Monat) | ? | – unklar | [»Anime Night« auf ProSieben MAXX kehrt verkürzt zurück](https://www.anime2you.de/news/1063716/prosieben-maxx-anime-night-kehrt-verkuerzt-zurueck/) |
 | 2026-11-16, 2026-11-23, 2026-11 (Monat) | ? | ✅ zugesagt | [ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere](https://www.anime2you.de/news/1063292/prosieben-fun-zeigt-akame-ga-kill/) |
@@ -26,6 +26,7 @@ Stand: 2026-10-26. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-03, 2026-11 (Monat) | netflix | – unklar | [Netflix kündigt neuen Original-Anime »Bass X Machina« an + Teaser](https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/) |
 | 2026-11-03, 2026-11-05, 2026-11 (Monat) | kino | – unklar | [Deutscher Kinostart von »Godzilla Minus Zero« steht fest + Teaser](https://www.anime2you.de/news/1033172/godzilla-minus-zero-deutscher-kinostart/) |
 | 2026-11-01, 2026-11-08 | netflix | ✅ zugesagt | [Zweite »Blue Box«-Staffel legt Pause vor fünfter Episode ein](https://www.anime2you.de/news/1063658/blue-box-staffel-2-pause/) |
+| 2026-11-01 | ? | – unklar | [TV-Guide: Anime im deutschen Fernsehen in KW 44/2026](https://www.anime2you.de/news/1063795/anime-tv-programm-44-2026/) |
 | 2026-11-01 | netflix | – unklar | [Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm](https://www.anime2you.de/news/1062497/der-held-ohne-klasse-auf-netflix/) |
 | 2027-01 (Monat) | crunchyroll | ❌ nur Originalton | [Crunchyroll zeigt »Bless« im Simulcast + Teaser](https://www.anime2you.de/news/1062951/crunchyroll-zeigt-bless-im-simulcast/) |
 | 2027-01 (Monat) | ? | – unklar | [Start von »The True Saint Was Banished« steht fest + Teaser](https://www.anime2you.de/news/1056952/start-von-the-true-saint-was-banished/) |
@@ -47,7 +48,8 @@ Stand: 2026-10-26. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-05 (Monat) | ? | – unklar | [Elf neue Merchandise-Produkte zu »Apothecary Diaries« angekündigt](https://www.anime2you.de/news/1061032/apothecary-diaries-elf-merchandise-produkte/) |
 | 2027-05 (Monat) | ? | – unklar | [Neue Plüschfigur der »Frieren«-Protagonistin angekündigt](https://www.anime2you.de/news/1061247/frieren-protagonistin-sakami-plueschfigur/) |
 | 2027-05 (Monat) | ? | – unklar | [Zwei neue Acrylanhänger zu »Detektiv Conan« angekündigt](https://www.anime2you.de/news/1061186/zwei-detektiv-conan-acrylanhaenger/) |
-| 2027-05 (Monat) | ? | – unklar | [»Fairy Tail« erhält neue Anhänger, Tragetasche und XXL-Mauspad](https://www.anime2you.de/news/1061130/neues-fairy-tail-merchandise/) |
+
+… und 1 weitere.
 
 Dazu 54 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
@@ -56,51 +58,51 @@ Dazu 54 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersic
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 11 |
-| adn-catalog | 14.0 Tage her | 109 |
+| adn-catalog | 1.0 Tage her | 115 |
 | adn-news | 0.1 Tage her | 75 |
-| anilist-voices | 7.0 Tage her | 0 |
-| anime-offline-database | 7.0 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 103 |
-| anisearch | 0.0 Tage her | 200 |
-| anisearch-cover-eigen | 14.5 Tage her | 1874 |
-| anisearch-dubs | 0.0 Tage her | 11936 |
-| anisearch-eintraege | 7.0 Tage her | 400 |
-| anisearch-folgen | 7.0 Tage her | 515 |
-| anisearch-slugs | 7.0 Tage her | 14859 |
-| anisearch-zuordnung | 0.0 Tage her | 18493 |
-| ann-voices | 7.0 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 2 |
-| cartoon-folgen | 7.0 Tage her | 300 |
-| cartoon-reihen | 0.0 Tage her | 0 |
-| cartoons | 0.0 Tage her | 0 |
-| cinestar | 0.0 Tage her | 2 |
-| cr-einzelwerke | 5.7 Tage her | 6 |
-| cr-filmbloecke | 5.7 Tage her | 2 |
-| crunchyroll | 4.4 Tage her | 0 |
-| crunchyroll-dub | 0.0 Tage her | 1137 |
-| crunchyroll-neu | 0.0 Tage her | 153 |
-| crunchyroll-offene | 7.0 Tage her | 14 |
-| crunchyroll-woche | 0.0 Tage her | 59 |
-| justwatch-audio | 1.0 Tage her | 51 |
-| kinoheld | 0.0 Tage her | 0 |
-| kitsu-folgen | 7.0 Tage her | 1 |
-| link-check | 20.6 Tage her | 287 |
-| messbelege | 0.0 Tage her | 0 |
-| motn | 3.0 Tage her | 2034 |
-| motn-changes | 0.0 Tage her | 0 |
-| rohfolgen | 1.4 Tage her | 0 |
-| rtlplus-folgen | 7.0 Tage her | 3 |
-| tmdb-banner | 7.0 Tage her | 6 |
-| tmdb-folgen | 0.8 Tage her | 877 |
-| tmdb-kino | 7.0 Tage her | 3 |
-| tmdb-poster | 7.0 Tage her | 372 |
-| tmdb-titles | 7.0 Tage her | 400 |
+| anilist-voices | 1.0 Tage her | 0 |
+| anime-offline-database | 1.0 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 101 |
+| anisearch | 0.9 Tage her | 3 |
+| anisearch-cover-eigen | 15.5 Tage her | 1874 |
+| anisearch-dubs | 1.0 Tage her | 11936 |
+| anisearch-eintraege | 1.0 Tage her | 400 |
+| anisearch-folgen | 1.0 Tage her | 464 |
+| anisearch-slugs | 1.0 Tage her | 14899 |
+| anisearch-zuordnung | 1.0 Tage her | 18493 |
+| ann-voices | 1.0 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 34 |
+| cartoon-folgen | 1.0 Tage her | 357 |
+| cartoon-reihen | 1.0 Tage her | 0 |
+| cartoons | 1.0 Tage her | 0 |
+| cinestar | 1.0 Tage her | 2 |
+| cr-einzelwerke | 6.6 Tage her | 6 |
+| cr-filmbloecke | 6.6 Tage her | 2 |
+| crunchyroll | 5.3 Tage her | 0 |
+| crunchyroll-dub | 0.0 Tage her | 1142 |
+| crunchyroll-neu | 0.0 Tage her | 154 |
+| crunchyroll-offene | 0.9 Tage her | 9 |
+| crunchyroll-woche | 0.1 Tage her | 61 |
+| justwatch-audio | 0.9 Tage her | 502 |
+| kinoheld | 1.0 Tage her | 0 |
+| kitsu-folgen | 1.0 Tage her | 112 |
+| link-check | 1.0 Tage her | 150 |
+| messbelege | 0.1 Tage her | 0 |
+| motn | 4.0 Tage her | 2034 |
+| motn-changes | 0.0 Tage her | 17 |
+| rohfolgen | 0.7 Tage her | 0 |
+| rtlplus-folgen | 1.0 Tage her | 3 |
+| tmdb-banner | 1.0 Tage her | 4 |
+| tmdb-folgen | 1.0 Tage her | 885 |
+| tmdb-kino | 1.0 Tage her | 3 |
+| tmdb-poster | 1.0 Tage her | 403 |
+| tmdb-titles | 1.0 Tage her | 400 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 0.0 Tage her | 0 |
-| tv-de | 0.3 Tage her | 73 |
-| tv-programm | 0.1 Tage her | 0 |
-| vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 0.0 Tage her | 5313 |
-| wikidata-titel | 0.0 Tage her | 15 |
+| trailer | 1.0 Tage her | 0 |
+| tv-de | 0.2 Tage her | 65 |
+| tv-programm | 0.1 Tage her | 294 |
+| vorfaelle | 0.0 Tage her | 5 |
+| wikidata-imdb | 1.0 Tage her | 5313 |
+| wikidata-titel | 1.0 Tage her | 15 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 0.0 Tage her | 514 |
+| youtube-check | 1.0 Tage her | 514 |

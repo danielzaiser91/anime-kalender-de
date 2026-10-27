@@ -5259,7 +5259,7 @@
     ]
   },
   "https://www.crunchyroll.com/de/news/latest/2026/6/15/black-clover-staffel-2-premiere-oktober-2026": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -5276,7 +5276,7 @@
         "text": "www.crunchyroll.com/41ceecf5457765ee/2026-10-05-3f3320954689057b.txt.gz"
       },
       {
-        "am": "2026-10-20",
+        "am": "2026-10-27",
         "hash": "2746f037cb90c2af",
         "hf": 2,
         "veroeffentlicht": "2026-06-15"
@@ -5356,7 +5356,7 @@
     ]
   },
   "https://www.crunchyroll.com/news/latest/2026/6/15/black-clover-season-2-anime-october-2026-release-date-director": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -5372,7 +5372,7 @@
         "text": "www.crunchyroll.com/62de6bcfadddbff4/2026-10-05-c19905ac10b5c1fb.txt.gz"
       },
       {
-        "am": "2026-10-20",
+        "am": "2026-10-27",
         "hash": "63a32eb766f66387",
         "hf": 2
       }
@@ -5494,7 +5494,7 @@
     ]
   },
   "https://www.anime2you.de/news/1039738/dragon-ball-daima-toggo-rtl-starttermin/": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -6153,7 +6153,7 @@
     ]
   },
   "https://www.crunchyroll.com/de/news/latest/2026/8/16/die-tagebuecher-der-apothekerin-staffel-3-anime-release-date-trailer-visual": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -6171,8 +6171,8 @@
         "text": "www.crunchyroll.com/b1af27eaffacc1f7/2026-10-05-b0d9192fc87e8e86.txt.gz"
       },
       {
-        "am": "2026-10-20",
-        "hash": "a6ad8ee1b07aeab6",
+        "am": "2026-10-27",
+        "hash": "55e97f8594649d9e",
         "hf": 2,
         "veroeffentlicht": "2026-08-16",
         "aktualisiert": "2026-08-16"
@@ -8562,7 +8562,7 @@
     ]
   },
   "https://de.wikipedia.org/wiki/Dragon_Ball_Super/Episodenliste": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -8712,7 +8712,7 @@
     ]
   },
   "https://www.kinoheld.de/film/your-name-gestern-heute-und-fuer-immer": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -8757,6 +8757,22 @@
         ],
         "bild": "www.kinoheld.de/08f09dc6f3878396/2026-10-20-4ac9f99afa3e0923.webp",
         "text": "www.kinoheld.de/08f09dc6f3878396/2026-10-20-4ac9f99afa3e0923.txt.gz"
+      },
+      {
+        "am": "2026-10-27",
+        "hash": "06d3545db31936aa",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 2,
+        "markierung": [
+          0.038461538461538464,
+          0.9393346959329364,
+          0.9230769230769231,
+          0.03538809403912043
+        ],
+        "bild": "www.kinoheld.de/08f09dc6f3878396/2026-10-27-06d3545db31936aa.webp",
+        "text": "www.kinoheld.de/08f09dc6f3878396/2026-10-27-06d3545db31936aa.txt.gz"
       }
     ]
   },
@@ -9053,7 +9069,7 @@
     ]
   },
   "https://www.joyn.de/filme/appleseed-alpha-bpr7vttruhwc": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9074,7 +9090,7 @@
     ]
   },
   "https://www.joyn.de/serien/detektiv-conan": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9101,11 +9117,21 @@
         "bildfassung": 2,
         "bild": "www.joyn.de/c450887f6ca5b9e1/2026-10-20-8314834beb924db5.webp",
         "text": "www.joyn.de/c450887f6ca5b9e1/2026-10-20-8314834beb924db5.txt.gz"
+      },
+      {
+        "am": "2026-10-27",
+        "hash": "74d739326f73c8d2",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 2,
+        "bild": "www.joyn.de/c450887f6ca5b9e1/2026-10-27-74d739326f73c8d2.webp",
+        "text": "www.joyn.de/c450887f6ca5b9e1/2026-10-27-74d739326f73c8d2.txt.gz"
       }
     ]
   },
   "https://www.joyn.de/serien/dr-stone": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9126,7 +9152,7 @@
     ]
   },
   "https://www.joyn.de/serien/dragon-ball-super-dpp50bwivlve": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9153,11 +9179,21 @@
         "bildfassung": 2,
         "bild": "www.joyn.de/43d9e167831a7616/2026-10-20-ae26fc66968ea1a6.webp",
         "text": "www.joyn.de/43d9e167831a7616/2026-10-20-ae26fc66968ea1a6.txt.gz"
+      },
+      {
+        "am": "2026-10-27",
+        "hash": "fffbe643d07e8031",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 2,
+        "bild": "www.joyn.de/43d9e167831a7616/2026-10-27-fffbe643d07e8031.webp",
+        "text": "www.joyn.de/43d9e167831a7616/2026-10-27-fffbe643d07e8031.txt.gz"
       }
     ]
   },
   "https://www.joyn.de/serien/eyeshield-21": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9178,7 +9214,7 @@
     ]
   },
   "https://www.joyn.de/serien/frieren-nach-dem-ende-der-reise": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9199,7 +9235,7 @@
     ]
   },
   "https://www.joyn.de/serien/fruits-basket": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9220,7 +9256,7 @@
     ]
   },
   "https://www.joyn.de/serien/gachiakuta": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9247,6 +9283,16 @@
         "bildfassung": 2,
         "bild": "www.joyn.de/32e326a4e7c13609/2026-10-20-5710bb0d9925d1ba.webp",
         "text": "www.joyn.de/32e326a4e7c13609/2026-10-20-5710bb0d9925d1ba.txt.gz"
+      },
+      {
+        "am": "2026-10-27",
+        "hash": "d928ea3c82525060",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 2,
+        "bild": "www.joyn.de/32e326a4e7c13609/2026-10-27-d928ea3c82525060.webp",
+        "text": "www.joyn.de/32e326a4e7c13609/2026-10-27-d928ea3c82525060.txt.gz"
       }
     ]
   },
@@ -9272,7 +9318,7 @@
     ]
   },
   "https://www.joyn.de/serien/yashahime": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9299,11 +9345,21 @@
         "bildfassung": 2,
         "bild": "www.joyn.de/57f184463fa156be/2026-10-20-95017d1c1dedbdb5.webp",
         "text": "www.joyn.de/57f184463fa156be/2026-10-20-95017d1c1dedbdb5.txt.gz"
+      },
+      {
+        "am": "2026-10-27",
+        "hash": "4d290a7e0ac05dd3",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 2,
+        "bild": "www.joyn.de/57f184463fa156be/2026-10-27-4d290a7e0ac05dd3.webp",
+        "text": "www.joyn.de/57f184463fa156be/2026-10-27-4d290a7e0ac05dd3.txt.gz"
       }
     ]
   },
   "https://www.joyn.de/serien/kaiju-no-8": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9324,7 +9380,7 @@
     ]
   },
   "https://www.joyn.de/serien/log-horizon": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9345,7 +9401,7 @@
     ]
   },
   "https://www.joyn.de/serien/mob-psycho-100": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9366,7 +9422,7 @@
     ]
   },
   "https://www.joyn.de/serien/my-hero-academia": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9387,7 +9443,7 @@
     ]
   },
   "https://www.joyn.de/serien/naruto": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9414,11 +9470,21 @@
         "bildfassung": 2,
         "bild": "www.joyn.de/57821d9aa1bb7b1c/2026-10-20-e19e9fd336773659.webp",
         "text": "www.joyn.de/57821d9aa1bb7b1c/2026-10-20-e19e9fd336773659.txt.gz"
+      },
+      {
+        "am": "2026-10-27",
+        "hash": "fffbe643d07e8031",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 2,
+        "bild": "www.joyn.de/57821d9aa1bb7b1c/2026-10-27-fffbe643d07e8031.webp",
+        "text": "www.joyn.de/57821d9aa1bb7b1c/2026-10-27-fffbe643d07e8031.txt.gz"
       }
     ]
   },
   "https://www.joyn.de/serien/naruto-shippuden-dp9lg5cqfaaj": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9445,6 +9511,16 @@
         "bildfassung": 2,
         "bild": "www.joyn.de/f9e43fe382e76dd6/2026-10-20-70f9ec6838919ef7.webp",
         "text": "www.joyn.de/f9e43fe382e76dd6/2026-10-20-70f9ec6838919ef7.txt.gz"
+      },
+      {
+        "am": "2026-10-27",
+        "hash": "fffbe643d07e8031",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 2,
+        "bild": "www.joyn.de/f9e43fe382e76dd6/2026-10-27-fffbe643d07e8031.webp",
+        "text": "www.joyn.de/f9e43fe382e76dd6/2026-10-27-fffbe643d07e8031.txt.gz"
       }
     ]
   },
@@ -9491,7 +9567,7 @@
     ]
   },
   "https://www.joyn.de/serien/boruto-dp7adnkxkcfc": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9508,11 +9584,21 @@
         "bildfassung": 2,
         "bild": "www.joyn.de/0fd1c2a7f0c57197/2026-10-13-d7913cf0311bfcdf.webp",
         "text": "www.joyn.de/0fd1c2a7f0c57197/2026-10-13-d7913cf0311bfcdf.txt.gz"
+      },
+      {
+        "am": "2026-10-27",
+        "hash": "fffbe643d07e8031",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 2,
+        "bild": "www.joyn.de/0fd1c2a7f0c57197/2026-10-27-fffbe643d07e8031.webp",
+        "text": "www.joyn.de/0fd1c2a7f0c57197/2026-10-27-fffbe643d07e8031.txt.gz"
       }
     ]
   },
   "https://www.joyn.de/serien/perrine": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9533,7 +9619,7 @@
     ]
   },
   "https://www.joyn.de/serien/reincarnated-as-a-sword": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9554,7 +9640,7 @@
     ]
   },
   "https://www.joyn.de/serien/solo-leveling": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9581,6 +9667,16 @@
         "bildfassung": 2,
         "bild": "www.joyn.de/c6f463ed6d271197/2026-10-20-89e80647c73d23a0.webp",
         "text": "www.joyn.de/c6f463ed6d271197/2026-10-20-89e80647c73d23a0.txt.gz"
+      },
+      {
+        "am": "2026-10-27",
+        "hash": "b191d1e38a2ec621",
+        "hf": 2,
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 2,
+        "bild": "www.joyn.de/c6f463ed6d271197/2026-10-27-b191d1e38a2ec621.webp",
+        "text": "www.joyn.de/c6f463ed6d271197/2026-10-27-b191d1e38a2ec621.txt.gz"
       }
     ]
   },
@@ -9606,7 +9702,7 @@
     ]
   },
   "https://www.joyn.de/serien/the-promised-neverland": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9627,7 +9723,7 @@
     ]
   },
   "https://www.joyn.de/serien/the-quintessential-quintuplets": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9648,7 +9744,7 @@
     ]
   },
   "https://www.joyn.de/serien/the-rising-of-the-shield-hero": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9669,7 +9765,7 @@
     ]
   },
   "https://www.joyn.de/serien/tokyo-revengers": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9690,7 +9786,7 @@
     ]
   },
   "https://www.joyn.de/serien/welcome-to-demon-school-iruma-kun": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -13596,7 +13692,7 @@
     ]
   },
   "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/": {
-    "zuletzt": "2026-10-20",
+    "zuletzt": "2026-10-27",
     "lesungen": [
       {
         "am": "2026-10-15",
@@ -13619,6 +13715,24 @@
         "bildfassung": 2,
         "bild": "www.anime2you.de/f1f980e7b2a412e2/2026-10-20-73a71e1f9f1ebdb4.webp",
         "text": "www.anime2you.de/f1f980e7b2a412e2/2026-10-20-73a71e1f9f1ebdb4.txt.gz"
+      },
+      {
+        "am": "2026-10-27",
+        "hash": "29f1c84efd8bc039",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-13",
+        "aktualisiert": "2026-10-16",
+        "aenderungOhneDatum": true,
+        "qs": "ok",
+        "bildfassung": 2,
+        "markierung": [
+          0.038461538461538464,
+          0.6195666905457995,
+          0.8942307692307693,
+          0.04747429766307189
+        ],
+        "bild": "www.anime2you.de/f1f980e7b2a412e2/2026-10-27-29f1c84efd8bc039.webp",
+        "text": "www.anime2you.de/f1f980e7b2a412e2/2026-10-27-29f1c84efd8bc039.txt.gz"
       }
     ]
   },
@@ -14118,6 +14232,60 @@
         "bildfassung": 2,
         "bild": "www.disneyplus.com/9b6cc4fdbce1d624/2026-10-21-9e06513fe9130c1f.webp",
         "text": "www.disneyplus.com/9b6cc4fdbce1d624/2026-10-21-9e06513fe9130c1f.txt.gz"
+      }
+    ]
+  },
+  "https://news.animationdigitalnetwork.com/de/2026/10/26/die-1-euro-aktion-ist-zurueck-streame-anime-fuer-1e-bei-adn/": {
+    "zuletzt": "2026-10-27",
+    "lesungen": [
+      {
+        "am": "2026-10-27",
+        "hash": "371987773e9042c3",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-26",
+        "aktualisiert": "2026-10-20",
+        "qs": "ok",
+        "bildfassung": 2,
+        "bild": "news.animationdigitalnetwork.com/a52aa2ee58f6e6ec/2026-10-27-371987773e9042c3.webp",
+        "text": "news.animationdigitalnetwork.com/a52aa2ee58f6e6ec/2026-10-27-371987773e9042c3.txt.gz"
+      }
+    ]
+  },
+  "https://news.animationdigitalnetwork.com/de/2026/10/15/reincarnated-as-a-dragon-hatchling-cast-alle-infos-zur-deutschen-synchro/": {
+    "zuletzt": "2026-10-27",
+    "lesungen": [
+      {
+        "am": "2026-10-27",
+        "hash": "755f511b4db25e14",
+        "hf": 2,
+        "veroeffentlicht": "2026-10-15",
+        "aktualisiert": "2026-10-10",
+        "qs": "ok",
+        "bildfassung": 2,
+        "markierung": [
+          0.057692307692307696,
+          0.5935970149253731,
+          0.8846153846153846,
+          0.01937313432835821
+        ],
+        "bild": "news.animationdigitalnetwork.com/164b26346bc017fe/2026-10-27-755f511b4db25e14.webp",
+        "text": "news.animationdigitalnetwork.com/164b26346bc017fe/2026-10-27-755f511b4db25e14.txt.gz"
+      }
+    ]
+  },
+  "https://news.animationdigitalnetwork.com/de/2026/08/01/reincarnated-as-a-dragon-hatchling-kommt-mit-deutscher-synchro-zu-adn/": {
+    "zuletzt": "2026-10-27",
+    "lesungen": [
+      {
+        "am": "2026-10-27",
+        "hash": "3c50999ceaaadfab",
+        "hf": 2,
+        "veroeffentlicht": "2026-08-01",
+        "aktualisiert": "2026-09-21",
+        "qs": "ok",
+        "bildfassung": 2,
+        "bild": "news.animationdigitalnetwork.com/7e274051fa973c37/2026-10-27-3c50999ceaaadfab.webp",
+        "text": "news.animationdigitalnetwork.com/7e274051fa973c37/2026-10-27-3c50999ceaaadfab.txt.gz"
       }
     ]
   }
