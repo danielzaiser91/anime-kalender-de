@@ -59,31 +59,48 @@ function selbstpruefung(): number {
   return fehler + torpruefung()
 }
 
-/** Ein geplanter Treffer muss das Urteil von `bewerte` rot machen, ein fehlender Ordner oder eine fehlende Endung ebenso. */
+/** Ein geplanter Treffer muss den Exit-Code von `lauf` auf 1 setzen, ein fehlender Ordner, eine fehlende Endung oder ein roter Selbstfall ebenso. */
 function torpruefung(): number {
+  const stumm = { log: () => undefined, error: () => undefined }
   const alle = [...ORDNER.map((o) => `${o}/a.ts`), 'x/b.tsx', 'x/c.mjs', 'x/d.cjs', 'x/e.js']
-  const sauber = bewerte(alle, () => 'const x = 1')
-  const geplant = bewerte(alle, (d) => (d === 'tools/a.ts' ? 'const x =y' : 'const x = 1'))
-  const ohneOrdner = bewerte(alle.filter((d) => !d.startsWith('worker/')), () => 'const x = 1')
-  const ohneEndung = bewerte(alle.filter((d) => !d.endsWith('.cjs')), () => 'const x = 1')
+  const sauber = () => 'const x = 1'
+  const geplant = (d: string) => (d === 'tools/a.ts' ? 'const x =y' : 'const x = 1')
+  const faelle: [string, number, number][] = [
+    ['saubere Liste', lauf(alle, sauber, 0, stumm), 0],
+    ['geplanter Treffer', lauf(alle, geplant, 0, stumm), 1],
+    ['fehlender Ordner', lauf(alle.filter((d) => !d.startsWith('worker/')), sauber, 0, stumm), 1],
+    ['fehlende Endung', lauf(alle.filter((d) => !d.endsWith('.cjs')), sauber, 0, stumm), 1],
+    ['roter Selbstfall', lauf(alle, sauber, 1, stumm), 1],
+  ]
   let fehler = 0
-  if (sauber.meldungen.length !== 0) { fehler++; console.error('FEHLER: saubere Liste gilt als rot') }
-  if (geplant.treffer !== 1 || geplant.meldungen.length !== 1) { fehler++; console.error('FEHLER: geplanter Treffer nicht gemeldet') }
-  if (ohneOrdner.meldungen.length !== 1) { fehler++; console.error('FEHLER: fehlender Ordner nicht gemeldet') }
-  if (ohneEndung.meldungen.length !== 1) { fehler++; console.error('FEHLER: fehlende Endung nicht gemeldet') }
+  for (const [name, ist, soll] of faelle) {
+    if (ist !== soll) { fehler++; console.error(`FEHLER: ${name}: Exit ${ist} statt ${soll}`) }
+  }
+  const zaehlung = bewerte(alle, geplant)
+  if (zaehlung.treffer !== 1 || zaehlung.meldungen.length !== 1) { fehler++; console.error('FEHLER: geplanter Treffer nicht gezählt') }
   return fehler
 }
 
+interface Ausgabe {
+  log: (s: string) => void
+  error: (s: string) => void
+}
+
+/** Exit-Code für Dateiliste und Ergebnis der Selbstprüfung (Anzahl roter Selbstfälle). */
+function lauf(dateien: string[], lies: (d: string) => string, selbst: number, aus: Ausgabe): number {
+  const { meldungen, treffer } = bewerte(dateien, lies)
+  for (const m of meldungen) aus.error(`FEHLER: ${m}`)
+  const rot = selbst + meldungen.length
+  aus.log(`check-leerzeichen-gleich: ${rot ? 'FEHLER' : 'ok'} (${dateien.length} Dateien, ${treffer} Treffer, 6 Ordner, 5 Endungen)`)
+  return rot ? 1 : 0
+}
+
 function main(): number {
-  const fehler = selbstpruefung()
+  const selbst = selbstpruefung()
   const dateien = execFileSync('git', ['ls-files', '-z', ...ORDNER], { cwd: WURZEL, encoding: 'utf8', windowsHide: true, maxBuffer: 1 << 26 })
     .split('\0')
     .filter((d) => /\.(ts|tsx|mjs|cjs|js)$/.test(d))
-  const { meldungen, treffer } = bewerte(dateien, (d) => readFileSync(resolve(WURZEL, d), 'utf8'))
-  for (const m of meldungen) console.error(`FEHLER: ${m}`)
-  const rot = fehler + meldungen.length
-  console.log(`check-leerzeichen-gleich: ${rot ? 'FEHLER' : 'ok'} (${dateien.length} Dateien, ${treffer} Treffer, 6 Ordner, 5 Endungen)`)
-  return rot ? 1 : 0
+  return lauf(dateien, (d) => readFileSync(resolve(WURZEL, d), 'utf8'), selbst, console)
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) process.exit(main())
