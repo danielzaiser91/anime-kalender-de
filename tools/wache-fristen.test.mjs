@@ -14,7 +14,7 @@ assert.equal(fristAusTakt(1, 2), 2)
 assert.deepEqual(FRISTEN_STUNDEN, {
   'refresh-hourly.yml': 3,
   'refresh-data.yml': 36,
-  'bestand-bauen.yml': 36,
+  'bestand-bauen.yml': 8,
   'deploy.yml': 48,
   'adn-laufende.yml': 18,
   'claude-verpasst-recherche.yml': 36,
@@ -35,8 +35,10 @@ assert.equal(befundZuAlt('refresh-hourly.yml', 3), null)
 assert.equal(befundZuAlt('refresh-hourly.yml', 2.9), null)
 assert.equal(befundZuAlt('refresh-hourly.yml', null), 'refresh-hourly.yml: letzter erfolgreicher Lauf nie, erlaubt 3 h')
 // Unverkürzter Workflow bleibt bei 4 h still
-assert.equal(befundZuAlt('bestand-bauen.yml', 4), null)
-assert.equal(befundZuAlt('bestand-bauen.yml', 37), 'bestand-bauen.yml: letzter erfolgreicher Lauf vor 37 h, erlaubt 36 h')
+assert.equal(befundZuAlt('bestand-bauen.yml', 7), null)
+assert.equal(befundZuAlt('bestand-bauen.yml', 9), 'bestand-bauen.yml: letzter erfolgreicher Lauf vor 9 h, erlaubt 8 h')
+assert.equal(befundZuAlt('deploy.yml', 47), null)
+assert.equal(befundZuAlt('deploy.yml', 49), 'deploy.yml: letzter erfolgreicher Lauf vor 49 h, erlaubt 48 h')
 assert.equal(befundZuAlt('adn-laufende.yml', 19), 'adn-laufende.yml: letzter erfolgreicher Lauf vor 19 h, erlaubt 18 h')
 assert.equal(befundZuAlt('adn-laufende.yml', 18), null)
 

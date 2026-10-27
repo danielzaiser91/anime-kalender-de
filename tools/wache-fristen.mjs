@@ -11,13 +11,14 @@ export function fristAusTakt(taktStunden, bisherStunden) {
 /**
  * Workflow: erlaubtes Alter des letzten erfolgreichen Laufs in Stunden.
  * Takt aus `shared/weckplan.ts` (Stand 27.10.2026): refresh-hourly stündlich, adn-laufende 4 Starts am Tag (alle 6 h).
- * Gemessen an 14 Tagen echter Läufe (`gh run list`): bestand-bauen.yml (Lücken bis 6,2 h) und deploy.yml (bis 5,1 h)
- * hängen an Pushes und Vorläufen ohne festen Takt und bleiben bei der alten Frist; Tageswecker liegen mit 3 × 24 h über der alten Frist.
+ * Gemessen an 14 Tagen echter Läufe (`gh run list`): deploy.yml (Lücken bis 5,1 h)
+ * hängt an Pushes und Vorläufen ohne festen Takt und bleibt bei der alten Frist; Tageswecker liegen mit 3 × 24 h über der alten Frist.
  */
 export const FRISTEN_STUNDEN = {
   'refresh-hourly.yml': fristAusTakt(1, 12),
   'refresh-data.yml': 36,
-  'bestand-bauen.yml': 36,
+  // Ausnahme von 3 x Takt: gemessene Lücken bis 6,2 h (27.10.2026), 3 h gäbe Fehlalarme.
+  'bestand-bauen.yml': 8,
   'deploy.yml': 48,
   'adn-laufende.yml': fristAusTakt(6, 24),
   'claude-verpasst-recherche.yml': 36,
