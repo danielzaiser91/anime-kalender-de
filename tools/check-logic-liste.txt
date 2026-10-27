@@ -76,6 +76,7 @@ pipeline/check-cr-katalog-ein-werk.ts
 pipeline/check-cr-komplettabwurf.ts
 pipeline/check-cr-nein-ueberholt.ts
 pipeline/check-cr-nein-verdrahtung.ts
+pipeline/check-cr-neu-stuendlich.ts
 pipeline/check-cr-neu-wache.ts
 pipeline/check-cr-teilseiten-bestand-kulisse.ts
 pipeline/check-cr-teilseiten.ts
