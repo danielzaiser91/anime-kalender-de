@@ -1999,6 +1999,13 @@ Die Wache (`wecker-wache.yml`) wiederholte einen roten Lauf erst nach der vollen
 - Laufzeitsperre (Runde 3): Der Schritt „Prüfer-Eingang prüfen“ (`tools/pr-eingang.mjs`) steht direkt vor den Prüfern. `ok` gibt er nur aus, wenn der Diff vollständig ist und die Beschreibung mit der Commit-Liste endet, deren letzter Commit `head.sha` ist. Gemessen an 60 PRs am 17.10.2026: die Liste endet in 60 von 60 Fällen am Kopf. Prompts und Freigabe lesen diesen Zustand. `tools/pr-pruefer-freigabe.test.mjs` fährt den `run`-Block des Freigabe-Schritts (aus der YAML gelesen) mit gh-Attrappe aus und prüft, welche Aufrufe (`--approve`, `--request-changes`, Kommentar) entstehen. `tools/pr-pruefer-ablauf.test.mjs` führt den Job bis dahin mit bash und nachgebautem `gh` aus (`tools/pr-pruefer-kulisse*.{mjs,cjs}`).
 - Lehre: Statt jede Schreibweise eines Workflows per Wächter zu sperren (PR-Nummer, Pfade, `shell`, `env`), prüft man das Ergebnis zur Laufzeit an einem unabhängigen Wert (Kopf-SHA).
 
+## Abnahme des Dirigenten gibt frei (27.10.2026)
+
+- Anlass PR 2186: Der Dirigent nahm ab, der PR blieb gesperrt, weil nur die CI-Review (`pr-pruefer.yml`) freigab. Seit F69 („ja“, 26.10.) gibt es `.github/workflows/abnahme-freigabe.yml` (`issue_comment` created, nur PRs, Skript `tools/abnahme-freigabe.mjs` aus main, kein PR-Code, GITHUB_TOKEN wie der CI-Prüfer, kein neues Secret).
+- Auslöser: Kommentar von `danielzaiser91` mit `author_association` OWNER, der wörtlich mit `## Nachtrag (Abnahme Dirigent` beginnt und einen Präfix (mindestens 9 Zeichen) des aktuellen Kopfs nennt. Dann folgt eine APPROVE-Review mit `commit_id` = Kopf, Text mit Hash und Kommentar-Link. Anderer Autor oder Präfix nicht am Anfang: nichts. Hash fehlt, zu kurz oder alter Kopf: Hinweis-Kommentar, keine Review, Exit 0.
+- Der Kommentartext erreicht das Skript nur über env. Test: `tools/abnahme-freigabe.test.mjs` (über `tests-alle`). Das Ruleset verlangt weiter die grüne PR-Prüfkette; die Abnahme ersetzt nur die Review.
+- Der Lauf heißt „Abnahme — Freigabe“ und steht in `LAUF_ARTEN` (`worker/src/lauf-sql.ts`, danach Worker-Deploy) und im GITHUB_TOKEN-Eintrag von `data/zugangs-register.json`.
+
 ## Stille Wege im Bestandsbau (18.10.2026)
 
 - Anlass: Bestandsbau 17.10. 22:03 bis 18.10. 09:02 UTC zwölfmal rot, elf Stunden ohne neue Daten, der Untersucher meldete stündlich `ok`.

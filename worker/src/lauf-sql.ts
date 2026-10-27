@@ -78,6 +78,7 @@ export const LAUF_ARTEN = [
   'PR-Prüfer',
   'Cache ablegen (für lokale Bauten)',
   'Erweiterung — Version zählen',
+  'Abnahme — Freigabe',
 ]
 
 /** Alle Abfragen dieses Moduls — für den Prüflauf. */

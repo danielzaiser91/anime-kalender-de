@@ -1,0 +1,44 @@
+name: Abnahme — Freigabe
+
+# Ein Kommentar des Inhabers, der mit "## Nachtrag (Abnahme Dirigent" beginnt und einen Präfix des aktuellen Kopfs nennt,
+# gibt genau diesen Stand frei (tools/abnahme-freigabe.mjs). Weg und Token wie beim CI-Prüfer (GITHUB_TOKEN).
+# `issue_comment` läuft immer in der Fassung von main: kein Checkout des PR-Zweigs, kein PR-Code. Der Kommentartext
+# kommt nur über env ins Skript, nie in den Skripttext.
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: abnahme-freigabe-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  freigeben:
+    name: Abnahme-Freigabe
+    if: >-
+      github.event.issue.pull_request &&
+      github.event.comment.user.login == 'danielzaiser91' &&
+      github.event.comment.author_association == 'OWNER' &&
+      startsWith(github.event.comment.body, '## Nachtrag (Abnahme Dirigent')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Freigabe prüfen und erteilen
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.issue.number }}
+          REPO: ${{ github.repository }}
+          COMMENT_USER: ${{ github.event.comment.user.login }}
+          COMMENT_ASSOC: ${{ github.event.comment.author_association }}
+          COMMENT_URL: ${{ github.event.comment.html_url }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+        run: node tools/abnahme-freigabe.mjs
