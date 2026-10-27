@@ -12,13 +12,17 @@ import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
-import { versteckteFrischeAnkuendigungen, versteckteWarnzeile } from './lib/ankuendigung-versteckt.ts'
+import { fehlenImHauptbestand, fehlenWarnzeile, versteckteFrischeAnkuendigungen, versteckteWarnzeile } from './lib/ankuendigung-versteckt.ts'
+import { ankuendigungenLaden } from './lib/ankuendigungen.ts'
 
 /** Nur Ausgabe, nie ein Fehlerausgang: die Wache sperrt den Bestandsbau nicht (`tools/bestand-marken.mjs` zählt Ausgänge). */
 export function main(wurzel: string, heuteIso: string): void {
   const hinten = JSON.parse(readFileSync(join(wurzel, 'public', 'data', 'ohne-synchro.json'), 'utf8')) as Title[]
   const zeile = versteckteWarnzeile(versteckteFrischeAnkuendigungen(hinten, heuteIso))
   console.log(zeile ?? '  ✓ Ankündigung: kein Titel mit frischer Synchro-Ankündigung hinter dem Toggle')
+  const haupt = new Set((JSON.parse(readFileSync(join(wurzel, 'public', 'data', 'titles.json'), 'utf8')) as Title[]).map((t) => t.id))
+  const fehlt = fehlenWarnzeile(fehlenImHauptbestand(haupt, ankuendigungenLaden(wurzel), heuteIso))
+  console.log(fehlt ?? '  ✓ Ankündigung: jeder Titel mit frischer Synchro-Ankündigung steht in titles.json')
   console.log('VERSTÖSSE: 0')
 }
 

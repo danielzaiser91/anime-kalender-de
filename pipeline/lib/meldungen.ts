@@ -33,6 +33,7 @@ import type { Verschiebung } from './disc-verschiebungen.ts'
 import type { SammelEintrag } from './sammelartikel.ts'
 import { folgenzahlUeberWerk } from './pruefung.ts'
 import { spracheDerMeldung, type Sprachbefund } from './sprachbefund.ts'
+import { frischAngekuendigt } from '../bau/ohne-beleg.ts'
 
 /** Ein Fund, wie ihn `scrape-anime2you.ts` ablegt. */
 export interface Vorschlag {
@@ -458,6 +459,17 @@ function aktuelleQuelle(url: string, heute: string, sagt: string): Quelle {
   }
 }
 
+/**
+ * **Ein Sammelartikel-Eintrag mit frischer Synchro-Ankündigung ist kein Termin deutscher Folgen** (F70, 26.10.2026, Magic Knight Rayearth):
+ * Anime2Yous „19 neue Simulcasts“ nennt den Start des Simulcasts (OmU) und „deutsch“ als Zusage; crunchyroll-woche führte ihn am 28.10. nur mit
+ * Originalton. Ein `batch` am Starttag behauptete alle deutschen Folgen seit dann. Die Ankündigung bleibt die Aussage (`angekuendigt`).
+ */
+function sammelTagIstNurStart(v: Vorschlag, treffer: Title, heute: string, abgedeckt?: Vorschlag[]): boolean {
+  if (!v.dates?.every((d) => d.context === 'Sammelartikel') || !frischAngekuendigt(treffer, heute)) return false
+  abgedeckt?.push(v)
+  return true
+}
+
 export function releasesAus(
   vorschlaege: Vorschlag[],
   titel: Title[],
@@ -496,7 +508,7 @@ export function releasesAus(
     if (!basis) continue
 
     const treffer = reihenTeil(basis, titel, v.articleTitle) ?? vermerkeTeilHinweis(v.articleTitle, verworfen)
-    if (!treffer) continue
+    if (!treffer || sammelTagIstNurStart(v, treffer, heute, abgedeckt)) continue
 
     const platform = anbieterDerMeldung(v)
     if (!platform) continue
