@@ -45,6 +45,9 @@ pruefe('gleiche Bezeichnung, anderer Umfang → keine EAN', discEan(mit({ '1': [
 pruefe('Artikel ohne EAN → keine EAN', discEan(mit({ '1': [aus(1, 'Blu-ray')] }, { '1': art(undefined, 'Blu-ray') }), 1, TAG) === undefined)
 pruefe('Artikel unbekannt → keine EAN', discEan(mit({ '1': [aus(1, 'Blu-ray')] }, {}), 1, TAG) === undefined)
 pruefe('keine Ziffern als EAN → keine EAN', discEan(mit({ '1': [aus(1, 'Blu-ray')] }, { '1': art('abc', 'Blu-ray') }), 1, TAG) === undefined)
+pruefe('Blu-ray der Box 01 und DVD der Box 02 (gleicher Verlag und Umfang) → keine EAN', discEan(mit({ '1': [aus(1, 'Blu-ray', 'Box 01'), aus(2, 'DVD', 'Box 02')] }, { '1': art('111111111111', 'Blu-ray'), '2': art('222222222222', 'DVD') }), 1, TAG) === undefined)
+const eanLaenge = (ean: string) => discEan(mit({ '1': [aus(1, 'DVD')] }, { '1': art(ean, 'DVD') }), 1, TAG)
+pruefe('EAN-Länge: 8 und 14 Ziffern gelten, 7 und 15 nicht', eanLaenge('12345678') === '12345678' && eanLaenge('12345678901234') === '12345678901234' && eanLaenge('1234567') === undefined && eanLaenge('123456789012345') === undefined, [eanLaenge('12345678'), eanLaenge('12345678901234'), eanLaenge('1234567'), eanLaenge('123456789012345')])
 pruefe('Blu-ray ohne EAN, DVD mit EAN: die DVD-EAN', discEan(mit({ '1': [aus(1, 'Blu-ray'), aus(2, 'DVD')] }, { '1': art(undefined, 'Blu-ray'), '2': art('222222222222', 'DVD') }), 1, TAG) === '222222222222')
 
 console.log('\nKauflink (reihenfolge Handlink > EAN > Name):')
@@ -63,6 +66,7 @@ pruefe('Namenssuche', amazonLinkArt('https://www.amazon.de/s?k=Detektiv%20Conan%
 pruefe('Suche mit Ziffern im Namen ist keine EAN', amazonLinkArt('https://www.amazon.de/s?k=Mob%20Psycho%20100') === 'name')
 pruefe('zu kurze Ziffernfolge ist keine EAN', amazonLinkArt('https://www.amazon.de/s?k=1234567') === 'name')
 pruefe('EAN mit Zusatz (&i=…) bleibt EAN', amazonLinkArt('https://www.amazon.de/s?k=7630017545978&i=dvd') === 'ean')
+pruefe('15 Ziffern oder Ziffern mit Buchstaben dahinter sind keine EAN', amazonLinkArt('https://www.amazon.de/s?k=123456789012345') === 'name' && amazonLinkArt('https://www.amazon.de/s?k=7630017545978abc') === 'name' && amazonLinkArt('https://www.amazon.de/s?k=abc7630017545978') === 'name')
 pruefe('Produktseite', amazonLinkArt(dp) === 'produkt')
 pruefe('anderer Shop und leer', amazonLinkArt('https://www.akibapassshop.de/x') === undefined && amazonLinkArt(undefined) === undefined)
 
