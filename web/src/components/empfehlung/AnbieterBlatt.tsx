@@ -20,7 +20,7 @@ export function AnbieterBlatt({ offen, zu, alle, gewaehlt, setze }: {
   const umschalten = (p: string) => setze(gewaehlt.includes(p) ? gewaehlt.filter((x) => x !== p) : [...gewaehlt, p])
   return (
     <>
-      <div onClick={zu} aria-hidden className={`fixed inset-0 z-[54] bg-ak-grund/60 transition-opacity min-[900px]:hidden ${offen ? 'opacity-100' : 'pointer-events-none opacity-0'}`} />
+      <div onClick={zu} aria-hidden className={`cursor-pointer fixed inset-0 z-[54] bg-ak-grund/60 transition-opacity min-[900px]:hidden ${offen ? 'opacity-100' : 'pointer-events-none opacity-0'}`} />
       <aside
         aria-label={t('empf.anbieterFrage')}
         aria-hidden={!offen}

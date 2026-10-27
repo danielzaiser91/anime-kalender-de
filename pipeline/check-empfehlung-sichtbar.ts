@@ -87,7 +87,7 @@ pruefe('Datenbank-Bereich baut den Knopf mit seinem navigate ein', JSON.stringif
 
 const zeile = finde(baumVon(() => EmpfehlungZeile({ neuLaden: () => abgerufen.push('NEULADEN') })), (e) => e.type === 'button')
 zeile?.props.onClick?.()
-pruefe('Einstellungen-Zeile löscht alle drei Schlüssel, danach Neuladen', JSON.stringify(abgerufen) === '["empfehlung:gesehen","empfehlung:verworfen","empfehlung:anbieter","NEULADEN"]', abgerufen)
+pruefe('Einstellungen-Zeile löscht alle vier Schlüssel, danach Neuladen', JSON.stringify(abgerufen) === '["empfehlung:gesehen","empfehlung:verworfen","empfehlung:anbieter","empfehlung:reise","NEULADEN"]', abgerufen)
 
 const { parseHash, hashAufraeumen } = await import('../web/src/lib/router.ts')
 pruefe('#/entdecken öffnet die Ansicht', parseHash('#/entdecken').view === 'entdecken')

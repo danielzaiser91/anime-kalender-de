@@ -10,6 +10,7 @@ import { AnbieterBlatt, poolAnbieter } from './AnbieterBlatt.tsx'
 import { Hintergrund } from './bilder.tsx'
 import { Duell } from './Duell.tsx'
 import { Einleitung } from './Einleitung.tsx'
+import { Fortsetzen } from './Fortsetzen.tsx'
 import { Kopfzeile, AnbieterLasche } from './Kopfzeile.tsx'
 import { Leinwand } from './Leinwand.tsx'
 import { useReise } from './use-reise.ts'
@@ -37,17 +38,31 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
   const kandidat = (id: number) => kontext!.datei.einstiege[kontext!.index.get(id)!]
   const genresVon = (id: number) => kandidat(id).g.map((i) => kontext!.datei.genres[i])
   const aktionen = baueAktionen({ gesehen: empfehlungGesehen, verworfen: empfehlungVerworfen, favorit: toggle, oeffne: reise.oeffne, entferne: reise.entferne })
-  const zurueckholen = (id: number) => nimmWeg(empfehlungVerworfen, id)
-  const verworfeneKandidaten = kontext ? [...verworfen.ids].filter((id) => kontext.index.has(id)).map(kandidat) : []
+  const kandidaten = (ids: Set<number>) => (kontext ? [...ids].filter((id) => kontext.index.has(id)).map(kandidat) : [])
+  const ablage = {
+    verworfen: kandidaten(verworfen.ids),
+    gesehen: kandidaten(gesehen.ids),
+    verworfenHolen: (id: number) => nimmWeg(empfehlungVerworfen, id),
+    gesehenHolen: (id: number) => nimmWeg(empfehlungGesehen, id),
+  }
   const phase = kontext ? reise.phase : 'start'
 
   return (
     <div className="empf fixed inset-0 z-50 flex flex-col bg-ak-grund text-ak-text">
       <Hintergrund url={schein} />
-      <Kopfzeile phase={phase} anbieter={eigene.length} blattOffen={blatt} vorschlaege={() => reise.setPhase('ergebnis')} vonVorn={reise.neu} blatt={() => setBlatt(true)} />
+      <Kopfzeile phase={phase} anbieter={eigene.length} blattOffen={blatt} vorschlaege={() => reise.setPhase('ergebnis')} blatt={() => setBlatt(true)} />
       {fehler && <p className="m-auto text-ak-fehler-text">{t('empf.fehler')}</p>}
       {!fehler && !kontext && <p className="m-auto text-ak-leise">{t('empf.laedt')}</p>}
-      {kontext && phase === 'start' && <Einleitung titel={titel} ids={mosaik} los={reise.neu} />}
+      {kontext && phase === 'start' && !reise.fortsetzbar && <Einleitung titel={titel} ids={mosaik} los={reise.neu} />}
+      {kontext && phase === 'start' && reise.fortsetzbar && (
+        <Fortsetzen
+          vorschau={reise.vorschau.map(kandidat)}
+          titel={titel}
+          offenesDuell={!!reise.stehen && !reise.stehen.fertig}
+          fortfahren={reise.fortfahren}
+          neu={reise.verwerfenUndNeu}
+        />
+      )}
       {kontext && phase === 'duell' && reise.sitzung && (
         <Duell kontext={kontext} sitzung={reise.sitzung} ziel={reise.ziel} titel={titel} antworte={reise.antworte} zurueck={reise.zurueckDuell} schein={setSchein} />
       )}
@@ -60,9 +75,8 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
           aktionen={aktionen}
           stand={reise.stehen}
           genauer={reise.kannGenauer ? reise.genauer : undefined}
-          vonVorn={reise.neu}
-          verworfen={verworfeneKandidaten}
-          zurueckholen={zurueckholen}
+          vonVorn={reise.vonVorn}
+          ablage={ablage}
         />
       )}
       {kontext && phase === 'leinwand' && reise.aktuell !== undefined && (
