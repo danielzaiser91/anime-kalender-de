@@ -6,7 +6,7 @@
     "spracheOffenTrotzMeldung": 0,
     "ereignisOhneNews": 2,
     "terminOhneBeleg": 15,
-    "primeOhneTitelseite": 5
+    "primeOhneTitelseite": 4
   },
   "bekannt": {
     "erschienenOhneTermin": [],
@@ -37,7 +37,6 @@
       "demon-slayer-entertainment-district-arc-primevideo",
       "demon-slayer-mugen-train-arc-primevideo",
       "kuroko-winter-cup-movie-2-primevideo",
-      "kuroko-winter-cup-movie-3-primevideo",
       "yu-gi-oh-s1-primevideo"
     ]
   }
