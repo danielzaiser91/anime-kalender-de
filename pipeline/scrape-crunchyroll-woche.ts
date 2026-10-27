@@ -1,7 +1,8 @@
 /**
- * **Crunchyrolls Wochenprogramm lesen — die einzige Quelle für kommende Synchro-Folgen.**
+ * **Crunchyrolls Wochenprogramm lesen — die einzige Quelle für Sendetermine.** Der Simulcast-Kalender ist seit ~21.10.2026
+ * umgeleitet und entfernt; neue Serien legt `lib/woche-neue-eintraege.ts` an.
  *
- * Gemessen am 25.09.2026: Der Simulcast-Kalender, den `scrape-crunchyroll.ts` liest, führt
+ * Gemessen am 25.09.2026: Der Simulcast-Kalender führte
  * künftige Synchro-Folgen nicht (Fenster 14.09.–04.10., letzter Synchro-Slot 25.09.). Das
  * Wochenprogramm tut es: „Hana-Kimi Staffel 2, 🇩🇪 Folge 10-12, 18:00 Uhr*, *erscheint am
  * 2. Oktober". Daniel wählte diese Aufgabe am 25.09.2026 als erste aus der Quellenprüfung.

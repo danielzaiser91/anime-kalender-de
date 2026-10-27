@@ -75,9 +75,24 @@ pruefe('nächste Woche: Folge 3 schließt an Folge 2 an und wird übernommen', w
 const luecke = zeilenEntscheiden([{ ...apothekerin, von: 5, bis: 5, datum: '2026-11-13' } as never], '2026-11-09')
 pruefe('Folge 5 nach Folge 2 ist eine Abweichung, nichts wird übernommen', luecke.uebernommen.length === 0 && luecke.abweichungen.length === 1, luecke)
 
+// Der ganze Artikel-Weg (was `main()` aufruft): Überschrift und Zeilen wie rohLesen sie liefert
+writeFileSync(datei, JSON.stringify(anfang, null, 2))
+const roh = {
+  ueberschrift: 'Crunchyrolls aktuelles Wochenprogramm vom 26.10. bis 1.11.',
+  jahr: '2026',
+  eintraege: [
+    { tag: 'Freitag', seriesUrl: 'https://www.crunchyroll.com/de/series/G3KHEVDJ7/the-apothecary-diaries', titel: apothekerin.titel, zeilen: [{ flagge: 'https://x/deutschland-flagge.png', text: 'Folge 2\n17:00 Uhr' }, { flagge: 'https://x/japan-flag.png', text: 'Folge 2\n17:00 Uhr' }] },
+  ],
+}
+const { artikelAuswerten } = await import('./scrape-crunchyroll-woche.ts')
+const artikel = await artikelAuswerten(roh as never, 'https://example.invalid/artikel', HEUTE)
+pruefe('Artikel-Weg: Wochenprogramm geschrieben, Serie im Kalenderbestand, kein „ohne Kalendereintrag"', artikel.programm.ohneEintrag.length === 0 && Object.keys(lies().german).length === 2 && artikel.eintraege.length === 2, artikel.programm)
+const woche = JSON.parse(readFileSync(join(ordner, 'data', 'crunchyroll-woche.json'), 'utf8')) as { wocheAb: string }
+pruefe('Artikel-Weg: Woche ab 26.10. gelesen', woche.wocheAb === '2026-10-26', woche.wocheAb)
+
 rmSync(ordner, { recursive: true, force: true })
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)
 }
-console.log('check-woche-neue-serien: alle Fälle grün (Regel 16, Lauf 6)')
+console.log('check-woche-neue-serien: alle Fälle grün (Regel 16, Lauf 6, Artikel-Weg 2)')
