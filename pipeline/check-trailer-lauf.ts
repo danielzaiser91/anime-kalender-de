@@ -79,13 +79,13 @@ const schreibe = (pfad: string, inhalt: unknown): void => {
 const lies = <T>(pfad: string): T => JSON.parse(readFileSync(join(wurzel, pfad), 'utf8')) as T
 const titel = [901001, 901002, 901003, 901004, 901005].map((id) => ({ id, format: 'TV', jpYear: 2005, titleEn: `Serie ${id}` }))
 function stelleAus(): void {
-  for (const f of ['data/trailer.json', 'data/trailer-versuche.json']) rmSync(join(wurzel, f), { force: true })
+  for (const f of [join('data', 'trailer.json'), join('data', 'trailer-versuche.json')]) rmSync(join(wurzel, f), { force: true })
   schreibe('public/data/titles.json', titel)
   schreibe('public/data/empfehlung.json', { einstiege: titel.map((x) => ({ id: x.id })) })
   /* 901005 hat keine TMDB-Zuordnung: nichts zu fragen, aber trotzdem gesucht. */
   const tmdb: Record<string, unknown> = {}
   for (const x of titel.slice(0, 4)) tmdb[String(x.id)] = { tmdbId: x.id - 901000, kind: 'tv' }
-  schreibe('data/tmdb-titles.json', tmdb)
+  schreibe(join('data', 'tmdb-titles.json'), tmdb)
 }
 
 const tmdbAbrufe: string[] = []
@@ -113,18 +113,18 @@ let abgebrochen = false
 await main({ riegel: 3, speichernAlle: 2 }).catch(() => void (abgebrochen = true))
 pruefe('Abbruch bei Titel 3 kommt durch', abgebrochen)
 pruefe('Riegel 3 fragt höchstens drei Titel', tmdbAbrufe.join(',') === '1,2,3', tmdbAbrufe)
-const nachAbbruch = lies<Record<string, unknown>>('data/trailer-versuche.json')
+const nachAbbruch = lies<Record<string, unknown>>(join('data', 'trailer-versuche.json'))
 pruefe('nach dem Abbruch stehen die ersten zwei Stempel auf Platte', Object.keys(nachAbbruch).join(',') === '901001,901002', nachAbbruch)
 pruefe('Stempel ist das heutige Datum', nachAbbruch['901001'] === todayIso(), nachAbbruch['901001'])
-pruefe('die zwei Funde stehen in trailer.json', Object.keys(lies<object>('data/trailer.json')).join(',') === '901001,901002')
+pruefe('die zwei Funde stehen in trailer.json', Object.keys(lies<object>(join('data', 'trailer.json'))).join(',') === '901001,901002')
 
 tmdbAbrufe.length = 0
 werfeBei = ''
 await main({ riegel: 3, speichernAlle: 2 })
 pruefe('zweiter Lauf: Gestempelte bleiben draußen, nie Gesuchte kommen dran', tmdbAbrufe.join(',') === '3,4', tmdbAbrufe)
-const nach2 = lies<Record<string, string>>('data/trailer-versuche.json')
+const nach2 = lies<Record<string, string>>(join('data', 'trailer-versuche.json'))
 pruefe('Titel ohne Zuordnung trägt auch einen Stempel', Object.keys(nach2).sort().join(',') === '901001,901002,901003,901004,901005', nach2)
-pruefe('Titel ohne Fund trägt einen Stempel und keinen Trailer', nach2['901003'] === todayIso() && !('901003' in lies<object>('data/trailer.json')))
+pruefe('Titel ohne Fund trägt einen Stempel und keinen Trailer', nach2['901003'] === todayIso() && !('901003' in lies<object>(join('data', 'trailer.json'))))
 
 tmdbAbrufe.length = 0
 await main({ riegel: 3, speichernAlle: 2 })
@@ -135,14 +135,14 @@ stelleAus()
 tmdbAbrufe.length = 0
 delete process.env.TMDB_API_KEY
 await main({ riegel: 5 })
-const ohneSchluessel = existsSync(join(wurzel, 'data/trailer-versuche.json')) ? lies<object>('data/trailer-versuche.json') : {}
+const ohneSchluessel = existsSync(join(wurzel, join('data', 'trailer-versuche.json'))) ? lies<object>(join('data', 'trailer-versuche.json')) : {}
 pruefe('ohne TMDB-Schlüssel kein Stempel und kein Abruf', Object.keys(ohneSchluessel).length === 0 && tmdbAbrufe.length === 0, ohneSchluessel)
 
 stelleAus()
 process.env.TMDB_API_KEY = 'tm'
 delete process.env.YOUTUBE_API_KEY
 await main({ riegel: 5 })
-const ohneYoutube = existsSync(join(wurzel, 'data/trailer-versuche.json')) ? lies<object>('data/trailer-versuche.json') : {}
+const ohneYoutube = existsSync(join(wurzel, join('data', 'trailer-versuche.json'))) ? lies<object>(join('data', 'trailer-versuche.json')) : {}
 pruefe('ohne YouTube-Schlüssel kein Stempel', Object.keys(ohneYoutube).length === 0, ohneYoutube)
 
 rmSync(wurzel, { recursive: true, force: true })

@@ -33,6 +33,8 @@
   { "datei": "pipeline/check-rohfolgen-ablauf.ts", "liest": "data/prime-unzugeordnet.json", "grund": "Kulisse: lies() liest den Wegwerf-Ordner des Tests, nicht das Repo" },
   { "datei": "pipeline/check-tmdb-folgen-404-lauf.ts", "liest": "data/tmdb-folgen.json", "grund": "Kulisse: schreibt und liest die Dateien im Wegwerf-Ordner AK_ROOT, nie den echten Bestand" },
   { "datei": "pipeline/check-tmdb-folgen-404-lauf.ts", "liest": "data/tmdb-folgen-404.json", "grund": "Kulisse: schreibt und liest die Dateien im Wegwerf-Ordner AK_ROOT, nie den echten Bestand" },
+  { "datei": "pipeline/check-trailer-lauf.ts", "liest": "data/trailer.json", "grund": "Kulisse: schreibt und liest die Dateien im Wegwerf-Ordner AK_ROOT, nie den echten Bestand" },
+  { "datei": "pipeline/check-trailer-lauf.ts", "liest": "data/trailer-versuche.json", "grund": "Kulisse: schreibt und liest die Dateien im Wegwerf-Ordner AK_ROOT, nie den echten Bestand" },
   { "datei": "pipeline/check-tmdb-genre.ts", "liest": "data/tmdb-titles.json", "grund": "Eigenschaft über den ganzen Bestand: jede Zuordnung mit bekanntem Genre trägt Animation, kein fester Schlüssel" },
   { "datei": "pipeline/check-tmdb-hauptserie.ts", "liest": "data/tmdb-titles.json", "grund": "feste Kennungen nur als Verneinung (trägt keine TMDB-Kennung), fehlt ein Eintrag, bleibt der Fall grün" },
   { "datei": "pipeline/check-tmdb-hauptserie.ts", "liest": "data/tmdb-banner.json", "grund": "Eigenschaft über die ganze Datei (jedes Bild hat eine Kennung)" },
