@@ -7940,8 +7940,8 @@ console.log('\nVerspätete Folgen in den News:')
   pruefe('nachgereicht: eine Meldung für alle drei, am Tag des Erscheinens', nach.length === 1 && nach[0]!.datum === '2026-10-02' && nach[0]!.von === 10 && nach[0]!.bis === 12, nach)
   pruefe('nachgereicht nennt die angekündigten Tage', nach[0]?.erwartet?.join() === '2026-09-16,2026-09-23,2026-09-30', nach[0]?.erwartet)
   pruefe(
-    'der Beleg eines Ausfalls ist der Kalender an seinem Tag, gemessen am Tag des Bemerkens',
-    aus[2]?.belege?.length === 1 && aus[2]!.belege![0]!.url === kalenderTag('2026-09-30') && aus[2]!.belege![0]!.url.endsWith('date=2026-09-30') && aus[2]!.belege![0]!.gemessenAm === '2026-10-01',
+    'der Beleg eines Ausfalls ist der Kalender an seinem Tag (die Meldung verlinkt das Wochenprogramm), gemessen am Tag des Bemerkens',
+    aus[2]?.belege?.length === 1 && aus[2]!.belege![0]!.url === kalenderTag('2026-09-30') && aus[2]!.quelle === 'https://www.crunchyroll.com/de/news/seasonal-lineup' && aus[2]!.belege![0]!.gemessenAm === '2026-10-01',
     aus[2]?.belege,
   )
   const quellen = new Set(ms.flatMap((m) => (m.belege ?? []).map((b) => b.url)))

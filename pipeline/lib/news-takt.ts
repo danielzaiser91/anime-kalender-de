@@ -8,7 +8,8 @@
  */
 import type { NewsMeldung, Release } from '../../shared/types.ts'
 import { taktTage } from '../../shared/takt.ts'
-import { kalenderTag, messBeleg } from './news-verspaetung.ts'
+import { WOCHENPROGRAMM_UEBERSICHT } from '../../shared/wochenprogramm.ts'
+import { messBeleg } from './news-verspaetung.ts'
 import type { DatiertNews } from './news-verlauf.ts'
 
 type Roh = NewsMeldung & { schluessel: string; fallback: string }
@@ -30,7 +31,7 @@ export function taktMeldungen(r: Release, heute: string): Roh[] {
       anzahl: t.anzahl,
       abstand: t.abstand,
       release: r.slug,
-      quelle: kalenderTag(t.tag),
+      quelle: WOCHENPROGRAMM_UEBERSICHT,
       belege: [messBeleg(t.tag, t.tag)],
     }))
 }

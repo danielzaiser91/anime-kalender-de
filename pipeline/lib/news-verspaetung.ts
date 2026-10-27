@@ -8,14 +8,15 @@
  */
 import type { NewsBeleg, NewsMeldung, Release } from '../../shared/types.ts'
 import type { VermerkMitAnkuendigung, WocheBelegVermerk } from '../../shared/woche-beleg-typ.ts'
+import { WOCHENPROGRAMM_UEBERSICHT } from '../../shared/wochenprogramm.ts'
 import { toIsoDate } from '../../shared/time.ts'
 import { expandEvents } from '../../shared/logic.ts'
 import { tagIstAngekuendigt } from '../../shared/news-typen.ts'
 import type { DatiertNews } from './news-verlauf.ts'
 
 /**
- * Crunchyrolls Kalender mit genau diesem Tag. Die Seite zeigt dessen Woche (gemessen 02.10.2026:
- * `date=2026-09-30` liefert 28.09.–04.10.), und jede Meldung behält ihren eigenen Link.
+ * Crunchyrolls Kalender mit genau diesem Tag — die Adresse der Foto-Belege (`messbelege.ts`, bestehende Messfotos; der Kalender leitet seit
+ * ~21.10.2026 um). Meldungen verlinken das Wochenprogramm (`WOCHENPROGRAMM_UEBERSICHT`).
  */
 export function kalenderTag(tag: string): string {
   return `https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=${tag}`
@@ -66,7 +67,7 @@ export function verspaetungsMeldungen(r: Release): Roh[] {
       von: Number(nummer),
       release: r.slug,
       ...(angekuendigt ? { angekuendigtBelegt: true as const } : {}),
-      ...(gemessen ? { quelle: kalenderTag(erwartet), belege: [...(v.wocheBeleg ? [wochenBeleg(v.wocheBeleg)] : []), messBeleg(erwartet, toIsoDate(new Date(v.bemerktAm ?? v.erwartetAm)), v.messBild)] } : {}),
+      ...(gemessen ? { quelle: WOCHENPROGRAMM_UEBERSICHT, belege: [...(v.wocheBeleg ? [wochenBeleg(v.wocheBeleg)] : []), messBeleg(erwartet, toIsoDate(new Date(v.bemerktAm ?? v.erwartetAm)), v.messBild)] } : {}),
     })
     if (!v.erschienenAm) continue
     const tag = toIsoDate(new Date(v.erschienenAm))
@@ -86,7 +87,7 @@ export function verspaetungsMeldungen(r: Release): Roh[] {
       erwartet: folgen.map((f) => f.erwartet), ...(plan.length ? { planmaessig: plan } : {}),
       release: r.slug,
       ...(folgen.every((f) => f.angekuendigt) ? { angekuendigtBelegt: true as const } : {}),
-      ...(gemessen ? { quelle: kalenderTag(tag), belege: [messBeleg(tag, tag, folgen.find((f) => f.bild)?.bild)] } : {}),
+      ...(gemessen ? { quelle: WOCHENPROGRAMM_UEBERSICHT, belege: [messBeleg(tag, tag, folgen.find((f) => f.bild)?.bild)] } : {}),
     })
   }
   return raus
