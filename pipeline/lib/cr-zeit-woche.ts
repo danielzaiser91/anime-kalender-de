@@ -16,7 +16,6 @@ export interface ZeitAusWoche {
 
 /** Die Beleg-Zeit für Serie und Tag, nur wenn alle deutschen Belege des Tages dieselbe Zeit tragen (sonst gibt es keine eindeutige). */
 export function zeitAusWochenprogramm(belege: WocheBelege, seriesId: string | undefined, datum: string): ZeitAusWoche | undefined {
-  if (!seriesId) return undefined
   const treffer = Object.values(belege).filter((b) => b.seriesId === seriesId && b.datum === datum && b.zeit)
   const zeiten = new Set(treffer.map((b) => b.zeit))
   if (zeiten.size !== 1) return undefined
