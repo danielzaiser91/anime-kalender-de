@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import type { ComponentProps } from 'react'
 import type { Kandidat } from '@shared/empfehlung-pool.ts'
 import type { Kontext } from '@shared/empfehlung-vektor.ts'
 import type { Title } from '@shared/types.ts'
@@ -7,6 +7,7 @@ import { useLang } from '../../lib/i18n.tsx'
 import { anbieterName } from '@shared/types.ts'
 import type { PlatformId } from '@shared/types.ts'
 import type { VorschlagAktionen } from '../../lib/empfehlung-aktionen.ts'
+import { Ablage } from './Ablage.tsx'
 import { Cover } from './bilder.tsx'
 
 
@@ -28,6 +29,9 @@ function Vorschlag({ k, titel, istFavorit, aktionen }: { k: Kandidat; titel?: Ti
         className="empf-kandidat relative block aspect-[2/3] w-full overflow-hidden rounded-xl bg-ak-flaeche-2 shadow-xl"
       >
         <Cover titel={titel} breite={200} klasse="h-full w-full object-cover" />
+        <span className="empf-details">
+          {t('empf.details')}
+        </span>
         {istFavorit && (
           <span className="absolute right-2 top-2 grid h-[30px] w-[30px] place-items-center rounded-full bg-ak-favorit text-base text-ak-auf-akzent" aria-hidden>
             ★
@@ -53,24 +57,8 @@ function Vorschlag({ k, titel, istFavorit, aktionen }: { k: Kandidat; titel?: Ti
   )
 }
 
-function Verworfene({ liste, zurueckholen }: { liste: Kandidat[]; zurueckholen: (id: number) => void }) {
-  const { t } = useLang()
-  return (
-    <div className="mt-3 flex flex-wrap gap-2">
-      {liste.map((k) => (
-        <span key={k.id} className="inline-flex min-h-11 items-center gap-2 rounded-full border border-ak-rand bg-ak-flaeche py-0 pl-3 pr-1.5 text-[13px]">
-          {k.n}
-          <button type="button" onClick={() => zurueckholen(k.id)} className="min-h-9 rounded-full bg-ak-flaeche-2 px-2.5 text-xs font-semibold">
-            {t('empf.zurueckholen')}
-          </button>
-        </span>
-      ))}
-    </div>
-  )
-}
-
 /** Der Schluss der Reise: bis zu fünf Vorschläge als Galerie, darunter „genauer“, „Von vorn“ und die Verworfenen. */
-export function Vorschlaege({ kontext, gezeigt, titel, favoriten, aktionen, stand, genauer, vonVorn, verworfen, zurueckholen }: {
+export function Vorschlaege({ kontext, gezeigt, titel, favoriten, aktionen, stand, genauer, vonVorn, ablage }: {
   kontext: Kontext
   gezeigt: number[]
   titel?: Map<number, Title>
@@ -79,11 +67,9 @@ export function Vorschlaege({ kontext, gezeigt, titel, favoriten, aktionen, stan
   stand: Stand
   genauer?: () => void
   vonVorn: () => void
-  verworfen: Kandidat[]
-  zurueckholen: (id: number) => void
+  ablage: ComponentProps<typeof Ablage>
 }) {
   const { t } = useLang()
-  const [offen, setOffen] = useState(false)
   const kandidaten = gezeigt.map((id) => kontext.datei.einstiege[kontext.index.get(id)!])
   const wenige = kandidaten.length < 5
   const unter = stand.rest === null ? 'empf.untenGrenze' : 'empf.untenZahl'
@@ -116,11 +102,8 @@ export function Vorschlaege({ kontext, gezeigt, titel, favoriten, aktionen, stan
           <button type="button" onClick={vonVorn} className="min-h-11 rounded-xl border border-ak-rand bg-ak-flaeche px-4.5 font-semibold">
             {t('empf.vonVorn')}
           </button>
-          <button type="button" onClick={() => setOffen(!offen)} aria-expanded={offen} className="ml-auto min-h-11 text-[13px] text-ak-leise underline">
-            {t('empf.verworfen', { n: verworfen.length })}
-          </button>
         </div>
-        {offen && <Verworfene liste={verworfen} zurueckholen={zurueckholen} />}
+        <Ablage {...ablage} />
       </div>
     </section>
   )
