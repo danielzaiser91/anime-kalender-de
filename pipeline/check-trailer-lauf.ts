@@ -71,6 +71,7 @@ process.env.AK_ROOT = wurzel
 process.env.YOUTUBE_API_KEY = 'yt'
 process.env.TMDB_API_KEY = 'tm'
 const { main } = await import('./fetch-trailer.ts')
+const { readSourceHealth } = await import('./lib/health.ts')
 
 const schreibe = (pfad: string, inhalt: unknown): void => {
   mkdirSync(dirname(join(wurzel, pfad)), { recursive: true })
@@ -214,7 +215,7 @@ function richteEin(liste: Probe[], tmdbMap: Record<string, unknown>): void {
   arten.length = 0
 }
 const stempel = (): string => Object.keys(lies<Record<string, string>>(join('data', 'trailer-versuche.json'))).join(',')
-const meldung = (): string | undefined => lies<Record<string, { lastError?: string }>>(join('data', 'source-health.json'))['trailer']?.lastError
+const meldung = (): string | undefined => readSourceHealth()['trailer']?.lastError
 
 /* A1: Art je Eintrag — ohne oder mit unbekanntem kind entscheidet das Format; ein gültiges kind gilt. */
 richteEin(
@@ -251,7 +252,7 @@ await main({ riegel: 9 })
 pruefe('HTTP-Fehler und Netzfehler stempeln nicht, Fund und 404 (nicht geführt) schon', stempel() === '907001,907004', stempel())
 pruefe('der Lauf überlebt den Netzfehler und fragt alle vier', tmdbAbrufe.join(',') === '21,22,23,24', tmdbAbrufe)
 pruefe('ein Fund unter den Ausfällen ist keine Fehlermeldung', meldung() === undefined, meldung())
-pruefe('gemeldet wird die Zahl der Funde (eins: 21)', lies<Record<string, { lastCount?: number }>>(join('data', 'source-health.json'))['trailer']?.lastCount === 1)
+pruefe('gemeldet wird die Zahl der Funde (eins: 21)', readSourceHealth()['trailer']?.lastCount === 1)
 fehlerBei.clear()
 netzfehlerBei.clear()
 nichtGefuehrtBei.clear()
