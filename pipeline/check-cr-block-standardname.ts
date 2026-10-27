@@ -19,6 +19,7 @@ const NEU = 'https://www.crunchyroll.com/de/series/GRWMGGQ86/tonikawa-over-the-m
 const ZWEI_TV = 'https://www.crunchyroll.com/de/series/GFSTAN0001/zwei-tv'
 const OHNE_DEUTSCH = 'https://www.crunchyroll.com/de/series/GFSTAN0002/ohne-deutsch'
 const ZU_LANG = 'https://www.crunchyroll.com/de/series/GFSTAN0003/zu-lang'
+const FREMDE_SPRACHE = 'https://www.crunchyroll.com/de/fr/series/GFSTAN0006/nur-ueber-die-kennung'
 const GENAU = 'https://www.crunchyroll.com/de/series/GFSTAN0004/genau-zwei-mehr'
 
 const nummern = (n: number, ab = 1) => Array.from({ length: n }, (_, i) => ({ nummer: ab + i, laufend: ab + i }))
@@ -53,6 +54,7 @@ function crDub(neuerName: boolean) {
       serie(ZWEI_TV, 'GFSTAN0001', '2026-10-26', [block('Season 1', 12, 11), block('Extra', 3, 3)]),
       serie(OHNE_DEUTSCH, 'GFSTAN0002', '2026-10-26', [block('Season 1', 12, 0, []), block('Season 3', 12, 11)]),
       serie(ZU_LANG, 'GFSTAN0003', '2026-10-26', [block('Season 1', 15, 14), block('Extra', 3, 3)]),
+      serie('https://www.crunchyroll.com/de/series/GFSTAN0006/nur-ueber-die-kennung', 'GFSTAN0006', '2026-10-26', [block('Season 1', 14, 13), block('Extra', 3, 3)]),
       serie(GENAU, 'GFSTAN0004', '2026-10-26', [block('Season 1', 14, 13), block('Extra', 3, 3)]),
     ],
   }
@@ -70,6 +72,8 @@ const FAKES: Fake[] = [
   { id: 900003, format: 'TV', episodes: 12, titleRomaji: 'Ohne Deutsch', url: OHNE_DEUTSCH },
   { id: 900004, format: 'TV', episodes: 12, titleRomaji: 'Zu lang', url: ZU_LANG },
   { id: 900005, format: 'TV', episodes: 12, titleRomaji: 'Genau zwei mehr', url: GENAU },
+  { id: 900020, format: 'TV', episodes: 12, titleRomaji: 'Nur ueber die Kennung', url: FREMDE_SPRACHE },
+  { id: 900021, format: 'TV', episodes: 12, titleRomaji: 'Nebentitel sechs Season 2', url: FREMDE_SPRACHE },
   { id: 900013, format: 'TV', episodes: 12, titleRomaji: 'Nebentitel drei Season 2', url: OHNE_DEUTSCH },
   { id: 900014, format: 'TV', episodes: 12, titleRomaji: 'Nebentitel vier Season 2', url: ZU_LANG },
   { id: 900015, format: 'TV', episodes: 12, titleRomaji: 'Nebentitel fuenf Season 2', url: GENAU },
@@ -145,6 +149,7 @@ else {
   pruefe('Zwei TV-Titel ohne Staffelnummer an „Season 1“: mehrdeutig, kein Ja', dub(neu, 900001) === null && dub(neu, 900002) === null, neu)
   pruefe('„Season 1“ ohne deutsche Folge: kein Ja', dub(neu, 900003) !== true, neu)
   pruefe('Block hat 3 Folgen mehr als der Titel: kein Ja', dub(neu, 900004) === null, neu)
+  pruefe('Adresse nur über die Serienkennung zuordenbar (Sprachcode fr): Ja', dub(neu, 900020) === true, neu)
   pruefe('Block hat genau 2 Folgen mehr als der Titel: Ja', dub(neu, 900005) === true, neu)
   direkt()
   console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
