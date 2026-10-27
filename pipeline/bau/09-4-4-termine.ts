@@ -3,6 +3,7 @@ import { writeJsonStand } from '../lib/stand-halten.ts'
 import { alleTermine, ausgelassen as termineAusgelassen, beobachtungenAusBlock } from '../lib/crunchyroll-termine.ts'
 import { beobachtungenZusammenfuehren } from '../lib/crunchyroll.ts'
 import { crHerkunft } from '../lib/cr-batch-wache.ts'
+import { zahlFelder } from '../lib/offene-folgenzahl.ts'
 import { meldeAnClaude } from '../lib/meldung.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
@@ -10,7 +11,7 @@ import { type CrDubData } from '../lib/crunchyroll-dub.ts'
 import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
 import { legeCrWegeAusKatalogAn } from './09-4-4-1-katalog-wege.ts'
 
-export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, verschwunden, usNeinOffen, nachUrl, releases }: {
+export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, verschwunden, usNeinOffen, nachUrl, releases, jetzt }: {
   titles: Map<number, Title>
   anisearch: Record<string, AnisearchEintrag>
   belegt: number
@@ -19,6 +20,8 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
   usNeinOffen: number
   nachUrl: Map<string, Title[]>
   releases: Release[]
+  /** Die Uhr für „frisch“ (21 Tage); nur Tests setzen sie. */
+  jetzt?: number
 }) {
     legeCrWegeAusKatalogAn({
       titles,
@@ -44,7 +47,7 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
       ein Block datierte Folgen hat und dessen Folgenzahl exakt zur unseren
       passt. Was sie liegen lässt, lässt sie mit Absicht liegen.
     */
-    const crTermine = alleTermine(crDub.serien, nachUrl)
+    const crTermine = alleTermine(crDub.serien, nachUrl, jetzt)
     let termineNeu = 0
     let termineSchonDa = 0
     for (const t of crTermine) {
@@ -84,7 +87,7 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
           firstEpisodeDate: t.firstEpisodeDate,
           lastEpisodeDate: t.lastEpisodeDate,
           time: t.time ?? sammel.schedule?.time,
-          episodeCount: t.episodeCount,
+          ...zahlFelder(t, anisearch[t.titleId]?.info),
           observed: beobachtungenZusammenfuehren(t.beobachtet, sammel.schedule?.observed),
         }
         sammel.herkunft = `Deutsche Fassung bei Crunchyroll — ${t.datiert} Folgen mit belegtem Termin (Block „${t.blockName}"), Sammeldatum ersetzt`
@@ -116,7 +119,7 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
           firstEpisodeDate: t.firstEpisodeDate,
           lastEpisodeDate: t.lastEpisodeDate,
           time: t.time,
-          episodeCount: t.episodeCount,
+          ...zahlFelder(t, anisearch[t.titleId]?.info),
           /* Die gemessenen Tage je Folge — sonst rechnet die Fortschreibung an Pausen vorbei. */
           ...(Object.keys(t.beobachtet).length ? { observed: t.beobachtet } : {}),
         },

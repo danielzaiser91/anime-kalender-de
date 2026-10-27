@@ -67,7 +67,7 @@ const ariTitel = [
 const ari = lauf(aristocrat, ariTitel)
 pruefe('Aristocrat S3: 3 Blöcke, 2 Titel mit Zahl — der jüngste Block bekommt den jüngsten Titel', ari.raus.length === 1 && ari.raus[0]?.titleId === 185756, ari.raus)
 pruefe('Aristocrat S3: der Termin ist der 18.10. um 17:00 Berlin', ari.raus[0]?.firstEpisodeDate === '2026-10-18' && ari.raus[0]?.time === '17:00', ari.raus[0])
-pruefe('Aristocrat S3: ohne Folgenzahl nur die datierte Folge, keine Fortschreibung', ari.raus[0]?.episodeCount === 1 && ari.raus[0]?.lastEpisodeDate === '2026-10-18', ari.raus[0])
+pruefe('Aristocrat S3: ohne Folgenzahl, Block führt mehr Folgen: laufend, die datierte Folge, Ende offen, Länge setzt der Bau', ari.raus[0]?.episodeCount === 1 && ari.raus[0]?.lastEpisodeDate === undefined && ari.raus[0]?.zahlOffen === true && ari.raus[0]?.rhythmus === 'weekly', ari.raus[0])
 pruefe('Aristocrat S3: nichts verworfen', ari.verworfen.length === 0, ari.verworfen)
 
 /* --- Last Boss S2 (GT00361955): zweiter Titel ohne dub und ohne Folgenzahl --- */
@@ -159,7 +159,7 @@ pruefe('vollständiger frischer Block (2 von 2): nicht laufend, das Ende steht',
 /* --- B genauer: nur die datierten Folgen --- */
 const zweiTage = lauf(serie(LB, [lbEins, ['Staffel 2', 2, 5, [[2, '2026-10-24T13:30:00Z'], [1, '2026-10-17T14:00:00Z']]]]), lbTitel)
 const z = zweiTage.raus[0]
-pruefe('Folgen in falscher Reihenfolge: erster Tag der früheste, letzter der späteste', z?.firstEpisodeDate === '2026-10-17' && z?.lastEpisodeDate === '2026-10-24', z)
+pruefe('Folgen in falscher Reihenfolge: erster Tag der früheste, der späteste ist die zweite Beobachtung, Ende offen', z?.firstEpisodeDate === '2026-10-17' && z?.lastEpisodeDate === undefined && z?.beobachtet[2] === '2026-10-24', z)
 pruefe('zwei verschiedene Uhrzeiten: keine geraten', z?.time === undefined, z)
 pruefe('Wochenabstand wird gemessen und die Tage je Folge stehen dabei', z?.rhythmus === 'weekly' && JSON.stringify(z?.beobachtet) === '{"1":"2026-10-17","2":"2026-10-24"}', z)
 const mitNull = lauf(serie(LB, [lbEins, ['Staffel 2', 3, 5, [[0, '2026-10-10T14:00:00Z'], [1, '2026-10-17T14:00:00Z'], [2, '2026-10-24T14:00:00Z']]]]), lbTitel)
@@ -167,7 +167,7 @@ pruefe('Folge 0 zählt nicht als Beobachtung, 1 und 2 bleiben', JSON.stringify(m
 const kaputtesDatum = lauf(serie(LB, [lbEins, ['Staffel 2', 1, 5, [[1, 'kaputt']]]]), lbTitel)
 pruefe('ein Block, dessen einziges Datum kaputt ist: kein Termin, kein Absturz, gezählt', kaputtesDatum.raus.length === 0 && kaputtesDatum.verworfen.length === 1 && kaputtesDatum.verworfen[0]?.grund === 'Folgendatum nicht lesbar', kaputtesDatum)
 const apOhneZahl = lauf(apothekerin, [apTitel(true)[0]!, apTitel(true)[1]!, titel(195516, 'The Apothecary Diaries Season 3', 2026, AP, undefined)])
-pruefe('ohne Folgenzahl, Block ab 49: nur die datierte Folge, als Folge 1 gezählt', apOhneZahl.raus[0]?.episodeCount === 1 && apOhneZahl.raus[0]?.lastEpisodeDate === '2026-10-23' && JSON.stringify(apOhneZahl.raus[0]?.beobachtet) === '{"1":"2026-10-23"}', apOhneZahl)
+pruefe('ohne Folgenzahl, Block ab 49: nur die datierte Folge, als Folge 1 gezählt, Ende offen', apOhneZahl.raus[0]?.episodeCount === 1 && apOhneZahl.raus[0]?.lastEpisodeDate === undefined && JSON.stringify(apOhneZahl.raus[0]?.beobachtet) === '{"1":"2026-10-23"}', apOhneZahl)
 const mitLuecke = lauf(serie(AP, [apEins, apZwei, ['Die Tagebücher der Apothekerin Staffel 3', 2, 4, [[49, '2026-10-16T15:00:00Z'], [51, '2026-10-23T15:00:00Z']]]]), apTitel(undefined))
 pruefe('Folgenzahl bekannt, aber Lücke in den Nummern: nur die zwei datierten Folgen, Ende gesetzt', mitLuecke.raus[0]?.episodeCount === 2 && mitLuecke.raus[0]?.lastEpisodeDate === '2026-10-23', mitLuecke)
 
@@ -242,6 +242,22 @@ pruefe('„4th Season“ ist Staffel 4', nrVon('Show 4th Season') === 4, nrVon('
 pruefe('„Season 4“ greift ohne Ordinalform', nrVon('Show Season 4') === 4, nrVon('Show Season 4'))
 pruefe('Ordinalform steht in einem späteren Namen', nrVon('Show', 'Show 3rd Season') === 3, nrVon('Show', 'Show 3rd Season'))
 pruefe('ohne Staffelnennung: null', nrVon('Show') === null, nrVon('Show'))
+
+/* --- Psyren (GT00371866, 26.10.2026): Titel ohne Folgenzahl, Block „Staffel 1“ mit 4 Folgen, 1 deutsch (wörtlich aus data/crunchyroll-dub.json) --- */
+const PSY = 'https://www.crunchyroll.com/de/series/GT00371866/psyren'
+const psyTitel = [titel(204011, 'PSYREN', 2026, PSY, true)]
+const JETZT_PSY = Date.parse('2026-10-27T05:00:00Z')
+const psy = lauf(serie(PSY, [['Staffel 1', 1, 4, [[1, '2026-10-26T14:30:00Z']]]]), psyTitel, JETZT_PSY).raus[0]
+pruefe('Psyren: eine deutsche Folge von vier im Block, keine Zahl am Titel: wöchentlicher Auftakt, kein Abwurf', psy?.rhythmus === 'weekly' && psy?.zahlOffen === true, psy)
+pruefe('Psyren: Folge 1 am 26.10. um 15:30, Ende offen', psy?.firstEpisodeDate === '2026-10-26' && psy?.time === '15:30' && psy?.lastEpisodeDate === undefined && psy?.episodeCount === 1, psy)
+const psyVoll = lauf(serie(PSY, [['Staffel 1', 1, 1, [[1, '2026-10-26T14:30:00Z']]]]), psyTitel, JETZT_PSY).raus[0]
+pruefe('Psyren-Form, aber der Block führt nur diese eine Folge: Abwurf wie bisher, Ende gesetzt', psyVoll?.rhythmus === 'batch' && psyVoll?.zahlOffen === undefined && psyVoll?.lastEpisodeDate === '2026-10-26', psyVoll)
+const psyZahl = lauf(serie(PSY, [['Staffel 1', 1, 4, [[1, '2026-10-26T14:30:00Z']]]]), [titel(204011, 'PSYREN', 2026, PSY, true, 12)], JETZT_PSY).raus[0]
+pruefe('mit Folgenzahl am Titel gilt der alte Weg (Aoashi): 12 erwartet, kein zahlOffen', psyZahl?.rhythmus === 'weekly' && psyZahl?.episodeCount === 12 && psyZahl?.zahlOffen === undefined, psyZahl)
+const psyLuecke = lauf(serie(PSY, [['Staffel 1', 2, 4, [[1, '2026-10-26T14:30:00Z'], [3, '2026-11-09T14:30:00Z']]]]), psyTitel, Date.parse('2026-11-10T05:00:00Z')).raus[0]
+pruefe('Psyren-Form mit Lücke in den Nummern (1, 3): nicht laufend, Ende gesetzt', psyLuecke?.zahlOffen === undefined && psyLuecke?.lastEpisodeDate === '2026-11-09', psyLuecke)
+const psyZwei = lauf(serie(PSY, [['Staffel 1', 2, 4, [[1, '2026-10-26T14:30:00Z'], [2, '2026-11-02T15:30:00Z']]]]), psyTitel, Date.parse('2026-11-03T05:00:00Z')).raus[0]
+pruefe('Psyren nach der zweiten Woche: weiter wöchentlich, Folgen 1 und 2, Ende offen', psyZwei?.rhythmus === 'weekly' && psyZwei?.zahlOffen === true && psyZwei?.lastEpisodeDate === undefined && JSON.stringify(psyZwei?.beobachtet) === '{"1":"2026-10-26","2":"2026-11-02"}', psyZwei)
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

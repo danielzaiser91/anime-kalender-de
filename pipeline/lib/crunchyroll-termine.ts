@@ -76,6 +76,8 @@ export interface CrTermin {
   /** Uhrzeit des ersten Termins, falls alle Folgen dieselbe tragen. */
   time?: string
   episodeCount: number
+  /** Die Staffel läuft, ihre Länge ist unbekannt: `episodeCount` zählt nur die deutschen Folgen bis jetzt. */
+  zahlOffen?: true
   /** Gemessen aus den Abständen, nie angenommen. */
   rhythmus: 'weekly' | 'batch'
   /** Crunchyrolls Name des Blocks — steht als Beleg in der Notiz. */
@@ -301,7 +303,15 @@ function terminAusPaar(serie: CrSerie, titel: Title, block: CrStaffel, jetzt: nu
   }
 }
 
-/** Nur die datierten Folgen eines Blocks als Termin: ohne Fortschreibung und ohne erfundene Folgenzahl. */
+/**
+ * Läuft die Staffel, ohne dass wir ihre Länge kennen? Der Titel trägt keine Folgenzahl (AniList kennt sie nicht, Psyren 26.10.2026),
+ * der Block führt aber mehr Folgen als deutsche, und die deutschen sind lückenlos. Dann ist die erste Folge der Auftakt, kein Abwurf.
+ */
+function zahlOffenUndLaufend(folgen: Datierte, titel: Title, block: CrStaffel): boolean {
+  return !titel.episodes && block.folgen > folgen.length && lueckenlosAb(folgen) !== null
+}
+
+/** Nur die datierten Folgen eines Blocks als Termin; die Länge einer laufenden Staffel ohne Zahl setzt der Bau (`zahlOffen`). */
 function terminAusDatierten(serie: CrSerie, titel: Title, block: CrStaffel): CrTermin | null {
   const folgen = datierte(block)
   const punkte = folgen
@@ -315,14 +325,18 @@ function terminAusDatierten(serie: CrSerie, titel: Title, block: CrStaffel): CrT
     return verwirfPaar('deutscher Termin vor der japanischen Ausstrahlung', serie, titel.id, `${jahr} gegen ${titel.jpYear}`)
   const zeiten = new Set(punkte.map((p) => p.zeit))
   const ab = lueckenlosAb(folgen)
+  const laufend = zahlOffenUndLaufend(folgen, titel, block)
+  const rhythmus = messeRhythmus(daten, laufend)
+  const offen = laufend && rhythmus === 'weekly'
   return {
     titleId: titel.id,
     firstEpisodeDate: daten[0]!,
-    lastEpisodeDate: daten[daten.length - 1],
+    lastEpisodeDate: offen ? undefined : daten[daten.length - 1],
     time: zeiten.size === 1 ? [...zeiten][0] : undefined,
     episodeCount: folgen.length,
+    ...(offen ? { zahlOffen: true as const } : {}),
     beobachtet: beobachtetVon(folgen, folgen.length, ab === null ? 0 : ab - 1),
-    rhythmus: messeRhythmus(daten),
+    rhythmus,
     blockName: block.name,
     datiert: folgen.length,
   }
