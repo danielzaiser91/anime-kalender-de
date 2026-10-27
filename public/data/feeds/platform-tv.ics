@@ -132,7 +132,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261020T191500Z
 DTEND:20261020T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 19/23
+SUMMARY:Pokémon Reisen: Die Serie – Folge 19/24
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -262,7 +262,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T191500Z
 DTEND:20261021T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 20/23
+SUMMARY:Pokémon Reisen: Die Serie – Folge 20/24
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -392,7 +392,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261022T191500Z
 DTEND:20261022T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 21/23
+SUMMARY:Pokémon Reisen: Die Serie – Folge 21/24
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -522,7 +522,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261023T191500Z
 DTEND:20261023T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 22/23
+SUMMARY:Pokémon Reisen: Die Serie – Folge 22/24
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -762,7 +762,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261026T201500Z
 DTEND:20261026T204500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 23/23
+SUMMARY:Pokémon Reisen: Die Serie – Folge 23/24
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -798,6 +798,56 @@ DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
 CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-10012621-tv-super-rtl@2026-10-27#28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T085000Z
+DTEND:20261027T092000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/18191/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-super-rtl@2026-10-27#29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T090000Z
+DTEND:20261027T093000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/18191/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-toggo-plus@2026-10-27#28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T095000Z
+DTEND:20261027T102000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/18191/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-toggo-plus@2026-10-27#29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T100000Z
+DTEND:20261027T103000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/18191/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-10-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T150500Z
+DTEND:20261027T153500Z
+SUMMARY:Pokémon Horizonte – Folge 18/132
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261027T154000Z
@@ -806,6 +856,16 @@ SUMMARY:Yashahime: Princess Half-Demon
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/11570/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-10-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T160500Z
+DTEND:20261027T163500Z
+SUMMARY:Pokémon Horizonte – Folge 18/132
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-27#44@anime-kalender-de
@@ -846,6 +906,16 @@ SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T201500Z
+DTEND:20261027T204500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 24/24
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-28@anime-kalender-de
