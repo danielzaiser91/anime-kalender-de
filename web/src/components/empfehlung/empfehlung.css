@@ -1,5 +1,7 @@
 /* Bewegung und Lagen der Ansicht „Entdecken“; nur transform und opacity, Farben aus den ak-Tokens. */
 .empf [hidden] { display: none !important; }
+/* Alles Klickbare zeigt die Hand (Tailwind setzt bei Knöpfen den Pfeil). */
+.empf :is(button, a[href], summary):not(:disabled) { cursor: pointer; }
 
 .empf-hg { position: absolute; inset: 0; overflow: hidden; background: var(--ak-grund); z-index: 0; }
 /* Positionierte Lage liegt sonst über allem, was nicht positioniert ist (Überschriften, Texte). */
