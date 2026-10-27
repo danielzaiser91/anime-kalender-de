@@ -8,7 +8,7 @@ import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { findeVerschluckte } from './lib/leerzeichen-gleich.ts'
 
-const WURZEL = resolve(import.meta.dirname, '..')
+const WURZEL = resolve(process.argv[2] === '--wurzel' ? process.argv[3] : resolve(import.meta.dirname, '..'))
 const ORDNER = ['pipeline', 'shared', 'web/src', 'tools', 'extension', 'worker']
 const ENDUNGEN = ['ts', 'tsx', 'mjs', 'cjs', 'js']
 

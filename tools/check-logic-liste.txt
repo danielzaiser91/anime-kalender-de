@@ -350,6 +350,7 @@ tools/heute-utc.mjs
 tools/hover-cover-weitere-verhalten.test.tsx
 tools/hover-cover-weitere.test.tsx
 tools/hover-cover.test.ts
+tools/leerzeichen-gleich-prozess.test.mjs
 tools/link-check-ende.test.ts
 tools/link-check-zeitbudget.test.ts
 tools/link-faelligkeit.test.ts
