@@ -268,6 +268,7 @@ pipeline/check-stand-halten.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
 pipeline/check-such-chip.ts
+pipeline/check-suchhinweis-lauf.ts
 pipeline/check-sw-cache-regeln.ts
 pipeline/check-synchro-original.ts
 pipeline/check-takt.ts
@@ -350,6 +351,7 @@ tools/sammler-pruefschritt-waechter.mjs
 tools/skript-aufrufer-wache.mjs
 tools/start-pruefung-wacht.mjs
 tools/suchhinweis-filter.test.ts
+tools/suchhinweis-karten.test.ts
 tools/uhr-in-tests.mjs
 tools/web-hosting.test.ts
 tools/web-push-voll.test.ts

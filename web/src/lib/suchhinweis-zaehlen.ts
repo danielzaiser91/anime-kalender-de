@@ -1,4 +1,5 @@
 import type { Title } from '@shared/types.ts'
+import { groupByFranchise } from './db-gruppen.ts'
 import { normalize } from './search.ts'
 
 /** Treffer, die nur der Schalter „Anime ohne deutsche Synchro“ dazuholt: alle, und davon die mit gleichem Namen. */
@@ -21,8 +22,23 @@ export function nurMitSchalter(mitSchalter: Title[], ohneSchalter: Title[]): Tit
   return mitSchalter.filter((t) => !da.has(t.id))
 }
 
-export function zaehleZusatz(treffer: Title[], suche: string, synonymeFuer: (id: number) => string[]): ZusatzTreffer {
-  return { gesamt: treffer.length, genau: treffer.filter((t) => passtGenau(t, suche, synonymeFuer(t.id))).length }
+/**
+ * Die Karten, die der Schalter zur Liste dazubrächte — gezählt in der Einheit der Liste: bei „Staffeln zusammenfassen“ die Gruppen,
+ * die noch keine Karte haben (Treffer in einer schon gezeigten Gruppe füllen nur diese Karte), sonst die einzelnen Titel.
+ */
+export function zaehleKarten(treffer: Title[], sichtbar: Title[], gruppiert: boolean, suche: string, synonymeFuer: (id: number) => string[]): ZusatzTreffer {
+  const gezeigt = new Set(sichtbar.map((t) => t.id))
+  const alle = gruppiert ? groupByFranchise([...sichtbar, ...treffer]).map((g) => g.members) : treffer.map((t) => [t])
+  const neu = alle.filter((karte) => karte.every((t) => !gezeigt.has(t.id)))
+  return { gesamt: neu.length, genau: neu.filter((karte) => karte.some((t) => passtGenau(t, suche, synonymeFuer(t.id)))).length }
+}
+
+/** Steht für diesen Titel schon eine Karte in der Liste? Bei zusammengefassten Staffeln genügt ein anderes Glied seiner Gruppe. */
+export function hatKarte(titel: Title, sichtbar: Title[], gruppiert: boolean): boolean {
+  const gezeigt = new Set(sichtbar.map((t) => t.id))
+  if (!gruppiert) return gezeigt.has(titel.id)
+  const karte = groupByFranchise([...sichtbar, titel]).find((g) => g.members.some((t) => t.id === titel.id))
+  return !!karte?.members.some((t) => gezeigt.has(t.id))
 }
 
 /** „6 Treffer ohne Synchro, davon 1 exakt“ — die exakten nur, wenn es welche gibt. */

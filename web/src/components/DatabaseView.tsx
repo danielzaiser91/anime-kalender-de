@@ -9,6 +9,8 @@ import { DbLeer, DbRaster, MehrKnopf } from './db-bedienung.tsx'
 import type { FilterState } from '../lib/filters.ts'
 import { groupByFranchise, type TitleGroup } from '../lib/db-gruppen.ts'
 import { ordneListe } from '../lib/db-liste.ts'
+import { useHinweisInhalt, type HinweisLoesen } from './SuchHinweis.tsx'
+import { useSuchhinweis } from '../lib/use-suchhinweis.ts'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
 
@@ -37,6 +39,8 @@ export interface DatabaseViewProps {
   /** Die Filter für die Werkzeugleiste am Handy. */
   filters: FilterState
   onFiltersChange: (next: FilterState) => void
+  /** Der Knopf des Hinweises auf Treffer ohne Synchro: Filter und Schalter in einem Adresswechsel. */
+  onHinweisLoesen: HinweisLoesen
 }
 
 export function DatabaseView({
@@ -57,6 +61,7 @@ export function DatabaseView({
   onSortChange,
   filters,
   onFiltersChange,
+  onHinweisLoesen,
 }: DatabaseViewProps) {
   const { share, copiedSlug } = useShare()
   const today = todayIso()
@@ -69,6 +74,8 @@ export function DatabaseView({
     return ordneListe(base, sort, suche, data.releasesByTitle, today)
   }, [titles, grouped, sort, suche, data.releasesByTitle, today])
   const mitSynchro = useMemo(() => zaehleMitSynchro(liste), [liste])
+  const hinweis = useSuchhinweis({ data, suche, filters, ohneSynchro, gruppiert: grouped, sichtbar: titles, favorites })
+  const hinweisDa = useHinweisInhalt({ hinweis, filters, ohneSynchro }) !== null
 
   return (
     <div className="flex flex-col gap-4">
@@ -78,6 +85,7 @@ export function DatabaseView({
         sort={sort} onSortChange={onSortChange}
         ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt}
         grouped={grouped} onGroupedChange={onGroupedChange}
+        hinweis={hinweis} onHinweisLoesen={onHinweisLoesen}
       />
 
       <DbRaster
@@ -95,7 +103,7 @@ export function DatabaseView({
         copiedSlug={copiedSlug}
       />
 
-      {liste.length === 0 && !ohneSynchroLaedt && <DbLeer ohneSynchro={ohneSynchro} onOhneSynchro={() => onOhneSynchroChange(true)} />}
+      {liste.length === 0 && !ohneSynchroLaedt && <DbLeer ohneSynchro={ohneSynchro || hinweisDa} onOhneSynchro={() => onOhneSynchroChange(true)} />}
       {visible < liste.length && <MehrKnopf schritt={PAGE_SIZE * 2} rest={liste.length - visible} onClick={() => setVisible((v) => v + PAGE_SIZE * 2)} />}
     </div>
   )

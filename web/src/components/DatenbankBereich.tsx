@@ -37,6 +37,15 @@ export interface DatenbankBereichProps {
   onToggleHidden: (id: number) => void
 }
 
+/**
+ * Der Knopf des Suchhinweises: Filter und Schalter „ohne Synchro“ in einem Adresswechsel (zwei getrennte Aufrufe schrieben je die ganze
+ * Adresse aus ihrem alten Stand). Ohne Filteränderung genügt der Schalter allein.
+ */
+export function loeseHinweis(p: DatenbankBereichProps, filters: FilterState | undefined, schalterAn: boolean): void {
+  if (!filters) return p.onOhneSynchroChange(true)
+  p.navigate({ filters: { ...filters, search: p.route.filters.search }, ...(schalterAn ? { ohne: true as const } : {}) })
+}
+
 /** Die Datenbank: Filterfeld und Titelraster. */
 export function DatenbankBereich(p: DatenbankBereichProps) {
   const { t } = useLang()
@@ -66,6 +75,7 @@ export function DatenbankBereich(p: DatenbankBereichProps) {
             onSortChange={(sort) => p.navigate({ sort })}
             filters={route.filters}
             onFiltersChange={p.setFilters}
+            onHinweisLoesen={(filters, schalterAn) => loeseHinweis(p, filters, schalterAn)}
           />
         </SuchfundstellenContext.Provider>
       ) : (

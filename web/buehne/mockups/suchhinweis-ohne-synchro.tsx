@@ -1,5 +1,4 @@
 import { mockup } from '../register.ts'
-import { KopfOhneHinweis, KopfzeileMitHinweis, LeerMitHinweis, RasterMitDaten } from './suchhinweis-teile.tsx'
 
 const IPPO = 'Hajime no Ippo: The Fighting!'
 
@@ -24,8 +23,8 @@ mockup({
   },
   varianten: {
     A: {
-      ersatz: { DbKopfbereich: KopfOhneHinweis, DbKopfzeile: KopfzeileMitHinweis, DbRaster: RasterMitDaten, DbLeer: LeerMitHinweis },
-      notiz: 'Hinweis in derselben Zeile wie „0 Ergebnisse für …“, getrennt durch „·“: Treffer ohne Synchro, davon exakt; verstecken Filter den exakten Treffer, nennt die Zeile sie und der Knopf „Filter entfernen“ löst genau diese. Der alte Knopf „Auch Anime ohne deutsche Synchro zeigen“ entfällt, solange der Hinweis steht.',
+      ersatz: {},
+      notiz: 'Gebaut (27.10.2026): die Zeile gehört jetzt zur echten Datenbank, dieses Mockup zeigt sie nur noch an den sechs Fällen. Hinweis in derselben Zeile wie „0 Ergebnisse für …“, getrennt durch „·“; mit „Staffeln zusammenfassen“ zählt er neue Karten, nicht Titel.',
     },
   },
 })
