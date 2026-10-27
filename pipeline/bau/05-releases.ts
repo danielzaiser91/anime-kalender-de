@@ -17,7 +17,7 @@ import {
 } from '../lib/crunchyroll.ts'
 import { ohneWocheUeberAnzahl } from '../lib/woche-ueber-anzahl.ts'
 import { todayIso } from '../../shared/time.ts'
-import { amazonSearchUrl } from '../../shared/plattform-suche.ts'
+import { discIndexLaden, discKaufUrl } from '../lib/disc-ean.ts'
 import { type TmdbInfo } from '../lib/tmdb.ts'
 import { kuratierteZusaetze, type CuratedEntry } from '../lib/curated.ts'
 
@@ -61,6 +61,7 @@ export function baueReleases({
   const unverified: string[] = []
   /* Angekündigte Simulcasts (`data/ankuendigungen.yaml`) — im Bau noch nicht am Titel. */
   const ankuendigungen = ankuendigungenLaden(ROOT)
+  const discIndex = discIndexLaden()
 
   for (const entry of curated) {
     if (seenSlugs.has(entry.slug)) {
@@ -212,8 +213,7 @@ export function baueReleases({
       platform: entry.platform,
       ...(entry.sender ? { sender: entry.sender } : {}),
       platformUrl,
-      buyUrl:
-        entry.buyUrl ?? (entry.releaseType === 'disc' ? amazonSearchUrl(name) : undefined),
+      buyUrl: discKaufUrl(entry, titleId, schedule.firstEpisodeDate, name, discIndex),
       releaseType: entry.releaseType,
       ...(entry.dateMeaning ? { dateMeaning: entry.dateMeaning } : {}),
       fsk,

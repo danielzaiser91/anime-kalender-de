@@ -94,6 +94,11 @@ on:
         required: false
         default: '300'
         type: string
+      alle:
+        description: 'Alle Plakate neu holen, nicht nur veraltete; grenze gilt dann nicht (nur data:tmdb-poster; 27.10.2026, deutsche Cover vor englischen)'
+        required: false
+        default: false
+        type: boolean
       katalog:
         description: 'Auch Titel hinter dem Toggle holen (nur data:anisearch)'
         required: false
@@ -183,7 +188,11 @@ jobs:
               # `--katalog` haengt die Titel hinter dem Toggle hinten an — 11.607
               # mit aniSearch-Kennung, von denen noch keiner geholt wurde.
               npm run "$LAUF" -- --limit "$GRENZE" ${{ inputs.katalog && '--katalog' || '' }} ;;
-            data:tmdb-folgen|data:cartoon-folgen|data:tmdb-poster|data:kitsu-folgen|data:anisearch-eintraege|data:tmdb|data:anisearch-folgen|data:anisearch-titel|data:anisearch-artikel|data:anisearch-sprecher|data:anisearch-cover|data:cr-dub|data:justwatch|data:youtube:kauf)
+            data:tmdb-poster)
+              # Mit `alle` keine Grenze: der Abruf schneidet sonst jedes Mal dieselben ersten N Titel ab
+              # (feste Reihenfolge, kein Fortschritt). 3.005 Zuordnungen à 120 ms Pause ≈ 6 min plus Abruf (27.10.2026).
+              npm run "$LAUF" -- --limit ${{ inputs.alle && '100000' || '"$GRENZE"' }} ${{ inputs.alle && '--alle' || '' }} ;;
+            data:tmdb-folgen|data:cartoon-folgen|data:kitsu-folgen|data:anisearch-eintraege|data:tmdb|data:anisearch-folgen|data:anisearch-titel|data:anisearch-artikel|data:anisearch-sprecher|data:anisearch-cover|data:cr-dub|data:justwatch|data:youtube:kauf)
               npm run "$LAUF" -- --limit "$GRENZE" ;;
             *)
               npm run "$LAUF" ;;

@@ -7,6 +7,7 @@ import { titelName } from './laden.ts'
 import { regel, type Regel, type Treffer } from './regel.ts'
 import { synchroHinterToggle } from '../../pipeline/lib/invarianten-auslieferung.ts'
 import type { Title } from '../../shared/types.ts'
+import { amazonLinkArt } from '../../shared/plattform-suche.ts'
 
 const STREAM_PLATTFORMEN = new Set(['crunchyroll', 'netflix', 'primevideo', 'disneyplus', 'adn', 'aniverse', 'wow', 'joyn', 'rtlplus', 'youtube'])
 
@@ -86,13 +87,13 @@ export function dubGegenZweitquelle(b: Bestand): Regel {
   return r
 }
 
-/** DD-16: Erschienene Disc ohne Kaufweg oder mit einer Suchseite als Kaufweg (B-09). */
+/** DD-16: Erschienene Disc ohne Kaufweg oder mit einer Namenssuche als Kaufweg (B-09); die EAN-Suche zeigt ein Produkt und zählt nicht. */
 export function discKaufweg(b: Bestand): Regel {
   const treffer: Treffer[] = []
   const discs = b.releases.filter((r) => r.releaseType === 'disc')
   for (const r of discs) {
     if (!r.buyUrl) treffer.push({ schluessel: r.slug, text: `${r.name}: kein Kaufweg`, ort: `/r/${r.slug}/` })
-    else if (/amazon\.[a-z.]+\/s\?/.test(r.buyUrl)) treffer.push({ schluessel: r.slug, text: `${r.name}: Kaufweg ist eine Amazon-Suche`, ort: r.buyUrl })
+    else if (amazonLinkArt(r.buyUrl) === 'name') treffer.push({ schluessel: r.slug, text: `${r.name}: Kaufweg ist eine Amazon-Suche`, ort: r.buyUrl })
   }
   return regel('DD-16', 'Disc ohne Produktseite als Kaufweg', '„Kaufen" führt ins Leere oder auf eine Suche', discs.length, treffer)
 }

@@ -13,7 +13,7 @@ import { erschieneneSpanne } from './folgen-spanne.ts'
 import { PROSIEBEN_MAXX_ROT, TOGGO_ORANGE } from './pillen.tsx'
 import { pillenZiel } from './pillen-ziel.ts'
 import { seitAbText } from './seit-datum.ts'
-import { kurzeAusgabe } from './disc-ausgabe.ts'
+import { kaufTextSchluessel, kurzeAusgabe } from './disc-ausgabe.ts'
 import { tvQuelle } from './tv-quelle.ts'
 
 type TvText = ReturnType<typeof tvAngabe>
@@ -139,7 +139,7 @@ function TvZeichen() {
 function kurzerNameVon(release: Release, titel: string | undefined, t: Translate): string {
   if (release.releaseType === 'disc') {
     /* Ohne Adresse kein Händler: „Shop“ versprach einen Klick, den es nicht gab (Dragon Ball Z, aniSearch kennt nur den Termin). */
-    return hatShop(release) ? t('detail.kaufenBei', { shop: haendlerAus(release.buyUrl ?? release.platformUrl) }) : t('detail.kaufausgabe')
+    return hatShop(release) ? t(kaufTextSchluessel(release.buyUrl ?? release.platformUrl), { shop: haendlerAus(release.buyUrl ?? release.platformUrl) }) : t('detail.kaufausgabe')
   }
   const anbieter = anbieterName(release.platform, release.sender)
   return (anbieter && release.kanal ? `${anbieter} (${release.kanal})` : anbieter) ?? kuerzeUmTitel(release.name, titel)

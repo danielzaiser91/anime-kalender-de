@@ -5,6 +5,19 @@ export function amazonSearchUrl(query: string): string {
   return `https://www.amazon.de/s?k=${encodeURIComponent(`${query} Anime Blu-ray`)}`
 }
 
+/** Amazon-Suche nach der EAN: zeigt das genau eine Produkt (Conan Box 1, gemessen 27.10.2026), anders als die Namenssuche. */
+export function amazonEanUrl(ean: string): string {
+  return `https://www.amazon.de/s?k=${ean}`
+}
+
+/** Wie genau führt ein Amazon-Link zum Produkt? `name` = Namenssuche (viele Treffer), `ean` = ein Treffer, `produkt` = Produktseite. */
+export function amazonLinkArt(url: string | undefined): 'name' | 'ean' | 'produkt' | undefined {
+  const m = /^https:\/\/(?:www\.)?amazon\.[a-z.]+\/(s\?|dp\/|gp\/product\/)(?:k=([^&]*))?/.exec(url ?? '')
+  if (!m) return undefined
+  if (m[1] !== 's?') return 'produkt'
+  return /^\d{8,14}$/.test(m[2] ?? '') ? 'ean' : 'name'
+}
+
 /**
  * Prime-Video-Links laufen bei uns grundsätzlich über **amazon.de**.
  *
