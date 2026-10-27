@@ -3,6 +3,8 @@
  * Wächter: die echte Uhr (`new Date()`, `Date()`, `Date.now`) in Testdateien darf nur weniger werden.
  * Eine Prüfung gegen die echte Uhr wird am UTC-Tageswechsel oder zur Sendestunde rot, ohne dass jemand etwas geändert hat
  * (main war am 19.10.2026 so einen Montag lang rot). Neue Tests nehmen eine feste Zeit (`tools/feste-uhr.ts`).
+ * Auch die Umgehungen zählen: `globalThis['Date']`, ein Alias (`const D = Date`, `const { now } = Date`; die Bindung zählt einmal)
+ * und `Reflect.construct(Date, [])` ohne Argumente. Nicht erfasst: Date als Objektwert, Parameter-Vorgabe oder Funktionsargument.
  * Gezählt wird im Syntaxbaum aller getrackten `*.test.*`-Dateien und aller Einträge von tools/check-logic-liste.txt.
  * Misst der Test die Uhr bewusst (Wartezeit, Alter einer Datei), steht in einem Kommentar derselben Zeile
  * `uhr-echt: <Grund>` (ohne Grund oder in einem String gilt es nicht); die Stelle zählt dann nicht.
