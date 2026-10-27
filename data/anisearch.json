@@ -858491,7 +858491,13 @@
   },
   "204389": {
     "anisearchId": 21117,
-    "streams": [],
+    "descriptionDe": "Lufas Maphaahl, die sich gar nicht mehr so sicher ist, welche Version ihrer Vergangenheit wirklich der Wahrheit entspricht, hat inzwischen vier der »zwölf Himmelssterne« getroffen und wieder auf ihre Seite gebracht. Ehemalige Spieler aus der modernen Menschenwelt hat sie, von Dinas fraglichen Erzählungen abgesehen, bis jetzt jedoch nicht ausfindig machen können und auch ihr Aufeinandertreffen mit dem Dämonenkönig Orm verlief alles andere als erwartet. Von den »sieben Helden« sind 200 Jahre nach den Ereignissen des Spiels nur noch drei am Leben, wobei Megrez und Merak nach der Niederlage gegen den Dämonenkönig viel von ihrem ehemaligen Glanz eingebüßt haben. Somit verbleibt nur noch Benetnasch, wobei Lufas schon ein neues Ziel im Blick hat: Die Welt von den Umtrieben der Göttin zu befreien und ihr vorgesehenes Szenario zu durchkreuzen.\n\nWährend sie mit ihren Gefährten, zu denen nun auch Virgo dazugestoßen ist, auf Reisen ist, muss Lufas feststellen, dass ihre Persönlichkeit immer mehr Züge des Charakters aus dem Spiel annimmt und der Mensch in ihr zurückgedrängt wird. Unterdessen macht sich Scorpius der Skorpion, der seit dem Verschwinden von Lufas mit den Dämonen paktiert, bereit, das Land Blutgang anzugreifen und untergehen zu lassen. Dieses von Mizar dem Schmiedekönig gegründete Zwergenland ist bekannt für seine florierende Industrie, aber dem Angriff wird es ohne Unterstützung wohl kaum standhalten können. Dort soll sich, laut den Informationen die Dina gesammelt hat, außerdem gerade Karkinos der Krebs aufhalten. Somit steht Lufas nächster Zwischenstopp natürlich schon fest: Sie wird Scorpius aufhalten, Blutgang retten und nebenbei auch Karkinos ausfindig machen! \n\nQuelle: www.anisearch.de/anime/21117",
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/series/GT00361955/a-wild-last-boss-appeared"
+      }
+    ],
     "info": {
       "languages": [
         {
@@ -858514,6 +858520,7 @@
           "language": "Deutsch",
           "title": "A Wild Last Boss Appeared! Staffel 2",
           "status": "Laufend",
+          "dubbed": true,
           "released": "26.09.2026 - ?",
           "publisher": [
             "Crunchyroll"
@@ -858605,7 +858612,7 @@
       ],
       "broadcast": "Samstag 22:30 (JST)"
     },
-    "fetchedAt": "2026-09-26T09:26:01.175Z"
+    "fetchedAt": "2026-10-27T04:01:50.544Z"
   },
   "204394": {
     "anisearchId": 21494,
