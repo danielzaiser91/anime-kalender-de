@@ -328,6 +328,17 @@ for (const fremd of ['tools/umfang-grenzen.json', 'extension/a.json', 'datax/a.j
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe(`C: main bewegte ${fremd} -> 1`, code === 1 && k.meldungen.join().includes(`; main bewegte ${fremd}`), { code, m: k.meldungen })
 }
+{
+  // Über 300 Dateien nicht unter public/data/ und data/cache/: nur der Leser-Weg (Merge-Fluss C) kann die Kette gelten lassen
+  const stub = leserStub(null)
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh: vergleich(DATEN_MAIN, 'ahead', 300) }, prDateien: 'data/patchnotes/a.yaml\n' }))
+  const code = main(['7'], k.gh, k.melde, k.warte, stub, voll(Array.from({ length: 400 }, (_, i) => `data/curated/${i}.yaml`)))
+  pruefe('lokaler Vergleich: 400 kuratierte Dateien, Leser null -> 0, Leser bekam alle 400', code === 0 && stub.aufrufe[0]?.bewegt.length === 400, { code, m: k.meldungen })
+  const v = voll(VIELE)
+  const k2 = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh: vergleich(DATEN_MAIN, 'diverged', 300) }, prDateien: 'data/patchnotes/a.yaml\n' }))
+  const code2 = main(['7'], k2.gh, k2.melde, k2.warte, undefined, v)
+  pruefe('lokaler Vergleich: diverged fragt kein git, 1', code2 === 1 && v.aufrufe.length === 0, { code2, a: v.aufrufe })
+}
 const botVergleich = (o) => ({ status: 'ahead', anzahl: 1, dateien: ['data/a.json'], commitsGesamt: 2, autoren: BOTS, ...o })
 pruefe('C: mehr Commits als geliefert (Liste abgeschnitten) -> Grund', botSprungAusnahme(botVergleich({ commitsGesamt: 3 }), ['worker/a.ts'], leserStub(null)) === 'Vergleich evtl. abgeschnitten')
 pruefe('C: design-regeln.md unter den Bewegungen -> Bot bewegte die Datei', botSprungAusnahme(botVergleich({ dateien: ['data/a.json', 'docs/wissen/design-regeln.md'] }), ['web/src/index.css'], leserStub(null)) === 'main bewegte docs/wissen/design-regeln.md')
