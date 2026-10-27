@@ -171,6 +171,19 @@ jobs:
         if: steps.noch_da.outputs.weiter == 'ja' && steps.dedupe.outputs.claude != 'nein'
         run: npm ci
 
+      # Der rote Bestandsbau sichert `data/cache/` (nicht im Repo) als Artefakt; ohne ihn lässt sich der Bau nicht nachstellen.
+      # Fehlt es (andere Wache, abgelaufen, kein Bau), arbeitet der Untersucher wie bisher nur mit Protokoll und Repo.
+      - name: Eingaben des roten Baus laden
+        id: eingaben
+        if: steps.noch_da.outputs.weiter == 'ja' && steps.dedupe.outputs.claude != 'nein'
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: bau-eingaben-${{ github.event.workflow_run.id }}
+          path: data/cache
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
       - uses: anthropics/claude-code-action@v1
         if: steps.noch_da.outputs.weiter == 'ja' && steps.dedupe.outputs.claude != 'nein'
         with:
@@ -289,6 +302,8 @@ jobs:
               dieses Projekts, besonders: Nichts behaupten, was nicht belegt ist.
             - Die Prüfkette muss vor dem Pull Request grün sein:
               `npm run check:vor-commit`
+            - Vor dem Pull Request läuft zusätzlich `npm run check:umfang`: `check:vor-commit` enthält es nicht, und eine Änderung in einer Funktion über 80 Zeilen oder einer Datei über 800 Zeilen muss ausgelagert werden, nie die Grenze anheben (PR 1589).
+            - Eingaben des roten Bestandsbaus: Wenn der Schritt „Eingaben des roten Baus laden" gelaufen ist (`${{ steps.eingaben.outcome }}`), liegt `data/cache/` des gescheiterten Laufs im Arbeitsverzeichnis, und du kannst den Bau damit nachstellen. Sonst fehlt der Cache.
             - Ist der Fehler ein Widerspruch im Datensatz (`pruefeErgebnis` bricht
               ab), dann ist der Melder **nicht** das Problem. Ihn weicher zu
               stellen, um einen grünen Lauf zu bekommen, ist ausdrücklich falsch —
