@@ -72,7 +72,7 @@ export const BurgerZeichen = ({ groesse }: Z) => (
     <path d="M4 7h16M4 12h16M4 17h16" />
   </Strich>
 )
-export const SuchZeichen =({ groesse }: Z) => (
+export const SuchZeichen = ({ groesse }: Z) => (
   <Strich groesse={groesse}>
     <circle cx="11" cy="11" r="6.5" />
     <path d="m20 20-4.2-4.2" />
