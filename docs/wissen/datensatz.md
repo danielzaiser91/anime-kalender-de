@@ -377,9 +377,10 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
   Push-Schalter sitzt im Abo-Menü, das Nachführen der Favoriten beim
   Push-Dienst in `App` (`usePushNachfuehren`, vorher nur bei geöffneter Favoriten-Ansicht).
 - **Kopfleiste** klebt oben: Logo (das Favicon-Symbol), Suche (gilt für Kalender und Datenbank,
-  von anderen Seiten führt sie in die Datenbank), Abo-Knopf nur mit Kalender- und Glockensymbol,
-  Hell/Dunkel, Zahnrad. Auf dem Handy unten Kalender · Datenbank · News · Einstellungen; Hell/Dunkel
-  dort im Einstellungsdialog, sonst passte der Name nicht in die Leiste.
+  von anderen Seiten führt sie in die Datenbank), Hell/Dunkel (ab md),
+  Burger-Menü (Kalender-Abo, Newsletter, Push, App, Einstellungen; seit 27.10.2026 statt Glocke und
+  Zahnrad). Auf dem Handy unter dem Logo Kalender · Datenbank · News · Saison · Entdecken; Hell/Dunkel
+  im Einstellungsdialog, sonst passte der Name nicht in die Kopfleiste.
 - **Woche:** je Tag eine Zeile — Tag, Cover-Raster (`repeat(auto-fill, minmax(128px, 1fr))`, auf
   dem Handy genau zwei Spalten, immer in Zeitreihenfolge — `grid-flow-dense` würfelte sie durcheinander,
   eine Lücke vor einer breiten Kachel wird hingenommen), darunter **„Im Handel“** als kompakte Liste

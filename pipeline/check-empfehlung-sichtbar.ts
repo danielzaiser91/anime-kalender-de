@@ -1,8 +1,7 @@
 /**
- * Zusicherungen zum Einstieg in „Entdecken“: Reiter nur ab `md` und fünf feste Plätze am Handy, Knopf der Datenbank
- * (führt in die Ansicht, ist in `DatenbankBereich` eingebaut) und Zeile „Empfehlungen zurücksetzen“ in den Einstellungen
+ * Zusicherungen zum Einstieg in „Entdecken“: Reiter ab `md` in jeder Breite, fünf feste Plätze am Handy (Entdecken statt Optionen),
+ * kein Knopf mehr in der Datenbank und Zeile „Empfehlungen zurücksetzen“ in den Einstellungen
  * (ruft das echte Zurücksetzen). Die Handler werden aus dem gerenderten Baum geholt und ausgeführt.
- * Aufruf: `npm run check:logic`.
  */
 import { createElement as h, type ReactElement, type ReactNode } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -15,7 +14,6 @@ g.localStorage = { getItem: () => null, setItem() {}, removeItem: (k: string) =>
 const { BEREICHE, bereichVon } = await import('../web/src/lib/bereiche.ts')
 const { KopfNavigation } = await import('../web/src/components/KopfNavigation.tsx')
 const { HandyNavigation } = await import('../web/src/components/HandyNavigation.tsx')
-const { WasGuckenKnopf } = await import('../web/src/components/WasGuckenKnopf.tsx')
 const { EmpfehlungZeile } = await import('../web/src/components/Einstellungen.tsx')
 const { DatenbankBereich } = await import('../web/src/components/DatenbankBereich.tsx')
 
@@ -54,19 +52,19 @@ pruefe('fünf Reiter', (reiter.match(/<a /g) ?? []).length === 5, reiter)
 pruefe('Reiter „Entdecken“ mit Ziel', reiter.includes('href="#/entdecken"') && reiter.includes('Entdecken'))
 pruefe('Reiter nur ab md', /<nav[^>]*class="hidden [^"]*md:flex[ "]/.test(reiter), reiter.slice(0, 120))
 const wasGucken = /<a [^>]*class="([^"]*)"[^>]*>Entdecken<\/a>/.exec(reiter)
-pruefe('Reiter „Entdecken“ erst ab xl', wasGucken !== null && wasGucken[1].includes('hidden xl:block'), reiter)
-pruefe('die vier anderen Reiter ab md (nicht versteckt)', (reiter.match(/hidden xl:block/g) ?? []).length === 1, reiter)
+pruefe('Reiter „Entdecken“ in jeder Breite ab md (nicht versteckt)', wasGucken !== null && !wasGucken[1].includes('hidden'), reiter)
+pruefe('kein Reiter ist ab xl beschränkt', !reiter.includes('xl:block'), reiter)
 pruefe('bereichVon(entdecken)', bereichVon('entdecken') === 'entdecken')
 pruefe('bereichVon(impressum) leer', bereichVon('impressum') === undefined)
 
-const handy = renderToStaticMarkup(h(HandyNavigation, { aktiv: 'entdecken', onView: () => {}, kalender: 'woche', einstellungen: () => {} }))
+const handyZiele: unknown[] = []
+const handyBaum = baumVon(() => HandyNavigation({ aktiv: 'entdecken', onView: (v) => handyZiele.push(v), kalender: 'woche' }))
+const handy = renderToStaticMarkup(h(HandyNavigation, { aktiv: 'entdecken', onView: () => {}, kalender: 'woche' }))
 pruefe('Handy-Leiste: genau fünf Plätze', (handy.match(/<button/g) ?? []).length === 5, handy)
-pruefe('Handy-Leiste: kein „Entdecken“', !handy.includes('Entdecken'))
-
-const ziele: unknown[] = []
-const knopf = finde(baumVon(() => WasGuckenKnopf({ navigate: (n) => ziele.push(n) })), (e) => e.type === 'button')
-knopf?.props.onClick?.()
-pruefe('Datenbank-Knopf führt nach entdecken', JSON.stringify(ziele) === '[{"view":"entdecken"}]', ziele)
+pruefe('Handy-Leiste: „Entdecken“ ist der aktive Platz', /aria-current="page"[^>]*>.*?Entdecken/.test(handy), handy)
+pruefe('Handy-Leiste: keine „Optionen“', !handy.includes('Optionen'), handy)
+finde(handyBaum, (e) => e.type === 'button' && JSON.stringify(e.props.children).includes('Entdecken'))?.props.onClick?.()
+pruefe('Handy-Leiste: Entdecken führt nach entdecken', JSON.stringify(handyZiele) === '["entdecken"]', handyZiele)
 
 const route = { filters: { search: '' }, sort: undefined }
 const dbZiele: unknown[] = []
@@ -80,10 +78,25 @@ const dbProps = {
   favorites: new Set(),
 }
 const bereich = baumVon(() => DatenbankBereich(dbProps as unknown as Parameters<typeof DatenbankBereich>[0]))
-const eingebaut = finde(bereich, (e) => e.type === WasGuckenKnopf)
-const eingebautNavigate = eingebaut?.props.navigate as ((n: unknown) => void) | undefined
-eingebautNavigate?.({ view: 'entdecken' })
-pruefe('Datenbank-Bereich baut den Knopf mit seinem navigate ein', JSON.stringify(dbZiele) === '[{"view":"entdecken"}]', dbZiele)
+/** Klickt jeden Knopf im Baum (auch in Unterkomponenten, die sich rendern lassen) und meldet, ob dabei nach „entdecken“ navigiert wurde. */
+function fuehrtNachEntdecken(baum: ReactNode, ziele: unknown[], tiefe = 0): boolean {
+  const ergebnis = finde(baum, (e) => {
+    if (typeof e.props.onClick === 'function') e.props.onClick()
+    if (ziele.some((z) => JSON.stringify(z).includes('entdecken'))) return true
+    if (typeof e.type !== 'function' || tiefe > 3) return false
+    try {
+      return fuehrtNachEntdecken(baumVon(() => (e.type as (p: unknown) => ReactNode)(e.props)), ziele, tiefe + 1)
+    } catch {
+      return false
+    }
+  })
+  return ergebnis !== undefined
+}
+const Fremd = ({ navigate }: { navigate: (n: unknown) => void }) => h('button', { onClick: () => navigate({ view: 'entdecken' }) }, 'Entdecken')
+const fremdZiele: unknown[] = []
+pruefe('Prüfung erkennt einen wieder eingebauten Entdecken-Knopf (Gegenprobe)', fuehrtNachEntdecken(h('div', null, h(Fremd, { navigate: (n) => fremdZiele.push(n) })), fremdZiele), fremdZiele)
+pruefe('Datenbank-Bereich hat keinen Knopf, der nach entdecken führt', !fuehrtNachEntdecken(bereich, dbZiele), dbZiele)
+
 
 const zeile = finde(baumVon(() => EmpfehlungZeile({ neuLaden: () => abgerufen.push('NEULADEN') })), (e) => e.type === 'button')
 zeile?.props.onClick?.()

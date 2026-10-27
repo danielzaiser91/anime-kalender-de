@@ -387,9 +387,9 @@ async function oeffneKopfWorstCase(browser, breite, thema) {
   return { kontext, seite }
 }
 
-/** Was der Kopf zeigt: sichtbare Einstellungen-Knöpfe, Überlauf, Treffer in der Mitte des ersten Knopfs, Platzhalter-Breite. */
+/** Was der Kopf zeigt: sichtbare Menü-Knöpfe, Überlauf, Treffer in der Mitte des ersten Knopfs, Platzhalter-Breite. */
 function messeKopf() {
-  const knoepfe = [...document.querySelectorAll('button[aria-label="Einstellungen"]')].filter((k) => k.offsetWidth > 0)
+  const knoepfe = [...document.querySelectorAll('header button[aria-label^="Menü"]')].filter((k) => k.offsetWidth > 0)
   const r = knoepfe[0]?.getBoundingClientRect()
   const treffer = r ? document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)?.closest('button')?.getAttribute('aria-label') : null
   const kopf = document.querySelector('header')
@@ -410,15 +410,15 @@ async function platzhalterAbgeschnitten(seite) {
   })
 }
 
-/** Je Breite: genau ein sichtbarer Einstellungen-Knopf, erreichbar, Kopf ohne Überlauf; „Empfehlungen zurücksetzen“ leert die Schlüssel. */
+/** Je Breite: genau ein sichtbarer Menü-Knopf (Burger), erreichbar, Kopf ohne Überlauf; „Empfehlungen zurücksetzen“ leert die Schlüssel. */
 async function pruefeZuruecksetzen(browser, breite, thema) {
   const kennung = `zurücksetzen ${breite}/${thema}`
   const { kontext, seite } = await oeffneKopfWorstCase(browser, breite, thema)
   await seite.evaluate((s) => s.forEach((k) => localStorage.setItem(k, '[1]')), RESET_SCHLUESSEL)
   const fehler = []
   const kopf = await seite.evaluate(messeKopf)
-  if (kopf.anzahl !== 1) fehler.push(`${kennung}: ${kopf.anzahl} sichtbare Einstellungen-Knöpfe statt 1`)
-  else if (!/Einstellungen/.test(String(kopf.treffer))) fehler.push(`${kennung}: Knopf wird überdeckt (Treffer: ${kopf.treffer})`)
+  if (kopf.anzahl !== 1) fehler.push(`${kennung}: ${kopf.anzahl} sichtbare Menü-Knöpfe statt 1`)
+  else if (!/Menü/.test(String(kopf.treffer))) fehler.push(`${kennung}: Knopf wird überdeckt (Treffer: ${kopf.treffer})`)
   if (kopf.ueberlauf > 0) fehler.push(`${kennung}: Kopfleiste läuft um ${kopf.ueberlauf} px über`)
   if (breite >= 1024 && (await platzhalterAbgeschnitten(seite))) fehler.push(`${kennung}: Suchplatzhalter abgeschnitten`)
   await seite.screenshot({ path: path.join(BILDER, `empfehlung-reset-${breite}-${thema}.png`), clip: { x: 0, y: 0, width: breite, height: 120 } })
@@ -427,9 +427,10 @@ async function pruefeZuruecksetzen(browser, breite, thema) {
   return fehler
 }
 
-/** Öffnet die Einstellungen, setzt die Empfehlungen zurück und meldet Schlüssel, die bleiben. */
+/** Öffnet über das Burger-Menü die Einstellungen, setzt die Empfehlungen zurück und meldet Schlüssel, die bleiben. */
 async function setzeZurueck(seite, kennung) {
-  await seite.locator('button[aria-label="Einstellungen"]:visible').first().click({ timeout: 5000 })
+  await seite.locator('header button[aria-label^="Menü"]:visible').first().click({ timeout: 5000 })
+  await seite.getByRole('dialog', { name: /^Menü/ }).getByRole('button', { name: 'Einstellungen' }).click({ timeout: 5000 })
   await Promise.all([seite.waitForNavigation({ waitUntil: 'load' }), seite.getByRole('button', { name: 'Empfehlungen zurücksetzen' }).click({ timeout: 5000 })])
   const rest = await seite.evaluate((s) => s.filter((k) => localStorage.getItem(k) !== null), RESET_SCHLUESSEL)
   return rest.length ? [`${kennung}: Schlüssel bleiben: ${rest.join(', ')}`] : []

@@ -9,14 +9,14 @@ import { HandyNavigation } from './HandyNavigation.tsx'
 import { useEinrollen } from '../lib/use-einrollen.ts'
 import { useMobil } from '../lib/use-mobil.ts'
 import { AboMenue } from './kalender/AboMenue.tsx'
-import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen, ZahnradZeichen } from './kalender/Zeichen.tsx'
+import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen } from './kalender/Zeichen.tsx'
 
 const RUND = 'flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
 
 /**
- * Die Kopfleiste der Poster-Gestaltung (26.09.2026): Logo, drei Bereiche, Suche, Abo-Knopf, Thema, ab md das Zahnrad (Einstellungen).
+ * Die Kopfleiste der Poster-Gestaltung (26.09.2026): Logo, drei Bereiche, Suche, Thema (ab md), Burger-Menü (Kalender-Abo, Newsletter, Push, App, Einstellungen).
  * Sie klebt oben und rollt mit. Auf dem Handy folgen unter dem Logo die
- * Bereiche und das Zahnrad (`HandyNavigation`), die Suche klappt dazwischen auf. Der Markenname steht immer ganz da;
+ * Bereiche (`HandyNavigation`), die Suche klappt dazwischen auf. Der Markenname steht immer ganz da;
  * bei Platzmangel weicht die rechte Seite (Daniel, 09.10.2026).
  */
 export function Header({
@@ -76,9 +76,8 @@ export function Header({
             <SuchZeichen />
           </button>
           <InstallButton />
-          <AboMenue onView={onView} favorites={favorites} />
+          <AboMenue onView={onView} favorites={favorites} einstellungen={einstellungen} />
           <ThemaKnopf />
-          <EinstellungenKnopf einstellungen={einstellungen} />
         </div>
       </div>
       {sucheAuf && !kalender && (
@@ -86,19 +85,8 @@ export function Header({
           <KopfSuchfeld suche={suche} setSuche={setSuche} className="block" eingabe={eingabe} />
         </div>
       )}
-      <HandyNavigation aktiv={aktiv} onView={onView} kalender={kalender ? view : 'woche'} einstellungen={einstellungen} />
+      <HandyNavigation aktiv={aktiv} onView={onView} kalender={kalender ? view : 'woche'} />
     </header>
-  )
-}
-
-/** Ab md öffnet das Zahnrad im Kopf dieselben Einstellungen wie die Handy-Leiste (dort steht „Empfehlungen zurücksetzen“). */
-function EinstellungenKnopf({ einstellungen }: { einstellungen: () => void }) {
-  const { t } = useLang()
-  const label = t('einstellungen.titel')
-  return (
-    <button type="button" onClick={einstellungen} aria-label={label} title={label} className={`${RUND} hidden md:flex`}>
-      <ZahnradZeichen />
-    </button>
   )
 }
 
