@@ -132,9 +132,11 @@ console.log('\nSuchhinweis: Hook und Komponente')
   await l.abbau()
 }
 {
-  const l = await lauf({ suche: 'Hajime no Ippo', gruppiert: true, ohneSynchro: true }, 600)
-  pruefe('Schalter „ohne Synchro“ an: der exakte Treffer ist da, nichts zu erklären', l.nachher.text === '' && l.nachher.knopf === undefined, l.nachher)
-  await l.abbau()
+  for (const gruppiert of [true, false]) {
+    const l = await lauf({ suche: 'Hajime no Ippo', gruppiert, ohneSynchro: true }, 600)
+    pruefe(`Schalter „ohne Synchro“ an (gruppiert: ${gruppiert}): der exakte Treffer ist da, nichts zu erklären`, l.nachher.text === '' && l.nachher.knopf === undefined, l.nachher)
+    await l.abbau()
+  }
 }
 {
   const l = await lauf({ suche: 'A', gruppiert: false }, 600)
@@ -189,12 +191,16 @@ async function kopf(mobil: boolean) {
   const alt = (window as unknown as { matchMedia: unknown }).matchMedia
   Object.assign(window, { matchMedia })
   const wurzel = createRoot(dom.wurzel as unknown as Element)
-  const hinweis = { zusatz: { gesamt: 4, genau: 0 } }
+  const jahr = { ...EMPTY_FILTERS, years: [2003], search: 'Ippo' }
+  const hinweis = { zusatz: { gesamt: 4, genau: 0 }, blockade: { titel: ippoOhne[0], einheiten: aktiveEinheiten(jahr), synchro: false } }
   const nichts = () => {}
-  const props = { meta: {}, filters: EMPTY_FILTERS, onFiltersChange: nichts, favoriteCount: 0, ergebnisse: 2, mitSynchro: 2, suche: 'Attack', sort: 'relevanz', onSortChange: nichts, ohneSynchro: false, onOhneSynchroChange: nichts, laedt: false, grouped: false, onGroupedChange: nichts, hinweis, onHinweisLoesen: nichts }
+  const geloest: Array<[FilterState | undefined, boolean]> = []
+  const props = { meta: {}, filters: jahr, onFiltersChange: nichts, favoriteCount: 0, ergebnisse: 2, mitSynchro: 2, suche: 'Attack', sort: 'relevanz', onSortChange: nichts, ohneSynchro: false, onOhneSynchroChange: nichts, laedt: false, grouped: false, onGroupedChange: nichts, hinweis, onHinweisLoesen: (f: FilterState | undefined, an: boolean) => void geloest.push([f, an]) }
   await act(async () => wurzel.render(h(DbKopfbereich, props as unknown as Parameters<typeof DbKopfbereich>[0])))
   const fund = dom.wurzel.finde((k) => k.getAttribute('data-suchhinweis') !== null)
-  const bild = { formen: fund.map((k) => k.getAttribute('data-suchhinweis')), text: fund[0]?.textContent ?? '' }
+  const bild = { formen: fund.map((k) => k.getAttribute('data-suchhinweis')), text: fund[0]?.textContent ?? '', geloest }
+  const taste = fund[0]?.finde((k) => k.tagName === 'BUTTON')[0]
+  if (taste) klicke(dom.wurzel, taste)
   await act(async () => wurzel.unmount())
   Object.assign(window, { matchMedia: alt })
   return bild
@@ -203,9 +209,11 @@ async function kopf(mobil: boolean) {
 console.log('\nSuchhinweis: Platz im Kopf der Datenbank')
 {
   const rechner = await kopf(false)
-  pruefe('Rechner: ein Hinweis, in der Zählzeile', rechner.formen.join() === 'zeile' && rechner.text.includes('4 Treffer ohne Synchro'), rechner)
+  pruefe('Rechner: ein Hinweis, in der Zählzeile', rechner.formen.join() === 'zeile' && rechner.text.includes('4 Treffer ohne Synchro') && rechner.text.includes('durch: Jahr 2003'), rechner)
+  pruefe('Rechner: der Knopf reicht Filter und Schalter nach oben', rechner.geloest.length === 1 && rechner.geloest[0][0]?.years.length === 0 && rechner.geloest[0][1] === false, rechner.geloest)
   const handy = await kopf(true)
-  pruefe('Handy: ein Hinweis, darunter', handy.formen.join() === 'darunter' && handy.text.includes('4 Treffer ohne Synchro'), handy)
+  pruefe('Handy: ein Hinweis, darunter', handy.formen.join() === 'darunter' && handy.text.includes('4 Treffer ohne Synchro') && handy.text.includes('durch: Jahr 2003'), handy)
+  pruefe('Handy: der Knopf reicht Filter und Schalter nach oben', handy.geloest.length === 1 && handy.geloest[0][0]?.years.length === 0 && handy.geloest[0][1] === false, handy.geloest)
 }
 
 console.log('\nSuchhinweis: Knopf in der Datenbank (loeseHinweis)')
