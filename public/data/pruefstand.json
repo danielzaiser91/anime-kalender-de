@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-26T11:22:10.377Z",
+ "erzeugtAm": "2026-10-26T23:15:54.305Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -505,9 +505,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 758,
-   "gesamt": 886,
-   "offen": 128,
+   "gemeldet": 762,
+   "gesamt": 891,
+   "offen": 129,
    "ohneSeite": 16,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -534,6 +534,10 @@
     {
      "url": "https://www.netflix.com/title/83189604",
      "titel": "Dragon Ball Super: Beerus"
+    },
+    {
+     "url": "https://www.netflix.com/title/80135674",
+     "titel": "My Hero Academia"
     },
     {
      "url": "https://www.netflix.com/title/81050091",
@@ -764,10 +768,6 @@
     {
      "url": "https://www.netflix.com/title/80124711",
      "titel": "Die Supermonster"
-    },
-    {
-     "url": "https://www.netflix.com/title/80135674",
-     "titel": "My Hero Academia"
     },
     {
      "url": "https://www.netflix.com/title/80174608",

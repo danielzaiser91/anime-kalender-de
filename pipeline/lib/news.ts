@@ -215,8 +215,8 @@ function terminMeldungen(
         release: r.slug,
         ...(art === 'disc' && ausgabeKurz(r.edition) ? { ausgabe: ausgabeKurz(r.edition) } : {}),
         quelle, belege: belegeVonRelease(r), ...(r.schedule?.estimated ? { geschaetzt: true } : {}), ...(art === 'angekuendigt' && (t.deErstausgabe?.synchro || t.streams.some((s) => eigenesJa(s) && s.platform !== r.platform)) ? { weiterer: true } : {}),
-        /* Eine angekündigte Staffel trägt ihre Einordnung im Satz (Simuldub-Vermutung; Sprache laut Meldung offen, `meldungen.ts`). */
-        ...(art === 'angekuendigt' && (r.schedule?.estimated || r.automatisch || r.sprache) && r.note ? { hinweis: r.note } : {}), ...(art === 'angekuendigt' && r.platform !== 'tv' ? neuJahre(t, datum) : {}),
+        /* Die Notiz des Releases (`note`) ist intern und kommt nie in eine Meldung. */
+        ...(art === 'angekuendigt' && r.platform !== 'tv' ? neuJahre(t, datum) : {}),
       })
     }
     for (const m of verspaetungsMeldungen(r)) raus.push({ ...m, titel: t })

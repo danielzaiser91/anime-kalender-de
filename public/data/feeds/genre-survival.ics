@@ -8,37 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-19#5@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261019T185500Z
-DTEND:20261019T192500Z
-SUMMARY:Hell’s Paradise – Folge 5/8
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-10-19#6@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261019T192000Z
-DTEND:20261019T195000Z
-SUMMARY:Hell’s Paradise – Folge 6/8
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:motn-116287-primevideo@2026-10-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261019
-DTEND;VALUE=DATE:20261020
-SUMMARY:Otherside Picnic (neu bei Prime Video)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
- eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/11345/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:all-you-need-is-kill-disc@2026-10-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261022
@@ -53,7 +22,7 @@ UID:auto-128893-tv-prosieben-fun@2026-10-26#7@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261026T195500Z
 DTEND:20261026T202500Z
-SUMMARY:Hell’s Paradise – Folge 7/8
+SUMMARY:Hell’s Paradise – Folge 7/10
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
@@ -63,7 +32,27 @@ UID:auto-128893-tv-prosieben-fun@2026-10-26#8@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261026T202000Z
 DTEND:20261026T205000Z
-SUMMARY:Hell’s Paradise – Folge 8/8
+SUMMARY:Hell’s Paradise – Folge 8/10
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-11-02#9@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261102T195500Z
+DTEND:20261102T202500Z
+SUMMARY:Hell’s Paradise – Folge 9/10
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-11-02#10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261102T202000Z
+DTEND:20261102T205000Z
+SUMMARY:Hell’s Paradise – Folge 10/10
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN

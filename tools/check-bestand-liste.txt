@@ -15,6 +15,7 @@ pipeline/check-cartoon-wege-bestand.ts
 pipeline/check-cartoon-wege-falten-bestand.ts
 pipeline/check-cartoon-zwilling-bestand.ts
 pipeline/check-cover-luecken-bestand.ts
+pipeline/check-cr-batch-bestand.ts
 pipeline/check-cr-ja-deckung-bestand.ts
 pipeline/check-cr-neu-bestand.ts
 pipeline/check-cr-teilseiten-bestand.ts
@@ -29,6 +30,7 @@ pipeline/check-folgentitel-sprache-bestand.ts
 pipeline/check-folgenzahl-kennzeichnung-bestand.ts
 pipeline/check-handlung-eigen-bestand.ts
 pipeline/check-herkunftsland-bestand.ts
+pipeline/check-interne-angaben-bestand.ts
 pipeline/check-ja-hat-weg-bestand.ts
 pipeline/check-jw-vertrauen-bestand.ts
 pipeline/check-kachel-buendel-bestand.ts

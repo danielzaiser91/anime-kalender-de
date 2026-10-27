@@ -65,6 +65,14 @@ export function keineSynchroLautAnisearch(t: Title): boolean {
   return deutschMarke(t.id) === '-' && !t.streams.some((s) => s.dub === true)
 }
 
+/**
+ * **Eine frische Synchro-Ankündigung schlägt aniSearchs „Deutsch nicht genannt“** (Daniel, F70, 26.10.2026, Magic Knight Rayearth 2026:
+ * aniSearch hinkt bei neuen Synchros nach). Nach der Frist (`ANKUENDIGUNG_FRIST_TAGE`) gilt `keineSynchroLautAnisearch` wieder allein.
+ */
+export function keineSynchroGilt(t: Title, heuteIso: string): boolean {
+  return keineSynchroLautAnisearch(t) && !frischAngekuendigt(t, heuteIso)
+}
+
 type HandUrteil = { anilistId?: number; sources?: string[]; keinAnime?: boolean }
 
 function leseHandUrteile(): HandUrteil[] {

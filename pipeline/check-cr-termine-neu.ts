@@ -211,6 +211,23 @@ const durch = alleTermine([alt2001.serie], new Map([[ARI, alt2001.titel]]), Date
 pruefe('alleTermine ohne Zeit: echte Uhr, 2001 alt und 2999 frisch', alleTermine([alt2001.serie], new Map([[ARI, alt2001.titel]])).length === 0 && alleTermine([fern.serie], new Map([[ARI, fern.titel]])).length === 1)
 pruefe('alleTermine reicht die Zeit durch: 5 Tage nach der Folge von 2001 ist der Block frisch', durch.length === 1 && durch[0]?.titleId === 3, durch)
 
+/* --- Eine Folge allein ist kein Abwurf (Aoashi Staffel 2, 26.10.2026; Zeitstempel wörtlich aus data/crunchyroll-dub.json) --- */
+const AO = 'https://www.crunchyroll.com/de/aoashi'
+const aoEins: Folge[] = Array.from({ length: 24 }, (_, i): Folge => [i + 1, i < 12 ? '2026-03-04T17:30:00Z' : '2026-07-15T16:30:00Z'])
+const aoTitel = [titel(134732, 'Aoashi', 2022, AO, true, 24), titel(191788, 'Aoashi Season 2', 2026, AO, true, 24)]
+const aoLauf = (zwei: Folge[], jetzt = Date.parse('2026-10-26T12:00:00Z')) =>
+  lauf(serie(AO, [['Staffel 1', 24, 24, aoEins], ['Staffel 2', zwei.length, 4, zwei]]), aoTitel, jetzt)
+const ao = aoLauf([[1, '2026-10-25T09:00:00Z']]).raus.find((t) => t.titleId === 191788)
+pruefe('Aoashi S2: eine Folge am 25.10. ist ein Wochenstart, kein Abwurf', ao?.rhythmus === 'weekly', ao)
+pruefe('Aoashi S2: Folge 1 belegt, Werkszahl 24 als Erwartung, Ende offen', ao?.episodeCount === 24 && ao?.lastEpisodeDate === undefined && JSON.stringify(ao?.beobachtet) === '{"1":"2026-10-25"}', ao)
+const aoDoppel = aoLauf([[1, '2026-10-25T09:00:00Z'], [2, '2026-10-25T09:00:00Z']]).raus.find((t) => t.titleId === 191788)
+pruefe('Aoashi S2 mit zwei Folgen am selben Tag: Abwurf-Rhythmus, nur die zwei belegten Folgen (nie 24), kein erfundenes Ende', aoDoppel?.rhythmus === 'batch' && aoDoppel?.episodeCount === 2 && aoDoppel?.lastEpisodeDate === undefined, aoDoppel)
+pruefe('Aoashi S2 mit zwei Folgen am selben Tag: Beobachtung 1 und 2', JSON.stringify(aoDoppel?.beobachtet) === '{"1":"2026-10-25","2":"2026-10-25"}', aoDoppel?.beobachtet)
+const aoErste = aoLauf([[1, '2026-10-25T09:00:00Z']]).raus.find((t) => t.titleId === 134732)
+pruefe('Aoashi S1: 24 Folgen an zwei Tagen bleiben Abwurf (Katalog)', aoErste?.rhythmus === 'batch' && aoErste?.episodeCount === 24, aoErste)
+const einzelfilm = lauf(serie(AO, [['Film', 1, 1, [[1, '2026-10-25T09:00:00Z']]]]), [titel(5, 'Film', 2026, AO, true, 1)])
+pruefe('ein Film mit genau einer Folge (1 von 1): bleibt Abwurf „im Angebot seit“', einzelfilm.raus[0]?.rhythmus === 'batch' && einzelfilm.raus[0]?.episodeCount === 1, einzelfilm.raus[0])
+
 /* --- Bestehendes: geht die Paarung auf, ändert sich nichts --- */
 const aufgeht = lauf(serie(ARI, [['Staffel 1', 12, 12, wochen('2024-04-28T15:00:00Z', 12)]]), [titel(164702, ariName, 2024, ARI, true, 12)])
 pruefe('Paarung geht auf: ein Termin wie bisher, ohne B', aufgeht.raus.length === 1 && aufgeht.raus[0]?.lastEpisodeDate === '2024-07-14' && aufgeht.verworfen.length === 0, aufgeht)

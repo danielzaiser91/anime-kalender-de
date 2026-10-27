@@ -2,7 +2,7 @@ import type { Release, ReleaseEvent, Title } from '../../shared/types.ts'
 import { log } from '../lib/util.ts'
 import { nurOmuTitel } from './omu-ohne-termin.ts'
 import { anisearchNurKatalog } from './anisearch-titel.ts'
-import { ausgestrahltOhneBeleg, keineSynchroLautAnisearch, ohneSynchroVonHand } from './ohne-beleg.ts'
+import { ausgestrahltOhneBeleg, keineSynchroGilt, ohneSynchroVonHand } from './ohne-beleg.ts'
 
 /**
  * Titel, deren japanische Ausstrahlung noch gar nicht begonnen hat, gehören
@@ -62,7 +62,7 @@ export function verschiebeHinterToggle({ titles, releases, jpStart, mitStimmen, 
     if (mitStimmen.has(id) && !handNein.has(id)) continue
     // Ohne bekanntes Startdatum wird nichts entfernt — Unwissen ist kein Beleg.
     const start = jpStart.get(id)
-    if (!(start && start > heuteIso) && !handNein.has(id) && !ausgestrahltOhneBeleg(titles.get(id)!, heuteIso) && !keineSynchroLautAnisearch(titles.get(id)!)) continue
+    if (!(start && start > heuteIso) && !handNein.has(id) && !ausgestrahltOhneBeleg(titles.get(id)!, heuteIso) && !keineSynchroGilt(titles.get(id)!, heuteIso)) continue
     const titel = titles.get(id)
     if (titel) verschoben.push(titel)
     titles.delete(id)

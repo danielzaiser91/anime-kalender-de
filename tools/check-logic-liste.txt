@@ -64,6 +64,8 @@ pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
 pipeline/check-cover-luecken-wache.ts
 pipeline/check-cover-quelle.ts
+pipeline/check-cr-batch-phase.ts
+pipeline/check-cr-batch-wache.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
 pipeline/check-cr-ja-deckung.ts
@@ -124,6 +126,7 @@ pipeline/check-herkunftsland.ts
 pipeline/check-ics-folgen.ts
 pipeline/check-ics-kopf.ts
 pipeline/check-install-stellen.ts
+pipeline/check-interne-angaben.ts
 pipeline/check-invarianten.ts
 pipeline/check-ja-hat-weg.ts
 pipeline/check-jw-ablauf.ts

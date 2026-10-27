@@ -5,13 +5,13 @@
     "lastCount": 16
   },
   "anime2you": {
-    "lastOk": "2026-10-26T22:09:12.597Z",
-    "lastRun": "2026-10-26T22:09:12.597Z",
+    "lastOk": "2026-10-27T00:03:36.371Z",
+    "lastRun": "2026-10-27T00:03:36.371Z",
     "lastCount": 50
   },
   "crunchyroll": {
     "lastOk": "2026-10-21T20:02:22.932Z",
-    "lastRun": "2026-10-26T22:08:53.140Z",
+    "lastRun": "2026-10-27T00:03:17.444Z",
     "lastCount": 0,
     "lastError": "keine Kachel im Kalender gefunden — 2026-10-19: HTTP 200; Titel „Crunchyroll – Simulcasts durchstöbern“; keine Challenge-Merkmale; Text „Neu Beliebt Simulcast …"
   },
@@ -88,7 +88,7 @@
   },
   "rohfolgen": {
     "lastOk": "2026-10-26T11:19:39.837Z",
-    "lastRun": "2026-10-26T22:14:52.071Z",
+    "lastRun": "2026-10-26T23:46:36.246Z",
     "lastCount": 0
   },
   "anisearch-folgen": {
@@ -117,8 +117,8 @@
     "lastCount": 9
   },
   "vorfaelle": {
-    "lastOk": "2026-10-26T22:14:44.885Z",
-    "lastRun": "2026-10-26T22:14:44.885Z",
+    "lastOk": "2026-10-27T00:08:57.967Z",
+    "lastRun": "2026-10-27T00:08:57.967Z",
     "lastCount": 5
   },
   "crunchyroll-neu": {
@@ -142,14 +142,14 @@
     "lastCount": 15
   },
   "tv-programm": {
-    "lastOk": "2026-10-26T22:09:15.209Z",
-    "lastRun": "2026-10-26T22:09:15.209Z",
+    "lastOk": "2026-10-27T00:03:40.660Z",
+    "lastRun": "2026-10-27T00:03:40.660Z",
     "lastCount": 294
   },
   "tv-de": {
-    "lastOk": "2026-10-25T23:04:34.447Z",
-    "lastRun": "2026-10-25T23:04:34.447Z",
-    "lastCount": 73
+    "lastOk": "2026-10-26T23:07:57.832Z",
+    "lastRun": "2026-10-26T23:07:57.832Z",
+    "lastCount": 65
   },
   "toggo": {
     "lastOk": "2026-10-26T04:21:27.838Z",
@@ -177,8 +177,8 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-10-26T22:08:59.548Z",
-    "lastRun": "2026-10-26T22:08:59.548Z",
+    "lastOk": "2026-10-27T00:03:23.631Z",
+    "lastRun": "2026-10-27T00:03:23.631Z",
     "lastCount": 61
   },
   "adn-news": {
@@ -187,8 +187,8 @@
     "lastCount": 75
   },
   "messbelege": {
-    "lastOk": "2026-10-26T22:09:14.075Z",
-    "lastRun": "2026-10-26T22:09:14.075Z",
+    "lastOk": "2026-10-27T00:03:37.821Z",
+    "lastRun": "2026-10-27T00:03:37.821Z",
     "lastCount": 0
   },
   "beleg-lesungen": {
