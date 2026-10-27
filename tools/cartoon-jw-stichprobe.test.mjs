@@ -96,7 +96,7 @@ const quer = kandidaten(
 const sollQuer = sollAusPool(quer)
 assert.equal(sollQuer['jw-deutsch'] + sollQuer['jw-ohne-deutsch'], 1, 'quer geteilte Adresse zählt einmal')
 pruefeInvarianten(waehleStichprobe(quer), 'quer geteilte Adresse', sollQuer)
-const gleicheAdresse =[0, 1, 2].map((i) => ({ id: -i, plattform: 'netflix', url: 'u1', richtung: 'jw-deutsch' }))
+const gleicheAdresse = [0, 1, 2].map((i) => ({ id: -i, plattform: 'netflix', url: 'u1', richtung: 'jw-deutsch' }))
 assert.equal(sollAusPool(gleicheAdresse)['jw-deutsch'], 1, 'Pool zählt Adressen, nicht Titel')
 assert.throws(() => pruefeInvarianten(kleineWahl.slice(1), 'Verlust', sollKlein), /genau/, 'ein verlorener Eintrag fällt auf')
 

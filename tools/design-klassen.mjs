@@ -24,7 +24,7 @@ const FARBEN = ['slate', 'sky', 'amber', 'emerald', 'rose', 'red', 'blue', 'indi
 const HINWEIS =
   'Wird nur von tools/design-klassen.mjs --festschreiben gesenkt (Bestandsbau, tools/commit-data.sh), nie von Hand erhöht. Ausgangswerte 14.10.2026.'
 
-const HEX_AUSNAHMEN =/(^|\/)(detail\/pillen\.tsx|filter\/Flagge\.tsx|de-flagge\.tsx|styles\.css)$/
+const HEX_AUSNAHMEN = /(^|\/)(detail\/pillen\.tsx|filter\/Flagge\.tsx|de-flagge\.tsx|styles\.css)$/
 
 /** Je Muster: Name, Regex, optional ein Filter auf den Pfad relativ zu `web/src`. */
 export const MUSTER = [

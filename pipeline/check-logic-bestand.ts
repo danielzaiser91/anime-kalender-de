@@ -130,7 +130,7 @@ console.log('\nWerktitel gegen Teiltitel')
 {
   const roh = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as Title[] | Record<string, Title>
   const alle = Array.isArray(roh) ? roh : Object.values(roh)
-  const kern =(u: string) => /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,26})/i.exec(u)?.[1] ?? u
+  const kern = (u: string) => /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,26})/i.exec(u)?.[1] ?? u
   const falsch = alle.filter((t) =>
     (t.ausgabenOhneDe ?? []).some(
       (a) =>

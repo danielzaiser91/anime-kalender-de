@@ -66,7 +66,7 @@ nachOk.kommentare = [[...nachOk.kommentare[0], ciOk], nachOk.kommentare[1]]
 const nachOkLauf = laufeBisEingang(wf, { 7: nachOk })
 pruefe('Prüfmodus: jüngstes CI-Review ist ok (Agent-Kommentar vorhanden) -> voll, Auflagendatei ohne CI-Quelle',
   nachOkLauf.ausgaben?.modus?.modus === 'voll' && nachOkLauf.ausgaben?.modus?.vorher === 'aaaaaaaaa' && !nachOkLauf.auflagen?.includes('CI-Review für'), nachOkLauf.ausgaben)
-const dokuDiff ='diff --git a/docs/a.md b/docs/a.md\n--- a/docs/a.md\n+++ b/docs/a.md\n@@ -1,3 +1,3 @@\n+z0\n+z1\n+z2\n'
+const dokuDiff = 'diff --git a/docs/a.md b/docs/a.md\n--- a/docs/a.md\n+++ b/docs/a.md\n@@ -1,3 +1,3 @@\n+z0\n+z1\n+z2\n'
 const abnahmeStufe0 = laufeBisEingang(wf, { 7: { ...mitCi, diff: dokuDiff } })
 pruefe('Prüfmodus: Abnahme bei Prüfstufe 0 (nur Doku) -> nicht frei zum Ändern, Stufe kommt aus dem Stufen-Schritt',
   abnahmeStufe0.ausgaben?.stufe?.stufe === '0' && abnahmeStufe0.ausgaben?.modus?.modus === 'abnahme' && abnahmeStufe0.ausgaben?.modus?.['aendern-frei'] === '0', abnahmeStufe0.ausgaben)

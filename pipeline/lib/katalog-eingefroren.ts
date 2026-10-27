@@ -10,7 +10,7 @@ export const EINGEFROREN_DATEI = 'data/stammdaten/anilist-eingefroren.json'
 /** Die Liste der Titel ohne aniSearch-Treffer (`keiner`); nur diese werden eingefroren. */
 export const ABGLEICH_LISTE = 'data/anisearch-katalog-abgleich.json'
 
-const KATALOG_CACHE ='data/cache/anilist-katalog.json'
+const KATALOG_CACHE = 'data/cache/anilist-katalog.json'
 
 /** Ein Katalogeintrag plus die Felder, die der Katalog nicht führt (der Bau liest sie nicht). */
 export interface EingefrorenerEintrag extends KatalogEintrag {

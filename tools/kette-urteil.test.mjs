@@ -72,7 +72,7 @@ calls.length = 0
 assert.equal(await kettenLauf({ NEEDS: JSON.stringify(liste('cancelled')), GITHUB_RUN_ID: '4711' }, () => {}, nurAufruf, warte), 1, 'ohne Repo rot')
 assert.deepEqual(calls, [], 'ohne Repo kein Aufruf')
 
-const SKRIPT =resolve(import.meta.dirname, 'kette-urteil.mjs')
+const SKRIPT = resolve(import.meta.dirname, 'kette-urteil.mjs')
 function lauf(needs) {
   const env = { ...process.env }
   delete env.GITHUB_RUN_ID

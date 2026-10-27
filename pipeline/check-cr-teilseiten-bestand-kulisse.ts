@@ -71,7 +71,7 @@ try {
   pruefe('Folgenzahl 12, Bereich 1-13: rot', ueberZahl.status === 1, ueberZahl.aus)
   const andere = lauf(wurzel, titel([{ from: 1, to: 1 }], null), [{ ...eintrag, titleId: 900002 }, { ...eintrag, url: `${URL_S}/andere` }])
   pruefe('Bereich, Prüfliste nennt anderen Titel bzw. andere Adresse: grün', andere.status === 0, andere.aus)
-  const beides =lauf(wurzel, titel([{ from: 1, to: 1 }], null), [eintrag])
+  const beides = lauf(wurzel, titel([{ from: 1, to: 1 }], null), [eintrag])
   pruefe('Bereich und Prüfliste zugleich: rot', beides.status === 1 && beides.aus.includes('Prüfliste'), beides.aus)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
