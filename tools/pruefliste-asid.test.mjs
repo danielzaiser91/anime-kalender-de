@@ -115,6 +115,21 @@ try {
 
   assert.deepEqual(pruefeAsId(wurzel), [], 'Erzeugnis des echten Laufs besteht den Wächter')
 
+  /* Ein Titel hinter dem Schalter „ohne Synchro“ (Beerus, 26.10.2026) steht in ohne-synchro.json und ist kein unbekannter Titel. */
+  const ohneDrei = TITEL.filter((t) => t.id !== 33)
+  schreibe(wurzel, 'public/data/titles.json', ohneDrei)
+  assert.match(pruefeAsId(wurzel).join('\n'), /Prime-Suchtreffer: asId weicht vom Titel ab: .*Titel 33 unbekannt: Liste 5033/, 'ohne Katalog ist der Titel unbekannt')
+  schreibe(wurzel, 'public/data/ohne-synchro.json', [titel(33, 5033, {})])
+  assert.deepEqual(pruefeAsId(wurzel), [], 'Titel hinter dem Schalter mit passender Kennung besteht')
+  schreibe(wurzel, 'public/data/ohne-synchro.json', [titel(33, 9999, {})])
+  assert.match(pruefeAsId(wurzel).join('\n'), /Titel 33: Liste 5033, Titel 9999/, 'Titel hinter dem Schalter mit falscher Kennung ist rot')
+  schreibe(wurzel, 'public/data/ohne-synchro.json', [titel(77, 5077, {})])
+  assert.match(pruefeAsId(wurzel).join('\n'), /Titel 33 unbekannt/, 'ein anderer Titel im Katalog entlastet nicht')
+  schreibe(wurzel, 'public/data/ohne-synchro.json', [titel(33, 5033, {}), titel(12, 4242, {})])
+  assert.deepEqual(pruefeAsId(wurzel), [], 'steht ein Titel in beiden, gilt der Hauptbestand')
+  rmSync(join(wurzel, 'public/data/ohne-synchro.json'))
+  schreibe(wurzel, 'public/data/titles.json', TITEL)
+
   /* Der Wächter wird rot, wo die Kennung falsch ist: Netflix mit Mehrkandidaten-Eintrag, Prime. */
   const schlechtNetflix = netflixListe(wurzel)
   schlechtNetflix['222'].asId = null
