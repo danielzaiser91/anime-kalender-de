@@ -73,6 +73,8 @@ const OPTION_MIT_BROWSER = OPTIONEN + INSTALL_CR_DUB + LAUF
 const OPTION_BROWSER_DANACH = OPTIONEN + LAUF + INSTALL_CR_DUB
 const OPTION_FALSCHE_BEDINGUNG = OPTIONEN + INSTALL_TMDB + LAUF
 const OPTION_UNBEDINGT = OPTIONEN + INSTALL_OHNE_BEDINGUNG + LAUF
+/* Zwei wählbare Browser-Skripte, die Bedingung nennt nur eines: die andere Wahl liefe ohne Browser. */
+const OPTION_HALBE_BEDINGUNG = (OPTIONEN + INSTALL_CR_DUB + LAUF).replace('data:tmdb', 'belege-lesen')
 const SKRIPT_DANN_INSTALL = `
 jobs:
   a:
@@ -106,6 +108,7 @@ export function fuehreAus(): number {
   pruefe('wählbare Option, Installation mit passender Bedingung davor: kein Befund', jobsOhneBrowser(OPTION_MIT_BROWSER).length === 0, jobsOhneBrowser(OPTION_MIT_BROWSER))
   pruefe('wählbare Option, Installation erst nach dem Lauf: Job lauf fehlt', jobsOhneBrowser(OPTION_BROWSER_DANACH).join() === 'lauf', jobsOhneBrowser(OPTION_BROWSER_DANACH))
   pruefe('wählbare Option, Bedingung nennt data:tmdb statt data:cr-dub: Job lauf fehlt', jobsOhneBrowser(OPTION_FALSCHE_BEDINGUNG).join() === 'lauf', jobsOhneBrowser(OPTION_FALSCHE_BEDINGUNG))
+  pruefe('zwei wählbare Browser-Skripte, Bedingung nennt nur eines: Job lauf fehlt', jobsOhneBrowser(OPTION_HALBE_BEDINGUNG).join() === 'lauf', jobsOhneBrowser(OPTION_HALBE_BEDINGUNG))
   pruefe('wählbare Option, Installation ohne Bedingung davor: kein Befund', jobsOhneBrowser(OPTION_UNBEDINGT).length === 0, jobsOhneBrowser(OPTION_UNBEDINGT))
   pruefe('Skript startet vor der Installation: Job a fehlt', jobsOhneBrowser(SKRIPT_DANN_INSTALL).join() === 'a', jobsOhneBrowser(SKRIPT_DANN_INSTALL))
   pruefe('Skript ohne Browser: kein Befund', jobsOhneBrowser(OHNE_BROWSER_SKRIPT).length === 0, jobsOhneBrowser(OHNE_BROWSER_SKRIPT))
@@ -129,7 +132,7 @@ export function fuehreAus(): number {
     const ohne = jobsOhneBrowser(readFileSync(join(ordner, d), 'utf8'))
     pruefe(`${d}: jeder Job mit Browser-Skript richtet Chromium ein`, ohne.length === 0, ohne)
   }
-  console.log(verletzt ? `✖ check-workflow-browser: ${verletzt} Verstöße` : `✓ check-workflow-browser: ${dateien.length} Workflows, ${Object.keys(BROWSER_SKRIPTE).length} Browser-Skripte, 12 Fälle`)
+  console.log(verletzt ? `✖ check-workflow-browser: ${verletzt} Verstöße` : `✓ check-workflow-browser: ${dateien.length} Workflows, ${Object.keys(BROWSER_SKRIPTE).length} Browser-Skripte, 13 Fälle`)
   return verletzt ? 1 : 0
 }
 
