@@ -1,6 +1,37 @@
 {
-  "geholtAm": "2026-10-26T02:01:25.968Z",
+  "geholtAm": "2026-10-27T02:01:40.718Z",
   "artikel": [
+    {
+      "titel": "THE LEGEND OF HEI II im Stream bei ADN verfügbar!",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/10/26/the-legend-of-hei-ii-im-stream-bei-adn-verfuegbar/",
+      "datum": "2026-10-26",
+      "showIds": [
+        1427
+      ]
+    },
+    {
+      "titel": "Die 1-Euro-Aktion ist zurück: Streame Anime für 1€ bei ADN!",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/10/26/die-1-euro-aktion-ist-zurueck-streame-anime-fuer-1e-bei-adn/",
+      "datum": "2026-10-26",
+      "showIds": [
+        1432,
+        970,
+        1311,
+        1431,
+        1428,
+        1423,
+        1331,
+        561,
+        999,
+        1160,
+        724,
+        319,
+        427,
+        662,
+        197,
+        1350
+      ]
+    },
     {
       "titel": "Reincarnated as a Dragon Hatchling: Cast & alle Infos zur deutschen Synchro",
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/15/reincarnated-as-a-dragon-hatchling-cast-alle-infos-zur-deutschen-synchro/",
@@ -713,22 +744,6 @@
       "datum": "2026-04-24",
       "showIds": [
         329
-      ]
-    },
-    {
-      "titel": "My Gift Lvl 9999: Entdecke den Cast zur deutschen Synchro",
-      "url": "https://news.animationdigitalnetwork.com/de/2026/04/20/my-gift-lvl-9999-entdecke-den-cast-zur-deutschen-synchro/",
-      "datum": "2026-04-20",
-      "showIds": [
-        1333
-      ]
-    },
-    {
-      "titel": "Kill Blue: Neuer Shōnen-Anime im Stream bei ADN",
-      "url": "https://news.animationdigitalnetwork.com/de/2026/04/16/kill-blue-neuer-shonen-anime-im-stream-bei-adn/",
-      "datum": "2026-04-16",
-      "showIds": [
-        1383
       ]
     }
   ]
