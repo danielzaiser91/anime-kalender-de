@@ -51,3 +51,10 @@ export async function arbeiteInStuecken<T>(
   }
   speichere()
 }
+
+/** Was der Lauf der Gesundheitsliste meldet: `fehler` gesetzt = Fehlerzustand, den die Wache sieht. */
+export function lageVon(funde: number, antworten: number, ausgefallen: number): { fehler?: string } {
+  if (antworten > 0 && funde === 0) return { fehler: `0 Funde bei ${antworten} Antworten der Schnittstellen` }
+  if (antworten === 0 && ausgefallen > 0) return { fehler: `alle ${ausgefallen} Abrufe der Schnittstellen fehlgeschlagen` }
+  return {}
+}

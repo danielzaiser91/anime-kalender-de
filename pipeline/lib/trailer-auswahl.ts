@@ -10,3 +10,9 @@ export function tmdbVideosUrl(basis: string, art: string, tmdbId: number, schlue
   const pfad = art === 'movie' ? 'movie' : 'tv'
   return `${basis}/${pfad}/${tmdbId}/videos?include_video_language=de,en,ja&api_key=${schluessel}`
 }
+
+/** Die TMDB-Art eines Eintrags: `kind` gilt, wenn es `movie` oder `tv` ist; sonst entscheidet das Format (Film → movie, alles andere → tv). */
+export function tmdbArt(kind: string | undefined, format: string | undefined): 'movie' | 'tv' {
+  if (kind === 'movie' || kind === 'tv') return kind
+  return format === 'MOVIE' ? 'movie' : 'tv'
+}

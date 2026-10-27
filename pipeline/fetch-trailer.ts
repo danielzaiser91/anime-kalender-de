@@ -58,8 +58,8 @@ import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { todayIso } from '../shared/time.ts'
 import type { EmpfehlungsDatei } from '../shared/empfehlung-pool.ts'
-import { tmdbVideosUrl, trailerKandidaten } from './lib/trailer-auswahl.ts'
-import { RIEGEL_JE_LAUF, SPEICHERN_ALLE, arbeiteInStuecken, waehleDran, type Versuche } from './lib/trailer-lauf.ts'
+import { tmdbArt, tmdbVideosUrl, trailerKandidaten } from './lib/trailer-auswahl.ts'
+import { RIEGEL_JE_LAUF, SPEICHERN_ALLE, arbeiteInStuecken, lageVon, waehleDran, type Versuche } from './lib/trailer-lauf.ts'
 import { pathToFileURL } from 'node:url'
 
 /**
@@ -189,6 +189,21 @@ async function holeJson(url: string): Promise<unknown> {
   return antwort.json()
 }
 
+/** Ein Abruf, der scheiterte (HTTP-Fehler außer 404, Netzfehler, kaputte Antwort) — keine Auskunft über den Trailer. */
+const FEHLER = Symbol('fehler')
+
+/** Wie holeJson, trennt aber Fehler (FEHLER) von „nicht geführt“ (404, null) und leerer Antwort. */
+async function holeAntwort(url: string): Promise<unknown> {
+  try {
+    const antwort = await fetch(url, { headers: { 'User-Agent': UA } })
+    if (antwort.status === 404) return null
+    if (!antwort.ok) return FEHLER
+    return await antwort.json()
+  } catch {
+    return FEHLER
+  }
+}
+
 /** Der Index beider Kanäle, einmal am Tag geholt. */
 async function kanalIndex(schluessel: string): Promise<Video[]> {
   const cache = readJson<{ geholtAm?: string; videos?: Video[] }>('data/cache/kinocheck-kanal.json', {})
@@ -277,9 +292,11 @@ function ausIndex(titel: Titel, index: Video[], tmdbName?: string): TrailerEintr
  * nicht führt. Das ist keine Auskunft über den Trailer, sondern über die
  * Zuordnung; der Aufrufer geht dann weiter.
  */
-async function ausKinocheck(tmdbId: number, art: string): Promise<TrailerEintrag | null> {
+async function ausKinocheck(tmdbId: number, art: string): Promise<TrailerEintrag | null | typeof FEHLER> {
   const pfad = art === 'movie' ? 'movies' : 'shows'
-  const daten = (await holeJson(`${KINOCHECK}/${pfad}?tmdb_id=${tmdbId}&language=de&categories=Trailer`)) as {
+  const roh = await holeAntwort(`${KINOCHECK}/${pfad}?tmdb_id=${tmdbId}&language=de&categories=Trailer`)
+  if (roh === FEHLER) return FEHLER
+  const daten = roh as {
     trailer?: { youtube_video_id?: string; title?: string }
   } | null
   const video = daten?.trailer?.youtube_video_id
@@ -299,8 +316,10 @@ async function ausKinocheck(tmdbId: number, art: string): Promise<TrailerEintrag
  * geht es. `Featurette`, `Clip` und `Behind the Scenes` nicht; die setzen
  * voraus, dass man den Film schon kennt.
  */
-async function ausTmdb(tmdbId: number, art: string, schluessel: string): Promise<TrailerEintrag | null> {
-  const daten = (await holeJson(tmdbVideosUrl(TMDB, art, tmdbId, schluessel))) as {
+async function ausTmdb(tmdbId: number, art: string, schluessel: string): Promise<TrailerEintrag | null | typeof FEHLER> {
+  const roh = await holeAntwort(tmdbVideosUrl(TMDB, art, tmdbId, schluessel))
+  if (roh === FEHLER) return FEHLER
+  const daten = roh as {
     results?: { key?: string; name?: string; site?: string; type?: string; iso_639_1?: string; published_at?: string }[]
   } | null
   const brauchbar = (daten?.results ?? []).filter(
@@ -360,11 +379,14 @@ interface Zaehler {
   kc: number
   tmdbDe: number
   fremd: number
+  /** Abrufe mit Auskunft (auch „nichts gefunden“) und Abrufe, die scheiterten. */
+  antworten: number
+  ausgefallen: number
 }
 
 /**
  * **Weg 2 und 3 für einen Titel.** KinoCheck nur ab 2012, TMDB ohne Jahresgrenze; ohne TMDB-Zuordnung
- * gibt es nichts zu fragen.
+ * gibt es nichts zu fragen. Gibt false zurück, wenn ein Abruf scheiterte — dann darf kein Stempel gesetzt werden.
  */
 async function frageSchnittstellen(
   titel: Titel,
@@ -372,23 +394,36 @@ async function frageSchnittstellen(
   bestand: Record<string, TrailerEintrag>,
   tmdbSchluessel: string | undefined,
   zaehler: Zaehler,
-): Promise<void> {
-  if (!eintrag?.tmdbId) return
+): Promise<boolean> {
+  if (!eintrag?.tmdbId) return true
+  const art = tmdbArt(eintrag.kind, titel.format)
+  let auskunft = true
 
   if ((titel.jpYear ?? 0) >= 2012) {
-    const vonKc = await ausKinocheck(eintrag.tmdbId, eintrag.kind ?? 'movie')
+    const vonKc = await ausKinocheck(eintrag.tmdbId, art)
     await sleep(250)
-    if (vonKc) {
-      bestand[String(titel.id)] = vonKc
-      zaehler.kc++
-      return
+    if (vonKc === FEHLER) {
+      zaehler.ausgefallen++
+      auskunft = false
+    } else {
+      zaehler.antworten++
+      if (vonKc) {
+        bestand[String(titel.id)] = vonKc
+        zaehler.kc++
+        return true
+      }
     }
   }
 
-  if (!tmdbSchluessel) return
-  const vonTmdb = await ausTmdb(eintrag.tmdbId, eintrag.kind ?? 'movie', tmdbSchluessel)
+  if (!tmdbSchluessel) return auskunft
+  const vonTmdb = await ausTmdb(eintrag.tmdbId, art, tmdbSchluessel)
   await sleep(120)
-  if (!vonTmdb) return
+  if (vonTmdb === FEHLER) {
+    zaehler.ausgefallen++
+    return false
+  }
+  zaehler.antworten++
+  if (!vonTmdb) return auskunft
   /*
     Ein fremdsprachiger Fund überschreibt keinen anderen fremdsprachigen —
     sonst wechselte die Sprache bei jedem Lauf, je nachdem, was TMDB gerade
@@ -402,6 +437,7 @@ async function frageSchnittstellen(
     bestand[String(titel.id)] = vonTmdb
     zaehler.fremd++
   }
+  return auskunft
 }
 
 /** `riegel` und `speichernAlle` nur für die Probe; im Betrieb gelten `RIEGEL_JE_LAUF` und `SPEICHERN_ALLE`. */
@@ -452,14 +488,14 @@ export async function main(opt: { riegel?: number; speichernAlle?: number } = {}
 
   /* Die Schnittstellen (Weg 2 und 3) nur für das, was der Index nicht fand. */
   const nochOffen = dran.filter((t) => bestand[String(t.id)]?.sprache !== 'de')
-  const zaehler: Zaehler = { kc: 0, tmdbDe: 0, fremd: 0 }
+  const zaehler: Zaehler = { kc: 0, tmdbDe: 0, fremd: 0, antworten: 0, ausgefallen: 0 }
   /* Ohne beide Schlüssel war die Suche keine Auskunft — dann kein Stempel. */
   const stempeln = Boolean(schluessel && tmdbSchluessel)
   await arbeiteInStuecken(
     nochOffen,
     async (titel) => {
-      await frageSchnittstellen(titel, tmdb[String(titel.id)], bestand, tmdbSchluessel, zaehler)
-      if (stempeln && bestand[String(titel.id)]?.sprache !== 'de') versuche[String(titel.id)] = heute()
+      const auskunft = await frageSchnittstellen(titel, tmdb[String(titel.id)], bestand, tmdbSchluessel, zaehler)
+      if (stempeln && auskunft && bestand[String(titel.id)]?.sprache !== 'de') versuche[String(titel.id)] = heute()
     },
     () => {
       writeJson('data/trailer.json', bestand)
@@ -469,13 +505,10 @@ export async function main(opt: { riegel?: number; speichernAlle?: number } = {}
   )
   const { kc: ausKc, tmdbDe: ausTmdbDe, fremd } = zaehler
   const deutsche = Object.values(bestand).filter((e) => e.sprache === 'de').length
-  /*
-    **Null Funde sind hier der Normalfall**, sobald der Bestand steht: Der Lauf
-    sieht danach nur noch Filme, zu denen es nichts gibt. `leerIstOk` trennt
-    das von „die Quelle antwortet nicht mehr" — dieselbe Unterscheidung, die
-    `motn:changes` am 27.08.2026 gekostet hat.
-  */
-  recordSource('trailer', ausKanal + ausKc + ausTmdbDe + fremd, undefined, dran.length, true)
+  /* Keine Abfrage ist kein Fehler (alles gestempelt); 0 Funde trotz Antworten oder lauter Ausfälle sieht die Wache. */
+  const funde = ausKanal + ausKc + ausTmdbDe + fremd
+  const { fehler } = lageVon(funde, zaehler.antworten, zaehler.ausgefallen)
+  recordSource('trailer', funde, fehler, fehler ? 0 : zaehler.antworten, !fehler)
   log(
     `${ausKanal} über den Kanalindex, ${ausKc} über KinoCheck, ${ausTmdbDe} deutsche über TMDB, ` +
       `${fremd} fremdsprachig · ${deutsche} deutsche von ${Object.keys(bestand).length} Trailern`,

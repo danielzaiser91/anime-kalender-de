@@ -1,5 +1,5 @@
 /** Prüft `lib/trailer-auswahl.ts`: Kandidaten des Trailerlaufs und die TMDB-Videoadresse. */
-import { tmdbVideosUrl, trailerKandidaten } from './lib/trailer-auswahl.ts'
+import { tmdbArt, tmdbVideosUrl, trailerKandidaten } from './lib/trailer-auswahl.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -23,6 +23,14 @@ pruefe('ein Einstieg als Serie kommt dazu, in Bestandsreihenfolge', JSON.stringi
 pruefe('ein Film im Einstieg steht nur einmal', JSON.stringify(ids([2, 1])) === '[1,2,5]', ids([2, 1]))
 pruefe('eine OVA außerhalb des Pools bleibt draußen', !ids([1, 3]).includes(4))
 pruefe('unbekannte Einstiegskennung ist egal', JSON.stringify(ids([99])) === '[2,5]', ids([99]))
+
+console.log('TMDB-Art')
+pruefe('kind movie gilt auch für eine Serie', tmdbArt('movie', 'TV') === 'movie')
+pruefe('kind tv gilt auch für einen Film', tmdbArt('tv', 'MOVIE') === 'tv')
+pruefe('ohne kind: Film -> movie', tmdbArt(undefined, 'MOVIE') === 'movie')
+pruefe('ohne kind: Serie -> tv', tmdbArt(undefined, 'TV') === 'tv')
+pruefe('ohne kind und Format -> tv', tmdbArt(undefined, undefined) === 'tv')
+pruefe('unbekanntes kind folgt dem Format', tmdbArt('foo', 'MOVIE') === 'movie' && tmdbArt('foo', 'TV') === 'tv')
 
 console.log('TMDB-Videoadresse')
 const tv = tmdbVideosUrl('https://x/3', 'tv', 7, 'K')
