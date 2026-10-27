@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-27T13:04:01.623Z",
+  "scrapedAt": "2026-10-27T18:03:39.443Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
@@ -89,6 +89,28 @@
       ],
       "dub": "unklar",
       "pause": "pause",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Neuer Teaser zum deutschen Kinostart von »Witch on the Holy Night«",
+      "articleUrl": "https://www.anime2you.de/news/1064788/witch-on-the-holy-night-kinostart-neuer-teaser/",
+      "publishedAt": "2026-10-27",
+      "category": "allgemein",
+      "platforms": [
+        "crunchyroll",
+        "kino"
+      ],
+      "dates": [
+        {
+          "iso": "2027-01-26",
+          "context": "unten. Kinostart im Januar 2027 »Witch on the Holy Night« startet am 26. Januar 2027 mit deutscher Synchronisation sowie im japanischen Ori"
+        },
+        {
+          "month": "2027-01",
+          "context": "o Yoru«) veröffentlicht. Das Video findet ihr weiter unten. Kinostart im Januar 2027 »Witch on the Holy Night« startet am 26. Januar 2027 mi"
+        }
+      ],
+      "dub": "ja",
       "alreadyCurated": false
     },
     {
