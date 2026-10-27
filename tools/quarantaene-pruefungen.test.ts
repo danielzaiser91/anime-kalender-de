@@ -275,6 +275,28 @@ function riegel(liste: number[] | undefined): Lauf {
   pruefe('verlust-riegel: fremde Kennung lässt den Verlust stehen', fremd.code === 1 && fremd.aus.includes('ABBRUCH: 2 Titel'), fremd.aus.slice(-600))
 }
 
+// finale-bestand: Beyblade X (Sichtung, -1) und Ramparts of Ice (ohne Folgenzahl, -2) tragen die Marke; ein Finale mit Enddatum (-3) nicht.
+{
+  const release = (titleId: number, schedule: object, extra: object = {}) => ({ slug: `f${titleId}`, titleId, platform: 'rtlplus', releaseType: 'weekly', schedule, ...extra })
+  const finale = (titleId: number) => ({ releaseSlug: `f${titleId}`, staffelfinale: true })
+  const releases = [
+    release(-1, { firstEpisodeNumber: 101, episodeCount: 22 }, { tvLetzteSichtung: '2026-10-23' }),
+    release(-2, { estimated: true }),
+    release(-3, { episodeCount: 12, lastEpisodeDate: '2026-10-23' }),
+    release(-4, { episodeCount: 12 }),
+  ]
+  const zaehlung = { '-1': [128, 122], '-4': [24, 12] }
+  const dateien = { 'public/data/events.json': [finale(-1), finale(-2), finale(-3), finale(-4)], 'public/data/releases.json': releases, 'public/data/folgen/zaehlung.json': zaehlung }
+  const rot = lauf('pipeline/check-finale-bestand.ts', { dateien })
+  pruefe('finale-bestand: nur Sichtung und fehlende Folgenzahl tragen die Marke', gleich(rot.marken, [-1, -2]) && rot.code === 1, rot)
+  const weich = lauf('pipeline/check-finale-bestand.ts', { dateien: { ...dateien, 'public/data/events.json': [finale(-4)] } })
+  pruefe('finale-bestand: japanisch mehr Folgen (-4) ist nur eine Warnzeile, ohne Marke und mit Exit 0', weich.code === 0 && weich.marken.length === 0 && weich.aus.includes('⚠ WARNUNG Staffelfinale bei weniger Folgen als japanisch: 1 Titel: -4'), weich)
+  const gruen = lauf('pipeline/check-finale-bestand.ts', { dateien: { ...dateien, 'public/data/events.json': [finale(-3)] } })
+  pruefe('finale-bestand: Finale mit belegtem Ende ist sauber ohne Marke', gruen.code === 0 && gruen.marken.length === 0 && gruen.aus.includes('1 Termine'), gruen)
+  const ohneDatei = lauf('pipeline/check-finale-bestand.ts', {})
+  pruefe('finale-bestand: ohne Bestand rot, aber ohne Marke', ohneDatei.code === 1 && ohneDatei.marken.length === 0, ohneDatei)
+}
+
 // cr-batch-bestand: Aoashi-Abwurf (Herkunft wörtlich: 1 belegte Folge, 24 behauptet) wird gemeldet; Film (1 von 1), voller Abwurf und
 // Wochentakt mit Werkszahl bleiben ohne Marke.
 {

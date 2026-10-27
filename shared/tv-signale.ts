@@ -164,9 +164,14 @@ export function istStaffelstart(e: ReleaseEvent, data: MitReleases): boolean {
  * Endet an diesem Termin die Staffel? Nur mit belegter Folgenzahl — eine geratene
  * (`episodeCountAssumed`) macht aus der letzten bekannten Folge kein Finale. Der Vermerk eines ausgebliebenen Tages
  * ist keins: das Finale steht an dem Tag, an dem die Folge kommt.
+ *
+ * Das Ende muss am Release stehen (26.10.2026): Ohne `episodeCount` zählt `expandEvents` eine Folge („Folge 1/1“), und eine Sichtung
+ * (`tvLetzteSichtung`) kennt nur die letzte gesehene Folge, kein Ende — es sei denn, ein Enddatum belegt es.
  */
 export function istStaffelfinale(e: ReleaseEvent, data: MitReleases): boolean {
   const release = woechentlich(e, data)
-  if (!release || release.schedule?.episodeCountAssumed || istAusgeblieben(e)) return false
+  const s = release?.schedule
+  if (!release || !s?.episodeCount || s.episodeCountAssumed || istAusgeblieben(e)) return false
+  if (release.tvLetzteSichtung && !s.lastEpisodeDate) return false
   return !!e.episodeCount && e.episode === e.episodeCount
 }
