@@ -91,6 +91,8 @@ try {
   const ersetzt = lauf(ersteFolge, psyren, geschaetzt, undefined, 'Staffel 1', [alt])
   const e = ersetzt[0]
   pruefe('Psyren als vorhandener Sammeltermin: wird wöchentlich, 12 erwartet (geraten), kein Ende, Slug bleibt', ersetzt.length === 1 && e?.slug === 'psyren-alt' && e?.releaseType === 'weekly' && e?.dateMeaning === undefined && e?.schedule.episodeCount === 12 && e?.schedule.episodeCountAssumed === true && e?.schedule.lastEpisodeDate === undefined, e)
+  const spaet = lauf(ersteFolge, psyren, geschaetzt, Date.parse('2026-12-01T00:00:00Z'), 'Staffel 1')
+  pruefe('Psyren mit „jetzt“ im Dezember (Folge 1 älter als 21 Tage): kein Termin — die Uhr der Phase gilt', spaet.length === 0, spaet)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
