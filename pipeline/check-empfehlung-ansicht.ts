@@ -73,7 +73,7 @@ for (let seed = 1; seed <= 12; seed++) {
   if (!sortiert || !mengeGleich) vorneGeordnet = false
 }
 pruefe('in 12 Läufen: die ersten 20 = dieselbe Menge, eigene Anbieter (auch einer von mehreren) vor allen anderen', vorneGeordnet)
-const nurEiner =rangliste(k, z0, [], new Set(['crunchyroll', 'wow'])).filter(beiCr)
+const nurEiner = rangliste(k, z0, [], new Set(['crunchyroll', 'wow'])).filter(beiCr)
 pruefe('Vorrang ist kein Filter: Netflix-Titel bleiben', mit.some((x) => !beiCr(x)) && nurEiner.length > 0)
 const eigenerKeiner = rangliste(k, z0, [], new Set(['disneyplus']))
 pruefe('Anbieter ohne Treffer ändert nichts', gleich(ids(eigenerKeiner), ids(ohne)))

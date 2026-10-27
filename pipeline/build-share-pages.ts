@@ -239,7 +239,7 @@ function schreibeUebersicht(
 
   const liste = (rs: Release[]) =>
     rs.map((r) => terminZeile(r, titleById.get(r.titleId), adresseVon(r.titleId))).join('')
-  const texte =uebersichtTexte(releases.length, belegt, kommend.length)
+  const texte = uebersichtTexte(releases.length, belegt, kommend.length)
   const inhalt =
     `<article style="${STIL}">\n` +
     `      <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${texte.ueberschrift}</h1>\n` +

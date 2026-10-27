@@ -248,7 +248,7 @@ async function ergebnisFaelle(titel) {
   await verschieden.knopf.onclick()
   pruefe('Verschiedene Gründe stehen getrennt im Kasten', /2 abgelehnt: Grund 0 \/ Grund 1/.test(verschieden.knopf.textContent), verschieden.knopf.textContent)
 
-  const ohneErgebnis =await lauf('film-synchro', 200, [], () => ({ ok: true }))
+  const ohneErgebnis = await lauf('film-synchro', 200, [], () => ({ ok: true }))
   await ohneErgebnis.knopf.onclick()
   pruefe('Antwort ohne Ergebnisliste gilt nicht als gemeldet', !/✓/.test(ohneErgebnis.knopf.textContent) && /abgelehnt/.test(ohneErgebnis.knopf.textContent), ohneErgebnis.knopf.textContent)
 

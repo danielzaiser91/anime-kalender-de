@@ -38,7 +38,7 @@ export const TITEL_AB_MARKE = 'titel_nr >= ?3 AND id > ?1'
 export const TITEL_REIHE = 'ORDER BY titel_nr, id LIMIT ?2'
 export const titelSeite = (von: number, anzahl: number) => [von + TITEL_ID_AB, anzahl, ausId(von + TITEL_ID_AB).nr]
 
-const ALLE_SPALTEN =`id, plattform, url, befund, folge_nr, staffel, staffeln, folgen, teil_von, teil_bis,
+const ALLE_SPALTEN = `id, plattform, url, befund, folge_nr, staffel, staffeln, folgen, teil_von, teil_bis,
                 titel, serientitel, titel_id, notiz, abos, gemeldet_am, vorhanden, ton_de, art`
 
 /** `?alle=1`: jede Meldung, seitenweise — erst `pruefung` (ohne verdrängte Adressen), dann die Titelzeilen. */

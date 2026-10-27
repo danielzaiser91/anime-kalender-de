@@ -74,7 +74,7 @@ pruefe(
 )
 
 // Bau
-const stream =release('s', { premiere: { weg: 'stream', quelle: QUELLE, vorher: 'disc', vorherDatum: '2023-01-12' } })
+const stream = release('s', { premiere: { weg: 'stream', quelle: QUELLE, vorher: 'disc', vorherDatum: '2023-01-12' } })
 const evs = [termin('s', '2026-11-05'), termin('s', '2026-11-12')]
 const bau = schreibePremiere(evs, [stream])
 pruefe('Streaming: nur der erste Termin trägt Premiere*', evs[0].premiere === true && evs[0].premiereVorher === 'disc' && !evs[1].premiere && !evs[1].premiereVorher && bau.anzahl === 1)
