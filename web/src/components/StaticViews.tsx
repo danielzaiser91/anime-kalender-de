@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { DataMeta, PlatformId } from '@shared/types.ts'
 import { PLATFORMS } from '@shared/types.ts'
+import { WOCHENPROGRAMM_UEBERSICHT } from '@shared/wochenprogramm.ts'
 import { absoluteFeedUrl, loadAllTitles, loadOhneSynchro, type Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { favoritenErgaenzen, useFavorites } from '../lib/favorites.ts'
@@ -913,9 +914,7 @@ export function ImpressumView() {
           </li>
           <li>
             Sendezeiten:{' '}
-            <a className="underline" href="https://www.crunchyroll.com/de/news/seasonal-lineup">
-              Crunchyroll-Wochenprogramm
-            </a>
+            <a className="underline" href={WOCHENPROGRAMM_UEBERSICHT}>Crunchyroll-Wochenprogramm</a>
           </li>
           {/*
             **aniSearch mit voller Rolle und Link** (16.09.2026).
