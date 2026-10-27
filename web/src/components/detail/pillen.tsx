@@ -4,6 +4,7 @@ import { Tooltip, DiscZeichen } from '../ui.tsx'
 import { formatDate } from '@shared/time.ts'
 import { translate } from '../../lib/i18n.tsx'
 import { Pille } from './pille.tsx'
+import { plattformVonWegName } from '../../lib/anbieter-wegname.ts'
 import { einzelneAusgaben } from './disc-regeln.ts'
 
 /*
@@ -226,6 +227,8 @@ export function farbeZuAnbieter(voll: string): string | undefined {
     'Google Play': '#a1a1aa',
   }
   if (SHOP_FARBEN[name]) return SHOP_FARBEN[name]
+  const schreibweise = plattformVonWegName(name)
+  if (schreibweise) return PLATFORMS[schreibweise].color
   for (const p of Object.values(PLATFORMS)) {
     if (p.name && name.startsWith(p.name)) return p.color
   }

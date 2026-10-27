@@ -81,7 +81,7 @@ const release = (observed: Record<string, string>, extra: Record<string, unknown
 const rezero = { '11': tag(-121), '12': tag(-37), '13': tag(-37), '14': tag(-2), '15': tag(-1), '16': tag(1) }
 const rz = taktMeldungen(release({ '1': tag(-170), ...rezero }), heute)
 pruefe('Re:ZERO: drei Meldungen (Pause 12–13, Pause 14, Folgetag 15), keine für den künftigen Tag', rz.map((m) => `${m.takt}${m.von}`).join() === 'pause12,pause14,folgetag15', rz.map((m) => `${m.takt}${m.von}`))
-pruefe('Meldung trägt Tag, Abstand, Beleg des Kalenders an diesem Tag', rz[1]?.datum === tag(-2) && rz[1]?.abstand === 35 && rz[1]?.belege?.[0]?.gemessenAm === tag(-2) && rz[1]?.quelle?.includes(`date=${tag(-2)}`) === true, rz[1])
+pruefe('Meldung trägt Tag, Abstand, Beleg des Kalenders an diesem Tag', rz[1]?.datum === tag(-2) && rz[1]?.abstand === 35 && rz[1]?.belege?.[0]?.gemessenAm === tag(-2) && rz[1]?.belege?.[0]?.url?.includes(`date=${tag(-2)}`) === true && rz[1]?.quelle === 'https://www.crunchyroll.com/de/news/seasonal-lineup', rz[1])
 pruefe('Schlüssel ist release und Tag (stabil)', rz[2]?.schluessel === `takt:r-1:${tag(-1)}`, rz[2]?.schluessel)
 pruefe('Meldung vom heutigen Tag zählt (Grenze), vom morgigen nicht', taktMeldungen(release({ '1': tag(-12), '2': tag(-5), '3': tag(0) }), heute).length === 1 && taktMeldungen(release({ '1': tag(-11), '2': tag(-4), '3': tag(1) }), heute).length === 0)
 pruefe('Kontrolle: derselbe Release ohne Ausschluss gibt genau eine Meldung', taktMeldungen(release({ '1': tag(-16), '2': tag(-9), '3': tag(-8) }), heute).length === 1)

@@ -48,7 +48,7 @@ const ERLAUBT: Record<string, Record<string, string>> = {
   'web/src/components/KopfNavigation.tsx': { 'hrefFuer(ziel)': 'eigene Seite' },
   'web/src/components/NewsView.tsx': { "feedUrl('news.xml')": 'eigener Feed' },
   'web/src/components/patchnotes-teile.tsx': { 'n.link': 'Link der Patchnote (eigene Seite)' },
-  'web/src/components/StaticViews.tsx': { "url.replace(/^https?:/, 'webcal:')": 'eigener Kalender-Feed', url: 'eigener Feed', teil: 'Adresse aus einem Lizenz-/Quellensatz (MitLinks), keine Beleg-Adresse' },
+  'web/src/components/StaticViews.tsx': { "url.replace(/^https?:/, 'webcal:')": 'eigener Kalender-Feed', url: 'eigener Feed', teil: 'Adresse aus einem Lizenz-/Quellensatz (MitLinks), keine Beleg-Adresse', WOCHENPROGRAMM_UEBERSICHT: 'feste Übersichtsseite des Crunchyroll-Wochenprogramms, keine Beleg-Adresse' },
   'web/src/components/ui.tsx': { href: 'Parameter der Button-Komponente; Aufrufer stehen in dieser Liste' },
 }
 

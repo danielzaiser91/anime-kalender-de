@@ -28,7 +28,7 @@
 import { chromium, type Page } from 'playwright'
 import { normalizeTitle, type CrunchyrollData } from './lib/crunchyroll.ts'
 import { todayIso } from '../shared/time.ts'
-import { MONATE, neuesterWochenartikel, wocheAus } from '../shared/wochenprogramm.ts'
+import { MONATE, neuesterWochenartikel, WOCHENPROGRAMM_UEBERSICHT, wocheAus } from '../shared/wochenprogramm.ts'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
@@ -37,7 +37,6 @@ import { neueEintraege } from './lib/woche-neue-eintraege.ts'
 
 const args = process.argv.slice(2)
 const HEADED = args.includes('--head')
-const UEBERSICHT = 'https://www.crunchyroll.com/de/news/seasonal-lineup'
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
 
@@ -307,7 +306,7 @@ async function main(): Promise<void> {
     let artikel = args[args.indexOf('--adresse') + 1]
     if (!args.includes('--adresse')) {
       /* Den aktuellen Artikel über die Kategorie finden — seine Adresse ändert sich je Season. */
-      await seite.goto(UEBERSICHT, { waitUntil: 'domcontentloaded', timeout: 60_000 })
+      await seite.goto(WOCHENPROGRAMM_UEBERSICHT, { waitUntil: 'domcontentloaded', timeout: 60_000 })
       await seite.waitForTimeout(3000)
       const links = await seite.$$eval('a[href*="wochenprogramm"]', (as) => as.map((a) => (a as HTMLAnchorElement).href))
       artikel = neuesterWochenartikel(links) ?? ''

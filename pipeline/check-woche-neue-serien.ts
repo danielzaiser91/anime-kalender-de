@@ -107,13 +107,15 @@ pruefe('Bau: ohne Fenster gilt der letzte Termin', indiziereCrSendeplaetze({ tit
 pruefe('neuer Eintrag: weeklyConfirmed ist false', Object.values(zwei.neu).every((e) => e.weeklyConfirmed === false), zwei.neu)
 
 // Prüfer 2170 R2 (A5): Beleglink — Wochenprogramm-Termine verweisen auf den gelesenen Artikel, reine Kalendertermine behalten den historischen Link
-const { crQuelleUrl } = await import('./bau/cr-quelle.ts')
+const { crQuelleUrl, wochenArtikelNeuLesen } = await import('./bau/cr-quelle.ts')
 const KALENDERLINK = 'https://www.crunchyroll.com/de/simulcastcalendar'
 pruefe('Beleglink: Beobachtung aus dem Wochenprogramm → Artikel', crQuelleUrl({ observations: [{ date: '2026-10-30', episode: 2, quelle: 'woche' }] }) === 'https://example.invalid/artikel')
 pruefe('Beleglink: gemischt (gemessen + Wochenprogramm) → Artikel', crQuelleUrl({ observations: [{ date: '2026-10-12', episode: 1 }, { date: '2026-10-30', episode: 2, quelle: 'woche' }] }) === 'https://example.invalid/artikel')
 pruefe('Beleglink: nur gemessene Kalendertermine → historischer Link', crQuelleUrl({ observations: [{ date: '2026-10-12', episode: 1 }] }) === KALENDERLINK)
 pruefe('Beleglink: ohne Beobachtungen → historischer Link', crQuelleUrl({}) === KALENDERLINK)
 rmSync(join(ordner, 'data', 'crunchyroll-woche.json'))
+pruefe('Beleglink: die Wochendatei wird nur einmal gelesen (gelöscht, Ergebnis bleibt)', crQuelleUrl({ observations: [{ date: '2026-10-30', quelle: 'woche' }] }) === 'https://example.invalid/artikel')
+wochenArtikelNeuLesen()
 pruefe('Beleglink: Wochenprogramm-Termin, aber keine Wochendatei → historischer Link', crQuelleUrl({ observations: [{ date: '2026-10-30', quelle: 'woche' }] }) === KALENDERLINK)
 
 rmSync(ordner, { recursive: true, force: true })
@@ -121,4 +123,4 @@ if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)
 }
-console.log('check-woche-neue-serien: alle Fälle grün (Regel 16, Lauf 6, Artikel-Weg 2, Bau-Marke 5, Beleglink 5, Takt 1)')
+console.log('check-woche-neue-serien: alle Fälle grün (Regel 16, Lauf 6, Artikel-Weg 2, Bau-Marke 5, Beleglink 6, Takt 1)')

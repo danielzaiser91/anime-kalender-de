@@ -16,6 +16,8 @@
  * Themen, ohne zwei Dateien.
  */
 
+import { plattformVonWegName } from './anbieter-wegname.ts'
+
 /** Anbieter-Kennung oder Name eines Bezugswegs → Datei in `public/anbieter/`. */
 const DATEI: Record<string, string> = {
   crunchyroll: 'crunchyroll',
@@ -77,6 +79,8 @@ const MAX_BREITE = 2.8
 export function anbieterDatei(was: string): string | undefined {
   const kern = was.toLowerCase().replace(/\s*\(.*$/, '').trim()
   if (DATEI[kern]) return DATEI[kern]
+  const plattform = plattformVonWegName(was)
+  if (plattform && DATEI[plattform]) return DATEI[plattform]
   if (kern.startsWith('amazon prime') || kern === 'prime video') return 'primevideo'
   /*
     Ein Kauf bei Amazon ist kein Prime-Weg — er bekommt das „a" des Shops (Commons,
