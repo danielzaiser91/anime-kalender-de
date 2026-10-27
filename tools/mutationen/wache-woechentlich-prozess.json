@@ -1,0 +1,11 @@
+[
+  { "name": "Kontrolle (unmutiert, muss grün bleiben)", "aenderungen": [] },
+  { "name": "Aufruf: FRISTEN_STUNDEN weggelassen", "datei": "tools/wache-woechentlich.mjs", "suche": "pruefeFristen(letzterErfolg, jetzt, FRISTEN_STUNDEN, console.log)", "ersetze": "pruefeFristen(letzterErfolg, jetzt, undefined, console.log)" },
+  { "name": "Aufruf: Fristen leere Tabelle", "datei": "tools/wache-woechentlich.mjs", "suche": "pruefeFristen(letzterErfolg, jetzt, FRISTEN_STUNDEN, console.log)", "ersetze": "pruefeFristen(letzterErfolg, jetzt, {}, console.log)" },
+  { "name": "Aufruf: Argumente jetzt und letzterErfolg vertauscht", "datei": "tools/wache-woechentlich.mjs", "suche": "pruefeFristen(letzterErfolg, jetzt, FRISTEN_STUNDEN, console.log)", "ersetze": "pruefeFristen(jetzt, letzterErfolg, FRISTEN_STUNDEN, console.log)" },
+  { "name": "Aufruf: ohne Ausgabefunktion", "datei": "tools/wache-woechentlich.mjs", "suche": "pruefeFristen(letzterErfolg, jetzt, FRISTEN_STUNDEN, console.log)", "ersetze": "pruefeFristen(letzterErfolg, jetzt, FRISTEN_STUNDEN)" },
+  { "name": "Aufruf: Befunde verworfen", "datei": "tools/wache-woechentlich.mjs", "suche": "const befunde = pruefeFristen(letzterErfolg, jetzt, FRISTEN_STUNDEN, console.log)", "ersetze": "const befunde = []\npruefeFristen(letzterErfolg, jetzt, FRISTEN_STUNDEN, console.log)" },
+  { "name": "Aufruf: Zeitpunkt Null statt jetzt", "datei": "tools/wache-woechentlich.mjs", "suche": "pruefeFristen(letzterErfolg, jetzt, FRISTEN_STUNDEN, console.log)", "ersetze": "pruefeFristen(letzterErfolg, 0, FRISTEN_STUNDEN, console.log)" },
+  { "name": "gh: Attrappe nicht benutzt (immer echtes gh)", "datei": "tools/wache-woechentlich.mjs", "suche": "process.env.WACHE_GH_SKRIPT ?", "ersetze": "false ?" },
+  { "name": "gh: Argumente der Attrappe verschluckt", "datei": "tools/wache-woechentlich.mjs", "suche": "[process.env.WACHE_GH_SKRIPT, ...a]", "ersetze": "[process.env.WACHE_GH_SKRIPT]" }
+]

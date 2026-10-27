@@ -21,7 +21,8 @@ const H = 3600e3
 
 const STAND_MAX_STUNDEN = 36
 
-const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 })
+// WACHE_GH_SKRIPT: Node-Skript statt gh (nur der Prozess-Test setzt es).
+const gh = (...a) => (process.env.WACHE_GH_SKRIPT ? execFileSync(process.execPath, [process.env.WACHE_GH_SKRIPT, ...a], { encoding: 'utf8' }) : execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 }))
 
 function letzterErfolg(workflow) {
   const t = gh('run', 'list', '--workflow', workflow, '--status', 'success', '--limit', '1', '--json', 'createdAt', '--jq', '.[0].createdAt // empty').trim()
