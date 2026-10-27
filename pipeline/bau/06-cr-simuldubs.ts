@@ -6,7 +6,7 @@ import {
   beobachtungenZusammenfuehren,
   type CrunchyrollData,
 } from '../lib/crunchyroll.ts'
-import { CR_CALENDAR_URL } from './grundlagen.ts'
+import { crQuelleUrl } from './cr-quelle.ts'
 import { ohneWocheUeberAnzahl } from '../lib/woche-ueber-anzahl.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 
@@ -115,7 +115,7 @@ export function ergaenzeCrSimuldubs({
         herkunft: 'Crunchyroll führt dazu bisher genau einen deutschen Termin.',
         schedule: { firstEpisodeDate: date, time: slot.time, episodeCount: 1 },
         year: Number(date.slice(0, 4)),
-        sources: [CR_CALENDAR_URL],
+        sources: [crQuelleUrl(slot)],
       })
       autoAdded++
       continue
@@ -198,7 +198,7 @@ export function ergaenzeCrSimuldubs({
         observed: beobachtungenZusammenfuehren(beobachtet, undefined),
       },
       year: releaseYear,
-      sources: [CR_CALENDAR_URL],
+      sources: [crQuelleUrl(slot)],
     })
     autoAdded++
   }

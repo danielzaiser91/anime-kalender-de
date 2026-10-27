@@ -6,7 +6,7 @@
  * deutsche Fassung kam nicht, und am nächsten Tag stand der Termin unverändert
  * da. Daniel: „warum hat der lauf diesen mis-stand nicht bemerkt und behoben?"
  *
- * Der Grund war eine Lücke, keine Fehlmessung: `scrape-crunchyroll.ts` hält
+ * Der Grund war eine Lücke, keine Fehlmessung: der Kalender-Abruf (bis 21.10.2026) hielt
  * fest, was im Anbieter-Kalender **steht**. Ein fehlender Eintrag hinterlässt
  * dort nichts, und der Bau rechnet unbeirrt weiter — er liest nicht einmal das
  * `weeklyConfirmed`-Feld, das bei dieser Staffel ausdrücklich `false` sagt.

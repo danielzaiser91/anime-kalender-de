@@ -9,12 +9,6 @@
     "lastRun": "2026-10-27T11:03:02.814Z",
     "lastCount": 51
   },
-  "crunchyroll": {
-    "lastOk": "2026-10-21T20:02:22.932Z",
-    "lastRun": "2026-10-27T11:02:44.955Z",
-    "lastCount": 0,
-    "lastError": "keine Kachel im Kalender gefunden — 2026-10-19: HTTP 200; Titel „Crunchyroll – Simulcasts durchstöbern“; keine Challenge-Merkmale; Text „Neu Beliebt Simulcast …"
-  },
   "anisearch": {
     "lastOk": "2026-10-27T06:01:39.986Z",
     "lastRun": "2026-10-27T06:01:39.986Z",

@@ -112,7 +112,7 @@ Oberflächenregeln, die man kennt, bevor man Text schreibt: keine Information zw
 
 | Quelle | Skript | Takt (Workflow) | Liefert |
 |---|---|---|---|
-| Crunchyroll Simulcast-Kalender | `scrape-crunchyroll.ts` | stündlich (`refresh-hourly`, :23) | Termine, Uhrzeit, „(Deutsch)" |
+| Crunchyroll Wochenprogramm (Simulcast-Kalender entfiel 27.10.2026) | `scrape-crunchyroll-woche.ts` | stündlich (`refresh-hourly`, :23) | Termine, Uhrzeit, Folge, Sprache; legt neue Serien in `data/crunchyroll.json` an |
 | Crunchyroll Content-API (de-Katalog, braucht 24-h-Zugangspaket aus Deutschland: `tools/cr-zugang-holen.mjs`) | `scrape-crunchyroll-dub.ts`, `fetch-crunchyroll-offene.ts` | täglich/Nachholen | Sprachfassung je Block |
 | ADN | `fetch-adn.ts` (`--laufend` alle 6 h) | `adn-laufende`, täglich | Datum, Uhrzeit, `vde`/`vostde` |
 | AniList | `fetch.ts`, `fetch-anilist-katalog.ts` | täglich | Stammdaten, Reihen |

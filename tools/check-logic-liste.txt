@@ -70,7 +70,6 @@ pipeline/check-cr-block-standardname.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
 pipeline/check-cr-ja-deckung.ts
-pipeline/check-cr-kalender-diagnose.ts
 pipeline/check-cr-katalog-ein-werk.ts
 pipeline/check-cr-komplettabwurf.ts
 pipeline/check-cr-nein-ueberholt.ts
@@ -316,6 +315,7 @@ pipeline/check-widerlegung-de-folgen-bau.ts
 pipeline/check-widerlegung-de-folgen.ts
 pipeline/check-woche-beleg.ts
 pipeline/check-woche-groesse.ts
+pipeline/check-woche-neue-serien.ts
 pipeline/check-wochen-datei.ts
 pipeline/check-wochen-kacheln-lauf.ts
 pipeline/check-wochen-kacheln.ts
