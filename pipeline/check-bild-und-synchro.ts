@@ -32,7 +32,10 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 
 console.log('Plakat-Auswahl')
 const bild = (iso: string | null, width: number, height: number) => ({ file_path: `/${iso}${width}.jpg`, width, height, iso_639_1: iso })
-pruefe('das japanische Plakat geht vor dem größeren englischen', waehlePlakat([bild('en', 2000, 3000), bild('ja', 1000, 1500)])?.iso_639_1 === 'ja')
+pruefe('das deutsche Plakat geht vor dem größeren englischen', waehlePlakat([bild('en', 2000, 3000), bild('de', 1000, 1500), bild('ja', 3000, 4500)])?.iso_639_1 === 'de')
+pruefe('ohne deutsches geht englisch vor ohne Sprache', waehlePlakat([bild(null, 2000, 3000), bild('en', 1000, 1500), bild('ja', 3000, 4500)])?.iso_639_1 === 'en')
+pruefe('ohne de und en geht ohne Sprache vor japanisch', waehlePlakat([bild('ja', 2000, 3000), bild(null, 1000, 1500)])?.iso_639_1 === null)
+pruefe('nur japanisch: es bleibt japanisch', waehlePlakat([bild('ja', 1000, 1500)])?.iso_639_1 === 'ja')
 pruefe('innerhalb einer Sprache gewinnt das breiteste', waehlePlakat([bild('ja', 1000, 1500), bild('ja', 2000, 3000)])?.width === 2000)
 pruefe('Querformate zählen nicht', waehlePlakat([bild('ja', 3000, 1500)]) === undefined)
 pruefe('ohne Bilder kein Plakat', waehlePlakat([]) === undefined)

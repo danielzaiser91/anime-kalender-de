@@ -9,6 +9,9 @@
  * trailer button sagen ‚trailer in <sprache> - einen deutschen trailer haben
  * wir noch nicht gefunden'."
  *
+ * **Wer abgefragt wird:** Filme und die Einstiege des Entdecken-Pools (`empfehlung.json`),
+ * also auch Fernsehserien (Daniel, 26.10.2026). Serien gehen nur über Weg 2 und 3.
+ *
  * **Drei Wege, in dieser Reihenfolge — und die Reihenfolge ist gemessen.**
  *
  * 1. **Der Kanalindex.** KinoCheck betreibt zwei deutsche Kanäle, und welcher
@@ -54,6 +57,8 @@
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { todayIso } from '../shared/time.ts'
+import type { EmpfehlungsDatei } from '../shared/empfehlung-pool.ts'
+import { tmdbVideosUrl, trailerKandidaten } from './lib/trailer-auswahl.ts'
 
 /**
  * **Die Kanäle, in dieser Reihenfolge.**
@@ -293,8 +298,7 @@ async function ausKinocheck(tmdbId: number, art: string): Promise<TrailerEintrag
  * voraus, dass man den Film schon kennt.
  */
 async function ausTmdb(tmdbId: number, art: string, schluessel: string): Promise<TrailerEintrag | null> {
-  const pfad = art === 'movie' ? 'movie' : 'tv'
-  const daten = (await holeJson(`${TMDB}/${pfad}/${tmdbId}/videos?api_key=${schluessel}`)) as {
+  const daten = (await holeJson(tmdbVideosUrl(TMDB, art, tmdbId, schluessel))) as {
     results?: { key?: string; name?: string; site?: string; type?: string; iso_639_1?: string; published_at?: string }[]
   } | null
   const brauchbar = (daten?.results ?? []).filter(
@@ -358,10 +362,12 @@ async function main(): Promise<void> {
   const bestand = readJson<Record<string, TrailerEintrag>>('data/trailer.json', {})
 
   /*
-    **Nur Filme**. KinoCheck ist ein
-    Kinokanal; zu einer Fernsehstaffel gibt es dort in aller Regel nichts.
+    **Filme und die Einstiege von Entdecken** (Daniel, 26.10.2026: Trailer für alle Titel dort).
+    Der Kanalindex ist ein Kinokanal; zu einer Fernsehstaffel gibt es dort in aller Regel nichts,
+    für sie bleiben KinoCheck-Kennung und TMDB.
   */
-  const filme = titles.filter((t) => t.format === 'MOVIE')
+  const empfehlung = readJson<Partial<EmpfehlungsDatei>>('public/data/empfehlung.json', {})
+  const filme = trailerKandidaten(titles, new Set((empfehlung.einstiege ?? []).map((k) => k.id)))
 
   /* Zuerst aufräumen: Ein toter Eintrag soll in derselben Runde neu gesucht werden. */
   const weg = schluessel ? await pruefeAdressen(bestand, schluessel) : 0
@@ -388,7 +394,7 @@ async function main(): Promise<void> {
   const index = schluessel ? await kanalIndex(schluessel) : []
   if (!schluessel) warn('Kein YOUTUBE_API_KEY — kein Kanalindex und keine Adressprüfung.')
 
-  for (const titel of dran) {
+  for (const titel of dran.filter((t) => t.format === 'MOVIE')) {
     const fund = ausIndex(titel, index, tmdb[String(titel.id)]?.nameDe)
     if (fund) {
       bestand[String(titel.id)] = fund

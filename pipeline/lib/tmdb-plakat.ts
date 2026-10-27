@@ -6,8 +6,8 @@ export interface TmdbBild {
   iso_639_1: string | null
 }
 
-/** Rangfolge der Sprachfassungen: dieselbe Bildsprache wie AniList zuerst. */
-const SPRACHEN: (string | null)[] = ['ja', null, 'de', 'en']
+/** Rangfolge der Sprachfassungen: ein deutsches Plakat, sonst englisch, sonst ohne Sprache; Japanisch bleibt der Rückfall (Daniel, 26.10.2026). */
+const SPRACHEN: (string | null)[] = ['de', 'en', null, 'ja']
 
 /** Hochformat wie ein Cover (2:3 ≈ 0,667; AniList 460 × 644 = 0,714). */
 export const istHochformat = (b: TmdbBild): boolean => b.width / b.height >= 0.64 && b.width / b.height <= 0.76

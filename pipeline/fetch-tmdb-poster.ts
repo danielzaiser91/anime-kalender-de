@@ -5,8 +5,8 @@
  * Panel) wirkte das auf einem Full-HD-Schirm unscharf (Daniel, 07.10.2026, „Rascal Does Not Dream of a Dear Friend"). TMDB führt
  * dasselbe Plakat in mehreren Größen (w500, w780, original bis 2000 × 3000) und meist mehrere Fassungen je Titel.
  *
- * **Auswahl.** Aus `/images` zählen nur Hochformate (Seitenverhältnis 0,64–0,76, wie das AniList-Cover). Bevorzugt wird die japanische
- * Fassung (gleiche Bildsprache wie AniList), dann ohne Schrift, dann deutsch, dann englisch; innerhalb einer Sprache das breiteste.
+ * **Auswahl.** Aus `/images` zählen nur Hochformate (Seitenverhältnis 0,64–0,76, wie das AniList-Cover). Bevorzugt wird die deutsche
+ * Fassung, dann englisch, dann ohne Schrift, zuletzt japanisch (seit 27.10.2026, vorher umgekehrt); innerhalb einer Sprache das breiteste.
  * Gespeichert wird nur Pfad, Breite und Höhe — die Seite lädt die Größe, die sie braucht (`image.tmdb.org/t/p/<w500|w780>`).
  *
  * **Grenzen.** Die Zuordnung Titel → TMDB-Kennung kommt aus `data/tmdb-titles.json` (geprüft im Bau der Folgentitel). Wo sie fehlt oder das
