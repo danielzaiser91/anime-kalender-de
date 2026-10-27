@@ -18,6 +18,7 @@ import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
 import { BOT_DATEIEN_OHNE_LESER, istBotDatei } from './pr-nachrechnen-bot-pfade.mjs'
 import { gitAufruf, gitLeser } from './pr-nachrechnen-leser-git.mjs'
+import { standardVoll } from './pr-nachrechnen-vergleich-git.mjs'
 
 export const KETTE = 'pr-pruefung.yml'
 /** Kleiner Job der Kette mit Checkout ohne eigenes `ref` (prüft `pr-nachrechnen.test.mjs` an der YAML). */
@@ -64,10 +65,12 @@ export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p
 const LIEST_KETTE = 'docs/wissen/design-regeln.md'
 const ohneKetteLeser = (datei) => (datei.startsWith('docs/') && datei !== LIEST_KETTE) || /^[^/]+\.md$/.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'
 
+const lokal = (vergleich) => (vergleich.lokalFehler === undefined ? '' : ` (lokales git: ${vergleich.lokalFehler})`)
+
 /** null = Ausnahme gilt (main bewegte nur Datenpfade, der PR keinen); sonst der Grund, warum nicht. */
 export function datenpfadAusnahme(vergleich, prDateien) {
   if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
-  if (vergleich.anzahl >= COMPARE_GRENZE) return `Vergleich mit ${vergleich.anzahl} Dateien evtl. abgeschnitten`
+  if (!vergleich.vollstaendig && vergleich.anzahl >= COMPARE_GRENZE) return `Vergleich mit ${vergleich.anzahl} Dateien evtl. abgeschnitten${lokal(vergleich)}`
   const fremd = vergleich.dateien.find((d) => !istDatenpfad(d) && !ohneKetteLeser(d))
   if (fremd !== undefined) return `main bewegte ${fremd}`
   const beruehrt = prDateien.find((p) => istDatenpfad(p) || vergleich.dateien.includes(p))
@@ -75,29 +78,36 @@ export function datenpfadAusnahme(vergleich, prDateien) {
   return null
 }
 
-/** Autoren der Datenläufe auf main (gemessen 23.10.2026 an den letzten 40 Commits). */
-export const BOT_AUTOREN = ['anime-kalender-daten[bot]', 'github-actions[bot]']
 /**
- * Merge-Fluss C (23.10.2026): Ein Sprung nur aus Bot-Commits unter `data/` entwertet keinen PR, dessen Code die bewegten Dateien nicht
+ * Merge-Fluss C (23.10.2026): Ein Sprung nur unter `data/` entwertet keinen PR, dessen Code die bewegten Dateien nicht
  * liest (Leser-Regel `pr-nachrechnen-leser.mjs`, seit 26.10.2026; vorher galt jede Datei außer Doku als Leser); der Bestandsbau prüft
- * nach dem Merge den ganzen Datensatz. Von 8 Entwertungen am 23.10. waren 2 reine Bot-Sprünge, 5 enthielten einen Menschen-Merge;
- * die Meldung nennt darum den Autor. `liestBewegtes(bewegt, prDateien)` -> null | Grund. null = Ausnahme gilt, sonst der Grund.
+ * nach dem Merge den ganzen Datensatz. Der Autor zählt seit 27.10.2026 nicht mehr (PR 2165: Squash-Merge des Patchnotes-PR 2146
+ * von Daniel entwertete einen Patchnotes-PR); entscheidend sind die bewegten Dateien: Code, Workflows und alles außerhalb von `data/` entwerten, `data/` nur mit Leser. `liestBewegtes(bewegt, prDateien)` -> null | Grund. null = Ausnahme gilt, sonst der Grund.
  */
 export function botSprungAusnahme(vergleich, prDateien, liestBewegtes) {
   if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
-  if (vergleich.anzahl >= COMPARE_GRENZE || vergleich.commitsGesamt !== vergleich.autoren.length) return 'Vergleich evtl. abgeschnitten'
-  const mensch = vergleich.autoren.find((a) => !BOT_AUTOREN.includes(a))
-  if (mensch !== undefined) return `Commit von ${mensch}`
+  if (!vergleich.vollstaendig && abgeschnitten(vergleich)) return `Vergleich evtl. abgeschnitten${lokal(vergleich)}`
   const fremd = vergleich.dateien.find((d) => !d.startsWith('data/') && !istDatenpfad(d) && !ohneKetteLeser(d))
-  if (fremd !== undefined) return `Bot bewegte ${fremd}`
+  if (fremd !== undefined) return `main bewegte ${fremd}`
   const beruehrt = prDateien.find((p) => vergleich.dateien.includes(p))
   if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
   return liestBewegtes(vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d)), prDateien)
 }
 
+const abgeschnitten = (v) => v.anzahl >= COMPARE_GRENZE || v.commitsGesamt !== v.autoren.length
+
+/** Ersetzt einen abgeschnittenen API-Vergleich durch den lokalen; scheitert git, bleibt er abgeschnitten (mit Grund). */
+function vervollstaendige(vergleich, basis, main, voll) {
+  if (vergleich.status !== 'ahead' || !abgeschnitten(vergleich)) return vergleich
+  const r = voll(basis, main)
+  if (r.fehler !== undefined) return { ...vergleich, lokalFehler: r.fehler }
+  return { ...vergleich, ...r, anzahl: r.dateien.length, vollstaendig: true }
+}
+
 /** Rückgabe { ausnahme } (Kette gilt weiter, Text für die Meldung) oder { grund }. */
-function datenpfadGrund(gh, pr, basis, main, leser) {
-  const vergleich = JSON.parse(gh(['api', `repos/{owner}/{repo}/compare/${basis}...${main}`, '--jq', '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)], commitsGesamt: .total_commits, autoren: [.commits[] | .author.login // .commit.author.name]}']))
+function datenpfadGrund(gh, pr, basis, main, leser, voll) {
+  const api = JSON.parse(gh(['api', `repos/{owner}/{repo}/compare/${basis}...${main}`, '--jq', '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)], commitsGesamt: .total_commits, autoren: [.commits[] | .author.login // .commit.author.name]}']))
+  const vergleich = vervollstaendige(api, basis, main, voll)
   const prDateien = gh(['api', `repos/{owner}/{repo}/pulls/${pr.number}/files`, '--paginate', '--jq', '.[] | .filename, (.previous_filename // empty)']).split(/\r?\n/).filter(Boolean)
   const daten = datenpfadAusnahme(vergleich, prDateien)
   if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
@@ -177,7 +187,7 @@ function basisDesLaufs(gh, pr) {
 }
 
 /** Ablauf für einen PR; `gh(args)` und `warte(ms)` sind eingespeist, `melde` schreibt eine Zeile. Rückgabe: Exit-Code (siehe Kopf). */
-export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf)) {
+export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf), voll = standardVoll) {
   const pr = JSON.parse(gh(['pr', 'view', String(nummer), '--json', 'number,state,mergeable,headRefOid,headRefName']))
   const halt = hindernis(pr)
   if (halt !== null) {
@@ -194,7 +204,7 @@ export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf
     melde(`PR ${nummer}: aktuell, die Kette rechnete gegen main ${kurz(main)}`)
     return 0
   }
-  const urteil = datenpfadGrund(gh, pr, basis, main, leser)
+  const urteil = datenpfadGrund(gh, pr, basis, main, leser, voll)
   if (urteil.ausnahme !== undefined) {
     melde(`PR ${nummer}: aktuell, Kette gegen ${kurz(basis)}, main ist ${kurz(main)}, seitdem ${urteil.ausnahme}`)
     return 0
@@ -214,13 +224,13 @@ export function schlafe(ms) {
 }
 
 /** Startlogik: Argument prüfen, Fehler als Exit 2 (nie still grün). */
-export function main(argv, ausfuehrer, melde, warte, leser) {
+export function main(argv, ausfuehrer, melde, warte, leser, voll) {
   if (argv.length !== 1 || !/^\d+$/.test(argv[0])) {
     melde('Aufruf: node tools/pr-nachrechnen.mjs <PR-Nummer>')
     return 2
   }
   try {
-    return nachrechnen(Number(argv[0]), ausfuehrer, melde, warte, leser)
+    return nachrechnen(Number(argv[0]), ausfuehrer, melde, warte, leser, voll)
   } catch (e) {
     melde(`pr-nachrechnen: FEHLER ${e.message}`)
     return 2
