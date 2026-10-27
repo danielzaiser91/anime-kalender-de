@@ -8,7 +8,7 @@ export interface Fund {
 /**
  * Findet jedes `=` (Zuweisung, Deklaration, Standardwert), vor dem Leerraum steht und nach dem keiner folgt
  * („const x =y“, PR 2194). Der Syntaxbaum grenzt Zeichenketten, Regex, Kommentare, `==`, `=>` und `+=` ab,
- * die der Scanner als eigene Token liefert; JSX-Attribute (`a="x"`) haben keinen Leerraum davor.
+ * die der Scanner als eigene Token liefert; JSX-Attribute in der Form `a="x"` haben keinen Leerraum davor; `<div a ="1"/>` wird gemeldet.
  */
 export function findeVerschluckte(text: string, dateiname: string): Fund[] {
   const quelle = ts.createSourceFile(dateiname, text, ts.ScriptTarget.Latest, true, dateiname.endsWith('x') ? ts.ScriptKind.TSX : ts.ScriptKind.TS)
