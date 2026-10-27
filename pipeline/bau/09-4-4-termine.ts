@@ -10,7 +10,8 @@ import { type AnisearchEintrag } from './01-quellen.ts'
 import { type CrDubData } from '../lib/crunchyroll-dub.ts'
 import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
 import { legeCrWegeAusKatalogAn } from './09-4-4-1-katalog-wege.ts'
-import { quellenMitZeit, zeitHinweis, type WocheBelege } from '../lib/cr-zeit-woche.ts'
+import { quellenMitZeit, zeitHinweis } from '../lib/cr-zeit-woche.ts'
+import { ladeZeitBelege, merkeZeitKorrekturen } from '../lib/cr-zeit-merkliste.ts'
 
 export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, verschwunden, usNeinOffen, nachUrl, releases, jetzt }: {
   titles: Map<number, Title>
@@ -48,7 +49,8 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
       ein Block datierte Folgen hat und dessen Folgenzahl exakt zur unseren
       passt. Was sie liegen lässt, lässt sie mit Absicht liegen.
     */
-    const crTermine = alleTermine(crDub.serien, nachUrl, jetzt, readJson<WocheBelege>('data/crunchyroll-woche-belege.json', {}))
+    const crTermine = alleTermine(crDub.serien, nachUrl, jetzt, ladeZeitBelege())
+    merkeZeitKorrekturen(crTermine)
     let termineNeu = 0
     let termineSchonDa = 0
     for (const t of crTermine) {

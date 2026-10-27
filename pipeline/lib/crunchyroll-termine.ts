@@ -79,6 +79,8 @@ export interface CrTermin {
   time?: string
   /** Gesetzt, wenn `time` aus dem Wochenprogramm statt aus dem API-Stempel kommt: der Artikel, der sie belegt. */
   zeitQuelle?: string
+  /** `Serienkennung|Tag` der ersetzten Zeit — Schlüssel der Merkliste (`cr-zeit-merkliste.ts`). */
+  zeitSchluessel?: string
   episodeCount: number
   /** Die Staffel läuft, ihre Länge ist unbekannt: `episodeCount` zählt nur die deutschen Folgen bis jetzt. */
   zahlOffen?: true
@@ -458,7 +460,13 @@ export function alleTermine(serien: CrSerie[], nachUrl: Map<string, Title[]>, je
 /** Gibt es für Serie und ersten Tag eine Wochenprogramm-Zeit, gilt sie vor der API-Zeit; geändert wird nur bei Abweichung. */
 function zeitAusBeleg(t: CrTermin, seriesId: string | undefined, belege: WocheBelege): CrTermin {
   const woche = t.time ? zeitAusWochenprogramm(belege, seriesId, t.firstEpisodeDate) : undefined
-  return woche && woche.zeit !== t.time ? { ...t, time: woche.zeit, zeitQuelle: woche.artikel } : t
+  if (!woche || woche.zeit === t.time) return t
+  return {
+    ...t,
+    time: woche.zeit,
+    zeitQuelle: woche.artikel,
+    zeitSchluessel: `${seriesId}|${t.firstEpisodeDate}`,
+  }
 }
 
 /**

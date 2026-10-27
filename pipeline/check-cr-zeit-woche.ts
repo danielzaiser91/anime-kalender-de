@@ -26,6 +26,7 @@ const { alleTermine } = await import('./lib/crunchyroll-termine.ts')
 const { zeitAusWochenprogramm, zeitHinweis, quellenMitZeit } = await import('./lib/cr-zeit-woche.ts')
 const { legeCrVerweiseUndTermineAn } = await import('./bau/09-4-4-termine.ts')
 const { BELEGE_DATEI } = await import('./lib/woche-beleg.ts')
+const { belegeMitKorrekturen, korrekturenNach } = await import('./lib/cr-zeit-merkliste.ts')
 const { belegteFolgen } = await import('./lib/cr-batch-wache.ts')
 type Belege = import('./lib/woche-beleg.ts').WocheBelege
 
@@ -88,6 +89,13 @@ for (const [stempel, tag, zeit] of paare) {
   pruefe(`${tag}: nach alleTermine gilt die Beleg-Zeit ${zeit}, nie die API-Zeit`, t?.firstEpisodeDate === tag && t?.time === zeit, t)
 }
 
+/* Merkliste: reine Funktionen. */
+const gemerkt = { seriesId: 'GT00371866', datum: '2026-10-26', zeit: '16:30', artikel: ARTIKEL }
+pruefe('Merkliste ohne frischen Beleg: wird als Beleg gelesen', zeitAusWochenprogramm(belegeMitKorrekturen({}, { 'GT00371866|2026-10-26': gemerkt }), 'GT00371866', '2026-10-26')?.zeit === '16:30')
+pruefe('Merkliste mit frischem Beleg desselben Tages: nur der frische zählt (sonst widersprächen sie sich)', zeitAusWochenprogramm(belegeMitKorrekturen(belegeAus(beleg('GT00371866', 1, '2026-10-26', '17:00')), { 'GT00371866|2026-10-26': gemerkt }), 'GT00371866', '2026-10-26')?.zeit === '17:00')
+pruefe('Merkliste nimmt nur Termine mit ersetzter Zeit auf', Object.keys(korrekturenNach({}, [{ time: '15:30' }, { time: '16:30', zeitQuelle: ARTIKEL, zeitSchluessel: 'GT00371866|2026-10-26' }])).join() === 'GT00371866|2026-10-26')
+pruefe('Merkliste behält Altes und ist beim zweiten Durchlauf unverändert', JSON.stringify(korrekturenNach({ 'GT00371866|2026-10-26': gemerkt }, [])) === JSON.stringify({ 'GT00371866|2026-10-26': gemerkt }))
+
 /* Die Bau-Phase liest die Beleg-Datei wirklich und trägt Zeit, Herkunft und Quelle am Release ein. */
 function phase(belege: Belege, vorher: import('../shared/types.ts').Release[] = []) {
   writeFileSync(join(wurzel, BELEGE_DATEI), JSON.stringify(belege))
@@ -112,12 +120,19 @@ function phase(belege: Belege, vorher: import('../shared/types.ts').Release[] = 
   return releases[0]
 }
 try {
+  const o = phase({})
+  pruefe('Phase ohne Beleg: 15:30, nur die Serienseite als Quelle, kein Hinweis', o?.schedule?.time === '15:30' && o?.sources?.join() === PS && !/Wochenprogramm/.test(o?.herkunft ?? ''), o)
   const r = phase(B16)
   pruefe('Phase mit Beleg: Release Psyren 26.10. um 16:30', r?.schedule?.firstEpisodeDate === '2026-10-26' && r?.schedule?.time === '16:30', r?.schedule)
   pruefe('Phase mit Beleg: der Artikel steht unter den Quellen, die Herkunft nennt das Wochenprogramm', r?.sources?.includes(ARTIKEL) === true && r?.sources?.includes(PS) === true && /Wochenprogramm/.test(r?.herkunft ?? ''), r)
   pruefe('Phase mit Beleg: die Zahl der belegten Folgen bleibt lesbar', belegteFolgen(r?.herkunft) === 1, r?.herkunft)
-  const o = phase({})
-  pruefe('Phase ohne Beleg: 15:30, nur die Serienseite als Quelle, kein Hinweis', o?.schedule?.time === '15:30' && o?.sources?.join() === PS && !/Wochenprogramm/.test(o?.herkunft ?? ''), o)
+  /* Prüfer 2207: der Beleg verfällt nach 21 Tagen, die gemerkte Zeit nicht. */
+  const spaeter = phase({})
+  pruefe('Beleg verfallen (Datei leer): die gemerkte Zeit 16:30 gilt weiter', spaeter?.schedule?.time === '16:30' && spaeter?.sources?.includes(ARTIKEL) === true, spaeter)
+  const frischer = phase(belegeAus(beleg('GT00371866', 1, '2026-10-26', '17:00')))
+  pruefe('frischer Beleg desselben Tages schlägt die gemerkte Zeit', frischer?.schedule?.time === '17:00', frischer)
+  const danach = phase({})
+  pruefe('und die Merkliste hat die neue Zeit übernommen', danach?.schedule?.time === '17:00', danach)
   const sammel = { slug: 'ps-katalog', titleId: 204011, name: 'Psyren', platform: 'crunchyroll', platformUrl: PS, releaseType: 'batch', dateMeaning: 'available-from', year: 2026, sources: [PS], schedule: { firstEpisodeDate: '2026-10-26', lastEpisodeDate: '2026-10-26' } } as never
   const s = phase(B16, [sammel])
   pruefe('Phase, Sammeldatum ersetzt: Zeit 16:30, Artikel unter den Quellen, Herkunft nennt das Wochenprogramm', s?.schedule?.time === '16:30' && s?.sources?.includes(ARTIKEL) === true && /Wochenprogramm/.test(s?.herkunft ?? ''), s)
@@ -129,4 +144,4 @@ if (verletzt) {
   console.error(`✖ check-cr-zeit-woche: ${verletzt} von ${faelle} Fällen verletzt`)
   process.exit(1)
 }
-console.log(`✓ check-cr-zeit-woche: ${faelle} Fälle (Wochenprogramm-Zeit schlägt API-Stempel desselben Tages, Phase liest die Belege)`)
+console.log(`✓ check-cr-zeit-woche: ${faelle} Fälle (Wochenprogramm-Zeit schlägt API-Stempel desselben Tages, Phase liest die Belege, die Merkliste überlebt den Beleg)`)
