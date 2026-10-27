@@ -287,7 +287,7 @@ const nachholen = Number(lies('.github/workflows/wecker-wache.yml').match(/meldu
 const wachTakt = Number(lies('.github/workflows/wecker-wache.yml').match(/cron: '\d+ \*\/(\d+) \* \* \*'/)?.[1])
 assert.ok(nachholen > 0 && wachTakt > 0, 'wecker-wache holt meldungskopie.yml nach')
 assert.ok(nachholen + wachTakt <= STAND_MAX_STUNDEN, `Nachholen nach ${nachholen} h im ${wachTakt}-h-Takt: spätestens ${nachholen + wachTakt} h, Grenze ${STAND_MAX_STUNDEN} h`)
-assert.equal(Number(lies('tools/wache-woechentlich.mjs').match(/'meldungskopie\.yml': (\d+)/)?.[1]), STAND_MAX_STUNDEN)
+assert.equal(Number(lies('tools/wache-fristen.mjs').match(/'meldungskopie\.yml': (\d+)/)?.[1]), STAND_MAX_STUNDEN)
 
 /* ---- Lauf: Name und Datei des Artefakts sind die, die „holen“ erwartet; das Token fehlt nicht still ---- */
 const yml = lies('.github/workflows/meldungskopie.yml')

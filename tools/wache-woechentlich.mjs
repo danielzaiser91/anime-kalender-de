@@ -14,51 +14,23 @@
  */
 import { execFileSync } from 'node:child_process'
 import { appendFileSync, readFileSync } from 'node:fs'
+import { FRISTEN_STUNDEN, pruefeFristen } from './wache-fristen.mjs'
 
 const TROCKEN = process.argv.includes('--trocken')
 const H = 3600e3
 
-/** Workflow: erlaubtes Alter des letzten erfolgreichen Laufs in Stunden (Takt plus Luft, Stand 08.10.2026). */
-const FRISTEN_STUNDEN = {
-  'refresh-hourly.yml': 12,
-  'refresh-data.yml': 36,
-  'bestand-bauen.yml': 36,
-  'deploy.yml': 48,
-  'adn-laufende.yml': 24,
-  'claude-verpasst-recherche.yml': 36,
-  'claude-anime2you-extraktion.yml': 36,
-  'claude-wache-urteil.yml': 36,
-  'anisearch-katalog.yml': 48,
-  'ladezeiten.yml': 36,
-  'offizielle-news.yml': 36,
-  'meldungskopie.yml': 36,
-  'refresh-weekly.yml': 216,
-  // Wie `motn` in check-sources.ts: ein Kontingentzyklus plus zwei Tage.
-  'tonspuren-monatlich.yml': 792,
-}
 const STAND_MAX_STUNDEN = 36
 
-const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 })
+// WACHE_GH_SKRIPT: Node-Skript statt gh (nur der Prozess-Test setzt es).
+const gh = (...a) => (process.env.WACHE_GH_SKRIPT ? execFileSync(process.execPath, [process.env.WACHE_GH_SKRIPT, ...a], { encoding: 'utf8' }) : execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 }))
 
 function letzterErfolg(workflow) {
   const t = gh('run', 'list', '--workflow', workflow, '--status', 'success', '--limit', '1', '--json', 'createdAt', '--jq', '.[0].createdAt // empty').trim()
   return t ? Date.parse(t) : null
 }
 
-const befunde = []
 const jetzt = Date.now()
-for (const [workflow, max] of Object.entries(FRISTEN_STUNDEN)) {
-  let t = null
-  try {
-    t = letzterErfolg(workflow)
-  } catch (e) {
-    befunde.push(`${workflow}: Abfrage fehlgeschlagen (${String(e.message).split('\n')[0]})`)
-    continue
-  }
-  const alter = t === null ? null : (jetzt - t) / H
-  console.log(`${workflow.padEnd(32)} letzter Erfolg vor ${alter === null ? 'nie' : alter.toFixed(1) + ' h'} (erlaubt ${max} h)`)
-  if (alter === null || alter > max) befunde.push(`${workflow}: letzter erfolgreicher Lauf ${alter === null ? 'nie' : 'vor ' + Math.round(alter) + ' h'}, erlaubt ${max} h`)
-}
+const befunde = pruefeFristen(letzterErfolg, jetzt, FRISTEN_STUNDEN, console.log)
 
 try {
   const erzeugt = Date.parse(JSON.parse(readFileSync('public/data/meta.json', 'utf8')).generatedAt)

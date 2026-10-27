@@ -143,7 +143,7 @@ function wecker(): void {
   const gestern = (stundenher: number) => [{ created_at: new Date(start.getTime() - stundenher * 3_600_000).toISOString(), status: 'completed', conclusion: 'success' }]
   pruefe('der Start vor 24 Stunden ist erlaubt, ein Doppelstart binnen 10 Stunden nicht', startErlaubt('offizielle-news.yml', gestern(24), start) && !startErlaubt('offizielle-news.yml', gestern(1), start))
   const wache = readFileSync(new URL('../.github/workflows/wecker-wache.yml', import.meta.url), 'utf8')
-  const fristen = readFileSync(new URL('../tools/wache-woechentlich.mjs', import.meta.url), 'utf8')
+  const fristen = readFileSync(new URL('../tools/wache-fristen.mjs', import.meta.url), 'utf8')
   const nachholGrenze = Number(/offizielle-news\.yml:(\d+)/.exec(wache)?.[1])
   pruefe('fällt der Wecker aus, holt ihn die Wecker-Wache nach 30 Stunden nach (mehr als ein Takt von 24 h)', nachholGrenze > 24 && nachholGrenze <= 36, nachholGrenze)
   const frist = Number(/'offizielle-news\.yml': (\d+)/.exec(fristen)?.[1])
