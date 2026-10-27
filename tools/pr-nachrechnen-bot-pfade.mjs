@@ -3,7 +3,7 @@
  * liest (21.10.2026, Messung: die letzten 200 Bot-Commits auf main). Gelesen heißt: `pipeline/build.ts` (data:build) und was es importiert,
  * `data:validate`, die Prüfungen von `check:vor-commit`, `check:logic` und `tests-alle` lesen die Datei im echten Repo (Tests mit Wegwerf-Wurzel
  * zählen nicht). Eine Bewegung dieser Pfade auf main entwertet die Kettenläufe offener PRs nicht (F55). Gelesene Bot-Dateien
- * (Tabelle in der PR-Beschreibung) bleiben draußen, ebenso `extension/`, `tools/umfang-grenzen.json` und `public/og/`.
+ * (Tabelle in der PR-Beschreibung) bleiben draußen, ebenso `extension/` und `tools/umfang-grenzen.json`; Bilder unter `public/og/` (außer `default.*`) regelt `istBotBild`.
  * Ein Eintrag ohne Schrägstrich am Ende ist eine Datei, ein Ordner steht ohne Endstrich (`istBotDatei` hängt ihn an).
  * Wächter gegen späteres Lesen im Bau: `pr-nachrechnen-bot-pfade.test.mjs`.
  */
@@ -29,6 +29,7 @@ export const BOT_DATEIEN_OHNE_LESER = [
   'daniel-zum-abarbeiten/listen/17-vorfaelle.md',
   'daniel-zum-abarbeiten/listen/18-suchadressen.md',
   'daniel-zum-abarbeiten/listen/22-belege-ohne-fundstelle.md',
+  'daniel-zum-abarbeiten/listen/23-nur-originalton.md',
   'daniel-zum-abarbeiten/listen/cover-ohne-tmdb.md',
   'daniel-zum-abarbeiten/listen/tmdb-staffel0-unsicher.md',
   'data/abruf-stempel.json',
@@ -62,6 +63,12 @@ export const BOT_DATEIEN_OHNE_LESER = [
   'data/wikidata-titel.json',
   'tools/kalender-plausibilitaet-grenzen.json',
 ]
+
+/**
+ * Vorschaubilder unter `public/og/` (vom Bestandsbau erzeugt, 27.10.2026: kein Schritt der Kette liest sie). Ausgenommen `default.*`:
+ * `tools/og-standard.test.ts` liest `default.txt`, und `default.jpg` hängt an dessen Kennung.
+ */
+export const istBotBild = (datei) => /^public\/og\/(?!default\.)[^/]+\.(jpg|png|webp)$/.test(datei)
 
 /** Datei oder Ordnerinhalt aus der Liste oben. */
 export const istBotDatei = (datei) => BOT_DATEIEN_OHNE_LESER.some((p) => datei === p || datei.startsWith(`${p}/`))
