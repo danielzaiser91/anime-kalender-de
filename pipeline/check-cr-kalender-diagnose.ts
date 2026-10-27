@@ -12,7 +12,7 @@ import { join } from 'node:path'
 const ordner = mkdtempSync(join(tmpdir(), 'cr-kalender-diagnose-'))
 mkdirSync(join(ordner, 'data'))
 process.env.AK_ROOT = ordner
-const { fehlerText, kalenderDiagnose, meldeLeerenKalender } = await import('./lib/cr-kalender-diagnose.ts')
+const { apiAdressen, fehlerText, kalenderDetails, kalenderDiagnose, meldeLeerenKalender } = await import('./lib/cr-kalender-diagnose.ts')
 const { liesWochen, main, scrapeWeek } = await import('./scrape-crunchyroll.ts')
 const { addDays, startOfWeek, todayIso } = await import('../shared/time.ts')
 
@@ -68,14 +68,26 @@ console.log('fehlerText')
 }
 
 /** Browser-Attrappe: `goto` liefert den Status, `evaluate` je nach Aufruf Kacheln oder Text; jede Methode wirft ungebunden. */
-function browserAttrappe(opts: { status: number | null; titel: string; html: string; kacheln: boolean; seiteKaputt?: boolean; auchNichtDeutsch?: boolean }) {
+function browserAttrappe(opts: { status: number | null; titel: string; html: string; kacheln: boolean; seiteKaputt?: boolean; auchNichtDeutsch?: boolean; umleitung?: boolean }) {
   const urls: string[] = []
   const zaehler = { geschlossen: 0 }
   const seite = {
     async goto(this: unknown, url: string) {
       if (this === undefined) throw new Error('ungebunden')
       urls.push(url)
-      return opts.status === null ? null : { status: () => opts.status }
+      if (opts.status === null) return null
+      // Playwright-Form: Antwort -> request() -> redirectedFrom() -> ... mit response().status() je Schritt.
+      const erste = {
+        url: () => `${url}&token=geheim`,
+        response: async () => ({ status: () => 302 }),
+        redirectedFrom: () => null,
+      }
+      const letzte = {
+        url: () => 'https://www.crunchyroll.com/de/simulcasts?x=1#f',
+        response: async () => ({ status: () => opts.status }),
+        redirectedFrom: () => (opts.umleitung ? erste : null),
+      }
+      return { status: () => opts.status, request: () => letzte }
     },
     async waitForSelector(this: unknown) {
       if (this === undefined) throw new Error('ungebunden')
@@ -84,6 +96,7 @@ function browserAttrappe(opts: { status: number | null; titel: string; html: str
     async evaluate(this: unknown, f: () => unknown) {
       if (this === undefined) throw new Error('ungebunden')
       const text = f.toString()
+      if (text.includes('a[href]')) return ['/de/simulcast?x=1', '/de/about', '/de/simulcastcalendar?date=2026-10-19']
       if (text.includes('innerText')) {
         if (opts.seiteKaputt) throw new Error('Execution context was destroyed')
         return 'Verifying you are human'
@@ -139,6 +152,23 @@ console.log('scrapeWeek')
   pruefe(gefunden.length === 1 && gefunden[0].german, 'Woche mit Kachel: ein deutscher Slot')
   pruefe(d2.length === 0, 'Woche mit Kachel: keine Diagnose')
 
+  // Details gehen als Warnung ins Log (nicht in lastError, das hat 160 Zeichen); Umleitung samt Statusfolge, Abfrage entfernt.
+  const logzeilen: string[] = []
+  const alt = console.warn
+  console.warn = (...a: unknown[]) => void logzeilen.push(a.join(' '))
+  const umgeleitet = browserAttrappe({ status: 200, titel: 'Simulcasts durchstöbern', html: '<html></html>', kacheln: false, umleitung: true })
+  await scrapeWeek(umgeleitet.browser, '2026-10-19', [])
+  console.warn = alt
+  const detail = logzeilen.find((l) => l.includes('Details 2026-10-19: '))
+  pruefe(!!detail && detail.includes('Aufrufkette 302 https://www.crunchyroll.com/de/simulcastcalendar -> ') && detail.includes('-> 200 https://www.crunchyroll.com/de/simulcasts;'), `Details im Log: ${detail}`)
+  pruefe(!!detail && !detail.includes('geheim') && detail.includes('Verweise [/de/simulcast, /de/simulcastcalendar]'), 'Details: Verweise gefiltert, Token entfernt')
+  const volleSeite = browserAttrappe({ status: 200, titel: 'Kalender', html: KACHEL_HTML, kacheln: true })
+  const stumm: string[] = []
+  console.warn = (...a: unknown[]) => void stumm.push(a.join(' '))
+  await scrapeWeek(volleSeite.browser, '2026-10-19', [])
+  console.warn = alt
+  pruefe(!stumm.some((l) => l.includes('Details')), 'Woche mit Kachel: keine Details im Log')
+
   const ohneAntwort = browserAttrappe({ status: null, titel: '', html: '', kacheln: false })
   const d3: string[] = []
   await scrapeWeek(ohneAntwort.browser, '2026-10-19', d3)
@@ -149,6 +179,26 @@ console.log('scrapeWeek')
   const d4: string[] = []
   await scrapeWeek(kaputt.browser, '2026-10-12', d4)
   pruefe(d4.length === 1 && d4[0] === '2026-10-12: HTTP 503; Titel „“; keine Challenge-Merkmale; Text „“', `Seite zu: ${d4[0]}`)
+}
+
+console.log('kalenderDetails')
+{
+  const k = (n: number) => Array.from({ length: n }, (_, i) => `/de/simulcast/${i}?t=${i}`)
+  const html = '<script src="https://static.crunchyroll.com/cms/v2/a.json?tok=1"></script><a href="/de/about">x</a> fetch("/api/kalender.json") "//beta-api.crunchyroll.com/v1/x"'
+  const z = kalenderDetails({
+    kette: [{ status: 302, url: 'https://www.crunchyroll.com/de/simulcastcalendar?date=1&tok=geheim' }, { status: 200, url: 'https://www.crunchyroll.com/de/simulcasts#f' }],
+    links: ['/de/about', '/de/simulcastcalendar?date=2026-10-19', '/de/simulcastcalendar?date=2026-10-26', ...k(25)],
+    html,
+  })
+  pruefe(z.startsWith('Aufrufkette 302 https://www.crunchyroll.com/de/simulcastcalendar -> 200 https://www.crunchyroll.com/de/simulcasts;'), `Statusfolge mit Endadresse, ohne Abfrage: ${z}`)
+  pruefe(!z.includes('geheim') && !z.includes('tok='), 'keine Abfrage-Token im Log')
+  const verweise = /Verweise \[(.*?)\]; API/.exec(z)![1].split(', ')
+  pruefe(verweise.length === 20 && verweise[0] === '/de/simulcastcalendar' && !verweise.includes('/de/about'), `Verweise: gefiltert, ohne Abfrage, doppelte einmal, höchstens 20 (${verweise.length})`)
+  const api = /API \[(.*)\]$/.exec(z)![1].split(', ')
+  pruefe(api.join() === 'https://static.crunchyroll.com/cms/v2/a.json,/api/kalender.json,//beta-api.crunchyroll.com/v1/x', `API-Adressen: ${api.join()}`)
+  const viele = apiAdressen(Array.from({ length: 25 }, (_, i) => `"/api/${i}.json"`).join(' '))
+  pruefe(viele.length === 20, 'höchstens 20 API-Adressen')
+  pruefe(kalenderDetails({ kette: [{ url: 'https://a/b' }], links: [], html: '' }) === 'Aufrufkette ? https://a/b; Verweise []; API []', 'leer: Status unbekannt, leere Listen')
 }
 
 console.log('meldeLeerenKalender')
