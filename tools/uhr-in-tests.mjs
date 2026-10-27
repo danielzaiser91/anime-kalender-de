@@ -4,7 +4,9 @@
  * Eine Prüfung gegen die echte Uhr wird am UTC-Tageswechsel oder zur Sendestunde rot, ohne dass jemand etwas geändert hat
  * (main war am 19.10.2026 so einen Montag lang rot). Neue Tests nehmen eine feste Zeit (`tools/feste-uhr.ts`).
  * Auch die Umgehungen zählen: `globalThis['Date']`, ein Alias (`const D = Date`, `const { now } = Date`; die Bindung zählt einmal)
- * und `Reflect.construct(Date, [])` ohne Argumente. Nicht erfasst: Date als Objektwert, Parameter-Vorgabe oder Funktionsargument.
+ * und `Reflect.construct(Date, [])` ohne Argumente; Klammern, `as`, `<T>`, `!` und `satisfies` darum herum werden ausgepackt.
+ * Nicht erfasst: Date als Objektwert, Parameter-Vorgabe oder Funktionsargument, `window.Date`/`self.Date`, `{ Date: D } = globalThis`,
+ * `let D; D = Date`, `(0, Date)()`, `Date.call()`.
  * Gezählt wird im Syntaxbaum aller getrackten `*.test.*`-Dateien und aller Einträge von tools/check-logic-liste.txt.
  * Misst der Test die Uhr bewusst (Wartezeit, Alter einer Datei), steht in einem Kommentar derselben Zeile
  * `uhr-echt: <Grund>` (ohne Grund oder in einem String gilt es nicht); die Stelle zählt dann nicht.
@@ -37,9 +39,17 @@ function testdateien(quelle) {
   return [...new Set([...getrackt.filter((p) => TESTNAME.test(p)), ...eintraege])].sort()
 }
 
-const istGlobalThis = (n) => ts.isIdentifier(n) && n.text === 'globalThis'
+// Klammern, `as`, `<T>`, `!` und `satisfies` um einen Ausdruck ändern nicht, was er ist.
+const auspacken = (n) => ts.skipOuterExpressions(n)
 
-const istDate = (n) =>
+const istGlobalThis = (roh) => {
+  const n = auspacken(roh)
+  return ts.isIdentifier(n) && n.text === 'globalThis'
+}
+
+const istDate = (roh) => istDateKern(auspacken(roh))
+
+const istDateKern = (n) =>
   (ts.isIdentifier(n) && n.text === 'Date') ||
   (ts.isPropertyAccessExpression(n) && n.name.text === 'Date' && istGlobalThis(n.expression)) ||
   (ts.isElementAccessExpression(n) && ts.isStringLiteralLike(n.argumentExpression) && n.argumentExpression.text === 'Date' && istGlobalThis(n.expression))

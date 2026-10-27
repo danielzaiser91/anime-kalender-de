@@ -74,8 +74,12 @@ try {
   ]) {
     assert.deepEqual(funde(`const x = 1\nconst t = ${form}\n`), ['a.test.ts:2'], `zählt: ${JSON.stringify(form)}`)
   }
+  // Eingepackte Date-Verweise zählen wie die nackten.
+  for (const form of ['new (Date)()', '(Date as any).now()', 'new (Date as any)()', '(<any>Date).now()', '(globalThis as any).Date.now()', "(globalThis)['Date']()", 'Reflect.construct((Date), [])']) {
+    assert.deepEqual(funde(`const x = 1\nconst t = ${form}\n`), ['a.test.ts:2'], `zählt eingepackt: ${JSON.stringify(form)}`)
+  }
   // Alias: die Bindung zählt einmal, der spätere Aufruf unter dem neuen Namen nicht noch einmal.
-  for (const alias of ['const D = Date', 'const D = globalThis.Date', "const D = globalThis['Date']", 'const { now } = Date', 'let D = Date, y = 1']) {
+  for (const alias of ['const D = Date', 'const D = globalThis.Date', "const D = globalThis['Date']", 'const { now } = Date', 'let D = Date, y = 1', 'const D = Date as any', 'const D = (Date)', 'const D = <any>Date', 'const D = Date!', 'const D = Date satisfies unknown', 'const D = ((globalThis as any).Date)']) {
     assert.deepEqual(funde(`const x = 1\n${alias}\nconst t = D.now()\n`), ['a.test.ts:2'], `Alias zählt: ${JSON.stringify(alias)}`)
   }
   assert.deepEqual(funde('const echteUhr = Date.now\nconst t = echteUhr()\n'), ['a.test.ts:1'], 'Verweis auf Date.now ohne Aufruf zählt (die Aufrufstelle selbst nicht)')
@@ -122,7 +126,7 @@ try {
     assert.deepEqual(funde(`const t = ${form}\n`), [], `zählt nicht: ${JSON.stringify(form)}`)
   }
 
-  for (const bindung of ['const D = Foo', 'const D = Date.UTC(1)', 'const D = fn(Date)', 'const D', 'const { y } = globalThis.fetch', 'const o = { a: Date }', 'function f(D = Date) {}']) {
+  for (const bindung of ['const D = Foo', 'const D = Foo as any', 'const D = (Foo)', 'const D = (Foo as any).Date','const D = Date.UTC(1)', 'const D = fn(Date)', 'const D', 'const { y } = globalThis.fetch', 'const o = { a: Date }', 'function f(D = Date) {}']) {
     assert.deepEqual(funde(`${bindung}\n`), [], `Bindung zählt nicht: ${JSON.stringify(bindung)}`)
   }
 
