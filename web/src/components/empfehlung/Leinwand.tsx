@@ -63,7 +63,7 @@ function ZweiteEbene({ k, titel, genres, eigene }: { k: Kandidat; titel?: Title;
   }, [k.id])
   const kopf = 'mb-2 mt-0 text-xs font-normal uppercase tracking-[0.12em] text-ak-leise'
   return (
-    <div className="mx-auto grid max-w-[1100px] snap-start gap-5 px-5 pb-40 pt-4 min-[900px]:grid-cols-[1.2fr_1fr] min-[900px]:gap-7">
+    <div className="mx-auto grid max-w-[1100px] snap-start gap-5 px-5 pb-56 pt-4 min-[900px]:grid-cols-[1.2fr_1fr] min-[900px]:gap-7">
       <div>
         <h3 className={`${kopf} mt-0`}>{t('empf.blick')}</h3>
         <div className="flex flex-wrap items-center gap-2">

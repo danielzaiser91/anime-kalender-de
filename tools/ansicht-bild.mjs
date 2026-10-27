@@ -344,7 +344,7 @@ async function spieleEmpfehlung(browser, geraet, thema) {
 }
 
 const RESET_BREITEN = [390, 768, 820, 1024, 1180, 1279, 1440]
-const RESET_SCHLUESSEL = ['empfehlung:gesehen', 'empfehlung:verworfen', 'empfehlung:anbieter']
+const RESET_SCHLUESSEL = ['empfehlung:gesehen', 'empfehlung:verworfen', 'empfehlung:anbieter', 'empfehlung:reise']
 
 const IPAD_UA = 'Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
 const LANGE_SUCHE = 'Sword Art Online Alicization War of Underworld'
