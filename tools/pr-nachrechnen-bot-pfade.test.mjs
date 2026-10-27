@@ -80,7 +80,6 @@ const ERWARTET = [
 const ORDNER = ['data/anisearch-folgen-raw', 'data/anisearch-sprecher-raw', 'data/ann-raw', 'data/motn-raw']
 
 pruefe('Liste: genau die gemessenen Einträge, keiner doppelt', JSON.stringify([...BOT_DATEIEN_OHNE_LESER]) === JSON.stringify(ERWARTET) && new Set(ERWARTET).size === ERWARTET.length, BOT_DATEIEN_OHNE_LESER.length)
-pruefe('Liste: 55 Einträge', ERWARTET.length === 55, ERWARTET.length)
 
 for (const eintrag of ERWARTET) {
   const innen = ORDNER.includes(eintrag) ? `${eintrag}/1.json.gz` : eintrag
