@@ -34,7 +34,7 @@ export function useReise(kontext: Kontext | undefined, m: Mengen, startwert: () 
     const gemerkt = reiseWiederherstellen(kontext, new Set(weg))
     if (gemerkt) setA(gemerkt)
   }, [kontext, weg])
-  useEffect(() => reiseMerken(a), [a])
+  useEffect(() => reiseMerken(a, kontext), [a, kontext])
   const aendere = (f: (alt: Ablauf, k: Kontext) => Ablauf) => kontext && setA((alt) => f(alt, kontext))
   const neu = () => {
     const aus = ausgeschlossenFuerReise({ favoriten: m.favoriten, gesehen: m.gesehen, ausgeblendet: m.ausgeblendet, gesehenBis: gesehenLesen() })

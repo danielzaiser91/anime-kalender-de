@@ -62,27 +62,27 @@ console.log('Merken und Wiederherstellen')
 {
   pruefe('Kulisse: die Reise endet bei den Vorschlägen', fertig.phase === 'ergebnis' && fertig.gezeigt.length === 5, fertig.phase)
   const s = attrappe()
-  reiseMerken(fertig, s)
+  reiseMerken(fertig, k, s)
   const zurueck = reiseWiederherstellen(k, KEINE, s)
   pruefe('Ergebnis: wieder bei den Vorschlägen, dieselben fünf', zurueck?.phase === 'ergebnis' && JSON.stringify(zurueck.gezeigt) === JSON.stringify(fertig.gezeigt), zurueck?.gezeigt)
   pruefe('Ziel und Zustand kommen zurück (genauer geht weiter)', zurueck?.ziel === fertig.ziel && JSON.stringify(zurueck.sitzung?.zustand) === JSON.stringify(fertig.sitzung?.zustand))
   pruefe('Der Verlauf ist leer (Zurück im Duell gibt es nicht)', zurueck?.sitzung?.verlauf.length === 0)
 
   const s2 = attrappe()
-  reiseMerken(oeffnen(fertig, fertig.gezeigt[1]), s2)
+  reiseMerken(oeffnen(fertig, fertig.gezeigt[1]), k, s2)
   pruefe('Leinwand wird gemerkt, kommt aber als Galerie zurück', reiseWiederherstellen(k, KEINE, s2)?.phase === 'ergebnis')
 
   const s3 = attrappe()
   const frisch = neueReise(k, ANFANG, 7, [])
-  reiseMerken(frisch, s3)
+  reiseMerken(frisch, k, s3)
   pruefe('Duell ohne gewertete Antwort wird nicht gemerkt', s3.daten.size === 0)
   const eine = antworten(k, frisch, 'A', rang)
-  reiseMerken(eine, s3)
+  reiseMerken(eine, k, s3)
   const offen = reiseWiederherstellen(k, KEINE, s3)
   pruefe('Duell mit genau einer Antwort wird gemerkt und kommt als Start zum Fortfahren zurück', offen?.phase === 'start' && offen.sitzung?.zustand.gewertet === 1 && offen.ziel === 6, offen?.phase)
   pruefe('Zum offenen Duell gehört ein Zustand, den fortfahren() ins Duell zurückführt', fortfahren(k, offen!).phase === 'duell')
   s3.daten.clear()
-  reiseMerken(ANFANG, s3)
+  reiseMerken(ANFANG, k, s3)
   pruefe('Der Anfang wird nicht gemerkt', s3.daten.size === 0)
   pruefe('Nichts gemerkt → undefined', reiseWiederherstellen(k, KEINE, attrappe()) === undefined)
 }
@@ -90,7 +90,7 @@ console.log('Merken und Wiederherstellen')
 console.log('Veraltet und kaputt')
 {
   const s = attrappe()
-  reiseMerken(fertig, s)
+  reiseMerken(fertig, k, s)
   const [a, b] = fertig.gezeigt
   const ohne = reiseWiederherstellen(k, new Set([a, b]), s)
   pruefe('Seitdem verworfene oder gesehene Titel fehlen', JSON.stringify(ohne?.gezeigt) === JSON.stringify(fertig.gezeigt.slice(2)), ohne?.gezeigt)
@@ -103,7 +103,7 @@ console.log('Veraltet und kaputt')
     t.daten.set('empfehlung:reise', roh)
     pruefe(`Eintrag ${JSON.stringify(roh)} → undefined`, reiseWiederherstellen(k, KEINE, t) === undefined)
   }
-  const gespeichert = JSON.parse(s.daten.get('empfehlung:reise')!) as { zustand: Record<string, unknown>; gezeigt: unknown[]; ziel: number }
+  const gespeichert = JSON.parse(s.daten.get('empfehlung:reise')!) as { zustand: Record<string, unknown>; gezeigt: unknown[]; ziel: number; pool?: number }
   const mit = (aendere: (r: typeof gespeichert) => void) => {
     const kopie = JSON.parse(s.daten.get('empfehlung:reise')!) as typeof gespeichert
     aendere(kopie)
@@ -112,6 +112,14 @@ console.log('Veraltet und kaputt')
     return reiseWiederherstellen(k, KEINE, t)
   }
   pruefe('Kontrolle: unveränderter Eintrag geht', mit(() => undefined) !== undefined)
+  pruefe('Pool-Kennung fehlt → undefined', mit((r) => delete r.pool) === undefined)
+  pruefe('Pool-Kennung anders → undefined', mit((r) => ((r.pool as number) += 1)) === undefined)
+  const andererPool = (aendere: (l: Kandidat[]) => Kandidat[]) => baueKontext({ ...datei, einstiege: aendere([...datei.einstiege]) })
+  const mitPool = (kk: ReturnType<typeof baueKontext>) => reiseWiederherstellen(kk, KEINE, s)
+  pruefe('Kontrolle: gleich gebauter Pool geht', mitPool(andererPool((l) => l)) !== undefined)
+  pruefe('Neuer Titel mit kleinerer Kennung vorn → undefined (Indizes verschoben)', mitPool(andererPool((l) => [{ ...l[0], id: 900001, n: 'Neu' }, ...l])) === undefined)
+  pruefe('Neuer Titel hinten → undefined', mitPool(andererPool((l) => [...l, { ...l[0], id: 909999, n: 'Neu' }])) === undefined)
+  pruefe('Zwei Titel vertauscht → undefined', mitPool(andererPool((l) => [l[1], l[0], ...l.slice(2)])) === undefined)
   pruefe('Index außerhalb des Pools (rest) → undefined', mit((r) => ((r.zustand.rest as number[])[0] = 60)) === undefined)
   pruefe('Index im Pool (rest, 59) → geht', mit((r) => ((r.zustand.rest as number[])[0] = 59)) !== undefined)
   pruefe('Index außerhalb (sieger) → undefined', mit((r) => (r.zustand.sieger = [60])) === undefined)
@@ -126,7 +134,7 @@ console.log('Veraltet und kaputt')
   const gesperrt = attrappe(true)
   let geworfen = false
   try {
-    reiseMerken(fertig, gesperrt)
+    reiseMerken(fertig, k, gesperrt)
     reiseVergessen(gesperrt)
     pruefe('Gesperrter Speicher: Wiederherstellen → undefined', reiseWiederherstellen(k, KEINE, gesperrt) === undefined)
   } catch {
@@ -138,7 +146,7 @@ console.log('Veraltet und kaputt')
 console.log('Von vorn')
 {
   const s = attrappe()
-  reiseMerken(fertig, s)
+  reiseMerken(fertig, k, s)
   const start = zuStart(fertig)
   pruefe('Von vorn: Startbildschirm, Sitzung und Galerie bleiben', start.phase === 'start' && start.sitzung === fertig.sitzung && start.gezeigt === fertig.gezeigt)
   pruefe('Fortfahren nach erreichtem Ziel: zu den Vorschlägen', fortfahren(k, start).phase === 'ergebnis' && fortfahren(k, start).gezeigt === fertig.gezeigt)

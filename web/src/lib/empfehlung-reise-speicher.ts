@@ -10,6 +10,8 @@ export interface GemerkteReise {
   ziel: number
   gezeigt: number[]
   zustand: Zustand
+  /** Kennung der Pool-Reihenfolge: der Zustand trägt Indizes, die nach einem neuen Titel nicht mehr stimmen. */
+  pool: number
 }
 
 /** Das schmale Stück von `Storage`; Tests setzen eine Attrappe ein. */
@@ -23,21 +25,21 @@ const istZahlenliste = (x: unknown, unter: number): x is number[] =>
   Array.isArray(x) && x.every((n) => Number.isInteger(n) && n >= 0 && n < unter)
 
 /** Prüft ein gelesenes Objekt gegen die Pool-Größe; ein Schlüssel, der nicht mehr passt, wird verworfen statt geraten. */
-function alsReise(roh: unknown, einstiege: number): GemerkteReise | undefined {
+function alsReise(roh: unknown, einstiege: number, pool: number): GemerkteReise | undefined {
   const r = roh as Partial<GemerkteReise> | null
   const z = r?.zustand as Partial<Zustand> | undefined
-  if (!r || !z || typeof r.ziel !== 'number' || !Array.isArray(r.gezeigt) || !r.gezeigt.every((n) => Number.isInteger(n))) return undefined
+  if (!r || r.pool !== pool || !z || typeof r.ziel !== 'number' || !Array.isArray(r.gezeigt) || !r.gezeigt.every((n) => Number.isInteger(n))) return undefined
   const indizes = [z.rest, z.sieger, z.gesehen, z.ausgeschlossen]
   if (!indizes.every((l) => istZahlenliste(l, einstiege))) return undefined
   if (![z.startwert, z.schritt, z.gewertet].every((n) => typeof n === 'number')) return undefined
   if (z.neutral !== null && !(Array.isArray(z.neutral) && z.neutral.length === 2 && istZahlenliste(z.neutral, einstiege))) return undefined
-  return { ziel: r.ziel, gezeigt: r.gezeigt, zustand: z as Zustand }
+  return { ziel: r.ziel, gezeigt: r.gezeigt, zustand: z as Zustand, pool }
 }
 
-export function reiseMerken(a: Ablauf, speicher: ReiseSpeicher = localStorage): void {
+export function reiseMerken(a: Ablauf, k: Kontext | undefined, speicher: ReiseSpeicher = localStorage): void {
   const imDuell = a.phase === 'duell' && (a.sitzung?.zustand.gewertet ?? 0) > 0
-  if (!a.sitzung || (a.phase !== 'ergebnis' && a.phase !== 'leinwand' && !imDuell)) return
-  const reise: GemerkteReise = { ziel: a.ziel, gezeigt: a.gezeigt, zustand: a.sitzung.zustand }
+  if (!k || !a.sitzung || (a.phase !== 'ergebnis' && a.phase !== 'leinwand' && !imDuell)) return
+  const reise: GemerkteReise = { ziel: a.ziel, gezeigt: a.gezeigt, zustand: a.sitzung.zustand, pool: poolKennung(k) }
   try {
     speicher.setItem(REISE_SCHLUESSEL, JSON.stringify(reise))
   } catch {
@@ -60,7 +62,7 @@ export function reiseVergessen(speicher: ReiseSpeicher = localStorage): void {
 export function reiseWiederherstellen(k: Kontext, weg: ReadonlySet<number>, speicher: ReiseSpeicher = localStorage): Ablauf | undefined {
   try {
     const roh = speicher.getItem(REISE_SCHLUESSEL)
-    const reise = roh ? alsReise(JSON.parse(roh), k.datei.einstiege.length) : undefined
+    const reise = roh ? alsReise(JSON.parse(roh), k.datei.einstiege.length, poolKennung(k)) : undefined
     if (!reise) return undefined
     const gezeigt = reise.gezeigt.filter((id) => k.index.has(id) && !weg.has(id))
     const sitzung = { zustand: reise.zustand, verlauf: [] }
@@ -69,4 +71,11 @@ export function reiseWiederherstellen(k: Kontext, weg: ReadonlySet<number>, spei
   } catch {
     return undefined
   }
+}
+
+/** Prüfsumme über Kennungen und Reihenfolge der Einstiege (FNV-1a); ändert sich, sobald sich ein Index verschiebt. */
+export function poolKennung(k: Kontext): number {
+  let h = 2166136261
+  for (const e of k.datei.einstiege) h = Math.imul(h ^ e.id, 16777619) >>> 0
+  return h
 }
