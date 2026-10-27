@@ -94,6 +94,7 @@ const gemerkt = { seriesId: 'GT00371866', datum: '2026-10-26', zeit: '16:30', ar
 pruefe('Merkliste ohne frischen Beleg: wird als Beleg gelesen', zeitAusWochenprogramm(belegeMitKorrekturen({}, { 'GT00371866|2026-10-26': gemerkt }), 'GT00371866', '2026-10-26')?.zeit === '16:30')
 pruefe('Merkliste mit frischem Beleg desselben Tages: nur der frische zählt (sonst widersprächen sie sich)', zeitAusWochenprogramm(belegeMitKorrekturen(belegeAus(beleg('GT00371866', 1, '2026-10-26', '17:00')), { 'GT00371866|2026-10-26': gemerkt }), 'GT00371866', '2026-10-26')?.zeit === '17:00')
 pruefe('Merkliste nimmt nur Termine mit ersetzter Zeit auf', Object.keys(korrekturenNach({}, [{ time: '15:30' }, { time: '16:30', zeitQuelle: ARTIKEL, zeitSchluessel: 'GT00371866|2026-10-26' }])).join() === 'GT00371866|2026-10-26')
+pruefe('Merkliste ignoriert unvollständige Termine (Schlüssel ohne Quelle, Quelle ohne Zeit)', Object.keys(korrekturenNach({}, [{ time: '16:30', zeitSchluessel: 'A|2026-10-26' }, { zeitQuelle: ARTIKEL, zeitSchluessel: 'B|2026-10-26' }])).length === 0)
 pruefe('Merkliste behält Altes und ist beim zweiten Durchlauf unverändert', JSON.stringify(korrekturenNach({ 'GT00371866|2026-10-26': gemerkt }, [])) === JSON.stringify({ 'GT00371866|2026-10-26': gemerkt }))
 
 /* Die Bau-Phase liest die Beleg-Datei wirklich und trägt Zeit, Herkunft und Quelle am Release ein. */
