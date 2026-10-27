@@ -147,6 +147,10 @@ jobs:
         run: node tools/cr-zugang-holen.mjs --github-env
 
       # `data:cr-dub` öffnet Crunchyroll-Serienseiten im Browser (scrape-crunchyroll-dub.ts); wie in den Wochen- und Nachhol-Läufen braucht er Chromium.
+      - name: Microsoft-Paketquelle entfernen
+        if: ${{ inputs.lauf == 'data:cr-dub' }}
+        run: sudo grep -l packages.microsoft.com /etc/apt/sources.list.d/* | sudo xargs -r rm -fv || true
+
       - name: Browser für Crunchyroll-Tonspuren installieren
         if: ${{ inputs.lauf == 'data:cr-dub' }}
         run: npx playwright install --with-deps chromium
