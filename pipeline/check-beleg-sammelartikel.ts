@@ -6,7 +6,7 @@
 import { chromium } from 'playwright'
 import { belegAusschnitt } from './lib/beleg-bild.ts'
 import { fensterStart } from './lib/beleg-stelle.ts'
-import { gruppenJeAdresse, suchbegriffeJeAdresse } from './lib/beleg-suche.ts'
+import { gruppenJeAdresse, suchbegriffeJeAdresse, zuordnungFuerLesen, type BestandLeser } from './lib/beleg-suche.ts'
 import type { NewsEintrag, Release, Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -67,13 +67,17 @@ function newsFaelle(): void {
     { am: '2026-09-15', titelId: 1, titel: 'Psyren', slug: 'p', meldungen: [{ belege: [{ url, name: 'CR' }] }] },
     { am: '2026-09-15', titelId: 9, titel: 'Teilreihe', slug: 't', meldungen: [{ teilId: 5, quelle: url }, { quelle: 'kein Link' }] },
   ] as unknown as NewsEintrag[]
-  const g = gruppenJeAdresse([release], titles, news).get(url) ?? []
+  const dateien: Record<string, unknown> = { 'releases.json': [release], 'titles.json': titles, 'news.json': news }
+  const lese = (<T>(pfad: string, vorgabe: T): T => (dateien[pfad.split('/').pop()!] as T | undefined) ?? vorgabe) as BestandLeser
+  const z = zuordnungFuerLesen(lese)
+  const g = z.gruppen.get(url) ?? []
   pruefe('Gruppen: Titel nur aus einer Meldung erscheint', g.some((x) => x.id === 1 && x.suchen.includes('Psyren') && x.suchen.includes('Psyren (TV)') && x.tage.length === 0))
   pruefe('Gruppen: die Teilreihe der Meldung zählt mit ihrer Kennung', g.some((x) => x.id === 5 && x.suchen.join() === 'Teilreihe'))
   pruefe('Gruppen: der Titel mit Termin behält Namen und Tag', g.some((x) => x.id === 3 && x.tage.join() === '2026-10-02' && x.suchen.includes('Kusuriya')))
   pruefe('Gruppen: genau drei Titel, keine Meldung ohne Adresse', g.length === 3, String(g.length))
   pruefe('Gruppen: ohne Meldungen wie bisher nur der Titel mit Termin', (gruppenJeAdresse([release], titles).get(url) ?? []).length === 1)
-  const s = suchbegriffeJeAdresse([release], titles, news).get(url) ?? []
+  const s = z.suchbegriffe.get(url) ?? []
+  pruefe('Zuordnung: die Starttage kommen weiter aus den Terminen', z.tage.get(url)?.join() === '2026-10-02')
   pruefe('Suchbegriffe: Name aus der Meldung steht darin', s.includes('Psyren') && s.includes('Teilreihe') && s.includes('Apothekerin'))
   pruefe('Suchbegriffe: ohne Meldungen fehlt er', !(suchbegriffeJeAdresse([release], titles).get(url) ?? []).includes('Psyren'))
 }

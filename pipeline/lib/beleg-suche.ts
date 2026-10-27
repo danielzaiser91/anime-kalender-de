@@ -95,3 +95,14 @@ export function gruppenJeAdresse(releases: Release[], titles: Title[], news: New
   }
   return new Map([...je].map(([url, gruppen]) => [url, [...gruppen].map(([id, g]) => ({ id, suchen: [...g.namen].sort((a, b) => b.length - a.length), tage: [...g.tage] }))]))
 }
+
+/** Liest eine JSON-Datei des Bestands (`readJson` aus `util.ts`, im Test eine Attrappe). */
+export type BestandLeser = <T>(pfad: string, vorgabe: T) => T
+
+/** Alles, was die Lesung je Adresse über die Titel wissen muss — aus Terminen **und** Meldungen (ohne sie fehlen Titel wie Psyren). */
+export function zuordnungFuerLesen(lese: BestandLeser): { suchbegriffe: Map<string, string[]>; gruppen: Map<string, Gruppe[]>; tage: Map<string, string[]> } {
+  const releases = lese<Release[]>('public/data/releases.json', [])
+  const titles = lese<Title[]>('public/data/titles.json', [])
+  const news = lese<NewsEintrag[]>('public/data/news.json', [])
+  return { suchbegriffe: suchbegriffeJeAdresse(releases, titles, news), gruppen: gruppenJeAdresse(releases, titles, news), tage: tageJeAdresse(releases) }
+}
