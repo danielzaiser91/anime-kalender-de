@@ -89,9 +89,9 @@ for (const [stempel, tag, zeit] of paare) {
 }
 
 /* Die Bau-Phase liest die Beleg-Datei wirklich und trägt Zeit, Herkunft und Quelle am Release ein. */
-function phase(belege: Belege) {
+function phase(belege: Belege, vorher: import('../shared/types.ts').Release[] = []) {
   writeFileSync(join(wurzel, BELEGE_DATEI), JSON.stringify(belege))
-  const releases: import('../shared/types.ts').Release[] = []
+  const releases = vorher
   const log = console.log
   console.log = () => undefined
   try {
@@ -118,6 +118,9 @@ try {
   pruefe('Phase mit Beleg: die Zahl der belegten Folgen bleibt lesbar', belegteFolgen(r?.herkunft) === 1, r?.herkunft)
   const o = phase({})
   pruefe('Phase ohne Beleg: 15:30, nur die Serienseite als Quelle, kein Hinweis', o?.schedule?.time === '15:30' && o?.sources?.join() === PS && !/Wochenprogramm/.test(o?.herkunft ?? ''), o)
+  const sammel = { slug: 'ps-katalog', titleId: 204011, name: 'Psyren', platform: 'crunchyroll', platformUrl: PS, releaseType: 'batch', dateMeaning: 'available-from', year: 2026, sources: [PS], schedule: { firstEpisodeDate: '2026-10-26', lastEpisodeDate: '2026-10-26' } } as never
+  const s = phase(B16, [sammel])
+  pruefe('Phase, Sammeldatum ersetzt: Zeit 16:30, Artikel unter den Quellen, Herkunft nennt das Wochenprogramm', s?.schedule?.time === '16:30' && s?.sources?.includes(ARTIKEL) === true && /Wochenprogramm/.test(s?.herkunft ?? ''), s)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
