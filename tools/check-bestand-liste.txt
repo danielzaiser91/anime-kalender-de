@@ -15,6 +15,7 @@ pipeline/check-cartoon-wege-bestand.ts
 pipeline/check-cartoon-wege-falten-bestand.ts
 pipeline/check-cartoon-zwilling-bestand.ts
 pipeline/check-cover-luecken-bestand.ts
+pipeline/check-cr-auftakt-bestand.ts
 pipeline/check-cr-batch-bestand.ts
 pipeline/check-cr-ja-deckung-bestand.ts
 pipeline/check-cr-neu-bestand.ts
