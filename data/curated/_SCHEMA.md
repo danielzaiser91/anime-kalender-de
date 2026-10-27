@@ -16,7 +16,7 @@ Release-Art, FSK, deutscher Titel.
   platform: crunchyroll             # crunchyroll|netflix|primevideo|disneyplus|paramountplus|adn|aniverse|wow|joyn|rtlplus|youtube|disc|kino|tv
   sender: TOGGO plus                # nur bei platform tv: der Sender
   platformUrl: https://…            # optional; sonst nimmt der Build den AniList-Link
-  buyUrl: https://…                 # optional; bei Disc sonst Amazon-Suchlink
+  buyUrl: https://…                 # optional; bei Disc sonst Amazon-Suche nach der EAN (eindeutige aniSearch-Ausgabe), zuletzt nach dem Namen
   releaseType: weekly               # weekly|batch|movie|disc
   fsk: 12                           # optional: 0|6|12|16|18
   publisher: AniMoon Publishing     # nur bei Disc

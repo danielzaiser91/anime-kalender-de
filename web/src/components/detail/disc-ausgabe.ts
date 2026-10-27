@@ -1,3 +1,5 @@
+import { amazonLinkArt } from '@shared/plattform-suche.ts'
+
 /** Medium-Wörter, die das Kürzel „BLU-RAY“ vor dem Händler schon sagt. */
 const MEDIUM = /\b(?:blu-?ray|dvd|4k uhd)\b/gi
 
@@ -34,4 +36,10 @@ export function kurzeAusgabe(edition?: string): string | undefined {
     })
   })
   return bleibt.map(ohneMedium).filter(Boolean).join(' · ') || undefined
+}
+
+/** Beschriftung des Kauflinks: Eine Namenssuche verspricht kein Produkt (Conan Box 1: 616 Treffer), die EAN-Suche eines (27.10.2026). */
+export function kaufTextSchluessel(url: string | undefined): 'detail.beiShopSuchen' | 'detail.beiShop' | 'detail.kaufenBei' {
+  const art = amazonLinkArt(url)
+  return art === 'name' ? 'detail.beiShopSuchen' : art === 'ean' ? 'detail.beiShop' : 'detail.kaufenBei'
 }
