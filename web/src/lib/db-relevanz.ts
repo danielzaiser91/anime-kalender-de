@@ -113,6 +113,26 @@ function vergleicher<T extends { main: Title }>(art: RelevanzArt) {
   }
 }
 
+/**
+ * In „Läuft jetzt" und „Demnächst" zeigt eine zusammengefasste Reihe nur die Staffeln, die diese Einstufung tragen, je als
+ * eigene Kachel wie bei ausgeschalteter Zusammenfassung (Daniel, 27.10.2026); die übrigen Staffeln entfallen dort.
+ * Einzeltitel liefern `undefined` und bleiben unverändert.
+ */
+function einzelneStaffeln<T extends { main: Title; members: Title[] }>(
+  gruppe: T,
+  art: RelevanzArt,
+  releasesByTitle: Map<number, Release[]>,
+  today: string,
+): RelevanzEintrag<T>[] | undefined {
+  if (gruppe.members.length < 2) return undefined
+  const treffer: RelevanzEintrag<T>[] = []
+  for (const m of gruppe.members) {
+    const s = stufeTitelEin(m, releasesByTitle.get(m.id) ?? [], today)
+    if (s.art === art) treffer.push({ gruppe: { ...gruppe, main: m, members: [m] }, ab: s.ab })
+  }
+  return treffer
+}
+
 /** Teilt Kacheln in „Läuft jetzt", „Demnächst" und „Schon erschienen"; leere Gruppen fallen weg. */
 export function gruppiereNachRelevanz<T extends { main: Title; members: Title[] }>(
   gruppen: T[],
@@ -122,7 +142,9 @@ export function gruppiereNachRelevanz<T extends { main: Title; members: Title[] 
   const korb: Record<RelevanzArt, RelevanzEintrag<T>[]> = { laeuft: [], bald: [], erschienen: [], unbekannt: [] }
   for (const gruppe of gruppen) {
     const s = stufeReiheEin(gruppe.members, releasesByTitle, today)
-    korb[s.art].push({ gruppe, ab: s.ab })
+    const staffeln = s.art === 'laeuft' || s.art === 'bald' ? einzelneStaffeln(gruppe, s.art, releasesByTitle, today) : undefined
+    if (staffeln) korb[s.art].push(...staffeln)
+    else korb[s.art].push({ gruppe, ab: s.ab })
   }
   return RELEVANZ_REIHENFOLGE.map((art) => ({ art, eintraege: korb[art].sort(vergleicher<T>(art)) })).filter((g) => g.eintraege.length > 0)
 }
