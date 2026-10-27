@@ -32,6 +32,8 @@ import { pruefeStatusfarben } from './ansicht-statusfarben.mjs'
 import { distPruefen } from './dist-frisch.mjs'
 import { eckenFehler } from './ecken-urteil.mjs'
 import { messeDuell } from './ansicht-duell.mjs'
+import { messeDetailsOverlay } from './ansicht-details-overlay.mjs'
+import { pruefeFortsetzen } from './ansicht-fortsetzen.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -327,11 +329,15 @@ async function spieleEmpfehlung(browser, geraet, thema) {
   }
   await seite.waitForSelector(EMPFEHLUNG_COVER, { timeout: 10_000 })
   await seite.waitForTimeout(600)
+  for (const f of await pruefeFortsetzen(seite, geraet.breite, EMPFEHLUNG_COVER)) fehler.push(`${kennung}: ${f}`)
+  await seite.waitForTimeout(600)
   const niedrig = await seite.evaluate(zuNiedrigeFlaechen, MIN_TIPPFLAECHE)
   if (niedrig.length) fehler.push(`${kennung}: Tippfläche unter 44 px: ${niedrig.join(' | ')}`)
   const ohne = await messeEmpfehlungsCover(seite)
+  for (const f of await messeDetailsOverlay(seite, EMPFEHLUNG_COVER, lesePixelPng, 'ohne Favorit')) fehler.push(`${kennung}: ${f}`)
   await seite.locator('.empf ul > li:first-child button[aria-pressed]').click()
   const mit = await messeEmpfehlungsCover(seite)
+  for (const f of await messeDetailsOverlay(seite, EMPFEHLUNG_COVER, lesePixelPng, 'mit Favorit')) fehler.push(`${kennung}: ${f}`)
   for (const f of pruefeEmpfehlungsCover(ohne, mit)) fehler.push(`${kennung}: ${f}`)
   await seite.locator(EMPFEHLUNG_COVER).click()
   await seite.waitForTimeout(1200)
@@ -344,7 +350,7 @@ async function spieleEmpfehlung(browser, geraet, thema) {
 }
 
 const RESET_BREITEN = [390, 768, 820, 1024, 1180, 1279, 1440]
-const RESET_SCHLUESSEL = ['empfehlung:gesehen', 'empfehlung:verworfen', 'empfehlung:anbieter']
+const RESET_SCHLUESSEL = ['empfehlung:gesehen', 'empfehlung:verworfen', 'empfehlung:anbieter', 'empfehlung:reise']
 
 const IPAD_UA = 'Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
 const LANGE_SUCHE = 'Sword Art Online Alicization War of Underworld'
@@ -451,7 +457,7 @@ async function meldeEmpfehlung() {
   }
   await browser.close()
   const faelle = EMPFEHLUNG_GERAETE.length * 2
-  console.log(`\nEntdecken (Reise durchgespielt, ${faelle} Fälle: Handy und Rechner, hell und dunkel; Konsole, Scrollen, Tippflächen, Ecken und Unterkante der Cover, Duell-Karte mit und ohne gewinnt/verliert: Ecken, Unterkante, Ring): ${fehler.length ? '' : 'ok'}`)
+  console.log(`\nEntdecken (Reise durchgespielt, ${faelle} Fälle: Handy und Rechner, hell und dunkel; Konsole, Scrollen, Tippflächen, Ecken und Unterkante der Cover, Startbildschirm mit Vorgeschichte 70 zu 30, Details-Overlay mit und ohne Favorit: Ecken, Lage, Zeilen darunter, Abdunklung; Duell-Karte mit und ohne gewinnt/verliert: Ecken, Unterkante, Ring): ${fehler.length ? '' : 'ok'}`)
   for (const f of fehler) console.log(`  ✕ ${f}`)
   return fehler.length > 0
 }

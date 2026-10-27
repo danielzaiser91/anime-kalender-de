@@ -8,7 +8,7 @@ import type { EmpfehlungsDatei, Kandidat } from '../shared/empfehlung-pool.ts'
 import { antworteSitzung, istFertig, neueSitzung, neuerZustand, naechstesPaar, vorschlaege, type Antwort } from '../shared/empfehlung-kern.ts'
 import { baueKontext } from '../shared/empfehlung-vektor.ts'
 import {
-  artWort, ausgeschlossenFuerReise, ersetzeVorschlag, ersteVorschlaege, kuerze, metaZeile, mosaikIds, naechstesZiel, rangliste, stand,
+  artWort, ausgeschlossenFuerReise, ersetzeVorschlag, ersteVorschlaege, metaZeile, mosaikIds, naechstesZiel, rangliste, stand,
 } from '../web/src/lib/empfehlung-reise.ts'
 import { stempelDeckkraft, wischRichtung } from '../web/src/components/empfehlung/wischen.ts'
 
@@ -100,12 +100,6 @@ pruefe('Serie ohne Folgenzahl und Jahr', metaZeile({ f: 'TV' }) === 'Serie')
 pruefe('Art', artWort({ f: 'MOVIE' }) === 'Film' && artWort({ f: 'TV' }) === 'Serie' && artWort({}) === 'Serie')
 pruefe('Ziel 6 → 10, 8 → 10, 10 bleibt', naechstesZiel(6, 10) === 10 && naechstesZiel(8, 10) === 10 && naechstesZiel(10, 10) === 10)
 pruefe('Ziel unter der Obergrenze: 2 → 6', naechstesZiel(2, 10) === 6)
-pruefe('kurzer Text bleibt', kuerze('Kurz.') === 'Kurz.')
-const lang = `${'abcdefg '.repeat(100)}ende`
-const gekuerzt = kuerze(lang)
-pruefe('langer Text: letztes angebrochenes Wort fällt weg, … folgt', gekuerzt === `${'abcdefg '.repeat(51)}abcdefg…`, gekuerzt.length)
-pruefe('Text genau an der Grenze bleibt', kuerze('a'.repeat(420)) === 'a'.repeat(420))
-pruefe('421 Zeichen ohne Leerzeichen → 420 und …', kuerze('a'.repeat(421)) === `${'a'.repeat(420)}…`)
 pruefe('Mosaik: 60 Einstiege → 24 Kennungen', mosaikIds(datei.einstiege, 24).length === 24)
 pruefe('Mosaik: 5 Einstiege → 5 Kennungen', mosaikIds(datei.einstiege.slice(0, 5), 24).length === 5)
 pruefe('Mosaik: leer → leer', mosaikIds([], 24).length === 0)
