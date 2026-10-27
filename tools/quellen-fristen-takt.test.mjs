@@ -71,20 +71,20 @@ assert.deepEqual(ohneFrist({ a: 1 }, { a: 0 }), [], 'ein Eintrag zählt auch mit
 // Echte Workflows: der Scanner sieht die bekannten Quellen (sonst wäre er blind), und alle haben eine Frist.
 const stunde = quellenDesWorkflows(wurzel, 'refresh-hourly.yml')
 const tag = quellenDesWorkflows(wurzel, 'refresh-data.yml')
-for (const name of ['crunchyroll', 'tv-de', 'messbelege', 'anime2you']) assert.ok(name in stunde, `Stundenlauf: ${name} nicht gefunden`)
-for (const name of ['crunchyroll', 'adn', 'toggo', 'anisearch', 'cartoon-reihen']) assert.ok(name in tag, `Tageslauf: ${name} nicht gefunden`)
+for (const name of ['crunchyroll-woche', 'tv-de', 'messbelege', 'anime2you']) assert.ok(name in stunde, `Stundenlauf: ${name} nicht gefunden`)
+for (const name of ['crunchyroll-neu', 'adn', 'toggo', 'anisearch', 'cartoon-reihen']) assert.ok(name in tag, `Tageslauf: ${name} nicht gefunden`)
 assert.deepEqual(ohneFrist(stunde, FRISTEN), [], 'Stundenlauf: Quellen ohne Fristeintrag')
 assert.deepEqual(ohneFrist(tag, FRISTEN), [], 'Tageslauf: Quellen ohne Fristeintrag')
 
-// Der Anlassfall: ohne den Eintrag meldet der Wächter genau crunchyroll.
-const { crunchyroll: _weg, ...ohneCrunchyroll } = FRISTEN
-assert.deepEqual(ohneFrist(stunde, ohneCrunchyroll), ['crunchyroll'])
+// Der Anlassfall (26.10.2026): ohne den Eintrag meldet der Wächter genau die Quelle; der Kalender-Abruf `crunchyroll` entfiel am 27.10.2026.
+const { 'crunchyroll-woche': _weg, ...ohneWoche } = FRISTEN
+assert.deepEqual(ohneFrist(stunde, ohneWoche), ['crunchyroll-woche'])
+assert.ok(!('crunchyroll' in stunde) && !('crunchyroll' in tag) && !('crunchyroll' in FRISTEN), 'Kalender-Quelle crunchyroll ist entfernt')
 
 // Frist je Quelle des Stunden- und Tageslaufs, fest eingetragen (Stand 26.10.2026): Stündliche und tägliche Quellen höchstens 4 Tage
 // (Standard, Alarm bei 8), die mit belegtem Takt genau ihr Wert. Wochenquellen, die der Tageslauf nur anstößt, stehen in WOCHE und
 // brauchen die Wochenfrist. Eine neue Quelle im Lauf ist hier rot, bis jemand sie eingeordnet hat.
 const TAEGLICH = {
-  crunchyroll: 1,
   'crunchyroll-woche': 1,
   adn: 3,
   anime2you: 3,

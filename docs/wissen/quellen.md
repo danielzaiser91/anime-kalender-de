@@ -3220,6 +3220,37 @@ Weg darf nicht davon abhängen, welche Stelle ihn zufällig gefunden hat.
   60 KB. Der OneTrust-Cookie-Banner (`#onetrust-consent-sdk`) liegt quer über dem Kalender und wird
   vor der Aufnahme entfernt, nicht beantwortet (`pipeline/messbelege.ts`).
 
+## Crunchyroll-Simulcast-Kalender entfallen, Wochenprogramm ist die Quelle (27.10.2026)
+
+- **Befund:** `/de/simulcastcalendar` antwortet seit ~21.10.2026 mit 302 auf `/de/simulcasts` (200, „Simulcasts durchstöbern", keine
+  Challenge; Stundenlauf 40477608641, 27.10. 09:02 UTC, Diagnose aus PR 2161). Der Kalender-Abruf (`scrape-crunchyroll.ts`) und
+  seine Workflow-Schritte (stündlich, täglich, wöchentlich) sind entfernt, ebenso die Quelle `crunchyroll` in `source-health.json`
+  und `quellen-fristen.mjs`. Die Adresse wird nicht ersetzt: kein neuer Host, kein neuer Pfad, also keine neue robots-/AGB-Prüfung
+  (das Wochenprogramm unter `/de/news/seasonal-lineup/…` las der Lauf schon; robots.txt sperrt `/news` nicht, gemessen 25.09.2026).
+- **Messung (Wochenprogramm gegen Kalender, aus der Git-Historie, ohne Abruf):** Von 15 deutschen Kalender-Slots (12.–21.10.) stehen
+  11 im Wochenprogramm derselben Woche mit gleichem Tag, gleicher Uhrzeit und enthaltener Folge (11/11 Übereinstimmung). Die 4 übrigen
+  sind Abweichungen des Kalenders, keine Lücken: Appraisal S3 F1 (Vorab-Folge am 18.10., das Programm führt Synchro ab F2 am 25.10.),
+  Re:ZERO S4 F15 (15.10., Programm F14 am 14.10. und F16–17 am 21.10.), Tomb Raider King F12 (Kalender 21.10., Programm 14.10.),
+  Snowball Earth F13 (12.10., keine Programmzeile). Der Kalender führte nie deutsche Folgen in der Zukunft (letzter Synchro-Slot
+  21.10., Fenster bis 01.11.); das Wochenprogramm reicht eine Woche voraus.
+- **Echte Lücke:** Neue Serien. Das Wochenprogramm hängt Folgen nur an vorhandene Einträge; `ohneEintrag` führte am 27.10. zwei
+  (Die Tagebücher der Apothekerin S3, A Wild Last Boss Appeared! S2). `lib/woche-neue-eintraege.ts` legt sie jetzt an (nur Synchro-Zeilen
+  ab heute mit Kennung und Uhrzeit; ist die Kennung unter anderem Namen schon geführt, bleibt es bei der Meldung). Die Beobachtungen
+  tragen `quelle: 'woche'` (Ankündigung, nicht gemessen). Beide Serien sind kuratiert (`last-boss-s2-crunchyroll`,
+  `apothecary-diaries-s3-cour1`); das Anlegen ergänzt also vor allem Kalenderbeobachtungen, kein neues Release. Ein Einzeltermin einer
+  wirklich neuen, unkuratierten Serie wird in `06-cr-simuldubs.ts` als Einzeltermin-Batch geführt (bekannte Grenze, nicht gebaut).
+- **Beleglink:** `bau/cr-quelle.ts` (`crQuelleUrl`): Termine mit Wochenprogramm-Beobachtung verweisen auf den gelesenen Artikel
+  (`artikel` in `crunchyroll-woche.json`), reine Kalendertermine behalten den historischen Link `/de/simulcastcalendar` (leitet auf
+  `/de/simulcasts` um; kein besserer Beleg für damals gemessene Termine). Weitere Leser der alten Adresse, nicht angefasst:
+  `lib/news-verspaetung.ts` (`kalenderTag`, Meldungslink) und die Quellenseite in `web/src/components/StaticViews.tsx`.
+- **Folge, Grenze:** `data/crunchyroll.json` `window.to` steht auf 21.10. (letzter gelesener Tag); `termine-pruefen.ts` urteilt nur im
+  Fenster. **Die Ausgeblieben-/Verpasst-Erkennung für Crunchyroll endet damit mit dem Kalender:** Termine nach dem 21.10. kann sie nicht
+  mehr als verpasst führen (vom Prüfer mit altem und neuem Fenster gemessen: 0/0/0 neu/nachgeholt/verpasst, `termine-verpasst.json`
+  byte-gleich); das Wochenprogramm bestätigt nur, es belegt kein Ausbleiben. Möglicher kleiner Ersatz (nicht gebaut): Wochenprogramm-Zeile
+  vorhanden, Folge am Sendetag nicht im Crunchyroll-Katalog (`crunchyroll-neu`) → „ausgeblieben“-Kandidat.
+- **Nicht gebaut:** News-Artikel unter `/de/news/latest` (`cr-news-api-service…`) als zweite Quelle. Kein Bedarf aus der Messung; Sprache
+  und Uhrzeit stehen dort nicht verlässlich. Bleibt Option, falls das Wochenprogramm ausfällt.
+
 ## aniSearch hat eine freie Database-API — Konto und OAuth sind dafür nicht nötig (02.10.2026)
 
 Der Kopfkommentar von `pipeline/fetch-anisearch.ts` („offizielle Schnittstelle mit OAuth-Zugang … ein Konto kann nur der
