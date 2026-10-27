@@ -7,11 +7,13 @@
 import { gitAufruf } from './pr-nachrechnen-leser-git.mjs'
 
 const zeilen = (text) => text.split(/\r?\n/).filter(Boolean)
+/** `-z`: Pfade mit Sonderzeichen (Umlaut, Leerzeichen) kommen ungequotet, getrennt durch NUL. */
+const nullGetrennt = (text) => text.split('\0').filter(Boolean)
 
 export const vollerVergleich = (git) => (basis, main) => {
   try {
     git(['fetch', '-q', 'origin', basis, main])
-    const dateien = zeilen(git(['diff', '--name-only', '--no-renames', basis, main, '--']))
+    const dateien = nullGetrennt(git(['diff', '-z', '--name-only', '--no-renames', basis, main, '--']))
     const autoren = zeilen(git(['log', '--format=%an', `${basis}..${main}`]))
     return { dateien, autoren, commitsGesamt: autoren.length }
   } catch (e) {

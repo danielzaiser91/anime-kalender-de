@@ -109,7 +109,7 @@ const schreibend = (aufrufe) => aufrufe.filter((a) => a.startsWith('pr close') |
   const ref = `api repos/{owner}/{repo}/pulls/7 --jq .merge_commit_sha`
   const folge = k.aufrufe.filter((a) => a === ref || schreibend([a]).length > 0)
   pruefe('veraltet, Merge-Commit alt -> 1, öffnen, neu gerechneten Merge-Commit abwarten, erneut öffnen', code === 1 && folge.join() === [ref, 'pr close 7', 'pr reopen 7', ref, 'pr close 7', 'pr reopen 7'].join() && k.gewartet.length === 0, k.aufrufe)
-  pruefe('veraltet: Meldung nennt beide Stände und den Grund', /NICHT AKTUELL \(Kette gegen 7a466acc8, main ist c0ffee000; main bewegte tools\/x\.mjs; main bewegte tools\/x\.mjs\)/.test(k.meldungen.join()), k.meldungen)
+  pruefe('veraltet: Meldung nennt beide Stände und den Grund', /NICHT AKTUELL \(Kette gegen 7a466acc8, main ist c0ffee000; main bewegte tools\/x\.mjs\)/.test(k.meldungen.join()), k.meldungen)
 }
 {
   const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [M_NEU] }))
@@ -128,12 +128,23 @@ const DATEN_MAIN = ['public/data/titles.json', 'data/cache/ordner/anilist', 'pub
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN }))
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe('nur Daten bewegt -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe })
-  pruefe('nur Daten bewegt: Meldung nennt beide Stände und die Pfade', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Daten bewegt (public/data/, data/cache/, 53 Bot-Dateien ohne Leser)', k.meldungen)
+  pruefe('nur Daten bewegt: Meldung nennt beide Stände und die Pfade', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Daten bewegt (public/data/, data/cache/, 54 Bot-Dateien ohne Leser)', k.meldungen)
   pruefe('nur Daten bewegt: liest Vergleich und PR-Dateien', k.aufrufe.some((a) => a.includes('/compare/')) && k.aufrufe.some((a) => a.includes('/pulls/7/files')), k.aufrufe)
 }
 {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: [] }))
   pruefe('main ohne Dateiänderung (leerer Vergleich) -> 0', main(['7'], k.gh, k.melde, k.warte) === 0 && schreibend(k.aufrufe).length === 0, k.aufrufe)
+}
+// 27.10.2026: Bestandsbau-Sprung mit Liste ohne Leser (23-nur-originalton) und Vorschaubildern -> Kette gilt weiter; default.* und die Liste mit Leser nicht.
+for (const [name, bewegt, erwartet] of [
+  ['Liste 23 + Vorschaubilder', ['daniel-zum-abarbeiten/listen/23-nur-originalton.md', 'public/og/aoashi-staffel-2-crunchyroll-de-2026-10-25.jpg', 'public/og/psyren.png', 'public/og/x.webp'], 0],
+  ['Vorschaubilder + default.txt (liest og-standard.test.ts)', ['public/og/x.jpg', 'public/og/default.txt'], 1],
+  ['Vorschaubilder + default.jpg', ['public/og/default.jpg', 'public/og/x.jpg'], 1],
+  ['Vorschaubilder + justwatch-widersprueche.md (liest eine Prüfung)', ['public/og/x.jpg', 'daniel-zum-abarbeiten/listen/justwatch-widersprueche.md'], 1],
+]) {
+  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['public/data/titles.json', ...bewegt] }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe(`Sprung mit ${name} -> ${erwartet}`, code === erwartet && (erwartet === 0) === (schreibend(k.aufrufe).length === 0), { code, m: k.meldungen })
 }
 // Alles andere zählt: je Pfad ein Fall, einzeln und neben Datenpfaden (Datenpfad zuerst und zuletzt, der Fremde in der Mitte).
 // 21.10.2026: Bot-Berichte und Sammler-Ausgaben ohne Leser in der Kette (Liste und Einzelfälle: pr-nachrechnen-bot-pfade.test.mjs).
@@ -170,7 +181,7 @@ for (const [name, dateien, prDateien, erwartet] of [
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe('PR berührt selbst einen Bot-Bericht -> 1, neu angestoßen', code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
 }
-for (const fremd of ['tools/umfang-grenzen.json', 'extension/pruefstand.json', 'data/dub-confirmed.yaml', 'public/og/a.png', 'pipeline/build.ts', 'public/data-x/a.json', 'data/cache-x/a.json', 'xpublic/data/a.json', 'data/curated/a.yaml', 'public/index.html']) {
+for (const fremd of ['tools/umfang-grenzen.json', 'extension/pruefstand.json', 'data/dub-confirmed.yaml', 'public/og/default.jpg', 'public/og/default.txt', 'public/og/a.gif', 'pipeline/build.ts', 'public/data-x/a.json', 'data/cache-x/a.json', 'xpublic/data/a.json', 'data/curated/a.yaml', 'public/index.html']) {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['public/data/titles.json', fremd, 'data/cache/ordner/a'] }))
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe(`main bewegte auch ${fremd} -> 1, neu angestoßen`, code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
@@ -179,7 +190,8 @@ for (const [name, prDateien] of [['public/data', 'src/a.ts\npublic/data/titles.j
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN, prDateien }))
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe(`PR berührt ${name} -> 1, neu angestoßen`, code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
-  pruefe(`PR berührt ${name}: Meldung nennt die Datei`, /; der PR berührt (public\/data\/|data\/cache\/|public\/data\/x\.json)/.test(k.meldungen.join()), k.meldungen)
+  pruefe(`PR berührt ${name}: Grund steht genau einmal`, k.meldungen.join().split('der PR berührt').length === 2, k.meldungen)
+  pruefe(`PR berührt ${name}: Meldung nennt die Datei`,/; der PR berührt (public\/data\/|data\/cache\/|public\/data\/x\.json)/.test(k.meldungen.join()), k.meldungen)
 }
 for (const [name, roh, erwartet] of [
   ['diverged', vergleich(DATEN_MAIN, 'diverged'), 1],

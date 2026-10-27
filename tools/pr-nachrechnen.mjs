@@ -16,7 +16,7 @@
  */
 import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
-import { BOT_DATEIEN_OHNE_LESER, istBotDatei } from './pr-nachrechnen-bot-pfade.mjs'
+import { BOT_DATEIEN_OHNE_LESER, istBotBild, istBotDatei } from './pr-nachrechnen-bot-pfade.mjs'
 import { gitAufruf, gitLeser } from './pr-nachrechnen-leser-git.mjs'
 import { standardVoll } from './pr-nachrechnen-vergleich-git.mjs'
 
@@ -49,12 +49,12 @@ export function hindernis(pr) {
   return null
 }
 
-/** Pfade, deren Bewegung auf main die Kette nicht entwertet (F55, Daniel 20.10.2026). Dazu die Bot-Dateien ohne Leser in der Kette (`pr-nachrechnen-bot-pfade.mjs`). Alles andere (Code, tools/umfang-grenzen.json, extension/, data/dub-confirmed.yaml, public/og/) zählt. */
+/** Pfade, deren Bewegung auf main die Kette nicht entwertet (F55, Daniel 20.10.2026). Dazu die Bot-Dateien ohne Leser in der Kette (`pr-nachrechnen-bot-pfade.mjs`). Alles andere (Code, tools/umfang-grenzen.json, extension/, data/dub-confirmed.yaml, public/og/default.*) zählt. */
 export const DATENPFADE = ['public/data/', 'data/cache/']
 /** Compare liefert höchstens 300 Dateien; bei so vielen ist die Liste evtl. abgeschnitten, also keine Ausnahme. */
 export const COMPARE_GRENZE = 300
 
-export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p)) || istBotDatei(datei)
+export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p)) || istBotDatei(datei) || istBotBild(datei)
 
 /**
  * Doku auf main, an deren Stand kein Kettenschritt hängt (Dirigent 26.10.2026, Anlass PR 2118): `docs/`, Markdown im Wurzelordner und
@@ -101,7 +101,7 @@ function vervollstaendige(vergleich, basis, main, voll) {
   if (vergleich.status !== 'ahead' || !abgeschnitten(vergleich)) return vergleich
   const r = voll(basis, main)
   if (r.fehler !== undefined) return { ...vergleich, lokalFehler: r.fehler }
-  return { ...vergleich, ...r, anzahl: r.dateien.length, vollstaendig: true }
+  return { ...vergleich, ...r, vollstaendig: true }
 }
 
 /** Rückgabe { ausnahme } (Kette gilt weiter, Text für die Meldung) oder { grund }. */
@@ -113,7 +113,7 @@ function datenpfadGrund(gh, pr, basis, main, leser, voll) {
   if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
   const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main }))
   if (bot === null) return { ausnahme: 'nur Daten-Bots unter data/, kein Code des PR liest die bewegten Dateien' }
-  return { grund: `${daten}; ${bot}` }
+  return { grund: daten === bot ? daten : `${daten}; ${bot}` }
 }
 
 const kurz = (sha) => sha.slice(0, 9)

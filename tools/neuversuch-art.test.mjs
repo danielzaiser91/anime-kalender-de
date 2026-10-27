@@ -29,7 +29,8 @@ fall('data/cache seit Bau, Bot dabei: daten', { 'L>N': [BOT, CACHE_DATEI], 'B>N'
 fall('genau eine Code-Datei seit Logik: code', { 'L>N': [BOT, 'tools/x.mjs'], 'B>N': [BOT] }, 'code')
 fall('Code nur seit Bau, Logik-Vergleich leer: daten', { 'L>N': [], 'B>N': ['pipeline/x.ts'] }, 'daten')
 fall('Quelle mit Leser (data/anisearch.json) ist kein Bot-Pfad: code', { 'L>N': ['data/anisearch.json'], 'B>N': ['data/anisearch.json'] }, 'code')
-fall('public/og zählt als Code-Pfad', { 'L>N': ['public/og/a.png'], 'B>N': ['public/og/a.png'] }, 'code')
+fall('public/og/default.jpg zählt als Code-Pfad', { 'L>N': ['public/og/default.jpg'], 'B>N': ['public/og/default.jpg'] }, 'code')
+fall('Vorschaubild public/og/a.png ist ein Datenpfad (Bestandsbau), kein Nichts-Pfad', { 'L>N': ['public/og/a.png'], 'B>N': ['public/og/a.png'] }, 'daten')
 fall('Docs bewegt: code', { 'L>N': ['docs/wissen/betrieb.md'], 'B>N': [] }, 'code')
 
 assert.equal(neuversuchArt('L', 'B', 'N', () => { throw new Error('git kaputt') }), 'code', 'Fehler im Vergleich')
