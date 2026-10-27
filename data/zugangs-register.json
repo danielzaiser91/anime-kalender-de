@@ -427,6 +427,7 @@
       "ort": "github-automatisch",
       "wofuer": "Von GitHub je Lauf ausgestelltes Token (Pull Requests, Läufe auslösen).",
       "workflows": [
+        "abnahme-freigabe.yml",
         "claude-daten-merge.yml",
         "claude-anime2you-extraktion.yml",
         "claude-wache-urteil.yml",
