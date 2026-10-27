@@ -1892,10 +1892,16 @@
   ],
   "cr-GRGG9798R": [
     {
+      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+      "name": "Crunchyroll News",
+      "gesehenAm": "2026-10-27",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.crunchyroll.com/de/simulcastcalendar",
       "name": "crunchyroll.com",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "sagt": "2026-04-08"
     }
   ],
