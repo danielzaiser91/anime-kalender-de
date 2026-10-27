@@ -395,6 +395,22 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: bash tools/bau-issues-schliessen.sh "$GITHUB_RUN_ID" "$BAU_BEGINN"
 
+      # Untergrenze der Eingaben: nur `data/cache/` (nicht im Repo). Alles andere, was der Bau liest, liegt im Repo
+      # und kommt mit dem Checkout des Fehlerstands. Gemessen 27.10.2026: 131 MB roh, ~54 MB gepackt (Grenze 200 MB).
+      # Der Untersucher (`claude-reparatur.yml`) lädt es, um den Bau nachzustellen.
+      - name: Eingaben des roten Baus als Artefakt sichern
+        if: failure()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: bau-eingaben-${{ github.run_id }}
+          path: |
+            data/cache
+            !data/cache/quittung-offen
+            !data/cache/quittung-frei
+          retention-days: 7
+          if-no-files-found: ignore
+
       - name: Lauf abmelden
         continue-on-error: true
         if: always()
