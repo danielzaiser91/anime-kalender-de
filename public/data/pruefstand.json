@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-27T04:32:37.185Z",
+ "erzeugtAm": "2026-10-27T08:23:53.344Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -7,7 +7,7 @@
    "gemeldet": 828,
    "gesamt": 905,
    "offen": 77,
-   "ohneSeite": 17,
+   "ohneSeite": 16,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
     "https://www.amazon.de/s?k=Higurashi%20no%20Naku%20Koro%20ni&i=instant-video",
@@ -24,8 +24,7 @@
     "https://www.amazon.de/s?k=Operation%20Nussknacker%202%3A%20Voll%20auf%20die%20N%C3%BCsse&i=instant-video",
     "https://www.amazon.de/s?k=Happy%20Fish%202%3A%20Hai-Alarm%20im%20Hochwasser&i=instant-video",
     "https://www.amazon.de/s?k=Outback%3A%20Jetzt%20wird%E2%80%99s%20richtig%20wild!&i=instant-video",
-    "https://www.amazon.de/s?k=Super%20Wings%3A%20Maximum%20Speed&i=instant-video",
-    "https://www.amazon.de/s?k=Dragon%20Ball%20Super%3A%20Beerus&i=instant-video"
+    "https://www.amazon.de/s?k=Super%20Wings%3A%20Maximum%20Speed&i=instant-video"
    ],
    "ziel": "https://www.amazon.de/gp/video/detail/B0D84DKFSH",
    "ziele": [
@@ -506,8 +505,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 761,
-   "gesamt": 890,
-   "offen": 129,
+   "gesamt": 889,
+   "offen": 128,
    "ohneSeite": 16,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -530,10 +529,6 @@
     {
      "url": "https://www.netflix.com/title/82036361",
      "titel": "My Hero Academia: Vigilantes"
-    },
-    {
-     "url": "https://www.netflix.com/title/83189604",
-     "titel": "Dragon Ball Super: Beerus"
     },
     {
      "url": "https://www.netflix.com/title/80135674",

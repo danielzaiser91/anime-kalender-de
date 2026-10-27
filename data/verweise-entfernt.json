@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-26T23:14:52.381Z",
+  "stand": "2026-10-27T08:23:24.220Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7771,7 +7771,7 @@
       "titleId": 206814,
       "titel": "Dragon Ball Super: Beerus",
       "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GT00389311/dragon-ball-super-beerus",
+      "url": "https://www.crunchyroll.com/watch/GE00389313JAJP",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -7783,6 +7783,28 @@
       "titel": "Dragon Ball Super: Beerus",
       "plattform": "netflix",
       "url": "https://www.netflix.com/title/83189604",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-27",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 206814,
+      "titel": "Dragon Ball Super: Beerus",
+      "plattform": "disneyplus",
+      "url": "https://www.disneyplus.com/browse/entity-cbfdd45c-2b4c-43e9-821f-92928c4b2af1",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-27",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 206814,
+      "titel": "Dragon Ball Super: Beerus",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1432-dragon-ball-super-beerus/33003-folge-1",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -7895,6 +7917,17 @@
       "url": "https://www.netflix.com/title/81788312",
       "seriesId": null,
       "grund": "der Anbieter führt 12 + 13 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-27",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 206814,
+      "titel": "Dragon Ball Super: Beerus",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GT00389311/dragon-ball-super-beerus",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-27",
       "letzterWeg": true
