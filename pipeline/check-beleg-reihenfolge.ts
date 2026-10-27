@@ -28,7 +28,7 @@ pruefe('Änderung wird spätestens im nächsten Lauf sichtbar: alle vier liegen 
 pruefe('der Rückstau bleibt in der Schlange', schlange.length === 242)
 
 /* Eine Lesung mit neuer Fassung und eine ältere in alter Fassung: der Artikel ist fertig und wartet bis zum Abstand. */
-const jetzt = (am: string) => ({ am, hash: 'b', bild: 'b.webp', qs: 'ok' as const, bildfassung: 2 })
+const jetzt = (am: string) => ({ am, hash: 'b', bild: 'b.webp', qs: 'ok' as const, bildfassung: 3 })
 const verlauf: BelegGedaechtnis = {
   [a2y(1)]: { zuletzt: '2026-10-13', lesungen: [{ am: '2026-10-05', hash: 'a', bild: 'a.webp', qs: 'ok' }, jetzt('2026-10-13')] },
   [a2y(2)]: { zuletzt: '2026-10-13', lesungen: [{ am: '2026-10-05', hash: 'a', bild: 'a.webp', qs: 'ok' }] },

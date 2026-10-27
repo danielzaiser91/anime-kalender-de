@@ -108,6 +108,7 @@ jobs:
       - run: npm run check:wiedervorlage
       - run: npm run check:zugangsart
       - run: npm run check:beleg-wand
+      - run: npm run check:beleg-sammelartikel
       - run: npm run check:beleg-reihenfolge
       - run: npm run check:woche-bild
       - run: npm run check:pfade
