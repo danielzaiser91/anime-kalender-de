@@ -2,6 +2,7 @@ import { readJson, log, discSlug } from '../lib/util.ts'
 import { writeJsonStand } from '../lib/stand-halten.ts'
 import { alleTermine, ausgelassen as termineAusgelassen, beobachtungenAusBlock } from '../lib/crunchyroll-termine.ts'
 import { beobachtungenZusammenfuehren } from '../lib/crunchyroll.ts'
+import { crHerkunft } from '../lib/cr-batch-wache.ts'
 import { meldeAnClaude } from '../lib/meldung.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
@@ -127,7 +128,7 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
         */
         dateMeaning: t.rhythmus === 'batch' ? 'available-from' : undefined,
         fsk: title.fsk,
-        herkunft: `Deutsche Fassung bei Crunchyroll — ${t.datiert} Folgen mit belegtem Termin (Block „${t.blockName}“)`,
+        herkunft: crHerkunft(t.datiert, t.blockName),
         year: Number(t.firstEpisodeDate.slice(0, 4)),
         sources: [adresse ?? 'https://www.crunchyroll.com/de'],
       })

@@ -16,7 +16,7 @@ function pruefe(name: string, ok: boolean, ist?: unknown): void {
   console.error(`FEHLER: ${name}`, ist === undefined ? '' : JSON.stringify(ist))
 }
 
-const meldung = (extra: Record<string, unknown> = {}) => ({ art: 'angekuendigt', platform: 'netflix', release: 'r-1', datum: '2099-01-01', hinweis: 'H1', kanal: 'Aniverse', ...extra })
+const meldung = (extra: Record<string, unknown> = {}) => ({ art: 'neu', platform: 'netflix', release: 'r-1', datum: '2099-01-01', hinweis: 'H1', kanal: 'Aniverse', ...extra })
 const stand = (...meldungen: unknown[]) => JSON.stringify([{ am: '2026-10-01', titelId: 1, titel: 'T', slug: 't', meldungen }])
 
 const wurzel = mkdtempSync(join(tmpdir(), 'news-felder-bestand-'))

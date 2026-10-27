@@ -21,9 +21,9 @@ function pruefe(name: string, ok: boolean, ist?: unknown): void {
 const FELDER = ['hinweis', 'anbieter', 'kanal', 'geschaetzt', 'jahre', 'discSeitText', 'omu'] as const
 const historie = (felder?: Record<string, FesteFelder>): NewsHistorie => ({ zuerst: {}, ...(felder ? { felder } : {}) })
 const titelOb = { id: 1 } as Title
-const lebend = (extra: Partial<NewsMeldung> = {}, schluessel = 'angekuendigt:r-1:2099-01-01'): DatiertNews =>
-  ({ art: 'angekuendigt', platform: 'netflix', release: 'r-1', datum: '2099-01-01', am: '2026-10-01', titel: titelOb, schluessel, ...extra }) as DatiertNews
-const K = 'angekuendigt:r-1:2099-01-01'
+const lebend = (extra: Partial<NewsMeldung> = {}, schluessel = 'neu:r-1:2099-01-01'): DatiertNews =>
+  ({ art: 'neu', platform: 'netflix', release: 'r-1', datum: '2099-01-01', am: '2026-10-01', titel: titelOb, schluessel, ...extra }) as DatiertNews
+const K = 'neu:r-1:2099-01-01'
 const voll: Partial<NewsMeldung> = { hinweis: 'H1', anbieter: 'A1', kanal: 'K1', geschaetzt: true, jahre: 14, discSeitText: '4 Monaten', omu: 'synchro-offen' }
 const anders: Partial<NewsMeldung> = { hinweis: 'H2', anbieter: 'A2', kanal: 'K2', geschaetzt: false, jahre: 15, discSeitText: '5 Monaten', omu: 'synchro-angekuendigt' }
 
@@ -42,8 +42,8 @@ for (const f of FELDER) {
 }
 const gleich = lebend(voll)
 pruefe('Gleiche Werte: dasselbe Objekt, Feldreihenfolge unberührt', haltFelderFest(historie({ [K]: { ...voll } }), [gleich], [])[0] === gleich)
-const hz = historie({ [K]: { hinweis: 'H1' }, 'angekuendigt:r-2:2099-01-01': { hinweis: 'ZWEI' } })
-const zwei = haltFelderFest(hz, [lebend({ hinweis: 'x' }, 'angekuendigt:r-2:2099-01-01')], [])[0]!
+const hz = historie({ [K]: { hinweis: 'H1' }, 'neu:r-2:2099-01-01': { hinweis: 'ZWEI' } })
+const zwei = haltFelderFest(hz, [lebend({ hinweis: 'x' }, 'neu:r-2:2099-01-01')], [])[0]!
 pruefe('Zwei Schlüssel ohne Verwechslung', zwei.hinweis === 'ZWEI', zwei)
 
 /* 2. Arten: nur neu, angekuendigt, disc, kino tragen die Felder; nachgetragen (Handtext), folgen und takt bleiben unberührt und ohne Eintrag. */
@@ -74,7 +74,7 @@ pruefe('festSchluessel: abgelöst aus Art, Release, Termin; lebend der Schlüsse
 
 /* 4. Übernahme aus dem ausgelieferten Stand: eine Meldung in news.json hält fest, was dort stand, nicht den neu abgeleiteten Wert. */
 const eintragVor = (m: NewsMeldung, extra: Partial<NewsEintrag> = {}): NewsEintrag => ({ am: '2026-10-01', titelId: 1, titel: 'T', slug: 't', meldungen: [m], ...extra })
-const ausgeliefert = { art: 'angekuendigt', platform: 'netflix', release: 'r-1', datum: '2099-01-01', ...voll } as NewsMeldung
+const ausgeliefert = { art: 'neu', platform: 'netflix', release: 'r-1', datum: '2099-01-01', ...voll } as NewsMeldung
 const hm = historie()
 const uebernommen = haltFelderFest(hm, [lebend(anders)], [eintragVor(ausgeliefert)])[0]!
 pruefe('Übernahme: der ausgelieferte Stand gilt, nicht der heutige', FELDER.every((f) => uebernommen[f] === voll[f]) && JSON.stringify(hm.felder?.[K]) === JSON.stringify(voll), { uebernommen, f: hm.felder })
@@ -142,13 +142,13 @@ const spaeter: Stand = { kanal: 'Anderer', note: 'N2', jpYear: 2012, von: '2095-
 const hb = historie()
 const b1 = bau(hb, { eins: alles, zwei: {}, drei: alles, tv: { sender: 'Sender A' } })
 const e1 = von(b1, 'r-1')!
-pruefe('Bau 1: alle Felder vom heutigen Stand', e1.geschaetzt === true && e1.kanal === 'Aniverse' && e1.hinweis === 'N1' && e1.jahre === 2099 - 2010 && e1.discSeitText === '9 Jahren' && von(b1, 'r-4')!.anbieter === 'Sender A', b1)
+pruefe('Bau 1: alle Felder vom heutigen Stand', e1.geschaetzt === true && e1.kanal === 'Aniverse' && e1.hinweis === undefined && e1.jahre === 2099 - 2010 && e1.discSeitText === '9 Jahren' && von(b1, 'r-4')!.anbieter === 'Sender A', b1)
 const b2 = bau(hb, { eins: spaeter, zwei: alles, drei: { ...alles, estimated: false }, tv: { sender: 'Sender B' }, neu: spaeter })
 const e2 = von(b2, 'r-1')!
 pruefe('Bau 2: Titel 1 behält alle Felder (kein Umsprung)', FELDER.every((f) => e2[f] === e1[f]), e2)
 pruefe('Bau 2: Titel 2 (anfangs ohne Felder) bekommt keine nachträglich', FELDER.every((f) => !(f in von(b2, 'r-2')!)), von(b2, 'r-2'))
 pruefe('Bau 2: geschaetzt true bleibt trotz belegtem Termin; Anbieter A bleibt', von(b2, 'r-3')!.geschaetzt === true && von(b2, 'r-4')!.anbieter === 'Sender A', b2)
-pruefe('Bau 2: eine neue Meldung nimmt den Stand von heute', von(b2, 'r-5')!.kanal === 'Anderer' && von(b2, 'r-5')!.hinweis === 'N2' && von(b2, 'r-5')!.jahre === 2099 - 2012, von(b2, 'r-5'))
+pruefe('Bau 2: eine neue Meldung nimmt den Stand von heute', von(b2, 'r-5')!.kanal === 'Anderer' && von(b2, 'r-5')!.hinweis === undefined && von(b2, 'r-5')!.jahre === 2099 - 2012, von(b2, 'r-5'))
 const b3 = bau(hb, { eins: alles, zwei: alles, drei: alles, tv: { sender: 'Sender A' }, neu: alles })
 pruefe('Bau 3 (zurück): Titel 1 und 5 weiter unverändert', FELDER.every((f) => von(b3, 'r-1')![f] === e1[f]) && von(b3, 'r-5')!.kanal === 'Anderer', b3)
 
@@ -166,7 +166,7 @@ pruefe('Terminverlauf: die neue Meldung nimmt ihren Stand', von(abgeloest, 'r-1'
 const weg = bau(hv, {})
 const wegAlt = von(weg, 'r-1', '2099-01-01')
 const wegNeu = von(weg, 'r-1', '2099-02-01')
-pruefe('Terminverlauf: zurückgezogene Meldungen behalten die Felder', weg.length === 2 && weg.some((m) => m.zurueckgezogen !== undefined) && FELDER.every((f) => wegAlt![f] === e1[f]) && wegNeu!.kanal === 'Anderer' && wegNeu!.hinweis === 'N2', weg)
+pruefe('Terminverlauf: zurückgezogene Meldungen behalten die Felder', weg.length === 2 && weg.some((m) => m.zurueckgezogen !== undefined) && FELDER.every((f) => wegAlt![f] === e1[f]) && wegNeu!.kanal === 'Anderer' && wegNeu!.hinweis === undefined, weg)
 
 /* 6c. Übernahme im echten Bau: das Gedächtnis ist neu (kein `felder`), `news.json` trägt den Stand von Bau 1. */
 const hn = historie()
@@ -176,7 +176,7 @@ const nachMigration = baueNews([titel(1, spaeter)], [release(1, spaeter)], [], [
 pruefe('Erster Bau mit neuem Gedächtnis: der ausgelieferte Stand bleibt, nicht der heutige', FELDER.every((f) => nachMigration[f] === e1[f]), nachMigration)
 
 /* 7. Wächter: jedes Feld und weiterer einzeln, neue Meldung, Handtext, abgelöst, leer, Teil-Zuordnung, unveränderter Bestand. */
-const mit = (m: Partial<NewsMeldung>, extra: Partial<NewsEintrag> = {}): NewsEintrag[] => [eintragVor({ art: 'angekuendigt', platform: 'netflix', release: 'r-1', datum: '2099-01-01', ...m } as NewsMeldung, extra)]
+const mit = (m: Partial<NewsMeldung>, extra: Partial<NewsEintrag> = {}): NewsEintrag[] => [eintragVor({ art: 'neu', platform: 'netflix', release: 'r-1', datum: '2099-01-01', ...m } as NewsMeldung, extra)]
 const vorstand = mit({ ...voll, weiterer: true })
 pruefe('Wächter: unveränderter Bestand ist grün', felderAenderungen(vorstand, mit({ ...voll, weiterer: true })).length === 0)
 for (const f of [...FELDER, 'weiterer'] as const) {
