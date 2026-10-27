@@ -32,6 +32,25 @@ export const FRISTEN_STUNDEN = {
   'tonspuren-monatlich.yml': 792,
 }
 
+/** Befunde aller Workflows; `letzterErfolg(workflow)` liefert Millisekunden oder null und darf werfen. */
+export function pruefeFristen(letzterErfolg, jetzt, fristen = FRISTEN_STUNDEN, ausgabe = () => {}) {
+  const befunde = []
+  for (const [workflow, max] of Object.entries(fristen)) {
+    let t = null
+    try {
+      t = letzterErfolg(workflow)
+    } catch (e) {
+      befunde.push(`${workflow}: Abfrage fehlgeschlagen (${String(e.message).split('\n')[0]})`)
+      continue
+    }
+    const alter = t === null ? null : (jetzt - t) / 3600e3
+    ausgabe(`${workflow.padEnd(32)} letzter Erfolg vor ${alter === null ? 'nie' : alter.toFixed(1) + ' h'} (erlaubt ${max} h)`)
+    const befund = befundZuAlt(workflow, alter, fristen)
+    if (befund) befunde.push(befund)
+  }
+  return befunde
+}
+
 /** Befundtext, wenn der letzte Erfolg zu alt ist (alter in Stunden, null = nie), sonst null. */
 export function befundZuAlt(workflow, alter, fristen = FRISTEN_STUNDEN) {
   const max = fristen[workflow]

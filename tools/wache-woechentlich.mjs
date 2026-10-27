@@ -14,7 +14,7 @@
  */
 import { execFileSync } from 'node:child_process'
 import { appendFileSync, readFileSync } from 'node:fs'
-import { befundZuAlt, FRISTEN_STUNDEN } from './wache-fristen.mjs'
+import { FRISTEN_STUNDEN, pruefeFristen } from './wache-fristen.mjs'
 
 const TROCKEN = process.argv.includes('--trocken')
 const H = 3600e3
@@ -28,21 +28,8 @@ function letzterErfolg(workflow) {
   return t ? Date.parse(t) : null
 }
 
-const befunde = []
 const jetzt = Date.now()
-for (const [workflow, max] of Object.entries(FRISTEN_STUNDEN)) {
-  let t = null
-  try {
-    t = letzterErfolg(workflow)
-  } catch (e) {
-    befunde.push(`${workflow}: Abfrage fehlgeschlagen (${String(e.message).split('\n')[0]})`)
-    continue
-  }
-  const alter = t === null ? null : (jetzt - t) / H
-  console.log(`${workflow.padEnd(32)} letzter Erfolg vor ${alter === null ? 'nie' : alter.toFixed(1) + ' h'} (erlaubt ${max} h)`)
-  const befund = befundZuAlt(workflow, alter)
-  if (befund) befunde.push(befund)
-}
+const befunde = pruefeFristen(letzterErfolg, jetzt, FRISTEN_STUNDEN, console.log)
 
 try {
   const erzeugt = Date.parse(JSON.parse(readFileSync('public/data/meta.json', 'utf8')).generatedAt)

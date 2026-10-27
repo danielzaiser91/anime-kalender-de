@@ -17,5 +17,11 @@
   { "name": "befundZuAlt: nie (null) meldet nichts", "datei": "tools/wache-fristen.mjs", "suche": "if (alter !== null && !(alter > max)) return null", "ersetze": "if (alter === null || !(alter > max)) return null" },
   { "name": "befundZuAlt: Text 'nie' fehlt", "datei": "tools/wache-fristen.mjs", "suche": "alter === null ? 'nie' : 'vor '", "ersetze": "alter === null ? 'vor 0 h' : 'vor '" },
   { "name": "befundZuAlt: Frist aus fester Zahl statt Tabelle", "datei": "tools/wache-fristen.mjs", "suche": "const max = fristen[workflow]", "ersetze": "const max = 36" },
-  { "name": "Wochenwache: Frist-Prüfung nicht angeschlossen (befund immer leer)", "datei": "tools/wache-woechentlich.mjs", "suche": "const befund = befundZuAlt(workflow, alter)", "ersetze": "const befund = null" }
+  { "name": "pruefeFristen: Befund nicht gesammelt", "datei": "tools/wache-fristen.mjs", "suche": "if (befund) befunde.push(befund)", "ersetze": "if (befund) void befund" },
+  { "name": "pruefeFristen: Abruffehler ohne Befund", "datei": "tools/wache-fristen.mjs", "suche": "befunde.push(`${workflow}: Abfrage fehlgeschlagen (${String(e.message).split('\\n')[0]})`)\n      continue", "ersetze": "continue" },
+  { "name": "pruefeFristen: Abruffehler ohne continue (zählt als nie)", "datei": "tools/wache-fristen.mjs", "suche": "\n      continue\n", "ersetze": "\n" },
+  { "name": "pruefeFristen: Alter in Minuten statt Stunden", "datei": "tools/wache-fristen.mjs", "suche": "(jetzt - t) / 3600e3", "ersetze": "(jetzt - t) / 60e3" },
+  { "name": "pruefeFristen: Fristen-Parameter ignoriert (Standardtabelle)", "datei": "tools/wache-fristen.mjs", "suche": "befundZuAlt(workflow, alter, fristen)", "ersetze": "befundZuAlt(workflow, alter)" },
+  { "name": "pruefeFristen: Ausgabezeile ohne Frist", "datei": "tools/wache-fristen.mjs", "suche": "(erlaubt ${max} h)`)", "ersetze": "(erlaubt 0 h)`)" },
+  { "name": "pruefeFristen: nur erster Workflow", "datei": "tools/wache-fristen.mjs", "suche": "Object.entries(fristen))", "ersetze": "Object.entries(fristen).slice(0, 1))" }
 ]

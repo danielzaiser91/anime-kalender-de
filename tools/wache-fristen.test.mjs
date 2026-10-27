@@ -1,6 +1,6 @@
 // Fristen der Wochenwache: Werte fest eingetragen, nicht aus dem geprüften Modul abgeleitet.
 import assert from 'node:assert/strict'
-import { befundZuAlt, FRISTEN_STUNDEN, fristAusTakt } from './wache-fristen.mjs'
+import { befundZuAlt, FRISTEN_STUNDEN, fristAusTakt, pruefeFristen } from './wache-fristen.mjs'
 
 // Regel: 3 x Takt, mindestens 3 h, nie über der alten Frist
 assert.equal(fristAusTakt(1, 12), 3)
@@ -40,4 +40,28 @@ assert.equal(befundZuAlt('bestand-bauen.yml', 37), 'bestand-bauen.yml: letzter e
 assert.equal(befundZuAlt('adn-laufende.yml', 19), 'adn-laufende.yml: letzter erfolgreicher Lauf vor 19 h, erlaubt 18 h')
 assert.equal(befundZuAlt('adn-laufende.yml', 18), null)
 
-console.log('wache-fristen: 6 Regelfälle, Tabelle (14 Workflows), Grenze 3 h, stündlich 4 h -> Meldung, nie -> Meldung: ok')
+// Durchlauf über die echte Tabelle: fester Zeitpunkt, Erfolg überall vor 4 h, einer wirft, einer nie
+const JETZT = Date.parse('2999-12-31T12:00:00Z')
+const vor = (h) => JETZT - h * 3600e3
+const zeilen = []
+const befunde = pruefeFristen(
+  (w) => {
+    if (w === 'deploy.yml') throw new Error('gh kaputt\nzweite Zeile')
+    if (w === 'ladezeiten.yml') return null
+    return vor(4)
+  },
+  JETZT,
+  FRISTEN_STUNDEN,
+  (z) => zeilen.push(z),
+)
+assert.deepEqual(befunde, [
+  'refresh-hourly.yml: letzter erfolgreicher Lauf vor 4 h, erlaubt 3 h',
+  'deploy.yml: Abfrage fehlgeschlagen (gh kaputt)',
+  'ladezeiten.yml: letzter erfolgreicher Lauf nie, erlaubt 36 h',
+])
+assert.equal(zeilen.length, 13) // alle außer dem Abruf-Fehler
+assert.ok(zeilen[0].includes('refresh-hourly.yml') && zeilen[0].includes('vor 4.0 h') && zeilen[0].includes('erlaubt 3 h'))
+// Alles frisch -> keine Befunde (Gegenprobe)
+assert.deepEqual(pruefeFristen(() => vor(1), JETZT), [])
+
+console.log('wache-fristen: 6 Regelfälle, Tabelle (14 Workflows), Grenze 3 h, stündlich 4 h -> Meldung, Durchlauf 13 Zeilen + Abruffehler + nie, frisch -> leer: ok')
