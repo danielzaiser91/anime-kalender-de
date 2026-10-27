@@ -12,7 +12,7 @@ ignoriereCss()
 const g = globalThis as Record<string, unknown>
 g.localStorage = { getItem: () => null, setItem() {}, removeItem() {} }
 g.window = { navigator: { userAgent: '' }, matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }), addEventListener() {}, removeEventListener() {} }
-const { mitZustand } = await import('../web/src/components/kalender/Schwebe.tsx')
+const { mitZustand, Schwebe } = await import('../web/src/components/kalender/Schwebe.tsx')
 const { AboInhalt, AboMenue } = await import('../web/src/components/kalender/AboMenue.tsx')
 
 let verletzt = 0
@@ -36,6 +36,11 @@ const wurzel = createRoot(dom.wurzel as unknown as Element)
 const ziele: string[] = []
 const einstellungen = () => void ziele.push('EINSTELLUNGEN')
 
+await act(async () => wurzel.render(h(Schwebe, { art: 'zeigen', inhalt: 'i', children: h('button', null, 'Tipp') })))
+pruefe('Schwebe mit Art „zeigen“ setzt kein aria-expanded am Auslöser', dom.wurzel.finde((k: MiniKnoten) => k.tagName === 'BUTTON')[0]?.getAttribute('aria-expanded') === null)
+await act(async () => wurzel.render(h(Schwebe, { art: 'klick', inhalt: 'i', children: h('button', null, 'Klick') })))
+pruefe('Schwebe mit Art „klick“ setzt aria-expanded=false am Auslöser', dom.wurzel.finde((k: MiniKnoten) => k.tagName === 'BUTTON')[0]?.getAttribute('aria-expanded') === 'false')
+
 await act(async () => wurzel.render(h(AboMenue, { onView: (v) => void ziele.push(v), favorites: new Set<number>(), einstellungen })))
 const burger = dom.wurzel.finde((k: MiniKnoten) => k.tagName === 'BUTTON' && (k.getAttribute('aria-label') ?? '').startsWith('Menü'))[0]
 pruefe('Burger-Knopf: genau einer, Name „Menü …“', burger !== undefined && burger.getAttribute('aria-label')?.includes('Einstellungen') === true, burger?.getAttribute('aria-label'))
@@ -48,6 +53,7 @@ const zeilen = dom.wurzel.finde((k: MiniKnoten) => k.tagName === 'BUTTON' && k.g
 for (const z of zeilen) await act(async () => klicke(dom.wurzel, z))
 pruefe('Menü: drei schließende Zeilen führen nach abo, newsletter, Einstellungen', zeilen.length === 3 && JSON.stringify(ziele) === '["abo","newsletter","EINSTELLUNGEN"]', { zeilen: zeilen.length, ziele })
 pruefe('Menü: Zeile „Einstellungen“ trägt den Text', zeilen[2]?.textContent === 'Einstellungen', zeilen[2]?.textContent)
+pruefe('Menü: Zeile „Einstellungen“ trägt das Zahnrad', (zeilen[2]?.finde((k: MiniKnoten) => k.tagName === 'CIRCLE').length ?? 0) === 1, zeilen[2]?.textContent)
 
 await act(async () => wurzel.unmount())
 dom.entferne()
