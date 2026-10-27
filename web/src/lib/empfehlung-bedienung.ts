@@ -1,6 +1,6 @@
 /** Reine Entscheidungen der Bedienung von „Entdecken“ (Tastatur, verzögerte Antwort); die Komponenten rufen sie nur auf. */
 
-export type TastenAktion = 'favorit' | 'nein' | 'runter' | 'hoch' | 'gesehen' | 'zurueck'
+export type TastenAktion = 'zurueck'
 
 export interface TastenEreignis {
   key: string
@@ -14,17 +14,11 @@ export interface TastenEreignis {
 
 const EINGABEFELD = new Set(['INPUT', 'TEXTAREA', 'SELECT'])
 
-/** Browser- und Systemkürzel (Alt+←, Strg+G …) und Eingabefelder lösen nichts aus; G zählt nicht aus einem Button heraus. */
+/** In der Detailansicht löst nur Esc („zurück“) etwas aus; Browserkürzel und Eingabefelder nie. */
 export function tasteZuAktion(e: TastenEreignis): TastenAktion | undefined {
   if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return undefined
   if (EINGABEFELD.has(e.ziel)) return undefined
-  if (e.key === 'ArrowRight') return 'favorit'
-  if (e.key === 'ArrowLeft') return 'nein'
-  if (e.key === 'ArrowDown') return 'runter'
-  if (e.key === 'ArrowUp') return 'hoch'
-  if (e.key === 'Escape') return 'zurueck'
-  if (e.key.toLowerCase() === 'g' && e.ziel !== 'BUTTON') return 'gesehen'
-  return undefined
+  return e.key === 'Escape' ? 'zurueck' : undefined
 }
 
 export interface Verzoegerung {

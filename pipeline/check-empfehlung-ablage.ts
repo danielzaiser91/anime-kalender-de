@@ -24,13 +24,16 @@ const dom = installiereMiniDom({ ...attrappeUhr(), matchMedia: () => ({ matches:
 const geholt: string[] = []
 const wurzel = createRoot(dom.wurzel as unknown as Element)
 await act(async () => {
-  wurzel.render(h(Ablage, { gesehen, verworfen, gesehenHolen: (id: number) => void geholt.push(`g${id}`), verworfenHolen: (id: number) => void geholt.push(`v${id}`) }))
+  wurzel.render(h(Ablage, { gesehen, verworfen, gesehenHolen: (id: number) => void geholt.push(`g${id}`), verworfenHolen: (id: number) => void geholt.push(`v${id}`) }, h('button', { type: 'button' }, 'Von vorn')))
 })
 const knopf = (text: string): MiniKnoten => dom.wurzel.finde((k) => k.tagName === 'BUTTON' && k.textContent === text)[0]!
 const text = (): string => dom.wurzel.textContent ?? ''
 const klick = (k: MiniKnoten) => act(async () => klicke(dom.wurzel, k))
 
 pruefe('Zu: Knöpfe mit Zahl, keine Titel', !!knopf('Gesehene (2)') && !!knopf('Verworfene (1)') && !/Eins|Zwei/.test(text()), text())
+const zeile = knopf('Von vorn').parentNode as MiniKnoten
+const rechts = zeile.finde((k) => (k.getAttribute('class') ?? '').includes('ml-auto'))[0]
+pruefe('„Von vorn“ links, „Gesehene“ und „Verworfene“ rechts, alle in einer Zeile', !!rechts && rechts.parentNode === zeile && (zeile.textContent ?? '').startsWith('Von vorn') && (rechts.textContent ?? '') === 'Gesehene (2)Verworfene (1)', zeile.textContent)
 await klick(knopf('Gesehene (2)'))
 pruefe('Gesehene auf: beide Gesehenen, kein Verworfener', text().includes('Gesehen Eins') && text().includes('Gesehen Zwei') && !text().includes('Verworfen Eins'), text())
 await klick(knopf('Verworfene (1)'))

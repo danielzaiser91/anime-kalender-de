@@ -17,6 +17,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
   console.error(`  ✖ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
+const klassen = (k: MiniKnoten): string => k.getAttribute('class') ?? ''
 const titel = (id: number, n: string): Kandidat => ({ id, n, f: 'TV', y: 2020, e: 12, g: [], k: [], fsk: 12, v: 70, p: [['netflix']], duell: true })
 const vorschau = ['Eins', 'Zwei', 'Drei', 'Vier', 'Fuenf'].map((n, i) => titel(900901 + i, `Titel ${n}`))
 
@@ -24,7 +25,7 @@ async function aufbau(offenesDuell: boolean) {
   const dom = installiereMiniDom({ ...attrappeUhr(), matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }) }, () => ({}))
   const aufrufe: string[] = []
   const wurzel = createRoot(dom.wurzel as unknown as Element)
-  await act(async () => wurzel.render(h(Fortsetzen, { vorschau, offenesDuell, fortfahren: () => void aufrufe.push('fortfahren'), neu: () => void aufrufe.push('neu') })))
+  await act(async () => wurzel.render(h(Fortsetzen, { vorschau, mosaik: vorschau.map((k) => k.id), offenesDuell, fortfahren: () => void aufrufe.push('fortfahren'), neu: () => void aufrufe.push('neu') })))
   const knopf = (text: string): MiniKnoten => dom.wurzel.finde((k) => k.tagName === 'BUTTON' && k.textContent === text)[0]!
   return { dom, aufrufe, knopf, klick: (k: MiniKnoten) => act(async () => klicke(dom.wurzel, k)), abbau: async () => { await act(async () => wurzel.unmount()); dom.entferne() } }
 }
@@ -38,6 +39,8 @@ console.log('Fortsetzen.tsx: Startbildschirm mit Vorgeschichte')
   const teile = t.dom.wurzel.finde((k) => k.getAttribute('data-teil') !== null)
   pruefe('Zwei Teile: Fortfahren (7) und Neu (3)', JSON.stringify(teile.map((k) => k.getAttribute('data-teil'))) === '["fortfahren","neu"]' && (teile[0].getAttribute('class') ?? '').includes('*0.7)') && (teile[1].getAttribute('class') ?? '').includes('*0.3)'))
   pruefe('„Fortfahren“ liegt im großen Teil, „verwerfen“ im kleinen', teile[0].finde((k) => k.tagName === 'BUTTON' && k.textContent === 'Fortfahren').length === 1 && teile[1].finde((k) => k.tagName === 'BUTTON' && k.textContent === 'Vorschläge verwerfen und von vorn').length === 1, teile.map((k) => k.textContent))
+  pruefe('Teile sind durchsichtig: keine graue Fläche, kein Rahmen', teile.every((k) => !/(^|\s)(bg-|border)/.test(klassen(k))), teile.map(klassen))
+  pruefe('Dahinter der Hintergrund der Startseite (Schleier)', t.dom.wurzel.finde((k) => klassen(k).includes('empf-schleier')).length === 1)
   await t.klick(t.knopf('Fortfahren'))
   pruefe('Fortfahren ruft nur fortfahren', JSON.stringify(t.aufrufe) === '["fortfahren"]', t.aufrufe)
   await t.klick(t.knopf('Vorschläge verwerfen und von vorn'))

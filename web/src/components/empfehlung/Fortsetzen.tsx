@@ -2,23 +2,26 @@ import type { Kandidat } from '@shared/empfehlung-pool.ts'
 import type { Title } from '@shared/types.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { Cover } from './bilder.tsx'
+import { MosaikHintergrund } from './MosaikHintergrund.tsx'
 
-const TAFEL = 'flex min-h-0 flex-col justify-center gap-4 overflow-auto rounded-2xl border border-ak-rand bg-ak-flaeche p-5'
+const TAFEL = 'relative z-10 flex min-h-0 flex-col justify-center gap-4 overflow-auto p-5'
 
 /**
  * Startbildschirm mit Vorgeschichte, 70 zu 30: links bzw. oben „Fortfahren“ mit den Vorschlägen als Vorschau, rechts bzw. unten
  * „Vorschläge verwerfen und von vorn“ (Gesehenes und Verworfenes bleiben).
  */
-export function Fortsetzen({ vorschau, titel, offenesDuell, fortfahren, neu }: {
+export function Fortsetzen({ vorschau, titel, mosaik, offenesDuell, fortfahren, neu }: {
   vorschau: Kandidat[]
   titel?: Map<number, Title>
+  mosaik: number[]
   offenesDuell: boolean
   fortfahren: () => void
   neu: () => void
 }) {
   const { t } = useLang()
   return (
-    <section className="empf-rein flex min-h-0 flex-1 flex-col gap-3 px-4 pb-4 pt-20 min-[900px]:flex-row" aria-label={t('view.entdecken')}>
+    <section className="empf-rein relative flex min-h-0 flex-1 flex-col gap-3 overflow-hidden px-4 pb-4 pt-20 min-[900px]:flex-row" aria-label={t('view.entdecken')}>
+      <MosaikHintergrund titel={titel} ids={mosaik} />
       <div data-teil="fortfahren" className={`${TAFEL} shrink-0 grow-0 basis-[calc((100%-0.75rem)*0.7)]`}>
         <h1 className="m-0 text-[clamp(24px,4vw,40px)] font-extrabold leading-tight">{t(offenesDuell ? 'empf.fortDuell' : 'empf.fortTitel')}</h1>
         <ul className="m-0 grid max-w-[760px] list-none grid-cols-5 gap-2 p-0 min-[900px]:gap-3">

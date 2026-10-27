@@ -173,21 +173,17 @@ pruefe('Neuer Start ersetzt den laufenden (nur eine Antwort)', antwortLief === 1
 // Tastatur der Leinwand
 const taste = (key: string, mehr: Partial<TastenEreignis> = {}): string | undefined =>
   tasteZuAktion({ key, altKey: false, ctrlKey: false, metaKey: false, shiftKey: false, ziel: 'BODY', ...mehr })
-pruefe('Tasten ohne Modifikator: Pfeile, G, Esc', gleich(['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'g', 'G', 'Escape'].map((k) => taste(k)), ['favorit', 'nein', 'runter', 'hoch', 'gesehen', 'gesehen', 'zurueck']))
-pruefe('Alt+← (Browser zurück) löst nichts aus', taste('ArrowLeft', { altKey: true }) === undefined)
-pruefe('Alt+→ löst nichts aus', taste('ArrowRight', { altKey: true }) === undefined)
-pruefe('Strg+G und Meta+G (Suche) lösen nichts aus', taste('g', { ctrlKey: true }) === undefined && taste('g', { metaKey: true }) === undefined)
-pruefe('Umschalt+Pfeil löst nichts aus', taste('ArrowLeft', { shiftKey: true }) === undefined)
-pruefe('Aus einem Eingabefeld löst nichts aus', taste('g', { ziel: 'INPUT' }) === undefined && taste('ArrowLeft', { ziel: 'TEXTAREA' }) === undefined && taste('Escape', { ziel: 'SELECT' }) === undefined)
-pruefe('G mit Fokus auf einem Button löst nichts aus, Pfeil schon', taste('g', { ziel: 'BUTTON' }) === undefined && taste('ArrowLeft', { ziel: 'BUTTON' }) === 'nein')
-pruefe('Andere Taste löst nichts aus', taste('x') === undefined)
+pruefe('Nur Esc löst „zurück“ aus', gleich(['Escape', 'ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'g', 'G', 'x'].map((k) => taste(k)), ['zurueck', undefined, undefined, undefined, undefined, undefined, undefined, undefined]))
+pruefe('Esc mit Fokus auf einem Button löst „zurück“ aus', taste('Escape', { ziel: 'BUTTON' }) === 'zurueck')
+pruefe('Alt+Esc, Strg+Esc, Umschalt+Esc, Meta+Esc lösen nichts aus', taste('Escape', { altKey: true }) === undefined && taste('Escape', { ctrlKey: true }) === undefined && taste('Escape', { shiftKey: true }) === undefined && taste('Escape', { metaKey: true }) === undefined)
+pruefe('Aus einem Eingabefeld löst nichts aus', taste('Escape', { ziel: 'INPUT' }) === undefined && taste('Escape', { ziel: 'TEXTAREA' }) === undefined && taste('Escape', { ziel: 'SELECT' }) === undefined)
 
 // Verdrahtung der Handler (laufen wirklich, in dieser Reihenfolge)
 console.log('Duell-Zurück und Tasten-Verdrahtung')
 const spur: string[] = []
 geheZurueck({ stopp: () => spur.push('stopp') }, () => spur.push('loesche'), () => spur.push('zurueck'))
 pruefe('Zurück: stoppt Timer, löscht Wahl, geht zurück – genau so, in dieser Reihenfolge', gleich(spur, ['stopp', 'loesche', 'zurueck']))
-const namen = ['favorit', 'nein', 'runter', 'hoch', 'gesehen', 'zurueck'] as const
+const namen = ['zurueck'] as const
 const tun = (): Record<(typeof namen)[number], () => void> => {
   const r = {} as Record<(typeof namen)[number], () => void>
   for (const n of namen) r[n] = () => void spur.push(n)
@@ -202,8 +198,11 @@ spur.length = 0
 fuehreTasteAus(undefined, tun())
 pruefe('Ohne Aktion läuft kein Handler', spur.length === 0)
 spur.length = 0
+fuehreTasteAus(tasteZuAktion({ key: 'Escape', altKey: false, ctrlKey: false, metaKey: false, shiftKey: false, ziel: 'BODY' }), tun())
+pruefe('Esc über die ganze Kette: nur „zurück“', gleich(spur, ['zurueck']))
+spur.length = 0
 fuehreTasteAus(tasteZuAktion({ key: 'ArrowLeft', altKey: false, ctrlKey: false, metaKey: false, shiftKey: false, ziel: 'BODY' }), tun())
-pruefe('Pfeil links über die ganze Kette: nur „nein“', gleich(spur, ['nein']))
+pruefe('Pfeil links über die ganze Kette: nichts', spur.length === 0)
 
 if (verletzt > 0) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt`)

@@ -289,7 +289,6 @@ export const TEXTE_SEITEN = {
   'empf.staffel': 'Beginnt mit Staffel {n} – Staffel 1 gibt es nicht auf Deutsch',
   'empf.coverOeffnen': '{titel}: Handlung, Anbieter und Trailer',
   'empf.zuVorschlaegen': 'Zurück zu den Vorschlägen',
-  'empf.mehr': '▾ mehr',
   'empf.handlung': 'Worum es geht',
   'empf.blick': 'Auf einen Blick',
   'empf.fskOffen': 'FSK offen',
@@ -304,9 +303,8 @@ export const TEXTE_SEITEN = {
   'empf.fertig': 'Fertig',
   'empf.kaufen': 'Kauf',
   'empf.kostenlos': 'Kostenlos',
-  'empf.tasten': '← nicht interessiert · → Favorit · ↓ Details · G gesehen · Esc zurück',
-  'empf.stempelNein': 'Nein',
   'empf.laedt': 'Die Titel werden vorbereitet …',
   'empf.fehler': 'Die Vorschläge konnten nicht geladen werden.',
   'empf.zumKalender': 'Zum Kalender',
+  'empf.zurueckZum': 'zurück zum',
 }

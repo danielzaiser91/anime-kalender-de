@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type RefObject } from 'react'
+import { useEffect, useState } from 'react'
 import type { Kandidat } from '@shared/empfehlung-pool.ts'
 import { PLATFORMS, type Fsk, type PlatformId, type StreamLink, type Title } from '@shared/types.ts'
 import { loadSynopsis } from '../../lib/data.ts'
@@ -9,7 +9,6 @@ import { useLang } from '../../lib/i18n.tsx'
 import { TrailerKino } from '../detail/kino.tsx'
 import { FskBadge } from '../ui.tsx'
 import { bannerUrl, Cover } from './bilder.tsx'
-import { stempelDeckkraft, useWischen } from './wischen.ts'
 
 
 /** Ein Weg je Anbieter mit belegter Synchro, mit Zugangsart, wo sie etwas sagt. */
@@ -63,7 +62,7 @@ function ZweiteEbene({ k, titel, genres, eigene }: { k: Kandidat; titel?: Title;
   }, [k.id])
   const kopf = 'mb-2 mt-0 text-xs font-normal uppercase tracking-[0.12em] text-ak-leise'
   return (
-    <div className="mx-auto grid max-w-[1100px] snap-start gap-5 px-5 pb-56 pt-4 min-[900px]:grid-cols-[1.2fr_1fr] min-[900px]:gap-7">
+    <div className="mx-auto grid max-w-[1100px] snap-start gap-5 px-5 pb-10 pt-4 min-[900px]:grid-cols-[1.2fr_1fr] min-[900px]:gap-7">
       <div>
         <h3 className={`${kopf} mt-0`}>{t('empf.blick')}</h3>
         <div className="flex flex-wrap items-center gap-2">
@@ -87,57 +86,36 @@ function ZweiteEbene({ k, titel, genres, eigene }: { k: Kandidat; titel?: Title;
   )
 }
 
-/** Tastatur der Leinwand; Pfeile, G und Esc lösen die übergebenen Aktionen aus. */
-function useTasten(szene: RefObject<HTMLDivElement | null>, ziele: { favorit: () => void; nein: () => void; gesehen: () => void; zurueck: () => void }) {
+/** Esc löst „zurück“ aus (sonst nichts: keine Pfeile, kein G). */
+function useZurueckTaste(zurueck: () => void) {
   useEffect(() => {
     const taste = (e: KeyboardEvent) => {
       const aktion = tasteZuAktion({ key: e.key, altKey: e.altKey, ctrlKey: e.ctrlKey, metaKey: e.metaKey, shiftKey: e.shiftKey, ziel: (e.target as HTMLElement | null)?.tagName ?? '' })
-      fuehreTasteAus(aktion, {
-        ...ziele,
-        runter: () => szene.current?.scrollBy({ top: 400, behavior: 'smooth' }),
-        hoch: () => szene.current?.scrollTo({ top: 0, behavior: 'smooth' }),
-      })
+      fuehreTasteAus(aktion, { zurueck })
     }
     window.addEventListener('keydown', taste)
     return () => window.removeEventListener('keydown', taste)
   })
 }
 
-/** Ein Vorschlag groß im Bild; Wischen links = nicht interessiert, rechts = Favorit; nach unten die zweite Ebene. */
-export function Leinwand({ k, titel, genres, eigene, istFavorit, aktionen }: {
+/** Ein Vorschlag groß im Bild; nach unten die zweite Ebene. Zurück geht nur per Kopfzeilen-Knopf oder Esc. */
+export function Leinwand({ k, titel, genres, eigene, zurueck }: {
   k: Kandidat
   titel?: Title
   genres: string[]
   eigene: ReadonlySet<string>
-  istFavorit: boolean
-  aktionen: { favorit: () => void; nein: () => void; gesehen: () => void; zurueck: () => void }
+  zurueck: () => void
 }) {
   const { t } = useLang()
-  const szene = useRef<HTMLDivElement>(null)
-  const zeit = useRef<number | undefined>(undefined)
-  useEffect(() => () => window.clearTimeout(zeit.current), [])
-  const [weg, setWeg] = useState<'' | 'weg-links' | 'weg-unten'>('')
-  const verlassen = (art: 'weg-links' | 'weg-unten', tu: () => void) => {
-    if (weg) return
-    setWeg(art)
-    zeit.current = window.setTimeout(tu, 320)
-  }
-  const nein = () => verlassen('weg-links', aktionen.nein)
-  const gesehen = () => verlassen('weg-unten', aktionen.gesehen)
-  const wischen = useWischen({ links: nein, rechts: aktionen.favorit })
-  useTasten(szene, { favorit: aktionen.favorit, nein, gesehen, zurueck: aktionen.zurueck })
+  useZurueckTaste(zurueck)
   const banner = bannerUrl(titel, 1280)
   const nichtBei = eigene.size > 0 && !k.p.some(([p]) => eigene.has(p))
-  const bewegung = wischen.dx ? { transform: `translateX(${wischen.dx * 0.6}px) rotate(${wischen.dx / 60}deg)` } : undefined
-  const rund = 'grid h-[68px] w-[68px] place-items-center rounded-full border border-ak-rand bg-ak-flaeche text-3xl shadow-xl'
   return (
     <section className="relative flex min-h-0 flex-1 overflow-hidden" aria-label={k.n}>
-      <div ref={szene} style={bewegung} className={`empf-szene neu absolute inset-0 snap-y snap-proximity overflow-auto overscroll-contain ${weg} ${wischen.dx ? 'ziehen' : ''}`}>
-        <div {...wischen.ereignisse} className="empf-leinwand relative flex h-full min-h-[460px] snap-start items-end touch-pan-y">
+      <div className="empf-szene neu absolute inset-0 snap-y snap-proximity overflow-auto overscroll-contain">
+        <div className="empf-leinwand relative flex h-full min-h-[460px] snap-start items-end">
           {banner ? <img src={banner} alt="" fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover object-top" /> : <Cover titel={titel} breite={500} klasse="absolute inset-0 h-full w-full scale-110 object-cover opacity-[0.6] blur-2xl" hoch />}
-          <span style={{ opacity: stempelDeckkraft(wischen.dx, 'links'), left: 20 }} className="absolute top-[70px] z-20 -rotate-12 rounded-[10px] border-4 border-ak-fehler px-3.5 py-1 text-3xl font-black uppercase tracking-wider text-ak-fehler">{t('empf.stempelNein')}</span>
-          <span style={{ opacity: stempelDeckkraft(wischen.dx, 'rechts'), right: 20 }} className="absolute top-[70px] z-20 rotate-12 rounded-[10px] border-4 border-ak-favorit px-3.5 py-1 text-3xl font-black text-ak-favorit">★</span>
-          <div className="relative z-10 mx-auto flex w-full max-w-[1100px] items-end gap-3.5 px-5 pb-[182px]">
+          <div className="relative z-10 mx-auto flex w-full max-w-[1100px] items-end gap-3.5 px-5 pb-10">
             <Cover titel={titel} breite={300} hoch klasse="w-[176px] flex-none rounded-lg bg-ak-flaeche-2 object-cover shadow-2xl min-[900px]:w-[280px] min-[900px]:rounded-xl aspect-[2/3]" />
             <div className="min-w-0">
               <h2 className="m-0 text-[clamp(28px,6vw,56px)] font-extrabold leading-none tracking-tight">{k.n}</h2>
@@ -148,25 +126,8 @@ export function Leinwand({ k, titel, genres, eigene, istFavorit, aktionen }: {
               </div>
             </div>
           </div>
-          <span className="empf-wippen absolute bottom-[154px] left-1/2 z-10 text-xs text-ak-leise">{t('empf.mehr')}</span>
         </div>
         <ZweiteEbene k={k} titel={titel} genres={genres} eigene={eigene} />
-      </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex flex-col items-center gap-2 bg-gradient-to-t from-ak-grund from-60% to-transparent px-4 pb-3 pt-2.5">
-        <div className="pointer-events-auto flex items-start gap-6">
-          <span className="flex flex-col items-center gap-1 text-xs text-ak-leise">
-            <button type="button" onClick={nein} aria-label={t('empf.nein')} className={`${rund} text-ak-fehler`}>✕</button>
-            {t('empf.nein')}
-          </span>
-          <span className="flex flex-col items-center gap-1 text-xs text-ak-leise">
-            <button type="button" onClick={aktionen.favorit} aria-pressed={istFavorit} aria-label={t('empf.favorit')} className={`${rund} text-ak-favorit ${istFavorit ? 'bg-ak-favorit text-ak-auf-akzent' : ''}`}>★</button>
-            {t('empf.favorit')}
-          </span>
-        </div>
-        <button type="button" onClick={gesehen} className="pointer-events-auto min-h-11 rounded-full border border-ak-rand bg-ak-flaeche px-4 text-[13px] text-ak-leise">
-          ✓ {t('empf.gesehen')}
-        </button>
-        <span className="hidden text-[11px] text-ak-sehr-leise min-[900px]:inline">{t('empf.tasten')}</span>
       </div>
     </section>
   )

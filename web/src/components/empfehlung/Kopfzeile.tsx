@@ -1,9 +1,10 @@
 import { useLang } from '../../lib/i18n.tsx'
 import type { Phase } from '../../lib/empfehlung-ablauf.ts'
+import { ZumKalender } from './ZumKalender.tsx'
 
 const KNOPF = 'inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full border border-ak-rand bg-ak-flaeche px-3 text-[13px]'
 
-/** Kopfzeile der Fläche: links „Entdecken“ (Link zum Kalender, in der Detailansicht nur Text), dort der Knopf „Zurück zu den Vorschlägen“, am Handy der Anbieter-Knopf. */
+/** Kopfzeile der Fläche: links „zurück zum“ + Logo (Link zur Startseite), in der Detailansicht der Knopf „Zurück zu den Vorschlägen“, am Handy der Anbieter-Knopf. */
 export function Kopfzeile({ phase, anbieter, blattOffen, vorschlaege, blatt }: {
   phase: Phase
   anbieter: number
@@ -14,13 +15,7 @@ export function Kopfzeile({ phase, anbieter, blattOffen, vorschlaege, blatt }: {
   const { t } = useLang()
   return (
     <header className="absolute inset-x-0 top-0 z-20 flex items-center justify-between gap-2 px-4 py-2">
-      {phase === 'leinwand' ? (
-        <span className="inline-flex min-h-11 items-center font-bold tracking-wide max-[600px]:hidden">{t('view.entdecken')}</span>
-      ) : (
-        <a href="#/woche" title={t('empf.zumKalender')} className="inline-flex min-h-11 items-center font-bold tracking-wide text-ak-text no-underline">
-          {t('view.entdecken')}
-        </a>
-      )}
+      <ZumKalender aufBild={phase === 'leinwand'} />
       <span className="flex items-center gap-1.5">
         {phase === 'leinwand' && (
           <button type="button" className={KNOPF} onClick={vorschlaege}>

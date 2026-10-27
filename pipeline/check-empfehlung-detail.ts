@@ -30,9 +30,22 @@ console.log('Leinwand: Detailansicht')
   const dom = installiereMiniDom(fenster, () => ({}))
   const wurzel = createRoot(dom.wurzel as unknown as Element)
   const titel = { id: ID, coverImage: 'https://image.tmdb.org/t/p/w500/x.jpg' } as unknown as Title
+  const tasten: Array<(e: unknown) => void> = []
+  Object.assign((globalThis as unknown as { window: object }).window, { addEventListener: (art: string, f: (e: unknown) => void) => art === 'keydown' && tasten.push(f) })
+  let zurueck = 0
   await act(async () => {
-    wurzel.render(h(Leinwand, { k: kandidat, titel, genres: ['Action'], eigene: new Set<string>(), istFavorit: false, aktionen: { favorit() {}, nein() {}, gesehen() {}, zurueck() {} } }))
+    wurzel.render(h(Leinwand, { k: kandidat, titel, genres: ['Action'], eigene: new Set<string>(), zurueck: () => void zurueck++ }))
   })
+  const alles = dom.wurzel.textContent ?? ''
+  pruefe('Keine Knöpfe in der Detailansicht (Zurück sitzt in der Kopfzeile)', dom.wurzel.finde((k) => k.tagName === 'BUTTON').length === 0)
+  pruefe('Kein Text zu Nein, Gesehen, mehr oder Tastenhinweisen', !/Nicht interessiert|Schon gesehen|Favorit|mehr|Esc zurück/.test(alles), alles.slice(0, 200))
+  const taste = (key: string, mehr: object = {}) => tasten.forEach((f) => f({ key, altKey: false, ctrlKey: false, metaKey: false, shiftKey: false, target: { tagName: 'BODY' }, ...mehr }))
+  for (const key of ['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', 'g', 'G']) taste(key)
+  pruefe('Pfeile und G lösen nichts aus', zurueck === 0, zurueck)
+  taste('Escape', { ctrlKey: true })
+  pruefe('Strg+Esc löst nichts aus', zurueck === 0, zurueck)
+  taste('Escape')
+  pruefe('Esc ruft genau einmal zurück', zurueck === 1, zurueck)
   const ueberschriften = dom.wurzel.finde((k) => k.tagName === 'H3').map((k) => k.textContent)
   pruefe('Handlung ist der letzte Block', ueberschriften.at(-1) === 'Worum es geht' && ueberschriften.length === 4, ueberschriften)
   const kopf = dom.wurzel.finde((k) => klassen(k).includes('empf-leinwand'))[0]!
@@ -66,7 +79,8 @@ console.log('Kopfzeile: nur der Zurück-Knopf')
   }
   const knoepfe = (w: MiniKnoten) => w.finde((k) => k.tagName === 'BUTTON').map((k) => k.textContent)
   const l = await aufbau('leinwand')
-  pruefe('Leinwand: kein Link, der Kopf bleibt Text', l.dom.wurzel.finde((k) => k.tagName === 'A').length === 0 && (l.dom.wurzel.textContent ?? '').includes('Entdecken'))
+  const logoLink = (w: MiniKnoten) => w.finde((k) => k.tagName === 'A')[0]
+  pruefe('Leinwand: links „zurück zum“ + Wortmarke als Link zur Startseite', logoLink(l.dom.wurzel)?.textContent === 'zurück zumanime·kalender' && logoLink(l.dom.wurzel)?.getAttribute('href') === '#/woche', logoLink(l.dom.wurzel)?.textContent)
   const zu = l.dom.wurzel.finde((k) => k.tagName === 'BUTTON' && k.textContent === 'Zurück zu den Vorschlägen')[0]
   pruefe('Leinwand: Knopf „Zurück zu den Vorschlägen“ da', !!zu, knoepfe(l.dom.wurzel))
   if (zu) await act(async () => klicke(l.dom.wurzel, zu))
@@ -74,8 +88,8 @@ console.log('Kopfzeile: nur der Zurück-Knopf')
   await l.abbau()
   for (const phase of ['start', 'duell', 'ergebnis'] as const) {
     const a = await aufbau(phase)
-    const link = a.dom.wurzel.finde((k) => k.tagName === 'A')[0]
-    pruefe(`${phase}: links der Link „Entdecken“ zum Kalender, kein Zurück-Knopf, kein „Von vorn“`, link?.textContent === 'Entdecken' && link.getAttribute('href') === '#/woche' && !knoepfe(a.dom.wurzel).some((t) => /Zurück zu den|Von vorn/.test(t ?? '')), knoepfe(a.dom.wurzel))
+    const link = logoLink(a.dom.wurzel)
+    pruefe(`${phase}: links „zurück zum“ + Wortmarke zur Startseite, kein Zurück-Knopf, kein „Von vorn“`, link?.textContent === 'zurück zumanime·kalender' && link.getAttribute('href') === '#/woche' && !knoepfe(a.dom.wurzel).some((t) => /Zurück zu den|Von vorn/.test(t ?? '')), knoepfe(a.dom.wurzel))
     await a.abbau()
   }
 }

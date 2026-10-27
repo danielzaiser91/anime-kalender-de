@@ -37,19 +37,26 @@
 .empf-kandidat:focus-visible .empf-details { opacity: 1; }
 @media (hover: hover) { .empf-kandidat:hover .empf-details { opacity: 1; } }
 
+/* Breite Fenster mit wenig Höhe (Laptop): die Galerie passt ohne Bildlauf. Die Breite folgt der Höhe (Cover 2:3, fünf Stück plus Lücken),
+   die Aktionen werden eine Reihe aus Symbolen. 360px = Kopf, Überschrift, Titelzeile, Symbolreihe, Knopfzeile (gemessen bei 1366×700; bis 800 px Höhe, damit 750 Luft hat). */
+@media (min-width: 1001px) and (max-height: 800px) {
+  .empf-galerie { max-width: min(1240px, calc((100vh - 360px) * 10 / 3 + 64px)); }
+  .empf-galerie-abschnitt { padding-top: 60px; padding-bottom: 8px; }
+  .empf-galerie h2 { font-size: clamp(22px, 5.5vh, 40px); }
+  .empf-galerie .empf-aktionen { flex-direction: row; }
+  .empf-galerie .empf-aktionen button { min-height: 32px; flex: 1; justify-content: center; padding: 0 4px; }
+  .empf-galerie .empf-aktion-text { display: none; }
+}
+
 .empf-szene { will-change: transform; }
 .empf-szene.neu { animation: empf-szene-neu 480ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 @keyframes empf-szene-neu { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
-.empf-szene.weg-links { transition: transform 420ms ease-in, opacity 380ms; transform: translateX(-30%) scale(0.96); opacity: 0; }
-.empf-szene.weg-unten { transition: transform 360ms ease-in, opacity 340ms; transform: translateY(40%) scale(0.9); opacity: 0; }
-.empf-szene.ziehen { transition: none; }
-.empf-wippen { animation: empf-wippen 1.6s ease-in-out infinite; }
-@keyframes empf-wippen { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 5px); } }
 
 .empf-blatt { transition: transform 380ms cubic-bezier(0.2, 0.8, 0.2, 1); }
 
 /* Text auf Bildern liegt immer auf einem Verlauf und ist immer hell (Bild, nicht Thema). */
 .empf-name { color: rgb(255 255 255); background: linear-gradient(transparent, rgb(0 0 0 / 0.85)); }
+.empf-auf-bild { color: rgb(255 255 255); text-shadow: 0 1px 4px rgb(0 0 0 / 0.7); }
 .empf-chip { background: rgb(255 255 255 / 0.18); border: 1px solid rgb(255 255 255 / 0.25); backdrop-filter: blur(4px); }
 .empf-leinwand::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(0 0 0 / 0.25) 0%, transparent 35%, var(--ak-grund) 100%); }
 

@@ -1,7 +1,7 @@
 /**
- * Zusicherungen zu den Rechenschritten der Ansicht „Entdecken“ (`web/src/lib/empfehlung-reise.ts`) und zum Wischen
- * (`web/src/components/empfehlung/wischen.ts`) an einer erfundenen Pool-Datei: Abzüge beim Start, Vorrang der eigenen Anbieter,
- * Ersatz auf der Galerie, Zeilen, Zwischenstand, Ziel, Mosaik, Wischweg. Der ganze Ablauf (6 Duelle bis fünf Vorschläge) läuft
+ * Zusicherungen zu den Rechenschritten der Ansicht „Entdecken“ (`web/src/lib/empfehlung-reise.ts`) an einer erfundenen
+ * Pool-Datei: Abzüge beim Start, Vorrang der eigenen Anbieter,
+ * Ersatz auf der Galerie, Zeilen, Zwischenstand, Ziel, Mosaik. Der ganze Ablauf (6 Duelle bis fünf Vorschläge) läuft
  * über die echten Kernfunktionen. Aufruf: `npm run check:logic`.
  */
 import type { EmpfehlungsDatei, Kandidat } from '../shared/empfehlung-pool.ts'
@@ -10,7 +10,6 @@ import { baueKontext } from '../shared/empfehlung-vektor.ts'
 import {
   artWort, ausgeschlossenFuerReise, ersetzeVorschlag, ersteVorschlaege, metaZeile, mosaikIds, naechstesZiel, rangliste, stand,
 } from '../web/src/lib/empfehlung-reise.ts'
-import { stempelDeckkraft, wischRichtung } from '../web/src/components/empfehlung/wischen.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -112,12 +111,6 @@ pruefe('Rest 13 ist ein Messwert', stand(k, { ...z0, rest: Array.from({ length: 
 pruefe('Rest 12 klebt an der Untergrenze → keine Zahl', stand(k, { ...z0, rest: Array.from({ length: 12 }, (_, i) => i) }, 6).rest === null)
 pruefe('Rest 1 → keine Zahl', stand(k, { ...z0, rest: [0] }, 6).rest === null)
 
-console.log('Wischen')
-pruefe('−90 → links, 90 → rechts', wischRichtung(-90) === 'links' && wischRichtung(90) === 'rechts')
-pruefe('±89 → nichts, 0 → nichts', wischRichtung(-89) === undefined && wischRichtung(89) === undefined && wischRichtung(0) === undefined)
-pruefe('Stempel links folgt dem Weg', stempelDeckkraft(-45, 'links') === 0.5 && stempelDeckkraft(-45, 'rechts') === 0)
-pruefe('Stempel rechts, gedeckelt', stempelDeckkraft(45, 'rechts') === 0.5 && stempelDeckkraft(500, 'rechts') === 1)
-
 console.log('Ablauf: sechs Duelle bis fünf Vorschläge')
 let s = neueSitzung(neuerZustand(k, 11, aus.map((i) => 900100 + i)))
 const gezeigtePaare: Array<[number, number]> = []
@@ -138,4 +131,4 @@ if (verletzt > 0) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt`)
   process.exit(1)
 }
-console.log('\nEmpfehlung (Ansicht): Abzüge, Vorrang, Ersatz, Zeilen, Zwischenstand, Wischweg und Ablauf in Ordnung')
+console.log('\nEmpfehlung (Ansicht): Abzüge, Vorrang, Ersatz, Zeilen, Zwischenstand und Ablauf in Ordnung')
