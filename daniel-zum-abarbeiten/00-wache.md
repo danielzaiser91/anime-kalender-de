@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**⚠ Auffälligkeit** · letzter Befund vom 26.10.2026 um 15:16 Uhr
+**⚠ Auffälligkeit** · letzter Befund vom 27.10.2026 um 14:13 Uhr
 
 Diese Zeile nennt den letzten **Befund**, nicht den letzten Lauf: Seit dem 26.09.2026 wird nur noch
 ein Befund committet (Daniel: „Behalten, still bei Ruhe"). Ob die Wache täglich läuft, steht in
@@ -19,30 +19,27 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
 ## Was aufgefallen ist
 
-- 1 Titel weniger; 2 Urteile verloren (3 weitere sind begründet entfernt) (14 weitere durch Kanal-Titel herabgestuft); 3 Titel ohne Synchro-Beleg (2 weitere durch Kanal-Titel herabgestuft); netflix: 1 Synchro-Belege weniger; joyn: 1 Synchro-Belege weniger
-- 1 Titel ohne Synchro-Beleg
+- 3 Titel weniger
 
 ## Bestand — die letzten 24 Stunden
 
 ```
-36 Läufe in den letzten 1 Tagen (1517 insgesamt)
+43 Läufe in den letzten 1 Tagen (1558 insgesamt)
 
-25.10., 17:06  Bestand — zusammenführ   verweise +1, mitUrteil +1, titelMitSynchro +1, releases +1, termine +12
-25.10., 18:09  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1, titelMitSynchro +1, releases +2, termine +72
-25.10., 23:11  Bestand — zusammenführ   termine +3
-26.10., 04:43  Bestand — zusammenführ   titel +1, verweise +1, ohneUrteil +1
-26.10., 05:09  Bestand — zusammenführ   termine +7
-26.10., 11:22  Bestand — zusammenführ   titel -1, verweise +22, mitUrteil -19, ohneUrteil +41, titelMitSynchro -5, releases -1, termine +12
-            ℹ  erklärt, nicht rot: 2 Titel ohne Synchro-Beleg, weil ihr Ja nur Amazons Sprachangabe auf einem Kanal-Titel war; primevideo: 14 Synchro-Belege herabgestuft (Kanal-Titel, Amazons Sprachangabe)
-            ⚠  1 Titel weniger; 2 Urteile verloren (3 weitere sind begründet entfernt) (14 weitere durch Kanal-Titel herabgestuft); 3 Titel ohne Synchro-Beleg (2 weitere durch Kanal-Titel herabgestuft); netflix: 1 Synchro-Belege weniger; joyn: 1 Synchro-Belege weniger
-26.10., 11:53  Bestand — zusammenführ   mitUrteil -1, ohneUrteil +1, titelMitSynchro -1
-            ⚠  1 Titel ohne Synchro-Beleg
 26.10., 13:30  Bestand — zusammenführ   termine +11
+26.10., 23:15  Bestand — zusammenführ   termine +10
+26.10., 23:48  Bestand — zusammenführ   termine +23
+27.10., 00:25  Bestand — zusammenführ   titel +5, verweise +1, ohneUrteil +1, releases -4, termine -16
+27.10., 04:32  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1, titelMitSynchro +1, releases +1, termine +1
+27.10., 06:09  Bestand — zusammenführ   termine +7
+27.10., 08:57  Bestand — zusammenführ   titel -3, releases -3
+            ⚠  3 Titel weniger
+27.10., 09:58  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1, titelMitSynchro +1
 
-Stand jetzt: 2922 Titel, 1997 Urteile, 287 offen
-Über den Zeitraum: Titel 0, Urteile -18, offen +42
+Stand jetzt: 2924 Titel, 1999 Urteile, 286 offen
+Über den Zeitraum: Titel +2, Urteile +2, offen -1
 
-⚠  2 Lauf/Läufe mit Auffälligkeiten — siehe oben.
+⚠  1 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
 
 ## Briefkasten
@@ -54,16 +51,16 @@ Zurückgestellt (data/meldungen-zurueckgestellt.json): 0 Adressen im Briefkasten
 Alle Adressen sind gelistet.
 Übernahme: zuletzt 2026-10-24T19:07:09.779Z (data/meldungen-uebernahme.json)
 ✓ refresh-hourly.yml: letzter Erfolg vor 0 h (Frist 5 h)
-✓ refresh-data.yml: letzter Erfolg vor 10 h (Frist 36 h)
-✓ refresh-weekly.yml: letzter Erfolg vor 9 h (Frist 216 h)
-✓ daten-auf-abruf.yml: letzter Erfolg vor 7 h (Frist 36 h)
-✓ anisearch-katalog.yml: letzter Erfolg vor 8 h (Frist 36 h)
-✓ tonspuren-monatlich.yml: letzter Erfolg vor 82 h (Frist 840 h)
+✓ refresh-data.yml: letzter Erfolg vor 9 h (Frist 36 h)
+✓ refresh-weekly.yml: letzter Erfolg vor 32 h (Frist 216 h)
+✓ daten-auf-abruf.yml: letzter Erfolg vor 6 h (Frist 36 h)
+✓ anisearch-katalog.yml: letzter Erfolg vor 7 h (Frist 36 h)
+✓ tonspuren-monatlich.yml: letzter Erfolg vor 105 h (Frist 840 h)
 ✓ bestand-bauen.yml: letzter Erfolg vor 0 h (Frist 24 h)
-✓ d1-verbrauch.yml: letzter Erfolg vor 26 h (Frist 48 h)
-✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 2 h (Frist 48 h)
-✓ claude-wache-urteil.yml: letzter Erfolg vor 5 h (Frist 48 h)
-✓ claude-verpasst-recherche.yml: letzter Erfolg vor 3 h (Frist 48 h)
+✓ d1-verbrauch.yml: letzter Erfolg vor 23 h (Frist 48 h)
+✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 1 h (Frist 48 h)
+✓ claude-wache-urteil.yml: letzter Erfolg vor 4 h (Frist 48 h)
+✓ claude-verpasst-recherche.yml: letzter Erfolg vor 2 h (Frist 48 h)
 ✓ claude-daten-merge.yml: letzter Erfolg vor 0 h (Frist 48 h)
 ✓ GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor 0 h
 ℹ Ablaufdatum unbekannt (gueltigBis leer): CLAUDE_CODE_OAUTH_TOKEN, LAUF_TOKEN, CR_ZUGANG, ANISEARCH_TOKEN, ANILIST_TOKEN, TMDB_API_KEY, YOUTUBE_API_KEY, STREAMING_API_KEY, SERPER_API_KEY, DATEN_APP_KEY, DISCORD_WEBHOOK, CLOUDFLARE_API_TOKEN, CLOUDFLARE_ANALYTICS_TOKEN, GITHUB_WECKER_TOKEN, MAIL_API_KEY, WEICHE_TOKEN — Daniel liest es einmal im Konto ab und trägt es ins Register ein.
@@ -89,6 +86,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 27.10.2026 14:13 | 2924 / 1999 / 286 | Titel +2, Urteile +2, offen -1 | 3 Titel weniger |
 | 26.10.2026 15:16 | 2922 / 1997 / 287 | Titel 0, Urteile -18, offen +42 | 1 Titel weniger; 2 Urteile verloren (3 weitere sind begründet entfernt) (14 weitere durch Kanal-Titel herabgestuft); 3 Titel ohne Synchro-Beleg (2 weitere durch Kanal-Titel herabgestuft); netflix: 1 Synchro-Belege weniger; joyn: 1 Synchro-Belege weniger; 1 Titel ohne Synchro-Beleg |
 | 22.10.2026 14:59 | 2922 / 2010 / 244 | Titel 0, Urteile 0, offen 0 | Auffälligkeit |
 | 19.10.2026 16:41 | 2922 / 2000 / 253 | Titel 0, Urteile -36, offen +46 | 40 Urteile verloren; 7 Titel ohne Synchro-Beleg; primevideo: 44 Synchro-Belege weniger; netflix: 4 Synchro-Belege weniger |
