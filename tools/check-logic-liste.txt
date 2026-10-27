@@ -177,6 +177,7 @@ pipeline/check-mal-teilung.ts
 pipeline/check-meldung-gti.ts
 pipeline/check-meldung-summenseite.ts
 pipeline/check-meldungs-auffaelligkeiten.ts
+pipeline/check-messbelege-kalender.ts
 pipeline/check-minuten-takt.ts
 pipeline/check-motn-reihe.ts
 pipeline/check-motn-uebernahme.ts
@@ -326,6 +327,7 @@ pipeline/check-wochen-datei.ts
 pipeline/check-wochen-kacheln-lauf.ts
 pipeline/check-wochen-kacheln.ts
 pipeline/check-wochenprogramm-sendetag.ts
+pipeline/check-workflow-browser.ts
 pipeline/check-write-json-atomar.ts
 pipeline/check-zaehlung.ts
 pipeline/check-zeit-ausgabe.ts

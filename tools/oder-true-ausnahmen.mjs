@@ -10,6 +10,7 @@ const APT = 'Aufräumen einer fremden apt-Quelle auf dem Runner; fehlt sie, ist 
 export const OHNE_BEFUND = [
   { datei: '.github/workflows/aussehen-pruefen.yml', text: 'xargs -r rm -fv || true', grund: APT },
   { datei: '.github/workflows/crunchyroll-nachholen.yml', text: 'xargs -r rm -fv || true', grund: APT },
+  { datei: '.github/workflows/daten-auf-abruf.yml', text: 'xargs -r rm -fv || true', grund: APT },
   { datei: '.github/workflows/ladezeiten.yml', text: 'xargs -r rm -fv || true', grund: APT },
   { datei: '.github/workflows/bestand-bauen.yml', text: 'anmeldung.json > /dev/null || true', grund: ANMELDUNG },
   { datei: '.github/workflows/claude-auftrag.yml', text: 'anmeldung.json > /dev/null || true', grund: ANMELDUNG },
