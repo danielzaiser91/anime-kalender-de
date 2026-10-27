@@ -128,7 +128,7 @@ const DATEN_MAIN = ['public/data/titles.json', 'data/cache/ordner/anilist', 'pub
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN }))
   const code = main(['7'], k.gh, k.melde, k.warte)
   pruefe('nur Daten bewegt -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe })
-  pruefe('nur Daten bewegt: Meldung nennt beide Stände und die Pfade', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Daten bewegt (public/data/, data/cache/, 54 Bot-Dateien ohne Leser)', k.meldungen)
+  pruefe('nur Daten bewegt: Meldung nennt beide Stände und die Pfade', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Daten bewegt (public/data/, data/cache/, 56 Bot-Dateien ohne Leser)', k.meldungen)
   pruefe('nur Daten bewegt: liest Vergleich und PR-Dateien', k.aufrufe.some((a) => a.includes('/compare/')) && k.aufrufe.some((a) => a.includes('/pulls/7/files')), k.aufrufe)
 }
 {
@@ -139,6 +139,7 @@ const DATEN_MAIN = ['public/data/titles.json', 'data/cache/ordner/anilist', 'pub
 for (const [name, bewegt, erwartet] of [
   ['Liste 23 + Vorschaubilder', ['daniel-zum-abarbeiten/listen/23-nur-originalton.md', 'public/og/aoashi-staffel-2-crunchyroll-de-2026-10-25.jpg', 'public/og/psyren.png', 'public/og/x.webp'], 0],
   ['Vorschaubilder + default.txt (liest og-standard.test.ts)', ['public/og/x.jpg', 'public/og/default.txt'], 1],
+  ['Vorschaubilder + Stempel schaetz.txt und fassung.txt (nur build-og.ts liest sie)', ['public/og/x.jpg', 'public/og/schaetz.txt', 'public/og/fassung.txt'], 0],
   ['Vorschaubilder + default.jpg', ['public/og/default.jpg', 'public/og/x.jpg'], 1],
   ['Vorschaubilder + justwatch-widersprueche.md (liest eine Prüfung)', ['public/og/x.jpg', 'daniel-zum-abarbeiten/listen/justwatch-widersprueche.md'], 1],
 ]) {
@@ -456,6 +457,15 @@ function prozess(daten, argv) {
   pruefe('Prozess: aktuell -> Exit 0, Zeile auf stdout', r.status === 0 && /PR 7: aktuell/.test(r.aus), r)
   const optionen = r.aufrufe.map(([befehl, , o]) => `${befehl} ${o.encoding} ${o.windowsHide} ${o.maxBuffer}`)
   pruefe('Prozess: jeder Aufruf ist gh, utf8, ohne Fenster, Puffer 64 MiB', optionen.length === 5 && optionen.every((o) => o === `gh utf8 true ${64 * 1024 * 1024}`), optionen)
+}
+{
+  // Start-Guard: ein Import (z. B. aus einem Test) startet main() nicht — ohne Guard wäre es Exit 1 mit Aufrufhinweis.
+  const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'pr-nachrechnen-import-'))
+  const lader = path.join(ordner, 'import.mjs')
+  fs.writeFileSync(lader, `await import(${JSON.stringify(new URL('./pr-nachrechnen.mjs', import.meta.url).href)})\nconsole.log('geladen')\n`)
+  const r = spawnSync(process.execPath, [lader], { encoding: 'utf8', windowsHide: true })
+  fs.rmSync(ordner, { recursive: true, force: true })
+  pruefe('Import startet main() nicht (Exit 0, nur „geladen“ auf stdout)', r.status === 0 && r.stdout.trim() === 'geladen', { status: r.status, aus: r.stdout, err: r.stderr })
 }
 {
   const r = prozess(antworten({ mainSha: MAIN }), ['7'])

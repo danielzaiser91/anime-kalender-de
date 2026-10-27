@@ -61,6 +61,8 @@ export const BOT_DATEIEN_OHNE_LESER = [
   'data/tmdb-poster-grund.json',
   'data/wiedervorlage.json',
   'data/wikidata-titel.json',
+  'public/og/fassung.txt',
+  'public/og/schaetz.txt',
   'tools/kalender-plausibilitaet-grenzen.json',
 ]
 
