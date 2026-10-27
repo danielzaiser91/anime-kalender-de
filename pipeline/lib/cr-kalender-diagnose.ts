@@ -41,6 +41,39 @@ export function meldeLeerenKalender(diagnosen: string[]): void {
   warn('Keine Einträge gefunden — Seitenaufbau geändert oder Sperre? Bestehende Daten bleiben unangetastet.')
 }
 
+/** Rohdaten der Seite für die Umleitungs-/Umbau-Diagnose (Beleg 26.10.2026: HTTP 200, aber „Simulcasts durchstöbern“ statt Kalender). */
+export interface KalenderDetails {
+  /** Aufrufadresse zuerst, dann jede Umleitung bis zur Endadresse, je mit Status. */
+  kette: { status?: number; url: string }[]
+  /** `href` aller Verweise der Seite. */
+  links: string[]
+  html: string
+}
+
+const ADRESSEN_MAX = 20
+
+/** Adresse ohne Abfrage und Fragment (dort stehen Token). */
+function ohneAbfrage(url: string): string {
+  return url.replace(/[?#].*$/, '')
+}
+
+function ersteZwanzig(adressen: string[]): string[] {
+  return [...new Set(adressen.map(ohneAbfrage))].slice(0, ADRESSEN_MAX)
+}
+
+/** Adressen im HTML, die nach JSON oder API aussehen (Seite lädt ihre Daten womöglich per Abruf nach). */
+export function apiAdressen(html: string): string[] {
+  const treffer = html.match(/(?:https?:)?\/\/[^"'\s<>\\)]+|\/[A-Za-z0-9_./-]+\.json\b/g) ?? []
+  return ersteZwanzig(treffer.filter((a) => /api|json|content|cms|graphql|\/v\d/i.test(ohneAbfrage(a))))
+}
+
+/** Eine Logzeile: Statusfolge samt Endadresse, bis zu 20 Verweise auf „simulcast“/„calendar“, bis zu 20 JSON-/API-Adressen. */
+export function kalenderDetails(d: KalenderDetails): string {
+  const kette = d.kette.map((k) => `${k.status ?? '?'} ${ohneAbfrage(k.url)}`).join(' -> ')
+  const ziele = ersteZwanzig(d.links.filter((l) => /simulcast|calendar/i.test(ohneAbfrage(l))))
+  return `Aufrufkette ${kette}; Verweise [${ziele.join(', ')}]; API [${apiAdressen(d.html).join(', ')}]`
+}
+
 export function kalenderDiagnose(seite: KalenderSeite): string {
   const merkmale = CHALLENGE_MERKMALE.filter((m) => seite.html.includes(m) || seite.titel.includes(m))
   const challenge = merkmale.length ? `Challenge-Merkmale: ${merkmale.join(', ')}` : 'keine Challenge-Merkmale'

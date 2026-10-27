@@ -14,12 +14,12 @@
  *
  * Aufruf: npx tsx pipeline/scrape-crunchyroll.ts [--weeks 6] [--head]
  */
-import { chromium, type Browser, type Page } from 'playwright'
+import { chromium, type Browser, type Page, type Response } from 'playwright'
 import { pathToFileURL } from 'node:url'
 import { addDays, diffDays, startOfWeek, todayIso } from '../shared/time.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
-import { kalenderDiagnose, meldeLeerenKalender } from './lib/cr-kalender-diagnose.ts'
+import { kalenderDetails, kalenderDiagnose, meldeLeerenKalender, type KalenderDetails } from './lib/cr-kalender-diagnose.ts'
 import {
   crunchyrollSeriesId,
   normalizeTitle,
@@ -62,7 +62,7 @@ function toBerlin(datetime: string): { date: string; time: string } | undefined 
 }
 
 /** Lädt die Kalenderwoche mit bis zu drei Versuchen; wirft, wenn alle scheitern. */
-async function ladeKalenderSeite(page: Page, weekStart: string): Promise<number | undefined> {
+async function ladeKalenderSeite(page: Page, weekStart: string): Promise<Aufruf> {
   // `filter=premium` ist kein Login-Zwang, sondern nur die Ansichts-Umschaltung
   // der Seite: ohne den Parameter blendet Crunchyroll die Kacheln aus und
   // wirbt stattdessen fürs Abo. Mit ihm liefert dieselbe öffentliche Seite
@@ -82,14 +82,14 @@ async function ladeKalenderSeite(page: Page, weekStart: string): Promise<number 
    * wird, ohne bei einer echten Sperre nachzudruecken.
    */
   let letzterFehler: unknown
-  let status: number | undefined
+  let aufruf: Aufruf = { status: undefined, kette: [] }
   for (let versuch = 1; versuch <= 3; versuch++) {
     try {
       const antwort = await page.goto(
         `https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=${weekStart}`,
         { waitUntil: 'domcontentloaded', timeout: 45000 },
       )
-      status = antwort?.status()
+      aufruf = { status: antwort?.status(), kette: await aufrufKette(antwort) }
       letzterFehler = undefined
       break
     } catch (err) {
@@ -103,7 +103,32 @@ async function ladeKalenderSeite(page: Page, weekStart: string): Promise<number 
     }
   }
   if (letzterFehler) throw letzterFehler
-  return status
+  return aufruf
+}
+
+interface Aufruf {
+  status: number | undefined
+  kette: KalenderDetails['kette']
+}
+
+/** Aufrufadresse bis Endadresse mit Status je Schritt (Umleitungen); ohne Antwort leer. */
+async function aufrufKette(antwort: Response | null): Promise<Aufruf['kette']> {
+  const kette: Aufruf['kette'] = []
+  for (let anfrage = antwort?.request() ?? null; anfrage; anfrage = anfrage.redirectedFrom()) {
+    kette.unshift({ status: (await anfrage.response())?.status(), url: anfrage.url() })
+  }
+  return kette
+}
+
+/** Verweise und HTML der leeren Seite als Logzeile (Umleitung? Umbau? JSON-Adressen?). */
+async function seitenDetails(page: Page, kette: Aufruf['kette']): Promise<string> {
+  const [links, html] = await Promise.all([
+    page
+      .evaluate(() => [...document.querySelectorAll('a[href]')].map((a) => a.getAttribute('href') ?? ''))
+      .catch(() => [] as string[]),
+    page.content().catch(() => ''),
+  ])
+  return kalenderDetails({ kette, links, html })
 }
 
 /** Liest Titel, sichtbaren Text und HTML der geladenen Seite für die Diagnose bei null Kacheln. */
@@ -129,7 +154,7 @@ export async function scrapeWeek(
   })
 
   try {
-    const status = await ladeKalenderSeite(page, weekStart)
+    const { status, kette } = await ladeKalenderSeite(page, weekStart)
     // Auf die erste gerenderte Kachel warten; bleibt die Woche leer, ist das
     // kein Fehler, sondern eine Woche ohne veröffentlichten Zeitplan.
     await page
@@ -146,7 +171,10 @@ export async function scrapeWeek(
       })),
     )
 
-    if (!rows.length) diagnosen.push(`${weekStart}: ${await seitenDiagnose(page, status)}`)
+    if (!rows.length) {
+      diagnosen.push(`${weekStart}: ${await seitenDiagnose(page, status)}`)
+      warn(`Details ${weekStart}: ${await seitenDetails(page, kette)}`)
+    }
 
     return rows
       .map((row): CrunchyrollSlot | undefined => {
