@@ -14,25 +14,7 @@ import type { DbSort } from '../lib/router.ts'
 
 const PAGE_SIZE = 60
 
-export function DatabaseView({
-  data,
-  titles,
-  grouped,
-  onGroupedChange,
-  ohneSynchro,
-  onOhneSynchroChange,
-  ohneSynchroLaedt,
-  favorites,
-  hidden,
-  onToggleFavorite,
-  onToggleHidden,
-  onOpenTitle,
-  suche,
-  gewaehlt,
-  onSortChange,
-  filters,
-  onFiltersChange,
-}: {
+export interface DatabaseViewProps {
   data: Dataset
   titles: Title[]
   grouped: boolean
@@ -55,7 +37,27 @@ export function DatabaseView({
   /** Die Filter für die Werkzeugleiste am Handy. */
   filters: FilterState
   onFiltersChange: (next: FilterState) => void
-}) {
+}
+
+export function DatabaseView({
+  data,
+  titles,
+  grouped,
+  onGroupedChange,
+  ohneSynchro,
+  onOhneSynchroChange,
+  ohneSynchroLaedt,
+  favorites,
+  hidden,
+  onToggleFavorite,
+  onToggleHidden,
+  onOpenTitle,
+  suche,
+  gewaehlt,
+  onSortChange,
+  filters,
+  onFiltersChange,
+}: DatabaseViewProps) {
   const { share, copiedSlug } = useShare()
   const today = todayIso()
   const [visible, setVisible] = useState(PAGE_SIZE)
