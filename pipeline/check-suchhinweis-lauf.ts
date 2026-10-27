@@ -10,10 +10,13 @@ import type { Title } from '../shared/types.ts'
 import { attrappeUhr, ignoriereCss, installiereMiniDom, klicke, type MiniKnoten } from '../tools/mini-dom.ts'
 import { EMPTY_FILTERS, type FilterState } from '../web/src/lib/filters.ts'
 import type { Dataset } from '../web/src/lib/data.ts'
+import type { Suchhinweis } from '../web/src/lib/suchhinweis.ts'
+import { aktiveEinheiten } from '../web/src/lib/suchhinweis-filter.ts'
 ignoriereCss()
 const { SuchHinweis } = await import('../web/src/components/SuchHinweis.tsx')
 const { loeseHinweis } = await import('../web/src/components/DatenbankBereich.tsx')
 const { useSuchhinweis } = await import('../web/src/lib/use-suchhinweis.ts')
+const { DbKopfbereich } = await import('../web/src/components/filter/DbWerkzeug.tsx')
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -38,21 +41,27 @@ const lade = async () => {
   return { alle: mitSynchro, ohne: [...attackOhne, ...ippoOhne] }
 }
 
-interface Antwort {
-  gesamt?: number
-  genau?: number
+interface Eingabe {
+  suche: string
+  gruppiert: boolean
+  ohneSynchro?: boolean
 }
-const gefundenes: { stand?: Antwort; geloest: Array<[FilterState | undefined, boolean]> } = { geloest: [] }
+interface Bild {
+  suche: string
+  gruppiert: boolean
+  gesamt: number | undefined
+}
+const gefundenes: { bilder: Bild[]; geloest: Array<[FilterState | undefined, boolean]> } = { bilder: [], geloest: [] }
 
 const keineFavoriten = new Set<number>()
 
 /** Wie die App: Filter und Liste behalten ihre Identität, solange sich nichts ändert (sonst rechnet der Hook endlos neu). */
-function Sonde({ suche, gruppiert }: { suche: string; gruppiert: boolean }) {
+function Sonde({ suche, gruppiert, ohneSynchro = false }: Eingabe) {
   const filters = useMemo(() => ({ ...EMPTY_FILTERS, search: suche }), [suche])
-  const sichtbar = useMemo(() => mitSynchro.filter((t) => t.titleDe!.includes(suche)), [suche])
-  const hinweis = useSuchhinweis({ data, suche, filters, ohneSynchro: false, gruppiert, sichtbar, favorites: keineFavoriten }, lade)
-  gefundenes.stand = hinweis?.zusatz
-  return h(SuchHinweis, { form: 'zeile', hinweis, filters, ohneSynchro: false, onLoesen: (f, an) => void gefundenes.geloest.push([f, an]) })
+  const sichtbar = useMemo(() => (ohneSynchro ? fertig : mitSynchro).filter((t) => t.titleDe!.includes(suche)), [suche, ohneSynchro])
+  const hinweis = useSuchhinweis({ data, suche, filters, ohneSynchro, gruppiert, sichtbar, favorites: keineFavoriten }, lade)
+  gefundenes.bilder.push({ suche, gruppiert, gesamt: hinweis?.zusatz.gesamt })
+  return h(SuchHinweis, { form: 'zeile', hinweis, filters, ohneSynchro, onLoesen: (f, an) => void gefundenes.geloest.push([f, an]) })
 }
 
 const knopf = (wurzel: MiniKnoten) => wurzel.finde((k) => k.tagName === 'BUTTON')[0]
@@ -61,53 +70,142 @@ const text = (wurzel: MiniKnoten) => wurzel.finde((k) => k.getAttribute('data-su
 /* Ein Mini-DOM und eine Attrappe-Uhr für alle Läufe; jeder Lauf baut seine Wurzel wieder ab. */
 const uhr = attrappeUhr()
 const dom = installiereMiniDom({ ...uhr, matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }) }, () => ({}))
+const warte = (ms: number) => uhr.schiebe(ms, (f) => act(async () => f()))
 
-async function lauf(suche: string, gruppiert: boolean, pauseMs: number) {
+async function lauf(eingabe: Eingabe, pauseMs: number) {
   const wurzel = createRoot(dom.wurzel as unknown as Element)
   gefundenes.geloest = []
+  gefundenes.bilder = []
   ladeAufrufe = 0
-  await act(async () => wurzel.render(h(Sonde, { suche, gruppiert })))
+  await act(async () => wurzel.render(h(Sonde, eingabe)))
   const vorher = { text: text(dom.wurzel), geladen: ladeAufrufe }
-  await uhr.schiebe(pauseMs, (f) => act(async () => f()))
+  await warte(pauseMs)
   await act(async () => {})
-  const nachher = { text: text(dom.wurzel), geladen: ladeAufrufe, knopf: knopf(dom.wurzel), stand: gefundenes.stand }
-  return { vorher, nachher, wurzel: dom.wurzel, abbau: () => act(async () => wurzel.unmount()) }
+  const jetzt = () => ({ text: text(dom.wurzel), geladen: ladeAufrufe, knopf: knopf(dom.wurzel), gesamt: gefundenes.bilder.at(-1)?.gesamt })
+  return {
+    vorher,
+    nachher: jetzt(),
+    jetzt,
+    wurzel: dom.wurzel,
+    /** Neue Eingabe an dieselbe Wurzel (Schalter umlegen, weitertippen). */
+    neu: async (e: Eingabe) => {
+      gefundenes.bilder = []
+      await act(async () => wurzel.render(h(Sonde, e)))
+      await act(async () => {})
+    },
+    abbau: () => act(async () => wurzel.unmount()),
+  }
 }
 
 console.log('\nSuchhinweis: Hook und Komponente')
 {
-  const l = await lauf('Attack on Titan', false, 600)
+  const l = await lauf({ suche: 'Attack on Titan', gruppiert: false }, 600)
   pruefe('vor der Pause: nichts geladen, kein Hinweis', l.vorher.geladen === 0 && l.vorher.text === '', l.vorher)
   pruefe('nach der Pause einmal geladen', l.nachher.geladen === 1, l.nachher.geladen)
   pruefe('ungruppiert: 3 Titel ohne Synchro, Knopf „Anzeigen“', l.nachher.text.startsWith('· 3 Treffer ohne Synchro') && l.nachher.knopf?.textContent === 'Anzeigen', l.nachher.text)
   klicke(l.wurzel, l.nachher.knopf!)
   pruefe('Knopf ohne Blockade: nur der Schalter, keine Filteränderung', gefundenes.geloest.length === 1 && gefundenes.geloest[0][0] === undefined && gefundenes.geloest[0][1] === true, gefundenes.geloest)
+  await warte(3000)
+  pruefe('die Mengen werden nur einmal geladen, auch Sekunden später', ladeAufrufe === 1, ladeAufrufe)
+  await l.neu({ suche: 'Attack on Titan', gruppiert: true })
+  pruefe('Schalter „Staffeln zusammenfassen“ umgelegt: Zählung wechselt auf Karten (3 → 0)', l.jetzt().gesamt === 0 && l.jetzt().text === '', l.jetzt())
+  pruefe('nach dem Umlegen zeigt kein Bild mehr die alte Zahl', gefundenes.bilder.every((b) => b.gesamt !== 3), gefundenes.bilder)
+  await l.neu({ suche: 'Attack on Titan', gruppiert: false })
+  pruefe('und zurück: wieder 3 Titel', l.jetzt().gesamt === 3, l.jetzt())
+  await l.neu({ suche: 'A', gruppiert: false })
+  pruefe('weniger als zwei Zeichen: der Hinweis geht, auch im Zwischenbild', gefundenes.bilder.every((b) => b.gesamt === undefined) && l.jetzt().text === '', gefundenes.bilder)
   await l.abbau()
 }
 {
-  const l = await lauf('Attack on Titan', true, 600)
-  pruefe('gruppiert: alle Treffer in der gezeigten Reihe — kein Hinweis, kein Knopf', l.nachher.text === '' && l.nachher.knopf === undefined && l.nachher.stand?.gesamt === 0, l.nachher)
+  const l = await lauf({ suche: 'Attack on Titan', gruppiert: true }, 600)
+  pruefe('gruppiert: alle Treffer in der gezeigten Reihe — kein Hinweis, kein Knopf', l.nachher.text === '' && l.nachher.knopf === undefined && l.nachher.gesamt === 0, l.nachher)
   await l.abbau()
 }
 {
-  const l = await lauf('Hajime no Ippo', true, 600)
-  pruefe('gruppiert: eine neue Karte, davon eine exakt', l.nachher.text.startsWith('· 1 Treffer ohne Synchro, davon 1 exakt') && l.nachher.stand?.gesamt === 1, l.nachher.text)
+  const l = await lauf({ suche: 'Hajime no Ippo', gruppiert: true }, 600)
+  pruefe('gruppiert: eine neue Karte, davon eine exakt', l.nachher.text.startsWith('· 1 Treffer ohne Synchro, davon 1 exakt') && l.nachher.gesamt === 1, l.nachher.text)
   await l.abbau()
 }
 {
-  const l = await lauf('Hajime no Ippo', false, 600)
-  pruefe('ungruppiert: zwei Titel', l.nachher.stand?.gesamt === 2, l.nachher.stand)
+  const l = await lauf({ suche: 'Hajime no Ippo', gruppiert: false }, 600)
+  pruefe('ungruppiert: zwei Titel', l.nachher.gesamt === 2, l.nachher.gesamt)
   await l.abbau()
 }
 {
-  const l = await lauf('A', false, 600)
+  const l = await lauf({ suche: 'Hajime no Ippo', gruppiert: true, ohneSynchro: true }, 600)
+  pruefe('Schalter „ohne Synchro“ an: der exakte Treffer ist da, nichts zu erklären', l.nachher.text === '' && l.nachher.knopf === undefined, l.nachher)
+  await l.abbau()
+}
+{
+  const l = await lauf({ suche: 'A', gruppiert: false }, 600)
   pruefe('ein Zeichen: nichts geladen', l.nachher.geladen === 0 && l.nachher.text === '', l.nachher)
   await l.abbau()
 }
 {
-  const l = await lauf('Attack on Titan', false, 599)
+  const l = await lauf({ suche: 'Ab', gruppiert: false }, 600)
+  pruefe('zwei Zeichen genügen: geladen', l.nachher.geladen === 1, l.nachher.geladen)
+  await l.abbau()
+}
+{
+  const l = await lauf({ suche: 'Attack on Titan', gruppiert: false }, 599)
   pruefe('kurz vor Ablauf der Pause: noch nichts geladen', l.nachher.geladen === 0, l.nachher.geladen)
   await l.abbau()
+}
+
+/** Die Komponente allein mit einem fertigen Hinweis: Text, Knopf und was er auslöst. */
+async function zeige(hinweis: Suchhinweis, filters: FilterState, ohneSynchro: boolean) {
+  const wurzel = createRoot(dom.wurzel as unknown as Element)
+  gefundenes.geloest = []
+  await act(async () => wurzel.render(h(SuchHinweis, { form: 'darunter', hinweis, filters, ohneSynchro, onLoesen: (f, an) => void gefundenes.geloest.push([f, an]) })))
+  const bild = { text: text(dom.wurzel), knopf: knopf(dom.wurzel) }
+  if (bild.knopf) klicke(dom.wurzel, bild.knopf)
+  await act(async () => wurzel.unmount())
+  return { ...bild, geloest: gefundenes.geloest }
+}
+
+console.log('\nSuchhinweis: Komponente mit versteckendem Filter')
+{
+  const jahr = { ...EMPTY_FILTERS, years: [2003], search: 'Ippo' }
+  const blockade = (synchro: boolean) => ({ titel: ippoOhne[0], einheiten: aktiveEinheiten(jahr), synchro })
+  const nurFilter = await zeige({ zusatz: { gesamt: 0, genau: 0 }, blockade: blockade(false) }, jahr, true)
+  pruefe('versteckender Filter: Satz nennt Titel und Filter, Knopf „Filter entfernen“', nurFilter.text.includes('ist ausgeblendet durch: Jahr 2003') && !nurFilter.text.includes('Synchro') && nurFilter.knopf?.textContent === 'Filter entfernen', nurFilter.text)
+  pruefe('Knopf: Filter weg, Schalter bleibt', nurFilter.geloest.length === 1 && nurFilter.geloest[0][0]?.years.length === 0 && nurFilter.geloest[0][1] === false, nurFilter.geloest)
+  const beides = await zeige({ zusatz: { gesamt: 0, genau: 0 }, blockade: blockade(true) }, jahr, false)
+  pruefe('Filter und Schalter: Satz nennt auch die Synchro', beides.text.includes('Jahr 2003, ohne deutsche Synchro'), beides.text)
+  pruefe('Knopf: Filter weg und Schalter an', beides.geloest.length === 1 && beides.geloest[0][0]?.years.length === 0 && beides.geloest[0][1] === true, beides.geloest)
+  const nurSchalter = await zeige({ zusatz: { gesamt: 1, genau: 1 }, blockade: { titel: ippoOhne[0], einheiten: [], synchro: true } }, EMPTY_FILTERS, false)
+  pruefe('nur der Schalter fehlt: „Anzeigen“, der Filter bleibt unberührt', nurSchalter.knopf?.textContent === 'Anzeigen' && nurSchalter.geloest.length === 1 && nurSchalter.geloest[0][0] === undefined && nurSchalter.geloest[0][1] === true, nurSchalter)
+  const eine = await zeige({ zusatz: { gesamt: 1, genau: 0 } }, EMPTY_FILTERS, false)
+  pruefe('genau eine Karte dazu: der Hinweis steht', eine.text.includes('1 Treffer ohne Synchro'), eine.text)
+  const keine = await zeige({ zusatz: { gesamt: 0, genau: 0 } }, EMPTY_FILTERS, false)
+  pruefe('keine Karte dazu: kein Hinweis, kein Knopf', keine.text === '' && keine.knopf === undefined, keine)
+  const schonAn = await zeige({ zusatz: { gesamt: 4, genau: 0 } }, EMPTY_FILTERS, true)
+  pruefe('Schalter schon an: kein Hinweis auf Treffer ohne Synchro', schonAn.text === '' && schonAn.knopf === undefined, schonAn)
+}
+
+/** Der Kopf der Datenbank mit fertigem Hinweis: am Rechner in der Zählzeile, am Handy darunter. */
+async function kopf(mobil: boolean) {
+  const matchMedia = () => ({ matches: mobil, addEventListener() {}, removeEventListener() {} })
+  const alt = (window as unknown as { matchMedia: unknown }).matchMedia
+  Object.assign(window, { matchMedia })
+  const wurzel = createRoot(dom.wurzel as unknown as Element)
+  const hinweis = { zusatz: { gesamt: 4, genau: 0 } }
+  const nichts = () => {}
+  const props = { meta: {}, filters: EMPTY_FILTERS, onFiltersChange: nichts, favoriteCount: 0, ergebnisse: 2, mitSynchro: 2, suche: 'Attack', sort: 'relevanz', onSortChange: nichts, ohneSynchro: false, onOhneSynchroChange: nichts, laedt: false, grouped: false, onGroupedChange: nichts, hinweis, onHinweisLoesen: nichts }
+  await act(async () => wurzel.render(h(DbKopfbereich, props as unknown as Parameters<typeof DbKopfbereich>[0])))
+  const fund = dom.wurzel.finde((k) => k.getAttribute('data-suchhinweis') !== null)
+  const bild = { formen: fund.map((k) => k.getAttribute('data-suchhinweis')), text: fund[0]?.textContent ?? '' }
+  await act(async () => wurzel.unmount())
+  Object.assign(window, { matchMedia: alt })
+  return bild
+}
+
+console.log('\nSuchhinweis: Platz im Kopf der Datenbank')
+{
+  const rechner = await kopf(false)
+  pruefe('Rechner: ein Hinweis, in der Zählzeile', rechner.formen.join() === 'zeile' && rechner.text.includes('4 Treffer ohne Synchro'), rechner)
+  const handy = await kopf(true)
+  pruefe('Handy: ein Hinweis, darunter', handy.formen.join() === 'darunter' && handy.text.includes('4 Treffer ohne Synchro'), handy)
 }
 
 console.log('\nSuchhinweis: Knopf in der Datenbank (loeseHinweis)')
@@ -119,9 +217,10 @@ console.log('\nSuchhinweis: Knopf in der Datenbank (loeseHinweis)')
     onOhneSynchroChange: (an: boolean) => void aufrufe.push(['ohne', an]),
   } as unknown as Parameters<typeof loeseHinweis>[0]
   const jahr2003 = { ...EMPTY_FILTERS, years: [2003], search: 'alt' }
-  loeseHinweis(p, undefined, true)
-  loeseHinweis(p, jahr2003, true)
-  loeseHinweis(p, jahr2003, false)
+  const loesen = loeseHinweis(p)
+  loesen(undefined, true)
+  loesen(jahr2003, true)
+  loesen(jahr2003, false)
   pruefe('ohne Filter: nur der Schalter', JSON.stringify(aufrufe[0]) === JSON.stringify(['ohne', true]), aufrufe[0])
   pruefe('Filter und Schalter in einem Adresswechsel, die Suche bleibt', JSON.stringify(aufrufe[1]) === JSON.stringify(['navigate', { filters: { ...EMPTY_FILTERS, years: [2003], search: 'Ippo' }, ohne: true }]), aufrufe[1])
   pruefe('nur Filter: der Schalter bleibt unberührt', JSON.stringify(aufrufe[2]) === JSON.stringify(['navigate', { filters: { ...EMPTY_FILTERS, years: [2003], search: 'Ippo' } }]), aufrufe[2])
@@ -132,4 +231,4 @@ if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)
 }
-console.log('\ncheck-suchhinweis-lauf: ok (Pause, Zählung gruppiert/ungruppiert, Knopf, Adresswechsel)')
+console.log('\ncheck-suchhinweis-lauf: ok (Pause, Zählung gruppiert/ungruppiert, Umlegen, Knopf je Fall, Adresswechsel)')

@@ -81,6 +81,11 @@ export class MiniKnoten {
   blur() {}
   getRootNode(): MiniKnoten { return this.parentNode ? this.parentNode.getRootNode() : this }
   /** Alle Nachfahren in Dokumentreihenfolge, die der Prüfung `passt` genügen. */
+  /** Die Optionen eines `select` (React liest sie beim Aufbau). */
+  get options(): MiniKnoten[] {
+    return this.finde((k) => k.tagName === 'OPTION')
+  }
+
   finde(passt: (k: MiniKnoten) => boolean): MiniKnoten[] {
     return this.childNodes.flatMap((k) => [...(passt(k) ? [k] : []), ...k.finde(passt)])
   }
@@ -103,7 +108,7 @@ export function installiereMiniDom(fenster: MiniFenster, neuesBild: () => unknow
   const html = dok.appendChild(new MiniKnoten(1, 'html', dok))
   const wurzel = html.appendChild(new MiniKnoten(1, 'div', dok))
   const win = Object.assign(Object.create(null), fenster, { document: dok, HTMLIFrameElement: class {}, addEventListener() {}, removeEventListener() {} })
-  Object.assign(dok, { defaultView: win, documentElement: html, activeElement: null })
+  Object.assign(dok, { defaultView: win, documentElement: html, body: html, activeElement: null })
   Object.assign(dok, {
     createElement: (n: string) => new MiniKnoten(1, n, dok),
     createElementNS: (_ns: string, n: string) => new MiniKnoten(1, n, dok),

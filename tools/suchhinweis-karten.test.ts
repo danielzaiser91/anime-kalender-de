@@ -41,13 +41,13 @@ assert.equal(hatKarte(gezeigt[0], gezeigt, false), true, 'ungruppiert: der Titel
 // Ganzer Ablauf mit beiden Stellungen des Schalters „Staffeln zusammenfassen“.
 const mit = [...gezeigt, ...attackOhne, ...ippoOhne]
 const ohne = gezeigt
-const hinweisFuer = (suche: string, gruppiert: boolean, filters: FilterState = EMPTY_FILTERS) => {
+const hinweisFuer = (suche: string, gruppiert: boolean, filters: FilterState = EMPTY_FILTERS, weitere: Title[] = []) => {
   const f = { ...filters, search: suche }
   const trifft = (t: Title, g: FilterState) => !g.years.length || g.years.includes(t.jpYear!)
   const sichtbar = ohne.filter((t) => trifft(t, f) && t.titleDe!.includes(suche))
   return treibe(
     berechneHinweisGen({
-      mit,
+      mit: [...mit, ...weitere],
       ohne,
       sichtbar,
       suche,
@@ -69,6 +69,10 @@ assert.equal(hinweisFuer('Hajime no Ippo', false).zusatz.gesamt, 2, 'Ippo ungrup
 // Der exakte Treffer in einer Reihe mit Karte: gruppiert fehlt nichts, ungruppiert fehlt er hinter dem Schalter.
 assert.equal(hinweisFuer('Attack on Titan Season 3', true).blockade, undefined, 'exakt, Reihe gezeigt: kein Verstecktes')
 assert.equal(hinweisFuer('Attack on Titan Season 3', false).blockade?.synchro, true, 'exakt, ungruppiert: nur der Schalter fehlt')
+// Zwei Titel heißen gleich: einer in der Reihe mit Karte, einer in einer neuen Reihe — gruppiert fehlt nichts (ein sichtbarer genügt).
+const zwilling = titel(12, 'Attack on Titan Season 3', 400)
+assert.equal(hinweisFuer('Attack on Titan Season 3', true, EMPTY_FILTERS, [zwilling]).blockade, undefined, 'Zwilling: eine der Reihen hat eine Karte')
+assert.equal(hinweisFuer('Attack on Titan Season 3', false, EMPTY_FILTERS, [zwilling]).blockade?.synchro, true, 'Zwilling ungruppiert: der Schalter fehlt')
 // Der exakte Treffer einer Reihe ohne Karte bleibt auch gruppiert erklärt.
 assert.equal(hinweisFuer('Hajime no Ippo', true).blockade?.synchro, true, 'exakt, neue Reihe: Schalter fehlt')
 
