@@ -15,7 +15,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
   console.error(`  ✖ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
-const HEUTE = '2026-10-27'
+const HEUTE = '2027-03-15'
 const t = (...ids: number[]): { id: number }[] => ids.map((id) => ({ id }))
 const ids = (liste: { id: number }[]): string => liste.map((x) => x.id).join(',')
 
@@ -27,11 +27,11 @@ pruefe('Speichern alle 100 Titel', SPEICHERN_ALLE === 100, SPEICHERN_ALLE)
 console.log('Wahl der Titel')
 const alle = ids(waehleDran(t(1, 2, 3), {}, HEUTE, 500, 0))
 pruefe('ohne Stempel kommen alle dran, in Reihenfolge', alle === '1,2,3', alle)
-const neunundzwanzig = ids(waehleDran(t(1), { '1': '2026-09-28' }, HEUTE, 500, 0))
+const neunundzwanzig = ids(waehleDran(t(1), { '1': '2027-02-14' }, HEUTE, 500, 0))
 pruefe('Stempel von 29 Tagen schließt aus', neunundzwanzig === '', neunundzwanzig)
-const dreissig = ids(waehleDran(t(1), { '1': '2026-09-27' }, HEUTE, 500, 0))
+const dreissig = ids(waehleDran(t(1), { '1': '2027-02-13' }, HEUTE, 500, 0))
 pruefe('Stempel von genau 30 Tagen ist fällig', dreissig === '1', dreissig)
-const einunddreissig = ids(waehleDran(t(1), { '1': '2026-09-26' }, HEUTE, 500, 0))
+const einunddreissig = ids(waehleDran(t(1), { '1': '2027-02-12' }, HEUTE, 500, 0))
 pruefe('Stempel von 31 Tagen ist fällig', einunddreissig === '1', einunddreissig)
 const heuteGestempelt = ids(waehleDran(t(1), { '1': HEUTE }, HEUTE, 500, 0))
 pruefe('Stempel von heute schließt aus', heuteGestempelt === '', heuteGestempelt)
@@ -104,6 +104,7 @@ globalThis.fetch = (async (eingabe: string | URL | Request): Promise<Response> =
   if (tv === werfeBei) throw new Error('Abbruch mitten im Lauf')
   /* 903 hat keinen Trailer, die anderen einen japanischen. */
   if (tv === '3') return antwort({ results: [] })
+  if (tv === '4') return antwort({ results: [{ key: 'yt4de', name: 'Trailer', site: 'YouTube', type: 'Trailer', iso_639_1: 'de' }] })
   return antwort({ results: [{ key: `yt${tv}`, name: 'PV', site: 'YouTube', type: 'Trailer', iso_639_1: 'ja' }] })
 }) as typeof fetch
 
@@ -123,7 +124,7 @@ werfeBei = ''
 await main({ riegel: 3, speichernAlle: 2 })
 pruefe('zweiter Lauf: Gestempelte bleiben draußen, nie Gesuchte kommen dran', tmdbAbrufe.join(',') === '3,4', tmdbAbrufe)
 const nach2 = lies<Record<string, string>>(join('data', 'trailer-versuche.json'))
-pruefe('Titel ohne Zuordnung trägt auch einen Stempel', Object.keys(nach2).sort().join(',') === '901001,901002,901003,901004,901005', nach2)
+pruefe('Titel ohne Zuordnung trägt auch einen Stempel, deutscher Fund (904) keinen', Object.keys(nach2).sort().join(',') === '901001,901002,901003,901005', nach2)
 pruefe('Titel ohne Fund trägt einen Stempel und keinen Trailer', nach2['901003'] === todayIso() && !('901003' in lies<object>(join('data', 'trailer.json'))))
 
 tmdbAbrufe.length = 0
@@ -144,6 +145,30 @@ delete process.env.YOUTUBE_API_KEY
 await main({ riegel: 5 })
 const ohneYoutube = existsSync(join(wurzel, join('data', 'trailer-versuche.json'))) ? lies<object>(join('data', 'trailer-versuche.json')) : {}
 pruefe('ohne YouTube-Schlüssel kein Stempel', Object.keys(ohneYoutube).length === 0, ohneYoutube)
+
+console.log('Riegel und Zwischenspeichern ohne Probe-Werte')
+process.env.YOUTUBE_API_KEY = 'yt'
+stelleAus()
+tmdbAbrufe.length = 0
+await main({ riegel: 2 })
+pruefe('Probe-Riegel 2 fragt genau zwei Titel', tmdbAbrufe.join(',') === '1,2', tmdbAbrufe)
+
+/* 700 Titel; nur der 101. hat eine TMDB-Zuordnung (und damit einen Abruf), alle anderen kosten nichts. */
+const viele = Array.from({ length: 700 }, (_, i) => ({ id: 902001 + i, format: 'TV', jpYear: 2005, titleEn: `Reihe ${i}` }))
+rmSync(join(wurzel, 'data', 'trailer.json'), { force: true })
+rmSync(join(wurzel, 'data', 'trailer-versuche.json'), { force: true })
+schreibe('public/data/titles.json', viele)
+schreibe('public/data/empfehlung.json', { einstiege: viele.map((x) => ({ id: x.id })) })
+schreibe(join('data', 'tmdb-titles.json'), { '902101': { tmdbId: 3, kind: 'tv' } })
+tmdbAbrufe.length = 0
+werfeBei = '3'
+await main().catch(() => void 0)
+const vorAbbruch = lies<Record<string, string>>(join('data', 'trailer-versuche.json'))
+pruefe('Standard: nach 100 Titeln ist gespeichert, der Abbruch beim 101. verliert sie nicht', Object.keys(vorAbbruch).length === 100, Object.keys(vorAbbruch).length)
+werfeBei = ''
+await main()
+const nachStandard = lies<Record<string, string>>(join('data', 'trailer-versuche.json'))
+pruefe('Standard-Riegel 500: der zweite Lauf stempelt genau 500 weitere', Object.keys(nachStandard).length === 600, Object.keys(nachStandard).length)
 
 rmSync(wurzel, { recursive: true, force: true })
 if (fehler) {
