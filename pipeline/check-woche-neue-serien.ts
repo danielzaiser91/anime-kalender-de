@@ -90,9 +90,22 @@ pruefe('Artikel-Weg: Wochenprogramm geschrieben, Serie im Kalenderbestand, kein 
 const woche = JSON.parse(readFileSync(join(ordner, 'data', 'crunchyroll-woche.json'), 'utf8')) as { wocheAb: string }
 pruefe('Artikel-Weg: Woche ab 26.10. gelesen', woche.wocheAb === '2026-10-26', woche.wocheAb)
 
+// Prüfer 2170 R1: Die Marke „Kalender reicht bis" (Bau Phase 04) darf durch neue Einträge nicht in die Zukunft rücken.
+const { indiziereCrSendeplaetze } = await import('./bau/04-cr-sendeplaetze.ts')
+const bau = indiziereCrSendeplaetze({ titles: new Map() })
+const spaetesterTermin = Object.values(lies().german).flatMap((e) => (e as { dates?: string[] }).dates ?? []).sort().at(-1)
+pruefe('Bau: neue Serie führt einen Termin nach dem gelesenen Stand (30.10.)', spaetesterTermin === '2026-10-30', spaetesterTermin)
+pruefe('Bau: Kalendermarke bleibt auf dem gelesenen Stand 21.10.', bau.crKalenderBis === '2026-10-21', bau.crKalenderBis)
+writeFileSync(datei, JSON.stringify({ ...anfang, window: { from: '2026-10-12', to: '2026-10-12' } }, null, 2))
+pruefe('Bau: Termine bis zum Fensterende zählen (Grenze genau am Fenster)', indiziereCrSendeplaetze({ titles: new Map() }).crKalenderBis === '2026-10-12')
+writeFileSync(datei, JSON.stringify({ ...anfang, window: { from: '2026-10-12', to: '2026-11-01' } }, null, 2))
+pruefe('Bau: Fenster weiter als der letzte Termin: der letzte Termin gilt', indiziereCrSendeplaetze({ titles: new Map() }).crKalenderBis === '2026-10-12')
+writeFileSync(datei, JSON.stringify({ ...anfang, window: undefined }, null, 2))
+pruefe('Bau: ohne Fenster gilt der letzte Termin', indiziereCrSendeplaetze({ titles: new Map() }).crKalenderBis === '2026-10-12')
+
 rmSync(ordner, { recursive: true, force: true })
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)
 }
-console.log('check-woche-neue-serien: alle Fälle grün (Regel 16, Lauf 6, Artikel-Weg 2)')
+console.log('check-woche-neue-serien: alle Fälle grün (Regel 16, Lauf 6, Artikel-Weg 2, Bau-Marke 5)')

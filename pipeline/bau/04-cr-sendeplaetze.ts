@@ -12,6 +12,20 @@ import { type KatalogEintrag } from '../lib/anilist.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
 import { titelAusKatalogEintrag } from './katalog-titel.ts'
 
+/**
+ * Der letzte Tag mit deutscher Folge im Kalender, nie über den gelesenen Stand (`window.to`) hinaus: Seit 27.10.2026 legt das
+ * Wochenprogramm neue Einträge mit Terminen der kommenden Tage an (`lib/woche-neue-eintraege.ts`); sie dürfen die Marke nicht
+ * in die Zukunft schieben (Prüfer 2170).
+ */
+function kalenderBis(crunchyroll: CrunchyrollData): string | undefined {
+  const letzterTermin = Object.values(crunchyroll.german)
+    .flatMap((e) => e.dates ?? [])
+    .sort()
+    .at(-1)
+  const gelesenBis = crunchyroll.window?.to
+  return letzterTermin && gelesenBis && letzterTermin > gelesenBis ? gelesenBis : letzterTermin
+}
+
 export function indiziereCrSendeplaetze({ titles }: {
   titles: Map<number, Title>
 }) {
@@ -42,10 +56,7 @@ export function indiziereCrSendeplaetze({ titles }: {
    * auf dem 19.08. — Crunchyroll kündigt Synchronfolgen praktisch nicht vor.
    * Nur gegen diese Marke gemessen sagt ein fehlender Folgetermin etwas aus.
    */
-  const crKalenderBis = Object.values(crunchyroll.german)
-    .flatMap((e) => e.dates ?? [])
-    .sort()
-    .at(-1)
+  const crKalenderBis = kalenderBis(crunchyroll)
   /**
    * AniList-Titel über ihre Crunchyroll-Serien-ID auffindbar machen.
    *
