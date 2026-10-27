@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 87
+    "2026-10": 90
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1172,7 +1172,7 @@
       "imdbId": "tt10006418",
       "tmdbId": "tv/104279",
       "dienst": "prime",
-      "am": "2026-10-06",
+      "am": "2026-10-26",
       "deutsch": false,
       "deutschBeiDienst": false
     },
@@ -2008,7 +2008,7 @@
       "imdbId": "tt4655480",
       "tmdbId": "tv/62650",
       "dienst": "prime",
-      "am": "2026-10-19",
+      "am": "2026-10-26",
       "deutsch": true,
       "deutschBeiDienst": true
     },
@@ -2535,8 +2535,9 @@
       "imdbId": "tt11192306",
       "tmdbId": "tv/95057",
       "dienst": "prime",
-      "am": "2026-10-12",
-      "deutsch": true
+      "am": "2026-10-26",
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "removed:56951:prime": {
       "art": "removed",
@@ -2726,8 +2727,9 @@
       "imdbId": "tt2805096",
       "tmdbId": "tv/58841",
       "dienst": "prime",
-      "am": "2026-10-18",
-      "deutsch": true
+      "am": "2026-10-26",
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "removed:37932:prime": {
       "art": "removed",
@@ -3363,8 +3365,9 @@
       "imdbId": "tt0185906",
       "tmdbId": "tv/4613",
       "dienst": "prime",
-      "am": "2026-09-25",
-      "deutsch": true
+      "am": "2026-10-26",
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "removed:16695716:prime": {
       "art": "removed",
@@ -3473,8 +3476,9 @@
       "imdbId": "tt1567432",
       "tmdbId": "tv/34524",
       "dienst": "prime",
-      "am": "2026-10-10",
-      "deutsch": true
+      "am": "2026-10-26",
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "removed:8593:prime": {
       "art": "removed",
@@ -6457,8 +6461,9 @@
       "imdbId": "tt1832979",
       "tmdbId": "tv/39279",
       "dienst": "prime",
-      "am": "2026-10-06",
-      "deutsch": true
+      "am": "2026-10-26",
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "removed:60271:prime": {
       "art": "removed",
@@ -6990,8 +6995,9 @@
       "imdbId": "tt21844614",
       "tmdbId": "tv/201889",
       "dienst": "prime",
-      "am": "2026-10-12",
-      "deutsch": false
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:26344214:prime": {
       "art": "removed",
@@ -7011,8 +7017,9 @@
       "imdbId": "tt1843230",
       "tmdbId": "tv/39272",
       "dienst": "prime",
-      "am": "2026-10-08",
-      "deutsch": true
+      "am": "2026-10-26",
+      "deutsch": true,
+      "deutschBeiDienst": true
     },
     "removed:355:prime": {
       "art": "removed",
@@ -7041,8 +7048,9 @@
       "imdbId": "tt26936873",
       "tmdbId": "tv/240854",
       "dienst": "prime",
-      "am": "2026-10-09",
-      "deutsch": true
+      "am": "2026-10-26",
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:24014:prime": {
       "art": "removed",
@@ -8111,8 +8119,9 @@
       "imdbId": "tt1344204",
       "tmdbId": "tv/31941",
       "dienst": "prime",
-      "am": "2026-10-12",
-      "deutsch": false
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:111:prime": {
       "art": "removed",
@@ -8121,8 +8130,9 @@
       "imdbId": "tt2560140",
       "tmdbId": "tv/1429",
       "dienst": "prime",
-      "am": "2026-10-12",
-      "deutsch": true
+      "am": "2026-10-26",
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:14626372:prime": {
       "art": "removed",
@@ -8131,8 +8141,9 @@
       "imdbId": "tt33483846",
       "tmdbId": "tv/261356",
       "dienst": "prime",
-      "am": "2026-10-12",
-      "deutsch": false
+      "am": "2026-10-26",
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:36553:prime": {
       "art": "removed",
@@ -8141,8 +8152,9 @@
       "imdbId": "tt13079194",
       "tmdbId": "tv/128481",
       "dienst": "prime",
-      "am": "2026-10-12",
-      "deutsch": false
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:2474912:prime": {
       "art": "removed",
@@ -8151,8 +8163,9 @@
       "imdbId": "tt2303355",
       "tmdbId": "tv/45300",
       "dienst": "prime",
-      "am": "2026-10-12",
-      "deutsch": false
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:27081:prime": {
       "art": "removed",
@@ -8161,8 +8174,9 @@
       "imdbId": "tt1515976",
       "tmdbId": "tv/44310",
       "dienst": "prime",
-      "am": "2026-10-12",
-      "deutsch": false
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:25030998:disney": {
       "art": "new",
@@ -8211,8 +8225,9 @@
       "imdbId": "tt9050352",
       "tmdbId": "tv/93742",
       "dienst": "prime",
-      "am": "2026-10-14",
-      "deutsch": false
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:2514662:prime": {
       "art": "removed",
@@ -9147,7 +9162,194 @@
       "am": "2026-10-23",
       "deutsch": true,
       "deutschBeiDienst": true
+    },
+    "new:92036:disney": {
+      "art": "new",
+      "titel": "K11 – Die neuen Fälle",
+      "originalTitel": "K11 – Die neuen Fälle",
+      "imdbId": "tt12819612",
+      "tmdbId": "tv/132816",
+      "dienst": "disney",
+      "am": "2026-10-26",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:27301102:prime": {
+      "art": "new",
+      "titel": "Chaar Yaar",
+      "originalTitel": " चार यार",
+      "imdbId": "tt40856820",
+      "tmdbId": "tv/338918",
+      "dienst": "prime",
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27068431:netflix": {
+      "art": "new",
+      "titel": "Minimum Wage",
+      "originalTitel": "Minimum Wage",
+      "imdbId": "tt42220724",
+      "tmdbId": "tv/321221",
+      "dienst": "netflix",
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27300745:netflix": {
+      "art": "new",
+      "titel": "Where the Mask Ends",
+      "originalTitel": "嫁金钗",
+      "imdbId": "tt42576855",
+      "tmdbId": "tv/300146",
+      "dienst": "netflix",
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:26635607:netflix": {
+      "art": "new",
+      "titel": "Money Trap",
+      "originalTitel": "Organize İşler",
+      "imdbId": "tt38732131",
+      "tmdbId": "tv/320754",
+      "dienst": "netflix",
+      "am": "2026-10-26",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:26635593:disney": {
+      "art": "new",
+      "titel": "The Mob",
+      "originalTitel": "The Mob",
+      "imdbId": "tt42007258",
+      "tmdbId": "tv/334887",
+      "dienst": "disney",
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:11398:disney": {
+      "art": "removed",
+      "titel": "Titanic: Blood and Steel",
+      "originalTitel": "Titanic: Blood and Steel",
+      "imdbId": "tt1695366",
+      "tmdbId": "tv/40161",
+      "dienst": "disney",
+      "am": "2026-10-27",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:56951:disney": {
+      "art": "removed",
+      "titel": "Zoo Doctor: My Mon the Vet",
+      "originalTitel": "Tierärztin Dr. Mertens",
+      "imdbId": "tt0764964",
+      "tmdbId": "tv/40767",
+      "dienst": "disney",
+      "am": "2026-10-26",
+      "deutsch": true,
+      "deutschBeiDienst": false
+    },
+    "removed:520:prime": {
+      "art": "removed",
+      "titel": "Hunter x Hunter",
+      "originalTitel": "HUNTER×HUNTER",
+      "imdbId": "tt2098220",
+      "tmdbId": "tv/46298",
+      "dienst": "prime",
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:81655:prime": {
+      "art": "removed",
+      "titel": "Albert Einstein",
+      "originalTitel": "Albert Einstein",
+      "imdbId": "tt1136750",
+      "tmdbId": "tv/69250",
+      "dienst": "prime",
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:86172:prime": {
+      "art": "removed",
+      "titel": "Ekkehard",
+      "originalTitel": "Ekkehard",
+      "imdbId": "tt0899229",
+      "tmdbId": "tv/81454",
+      "dienst": "prime",
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:48590:prime": {
+      "art": "removed",
+      "titel": "Special 7: Special Crime Investigation Unit",
+      "originalTitel": "警視庁 特務部 特殊凶悪犯対策室 第七課 -トクナナ-",
+      "imdbId": "tt10054654",
+      "tmdbId": "tv/93647",
+      "dienst": "prime",
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:16798:prime": {
+      "art": "removed",
+      "titel": "Beyond the Walls",
+      "originalTitel": "Au-delà des murs",
+      "imdbId": "tt4999820",
+      "tmdbId": "tv/67979",
+      "dienst": "prime",
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:14627:prime": {
+      "art": "removed",
+      "titel": "Total Recall 2070",
+      "originalTitel": "Total Recall 2070",
+      "imdbId": "tt0159920",
+      "tmdbId": "tv/4541",
+      "dienst": "prime",
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:4383090:prime": {
+      "art": "removed",
+      "titel": "Fenix",
+      "originalTitel": "Fenix",
+      "imdbId": "tt6361278",
+      "tmdbId": "tv/81729",
+      "dienst": "prime",
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:26517994:prime": {
+      "art": "removed",
+      "titel": "Kill Jackie",
+      "originalTitel": "Kill Jackie",
+      "imdbId": "tt35726020",
+      "tmdbId": "tv/284558",
+      "dienst": "prime",
+      "am": "2026-10-26",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:14839:prime": {
+      "art": "removed",
+      "titel": "New Worlds",
+      "originalTitel": "New Worlds",
+      "imdbId": "tt3495652",
+      "tmdbId": "tv/62444",
+      "dienst": "prime",
+      "am": "2026-10-26",
+      "deutsch": true,
+      "deutschBeiDienst": true
     }
   },
-  "fetchedAt": "2026-10-26T04:20:42.385Z"
+  "fetchedAt": "2026-10-27T04:13:47.283Z"
 }

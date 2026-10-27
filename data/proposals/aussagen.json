@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-10-26",
+  "stand": "2026-10-27",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -11325,6 +11325,95 @@
           "status": "ohne-zuordnung"
         },
         "inhaltZeichen": 430
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1064193/crunchyroll-psyren-synchro-und-mehr/|Aoashi|Staffel 2|start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-27",
+      "fingerabdruck": "707e0ef585e3",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1064193/crunchyroll-psyren-synchro-und-mehr/",
+          "veroeffentlicht": "2026-10-26",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Aoashi",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [
+          "primevideo",
+          "crunchyroll"
+        ],
+        "datum": "2026-10-26",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "woechentlich": true,
+        "zeit": "11:00",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Aoashi« – Staffel 2\nEpisoden: 1 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Sonntag um 11:00 Uhr\nStream: Prime Video, Crunchyroll",
+        "offen": {
+          "grund": "Japan-Start passt nicht zum genannten Tag 2026-10-26 (Aoashi Staffel 2: 2026-10-04)",
+          "kandidaten": [
+            {
+              "id": 191788,
+              "name": "Aoashi Staffel 2",
+              "jpStart": "2026-10-04"
+            }
+          ]
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 270
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1064193/crunchyroll-psyren-synchro-und-mehr/|PSYREN||start|crunchyroll+primevideo",
+      "erstGesehen": "2026-10-27",
+      "fingerabdruck": "40bf517764bc",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1064193/crunchyroll-psyren-synchro-und-mehr/",
+          "veroeffentlicht": "2026-10-26",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "PSYREN",
+        "art": "start",
+        "plattformen": [
+          "primevideo",
+          "crunchyroll"
+        ],
+        "datum": "2026-10-26",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "woechentlich": true,
+        "zeit": "16:30",
+        "konfidenz": 0.8,
+        "gruende": [
+          "Sprache: Deutsch, Japanisch (UT)",
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»PSYREN«\nEpisoden: 1 auf Deutsch verfügbar\nSprache: Deutsch, Japanisch (UT)\nSimulcast: Jeden Montag um 16:30 Uhr\nStream: Prime Video, Crunchyroll",
+        "zuordnung": {
+          "anilistId": 204011,
+          "name": "Psyren",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "ankuendigung": {
+            "omuAb": "2026-10",
+            "synchro": "angekuendigt"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 308
       }
     }
   ]
