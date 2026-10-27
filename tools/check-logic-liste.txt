@@ -81,6 +81,7 @@ pipeline/check-cr-neu-wache.ts
 pipeline/check-cr-teilseiten-bestand-kulisse.ts
 pipeline/check-cr-teilseiten.ts
 pipeline/check-cr-termine-neu.ts
+pipeline/check-cr-zeit-woche.ts
 pipeline/check-datei-kennungen.ts
 pipeline/check-daten-adressen.ts
 pipeline/check-daten-kennung.ts
