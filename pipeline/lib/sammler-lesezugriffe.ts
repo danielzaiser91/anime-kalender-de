@@ -69,6 +69,13 @@ function mitWurzel(art: WurzelArt, knoten: ts.Node, decl: Map<string, string[]>)
   return art === 'echt' || v === 'nein' ? v : '?'
 }
 
+/** `new URL(…)`, `fileURLToPath(…)` und `u.pathname`/`u.href`: Ausdrücke, deren Wert in einer Variablen weiterwandern darf. */
+function istPfadwert(knoten: ts.Node): boolean {
+  if (ts.isNewExpression(knoten)) return true
+  if (ts.isCallExpression(knoten)) return aufrufName(knoten.expression) === 'fileURLToPath'
+  return ts.isPropertyAccessExpression(knoten) && URL_EIGENSCHAFTEN.has(knoten.name.text)
+}
+
 /** Folgt dem Pfadwert nach oben (join/resolve, new URL, fileURLToPath) bis zum Verbraucher. */
 function verbraucher(knoten: ts.Node, decl: Map<string, string[]>): Urteil {
   const p = knoten.parent
@@ -78,7 +85,7 @@ function verbraucher(knoten: ts.Node, decl: Map<string, string[]>): Urteil {
   }
   /* `u.pathname` / `u.href` bleiben derselbe Pfadwert. */
   if (ts.isPropertyAccessExpression(p) && URL_EIGENSCHAFTEN.has(p.name.text)) return verbraucher(p, decl)
-  const gebunden = ts.isNewExpression(knoten) || (ts.isCallExpression(knoten) && aufrufName(knoten.expression) === 'fileURLToPath') ? gebundenerName(knoten) : undefined
+  const gebunden = istPfadwert(knoten) ? gebundenerName(knoten) : undefined
   if (gebunden) return urteilUeberVariable(gebunden, (v) => verbraucher(v, decl))
   if (!ts.isCallExpression(p)) return '?'
   const name = aufrufName(p.expression)
