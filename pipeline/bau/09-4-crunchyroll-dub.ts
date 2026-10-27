@@ -9,6 +9,7 @@ import { legeCrVerweiseUndTermineAn } from './09-4-4-termine.ts'
 import { ordneCrKatalogZu } from './09-4-3-katalog.ts'
 import { ordneCrBloeckeZu } from './09-4-2-bloecke.ts'
 import { ordneCrSerienZu } from './09-4-1-serien.ts'
+import { ordneStandardnamenBloeckeZu } from '../lib/cr-block-standardname.ts'
 
 export function werteCrunchyrollDubAus({
   crDub,
@@ -36,6 +37,8 @@ export function werteCrunchyrollDubAus({
     })
 
     ordneCrBloeckeZu({ crDub, nachUrl, titles, katalogEintraege })
+
+    ordneStandardnamenBloeckeZu({ crDub, nachUrl })
 
     ordneCrKatalogZu({ titles, crDub, verweiseEntfernt })
 
