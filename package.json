@@ -152,6 +152,7 @@
     "check:datumsprung": "node tools/datum-sprung-bild.mjs",
     "check:trailer": "node tools/trailer-dialog-bild.mjs",
     "check:einstellungen": "node tools/einstellungen-bild.mjs",
+    "check:suchhinweis": "npm run buehne:bauen && node tools/suchhinweis-quickfix-pruefen.mjs",
     "mess:suche": "node tools/such-messung.mjs",
     "mess:filter": "node tools/filter-messung.mjs",
     "check:ladezeiten": "node tools/ladezeiten-messen.mjs",

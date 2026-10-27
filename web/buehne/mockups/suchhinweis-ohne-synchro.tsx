@@ -1,5 +1,4 @@
 import { mockup } from '../register.ts'
-import { KopfOhneHinweis, KopfzeileMitHinweis, LeerMitHinweis, RasterMitDaten } from './suchhinweis-teile.tsx'
 
 const IPPO = 'Hajime no Ippo: The Fighting!'
 
@@ -13,7 +12,7 @@ mockup({
   name: 'suchhinweis-ohne-synchro',
   titel: 'Suche: Hinweis auf Treffer ohne deutsche Synchro',
   ausschnitt: 'datenbank',
-  faelle: ['hajime-no-ippo', 'hajime-no-ippo-jahr', 'tokyo-revengers-jahr', 'tokyo-revengers', 'one-piece', 'attack-on-titan'],
+  faelle: ['hajime-no-ippo', 'hajime-no-ippo-jahr', 'tokyo-revengers-jahr', 'tokyo-revengers', 'one-piece', 'attack-on-titan', 'attack-on-titan-zusammen', 'hajime-no-ippo-zusammen'],
   suchadressen: {
     'hajime-no-ippo': { q: IPPO },
     'hajime-no-ippo-jahr': { q: IPPO, y: '2003' },
@@ -21,11 +20,13 @@ mockup({
     'tokyo-revengers': { q: 'Tokyo Revengers' },
     'one-piece': { q: 'One Piece' },
     'attack-on-titan': { q: 'Attack on Titan' },
+    'attack-on-titan-zusammen': { q: 'Attack on Titan', staffeln: '1' },
+    'hajime-no-ippo-zusammen': { q: IPPO, staffeln: '1' },
   },
   varianten: {
     A: {
-      ersatz: { DbKopfbereich: KopfOhneHinweis, DbKopfzeile: KopfzeileMitHinweis, DbRaster: RasterMitDaten, DbLeer: LeerMitHinweis },
-      notiz: 'Hinweis in derselben Zeile wie „0 Ergebnisse für …“, getrennt durch „·“: Treffer ohne Synchro, davon exakt; verstecken Filter den exakten Treffer, nennt die Zeile sie und der Knopf „Filter entfernen“ löst genau diese. Der alte Knopf „Auch Anime ohne deutsche Synchro zeigen“ entfällt, solange der Hinweis steht.',
+      ersatz: {},
+      notiz: 'Gebaut (27.10.2026): die Zeile gehört jetzt zur echten Datenbank, dieses Mockup zeigt sie nur noch an den sechs Fällen. Hinweis in derselben Zeile wie „0 Ergebnisse für …“, getrennt durch „·“; mit „Staffeln zusammenfassen“ zählt er neue Karten, nicht Titel.',
     },
   },
 })

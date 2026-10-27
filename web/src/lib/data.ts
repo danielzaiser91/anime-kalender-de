@@ -39,7 +39,7 @@ const KENNUNGEN = typeof __DATEI_KENNUNGEN__ === 'object' ? __DATEI_KENNUNGEN__ 
  * bekannte Fassung zurück, egal welche Kennung die trägt.
  */
 function url(path: string): string {
-  return datenAdresse(import.meta.env.BASE_URL, path, KENNUNGEN, BUILD_ID)
+  return datenAdresse(import.meta.env?.BASE_URL ?? '/', path, KENNUNGEN, BUILD_ID)
 }
 
 export async function loadJson<T>(path: string): Promise<T> {
@@ -173,6 +173,19 @@ export function loadOhneSynchro(data: Dataset): Promise<Title[]> {
     })
     .catch(() => [])
   return ohneSynchroPromise
+}
+
+let ohneNamenPromise: Promise<Title[]> | undefined
+
+/**
+ * Nur die Namen und Filterfelder der Titel ohne Synchro (`ohne-synchro-namen.json`) — für den Suchhinweis, der sonst die ganze Datei
+ * (gzip 1,7 MB) laden müsste. Die Titel wandern nicht in den Index der App (kein Panel dazu); fehlt die Datei, gibt es keinen Hinweis.
+ */
+export function loadOhneSynchroNamen(): Promise<Title[]> {
+  ohneNamenPromise ??= loadJson<Title[]>('ohne-synchro-namen.json')
+    .then((zeilen) => zeilen.map((t) => ({ ...t, slug: String(t.id), genres: t.genres ?? [], keywords: [], streams: [], dubConfidence: 'low' as const, ohneSynchro: true })))
+    .catch(() => [])
+  return ohneNamenPromise
 }
 
 let cartoonsPromise: Promise<Title[]> | undefined

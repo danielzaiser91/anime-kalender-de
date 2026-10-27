@@ -1,5 +1,5 @@
 import { PLATFORMS, type PlatformId } from '@shared/types.ts'
-import type { FilterState } from '../../src/lib/filters.ts'
+import type { FilterState } from './filters.ts'
 import type { Einheit } from './suchhinweis-filter.ts'
 
 const LISTE: Record<string, string> = {

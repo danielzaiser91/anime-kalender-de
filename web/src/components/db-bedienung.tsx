@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, type ReactNode } from 'react'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import type { RelevanzArt } from '../lib/db-relevanz.ts'
 import type { DbSort } from '../lib/router.ts'
@@ -7,16 +7,25 @@ import { DbKarte, type DbKarteProps } from './db-karte.tsx'
 import type { ListenEintrag } from '../lib/db-liste.ts'
 
 /** Zählzeile links, Sortierung rechts. */
-export function DbZaehlzeile({ ergebnisse, mitSynchro, suche, sort, onSortChange }: {
+export function DbZaehlzeile({ ergebnisse, mitSynchro, suche, sort, onSortChange, hinweis }: {
   ergebnisse: number
   mitSynchro: number
   suche: string
   sort: DbSort
   onSortChange: (next: DbSort) => void
+  /** Der Hinweis auf Treffer ohne Synchro: steht in derselben Zeile hinter der Zählung. */
+  hinweis?: ReactNode
 }) {
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
-      <DbKopfzeile ergebnisse={ergebnisse} mitSynchro={mitSynchro} suche={suche} />
+      {hinweis ? (
+        <span className="min-w-0 text-sm leading-7">
+          <span className="inline-flex align-middle"><DbKopfzeile ergebnisse={ergebnisse} mitSynchro={mitSynchro} suche={suche} /></span>{' '}
+          {hinweis}
+        </span>
+      ) : (
+        <DbKopfzeile ergebnisse={ergebnisse} mitSynchro={mitSynchro} suche={suche} />
+      )}
       <DbSortWahl sort={sort} onChange={onSortChange} suche={!!suche.trim()} />
     </div>
   )

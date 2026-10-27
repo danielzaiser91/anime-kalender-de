@@ -1,65 +1,22 @@
 import { useMemo, useState } from 'react'
 
 import type { Title } from '@shared/types.ts'
-import { nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import { DbKopfbereich } from './filter/DbWerkzeug.tsx'
 import { zaehleMitSynchro } from './db-kopfzeile.tsx'
 import { DbLeer, DbRaster, MehrKnopf } from './db-bedienung.tsx'
 import type { FilterState } from '../lib/filters.ts'
+import { groupByFranchise, type TitleGroup } from '../lib/db-gruppen.ts'
 import { ordneListe } from '../lib/db-liste.ts'
+import { useHinweisInhalt, type HinweisLoesen } from './SuchHinweis.tsx'
+import { useSuchhinweis } from '../lib/use-suchhinweis.ts'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
 
 const PAGE_SIZE = 60
 
-export interface TitleGroup {
-  main: Title
-  members: Title[]
-}
-
-/**
- * Bündelt Staffeln derselben Reihe.
- *
- * Vertreter ist die **erste reguläre Staffel**, nicht die neueste — warum,
- * steht bei `reihenVertreter()`. Die Mitglieder stehen in
- * Ausstrahlungsreihenfolge, damit die Reihe im Detail-Panel von vorn nach
- * hinten gelesen wird.
- */
-export function groupByFranchise(titles: Title[]): TitleGroup[] {
-  const byFranchise = new Map<number, Title[]>()
-  for (const t of titles) {
-    const key = t.franchiseId ?? t.id
-    const list = byFranchise.get(key)
-    if (list) list.push(t)
-    else byFranchise.set(key, [t])
-  }
-  return [...byFranchise.values()].map((members) => {
-    const sorted = members.slice().sort(nachAusstrahlung)
-    return { main: reihenVertreter(sorted), members: sorted }
-  })
-}
-
-export function DatabaseView({
-  data,
-  titles,
-  grouped,
-  onGroupedChange,
-  ohneSynchro,
-  onOhneSynchroChange,
-  ohneSynchroLaedt,
-  favorites,
-  hidden,
-  onToggleFavorite,
-  onToggleHidden,
-  onOpenTitle,
-  suche,
-  gewaehlt,
-  onSortChange,
-  filters,
-  onFiltersChange,
-}: {
+export interface DatabaseViewProps {
   data: Dataset
   titles: Title[]
   grouped: boolean
@@ -82,7 +39,30 @@ export function DatabaseView({
   /** Die Filter für die Werkzeugleiste am Handy. */
   filters: FilterState
   onFiltersChange: (next: FilterState) => void
-}) {
+  /** Der Knopf des Hinweises auf Treffer ohne Synchro: Filter und Schalter in einem Adresswechsel. */
+  onHinweisLoesen: HinweisLoesen
+}
+
+export function DatabaseView({
+  data,
+  titles,
+  grouped,
+  onGroupedChange,
+  ohneSynchro,
+  onOhneSynchroChange,
+  ohneSynchroLaedt,
+  favorites,
+  hidden,
+  onToggleFavorite,
+  onToggleHidden,
+  onOpenTitle,
+  suche,
+  gewaehlt,
+  onSortChange,
+  filters,
+  onFiltersChange,
+  onHinweisLoesen,
+}: DatabaseViewProps) {
   const { share, copiedSlug } = useShare()
   const today = todayIso()
   const [visible, setVisible] = useState(PAGE_SIZE)
@@ -94,6 +74,8 @@ export function DatabaseView({
     return ordneListe(base, sort, suche, data.releasesByTitle, today)
   }, [titles, grouped, sort, suche, data.releasesByTitle, today])
   const mitSynchro = useMemo(() => zaehleMitSynchro(liste), [liste])
+  const hinweis = useSuchhinweis({ data, suche, filters, ohneSynchro, gruppiert: grouped, ergebnisse: liste.length, sichtbar: titles, favorites })
+  const hinweisDa = useHinweisInhalt({ hinweis, filters, ohneSynchro }) !== null
 
   return (
     <div className="flex flex-col gap-4">
@@ -103,6 +85,7 @@ export function DatabaseView({
         sort={sort} onSortChange={onSortChange}
         ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt}
         grouped={grouped} onGroupedChange={onGroupedChange}
+        hinweis={hinweis} onHinweisLoesen={onHinweisLoesen}
       />
 
       <DbRaster
@@ -120,7 +103,7 @@ export function DatabaseView({
         copiedSlug={copiedSlug}
       />
 
-      {liste.length === 0 && !ohneSynchroLaedt && <DbLeer ohneSynchro={ohneSynchro} onOhneSynchro={() => onOhneSynchroChange(true)} />}
+      {liste.length === 0 && !ohneSynchroLaedt && <DbLeer ohneSynchro={ohneSynchro || hinweisDa} onOhneSynchro={() => onOhneSynchroChange(true)} />}
       {visible < liste.length && <MehrKnopf schritt={PAGE_SIZE * 2} rest={liste.length - visible} onClick={() => setVisible((v) => v + PAGE_SIZE * 2)} />}
     </div>
   )

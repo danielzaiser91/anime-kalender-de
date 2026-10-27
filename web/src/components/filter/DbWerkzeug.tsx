@@ -4,6 +4,8 @@ import { activeFilterCount, EMPTY_FILTERS, type FilterState } from '../../lib/fi
 import type { DbSort } from '../../lib/router.ts'
 import { DbSortWahl, DbZaehlzeile } from '../db-bedienung.tsx'
 import { DbKopfzeile, DbSchalter } from '../db-kopfzeile.tsx'
+import { SuchHinweis, useHinweisInhalt, type HinweisLoesen } from '../SuchHinweis.tsx'
+import type { Suchhinweis } from '../../lib/suchhinweis.ts'
 import { FilterDetailsFeld } from '../FilterDetails.tsx'
 import { AktiveFilter } from '../kalender/AktiveFilter.tsx'
 import { useMobil } from '../../lib/use-mobil.ts'
@@ -27,16 +29,28 @@ export interface DbKopfProps {
   laedt: boolean
   grouped: boolean
   onGroupedChange: (next: boolean) => void
+  /** Der Hinweis auf Treffer ohne deutsche Synchro (`lib/use-suchhinweis.ts`) und was sein Knopf auslöst. */
+  hinweis?: Suchhinweis
+  onHinweisLoesen: HinweisLoesen
 }
 
-/** Über dem Raster: am Rechner Schalter und Zählzeile, am Handy die Werkzeugleiste mit Filterfenster. */
+/** Über dem Raster: am Rechner Schalter und Zählzeile mit Hinweis, am Handy die Werkzeugleiste mit Filterfenster und der Hinweis darunter. */
 export function DbKopfbereich(p: DbKopfProps) {
   const mobil = useMobil()
-  if (mobil) return <DbWerkzeug {...p} />
+  const hinweis = { hinweis: p.hinweis, filters: p.filters, ohneSynchro: p.ohneSynchro, onLoesen: p.onHinweisLoesen }
+  const hinweisDa = useHinweisInhalt(hinweis) !== null
+  if (mobil) {
+    return (
+      <>
+        <DbWerkzeug {...p} />
+        <SuchHinweis form="darunter" {...hinweis} />
+      </>
+    )
+  }
   return (
     <>
       <DbSchalter ohneSynchro={p.ohneSynchro} onOhneSynchroChange={p.onOhneSynchroChange} laedt={p.laedt} grouped={p.grouped} onGroupedChange={p.onGroupedChange} />
-      <DbZaehlzeile ergebnisse={p.ergebnisse} mitSynchro={p.mitSynchro} suche={p.suche} sort={p.sort} onSortChange={p.onSortChange} />
+      <DbZaehlzeile ergebnisse={p.ergebnisse} mitSynchro={p.mitSynchro} suche={p.suche} sort={p.sort} onSortChange={p.onSortChange} hinweis={hinweisDa ? <SuchHinweis form="zeile" {...hinweis} /> : undefined} />
     </>
   )
 }

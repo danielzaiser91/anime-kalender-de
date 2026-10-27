@@ -22,7 +22,7 @@ async function lade(seite, variante, fall) {
   await seite.locator(HINWEIS).first().waitFor({ timeout: 30_000 })
 }
 
-const ergebnisse = async (seite) => Number(((await seite.locator('body').innerText()).match(/([\d.]+) Ergebnisse? für/) ?? [])[1]?.replace('.', ''))
+const ergebnisse = async (seite) => Number(((await seite.locator('body').innerText()).match(/([\d.]+) Ergebnis/) ?? [])[1]?.replace('.', ''))
 const synchroAn = (seite) => seite.getByRole('checkbox', { name: SYNCHRO }).first().isChecked()
 
 async function pruefeFall(seite, variante, fall, { knopf, text, synchro }) {
@@ -35,11 +35,23 @@ async function pruefeFall(seite, variante, fall, { knopf, text, synchro }) {
   assert.equal(await seite.locator(HINWEIS).first().getByRole('button').innerText(), knopf, `${variante}/${fall}: Knopf`)
   assert.equal(await synchroAn(seite), false, `${variante}/${fall}: Synchro-Schalter vorher aus`)
   await seite.locator(HINWEIS).first().getByRole('button').click()
-  await seite.waitForFunction(() => /[1-9][\d.]* Ergebnisse? für/.test(document.body.innerText), null, { timeout: 30_000 })
+  await seite.waitForFunction(() => /[1-9][\d.]* Ergebnis/.test(document.body.innerText), null, { timeout: 30_000 })
   assert.equal(await synchroAn(seite), synchro, `${variante}/${fall}: Synchro-Schalter nach dem Knopf`)
   if (synchro) assert.equal(await seite.locator(HINWEIS).count(), 0, `${variante}/${fall}: bei eingeschaltetem Schalter kein Hinweis mehr`)
   const jahrChips = await seite.locator('button[aria-label*="2003"], button[aria-label*="2019"]').count()
   assert.equal(jahrChips, 0, `${variante}/${fall}: der Jahresfilter ist entfernt`)
+}
+
+/** Daniels Fall: mit „Staffeln zusammenfassen“ liegen alle Treffer ohne Synchro in der gezeigten Karte — kein Hinweis, und der Schalter bringt wirklich keine Karte dazu. */
+async function pruefeOhneHinweis(seite, fall) {
+  await seite.goto('about:blank')
+  await seite.goto(adresse('A', fall), { waitUntil: 'load' })
+  await seite.waitForFunction(() => /\b1 Ergebnis\b/.test(document.body.innerText), null, { timeout: 30_000 })
+  await seite.waitForTimeout(5000)
+  assert.equal(await seite.locator(HINWEIS).count(), 0, `${fall}: kein Hinweis`)
+  await seite.getByRole('checkbox', { name: SYNCHRO }).first().check({ force: true })
+  await seite.waitForTimeout(1500)
+  assert.equal(await ergebnisse(seite), 1, `${fall}: mit dem Schalter bleibt es bei einer Karte`)
 }
 
 async function main() {
@@ -49,13 +61,15 @@ async function main() {
     for (const v of ['A']) {
       await pruefeFall(seite, v, 'hajime-no-ippo-jahr', { knopf: 'Filter entfernen', text: /Jahr 2003, ohne deutsche Synchro/, synchro: true })
       await pruefeFall(seite, v, 'tokyo-revengers-jahr', { knopf: 'Filter entfernen', text: /durch: Jahr 2019 Filter entfernen$/, synchro: false })
+      await pruefeFall(seite, v, 'hajime-no-ippo-zusammen', { knopf: 'Anzeigen', text: /^· 1 Treffer ohne Synchro, davon 1 exakt/, synchro: true })
+      await pruefeOhneHinweis(seite, 'attack-on-titan-zusammen')
       await pruefeFall(seite, v, 'hajime-no-ippo', { knopf: 'Anzeigen', text: /6 Treffer ohne Synchro, davon 1 exakt/, synchro: true })
     }
   } finally {
     await browser.close()
   }
   assert.equal(fremde.length, 0, `Anfragen nach draußen: ${fremde[0]}`)
-  console.log('suchhinweis-quickfix-pruefen: ok (3 Fälle, Variante A)')
+  console.log('suchhinweis-quickfix-pruefen: ok (5 Fälle, Variante A)')
 }
 
 await main()

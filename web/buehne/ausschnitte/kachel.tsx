@@ -41,6 +41,7 @@ export function Kachel({ ersatz }: AusschnittEigenschaften) {
           onSortChange={setSort}
           filters={filters}
           onFiltersChange={setFilters}
+          onHinweisLoesen={nichts}
         />
       </div>
       {offen !== undefined && (
