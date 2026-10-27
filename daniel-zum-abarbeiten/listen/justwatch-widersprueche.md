@@ -14,7 +14,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
 | crunchyroll | 8 | 0 | 0.0 % | Flagge |
-| disneyplus | 13 | 0 | 0.0 % | Flagge |
+| disneyplus | 14 | 0 | 0.0 % | Flagge |
 | primevideo | 88 | 0 | 0.0 % | Flagge |
 
 ### Widersprüche (0)
@@ -22,7 +22,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (736)
+### Kandidaten für neue Wege (739)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -301,6 +301,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | A Chivalry of a Failed Knight (21092) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.c54bfd5d-5d96-4fb7-8690-df2e12111af5 | ja |
 | Doukyusei: Verliebt in meinen Mitschüler (21096) | Amazon Video | amazon:amzn1.dv.gti.0f1043c1-8cfb-479d-ad9f-1da59ca4cc3d | ja |
 | Steins;Gate 0 (21127) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.b2a3feff-b154-4bb3-8b20-4c9dbb27a00d | nein |
+| Dragon Ball Super (21175) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.551721e6-4a44-43a3-9e01-c358dc4a369f | ja |
 | Ben: Abenteuer auf der Mäuseinsel (104162) | Amazon Prime Video | amazon:amzn1.dv.gti.6cf2df59-8db6-4d19-82d2-1962418bdece | ja |
 | Undefeated Bahamut Chronicle (21188) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.b08d4c7f-3276-4e25-a332-b423f6ac12cb | nein |
 | Schwarzesmarken (21201) | Crunchyroll | crunchyroll:GRDQX30ZY | ja |
@@ -311,6 +312,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Servamp (21269) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.3b96e295-4a31-4814-8472-dba8d439e98f | nein |
 | Pokémon: Der Film - Volcanion und das mechanische Wunderwerk (21651) | Amazon Video | amazon:amzn1.dv.gti.e8b27e08-d45a-0512-9c41-74de70b10b14 | ja |
 | Comet Lucifer (21275) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.34b4f4c4-41c0-38b2-097b-0719a62ea462 | ja |
+| Norn9 (20643) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.66b5ac02-d83e-3443-5237-43eab1f9cc03 | ja |
 | Throne of Elves: Die Chroniken von Altera (102658) | Amazon Video | amazon:amzn1.dv.gti.0fd10742-db00-45a6-b947-b2fb73841993 | ja |
 | Alderamin on the Sky (21410) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.482c244a-099f-4fee-a483-3b45a6324c9e | ja |
 | Kiznaiver (21421) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.afc4839d-e573-4ad4-8331-9160e32cb450 | ja |
@@ -450,6 +452,8 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Gleipnir (108241) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.21f66934-f9cf-46e5-965c-32653a538223 | ja |
 | High School Prodigies Have It Easy Even in Another World! (108388) | Crunchyroll | crunchyroll:GPWUK5KXN | ja |
 | High School Prodigies Have It Easy Even in Another World! (108388) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.699d1b66-dba3-4f41-ac90-f8ed26b23755 | nein |
+| Given (108430) | Crunchyroll | crunchyroll:GE00379411JAJP | ja |
+| Given (108430) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.55c76ca0-478f-4479-8958-f977b2a69312 | nein |
 | Fragtime (108487) | Amazon Video | amazon:amzn1.dv.gti.debbf9d8-9f65-94df-f3ab-7b5ebe30f10d | ja |
 | My Hero Academia: The Movie - Heroes Rising (108553) | Crunchyroll | crunchyroll:GQJUMN14P | nein |
 | My Hero Academia: The Movie - Heroes Rising (108553) | RTL+ Max Amazon Channel | amazon:amzn1.dv.gti.4384f740-fa4a-4a37-b036-362f108481be | nein |
@@ -517,8 +521,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Love of Kill (127050) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.0d438688-3dc5-4fa8-a9b7-d9dd70ab99c7 | nein |
 | Platinum End (127401) | Crunchyroll | crunchyroll:GEVUZGZ03 | nein |
 | Platinum End (127401) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.6797577e-1a0b-4816-80fe-d93610c4da21 | nein |
-| Orient (128034) | Crunchyroll | crunchyroll:GJWU28J9K | ja |
-| Orient (128034) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.9482470a-46b7-46d8-ba3c-8fd5db9d6a8a | nein |
 | Shikimori’s Not Just a Cutie (127911) | Crunchyroll | crunchyroll:GX9UQP8ZW | ja |
 | Shikimori’s Not Just a Cutie (127911) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.e2438ebd-2996-49ca-8614-4eabda308fb1 | nein |
 | When Will Ayumu Make His Move? (128223) | Amazon Prime Video | amazon:amzn1.dv.gti.375fd2fc-6086-4038-94b0-8b0a1ada753c | ja |
@@ -651,6 +653,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Dungeon People (168345) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.4158d4ca-afed-48fa-a85e-a055a7d57409 | ja |
 | Fist of the North Star: Hokuto No Ken (169228) | Amazon Prime Video | amazon:amzn1.dv.gti.d1393f28-73de-40bb-a1e3-45f3212cee27 | ja |
 | Code Geass: Rozé of the Recapture (126830) | Disney Plus | disney:entity-666998dc-6229-4057-9857-54da01132d33 | nein |
+| How I Attended an All-Guy’s Mixer (169931) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.022c19b1-7121-4b05-ac1f-02a55f9eea6d | ja |
 | Chillin’ in Another World with Level 2 Super Cheat Powers (170130) | Crunchyroll | crunchyroll:G14U4747X | nein |
 | Chillin’ in Another World with Level 2 Super Cheat Powers (170130) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.e5e1c16a-f209-464b-8f6d-282a8807bac4 | nein |
 | I Parry Everything! (170695) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.b11c8eec-d48f-45d5-ae23-76a040572efe | ja |
@@ -771,7 +774,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 
 Flagge „Deutsch“: 2 Wege, nur Hinweis: 0.
 
-JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): Mehrteiler 2, mehrere Staffeln 142.
+JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): Mehrteiler 3, mehrere Staffeln 142.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|

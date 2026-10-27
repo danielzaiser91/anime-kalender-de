@@ -194,6 +194,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:psyren-crunchyroll-de-2026-10-26@2026-10-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261026T143000Z
+DTEND:20261026T150000Z
+SUMMARY:Psyren (neu bei Crunchyroll)
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetai
+ ls: https://anime-kalender.de/t/17232/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-26#42@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261026T161000Z
@@ -758,10 +769,10 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:kaiju-no8-s2-komplettbox@2027-03-05@anime-kalender-de
+UID:kaiju-no8-s2-komplettbox@2027-05-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270305
-DTEND;VALUE=DATE:20270306
+DTSTART;VALUE=DATE:20270507
+DTEND;VALUE=DATE:20270508
 SUMMARY:Kaiju No. 8 – Staffel 2 – Komplettbox (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16005/

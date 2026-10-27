@@ -1569,8 +1569,8 @@
     ]
   },
   "katalog": {
-    "inReihen": 12026,
-    "reihen": 3072,
+    "inReihen": 12033,
+    "reihen": 3074,
     "pruefliste": [
       {
         "art": "verschmilzt",
@@ -3011,7 +3011,7 @@
           {
             "id": 182157,
             "name": "Sylvanian Families: Freya no Piece of Secret",
-            "titel": 2
+            "titel": 3
           }
         ],
         "alleinstehende": [],
@@ -3929,28 +3929,11 @@
           {
             "id": 163571,
             "name": "BanG Dream! It's MyGO!!!!!",
-            "titel": 7
+            "titel": 10
           }
         ],
         "alleinstehende": [],
         "beispiel": "BanG Dream! —Anderes→ BanG Dream! It's MyGO!!!!!"
-      },
-      {
-        "art": "verschmilzt",
-        "reihen": [
-          {
-            "id": 87435,
-            "name": "BanG Dream!",
-            "titel": 15
-          },
-          {
-            "id": 198376,
-            "name": "BanG Dream! Yume∞Mita",
-            "titel": 2
-          }
-        ],
-        "alleinstehende": [],
-        "beispiel": "BanG Dream! —Anderes→ BanG Dream! Yume∞Mita"
       },
       {
         "art": "verschmilzt",
