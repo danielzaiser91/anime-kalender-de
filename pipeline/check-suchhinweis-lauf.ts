@@ -50,6 +50,7 @@ interface Bild {
   suche: string
   gruppiert: boolean
   gesamt: number | undefined
+  blockade: boolean
 }
 const gefundenes: { bilder: Bild[]; geloest: Array<[FilterState | undefined, boolean]> } = { bilder: [], geloest: [] }
 
@@ -60,7 +61,7 @@ function Sonde({ suche, gruppiert, ohneSynchro = false }: Eingabe) {
   const filters = useMemo(() => ({ ...EMPTY_FILTERS, search: suche }), [suche])
   const sichtbar = useMemo(() => (ohneSynchro ? fertig : mitSynchro).filter((t) => t.titleDe!.includes(suche)), [suche, ohneSynchro])
   const hinweis = useSuchhinweis({ data, suche, filters, ohneSynchro, gruppiert, sichtbar, favorites: keineFavoriten }, lade)
-  gefundenes.bilder.push({ suche, gruppiert, gesamt: hinweis?.zusatz.gesamt })
+  gefundenes.bilder.push({ suche, gruppiert, gesamt: hinweis?.zusatz.gesamt, blockade: !!hinweis?.blockade })
   return h(SuchHinweis, { form: 'zeile', hinweis, filters, ohneSynchro, onLoesen: (f, an) => void gefundenes.geloest.push([f, an]) })
 }
 
@@ -134,7 +135,7 @@ console.log('\nSuchhinweis: Hook und Komponente')
 {
   for (const gruppiert of [true, false]) {
     const l = await lauf({ suche: 'Hajime no Ippo', gruppiert, ohneSynchro: true }, 600)
-    pruefe(`Schalter „ohne Synchro“ an (gruppiert: ${gruppiert}): der exakte Treffer ist da, nichts zu erklären`, l.nachher.text === '' && l.nachher.knopf === undefined, l.nachher)
+    pruefe(`Schalter „ohne Synchro“ an (gruppiert: ${gruppiert}): der exakte Treffer ist da, nichts zu erklären`, l.nachher.text === '' && l.nachher.knopf === undefined && gefundenes.bilder.at(-1)?.blockade === false, l.nachher)
     await l.abbau()
   }
 }
