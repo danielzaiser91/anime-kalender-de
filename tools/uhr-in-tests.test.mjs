@@ -113,11 +113,16 @@ try {
     'Reflect.other(Date, [])',
     'Reflect.construct()',
     'Reflect.construct(Date, [1], Foo)',
+    'globalThis[Date]()',
+    "'globalThis'.Date()",
+    "'globalThis'['Date']()",
+    "'Reflect'.construct(Date, [])",
+    'Reflect.construct(Date, args)',
   ]) {
     assert.deepEqual(funde(`const t = ${form}\n`), [], `zählt nicht: ${JSON.stringify(form)}`)
   }
 
-  for (const bindung of ['const D = Foo', 'const D = Date.UTC(1)', 'const D = fn(Date)', 'const D', 'const { y } = globalThis.fetch']) {
+  for (const bindung of ['const D = Foo', 'const D = Date.UTC(1)', 'const D = fn(Date)', 'const D', 'const { y } = globalThis.fetch', 'const o = { a: Date }', 'function f(D = Date) {}']) {
     assert.deepEqual(funde(`${bindung}\n`), [], `Bindung zählt nicht: ${JSON.stringify(bindung)}`)
   }
 
