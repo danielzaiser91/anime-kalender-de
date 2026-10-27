@@ -14,28 +14,11 @@
  */
 import { execFileSync } from 'node:child_process'
 import { appendFileSync, readFileSync } from 'node:fs'
+import { befundZuAlt, FRISTEN_STUNDEN } from './wache-fristen.mjs'
 
 const TROCKEN = process.argv.includes('--trocken')
 const H = 3600e3
 
-/** Workflow: erlaubtes Alter des letzten erfolgreichen Laufs in Stunden (Takt plus Luft, Stand 08.10.2026). */
-const FRISTEN_STUNDEN = {
-  'refresh-hourly.yml': 12,
-  'refresh-data.yml': 36,
-  'bestand-bauen.yml': 36,
-  'deploy.yml': 48,
-  'adn-laufende.yml': 24,
-  'claude-verpasst-recherche.yml': 36,
-  'claude-anime2you-extraktion.yml': 36,
-  'claude-wache-urteil.yml': 36,
-  'anisearch-katalog.yml': 48,
-  'ladezeiten.yml': 36,
-  'offizielle-news.yml': 36,
-  'meldungskopie.yml': 36,
-  'refresh-weekly.yml': 216,
-  // Wie `motn` in check-sources.ts: ein Kontingentzyklus plus zwei Tage.
-  'tonspuren-monatlich.yml': 792,
-}
 const STAND_MAX_STUNDEN = 36
 
 const gh = (...a) => execFileSync('gh', a, { encoding: 'utf8', maxBuffer: 8 << 20 })
@@ -57,7 +40,8 @@ for (const [workflow, max] of Object.entries(FRISTEN_STUNDEN)) {
   }
   const alter = t === null ? null : (jetzt - t) / H
   console.log(`${workflow.padEnd(32)} letzter Erfolg vor ${alter === null ? 'nie' : alter.toFixed(1) + ' h'} (erlaubt ${max} h)`)
-  if (alter === null || alter > max) befunde.push(`${workflow}: letzter erfolgreicher Lauf ${alter === null ? 'nie' : 'vor ' + Math.round(alter) + ' h'}, erlaubt ${max} h`)
+  const befund = befundZuAlt(workflow, alter)
+  if (befund) befunde.push(befund)
 }
 
 try {
