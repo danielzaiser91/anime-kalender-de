@@ -46,6 +46,7 @@ pipeline/check-netflix-umleitung-bestand.ts
 pipeline/check-news-einfrieren-bestand.ts
 pipeline/check-news-felder-bestand.ts
 pipeline/check-news-offiziell-bestand.ts
+pipeline/check-nur-omu-bestand.ts
 pipeline/check-prime-teilseiten-bestand.ts
 pipeline/check-reihen-namen-bestand.ts
 pipeline/check-reihen-teilname-bestand.ts
