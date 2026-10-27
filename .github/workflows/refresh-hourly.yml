@@ -4,7 +4,7 @@ name: Stündlich — Sendezeiten
 # und wird gemergt, wenn GitHub `MERGEABLE` sagt; sonst übernimmt „Claude — Daten-PR zusammenführen". Den Datensatz baut „Bestand — zusammenführen und bauen"; dass
 # eine Quelle schweigt, meldet dort `data:check` (Daniel, 30.08.2026: „wöchentlich und stündlich sollte nie rot sein können, alles was sie machen ist sammeln und liefern").
 #
-# Das Crunchyroll-Wochenprogramm ist die einzige Quelle, die sich mehrmals täglich ändert: Uhrzeiten verschieben sich, Folgen kommen dazu, Staffeln fallen aus.
+# Das Crunchyroll-Wochenprogramm und der Katalogfund neuer deutscher Folgen (seit 27.10.2026) ändern sich mehrmals täglich: Uhrzeiten verschieben sich, Folgen kommen dazu, Staffeln fallen aus.
 # Alles andere ändert sich höchstens täglich und läuft im Tageslauf. Gepusht wird nur bei echter Änderung.
 #
 # Umbau vom 05.10.2026: eigene Gruppe `stunde` (vorher `daten`: ein Wochenlauf hielt den Stundenlauf bis zu anderthalb Stunden an), Schritte über `tools/schritt.sh`
@@ -37,7 +37,7 @@ jobs:
     # Zweck und Ziel gehen an die Statusanzeige mit (Daniel, 21.08.2026: „Zweck sollte kurz beschreiben wofür dieser lauf ist").
     env:
       LAUF_ZWECK: 'Hält die Sendetermine von anime-kalender.de stündlich aktuell'
-      LAUF_ZIEL: 'Crunchyroll-Wochenprogramm und TV-Programm einlesen'
+      LAUF_ZIEL: 'Crunchyroll-Wochenprogramm, neue deutsche Folgen und TV-Programm einlesen'
       LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
       JOB_ANZEIGE: Sendezeiten
     steps:
@@ -77,6 +77,24 @@ jobs:
       # Es legt auch neue Serien im Kalenderbestand an; Abweichungen gehen als Vorfall an den Worker, daher das Token.
       - name: Crunchyroll-Wochenprogramm lesen
         run: bash tools/schritt.sh --zeit 8m "Crunchyroll-Wochenprogramm" -- npx tsx pipeline/scrape-crunchyroll-woche.ts
+
+      # Neue deutsche Folgen stündlich statt erst im Tageslauf (Psyren Folge 1: verfügbar 26.10.2026 14:30 UTC, im Bestand erst 27.10. 04:37; Daniel: „spätestens wenn unser
+      # crunchy lauf es bestätigt muss es im kalender auftauchen“). Drei Schritte wie im Tageslauf (`refresh-data.yml`), vor „Verpasste Termine prüfen“, das den Katalogfund liest.
+      # Gemessen am Tageslauf 27.10.2026: 4 s / 2 s / 4 s. Der Bestandsbau läuft nach diesem Lauf (`workflow_run`), die Folge steht also spätestens nach Lauf + Bau im Kalender.
+      - name: Neue deutsche Folgen bei Crunchyroll finden
+        run: bash tools/schritt.sh --zeit 3m "Neue Folgen bei Crunchyroll" -- npm run data:cr-neu
+
+      - name: Crunchyroll-Zugangspaket über die Weiche holen
+        env:
+          CR_WEICHE_TOKEN: ${{ secrets.CR_WEICHE_TOKEN }}
+        run: bash tools/schritt.sh --zeit 2m "Zugangspaket holen" -- node tools/cr-zugang-holen.mjs --github-env
+
+      # Ohne frisches Paket bricht der Schritt ab (kein Rückfall auf das 24-Stunden-Geheimnis CR_ZUGANG, das bleibt dem Tageslauf); `--nur-neu` liest nur Serien mit neuer Folge, die Fristen gelten weiter.
+      - name: Die neu gefundenen Serien sofort beurteilen
+        env:
+          CR_ZUGANG: ${{ env.CR_ZUGANG_FRISCH }}
+        # Kein eigener `fehler`-Melder: ein Weichen-Ausfall wäre sonst bis zu 24 rote Statuseinträge am Tag; `lauf-abmelden.sh` meldet den Lauf gelb mit dem Schrittnamen.
+        run: bash tools/schritt.sh --zeit 8m "Neue Serien beurteilen" -- npm run data:cr-dub -- --nur-neu --limit 60
 
       # Ein geschätzter Termin, an dem nichts erschien, darf nicht stehen bleiben, als wäre er eingetreten. Braucht die Beobachtungen des Kalender-Abrufs.
       - name: Verpasste Termine prüfen

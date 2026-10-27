@@ -130,4 +130,31 @@ try {
 } finally {
   rmSync(ordner, { recursive: true, force: true })
 }
-console.log('stand-waechter.test: ok (20/21 Handzeilen, Als Nächstes 80/81 Zeilen und 400/401 Zeichen, Icon, Block zählt nicht, Alter 24 h Sommer/Winter, ohne Stand, Lauf meldet)')
+
+// „Top-Prios“: höchstens 5 Zeilen, kein {live}, kein Stand älter als 72 h (Daniel 27.10.2026: Kasten stand tagelang unverändert)
+const prios = (...zeilen) => ['# Stand', '## Top-Prios (x)', ...zeilen, '  - Detail Stand 01.01.2020', '## In Arbeit' + FRISCH, '## Als Nächstes'].join('\n')
+const ziel = (n) => Array.from({ length: n }, (_, i) => `- **Ziel ${i}** {arbeit-agent} x`)
+assert.equal(w.waechter(prios(...ziel(5)), JETZT), '', '5 Ziele')
+assert.equal(w.waechter(prios(...ziel(6)), JETZT), 'Top-Prios: 6 Zeilen (erlaubt 5) — Aufträge gehören nach „In Arbeit“ oder „Als Nächstes“', '6 Ziele')
+assert.equal(w.waechter(prios('- **MOTN** {live} Fix live'), JETZT), 'Top-Prios: 1 Zeile (MOTN) live — erledigt, aus dem Kasten nehmen', '{live}')
+assert.equal(w.waechter(prios('- **Live-Ansicht** {pipeline} live gemessen'), JETZT), '', '„live“ ohne Klammer')
+const ALT = 'Top-Prios: 1 Zeile (Speed) mit Stand älter als 3 Tage — erneuern oder aus dem Kasten nehmen'
+// JETZT = 20.10.2026 12:00 Berlin: 17.10. 12:00 genau 72 h, 11:59 eine Minute mehr; ohne Uhrzeit Mitternacht
+assert.equal(w.waechter(prios('- **Speed** {pipeline} Stand 17.10. 12:00: x'), JETZT), '', 'genau 72 h')
+assert.equal(w.waechter(prios('- **Speed** {pipeline} Stand 17.10. 11:59: x'), JETZT), ALT, '72 h und 1 min')
+assert.equal(w.waechter(prios('- **Speed** Stand 17.10.: x'), JETZT), ALT, 'ohne Uhrzeit = 00:00')
+assert.equal(w.waechter(prios('- **Speed** Stand 18.10.: x'), JETZT), '', 'ohne Uhrzeit, 60 h')
+assert.equal(w.waechter(prios('- **Speed** Stand 17.10.2025 13:00 x'), JETZT), ALT, 'mit Jahr')
+assert.equal(w.waechter(prios('- **Speed** ohne Datum'), JETZT), '', 'ohne Stand')
+// Ohne Jahr über den Jahreswechsel: 30.12. am 01.01. ist das Vorjahr (2 Tage), nicht die Zukunft
+const NEUJAHR = Date.parse('2027-01-01T11:00:00Z') // 12:00 Berlin (Winterzeit)
+assert.equal(w.waechter('## Top-Prios\n- **Speed** Stand 30.12. 12:00', NEUJAHR), '', 'Jahreswechsel: Vorjahr, 48 h')
+assert.equal(w.waechter('## Top-Prios\n- **Speed** Stand 28.12. 12:00', NEUJAHR), ALT, 'Jahreswechsel: Vorjahr, 96 h')
+// Alles zugleich, Reihenfolge vor „Als Nächstes“; Zeilen anderer Abschnitte zählen nicht
+assert.equal(
+  w.waechter(prios(...ziel(5), '- **MOTN** {live} Stand 01.10.'), JETZT),
+  'Top-Prios: 6 Zeilen (erlaubt 5) — Aufträge gehören nach „In Arbeit“ oder „Als Nächstes“; Top-Prios: 1 Zeile (MOTN) live — erledigt, aus dem Kasten nehmen; Top-Prios: 1 Zeile (MOTN) mit Stand älter als 3 Tage — erneuern oder aus dem Kasten nehmen',
+  'alles zugleich',
+)
+assert.equal(w.waechter(['## Top-Prios', '## Andere', ...ziel(9), '- **X** {live}'].join('\n'), JETZT), '', 'andere Abschnitte')
+console.log('stand-waechter.test: ok (20/21 Handzeilen, Als Nächstes 80/81 Zeilen und 400/401 Zeichen, Icon, Block zählt nicht, Alter 24 h Sommer/Winter, ohne Stand, Lauf meldet, Top-Prios 5/6, {live}, Stand 72 h)')

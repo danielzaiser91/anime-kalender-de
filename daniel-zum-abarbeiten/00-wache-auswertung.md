@@ -468,3 +468,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Erklärt sind: 14 Prime-Ja an Kanal-Titeln (Inuyasha-Filme, Conan-Filme, Lupin III u. a.; Regel „Kanal-Titel belegt nichts") und Hyouken no Majutsushi II (212503) hinter dem Toggle (Fix #2102). Persona-5-Ja bei Crunchyroll (106896, 109418, 110265) entfielen mit #2101 (Katalog-Ja nicht bei Null-Block). **Nicht belegt:** TRIGUN (6) und TRIGUN: Badlands Rumble (4106) verloren den Crunchyroll-Stream ganz (`fehlt`) sowie Dorohedoro: Ma no Omake, Satsuriku no Tenshi und Dragon Ball Super: Beerus — Ursache nicht gemessen, kein Beleg für Absicht.
 
 **Was läuft komplett falsch?** Nichts im Code, den ich belegen kann; es gibt keinen Fehlerschritt, der Lauf ist absichtlich rot („Auffälligkeit gefunden", `delta-wache.yml`). Kein Pull Request, da keine Codeursache gefunden wurde; offen bleibt die Trigun-Frage.
+
+
+## 27.10.2026 (Nachmittag) — Wache meldet „3 Titel weniger" (Lauf 40510018756, Issue #2183)
+
+**Was läuft korrekt.** Die Wache hat den Bauabschnitt vom 27.10., 08:26 UTC (Commit 55e223ac) gefunden: Titel 2927 → 2924. Gemessen: genau drei Titel verschwanden aus `titles.json` (Madoka Walpurgisnacht Rising 133007, Seishun Buta Yarou: Dear Friend 199340, Dragon Ball Super: Beerus 206814), und alle drei stehen jetzt in `public/data/ohne-synchro.json` — verschoben, nicht gelöscht. Ursache ist der Fix #2144 (fb5c486a, im Bau enthalten: `git merge-base --is-ancestor` ja): Titel mit nur Originalton-Terminen und ohne Deutsch-Beleg stehen nicht mehr im Hauptbestand.
+
+**Wo ist Verbesserungspotenzial?** Die Wache zählt „Titel weniger" ohne Gegenrechnung gegen `ohne-synchro.json`; eine gewollte Verschiebung sieht aus wie ein Verlust. Eine Zeile „davon in ohne-synchro: 3" würde den Gang sparen.
+
+**Wo sind echte Risiken und Lücken?** Die Wache kann einen gewollten Verschiebe-Fix nicht von einem Abruf-Verlust unterscheiden. Nicht gemessen: ob Madoka (133007) und Dear Friend (199340) wirklich keinen Deutsch-Beleg haben; alle drei hatten `streams: []` und `dubConfidence: low`. Beerus' Crunchyroll-/Disney+-/ADN-Verweise stehen als „belegtes Nein" in `verweise-entfernt.json`.
+
+**Was läuft komplett falsch?** Nichts, was ich belegen kann; kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache.

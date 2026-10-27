@@ -96,9 +96,10 @@ function messeKacheln({ selektor, monat, ausschnitt }) {
     })
 }
 
-/** Versteckt (`'hidden'`) oder zeigt (`''`) alle Elemente mit `position: fixed`. Läuft im Browser. */
-function setzeSichtbarkeitSchwebender(wert) {
-  for (const el of document.querySelectorAll('body *')) if (getComputedStyle(el).position === 'fixed') el.style.visibility = wert
+/** Versteckt (`'hidden'`) oder zeigt (`''`) alle Elemente mit `position: fixed` oder `sticky`. Läuft im Browser.
+ * Auch der Kopf (sticky) gehört dazu: Springt die Woche zu „heute“, malt ihn das Ganzseitenbild über die Kacheln darunter (27.10.2026: Menüschrift auf der Ecke von Psyren, nur unter Linux-Schrift). */
+export function setzeSichtbarkeitSchwebender(wert) {
+  for (const el of document.querySelectorAll('body *')) if (['fixed', 'sticky'].includes(getComputedStyle(el).position)) el.style.visibility = wert
 }
 
 /** Liest Pixel (x, y) aus einem PNG. Läuft im Browser. */

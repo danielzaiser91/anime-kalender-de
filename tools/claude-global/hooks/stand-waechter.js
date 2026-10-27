@@ -1,4 +1,4 @@
-// Wächter für „## In Arbeit“ und „## Als Nächstes“ in stand.md (gehört zu stand-prs.js): zu viele Handzeilen, Kopfzeile ohne frischen Stand, zu viele, zu lange oder icon-lose Zeilen.
+// Wächter für „## Top-Prios“, „## In Arbeit“ und „## Als Nächstes“ in stand.md (gehört zu stand-prs.js): zu viele Handzeilen, Kopfzeile ohne frischen Stand, zu viele, zu lange oder icon-lose Zeilen, Erledigtes und Veraltetes im Top-Prio-Kasten.
 // Der Auto-Block (Marken AUF/ZU) zählt nicht, er pflegt sich selbst.
 const MAX_ZEILEN = 20
 const MAX_NAECHSTES = 80
@@ -41,6 +41,39 @@ function naechstes(zeilen) {
   return meldungen
 }
 
+const MAX_PRIOS = 5
+const MAX_PRIO_ALTER = 72 * STUNDE
+const PRIO_STAND = /Stand (\d\d)\.(\d\d)\.(?:(\d{4}))?(?: (\d\d):(\d\d))?/
+
+/** Meldungen zu „## Top-Prios“: wenige Großziele, nichts Live-Erledigtes, kein Stand älter als 3 Tage (Daniel 27.10.2026: Kasten stand tagelang unverändert). */
+function topPrios(zeilen, jetzt) {
+  const kopf = zeilen.findIndex((z) => z.startsWith('## Top-Prios'))
+  if (kopf < 0) return []
+  let ende = zeilen.findIndex((z, i) => i > kopf && z.startsWith('## '))
+  if (ende < 0) ende = zeilen.length
+  const liste = zeilen.slice(kopf + 1, ende).filter((z) => z.startsWith('- '))
+  const meldungen = []
+  if (liste.length > MAX_PRIOS) meldungen.push(`Top-Prios: ${liste.length} Zeilen (erlaubt ${MAX_PRIOS}) — Aufträge gehören nach „In Arbeit“ oder „Als Nächstes“`)
+  const live = liste.filter((z) => z.includes('{live}'))
+  if (live.length) meldungen.push(`Top-Prios: ${aufzaehlung(live)} live — erledigt, aus dem Kasten nehmen`)
+  const alt = liste.filter((z) => {
+    const t = prioStand(z, jetzt)
+    return t !== null && jetzt - t > MAX_PRIO_ALTER
+  })
+  if (alt.length) meldungen.push(`Top-Prios: ${aufzaehlung(alt)} mit Stand älter als 3 Tage — erneuern oder aus dem Kasten nehmen`)
+  return meldungen
+}
+
+/** Epoche des „Stand TT.MM.[JJJJ] [HH:MM]“ einer Zeile oder null; ohne Jahr das jüngste Jahr, das nicht in der Zukunft liegt. */
+function prioStand(z, jetzt) {
+  const s = PRIO_STAND.exec(z)
+  if (!s) return null
+  const zeit = (j) => berlinEpoche(j, Number(s[2]), Number(s[1]), Number(s[4] ?? 0), Number(s[5] ?? 0))
+  if (s[3]) return zeit(Number(s[3]))
+  const jahr = Number(new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', year: 'numeric' }).format(jetzt))
+  return zeit(jahr) > jetzt ? zeit(jahr - 1) : zeit(jahr)
+}
+
 /** „N Zeile(n) (Titel, Titel, Titel u. a.)“: höchstens drei Anfänge, damit die Meldung kurz bleibt. */
 function aufzaehlung(zeilen) {
   const titel = zeilen.slice(0, 3).map(anfang).join(', ')
@@ -50,7 +83,7 @@ function aufzaehlung(zeilen) {
 /** Meldungstext oder '' (alles in Ordnung). */
 function waechter(text, jetzt) {
   const zeilen = text.split(/\r?\n/)
-  const meldungen = naechstes(zeilen)
+  const meldungen = [...topPrios(zeilen, jetzt), ...naechstes(zeilen)]
   const kopf = zeilen.findIndex((z) => z.startsWith('## In Arbeit'))
   if (kopf < 0) return meldungen.join('; ')
   let ende = zeilen.findIndex((z, i) => i > kopf && z.startsWith('## '))
@@ -71,4 +104,4 @@ function waechter(text, jetzt) {
   return meldungen.join('; ')
 }
 
-module.exports = { MAX_ZEILEN, MAX_ALTER, waechter }
+module.exports = { MAX_ZEILEN, MAX_ALTER, MAX_PRIOS, waechter }

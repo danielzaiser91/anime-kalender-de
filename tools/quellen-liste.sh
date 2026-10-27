@@ -308,6 +308,8 @@ QUELLEN=(
   data/imdb-ids.json
   # Was die Crunchyroll-Terminableitung verworfen hat (20.09.2026, Skill stille-ausfaelle-verhindern).
   data/termine-ausgelassen.json
+  # Gemerkte Wochenprogramm-Uhrzeiten, die den API-Stempel ersetzt haben (27.10.2026, `pipeline/lib/cr-zeit-merkliste.ts`): der Beleg verfällt nach 21 Tagen, die Zeit nicht.
+  data/cr-zeit-korrekturen.json
   # Posteingang: Meldungen der Läufe an Claude (20.09.2026, Hook posteingang.js).
   data/meldungen-an-claude.jsonl
   # Folgennummern und deutsche Erstausstrahlung aus den Episodenlisten der de.wikipedia,
