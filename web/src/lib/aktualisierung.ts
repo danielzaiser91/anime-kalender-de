@@ -12,7 +12,7 @@ const PAUSE_MS = 10 * 60_000 // so lange verborgen, dann zählt die Rückkehr wi
  */
 async function neuesteVersion(): Promise<string | undefined> {
   try {
-    const antwort = await fetch(`${import.meta.env.BASE_URL}version.json?t=${Date.now()}`, { cache: 'no-store' })
+    const antwort = await fetch(`${import.meta.env?.BASE_URL ?? '/'}version.json?t=${Date.now()}`, { cache: 'no-store' })
     return antwort.ok ? ((await antwort.json()) as { v?: string }).v : undefined
   } catch {
     return undefined
@@ -59,7 +59,7 @@ function pruefeNachPause(): void {
 }
 
 export function pruefeVersionBeimLaden(): void {
-  if (import.meta.env.DEV || MEINE_VERSION === 'dev') return
+  if (import.meta.env?.DEV || MEINE_VERSION === 'dev') return
   void pruefe()
   pruefeNachPause()
   // Alter Stand verweist auf Chunks, die der Deploy gelöscht hat: still einmal neu laden.
