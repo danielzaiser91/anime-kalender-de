@@ -80,12 +80,12 @@ export class MiniKnoten {
   focus() {}
   blur() {}
   getRootNode(): MiniKnoten { return this.parentNode ? this.parentNode.getRootNode() : this }
-  /** Alle Nachfahren in Dokumentreihenfolge, die der Prüfung `passt` genügen. */
   /** Die Optionen eines `select` (React liest sie beim Aufbau). */
   get options(): MiniKnoten[] {
     return this.finde((k) => k.tagName === 'OPTION')
   }
 
+  /** Alle Nachfahren in Dokumentreihenfolge, die der Prüfung `passt` genügen. */
   finde(passt: (k: MiniKnoten) => boolean): MiniKnoten[] {
     return this.childNodes.flatMap((k) => [...(passt(k) ? [k] : []), ...k.finde(passt)])
   }
