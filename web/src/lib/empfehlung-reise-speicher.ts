@@ -1,4 +1,4 @@
-import type { Zustand } from '@shared/empfehlung-kern.ts'
+import { istFertig, type Zustand } from '@shared/empfehlung-kern.ts'
 import type { Kontext } from '@shared/empfehlung-vektor.ts'
 import type { Ablauf } from './empfehlung-ablauf.ts'
 
@@ -35,7 +35,8 @@ function alsReise(roh: unknown, einstiege: number): GemerkteReise | undefined {
 }
 
 export function reiseMerken(a: Ablauf, speicher: ReiseSpeicher = localStorage): void {
-  if (!a.sitzung || (a.phase !== 'ergebnis' && a.phase !== 'leinwand')) return
+  const imDuell = a.phase === 'duell' && (a.sitzung?.zustand.gewertet ?? 0) > 0
+  if (!a.sitzung || (a.phase !== 'ergebnis' && a.phase !== 'leinwand' && !imDuell)) return
   const reise: GemerkteReise = { ziel: a.ziel, gezeigt: a.gezeigt, zustand: a.sitzung.zustand }
   try {
     speicher.setItem(REISE_SCHLUESSEL, JSON.stringify(reise))
@@ -53,8 +54,8 @@ export function reiseVergessen(speicher: ReiseSpeicher = localStorage): void {
 }
 
 /**
- * Der gemerkte Stand als Ablauf auf den Vorschlägen; `undefined`, wenn nichts da ist, es nicht mehr zum Pool passt
- * oder kein Vorschlag übrig bleibt (verworfen oder gesehen seit dem letzten Besuch).
+ * Der gemerkte Stand als Ablauf: bei erreichtem Ziel auf den Vorschlägen, bei abgebrochenem Duell auf dem Start (zum Fortfahren);
+ * `undefined`, wenn nichts da ist, es nicht mehr zum Pool passt oder kein Vorschlag übrig bleibt (verworfen oder gesehen seitdem).
  */
 export function reiseWiederherstellen(k: Kontext, weg: ReadonlySet<number>, speicher: ReiseSpeicher = localStorage): Ablauf | undefined {
   try {
@@ -62,8 +63,9 @@ export function reiseWiederherstellen(k: Kontext, weg: ReadonlySet<number>, spei
     const reise = roh ? alsReise(JSON.parse(roh), k.datei.einstiege.length) : undefined
     if (!reise) return undefined
     const gezeigt = reise.gezeigt.filter((id) => k.index.has(id) && !weg.has(id))
-    if (!gezeigt.length) return undefined
-    return { phase: 'ergebnis', sitzung: { zustand: reise.zustand, verlauf: [] }, ziel: reise.ziel, gezeigt }
+    const sitzung = { zustand: reise.zustand, verlauf: [] }
+    if (!istFertig(k, reise.zustand, reise.ziel)) return { phase: 'start', sitzung, ziel: reise.ziel, gezeigt }
+    return gezeigt.length ? { phase: 'ergebnis', sitzung, ziel: reise.ziel, gezeigt } : undefined
   } catch {
     return undefined
   }

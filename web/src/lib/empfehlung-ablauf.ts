@@ -55,7 +55,19 @@ export function entfernen(a: Ablauf, id: number, rang: Kandidat[]): Ablauf {
 
 export const oeffnen = (a: Ablauf, id: number): Ablauf => ({ ...a, phase: 'leinwand', aktuell: id })
 
-/** „Von vorn“: zurück zum Startbildschirm, ohne Sitzung und ohne Galerie. */
-export const zuStart = (): Ablauf => ANFANG
+/** Zum Startbildschirm; Sitzung und Galerie bleiben, damit er „Fortfahren“ anbieten kann. */
+export const zuStart = (a: Ablauf): Ablauf => ({ ...a, phase: 'start' })
+
+/** „Fortfahren“: bei erreichtem Ziel zu den Vorschlägen, sonst weiter im Duell; ohne Sitzung bleibt alles. */
+export function fortfahren(k: Kontext, a: Ablauf): Ablauf {
+  if (!a.sitzung) return a
+  return { ...a, phase: istFertig(k, a.sitzung.zustand, a.ziel) ? 'ergebnis' : 'duell' }
+}
+
+/** Vorschau auf dem Start: die gezeigten Vorschläge, bei offenem Duell die ersten der aktuellen Rangliste. */
+export function vorschauIds(k: Kontext, a: Ablauf, rang: Kandidat[]): number[] {
+  if (!a.sitzung) return []
+  return istFertig(k, a.sitzung.zustand, a.ziel) ? a.gezeigt : ersteVorschlaege(rang)
+}
 
 export const zuPhase = (a: Ablauf, phase: Phase): Ablauf => ({ ...a, phase })

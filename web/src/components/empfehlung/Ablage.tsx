@@ -27,6 +27,11 @@ function Fach({ titelKey, liste, holen }: { titelKey: TranslationKey; liste: Kan
       <button type="button" onClick={() => setOffen(!offen)} aria-expanded={offen} className="min-h-11 text-[13px] text-ak-leise underline">
         {t(titelKey, { n: liste.length })}
       </button>
+      {offen && liste.length > 1 && (
+        <button type="button" onClick={() => liste.forEach((k) => holen(k.id))} className="ml-3 min-h-11 rounded-full bg-ak-flaeche-2 px-3 text-xs font-semibold">
+          {t('empf.alleZurueckholen')}
+        </button>
+      )}
       {offen && <Liste liste={liste} holen={holen} />}
     </div>
   )

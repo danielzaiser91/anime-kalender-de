@@ -10,6 +10,7 @@ import { AnbieterBlatt, poolAnbieter } from './AnbieterBlatt.tsx'
 import { Hintergrund } from './bilder.tsx'
 import { Duell } from './Duell.tsx'
 import { Einleitung } from './Einleitung.tsx'
+import { Fortsetzen } from './Fortsetzen.tsx'
 import { Kopfzeile, AnbieterLasche } from './Kopfzeile.tsx'
 import { Leinwand } from './Leinwand.tsx'
 import { useReise } from './use-reise.ts'
@@ -52,7 +53,16 @@ export default function EmpfehlungView({ data }: { data: Dataset }) {
       <Kopfzeile phase={phase} anbieter={eigene.length} blattOffen={blatt} vorschlaege={() => reise.setPhase('ergebnis')} blatt={() => setBlatt(true)} />
       {fehler && <p className="m-auto text-ak-fehler-text">{t('empf.fehler')}</p>}
       {!fehler && !kontext && <p className="m-auto text-ak-leise">{t('empf.laedt')}</p>}
-      {kontext && phase === 'start' && <Einleitung titel={titel} ids={mosaik} los={reise.neu} />}
+      {kontext && phase === 'start' && !reise.fortsetzbar && <Einleitung titel={titel} ids={mosaik} los={reise.neu} />}
+      {kontext && phase === 'start' && reise.fortsetzbar && (
+        <Fortsetzen
+          vorschau={reise.vorschau.map(kandidat)}
+          titel={titel}
+          offenesDuell={!!reise.stehen && !reise.stehen.fertig}
+          fortfahren={reise.fortfahren}
+          neu={reise.verwerfenUndNeu}
+        />
+      )}
       {kontext && phase === 'duell' && reise.sitzung && (
         <Duell kontext={kontext} sitzung={reise.sitzung} ziel={reise.ziel} titel={titel} antworte={reise.antworte} zurueck={reise.zurueckDuell} schein={setSchein} />
       )}

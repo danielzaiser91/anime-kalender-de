@@ -3,7 +3,7 @@ import type { Antwort } from '@shared/empfehlung-kern.ts'
 import type { Kandidat } from '@shared/empfehlung-pool.ts'
 import type { Kontext } from '@shared/empfehlung-vektor.ts'
 import {
-  ANFANG, antworten, duellZurueck, entfernen, genauerMachen, kannGenauer, neueReise, oeffnen, zuPhase, zuStart, type Ablauf, type Phase,
+  ANFANG, antworten, duellZurueck, entfernen, fortfahren, genauerMachen, kannGenauer, neueReise, oeffnen, vorschauIds, zuPhase, zuStart, type Ablauf, type Phase,
 } from '../../lib/empfehlung-ablauf.ts'
 import { reiseMerken, reiseVergessen, reiseWiederherstellen } from '../../lib/empfehlung-reise-speicher.ts'
 import { ausgeschlossenFuerReise, rangliste, stand, type Stand } from '../../lib/empfehlung-reise.ts'
@@ -36,6 +36,10 @@ export function useReise(kontext: Kontext | undefined, m: Mengen, startwert: () 
   }, [kontext, weg])
   useEffect(() => reiseMerken(a), [a])
   const aendere = (f: (alt: Ablauf, k: Kontext) => Ablauf) => kontext && setA((alt) => f(alt, kontext))
+  const neu = () => {
+    const aus = ausgeschlossenFuerReise({ favoriten: m.favoriten, gesehen: m.gesehen, ausgeblendet: m.ausgeblendet, gesehenBis: gesehenLesen() })
+    aendere((alt, k) => neueReise(k, alt, startwert(), aus))
+  }
   return {
     phase: a.phase,
     sitzung: a.sitzung,
@@ -46,14 +50,17 @@ export function useReise(kontext: Kontext | undefined, m: Mengen, startwert: () 
     stehen: kontext && a.sitzung ? stand(kontext, a.sitzung.zustand, a.ziel) : (undefined as Stand | undefined),
     kannGenauer: !!kontext && kannGenauer(kontext, a),
     setPhase: (phase: Phase) => setA((alt) => zuPhase(alt, phase)),
-    neu: () => {
-      const aus = ausgeschlossenFuerReise({ favoriten: m.favoriten, gesehen: m.gesehen, ausgeblendet: m.ausgeblendet, gesehenBis: gesehenLesen() })
-      aendere((alt, k) => neueReise(k, alt, startwert(), aus))
-    },
-    vonVorn: () => {
+    neu,
+    /** Neues Duell; nur die gemerkten Vorschläge gehen, Gesehenes und Verworfenes bleiben. */
+    verwerfenUndNeu: () => {
       reiseVergessen()
-      setA(zuStart())
+      neu()
     },
+    fortfahren: () => aendere((alt, k) => fortfahren(k, alt)),
+    vorschau: kontext ? vorschauIds(kontext, a, rang) : [],
+    /** Ob der Start etwas fortzusetzen hat (Vorschläge oder offenes Duell). */
+    fortsetzbar: !!a.sitzung,
+    vonVorn: () => setA(zuStart),
     antworte: (antwort: Antwort) => aendere((alt, k) => antworten(k, alt, antwort, (z) => rangliste(k, z, weg, eigene))),
     genauer: () => setA(genauerMachen),
     entferne: (id: number) => setA((alt) => entfernen(alt, id, rang)),

@@ -44,6 +44,12 @@ await klick(zurueck[1])
 await klick(zurueck[2])
 pruefe('Jeder Knopf ruft nur die Funktion seiner Liste, mit der eigenen Kennung', JSON.stringify(geholt) === JSON.stringify(['g900802', 'v900803']), geholt)
 
+geholt.length = 0
+const alleKnoepfe = dom.wurzel.finde((k) => k.tagName === 'BUTTON' && k.textContent === 'Alle zurückholen')
+pruefe('„Alle zurückholen“ nur bei der Liste mit zwei Titeln (Verworfene hat einen)', alleKnoepfe.length === 1, alleKnoepfe.length)
+await klick(alleKnoepfe[0])
+pruefe('„Alle zurückholen“ holt genau die Gesehenen, nicht die Verworfenen', JSON.stringify(geholt) === JSON.stringify(['g900801', 'g900802']), geholt)
+
 await act(async () => wurzel.unmount())
 dom.entferne()
 if (verletzt > 0) {
