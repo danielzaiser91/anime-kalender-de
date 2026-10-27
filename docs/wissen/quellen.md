@@ -3248,6 +3248,8 @@ Weg darf nicht davon abhängen, welche Stelle ihn zufällig gefunden hat.
   mehr als verpasst führen (vom Prüfer mit altem und neuem Fenster gemessen: 0/0/0 neu/nachgeholt/verpasst, `termine-verpasst.json`
   byte-gleich); das Wochenprogramm bestätigt nur, es belegt kein Ausbleiben. Möglicher kleiner Ersatz (nicht gebaut): Wochenprogramm-Zeile
   vorhanden, Folge am Sendetag nicht im Crunchyroll-Katalog (`crunchyroll-neu`) → „ausgeblieben“-Kandidat.
+- **Foto-Belege (Folgepunkt, 27.10.2026):** `messbelege.ts` legt keine Kalenderfotos mehr an (`lib/messbeleg-auftraege.ts`, `KALENDER_ERREICHBAR = false`): das
+  Bild von `kalenderTag(tag)` zeigte die Zielseite der Umleitung, nicht den Tag. Bereits abgelegte Fotos bleiben. Wächter: `check-messbelege-kalender.ts`.
 - **Nicht gebaut:** News-Artikel unter `/de/news/latest` (`cr-news-api-service…`) als zweite Quelle. Kein Bedarf aus der Messung; Sprache
   und Uhrzeit stehen dort nicht verlässlich. Bleibt Option, falls das Wochenprogramm ausfällt.
 

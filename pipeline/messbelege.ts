@@ -11,6 +11,8 @@
  * Ohne Ablage (kein Token, Worker nicht erreichbar) wird nichts vermerkt — der nächste Lauf
  * versucht es wieder. Nur Vermerke der letzten 14 Tage: Danach zeigt die Seite einen anderen Stand.
  *
+ * Seit der Umleitung des Kalenders (21.10.2026) legt er nichts mehr an (`lib/messbeleg-auftraege.ts`).
+ *
  * Aufruf: npx tsx pipeline/messbelege.ts
  */
 import { gzipSync } from 'node:zlib'
@@ -21,7 +23,8 @@ import { bannerEntfernen } from './lib/cookie-banner.ts'
 import { recordSource } from './lib/health.ts'
 import { kalenderTag } from './lib/news-verspaetung.ts'
 import { todayIso } from '../shared/time.ts'
-import { messbelegSchluessel, offeneMessbelege } from './lib/ausgeblieben.ts'
+import { messbelegSchluessel } from './lib/ausgeblieben.ts'
+import { KALENDER_ERREICHBAR, messbelegAuftraege } from './lib/messbeleg-auftraege.ts'
 import type { Messbeleg, VerpassterTermin } from './termine-pruefen.ts'
 
 const DATEI = 'data/termine-verpasst.json'
@@ -32,9 +35,12 @@ const HOECHSTENS = 6
 async function main(): Promise<void> {
   if (!process.env.LAUF_TOKEN) return recordSource('messbelege', 0, 'kein LAUF_TOKEN')
   const verpasst = readJson<VerpassterTermin[]>(DATEI, [])
-  const auftraege = offeneMessbelege(verpasst, todayIso(), HOECHSTENS)
+  const auftraege = messbelegAuftraege(verpasst, todayIso(), HOECHSTENS)
   /* Nichts offen ist der Normalfall, kein Ausfall. */
-  if (!auftraege.length) return recordSource('messbelege', 0, undefined, 0, true)
+  if (!auftraege.length) {
+    if (!KALENDER_ERREICHBAR) log('Messbelege: Kalender entfallen (Umleitung auf /de/simulcasts), keine Fotos')
+    return recordSource('messbelege', 0, undefined, 0, true)
+  }
   const browser = await chromium.launch()
   let abgelegt = 0
   try {
