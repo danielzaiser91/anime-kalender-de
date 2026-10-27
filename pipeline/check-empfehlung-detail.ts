@@ -8,7 +8,7 @@ import type { Kandidat } from '../shared/empfehlung-pool.ts'
 import type { Title } from '../shared/types.ts'
 import { attrappeUhr, ignoriereCss, installiereMiniDom, klicke, type MiniKnoten } from '../tools/mini-dom.ts'
 ignoriereCss()
-const { Handlung, Leinwand } =await import('../web/src/components/empfehlung/Leinwand.tsx')
+const { Handlung, Leinwand } = await import('../web/src/components/empfehlung/Leinwand.tsx')
 const { Kopfzeile } = await import('../web/src/components/empfehlung/Kopfzeile.tsx')
 
 let verletzt = 0
