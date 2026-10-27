@@ -1,4 +1,4 @@
-import { AntwortKastenMitMarke } from './kasten-marke.tsx'
+import { KastenMitFolgenKarte } from './kasten-folgen.tsx'
 import { FolgenMitNachlegern } from './nachleger-zeilen.tsx'
 import { deutscheBereicheDerWege } from './stream-bereiche.ts'
 import type { StreamLink, Release, Title, DiscAusgabe } from '@shared/types.ts'
@@ -43,7 +43,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
   return (
     <>
       {antwort && (
-        <AntwortKastenMitMarke
+        <KastenMitFolgenKarte
           pillenGruppen={
             new Map([
               ...zeilenGruppen(sortiertNachZugang, title, releases),

@@ -1,7 +1,8 @@
 import { PLATFORMS, type Release, type Title, type DiscAusgabe, type StreamLink } from '@shared/types.ts'
 import { streamNurOmu, synchroAngekuendigt } from '@shared/ankuendigung.ts'
 import { anzeigeName } from '@shared/titles.ts'
-import { farbeZuAnbieter, istToggo, discPillen } from './pillen.tsx'
+import { farbeZuAnbieter, istToggo } from './pillen.tsx'
+import { DiscBereich } from './disc-bereich.tsx'
 import { TerminZeile } from './termin-zeile.tsx'
 import { Pille, DubStatus } from './pille.tsx'
 import { istAnnahme, streamStatus, streamWegStatus } from './legende-zeilen.ts'
@@ -279,7 +280,7 @@ function kaufwegPillen({ sortiertNachZugang, t, folgenAngabeFuer, discAusgaben }
 }
 
 /** Die Zeilen unter „Disc": Händler, aniSearch-Ausgaben, Disc-Termine. */
-export function discZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, discAusgaben, discOffen, setDiscOffen, discReleases }: {
+export function discZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, discAusgaben, discReleases }: {
   sortiertNachZugang: Sortiert
   title: Title
   t: Translate
@@ -294,9 +295,8 @@ export function discZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFu
     **Disc ist, was man kauft** — Händler und Vorbestellungen. Vier Ausgaben desselben Verlags
     sind **eine** Auskunft: eine Pille je Shop, die Zahl der Ausgaben in der zweiten Zeile.
   */
-  return [
-    ...discPillen(discAusgaben, discOffen, () => setDiscOffen((o) => !o), t as unknown as (k: string, v?: Record<string, string | number>) => string),
-    ...kaufwegPillen({ sortiertNachZugang, t, folgenAngabeFuer, discAusgaben }),
-    ...discReleases.map((r) => <TerminZeile key={r.slug} release={r} titel={anzeigeName(title)} today={today} />),
-  ]
+  const kaufwege = kaufwegPillen({ sortiertNachZugang, t, folgenAngabeFuer, discAusgaben })
+  /* Die Varianten stehen als Matrix (Mockup B3, F96); ohne Ausgabe und Termin bleiben nur die Kaufwege. */
+  if (!discAusgaben.length && !discReleases.length) return kaufwege
+  return [<DiscBereich key="disc-bereich" title={title} today={today} discAusgaben={discAusgaben} discReleases={discReleases} kaufwege={kaufwege} />]
 }

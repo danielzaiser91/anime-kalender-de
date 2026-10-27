@@ -1,5 +1,4 @@
 import { mockup } from '../register.ts'
-import { KastenFolgenDarunter } from './disc-bereich-2-kasten.tsx'
 import { DiscChips, DiscDropdown, DiscGruppen } from './disc-bereich-2-varianten.tsx'
 
 /*
@@ -8,6 +7,8 @@ import { DiscChips, DiscDropdown, DiscGruppen } from './disc-bereich-2-varianten
   wo es Gesamtausgaben oder Boxen gibt; die Folgenliste unter dem Kasten; der Kalendereintrag als Knopf über die Zeilenbreite.
   Händlerlinks: Amazon nur als `/dp/<ASIN>`; die Daten kennen für diese Fälle keine ASIN (nur Suchadressen) — das Mockup zeigt
   den Link, wie er mit ASIN aussähe (Platzhalter `ASIN-FEHLT`). „Vorher“ ist die Seite.
+  Stand 27.10.2026 (F96): Daniel hat B3 gewählt und die Seite zeigt es echt (`detail/disc-bereich.tsx`, Folgenkarte in
+  `detail/kasten-folgen.tsx`); „Vorher“ gleicht deshalb B3 bis auf den Platzhalter-Link. Das Mockup bleibt bis nach dem Merge.
 */
 mockup({
   name: 'disc-bereich-2',
@@ -16,15 +17,15 @@ mockup({
   faelle: ['sakamoto-days-disc', 'fernsehtag-detektiv-conan-disc', 'dan-da-dan-disc'],
   varianten: {
     B1: {
-      ersatz: { DiscBereich: DiscDropdown, AntwortKasten: KastenFolgenDarunter },
+      ersatz: { DiscBereich: DiscDropdown },
       notiz: 'Dropdown „Version“ (Alle, nur Boxen, nur Blu-ray …) über der Matrix; ein Tipp auf die Zeile klappt Händler und Kalendereintrag direkt darunter auf. Volumes hinter dem Ausklapper, wo es Gesamtausgaben oder Boxen gibt.',
     },
     B2: {
-      ersatz: { DiscBereich: DiscChips, AntwortKasten: KastenFolgenDarunter },
+      ersatz: { DiscBereich: DiscChips },
       notiz: 'Zwei Chip-Reihen (Format, Art) filtern die Matrix; die gewählte Variante steht mit Händler und Kalendereintrag in einer Karte, die am unteren Rand des Panels mitläuft.',
     },
     B3: {
-      ersatz: { DiscBereich: DiscGruppen, AntwortKasten: KastenFolgenDarunter },
+      ersatz: { DiscBereich: DiscGruppen },
       notiz: 'Die Matrix nach Art gruppiert: Gesamtausgaben und Boxen offen, Volumes und Filme zugeklappt (Zahl und Jahre am Kopf); Händler klappen unter der Zeile auf.',
     },
   },

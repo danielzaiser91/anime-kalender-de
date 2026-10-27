@@ -80,7 +80,6 @@ pipeline/check-cr-neu-wache.ts
 pipeline/check-cr-teilseiten-bestand-kulisse.ts
 pipeline/check-cr-teilseiten.ts
 pipeline/check-cr-termine-neu.ts
-pipeline/check-cr-zeit-woche.ts
 pipeline/check-datei-kennungen.ts
 pipeline/check-daten-adressen.ts
 pipeline/check-daten-kennung.ts
@@ -88,6 +87,7 @@ pipeline/check-db-relevanz.ts
 pipeline/check-detektiv-funde.ts
 pipeline/check-deutsche-folgenzahl-hinweis.ts
 pipeline/check-deutsche-folgenzahl.ts
+pipeline/check-disc-bereich.ts
 pipeline/check-disc-ean.ts
 pipeline/check-disc-suchlinks.ts
 pipeline/check-disc-teil-hinweis.ts
