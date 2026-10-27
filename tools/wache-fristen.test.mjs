@@ -61,6 +61,8 @@ assert.deepEqual(befunde, [
 ])
 assert.equal(zeilen.length, 13) // alle außer dem Abruf-Fehler
 assert.ok(zeilen[0].includes('refresh-hourly.yml') && zeilen[0].includes('vor 4.0 h') && zeilen[0].includes('erlaubt 3 h'))
+// Eigene Tabelle wird benutzt
+assert.deepEqual(pruefeFristen(() => vor(5), JETZT, { 'x.yml': 4, 'y.yml': 6 }), ['x.yml: letzter erfolgreicher Lauf vor 5 h, erlaubt 4 h'])
 // Alles frisch -> keine Befunde (Gegenprobe)
 assert.deepEqual(pruefeFristen(() => vor(1), JETZT), [])
 
