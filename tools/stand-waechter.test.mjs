@@ -157,4 +157,17 @@ assert.equal(
   'alles zugleich',
 )
 assert.equal(w.waechter(['## Top-Prios', '## Andere', ...ziel(9), '- **X** {live}'].join('\n'), JETZT), '', 'andere Abschnitte')
-console.log('stand-waechter.test: ok (20/21 Handzeilen, Als Nächstes 80/81 Zeilen und 400/401 Zeichen, Icon, Block zählt nicht, Alter 24 h Sommer/Winter, ohne Stand, Lauf meldet, Top-Prios 5/6, {live}, Stand 72 h)')
+// Jetzt-Zeilen: Kennung F<n>/E<n> und Grund mit Verb (kann/darf/soll nicht); 📅-Terminzeilen und Einrückungen zählen nicht
+const jetzt = (...zeilen) => ['## Top-Prios', '### Jetzt', ...zeilen, '', '### Später', '- 🔵 **Spät** ohne Kennung', '## In Arbeit' + FRISCH].join('\n')
+const OK = '- 🔵 **F74 Filterleiste?** (soll nicht: Gestaltung) — drei Entwürfe'
+const KENNUNG = 'Jetzt: 1 Zeile (Form?) ohne Kennung F<n>/E<n>'
+const GRUND = 'Jetzt: 1 Zeile (Form?) ohne Grund „kann/darf/soll nicht“'
+assert.equal(w.waechter(jetzt(OK, '- 🟠 **E28 Dai melden** (kann nicht: Prime-Konto) → x', '- 🟠 **F3 X** (darf nicht: Geld)'), JETZT), '', 'korrekte Zeilen')
+assert.equal(w.waechter(jetzt('- 🟠 **Dai melden** (kann nicht: Prime-Konto)'), JETZT), 'Jetzt: 1 Zeile (Dai melden) ohne Kennung F<n>/E<n>', 'ohne Kennung')
+assert.equal(w.waechter(jetzt('- 🔵 **F75 Form?** — drei Entwürfe'), JETZT), GRUND.replace('Form?', 'F75 Form?'), 'ohne Grund')
+assert.equal(w.waechter(jetzt('- 🔵 **Form?** — x'), JETZT), `${KENNUNG}; ${GRUND}`, 'beides fehlt')
+assert.equal(w.waechter(jetzt(OK, '  - Detail ohne alles', '- 📅 **Do 05.11.** Termin'), JETZT), '', 'Unterzeile und Terminzeile')
+assert.equal(w.waechter(jetzt('- 🔵 **EF1 Form?** (soll nicht: x)'), JETZT), KENNUNG.replace('Form?', 'EF1 Form?'), 'Kennung nur als ganzes Wort mit Ziffern')
+assert.equal(w.waechter('### Jetzt\n- 🔵 **Form?**', JETZT), `${KENNUNG}; ${GRUND}`, 'letzter Abschnitt')
+assert.equal(w.waechter(jetzt('- 🔵 **Form?**').replace('### Jetzt', '### Heute'), JETZT), '', 'anderer Abschnitt')
+console.log('stand-waechter.test: ok (Jetzt-Zeilen Kennung/Grund, 20/21 Handzeilen, Als Nächstes 80/81 Zeilen und 400/401 Zeichen, Icon, Block zählt nicht, Alter 24 h Sommer/Winter, ohne Stand, Lauf meldet, Top-Prios 5/6, {live}, Stand 72 h)')

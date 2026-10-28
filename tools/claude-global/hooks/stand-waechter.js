@@ -80,10 +80,28 @@ function aufzaehlung(zeilen) {
   return `${zeilen.length} ${zeilen.length === 1 ? 'Zeile' : 'Zeilen'} (${titel}${zeilen.length > 3 ? ' u. a.' : ''})`
 }
 
+const KENNUNG = /\b[FE]\d+\b/
+const GRUND = /\b(?:kann|darf|soll) nicht\b/
+
+/** Meldungen zu „### Jetzt“: jede Handlungs-/Fragezeile trägt F<n>/E<n> und einen Grund mit Verb (Daniel 20.10.2026); 📅-Terminzeilen und Unterzeilen zählen nicht. */
+function jetztZeilen(zeilen) {
+  const kopf = zeilen.findIndex((z) => z.startsWith('### Jetzt'))
+  if (kopf < 0) return []
+  let ende = zeilen.findIndex((z, i) => i > kopf && z.startsWith('#'))
+  if (ende < 0) ende = zeilen.length
+  const liste = zeilen.slice(kopf + 1, ende).filter((z) => z.startsWith('- ') && !z.startsWith('- 📅'))
+  const meldungen = []
+  const ohneKennung = liste.filter((z) => !KENNUNG.test(z))
+  if (ohneKennung.length) meldungen.push(`Jetzt: ${aufzaehlung(ohneKennung)} ohne Kennung F<n>/E<n>`)
+  const ohneGrund = liste.filter((z) => !GRUND.test(z))
+  if (ohneGrund.length) meldungen.push(`Jetzt: ${aufzaehlung(ohneGrund)} ohne Grund „kann/darf/soll nicht“`)
+  return meldungen
+}
+
 /** Meldungstext oder '' (alles in Ordnung). */
 function waechter(text, jetzt) {
   const zeilen = text.split(/\r?\n/)
-  const meldungen = [...topPrios(zeilen, jetzt), ...naechstes(zeilen)]
+  const meldungen = [...topPrios(zeilen, jetzt), ...jetztZeilen(zeilen), ...naechstes(zeilen)]
   const kopf = zeilen.findIndex((z) => z.startsWith('## In Arbeit'))
   if (kopf < 0) return meldungen.join('; ')
   let ende = zeilen.findIndex((z, i) => i > kopf && z.startsWith('## '))
