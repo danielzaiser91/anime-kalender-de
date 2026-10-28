@@ -54,7 +54,15 @@ const drop = { slug: 'drop', titleId: 900001, name: 'T', platform: 'netflix', re
 const netflix: StreamLink = { platform: 'netflix', url: 'https://www.netflix.com/title/1', dub: true, zugang: 'abo' }
 pruefe('Komplettdrop (batch, keine Folgennummern): voll', text(deutscheFolgen(titel([netflix]), undefined, '2026-10-26', 12, weg([drop], '2026-10-26'))) === '1-12')
 const start = { slug: 'start', titleId: 213805, name: 'The Ramparts of Ice: Staffel 2', platform: 'netflix', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-10-01', estimated: true } } as unknown as Release
-pruefe('Nur Starttermin ohne Folgenzahl (213805, wörtlich): kein Plan, voll', text(deutscheFolgen(titel([netflix]), undefined, '2026-10-26', 12, weg([start], '2026-10-26'))) === '1-12')
+pruefe('Wochenstart ohne Folgenzahl (213805, wörtlich), 26.10.: vier Donnerstage, deutsch 1-4 statt 1-12', text(deutscheFolgen(titel([netflix]), undefined, '2026-10-26', 12, weg([start], '2026-10-26'))) === '1-4')
+pruefe('213805 am Starttag: 1', weg([start], '2026-10-01').get('netflix') === 1)
+pruefe('213805 sechs Tage nach dem Start: noch 1', weg([start], '2026-10-07').get('netflix') === 1)
+pruefe('213805 sieben Tage nach dem Start: 2', weg([start], '2026-10-08').get('netflix') === 2)
+pruefe('213805 am 28.10.: 4', weg([start], '2026-10-28').get('netflix') === 4)
+pruefe('Wochenstart vor dem Start: 0', weg([start], '2026-09-30').get('netflix') === 0)
+const startNr = { ...start, schedule: { ...start.schedule, firstEpisodeNumber: 101 } } as unknown as Release
+pruefe('Wochenstart ab Folge 101, nach 14 Tagen: 103', weg([startNr], '2026-10-15').get('netflix') === 103)
+pruefe('Wochenstart ohne Datum: 0', weg([{ ...start, schedule: {} } as unknown as Release], '2026-10-26').get('netflix') === 0)
 pruefe('Wochenplan eines anderen Anbieters begrenzt den Weg nicht', text(deutscheFolgen(titel([netflix]), undefined, '2026-10-26', 12, weg([wochen('crunchyroll', '2026-10-04', 12)], '2026-10-26'))) === '1-12')
 const mitBereich: StreamLink = { ...netflix, dubRanges: [{ from: 1, to: 8, dub: true }] }
 pruefe('Weg mit Bereichen bleibt, wie belegt', text(deutscheFolgen(titel([mitBereich]), undefined, '2026-10-26', 12, weg([wochen('netflix', '2026-10-04', 12)], '2026-10-26'))) === '1-8')
