@@ -13,26 +13,27 @@ function folgestaffelNr(block: CrStaffel): number | null {
 
 /**
  * Deutscher Block „Staffel N“ (N ≥ 2) einer Crunchyroll-Serie gehört dem einen TV-Titel derselben Reihe mit Staffelnummer N,
- * der noch keinen Crunchyroll-Weg hat. Anlass 28.10.2026: The Detective Is Already Dead Staffel 2 (152677) lief deutsch, blieb aber
- * „nur Untertitel“, weil die Adresse nur an Staffel 1 hing und die laufende Staffel (4 von 13 Folgen) keine der Block-Regeln erfüllt.
- * Eng: genau ein Kandidat, kein Titel der Adresse trägt die Nummer schon, deutsche Folge liegt nicht hinter dem Ende des Titels,
- * der Block hat nicht mehr Folgen als der Titel. Laufende Staffeln haben zu diesem Zeitpunkt des Baus noch keine Folgenzahl
- * (`episodes` fehlt, erst eine spätere Phase setzt sie): dann entfallen die beiden Folgenzahl-Vergleiche, es bleibt die Nummer.
+ * der noch keinen deutschen Weg hat: entweder gar keinen Crunchyroll-Weg oder (Anlass 28.10.2026, The Detective Is Already Dead
+ * Staffel 2, 152677) schon den Weg dieser Adresse ohne Sprachurteil (`dub` fehlt), den der Katalog-Abgleich später sonst entfernt.
+ * Eng: genau ein Kandidat, kein anderer TV-Titel der Adresse trägt die Nummer schon, ein anderer Crunchyroll-Weg oder ein
+ * Urteil (`dub` gesetzt) schließt aus, deutsche Folge liegt nicht hinter dem Ende des Titels, der Block hat nicht mehr Folgen als der Titel. Hat der Titel keine Folgenzahl, entfallen beide
+ * Folgenzahl-Vergleiche, es bleibt die Nummer.
  */
-export function folgestaffelTitel(block: CrStaffel, gruppe: Title[], titles: Iterable<Title>): Title | null {
+export function folgestaffelTitel(block: CrStaffel, gruppe: Title[], titles: Iterable<Title>, url: string): Title | null {
   const nr = folgestaffelNr(block)
   if (nr === null || !(block.deutscheFolgen?.length ?? block.deutsch ?? 0)) return null
-  if (gruppe.some((t) => t.format === 'TV' && titelStaffelNr(t) === nr)) return null
   const reihen = new Set(gruppe.map((t) => t.franchiseId ?? t.id))
   const passend = [...titles].filter(
     (t) =>
       t.format === 'TV' &&
       reihen.has(t.franchiseId ?? t.id) &&
       titelStaffelNr(t) === nr &&
-      !t.streams.some((s) => s.platform === 'crunchyroll'),
+      t.streams.every((s) => s.platform !== 'crunchyroll' || (s.url === url && s.dub === undefined)),
   )
   if (passend.length !== 1) return null
   const t = passend[0]!
+  /* Trägt ein anderer TV-Titel der Adresse die Nummer schon, ist sie vergeben. */
+  if (gruppe.some((g) => g.id !== t.id && g.format === 'TV' && titelStaffelNr(g) === nr)) return null
   if (t.episodes && (block.folgen ?? 0) > t.episodes) return null
   if (deutscheFolgenNachDemEnde([block], t.episodes)) return null
   return t
@@ -63,12 +64,16 @@ export function ordneFolgestaffelBloeckeZu({ crDub, nachUrl, titles, handNein }:
     const gruppe = new Map<number, Title>()
     for (const [url, ts] of nachUrl) if (adressen.has(url) || kennungAusZiel(url) === kennung) for (const t of ts) gruppe.set(t.id, t)
     for (const block of serie.staffeln ?? []) {
-      const t = folgestaffelTitel(block, [...gruppe.values()], titles.values())
+      const t = folgestaffelTitel(block, [...gruppe.values()], titles.values(), serie.url)
       if (!t || wegVerneint(handNein, t.id, 'crunchyroll', serie.url)) continue
       const ranges = bereiche(block)
       const voll = ranges.length === 1 && ranges[0]!.from === 1 && ranges[0]!.to === t.episodes
-      t.streams.push({ platform: 'crunchyroll', url: serie.url, dub: true, ...(ranges.length && !voll ? { dubRanges: ranges } : {}) })
-      nachUrl.set(serie.url, [...(nachUrl.get(serie.url) ?? []), t])
+      const urteil = { dub: true, ...(ranges.length && !voll ? { dubRanges: ranges } : {}) }
+      const vorhanden = t.streams.find((s) => s.platform === 'crunchyroll')
+      if (vorhanden) Object.assign(vorhanden, urteil)
+      else t.streams.push({ platform: 'crunchyroll', url: serie.url, ...urteil })
+      const liste = nachUrl.get(serie.url) ?? []
+      if (!liste.includes(t)) nachUrl.set(serie.url, [...liste, t])
       gesetzt.push(t.id)
     }
   }
