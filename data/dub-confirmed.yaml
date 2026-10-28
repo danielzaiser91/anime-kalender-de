@@ -22313,8 +22313,10 @@
       to: 12
       dub: false
       checked: [12]
+  # Folge 12 ist die „Bonus Recap Episode (OmU)“ (ASIN B0DBRBXJ4R, 5. Juli 2023): keine der 11 Folgen des Titels.
+  sonderfolgen: [12]
   checkedAt: '2026-09-29'
-  note: "Folgen 1–11 mit deutschem Ton, Folge 12 ohne deutschen Ton — Tonspuren: 日本語 — Amazon-Seite B0B7D5DRV2: alle 12 Folgen geprüft, Abos: Prime, aniversede, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.30d69164-5a13-4547-80b7-4d7df334762a"
+  note: "Folgen 1–11 mit deutschem Ton, Folge 12 ohne deutschen Ton — Tonspuren: 日本語 — Amazon-Seite B0B7D5DRV2: alle 12 Folgen geprüft, Abos: Prime, aniversede, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.30d69164-5a13-4547-80b7-4d7df334762a — Folge 12 ist die Bonus-Recap-Folge (nur Originalton mit Untertiteln), keine Folge des Titels"
 - anilistId: 123899
   title: "Sing a Bit of Harmony"
   platform: primevideo
@@ -32219,9 +32221,11 @@
       to: 40
       dub: false
       checked: [40]
+  # Folge 40 „Diavolo taucht auf“ (ASIN B0CGVS85KY) gehört zu Golden Wind (Teil 5), nicht zu Diamond Is Unbreakable (39 Folgen): fremde Folge auf der Kanalseite.
+  sonderfolgen: [40]
   kanalMessung: ja
   checkedAt: '2026-10-13'
-  note: "Folge 1 mit deutschem Ton, Folge 2 ohne deutschen Ton, Folgen 3–6 mit deutschem Ton, Folge 7 ohne deutschen Ton, Folgen 8–9 mit deutschem Ton, Folge 10 ohne deutschen Ton, Folgen 11–12 mit deutschem Ton, Folge 13 ohne deutschen Ton, Folge 14 mit deutschem Ton, Folgen 15–16 ohne deutschen Ton, Folge 17 mit deutschem Ton, Folgen 18–20 ohne deutschen Ton, Folge 21 mit deutschem Ton, Folge 22 ohne deutschen Ton, Folge 23 mit deutschem Ton, Folge 24 ohne deutschen Ton, Folge 25 mit deutschem Ton, Folge 26 ohne deutschen Ton, Folge 27 mit deutschem Ton, Folge 28 ohne deutschen Ton, Folge 29 mit deutschem Ton, Folge 30 ohne deutschen Ton, Folgen 31–32 mit deutschem Ton, Folgen 33–34 ohne deutschen Ton, Folgen 35–39 mit deutschem Ton, Folge 40 ohne deutschen Ton — Tonspuren: Français, 日本語 — Amazon-Seite B0GXK7RJFW: nur 40 von 78 Folgen geladen — Rest ungeprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.e39b876a-34a9-4453-af4b-afc0d0ae2182 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  note: "Folge 40 „Diavolo taucht auf“ gehört zu Golden Wind, nicht zu diesem Titel — Folge 1 mit deutschem Ton, Folge 2 ohne deutschen Ton, Folgen 3–6 mit deutschem Ton, Folge 7 ohne deutschen Ton, Folgen 8–9 mit deutschem Ton, Folge 10 ohne deutschen Ton, Folgen 11–12 mit deutschem Ton, Folge 13 ohne deutschen Ton, Folge 14 mit deutschem Ton, Folgen 15–16 ohne deutschen Ton, Folge 17 mit deutschem Ton, Folgen 18–20 ohne deutschen Ton, Folge 21 mit deutschem Ton, Folge 22 ohne deutschen Ton, Folge 23 mit deutschem Ton, Folge 24 ohne deutschen Ton, Folge 25 mit deutschem Ton, Folge 26 ohne deutschen Ton, Folge 27 mit deutschem Ton, Folge 28 ohne deutschen Ton, Folge 29 mit deutschem Ton, Folge 30 ohne deutschen Ton, Folgen 31–32 mit deutschem Ton, Folgen 33–34 ohne deutschen Ton, Folgen 35–39 mit deutschem Ton, Folge 40 ohne deutschen Ton — Tonspuren: Français, 日本語 — Amazon-Seite B0GXK7RJFW: nur 40 von 78 Folgen geladen — Rest ungeprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.e39b876a-34a9-4453-af4b-afc0d0ae2182 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 - anilistId: -229153
   title: "Captain Fall"
   platform: netflix
@@ -39085,6 +39089,13 @@
       checked: [1, 2, 3, 4]
   checkedAt: '2026-10-24'
   note: "Folgen 1–4 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, hi|Hindi, id|Indonesisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch — Gemessen in der Randprobe — gemessen: Folge 25 und 28, dazwischen nicht geprüft — Folge 28: Teekampfzeremonie — Netflix: Staffel 3"
+- anilistId: 138103
+  title: "How Heavy Are the Dumbbells You Lift? Gnadenlose Trainingsstunde"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CZSMKH71
+  available: false
+  checkedAt: '2026-10-28'
+  note: "Daniels Urteil vom 13.09. gilt weiter: Die Seite ist die Hauptserie als Kauftitel, nicht das Special. Die Tonspurmessung vom 16.10. (12 Folgen) liest dieselbe Hauptserie und widerlegt das nicht."
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-10-28 ---
 

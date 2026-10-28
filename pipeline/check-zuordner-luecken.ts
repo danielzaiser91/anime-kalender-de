@@ -161,6 +161,23 @@ pruefe('ein Titel, der mit E anfängt, bleibt', folgenKern('Eden of the East') !
   pruefe('ohne Treffer nennt das Protokoll den ersten Anker', keinTreffer.quelle === 'aniSearch', keinTreffer.quelle)
   const enBd = ausAnisearch([{ nr: 1, de: 'Deutsch', en: 'English Title BD' }])
   pruefe('„ BD“ am englischen Titel wird in der zweiten Schreibweise entfernt', englischeSchreibweisen([{ nr: 1, de: 'Deutsch', en: 'English Title BD' }])[0]!.titel === 'English Title' && enBd.length === 1)
+  /* Oshi no Ko (aniSearch 17452), Folge 5 und 9 wörtlich aus data/anisearch-folgen.json: Kern von de und en gleich; Folge 10 erfunden (Kern verschieden). */
+  const oshi: AsFolgeRoh[] = [
+    { nr: 5, datum: '2023-05-10', minuten: 24, de: 'Reality-Datingshow', en: 'Reality Dating Show' },
+    { nr: 9, datum: '2023-06-14', minuten: 25, de: 'B-Komachi', en: 'B Komachi' },
+    { nr: 10, de: 'Deutsch zehn', en: 'English ten' },
+  ]
+  const oshiPrime: AnbieterFolge[] = [
+    { nummer: 5, titel: 'Reality-Datingshow', datum: null, minuten: null },
+    { nummer: 9, titel: 'B-Komachi', datum: null, minuten: null },
+    { nummer: 10, titel: 'English ten', datum: null, minuten: null },
+  ]
+  pruefe('gleicher Kern in de und en: keine zweite Zeile', englischeSchreibweisen(oshi.slice(0, 2)).length === 0)
+  pruefe('verschiedener Kern bleibt zweiter Versuch', englischeSchreibweisen(oshi).map((f) => f.e).join() === '10')
+  pruefe('„ BD“ im deutschen Titel zählt beim Kernvergleich nicht', englischeSchreibweisen([{ nr: 1, de: 'Gleich BD', en: 'Gleich' }]).length === 0)
+  pruefe('„ BD“ im englischen Titel zählt beim Kernvergleich nicht', englischeSchreibweisen([{ nr: 1, de: 'Gleich', en: 'Gleich BD' }]).length === 0)
+  const oshiPaare = ordneZu(oshiPrime, [...ausAnisearch(oshi), ...englischeSchreibweisen(oshi)])
+  pruefe('Oshi no Ko Folge 5, 9 und englisch geführte 10 werden zugeordnet', oshiPaare.map((p) => p.unsere).join() === '5,9,10', oshiPaare.map((p) => p.unsere).join())
   const knapp: Record<number, AsFolgeRoh[]> = { 1: s2.slice(0, 6), 2: [], 3: [] }
   pruefe('genau die Hälfte (6 von 12) genügt nicht', probeGeschwister(gelesen, gemeldet, alle, (t) => sammleAnker(knapp[t.id], undefined, t).listen, keine) === null)
 }

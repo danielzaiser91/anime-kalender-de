@@ -236,6 +236,7 @@ console.log('\nHandbelege gegen den Bestand')
     Solche Belege entstehen bei jedem Zuordnungsauftrag, bis er abgearbeitet ist
     — ein Messwert von heute ist hier keine Invariante (CLAUDE.md, „Eine
     Prüfung, die rot wird, weil die Arbeit erledigt ist").
+    Messwert 28.10.2026: 4 (vorher 6; Oshi no Ko Folge 12 und JoJo Folge 40 stehen als `sonderfolgen`).
   */
   pruefe('Handbelege: höchstens 8 nennen Folgen über der Folgenzahl ihres Titels', drueber.length <= 8, drueber)
   /*
