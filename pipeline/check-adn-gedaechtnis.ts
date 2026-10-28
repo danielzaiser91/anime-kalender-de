@@ -26,6 +26,8 @@
  * **fehlenden** `vde` niemals ein Nein wird.
  */
 import { ergaenzeAusHistorie, type VdeHistorie } from './lib/adn-vde-historie.ts'
+import { franzoesischeArchive } from './lib/adn-sprachriegel.ts'
+import { ROOT } from './lib/util.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown) {
@@ -100,6 +102,11 @@ console.log('ADN-Gedächtnis: ein einmal belegtes vde geht nicht verloren\n')
   const historie: VdeHistorie = {}
   ergaenzeAusHistorie(historie, '1383', killBlue(), '2026-08-24', false)
   pruefe('ohne Pflege-Auftrag wird nichts geschrieben', Object.keys(historie).length === 0, historie)
+}
+{
+  // Lücke vom 28.10.2026: 24 Archive trugen nur vostf/vf, der Bestand blieb trotzdem grün.
+  const franz = franzoesischeArchive(`${ROOT}/data/adn-raw`)
+  pruefe('kein Archiv trägt nur französische Sprachkürzel (vostf/vf)', franz.length === 0, franz)
 }
 
 console.log()

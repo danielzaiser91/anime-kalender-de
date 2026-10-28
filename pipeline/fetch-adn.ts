@@ -15,14 +15,15 @@
  *
  * Aufruf: npx tsx pipeline/fetch-adn.ts [--from -30] [--to 60]
  */
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { gunzipSync, gzipSync } from 'node:zlib'
+import { gunzipSync } from 'node:zlib'
 import { addDays, diffDays, todayIso } from '../shared/time.ts'
 import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { episodeAus, katalogShowAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
+import { mitVerworfenenAlten, riegelBilanz, schreibeArchiv, verwirfFranzoesische, verworfen } from './lib/adn-sprachriegel.ts'
 import { fragNeuzugaenge, katalogMitNeuen } from './lib/adn-neuzugaenge.ts'
 import { ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
 import {
@@ -131,12 +132,8 @@ const KATALOG_DATEI = 'data/adn-catalog.json'
  * Dateien komplett neu, ein Sammelarchiv landete sonst bei jedem Lauf in voller
  * Größe in der Historie.
  */
-function archiviereSerie(showId: number, videos: AdnVideo[]): void {
-  if (!existsSync(ARCHIV_DIR)) mkdirSync(ARCHIV_DIR, { recursive: true })
-  const pfad = `${ARCHIV_DIR}/${showId}.json.gz`
-  const neu = gzipSync(JSON.stringify({ showId, videos }), { level: 9 })
-  if (existsSync(pfad) && readFileSync(pfad).equals(neu)) return
-  writeFileSync(pfad, neu)
+function archiviereSerie(showId: number, videos: AdnVideo[]): boolean {
+  return schreibeArchiv(ARCHIV_DIR, showId, videos)
 }
 
 /**
@@ -198,6 +195,8 @@ async function ladeSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch?
     if (seite.length < SEITE) break
     await sleep(700)
   }
+  // Französische Sicht ist keine Auskunft: wie ein Abbruch behandeln, damit Archiv, Katalog und Stand unberührt bleiben und die Serie wieder drankommt.
+  if (verwirfFranzoesische(showId, videos)) return { videos: [], abbruch: 'franzoesisch' }
   return { videos }
 }
 
@@ -525,8 +524,7 @@ async function main(): Promise<void> {
         warn(`ADN ${showId}: kein Ergebnis (${abbruch ?? 'leer'}) — alter Stand bleibt stehen.`)
         continue
       }
-      archiviereSerie(showId, videos)
-      geaendert++
+      if (archiviereSerie(showId, videos)) geaendert++
       await sleep(700)
     }
     log(`ADN: ${geaendert} von ${ids.length} laufenden Serien aufgefrischt`)
@@ -545,7 +543,8 @@ async function main(): Promise<void> {
     return
   }
   if (args.includes('--catalog')) {
-    const shows = await fetchCatalog()
+    const alterKatalog = readJson<AdnData>(KATALOG_DATEI, { scrapedAt: '', window: { from: '', to: '' }, shows: [] }).shows
+    const shows = mitVerworfenenAlten(alterKatalog, await fetchCatalog(), verworfen)
     writeJson(
       'data/adn-catalog.json',
       { scrapedAt: new Date().toISOString(), window: { from: '', to: '' }, shows } satisfies AdnData,
@@ -625,7 +624,13 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch((err) => {
-  console.error(err)
-  process.exit(1)
-})
+main()
+  .then(() => {
+    const bilanz = riegelBilanz(verworfen.length)
+    log(bilanz.zeile)
+    if (bilanz.rot) process.exitCode = 1
+  })
+  .catch((err) => {
+    console.error(err)
+    process.exit(1)
+  })
