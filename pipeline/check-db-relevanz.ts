@@ -2,7 +2,8 @@
  * Zusicherungen zur Gruppierung der Datenbank ohne Suche (Daniel, 09.10.2026): Maßgeblich ist die deutsche Erstausgabe,
  * ein späteres Neuerscheinen bei einem weiteren Anbieter zählt nicht. Aufruf: `npm run check:logic`.
  */
-import { gruppiereNachRelevanz, istGruppiert, ueberschriftSagtStatus } from '../web/src/lib/db-relevanz.ts'
+import { gruppiereNachRelevanz, istGruppiert, stufeReiheEin, ueberschriftSagtStatus } from '../web/src/lib/db-relevanz.ts'
+import { staffelMarken } from '../web/src/lib/db-staffel-marke.ts'
 import type { Release, Title } from '../shared/types.ts'
 
 let verletzt = 0
@@ -16,10 +17,10 @@ const HEUTE = '2026-10-09'
 const titel = (id: number, extra: Partial<Title> = {}) => ({ id, jpYear: 2020, streams: [], ...extra }) as unknown as Title
 const termin = (titleId: number, von: string, folgen: number) => ({ titleId, releaseType: 'weekly', schedule: { firstEpisodeDate: von, episodeCount: folgen } }) as unknown as Release
 const reihe = (...members: Title[]) => ({ main: members[0], members })
-const lauf = (gruppen: ReturnType<typeof reihe>[], releases: Release[]) => {
+const lauf = (gruppen: ReturnType<typeof reihe>[], releases: Release[], heute = HEUTE) => {
   const by = new Map<number, Release[]>()
   for (const r of releases) by.set(r.titleId, [...(by.get(r.titleId) ?? []), r])
-  return gruppiereNachRelevanz(gruppen, by, HEUTE)
+  return gruppiereNachRelevanz(gruppen, by, heute)
 }
 const art = (g: ReturnType<typeof lauf>, id: number) => g.find((x) => x.eintraege.some((e) => e.gruppe.main.id === id))?.art
 
@@ -118,6 +119,159 @@ pruefe('Platzhalter in der Zukunft (2030-01-01) ist kein Datum → „Ohne bekan
 pruefe('Cartoon ohne jedes Datum → „Ohne bekannten Termin"', art(gCartoon, 33) === 'unbekannt', art(gCartoon, 33))
 pruefe('Anime ohne Termin und mit nur einem japanischen Startdatum bleibt „Ohne bekannten Termin" (das ist keine deutsche Ausgabe)', art(gCartoon, 34) === 'unbekannt', art(gCartoon, 34))
 pruefe('Kein stiller Verlust: Summe der Gruppen = Gesamtzahl', gCartoon.reduce((n, g) => n + g.eintraege.length, 0) === cartoonTitel.length)
+
+console.log('\nDatenbank-Relevanz: „Demnächst" nur, solange die Staffel nirgends erschienen ist (Daniel, 26.10.2026; Daten: public/data vom 28.10.2026)')
+const H2 = '2026-10-28'
+const crDub = [{ platform: 'crunchyroll', dub: true, dubRanges: [{ from: 1, to: 12, dub: true }] }] as unknown as Title['streams']
+const lastBoss1 = titel(180523, { franchiseId: 180523, titleDe: 'A Wild Last Boss Appeared!', jpYear: 2025, format: 'ONA', deErstausgabe: { von: '2026-11-06', synchro: true }, streams: crDub })
+const lastBoss2 = titel(204389, { franchiseId: 180523, titleDe: 'A Wild Last Boss Appeared! Staffel 2', jpYear: 2026, format: 'ONA', streams: crDub })
+const bananaFish = titel(100388, { titleDe: 'Banana Fish', jpYear: 2018 })
+const cafe1 = titel(154412, { titleDe: 'The Café Terrace and Its Goddesses', deErstausgabe: { von: '2026-11-20', synchro: true }, streams: crDub })
+const g8 = lauf(
+  [reihe(lastBoss1), reihe(bananaFish), reihe(cafe1), reihe(titel(940001, { deErstausgabe: { von: '2026-11-20' } })), reihe(titel(940002)), reihe(titel(940003)), reihe(titel(940004)), reihe(titel(940005, { deErstausgabe: { von: '2026-11-20' } }))],
+  [
+    disc(180523, '2026-11-06'),
+    disc(100388, '2026-08-21'), disc(100388, '2026-11-06'),
+    disc(154412, '2026-11-20'),
+    plat(940001, 'tv', '2026-10-20', 12), // Fernsehen zählt nicht: die deutsche Erstausgabe steht noch aus
+    plat(940002, 'primevideo', '2026-10-01', 1, 'kauf'), disc(940002, '2026-12-01'), // digitaler Kauf zählt
+    { ...plat(940003, 'crunchyroll', '2026-10-01', 12), widerlegt: true } as unknown as Release, disc(940003, '2026-12-01'), // widerlegter Termin zählt nicht
+    plat(940004, 'crunchyroll', '2026-10-29', 12), // erst morgen: noch nicht erschienen
+    disc(940005, H2), // Disc heute: erschienen (Grenze)
+  ],
+  H2,
+)
+pruefe('Last Boss S1 (Crunchyroll-Synchro, Disc erst 06.11.) → „Schon erschienen"', art(g8, 180523) === 'erschienen', art(g8, 180523))
+pruefe('Banana Fish (Disc 21.08. vorbei, zweite Disc 06.11.) → „Schon erschienen"', art(g8, 100388) === 'erschienen', art(g8, 100388))
+pruefe('Café Terrace (Erstausgabe 20.11., aber Crunchyroll-Synchro) → „Schon erschienen"', art(g8, 154412) === 'erschienen', art(g8, 154412))
+pruefe('TV-Termin in der Vergangenheit macht nicht „erschienen": Erstausgabe 20.11. bleibt „Demnächst"', art(g8, 940001) === 'bald', art(g8, 940001))
+pruefe('digitaler Kauf in der Vergangenheit → „Schon erschienen"', art(g8, 940002) === 'erschienen', art(g8, 940002))
+pruefe('widerlegter Termin zählt nicht: künftige Disc → „Demnächst"', art(g8, 940003) === 'bald', art(g8, 940003))
+pruefe('Termin erst morgen → „Demnächst"', art(g8, 940004) === 'bald', art(g8, 940004))
+pruefe('Disc heute (Erstausgabe erst 20.11.) → „Schon erschienen"', art(g8, 940005) === 'erschienen', art(g8, 940005))
+
+// Ein Stream mit `dub: true` beweist das Erscheinen nur, wenn er deutsche Folgen nennt; sonst kann es eine Ankündigung sein.
+const mitStream = (id: number, stream: Record<string, unknown>) => titel(id, { deErstausgabe: { von: '2026-11-20' }, streams: [{ platform: 'crunchyroll', ...stream }] as unknown as Title['streams'] })
+const g8b = lauf(
+  [
+    reihe(mitStream(940011, { dub: true })),
+    reihe(mitStream(940012, { dub: true, dubRanges: [{ from: 1, to: 12, dub: false }] })),
+    reihe(mitStream(940013, { dub: true, dubRanges: [] })),
+    reihe(mitStream(940014, { dub: true, dubRanges: [{ from: 3, to: 2, dub: true }] })),
+    reihe(mitStream(940015, { dub: true, dubRanges: [{ from: 4, to: 4, dub: true }] })),
+    reihe(mitStream(940016, { dub: true, dubRanges: [{ from: 1, to: 6, dub: false }, { from: 7, to: 12, dub: true }] })),
+    reihe(mitStream(940017, { dubRanges: [{ from: 1, to: 12, dub: true }] })),
+    reihe(mitStream(940018, { dub: false, dubRanges: [{ from: 1, to: 12, dub: true }] })),
+  ],
+  [940011, 940012, 940013, 940014, 940015, 940016, 940017, 940018].map((id) => disc(id, '2026-11-20')),
+  H2,
+)
+pruefe('dub: true ohne Folgenbereiche (Ankündigung) und künftige Disc → „Demnächst"', art(g8b, 940011) === 'bald', art(g8b, 940011))
+pruefe('dub: true, aber der einzige Bereich ohne deutschen Ton → „Demnächst"', art(g8b, 940012) === 'bald', art(g8b, 940012))
+pruefe('dub: true mit leerer Bereichsliste → „Demnächst"', art(g8b, 940013) === 'bald', art(g8b, 940013))
+pruefe('dub: true mit umgekehrtem Bereich (3 bis 2) → „Demnächst"', art(g8b, 940014) === 'bald', art(g8b, 940014))
+pruefe('dub: true mit genau einer deutschen Folge (4 bis 4) → „Schon erschienen"', art(g8b, 940015) === 'erschienen', art(g8b, 940015))
+pruefe('dub: true, ein Bereich ohne, ein Bereich mit deutschem Ton → „Schon erschienen"', art(g8b, 940016) === 'erschienen', art(g8b, 940016))
+pruefe('Bereich mit deutschem Ton, aber Stream ohne dub: true → „Demnächst"', art(g8b, 940017) === 'bald', art(g8b, 940017))
+pruefe('Bereich mit deutschem Ton, aber dub: false → „Demnächst"', art(g8b, 940018) === 'bald', art(g8b, 940018))
+
+console.log('\nDatenbank-Relevanz: Kachel nennt die Staffel (titelId, Beschriftung)')
+const lb = stufeReiheEin([lastBoss1, lastBoss2], new Map([[180523, [disc(180523, '2026-11-06')]], [204389, [plat(204389, 'crunchyroll', '2026-10-24', 12)]]]), H2)
+pruefe('Last Boss: Reihe läuft, titelId ist Staffel 2 (nicht der Vertreter 180523)', lb.art === 'laeuft' && lb.titelId === 204389, lb)
+const seduction1 = titel(158559, { franchiseId: 158559, titleDe: '2.5 Dimensional Seduction', jpYear: 2024, jpSeason: 'SUMMER', format: 'TV', deErstausgabe: { von: '2025-08-29', synchro: true } })
+const seduction2 = titel(185515, { franchiseId: 158559, titleDe: '2.5 Dimensional Seduction', jpYear: undefined, jpSeason: undefined, format: 'TV' })
+const g9 = lauf([reihe(seduction1, seduction2), reihe(lastBoss1, lastBoss2), reihe(titel(940010))], [disc(158559, '2026-09-07'), disc(185515, '2026-10-30'), disc(180523, '2026-11-06'), plat(204389, 'crunchyroll', '2026-10-24', 12), disc(940010, '2026-12-01')], H2)
+const kacheln = g9.filter((x) => x.art === 'bald' || x.art === 'laeuft').flatMap((x) => x.eintraege.map((e) => ({ art: x.art, id: e.gruppe.main.id, titelId: e.titelId, staffel: e.staffel, mitglieder: e.gruppe.members.length })))
+const zwei = (a: [number, string, string], b: [number, string, string], kind: string) => {
+  const by2 = new Map<number, Release[]>([[a[0], [plat(a[0], 'crunchyroll', a[1], 12)]], [b[0], [plat(b[0], 'crunchyroll', b[1], 12)]]])
+  return stufeReiheEin([titel(a[0], { deErstausgabe: { von: a[1], bis: a[2] } }), titel(b[0], { deErstausgabe: { von: b[1], bis: b[2] } })], by2, kind)
+}
+const zweiLaeuft = zwei([940021, '2026-09-01', '2026-12-31'], [940022, '2026-10-01', '2026-12-31'], H2)
+pruefe('zwei laufende Staffeln: die jüngere liefert Datum und titelId', zweiLaeuft.titelId === 940022 && zweiLaeuft.ab === '2026-10-01', zweiLaeuft)
+const zweiLaeuftUmgekehrt = zwei([940023, '2026-10-01', '2026-12-31'], [940024, '2026-09-01', '2026-12-31'], H2)
+pruefe('zwei laufende Staffeln, Reihenfolge vertauscht: wieder die jüngere', zweiLaeuftUmgekehrt.titelId === 940023, zweiLaeuftUmgekehrt)
+const zweiBald = zwei([940025, '2026-12-01', '2027-02-28'], [940026, '2026-11-15', '2027-02-28'], H2)
+pruefe('zwei kommende Staffeln: die nähere liefert Datum und titelId', zweiBald.art === 'bald' && zweiBald.titelId === 940026 && zweiBald.ab === '2026-11-15', zweiBald)
+const zweiBaldUmgekehrt = zwei([940027, '2026-11-15', '2027-02-28'], [940028, '2026-12-01', '2027-02-28'], H2)
+pruefe('zwei kommende Staffeln, Reihenfolge vertauscht: wieder die nähere', zweiBaldUmgekehrt.titelId === 940027, zweiBaldUmgekehrt)
+const nurErschienen = stufeReiheEin([titel(940031, { deErstausgabe: { von: '2020-01-01', bis: '2020-03-31' } }), titel(940032, { deErstausgabe: { von: '2021-01-01', bis: '2021-03-31' } })], new Map(), H2)
+pruefe('Reihe nur aus erschienenen Staffeln: „erschienen", titelId = erstes Mitglied', nurErschienen.art === 'erschienen' && nurErschienen.titelId === 940031, nurErschienen)
+pruefe('jede Kachel in „Läuft jetzt"/„Demnächst" trägt titelId, und es ist ihr Titel', kacheln.length === 3 && kacheln.every((k) => k.titelId === k.id), kacheln)
+pruefe('Reihe mit zwei Staffeln: „Staffel 2" auf der Kachel von 2.5 Dimensional Seduction (Name ohne Staffelzahl); Last Boss trägt sie schon im Namen, also keine zweite Marke', kacheln.find((k) => k.id === 185515)?.staffel === 'Staffel 2' && kacheln.find((k) => k.id === 204389)?.staffel === undefined, kacheln)
+pruefe('Titel mit einer Staffel: keine Beschriftung', kacheln.find((k) => k.id === 940010)?.staffel === undefined, kacheln)
+// A1: Clannad (echte Reihe aus public/data): main ist die Serie 2167, das erste Mitglied der Film 1723. Erschienene Kacheln öffnen main.
+const clannadFilm = titel(1723, { franchiseId: 1723, format: 'MOVIE', titleDe: 'Clannad: Der Film', jpYear: 2007, jpSeason: 'SUMMER', deErstausgabe: { von: '2020-11-05', synchro: true } })
+const clannad = titel(2167, { franchiseId: 1723, format: 'TV', titleDe: 'Clannad', jpYear: 2007, jpSeason: 'FALL', deErstausgabe: { von: '2014-11-28', bis: '2015-04-24', synchro: true } })
+const clannadReihe = { main: clannad, members: [clannadFilm, clannad] }
+const gClannad = lauf([clannadReihe, reihe(titel(940071))], [], H2)
+const clannadEintrag = gClannad.flatMap((x) => x.eintraege).find((e) => e.gruppe.main.id === 2167)
+pruefe('Clannad (erschienen, main 2167 ist nicht das erste Mitglied): die Kachel öffnet main, nicht den Film 1723', clannadEintrag?.titelId === 2167, clannadEintrag?.titelId)
+const unbekanntEintrag = gClannad.flatMap((x) => x.eintraege).find((e) => e.gruppe.main.id === 940071)
+pruefe('Titel ohne Termin („unbekannt"): die Kachel öffnet main', unbekanntEintrag?.titelId === 940071, unbekanntEintrag?.titelId)
+const mehrfach = lauf([{ main: lastBoss1, members: [lastBoss1, lastBoss2] }], [disc(180523, '2026-11-06'), plat(204389, 'crunchyroll', '2026-10-24', 12)], H2)
+pruefe('Reihe mit laufender Staffel: die Kachel der Staffel öffnet die Staffel (204389), nicht main (180523)', mehrfach.flatMap((x) => x.eintraege).every((e) => e.titelId === 204389), mehrfach.flatMap((x) => x.eintraege).map((e) => [e.titelId, e.gruppe.main.id]))
+
+// A2: Kamisama Kiss (echte Reihe): Staffel 2 heißt schon so, die Liste fügt „Staffel 2" nicht noch einmal an.
+const kamisama1 = titel(14713, { franchiseId: 14713, format: 'TV', titleDe: 'Kamisama Kiss', jpYear: 2012, jpSeason: 'FALL', deErstausgabe: { von: '2026-06-15', synchro: true } })
+const kamisama2 = titel(20801, { franchiseId: 14713, format: 'TV', titleDe: 'Kamisama Kiss: Staffel 2', jpYear: 2015, jpSeason: 'WINTER' })
+const gKamisama = lauf([reihe(kamisama1, kamisama2)], [plat(14713, 'primevideo', '2026-10-08', 12, 'batch'), disc(20801, '2026-11-15')], H2)
+const kamisamaEintrag = gKamisama.flatMap((x) => x.eintraege).find((e) => e.titelId === 20801)
+pruefe('Kamisama Kiss Staffel 2 (Demnächst ab 15.11.): Name trägt „Staffel 2", keine zweite Marke, Datum bleibt', gKamisama[0]?.art === 'bald' && kamisamaEintrag?.staffel === undefined && kamisamaEintrag?.ab === '2026-11-15', kamisamaEintrag)
+
+// A3: ein reiner OmU-Stream-Termin bis heute macht die Staffel „erschienen", auch wenn die Synchro erst angekündigt ist (Entscheidung Daniel 26.10.2026).
+const omu = titel(940081, { deErstausgabe: { von: '2026-11-20', synchro: true } })
+const gOmu = lauf([reihe(omu)], [plat(940081, 'crunchyroll', '2026-10-01', 12), disc(940081, '2026-11-20')], H2)
+pruefe('OmU-Termin (Crunchyroll, 01.10.) + angekündigte Synchro (20.11.) → „Schon erschienen"', art(gOmu, 940081) === 'erschienen', art(gOmu, 940081))
+
+const laeuftUndBald = stufeReiheEin(
+  [titel(940051, { deErstausgabe: { von: '2026-10-01', bis: '2026-12-31' } }), titel(940052, { deErstausgabe: { von: '2027-01-10' } })],
+  new Map([[940051, [plat(940051, 'crunchyroll', '2026-10-01', 12)]], [940052, [plat(940052, 'crunchyroll', '2027-01-10', 12)]]]),
+  H2,
+)
+pruefe('Reihe mit laufender und kommender Staffel: „Läuft jetzt", titelId ist die laufende', laeuftUndBald.art === 'laeuft' && laeuftUndBald.titelId === 940051, laeuftUndBald)
+const ohneVon = titel(940041, { deErstausgabe: { bis: '2026-12-31' } })
+const mitVon = titel(940042, { deErstausgabe: { von: '2026-10-01', bis: '2026-12-31' } })
+const ohneDatum = new Map<number, Release[]>()
+const ohneVonZuerst = stufeReiheEin([ohneVon, mitVon], ohneDatum, H2)
+pruefe('zwei laufende Staffeln, die erste ohne Startdatum: die mit Datum liefert titelId und ab', ohneVonZuerst.titelId === 940042 && ohneVonZuerst.ab === '2026-10-01', ohneVonZuerst)
+const ohneVonZuletzt = stufeReiheEin([mitVon, ohneVon], ohneDatum, H2)
+pruefe('zwei laufende Staffeln, die zweite ohne Startdatum: wieder die mit Datum', ohneVonZuletzt.titelId === 940042, ohneVonZuletzt)
+
+console.log('\nDatenbank-Relevanz: Staffelmarken (echte Reihen aus public/data vom 28.10.2026)')
+const naruto = { franchiseId: 20, format: 'TV', streams: [] }
+const marken = staffelMarken([
+  titel(20, { ...naruto, titleDe: 'Naruto', jpYear: 2002, jpSeason: 'FALL' }),
+  titel(1735, { ...naruto, titleDe: 'Naruto Shippuden', jpYear: 2007, jpSeason: 'WINTER' }),
+  titel(2472, { ...naruto, format: 'MOVIE', titleDe: 'Naruto Shippuden: The Movie', jpYear: 2007, jpSeason: 'SUMMER' }),
+])
+pruefe('Naruto/Naruto Shippuden: Staffel 1 und 2 (Shippuden trägt einen eigenen Namen), der Film bekommt keine Marke', JSON.stringify([...marken]) === '[[20,"Staffel 1"],[1735,"Staffel 2"]]', [...marken])
+const ohneZweite = staffelMarken([titel(20, { ...naruto, titleDe: 'Naruto', jpYear: 2002 }), titel(2472, { ...naruto, format: 'MOVIE', titleDe: 'Naruto Shippuden: The Movie', jpYear: 2007 })])
+pruefe('Reihe mit einer Staffel und einem Film: keine Marke', ohneZweite.size === 0, [...ohneZweite])
+const eighty = staffelMarken([titel(116589, { ...naruto, franchiseId: 116589, titleDe: '86: Eighty Six', jpYear: 2021, jpSeason: 'SPRING' }), titel(131586, { ...naruto, franchiseId: 116589, titleDe: '86: Eighty Six – Teil 2', jpYear: 2021, jpSeason: 'FALL' })])
+pruefe('86: Eighty Six, zwei Teile einer Staffel: „Teil 1" und „Teil 2" (der Reihenname fließt in die Zählung ein)', JSON.stringify([...eighty]) === '[[116589,"Teil 1"],[131586,"Teil 2"]]', [...eighty])
+const reiheMit = (franchiseId: number, ...teile: [number, string, number, string][]) =>
+  staffelMarken(teile.map(([id, titleDe, jpYear, jpSeason]) => titel(id, { franchiseId, format: 'TV', titleDe, jpYear, jpSeason: jpSeason as Title['jpSeason'] })))
+const marken2 = (m: Map<number, string>) => JSON.stringify([...m])
+const reZero = reiheMit(21355, [163134, 'Re:Zero - Starting Life in Another World: Staffel 3', 2024, 'FALL'], [189046, 'Re:Zero - Starting Life in Another World: Staffel 4', 2026, 'SPRING'])
+pruefe('Re:Zero (nur Staffel 3 und 4 im Bestand): Staffel 3 und 4, nicht von vorn gezählt', marken2(reZero) === '[[163134,"Staffel 3"],[189046,"Staffel 4"]]', [...reZero])
+const magus = reiheMit(21688, [154364, 'The Ancient Magus’ Bride: Staffel 2', 2023, 'SPRING'], [166452, 'The Ancient Magus’ Bride Staffel 2 (Cour 2)', 2023, 'FALL'])
+pruefe('Ancient Magus’ Bride, Staffel 2 in zwei Teilen: „Teil 1" und „Teil 2"', marken2(magus) === '[[154364,"Teil 1"],[166452,"Teil 2"]]', [...magus])
+const hero = reiheMit(
+  21459,
+  [21459, 'My Hero Academia', 2016, 'SPRING'],
+  [21856, 'My Hero Academia 2', 2017, 'SPRING'],
+  [139630, 'My Hero Academia Staffel 6', 2022, 'FALL'],
+  [163139, 'My Hero Academia: Season 7', 2024, 'SPRING'],
+  [185736, 'My Hero Academia: Vigilantes', 2025, 'SPRING'],
+  [195322, 'My Hero Academia: Vigilantes Staffel 2', 2026, 'WINTER'],
+)
+pruefe('My Hero Academia (sechs Fernsehstaffeln): Nummern wie im Panel', marken2(hero) === '[[21459,"Staffel 1"],[21856,"Staffel 2"],[139630,"Staffel 6"],[163139,"Staffel 7"],[185736,"Staffel 8"],[195322,"Staffel 9"]]', [...hero])
+const einTeil = staffelMarken([titel(940061, { format: 'TV', titleDe: 'Foo Teil 2', jpYear: 2024 }), titel(940062, { format: 'MOVIE', titleDe: 'Foo: Der Film', jpYear: 2025 })])
+pruefe('eine einzige Fernsehstaffel (auch „Teil 2" allein) und ein Film: keine Marke', einTeil.size === 0, [...einTeil])
+const nurFilm = staffelMarken([titel(940063, { format: 'MOVIE', titleDe: 'Bar: Der Film', jpYear: 2025 })])
+pruefe('nur ein Film, keine Hauptstaffel: keine Marke, kein Absturz', nurFilm.size === 0, [...nurFilm])
+const gunslinger = staffelMarken([titel(134, { ...naruto, franchiseId: 134, titleDe: 'Gunslinger Girl', jpYear: 2003 }), titel(3231, { ...naruto, franchiseId: 134, titleDe: 'Gunslinger Girl il teatrino', jpYear: 2008 })])
+pruefe('Gunslinger Girl / il teatrino: Staffel 1 und 2', JSON.stringify([...gunslinger]) === '[[134,"Staffel 1"],[3231,"Staffel 2"]]', [...gunslinger])
 
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)

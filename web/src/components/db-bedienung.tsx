@@ -108,13 +108,13 @@ export function MehrKnopf({ schritt, rest, onClick }: { schritt: number; rest: n
 }
 
 /** Das Kachelraster der Datenbank, in der Relevanz-Ansicht mit Gruppenüberschriften. */
-export function DbRaster({ liste, zahlen, ...rest }: Omit<DbKarteProps, 'main' | 'members' | 'gruppe' | 'ab'> & { liste: ListenEintrag[]; zahlen: Partial<Record<RelevanzArt, number>> }) {
+export function DbRaster({ liste, zahlen, ...rest }: Omit<DbKarteProps, 'main' | 'members' | 'gruppe' | 'ab' | 'titelId' | 'staffel'> & { liste: ListenEintrag[]; zahlen: Partial<Record<RelevanzArt, number>> }) {
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
-      {liste.map(({ main, members, art, ab }, i) => (
+      {liste.map(({ main, members, art, ab, titelId, staffel }, i) => (
         <Fragment key={main.id}>
           {art && art !== liste[i - 1]?.art && <DbGruppenKopf art={art} zahl={zahlen[art] ?? 0} />}
-          <DbKarte main={main} members={members} gruppe={art} ab={ab} {...rest} />
+          <DbKarte main={main} members={members} gruppe={art} ab={ab} titelId={titelId} staffel={staffel} {...rest} />
         </Fragment>
       ))}
     </div>
