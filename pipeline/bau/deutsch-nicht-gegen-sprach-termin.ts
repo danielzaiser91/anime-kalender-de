@@ -33,6 +33,7 @@ export function nimmKanalJaGegenSprachTermin(titles: Iterable<Title>, releases: 
       const geschuetzt = handJa.has(handSchluessel(t.id, s.platform)) || handJa.has(handSchluessel(t.id, s.platform, s.url))
       if (s.dub !== true || !gekennzeichnet.has(k) || geschuetzt || !istKanalWeg(s, t)) continue
       delete s.dub
+      delete s.dubAbgeleitet
       delete s.dubRanges
       geerbteWege.delete(s)
       genommen++

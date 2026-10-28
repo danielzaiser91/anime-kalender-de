@@ -10,6 +10,7 @@ import type { Release, Title } from '../../shared/types.ts'
 import { geplantNichtDeutschHeute, ladeGeplantQuelle } from '../lib/invarianten-geplant.ts'
 import { dubIdsNachAnisearch, dubsNachTitel } from '../lib/anisearch-marke.ts'
 import { kanalFehler } from './kanal-fehler.ts'
+import { dubAbgeleitetFehler } from '../lib/dub-abgeleitet.ts'
 import { anisearchHand, OUT } from './grundlagen.ts'
 import { anisearchKennungMehrfach } from '../lib/anisearch-kennung-mehrfach.ts'
 import { ohneSynchroVonHand } from './ohne-beleg.ts'
@@ -50,6 +51,7 @@ export function auslieferungsInvarianten(releases: Release[]): string[] {
     ...reihenVerweiseAufgeloest(auslieferung),
     ...geplantNichtDeutschHeute(releases, new Map(auslieferung.titles.map((t) => [t.id, t])), ladeGeplantQuelle()),
     ...kanalFehler([...auslieferung.titles, ...auslieferung.ohneSynchro], releases),
+    ...dubAbgeleitetFehler([...auslieferung.titles, ...auslieferung.ohneSynchro]),
     ...keinAnisearchSuchlink(auslieferungstexte()),
     ...hochOhneBeleg(auslieferung.titles, ladeBelegsignale([])).map((id) => `Titel ${id}: Belegstärke high ohne starke oder zwei mittlere Quellen`),
   ]

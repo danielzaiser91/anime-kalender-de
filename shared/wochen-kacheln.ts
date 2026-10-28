@@ -25,7 +25,7 @@ export const RELEASE_OHNE = [
   'publisher', 'quellen', 'rhythmus', 'schnitt', 'sources',
 ] as const
 
-export const STREAM_OHNE = ['url', 'seite', 'fenster', 'dubQuelle', 'dubStand', 'herkunft', 'kanal', 'sharedWith'] as const
+export const STREAM_OHNE = ['url', 'seite', 'fenster', 'dubQuelle', 'dubStand', 'dubAbgeleitet', 'herkunft', 'kanal', 'sharedWith'] as const
 export const WATCHLINK_OHNE = ['url', 'toggo', 'dubAbgeleitet', 'ueberTmdb', 'ersetzt'] as const
 
 /** `kostenloseFolgen` (Filter „kostenlos“) liest Adresse, Fenster und Folge eines kostenlosen Wegs: Der bleibt ganz. */

@@ -11,6 +11,7 @@ export function setzeJoynDeutsch(titles: Iterable<Title>): number {
     for (const stream of title.streams) {
       if (stream.platform !== 'joyn' || stream.dub !== undefined) continue
       stream.dub = true
+      stream.dubAbgeleitet = 'joyn-pauschal'
       joynJa++
     }
   }
