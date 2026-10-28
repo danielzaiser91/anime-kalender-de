@@ -1,0 +1,6 @@
+[
+  ["const folgestaffeln = ordneFolgestaffelBloeckeZu({", "const folgestaffeln = 0 && ordneFolgestaffelBloeckeZu({"],
+  ["ordneFolgestaffelBloeckeZu({ crDub, nachUrl, titles,", "ordneFolgestaffelBloeckeZu({ crDub, nachUrl, titles: new Map(),"],
+  ["ordneFolgestaffelBloeckeZu({ crDub, nachUrl,", "ordneFolgestaffelBloeckeZu({ crDub, nachUrl: new Map(),"],
+  ["handNein: neinHandbelege(loadDubChecks())", "handNein: new Set<string>()"]
+]
