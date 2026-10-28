@@ -12,7 +12,9 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { Title } from '../shared/types.ts'
-import { fehlendeCrFolgen, type NeueFolge } from './lib/cr-neu-wache.ts'
+// Der Leser des Posteingangs ist ein .mjs ohne Typen.
+const { warnTexte } = (await import(new URL('../tools/bestand-warnung-melden.mjs', import.meta.url).href)) as { warnTexte: (protokoll: string) => string[] }
+import { fehlendeCrFolgen, serienWarnzeile, unbekannteCrSerien, type NeueFolge } from './lib/cr-neu-wache.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -94,6 +96,28 @@ const ohneFranchise = [titel(5, undefined, 'GXFR'), titel(6, undefined, 'GXFR')]
 pruefe('ohne franchiseId zählt die eigene Kennung: Termin des Nachbarn reicht nicht', fehlt([folge('GXFR', 'Staffel 1', 1, '2026-10-24T13:30:00.000Z')], [ev(7, '2026-10-24')], ohneFranchise).length === 1)
 pruefe('ohne franchiseId: Termin des eigenen Titels reicht', fehlt([folge('GXFR', 'Staffel 1', 1, '2026-10-24T13:30:00.000Z')], [ev(5, '2026-10-24')], ohneFranchise).length === 0)
 
+/*
+ * Serien ohne Titel (Punkt 1 von cr-neu-folgen): PSYREN und Aoashi stehen wörtlich so in `data/crunchyroll-neu.json` (Kennungen,
+ * Zeitstempel). Hier hat der Bestand keinen Titel dazu, also muss die Wache sie nennen statt still zu verwerfen.
+ */
+const heute28 = '2026-10-28'
+const psyren = folge('GT00371866', 'Staffel 1', 1, '2026-10-26T14:30:00.000Z')
+const aoashi = folge('G4PH0WX5J', 'Staffel 2', 1, '2026-10-25T09:00:00.000Z')
+const ohneTitel = (f: NeueFolge[], t = titles, h = heute28) => unbekannteCrSerien(f.map((x) => ({ ...x, serie: x.serieId === 'GT00371866' ? 'PSYREN' : 'Aoashi' })), t, h)
+pruefe('unbekannte Serie: PSYREN wird genannt, mit einer Folge', JSON.stringify(ohneTitel([psyren])) === '[{"serieId":"GT00371866","serie":"PSYREN","folgen":1}]', ohneTitel([psyren]))
+pruefe('Doppelstart: zwei Folgen derselben Serie sind eine Serie mit 2 Folgen', ohneTitel([psyren, { ...psyren, nummer: 2 }]).map((s) => `${s.serie}:${s.folgen}`).join() === 'PSYREN:2')
+pruefe('zwei verschiedene unbekannte Serien: beide, in Reihenfolge des Auftretens', ohneTitel([psyren, aoashi]).map((s) => s.serie).join() === 'PSYREN,Aoashi')
+pruefe('bekannte Serie (Titel mit ihrer Kennung): nicht genannt', unbekannteCrSerien([folge('GG5H5XQMD', 'Staffel 3', 1, '2026-10-25T15:00:00.000Z')], titles, heute28).length === 0)
+pruefe('Titel nur bei Netflix mit derselben Kennung: Serie bleibt unbekannt', unbekannteCrSerien([folge('GFREMD', 'Staffel 1', 1, '2026-10-25T15:00:00.000Z')], titles, heute28).length === 1)
+pruefe('unbekannte Serie von heute: noch kein Befund', ohneTitel([folge('GT00371866', 's', 1, '2026-10-28T09:00:00.000Z')]).length === 0)
+pruefe('unbekannte Serie von gestern: Befund', ohneTitel([folge('GT00371866', 's', 1, '2026-10-27T09:00:00.000Z')]).length === 1)
+pruefe('unbekannte Serie von vor 10 Tagen: Befund', ohneTitel([folge('GT00371866', 's', 1, '2026-10-18T12:00:00.000Z')]).length === 1)
+pruefe('unbekannte Serie von vor 11 Tagen: Altlast', ohneTitel([folge('GT00371866', 's', 1, '2026-10-17T12:00:00.000Z')]).length === 0)
+pruefe('unbekannte Folge ohne Zeitstempel: übersprungen', unbekannteCrSerien([{ serieId: 'GT00371866' }], titles, heute28).length === 0)
+const zeile = serienWarnzeile([{ serieId: 'GT00371866', serie: 'PSYREN', folgen: 2 }, { serieId: 'G4PH0WX5J', serie: 'Aoashi', folgen: 1 }])
+pruefe('Warnzeile: Wortlaut mit Marke, Zahl und Liste', zeile === '⚠ WARNUNG [vorher rot] Crunchyroll-Serien ohne Titel: 2 Serien mit neuer deutscher Folge: PSYREN (GT00371866, 2); Aoashi (G4PH0WX5J, 1)', zeile)
+pruefe('Kreislauf: der Posteingangs-Leser erkennt die Zeile', warnTexte(`${zeile}\n`).length === 1, warnTexte(`${zeile}\n`))
+
 /* Prozess: Exit 0 mit Warnzeile, Exit 1 bei unlesbarer Eingabe. */
 const skript = fileURLToPath(new URL('./check-cr-neu-bestand.ts', import.meta.url))
 function prozess(name: string, neu: unknown, events: unknown) {
@@ -116,6 +140,11 @@ const kaputt = prozess('d', { folgen: vier }, '{kaputt')
 pruefe('Prozess: kaputte events.json: Exit 1, Meldung auf stderr', kaputt.status === 1 && kaputt.err.includes('✖ Crunchyroll-Neuheiten') && kaputt.out === '', kaputt)
 const form = prozess('e', { folgen: 'x' }, [])
 pruefe('Prozess: folgen keine Liste: Exit 1', form.status === 1, form)
+const psyrenProzess = { ...psyren, serie: 'PSYREN', verfuegbarAb: '2026-10-24T14:30:00.000Z' }
+const nurFremd =prozess('g', { folgen: [psyrenProzess] }, [])
+pruefe('Prozess: nur eine Serie ohne Titel: Exit 0, Serienzeile, keine Zeile „ohne Termin“', nurFremd.status === 0 && nurFremd.out.includes('⚠ WARNUNG [vorher rot] Crunchyroll-Serien ohne Titel: 1 Serien mit neuer deutscher Folge: PSYREN (GT00371866, 1)') && !nurFremd.out.includes('ohne Termin'), nurFremd)
+const beides = prozess('h', { folgen: [...vier, psyrenProzess] }, [])
+pruefe('Prozess: fehlender Termin und unbekannte Serie: beide Zeilen', beides.status === 0 && beides.out.includes('Crunchyroll-Folgen ohne Termin') && beides.out.includes('Crunchyroll-Serien ohne Titel'), beides)
 const leer = prozess('f', { folgen: [] }, [])
 pruefe('Prozess: leere Liste: Exit 0 und Haken', leer.status === 0 && leer.out.includes('✓'), leer)
 

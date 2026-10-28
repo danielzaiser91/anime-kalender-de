@@ -8,6 +8,7 @@
  */
 import type { ReleaseEvent, Title } from '../../shared/types.ts'
 import { diffDays, toIsoDate } from '../../shared/time.ts'
+import { HERABGESTUFT } from './bestand-warnzeile.ts'
 
 export interface NeueFolge {
   serieId: string
@@ -66,4 +67,40 @@ export function fehlendeCrFolgen(
     })
   }
   return raus
+}
+
+export interface UnbekannteSerie {
+  serieId: string
+  serie: string
+  folgen: number
+}
+
+/**
+ * Eine Zeile für `check:bestand`. Die Marke bringt sie einmal je Wortlaut in den Posteingang (`tools/bestand-warnung-melden.mjs`);
+ * ein bloßes Lauf-Log läse niemand. Serien ohne Titel sind Handarbeit: der Katalog liefert keinen Sendetakt für eine Neuanlage.
+ */
+export function serienWarnzeile(serien: UnbekannteSerie[]): string {
+  const liste = serien.map((s) => `${s.serie} (${s.serieId}, ${s.folgen})`).join('; ')
+  return `⚠ WARNUNG ${HERABGESTUFT} Crunchyroll-Serien ohne Titel: ${serien.length} Serien mit neuer deutscher Folge: ${liste}`
+}
+
+/**
+ * Serien mit neuer deutscher Folge der letzten 1 bis 10 Tage, zu denen wir keinen Titel haben. `fehlendeCrFolgen` und der
+ * `--nur-neu`-Lauf übergehen sie, weil sie keine Adresse haben, an der man ansetzen könnte; hier werden sie gezählt und genannt.
+ */
+export function unbekannteCrSerien(folgen: NeueFolge[], titles: Title[], heute: string): UnbekannteSerie[] {
+  const bekannt = new Set(
+    titles.flatMap((t) => t.streams.filter((s) => s.platform === 'crunchyroll').map((s) => crSerienKennung(s.url))),
+  )
+  const nachId = new Map<string, UnbekannteSerie>()
+  for (const f of folgen) {
+    const zeit = f.verfuegbarAb ? new Date(f.verfuegbarAb) : null
+    if (!zeit || Number.isNaN(zeit.getTime())) continue
+    const alter = diffDays(toIsoDate(zeit), heute)
+    if (alter < MIN_TAGE || alter > MAX_TAGE || bekannt.has(f.serieId)) continue
+    const e = nachId.get(f.serieId) ?? { serieId: f.serieId, serie: f.serie ?? f.serieId, folgen: 0 }
+    e.folgen++
+    nachId.set(f.serieId, e)
+  }
+  return [...nachId.values()]
 }
