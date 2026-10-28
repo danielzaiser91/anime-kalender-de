@@ -11,7 +11,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import yaml from 'js-yaml'
 import { haengeBelegeAn } from './lib/belege-anhaengen.ts'
-import { istEntfernt, ladeBelegeEntfernt } from './lib/belege-entfernt.ts'
+import { blockIstEntfernt, istEntfernt, ladeBelegeEntfernt } from './lib/belege-entfernt.ts'
 import { ROOT } from './lib/util.ts'
 
 const MIA = [
@@ -78,6 +78,9 @@ fall('Kontrolle: ein Beleg ohne Eintrag wird angehängt', NAGATORO, ['140596 B0C
 fall('Kontrolle: Heidi an einer anderen Disney+-Seite bleibt erlaubt', heidi('https://www.disneyplus.com/browse/entity-00000000-0000-0000-0000-000000000000'), ['2225 entity-00000000-0000-0000-0000-000000000000'])
 n.faelle++
 erwarte('Dopplung: derselbe Block zweimal ergibt nur einen', eintraege([...NAGATORO, '', ...NAGATORO]).alle, ['140596 B0CH4TWTLL'])
+n.faelle += 2
+erwarte('Eintrag ohne Adresse sperrt keinen Beleg ohne Adresse', istEntfernt([{ anilistId: 1, url: '', grund: 'x', entferntAm: 'x' }], 1, undefined), false)
+erwarte('unlesbarer Block gilt nicht als entfernt', blockIstEntfernt([{ anilistId: 1, url: 'https://x.example/a', grund: 'x', entferntAm: 'x' }], ['- a: [', '  b: {']), false)
 
 /* Der Bestand: Liste gelesen (nicht leer), und nichts davon steht in den Handbelegen. */
 n.faelle++

@@ -15,7 +15,7 @@ import { log, readJson, ROOT, warn, writeJson } from './lib/util.ts'
 import { fremdeAdressen } from './lib/fremde-adressen.ts'
 import { abrufMitStempel } from './lib/abruf-stempel.ts'
 import { adressIndex, artDerMeldung, folgenDerMeldung, meldungGrund, nameIndex, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type StaffelKandidat, type Urteil } from './lib/urteil-je-folge.ts'
-import { beobachtungenAusRohfolgen, type RohFolge } from './lib/urteil-rohfolgen.ts'
+import { beobachtungenAusRohfolgen, fremdNach, type RohFolge } from './lib/urteil-rohfolgen.ts'
 import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import type { FolgenZuordnung } from './lib/folgen-je-folge.ts'
@@ -150,7 +150,7 @@ async function main() {
   const titelAlle = Array.isArray(titelListe) ? titelListe : titelListe.titles
   const einzel = new Set(titelAlle.filter((t) => t.format === 'MOVIE' || t.episodes === 1).map((t) => t.id))
   const { nachAdresse, staffelKandidaten, nachName, reiheVon } = meldungsZuordnung(titelAlle)
-  const beobachtungen = beobachtungenAusRohfolgen(rohfolgen, zuordnung, kanalAdresse, (url) => nachAdresse(url)?.length === 0)
+  const beobachtungen = beobachtungenAusRohfolgen(rohfolgen, zuordnung, kanalAdresse, fremdNach(nachAdresse))
   const verworfen: Record<string, number> = {}
   /* Eine Meldung ohne die Felder aus Migration 034 trägt nur `befund`. */
   for (const roh of meldungen) {

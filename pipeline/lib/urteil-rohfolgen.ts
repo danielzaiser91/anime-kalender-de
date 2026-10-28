@@ -55,3 +55,8 @@ export function beobachtungenAusRohfolgen(
   }
   return beobachtungen
 }
+
+/** `istFremd` für `beobachtungenAusRohfolgen`: `adressIndex` gibt für eine fremde Adresse eine leere Liste (nicht `undefined` wie für eine unbekannte). */
+export function fremdNach(nachAdresse: (url: string) => number[] | undefined): (url: string) => boolean {
+  return (url) => nachAdresse(url)?.length === 0
+}
