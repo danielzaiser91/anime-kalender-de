@@ -21,7 +21,7 @@ function folgestaffelNr(block: CrStaffel): number | null {
 export function folgestaffelTitel(block: CrStaffel, gruppe: Title[], titles: Iterable<Title>): Title | null {
   const nr = folgestaffelNr(block)
   if (nr === null || !(block.deutscheFolgen?.length ?? block.deutsch ?? 0)) return null
-  if (gruppe.some((t) => t.format === 'TV' && (titelStaffelNr(t) ?? 1) === nr)) return null
+  if (gruppe.some((t) => t.format === 'TV' && titelStaffelNr(t) === nr)) return null
   const reihen = new Set(gruppe.map((t) => t.franchiseId ?? t.id))
   const passend = [...titles].filter(
     (t) =>
@@ -61,7 +61,6 @@ export function ordneFolgestaffelBloeckeZu({ crDub, nachUrl, titles, handNein }:
     const adressen = new Set(crDub.serien.filter((s) => s.seriesId === kennung).map((s) => s.url))
     const gruppe = new Map<number, Title>()
     for (const [url, ts] of nachUrl) if (adressen.has(url) || kennungAusZiel(url) === kennung) for (const t of ts) gruppe.set(t.id, t)
-    if (!gruppe.size) continue
     for (const block of serie.staffeln ?? []) {
       const t = folgestaffelTitel(block, [...gruppe.values()], titles.values())
       if (!t || wegVerneint(handNein, t.id, 'crunchyroll', serie.url)) continue

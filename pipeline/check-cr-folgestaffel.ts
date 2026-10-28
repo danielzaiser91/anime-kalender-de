@@ -62,23 +62,32 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
   console.error(`  ✗ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
-function prozess(): void {
+/** Bau-Lauf im Kindprozess; `nein` legt einen Handbeleg „dub: false“ für Staffel 2 an. */
+function prozess(nein: boolean): { url?: string; dub?: boolean; dubRanges?: unknown }[] {
   const wurzel = mkdtempSync(join(tmpdir(), 'cr-folgestaffel-'))
   mkdirSync(join(wurzel, 'data', 'curated'), { recursive: true })
   writeFileSync(join(wurzel, 'data', 'cr-katalog-de.json'), JSON.stringify({ geholtAm: '2026-09-09T17:26:33.450Z', eintraege: [] }))
   writeFileSync(join(wurzel, 'data', 'crunchyroll-series-ids.json'), JSON.stringify({ adressen: {} }))
   writeFileSync(join(wurzel, 'data', 'kino-ankuendigungen.yaml'), '[]\n')
   writeFileSync(join(wurzel, 'data', 'ankuendigungen.yaml'), 'eintraege: []\n')
+  const beleg = [{ anilistId: 152677, platform: 'crunchyroll', dub: false, checkedAt: '2026-10-28', url: URL_DT }]
+  if (nein) writeFileSync(join(wurzel, 'data', 'dub-confirmed.yaml'), JSON.stringify(beleg))
   const r = spawnSync(process.execPath, ['--import', 'tsx', fileURLToPath(import.meta.url), '--kind'], {
     encoding: 'utf8',
     windowsHide: true,
     env: { ...process.env, AK_ROOT: wurzel },
   })
   const zeile = r.stdout.split('\n').filter((z) => z.startsWith('ERGEBNIS ')).pop()?.slice(9)
-  pruefe('Kindprozess lief bis zum Ende', r.status === 0 && Boolean(zeile), { status: r.status, err: r.stderr.slice(-400) })
-  const wege = zeile ? (JSON.parse(zeile) as { url?: string; dub?: boolean; dubRanges?: unknown }[]) : []
+  pruefe(`Kindprozess lief bis zum Ende (Handbeleg nein: ${nein})`, r.status === 0 && Boolean(zeile), { status: r.status, err: r.stderr.slice(-400) })
+  return zeile ? (JSON.parse(zeile) as { url?: string; dub?: boolean; dubRanges?: unknown }[]) : []
+}
+
+function prozessFaelle(): void {
+  const wege = prozess(false)
   pruefe('Staffel 2 (152677) bekommt die Serienadresse und dub: true', wege.length === 1 && wege[0]!.url === URL_DT && wege[0]!.dub === true, wege)
   pruefe('Staffel 2: nur Folge 1 deutsch steht als Bereich 1–1', JSON.stringify(wege[0]?.dubRanges) === '[{"from":1,"to":1,"dub":true}]', wege)
+  const mitNein = prozess(true)
+  pruefe('Staffel 2 mit Handbeleg „nein“ (aus der Datei im Bau gelesen): kein Weg', mitNein.length === 0, mitNein)
 }
 
 const gib = (b: ReturnType<typeof block>, gruppe = [s1()], alle: ReturnType<typeof titel>[] = [s1(), s2()]) => folgestaffelTitel(b as never, gruppe as never, alle as never)
@@ -99,12 +108,16 @@ function direkt(): void {
   pruefe('Regel: Kandidat mit eigenem Crunchyroll-Weg bleibt unberührt', gib(eins, [s1()], [s1(), titel(152677, { titleRomaji: 'X Season 2', streams: [{ platform: 'crunchyroll', url: '' }] })]) === null)
   pruefe('Regel: OVA mit Staffelnummer ist kein Kandidat', gib(eins, [s1()], [s1(), titel(152677, { titleRomaji: 'X Season 2', format: 'OVA' })]) === null)
   pruefe('Regel: andere Reihe ist kein Kandidat', gib(eins, [s1()], [s1(), titel(152677, { titleRomaji: 'X Season 2', franchiseId: 5 })]) === null)
+  const ohneNr = titel(900002, { titleRomaji: 'Foo', format: 'TV' })
+  pruefe('Regel: Block „Staffel 1“ trifft keinen Titel „Season 1“ (Nummer ab 2)', gib(block('Staffel 1', 4, 1), [titel(900003, { titleRomaji: 'Foo Season 2' })], [titel(900001, { titleRomaji: 'Foo Season 1' })]) === null)
+  pruefe('Regel: TV ohne Staffelnummer im Namen ist kein Kandidat für Staffel 2', gib(eins, [s1()], [s1(), ohneNr]) === null)
+  pruefe('Regel: ein OVA „Season 2“ in der Gruppe sperrt die TV-Staffel 2 nicht', gib(eins, [s1(), titel(900004, { titleRomaji: 'Foo Season 2', format: 'OVA' })])?.id === 152677)
   pruefe('Regel: Kandidat ohne Folgenzahl: kein Treffer', gib(eins, [s1()], [s1(), titel(152677, { titleRomaji: 'X Season 2', episodes: undefined })]) === null)
 
-  const lauf = (zusatz: { handNein?: Set<string>; serien?: unknown[] } = {}) => {
+  const lauf = (zusatz: { handNein?: Set<string>; serien?: unknown[]; adresse?: string } = {}) => {
     const t2 = s2()
     const titles = new Map([[128712, s1()], [152677, t2]])
-    const nachUrl = new Map([[URL_DT, [titles.get(128712)!]]])
+    const nachUrl = new Map([[zusatz.adresse ?? URL_DT, [titles.get(128712)!]]])
     const gesetzt = ordneFolgestaffelBloeckeZu({
       crDub: { scrapedAt: '', serien: zusatz.serien ?? [echt()] } as never,
       nachUrl: nachUrl as never,
@@ -121,6 +134,28 @@ function direkt(): void {
   pruefe('Läufer: Serie mit „nichtVerfuegbar“ zählt nicht', lauf({ serien: [{ ...echt(), nichtVerfuegbar: true }] }).gesetzt.length === 0)
   const zwei = lauf({ serien: [echt(), { ...echt(), geprueftAm: '2026-10-01', staffeln: [block('Staffel 1', 12, 12)] }] })
   pruefe('Läufer: gilt der jüngste Abruf je Kennung (der ältere ohne Staffel 2 stört nicht)', zwei.gesetzt.join() === '152677', zwei.gesetzt)
+  const fremdeSprache = 'https://www.crunchyroll.com/de/fr/series/G24H1N334/the-detective-is-already-dead'
+  pruefe('Läufer: Adresse des Titels nur über die Serienkennung zuordenbar (Sprachcode fr): trifft', lauf({ adresse: fremdeSprache }).gesetzt.join() === '152677')
+  pruefe('Läufer: fremde Kennung trifft nicht', lauf({ adresse: 'https://www.crunchyroll.com/de/series/GXXXXXXXX/anderes' }).gesetzt.length === 0)
+  bereicheFaelle(lauf)
+}
+
+type Lauf = (zusatz?: { serien?: unknown[] }) => { gesetzt: number[]; t2: ReturnType<typeof s2> }
+
+/** Bereiche der Folgen: Lücke, Nummer 0 und null, doppelte Nummer, vollständig deutsch. */
+function bereicheFaelle(lauf: Lauf): void {
+  const mit = (deutscheFolgen: { nummer: number | null; laufend: number; guid: string }[], folgen = 13) =>
+    lauf({ serien: [serie([block('Staffel 1', 12, 12), block('Staffel 2', folgen, deutscheFolgen.length, deutscheFolgen as never)])] })
+  const wege = (l: ReturnType<Lauf>) => JSON.stringify((l.t2.streams[0] as { dubRanges?: unknown }).dubRanges)
+  const f = (nummer: number | null, laufend = 1) => ({ nummer, laufend, guid: `G${nummer}x${laufend}` })
+  pruefe('Bereiche: 1, 2 und 4 ergeben zwei Bereiche', wege(mit([f(1), f(2, 2), f(4, 4)])) === '[{"from":1,"to":2,"dub":true},{"from":4,"to":4,"dub":true}]', wege(mit([f(1), f(2, 2), f(4, 4)])))
+  pruefe('Bereiche: Nummer 0 und fehlende Nummer fallen weg', wege(mit([f(0), f(null, 2), f(1, 3)])) === '[{"from":1,"to":1,"dub":true}]', wege(mit([f(0), f(null, 2), f(1, 3)])))
+  pruefe('Bereiche: doppelte Nummer zählt einmal', wege(mit([f(2), f(2, 2), f(3, 3)])) === '[{"from":2,"to":3,"dub":true}]', wege(mit([f(2), f(2, 2), f(3, 3)])))
+  pruefe('Bereiche: unsortiert 3, 1, 2 ergibt einen Bereich', wege(mit([f(3), f(1, 2), f(2, 3)])) === '[{"from":1,"to":3,"dub":true}]', wege(mit([f(3), f(1, 2), f(2, 3)])))
+  const alle = mit(Array.from({ length: 13 }, (_, i) => f(i + 1, i + 1)))
+  pruefe('Bereiche: alle 13 Folgen deutsch: Verweis ohne Bereiche', alle.gesetzt.join() === '152677' && alle.t2.streams[0]!.dubRanges === undefined, alle.t2.streams)
+  const nur = mit([f(null)])
+  pruefe('Bereiche: nur eine Folge ohne Nummer: Verweis ohne Bereiche', nur.gesetzt.join() === '152677' && nur.t2.streams[0]!.dubRanges === undefined, nur.t2.streams)
 }
 
 function nummers(n: number) {
@@ -129,7 +164,7 @@ function nummers(n: number) {
 
 if (process.argv[2] === '--kind') await kind()
 else {
-  prozess()
+  prozessFaelle()
   direkt()
   console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
   process.exit(fehler ? 1 : 0)
