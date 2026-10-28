@@ -67,6 +67,8 @@ import type { Title } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import type { CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
 import { crunchyrollSeriesId } from './lib/crunchyroll.ts'
+import { crFrisch, neuFolgenJeSerie, serieAblegen } from './lib/cr-frisch.ts'
+import { offenMelden } from './lib/cr-offen.ts'
 import { serieHinterFolge, serieLesen } from './lib/crunchyroll-lesen.ts'
 import { crunchyrollAdressen, crunchyrollNeinAbrufLaden } from './lib/crunchyroll-adressen.ts'
 import {
@@ -111,6 +113,8 @@ const NUR_FEHLER = args.includes('--nur-fehler')
  * unbemerkt etwas geändert" ist eine andere als „ist heute etwas erschienen".
  */
 const NUR_NEU = args.includes('--nur-neu')
+/** Zählt nur, wie viele Serien dran wären (ohne Zugangspaket, ohne Abruf); der Stundenlauf holt das Paket danach nur bei > 0. */
+const OFFEN_PRUEFEN = args.includes('--offen-pruefen')
 /**
  * Ab wann eine gelesene Seite erneut drankommt.
  *
@@ -591,7 +595,7 @@ async function main(): Promise<void> {
    * Statusanzeige „läuft". Ein Lauf, der aus einem Grund scheitert, der schon
    * vor dem Start feststand, soll das auch vor dem Start sagen.
    */
-  const zugang = SEITENANZEIGE || BROWSER ? undefined : await beschaffeZugang()
+  const zugang = SEITENANZEIGE || BROWSER || OFFEN_PRUEFEN ? undefined : await beschaffeZugang()
   if (zugang) log(`Zugangspaket für ${zugang.land}, Bucket ${zugang.bucket}, gültig bis ${zugang.gueltig_bis}`)
   /**
    * Aus welchem Katalog dieser Lauf fragt — schon hier, nicht erst bei `quelle`.
@@ -600,7 +604,7 @@ async function main(): Promise<void> {
    * lange vor dem Aufbau der Quelle. Der Bucket ist unterschrieben, `land`
    * steht nur daneben; im Zweifel gilt, was in der Signatur steht.
    */
-  const katalogJetzt = zugang ? (bucketLand(zugang.bucket) ?? zugang.land).toLowerCase() : undefined
+  const katalogJetzt = zugang ? (bucketLand(zugang.bucket) ?? zugang.land).toLowerCase() : OFFEN_PRUEFEN ? 'de' : undefined
 
   const titles = readJson<Title[]>('public/data/titles.json', [])
   const offen = crunchyrollAdressen(titles, NUR_OFFENE)
@@ -635,10 +639,9 @@ async function main(): Promise<void> {
    * hinzugekommen ist; was dort steht, kommt hier sofort wieder dran.
    */
   const neuSeit = new Map<string, string>()
-  for (const f of readJson<{ folgen?: { serieId?: string; gesehenAm?: string }[] }>(
-    'data/crunchyroll-neu.json',
-    {},
-  ).folgen ?? []) {
+  const neuFunde = readJson<{ folgen?: { serieId?: string; gesehenAm?: string; guid?: string }[] }>('data/crunchyroll-neu.json', {}).folgen ?? []
+  const neuFolgen = neuFolgenJeSerie(neuFunde)
+  for (const f of neuFunde) {
     if (!f.serieId || !f.gesehenAm) continue
     const bisher = neuSeit.get(f.serieId)
     if (!bisher || f.gesehenAm > bisher) neuSeit.set(f.serieId, f.gesehenAm)
@@ -661,39 +664,7 @@ async function main(): Promise<void> {
    */
   const frisch = (u: string) => {
     const s = bestand.get(u)
-    if (!s) return false
-    /**
-     * Ein Befund aus einem anderen Katalog ist keiner — egal wie jung er ist.
-     *
-     * Der Lauf vom 21.08.2026 lief von einem US-Runner und schrieb 172 Serien
-     * mit `katalog: "us"` fort. Diese Antworten sind nicht *veraltet*, sie
-     * beantworten eine **andere Frage**: „Fairy Tail" hat in Deutschland 277
-     * deutsche Folgen und in der US-Antwort keine einzige. Die Frist schützte
-     * sie trotzdem — vier Wochen lang wäre die falsche Auskunft stehen
-     * geblieben, obwohl ein deutscher Zugang längst da war.
-     *
-     * Deshalb entscheidet der Katalog **vor** dem Datum: Was aus einer anderen
-     * Region stammt als der Zugang, mit dem wir gerade fragen, kommt neu dran.
-     */
-    if (katalogJetzt && s.katalog && s.katalog !== katalogJetzt) return false
-    /* Seit dem letzten Blick ist dort eine deutsche Folge dazugekommen. */
-    const neuAm = s.seriesId ? neuSeit.get(s.seriesId) : undefined
-    if (neuAm && (s.geprueftAm ?? '') < neuAm) return false
-    /*
-      Beim täglichen Lauf zählt nur genau das: Alles andere gilt als frisch,
-      auch wenn seine Frist längst abgelaufen ist. Der Wochenlauf holt es nach.
-    */
-    if (NUR_NEU) return true
-    if (NUR_FEHLER) return !s.fehler
-    /**
-     * „Nicht verfügbar" ist ein Befund, „hat nicht geantwortet" ist keiner.
-     *
-     * Beide tragen einen `fehler` — bei `nichtVerfuegbar` ist er die Zeile, mit
-     * der Crunchyroll selbst sagt, dass es das Angebot nicht mehr gibt. Alles
-     * andere mit `fehler` ist eine Nichtauskunft und kommt früher wieder dran.
-     */
-    const befund = s.nichtVerfuegbar === true || !s.fehler
-    return s.geprueftAm >= (befund ? grenzeFuer(u) : fehlerGrenze)
+    return s ? crFrisch(s, { katalogJetzt, neuSeit, neuFolgen, nurNeu: NUR_NEU, nurFehler: NUR_FEHLER, befundGrenze: grenzeFuer(u), fehlerGrenze }) : false
   }
   /*
     **`--nur-neu` filtert die Liste, nicht nur die Frist.**
@@ -718,6 +689,7 @@ async function main(): Promise<void> {
   const nachgefasst = adressen.filter((u) => !frisch(u) && bestand.get(u)?.fehler).length
   adressen = adressen.filter((u) => !frisch(u))
   if (LIMIT > 0) adressen = adressen.slice(0, LIMIT)
+  if (OFFEN_PRUEFEN) return offenMelden(adressen.length)
   log(
     `Crunchyroll: ${adressen.length} Serienadressen offen` +
       (schonDa ? (NUR_FEHLER ? ` (${schonDa} ohne Fehler beim letzten Mal, werden übersprungen)` : ` (${schonDa} innerhalb ihrer Frist gelesen, werden übersprungen)`) : '') +
@@ -960,13 +932,11 @@ async function main(): Promise<void> {
         entfernte den Verweis als „deutscher Katalog führt keine Staffel". Der alte Stand
         bleibt stehen, samt Prüfdatum: So kommt die Serie beim nächsten Lauf gleich wieder dran.
       */
-      const vorherige = bestand.get(url)
-      if (serie.fehler && vorherige && !vorherige.fehler) {
+      if (serieAblegen(bestand, url, serie, seriesId, neuFolgen) === 'behalten') {
         gestoert++
-        melden(i, kurz, vorherige)
+        melden(i, kurz, bestand.get(url)!)
         continue
       }
-      bestand.set(url, serie)
       // Gezählt wird nur, wo die Antwort auch eine ist: „nicht verfügbar" und
       // „keine Auskunft" sind kein „ohne deutsche Tonspur".
       if (serie.deutschImAngebot === false) ohneDeutsch++
