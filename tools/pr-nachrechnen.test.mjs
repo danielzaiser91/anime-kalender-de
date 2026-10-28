@@ -46,6 +46,11 @@ pruefe('neuester Lauf: der neueste in der Mitte gewinnt', neuesterLauf([lauf(KOP
 pruefe('neuester Lauf: Lauf zu altem Kopf zählt nicht, auch wenn neuer', neuesterLauf([lauf(KOPF, '2026-10-19T10:00:00Z', 1), lauf(MAIN, '2026-10-19T12:00:00Z', 2)], KOPF).databaseId === 1)
 pruefe('neuester Lauf: Zeitzonen-Schreibweise als Zeitpunkt', neuesterLauf([lauf(KOPF, '2026-10-19T13:00:00+02:00', 1), lauf(KOPF, '2026-10-19T11:30:00Z', 2)], KOPF).databaseId === 2)
 pruefe('neuester Lauf: keiner zum Kopf -> null', neuesterLauf([lauf(MAIN, '2026-10-19T10:00:00Z', 1)], KOPF) === null)
+// Anlassfall PR 2279 (28.10.2026): neuerer Lauf 40736158652 war abgebrochen und ohne Jobs, der Lauf davor lief durch.
+const abgebrochen = (headSha, createdAt, databaseId) => ({ ...lauf(headSha, createdAt, databaseId), conclusion: 'cancelled' })
+pruefe('neuester Lauf: neuerer abgebrochener Lauf wird übersprungen', neuesterLauf([abgebrochen(KOPF, '2026-10-19T12:00:00Z', 2), { ...lauf(KOPF, '2026-10-19T10:00:00Z', 1), conclusion: 'success' }], KOPF).databaseId === 1)
+pruefe('neuester Lauf: laufender Lauf (conclusion leer) zählt', neuesterLauf([{ ...lauf(KOPF, '2026-10-19T12:00:00Z', 2), conclusion: '' }, abgebrochen(KOPF, '2026-10-19T10:00:00Z', 1)], KOPF).databaseId === 2)
+pruefe('neuester Lauf: nur abgebrochene -> null', neuesterLauf([abgebrochen(KOPF, '2026-10-19T12:00:00Z', 2)], KOPF) === null)
 
 const offen = { number: 7, state: 'OPEN', mergeable: 'MERGEABLE' }
 pruefe('hindernis: offen und mergebar -> keins', hindernis(offen) === null)
@@ -69,7 +74,7 @@ function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTE
     [`api repos/{owner}/{repo}/commits/${M_ALT} --jq .parents[0].sha`]: { aus: `${BASIS}\n` },
     [`api repos/{owner}/{repo}/commits/${M_NEU} --jq .parents[0].sha`]: { aus: `${MAIN}\n` },
     [`pr view ${nr} --json number,state,mergeable,headRefOid,headRefName`]: { aus: JSON.stringify(pr) },
-    [`run list --workflow ${KETTE} --event pull_request --branch fix/x --limit 20 --json databaseId,headSha,createdAt`]: {
+    [`run list --workflow ${KETTE} --event pull_request --branch fix/x --limit 20 --json databaseId,headSha,createdAt,conclusion`]: {
       aus: JSON.stringify(laeufe ?? [lauf(KOPF, '2026-10-19T10:00:00Z', 11), lauf(KOPF, '2026-10-19T12:00:00Z', 12), lauf(KOPF, '2026-10-19T11:00:00Z', 13)]),
     },
     'run view 12 --json jobs': { aus: JSON.stringify({ jobs: jobs ?? [{ name: 'Kette – Logik', databaseId: 91 }, { name: JOB, databaseId: 92, status: 'completed' }, { name: 'PR-Prüfkette', databaseId: 93 }] }) },
@@ -422,6 +427,7 @@ const UNKLAR = [
   ['Mergebarkeit unbekannt', antworten({ pr: { ...PR, mergeable: 'UNKNOWN' }, mainSha: MAIN }), /noch nicht berechnet/],
   ['geschlossen', antworten({ pr: { ...PR, state: 'CLOSED' }, mainSha: MAIN }), /nicht offen/],
   ['kein Lauf zum Kopf', antworten({ laeufe: [lauf(MAIN, '2026-10-19T12:00:00Z', 12)], mainSha: MAIN }), /kein Kettenlauf zum Kopf 08798af3f/],
+  ['Lauf ohne Jobs (noch nicht angelegt)', antworten({ jobs: [], mainSha: MAIN }), /noch keine Jobs angelegt/],
   ['Job fehlt im Lauf', antworten({ jobs: [{ name: 'Kette – Logik', databaseId: 91 }], mainSha: MAIN }), /keinen Job „Kette – Workflows“/],
   ['Job wartet (queued), Log-Abruf 404', antworten({ jobs: [{ name: JOB, databaseId: 92, status: 'queued' }], logFehler: true, mainSha: MAIN }), /läuft noch \(Lauf 12\)/],
   ['Job läuft (in_progress), Log-Abruf 404', antworten({ jobs: [{ name: JOB, databaseId: 92, status: 'in_progress' }], logFehler: true, mainSha: MAIN }), /läuft noch \(Lauf 12\)/],
@@ -431,6 +437,14 @@ for (const [name, daten, muster] of UNKLAR) {
   const k = kulisse(daten)
   const code = nachrechnen(7, k.gh, k.melde, k.warte)
   pruefe(`${name} -> 2, nichts angestoßen`, code === 2 && schreibend(k.aufrufe).length === 0 && muster.test(k.meldungen.join()), { code, a: k.aufrufe, m: k.meldungen })
+}
+
+{
+  // Durchlauf des Anlassfalls: neuester Lauf (14) abgebrochen ohne Jobs, Lauf 12 gültig -> aktuell, Exit 0.
+  const laeufe = [lauf(KOPF, '2026-10-19T10:00:00Z', 11), lauf(KOPF, '2026-10-19T12:00:00Z', 12), abgebrochen(KOPF, '2026-10-19T13:00:00Z', 14)]
+  const k = kulisse({ ...antworten({ laeufe }), 'run view 14 --json jobs': { aus: JSON.stringify({ jobs: [] }) } })
+  const code = nachrechnen(7, k.gh, k.melde, k.warte)
+  pruefe('abgebrochener Neuestlauf ohne Jobs -> Lauf davor zählt, aktuell 0', code === 0 && schreibend(k.aufrufe).length === 0 && /aktuell/.test(k.meldungen.join()), { code, m: k.meldungen })
 }
 
 for (const argv of [[], ['abc'], ['7', '8'], ['7x']]) {

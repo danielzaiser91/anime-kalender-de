@@ -121,13 +121,12 @@ export function findeStaffel(
 /**
  * **Ordnet die Folgen eines Anbieters unseren zu.**
  *
- * Zwei Wege, in dieser Reihenfolge — der zweite greift nur, wo der erste
- * schweigt; sonst bleibt die Folge offen (die Position ist gestrichen, siehe unten):
+ * Zwei Wege; sonst bleibt die Folge offen (die Position ist gestrichen, siehe unten):
  *
- * 1. **Datum.** Trifft der Anbieter-Termin genau eine TMDB-Folge dieser Staffel,
- *    ist sie es. Der stärkste Anker, weil ihn niemand neu vergibt.
- * 2. **Titel.** Nach `folgenKern()` normalisiert. Trägt, wo der Anbieter das
- *    Erscheinungsdatum seiner eigenen Aufnahme führt statt der Erstausstrahlung.
+ * 1. **Titel.** Nach `folgenKern()` normalisiert. Trifft er genau eine Folge, gilt er,
+ *    auch gegen das Datum: Der Anbieter führt oft das Datum seiner eigenen Aufnahme.
+ * 2. **Datum.** Trifft der Anbieter-Termin genau eine TMDB-Folge dieser Staffel und
+ *    liefert der Titel keinen eindeutigen Treffer, ist sie es.
  */
 export function ordneZu(anbieter: AnbieterFolge[], staffel: TmdbFolge[]): Zuordnung[] {
   const nachDatum = new Map<string, TmdbFolge[]>()
@@ -146,12 +145,20 @@ export function ordneZu(anbieter: AnbieterFolge[], staffel: TmdbFolge[]): Zuordn
     }
   }
 
-  return anbieter.map((a, index) => {
+  /* Folgen, die nur das Datum getroffen hat (der Titel schwieg). */
+  const nurDatum = new Set<number>()
+  let widerspruch = false
+  const geteilt = geteilteTitel(anbieter)
+  const ergebnis = anbieter.map((a, index) => {
     const perDatum = a.datum ? nachDatum.get(a.datum) : undefined
-    if (perDatum?.length === 1) return { index, unsere: perDatum[0]!.e, grund: 'datum' as const }
-
-    const perTitel = nachTitel.get(folgenKern(a.titel))
-    if (perTitel?.length === 1) return { index, unsere: perTitel[0]!.e, grund: 'titel' as const }
+    const perTitel = geteilt.has(folgenKern(a.titel)) ? undefined : nachTitel.get(folgenKern(a.titel))
+    const datumE = perDatum?.length === 1 ? perDatum[0]!.e : null
+    const titelE = perTitel?.length === 1 ? perTitel[0]!.e : null
+    /* Widersprechen sich beide, gilt der Titel: Prime führt bei manchen Serien (Digimon Tamers) das Datum der Vorwoche. */
+    if (datumE !== null && titelE !== null && titelE !== datumE) widerspruch = true
+    if (datumE !== null && titelE === null) nurDatum.add(index)
+    if (datumE !== null && (titelE === null || titelE === datumE)) return { index, unsere: datumE, grund: 'datum' as const }
+    if (titelE !== null) return { index, unsere: titelE, grund: 'titel' as const }
 
     /*
       **Die Position ist gestrichen — sie war der Notausgang, der falsch lag.**
@@ -173,6 +180,24 @@ export function ordneZu(anbieter: AnbieterFolge[], staffel: TmdbFolge[]): Zuordn
     */
     return { index, unsere: null, grund: 'offen' as const }
   })
+  return verwirfDatumGegenTitel(ergebnis, nurDatum, widerspruch)
+}
+
+/** Titel (als `folgenKern`), die mehrere Anbieterfolgen einer Seite tragen (ADN, Demon Slave S1 Folge 6 und 7): Sie belegen keine. */
+function geteilteTitel(anbieter: AnbieterFolge[]): Set<string> {
+  const wieOft = new Map<string, number>()
+  for (const a of anbieter) wieOft.set(folgenKern(a.titel), (wieOft.get(folgenKern(a.titel)) ?? 0) + 1)
+  return new Set([...wieOft].filter(([, n]) => n > 1).map(([k]) => k))
+}
+
+/**
+ * Ein reiner Datumstreffer bleibt offen, wenn
+ * - die Seite sich selbst widerspricht (Titel zeigt auf Folge X, Datum auf Y): ihr Datum ist verschoben, oder
+ * - seine Folge einer anderen Anbieterfolge per Titel schon gehört.
+ */
+function verwirfDatumGegenTitel(z: Zuordnung[], nurDatum: Set<number>, widerspruch: boolean): Zuordnung[] {
+  const perTitel = new Set(z.filter((x) => x.grund === 'titel').map((x) => x.unsere))
+  return z.map((x) => (nurDatum.has(x.index) && (widerspruch || perTitel.has(x.unsere)) ? { index: x.index, unsere: null, grund: 'offen' as const } : x))
 }
 
 /**
