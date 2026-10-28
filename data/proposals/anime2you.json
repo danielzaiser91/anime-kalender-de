@@ -1,9 +1,9 @@
 {
-  "scrapedAt": "2026-10-27T19:02:22.019Z",
+  "scrapedAt": "2026-10-28T05:02:17.032Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
-    "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
+    "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 11,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
     "schon in einem Rubrik-Feed gelesen": 6,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
@@ -128,7 +128,71 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "I Parry Everything!",
+          "datum": "2026-11-02",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN",
+            "Prime Video"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Pretty Cure",
+          "datum": "2026-11-04",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 49
+        },
+        {
+          "titel": "Kotoura-san",
+          "datum": "2026-11-11",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "KILL la KILL",
+          "datum": "2026-11-18",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 24
+        },
+        {
+          "titel": "Cross Game",
+          "datum": "2026-11-25",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 50
+        },
+        {
+          "titel": "Reborn!",
+          "zusatz": "Episode 102 bis 153",
+          "datum": "2026-11-28",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-10-28"
     },
     {
       "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
@@ -312,7 +376,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-25"
+      "sammelGelesen": "2026-10-28"
     },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
@@ -543,7 +607,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-25"
+      "sammelGelesen": "2026-10-28"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -1035,7 +1099,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-25"
+      "sammelGelesen": "2026-10-28"
     },
     {
       "articleTitle": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
@@ -2563,7 +2627,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-10-24"
+      "sammelGelesen": "2026-10-28"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -2678,7 +2742,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-10-25"
+      "sammelGelesen": "2026-10-28"
     },
     {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
@@ -3693,10 +3757,6 @@
       ],
       "dates": [
         {
-          "iso": "2026-10-27",
-          "context": "t im Oktober 2026 »Rascal Does Not Dream of a Dear Friend« startet am 27. Oktober 2026 im japanischen Originalton mit deutschen Untertiteln"
-        },
-        {
           "month": "2026-10",
           "context": "s«) gezeigt wird. Nachfolgend findet ihr alle Einzelheiten. Kinostart im Oktober 2026 »Rascal Does Not Dream of a Dear Friend« startet am 27"
         }
@@ -4503,10 +4563,6 @@
         "kino"
       ],
       "dates": [
-        {
-          "iso": "2026-10-27",
-          "context": "r 2026 »Rascal Does Not Dream of a Dear Friend« startet demzufolge am 27. Oktober 2026 im japanischen Originalton mit deutschen Untertiteln"
-        },
         {
           "month": "2026-10",
           "context": "»Rascal Does Not Dream«-Reihe bekannt. Wir fassen zusammen. Kinostart im Oktober 2026 »Rascal Does Not Dream of a Dear Friend« startet demzu"
@@ -5907,7 +5963,7 @@
           "edition": "limited-edition steelbook"
         }
       ],
-      "discGelesen": "2026-10-25"
+      "discGelesen": "2026-10-28"
     },
     {
       "articleTitle": "»Afro Samurai« erscheint im limitierten Steelbook auf Blu-ray",
