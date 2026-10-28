@@ -1,0 +1,7 @@
+[
+  ["const neueSerien = ordneNeueSerienZu({", "const neueSerien = 0 && ordneNeueSerienZu({"],
+  ["folgen: readJson<{ folgen?: NeueSerienFolge[] }>('data/crunchyroll-neu.json', {}).folgen ?? [],", "folgen: [],"],
+  ["      titles: titles.values(),\n      nachUrl,\n      handNein: neinHandbelege(loadDubChecks()),", "      titles: new Map<number, Title>().values(),\n      nachUrl,\n      handNein: neinHandbelege(loadDubChecks()),"],
+  ["      titles: titles.values(),\n      nachUrl,\n      handNein: neinHandbelege(loadDubChecks()),", "      titles: titles.values(),\n      nachUrl: new Map<string, Title[]>(),\n      handNein: neinHandbelege(loadDubChecks()),"],
+  ["      nachUrl,\n      handNein: neinHandbelege(loadDubChecks()),\n    })\n    for", "      nachUrl,\n      handNein: new Set<string>(),\n    })\n    for"]
+]
