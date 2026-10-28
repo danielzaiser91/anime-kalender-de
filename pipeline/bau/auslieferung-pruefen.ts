@@ -51,7 +51,7 @@ export function auslieferungsInvarianten(releases: Release[]): string[] {
     ...reihenVerweiseAufgeloest(auslieferung),
     ...geplantNichtDeutschHeute(releases, new Map(auslieferung.titles.map((t) => [t.id, t])), ladeGeplantQuelle()),
     ...kanalFehler([...auslieferung.titles, ...auslieferung.ohneSynchro], releases),
-    ...dubAbgeleitetFehler([...auslieferung.titles, ...auslieferung.ohneSynchro]),
+    ...dubAbgeleitetFehler([...auslieferung.titles, ...auslieferung.ohneSynchro, ...auslieferung.cartoons]),
     ...keinAnisearchSuchlink(auslieferungstexte()),
     ...hochOhneBeleg(auslieferung.titles, ladeBelegsignale([])).map((id) => `Titel ${id}: Belegstärke high ohne starke oder zwei mittlere Quellen`),
   ]

@@ -22,8 +22,8 @@ process.env.AK_ROOT = kulisse
 let verletzt = 0
 try {
   const { auslieferungsInvarianten } = await import(pathToFileURL(join(repo, 'pipeline', 'bau', 'auslieferung-pruefen.ts')).href)
-  const lauf = (streams: object[]): string[] => {
-    writeFileSync(join(kulisse, 'public', 'data', 'titles.json'), titel(streams))
+  const lauf = (streams: object[], datei = 'titles.json'): string[] => {
+    for (const d of ['titles.json', 'cartoons.json']) writeFileSync(join(kulisse, 'public', 'data', d), titel(d === datei ? streams : []))
     return (auslieferungsInvarianten([]) as string[]).filter((f) => f.includes('dubAbgeleitet'))
   }
   const falsch = lauf([netflix])
@@ -36,9 +36,14 @@ try {
     verletzt++
     console.error(`  ✖ Joyn mit Kennzeichen: erwartet keinen Fehler, gefunden ${JSON.stringify(richtig)}`)
   } else console.log('  ✓ Aufrufer lässt Joyn mit Kennzeichen durch')
+  const cartoon = lauf([netflix], 'cartoons.json')
+  if (cartoon.length !== 1) {
+    verletzt++
+    console.error(`  ✖ Kennzeichen in cartoons.json: erwartet 1 Fehler aus dem Aufrufer, gefunden ${JSON.stringify(cartoon)}`)
+  } else console.log('  ✓ Aufrufer prüft auch cartoons.json')
 } finally {
   if (lstatSync(handDaten).isSymbolicLink()) unlinkSync(handDaten)
   rmSync(kulisse, { recursive: true, force: true })
 }
 if (verletzt) process.exit(1)
-console.log('\ncheck-dub-abgeleitet-lauf: 2 Prüfungen ok')
+console.log('\ncheck-dub-abgeleitet-lauf: 3 Prüfungen ok')
