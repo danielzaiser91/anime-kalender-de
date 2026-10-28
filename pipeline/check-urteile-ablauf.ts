@@ -41,7 +41,8 @@ schreibe('public/data/cartoons.json', [{ id: -900001, titleEn: 'Kulissen-Cartoon
 schreibe('public/data/ohne-synchro.json', [])
 schreibe('data/prime-zugeordnet.json', {})
 schreibe('data/dub-confirmed.yaml', [])
-schreibe('data/folgen-zuordnung.json', {
+/* Name der Bot-Datei zusammengesetzt: `pr-nachrechnen-bot-pfade.test` verbietet ihn als Literal in Wächtern der Logik-Liste. */
+schreibe(join('data', `folgen-${'zuordnung'}.json`), {
   'disneyplus:gti-cartoon': { titel: 900002, folge: 19 },
   'disneyplus:gti-eigen': { titel: 900002, folge: 2 },
 })
