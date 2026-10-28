@@ -68,6 +68,7 @@ import { addDays, todayIso } from '../shared/time.ts'
 import type { CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
 import { crunchyrollSeriesId } from './lib/crunchyroll.ts'
 import { crFrisch, merkeNeuFolgen, neuFolgenJeSerie } from './lib/cr-frisch.ts'
+import { offenMelden } from './lib/cr-offen.ts'
 import { serieHinterFolge, serieLesen } from './lib/crunchyroll-lesen.ts'
 import { crunchyrollAdressen, crunchyrollNeinAbrufLaden } from './lib/crunchyroll-adressen.ts'
 import {
@@ -112,6 +113,8 @@ const NUR_FEHLER = args.includes('--nur-fehler')
  * unbemerkt etwas geändert" ist eine andere als „ist heute etwas erschienen".
  */
 const NUR_NEU = args.includes('--nur-neu')
+/** Zählt nur, wie viele Serien dran wären (ohne Zugangspaket, ohne Abruf); der Stundenlauf holt das Paket danach nur bei > 0. */
+const OFFEN_PRUEFEN = args.includes('--offen-pruefen')
 /**
  * Ab wann eine gelesene Seite erneut drankommt.
  *
@@ -592,7 +595,7 @@ async function main(): Promise<void> {
    * Statusanzeige „läuft". Ein Lauf, der aus einem Grund scheitert, der schon
    * vor dem Start feststand, soll das auch vor dem Start sagen.
    */
-  const zugang = SEITENANZEIGE || BROWSER ? undefined : await beschaffeZugang()
+  const zugang = SEITENANZEIGE || BROWSER || OFFEN_PRUEFEN ? undefined : await beschaffeZugang()
   if (zugang) log(`Zugangspaket für ${zugang.land}, Bucket ${zugang.bucket}, gültig bis ${zugang.gueltig_bis}`)
   /**
    * Aus welchem Katalog dieser Lauf fragt — schon hier, nicht erst bei `quelle`.
@@ -601,7 +604,7 @@ async function main(): Promise<void> {
    * lange vor dem Aufbau der Quelle. Der Bucket ist unterschrieben, `land`
    * steht nur daneben; im Zweifel gilt, was in der Signatur steht.
    */
-  const katalogJetzt = zugang ? (bucketLand(zugang.bucket) ?? zugang.land).toLowerCase() : undefined
+  const katalogJetzt = zugang ? (bucketLand(zugang.bucket) ?? zugang.land).toLowerCase() : OFFEN_PRUEFEN ? 'de' : undefined
 
   const titles = readJson<Title[]>('public/data/titles.json', [])
   const offen = crunchyrollAdressen(titles, NUR_OFFENE)
@@ -686,6 +689,7 @@ async function main(): Promise<void> {
   const nachgefasst = adressen.filter((u) => !frisch(u) && bestand.get(u)?.fehler).length
   adressen = adressen.filter((u) => !frisch(u))
   if (LIMIT > 0) adressen = adressen.slice(0, LIMIT)
+  if (OFFEN_PRUEFEN) return offenMelden(adressen.length)
   log(
     `Crunchyroll: ${adressen.length} Serienadressen offen` +
       (schonDa ? (NUR_FEHLER ? ` (${schonDa} ohne Fehler beim letzten Mal, werden übersprungen)` : ` (${schonDa} innerhalb ihrer Frist gelesen, werden übersprungen)`) : '') +

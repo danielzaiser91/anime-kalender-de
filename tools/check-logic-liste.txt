@@ -80,6 +80,7 @@ pipeline/check-cr-nein-verdrahtung.ts
 pipeline/check-cr-neu-seiten.ts
 pipeline/check-cr-neu-stuendlich.ts
 pipeline/check-cr-neu-wache.ts
+pipeline/check-cr-offen.ts
 pipeline/check-cr-teilseiten-bestand-kulisse.ts
 pipeline/check-cr-teilseiten.ts
 pipeline/check-cr-termine-neu.ts

@@ -32,8 +32,10 @@ concurrency:
 jobs:
   sendezeiten:
     runs-on: ubuntu-latest
-    # Gemessen zwei Minuten (Median); 25 sind ein Vielfaches. Läuft es darüber hinaus, ist der nächste Lauf der bessere Weg — die Abrufe sind idempotent.
-    timeout-minutes: 25
+    # Gemessen vier bis sechs Minuten (Läufe 28.10.2026 07–09 Uhr, davon 3–5 min Einreichen). Die Zeitgrenzen der Schritte ergeben zusammen 63 min und müssen samt
+    # Reserve für Einrichten und Einreichen hineinpassen (`pipeline/check-cr-neu-stuendlich.ts`); mit 25 bräche der Job vor der letzten Grenze ab.
+    # Die Abrufe sind idempotent: Hängt ein Lauf, holt der nächste nach.
+    timeout-minutes: 75
     # Zweck und Ziel gehen an die Statusanzeige mit (Daniel, 21.08.2026: „Zweck sollte kurz beschreiben wofür dieser lauf ist").
     env:
       LAUF_ZWECK: 'Hält die Sendetermine von anime-kalender.de stündlich aktuell'
@@ -84,13 +86,21 @@ jobs:
       - name: Neue deutsche Folgen bei Crunchyroll finden
         run: bash tools/schritt.sh --zeit 3m "Neue Folgen bei Crunchyroll" -- npm run data:cr-neu
 
+      # Zählung ohne Abruf und ohne Zugangspaket (28.10.2026): Ohne zu lesende Serie entfallen Weiche und Urteil. Gescheitert (leere Ausgabe) heißt lesen.
+      # Dieselben Argumente wie das Urteil unten, damit sie dieselbe Auswahl zählt (`pipeline/lib/cr-neu-stuendlich.ts`).
+      - name: Zählen, welche Serien neu zu lesen sind
+        id: cr_offen
+        run: bash tools/schritt.sh --zeit 2m "Offene Serien zählen" -- npm run data:cr-dub -- --nur-neu --limit 60 --offen-pruefen
+
       - name: Crunchyroll-Zugangspaket über die Weiche holen
+        if: steps.cr_offen.outputs.cr_offen != '0'
         env:
           CR_WEICHE_TOKEN: ${{ secrets.CR_WEICHE_TOKEN }}
         run: bash tools/schritt.sh --zeit 2m "Zugangspaket holen" -- node tools/cr-zugang-holen.mjs --github-env
 
       # Ohne frisches Paket bricht der Schritt ab (kein Rückfall auf das 24-Stunden-Geheimnis CR_ZUGANG, das bleibt dem Tageslauf); `--nur-neu` liest nur Serien mit neuer Folge, die Fristen gelten weiter.
       - name: Die neu gefundenen Serien sofort beurteilen
+        if: steps.cr_offen.outputs.cr_offen != '0'
         env:
           CR_ZUGANG: ${{ env.CR_ZUGANG_FRISCH }}
         # Kein eigener `fehler`-Melder: ein Weichen-Ausfall wäre sonst bis zu 24 rote Statuseinträge am Tag; `lauf-abmelden.sh` meldet den Lauf gelb mit dem Schrittnamen.
