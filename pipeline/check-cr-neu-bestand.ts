@@ -29,11 +29,10 @@ export function main(wurzel: string, heute: string): number {
       console.log('  ✓ Crunchyroll-Neuheiten: jede deutsche Folge der letzten 10 Tage hat ihren Termin, jede Serie einen Titel')
       return 0
     }
-    if (fehlt.length) {
-      console.log(bestandWarnzeile('Crunchyroll-Folgen ohne Termin', 'Titel', [...new Set(fehlt.flatMap((f) => f.ids))]))
-      for (const f of fehlt) console.log(`    ${f.titel}, ${f.folge}, ${f.tag}`)
-    }
     if (fremd.length) console.log(serienWarnzeile(fremd))
+    if (!fehlt.length) return 0
+    console.log(bestandWarnzeile('Crunchyroll-Folgen ohne Termin', 'Titel', [...new Set(fehlt.flatMap((f) => f.ids))]))
+    for (const f of fehlt) console.log(`    ${f.titel}, ${f.folge}, ${f.tag}`)
     return 0
   } catch (e) {
     console.error(`  ✖ Crunchyroll-Neuheiten: nicht lesbar (${(e as Error).message})`)
