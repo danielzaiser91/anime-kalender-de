@@ -400,3 +400,13 @@ export function beurteileAdnVerweis(url: string, archiv: AdnArchiv): AdnBefund {
     grund: `${bezug} ist gemischt (${menge.filter((f) => f.vde).length} von ${menge.length} mit vde), der Verweis nennt keine Staffel`,
   }
 }
+
+/**
+ * Kam die Antwort aus dem französischen Katalog? ADN ignoriert zeitweise `X-Target-Distribution: de`
+ * und liefert dann `vostf`/`vf` statt `vostde`/`vde` (28.10.2026) — ein Archiv daraus löschte die
+ * deutschen Sprachen. Eine deutsche Antwort trägt bei jeder Serie mindestens ein `…de`.
+ */
+export function istFranzoesischeAntwort(videos: { languages?: string[] }[]): boolean {
+  const codes = videos.flatMap((v) => v.languages ?? [])
+  return codes.length > 0 && !codes.some((c) => c === 'vde' || c === 'vostde')
+}

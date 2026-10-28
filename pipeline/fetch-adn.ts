@@ -25,6 +25,7 @@ import { episodeAus, katalogShowAus, sortiereFolgen, toBerlin, type AdnListenEin
 import { holeAdnNews } from './lib/adn-news.ts'
 import { fragNeuzugaenge, katalogMitNeuen } from './lib/adn-neuzugaenge.ts'
 import { ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
+import { istFranzoesischeAntwort } from './lib/adn-sprachen.ts'
 import {
   bestimmeRhythmus,
   type AdnData,
@@ -195,6 +196,10 @@ async function ladeSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch?
     }
     const seite = ((await res.json()) as { videos?: AdnVideo[] }).videos ?? []
     videos.push(...seite)
+    if (istFranzoesischeAntwort(videos)) {
+      warn(`ADN: Serie ${showId} kam mit französischen Sprachcodes — Regionskopf wirkungslos, Antwort verworfen.`)
+      return { videos: [], abbruch: 'franzoesisch' }
+    }
     if (seite.length < SEITE) break
     await sleep(700)
   }
