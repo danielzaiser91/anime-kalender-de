@@ -34,6 +34,9 @@ pruefe('Sonderfolge in der Mitte einer Spanne verdeckt eine höhere Folge nicht'
 pruefe('eine zweite Spanne über der Zahl zählt trotz Sonderfolge', zeilen([kai({ sonderfolgen: [25] }, [{ from: 1, to: 25 }, { from: 28, to: 30 }])]).length === 1)
 pruefe('Spanne ohne from: Sonderfolge gilt auch dort', zeilen([kai({ sonderfolgen: [25] }, [{ to: 25 } as never])]).length === 0)
 pruefe('genau 24 bleibt unauffällig (Grenze)', zeilen([kai({}, [{ from: 1, to: 24 }])]).length === 0)
+pruefe('eine Spanne nur aus Sonderfolgen über der Zahl zählt nicht', zeilen([kai({ sonderfolgen: [30] }, [{ from: 1, to: 24 }, { from: 30, to: 30 }])]).length === 0)
+pruefe('Sonderfolge 26 lässt die 25 darunter zählen', zeilen([kai({ sonderfolgen: [26] }, [{ from: 1, to: 26 }])]).join() === `1889 primevideo ${URL_KAI}: bis Folge 25 bei 24`)
+pruefe('Spanne ohne from und ohne Sonderfolge zählt über der Zahl', zeilen([kai({}, [{ to: 25 } as never])]).length === 1)
 
 /* Der echte Beleg: Er steht in der Handbeleg-Datei, trägt die Kennzeichnung, und die Prüfung findet keine Zeile für ihn. */
 const liste = yaml.load(readFileSync(new URL('../data/dub-confirmed.yaml', import.meta.url), 'utf8')) as (ReturnType<typeof kai> & { sonderfolgen?: number[] })[]
@@ -48,4 +51,4 @@ if (fehler) {
   console.error(`FEHL check-sonderfolgen: ${fehler} Zusicherung(en) rot`)
   process.exit(1)
 }
-console.log('OK check-sonderfolgen: 13 Zusicherungen')
+console.log('OK check-sonderfolgen: 16 Zusicherungen')
