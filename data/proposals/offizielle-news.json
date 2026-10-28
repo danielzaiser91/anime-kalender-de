@@ -1,6 +1,19 @@
 {
   "vorschlaege": [
     {
+      "id": "805db4e1e6e9",
+      "host": "mahoyo-movie.com",
+      "titelIds": [
+        143103
+      ],
+      "titel": "情報ミニ番組 『まほよEXPRESS』配信決定！",
+      "datum": "2026-10-28",
+      "url": "https://mahoyo-movie.com/news/?article_id=71576",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-28"
+    },
+    {
       "id": "35718dcc912d",
       "host": "www.cyberpunk.net",
       "titelIds": [
