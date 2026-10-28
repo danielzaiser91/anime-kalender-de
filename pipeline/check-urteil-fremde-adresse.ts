@@ -83,6 +83,9 @@ const rohFaelle: [string, number, number][] = [
   ['Rohfolge an der Cartoon-Adresse (Disney+ ohne Segment)', beobachtungenAusRohfolgen([roh(HEIDI_GTI, DISNEY)], zuordnungRoh, new Set(), istFremd).length, 0],
   ['Kontrolle: Rohfolge an einer eigenen Adresse zählt', beobachtungenAusRohfolgen([roh(EIGEN_GTI, 'https://www.disneyplus.com/de-de/browse/entity-900002')], zuordnungRoh, new Set(), istFremd).length, 1],
   ['Kontrolle: eigene Rohfolge hinter einer fremden zählt weiter', beobachtungenAusRohfolgen([roh(HEIDI_GTI, DISNEY), roh(EIGEN_GTI, 'https://www.disneyplus.com/de-de/browse/entity-900002')], zuordnungRoh, new Set(), istFremd).length, 1],
+  /* Eigene Adresse mit nicht-leerer Liste (`nachAdresse` gibt eine Liste, nicht `undefined`): die Rohfolge zählt. */
+  ['Kontrolle: Rohfolge an einer Adresse mit eigener Zuordnung (Prime) zählt', beobachtungenAusRohfolgen([roh(EIGEN_GTI, PRIME_EIGEN)], zuordnungRoh, new Set(), istFremd).length, 1],
+  ['Kontrolle: Rohfolge an der geteilten Adresse, der eigene Weg schlägt den Cartoon, zählt', beobachtungenAusRohfolgen([roh(EIGEN_GTI, GETEILT)], zuordnungRoh, new Set(), istFremd).length, 1],
 ]
 fehler.push(...rohFaelle.filter(([, ist, soll]) => ist !== soll).map(([name, ist, soll]) => `${name}: ${ist} statt ${soll}`))
 if (fehler.length) {
