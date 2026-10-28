@@ -133,6 +133,7 @@ pipeline/check-folgenblock.ts
 pipeline/check-folgenflaggen.ts
 pipeline/check-folgenzahl-belegt.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
+pipeline/check-gleiche-adresse.ts
 pipeline/check-handbeleg-serienton.ts
 pipeline/check-handbeleg-weg.ts
 pipeline/check-handlung-eigen-hinweis.ts
