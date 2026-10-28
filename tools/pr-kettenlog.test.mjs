@@ -162,6 +162,7 @@ const uMit = uhr()
 const mit = await mitLogs('o/r', js, gh, uMit.warte)
 pruefe('Log nur für abgeschlossene Jobs', mit[0].log === ECHT && mit[1].log === undefined)
 pruefe('nicht abrufbares Log wird zur Fehlzeile', mit[2].log.startsWith('##[error]Log nicht abrufbar: 403'))
+pruefe('Log-Abruf erlaubt Escape-Sequenzen (gh des Runners verweigert sonst)', aufrufe.filter((a) => a.some((x) => x.includes('/logs'))).every((a) => a.includes('--allow-escape-sequences')))
 pruefe('nicht abrufbares Log: genau LOG_VERSUCHE Versuche mit Pause dazwischen', aufrufe.filter((a) => a.some((x) => x.includes('/jobs/13/logs'))).length === LOG_VERSUCHE && uMit.z.wartet === LOG_VERSUCHE - 1, uMit.z)
 {
   let n = 0
