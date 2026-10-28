@@ -11,6 +11,8 @@ pipeline/check-adn-lesetag.ts
 pipeline/check-adn-neuzugaenge.ts
 pipeline/check-adn-offen-wache.ts
 pipeline/check-adn-sprache-offen.ts
+pipeline/check-adn-sprachriegel-lauf.ts
+pipeline/check-adn-sprachriegel.ts
 pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-adressen-schreiben.ts
 pipeline/check-adressen.ts
