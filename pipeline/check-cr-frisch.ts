@@ -5,7 +5,7 @@
  */
 import { readFileSync } from 'node:fs'
 import type { CrSerie } from './lib/crunchyroll-dub.ts'
-import { crFrisch, merkeNeuFolgen, neuFolgenJeSerie, type FrischKontext } from './lib/cr-frisch.ts'
+import { crFrisch, merkeNeuFolgen, neuFolgenJeSerie, serieAblegen, type FrischKontext } from './lib/cr-frisch.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -78,10 +78,31 @@ pruefe('Nichtauskunft bleibt beim Datum (Fehler heute, Fund heute: frisch wie bi
 const gruppiert = neuFolgenJeSerie([{ serieId: LB, guid: F1 }, { serieId: LB, guid: F2 }, { serieId: 'G4PH0WX5J', guid: 'GE00384109DEDE' }, { serieId: LB }, { guid: 'x' }])
 pruefe('Gruppierung: je Serie ihre Kennungen, Zeilen ohne Serie oder Kennung entfallen', JSON.stringify([...gruppiert]) === `[["${LB}",["${F1}","${F2}"]],["G4PH0WX5J",["GE00384109DEDE"]]]`, [...gruppiert])
 
-/* Verdrahtung: `main()` des Dub-Laufs braucht einen Browser, also ein Quelltext-Befund (Notlösung): Kennungen merken und an `crFrisch` geben. */
+/*
+ * Der Speicherpfad des Dub-Laufs läuft als Funktion (`serieAblegen`, von `main()` aufgerufen): Bestand, Serie und Katalogfund hinein,
+ * Bestand und Urteil heraus. Der Kreislauf geht über den Bestand: Fund → Lesen → Ablegen → nächste Stunde → zweiter Fund → Lesen.
+ */
+const bestand = new Map<string, CrSerie>()
+const url = lastBoss().url
+const fundeJeSerie = (...guids: string[]) => neuFolgenJeSerie([...funde(...guids), { serieId: 'G4PH0WX5J', guid: 'GE00384109DEDE' }])
+pruefe('Ablegen: erste Lesung wird abgelegt', serieAblegen(bestand, url, lastBoss(), LB, fundeJeSerie(F1)) === 'abgelegt')
+pruefe('Ablegen: es merkt die Kennungen genau dieser Serie, nicht die der Nachbarserie', JSON.stringify((bestand.get(url) as { neuFolgen?: string[] }).neuFolgen) === `["${F1}"]`, bestand.get(url))
+pruefe('Kreislauf, Stunde 2: der abgelegte Eintrag ist frisch', crFrisch(bestand.get(url)!, stundenKontext([F1])))
+pruefe('Kreislauf, Stunde 3: zweite Folge desselben Tages, der abgelegte Eintrag kommt dran', !crFrisch(bestand.get(url)!, stundenKontext([F1, F2])))
+pruefe('Kreislauf: zweites Ablegen ersetzt den Eintrag', serieAblegen(bestand, url, lastBoss(), LB, fundeJeSerie(F1, F2)) === 'abgelegt' && (bestand.get(url) as { neuFolgen?: string[] }).neuFolgen?.length === 2)
+pruefe('Kreislauf, Stunde 4: danach wieder frisch', crFrisch(bestand.get(url)!, stundenKontext([F1, F2])))
+const gut = bestand.get(url)
+pruefe('Fehlersatz überschreibt keinen guten Eintrag: behalten, Eintrag unverändert', serieAblegen(bestand, url, lastBoss({ fehler: 'API antwortet nicht' }), LB, fundeJeSerie(F1, F2)) === 'behalten' && bestand.get(url) === gut)
+const neuerBestand = new Map<string, CrSerie>()
+pruefe('Fehlersatz ohne guten Vorgänger wird abgelegt, ohne gemerkte Kennungen', serieAblegen(neuerBestand, url, lastBoss({ fehler: 'x' }), LB, fundeJeSerie(F1)) === 'abgelegt' && (neuerBestand.get(url) as { neuFolgen?: string[] }).neuFolgen === undefined)
+neuerBestand.set(url, lastBoss({ fehler: 'alt' }))
+pruefe('guter Satz ersetzt einen Fehlersatz', serieAblegen(neuerBestand, url, lastBoss(), LB, fundeJeSerie(F1)) === 'abgelegt' && neuerBestand.get(url)!.fehler === undefined)
+pruefe('Serie ohne Eintrag im Katalogfund: abgelegt ohne Kennungen', serieAblegen(new Map(), url, lastBoss(), 'GXYZ', fundeJeSerie(F1)) === 'abgelegt')
+
+/* `main()` braucht einen Browser: Quelltext-Befunde für Aufruf und Übergabe als Gürtel zusätzlich zum Lauf oben. */
 const lauf = readFileSync(new URL('./scrape-crunchyroll-dub.ts', import.meta.url), 'utf8')
-pruefe('Dub-Lauf merkt die Folgenkennungen beim Speichern der Serie', lauf.includes('bestand.set(url, merkeNeuFolgen(serie, neuFolgen.get(seriesId)))'))
-pruefe('Dub-Lauf gibt die Kennungen des Katalogfunds an crFrisch', /crFrisch\(s, \{[^}]*\bneuFolgen,[^}]*\}\)/.test(lauf))
+pruefe('Dub-Lauf legt die Serie über serieAblegen ab, mit Serienkennung und Katalogfund', lauf.includes("serieAblegen(bestand, url, serie, seriesId, neuFolgen) === 'behalten'"))
+pruefe('Dub-Lauf gibt die Kennungen des Katalogfunds an crFrisch',/crFrisch\(s, \{[^}]*\bneuFolgen,[^}]*\}\)/.test(lauf))
 pruefe('Dub-Lauf liest die Kennungen aus dem Katalogfund', lauf.includes('neuFolgenJeSerie(neuFunde)') && lauf.includes('guid?: string'))
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

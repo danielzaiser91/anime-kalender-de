@@ -67,7 +67,7 @@ import type { Title } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import type { CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
 import { crunchyrollSeriesId } from './lib/crunchyroll.ts'
-import { crFrisch, merkeNeuFolgen, neuFolgenJeSerie } from './lib/cr-frisch.ts'
+import { crFrisch, neuFolgenJeSerie, serieAblegen } from './lib/cr-frisch.ts'
 import { offenMelden } from './lib/cr-offen.ts'
 import { serieHinterFolge, serieLesen } from './lib/crunchyroll-lesen.ts'
 import { crunchyrollAdressen, crunchyrollNeinAbrufLaden } from './lib/crunchyroll-adressen.ts'
@@ -932,13 +932,11 @@ async function main(): Promise<void> {
         entfernte den Verweis als „deutscher Katalog führt keine Staffel". Der alte Stand
         bleibt stehen, samt Prüfdatum: So kommt die Serie beim nächsten Lauf gleich wieder dran.
       */
-      const vorherige = bestand.get(url)
-      if (serie.fehler && vorherige && !vorherige.fehler) {
+      if (serieAblegen(bestand, url, serie, seriesId, neuFolgen) === 'behalten') {
         gestoert++
-        melden(i, kurz, vorherige)
+        melden(i, kurz, bestand.get(url)!)
         continue
       }
-      bestand.set(url, merkeNeuFolgen(serie, neuFolgen.get(seriesId)))
       // Gezählt wird nur, wo die Antwort auch eine ist: „nicht verfügbar" und
       // „keine Auskunft" sind kein „ohne deutsche Tonspur".
       if (serie.deutschImAngebot === false) ohneDeutsch++

@@ -25,6 +25,24 @@ export function merkeNeuFolgen(serie: CrSerie, guids: string[] | undefined): CrS
   return serie.fehler || !guids?.length ? serie : { ...serie, neuFolgen: guids }
 }
 
+/**
+ * Legt eine gelesene Serie im Bestand ab (aus `main()` des Dub-Laufs herausgelöst, damit der Speicherpfad ohne Browser läuft).
+ * Ein Fehlersatz überschreibt keinen guten Eintrag (17.09.2026): Der alte Stand bleibt samt Prüfdatum, die Serie kommt bald wieder dran.
+ * `neuFolgen` ist der Katalogfund je Serienkennung; abgelegt werden die Kennungen dieser Serie.
+ */
+export function serieAblegen(
+  bestand: Map<string, CrSerie>,
+  url: string,
+  serie: CrSerie,
+  seriesId: string,
+  neuFolgen: Map<string, string[]>,
+): 'abgelegt' | 'behalten' {
+  const vorherige = bestand.get(url)
+  if (serie.fehler && vorherige && !vorherige.fehler) return 'behalten'
+  bestand.set(url, merkeNeuFolgen(serie, neuFolgen.get(seriesId)))
+  return 'abgelegt'
+}
+
 export interface FrischKontext {
   /** Region des Zugangs, mit dem gerade gefragt wird (`de`), oder keiner. */
   katalogJetzt?: string
