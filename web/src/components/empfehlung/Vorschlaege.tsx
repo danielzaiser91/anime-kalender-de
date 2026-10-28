@@ -46,7 +46,7 @@ function Vorschlag({ k, titel, istFavorit, aktionen }: { k: Kandidat; titel?: Ti
         </button>
         <button type="button" aria-label={t('empf.gesehen')} title={t('empf.gesehen')} onClick={() => aktionen.gesehen(k.id)} className={ZEILE}>
           <i className="w-[18px] text-center not-italic text-ak-gut-text">✓</i>
-          <span className="empf-aktion-text">{t('empf.gesehen')}</span>
+          <span className="empf-aktion-gesehen">{t('empf.gesehen')}</span>
         </button>
         <button type="button" aria-label={t('empf.nein')} title={t('empf.nein')} onClick={() => aktionen.nein(k.id)} className={ZEILE}>
           <i className="w-[18px] text-center not-italic text-ak-fehler-text">✕</i>
