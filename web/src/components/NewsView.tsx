@@ -3,6 +3,7 @@ import { useUeberlaeuft } from '../lib/use-ueberlaeuft.ts'
 import { type NewsArt, type NewsEintrag, type NewsMeldung } from '@shared/types.ts'
 import { feedUrl, loadNews, type Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { istAusgeblendet } from '../lib/ecchi.ts'
 import { coverBild } from '../lib/cover.ts'
 import { artLabel, datumKurz, newsKurz, newsSatz } from '../lib/news-text.ts'
 import { hostVon, istLink } from '@shared/quelle.ts'
@@ -220,8 +221,8 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
   /* Überholte Meldungen stehen unter der, die sie überholt hat — nicht mehr in ihrer eigenen Tagesliste. */
   const verlaeufe = useMemo(() => verlaeufeAus(meldungen ?? []), [meldungen])
   const sichtbar = useMemo(
-    () => ohneEingeordnete((meldungen ?? []).filter((e) => e.am >= grenze), verlaeufe.eingeordnet),
-    [meldungen, grenze, verlaeufe],
+    () => ohneEingeordnete((meldungen ?? []).filter((e) => e.am >= grenze && !istAusgeblendet(data.titleById.get(e.titelId))), verlaeufe.eingeordnet),
+    [meldungen, grenze, verlaeufe, data],
   )
   const aeltereGibtEs = ohneEingeordnete(meldungen ?? [], verlaeufe.eingeordnet).some((e) => e.am < grenze)
 

@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { empfehlungenZuruecksetzen } from '../lib/empfehlung-reset.ts'
 import { useThema } from '../lib/thema.ts'
+import { ecchiSetzen, ecchiZeigen } from '../lib/ecchi.ts'
 
 /** Die Einstellungen: ein Zahnrad, ein Dialog. Cartoons werden nur über den Schnellfilter ein- und ausgeblendet. */
 export function EinstellungenDialog({
@@ -58,6 +59,7 @@ export function EinstellungenDialog({
         </div>
 
         <ThemaZeile />
+        <EcchiZeile />
         <EmpfehlungZeile />
       </div>
     </div>,
@@ -73,6 +75,28 @@ function ThemaZeile() {
     <label className="mt-2 flex cursor-pointer items-center gap-3 rounded-2xl border border-ak-rand p-3 transition hover:bg-ak-flaeche-2 md:hidden">
       <input type="checkbox" checked={!dunkel} onChange={umschalten} className="h-4 w-4 shrink-0 accent-[#ff5a36]" />
       <span className="text-sm font-semibold">{t('kopf.hell')}</span>
+    </label>
+  )
+}
+
+/** Ecchi-Titel zeigen (Vorgabe aus): Die Listen werden beim Laden gefiltert (`ecchi.ts`), darum lädt die Seite nach dem Umlegen neu. */
+export function EcchiZeile({ neuLaden = () => location.reload() }: { neuLaden?: () => void }) {
+  const { t } = useLang()
+  return (
+    <label className="mt-2 flex cursor-pointer items-start gap-3 rounded-2xl border border-ak-rand p-3 transition hover:bg-ak-flaeche-2">
+      <input
+        type="checkbox"
+        defaultChecked={ecchiZeigen()}
+        onChange={(e) => {
+          ecchiSetzen(e.target.checked)
+          neuLaden()
+        }}
+        className="mt-0.5 h-4 w-4 shrink-0 accent-[#ff5a36]"
+      />
+      <span className="flex flex-col gap-0.5">
+        <span className="text-sm font-semibold">{t('einstellungen.ecchi' as TranslationKey)}</span>
+        <span className="text-xs text-ak-leise">{t('einstellungen.ecchiHinweis' as TranslationKey)}</span>
+      </span>
     </label>
   )
 }

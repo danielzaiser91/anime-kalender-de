@@ -4,6 +4,7 @@ import { useSprecherAuswahl } from './lib/sprecher.ts'
 import { EinstellungenDialog } from './components/Einstellungen.tsx'
 import { loadAllTitles, loadCartoons, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
 import { useStartdaten } from './lib/start-daten.ts'
+import { useEinstellungenOffen } from './lib/einstellungen-offen.ts'
 import { eventsFuerAnsichtGen, titelFuerAnsichtGen, toggleValue, type FilterState } from './lib/filters.ts'
 import { useKalenderFilter } from './lib/kalender-filter.ts'
 import { leeresErgebnis, useZeitscheibe } from './lib/use-zeitscheibe.ts'
@@ -72,7 +73,7 @@ export default function App() {
   const [allTitles, setAllTitles] = useState<Title[]>()
   const [ohneSynchro, setOhneSynchro] = useState<Title[]>()
   const [cartoons, setCartoons] = useState<Title[]>()
-  const [einstellungenOffen, setEinstellungenOffen] = useState(false)
+  const [einstellungenOffen, setEinstellungenOffen] = useEinstellungenOffen()
   /* TV-Termine ausblenden. */
   const [tvAus, setTvAus] = useGemerkterSchalter('tvAus', tvAusGespeichert)
   const [route, navigate, ersetze] = useRoute()
