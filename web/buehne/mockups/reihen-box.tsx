@@ -33,7 +33,7 @@ function KopfMitStaffelzeile(eigenschaften: ComponentProps<typeof PanelBuehne>) 
           <button
             type="button"
             onClick={springZurReihe}
-            className="rounded-full border border-ak-rand px-3 py-1 text-xs font-semibold text-ak-akzent-text"
+            className="min-h-11 rounded-full border border-ak-rand px-3 py-1 text-xs font-semibold text-ak-akzent-text"
           >
             {staffelZeile(eigenschaften)} <span aria-hidden="true">↓</span>
           </button>
