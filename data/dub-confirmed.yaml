@@ -15878,12 +15878,12 @@
   url: https://www.netflix.com/title/80992228
   dub: true
   dubRanges:
-    - from: 13
-      to: 28
+    - from: 1
+      to: 12
       dub: true
-      checked: [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
+      checked: [1]
   checkedAt: '2026-09-24'
-  note: "Folgen 13–28 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 13 und 28, dazwischen nicht geprüft — Folge 27: Sieg — Netflix: Staffel 1: Teil 1"
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1, dazwischen nicht geprüft — Staffelzählung (Netflix zählt die Staffel durchgehend 1–28; Folgen 13–28 sind Part 2, 169692)"
 - anilistId: 105333
   title: "Dr. Stone"
   platform: netflix
@@ -16046,12 +16046,12 @@
   url: https://www.netflix.com/title/80987039
   dub: true
   dubRanges:
-    - from: 12
-      to: 23
+    - from: 1
+      to: 12
       dub: true
-      checked: [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   checkedAt: '2026-09-24'
-  note: "Folgen 12–23 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 12 und 23, dazwischen nicht geprüft — Folge 23: Folge 23 — Netflix: Alle Folgen anzeigen"
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Staffelzählung (Netflix zählt Staffel 1 durchgehend 1–23; Folgen 12–23 sind Cour 2)"
 - anilistId: 20574
   title: "Hi Score Girl"
   platform: netflix
@@ -36513,11 +36513,11 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 25
+      to: 12
       dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   checkedAt: '2026-10-16'
-  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de, ja"
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de, ja — Staffelzählung (Disney+ zählt Staffel 1 durchgehend 1–25; Folgen 13–25 sind Part 2, 142838)"
 - anilistId: 188139
   title: "Though I Am an Inept Villainess"
   platform: disneyplus
