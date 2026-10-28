@@ -61,7 +61,7 @@ const M_NEU = 'b2'.padEnd(40, '2')
 const JQ_VERGLEICH = '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)], commitsGesamt: .total_commits, autoren: [.commits[] | .author.login // .commit.author.name]}'
 // Standard: ein Commit eines Menschen, damit die Bot-Sprung-Ausnahme (Merge-Fluss C) nur greift, wo ein Fall sie verlangt.
 const vergleich = (dateien, status = 'ahead', anzahl = dateien.length, autoren = ['danielzaiser91'], commitsGesamt = autoren.length) => JSON.stringify({ status, anzahl, dateien, commitsGesamt, autoren })
-function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTES_LOG, mergeShas = [M_ALT, M_NEU], mainDateien = ['tools/x.mjs'], prDateien = 'src/a.ts\n', autoren } = {}) {
+function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTES_LOG, logFehler = false, mergeShas = [M_ALT, M_NEU], mainDateien = ['tools/x.mjs'], prDateien = 'src/a.ts\n', autoren } = {}) {
   return {
     [`api repos/{owner}/{repo}/compare/${BASIS}...${mainSha} --jq ${JQ_VERGLEICH}`]: { aus: Array.isArray(mainDateien) ? vergleich(mainDateien, 'ahead', mainDateien.length, autoren) : mainDateien.roh },
     [`api repos/{owner}/{repo}/pulls/${nr}/files --paginate --jq .[] | .filename, (.previous_filename // empty)`]: { aus: prDateien },
@@ -72,8 +72,8 @@ function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTE
     [`run list --workflow ${KETTE} --event pull_request --branch fix/x --limit 20 --json databaseId,headSha,createdAt`]: {
       aus: JSON.stringify(laeufe ?? [lauf(KOPF, '2026-10-19T10:00:00Z', 11), lauf(KOPF, '2026-10-19T12:00:00Z', 12), lauf(KOPF, '2026-10-19T11:00:00Z', 13)]),
     },
-    'run view 12 --json jobs': { aus: JSON.stringify({ jobs: jobs ?? [{ name: 'Kette – Logik', databaseId: 91 }, { name: JOB, databaseId: 92 }, { name: 'PR-Prüfkette', databaseId: 93 }] }) },
-    'api repos/{owner}/{repo}/actions/jobs/92/logs': { aus: log },
+    'run view 12 --json jobs': { aus: JSON.stringify({ jobs: jobs ?? [{ name: 'Kette – Logik', databaseId: 91 }, { name: JOB, databaseId: 92, status: 'completed' }, { name: 'PR-Prüfkette', databaseId: 93 }] }) },
+    'api repos/{owner}/{repo}/actions/jobs/92/logs': logFehler ? { fehler: 'HTTP 404: Not Found' } : { aus: log },
     'api repos/{owner}/{repo}/git/ref/heads/main --jq .object.sha': { aus: `${mainSha}\n` },
     [`pr close ${nr}`]: { aus: '' },
     [`pr reopen ${nr}`]: { aus: '' },
@@ -423,6 +423,8 @@ const UNKLAR = [
   ['geschlossen', antworten({ pr: { ...PR, state: 'CLOSED' }, mainSha: MAIN }), /nicht offen/],
   ['kein Lauf zum Kopf', antworten({ laeufe: [lauf(MAIN, '2026-10-19T12:00:00Z', 12)], mainSha: MAIN }), /kein Kettenlauf zum Kopf 08798af3f/],
   ['Job fehlt im Lauf', antworten({ jobs: [{ name: 'Kette – Logik', databaseId: 91 }], mainSha: MAIN }), /keinen Job „Kette – Workflows“/],
+  ['Job wartet (queued), Log-Abruf 404', antworten({ jobs: [{ name: JOB, databaseId: 92, status: 'queued' }], logFehler: true, mainSha: MAIN }), /läuft noch \(Lauf 12\)/],
+  ['Job läuft (in_progress), Log-Abruf 404', antworten({ jobs: [{ name: JOB, databaseId: 92, status: 'in_progress' }], logFehler: true, mainSha: MAIN }), /läuft noch \(Lauf 12\)/],
   ['Log ohne Basis (Job übersprungen)', antworten({ log: 'Job übersprungen', mainSha: MAIN }), /Basis nicht im Log/],
 ]
 for (const [name, daten, muster] of UNKLAR) {
