@@ -33,6 +33,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { recordSource } from './lib/health.ts'
+import { kennwort, kennwortRoh } from './lib/cr-kennwort.ts'
 import { normSchluessel, sleep } from './lib/util.ts'
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36'
@@ -57,16 +58,6 @@ const tok = await fetch('https://beta-api.crunchyroll.com/auth/v1/token', {
 }).then((r) => r.json())
 if (tok.country !== 'DE') { console.error('Nicht aus Deutschland — Abbruch.'); process.exit(1) }
 const hol = (u) => fetch(u, { headers: { Authorization: `Bearer ${tok.access_token}`, 'User-Agent': UA } }).then((r) => r.json()).catch(() => null)
-
-/** Der unterscheidende Teil eines Filmtitels: alles nach dem letzten Trenner. */
-const kennwortRoh = (s) => {
-  const t = (s ?? '').split(/s[-–—:]s|s*:s*/).filter(Boolean)
-  return (t[t.length - 1] ?? s ?? '').replace(/[~„"]/g, '').trim()
-}
-const kennwort = (s) => {
-  const t = (s ?? '').split(/\s[-–—:]\s|\s*:\s*/).filter(Boolean)
-  return normSchluessel(t[t.length - 1] ?? s)
-}
 
 const blockCache = new Map()
 async function bloeckeVon(serienId) {
