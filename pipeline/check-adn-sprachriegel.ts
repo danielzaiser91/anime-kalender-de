@@ -13,7 +13,8 @@ import {
   franzoesischeArchive,
   istFranzoesischeSicht,
   MAX_VERWORFEN,
-  mitVerworfenenAlten,
+  katalogBilanzZeile,
+  mitUngepruftenAlten,
   riegelBilanz,
   schreibeArchiv,
   verworfen,
@@ -90,14 +91,21 @@ try {
 }
 
 const eintrag = (showId: number, titel: string) => ({ showId, titel })
-const katalogAlt = [eintrag(1, 'alt eins'), eintrag(2, 'alt zwei'), eintrag(3, 'alt drei')]
+const katalogAlt = [eintrag(1, 'alt eins'), eintrag(2, 'alt zwei'), eintrag(3, 'alt drei'), eintrag(5, 'alt fünf'), eintrag(6, 'alt sechs')]
 const katalogNeu = [eintrag(2, 'neu zwei'), eintrag(4, 'neu vier')]
-const zusammen = mitVerworfenenAlten(katalogAlt, katalogNeu, [1, 2, 9]).map((e) => e.titel)
-pruefe('verworfene Serie ohne neuen Eintrag behält den alten', zusammen.includes('alt eins'), zusammen)
+// 1 abgebrochen, 2/3/4 vollständig beantwortet (3 ohne Deutsch), 5/6 nicht gefragt.
+const auskunft = { gefragt: new Set([1, 2, 3, 4]), entschieden: new Set([2, 3, 4]) }
+const ergebnis = mitUngepruftenAlten(katalogAlt, katalogNeu, auskunft)
+const zusammen = ergebnis.shows.map((e) => e.titel)
+pruefe('abgebrochene Serie ohne neuen Eintrag behält den alten', zusammen.includes('alt eins'), zusammen)
+pruefe('nicht gefragte Serien behalten den alten Eintrag', zusammen.includes('alt fünf') && zusammen.includes('alt sechs'), zusammen)
 pruefe('Serie mit neuem Eintrag nimmt den neuen, nicht den alten', zusammen.includes('neu zwei') && !zusammen.includes('alt zwei'), zusammen)
-pruefe('nicht verworfene Serie ohne neuen Eintrag fällt weg wie bisher', !zusammen.includes('alt drei'), zusammen)
-pruefe('Reihenfolge: neue vor behaltenen alten', zusammen.join() === 'neu zwei,neu vier,alt eins', zusammen)
-pruefe('ohne Verwerfung ist das Ergebnis der neue Katalog', mitVerworfenenAlten(katalogAlt, katalogNeu, []).length === 2)
+pruefe('frisch und vollständig ohne Deutsch beantwortet fällt weg', !zusammen.includes('alt drei'), zusammen)
+pruefe('Reihenfolge: neue vor behaltenen alten', zusammen.join() === 'neu zwei,neu vier,alt eins,alt fünf,alt sechs', zusammen)
+pruefe('Zähler je Weg: 2 nicht gefragt, 1 Abbruch, 1 entfernt', ergebnis.nichtGefragt === 2 && ergebnis.abbruch === 1 && ergebnis.entfernt === 1, ergebnis)
+pruefe('Logzeile nennt alle drei Zähler', katalogBilanzZeile(ergebnis) === 'ADN-Katalog behalten: 2 nicht gefragt, 1 Abbruch, 1 entfernt', katalogBilanzZeile(ergebnis))
+const alleBeantwortet = mitUngepruftenAlten(katalogAlt, katalogNeu, { gefragt: new Set([1, 2, 3, 5, 6]), entschieden: new Set([1, 2, 3, 5, 6]) })
+pruefe('wenn alle vollständig antworteten, ist das Ergebnis der neue Katalog', alleBeantwortet.shows.length === 2 && alleBeantwortet.entfernt === 4, alleBeantwortet)
 
 pruefe(`genau ${MAX_VERWORFEN} verworfene Serien sind noch nicht rot`, !riegelBilanz(MAX_VERWORFEN).rot)
 pruefe(`${MAX_VERWORFEN + 1} verworfene Serien sind rot`, riegelBilanz(MAX_VERWORFEN + 1).rot)
