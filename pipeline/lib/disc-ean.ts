@@ -6,7 +6,7 @@
  * `data/disc-ausgaben.json` dem Titel und Tag zu. Gilt nur, wenn die Zuordnung eindeutig ist (eine Ausgabe, ggf. in
  * mehreren Medien) — sonst bleibt es die Namenssuche.
  */
-import { amazonEanUrl, amazonSearchUrl } from '../../shared/plattform-suche.ts'
+import { amazonEanUrl, amazonLinkArt, amazonSearchUrl } from '../../shared/plattform-suche.ts'
 import { readJson } from './util.ts'
 import type { Artikel } from './anisearch-artikel.ts'
 
@@ -51,4 +51,11 @@ export function discKaufUrl(
   if (entry.buyUrl || entry.releaseType !== 'disc') return entry.buyUrl
   const ean = discEan(index, titleId, datum)
   return ean ? amazonEanUrl(ean) : amazonSearchUrl(name)
+}
+
+/** Nach einer Terminverschiebung: eine Namenssuche wird zur EAN-Suche, wenn die Ausgabe am neuen Tag eindeutig ist; Handlinks und EAN-Links bleiben. */
+export function buyUrlNachVerschiebung(buyUrl: string | undefined, titleId: number | undefined, nach: string, index: DiscIndex): string | undefined {
+  if (amazonLinkArt(buyUrl) !== 'name') return buyUrl
+  const ean = discEan(index, titleId, nach)
+  return ean ? amazonEanUrl(ean) : buyUrl
 }
