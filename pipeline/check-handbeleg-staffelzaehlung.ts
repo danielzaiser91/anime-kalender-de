@@ -19,7 +19,7 @@ const beleg = (id: number, platform: string, url: string, am: string, von?: numb
 const NETFLIX_KENGAN = 'https://www.netflix.com/title/80992228'
 const NETFLIX_MUSHOKU = 'https://www.netflix.com/title/80987039'
 const DISNEY_SPY = 'https://www.disneyplus.com/de-de/series/spyfamily/fet1h9jqmrAM'
-const folgen = new Map([[146638, 12], [127720, 12], [140960, 12], [900001, 12]])
+const folgen = new Map([[146638, 12], [127720, 12], [140960, 12], [142838, 13], [900001, 12]])
 
 // Alt: der Serien-Bereich vom 24.09. bleibt neben dem jüngeren Urteil ohne Bereich stehen — das war der Anlassfall.
 const alt = [
@@ -39,6 +39,10 @@ const neu = [
 pruefe('Staffelzählung: nichts über der Folgenzahl', staffelzaehlungVerletzt(neu, folgen).length === 0, staffelzaehlungVerletzt(neu, folgen))
 pruefe('genau die Folgenzahl ist erlaubt, eine mehr nicht', staffelzaehlungVerletzt([beleg(140960, 'netflix', 'u', '2026-10-16', 1, 13)], folgen).length === 1)
 
+// Part 2 (142838): 13 Folgen, Disney+-Beleg 1–13 gilt, der ungerechnete Serienbereich 13–25 nicht.
+pruefe('Spy Part 2: 1–13 bei 13 Folgen ist erlaubt', staffelzaehlungVerletzt([beleg(142838, 'disneyplus', DISNEY_SPY, '2026-10-16', 1, 13)], folgen).length === 0)
+pruefe('Spy Part 2: Serienbereich 13–25 wird gemeldet', staffelzaehlungVerletzt([beleg(142838, 'disneyplus', DISNEY_SPY, '2026-10-16', 13, 25)], folgen).length === 1)
+
 // Grenzen der Wache: andere Titel bleiben der Schwelle in check-logic-bestand überlassen; ohne bekannte Folgenzahl keine Aussage.
 pruefe('fremder Titel über der Folgenzahl wird hier nicht gemeldet', staffelzaehlungVerletzt([beleg(900001, 'netflix', 'u', '2026-10-16', 1, 30)], folgen).length === 0)
 pruefe('ohne Folgenzahl keine Meldung', staffelzaehlungVerletzt(alt, new Map()).length === 0)
@@ -47,4 +51,4 @@ if (fehler) {
   console.error(`\n${fehler} Zusicherung(en) verletzt.`)
   process.exit(1)
 }
-console.log('\nHandbelege in Staffelzählung: 6 Fälle OK')
+console.log('\nHandbelege in Staffelzählung: 8 Fälle OK')

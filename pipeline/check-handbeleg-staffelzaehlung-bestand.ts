@@ -1,5 +1,5 @@
 /**
- * Bestandswache: Die Handbelege Kengan Ashura S2 (146638), Mushoku Tensei Cour 2 (127720) und Spy × Family (140960) nennen nach dem
+ * Bestandswache: Die Handbelege Kengan Ashura S2 (146638), Mushoku Tensei Cour 2 (127720), Spy × Family (140960) und Part 2 (142838) nennen nach dem
  * Verschmelzen keinen Deutsch-Bereich über der Folgenzahl ihres Titels (Serienzählung statt Staffelzählung, 28.10.2026).
  * Rot, der Titel wird zurückgestellt (Marke). Die Regel steht in `lib/handbeleg-staffelzaehlung.ts`, ihr Test in `check-handbeleg-staffelzaehlung.ts`.
  */

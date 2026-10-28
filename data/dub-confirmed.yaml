@@ -15872,18 +15872,6 @@
   dub: true
   checkedAt: '2026-09-24'
   note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: Vater und Sohn — Netflix: Alle Folgen anzeigen"
-- anilistId: 146638
-  title: "Kengan Ashura: Staffel 2"
-  platform: netflix
-  url: https://www.netflix.com/title/80992228
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1]
-  checkedAt: '2026-09-24'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1, dazwischen nicht geprüft — Staffelzählung (Netflix zählt die Staffel durchgehend 1–28; Folgen 13–28 sind Part 2, 169692)"
 - anilistId: 105333
   title: "Dr. Stone"
   platform: netflix
@@ -16051,7 +16039,7 @@
       dub: true
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   checkedAt: '2026-09-24'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Staffelzählung (Netflix zählt Staffel 1 durchgehend 1–23; Folgen 12–23 sind Cour 2)"
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Netflix-Folge 12 und 23 = Cour-2-Folge 1 und 12, dazwischen nicht geprüft — Staffelzählung (Netflix zählt Staffel 1 durchgehend 1–23; Folgen 12–23 sind Cour 2)"
 - anilistId: 20574
   title: "Hi Score Girl"
   platform: netflix
@@ -36518,6 +36506,18 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   checkedAt: '2026-10-16'
   note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de, ja — Staffelzählung (Disney+ zählt Staffel 1 durchgehend 1–25; Folgen 13–25 sind Part 2, 142838)"
+- anilistId: 142838
+  title: "Spy × Family Part 2"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/series/spyfamily/fet1h9jqmrAM
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-10-16'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de, ja — gemessen: Disney+-Folge 13–25 = Part-2-Folge 1–13 (Disney+ zählt durchgehend 1–25)"
 - anilistId: 188139
   title: "Though I Am an Inept Villainess"
   platform: disneyplus
