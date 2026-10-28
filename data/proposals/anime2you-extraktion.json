@@ -815,8 +815,21 @@
       "am": "2026-10-27",
       "vorschlaege": 1
     },
+    "1063846": {
+      "am": "2026-10-28",
+      "vorschlaege": 0
+    },
     "1063875": {
       "am": "2026-10-27",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1063941": {
+      "am": "2026-10-28",
+      "vorschlaege": 0
+    },
+    "1063985": {
+      "am": "2026-10-28",
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
@@ -848,6 +861,30 @@
     "1064211": {
       "am": "2026-10-27",
       "vorschlaege": 1
+    },
+    "1064512": {
+      "am": "2026-10-28",
+      "vorschlaege": 0
+    },
+    "1064556": {
+      "am": "2026-10-28",
+      "vorschlaege": 1
+    },
+    "1064592": {
+      "am": "2026-10-28",
+      "vorschlaege": 1
+    },
+    "1064672": {
+      "am": "2026-10-28",
+      "vorschlaege": 1
+    },
+    "1064788": {
+      "am": "2026-10-28",
+      "vorschlaege": 1
+    },
+    "1064806": {
+      "am": "2026-10-28",
+      "vorschlaege": 7
     }
   },
   "vorschlaege": [
@@ -7119,6 +7156,218 @@
       "quelle": "https://www.anime2you.de/news/1064033/the-worlds-strongest-witch-episodenanzahl/",
       "veroeffentlicht": "2026-10-26",
       "gelesenAm": "2026-10-27"
+    },
+    {
+      "titel": "I Parry Everything!",
+      "zitat": "2. November: »I Parry Everything!« (Synchro) Episoden: 12 (komplett) Sprache: Deutsch, Japanisch (UT) Hinweis: Der Originalton ist bereits verfügbar Stream: ADN, Prime Video",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "adn",
+      "datum": "2026-11-02",
+      "uhrzeit": null,
+      "anbieter": "ADN",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": "Montag",
+      "warnungen": [],
+      "artikelId": "1064806",
+      "artikel": "ADN kündigt sechs Anime-Neuzugänge für November 2026 an",
+      "quelle": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+      "veroeffentlicht": "2026-10-27",
+      "gelesenAm": "2026-10-28"
+    },
+    {
+      "titel": "I Parry Everything!",
+      "zitat": "2. November: »I Parry Everything!« (Synchro) Episoden: 12 (komplett) Sprache: Deutsch, Japanisch (UT) Hinweis: Der Originalton ist bereits verfügbar Stream: ADN, Prime Video",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "primevideo",
+      "datum": "2026-11-02",
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": "Montag",
+      "warnungen": [],
+      "artikelId": "1064806",
+      "artikel": "ADN kündigt sechs Anime-Neuzugänge für November 2026 an",
+      "quelle": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+      "veroeffentlicht": "2026-10-27",
+      "gelesenAm": "2026-10-28"
+    },
+    {
+      "titel": "Pretty Cure",
+      "zitat": "4. November: »Pretty Cure« Episoden: 49 (komplett) Sprache: Japanisch (UT) Stream: ADN",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "adn",
+      "datum": "2026-11-04",
+      "uhrzeit": null,
+      "anbieter": "ADN",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "49",
+      "unsicher": null,
+      "wochentag": "Mittwoch",
+      "warnungen": [],
+      "artikelId": "1064806",
+      "artikel": "ADN kündigt sechs Anime-Neuzugänge für November 2026 an",
+      "quelle": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+      "veroeffentlicht": "2026-10-27",
+      "gelesenAm": "2026-10-28"
+    },
+    {
+      "titel": "Kotoura-san",
+      "zitat": "11. November: »Kotoura-san« Episoden: 12 (komplett) Sprache: Japanisch (UT) Stream: ADN",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "adn",
+      "datum": "2026-11-11",
+      "uhrzeit": null,
+      "anbieter": "ADN",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": "Mittwoch",
+      "warnungen": [],
+      "artikelId": "1064806",
+      "artikel": "ADN kündigt sechs Anime-Neuzugänge für November 2026 an",
+      "quelle": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+      "veroeffentlicht": "2026-10-27",
+      "gelesenAm": "2026-10-28"
+    },
+    {
+      "titel": "KILL la KILL",
+      "zitat": "18. November: »KILL la KILL« Episoden: 24 (komplett) Sprache: Deutsch, Japanisch (UT) Stream: ADN",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "adn",
+      "datum": "2026-11-18",
+      "uhrzeit": null,
+      "anbieter": "ADN",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "24",
+      "unsicher": null,
+      "wochentag": "Mittwoch",
+      "warnungen": [],
+      "artikelId": "1064806",
+      "artikel": "ADN kündigt sechs Anime-Neuzugänge für November 2026 an",
+      "quelle": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+      "veroeffentlicht": "2026-10-27",
+      "gelesenAm": "2026-10-28"
+    },
+    {
+      "titel": "Cross Game",
+      "zitat": "25. November: »Cross Game« Episoden: 50 (komplett) Sprache: Japanisch (UT) Stream: ADN",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "adn",
+      "datum": "2026-11-25",
+      "uhrzeit": null,
+      "anbieter": "ADN",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "50",
+      "unsicher": null,
+      "wochentag": "Mittwoch",
+      "warnungen": [],
+      "artikelId": "1064806",
+      "artikel": "ADN kündigt sechs Anime-Neuzugänge für November 2026 an",
+      "quelle": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+      "veroeffentlicht": "2026-10-27",
+      "gelesenAm": "2026-10-28"
+    },
+    {
+      "titel": "Reborn!",
+      "zitat": "28. November: »Reborn!« – Episode 102 bis 153 Episoden: 52 Sprache: Japanisch (UT) Stream: ADN",
+      "art": "folgen",
+      "sprache": "omu",
+      "plattform": "adn",
+      "datum": "2026-11-28",
+      "uhrzeit": null,
+      "anbieter": "ADN",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "102–153",
+      "unsicher": null,
+      "wochentag": "Samstag",
+      "warnungen": [],
+      "artikelId": "1064806",
+      "artikel": "ADN kündigt sechs Anime-Neuzugänge für November 2026 an",
+      "quelle": "https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/",
+      "veroeffentlicht": "2026-10-27",
+      "gelesenAm": "2026-10-28"
+    },
+    {
+      "titel": "Witch on the Holy Night",
+      "zitat": "»Witch on the Holy Night« startet am 26. Januar 2027 mit deutscher Synchronisation sowie im japanischen Originalton mit Untertiteln in Deutschland, Österreich und der deutschsprachigen Schweiz im Kino.",
+      "art": "kino",
+      "sprache": "deutsch+omu",
+      "plattform": "kino",
+      "datum": "2027-01-26",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Dienstag",
+      "warnungen": [],
+      "artikelId": "1064788",
+      "artikel": "Neuer Teaser zum deutschen Kinostart von »Witch on the Holy Night«",
+      "quelle": "https://www.anime2you.de/news/1064788/witch-on-the-holy-night-kinostart-neuer-teaser/",
+      "veroeffentlicht": "2026-10-27",
+      "gelesenAm": "2026-10-28"
+    },
+    {
+      "titel": "PSYREN",
+      "zitat": "Die fünfte Episode von »PSYREN« wird demzufolge nicht wie ursprünglich geplant am 2. November 2026, sondern erst am 9. November 2026 im japanischen Fernsehen ausgestrahlt und bei Crunchyroll im Simulcast gezeigt.",
+      "art": "pause",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": "2026-11-09",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "5",
+      "unsicher": "Ursprünglich für den 2. November 2026 angesetzt, nun auf den 9. November 2026 verschoben; Sprache der Fassung wird im Artikel nicht genannt.",
+      "wochentag": "Montag",
+      "warnungen": [],
+      "artikelId": "1064592",
+      "artikel": "Nächste Episode von »PSYREN« erscheint später + Recap",
+      "quelle": "https://www.anime2you.de/news/1064592/psyren-episode-5-verschoben/",
+      "veroeffentlicht": "2026-10-27",
+      "gelesenAm": "2026-10-28"
+    },
+    {
+      "titel": "Venus Wars",
+      "zitat": "»Venus Wars« kommt demzufolge voraussichtlich am 11. Dezember 2026 in einer 2K-restaurierten Fassung auf Blu-ray in den Handel. Die Veröffentlichung beinhaltet den rund 104 Minuten langen Streifen auf Deutsch sowie im japanischen Originalton mit Untertiteln.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2026-12-11",
+      "uhrzeit": null,
+      "anbieter": "Tonkatsu Pictures",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin ist laut Artikel nur voraussichtlich (basierend auf einem Amazon-Eintrag), noch nicht offiziell bestätigt.",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Tonkatsu Pictures“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1064672",
+      "artikel": "Blu-ray-Termin des Sci-Fi-Klassikers »Venus Wars« + Vorbestellung",
+      "quelle": "https://www.anime2you.de/news/1064672/venus-wars-blu-ray-termin/",
+      "veroeffentlicht": "2026-10-27",
+      "gelesenAm": "2026-10-28"
     }
   ]
 }
