@@ -104,6 +104,8 @@ pruefe('frisch und vollständig ohne Deutsch beantwortet fällt weg', !zusammen.
 pruefe('Reihenfolge: neue vor behaltenen alten', zusammen.join() === 'neu zwei,neu vier,alt eins,alt fünf,alt sechs', zusammen)
 pruefe('Zähler je Weg: 2 nicht gefragt, 1 Abbruch, 1 entfernt', ergebnis.nichtGefragt === 2 && ergebnis.abbruch === 1 && ergebnis.entfernt === 1, ergebnis)
 pruefe('Logzeile nennt alle drei Zähler', katalogBilanzZeile(ergebnis) === 'ADN-Katalog behalten: 2 nicht gefragt, 1 Abbruch, 1 entfernt', katalogBilanzZeile(ergebnis))
+const doppelt = mitUngepruftenAlten([eintrag(2, 'alt zwei')], [eintrag(2, 'neu zwei')], { gefragt: new Set([2]), entschieden: new Set() })
+pruefe('ein neuer Eintrag steht nie doppelt neben dem alten', doppelt.shows.map((e) => e.titel).join() === 'neu zwei', doppelt)
 const alleBeantwortet = mitUngepruftenAlten(katalogAlt, katalogNeu, { gefragt: new Set([1, 2, 3, 5, 6]), entschieden: new Set([1, 2, 3, 5, 6]) })
 pruefe('wenn alle vollständig antworteten, ist das Ergebnis der neue Katalog', alleBeantwortet.shows.length === 2 && alleBeantwortet.entfernt === 4, alleBeantwortet)
 
