@@ -5,6 +5,7 @@ pipeline/check-abruf-stempel.ts
 pipeline/check-abstand.ts
 pipeline/check-adn-anisearch.ts
 pipeline/check-adn-film.ts
+pipeline/check-adn-katalog-warteschlange.ts
 pipeline/check-adn-kuratiert-ton.ts
 pipeline/check-adn-kuratiert.ts
 pipeline/check-adn-lesetag.ts

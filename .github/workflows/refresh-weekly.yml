@@ -137,7 +137,7 @@ jobs:
       - name: ADN — vollständiger Katalog
         env:
           ANISEARCH_TOKEN: ${{ secrets.ANISEARCH_TOKEN }}
-        run: bash tools/schritt.sh --zeit 45m "ADN — vollständiger Katalog" -- npm run data:adn:catalog -- --limit 600
+        run: bash tools/schritt.sh --zeit 45m "ADN — vollständiger Katalog" -- npm run data:adn:catalog -- --limit 400
 
       - name: Quellen als Pull Request einreichen
         if: always()

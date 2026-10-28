@@ -24,6 +24,7 @@ import { recordSource } from './lib/health.ts'
 import { episodeAus, katalogShowAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
 import { type KatalogAuskunft, katalogBilanzZeile, mitUngepruftenAlten, riegelBilanz, schreibeArchiv, verwirfFranzoesische, verworfen } from './lib/adn-sprachriegel.ts'
+import { aelteste, mitTitelAusAntwort, standOhneKopf, warteschlangeZeile } from './lib/adn-katalog-warteschlange.ts'
 import { fragNeuzugaenge, katalogMitNeuen } from './lib/adn-neuzugaenge.ts'
 import { ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
 import {
@@ -299,11 +300,10 @@ async function fetchCatalog(): Promise<{ shows: AdnShow[]; auskunft: KatalogAusk
     wer noch nie dran war, kommt zuerst.
   */
   const stand = readJson<Record<string, string>>(KATALOG_STAND, {})
-  const alterDesArchivs = (id: number): number => Date.parse(stand[String(id)] ?? '') || 0
-  let alle = [...nachId.values(), ...zusaetzlich.values()]
-  if (KATALOG_LIMIT > 0) {
-    alle = alle.sort((a, b) => alterDesArchivs(a.id) - alterDesArchivs(b.id)).slice(0, KATALOG_LIMIT)
-  }
+  const bekannt = new Set([...nachId.keys(), ...zusaetzlich.keys()])
+  const vorLimit = [...nachId.values(), ...zusaetzlich.values(), ...standOhneKopf(stand, bekannt)]
+  const alle = aelteste(vorLimit, stand, KATALOG_LIMIT)
+  log(warteschlangeZeile(alle.length, vorLimit.length))
   log(
     `ADN-Katalog: ${alle.length} Serien in der Warteschlange (${nachId.size} aus der aktuellen Liste, ` +
       `${zusaetzlich.size} aus früheren Läufen${KATALOG_LIMIT ? `, begrenzt auf ${KATALOG_LIMIT}` : ''}), ` +
@@ -333,7 +333,8 @@ async function fetchCatalog(): Promise<{ shows: AdnShow[]; auskunft: KatalogAusk
       stand[String(eintrag.id)] = new Date().toISOString()
       const videos = antwort.videos
       if (videos.length) archiviereSerie(eintrag.id, videos)
-      const show = katalogShowAus(eintrag, videos)
+      const mitTitel = mitTitelAusAntwort(eintrag, videos)
+      const show = mitTitel.title ? katalogShowAus(mitTitel, videos) : undefined
       if (show) out.push(show)
     } catch (err) {
       warn(`ADN-Katalog ${eintrag.id}: ${(err as Error).message}`)
