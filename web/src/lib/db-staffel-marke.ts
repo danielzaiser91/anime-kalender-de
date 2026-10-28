@@ -8,7 +8,7 @@ import { anzeigeName, hauptstaffeln, reihenAnfang, reihenVertreter, staffelBesch
  */
 export function staffelMarken(members: Title[]): Map<number, string> {
   const teile = hauptstaffeln(members.map((m) => ({ ...m, name: anzeigeName(m) })))
-  if (teile.length < 2) return new Map()
+  if (!teile.length) return new Map()
   const vertreter = reihenVertreter(teile)
   const reihenName = reihenAnfang(vertreter.name, teile.map((m) => m.name))
   const beschriftung = staffelBeschriftungen(teile, reihenName)
