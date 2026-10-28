@@ -52,6 +52,7 @@ pipeline/check-beleg-api.ts
 pipeline/check-beleg-bis-anker.ts
 pipeline/check-beleg-href.ts
 pipeline/check-beleg-stoerung.ts
+pipeline/check-belege-entfernt.ts
 pipeline/check-belegstaerke-forum.ts
 pipeline/check-belegstaerke-handbelegt.ts
 pipeline/check-belegstaerke.ts
@@ -337,6 +338,7 @@ pipeline/check-unsicheres-raus.ts
 pipeline/check-urteil-art.ts
 pipeline/check-urteil-fremde-adresse.ts
 pipeline/check-urteil-spaet.ts
+pipeline/check-urteile-ablauf.ts
 pipeline/check-us-nein-adresse.ts
 pipeline/check-verpasst-katalog.ts
 pipeline/check-verpasst-verdrahtung.ts

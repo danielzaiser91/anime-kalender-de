@@ -36,6 +36,7 @@ process.env.AK_ROOT = wurzel
 
 const { meldungsZuordnung } = await import('./fetch-urteile.ts')
 const { meldungGrund, titelDerMeldung } = await import('./lib/urteil-je-folge.ts')
+const { beobachtungenAusRohfolgen, fremdNach } = await import('./lib/urteil-rohfolgen.ts')
 const titel = [
   { id: 900001, titleDe: 'Magic High' },
   { id: 900002, titleDe: 'Eigener Anime' },
@@ -69,8 +70,26 @@ const faelle: [string, number | null, number | null][] = [
 const fehler = faelle.filter(([, ist, soll]) => ist !== soll).map(([name, ist, soll]) => `${name}: ${ist} statt ${soll}`)
 const grund = meldungGrund({ titel_id: null, url: GTI, staffel: 1 }, nachAdresse)
 if (grund !== 'Adresse außerhalb des Bestands') fehler.push(`Grund der Cartoon-Meldung: ${grund}`)
+
+/* Rohfolgen: Die Zuordnung (`folgen-zuordnung.json`) ist älter als die Erkenntnis, dass die Adresse dem Cartoon gehört —
+   Heidi (1974, 2225) bei Disney+, die Schlüssel stehen wörtlich so im Bestand (Urteile `2225|disneyplus|19` am 28.10.2026). */
+const HEIDI_GTI = 'eyJtZWRpYUlkIjoiMjAxYjUzYzQtZjRmYS00MTdmLWEzZGMtOGFlYmM0NWE4'
+const EIGEN_GTI = 'eyJlaWdlbiI6MX0'
+const roh = (gti: string, url: string) => ({ plattform: 'disneyplus', url, asin: null, gti, sprachen: '["de"]', gemeldet_am: '2026-10-16T19:03:34Z', vorhanden: null, ton_de: null })
+const zuordnungRoh = { [`disneyplus:${HEIDI_GTI}`]: { titel: 900002, folge: 19 }, [`disneyplus:${EIGEN_GTI}`]: { titel: 900002, folge: 2 } } as never
+const istFremd = fremdNach(nachAdresse)
+const rohFaelle: [string, number, number][] = [
+  ['Rohfolge an der Cartoon-Adresse (Disney+ mit Ländersegment)', beobachtungenAusRohfolgen([roh(HEIDI_GTI, DISNEY.replace('.com/', '.com/de-de/'))], zuordnungRoh, new Set(), istFremd).length, 0],
+  ['Rohfolge an der Cartoon-Adresse (Disney+ ohne Segment)', beobachtungenAusRohfolgen([roh(HEIDI_GTI, DISNEY)], zuordnungRoh, new Set(), istFremd).length, 0],
+  ['Kontrolle: Rohfolge an einer eigenen Adresse zählt', beobachtungenAusRohfolgen([roh(EIGEN_GTI, 'https://www.disneyplus.com/de-de/browse/entity-900002')], zuordnungRoh, new Set(), istFremd).length, 1],
+  ['Kontrolle: eigene Rohfolge hinter einer fremden zählt weiter', beobachtungenAusRohfolgen([roh(HEIDI_GTI, DISNEY), roh(EIGEN_GTI, 'https://www.disneyplus.com/de-de/browse/entity-900002')], zuordnungRoh, new Set(), istFremd).length, 1],
+  /* Eigene Adresse mit nicht-leerer Liste (`nachAdresse` gibt eine Liste, nicht `undefined`): die Rohfolge zählt. */
+  ['Kontrolle: Rohfolge an einer Adresse mit eigener Zuordnung (Prime) zählt', beobachtungenAusRohfolgen([roh(EIGEN_GTI, PRIME_EIGEN)], zuordnungRoh, new Set(), istFremd).length, 1],
+  ['Kontrolle: Rohfolge an der geteilten Adresse, der eigene Weg schlägt den Cartoon, zählt', beobachtungenAusRohfolgen([roh(EIGEN_GTI, GETEILT)], zuordnungRoh, new Set(), istFremd).length, 1],
+]
+fehler.push(...rohFaelle.filter(([, ist, soll]) => ist !== soll).map(([name, ist, soll]) => `${name}: ${ist} statt ${soll}`))
 if (fehler.length) {
   console.error(`check-urteil-fremde-adresse: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log(`check-urteil-fremde-adresse: ${faelle.length} Fälle grün, fremde Adressen fallen keinem Anime zu.`)
+console.log(`check-urteil-fremde-adresse: ${faelle.length + rohFaelle.length} Fälle grün (${rohFaelle.length} an Rohfolgen), fremde Adressen fallen keinem Anime zu.`)

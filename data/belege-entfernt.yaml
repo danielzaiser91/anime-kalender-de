@@ -1,0 +1,12 @@
+# Aus data/dub-confirmed.yaml entfernte Fehlbelege. Die abgeholten Browser-Meldungen hängen sie nicht wieder an
+# (pipeline/lib/belege-anhaengen.ts, Regel in pipeline/lib/belege-entfernt.ts). Ein Eintrag gilt für Kennung UND Adresse.
+# Wer einen Beleg als falsch entfernt, trägt ihn hier im selben Commit ein (pipeline/check-belege-entfernt.ts prüft,
+# dass kein Eintrag dieser Liste in der Beleg-Datei steht).
+- anilistId: 2225
+  url: https://www.disneyplus.com/de-de/browse/entity-cfb90125-8678-4327-a1b8-e608f293eccd
+  grund: 'Disney+-Seite gehört dem Cartoon Heidi (2015), nicht dem Anime von 1974 (#2263)'
+  entferntAm: '2026-10-28'
+- anilistId: 97986
+  url: https://www.amazon.de/gp/video/detail/B0CWLSM344
+  grund: 'Amazon-Seite gehört Made in Abyss: Die Goldene Stadt der sengenden Sonne (114745), nicht der ersten Staffel (#2257)'
+  entferntAm: '2026-10-28'
