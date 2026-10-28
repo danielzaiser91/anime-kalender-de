@@ -33945,6 +33945,8 @@
       to: 25
       dub: false
       checked: [25]
+  # Folge 25 ist die Bonusfolge „The Cat Killing Chapter (OmU)“, 23 Min., 17.12.2007, nur Originalton mit Untertiteln (Daniels Sichtung 28.10.2026): keine der 24 Folgen des Titels.
+  sonderfolgen: [25]
   kanalMessung: ja
   checkedAt: '2026-10-13'
   note: "Folgen 1–24 mit deutschem Ton, Folge 25 ohne deutschen Ton — Tonspuren: 日本語 — Amazon-Seite B09KX2VLPR: alle 25 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.20887904-6ae6-4e37-a0cd-8dad8368d910 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
