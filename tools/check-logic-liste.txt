@@ -95,12 +95,12 @@ pipeline/check-deutsche-folgenzahl-hinweis.ts
 pipeline/check-deutsche-folgenzahl.ts
 pipeline/check-disc-bereich.ts
 pipeline/check-disc-ean.ts
-pipeline/check-dub-abgeleitet.ts
 pipeline/check-disc-suchlinks.ts
 pipeline/check-disc-teil-hinweis.ts
 pipeline/check-disc-teil-verdrahtung.ts
 pipeline/check-disc-verschiebung-staffel.ts
 pipeline/check-disney-gesamtnummer.ts
+pipeline/check-dub-abgeleitet.ts
 pipeline/check-dub-aus-terminen.ts
 pipeline/check-dub-bereiche.ts
 pipeline/check-dub-durchgehende-zaehlung.ts
