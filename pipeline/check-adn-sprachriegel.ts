@@ -52,9 +52,12 @@ pruefe('Folgen ganz ohne Sprachangabe sind keine französische Sicht', !istFranz
 
 const dir = mkdtempSync(join(tmpdir(), 'adn-riegel-'))
 try {
+  pruefe('Zähler startet leer', verworfen.length === 0, verworfen)
+  const neuerOrdner = join(dir, 'unterordner')
+  schreibeArchiv(neuerOrdner, 1375, ausschnitt['1375'].vorher)
+  pruefe('fehlender Archivordner wird angelegt', lies(neuerOrdner, 1375).length > 0)
   legeAb(dir, 1375, ausschnitt['1375'].vorher)
   const alt = lies(dir, 1375)
-  verworfen.length = 0
   const ok = schreibeArchiv(dir, 1375, ausschnitt['1375'].nachher as Video[])
   pruefe('französische Antwort wird nicht geschrieben', ok === false && alt.equals(lies(dir, 1375)))
   pruefe('verworfene Serie wird gezählt', verworfen.length === 1 && verworfen[0] === 1375, verworfen)
@@ -78,6 +81,7 @@ try {
 
   legeAb(dir, 1433, ausschnitt['1433'].nachher)
   legeAb(dir, 1375, ausschnitt['1375'].vorher)
+  writeFileSync(join(dir, 'notiz.txt'), 'kein Archiv')
   pruefe('Bestandsscan findet genau das französische Archiv', franzoesischeArchive(dir).join() === '1433', franzoesischeArchive(dir))
   pruefe('Bestandsscan eines fehlenden Ordners ist leer', franzoesischeArchive(join(dir, 'gibtsnicht')).length === 0)
 } finally {
