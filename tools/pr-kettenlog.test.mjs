@@ -185,7 +185,10 @@ const schritte = wf.jobs.pruefen.steps
 const iLog = schritte.findIndex((s) => /pr-kettenlog\.mjs/.test(s.run ?? ''))
 const iPruefer = schritte.findIndex((s) => String(s.uses ?? '').startsWith('anthropics/claude-code-action'))
 pruefe('Kettenlog-Schritt steht vor dem ersten Prüfer', iLog > 0 && iLog < iPruefer, { iLog, iPruefer })
-pruefe('Schritt: Kopf, Ordner und Frist als Argumente, fail-soft, Token gesetzt', /pr-kettenlog\.mjs "\$HEAD_SHA" "\$RUNNER_TEMP\/pruefer" \d+ \|\|/.test(schritte[iLog]?.run ?? '') && schritte[iLog]?.env?.GH_TOKEN !== undefined, schritte[iLog])
+const frist = Number(/pr-kettenlog\.mjs "\$HEAD_SHA" "\$RUNNER_TEMP\/pruefer" (\d+) \|\| echo/.exec(schritte[iLog]?.run ?? '')?.[1])
+pruefe('Schritt: Kopf, Ordner und Frist als Argumente, fail-soft, Token gesetzt', frist > 0 && schritte[iLog]?.env?.GH_TOKEN !== undefined, schritte[iLog])
+// Die Kette braucht 4-5 min (Aussehen-Jobs länger); der Prüfer-Job hat 30 min Zeit, danach wartet noch "Check-Stand" 12 min.
+pruefe('Frist: lang genug für die Kette, kurz genug für den Job', frist >= 300 && frist <= 600, frist)
 pruefe('Berechtigung actions: read vorhanden, Bash im Prüfer weiter verboten', wf.permissions.actions === 'read' && schritte.filter((s) => s.with?.settings).every((s) => JSON.parse(s.with.settings).permissions.deny.includes('Bash')))
 const prompts = schritte.filter((s) => s.with?.prompt).map((s) => s.with.prompt)
 pruefe('alle drei Prüfer-Prompts nennen das Kettenlog', prompts.length === 3 && prompts.every((p) => p.includes('/pruefer/kettenlog.txt')), prompts.length)

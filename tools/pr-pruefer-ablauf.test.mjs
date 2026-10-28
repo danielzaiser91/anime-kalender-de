@@ -43,7 +43,12 @@ const AUFRUFE = [
   'api repos/o/r/issues/7/comments --paginate -q .[] | select(.body | startswith("<!-- pr-stufe -->")) | .id',
   'pr comment 7 --repo o/r --body-file <datei>',
   'api --paginate --slurp repos/o/r/issues/7/comments',
+  'api repos/o/r/actions/workflows/pr-pruefung.yml/runs?head_sha=' + KOPF + '&event=pull_request&per_page=30 -q .workflow_runs[] | [.id, .status, (.conclusion // "")] | @tsv',
+  'api --paginate repos/o/r/actions/runs/5/jobs?per_page=100 -q .jobs[] | [.id, .name, .status, (.conclusion // "")] | @tsv',
+  'api repos/o/r/actions/jobs/11/logs',
 ]
+pruefe('Ablauf: Kettenlog liegt im Prüfordner, mit Lauf, Jobergebnis und der Logzeile ohne Zeitstempel',
+  /abgeschlossen \(success\)/.test(gut.kettenlog ?? '') && /- Kulissen-Job: success/.test(gut.kettenlog ?? '') && /^kulissen-waechter: ok \(3 Fälle\)$/m.test(gut.kettenlog ?? ''), gut.kettenlog)
 const aufrufe = (gut.aufrufe ?? []).map((a) => a.replace(/--body-file \S+/, '--body-file <datei>'))
 pruefe('Ablauf: gh-Aufrufe genau die erwartete Liste (kein zusätzlicher Aufruf)', JSON.stringify(aufrufe) === JSON.stringify(AUFRUFE), { ist: aufrufe, soll: AUFRUFE })
 

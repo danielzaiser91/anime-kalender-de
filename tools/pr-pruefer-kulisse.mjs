@@ -127,7 +127,9 @@ function laufeSchritte(wf, ordner, prs) {
   }
   const datei = path.join(temp, 'pruefer', 'pr-beschreibung.txt')
   const auflagen = path.join(temp, 'pruefer', 'auflagen.md')
+  const kettenlog = path.join(temp, 'pruefer', 'kettenlog.txt')
   return {
+    kettenlog: fs.existsSync(kettenlog) ? fs.readFileSync(kettenlog, 'utf8') : null,
     ausgaben: kontext.ausgaben,
     beschreibung: fs.existsSync(datei) ? fs.readFileSync(datei, 'utf8') : null,
     auflagen: fs.existsSync(auflagen) ? fs.readFileSync(auflagen, 'utf8') : null,
