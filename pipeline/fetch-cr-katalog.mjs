@@ -124,7 +124,7 @@ for (const x of titles) {
 
 const zuordnung = []
 for (const o of offen) {
-  const namen = [o.titel, o.en, o.romaji].filter(Boolean).map(norm)
+  const namen = [o.titel, o.en, o.romaji].filter(Boolean).map(normSchluessel)
   const kandidaten = alle
     .map((k) => {
       const kn = normSchluessel(k.titel)
