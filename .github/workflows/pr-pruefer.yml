@@ -132,7 +132,6 @@ jobs:
       - name: Kettenlog bereitlegen
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
         run: node tools/pr-kettenlog.mjs "$HEAD_SHA" "$RUNNER_TEMP/pruefer" 540 || echo "Kettenlog nicht bereitgelegt"
 
       # Laufzeitsperre (PR 1427): "ok" nur bei vollständigem Diff und einer Beschreibung, die mit der Commit-Liste bis

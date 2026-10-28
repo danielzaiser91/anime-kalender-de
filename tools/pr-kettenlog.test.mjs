@@ -63,6 +63,7 @@ for (const z of FEHLERFORMEN) {
   const g = ergebniszeilen([...Array.from({ length: 600 }, (_, i) => `w${i}: ok`), z])
   pruefe(`bei Überlauf bleibt die Fehlerform vorn: ${z}`, g.length === JE_JOB_ERGEBNIS && g[0] === z && g.at(-1) === 'w599: ok', g.slice(0, 2))
 }
+pruefe('mehr Fehlerzeilen als die Obergrenze: auch sie werden gekappt', ergebniszeilen(Array.from({ length: 3 * JE_JOB_ERGEBNIS }, (_, i) => `##[error]e${i}`)).length === JE_JOB_ERGEBNIS)
 pruefe('genau Obergrenze: nichts fällt weg', ergebniszeilen(Array.from({ length: JE_JOB_ERGEBNIS }, (_, i) => `w${i}: ok`)).length === JE_JOB_ERGEBNIS)
 
 // Kopf
@@ -111,6 +112,8 @@ const uhr = (start = 0) => {
   const u = uhr()
   const r = await ermittleLauf({ holeLauf: () => null, holeJobs: () => [], warte: u.warte, jetzt: u.jetzt, frist: 3000, takt: 1000 })
   pruefe('Lauf nie gefunden: null nach der Frist', r.lauf === null && u.z.wartet > 0)
+  const r2 = await ermittleLauf({ holeLauf: () => null, holeJobs: () => [job('Fremd')], warte: u.warte, jetzt: u.jetzt, frist: 0, takt: 1000 })
+  pruefe('ohne Lauf werden keine Jobs abgefragt', r2.jobs.length === 0)
 }
 {
   const u = uhr()
@@ -165,6 +168,9 @@ pruefe('nicht abrufbares Log wird zur Fehlzeile', mit[2].log.startsWith('##[erro
   const meldung = await schreibeKettenlog({ repo: 'o/r', sha: SHA, ordner, frist: 0, gh, warte: u.warte, jetzt: u.jetzt })
   const ue = fs.readFileSync(path.join(ordner, 'kettenlog.txt'), 'utf8')
   pruefe('Gesamtlauf: Übersicht mit Schlusszeile, roter Job sichtbar', ue.includes('377 von 377') && ue.includes('- Kette – Typen: failure') && ue.includes('Log nicht abrufbar'))
+  const vo = fs.readFileSync(path.join(ordner, 'kettenlog-voll.txt'), 'utf8')
+  pruefe('Gesamtlauf: voll hat die ✓-Zeilen, Übersicht nicht', vo.includes('✓ Reihe ganz erschienen') && !ue.includes('✓ Reihe ganz erschienen'))
+  pruefe('Jobname wird auf 80 Zeichen gekürzt', !baueDateien({ kopf: SHA, lauf, jobs: [job('N'.repeat(200))] }).uebersicht.includes('N'.repeat(81)))
   pruefe('Gesamtlauf: voll-Datei da, Meldung nennt den Lauf', fs.existsSync(path.join(ordner, 'kettenlog-voll.txt')) && /Lauf 9/.test(meldung), meldung)
   const leer = fs.mkdtempSync(path.join(os.tmpdir(), 'kettenlog-'))
   await schreibeKettenlog({ repo: 'o/r', sha: SHA, ordner: leer, frist: 0, gh: () => '', warte: u.warte, jetzt: u.jetzt })
@@ -182,7 +188,7 @@ pruefe('Kettenlog-Schritt steht vor dem ersten Prüfer', iLog > 0 && iLog < iPru
 pruefe('Schritt: Kopf, Ordner und Frist als Argumente, fail-soft, Token gesetzt', /pr-kettenlog\.mjs "\$HEAD_SHA" "\$RUNNER_TEMP\/pruefer" \d+ \|\|/.test(schritte[iLog]?.run ?? '') && schritte[iLog]?.env?.GH_TOKEN !== undefined, schritte[iLog])
 pruefe('Berechtigung actions: read vorhanden, Bash im Prüfer weiter verboten', wf.permissions.actions === 'read' && schritte.filter((s) => s.with?.settings).every((s) => JSON.parse(s.with.settings).permissions.deny.includes('Bash')))
 const prompts = schritte.filter((s) => s.with?.prompt).map((s) => s.with.prompt)
-pruefe('alle drei Prüfer-Prompts nennen das Kettenlog', prompts.length === 3 && prompts.every((p) => p.includes('kettenlog.txt')), prompts.length)
+pruefe('alle drei Prüfer-Prompts nennen das Kettenlog', prompts.length === 3 && prompts.every((p) => p.includes('/pruefer/kettenlog.txt')), prompts.length)
 pruefe('kein Prompt verlangt mehr "ohne Lesezugriff … nicht beurteilt"', !prompts.some((p) => /ohne Lesezugriff auf das\s+Log/.test(p)))
 
 if (fehler.length) {

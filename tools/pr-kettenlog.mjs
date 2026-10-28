@@ -57,7 +57,7 @@ export function baueDateien({ kopf, lauf, jobs }) {
   const kopfz = kopfZeilen({ kopf, lauf, jobs })
   const uebersicht = [...kopfz]
   const voll = [...kopfz]
-  for (const j of lauf ? jobs : []) {
+  for (const j of jobs) {
     if (j.status !== 'completed') continue
     const zeilen = bereinige(j.log ?? '')
     uebersicht.push('', `=== ${sauber(j.name)} (${j.conclusion || 'ohne Ergebnis'}) ===`, ...ergebniszeilen(zeilen))
