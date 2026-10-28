@@ -10,7 +10,9 @@ import { streamAdressen } from './lib/fremde-adressen.ts'
 import { findeFremdeBelege } from './lib/handbeleg-fremde-adresse.ts'
 
 let fehler = 0
+let faelle = 0
 function pruefe(name: string, ok: boolean, ist?: unknown): void {
+  faelle++
   if (ok) return
   fehler++
   console.error(`FEHLER: ${name}`, ist === undefined ? '' : JSON.stringify(ist))
@@ -47,4 +49,4 @@ pruefe('Zweiter Eintrag im Cartoon-Bestand (ohne Streams) bricht den Lauf nicht'
 pruefe('Adresse nur als Seite (Suchseite) eines fremden Eintrags zählt ebenfalls', findeFremdeBelege([{ anilistId: 900002, url: SUCHE }], titel, fremd, ohneAusnahme).offen.length === 1)
 
 if (fehler) process.exit(1)
-console.log('check-handbeleg-fremde-adresse: 10 Fälle grün, Handbeleg an fremder Adresse wird gemeldet.')
+console.log(`check-handbeleg-fremde-adresse: ${faelle} Fälle grün, Handbeleg an fremder Adresse wird gemeldet.`)

@@ -15,7 +15,7 @@ const belege = (yaml.load(readFileSync('data/dub-confirmed.yaml', 'utf8')) as Be
 const { offen, ausgenommen } = findeFremdeBelege(belege, new Set(titel.map((t) => t.id)), streamAdressen('.'))
 const offeneIds = new Set(offen.map((o) => o.anilistId))
 meldeVerletzte(titel, 'handbeleg-fremde-adresse', 'Handbeleg an der Adresse eines Cartoons oder Titels ohne Synchro', (t) => offeneIds.has(t.id))
-const veraltet =Object.keys(SAMMELSEITEN).map(Number).filter((id) => !ausgenommen.includes(id))
+const veraltet = Object.keys(SAMMELSEITEN).map(Number).filter((id) => !ausgenommen.includes(id))
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
