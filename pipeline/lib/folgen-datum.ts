@@ -28,7 +28,8 @@ function monatVon(wort: string): number {
 
 function alsIso(jahr: number, monat: number, tag: number): string | null {
   const d = new Date(Date.UTC(jahr, monat - 1, tag))
-  if (d.getUTCFullYear() !== jahr || d.getUTCMonth() !== monat - 1 || d.getUTCDate() !== tag) return null
+  /* Ein Überlauf (31. Feb., Tag 0, Monat 0) verschiebt immer den Monat. */
+  if (d.getUTCMonth() !== monat - 1) return null
   return `${String(jahr).padStart(4, '0')}-${String(monat).padStart(2, '0')}-${String(tag).padStart(2, '0')}`
 }
 
