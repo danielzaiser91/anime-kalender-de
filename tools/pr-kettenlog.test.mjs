@@ -4,7 +4,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { parse } from 'yaml'
 import {
-  HINWEIS, JE_JOB_ERGEBNIS, baueDateien, bereinige, ergebniszeilen, ermittleLauf, holeJobs, holeLauf, kopfZeilen, mitLogs, schreibeKettenlog,
+  HINWEIS, JE_JOB_ERGEBNIS, LOG_VERSUCHE, baueDateien, bereinige, ergebniszeilen, ermittleLauf, holeJobs, holeLauf, kopfZeilen, mitLogs, schreibeKettenlog,
 } from './pr-kettenlog.mjs'
 
 const fehler = []
@@ -157,9 +157,18 @@ pruefe('Abruf filtert auf Kopf und pull_request', aufrufe[0].some((a) => a.inclu
 gleich('kein Lauf: null', holeLauf('o/r', SHA, () => ''), null)
 const js = holeJobs('o/r', 9, gh)
 pruefe('Jobs gelesen', js.length === 3 && js[1].status === 'in_progress' && js[1].conclusion === '')
-const mit = mitLogs('o/r', js, gh)
+const uMit = uhr()
+const mit = await mitLogs('o/r', js, gh, uMit.warte)
 pruefe('Log nur für abgeschlossene Jobs', mit[0].log === ECHT && mit[1].log === undefined)
-pruefe('nicht abrufbares Log wird zur Fehlzeile', mit[2].log.startsWith('##[error]Log nicht abrufbar'))
+pruefe('nicht abrufbares Log wird zur Fehlzeile', mit[2].log.startsWith('##[error]Log nicht abrufbar: 403'))
+pruefe('nicht abrufbares Log: genau LOG_VERSUCHE Versuche mit Pause dazwischen', aufrufe.filter((a) => a.some((x) => x.includes('/jobs/13/logs'))).length === LOG_VERSUCHE && uMit.z.wartet === LOG_VERSUCHE - 1, uMit.z)
+{
+  let n = 0
+  const spaet = (args) => { if (++n < 3) throw new Error('404'); return ECHT }
+  const u2 = uhr()
+  const r = await mitLogs('o/r', [{ id: 1, name: 'x', status: 'completed', conclusion: 'success' }], spaet, u2.warte)
+  pruefe('Log erst im dritten Versuch da: wird übernommen', r[0].log === ECHT && n === 3, r)
+}
 
 // Gesamtlauf mit Dateien (Ordner unter os.tmpdir)
 {
