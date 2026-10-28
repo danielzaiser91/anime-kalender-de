@@ -48,14 +48,18 @@ export function istFremd(besitz: Map<string, SerienBesitz>, kennung: string, tit
   return Boolean(b && katalogFolgen !== undefined && b.anzahlTitel >= 2 && b.summe > katalogFolgen && b.besitzer !== undefined && b.besitzer !== titleId)
 }
 
-/** Bei den fremden Titeln fällt der Crunchyroll-Weg weg (Daniel, 04.10.2026: Christmas Showdown, Tenjiku Arc und War of the Three Titans liefen nie bei Crunchyroll). */
-export function entferneFremdeCrWege(titles: Map<number, Title>, katalog: Katalog, besitz: Map<string, SerienBesitz>, kennungVon: KennungVon): number {
+/**
+ * Bei den fremden Titeln fällt der Crunchyroll-Weg weg (Daniel, 04.10.2026: Christmas Showdown, Tenjiku Arc und War of the Three Titans liefen nie bei Crunchyroll).
+ * Nur für Serien, die bei Crunchyroll **eine** Staffel führen: Der jüngere Abruf (`crStaffeln`) zählt mit — der Katalog vom 09.09.2026 führte
+ * The Detective Is Already Dead noch mit einer Staffel, der Abruf vom 28.10.2026 mit zweien, und Staffel 2 (152677) verlor ihren belegten Weg.
+ */
+export function entferneFremdeCrWege(titles: Map<number, Title>, katalog: Katalog, besitz: Map<string, SerienBesitz>, kennungVon: KennungVon, staffeln: Map<string, CrStaffel[]> = crStaffeln()): number {
   let weg = 0
   for (const t of titles.values()) {
     const s = t.streams.find((x) => x.platform === 'crunchyroll')
     const kennung = s && kennungVon(s.url)
     const eintrag = kennung ? katalog.get(kennung) : undefined
-    if (!kennung || !eintrag || (eintrag.staffeln ?? 0) !== 1 || !istFremd(besitz, kennung, t.id, eintrag.folgen)) continue
+    if (!kennung || !eintrag || (eintrag.staffeln ?? 0) !== 1 || (staffeln.get(kennung)?.length ?? 0) > 1 || !istFremd(besitz, kennung, t.id, eintrag.folgen)) continue
     t.streams = t.streams.filter((x) => x !== s)
     weg++
   }

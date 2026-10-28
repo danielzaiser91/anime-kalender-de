@@ -248,6 +248,7 @@ export const TEXTE_SEITEN = {
   'db.gruppeErschienen': 'Schon erschienen',
   'db.gruppeUnbekannt': 'Ohne bekannten Termin',
   'db.ab': 'ab {datum}',
+  'db.abStaffel': '{staffel} · ab {datum}',
   // Entdecken (Spezifikation 18, Daniels Wortlaut)
   'view.entdecken': 'Entdecken',
   'empf.zuruecksetzen': 'Empfehlungen zurücksetzen',

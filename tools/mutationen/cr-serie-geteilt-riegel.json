@@ -1,0 +1,9 @@
+[
+  ["(staffeln.get(kennung)?.length ?? 0) > 1", "(staffeln.get(kennung)?.length ?? 0) > 2"],
+  ["(staffeln.get(kennung)?.length ?? 0) > 1", "(staffeln.get(kennung)?.length ?? 0) >= 1"],
+  ["(staffeln.get(kennung)?.length ?? 0) > 1", "(staffeln.get(kennung)?.length ?? 2) > 1"],
+  ["(staffeln.get(kennung)?.length ?? 0) > 1", "false"],
+  ["staffeln: Map<string, CrStaffel[]> = crStaffeln()): number {\n  let weg", "staffeln: Map<string, CrStaffel[]> = new Map()): number {\n  let weg"],
+  ["(eintrag.staffeln ?? 0) !== 1 || (staffeln", "(eintrag.staffeln ?? 1) !== 1 || (staffeln"],
+  ["(eintrag.staffeln ?? 0) !== 1 || (staffeln", "false || (staffeln"]
+]

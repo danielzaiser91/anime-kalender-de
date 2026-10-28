@@ -2078,3 +2078,13 @@ Lauf 39397639406 (`claude-daten-merge.yml`) endete grün, PR 1556 blieb im Konfl
 - **Kennung im Protokoll:** Ein Suchauftrag schickt als `url` die Suchadresse `amazon.de/s?k=…`, deren letzter Abschnitt „s“ war. Jetzt zuerst `seiten_kennung`, eine Suchadresse liefert keine Kennung (`kennungDerMeldung`).
 - **Warum Prüfer und Kette den Rohfolgen-Verlust durchgelassen hatten (Stufe 5):** Die Reihenfolge Meldungszeile mit Hash vor den Rohfolgen entstand mit dem Hash-Überspringen („unveränderte Meldung schreibt nichts“, PR 839, 11.10.2026). Geprüft wurde dort nur der Erfolgsweg und das Überspringen, nie ein Abbruch zwischen zwei Schreibschritten. Geschärft: Eine Speicherroute, die einen Zustand für „schon erledigt“ merkt (Hash, Marke, Zeile), bekommt einen Test, der jeden D1-Aufruf einzeln und ab dort stört und danach wiederholt (`tools/worker-d1-export.test.ts`); der Prüfer fragt bei jedem „unverändert → überspringen“, was passiert, wenn der Schritt danach scheitert.
 - **Offen (eigener PR, Erweiterung):** Der Satz „Die Datenbank ist gerade kurz beschäftigt …“ erreicht Prime und Disney+ nicht: `extension/amazon.js:10550` zeigt `Fehler 503`, `extension/amazon.js:3531` und `extension/disney.js:631` werfen `HTTP 503`. Nur die Netflix-Wege zeigen `daten.error`. Im Fall vom 16.10. (Prime) sieht Daniel also „Fehler 503“; die Erweiterung sollte bei 503 den Antworttext anzeigen.
+
+## Zustand eines Titels nach einer Bauphase zeigen: `AK_PHASE_ZUSTAND` (28.10.2026)
+
+Wächter-Fixtures für Bauphasen kommen aus dem Zustand der Phase, nicht aus dem fertigen `titles.json` (Anlass: 2294 → 2302). `haltePunkt()` (`pipeline/bau/phasen-zustand.ts`) steht in `build.ts` und `09-synchro.ts` nach den Phasen und tut ohne Schalter nichts:
+
+```
+AK_PHASE_ZUSTAND=09-4-crunchyroll-dub AK_PHASE_TITEL=152677 npx tsx pipeline/build.ts | grep ^AK_PHASE_ZUSTAND
+```
+
+Ausgabe: eine Zeile `AK_PHASE_ZUSTAND {"152677": {…}}` (ohne `AK_PHASE_TITEL` alle Titel, unbekannte Kennung = `null`), danach Exit 0 vor `public/data/`. Ein unbekannter Name oder eine nicht numerische `AK_PHASE_TITEL` endet vor dem Bau mit Exit 1 (Liste `PHASEN` in `pipeline/bau/phasen-zustand.ts`, vom Check gegen die Aufrufe gehalten). Frischer Cache vorher (`node tools/cache-holen.mjs`, Abschnitt oben): mit dem Cache vom 03.09. war `episodes` von 152677 überall leer, mit dem vom 28.10. schon nach `02-titel` gesetzt (13). **Jeder Halt, schon der bei `02-titel`, hinterlässt geänderte Dateien** (Prüflisten unter `data/`, ab 09-5 mehr, ab 09-6 auch `public/data/`); der Halt druckt den Hinweis dazu. Danach immer `git restore data public/data && git clean -fdq public/data`. Probe: `pipeline/check-phasen-zustand.ts` (in `check:logic`).

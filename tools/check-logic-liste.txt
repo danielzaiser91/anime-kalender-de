@@ -75,6 +75,7 @@ pipeline/check-cr-batch-wache.ts
 pipeline/check-cr-block-standardname.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
+pipeline/check-cr-folgestaffel.ts
 pipeline/check-cr-frisch.ts
 pipeline/check-cr-ja-deckung.ts
 pipeline/check-cr-katalog-ein-werk.ts
@@ -85,6 +86,7 @@ pipeline/check-cr-nein-verdrahtung.ts
 pipeline/check-cr-neu-seiten.ts
 pipeline/check-cr-neu-stuendlich.ts
 pipeline/check-cr-neu-wache.ts
+pipeline/check-cr-neue-serie.ts
 pipeline/check-cr-offen.ts
 pipeline/check-cr-teilseiten-bestand-kulisse.ts
 pipeline/check-cr-teilseiten.ts
@@ -93,6 +95,7 @@ pipeline/check-cr-zeit-woche.ts
 pipeline/check-datei-kennungen.ts
 pipeline/check-daten-adressen.ts
 pipeline/check-daten-kennung.ts
+pipeline/check-db-karte-lauf.ts
 pipeline/check-db-relevanz.ts
 pipeline/check-db-staffel-kachel.ts
 pipeline/check-detektiv-funde.ts
@@ -131,6 +134,7 @@ pipeline/check-erstausgabe.ts
 pipeline/check-erwartet-wort.ts
 pipeline/check-favoriten-feed-faelle.ts
 pipeline/check-film-ohne-weg.ts
+pipeline/check-filter-genres.ts
 pipeline/check-finale-wache.ts
 pipeline/check-folge-ueber-anzahl-bau.ts
 pipeline/check-folge-ueber-anzahl.ts
@@ -244,6 +248,7 @@ pipeline/check-patchnotes-stempel.ts
 pipeline/check-patchnotes-titel-ablauf.ts
 pipeline/check-patchnotes-titel.ts
 pipeline/check-patchnotes.ts
+pipeline/check-phasen-zustand.ts
 pipeline/check-pille-nur-untertitel.ts
 pipeline/check-poster-karte-saal.ts
 pipeline/check-premiere.ts

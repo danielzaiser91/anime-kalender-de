@@ -13,12 +13,25 @@ export function hoechsteFolgeJeAnbieter(releases: Release[], heute: string): Map
   const hoechste = new Map<string, number>()
   for (const r of releases) {
     if (r.releaseType !== 'weekly') continue
-    /* Nur ein Starttermin ohne Folgenzahl sagt nichts über den Plan (213805: Netflix-Start, womöglich Komplettdrop). */
-    if (!r.schedule.episodeCount) continue
+    if (!r.schedule.episodeCount) {
+      hoechste.set(r.platform, Math.max(hoechste.get(r.platform) ?? 0, wochenAbStart(r, heute)))
+      continue
+    }
     const mitNummer = expandEvents(r).filter((e) => typeof e.episode === 'number')
     if (!mitNummer.length) continue
     const erschienen = mitNummer.filter((e) => istErschienen(e, jetzt)).map((e) => e.episode as number)
     hoechste.set(r.platform, Math.max(hoechste.get(r.platform) ?? 0, ...erschienen))
   }
   return hoechste
+}
+
+/**
+ * Wochenplan ohne Folgenzahl (213805, 28.10.2026: Quelle „Simulcast: Jeden Donnerstag eine neue Episode“, „1 verfügbar“;
+ * der Bau zeigte 12 von 12): eine Folge je volle Woche seit dem Start, ab `firstEpisodeNumber`. Vor dem Start 0.
+ */
+function wochenAbStart(r: Release, heute: string): number {
+  const start = r.schedule.firstEpisodeDate
+  if (!start || start > heute) return 0
+  const tage = (Date.parse(`${heute}T00:00:00Z`) - Date.parse(`${start}T00:00:00Z`)) / 86_400_000
+  return (r.schedule.firstEpisodeNumber ?? 1) - 1 + Math.floor(tage / 7) + 1
 }

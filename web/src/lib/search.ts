@@ -245,11 +245,6 @@ export const SUCHFELD_ARTEN: { art: FundstelleArt; label: string }[] = [
   { art: 'ausgabe', label: 'Ausgabe (z. B. „Box 2")' },
 ]
 
-/** Die Beschriftung einer Fundstelle für den Hinweis. */
-export function fundstelleLabel(art: FundstelleArt): string {
-  return SUCHFELD_ARTEN.find((s) => s.art === art)?.label ?? art
-}
-
 /**
  * **Die Buchstaben, die wirklich übereinstimmen** — für den Hinweis bei unscharfen Treffern.
  *

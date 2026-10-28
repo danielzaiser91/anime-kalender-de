@@ -26,10 +26,13 @@ export interface DbKarteProps {
   /** Unter welcher Gruppenüberschrift die Kachel steht (Relevanz-Ansicht), und ab wann es die deutsche Fassung gibt. */
   gruppe?: RelevanzArt
   ab?: string
+  /** Die Staffel, die die Kachel meint: sie wird geöffnet (sonst `main`), `staffel` ist ihre Beschriftung („Staffel 2"). */
+  titelId?: number
+  staffel?: string
 }
 
 /** Eine Kachel der Datenbank (oder, ausgeblendet, ihr Platzhalter). */
-export function DbKarte({ main, members, data, today, grouped, favorites, hidden, onToggleFavorite, onToggleHidden, onOpenTitle, share, copiedSlug, gruppe, ab }: DbKarteProps) {
+export function DbKarte({ main, members, data, today, grouped, favorites, hidden, onToggleFavorite, onToggleHidden, onOpenTitle, share, copiedSlug, gruppe, ab, titelId, staffel }: DbKarteProps) {
   const { t } = useLang()
   const releases = members.flatMap((m) => data.releasesByTitle.get(m.id) ?? [])
   const status = titleStatus(releases, today, main)
@@ -70,7 +73,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
   return (
     /* Kein Knopf aus Knöpfen: wie die Kalenderkarte (EventCard, 18.09.2026). */
     <div
-      onClick={() => onOpenTitle(main.id)}
+      onClick={() => onOpenTitle(titelId ?? main.id)}
       className={[
         'group flex cursor-pointer flex-col overflow-hidden rounded-xl text-left transition',
         keinDub ? 'border border-dashed' : 'border',
@@ -88,7 +91,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
         className="ak-oeffnen sr-only"
         onClick={(e) => {
           e.stopPropagation()
-          onOpenTitle(main.id)
+          onOpenTitle(titelId ?? main.id)
         }}
       >
         {t('card.details', { titel: anzeigeName(main) })}
@@ -179,7 +182,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
           ) : (
             <>
               {statusZeigen && <StatusBadge status={status} small />}
-              {gruppe === 'bald' && ab && <AbPille ab={ab} />}
+              {gruppe === 'bald' && ab ? <AbPille ab={ab} staffel={staffel} /> : staffel && <StaffelMarke staffel={staffel} />}
               {platform && <PlatformBadge platform={platform} small />}
             </>
           )}
@@ -189,14 +192,20 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
   )
 }
 
-/** „ab 11.10." — Start der deutschen Fassung unter der Überschrift „Demnächst". */
-function AbPille({ ab }: { ab: string }) {
+/** „ab 11.10." — Start der deutschen Fassung unter der Überschrift „Demnächst"; bei einer Reihe „Staffel 2 · ab 11.10.". */
+function AbPille({ ab, staffel }: { ab: string; staffel?: string }) {
   const { t } = useLang()
+  const datum = `${ab.slice(8, 10)}.${ab.slice(5, 7)}.`
   return (
     <span className="inline-flex h-4 items-center rounded bg-ak-info-grund px-1.5 text-[10px] font-semibold leading-none text-ak-info-text ring-1 ring-ak-info/40">
-      {t('db.ab', { datum: `${ab.slice(8, 10)}.${ab.slice(5, 7)}.` })}
+      {staffel ? t('db.abStaffel', { staffel, datum }) : t('db.ab', { datum })}
     </span>
   )
+}
+
+/** „Staffel 2" unter „Läuft jetzt", wo kein Startdatum danebensteht. */
+function StaffelMarke({ staffel }: { staffel: string }) {
+  return <span className="text-[10px] font-semibold leading-none text-ak-leise">{staffel}</span>
 }
 
 /** Marken oben links auf dem Cover: die FSK (eine Angabe, steht immer), darunter ein Cartoon-Hinweis — untereinander, nie nebeneinander. */
