@@ -49,14 +49,14 @@ export function FilterSuche({
   setFilterQuery: Dispatch<SetStateAction<string>>
 }) {
   return (
-    <div className="px-3 py-2.5">
+    <div className="flex justify-center px-3 py-2.5">
       <input
         type="search"
         value={filterQuery}
         onChange={(e) => setFilterQuery(e.target.value)}
         placeholder={t('filter.sucheAlle')}
         aria-label={t('filter.sucheAlle')}
-        className="h-10 w-full min-w-0 rounded-lg md:max-w-sm border border-ak-rand bg-ak-flaeche px-3 text-xs text-ak-text"
+        className="h-10 w-full min-w-0 rounded-lg md:max-w-sm border-2 border-ak-text bg-ak-flaeche px-3 text-xs text-ak-text"
       />
     </div>
   )

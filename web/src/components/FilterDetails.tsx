@@ -12,6 +12,8 @@ import { TIPPFLAECHE_HOCH } from './detail/tippziel.ts'
 import { SchnellChips } from './schnellfilter.tsx'
 import { FilterSuche, KlickModusLeiste } from './filter/klick-modus.tsx'
 import { filterMode, modusVon, toggleFilter, type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
+import { nachZahlGeordnet } from '../lib/filter-liste.ts'
+import { useGenreSicht } from './filter/genre-sicht.tsx'
 import { bereichsSuche, titelWoerter, type BereichsSuche } from '../lib/filter-suche.ts'
 import type { Translate } from '../lib/i18n.tsx'
 import type { Dispatch, SetStateAction, ReactNode } from 'react'
@@ -329,14 +331,13 @@ export function FilterDetails({
   zwischen?: ReactNode
 }) {
   const [mehr, setMehr] = useState(false)
-  const plattformen: PlatformId[] = (platformZaehlung ? [...platformZaehlung.entries()].sort((a, b) => b[1] - a[1]).map(([p]) => p) : meta.platforms).filter((p) => p !== 'disc')
-  const genres = genreListe ?? visibleGenres
-  const mitZahl = (n: number | undefined) => (n ? <span className="opacity-70">{n}</span> : null)
   const suche = bereichsSuche(filterQuery)
+  const plattformen: PlatformId[] = (platformZaehlung ? nachZahlGeordnet(meta.platforms, platformZaehlung) : meta.platforms).filter((p) => p !== 'disc')
+  const genreSicht = useGenreSicht(genreListe, visibleGenres, filters, !!suche, t)
+  const mitZahl = (n: number | undefined) => (n ? <span className="opacity-70">{n}</span> : null)
   const plattformLabel = t('filter.platform')
   const genreLabel = t('filter.genre')
   const sichtbarPlattformen = plattformen.filter((p) => zeigePille(suche, plattformLabel, PLATFORMS[p].name))
-
   return (
     <>
       <KlickModusLeiste t={t} mode={mode} setMode={setMode} />
@@ -382,14 +383,15 @@ export function FilterDetails({
           <Bereich
             label={genreLabel} klasse="sm:col-start-2 sm:row-span-6"
             suche={suche}
-            texte={genres.map((g) => tGenre(g))}
+            texte={genreSicht.alle.map((g) => tGenre(g))}
             modus={modusVon2('genres', filters.genres.length)}
           >
-            {genres.filter((g) => zeigePille(suche, genreLabel, tGenre(g))).map((g) => (
+            {genreSicht.sichtbar.filter((g) => zeigePille(suche, genreLabel, tGenre(g))).map((g) => (
               <Chip key={g} {...chipState('genres', g)} onClick={() => pick('genres', g)}>
                 {tGenre(g)} {mitZahl(genreZaehlung?.get(g))}
               </Chip>
             ))}
+            {genreSicht.mehrChip}
           </Bereich>
           <Grundgruppen t={t} meta={meta} filters={filters} modusVon2={modusVon2} chipState={chipState} pick={pick} tRelease={tRelease} suche={suche} set={set} mode={mode} />
         </div>
