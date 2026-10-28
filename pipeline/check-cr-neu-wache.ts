@@ -141,7 +141,7 @@ pruefe('Prozess: kaputte events.json: Exit 1, Meldung auf stderr', kaputt.status
 const form = prozess('e', { folgen: 'x' }, [])
 pruefe('Prozess: folgen keine Liste: Exit 1', form.status === 1, form)
 const psyrenProzess = { ...psyren, serie: 'PSYREN', verfuegbarAb: '2026-10-24T14:30:00.000Z' }
-const nurFremd =prozess('g', { folgen: [psyrenProzess] }, [])
+const nurFremd = prozess('g', { folgen: [psyrenProzess] }, [])
 pruefe('Prozess: nur eine Serie ohne Titel: Exit 0, Serienzeile, keine Zeile „ohne Termin“', nurFremd.status === 0 && nurFremd.out.includes('⚠ WARNUNG [vorher rot] Crunchyroll-Serien ohne Titel: 1 Serien mit neuer deutscher Folge: PSYREN (GT00371866, 1)') && !nurFremd.out.includes('ohne Termin'), nurFremd)
 const beides = prozess('h', { folgen: [...vier, psyrenProzess] }, [])
 pruefe('Prozess: fehlender Termin und unbekannte Serie: beide Zeilen', beides.status === 0 && beides.out.includes('Crunchyroll-Folgen ohne Termin') && beides.out.includes('Crunchyroll-Serien ohne Titel'), beides)
