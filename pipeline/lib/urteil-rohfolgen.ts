@@ -18,16 +18,20 @@ export interface RohFolge {
 /**
  * Die Rohfolgen als Beobachtungen, über die Zuordnung aus Stufe 2 (`data/folgen-zuordnung.json`).
  * `kanalAdresse`: Adresskerne, die laut Meldung eine Kanal-Seite sind (die Rohfolge trägt den Kanal nicht).
+ * `istFremd`: die Adresse führt ein Eintrag außerhalb von `titles.json` (`fremdeAdressen`); ihre Rohfolgen zählen keinem Anime.
  */
 export function beobachtungenAusRohfolgen(
   rohfolgen: RohFolge[],
   zuordnung: Record<string, FolgenZuordnung>,
   kanalAdresse: ReadonlySet<string>,
+  istFremd: (url: string) => boolean,
 ): UrteilBeobachtung[] {
   const beobachtungen: UrteilBeobachtung[] = []
   for (const f of rohfolgen) {
     const z = zuordnung[`${f.plattform}:${f.asin ?? f.gti}`]
     if (!z?.titel || !z.folge) continue
+    /* Die Zuordnung kann älter sein als die Erkenntnis, dass die Adresse einem Cartoon gehört (Heidi bei Disney+, 28.10.2026). */
+    if (istFremd(f.url)) continue
     /* Eine Rohfolge ohne Tonspuren ist eine Störung, keine Beobachtung (Szenario 10). */
     let sprachen: string[] = []
     try {

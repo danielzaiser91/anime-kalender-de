@@ -3,9 +3,14 @@
  * ausgelagert, damit der Schreibweg mit Datei und Zeilen als Parameter testbar ist).
  */
 import { readFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
 import yaml from 'js-yaml'
 import { neueBelegBloecke, schreibeBelege } from './dub-confirmed.ts'
 import { erneuereNeinDatum } from './nein-datum-erneuern.ts'
+import { blockIstEntfernt, ladeBelegeEntfernt } from './belege-entfernt.ts'
+
+/** Liste der entfernten Fehlbelege neben der Beleg-Datei (`belege-entfernt.yaml`): kommen sie in den Meldungen wieder, werden sie nicht angehängt. */
+const ENTFERNT_NAME = 'belege-entfernt.yaml'
 
 /** `zeilen`: die erzeugten Beleg-Zeilen; `heute`: Abholdatum für die Kopfzeile. */
 export function haengeBelegeAn(o: {
@@ -21,8 +26,11 @@ export function haengeBelegeAn(o: {
   if (erneuert) log(`${erneuert} Nein-Beleg(e) mit neuem Messdatum`)
   const kopf = `\n# --- Aus dem Browser gemeldet, abgeholt am ${heute} ---`
   /* Ein Beleg, der schon dasteht, wird nicht noch einmal angehängt (Solo Leveling, 15.09.2026). */
-  const { bloecke, neu: neueBloecke } = neueBelegBloecke(alt, zeilen)
-  const uebersprungen = bloecke.length - neueBloecke.length
+  const { bloecke, neu: ungeprueft } = neueBelegBloecke(alt, zeilen)
+  const entfernt = ladeBelegeEntfernt(join(dirname(p), ENTFERNT_NAME))
+  const neueBloecke = ungeprueft.filter((b) => !blockIstEntfernt(entfernt, b))
+  if (neueBloecke.length < ungeprueft.length) log(`${ungeprueft.length - neueBloecke.length} Beleg(e) stehen in belege-entfernt.yaml — nicht angehängt`)
+  const uebersprungen = bloecke.length - ungeprueft.length
   if (uebersprungen) log(`${uebersprungen} Beleg(e) standen wörtlich schon da — nicht erneut angehängt`)
   const neueZeilen = neueBloecke.flatMap((b) => ['', ...b.filter((z, i) => i === 0 || z !== '')])
   const neu = neueBloecke.length ? alt.trimEnd() + '\n' + kopf + '\n' + neueZeilen.join('\n') + '\n' : alt

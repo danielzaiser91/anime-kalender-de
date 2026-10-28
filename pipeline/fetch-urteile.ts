@@ -145,12 +145,12 @@ async function main() {
     Rohfolgen derselben Adresse: Dort trägt die Zeile nur Tonspuren, nicht den Kanal.
   */
   const kanalAdresse = new Set(meldungen.filter((m) => KANAL.test(m.abos ?? '')).map((m) => adressKern(m.url)))
-  const beobachtungen = beobachtungenAusRohfolgen(rohfolgen, zuordnung, kanalAdresse)
   /* Ein Einzelwerk (Film, einteiliges Special) hat genau Folge 1 — siehe `folgenDerMeldung`. */
   const titelListe = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
   const titelAlle = Array.isArray(titelListe) ? titelListe : titelListe.titles
   const einzel = new Set(titelAlle.filter((t) => t.format === 'MOVIE' || t.episodes === 1).map((t) => t.id))
   const { nachAdresse, staffelKandidaten, nachName, reiheVon } = meldungsZuordnung(titelAlle)
+  const beobachtungen = beobachtungenAusRohfolgen(rohfolgen, zuordnung, kanalAdresse, (url) => nachAdresse(url)?.length === 0)
   const verworfen: Record<string, number> = {}
   /* Eine Meldung ohne die Felder aus Migration 034 trägt nur `befund`. */
   for (const roh of meldungen) {

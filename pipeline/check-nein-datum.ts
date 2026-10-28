@@ -134,6 +134,8 @@ try {
 
   /* Der Läufer: Datei lesen, erneuern, schreiben — zwei Läufe, Kopfzeile nur bei neuen Belegen. */
   const ziel = join(kulisse, 'data/dub-confirmed.yaml')
+  const ENTFERNT = join(dirname(ziel), 'belege-entfernt.yaml')
+  writeFileSync(ENTFERNT, '[]')
   writeFileSync(ziel, alt)
   const meldungen: string[] = []
   const lauf = () => haengeBelegeAn({ datei: ziel, zeilen: neu(weg("'2026-10-24'")), heute: '2026-10-24', log: (t) => meldungen.push(t), warn: (t) => meldungen.push(t) })
