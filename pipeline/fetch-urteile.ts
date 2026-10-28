@@ -102,6 +102,15 @@ function logOhneTitel(): void {
 }
 
 /**
+ * Ein Cartoon, der einen Namen mit einem Anime teilt, macht den Namen mehrdeutig: Der Disney+-Stream „Heidi“ (CGI 2015, -62475)
+ * fiel über den Namen dem Anime „Heidi“ (1974, 2225) zu. Cartoons liefern hier nur Namen, nie ein Ziel über die Adresse.
+ */
+function cartoonNamen(): Title[] {
+  const roh = readJson<Title[] | { titles: Title[] }>('public/data/cartoons.json', [])
+  return Array.isArray(roh) ? roh : roh.titles
+}
+
+/**
  * **Adressen, Namen und Staffel-Kandidaten für die Zuordnung einer Meldung** (29.09.2026).
  *
  * Eigene Funktion, weil `main()` die Längengrenze reißt: Trägt eine Adresse mehrere unserer Titel,
@@ -114,7 +123,7 @@ export function meldungsZuordnung(titelAlle: Title[]) {
   for (const t of titelAlle) reihen.set(t.franchiseId ?? t.id, [...(reihen.get(t.franchiseId ?? t.id) ?? []), t.id])
   return {
     nachAdresse: adressIndex(titelAlle, fremdeAdressen(ROOT, new Set(titelNachId.keys()))),
-    nachName: nameIndex(titelAlle),
+    nachName: nameIndex([...titelAlle, ...cartoonNamen()]),
     /* Alle Titel der Reihen, an denen die Adresse hängt — für spätere Staffeln (`spaeteStaffel`). */
     reiheVon: (ids: number[]) => [...new Set(ids.flatMap((i) => reihen.get(titelNachId.get(i)?.franchiseId ?? i) ?? [i]))],
     staffelKandidaten: (ids: number[]): StaffelKandidat[] =>
