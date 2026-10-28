@@ -196577,6 +196577,35 @@
     "fetchedAt": "2026-10-27T03:58:40.039Z",
     "stand": 1
   },
+  "221129": {
+    "publisher": "GKIDS Inc.",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 19609,
+        "typ": "TV-Serie",
+        "folgen": 13
+      }
+    ],
+    "fetchedAt": "2026-10-28T04:21:31.919Z",
+    "stand": 1
+  },
+  "221130": {
+    "ean": "5037899094860",
+    "publisher": "Anime Limited (UK)",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 19609,
+        "typ": "TV-Serie",
+        "folgen": 13
+      }
+    ],
+    "fetchedAt": "2026-10-28T04:21:38.381Z",
+    "stand": 1
+  },
   "221211": {
     "ean": "4020628526801",
     "audio": [
