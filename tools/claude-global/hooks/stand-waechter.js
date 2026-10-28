@@ -81,7 +81,9 @@ function aufzaehlung(zeilen) {
 }
 
 const KENNUNG = /\b[FE]\d+\b/
-const GRUND = /\b(?:kann|darf|soll) nicht\b/
+const GRUND = /\b(?:kann|darf|soll) nicht\b/i
+/** Link-Ziele zählen nicht: eine verlinkte Datei `F74-x.md` ist keine Kennung der Zeile. */
+const ohneLinkZiel = (z) => z.replace(/\]\([^)]*\)/g, ']')
 
 /** Meldungen zu „### Jetzt“: jede Handlungs-/Fragezeile trägt F<n>/E<n> und einen Grund mit Verb (Daniel 20.10.2026); 📅-Terminzeilen und Unterzeilen zählen nicht. */
 function jetztZeilen(zeilen) {
@@ -91,7 +93,7 @@ function jetztZeilen(zeilen) {
   if (ende < 0) ende = zeilen.length
   const liste = zeilen.slice(kopf + 1, ende).filter((z) => z.startsWith('- ') && !z.startsWith('- 📅'))
   const meldungen = []
-  const ohneKennung = liste.filter((z) => !KENNUNG.test(z))
+  const ohneKennung = liste.filter((z) => !KENNUNG.test(ohneLinkZiel(z)))
   if (ohneKennung.length) meldungen.push(`Jetzt: ${aufzaehlung(ohneKennung)} ohne Kennung F<n>/E<n>`)
   const ohneGrund = liste.filter((z) => !GRUND.test(z))
   if (ohneGrund.length) meldungen.push(`Jetzt: ${aufzaehlung(ohneGrund)} ohne Grund „kann/darf/soll nicht“`)
