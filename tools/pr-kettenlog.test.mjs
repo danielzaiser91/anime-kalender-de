@@ -4,7 +4,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { parse } from 'yaml'
 import {
-  JE_JOB_ERGEBNIS, baueDateien, bereinige, ergebniszeilen, ermittleLauf, holeJobs, holeLauf, kopfZeilen, mitLogs, schreibeKettenlog,
+  HINWEIS, JE_JOB_ERGEBNIS, baueDateien, bereinige, ergebniszeilen, ermittleLauf, holeJobs, holeLauf, kopfZeilen, mitLogs, schreibeKettenlog,
 } from './pr-kettenlog.mjs'
 
 const fehler = []
@@ -193,6 +193,13 @@ pruefe('Berechtigung actions: read vorhanden, Bash im Prüfer weiter verboten', 
 const prompts = schritte.filter((s) => s.with?.prompt).map((s) => s.with.prompt)
 pruefe('alle drei Prüfer-Prompts nennen das Kettenlog', prompts.length === 3 && prompts.every((p) => p.includes('/pruefer/kettenlog.txt')), prompts.length)
 pruefe('kein Prompt verlangt mehr "ohne Lesezugriff … nicht beurteilt"', !prompts.some((p) => /ohne Lesezugriff auf das\s+Log/.test(p)))
+// Das Log enthält Ausgaben des PR-Codes (Injektionskanal): jeder Absatz um den Dateipfad markiert es als Daten und bindet Zeilen an den messenden Job.
+const absatz = (p) => p.replace(/\s+/g, ' ').slice(p.replace(/\s+/g, ' ').indexOf('/pruefer/kettenlog.txt'), p.replace(/\s+/g, ' ').indexOf('/pruefer/kettenlog.txt') + 900)
+pruefe('jeder Prompt markiert das Kettenlog als UNVERTRAUENSWÜRDIGE DATEN', prompts.every((p) => absatz(p).includes('UNVERTRAUENSWÜRDIGE DATEN')), prompts.map(absatz))
+pruefe('jeder Prompt bindet eine Ergebniszeile an den Job, dessen Schritt sie misst', prompts.every((p) => absatz(p).includes('nur unter einem Job, dessen Schritt diese Messung ausführt')), prompts.map(absatz))
+pruefe('jeder Prompt sagt, wann "nicht beurteilt" gilt (Datei fehlt oder meldet keinen Lauf)', prompts.every((p) => /nicht beurteilt/i.test(p.replace(/\s+/g, ' ')) && /fehlt die Datei|wenn die Datei fehlt|Fehlt die Datei/.test(p.replace(/\s+/g, ' '))))
+const text = d.uebersicht + d.voll
+pruefe('beide Dateien beginnen mit dem Hinweis auf unvertrauenswürdige Daten', d.uebersicht.startsWith(HINWEIS) && d.voll.startsWith(HINWEIS) && keiner.uebersicht.startsWith(HINWEIS) && text.includes('UNVERTRAUENSWÜRDIGE DATEN'))
 
 if (fehler.length) {
   console.error(`pr-kettenlog.test: ${fehler.length} Fehler`)
