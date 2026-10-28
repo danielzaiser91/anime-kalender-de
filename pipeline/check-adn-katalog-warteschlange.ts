@@ -110,11 +110,12 @@ const ep = (id: number, show: object): AdnVideo => ({ id, show, number: '1', rel
   const stand3: Record<string, string> = { '70': '2026-10-01T00:00:00.000Z' }
   const h = hilfen({ 70: { videos: [], abbruch: '503' }, 71: { videos: [ep(3, { id: 71, title: 'Gut' })] } }, ['T1', 'T2'], archiviert)
   const lauf = await fragWarteschlange([{ id: 70, title: '' }, { id: 71, title: '' }], stand3, { ...h, log: (t) => void zeilen.push(t) })
-  pruefe('Fehlantwort: Stempel gesetzt, aber nicht entschieden', stand3['70'] === 'T1' && !lauf.auskunft.entschieden.has(70) && lauf.auskunft.gefragt.has(70), stand3)
+  pruefe('Fehlantwort: Versuch vermerkt, Antwortzeit unberührt, nicht entschieden', stand3.v70 === 'T1' && stand3['70'] === '2026-10-01T00:00:00.000Z' && !lauf.auskunft.entschieden.has(70) && lauf.auskunft.gefragt.has(70), stand3)
   pruefe('Fehlantwort: Serie dahinter wird weiter gefragt', lauf.shows.length === 1 && stand3['71'] === 'T2')
-  pruefe('Logzeile „N gefragt, davon M ohne Antwort“', zeilen.includes('ADN-Katalog: 2 gefragt, davon 1 ohne Antwort'), zeilen)
+  pruefe('Versuchszeit schlägt eine ältere Antwortzeit, nie eine jüngere', aelteste([{ id: 1, title: '' }, { id: 2, title: '' }], { '1': '2026-10-05T00:00:00Z', v1: '2026-10-01T00:00:00Z', '2': '2026-10-02T00:00:00Z', v2: '2026-10-06T00:00:00Z' }, 1)[0].id === 1)
+pruefe('Logzeile „N gefragt, davon M ohne Antwort“', zeilen.includes('ADN-Katalog: 2 gefragt, davon 1 ohne Antwort'), zeilen)
   pruefe('Archiv bleibt bei Fehlantwort unberührt', !archiviert.includes(70))
-  const naechster = aelteste([{ id: 70, title: '' }, { id: 71, title: '' }, { id: 72, title: '' }], { ...stand3, '72': '2026-10-02T00:00:00.000Z', '70': '2026-10-28T10:00:00.000Z', '71': '2026-10-28T09:00:00.000Z' }, 3).map((e) => e.id)
+  const naechster = aelteste([{ id: 70, title: '' }, { id: 71, title: '' }, { id: 72, title: '' }], { '72': '2026-10-02T00:00:00.000Z', '70': '2026-10-01T00:00:00.000Z', v70: '2026-10-28T10:00:00.000Z', '71': '2026-10-28T09:00:00.000Z' }, 3).map((e) => e.id)
   pruefe('nächster Lauf: ältere Stempel (72, 71) vor der Fehlserie (70)', JSON.stringify(naechster) === '[72,71,70]', naechster)
 }
 {
@@ -127,7 +128,7 @@ const ep = (id: number, show: object): AdnVideo => ({ id, show, number: '1', rel
   let zaehler = 0
   const h4 = { ...hilfen(antworten, [], []), jetzt: () => `2026-11-01T00:00:${String(10 + zaehler++)}.000Z` }
   const l1 = await fragWarteschlange(aelteste(eintraege, stand4, 8), stand4, h4)
-  pruefe('Lauf 1: nach fünf Fehlern in Folge beendet, fünf gefragt', l1.auskunft.gefragt.size === 5 && Object.keys(stand4).length === 5, l1.auskunft.gefragt.size)
+  pruefe('Lauf 1: nach fünf Fehlern in Folge beendet, fünf gefragt und vermerkt', l1.auskunft.gefragt.size === 5 && Object.keys(stand4).filter((k) => k.startsWith('v')).length === 5 && Object.keys(stand4).length === 5, l1.auskunft.gefragt.size)
   const reihe2 = aelteste(eintraege, stand4, 8).map((e) => e.id)
   pruefe('Lauf 2 beginnt bei den nie gefragten (85, 86, 87, dann 80…)', JSON.stringify(reihe2.slice(0, 3)) === '[85,86,87]', reihe2)
 }
@@ -172,5 +173,5 @@ const ep = (id: number, show: object): AdnVideo => ({ id, show, number: '1', rel
   pruefe('beantwortete Serien (94, 99) sind entschieden, Fehlserien nicht', [...lauf.auskunft.entschieden].sort().join() === '94,99', [...lauf.auskunft.entschieden])
 }
 
-console.log(verletzt ? `✖ ${verletzt} Zusicherung(en) verletzt` : '✓ adn-katalog-warteschlange: 43 Zusicherungen erfüllt')
+console.log(verletzt ? `✖ ${verletzt} Zusicherung(en) verletzt` : '✓ adn-katalog-warteschlange: 44 Zusicherungen erfüllt')
 process.exit(verletzt ? 1 : 0)

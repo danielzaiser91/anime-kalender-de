@@ -17,9 +17,15 @@ export function standOhneKopf(stand: Readonly<Record<string, string>>, bekannt: 
   return out
 }
 
+/**
+ * Zeit des letzten Versuchs ohne Antwort (Fehlantwort); getrennt von der Antwortzeit `stand[id]`, die nur eine echte Antwort setzt — sie lesen `--laufend`
+ * (Drossel) und der Lesetag („ADN an diesem Tag gelesen“), und die Sprachriegel-Prüfung verlangt, dass Nichtauskunft dort nicht steht.
+ */
+export const versuchsSchluessel = (id: number): string => `v${id}`
+
 /** Ältester Stempel zuerst (nie gefragt = 0), höchstens `limit` Einträge; `limit` 0 = alle. */
 export function aelteste(alle: AdnListenEintrag[], stand: Readonly<Record<string, string>>, limit: number): AdnListenEintrag[] {
-  const alter = (id: number): number => Date.parse(stand[String(id)] ?? '') || 0
+  const alter = (id: number): number => Math.max(Date.parse(stand[String(id)] ?? '') || 0, Date.parse(stand[versuchsSchluessel(id)] ?? '') || 0)
   if (limit <= 0) return alle
   return [...alle].sort((a, b) => alter(a.id) - alter(b.id)).slice(0, limit)
 }
@@ -84,8 +90,8 @@ export async function fragWarteschlange(
     try {
       const antwort = await h.ladeSerie(eintrag.id)
       if (antwort.abbruch) {
-        // Auch die Fehlantwort stempelt, sonst bliebe eine dauerhaft stumme Serie für immer vorn (kein `entschieden`, Archiv und Katalog bleiben unberührt).
-        stand[String(eintrag.id)] = h.jetzt()
+        // Der Versuch wird vermerkt, sonst bliebe eine dauerhaft stumme Serie für immer vorn; `stand[id]`, `entschieden`, Archiv und Katalog bleiben unberührt.
+        stand[versuchsSchluessel(eintrag.id)] = h.jetzt()
         ohneAntwort++
         if (++fehlerInFolge >= 5) {
           h.warn(`ADN-Katalog: fünf Fehler in Folge (zuletzt ${antwort.abbruch}) — Lauf wird beendet.`)
