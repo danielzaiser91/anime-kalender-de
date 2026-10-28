@@ -1,10 +1,20 @@
 import type { Title } from '../../shared/types.ts'
-import { kennungAusZiel } from './crunchyroll-api.ts'
 import { wegVerneint } from './dub-confirmed.ts'
 import type { NeueFolge } from './cr-neu-wache.ts'
 
 /** Eine Folge aus `data/crunchyroll-neu.json` samt Staffelkennung. */
-export type NeueSerienFolge = NeueFolge & { staffelId?: string }
+export type NeueSerienFolge = NeueFolge & { staffelId?: string; ausstrahlung?: string }
+
+/** Serienkennung einer Crunchyroll-Adresse, mit und ohne „www.“ und Sprachpfad. */
+function serienKennung(url: string): string | undefined {
+  return /^https?:\/\/(?:www\.)?crunchyroll\.com\/(?:[a-z-]+\/)?series\/([A-Z0-9]+)/i.exec(url)?.[1]
+}
+
+/** Jahr der frühesten Ausstrahlung der gefundenen Folgen (Katalogangabe, sonst Verfügbarkeit). */
+function folgenJahr(liste: NeueSerienFolge[]): number | undefined {
+  const tage = liste.map((f) => f.ausstrahlung ?? f.verfuegbarAb).filter((d): d is string => !!d).sort()
+  return tage.length ? Number(tage[0]!.slice(0, 4)) : undefined
+}
 
 export interface NeueSerieAusgang {
   /** Serienkennung → Titel, dem der Weg angelegt wurde. */
@@ -44,10 +54,7 @@ export function ordneNeueSerienZu({ folgen, titles, nachUrl, handNein }: {
   handNein: ReadonlySet<string>
 }): NeueSerieAusgang {
   const alle = [...titles]
-  const bekannt = new Set<string | undefined>([
-    ...alle.flatMap((t) => t.streams.filter((s) => s.platform === 'crunchyroll').map((s) => kennungAusZiel(s.url))),
-    ...[...nachUrl.keys()].map(kennungAusZiel),
-  ])
+  const bekannt = new Set(alle.flatMap((t) => t.streams.filter((s) => s.platform === 'crunchyroll').map((s) => serienKennung(s.url))))
   const jeSerie = new Map<string, NeueSerienFolge[]>()
   for (const f of folgen) if (f.serieId && !bekannt.has(f.serieId)) jeSerie.set(f.serieId, [...(jeSerie.get(f.serieId) ?? []), f])
   const aus: NeueSerieAusgang = { zugeordnet: [], offen: [] }
@@ -64,6 +71,11 @@ export function ordneNeueSerienZu({ folgen, titles, nachUrl, handNein }: {
       continue
     }
     const t = passend[0]!
+    const jahr = folgenJahr(liste)
+    if (t.jpYear !== undefined && jahr !== undefined && Math.abs(t.jpYear - jahr) > 1) {
+      offen(`Jahr passt nicht (Titel ${t.jpYear}, Folgen ${jahr})`)
+      continue
+    }
     const url = `https://www.crunchyroll.com/de/series/${serieId}`
     if (wegVerneint(handNein, t.id, 'crunchyroll', url)) continue
     const ranges = bereiche(liste.map((f) => Number(f.nummer)).filter((n) => Number.isFinite(n) && n >= 1))
