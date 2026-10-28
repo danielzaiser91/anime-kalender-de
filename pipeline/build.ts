@@ -24,6 +24,7 @@ import { schreibeEmpfehlung } from './bau/13-10-empfehlung.ts'
 import { schreibeAboFeeds } from './bau/14-ics.ts'
 import { entferneVomKalender } from './bau/sperre.ts'
 import { type EntfernterVerweis } from './bau/grundlagen.ts'
+import { haltePunkt, pruefeSchalter } from './bau/phasen-zustand.ts'
 import { merkeBestandVorher } from './lib/bestand-vorher.ts'
 import type { ZurueckgestellterTitel } from '../shared/meta-typ.ts'
 
@@ -38,6 +39,7 @@ function main(): void {
     quellen
 
   const { titles, jpStart, jpStartAnzeige } = baueTitelGemessen(quellen) // baueTitel plus Messung aniSearch gegen AniList (nichts wird ausgeliefert)
+  haltePunkt('02-titel', titles)
   const { tvJeTmdb, toteAdressen, netflixOhneKennung } = fuehreReihenZusammen({
     byAniId,
     byMal,
@@ -65,6 +67,7 @@ function main(): void {
     seenSlugs,
   })
   ergaenzeTermineAusNewsUndTv({ titles, releases })
+  haltePunkt('08-news-tv', titles)
 
   const synchro = pruefeSynchroJePlattform({
     releases,
@@ -81,11 +84,14 @@ function main(): void {
     adnKatalog,
     adnVerweiseErgaenzt,
   })
+  haltePunkt('09-synchro', titles)
 
   const { events, mitStimmen, verschoben } = rolleTermineAusMitKomplettabwurf({ releases, titles, jpStart }); entferneVomKalender(releases, events)
+  haltePunkt('10-komplettabwurf', titles)
 
   // Alles, was Verweise ändert, muss vor `baueMeta` stehen — dort beginnt die Auslieferung.
   schliesseWegeAb({ ...synchro, titles, anisearch, releases, tmdbMehrdeutig, toteAdressen, verweiseEntfernt })
+  haltePunkt('11-wege-abschluss', titles)
   const quarantaene = stelleZurueck({ titles, releases, events })
 
   liefereAus({
@@ -129,5 +135,6 @@ function liefereAus({ synchro, quarantaene, ...rest }: Auslieferung): void {
   schreibeEmpfehlung()
 }
 
+pruefeSchalter()
 merkeBestandVorher()
 main()
