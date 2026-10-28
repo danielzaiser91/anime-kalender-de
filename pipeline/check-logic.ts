@@ -5563,7 +5563,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'Crunchyroll: ein Fehlersatz überschreibt keinen guten Eintrag',
-    readFileSync('pipeline/scrape-crunchyroll-dub.ts', 'utf8').includes('if (serie.fehler && vorherige && !vorherige.fehler)'),
+    readFileSync('pipeline/lib/cr-frisch.ts', 'utf8').includes('if (serie.fehler && vorherige && !vorherige.fehler)'),
   )
   pruefe(
     'Sprechrollen: eine leere Antwort löscht keine belegten Rollen',

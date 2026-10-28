@@ -32,8 +32,10 @@ concurrency:
 jobs:
   sendezeiten:
     runs-on: ubuntu-latest
-    # Gemessen zwei Minuten (Median); 25 sind ein Vielfaches. Läuft es darüber hinaus, ist der nächste Lauf der bessere Weg — die Abrufe sind idempotent.
-    timeout-minutes: 25
+    # 4–9 min gemessen (24 Läufe bis 28.10.2026). Die Schrittgrenzen (je gemessenes Maximum × 2, mindestens 2m; Urteil 8m, Rohdaten 15m und Messbelege 10m ungemessen unverändert) ergeben zusammen 49 min und müssen samt
+    # Reserve für Einrichten und Einreichen hineinpassen (`pipeline/check-cr-neu-stuendlich.ts`). Deutlich unter 60: Ein Hänger soll den nächsten Stundenlauf nicht fressen.
+    # Die Abrufe sind idempotent: Hängt ein Lauf, holt der nächste nach.
+    timeout-minutes: 59
     # Zweck und Ziel gehen an die Statusanzeige mit (Daniel, 21.08.2026: „Zweck sollte kurz beschreiben wofür dieser lauf ist").
     env:
       LAUF_ZWECK: 'Hält die Sendetermine von anime-kalender.de stündlich aktuell'
@@ -76,21 +78,29 @@ jobs:
       # Das Wochenprogramm ist seit 27.10.2026 die einzige Quelle der Sendetermine: Der Simulcast-Kalender ist auf /de/simulcasts umgeleitet (seit ~21.10.2026).
       # Es legt auch neue Serien im Kalenderbestand an; Abweichungen gehen als Vorfall an den Worker, daher das Token.
       - name: Crunchyroll-Wochenprogramm lesen
-        run: bash tools/schritt.sh --zeit 8m "Crunchyroll-Wochenprogramm" -- npx tsx pipeline/scrape-crunchyroll-woche.ts
+        run: bash tools/schritt.sh --zeit 2m "Crunchyroll-Wochenprogramm" -- npx tsx pipeline/scrape-crunchyroll-woche.ts
 
       # Neue deutsche Folgen stündlich statt erst im Tageslauf (Psyren Folge 1: verfügbar 26.10.2026 14:30 UTC, im Bestand erst 27.10. 04:37; Daniel: „spätestens wenn unser
       # crunchy lauf es bestätigt muss es im kalender auftauchen“). Drei Schritte wie im Tageslauf (`refresh-data.yml`), vor „Verpasste Termine prüfen“, das den Katalogfund liest.
       # Gemessen am Tageslauf 27.10.2026: 4 s / 2 s / 4 s. Der Bestandsbau läuft nach diesem Lauf (`workflow_run`), die Folge steht also spätestens nach Lauf + Bau im Kalender.
       - name: Neue deutsche Folgen bei Crunchyroll finden
-        run: bash tools/schritt.sh --zeit 3m "Neue Folgen bei Crunchyroll" -- npm run data:cr-neu
+        run: bash tools/schritt.sh --zeit 2m "Neue Folgen bei Crunchyroll" -- npm run data:cr-neu
+
+      # Zählung ohne Abruf und ohne Zugangspaket (28.10.2026): Ohne zu lesende Serie entfallen Weiche und Urteil. Gescheitert (leere Ausgabe) heißt lesen.
+      # Dieselben Argumente wie das Urteil unten, damit sie dieselbe Auswahl zählt (`pipeline/lib/cr-neu-stuendlich.ts`).
+      - name: Zählen, welche Serien neu zu lesen sind
+        id: cr_offen
+        run: bash tools/schritt.sh --zeit 2m "Offene Serien zählen" -- npm run data:cr-dub -- --nur-neu --limit 60 --offen-pruefen
 
       - name: Crunchyroll-Zugangspaket über die Weiche holen
+        if: steps.cr_offen.outputs.cr_offen != '0'
         env:
           CR_WEICHE_TOKEN: ${{ secrets.CR_WEICHE_TOKEN }}
         run: bash tools/schritt.sh --zeit 2m "Zugangspaket holen" -- node tools/cr-zugang-holen.mjs --github-env
 
       # Ohne frisches Paket bricht der Schritt ab (kein Rückfall auf das 24-Stunden-Geheimnis CR_ZUGANG, das bleibt dem Tageslauf); `--nur-neu` liest nur Serien mit neuer Folge, die Fristen gelten weiter.
       - name: Die neu gefundenen Serien sofort beurteilen
+        if: steps.cr_offen.outputs.cr_offen != '0'
         env:
           CR_ZUGANG: ${{ env.CR_ZUGANG_FRISCH }}
         # Kein eigener `fehler`-Melder: ein Weichen-Ausfall wäre sonst bis zu 24 rote Statuseinträge am Tag; `lauf-abmelden.sh` meldet den Lauf gelb mit dem Schrittnamen.
@@ -98,11 +108,11 @@ jobs:
 
       # Ein geschätzter Termin, an dem nichts erschien, darf nicht stehen bleiben, als wäre er eingetreten. Braucht die Beobachtungen des Kalender-Abrufs.
       - name: Verpasste Termine prüfen
-        run: bash tools/schritt.sh --zeit 5m "Verpasste Termine" -- npx tsx pipeline/termine-pruefen.ts
+        run: bash tools/schritt.sh --zeit 2m "Verpasste Termine" -- npx tsx pipeline/termine-pruefen.ts
 
       # Neue Anime2You-Meldungen stündlich statt erst im Tageslauf (Artikel warteten im Mittel 16 h): nur die erste Seite je Feed (4 Abrufe), Volltext nur für neue Adressen.
       - name: Anime2You (leicht)
-        run: bash tools/schritt.sh --zeit 5m "Anime2You (leicht)" -- npm run data:anime2you -- --leicht
+        run: bash tools/schritt.sh --zeit 2m "Anime2You (leicht)" -- npm run data:anime2you -- --leicht
 
       # Was der Prüflauf gemessen hat, als Bild festhalten (privat, R2). Öffnet nur dann einen Browser, wenn ein frischer Vermerk noch kein Bild hat.
       - name: Messbelege ablegen
@@ -110,7 +120,7 @@ jobs:
 
       # Das TV-Programm von RTL+ nennt nur den laufenden Tag — mehrmals täglich abgefragt, damit keine Sendung durchrutscht (16.09.2026).
       - name: TV-Programm von RTL+ lesen
-        run: bash tools/schritt.sh --zeit 5m "TV-Programm" -- npm run data:tv-programm -- ${{ inputs.tvde && '--tvde' || '' }}
+        run: bash tools/schritt.sh --zeit 4m "TV-Programm" -- npm run data:tv-programm -- ${{ inputs.tvde && '--tvde' || '' }}
 
       - name: Quellen als Pull Request einreichen
         if: always()
