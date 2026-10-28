@@ -23,7 +23,7 @@ import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { episodeAus, katalogShowAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
-import { mitVerworfenenAlten, riegelBilanz, schreibeArchiv, verwirfFranzoesische, verworfen } from './lib/adn-sprachriegel.ts'
+import { type KatalogAuskunft, katalogBilanzZeile, mitUngepruftenAlten, riegelBilanz, schreibeArchiv, verwirfFranzoesische, verworfen } from './lib/adn-sprachriegel.ts'
 import { fragNeuzugaenge, katalogMitNeuen } from './lib/adn-neuzugaenge.ts'
 import { ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
 import {
@@ -187,8 +187,9 @@ async function ladeSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch?
       return { videos, abbruch: '400' }
     }
     if (!res.ok) {
-      // 404 heißt hier schlicht „in Deutschland nicht im Angebot".
-      return { videos, abbruch: res.status >= 500 ? String(res.status) : undefined }
+      // Nur 404/410 auf der ersten Seite verneinen („in Deutschland nicht im Angebot"); 429, 403, 5xx und jeder Fehler ab Seite 2 sind Nichtauskunft.
+      const verneint = offset === 0 && (res.status === 404 || res.status === 410)
+      return { videos, abbruch: verneint ? undefined : String(res.status) }
     }
     const seite = ((await res.json()) as { videos?: AdnVideo[] }).videos ?? []
     videos.push(...seite)
@@ -233,7 +234,7 @@ async function sammleSerienliste(): Promise<Map<number, AdnListenEintrag>> {
   return nachId
 }
 
-async function fetchCatalog(): Promise<AdnShow[]> {
+async function fetchCatalog(): Promise<{ shows: AdnShow[]; auskunft: KatalogAuskunft }> {
   const nachId = await sammleSerienliste()
   /**
    * Was wir schon einmal gesehen haben, wird wieder gefragt.
@@ -310,10 +311,12 @@ async function fetchCatalog(): Promise<AdnShow[]> {
   )
 
   const out: AdnShow[] = []
+  const auskunft: KatalogAuskunft = { gefragt: new Set(), entschieden: new Set() }
   let geprueft = 0
   let fehlerInFolge = 0
   for (const eintrag of alle) {
     geprueft++
+    auskunft.gefragt.add(eintrag.id)
     if (geprueft % 100 === 0) log(`  ${geprueft}/${alle.length} — ${out.length} mit Synchro`)
     try {
       const antwort = await ladeSerie(eintrag.id)
@@ -326,6 +329,7 @@ async function fetchCatalog(): Promise<AdnShow[]> {
         continue
       }
       fehlerInFolge = 0
+      auskunft.entschieden.add(eintrag.id)
       stand[String(eintrag.id)] = new Date().toISOString()
       const videos = antwort.videos
       if (videos.length) archiviereSerie(eintrag.id, videos)
@@ -340,7 +344,7 @@ async function fetchCatalog(): Promise<AdnShow[]> {
 
   // Zuordnung zu aniSearch aus der Titelliste im Cache (`lib/adn-anisearch.ts`): keine Abfrage je Serie, bei Mehrdeutigkeit bleibt die Serie offen.
   await ordneKatalogZuAnisearch(out, readJson<AdnData>('data/adn-catalog.json', { scrapedAt: '', window: { from: '', to: '' }, shows: [] }).shows)
-  return out
+  return { shows: out, auskunft }
 }
 
 /**
@@ -544,7 +548,9 @@ async function main(): Promise<void> {
   }
   if (args.includes('--catalog')) {
     const alterKatalog = readJson<AdnData>(KATALOG_DATEI, { scrapedAt: '', window: { from: '', to: '' }, shows: [] }).shows
-    const shows = mitVerworfenenAlten(alterKatalog, await fetchCatalog(), verworfen)
+    const frisch = await fetchCatalog()
+    const { shows, ...zaehler } = mitUngepruftenAlten(alterKatalog, frisch.shows, frisch.auskunft)
+    log(katalogBilanzZeile(zaehler))
     writeJson(
       'data/adn-catalog.json',
       { scrapedAt: new Date().toISOString(), window: { from: '', to: '' }, shows } satisfies AdnData,

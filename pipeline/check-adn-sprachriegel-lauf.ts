@@ -42,7 +42,7 @@ const KATALOGSHOW = {
 }
 
 /** Baut eine Kulisse (Archiv-Serien, Katalog) und lässt `fetch-adn.ts` mit `modus` laufen; liefert Ausgabe, Exit-Code und Dateistand davor/danach. */
-function lauf(modus: string, archivIds: number[], liste: number[]) {
+function lauf(modus: string, archivIds: number[], liste: number[], extra: { katalog?: unknown[]; args?: string[]; status?: string } = {}) {
   const kulisse = mkdtempSync(join(tmpdir(), 'adn-franz-'))
   try {
     const archiv = join(kulisse, 'data', 'adn-raw')
@@ -52,16 +52,16 @@ function lauf(modus: string, archivIds: number[], liste: number[]) {
     mkdirSync(join(kulisse, 'data', 'curated'), { recursive: true })
     writeFileSync(join(kulisse, 'data', 'kino-ankuendigungen.yaml'), '[]\n')
     const katalogPfad = join(kulisse, 'data', 'adn-catalog.json')
-    writeFileSync(katalogPfad, JSON.stringify({ scrapedAt: '', window: { from: '', to: '' }, shows: [KATALOGSHOW] }))
+    writeFileSync(katalogPfad, JSON.stringify({ scrapedAt: '', window: { from: '', to: '' }, shows: extra.katalog ?? [KATALOGSHOW] }))
     const antwort = join(kulisse, 'antwort.json')
     writeFileSync(antwort, JSON.stringify(FRANZ))
     const stand = (): Record<string, Buffer> =>
       Object.fromEntries(readdirSync(archiv).map((d) => [d, readFileSync(join(archiv, d))]))
     const vorher = { archiv: stand(), katalog: readFileSync(katalogPfad) }
-    const l = spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'pipeline/fetch-adn.ts'), modus], {
+    const l = spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'pipeline/fetch-adn.ts'), modus, ...(extra.args ?? [])], {
       cwd: wurzel,
       encoding: 'utf8',
-      env: { ...process.env, AK_ROOT: kulisse, AK_ADN_ANTWORT: antwort, AK_ADN_LISTE: liste.join(',') },
+      env: { ...process.env, AK_ROOT: kulisse, AK_ADN_ANTWORT: antwort, AK_ADN_LISTE: liste.join(','), AK_ADN_STATUS: extra.status ?? '' },
     })
     const nachher = { archiv: stand(), katalog: readFileSync(katalogPfad) }
     const standDatei = join(kulisse, 'data', 'adn-katalog-stand.json')
@@ -104,6 +104,33 @@ pruefe('--catalog: Archiv bleibt byte-gleich, keine neue Datei', gleich(katalog.
 pruefe('--catalog: der alte Katalogeintrag der verworfenen Serie bleibt, es kommt nichts Neues dazu', JSON.stringify(nachKatalog) === JSON.stringify([KATALOGSHOW]), nachKatalog)
 pruefe('--catalog: verworfene Serien stehen nicht im Abfrage-Stand', !('1433' in katalog.abfrageStand) && !('1375' in katalog.abfrageStand), katalog.abfrageStand)
 pruefe('--catalog: Bilanz zählt zwei', katalog.ausgabe.includes('ADN-Sprachriegel: 2 Serien'), katalog.ausgabe.slice(-400))
+
+// --catalog --limit: nur wer in diesem Lauf frisch und vollständig ohne Deutsch antwortete, fällt heraus.
+const mitId = (showId: number) => ({ ...KATALOGSHOW, showId, title: `Serie ${showId}` })
+const ids = (l: { nachher: { katalog: Buffer } }) => (JSON.parse(l.nachher.katalog.toString()) as { shows: { showId: number }[] }).shows.map((s) => s.showId)
+const begrenzt = lauf('--catalog', [], [], { katalog: [mitId(3001), mitId(3002), mitId(3003)], args: ['--limit', '2'], status: '3001:500,3002:404' })
+pruefe('--catalog --limit: Serie mit 5xx bleibt (Abbruch ist keine Auskunft)', ids(begrenzt).includes(3001), ids(begrenzt))
+pruefe('--catalog --limit: Serie jenseits des Limits bleibt (nicht gefragt)', ids(begrenzt).includes(3003), ids(begrenzt))
+pruefe('--catalog --limit: Serie mit frischer Antwort ohne Deutsch (404) fällt heraus', !ids(begrenzt).includes(3002), ids(begrenzt))
+pruefe('--catalog --limit: Zähler je Weg in der Logzeile', begrenzt.ausgabe.includes('ADN-Katalog behalten: 1 nicht gefragt, 1 Abbruch, 1 entfernt'), begrenzt.ausgabe.slice(-500))
+pruefe('--catalog --limit: Serie mit 5xx steht nicht im Abfrage-Stand (kommt wieder dran)', !('3001' in begrenzt.abfrageStand), begrenzt.abfrageStand)
+
+// Nur eindeutige Antworten (404/410 auf Seite 1) verneinen; Zeitüberschreitung, 429 und ein Fehler auf Seite 2 sind Nichtauskunft.
+const nichtauskunft = lauf('--catalog', [], [], {
+  katalog: [mitId(3004), mitId(3005), mitId(3006), mitId(3007), mitId(3008), mitId(3009)],
+  args: ['--limit', '6'],
+  status: '3004:throw,3005:429,3006:410,3007:404,3008:seite2-404,3009:seite2-500',
+})
+const bleibt = ids(nichtauskunft)
+const stand2 = nichtauskunft.abfrageStand
+pruefe('--catalog: Zeitüberschreitung (fetch wirft) lässt die Serie im Katalog', bleibt.includes(3004), bleibt)
+pruefe('--catalog: 429 lässt die Serie im Katalog', bleibt.includes(3005), bleibt)
+pruefe('--catalog: 410 auf Seite 1 verneint', !bleibt.includes(3006), bleibt)
+pruefe('--catalog: 404 auf Seite 1 verneint', !bleibt.includes(3007), bleibt)
+pruefe('--catalog: 404 auf Seite 2 (Seite 1 voll) lässt die Serie im Katalog', bleibt.includes(3008), bleibt)
+pruefe('--catalog: 500 auf Seite 2 (Seite 1 voll) lässt die Serie im Katalog', bleibt.includes(3009), bleibt)
+pruefe('--catalog: Nichtauskunft steht nicht im Abfrage-Stand, Verneinung schon', !('3004' in stand2) && !('3005' in stand2) && !('3008' in stand2) && !('3009' in stand2) && '3006' in stand2 && '3007' in stand2, stand2)
+pruefe('--catalog: Zähler Nichtauskunft', nichtauskunft.ausgabe.includes('ADN-Katalog behalten: 0 nicht gefragt, 4 Abbruch, 2 entfernt'), nichtauskunft.ausgabe.slice(-500))
 
 console.log()
 if (fehler) {
