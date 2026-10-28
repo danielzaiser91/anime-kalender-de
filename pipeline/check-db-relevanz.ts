@@ -3,6 +3,7 @@
  * ein späteres Neuerscheinen bei einem weiteren Anbieter zählt nicht. Aufruf: `npm run check:logic`.
  */
 import { gruppiereNachRelevanz, istGruppiert, stufeReiheEin, ueberschriftSagtStatus } from '../web/src/lib/db-relevanz.ts'
+import { staffelMarken } from '../web/src/lib/db-staffel-marke.ts'
 import type { Release, Title } from '../shared/types.ts'
 
 let verletzt = 0
@@ -174,6 +175,34 @@ pruefe('jede Kachel in „Läuft jetzt"/„Demnächst" trägt titelId, und es is
 pruefe('Reihe mit zwei Staffeln: „Staffel 2" auf der Kachel von 2.5 Dimensional Seduction (Demnächst) und Last Boss (Läuft jetzt)', kacheln.find((k) => k.id === 185515)?.staffel === 'Staffel 2' && kacheln.find((k) => k.id === 204389)?.staffel === 'Staffel 2', kacheln)
 pruefe('Titel mit einer Staffel: keine Beschriftung', kacheln.find((k) => k.id === 940010)?.staffel === undefined, kacheln)
 pruefe('Reihe mit mehreren Staffeln: keine Kachel ohne Staffelzahl', kacheln.filter((k) => [185515, 204389].includes(k.id)).every((k) => /Staffel \d/.test(k.staffel ?? '')), kacheln)
+const laeuftUndBald = stufeReiheEin(
+  [titel(940051, { deErstausgabe: { von: '2026-10-01', bis: '2026-12-31' } }), titel(940052, { deErstausgabe: { von: '2027-01-10' } })],
+  new Map([[940051, [plat(940051, 'crunchyroll', '2026-10-01', 12)]], [940052, [plat(940052, 'crunchyroll', '2027-01-10', 12)]]]),
+  H2,
+)
+pruefe('Reihe mit laufender und kommender Staffel: „Läuft jetzt", titelId ist die laufende', laeuftUndBald.art === 'laeuft' && laeuftUndBald.titelId === 940051, laeuftUndBald)
+const ohneVon = titel(940041, { deErstausgabe: { bis: '2026-12-31' } })
+const mitVon = titel(940042, { deErstausgabe: { von: '2026-10-01', bis: '2026-12-31' } })
+const ohneDatum = new Map<number, Release[]>()
+const ohneVonZuerst = stufeReiheEin([ohneVon, mitVon], ohneDatum, H2)
+pruefe('zwei laufende Staffeln, die erste ohne Startdatum: die mit Datum liefert titelId und ab', ohneVonZuerst.titelId === 940042 && ohneVonZuerst.ab === '2026-10-01', ohneVonZuerst)
+const ohneVonZuletzt = stufeReiheEin([mitVon, ohneVon], ohneDatum, H2)
+pruefe('zwei laufende Staffeln, die zweite ohne Startdatum: wieder die mit Datum', ohneVonZuletzt.titelId === 940042, ohneVonZuletzt)
+
+console.log('\nDatenbank-Relevanz: Staffelmarken (echte Reihen aus public/data vom 28.10.2026)')
+const naruto = { franchiseId: 20, format: 'TV', streams: [] }
+const marken = staffelMarken([
+  titel(20, { ...naruto, titleDe: 'Naruto', jpYear: 2002, jpSeason: 'FALL' }),
+  titel(1735, { ...naruto, titleDe: 'Naruto Shippuden', jpYear: 2007, jpSeason: 'WINTER' }),
+  titel(2472, { ...naruto, format: 'MOVIE', titleDe: 'Naruto Shippuden: The Movie', jpYear: 2007, jpSeason: 'SUMMER' }),
+])
+pruefe('Naruto/Naruto Shippuden: Staffel 1 und 2 (Shippuden trägt einen eigenen Namen), der Film bekommt keine Marke', JSON.stringify([...marken]) === '[[20,"Staffel 1"],[1735,"Staffel 2"]]', [...marken])
+const ohneZweite = staffelMarken([titel(20, { ...naruto, titleDe: 'Naruto', jpYear: 2002 }), titel(2472, { ...naruto, format: 'MOVIE', titleDe: 'Naruto Shippuden: The Movie', jpYear: 2007 })])
+pruefe('Reihe mit einer Staffel und einem Film: keine Marke', ohneZweite.size === 0, [...ohneZweite])
+const eighty = staffelMarken([titel(116589, { ...naruto, franchiseId: 116589, titleDe: '86: Eighty Six', jpYear: 2021, jpSeason: 'SPRING' }), titel(131586, { ...naruto, franchiseId: 116589, titleDe: '86: Eighty Six – Teil 2', jpYear: 2021, jpSeason: 'FALL' })])
+pruefe('86: Eighty Six, zwei Teile einer Staffel: „Teil 1" und „Teil 2" (der Reihenname fließt in die Zählung ein)', JSON.stringify([...eighty]) === '[[116589,"Teil 1"],[131586,"Teil 2"]]', [...eighty])
+const gunslinger = staffelMarken([titel(134, { ...naruto, franchiseId: 134, titleDe: 'Gunslinger Girl', jpYear: 2003 }), titel(3231, { ...naruto, franchiseId: 134, titleDe: 'Gunslinger Girl il teatrino', jpYear: 2008 })])
+pruefe('Gunslinger Girl / il teatrino: Staffel 1 und 2', JSON.stringify([...gunslinger]) === '[[134,"Staffel 1"],[3231,"Staffel 2"]]', [...gunslinger])
 
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)

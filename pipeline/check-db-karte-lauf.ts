@@ -69,6 +69,8 @@ console.log('\nDbKarte läuft wirklich: Klick öffnet die Staffel der Kachel')
   pruefe('„Läuft jetzt": „Staffel 2" steht ohne Datum auf der Kachel', text().includes('Staffel 2') && !text().includes('ab '), text())
   await zeige({ gruppe: 'bald', ab: '2026-10-30' })
   pruefe('Reihe mit einer Staffel: nur „ab 30.10.", kein „Staffel"-Zusatz', text().includes('ab 30.10.') && !text().includes('· ab'), text())
+  await zeige({ gruppe: 'bald' })
+  pruefe('„Demnächst" ohne Startdatum: keine Pille, kein Absturz', !text().includes('ab '), text())
 }
 console.log('\nDbRaster läuft wirklich: titelId und Staffelmarke kommen aus der Liste auf die Kachel')
 {
