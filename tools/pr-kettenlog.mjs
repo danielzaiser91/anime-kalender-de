@@ -17,6 +17,7 @@ import { pathToFileURL } from 'node:url'
 const TAKT_MS = 15_000
 export const LOG_VERSUCHE = 3
 export const LOG_PAUSE_MS = 20_000
+const FEHL_LOG = '##[error]Log nicht abrufbar:'
 export const JE_JOB_ERGEBNIS = 450
 export const ZEILE_MAX = 300
 const ERGEBNIS = /(alles in Ordnung|Prüfungen grün|: (ok|grün)\b|\b\d+ von \d+\b|\b\d+ Fehler\b|\bFEHL\b|##\[error\]|^\s*[✖✕✗]|Process completed with exit code)/
@@ -89,8 +90,8 @@ export async function ermittleLauf({ holeLauf, holeJobs, warte, jetzt, frist, ta
 }
 
 /** `gh` als Funktion: Argumente rein, stdout raus; scheitert der Aufruf, wirft sie. */
-export function ghAufruf(args) {
-  const r = spawnSync('gh', args, { encoding: 'utf8', windowsHide: true, maxBuffer: 1 << 26 })
+export function ghAufruf(args, programm = ['gh']) {
+  const r = spawnSync(programm[0], [...programm.slice(1), ...args], { encoding: 'utf8', windowsHide: true, maxBuffer: 1 << 26 })
   if (r.error) throw r.error
   if (r.status !== 0) throw new Error(`gh ${args.slice(0, 3).join(' ')} Exit ${r.status}: ${sauber(r.stderr)}`)
   return r.stdout
@@ -117,9 +118,9 @@ export function holeJobs(repo, runId, gh) {
 }
 
 /** Log eines Jobs; ein frisch abgeschlossener Lauf liefert ihn mitunter erst nach einer Weile, darum Wiederholungen. */
-async function holeLog(repo, j, gh, warte) {
+async function holeLog(repo, j, gh, warte, versuche) {
   let letzter = null
-  for (let versuch = 0; versuch < LOG_VERSUCHE; versuch++) {
+  for (let versuch = 0; versuch < versuche; versuch++) {
     if (versuch > 0) await warte(LOG_PAUSE_MS)
     try {
       return gh(['api', `repos/${repo}/actions/jobs/${j.id}/logs`])
@@ -127,14 +128,31 @@ async function holeLog(repo, j, gh, warte) {
       letzter = e
     }
   }
-  return `##[error]Log nicht abrufbar: ${letzter.message}`
+  return `${FEHL_LOG} ${letzter.message}`
 }
 
 /** Jobs mit ihren Logs; ein nicht abrufbares Log steht als Fehlzeile im Log des Jobs. */
 export async function mitLogs(repo, jobs, gh, warte) {
   const aus = []
-  for (const j of jobs) aus.push(j.status !== 'completed' ? j : { ...j, log: await holeLog(repo, j, gh, warte) })
+  let versuche = LOG_VERSUCHE
+  for (const j of jobs) {
+    if (j.status !== 'completed') {
+      aus.push(j)
+      continue
+    }
+    const log = await holeLog(repo, j, gh, warte, versuche)
+    // Scheitert ein Job nach allen Versuchen, sind die übrigen vermutlich auch betroffen: nur noch ein Versuch ohne Pause.
+    if (log.startsWith(FEHL_LOG)) versuche = 1
+    aus.push({ ...j, log })
+  }
   return aus
+}
+
+/** Zusatz für die Statuszeile, wenn Job-Logs fehlen (nennt die erste Ursache), sonst leer. */
+export function diagnosezeile(jobs) {
+  const ohne = jobs.filter((j) => (j.log ?? '').startsWith(FEHL_LOG))
+  if (!ohne.length) return ''
+  return `; ${ohne.length} von ${jobs.length} Job-Logs nicht abrufbar, erste Ursache: ${ohne[0].log.slice(FEHL_LOG.length).trim().slice(0, 250)}`
 }
 
 /** Holt Lauf und Logs (mit Wartefrist in ms) und schreibt beide Dateien in `ordner`; gibt die Statuszeile zurück. */
@@ -148,12 +166,10 @@ export async function schreibeKettenlog({ repo, sha, ordner, frist, gh, warte, j
   })
   const mitLog = lauf ? await mitLogs(repo, jobs, gh, warte) : []
   const { uebersicht, voll } = baueDateien({ kopf: sha, lauf, jobs: mitLog })
-  const ohneLog = mitLog.filter((j) => (j.log ?? '').startsWith('##[error]Log nicht abrufbar'))
-  if (ohneLog.length) console.error(`${ohneLog.length} von ${mitLog.length} Job-Logs nicht abrufbar, erste Ursache: ${ohneLog[0].log.slice(0, 250)}`)
   fs.mkdirSync(ordner, { recursive: true })
   fs.writeFileSync(path.join(ordner, 'kettenlog.txt'), uebersicht)
   fs.writeFileSync(path.join(ordner, 'kettenlog-voll.txt'), voll)
-  return `Kettenlog ${sha.slice(0, 9)}: ${lauf ? `Lauf ${lauf.id} (${lauf.status})` : 'kein Lauf'}, ${uebersicht.split('\n').length} Übersichtszeilen, ${voll.split('\n').length} Zeilen gesamt`
+  return `Kettenlog ${sha.slice(0, 9)}: ${lauf ? `Lauf ${lauf.id} (${lauf.status})` : 'kein Lauf'}, ${uebersicht.split('\n').length} Übersichtszeilen, ${voll.split('\n').length} Zeilen gesamt${diagnosezeile(mitLog)}`
 }
 
 async function main() {

@@ -2,9 +2,10 @@
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { parse } from 'yaml'
 import {
-  HINWEIS, JE_JOB_ERGEBNIS, LOG_VERSUCHE, baueDateien, bereinige, ergebniszeilen, ermittleLauf, holeJobs, holeLauf, kopfZeilen, mitLogs, schreibeKettenlog,
+  HINWEIS, JE_JOB_ERGEBNIS, LOG_VERSUCHE, baueDateien, ghAufruf, bereinige, ergebniszeilen, ermittleLauf, holeJobs, holeLauf, kopfZeilen, mitLogs, schreibeKettenlog,
 } from './pr-kettenlog.mjs'
 
 const fehler = []
@@ -168,6 +169,35 @@ pruefe('nicht abrufbares Log: genau LOG_VERSUCHE Versuche mit Pause dazwischen',
   const u2 = uhr()
   const r = await mitLogs('o/r', [{ id: 1, name: 'x', status: 'completed', conclusion: 'success' }], spaet, u2.warte)
   pruefe('Log erst im dritten Versuch da: wird übernommen', r[0].log === ECHT && n === 3, r)
+}
+
+{
+  // Fail fast: scheitert der erste Job nach allen Versuchen, bekommen die übrigen genau einen Versuch ohne Pause.
+  const z = []
+  const alle = (args) => { z.push(args[1]); throw new Error('403') }
+  const u3 = uhr()
+  const jobs3 = [1, 2, 3].map((id) => ({ id, name: `j${id}`, status: 'completed', conclusion: 'success' }))
+  await mitLogs('o/r', jobs3, alle, u3.warte)
+  pruefe('Fail fast: Job 1 alle Versuche, Jobs 2 und 3 je einmal', z.length === LOG_VERSUCHE + 2 && u3.z.wartet === LOG_VERSUCHE - 1, { z, w: u3.z.wartet })
+}
+{
+  // Echtes spawnSync auf einen Node-Prozess mit Exit 4 und stderr-Text
+  let meldung = ''
+  try {
+    ghAufruf(['api', 'x', 'y'], [process.execPath, fileURLToPath(new URL('./pr-kettenlog-fakegh.mjs', import.meta.url))])
+  } catch (e) {
+    meldung = e.message
+  }
+  pruefe('ghAufruf: Fehlermeldung trägt Exit-Code und stderr-Text', meldung.includes('Exit 4') && meldung.includes('HTTP 404: Not Found (logs expired)'), meldung)
+}
+{
+  const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'kettenlog-'))
+  const u = uhr()
+  const meldung = await schreibeKettenlog({ repo: 'o/r', sha: SHA, ordner, frist: 0, gh, warte: u.warte, jetzt: u.jetzt })
+  pruefe('Diagnosezeile: "1 von 3 Job-Logs nicht abrufbar, erste Ursache: 403"', meldung.includes('; 1 von 3 Job-Logs nicht abrufbar, erste Ursache: 403'), meldung)
+  const heil = await schreibeKettenlog({ repo: 'o/r', sha: SHA, ordner, frist: 0, gh: (a) => (a.some((x) => x.includes('/jobs/13/logs')) ? ECHT : gh(a)), warte: u.warte, jetzt: u.jetzt })
+  pruefe('Diagnosezeile: ohne fehlende Logs keine Zusatzzeile', !heil.includes('nicht abrufbar'), heil)
+  fs.rmSync(ordner, { recursive: true, force: true })
 }
 
 // Gesamtlauf mit Dateien (Ordner unter os.tmpdir)
