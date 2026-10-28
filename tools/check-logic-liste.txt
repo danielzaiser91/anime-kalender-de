@@ -5,6 +5,7 @@ pipeline/check-abruf-stempel.ts
 pipeline/check-abstand.ts
 pipeline/check-adn-anisearch.ts
 pipeline/check-adn-film.ts
+pipeline/check-adn-katalog-warteschlange.ts
 pipeline/check-adn-kuratiert-ton.ts
 pipeline/check-adn-kuratiert.ts
 pipeline/check-adn-lesetag.ts
@@ -134,6 +135,7 @@ pipeline/check-folge-ueber-anzahl-bau.ts
 pipeline/check-folge-ueber-anzahl.ts
 pipeline/check-folge-ueber-titel.ts
 pipeline/check-folge-zwoelf-hinweis.ts
+pipeline/check-folgen-datum.ts
 pipeline/check-folgen-erschienen-je-weg.ts
 pipeline/check-folgenblock.ts
 pipeline/check-folgenflaggen.ts
