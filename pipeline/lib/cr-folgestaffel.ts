@@ -15,8 +15,8 @@ function folgestaffelNr(block: CrStaffel): number | null {
  * Deutscher Block „Staffel N“ (N ≥ 2) einer Crunchyroll-Serie gehört dem einen TV-Titel derselben Reihe mit Staffelnummer N,
  * der noch keinen deutschen Weg hat: entweder gar keinen Crunchyroll-Weg oder (Anlass 28.10.2026, The Detective Is Already Dead
  * Staffel 2, 152677) schon den Weg dieser Adresse ohne Sprachurteil (`dub` fehlt), den der Katalog-Abgleich später sonst entfernt.
- * Eng: genau ein Kandidat, ein anderer Crunchyroll-Weg oder ein Urteil (`dub` gesetzt) schließt aus, deutsche Folge liegt nicht
- * hinter dem Ende des Titels, der Block hat nicht mehr Folgen als der Titel. Hat der Titel keine Folgenzahl, entfallen beide
+ * Eng: genau ein Kandidat, kein anderer TV-Titel der Adresse trägt die Nummer schon, ein anderer Crunchyroll-Weg oder ein
+ * Urteil (`dub` gesetzt) schließt aus, deutsche Folge liegt nicht hinter dem Ende des Titels, der Block hat nicht mehr Folgen als der Titel. Hat der Titel keine Folgenzahl, entfallen beide
  * Folgenzahl-Vergleiche, es bleibt die Nummer.
  */
 export function folgestaffelTitel(block: CrStaffel, gruppe: Title[], titles: Iterable<Title>, url: string): Title | null {
@@ -32,6 +32,8 @@ export function folgestaffelTitel(block: CrStaffel, gruppe: Title[], titles: Ite
   )
   if (passend.length !== 1) return null
   const t = passend[0]!
+  /* Trägt ein anderer TV-Titel der Adresse die Nummer schon, ist sie vergeben. */
+  if (gruppe.some((g) => g.id !== t.id && g.format === 'TV' && titelStaffelNr(g) === nr)) return null
   if (t.episodes && (block.folgen ?? 0) > t.episodes) return null
   if (deutscheFolgenNachDemEnde([block], t.episodes)) return null
   return t

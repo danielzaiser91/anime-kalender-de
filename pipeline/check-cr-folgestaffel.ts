@@ -121,6 +121,11 @@ function direkt(): void {
   pruefe('Regel: deutsche Folge hinter dem Ende des Titels: kein Treffer', gib(block('Staffel 2', 4, 1, nummers(14)), [s1()], bekannt) === null)
   pruefe('Regel: Titel ohne Folgenzahl (wie im Bau): Block mit 14 Folgen und Folge 14 deutsch trifft', gib(block('Staffel 2', 14, 1, nummers(14)))?.id === 152677)
   pruefe('Regel: Staffel 2 steht schon in der Gruppe mit dem Weg ohne dub (wie 152677 im Bau): Treffer', gib(eins, [s1(), s2()])?.id === 152677)
+  const vergeben = (dub: boolean | undefined) => titel(900005, { titleRomaji: 'Foo Season 2', streams: [{ platform: 'crunchyroll', url: URL_DT, dub }] })
+  for (const dub of [true, false, undefined]) {
+    pruefe(`Regel: ein anderer TV-Titel der Adresse trägt Staffel 2 schon (dub: ${dub}): kein Treffer`, gib(eins, [s1(), vergeben(dub)], [s1(), s2()]) === null)
+  }
+  pruefe('Regel: ein anderer Titel der Adresse mit Staffel 2 ohne Crunchyroll-Weg sperrt ebenso', gib(eins, [s1(), titel(900006, { titleRomaji: 'Foo Season 2' })], [s1(), s2()]) === null)
   const mitDub = (dub: boolean) => [s1(), s2(undefined, [{ platform: 'crunchyroll', url: URL_DT, dub }])]
   pruefe('Regel: Staffel 2 in der Gruppe mit dub: true trägt den deutschen Weg schon: kein Treffer', gib(eins, mitDub(true), mitDub(true)) === null)
   pruefe('Regel: Staffel 2 in der Gruppe mit dub: false (Urteil): kein Treffer', gib(eins, mitDub(false), mitDub(false)) === null)

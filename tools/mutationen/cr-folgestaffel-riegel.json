@@ -14,5 +14,9 @@
   ["reihen.has(t.franchiseId ?? t.id) &&", "true &&"],
   ["titelStaffelNr(t) === nr &&", "true &&"],
   ["titles.values(), serie.url)", "titles.values(), '')"],
+  ["if (gruppe.some((g) => g.id !== t.id && g.format === 'TV' && titelStaffelNr(g) === nr)) return null", "if (false) return null"],
+  ["g.id !== t.id && g.format === 'TV'", "g.format === 'TV'"],
+  ["g.id !== t.id && g.format === 'TV'", "g.id !== t.id"],
+  ["g.id !== t.id && g.format === 'TV' && titelStaffelNr(g) === nr", "g.id !== t.id && g.format === 'TV'"],
   ["else t.streams.push({ platform: 'crunchyroll', url: serie.url, ...urteil })", "else t.streams.push({ platform: 'crunchyroll', url: '', ...urteil })"]
 ]
