@@ -22,7 +22,7 @@
  *
  * Ergebnis: `data/wikipedia-folgen.json` — je Titel die Seite und ihre Folgen.
  */
-import { readJson, writeJson, log, warn } from './lib/util.ts'
+import { readJson, writeJson, log, warn, sleep } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { folgenAusTabellen, folgenAusWikitext, type WikiFolge } from './lib/wikipedia-folgen.ts'
 import type { TvSendung } from './fetch-tv-programm.ts'
@@ -37,7 +37,6 @@ export type WikipediaFolgenDatei = {
 
 type Titel = { id: number; titleDe?: string; titleEn?: string; titleRomaji?: string }
 
-const warte = (ms: number) => new Promise((r) => setTimeout(r, ms))
 const seitenAdresse = (seite: string) =>
   `https://de.wikipedia.org/wiki/${encodeURIComponent(seite.replace(/ /g, '_')).replace(/%2F/g, '/')}`
 
@@ -49,7 +48,7 @@ async function wikitext(seite: string, tiefe = 0): Promise<{ seite: string; text
   const text = await r.text()
   const ziel = /^#(?:WEITERLEITUNG|REDIRECT)\s*\[\[([^\]#|]+)/i.exec(text.trim())?.[1]
   if (ziel && tiefe < 2) {
-    await warte(1000)
+    await sleep(1000)
     return wikitext(ziel.trim(), tiefe + 1)
   }
   return { seite, text }
@@ -80,7 +79,7 @@ for (const [id, liste] of namen) {
     for (const k of [...new Set(kandidaten)]) {
       const w = await wikitext(k)
       abrufe++
-      await warte(1000)
+      await sleep(1000)
       /* Erst die Vorlagen, sonst die Tabellenform (Detektiv Conan). */
       const vorlagen = w ? folgenAusWikitext(w.text) : []
       const folgen = vorlagen.length || !w ? vorlagen : folgenAusTabellen(w.text)

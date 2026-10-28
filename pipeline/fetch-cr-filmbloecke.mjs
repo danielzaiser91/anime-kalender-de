@@ -33,6 +33,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { recordSource } from './lib/health.ts'
+import { normSchluessel, sleep } from './lib/util.ts'
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36'
 const titles = JSON.parse(readFileSync('public/data/titles.json', 'utf8'))
@@ -56,9 +57,7 @@ const tok = await fetch('https://beta-api.crunchyroll.com/auth/v1/token', {
 }).then((r) => r.json())
 if (tok.country !== 'DE') { console.error('Nicht aus Deutschland — Abbruch.'); process.exit(1) }
 const hol = (u) => fetch(u, { headers: { Authorization: `Bearer ${tok.access_token}`, 'User-Agent': UA } }).then((r) => r.json()).catch(() => null)
-const warte = () => new Promise((r) => setTimeout(r, 700))
 
-const norm = (s) => (s ?? '').toLowerCase().replace(/[^a-z0-9]/g, '')
 /** Der unterscheidende Teil eines Filmtitels: alles nach dem letzten Trenner. */
 const kennwortRoh = (s) => {
   const t = (s ?? '').split(/s[-–—:]s|s*:s*/).filter(Boolean)
@@ -66,14 +65,14 @@ const kennwortRoh = (s) => {
 }
 const kennwort = (s) => {
   const t = (s ?? '').split(/\s[-–—:]\s|\s*:\s*/).filter(Boolean)
-  return norm(t[t.length - 1] ?? s)
+  return normSchluessel(t[t.length - 1] ?? s)
 }
 
 const blockCache = new Map()
 async function bloeckeVon(serienId) {
   if (blockCache.has(serienId)) return blockCache.get(serienId)
   const r = await hol(`https://beta-api.crunchyroll.com/content/v2/cms/series/${serienId}/seasons?locale=de-DE`)
-  await warte()
+  await sleep(700)
   const bl = (r?.data ?? []).map((st) => ({ id: st.id, titel: st.title ?? '', audio: st.audio_locales ?? [] }))
   blockCache.set(serienId, bl)
   return bl
@@ -88,9 +87,9 @@ for (const o of offen) {
   const reihe = (o.titel ?? o.en ?? '').split(/\s[-–—:]\s|\s*:\s*/)[0]
   for (const frage of [`${reihe} Movies`, reihe]) {
     const s = await hol(`https://beta-api.crunchyroll.com/content/v2/discover/search?q=${encodeURIComponent(frage)}&n=8&type=series&locale=de-DE`)
-    await warte()
+    await sleep(700)
     for (const it of (s?.data ?? []).flatMap((g) => g.items ?? [])) {
-      if (norm(it.title).includes(norm(reihe))) serienIds.add(it.id)
+      if (normSchluessel(it.title).includes(normSchluessel(reihe))) serienIds.add(it.id)
     }
     if (serienIds.size > 3) break
   }
@@ -99,9 +98,9 @@ for (const o of offen) {
   let treffer = null
   for (const sid of serienIds) {
     for (const b of await bloeckeVon(sid)) {
-      const bn = norm(b.titel)
+      const bn = normSchluessel(b.titel)
       const passt =
-        namen.some((n) => norm(n) === bn) ||
+        namen.some((n) => normSchluessel(n) === bn) ||
         namen.some((n) => bn.includes(kennwort(n)) && kennwort(n).length >= 6)
       if (!passt) continue
       treffer = { serienId: sid, blockId: b.id, blockTitel: b.titel, audio: b.audio }
@@ -126,11 +125,11 @@ for (const o of offen) {
     const s2 = await hol(
       `https://beta-api.crunchyroll.com/content/v2/discover/search?q=${encodeURIComponent(`${reihe} ${kennwortRoh(o.titel ?? o.en)}`)}&n=12&type=episode&locale=de-DE`,
     )
-    await warte()
+    await sleep(700)
     for (const it of (s2?.data ?? []).flatMap((g) => g.items ?? [])) {
       const md = it.episode_metadata ?? {}
-      const serieOk = norm(md.series_title ?? '').includes(norm(reihe)) || norm(reihe).includes(norm(md.series_title ?? ''))
-      const kw = namen.map(kennwort).find((k) => k.length >= 6 && norm(it.title).includes(k))
+      const serieOk = normSchluessel(md.series_title ?? '').includes(normSchluessel(reihe)) || normSchluessel(reihe).includes(normSchluessel(md.series_title ?? ''))
+      const kw = namen.map(kennwort).find((k) => k.length >= 6 && normSchluessel(it.title).includes(k))
       if (!serieOk || !kw) continue
       const versionen = (md.versions ?? []).map((v) => v.audio_locale).filter(Boolean)
       if (!versionen.length) continue
