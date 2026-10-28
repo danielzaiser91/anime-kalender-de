@@ -7,7 +7,7 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 96 Wege, nur Hinweis: 0.
+Flagge „Deutsch“: 95 Wege, nur Hinweis: 0.
 
 JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 14, Mehrteiler 9.
 
@@ -15,14 +15,14 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | crunchyroll | 8 | 0 | 0.0 % | Flagge |
 | disneyplus | 14 | 0 | 0.0 % | Flagge |
-| primevideo | 88 | 0 | 0.0 % | Flagge |
+| primevideo | 92 | 0 | 0.0 % | Flagge |
 
 ### Widersprüche (0)
 
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (739)
+### Kandidaten für neue Wege (735)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -66,7 +66,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Ghost in the Shell 2: Innocence (468) | Amazon Video | amazon:amzn1.dv.gti.29848106-f134-4199-9cb4-6f7acf56c123 | ja |
 | Kikis kleiner Lieferservice (512) | Amazon Video | amazon:amzn1.dv.gti.7f994203-b16f-483f-9c4d-5e507647e5a8 | ja |
 | Das Schloss im Himmel (513) | Amazon Video | amazon:amzn1.dv.gti.b2f56714-3642-4d09-b96d-de44baa2e974 | ja |
-| Robotic Angel (522) | Amazon Video | amazon:amzn1.dv.gti.361cb55c-7c76-400a-9fd1-8d29fbc663e2 | nein |
 | Mein Nachbar Totoro (523) | Amazon Video | amazon:amzn1.dv.gti.683ce9d1-db7c-4796-b7bb-5ab40c6b0fe3 | ja |
 | Nausicaä aus dem Tal der Winde (572) | Amazon Video | amazon:amzn1.dv.gti.b9f4c88e-2c30-46e5-b213-e6bfefdd1126 | ja |
 | Ninja Scroll (617) | Amazon Video | amazon:amzn1.dv.gti.9265d2a9-27f4-4954-bba5-bb811d1beeb5 | ja |
@@ -189,7 +188,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Resident Evil: Damnation (9544) | Amazon Video | amazon:amzn1.dv.gti.bca9f6e1-bd47-1678-b717-de78fbeabb5c | ja |
 | K-On! The Movie (9617) | Crunchyroll | crunchyroll:GG1U2EX49 | ja |
 | Die Reise nach Agartha (9760) | Amazon Video | amazon:amzn1.dv.gti.e1378c8f-8984-4c02-b790-f39e1cbd5319 | ja |
-| Pokémon: Der Film - Weiß: Victini und Zekrom (9917) | Amazon Video | amazon:amzn1.dv.gti.8ab27e08-d8ee-b0f9-aa6f-73b8a496e730 | nein |
 | Detektiv Conan: Die 15 Minuten der Stille (9963) | Crunchyroll | crunchyroll:GD9UV2ENK | ja |
 | AnoHana: Die Blume, die wir an jenem Tag sahen (9989) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.b4b0302e-b8f6-12c7-468b-79b9e698c146 | ja |
 | Der Mohnblumenberg (10029) | Amazon Video | amazon:amzn1.dv.gti.863e0dd6-b461-4d65-acc1-ea1bfd73648f | ja |
@@ -335,7 +333,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Magical Girl Raising Project (21340) | Crunchyroll | crunchyroll:G0DUN87MP | ja |
 | Magical Girl Raising Project (21340) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.0b1f18c7-2c32-40fd-afd6-f999b3aa263b | ja |
 | Katsugeki: Touken Ranbu (21742) | Amazon Prime Video | amazon:amzn1.dv.gti.8cba45ff-ada1-d0eb-5f77-1fd1c06478d1 | ja |
-| Kingsglaive: Final Fantasy XV (21729) | Amazon Video | amazon:amzn1.dv.gti.aaaa9350-5a67-c8f3-e6e7-6777cae07680 | nein |
 | Planetarian: Storyteller of the Stars (21771) | Amazon Prime Video | amazon:amzn1.dv.gti.bb817e63-f8b0-4b5a-bdcd-452af388d10d | ja |
 | K: Seven Stories Movie 1 - R:B - Blaze (21798) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.dedd5e76-6c7a-44eb-aebf-d6a1c09454cd | ja |
 | ACCA: 13-Territory Inspection Dept. (21823) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.9c971dde-934f-4872-9d32-51c409e8a889 | ja |
@@ -373,8 +370,8 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Poupelle und die andere Seite des Himmels (98776) | Amazon Prime Video | amazon:amzn1.dv.gti.88cf3b4f-6e81-4c0c-87b8-1ca705039768 | ja |
 | Liz und der Blaue Vogel (100178) | Amazon Video | amazon:amzn1.dv.gti.e0b92698-9683-46dd-a03e-2caff0878b85 | ja |
 | Detektiv Conan: Zero der Vollstrecker (100653) | Crunchyroll | crunchyroll:G4VUQM4Q1 | ja |
-| Detektiv Conan: Zero der Vollstrecker (100653) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.ea579dc0-fabf-4432-9fa3-cd11209f21ac | nein |
-| Detektiv Conan: Zero der Vollstrecker (100653) | Amazon Video | amazon:amzn1.dv.gti.9ebc0a23-3036-a057-a7bc-8055cec282e1 | nein |
+| Detektiv Conan: Zero der Vollstrecker (100653) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.ea579dc0-fabf-4432-9fa3-cd11209f21ac | ja |
+| Detektiv Conan: Zero der Vollstrecker (100653) | Amazon Video | amazon:amzn1.dv.gti.9ebc0a23-3036-a057-a7bc-8055cec282e1 | ja |
 | Darling in the Franxx (99423) | Crunchyroll | crunchyroll:G7PU4Q05V | ja |
 | Darling in the Franxx (99423) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.b97b2654-7d22-4758-b4a5-0ca6d1ea5dd4 | nein |
 | Maquia: Eine unsterbliche Liebesgeschichte (99457) | Arthouse CNMA Amazon Channel | amazon:amzn1.dv.gti.ecb5584b-cc6e-629d-0a15-cdd35e25d743 | ja |
@@ -390,7 +387,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | King’s Game (99698) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.472233ec-008a-4135-b5bc-2e1b15360d69 | nein |
 | Recovery of an MMO Junkie (99726) | Crunchyroll | crunchyroll:GYME224P6 | ja |
 | Recovery of an MMO Junkie (99726) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.7645eda3-ae24-4e1b-9346-68e637e86b6f | nein |
-| Starship Troopers: Traitor of Mars (101913) | Amazon Video | amazon:amzn1.dv.gti.a0aef3c1-2ce6-daff-9a6a-bdc986bfb936 | nein |
 | Digimon Adventure tri. 6: Bokura no Mirai (100181) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.be712102-f745-40a0-9c98-7b895068d9fa | nein |
 | Tada Never Falls in Love (100179) | Amazon Prime Video | amazon:amzn1.dv.gti.b9a8ec9f-c984-4fc8-8556-fa25eed79a4b | ja |
 | Doreiku: The Animation (100251) | Crunchyroll | crunchyroll:G9DUEPEE7 | ja |
@@ -407,7 +403,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Cats: Ein schnurriges Abenteuer (102060) | Amazon Video | amazon:amzn1.dv.gti.702fba83-3d0f-4482-b495-5e010fe7a7c0 | ja |
 | K: Seven Stories Movie 2 - Side:Blue - Like Sirius (102346) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.7e81b7a3-8e99-484c-a514-e5fc687af337 | ja |
 | Penguin Highway (101249) | Crunchyroll | crunchyroll:G4VUQMG5W | ja |
-| Penguin Highway (101249) | Amazon Video | amazon:amzn1.dv.gti.02b91611-b461-cebf-e7f2-a7b47fe4bb51 | nein |
+| Penguin Highway (101249) | Amazon Video | amazon:amzn1.dv.gti.02b91611-b461-cebf-e7f2-a7b47fe4bb51 | ja |
 | Boogiepop and Others (101283) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.7aa5b3b8-12dd-4703-bef1-340fd628e659 | ja |
 | Die Welt in allen Farben: Iroduku (101316) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.e587021e-1402-459e-b3fe-415f901b7191 | ja |
 | Made in Abyss: Gefährten der Dämmerung (101344) | CineMix+ Amazon Channel | amazon:amzn1.dv.gti.18b83256-a558-424b-beb0-9f6bcffb0fe5 | ja |

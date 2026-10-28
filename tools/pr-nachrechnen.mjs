@@ -35,9 +35,9 @@ export function basisAusLog(log, kopf) {
   return m ? m[1] : null
 }
 
-/** Neuester Kettenlauf zum Kopf (gleicher Commit), sonst null. */
+/** Neuester Kettenlauf zum Kopf (gleicher Commit), sonst null. Abgebrochene Läufe (Concurrency ersetzt sie, oft ohne jeden Job) zählen nicht. */
 export function neuesterLauf(laeufe, kopf) {
-  const passend = laeufe.filter((l) => l.headSha === kopf)
+  const passend = laeufe.filter((l) => l.headSha === kopf && l.conclusion !== 'cancelled')
   return passend.reduce((neu, l) => (neu === null || Date.parse(l.createdAt) > Date.parse(neu.createdAt) ? l : neu), null)
 }
 
@@ -175,10 +175,11 @@ function anstossenAb(gh, nummer, main, warte, vorher, begonnen) {
 
 /** Liest Basis des neuesten Kettenlaufs; Rückgabe { basis } oder { grund } (dann ist nichts zu entscheiden). */
 function basisDesLaufs(gh, pr) {
-  const laeufe = JSON.parse(gh(['run', 'list', '--workflow', KETTE, '--event', 'pull_request', '--branch', pr.headRefName, '--limit', '20', '--json', 'databaseId,headSha,createdAt']))
+  const laeufe = JSON.parse(gh(['run', 'list', '--workflow', KETTE, '--event', 'pull_request', '--branch', pr.headRefName, '--limit', '20', '--json', 'databaseId,headSha,createdAt,conclusion']))
   const lauf = neuesterLauf(laeufe, pr.headRefOid)
   if (lauf === null) return { grund: `PR ${pr.number}: kein Kettenlauf zum Kopf ${kurz(pr.headRefOid)}` }
   const jobs = JSON.parse(gh(['run', 'view', String(lauf.databaseId), '--json', 'jobs'])).jobs
+  if (jobs.length === 0) return { grund: `PR ${pr.number}: Lauf ${lauf.databaseId} hat noch keine Jobs angelegt; später erneut aufrufen` }
   const job = jobs.find((j) => j.name === JOB)
   if (job === undefined) return { grund: `PR ${pr.number}: Lauf ${lauf.databaseId} hat keinen Job „${JOB}“` }
   if (job.status !== 'completed') return { grund: `PR ${pr.number}: Job „${JOB}“ läuft noch (Lauf ${lauf.databaseId}), sein Log gibt es erst nach Abschluss; später erneut aufrufen` }
