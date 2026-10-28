@@ -15,7 +15,8 @@
   "permissions": {
     "contents": "read",
     "pull-requests": "write",
-    "checks": "read"
+    "checks": "read",
+    "actions": "read"
   },
   "concurrency": {
     "group": "pr-pruefer-${{ github.event.pull_request.number }}",
@@ -64,6 +65,14 @@
             "STUFE": "${{ steps.stufe.outputs.stufe }}"
           },
           "run": "node tools/pr-pruefer-modus.mjs \"$PR\" \"$STUFE\" \"$RUNNER_TEMP/pruefer/auflagen.md\" >> \"$GITHUB_OUTPUT\" || echo \"Prüfmodus nicht bestimmt, voll\""
+        },
+        {
+          "name": "Kettenlog bereitlegen",
+          "env": {
+            "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
+            "GITHUB_REPOSITORY": "${{ github.repository }}"
+          },
+          "run": "node tools/pr-kettenlog.mjs \"$HEAD_SHA\" \"$RUNNER_TEMP/pruefer\" 540 || echo \"Kettenlog nicht bereitgelegt\""
         },
         {
           "name": "Prüfer-Eingang prüfen",
