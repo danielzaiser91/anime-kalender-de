@@ -42,7 +42,7 @@ const KATALOGSHOW = {
 }
 
 /** Baut eine Kulisse (Archiv-Serien, Katalog) und lässt `fetch-adn.ts` mit `modus` laufen; liefert Ausgabe, Exit-Code und Dateistand davor/danach. */
-function lauf(modus: string, archivIds: number[], liste: number[], extra: { katalog?: unknown[]; args?: string[]; status?: string } = {}) {
+function lauf(modus: string, archivIds: number[], liste: number[], extra: { katalog?: unknown[]; args?: string[]; status?: string; stand?: Record<string, string> } = {}) {
   const kulisse = mkdtempSync(join(tmpdir(), 'adn-franz-'))
   try {
     const archiv = join(kulisse, 'data', 'adn-raw')
@@ -53,6 +53,7 @@ function lauf(modus: string, archivIds: number[], liste: number[], extra: { kata
     writeFileSync(join(kulisse, 'data', 'kino-ankuendigungen.yaml'), '[]\n')
     const katalogPfad = join(kulisse, 'data', 'adn-catalog.json')
     writeFileSync(katalogPfad, JSON.stringify({ scrapedAt: '', window: { from: '', to: '' }, shows: extra.katalog ?? [KATALOGSHOW] }))
+    if (extra.stand) writeFileSync(join(kulisse, 'data', 'adn-katalog-stand.json'), JSON.stringify(extra.stand))
     const antwort = join(kulisse, 'antwort.json')
     writeFileSync(antwort, JSON.stringify(FRANZ))
     const stand = (): Record<string, Buffer> =>
@@ -114,6 +115,12 @@ pruefe('--catalog --limit: Serie jenseits des Limits bleibt (nicht gefragt)', id
 pruefe('--catalog --limit: Serie mit frischer Antwort ohne Deutsch (404) fällt heraus', !ids(begrenzt).includes(3002), ids(begrenzt))
 pruefe('--catalog --limit: Zähler je Weg in der Logzeile', begrenzt.ausgabe.includes('ADN-Katalog behalten: 1 nicht gefragt, 1 Abbruch, 1 entfernt'), begrenzt.ausgabe.slice(-500))
 pruefe('--catalog --limit: Serie mit 5xx steht nicht im Abfrage-Stand (kommt wieder dran)', !('3001' in begrenzt.abfrageStand), begrenzt.abfrageStand)
+
+// Stand-Schlüssel ohne Archivdatei und ohne Katalogeintrag („Gespenster“) kommen zusätzlich in die Schlange: 4001 antwortet mit 5xx (Versuch vermerkt), 4002 mit 404 (Antwortzeit gesetzt).
+const gespenster = lauf('--catalog', [], [], { katalog: [mitId(3010)], args: ['--limit', '1'], status: '4001:500,4002:404', stand: { '4001': '2026-10-01T00:00:00.000Z', '4002': '2026-10-02T00:00:00.000Z' } })
+pruefe('--catalog --limit: Gespenst mit 5xx wird gefragt, Versuch vermerkt, Antwortzeit unverändert', gespenster.abfrageStand.v4001 !== undefined && gespenster.abfrageStand['4001'] === '2026-10-01T00:00:00.000Z', gespenster.abfrageStand)
+pruefe('--catalog --limit: Gespenst mit 404 wird gefragt, Antwortzeit neu', gespenster.abfrageStand['4002'] !== '2026-10-02T00:00:00.000Z' && gespenster.abfrageStand.v4002 === undefined, gespenster.abfrageStand)
+pruefe('--catalog --limit: Logzeile nennt gefragt und ohne Antwort', gespenster.ausgabe.includes('ADN-Katalog: 3 gefragt, davon 2 ohne Antwort'), gespenster.ausgabe.slice(-600))
 
 // Nur eindeutige Antworten (404/410 auf Seite 1) verneinen; Zeitüberschreitung, 429 und ein Fehler auf Seite 2 sind Nichtauskunft.
 const nichtauskunft = lauf('--catalog', [], [], {
