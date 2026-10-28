@@ -201,6 +201,25 @@ const ohneZweite = staffelMarken([titel(20, { ...naruto, titleDe: 'Naruto', jpYe
 pruefe('Reihe mit einer Staffel und einem Film: keine Marke', ohneZweite.size === 0, [...ohneZweite])
 const eighty = staffelMarken([titel(116589, { ...naruto, franchiseId: 116589, titleDe: '86: Eighty Six', jpYear: 2021, jpSeason: 'SPRING' }), titel(131586, { ...naruto, franchiseId: 116589, titleDe: '86: Eighty Six – Teil 2', jpYear: 2021, jpSeason: 'FALL' })])
 pruefe('86: Eighty Six, zwei Teile einer Staffel: „Teil 1" und „Teil 2" (der Reihenname fließt in die Zählung ein)', JSON.stringify([...eighty]) === '[[116589,"Teil 1"],[131586,"Teil 2"]]', [...eighty])
+const reiheMit = (franchiseId: number, ...teile: [number, string, number, string][]) =>
+  staffelMarken(teile.map(([id, titleDe, jpYear, jpSeason]) => titel(id, { franchiseId, format: 'TV', titleDe, jpYear, jpSeason: jpSeason as Title['jpSeason'] })))
+const marken2 = (m: Map<number, string>) => JSON.stringify([...m])
+const reZero = reiheMit(21355, [163134, 'Re:Zero - Starting Life in Another World: Staffel 3', 2024, 'FALL'], [189046, 'Re:Zero - Starting Life in Another World: Staffel 4', 2026, 'SPRING'])
+pruefe('Re:Zero (nur Staffel 3 und 4 im Bestand): Staffel 3 und 4, nicht von vorn gezählt', marken2(reZero) === '[[163134,"Staffel 3"],[189046,"Staffel 4"]]', [...reZero])
+const magus = reiheMit(21688, [154364, 'The Ancient Magus’ Bride: Staffel 2', 2023, 'SPRING'], [166452, 'The Ancient Magus’ Bride Staffel 2 (Cour 2)', 2023, 'FALL'])
+pruefe('Ancient Magus’ Bride, Staffel 2 in zwei Teilen: „Teil 1" und „Teil 2"', marken2(magus) === '[[154364,"Teil 1"],[166452,"Teil 2"]]', [...magus])
+const hero = reiheMit(
+  21459,
+  [21459, 'My Hero Academia', 2016, 'SPRING'],
+  [21856, 'My Hero Academia 2', 2017, 'SPRING'],
+  [139630, 'My Hero Academia Staffel 6', 2022, 'FALL'],
+  [163139, 'My Hero Academia: Season 7', 2024, 'SPRING'],
+  [185736, 'My Hero Academia: Vigilantes', 2025, 'SPRING'],
+  [195322, 'My Hero Academia: Vigilantes Staffel 2', 2026, 'WINTER'],
+)
+pruefe('My Hero Academia (sechs Fernsehstaffeln): Nummern wie im Panel', marken2(hero) === '[[21459,"Staffel 1"],[21856,"Staffel 2"],[139630,"Staffel 6"],[163139,"Staffel 7"],[185736,"Staffel 8"],[195322,"Staffel 9"]]', [...hero])
+const einTeil = staffelMarken([titel(940061, { format: 'TV', titleDe: 'Foo Teil 2', jpYear: 2024 }), titel(940062, { format: 'MOVIE', titleDe: 'Foo: Der Film', jpYear: 2025 })])
+pruefe('eine einzige Fernsehstaffel (auch „Teil 2" allein) und ein Film: keine Marke', einTeil.size === 0, [...einTeil])
 const gunslinger = staffelMarken([titel(134, { ...naruto, franchiseId: 134, titleDe: 'Gunslinger Girl', jpYear: 2003 }), titel(3231, { ...naruto, franchiseId: 134, titleDe: 'Gunslinger Girl il teatrino', jpYear: 2008 })])
 pruefe('Gunslinger Girl / il teatrino: Staffel 1 und 2', JSON.stringify([...gunslinger]) === '[[134,"Staffel 1"],[3231,"Staffel 2"]]', [...gunslinger])
 
