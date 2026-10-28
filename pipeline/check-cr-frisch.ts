@@ -81,7 +81,7 @@ pruefe('Gruppierung: je Serie ihre Kennungen, Zeilen ohne Serie oder Kennung ent
 /* Verdrahtung: `main()` des Dub-Laufs braucht einen Browser, also ein Quelltext-Befund (Notlösung): Kennungen merken und an `crFrisch` geben. */
 const lauf = readFileSync(new URL('./scrape-crunchyroll-dub.ts', import.meta.url), 'utf8')
 pruefe('Dub-Lauf merkt die Folgenkennungen beim Speichern der Serie', lauf.includes('bestand.set(url, merkeNeuFolgen(serie, neuFolgen.get(seriesId)))'))
-pruefe('Dub-Lauf gibt die Kennungen des Katalogfunds an crFrisch', /crFrisch\(s, \{[^}]*\bneuFolgen\b[^}]*\}\)/.test(lauf))
+pruefe('Dub-Lauf gibt die Kennungen des Katalogfunds an crFrisch', /crFrisch\(s, \{[^}]*\bneuFolgen,[^}]*\}\)/.test(lauf))
 pruefe('Dub-Lauf liest die Kennungen aus dem Katalogfund', lauf.includes('neuFolgenJeSerie(neuFunde)') && lauf.includes('guid?: string'))
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
