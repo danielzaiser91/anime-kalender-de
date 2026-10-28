@@ -36,6 +36,12 @@ if ((pr = treffer(`api ${r}/pulls/(\\d+)`)) && abfrage === '.user.login') ende(p
 if ((pr = treffer(`api ${r}/issues/(\\d+)/comments --paginate`)) && abfrage !== null) ende('')
 if ((pr = treffer(`api --paginate --slurp ${r}/issues/(\\d+)/comments`)) && abfrage === null) ende(JSON.stringify(pr.kommentare))
 if ((pr = treffer(`api --paginate --slurp ${r}/pulls/(\\d+)/commits`)) && abfrage === null && pr.commits) ende(JSON.stringify(pr.commits))
+// Kettenlog (tools/pr-kettenlog.mjs): ein abgeschlossener Lauf mit einem Job und einer Logzeile, die es im echten Repo nicht gibt.
+if (schluessel === `api ${r}/actions/workflows/pr-pruefung.yml/runs?head_sha=${'c'.repeat(40)}&event=pull_request&per_page=30` && abfrage !== null) {
+  ende('5\tcompleted\tsuccess\n')
+}
+if (schluessel === `api --paginate ${r}/actions/runs/5/jobs?per_page=100` && abfrage !== null) ende('11\tKulissen-Job\tcompleted\tsuccess\n')
+if (schluessel === `api ${r}/actions/jobs/11/logs` && abfrage === null) ende('2026-10-28T10:00:00.0000000Z kulissen-waechter: ok (3 Fälle)\n')
 const einzel = new RegExp(`^api ${r}/commits/([0-9a-f]{40})$`).exec(schluessel)
 const dateien = einzel && abfrage === null ? Object.values(daten.prs).find((p) => p.einzel[einzel[1]])?.einzel[einzel[1]] : undefined
 if (dateien) ende(JSON.stringify({ files: dateien.map((filename) => ({ filename })) }))
