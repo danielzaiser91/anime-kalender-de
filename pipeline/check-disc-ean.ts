@@ -70,6 +70,36 @@ pruefe('15 Ziffern oder Ziffern mit Buchstaben dahinter sind keine EAN', amazonL
 pruefe('Produktseite', amazonLinkArt(dp) === 'produkt')
 pruefe('anderer Shop und leer', amazonLinkArt('https://www.akibapassshop.de/x') === undefined && amazonLinkArt(undefined) === undefined)
 
+console.log('\nTerminverschiebung (Phase 08, verschiebungenAnwenden):')
+{
+  const { verschiebungenAnwenden } = await import('./lib/disc-verschiebungen.ts')
+  const ALT = '2026-09-04'
+  const NEU = '2026-11-20'
+  const artikel = (name: string) => [{ articleUrl: 'https://www.anime2you.de/x', publishedAt: '2026-10-01', verschiebungen: [{ titel: name, alt: ALT, neu: NEU }] }]
+  const suche = (n: string) => `https://www.amazon.de/s?k=${encodeURIComponent(`${n} Anime Blu-ray`)}`
+  const rel = (name: string, titleId: number, extra: object = {}) => ({ slug: name, titleId, name, releaseType: 'disc', buyUrl: suche(name), schedule: { firstEpisodeDate: ALT }, year: 2026, sources: [], ...extra })
+  const nachNeu = (ausgaben: DiscIndex['ausgaben'], artikelIdx: DiscIndex['artikel'], r: object, mitIndex = true) => {
+    const rs = [r as never]
+    verschiebungenAnwenden(rs, artikel((r as { name: string }).name), '2026-10-28', new Map(), mitIndex ? mit(ausgaben, artikelIdx) : undefined)
+    return rs[0] as { buyUrl?: string; schedule: { firstEpisodeDate: string } }
+  }
+  const eine = { '7': [aus(1, 'Blu-ray', 'Box 01', NEU)] }
+  const eanArt = { '1': art('4020628531904', 'Blu-ray') }
+  const a = nachNeu(eine, eanArt, rel('Cafe Terrace Box 1', 7))
+  pruefe('verschoben: Termin neu und EAN-Link statt Namenssuche', a.schedule.firstEpisodeDate === NEU && a.buyUrl === 'https://www.amazon.de/s?k=4020628531904', a)
+  const zwei = { '7': [aus(1, 'Blu-ray', 'Box 01', NEU), aus(2, 'Blu-ray', 'Box 02', NEU)] }
+  const m = nachNeu(zwei, { '1': art('111111111111', 'Blu-ray'), '2': art('222222222222', 'Blu-ray') }, rel('Cafe Terrace Box 1', 7))
+  pruefe('verschoben, mehrdeutig: Namenssuche bleibt', m.schedule.firstEpisodeDate === NEU && m.buyUrl === suche('Cafe Terrace Box 1'), m)
+  const alt = nachNeu({ '7': [aus(1, 'Blu-ray', 'Box 01', ALT)] }, eanArt, rel('Cafe Terrace Box 1', 7))
+  pruefe('verschoben, Ausgabe nur am alten Tag: Namenssuche bleibt', alt.buyUrl === suche('Cafe Terrace Box 1'), alt)
+  const h = nachNeu(eine, eanArt, rel('Cafe Terrace Box 1', 7, { buyUrl: dp }))
+  pruefe('verschoben: Handlink bleibt', h.buyUrl === dp, h)
+  const o = nachNeu(eine, eanArt, rel('Cafe Terrace Box 1', 7), false)
+  pruefe('ohne Index (Aufrufer ohne Ausgaben): Namenssuche bleibt', o.buyUrl === suche('Cafe Terrace Box 1'), o)
+  const f = nachNeu(eine, eanArt, rel('Cafe Terrace Box 1', 8))
+  pruefe('verschoben, andere Titelkennung: Namenssuche bleibt', f.buyUrl === suche('Cafe Terrace Box 1'), f)
+}
+
 console.log('\nBau (baueReleases gegen Wegwerf-Ordner):')
 {
   mkdirSync(join(wurzel, 'data'))
