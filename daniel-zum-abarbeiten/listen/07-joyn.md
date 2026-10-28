@@ -1,5 +1,5 @@
 # Joyn: was noch zu prüfen ist
 
-Stand 2026-10-28 · **nichts offen**.
+Stand 2026-10-29 · **nichts offen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**.

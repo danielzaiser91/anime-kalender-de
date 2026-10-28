@@ -8,21 +8,11 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T160000Z
-DTEND:20261021T163000Z
-SUMMARY:Detektiv Conan – Folge 159/167
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261022T160000Z
 DTEND:20261022T163000Z
-SUMMARY:Detektiv Conan – Folge 160/167
+SUMMARY:Detektiv Conan – Folge 160/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -53,7 +43,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261023T160000Z
 DTEND:20261023T163000Z
-SUMMARY:Detektiv Conan – Folge 161/167
+SUMMARY:Detektiv Conan – Folge 161/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -123,7 +113,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261026T170000Z
 DTEND:20261026T173000Z
-SUMMARY:Detektiv Conan – Folge 162/167
+SUMMARY:Detektiv Conan – Folge 162/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -133,7 +123,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261028T170000Z
 DTEND:20261028T173000Z
-SUMMARY:Detektiv Conan – Folge 163/167
+SUMMARY:Detektiv Conan – Folge 163/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -143,7 +133,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261029T165500Z
 DTEND:20261029T172500Z
-SUMMARY:Detektiv Conan – Folge 164/167
+SUMMARY:Detektiv Conan – Folge 164/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -153,7 +143,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T165500Z
 DTEND:20261030T172500Z
-SUMMARY:Detektiv Conan – Folge 165/167
+SUMMARY:Detektiv Conan – Folge 165/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -225,7 +215,7 @@ UID:auto-235-tv-prosieben-maxx@2026-11-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261102T165500Z
 DTEND:20261102T172500Z
-SUMMARY:Detektiv Conan – Folge 166/167
+SUMMARY:Detektiv Conan – Folge 166/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -235,7 +225,7 @@ UID:auto-235-tv-prosieben-maxx@2026-11-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261103T165500Z
 DTEND:20261103T172500Z
-SUMMARY:Detektiv Conan – Folge 167/167
+SUMMARY:Detektiv Conan – Folge 167/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -249,6 +239,16 @@ SUMMARY:Honey Lemon Soda
 DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
  ht bestätigt.\nDetails: https://anime-kalender.de/t/15739/
 CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-11-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261104T165500Z
+DTEND:20261104T172500Z
+SUMMARY:Detektiv Conan – Folge 168/168
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:a-silent-voice-2026-11-06@2026-11-06@anime-kalender-de

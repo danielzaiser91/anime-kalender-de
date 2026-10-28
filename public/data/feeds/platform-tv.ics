@@ -8,136 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-21#20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T075000Z
-DTEND:20261021T082000Z
-SUMMARY:Super Wings
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/18191/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-10012621-tv-super-rtl@2026-10-21#21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T080000Z
-DTEND:20261021T083000Z
-SUMMARY:Super Wings
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/18191/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-21#20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T085000Z
-DTEND:20261021T092000Z
-SUMMARY:Super Wings
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/18191/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-10012621-tv-toggo-plus@2026-10-21#21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T090000Z
-DTEND:20261021T093000Z
-SUMMARY:Super Wings
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/18191/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-10-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T140500Z
-DTEND:20261021T143500Z
-SUMMARY:Pokémon Horizonte – Folge 14/132
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-10-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T144500Z
-DTEND:20261021T151500Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-10-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T150500Z
-DTEND:20261021T153500Z
-SUMMARY:Pokémon Horizonte – Folge 14/132
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-21#36@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T151000Z
-DTEND:20261021T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-21#37@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T153500Z
-DTEND:20261021T160500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T160000Z
-DTEND:20261021T163000Z
-SUMMARY:Detektiv Conan – Folge 159/167
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-21#37@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T162500Z
-DTEND:20261021T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-21#38@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T165000Z
-DTEND:20261021T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-10-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T191500Z
-DTEND:20261021T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 20/25
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-10012621-tv-super-rtl@2026-10-22#22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261022T075000Z
@@ -232,7 +102,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261022T160000Z
 DTEND:20261022T163000Z
-SUMMARY:Detektiv Conan – Folge 160/167
+SUMMARY:Detektiv Conan – Folge 160/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -362,7 +232,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261023T160000Z
 DTEND:20261023T163000Z
-SUMMARY:Detektiv Conan – Folge 161/167
+SUMMARY:Detektiv Conan – Folge 161/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -592,7 +462,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261026T170000Z
 DTEND:20261026T173000Z
-SUMMARY:Detektiv Conan – Folge 162/167
+SUMMARY:Detektiv Conan – Folge 162/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -882,7 +752,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261028T170000Z
 DTEND:20261028T173000Z
-SUMMARY:Detektiv Conan – Folge 163/167
+SUMMARY:Detektiv Conan – Folge 163/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -952,7 +822,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261029T165500Z
 DTEND:20261029T172500Z
-SUMMARY:Detektiv Conan – Folge 164/167
+SUMMARY:Detektiv Conan – Folge 164/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -1012,7 +882,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261030T165500Z
 DTEND:20261030T172500Z
-SUMMARY:Detektiv Conan – Folge 165/167
+SUMMARY:Detektiv Conan – Folge 165/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -1142,7 +1012,7 @@ UID:auto-235-tv-prosieben-maxx@2026-11-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261102T165500Z
 DTEND:20261102T172500Z
-SUMMARY:Detektiv Conan – Folge 166/167
+SUMMARY:Detektiv Conan – Folge 166/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -1242,7 +1112,7 @@ UID:auto-235-tv-prosieben-maxx@2026-11-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261103T165500Z
 DTEND:20261103T172500Z
-SUMMARY:Detektiv Conan – Folge 167/167
+SUMMARY:Detektiv Conan – Folge 167/168
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -1262,6 +1132,66 @@ UID:auto-21-tv-prosieben-maxx@2026-11-03#56@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261103T175000Z
 DTEND:20261103T182000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-11-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261104T154000Z
+DTEND:20261104T161000Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-11-04#56@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261104T160500Z
+DTEND:20261104T163500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-11-04#57@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261104T163000Z
+DTEND:20261104T170000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-11-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261104T165500Z
+DTEND:20261104T172500Z
+SUMMARY:Detektiv Conan – Folge 168/168
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-11-04#57@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261104T172000Z
+DTEND:20261104T175000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-11-04#58@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261104T175000Z
+DTEND:20261104T182000Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/

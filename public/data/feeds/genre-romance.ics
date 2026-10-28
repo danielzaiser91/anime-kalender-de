@@ -8,17 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:cr-GRGG9798R@2026-10-21#16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261021T140000Z
-DTEND:20261021T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 16–1
- 7/19
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16757/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:summer-wars-ultimate-edition@2026-10-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261022
