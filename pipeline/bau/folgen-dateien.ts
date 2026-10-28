@@ -55,7 +55,9 @@ export function erschieneneFolgen(f: Folge[], wikiHoechste: number, heute: strin
 export function deutscheFolgen(t: Title, wiki: { nr: number; ead?: string }[] | undefined, heute: string, hoechste: number, erschienenJeAnbieter?: Map<string, number>): [number, number][] {
   const nummern = new Set<number>()
   /* Wo es eine Wikipedia-Liste gibt, gilt sie bis zu ihrer letzten Nummer; die Wege füllen nur darüber hinaus (Daniel, 04.10.2026: „wikipedia ist mehr vertrauenswürdig", One Piece 492). */
-  const wikiBis = wiki?.length && Math.max(...wiki.map((w) => w.nr)) <= hoechste ? Math.max(...wiki.map((w) => w.nr)) : 0
+  /* Trägt keine Folge eine deutsche Erstausstrahlung (Gachiakuta, Yashahime), sagt die Liste nichts zur Synchro: dann füllen die Wege auch darunter. */
+  const wikiHoechste = wiki?.some((w) => w.ead) ? Math.max(...wiki.map((w) => w.nr)) : 0
+  const wikiBis = wikiHoechste <= hoechste ? wikiHoechste : 0
   /*
     **Dieselbe Regel wie der Antwortkasten** (Daniel, 04.10.2026: „Alle 12 Folgen auf Deutsch" über einer Liste, in der nur
     Folge 12 eine Flagge trug): Ein Weg mit `dub: true` und **ohne Bereiche** sagt „deutsch auf Serienebene" und deckt alle
