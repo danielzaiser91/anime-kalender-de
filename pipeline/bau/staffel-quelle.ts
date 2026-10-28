@@ -25,16 +25,35 @@ export function staffelNummerAusQuelle(deutscherTitel: string): number | undefin
   return m ? Number(m[1]) : undefined
 }
 
-/** Titel-Kennung → Staffelnummer aus dem aniSearch-Sprachblock „Deutsch". */
+/**
+ * Die Staffelnummer, die die deutschen aniSearch-Synonyme („… Staffel 2") nennen.
+ * Nur ab 2 (Staffel 1 sagt nichts) und nur, wenn alle Staffel-Synonyme dieselbe Zahl nennen.
+ * „Season N" zählt nicht: englische Synonyme zählen Reihen (Sailor Moon Cosmos: Season 5, AniList „Part 1" eines Films).
+ */
+export function staffelNummerAusSynonymen(synonyme: string[]): number | undefined {
+  const nummern = new Set(synonyme.map(staffelNummerAusQuelle).filter((n): n is number => n !== undefined))
+  const [nr] = nummern
+  return nummern.size === 1 && nr! >= 2 ? nr : undefined
+}
+
+type AnisearchEintrag = { info?: { languages?: { language?: string; title?: string }[]; synonyms?: string[] } }
+
+/**
+ * Staffelnummer eines aniSearch-Eintrags: Sprachblock „Deutsch", sonst die Synonyme.
+ * Nennt der deutsche Titel selbst „Teil N" („Kengan Ashura: Teil 2", Synonym trotzdem „Staffel 2"), ist er die zweite Hälfte — das Synonym bleibt außen vor.
+ */
+export function staffelNummerAusEintrag(e: AnisearchEintrag): number | undefined {
+  const de = e.info?.languages?.find((l) => /deutsch/i.test(l.language ?? ''))
+  if (de?.title && staffelNummerAusQuelle(de.title)) return staffelNummerAusQuelle(de.title)
+  return /\b(?:Teil|Part|Cour)\s*\d/i.test(de?.title ?? '') ? undefined : staffelNummerAusSynonymen(e.info?.synonyms ?? [])
+}
+
+/** Titel-Kennung → Staffelnummer aus dem aniSearch-Sprachblock „Deutsch" und den Synonymen. */
 export function staffelQuellenAusAnisearch(): Map<number, number> {
   const map = new Map<number, number>()
-  const eintraege = readJson<Record<string, { info?: { languages?: { language?: string; title?: string }[] } }>>(
-    'data/anisearch.json',
-    {},
-  )
+  const eintraege = readJson<Record<string, AnisearchEintrag>>('data/anisearch.json', {})
   for (const [id, e] of Object.entries(eintraege)) {
-    const de = e.info?.languages?.find((l) => /deutsch/i.test(l.language ?? ''))
-    const nr = de?.title ? staffelNummerAusQuelle(de.title) : undefined
+    const nr = staffelNummerAusEintrag(e)
     if (nr) map.set(Number(id), nr)
   }
   return map
