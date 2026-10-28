@@ -155,7 +155,7 @@ function kanalZuwachs(jetzt: Kennzahlen, vorher: Kennzahlen): { jeAnbieter: Reco
  * Die Schwellen sind bewusst niedrig: Lieber eine Zeile zu viel in der Historie
  * als ein stiller Verlust. Wer sie liest, entscheidet — die Datei urteilt nicht.
  */
-export function findeAuffaelliges(jetzt: Kennzahlen, vorher: Kennzahlen | null): Befund {
+export function findeAuffaelliges(jetzt: Kennzahlen, vorher: Kennzahlen | null, verschoben: string[] = []): Befund {
   const auffaellig: string[] = []
   const erklaert: string[] = []
   if (!vorher) return { auffaellig, erklaert }
@@ -165,7 +165,11 @@ export function findeAuffaelliges(jetzt: Kennzahlen, vorher: Kennzahlen | null):
   const je: Befund = { auffaellig: [], erklaert: [] }
   const anbieterKanal = anbieterBefunde(jetzt, vorher, kanal.jeAnbieter, je)
 
-  if (d('titel') < 0) auffaellig.push(`${-d('titel')} Titel weniger`)
+  /* Verschoben nach ohne-synchro (hinter den Toggle) ist begründet, nicht verloren; die Namen stehen in der Zeile. */
+  const titelWeg0 = Math.max(0, -d('titel'))
+  const titelVerschoben = Math.min(titelWeg0, verschoben.length)
+  if (titelVerschoben) erklaert.push(`${titelVerschoben} Titel verschoben nach ohne-synchro: ${verschoben.join(', ')}`)
+  if (titelWeg0 - titelVerschoben > 0) auffaellig.push(`${titelWeg0 - titelVerschoben} Titel weniger`)
   /*
     Auch hier gegen das Gedächtnis gerechnet: Ein Urteil verschwindet in aller
     Regel mit dem Verweis, an dem es hing — und wenn der mit Grund entfernt
