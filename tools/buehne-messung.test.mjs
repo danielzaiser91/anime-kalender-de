@@ -70,7 +70,7 @@ assert.equal(tippziele([el('BUTTON', { breite: 44, hoehe: 44 })]).length, 0, 'au
 assert.equal(tippziele([el('BUTTON', { breite: 44, hoehe: 43 })]).length, 1, 'ein Pixel zu niedrig: gemeldet')
 assert.equal(tippziele([el('BUTTON', { breite: 30, hoehe: 44 })]).length, 1, 'zu schmal, aber hoch genug: gemeldet')
 assert.equal(tippziele([el('BUTTON', { breite: MIN_TIPPZIEL, hoehe: MIN_TIPPZIEL })]).length, 0, 'genau auf der Grenze: ok')
-const etikett =el('LABEL', { breite: 120, hoehe: 44 })
+const etikett = el('LABEL', { breite: 120, hoehe: 44 })
 assert.equal(tippziele([kind(etikett, el('INPUT', { breite: 1, hoehe: 1 }))]).length, 0, 'verstecktes Feld im 44-px-Etikett: ok')
 assert.equal(tippziele([el('INPUT', { breite: 1, hoehe: 1 })]).length, 1, 'verstecktes Feld ohne Etikett: gemeldet')
 const flach = el('LABEL', { breite: 120, hoehe: 20 })
